@@ -68,13 +68,25 @@
          name="1024x768"
          value="[i1024,i768]" />
         <combo_box.item
+         label="720p (16:9)"
+         name="1280x720"
+         value="[i1280,i720]" />
+        <combo_box.item
          label="1280x1024"
          name="1280x1024"
          value="[i1280,i1024]" />
         <combo_box.item
+         label="1080p (16:9)"
+         name="1920x1080"
+         value="[i1920,i1080]" />
+        <combo_box.item
          label="1600x1200"
          name="1600x1200"
          value="[i1600,i1200]" />
+        <combo_box.item
+         label="4K UHD"
+         name="3840x2160"
+         value="[i3840,i2160]" />
         <combo_box.item
          label="Custom"
          name="Custom"

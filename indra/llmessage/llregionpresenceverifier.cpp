@@ -32,21 +32,18 @@
 #include "net.h"
 #include "message.h"
 
-namespace boost
+void intrusive_ptr_add_ref(LLRegionPresenceVerifier::Response* p)
 {
-	void intrusive_ptr_add_ref(LLRegionPresenceVerifier::Response* p)
+	++p->mReferenceCount;
+}
+
+void intrusive_ptr_release(LLRegionPresenceVerifier::Response* p)
+{
+	if(p && 0 == --p->mReferenceCount)
 	{
-		++p->mReferenceCount;
+		delete p;
 	}
-	
-	void intrusive_ptr_release(LLRegionPresenceVerifier::Response* p)
-	{
-		if(p && 0 == --p->mReferenceCount)
-		{
-			delete p;
-		}
-	}
-};
+}
 
 LLRegionPresenceVerifier::Response::~Response()
 {

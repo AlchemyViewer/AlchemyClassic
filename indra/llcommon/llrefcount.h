@@ -91,18 +91,16 @@ private:
  * intrusive pointer support
  * this allows you to use boost::intrusive_ptr with any LLRefCount-derived type
  */
-namespace boost
-{
-	inline void intrusive_ptr_add_ref(LLRefCount* p)
-	{
-		p->ref();
-	}
 
-	inline void intrusive_ptr_release(LLRefCount* p)
-	{
-		p->unref();
-	}
-};
+inline void intrusive_ptr_add_ref(LLRefCount* p)
+{
+	p->ref();
+}
+
+inline void intrusive_ptr_release(LLRefCount* p)
+{
+	p->unref();
+}
 
 
 #endif

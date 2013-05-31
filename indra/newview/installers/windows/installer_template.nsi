@@ -76,8 +76,8 @@ LangString LanguageCode ${LANG_TRADCHINESE}  "zh"
 ;; Tweak for different servers/builds (this placeholder is replaced by viewer_manifest.py)
 ;; For example:
 ;; !define INSTFLAGS "%(flags)s"
-;; !define INSTNAME   "SecondLife%(grid_caps)s"
-;; !define SHORTCUT   "Second Life (%(grid_caps)s)"
+;; !define INSTNAME   "Alchemy%(grid_caps)s"
+;; !define SHORTCUT   "Alchemy (%(grid_caps)s)"
 ;; !define URLNAME   "secondlife%(grid)s"
 ;; !define UNINSTALL_SETTINGS 1
 
@@ -99,7 +99,7 @@ SetOverwrite on							; stomp files by default
 AutoCloseWindow true					; after all files install, close window
 
 InstallDir "$PROGRAMFILES\${INSTNAME}"
-InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\${INSTNAME}" ""
+InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" ""
 DirText $(DirectoryChooseTitle) $(DirectoryChooseSetup)
 Page directory dirPre
 Page instfiles
@@ -217,7 +217,7 @@ FunctionEnd
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function CheckIfAlreadyCurrent
     Push $0
-    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "Version"
+    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Version"
     StrCmp $0 ${VERSION_LONG} 0 continue_install
     StrCmp $SKIP_DIALOGS "true" continue_install
     MessageBox MB_OKCANCEL $(CheckIfCurrentMB) /SD IDOK IDOK continue_install
@@ -252,7 +252,7 @@ FunctionEnd
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function CloseSecondLife
   Push $0
-  FindWindow $0 "Second Life" ""
+  FindWindow $0 "Alchemy" ""
   IntCmp $0 0 DONE
   
   StrCmp $SKIP_DIALOGS "true" CLOSE
@@ -266,7 +266,7 @@ Function CloseSecondLife
     SendMessage $0 16 0 0
 
   LOOP:
-	  FindWindow $0 "Second Life" ""
+	  FindWindow $0 "Alchemy" ""
 	  IntCmp $0 0 DONE
 	  Sleep 500
 	  Goto LOOP
@@ -283,6 +283,8 @@ FunctionEnd
 ; if it is up to date.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function CheckNetworkConnection
+    ; Uneeded - LD
+    Return 
     Push $0
     Push $1
     Push $2	# Option value for GetOptions
@@ -323,6 +325,8 @@ Function CheckWillUninstallV2
 
   StrCpy $DO_UNINSTALL_V2 ""
 
+  ; Uneeded - LD
+  Return
   StrCmp $SKIP_DIALOGS "true" 0 CHECKV2_DONE
   StrCmp $INSTDIR "$PROGRAMFILES\SecondLifeViewer2" CHECKV2_DONE ; don't uninstall our own install dir.
   IfFileExists "$PROGRAMFILES\SecondLifeViewer2\uninst.exe" CHECKV2_FOUND CHECKV2_DONE
@@ -343,8 +347,8 @@ Push $0
 Push $1
 Push $2
 
-    RMDir /r "$TEMP\SecondLifeSettingsBackup"
-    CreateDirectory "$TEMP\SecondLifeSettingsBackup"
+    RMDir /r "$TEMP\AlchemySettingsBackup"
+    CreateDirectory "$TEMP\AlchemySettingsBackup"
     StrCpy $0 0 ; Index number used to iterate via EnumRegKey
 
   LOOP:
@@ -357,8 +361,8 @@ Push $2
     ; Required since ProfileImagePath is of type REG_EXPAND_SZ
     ExpandEnvStrings $2 $2
 
-    CreateDirectory "$TEMP\SecondLifeSettingsBackup\$0"
-    CopyFiles /SILENT "$2\Application Data\SecondLife\*" "$TEMP\SecondLifeSettingsBackup\$0"
+    CreateDirectory "$TEMP\AlchemySettingsBackup\$0"
+    CopyFiles /SILENT "$2\Application Data\Alchemy\*" "$TEMP\AlchemySettingsBackup\$0"
 
   CONTINUE:
     IntOp $0 $0 + 1
@@ -369,12 +373,12 @@ Pop $2
 Pop $1
 Pop $0
 
-; Copy files in Documents and Settings\All Users\SecondLife
+; Copy files in Documents and Settings\All Users\Alchemy
 Push $0
     ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
     StrCmp $0 "" +2
-    CreateDirectory "$TEMP\SecondLifeSettingsBackup\AllUsers\"
-    CopyFiles /SILENT "$2\Application Data\SecondLife\*" "$TEMP\SecondLifeSettingsBackup\AllUsers\"
+    CreateDirectory "$TEMP\AlchemySettingsBackup\AllUsers\"
+    CopyFiles /SILENT "$2\Application Data\Alchemy\*" "$TEMP\AlchemySettingsBackup\AllUsers\"
 Pop $0
 
 FunctionEnd
@@ -400,8 +404,8 @@ Push $2
     ; Required since ProfileImagePath is of type REG_EXPAND_SZ
     ExpandEnvStrings $2 $2
 
-    CreateDirectory "$2\Application Data\SecondLife\"
-    CopyFiles /SILENT "$TEMP\SecondLifeSettingsBackup\$0\*" "$2\Application Data\SecondLife\" 
+    CreateDirectory "$2\Application Data\Alchemy\"
+    CopyFiles /SILENT "$TEMP\AlchemySettingsBackup\$0\*" "$2\Application Data\Alchemy\" 
 
   CONTINUE:
     IntOp $0 $0 + 1
@@ -412,12 +416,12 @@ Pop $2
 Pop $1
 Pop $0
 
-; Copy files in Documents and Settings\All Users\SecondLife
+; Copy files in Documents and Settings\All Users\Alchemy
 Push $0
     ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
     StrCmp $0 "" +2
-    CreateDirectory "$2\Application Data\SecondLife\"
-    CopyFiles /SILENT "$TEMP\SecondLifeSettingsBackup\AllUsers\*" "$2\Application Data\SecondLife\" 
+    CreateDirectory "$2\Application Data\Alchemy\"
+    CopyFiles /SILENT "$TEMP\AlchemySettingsBackup\AllUsers\*" "$2\Application Data\Alchemy\" 
 Pop $0
 
 FunctionEnd
@@ -443,7 +447,7 @@ Push $2
     ; Required since ProfileImagePath is of type REG_EXPAND_SZ
     ExpandEnvStrings $2 $2
 
-    RMDir /r "$TEMP\SecondLifeSettingsBackup\$0\*"
+    RMDir /r "$TEMP\AlchemySettingsBackup\$0\*"
 
   CONTINUE:
     IntOp $0 $0 + 1
@@ -454,11 +458,11 @@ Pop $2
 Pop $1
 Pop $0
 
-; Copy files in Documents and Settings\All Users\SecondLife
+; Copy files in Documents and Settings\All Users\Alchemy
 Push $0
     ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
     StrCmp $0 "" +2
-    RMDir /r "$TEMP\SecondLifeSettingsBackup\AllUsers\*"
+    RMDir /r "$TEMP\AlchemySettingsBackup\AllUsers\*"
 Pop $0
 
 FunctionEnd
@@ -486,7 +490,7 @@ FunctionEnd
 ;    ; Required since ProfileImagePath is of type REG_EXPAND_SZ
 ;    ExpandEnvStrings $2 $2
 ;
-;    RMDir /r "$2\Application Data\SecondLife\"
+;    RMDir /r "$2\Application Data\Alchemy\"
 ;
 ;  CONTINUE:
 ;    IntOp $0 $0 + 1
@@ -497,11 +501,11 @@ FunctionEnd
 ;Pop $1
 ;Pop $0
 ;
-;; Copy files in Documents and Settings\All Users\SecondLife
+;; Copy files in Documents and Settings\All Users\Alchemy
 ;Push $0
 ;    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
 ;    StrCmp $0 "" +2
-;    RMDir /r "$2\Application Data\SecondLife\"
+;    RMDir /r "$2\Application Data\Alchemy\"
 ;Pop $0
 ;
 ;FunctionEnd
@@ -552,12 +556,12 @@ FunctionEnd
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Delete files in Documents and Settings\<user>\SecondLife
-; Delete files in Documents and Settings\All Users\SecondLife
+; Delete files in Documents and Settings\<user>\Alchemy
+; Delete files in Documents and Settings\All Users\Alchemy
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function un.DocumentsAndSettingsFolder
 
-; Delete files in Documents and Settings\<user>\SecondLife
+; Delete files in Documents and Settings\<user>\Alchemy
 Push $0
 Push $1
 Push $2
@@ -577,14 +581,14 @@ Push $2
     ExpandEnvStrings $2 $2
 
         ; Remove all cache and settings files but leave any other .txt files to preserve the chat logs
-;    RMDir /r "$2\Application Data\SecondLife\logs"
-    RMDir /r "$2\Application Data\SecondLife\browser_profile"
-    RMDir /r "$2\Application Data\SecondLife\user_settings"
-    Delete  "$2\Application Data\SecondLife\*.xml"
-    Delete  "$2\Application Data\SecondLife\*.bmp"
-    Delete  "$2\Application Data\SecondLife\search_history.txt"
-    Delete  "$2\Application Data\SecondLife\plugin_cookies.txt"
-    Delete  "$2\Application Data\SecondLife\typed_locations.txt"
+;    RMDir /r "$2\Application Data\Alchemy\logs"
+    RMDir /r "$2\Application Data\Alchemy\browser_profile"
+    RMDir /r "$2\Application Data\Alchemy\user_settings"
+    Delete  "$2\Application Data\Alchemy\*.xml"
+    Delete  "$2\Application Data\Alchemy\*.bmp"
+    Delete  "$2\Application Data\Alchemy\search_history.txt"
+    Delete  "$2\Application Data\Alchemy\plugin_cookies.txt"
+    Delete  "$2\Application Data\Alchemy\typed_locations.txt"
 
   CONTINUE:
     IntOp $0 $0 + 1
@@ -595,17 +599,17 @@ Pop $2
 Pop $1
 Pop $0
 
-; Delete files in Documents and Settings\All Users\SecondLife
+; Delete files in Documents and Settings\All Users\Alchemy
 Push $0
   ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
   StrCmp $0 "" +2
-  RMDir /r "$0\SecondLife"
+  RMDir /r "$0\Alchemy"
 Pop $0
 
-; Delete files in C:\Windows\Application Data\SecondLife
+; Delete files in C:\Windows\Application Data\Alchemy
 ; If the user is running on a pre-NT system, Application Data lives here instead of
 ; in Documents and Settings.
-RMDir /r "$WINDIR\Application Data\SecondLife"
+RMDir /r "$WINDIR\Application Data\Alchemy"
 
 FunctionEnd
 
@@ -615,7 +619,7 @@ FunctionEnd
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function un.CloseSecondLife
   Push $0
-  FindWindow $0 "Second Life" ""
+  FindWindow $0 "Alchemy" ""
   IntCmp $0 0 DONE
   MessageBox MB_OKCANCEL $(CloseSecondLifeUnInstMB) IDOK CLOSE IDCANCEL CANCEL_UNINSTALL
 
@@ -627,7 +631,7 @@ Function un.CloseSecondLife
     SendMessage $0 16 0 0
 
   LOOP:
-	  FindWindow $0 "Second Life" ""
+	  FindWindow $0 "Alchemy" ""
 	  IntCmp $0 0 DONE
 	  Sleep 500
 	  Goto LOOP
@@ -645,10 +649,10 @@ FunctionEnd
 ;
 Function un.RemovePassword
 
-DetailPrint "Removing Second Life password"
+DetailPrint "Removing Alchemy password"
 
 SetShellVarContext current
-Delete "$APPDATA\SecondLife\user_settings\password.dat"
+Delete "$APPDATA\Alchemy\user_settings\password.dat"
 SetShellVarContext all
 
 FunctionEnd
@@ -675,8 +679,8 @@ Delete "$INSTDIR\dronesettings.ini"
 Delete "$INSTDIR\message_template.msg"
 Delete "$INSTDIR\newview.pdb"
 Delete "$INSTDIR\newview.map"
-Delete "$INSTDIR\SecondLife.pdb"
-Delete "$INSTDIR\SecondLife.map"
+Delete "$INSTDIR\Alchemy.pdb"
+Delete "$INSTDIR\Alchemy.map"
 Delete "$INSTDIR\comm.dat"
 Delete "$INSTDIR\*.glsl"
 Delete "$INSTDIR\motions\*.lla"
@@ -733,7 +737,7 @@ SetShellVarContext all
 Call un.CloseSecondLife
 
 ; Clean up registry keys and subkeys (these should all be !defines somewhere)
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG"
+DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG"
 DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG"
 
 ; Clean up shortcuts
@@ -872,7 +876,7 @@ Function .onInit
 lbl_configure_default_lang:
     ; If we currently have a version of SL installed, default to the language of that install
     ; Otherwise don't change $LANGUAGE and it will default to the OS UI language.
-    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\${INSTNAME}" "InstallerLanguage"
+    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" "InstallerLanguage"
     IfErrors +2 0 ; If error skip the copy instruction 
 	StrCpy $LANGUAGE $0
 
@@ -894,7 +898,7 @@ lbl_build_menu:
     StrCpy $LANGUAGE $0
 
 	; save language in registry		
-	WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\${INSTNAME}" "InstallerLanguage" $LANGUAGE
+	WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" "InstallerLanguage" $LANGUAGE
 lbl_return:
     Pop $0
     Return
@@ -904,7 +908,7 @@ FunctionEnd
 Function un.onInit
 	; read language from registry and set for uninstaller
     ; Key will be removed on successful uninstall
-	ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\${INSTNAME}" "InstallerLanguage"
+	ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" "InstallerLanguage"
     IfErrors lbl_end
 	StrCpy $LANGUAGE $0
 lbl_end:
@@ -994,11 +998,11 @@ CreateShortCut "$INSTDIR\Uninstall $INSTSHORTCUT.lnk" \
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Write registry
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "" "$INSTDIR"
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "Version" "${VERSION_LONG}"
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "Flags" "$INSTFLAGS"
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "Shortcut" "$INSTSHORTCUT"
-WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Linden Research, Inc.\$INSTPROG" "Exe" "$INSTEXE"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "" "$INSTDIR"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Version" "${VERSION_LONG}"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Flags" "$INSTFLAGS"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Shortcut" "$INSTSHORTCUT"
+WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Exe" "$INSTEXE"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayName" "$INSTPROG (remove only)"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "UninstallString" '"$INSTDIR\uninst.exe"'
 

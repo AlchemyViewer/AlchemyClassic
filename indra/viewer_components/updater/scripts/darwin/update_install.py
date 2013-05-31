@@ -29,9 +29,9 @@ from janitor import Janitor
 from messageframe import MessageFrame
 import Tkinter, tkMessageBox
 
-TITLE = "Second Life Viewer Updater"
+TITLE = "Alchemy Viewer Updater"
 # Magic bundle identifier used by all Second Life viewer bundles
-BUNDLE_IDENTIFIER = "com.secondlife.indra.viewer"
+BUNDLE_IDENTIFIER = "org.alchemy.viewer"
 
 # Global handle to the MessageFrame so we can update message
 FRAME = None

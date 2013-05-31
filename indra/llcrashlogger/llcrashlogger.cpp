@@ -170,7 +170,7 @@ void LLCrashLogger::gatherFiles()
 	{
 		// Figure out the filename of the second life log
 		LLCurl::setCAFile(gDirUtilp->getCAFile());
-		mFileMap["SecondLifeLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"SecondLife.log");
+		mFileMap["SecondLifeLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"Alchemy.log");
 		mFileMap["SettingsXml"] = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,"settings.xml");
 	}
 
@@ -347,7 +347,7 @@ bool LLCrashLogger::sendCrashLogs()
 	updateApplication("Sending reports...");
 
 	std::string dump_path = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-														   "SecondLifeCrashReport");
+														   "AlchemyCrashReport");
 	std::string report_file = dump_path + ".log";
 
 	std::ofstream out_file(report_file.c_str());
@@ -384,12 +384,12 @@ bool LLCrashLogger::init()
 	LLCurl::initClass(false);
 
 	// We assume that all the logs we're looking for reside on the current drive
-	gDirUtilp->initAppDirs("SecondLife");
+	gDirUtilp->initAppDirs("Alchemy");
 
 	LLError::initForApplication(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, ""));
 
 	// Default to the product name "Second Life" (this is overridden by the -name argument)
-	mProductName = "Second Life";
+	mProductName = "Alchemy";
 
 	// Rename current log file to ".old"
 	std::string old_log_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "crashreport.log.old");
@@ -423,7 +423,7 @@ bool LLCrashLogger::init()
 	if( gDirUtilp )
 	{
 		std::string marker_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-																 "SecondLife.exec_marker");
+																 "Alchemy.exec_marker");
 		LLAPRFile::remove( marker_file );
 	}
 	

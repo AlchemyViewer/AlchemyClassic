@@ -6,8 +6,8 @@
 ## prior to 2.8, the add_custom_target commands used in setting the version did not work correctly
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 
-set(ROOT_PROJECT_NAME "SecondLife" CACHE STRING
-    "The root project/makefile/solution name. Defaults to SecondLife.")
+set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
+    "The root project/makefile/solution name. Defaults to Alchemy.")
 project(${ROOT_PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
@@ -57,8 +57,10 @@ add_subdirectory(${LIBS_OPEN_PREFIX}llplugin)
 add_subdirectory(${LIBS_OPEN_PREFIX}llui)
 add_subdirectory(${LIBS_OPEN_PREFIX}viewer_components)
 
-# Legacy C++ tests. Build always, run if LL_TESTS is true.
-add_subdirectory(${VIEWER_PREFIX}test)
+# Legacy C++ tests. Build and run if LL_TESTS is true.
+if (LL_TESTS)
+  add_subdirectory(${VIEWER_PREFIX}test)
+endif (LL_TESTS)
 
 # viewer media plugins
 add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)

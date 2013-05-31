@@ -345,16 +345,16 @@ BOOL gLogoutInProgress = FALSE;
 // Internal globals... that should be removed.
 static std::string gArgs;
 const int MAX_MARKER_LENGTH = 1024;
-const std::string MARKER_FILE_NAME("SecondLife.exec_marker");
-const std::string START_MARKER_FILE_NAME("SecondLife.start_marker");
-const std::string ERROR_MARKER_FILE_NAME("SecondLife.error_marker");
-const std::string LLERROR_MARKER_FILE_NAME("SecondLife.llerror_marker");
-const std::string LOGOUT_MARKER_FILE_NAME("SecondLife.logout_marker");
+const std::string MARKER_FILE_NAME("Alchemy.exec_marker");
+const std::string START_MARKER_FILE_NAME("Alchemy.start_marker");
+const std::string ERROR_MARKER_FILE_NAME("Alchemy.error_marker");
+const std::string LLERROR_MARKER_FILE_NAME("Alchemy.llerror_marker");
+const std::string LOGOUT_MARKER_FILE_NAME("Alchemy.logout_marker");
 static BOOL gDoDisconnect = FALSE;
 static std::string gLaunchFileOnQuit;
 
 // Used on Win32 for other apps to identify our window (eg, win_setup)
-const char* const VIEWER_WINDOW_CLASSNAME = "Second Life";
+const char* const VIEWER_WINDOW_CLASSNAME = "Alchemy";
 
 //-- LLDeferredTaskList ------------------------------------------------------
 
@@ -736,7 +736,7 @@ bool LLAppViewer::init()
 
 	// Need to do this initialization before we do anything else, since anything
 	// that touches files should really go through the lldir API
-	gDirUtilp->initAppDirs("SecondLife");
+	gDirUtilp->initAppDirs("Alchemy");
 	// set skin search path to default, will be overridden later
 	// this allows simple skinned file lookups to work
 	gDirUtilp->setSkinFolder("default", "en");
@@ -2136,12 +2136,12 @@ void LLAppViewer::initLogging()
 
 	// Remove the last ".old" log file.
 	std::string old_log_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-							     "SecondLife.old");
+							     "Alchemy.old");
 	LLFile::remove(old_log_file);
 
 	// Get name of the log file
 	std::string log_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-							     "SecondLife.log");
+							     "Alchemy.log");
 	/*
 	 * Before touching any log files, compute the duration of the last run
 	 * by comparing the ctime of the previous start marker file with the ctime
@@ -2177,7 +2177,7 @@ void LLAppViewer::initLogging()
 	// Rename current log file to ".old"
 	LLFile::rename(log_file, old_log_file);
 
-	// Set the log file to SecondLife.log
+	// Set the log file to Alchemy.log
 	LLError::logToFile(log_file);
 }
 
@@ -3605,10 +3605,10 @@ void LLAppViewer::initMarkerFile()
 	LL_DEBUGS("MarkerFile") << "Checking marker file for lock..." << LL_ENDL;
 
 	//We've got 4 things to test for here
-	// - Other Process Running (SecondLife.exec_marker present, locked)
-	// - Freeze (SecondLife.exec_marker present, not locked)
-	// - LLError Crash (SecondLife.llerror_marker present)
-	// - Other Crash (SecondLife.error_marker present)
+	// - Other Process Running (Alchemy.exec_marker present, locked)
+	// - Freeze (Alchemy.exec_marker present, not locked)
+	// - LLError Crash (Alchemy.llerror_marker present)
+	// - Other Crash (Alchemy.error_marker present)
 	// These checks should also remove these files for the last 2 cases if they currently exist
 
 	//LLError/Error checks. Only one of these should ever happen at a time.
@@ -3852,18 +3852,18 @@ void LLAppViewer::abortQuit()
 void LLAppViewer::migrateCacheDirectory()
 {
 #if LL_WINDOWS || LL_DARWIN
-	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/SecondLife from
-	// /library/application support/SecondLife/cache This should clear/delete the old dir.
+	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/Alchemy from
+	// /library/application support/Alchemy/cache This should clear/delete the old dir.
 
 	// As of 1.23 the Windows cache moved from
-	//   C:\Documents and Settings\James\Application Support\SecondLife\cache
+	//   C:\Documents and Settings\James\Application Support\Alchemy\cache
 	// to
-	//   C:\Documents and Settings\James\Local Settings\Application Support\SecondLife
+	//   C:\Documents and Settings\James\Local Settings\Application Support\Alchemy
 	//
 	// The Windows Vista equivalent is from
-	//   C:\Users\James\AppData\Roaming\SecondLife\cache
+	//   C:\Users\James\AppData\Roaming\Alchemy\cache
 	// to
-	//   C:\Users\James\AppData\Local\SecondLife
+	//   C:\Users\James\AppData\Local\Alchemy
 	//
 	// Note the absence of \cache on the second path.  James.
 

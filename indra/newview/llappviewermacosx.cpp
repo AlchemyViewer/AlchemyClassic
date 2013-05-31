@@ -542,7 +542,7 @@ void init_apple_menu(const char* product)
 		OSStatus err;
 		IBNibRef nib = NULL;
 		// NOTE: DO NOT translate or brand this string.  It's an internal name in the .nib file, and MUST match exactly.
-		err = CreateNibReference(CFSTR("SecondLife"), &nib);
+		err = CreateNibReference(CFSTR("Alchemy"), &nib);
 		
 		if(err == noErr)
 		{

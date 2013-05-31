@@ -85,7 +85,7 @@ def get_default_platform(dummy):
             }[sys.platform]
 
 DEFAULT_SRCTREE = os.path.dirname(sys.argv[0])
-RELEASE_CHANNEL = 'Second Life Release'
+RELEASE_CHANNEL = 'Alchemy Release'
 
 ARGUMENTS=[
     dict(name='actions',

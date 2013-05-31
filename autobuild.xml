@@ -498,9 +498,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>10352aab979c333a52dbad21b6e6fba9</string>
+	      <string>0b59e5ef92fab9b16c023e3c2bbd4723</string>
               <key>url</key>
-	      <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/3p-fmodex-private/rev/274403/arch/Darwin/installer/fmodex-4.44-darwin-20130419.tar.bz2</string>
+	      <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-fmodex/darwin/fmodex-4.44.12-darwin-20130423.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -510,9 +510,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-          <string>79e45527aa9fb90b813599dff5ce01a7</string>
+          <string>032cef66c7b1e5476b8fc1f151573c1f</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/3p-fmodex-private/rev/274378/arch/Linux/installer/fmodex-4.44-linux-20130419.tar.bz2</string>
+              <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-fmodex/linux/fmodex-4.44.12-linux-20130423.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -522,9 +522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>0980cdf98a322a780ba739e324d0b955</string>
+	      <string>23dcadcfd604e6d3d7336ada90467b2b</string>
               <key>url</key>
-	      <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/3p-fmodex-private/rev/274401/arch/CYGWIN/installer/fmodex-4.44-windows-20130419.tar.bz2</string>
+	      <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-fmodex/windows/fmodex-4.44.12-windows-20130423.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1990,7 +1990,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Debug</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=TRUE</string>
                 </array>
               </map>
@@ -2011,7 +2011,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Debug</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -2031,7 +2031,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=TRUE</string>
                 </array>
               </map>
@@ -2052,7 +2052,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -2072,7 +2072,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=TRUE</string>
                 </array>
               </map>
@@ -2093,7 +2093,7 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
                   <string>-DWORD_SIZE:STRING=32</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=SecondLife</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -2123,7 +2123,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration Debug</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2150,7 +2150,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration Debug</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2177,7 +2177,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration RelWithDebInfo</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2206,7 +2206,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration RelWithDebInfo</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2233,7 +2233,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration Release</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                   <string>-DENABLE_SIGNING:BOOL=YES</string>
                   <string>-DSIGNING_IDENTITY:STRING="Developer ID Application: Linden Research, Inc."</string>
                 </array>
@@ -2262,7 +2262,7 @@
                 <key>options</key>
                 <array>
                   <string>-configuration Release</string>
-                  <string>-project SecondLife.xcodeproj</string>
+                  <string>-project Alchemy.xcodeproj</string>
                   <string>-DENABLE_SIGNING:BOOL=YES</string>
                   <string>-DSIGNING_IDENTITY:STRING="Developer ID Application: Linden Research, Inc."</string>
                 </array>
@@ -2458,7 +2458,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>BuildConsole</string>
@@ -2476,7 +2476,7 @@
                   <string>&amp;&amp;</string>
                   <string>..\indra\tools\vstool\VSTool.exe</string>
                   <string>--solution</string>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                   <string>--config</string>
                   <string>Debug</string>
                   <string>--startup</string>
@@ -2497,7 +2497,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>msbuild.exe</string>
@@ -2514,18 +2514,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>SecondLife.sln</string>
-                  <string>--config</string>
-                  <string>Debug</string>
-                  <string>--startup</string>
-                  <string>secondlife-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -2543,7 +2531,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>BuildConsole</string>
@@ -2561,7 +2549,7 @@
                   <string>&amp;&amp;</string>
                   <string>..\indra\tools\vstool\VSTool.exe</string>
                   <string>--solution</string>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                   <string>--config</string>
                   <string>RelWithDebInfo</string>
                   <string>--startup</string>
@@ -2584,7 +2572,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>msbuild.exe</string>
@@ -2601,18 +2589,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>SecondLife.sln</string>
-                  <string>--config</string>
-                  <string>RelWithDebInfo</string>
-                  <string>--startup</string>
-                  <string>secondlife-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -2631,7 +2607,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>BuildConsole</string>
@@ -2650,7 +2626,7 @@
                   <string>&amp;&amp;</string>
                   <string>..\indra\tools\vstool\VSTool.exe</string>
                   <string>--solution</string>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                   <string>--config</string>
                   <string>Release</string>
                   <string>--startup</string>
@@ -2671,7 +2647,7 @@
               <map>
                 <key>arguments</key>
                 <array>
-                  <string>SecondLife.sln</string>
+                  <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
                 <string>msbuild.exe</string>
@@ -2688,18 +2664,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>SecondLife.sln</string>
-                  <string>--config</string>
-                  <string>Release</string>
-                  <string>--startup</string>
-                  <string>secondlife-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>

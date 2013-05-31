@@ -163,7 +163,7 @@ class ViewerManifest(LLManifest):
     def channel(self):
         return self.args['channel']
     def channel_unique(self):
-        return self.channel().replace("Second Life", "").strip()
+        return self.channel().replace("Alchemy", "").strip()
     def channel_oneword(self):
         return "".join(self.channel_unique().split())
     def channel_lowerword(self):
@@ -176,7 +176,7 @@ class ViewerManifest(LLManifest):
             app_suffix='Viewer'
         elif re.match('^(beta|project).*',channel_type) :
             app_suffix=self.channel_unique()
-        return "Second Life "+app_suffix
+        return "Alchemy "+app_suffix
         
     def icon_path(self):
         icon_path="icons/"
@@ -246,7 +246,7 @@ class WindowsManifest(ViewerManifest):
             app_suffix=''
         elif re.match('^(beta|project).*',channel_type) :
             app_suffix=''.join(self.channel_unique().split())
-        return "SecondLife"+app_suffix+".exe"
+        return "Alchemy"+app_suffix+".exe"
 
     def test_msvcrt_and_copy_action(self, src, dst):
         # This is used to test a dll manifest.
@@ -298,8 +298,8 @@ class WindowsManifest(ViewerManifest):
         super(WindowsManifest, self).construct()
 
         if self.is_packaging_viewer():
-            # Find secondlife-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
-            self.path(src='%s/secondlife-bin.exe' % self.args['configuration'], dst=self.final_exe())
+            # Find alchemy-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
+            self.path(src='%s/alchemy-bin.exe' % self.args['configuration'], dst=self.final_exe())
 
         # Plugin host application
         self.path2basename(os.path.join(os.pardir,
@@ -546,34 +546,34 @@ class WindowsManifest(ViewerManifest):
         if self.default_channel():
             if self.default_grid():
                 # release viewer
-                installer_file = "Second_Life_%(version_dashes)s_Setup.exe"
+                installer_file = "Alchemy_%(version_dashes)s_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
-                !define INSTNAME   "SecondLifeViewer"
-                !define SHORTCUT   "Second Life Viewer"
+                !define INSTNAME   "AlchemyViewer"
+                !define SHORTCUT   "Alchemy Viewer"
                 !define URLNAME   "secondlife"
-                Caption "Second Life"
+                Caption "Alchemy"
                 """
             else:
                 # alternate grid viewer
-                installer_file = "Second_Life_%(version_dashes)s_(%(grid_caps)s)_Setup.exe"
+                installer_file = "Alchemy_%(version_dashes)s_(%(grid_caps)s)_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
-                !define INSTNAME   "SecondLife%(grid_caps)s"
-                !define SHORTCUT   "Second Life (%(grid_caps)s)"
+                !define INSTNAME   "Alchemy%(grid_caps)s"
+                !define SHORTCUT   "Alchemy (%(grid_caps)s)"
                 !define URLNAME   "secondlife%(grid)s"
                 !define UNINSTALL_SETTINGS 1
-                Caption "Second Life %(grid)s ${VERSION}"
+                Caption "Alchemy %(grid)s ${VERSION}"
                 """
         else:
             # some other channel (grid name not used)
-            installer_file = "Second_Life_%(version_dashes)s_%(subchannel_underscores)s_Setup.exe"
+            installer_file = "Alchemy_%(version_dashes)s_%(subchannel_underscores)s_Setup.exe"
             grid_vars_template = """
             OutFile "%(installer_file)s"
             !define INSTFLAGS "%(flags)s"
-            !define INSTNAME   "SecondLife%(channel_oneword)s"
+            !define INSTNAME   "Alchemy%(channel_oneword)s"
             !define SHORTCUT   "%(channel)s"
             !define URLNAME   "secondlife"
             !define UNINSTALL_SETTINGS 1
@@ -585,7 +585,7 @@ class WindowsManifest(ViewerManifest):
             installer_file = installer_file % substitution_strings
         substitution_strings['installer_file'] = installer_file
 
-        tempfile = "secondlife_setup_tmp.nsi"
+        tempfile = "alchemy_setup_tmp.nsi"
         # the following replaces strings in the nsi template
         # it also does python-style % substitution
         self.replace_in("installers/windows/installer_template.nsi", tempfile, {
@@ -628,7 +628,7 @@ class DarwinManifest(ViewerManifest):
 
     def construct(self):
         # copy over the build result (this is a no-op if run within the xcode script)
-        self.path(self.args['configuration'] + "/Second Life.app", dst="")
+        self.path(self.args['configuration'] + "/Alchemy.app", dst="")
 
         if self.prefix(src="", dst="Contents"):  # everything goes in Contents
             self.path("Info.plist", dst="Info.plist")
@@ -651,14 +651,15 @@ class DarwinManifest(ViewerManifest):
 
                 self.path("licenses-mac.txt", dst="licenses.txt")
                 self.path("featuretable_mac.txt")
-                self.path("SecondLife.nib")
+                # Let's not copy this twice - LD
+                #self.path("Alchemy.nib")
 
                 icon_path = self.icon_path()
                 if self.prefix(src=icon_path, dst="") :
                     self.path("secondlife.icns")
                     self.end_prefix(icon_path)
 
-                self.path("SecondLife.nib")
+                self.path("Alchemy.nib")
                 
                 # Translations
                 self.path("English.lproj/language.txt")
@@ -771,7 +772,7 @@ class DarwinManifest(ViewerManifest):
         if ("package" in self.args['actions'] or 
             "unpacked" in self.args['actions']):
             self.run_command('strip -S %(viewer_binary)r' %
-                             { 'viewer_binary' : self.dst_path_of('Contents/MacOS/Second Life')})
+                             { 'viewer_binary' : self.dst_path_of('Contents/MacOS/Alchemy')})
 
 
     def copy_finish(self):
@@ -805,16 +806,16 @@ class DarwinManifest(ViewerManifest):
                                  'bundle': self.get_dst_prefix()
                 })
 
-        channel_standin = 'Second Life Viewer'  # hah, our default channel is not usable on its own
+        channel_standin = 'Alchemy Viewer'  # hah, our default channel is not usable on its own
         if not self.default_channel():
             channel_standin = self.channel()
 
-        imagename="SecondLife_" + '_'.join(self.args['version'])
+        imagename="Alchemy_" + '_'.join(self.args['version'])
 
         # MBW -- If the mounted volume name changes, it breaks the .DS_Store's background image and icon positioning.
         #  If we really need differently named volumes, we'll need to create multiple DS_Store file images, or use some other trick.
 
-        volname="Second Life Installer"  # DO NOT CHANGE without understanding comment above
+        volname="Alchemy Installer"  # DO NOT CHANGE without understanding comment above
 
         if self.default_channel():
             if not self.default_grid():
@@ -916,7 +917,7 @@ class LinuxManifest(ViewerManifest):
             self.path("client-readme.txt","README-linux.txt")
             self.path("client-readme-voice.txt","README-linux-voice.txt")
             self.path("client-readme-joystick.txt","README-linux-joystick.txt")
-            self.path("wrapper.sh","secondlife")
+            self.path("wrapper.sh","alchemy")
             if self.prefix(src="", dst="etc"):
                 self.path("handle_secondlifeprotocol.sh")
                 self.path("register_secondlifeprotocol.sh")
@@ -930,7 +931,7 @@ class LinuxManifest(ViewerManifest):
         self.put_in_file(self.flags_list(), 'etc/gridargs.dat')
 
         if self.prefix(src="", dst="bin"):
-            self.path("secondlife-bin","do-not-directly-run-secondlife-bin")
+            self.path("alchemy-bin","do-not-directly-run-alchemy-bin")
             self.path("../linux_crash_logger/linux-crash-logger","linux-crash-logger.bin")
             self.path2basename("../llplugin/slplugin", "SLPlugin")
             self.path2basename("../viewer_components/updater/scripts/linux", "update_install")
@@ -964,14 +965,14 @@ class LinuxManifest(ViewerManifest):
     def copy_finish(self):
         # Force executable permissions to be set for scripts
         # see CHOP-223 and http://mercurial.selenic.com/bts/issue1802
-        for script in 'secondlife', 'bin/update_install':
+        for script in 'alchemy', 'bin/update_install':
             self.run_command("chmod +x %r" % os.path.join(self.get_dst_prefix(), script))
 
     def package_finish(self):
         if 'installer_name' in self.args:
             installer_name = self.args['installer_name']
         else:
-            installer_name_components = ['SecondLife_', self.args.get('arch')]
+            installer_name_components = ['Alchemy_', self.args.get('arch')]
             installer_name_components.extend(self.args['version'])
             installer_name = "_".join(installer_name_components)
             if self.default_channel():

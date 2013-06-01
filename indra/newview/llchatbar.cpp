@@ -61,6 +61,8 @@
 #include "llviewermenu.h"
 #include "lluictrlfactory.h"
 
+#include "alchatcommand.h"
+
 //
 // Globals
 //
@@ -380,8 +382,11 @@ void LLChatBar::sendChat( EChatType type )
 
 			if (!utf8_revised_text.empty())
 			{
-				// Chat with animation
-				sendChatFromViewer(utf8_revised_text, type, TRUE);
+				if(!ALChatCommand::parseCommand(utf8_revised_text))
+				{
+					// Chat with animation
+					sendChatFromViewer(utf8_revised_text, type, TRUE);
+				}
 			}
 		}
 	}

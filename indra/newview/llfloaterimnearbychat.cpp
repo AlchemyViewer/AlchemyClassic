@@ -68,6 +68,8 @@
 #include "lltranslate.h"
 #include "llautoreplace.h"
 
+#include "alchatcommand.h"
+
 S32 LLFloaterIMNearbyChat::sLastSpecialChatChannel = 0;
 
 const S32 EXPANDED_HEIGHT = 266;
@@ -581,8 +583,11 @@ void LLFloaterIMNearbyChat::sendChat( EChatType type )
 
 			if (!utf8_revised_text.empty())
 			{
-				// Chat with animation
-				sendChatFromViewer(utf8_revised_text, type, TRUE);
+				if(!ALChatCommand::parseCommand(utf8_revised_text))
+				{
+					// Chat with animation
+					sendChatFromViewer(utf8_revised_text, type, TRUE);
+				}
 			}
 		}
 

@@ -43,6 +43,8 @@
 #include "llagent.h"
 #include "llfloaterimnearbychat.h"
 
+#include "alchatcommand.h"
+
 // Globals
 LLViewerGestureList gGestureList;
 
@@ -129,13 +131,15 @@ void LLViewerGesture::doTrigger( BOOL send_chat )
 
 	if (send_chat && !mOutputString.empty())
 	{
-		// Don't play nodding animation, since that might not blend
-		// with the gesture animation.
-		(LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->
-				sendChatFromViewer(mOutputString, CHAT_TYPE_NORMAL, FALSE);
+		if(!ALChatCommand::parseCommand(mOutputString))
+		{
+			// Don't play nodding animation, since that might not blend
+			// with the gesture animation.
+			(LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->
+					sendChatFromViewer(mOutputString, CHAT_TYPE_NORMAL, FALSE);
+		}
 	}
 }
-
 
 LLViewerGestureList::LLViewerGestureList()
 :	LLGestureList()

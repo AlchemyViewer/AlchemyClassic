@@ -2,5 +2,49 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
   <map>
+    <key>ALChatCommandDrawDistance</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to set draw distance</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/dd</string>
+    </map>
+    <key>ALChatCommandEnable</key>
+    <map>
+      <key>Comment</key>
+      <string>Enable chat bar command line</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
+    <key>ALChatCommandGround</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to teleport to ground</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/flr</string>
+    </map>
+    <key>ALChatCommandHeight</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to teleport to specified height</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/gth</string>
+    </map>
   </map>
 </llsd>

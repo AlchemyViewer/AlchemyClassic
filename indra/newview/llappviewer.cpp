@@ -253,7 +253,7 @@ static LLAppViewerListener sAppViewerListener(LLAppViewer::instance);
 // viewer.cpp - these are only used in viewer, should be easily moved.
 
 #if LL_DARWIN
-const char * const LL_VERSION_BUNDLE_ID = "com.secondlife.indra.viewer";
+const char * const LL_VERSION_BUNDLE_ID = "org.alchemy.viewer";
 extern void init_apple_menu(const char* product);
 #endif // LL_DARWIN
 

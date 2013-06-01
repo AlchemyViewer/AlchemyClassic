@@ -56,6 +56,8 @@
 #include "llappearancemgr.h"
 #include "llgesturelistener.h"
 
+#include "alchatcommand.h"
+
 // Longest time, in seconds, to wait for all animations to stop playing
 const F32 MAX_WAIT_ANIM_SECS = 30.f;
 
@@ -998,8 +1000,11 @@ void LLGestureMgr::runStep(LLMultiGesture* gesture, LLGestureStep* step)
 
 			const BOOL animate = FALSE;
 
-			(LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->
-					sendChatFromViewer(chat_text, CHAT_TYPE_NORMAL, animate);
+			if(chat_text.empty() || !ALChatCommand::parseCommand(chat_text))
+			{
+				(LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->
+						sendChatFromViewer(chat_text, CHAT_TYPE_NORMAL, animate);
+			}
 
 			gesture->mCurrentStep++;
 			break;

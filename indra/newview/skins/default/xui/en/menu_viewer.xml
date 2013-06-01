@@ -999,6 +999,15 @@
             <menu_item_call.on_enable
                function="EditableSelected" />
           </menu_item_call>
+          <menu_item_call
+             label="Delete Scripts"
+             name="Delete Scripts">
+            <menu_item_call.on_click
+               function="Tools.SelectedScriptAction"
+               parameter="delete" />
+            <menu_item_call.on_enable
+               function="EditableSelected" />
+          </menu_item_call>
         </menu>
 
       <menu
@@ -3152,6 +3161,14 @@
                 <menu_item_call.on_click
                  function="Floater.Show"
                  parameter="font_test" />
+            </menu_item_call>
+            <menu_item_call
+             label="XUI Preview Tool"
+             name="UI Preview Tool"
+             shortcut="control|shift|T">
+                <menu_item_call.on_click
+                function="Floater.Toggle"
+                parameter="ui_preview" />
             </menu_item_call>
             <menu_item_check
              label="Show XUI Names"

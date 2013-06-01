@@ -1832,6 +1832,16 @@ Select objects with scripts.
 
   <notification
    icon="alertmodal.tga"
+   name="CannotDeleteSelectObjectsNoScripts"
+   type="alertmodal">
+    Not able to perform &apos;delete&apos;.
+
+    Select objects with scripts.
+    <tag>fail</tag>
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
    name="CannotResetSelectObjectsNoPermission"
    type="alertmodal">
 Not able to perform &apos;reset&apos;.

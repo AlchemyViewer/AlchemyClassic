@@ -46,11 +46,12 @@ public:
 		TOOLBAR_LEFT,
 		TOOLBAR_RIGHT,
 		TOOLBAR_BOTTOM,
+		TOOLBAR_TOP,
 
 		TOOLBAR_COUNT,
 
 		TOOLBAR_FIRST = TOOLBAR_LEFT,
-		TOOLBAR_LAST = TOOLBAR_BOTTOM,
+		TOOLBAR_LAST = TOOLBAR_TOP,
 	} EToolBarLocation;
 
 	// Xui structure of the toolbar panel
@@ -73,7 +74,8 @@ public:
 	{
 		Optional<Toolbar>	left_toolbar,
 							right_toolbar,
-							bottom_toolbar;
+							bottom_toolbar,
+							top_toolbar;
 
 		ToolbarSet();
 	};

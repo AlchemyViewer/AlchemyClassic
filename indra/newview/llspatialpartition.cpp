@@ -2719,7 +2719,7 @@ void renderVisibility(LLSpatialGroup* group, LLCamera* camera)
 	{
 		LLGLDepthTest depth_under(GL_TRUE, GL_FALSE, GL_GREATER);
 		gGL.diffuseColor4f(0, 0.5f, 0, 0.5f);
-		gGL.diffuseColor4f(0, 0.5f, 0, 0.5f);
+		//gGL.diffuseColor4f(0, 0.5f, 0, 0.5f);
 		pushBufferVerts(group, LLVertexBuffer::MAP_VERTEX);
 	}
 
@@ -2729,7 +2729,7 @@ void renderVisibility(LLSpatialGroup* group, LLCamera* camera)
 		if (render_objects)
 		{
 			gGL.diffuseColor4f(0.f, 0.5f, 0.f,1.f);
-			gGL.diffuseColor4f(0.f, 0.5f, 0.f, 1.f);
+			//gGL.diffuseColor4f(0.f, 0.5f, 0.f, 1.f);
 			pushBufferVerts(group, LLVertexBuffer::MAP_VERTEX);
 		}
 
@@ -2738,7 +2738,7 @@ void renderVisibility(LLSpatialGroup* group, LLCamera* camera)
 		if (render_objects)
 		{
 			gGL.diffuseColor4f(0.f, 0.75f, 0.f,0.5f);
-			gGL.diffuseColor4f(0.f, 0.75f, 0.f, 0.5f);
+			//gGL.diffuseColor4f(0.f, 0.75f, 0.f, 0.5f);
 			pushBufferVerts(group, LLVertexBuffer::MAP_VERTEX);
 		}
 	}

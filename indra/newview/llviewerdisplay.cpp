@@ -192,7 +192,7 @@ void display_update_camera()
 // Write some stats to llinfos
 void display_stats()
 {
-	F32 fps_log_freq = gSavedSettings.getF32("FPSLogFrequency");
+	static LLCachedControl<F32> fps_log_freq(gSavedSettings, "FPSLogFrequency");
 	if (fps_log_freq > 0.f && gRecentFPSTime.getElapsedTimeF32() >= fps_log_freq)
 	{
 		F32 fps = gRecentFrameCount / fps_log_freq;
@@ -200,7 +200,8 @@ void display_stats()
 		gRecentFrameCount = 0;
 		gRecentFPSTime.reset();
 	}
-	F32 mem_log_freq = gSavedSettings.getF32("MemoryLogFrequency");
+
+	static LLCachedControl<F32> mem_log_freq(gSavedSettings, "MemoryLogFrequency");
 	if (mem_log_freq > 0.f && gRecentMemoryTime.getElapsedTimeF32() >= mem_log_freq)
 	{
 		gMemoryAllocated = LLMemory::getCurrentRSS();
@@ -897,7 +898,8 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 		{
 			LLViewerCamera::sCurCameraID = LLViewerCamera::CAMERA_WORLD;
 
-			if (gSavedSettings.getBOOL("RenderDepthPrePass") && LLGLSLShader::sNoFixedFunction)
+			static LLCachedControl<bool> renderDepthPrePass(gSavedSettings, "RenderDepthPrePass");
+			if (renderDepthPrePass && LLGLSLShader::sNoFixedFunction)
 			{
 				gGL.setColorMask(false, false);
 				
@@ -1042,7 +1044,8 @@ void render_hud_attachments()
 		hud_cam.setAxes(LLVector3(1,0,0), LLVector3(0,1,0), LLVector3(0,0,1));
 		LLViewerCamera::updateFrustumPlanes(hud_cam, TRUE);
 
-		bool render_particles = gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_PARTICLES) && gSavedSettings.getBOOL("RenderHUDParticles");
+		static LLCachedControl<bool> renderHUDParticles(gSavedSettings, "RenderHUDParticles");
+		bool render_particles = (gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_PARTICLES) && renderHUDParticles);
 		
 		//only render hud objects
 		gPipeline.pushRenderTypeMask();
@@ -1379,7 +1382,8 @@ void render_ui_3d()
 	}
 
 	// Coordinate axes
-	if (gSavedSettings.getBOOL("ShowAxes"))
+	static LLCachedControl<bool> showAxes(gSavedSettings, "ShowAxes");
+	if (showAxes)
 	{
 		draw_axes();
 	}
@@ -1434,8 +1438,8 @@ void render_ui_2d()
 		stop_glerror();
 	}
 	
-
-	if (gSavedSettings.getBOOL("RenderUIBuffer"))
+	static LLCachedControl<bool> renderUIBuffer(gSavedSettings, "RenderUIBuffer");
+	if (renderUIBuffer)
 	{
 		if (LLUI::sDirty)
 		{

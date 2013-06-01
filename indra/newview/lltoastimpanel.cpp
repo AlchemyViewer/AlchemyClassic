@@ -64,7 +64,7 @@ LLToastIMPanel::LLToastIMPanel(LLToastIMPanel::Params &p) :	LLToastPanel(p.notif
 	
 	//Handle IRC styled /me messages.
 	std::string prefix = p.message.substr(0, 4);
-	if (prefix == "/me " || prefix == "/me'")
+	if (prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'")
 	{
 		//style_params.font.style = "UNDERLINE";
 		mMessage->clear();

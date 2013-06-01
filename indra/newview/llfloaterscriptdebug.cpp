@@ -101,7 +101,7 @@ void LLFloaterScriptDebug::addScriptLine(const std::string &utf8mesg, const std:
 
 	// Handle /me messages.
 	std::string prefix = utf8mesg.substr(0, 4);
-	std::string message = (prefix == "/me " || prefix == "/me'") ? user_name + utf8mesg.substr(3) : utf8mesg;
+	std::string message = (prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'") ? user_name + utf8mesg.substr(3) : utf8mesg;
 
 	if (objectp)
 	{

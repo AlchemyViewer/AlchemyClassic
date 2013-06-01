@@ -151,8 +151,8 @@ fi
 # Don't quote $LL_WRAPPER because, if empty, it should simply vanish from the
 # command line. But DO quote "$@": preserve separate args as individually
 # quoted. Similar remarks about the contents of gridargs.
-$LL_WRAPPER bin/do-not-directly-run-secondlife-bin "${gridargs[@]}" "${ARGS[@]}"
-LL_RUN_ERR=$?Alchemy
+$LL_WRAPPER bin/do-not-directly-run-alchemy-bin "${gridargs[@]}" "${ARGS[@]}"
+LL_RUN_ERR=$?
 
 # Handle any resulting errors
 if [ $LL_RUN_ERR -ne 0 ]; then

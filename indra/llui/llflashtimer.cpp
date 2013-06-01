@@ -23,11 +23,14 @@
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
-#include "../newview/llviewerprecompiledheaders.h"
+
+#include "linden_common.h"
 
 #include "llflashtimer.h"
-#include "../newview/llviewercontrol.h"
+#include "llcontrol.h"
 #include "lleventtimer.h"
+
+extern LLControlGroup gSavedSettings;
 
 LLFlashTimer::LLFlashTimer(callback_t cb, S32 count, F32 period)
 		: LLEventTimer(period)

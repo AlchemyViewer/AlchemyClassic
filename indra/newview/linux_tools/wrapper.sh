@@ -11,9 +11,9 @@
 
 ## - Avoids using the FMOD Ex PulseAudio audio driver.
 #export LL_BAD_FMOD_PULSEAUDIO=x
-## - Avoids using the FMOD or FMOD Ex ALSA audio driver.
+## - Avoids using the FMOD Ex ALSA audio driver.
 #export LL_BAD_FMOD_ALSA=x
-## - Avoids using the FMOD or FMOD Ex OSS audio driver.
+## - Avoids using the FMOD Ex OSS audio driver.
 #export LL_BAD_FMOD_OSS=x
 
 ## - Avoids the optional OpenGL extensions which have proven most problematic
@@ -152,7 +152,7 @@ fi
 # command line. But DO quote "$@": preserve separate args as individually
 # quoted. Similar remarks about the contents of gridargs.
 $LL_WRAPPER bin/do-not-directly-run-secondlife-bin "${gridargs[@]}" "${ARGS[@]}"
-LL_RUN_ERR=$?
+LL_RUN_ERR=$?Alchemy
 
 # Handle any resulting errors
 if [ $LL_RUN_ERR -ne 0 ]; then
@@ -163,7 +163,7 @@ if [ $LL_RUN_ERR -ne 0 ]; then
 		cat << EOFMARKER
 You are running the Second Life Viewer on a x86_64 platform.  The
 most common problems when launching the Viewer (particularly
-'bin/do-not-directly-run-secondlife-bin: not found' and 'error while
+'bin/do-not-directly-run-alchemy-bin: not found' and 'error while
 loading shared libraries') may be solved by installing your Linux
 distribution's 32-bit compatibility packages.
 For example, on Ubuntu and other Debian-based Linuxes you might run:

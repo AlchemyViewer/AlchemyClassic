@@ -1159,3 +1159,82 @@ void LLViewerJoystick::setSNDefaults()
 	gSavedSettings.setF32("BuildFeathering", 12.f);
 	gSavedSettings.setF32("FlycamFeathering", 5.f);
 }
+
+void LLViewerJoystick::setXbox360Defaults()
+{
+#if LL_DARWIN || LL_LINUX
+	const float platformScale = 20.f;
+	const float platformScaleAvXZ = 1.f;
+#else
+	const float platformScale = 1.f;
+	const float platformScaleAvXZ = 1.f;
+#endif
+	
+	//gViewerWindow->alertXml("CacheWillClear");
+	llinfos << "restoring Xbox360 defaults..." << llendl;
+	/*
+	Axis 0: Left Thumbstick Horizontal
+	Axis 1: Left Thumbstick Vertical
+	Axis 2: Left and Right triggers (Analog)
+	Axis 3: Right Thumbstick Horizontal
+	Axis 4: Left Thumbstick Vertical
+	Axis 5: Unused
+	
+	Syntax/Format:
+		Debug setting				InternalMapping,Jostick Axis (see above)	*/
+	gSavedSettings.setS32("JoystickAxis0", 1);	// Z Axis Mapping
+	gSavedSettings.setS32("JoystickAxis1", 0);	// X Axis Mapping
+	gSavedSettings.setS32("JoystickAxis2", -1);	// Y Axis Mapping
+	gSavedSettings.setS32("JoystickAxis3", 2);	// Roll Mapping
+	gSavedSettings.setS32("JoystickAxis4", 4);	// Pitch Mapping
+	gSavedSettings.setS32("JoystickAxis5", 3);	// Yaw Mapping
+	gSavedSettings.setS32("JoystickAxis6", -1);	// Zoom Mapping
+	
+	gSavedSettings.setBOOL("Cursor3D", false); // Xbox Gamepad, not 3D Mouse
+	gSavedSettings.setBOOL("AutoLeveling", false);
+	gSavedSettings.setBOOL("ZoomDirect", false);
+	
+	gSavedSettings.setF32("AvatarAxisScale0", 0.43f * platformScaleAvXZ);
+	gSavedSettings.setF32("AvatarAxisScale1", 0.43f * platformScaleAvXZ);
+	gSavedSettings.setF32("AvatarAxisScale2", 0.43f);
+	gSavedSettings.setF32("AvatarAxisScale4", 4.f * platformScale);
+	gSavedSettings.setF32("AvatarAxisScale5", 4.f * platformScale);
+	gSavedSettings.setF32("AvatarAxisScale3", 4.f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale1", .3f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale2", .3f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale0", .3f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale4", .3f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale5", .3f * platformScale);
+	gSavedSettings.setF32("BuildAxisScale3", .3f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale0", 25.f * platformScale); // Z Scale
+	gSavedSettings.setF32("FlycamAxisScale1", 4.f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale2", 4.f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale3", 4.f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale4", 4.f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale5", 4.f * platformScale);
+	gSavedSettings.setF32("FlycamAxisScale6", 4.f * platformScale);
+	
+	gSavedSettings.setF32("AvatarAxisDeadZone0", .2f);
+	gSavedSettings.setF32("AvatarAxisDeadZone1", .2f);
+	gSavedSettings.setF32("AvatarAxisDeadZone2", .2f);
+	gSavedSettings.setF32("AvatarAxisDeadZone3", .2f);
+	gSavedSettings.setF32("AvatarAxisDeadZone4", .2f);
+	gSavedSettings.setF32("AvatarAxisDeadZone5", .2f);
+	gSavedSettings.setF32("BuildAxisDeadZone0", .02f);
+	gSavedSettings.setF32("BuildAxisDeadZone1", .02f);
+	gSavedSettings.setF32("BuildAxisDeadZone2", .02f);
+	gSavedSettings.setF32("BuildAxisDeadZone3", .02f);
+	gSavedSettings.setF32("BuildAxisDeadZone4", .02f);
+	gSavedSettings.setF32("BuildAxisDeadZone5", .02f);
+	gSavedSettings.setF32("FlycamAxisDeadZone0", .2f);
+	gSavedSettings.setF32("FlycamAxisDeadZone1", .2f);
+	gSavedSettings.setF32("FlycamAxisDeadZone2", .2f);
+	gSavedSettings.setF32("FlycamAxisDeadZone3", 0.1f);
+	gSavedSettings.setF32("FlycamAxisDeadZone4", .25f);
+	gSavedSettings.setF32("FlycamAxisDeadZone5", .25f);
+	gSavedSettings.setF32("FlycamAxisDeadZone6", 0.2f);
+	
+	gSavedSettings.setF32("AvatarFeathering", 3.f);
+	gSavedSettings.setF32("BuildFeathering", 12.f);
+	gSavedSettings.setF32("FlycamFeathering", 1.f);
+}

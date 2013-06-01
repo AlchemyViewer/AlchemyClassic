@@ -101,6 +101,7 @@ BOOL LLFloaterJoystick::postBuild()
 	childSetCommitCallback("JoystickFlycamEnabled",onCommitJoystickEnabled,this);
 
 	childSetAction("SpaceNavigatorDefaults", onClickRestoreSNDefaults, this);
+	childSetAction("Xbox360Defaults", onClickRestoreXbox360Defaults, this);
 	childSetAction("cancel_btn", onClickCancel, this);
 	childSetAction("ok_btn", onClickOK, this);
 
@@ -284,6 +285,11 @@ void LLFloaterJoystick::onClickRestoreSNDefaults(void *joy_panel)
 	setSNDefaults();
 }
 
+void LLFloaterJoystick::onClickRestoreXbox360Defaults(void *joy_panel)
+{
+	setXbox360Defaults();
+}
+
 void LLFloaterJoystick::onClickCancel(void *joy_panel)
 {
 	if (joy_panel)
@@ -314,4 +320,9 @@ void LLFloaterJoystick::onClickOK(void *joy_panel)
 void LLFloaterJoystick::setSNDefaults()
 {
 	LLViewerJoystick::getInstance()->setSNDefaults();
+}
+
+void LLFloaterJoystick::setXbox360Defaults()
+{
+	LLViewerJoystick::getInstance()->setXbox360Defaults();
 }

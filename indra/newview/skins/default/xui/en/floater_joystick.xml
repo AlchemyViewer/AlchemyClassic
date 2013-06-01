@@ -885,6 +885,15 @@
     <button
      follows="left|top"
      height="22"
+     label="Xbox360 Defaults"
+     layout="topleft"
+     left="359"
+     name="Xbox360Defaults"
+     top="399"
+     width="200" />
+    <button
+     follows="left|top"
+     height="22"
      label="SpaceNavigator Defaults"
      layout="topleft"
      left="359"

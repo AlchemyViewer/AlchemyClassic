@@ -75,6 +75,7 @@ LLButton::Params::Params()
 	image_pressed("image_pressed"),
 	image_pressed_selected("image_pressed_selected"),
 	image_overlay("image_overlay"),
+	image_overlay_enable("image_overlay_enable", true),
 	image_overlay_alignment("image_overlay_alignment", std::string("center")),
 	image_top_pad("image_top_pad"),
 	image_bottom_pad("image_bottom_pad"),
@@ -145,6 +146,7 @@ LLButton::LLButton(const LLButton::Params& p)
 	mFlashBgColor(p.flash_color()),
 	mDisabledImageColor(p.image_color_disabled()),
 	mImageOverlay(p.image_overlay()),
+	mImageOverlayEnable(p.image_overlay_enable),
 	mImageOverlayColor(p.image_overlay_color()),
 	mImageOverlayDisabledColor(p.image_overlay_disabled_color()),
 	mImageOverlaySelectedColor(p.image_overlay_selected_color()),
@@ -827,7 +829,7 @@ void LLButton::draw()
 	S32 text_width = getRect().getWidth() - mLeftHPad - mRightHPad;
 
 	// draw overlay image
-	if (mImageOverlay.notNull())
+	if (mImageOverlayEnable && mImageOverlay.notNull())
 	{
 		// get max width and height (discard level 0)
 		S32 overlay_width;

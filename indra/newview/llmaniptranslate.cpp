@@ -1738,10 +1738,11 @@ void LLManipTranslate::highlightIntersection(LLVector3 normal,
 		shader->bind();
 	}
 
-	if (shader)
-	{
-		shader->bind();
-	}
+	// [ALCH:LD] - LL Merge Derp.
+	//if (shader)
+	//{
+	//	shader->bind();
+	//}
 
 	//draw volume/plane intersections
 	{

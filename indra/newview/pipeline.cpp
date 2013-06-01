@@ -262,7 +262,7 @@ std::string gPoolNames[] =
 	"POOL_GROUND",
 	"POOL_FULLBRIGHT",
 	"POOL_BUMP",
-	"POOL_TERRAIN,"	
+	"POOL_TERRAIN",	
 	"POOL_SKY",
 	"POOL_WL_SKY",
 	"POOL_TREE",
@@ -636,7 +636,7 @@ void LLPipeline::init()
 	connectRefreshCachedSettingsSafe("CameraMaxCoF");
 	connectRefreshCachedSettingsSafe("CameraDoFResScale");
 	connectRefreshCachedSettingsSafe("RenderAutoHideSurfaceAreaLimit");
-	gSavedSettings.getControl("RenderAutoHideSurfaceAreaLimit")->getCommitSignal()->connect(boost::bind(&LLPipeline::refreshCachedSettings));
+	//gSavedSettings.getControl("RenderAutoHideSurfaceAreaLimit")->getCommitSignal()->connect(boost::bind(&LLPipeline::refreshCachedSettings));
 }
 
 LLPipeline::~LLPipeline()
@@ -7198,8 +7198,12 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 				}
 				else
 				{
-					//focus on alt-zoom target
-					focus_point = LLVector3(gAgentCamera.getFocusGlobal()-gAgent.getRegion()->getOriginGlobal());
+					LLViewerRegion* region = gAgent.getRegion();
+					if(region)
+					{
+						//focus on alt-zoom target
+						focus_point = LLVector3(gAgentCamera.getFocusGlobal()-region->getOriginGlobal());
+					}
 				}
 			}
 

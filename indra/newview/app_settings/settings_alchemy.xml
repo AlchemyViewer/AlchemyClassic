@@ -46,6 +46,17 @@
       <key>Value</key>
       <string>/gth</string>
     </map>
+    <key>ALRevokeObjectPerms</key>
+    <map>
+      <key>Comment</key>
+      <string>Revoke permissions on object on sit(1), stand(2) or both(3)</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>ALIMHideTyping</key>
     <map>
       <key>Comment</key>

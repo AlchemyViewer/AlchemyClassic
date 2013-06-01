@@ -658,6 +658,21 @@ F32 LLVOAvatar::sGreyUpdateTime = 0.f;
 static F32 calc_bouncy_animation(F32 x);
 
 //-----------------------------------------------------------------------------
+// revokePermissionsOnObject()
+//-----------------------------------------------------------------------------
+void revoke_permissions_on_object(const LLUUID &object_id)
+{
+	gMessageSystem->newMessageFast(_PREHASH_RevokePermissions);
+	gMessageSystem->nextBlockFast(_PREHASH_AgentData);
+	gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+	gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+	gMessageSystem->nextBlockFast(_PREHASH_Data);
+	gMessageSystem->addUUIDFast(_PREHASH_ObjectID, object_id);
+	gMessageSystem->addU32Fast(_PREHASH_ObjectPermissions, 0xFFFFFFFF);
+	gAgent.sendReliableMessage();
+}
+
+//-----------------------------------------------------------------------------
 // LLVOAvatar()
 //-----------------------------------------------------------------------------
 LLVOAvatar::LLVOAvatar(const LLUUID& id,
@@ -5678,6 +5693,12 @@ void LLVOAvatar::sitOnObject(LLViewerObject *sit_object)
 		{
 			gAgentCamera.changeCameraToMouselook();
 		}
+
+		static LLCachedControl<U32> revoke_perms(gSavedSettings, "ALRevokeObjectPerms");
+		if ((revoke_perms == 1 || revoke_perms == 3) && !sit_object->permYouOwner())
+		{
+			revoke_permissions_on_object(sit_object->getID());
+		}
 	}
 
 	if (mDrawable.isNull())
@@ -5764,6 +5785,12 @@ void LLVOAvatar::getOffObject()
 		gAgent.resetAxes(at_axis);
 		gAgentCamera.setThirdPersonHeadOffset(LLVector3(0.f, 0.f, 1.f));
 		gAgentCamera.setSitCamera(LLUUID::null);
+
+		static LLCachedControl<U32> revoke_perms(gSavedSettings, "ALRevokeObjectPerms");
+		if ((revoke_perms == 2 || revoke_perms == 3) && !sit_object->permYouOwner())
+		{
+			revoke_permissions_on_object(sit_object->getID());
+		}
 	}
 }
 

@@ -18,8 +18,8 @@
      mouse_opaque="false"
      visible="true"
      width="18"
-     left="30"
-     top="10"/>
+     left="10"
+     top="5"/>
   <slider
    can_edit_text="true"
    control_name="CameraAngle"
@@ -29,13 +29,13 @@
    increment="0.025"
    initial_value="1.57"
    layout="topleft"
-   label_width="100"
+   label_width="105"
    label="View angle"
-   left_pad="30"
+   left_pad="15"
    max_val="2.97"
    min_val="0.17"
    name="camera_fov"
-   show_text="false"
+   show_text="true"
    width="240" />
   <slider
    can_edit_text="true"
@@ -48,22 +48,71 @@
    layout="topleft"
    label="Distance"
    left_delta="0"
-   label_width="100"
+   label_width="105"
    max_val="3"
    min_val="0.5"
    name="camera_offset_scale"
-   show_text="false"
+   show_text="true"
+   width="240"
+   top_pad="4"/>
+  <slider
+   can_edit_text="true"
+   control_name="ZoomTime"
+   decimal_digits="2"
+   follows="left|top"
+   height="16"
+   increment="0.1"
+   initial_value="1"
+   layout="topleft"
+   label="Zoom Time"
+   left_delta="0"
+   label_width="105"
+   max_val="10"
+   min_val="0.1"
+   name="zoom_time"
+   show_text="true"
    width="240"
    top_pad="5"/>
+  <slider
+   can_edit_text="true"
+   control_name="CameraPositionSmoothing"
+   decimal_digits="2"
+   follows="left|top"
+   height="16"
+   increment="0.025"
+   initial_value="1"
+   layout="topleft"
+   label="Position Smoothing"
+   left_delta="0"
+   label_width="105"
+   max_val="25"
+   min_val="0.2"
+   name="camera_position_smoothing"
+   show_text="true"
+   width="240"
+   top_pad="5"/>
+  <button
+   height="28"
+   follow="bottom|left|right"
+   label="Joystick/Freecam configuration"
+   left="65"
+   name="joystick_setup_button"
+   top="315"
+   width="180">
+    <button.commit_callback
+     function="Floater.Show"
+     parameter="pref_joystick" />
+  </button>
+   <!-- Start Column #2 -->
   <text
   follows="left|top"
   type="string"
   length="1"
   height="10"
-  left="80"
+  left="300"
   name="heading2"
   width="270"
-  top_pad="5">
+  top="400">
     Automatic position for:
   </text>
   <check_box
@@ -72,7 +121,7 @@
      follows="left|top"
      label="Build/Edit"
      layout="topleft"
-     left_delta="30"
+     left_delta="10"
      name="edit_camera_movement"
      tool_tip="Use automatic camera positioning when entering and exiting edit mode"
      width="280"
@@ -86,6 +135,7 @@
    name="appearance_camera_movement"
    tool_tip="Use automatic camera positioning while in edit mode"
    width="242" />
+   <!-- End Column #2 -->
   <icon
 	 follows="left|top"
 	 height="18"
@@ -95,18 +145,18 @@
 	 mouse_opaque="false"
 	 visible="true"
 	 width="18"
-   top_pad="10"
-   left="30" />
+   top_pad="70"
+   left="10" />
   <text
    follows="left|top"
    type="string"
    length="1"
    height="10"
    layout="topleft"
-   left="78"
+   left="35"
    name="keyboard_lbl"
    width="270"
-   top_delta="2">
+   top="150">
     Keyboard:
   </text>
   <check_box
@@ -115,7 +165,7 @@
    height="20"
    label="Arrow keys always move me"
    layout="topleft"
-   left_delta="5"
+   left_delta="10"
    name="arrow_keys_move_avatar_check"
    width="237"
    top_pad="5"/>
@@ -129,13 +179,23 @@
    name="tap_tap_hold_to_run"
    width="237"
    top_pad="0"/>
+  <check_box
+   control_name="AutomaticFly"
+   follows="left|top"
+   height="20"
+   label="Fly when holding jump key &#40;PageUp/E &#41;"
+   layout="topleft"
+   left_delta="0"
+   name="automatic_fly"
+   width="237"
+   top_pad="0"/>
   <text
    follows="left|top"
    type="string"
    length="1"
    height="10"
    layout="topleft"
-   left="78"
+   left="35"
    name="mouse_lbl"
    width="270"
    top_pad="15">
@@ -157,7 +217,7 @@
    follows="left|top"
    height="15"
    layout="topleft"
-   left_delta="3"
+   left_delta="0"
    name=" Mouse Sensitivity"
    top_pad="10"
    width="160"
@@ -191,7 +251,7 @@
    length="1"
    height="10"
    layout="topleft"
-   left="86"
+   left="40"
    name="single_click_action_lbl"
    width="150"
    top_pad="20">
@@ -221,7 +281,7 @@
    length="1"
    height="10"
    layout="topleft"
-   left="86"
+   left="40"
    name="double_click_action_lbl"
    width="150"
    top_pad="12">
@@ -249,15 +309,4 @@
     <combo_box.commit_callback
      function="Pref.ClickActionChange"/>
   </combo_box>
-  <button
-   height="23"
-   label="Other Devices"
-   left="30"
-   name="joystick_setup_button"
-   top="30"
-   width="155">
-    <button.commit_callback
-     function="Floater.Show"
-     parameter="pref_joystick" />
-  </button>
 </panel>

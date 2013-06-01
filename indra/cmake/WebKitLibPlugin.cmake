@@ -70,6 +70,8 @@ elseif (LINUX)
         QtNetwork
         QtGui
         QtCore
+        crypto
+        ssl
         jscore
 #        qgif
 #        qjpeg
@@ -77,6 +79,7 @@ elseif (LINUX)
         fontconfig
         X11
         Xrender
+        Xext
         GL
 
 #        sqlite3

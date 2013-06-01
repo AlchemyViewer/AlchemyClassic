@@ -1965,10 +1965,15 @@ Enabled or disables script profiling options. Currently only supports PROFILE_SC
 MAY SIGNIFICANTLY REDUCE SCRIPT PERFORMANCE!
 	</string>
 	<string name="LSLTipText_llSetMemoryLimit" translate="false">
-integer llSetMemoryLimit(integer mem)
+integer llSetMemoryLimit(integer limit)
+Request limit bytes to be reserved for this script.
+Returns a success/failure flag (STATUS_OK when sucessful, another of the STATUS_* flags on failure) for whether the memory limit was set.
+Only relevant for Mono-compiled scripts.
 	</string>
 	<string name="LSLTipText_llGetMemoryLimit" translate="false">
 integer llGetMemoryLimit()
+Get the maximum memory a script can use.
+Returns the integer amount of memory the script can use in bytes.
 	</string>
 	<string name="LSLTipText_llSetLinkMedia" translate="false">
 llSetLinkMedia(integer link, integer face, list params)
@@ -1984,6 +1989,8 @@ Clears (deletes) the media and all params from the given face on linked prim.
 	</string>
 	<string name="LSLTipText_llSetContentType" translate="false">
 llSetContentType(key id, integer content_type)
+Set the Internet media type of an LSL HTTP server response.
+content_type may be one of CONTENT_TYPE_TEXT (default) "text/plain", or CONTENT_TYPE_HTML "text/html", only valid for embedded browsers on content owned by the person viewing. Falls back to "text/plain" otherwise.
 	</string>
 	<string name="LSLTipText_llLinkSitTarget" translate="false">
 llLinkSitTarget(integer link, vector offset, rotation rot)
@@ -1995,6 +2002,8 @@ If an avatar is sitting on the sit target, return the avatar&apos;s key, NULL_KE
 	</string>
 	<string name="LSLTipText_llSetLinkCamera" translate="false">
 llSetLinkCamera(integer link, vector eye, vector at)
+Sets the camera eye offset, and the offset that camera is looking at, for avatars that sit on the linked prim.
+The two vector parameters are offsets relative to the object's center and expressed in local coordinates.
 	</string>
 	<string name="LSLTipText_llSetVelocity" translate="false">
 llSetVelocity(vector velocity, integer local)
@@ -2015,8 +2024,8 @@ llGetPhysicsMaterial() returns the gravity multiplier, restitution, friction, an
 llGetMassMKS() returns the mass of the linkset in kilograms.
 	</string>
 	<string name="LSLTipText_llGenerateKey" translate="false">
-llGenerateKey()
-Retun a unique generated key
+key llGenerateKey()
+Return a unique generated key
 	</string>
 	<string name="LSLTipText_llSetKeyframedMotion" translate="false">
 llSetKeyframedMotion(list keyframes, list options)
@@ -2047,7 +2056,7 @@ llPursue(key target, list options)
 For AI Character: Chase after a target.
 	</string>
 	<string name="LSLTipText_llWanderWithin" translate="false">
-llWanderWithin(vector center, float radius, list options)
+llWanderWithin(vector center, vector dist, list options)
 For AI Character: Wander within a specified volume.
 	</string>
 	<string name="LSLTipText_llFleeFrom" translate="false">
@@ -2078,8 +2087,70 @@ For AI Character: Evade a specified target.
 list llGetClosestNavPoint(vector point, list options)
 For AI Character: Get the closest navigable point to the point provided.
 	</string>
-
-
+	<string name="LSLTipText_llGetStaticPath" translate="false">
+list llGetStaticPath(vector start, vector end, float radius, list params)
+Returns a list of position vectors indicating pathfinding waypoints between positions at start and end, for a character of a given radius. The waypoints this function returns are for the 'static' nav mesh, meaning that dynamic objects are ignored.
+	</string>
+	<string name="LSLTipText_llManageEstateAccess" translate="false">
+integer llManageEstateAccess(integer action, key id)
+To add or remove agents from the estate's agent access or ban lists or groups from the estate's group access list.
+Only works for objects owned by the Estate Owner or an Estate Manager.
+Returns TRUE if successful and FALSE if throttled, on invalid action, on invalid or null id, or if object owner is not allowed to manage the estate.
+'action' can be any of: ESTATE_ACCESS_ALLOWED_[AGENT/GROUP]_[ADD/REMOVE] or ESTATE_ACCESS_BANNED_AGENT_[ADD/REMOVE]
+	</string>
+	<string name="LSLTipText_llGetAgentList" translate="false">
+list llGetAgentList(integer scope, list options)
+Requests a list of agents currently in the region, limited by the scope parameter.
+	</string>
+	<string name="LSLTipText_llAttachToAvatarTemp" translate="false">
+llAttachToAvatarTemp(integer attach_point)
+Attaches the object to the avatar who has granted permission to the script, with the exception that the object will not create new inventory for the user, and will disappear on detach or disconnect.
+	</string>
+	<string name="LSLTipText_llTeleportAgent" translate="false">
+llTeleportAgent(key avatar, string landmark, vector position, vector look_at)
+Requests a teleport of avatar to a landmark stored in the object's inventory. If no landmark is provided (an empty string), the avatar is teleported to the location position in the current region. In either case, the avatar is turned to face the position given by look_at in local coordinates.
+	</string>
+	<string name="LSLTipText_llTeleportAgentGlobalCoords" translate="false">
+llTeleportAgentGlobalCoords(key agent, vector global_coordinates, vector region_coordinates, vector look_at)
+Teleports an agent to set of a region_coordinates within a region at the specified global_coordinates. The agent lands facing the position defined by look_at local coordinates.
+A region's global coordinates can be retrieved using llRequestSimulatorData(region_name, DATA_SIM_POS)
+	</string>
+	<string name="LSLTipText_llGetSimStats" translate="false">
+float llGetSimStats(integer stat_type)
+Returns the value of a particular simulator statistic.
+	</string>
+	<string name="LSLTipText_llSetAnimationOverride" translate="false">
+llSetAnimationOverride(string anim_state, string anim)
+Set the animation (anim) that will play for the given animation state (anim_state).
+	</string>
+	<string name="LSLTipText_llGetAnimationOverride" translate="false">
+string llGetAnimationOverride(string anim_state)
+Returns a string that is the name of the animation that is being used for the specified animation state (anim_state).
+	</string>
+	<string name="LSLTipText_llResetAnimationOverride" translate="false">
+llResetAnimationOverride(string anim_state)
+Resets the animation override of the specified animation state (anim_state) to the corresponding default value.
+	</string>
+	<string name="LSLTipText_llJson2List" translate="false">
+list llJson2List(string json)
+Converts the top level of the json string to a list.
+	</string>
+	<string name="LSLTipText_llList2Json" translate="false">
+string llList2Json(string type, list values)
+Converts either a strided list of key:value pairs to a JSON_OBJECT or a list of values to a JSON_ARRAY
+	</string>
+	<string name="LSLTipText_llJsonGetValue" translate="false">
+string llJsonGetValue(string json, list specifiers)
+Gets the value indicated by specifiers from the json string.
+	</string>
+	<string name="LSLTipText_llJsonSetValue" translate="false">
+string llJsonSetValue(string json, list specifiers, string value)
+Returns a new json string that is the json given with the value indicated by specifiers set to value.
+	</string>
+	<string name="LSLTipText_llJsonValueType" translate="false">
+string llJsonValueType(string json, list specifiers)
+Returns the type constant for the value in json indicated by specifiers.
+	</string>
 	<!-- Wearable Types -->
 	<string name="shape">Shape</string>
 	<string name="skin">Skin</string>
@@ -2515,6 +2586,8 @@ Drag folders to this area and click "Send to Marketplace" to list them for sale 
 	<string name="ATTACH_HUD_BOTTOM_LEFT">HUD Bottom Left</string>
 	<string name="ATTACH_HUD_BOTTOM">HUD Bottom</string>
 	<string name="ATTACH_HUD_BOTTOM_RIGHT">HUD Bottom Right</string>
+	<string name="ATTACH_NECK">Neck</string>
+	<string name="ATTACH_AVATAR_CENTER">Avatar Center</string>
 
 	<!-- script editor -->
 	<string name="CursorPos">Line [LINE], Column [COLUMN]</string>

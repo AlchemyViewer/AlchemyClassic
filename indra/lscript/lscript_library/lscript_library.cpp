@@ -469,6 +469,79 @@ void LLScriptLibrary::init()
 	// IF YOU ADD NEW SCRIPT CALLS, YOU MUST PUT THEM AT THE END OF THIS LIST.
 	// Otherwise the bytecode numbers for each call will be wrong, and all
 	// existing scripts will crash.
+
+	// According to Kelly Linden we don't need to obey the function ID order in the viewer!
+	// Server v11.08.10.238207 new functions:
+	addFunction(10.f, 0.f, dummy_func, "llSetMemoryLimit", "i", "i");
+	addFunction(10.f, 0.f, dummy_func, "llGetMemoryLimit", "i", NULL);
+	addFunction(10.f, 0.f, dummy_func, "llSetLinkMedia", "i", "iil");
+	addFunction(10.f, 0.f, dummy_func, "llGetLinkMedia", "l", "iil");
+	addFunction(10.f, 0.f, dummy_func, "llClearLinkMedia", "i", "ii");
+	addFunction(10.f, 0.f, dummy_func, "llSetLinkCamera", NULL, "ivv");
+	addFunction(10.f, 0.f, dummy_func, "llSetContentType", NULL, "ki");
+	addFunction(10.f, 0.f, dummy_func, "llLinkSitTarget", NULL, "ivq");
+	addFunction(10.f, 0.f, dummy_func, "llAvatarOnLinkSitTarget", "k", "i");
+	addFunction(10.f, 0.f, dummy_func, "llSetVelocity", NULL, "vi");
+
+	// Server v11.09.09.240509 new functions:
+	addFunction(10.f, 0.f, dummy_func, "llCastRay", "l", "vvl");
+	addFunction(10.f, 0.f, dummy_func, "llGetMassMKS", "f", NULL);
+	addFunction(10.f, 0.f, dummy_func, "llSetPhysicsMaterial", NULL, "iffff");
+	addFunction(10.f, 0.f, dummy_func, "llGetPhysicsMaterial", "l", NULL);
+
+	// Server v11.10.18.243270 new functions:
+	addFunction(10.f, 0.f, dummy_func, "llManageEstateAccess", "i", "ik");
+
+	// Server RC magnum v11.10.31.244254 new function:
+	addFunction(10.f, 0.f, dummy_func, "llSetKeyframedMotion", NULL, "ll");
+
+	// Server RC Le Tigre v11.10.30.245889 new function:
+	addFunction(10.f, 0.f, dummy_func, "llTransferLindenDollars", "k", "ki");
+
+	// llGenerateKey officially implemented now added
+	addFunction(10.f, 0.f, dummy_func, "llGenerateKey", "k", NULL);
+
+	// Server new function 2011-12-13:
+	addFunction(10.f, 0.f, dummy_func, "llGetParcelMusicURL", "s", NULL);
+
+	// Missing script functions as of 2011-12-13
+	addFunction(10.f, 0.f, dummy_func, "llScriptProfiler", NULL, "i");
+	addFunction(10.f, 0.f, dummy_func, "llGetSPMaxMemory", "i", NULL);
+	addFunction(10.f, 0.f, dummy_func, "llGetUsedMemory", "i", NULL);
+	addFunction(10.f, 0.f, dummy_func, "llSetAngularVelocity", NULL, "vi");
+
+	// Server 12.01.24.248357 new functions
+	addFunction(0.f, 0.f, dummy_func, "llSetRegionPos", "i", "v");
+
+	// Server 12.04.13.253827 new function
+	addFunction(0.f, 0.f, dummy_func, "llGetAgentList", "l", "il");
+	
+	// Server RC Magnum 12.05.25.258071 new functions
+	addFunction(0.f, 0.f, dummy_func, "llAttachToAvatarTemp", NULL, "i");
+	addFunction(0.f, 0.f, dummy_func, "llTeleportAgent", NULL, "ksvv");
+	addFunction(0.f, 0.f, dummy_func, "llTeleportAgentGlobalCoords", NULL, "kvvv");
+
+	// Server PF new functions
+	addFunction(10.f, 0.f, dummy_func, "llCreateCharacter", NULL, "l");
+	addFunction(10.f, 0.f, dummy_func, "llDeleteCharacter", NULL, NULL);
+	addFunction(10.f, 0.f, dummy_func, "llEvade", NULL, "kl");
+	addFunction(10.f, 0.f, dummy_func, "llExecCharacterCmd", NULL, "il");
+	addFunction(10.f, 0.f, dummy_func, "llFleeFrom", NULL, "vfl");
+	addFunction(10.f, 0.f, dummy_func, "llGetClosestNavPoint", NULL, "vl");
+	addFunction(10.f, 0.f, dummy_func, "llGetStaticPath", NULL, "vvfl");
+	addFunction(10.f, 0.f, dummy_func, "llNavigateTo", NULL, "vl");
+	addFunction(10.f, 0.f, dummy_func, "llPatrolPoints", NULL, "ll");
+	addFunction(10.f, 0.f, dummy_func, "llPursue", NULL, "kl");
+	addFunction(10.f, 0.f, dummy_func, "llUpdateCharacter", NULL, "l");
+	addFunction(10.f, 0.f, dummy_func, "llWanderWithin", NULL, "vvl");
+
+	// Server RC LeTigre 12.10.12.265819 new function
+	addFunction(0.f, 0.f, dummy_func, "llGetSimStats", "f", "i");
+
+	// Server RC LeTigre 13.03.22.272565 new function
+	addFunction(0.f, 0.f, dummy_func, "llSetAnimationOverride", NULL, "ss");
+	addFunction(0.f, 0.f, dummy_func, "llGetAnimationOverride", "s", "s");
+	addFunction(0.f, 0.f, dummy_func, "llResetAnimationOverride", NULL, "s");
 }
 
 LLScriptLibraryFunction::LLScriptLibraryFunction(F32 eu, F32 st, void (*exec_func)(LLScriptLibData *, LLScriptLibData *, const LLUUID &), const char *name, const char *ret_type, const char *args, BOOL god_only)

@@ -1219,6 +1219,9 @@ void LLAudioEngine::startNextTransfer()
 // static
 void LLAudioEngine::assetCallback(LLVFS *vfs, const LLUUID &uuid, LLAssetType::EType type, void *user_data, S32 result_code, LLExtStat ext_status)
 {
+	if(!gAudiop)
+		return;
+
 	if (result_code)
 	{
 		llinfos << "Boom, error in audio file transfer: " << LLAssetStorage::getErrorString( result_code ) << " (" << result_code << ")" << llendl;

@@ -1198,12 +1198,12 @@ Wybierz pojedynczy obiekt i spróbuj jeszcze raz.
 	<notification name="InvalidTerrainBitDepth">
 		Nie można ustawić tekstur regionu:
 Tekstura terenu [TEXTURE_NUM] ma niewłaściwą głębię koloru - [TEXTURE_BIT_DEPTH].
-Zamień teksturę [TEXTURE_NUM] na 24-o bitową teksturę o wymiarze 512x512 lub mniejszą i ponownie kliknij Zastosuj.
+Zamień teksturę [TEXTURE_NUM] na 24-o bitową teksturę o wymiarze 1024x1024 lub mniejszą i ponownie kliknij Zastosuj.
 	</notification>
 	<notification name="InvalidTerrainSize">
 		Nie można ustawić tekstur regionu:
 Tekstura terenu [TEXTURE_NUM] jest za duża - [TEXTURE_SIZE_X]x[TEXTURE_SIZE_Y].
-Zamień teksturę [TEXTURE_NUM] na 24-o bitową teksturę o wymiarze 512x512 lub mniejszą i ponownie kliknij Zastosuj.
+Zamień teksturę [TEXTURE_NUM] na 24-o bitową teksturę o wymiarze 1024x1024 lub mniejszą i ponownie kliknij Zastosuj.
 	</notification>
 	<notification name="RawUploadStarted">
 		Ładowanie rozpoczęte. Może potrwać do dwóch minut zależnie od prędkości Twojego połączenia.

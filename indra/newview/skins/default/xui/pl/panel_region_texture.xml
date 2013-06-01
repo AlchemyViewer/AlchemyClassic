@@ -7,7 +7,7 @@
 		brak danych
 	</text>
 	<text name="detail_texture_text">
-		Tekstury terenu (24-bitowe 512x512 pliki .tga wymagane)
+		Tekstury terenu (24-bitowe 1024x1024 pliki .tga wymagane)
 	</text>
 	<text name="height_text_lbl">
 		1 (Dół)

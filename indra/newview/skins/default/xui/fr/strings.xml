@@ -4988,6 +4988,9 @@ Essayez avec le chemin d&apos;accès à l&apos;éditeur entre guillemets doubles
 	<string name="Command_Profile_Tooltip">
 		Modifier ou afficher votre profil
 	</string>
+	<string name="Command_Scripts_Tooltip">
+		Scripts présentement attachés à votre avatar
+	</string>
 	<string name="Command_Search_Tooltip">
 		Trouver des lieux, personnes, événements
 	</string>

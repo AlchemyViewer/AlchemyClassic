@@ -3436,10 +3436,21 @@ F32 LLVOVolume::getBinRadius()
 	
 	F32 scale = 1.f;
 
-	S32 size_factor = llmax(gSavedSettings.getS32("OctreeStaticObjectSizeFactor"), 1);
-	S32 attachment_size_factor = llmax(gSavedSettings.getS32("OctreeAttachmentSizeFactor"), 1);
-	LLVector3 distance_factor = gSavedSettings.getVector3("OctreeDistanceFactor");
-	LLVector3 alpha_distance_factor = gSavedSettings.getVector3("OctreeAlphaDistanceFactor");
+	//S32 size_factor = llmax(gSavedSettings.getS32("OctreeStaticObjectSizeFactor"), 1);
+	//S32 attachment_size_factor = llmax(gSavedSettings.getS32("OctreeAttachmentSizeFactor"), 1);
+	//LLVector3 distance_factor = gSavedSettings.getVector3("OctreeDistanceFactor");
+	//LLVector3 alpha_distance_factor = gSavedSettings.getVector3("OctreeAlphaDistanceFactor");
+	//<ALCH:DA> - Replace expensive gSavedSettings calls with Cached Controls
+	static LLCachedControl<S32> size_factor_setting(gSavedSettings, "OctreeStaticObjectSizeFactor");
+	static LLCachedControl<S32> attachment_size_factor_setting(gSavedSettings, "OctreeAttachmentSizeFactor");
+	static LLCachedControl<LLVector3> distance_factor_setting(gSavedSettings, "OctreeDistanceFactor");
+	static LLCachedControl<LLVector3> alpha_distance_factor_setting(gSavedSettings, "OctreeAlphaDistanceFactor");
+	const S32 size_factor = llmax((S32)size_factor_setting, 1);
+	const S32 attachment_size_factor = llmax((S32)attachment_size_factor_setting, 1);
+	const LLVector3 distance_factor = distance_factor_setting;
+	const LLVector3 alpha_distance_factor = alpha_distance_factor_setting;
+	// </ALCH:DA>
+
 	const LLVector4a* ext = mDrawable->getSpatialExtents();
 	
 	BOOL shrink_wrap = mDrawable->isAnimating();
@@ -4821,6 +4832,9 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, std::
 {
 	LLFastTimer t(FTM_REBUILD_VOLUME_GEN_DRAW_INFO);
 
+	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize");
+	static LLCachedControl<U32> max_texture_index(gSavedSettings, "RenderMaxTextureIndex");
+
 	U32 buffer_usage = group->mBufferUsage;
 	
 #if LL_DARWIN
@@ -4835,7 +4849,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, std::
 #endif
 	
 	//calculate maximum number of vertices to store in a single buffer
-	U32 max_vertices = (gSavedSettings.getS32("RenderMaxVBOSize")*1024)/LLVertexBuffer::calcVertexSize(group->mSpatialPartition->mVertexDataMask);
+	U32 max_vertices = (max_vbo_size*1024)/LLVertexBuffer::calcVertexSize(group->mSpatialPartition->mVertexDataMask);
 	max_vertices = llmin(max_vertices, (U32) 65535);
 
 	{
@@ -4877,7 +4891,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, std::
 		texture_index_channels = gDeferredAlphaProgram.mFeatures.mIndexedTextureChannels;
 	}
 
-	texture_index_channels = llmin(texture_index_channels, (S32) gSavedSettings.getU32("RenderMaxTextureIndex"));
+	texture_index_channels = llmin(texture_index_channels, (S32)max_texture_index);
 	
 	//NEVER use more than 16 texture index channels (workaround for prevalent driver bug)
 	texture_index_channels = llmin(texture_index_channels, 16);

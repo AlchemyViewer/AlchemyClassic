@@ -791,7 +791,8 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 	LLFastTimer t1(FTM_MEDIA_UPDATE);
 	
 	// Enable/disable the plugin read thread
-	LLPluginProcessParent::setUseReadThread(gSavedSettings.getBOOL("PluginUseReadThread"));
+	static LLCachedControl<bool> pluginUseReadThread(gSavedSettings, "PluginUseReadThread");
+	LLPluginProcessParent::setUseReadThread(pluginUseReadThread);
 	
 	// HACK: we always try to keep a spare running webkit plugin around to improve launch times.
 	createSpareBrowserMediaSource();
@@ -841,12 +842,12 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 	
 	std::vector<LLViewerMediaImpl*> proximity_order;
 	
-	bool inworld_media_enabled = gSavedSettings.getBOOL("AudioStreamingMedia");
-	bool inworld_audio_enabled = gSavedSettings.getBOOL("AudioStreamingMusic");
-	U32 max_instances = gSavedSettings.getU32("PluginInstancesTotal");
-	U32 max_normal = gSavedSettings.getU32("PluginInstancesNormal");
-	U32 max_low = gSavedSettings.getU32("PluginInstancesLow");
-	F32 max_cpu = gSavedSettings.getF32("PluginInstancesCPULimit");
+	static LLCachedControl<bool> inworld_media_enabled(gSavedSettings, "AudioStreamingMedia");
+	static LLCachedControl<bool> inworld_audio_enabled(gSavedSettings, "AudioStreamingMusic");
+	static LLCachedControl<U32> max_instances(gSavedSettings, "PluginInstancesTotal");
+	static LLCachedControl<U32> max_normal(gSavedSettings, "PluginInstancesNormal");
+	static LLCachedControl<U32> max_low(gSavedSettings, "PluginInstancesLow");
+	static LLCachedControl<F32> max_cpu(gSavedSettings, "PluginInstancesCPULimit");
 	// Setting max_cpu to 0.0 disables CPU usage checking.
 	bool check_cpu_usage = (max_cpu != 0.0f);
 	
@@ -1018,7 +1019,8 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 		}
 	}
 	
-	if(gSavedSettings.getBOOL("MediaPerformanceManagerDebug"))
+	static LLCachedControl<bool> mediaPerformanceManager(gSavedSettings, "MediaPerformanceManagerDebug");
+	if(mediaPerformanceManager)
 	{
 		// Give impls the same ordering as the priority list
 		// they're already in the right order for this.

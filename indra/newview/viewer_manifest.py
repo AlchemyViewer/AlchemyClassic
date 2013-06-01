@@ -130,6 +130,7 @@ class ViewerManifest(LLManifest):
                     self.path("*/xui/*/*.xml")
                     self.path("*/xui/*/widgets/*.xml")
                     self.path("*/*.xml")
+                    self.path("*/*.ini")
 
                     # Local HTML files (e.g. loading screen)
                     # The claim is that we never use local html files any

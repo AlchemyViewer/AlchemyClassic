@@ -753,5 +753,42 @@ void LLFloaterNotRunQueue::handleInventory(LLViewerObject* viewer_obj,
 }
 
 ///----------------------------------------------------------------------------
+/// Class LLFloaterDeleteQueue
+///----------------------------------------------------------------------------
+
+LLFloaterDeleteQueue::LLFloaterDeleteQueue(const LLSD& key)
+  : LLFloaterScriptQueue(key)
+{
+	setTitle(LLTrans::getString("DeleteQueueTitle"));
+	setStartString(LLTrans::getString("DeleteQueueStart"));
+}
+
+LLFloaterDeleteQueue::~LLFloaterDeleteQueue()
+{ 
+}
+
+void LLFloaterDeleteQueue::handleInventory(LLViewerObject* viewer_obj,
+										  LLInventoryObject::object_list_t* inv)
+{
+	if (viewer_obj)
+	{
+		const std::string delstring = getString("Deleting");
+		LLScrollListCtrl* list = getChild<LLScrollListCtrl>("queue output");
+
+		const LLInventoryObject::object_list_t::const_iterator it_end = inv->end();
+		for (LLInventoryObject::object_list_t::const_iterator it = inv->begin(); it != it_end; ++it)
+		{
+			const LLInventoryObject* item = static_cast<LLInventoryObject*>(*it);
+			if (item && item->getType() == LLAssetType::AT_LSL_TEXT)
+			{
+				list->addSimpleElement(delstring + item->getName());
+				viewer_obj->removeInventory(item->getUUID());
+			}
+		}
+	}
+	nextObject();
+}
+
+///----------------------------------------------------------------------------
 /// Local function definitions
 ///----------------------------------------------------------------------------

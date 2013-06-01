@@ -2413,6 +2413,8 @@ Drag folders to this area and click "Send to Marketplace" to list them for sale 
 	<string name="RunQueueStart">set running</string>
 	<string name="NotRunQueueTitle">Set Not Running Progress</string>
 	<string name="NotRunQueueStart">set not running</string>
+	<string name="DeleteQueueTitle">Delete Progress</string>
+	<string name="DeleteQueueStart">Deleting</string>
 
 	<!-- compile comment text-->
 	<string name="CompileSuccessful">Compile successful!</string>
@@ -3877,6 +3879,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Places_Tooltip">Places you've saved</string>
   <string name="Command_Preferences_Tooltip">Preferences</string>
   <string name="Command_Profile_Tooltip">Edit or view your profile</string>
+  <string name="Command_Scripts_Tooltip">Scripts attached to your avatar</string>
   <string name="Command_Search_Tooltip">Find places, events, people</string>
   <string name="Command_Snapshot_Tooltip">Take a picture</string>
   <string name="Command_Speak_Tooltip">Speak with people nearby using your microphone</string>

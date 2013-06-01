@@ -96,6 +96,7 @@ include_directories(SYSTEM
     )
 
 set(viewer_SOURCE_FILES
+    alchatcommand.cpp
     groupchatlistener.cpp
     llaccountingcostmanager.cpp
     llagent.cpp
@@ -676,6 +677,7 @@ set(VIEWER_BINARY_NAME "alchemy-bin" CACHE STRING
 set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
+    alchatcommand.h
     groupchatlistener.h
     llaccountingcostmanager.h
     llagent.h
@@ -1515,6 +1517,7 @@ set(viewer_APPSETTINGS_FILES
     app_settings/low_graphics.xml
     app_settings/mid_graphics.xml
     app_settings/settings.xml
+    app_settings/settings_alchemy.xml
     app_settings/settings_crash_behavior.xml
     app_settings/settings_files.xml
     app_settings/settings_per_account.xml

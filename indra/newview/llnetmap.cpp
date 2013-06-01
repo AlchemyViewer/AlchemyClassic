@@ -984,6 +984,6 @@ void LLNetMap::handleStopTracking (const LLSD& userdata)
 	if (mPopupMenu)
 	{
 		mPopupMenu->setItemEnabled ("Stop Tracking", false);
-		LLTracker::stopTracking ((void*)LLTracker::isTracking(NULL));
+		LLTracker::stopTracking (reinterpret_cast<void*>(LLTracker::isTracking(NULL)));
 	}
 }

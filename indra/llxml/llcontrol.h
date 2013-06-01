@@ -189,6 +189,8 @@ protected:
 	ctrl_name_table_t mNameTable;
 	std::string mTypeString[TYPE_COUNT];
 
+	std::set<std::string> mIncludedFiles; //To prevent perpetual recursion.
+
 public:
 	eControlType typeStringToEnum(const std::string& typestr);
 	std::string typeEnumToString(eControlType typeenum);	

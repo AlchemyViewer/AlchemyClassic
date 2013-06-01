@@ -841,6 +841,11 @@ U32 LLControlGroup::saveToFile(const std::string& filename, BOOL nondefault_only
 
 U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_values, bool save_values)
 {
+	if (!mIncludedFiles.insert(filename).second)
+	{
+		return 0; //Already included this file.
+	}
+
 	LLSD settings;
 	llifstream infile;
 	infile.open(filename);
@@ -866,6 +871,25 @@ U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_v
 		std::string const & name = itr->first;
 		LLSD const & control_map = itr->second;
 		
+		if(name == "Include")
+		{
+			if(control_map.isArray())
+			{
+#if LL_WINDOWS
+				size_t pos = filename.find_last_of("\\");
+#else
+				size_t pos = filename.find_last_of("/");
+#endif			
+				if(pos!=std::string::npos)
+				{
+					const std::string dir = filename.substr(0,++pos);
+					for(LLSD::array_const_iterator array_itr = control_map.beginArray(); array_itr != control_map.endArray(); ++array_itr)
+						validitems+=loadFromFile(dir+(*array_itr).asString(),set_default_values);
+				}
+			}
+			continue;
+		}
+
 		if(control_map.has("Persist")) 
 		{
 			persist = control_map["Persist"].asInteger();

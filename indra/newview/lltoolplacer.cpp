@@ -426,12 +426,15 @@ BOOL LLToolPlacer::addObject( LLPCode pcode, S32 x, S32 y, U8 use_physics )
 		gViewerWindow->getWindow()->incBusyCount();
 	}
 
-	// VEFFECT: AddObject
-	LLHUDEffectSpiral *effectp = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM, TRUE);
-	effectp->setSourceObject((LLViewerObject*)gAgentAvatarp);
-	effectp->setPositionGlobal(regionp->getPosGlobalFromRegion(ray_end_region));
-	effectp->setDuration(LL_HUD_DUR_SHORT);
-	effectp->setColor(LLColor4U(gAgent.getEffectColor()));
+	if (!gSavedSettings.getBOOL("ALPointAtDisable"))
+	{
+		// VEFFECT: AddObject
+		LLHUDEffectSpiral *effectp = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM, TRUE);
+		effectp->setSourceObject((LLViewerObject*)gAgentAvatarp);
+		effectp->setPositionGlobal(regionp->getPosGlobalFromRegion(ray_end_region));
+		effectp->setDuration(LL_HUD_DUR_SHORT);
+		effectp->setColor(LLColor4U(gAgent.getEffectColor()));
+	}
 
 	LLViewerStats::getInstance()->incStat(LLViewerStats::ST_CREATE_COUNT);
 

@@ -1136,6 +1136,10 @@ const std::string& LLIMModel::getHistoryFileName(const LLUUID& session_id) const
 // TODO get rid of other participant ID
 void LLIMModel::sendTypingState(LLUUID session_id, LLUUID other_participant_id, BOOL typing) 
 {
+	static LLCachedControl<bool> hiddenIMTyping(gSavedSettings, "ALIMHideTyping");
+	if(hiddenIMTyping)
+		return;
+
 	std::string name;
 	LLAgentUI::buildFullname(name);
 

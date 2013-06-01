@@ -1725,9 +1725,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ca5765af55f798724d601720afdf6953</string>
+              <string>9d0879971c88bb8265f7655c5a389094</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openjpeg-1.4-windows-20110302.tar.bz2</string>
+              <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-openjpeg/windows/openjpeg-1.5.1-windows-20130425.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

@@ -3,6 +3,7 @@
  positioning="cascading"
  can_minimize="true" 
  can_resize="true"
+ header_height="0"
  chrome="true"
  height="200"
  layout="topleft"

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
+	<!-- Alchemy -->
+	<color
+	 name="ScriptFunctionColor"
+	 value="0.5 0 0.15 0" />
 
 	<!-- Named Colors -->
 	<color
@@ -56,7 +60,7 @@
 	<color
 	 name="Black"
 	 value="0 0 0 1" />
-	<colork
+	<color
 	 name="Black_10"
 	 value="0 0 0 0.1" />
 	<color
@@ -814,7 +818,7 @@
      reference="LtGray" />
     <color
      name="UserChatColor"
-     reference="Yellow" />
+     reference="White" />
     <color
      name="llOwnerSayChatColor"
      reference="LtYellow" />

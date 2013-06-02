@@ -2322,6 +2322,7 @@ Drag folders to this area and click "Send to Marketplace" to list them for sale 
 	<string name="Since Logoff"  value=" - Since Logoff" />
 
 	<!-- inventory folder -->
+	<string name="InvFolder Basic Root">Basic Root</string>
 	<string name="InvFolder My Inventory">My Inventory</string>
 	<string name="InvFolder Library">Library</string>
 	<string name="InvFolder Textures">Textures</string>

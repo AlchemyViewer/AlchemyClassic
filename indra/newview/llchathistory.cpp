@@ -801,7 +801,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	std::string prefix = chat.mText.substr(0, 4);
 
 	//IRC styled /me messages.
-	bool irc_me = prefix == "/me " || prefix == "/me'";
+	bool irc_me = prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'";
 
 	// Delimiter after a name in header copy/past and in plain text mode
 	std::string delimiter = ": ";

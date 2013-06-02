@@ -48,6 +48,9 @@ public:
 	virtual BOOL	clipMouseWhenDown()		{ return FALSE; }
 private:
 	BOOL mIsSelected;
+
+	// [ALCH:LD] - UI Caching
+	LLUIImagePtr	mCrosshairp;
 };
 
 #endif

@@ -1350,9 +1350,10 @@ void LLAgentCamera::updateCamera()
 		
 		if (cameraThirdPerson() && !mCameraSmoothingStop)
 		{
+			static LLCachedControl<F32> position_smoothing(gSavedSettings, "CameraPositionSmoothing");
 			const F32 SMOOTHING_HALF_LIFE = 0.02f;
 			
-			F32 smoothing = LLCriticalDamp::getInterpolant(gSavedSettings.getF32("CameraPositionSmoothing") * SMOOTHING_HALF_LIFE, FALSE);
+			F32 smoothing = LLCriticalDamp::getInterpolant(position_smoothing * SMOOTHING_HALF_LIFE, FALSE);
 					
 			if (!mFocusObject)  // we differentiate on avatar mode 
 			{

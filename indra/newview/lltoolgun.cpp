@@ -50,6 +50,8 @@ LLToolGun::LLToolGun( LLToolComposite* composite )
 :	LLTool( std::string("gun"), composite ),
 		mIsSelected(FALSE)
 {
+	// [ALCH:LD] - UI Caching
+	mCrosshairp = LLUI::getUIImage("crosshairs.tga");
 }
 
 void LLToolGun::handleSelect()
@@ -133,9 +135,10 @@ void LLToolGun::draw()
 {
 	if( gSavedSettings.getBOOL("ShowCrosshairs") )
 	{
-		LLUIImagePtr crosshair = LLUI::getUIImage("crosshairs.tga");
-		crosshair->draw(
-			( gViewerWindow->getWorldViewRectScaled().getWidth() - crosshair->getWidth() ) / 2,
-			( gViewerWindow->getWorldViewRectScaled().getHeight() - crosshair->getHeight() ) / 2);
+		// LLUIImagePtr crosshair = LLUI::getUIImage("crosshairs.tga");
+		// [ALCH:LD] - UI Caching
+		mCrosshairp->draw(
+			( gViewerWindow->getWorldViewRectScaled().getWidth() - mCrosshairp->getWidth() ) / 2,
+			( gViewerWindow->getWorldViewRectScaled().getHeight() - mCrosshairp->getHeight() ) / 2);
 	}
 }

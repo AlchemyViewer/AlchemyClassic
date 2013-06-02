@@ -35,6 +35,10 @@
 #include "llviewervisualparam.h"
 #include "llxmltree.h"
 
+// [ALCH:LD] - Includes
+#include <boost/unordered_map.hpp>
+// [/ALCH:LD]
+
 class LLTexLayerSet;
 class LLTexGlobalColor;
 class LLTexGlobalColorInfo;
@@ -134,7 +138,8 @@ public:
 	LLVector3			mHeadOffset; // current head position
 	LLAvatarJoint		*mRoot;
 
-	typedef std::map<std::string, LLJoint*> joint_map_t;
+	// [ALCH:LD] - War on std::map
+	typedef boost::unordered_map<std::string, LLJoint*> joint_map_t; // LL uses std::map
 	joint_map_t			mJointMap;
 	
 	void				computeBodySize();

@@ -637,12 +637,21 @@ void LLVOAvatarSelf::idleUpdate(LLAgent &agent, LLWorld &world, const F64 &time)
 // virtual
 LLJoint *LLVOAvatarSelf::getJoint(const std::string &name)
 {
-	if (mScreenp)
+	// [ALCH:LD] - findJoint Opt
+	LLJoint* jointp = LLVOAvatar::getJoint(name);
+	if (!jointp && mScreenp)
 	{
-		LLJoint* jointp = mScreenp->findJoint(name);
-		if (jointp) return jointp;
+		jointp = mScreenp->findJoint(name);
 	}
-	return LLVOAvatar::getJoint(name);
+	return jointp;
+
+	// [ALCH:LD]
+	//if (mScreenp)
+	//{
+	//	LLJoint* jointp = mScreenp->findJoint(name);
+	//	if (jointp) return jointp;
+	//}
+	//return LLVOAvatar::getJoint(name);
 }
 //virtual
 void LLVOAvatarSelf::resetJointPositions( void )

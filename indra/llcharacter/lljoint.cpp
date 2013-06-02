@@ -164,10 +164,13 @@ LLJoint *LLJoint::findJoint( const std::string &name )
 		 iter != mChildren.end(); ++iter)
 	{
 		LLJoint* joint = *iter;
-		LLJoint *found = joint->findJoint(name);
-		if (found)
+		if(joint)
 		{
-			return found;
+			LLJoint *found = joint->findJoint(name);
+			if (found)
+			{
+				return found;
+			}
 		}
 	}
 

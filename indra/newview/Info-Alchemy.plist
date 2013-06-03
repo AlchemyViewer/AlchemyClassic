@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Alchemy</string>
 	<key>CFBundleIconFile</key>
-	<string>secondlife.icns</string>
+	<string>alchemy.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.alchemy.viewer</string>
 	<key>CFBundleInfoDictionaryVersion</key>

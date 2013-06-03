@@ -15,7 +15,7 @@ function install_desktop_entry()
 Name=Alchemy\n\
 Comment=Client for the On-line Virtual World, Second Life\n\
 Exec=${installation_prefix}/alchemy\n\
-Icon=${installation_prefix}/secondlife_icon.png\n\
+Icon=${installation_prefix}/alchemy_icon.png\n\
 Terminal=false\n\
 Type=Application\n\
 Categories=Application;Network;\n\

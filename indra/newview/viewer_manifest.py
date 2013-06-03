@@ -657,7 +657,7 @@ class DarwinManifest(ViewerManifest):
 
                 icon_path = self.icon_path()
                 if self.prefix(src=icon_path, dst="") :
-                    self.path("secondlife.icns")
+                    self.path("alchemy.icns")
                     self.end_prefix(icon_path)
 
                 self.path("Alchemy.nib")
@@ -946,9 +946,9 @@ class LinuxManifest(ViewerManifest):
         # Get the icons based on the channel
         icon_path = self.icon_path()
         if self.prefix(src=icon_path, dst="") :
-            self.path("secondlife_256.png","secondlife_icon.png")
+            self.path("alchemy_256.png","alchemy_icon.png")
             if self.prefix(src="",dst="res-sdl") :
-                self.path("secondlife_256.BMP","ll_icon.BMP")
+                self.path("alchemy_256.BMP","ll_icon.BMP")
                 self.end_prefix("res-sdl")
             self.end_prefix(icon_path)
 

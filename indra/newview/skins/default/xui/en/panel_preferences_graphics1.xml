@@ -325,10 +325,10 @@
         </text>
         <combo_box
          control_name="RenderShadowDetail"
-         height="23"
+         height="19"
          layout="topleft"
          left="10"
-         top_pad="0" 
+         top_pad="-4" 
          name="ShadowDetail"
          width="150">
            <combo_box.item
@@ -354,7 +354,7 @@
          width="110"
          word_wrap="true"
          layout="topleft"
-         left="05"
+         left="10"
          name="reflection_label">
             Water Reflections:
         </text>
@@ -362,8 +362,8 @@
          control_name="RenderReflectionDetail"
          height="18"
          layout="topleft"
-         left_delta="5"
-         top_pad ="3"
+         left_delta="0"
+         top_pad ="7"
          name="Reflections"
          width="150">
             <combo_box.item
@@ -397,7 +397,7 @@
         label="  Avatar Physics:"
         label_width="85"
         layout="topleft"
-        left_delta="-9"
+        left_delta="-5"
         name="AvatarPhysicsDetail"
         show_text="false"
         top_pad="12"

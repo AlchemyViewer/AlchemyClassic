@@ -362,7 +362,7 @@
          control_name="RenderReflectionDetail"
          height="18"
          layout="topleft"
-         left_delta="10"
+         left_delta="5"
          top_pad ="3"
          name="Reflections"
          width="150">
@@ -397,7 +397,7 @@
         label="  Avatar Physics:"
         label_width="85"
         layout="topleft"
-        left_delta="-16"
+        left_delta="-9"
         name="AvatarPhysicsDetail"
         show_text="false"
         top_pad="12"

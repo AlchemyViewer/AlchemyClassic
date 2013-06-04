@@ -1254,7 +1254,18 @@ void LLIMModel::sendMessage(const std::string& utf8_text,
 		// Do we have to replace the /me's here?
 		std::string from;
 		LLAgentUI::buildFullname(from);
-		LLIMModel::getInstance()->addMessage(im_session_id, from, gAgentID, utf8_text);
+
+		LLAvatarName av_name;
+		LLAvatarNameCache::get(gAgent.getID(), &av_name);
+
+		if (!av_name.getUserName().empty())
+		{ //display names are on, replace from with DisplayName
+			LLIMModel::getInstance()->addMessage(im_session_id, av_name.getDisplayName(), gAgentID, utf8_text);
+		}
+		else
+		{
+			LLIMModel::getInstance()->addMessage(im_session_id, from, gAgentID, utf8_text);
+		}
 
 		//local echo for the legacy communicate panel
 		std::string history_echo;
@@ -2664,7 +2675,17 @@ void LLIMMgr::addMessage(
 
 	if (!LLMuteList::getInstance()->isMuted(other_participant_id, LLMute::flagTextChat) && !skip_message)
 	{
-		LLIMModel::instance().addMessage(new_session_id, from, other_participant_id, msg);
+		LLAvatarName av_name;
+		LLAvatarNameCache::get(other_participant_id, &av_name);
+
+		if (!av_name.getUserName().empty())
+		{ //display names are on, replace from with mDisplayName
+			LLIMModel::instance().addMessage(new_session_id, av_name.getDisplayName(), other_participant_id, msg);
+		}
+		else
+		{
+			LLIMModel::instance().addMessage(new_session_id, from, other_participant_id, msg);
+		}
 	}
 
 	// Open conversation floater if offline messages are present

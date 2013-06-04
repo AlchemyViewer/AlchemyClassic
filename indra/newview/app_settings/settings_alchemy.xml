@@ -90,5 +90,16 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>ALSelfChatAsYou</key>
+    <map>
+      <key>Comment</key>
+      <string>Enables replacement of own avatar's name name to "You" in compact chat mode. Linden Lab viewer has this permanently enabled.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
   </map>
 </llsd>

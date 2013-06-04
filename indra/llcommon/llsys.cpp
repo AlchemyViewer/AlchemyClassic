@@ -288,7 +288,7 @@ LLOSInfo::LLOSInfo() :
 					if(osvi.wProductType == VER_NT_WORKSTATION)
 						mOSStringSimple = "Microsoft Windows 8.1 ";
 					else
-						mOSStringSimple = "Windows Server 2012 ";
+						mOSStringSimple = "Windows Server 2012 R2 ";
 				}
 
 				///get native system info if available..

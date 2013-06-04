@@ -125,6 +125,10 @@
 #include "llpathfindingmanager.h"
 #include "boost/unordered_map.hpp"
 
+// <ALCH:DA> - Includes
+#include "llclipboard.h"
+// </ALCH:DA>
+
 using namespace LLAvatarAppearanceDefines;
 
 typedef LLPointer<LLViewerObject> LLViewerObjectPtr;
@@ -2519,6 +2523,15 @@ void handle_object_touch()
 	// *TODO: Just fix this bad assumption.
 	send_ObjectGrab_message(object, pick, LLVector3::zero);
 	send_ObjectDeGrab_message(object, pick);
+}
+
+void handle_object_copy_key()
+{
+	LLViewerObject* object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
+	if (!object) return;
+
+	const LLWString id = utf8str_to_wstring(object->getID().asString());
+	LLClipboard::instance().copyToClipboard(id, 0, id.length());
 }
 
 
@@ -8642,6 +8655,7 @@ void initialize_menus()
 
 	// Object pie menu
 	view_listener_t::addMenu(new LLObjectBuild(), "Object.Build");
+	commit.add("Object.CopyKey", boost::bind(&handle_object_copy_key));
 	commit.add("Object.Touch", boost::bind(&handle_object_touch));
 	commit.add("Object.SitOrStand", boost::bind(&handle_object_sit_or_stand));
 	commit.add("Object.Delete", boost::bind(&handle_object_delete));

@@ -233,6 +233,12 @@ public:
 
 	static std::set<LLUUID> getInventorySelectedUUIDs();
 
+	/**
+	 * Copy the selected avatar's UUID to clipboard
+	 */
+	static void copyUUID(const LLUUID& id);
+	static void copyMultipleUUID(const uuid_vec_t& id);
+
 private:
 	static bool callbackAddFriendWithMessage(const LLSD& notification, const LLSD& response);
 	static bool handleRemove(const LLSD& notification, const LLSD& response);

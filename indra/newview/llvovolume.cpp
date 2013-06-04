@@ -3440,7 +3440,7 @@ F32 LLVOVolume::getBinRadius()
 	//S32 attachment_size_factor = llmax(gSavedSettings.getS32("OctreeAttachmentSizeFactor"), 1);
 	//LLVector3 distance_factor = gSavedSettings.getVector3("OctreeDistanceFactor");
 	//LLVector3 alpha_distance_factor = gSavedSettings.getVector3("OctreeAlphaDistanceFactor");
-	//<ALCH:DA> - Replace expensive gSavedSettings calls with Cached Controls
+	//[ALCH:LD] - Replace expensive gSavedSettings calls with Cached Controls
 	static LLCachedControl<S32> size_factor_setting(gSavedSettings, "OctreeStaticObjectSizeFactor");
 	static LLCachedControl<S32> attachment_size_factor_setting(gSavedSettings, "OctreeAttachmentSizeFactor");
 	static LLCachedControl<LLVector3> distance_factor_setting(gSavedSettings, "OctreeDistanceFactor");
@@ -3449,7 +3449,7 @@ F32 LLVOVolume::getBinRadius()
 	const S32 attachment_size_factor = llmax((S32)attachment_size_factor_setting, 1);
 	const LLVector3 distance_factor = distance_factor_setting;
 	const LLVector3 alpha_distance_factor = alpha_distance_factor_setting;
-	// </ALCH:DA>
+	// [/ALCH:LD]
 
 	const LLVector4a* ext = mDrawable->getSpatialExtents();
 	

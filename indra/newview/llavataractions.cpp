@@ -74,6 +74,10 @@
 #include "llslurl.h"			// IDEVO
 #include "llsidepanelinventory.h"
 
+// [ALCH:LD] - Includes
+#include "llclipboard.h"
+// [/ALCH:LD]
+
 // static
 void LLAvatarActions::requestFriendshipDialog(const LLUUID& id, const std::string& name)
 {
@@ -1124,4 +1128,40 @@ bool LLAvatarActions::canBlock(const LLUUID& id)
 	bool is_linden = (full_name.find("Linden") != std::string::npos);
 	bool is_self = id == gAgentID;
 	return !is_self && !is_linden;
+}
+
+// ------------------------------------------------------------------------------------------------
+// [ALCH:LD] Alchemy functions below this line
+// ------------------------------------------------------------------------------------------------
+
+// static
+void LLAvatarActions::copyUUID(const LLUUID& id)
+{
+	if (id.notNull())
+	{
+		LLClipboard::instance().copyToClipboard(utf8str_to_wstring(id.asString()), 0, id.asString().length());
+	}
+}
+ 
+// static
+void LLAvatarActions::copyMultipleUUID(const uuid_vec_t& ids)
+{
+	if (!ids.empty())
+	{
+		std::string ids_string;
+		for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
+		{
+			const LLUUID& id = *it;
+			if (id.isNull())
+				continue;
+
+			if (!ids_string.empty()) 
+				ids_string.append(", ");
+
+			ids_string.append(id.asString());
+		}
+
+		if (!ids_string.empty())
+			LLClipboard::instance().copyToClipboard(utf8str_to_wstring(ids_string), 0, ids_string.length());
+	}
 }

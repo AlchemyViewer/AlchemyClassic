@@ -185,6 +185,64 @@ elseif (MSVC_VERSION EQUAL 1600) # VisualStudio 2010
         set(third_party_targets ${third_party_targets} ${out_targets})
           
     endif ()
+elseif (MSVC11) # VisualStudio 2012
+    FIND_PATH(debug_msvc11_redist_path msvcr110d.dll
+        PATHS
+        ${MSVC_DEBUG_REDIST_PATH}
+         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/x86/Microsoft.VC110.DebugCRT
+        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
+        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
+        NO_DEFAULT_PATH
+        )
+
+    if(EXISTS ${debug_msvc11_redist_path})
+        set(debug_msvc11_files
+            msvcr110d.dll
+            msvcp110d.dll
+            )
+
+        copy_if_different(
+            ${debug_msvc11_redist_path}
+            "${SHARED_LIB_STAGING_DIR_DEBUG}"
+            out_targets
+            ${debug_msvc11_files}
+            )
+        set(third_party_targets ${third_party_targets} ${out_targets})
+
+    endif ()
+
+    FIND_PATH(release_msvc11_redist_path msvcr110.dll
+        PATHS
+        ${MSVC_REDIST_PATH}
+         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/x86/Microsoft.VC110.CRT
+        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
+        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
+        NO_DEFAULT_PATH
+        )
+
+    if(EXISTS ${release_msvc11_redist_path})
+        set(release_msvc11_files
+            msvcr110.dll
+            msvcp110.dll
+            )
+
+        copy_if_different(
+            ${release_msvc11_redist_path}
+            "${SHARED_LIB_STAGING_DIR_RELEASE}"
+            out_targets
+            ${release_msvc11_files}
+            )
+        set(third_party_targets ${third_party_targets} ${out_targets})
+
+        copy_if_different(
+            ${release_msvc11_redist_path}
+            "${SHARED_LIB_STAGING_DIR_RELWITHDEBINFO}"
+            out_targets
+            ${release_msvc11_files}
+            )
+        set(third_party_targets ${third_party_targets} ${out_targets})
+          
+    endif (EXISTS ${release_msvc11_redist_path})
 endif (MSVC80)
 
 elseif(DARWIN)

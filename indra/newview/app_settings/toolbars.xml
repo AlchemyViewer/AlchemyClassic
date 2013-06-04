@@ -9,7 +9,7 @@
     <command name="view"/>
   </bottom_toolbar>
   <left_toolbar
-    button_display_mode="icons_only">
+    button_display_mode="icons_only_small">
     <command name="appearance"/>
     <command name="inventory"/>
     <command name="search"/>

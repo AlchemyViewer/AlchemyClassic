@@ -43,8 +43,11 @@
 
 #include "llxmltree.h"
 
-
-BOOL LLHUDEffectLookAt::sDebugLookAt = FALSE;
+// [ALCH:LD] - Includes
+#include "llavatarnamecache.h"
+#include "llhudrender.h"
+#include "llviewercontrol.h"
+// [/ALCH:LD]
 
 // packet layout
 const S32 SOURCE_AVATAR = 0;
@@ -241,7 +244,10 @@ static BOOL loadAttentions()
 LLHUDEffectLookAt::LLHUDEffectLookAt(const U8 type) : 
 	LLHUDEffect(type), 
 	mKillTime(0.f),
-	mLastSendTime(0.f)
+// [ALCH:LD]
+	mLastSendTime(0.f),
+	mDebugLookAt(gSavedSettings, "AlchemyLookAtShow", false)
+// [/ALCH:LD]
 {
 	clearLookAtTarget();
 	// parse the default sets
@@ -361,8 +367,17 @@ void LLHUDEffectLookAt::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 
 	U8 lookAtTypeUnpacked = 0;
 	htonmemcpy(&lookAtTypeUnpacked, &(packed_data[LOOKAT_TYPE]), MVT_U8, 1);
-	mTargetType = (ELookAtType)lookAtTypeUnpacked;
-
+	// [ALCH:LD]
+	if ((U8)LOOKAT_NUM_TARGETS > lookAtTypeUnpacked)
+	{
+		mTargetType = (ELookAtType)lookAtTypeUnpacked;
+	}
+	else
+	{ 
+		mTargetType = LOOKAT_TARGET_NONE;
+		LL_DEBUGS("HUDEffect") << "Invalid target type: " << lookAtTypeUnpacked << LL_ENDL;
+	}
+	// [/ALCH:LD]
 	if (mTargetType == LOOKAT_TARGET_NONE)
 	{
 		clearLookAtTarget();
@@ -493,15 +508,21 @@ void LLHUDEffectLookAt::setSourceObject(LLViewerObject* objectp)
 //-----------------------------------------------------------------------------
 void LLHUDEffectLookAt::render()
 {
-	if (sDebugLookAt && mSourceObject.notNull())
+	if (mDebugLookAt && mSourceObject.notNull())
 	{
+		static LLCachedControl<bool> isOwnHidden(gSavedSettings, "AlchemyLookAtHideSelf", true);
+		static LLCachedControl<bool> isPrivate(gSavedSettings, "AlchemyLookAtPrivate", false);
+
+		if ((isOwnHidden || isPrivate) && static_cast<LLVOAvatar*>(mSourceObject.get())->isSelf())
+			return;
+
 		gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
 
 		LLVector3 target = mTargetPos + ((LLVOAvatar*)(LLViewerObject*)mSourceObject)->mHeadp->getWorldPosition();
 		gGL.matrixMode(LLRender::MM_MODELVIEW);
 		gGL.pushMatrix();
 		gGL.translatef(target.mV[VX], target.mV[VY], target.mV[VZ]);
-		gGL.scalef(0.3f, 0.3f, 0.3f);
+		gGL.scalef(0.1f, 0.1f, 0.1f); // [ALCH:LD]
 		gGL.begin(LLRender::LINES);
 		{
 			LLColor3 color = (*mAttentions)[mTargetType].mColor;
@@ -514,9 +535,61 @@ void LLHUDEffectLookAt::render()
 
 			gGL.vertex3f(0.f, 0.f, -1.f);
 			gGL.vertex3f(0.f, 0.f, 1.f);
-		} gGL.end();
+
+			static LLCachedControl<bool> lookAtLines(gSavedSettings, "AlchemyLookAtLines", false);
+			if(lookAtLines)
+			{
+				const std::string targname = (*mAttentions)[mTargetType].mName;
+				if(targname != "None" && targname != "Idle" && targname != "AutoListen")
+				{
+					LLVector3 dist = (mSourceObject->getWorldPosition() - mTargetPos) * 10;
+					gGL.vertex3f(0.f, 0.f, 0.f);
+					gGL.vertex3f(dist.mV[VX], dist.mV[VY], dist.mV[VZ] + 0.5f);
+				}
+			}
+		}
+		gGL.end();
 		gGL.popMatrix();
+
+		static LLCachedControl<U32> lookAtNames(gSavedSettings, "AlchemyLookAtNames", 0);
+		if(lookAtNames > 0)
+		{
+			const LLFontGL* font = LLFontGL::getFontSansSerif();
+			std::string text;
+			LLAvatarName av_name;
+			LLAvatarNameCache::get(static_cast<LLVOAvatar*>(mSourceObject.get())->getID(), &av_name);
+			switch (lookAtNames)
+			{
+				case 1: // Display Name (user.name)
+					text = av_name.getCompleteName();
+					break;
+				case 2: // Display Name
+					text = av_name.getDisplayName();
+					break;
+				case 3: // First Last
+					text = av_name.getUserName();
+					break;
+				default: //user.name
+					text = av_name.getAccountName();
+					break;
+			}
+
+			gGL.pushMatrix();
+			hud_render_utf8text(
+				text, 
+				target + LLVector3(0.f, 0.f, 0.15f),
+				*font, 
+				LLFontGL::BOLD, 
+				LLFontGL::DROP_SHADOW,
+				-0.5f * font->getWidthF32(text), 
+				0.0f,
+				(*mAttentions)[mTargetType].mColor, 
+				FALSE
+			);
+			gGL.popMatrix();
+		}
 	}
+	// [/ALCH:LD]
 }
 
 //-----------------------------------------------------------------------------
@@ -569,7 +642,7 @@ void LLHUDEffectLookAt::update()
 		}
 	}
 
-	if (sDebugLookAt)
+	if (mDebugLookAt) // [ALCH:LD]
 	{
 		((LLVOAvatar*)(LLViewerObject*)mSourceObject)->addDebugText((*mAttentions)[mTargetType].mName);
 	}

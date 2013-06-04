@@ -4378,7 +4378,7 @@ static void derez_objects(
 				LLViewerObject* object = objectsp->get(object_index++);
 				msg->nextBlockFast(_PREHASH_ObjectData);
 				msg->addU32Fast(_PREHASH_ObjectLocalID, object->getLocalID());
-				if (!gSavedSettings.getBOOL("ALPointAtDisable"))
+				if (!gSavedSettings.getBOOL("AlchemyPointAtDisable"))
 				{
 					// VEFFECT: DerezObject
 					LLHUDEffectSpiral* effectp = (LLHUDEffectSpiral*)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_POINT, TRUE);

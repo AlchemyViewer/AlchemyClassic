@@ -38,7 +38,7 @@ void teleport_to_z(const F64 &z)
 
 bool ALChatCommand::parseCommand(std::string data)
 {
-	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "ALChatCommandEnable");
+	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "AlchemyChatCommandEnable");
 	if(enableChatCmd)
 	{
 		LLStringUtil::toLower(data);
@@ -47,7 +47,7 @@ bool ALChatCommand::parseCommand(std::string data)
 
 		if(!(input >> cmd))	return false;
 
-		static LLCachedControl<std::string> sDrawDistanceCommand(gSavedSettings, "ALChatCommandDrawDistance");
+		static LLCachedControl<std::string> sDrawDistanceCommand(gSavedSettings, "AlchemyChatCommandDrawDistance");
 		if(cmd == std::string(sDrawDistanceCommand)) // dd
 		{
 			S32 dist;
@@ -59,7 +59,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			}
 		}
 		
-		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "ALChatCommandHeight");
+		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "AlchemyChatCommandHeight");
 		if (cmd == std::string(sHeightCommand)) // gth
 		{
 			F64 z;
@@ -70,7 +70,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			}
 		}
 
-		static LLCachedControl<std::string> sGroundCommand(gSavedSettings, "ALChatCommandGround");
+		static LLCachedControl<std::string> sGroundCommand(gSavedSettings, "AlchemyChatCommandGround");
 		if (cmd == std::string(sGroundCommand)) // flr
 		{
 			teleport_to_z(0.0);

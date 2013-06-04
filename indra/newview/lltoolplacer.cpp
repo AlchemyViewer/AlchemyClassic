@@ -426,7 +426,7 @@ BOOL LLToolPlacer::addObject( LLPCode pcode, S32 x, S32 y, U8 use_physics )
 		gViewerWindow->getWindow()->incBusyCount();
 	}
 
-	if (!gSavedSettings.getBOOL("ALPointAtDisable"))
+	if (!gSavedSettings.getBOOL("AlchemyPointAtDisable"))
 	{
 		// VEFFECT: AddObject
 		LLHUDEffectSpiral *effectp = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM, TRUE);

@@ -897,7 +897,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 				LLStyle::Params link_params(body_message_params);
 				link_params.overwriteFrom(LLStyleMap::instance().lookupAgent(chat.mFromID));
 
-				static LLCachedControl<bool> chat_as_you(gSavedSettings, "ALSelfChatAsYou");
+				static LLCachedControl<bool> chat_as_you(gSavedSettings, "AlchemySelfChatAsYou");
 				if (from_me && chat_as_you)
 				{	std::string localized_name;
 					bool is_localized = LLTrans::findString(localized_name, "AgentNameSubst");

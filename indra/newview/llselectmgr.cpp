@@ -1629,7 +1629,7 @@ void LLSelectMgr::selectionSetImage(const LLUUID& imageid)
 			if (!mItem)
 			{
 				object->sendTEUpdate();
-				if (!gSavedSettings.getBOOL("ALPointAtDisable"))
+				if (!gSavedSettings.getBOOL("AlchemyPointAtDisable"))
 				{
 					// 1 particle effect per object				
 					LLHUDEffectSpiral *effectp = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM, TRUE);
@@ -3402,7 +3402,7 @@ bool LLSelectMgr::confirmDelete(const LLSD& notification, const LLSD& response, 
 										  (void*) &info,
 										  SEND_ONLY_ROOTS);
 			// VEFFECT: Delete Object - one effect for all deletes
-			if (!gSavedSettings.getBOOL("ALPointAtDisable") && (LLSelectMgr::getInstance()->mSelectedObjects->mSelectType != SELECT_TYPE_HUD))
+			if (!gSavedSettings.getBOOL("AlchemyPointAtDisable") && (LLSelectMgr::getInstance()->mSelectedObjects->mSelectType != SELECT_TYPE_HUD))
 			{
 				LLHUDEffectSpiral *effectp = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_POINT, TRUE);
 				effectp->setPositionGlobal( LLSelectMgr::getInstance()->getSelectionCenterGlobal() );

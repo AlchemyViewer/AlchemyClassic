@@ -932,7 +932,7 @@ void LLVOAvatarSelf::updateRegion(LLViewerRegion *regionp)
 //virtual
 void LLVOAvatarSelf::idleUpdateTractorBeam()
 {
-	static LLCachedControl<bool> pointAtDisable(gSavedSettings, "ALPointAtDisable");
+	static LLCachedControl<bool> pointAtDisable(gSavedSettings, "AlchemyPointAtDisable");
 	if (pointAtDisable)
 	{
 		return;

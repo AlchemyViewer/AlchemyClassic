@@ -5694,7 +5694,7 @@ void LLVOAvatar::sitOnObject(LLViewerObject *sit_object)
 			gAgentCamera.changeCameraToMouselook();
 		}
 
-		static LLCachedControl<U32> revoke_perms(gSavedSettings, "ALRevokeObjectPerms");
+		static LLCachedControl<U32> revoke_perms(gSavedSettings, "AlchemyRevokeObjectPerms");
 		if ((revoke_perms == 1 || revoke_perms == 3) && !sit_object->permYouOwner())
 		{
 			revoke_permissions_on_object(sit_object->getID());
@@ -5786,7 +5786,7 @@ void LLVOAvatar::getOffObject()
 		gAgentCamera.setThirdPersonHeadOffset(LLVector3(0.f, 0.f, 1.f));
 		gAgentCamera.setSitCamera(LLUUID::null);
 
-		static LLCachedControl<U32> revoke_perms(gSavedSettings, "ALRevokeObjectPerms");
+		static LLCachedControl<U32> revoke_perms(gSavedSettings, "AlchemyRevokeObjectPerms");
 		if ((revoke_perms == 2 || revoke_perms == 3) && !sit_object->permYouOwner())
 		{
 			revoke_permissions_on_object(sit_object->getID());

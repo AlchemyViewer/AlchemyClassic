@@ -2722,7 +2722,7 @@ void LLAgentCamera::lookAtLastChat()
 BOOL LLAgentCamera::setPointAt(EPointAtType target_type, LLViewerObject *object, LLVector3 position)
 {
 	// disallow pointing at attachments and avatars
-	static LLCachedControl<bool> disablePointAt(gSavedSettings, "ALPointAtDisable", false);
+	static LLCachedControl<bool> disablePointAt(gSavedSettings, "AlchemyPointAtDisable", false);
 	if (object && (object->isAttachment() || object->isAvatar() || disablePointAt))
 	{
 		return FALSE;

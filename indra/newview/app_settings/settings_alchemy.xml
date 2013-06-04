@@ -2,7 +2,7 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
   <map>
-    <key>ALChatCommandDrawDistance</key>
+    <key>AlchemyChatCommandDrawDistance</key>
     <map>
       <key>Comment</key>
       <string>Command to set draw distance</string>
@@ -13,7 +13,7 @@
       <key>Value</key>
       <string>/dd</string>
     </map>
-    <key>ALChatCommandEnable</key>
+    <key>AlchemyChatCommandEnable</key>
     <map>
       <key>Comment</key>
       <string>Enable chat bar command line</string>
@@ -24,7 +24,7 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>ALChatCommandGround</key>
+    <key>AlchemyChatCommandGround</key>
     <map>
       <key>Comment</key>
       <string>Command to teleport to ground</string>
@@ -35,7 +35,7 @@
       <key>Value</key>
       <string>/flr</string>
     </map>
-    <key>ALChatCommandHeight</key>
+    <key>AlchemyChatCommandHeight</key>
     <map>
       <key>Comment</key>
       <string>Command to teleport to specified height</string>
@@ -46,7 +46,7 @@
       <key>Value</key>
       <string>/gth</string>
     </map>
-    <key>ALRevokeObjectPerms</key>
+    <key>AlchemyRevokeObjectPerms</key>
     <map>
       <key>Comment</key>
       <string>Revoke permissions on object on sit(1), stand(2) or both(3)</string>
@@ -57,7 +57,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>ALIMHideTyping</key>
+    <key>AlchemyIMHideTyping</key>
     <map>
       <key>Comment</key>
       <string>Disable sending typing state in IM</string>
@@ -68,7 +68,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>ALPointAtDisable</key>
+    <key>AlchemyPointAtDisable</key>
     <map>
       <key>Comment</key>
       <string>Disable editing arm motion and beam if true</string>
@@ -134,7 +134,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>ALDisableClickToSit</key>
+    <key>AlchemyDisableClickToSit</key>
     <map>
       <key>Comment</key>
       <string>Disable Click To Sit on prims, prevents possible evil things</string>
@@ -145,7 +145,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>ALSelfChatAsYou</key>
+    <key>AlchemySelfChatAsYou</key>
     <map>
       <key>Comment</key>
       <string>Enables replacement of own avatar's name name to "You" in compact chat mode. Linden Lab viewer has this permanently enabled.</string>

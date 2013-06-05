@@ -66,4 +66,11 @@
       function="Avatar.EnableItem"
       parameter="can_offer_teleport"/>
     </menu_item_call>
+    <menu_item_call
+     label="Copy Keys"
+     layout="topleft"
+     name="copy_uuid">
+        <menu_item_call.on_click
+         function="Avatar.CopyKey" />
+    </menu_item_call>
 </context_menu>

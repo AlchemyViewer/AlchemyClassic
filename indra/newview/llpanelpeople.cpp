@@ -59,6 +59,7 @@
 #include "llpanelpeoplemenus.h"
 #include "llsidetraypanelcontainer.h"
 #include "llrecentpeople.h"
+#include "llsliderctrl.h"			// for sliders
 #include "llviewercontrol.h"		// for gSavedSettings
 #include "llviewermenu.h"			// for gMenuHolder
 #include "llvoiceclient.h"

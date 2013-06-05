@@ -5830,6 +5830,19 @@ class LLAvatarAddContact : public view_listener_t
 	}
 };
 
+class LLAvatarCopyKey : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+		if (avatarp)
+		{
+			LLAvatarActions::copyUUID(avatarp->getID());
+		}
+		return true;
+	}
+};
+
 bool complete_give_money(const LLSD& notification, const LLSD& response, LLObjectSelectionHandle selection)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
@@ -8648,6 +8661,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLAvatarReportAbuse(), "Avatar.ReportAbuse");
 	view_listener_t::addMenu(new LLAvatarToggleMyProfile(), "Avatar.ToggleMyProfile");
 	enable.add("Avatar.IsMyProfileOpen", boost::bind(&my_profile_visible));
+	view_listener_t::addMenu(new LLAvatarCopyKey(), "Avatar.CopyKey");
 
 	commit.add("Avatar.OpenMarketplace", boost::bind(&LLWeb::loadURLExternal, gSavedSettings.getString("MarketplaceURL")));
 	

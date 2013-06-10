@@ -126,6 +126,10 @@ protected:
 	LLBufferArray* mBuffer;
 };
 
+#if LL_WINDOWS // VS2012: Disable warning related to inheriting std::basic_iostream
+#pragma warning(push)
+#pragma warning( disable : 4250 )
+#endif
 
 /** 
  * @class LLBufferStream
@@ -148,5 +152,8 @@ protected:
 	LLBufferStreamBuf mStreamBuf;
 };
 
+#if LL_WINDOWS
+#pragma warning(pop)
+#endif
 
 #endif // LL_LLBUFFERSTREAM_H

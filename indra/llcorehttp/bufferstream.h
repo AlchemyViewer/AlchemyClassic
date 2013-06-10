@@ -119,6 +119,10 @@ protected:
 	
 }; // end class BufferArrayStreamBuf
 
+#if LL_WINDOWS // VS2012: Disable warning related to inheriting std::basic_iostream
+#pragma warning(push)
+#pragma warning( disable : 4250 )
+#endif
 
 // =====================================================
 // BufferArrayStream
@@ -147,7 +151,9 @@ protected:
 	BufferArrayStreamBuf		mStreamBuf;
 }; // end class BufferArrayStream
 
-
+#if LL_WINDOWS
+#pragma warning(pop)
+#endif
 }  // end namespace LLCore
 
 #endif	// _LLCORE_BUFFER_STREAM_H_

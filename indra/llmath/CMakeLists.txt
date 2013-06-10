@@ -14,7 +14,6 @@ set(llmath_SOURCE_FILES
     llbbox.cpp
     llbboxlocal.cpp
     llcalc.cpp
-    llcalcparser.cpp
     llcamera.cpp
     llcoordframe.cpp
     llline.cpp

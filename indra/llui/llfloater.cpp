@@ -304,7 +304,7 @@ void LLFloater::initFloater(const Params& p)
 	// Help button: '?'
 	if ( !mHelpTopic.empty() )
 	{
-		mButtonsEnabled[BUTTON_HELP] = TRUE;
+		mButtonsEnabled[BUTTON_HELP] = FALSE;
 	}
 
 	// Minimize button only for top draggers

@@ -819,7 +819,7 @@ void LLVertexBuffer::drawArrays(U32 mode, U32 first, U32 count) const
 	}
 
 	{
-		LLFastTimer t2(FTM_GL_DRAW_ARRAYS);
+		//LLFastTimer t2(FTM_GL_DRAW_ARRAYS);
 		stop_glerror();
 		glDrawArrays(sGLMode[mode], first, count);
 	}
@@ -1827,7 +1827,7 @@ void LLVertexBuffer::unmapBuffer()
 
 	if (mMappedData && mVertexLocked)
 	{
-		LLFastTimer t(FTM_VBO_UNMAP);
+		//LLFastTimer t(FTM_VBO_UNMAP);
 		bindGLBuffer(true);
 		updated_all = mIndexLocked; //both vertex and index buffers done updating
 
@@ -1868,7 +1868,7 @@ void LLVertexBuffer::unmapBuffer()
 						S32 length = sTypeSize[region.mType]*region.mCount;
 						if (gGLManager.mHasMapBufferRange)
 						{
-							LLFastTimer t(FTM_VBO_FLUSH_RANGE);
+							//LLFastTimer t(FTM_VBO_FLUSH_RANGE);
 #ifdef GL_ARB_map_buffer_range
 							glFlushMappedBufferRange(GL_ARRAY_BUFFER_ARB, offset, length);
 #endif
@@ -1898,7 +1898,7 @@ void LLVertexBuffer::unmapBuffer()
 	
 	if (mMappedIndexData && mIndexLocked)
 	{
-		LLFastTimer t(FTM_IBO_UNMAP);
+		//LLFastTimer t(FTM_IBO_UNMAP);
 		bindGLIndices();
 		if(!mMappable)
 		{
@@ -1935,7 +1935,7 @@ void LLVertexBuffer::unmapBuffer()
 						S32 length = sizeof(U16)*region.mCount;
 						if (gGLManager.mHasMapBufferRange)
 						{
-							LLFastTimer t(FTM_IBO_FLUSH_RANGE);
+							//LLFastTimer t(FTM_IBO_FLUSH_RANGE);
 #ifdef GL_ARB_map_buffer_range
 							glFlushMappedBufferRange(GL_ELEMENT_ARRAY_BUFFER_ARB, offset, length);
 #endif
@@ -2078,7 +2078,7 @@ bool LLVertexBuffer::bindGLArray()
 	if (mGLArray && sGLRenderArray != mGLArray)
 	{
 		{
-			LLFastTimer t(FTM_BIND_GL_ARRAY);
+			//LLFastTimer t(FTM_BIND_GL_ARRAY);
 #if GL_ARB_vertex_array_object
 			glBindVertexArray(mGLArray);
 #endif
@@ -2105,7 +2105,7 @@ bool LLVertexBuffer::bindGLBuffer(bool force_bind)
 
 	if (useVBOs() && (force_bind || (mGLBuffer && (mGLBuffer != sGLRenderBuffer || !sVBOActive))))
 	{
-		LLFastTimer t(FTM_BIND_GL_BUFFER);
+		//LLFastTimer t(FTM_BIND_GL_BUFFER);
 		/*if (sMapped)
 		{
 			llerrs << "VBO bound while another VBO mapped!" << llendl;
@@ -2136,7 +2136,7 @@ bool LLVertexBuffer::bindGLIndices(bool force_bind)
 	bool ret = false;
 	if (useVBOs() && (force_bind || (mGLIndices && (mGLIndices != sGLRenderIndices || !sIBOActive))))
 	{
-		LLFastTimer t(FTM_BIND_GL_INDICES);
+		//LLFastTimer t(FTM_BIND_GL_INDICES);
 		/*if (sMapped)
 		{
 			llerrs << "VBO bound while another VBO mapped!" << llendl;

@@ -2273,7 +2273,7 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
 			new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionGodBgColor" );
 		}
     }
-	else if (boost::regex_search(channel, is_beta_channel))
+	/*else if (boost::regex_search(channel, is_beta_channel))
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBetaBgColor" );
 	}
@@ -2288,7 +2288,7 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
 	else if(!LLGridManager::getInstance()->isInProductionGrid())
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionBgColor" );
-	}
+	}*/
 	else 
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBgColor" );
@@ -4289,7 +4289,8 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 	F32 scale_factor = 1.0f ;
 	if (!keep_window_aspect || (image_width > window_width) || (image_height > window_height))
 	{	
-		if ((image_width > window_width || image_height > window_height) && LLPipeline::sRenderDeferred && !show_ui)
+		if ((image_width <= gGLManager.mGLMaxTextureSize && image_height <= gGLManager.mGLMaxTextureSize) && 
+			(image_width > window_width || image_height > window_height) && LLPipeline::sRenderDeferred && !show_ui)
 		{
 			if (scratch_space.allocate(image_width, image_height, GL_RGBA, true, true))
 			{
@@ -4304,6 +4305,8 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 					snapshot_height = image_height;
 					reset_deferred = true;
 					mWorldViewRectRaw.set(0, image_height, image_width, 0);
+					LLViewerCamera::getInstance()->setViewHeightInPixels( mWorldViewRectRaw.getHeight() );
+					LLViewerCamera::getInstance()->setAspect( getWorldViewAspectRatio() );
 					scratch_space.bindTarget();
 				}
 				else
@@ -4513,6 +4516,8 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 	if (reset_deferred)
 	{
 		mWorldViewRectRaw = window_rect;
+		LLViewerCamera::getInstance()->setViewHeightInPixels( mWorldViewRectRaw.getHeight() );
+		LLViewerCamera::getInstance()->setAspect( getWorldViewAspectRatio() );
 		scratch_space.flush();
 		scratch_space.release();
 		gPipeline.allocateScreenBuffer(original_width, original_height);

@@ -366,11 +366,19 @@ public:
 
 	void begin(const GLuint& mode);
 	void end();
-	void vertex2i(const GLint& x, const GLint& y);
-	void vertex2f(const GLfloat& x, const GLfloat& y);
-	void vertex3f(const GLfloat& x, const GLfloat& y, const GLfloat& z);
-	void vertex2fv(const GLfloat* v);
-	void vertex3fv(const GLfloat* v);
+	// void vertex2i(const GLint& x, const GLint& y);
+	// void vertex2f(const GLfloat& x, const GLfloat& y);
+	// void vertex3f(const GLfloat& x, const GLfloat& y, const GLfloat& z);
+	// void vertex2fv(const GLfloat* v);
+	// void vertex3fv(const GLfloat* v);
+	// [ALCH:LD] - Manual Vectorization
+	LL_FORCE_INLINE void vertex2i(const GLint& x, const GLint& y) { vertex4a(LLVector4a((GLfloat)x,(GLfloat)y,0.f)); }
+	LL_FORCE_INLINE void vertex2f(const GLfloat& x, const GLfloat& y) { vertex4a(LLVector4a(x,y,0.f)); }
+	LL_FORCE_INLINE void vertex3f(const GLfloat& x, const GLfloat& y, const GLfloat& z) { vertex4a(LLVector4a(x,y,z)); }
+	LL_FORCE_INLINE void vertex2fv(const GLfloat* v) { vertex4a(LLVector4a(v[0],v[1],0.f)); }
+	LL_FORCE_INLINE void vertex3fv(const GLfloat* v) { vertex4a(LLVector4a(v[0],v[1],v[2])); }
+	void vertex4a(const LLVector4a& v);
+	// [/ALCH:LD]
 	
 	void texCoord2i(const GLint& x, const GLint& y);
 	void texCoord2f(const GLfloat& x, const GLfloat& y);
@@ -389,9 +397,14 @@ public:
 	void diffuseColor4fv(const F32* c);
 	void diffuseColor4ubv(const U8* c);
 
-	void vertexBatchPreTransformed(LLVector3* verts, S32 vert_count);
-	void vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, S32 vert_count);
-	void vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, LLColor4U*, S32 vert_count);
+	// void vertexBatchPreTransformed(LLVector3* verts, S32 vert_count);
+	// void vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, S32 vert_count);
+	// void vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, LLColor4U*, S32 vert_count);
+	// [ALCH:LD] - Manual Vectorization
+	void vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count);
+	void vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 vert_count);
+	void vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLColor4U*, S32 vert_count);
+	// [/ALCH:LD]
 
 	void setColorMask(bool writeColor, bool writeAlpha);
 	void setColorMask(bool writeColorR, bool writeColorG, bool writeColorB, bool writeAlpha);
@@ -451,7 +464,7 @@ private:
 	F32				mCurrAlphaFuncVal;
 
 	LLPointer<LLVertexBuffer>	mBuffer;
-	LLStrider<LLVector3>		mVerticesp;
+	LLStrider<LLVector4a>		mVerticesp; // [ALCH:LD] - Manual Vectorization
 	LLStrider<LLVector2>		mTexcoordsp;
 	LLStrider<LLColor4U>		mColorsp;
 	std::vector<LLTexUnit*>		mTexUnits;
@@ -465,8 +478,8 @@ private:
 
 	F32				mMaxAnisotropy;
 
-	std::vector<LLVector3> mUIOffset;
-	std::vector<LLVector3> mUIScale;
+	std::vector<LLVector4a*> mUIOffset; // [ALCH:LD] - Manual Vectorization
+	std::vector<LLVector4a*> mUIScale; // [ALCH:LD] - Manual Vectorization
 
 };
 

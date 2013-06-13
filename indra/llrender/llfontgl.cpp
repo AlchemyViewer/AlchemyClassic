@@ -255,7 +255,7 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 	const LLFontGlyphInfo* next_glyph = NULL;
 
 	const S32 GLYPH_BATCH_SIZE = 30;
-	LLVector3 vertices[GLYPH_BATCH_SIZE * 4];
+	LLVector4a vertices[GLYPH_BATCH_SIZE * 4];
 	LLVector2 uvs[GLYPH_BATCH_SIZE * 4];
 	LLColor4U colors[GLYPH_BATCH_SIZE * 4];
 
@@ -1123,31 +1123,36 @@ LLFontGL &LLFontGL::operator=(const LLFontGL &source)
 	return *this;
 }
 
-void LLFontGL::renderQuad(LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
+// void LLFontGL::renderQuad(LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
+// [ALCH:LD] - Manual Vectorization
+void LLFontGL::renderQuad(LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
 {
 	S32 index = 0;
 
-	vertex_out[index] = LLVector3(screen_rect.mRight, screen_rect.mTop, 0.f);
+	vertex_out[index].set(screen_rect.mRight, screen_rect.mTop, 0.f);
 	uv_out[index] = LLVector2(uv_rect.mRight, uv_rect.mTop);
 	colors_out[index] = color;
 	index++;
 
-	vertex_out[index] = LLVector3(screen_rect.mLeft, screen_rect.mTop, 0.f);
+	vertex_out[index].set(screen_rect.mLeft, screen_rect.mTop, 0.f);
 	uv_out[index] = LLVector2(uv_rect.mLeft, uv_rect.mTop);
 	colors_out[index] = color;
 	index++;
 
-	vertex_out[index] = LLVector3(screen_rect.mLeft, screen_rect.mBottom, 0.f);
+	vertex_out[index].set(screen_rect.mLeft, screen_rect.mBottom, 0.f);
 	uv_out[index] = LLVector2(uv_rect.mLeft, uv_rect.mBottom);
 	colors_out[index] = color;
 	index++;
 
-	vertex_out[index] = LLVector3(screen_rect.mRight, screen_rect.mBottom, 0.f);
+	vertex_out[index].set(screen_rect.mRight, screen_rect.mBottom, 0.f);
 	uv_out[index] = LLVector2(uv_rect.mRight, uv_rect.mBottom);
 	colors_out[index] = color;
 }
 
-void LLFontGL::drawGlyph(S32& glyph_count, LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, U8 style, ShadowType shadow, F32 drop_shadow_strength) const
+// void LLFontGL::drawGlyph(S32& glyph_count, LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, U8 style, ShadowType shadow, F32 drop_shadow_strength) const
+// [ALCH:LD] - Manual Vectorization
+void LLFontGL::drawGlyph(S32& glyph_count, LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, U8 style, ShadowType shadow, F32 drop_shadow_strength) const
+
 {
 	F32 slant_offset;
 	slant_offset = ((style & ITALIC) ? ( -mFontFreetype->getAscenderHeight() * 0.2f) : 0.f);

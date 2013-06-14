@@ -1,9 +1,9 @@
 # -*- cmake -*-
 
-if(INSTALL_PROPRIETARY)
+if(INSTALL_PROPRIETARY OR USE_QUICKTIME)
   include(Prebuilt)
   use_prebuilt_binary(quicktime)
-endif(INSTALL_PROPRIETARY)
+endif(INSTALL_PROPRIETARY OR USE_QUICKTIME)
 
 if (DARWIN)
   include(CMakeFindFrameworks)

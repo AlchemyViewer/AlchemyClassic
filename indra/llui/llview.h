@@ -52,6 +52,7 @@
 #include <list>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/unordered_map.hpp>
 
 class LLSD;
 
@@ -418,6 +419,7 @@ public:
 	const child_list_t*	getChildList() const { return &mChildList; }
 	child_list_const_iter_t	beginChild() const { return mChildList.begin(); }
 	child_list_const_iter_t	endChild() const { return mChildList.end(); }
+	boost::unordered_map<const std::string, LLView*> mChildHashMap;
 
 	// LLMouseHandler functions
 	//  Default behavior is to pass events to children

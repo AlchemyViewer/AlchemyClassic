@@ -161,7 +161,8 @@ public:
 								save_visibility,
 								save_dock_state,
 								can_dock,
-								show_title;
+								show_title,
+								show_help;
 		
 		Optional<LLFloaterEnums::EOpenPositioning>	positioning;
 		
@@ -458,6 +459,7 @@ private:
 	BOOL			mCanClose;
 	BOOL			mDragOnLeft;
 	BOOL			mResizable;
+	BOOL			mShowHelp;
 
 	LLFloaterEnums::EOpenPositioning	mPositioning;
 	LLCoordFloater	mPosition;

@@ -179,6 +179,7 @@ LLFloater::Params::Params()
 	save_visibility("save_visibility", false),
 	can_dock("can_dock", false),
 	show_title("show_title", true),
+	show_help("show_help", false),
 	positioning("positioning", LLFloaterEnums::POSITIONING_RELATIVE),
 	header_height("header_height", 0),
 	legacy_header_height("legacy_header_height", 0),
@@ -247,6 +248,7 @@ LLFloater::LLFloater(const LLSD& key, const LLFloater::Params& p)
 	mCanTearOff(p.can_tear_off),
 	mCanMinimize(p.can_minimize),
 	mCanClose(p.can_close),
+	mShowHelp(p.show_help),
 	mDragOnLeft(p.can_drag_on_left),
 	mResizable(p.can_resize),
 	mPositioning(p.positioning),
@@ -302,9 +304,9 @@ void LLFloater::initFloater(const Params& p)
 	}
 
 	// Help button: '?'
-	if ( !mHelpTopic.empty() )
+	if ( !mHelpTopic.empty() && mShowHelp)
 	{
-		mButtonsEnabled[BUTTON_HELP] = FALSE;
+		mButtonsEnabled[BUTTON_HELP] = TRUE;
 	}
 
 	// Minimize button only for top draggers

@@ -54,7 +54,8 @@ protected:
 	template<typename STATICDATA, class TRACKED>
 	static STATICDATA& getStatic()
 	{
-		void *& instances = getInstances(typeid(TRACKED));
+		// [ALCH:LD] - Cache get instances to reduce overhead
+		static void *& instances = getInstances(typeid(TRACKED));
 		if (! instances)
 		{
 			instances = new STATICDATA;

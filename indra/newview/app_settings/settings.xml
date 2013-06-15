@@ -1483,7 +1483,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>9.0</real>
+    <real>6.9</real>
   </map>
 
   <key>CameraFocalLength</key>
@@ -1495,7 +1495,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>50</real>
+    <real>80</real>
   </map>
 
   <key>CameraFieldOfView</key>

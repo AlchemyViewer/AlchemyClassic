@@ -35,6 +35,11 @@
 #include "llresmgr.h"
 #include "lltextbox.h"
 #include "llfloaterreg.h"
+// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0)
+#include "llfloatersearchreplace.h"
+#include "llpreviewnotecard.h"
+#include "llpreviewscript.h"
+// [/SL:KB]
 #include "llfocusmgr.h"
 #include "lltooldraganddrop.h"
 #include "llradiogroup.h"
@@ -500,6 +505,30 @@ void LLMultiPreview::tabOpen(LLFloater* opened_floater, bool from_click)
 	{
 		opened_preview->loadAsset();
 	}
+
+// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
+	LLFloaterSearchReplace* pSearchFloater = LLFloaterReg::getTypedInstance<LLFloaterSearchReplace>("search_replace");
+	if ( (pSearchFloater) && (pSearchFloater->getDependee() == this) )
+	{
+		LLPreviewNotecard* pPreviewNotecard = NULL; LLPreviewLSL* pPreviewScript = NULL; LLLiveLSLEditor* pPreviewScriptLive = NULL;
+		if ((pPreviewNotecard = dynamic_cast<LLPreviewNotecard*>(opened_preview)) != NULL)
+		{
+			LLFloaterSearchReplace::show(pPreviewNotecard->getEditor());
+		}
+		else if ((pPreviewScript = dynamic_cast<LLPreviewLSL*>(opened_preview)) != NULL)
+		{
+			LLFloaterSearchReplace::show(pPreviewScript->getEditor());
+		}
+		else if ((pPreviewScriptLive = dynamic_cast<LLLiveLSLEditor*>(opened_preview)) != NULL)
+		{
+			LLFloaterSearchReplace::show(pPreviewScriptLive->getEditor());
+		}
+		else
+		{
+			pSearchFloater->setVisible(FALSE);
+		}
+	}
+// [/SL:KB]
 }
 
 

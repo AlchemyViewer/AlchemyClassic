@@ -46,6 +46,39 @@
       <key>Value</key>
       <string>/gth</string>
     </map>
+    <key>AlchemyChatCommandHome</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to send avatar home</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/home</string>
+    </map>
+    <key>AlchemyChatCommandRezPlat</key>
+    <map>
+      <key>Comment</key>
+      <string>Rez a platform</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/rezplat</string>
+    </map>
+    <key>AlchemyChatCommandRezPlatSize</key>
+    <map>
+      <key>Comment</key>
+      <string>Default size of platform to rez</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>F32</string>
+      <key>Value</key>
+      <string>20</string>
+    </map>
     <key>AlchemyRevokeObjectPerms</key>
     <map>
       <key>Comment</key>

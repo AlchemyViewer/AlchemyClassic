@@ -89,6 +89,13 @@ void LLHUDManager::sendEffects()
 		}
 		if (hep->getNeedsSendToSim() && hep->getOriginatedHere())
 		{
+			static LLCachedControl<bool> isLookAtPrivate(gSavedSettings, "AlchemyLookAtPrivate", false);
+			if (hep->mType == LLHUDObject::LL_HUD_EFFECT_LOOKAT && isLookAtPrivate)
+			{
+				hep->markDead();
+				return;
+			}
+
 			LLMessageSystem* msg = gMessageSystem;
 			msg->newMessageFast(_PREHASH_ViewerEffect);
 			msg->nextBlockFast(_PREHASH_AgentData);
@@ -97,7 +104,8 @@ void LLHUDManager::sendEffects()
 			msg->nextBlockFast(_PREHASH_Effect);
 			hep->packData(msg);
 			hep->setNeedsSendToSim(FALSE);
-			gAgent.sendMessage();
+			if (!hep->isDead())
+				gAgent.sendMessage();
 		}
 	}
 }

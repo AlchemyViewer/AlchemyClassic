@@ -408,12 +408,6 @@ void LLHUDEffectLookAt::setTargetPosGlobal(const LLVector3d &target_pos_global)
 //-----------------------------------------------------------------------------
 BOOL LLHUDEffectLookAt::setLookAt(ELookAtType target_type, LLViewerObject *object, LLVector3 position)
 {
-	static LLCachedControl<bool> isPrivate(gSavedSettings, "AlchemyLookAtPrivate", false);
-	if (isPrivate)
-	{
-		return FALSE;
-	}
-
 	if (!mSourceObject)
 	{
 		return FALSE;

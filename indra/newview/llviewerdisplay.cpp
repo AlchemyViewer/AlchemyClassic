@@ -458,7 +458,8 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			// Short delay when teleporting in the same sim (progress screen active but not shown - did not
 			// fall-through from TELEPORT_START)
 			{
-				if( gTeleportDisplayTimer.getElapsedTimeF32() > TELEPORT_LOCAL_DELAY )
+				// [ALCH:LD] - Just why. Why do this stupid. :(
+				//if( gTeleportDisplayTimer.getElapsedTimeF32() > TELEPORT_LOCAL_DELAY )
 				{
 					//LLFirstUse::useTeleport();
 					gAgent.setTeleportState( LLAgent::TELEPORT_NONE );

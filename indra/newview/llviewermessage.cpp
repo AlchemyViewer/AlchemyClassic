@@ -5101,6 +5101,10 @@ void process_avatar_appearance(LLMessageSystem *mesgsys, void **user_data)
 
 void process_camera_constraint(LLMessageSystem *mesgsys, void **user_data)
 {
+	static LLCachedControl<bool> disableSimConst(gSavedSettings, "AlchemyDisableSimCamConstraint");
+	if (disableSimConst)
+		return;
+
 	LLVector4 cameraCollidePlane;
 	mesgsys->getVector4Fast(_PREHASH_CameraCollidePlane, _PREHASH_Plane, cameraCollidePlane);
 

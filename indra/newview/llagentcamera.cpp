@@ -301,7 +301,8 @@ void LLAgentCamera::resetView(BOOL reset_camera, BOOL change_camera)
 		gMenuHolder->hideMenus();
 	}
 
-	if (change_camera && !gSavedSettings.getBOOL("FreezeTime"))
+	static LLCachedControl<bool> freeze_time(gSavedSettings, "FreezeTime");
+	if (change_camera && !freeze_time)
 	{
 		changeCameraToDefault();
 		
@@ -329,7 +330,7 @@ void LLAgentCamera::resetView(BOOL reset_camera, BOOL change_camera)
 	}
 
 
-	if (reset_camera && !gSavedSettings.getBOOL("FreezeTime"))
+	if (reset_camera && !freeze_time)
 	{
 		if (!gViewerWindow->getLeftMouseDown() && cameraThirdPerson())
 		{
@@ -891,26 +892,31 @@ void LLAgentCamera::cameraZoomIn(const F32 fraction)
 	F32 current_distance = (F32)camera_offset_unit.normalize();
 	F32 new_distance = current_distance * fraction;
 
-	// Don't move through focus point
-	if (mFocusObject)
+	static LLCachedControl<bool> disable_min_zoom(gSavedSettings, "AlchemyDisableMinZoomDist");
+	if (!disable_min_zoom)
 	{
-		LLVector3 camera_offset_dir((F32)camera_offset_unit.mdV[VX], (F32)camera_offset_unit.mdV[VY], (F32)camera_offset_unit.mdV[VZ]);
+		// Don't move through focus point
+		if (mFocusObject)
+		{
+			LLVector3 camera_offset_dir((F32)camera_offset_unit.mdV[VX], (F32)camera_offset_unit.mdV[VY], (F32)camera_offset_unit.mdV[VZ]);
 
-		if (mFocusObject->isAvatar())
-		{
-			calcCameraMinDistance(min_zoom);
+			if (mFocusObject->isAvatar())
+			{
+				calcCameraMinDistance(min_zoom);
+			}
+			else
+			{
+				min_zoom = OBJECT_MIN_ZOOM;
+			}
 		}
-		else
-		{
-			min_zoom = OBJECT_MIN_ZOOM;
-		}
+
+		new_distance = llmax(new_distance, min_zoom);
 	}
 
-	new_distance = llmax(new_distance, min_zoom); 
-
+	static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 	// Don't zoom too far back
 	const F32 DIST_FUDGE = 16.f; // meters
-	F32 max_distance = llmin(mDrawDistance - DIST_FUDGE, 
+	F32 max_distance = disable_cam_constraints ? INT_MAX : llmin(mDrawDistance - DIST_FUDGE, 
 							 LLWorld::getInstance()->getRegionWidthInMeters() - DIST_FUDGE );
 
 	if (new_distance > max_distance)
@@ -959,23 +965,29 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 		LLVector3d	camera_offset_unit(mCameraFocusOffsetTarget);
 		F32 current_distance = (F32)camera_offset_unit.normalize();
 		F32 new_distance = current_distance - meters;
-		F32 min_zoom = LAND_MIN_ZOOM;
-		
-		// Don't move through focus point
-		if (mFocusObject.notNull())
+
+		static LLCachedControl<bool> disable_min_zoom(gSavedSettings, "AlchemyDisableMinZoomDist");
+		if (!disable_min_zoom)
 		{
-			if (mFocusObject->isAvatar())
+			F32 min_zoom = LAND_MIN_ZOOM;
+		
+			// Don't move through focus point
+			if (mFocusObject.notNull())
 			{
-				min_zoom = AVATAR_MIN_ZOOM;
+				if (mFocusObject->isAvatar())
+				{
+					min_zoom = AVATAR_MIN_ZOOM;
+				}
+				else
+				{
+					min_zoom = OBJECT_MIN_ZOOM;
+				}
 			}
-			else
-			{
-				min_zoom = OBJECT_MIN_ZOOM;
-			}
+
+			new_distance = llmax(new_distance, min_zoom);
 		}
 
-		new_distance = llmax(new_distance, min_zoom);
-
+		static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 		// Don't zoom too far back
 		const F32 DIST_FUDGE = 16.f; // meters
 		F32 max_distance = llmin(mDrawDistance - DIST_FUDGE, 
@@ -984,12 +996,12 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 		if (new_distance > max_distance)
 		{
 			// Unless camera is unlocked
-			if (!gSavedSettings.getBOOL("DisableCameraConstraints"))
+			if (!disable_cam_constraints)
 			{
 				return;
 			}
 		}
-
+		 
 		if( CAMERA_MODE_CUSTOMIZE_AVATAR == getCameraMode() )
 		{
 			new_distance = llclamp( new_distance, APPEARANCE_MIN_ZOOM, APPEARANCE_MAX_ZOOM );
@@ -1648,7 +1660,11 @@ F32	LLAgentCamera::calcCameraFOVZoomFactor()
 	{
 		// don't FOV zoom on mostly transparent objects
 		F32 obj_min_dist = 0.f;
-		calcCameraMinDistance(obj_min_dist);
+		static LLCachedControl<bool> disable_min_zoom(gSavedSettings,"AlchemyDisableMinZoomDist");
+		if (!disable_min_zoom)
+		{
+			calcCameraMinDistance(obj_min_dist);
+		}
 		F32 current_distance = llmax(0.001f, camera_offset_dir.magVec());
 
 		mFocusObjectDist = obj_min_dist - current_distance;
@@ -2520,7 +2536,7 @@ void LLAgentCamera::setCameraPosAndFocusGlobal(const LLVector3d& camera_pos, con
 	{
 		const F64 ANIM_METERS_PER_SECOND = 10.0;
 		const F64 MIN_ANIM_SECONDS = 0.5;
-		const F64 MAX_ANIM_SECONDS = 10.0;
+		const F64 MAX_ANIM_SECONDS = 1.0; // [ALCH:LD] Camera do go faster yes
 		F64 anim_duration = llmax( MIN_ANIM_SECONDS, sqrt(focus_delta_squared) / ANIM_METERS_PER_SECOND );
 		anim_duration = llmin( anim_duration, MAX_ANIM_SECONDS );
 		setAnimationDuration( (F32)anim_duration );

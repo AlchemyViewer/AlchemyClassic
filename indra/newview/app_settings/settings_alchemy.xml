@@ -79,21 +79,10 @@
       <key>Value</key>
       <string>20</string>
     </map>
-    <key>AlchemyRevokeObjectPerms</key>
+    <key>AlchemyDisableClickToSit</key>
     <map>
       <key>Comment</key>
-      <string>Revoke permissions on object on sit(1), stand(2) or both(3)</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>U32</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
-    <key>AlchemyIMHideTyping</key>
-    <map>
-      <key>Comment</key>
-      <string>Disable sending typing state in IM</string>
+      <string>Disable Click To Sit on prims, prevents possible evil things</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -101,10 +90,32 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>AlchemyPointAtDisable</key>
+    <key>AlchemyDisableMinZoomDist</key>
     <map>
       <key>Comment</key>
-      <string>Disable editing arm motion and beam if true</string>
+      <string>Disable lock on how far you may zoom in</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyDisableSimCamConstraint</key>
+    <map>
+      <key>Comment</key>
+      <string>Disable the push the simulator applies when camera collides with objects</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyIMHideTyping</key>
+    <map>
+      <key>Comment</key>
+      <string>Disable sending typing state in IM</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -167,14 +178,25 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>AlchemyDisableClickToSit</key>
+    <key>AlchemyPointAtDisable</key>
     <map>
       <key>Comment</key>
-      <string>Disable Click To Sit on prims, prevents possible evil things</string>
+      <string>Disable editing arm motion and beam if true</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
       <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyRevokeObjectPerms</key>
+    <map>
+      <key>Comment</key>
+      <string>Revoke permissions on object on sit(1), stand(2) or both(3)</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
       <key>Value</key>
       <integer>0</integer>
     </map>

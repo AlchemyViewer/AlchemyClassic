@@ -79,6 +79,10 @@ void parse_string();
 #define yyfree indra_free
 
 
+int yylex( void );
+int yyparse( void );
+int yyerror(const char *fmt, ...);
+
 %}
 
 %%

@@ -10,7 +10,7 @@
      value="0.10843137254901960784313725490196 0.10843137254901960784313725490196 0.10843137254901960784313725490196 1" />
     <color
      name="AlchemyDarkBlue"
-     value="0.277557 0.406999 0.55838 1" />
+     value="0.297557 0.426999 0.57838 1" />
     <color
      name="AlchemyDarkGray"
      value="0.1647 0.1647 0.1647 1" />
@@ -382,10 +382,10 @@
      reference="White" />
      <color
      name="FilterBackgroundColor"
-     reference="Black" />
+     value="0.01 0.01 0.01 0.7" />
     <color
      name="FilterTextColor"
-     value="0.38 0.69 0.57 1" />
+     reference="AlchemyDarkBlue" />
      <color
      name="FloaterButtonImageColor"
      reference="LtGray" />

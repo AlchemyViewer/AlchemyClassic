@@ -307,7 +307,13 @@ Intel Eaglelake							.*Intel.*Eaglelake.*								1	1	1	2
 Intel Graphics Media HD					.*Intel.*Graphics Media.*HD.*						1	1	1	2.1
 Intel HD Graphics 2000					.*Intel.*HD Graphics 2.*							2	1	0	4
 Intel HD Graphics 3000					.*Intel.*HD Graphics 3.*							3	1	1	3.1
+Intel HD Graphics 4200					.*Intel.*HD Graphics 42.*							4	1	0	4
+Intel HD Graphics 4400					.*Intel.*HD Graphics 44.*							4	1	0	4
+Intel HD Graphics 4600					.*Intel.*HD Graphics 46.*							4	1	0	4
 Intel HD Graphics 4000					.*Intel.*HD Graphics 4.*							3	1	1	4
+Intel Intel Iris Graphics 5100			.*Intel.*Iris Graphics 51.*							4	1	1	4
+Intel Intel Iris Pro Graphics 5200		.*Intel.*Iris Pro Graphics 52.*						4	1	1	4
+Intel HD Graphics 5000					.*Intel.*HD Graphics 5.*							4	1	1	4
 Intel HD2000							.*Intel.*HD2000.*						2	1	0	0
 Intel HD3000							.*Intel.*HD3000.*						3	1	0	0
 Intel HD Graphics						.*Intel.*HD Graphics.*								2	1	1	4
@@ -380,6 +386,13 @@ NVIDIA GTX 660M							.*NVIDIA .*GTX *66*M.*					5	1	0	0
 NVIDIA GTX 670M							.*NVIDIA .*GTX *67*M.*					5	1	1	4.2
 NVIDIA GTX 680M							.*NVIDIA .*GTX *68*M.*					5	1	0	0
 NVIDIA GTX 690M							.*NVIDIA .*GTX *69*M.*					5	1	0	0
+NVIDIA GT 720M							.*NVIDIA .*GT *72*M.*					3	1	0	0
+NVIDIA GT 730M							.*NVIDIA .*GT *73*M.*					3	1	0	0
+NVIDIA GT 740M							.*NVIDIA .*GT *74*M.*					3	1	0	0
+NVIDIA GT 750M							.*NVIDIA .*GT *75*M.*					3	1	0	0
+NVIDIA GTX 760M							.*NVIDIA .*GTX *76*M.*					5	1	0	0
+NVIDIA GTX 770M							.*NVIDIA .*GTX *77*M.*					5	1	1	4.2
+NVIDIA GTX 780M							.*NVIDIA .*GTX *78*M.*					5	1	0	0
 NVIDIA G100								.*NVIDIA .*G10.*									3	1	1	4.2
 NVIDIA GT 120							.*NVIDIA .*GT *12.*						2	1	0	3
 NVIDIA GT 130							.*NVIDIA .*GT *13.*						2	1	0	3.3
@@ -429,6 +442,10 @@ NVIDIA GTX 660							.*NVIDIA .*GTX *66.*					5	1	0	4.2
 NVIDIA GTX 670							.*NVIDIA .*GTX *67.*					5	1	1	4.2
 NVIDIA GTX 680							.*NVIDIA .*GTX *68.*					5	1	1	4.2
 NVIDIA GTX 690							.*NVIDIA .*GTX *69.*					5	1	1	4.2
+NVIDIA GTX 760							.*NVIDIA .*GTX *76.*					5	1	1	4.2
+NVIDIA GTX 770							.*NVIDIA .*GTX *77.*					5	1	1	4.2
+NVIDIA GTX 780							.*NVIDIA .*GTX *78.*					5	1	1	4.2
+NVIDIA GTX TITAN						.*NVIDIA .*GTX *TITAN.*					5	1	1	4.2
 NVIDIA C51								.*NVIDIA .*C51.*									0	1	1	2
 NVIDIA G72								.*NVIDIA .*G72.*									1	1	0	0
 NVIDIA G73								.*NVIDIA .*G73.*									1	1	0	0

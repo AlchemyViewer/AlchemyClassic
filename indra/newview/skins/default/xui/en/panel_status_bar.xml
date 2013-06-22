@@ -35,8 +35,8 @@
     </panel.string>
   <panel
     height="18"
-    left="-395"
-    width="185"
+    left="-304"
+    width="95"
     top="1"
     follows="right|top" 
     name="balance_bg">
@@ -45,7 +45,8 @@
      font="SansSerifSmall"
      follows="all"
      height="18"
-     left="0" 
+     left="0"
+     right="30"	 
      name="balance"
      tool_tip="Click to refresh your L$ balance"
      v_pad="4"
@@ -69,8 +70,8 @@
      pad_right="0"
      tool_tip="Click to buy more L$"
      top="0"
-     width="80" />
-    <button
+     width="60" />
+    <!--<button
      halign="left"
      font="SansSerifSmall"
      follows="right|top|bottom"
@@ -88,7 +89,7 @@
      name="goShop"
      tool_tip="Open Second Life Marketplace"
      top="0"
-     width="65" />
+     width="65" />-->
   </panel>
     <text
      type="string"

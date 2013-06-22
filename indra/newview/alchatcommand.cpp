@@ -102,7 +102,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			teleport_to_z(0.0);
 			return true;
 		}
-		else if(cmd == std::string(sRezPlatCommand))
+		else if(cmd == std::string(sRezPlatCommand)) // rezplat
 		{
 			F32 size;
 			static LLCachedControl<F32> platSize(gSavedSettings, "AlchemyChatCommandRezPlatSize");
@@ -143,7 +143,7 @@ bool ALChatCommand::parseCommand(std::string data)
 
 			return true;
 		}
-		else if (cmd == std::string(sHomeCommand))
+		else if (cmd == std::string(sHomeCommand)) // home
 		{
 			gAgent.teleportHome();
 			return true;

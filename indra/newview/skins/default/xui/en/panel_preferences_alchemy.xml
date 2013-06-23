@@ -10,7 +10,7 @@
  top="1"
  width="517">
 <tab_container
- label="Privacy"
+ label="Alchemy"
  layout="topleft"
  follows="all"
  top="5"
@@ -20,119 +20,6 @@
  name="tabs"
  tab_min_width="50"
  tab_position="top" >
-    <panel
-     top_pad="5"
-     bottom="-1"
-     left="1"
-     right="-1"
-     follows="all"
-     label="General"
-     name="tab-general" >
-
-  <panel.string
-      name="log_in_to_change">
-    log in to change
-  </panel.string>
-
-  <button
-      follows="left|top"
-      height="23"
-      label="Clear History"
-      tool_tip="Clear login image, last location, teleport history, web, and texture cache"
-      layout="topleft"
-      left="30"
-      name="clear_cache"
-      top="10"
-      width="145">
-    <button.commit_callback
-        function="Pref.WebClearCache" />
-  </button>
-
-  <text
-      type="string"
-      length="1"
-      follows="left|top"
-      height="10"
-      layout="topleft"
-      left_pad="10"
-      mouse_opaque="false"
-      name="cache_size_label_l"
-      top_delta="3"
-      text_color="LtGray_50"
-      width="300">
-    (Locations, images, web, search history)
-  </text>
-
-  <check_box
-      height="16"
-      enabled="false"
-      label="Show me in Search results"
-      layout="topleft"
-      left="30"
-      name="online_searchresults"
-      top_pad="20"
-      width="350" />
-
-  <check_box
-      height="16"
-      enabled="false"
-      label="Only friends and groups know I'm online"
-      layout="topleft"
-      left="30"
-      name="online_visibility"
-      top_pad="10"
-      width="350" />
-    
-    <check_box
-     enabled_control="EnableVoiceChat"
-     control_name="AutoDisengageMic"
-     height="16"
-     label="Switch off microphone when ending calls"
-     layout="topleft"
-     left="30"
-     name="auto_disengage_mic_check"
-     top_pad="10"
-     width="350" />
-    <check_box
-     control_name="ShowFavoritesOnLogin"
-     enabled="false" 
-     height="16"
-     layout="topleft"
-     label="Show my Favorite Landmarks at Login (via &apos;Start At&apos; drop-down menu)"
-     left="30"
-     name="favorites_on_login_check"
-     top_pad="10"
-     width="350" />
-
-    <button
-     follows="left|top"
-     height="23"
-     label="Block list"
-     layout="topleft"
-     left="30"
-     name="block_list"
-     top_pad="28"
-     width="145">
-        <!--<button.commit_callback
-         function="SideTray.ShowPanel"-->
-      <button.commit_callback
-         function="Pref.BlockList"/>
-    </button>
-    <text
-     type="string"
-     length="1"
-     follows="left|top"
-     height="10"
-     layout="topleft"
-     left_pad="10"
-     mouse_opaque="false"
-     name="block_list_label"
-     top_delta="3"
-     text_color="LtGray_50"
-     width="300">
-       (People and/or Objects you have blocked)
-    </text>
-    </panel>
     <panel
      border="false"
      follows="all"
@@ -160,7 +47,7 @@
          layout="topleft"
          left="180"
          name="lookatnames"
-		     tool_tip="Select whether to show avatar names on the LookAt crosshairs"
+         tool_tip="Select whether to show avatar names on the LookAt crosshairs"
          top="10"
          width="50">
             Names:
@@ -270,5 +157,142 @@
          top_pad="4"
          width="350" />
     </panel>
+<!--Alchemy Command Line-->
+  <panel
+      top_pad="5"
+      bottom="-1"
+      left="1"
+      right="-1"
+      follows="all"
+      label="Chat Commands"
+      name="CommandLineTab" >
+    <check_box
+      top="10"
+      follows="left|top"
+      height="16"
+      label="Enable chat bar commands"
+      left="5"
+      name="chat_cmd_toggle"
+      width="270"
+      control_name="AlchemyChatCommandEnable"/>.
+    <!--Draw Distance-->
+    <text
+      top_pad="5"
+      follows="left|top"
+      height="16"
+      name="AlchemyChatCommandDrawDistance_txt"
+      width="250">
+      Change Draw Dist (usage: cmd meters)
+    </text>
+    <line_editor
+      top_pad="0"
+      follows="left|top"
+      height="20"
+      max_length_chars="256"
+      name="AlchemyChatCommandDrawDistance"
+      tool_tip=""
+      control_name="AlchemyChatCommandDrawDistance"
+      width="200"/>
+    <!--Ground-->
+    <text
+      top_pad="5"
+      follows="left|top"
+      height="16"
+      name="AlchemyChatCommandGround_txt"
+      width="250">
+      Teleport to ground
+    </text>
+    <line_editor
+      top_pad="0"
+      follows="left|top"
+      height="20"
+      max_length_chars="256"
+      name="AlchemyChatCommandGround"
+      tool_tip=""
+      control_name="AlchemyChatCommandGround"
+      width="200"/>
+    <!--Rez Platform-->
+    <text
+      top_pad="5"
+      follows="left|top"
+      height="16"
+      name="AlchemyChatCommandRezPlat_txt"
+      width="250">
+      Rez a platform (usage: cmd 0 - 30)
+    </text>
+    <line_editor
+      top_pad="0"
+      follows="left|top"
+      height="20"
+      max_length_chars="256"
+      name="AlchemyChatCommandRezPlat"
+      tool_tip=""
+      control_name="AlchemyChatCommandRezPlat"
+      width="200"/>
+    <slider
+      top_pad="4"
+      name="AlchemyChatCommandRezPlatSize"
+      control_name="AlchemyChatCommandRezPlatSize"
+      decimal_digits="1"
+      follows="left|top"
+      height="18"
+      increment="0.5"
+      initial_value="20"
+      label="Width"
+      label_width="30"
+      max_val="30"
+      min_val="5"
+      show_text="true"
+      width="200"
+      tool_tip="How big do you want the platform to appear to be?"/>
+
+    <view_border
+      bevel_style="none"
+      border_thickness="0"
+      top="25"
+      left="240"
+      bottom="-25"
+      width="0"
+      follows="top|left|bottom"
+      name="EmDivisor"/>
+    <!--key2name-->
+    <text
+      top="25"
+      follows="left|top"
+      height="16"
+      left_delta="10"
+      name="AlchemyChatCommandHeight_txt"
+      width="270">
+      Teleport to specified height (0-8191)
+    </text>
+    <line_editor
+      top_pad="0"
+      follows="left|top"
+      height="20"
+      max_length_chars="256"
+      name="AlchemyChatCommandHeight"
+      tool_tip=""
+      control_name="AlchemyChatCommandHeight"
+      width="200"/>
+    <!--cao-->
+    <text
+      top_pad="5"
+      follows="left|top"
+      height="16"
+      name="AlchemyChatCommandHome_txt"
+      width="250">
+      Teleport Home
+    </text>
+    <line_editor
+      top_pad="0"
+      follows="left|top"
+      height="20"
+      max_length_chars="256"
+      name="AlchemyChatCommandHome"
+      tool_tip=""
+      control_name="AlchemyChatCommandHome"
+      width="200"/>
+  </panel>
+
   </tab_container>
 </panel>

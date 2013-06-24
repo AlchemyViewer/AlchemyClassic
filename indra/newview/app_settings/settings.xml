@@ -1471,7 +1471,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>7.50</real>
+    <real>20.0000</real>
   </map>
 
   <key>CameraFNumber</key>
@@ -1483,7 +1483,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>6.2</real>
+    <real>10.00</real>
   </map>
 
   <key>CameraFocalLength</key>
@@ -1495,7 +1495,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>25</real>
+    <real>20</real>
   </map>
 
   <key>CameraFieldOfView</key>
@@ -1507,7 +1507,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>12.600</real>
+    <real>67.00</real>
   </map>
 
   <key>CameraAspectRatio</key>
@@ -8471,7 +8471,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>0.7</real>
+    <real>0.700</real>
   </map>
 
   <key>RenderSpotLightsInNondeferred</key>

@@ -2265,7 +2265,12 @@ void LLAgentCamera::changeCameraToCustomizeAvatar()
 		return;
 	}
 
-	gAgent.standUp(); // force stand up
+
+	if (!gSavedSettings.getBOOL("AlchemyIgnoreForcedStand"))
+	{
+		gAgent.standUp(); // force stand up
+	}
+
 	gViewerWindow->getWindow()->resetBusyCount();
 
 	if (gFaceEditToolset)

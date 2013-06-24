@@ -1471,7 +1471,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>80.6</real>
+    <real>20.0000</real>
   </map>
 
   <key>CameraFNumber</key>
@@ -8471,7 +8471,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>0.900</real>
+    <real>0.700</real>
   </map>
 
   <key>RenderSpotLightsInNondeferred</key>

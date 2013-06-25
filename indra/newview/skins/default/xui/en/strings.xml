@@ -2149,10 +2149,23 @@ Gets the value indicated by specifiers from the json string.
 string llJsonSetValue(string json, list specifiers, string value)
 Returns a new json string that is the json given with the value indicated by specifiers set to value.
 	</string>
-	<string name="LSLTipText_llJsonValueType" translate="false">
+  <string name="LSLTipText_llJsonValueType" translate="false">
 string llJsonValueType(string json, list specifiers)
 Returns the type constant for the value in json indicated by specifiers.
-	</string>
+  </string>
+	<string name="LSLTipText_llReturnObjectsByID" translate="false">
+integer llReturnObjectsByID(list objects)
+Returns a list of objects by their IDs or an ERR_* flag.
+  </string>
+  <string name="LSLTipText_llReturnObjectsByOwner" translate="false">
+integer llReturnObjectsByOwner(key owner, integer scope)
+Returns all objects of a particular owner in the given scope or an ERR_* flag.
+  </string>
+  <string name="LSLTipText_llXorBase64" translate="false">
+string llXorBase64(string str1, string str2)
+Returns a string that is a Base64 XOR of Base64-formatted input strings.
+  </string>
+
 	<!-- Wearable Types -->
 	<string name="shape">Shape</string>
 	<string name="skin">Skin</string>

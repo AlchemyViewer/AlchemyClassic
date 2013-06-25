@@ -538,10 +538,24 @@ void LLScriptLibrary::init()
 	// Server RC LeTigre 12.10.12.265819 new function
 	addFunction(0.f, 0.f, dummy_func, "llGetSimStats", "f", "i");
 
-	// Server RC LeTigre 13.03.22.272565 new function
+	// Server 13.04.12.273874 new functions
 	addFunction(0.f, 0.f, dummy_func, "llSetAnimationOverride", NULL, "ss");
 	addFunction(0.f, 0.f, dummy_func, "llGetAnimationOverride", "s", "s");
 	addFunction(0.f, 0.f, dummy_func, "llResetAnimationOverride", NULL, "s");
+
+	// Server 13.05.20.276191 new function
+	addFunction(0.f, 0.f, dummy_func, "llJson2List", "l", "s");
+	addFunction(0.f, 0.f, dummy_func, "llList2Json", "s", "sl");
+	addFunction(0.f, 0.f, dummy_func, "llJsonGetValue", "s", "sl");
+	addFunction(0.f, 0.f, dummy_func, "llJsonSetValue", "s", "sls");
+	addFunction(0.f, 0.f, dummy_func, "llJsonValueType", "s", "sl");
+	
+	// Server 13.06.18.277494 new functions
+	addFunction(0.f, 0.f, dummy_func, "llReturnObjectsByID", "i", "l");
+	addFunction(0.f, 0.f, dummy_func, "llReturnObjectsByOwner", "i", "ki");
+	
+	// Server 13.06.21.277682 new functions
+	addFunction(0.f, 0.f, dummy_func, "llXorBase64", "s", "ss");
 }
 
 LLScriptLibraryFunction::LLScriptLibraryFunction(F32 eu, F32 st, void (*exec_func)(LLScriptLibData *, LLScriptLibData *, const LLUUID &), const char *name, const char *ret_type, const char *args, BOOL god_only)

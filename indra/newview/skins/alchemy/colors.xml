@@ -15,9 +15,6 @@
      name="AlchemyDarkGray"
      value="0.1647 0.1647 0.1647 1" />
     <color
-     name="AlchemyDarkGray2"
-     value="0.1647 0.1647 0.1647 95" />
-    <color
      name="AlchemyDarkText"
      value="0.42 0.42 0.42 1" />
      <color
@@ -367,7 +364,7 @@
      reference="AlchemyDarkBlue" /> <!-- Color of highlighting when selected, but not in edit mode -->
     <color
      name="DefaultHighlightDark"
-     reference="AlchemyDarkGray" />
+     reference="AlchemyDarkBlue" />
     <color
      name="DefaultHighlightLight"
      reference="AlchemyDarkGray" />
@@ -394,7 +391,7 @@
      reference="DkGray_66" />
     <color
      name="FloaterFocusBackgroundColor"
-     reference="DkGray2" />
+     reference="AlchemyDarkGray" />
     <color
      name="FloaterFocusBorderColor"
      reference="Black_50" />
@@ -403,7 +400,7 @@
      reference="Black_50" />
     <color
      name="FocusColor"
-     reference="AlchemyBlack1" /> <!-- Focus borders, i.e. search bar -->
+     reference="Transparent" /> <!-- Focus borders, i.e. search bar -->
     <color
      name="FolderViewLoadingMessageTextColor"
      value="0.3344 0.5456 0.5159 1" />
@@ -481,19 +478,19 @@
      reference="AlchemyDarkGray" />
     <color
      name="InventoryFocusOutlineColor"
-     reference="White_25" />
+     reference="AlchemyDarkBlue" />
     <color
      name="InventoryItemSuffixColor"
      reference="AlchemyDarkBlue" />
     <color
      name="InventoryItemLibraryColor"
-     reference="EmphasisColor" />
+     reference="AlchemyDarkText" />
     <color
      name="InventoryItemLinkColor"
      reference="Alchemy_Inv_Link" />
     <color
      name="InventoryMouseOverColor"
-     reference="AlchemyDarkGray" />
+     reference="White_25" />
     <color
      name="InventorySearchStatusColor"
      reference="EmphasisColor" />
@@ -857,7 +854,7 @@
     <!-- New Colors -->
     <color
      name="OutputMonitorMutedColor"
-     reference="DkGray2" />
+     reference="AlchemyDarkGray" />
     <color
      name="SysWellItemUnselected"
      value="0 0 0 0" />

@@ -7,10 +7,10 @@
      value="0.458 0.5294 0.651 0" />
     <color
      name="AlchemyBlack1"
-     value="0.10843137254901960784313725490196 0.10843137254901960784313725490196 0.10843137254901960784313725490196 1" />
+     value="0.1084 0.1084 0.1084 1" />
     <color
      name="AlchemyDarkBlue"
-     value="0.297557 0.426999 0.57838 1" />
+     value="0.2975 0.4269 0.5783 1" />
     <color
      name="AlchemyDarkGray"
      value="0.1647 0.1647 0.1647 1" />
@@ -22,10 +22,10 @@
      reference="AlchemyWhite" /> <!-- White until someone figures how to change text color when highlighed -->
     <color
      name="Alchemy_Inv_Link"
-    value="0.48431372549019607843137254901961 0.48431372549019607843137254901961 0.48431372549019607843137254901961 1 " />
+    value="0.4843 0.4843 0.4843 1 " />
     <color
      name="AlchemyOrange"
-     value="0.93725490196078431372549019607843 0.45882352941176470588235294117647 0.1960784313725490196078431372549 1" />
+     value="0.9372 0.4588 0.1960 1" />
     <color
      name="AlchemyScriptBG"
      value="0.0784 0.0784 0.0784 1" />
@@ -37,18 +37,26 @@
      value="0.72 0.72 0.72 1" />
     <color
      name="AlchemyWhite"
-     value="0.8078431372549019607843137254902 0.8078431372549019607843137254902 0.8078431372549019607843137254902 1" />
-
+     value="0.8078 0.8078 0.8078 1" />
+    <color
+     name="TextField_Off"
+     value="0.0980 0.0980 0.0980 1" />
+    <color
+     name="TextField_Disabled"
+     value="0.2784 0.2784 0.2784 1" />
+    <color
+     name="TextField_Active"
+     value="0.0823 0.0823 0.0823 1" />
     <!-- Named Colors -->
     <color
      name="EmphasisColor"
      reference="AlchemyDarkBlue" />
     <color
      name="EmphasisColor_13"
-     value="0.7137254901960784 0.7137254901960784 0.7137254901960784 0.13" />
+     value="0.71372 0.71372 0.71372 0.13" />
     <color
      name="EmphasisColor_35"
-     value="0.7137254901960784 0.7137254901960784 0.7137254901960784 0.35" />
+     value="0.71372 0.71372 0.71372 0.35" />
     <color
      name="BeaconColor"
     value="0.17865 0.258573 0.3526 0.68" />"

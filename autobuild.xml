@@ -522,9 +522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>23dcadcfd604e6d3d7336ada90467b2b</string>
+	      <string>db78b1f503507bf10cee83baa685a295</string>
               <key>url</key>
-	      <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-fmodex/windows/fmodex-4.44.12-windows-20130423.tar.bz2</string>
+	      <string>https://bitbucket.org/alchemyviewer/3p-fmodex/downloads/fmodex-4.44.16-windows-20130626.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

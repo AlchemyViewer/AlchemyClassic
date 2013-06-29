@@ -293,6 +293,50 @@
       control_name="AlchemyChatCommandHome"
       width="200"/>
   </panel>
-
+    <panel
+     border="false"
+     follows="all"
+     label="Appearance"
+     layout="topleft"
+     mouse_opaque="false"
+     name="Appearance"
+     top="16"
+     width="280">
+             <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="15"
+         layout="topleft"
+         left="10"
+         name="skinselector_text"
+         tool_tip="Select a different viewer skin"
+         top="10"
+         width="50">
+            Skin(!):
+        </text>
+        <combo_box
+         control_name="SkinCurrent"
+         follows="left|top"
+         height="23"
+         layout="topleft"
+         top="5"
+         left_pad="0"
+         max_chars="135"
+         name="skinselector_combobox"
+         tool_tip="Currently causes crash. FixMe"
+         width="150">
+            <combo_box.item
+             enabled="true"
+             label="Alchemy"
+             name="alchemy"
+             value="0" />
+            <combo_box.item
+             enabled="true"
+             label="Linden"
+             name="linden"
+             value="1" />
+        </combo_box>
+   </panel>
   </tab_container>
 </panel>

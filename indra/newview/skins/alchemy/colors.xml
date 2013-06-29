@@ -5,6 +5,9 @@
     <color
      name="ScriptFunctionColor"
      value="0.458 0.5294 0.651 0" />
+     <color
+     name="AlchemyBackground"
+     value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
     <color
      name="AlchemyBlack1"
      value="0.1084 0.1084 0.1084 1" />
@@ -40,13 +43,13 @@
      value="0.8078 0.8078 0.8078 1" />
     <color
      name="TextField_Off"
-     value="0.0980 0.0980 0.0980 1" />
+     value="0.0980392156862745 0.0980392156862745 0.0980392156862745 1" />
     <color
      name="TextField_Disabled"
-     value="0.2784 0.2784 0.2784 1" />
+     value="0.1411764705882353 0.1411764705882353 0.1411764705882353 1" />
     <color
      name="TextField_Active"
-     value="0.0823 0.0823 0.0823 1" />
+     value="0.0666666666666667 0.0666666666666667 0.0666666666666667 1" />
     <!-- Named Colors -->
     <color
      name="EmphasisColor"

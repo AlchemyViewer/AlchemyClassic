@@ -19,7 +19,7 @@
   <web_browser
       tab_stop="false" 
       trusted_content="true" 
-      bg_opaque_color="AlchemyDarkGray"
+      bg_opaque_color="AlchemyBackground"
       border_visible="false"
       bottom="600"
       follows="all"

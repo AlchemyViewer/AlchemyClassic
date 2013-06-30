@@ -8518,7 +8518,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>1.0</real>
+    <real>1.5</real>
   </map>
   <key>RenderDeferredTreeShadowBias</key>
   <map>
@@ -8746,7 +8746,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>0.8</real>
+    <real>2</real>
   </map>
 
   <key>RenderShadowGaussian</key>
@@ -8774,7 +8774,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>1.4</real>
+    <real>0.7</real>
   </map>
   <key>RenderShadowBlurSamples</key>
   <map>

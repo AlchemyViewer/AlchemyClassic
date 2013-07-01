@@ -1042,7 +1042,21 @@ void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 #if 0 // SJB: Useful for testing, but not currently functional or to spec
 	LLAvatarActions::showProfile(clicked_id);
 #else // spec says open IM window
-	LLAvatarActions::startIM(clicked_id);
+	switch(gSavedSettings.getS32("AlchemyNearbyDoubleClick"))
+	{
+	case 0:
+		LLAvatarActions::startIM(clicked_id);
+		break;
+	case 1:
+		LLAvatarActions::showProfile(clicked_id);
+		break;
+	case 2:
+		handle_zoom_to_object(clicked_id);
+		break;
+	default:
+		LLAvatarActions::startIM(clicked_id);
+		break;
+	}
 #endif
 }
 

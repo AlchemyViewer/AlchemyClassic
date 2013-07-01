@@ -200,6 +200,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyNearbyDoubleClick</key>
+    <map>
+      <key>Comment</key>
+      <string>Determine action taken when double clicking on an avatar in nearby list IM(0), Profile(1), or Zoom(2)</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>S32</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyPointAtDisable</key>
     <map>
       <key>Comment</key>
@@ -225,7 +236,7 @@
     <key>AlchemySelfChatAsYou</key>
     <map>
       <key>Comment</key>
-      <string>Enables replacement of own avatar's name name to "You" in compact chat mode. Linden Lab viewer has this permanently enabled.</string>
+      <string>Enables replacement of own avatar's name name to "You" in compact chat mode</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>

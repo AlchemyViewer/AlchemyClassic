@@ -8126,7 +8126,7 @@
     <key>Type</key>
     <string>U32</string>
     <key>Value</key>
-    <integer>200</integer>
+    <integer>250</integer>
   </map>
   <key>RenderSSAOFactor</key>
   <map>
@@ -8149,7 +8149,7 @@
     <string>Vector3</string>
     <key>Value</key>
     <array>
-      <real>0.80</real>
+      <real>0.60</real>
       <real>1.00</real>
       <real>0.00</real>
     </array>

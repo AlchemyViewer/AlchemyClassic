@@ -8126,7 +8126,7 @@
     <key>Type</key>
     <string>U32</string>
     <key>Value</key>
-    <integer>250</integer>
+    <integer>200</integer>
   </map>
   <key>RenderSSAOFactor</key>
   <map>
@@ -8149,7 +8149,7 @@
     <string>Vector3</string>
     <key>Value</key>
     <array>
-      <real>0.60</real>
+      <real>0.80</real>
       <real>1.00</real>
       <real>0.00</real>
     </array>
@@ -8518,7 +8518,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>1.5</real>
+    <real>1.0</real>
   </map>
   <key>RenderDeferredTreeShadowBias</key>
   <map>
@@ -8746,7 +8746,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>2</real>
+    <real>0.8</real>
   </map>
 
   <key>RenderShadowGaussian</key>
@@ -8774,7 +8774,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>0.7</real>
+    <real>1.4</real>
   </map>
   <key>RenderShadowBlurSamples</key>
   <map>

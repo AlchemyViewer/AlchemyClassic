@@ -197,6 +197,49 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                top="4" />
            </layout_panel>
            <layout_panel
+            height="15">
+             <text
+              type="string"
+              length="1"
+              follows="left|top"
+              height="15"
+              layout="topleft"
+              left="3"
+              name="nearbydoubleclick_text"
+              tool_tip="Determines what double-clicking a name in the list under will do"
+              top="10"
+              width="100">
+                Double-click:
+            </text>
+            <combo_box
+             control_name="AlchemyNearbyDoubleClick"
+             follows="right|top"
+             height="23"
+             layout="topleft"
+             top="5"
+             left_pad="60"
+             max_chars="135"
+             name="nearbydoubleclick_combobox"
+             tool_tip="Determines what double-clicking a name in the list under will do"
+             width="150">
+            <combo_box.item
+             enabled="true"
+             label="Instant Message"
+             name="instantmessage"
+             value="0" />
+            <combo_box.item
+             enabled="true"
+             label="Open Profile"
+             name="openprofile"
+             value="1" />
+            <combo_box.item
+             enabled="true"
+             label="Zoom In"
+             name="zoomim"
+             value="2" />
+           </combo_box>
+           </layout_panel>
+           <layout_panel
              height="213"
              layout="topleft"
              min_dim="100"

@@ -197,14 +197,19 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                top="4" />
            </layout_panel>
            <layout_panel
-            height="15">
+             height="213"
+             layout="topleft"
+             min_dim="100"
+             mouse_opaque="false"
+             right="-1"
+             user_resize="true">
              <text
               type="string"
               length="1"
               follows="left|top"
               height="15"
               layout="topleft"
-              left="3"
+              left="5"
               name="nearbydoubleclick_text"
               tool_tip="Determines what double-clicking a name in the list under will do"
               top="10"
@@ -217,11 +222,11 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
              height="23"
              layout="topleft"
              top="5"
-             left_pad="60"
+             left_pad="104"
              max_chars="135"
              name="nearbydoubleclick_combobox"
              tool_tip="Determines what double-clicking a name in the list under will do"
-             width="150">
+             width="115">
             <combo_box.item
              enabled="true"
              label="Instant Message"
@@ -238,14 +243,6 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
              name="zoomim"
              value="2" />
            </combo_box>
-           </layout_panel>
-           <layout_panel
-             height="213"
-             layout="topleft"
-             min_dim="100"
-             mouse_opaque="false"
-             right="-1"
-             user_resize="true">
              <avatar_list
                allow_select="true"
                follows="all"
@@ -257,7 +254,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                multi_select="true"
                name="avatar_list"
                right="-1"
-               top="2" />
+               top="30" />
            </layout_panel>
          </layout_stack>
         </panel>

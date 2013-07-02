@@ -524,7 +524,7 @@
 		 label_width="185"
 		 layout="topleft"
 		 left_delta="0"
-		 max_val="2"
+		 max_val="5"
 		 name="ObjectMeshDetail"
 		 show_text="false"
 		 top_pad="6"

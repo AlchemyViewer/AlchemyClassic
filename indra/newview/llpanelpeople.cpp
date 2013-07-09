@@ -66,6 +66,8 @@
 #include "llworld.h"
 #include "llspeakers.h"
 
+#include "llviewerobjectlist.h"
+
 #define FRIEND_LIST_UPDATE_TIMEOUT	0.5
 #define NEARBY_LIST_UPDATE_INTERVAL 1
 
@@ -1028,6 +1030,7 @@ void LLPanelPeople::onTabSelected(const LLSD& param)
 void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 {
 	LLAvatarListItem* item = dynamic_cast<LLAvatarListItem*>(ctrl);
+	
 	if(!item)
 	{
 		return;
@@ -1054,6 +1057,15 @@ void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 			break;
 		case 2:
 			handle_zoom_to_object(clicked_id);
+			break;
+		case 3:
+			{
+				LLViewerObject* object = gObjectList.findObject(clicked_id);
+				if (object)
+				{
+					gAgent.teleportViaLocation(object->getPositionGlobal());
+				}
+			}
 			break;
 		default:
 			LLAvatarActions::startIM(clicked_id);

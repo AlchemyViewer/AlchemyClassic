@@ -12,6 +12,9 @@
      name="AlchemyBlack1"
      value="0.1084 0.1084 0.1084 1" />
     <color
+     name="AlchemyBlack1_t"
+     value="0.1084 0.1084 0.1084 0.60" />
+    <color
      name="AlchemyDarkBlue"
      value="0.2975 0.4269 0.5783 1" />
     <color
@@ -366,10 +369,10 @@
      reference="White" />
     <color
      name="ComboListBgColor"
-     reference="AlchemyDarkGray" />
+     reference="AlchemyBlack1" />
     <color
      name="ConsoleBackground"
-     reference="Black" />
+     reference="AlchemyBlack1" />
     <color
      name="ContextSilhouetteColor"
      reference="AlchemyDarkBlue" /> <!-- Color of highlighting when selected, but not in edit mode -->
@@ -378,7 +381,7 @@
      reference="AlchemyDarkBlue" />
     <color
      name="DefaultHighlightLight"
-     reference="AlchemyDarkGray" />
+     reference="AlchemyBlack1" />
     <color
      name="DefaultShadowDark"
      reference="Black_50" />
@@ -573,7 +576,7 @@
      reference="AlchemyText" />
     <color
      name="MenuItemHighlightBgColor"
-     reference="MouseGray" />
+     reference="AlchemyBlack1_t" /> <!-- Inventory and CHUI selection BG -->
     <color
      name="MenuItemFlashBgColor"
      reference="BeaconColor" />

@@ -10,8 +10,8 @@ if (WINDOWS OR DARWIN)
     add_subdirectory(quicktime)
 endif (WINDOWS OR DARWIN)
 
-if (WINDOWS AND NOT MSVC11)
+if (WINDOWS)
     add_subdirectory(winmmshim)
-endif (WINDOWS AND NOT MSVC11)
+endif (WINDOWS)
 
 add_subdirectory(example)

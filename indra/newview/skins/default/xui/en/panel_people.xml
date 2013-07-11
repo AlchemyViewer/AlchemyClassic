@@ -242,6 +242,11 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
              label="Zoom In"
              name="zoomim"
              value="2" />
+             <combo_box.item
+             enabled="true"
+             label="Telepport To"
+             name="teleportto"
+             value="3" />
            </combo_box>
              <avatar_list
                allow_select="true"

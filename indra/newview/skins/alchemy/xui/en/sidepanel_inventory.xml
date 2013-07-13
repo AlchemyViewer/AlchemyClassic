@@ -57,7 +57,7 @@
                  name="inbox_layout_panel"
                  visible="false"
                  min_dim="25"
-                 max_dim="235"
+                 max_dim="225"
                  expanded_min_dim="90"
                  height="225">
                  <panel
@@ -68,7 +68,7 @@
                       class="panel_marketplace_inbox"
                       top="0"
                       label=""
-                      height="235"
+                      height="225"
                       width="330">
                      <string name="InboxLabelWithArg">[NUM] Received items</string>
                      <string name="InboxLabelNoArg">No Received items</string>
@@ -108,9 +108,9 @@
                         name="inbox_inventory_placeholder_panel"
                         follows="all"
                         left="10"
-                        bottom="235"
-                        width="308"
-                        top="35"
+                        bottom="225"
+                        width="307"
+                        top="25"
                         bg_opaque_color="InventoryBackgroundColor"
                         background_visible="true"
                         background_opaque="true"
@@ -123,7 +123,7 @@
 							layout="topleft"
 							top="0"
 							left="0"
-							width="308"
+							width="307"
 							height="200"
 							wrap="true"
 							halign="center">

@@ -3919,7 +3919,7 @@ Try enclosing path to the editor with double quotes.
 
   <!-- commands -->
 
-  <string name="Command_AboutLand_Label">About land</string>
+  <string name="Command_AboutLand_Label">About Land</string>
   <string name="Command_Appearance_Label">Appearance</string>
   <string name="Command_Avatar_Label">Avatar</string>
   <string name="Command_Build_Label">Build</string>
@@ -3928,13 +3928,13 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Compass_Label">Compass</string>
   <string name="Command_Destinations_Label">Destinations</string>
   <string name="Command_Gestures_Label">Gestures</string>
-  <string name="Command_HowTo_Label">How to</string>
+  <string name="Command_HowTo_Label">How To</string>
   <string name="Command_Inventory_Label">Inventory</string>
   <string name="Command_Map_Label">Map</string>
   <string name="Command_Marketplace_Label">Marketplace</string>
-  <string name="Command_MiniMap_Label">Mini-map</string>
-  <string name="Command_Move_Label">Walk / run / fly</string>
-  <string name="Command_Outbox_Label">Merchant outbox</string>
+  <string name="Command_MiniMap_Label">Mini-Map</string>
+  <string name="Command_Move_Label">Walk / Run / Fly</string>
+  <string name="Command_Outbox_Label">Merchant Outbox</string>
   <string name="Command_People_Label">People</string>
   <string name="Command_Picks_Label">Picks</string>
   <string name="Command_Places_Label">Places</string>
@@ -3944,8 +3944,8 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Search_Label">Search</string>
   <string name="Command_Snapshot_Label">Snapshot</string>
   <string name="Command_Speak_Label">Speak</string>
-  <string name="Command_View_Label">Camera controls</string>
-  <string name="Command_Voice_Label">Voice settings</string>
+  <string name="Command_View_Label">Camera Controls</string>
+  <string name="Command_Voice_Label">Voice Settings</string>
 
   <string name="Command_AboutLand_Tooltip">Information about the land you're visiting</string>
   <string name="Command_Appearance_Tooltip">Change your avatar</string>

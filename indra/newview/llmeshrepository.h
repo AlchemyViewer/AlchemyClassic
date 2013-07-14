@@ -33,6 +33,8 @@
 #include "llviewertexture.h"
 #include "llvolume.h"
 
+#include <boost/unordered_map.hpp>
+
 #define LLCONVEXDECOMPINTER_STATIC 1
 
 #include "llconvexdecomposition.h"

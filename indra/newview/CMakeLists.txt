@@ -48,10 +48,18 @@ include(GLOD)
 include(CMakeCopyIfDifferent)
 include(LLAppearance)
 
+# [ALCH:LD] if using ndPhysicsstub this variable will be unset, we don't need to build any stub code viewer side in that case
+if( LLPHYSICSEXTENSIONS_SRC_DIR )
+# [/ALCH:LD]
+
 if (NOT HAVOK_TPV)
    # When using HAVOK_TPV, the library is precompiled, so no need for this
    add_subdirectory(${LLPHYSICSEXTENSIONS_SRC_DIR} llphysicsextensions)
 endif (NOT HAVOK_TPV)
+
+# [ALCH:LD]
+endif( LLPHYSICSEXTENSIONS_SRC_DIR )
+# [/ALCH:LD]
 
 if(FMODEX)
   include_directories(${FMODEX_INCLUDE_DIR})

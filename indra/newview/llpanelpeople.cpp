@@ -1030,7 +1030,7 @@ void LLPanelPeople::onTabSelected(const LLSD& param)
 void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 {
 	LLAvatarListItem* item = dynamic_cast<LLAvatarListItem*>(ctrl);
-	
+
 	if(!item)
 	{
 		return;

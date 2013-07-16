@@ -1256,7 +1256,7 @@ void LLPipeline::createGLBuffers()
 
 		for (U32 i = 0; i < 3; i++)
 		{
-			mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE);
+			mGlow[i].allocate(512,glow_res, GL_RGBA,FALSE,FALSE);
 		}
 
 		allocateScreenBuffer(resX,resY);
@@ -4206,7 +4206,7 @@ void LLPipeline::renderHighlights()
 			facep->renderSelected(mFaceSelectImagep, color);
 		}
 	}
-
+	
 	if (hasRenderDebugFeatureMask(RENDER_DEBUG_FEATURE_SELECTED))
 	{
 		// Paint 'em red!
@@ -5945,7 +5945,7 @@ void LLPipeline::setupAvatarLights(BOOL for_edit)
 		}
 
 		mHWLightColors[1] = diffuse;
-
+				
 		light->setDiffuse(diffuse);
 		light->setAmbient(LLColor4::black);
 		light->setSpecular(LLColor4::black);
@@ -7428,10 +7428,10 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 	gGL.loadIdentity();
 
 	LLGLDisable test(GL_ALPHA_TEST);
-
+	
 	gGL.setColorMask(true, true);
 	glClearColor(0,0,0,0);
-		
+	
 	{
 		{
 			LLFastTimer ftm(FTM_RENDER_BLOOM_FBO);

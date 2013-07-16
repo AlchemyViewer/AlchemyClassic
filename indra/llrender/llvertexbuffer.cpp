@@ -342,7 +342,7 @@ S32 LLVertexBuffer::sTypeSize[LLVertexBuffer::TYPE_MAX] =
 	sizeof(LLVector2), // TYPE_TEXCOORD3,
 	sizeof(LLColor4U), // TYPE_COLOR,
 	sizeof(LLColor4U), // TYPE_EMISSIVE, only alpha is used currently
-	sizeof(LLVector4), // TYPE_BINORMAL,
+	sizeof(LLVector4), // TYPE_TANGENT,
 	sizeof(F32),	   // TYPE_WEIGHT,
 	sizeof(LLVector4), // TYPE_WEIGHT4,
 	sizeof(LLVector4), // TYPE_CLOTHWEIGHT,
@@ -758,6 +758,9 @@ void LLVertexBuffer::drawRange(U32 mode, U32 start, U32 end, U32 count, U32 indi
 		idx);
 	LLGLSLShader::stopProfile(count, mode);
 	stop_glerror();
+
+	
+
 	placeFence();
 }
 
@@ -1368,7 +1371,7 @@ void LLVertexBuffer::setupVertexArray()
 		GL_FLOAT, //TYPE_TEXCOORD3,
 		GL_UNSIGNED_BYTE, //TYPE_COLOR,
 		GL_UNSIGNED_BYTE, //TYPE_EMISSIVE,
-		GL_FLOAT,   //TYPE_BINORMAL,
+		GL_FLOAT,   //TYPE_TANGENT,
 		GL_FLOAT, //TYPE_WEIGHT,
 		GL_FLOAT, //TYPE_WEIGHT4,
 		GL_FLOAT, //TYPE_CLOTHWEIGHT,
@@ -1385,7 +1388,7 @@ void LLVertexBuffer::setupVertexArray()
 		false, //TYPE_TEXCOORD3,
 		false, //TYPE_COLOR,
 		false, //TYPE_EMISSIVE,
-		false, //TYPE_BINORMAL,
+		false, //TYPE_TANGENT,
 		false, //TYPE_WEIGHT,
 		false, //TYPE_WEIGHT4,
 		false, //TYPE_CLOTHWEIGHT,
@@ -1402,7 +1405,7 @@ void LLVertexBuffer::setupVertexArray()
 		GL_FALSE, //TYPE_TEXCOORD3,
 		GL_TRUE, //TYPE_COLOR,
 		GL_TRUE, //TYPE_EMISSIVE,
-		GL_FALSE,   //TYPE_BINORMAL,
+		GL_FALSE,   //TYPE_TANGENT,
 		GL_FALSE, //TYPE_WEIGHT,
 		GL_FALSE, //TYPE_WEIGHT4,
 		GL_FALSE, //TYPE_CLOTHWEIGHT,

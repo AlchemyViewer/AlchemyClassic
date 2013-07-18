@@ -55,6 +55,8 @@
 #include "llsdserialize.h"
 #include "llviewerobjectlist.h"
 
+#include "llfloaterreporter.h"
+
 //
 // LLFloaterIMContainer
 //
@@ -1086,6 +1088,10 @@ void LLFloaterIMContainer::doToParticipants(const std::string& command, uuid_vec
 		{
 			toggleMute(userID, LLMute::flagVoiceChat);
 		}
+		else if ("report" == command)
+		{
+			LLFloaterReporter::showFromObject(userID);
+		}
 		else if ("mute_unmute" == command)
 		{
 			toggleMute(userID, LLMute::flagTextChat);
@@ -1261,7 +1267,7 @@ bool LLFloaterIMContainer::enableContextMenuItem(const std::string& item, uuid_v
 	}
 
 	// Handle all other options
-	if (("can_invite" == item) || ("can_chat_history" == item) || ("can_share" == item) || ("can_pay" == item))
+	if (("can_invite" == item) || ("can_chat_history" == item) || ("can_share" == item) || ("can_pay" == item) || ("can_report" == item))
 	{
 		// Those menu items are enable only if a single avatar is selected
 		return is_single_select;

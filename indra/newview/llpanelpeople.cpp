@@ -1047,18 +1047,18 @@ void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 #else // spec says open IM window
 	if(getActiveTabName() == NEARBY_TAB_NAME)
 	{
-		switch(gSavedSettings.getS32("AlchemyNearbyDoubleClick"))
+		switch(gSavedSettings.getU32("AlchemyNearbyDoubleClick"))
 		{
-		case 0:
+		case E_CLICK_TO_IM:
 			LLAvatarActions::startIM(clicked_id);
 			break;
-		case 1:
+		case E_CLICK_TO_PROFILE:
 			LLAvatarActions::showProfile(clicked_id);
 			break;
-		case 2:
+		case E_CLICK_TO_ZOOM:
 			handle_zoom_to_object(clicked_id);
 			break;
-		case 3:
+		case E_CLICK_TO_TELEPORT:
 			{
 				LLViewerObject* object = gObjectList.findObject(clicked_id);
 				if (object)
@@ -1291,12 +1291,29 @@ void LLPanelPeople::onNearbyViewSortMenuItemClicked(const LLSD& userdata)
 	{
 		setSortOrder(mNearbyList, E_SORT_BY_DISTANCE);
 	}
+	else if (chosen_item == "click_im") 
+	{
+		gSavedSettings.setU32("AlchemyNearbyDoubleClick", E_CLICK_TO_IM);
+	}
+	else if (chosen_item == "click_profile")
+	{
+		gSavedSettings.setU32("AlchemyNearbyDoubleClick", E_CLICK_TO_PROFILE);
+	}
+	else if (chosen_item == "click_zoom")
+	{
+		gSavedSettings.setU32("AlchemyNearbyDoubleClick", E_CLICK_TO_ZOOM);
+	}
+	else if (chosen_item == "click_teleport")
+	{
+		gSavedSettings.setU32("AlchemyNearbyDoubleClick", E_CLICK_TO_TELEPORT);
+	}
 }
 
 bool LLPanelPeople::onNearbyViewSortMenuItemCheck(const LLSD& userdata)
 {
 	std::string item = userdata.asString();
 	U32 sort_order = gSavedSettings.getU32("NearbyPeopleSortOrder");
+	U32 click_order = gSavedSettings.getU32("AlchemyNearbyDoubleClick");
 
 	if (item == "sort_by_recent_speakers")
 		return sort_order == E_SORT_BY_RECENT_SPEAKERS;
@@ -1304,7 +1321,15 @@ bool LLPanelPeople::onNearbyViewSortMenuItemCheck(const LLSD& userdata)
 		return sort_order == E_SORT_BY_NAME;
 	if (item == "sort_distance")
 		return sort_order == E_SORT_BY_DISTANCE;
-
+	if (item == "click_im")
+		return click_order == E_CLICK_TO_IM;
+	if (item == "click_profile")
+		return click_order == E_CLICK_TO_PROFILE;
+	if (item == "click_zoom")
+		return click_order == E_CLICK_TO_ZOOM;
+	if (item == "click_teleport")
+		return click_order == E_CLICK_TO_TELEPORT;
+				
 	return false;
 }
 

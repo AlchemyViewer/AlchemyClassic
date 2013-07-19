@@ -68,6 +68,13 @@ private:
 		E_SORT_BY_RECENT_SPEAKERS = 4,
 	} ESortOrder;
 
+	enum ENearbyClickOrder {
+		E_CLICK_TO_IM = 0,
+		E_CLICK_TO_PROFILE,
+		E_CLICK_TO_ZOOM,
+		E_CLICK_TO_TELEPORT
+	};
+
     void				    removePicker();
 
 	// methods indirectly called by the updaters

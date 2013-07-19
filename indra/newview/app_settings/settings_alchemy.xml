@@ -203,11 +203,11 @@
     <key>AlchemyNearbyDoubleClick</key>
     <map>
       <key>Comment</key>
-      <string>Determine action taken when double clicking on an avatar in nearby list IM(0), Profile(1), or Zoom(2)</string>
+      <string>Determine action taken when double clicking on an avatar in nearby list IM(0), Profile(1), Zoom(2), or Teleport(3)</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
-      <string>S32</string>
+      <string>U32</string>
       <key>Value</key>
       <integer>0</integer>
     </map>

@@ -1527,7 +1527,7 @@
               <key>hash</key>
               <string>eb35e0da356163387272167bd81771f4</string>
               <key>url</key>
-              <string>https://bitbucket.org/LightDrake/3p-ndphysicsstub/downloads/ndPhysicsStub-0.1.1-Darwin_ao10.5.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-0.1.1-Darwin_ao10.5.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1539,7 +1539,7 @@
               <key>hash</key>
               <string>a77a8daf932e6f32f1511f528762ae81</string>
               <key>url</key>
-              <string>https://bitbucket.org/LightDrake/3p-ndphysicsstub/downloads/ndPhysicsStub-r65-linux32.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-linux32.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1551,7 +1551,7 @@
               <key>hash</key>
               <string>d8fdf76fbeda3bcd592759780fd3cbe1</string>
               <key>url</key>
-              <string>https://bitbucket.org/LightDrake/3p-ndphysicsstub/downloads/ndPhysicsStub-r65-win32.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-win32.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

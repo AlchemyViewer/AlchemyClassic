@@ -3890,7 +3890,15 @@ void handle_reset_view()
 		LLFloaterSidePanelContainer::showPanel("appearance", LLSD().with("type", "my_outfits"));
 	}
 
-	gAgentCamera.switchCameraPreset(CAMERA_PRESET_REAR_VIEW);
+	// <alchemy>
+	U32 camera_preset = gSavedSettings.getU32("CameraPreset");
+	if (camera_preset >= CAMERA_PRESET_END)
+	{
+		camera_preset = CAMERA_PRESET_REAR_VIEW;
+	}
+	gAgentCamera.switchCameraPreset((ECameraPreset)camera_preset);
+	// </alchemy>
+
 	reset_view_final( TRUE );
 	LLFloaterCamera::resetCameraMode();
 }

@@ -76,6 +76,8 @@
 #include "llstartup.h"
 #include "llupdaterservice.h"
 
+#include "llfloatercamera.h" // <alchemy />
+
 // Third party library includes
 #include <boost/algorithm/string.hpp>
 
@@ -116,12 +118,14 @@ static bool handleTerrainDetailChanged(const LLSD& newvalue)
 	return true;
 }
 
+// <alchemy>
 static bool handleTerrainScaleChanged(const LLSD& inputvalue)
 {
 	LLSD newvalue = 1.f / inputvalue.asReal();
 	LLDrawPoolTerrain::sDetailScale = newvalue.asReal();
 	return true;
 }
+// </alchemy>
 
 static bool handleSetShaderChanged(const LLSD& newvalue)
 {
@@ -556,6 +560,24 @@ bool handleSpellCheckChanged()
 	return true;
 }
 
+// <alchemy> - Camera Testing
+#if ALCHEMY_TEST
+bool handleCameraPresetChanged(const LLSD& new_value)
+{
+	U32 camera_preset = (U32)new_value.asInteger();
+	if (camera_preset >= CAMERA_PRESET_END)
+	{
+		camera_preset = CAMERA_PRESET_REAR_VIEW;
+	}
+	gAgentCamera.switchCameraPreset((ECameraPreset)camera_preset);
+	gAgentCamera.resetView(TRUE, TRUE);
+	gAgentCamera.setLookAt(LOOKAT_TARGET_CLEAR);
+	LLFloaterCamera::resetCameraMode();
+	return true;
+}
+#endif
+// </alchemy>
+
 bool toggle_agent_pause(const LLSD& newvalue)
 {
 	if ( newvalue.asBoolean() )
@@ -615,7 +637,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("FirstPersonAvatarVisible")->getSignal()->connect(boost::bind(&handleRenderAvatarMouselookChanged, _2));
 	gSavedSettings.getControl("RenderFarClip")->getSignal()->connect(boost::bind(&handleRenderFarClipChanged, _2));
 	gSavedSettings.getControl("RenderTerrainDetail")->getSignal()->connect(boost::bind(&handleTerrainDetailChanged, _2));
-	gSavedSettings.getControl("RenderTerrainScale")->getSignal()->connect(boost::bind(&handleTerrainScaleChanged, _2));
+	gSavedSettings.getControl("RenderTerrainScale")->getSignal()->connect(boost::bind(&handleTerrainScaleChanged, _2)); // <alchemy />
 	gSavedSettings.getControl("OctreeStaticObjectSizeFactor")->getSignal()->connect(boost::bind(&handleRepartition, _2));
 	gSavedSettings.getControl("OctreeDistanceFactor")->getSignal()->connect(boost::bind(&handleRepartition, _2));
 	gSavedSettings.getControl("OctreeMaxNodeCapacity")->getSignal()->connect(boost::bind(&handleRepartition, _2));
@@ -765,6 +787,9 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("SpellCheck")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("SpellCheckDictionary")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("LoginLocation")->getSignal()->connect(boost::bind(&handleLoginLocationChanged));
+#if ALCHEMY_TEST
+	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy />
+#endif
 }
 
 #if TEST_CACHED_CONTROL

@@ -277,7 +277,7 @@ if(NOT WORD_SIZE EQUAL 32)
     add_definitions(-fPIC)
   endif(WINDOWS)
 endif(NOT WORD_SIZE EQUAL 32)
- 
+
 if(LLCOMMON_LINK_SHARED)
   add_library (llcommon SHARED ${llcommon_SOURCE_FILES})
   if(WINDOWS)

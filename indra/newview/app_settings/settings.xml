@@ -6286,7 +6286,7 @@
       <key>Type</key>
       <string>F32</string>
       <key>Value</key>
-      <integer>512</integer>
+      <integer>4096</integer>
     </map>
     <key>NextOwnerCopy</key>
     <map>

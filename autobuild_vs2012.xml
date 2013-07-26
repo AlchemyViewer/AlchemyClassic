@@ -186,9 +186,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ac37d0038c91b0672fa31a02731f0eac</string>
+              <string>06dd7af75e1eb179aed54fd58d8688af</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/268347/arch/Darwin/installer/boost-1.52.0-darwin-20121218.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/270698/arch/Darwin/installer/boost-1.52.0-darwin-20130221.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -198,9 +198,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>146ed8a8c2ef8ab3f0a6c4f214fc5c22</string>
+              <string>50c8b50b7cced52cc5656fb44e9b12cf</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/268347/arch/Linux/installer/boost-1.52.0-linux-20121218.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/270698/arch/Linux/installer/boost-1.52.0-linux-20130222.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -210,9 +210,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>73b446f9663d86f757516928c7caeb12</string>
+              <string>754af56b51775bd8f3ec7a146253b219</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/3p-boost-vs11/downloads/boost-1.53.0-windows-vs11-20130610.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.53.0-windows-vs11-20130725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -522,9 +522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>23dcadcfd604e6d3d7336ada90467b2b</string>
+	      <string>db78b1f503507bf10cee83baa685a295</string>
               <key>url</key>
-	      <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-fmodex/windows/fmodex-4.44.12-windows-20130423.tar.bz2</string>
+	      <string>https://bitbucket.org/alchemyviewer/3p-fmodex/downloads/fmodex-4.44.16-windows-20130626.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -835,9 +835,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98994d5b0b4b3d43be22aa6a5c36e6fa</string>
+              <string>d2542614df9dd99cbb5ff67e76d4a6c1</string>
               <key>url</key>
-		<string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock-graham/rev/272961/arch/CYGWIN/installer/gmock-1.6.0-windows-20130327.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock/rev/274899/arch/CYGWIN/installer/gmock-1.6.0-windows-20130426.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1475,6 +1475,50 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+        </map>
+      </map>
+      <key>ndPhysicsStub</key>
+      <map>
+        <key>name</key>
+        <string>ndPhysicsStub</string>
+        <key>platforms</key>
+        <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>eb35e0da356163387272167bd81771f4</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-0.1.1-Darwin_ao10.5.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
+          <key>linux</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a77a8daf932e6f32f1511f528762ae81</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-linux32.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a56e2fa09c263a4e619654fb5946346c</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-0.1.1-win32-vs11.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
           </map>
         </map>
       </map>

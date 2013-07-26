@@ -1215,6 +1215,7 @@ void LLPipeline::releaseScreenBuffers()
 	mPhysicsDisplay.release();
 	mDeferredScreen.release();
 	mDeferredDepth.release();
+	mOcclusionDepth.release(); // <alchemy />
 	mDeferredLight.release();
 	
 	mHighlight.release();
@@ -1222,6 +1223,7 @@ void LLPipeline::releaseScreenBuffers()
 	for (U32 i = 0; i < 6; i++)
 	{
 		mShadow[i].release();
+		mShadowOcclusion[i].release(); // <alchemy />
 	}
 }
 

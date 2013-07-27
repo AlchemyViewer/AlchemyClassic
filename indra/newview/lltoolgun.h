@@ -49,7 +49,7 @@ public:
 private:
 	BOOL mIsSelected;
 
-	// [ALCH:LD] - UI Caching
+	// <alchemy> - UI Caching
 	LLUIImagePtr	mCrosshairp;
 };
 

@@ -41,13 +41,6 @@
 #include "llvolume.h"
 #include "llvolumemessage.h"
 
-void teleport_to_z(const F64 &z)
-{
-	LLVector3d pos_global = gAgent.getPositionGlobal();
-	pos_global.mdV[VZ] = z;
-	gAgent.teleportViaLocation(pos_global);
-}
-
 void add_system_chat(const std::string &msg)
 {
 	if(msg.empty()) return;
@@ -72,11 +65,13 @@ bool ALChatCommand::parseCommand(std::string data)
 
 		if(!(input >> cmd))	return false;
 
-		static LLCachedControl<std::string> sDrawDistanceCommand(gSavedSettings, "AlchemyChatCommandDrawDistance");
-		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "AlchemyChatCommandHeight");
-		static LLCachedControl<std::string> sGroundCommand(gSavedSettings, "AlchemyChatCommandGround");
-		static LLCachedControl<std::string> sRezPlatCommand(gSavedSettings, "AlchemyChatCommandRezPlat");
-		static LLCachedControl<std::string> sHomeCommand(gSavedSettings, "AlchemyChatCommandHome");
+		static LLCachedControl<std::string> sDrawDistanceCommand(gSavedSettings, "AlchemyChatCommandDrawDistance", "/dd");
+		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "AlchemyChatCommandHeight", "/gth");
+		static LLCachedControl<std::string> sGroundCommand(gSavedSettings, "AlchemyChatCommandGround", "/flr");
+		static LLCachedControl<std::string> sPosCommand(gSavedSettings, "AlchemyChatCommandPos", "/pos");
+		static LLCachedControl<std::string> sRezPlatCommand(gSavedSettings, "AlchemyChatCommandRezPlat", "/rezplat");
+		static LLCachedControl<std::string> sHomeCommand(gSavedSettings, "AlchemyChatCommandHome", "/home");
+		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
 
 		if(cmd == std::string(sDrawDistanceCommand)) // dd
 		{
@@ -93,14 +88,31 @@ bool ALChatCommand::parseCommand(std::string data)
 			F64 z;
 			if (input >> z)
 			{
-				teleport_to_z(z);
+				LLVector3d pos_global = gAgent.getPositionGlobal();
+				pos_global.mdV[VZ] = z;
+				gAgent.teleportViaLocation(pos_global);
 				return true;
 			}
 		}
 		else if (cmd == std::string(sGroundCommand)) // flr
 		{
-			teleport_to_z(0.0);
+			LLVector3d pos_global = gAgent.getPositionGlobal();
+			pos_global.mdV[VZ] = 0.0;
+			gAgent.teleportViaLocation(pos_global);
 			return true;
+		} 
+		else if (cmd == std::string(sPosCommand)) // pos
+		{
+			F64 x, y, z;
+			if ((input >> x) && (input >> y) && (input >> z))
+			{
+				LLViewerRegion* regionp = gAgent.getRegion();
+				if (regionp)
+				{
+					LLVector3d target_pos = regionp->getPosGlobalFromRegion(LLVector3((F32)x, (F32)y, (F32)z));
+					gAgent.teleportViaLocation(target_pos);
+				}
+			}
 		}
 		else if(cmd == std::string(sRezPlatCommand)) // rezplat
 		{
@@ -146,6 +158,11 @@ bool ALChatCommand::parseCommand(std::string data)
 		else if (cmd == std::string(sHomeCommand)) // home
 		{
 			gAgent.teleportHome();
+			return true;
+		}
+		else if (cmd == std::string(sSetHomeCommand)) // sethome
+		{
+			gAgent.setStartPosition(START_LOCATION_ID_HOME);
 			return true;
 		}
 	}

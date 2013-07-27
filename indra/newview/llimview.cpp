@@ -1255,6 +1255,7 @@ void LLIMModel::sendMessage(const std::string& utf8_text,
 		std::string from;
 		LLAgentUI::buildFullname(from);
 
+		// <alchemy>
 		LLAvatarName av_name;
 		LLAvatarNameCache::get(gAgent.getID(), &av_name);
 
@@ -1266,6 +1267,7 @@ void LLIMModel::sendMessage(const std::string& utf8_text,
 		{
 			LLIMModel::getInstance()->addMessage(im_session_id, from, gAgentID, utf8_text);
 		}
+		// </alchemy>
 
 		//local echo for the legacy communicate panel
 		std::string history_echo;
@@ -2675,6 +2677,7 @@ void LLIMMgr::addMessage(
 
 	if (!LLMuteList::getInstance()->isMuted(other_participant_id, LLMute::flagTextChat) && !skip_message)
 	{
+		// <alchemy>
 		LLAvatarName av_name;
 		LLAvatarNameCache::get(other_participant_id, &av_name);
 
@@ -2686,6 +2689,7 @@ void LLIMMgr::addMessage(
 		{
 			LLIMModel::instance().addMessage(new_session_id, from, other_participant_id, msg);
 		}
+		// </alchemy>
 	}
 
 	// Open conversation floater if offline messages are present

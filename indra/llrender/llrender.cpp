@@ -1478,10 +1478,10 @@ void LLRender::translateUI(F32 x, F32 y, F32 z)
 	// mUIOffset.back().mV[0] += x;
 	// mUIOffset.back().mV[1] += y;
 	// mUIOffset.back().mV[2] += z;
-	// [ALCH:LD] - Manual Vectorization
+	// <alchemy> - Manual Vectorization
 	LLVector4a add(x,y,z);
 	mUIOffset.back()->add(add);
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 void LLRender::scaleUI(F32 x, F32 y, F32 z)
@@ -1492,10 +1492,10 @@ void LLRender::scaleUI(F32 x, F32 y, F32 z)
 	}
 
 	// mUIScale.back().scaleVec(LLVector3(x,y,z));
-	// [ALCH:LD] - Manual Vectorization
+	// <alchemy> - Manual Vectorization
 	LLVector4a scale(x,y,z);
 	mUIScale.back()->mul(scale);
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 void LLRender::pushUIMatrix()
@@ -1503,37 +1503,37 @@ void LLRender::pushUIMatrix()
 	if (mUIOffset.empty())
 	{
 		// mUIOffset.push_back(LLVector3(0,0,0));
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		mUIOffset.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
 		mUIOffset.back()->splat(0.f);
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 	else
 	{
 		// mUIOffset.push_back(mUIOffset.back());
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		const LLVector4a* last_entry = mUIOffset.back();
 		mUIOffset.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
 		*mUIOffset.back() = *last_entry;
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 	
 	if (mUIScale.empty())
 	{
 		// mUIScale.push_back(LLVector3(1,1,1));
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		mUIScale.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
 		mUIScale.back()->splat(1.f);
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 	else
 	{
 		// mUIScale.push_back(mUIScale.back());
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		const LLVector4a* last_entry = mUIScale.back();
 		mUIScale.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
 		*mUIScale.back() = *last_entry;
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 }
 
@@ -1548,9 +1548,9 @@ void LLRender::popUIMatrix()
 		llerrs << "UI scale stack blown." << llendl;
 	}
 
-	ll_aligned_free_16(mUIOffset.back()); //<ALCH:DA> - Vectorization
+	ll_aligned_free_16(mUIOffset.back()); // <alchemy/> - Vectorization
 	mUIOffset.pop_back();
-	ll_aligned_free_16(mUIScale.back()); //<ALCH:DA> - Vectorization
+	ll_aligned_free_16(mUIScale.back()); // <alchemy/> - Vectorization
 	mUIScale.pop_back();
 }
 
@@ -1562,9 +1562,9 @@ LLVector3 LLRender::getUITranslation()
 	}
 
 	// return mUIOffset.back();
-	// [ALCH:LD] - Manual Vectorization
+	// <alchemy> - Manual Vectorization
 	return LLVector3(mUIOffset.back()->getF32ptr());
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 LLVector3 LLRender::getUIScale()
@@ -1575,9 +1575,9 @@ LLVector3 LLRender::getUIScale()
 	}
 
 	// return mUIScale.back();
-	// [ALCH:LD] - Manual Vectorization
+	// <alchemy> - Manual Vectorization
 	return LLVector3(mUIScale.back()->getF32ptr());
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 
@@ -1590,10 +1590,10 @@ void LLRender::loadUIIdentity()
 
 	// mUIOffset.back().setVec(0,0,0);
 	// mUIScale.back().setVec(1,1,1);
-	// [ALCH:LD] - Manual Vectorization
+	// <alchemy> - Manual Vectorization
 	mUIOffset.back()->splat(0.f);
 	mUIScale.back()->splat(1.f);
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 void LLRender::setColorMask(bool writeColor, bool writeAlpha)
@@ -1955,7 +1955,7 @@ void LLRender::flush()
 }
 
 // void LLRender::vertex3f(const GLfloat& x, const GLfloat& y, const GLfloat& z)
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLRender::vertex4a(const LLVector4a& vertex)
 { 
 	//the range of mVerticesp, mColorsp and mTexcoordsp is [0, 4095]
@@ -1979,18 +1979,18 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 	if (mUIOffset.empty())
 	{
 		// mVerticesp[mCount] = LLVector3(x,y,z);
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		mVerticesp[mCount] = vertex;
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 	else
 	{
 		// LLVector3 vert = (LLVector3(x,y,z)+mUIOffset.back()).scaledVec(mUIScale.back());
 		// mVerticesp[mCount] = vert;
-		// [ALCH:LD] - Manual Vectorization
+		// <alchemy> - Manual Vectorization
 		mVerticesp[mCount].setAdd(vertex, *mUIOffset.back());
 		mVerticesp[mCount].mul(*mUIScale.back());
-		// [/ALCH:LD]
+		// </alchemy>
 	}
 
 	if (mMode == LLRender::QUADS && LLRender::sGLCoreProfile)
@@ -2019,7 +2019,7 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 }
 
 // void LLRender::vertexBatchPreTransformed(LLVector3* verts, S32 vert_count)
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2078,7 +2078,7 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 }
 
 // void LLRender::vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, S32 vert_count)
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2138,7 +2138,7 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 
 }
 
 // void LLRender::vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, LLColor4U* colors, S32 vert_count)
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLColor4U* colors, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2199,7 +2199,7 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 	mColorsp[mCount] = mColorsp[mCount-1];
 }
 
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 //void LLRender::vertex2i(const GLint& x, const GLint& y)
 //{
 //	vertex3f((GLfloat) x, (GLfloat) y, 0);	
@@ -2219,7 +2219,7 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 //{
 //	vertex3f(v[0], v[1], v[2]);
 //}
-// [/ALCH:LD] - Vectorization
+// </alchemy> - Vectorization
 
 void LLRender::texCoord2f(const GLfloat& x, const GLfloat& y)
 { 

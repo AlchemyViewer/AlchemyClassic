@@ -33,7 +33,7 @@
 #include "llviewertexture.h"
 #include "llvolume.h"
 
-#include <boost/unordered_map.hpp>
+#include <boost/unordered_map.hpp> // <alchemy/>
 
 #define LLCONVEXDECOMPINTER_STATIC 1
 
@@ -500,7 +500,7 @@ public:
 	typedef std::map<LLVolumeParams, std::set<LLUUID> > mesh_load_map;
 	mesh_load_map mLoadingMeshes[4];
 	
-	// [ALCH:LD] - War on std::map
+	// <alchemy> - War on std::map
 	//typedef std::map<LLUUID, LLMeshSkinInfo> skin_map;
 	typedef boost::unordered_map<LLUUID, LLMeshSkinInfo, LLUUIDHash> skin_map;
 	skin_map mSkinMap;

@@ -97,7 +97,7 @@ void LLHUDManager::sendEffects()
 			msg->nextBlockFast(_PREHASH_Effect);
 			hep->packData(msg);
 			hep->setNeedsSendToSim(FALSE);
-			if (!hep->isDead())
+			if (!hep->isDead()) // <alchemy/>
 				gAgent.sendMessage();
 		}
 	}

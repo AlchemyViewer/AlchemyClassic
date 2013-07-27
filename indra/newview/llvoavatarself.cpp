@@ -637,7 +637,7 @@ void LLVOAvatarSelf::idleUpdate(LLAgent &agent, LLWorld &world, const F64 &time)
 // virtual
 LLJoint *LLVOAvatarSelf::getJoint(const std::string &name)
 {
-	// [ALCH:LD] - findJoint Opt
+	// <alchemy> - findJoint Opt
 	LLJoint* jointp = LLVOAvatar::getJoint(name);
 	if (!jointp && mScreenp)
 	{
@@ -645,7 +645,7 @@ LLJoint *LLVOAvatarSelf::getJoint(const std::string &name)
 	}
 	return jointp;
 
-	// [ALCH:LD]
+	// <alchemy>
 	//if (mScreenp)
 	//{
 	//	LLJoint* jointp = mScreenp->findJoint(name);

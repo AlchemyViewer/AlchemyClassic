@@ -125,9 +125,9 @@
 #include "llpathfindingmanager.h"
 #include "boost/unordered_map.hpp"
 
-// [ALCH:LD] - Includes
+// <alchemy> - Includes
 #include "llclipboard.h"
-// [/ALCH:LD]
+// </alchemy>
 
 using namespace LLAvatarAppearanceDefines;
 
@@ -760,7 +760,7 @@ class LLAdvancedToggleRenderType : public view_listener_t
 		U32 render_type = render_type_from_string( userdata.asString() );
 		if ( render_type != 0 )
 		{
-			LLPipeline::toggleRenderTypeControl( reinterpret_cast<void*>(render_type) );
+			LLPipeline::toggleRenderTypeControl( reinterpret_cast<void*>(render_type) ); // <alchemy/>
 		}
 		return true;
 	}
@@ -776,7 +776,7 @@ class LLAdvancedCheckRenderType : public view_listener_t
 
 		if ( render_type != 0 )
 		{
-			new_value = LLPipeline::hasRenderTypeControl( reinterpret_cast<void*>(render_type) );
+			new_value = LLPipeline::hasRenderTypeControl( reinterpret_cast<void*>(render_type) ); // <alchemy/>
 		}
 
 		return new_value;
@@ -835,7 +835,7 @@ class LLAdvancedToggleFeature : public view_listener_t
 		U32 feature = feature_from_string( userdata.asString() );
 		if ( feature != 0 )
 		{
-			LLPipeline::toggleRenderDebugFeature( reinterpret_cast<void*>(feature) );
+			LLPipeline::toggleRenderDebugFeature( reinterpret_cast<void*>(feature) ); // <alchemy/>
 		}
 		return true;
 	}
@@ -850,7 +850,7 @@ class LLAdvancedCheckFeature : public view_listener_t
 
 	if ( feature != 0 )
 	{
-		new_value = LLPipeline::toggleRenderDebugFeatureControl( reinterpret_cast<void*>(feature) );
+		new_value = LLPipeline::toggleRenderDebugFeatureControl( reinterpret_cast<void*>(feature) ); // <alchemy/>
 	}
 
 	return new_value;
@@ -1058,7 +1058,7 @@ class LLAdvancedToggleInfoDisplay : public view_listener_t
 		
 		if ( info_display != 0 )
 		{
-			LLPipeline::toggleRenderDebug( reinterpret_cast<void*>(info_display) );
+			LLPipeline::toggleRenderDebug( reinterpret_cast<void*>(info_display) ); // <alchemy/>
 		}
 
 		return true;
@@ -1077,7 +1077,7 @@ class LLAdvancedCheckInfoDisplay : public view_listener_t
 
 		if ( info_display != 0 )
 		{
-			new_value = LLPipeline::toggleRenderDebugControl( reinterpret_cast<void*>(info_display) );
+			new_value = LLPipeline::toggleRenderDebugControl( reinterpret_cast<void*>(info_display) ); // <alchemy/>
 		}
 
 		return new_value;
@@ -2450,7 +2450,7 @@ void cleanup_menus()
 	gMenuAttachmentSelf = NULL;
 
 	delete gMenuAttachmentOther;
-	gMenuAttachmentOther = NULL;
+	gMenuAttachmentOther = NULL; // <alchemy/> - LL copypaste derp
 
 	delete gMenuLand;
 	gMenuLand = NULL;

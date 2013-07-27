@@ -74,9 +74,9 @@
 #include "llslurl.h"			// IDEVO
 #include "llsidepanelinventory.h"
 
-// [ALCH:LD] - Includes
+// <alchemy> - Includes
 #include "llclipboard.h"
-// [/ALCH:LD]
+// </alchemy>
 
 // static
 void LLAvatarActions::requestFriendshipDialog(const LLUUID& id, const std::string& name)
@@ -1131,7 +1131,7 @@ bool LLAvatarActions::canBlock(const LLUUID& id)
 }
 
 // ------------------------------------------------------------------------------------------------
-// [ALCH:LD] Alchemy functions below this line
+// <alchemy> Alchemy functions below this line
 // ------------------------------------------------------------------------------------------------
 
 // static

@@ -165,6 +165,7 @@ bool LLLiveLSLFile::loadFile()
 	return mOnChangeCallback(filename());
 }
 
+// <alchemy>
 /// ---------------------------------------------------------------------------
 /// LLFloaterScriptSearch
 /// ---------------------------------------------------------------------------
@@ -317,7 +318,7 @@ bool LLLiveLSLFile::loadFile()
 //
 //	return FALSE;
 //}
-
+// </alchemy>
 /// ---------------------------------------------------------------------------
 /// LLScriptEdCore
 /// ---------------------------------------------------------------------------
@@ -431,7 +432,7 @@ BOOL LLScriptEdCore::postBuild()
 	
 //	LLColor3 color(0.5f, 0.0f, 0.15f);
 //	mEditor->loadKeywords(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,"keywords.ini"), funcs, tooltips, color);
-// [ALCH:LD] - Per skin syntax colors
+// <alchemy> - Per skin syntax colors
 	static LLColor3 color(LLUIColorTable::instance().getColor("ScriptFunctionColor"));
 	std::string keywords_file = gDirUtilp->getExpandedFilename(LL_PATH_TOP_SKIN, "keywords.ini");
 
@@ -440,7 +441,7 @@ BOOL LLScriptEdCore::postBuild()
 		keywords_file = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "keywords.ini");
 	}
 	mEditor->loadKeywords(keywords_file, funcs, tooltips, color);
-// [/ALCH:LD]
+// </alchemy>
 
 	std::vector<std::string> primary_keywords;
 	std::vector<std::string> secondary_keywords;

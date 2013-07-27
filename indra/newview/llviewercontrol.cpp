@@ -76,7 +76,7 @@
 #include "llstartup.h"
 #include "llupdaterservice.h"
 
-#include "llfloatercamera.h" // <alchemy />
+#include "llfloatercamera.h" // <alchemy/>
 
 // Third party library includes
 #include <boost/algorithm/string.hpp>
@@ -637,7 +637,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("FirstPersonAvatarVisible")->getSignal()->connect(boost::bind(&handleRenderAvatarMouselookChanged, _2));
 	gSavedSettings.getControl("RenderFarClip")->getSignal()->connect(boost::bind(&handleRenderFarClipChanged, _2));
 	gSavedSettings.getControl("RenderTerrainDetail")->getSignal()->connect(boost::bind(&handleTerrainDetailChanged, _2));
-	gSavedSettings.getControl("RenderTerrainScale")->getSignal()->connect(boost::bind(&handleTerrainScaleChanged, _2)); // <alchemy />
+	gSavedSettings.getControl("RenderTerrainScale")->getSignal()->connect(boost::bind(&handleTerrainScaleChanged, _2)); // <alchemy/>
 	gSavedSettings.getControl("OctreeStaticObjectSizeFactor")->getSignal()->connect(boost::bind(&handleRepartition, _2));
 	gSavedSettings.getControl("OctreeDistanceFactor")->getSignal()->connect(boost::bind(&handleRepartition, _2));
 	gSavedSettings.getControl("OctreeMaxNodeCapacity")->getSignal()->connect(boost::bind(&handleRepartition, _2));
@@ -788,7 +788,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("SpellCheckDictionary")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("LoginLocation")->getSignal()->connect(boost::bind(&handleLoginLocationChanged));
 #if ALCHEMY_TEST
-	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy />
+	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy/>
 #endif
 }
 

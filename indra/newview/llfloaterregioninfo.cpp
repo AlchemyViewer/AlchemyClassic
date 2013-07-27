@@ -1101,8 +1101,7 @@ BOOL LLPanelRegionTerrainInfo::validateTextureSizes()
 			return FALSE;
 		}
 
-		// [ALCH:LD] - Up terrain texture to 1024
-		if (width > 1024 || height > 1024)
+		if (width > 1024 || height > 1024) // <alchemy/>
 		{
 
 			LLSD args;

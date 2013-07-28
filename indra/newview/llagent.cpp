@@ -695,7 +695,7 @@ void LLAgent::movePitch(F32 mag)
 // Does this parcel allow you to fly?
 BOOL LLAgent::canFly()
 {
-	if (isGodlike()) return TRUE;
+	if (isGodlike() || gSavedSettings.getBOOL("AlchemyFlyEnableAlways")) return TRUE; // <alchemy/>
 
 	LLViewerRegion* regionp = getRegion();
 	if (regionp && regionp->getBlockFly()) return FALSE;
@@ -2037,7 +2037,17 @@ void LLAgent::endAnimationUpdateUI()
 			{
 				skip_list.insert(LLFloaterReg::findInstance("mini_map"));
 			}
-		
+			// <alchemy>
+			if (LLFloaterReg::findInstance("stats"))
+			{
+				skip_list.insert(LLFloaterReg::findInstance("stats"));
+			}
+			if (LLFloaterReg::findInstance("beacons"))
+			{
+				skip_list.insert(LLFloaterReg::findInstance("beacons"));
+			}
+			// </alchemy>
+
 			gFloaterView->popVisibleAll(skip_list);
 #endif
 			mViewsPushed = FALSE;
@@ -2150,6 +2160,8 @@ void LLAgent::endAnimationUpdateUI()
 #else // Use this for now
 		LLFloaterView::skip_list_t skip_list;
 		skip_list.insert(LLFloaterReg::findInstance("mini_map"));
+		skip_list.insert(LLFloaterReg::findInstance("stats")); // <alchemy/>
+		skip_list.insert(LLFloaterReg::findInstance("beacons")); // <alchemy/>
 		gFloaterView->pushVisibleAll(FALSE, skip_list);
 #endif
 

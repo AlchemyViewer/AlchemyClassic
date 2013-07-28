@@ -841,7 +841,7 @@ U32 LLControlGroup::saveToFile(const std::string& filename, BOOL nondefault_only
 
 U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_values, bool save_values)
 {
-	if (!mIncludedFiles.insert(filename).second)
+	if (!mIncludedFiles.insert(filename).second) // <alchemy/>
 	{
 		return 0; //Already included this file.
 	}
@@ -870,7 +870,7 @@ U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_v
 		bool persist = true;
 		std::string const & name = itr->first;
 		LLSD const & control_map = itr->second;
-		
+// <alchemy>		
 		if(name == "Include")
 		{
 			if(control_map.isArray())
@@ -889,7 +889,7 @@ U32 LLControlGroup::loadFromFile(const std::string& filename, bool set_default_v
 			}
 			continue;
 		}
-
+// </alchemy>
 		if(control_map.has("Persist")) 
 		{
 			persist = control_map["Persist"].asInteger();

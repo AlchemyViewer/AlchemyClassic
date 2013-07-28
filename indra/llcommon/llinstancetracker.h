@@ -54,7 +54,7 @@ protected:
 	template<typename STATICDATA, class TRACKED>
 	static STATICDATA& getStatic()
 	{
-		// [ALCH:LD] - Cache get instances to reduce overhead
+		// <alchemy/> - Cache get instances to reduce overhead
 		static void *& instances = getInstances(typeid(TRACKED));
 		if (! instances)
 		{

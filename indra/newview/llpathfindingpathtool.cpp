@@ -378,18 +378,18 @@ bool LLPathfindingPathTool::hasFinalA() const
 	return mFinalPathData.mHasPointA;
 }
 
-// [ALCH:LD] Cannot return reference here, due to stub returning a temporary
+// <alchemy> Cannot return reference here, due to stub returning a temporary
 //const LLVector3 &LLPathfindingPathTool::getFinalAStart() const
 LLVector3 LLPathfindingPathTool::getFinalAStart() const
-//[/ALCH:LD]
+//</alchemy>
 {
 	return mFinalPathData.mStartPointA;
 }
 
-// [ALCH:LD] Cannot return reference here, due to stub returning a temporary
+// <alchemy> Cannot return reference here, due to stub returning a temporary
 //const LLVector3 &LLPathfindingPathTool::getFinalAEnd() const
 LLVector3 LLPathfindingPathTool::getFinalAEnd() const
-//[/ALCH:LD]
+//</alchemy>
 {
 	return mFinalPathData.mEndPointA;
 }
@@ -418,18 +418,18 @@ bool LLPathfindingPathTool::hasFinalB() const
 	return mFinalPathData.mHasPointB;
 }
 
-// [ALCH:LD] Cannot return reference here, due to stub returning a temporary
+// <alchemy> Cannot return reference here, due to stub returning a temporary
 //const LLVector3 &LLPathfindingPathTool::getFinalBStart() const
 LLVector3 LLPathfindingPathTool::getFinalBStart() const
-// [/ALCH:LD]
+// </alchemy>
 {
 	return mFinalPathData.mStartPointB;
 }
 
-// [ALCH:LD] Cannot return reference here, due to stub returning a temporary
+// <alchemy> Cannot return reference here, due to stub returning a temporary
 //const LLVector3 &LLPathfindingPathTool::getFinalBEnd() const
 LLVector3 LLPathfindingPathTool::getFinalBEnd() const
-// [/ALCH:LD]
+// </alchemy>
 {
 	return mFinalPathData.mEndPointB;
 }

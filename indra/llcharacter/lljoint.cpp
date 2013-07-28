@@ -164,7 +164,7 @@ LLJoint *LLJoint::findJoint( const std::string &name )
 		 iter != mChildren.end(); ++iter)
 	{
 		LLJoint* joint = *iter;
-		if(joint)
+		if(joint) // <alchemy/>
 		{
 			LLJoint *found = joint->findJoint(name);
 			if (found)

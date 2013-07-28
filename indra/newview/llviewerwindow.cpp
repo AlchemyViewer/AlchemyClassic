@@ -2273,6 +2273,7 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
 			new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionGodBgColor" );
 		}
     }
+	// <alchemy>
 	/*else if (boost::regex_search(channel, is_beta_channel))
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBetaBgColor" );
@@ -2288,7 +2289,7 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
 	else if(!LLGridManager::getInstance()->isInProductionGrid())
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionBgColor" );
-	}*/
+	}*/ // </alchemy>
 	else 
 	{
 		new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBgColor" );

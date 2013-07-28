@@ -3161,6 +3161,7 @@ S32 LLPhysicsDecomp::llcdCallback(const char* status, S32 p1, S32 p2)
 	return 1;
 }
 
+// <alchemy>
 bool needTriangles( LLConvexDecomposition *aDC )
 {
 	if( !aDC )
@@ -3185,9 +3186,11 @@ bool needTriangles( LLConvexDecomposition *aDC )
 
 	return false;
 }
+// </alchemy>
 
 void LLPhysicsDecomp::setMeshData(LLCDMeshData& mesh, bool vertex_based)
 {
+// <alchemy>
 	LLConvexDecomposition *pDeComp = LLConvexDecomposition::getInstance();
 
 	if( !pDeComp )
@@ -3195,7 +3198,7 @@ void LLPhysicsDecomp::setMeshData(LLCDMeshData& mesh, bool vertex_based)
 
 	if( vertex_based )
 		vertex_based = !needTriangles( pDeComp );
-
+// </alchemy>
 	mesh.mVertexBase = mCurRequest->mPositions[0].mV;
 	mesh.mVertexStrideBytes = 12;
 	mesh.mNumVertices = mCurRequest->mPositions.size();

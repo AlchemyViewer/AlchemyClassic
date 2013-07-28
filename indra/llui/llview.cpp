@@ -301,7 +301,7 @@ bool LLView::addChild(LLView* child, S32 tab_group)
 
 	// add to front of child list, as normal
 	mChildList.push_front(child);
-	mChildHashMap[child->getName()]=child;
+	mChildHashMap[child->getName()]=child; // <alchemy/>
 
 	// add to ctrl list if is LLUICtrl
 	if (child->isCtrl())
@@ -340,6 +340,7 @@ void LLView::removeChild(LLView* child)
 		// if we are removing an item we are currently iterating over, that would be bad
 		llassert(child->mInDraw == false);
 		mChildList.remove( child );
+		// <alchemy>
 		for(boost::unordered_map<const std::string, LLView*>::iterator it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
 		{
 			if(it->second == child)
@@ -348,6 +349,7 @@ void LLView::removeChild(LLView* child)
 				break;
 			}
 		}
+		// </alchemy>
 		child->mParentView = NULL;
 		if (child->isCtrl())
 		{
@@ -620,7 +622,7 @@ void LLView::deleteAllChildren()
 		LLView* viewp = mChildList.front();
 		delete viewp; // will remove the child from mChildList
 	}
-	mChildHashMap.clear();
+	mChildHashMap.clear(); // <alchemy/>
 }
 
 void LLView::setAllChildrenEnabled(BOOL b)
@@ -844,7 +846,7 @@ LLView* LLView::childrenHandleHover(S32 x, S32 y, MASK mask)
 LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 {
 	if (!getVisible())
-		return NULL;
+		return NULL; // <alchemy/>
 
 	BOOST_FOREACH(LLView* viewp, mChildList)
 	{
@@ -1506,6 +1508,7 @@ LLView* LLView::getChildView(const std::string& name, BOOL recurse) const
 
 static LLFastTimer::DeclareTimer FTM_FIND_VIEWS("Find Widgets");
 
+// <alchemy> - Hashmap
 LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 {
 	LLFastTimer ft(FTM_FIND_VIEWS);
@@ -1544,6 +1547,7 @@ LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 	}
 	return NULL;
 }
+// </alchemy>
 
 BOOL LLView::parentPointInView(S32 x, S32 y, EHitTestType type) const 
 { 

@@ -464,11 +464,13 @@ void LLNavigationBar::onLocationSelection()
 	  region_name = slurl.getRegion();
 	  local_coords = slurl.getPosition();
 	}
+// <alchemy>
 	else if (slurl.getType() == LLSLURL::APP)
 	{
 		LLUrlAction::executeSLURL(typed_location);
 		return;
 	}
+// </alchemy>
 	else if(!slurl.isValid())
 	{
 	  // we have to do this check after previous, because LLUrlRegistry contains handlers for slurl too  
@@ -488,7 +490,7 @@ void LLNavigationBar::onLocationSelection()
 	}
 	else
 	{
-	  // was an app slurl, home, whatever.  Bail - We support app slurls here now. LD
+	  // was an app slurl, home, whatever.  Bail // <alchemy/> - We support app slurls here now.
 	  return;
 	}
 	

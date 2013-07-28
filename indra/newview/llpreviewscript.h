@@ -44,7 +44,7 @@ class LLScrollListCtrl;
 class LLViewerObject;
 struct 	LLEntryAndEdCore;
 class LLMenuBarGL;
-//class LLFloaterScriptSearch;
+//class LLFloaterScriptSearch; // <alchemy/>
 class LLKeywordToken;
 class LLVFS;
 class LLViewerInventoryItem;
@@ -56,7 +56,7 @@ class LLScriptEdCore : public LLPanel
 	friend class LLPreviewScript;
 	friend class LLPreviewLSL;
 	friend class LLLiveLSLEditor;
-//	friend class LLFloaterScriptSearch;
+//	friend class LLFloaterScriptSearch; // <alchemy/>
 	friend class LLScriptEdContainer;
 
 protected:

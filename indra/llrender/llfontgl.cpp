@@ -1124,7 +1124,7 @@ LLFontGL &LLFontGL::operator=(const LLFontGL &source)
 }
 
 // void LLFontGL::renderQuad(LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLFontGL::renderQuad(LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
 {
 	S32 index = 0;
@@ -1150,7 +1150,7 @@ void LLFontGL::renderQuad(LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* 
 }
 
 // void LLFontGL::drawGlyph(S32& glyph_count, LLVector3* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, U8 style, ShadowType shadow, F32 drop_shadow_strength) const
-// [ALCH:LD] - Manual Vectorization
+// <alchemy> - Manual Vectorization
 void LLFontGL::drawGlyph(S32& glyph_count, LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, U8 style, ShadowType shadow, F32 drop_shadow_strength) const
 
 {

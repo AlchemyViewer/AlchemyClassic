@@ -43,11 +43,13 @@
 
 #include "llxmltree.h"
 
-// [ALCH:LD] - Includes
+// <alchemy>
 #include "llavatarnamecache.h"
 #include "llhudrender.h"
 #include "llviewercontrol.h"
-// [/ALCH:LD]
+// </alchemy>
+
+//BOOL LLHUDEffectLookAt::sDebugLookAt = FALSE; // <alchemy/>
 
 // packet layout
 const S32 SOURCE_AVATAR = 0;
@@ -244,10 +246,10 @@ static BOOL loadAttentions()
 LLHUDEffectLookAt::LLHUDEffectLookAt(const U8 type) : 
 	LLHUDEffect(type), 
 	mKillTime(0.f),
-// [ALCH:LD]
+// <alchemy>
 	mLastSendTime(0.f),
 	mDebugLookAt(gSavedSettings, "AlchemyLookAtShow", false)
-// [/ALCH:LD]
+// </alchemy>
 {
 	clearLookAtTarget();
 	// parse the default sets
@@ -367,7 +369,7 @@ void LLHUDEffectLookAt::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 
 	U8 lookAtTypeUnpacked = 0;
 	htonmemcpy(&lookAtTypeUnpacked, &(packed_data[LOOKAT_TYPE]), MVT_U8, 1);
-	// [ALCH:LD]
+	// <alchemy>
 	if ((U8)LOOKAT_NUM_TARGETS > lookAtTypeUnpacked)
 	{
 		mTargetType = (ELookAtType)lookAtTypeUnpacked;
@@ -377,7 +379,7 @@ void LLHUDEffectLookAt::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 		mTargetType = LOOKAT_TARGET_NONE;
 		LL_DEBUGS("HUDEffect") << "Invalid target type: " << lookAtTypeUnpacked << LL_ENDL;
 	}
-	// [/ALCH:LD]
+	// </alchemy>
 	if (mTargetType == LOOKAT_TARGET_NONE)
 	{
 		clearLookAtTarget();
@@ -508,6 +510,7 @@ void LLHUDEffectLookAt::setSourceObject(LLViewerObject* objectp)
 //-----------------------------------------------------------------------------
 void LLHUDEffectLookAt::render()
 {
+	// <alchemy>
 	if (mDebugLookAt && mSourceObject.notNull())
 	{
 		static LLCachedControl<bool> isOwnHidden(gSavedSettings, "AlchemyLookAtHideSelf", true);
@@ -522,7 +525,7 @@ void LLHUDEffectLookAt::render()
 		gGL.matrixMode(LLRender::MM_MODELVIEW);
 		gGL.pushMatrix();
 		gGL.translatef(target.mV[VX], target.mV[VY], target.mV[VZ]);
-		gGL.scalef(0.1f, 0.1f, 0.1f); // [ALCH:LD]
+		gGL.scalef(0.1f, 0.1f, 0.1f);
 		gGL.begin(LLRender::LINES);
 		{
 			LLColor3 color = (*mAttentions)[mTargetType].mColor;
@@ -589,7 +592,7 @@ void LLHUDEffectLookAt::render()
 			gGL.popMatrix();
 		}
 	}
-	// [/ALCH:LD]
+	// </alchemy>
 }
 
 //-----------------------------------------------------------------------------
@@ -642,7 +645,7 @@ void LLHUDEffectLookAt::update()
 		}
 	}
 
-	if (mDebugLookAt) // [ALCH:LD]
+	if (mDebugLookAt) // <alchemy/>
 	{
 		((LLVOAvatar*)(LLViewerObject*)mSourceObject)->addDebugText((*mAttentions)[mTargetType].mName);
 	}

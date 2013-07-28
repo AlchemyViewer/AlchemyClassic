@@ -1030,7 +1030,6 @@ void LLPanelPeople::onTabSelected(const LLSD& param)
 void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 {
 	LLAvatarListItem* item = dynamic_cast<LLAvatarListItem*>(ctrl);
-
 	if(!item)
 	{
 		return;
@@ -1329,7 +1328,7 @@ bool LLPanelPeople::onNearbyViewSortMenuItemCheck(const LLSD& userdata)
 		return click_order == E_CLICK_TO_ZOOM;
 	if (item == "click_teleport")
 		return click_order == E_CLICK_TO_TELEPORT;
-				
+
 	return false;
 }
 

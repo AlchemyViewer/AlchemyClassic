@@ -45,6 +45,7 @@
 // newview includes
 #include "llagent.h"
 #include "llenvmanager.h"
+#include "llfloaterreg.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llinventoryobserver.h"
 #include "lllandmarkactions.h"
@@ -628,7 +629,15 @@ void LLLocationInputCtrl::reshape(S32 width, S32 height, BOOL called_from_parent
 
 void LLLocationInputCtrl::onInfoButtonClicked()
 {
-	LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "agent"));
+	// <alchemy>
+	// Promote the rectangle selection to a parcel selection
+	if (!LLViewerParcelMgr::getInstance()->getParcelSelection()->getWholeParcelSelected())
+	{
+		LLViewerParcelMgr::getInstance()->selectParcelInRectangle();
+	}
+
+	LLFloaterReg::showInstance("about_land");
+	// </alchemy>
 }
 
 void LLLocationInputCtrl::onForSaleButtonClicked()

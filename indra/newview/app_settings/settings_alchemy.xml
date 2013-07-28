@@ -57,6 +57,17 @@
       <key>Value</key>
       <string>/home</string>
     </map>
+    <key>AlchemyChatCommandPos</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to teleport to position</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/pos</string>
+    </map>
     <key>AlchemyChatCommandRezPlat</key>
     <map>
       <key>Comment</key>
@@ -78,6 +89,17 @@
       <string>F32</string>
       <key>Value</key>
       <string>20</string>
+    </map>
+    <key>AlchemyChatCommandSetHome</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to set the avatar home</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/sethome</string>
     </map>
     <key>AlchemyConnectToNeighbors</key>
     <map>

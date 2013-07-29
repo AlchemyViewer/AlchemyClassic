@@ -4721,7 +4721,7 @@ BOOL LLVOAvatar::processSingleAnimationStateChange( const LLUUID& anim_id, BOOL 
 	{
 		if (anim_id == ANIM_AGENT_TYPE)
 		{
-			if (gAudiop)
+			if (gAudiop && gSavedSettings.getBool("AlchemyPlayTypingSound"))
 			{
 				LLVector3d char_pos_global = gAgent.getPosGlobalFromAgent(getCharacterPosition());
 				if (LLViewerParcelMgr::getInstance()->canHearSound(char_pos_global)

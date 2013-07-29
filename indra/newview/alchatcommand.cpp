@@ -69,7 +69,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "AlchemyChatCommandHeight", "/gth");
 		static LLCachedControl<std::string> sGroundCommand(gSavedSettings, "AlchemyChatCommandGround", "/flr");
 		static LLCachedControl<std::string> sPosCommand(gSavedSettings, "AlchemyChatCommandPos", "/pos");
-		static LLCachedControl<std::string> sRezPlatCommand(gSavedSettings, "AlchemyChatCommandRezPlat", "/rezplat");
+		static LLCachedControl<std::string> sRezPlatCommand(gSavedSettings, "AlchemyChatCommandRezPlat", "/plat");
 		static LLCachedControl<std::string> sHomeCommand(gSavedSettings, "AlchemyChatCommandHome", "/home");
 		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
 
@@ -112,9 +112,10 @@ bool ALChatCommand::parseCommand(std::string data)
 					LLVector3d target_pos = regionp->getPosGlobalFromRegion(LLVector3((F32)x, (F32)y, (F32)z));
 					gAgent.teleportViaLocation(target_pos);
 				}
+				return true;
 			}
 		}
-		else if(cmd == std::string(sRezPlatCommand)) // rezplat
+		else if(cmd == std::string(sRezPlatCommand)) // plat
 		{
 			F32 size;
 			static LLCachedControl<F32> platSize(gSavedSettings, "AlchemyChatCommandRezPlatSize");

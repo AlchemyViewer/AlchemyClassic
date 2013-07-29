@@ -77,7 +77,7 @@
       <key>Type</key>
       <string>String</string>
       <key>Value</key>
-      <string>/rezplat</string>
+      <string>/plat</string>
     </map>
     <key>AlchemyChatCommandRezPlatSize</key>
     <map>

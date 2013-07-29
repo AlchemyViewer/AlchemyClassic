@@ -52,7 +52,7 @@
     <check_box
         follows="left|top"
         height="16"
-        label="Disable sending Typing notification in IM"
+        label="Disable sending typing notification in IM"
         tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
         left_delta="0"
         top_pad="5"
@@ -135,7 +135,7 @@
     <text
         layout="bottomleft"
         text_color="White"
-        height="12"
+        height="17"
         left="10"
         bottom="70"
         width="45">
@@ -206,6 +206,7 @@
         height="23"
         layout="topleft"
         left_pad="20"
+        text_pad_left="5"
         max_length="4096"
         name="log_path_string"
         top_delta="-5"
@@ -224,14 +225,14 @@
         width="95">
       <commit_callback function="Pref.LogPath" />
     </button>
-<button
+    <button
       height="23"
       label="Translation..."
       layout="bottomleft"
       left="10"
       name="ok_btn"
       bottom="5"
-      width="170">
+      width="159">
     <commit_callback
         function="Pref.TranslationSettings" />
   </button>
@@ -243,7 +244,7 @@
       name="autoreplace_showgui"
       commit_callback.function="Pref.AutoReplace"
       label="Auto-Replace..."
-      width="157">
+      width="159">
   </button>
   <button
       height="23"
@@ -253,7 +254,7 @@
       name="spellcheck_showgui"
       commit_callback.function="Pref.SpellChecker"
       label="Spell Checking..."
-      width="150">
+      width="159">
   </button>
   </panel><!--End of chat tab-->
   <panel
@@ -270,7 +271,7 @@
         height="12"
         name="friend_ims"
         width="145"
-        top_pad="150">
+        top_pad="142">
       Friend IMs:
     </text>
     <text
@@ -505,18 +506,18 @@
       left="13"
       width="517">
       <check_box
-        top_pad="4"
+        top_pad="15"
         follows="left|top"
         height="16"
         label="Enable chat bar commands"
-        left="3"
+        left="5"
         name="chat_cmd_toggle"
         width="270"
         control_name="AlchemyChatCommandEnable"/>.
       <!--dd-->
       <text
         top_pad="10"
-        left="15"
+        left="8"
         follows="left|top"
         height="16"
         name="AlchemyChatCommandDrawDistance_txt"
@@ -529,8 +530,8 @@
         follows="left|top"
         height="20"
         max_length_chars="256"
+        text_pad_left="5"
         name="AlchemyChatCommandDrawDistance"
-        tool_tip=""
         control_name="AlchemyChatCommandDrawDistance"
         width="220"/>
       <!--gth-->
@@ -541,15 +542,15 @@
         height="16"
         name="AlchemyChatCommandHeight_txt"
         width="220">
-        Teleport to specified height (0-8191)
+        Teleport to height (0-8192)
       </text>
       <line_editor
         top_pad="0"
         follows="left|top"
         height="20"
         max_length_chars="256"
+        text_pad_left="5"
         name="AlchemyChatCommandHeight"
-        tool_tip=""
         control_name="AlchemyChatCommandHeight"
         width="220"/>
       <!--flr-->
@@ -566,8 +567,8 @@
         follows="left|top"
         height="20"
         max_length_chars="256"
+        text_pad_left="5"
         name="AlchemyChatCommandGround"
-        tool_tip=""
         control_name="AlchemyChatCommandGround"
         width="220"/>
       <!--pos-->
@@ -577,22 +578,22 @@
         height="16"
         name="AlchemyChatCommandPos_txt"
         width="220">
-        Teleport to Position
+        Teleport to position (usage: cmd x y z)
       </text>
       <line_editor
         top_pad="0"
         follows="left|top"
         height="20"
         max_length_chars="256"
+        text_pad_left="5"
         name="AlchemyChatCommandPos"
-        tool_tip=""
         control_name="AlchemyChatCommandPos"
         width="220"/>
         <!--home-->
         <text
-          top="30"
+          top="41"
           follows="left|top"
-          left_pad="50"
+          left_pad="30"
           height="16"
           name="AlchemyChatCommandHome_txt"
           width="220">
@@ -603,8 +604,8 @@
           follows="left|top"
           height="20"
           max_length_chars="256"
+          text_pad_left="5"
           name="AlchemyChatCommandHome"
-          tool_tip=""
           control_name="AlchemyChatCommandHome"
           width="220"/>
           <!--sethome-->
@@ -621,8 +622,8 @@
           follows="left|top"
           height="20"
           max_length_chars="256"
+          text_pad_left="5"
           name="AlchemyChatCommandSetHome"
-          tool_tip=""
           control_name="AlchemyChatCommandSetHome"
           width="220"/>
           <!--reserved-->
@@ -632,15 +633,15 @@
           height="16"
           name="reserved_txt"
           width="220">
-          Reserved for Future Use
+          Reserved for future use
         </text>
         <line_editor
           top_pad="0"
           follows="left|top"
           height="20"
           max_length_chars="256"
+          text_pad_left="5"
           name="reserved"
-          tool_tip=""
           control_name=""
           width="220"/>
         <!--rezplat-->
@@ -650,13 +651,14 @@
           height="16"
           name="AlchemyChatCommandRezPlat_txt"
           width="220">
-          Rez a platform (usage: cmd 0 - 30)
+          Rez a platform (usage: cmd size)
         </text>
         <line_editor
           top_pad="0"
           follows="left|top"
           height="20"
           max_length_chars="256"
+          text_pad_left="5"
           name="AlchemyChatCommandRezPlat"
           control_name="AlchemyChatCommandRezPlat"
           width="220"/>
@@ -664,18 +666,17 @@
           top_pad="5"
           name="AlchemyChatCommandRezPlatSize"
           control_name="AlchemyChatCommandRezPlatSize"
-          decimal_digits="1"
+          decimal_digits="0"
           follows="left|top"
           height="18"
-          increment="0.5"
-          initial_value="20"
+          increment="1"
           label="Width"
           label_width="30"
-          max_val="30"
-          min_val="5"
+          max_val="64"
+          min_val="1"
           show_text="true"
           width="226"
-          tool_tip="How big do you want the platform to appear to be?"/>
+          tool_tip="Default size of rezzed platform when size is not provided with command"/>
 </panel>
 </tab_container>
 </panel>

@@ -12,14 +12,14 @@
     layout="topleft"
     follows="all"
     top="5"
-    bottom="-10"
+    bottom="-1"
     name="tab_container"
     tab_min_width="50"
     tab_position="top">
   <panel
       label="Chat"
       border="false"
-      height="500"
+      height="380"
       layout="topleft"
       top="0"
       left="13"
@@ -107,7 +107,7 @@
         height="12"
         name="font_size"
         width="60"
-        top="145g">
+        top="15">
       Font size:
     </text>
 
@@ -117,7 +117,7 @@
         layout="topleft"
         name="chat_font_size"
         left_pad="10"
-        top="11"
+        top="10"
         width="100">
       <item
           label="Small"
@@ -133,12 +133,12 @@
           value="2"/>
     </combo_box>
     <text
-        layout="topleft"
+        layout="bottomleft"
         text_color="White"
         height="12"
         left="10"
-        top="403"
-        width="55">
+        bottom="70"
+        width="45">
         Save:
     </text>
 
@@ -146,10 +146,10 @@
         enabled="false"
         control_name="KeepConversationLogTranscripts"
         height="23"
-        layout="topleft"
+        layout="bottomleft"
         name="chat_font_size"
-        left_pad="0"
-        top="271"
+        left="87"
+        bottom_delta="0"
         width="165">
         <item
             label="Log and transcripts"
@@ -168,9 +168,9 @@
         label="Clear log..."
         layout="topleft"
         left_pad="5"
-        top="400"
+        bottom_delta="0"
         name="clear_log"
-        width="110">
+        width="90">
         <commit_callback
             function="Pref.ClearLog" />
     </button>
@@ -181,19 +181,19 @@
         label="Delete transcripts..."
         layout="topleft"
         left_pad="5"
-        top="400"
+        bottom_delta="0"
         name="delete_transcripts"
-        width="147">
+        width="145">
         <button.commit_callback
             function="Pref.DeleteTranscripts" />
     </button>
 
     <text
-        layout="topleft"
+        layout="bottomleft"
         left="10"
         text_color="White"
         height="12"
-        top_pad="15"
+        bottom="45"
         width="55">
         Location:
     </text>
@@ -209,19 +209,18 @@
         max_length="4096"
         name="log_path_string"
         top_delta="-5"
-        width="310">
+        width="312">
     </line_editor>
 
     <button
         enabled="false"
-        follows="left|bottom"
         height="23"
         label="Browse..."
         label_selected="Browse"
-        layout="bottomleft"
-        left="401"
+        layout="topleft"
+        left_pad="5"
         name="log_path_button"
-        bottom="44"
+        bottom_delta="0"
         width="95">
       <commit_callback function="Pref.LogPath" />
     </button>
@@ -231,7 +230,7 @@
       layout="bottomleft"
       left="10"
       name="ok_btn"
-      bottom="11"
+      bottom="5"
       width="170">
     <commit_callback
         function="Pref.TranslationSettings" />

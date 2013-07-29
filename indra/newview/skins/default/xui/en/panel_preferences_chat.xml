@@ -5,18 +5,26 @@
     height="408"
     label="Text Chat"
     layout="topleft"
-    left="102"
     name="chat"
-    top="1"
     width="517">
 
+  <tab_container
+    layout="topleft"
+    follows="all"
+    top="5"
+    bottom="-1"
+    name="tab_container"
+    tab_min_width="50"
+    tab_position="top">
   <panel
+      label="Chat"
       border="false"
-      height="60"
+      height="380"
       layout="topleft"
-      top="10"
+      top="0"
       left="13"
-      width="517">
+      width="517"
+      name="chat_tab">
 
     <check_box
         control_name="PlayTypingAnim"
@@ -24,18 +32,51 @@
         initial_value="true"
         label="Play typing animation when chatting"
         layout="topleft"
-        top="0"
+        top_pad="15"
+        left="5"
         name="play_typing_animation"
-        width="330">
+        width="150">
     </check_box>
 
     <check_box
+        control_name="AlchemyPlayTypingSound"
+        height="16"
+        initial_value="true"
+        label="Play typing sound when chatting"
+        layout="topleft"
+        top_pad="5"
+        left="5"
+        name="play_typing_sound"
+        width="150">
+    </check_box>
+    <check_box
+        follows="left|top"
+        height="16"
+        label="Disable sending Typing notification in IM"
+        tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
+        left_delta="0"
+        top_pad="5"
+        name="chat_cmd_toggle"
+        width="275"
+        control_name="AlchemyIMHideTyping"/>
+    <check_box
+        follows="left|top"
+        height="16"
+        label="Replace my name with &quot;You&quot; in plain chat"
+        tool_tip="In compact (plain) chat mode, this replaces your avatar name with (You) when chatting and emoting.    ie: &quot;Tarnix drinks coke&quot; becomes    &quot;(You) drinks coke&quot;"
+        left_delta="0"
+        top_pad="5"
+        name="chat_cmd_toggle"
+        width="275"
+        control_name="AlchemySelfChatAsYou"/>
+    <check_box
         enabled="false"
         height="16"
-        label="Email me IMs when I'm offline"
+        label="Forward offline IMs to my E-mail"
         layout="topleft"
         name="send_im_to_email"
-        top_pad="6"
+        left_delta="0"
+        top_pad="5"
         width="330">
     </check_box>
 
@@ -45,17 +86,28 @@
         label="Only friends and groups can call or IM me"
         layout="topleft"
         name="voice_call_friends_only_check"
-        top_pad="6"
+        left_delta="0"
+        top_pad="5"
         width="350">     
     </check_box>
 
+    <check_box
+        control_name="UseChatBubbles"
+        height="16"
+        label="Show chat in a bubble under name tags"
+        layout="topleft"
+        left_delta="0"
+        top_pad="5"
+        name="bubble_text_chat"
+        width="330">
+    </check_box>
     <text
         layout="topleft"
-        left="345"
+        left="330"
         height="12"
         name="font_size"
-        width="120"
-        top="0">
+        width="60"
+        top="15">
       Font size:
     </text>
 
@@ -63,9 +115,9 @@
         control_name="ChatFontSize"
         height="23"
         layout="topleft"
-        left="341"
         name="chat_font_size"
-        top_pad="5"
+        left_pad="10"
+        top="10"
         width="100">
       <item
           label="Small"
@@ -78,57 +130,197 @@
       <item
           label="Large"
           name="Large"
-          value="2"/>  
+          value="2"/>
+    </combo_box>
+    <text
+        layout="bottomleft"
+        text_color="White"
+        height="12"
+        left="10"
+        bottom="70"
+        width="45">
+        Save:
+    </text>
+
+    <combo_box
+        enabled="false"
+        control_name="KeepConversationLogTranscripts"
+        height="23"
+        layout="bottomleft"
+        name="chat_font_size"
+        left="87"
+        bottom_delta="0"
+        width="165">
+        <item
+            label="Log and transcripts"
+            value="2"/>
+        <item
+            label="Log only"
+            value="1"/>
+        <item
+            label="No log or transcripts"
+            value="0"/>
     </combo_box>
 
-    <check_box
-        control_name="UseChatBubbles"
-        height="16"
-        label="Bubble Chat"
+    <button
+        enabled="false"
+        height="23"
+        label="Clear log..."
         layout="topleft"
-        top_pad="4"
-        name="bubble_text_chat"
-        width="330">
-    </check_box>
-      
-  </panel>
+        left_pad="5"
+        bottom_delta="0"
+        name="clear_log"
+        width="90">
+        <commit_callback
+            function="Pref.ClearLog" />
+    </button>
 
-  <panel
-      border="false"
-      height="165"
+    <button
+        enabled="false"
+        height="23"
+        label="Delete transcripts..."
+        layout="topleft"
+        left_pad="5"
+        bottom_delta="0"
+        name="delete_transcripts"
+        width="145">
+        <button.commit_callback
+            function="Pref.DeleteTranscripts" />
+    </button>
+
+    <text
+        layout="bottomleft"
+        left="10"
+        text_color="White"
+        height="12"
+        bottom="45"
+        width="55">
+        Location:
+    </text>
+
+    <line_editor
+        control_name="InstantMessageLogPath"
+        border_style="line"
+        border_thickness="1"
+        font="SansSerif"
+        height="23"
+        layout="topleft"
+        left_pad="20"
+        max_length="4096"
+        name="log_path_string"
+        top_delta="-5"
+        width="312">
+    </line_editor>
+
+    <button
+        enabled="false"
+        height="23"
+        label="Browse..."
+        label_selected="Browse"
+        layout="topleft"
+        left_pad="5"
+        name="log_path_button"
+        bottom_delta="0"
+        width="95">
+      <commit_callback function="Pref.LogPath" />
+    </button>
+<button
+      height="23"
+      label="Translation..."
+      layout="bottomleft"
+      left="10"
+      name="ok_btn"
+      bottom="5"
+      width="170">
+    <commit_callback
+        function="Pref.TranslationSettings" />
+  </button>
+  <button
+      height="23"
       layout="topleft"
+      top_pad="-23"
+      left_pad="5"
+      name="autoreplace_showgui"
+      commit_callback.function="Pref.AutoReplace"
+      label="Auto-Replace..."
+      width="157">
+  </button>
+  <button
+      height="23"
+      layout="topleft"
+      top_pad="-23"
+      left_pad="5"
+      name="spellcheck_showgui"
+      commit_callback.function="Pref.SpellChecker"
+      label="Spell Checking..."
+      width="150">
+  </button>
+  </panel><!--End of chat tab-->
+  <panel
+      label="Notifications"
+      border="false"
+      height="500"
+      layout="topleft"
+      top_pad="0"
       left="13"
       width="517">
-
     <text
         layout="topleft"
-        height="12"
-        name="notifications"
-        left="0"
-        width="120">
-      Notifications
-    </text>
-    <text
-        layout="topleft"
+        left="10"
         height="12"
         name="friend_ims"
         width="145"
-        left="0"
-        top_pad="13">
+        top_pad="150">
       Friend IMs:
+    </text>
+    <text
+        layout="topleft"
+        left="10"
+        height="12"
+        name="non_friend_ims"
+        width="145"
+        top_pad="15">
+      Non-friend IMs:
+    </text>
+    <text
+        layout="topleft"
+        left="10"
+        height="13"
+        name="conference_ims"
+        width="145"
+        top_pad="15">
+      Conference IMs:
+    </text>
+    <text
+        layout="topleft"
+        left="10"
+        height="13"
+        name="group_chat"
+        width="145"
+        top_pad="15">
+      Group chat:
+    </text>
+    <text
+        layout="topleft"
+        left="10"
+        height="12"
+        name="nearby_chat"
+        width="145"
+        top_pad="15">
+      Nearby chat:
     </text>
     <combo_box
         control_name="NotificationFriendIMOptions"
         height="23"
         layout="topleft"
-        left_pad="5"
-        top_delta="-6"
+        left="160"
+        top="15"
         name="FriendIMOptions"
         width="223">
       <item
           label="Open Conversations window"
           name="OpenConversationsWindow"
-          value="openconversations"/>      
+          value="openconversations"/>
       <item
           label="Pop up the message"
           name="PopUpMessage"
@@ -142,21 +334,13 @@
           name="None"
           value="none"/>
     </combo_box>
-    <text
-        layout="topleft"
-        height="12"
-        name="non_friend_ims"
-        width="145"
-        left="0"
-        top_pad="9">
-      Non-friend IMs:
-    </text>
+
     <combo_box
         control_name="NotificationNonFriendIMOptions"
         height="23"
         layout="topleft"
-        left_pad="5"
-        top_delta="-6"
+        left="160"
+        top_pad="5"
         name="NonFriendIMOptions"
         width="223">
       <item
@@ -176,21 +360,13 @@
           name="None"
           value="none"/>
     </combo_box>
-    <text
-        layout="topleft"
-        left="0"
-        height="13"
-        name="conference_ims"
-        width="145"
-        top_pad="9">
-      Conference IMs:
-    </text>
+    
     <combo_box
         control_name="NotificationConferenceIMOptions"
         height="23"
         layout="topleft"
-        left_pad="5"
-        top_delta="-6"
+        left="160"
+        top_pad="5"
         name="ConferenceIMOptions"
         width="223">
       <item
@@ -210,21 +386,13 @@
           name="None"
           value="none"/>
     </combo_box>
-    <text
-        layout="topleft"
-        left="0"
-        height="13"
-        name="group_chat"
-        width="145"
-        top_pad="9">
-      Group chat:
-    </text>
+    
     <combo_box
         control_name="NotificationGroupChatOptions"
         height="23"
         layout="topleft"
-        left_pad="5"
-        top_delta="-6"
+        left="160"
+        top_pad="5"
         name="GroupChatOptions"
         width="223">
       <item
@@ -244,21 +412,13 @@
           name="None"
           value="none"/>
     </combo_box>
-    <text
-        layout="topleft"
-        left="0"
-        height="12"
-        name="nearby_chat"
-        width="145"
-        top_pad="9">
-      Nearby chat:
-    </text>
+
     <combo_box
         control_name="NotificationNearbyChatOptions"
         height="23"
         layout="topleft"
-        left_pad="5"
-        top_delta="-6"
+        left="160"
+        top_pad="5"
         name="NearbyChatOptions"
         width="223">
       <item
@@ -280,32 +440,22 @@
     </combo_box>
     <text
         layout="topleft"
-        left="0"
+        left="10"
         height="13"
         name="notifications_alert"
         width="500"
-        top_pad="9"
+        top_pad="140"
         visible="true"
         text_color="DrYellow">
       To temporarily stop all notifications, use Communicate &gt; Do Not Disturb.
     </text>
 
-  </panel>
-
-  <panel
-      border="false"
-      height="50"
-      layout="topleft"
-      left="13"
-      top_pad="10"
-      width="517">
-
     <text
         layout="topleft"
-        left="0"
+        left="10"
         name="play_sound"
-        width="100"
-        top_pad="8"
+        width="75"
+        top_pad="10"
         visible="true">
       Play sound:
     </text>
@@ -314,180 +464,218 @@
         height="16"
         label="New conversation"
         layout="topleft"
-        left_pad="15"
-        top_pad="-10"
+        left="25"
+        top="210"
         name="new_conversation"
-        width="150" />
+        width="70" />
     <check_box
         control_name="PlaySoundIncomingVoiceCall"
         height="16"
-        label="Incoming voice call"
+        label="Voice call"
         layout="topleft"
-        top_pad="6"
+        left_pad="-70"
+        top_pad="5"
         name="incoming_voice_call"
-        width="150" />
+        width="90" />
     <check_box
         control_name="PlaySoundTeleportOffer"
         height="16"
-        label="Teleport offer"
+        label="TP offer"
         layout="topleft"
-        left_pad="35"
-        top_pad="-38"
+        left_pad="70"
+        top="210"
         name="teleport_offer"
-        width="150" />
+        width="80" />
     <check_box
         control_name="PlaySoundInventoryOffer"
         height="16"
         label="Inventory offer"
         layout="topleft"
-        top_pad="6"
+        left_pad="-80"
+        top_pad="5"
         name="inventory_offer"
         width="150" />
-
-  </panel>
-
-  <view_border
-      bevel_style="none"
-      height="0"
-      layout="topleft"
-      left="13"
-      name="cost_text_border"
-      top_pad="5"
-      width="495"/>
-
+</panel> <!--end of Notifications Tab-->
   <panel
-      height="50"
+      label="Commands"
+      border="false"
+      height="500"
       layout="topleft"
+      top="0"
       left="13"
-      top_pad="10"
-      width="505">
-
-    <text
-        layout="topleft"
-        left="0"
-        text_color="White"
-        height="12"
-        top="5"
-        width="55">
-        Save:
-    </text>
-
-    <combo_box
-        enabled="false"
-        control_name="KeepConversationLogTranscripts"
-        height="23"
-        layout="topleft"
-        left_pad="5"
-        name="chat_font_size"
-        top="0"
-        width="165">
-        <item
-            label="Log and transcripts"
-            value="2"/>
-        <item
-            label="Log only"
-            value="1"/>
-        <item
-            label="No log or transcripts"
-            value="0"/>
-    </combo_box>
-
-    <button
-        enabled="false"
-        height="23"
-        label="Clear log..."
-        layout="topleft"
-        left_pad="5"
-        top="0"
-        name="clear_log"
-        width="110">
-        <commit_callback
-            function="Pref.ClearLog" />
-    </button>
-  
-    <button
-        enabled="false"
-        height="23"
-        label="Delete transcripts..."
-        layout="topleft"
-        left_pad="5"
-        top="0"
-        name="delete_transcripts"
-        width="147">
-        <button.commit_callback
-            function="Pref.DeleteTranscripts" />
-    </button>
-  
-    <text
-        layout="topleft"
-        left="0"
-        text_color="White"
-        height="12"
-        top_pad="15"
-        width="55">
-        Location:
-    </text>
-  
-    <line_editor
-        control_name="InstantMessageLogPath"
-        border_style="line"
-        border_thickness="1"
-        font="SansSerif"
-        height="23"
-        layout="topleft"
-        left_pad="55"
-        max_length="4096"
-        name="log_path_string"
-        top_delta="-5"
-        width="185">
-    </line_editor>
-  
-    <button
-        enabled="false"
+      width="517">
+      <check_box
+        top_pad="4"
         follows="left|top"
-        height="23"
-        label="Browse..."
-        label_selected="Browse"
-        layout="topleft"
-        left_pad="5"
-        name="log_path_button"
-        top_delta="0"
-        width="112">
-      <commit_callback function="Pref.LogPath" />
-    </button>
-
-  </panel>
-  
-  <button
-      height="23"
-      label="Translation..."
-      layout="topleft"
-      left="9"
-      name="ok_btn"
-      top="-29"
-      width="170">
-    <commit_callback
-        function="Pref.TranslationSettings" />
-  </button>
-  <button
-      height="23"
-      layout="topleft"
-      top_pad="-23"
-      left_pad="5"
-      name="autoreplace_showgui"
-      commit_callback.function="Pref.AutoReplace"
-      label="Auto-Replace..."
-      width="150">
-  </button>
-  <button
-      height="23"
-      layout="topleft"
-      top_pad="-23"
-      left_pad="5"
-      name="spellcheck_showgui"
-      commit_callback.function="Pref.SpellChecker"
-      label="Spell Checking..."
-      width="150">
-  </button>
-
+        height="16"
+        label="Enable chat bar commands"
+        left="3"
+        name="chat_cmd_toggle"
+        width="270"
+        control_name="AlchemyChatCommandEnable"/>.
+      <!--dd-->
+      <text
+        top_pad="10"
+        left="15"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandDrawDistance_txt"
+        width="220">
+        Change Draw Dist (usage: cmd meters)
+      </text>
+      <line_editor
+        top_pad="0"
+        left_delta="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        name="AlchemyChatCommandDrawDistance"
+        tool_tip=""
+        control_name="AlchemyChatCommandDrawDistance"
+        width="220"/>
+      <!--gth-->
+      <text
+        top_pad="10"
+        left_delta="0"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandHeight_txt"
+        width="220">
+        Teleport to specified height (0-8191)
+      </text>
+      <line_editor
+        top_pad="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        name="AlchemyChatCommandHeight"
+        tool_tip=""
+        control_name="AlchemyChatCommandHeight"
+        width="220"/>
+      <!--flr-->
+      <text
+        top_pad="10"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandGround_txt"
+        width="220">
+        Teleport to ground
+      </text>
+      <line_editor
+        top_pad="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        name="AlchemyChatCommandGround"
+        tool_tip=""
+        control_name="AlchemyChatCommandGround"
+        width="220"/>
+      <!--pos-->
+      <text
+        top_pad="10"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandPos_txt"
+        width="220">
+        Teleport to Position
+      </text>
+      <line_editor
+        top_pad="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        name="AlchemyChatCommandPos"
+        tool_tip=""
+        control_name="AlchemyChatCommandPos"
+        width="220"/>
+        <!--home-->
+        <text
+          top="30"
+          follows="left|top"
+          left_pad="50"
+          height="16"
+          name="AlchemyChatCommandHome_txt"
+          width="220">
+          Teleport Home
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          name="AlchemyChatCommandHome"
+          tool_tip=""
+          control_name="AlchemyChatCommandHome"
+          width="220"/>
+          <!--sethome-->
+        <text
+          top_pad="10"
+          follows="left|top"
+          height="16"
+          name="AlchemyChatCommandSetHome_txt"
+          width="220">
+          Set Home Location
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          name="AlchemyChatCommandSetHome"
+          tool_tip=""
+          control_name="AlchemyChatCommandSetHome"
+          width="220"/>
+          <!--reserved-->
+        <text
+          top_pad="10"
+          follows="left|top"
+          height="16"
+          name="reserved_txt"
+          width="220">
+          Reserved for Future Use
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          name="reserved"
+          tool_tip=""
+          control_name=""
+          width="220"/>
+        <!--rezplat-->
+        <text
+          top_pad="10"
+          follows="left|top"
+          height="16"
+          name="AlchemyChatCommandRezPlat_txt"
+          width="220">
+          Rez a platform (usage: cmd 0 - 30)
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          name="AlchemyChatCommandRezPlat"
+          control_name="AlchemyChatCommandRezPlat"
+          width="220"/>
+        <slider
+          top_pad="5"
+          name="AlchemyChatCommandRezPlatSize"
+          control_name="AlchemyChatCommandRezPlatSize"
+          decimal_digits="1"
+          follows="left|top"
+          height="18"
+          increment="0.5"
+          initial_value="20"
+          label="Width"
+          label_width="30"
+          max_val="30"
+          min_val="5"
+          show_text="true"
+          width="226"
+          tool_tip="How big do you want the platform to appear to be?"/>
+</panel>
+</tab_container>
 </panel>

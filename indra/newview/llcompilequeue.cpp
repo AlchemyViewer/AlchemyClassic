@@ -772,18 +772,31 @@ void LLFloaterDeleteQueue::handleInventory(LLViewerObject* viewer_obj,
 {
 	if (viewer_obj)
 	{
-		const std::string delstring = getString("Deleting");
+		LLViewerObject* objectp = gObjectList.findObject(viewer_obj->getID());
+		const std::string& delstring = getString("Deleting");
 		LLScrollListCtrl* list = getChild<LLScrollListCtrl>("queue output");
-
-		const LLInventoryObject::object_list_t::const_iterator it_end = inv->end();
-		for (LLInventoryObject::object_list_t::const_iterator it = inv->begin(); it != it_end; ++it)
+		if (objectp)
 		{
-			const LLInventoryObject* item = static_cast<LLInventoryObject*>(*it);
-			if (item && item->getType() == LLAssetType::AT_LSL_TEXT)
+			const LLInventoryObject::object_list_t::const_iterator it_end = inv->end();
+			for (LLInventoryObject::object_list_t::const_iterator it = inv->begin(); it != it_end; ++it)
 			{
-				list->addSimpleElement(delstring + item->getName());
-				viewer_obj->removeInventory(item->getUUID());
+				const LLInventoryObject* item = static_cast<LLInventoryObject*>(*it);
+				if (item && item->getType() == LLAssetType::AT_LSL_TEXT)
+				{
+					list->addSimpleElement(delstring + item->getName(), ADD_BOTTOM);
+
+					LLMessageSystem* msg = gMessageSystem;
+					msg->newMessageFast(_PREHASH_RemoveTaskInventory);
+					msg->nextBlockFast(_PREHASH_AgentData);
+					msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+					msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+					msg->nextBlockFast(_PREHASH_InventoryData);
+					msg->addU32Fast(_PREHASH_LocalID, objectp->getLocalID());
+					msg->addUUIDFast(_PREHASH_ItemID, item->getUUID());
+					msg->sendReliable(objectp->getRegion()->getHost());
+				}
 			}
+			objectp->dirtyInventory();
 		}
 	}
 	nextObject();

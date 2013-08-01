@@ -630,12 +630,7 @@ void LLLocationInputCtrl::reshape(S32 width, S32 height, BOOL called_from_parent
 void LLLocationInputCtrl::onInfoButtonClicked()
 {
 	// <alchemy>
-	// Promote the rectangle selection to a parcel selection
-	if (!LLViewerParcelMgr::getInstance()->getParcelSelection()->getWholeParcelSelected())
-	{
-		LLViewerParcelMgr::getInstance()->selectParcelInRectangle();
-	}
-
+	LLViewerParcelMgr::getInstance()->selectParcelAt(gAgent.getPositionGlobal());
 	LLFloaterReg::showInstance("about_land");
 	// </alchemy>
 }

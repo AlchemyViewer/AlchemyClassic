@@ -154,6 +154,9 @@
     name="MdBlue"
     value=".07 .38 .51 1" />
   <color
+      name="DkBlue"
+      value=".06 .06 .3 1" />
+  <color
       name="LtRed"
       value="1 0.2 0.2 1" />
   <color
@@ -162,6 +165,9 @@
   <color
       name="Red_80"
       value="1 0 0 0.8" />
+  <color
+      name="DkRed"
+      value="0.3 0.06 0.06 1" />
   <color
       name="Green_80"
       value="0 1 0 0.8" />
@@ -594,7 +600,7 @@
       reference="AlchemyDarkGray" />
     <color
      name="ModelUploaderLabels"
-     value="1 0.6 0 1" />      
+     value="1 0.6 0 1" />	  
     <color
      name="MultiSliderDisabledThumbColor"
      reference="Black" />
@@ -701,6 +707,15 @@
       reference="DrYellow" />
   <color
       name="PathfindingGoodColor"
+      reference="LtGreen" />
+  <color
+      name="MaterialErrorColor"
+      reference="LtRed" />
+  <color
+      name="MaterialWarningColor"
+      reference="DrYellow" />
+  <color
+      name="MaterialGoodColor"
       reference="LtGreen" />
   <color
       name="PathfindingDefaultBeaconColor"
@@ -860,7 +875,7 @@
      reference="AlchemyText" />
     <color
      name="UserChatColor"
-      reference="AlchemyText" />
+     reference="AlchemyText" />
     <color
      name="llOwnerSayChatColor"
      reference="LtYellow" />
@@ -882,9 +897,14 @@
      name="ChatTimestampColor"
      reference="AlchemyText" />
     <color
+      name="MenuBarBetaBgColor"
+      reference="DkBlue" />
+  <color
      name="MenuBarProjectBgColor"
      reference="AlchemyDarkBlue" />
-  
+  <color
+      name="MenuBarTestBgColor"
+      reference="DkRed" />
     <color
       name="MeshImportTableNormalColor"
       value="1 1 1 1"/>

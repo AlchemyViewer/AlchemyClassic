@@ -498,9 +498,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>32ce0dd81ccdc7f9f813cda0945ff82a</string>
+              <string>32ce0dd81ccdc7f9f813cda0945ff82a</string>
               <key>url</key>
-	      <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.18-darwin-20130725.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.18-darwin-20130725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -510,7 +510,7 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-          <string>55f091975d03863e0342966151e74032</string>
+              <string>55f091975d03863e0342966151e74032</string>
               <key>url</key>
               <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.18-linux-20130726.tar.bz2</string>
             </map>
@@ -522,9 +522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-	      <string>ed1416af5f3c16c75a709458416de9ee</string>
+              <string>ed1416af5f3c16c75a709458416de9ee</string>
               <key>url</key>
-	      <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.18-windows-20130725.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.18-windows-20130725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -747,7 +747,6 @@
           </map>
         </map>
       </map>
-
       <key>google_breakpad</key>
       <map>
         <key>license</key>
@@ -762,10 +761,10 @@
           <map>
             <key>archive</key>
             <map>
-           <key>hash</key>
-	   <string>aff5566e04003de0383941981198e04e</string>
-          <key>url</key>
-          <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-breakpad/rev/273073/arch/Darwin/installer/google_breakpad-0.0.0-rev1099-darwin-20130329.tar.bz2</string>
+              <key>hash</key>
+              <string>aff5566e04003de0383941981198e04e</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-breakpad/rev/273073/arch/Darwin/installer/google_breakpad-0.0.0-rev1099-darwin-20130329.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -774,10 +773,10 @@
           <map>
             <key>archive</key>
             <map>
-             <key>hash</key>
-	         <string>52257e5eb166a0b69c9c0c38f6e1920e</string>
-             <key>url</key>
-	         <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-breakpad/rev/273079/arch/Linux/installer/google_breakpad-0.0.0-rev1099-linux-20130329.tar.bz2</string>
+              <key>hash</key>
+              <string>52257e5eb166a0b69c9c0c38f6e1920e</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-breakpad/rev/273079/arch/Linux/installer/google_breakpad-0.0.0-rev1099-linux-20130329.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1853,9 +1852,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>24e735ae005f3ce7a21a09cc02cece17</string>
+              <string>2994f1e028fb200c454c12b5f7ca9108</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/231678/arch/Darwin/installer/slvoice-3.2.0002.10426-darwin-20110601.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/270464/arch/Darwin/installer/slvoice-4.5.0009.17865-darwin-20130215.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1865,9 +1864,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8a0bc982367d6fdc20a28b391cd40566</string>
+              <string>957773fff7148ffaca42b1ea4a18d192</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/231678/arch/Linux/installer/slvoice-3.2.0002.10426-linux-20110601.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/270512/arch/Linux/installer/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1877,9 +1876,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1e821cc7d25eabad013b7f3db260dd6b</string>
+              <string>24710eda136bfd42d6333e5609c2c74f</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/231678/arch/CYGWIN/installer/slvoice-3.2.0002.10426-windows-20110601.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/270464/arch/CYGWIN/installer/slvoice-4.5.0009.17865-windows-20130214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

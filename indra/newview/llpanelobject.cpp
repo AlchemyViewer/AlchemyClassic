@@ -37,6 +37,7 @@
 #include "llstring.h"
 #include "llvolume.h"
 #include "m3math.h"
+#include "llsdutil_math.h"// <alchemy/>
 
 // project includes
 #include "llagent.h"
@@ -127,6 +128,8 @@ BOOL	LLPanelObject::postBuild()
 	childSetCommitCallback("Pos Y",onCommitPosition,this);
 	mCtrlPosZ = getChild<LLSpinCtrl>("Pos Z");
 	childSetCommitCallback("Pos Z",onCommitPosition,this);
+	mBtnPosCopy = getChild<LLButton>("copy_pos_btn");
+	mBtnPosPaste = getChild<LLButton>("paste_pos_btn");
 
 	// Scale
 	mLabelSize = getChild<LLTextBox>("label size");
@@ -141,6 +144,10 @@ BOOL	LLPanelObject::postBuild()
 	mCtrlScaleZ = getChild<LLSpinCtrl>("Scale Z");
 	childSetCommitCallback("Scale Z",onCommitScale,this);
 
+	// Scale Copy
+	mBtnScaleCopy = getChild<LLButton>("copy_scale_btn");
+	mBtnScalePaste = getChild<LLButton>("paste_scale_btn");
+
 	// Rotation
 	mLabelRotation = getChild<LLTextBox>("label rotation");
 	mCtrlRotX = getChild<LLSpinCtrl>("Rot X");
@@ -149,6 +156,8 @@ BOOL	LLPanelObject::postBuild()
 	childSetCommitCallback("Rot Y",onCommitRotation,this);
 	mCtrlRotZ = getChild<LLSpinCtrl>("Rot Z");
 	childSetCommitCallback("Rot Z",onCommitRotation,this);
+	mBtnRotCopy = getChild<LLButton>("copy_rot_btn");
+	mBtnRotPaste = getChild<LLButton>("paste_rot_btn");
 
 	//--------------------------------------------------------
 		
@@ -280,6 +289,12 @@ BOOL	LLPanelObject::postBuild()
 
 LLPanelObject::LLPanelObject()
 :	LLPanel(),
+	mBtnPosCopy(NULL),
+	mBtnPosPaste(NULL),
+	mBtnScaleCopy(NULL),
+	mBtnScalePaste(NULL),
+	mBtnRotCopy(NULL),
+	mBtnRotPaste(NULL),
 	mIsPhysical(FALSE),
 	mIsTemporary(FALSE),
 	mIsPhantom(FALSE),
@@ -287,6 +302,8 @@ LLPanelObject::LLPanelObject()
 	mSculptTextureRevert(LLUUID::null),
 	mSculptTypeRevert(0)
 {
+	mCommitCallbackRegistrar.add("Build.Copy", boost::bind(&LLPanelObject::onClickBtnCopyData, this, _2));
+	mCommitCallbackRegistrar.add("Build.Paste", boost::bind(&LLPanelObject::onClickBtnPasteData, this, _2));
 }
 
 
@@ -382,6 +399,8 @@ void LLPanelObject::getState( )
 	mCtrlPosX->setEnabled(enable_move);
 	mCtrlPosY->setEnabled(enable_move);
 	mCtrlPosZ->setEnabled(enable_move);
+	mBtnPosCopy->setEnabled(enable_move);
+	mBtnPosPaste->setEnabled(enable_move && mCopiedObjectData.has("position"));
 
 	if (enable_scale)
 	{
@@ -407,6 +426,8 @@ void LLPanelObject::getState( )
 	mCtrlScaleX->setEnabled( enable_scale );
 	mCtrlScaleY->setEnabled( enable_scale );
 	mCtrlScaleZ->setEnabled( enable_scale );
+	mBtnScaleCopy->setEnabled(enable_scale);
+	mBtnScalePaste->setEnabled(enable_scale && mCopiedObjectData.has("scale"));
 
 	LLQuaternion object_rot = objectp->getRotationEdit();
 	object_rot.getEulerAngles(&(mCurEulerDegrees.mV[VX]), &(mCurEulerDegrees.mV[VY]), &(mCurEulerDegrees.mV[VZ]));
@@ -438,6 +459,8 @@ void LLPanelObject::getState( )
 	mCtrlRotX->setEnabled( enable_rotate );
 	mCtrlRotY->setEnabled( enable_rotate );
 	mCtrlRotZ->setEnabled( enable_rotate );
+	mBtnRotCopy->setEnabled(enable_rotate);
+	mBtnRotPaste->setEnabled(enable_rotate && mCopiedObjectData.has("rotation"));
 
 	LLUUID owner_id;
 	std::string owner_name;
@@ -946,7 +969,7 @@ void LLPanelObject::getState( )
 	else 
 	{
 		mSpinHollow->setMinValue(0.f);
-		mSpinHollow->setMaxValue(95.f);
+		mSpinHollow->setMaxValue(100.f); // <alchemy/>
 	}
 
 	// Update field enablement
@@ -2010,4 +2033,81 @@ void LLPanelObject::onCommitSculptType(LLUICtrl *ctrl, void* userdata)
 	LLPanelObject* self = (LLPanelObject*) userdata;
 
 	self->sendSculpt();
+}
+
+void LLPanelObject::onClickBtnCopyData(const LLSD& userdata)
+{
+	const std::string param_data = userdata.asString();
+	if (param_data == "position")
+	{
+		mCopiedObjectData[param_data] = ll_sd_from_vector3(mObject->getPositionEdit());
+		mBtnPosPaste->setEnabled(TRUE);
+	}
+	else if(param_data == "scale")
+	{
+		mCopiedObjectData[param_data] = ll_sd_from_vector3(mObject->getScale());
+		mBtnScalePaste->setEnabled(TRUE);
+	}
+	else if (param_data == "rotation")
+	{
+		mCopiedObjectData[param_data] = ll_sd_from_quaternion(mObject->getRotationEdit());
+		mBtnRotPaste->setEnabled(TRUE);
+	}
+}
+
+void LLPanelObject::onClickBtnPasteData(const LLSD& userdata)
+{
+	const std::string param_data = userdata.asString();
+	if ((!mCopiedObjectData.has(param_data)) || (mCopiedObjectData[param_data].isUndefined()))
+		return;
+
+	if (param_data == "position")
+	{
+		const LLVector3 position = ll_vector3_from_sd(mCopiedObjectData[param_data]);
+		mCtrlPosX->set(position.mV[VX]);
+		mCtrlPosY->set(position.mV[VY]);
+		mCtrlPosZ->set(position.mV[VZ]);
+
+		LLCalc* calcp = LLCalc::getInstance();
+		calcp->setVar(LLCalc::X_POS, position.mV[VX]);
+		calcp->setVar(LLCalc::Y_POS, position.mV[VY]);
+		calcp->setVar(LLCalc::Z_POS, position.mV[VZ]);
+
+		sendPosition(FALSE);
+	}
+	else if (param_data == "scale")
+	{
+		const LLVector3 scale = ll_vector3_from_sd(mCopiedObjectData[param_data]);
+		mCtrlScaleX->set(scale.mV[VX]);
+		mCtrlScaleY->set(scale.mV[VY]);
+		mCtrlScaleZ->set(scale.mV[VZ]);
+
+		LLCalc* calcp = LLCalc::getInstance();
+		calcp->setVar(LLCalc::X_SCALE, scale.mV[VX]);
+		calcp->setVar(LLCalc::Y_SCALE, scale.mV[VY]);
+		calcp->setVar(LLCalc::Z_SCALE, scale.mV[VZ]);
+
+		sendScale(FALSE);
+	}
+	else if (param_data == "rotation")
+	{
+		LLVector3 euler_angles;
+		const LLQuaternion rotation_data = ll_quaternion_from_sd(mCopiedObjectData[param_data]);
+		rotation_data.getEulerAngles(&(euler_angles.mV[VX]), &(euler_angles.mV[VY]), &(euler_angles.mV[VZ]));
+		euler_angles *= RAD_TO_DEG;
+		euler_angles.mV[VX] = llround(fmodf(euler_angles.mV[VX] + 360.f, 360.f), OBJECT_ROTATION_PRECISION);
+		euler_angles.mV[VY] = llround(fmodf(euler_angles.mV[VY] + 360.f, 360.f), OBJECT_ROTATION_PRECISION);
+		euler_angles.mV[VZ] = llround(fmodf(euler_angles.mV[VZ] + 360.f, 360.f), OBJECT_ROTATION_PRECISION);
+
+		mCtrlRotX->set(euler_angles.mV[VX]);
+		mCtrlRotY->set(euler_angles.mV[VY]);
+		mCtrlRotZ->set(euler_angles.mV[VZ]);
+
+		LLCalc* calcp = LLCalc::getInstance();
+		calcp->setVar(LLCalc::X_ROT, euler_angles.mV[VX]);
+		calcp->setVar(LLCalc::Y_ROT, euler_angles.mV[VY]);
+		calcp->setVar(LLCalc::Z_ROT, euler_angles.mV[VZ]);
+
+		sendRotation(FALSE);
+	}
 }

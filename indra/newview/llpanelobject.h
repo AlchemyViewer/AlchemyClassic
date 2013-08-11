@@ -75,6 +75,11 @@ public:
 	BOOL     		onDropSculpt(LLInventoryItem* item);
 	static void     onCommitSculptType(    LLUICtrl *ctrl, void* userdata);
 
+	// <alchemy>
+	void		onClickBtnCopyData(const LLSD& userdata);
+	void		onClickBtnPasteData(const LLSD& userdata);
+	// </alchemy>
+
 protected:
 	void			getState();
 
@@ -132,16 +137,22 @@ protected:
 	LLSpinCtrl*		mSpinRevolutions;
 
 	LLTextBox*		mLabelPosition;
+	LLButton*		mBtnPosCopy;
+	LLButton*		mBtnPosPaste;
 	LLSpinCtrl*		mCtrlPosX;
 	LLSpinCtrl*		mCtrlPosY;
 	LLSpinCtrl*		mCtrlPosZ;
 
 	LLTextBox*		mLabelSize;
+	LLButton*		mBtnScaleCopy;
+	LLButton*		mBtnScalePaste;
 	LLSpinCtrl*		mCtrlScaleX;
 	LLSpinCtrl*		mCtrlScaleY;
 	LLSpinCtrl*		mCtrlScaleZ;
 
 	LLTextBox*		mLabelRotation;
+	LLButton*		mBtnRotCopy;
+	LLButton*		mBtnRotPaste;
 	LLSpinCtrl*		mCtrlRotX;
 	LLSpinCtrl*		mCtrlRotY;
 	LLSpinCtrl*		mCtrlRotZ;
@@ -165,6 +176,8 @@ protected:
 
 	LLUUID          mSculptTextureRevert;   // so we can revert the sculpt texture on cancel
 	U8              mSculptTypeRevert;      // so we can revert the sculpt type on cancel
+
+	LLSD			mCopiedObjectData;
 
 	LLPointer<LLViewerObject> mObject;
 	LLPointer<LLViewerObject> mRootObject;

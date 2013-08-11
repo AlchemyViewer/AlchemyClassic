@@ -1427,6 +1427,19 @@ even though the user gets a free copy.
              text_enabled_color="1 0 0.3 .7"
              top_pad="5"
              width="87" />
+            <button follows="top|right"
+             height="18" 
+             label="C"
+             left_pad="5"
+             mouse_opaque="true"
+             name="copy_pos_btn"
+             enabled="true"
+             tool_tip="Copy Position"
+             width="20">
+              <button.commit_callback
+               function="Build.Copy"
+               parameter="position" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1436,13 +1449,26 @@ even though the user gets a free copy.
              label="Y"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="512"
              min_val="-256"
              name="Pos Y"
              text_enabled_color="EmphasisColor"
              top_pad="3"
              width="87" />
+            <button follows="top|right"
+             height="18"
+             label="P"
+             left_pad="5"
+             mouse_opaque="true"
+             name="paste_pos_btn"
+             enabled="true"
+             tool_tip="Paste Position"
+             width="20">
+              <button.commit_callback
+               function="Build.Paste"
+               parameter="position" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1452,7 +1478,7 @@ even though the user gets a free copy.
              label="Z"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="4096"
              name="Pos Z"
              text_enabled_color="0 0.8 1 .65"
@@ -1464,7 +1490,7 @@ even though the user gets a free copy.
              follows="left|top"
              height="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              name="label size"
              top_pad="6"
              width="121">
@@ -1486,6 +1512,19 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="5"
              width="87" />
+            <button follows="top|right"
+             height="18" 
+             label="C"
+             left_pad="5"
+             mouse_opaque="true"
+             name="copy_scale_btn"
+             enabled="true"
+             tool_tip="Copy Size"
+             width="20">
+              <button.commit_callback
+               function="Build.Copy"
+               parameter="scale" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1495,13 +1534,26 @@ even though the user gets a free copy.
              label="Y"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="64"
              min_val="0.01"
              name="Scale Y"
              text_enabled_color="1 1 1 1"
              top_pad="3"
              width="87" />
+            <button follows="top|right"
+             height="18"
+             label="P"
+             left_pad="5"
+             mouse_opaque="true"
+             name="paste_scale_btn"
+             enabled="true"
+             tool_tip="Paste Size"
+             width="20" >
+              <button.commit_callback
+               function="Build.Paste"
+               parameter="scale" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1511,7 +1563,7 @@ even though the user gets a free copy.
              label="Z"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="64"
              min_val="0.01"
              name="Scale Z"
@@ -1524,7 +1576,7 @@ even though the user gets a free copy.
              follows="left|top"
              height="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              name="label rotation"
              top_pad="10"
              width="121">
@@ -1546,6 +1598,19 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="5"
              width="87" />
+            <button follows="top|right"
+             height="18"
+             label="C"
+             left_pad="5"
+             mouse_opaque="true"
+             name="copy_rot_btn"
+             enabled="true"
+             tool_tip="Copy Rotation"
+             width="20">
+              <button.commit_callback
+               function="Build.Copy"
+               parameter="rotation" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1555,13 +1620,26 @@ even though the user gets a free copy.
              label="Y"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="9999"
              min_val="-9999"
              name="Rot Y"
              text_enabled_color="1 1 1 1"
              top_pad="3"
              width="87" />
+            <button follows="top|right"
+             height="18"
+             label="P"
+             left_pad="5"
+             mouse_opaque="true"
+             name="paste_rot_btn"
+             enabled="true"
+             tool_tip="Paste Rotation"
+             width="20">
+              <button.commit_callback
+               function="Build.Paste"
+               parameter="rotation" />
+            </button>
             <spinner
              decimal_digits="4"
              follows="left|top"
@@ -1571,7 +1649,7 @@ even though the user gets a free copy.
              label="Z"
              label_width="10"
              layout="topleft"
-             left_delta="0"
+             left="10"
              max_val="9999"
              min_val="-9999"
              name="Rot Z"
@@ -1699,7 +1777,7 @@ even though the user gets a free copy.
              initial_value="0"
              layout="topleft"
              left="125"
-             max_val="95"
+             max_val="100"
              name="Scale 1"
              top_pad="4"
              width="68" />

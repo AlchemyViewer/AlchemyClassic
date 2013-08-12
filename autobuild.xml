@@ -1514,7 +1514,7 @@
               <key>hash</key>
               <string>d8fdf76fbeda3bcd592759780fd3cbe1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-win32.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-win32-vs10.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

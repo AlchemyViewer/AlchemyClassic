@@ -62,6 +62,26 @@
     <check_box
         follows="left|top"
         height="16"
+        label="Enable Ctrl+Enter to shout"
+        tool_tip="Enables shouting with the Ctrl+Enter key combinaison. Turn it off if you don't like it."
+        left_delta="0"
+        top_pad="5"
+        name="chat_cmd_toggle"
+        width="275"
+        control_name="AlcmehyEnableKeyboardShout"/>
+    <check_box
+        follows="left|top"
+        height="16"
+        label="Enable Shift+Enter to Whisper"
+        tool_tip="Enables whispering with the Shift+Enter key combinaison. Turn it off if you don't like it."
+        left_delta="0"
+        top_pad="5"
+        name="chat_cmd_toggle"
+        width="275"
+        control_name="AlchemyEnableKeyboardWhisper"/>
+    <check_box
+        follows="left|top"
+        height="16"
         label="Replace my name with &quot;You&quot; in plain chat"
         tool_tip="In compact (plain) chat mode, this replaces your avatar name with (You) when chatting and emoting.    ie: &quot;Tarnix drinks coke&quot; becomes    &quot;(You) drinks coke&quot;"
         left_delta="0"

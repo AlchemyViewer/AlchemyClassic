@@ -369,17 +369,33 @@ std::string LLFloaterIMNearbyChat::getCurrentChat()
 BOOL LLFloaterIMNearbyChat::handleKeyHere( KEY key, MASK mask )
 {
 	BOOL handled = FALSE;
-
-	if( KEY_RETURN == key && mask == MASK_CONTROL)
+	if (KEY_RETURN == key && mask == MASK_CONTROL)
 	{
-		// shout
-		sendChat(CHAT_TYPE_SHOUT);
+		if(gSavedSettings.getBOOL("AlcmehyEnableKeyboardShout"))
+		{
+			// shout
+			sendChat(CHAT_TYPE_SHOUT);
+		}
+		else // We disabled shouting
+		{
+			// send chat as normal
+			sendChat(CHAT_TYPE_NORMAL);
+		}
 		handled = TRUE;
 	}
+
 	else if (KEY_RETURN == key && mask == MASK_SHIFT)
 	{
-		// whisper
-		sendChat(CHAT_TYPE_WHISPER);
+		if(gSavedSettings.getBOOL("AlchemyEnableKeyboardWhisper"))
+		{
+			// whisper
+			sendChat(CHAT_TYPE_WHISPER);
+		}
+		else // We disabled whispering
+		{
+			// send chat as normal
+			sendChat(CHAT_TYPE_NORMAL);
+		}
 		handled = TRUE;
 	}
 

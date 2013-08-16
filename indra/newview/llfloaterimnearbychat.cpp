@@ -369,7 +369,8 @@ std::string LLFloaterIMNearbyChat::getCurrentChat()
 BOOL LLFloaterIMNearbyChat::handleKeyHere( KEY key, MASK mask )
 {
 	BOOL handled = FALSE;
-	if (KEY_RETURN == key && mask == MASK_CONTROL)
+
+	if( KEY_RETURN == key && mask == MASK_CONTROL)
 	{
 		if(gSavedSettings.getBOOL("AlcmehyEnableKeyboardShout"))
 		{

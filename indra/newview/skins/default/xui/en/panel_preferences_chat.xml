@@ -68,7 +68,7 @@
         top_pad="5"
         name="chat_cmd_toggle"
         width="275"
-        control_name="AlcmehyEnableKeyboardShout"/>
+        control_name="AlchemyEnableKeyboardShout"/>
     <check_box
         follows="left|top"
         height="16"

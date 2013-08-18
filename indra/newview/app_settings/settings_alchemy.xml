@@ -123,7 +123,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>AlcmehyEnableKeyboardShout</key>
+    <key>AlchemyEnableKeyboardShout</key>
     <map>
       <key>Comment</key>
       <string>Enables shouting with the Control(CTRL) + Enter key combinaison. Turn it off if you don't like it.</string>

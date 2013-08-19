@@ -1458,7 +1458,7 @@ BOOL LLVOVolume::genBBoxes(BOOL force_global)
 			continue;
 		}
 		res &= face->genVolumeBBoxes(*volume, i,
-										mRelativeXform, mRelativeXformInvTrans,
+										mRelativeXform, 
 										(mVolumeImpl && mVolumeImpl->isVolumeGlobal()) || force_global);
 		
 		if (rebuild)
@@ -4850,7 +4850,14 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 			if (is_rigged)
 			{
-				drawablep->setState(LLDrawable::RIGGED);
+				if (!drawablep->isState(LLDrawable::RIGGED))
+				{
+					drawablep->setState(LLDrawable::RIGGED);
+
+					//first time this is drawable is being marked as rigged,
+					// do another LoD update to use avatar bounding box
+					vobj->updateLOD();
+				}
 			}
 			else
 			{

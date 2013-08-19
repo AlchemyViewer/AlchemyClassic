@@ -15,7 +15,6 @@ if (WINDOWS)
             "C:/DX90SDK/Include"
             "$ENV{PROGRAMFILES}/DX90SDK/Include"
             )
-
   if (DIRECTX_INCLUDE_DIR)
     include_directories(${DIRECTX_INCLUDE_DIR})
     if (DIRECTX_FIND_QUIETLY)
@@ -24,6 +23,7 @@ if (WINDOWS)
   else (DIRECTX_INCLUDE_DIR)
     message(FATAL_ERROR "Could not find DirectX SDK Include")
   endif (DIRECTX_INCLUDE_DIR)
+
 
   find_path(DIRECTX_LIBRARY_DIR dxguid.lib
             "$ENV{DXSDK_DIR}/Lib/x86"
@@ -39,7 +39,6 @@ if (WINDOWS)
             "C:/DX90SDK/Lib"
             "$ENV{PROGRAMFILES}/DX90SDK/Lib"
             )
-
   if (DIRECTX_LIBRARY_DIR)
     if (DIRECTX_FIND_QUIETLY)
       message(STATUS "Found DirectX include: ${DIRECTX_LIBRARY_DIR}")

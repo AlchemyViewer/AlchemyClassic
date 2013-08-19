@@ -450,15 +450,25 @@ void LLWorldMapView::draw()
 		// Draw the region name in the lower left corner
 		if (sMapScale >= DRAW_TEXT_THRESHOLD)
 		{
+			// <alchemy/>
+			static LLCachedControl<bool> mapShowAgentCount(gSavedSettings, "AlchemyMapShowAgentCount");
+			// </alchemy>
+
 			LLFontGL* font = LLFontGL::getFont(LLFontDescriptor("SansSerif", "Small", LLFontGL::BOLD));
 			std::string mesg;
 			if (info->isDown())
 			{
-				mesg = llformat( "%s (%s)", info->getName().c_str(), sStringsMap["offline"].c_str());
+				mesg = llformat( "%s (%s) (%s)", info->getName().c_str(), sStringsMap["offline"].c_str(), info->getShortAccessString().c_str());
 			}
+			// <alchemy>
+			else if (mapShowAgentCount && info->getAgentCount())
+			{
+				mesg = llformat( "%s (%d) (%s)", info->getName().c_str(), info->getAgentCount(), info->getShortAccessString().c_str());
+			}
+			// </alchemy>
 			else
 			{
-				mesg = info->getName();
+				mesg = llformat( "%s (%s)", info->getName().c_str(), info->getShortAccessString().c_str());
 			}
 			if (!mesg.empty())
 			{

@@ -35,7 +35,7 @@ if (WINDOWS)
   if (DIRECTX_ROOT_DIR)
     set (DIRECTX_INCLUDE_DIR "${DIRECTX_ROOT_DIR}/Include")
     set (DIRECTX_LIBRARY_DIR "${DIRECTX_ROOT_DIR}/Lib/${DIRECTX_ARCHITECTURE}")
-  else(DIRECTX_ROOT_DIR)
+  else (DIRECTX_ROOT_DIR)
     find_path (WIN_KIT_ROOT_DIR Include/um/windows.h
                PATHS
                "$ENV{ProgramFiles}/Windows Kits/8.1"

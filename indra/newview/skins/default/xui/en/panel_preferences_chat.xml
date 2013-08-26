@@ -21,7 +21,7 @@
       border="false"
       height="380"
       layout="topleft"
-      top="0"
+      top="10"
       left="13"
       width="517"
       name="chat_tab">
@@ -351,9 +351,9 @@
           name="FlashToolbarButton"
           value="flash"/>
       <item
-          label="None"
-          name="None"
-          value="none"/>
+          label="No action"
+          name="NoAction"
+          value="noaction"/>
     </combo_box>
 
     <combo_box
@@ -377,9 +377,9 @@
           name="FlashToolbarButton"
           value="flash"/>
       <item
-          label="None"
-          name="None"
-          value="none"/>
+          label="No action"
+          name="NoAction"
+          value="noaction"/>
     </combo_box>
     
     <combo_box
@@ -403,9 +403,9 @@
           name="FlashToolbarButton"
           value="flash"/>
       <item
-          label="None"
-          name="None"
-          value="none"/>
+          label="No action"
+          name="NoAction"
+          value="noaction"/>
     </combo_box>
     
     <combo_box
@@ -429,9 +429,9 @@
           name="FlashToolbarButton"
           value="flash"/>
       <item
-          label="None"
-          name="None"
-          value="none"/>
+          label="No action"
+          name="NoAction"
+          value="noaction"/>
     </combo_box>
 
     <combo_box
@@ -455,9 +455,9 @@
           name="FlashToolBarButton"
           value="flash"/>
       <item
-          label="None"
-          name="None"
-          value="none"/>
+          label="No action"
+          name="NoAction"
+          value="noaction"/>
     </combo_box>
     <text
         layout="topleft"
@@ -522,7 +522,6 @@
       border="false"
       height="500"
       layout="topleft"
-      top="0"
       left="13"
       width="517">
       <check_box

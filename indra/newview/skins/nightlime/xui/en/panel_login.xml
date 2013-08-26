@@ -212,7 +212,7 @@
           top_pad="5"
           height="23"
           image_unselected="PushButton_Off"
-          image_selected="PushButton_Selected_Press"
+          image_selected="PushButton_Selected"
           label="Log In"
           label_color="White"
           layout="topleft"

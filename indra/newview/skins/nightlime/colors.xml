@@ -19,7 +19,7 @@
      value="0.6156862745098039 0.8588235294117647 0.007843137254902 1" />
     <color
      name="AlchemyDarkGray"
-     value="0.1647 0.1647 0.1647 1" />
+     value="0.06666 0.06666 0.06666 1" />
     <color
      name="AlchemyDarkText"
      value="0.42 0.42 0.42 1" />
@@ -65,7 +65,7 @@
      value="0.71372 0.71372 0.71372 0.35" />
     <color
      name="BeaconColor"
-    value="0.55 0.25 0.23 0.97" />
+    value="0 .9 .9 0.30" />
     <color
      name="White"
      value="1 1 1 1" />
@@ -273,7 +273,7 @@
      reference="AlchemyWhite" />
     <color
      name="ChicletFlashColor"
-     reference="AlchemyDarkBlue" />
+     reference="BeaconColor" />
     <color
      name="ColorDropShadow"
      reference="Black_50" />
@@ -387,7 +387,7 @@
      reference="AlchemyDarkBlue" />
     <color
      name="DefaultHighlightLight"
-     reference="AlchemyBlack1" />
+     reference="AlchemyDarkText" />
     <color
      name="DefaultShadowDark"
      reference="Black_50" />
@@ -483,7 +483,7 @@
      reference="Yellow" />
     <color
      name="IMHistoryBgColor"
-     reference="AlchemyDarkGray" />
+     reference="Transparent" />
     <color
      name="IMHistoryTextColor"
      reference="Unused?" />
@@ -875,7 +875,7 @@
      reference="AlchemyText" />
     <color
      name="UserChatColor"
-     reference="AlchemyText" />
+     reference="AlchemyTextDark" />
     <color
      name="llOwnerSayChatColor"
      reference="LtYellow" />
@@ -895,7 +895,7 @@
     value="0.45098 0.517647 0.607843 1"/>
     <color
      name="ChatTimestampColor"
-     reference="AlchemyText" />
+     reference="AlchemyDarkBlue" />
     <color
       name="MenuBarBetaBgColor"
       reference="DkBlue" />

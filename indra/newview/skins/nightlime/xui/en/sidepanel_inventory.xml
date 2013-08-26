@@ -113,7 +113,7 @@
                         top="25"
                         bg_opaque_color="InventoryBackgroundColor"
                         background_visible="true"
-                        background_opaque="true"
+                        background_opaque="false"
                         tool_tip="Drag and drop items to your inventory to use them"
                         >
                         <text

@@ -342,10 +342,7 @@ void LLTextEditor::setText(const LLStringExplicit &utf8str, const LLStyle::Param
 	resetDirty();
 }
 
-//void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insensitive, BOOL wrap)
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insensitive, BOOL wrap, BOOL search_up)
-// [/SL:KB]
+void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insensitive, BOOL wrap)
 {
 	if (search_text_in.empty())
 	{
@@ -366,35 +363,17 @@ void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insen
 		
 		if (selected_text == search_text)
 		{
-//			// We already have this word selected, we are searching for the next.
-//			setCursorPos(mCursorPos + search_text.size());
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-			if (search_up)
-			{
-				// We already have this word selected, we are searching for the previous.
-				setCursorPos(llmax(0, mCursorPos - 1));
-			}
-			else
-			{
-				// We already have this word selected, we are searching for the next.
-				setCursorPos(mCursorPos + search_text.size());
-			}
-// [/SL:KB]
+			// We already have this word selected, we are searching for the next.
+			setCursorPos(mCursorPos + search_text.size());
 		}
 	}
 	
-//	S32 loc = text.find(search_text,mCursorPos);
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	S32 loc = (search_up) ? text.rfind(search_text, llmax(0, mCursorPos - (S32)search_text.size())) : text.find(search_text,mCursorPos);
-// [/SL:KB]
+	S32 loc = text.find(search_text,mCursorPos);
 	
 	// If Maybe we wrapped, search again
 	if (wrap && (-1 == loc))
 	{	
-//		loc = text.find(search_text);
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-		loc = (search_up) ? text.rfind(search_text) : text.find(search_text);
-// [/SL:KB]
+		loc = text.find(search_text);
 	}
 	
 	// If still -1, then search_text just isn't found.
@@ -407,24 +386,14 @@ void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insen
 	}
 
 	setCursorPos(loc);
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	if (mReadOnly)
-	{
-		updateScrollFromCursor();
-	}
-// [/SL:KB]
 	
 	mIsSelecting = TRUE;
 	mSelectionEnd = mCursorPos;
 	mSelectionStart = llmin((S32)getLength(), (S32)(mCursorPos + search_text.size()));
 }
 
-//BOOL LLTextEditor::replaceText(const std::string& search_text_in, const std::string& replace_text,
-//							   BOOL case_insensitive, BOOL wrap)
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
 BOOL LLTextEditor::replaceText(const std::string& search_text_in, const std::string& replace_text,
-							   BOOL case_insensitive, BOOL wrap, BOOL search_up)
-// [/SL:KB]
+							   BOOL case_insensitive, BOOL wrap)
 {
 	BOOL replaced = FALSE;
 
@@ -452,10 +421,7 @@ BOOL LLTextEditor::replaceText(const std::string& search_text_in, const std::str
 		}
 	}
 
-//	selectNext(search_text_in, case_insensitive, wrap);
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	selectNext(search_text_in, case_insensitive, wrap, search_up);
-// [/SL:KB]
+	selectNext(search_text_in, case_insensitive, wrap);
 	return replaced;
 }
 
@@ -1159,7 +1125,8 @@ void LLTextEditor::addChar(llwchar wc)
 	}
 }
 
-void LLTextEditor::addLineBreakChar()
+
+void LLTextEditor::addLineBreakChar(BOOL group_together)
 {
 	if( !getEnabled() )
 	{
@@ -1177,7 +1144,7 @@ void LLTextEditor::addLineBreakChar()
 	LLStyleConstSP sp(new LLStyle(LLStyle::Params()));
 	LLTextSegmentPtr segment = new LLLineBreakTextSegment(sp, mCursorPos);
 
-	S32 pos = execute(new TextCmdAddChar(mCursorPos, FALSE, '\n', segment));
+	S32 pos = execute(new TextCmdAddChar(mCursorPos, group_together, '\n', segment));
 	
 	setCursorPos(mCursorPos + pos);
 }
@@ -1518,21 +1485,28 @@ void LLTextEditor::pasteTextWithLinebreaks(LLWString & clean_string)
 	std::basic_string<llwchar>::size_type start = 0;
 	std::basic_string<llwchar>::size_type pos = clean_string.find('\n',start);
 	
-	while(pos!=-1)
+	while((pos != -1) && (pos != clean_string.length() -1))
 	{
 		if(pos!=start)
 		{
 			std::basic_string<llwchar> str = std::basic_string<llwchar>(clean_string,start,pos-start);
-			setCursorPos(mCursorPos + insert(mCursorPos, str, FALSE, LLTextSegmentPtr()));
+			setCursorPos(mCursorPos + insert(mCursorPos, str, TRUE, LLTextSegmentPtr()));
 		}
-		addLineBreakChar();
-		
+		addLineBreakChar(TRUE);			// Add a line break and group with the next addition.
+
 		start = pos+1;
 		pos = clean_string.find('\n',start);
 	}
 
-	std::basic_string<llwchar> str = std::basic_string<llwchar>(clean_string,start,clean_string.length()-start);
-	setCursorPos(mCursorPos + insert(mCursorPos, str, FALSE, LLTextSegmentPtr()));
+	if (pos != start)
+	{
+		std::basic_string<llwchar> str = std::basic_string<llwchar>(clean_string,start,clean_string.length()-start);
+		setCursorPos(mCursorPos + insert(mCursorPos, str, FALSE, LLTextSegmentPtr()));
+	}
+	else
+	{
+		addLineBreakChar(FALSE);		// Add a line break and end the grouping.
+	}
 }
 
 // copy selection to primary
@@ -1998,8 +1972,7 @@ void LLTextEditor::onFocusReceived()
 	updateAllowingLanguageInput();
 }
 
-// virtual, from LLView
-void LLTextEditor::onFocusLost()
+void LLTextEditor::focusLostHelper()
 {
 	updateAllowingLanguageInput();
 
@@ -2016,7 +1989,11 @@ void LLTextEditor::onFocusLost()
 
 	// Make sure cursor is shown again
 	getWindow()->showCursorFromMouseMove();
+}
 
+void LLTextEditor::onFocusLost()
+{
+	focusLostHelper();
 	LLTextBase::onFocusLost();
 }
 
@@ -2162,12 +2139,17 @@ void LLTextEditor::drawPreeditMarker()
 					continue;
 				}
 
-				S32 preedit_left = mVisibleTextRect.mLeft;
+				line_info& line = mLineInfoList[cur_line];
+				LLRect text_rect(line.mRect);
+				text_rect.mRight = mDocumentView->getRect().getWidth(); // clamp right edge to document extents
+				text_rect.translate(mDocumentView->getRect().mLeft, mDocumentView->getRect().mBottom); // adjust by scroll position
+
+				S32 preedit_left = text_rect.mLeft;
 				if (left > line_start)
 				{
 					preedit_left += mFont->getWidth(text, line_start, left - line_start);
 				}
-				S32 preedit_right = mVisibleTextRect.mLeft;
+				S32 preedit_right = text_rect.mLeft;
 				if (right < line_end)
 				{
 					preedit_right += mFont->getWidth(text, line_start, right - line_start);
@@ -2180,18 +2162,18 @@ void LLTextEditor::drawPreeditMarker()
 				if (mPreeditStandouts[i])
 				{
 					gl_rect_2d(preedit_left + preedit_standout_gap,
-							line_y + preedit_standout_position,
-							preedit_right - preedit_standout_gap - 1,
-							line_y + preedit_standout_position - preedit_standout_thickness,
-							(mCursorColor.get() * preedit_standout_brightness + mWriteableBgColor.get() * (1 - preedit_standout_brightness)).setAlpha(1.0f));
+							   text_rect.mBottom + mFont->getDescenderHeight() - 1,
+							   preedit_right - preedit_standout_gap - 1,
+							   text_rect.mBottom + mFont->getDescenderHeight() - 1 - preedit_standout_thickness,
+							   (mCursorColor.get() * preedit_standout_brightness + mWriteableBgColor.get() * (1 - preedit_standout_brightness)).setAlpha(1.0f));
 				}
 				else
 				{
 					gl_rect_2d(preedit_left + preedit_marker_gap,
-							line_y + preedit_marker_position,
-							preedit_right - preedit_marker_gap - 1,
-							line_y + preedit_marker_position - preedit_marker_thickness,
-							(mCursorColor.get() * preedit_marker_brightness + mWriteableBgColor.get() * (1 - preedit_marker_brightness)).setAlpha(1.0f));
+							   text_rect.mBottom + mFont->getDescenderHeight() - 1,
+							   preedit_right - preedit_marker_gap - 1,
+							   text_rect.mBottom + mFont->getDescenderHeight() - 1 - preedit_marker_thickness,
+							   (mCursorColor.get() * preedit_marker_brightness + mWriteableBgColor.get() * (1 - preedit_marker_brightness)).setAlpha(1.0f));
 				}
 			}
 		}
@@ -2274,11 +2256,12 @@ void LLTextEditor::draw()
 		LLRect clip_rect(mVisibleTextRect);
 		clip_rect.stretch(1);
 		LLLocalClipRect clip(clip_rect);
-		drawPreeditMarker();
 	}
 
 	LLTextBase::draw();
 	drawLineNumbers();
+
+    drawPreeditMarker();
 
 	//RN: the decision was made to always show the orange border for keyboard focus but do not put an insertion caret
 	// when in readonly mode
@@ -2729,14 +2712,20 @@ BOOL LLTextEditor::hasPreeditString() const
 
 void LLTextEditor::resetPreedit()
 {
+    if (hasSelection())
+    {
+		if (hasPreeditString())
+        {
+            llwarns << "Preedit and selection!" << llendl;
+            deselect();
+        }
+        else
+        {
+            deleteSelection(TRUE);
+        }
+    }
 	if (hasPreeditString())
 	{
-		if (hasSelection())
-		{
-			llwarns << "Preedit and selection!" << llendl;
-			deselect();
-		}
-
 		setCursorPos(mPreeditPositions.front());
 		removeStringNoUndo(mCursorPos, mPreeditPositions.back() - mCursorPos);
 		insertStringNoUndo(mCursorPos, mPreeditOverwrittenWString);
@@ -2784,7 +2773,10 @@ void LLTextEditor::updatePreedit(const LLWString &preedit_string,
 	{
 		mPreeditOverwrittenWString.clear();
 	}
-	insertStringNoUndo(insert_preedit_at, mPreeditWString);
+    
+	segment_vec_t segments;
+	//pass empty segments to let "insertStringNoUndo" make new LLNormalTextSegment and insert it, if needed.
+	insertStringNoUndo(insert_preedit_at, mPreeditWString, &segments); 
 
 	mPreeditStandouts = preedit_standouts;
 

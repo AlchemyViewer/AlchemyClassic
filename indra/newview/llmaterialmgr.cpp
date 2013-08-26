@@ -600,8 +600,8 @@ void LLMaterialMgr::processGetQueue()
 		{
 			material_queue_t::iterator itMaterial = loopMaterial++;
 			materialsData.append((*itMaterial).asLLSD());
+			markGetPending(region_id, *itMaterial); // <alchemy/> - crash blah
 			materials.erase(itMaterial);
-			markGetPending(region_id, *itMaterial);
 		}
 		if (materials.empty())
 		{

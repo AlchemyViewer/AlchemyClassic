@@ -238,6 +238,7 @@ set(viewer_SOURCE_FILES
     llfloaterfonttest.cpp
     llfloatergesture.cpp
     llfloatergodtools.cpp
+    llfloatergotoline.cpp
     llfloatergroupinvite.cpp
     llfloatergroups.cpp
     llfloaterhandler.cpp
@@ -276,7 +277,6 @@ set(viewer_SOURCE_FILES
     llfloaterscriptdebug.cpp
     llfloaterscriptlimits.cpp
     llfloatersearch.cpp
-    llfloatersearchreplace.cpp
     llfloatersellland.cpp
     llfloatersettingsdebug.cpp
     llfloatersidepanelcontainer.cpp
@@ -824,6 +824,7 @@ set(viewer_HEADER_FILES
     llfloaterfonttest.h
     llfloatergesture.h
     llfloatergodtools.h
+    llfloatergotoline.h
     llfloatergroupinvite.h
     llfloatergroups.h
     llfloaterhandler.h
@@ -862,7 +863,6 @@ set(viewer_HEADER_FILES
     llfloaterscriptdebug.h
     llfloaterscriptlimits.h
     llfloatersearch.h
-    llfloatersearchreplace.h
     llfloatersellland.h
     llfloatersettingsdebug.h
     llfloatersidepanelcontainer.h

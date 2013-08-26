@@ -34,6 +34,7 @@
 #include "llcombobox.h"
 #include "lliconctrl.h"
 #include "llframetimer.h"
+#include "llfloatergotoline.h"
 
 class LLLiveLSLFile;
 class LLMessageSystem;
@@ -44,11 +45,12 @@ class LLScrollListCtrl;
 class LLViewerObject;
 struct 	LLEntryAndEdCore;
 class LLMenuBarGL;
-//class LLFloaterScriptSearch; // <alchemy/>
+class LLFloaterScriptSearch;
 class LLKeywordToken;
 class LLVFS;
 class LLViewerInventoryItem;
 class LLScriptEdContainer;
+class LLFloaterGotoLine;
 
 // Inner, implementation class.  LLPreviewScript and LLLiveLSLEditor each own one of these.
 class LLScriptEdCore : public LLPanel
@@ -56,8 +58,9 @@ class LLScriptEdCore : public LLPanel
 	friend class LLPreviewScript;
 	friend class LLPreviewLSL;
 	friend class LLLiveLSLEditor;
-//	friend class LLFloaterScriptSearch; // <alchemy/>
+	friend class LLFloaterScriptSearch;
 	friend class LLScriptEdContainer;
+	friend class LLFloaterGotoLine;
 
 protected:
 	// Supposed to be invoked only by the container.
@@ -175,10 +178,6 @@ public:
 
 	/*virtual*/ BOOL postBuild();
 
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	LLTextEditor* getEditor() { return (mScriptEd) ? mScriptEd->mEditor : NULL; }
-// [/SL:KB]
-
 protected:
 	virtual BOOL canClose();
 	void closeIfNeeded();
@@ -233,10 +232,6 @@ public:
 	
 	void setIsNew() { mIsNew = TRUE; }
 	
-// [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	LLTextEditor* getEditor() { return (mScriptEd) ? mScriptEd->mEditor : NULL; }
-// [/SL:KB]
-
 private:
 	virtual BOOL canClose();
 	void closeIfNeeded();

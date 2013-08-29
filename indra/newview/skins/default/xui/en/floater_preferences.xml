@@ -120,7 +120,8 @@
          layout="topleft"
          help_topic="preferences_advanced1_tab"
          name="advanced1" />
-         <!-- <panel
+   <!-- Unused at the moment, what was there is in the chat preferences now. reserved for future use. -->
+   <!-- <panel
          class="panel_preference"
          filename="panel_preferences_alchemy.xml"
          label="Alchemy"

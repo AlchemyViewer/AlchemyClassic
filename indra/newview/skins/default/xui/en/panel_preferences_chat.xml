@@ -730,7 +730,7 @@
           height="16"
           name="reserved_txt"
           width="220">
-          Reserved for future use
+          Calculator
         </text>
         <line_editor
           top_pad="0"
@@ -738,8 +738,8 @@
           height="20"
           max_length_chars="256"
           text_pad_left="5"
-          name="reserved"
-          control_name=""
+          name="AlchemyChatCommandCalc"
+          control_name="AlchemyChatCommandCalc"
           width="220"/>
         <!--rezplat-->
         <text

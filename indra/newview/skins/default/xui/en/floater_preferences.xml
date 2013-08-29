@@ -120,12 +120,12 @@
          layout="topleft"
          help_topic="preferences_advanced1_tab"
          name="advanced1" />
-         <panel
+         <!-- <panel
          class="panel_preference"
          filename="panel_preferences_alchemy.xml"
          label="Alchemy"
          layout="topleft"
-         name="alchemy" />
+         name="alchemy" /> -->
     </tab_container>
 
 </floater>

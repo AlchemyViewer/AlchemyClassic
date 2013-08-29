@@ -1001,7 +1001,7 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 				return;
 			}
 		}
-		 
+
 		if( CAMERA_MODE_CUSTOMIZE_AVATAR == getCameraMode() )
 		{
 			new_distance = llclamp( new_distance, APPEARANCE_MIN_ZOOM, APPEARANCE_MAX_ZOOM );

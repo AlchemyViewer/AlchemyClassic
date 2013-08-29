@@ -1,21 +1,21 @@
 /** 
- * @file alchatcommand.cpp
- * @brief ALChatCommand implementation for chat input commands
- *
- * $LicenseInfo:firstyear=2013&license=viewerlgpl$
- * Copyright (C) 2013 Drake Arconis
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation;
- * version 2.1 of the License only.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * $/LicenseInfo$
- **/
+* @file alchatcommand.cpp
+* @brief ALChatCommand implementation for chat input commands
+*
+* $LicenseInfo:firstyear=2013&license=viewerlgpl$
+* Copyright (C) 2013 Drake Arconis
+* 
+* This library is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Lesser General Public
+* License as published by the Free Software Foundation;
+* version 2.1 of the License only.
+* 
+* This library is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+* Lesser General Public License for more details.
+* $/LicenseInfo$
+**/
 
 #include "llviewerprecompiledheaders.h"
 
@@ -72,6 +72,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sRezPlatCommand(gSavedSettings, "AlchemyChatCommandRezPlat", "/plat");
 		static LLCachedControl<std::string> sHomeCommand(gSavedSettings, "AlchemyChatCommandHome", "/home");
 		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
+		static LLCachedControl<std::string> sCalcCommand(gSavedSettings, "AlchemyChatCommandCalc", "/calc");
 
 		if(cmd == std::string(sDrawDistanceCommand)) // dd
 		{
@@ -165,6 +166,34 @@ bool ALChatCommand::parseCommand(std::string data)
 		{
 			gAgent.setStartPosition(START_LOCATION_ID_HOME);
 			return true;
+		}
+		else if (cmd == std::string(sCalcCommand)) // calc
+		{
+			if (data.length() > cmd.length() + 1)
+			{
+				F32 result = 0.f;
+				std::string expr = data.substr(cmd.length()+1);
+				LLStringUtil::toUpper(expr);
+				const bool success = LLCalc::getInstance()->evalString(expr, result);
+
+				std::string out;
+
+				if (!success)
+				{
+					out =  "Calculation Failed";
+				}
+				else
+				{
+					// Replace the expression with the result
+					std::ostringstream result_str;
+					result_str << expr;
+					result_str << " = ";
+					result_str << result;
+					out = result_str.str();
+				}
+				add_system_chat(out);
+				return true;
+			}
 		}
 	}
 	return false;

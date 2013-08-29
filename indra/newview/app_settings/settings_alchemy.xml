@@ -2,6 +2,17 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
   <map>
+    <key>AlchemyChatCommandCalc</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to calculate expressions</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/calc</string>
+    </map>
     <key>AlchemyChatCommandDrawDistance</key>
     <map>
       <key>Comment</key>

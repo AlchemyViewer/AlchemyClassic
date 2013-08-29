@@ -607,15 +607,15 @@
             </menu_item_call>
             <menu_item_call
              label="Sunset"
-             name="Sunset"
-             shortcut="control|shift|N">
+             name="Sunset">
                 <menu_item_call.on_click
                  function="World.EnvSettings"
                  parameter="sunset" />
             </menu_item_call>
             <menu_item_call
              label="Midnight"
-             name="Midnight">
+             name="Midnight"
+             shortcut="control|shift|N">
                 <menu_item_call.on_click
                  function="World.EnvSettings"
                  parameter="midnight" />
@@ -623,7 +623,8 @@
             <menu_item_separator/>
             <menu_item_call
              label="Use Region Settings"
-             name="Use Region Settings">
+             name="Use Region Settings"
+             shortcut="control|shift|J">
                 <menu_item_call.on_click
                  function="World.EnvSettings"
                  parameter="region" />

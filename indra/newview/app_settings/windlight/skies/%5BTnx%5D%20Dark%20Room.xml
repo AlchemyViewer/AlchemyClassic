@@ -9,24 +9,24 @@
         </array>
     <key>blue_density</key>
         <array>
-            <real>0.44999998807907104</real>
-            <real>0.44999998807907104</real>
-            <real>0.44999998807907104</real>
-            <real>1</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
         </array>
     <key>blue_horizon</key>
         <array>
-            <real>0.23999999463558197</real>
-            <real>0.23999999463558197</real>
-            <real>0.23999999463558197</real>
-            <real>1</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
         </array>
     <key>cloud_color</key>
         <array>
-            <real>0.22615399956703186</real>
-            <real>0.22615399956703186</real>
-            <real>0.22615399956703186</real>
-            <real>1</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
+            <real>0</real>
         </array>
     <key>cloud_pos_density1</key>
         <array>
@@ -63,14 +63,14 @@
         </array>
     <key>density_multiplier</key>
         <array>
-            <real>0.00030000001424923539</real>
+            <real>0.00037999998312443495</real>
             <real>0</real>
             <real>0</real>
             <real>1</real>
         </array>
     <key>distance_multiplier</key>
         <array>
-            <real>0</real>
+            <real>79.700004577636719</real>
             <real>0</real>
             <real>0</real>
             <real>1</real>
@@ -84,7 +84,7 @@
         </array>
     <key>gamma</key>
         <array>
-            <real>0.17999999225139618</real>
+            <real>0</real>
             <real>0</real>
             <real>0</real>
             <real>1</real>
@@ -112,14 +112,14 @@
         </array>
     <key>lightnorm</key>
         <array>
-            <real>0</real>
+            <real>-0</real>
             <real>1</real>
-            <real>-1.1924880638503055e-008</real>
+            <real>1.8954237930302043e-006</real>
             <real>1</real>
         </array>
     <key>max_y</key>
         <array>
-            <real>906.20001220703125</real>
+            <real>2767</real>
             <real>0</real>
             <real>0</real>
             <real>1</real>
@@ -129,7 +129,7 @@
     <key>star_brightness</key>
         <real>2</real>
     <key>sun_angle</key>
-        <real>4.7123889923095703</real>
+        <real>4.7123870849609375</real>
     <key>sunlight_color</key>
         <array>
             <real>0</real>

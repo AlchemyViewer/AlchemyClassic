@@ -632,13 +632,13 @@
      reference="AlchemyWhite" />
     <color
      name="NameTagFriend"
-     value="0.447 0.784 0.663 1" />
+     reference="EmphasisColor" />
     <color
      name="NameTagLegacy"
-     reference="AlchemyWhite" />
+     reference="AlchemyText" />
     <color
      name="NameTagMatch"
-     reference="AlchemyWhite" />
+     reference="AlchemyText" />
     <color
      name="NameTagMismatch"
      value="0.824 0.706 0.584" />

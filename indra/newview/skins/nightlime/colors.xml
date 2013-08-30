@@ -381,10 +381,10 @@
      reference="AlchemyBlack1" />
     <color
      name="ContextSilhouetteColor"
-     reference="AlchemyDarkBlue" /> <!-- Color of highlighting when selected, but not in edit mode -->
+     reference="EmphasisColor" /> <!-- Color of highlighting when selected, but not in edit mode -->
     <color
      name="DefaultHighlightDark"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="DefaultHighlightLight"
      reference="AlchemyDarkText" />
@@ -402,7 +402,7 @@
      value="0.01 0.01 0.01 0.7" />
     <color
      name="FilterTextColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
      <color
      name="FloaterButtonImageColor"
      reference="LtGray" />
@@ -450,7 +450,7 @@
      value="0.43 0.06 0.06 1" />
     <color
      name="HTMLLinkColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="HealthTextColor"
      reference="AlchemyText" />
@@ -474,7 +474,7 @@
      reference="Unused?" />
     <color
      name="HighlightChildColor"
-     reference="AlchemyDarkBlue" /> <!-- Was: Yellow -->
+     reference="EmphasisColor" /> <!-- Was: Yellow -->
     <color
      name="HighlightInspectColor"
      reference="AlchemyOrange" /> <!-- Another prim highlight, mainly mesh -->
@@ -498,10 +498,10 @@
      reference="AlchemyDarkGray" />
     <color
      name="InventoryFocusOutlineColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="InventoryItemSuffixColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="InventoryItemLibraryColor"
      reference="AlchemyDarkText" />
@@ -797,7 +797,7 @@
      reference="Black" />
     <color
      name="SelectedOutfitTextColor"
-     reference="White" />
+     reference="EmphasisColor" />
     <color
      name="SilhouetteChildColor"
      reference="AlchemyOrange" /> <!-- Child Prim highlight color (Edit mode) -->
@@ -818,7 +818,7 @@
      reference="Unused?" />
     <color
      name="SpeakingColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="SystemChatColor"
      reference="AlchemyDarkText" />
@@ -839,7 +839,7 @@
      reference="AlchemyText" />
     <color
      name="TextEmbeddedItemColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
      name="TextEmbeddedItemReadOnlyColor"
      reference="Unused?" />
@@ -895,13 +895,13 @@
     value="0.45098 0.517647 0.607843 1"/>
     <color
      name="ChatTimestampColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
     <color
       name="MenuBarBetaBgColor"
       reference="DkBlue" />
   <color
      name="MenuBarProjectBgColor"
-     reference="AlchemyDarkBlue" />
+     reference="EmphasisColor" />
   <color
       name="MenuBarTestBgColor"
       reference="DkRed" />

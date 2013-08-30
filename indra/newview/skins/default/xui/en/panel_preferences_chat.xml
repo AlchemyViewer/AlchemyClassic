@@ -534,7 +534,7 @@
     <check_box
         control_name="PlaySoundObjectIM"
         height="16"
-        label="Every Objects IM"
+        label="Every Object IM"
         layout="topleft"
         left_delta="0"
         top_pad="5"
@@ -552,7 +552,7 @@
     <check_box
         control_name="PlaySoundGroupChatIM"
         height="16"
-        label="Every Group Message"
+        label="Every Group IM"
         layout="topleft"
         name="play_sound_group_chat_im"
         left_pad="70"

@@ -523,9 +523,18 @@
         name="play_sound_nearby_chat_im"
         width="70" />
     <check_box
+        control_name="PlaySoundNewConversation"
+        height="16"
+        label="New IM/Conversation"
+        layout="topleft"
+        left_delta="0"
+        top_pad="5"
+        name="play_sound_new_im"
+        width="70" />
+    <check_box
         control_name="PlaySoundObjectIM"
         height="16"
-        label="Objects IM"
+        label="Every Object IM"
         layout="topleft"
         left_delta="0"
         top_pad="5"
@@ -543,7 +552,7 @@
     <check_box
         control_name="PlaySoundGroupChatIM"
         height="16"
-        label="Group Chat"
+        label="Every Group IM"
         layout="topleft"
         name="play_sound_group_chat_im"
         left_pad="70"
@@ -552,7 +561,7 @@
      <check_box
         control_name="PlaySoundFriendIM"
         height="16"
-        label="Friend IM"
+        label="Every Friend IM"
         layout="topleft"
         name="play_sound_friend_im"
         left_pad="-80"
@@ -560,7 +569,7 @@
      <check_box
         control_name="PlaySoundNonFriendIM"
         height="16"
-        label="Non-Friend IM"
+        label="Every Non-Friend IM"
         layout="topleft"
         name="play_sound_non_friend_im"
         left_pad="-80"
@@ -568,7 +577,7 @@
     <check_box
         control_name="PlaySoundConferenceIM"
         height="16"
-        label="Conference"
+        label="Every Conference IM"
         layout="topleft"
         left_pad="70"
         top="240"
@@ -730,7 +739,7 @@
           height="16"
           name="reserved_txt"
           width="220">
-          Reserved for future use
+          Calculator
         </text>
         <line_editor
           top_pad="0"
@@ -738,8 +747,8 @@
           height="20"
           max_length_chars="256"
           text_pad_left="5"
-          name="reserved"
-          control_name=""
+          name="AlchemyChatCommandCalc"
+          control_name="AlchemyChatCommandCalc"
           width="220"/>
         <!--rezplat-->
         <text

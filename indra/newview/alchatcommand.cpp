@@ -22,6 +22,7 @@
 #include "alchatcommand.h"
 
 // system includes
+#include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 
 // lib includes
@@ -35,6 +36,7 @@
 #include "llagentcamera.h"
 #include "llfloaterreg.h"
 #include "llfloaterimnearbychat.h"
+#include "lltrans.h"
 #include "llviewercontrol.h"
 #include "llviewermessage.h"
 #include "llvoavatarself.h"
@@ -59,7 +61,7 @@ bool ALChatCommand::parseCommand(std::string data)
 	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "AlchemyChatCommandEnable");
 	if(enableChatCmd)
 	{
-		LLStringUtil::toLower(data);
+		utf8str_tolower(data);
 		std::istringstream input(data);
 		std::string cmd;
 
@@ -74,7 +76,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
 		static LLCachedControl<std::string> sCalcCommand(gSavedSettings, "AlchemyChatCommandCalc", "/calc");
 
-		if(cmd == std::string(sDrawDistanceCommand)) // dd
+		if(cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
 			S32 dist;
 			if (input >> dist)
@@ -84,7 +86,7 @@ bool ALChatCommand::parseCommand(std::string data)
 				return true;
 			}
 		}
-		else if (cmd == std::string(sHeightCommand)) // gth
+		else if (cmd == utf8str_tolower(sHeightCommand)) // gth
 		{
 			F64 z;
 			if (input >> z)
@@ -95,14 +97,14 @@ bool ALChatCommand::parseCommand(std::string data)
 				return true;
 			}
 		}
-		else if (cmd == std::string(sGroundCommand)) // flr
+		else if (cmd == utf8str_tolower(sGroundCommand)) // flr
 		{
 			LLVector3d pos_global = gAgent.getPositionGlobal();
 			pos_global.mdV[VZ] = 0.0;
 			gAgent.teleportViaLocation(pos_global);
 			return true;
 		} 
-		else if (cmd == std::string(sPosCommand)) // pos
+		else if (cmd == utf8str_tolower(sPosCommand)) // pos
 		{
 			F64 x, y, z;
 			if ((input >> x) && (input >> y) && (input >> z))
@@ -116,7 +118,7 @@ bool ALChatCommand::parseCommand(std::string data)
 				return true;
 			}
 		}
-		else if(cmd == std::string(sRezPlatCommand)) // plat
+		else if(cmd == utf8str_tolower(sRezPlatCommand)) // plat
 		{
 			F32 size;
 			static LLCachedControl<F32> platSize(gSavedSettings, "AlchemyChatCommandRezPlatSize");
@@ -157,39 +159,28 @@ bool ALChatCommand::parseCommand(std::string data)
 
 			return true;
 		}
-		else if (cmd == std::string(sHomeCommand)) // home
+		else if (cmd == utf8str_tolower(sHomeCommand)) // home
 		{
 			gAgent.teleportHome();
 			return true;
 		}
-		else if (cmd == std::string(sSetHomeCommand)) // sethome
+		else if (cmd == utf8str_tolower(sSetHomeCommand)) // sethome
 		{
 			gAgent.setStartPosition(START_LOCATION_ID_HOME);
 			return true;
 		}
-		else if (cmd == std::string(sCalcCommand)) // calc
+		else if (cmd == utf8str_tolower(sCalcCommand)) // calc
 		{
 			if (data.length() > cmd.length() + 1)
 			{
 				F32 result = 0.f;
-				std::string expr = data.substr(cmd.length()+1);
+				std::string expr = data.substr(cmd.length() + 1);
 				LLStringUtil::toUpper(expr);
 				const bool success = LLCalc::getInstance()->evalString(expr, result);
-
-				std::string out;
-
-				if (!success)
+				std::string out = LLTrans::getString("ALChatCalculationFailure");
+				if (success)
 				{
-					out =  "Calculation Failed";
-				}
-				else
-				{
-					// Replace the expression with the result
-					std::ostringstream result_str;
-					result_str << expr;
-					result_str << " = ";
-					result_str << result;
-					out = result_str.str();
+					out = (boost::format("%1%: %2% = %3%") % LLTrans::getString("ALChatCalculation") % expr % result).str();
 				}
 				add_system_chat(out);
 				return true;

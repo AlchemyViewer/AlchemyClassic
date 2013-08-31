@@ -4023,5 +4023,9 @@ Try enclosing path to the editor with double quotes.
   <string name="loading_chat_logs">
     Loading...
   </string>
+
+  <!-- Alchemy string below this line-->
+  <string name="ALChatCalculation">Calculation</string>
+  <string name="ALChatCalculationFailure">Calculation Failed.</string>
   
   </strings>

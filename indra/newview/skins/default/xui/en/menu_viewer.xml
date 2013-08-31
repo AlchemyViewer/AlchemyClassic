@@ -554,10 +554,10 @@
              label="Advanced Menu"
              name="Show Advanced Menu"
              shortcut="control|alt|shift|D">
-            <menu_item_check.on_check
+            <on_check
                function="CheckControl"
                parameter="UseDebugMenus" />
-            <menu_item_check.on_click
+            <on_click
                function="ToggleControl"
                parameter="UseDebugMenus" />
           </menu_item_check>
@@ -1274,10 +1274,10 @@
          name="Undo"
          allow_key_repeat="true"
          shortcut="control|Z">
-            <menu_item_check.on_click
+            <on_click
              function="Edit.Undo"
              userdata="" />
-            <menu_item_check.on_enable
+            <on_enable
              function="Edit.EnableUndo" />
         </menu_item_call>
         <menu_item_call
@@ -1286,10 +1286,10 @@
          name="Redo"
          allow_key_repeat="true"
          shortcut="control|Y">
-            <menu_item_check.on_click
+            <on_click
              function="Edit.Redo"
              userdata="" />
-            <menu_item_check.on_enable
+            <on_enable
              function="Edit.EnableRedo" />
         </menu_item_call>        
     </menu>
@@ -1305,6 +1305,23 @@
              function="Help.ToggleHowTo"
              parameter="" />
         </menu_item_call>
+       <!-- <menu_item_call
+         label="[SECOND_LIFE] Help"
+         name="Second Life Help"
+         shortcut="F1">
+            <menu_item_call.on_click
+             function="ShowHelp"
+             parameter="f1_help" />
+        </menu_item_call>
+        <menu_item_call
+         label="Tutorial"
+         name="Tutorial">
+            <menu_item_call.on_click
+             function="Floater.Show"
+             parameter="hud" />
+        </menu_item_call>
+		<menu_item_separator/>-->
+		
 		<menu_item_call
              label="User’s guide"
              name="User’s guide">
@@ -1882,10 +1899,10 @@
                label="Show Advanced Menu - legacy shortcut"
                name="Show Advanced Menu - legacy shortcut"
                shortcut="control|alt|D">
-              <menu_item_check.on_check
+              <on_check
                  function="CheckControl"
                  parameter="UseDebugMenus" />
-              <menu_item_check.on_click
+              <on_click
                  function="ToggleControl"
                  parameter="UseDebugMenus" />
             </menu_item_check>
@@ -2099,7 +2116,7 @@
               <menu_item_call.on_click
                 function="Floater.Show"
                 parameter="tex_fetch_debugger" />
-              <menu_item_check.on_enable
+              <on_enable
                 function="Develop.SetTexFetchDebugger" />
               <on_visible
                 function="Develop.SetTexFetchDebugger" />

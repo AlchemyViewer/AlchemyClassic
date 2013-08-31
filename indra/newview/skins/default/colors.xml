@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
 	<!-- Alchemy -->
-	<color
+  <color
+   name="ChatHeaderDisplayNameColor"
+   reference="White" />
+  <color
+   name="ChatHeaderTimestampColor"
+   reference="White" />
+  <color
+   name="ChatHeaderUserNameColor"
+   reference="EmphasisColor" />
+  <color
 	 name="ScriptFunctionColor"
 	 value="0.5 0 0.15 0" />
 

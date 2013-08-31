@@ -327,7 +327,7 @@ public:
 					std::string username = chat.mFromName.substr(username_start + 2);
 					username = username.substr(0, username.length() - 1);
 					LLStyle::Params style_params_name;
-					LLColor4 userNameColor = LLUIColorTable::instance().getColor("EmphasisColor");
+					LLColor4 userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
 					style_params_name.color(userNameColor);
 					style_params_name.font.name("SansSerifSmall");
 					style_params_name.font.style("NORMAL");
@@ -525,6 +525,9 @@ private:
 	{
 		LLTextBox* time_box = getChild<LLTextBox>("time_box");
 
+		LLColor4 timestamp_color = LLUIColorTable::instance().getColor("ChatHeaderTimestampColor"); // <alchemy/>
+		time_box->setColor(timestamp_color); // <alchemy/>
+
 		LLRect rect_before = time_box->getRect();
 
 		time_box->setValue(chat.mTimeStr);
@@ -572,7 +575,7 @@ private:
 			!av_name.isDisplayNameDefault())
 		{
 			LLStyle::Params style_params_name;
-			LLColor4 userNameColor = LLUIColorTable::instance().getColor("EmphasisColor");
+			LLColor4 userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
 			style_params_name.color(userNameColor);
 			style_params_name.font.name("SansSerifSmall");
 			style_params_name.font.style("NORMAL");
@@ -781,7 +784,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	}
 
 	LLColor4 txt_color = LLUIColorTable::instance().getColor("White");
-	LLColor4 name_color(txt_color);
+	LLColor4 name_color = LLUIColorTable::instance().getColor("ChatHeaderDisplayNameColor"); // <alchemy/>
 
 	LLViewerChat::getChatColor(chat,txt_color);
 	LLFontGL* fontp = LLViewerChat::getChatFont();	

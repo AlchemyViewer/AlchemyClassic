@@ -1535,13 +1535,10 @@ LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 		BOOST_FOREACH(LLView* childp, mChildList)
 		{
 			llassert(childp);
-			if(!childp->getChildList()->empty())
+			LLView* viewp = childp->findChildView(name, recurse);
+			if ( viewp )
 			{
-				LLView* viewp = childp->findChildView(name, recurse);
-				if ( viewp )
-				{
-					return viewp;
-				}
+				return viewp;
 			}
 		}
 	}

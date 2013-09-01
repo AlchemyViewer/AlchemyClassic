@@ -46,6 +46,16 @@ static const S32 msg_left_offset = 10;
 static const S32 msg_right_offset = 10;
 static const S32 msg_height_pad = 5;
 
+void set_view_width(LLView* view, const LLSD& value)
+{
+ LLRect rect(view->getRect());
+ int width_diff(value.asInteger() - rect.getWidth());
+ if (!width_diff)
+   return;
+ rect.mRight += width_diff;
+ view->setRect(rect);
+}
+
 //*******************************************************************************************************************
 // LLObjectHandler
 //*******************************************************************************************************************
@@ -123,6 +133,9 @@ void	LLFloaterIMNearbyChatToastPanel::reshape		(S32 width, S32 height, BOOL call
 
 BOOL LLFloaterIMNearbyChatToastPanel::postBuild()
 {
+	LLControlVariable* ctrl = gSavedSettings.getControl("AlchemyNearbyChatToastWidth");
+	ctrl->getSignal()->connect(boost::bind(set_view_width, this, _2));
+	set_view_width(this, ctrl->getValue());
 	return LLPanel::postBuild();
 }
 

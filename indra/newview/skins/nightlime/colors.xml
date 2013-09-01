@@ -10,10 +10,19 @@
      reference="EmphasisColor" />
     <color
      name="ChatHeaderUserNameColor"
-     reference="AlchemyDarkText" />
+     reference="LtGray" />
     <color
      name="ScriptFunctionColor"
      value="0.458 0.5294 0.651 0" />
+    <color
+     name="ScriptTextReadOnlyColor"
+     reference="Gray" />
+    <color
+     name="ScriptBgWriteableColor"
+     value="0.0784 0.0784 0.0784 1" />
+    <color
+     name="ScriptBgFocusColor"
+     value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyBackground"
      value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
@@ -23,12 +32,6 @@
     <color
      name="AlchemyBlack1_t"
      value="0.1084 0.1084 0.1084 0.60" />
-    <color
-     name="AlchemyDarkBlue"
-     value="0.3176470588235294 0.5137254901960784 0.1098039215686275 1" />
-    <color
-     name="AlchemyDarkGray"
-     value="0.06666 0.06666 0.06666 1" />
     <color
      name="AlchemyDarkText"
      value="0.42 0.42 0.42 1" />
@@ -41,9 +44,6 @@
     <color
      name="AlchemyOrange"
      value="0.9372 0.4588 0.1960 1" />
-    <color
-     name="AlchemyScriptBG"
-     value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyScriptErrorBG"
      value="0.369 0.137 0.137 1" />
@@ -65,7 +65,7 @@
     <!-- Named Colors -->
     <color
      name="EmphasisColor"
-     reference="AlchemyDarkBlue" />
+     value="0.3176470588235294 0.5137254901960784 0.1098039215686275 1" />
     <color
      name="EmphasisColor_13"
      value="0.71372 0.71372 0.71372 0.13" />
@@ -92,7 +92,7 @@
      value="1 1 1 0.5" />
     <color
      name="LtGray"
-     reference="AlchemyDarkText" />
+     value="0.42 0.42 0.42 1" />
     <color
      name="LtGray_35"
      value="0.75 0.75 0.75 0.35" />
@@ -104,13 +104,13 @@
      value="0.5 0.5 0.5 1" />
     <color
      name="DkGray"
-     reference="AlchemyDarkGray" />
+     value="0.06666 0.06666 0.06666 1" />
     <color
      name="DkGray_66"
      value="0.125 0.125 0.125 .66" />
     <color
      name="DkGray2"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="MouseGray"
      value="0.191 0.191 0.191 1" />
@@ -255,7 +255,7 @@
      reference="AlchemyText" />
     <color
      name="ButtonLabelDisabledColor"
-     reference="AlchemyDarkText" />
+     reference="LtGray" />
     <color
      name="ButtonLabelSelectedColor"
      reference="AlchemyText" />
@@ -396,7 +396,7 @@
      reference="EmphasisColor" />
     <color
      name="DefaultHighlightLight"
-     reference="AlchemyDarkText" />
+     reference="LtGray" />
     <color
      name="DefaultShadowDark"
      reference="Black_50" />
@@ -420,7 +420,7 @@
      reference="DkGray_66" />
     <color
      name="FloaterFocusBackgroundColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="FloaterFocusBorderColor"
      reference="Black_50" />
@@ -504,7 +504,7 @@
      reference="White" />
     <color
      name="InventoryBackgroundColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="InventoryFocusOutlineColor"
      reference="EmphasisColor" />
@@ -513,7 +513,7 @@
      reference="EmphasisColor" />
     <color
      name="InventoryItemLibraryColor"
-     reference="AlchemyDarkText" />
+     reference="LtGray" />
     <color
      name="InventoryItemLinkColor"
      reference="Alchemy_Inv_Link" />
@@ -576,13 +576,13 @@
      value="0.5 0 0 1" />
     <color
      name="MenuBarBgColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="MenuBarGodBgColor"
      reference="FrogGreen" />
     <color
      name="MenuDefaultBgColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="MenuItemDisabledColor"
      reference="LtGray_50" />
@@ -606,7 +606,7 @@
      value="0.263 0.325 0.345 1" />
     <color
      name="MenuPopupBgColor"
-      reference="AlchemyDarkGray" />
+      reference="DkGray" />
     <color
      name="ModelUploaderLabels"
      value="1 0.6 0 1" />	  
@@ -695,13 +695,13 @@
      reference="Red" />
     <color
      name="PanelDefaultBackgroundColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="PanelDefaultHighlightLight"
      reference="White_50" />
     <color
      name="PanelFocusBackgroundColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="PanelNotificationBackground"
      value="1 0.3 0.3 0" />
@@ -767,7 +767,7 @@
      value="0 1 0 0.4" />
     <color
      name="ScriptBgReadOnlyColor"
-     value="AlchemyScriptBG" />
+     reference="DkGray" />
     <color
      name="ScriptErrorColor"
      reference="Red" />
@@ -776,7 +776,7 @@
      reference="Transparent" />
     <color
      name="ScrollBgReadOnlyColor"
-      reference="AlchemyDarkGray" />
+      reference="DkGray" />
     <color
      name="ScrollBgWriteableColor"
      reference="White_05" />
@@ -830,7 +830,7 @@
      reference="EmphasisColor" />
     <color
      name="SystemChatColor"
-     reference="AlchemyDarkText" />
+     reference="LtGray" />
     <color
      name="TextBgFocusColor"
      reference="MouseGray" /> <!-- example: LSL Editor -->
@@ -892,7 +892,7 @@
     <!-- New Colors -->
     <color
      name="OutputMonitorMutedColor"
-     reference="AlchemyDarkGray" />
+     reference="DkGray" />
     <color
      name="SysWellItemUnselected"
      value="0 0 0 0" />

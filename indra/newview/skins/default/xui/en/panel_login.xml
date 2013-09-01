@@ -64,6 +64,7 @@
           font="SansSerifSmall"
           height="16"
           name="username_text"
+          text_color="EmphasisColor"
           top="35"
           left="15"
           width="150">
@@ -96,6 +97,7 @@
           font="SansSerifSmall"
           height="16"
           name="password_text"
+          text_color="EmphasisColor"
           top="35"
           left="175"
           width="150">
@@ -129,6 +131,7 @@
           height="16"
           left="10"
           name="start_location_text"
+          text_color="EmphasisColor"
           top="35"
           width="130">
         Start at:
@@ -252,7 +255,7 @@
           top="35"
           right="-15"
           height="23"
-          image_unselected="PushButton_On"
+          image_unselected="PushButton_Off"
           image_selected="PushButton_On_Selected"
           label="Start now"
           label_color="White"

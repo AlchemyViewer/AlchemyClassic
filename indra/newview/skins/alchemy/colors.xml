@@ -3,6 +3,15 @@
 
     <!-- Alchemy Colors -->
     <color
+     name="ChatHeaderDisplayNameColor"
+     reference="White" />
+    <color
+     name="ChatHeaderTimestampColor"
+     reference="EmphasisColor" />
+    <color
+     name="ChatHeaderUserNameColor"
+     reference="AlchemyDarkText" />
+    <color
      name="ScriptFunctionColor"
      value="0.458 0.5294 0.651 0" />
      <color

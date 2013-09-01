@@ -72,9 +72,17 @@
          name="1920x1080"
          value="[i1920,i1080]" />
         <combo_box.item
-         label="4K UHD"
+         label="4K UHD, 16:9, 8.3MP"
          name="3840x2160"
          value="[i3840,i2160]" />
+        <combo_box.item
+         label="4K native, 1.90:1, 8.8MP"
+         name="4096x2160"
+         value="[i4096,i2160]" />
+        <combo_box.item
+         label="4K 4:3, 12.6MP"
+         name="4096x3072"
+         value="[i4096,i3072]" />
         <combo_box.item
          label="Custom"
          name="Custom"

@@ -417,6 +417,9 @@ std::string LLFloaterIMSessionTab::appendTime()
 	std::string timeStr ="["+ LLTrans::getString("TimeHour")+"]:["
 		+LLTrans::getString("TimeMin")+"]";
 
+	if (gSavedSettings.getBOOL("AlchemyChatSeconds")) 
+		timeStr.append(":["+LLTrans::getString("TimeSec")+"]");
+
 	LLSD substitution;
 
 	substitution["datetime"] = (S32) utc_time;

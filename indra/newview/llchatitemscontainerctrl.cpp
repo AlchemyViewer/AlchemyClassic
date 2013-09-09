@@ -53,7 +53,7 @@ void set_view_width(LLView* view, const LLSD& value)
  if (!width_diff)
    return;
  rect.mRight += width_diff;
- view->setRect(rect);
+ view->reshape(value, rect.getHeight(), true);
 }
 
 //*******************************************************************************************************************

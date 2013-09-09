@@ -1311,7 +1311,7 @@ if (DARWIN)
     macview.r
     gpu_table.txt
     Info-SecondLife.plist
-    SecondLife.xib/
+    Alchemy.xib
     # CMake doesn't seem to support Xcode language variants well just yet
     English.lproj/InfoPlist.strings
     English.lproj/language.txt
@@ -2002,7 +2002,7 @@ if (DARWIN)
   set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VIEWER_SHORT_VERSION}")
   set(MACOSX_BUNDLE_BUNDLE_VERSION "${VIEWER_SHORT_VERSION}${VIEWER_MACOSX_PHASE}${VIEWER_REVISION}")
   set(MACOSX_BUNDLE_COPYRIGHT "Copyright © Alchemy Viewer Project 2013")
-  set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "SecondLife.nib")
+  set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "Alchemy.nib")
   set(MACOSX_BUNDLE_NSPRINCIPAL_CLASS "NSApplication")
   
   set_target_properties(

@@ -145,6 +145,7 @@ struct lluuid_less
 
 typedef std::set<LLUUID, lluuid_less> uuid_list_t;
 
+// <alchemy>
 struct LLUUIDHash
 {
 	inline size_t operator() (const LLUUID& id) const
@@ -152,6 +153,7 @@ struct LLUUIDHash
 		return *reinterpret_cast<const size_t*>(id.mData);
 	}
 };
+// </alchemy>
 
 /*
  * Sub-classes for keeping transaction IDs and asset IDs

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel
+ border="true"
+ follows="left|top|right|bottom"
+ height="408"
+ label="Interface/XUI"
+ layout="topleft"
+ left="102"
+ name="xui_settings"
+ top="1"
+ width="517">
+<!-- Placeholder -->
+  <tab_container
+    layout="topleft"
+    follows="all"
+    top="5"
+    bottom="-1"
+    name="tab_container"
+    tab_min_width="50"
+    tab_position="top">
+  <!--<panel
+      label="Placeholder tab"
+      border="false"
+      height="380"
+      layout="topleft"
+      top="0"
+      left="13"
+      width="517"
+      name="pholder_tab">-->
+  <text
+    left="10"
+    top_pad="10"
+    follows="top|left"
+    layout="topleft"
+    width="150"
+    use_ellipses="false"
+    name="test_text"
+    tool_tip="text">
+     Nearby Chat toast width:
+  </text>
+  <spinner
+    left_pad="10"
+    top="6"
+    height="10"
+    width="55"
+    decimal_digits="0"
+    increment="1"
+    min_val="300"
+    max_val="1500"
+    follows="top|left"
+    layout="topleft"
+    name="alchemynearbychattoastwidth"
+    control_name="AlchemyNearbyChatToastWidth"
+    tool_tip="Controls the width of the nearby chat toast (pop-up)"/>
+  <!-- </panel> -->
+  </tab_container>
+</panel>

@@ -53,5 +53,15 @@
     control_name="AlchemyNearbyChatToastWidth"
     tool_tip="Controls the width of the nearby chat toast (pop-up)"/>
   <!-- </panel> -->
+  <check_box
+        follows="left|top"
+        height="16"
+        label="Show Hover Tips"
+        tool_tip="Show descriptive tooltip when mouse hovers over items in world"
+        left="7"
+        top_pad="20"
+        name="show_hover_tips"
+        width="275"
+        control_name="ShowHoverTips"/>
   </tab_container>
 </panel>

@@ -1286,6 +1286,11 @@ set_source_files_properties(
 
 if (DARWIN)
   LIST(APPEND viewer_SOURCE_FILES llappviewermacosx.cpp)
+  LIST(APPEND viewer_SOURCE_FILES llfilepicker_mac.mm)
+  LIST(APPEND viewer_HEADER_FILES llfilepicker_mac.h)
+
+  # This should be compiled with the viewer.
+  LIST(APPEND viewer_SOURCE_FILES llappdelegate-objc.mm)
 
   find_library(AGL_LIBRARY AGL)
   find_library(APPKIT_LIBRARY AppKit)
@@ -1305,8 +1310,8 @@ if (DARWIN)
     alchemy.icns
     macview.r
     gpu_table.txt
-    Info-Alchemy.plist
-    Alchemy.nib/
+    Info-SecondLife.plist
+    Alchemy.xib
     # CMake doesn't seem to support Xcode language variants well just yet
     English.lproj/InfoPlist.strings
     English.lproj/language.txt
@@ -1987,24 +1992,29 @@ if (LINUX)
 endif (LINUX)
 
 if (DARWIN)
+  # These all get set with PROPERTIES
   set(product "Alchemy")
-
+  set(MACOSX_BUNDLE_INFO_STRING "Alchemy Viewer")
+  set(MACOSX_BUNDLE_ICON_FILE "alchemy.icns")
+  set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.alchemyviewer.viewer")
+  set(MACOSX_BUNDLE_LONG_VERSION_STRING "${VIEWER_CHANNEL} ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
+  set(MACOSX_BUNDLE_BUNDLE_NAME "Alchemy")
+  set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VIEWER_SHORT_VERSION}")
+  set(MACOSX_BUNDLE_BUNDLE_VERSION "${VIEWER_SHORT_VERSION}${VIEWER_MACOSX_PHASE}${VIEWER_REVISION}")
+  set(MACOSX_BUNDLE_COPYRIGHT "Copyright © Alchemy Viewer Project 2013")
+  set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "Alchemy.nib")
+  set(MACOSX_BUNDLE_NSPRINCIPAL_CLASS "NSApplication")
+  
   set_target_properties(
     ${VIEWER_BINARY_NAME}
     PROPERTIES
     OUTPUT_NAME "${product}"
-    MACOSX_BUNDLE_INFO_STRING "Alchemy Viewer"
-    MACOSX_BUNDLE_ICON_FILE "alchemy.icns"
-    MACOSX_BUNDLE_GUI_IDENTIFIER "org.alchemy.viewer"
-    MACOSX_BUNDLE_LONG_VERSION_STRING "${VIEWER_CHANNEL} ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}"
-    MACOSX_BUNDLE_BUNDLE_NAME "Alchemy"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "${VIEWER_SHORT_VERSION}"
-    MACOSX_BUNDLE_BUNDLE_VERSION "${VIEWER_SHORT_VERSION}${VIEWER_MACOSX_PHASE}${VIEWER_REVISION}"
-    MACOSX_BUNDLE_COPYRIGHT "Copyright © Alchemy Viewer Project 2013"
+    MACOSX_BUNDLE_INFO_PLIST
+    "${CMAKE_CURRENT_SOURCE_DIR}/Info-SecondLife.plist"
     )
 
   configure_file(
-     "${CMAKE_CURRENT_SOURCE_DIR}/Info-Alchemy.plist"
+     "${CMAKE_CURRENT_SOURCE_DIR}/Info-SecondLife.plist"
      "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app/Contents/Info.plist"
     )
 

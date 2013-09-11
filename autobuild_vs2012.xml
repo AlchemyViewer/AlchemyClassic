@@ -1444,9 +1444,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8f9ecf52a12634763a2da3aeedc0a2e3</string>
+              <string>fcde6ec661e4da51458208e4906f5c76</string>
               <key>url</key>
-              <string>https://dl.dropbox.com/u/8162280/Alchemy/Prebuilts/3p-llqtwebkit/windows/llqtwebkit-4.8.4-windows-vs12-20121230.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/llqtwebkit-4.8.5-windows-vs11-20130911-2.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

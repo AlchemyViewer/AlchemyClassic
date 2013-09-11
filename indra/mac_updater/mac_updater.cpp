@@ -396,7 +396,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			gProductName = "Second Life";
+			gProductName = "Alchemy";
 		}
 		if (gBundleID)
 		{
@@ -404,7 +404,7 @@ int main(int argc, char **argv)
 		}
 		else
 		{
-			gBundleID = "com.secondlife.indra.viewer";
+			gBundleID = "org.alchemyviewer.viewer";
 		}
 	}
 	

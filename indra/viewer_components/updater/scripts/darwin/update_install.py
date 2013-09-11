@@ -31,7 +31,7 @@ import Tkinter, tkMessageBox
 
 TITLE = "Alchemy Viewer Updater"
 # Magic bundle identifier used by all Second Life viewer bundles
-BUNDLE_IDENTIFIER = "org.alchemy.viewer"
+BUNDLE_IDENTIFIER = "org.alchemyviewer.viewer"
 
 # Global handle to the MessageFrame so we can update message
 FRAME = None

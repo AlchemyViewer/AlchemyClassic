@@ -321,6 +321,17 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>AlchemyNearbyChatToastWidth</key>
+    <map>
+      <key>Comment</key>
+      <string>Controls how wide the nearby chat toasts are.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <integer>600</integer>
+    </map>
     <key>AlchemyNearbyDoubleClick</key>
     <map>
       <key>Comment</key>

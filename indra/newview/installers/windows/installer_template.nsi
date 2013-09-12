@@ -328,8 +328,8 @@ Function CheckWillUninstallV2
   ; Uneeded - LD
   Return
   StrCmp $SKIP_DIALOGS "true" 0 CHECKV2_DONE
-  StrCmp $INSTDIR "$PROGRAMFILES\SecondLifeViewer2" CHECKV2_DONE ; don't uninstall our own install dir.
-  IfFileExists "$PROGRAMFILES\SecondLifeViewer2\uninst.exe" CHECKV2_FOUND CHECKV2_DONE
+  StrCmp $INSTDIR "$PROGRAMFILES\${INSTNAME}2" CHECKV2_DONE ; don't uninstall our own install dir.
+  IfFileExists "$PROGRAMFILES\${INSTNAME}2\uninst.exe" CHECKV2_FOUND CHECKV2_DONE
 
 CHECKV2_FOUND:
   StrCpy $DO_UNINSTALL_V2 "true"
@@ -1026,9 +1026,9 @@ WriteUninstaller "$INSTDIR\uninst.exe"
 
 ; Uninstall existing "Second Life Viewer 2" install if needed.
 StrCmp $DO_UNINSTALL_V2 "" REMOVE_SLV2_DONE
-  ExecWait '"$PROGRAMFILES\SecondLifeViewer2\uninst.exe" /S _?=$PROGRAMFILES\SecondLifeViewer2'
-  Delete "$PROGRAMFILES\SecondLifeViewer2\uninst.exe" ; with _? option above, uninst.exe will be left behind.
-  RMDir "$PROGRAMFILES\SecondLifeViewer2" ; will remove only if empty.
+  ExecWait '"$PROGRAMFILES\${INSTNAME}2\uninst.exe" /S _?=$PROGRAMFILES\${INSTNAME}2'
+  Delete "$PROGRAMFILES\${INSTNAME}2\uninst.exe" ; with _? option above, uninst.exe will be left behind.
+  RMDir "$PROGRAMFILES\${INSTNAME}2" ; will remove only if empty.
 
   Call RestoreUserFiles
   Call RemoveTempUserFiles

@@ -23,5 +23,5 @@
   bg_writeable_color="TextBgWriteableColor"
   bg_selected_color="EmphasisColor"
   bg_focus_color="TextBgFocusColor"
-  highlight_color="AlchemyHighlight">
+  highlight_color="EmphasisColor">
 </simple_text_editor>

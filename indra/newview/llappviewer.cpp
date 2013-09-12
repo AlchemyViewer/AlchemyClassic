@@ -1829,7 +1829,7 @@ bool LLAppViewer::cleanup()
 
 	LLAvatarAppearance::cleanupClass();
 	
-	LLAvatarAppearance::cleanupClass();
+	//LLAvatarAppearance::cleanupClass(); // <alchemy/> Merge Botch
 	
 	LLPostProcess::cleanupClass();
 

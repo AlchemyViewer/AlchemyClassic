@@ -2956,6 +2956,11 @@ BOOL LLViewerShaderMgr::loadShadersInterface()
 		gSolidColorProgram.mShaderFiles.push_back(make_pair("interface/solidcolorV.glsl", GL_VERTEX_SHADER_ARB));
 		gSolidColorProgram.mShaderFiles.push_back(make_pair("interface/solidcolorF.glsl", GL_FRAGMENT_SHADER_ARB));
 		gSolidColorProgram.mShaderLevel = mVertexShaderLevel[SHADER_INTERFACE];
+		if (gGLManager.mIsIntel)
+		{
+			gSolidColorProgram.addPermutation("USE_INTEL_WORKAROUND", "1");
+		}
+
 		success = gSolidColorProgram.createShader(NULL, NULL);
 		if (success)
 		{

@@ -44,9 +44,14 @@ if (WINDOWS)
                "$ENV{ProgramFiles(x86)}/Windows Kits/8.0"
                )
 
+    find_path (WIN_KIT_LIB_DIR dxguid.lib
+               "${WIN_KIT_ROOT_DIR}/Lib/winv6.3/um/${DIRECTX_ARCHITECTURE}"
+               "${WIN_KIT_ROOT_DIR}/Lib/Win8/um/${DIRECTX_ARCHITECTURE}"
+               )
+
     if (WIN_KIT_ROOT_DIR)
       set (DIRECTX_INCLUDE_DIR "${WIN_KIT_ROOT_DIR}/Include/um" "${WIN_KIT_ROOT_DIR}/Include/shared")
-      set (DIRECTX_LIBRARY_DIR "${WIN_KIT_ROOT_DIR}/Lib/Win8/um/${DIRECTX_ARCHITECTURE}")
+      set (DIRECTX_LIBRARY_DIR "${WIN_KIT_LIB_DIR}")
     endif (WIN_KIT_ROOT_DIR)
   endif (DIRECTX_ROOT_DIR)
 

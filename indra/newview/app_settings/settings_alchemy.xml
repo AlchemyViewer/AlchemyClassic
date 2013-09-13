@@ -330,7 +330,7 @@
       <key>Type</key>
       <string>U32</string>
       <key>Value</key>
-      <integer>600</integer>
+      <integer>350</integer>
     </map>
     <key>AlchemyNearbyDoubleClick</key>
     <map>

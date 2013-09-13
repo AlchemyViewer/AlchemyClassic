@@ -252,7 +252,7 @@
           top="35"
           right="-15"
           height="23"
-          image_unselected="PushButton_Off"
+          image_unselected="PushButton_On"
           image_selected="PushButton_On_Selected"
           label="Start now"
           label_color="White"

@@ -92,6 +92,11 @@ private:
 	LLFrameTimer mHighlightTimer;
 	S32 mPrintStats;
 	LLRect mGraphRect;
+
+	// <alchemy>
+	bool mOverLegend;
+	S32 mScrollOffset;
+	// </alchemy>
 };
 
 #endif

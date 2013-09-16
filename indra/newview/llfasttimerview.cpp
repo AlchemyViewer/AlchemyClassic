@@ -95,6 +95,10 @@ LLFastTimerView::LLFastTimerView(const LLSD& key)
 	mHoverBarIndex = -1;
 	FTV_NUM_TIMERS = LLFastTimer::NamedTimer::instanceCount();
 	mPrintStats = -1;	
+	// <alchemy>
+	mOverLegend = false;
+	mScrollOffset = 0;
+	// </alchemy>
 }
 
 void LLFastTimerView::onPause()
@@ -242,6 +246,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 	}
 	mHoverTimer = NULL;
 	mHoverID = NULL;
+	mOverLegend = false; // <alchemy/>
 
 	if(LLFastTimer::sPauseHistory && mBarRect.pointInRect(x, y))
 	{
@@ -294,6 +299,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 		{
 			mHoverID = timer_id;
 		}
+		mOverLegend = true; // <alchemy/>
 	}
 	
 	return LLFloater::handleHover(x, y, mask);
@@ -338,10 +344,32 @@ BOOL LLFastTimerView::handleToolTip(S32 x, S32 y, MASK mask)
 
 BOOL LLFastTimerView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 {
-	LLFastTimer::sPauseHistory = TRUE;
-	mScrollIndex = llclamp(	mScrollIndex + clicks,
-							0,
-							llmin(LLFastTimer::getLastFrameIndex(), (S32)LLFastTimer::NamedTimer::HISTORY_NUM - MAX_VISIBLE_HISTORY));
+	// // <alchemy>
+	if(mOverLegend)
+	{
+		mScrollOffset += clicks;
+		S32 count = 0;
+		for (timer_tree_iterator_t it = begin_timer_tree(getFrameTimer());
+			it != timer_tree_iterator_t();
+			++it)
+		{
+			count++;
+			LLFastTimer::NamedTimer* idp = (*it);
+			if (idp->getCollapsed()) 
+			{
+				it.skipDescendants();
+			}
+		}
+		mScrollOffset = llclamp(mScrollOffset,0,count-5);
+	}
+	else
+	{
+		LLFastTimer::sPauseHistory = TRUE;
+		mScrollIndex = llclamp(	mScrollIndex + clicks,
+								0,
+								llmin(LLFastTimer::getLastFrameIndex(), (S32)LLFastTimer::NamedTimer::HISTORY_NUM - MAX_VISIBLE_HISTORY));
+	}
+	// // </alchemy>
 	return TRUE;
 }
 
@@ -422,7 +450,8 @@ void LLFastTimerView::draw()
 
 	F32 hue = 0.f;
 
-	for (timer_tree_iterator_t it = begin_timer_tree(getFrameTimer());
+	// <alchemy> - Move color generation down to be in the next loop.
+	/*for (timer_tree_iterator_t it = begin_timer_tree(getFrameTimer());
 		it != timer_tree_iterator_t();
 		++it)
 	{
@@ -439,7 +468,8 @@ void LLFastTimerView::draw()
 		child_color.setHSL(hue, saturation, lightness);
 
 		sTimerColors[idp] = child_color;
-	}
+	}*/
+	// </alchemy>
 
 	const S32 LEGEND_WIDTH = 220;
 	{
@@ -447,11 +477,38 @@ void LLFastTimerView::draw()
 		S32 cur_line = 0;
 		ft_display_idx.clear();
 		std::map<LLFastTimer::NamedTimer*, S32> display_line;
+		S32 mScrollOffset_tmp = mScrollOffset; // <alchemy/>
 		for (timer_tree_iterator_t it = begin_timer_tree(getFrameTimer());
 			it != timer_tree_iterator_t();
 			++it)
 		{
 			LLFastTimer::NamedTimer* idp = (*it);
+			// <alchemy> - Move color generation down to be in the next loop.
+			const F32 HUE_INCREMENT = 0.23f;
+			hue = fmodf(hue + HUE_INCREMENT, 1.f);
+			// saturation increases with depth
+			F32 saturation = clamp_rescale((F32)idp->getDepth(), 0.f, 3.f, 0.f, 1.f);
+			// lightness alternates with depth
+			F32 lightness = idp->getDepth() % 2 ? 0.5f : 0.6f;
+
+			LLColor4 child_color;
+			child_color.setHSL(hue, saturation, lightness);
+
+			sTimerColors[idp] = child_color;
+			// </alchemy>
+
+			// <alchemy>
+			if(mScrollOffset_tmp)
+			{
+				--mScrollOffset_tmp;
+				if (idp->getCollapsed()) 
+				{
+					it.skipDescendants();
+				}
+				continue;
+			}
+			// </alchemy>
+
 			display_line[idp] = cur_line;
 			ft_display_idx.push_back(idp);
 			cur_line++;

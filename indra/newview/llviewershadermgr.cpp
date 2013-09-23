@@ -1,4 +1,4 @@
-/** 
+/**
  * @file llviewershadermgr.cpp
  * @brief Viewer shader manager implementation.
  *
@@ -1771,6 +1771,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredSoftenProgram.mShaderFiles.clear();
 		gDeferredSoftenProgram.mShaderFiles.push_back(make_pair("deferred/softenLightV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredSoftenProgram.mShaderFiles.push_back(make_pair("deferred/softenLightF.glsl", GL_FRAGMENT_SHADER_ARB));
+		gDeferredSoftenProgram.addPermutation("USE_OLDSHINY", (bool)gSavedSettings.getBOOL("RenderDeferredOldShiny") ? "1" : "0");
 		gDeferredSoftenProgram.addPermutation("USE_SSR", (bool)gSavedSettings.getBOOL("RenderDeferredSSR") ? "1" : "0");
 		gDeferredSoftenProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 

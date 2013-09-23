@@ -440,6 +440,8 @@ void main()
 		
 		col = mix(col.rgb, diffuse.rgb, diffuse.a);
 				
+// <alchemy> Old "wet" Shiny
+#if !USE_OLDSHINY
 		if (envIntensity > 0.0)
 		{ //add environmentmap
 			vec3 env_vec = env_mat * refnormpersp;
@@ -450,6 +452,8 @@ void main()
 			col = mix(col.rgb, refcol, 
 				envIntensity);  
 		}
+#endif
+// </alchemy>
 				
 		if (norm.w < 0.5)
 		{

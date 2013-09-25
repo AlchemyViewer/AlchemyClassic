@@ -140,6 +140,12 @@ static bool handleSetShaderChanged(const LLSD& newvalue)
 	return true;
 }
 
+static bool validateFXAAQuality(const LLSD& val)
+{
+	U32 preset = val.asInteger();
+	return preset == 39 || (preset > 19 && preset < 30) || (preset > 9 && preset < 16);
+}
+
 static bool handleRenderPerfTestChanged(const LLSD& newvalue)
 {
        bool status = !newvalue.asBoolean();
@@ -687,6 +693,8 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("RenderDebugPipeline")->getSignal()->connect(boost::bind(&handleRenderDebugPipelineChanged, _2));
 	gSavedSettings.getControl("RenderResolutionDivisor")->getSignal()->connect(boost::bind(&handleRenderResolutionDivisorChanged, _2));
 	gSavedSettings.getControl("RenderDeferred")->getSignal()->connect(boost::bind(&handleRenderDeferredChanged, _2));
+	gSavedSettings.getControl("RenderDeferredFXAAQuality")->getValidateSignal()->connect(boost::bind(validateFXAAQuality, _2));
+	gSavedSettings.getControl("RenderDeferredFXAAQuality")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));
 	gSavedSettings.getControl("RenderShadowDetail")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));
 	gSavedSettings.getControl("RenderDeferredOldShiny")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));
 	gSavedSettings.getControl("RenderDeferredSSAO")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));

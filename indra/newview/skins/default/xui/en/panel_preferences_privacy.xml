@@ -19,7 +19,8 @@
  right="-1"
  name="tabs"
  tab_min_width="50"
- tab_position="top" >
+ tab_position="top"
+ tab_height="15" >
     <panel
      top_pad="5"
      bottom="-1"

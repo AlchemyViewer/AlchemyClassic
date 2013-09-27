@@ -20,7 +20,7 @@
  name="tabs"
  tab_min_width="50"
  tab_position="top"
- tab_height="15" >
+ tab_height="25" >
     <panel
      top_pad="5"
      bottom="-1"

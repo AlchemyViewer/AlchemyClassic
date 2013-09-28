@@ -3,7 +3,7 @@
  legacy_header_height="18"
  can_minimize="false"
  can_resize="true"
- height="330"
+ height="350"
  layout="topleft"
  min_height="330"
  min_width="410"
@@ -95,7 +95,7 @@
     <button
      enabled="false"
      follows="left|top"
-     height="18"
+     height="20"
      label="Default"
      label_selected="Default"
      layout="topleft"
@@ -103,6 +103,16 @@
      width="73"
 	 left="94"
      top="215"/>
+    <button
+     follows="left|top"
+     height="20"
+     label="Transparent"
+     label_selected="Transparent"
+     layout="topleft"
+     left_delta="0"
+     name="Transparent"
+     top_pad="5"
+     width="73" />
     <button
      follows="left|top"
      height="20"
@@ -159,13 +169,14 @@
      bg_alpha_color="DkGray2"
      border="false"
      follows="all"
-     height="233"
+     height="262"
      layout="topleft"
      left_delta="0"
      name="inventory panel"
      top_pad="4"
      width="231" />
      <check_box
+        visible="false"
      height="14"
      initial_value="false"
      label="Show folders"
@@ -216,7 +227,7 @@
      left="170"
      top="22"
      width="235"
-     height="260"
+     height="280"
      follows="left|top|right|bottom"
      column_padding="0"
      can_resize="false"

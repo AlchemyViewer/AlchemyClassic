@@ -149,6 +149,11 @@ public:
 	void			setBlankImageAssetID( const LLUUID& id )	{ mBlankImageAssetID = id; }
 	const LLUUID&	getBlankImageAssetID() const { return mBlankImageAssetID; }
 
+	// <alchemy>
+	void			setTransparentImageAssetID( const LLUUID& id )	{ mTransparentImageAssetID = id; }
+	const LLUUID&	getTransparentImageAssetID() const { return mTransparentImageAssetID; }
+	// </alchemy>
+
 	void			setCaption(const std::string& caption);
 	void			setCanApplyImmediately(BOOL b);
 
@@ -207,6 +212,7 @@ private:
 	LLUUID					 	mImageAssetID;
 	LLUUID					 	mDefaultImageAssetID;
 	LLUUID					 	mBlankImageAssetID;
+	LLUUID					 	mTransparentImageAssetID; // <alchemy/>
 	LLUIImagePtr				mFallbackImage;
 	std::string					mDefaultImageName;
 	LLHandle<LLFloater>			mFloaterHandle;

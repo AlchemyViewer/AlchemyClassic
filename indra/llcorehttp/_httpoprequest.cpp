@@ -188,7 +188,7 @@ void HttpOpRequest::stageFromActive(HttpService * service)
 		// If non-zero, we received and processed a Content-Range
 		// header with the response.  Verify that what it says
 		// is consistent with the received data.
-		if (mReplyLength != mReplyBody->size())
+		if (mReplyBody && mReplyBody->size() && mReplyLength != mReplyBody->size()) // <alchemy/>
 		{
 			// Not as expected, fail the request
 			mStatus = HttpStatus(HttpStatus::LLCORE, HE_INV_CONTENT_RANGE_HDR);

@@ -47,6 +47,9 @@
     <color
      name="AlchemyText"
      value="0.72 0.72 0.72 1" />
+     <color
+     name="AlchemyTextDark"
+     value="0.52 0.52 0.52 1" />
     <color
      name="AlchemyWhite"
      value="0.8078 0.8078 0.8078 1" />
@@ -857,7 +860,7 @@
      reference="AlchemyWhite" />
     <color
      name="TextFgTentativeColor"
-     reference="AlchemyWhite" />
+     reference="AlchemyTextDark" />
     <color
      name="TimeTextColor"
      reference="AlchemyText" />

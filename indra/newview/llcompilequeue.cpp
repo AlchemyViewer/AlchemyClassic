@@ -770,7 +770,7 @@ LLFloaterDeleteQueue::~LLFloaterDeleteQueue()
 void LLFloaterDeleteQueue::handleInventory(LLViewerObject* viewer_obj,
 										  LLInventoryObject::object_list_t* inv)
 {
-	if (viewer_obj)
+	if (viewer_obj && inv)
 	{
 		LLViewerObject* objectp = gObjectList.findObject(viewer_obj->getID());
 		const std::string& delstring = getString("Deleting");

@@ -343,6 +343,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyPlainChatNameBold</key>
+    <map>
+      <key>Comment</key>
+      <string>Display names in bold in plain text chat</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyPlayTeleportSound</key>
     <map>
       <key>Comment</key>
@@ -433,6 +444,17 @@
       <string>U32</string>
       <key>Value</key>
       <integer>12</integer>
-    </map> 
+    </map>
+    <key>UIImgTransparentUUID</key>
+    <map>
+      <key>Comment</key>
+      <string />
+      <key>Persist</key>
+      <integer>0</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>8dcd4a48-2d37-4909-9f78-f7a9eb4ef903</string>
+    </map>
   </map>
 </llsd>

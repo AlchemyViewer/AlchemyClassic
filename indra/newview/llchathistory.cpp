@@ -322,7 +322,8 @@ public:
 				mFrom = chat.mFromName.substr(0, username_start);
 				user_name->setValue(mFrom);
 
-				if (gSavedSettings.getBOOL("NameTagShowUsernames"))
+				static LLCachedControl<bool> nameTagShowUsername(gSavedSettings, "NameTagShowUsernames");
+				if (nameTagShowUsername)
 				{
 					std::string username = chat.mFromName.substr(username_start + 2);
 					username = username.substr(0, username.length() - 1);
@@ -570,7 +571,8 @@ private:
 		user_name->setValue( LLSD(av_name.getDisplayName() ) );
 		user_name->setToolTip( av_name.getUserName() );
 
-		if (gSavedSettings.getBOOL("NameTagShowUsernames") && 
+		static LLCachedControl<bool> nameTagShowUsername(gSavedSettings, "NameTagShowUsernames");
+		if (nameTagShowUsername && 
 			av_name.useDisplayNames() &&
 			!av_name.isDisplayNameDefault())
 		{
@@ -787,7 +789,8 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	LLColor4 name_color = LLUIColorTable::instance().getColor("ChatHeaderDisplayNameColor"); // <alchemy/>
 
 	LLViewerChat::getChatColor(chat,txt_color);
-	LLFontGL* fontp = gSavedSettings.getBOOL("AlchemyChatMonospace") ?  LLFontGL::getFontMonospace() : LLViewerChat::getChatFont();	
+	static LLCachedControl<bool> alchemyChatMonospace(gSavedSettings, "AlchemyChatMonospace");
+	LLFontGL* fontp = alchemyChatMonospace ?  LLFontGL::getFontMonospace() : LLViewerChat::getChatFont();	
 	std::string font_name = LLFontGL::nameFromFont(fontp);
 	std::string font_size = LLFontGL::sizeFromFont(fontp);	
 
@@ -900,6 +903,14 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 			{
 				LLStyle::Params link_params(body_message_params);
 				link_params.overwriteFrom(LLStyleMap::instance().lookupAgent(chat.mFromID));
+
+				// <alchemy>
+				static LLCachedControl<bool> alchemyPlainChatNameBold(gSavedSettings, "AlchemyPlainChatNameBold");
+				if (alchemyPlainChatNameBold)
+				{
+					link_params.font.style = "BOLD";
+				}
+				// </alchemy>
 
 				static LLCachedControl<bool> chat_as_you(gSavedSettings, "AlchemySelfChatAsYou");
 				if (from_me && chat_as_you)

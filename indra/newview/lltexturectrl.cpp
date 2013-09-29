@@ -145,6 +145,7 @@ public:
 	static void		onBtnCancel( void* userdata );
 		   void		onBtnPipette( );
 	//static void		onBtnRevert( void* userdata );
+	static void		onBtnTransparent( void* userdata ); // <alchemy/>
 	static void		onBtnBlank( void* userdata );
 	static void		onBtnNone( void* userdata );
 	static void		onBtnClear( void* userdata );
@@ -426,6 +427,7 @@ BOOL LLFloaterTexturePicker::postBuild()
 	childSetAction("Default",LLFloaterTexturePicker::onBtnSetToDefault,this);
 	childSetAction("None", LLFloaterTexturePicker::onBtnNone,this);
 	childSetAction("Blank", LLFloaterTexturePicker::onBtnBlank,this);
+	childSetAction("Transparent", LLFloaterTexturePicker::onBtnTransparent,this); // <alchemy/>
 
 
 	childSetCommitCallback("show_folders_check", onShowFolders, this);
@@ -580,6 +582,7 @@ void LLFloaterTexturePicker::draw()
 		}
 
 		getChildView("Default")->setEnabled(mImageAssetID != mOwner->getDefaultImageAssetID());
+		getChildView("Transparent")->setEnabled(mImageAssetID != mOwner->getTransparentImageAssetID()); // <alchemy/>
 		getChildView("Blank")->setEnabled(mImageAssetID != mOwner->getBlankImageAssetID());
 		getChildView("None")->setEnabled(mOwner->getAllowNoTexture() && !mImageAssetID.isNull() );
 
@@ -727,6 +730,17 @@ void LLFloaterTexturePicker::onBtnSetToDefault(void* userdata)
 	self->commitIfImmediateSet();
 }
 
+// <alchemy>
+// static
+void LLFloaterTexturePicker::onBtnTransparent(void* userdata)
+{
+	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
+	self->setCanApply(true, true);
+	self->setImageID( self->mOwner->getTransparentImageAssetID() );
+	self->commitIfImmediateSet();
+}
+// </alchemy>
+
 // static
 void LLFloaterTexturePicker::onBtnBlank(void* userdata)
 {
@@ -735,7 +749,6 @@ void LLFloaterTexturePicker::onBtnBlank(void* userdata)
 	self->setImageID( self->mOwner->getBlankImageAssetID() );
 	self->commitIfImmediateSet();
 }
-
 
 // static
 void LLFloaterTexturePicker::onBtnNone(void* userdata)
@@ -838,6 +851,7 @@ void LLFloaterTexturePicker::onModeSelect(LLUICtrl* ctrl, void *userdata)
 	bool mode = (self->mModeSelector->getSelectedIndex() == 0);
 
 	self->getChild<LLButton>("Default")->setVisible(mode);
+	self->getChild<LLButton>("Transparent")->setVisible(mode); // <alchemy/>
 	self->getChild<LLButton>("Blank")->setVisible(mode);
 	self->getChild<LLButton>("None")->setVisible(mode);
 	self->getChild<LLButton>("Pipette")->setVisible(mode);
@@ -1064,6 +1078,12 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mDefaultImageName(p.default_image_name),
 	mFallbackImage(p.fallback_image)
 {
+
+	// <alchemy>
+	// Transparent image
+	LLUUID transparentImage( gSavedSettings.getString( "UIImgTransparentUUID" ) );
+	setTransparentImageAssetID( transparentImage );
+	// </alchemy>
 
 	// Default of defaults is white image for diff tex
 	//

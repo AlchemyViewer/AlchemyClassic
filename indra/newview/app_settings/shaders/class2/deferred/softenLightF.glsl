@@ -817,7 +817,7 @@ void main()
 		}
 #endif
 // </alchemy>
-	
+						
 		if (norm.w < 0.5)
 		{
 			col = mix(atmosLighting(col), fullbrightAtmosTransport(col), diffuse.a);
@@ -835,7 +835,7 @@ void main()
 		//col = vec3(1,0,1);
 		//col.g = envIntensity;
 	}
-
+	
 	frag_color.rgb = col;
 	frag_color.a = bloom;
 }

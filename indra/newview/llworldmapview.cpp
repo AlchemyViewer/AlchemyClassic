@@ -1802,3 +1802,5 @@ BOOL LLWorldMapView::handleDoubleClick( S32 x, S32 y, MASK mask )
 	}
 	return FALSE;
 }
+
+

@@ -912,21 +912,10 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 				}
 				// </alchemy>
 
-				static LLCachedControl<bool> chat_as_you(gSavedSettings, "AlchemySelfChatAsYou");
-				if (from_me && chat_as_you)
-				{	std::string localized_name;
-					bool is_localized = LLTrans::findString(localized_name, "AgentNameSubst");
-					mEditor->appendText((is_localized? localized_name:"(You)") + delimiter,
-							prependNewLineState, link_params);
-					prependNewLineState = false;
-				}
-				else
-				{
 				// Add link to avatar's inspector and delimiter to message.
-					mEditor->appendText(std::string(link_params.link_href) + delimiter,
-							prependNewLineState, link_params);
-					prependNewLineState = false;
-				}
+				mEditor->appendText(std::string(link_params.link_href) + delimiter,
+					prependNewLineState, link_params);
+				prependNewLineState = false;
 			}
 			else
 			{

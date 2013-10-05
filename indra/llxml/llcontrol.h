@@ -340,7 +340,7 @@ public:
 	{
 		if(!group.controlExists(name))
 		{
-			llerrs << "Control named " << name << "not found." << llendl;
+			llerrs << "Control named " << name << " not found." << llendl; // <alchemy/>
 		}
 
 		bindToControl(group, name);

@@ -389,7 +389,7 @@ NVIDIA GTX 560							.*NVIDIA .*GTX 56.*									5	1	1	4.3
 NVIDIA GTX 570							.*NVIDIA .*GTX 57.*									5	1	1	4.2
 NVIDIA GTX 580							.*NVIDIA .*GTX 58.*									5	1	1	4.3
 NVIDIA GTX 590							.*NVIDIA .*GTX 59.*									5	1	1	4.2
-NVIDIA 605								.*NVIDIA .* 605.*									3	1	1	4.2
+NVIDIA 605							.*NVIDIA .* 605.*									3	1	1	4.2
 NVIDIA GT 610							.*NVIDIA .*GT 61.*									3	1	1	4.2
 NVIDIA GT 620							.*NVIDIA .*GT 62.*									3	1	0	4.2
 NVIDIA GT 630							.*NVIDIA .*GT 63.*									3	1	0	4.2
@@ -400,6 +400,10 @@ NVIDIA GTX 660							.*NVIDIA .*GTX 66.*									5	1	0	4.3
 NVIDIA GTX 670							.*NVIDIA .*GTX 67.*									5	1	1	4.2
 NVIDIA GTX 680							.*NVIDIA .*GTX 68.*									5	1	1	4.2
 NVIDIA GTX 690							.*NVIDIA .*GTX 69.*									5	1	1	4.2
+NVIDIA GTX 760							.*NVIDIA .*GTX 76.*									5	1	0	4.3
+NVIDIA GTX 770							.*NVIDIA .*GTX 77.*									5	1	1	4.3
+NVIDIA GTX 780							.*NVIDIA .*GTX 78.*									5	1	1	4.3
+NVIDIA GTX TITAN						.*NVIDIA .*GTX TITAN.*									5	1	1	4.3
 NVIDIA C51								.*NVIDIA .*C51.*									0	1	1	2
 NVIDIA G72								.*NVIDIA .*G72.*									1	1	0	0
 NVIDIA G73								.*NVIDIA .*G73.*									1	1	0	0

@@ -37,7 +37,7 @@ void LLUrlRegistryNullCallback(const std::string &url, const std::string &label,
 
 LLUrlRegistry::LLUrlRegistry()
 {
-	mUrlEntry.reserve(20);
+	mUrlEntry.reserve(21); // <alchemy/>
 
 	// Urls are matched in the order that they were registered
 	registerUrl(new LLUrlEntryNoLink());
@@ -59,7 +59,6 @@ LLUrlRegistry::LLUrlRegistry()
 	registerUrl(new LLUrlEntryObjectIM());
 	registerUrl(new LLUrlEntryPlace());
 	registerUrl(new LLUrlEntryInventory());
-	registerUrl(new LLUrlEntryObjectIM());
 	//LLUrlEntrySL and LLUrlEntrySLLabel have more common pattern, 
 	//so it should be registered in the end of list
 	registerUrl(new LLUrlEntrySL());
@@ -67,6 +66,8 @@ LLUrlRegistry::LLUrlRegistry()
 	// most common pattern is a URL without any protocol,
 	// e.g., "secondlife.com"
 	registerUrl(new LLUrlEntryHTTPNoProtocol());	
+	// Parse teh jiras!
+	registerUrl(new LLUrlEntryJira()); // <alchemy/>
 }
 
 LLUrlRegistry::~LLUrlRegistry()
@@ -145,10 +146,44 @@ static bool stringHasUrl(const std::string &text)
 			text.find("<icon") != std::string::npos);
 }
 
+// <alchemy>
+static bool stringHasJira(const std::string &text)
+{
+	static LLCachedControl<bool> alchemyParseJira(*LLUI::sSettingGroups["config"], "AlchemyChatParseJira");
+	if (alchemyParseJira) 
+	{
+		// fast heuristic test for a URL in a string. This is used
+		// to avoid lots of costly regex calls, BUT it needs to be
+		// kept in sync with the LLUrlEntry regexes we support.
+		return (text.find("ALCH")	 != std::string::npos ||
+				text.find("BUG")	 != std::string::npos ||
+				text.find("CHOP")	 != std::string::npos ||
+				text.find("FIRE")	 != std::string::npos ||
+				text.find("MAINT")	 != std::string::npos ||
+				text.find("MATBUG")	 != std::string::npos ||
+				text.find("NORSPEC") != std::string::npos ||
+				text.find("OPEN")	 != std::string::npos ||
+				text.find("SCR")	 != std::string::npos ||
+				text.find("SEC")	 != std::string::npos ||
+				text.find("SH")		 != std::string::npos ||
+				text.find("STORM")	 != std::string::npos ||
+				text.find("SUN")	 != std::string::npos ||
+				text.find("SVC")	 != std::string::npos ||
+				text.find("VWR")	 != std::string::npos ||
+				text.find("WAPM")	 != std::string::npos ||
+				text.find("WEB")	 != std::string::npos);
+	} 
+	else 
+	{
+		return false;
+	}
+}
+// </alchemy>
+
 bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LLUrlLabelCallback &cb)
 {
 	// avoid costly regexes if there is clearly no URL in the text
-	if (! stringHasUrl(text))
+	if (!(stringHasUrl(text) || stringHasJira(text))) // <alchemy/>
 	{
 		return false;
 	}

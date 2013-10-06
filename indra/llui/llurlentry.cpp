@@ -38,6 +38,8 @@
 #include "lluicolortable.h"
 #include "message.h"
 
+#include <boost/format.hpp> // <alchemy/>
+
 #define APP_HEADER_REGEX "((x-grid-location-info://[-\\w\\.]+/app)|(secondlife:///app))"
 
 // Utility functions
@@ -1200,3 +1202,48 @@ std::string LLUrlEntryIcon::getIcon(const std::string &url)
 	LLStringUtil::trim(mIcon);
 	return mIcon;
 }
+
+// <alchemy>
+//
+// LLUrlEntryJIRA describes a Jira Issue Tracker entry
+//
+LLUrlEntryJira::LLUrlEntryJira()
+{
+	mPattern = boost::regex("((?:ALCH|BUG|CHOP|FIRE|MAINT|MATBUG|NORSPEC|OPEN|SCR|SEC|SH|STORM|SUN|SVC|VWR|WAPM|WEB)-\\d+)",
+							boost::regex::perl);
+	mMenuName = "menu_url_http.xml";
+	mTooltip = LLTrans::getString("TooltipHttpUrl");
+}
+
+std::string LLUrlEntryJira::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
+{
+	return unescapeUrl(url);
+}
+
+std::string LLUrlEntryJira::getTooltip(const std::string &string) const
+{
+	return getUrl(string);
+}
+
+std::string LLUrlEntryJira::getUrl(const std::string &url) const
+{
+	std::string ret;
+	if (url.find("ALCH") != std::string::npos ||
+		url.find("WAPM") != std::string::npos)
+	{
+		static LLCachedControl<std::string> alchemyJiraURL(*LLUI::sSettingGroups["config"], "AlchemyJiraURL");
+		ret = (boost::format(static_cast<std::string>(alchemyJiraURL) + "%1%") % url).str();
+	}
+	else if(url.find("FIRE") != std::string::npos)
+	{
+		static LLCachedControl<std::string> firestormJiraURL(*LLUI::sSettingGroups["config"], "FirestormJiraURL");
+		ret = (boost::format(static_cast<std::string>(firestormJiraURL) + "%1%") % url).str();
+	}
+	else
+	{
+		static LLCachedControl<std::string> secondlifeJiraURL(*LLUI::sSettingGroups["config"], "SecondLifeJiraURL");
+		ret = (boost::format(static_cast<std::string>(secondlifeJiraURL) + "%1%") % url).str();
+	}
+	return ret;
+}
+// </alchemy>

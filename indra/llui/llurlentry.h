@@ -441,5 +441,19 @@ public:
 	/*virtual*/ std::string getIcon(const std::string &url);
 };
 
+// <alchemy>
+///
+/// LLUrlEntryJira describes a Jira Issue
+///
+class LLUrlEntryJira : public LLUrlEntryBase
+{
+public:
+	LLUrlEntryJira();
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getTooltip(const std::string &string) const;
+	/*virtual*/ std::string getUrl(const std::string &string) const;
+	
+};
+// </alchemy>
 
 #endif

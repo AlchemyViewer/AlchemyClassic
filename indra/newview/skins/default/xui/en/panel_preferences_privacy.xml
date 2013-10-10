@@ -94,6 +94,15 @@
      top_pad="10"
      width="350" />
     <check_box
+     control_name="AutoAcceptNewInventory"
+     height="16"
+     label="Auto-accept new inventory offers"
+     layout="topleft"
+     left="30"
+     name="auto_accept_new_inventory"
+     top_pad="10"
+     width="350" />
+    <check_box
      control_name="ShowFavoritesOnLogin"
      enabled="false" 
      height="16"

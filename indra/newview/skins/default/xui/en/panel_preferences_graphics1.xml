@@ -9,17 +9,36 @@
  name="Display panel"
  top="1"
  width="517">
+<tab_container
+ label="Privacy"
+ layout="topleft"
+ follows="all"
+ top="5"
+ bottom="-10"
+ left="1"
+ right="-1"
+ name="tabs"
+ tab_min_width="0"
+ tab_position="top" >
+    <panel
+     top_pad="5"
+     bottom="-1"
+     left="1"
+     right="-1"
+     follows="all"
+     label="General"
+     name="tab-general" >
     <text
      type="string"
      length="1"
      follows="left|top"
      height="12"
      layout="topleft"
-     left="30"
+     left="10"
      name="QualitySpeed"
      top="10" 
-     width="400">
-        Quality and speed:
+     width="50">
+        Preset:
     </text>
     <text
      type="string"
@@ -28,9 +47,9 @@
      halign="right"
      height="12"
      layout="topleft"
-     left="35"
+     left="60"
      name="FasterText"
-     top_pad="4"
+     top_delta="0"
      width="80">
         Faster
     </text>
@@ -51,7 +70,7 @@
      height="14"
      image_name="Rounded_Square"
      layout="topleft"
-     left="128"
+     left="153"
      name="LowGraphicsDivet"
      top_delta="-2"
      width="2" />
@@ -116,7 +135,7 @@
      increment="1"
      initial_value="0"
      layout="topleft"
-     left="120"
+     left="150"
      max_val="6"
      name="QualityPerformanceSelection"
      show_text="false"
@@ -132,7 +151,7 @@
      halign="center"
      height="12"
      layout="topleft"
-     left="88"
+     left="113"
      name="ShadersPrefText"
      top_delta="20"
      width="80">
@@ -262,7 +281,7 @@
      layout="topleft"
      left="5"
      name="CustomGraphics Panel"
-     top="76"
+     top="56"
      width="485">
 		<text
 		 type="string"
@@ -299,16 +318,6 @@
         <check_box.commit_callback
         function="Pref.VertexShaderEnable" />
       </check_box>
-    <check_box
-		 control_name="RenderLocalLights"
-		 height="16"
-		 initial_value="true"
-		 label="Local Lights"
-		 layout="topleft"
-		 left_delta="0"
-		 name="LocalLights"
-		 top_pad="1"
-		 width="256" />
 		  <check_box
 		 control_name="VertexShaderEnable"
 		 height="16"
@@ -327,7 +336,7 @@
 		 control_name="WindLightUseAtmosShaders"
 		 height="16"
 		 initial_value="true"
-		 label="Atmospheric shaders"
+		 label="Atmospheric shaders (Windlight)"
 		 layout="topleft"
 		 left_delta="0"
 		 name="WindLightUseAtmosShaders"
@@ -353,7 +362,7 @@
 		 control_name="RenderDeferredSSAO"
 		 height="16"
 		 initial_value="true"
-		 label="Ambient Occlusion"
+		 label="Ambient Occlusion (SSAO)"
 		 layout="topleft"
 		 left_delta="0"
 		 name="UseSSAO"
@@ -362,36 +371,10 @@
          	<check_box.commit_callback
 			 function="Pref.VertexShaderEnable" />
     	</check_box>
-      <check_box
-		 control_name="RenderDepthOfField"
-		 height="16"
-		 initial_value="true"
-		 label="Depth of Field"
-		 layout="topleft"
-		 left_delta="0"
-		 name="UseDoF"
-		 top_pad="1"
-		 width="256">
-        <check_box.commit_callback
-     function="Pref.VertexShaderEnable" />
-      </check_box>
-      <check_box
-                    control_name="RenderDepthOfFieldInEditMode"
-                    height="16"
-                    initial_value="false"
-                    label="in Edit Mode"
-                    layout="topleft"
-                    left_delta="100"
-                    name="UseDoFInEditMode"
-                    top_pad="-16"
-                    width="256">
-        <check_box.commit_callback
-     function="Pref.VertexShaderEnable" />
-      </check_box>
         <text
          type="string"
          length="1"
-         top_pad="8"
+         top_pad="5"
          follows="top|left"
          height="23"
          width="110"
@@ -403,7 +386,7 @@
         </text>
         <combo_box
          control_name="RenderShadowDetail"
-         height="19"
+         height="22"
          layout="topleft"
          left="10"
          top_pad="-4" 
@@ -438,7 +421,7 @@
         </text>
         <combo_box
          control_name="RenderReflectionDetail"
-         height="18"
+         height="22"
          layout="topleft"
          left_delta="0"
          top_pad ="7"
@@ -505,21 +488,21 @@
 		 increment="8"
 		 initial_value="160"
 		 label="Draw distance:"
-		 label_width="185"
+		 label_width="125"
 		 layout="topleft"
-		 left="200"
+		 left="230"
 		 max_val="512"
 		 min_val="64"
 		 name="DrawDistance"
-		 top="3"
-		 width="296" />
+		 top="0"
+		 width="260" />
 		<text
 		 type="string"
 		 length="1"
 		 follows="left|top"
 		 height="12"
 		 layout="topleft"
-		 left_delta="291"
+		 left_delta="255"
 		 name="DrawDistanceMeterText2"
 		 top_delta="0"
 		 width="128">
@@ -533,13 +516,13 @@
 		 increment="256"
 		 initial_value="4096"
 		 label="Max. particle count:"
-		 label_width="185"
+		 label_width="125"
 		 layout="topleft"
-		 left="200"
+		 left="230"
 		 max_val="8192"
 		 name="MaxParticleCount"
-		 top_pad="7"
-		 width="303" />
+		 top_pad="4"
+		 width="266" />
         <slider
          control_name="RenderAvatarMaxVisible"
          decimal_digits="0"
@@ -547,15 +530,16 @@
          height="16"
          increment="1"
          initial_value="12"
-         label="Max. # of non-impostor avatars:"
-         label_width="185"
+         label="Max. 3D Avatars:"
+         tool_tip="If the number of visible avatars exceeds this value, they will be rendered in 2D starting from the furthest ones"
+         label_width="125"
          layout="topleft"
          left_delta="0"
          max_val="65"
          min_val="1"
          name="MaxNumberAvatarDrawn"
-         top_pad="4"
-         width="290" />
+         top_pad="1"
+         width="254" />
 		<slider
  		 control_name="RenderGlowResolutionPow"
 		 decimal_digits="0"
@@ -564,15 +548,15 @@
 		 increment="1"
 		 initial_value="8"
 		 label="Post process quality:"
-		 label_width="185"
+		 label_width="125"
 		 layout="topleft"
-		 left="200"
+		 left="230"
 		 max_val="9"
 		 min_val="8"
 		 name="RenderPostProcess"
 		 show_text="false"
-		 top_pad="4"
-		 width="264">
+		 top_pad="1"
+		 width="230">
 			<slider.commit_callback
 			 function="Pref.UpdateSliderText"
 			 parameter="PostProcessText" />
@@ -596,14 +580,14 @@
 		 increment="0.125"
 		 initial_value="160"
 		 label="  Objects:"
-		 label_width="185"
+		 label_width="125"
 		 layout="topleft"
 		 left_delta="0"
 		 max_val="2"
 		 name="ObjectMeshDetail"
 		 show_text="false"
-		 top_pad="6"
-		 width="264">
+		 top_pad="4"
+		 width="230">
 			<slider.commit_callback
 			 function="Pref.UpdateSliderText"
 			 parameter="ObjectMeshDetailText" />
@@ -614,13 +598,13 @@
 		 height="16"
 		 initial_value="160"
 		 label="  Flexiprims:"
-		 label_width="185"
+		 label_width="125"
 		 layout="topleft"
 		 left_delta="0"
 		 name="FlexibleMeshDetail"
 		 show_text="false"
-		 top_pad="4"
-		 width="264">
+		 top_pad="2"
+		 width="230">
 			<slider.commit_callback
 			 function="Pref.UpdateSliderText"
 			 parameter="FlexibleMeshDetailText" />
@@ -632,13 +616,13 @@
          increment="0.125"
          initial_value="160"
          label="  Trees:"
-         label_width="185"
+         label_width="125"
          layout="topleft"
          left_delta="0"
          name="TreeMeshDetail"
          show_text="false"
-         top_pad="4"
-         width="264">
+         top_pad="2"
+         width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
              parameter="TreeMeshDetailText" />
@@ -650,13 +634,13 @@
          increment="0.125"
          initial_value="160"
          label="  Avatars:"
-         label_width="185"
+         label_width="125"
          layout="topleft"
          left_delta="0"
          name="AvatarMeshDetail"
          show_text="false"
-         top_pad="4"
-         width="264">
+         top_pad="2"
+         width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
              parameter="AvatarMeshDetailText" />
@@ -668,15 +652,15 @@
          increment="0.125"
          initial_value="160"
          label="  Terrain:"
-         label_width="185"
+         label_width="125"
          layout="topleft"
          left_delta="0"
          max_val="2"
          min_val="1"
          name="TerrainMeshDetail"
          show_text="false"
-         top_pad="4"
-         width="264">
+         top_pad="2"
+         width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
              parameter="TerrainMeshDetailText" />
@@ -690,15 +674,15 @@
          increment="8"
          initial_value="160"
          label="  Sky:"
-         label_width="185"
+         label_width="125"
          layout="topleft"
          left_delta="0"
          max_val="128"
          min_val="16"
          name="SkyMeshDetail"
          show_text="false"
-         top_pad="4"
-         width="264">
+         top_pad="2"
+         width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
              parameter="SkyMeshDetailText" />
@@ -711,7 +695,7 @@
          layout="topleft"
          left="469"
          name="PostProcessText"
-         top="60"
+         top="50"
          width="128">
             Low
         </text>
@@ -723,7 +707,7 @@
          layout="topleft"
          left_delta="0"
          name="ObjectMeshDetailText"
-         top_pad="26"
+         top_pad="24"
          width="128">
             Low
         </text>
@@ -735,7 +719,7 @@
          layout="topleft"
          left_delta="0"
          name="FlexibleMeshDetailText"
-         top_pad="8"
+         top_pad="6"
          width="128">
             Low
         </text>
@@ -747,7 +731,7 @@
          layout="topleft"
          left_delta="0"
          name="TreeMeshDetailText"
-         top_pad="8"
+         top_pad="6"
          width="128">
             Low
         </text>
@@ -759,7 +743,7 @@
          layout="topleft"
          left_delta="0"
          name="AvatarMeshDetailText"
-         top_pad="8"
+         top_pad="6"
          width="128">
             Low
         </text>
@@ -771,7 +755,7 @@
          layout="topleft"
          left_delta="0"
          name="TerrainMeshDetailText"
-         top_pad="8"
+         top_pad="6"
          width="128">
             Low
         </text>
@@ -784,7 +768,7 @@
          layout="topleft"
          left_delta="0"
          name="SkyMeshDetailText"
-         top_pad="8"
+         top_pad="6"
          width="128">
             Low
         </text>
@@ -795,9 +779,9 @@
          follows="left|top"
          height="12"
          layout="topleft"
-         left_delta="-260"
+         left_delta="-230"
          name="AvatarRenderingText"
-         top_pad="18"
+         top_pad="20"
          width="128">
         Avatar Rendering:
       </text>
@@ -805,9 +789,9 @@
        control_name="RenderUseImpostors"
        height="16"
        initial_value="true"
-       label="Avatar impostors"
+       label="Impostors (2D avatars)"
        layout="topleft"
-       left_delta="0"
+       left_dtheelta="0"
        name="AvatarImpostors"
        top_pad="7"
        width="256" />
@@ -843,7 +827,7 @@
        left="407"
        left_pad="-30"
        name="TerrainDetailText"
-        top="250"
+        top="225"
        width="155">
           Terrain detail:
       </text>
@@ -874,33 +858,33 @@
 	</panel>
 	
     <button
-     follows="left|bottom"
+     follows="left|top"
      height="23"
      label="Apply"
      label_selected="Apply"
      layout="topleft"
      left="10"
      name="Apply"
-     top="390"
+     top="345"
      width="115">
         <button.commit_callback
          function="Pref.Apply" />
     </button>
     <button
-     follows="left|bottom"
+     follows="left|top"
      height="23"
      label="Reset"
      layout="topleft"
      left_pad="3"
      name="Defaults"
-     top="390"
+     top="345"
      width="115">
         <button.commit_callback
          function="Pref.HardwareDefaults" />
     </button>
     <button
      control_name="ShowAdvancedGraphicsSettings"
-     follows="right|bottom"
+     follows="right|top"
      height="23"
      is_toggle="true"
      label="Advanced"
@@ -910,7 +894,7 @@
      top_delta="0"
      width="115" />
     <button
-     follows="right|bottom"
+     follows="right|top"
      height="23"
      label="Hardware"
      label_selected="Hardware"
@@ -922,4 +906,407 @@
         <button.commit_callback
          function="Pref.HardwareSettings" />
     </button>
+</panel>
+<!-- Rendering -->
+    <panel
+     bottom="-1"
+     follows="all"
+     label="Rendering"
+     left="1"
+     name="Rendering Tab"
+     right="-1"
+     top_pad="5" >
+    <check_box
+     control_name="RenderLocalLights"
+     height="16"
+     initial_value="true"
+     label="Local Lights"
+     layout="topleft"
+     left="10"
+     name="LocalLights"
+     tool_tip="Light-emitting prims rezzed in-world"
+     top_pad="10"
+     width="100" />
+    <check_box
+     control_name="RenderAttachedLights"
+     height="16"
+     initial_value="true"
+     label="Attached Lights"
+     layout="topleft"
+     left_pad="0"
+     name="AttachedLights"
+     tool_tip="Light-emitting prims attached to avatars"
+     top_delta="0"
+     width="256" />
+    <panel
+     enabled_control="RenderDeferred"
+     border="false"
+     follows="top|left"
+     height="25"
+     label="DeferredOptions"
+     layout="topleft"
+     left="10"
+     name="DeferredOptions Panel"
+     top_pad="0"
+     width="460">
+    <check_box
+      control_name="RenderDeferredOldShiny"
+      height="16"
+      initial_value="true"
+      label="Use Old Shiny"
+      tool_tip="Gives shiny objects a more wet, less metallic look."
+      layout="topleft"
+      left="0"
+      name="OldShiny"
+      top_pad="5"
+       width="100" />
+    <check_box
+      control_name="RenderDeferredSSR"
+      height="16"
+      initial_value="true"
+      label="Use Screen Space Reflections (SSR)"
+      tool_tip="Light-emitting prims attached to avatars"
+      layout="topleft"
+      left_pad="0"
+      name="AttachedLights"
+       top_delta="0"
+       width="220" />
+<text
+      type="string"
+      length="1"
+      enabled_control="RenderDeferred"
+      follows="left|top"
+      font="SansSerifSmall"
+      halign="left"
+      height="12"
+      layout="topleft"
+      left_pad="5"
+      mouse_opaque="true"
+      name="DofOptsText"
+      width="128"
+      top_delta="0"
+      text_color="Red">
+      Warning: Very intensive!
+    </text>
+  </panel>
+      <panel
+     enabled_control="VertexShaderEnable"
+     border="false"
+     follows="top|left"
+     height="160"
+     layout="topleft"
+     left="10"
+     name="GlowPanel"
+     top_pad="5"
+     width="460">
+      <text
+      type="string"
+      length="1"
+      enabled_control="RenderGlow"
+      follows="left|top"
+      font="SansSerifSmall"
+      halign="left"
+      height="12"
+      layout="topleft"
+      left="0"
+      mouse_opaque="true"
+      name="GlowOpts"
+      width="128"
+      top_pad="5">
+      Glow Options:
+      </text>
+      <slider  
+      control_name="RenderGlowIterations"
+      enabled_control="RenderGlow"
+      decimal_digits="0"
+      enabled="true"
+      follows="left|top"
+      layout="topleft"
+      height="16"
+      increment="1" 
+      initial_value="1"
+      top_pad="10"
+      label="Glow Iterations:"
+      label_width="160"
+      left="20"
+      max_val="5"
+      min_val="0"
+      can_edit_text="true"
+      mouse_opaque="true"
+      name="Iterations"
+      show_text="true"
+      width="392" />
+      <slider  
+      control_name="RenderGlowStrength"
+      enabled_control="RenderGlow"
+      decimal_digits="3"
+      enabled="true"
+      follows="left|top"
+      height="16"
+      can_edit_text="true"
+      increment="0.001"
+      initial_value="0.200" 
+      label="Glow Strength:"
+      label_width="160"
+      left="20"
+      max_val="1"
+      min_val="0.001"
+      mouse_opaque="true"
+      name="Strength"
+      show_text="true"
+      width="414" />
+      <slider  
+      control_name="RenderGlowMinLuminance"
+      enabled_control="RenderGlow"
+      decimal_digits="2"
+      enabled="true"
+      follows="left|top"
+      height="16"
+      can_edit_text="true"
+      increment="0.01" 
+      initial_value="0" 
+      label="Min. Luminance:"
+      label_width="160"
+      left="20"
+      max_val="1"
+      min_val="0"
+      mouse_opaque="true"
+      name="MinLuminance"
+      show_text="true"
+      width="402" />
+      <slider  
+      control_name="RenderGlowWarmthAmount"
+      enabled_control="RenderGlow"
+      decimal_digits="1"
+      enabled="true"
+      follows="left|top"
+      height="16"
+      can_edit_text="true"
+      increment="0.1" 
+      initial_value="7" 
+      label="Glow Warmth:"
+      label_width="160"
+      left="20"
+      max_val="20"
+      min_val="0"
+      mouse_opaque="true"
+      name="Warmth"
+      show_text="true"
+      width="408" />
+      <slider  
+      control_name="RenderGlowWidth"
+      enabled_control="RenderGlow"
+      decimal_digits="1"
+      enabled="true"
+      follows="left|top"
+      height="16"
+      increment="0.1"
+      can_edit_text="true"
+      initial_value="3" 
+      label="Glow Width:"
+      label_width="160"
+      left="20"
+      max_val="4"
+      min_val="0"
+      mouse_opaque="true"
+      name="Width"
+      show_text="true"
+      width="402" />
+      <slider  
+      control_name="RenderGlowMaxExtractAlpha"
+      enabled_control="RenderGlow"
+      decimal_digits="4"
+      follows="left|top"
+      can_edit_text="true"
+      height="16"
+      increment="0.001" 
+      initial_value="0.020" 
+      label="Glow Max Alpha:"
+      label_width="160"
+      left="20"
+      max_val="0.1"
+      min_val="0"
+      val_width="40"
+      mouse_opaque="true"
+      name="MaxAlpha"
+      show_text="true"
+      width="414" />
+  </panel> <!-- Glow Panel -->
+  </panel> <!-- Rendering Tab -->
+    <!-- Depth of Field -->
+    <panel
+     border="false"
+     follows="top|left"
+     height="160"
+     label="Depth Of Field"
+     layout="topleft"
+     left_pad="0"
+     name="DepthOfFieldTab"
+     top_pad="0"
+     width="470">
+      <check_box
+       control_name="RenderDepthOfField"
+       height="16"
+       initial_value="true"
+       label="Depth of Field"
+       layout="topleft"
+       left="10"
+       name="UseDoF"
+       top_pad="10"
+       width="256">
+        <check_box.commit_callback
+     function="Pref.VertexShaderEnable" />
+      </check_box>
+      <check_box
+       enabled_control="RenderDepthOfField"
+       control_name="RenderDepthOfFieldInEditMode"
+       height="16"
+       initial_value="false"
+       label="in Edit Mode"
+       layout="topleft"
+       left_delta="100"
+       name="UseDoFInEditMode"
+       top_pad="-16"
+       width="256">
+        <check_box.commit_callback
+     function="Pref.VertexShaderEnable" />
+      </check_box>
+        <text
+          type="string"
+          length="1"
+          enabled_control="RenderDepthOfField"
+          follows="left|top"
+          font="SansSerifSmall"
+          halign="left"
+          height="12"
+          layout="topleft"
+          left="10"
+          mouse_opaque="true"
+          name="DofOptsText"
+          width="128"
+          top_pad="5">
+          Depth of Field Options:
+        </text>
+      <panel
+       enabled_control="RenderDepthOfField"
+       border="false"
+       follows="top|left"
+       height="160"
+       label="Depth Of Field"
+       layout="topleft"
+       left="10"
+       name="DepthOfFieldPanel"
+       top_pad="5"
+       width="470">
+        <slider
+         control_name="CameraFNumber"
+         decimal_digits="2"
+         follows="left|top"
+         height="16"
+         increment="1"
+         initial_value="9.00"
+         label="Camera F Number:"
+         label_width="160"
+         layout="topleft"
+         left_delta="7"
+         max_val="64"
+         min_val="1"
+         can_edit_text="true"
+         name="CameraFNum"
+         tool_tip="Camera f-number value for DoF effect"
+         top_pad="10"
+         width="368"/>
+        <slider
+         control_name="CameraFocalLength"
+         decimal_digits="1"
+         follows="left|top"
+         height="16"
+         increment="1"
+         initial_value="50"
+         label="Camera Focal Length (mm):"
+         label_width="160"
+         layout="topleft"
+         left_delta="0"
+         max_val="1000"
+         min_val="1"
+         can_edit_text="true"
+         name="CameraFocal"
+         tool_tip="Camera focal length for DoF effect (in millimeters)"
+         top_pad="5"
+         width="374"/>
+        <slider
+         control_name="CameraFieldOfView"
+         decimal_digits="2"
+         follows="left|top"
+         height="16"
+         increment="1"
+         initial_value="60"
+         label="Camera FOV degs:"
+         label_width="160"
+         layout="topleft"
+         left_delta="0"
+         max_val="200"
+         min_val="10"
+         can_edit_text="true"
+         name="Camera FOV"
+         tool_tip="Vertical camera field of view for DoF effect (in degrees)"
+         top_pad="5"
+         width="374"/>
+        <slider
+         control_name="CameraAspectRatio"
+         decimal_digits="2"
+         follows="left|top"
+         height="16"
+         increment="0.05"
+         initial_value="1.5"
+         label="Camera Aspect Ratio:"
+         label_width="160"
+         layout="topleft"
+         left_delta="0"
+         max_val="5"
+         min_val="0"
+         can_edit_text="true"
+         name="CameraAspectRatio"
+         tool_tip="Camera aspect ratio for DoF effect"
+         top_pad="5"
+         width="365"/>
+        <slider
+         control_name="CameraFocusTransitionTime"
+         decimal_digits="2"
+         follows="left|top"
+         height="16"
+         increment="0.01"
+         initial_value="0.5"
+         label="DOF Focus Transition Time:"
+         label_width="160"
+         layout="topleft"
+         left_delta="0"
+         max_val="10"
+         min_val="0.1"
+         can_edit_text="true"
+         name="CameraFocusTrans"
+         tool_tip="Time taken to alter focus from one place to the next"
+         top_pad="5"
+         width="371"/>
+       <slider
+         control_name="CameraDoFResScale"
+         decimal_digits="2"
+         follows="left|top"
+         height="16"
+         increment="0.05"
+         initial_value="0.70"
+         label="DOF Rendering Quality:"
+         label_width="160"
+         layout="topleft"
+         left_delta="0"
+         max_val="1"
+         min_val="0.25"
+         can_edit_text="true"
+         name="CameraDoFResScale"
+         tool_tip="Affects the quality of the blurring and the performance of rendering.  (higher = better quality, lower = better perforamce)"
+         top_pad="5"
+         width="365"/>
+    </panel> <!-- DepthOfFieldPanel -->
+    </panel> <!-- DepthOfFieldTab -->
+</tab_container>
 </panel>

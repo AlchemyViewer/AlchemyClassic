@@ -68,10 +68,10 @@
      value="0.2975 0.4269 0.5783 1" />
     <color
      name="EmphasisColor_13"
-     value="0.71372 0.71372 0.71372 0.13" />
+     value="0.2975 0.4269 0.5783 0.13" />
     <color
      name="EmphasisColor_35"
-     value="0.71372 0.71372 0.71372 0.35" />
+     value="0.2975 0.4269 0.5783 0.35" />
     <color
      name="BeaconColor"
     value="0.55 0.25 0.23 0.97" />
@@ -591,7 +591,7 @@
      reference="AlchemyText" />
     <color
      name="MenuItemHighlightBgColor"
-     reference="AlchemyBlack1_t" /> <!-- Inventory and CHUI selection BG -->
+     reference="EmphasisColor_35" /> <!-- Inventory and CHUI selection BG -->
     <color
      name="MenuItemFlashBgColor"
      reference="BeaconColor" />

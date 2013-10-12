@@ -1873,6 +1873,7 @@ void inventory_offer_handler(LLOfferInfo* info)
 		info->forceResponse(IOR_MUTE);
 		return;
 	}
+
 	// <alchemy/> This boolean is used to track auto-accept preference for more than agent to agent
 	// and llGiveInventoryList (which works already). Fixes ALCH-15 (AutoAcceptNewInventory prevents
 	// receiving inventory offers from llGiveObject)
@@ -2003,6 +2004,7 @@ void inventory_offer_handler(LLOfferInfo* info)
         }
 
 		// Inform the user that they received a new inventory item and give them the option to "show" or "delete" it.
+        
 		if(!bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 		{
 			payload["give_inventory_notification"] = TRUE;

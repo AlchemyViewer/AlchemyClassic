@@ -519,7 +519,7 @@
          increment="1"
          initial_value="12"
          label="Max. 3D Avatars:"
-         tool_tip="If the number of visible avatars exceeds this value, they will be rendered in 2D starting from the furthest ones"
+         tool_tip="How many avatar we show in full 3D. The rest will look 2D and use less resources"
          label_width="125"
          layout="topleft"
          left_delta="0"
@@ -952,13 +952,13 @@
       control_name="RenderDeferredSSR"
       height="16"
       initial_value="true"
-      label="Use Screen Space Reflections (SSR)"
-      tool_tip="Light-emitting prims attached to avatars"
+      label="Use better shiny (SSR)"
+      tool_tip="Shiny prims will reflext more things, including nearby objects and avatars. May destroy your frames per second. Use with caution."
       layout="topleft"
       left_pad="0"
       name="AttachedLights"
        top_delta="0"
-       width="220" />
+       width="170" />
 <text
       type="string"
       length="1"
@@ -973,7 +973,7 @@
       name="DofOptsText"
       width="128"
       top_delta="0"
-      text_color="Red">
+      text_color="WarningRed">
       Warning: Very intensive!
     </text>
   </panel>
@@ -1061,7 +1061,7 @@
       mouse_opaque="true"
       name="MinLuminance"
       show_text="true"
-      width="402" />
+      width="408" />
       <slider  
       control_name="RenderGlowWarmthAmount"
       enabled_control="RenderGlow"
@@ -1136,7 +1136,7 @@
        control_name="RenderDepthOfField"
        height="16"
        initial_value="true"
-       label="Depth of Field"
+       label="Enable Depth of Field"
        layout="topleft"
        left="10"
        name="UseDoF"
@@ -1265,7 +1265,7 @@
          height="16"
          increment="0.01"
          initial_value="0.5"
-         label="DOF Focus Transition Time:"
+         label="Focus Transition Time:"
          label_width="160"
          layout="topleft"
          left_delta="0"
@@ -1283,7 +1283,7 @@
          height="16"
          increment="0.05"
          initial_value="0.70"
-         label="DOF Rendering Quality:"
+         label="Blur Quality:"
          label_width="160"
          layout="topleft"
          left_delta="0"

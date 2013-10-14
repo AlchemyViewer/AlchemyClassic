@@ -158,7 +158,7 @@
            is_running_function="Floater.IsOpen"
            is_running_parameters="outbox"
            />
-  <command name="panic"
+  <!--<command name="panic"
            available_in_toybox="true"
            icon="Command_Panic_Icon"
            label_ref="Command_Panic_Label"
@@ -167,7 +167,7 @@
            execute_parameters="panic_button"
            is_running_function="Floater.IsOpen"
            is_running_parameters="panic_button"
-           />
+           /> Disabled for now -->
   <command name="people"
            available_in_toybox="true"
            icon="Command_People_Icon"

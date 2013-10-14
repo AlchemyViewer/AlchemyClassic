@@ -234,7 +234,7 @@
            execute_function="Floater.ToggleOrBringToFront"
            execute_parameters="stats"
            is_running_function="Floater.IsOpen"
-           is_running_parameters="script_limits"
+           is_running_parameters="stats"
            />
   <command name="search"
            available_in_toybox="true"

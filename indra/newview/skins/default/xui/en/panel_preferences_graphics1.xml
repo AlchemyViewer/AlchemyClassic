@@ -914,7 +914,7 @@
       name="LocalLights"
       tool_tip="Light-emitting prims rezzed in-world"
       top_pad="10"
-      width="100" />
+      width="130" />
      <check_box
       control_name="RenderAttachedLights"
       height="16"
@@ -952,10 +952,10 @@
         control_name="RenderDeferredSSR"
         height="16"
         initial_value="true"
-        label="Use better shiny (SSR)"
+        label="Use better reflexions (SSR)"
         tool_tip="Shiny prims will reflext more things, including nearby objects and avatars. May destroy your frames per second. Use with caution."
         layout="topleft"
-        left_pad="0"
+        left_pad="30"
         name="AttachedLights"
         top_delta="0"
         width="170" />
@@ -1152,7 +1152,7 @@
       initial_value="false"
       label="in Edit Mode"
       layout="topleft"
-      left_delta="100"
+      left_pad="5"
       name="UseDoFInEditMode"
       top_pad="-16"
       width="256">

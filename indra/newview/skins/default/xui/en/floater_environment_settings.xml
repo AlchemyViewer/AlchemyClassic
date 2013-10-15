@@ -1,49 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <floater
  legacy_header_height="18"
- height="228"
+ height="170"
  layout="topleft"
  name="Environment Editor Floater"
  help_topic="environment_editor_floater"
  save_rect="true"
  title="ENVIRONMENT SETTINGS"
- width="440">
+ width="365">
 
- <text
-  follows="top|left|right"
-  height="15"
-  layout="topleft"
-  left="10"
-  name="note"
-  top="25"
-  width="430"
-  wrap="true">
-  Use the options below to customize the environment settings for your viewer.
- </text>
-
- <radio_group
-  follows="top|left"
-  height="35"
-  layout="topleft"
-  left_delta="0"
-  name="region_settings_radio_group"
-  top_delta="25"
-  width="200">
-    <radio_item
-  	 label="Use region settings"
-  	 layout="topleft"
-  	 name="use_region_settings"/>
-    <radio_item
-  	 label="Customize my environment"
-  	 layout="topleft"
-  	 name="use_my_settings"
-  	 top_pad="10"/>
-  </radio_group>
-
+<check_box
+     control_name="UseEnvironmentFromRegion"
+     height="15"
+     initial_value="true"
+     label="Use region settings"
+     layout="topleft"
+     left="5"
+     name="use_region_settings_checkbox"
+     top="28"
+     width="256" />
  <panel
+ disabled_control="UseEnvironmentFromRegion"
   height="105"
   layout="topleft"
-  left="20"
+  left="5"
   name="user_environment_settings"
   top_pad="0"
   width="370">
@@ -54,9 +34,9 @@
   follows="top|left"
   height="16"
   layout="topleft"
-  left="5"
-  top="10"
-  width="152">
+  left="4"
+  top="5"
+  width="148">
   		Water Setting
   </text>
   <combo_box
@@ -74,9 +54,9 @@
  <!-- Sky/Day Cycle Settings -->  
   <radio_group
    layout="topleft"
-   left="5"
+   left="0"
    name="sky_dayc_settings_radio_group"
-   top_pad="10"
+   top_pad="5"
    height="50"
    width="150">
   	<radio_item
@@ -87,13 +67,13 @@
   	 layout="topleft"
   	 label="Day cycle"
   	 name="my_dayc_settings"
-  	 top_pad="13"/>  	
+  	 top_pad="15"/>  	
   </radio_group>
   <combo_box
    follows="top|left"
    left_pad="2"
    name="sky_settings_preset_combo"
-   top_delta="-8"
+   top_delta="-4"
    width="200">
       <combo_box.item
        label="-Select a preset-"
@@ -102,7 +82,7 @@
   <combo_box
    follows="top|left"
    name="dayc_settings_preset_combo"
-   top_delta="25"
+   top_delta="24"
    width="200">
       <combo_box.item
        label="-Select a preset-"
@@ -127,9 +107,9 @@
    height="23"
    label="OK"
    layout="topleft"
-   right="-130"
+   right="-119"
    name="ok_btn"
-   top_pad="10"
+   top_pad="-5"
    width="100" />
   <button
    follows="left|top"

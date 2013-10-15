@@ -4310,6 +4310,14 @@ void send_agent_update(BOOL force_send, BOOL send_reliable)
 	// trigger a control event.
 	U32 control_flags = gAgent.getControlFlags();
 
+	// <alchemy>
+	static LLCachedControl<bool> alchemyPrejump(gSavedSettings, "AlchemyNimble", false);
+	if (alchemyPrejump)
+	{
+		control_flags |= AGENT_CONTROL_FINISH_ANIM;
+	}
+	// </alchemy>
+
 	MASK	key_mask = gKeyboard->currentMask(TRUE);
 
 	if (key_mask & MASK_ALT || key_mask & MASK_CONTROL)

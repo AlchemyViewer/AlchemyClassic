@@ -31,8 +31,6 @@
 #include "llui.h" // <alchemy/>
 #include "lleventtimer.h"
 
-extern LLControlGroup gSavedSettings;
-
 LLFlashTimer::LLFlashTimer(callback_t cb, S32 count, F32 period)
 		: LLEventTimer(period)
 		, mCallback(cb)

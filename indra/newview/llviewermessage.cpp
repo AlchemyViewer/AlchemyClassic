@@ -1874,6 +1874,10 @@ void inventory_offer_handler(LLOfferInfo* info)
 		return;
 	}
 
+	// <alchemy/> This boolean is used to track auto-accept preference for more than agent to agent
+	// and llGiveInventoryList (which works already). Fixes ALCH-15 (AutoAcceptNewInventory prevents
+	// receiving inventory offers from llGiveObject)
+	bool bAutoAccept(false);
 	// Avoid the Accept/Discard dialog if the user so desires. JC
 	if (gSavedSettings.getBOOL("AutoAcceptNewInventory")
 		&& (info->mType == LLAssetType::AT_NOTECARD
@@ -1882,8 +1886,10 @@ void inventory_offer_handler(LLOfferInfo* info)
 	{
 		// For certain types, just accept the items into the inventory,
 		// and possibly open them on receipt depending upon "ShowNewInventory".
-		info->forceResponse(IOR_ACCEPT);
-		return;
+		// <alchemy/> Commented out forceResponse since we do differently to fix ALCH-15
+		//info->forceResponse(IOR_ACCEPT);
+		//return;
+		bAutoAccept = true; // <alchemy/> Indicate that autoaccept should be used for this inventory type. Fixes ALCH-15
 	}
 
 	// Strip any SLURL from the message display. (DEV-2754)
@@ -1951,7 +1957,7 @@ void inventory_offer_handler(LLOfferInfo* info)
 	LLNotification::Params p;
 
 	// Object -> Agent Inventory Offer
-	if (info->mFromObject)
+	if (info->mFromObject && !bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 	{
 		// Inventory Slurls don't currently work for non agent transfers, so only display the object name.
 		args["ITEM_SLURL"] = msg;
@@ -1997,7 +2003,9 @@ void inventory_offer_handler(LLOfferInfo* info)
             send_do_not_disturb_message(gMessageSystem, info->mFromID);
         }
 
-		// Inform user that there is a script floater via toast system
+		// Inform the user that they received a new inventory item and give them the option to "show" or "delete" it.
+        
+		if(!bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 		{
 			payload["give_inventory_notification"] = TRUE;
 		    p.payload = payload;

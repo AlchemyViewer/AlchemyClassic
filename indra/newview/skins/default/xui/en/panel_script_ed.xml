@@ -146,6 +146,13 @@
              label="Keyword Help..."
              layout="topleft"
              name="Keyword Help..." />
+        <menu_item_call
+             label="LSL Tutorial"
+             name="LSL Tutorial">
+             <menu_item_call.on_click
+                 function="Advanced.ShowURL"
+                 parameter="http://wiki.secondlife.com/wiki/LSL_101/A_Gentle_Introduction"/>
+        </menu_item_call>
         </menu>
     </menu_bar>
     <text_editor

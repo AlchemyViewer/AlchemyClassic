@@ -899,9 +899,9 @@
     <panel
      bottom="-1"
      follows="all"
-     label="Rendering"
+     label="Lighting"
      left="1"
-     name="Rendering Tab"
+     name="Lighting Tab"
      right="-1"
      top_pad="5" >
      <check_box
@@ -952,11 +952,11 @@
         control_name="RenderDeferredSSR"
         height="16"
         initial_value="true"
-        label="Use better reflexions (SSR)"
-        tool_tip="Shiny prims will reflext more things, including nearby objects and avatars. May destroy your frames per second. Use with caution."
+        label="Screen Space Reflections"
+        tool_tip="Shiny and Specular mapped prims will have pseudo-reflections of objects around them. High FPS impact."
         layout="topleft"
         left_pad="30"
-        name="AttachedLights"
+        name="EnableSSR"
         top_delta="0"
         width="170" />
        <text

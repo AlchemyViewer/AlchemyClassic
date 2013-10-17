@@ -37,7 +37,7 @@
 
 
 LLFloaterSettingsDebug::LLFloaterSettingsDebug(const LLSD& key) 
-:	LLFloater(key)
+:	LLFloater(key.asString().empty() ? LLSD("all") : key) // <alchemy/> - So apparantly just opening this doesn't pass in a key *grr*
 {
 	mCommitCallbackRegistrar.add("SettingSelect",	boost::bind(&LLFloaterSettingsDebug::onSettingSelect, this,_1));
 	mCommitCallbackRegistrar.add("CommitSettings",	boost::bind(&LLFloaterSettingsDebug::onCommitSettings, this));

@@ -31,6 +31,7 @@
 #include "llagent.h"
 #include "llagentui.h"
 #include "llclipboard.h"
+#include "llfloaterreg.h" // <alchemy/>
 #include "llfloatersidepanelcontainer.h"
 #include "lllandmarkactions.h"
 #include "lllocationinputctrl.h"
@@ -475,5 +476,8 @@ void LLPanelTopInfoBar::onContextMenuItemClicked(const LLSD::String& item)
 
 void LLPanelTopInfoBar::onInfoButtonClicked()
 {
-	LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "agent"));
+	// <alchemy>
+	LLViewerParcelMgr::getInstance()->selectParcelAt(gAgent.getPositionGlobal());
+	LLFloaterReg::showInstance("about_land");
+	// </alchemy>
 }

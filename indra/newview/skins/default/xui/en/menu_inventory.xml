@@ -632,6 +632,14 @@
      layout="topleft" 
      name="Wearable And Object Separator"/>
     <menu_item_call
+     label="Edit"
+     layout="topleft"
+     name="Edit Object">
+        <menu_item_call.on_click
+         function="Inventory.DoToSelected"
+         parameter="edit_object" />
+    </menu_item_call>
+    <menu_item_call
      label="Detach From Yourself"
      layout="topleft"
      name="Detach From Yourself">

@@ -462,7 +462,7 @@
      value="0.43 0.06 0.06 1" />
     <color
      name="HTMLLinkColor"
-     reference="EmphasisColor" />
+     value="0.3607843137254902 0.6823529411764706 0.9686274509803922" /> <!-- Lighter color since dark blue is unreadable on the chat toasts -->
     <color
      name="HealthTextColor"
      reference="AlchemyText" />

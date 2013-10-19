@@ -63,7 +63,9 @@
 #include "llpreviewtexture.h"
 #include "llselectmgr.h"
 #include "llsidepanelappearance.h"
+#include "lltoolcomp.h" // <alchemy/>
 #include "lltooldraganddrop.h"
+#include "lltoolmgr.h" // <alchemy/>
 #include "lltrans.h"
 #include "llviewerassettype.h"
 #include "llviewerfoldertype.h"
@@ -5253,6 +5255,19 @@ void LLObjectBridge::performAction(LLInventoryModel* model, std::string action)
 	{
 		LLAppearanceMgr::instance().removeItemFromAvatar(mUUID);
 	}
+	else if ("edit_object" == action)
+	{
+		if (LLInventoryItem* itemp = gInventory.getItem(mUUID))
+		{
+			if (LLViewerObject* objectp = gAgentAvatarp->getWornAttachment(itemp->getLinkedUUID()))
+			{
+				LLFloaterReg::showInstance("build");
+				LLToolMgr::getInstance()->setCurrentToolset(gBasicToolset);
+				LLToolMgr::getInstance()->getCurrentToolset()->selectTool(LLToolCompTranslate::getInstance());
+				LLSelectMgr::getInstance()->selectObjectAndFamily(objectp);
+			}
+		}
+	}
 	else LLItemBridge::performAction(model, action);
 }
 
@@ -5418,6 +5433,7 @@ void LLObjectBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 			{
 				items.push_back(std::string("Wearable And Object Separator"));
 				items.push_back(std::string("Detach From Yourself"));
+				items.push_back(std::string("Edit Object"));
 			}
 			else if (!isItemInTrash() && !isLinkedObjectInTrash() && !isLinkedObjectMissing() && !isCOFFolder())
 			{

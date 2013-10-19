@@ -872,7 +872,7 @@ LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 		return viewp;
 
 	}
-	return 0;
+	return NULL; // <alchemy/>
 }
 
 BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)

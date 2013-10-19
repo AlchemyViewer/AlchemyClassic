@@ -7890,9 +7890,9 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 				
 				if (!LLViewerCamera::getInstance()->cameraUnderWater())
 				{
-					shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 2.2);
+					shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 2.2f); // <alchemy/>
 				} else {
-					shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 1.0);
+					shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 1.0f); // <alchemy/>
 				}
 
 				shader->uniform1f(LLShaderMgr::DOF_MAX_COF, CameraMaxCoF);
@@ -7938,9 +7938,9 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 			
 			if (!LLViewerCamera::getInstance()->cameraUnderWater())
 			{
-				shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 2.2);
+				shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 2.2f); // <alchemy/>
 			} else {
-				shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 1.0);
+				shader->uniform1f(LLShaderMgr::GLOBAL_GAMMA, 1.0f); // <alchemy/>
 			}
 
 			gGL.begin(LLRender::TRIANGLE_STRIP);
@@ -8326,7 +8326,7 @@ void LLPipeline::bindDeferredShader(LLGLSLShader& shader, U32 light_index, U32 n
 
 	F32 ssao_factor = RenderSSAOFactor;
 	shader.uniform1f(LLShaderMgr::DEFERRED_SSAO_FACTOR, ssao_factor);
-	shader.uniform1f(LLShaderMgr::DEFERRED_SSAO_FACTOR_INV, 1.0/ssao_factor);
+	shader.uniform1f(LLShaderMgr::DEFERRED_SSAO_FACTOR_INV, 1.f/ssao_factor); // <alchemy/>
 
 	LLVector3 ssao_effect = RenderSSAOEffect;
 	shader.uniform1f(LLShaderMgr::DEFERRED_SSAO_EFFECT, ssao_effect[0]); // <alchemy/>

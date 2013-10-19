@@ -121,6 +121,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b13deee09fdc47e3b838c3d45e8e4051</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/apr_suite-1.4.5-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>ares</key>
@@ -216,6 +228,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>4ee9039f02d5b044b47d598e2317c527</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.53.0-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -480,6 +504,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>bba4b11205d9e860c256e52efd3b4a89</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/expat-2.1.0-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -792,6 +828,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>27fc46747e085d59f6bed220c10d31cc</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/google_breakpad-0.0.0-rev1099-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1775,6 +1823,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>340dbe6cbd4c713b8e09affa31a96777</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/openjpeg-1.5.1-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>pcre</key>
@@ -2002,6 +2062,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>88960974916dcb5799874b40d13695dd</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/zlib-1.2.8-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -2722,6 +2794,241 @@
           </map>
           <key>name</key>
           <string>windows</string>
+        </map>
+        <key>windows64</key>
+        <map>
+          <key>build_directory</key>
+          <string>build-vc110-x86_64</string>
+          <key>configurations</key>
+          <map>
+            <key>Debug</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=Debug|x64"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>Debug</string>
+                  <string>--startup</string>
+                  <string>secondlife-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Debug</string>
+            </map>
+            <key>DebugOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=Debug</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:minimal</string>
+                  <string>/toolsversion:4.0</string>
+                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>DebugOS</string>
+            </map>
+            <key>RelWithDebInfo</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=RelWithDebInfo|x64"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>RelWithDebInfo</string>
+                  <string>--startup</string>
+                  <string>secondlife-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>RelWithDebInfo</string>
+            </map>
+            <key>RelWithDebInfoOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=RelWithDebInfo</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:minimal</string>
+                  <string>/toolsversion:4.0</string>
+                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>RelWithDebInfoOS</string>
+            </map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=Release|x64"</string>
+                  <string>"/CL_ADD=/m:1"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>Release</string>
+                  <string>--startup</string>
+                  <string>secondlife-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+            <key>ReleaseOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=Release</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:minimal</string>
+                  <string>/toolsversion:4.0</string>
+                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 11 Win64"</string>
+				  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>ReleaseOS</string>
+            </map>
+          </map>
+          <key>name</key>
+          <string>windows64</string>
         </map>
       </map>
       <key>version</key>

@@ -463,7 +463,7 @@ private:
 			}
 			else
 			{
-				return (U32)lhs < (U32)rhs;
+				return (size_t)lhs < (size_t)rhs; // <alchemy/>
 			}
 		}
 	};

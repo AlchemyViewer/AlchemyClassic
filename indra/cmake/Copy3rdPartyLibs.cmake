@@ -64,7 +64,11 @@ if(WINDOWS)
     endif(USE_TCMALLOC)
 
     if (FMODEX)
-      set(release_files ${release_files} fmodex.dll)
+	  if(WORD_SIZE EQUAL 32)
+        set(release_files ${release_files} fmodex.dll)
+      elseif(WORD_SIZE EQUAL 64)
+        set(release_files ${release_files} fmodex64.dll)
+	  endif(WORD_SIZE EQUAL 32)
     endif (FMODEX)
 
 #*******************************

@@ -49,6 +49,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>079ab87ac00b7cad01fc597b6433d21e</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/glod-1.0pre4-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>SDL</key>
@@ -181,6 +193,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d98a23b9ce00128634650b8bc7917581</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ares-1.9.1-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>boost</key>
@@ -289,6 +313,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>2038465db3a2212703052653a33e2d1f</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/colladadom-2.2-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>curl</key>
@@ -336,6 +372,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>39f09385bc4334300699040bb88ace9b</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/curl-7.24.0-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -432,6 +480,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7520d75f6af325328322201c888191d4</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-dictionaries/rev/259873/arch/CYGWIN/installer/dictionaries-1-windows-20120616.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -565,6 +625,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>c8c2e187fd53aee542a1db836c8880ae</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.21-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>fontconfig</key>
@@ -661,6 +733,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>62efd91f9480daa0764bde0fc40a303b</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/freetype-2.5.0.1-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>glext</key>
@@ -696,6 +780,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>5de58ca0fe19abf68b25956762ee0d29</string>
+              <key>url</key>
+              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glext-68-windows-20110406.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -744,6 +840,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>57f8be28bbaa2505ae3b59deb2c77cdf</string>
+              <key>url</key>
+              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glh_linear-windows-20101011.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1081,6 +1189,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>23bdb242ed4e4202f00243a39ba85f9f</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/jpeglib-8c-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>jsoncpp</key>
@@ -1128,6 +1248,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>290c937f3beff6a86ab901876db405b6</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/jsoncpp-0.5.0-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1225,6 +1357,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a66b131957bdf8fd568e9dceabbbcf3d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libhunspell-1.3.2-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>libpng</key>
@@ -1272,6 +1416,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3d5afa4e0c45a928f5c69f89698008ff</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libpng-1.5.10-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1567,6 +1723,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>34e5b21cbdf2ec38aa3f1fd13600684d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-0.1.1-win64.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>ndofdev</key>
@@ -1615,6 +1783,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>eba68d94a24b7f1f2d5c71434e79630b</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libndofdev-0.1-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>nvapi</key>
@@ -1638,6 +1818,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d72740c30056203c71fa1de441b881d3</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/nvapi-304-windows-x64-20130802.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1687,6 +1879,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>c618dc6f51e0911f6e22f5146d92e913</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ogg_vorbis-1.2.2-1.3.2-windows64-20131020.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>openSSL</key>
@@ -1734,6 +1938,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>6242708dfc24a0d3919d9dfb78179068</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/openssl-1.0.0g-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1943,6 +2159,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>24710eda136bfd42d6333e5609c2c74f</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/270464/arch/CYGWIN/installer/slvoice-4.5.0009.17865-windows-20130214.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>tut</key>
@@ -2014,6 +2242,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>dcd539ccd37e079176791955e0cf5945</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/xmlrpc_epi-0.54.1-windows64-20131019.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>

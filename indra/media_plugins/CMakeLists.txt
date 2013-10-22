@@ -2,9 +2,7 @@
 
 add_subdirectory(base)
 
-if (NOT WORD_SIZE EQUAL 64)
-  add_subdirectory(webkit)
-endif (NOT WORD_SIZE EQUAL 64)
+add_subdirectory(webkit)
 
 add_subdirectory(gstreamer010)
 

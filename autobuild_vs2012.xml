@@ -1194,7 +1194,7 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>23bdb242ed4e4202f00243a39ba85f9f</string>
+              <string>779afa45ffb5c5f67744b066168b58bc</string>
               <key>url</key>
               <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/jpeglib-8c-windows64-20131020.tar.bz2</string>
             </map>
@@ -1422,7 +1422,7 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d5afa4e0c45a928f5c69f89698008ff</string>
+              <string>b730910fee2f38542567cdcfdcc113a0</string>
               <key>url</key>
               <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libpng-1.5.10-windows64-20131020.tar.bz2</string>
             </map>
@@ -1654,6 +1654,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>0775a49b4eed3939960bc0293b2387d5</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/llqtwebkit-4.7.1-windows64-20131021.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>

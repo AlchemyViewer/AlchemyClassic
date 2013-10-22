@@ -248,6 +248,14 @@ LLSD LLFloaterAbout::getInfo()
 	info["COMPILER_VERSION"] = GCC_VERSION;
 #endif
 
+// <alchemy>
+#if _x86_64 || _WIN64
+	info["BUILD_ARCH"] = "x64";
+#else 
+	info["BUILD_ARCH"] = "x86";
+#endif
+// </alchemy>
+
 	// Position
 	LLViewerRegion* region = gAgent.getRegion();
 	if (region)

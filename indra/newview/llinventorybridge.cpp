@@ -5257,6 +5257,7 @@ void LLObjectBridge::performAction(LLInventoryModel* model, std::string action)
 	}
 	else if ("edit_object" == action)
 	{
+		LLSelectMgr::getInstance()->clearSelections(); // Clear the current selection first.
 		if (LLInventoryItem* itemp = gInventory.getItem(mUUID))
 		{
 			if (LLViewerObject* objectp = gAgentAvatarp->getWornAttachment(itemp->getLinkedUUID()))

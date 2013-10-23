@@ -39,7 +39,7 @@
 
 LLFloaterEnvironmentSettings::LLFloaterEnvironmentSettings(const LLSD &key)
 : 	 LLFloater(key)
-	,mRegionSettingsRadioGroup(NULL)
+	,mRegionSettingsCheckBox(NULL) // <alchemy/>
 	,mDayCycleSettingsRadioGroup(NULL)
 	,mWaterPresetCombo(NULL)
 	,mSkyPresetCombo(NULL)
@@ -50,8 +50,10 @@ LLFloaterEnvironmentSettings::LLFloaterEnvironmentSettings(const LLSD &key)
 // virtual
 BOOL LLFloaterEnvironmentSettings::postBuild()
 {	
-	mRegionSettingsRadioGroup = getChild<LLRadioGroup>("region_settings_radio_group");
-	mRegionSettingsRadioGroup->setCommitCallback(boost::bind(&LLFloaterEnvironmentSettings::onSwitchRegionSettings, this));
+	// <alchemy>
+	mRegionSettingsCheckBox = getChild<LLCheckBoxCtrl>("region_settings_checkbox");
+	mRegionSettingsCheckBox->setCommitCallback(boost::bind(&LLFloaterEnvironmentSettings::onSwitchRegionSettings, this));
+	// </alchemy>
 
 	mDayCycleSettingsRadioGroup = getChild<LLRadioGroup>("sky_dayc_settings_radio_group");
 	mDayCycleSettingsRadioGroup->setCommitCallback(boost::bind(&LLFloaterEnvironmentSettings::onSwitchDayCycle, this));
@@ -88,7 +90,7 @@ void LLFloaterEnvironmentSettings::onOpen(const LLSD& key)
 
 void LLFloaterEnvironmentSettings::onSwitchRegionSettings()
 {
-	getChild<LLView>("user_environment_settings")->setEnabled(mRegionSettingsRadioGroup->getSelectedIndex() != 0);
+	getChild<LLView>("user_environment_settings")->setEnabled(!mRegionSettingsCheckBox->get()); // <alchemy/>
 
 	apply();
 }
@@ -121,7 +123,7 @@ void LLFloaterEnvironmentSettings::onSelectDayCyclePreset()
 void LLFloaterEnvironmentSettings::onBtnOK()
 {
 	// Save and apply new user preferences.
-	bool use_region_settings	= mRegionSettingsRadioGroup->getSelectedIndex() == 0;
+	bool use_region_settings	= mRegionSettingsCheckBox->get(); // <alchemy/>
 	bool use_fixed_sky			= mDayCycleSettingsRadioGroup->getSelectedIndex() == 0;
 	std::string water_preset	= mWaterPresetCombo->getValue().asString();
 	std::string sky_preset		= mSkyPresetCombo->getValue().asString();
@@ -151,7 +153,7 @@ void LLFloaterEnvironmentSettings::refresh()
 	bool use_fixed_sky			= env_mgr.getUseFixedSky();
 
 	// Set up radio buttons according to user preferences.
-	mRegionSettingsRadioGroup->setSelectedIndex(use_region_settings ? 0 : 1);
+	mRegionSettingsCheckBox->set(use_region_settings); // <alchemy/>
 	mDayCycleSettingsRadioGroup->setSelectedIndex(use_fixed_sky ? 0 : 1);
 
 	// Populate the combo boxes with appropriate lists of available presets.
@@ -173,7 +175,7 @@ void LLFloaterEnvironmentSettings::refresh()
 void LLFloaterEnvironmentSettings::apply()
 {
 	// Update environment with the user choice.
-	bool use_region_settings	= mRegionSettingsRadioGroup->getSelectedIndex() == 0;
+	bool use_region_settings	= mRegionSettingsCheckBox->get(); // <alchemy/>
 	bool use_fixed_sky			= mDayCycleSettingsRadioGroup->getSelectedIndex() == 0;
 	std::string water_preset	= mWaterPresetCombo->getValue().asString();
 	std::string sky_preset		= mSkyPresetCombo->getValue().asString();

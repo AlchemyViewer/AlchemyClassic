@@ -10,17 +10,15 @@
  width="365">
 
 <check_box
-     control_name="UseEnvironmentFromRegion"
      height="15"
      initial_value="true"
      label="Use region settings"
      layout="topleft"
      left="5"
-     name="use_region_settings_checkbox"
+     name="region_settings_checkbox"
      top="28"
      width="256" />
  <panel
- disabled_control="UseEnvironmentFromRegion"
   height="105"
   layout="topleft"
   left="5"

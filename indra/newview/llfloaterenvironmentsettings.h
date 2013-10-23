@@ -29,6 +29,7 @@
 
 #include "llfloater.h"
 
+class LLCheckBoxCtrl; // <alchemy/>
 class LLComboBox;
 class LLRadioGroup;
 
@@ -60,7 +61,7 @@ private:
 	void populateSkyPresetsList();
 	void populateDayCyclePresetsList();
 
-	LLRadioGroup*	mRegionSettingsRadioGroup;
+	LLCheckBoxCtrl*	mRegionSettingsCheckBox; // <alchemy/>
 	LLRadioGroup*	mDayCycleSettingsRadioGroup;
 
 	LLComboBox*		mWaterPresetCombo;

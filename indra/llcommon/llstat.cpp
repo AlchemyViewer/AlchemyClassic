@@ -58,7 +58,7 @@ LLStat::LLStat(std::string name, S32 num_bins, BOOL use_frame_timer)
 	mBins(NULL)
 {
 	llassert(mNumBins > 0);
-	mLastTime  = 0.f;
+	mLastTime  = 0.0; // <alchemy/>
 
 	reset();
 

@@ -48,7 +48,7 @@ namespace {
 			U32 render_type = render_type_from_string( iter->asString() );
 			if ( render_type != 0 )
 			{
-				LLPipeline::toggleRenderTypeControl( reinterpret_cast<void*>(render_type) );
+				LLPipeline::toggleRenderTypeControl( reinterpret_cast<void*>(render_type) ); // <alchemy/>
 			}
 		}
 	}
@@ -59,7 +59,7 @@ namespace {
 		U32 render_type = render_type_from_string( request["type"].asString() );
 		if ( render_type != 0 )
 		{
-			response["value"] = LLPipeline::hasRenderTypeControl( reinterpret_cast<void*>(render_type) );
+			response["value"] = LLPipeline::hasRenderTypeControl( reinterpret_cast<void*>(render_type) ); // <alchemy/>
 		}
 		else
 		{
@@ -87,7 +87,7 @@ namespace {
 			U32 render_feature = feature_from_string( iter->asString() );
 			if ( render_feature != 0 )
 			{
-				LLPipeline::toggleRenderDebugControl( reinterpret_cast<void*>(render_feature) );
+				LLPipeline::toggleRenderDebugControl( reinterpret_cast<void*>(render_feature) ); // <alchemy/>
 			}
 		}
 	}
@@ -126,7 +126,7 @@ namespace {
 			U32 info_display = info_display_from_string( iter->asString() );
 			if ( info_display != 0 )
 			{
-				LLPipeline::toggleRenderDebug( reinterpret_cast<void*>(info_display) );
+				LLPipeline::toggleRenderDebug( reinterpret_cast<void*>(info_display) ); // <alchemy/>
 			}
 		}
 	}

@@ -77,7 +77,7 @@ if (WINDOWS)
       /Zc:wchar_t-
       /fp:fast
       )
-
+     
   if (WORD_SIZE EQUAL 32)
     add_definitions(
 		/arch:SSE2

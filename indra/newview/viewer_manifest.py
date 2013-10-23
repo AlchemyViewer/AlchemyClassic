@@ -372,11 +372,11 @@ class WindowsManifest(ViewerManifest):
             # These need to be installed as a SxS assembly, currently a 'private' assembly.
             # See http://msdn.microsoft.com/en-us/library/ms235291(VS.80).aspx
             if self.args['configuration'].lower() == 'debug':
-                 self.path("msvcr100d.dll")
-                 self.path("msvcp100d.dll")
+                 self.path("msvcr*d.dll")
+                 self.path("msvcp*d.dll")
             else:
-                 self.path("msvcr100.dll")
-                 self.path("msvcp100.dll")
+                 self.path("msvcr*.dll")
+                 self.path("msvcp*.dll")
 
             # Vivox runtimes
             self.path("SLVoice.exe")

@@ -6,6 +6,7 @@
 
 include(CMakeCopyIfDifferent)
 include(Linking)
+include(Variables)
 
 ###################################################################
 # set up platform specific lists of files that need to be copied
@@ -64,11 +65,11 @@ if(WINDOWS)
     endif(USE_TCMALLOC)
 
     if (FMODEX)
-	  if(WORD_SIZE EQUAL 32)
+      if(WORD_SIZE EQUAL 32)
         set(release_files ${release_files} fmodex.dll)
       elseif(WORD_SIZE EQUAL 64)
         set(release_files ${release_files} fmodex64.dll)
-	  endif(WORD_SIZE EQUAL 32)
+      endif(WORD_SIZE EQUAL 32)
     endif (FMODEX)
 
 #*******************************
@@ -191,10 +192,15 @@ elseif (MSVC_VERSION EQUAL 1600) # VisualStudio 2010
           
     endif ()
 elseif (MSVC11) # VisualStudio 2012
+    if (WORD_SIZE EQUAL 32)
+      set (CRT_ARCHITECTURE x86)
+    elseif (WORD_SIZE EQUAL 64)
+      set (CRT_ARCHITECTURE x64)
+    endif (WORD_SIZE EQUAL 32)
     FIND_PATH(debug_msvc11_redist_path msvcr110d.dll
         PATHS
         ${MSVC_DEBUG_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/x86/Microsoft.VC110.DebugCRT
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/${CRT_ARCHITECTURE}/Microsoft.VC110.DebugCRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH
@@ -219,7 +225,7 @@ elseif (MSVC11) # VisualStudio 2012
     FIND_PATH(release_msvc11_redist_path msvcr110.dll
         PATHS
         ${MSVC_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/x86/Microsoft.VC110.CRT
+         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\11.0\\Setup\\VC;ProductDir]/redist/${CRT_ARCHITECTURE}/Microsoft.VC110.CRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH

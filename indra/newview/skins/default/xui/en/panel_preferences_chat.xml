@@ -62,8 +62,18 @@
     <check_box
         follows="left|top"
         height="16"
+        label="Automatically close chat bar when pressing Enter"
+        tool_tip="Will only close the torn off (detached) chat bar and window, not the CHUI floater."
+        left_delta="0"
+        top_pad="5"
+        name="chat_auto_close"
+        width="275"
+        control_name="CloseChatOnReturn"/>
+    <check_box
+        follows="left|top"
+        height="16"
         label="Enable Ctrl+Enter to shout"
-        tool_tip="Enables shouting with the Ctrl+Enter key combinaison."
+        tool_tip="Enables shouting with the Ctrl+Enter key combination."
         left_delta="0"
         top_pad="5"
         name="chat_cmd_toggle"
@@ -73,7 +83,7 @@
         follows="left|top"
         height="16"
         label="Enable Shift+Enter to Whisper"
-        tool_tip="Enables whispering with the Shift+Enter key combinaison."
+        tool_tip="Enables whispering with the Shift+Enter key combination."
         left_delta="0"
         top_pad="5"
         name="chat_cmd_toggle"

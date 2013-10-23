@@ -13,13 +13,16 @@
      reference="LtGray" />
     <color
      name="ScriptFunctionColor"
-     value="0.458 0.5294 0.651 0" />
+     value="0.4 0.8509803921568627 0.9372549019607843 1" />
      <color
      name="ScriptBgWriteableColor"
      value="0.0784 0.0784 0.0784 1" />
     <color
      name="ScriptBgFocusColor"
      value="0.0784 0.0784 0.0784 1" />
+     <color
+     name="ScriptTextReadOnlyColor"
+     reference="AlchemyText" />
      <color
      name="AlchemyBackground"
      value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
@@ -462,7 +465,7 @@
      value="0.43 0.06 0.06 1" />
     <color
      name="HTMLLinkColor"
-     reference="EmphasisColor" />
+     value="0.3607843137254902 0.6823529411764706 0.9686274509803922" /> <!-- Lighter color since dark blue is unreadable on the chat toasts -->
     <color
      name="HealthTextColor"
      reference="AlchemyText" />
@@ -644,16 +647,16 @@
      reference="AlchemyWhite" />
     <color
      name="NameTagFriend"
-     value="0.447 0.784 0.663 1" />
+     value="0.5254901960784314 0.7490196078431373 0.9843137254901961" />
     <color
      name="NameTagLegacy"
      reference="AlchemyWhite" />
     <color
      name="NameTagMatch"
-     reference="AlchemyWhite" />
+     reference="White_50" />
     <color
      name="NameTagMismatch"
-     value="0.824 0.706 0.584" />
+     reference="AlchemyWhite" />
     <color
      name="NetMapBackgroundColor"
      reference="Black_25" />

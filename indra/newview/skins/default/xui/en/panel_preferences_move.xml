@@ -145,7 +145,7 @@
 	 mouse_opaque="false"
 	 visible="true"
 	 width="18"
-   top_pad="70"
+   top_pad="65"
    left="10" />
   <text
    follows="left|top"
@@ -156,7 +156,7 @@
    left="35"
    name="keyboard_lbl"
    width="270"
-   top="150">
+   top="130">
     Keyboard:
   </text>
   <check_box
@@ -197,6 +197,17 @@
    layout="topleft"
    left_delta="0"
    name="automatic_fly"
+   width="237"
+   top_pad="0"/>
+   <check_box
+   control_name="AlchemyNimble"
+   follows="left|top"
+   height="20"
+   label="Be more nimble"
+   tool_tip="Disable finishing of certain animations to be more &quot;nimble&quot;"
+   layout="topleft"
+   left_delta="0"
+   name="alchemynimble"
    width="237"
    top_pad="0"/>
   <text

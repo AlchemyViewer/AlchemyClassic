@@ -13,13 +13,16 @@
      reference="LtGray" />
     <color
      name="ScriptFunctionColor"
-     value="0.458 0.5294 0.651 0" />
+     value="0.4 0.85098039215686270.9372549019607843 1" />
      <color
      name="ScriptBgWriteableColor"
      value="0.0784 0.0784 0.0784 1" />
     <color
      name="ScriptBgFocusColor"
      value="0.0784 0.0784 0.0784 1" />
+     <color
+     name="ScriptTextReadOnlyColor"
+     reference="AlchemyText" />
      <color
      name="AlchemyBackground"
      value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->

@@ -13,7 +13,7 @@
      reference="LtGray" />
     <color
      name="ScriptFunctionColor"
-     value="0.4 0.85098039215686270.9372549019607843 1" />
+     value="0.4 0.8509803921568627 0.9372549019607843 1" />
      <color
      name="ScriptBgWriteableColor"
      value="0.0784 0.0784 0.0784 1" />

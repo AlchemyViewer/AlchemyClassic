@@ -33,6 +33,7 @@
 #include <sstream>
 
 #include "llaudioengine.h"
+#include "lscript_bytecode.h" // <alchemy/>
 #include "noise.h"
 #include "sound_ids.h"
 #include "raytrace.h"
@@ -663,14 +664,8 @@ static F32 calc_bouncy_animation(F32 x);
 //-----------------------------------------------------------------------------
 void revoke_permissions_on_object(const LLUUID &object_id)
 {
-	gMessageSystem->newMessageFast(_PREHASH_RevokePermissions);
-	gMessageSystem->nextBlockFast(_PREHASH_AgentData);
-	gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
-	gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
-	gMessageSystem->nextBlockFast(_PREHASH_Data);
-	gMessageSystem->addUUIDFast(_PREHASH_ObjectID, object_id);
-	gMessageSystem->addU32Fast(_PREHASH_ObjectPermissions, 0xFFFFFFFF);
-	gAgent.sendReliableMessage();
+	U32 permissions = LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_TRIGGER_ANIMATION] | LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS];
+	gAgent.sendRevokePermissions(object_id, permissions);
 }
 
 //-----------------------------------------------------------------------------

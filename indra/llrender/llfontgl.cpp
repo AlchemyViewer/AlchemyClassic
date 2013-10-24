@@ -353,11 +353,14 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 		cur_render_y = cur_y;
 	}
 
-	gGL.begin(LLRender::QUADS);
+	if (glyph_count > 0)
 	{
-		gGL.vertexBatchPreTransformed(vertices, uvs, colors, glyph_count * 4);
+		gGL.begin(LLRender::QUADS);
+		{
+			gGL.vertexBatchPreTransformed(vertices, uvs, colors, glyph_count * 4);
+		}
+		gGL.end();
 	}
-	gGL.end();
 
 
 	if (right_x)

@@ -52,7 +52,7 @@
     <check_box
         follows="left|top"
         height="16"
-        label="Disable sending typing notification in IM"
+        label="Don&apos;t send typing notification in IM"
         tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
         left_delta="0"
         top_pad="5"
@@ -90,16 +90,6 @@
         width="275"
         control_name="AlchemyEnableKeyboardWhisper"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Replace my name with &quot;You&quot; in plain chat"
-        tool_tip="In compact (plain) chat mode, this replaces your avatar name with (You) when chatting and emoting.    ie: &quot;Tarnix drinks coke&quot; becomes    &quot;(You) drinks coke&quot;"
-        left_delta="0"
-        top_pad="5"
-        name="chat_cmd_toggle"
-        width="275"
-        control_name="AlchemySelfChatAsYou"/>
-    <check_box
         enabled="false"
         height="16"
         label="Forward offline IMs to my E-mail"
@@ -121,47 +111,77 @@
         width="350">     
     </check_box>
 
+    <panel
+    height="100"
+    left="300"
+    top="10"
+    width="200"
+    border="false"
+    name="chat_appearance">
+    <text
+        layout="topleft"
+        left="5"
+        height="12"
+        name="chat_appearance_text"
+        width="75"
+        top="6">
+        Font Size:
+    </text>
+
+    <radio_group
+     height="25"
+     layout="topleft"
+     left_delta="5"
+     name="text_size_radio"
+     control_name="ChatFontSize"
+     tool_tip="Text size"
+     top_delta="15"
+     width="200">
+    <radio_item
+     bottom="20"
+     layout="topleft"
+     label="Small"
+     name="Small"
+     value="0"/>
+    <radio_item
+     bottom="20"
+     left_delta="60"
+     layout="topleft"
+     label="Medium"
+     name="Medium"
+     value="1"/>
+     <radio_item
+     bottom="20"
+     left_delta="70"
+     layout="topleft"
+     label="Large"
+     name="Large"
+     value="2"/>
+    </radio_group>
+
+    <check_box
+        follows="left|top"
+        height="16"
+        label="Parse JIRA links"
+        tool_tip="Replaces JIRA issues in chat with clickable links."
+        left_delta="0"
+        top_pad="0"
+        name="chat_cmd_toggle"
+        width="275"
+        control_name="AlchemyChatParseJira"/>
     <check_box
         control_name="UseChatBubbles"
         height="16"
-        label="Show chat in a bubble under name tags"
+        label="Use bubble chat"
+        tool_tip="Show chat in a bubble under name tags"
         layout="topleft"
         left_delta="0"
         top_pad="5"
         name="bubble_text_chat"
         width="330">
     </check_box>
-    <text
-        layout="topleft"
-        left="330"
-        height="12"
-        name="font_size"
-        width="60"
-        top="15">
-      Font size:
-    </text>
-
-    <combo_box
-        control_name="ChatFontSize"
-        height="23"
-        layout="topleft"
-        name="chat_font_size"
-        left_pad="10"
-        top="10"
-        width="100">
-      <item
-          label="Small"
-          name="Small"
-          value="0"/>
-      <item
-          label="Medium"
-          name="Medium"
-          value="1"/>
-      <item
-          label="Large"
-          name="Large"
-          value="2"/>
-    </combo_box>
+    </panel>
+    
     <text
         layout="bottomleft"
         text_color="White"

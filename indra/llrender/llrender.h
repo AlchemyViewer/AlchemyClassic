@@ -38,6 +38,7 @@
 #include "v3math.h"
 #include "v4coloru.h"
 #include "v4math.h"
+#include "llalignedarray.h"
 #include "llstrider.h"
 #include "llpointer.h"
 #include "llglheaders.h"
@@ -487,8 +488,8 @@ private:
 
 	F32				mMaxAnisotropy;
 
-	std::vector<LLVector4a*> mUIOffset; // <alchemy> - Manual Vectorization
-	std::vector<LLVector4a*> mUIScale; // <alchemy> - Manual Vectorization
+	LLAlignedArray<LLVector4a, 64> mUIOffset; // <alchemy> - Manual Vectorization
+	LLAlignedArray<LLVector4a, 64> mUIScale; // <alchemy> - Manual Vectorization
 
 };
 

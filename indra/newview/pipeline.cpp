@@ -810,16 +810,16 @@ void LLPipeline::resizeScreenTexture()
 		if ((resX != mScreen.getWidth()) || (resY != mScreen.getHeight()))
 		{
 			releaseScreenBuffers();
-			if (!allocateScreenBuffer(resX,resY))
+		if (!allocateScreenBuffer(resX,resY))
 			{
 #if PROBABLE_FALSE_DISABLES_OF_ALM_HERE
 				//FAILSAFE: screen buffer allocation failed, disable deferred rendering if it's enabled
-				//NOTE: if the session closes successfully after this call, deferred rendering will be 
-				// disabled on future sessions
-				if (LLPipeline::sRenderDeferred)
-				{
-					gSavedSettings.setBOOL("RenderDeferred", FALSE);
-					LLPipeline::refreshCachedSettings();
+			//NOTE: if the session closes successfully after this call, deferred rendering will be 
+			// disabled on future sessions
+			if (LLPipeline::sRenderDeferred)
+			{
+				gSavedSettings.setBOOL("RenderDeferred", FALSE);
+				LLPipeline::refreshCachedSettings();
 
 				}
 #endif
@@ -975,7 +975,7 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 		{
 			screenFormat = GL_RGBA16F_ARB;
 		}
-		
+        
 		if (!mScreen.allocate(resX, resY, screenFormat, FALSE, FALSE, LLTexUnit::TT_RECT_TEXTURE, FALSE, samples)) return false;
 		if (samples > 0)
 		{
@@ -1213,7 +1213,7 @@ void LLPipeline::releaseGLBuffers()
 	mWaterRef.release();
 	mWaterDis.release();
 	mHighlight.release();
-
+	
 	for (U32 i = 0; i < 3; i++)
 	{
 		mGlow[i].release();
@@ -5433,7 +5433,7 @@ void LLPipeline::renderDebug()
 			if (i > 3)
 			{ //render shadow frusta as volumes
 				if (mShadowFrustPoints[i-4].empty())
-			{
+				{
 					continue;
 				}
 
@@ -10400,14 +10400,14 @@ BOOL LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 			const LLPlane& cp = camera.getAgentPlane(j);
 			F32 dist = cp.dist(pp[i]);
 			if (dist > 0.05f) //point is above some plane, not contained
-					{
+			{
 				found = false;
 				break;
-						}
-					}
+			}
+		}
 
-					if (found)
-					{
+		if (found)
+		{
 			fp.push_back(pp[i]);
 		}
 	}

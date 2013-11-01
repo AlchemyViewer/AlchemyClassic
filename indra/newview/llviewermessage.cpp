@@ -2004,7 +2004,6 @@ void inventory_offer_handler(LLOfferInfo* info)
         }
 
 		// Inform the user that they received a new inventory item and give them the option to "show" or "delete" it.
-        
 		if(!bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 		{
 			payload["give_inventory_notification"] = TRUE;
@@ -3742,7 +3741,9 @@ void process_teleport_start(LLMessageSystem *msg, void**)
 		gAgent.setTeleportState( LLAgent::TELEPORT_START );
 
 		if (gSavedSettings.getBOOL("AlchemyPlayTeleportSound"))  // <alchemy/>
+		{
 			make_ui_sound("UISndTeleportOut");
+		}
 		
 		LL_INFOS("Messaging") << "Teleport initiated by remote TeleportStart message with TeleportFlags: " <<  teleport_flags << LL_ENDL;
 

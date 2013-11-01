@@ -107,13 +107,10 @@ private:
 	bool              hasFinalA() const;
 
 	// <alchemy> Cannot return reference here, due to stub returning a temporary
-
 	// const LLVector3   &getFinalAStart() const;
 	// const LLVector3   &getFinalAEnd() const;
-
 	LLVector3   getFinalAStart() const;
 	LLVector3   getFinalAEnd() const; 
-
 	// </alchemy>
 
 	void              setTempA(const LLVector3 &pStartPoint, const LLVector3 &pEndPoint);
@@ -123,13 +120,10 @@ private:
 	bool              hasFinalB() const;
 
 	// <alchemy> Cannot return reference here, due to stub returning a temporary
-
 	// const LLVector3   &getFinalBStart() const;
 	// const LLVector3   &getFinalBEnd() const;
-
 	LLVector3   getFinalBStart() const;
 	LLVector3   getFinalBEnd() const;
-
 	// </alchemy>
 
 	void              setTempB(const LLVector3 &pStartPoint, const LLVector3 &pEndPoint);

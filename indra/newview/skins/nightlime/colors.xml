@@ -417,16 +417,16 @@
      reference="LtGray" />
     <color
      name="FloaterDefaultBackgroundColor"
-     reference="DkGray_66" />
+     reference="White_50" />
     <color
      name="FloaterFocusBackgroundColor"
-     reference="DkGray" />
+     reference="White_50" />
     <color
      name="FloaterFocusBorderColor"
-     reference="Black_50" />
+     reference="White_50" />
     <color
      name="FloaterUnfocusBorderColor"
-     reference="Black_50" />
+     reference="White_50" />
     <color
      name="FocusColor"
      reference="Transparent" /> <!-- Focus borders, i.e. search bar -->

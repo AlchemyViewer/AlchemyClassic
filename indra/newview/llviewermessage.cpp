@@ -1874,23 +1874,17 @@ void inventory_offer_handler(LLOfferInfo* info)
 		return;
 	}
 
-	// <alchemy/> This boolean is used to track auto-accept preference for more than agent to agent
-	// and llGiveInventoryList (which works already). Fixes ALCH-15 (AutoAcceptNewInventory prevents
-	// receiving inventory offers from llGiveObject)
-	bool bAutoAccept(false);
 	// Avoid the Accept/Discard dialog if the user so desires. JC
-	if (gSavedSettings.getBOOL("AutoAcceptNewInventory")
-		&& (info->mType == LLAssetType::AT_NOTECARD
-			|| info->mType == LLAssetType::AT_LANDMARK
-			|| info->mType == LLAssetType::AT_TEXTURE))
-	{
-		// For certain types, just accept the items into the inventory,
-		// and possibly open them on receipt depending upon "ShowNewInventory".
-		// <alchemy/> Commented out forceResponse since we do differently to fix ALCH-15
-		//info->forceResponse(IOR_ACCEPT);
-		//return;
-		bAutoAccept = true; // <alchemy/> Indicate that autoaccept should be used for this inventory type. Fixes ALCH-15
-	}
+	// <alchemy> We use our own boolean to track auto-accept preferences for all inventory offers
+	// instead of relying on the current system which only acts on agent-to-agent offers.
+	//  Fixes ALCH-15: AutoAcceptNewInventory prevents receiving inventory offers from llGiveObject
+	
+	bool bAutoAccept((info->mType == LLAssetType::AT_NOTECARD
+						|| info->mType == LLAssetType::AT_LANDMARK
+						|| info->mType == LLAssetType::AT_TEXTURE
+						|| gSavedSettings.getBOOL("AlchemyAutoAcceptAllInventory"))
+						&& gSavedSettings.getBOOL("AutoAcceptNewInventory"));
+	// </alchemy>
 
 	// Strip any SLURL from the message display. (DEV-2754)
 	std::string msg = info->mDesc;
@@ -2004,7 +1998,6 @@ void inventory_offer_handler(LLOfferInfo* info)
         }
 
 		// Inform the user that they received a new inventory item and give them the option to "show" or "delete" it.
-        
 		if(!bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 		{
 			payload["give_inventory_notification"] = TRUE;
@@ -3742,7 +3735,9 @@ void process_teleport_start(LLMessageSystem *msg, void**)
 		gAgent.setTeleportState( LLAgent::TELEPORT_START );
 
 		if (gSavedSettings.getBOOL("AlchemyPlayTeleportSound"))  // <alchemy/>
+		{
 			make_ui_sound("UISndTeleportOut");
+		}
 		
 		LL_INFOS("Messaging") << "Teleport initiated by remote TeleportStart message with TeleportFlags: " <<  teleport_flags << LL_ENDL;
 

@@ -1500,7 +1500,7 @@ void LLRender::translateUI(F32 x, F32 y, F32 z)
 	// mUIOffset.back().mV[2] += z;
 	// <alchemy> - Manual Vectorization
 	LLVector4a add(x,y,z);
-	mUIOffset.back()->add(add);
+	mUIOffset.back().add(add);
 	// </alchemy>
 }
 
@@ -1514,7 +1514,7 @@ void LLRender::scaleUI(F32 x, F32 y, F32 z)
 	// mUIScale.back().scaleVec(LLVector3(x,y,z));
 	// <alchemy> - Manual Vectorization
 	LLVector4a scale(x,y,z);
-	mUIScale.back()->mul(scale);
+	mUIScale.back().mul(scale);
 	// </alchemy>
 }
 
@@ -1524,36 +1524,24 @@ void LLRender::pushUIMatrix()
 	{
 		// mUIOffset.push_back(LLVector3(0,0,0));
 		// <alchemy> - Manual Vectorization
-		mUIOffset.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
-		mUIOffset.back()->splat(0.f);
+		mUIOffset.push_back(LLVector4a(0.f));
 		// </alchemy>
 	}
 	else
 	{
-		// mUIOffset.push_back(mUIOffset.back());
-		// <alchemy> - Manual Vectorization
-		const LLVector4a* last_entry = mUIOffset.back();
-		mUIOffset.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
-		*mUIOffset.back() = *last_entry;
-		// </alchemy>
+		mUIOffset.push_back(mUIOffset.back());
 	}
 	
 	if (mUIScale.empty())
 	{
 		// mUIScale.push_back(LLVector3(1,1,1));
 		// <alchemy> - Manual Vectorization
-		mUIScale.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
-		mUIScale.back()->splat(1.f);
+		mUIScale.push_back(LLVector4a(1.f));
 		// </alchemy>
 	}
 	else
 	{
-		// mUIScale.push_back(mUIScale.back());
-		// <alchemy> - Manual Vectorization
-		const LLVector4a* last_entry = mUIScale.back();
-		mUIScale.push_back(static_cast<LLVector4a*>(ll_aligned_malloc_16(sizeof(LLVector4a))));
-		*mUIScale.back() = *last_entry;
-		// </alchemy>
+		mUIScale.push_back(mUIScale.back());
 	}
 }
 
@@ -1568,9 +1556,7 @@ void LLRender::popUIMatrix()
 		llerrs << "UI scale stack blown." << llendl;
 	}
 
-	ll_aligned_free_16(mUIOffset.back()); // <alchemy/> - Vectorization
 	mUIOffset.pop_back();
-	ll_aligned_free_16(mUIScale.back()); // <alchemy/> - Vectorization
 	mUIScale.pop_back();
 }
 
@@ -1583,7 +1569,7 @@ LLVector3 LLRender::getUITranslation()
 
 	// return mUIOffset.back();
 	// <alchemy> - Manual Vectorization
-	return LLVector3(mUIOffset.back()->getF32ptr());
+	return LLVector3(mUIOffset.back().getF32ptr());
 	// </alchemy>
 }
 
@@ -1596,7 +1582,7 @@ LLVector3 LLRender::getUIScale()
 
 	// return mUIScale.back();
 	// <alchemy> - Manual Vectorization
-	return LLVector3(mUIScale.back()->getF32ptr());
+	return LLVector3(mUIScale.back().getF32ptr());
 	// </alchemy>
 }
 
@@ -1611,8 +1597,8 @@ void LLRender::loadUIIdentity()
 	// mUIOffset.back().setVec(0,0,0);
 	// mUIScale.back().setVec(1,1,1);
 	// <alchemy> - Manual Vectorization
-	mUIOffset.back()->splat(0.f);
-	mUIScale.back()->splat(1.f);
+	mUIOffset.back().splat(0.f);
+	mUIScale.back().splat(1.f);
 	// </alchemy>
 }
 
@@ -2009,8 +1995,8 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 		// LLVector3 vert = (LLVector3(x,y,z)+mUIOffset.back()).scaledVec(mUIScale.back());
 		// mVerticesp[mCount] = vert;
 		// <alchemy> - Manual Vectorization
-		mVerticesp[mCount].setAdd(vertex, *mUIOffset.back());
-		mVerticesp[mCount].mul(*mUIScale.back());
+		mVerticesp[mCount].setAdd(vertex, mUIOffset.back());
+		mVerticesp[mCount].mul(mUIScale.back());
 		// </alchemy>
 	}
 

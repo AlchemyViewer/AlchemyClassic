@@ -391,7 +391,7 @@ public:
 		{
 			bool operator()(const LLMemoryBlock* const& lhs, const LLMemoryBlock* const& rhs)
 			{
-				return (U32)lhs->getBuffer() < (U32)rhs->getBuffer();
+				return (size_t)lhs->getBuffer() < (size_t)rhs->getBuffer(); // <alchemy/>
 			}
 		};
 	};
@@ -422,7 +422,7 @@ public:
 		void dump() ;
 
 	private:
-		U32 getPageIndex(U32 addr) ;
+		U32 getPageIndex(size_t addr) ; // <alchemy/>
 		U32 getBlockLevel(U32 size) ;
 		U16 getPageLevel(U32 size) ;
 		LLMemoryBlock* addBlock(U32 blk_idx) ;

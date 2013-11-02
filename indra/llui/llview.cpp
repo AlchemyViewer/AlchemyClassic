@@ -898,7 +898,7 @@ LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 		return viewp;
 
 	}
-	return 0;
+	return NULL; // <alchemy/>
 }
 
 BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)
@@ -948,7 +948,7 @@ BOOL LLView::handleKey(KEY key, MASK mask, BOOL called_from_parent)
 			// For event logging we don't care which widget handles it
 			// So we capture the key at the end of this function once we know if it was handled
 			handled = handleKeyHere( key, mask );
-			if (handled)
+			if (handled && LLView::sDebugKeys) // <alchemy/> - AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 			{
 				llwarns << "Key handled by " << getName() << llendl;
 			}

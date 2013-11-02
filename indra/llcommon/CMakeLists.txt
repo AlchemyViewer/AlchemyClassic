@@ -274,7 +274,7 @@ list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 
 if(NOT WORD_SIZE EQUAL 32)
   if(WINDOWS)
-    add_definitions(/FIXED:NO)
+    #add_definitions(/FIXED:NO)
   else(WINDOWS) # not windows therefore gcc LINUX and DARWIN
     add_definitions(-fPIC)
   endif(WINDOWS)
@@ -301,6 +301,7 @@ target_link_libraries(
     ${WINDOWS_LIBRARIES}
     ${BOOST_PROGRAM_OPTIONS_LIBRARY}
     ${BOOST_REGEX_LIBRARY}
+    ${BOOST_CONTEXT_LIBRARY}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
     )
 

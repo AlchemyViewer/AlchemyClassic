@@ -193,7 +193,7 @@ shader->uniform3fv(LLShaderMgr::WL_CAMPOSLOCAL, 1, LLViewerCamera::getInstance()
 		shader->uniform4fv(LLShaderMgr::WATER_WATERPLANE, 1, mWaterPlane.mV);
 		shader->uniform1f(LLShaderMgr::WATER_FOGDENSITY, getFogDensity());
 		shader->uniform1f(LLShaderMgr::WATER_FOGKS, mWaterFogKS);
-		shader->uniform1f(LLViewerShaderMgr::DISTANCE_MULTIPLIER, 0);
+		shader->uniform1f(LLViewerShaderMgr::DISTANCE_MULTIPLIER, 0.f); // <alchemy/>
 	}
 }
 

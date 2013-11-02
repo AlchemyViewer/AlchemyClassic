@@ -2203,7 +2203,7 @@ void LLPanelFace::LLSelectedTE::getFace(LLFace*& face_to_return, bool& identical
 
 void LLPanelFace::LLSelectedTE::getImageFormat(LLGLenum& image_format_to_return, bool& identical_face)
 {
-	LLGLenum image_format = 0;
+	LLGLenum image_format;
 	struct LLSelectedTEGetImageFormat : public LLSelectedTEGetFunctor<LLGLenum>
 	{
 		LLGLenum get(LLViewerObject* object, S32 te_index)

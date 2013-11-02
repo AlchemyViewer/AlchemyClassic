@@ -1455,7 +1455,7 @@ namespace LLInitParam
 
 		U32 numValidElements() const
 		{
-			return mValues.size();
+			return static_cast<U32>(mValues.size()); // <alchemy/> - Win64 size() warning
 		}
 
 	protected:

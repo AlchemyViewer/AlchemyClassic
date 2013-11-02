@@ -75,10 +75,15 @@ if (WINDOWS)
       /nologo
       /Oy-
       /Zc:wchar_t-
-      /arch:SSE2
       /fp:fast
       )
      
+  if (WORD_SIZE EQUAL 32)
+    add_definitions(
+		/arch:SSE2
+        )
+  endif (WORD_SIZE EQUAL 32)
+
   # Are we using the crummy Visual Studio KDU build workaround?
   if (NOT VS_DISABLE_FATAL_WARNINGS)
     add_definitions(/WX)

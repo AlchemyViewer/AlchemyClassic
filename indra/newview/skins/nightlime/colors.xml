@@ -641,16 +641,16 @@
      reference="AlchemyWhite" />
     <color
      name="NameTagFriend"
-     reference="EmphasisColor" />
+     value="0.650980392156863 0.866666666666667 0.596078431372549" />
     <color
      name="NameTagLegacy"
-     reference="AlchemyText" />
+     reference="AlchemyWhite" />
     <color
      name="NameTagMatch"
-     reference="AlchemyText" />
+     reference="White_50" />
     <color
      name="NameTagMismatch"
-     value="0.824 0.706 0.584" />
+     reference="AlchemyWhite" />
     <color
      name="NetMapBackgroundColor"
      reference="Black_25" />
@@ -884,7 +884,7 @@
      reference="AlchemyText" />
     <color
      name="UserChatColor"
-     reference="AlchemyTextDark" />
+     reference="AlchemyText" />
     <color
      name="llOwnerSayChatColor"
      reference="LtYellow" />

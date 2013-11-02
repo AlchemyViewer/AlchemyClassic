@@ -1874,27 +1874,18 @@ void inventory_offer_handler(LLOfferInfo* info)
 		return;
 	}
 
-	// <alchemy/> This boolean is used to track auto-accept preference for more than agent to agent
-	// and llGiveInventoryList (which works already). Fixes ALCH-15 (AutoAcceptNewInventory prevents
-	// receiving inventory offers from llGiveObject)
-	bool bAutoAccept(false);
 	// Avoid the Accept/Discard dialog if the user so desires. JC
-	if (gSavedSettings.getBOOL("AutoAcceptNewInventory"))
-	{
-		if ((gSavedSettings.getBOOL("AlchemyAutoAcceptAllInventory"))
-			|| (info->mType == LLAssetType::AT_NOTECARD
-			|| info->mType == LLAssetType::AT_LANDMARK
-			|| info->mType == LLAssetType::AT_TEXTURE))
-		{
-			// Unless the user wants to accept all type of inventory,
-			// only auto-accept certain types of items into the inventory,
-			// and possibly open them on receipt depending upon "ShowNewInventory".
-			// <alchemy/> Commented out forceResponse since we do differently to fix ALCH-15
-			//info->forceResponse(IOR_ACCEPT);
-			//return;
-			bAutoAccept = true; // <alchemy/> Indicate that autoaccept should be used for this inventory type. Fixes ALCH-15
-		}
-	}
+	// <alchemy> We use our own boolean to track auto-accept preferences for all inventory offers
+	// instead of relying on the current system which only acts on agent-to-agent offers.
+	//  Fixes ALCH-15: AutoAcceptNewInventory prevents receiving inventory offers from llGiveObject
+	
+	bool bAutoAccept((info->mType == LLAssetType::AT_NOTECARD
+						|| info->mType == LLAssetType::AT_LANDMARK
+						|| info->mType == LLAssetType::AT_TEXTURE
+						|| gSavedSettings.getBOOL("AlchemyAutoAcceptAllInventory"))
+						&& gSavedSettings.getBOOL("AutoAcceptNewInventory"));
+	// </alchemy>
+
 	// Strip any SLURL from the message display. (DEV-2754)
 	std::string msg = info->mDesc;
 	int indx = msg.find(" ( http://slurl.com/secondlife/");

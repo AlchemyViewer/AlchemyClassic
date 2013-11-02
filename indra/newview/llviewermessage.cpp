@@ -1873,11 +1873,22 @@ void inventory_offer_handler(LLOfferInfo* info)
 		info->forceResponse(IOR_MUTE);
 		return;
 	}
-
-	// Avoid the Accept/Discard dialog if the user so desires. JC
+	
 	// <alchemy> We use our own boolean to track auto-accept preferences for all inventory offers
 	// instead of relying on the current system which only acts on agent-to-agent offers.
 	//  Fixes ALCH-15: AutoAcceptNewInventory prevents receiving inventory offers from llGiveObject
+
+	// Avoid the Accept/Discard dialog if the user so desires. JC
+	/*if (gSavedSettings.getBOOL("AutoAcceptNewInventory")
+		&& (info->mType == LLAssetType::AT_NOTECARD
+			|| info->mType == LLAssetType::AT_LANDMARK
+			|| info->mType == LLAssetType::AT_TEXTURE))
+	{
+		// For certain types, just accept the items into the inventory,
+		// and possibly open them on receipt depending upon "ShowNewInventory".
+		info->forceResponse(IOR_ACCEPT);
+		return;
+	}*/
 	
 	bool bAutoAccept((info->mType == LLAssetType::AT_NOTECARD
 						|| info->mType == LLAssetType::AT_LANDMARK

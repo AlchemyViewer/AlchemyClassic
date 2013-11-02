@@ -413,8 +413,8 @@
     </text>
     <text_editor
      control_name="DoNotDisturbModeResponse"
-      text_readonly_color="LabelDisabledColor"
-      bg_writeable_color="LtGray"
+      text_readonly_color="TextFgReadOnlyColor"
+      bg_writeable_color="TextBgWriteableColor"
       use_ellipses="false"
      commit_on_focus_lost = "true"
      follows="left|top"

@@ -24,7 +24,7 @@
      value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyBackground"
-     value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
+     value="0.0901960784313725 0.0901960784313725 0.0901960784313725 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
     <color
      name="AlchemyBlack1"
      value="0.1084 0.1084 0.1084 1" />
@@ -76,7 +76,7 @@
      value="0.3176470588235294 0.5137254901960784 0.1098039215686275 0.35" />
     <color
      name="BeaconColor"
-    value="0.3176470588235294 0.5137254901960784 0.1098039215686275 0.50" />
+    reference="EmphasisColor_35" />
     <color
      name="WarningRed"
     value="0.85 0.35 0.33 0.97" />

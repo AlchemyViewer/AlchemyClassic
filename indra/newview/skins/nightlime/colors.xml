@@ -12,7 +12,7 @@
      reference="LtGray" />
     <color
      name="ScriptFunctionColor"
-     value="0.458 0.5294 0.651 0" />
+     value="0.4 0.8509803921568627 0.9372549019607843 1" />
     <color
      name="ScriptTextReadOnlyColor"
      reference="AlchemyText" />

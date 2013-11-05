@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
-
-    <!-- Alchemy Colors -->
+	<!-- Alchemy -->
     <color
      name="ChatHeaderDisplayNameColor"
      reference="White" />
@@ -13,10 +12,10 @@
      reference="LtGray" />
     <color
      name="ScriptFunctionColor"
-     value="0.458 0.5294 0.651 0" />
+     value="0.4 0.8509803921568627 0.9372549019607843 1" />
     <color
      name="ScriptTextReadOnlyColor"
-     reference="Gray" />
+     reference="AlchemyText" />
     <color
      name="ScriptBgWriteableColor"
      value="0.0784 0.0784 0.0784 1" />
@@ -25,16 +24,13 @@
      value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyBackground"
-     value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
+     value="0.0901960784313725 0.0901960784313725 0.0901960784313725 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
     <color
      name="AlchemyBlack1"
      value="0.1084 0.1084 0.1084 1" />
     <color
      name="AlchemyBlack1_t"
      value="0.1084 0.1084 0.1084 0.60" />
-    <color
-     name="AlchemyDarkText"
-     value="0.42 0.42 0.42 1" />
      <color
      name="AlchemyHighlight"
      reference="AlchemyWhite" /> <!-- White until someone figures how to change text color when highlighed -->
@@ -44,12 +40,18 @@
     <color
      name="AlchemyOrange"
      value="0.9372 0.4588 0.1960 1" />
+    <color
+     name="AlchemyScriptBG"
+     value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyScriptErrorBG"
      value="0.369 0.137 0.137 1" />
     <color
      name="AlchemyText"
      value="0.62 0.62 0.62 1" />
+     <color
+     name="AlchemyTextDark"
+     value="0.52 0.52 0.52 1" />
     <color
      name="AlchemyWhite"
      value="0.7078 0.7078 0.7078 1" />
@@ -74,7 +76,10 @@
      value="0.3176470588235294 0.5137254901960784 0.1098039215686275 0.35" />
     <color
      name="BeaconColor"
-    value="0.3176470588235294 0.5137254901960784 0.1098039215686275 0.50" />
+    reference="EmphasisColor_35" />
+    <color
+     name="WarningRed"
+    value="0.85 0.35 0.33 0.97" />
     <color
      name="White"
      value="1 1 1 1" />
@@ -188,8 +193,8 @@
   Leave this here until all Unused? are removed below, otherwise
   the viewer generates many warnings on startup. -->
   <color
-     name="Unused?"
-     value=".831 1 0 1" />
+	 name="Unused?"
+	 value=".831 1 0 1" />
 
   <!-- UI Definitions -->
 
@@ -498,7 +503,7 @@
      reference="Unused?" />
     <color
      name="IconDisabledColor"
-     reference="White_25" />
+	 reference="White_25" />
     <color
      name="IconEnabledColor"
      reference="White" />
@@ -585,7 +590,7 @@
      reference="DkGray" />
     <color
      name="MenuItemDisabledColor"
-     reference="LtGray_50" />
+	 reference="LtGray_50" />
     <color
      name="MenuItemEnabledColor"
      reference="AlchemyText" />
@@ -606,7 +611,7 @@
      value="0.263 0.325 0.345 1" />
     <color
      name="MenuPopupBgColor"
-      reference="DkGray" />
+	  reference="DkGray" />
     <color
      name="ModelUploaderLabels"
      value="1 0.6 0 1" />	  
@@ -836,7 +841,7 @@
      reference="MouseGray" /> <!-- example: LSL Editor -->
     <color
      name="TextBgReadOnlyColor"
-     reference="AlchemyBlack1" /> <!-- example: LSL Editor -->
+	 reference="AlchemyBlack1" />
     <color
      name="TextBgWriteableColor"
      reference="MouseGray" /> <!-- example: LSL Editor -->
@@ -945,4 +950,19 @@
   <color
     name="blue"
     value="0 0 1 1"/>
+
+  <!--Resize bar colors -->
+
+  <color
+    name="ResizebarBorderLight"
+    value="0.231 0.231 0.231 1"/>
+
+  <color
+    name="ResizebarBorderDark"
+    value="0.133 0.133 0.133 1"/>
+
+  <color
+    name="ResizebarBody"
+    value="0.208 0.208 0.208 1"/>
+    
 </colors>

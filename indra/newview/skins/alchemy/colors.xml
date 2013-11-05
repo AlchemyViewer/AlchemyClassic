@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
-
-    <!-- Alchemy Colors -->
+	<!-- Alchemy -->
     <color
      name="ChatHeaderDisplayNameColor"
      reference="White" />
@@ -14,15 +13,15 @@
     <color
      name="ScriptFunctionColor"
      value="0.4 0.8509803921568627 0.9372549019607843 1" />
-     <color
+    <color
+     name="ScriptTextReadOnlyColor"
+     reference="AlchemyText" />
+    <color
      name="ScriptBgWriteableColor"
      value="0.0784 0.0784 0.0784 1" />
     <color
      name="ScriptBgFocusColor"
      value="0.0784 0.0784 0.0784 1" />
-     <color
-     name="ScriptTextReadOnlyColor"
-     reference="AlchemyText" />
      <color
      name="AlchemyBackground"
      value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
@@ -194,8 +193,8 @@
   Leave this here until all Unused? are removed below, otherwise
   the viewer generates many warnings on startup. -->
   <color
-     name="Unused?"
-     value=".831 1 0 1" />
+	 name="Unused?"
+	 value=".831 1 0 1" />
 
   <!-- UI Definitions -->
 
@@ -504,7 +503,7 @@
      reference="Unused?" />
     <color
      name="IconDisabledColor"
-     reference="White_25" />
+	 reference="White_25" />
     <color
      name="IconEnabledColor"
      reference="White" />
@@ -591,7 +590,7 @@
      reference="DkGray" />
     <color
      name="MenuItemDisabledColor"
-     reference="LtGray_50" />
+	 reference="LtGray_50" />
     <color
      name="MenuItemEnabledColor"
      reference="AlchemyText" />
@@ -612,7 +611,7 @@
      value="0.263 0.325 0.345 1" />
     <color
      name="MenuPopupBgColor"
-      reference="DkGray" />
+	  reference="DkGray" />
     <color
      name="ModelUploaderLabels"
      value="1 0.6 0 1" />	  
@@ -842,7 +841,7 @@
      reference="MouseGray" /> <!-- example: LSL Editor -->
     <color
      name="TextBgReadOnlyColor"
-     reference="AlchemyBlack1" /> <!-- example: LSL Editor -->
+	 reference="AlchemyBlack1" />
     <color
      name="TextBgWriteableColor"
      reference="MouseGray" /> <!-- example: LSL Editor -->
@@ -951,4 +950,19 @@
   <color
     name="blue"
     value="0 0 1 1"/>
+
+  <!--Resize bar colors -->
+
+  <color
+    name="ResizebarBorderLight"
+    value="0.231 0.231 0.231 1"/>
+
+  <color
+    name="ResizebarBorderDark"
+    value="0.133 0.133 0.133 1"/>
+
+  <color
+    name="ResizebarBody"
+    value="0.208 0.208 0.208 1"/>
+    
 </colors>

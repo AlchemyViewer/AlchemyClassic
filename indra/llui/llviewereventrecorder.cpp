@@ -33,13 +33,14 @@ LLViewerEventRecorder::LLViewerEventRecorder() {
   clear(UNDEFINED);
 
   // Remove any previous event log file
-  std::string old_log_ui_events_to_llsd_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "SecondLife_Events_log.old");
+  std::string old_log_ui_events_to_llsd_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "Alchemy_Events_log.old");
   LLFile::remove(old_log_ui_events_to_llsd_file);
   
 
-  mLogFilename = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "SecondLife_Events_log.llsd");
+  mLogFilename = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "Alchemy_Events_log.llsd");
   LLFile::rename(mLogFilename, old_log_ui_events_to_llsd_file);
 
+  setEventLoggingOff();
 }
 
 
@@ -52,12 +53,12 @@ void LLViewerEventRecorder::setEventLoggingOn() {
   if (! mLog.is_open()) {
     mLog.open(mLogFilename, llofstream::out);
   }
-  logEvents=true; 
+  mLogEvents=true; // <alchemy/>
   lldebugs << "LLViewerEventRecorder::setEventLoggingOn event logging turned on" << llendl;
 }
 
 void LLViewerEventRecorder::setEventLoggingOff() {
-  logEvents=false;
+  mLogEvents=false; // <alchemy/>
   mLog.flush();
   mLog.close();
   lldebugs << "LLViewerEventRecorder::setEventLoggingOff event logging turned off" << llendl;
@@ -88,16 +89,21 @@ void LLViewerEventRecorder::clear(S32 r) {
 }
 
 void LLViewerEventRecorder::setMouseLocalCoords(S32 x, S32 y) {
+  if (!mLogEvents) return; // <alchemy/>
+
   local_x=x;
   local_y=y;
 }
 
 void LLViewerEventRecorder::setMouseGlobalCoords(S32 x, S32 y) {
+  if (!mLogEvents) return; // <alchemy/>
+	
   global_x=x;
   global_y=y;
 }
 
 void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 global_x, S32 global_y, std::string mName) {
+  if (!mLogEvents) return; // <alchemy/>
 
   LLView * target_view = LLUI::resolvePath(LLUI::getRootView(), xui);
   if (! target_view) {
@@ -125,6 +131,7 @@ void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 g
 }
 
 void LLViewerEventRecorder::logVisibilityChange(std::string xui, std::string name, BOOL visibility, std::string event_subtype) {
+  if (!mLogEvents) return; // <alchemy/>
 
   LLSD  event=LLSD::emptyMap();
 
@@ -152,11 +159,13 @@ void LLViewerEventRecorder::logVisibilityChange(std::string xui, std::string nam
   recordEvent(event);
 }
 
-
 std::string LLViewerEventRecorder::get_xui() {
   return xui;
 }
+
 void LLViewerEventRecorder::update_xui(std::string xui) {
+  if (!mLogEvents) return; // <alchemy/>
+
   if (xui!="" && this->xui=="" ) {
     lldebugs << "LLViewerEventRecorder::update_xui to " << xui << llendl;
     this->xui=xui;
@@ -166,6 +175,7 @@ void LLViewerEventRecorder::update_xui(std::string xui) {
 }
 
 void LLViewerEventRecorder::logKeyEvent(KEY key, MASK mask) {
+  if (!mLogEvents) return; // <alchemy/>
 
   // NOTE: Event recording only logs keydown events - the viewer itself hides keyup events at a fairly low level in the code and does not appear to care about them anywhere
 
@@ -230,7 +240,7 @@ void LLViewerEventRecorder::recordEvent(LLSD event) {
   
 }
 void LLViewerEventRecorder::logKeyUnicodeEvent(llwchar uni_char) {
-  if (! logEvents) return;
+  if (! mLogEvents) return; // <alchemy/>
 
   // Note: keyUp is not captured since the viewer seems to not care about keyUp events
 
@@ -267,7 +277,7 @@ void LLViewerEventRecorder::logKeyUnicodeEvent(llwchar uni_char) {
 
 void LLViewerEventRecorder::logMouseEvent(std::string button_state,std::string button_name)
 {
-  if (! logEvents) return; 
+  if (! mLogEvents) return; // <alchemy/>
 
   LLSD  event=LLSD::emptyMap();
 

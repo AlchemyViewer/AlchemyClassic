@@ -5,7 +5,6 @@
     <command name="chat"/>
     <command name="speak"/>
     <command name="people"/>
-    <command name="social"/>
     <command name="profile"/>
     <command name="view"/>
   </bottom_toolbar>

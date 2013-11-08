@@ -65,7 +65,7 @@ class LLViewerEventRecorder : public LLSingleton<LLViewerEventRecorder>
   std::string get_xui();
   void update_xui(std::string xui);
 
-  bool getLoggingStatus();
+  bool getLoggingStatus() { return mLogEvents; } // <alchemy/>
   void setEventLoggingOn();
   void setEventLoggingOff();
 
@@ -76,7 +76,7 @@ class LLViewerEventRecorder : public LLSingleton<LLViewerEventRecorder>
 
  protected:
   // On if we wish to log events at the moment - toggle via Develop/Recorder submenu
-  bool logEvents;
+  bool mLogEvents; // <alchemy/>
 
   std::string mLogFilename;
   llofstream  mLog; 

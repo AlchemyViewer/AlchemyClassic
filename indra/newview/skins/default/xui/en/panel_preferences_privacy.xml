@@ -272,10 +272,10 @@
         <check_box
          control_name="AlchemyPointAtDisable"
          height="16"
-         label="Don't send my selection target hints"
+         label="Don't send my selection beam"
          layout="topleft"
          name="privatepointat"
-		     tool_tip="Prevents your selection point from showing to others"
+		     tool_tip="Prevents your selection point (editing beam) from showing to others"
          top_pad="4"
          width="350" />
     </panel>

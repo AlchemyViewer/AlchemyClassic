@@ -92,6 +92,6 @@
              name="hide_empty_folders"
              width="275"
              control_name="DebugHideEmptySystemFolders"/>
-  <!-- </panel> -->
+   </panel>
   </tab_container>
 </panel>

@@ -279,6 +279,9 @@ class ViewerManifest(LLManifest):
         return ', '.join(names)
 
 class WindowsManifest(ViewerManifest):
+    def is_win64(self):
+         return self.args.get('arch') == "x86_64"
+ 
     def final_exe(self):
         app_suffix="Test"
         channel_type=self.channel_lowerword()
@@ -586,7 +589,10 @@ class WindowsManifest(ViewerManifest):
         if self.default_channel():
             if self.default_grid():
                 # release viewer
-                installer_file = "Alchemy_%(version_dashes)s_Setup.exe"
+                if self.is_win64():
+                    installer_file = "Alchemy_%(version_dashes)s_x64_Setup.exe"
+                else:
+                    installer_file = "Alchemy_%(version_dashes)s_x86_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
@@ -597,7 +603,10 @@ class WindowsManifest(ViewerManifest):
                 """
             else:
                 # alternate grid viewer
-                installer_file = "Alchemy_%(version_dashes)s_(%(grid_caps)s)_Setup.exe"
+                if self.is_win64():
+                    installer_file = "Alchemy_%(version_dashes)s_(%(grid_caps)s)_x64_Setup.exe"
+                else:
+                    installer_file = "Alchemy_%(version_dashes)s_(%(grid_caps)s)_x86_Setup.exe"
                 grid_vars_template = """
                 OutFile "%(installer_file)s"
                 !define INSTFLAGS "%(flags)s"
@@ -609,7 +618,10 @@ class WindowsManifest(ViewerManifest):
                 """
         else:
             # some other channel (grid name not used)
-            installer_file = "Alchemy_%(version_dashes)s_%(subchannel_underscores)s_Setup.exe"
+            if self.is_win64():
+                installer_file = "Alchemy_%(version_dashes)s_%(subchannel_underscores)s_x64_Setup.exe"
+            else:
+                installer_file = "Alchemy_%(version_dashes)s_%(subchannel_underscores)s_x86_Setup.exe"
             grid_vars_template = """
             OutFile "%(installer_file)s"
             !define INSTFLAGS "%(flags)s"
@@ -636,7 +648,9 @@ class WindowsManifest(ViewerManifest):
                 "%%SOURCE%%":self.get_src_prefix(),
                 "%%GRID_VARS%%":grid_vars_template % substitution_strings,
                 "%%INSTALL_FILES%%":self.nsi_file_commands(True),
-                "%%DELETE_FILES%%":self.nsi_file_commands(False)})
+                "%%DELETE_FILES%%":self.nsi_file_commands(False),
+                "%%WIN64_BIN_BUILD%%":"!define WIN64_BIN_BUILD 1" if self.is_win64() else "",
+                })
 
         # We use the Unicode version of NSIS, available from
         # http://www.scratchpaper.com/
@@ -662,6 +676,46 @@ class WindowsManifest(ViewerManifest):
             print "Skipping code signing,", sign_py, "does not exist"
         self.created_path(self.dst_path_of(installer_file))
         self.package_file = installer_file
+
+
+class Windows_i686Manifest(WindowsManifest):
+    def construct(self):
+        super(Windows_i686Manifest, self).construct()
+
+        # Get shared libs from the shared libs staging directory
+        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
+                       dst=""):
+
+            # Get fmodex dll, continue if missing
+            try:
+                if self.args['configuration'].lower() == 'debug':
+                    self.path("fmodexL.dll")
+                else:
+                    self.path("fmodex.dll")
+            except:
+                print "Skipping fmodex audio library(assuming other audio engine)"
+
+            self.end_prefix()
+
+
+class Windows_x86_64Manifest(WindowsManifest):
+    def construct(self):
+        super(Windows_x86_64Manifest, self).construct()
+
+        # Get shared libs from the shared libs staging directory
+        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
+                       dst=""):
+
+            # Get fmodex dll, continue if missing
+            try:
+                if self.args['configuration'].lower() == 'debug':
+                    self.path("fmodexL64.dll")
+                else:
+                    self.path("fmodex64.dll")
+            except:
+                print "Skipping fmodex audio library(assuming other audio engine)"
+
+            self.end_prefix()
 
 
 class DarwinManifest(ViewerManifest):

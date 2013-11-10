@@ -25,6 +25,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Include flags
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+!include "x64.nsh"
+!include "LogicLib.nsh"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compiler flags
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 SetOverwrite on				; overwrite files
@@ -39,6 +45,7 @@ RequestExecutionLevel admin	; on Vista we must be admin because we write to Prog
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 %%VERSION%%
+%%WIN64_BIN_BUILD%%
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; - language files - one for each language (or flavor thereof)
@@ -98,7 +105,11 @@ ShowInstDetails nevershow				; no details, no "show" button
 SetOverwrite on							; stomp files by default
 AutoCloseWindow true					; after all files install, close window
 
+!ifdef WIN64_BIN_BUILD
+InstallDir "$PROGRAMFILES64\${INSTNAME}"
+!else
 InstallDir "$PROGRAMFILES\${INSTNAME}"
+!endif
 InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" ""
 DirText $(DirectoryChooseTitle) $(DirectoryChooseSetup)
 Page directory dirPre
@@ -216,6 +227,9 @@ FunctionEnd
 ; If it has, allow user to bail out of install process.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function CheckIfAlreadyCurrent
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
     Push $0
     ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Version"
     StrCmp $0 ${VERSION_LONG} 0 continue_install
@@ -342,7 +356,9 @@ FunctionEnd
 ; Save user files to temp location
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function PreserveUserFiles
-
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
 Push $0
 Push $1
 Push $2
@@ -387,6 +403,9 @@ FunctionEnd
 ; Restore user files from temp location
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function RestoreUserFiles
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
 
 Push $0
 Push $1
@@ -430,6 +449,9 @@ FunctionEnd
 ; Remove temp dirs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function RemoveTempUserFiles
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
 
 Push $0
 Push $1
@@ -560,6 +582,9 @@ FunctionEnd
 ; Delete files in Documents and Settings\All Users\Alchemy
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function un.DocumentsAndSettingsFolder
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
 
 ; Delete files in Documents and Settings\<user>\Alchemy
 Push $0
@@ -722,6 +747,9 @@ ShowUninstDetails show
 ;;; Uninstall section
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section Uninstall
+!ifdef WIN64_BIN_BUILD
+SetRegView 64
+!endif
 
 ; Start with some default values.
 StrCpy $INSTFLAGS ""
@@ -782,7 +810,9 @@ SectionEnd 				; end of uninstall section
 ;   ; at this point $R0 is "NT 4.0" or whatnot
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function GetWindowsVersion
- 
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
    Push $R0
    Push $R1
  
@@ -859,6 +889,13 @@ FunctionEnd
 ;;  entry to the language ID selector below
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function .onInit
+!ifdef WIN64_BIN_BUILD
+    ${IfNot} ${RunningX64}
+        MessageBox MB_OK|MB_ICONSTOP "This version requires a 64 bit operating system."
+        Quit
+    ${EndIf}
+    SetRegView 64
+!endif
     Push $0
     ${GetParameters} $COMMANDLINE              ; get our command line
 
@@ -906,6 +943,9 @@ FunctionEnd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function un.onInit
+!ifdef WIN64_BIN_BUILD
+    SetRegView 64
+!endif
 	; read language from registry and set for uninstaller
     ; Key will be removed on successful uninstall
 	ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" "InstallerLanguage"
@@ -919,7 +959,9 @@ FunctionEnd
 ;;; MAIN SECTION
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Section ""						; (default section)
-
+!ifdef WIN64_BIN_BUILD
+SetRegView 64
+!endif
 SetShellVarContext all			; install for all users (if you change this, change it in the uninstall as well)
 
 ; Start with some default values.
@@ -1003,7 +1045,16 @@ WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Vers
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Flags" "$INSTFLAGS"
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Shortcut" "$INSTSHORTCUT"
 WriteRegStr HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\$INSTPROG" "Exe" "$INSTEXE"
+!ifdef WIN64_BIN_BUILD
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayName" "$INSTPROG x64 (remove only)"
+!else
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayName" "$INSTPROG (remove only)"
+!endif
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "Publisher" "Alchemy Viewer Project"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "URLInfoAbout" "http://www.alchemyviewer.org"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "URLUpdateInfo" "http://www.alchemyviewer.org/p/downloads.html"
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayIcon" '"$INSTDIR\$INSTEXE"'
+WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayVersion" "${VERSION_LONG}"
 WriteRegStr HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "UninstallString" '"$INSTDIR\uninst.exe"'
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

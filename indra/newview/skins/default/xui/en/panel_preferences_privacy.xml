@@ -282,10 +282,10 @@
         <check_box
          control_name="AlchemyPointAtDisable"
          height="16"
-         label="Don't send my selection target hints (and beam)"
+         label="Disable editing particles and beam"
          layout="topleft"
          name="privatepointat"
-		     tool_tip="Prevents your &quot;LookAt&quot; and beam from showing to others when editing prims"
+		 tool_tip="Prevents swirly particles from appearing when you edit things, along with the obnoxious beam"
          top_pad="4"
          width="350" />
     </panel>

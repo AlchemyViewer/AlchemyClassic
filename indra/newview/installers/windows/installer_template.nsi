@@ -110,7 +110,7 @@ InstallDir "$PROGRAMFILES64\${INSTNAME}"
 !else
 InstallDir "$PROGRAMFILES\${INSTNAME}"
 !endif
-InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" ""
+;InstallDirRegKey HKEY_LOCAL_MACHINE "SOFTWARE\Alchemy Viewer Project\${INSTNAME}" ""
 DirText $(DirectoryChooseTitle) $(DirectoryChooseSetup)
 Page directory dirPre
 Page instfiles

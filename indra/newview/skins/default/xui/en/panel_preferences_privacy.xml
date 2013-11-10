@@ -57,7 +57,7 @@
       left_pad="10"
       mouse_opaque="false"
       name="cache_size_label_l"
-      top_delta="3"
+      top_delta="4"
       text_color="LtGray_50"
       width="300">
     (Locations, images, web, search history)
@@ -80,7 +80,7 @@
       layout="topleft"
       left="30"
       name="online_visibility"
-      top_pad="10"
+      top_pad="5"
       width="350" />
     
     <check_box
@@ -91,7 +91,7 @@
      layout="topleft"
      left="30"
      name="auto_disengage_mic_check"
-     top_pad="10"
+     top_pad="5"
      width="350" />
     <check_box
      control_name="AutoAcceptNewInventory"
@@ -100,7 +100,17 @@
      layout="topleft"
      left="30"
      name="auto_accept_new_inventory"
-     top_pad="10"
+     top_pad="5"
+     width="350" />
+    <check_box
+     enabled_control="AutoAcceptNewInventory"
+     control_name="AlchemyAutoAcceptAllInventory"
+     height="16"
+     label="Auto-accept all types of inventory"
+     layout="topleft"
+     left="30"
+     name="auto_accept_new_inventory"
+     top_pad="5"
      width="350" />
     <check_box
      control_name="ShowFavoritesOnLogin"
@@ -110,7 +120,7 @@
      label="Show my Favorite Landmarks at Login (via &apos;Start At&apos; drop-down menu)"
      left="30"
      name="favorites_on_login_check"
-     top_pad="10"
+     top_pad="5"
      width="350" />
 
     <button
@@ -275,7 +285,7 @@
          label="Don't send my selection target hints (and beam)"
          layout="topleft"
          name="privatepointat"
-		     tool_tip="Prevents your selection point (editing beam) from showing to others"
+		     tool_tip="Prevents your &quot;LookAt&quot; and beam from showing to others when editing prims"
          top_pad="4"
          width="350" />
     </panel>

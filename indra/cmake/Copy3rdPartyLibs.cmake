@@ -71,7 +71,7 @@ if(WINDOWS)
       else(WORD_SIZE STREQUAL 64)
         set(debug_files ${debug_files} fmodexL.dll)
         set(release_files ${release_files} fmodex.dll)
-      endif(WORD_SIZE STREQUAL 32)
+      endif(WORD_SIZE STREQUAL 64)
     endif (FMODEX)
 
 #*******************************

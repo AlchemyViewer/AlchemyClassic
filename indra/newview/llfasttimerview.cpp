@@ -1602,7 +1602,7 @@ void LLFastTimerView::doAnalysis(std::string baseline, std::string target, std::
 		return ;
 	}
 }
-void	LLFastTimerView::onClickCloseBtn()
+void	LLFastTimerView::onClickCloseBtn(bool)
 {
 	setVisible(false);
 }

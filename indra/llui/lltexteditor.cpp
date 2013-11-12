@@ -700,6 +700,14 @@ void LLTextEditor::selectAll()
 	updatePrimary();
 }
 
+void LLTextEditor::selectByCursorPosition(S32 prev_cursor_pos, S32 next_cursor_pos)
+{
+	setCursorPos(prev_cursor_pos);
+	startSelection();
+	setCursorPos(next_cursor_pos);
+	endSelection();
+}
+
 BOOL LLTextEditor::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	BOOL	handled = FALSE;
@@ -747,7 +755,6 @@ BOOL LLTextEditor::handleMouseDown(S32 x, S32 y, MASK mask)
 				setCursorAtLocalPos( x, y, true );
 				startSelection();
 			}
-			gFocusMgr.setMouseCapture( this );
 		}
 
 		handled = TRUE;
@@ -756,6 +763,10 @@ BOOL LLTextEditor::handleMouseDown(S32 x, S32 y, MASK mask)
 	// Delay cursor flashing
 	resetCursorBlink();
 
+	if (handled && !gFocusMgr.getMouseCapture())
+	{
+		gFocusMgr.setMouseCapture( this );
+	}
 	return handled;
 }
 

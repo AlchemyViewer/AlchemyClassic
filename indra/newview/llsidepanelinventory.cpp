@@ -33,7 +33,6 @@
 #include "llavataractions.h"
 #include "llbutton.h"
 #include "lldate.h"
-#include "llfiltereditor.h"
 #include "llfirstuse.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llfoldertype.h"
@@ -415,13 +414,7 @@ void LLSidepanelInventory::onOpen(const LLSD& key)
 #endif
 
 	if(key.size() == 0)
-	{
-		// <alchemy>
-		if (LLFilterEditor* inv_filter = mPanelMainInventory->getFilterEditor()) 
-			inv_filter->setFocus(TRUE);
-		// </alchemy>
 		return;
-	}
 
 	mItemPanel->reset();
 

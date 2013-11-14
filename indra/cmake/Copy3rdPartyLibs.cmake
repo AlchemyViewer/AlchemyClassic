@@ -198,7 +198,7 @@ elseif (MSVC11) # VisualStudio 2012
       set (CRT_ARCHITECTURE x86)
     elseif (WORD_SIZE STREQUAL 64)
       set (CRT_ARCHITECTURE x64)
-    endif (WORD_SIZE EQUAL 32)
+    endif (WORD_SIZE STREQUAL 32)
     FIND_PATH(debug_msvc11_redist_path msvcr110d.dll
         PATHS
         ${MSVC_DEBUG_REDIST_PATH}

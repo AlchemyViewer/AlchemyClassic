@@ -267,18 +267,6 @@
          top_pad="4"
          width="350" />
 
-         <check_box
-         control_name="AlchemyLookAtPrivateLocal"
-         enabled_control="AlchemyLookAtPrivate"
-         height="16"
-         label="Don't set any camera target hint at all"
-         layout="topleft"
-         left="15"
-         name="privatelookat"
-         tool_tip="Disables setting any camera target for yourself(Disables movement of avatar head and eyes)"
-         top_pad="4"
-         width="350" />
-
         <check_box
          control_name="AlchemyPointAtDisable"
          height="16"

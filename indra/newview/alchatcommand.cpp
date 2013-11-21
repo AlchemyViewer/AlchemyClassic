@@ -80,7 +80,7 @@ bool ALChatCommand::parseCommand(std::string data)
 
 		if(cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
-			S32 dist;
+			F32 dist;
 			if (input >> dist)
 			{
 				gSavedSettings.setF32("RenderFarClip", dist);
@@ -145,8 +145,8 @@ bool ALChatCommand::parseCommand(std::string data)
 			volume_params.setType(LL_PCODE_PROFILE_SQUARE, LL_PCODE_PATH_LINE);
 			volume_params.setBeginAndEndS(0.f, 1.f);
 			volume_params.setBeginAndEndT(0.f, 1.f);
-			volume_params.setRatio(1, 1);
-			volume_params.setShear(0, 0);
+			volume_params.setRatio(1.f, 1.f);
+			volume_params.setShear(0.f, 0.f);
 			LLVolumeMessage::packVolumeParams(&volume_params, msg);
 
 			msg->addVector3Fast(_PREHASH_Scale, LLVector3(size, size, 0.25f));
@@ -193,14 +193,13 @@ bool ALChatCommand::parseCommand(std::string data)
 			const std::string::size_type length = cmd.length() + 1;
 			if (data.length() > length)
 			{
-				const auto& pos = gAgent.getPositionGlobal();
+				const LLVector3d& pos = gAgent.getPositionGlobal();
 				LLSD params;
-					params.append(data.substr(length)),
-					params.append(fmodf(static_cast<F32>(pos.mdV[VX]), REGION_WIDTH_METERS)),
-					params.append(fmodf(static_cast<F32>(pos.mdV[VY]), REGION_WIDTH_METERS)),
-					params.append(fmodf(static_cast<F32>(pos.mdV[VZ]), REGION_HEIGHT_METERS));
-				LLCommandDispatcher::dispatch("teleport", params, LLSD(), nullptr, "clicked", true);
-
+				params.append(data.substr(length));
+				params.append(fmodf(static_cast<F32>(pos.mdV[VX]), REGION_WIDTH_METERS));
+				params.append(fmodf(static_cast<F32>(pos.mdV[VY]), REGION_WIDTH_METERS));
+				params.append(fmodf(static_cast<F32>(pos.mdV[VZ]), REGION_HEIGHT_METERS));
+				LLCommandDispatcher::dispatch("teleport", params, LLSD(), NULL, "clicked", true);
 				return true;
 			}
 		}

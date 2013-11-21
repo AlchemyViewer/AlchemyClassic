@@ -34,6 +34,7 @@
 // viewer includes
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llcommandhandler.h"
 #include "llfloaterreg.h"
 #include "llfloaterimnearbychat.h"
 #include "lltrans.h"
@@ -58,7 +59,7 @@ void add_system_chat(const std::string &msg)
 
 bool ALChatCommand::parseCommand(std::string data)
 {
-	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "AlchemyChatCommandEnable");
+	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "AlchemyChatCommandEnable", true);
 	if(enableChatCmd)
 	{
 		utf8str_tolower(data);
@@ -75,6 +76,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sHomeCommand(gSavedSettings, "AlchemyChatCommandHome", "/home");
 		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
 		static LLCachedControl<std::string> sCalcCommand(gSavedSettings, "AlchemyChatCommandCalc", "/calc");
+		static LLCachedControl<std::string> sMaptoCommand(gSavedSettings, "AlchemyChatCommandMapto", "/mapto");
 
 		if(cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
@@ -123,9 +125,9 @@ bool ALChatCommand::parseCommand(std::string data)
 			F32 size;
 			static LLCachedControl<F32> platSize(gSavedSettings, "AlchemyChatCommandRezPlatSize");
 			if (!(input >> size)) 
-				size = (F32)platSize;
+				size = static_cast<F32>(platSize);
 
-			const LLVector3 agent_pos = gAgent.getPositionAgent();
+			const LLVector3& agent_pos = gAgent.getPositionAgent();
 			const LLVector3 rez_pos(agent_pos.mV[VX], agent_pos.mV[VY], agent_pos.mV[VZ] - ((gAgentAvatarp->getScale().mV[VZ] / 2.f) + 0.25f + (gAgent.getVelocity().magVec() * 0.333f)));
 
 			LLMessageSystem* msg = gMessageSystem;
@@ -137,7 +139,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			msg->nextBlockFast(_PREHASH_ObjectData);
 			msg->addU8Fast(_PREHASH_PCode, LL_PCODE_VOLUME);
 			msg->addU8Fast(_PREHASH_Material, LL_MCODE_STONE);
-			msg->addU32Fast(_PREHASH_AddFlags, agent_pos.mV[2] > 4096.f ? FLAGS_CREATE_SELECTED : 0U);
+			msg->addU32Fast(_PREHASH_AddFlags, agent_pos.mV[VZ] > 4096.f ? FLAGS_CREATE_SELECTED : 0U);
 
 			LLVolumeParams volume_params;
 			volume_params.setType(LL_PCODE_PROFILE_SQUARE, LL_PCODE_PATH_LINE);
@@ -183,6 +185,22 @@ bool ALChatCommand::parseCommand(std::string data)
 					out = (boost::format("%1%: %2% = %3%") % LLTrans::getString("ALChatCalculation") % expr % result).str();
 				}
 				add_system_chat(out);
+				return true;
+			}
+		}
+		else if (cmd == utf8str_tolower(sMaptoCommand)) // mapto
+		{
+			const std::string::size_type length = cmd.length() + 1;
+			if (data.length() > length)
+			{
+				const auto& pos = gAgent.getPositionGlobal();
+				LLSD params;
+					params.append(data.substr(length)),
+					params.append(fmodf(static_cast<F32>(pos.mdV[VX]), REGION_WIDTH_METERS)),
+					params.append(fmodf(static_cast<F32>(pos.mdV[VY]), REGION_WIDTH_METERS)),
+					params.append(fmodf(static_cast<F32>(pos.mdV[VZ]), REGION_HEIGHT_METERS));
+				LLCommandDispatcher::dispatch("teleport", params, LLSD(), nullptr, "clicked", true);
+
 				return true;
 			}
 		}

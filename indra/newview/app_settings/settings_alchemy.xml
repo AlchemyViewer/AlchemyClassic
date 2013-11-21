@@ -79,6 +79,17 @@
       <key>Value</key>
       <string>/home</string>
     </map>
+    <key>AlchemyChatCommandMapto</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to teleport to another region</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/mapto</string>
+    </map>
     <key>AlchemyChatCommandPos</key>
     <map>
       <key>Comment</key>

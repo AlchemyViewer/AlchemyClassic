@@ -56,10 +56,10 @@
      layout="topleft"
      left="7"
      name="inventory filter tabs"
-     tab_height="20"
      tab_group="1"
      tab_position="top"
      tab_min_width="100"
+     tab_height="23"
      top_pad="10"
      width="312">
     <inventory_panel

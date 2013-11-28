@@ -1,27 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
 	<!-- Alchemy -->
-    <color
-     name="ChatHeaderDisplayNameColor"
-     reference="White" />
-    <color
-     name="ChatHeaderTimestampColor"
-     reference="White" />
-    <color
-     name="ChatHeaderUserNameColor"
-     reference="EmphasisColor" />
-    <color
-     name="ScriptFunctionColor"
-     value="0.5 0 0.15 0" />
-    <color
-     name="ScriptTextReadOnlyColor"
-     reference="DkGray" />
-    <color
-     name="ScriptBgWriteableColor"
-     reference="LtGray" />
-    <color
-     name="ScriptBgFocusColor"
-     reference="White" />
+  <color
+   name="ButtonGlowColor"
+   reference="White" />
+  <color
+   name="ButtonHighlightColor"
+   reference="White" />
+  <color
+   name="ChatHeaderDisplayNameColor"
+   reference="White" />
+  <color
+   name="ChatHeaderTimestampColor"
+   reference="White" />
+  <color
+   name="ChatHeaderUserNameColor"
+   reference="EmphasisColor" />
+  <color
+   name="ScriptFunctionColor"
+   value="0.5 0 0.15 0" />
+  <color
+   name="ScriptTextReadOnlyColor"
+   reference="DkGray" />
+  <color
+   name="ScriptBgWriteableColor"
+   reference="LtGray" />
+  <color
+   name="ScriptBgFocusColor"
+   reference="White" />
 	<!-- Named Colors -->
 	<color
 	 name="EmphasisColor"

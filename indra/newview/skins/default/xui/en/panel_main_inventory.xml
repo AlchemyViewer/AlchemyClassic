@@ -14,7 +14,7 @@
   </panel.string>
   <panel.string
    name="ItemcountFetching">
-    Fetching [ITEM_COUNT] Items... [FILTER]
+    Fetching [ITEM_COUNT] Items so far... [FILTER]
   </panel.string>
   <panel.string
    name="ItemcountCompleted">
@@ -24,35 +24,21 @@
    name="ItemcountUnknown">
 
   </panel.string>
-  <text
-		     type="string"
-		     length="1"
-		     follows="left|top"
-		     height="13"
-		     layout="topleft"
-    		 left="12"
-		     name="ItemcountText"
-		     font="SansSerifMedium"
-		     text_color="EmphasisColor"
-		     top_pad="0"
-		     width="300">
-    Items:
-  </text>
   <filter_editor
    text_pad_left="10"
    follows="left|top|right"
    height="23"
    label="Filter Inventory"
    layout="topleft"
-   left="10"
+   left="12"
    max_length_chars="300"
    name="inventory search editor"
-   top="18"
-   width="303" />
+   top="0"
+   width="305" />
   <tab_container
      follows="all"
      halign="center"
-     height="339"
+     height="360"
      layout="topleft"
      left="7"
      name="inventory filter tabs"
@@ -60,7 +46,7 @@
      tab_position="top"
      tab_min_width="100"
      tab_height="23"
-     top_pad="10"
+     top_pad="5"
      width="312">
     <inventory_panel
      bg_opaque_color="DkGray2"
@@ -103,9 +89,9 @@
    layout="topleft"
    orientation="horizontal"
    top_pad="0"
-   left="10"
+   left="9"
    name="bottom_panel"
-   width="307">
+   width="309">
       <layout_panel
        auto_resize="false"
        height="25"
@@ -152,6 +138,20 @@
        layout="topleft"
        name="dummy_panel"
        width="212">
+         <text
+           type="string"
+           length="1"
+           follows="left|top"
+           height="13"
+           layout="topleft"
+           left="8"
+           name="ItemcountText"
+           font="SansSerifMedium"
+           text_color="EmphasisColor"
+           top_pad="5"
+           width="300">
+          Items:
+          </text>
           <icon
            follows="bottom|left|right"
            height="25"

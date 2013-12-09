@@ -77,7 +77,9 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.InviteToGroup",	boost::bind(&LLAvatarActions::inviteToGroup,			id));
 		registrar.add("Avatar.TeleportRequest",	boost::bind(&PeopleContextMenu::requestTeleport,		this));
 		registrar.add("Avatar.Calllog",			boost::bind(&LLAvatarActions::viewChatHistory,			id));
-		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyUUID,					id));
+		registrar.add("Avatar.CopyName",		boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_NAME));
+		registrar.add("Avatar.CopySLURL",		boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_SLURL));
+		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_UUID));
 
 		enable_registrar.add("Avatar.EnableItem", boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 		enable_registrar.add("Avatar.CheckItem",  boost::bind(&PeopleContextMenu::checkContextMenuItem,	this, _2));
@@ -97,7 +99,9 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.RemoveFriend",	boost::bind(&LLAvatarActions::removeFriendsDialog,		mUUIDs));
 		// registrar.add("Avatar.Share",		boost::bind(&LLAvatarActions::startIM,					mUUIDs)); // *TODO: unimplemented
 		// registrar.add("Avatar.Pay",			boost::bind(&LLAvatarActions::pay,						mUUIDs)); // *TODO: unimplemented
-		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyMultipleUUID,					mUUIDs));
+		registrar.add("Avatar.CopyName",		boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_NAME));
+		registrar.add("Avatar.CopySLURL",		boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_SLURL));
+		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_UUID));
 		
 		enable_registrar.add("Avatar.EnableItem",	boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 
@@ -123,6 +127,10 @@ void PeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("share"));
 		items.push_back(std::string("pay"));
 		items.push_back(std::string("offer_teleport"));
+		items.push_back(std::string("separator_utilities"));
+		items.push_back(std::string("tools_menu"));
+		items.push_back(std::string("copy_name"));
+		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
 	}
 	else 
@@ -143,6 +151,9 @@ void PeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("pay"));
 		items.push_back(std::string("block_unblock"));
 		items.push_back(std::string("separator_utilities"));
+		items.push_back(std::string("tools_menu"));
+		items.push_back(std::string("copy_name"));
+		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
 	}
 
@@ -293,6 +304,10 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("share"));
 		items.push_back(std::string("pay"));
 		items.push_back(std::string("offer_teleport"));
+		items.push_back(std::string("separator_utilities"));
+		items.push_back(std::string("tools_menu"));
+		items.push_back(std::string("copy_name"));
+		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
 	}
 	else 
@@ -314,6 +329,9 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("pay"));
 		items.push_back(std::string("block_unblock"));
 		items.push_back(std::string("separator_utilities"));
+		items.push_back(std::string("tools_menu"));
+		items.push_back(std::string("copy_name"));
+		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
 	}
 

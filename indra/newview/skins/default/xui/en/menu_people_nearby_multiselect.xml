@@ -66,6 +66,24 @@
       function="Avatar.EnableItem"
       parameter="can_offer_teleport"/>
     </menu_item_call>
+    <menu_item_separator name="separator_utilities" />
+    <menu
+     label="Tools"
+     name="tools_menu">
+    <menu_item_call
+     label="Copy Names"
+     layout="topleft"
+     name="copy_name">
+        <menu_item_call.on_click
+         function="Avatar.CopyName" />
+    </menu_item_call>
+    <menu_item_call
+     label="Copy SLURLs"
+     layout="topleft"
+     name="copy_slurl">
+        <menu_item_call.on_click
+         function="Avatar.CopySLURL" />
+    </menu_item_call>
     <menu_item_call
      label="Copy Keys"
      layout="topleft"
@@ -73,4 +91,5 @@
         <menu_item_call.on_click
          function="Avatar.CopyKey" />
     </menu_item_call>
+    </menu>
 </context_menu>

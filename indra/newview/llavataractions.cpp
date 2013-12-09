@@ -1203,33 +1203,42 @@ bool LLAvatarActions::canBlock(const LLUUID& id)
 // ------------------------------------------------------------------------------------------------
 
 // static
-void LLAvatarActions::copyUUID(const LLUUID& id)
-{
-	if (id.notNull())
-	{
-		LLClipboard::instance().copyToClipboard(utf8str_to_wstring(id.asString()), 0, id.asString().length());
-	}
-}
- 
-// static
-void LLAvatarActions::copyMultipleUUID(const uuid_vec_t& ids)
+void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 {
 	if (!ids.empty())
 	{
-		std::string ids_string;
+		std::string data_string;
+		static LLCachedControl<std::string> seperator(gSavedSettings, "AlchemyCopySeperator", ", ");
 		for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
 		{
 			const LLUUID& id = *it;
 			if (id.isNull())
 				continue;
 
-			if (!ids_string.empty()) 
-				ids_string.append(", ");
+			if (!data_string.empty())
+				data_string.append(seperator);
 
-			ids_string.append(id.asString());
+			switch (type)
+			{
+			case E_DATA_NAME:
+				{
+					LLAvatarName av_name;
+					LLAvatarNameCache::get(id, &av_name);
+					data_string.append(av_name.getUserName());
+					break;
+				}
+			case E_DATA_SLURL:
+				data_string.append(LLSLURL("agent", id, "about").getSLURLString());
+				break;
+			case E_DATA_UUID:
+				data_string.append(id.asString());
+				break;
+			default:
+				break;
+			}
 		}
 
-		if (!ids_string.empty())
-			LLClipboard::instance().copyToClipboard(utf8str_to_wstring(ids_string), 0, ids_string.length());
+		if (!data_string.empty())
+			LLClipboard::instance().copyToClipboard(utf8str_to_wstring(data_string), 0, data_string.length());
 	}
 }

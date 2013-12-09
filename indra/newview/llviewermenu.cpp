@@ -5932,16 +5932,32 @@ class LLAvatarAddContact : public view_listener_t
 	}
 };
 
-class LLAvatarCopyKey : public view_listener_t
+class LLAvatarCopyData : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
 	{
-		LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
-		if (avatarp)
-		{
-			LLAvatarActions::copyUUID(avatarp->getID());
-		}
-		return true;
+        LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+        if (avatarp)
+        {
+			uuid_vec_t id(1, avatarp->getID());
+            const std::string& param = userdata.asString();
+            if (param == "copy_name")
+            {
+				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_NAME);
+                return true;
+            }
+            else if (param == "copy_slurl")
+            {
+				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_SLURL);
+                return true;
+            }
+            else if (param == "copy_key")
+            {
+				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_UUID);
+                return true;
+            }
+        }
+		return false;
 	}
 };
 
@@ -8844,7 +8860,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLAvatarReportAbuse(), "Avatar.ReportAbuse");
 	view_listener_t::addMenu(new LLAvatarToggleMyProfile(), "Avatar.ToggleMyProfile");
 	enable.add("Avatar.IsMyProfileOpen", boost::bind(&my_profile_visible));
-	view_listener_t::addMenu(new LLAvatarCopyKey(), "Avatar.CopyKey");
+	view_listener_t::addMenu(new LLAvatarCopyData(), "Avatar.CopyData");
 
 	commit.add("Avatar.OpenMarketplace", boost::bind(&LLWeb::loadURLExternal, gSavedSettings.getString("MarketplaceURL")));
 	

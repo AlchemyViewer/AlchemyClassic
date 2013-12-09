@@ -240,10 +240,15 @@ public:
 	static std::set<LLUUID> getInventorySelectedUUIDs();
 
 	/**
-	 * Copy the selected avatar's UUID to clipboard
+     * Copy the selected avatar's name, slurl, or UUID to clipboard
 	 */
-	static void copyUUID(const LLUUID& id);
-	static void copyMultipleUUID(const uuid_vec_t& id);
+	enum ECopyDataType{
+		E_DATA_NAME = 0,
+		E_DATA_SLURL,
+		E_DATA_UUID
+	};
+
+	static void copyData(const uuid_vec_t& ids, ECopyDataType type);
 
 private:
 	static bool callbackAddFriendWithMessage(const LLSD& notification, const LLSD& response);

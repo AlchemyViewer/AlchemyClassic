@@ -589,7 +589,8 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 				// If this alpha mesh has glow, then draw it a second time to add the destination-alpha (=glow).  Interleaving these state-changing calls could be expensive, but glow must be drawn Z-sorted with alpha.
 				if (current_shader && 
 					draw_glow_for_this_partition &&
-					params.mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_EMISSIVE))
+					params.mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_EMISSIVE) &&
+					(!params.mParticle || params.mHasGlow)) // <alchemy/> - Particle Opt
 				{
 					// install glow-accumulating blend mode
 					gGL.blendFunc(LLRender::BF_ZERO, LLRender::BF_ONE, // don't touch color

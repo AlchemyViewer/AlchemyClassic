@@ -651,7 +651,7 @@ class WindowsManifest(ViewerManifest):
 
 class Windows_i686_Manifest(WindowsManifest):
     def construct(self):
-        super(Windows_i686Manifest, self).construct()
+        super(Windows_i686_Manifest, self).construct()
 
         # Get shared libs from the shared libs staging directory
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
@@ -671,7 +671,7 @@ class Windows_i686_Manifest(WindowsManifest):
 
 class Windows_x86_64_Manifest(WindowsManifest):
     def construct(self):
-        super(Windows_x86_64Manifest, self).construct()
+        super(Windows_x86_64_Manifest, self).construct()
 
         # Get shared libs from the shared libs staging directory
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),

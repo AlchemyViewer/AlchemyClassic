@@ -35,7 +35,7 @@
                  min_dim="150"
                  width="330"
                  follows="bottom|left|right"
-                 height="300">
+                 height="290">
                  <panel
                       class="panel_main_inventory"
                       filename="panel_main_inventory.xml"
@@ -48,7 +48,7 @@
                       height="300"
                       width="330" />
              </layout_panel>
-			    <layout_panel
+             <layout_panel
                  width="330"
                  layout="topleft"
                  auto_resize="false"
@@ -56,10 +56,10 @@
                  follows="left|right|top"
                  name="inbox_layout_panel"
                  visible="false"
-                 min_dim="35"
-                 max_dim="235"
+                 min_dim="25"
+                 max_dim="225"
                  expanded_min_dim="90"
-                 height="235">
+                 height="225">
                  <panel
                       follows="all"
                       layout="topleft"
@@ -68,17 +68,17 @@
                       class="panel_marketplace_inbox"
                       top="0"
                       label=""
-                      height="235"
+                      height="225"
                       width="330">
                      <string name="InboxLabelWithArg">[NUM] Received items</string>
                      <string name="InboxLabelNoArg">No Received items</string>
                      <button
                         control_name="InventoryInboxToggleState"
                         label="Received items"
-						font="SansSerifMedium"
+                        font="SansSerifMedium"
                         name="inbox_btn"
-                        height="35"
-                        width="308"
+                        height="25"
+                        width="307"
                         image_unselected="MarketplaceBtn_Off"
                         image_selected="MarketplaceBtn_Selected"
                         halign="left"
@@ -95,7 +95,7 @@
                         follows="right|top"
                         layout="topleft"
                         height="13"
-                        top="10"
+                        top="5"
                         right="-20"
                         name="inbox_fresh_new_count"
                         font="SansSerifMedium"
@@ -108,9 +108,9 @@
                         name="inbox_inventory_placeholder_panel"
                         follows="all"
                         left="10"
-                        bottom="235"
-                        width="308"
-                        top="35"
+                        bottom="225"
+                        width="307"
+                        top="25"
                         bg_opaque_color="InventoryBackgroundColor"
                         background_visible="true"
                         background_opaque="true"
@@ -123,7 +123,7 @@
 							layout="topleft"
 							top="0"
 							left="0"
-							width="308"
+							width="307"
 							height="200"
 							wrap="true"
 							halign="center">

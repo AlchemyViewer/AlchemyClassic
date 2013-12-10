@@ -698,7 +698,7 @@ void LLVOPartGroup::getGeometry(S32 idx,
 	*colorsp++ = color;
 	*colorsp++ = color;
 
-	//if (pglow.mV[3] || part.mGlow.mV[3])
+	if (pglow.mV[3] > F_ALMOST_ZERO || part.mGlow.mV[3] > F_ALMOST_ZERO)
 	{ //only write glow if it is not zero
 		*emissivep++ = pglow;
 		*emissivep++ = pglow;

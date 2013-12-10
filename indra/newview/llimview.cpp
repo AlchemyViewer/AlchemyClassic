@@ -971,7 +971,7 @@ void LLIMModel::getMessagesSilently(const LLUUID& session_id, std::list<LLSD>& m
 	LLIMSession* session = findIMSession(session_id);
 	if (!session)
 	{
-		llwarns << "session " << session_id << " does not exist " << llendl;
+		llwarns << "session " << session_id << "does not exist " << llendl;
 		return;
 	}
 

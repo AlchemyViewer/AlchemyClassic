@@ -55,6 +55,10 @@ protected:
 		   void onClickGroup();
 		   void cbGroupID(LLUUID group_id);
 	static void onClickDeedToGroup(void*);
+	// <alchemy>
+	void onClickDescToPos();
+	void onClickPosToDesc();
+	// </alchemy>
 
 	static void onCommitPerm(LLUICtrl *ctrl, void *data, U8 field, U32 perm);
 
@@ -86,6 +90,11 @@ private:
 	LLUUID			mCreatorID;
 	LLUUID			mOwnerID;
 	LLUUID			mLastOwnerID;
+
+	// <alchemy>
+	LLButton*		mPosToDescBtn;
+	LLButton*		mDescToPosBtn;
+	// </alchemy>
 };
 
 

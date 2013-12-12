@@ -63,7 +63,7 @@
 #include "roles_constants.h"
 #include "llgroupactions.h"
 #include "lltrans.h"
-
+#include "llmanip.h" // <alchemy/>
 
 U8 string_value_to_click_action(std::string p_value);
 std::string click_action_to_string_value( U8 action);
@@ -129,7 +129,9 @@ std::string click_action_to_string_value( U8 action)
 
 // Default constructor
 LLPanelPermissions::LLPanelPermissions() :
-	LLPanel()
+	LLPanel(),
+	mPosToDescBtn(NULL),
+	mDescToPosBtn(NULL)
 {
 	setMouseOpaque(FALSE);
 }
@@ -141,7 +143,14 @@ BOOL LLPanelPermissions::postBuild()
 	childSetCommitCallback("Object Description",LLPanelPermissions::onCommitDesc,this);
 	getChild<LLLineEditor>("Object Description")->setPrevalidate(LLTextValidate::validateASCIIPrintableNoPipe);
 
-	
+	// <alchemy>
+	mPosToDescBtn = getChild<LLButton>("pos_to_desc");
+	mPosToDescBtn->setClickedCallback(boost::bind(&LLPanelPermissions::onClickPosToDesc, this));
+
+	mDescToPosBtn = getChild<LLButton>("desc_to_pos"); 
+	mDescToPosBtn->setClickedCallback(boost::bind(&LLPanelPermissions::onClickDescToPos, this));
+	// </alchemy>
+
 	getChild<LLUICtrl>("button set group")->setCommitCallback(boost::bind(&LLPanelPermissions::onClickGroup,this));
 
 	childSetCommitCallback("checkbox share with group",LLPanelPermissions::onCommitGroupShare,this);
@@ -205,6 +214,8 @@ void LLPanelPermissions::disableAll()
 	getChildView("Description:")->setEnabled(FALSE);
 	getChild<LLUICtrl>("Object Description")->setValue(LLStringUtil::null);
 	getChildView("Object Description")->setEnabled(FALSE);
+	mPosToDescBtn->setEnabled(FALSE); // <alchemy/>
+	mDescToPosBtn->setEnabled(FALSE); // <alchemy/>
 
 	getChildView("Permissions:")->setEnabled(FALSE);
 		
@@ -461,11 +472,15 @@ void LLPanelPermissions::refresh()
 	{
 		getChildView("Object Name")->setEnabled(TRUE);
 		getChildView("Object Description")->setEnabled(TRUE);
+		mPosToDescBtn->setEnabled(root_selected); // <alchemy/>
+		mDescToPosBtn->setEnabled(root_selected); // <alchemy/>
 	}
 	else
 	{
 		getChildView("Object Name")->setEnabled(FALSE);
 		getChildView("Object Description")->setEnabled(FALSE);
+		mPosToDescBtn->setEnabled(FALSE); // <alchemy/>
+		mDescToPosBtn->setEnabled(FALSE); // <alchemy/>
 	}
 
 	S32 total_sale_price = 0;
@@ -923,6 +938,44 @@ void LLPanelPermissions::onClickDeedToGroup(void* data)
 {
 	LLNotificationsUtil::add( "DeedObjectToGroup", LLSD(), LLSD(), callback_deed_to_group);
 }
+
+// <alchemy>
+void LLPanelPermissions::onClickDescToPos()
+{
+	if (LLSelectNode* nodep = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode())
+	{
+		if (LLViewerObject* objectp = nodep->getObject())
+		{
+			std::string desc = nodep->mDescription;
+			if (desc.empty()) return;
+
+			LLVector3 target(0.f);
+			S32 count = sscanf(desc.c_str(), "<%f, %f, %f>", target.mV + 0, target.mV + 1, target.mV + 2);
+			if (count != 3 || target.isNull()) return;
+
+			target.mV[VX] = llclamp(target.mV[VX], 0.f, 256.f);
+			target.mV[VY] = llclamp(target.mV[VY], 0.f, 256.f);
+			target.mV[VZ] = llclamp(target.mV[VZ], 0.f, 4096.f);
+
+			objectp->setPositionEdit(target);
+			LLManip::rebuild(objectp);
+			LLSelectMgr::getInstance()->sendMultipleUpdate(UPD_POSITION);
+			LLSelectMgr::getInstance()->updateSelectionCenter();
+		}
+	}
+}
+
+void LLPanelPermissions::onClickPosToDesc()
+{
+	if (LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getFirstRootObject())
+	{
+		const LLVector3& vec = objectp->getPosition();
+		std::string pos = llformat("<%.3f,%.3f,%.3f>", vec.mV[VX], vec.mV[VY], vec.mV[VZ]);
+		getChild<LLLineEditor>("Object Description")->setText(pos);
+		LLSelectMgr::getInstance()->selectionSetObjectDescription(pos);
+	}
+}
+// </alchemy>
 
 ///----------------------------------------------------------------------------
 /// Permissions checkboxes

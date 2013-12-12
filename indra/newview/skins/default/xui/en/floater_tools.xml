@@ -930,7 +930,7 @@
              name="Object Name"
              select_on_focus="true"
              top_delta="0"
-             width="170" />
+             width="185" />
             <text
              follows="left|top"
              height="10"
@@ -948,7 +948,25 @@
              name="Object Description"
              select_on_focus="true"
              top_delta="0"
-             width="170" />
+             width="147" />
+            <button
+             follows="left|top|right"
+             height="19"
+             left_pad="0"
+             label="+"
+             layout="topleft"
+             name="pos_to_desc"
+             tool_tip="Replaces the description with the objects current position."
+             width="19" />
+            <button
+             follows="left|top|right"
+             height="19"
+             left_pad="0"
+             label="="
+             layout="topleft"
+             name="desc_to_pos"
+             tool_tip="Sets the objects current position from the description."
+             width="19" />
             <text
              type="string"
              left="10"

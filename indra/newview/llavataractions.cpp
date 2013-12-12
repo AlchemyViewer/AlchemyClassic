@@ -1201,6 +1201,33 @@ bool LLAvatarActions::canBlock(const LLUUID& id)
 // ------------------------------------------------------------------------------------------------
 // <alchemy> Alchemy functions below this line
 // ------------------------------------------------------------------------------------------------
+// static
+void LLAvatarActions::copyData(const LLUUID& id, ECopyDataType type)
+{
+	if (id.notNull())
+	{
+		std::string tmp;
+		switch (type)
+		{
+		case E_DATA_NAME:
+		{
+			LLAvatarName av_name;
+			LLAvatarNameCache::get(id, &av_name);
+			tmp = av_name.getUserName();
+			break;
+		}
+		case E_DATA_SLURL:
+			tmp = LLSLURL("agent", id, "about").getSLURLString();
+			break;
+		case E_DATA_UUID:
+			tmp = id.asString();
+			break;
+		default:
+			break;
+		}
+		LLClipboard::instance().copyToClipboard(utf8str_to_wstring(tmp), 0, tmp.length());
+	}
+}
 
 // static
 void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)

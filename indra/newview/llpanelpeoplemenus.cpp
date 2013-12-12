@@ -77,9 +77,12 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.InviteToGroup",	boost::bind(&LLAvatarActions::inviteToGroup,			id));
 		registrar.add("Avatar.TeleportRequest",	boost::bind(&PeopleContextMenu::requestTeleport,		this));
 		registrar.add("Avatar.Calllog",			boost::bind(&LLAvatarActions::viewChatHistory,			id));
-		registrar.add("Avatar.CopyName",		boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_NAME));
-		registrar.add("Avatar.CopySLURL",		boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_SLURL));
-		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyData,					uuid_vec_t(1, id), LLAvatarActions::E_DATA_UUID));
+		registrar.add("Avatar.CopyName",		boost::bind(static_cast<void(*)(const LLUUID&, 
+			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_NAME));
+		registrar.add("Avatar.CopySLURL",		boost::bind(static_cast<void(*)(const LLUUID&,
+			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_SLURL));
+		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const LLUUID&,
+			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_UUID));
 
 		enable_registrar.add("Avatar.EnableItem", boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 		enable_registrar.add("Avatar.CheckItem",  boost::bind(&PeopleContextMenu::checkContextMenuItem,	this, _2));
@@ -99,9 +102,12 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.RemoveFriend",	boost::bind(&LLAvatarActions::removeFriendsDialog,		mUUIDs));
 		// registrar.add("Avatar.Share",		boost::bind(&LLAvatarActions::startIM,					mUUIDs)); // *TODO: unimplemented
 		// registrar.add("Avatar.Pay",			boost::bind(&LLAvatarActions::pay,						mUUIDs)); // *TODO: unimplemented
-		registrar.add("Avatar.CopyName",		boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_NAME));
-		registrar.add("Avatar.CopySLURL",		boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_SLURL));
-		registrar.add("Avatar.CopyKey",			boost::bind(&LLAvatarActions::copyData,					mUUIDs, LLAvatarActions::E_DATA_UUID));
+		registrar.add("Avatar.CopyName",		boost::bind(static_cast<void(*)(const uuid_vec_t&, LLAvatarActions::ECopyDataType)>
+			(&LLAvatarActions::copyData), mUUIDs, LLAvatarActions::E_DATA_NAME));
+		registrar.add("Avatar.CopySLURL",		boost::bind(static_cast<void(*)(const uuid_vec_t&, LLAvatarActions::ECopyDataType)>
+			(&LLAvatarActions::copyData), mUUIDs, LLAvatarActions::E_DATA_SLURL));
+		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const uuid_vec_t&, LLAvatarActions::ECopyDataType)>
+			(&LLAvatarActions::copyData), mUUIDs, LLAvatarActions::E_DATA_UUID));
 		
 		enable_registrar.add("Avatar.EnableItem",	boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 

@@ -247,7 +247,7 @@ public:
 		E_DATA_SLURL,
 		E_DATA_UUID
 	};
-
+	static void copyData(const LLUUID& id, ECopyDataType type);
 	static void copyData(const uuid_vec_t& ids, ECopyDataType type);
 
 private:

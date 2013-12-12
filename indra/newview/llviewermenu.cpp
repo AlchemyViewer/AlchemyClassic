@@ -5939,21 +5939,20 @@ class LLAvatarCopyData : public view_listener_t
         LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
         if (avatarp)
         {
-			uuid_vec_t id(1, avatarp->getID());
             const std::string& param = userdata.asString();
             if (param == "copy_name")
             {
-				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_NAME);
+				LLAvatarActions::copyData(avatarp->getID(), LLAvatarActions::E_DATA_NAME);
                 return true;
             }
             else if (param == "copy_slurl")
             {
-				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_SLURL);
+				LLAvatarActions::copyData(avatarp->getID(), LLAvatarActions::E_DATA_SLURL);
                 return true;
             }
             else if (param == "copy_key")
             {
-				LLAvatarActions::copyData(id, LLAvatarActions::E_DATA_UUID);
+				LLAvatarActions::copyData(avatarp->getID(), LLAvatarActions::E_DATA_UUID);
                 return true;
             }
         }

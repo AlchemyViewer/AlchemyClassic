@@ -6,7 +6,7 @@
     <command name="speak"/>
     <command name="people"/>
     <command name="profile"/>
-    <command name="view"/>
+    <command name="snapshot"/>
   </bottom_toolbar>
   <left_toolbar
     button_display_mode="icons_only_small">
@@ -14,8 +14,8 @@
     <command name="inventory"/>
     <command name="search"/>
     <command name="places"/>
-    <command name="voice"/>
     <command name="minimap"/>
-    <command name="snapshot"/>
+    <command name="env_settings"/>
+    <command name="stats"/>
   </left_toolbar>
 </toolbars>

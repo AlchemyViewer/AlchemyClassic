@@ -658,7 +658,7 @@
      reference="AlchemyWhite" />
     <color
      name="NetMapBackgroundColor"
-     reference="Black_25" />
+     reference="Black_10" />
     <color
      name="NetMapGroupOwnAboveWater"
      reference="Purple" />

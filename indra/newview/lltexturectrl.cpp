@@ -160,6 +160,8 @@ public:
 	static void		onBtnUpload(void* userdata);
 	static void		onLocalScrollCommit(LLUICtrl* ctrl, void* userdata);
 
+	static void		onApplyUUID(void* userdata);
+
 protected:
 	LLPointer<LLViewerTexture> mTexturep;
 	LLTextureCtrl*		mOwner;
@@ -477,6 +479,9 @@ BOOL LLFloaterTexturePicker::postBuild()
 	mLocalScrollCtrl = getChild<LLScrollListCtrl>("l_name_list");
 	mLocalScrollCtrl->setCommitCallback(onLocalScrollCommit, this);
 	LLLocalBitmapMgr::feedScrollList(mLocalScrollCtrl);
+
+	getChild<LLLineEditor>("uuid_editor")->setCommitCallback(boost::bind(&onApplyUUID, this));
+	getChild<LLButton>("apply_uuid_btn")->setClickedCallback(boost::bind(&onApplyUUID, this));
 
 	mNoCopyTextureSelected = FALSE;
 
@@ -816,6 +821,18 @@ void LLFloaterTexturePicker::onBtnPipette()
 	}
 }
 
+// static
+void LLFloaterTexturePicker::onApplyUUID(void* userdata)
+{
+	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
+	LLUUID id(self->getChild<LLLineEditor>("uuid_editor")->getText());
+	if (id.notNull())
+	{
+		self->setImageID(id);
+		self->commitIfImmediateSet();
+	}
+}
+
 void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action)
 {
 	if (items.size())
@@ -857,6 +874,8 @@ void LLFloaterTexturePicker::onModeSelect(LLUICtrl* ctrl, void *userdata)
 	self->getChild<LLButton>("Pipette")->setVisible(mode);
 	self->getChild<LLFilterEditor>("inventory search editor")->setVisible(mode);
 	self->getChild<LLInventoryPanel>("inventory panel")->setVisible(mode);
+	self->getChild<LLLineEditor>("uuid_editor")->setVisible(mode);
+	self->getChild<LLButton>("apply_uuid_btn")->setVisible(mode);
 
 	/*self->getChild<LLCheckBox>("show_folders_check")->setVisible(mode);
 	  no idea under which conditions the above is even shown, needs testing. */

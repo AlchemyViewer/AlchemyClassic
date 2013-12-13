@@ -629,7 +629,7 @@ void LLFloaterIMNearbyChat::sendChat( EChatType type )
 	// and go out of chat mode.
 	if (gSavedSettings.getBOOL("CloseChatOnReturn"))
 	{
-		stopChat();	
+		stopChat();
 		if (isTornOff())
 		{
 			closeHostedFloater();

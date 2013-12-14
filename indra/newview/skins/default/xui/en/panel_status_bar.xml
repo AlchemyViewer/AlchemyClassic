@@ -23,7 +23,7 @@
     </panel.string>
     <panel.string
      name="time">
-        [hour12, datetime, slt]:[min, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]
+        [hour12, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]
     </panel.string>
     <panel.string
      name="timeTooltip">

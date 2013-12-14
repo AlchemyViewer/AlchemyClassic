@@ -258,8 +258,8 @@ void LLStatusBar::refresh()
 		mSGBandwidth->setThreshold(2, bwtotal);
 	}
 	
-	// update clock every 10 seconds
-	if(mClockUpdateTimer.getElapsedTimeF32() > 10.f)
+	// update clock every second
+	if(mClockUpdateTimer.getElapsedTimeF32() > 1.f) // <alchemy/>
 	{
 		mClockUpdateTimer.reset();
 

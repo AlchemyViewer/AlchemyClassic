@@ -395,7 +395,7 @@
      reference="AlchemyBlack1" />
     <color
      name="ContextSilhouetteColor"
-     reference="EmphasisColor" /> <!-- Color of highlighting when selected, but not in edit mode -->
+     value="0.905882 0.27451 0.27451 1" /> <!-- Prim color right-clicked, but not in edit mode yet -->
     <color
      name="DefaultHighlightDark"
      reference="EmphasisColor" />
@@ -488,10 +488,10 @@
      reference="Unused?" />
     <color
      name="HighlightChildColor"
-     reference="EmphasisColor" /> <!-- Was: Yellow -->
+     reference="SilhouetteChildColor" /> <!-- Was: Yellow -->
     <color
      name="HighlightInspectColor"
-     reference="AlchemyOrange" /> <!-- Another prim highlight, mainly mesh -->
+     reference="ContextSilhouetteColor" /> <!-- Prim highlight color when inspecting (Object Profile panel) -->
     <color
      name="HighlightParentColor"
      reference="Yellow" />
@@ -814,7 +814,7 @@
      reference="White" />
     <color
      name="SilhouetteChildColor"
-     reference="AlchemyOrange" /> <!-- Child Prim highlight color (Edit mode) -->
+     reference="EmphasisColor" /> <!-- Child Prim highlight color (Edit mode) -->
     <color
      name="SilhouetteParentColor"
      reference="Yellow" /> <!-- Root Prim highlight color (Edit mode) -->

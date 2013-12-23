@@ -432,30 +432,44 @@ void LLPanelPermissions::refresh()
 	getChildView("Description:")->setEnabled(TRUE);
 	LLLineEditor* LineEditorObjectDesc = getChild<LLLineEditor>("Object Description");
 
-	if (is_one_object)
+	// <alchemy>
+	//if (is_one_object)
+	//{
+	const std::string multi_select_string = LLTrans::getString("BuildMultiSelect");
+	if (LineEditorObjectName)
 	{
-		if (keyboard_focus_view != LineEditorObjectName)
+		if (is_one_object && keyboard_focus_view != LineEditorObjectName)
 		{
-			getChild<LLUICtrl>("Object Name")->setValue(nodep->mName);
+			LineEditorObjectName->setValue(nodep->mName);
 		}
+		else
+		{
+			LineEditorObjectName->setValue(multi_select_string);
+		}
+	}
 
-		if (LineEditorObjectDesc)
+	if (LineEditorObjectDesc)
+	{
+		if (is_one_object && keyboard_focus_view != LineEditorObjectDesc)
 		{
-			if (keyboard_focus_view != LineEditorObjectDesc)
-			{
-				LineEditorObjectDesc->setText(nodep->mDescription);
-			}
+			LineEditorObjectDesc->setText(nodep->mDescription);
+		}
+		else
+		{
+			LineEditorObjectDesc->setText(multi_select_string);
 		}
 	}
-	else
-	{
-		getChild<LLUICtrl>("Object Name")->setValue(LLStringUtil::null);
-		LineEditorObjectDesc->setText(LLStringUtil::null);
-	}
+	//}
+	//else
+	//{
+	//	getChild<LLUICtrl>("Object Name")->setValue(LLStringUtil::null);
+	//	LineEditorObjectDesc->setText(LLStringUtil::null);
+	//}
+	// </alchemy>
 
 	// figure out the contents of the name, description, & category
 	BOOL edit_name_desc = FALSE;
-	if (is_one_object && objectp->permModify() && !objectp->isPermanentEnforced())
+	if (/*is_one_object &&*/ objectp->permModify() && !objectp->isPermanentEnforced()) // <alchemy/>
 	{
 		edit_name_desc = TRUE;
 	}
@@ -463,8 +477,11 @@ void LLPanelPermissions::refresh()
 	{
 		getChildView("Object Name")->setEnabled(TRUE);
 		getChildView("Object Description")->setEnabled(TRUE);
-		mPosToDescBtn->setEnabled(root_selected); // <alchemy/>
-		mDescToPosBtn->setEnabled(root_selected); // <alchemy/>
+		// <alchemy>
+		const BOOL is_attached = LLSelectMgr::getInstance()->getSelection()->isAttachment();
+		mPosToDescBtn->setEnabled(root_selected && is_one_object && !is_attached);
+		mDescToPosBtn->setEnabled(root_selected && is_one_object && !is_attached);
+		// </alchemy>
 	}
 	else
 	{

@@ -93,7 +93,7 @@ public:
 	virtual std::string getLocation(const std::string &url) const { return ""; }
 
 	/// Should this link text be underlined only when mouse is hovered over it?
-	virtual bool underlineOnHoverOnly(const std::string &string) const { return false; }
+	virtual bool underlineOnHoverOnly(const std::string &string) const { return true; } // <alchemy/>
 
 	virtual LLUUID	getID(const std::string &string) const { return LLUUID::null; }
 

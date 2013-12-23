@@ -33,6 +33,7 @@
 #include "llui.h"
 #include "llviewercontrol.h"
 #include "lluuid.h"
+#include "llslurl.h"// <alchemy/>
 
 #include "llcachename.h"
 
@@ -109,9 +110,15 @@ void LLNameBox::setName(const std::string& name, BOOL is_group)
 		std::string url;
 
 		if (is_group)
-			url = "[secondlife:///app/group/" + mNameID.asString() + "/about " + name + "]";
+		{
+			//url = "[secondlife:///app/group/" + mNameID.asString() + "/about " + name + "]";
+			url = LLSLURL("group", mNameID, "inspect").getSLURLString(); // <alchemy/>
+		}
 		else
-			url = "[secondlife:///app/agent/" + mNameID.asString() + "/about " + name + "]";
+		{
+			//url = "[secondlife:///app/agent/" + mNameID.asString() + "/about " + name + "]";
+			url = LLSLURL("agent", mNameID, "inspect").getSLURLString(); // <alchemy/>
+		}
 
 		setText(url);
 	}

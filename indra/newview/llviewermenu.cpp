@@ -3596,14 +3596,21 @@ class LLSelfSitDown : public view_listener_t
     {
         bool handleEvent(const LLSD& userdata)
         {
-            gAgent.sitDown();
-            return true;
+			if (!gAgentAvatarp->isSitting())
+			{
+				gAgent.sitDown();
+			}
+			else if (gAgentAvatarp->isSitting())
+			{
+				gAgent.standUp();
+			}
+			return true;
         }
     };
 
 bool enable_sitdown_self()
 {
-    return isAgentAvatarValid() && !gAgentAvatarp->isSitting() && !gAgent.getFlying();
+	return isAgentAvatarValid() && !gAgent.getFlying();
 }
 
 class LLCheckPanelPeopleTab : public view_listener_t

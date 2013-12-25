@@ -438,25 +438,17 @@ void LLPanelPermissions::refresh()
 	const std::string multi_select_string = LLTrans::getString("BuildMultiSelect");
 	if (LineEditorObjectName)
 	{
-		if (is_one_object && keyboard_focus_view != LineEditorObjectName)
+		if (keyboard_focus_view != LineEditorObjectName)
 		{
-			LineEditorObjectName->setValue(nodep->mName);
-		}
-		else
-		{
-			LineEditorObjectName->setValue(multi_select_string);
+			LineEditorObjectName->setValue(is_one_object ? nodep->mName : multi_select_string);
 		}
 	}
 
 	if (LineEditorObjectDesc)
 	{
-		if (is_one_object && keyboard_focus_view != LineEditorObjectDesc)
+		if (keyboard_focus_view != LineEditorObjectDesc)
 		{
-			LineEditorObjectDesc->setText(nodep->mDescription);
-		}
-		else
-		{
-			LineEditorObjectDesc->setText(multi_select_string);
+			LineEditorObjectDesc->setText(is_one_object ? nodep->mDescription : multi_select_string);
 		}
 	}
 	//}

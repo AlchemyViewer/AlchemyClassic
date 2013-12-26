@@ -1962,7 +1962,7 @@ void inventory_offer_handler(LLOfferInfo* info)
 	LLNotification::Params p;
 
 	// Object -> Agent Inventory Offer
-	if (info->mFromObject)
+	if (info->mFromObject && !bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 	{
 		// Inventory Slurls don't currently work for non agent transfers, so only display the object name.
 		args["ITEM_SLURL"] = msg;
@@ -2009,6 +2009,7 @@ void inventory_offer_handler(LLOfferInfo* info)
         }
 
 		// Inform the user that they received a new inventory item and give them the option to "show" or "delete" it.
+		if(!bAutoAccept) // <alchemy/> Check if user wants to auto-accept inventory. Fixes ALCH-15
 		{
 			payload["give_inventory_notification"] = TRUE;
 		    p.payload = payload;

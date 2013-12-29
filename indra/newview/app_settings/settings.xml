@@ -8730,7 +8730,7 @@
     <key>Type</key>
     <string>F32</string>
     <key>Value</key>
-    <real>0.700</real>
+    <real>0.7</real>
   </map>
 
   <key>RenderSpotLightsInNondeferred</key>

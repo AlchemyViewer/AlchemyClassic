@@ -13,6 +13,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyAvatarListNameFormat</key>
+    <map>
+      <key>Comment</key>
+      <string>Display names in format specified.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <string>1</string>
+    </map>
     <key>AlchemyChatCommandCalc</key>
     <map>
       <key>Comment</key>

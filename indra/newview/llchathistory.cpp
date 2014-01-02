@@ -63,6 +63,8 @@
 #include "llviewerobjectlist.h"
 #include "llmutelist.h"
 
+#include <boost/algorithm/string/predicate.hpp> // <alchemy/>
+
 static LLDefaultChildRegistry::Register<LLChatHistory> r("chat_history");
 
 const static std::string NEW_LINE(rawstr_to_utf8("\n"));
@@ -905,7 +907,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	std::string prefix = chat.mText.substr(0, 4);
 
 	//IRC styled /me messages.
-	bool irc_me = prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'";
+	bool irc_me = boost::iequals(prefix, "/me ") || boost::iequals(prefix, "/me'"); // <alchemy/>
 
 	// Delimiter after a name in header copy/past and in plain text mode
 	std::string delimiter = ": ";

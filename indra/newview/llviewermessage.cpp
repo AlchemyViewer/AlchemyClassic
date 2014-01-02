@@ -113,6 +113,7 @@
 #include "llviewerregion.h"
 
 #include <boost/algorithm/string/split.hpp> //
+#include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 #include <boost/regex.hpp>
 
 #include "llnotificationmanager.h" //
@@ -2871,7 +2872,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 
 				// Look for IRC-style emotes here so object name formatting is correct
 				std::string prefix = message.substr(0, 4);
-				if (prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'") // <alchemy/>
+				if (boost::iequals(prefix, "/me ") || boost::iequals(prefix, "/me'")) // <alchemy/>
 				{
 					chat.mChatStyle = CHAT_STYLE_IRC;
 				}
@@ -3595,7 +3596,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 
 		// Look for IRC-style emotes here so chatbubbles work
 		std::string prefix = mesg.substr(0, 4);
-		if (prefix == "/me " || prefix == "/me'" || prefix == "/ME " || prefix == "/ME'") // <alchemy/>
+		if (boost::iequals(prefix, "/me ") || boost::iequals(prefix, "/me'")) // <alchemy/>
 		{
 			ircstyle = TRUE;
 		}

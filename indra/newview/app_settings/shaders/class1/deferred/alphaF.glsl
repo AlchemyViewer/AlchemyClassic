@@ -532,8 +532,8 @@ void main()
 #endif
 
 #ifdef FOR_IMPOSTOR
-	vec4 color;
-	color.rgb = diff.rgb;
+	//vec4 color; // <alchemy/>
+	//color.rgb = diff.rgb; // <alchemy/>
 
 #ifdef USE_VERTEX_COLOR
 	float final_alpha = diff.a * vertex_color.a;
@@ -548,6 +548,7 @@ void main()
 	{
 		discard;
 	}
+	vec4 color = vec4(diff.rgb, final_alpha); // <alchemy/>
 #else
 	
 #ifdef USE_VERTEX_COLOR

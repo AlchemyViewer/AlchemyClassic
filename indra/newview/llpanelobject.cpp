@@ -61,6 +61,7 @@
 #include "llviewerobject.h"
 #include "llviewerregion.h"
 #include "llviewerwindow.h"
+#include "llvoavatarself.h"
 #include "llvovolume.h"
 #include "llworld.h"
 #include "pipeline.h"
@@ -357,10 +358,12 @@ void LLPanelObject::getState( )
 		return;
 	}
 
+	bool is_attachment = objectp->isAttachment();
+
 	// can move or rotate only linked group with move permissions, or sub-object with move and modify perms
-	BOOL enable_move	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && !objectp->isAttachment() && (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
+	BOOL enable_move	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
 	BOOL enable_scale	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && objectp->permModify();
-	BOOL enable_rotate	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && ( (objectp->permModify() && !objectp->isAttachment()) || !gSavedSettings.getBOOL("EditLinkedParts"));
+	BOOL enable_rotate	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
 
 	S32 selected_count = LLSelectMgr::getInstance()->getSelection()->getObjectCount();
 	BOOL single_volume = (LLSelectMgr::getInstance()->selectionAllPCode( LL_PCODE_VOLUME ))
@@ -401,6 +404,13 @@ void LLPanelObject::getState( )
 	mCtrlPosZ->setEnabled(enable_move);
 	mBtnPosCopy->setEnabled(enable_move);
 	mBtnPosPaste->setEnabled(enable_move && mCopiedObjectData.has("position"));
+
+	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosX->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosY->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosZ->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : 0.f);
+	mCtrlPosZ->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_HEIGHT_METERS);
 
 	if (enable_scale)
 	{
@@ -1607,7 +1617,7 @@ void LLPanelObject::sendRotation(BOOL btn_down)
 
 		if (mRootObject != mObject)
 		{
-			rotation = rotation * ~mRootObject->getRotationRegion();
+			rotation = rotation * (mObject->isAttachment() ? ~mRootObject->getRotationEdit() : ~mRootObject->getRotationRegion()); // <alchemy/>
 		}
 		std::vector<LLVector3>& child_positions = mObject->mUnselectedChildrenPositions ;
 		std::vector<LLQuaternion> child_rotations;
@@ -1677,15 +1687,16 @@ void LLPanelObject::sendPosition(BOOL btn_down)
 	if (mObject.isNull()) return;
 
 	LLVector3 newpos(mCtrlPosX->get(), mCtrlPosY->get(), mCtrlPosZ->get());
+	LLVector3d new_pos_global;
 	LLViewerRegion* regionp = mObject->getRegion();
-
-	// Clamp the Z height
-	const F32 height = newpos.mV[VZ];
-	const F32 min_height = LLWorld::getInstance()->getMinAllowedZ(mObject, mObject->getPositionGlobal());
-	const F32 max_height = LLWorld::getInstance()->getRegionMaxHeight();
 
 	if (!mObject->isAttachment())
 	{
+		// Clamp the Z height
+		const F32 height = newpos.mV[VZ];
+		const F32 min_height = LLWorld::getInstance()->getMinAllowedZ(mObject, mObject->getPositionGlobal());
+		const F32 max_height = LLWorld::getInstance()->getRegionMaxHeight();
+
 		if ( height < min_height)
 		{
 			newpos.mV[VZ] = min_height;
@@ -1702,13 +1713,46 @@ void LLPanelObject::sendPosition(BOOL btn_down)
 		{
 			mCtrlPosZ->set(LLWorld::getInstance()->resolveLandHeightAgent(newpos) + 1.f);
 		}
+
+		// Make sure new position is in a valid region, so the object
+		// won't get dumped by the simulator.
+		new_pos_global = regionp->getPosGlobalFromRegion(newpos);
 	}
 
-	// Make sure new position is in a valid region, so the object
-	// won't get dumped by the simulator.
-	LLVector3d new_pos_global = regionp->getPosGlobalFromRegion(newpos);
+	if (mObject->isAttachment())
+	{	
+		const LLVector3& old_pos_local = mObject->getPosition();
 
-	if ( LLWorld::getInstance()->positionRegionValidGlobal(new_pos_global) )
+		if (mRootObject != mObject)
+		{
+			newpos = newpos - mRootObject->getPosition();
+			newpos = newpos * ~mRootObject->getRotation();
+			mObject->setPositionParent(newpos);
+		}
+		else
+		{
+			mObject->setPosition(newpos);
+		}
+
+		LLManip::rebuild(mObject);
+		gAgentAvatarp->clampAttachmentPositions();
+
+		// for individually selected roots, we need to counter-translate all unselected children
+		if (mObject->isRootEdit())
+		{
+			const LLVector3& delta = mObject->getPosition();
+			// counter-translate child objects if we are moving the root as an individual
+			mObject->resetChildrenPosition(old_pos_local - delta, TRUE);
+		}
+
+		if (!btn_down)
+		{
+			LLSelectMgr::getInstance()->sendMultipleUpdate(UPD_POSITION);
+		}
+
+		LLSelectMgr::getInstance()->updateSelectionCenter();
+	}
+	else if ( LLWorld::getInstance()->positionRegionValidGlobal(new_pos_global) )
 	{
 		// send only if the position is changed, that is, the delta vector is not zero
 		LLVector3d old_pos_global = mObject->getPositionGlobal();

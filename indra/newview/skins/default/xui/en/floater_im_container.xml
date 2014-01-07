@@ -4,7 +4,7 @@
  can_minimize="true"
  can_resize="true"
  height="210"
- min_height="210"
+ min_height="173"
  layout="topleft"
  name="floater_im_box"
  help_topic="floater_im_box"
@@ -16,7 +16,7 @@
  bottom="-50"
  right="-5"
  width="450"
- min_width="38">
+ min_width="39">
     <string
      name="collapse_icon"
      value="Conv_toolbar_collapse"/>
@@ -25,7 +25,7 @@
      value="Conv_toolbar_expand"/>
     <layout_stack
      animate="true" 
-     bottom="-5"
+     bottom="-1"
      drag_handle_gap="6"
      drag_handle_first_indent="27"
      drag_handle_second_indent="10"
@@ -34,19 +34,18 @@
      left="0"
      name="conversations_stack"
      orientation="horizontal"
-     right="-1"
      show_drag_handle="true"
      top="0">
         <layout_panel
          auto_resize="false"
          user_resize="true"        
          name="conversations_layout_panel"
-         min_dim="43"
-         expanded_min_dim="140">
+         min_dim="39"
+         expanded_min_dim="157">
             <layout_stack
              animate="false" 
              follows="left|top|right"
-             height="27"
+             height="35"
              layout="topleft"
              left="0"
              name="conversations_pane_buttons_stack"
@@ -55,6 +54,7 @@
              top="0">
                 <layout_panel
                  auto_resize="true"
+                 height="35"
                  name="conversations_pane_buttons_expanded">
                     <menu_button
                      follows="top|left"
@@ -65,10 +65,10 @@
                      image_unselected="Toolbar_Middle_Off"
                      menu_filename="menu_participant_view.xml"
                      layout="topleft"
-                     left="5"
+                     left="6"
                      name="sort_btn"
                      tool_tip="View/sort options"
-                     top="1"
+                     top="5"
                      width="31" />
                     <button
                      follows="top|left"
@@ -78,7 +78,7 @@
                      image_selected="Toolbar_Middle_Selected"
                      image_unselected="Toolbar_Middle_Off"
                      layout="topleft"
-                     top="1"
+                     top="5"
                      left_pad="2"
                      name="add_btn"
                      tool_tip="Start a new conversation"
@@ -91,16 +91,17 @@
                      image_selected="Toolbar_Middle_Selected"
                      image_unselected="Toolbar_Middle_Off"
                      layout="topleft"
-                     top="1"
+                     top="5"
                      left_pad="2"
                      name="speak_btn"
                      tool_tip="Speak with people using your microphone"
-                     width="31"/>	
+                     width="31"/>   
                 </layout_panel>
                 <layout_panel
                  auto_resize="false"
+                 height="35"
                  name="conversations_pane_buttons_collapsed"
-                 width="35">
+                 width="41">
                     <button
                      follows="right|top"
                      height="25"
@@ -109,11 +110,11 @@
                      image_selected="Toolbar_Middle_Selected"
                      image_unselected="Toolbar_Middle_Off"
                      layout="topleft"
-                     top="1"
-                     left="4"
+                     top="5"
+                     left="7"
                      name="expand_collapse_btn"
                      tool_tip="Collapse/Expand this list"
-                     width="35" />
+                     width="31" />
                 </layout_panel>
             </layout_stack>
             <panel
@@ -122,32 +123,29 @@
              layout="topleft"
              name="conversations_list_panel"
              opaque="true"
-             top_pad="0"
-             left="5"
+             top="35"
+             left="6"
              right="-1"/>
         </layout_panel>
         <layout_panel
          auto_resize="true"
          user_resize="true"
          name="messages_layout_panel"
-         expanded_min_dim="212">
+         min_dim="256">
             <panel_container
-             bottom="-1"
              follows="all"
              layout="topleft"
              left="0"
              name="im_box_tab_container"
-             right="-1"
-             top="0">
+             top="0"
+             bottom="12">
                 <panel
-                 bottom="-1"
                  follows="all"
                  layout="topleft"
                  name="stub_panel"
                  opaque="true"
                  top_pad="0"
-                 left="0"
-                 right="-1">
+                 left="0">
                     <button
                      follows="right|top"
                      height="25"
@@ -156,8 +154,8 @@
                      image_selected="Toolbar_Middle_Selected"
                      image_unselected="Toolbar_Middle_Off"
                      layout="topleft"
-                     top="1"
-                     right="-10"
+                     top="5"
+                     right="-3"
                      name="stub_collapse_btn"
                      tool_tip="Collapse this pane"
                      width="31" />

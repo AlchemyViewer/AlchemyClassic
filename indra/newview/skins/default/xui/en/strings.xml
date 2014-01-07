@@ -2179,6 +2179,18 @@ Returns all objects of a particular owner in the given scope or an ERR_* flag.
 string llXorBase64(string str1, string str2)
 Returns a string that is a Base64 XOR of Base64-formatted input strings.
   </string>
+  <string name="LSLTipText_llScaleByFactor" translate="false">
+integer llScaleByFactor(float scaling_factor)
+Attempts to resize the entire object by scaling_factor, maintaining the size-position ratios of the prims.
+  </string>
+  <string name="LSLTipText_llGetMinScaleFactor" translate="false">
+float llGetMinScaleFactor()
+Returns a float that is the smallest scaling factor that can be used with llScaleByFactor to resize the object.
+  </string>
+  <string name="LSLTipText_llGetMaxScaleFactor" translate="false">
+float llGetMaxScaleFactor()
+Returns a float that is the largest scaling factor that can be used with llScaleByFactor to resize the object.
+  </string>
 
 	<!-- Wearable Types -->
 	<string name="shape">Shape</string>

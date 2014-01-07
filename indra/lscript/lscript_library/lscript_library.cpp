@@ -556,6 +556,11 @@ void LLScriptLibrary::init()
 	
 	// Server 13.06.21.277682 new functions
 	addFunction(0.f, 0.f, dummy_func, "llXorBase64", "s", "ss");
+
+	// Server 13.12.20.285035 new functions
+	addFunction(0.f, 0.f, dummy_func, "llScaleByFactor", "i", "f");
+	addFunction(0.f, 0.f, dummy_func, "llGetMinScaleFactor", "f", NULL);
+	addFunction(0.f, 0.f, dummy_func, "llGetMaxScaleFactor", "f", NULL);
 }
 
 LLScriptLibraryFunction::LLScriptLibraryFunction(F32 eu, F32 st, void (*exec_func)(LLScriptLibData *, LLScriptLibData *, const LLUUID &), const char *name, const char *ret_type, const char *args, BOOL god_only)

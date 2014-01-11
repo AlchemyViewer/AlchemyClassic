@@ -1004,17 +1004,30 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 				link_params.overwriteFrom(LLStyleMap::instance().lookupAgent(chat.mFromID));
 
 				// <alchemy>
-				static LLCachedControl<bool> alchemyPlainChatNameBold(gSavedSettings, "AlchemyPlainChatNameBold");
+				static LLCachedControl<bool> alchemyPlainChatNameBold(gSavedSettings, "AlchemyPlainChatNameBold", false);
 				if (alchemyPlainChatNameBold)
 				{
 					link_params.font.style = "BOLD";
 				}
-				// </alchemy>
+				
+				std::string av_name = chat.mFromName;
+				static LLCachedControl<bool> alchemyPlainChatName(gSavedSettings, "AlchemyPlainChatUsername", true);
+				if (!alchemyPlainChatName)
+				{
+					std::string::size_type username_start = av_name.rfind(" (");
+					std::string::size_type username_end = av_name.rfind(")");
+					if (username_start != std::string::npos && 
+						username_end != std::string::npos)
+					{
+						av_name.erase(username_start, std::string::npos);
+					}
+				}
 
 				// Add link to avatar's inspector and delimiter to message.
-				mEditor->appendText(std::string(link_params.link_href) + delimiter,
+				mEditor->appendText(av_name + delimiter,
 					prependNewLineState, link_params);
 				prependNewLineState = false;
+				// </alchemy>
 			}
 			else
 			{

@@ -112,22 +112,48 @@
     </check_box>
 
     <panel
-    height="100"
+    height="175"
     left="300"
     top="10"
-    width="200"
+    width="212"
     border="false"
     name="chat_appearance">
+
+    <text
+        left="5"
+        top_pad="10"
+        follows="top|left"
+        layout="topleft"
+        width="140"
+        use_ellipses="false"
+        name="test_text"
+        tool_tip="text">
+         Nearby Chat toast width:
+      </text>
+      <spinner
+        left_delta="135"
+        top_delta="-5"
+        height="10"
+        width="55"
+        decimal_digits="0"
+        increment="1"
+        min_val="300"
+        max_val="1500"
+        follows="top|left"
+        layout="topleft"
+        name="alchemynearbychattoastwidth"
+        control_name="AlchemyNearbyChatToastWidth"
+        tool_tip="Controls the width of the nearby chat toast (pop-up)"/>
+
     <text
         layout="topleft"
         left="5"
         height="12"
         name="chat_appearance_text"
         width="75"
-        top="6">
+        top_pad="20">
         Font Size:
     </text>
-
     <radio_group
      height="25"
      layout="topleft"
@@ -164,11 +190,12 @@
         height="16"
         label="Parse JIRA links"
         tool_tip="Replaces JIRA issues in chat with clickable links."
-        left_delta="0"
-        top_pad="0"
+        left_delta="-8"
+        top_pad="5"
         name="chat_cmd_toggle"
         width="275"
         control_name="AlchemyChatParseJira"/>
+
     <check_box
         control_name="UseChatBubbles"
         height="16"

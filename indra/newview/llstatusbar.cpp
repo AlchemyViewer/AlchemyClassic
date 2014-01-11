@@ -268,7 +268,13 @@ void LLStatusBar::refresh()
 		time_t utc_time;
 		utc_time = time_corrected();
 
-		std::string timeStr = getString("time");
+		// <alchemy> Allow user to control whether the clock shows seconds or not.
+		static LLCachedControl<bool> want_precise_clock(gSavedSettings, "AlchemyPreciseClock", true);
+
+		// Show seconds if so desired
+		
+		std::string timeStr = getString(((bool)want_precise_clock ? "timePrecise" : "time"));
+		// </alchemy>
 		LLSD substitution;
 		substitution["datetime"] = (S32) utc_time;
 		LLStringUtil::format (timeStr, substitution);

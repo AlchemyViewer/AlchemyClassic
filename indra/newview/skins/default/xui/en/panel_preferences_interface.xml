@@ -19,39 +19,14 @@
     tab_min_width="50"
     tab_position="top">
    <panel
-       label="Toasts &amp; Pop-ups"
+       label="General"
        border="false"
        height="380"
        layout="topleft"
        top="0"
        left="13"
        width="517"
-       name="toasts_tab">
-      <text
-        left="10"
-        top_pad="10"
-        follows="top|left"
-        layout="topleft"
-        width="150"
-        use_ellipses="false"
-        name="test_text"
-        tool_tip="text">
-         Nearby Chat toast width:
-      </text>
-      <spinner
-        left_pad="10"
-        top="6"
-        height="10"
-        width="55"
-        decimal_digits="0"
-        increment="1"
-        min_val="300"
-        max_val="1500"
-        follows="top|left"
-        layout="topleft"
-        name="alchemynearbychattoastwidth"
-        control_name="AlchemyNearbyChatToastWidth"
-        tool_tip="Controls the width of the nearby chat toast (pop-up)"/>
+       name="general_ui_tab">
       <check_box
             follows="left|top"
             height="16"
@@ -64,14 +39,14 @@
             control_name="ShowHoverTips"/>
     </panel>
     <panel
-        label="Features"
+        label="Inventory"
         border="false"
         height="380"
         layout="topleft"
         top="0"
         left="13"
         width="517"
-        name="features_tab">
+        name="inventory_tab">
        <check_box
              follows="left|top"
              height="16"
@@ -92,6 +67,25 @@
              name="hide_empty_folders"
              width="275"
              control_name="DebugHideEmptySystemFolders"/>
+   </panel>
+   <panel
+        label="Status Bar"
+        border="false"
+        height="380"
+        layout="topleft"
+        top="0"
+        left="13"
+        width="517"
+        name="statusbar_tab">
+        <check_box
+             follows="left|top"
+             height="16"
+             label="Show seconds in clock"
+             left="7"
+             top_pad="10"
+             name="precise_clock"
+             width="275"
+             control_name="AlchemyPreciseClock"/>
    </panel>
   </tab_container>
 </panel>

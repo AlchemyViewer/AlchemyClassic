@@ -100,6 +100,17 @@
         width="330">
     </check_box>
 
+    <check_box
+        control_name="AlchemyPlainChatUsername"
+        height="16"
+        label="Display username in plain text chat"
+        layout="topleft"
+        name="username_plain_chat"
+        left_delta="0"
+        top_pad="5"
+        width="350">
+    </check_box>
+
     <panel
     height="175"
     left="300"

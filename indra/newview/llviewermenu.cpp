@@ -1463,30 +1463,6 @@ class LLAdvancedSendTestIms : public view_listener_t
 };
 
 
-///////////////
-// XUI NAMES //
-///////////////
-
-
-class LLAdvancedToggleXUINames : public view_listener_t
-{
-	bool handleEvent(const LLSD& userdata)
-	{
-		toggle_show_xui_names(NULL);
-		return true;
-	}
-};
-
-class LLAdvancedCheckXUINames : public view_listener_t
-{
-	bool handleEvent(const LLSD& userdata)
-	{
-		bool new_value = check_show_xui_names(NULL);
-		return new_value;
-	}
-};
-
-
 ////////////////////////
 // GRAB BAKED TEXTURE //
 ////////////////////////
@@ -8736,8 +8712,6 @@ void initialize_menus()
 
 	// Advanced > XUI
 	commit.add("Advanced.ReloadColorSettings", boost::bind(&LLUIColorTable::loadFromSettings, LLUIColorTable::getInstance()));
-	view_listener_t::addMenu(new LLAdvancedToggleXUINames(), "Advanced.ToggleXUINames");
-	view_listener_t::addMenu(new LLAdvancedCheckXUINames(), "Advanced.CheckXUINames");
 	view_listener_t::addMenu(new LLAdvancedSendTestIms(), "Advanced.SendTestIMs");
 	commit.add("Advanced.FlushNameCaches", boost::bind(&handle_flush_name_caches));
 

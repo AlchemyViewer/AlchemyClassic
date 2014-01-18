@@ -76,7 +76,7 @@
 	        <panel
 	         background_visible="false"
 	         follows="left|top|right"
-	         top="3"
+	         top="4"
 	         height="23"
 	         layout="topleft"
                        left="0"

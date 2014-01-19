@@ -87,7 +87,7 @@
                      follows="top|left"
                      height="18"
                      image_hover_unselected="Toolbar_Middle_Over"
-                     image_overlay="Command_Speak_Icon"
+                     image_overlay="Command_Speak_Icon_Small"
                      image_selected="Toolbar_Middle_Selected"
                      image_unselected="Toolbar_Middle_Off"
                      layout="topleft"

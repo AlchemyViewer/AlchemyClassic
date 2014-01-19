@@ -526,6 +526,8 @@ void LLFloaterCamera::updateItemsSelection()
 	getChild<LLPanelCameraItem>("rear_view")->setValue(argument);
 	argument["selected"] = preset == CAMERA_PRESET_GROUP_VIEW;
 	getChild<LLPanelCameraItem>("group_view")->setValue(argument);
+	argument["selected"] = preset == CAMERA_PRESET_SHOULDER_VIEW;
+	getChild<LLPanelCameraItem>("shoulder_view")->setValue(argument);
 	argument["selected"] = preset == CAMERA_PRESET_FRONT_VIEW;
 	getChild<LLPanelCameraItem>("front_view")->setValue(argument);
 	argument["selected"] = gAgentCamera.getCameraMode() == CAMERA_MODE_MOUSELOOK;
@@ -573,6 +575,10 @@ void LLFloaterCamera::switchToPreset(const std::string& name)
 	else if ("group_view" == name)
 	{
 		gAgentCamera.switchCameraPreset(CAMERA_PRESET_GROUP_VIEW);
+	}
+	else if ("shoulder_view" == name)
+	{
+		gAgentCamera.switchCameraPreset(CAMERA_PRESET_SHOULDER_VIEW);
 	}
 	else if ("front_view" == name)
 	{

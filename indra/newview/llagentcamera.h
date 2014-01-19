@@ -58,6 +58,10 @@ enum ECameraPreset
 	/** "Above and to the left, over the shoulder, pulled back a little on the zoom" */
 	CAMERA_PRESET_GROUP_VIEW,
 
+/** "To the right of the Avatar, jaw height, facing forward and relatively close to the shoulder.
+	More "Cinematic" view and doesn't get in the way of the scenery as much as Rear view does.*/
+	CAMERA_PRESET_SHOULDER_VIEW,
+	
 	/** End variable for sanity checking CameraPreset's */ // <alchemy/>
 	CAMERA_PRESET_END
 };

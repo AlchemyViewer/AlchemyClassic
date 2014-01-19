@@ -1382,6 +1382,21 @@
         <real>0.75</real>
       </array>
     </map>
+    <key>CameraOffsetShoulderView</key>
+    <map>
+      <key>Comment</key>
+      <string>Initial camera offset from avatar in Rear View</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Vector3</string>
+      <key>Value</key>
+      <array>
+        <real>-1.7</real>
+        <real>-0.7</real>
+        <real>-0.350</real>
+      </array>
+    </map>
     <key>CameraOffsetFrontView</key>
     <map>
       <key>Comment</key>
@@ -4084,6 +4099,21 @@
         <real>1.0</real>
         <real>0.0</real>
         <real>1.0</real>
+      </array>
+    </map>
+    <key>FocusOffsetShoulderView</key>
+    <map>
+      <key>Comment</key>
+      <string>Initial focus point offset relative to avatar for the camera preset Rear View (x-axis is forward)</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Vector3D</string>
+      <key>Value</key>
+      <array>
+        <real>0.0</real>
+        <real>-0.740</real>
+        <real>0.7</real>
       </array>
     </map>
     <key>FocusOffsetFrontView</key>

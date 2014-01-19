@@ -7,7 +7,7 @@
  legacy_header_height="18"
  can_minimize="true"
  can_close="true"
- height="164"
+ height="170"
  layout="topleft"
  name="camera_floater"
  help_topic="camera_floater"
@@ -35,7 +35,7 @@
     </floater.string>
     <panel
      border="false"
-     height="123"
+     height="145"
      layout="topleft"
      left="2"
      top="0"
@@ -45,16 +45,17 @@
        <panel
          color="Transparent"
          follows="all"
-         height="102"
+         height="126"
          layout="topleft"
          left="8"
          name="preset_views_list"
          opaque="true"
-         top="24"
+         top="20"
          width="212"
          visible="false">
         <panel_camera_item
-          name="front_view">
+          name="front_view"
+          height="27">
           <panel_camera_item.mousedown_callback
             function="CameraPresets.ChangeView"
             parameter="front_view" />
@@ -69,7 +70,7 @@
         </panel_camera_item>
         <panel_camera_item
           name="group_view"
-          top_pad="4">
+          height="27">
           <panel_camera_item.mousedown_callback
             function="CameraPresets.ChangeView"
             parameter="group_view" />
@@ -83,9 +84,24 @@
           </panel_camera_item.text>
         </panel_camera_item>
         <panel_camera_item
+          name="shoulder_view"
+          height="27">
+          <panel_camera_item.mousedown_callback
+            function="CameraPresets.ChangeView"
+            parameter="shoulder_view" />
+          <panel_camera_item.picture
+            image_name="Cam_Preset_Side_Off" />
+          <panel_camera_item.selected_picture
+            image_name="Cam_Preset_Side_On" />
+          <panel_camera_item.text
+            name="side_view_text">
+            Shoulder View
+          </panel_camera_item.text>
+        </panel_camera_item>
+        <panel_camera_item
           name="rear_view"
           layout="topleft"
-          top_pad="4">
+          height="27">
           <panel_camera_item.mousedown_callback
             function="CameraPresets.ChangeView"
             parameter="rear_view" />
@@ -225,7 +241,7 @@
     </panel>
     <panel
      border="false"
-     height="42"
+     height="32"
      layout="topleft"
      left="2"
      top_pad="0"
@@ -242,7 +258,7 @@
          name="presets_btn"
          tab_stop="false"
          tool_tip="Preset Views"
-         top="13" 
+         top="0" 
          width="25">
         </button>
         <button

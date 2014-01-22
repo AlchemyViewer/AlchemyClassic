@@ -510,9 +510,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0f4b3342892f3099e1360eb863a3dc45</string>
+              <string>bcf9ed23d99e3552b0b6f2cf9a6d55ce</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.21-linux-20131005.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.30-linux-20140122.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -522,9 +522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c1c96008cf84060d18615b0e185eb376</string>
+              <string>a15dbe59bc9f939b0752d9d98a975dd1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.21-windows-20131005.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.30-windows-20140122.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

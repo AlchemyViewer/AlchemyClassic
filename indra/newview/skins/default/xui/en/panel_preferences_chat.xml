@@ -101,14 +101,14 @@
     </check_box>
 
     <check_box
-        control_name="VoiceCallsFriendsOnly"
+        control_name="AlchemyPlainChatUsername"
         height="16"
-        label="Only friends and groups can call or IM me"
+        label="Display username in plain text chat"
         layout="topleft"
-        name="voice_call_friends_only_check"
+        name="username_plain_chat"
         left_delta="0"
         top_pad="5"
-        width="350">     
+        width="350">
     </check_box>
 
     <panel

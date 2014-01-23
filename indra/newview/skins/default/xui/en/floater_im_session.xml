@@ -69,120 +69,109 @@
      name="contents_view"
      top="0"
      left="0"
-     right="-1">
+     right="-1"
+     bottom="-1">
         <layout_stack
          animate="false" 
+         bottom="-1"
          default_tab_group="2"
          follows="all"
+         left="3"
          layout="topleft"
-         bottom="-1"
-         left="4"
-         right="-3"
          name="main_stack"
+         right="-3"
          orientation="vertical"
+         tab_group="1"
          top="0">
             <layout_panel
              auto_resize="false"
              name="toolbar_panel"
-             height="19"
-             left="1">
+             height="25">
                 <menu_button
                  menu_filename="menu_im_session_showmodes.xml"
                  follows="top|left"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_sort"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 left="2"
+                 left="5"
                  name="view_options_btn"
                  tool_tip="View/sort options"
-                 top="0"
-                 width="27" />
+                 top="1"
+                 width="31" />
                 <menu_button
                  menu_filename="menu_im_conversation.xml"
                  follows="top|left"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="OptionsMenu_Off"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 top="0"
+                 top="1"
                  left_pad="2"
                  name="gear_btn"
                  visible="false"
                  tool_tip="Actions on selected person"
-                 width="27"/>
+                 width="31"/>
                 <button
                  enabled="false"
                  follows="top|left"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_add_person"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 top="0"
+                 top="1"
                  left_pad="2"
                  name="add_btn"
                  tool_tip="Add someone to this conversation"
-                 width="27"/>
+                 width="31"/>
                 <button
                  follows="top|left"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_open_call"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 top="0"
+                 top="1"
                  left_pad="2"
                  name="voice_call_btn"
                  tool_tip="Open voice connection"
-                 width="27"/>
-                <output_monitor
-                 auto_update="true"
-                 follows="top|left"
-                 draw_border="false"
-                 height="9"
-                 layout="topleft"
-                 top="6"
-                 left_pad="10"
-                 mouse_opaque="true"
-                 name="speaking_indicator"
-                 visible="false"
-                 width="16" />
+                 width="31"/>                
                 <button
                  follows="right|top"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_close"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 top="0"
-                 right="-61"
+                 top="1"
+                 right="-70"
                  name="close_btn"
                  tool_tip="End this conversation"
-                 width="27" />
+                 width="31" />
                 <button
                  follows="right|top"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_collapse"
                  image_selected="Toolbar_Middle_Selected"
                  image_unselected="Toolbar_Middle_Off"
                  layout="topleft"
-                 top="0"
+                 top="1"
                  left_pad="2"
                  name="expand_collapse_btn"
                  tool_tip="Collapse/Expand this pane"
-                 width="27" />
+                 width="31" />
                 <button
                  follows="right|top"
-                 height="18"
+                 height="25"
                  image_hover_unselected="Toolbar_Middle_Over"
                  image_overlay="Conv_toolbar_arrow_ne"
                  image_selected="Toolbar_Middle_Selected"
@@ -190,12 +179,12 @@
                  layout="topleft"
                  left_pad="2"
                  name="tear_off_btn"
-                 top="0"
-                 width="27" />
+                 top="1"
+                 width="31" />
             </layout_panel>
             <layout_panel
              name="body_panel"
-             top="0">
+             height="235">
                 <layout_stack
                  default_tab_group="2"
                  drag_handle_gap="6"
@@ -207,12 +196,12 @@
                  show_drag_handle="true"
                  tab_group="1"
                  top="0"
-                 right="-3"
+                 right="-1"
                  bottom="-1"
                  left="0">
                     <layout_panel
                      name="speakers_list_panel"
-                     expanded_min_dim="100"
+                     expanded_min_dim="115"
                      min_dim="0"
                      width="150" 
                      user_resize="true"
@@ -221,7 +210,7 @@
                      default_tab_group="3"
                      tab_group="2"
                      name="right_part_holder"
-                     min_width="236">
+                     min_width="172">
                         <layout_stack
                          animate="true" 
                          default_tab_group="2"
@@ -230,18 +219,20 @@
                          name="translate_and_chat_stack"
                          tab_group="1"
                          top="0"
-                         left="0"
+                         left="1"
+                         right="-1"
                          bottom="-1">
                             <layout_panel
                              auto_resize="false"
-                             height="17"
+                             height="26"
                              name="translate_chat_checkbox_lp">
                                 <check_box
+                                 top="10"
                                  control_name="TranslateChat"
                                  enabled="true"
-                                 height="14"
+                                 height="16"
                                  label="Translate chat"
-                                 left="1"
+                                 left="5"
                                  name="translate_chat_checkbox"
                                  width="230" />
                             </layout_panel>
@@ -253,7 +244,8 @@
                                  name="chat_history"
                                  parse_highlights="true"
                                  parse_urls="true"
-                                 left="2"
+                                 right="-1"
+                                 left="0"
                                  top="0"
                                  bottom="-1" />
                             </layout_panel>
@@ -262,8 +254,6 @@
                 </layout_stack>
             </layout_panel>
             <layout_panel
-             top_delta="0"
-             top="0"
              height="35"
              auto_resize="false"
              name="chat_layout_panel">
@@ -274,11 +264,10 @@
                  orientation="horizontal"
                  name="input_panels"
                  top="0"
-                 bottom="-5"
-                 left="2">
+                 bottom="-1"
+                 left="0"
+                 right="-1">
                     <layout_panel
-                     top="0"
-                     bottom="-1"
                      name="input_editor_layout_panel">
                         <chat_editor
                          layout="topleft"
@@ -292,22 +281,19 @@
                          max_length="1023"
                          spellcheck="true"
                          tab_group="3"
-                         top="1"
-                         bottom="-1"
-                         left="0"
+                         bottom="-8"
+                         left="5"
+                         right="-5"
                          wrap="true" />
                     </layout_panel>
                     <layout_panel
                      auto_resize="false"
                      name="input_button_layout_panel"
-                     width="34"
-                     min_dim="34"
-                     top="0"
-                     bottom="-1">
+                     width="32">
                         <button
-                         left="2"
-                         top="2"
-                         height="23"
+                         left="1"
+                         top="4"
+                         height="25"
                          follows="left|right|top"
                          image_hover_unselected="Toolbar_Middle_Over"
                          image_overlay="Conv_expand_one_line"
@@ -315,7 +301,7 @@
                          image_unselected="Toolbar_Middle_Off"
                          name="minz_btn"
                          tool_tip="Shows/hides message panel"
-                         width="29" />
+                         width="28" />
                     </layout_panel>
                 </layout_stack>
             </layout_panel>

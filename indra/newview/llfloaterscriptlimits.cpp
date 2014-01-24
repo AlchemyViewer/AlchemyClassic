@@ -889,6 +889,15 @@ BOOL LLPanelScriptLimitsRegionMemory::StartRequestChain()
 	
 	LLUUID current_region_id = gAgent.getRegion()->getRegionID();
 
+	// <alchemy> Fall back to the parcel we're on if none is selected.
+	// Fixes parcel script info intermittently working and broken in toolbar button.
+	if (!parcel)
+	{
+		parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+		region = gAgent.getRegion();
+	}
+	// </alchemy>
+
 	if ((region) && (parcel))
 	{
 		LLVector3 parcel_center = parcel->getCenterpoint();

@@ -200,6 +200,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyEditRootAxis</key>
+    <map>
+      <key>Comment</key>
+      <string>Edit linkset based on location of root primitive</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyEnableKeyboardShout</key>
     <map>
       <key>Comment</key>

@@ -687,7 +687,7 @@ class Windows_x86_64_Manifest(WindowsManifest):
             self.end_prefix()
 
 
-class DarwinManifest(ViewerManifest):
+class Darwin_i386_Manifest(ViewerManifest):
     def is_packaging_viewer(self):
         # darwin requires full app bundle packaging even for debugging.
         return True

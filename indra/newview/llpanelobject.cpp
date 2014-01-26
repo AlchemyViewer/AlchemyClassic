@@ -405,9 +405,9 @@ void LLPanelObject::getState( )
 	mBtnPosCopy->setEnabled(enable_move);
 	mBtnPosPaste->setEnabled(enable_move && mCopiedObjectData.has("position"));
 
-	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -REGION_WIDTH_METERS);
 	mCtrlPosX->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
-	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
+	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -REGION_WIDTH_METERS);
 	mCtrlPosY->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
 	mCtrlPosZ->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : 0.f);
 	mCtrlPosZ->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_HEIGHT_METERS);

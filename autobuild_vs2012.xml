@@ -1026,9 +1026,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f62841804acb91e1309603a84f3f0ce8</string>
+              <string>e81d9e4526ceac49f1532d6518085985</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-perftools/rev/262672/arch/CYGWIN/installer/gperftools-2.0-windows-20120727.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.1-windows-20140120.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

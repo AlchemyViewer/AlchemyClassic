@@ -1884,6 +1884,7 @@ void LLVertexBuffer::unmapBuffer()
 			else
 			{
 				stop_glerror();
+				glBufferDataARB(GL_ARRAY_BUFFER_ARB, getSize(), NULL, mUsage); // <alchemy/>
 				glBufferSubDataARB(GL_ARRAY_BUFFER_ARB, 0, getSize(), (U8*) mMappedData);
 				stop_glerror();
 			}
@@ -1952,6 +1953,7 @@ void LLVertexBuffer::unmapBuffer()
 			else
 			{
 				stop_glerror();
+				glBufferDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, getIndicesSize(), NULL, mUsage); // <alchemy/>
 				glBufferSubDataARB(GL_ELEMENT_ARRAY_BUFFER_ARB, 0, getIndicesSize(), (U8*) mMappedIndexData);
 				stop_glerror();
 			}

@@ -56,23 +56,25 @@ void main()
 {
 	vec2 tc = vary_fragcoord.xy;
 	
-	vec4 dof = dofSample(diffuseRect, vary_fragcoord.xy*res_scale);
-	
-	vec4 diff = texture2DRect(lightMap, vary_fragcoord.xy);
+	vec4 diff = texture2DRect(lightMap, tc.xy);
+	vec4 dof = dofSample(diffuseRect, tc.xy*res_scale);
+	dof.a = 0.0;
 
-	float a = min(abs(diff.a*2.0-1.0) * max_cof*res_scale*res_scale, 1.0);
+	float a = min(abs(diff.a*2.0-1.0) * max_cof*res_scale, 1.0);
 
+	// help out the transition from low-res dof buffer to full-rez full-focus buffer
 	if (a > 0.25 && a < 0.75)
 	{ //help out the transition a bit
 		float sc = a/res_scale;
 		
 		vec4 col;
-		col = texture2DRect(lightMap, vary_fragcoord.xy+vec2(sc,sc));
-		col += texture2DRect(lightMap, vary_fragcoord.xy+vec2(-sc,sc));
-		col += texture2DRect(lightMap, vary_fragcoord.xy+vec2(sc,-sc));
-		col += texture2DRect(lightMap, vary_fragcoord.xy+vec2(-sc,-sc));
+		col = diff;
+		col.rgb += texture2DRect(lightMap, tc.xy+vec2(sc,sc)).rgb;
+		col.rgb += texture2DRect(lightMap, tc.xy+vec2(-sc,sc)).rgb;
+		col.rgb += texture2DRect(lightMap, tc.xy+vec2(sc,-sc)).rgb;
+		col.rgb += texture2DRect(lightMap, tc.xy+vec2(-sc,-sc)).rgb;
 		
-		diff = mix(diff, col*0.25, a);
+		diff = mix(diff, col*0.2, a);
 	}
 
 	frag_color = mix(diff, dof, a);

@@ -60,7 +60,7 @@
        <check_box
              follows="left|top"
              height="16"
-             label="Hide empty system folders when on"
+             label="Hide empty system folders"
              tool_tip="Prevents visual clutter if you don't use the system folders to sort your inventory"
              left="7"
              top_pad="10"

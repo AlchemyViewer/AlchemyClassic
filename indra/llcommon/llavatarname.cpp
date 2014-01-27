@@ -208,7 +208,7 @@ std::string LLAvatarName::getDisplayName() const
 std::string LLAvatarName::getUserName() const
 {
 	std::string name;
-	if (mLegacyLastName.empty() || (mLegacyLastName == "Resident"))
+	if (mLegacyLastName.empty() /*|| (mLegacyLastName == "Resident")*/) // <alchemy/>
 	{
 		if (mLegacyFirstName.empty())
 		{

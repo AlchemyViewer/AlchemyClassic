@@ -110,6 +110,7 @@ public:
 	const LLUUID& getAvatarId() const;
 	std::string getAvatarName() const;
 	std::string getAvatarToolTip() const;
+	static std::string formatAvatarName(const LLAvatarName& av_name); // <alchemy/>
 
 	void onInfoBtnClick();
 	void onProfileBtnClick();

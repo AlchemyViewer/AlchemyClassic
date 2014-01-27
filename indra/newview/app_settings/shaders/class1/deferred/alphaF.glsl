@@ -51,7 +51,7 @@ uniform float max_y;
 uniform vec4 glow;
 uniform float scene_light_strength;
 uniform mat3 env_mat;
-uniform mat3 ssao_effect_mat;
+uniform float ssao_effect;
 
 uniform vec3 sun_dir;
 
@@ -374,7 +374,7 @@ void calcAtmospherics(vec3 inPositionEye, float ambFactor) {
 	 * vec3 ambHueSat = vec3(tmpAmbient) - vec3(ambValue);
 	 * tmpAmbient = vec4(RenderSSAOEffect.valueFactor * vec3(ambValue) + RenderSSAOEffect.saturationFactor *(1.0 - ambFactor) * ambHueSat, ambAlpha);
 	 */
-	tmpAmbient = vec4(mix(ssao_effect_mat * tmpAmbient.rgb, tmpAmbient.rgb, ambFactor), tmpAmbient.a);
+	tmpAmbient = vec4(mix(ssao_effect * tmpAmbient.rgb, tmpAmbient.rgb, ambFactor), tmpAmbient.a);
 
 	//haze color
 	setAdditiveColor(
@@ -532,8 +532,8 @@ void main()
 #endif
 
 #ifdef FOR_IMPOSTOR
-	vec4 color;
-	color.rgb = diff.rgb;
+	//vec4 color; // <alchemy/>
+	//color.rgb = diff.rgb; // <alchemy/>
 
 #ifdef USE_VERTEX_COLOR
 	float final_alpha = diff.a * vertex_color.a;
@@ -548,6 +548,7 @@ void main()
 	{
 		discard;
 	}
+	vec4 color = vec4(diff.rgb, final_alpha); // <alchemy/>
 #else
 	
 #ifdef USE_VERTEX_COLOR

@@ -154,6 +154,9 @@ LLAvatarList::LLAvatarList(const Params& p)
 	}
 	
 	LLAvatarNameCache::addUseDisplayNamesCallback(boost::bind(&LLAvatarList::handleDisplayNamesOptionChanged, this));
+
+	gSavedSettings.getControl("AlchemyAvatarListNameFormat")->getSignal()->connect(
+		boost::bind(&LLAvatarList::handleDisplayNamesOptionChanged, this));
 }
 
 
@@ -279,7 +282,9 @@ void LLAvatarList::refresh()
 		LLAvatarName av_name;
 		have_names &= LLAvatarNameCache::get(buddy_id, &av_name);
 
-		if (!have_filter || findInsensitive(av_name.getDisplayName(), mNameFilter))
+		std::string name = LLAvatarListItem::formatAvatarName(av_name); // <alchemy/>
+
+		if (!have_filter || findInsensitive(name, mNameFilter)) // <alchemy/>
 		{
 			if (nadded >= ADD_LIMIT)
 			{
@@ -297,9 +302,8 @@ void LLAvatarList::refresh()
 				}
 				else
 				{
-					std::string display_name = av_name.getDisplayName();
 					addNewItem(buddy_id, 
-						display_name.empty() ? waiting_str : display_name, 
+						name.empty() ? waiting_str : name, // <alchemy/>
 						LLAvatarTracker::instance().isBuddyOnline(buddy_id));
 				}
 				
@@ -327,7 +331,7 @@ void LLAvatarList::refresh()
 			const LLUUID& buddy_id = it->asUUID();
 			LLAvatarName av_name;
 			have_names &= LLAvatarNameCache::get(buddy_id, &av_name);
-			if (!findInsensitive(av_name.getDisplayName(), mNameFilter))
+			if (!findInsensitive(LLAvatarListItem::formatAvatarName(av_name), mNameFilter)) // <alchemy/>
 			{
 				removeItemByUUID(buddy_id);
 				modified = true;
@@ -399,8 +403,7 @@ bool LLAvatarList::filterHasMatches()
 
 		// If name has not been loaded yet we consider it as a match.
 		// When the name will be loaded the filter will be applied again(in refresh()).
-
-		if (have_name && !findInsensitive(av_name.getDisplayName(), mNameFilter))
+		if (have_name && !findInsensitive(LLAvatarListItem::formatAvatarName(av_name), mNameFilter)) // <alchemy/>
 		{
 			continue;
 		}

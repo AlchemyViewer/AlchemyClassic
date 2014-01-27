@@ -13,6 +13,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyAvatarListNameFormat</key>
+    <map>
+      <key>Comment</key>
+      <string>Display names in format specified.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <string>1</string>
+    </map>
     <key>AlchemyChatCommandCalc</key>
     <map>
       <key>Comment</key>
@@ -182,6 +193,17 @@
     <map>
       <key>Comment</key>
       <string>Disable Click To Sit on prims, prevents possible evil things</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyEditRootAxis</key>
+    <map>
+      <key>Comment</key>
+      <string>Edit linkset based on location of root primitive</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -398,6 +420,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyPlainChatUsername</key>
+    <map>
+      <key>Comment</key>
+      <string>Display username in plain text chat</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
     <key>AlchemyPlayTeleportSound</key>
     <map>
       <key>Comment</key>
@@ -430,6 +463,17 @@
       <string>Boolean</string>
       <key>Value</key>
       <integer>0</integer>
+    </map>
+    <key>AlchemyPreciseClock</key>
+    <map>
+      <key>Comment</key>
+      <string>Add seconds to status bar clock</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
     </map>
     <key>AlchemyRevokeObjectPerms</key>
     <map>

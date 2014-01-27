@@ -45,7 +45,7 @@ public:
 
 		Params()
 		:	is_group("is_group", false)
-		,	link("link", false)
+		,	link("link", true) // <alchemy/>
 		{}
 	};
 

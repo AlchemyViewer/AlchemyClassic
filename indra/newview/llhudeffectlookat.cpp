@@ -557,7 +557,6 @@ void LLHUDEffectLookAt::render()
 		static LLCachedControl<U32> lookAtNames(gSavedSettings, "AlchemyLookAtNames", 0);
 		if(lookAtNames > 0)
 		{
-			const LLFontGL* font = LLFontGL::getFontSansSerif();
 			std::string text;
 			LLAvatarName av_name;
 			LLAvatarNameCache::get(static_cast<LLVOAvatar*>(mSourceObject.get())->getID(), &av_name);
@@ -577,14 +576,15 @@ void LLHUDEffectLookAt::render()
 					break;
 			}
 
+			const LLFontGL* fontp = LLFontGL::getFontSansSerif();
 			gGL.pushMatrix();
 			hud_render_utf8text(
 				text, 
 				target + LLVector3(0.f, 0.f, 0.15f),
-				*font, 
+				*fontp,
 				LLFontGL::BOLD, 
 				LLFontGL::DROP_SHADOW,
-				-0.5f * font->getWidthF32(text), 
+				-0.5f * fontp->getWidthF32(text), 
 				0.0f,
 				(*mAttentions)[mTargetType].mColor, 
 				FALSE

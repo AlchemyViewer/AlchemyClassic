@@ -755,6 +755,7 @@ void LLFloaterTexturePicker::onBtnBlank(void* userdata)
 	self->commitIfImmediateSet();
 }
 
+
 // static
 void LLFloaterTexturePicker::onBtnNone(void* userdata)
 {

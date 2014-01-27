@@ -44,8 +44,7 @@
      name="inventory filter tabs"
      tab_group="1"
      tab_position="top"
-     tab_min_width="100"
-     tab_height="23"
+     tab_min_width="60"
      top_pad="5"
      width="312">
     <inventory_panel

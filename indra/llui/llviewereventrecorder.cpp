@@ -97,7 +97,7 @@ void LLViewerEventRecorder::setMouseLocalCoords(S32 x, S32 y) {
 
 void LLViewerEventRecorder::setMouseGlobalCoords(S32 x, S32 y) {
   if (!mLogEvents) return; // <alchemy/>
-	
+
   global_x=x;
   global_y=y;
 }
@@ -158,6 +158,7 @@ void LLViewerEventRecorder::logVisibilityChange(std::string xui, std::string nam
   event.insert("timestamp",LLSD(LLDate::now().asString())); 
   recordEvent(event);
 }
+
 
 std::string LLViewerEventRecorder::get_xui() {
   return xui;

@@ -41,6 +41,7 @@
 #include "llavatariconctrl.h"
 #include "lloutputmonitorctrl.h"
 #include "lltooldraganddrop.h"
+#include "llviewercontrol.h" // <alchemy/>
 
 bool LLAvatarListItem::sStaticInitialized = false;
 S32 LLAvatarListItem::sLeftPadding = 0;
@@ -406,12 +407,32 @@ void LLAvatarListItem::onAvatarNameCache(const LLAvatarName& av_name)
 {
 	mAvatarNameCacheConnection.disconnect();
 
-	setAvatarName(av_name.getDisplayName());
+	setAvatarName(formatAvatarName(av_name)); // <alchemy/>
 	setAvatarToolTip(av_name.getUserName());
 
 	//requesting the list to resort
 	notifyParent(LLSD().with("sort", LLSD()));
 }
+
+// <alchemy>
+// static
+std::string LLAvatarListItem::formatAvatarName(const LLAvatarName& av_name)
+{
+	static LLCachedControl<U32> control(gSavedSettings, "AlchemyAvatarListNameFormat", 0);
+	switch (control)
+	{
+	default:
+	case 0:
+		return av_name.getDisplayName();
+	case 1:
+		return av_name.getCompleteName();
+	case 2:
+		return av_name.getUserName();
+	case 3:
+		return av_name.getAccountName();
+	}
+}
+// </alchemy>
 
 // Convert given number of seconds to a string like "23 minutes", "15 hours" or "3 years",
 // taking i18n into account. The format string to use is taken from the panel XML.

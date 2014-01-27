@@ -4221,7 +4221,7 @@ void LLSelectMgr::selectionSetObjectName(const std::string& name)
 	std::string name_copy(name);
 
 	// we only work correctly if 1 object is selected.
-	if(mSelectedObjects->getRootObjectCount() == 1)
+	if(mSelectedObjects->getRootObjectCount() >= 1) // <alchemy/>
 	{
 		sendListToRegions("ObjectName",
 						  packAgentAndSessionID,
@@ -4229,7 +4229,7 @@ void LLSelectMgr::selectionSetObjectName(const std::string& name)
 						  (void*)(&name_copy),
 						  SEND_ONLY_ROOTS);
 	}
-	else if(mSelectedObjects->getObjectCount() == 1)
+	else if(mSelectedObjects->getObjectCount() >= 1) // <alchemy/>
 	{
 		sendListToRegions("ObjectName",
 						  packAgentAndSessionID,
@@ -4244,7 +4244,7 @@ void LLSelectMgr::selectionSetObjectDescription(const std::string& desc)
 	std::string desc_copy(desc);
 
 	// we only work correctly if 1 object is selected.
-	if(mSelectedObjects->getRootObjectCount() == 1)
+	if(mSelectedObjects->getRootObjectCount() >= 1) // <alchemy/>
 	{
 		sendListToRegions("ObjectDescription",
 						  packAgentAndSessionID,
@@ -4252,7 +4252,7 @@ void LLSelectMgr::selectionSetObjectDescription(const std::string& desc)
 						  (void*)(&desc_copy),
 						  SEND_ONLY_ROOTS);
 	}
-	else if(mSelectedObjects->getObjectCount() == 1)
+	else if(mSelectedObjects->getObjectCount() >= 1) // <alchemy/>
 	{
 		sendListToRegions("ObjectDescription",
 						  packAgentAndSessionID,
@@ -6103,7 +6103,8 @@ void LLSelectNode::renderOneWireframe(const LLColor4& color)
 	}
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	
+
+	// <alchemy>
 	if (LLSelectMgr::sRenderHiddenSelections) // && gFloaterTools && gFloaterTools->getVisible())
 	{
 		gGL.blendFunc(LLRender::BF_SOURCE_COLOR, LLRender::BF_ONE);
@@ -6129,18 +6130,22 @@ void LLSelectNode::renderOneWireframe(const LLColor4& color)
 				pushWireframe(drawable);
 			}
 		}
+		gGL.setSceneBlendType(LLRender::BT_ALPHA);
 	}
+	else
+	{
+		LLGLEnable cull_face(GL_CULL_FACE);
+		LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
 
-	gGL.flush();
-	gGL.setSceneBlendType(LLRender::BT_ALPHA);
+		gGL.setSceneBlendType(LLRender::BT_ALPHA);
+		gGL.diffuseColor4f(color.mV[VRED] * 2, color.mV[VGREEN] * 2, color.mV[VBLUE] * 2, LLSelectMgr::sHighlightAlpha * 2);
+		glPolygonOffset(3.f, 3.f);
+		glLineWidth(3.f);
+		pushWireframe(drawable);
+		glLineWidth(1.f);
+	}
+	// </alchemy>
 
-	gGL.diffuseColor4f(color.mV[VRED]*2, color.mV[VGREEN]*2, color.mV[VBLUE]*2, LLSelectMgr::sHighlightAlpha*2);
-	
-	LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
-	glPolygonOffset(3.f, 3.f);
-	glLineWidth(3.f);
-	pushWireframe(drawable);
-	glLineWidth(1.f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	gGL.popMatrix();
 

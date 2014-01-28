@@ -3,7 +3,9 @@ include(Prebuilt)
 
 # If you want to enable or disable TCMALLOC in viewer builds, this is the place.
 # set ON or OFF as desired.
-set (USE_TCMALLOC ON CACHE BOOL "Build the viewer with google tcmalloc")
+if (NOT WORD_SIZE EQUAL 64)
+  set (USE_TCMALLOC ON CACHE BOOL "Build the viewer with google tcmalloc")
+endif (NOT WORD_SIZE EQUAL 64)
 
 if (STANDALONE)
   include(FindGooglePerfTools)

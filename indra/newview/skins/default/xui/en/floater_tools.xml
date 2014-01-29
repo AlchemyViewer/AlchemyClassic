@@ -277,7 +277,7 @@
      follows="left|top"
      height="20"
      label="Link"
-     top="108"
+     top="103"
      layout="topleft"
      left="143"
      name="link_btn"
@@ -336,6 +336,16 @@
      layout="topleft"
      top_pad="0"
      name="checkbox snap to grid"
+     width="134" />
+   <check_box
+     control_name="AlchemyEditRootAxis"
+     height="18"
+     initial_value="true"
+     label="Edit from Root prim"
+     tool_tip="Puts the position and rotation controls at the root prim instead of the general center of the linkset"
+     layout="topleft"
+     top_pad="22"
+     name="checkbox edit root axis"
      width="134" />
     <combo_box
       height="20"

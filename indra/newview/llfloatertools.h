@@ -122,6 +122,7 @@ private:
 	void onClickGridOptions();
 
 public:
+	LLCheckBoxCtrl*  mAlchEditRootAxis;
 	LLButton		*mBtnFocus;
 	LLButton		*mBtnMove;
 	LLButton		*mBtnEdit;

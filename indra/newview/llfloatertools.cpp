@@ -245,6 +245,8 @@ BOOL	LLFloaterTools::postBuild()
 	mBtnLink			= getChild<LLButton>("link_btn");
 	mBtnUnlink			= getChild<LLButton>("unlink_btn");
 	
+	mAlchEditRootAxis		= getChild<LLCheckBoxCtrl>("checkbox edit root axis");
+	getChild<LLUICtrl>("checkbox edit root axis")->setValue((BOOL)gSavedSettings.getBOOL("AlchemyEditRootAxis"));
 	mCheckSelectIndividual	= getChild<LLCheckBoxCtrl>("checkbox edit linked parts");	
 	getChild<LLUICtrl>("checkbox edit linked parts")->setValue((BOOL)gSavedSettings.getBOOL("EditLinkedParts"));
 	mCheckSnapToGrid		= getChild<LLCheckBoxCtrl>("checkbox snap to grid");
@@ -316,6 +318,7 @@ BOOL	LLFloaterTools::postBuild()
 // during LLViewerWindow's per-frame hover processing.
 LLFloaterTools::LLFloaterTools(const LLSD& key)
 :	LLFloater(key),
+	mAlchEditRootAxis(NULL),
 	mBtnFocus(NULL),
 	mBtnMove(NULL),
 	mBtnEdit(NULL),
@@ -724,7 +727,9 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 
 		mComboGridMode->setCurrentByIndex(index);
 	}
-
+	// Put grab tool centor on root prim
+	if (mAlchEditRootAxis) mAlchEditRootAxis->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
+	
 	// Snap to grid disabled for grab tool - very confusing
 	if (mCheckSnapToGrid) mCheckSnapToGrid->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
 	if (mBtnGridOptions) mBtnGridOptions->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );

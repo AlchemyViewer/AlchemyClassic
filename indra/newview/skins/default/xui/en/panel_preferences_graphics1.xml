@@ -1004,34 +1004,35 @@
         Glow Options:
        </text>
        <slider  
+       can_edit_text="true"
        control_name="RenderGlowIterations"
-       enabled_control="RenderGlow"
        decimal_digits="0"
        enabled="true"
+       enabled_control="RenderGlow"
        follows="left|top"
-       layout="topleft"
        height="16"
        increment="1" 
        initial_value="1"
-       top_pad="10"
        label="Glow Iterations:"
        label_width="160"
+       layout="topleft"
        left="20"
        max_val="5"
        min_val="0"
-       can_edit_text="true"
        mouse_opaque="true"
        name="Iterations"
        show_text="true"
-       width="392" />
+       text_width="35"
+       top_pad="10"
+       width="385" />
       <slider  
+       can_edit_text="true"
        control_name="RenderGlowStrength"
-       enabled_control="RenderGlow"
        decimal_digits="3"
        enabled="true"
+       enabled_control="RenderGlow"
        follows="left|top"
        height="16"
-       can_edit_text="true"
        increment="0.001"
        initial_value="0.200" 
        label="Glow Strength:"
@@ -1042,16 +1043,17 @@
        mouse_opaque="true"
        name="Strength"
        show_text="true"
-       width="414" />
+       text_width="35"
+       width="385" />
       <slider  
+       can_edit_text="true"
        control_name="RenderGlowMinLuminance"
-       enabled_control="RenderGlow"
        decimal_digits="2"
        enabled="true"
+       enabled_control="RenderGlow"
        follows="left|top"
        height="16"
-       can_edit_text="true"
-       increment="0.01" 
+       increment="0.05" 
        initial_value="0" 
        label="Min. Luminance:"
        label_width="160"
@@ -1061,15 +1063,16 @@
        mouse_opaque="true"
        name="MinLuminance"
        show_text="true"
-       width="408" />
+       text_width="35"
+       width="385" />
       <slider  
+       can_edit_text="true"
        control_name="RenderGlowWarmthAmount"
-       enabled_control="RenderGlow"
        decimal_digits="1"
        enabled="true"
+       enabled_control="RenderGlow"
        follows="left|top"
        height="16"
-       can_edit_text="true"
        increment="0.1" 
        initial_value="7" 
        label="Glow Warmth:"
@@ -1079,17 +1082,18 @@
        min_val="0"
        mouse_opaque="true"
        name="Warmth"
+       text_width="35"
        show_text="true"
-       width="408" />
+       width="385" />
       <slider  
+       can_edit_text="true"
        control_name="RenderGlowWidth"
-       enabled_control="RenderGlow"
        decimal_digits="1"
        enabled="true"
+       enabled_control="RenderGlow"
        follows="left|top"
        height="16"
        increment="0.1"
-       can_edit_text="true"
        initial_value="3" 
        label="Glow Width:"
        label_width="160"
@@ -1099,13 +1103,14 @@
        mouse_opaque="true"
        name="Width"
        show_text="true"
-       width="402" />
+       text_width="35"
+       width="385" />
       <slider  
-       control_name="RenderGlowMaxExtractAlpha"
-       enabled_control="RenderGlow"
-       decimal_digits="4"
-       follows="left|top"
        can_edit_text="true"
+       control_name="RenderGlowMaxExtractAlpha"
+       decimal_digits="4"
+       enabled_control="RenderGlow"
+       follows="left|top"
        height="16"
        increment="0.001" 
        initial_value="0.020" 
@@ -1114,11 +1119,12 @@
        left="20"
        max_val="0.1"
        min_val="0"
-       val_width="40"
        mouse_opaque="true"
        name="MaxAlpha"
        show_text="true"
-       width="414" />
+       text_width="35"
+       val_width="40"
+       width="385" />
       </panel> <!-- Glow Panel -->
     </panel> <!-- Rendering Tab -->
     <!-- Depth of Field -->
@@ -1172,7 +1178,7 @@
       mouse_opaque="true"
       name="DofOptsText"
       width="128"
-      top_pad="5">
+      top_pad="15">
       Depth of Field Options:
      </text>
       <panel
@@ -1191,10 +1197,11 @@
         decimal_digits="2"
         follows="left|top"
         height="16"
-        increment="1"
+        increment="0.05"
         initial_value="9.00"
         label="Camera F Number:"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="7"
         max_val="64"
@@ -1203,16 +1210,17 @@
         name="CameraFNum"
         tool_tip="Camera f-number value for DoF effect"
         top_pad="10"
-        width="368"/>
+        width="385"/>
        <slider
         control_name="CameraFocalLength"
-        decimal_digits="1"
+        decimal_digits="2"
         follows="left|top"
         height="16"
-        increment="1"
+        increment="0.05"
         initial_value="50"
         label="Camera Focal Length (mm):"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="0"
         max_val="500"
@@ -1221,16 +1229,17 @@
         name="CameraFocal"
         tool_tip="Camera focal length for DoF effect (in millimeters)"
         top_pad="5"
-        width="374"/>
+        width="385"/>
        <slider
         control_name="CameraFieldOfView"
         decimal_digits="2"
         follows="left|top"
         height="16"
-        increment="1"
+        increment="0.05"
         initial_value="60"
         label="Camera FOV degs:"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="0"
         max_val="200"
@@ -1239,7 +1248,7 @@
         name="Camera FOV"
         tool_tip="Vertical camera field of view for DoF effect (in degrees)"
         top_pad="5"
-        width="374"/>
+        width="385"/>
        <slider
         control_name="CameraAspectRatio"
         decimal_digits="2"
@@ -1249,6 +1258,7 @@
         initial_value="1.5"
         label="Camera Aspect Ratio:"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="0"
         max_val="5"
@@ -1257,16 +1267,17 @@
         name="CameraAspectRatio"
         tool_tip="Camera aspect ratio for DoF effect"
         top_pad="5"
-        width="365"/>
+        width="385"/>
        <slider
         control_name="CameraFocusTransitionTime"
         decimal_digits="2"
         follows="left|top"
         height="16"
-        increment="0.01"
+        increment="0.05"
         initial_value="0.5"
         label="Focus Transition Time:"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="0"
         max_val="5"
@@ -1275,7 +1286,7 @@
         name="CameraFocusTrans"
         tool_tip="Time taken to alter focus from one place to the next"
         top_pad="5"
-        width="371"/>
+        width="385"/>
        <slider
         control_name="CameraDoFResScale"
         decimal_digits="2"
@@ -1285,6 +1296,7 @@
         initial_value="0.70"
         label="Blur Quality:"
         label_width="160"
+        text_width="45"
         layout="topleft"
         left_delta="0"
         max_val="1"
@@ -1293,7 +1305,7 @@
         name="CameraDoFResScale"
         tool_tip="Affects the quality of the blurring and the performance of rendering.  (higher = better quality, lower = better perforamce)"
         top_pad="5"
-        width="365"/>
+        width="385"/>
       </panel> <!-- DepthOfFieldPanel -->
     </panel> <!-- DepthOfFieldTab -->
   </tab_container>

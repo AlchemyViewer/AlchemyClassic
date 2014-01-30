@@ -186,7 +186,7 @@
              top="13"
 	     valign="bottom"
              width="102">
-              Favorites Bar
+               Favorites Bar
             </label>
               <!-- More button actually is a text box. -->
               <more_button

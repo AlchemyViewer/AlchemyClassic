@@ -1449,7 +1449,7 @@ Only large parcels can be listed in search.
              fallback_image="default_land_picture.j2c" 
              tool_tip="Click to choose a picture"
              width="195" />
-            <!--<text
+            <text
              type="string"
              length="1"
              follows="left|top"
@@ -1462,10 +1462,9 @@ Only large parcels can be listed in search.
              width="205"
              wrap="true">
               Avatars on other parcels can see and chat with avatars on this parcel
-            </text>-->
+            </text>
             <check_box
              height="16"
-             label="Restrict avatars and chat to this parcel"
              follows="top"
              layout="topleft"
              left="253"

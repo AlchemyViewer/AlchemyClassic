@@ -109,6 +109,7 @@ protected:
 	// menu callbacks
 	void doToSelected(const LLSD& userdata);
 	void closeAllFolders();
+	void openAllFolders(); // <alchemy/>
 	void newWindow();
 	void doCreate(const LLSD& userdata);
 	void resetFilters();

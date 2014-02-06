@@ -109,6 +109,7 @@ LLPanelMainInventory::LLPanelMainInventory(const LLPanel::Params& p)
 {
 	// Menu Callbacks (non contex menus)
 	mCommitCallbackRegistrar.add("Inventory.DoToSelected", boost::bind(&LLPanelMainInventory::doToSelected, this, _2));
+	mCommitCallbackRegistrar.add("Inventory.OpenAllFolders", boost::bind(&LLPanelMainInventory::openAllFolders, this)); // <alchemy/>
 	mCommitCallbackRegistrar.add("Inventory.CloseAllFolders", boost::bind(&LLPanelMainInventory::closeAllFolders, this));
 	mCommitCallbackRegistrar.add("Inventory.EmptyTrash", boost::bind(&LLInventoryModel::emptyFolderType, &gInventory, "ConfirmEmptyTrash", LLFolderType::FT_TRASH));
 	mCommitCallbackRegistrar.add("Inventory.EmptyLostAndFound", boost::bind(&LLInventoryModel::emptyFolderType, &gInventory, "ConfirmEmptyLostAndFound", LLFolderType::FT_LOST_AND_FOUND));
@@ -302,6 +303,13 @@ void LLPanelMainInventory::closeAllFolders()
 {
 	getPanel()->getRootFolder()->closeAllFolders();
 }
+
+// <alchemy>
+void LLPanelMainInventory::openAllFolders()
+{
+	getPanel()->getRootFolder()->openAllFolders();
+}
+// </alchemy>
 
 void LLPanelMainInventory::newWindow()
 {
@@ -1033,6 +1041,12 @@ void LLPanelMainInventory::onCustomAction(const LLSD& userdata)
 	{
 		resetFilters();
 	}
+	// <alchemy>
+	if (command_name == "open_folders")
+	{
+		openAllFolders();
+	}
+	// </alchemy>
 	if (command_name == "close_folders")
 	{
 		closeAllFolders();

@@ -474,7 +474,8 @@
         </menu_item_call>
         <menu_item_call
          label="About land"
-         name="About Land">
+         name="About Land"
+         shortcut="alt|L">
             <menu_item_call.on_click
              function="Floater.Show"
              parameter="about_land" />

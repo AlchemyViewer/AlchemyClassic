@@ -169,7 +169,7 @@ void LLStatBar::draw()
 		{
 			left = llfloor((tick_value - mMinBar)*value_scale);
 			right = left + tick_width;
-			gl_rect_2d(left, top, right, bottom, LLColor4(1.f, 1.f, 1.f, 0.1f));
+			gl_rect_2d(left, top, right, bottom, LLColor4(0.2975f, 0.4269f, 0.5783f, 0.1f)); // <alchemy/>
 		}
 
 		// Draw the tick labels (and big ticks).
@@ -211,7 +211,7 @@ void LLStatBar::draw()
 		}
 
 		right = (S32) ((max - mMinBar) * value_scale);
-		gl_rect_2d(left, top, right, bottom, LLColor4(1.f, 0.f, 0.f, 0.25f));
+		gl_rect_2d(left, top, right, bottom, LLColor4(0.2975f, 0.4269f, 0.5783f, 0.25f)); // <alchemy/>
 
 		S32 num_values = mStatp->getNumValues() - 1;
 		if (mDisplayHistory)
@@ -227,13 +227,13 @@ void LLStatBar::draw()
 				{
 					left = (S32)((mStatp->getPrevPerSec(i) - mMinBar) * value_scale);
 					right = (S32)((mStatp->getPrevPerSec(i) - mMinBar) * value_scale) + 1;
-					gl_rect_2d(left, bottom+i+1, right, bottom+i, LLColor4(1.f, 0.f, 0.f, 1.f));
+					gl_rect_2d(left, bottom+i+1, right, bottom+i, LLColor4(1.f, 1.f, 1.f, 1.f));
 				}
 				else
 				{
 					left = (S32)((mStatp->getPrev(i) - mMinBar) * value_scale);
 					right = (S32)((mStatp->getPrev(i) - mMinBar) * value_scale) + 1;
-					gl_rect_2d(left, bottom+i+1, right, bottom+i, LLColor4(1.f, 0.f, 0.f, 1.f));
+					gl_rect_2d(left, bottom+i+1, right, bottom+i, LLColor4(1.f, 1.f, 1.f, 1.f));
 				}
 			}
 		}
@@ -242,7 +242,7 @@ void LLStatBar::draw()
 			// draw current
 			left = (S32) ((current - mMinBar) * value_scale) - 1;
 			right = (S32) ((current - mMinBar) * value_scale) + 1;
-			gl_rect_2d(left, top, right, bottom, LLColor4(1.f, 0.f, 0.f, 1.f));
+			gl_rect_2d(left, top, right, bottom, LLColor4(1.f, 1.f, 1.f, 1.f));
 		}
 
 		// draw mean bar
@@ -250,7 +250,7 @@ void LLStatBar::draw()
 		bottom = bar_top - bar_height - 2;
 		left = (S32) ((mean - mMinBar) * value_scale) - 1;
 		right = (S32) ((mean - mMinBar) * value_scale) + 1;
-		gl_rect_2d(left, top, right, bottom, LLColor4(0.f, 1.f, 0.f, 1.f));
+		gl_rect_2d(left, top, right, bottom, LLColor4(1.f, 1.f, 1.f, 1.f)); // <alchemy/>
 	}
 	
 	LLView::draw();

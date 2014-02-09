@@ -1179,7 +1179,7 @@ bool LLInvFVBridge::canShare() const
 {
 	bool can_share = false;
 
-	if (isAgentInventory())
+	if (!isItemInTrash() && isAgentInventory())
 	{
 		const LLInventoryModel* model = getInventoryModel();
 		if (model)
@@ -3473,7 +3473,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 		disabled_items.push_back(std::string("Delete System Folder"));
 	}
 
-	if (!isOutboxFolder())
+	if (!isOutboxFolder() && !isItemInTrash())
 	{
 		items.push_back(std::string("Share"));
 		if (!canShare())

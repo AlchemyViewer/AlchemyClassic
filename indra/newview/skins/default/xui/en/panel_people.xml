@@ -65,7 +65,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
      tab_position="top"
      top="0"
      halign="center"
-     right="-5">
+     right="-8">
 
 <!-- ================================= NEARBY tab =========================== -->
 
@@ -78,7 +78,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
          follows="all"
          label="NEARBY"
          layout="topleft"
-         left="0"
+         left="2"
          help_topic="people_nearby_tab"
          name="nearby_panel"
          right="-1"
@@ -88,7 +88,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
              height="27"
              label="bottom_panel"
              layout="topleft"
-             left="0"
+             left="2"
              name="nearby_buttons_panel"
              right="-1"
              top="0">
@@ -96,7 +96,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                  follows="left|top|right"
                  height="23"
                  layout="topleft"
-                 left="6"
+                 left="1"
                  label="Filter People"
                  max_length_chars="300"
                  name="nearby_filter_input"

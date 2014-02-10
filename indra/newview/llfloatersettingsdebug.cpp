@@ -205,7 +205,10 @@ void LLFloaterSettingsDebug::updateControl(LLControlVariable* controlp)
 	spinner4->setVisible(FALSE);
 	color_swatch->setVisible(FALSE);
 	getChildView("val_text")->setVisible( FALSE);
-	mComment->setText(LLStringUtil::null);
+	if (!mComment->hasFocus()) // <alchemy/>
+	{
+		mComment->setText(LLStringUtil::null);
+	}
 
 	if (controlp)
 	{
@@ -215,7 +218,10 @@ void LLFloaterSettingsDebug::updateControl(LLControlVariable* controlp)
 		getChildView("boolean_combo")->setVisible( type == TYPE_BOOLEAN);
 		
 
-		mComment->setText(controlp->getComment());
+		if (!mComment->hasFocus()) // <alchemy/>
+		{
+			mComment->setText(controlp->getComment());
+		}
 		spinner1->setMaxValue(F32_MAX);
 		spinner2->setMaxValue(F32_MAX);
 		spinner3->setMaxValue(F32_MAX);

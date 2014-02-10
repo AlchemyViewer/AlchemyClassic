@@ -203,7 +203,7 @@
      reference="AlchemyText" />
     <color
      name="AgentChatColor"
-     reference="AlchemyWhite" />
+     value="0.8705882352941176 0.8705882352941176 0.8705882352941176 1" />
     <color
      name="AlertBoxColor"
      value="0.24 0.24 0.24 1" />
@@ -694,7 +694,7 @@
      reference="DkGray_66" />
     <color
      name="ObjectChatColor"
-     reference="AlchemyOrange" />
+     value="0.472046 0.746704 0.643707 1" />
     <color
      name="OverdrivenColor"
      reference="Red" />
@@ -889,10 +889,10 @@
      reference="AlchemyText" />
     <color
      name="UserChatColor"
-     reference="AlchemyText" />
+     value="0.601563 0.601563 0.601563 1" />
     <color
      name="llOwnerSayChatColor"
-     reference="LtYellow" />
+     value="0.7843137254901961 0.8274509803921569 0.9333333333333333 1" />
 
     <!-- New Colors -->
     <color

@@ -67,7 +67,7 @@ public:
 											tab_bottom_image_flash,
 											tab_left_image_unselected,
 											tab_left_image_selected,
-											tab_left_image_flash;
+											tab_left_image_flash;		
 		TabParams();
 	};
 

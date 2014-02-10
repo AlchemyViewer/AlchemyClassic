@@ -273,11 +273,9 @@ bool handleSlowMotionAnimation(const LLSD& newvalue)
 	return true;
 }
 
-// static
-void LLAgent::parcelChangedCallback()
+void LLAgent::setCanEditParcel() // called via mParcelChangedSignal
 {
 	bool can_edit = LLToolMgr::getInstance()->canEdit();
-
 	gAgent.mCanEditParcel = can_edit;
 }
 
@@ -439,6 +437,8 @@ LLAgent::LLAgent() :
 
 	mListener.reset(new LLAgentListener(*this));
 
+	addParcelChangedCallback(&setCanEditParcel);
+
 	mMoveTimer.stop();
 }
 
@@ -464,8 +464,6 @@ void LLAgent::init()
 	mLastKnownResponseMaturity = static_cast<U8>(gSavedSettings.getU32("PreferredMaturity"));
 	mLastKnownRequestMaturity = mLastKnownResponseMaturity;
 	mIsDoSendMaturityPreferenceToServer = true;
-
-	LLViewerParcelMgr::getInstance()->addAgentParcelChangedCallback(boost::bind(&LLAgent::parcelChangedCallback));
 
 	if (!mTeleportFinishedSlot.connected())
 	{
@@ -849,22 +847,33 @@ void LLAgent::handleServerBakeRegionTransition(const LLUUID& region_id)
 	}
 }
 
+void LLAgent::changeParcels()
+{
+	LL_DEBUGS("AgentLocation") << "Calling ParcelChanged callbacks" << LL_ENDL;
+	// Notify anything that wants to know about parcel changes
+	mParcelChangedSignal();
+}
+
+boost::signals2::connection LLAgent::addParcelChangedCallback(parcel_changed_callback_t cb)
+{
+	return mParcelChangedSignal.connect(cb);
+}
+
 //-----------------------------------------------------------------------------
 // setRegion()
 //-----------------------------------------------------------------------------
 void LLAgent::setRegion(LLViewerRegion *regionp)
 {
-	bool teleport = true;
-
+	bool notifyRegionChange;
+	
 	llassert(regionp);
 	if (mRegionp != regionp)
 	{
-		// std::string host_name;
-		// host_name = regionp->getHost().getHostName();
-
+		notifyRegionChange = true;
+		
 		std::string ip = regionp->getHost().getString();
-		llinfos << "Moving agent into region: " << regionp->getName()
-				<< " located at " << ip << llendl;
+		LL_INFOS("AgentLocation") << "Moving agent into region: " << regionp->getName()
+				<< " located at " << ip << LL_ENDL;
 		if (mRegionp)
 		{
 			// We've changed regions, we're now going to change our agent coordinate frame.
@@ -892,9 +901,6 @@ void LLAgent::setRegion(LLViewerRegion *regionp)
 			{
 				gSky.mVOGroundp->setRegion(regionp);
 			}
-
-			// Notify windlight managers
-			teleport = (gAgent.getTeleportState() != LLAgent::TELEPORT_NONE);
 		}
 		else
 		{
@@ -916,7 +922,13 @@ void LLAgent::setRegion(LLViewerRegion *regionp)
 		// Pass new region along to metrics components that care about this level of detail.
 		LLAppViewer::metricsUpdateRegion(regionp->getHandle());
 	}
+	else
+	{
+		notifyRegionChange = false;
+	}
 	mRegionp = regionp;
+
+	// TODO - most of what follows probably should be moved into callbacks
 
 	// Pass the region host to LLUrlEntryParcel to resolve parcel name
 	// with a server request.
@@ -936,15 +948,6 @@ void LLAgent::setRegion(LLViewerRegion *regionp)
 
 	LLFloaterMove::sUpdateFlyingStatus();
 
-	if (teleport)
-	{
-		LLEnvManagerNew::instance().onTeleport();
-	}
-	else
-	{
-		LLEnvManagerNew::instance().onRegionCrossing();
-	}
-
 	// If the newly entered region is using server bakes, and our
 	// current appearance is non-baked, request appearance update from
 	// server.
@@ -956,6 +959,12 @@ void LLAgent::setRegion(LLViewerRegion *regionp)
 	{
 		// Need to handle via callback after caps arrive.
 		mRegionp->setCapabilitiesReceivedCallback(boost::bind(&LLAgent::handleServerBakeRegionTransition,this,_1));
+	}
+
+	if (notifyRegionChange)
+	{
+		LL_DEBUGS("AgentLocation") << "Calling RegionChanged callbacks" << LL_ENDL;
+		mRegionChangedSignal();
 	}
 }
 
@@ -979,6 +988,16 @@ LLHost LLAgent::getRegionHost() const
 	{
 		return LLHost::invalid;
 	}
+}
+
+boost::signals2::connection LLAgent::addRegionChangedCallback(const region_changed_signal_t::slot_type& cb)
+{
+	return mRegionChangedSignal.connect(cb);
+}
+
+void LLAgent::removeRegionChangedCallback(boost::signals2::connection callback)
+{
+	mRegionChangedSignal.disconnect(callback);
 }
 
 //-----------------------------------------------------------------------------

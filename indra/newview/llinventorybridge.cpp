@@ -1179,7 +1179,7 @@ bool LLInvFVBridge::canShare() const
 {
 	bool can_share = false;
 
-	if (isAgentInventory())
+	if (!isItemInTrash() && isAgentInventory())
 	{
 		const LLInventoryModel* model = getInventoryModel();
 		if (model)
@@ -1793,11 +1793,11 @@ BOOL LLItemBridge::isItemCopyable() const
 	LLViewerInventoryItem* item = getItem();
 	if (item)
 	{
-		// Can't copy worn objects. DEV-15183
-		if(get_is_item_worn(mUUID))
-		{
-			return FALSE;
-		}
+		// Can't copy worn objects. DEV-15183 <alchemy/> is this relevant anymore?
+		//if(get_is_item_worn(mUUID))
+		//{
+		//	return FALSE;
+		//}
 
 		// You can never copy a link.
 		if (item->getIsLinkType())
@@ -3473,7 +3473,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 		disabled_items.push_back(std::string("Delete System Folder"));
 	}
 
-	if (!isOutboxFolder())
+	if (!isOutboxFolder() && !isItemInTrash())
 	{
 		items.push_back(std::string("Share"));
 		if (!canShare())

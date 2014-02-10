@@ -1738,7 +1738,7 @@ BOOL LLItemBridge::removeItem()
 	// we can't do this check because we may have items in a folder somewhere that is
 	// not yet in memory, so we don't want false negatives.  (If disabled, then we 
 	// know we only have links in the Outfits folder which we explicitly fetch.)
-	if (!gSavedSettings.getBOOL("InventoryLinking"))
+	//if (!gSavedSettings.getBOOL("InventoryLinking")) // <alchemy/>
 	{
 		if (!item->getIsLinkType())
 		{
@@ -3473,7 +3473,7 @@ void LLFolderBridge::buildContextMenuOptions(U32 flags, menuentry_vec_t&   items
 		disabled_items.push_back(std::string("Delete System Folder"));
 	}
 
-	if (!isOutboxFolder() && !isItemInTrash())
+	if (!isOutboxFolder() && !isItemInTrash()) // <alchemy/>
 	{
 		items.push_back(std::string("Share"));
 		if (!canShare())

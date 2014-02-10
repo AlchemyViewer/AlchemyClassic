@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
  label="General"
- height="604"
+ height="570"
  width="304"
  class="panel_group_general"
  name="general_tab">
@@ -192,7 +192,7 @@ Hover your mouse over the options for more help.
          border="false"
          bg_alpha_color="FloaterUnfocusBorderColor"
          follows="left|top|right"
-         height="140"
+         height="110"
          width="313"
          layout="topleft"
          left="0"

@@ -647,7 +647,7 @@ void LLHUDEffectLookAt::update()
 
 	if (mDebugLookAt) // <alchemy/>
 	{
-		((LLVOAvatar*)(LLViewerObject*)mSourceObject)->addDebugText((*mAttentions)[mTargetType].mName);
+		// ((LLVOAvatar*)(LLViewerObject*)mSourceObject)->addDebugText((*mAttentions)[mTargetType].mName); // <alchemy/>
 	}
 }
 

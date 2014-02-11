@@ -66,6 +66,7 @@ LLPanelGroupGeneral::LLPanelGroupGeneral()
 	mPendingMemberUpdate(FALSE),
 	mChanged(FALSE),
 	mFirstUse(TRUE),
+	mGroupUUIDEditor(NULL),
 	mGroupNameEditor(NULL),
 	mFounderName(NULL),
 	mInsignia(NULL),
@@ -922,8 +923,16 @@ void LLPanelGroupGeneral::setGroupID(const LLUUID& id)
 {
 	LLPanelGroupTab::setGroupID(id);
 
+	mGroupUUIDEditor = getChild<LLLineEditor>("uuid_editor");
+
 	if(id == LLUUID::null)
 	{
+		if (mGroupUUIDEditor)
+		{
+			mGroupUUIDEditor->setText(LLUUID::null.asString());
+			mGroupUUIDEditor->setEnabled(FALSE);
+		}
+
 		reset();
 		return;
 	}
@@ -936,6 +945,13 @@ void LLPanelGroupGeneral::setGroupID(const LLUUID& id)
 		accept_notices = data.mAcceptNotices;
 		list_in_profile = data.mListInProfile;
 	}
+
+	if (mGroupUUIDEditor)
+	{
+		mGroupUUIDEditor->setText(data.mID.asString());
+		mGroupUUIDEditor->setEnabled(FALSE);
+	}
+
 	mCtrlReceiveNotices = getChild<LLCheckBoxCtrl>("receive_notices");
 	if (mCtrlReceiveNotices)
 	{

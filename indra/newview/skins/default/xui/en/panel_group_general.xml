@@ -28,26 +28,25 @@ Hover your mouse over the options for more help.
       width="304"
       layout="topleft">
     <text
-     follows="left|top|right"
+     follows="left|top"
      type="string"
      height="12"
-     layout="left|top|right"
      left="5"
      name="uuid_text"
-     top_pad="0"
-     width="25">
+     top_pad="2"
+     width="30">
         UUID:
     </text>
     <line_editor
-     enabled="false"
      top_delta="-4"
-     follows="left|top"
+     follows="left|top|right"
      height="20"
      max_length_chars="36"
-     left_delta="50"
+     left_delta="38"
      text_pad_left="5"
      name="uuid_editor"
-     width="226"/>
+     select_on_focus="true"
+     width="255"/>
     <texture_picker
      default_image_name="Generic_Group_Large"
      follows="left|top"

@@ -92,6 +92,7 @@ private:
 	std::string		mIncompleteMemberDataStr;
 
 	// Group information (include any updates in updateChanged)
+	LLLineEditor		*mGroupUUIDEditor;
 	LLLineEditor		*mGroupNameEditor;
 	LLTextBox			*mFounderName;
 	LLTextureCtrl		*mInsignia;

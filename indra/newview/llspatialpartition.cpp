@@ -63,6 +63,7 @@ static U32 sZombieGroups = 0;
 U32 LLSpatialGroup::sNodeCount = 0;
 
 U32 gOctreeMaxCapacity;
+F32 gOctreeMinSize;
 
 BOOL LLSpatialGroup::sNoDelete = FALSE;
 

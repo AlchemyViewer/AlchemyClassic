@@ -78,6 +78,12 @@ if (WINDOWS)
       /fp:fast
       )
      
+  if (MSVC11 OR MSVC12)
+    if (RELEASE_EXTRA_DEBUG)
+      add_definitions(/d2Zi+)
+    endif (RELEASE_EXTRA_DEBUG)
+  endif (MSVC11 OR MSVC12)
+
   if (WORD_SIZE EQUAL 32)
     add_definitions(
 		/arch:SSE2

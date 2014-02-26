@@ -4,6 +4,18 @@
  layout="topleft"
  name="Avatar Pie">
     <menu_item_call
+     enabled="false"
+     label="Touch"
+     layout="topleft"
+     name="Attachment Object Touch">
+        <menu_item_call.on_click
+         function="Object.Touch" />
+        <menu_item_call.on_enable
+         function="Object.EnableTouch"
+         name="EnableTouch"/>
+    </menu_item_call>
+   <menu_item_separator />
+    <menu_item_call
      label="View Profile"
      name="Profile...">
         <menu_item_call.on_click

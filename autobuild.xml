@@ -987,6 +987,30 @@
           </map>
         </map>
       </map>
+      <key>inteltbb</key>
+      <map>
+        <key>license</key>
+        <string>gplv2</string>
+        <key>license_file</key>
+        <string>LICENSES/tbb.txt</string>
+        <key>name</key>
+        <string>inteltbb</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>eeaf0744b27b1d9e8eadbb9c21b0178c</string>
+              <key>url</key>
+              <string>https://dl.dropboxusercontent.com/u/8162280/inteltbb-4.2u3-windows-20140227.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+        </map>
+      </map>
       <key>jpeglib</key>
       <map>
         <key>license</key>

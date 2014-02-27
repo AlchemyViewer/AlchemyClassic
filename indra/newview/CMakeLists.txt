@@ -37,6 +37,7 @@ include(Linking)
 include(NDOF)
 include(NVAPI)
 include(GooglePerfTools)
+include(IntelTBB)
 include(TemplateCheck)
 include(UI)
 include(UnixInstall)
@@ -1638,7 +1639,7 @@ if (WINDOWS)
     set_target_properties(${VIEWER_BINARY_NAME}
         PROPERTIES
         # *TODO -reenable this once we get server usage sorted out
-        LINK_FLAGS "/debug /NODEFAULTLIB:LIBCMT /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} /LARGEADDRESSAWARE"
+        LINK_FLAGS "/debug /NODEFAULTLIB:LIBCMT /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} ${TBBMALLOC_LINK_FLAGS} /LARGEADDRESSAWARE"
         LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\" /INCREMENTAL:NO /LARGEADDRESSAWARE"
         LINK_FLAGS_RELEASE "/FORCE:MULTIPLE /MAP\"alchemy-bin.MAP\" /OPT:REF /LARGEADDRESSAWARE"
         )
@@ -1667,6 +1668,18 @@ if (WINDOWS)
         )
      endif(USE_TCMALLOC)
 
+    if(USE_TBBMALLOC)
+      # Configure a var for tbbmalloc location, if used.
+      # Note the need to specify multiple names explicitly.
+      set(TBBMALLOC_SOURCE
+        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc.dll
+        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc.dll
+        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_debug.dll
+        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc_proxy.dll
+        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc_proxy.dll
+        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_proxy_debug.dll
+        )
+     endif(USE_TBBMALLOC)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
@@ -1704,6 +1717,7 @@ if (WINDOWS)
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxoal.dll
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ca-bundle.crt
       ${GOOGLE_PERF_TOOLS_SOURCE}
+      ${TBBMALLOC_SOURCE}
       ${CMAKE_CURRENT_SOURCE_DIR}/licenses-win32.txt
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable.txt
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable_xp.txt
@@ -1925,6 +1939,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${LLPHYSICS_LIBRARIES}
     ${LLPHYSICSEXTENSIONS_LIBRARIES}
     ${TCMALLOC_LIBRARIES}
+    ${TBBMALLOC_LIBRARIES}
     ${LLAPPEARANCE_LIBRARIES}
     )
 

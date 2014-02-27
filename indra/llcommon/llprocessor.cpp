@@ -202,6 +202,7 @@ namespace
 		case 6: return "AMD K7";
 		case 0xF: return "AMD K8";
 		case 0x10: return "AMD K8L";
+		case 0x15: return "AMD Bulldozer";
 		}
    		return "Unknown";
 	}

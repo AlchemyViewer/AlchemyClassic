@@ -184,18 +184,6 @@
      name="Large"
      value="2"/>
     </radio_group>
-
-    <check_box
-        follows="left|top"
-        height="16"
-        label="Parse JIRA links"
-        tool_tip="Replaces JIRA issues in chat with clickable links."
-        left_delta="-8"
-        top_pad="5"
-        name="chat_cmd_toggle"
-        width="275"
-        control_name="AlchemyChatParseJira"/>
-
     <check_box
         control_name="UseChatBubbles"
         height="16"

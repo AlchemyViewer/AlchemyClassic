@@ -149,34 +149,25 @@ static bool stringHasUrl(const std::string &text)
 // <alchemy>
 static bool stringHasJira(const std::string &text)
 {
-	static LLCachedControl<bool> alchemyParseJira(*LLUI::sSettingGroups["config"], "AlchemyChatParseJira");
-	if (alchemyParseJira) 
-	{
-		// fast heuristic test for a URL in a string. This is used
-		// to avoid lots of costly regex calls, BUT it needs to be
-		// kept in sync with the LLUrlEntry regexes we support.
-		return (text.find("ALCH")	 != std::string::npos ||
-				text.find("BUG")	 != std::string::npos ||
-				text.find("CHOP")	 != std::string::npos ||
-				text.find("FIRE")	 != std::string::npos ||
-				text.find("MAINT")	 != std::string::npos ||
-				text.find("MATBUG")	 != std::string::npos ||
-				text.find("NORSPEC") != std::string::npos ||
-				text.find("OPEN")	 != std::string::npos ||
-				text.find("SCR")	 != std::string::npos ||
-				text.find("SEC")	 != std::string::npos ||
-				text.find("SH")		 != std::string::npos ||
-				text.find("STORM")	 != std::string::npos ||
-				text.find("SUN")	 != std::string::npos ||
-				text.find("SVC")	 != std::string::npos ||
-				text.find("VWR")	 != std::string::npos ||
-				text.find("WAPM")	 != std::string::npos ||
-				text.find("WEB")	 != std::string::npos);
-	} 
-	else 
-	{
-		return false;
-	}
+	// fast heuristic test for a URL in a string. This is used
+	// to avoid lots of costly regex calls, BUT it needs to be
+	// kept in sync with the LLUrlEntry regexes we support.
+	return (text.find("ALCH")	 != std::string::npos ||
+			text.find("BUG")	 != std::string::npos ||
+			text.find("CHOP")	 != std::string::npos ||
+			text.find("FIRE")	 != std::string::npos ||
+			text.find("MAINT")	 != std::string::npos ||
+			text.find("MATBUG")	 != std::string::npos ||
+			text.find("NORSPEC") != std::string::npos ||
+			text.find("OPEN")	 != std::string::npos ||
+			text.find("SCR")	 != std::string::npos ||
+			text.find("SH")		 != std::string::npos ||
+			text.find("STORM")	 != std::string::npos ||
+			text.find("SUN")	 != std::string::npos ||
+			text.find("SVC")	 != std::string::npos ||
+			text.find("VWR")	 != std::string::npos ||
+			text.find("WAPM")	 != std::string::npos ||
+			text.find("WEB")	 != std::string::npos);
 }
 // </alchemy>
 

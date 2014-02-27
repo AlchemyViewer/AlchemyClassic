@@ -1209,7 +1209,7 @@ std::string LLUrlEntryIcon::getIcon(const std::string &url)
 //
 LLUrlEntryJira::LLUrlEntryJira()
 {
-	mPattern = boost::regex("((?:ALCH|BUG|CHOP|FIRE|MAINT|MATBUG|NORSPEC|OPEN|SCR|SEC|SH|STORM|SUN|SVC|VWR|WAPM|WEB)-\\d+)",
+	mPattern = boost::regex("((?:ALCH|BUG|CHOP|FIRE|MAINT|MATBUG|NORSPEC|OPEN|SCR|SH|STORM|SUN|SVC|VWR|WAPM|WEB)-\\d+)",
 							boost::regex::perl);
 	mMenuName = "menu_url_http.xml";
 	mTooltip = LLTrans::getString("TooltipHttpUrl");
@@ -1231,18 +1231,15 @@ std::string LLUrlEntryJira::getUrl(const std::string &url) const
 	if (url.find("ALCH") != std::string::npos ||
 		url.find("WAPM") != std::string::npos)
 	{
-		static LLCachedControl<std::string> alchemyJiraURL(*LLUI::sSettingGroups["config"], "AlchemyJiraURL");
-		ret = (boost::format(static_cast<std::string>(alchemyJiraURL) + "%1%") % url).str();
+		ret = (boost::format("http://alchemy.atlassian.net/browse/%1%") % url).str();
 	}
 	else if(url.find("FIRE") != std::string::npos)
 	{
-		static LLCachedControl<std::string> firestormJiraURL(*LLUI::sSettingGroups["config"], "FirestormJiraURL");
-		ret = (boost::format(static_cast<std::string>(firestormJiraURL) + "%1%") % url).str();
+		ret = (boost::format("http://jira.phoenixviewer.com/browse/%1%") % url).str();
 	}
 	else
 	{
-		static LLCachedControl<std::string> secondlifeJiraURL(*LLUI::sSettingGroups["config"], "SecondLifeJiraURL");
-		ret = (boost::format(static_cast<std::string>(secondlifeJiraURL) + "%1%") % url).str();
+		ret = (boost::format("http://jira.secondlife.com/browse/%1%") % url).str();
 	}
 	return ret;
 }

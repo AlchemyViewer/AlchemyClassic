@@ -1197,6 +1197,9 @@ void LLShaderMgr::initAttribsAndUniforms()
 
 	mReservedUniforms.push_back("origin");
 	mReservedUniforms.push_back("display_gamma");
+	// <alchemy>
+	mReservedUniforms.push_back("seconds60");
+	// </alchemy>
 	llassert(mReservedUniforms.size() == END_RESERVED_UNIFORMS);
 
 	std::set<std::string> dupe_check;

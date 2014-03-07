@@ -7900,6 +7900,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 				shader->uniform1f(LLShaderMgr::DOF_RES_SCALE, CameraDoFResScale);
 				shader->uniform1f(LLShaderMgr::DOF_WIDTH, dof_width-1);
 				shader->uniform1f(LLShaderMgr::DOF_HEIGHT, dof_height-1);
+				shader->uniform1f(LLShaderMgr::SECONDS60, fmodf(LLTimer::getElapsedSeconds(), 60.f));
 
 				gGL.begin(LLRender::TRIANGLE_STRIP);
 				gGL.texCoord2f(tc1.mV[0], tc1.mV[1]);

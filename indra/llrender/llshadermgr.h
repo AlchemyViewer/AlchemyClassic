@@ -216,6 +216,9 @@ public:
 		
 		SHINY_ORIGIN,
 DISPLAY_GAMMA,
+// <alchemy>
+		SECONDS60,
+// </alchemy>
 		END_RESERVED_UNIFORMS
 	} eGLSLReservedUniforms;
 

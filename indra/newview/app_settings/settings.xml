@@ -4643,7 +4643,7 @@
         <key>Type</key>
         <string>Boolean</string>
         <key>Value</key>
-        <integer>0</integer>
+        <integer>1</integer>
     </map>
     <key>InventoryDisplayOutbox</key>
     <map>
@@ -4984,6 +4984,7 @@
       <key>Type</key>
       <string>LLSD</string>
       <key>Value</key>
+      <array />
     </map>
     <key>LSLFindCaseInsensitivity</key>
         <map>

@@ -3985,6 +3985,7 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 	const LLUUID &favorites_id = model->findCategoryUUIDForType(LLFolderType::FT_FAVORITE, false);
 	const LLUUID &landmarks_id = model->findCategoryUUIDForType(LLFolderType::FT_LANDMARK, false);
 	const LLUUID &outbox_id = model->findCategoryUUIDForType(LLFolderType::FT_OUTBOX, false);
+	const LLUUID &inbox_id = model->findCategoryUUIDForType(LLFolderType::FT_INBOX, false);
 
 	const BOOL move_is_into_current_outfit = (mUUID == current_outfit_id);
 	const BOOL move_is_into_favorites = (mUUID == favorites_id);
@@ -3992,6 +3993,7 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 	const BOOL move_is_into_landmarks = (mUUID == landmarks_id) || model->isObjectDescendentOf(mUUID, landmarks_id);
 	const BOOL move_is_into_outbox = model->isObjectDescendentOf(mUUID, outbox_id);
 	const BOOL move_is_from_outbox = model->isObjectDescendentOf(inv_item->getUUID(), outbox_id);
+	const BOOL move_is_into_inbox = model->isObjectDescendentOf(mUUID, inbox_id);
 
 	LLToolDragAndDrop::ESource source = LLToolDragAndDrop::getInstance()->getSource();
 	BOOL accept = FALSE;
@@ -4087,6 +4089,10 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 					accept = FALSE;
 				}
 			}
+		}
+		else if (move_is_into_inbox)
+		{
+			accept = FALSE;
 		}
 
 		LLInventoryPanel* active_panel = LLInventoryPanel::getActiveInventoryPanel(FALSE);
@@ -4228,6 +4234,10 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
 			accept = FALSE;
 		}
+		else if (move_is_into_inbox)
+		{
+			accept = FALSE;
+		}
 		
 		// Check whether the item being dragged from in world
 		// passes the filter of the destination panel.
@@ -4266,6 +4276,10 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
 			accept = FALSE;
 		}
+		else if (move_is_into_inbox)
+		{
+			accept = FALSE;
+		}
 		else
 		{
 			// Don't allow placing an original item from a notecard to Current Outfit or an outfit folder
@@ -4298,6 +4312,10 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			if (move_is_into_outbox)
 			{
 				tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
+				accept = FALSE;
+			}
+			else if (move_is_into_inbox)
+			{
 				accept = FALSE;
 			}
 			else if (move_is_into_current_outfit || move_is_into_outfit)

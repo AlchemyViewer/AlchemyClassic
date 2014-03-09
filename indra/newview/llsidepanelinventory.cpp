@@ -239,7 +239,7 @@ BOOL LLSidepanelInventory::postBuild()
 		}
 
 		// Set the inbox visible based on debug settings (final setting comes from http request below)
-		enableInbox(gSavedSettings.getBOOL("InventoryDisplayInbox"));
+		//enableInbox(gSavedSettings.getBOOL("InventoryDisplayInbox"));
 
 		// Trigger callback for after login so we can setup to track inbox changes after initial inventory load
 		LLAppViewer::instance()->setOnLoginCompletedCallback(boost::bind(&LLSidepanelInventory::updateInbox, this));
@@ -272,7 +272,7 @@ void LLSidepanelInventory::updateInbox()
 	else 
 	{
 		// Enable the display of the inbox if it exists
-		enableInbox(true);
+		enableInbox(gSavedSettings.getBOOL("InventoryDisplayInbox"));
 
 		observeInboxModifications(inbox_id);
 	}

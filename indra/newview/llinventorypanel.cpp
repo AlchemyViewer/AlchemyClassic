@@ -168,6 +168,7 @@ LLInventoryPanel::LLInventoryPanel(const LLInventoryPanel::Params& p) :
 	mCommitCallbackRegistrar.add("Inventory.BeginIMSession", boost::bind(&LLInventoryPanel::beginIMSession, this));
 	mCommitCallbackRegistrar.add("Inventory.Share",  boost::bind(&LLAvatarActions::shareWithAvatars, this));
 
+	gSavedSettings.getControl("InventoryDisplayInbox")->getSignal()->connect(boost::bind(&LLInventoryPanel::setShowInboxFolder, this, _2));
 }
 
 LLFolderView * LLInventoryPanel::createFolderRoot(LLUUID root_id )
@@ -259,7 +260,10 @@ void LLInventoryPanel::initFromParams(const LLInventoryPanel::Params& params)
 	}
 
 	// hide inbox
-	getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() & ~(1ULL << LLFolderType::FT_INBOX));
+	if (!gSavedSettings.getControl("InventoryDisplayInbox"))
+	{
+		getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() & ~(1ULL << LLFolderType::FT_INBOX));
+	}
 	getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() & ~(1ULL << LLFolderType::FT_OUTBOX));
 
 	// set the filter for the empty folder if the debug setting is on
@@ -389,6 +393,19 @@ void LLInventoryPanel::setFilterLinks(U64 filter_links)
 void LLInventoryPanel::setShowFolderState(LLInventoryFilter::EFolderShow show)
 {
 	getFilter().setShowFolderState(show);
+}
+
+void LLInventoryPanel::setShowInboxFolder(BOOL show)
+{
+	if (show)
+	{
+		getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() | (1ULL << LLFolderType::FT_INBOX));
+	}
+	else
+	{
+		getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() & ~(1ULL << LLFolderType::FT_INBOX));
+	}
+	getFilter().setModified(LLInventoryFilter::FILTER_RESTART);
 }
 
 LLInventoryFilter::EFolderShow LLInventoryPanel::getShowFolderState()

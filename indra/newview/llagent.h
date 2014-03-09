@@ -802,7 +802,7 @@ private:
 	// HUD
 	//--------------------------------------------------------------------
 public:
-	const LLColor4	&getEffectColor();
+	const LLColor4	getEffectColor();
 	void			setEffectColor(const LLColor4 &color);
 private:
 	LLUIColor * mEffectColor;

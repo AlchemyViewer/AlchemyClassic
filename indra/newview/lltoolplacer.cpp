@@ -34,11 +34,14 @@
 #include "llviewercontrol.h"
 //#include "llfirstuse.h"
 #include "llfloatertools.h"
+#include "llparcel.h" //<alchemy> Rez under Land Group
+#include "llgroupactions.h" //<alchemy> Rez under Land Group
 #include "llselectmgr.h"
 #include "llstatusbar.h"
 #include "lltoolcomp.h"
 #include "lltoolmgr.h"
 #include "llviewerobject.h"
+#include "llviewerparcelmgr.h" //<alchemy> Rez under Land Group
 #include "llviewerregion.h"
 #include "llviewerwindow.h"
 #include "llworld.h"
@@ -231,7 +234,21 @@ BOOL LLToolPlacer::addObject( LLPCode pcode, S32 x, S32 y, U8 use_physics )
 	gMessageSystem->nextBlockFast(_PREHASH_AgentData);
 	gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
 	gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
-	gMessageSystem->addUUIDFast(_PREHASH_GroupID, gAgent.getGroupID());
+
+	//<alchemy> Rez under Land Group
+	static LLCachedControl<bool> AlchemyRezUnderLandGroup(gSavedSettings, "AlchemyRezUnderLandGroup");
+	LLUUID group_id = gAgent.getGroupID();
+	if (AlchemyRezUnderLandGroup)
+	{
+		LLParcel* land_parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+		// Is the agent in the land group
+		if (gAgent.isInGroup(land_parcel->getGroupID()))
+			group_id = land_parcel->getGroupID();
+		// Is the agent in the land group (the group owns the land)
+		else if(gAgent.isInGroup(land_parcel->getOwnerID()))
+			group_id = land_parcel->getOwnerID();
+	}
+	gMessageSystem->addUUIDFast(_PREHASH_GroupID, group_id);
 	gMessageSystem->nextBlockFast(_PREHASH_ObjectData);
 	gMessageSystem->addU8Fast(_PREHASH_Material,	material);
 

@@ -68,6 +68,7 @@
 #include "llmeshrepository.h"
 #include "llmutelist.h"
 #include "llnotificationsutil.h"
+#include "llparcel.h" //<alchemy> Rez under Land Group
 #include "llsidepaneltaskinfo.h"
 #include "llslurl.h"
 #include "llstatusbar.h"
@@ -85,6 +86,7 @@
 #include "llviewermenu.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
+#include "llviewerparcelmgr.h" //<alchemy> Rez under Land Group
 #include "llviewerregion.h"
 #include "llviewerstats.h"
 #include "llvoavatarself.h"
@@ -3885,7 +3887,22 @@ void LLSelectMgr::packDuplicateOnRayHead(void *user_data)
 	msg->nextBlockFast(_PREHASH_AgentData);
 	msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID() );
 	msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID() );
-	msg->addUUIDFast(_PREHASH_GroupID, gAgent.getGroupID() );
+
+	//<alchemy> Rez under Land Group
+	static LLCachedControl<bool> AlchemyRezUnderLandGroup(gSavedSettings, "AlchemyRezUnderLandGroup");
+	LLUUID group_id = gAgent.getGroupID();
+	if (AlchemyRezUnderLandGroup)
+	{
+		LLParcel* land_parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+		// Is the agent in the land group
+		if (gAgent.isInGroup(land_parcel->getGroupID()))
+			group_id = land_parcel->getGroupID();
+		// Is the agent in the land group (the group owns the land)
+		else if(gAgent.isInGroup(land_parcel->getOwnerID()))
+			group_id = land_parcel->getOwnerID();
+	}
+
+	msg->addUUIDFast(_PREHASH_GroupID, group_id );
 	msg->addVector3Fast(_PREHASH_RayStart, data->mRayStartRegion );
 	msg->addVector3Fast(_PREHASH_RayEnd, data->mRayEndRegion );
 	msg->addBOOLFast(_PREHASH_BypassRaycast, data->mBypassRaycast );
@@ -4673,7 +4690,19 @@ void LLSelectMgr::packAgentAndSessionAndGroupID(void* user_data)
 // static
 void LLSelectMgr::packDuplicateHeader(void* data)
 {
-	LLUUID group_id(gAgent.getGroupID());
+	//<alchemy> Rez under Land Group
+	static LLCachedControl<bool> AlchemyRezUnderLandGroup(gSavedSettings, "AlchemyRezUnderLandGroup");
+	LLUUID group_id = gAgent.getGroupID();
+	if (AlchemyRezUnderLandGroup)
+	{
+		LLParcel* land_parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+		// Is the agent in the land group
+		if (gAgent.isInGroup(land_parcel->getGroupID()))
+			group_id = land_parcel->getGroupID();
+		// Is the agent in the land group (the group owns the land)
+		else if(gAgent.isInGroup(land_parcel->getOwnerID()))
+			group_id = land_parcel->getOwnerID();
+	}
 	packAgentAndSessionAndGroupID(&group_id);
 
 	LLDuplicateData* dup_data = (LLDuplicateData*) data;

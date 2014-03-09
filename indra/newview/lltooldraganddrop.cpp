@@ -45,6 +45,7 @@
 #include "llinventorybridge.h"
 #include "llinventorydefines.h"
 #include "llinventoryfunctions.h"
+#include "llparcel.h" //<alchemy> Rez under Land Group
 #include "llpreviewnotecard.h"
 #include "llrootview.h"
 #include "llselectmgr.h"
@@ -53,6 +54,7 @@
 #include "lltooltip.h"
 #include "lltrans.h"
 #include "llviewerobjectlist.h"
+#include "llviewerparcelmgr.h" //<alchemy> Rez under Land Group
 #include "llviewerregion.h"
 #include "llviewerstats.h"
 #include "llviewerwindow.h"
@@ -1360,7 +1362,22 @@ void LLToolDragAndDrop::dropObject(LLViewerObject* raycast_target,
 	msg->nextBlockFast(_PREHASH_AgentData);
 	msg->addUUIDFast(_PREHASH_AgentID,  gAgent.getID());
 	msg->addUUIDFast(_PREHASH_SessionID,  gAgent.getSessionID());
-	msg->addUUIDFast(_PREHASH_GroupID, gAgent.getGroupID());
+
+	//<alchemy> Rez under Land Group
+	static LLCachedControl<bool> AlchemyRezUnderLandGroup(gSavedSettings, "AlchemyRezUnderLandGroup");
+	LLUUID group_id = gAgent.getGroupID();
+	if (AlchemyRezUnderLandGroup)
+	{
+		LLParcel* land_parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+		// Is the agent in the land group
+		if (gAgent.isInGroup(land_parcel->getGroupID()))
+			group_id = land_parcel->getGroupID();
+		// Is the agent in the land group (the group owns the land)
+		else if(gAgent.isInGroup(land_parcel->getOwnerID()))
+			group_id = land_parcel->getOwnerID();
+	}
+
+	msg->addUUIDFast(_PREHASH_GroupID, group_id);
 
 	msg->nextBlock("RezData");
 	// if it's being rezzed from task inventory, we need to enable

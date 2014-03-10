@@ -851,7 +851,7 @@ void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem
 			{
 				mNoCopyTextureSelected = TRUE;
 			}
-			mImageAssetID = itemp->getAssetUUID();
+			setImageID(itemp->getAssetUUID());
 			mViewModel->setDirty(); // *TODO: shouldn't we be using setValue() here?
 			if (user_action && mCanPreview)
 			{

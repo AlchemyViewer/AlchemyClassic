@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
  label="General"
- height="570"
+ height="420"
  width="304"
  class="panel_group_general"
  name="general_tab">
@@ -53,11 +53,11 @@ Hover your mouse over the options for more help.
      height="110"
      label=""
      layout="topleft"
-     left="2"
+     left="5"
      name="insignia"
      no_commit_on_selection="true"
      tool_tip="Click to choose a picture"
-     top="25"
+     top="5"
      width="100" />
     <text
       font="SansSerifSmall"
@@ -71,7 +71,7 @@ Hover your mouse over the options for more help.
      length="1"
      left_pad="8"
      name="prepend_founded_by"
-     top_delta="3">
+     top_delta="0">
       Founder:
     </text>
      <text
@@ -92,7 +92,7 @@ Hover your mouse over the options for more help.
      layout="topleft"
      left_delta="0"
      name="join_cost_text"
-     top_pad="0"
+     top_pad="10"
      visible="true"
      width="190">
       Free
@@ -100,7 +100,7 @@ Hover your mouse over the options for more help.
     <button
      follows="left|top"
      left_delta="0"
-     top_pad="4"
+     top_pad="6"
      height="23"
      label="JOIN NOW!"
      name="btn_join"
@@ -111,47 +111,35 @@ Hover your mouse over the options for more help.
      type="string"
      follows="left|top|right"
      left="3"
-     height="110"
+     height="80"
      layout="topleft"
      max_length="511"
      name="charter"
-     top="116"
+     top="105"
      right="-4"
     bg_readonly_color="DkGray2"
     text_readonly_color="White"
      word_wrap="true">
      Group Charter
-    </text_editor>
-    <name_list
-     column_padding="0"
-     draw_heading="true"
-     follows="left|top|right"
-     heading_height="23"
-     height="150"
-     layout="topleft"
-     left="0"
-     name="visible_members"
-     short_names="false" 
-     top_pad="2">
-        <name_list.columns
-         label="Member"
-         name="name"
-         relative_width="0.4" />
-        <name_list.columns
-         label="Title"
-         name="title"
-         relative_width="0.4" />
-        <name_list.columns
-         label="Status"
-         name="status"
-         relative_width="0.2" />
-      </name_list>
+    </text_editor>   
          <text
          follows="left|top|right"
          type="string"
          height="12"
          layout="left|top|right"
          left="5"
+         text_color="EmphasisColor"
+         name="my_group_settngs_label"
+         top_pad="10"
+         width="300">
+           Me
+        </text>
+         <text
+         follows="left|top|right"
+         type="string"
+         height="12"
+         layout="left|top|right"
+         left="10"
          name="active_title_label"
          top_pad="5"
          width="300">
@@ -161,7 +149,7 @@ Hover your mouse over the options for more help.
          follows="left|top|right"
          height="23"
          layout="topleft"
-         left="5"
+         left="10"
          right="-5"
          name="active_title"
          tool_tip="Sets the title that appears in your avatar&apos;s name tag when this group is active."
@@ -171,7 +159,7 @@ Hover your mouse over the options for more help.
          font="SansSerifSmall"
          label="Receive group notices"
          layout="topleft"
-         left="5"
+         left="10"
          name="receive_notices"
          tool_tip="Sets whether you want to receive Notices from this group.  Uncheck this box if this group is spamming you."
          top_pad="5"
@@ -180,7 +168,7 @@ Hover your mouse over the options for more help.
          height="16"
          label="Show in my profile"
          layout="topleft"
-         left="5"
+         left="10"
          name="list_groups_in_profile"
          tool_tip="Sets whether you want to show this group in your profile"
          top_pad="5"
@@ -191,12 +179,12 @@ Hover your mouse over the options for more help.
          border="false"
          bg_alpha_color="FloaterUnfocusBorderColor"
          follows="left|top|right"
-         height="110"
+         height="140"
          width="313"
          layout="topleft"
          left="0"
          name="preferences_container"
-         top_pad="0">
+         top_pad="5">
         <text
          follows="left|top|right"
          type="string"
@@ -213,13 +201,13 @@ Hover your mouse over the options for more help.
          height="16"
          label="Anyone can join"
          layout="topleft"
-         left="5"
+         left="10"
          name="open_enrollement"
          tool_tip="Sets whether this group allows new members to join without being invited."
          width="90" />
         <check_box
          height="16"
-         label="Cost to join    L$"
+         label="Cost to join"
          layout="topleft"
          left_delta="0"
          name="check_enrollment_fee"
@@ -232,12 +220,14 @@ Hover your mouse over the options for more help.
          halign="left"
          height="23"
          increment="1"
+         label_width="15"
+         label="L$"
          layout="topleft"
          max_val="99999"
-         left_delta="110"
+         left="30"
          name="spin_enrollment_fee"
          tool_tip="New members must pay this fee to join the group when Enrollment Fee is checked."
-         width="100" />
+         width="170" />
         <combo_box
          follows="left|top"
          height="23"

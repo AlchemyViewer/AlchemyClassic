@@ -90,12 +90,10 @@ LLFloaterIMContainer::LLFloaterIMContainer(const LLSD& seed, const Params& param
 LLFloaterIMContainer::~LLFloaterIMContainer()
 {
 	mConversationsEventStream.stopListening("ConversationsRefresh");
-
 	gIdleCallbacks.deleteFunction(idle, this);
-
 	mNewMessageConnection.disconnect();
 	LLTransientFloaterMgr::getInstance()->removeControlView(LLTransientFloaterMgr::IM, this);
-
+	
 	if (mMicroChangedSignal.connected())
 	{
 		mMicroChangedSignal.disconnect();

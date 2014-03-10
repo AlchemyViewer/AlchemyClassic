@@ -294,7 +294,11 @@ std::string LLDir::buildSLOSCacheDir() const
 	}
 	else
 	{
+#if defined(_WIN64) || defined(_X86_64)
+		res = add(getOSCacheDir(), "Alchemy64");
+#else
 		res = add(getOSCacheDir(), "Alchemy");
+#endif
 	}
 	return res;
 }

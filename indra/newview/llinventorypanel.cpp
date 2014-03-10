@@ -260,7 +260,7 @@ void LLInventoryPanel::initFromParams(const LLInventoryPanel::Params& params)
 	}
 
 	// hide inbox
-	if (!gSavedSettings.getControl("InventoryDisplayInbox"))
+	if (gSavedSettings.getControl("InventoryDisplayInbox"))
 	{
 		getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() & ~(1ULL << LLFolderType::FT_INBOX));
 	}
@@ -397,7 +397,7 @@ void LLInventoryPanel::setShowFolderState(LLInventoryFilter::EFolderShow show)
 
 void LLInventoryPanel::setShowInboxFolder(BOOL show)
 {
-	if (show)
+	if (!show)
 	{
 		getFilter().setFilterCategoryTypes(getFilter().getFilterCategoryTypes() | (1ULL << LLFolderType::FT_INBOX));
 	}

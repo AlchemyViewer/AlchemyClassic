@@ -24,6 +24,17 @@
       <key>Value</key>
       <string>1</string>
     </map>
+    <key>AlchemyBoundingBoxBeam</key>
+    <map>
+      <key>Comment</key>
+      <string>Makes your selection beam point at the bounding box of the selection</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
     <key>AlchemyChatCommandCalc</key>
     <map>
       <key>Comment</key>

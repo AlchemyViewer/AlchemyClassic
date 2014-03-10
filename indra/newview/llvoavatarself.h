@@ -170,7 +170,8 @@ private:
 protected:
 	BOOL 		needsRenderBeam();
 private:
-	LLPointer<LLHUDEffectSpiral> mBeam;
+	//<alchemy> Bounding Box Selection Beams
+	LLPointer<LLHUDEffectSpiral> mBeam[8];
 	LLFrameTimer mBeamTimer;
 
 	//--------------------------------------------------------------------

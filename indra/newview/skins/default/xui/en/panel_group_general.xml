@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
  label="General"
- height="420"
+ height="430"
  width="304"
  class="panel_group_general"
  name="general_tab">
@@ -57,7 +57,7 @@ Hover your mouse over the options for more help.
      name="insignia"
      no_commit_on_selection="true"
      tool_tip="Click to choose a picture"
-     top="5"
+     top="22"
      width="100" />
     <text
       font="SansSerifSmall"
@@ -115,7 +115,7 @@ Hover your mouse over the options for more help.
      layout="topleft"
      max_length="511"
      name="charter"
-     top="105"
+     top="115"
      right="-4"
     bg_readonly_color="DkGray2"
     text_readonly_color="White"

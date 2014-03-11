@@ -239,7 +239,7 @@ void LLVOAvatarSelf::initInstance()
 // virtual
 void LLVOAvatarSelf::markDead()
 {
-	mBeam = NULL;
+	for(int i = 0; i < 8; i++) mBeam[i] = NULL;
 	LLVOAvatar::markDead();
 }
 
@@ -941,61 +941,145 @@ void LLVOAvatarSelf::idleUpdateTractorBeam()
 	// This is only done for yourself (maybe it should be in the agent?)
 	if (!needsRenderBeam() || !isBuilt())
 	{
-		mBeam = NULL;
+		for(int i = 0; i < 8; i++) mBeam[i] = NULL;
+		return;
 	}
-	else if (!mBeam || mBeam->isDead())
+
+	static LLCachedControl<bool> AlchemyBoundingBoxBeam(gSavedSettings, "AlchemyBoundingBoxBeam");
+	static int prev_beam_count = 1;
+	int beam_count = AlchemyBoundingBoxBeam ? 8 : 1;
+
+	// if beam count is lowered remove extra beams
+	if (beam_count < prev_beam_count)
 	{
-		// VEFFECT: Tractor Beam
-		mBeam = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
-		mBeam->setColor(LLColor4U(gAgent.getEffectColor()));
-		mBeam->setSourceObject(this);
+		for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
+	}
+
+	bool reset_timer = false;
+	for(int i = 0; i < 8; i++)
+	{
+		if (!mBeam[i] || mBeam[i]->isDead())
+		{
+			// VEFFECT: Tractor Beam
+			mBeam[i] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
+			mBeam[i]->setColor(LLColor4U(gAgent.getEffectColor()));
+			mBeam[i]->setSourceObject(this);
+
+			reset_timer = true;
+		}
+	}
+
+	if(reset_timer)
+	{
 		mBeamTimer.reset();
 	}
 
-	if (!mBeam.isNull())
-	{
-		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+	LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
 
+	bool use_single_beam = true;
+	if(AlchemyBoundingBoxBeam)
+	{
+		LLBBox bounding_box;
+		use_single_beam = false;
+		for(LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
+		{
+			LLSelectNode* node = *iter;
+			LLViewerObject* object = node->getObject();
+			if (!object)
+				continue;
+			
+			LLViewerObject *root = object->getRootEdit();
+			if ( selection->getSelectType() != SELECT_TYPE_WORLD || // this is an attachment
+				root->isChild(gAgentAvatarp) || // this is the object you're sitting on
+				object->isAvatar()) // this is another avatar
+			{
+				use_single_beam = true;
+				break;
+			}
+			bounding_box.addBBoxAgent( object->getBoundingBoxAgent() );
+		}
+		if(!use_single_beam)
+		{
+			LLMatrix4 transform;
+			transform.initAll(LLVector3(1.f, 1.f, 1.f), bounding_box.getRotation(), bounding_box.getPositionAgent());
+
+			LLVector3 min = bounding_box.getMinLocal();
+			LLVector3 max = bounding_box.getMaxLocal();
+			
+			LLVector3 manipbb[8] = {
+				min,
+				LLVector3(max.mV[VX], min.mV[VY], min.mV[VZ]),
+				LLVector3(min.mV[VX], max.mV[VY], min.mV[VZ]),
+				LLVector3(max.mV[VX], max.mV[VY], min.mV[VZ]),
+				LLVector3(max.mV[VX], min.mV[VY], max.mV[VZ]),
+				LLVector3(min.mV[VX], min.mV[VY], max.mV[VZ]),
+				LLVector3(min.mV[VX], max.mV[VY], max.mV[VZ]),
+				max
+			};
+
+
+			for(int i = 0; i < 8; i++)
+			{
+				mBeam[i]->setTargetObject(NULL);
+				mBeam[i]->setPositionAgent(manipbb[i] * transform);
+			}
+		}
+	}
+
+	if(use_single_beam)
+	{
+		// we can't do bounding box beams here so clear out the beam list
+		if(mBeam[1].notNull()) for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
+			
 		if (gAgentCamera.mPointAt.notNull())
 		{
 			// get point from pointat effect
-			mBeam->setPositionGlobal(gAgentCamera.mPointAt->getPointAtPosGlobal());
-			mBeam->triggerLocal();
-		}
-		else if (selection->getFirstRootObject() && 
-				selection->getSelectType() != SELECT_TYPE_HUD)
-		{
-			LLViewerObject* objectp = selection->getFirstRootObject();
-			mBeam->setTargetObject(objectp);
+			mBeam[0]->setPositionGlobal(gAgentCamera.mPointAt->getPointAtPosGlobal());
+			mBeam[0]->triggerLocal();
 		}
 		else
 		{
-			mBeam->setTargetObject(NULL);
-			LLTool *tool = LLToolMgr::getInstance()->getCurrentTool();
-			if (tool->isEditing())
+			if(selection->getFirstRootObject()
+				&& selection->getSelectType() != SELECT_TYPE_HUD)
 			{
-				if (tool->getEditingObject())
-				{
-					mBeam->setTargetObject(tool->getEditingObject());
-				}
-				else
-				{
-					mBeam->setPositionGlobal(tool->getEditingPointGlobal());
-				}
+				LLViewerObject* objectp = selection->getFirstRootObject();
+				mBeam[0]->setTargetObject(objectp);
 			}
 			else
 			{
-				const LLPickInfo& pick = gViewerWindow->getLastPick();
-				mBeam->setPositionGlobal(pick.mPosGlobal);
+				mBeam[0]->setTargetObject(NULL);
+				LLTool *tool = LLToolMgr::getInstance()->getCurrentTool();
+				if (tool->isEditing())
+				{
+					if (tool->getEditingObject())
+					{
+						mBeam[0]->setTargetObject(tool->getEditingObject());
+					}
+					else
+					{
+						mBeam[0]->setPositionGlobal(tool->getEditingPointGlobal());
+					}
+				}
+				else
+				{
+					const LLPickInfo& pick = gViewerWindow->getLastPick();
+					mBeam[0]->setPositionGlobal(pick.mPosGlobal);
+				}
 			}
+		}
+	}
 
-		}
-		if (mBeamTimer.getElapsedTimeF32() > 0.25f)
+	if (mBeamTimer.getElapsedTimeF32() > 0.25f)
+	{
+		LLColor4U effect_color(gAgent.getEffectColor());
+		for(int i = 0; i < 8; i++)
 		{
-			mBeam->setColor(LLColor4U(gAgent.getEffectColor()));
-			mBeam->setNeedsSendToSim(TRUE);
-			mBeamTimer.reset();
+			if(mBeam[i].isNull())
+				break;
+			mBeam[i]->setColor(effect_color);
+			mBeam[i]->setNeedsSendToSim(TRUE);
 		}
+		mBeamTimer.reset();
 	}
 }
 

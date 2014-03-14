@@ -2001,4 +2001,16 @@ U32 LLViewerRegion::getMaxMaterialsPerTransaction() const
 	return max_entries;
 }
 
-
+// <alchemy>
+LLViewerTexture* LLViewerRegion::getMapImage()
+{
+	if (mMapImage.isNull())
+	{
+		U32 gridX, gridY;
+		grid_from_region_handle(mHandle, &gridX, &gridY);
+		const std::string imageurl = gSavedSettings.getString("CurrentMapServerURL") + llformat("map-1-%d-%d-objects.jpg", gridX, gridY);
+		mMapImage = LLViewerTextureManager::getFetchedTextureFromUrl(imageurl, FTT_MAP_TILE, TRUE, LLGLTexture::BOOST_MAP, LLViewerTexture::LOD_TEXTURE);
+	}
+	return mMapImage;
+}
+// </alchemy>

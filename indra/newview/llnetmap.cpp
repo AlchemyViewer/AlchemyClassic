@@ -153,7 +153,10 @@ void LLNetMap::draw()
 	//static LLUIColor map_track_disabled_color = LLUIColorTable::instance().getColor("MapTrackDisabledColor", LLColor4::white);
 	static LLUIColor map_frustum_color = LLUIColorTable::instance().getColor("MapFrustumColor", LLColor4::white);
 	static LLUIColor map_frustum_rotating_color = LLUIColorTable::instance().getColor("MapFrustumRotatingColor", LLColor4::white);
-	
+	// <alchemy>
+	static LLCachedControl<bool> useWorldMapImage(gSavedSettings, "AlchemyMinimapTile", true);
+	// </alchemy>
+
 	if (mObjectImagep.isNull())
 	{
 		createObjectImage();
@@ -242,10 +245,33 @@ void LLNetMap::draw()
 				gGL.color4f(1.f, 0.5f, 0.5f, 1.f);
 			}
 
+			
+			// <alchemy>
+			if (useWorldMapImage)
+			{
+				LLViewerTexture* img = regionp->getMapImage();
+				if (img && img->hasGLTexture())
+				{
+					gGL.getTexUnit(0)->bind(img);
+					gGL.begin(LLRender::QUADS);
+					gGL.texCoord2f(0.f, 1.f);
+					gGL.vertex2f(left, top);
+					gGL.texCoord2f(0.f, 0.f);
+					gGL.vertex2f(left, bottom);
+					gGL.texCoord2f(1.f, 0.f);
+					gGL.vertex2f(right, bottom);
+					gGL.texCoord2f(1.f, 1.f);
+					gGL.vertex2f(right, top);
+					gGL.end();
 
-			// Draw using texture.
-			gGL.getTexUnit(0)->bind(regionp->getLand().getSTexture());
-			gGL.begin(LLRender::QUADS);
+					img->setBoostLevel(LLGLTexture::BOOST_MAP_VISIBLE);
+				}
+			}
+			else
+			{
+				// Draw using texture.
+				gGL.getTexUnit(0)->bind(regionp->getLand().getSTexture());
+				gGL.begin(LLRender::QUADS);
 				gGL.texCoord2f(0.f, 1.f);
 				gGL.vertex2f(left, top);
 				gGL.texCoord2f(0.f, 0.f);
@@ -254,15 +280,15 @@ void LLNetMap::draw()
 				gGL.vertex2f(right, bottom);
 				gGL.texCoord2f(1.f, 1.f);
 				gGL.vertex2f(right, top);
-			gGL.end();
+				gGL.end();
 
-			// Draw water
-			gGL.setAlphaRejectSettings(LLRender::CF_GREATER, ABOVE_WATERLINE_ALPHA / 255.f);
-			{
-				if (regionp->getLand().getWaterTexture())
+				// Draw water
+				gGL.setAlphaRejectSettings(LLRender::CF_GREATER, ABOVE_WATERLINE_ALPHA / 255.f);
 				{
-					gGL.getTexUnit(0)->bind(regionp->getLand().getWaterTexture());
-					gGL.begin(LLRender::QUADS);
+					if (regionp->getLand().getWaterTexture())
+					{
+						gGL.getTexUnit(0)->bind(regionp->getLand().getWaterTexture());
+						gGL.begin(LLRender::QUADS);
 						gGL.texCoord2f(0.f, 1.f);
 						gGL.vertex2f(left, top);
 						gGL.texCoord2f(0.f, 0.f);
@@ -271,11 +297,13 @@ void LLNetMap::draw()
 						gGL.vertex2f(right, bottom);
 						gGL.texCoord2f(1.f, 1.f);
 						gGL.vertex2f(right, top);
-					gGL.end();
+						gGL.end();
+					}
 				}
+				gGL.setAlphaRejectSettings(LLRender::CF_DEFAULT);
 			}
-			gGL.setAlphaRejectSettings(LLRender::CF_DEFAULT);
 		}
+		// <//alchemy> 
 
 		// Redraw object layer periodically
 		if (mUpdateNow || (map_timer.getElapsedTimeF32() > 0.5f))

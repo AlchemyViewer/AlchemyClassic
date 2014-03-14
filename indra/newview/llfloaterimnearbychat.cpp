@@ -262,7 +262,7 @@ void LLFloaterIMNearbyChat::setVisible(BOOL visible)
 {
 	LLFloaterIMSessionTab::setVisible(visible);
 
-	if(visible && isMessagePaneExpanded())
+	if(visible && isMessagePaneExpanded()) // <alchemy/>
 	{
 		removeScreenChat();
 	}
@@ -273,7 +273,7 @@ void LLFloaterIMNearbyChat::setVisibleAndFrontmost(BOOL take_focus, const LLSD& 
 {
 	LLFloaterIMSessionTab::setVisibleAndFrontmost(take_focus, key);
 
-	if(!isTornOff() && matchesKey(key))
+	if(!isTornOff() && matchesKey(key)) // <alchemy/>
 	{
 		LLFloaterIMContainer::getInstance()->selectConversationPair(mSessionID, true, take_focus);
 	}

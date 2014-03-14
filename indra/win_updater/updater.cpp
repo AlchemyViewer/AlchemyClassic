@@ -163,7 +163,7 @@ unsigned long Fetcher::read(char* buffer, size_t bufflen) const
     unsigned long bytes_read = 0;
     DEBUG("Calling InternetReadFile");
     check("InternetReadFile",
-          InternetReadFile(mDownload, buffer, (DWORD)bufflen, &bytes_read));
+          InternetReadFile(mDownload, buffer, (DWORD)bufflen, &bytes_read)); // <alchemy/>
     return bytes_read;
 }
 

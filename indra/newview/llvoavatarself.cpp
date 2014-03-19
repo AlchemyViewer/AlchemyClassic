@@ -945,41 +945,23 @@ void LLVOAvatarSelf::idleUpdateTractorBeam()
 		return;
 	}
 
-	static LLCachedControl<bool> AlchemyBoundingBoxBeam(gSavedSettings, "AlchemyBoundingBoxBeam");
-	static int prev_beam_count = 1;
-	int beam_count = AlchemyBoundingBoxBeam ? 8 : 1;
-
-	// if beam count is lowered remove extra beams
-	if (beam_count < prev_beam_count)
+	if (!mBeam[0] || mBeam[0]->isDead())
 	{
-		for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
-	}
+		// VEFFECT: Tractor Beam
+		mBeam[0] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
+		mBeam[0]->setColor(LLColor4U(gAgent.getEffectColor()));
+		mBeam[0]->setSourceObject(this);
 
-	bool reset_timer = false;
-	for(int i = 0; i < 8; i++)
-	{
-		if (!mBeam[i] || mBeam[i]->isDead())
-		{
-			// VEFFECT: Tractor Beam
-			mBeam[i] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
-			mBeam[i]->setColor(LLColor4U(gAgent.getEffectColor()));
-			mBeam[i]->setSourceObject(this);
-
-			reset_timer = true;
-		}
-	}
-
-	if(reset_timer)
-	{
 		mBeamTimer.reset();
 	}
 
+	static LLCachedControl<bool> AlchemyBoundingBoxBeam(gSavedSettings, "AlchemyBoundingBoxBeam");
 	LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+	LLBBox bounding_box;
 
 	bool use_single_beam = true;
 	if(AlchemyBoundingBoxBeam)
 	{
-		LLBBox bounding_box;
 		use_single_beam = false;
 		for(LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
 		{
@@ -998,39 +980,58 @@ void LLVOAvatarSelf::idleUpdateTractorBeam()
 			}
 			bounding_box.addBBoxAgent( object->getBoundingBoxAgent() );
 		}
-		if(!use_single_beam)
-		{
-			LLMatrix4 transform;
-			transform.initAll(LLVector3(1.f, 1.f, 1.f), bounding_box.getRotation(), bounding_box.getPositionAgent());
-
-			LLVector3 min = bounding_box.getMinLocal();
-			LLVector3 max = bounding_box.getMaxLocal();
-			
-			LLVector3 manipbb[8] = {
-				min,
-				LLVector3(max.mV[VX], min.mV[VY], min.mV[VZ]),
-				LLVector3(min.mV[VX], max.mV[VY], min.mV[VZ]),
-				LLVector3(max.mV[VX], max.mV[VY], min.mV[VZ]),
-				LLVector3(max.mV[VX], min.mV[VY], max.mV[VZ]),
-				LLVector3(min.mV[VX], min.mV[VY], max.mV[VZ]),
-				LLVector3(min.mV[VX], max.mV[VY], max.mV[VZ]),
-				max
-			};
-
-
-			for(int i = 0; i < 8; i++)
-			{
-				mBeam[i]->setTargetObject(NULL);
-				mBeam[i]->setPositionAgent(manipbb[i] * transform);
-			}
-		}
 	}
 
-	if(use_single_beam)
+	if(!use_single_beam)
 	{
-		// we can't do bounding box beams here so clear out the beam list
-		if(mBeam[1].notNull()) for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
+		bool reset_timer = false;
+		for(int i = 1; i < 8; i++)
+		{
+			if (!mBeam[i] || mBeam[i]->isDead())
+			{
+				// VEFFECT: Tractor Beam
+				mBeam[i] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
+				mBeam[i]->setColor(LLColor4U(gAgent.getEffectColor()));
+				mBeam[i]->setSourceObject(this);
+
+				reset_timer = true;
+			}
+		}
+
+		if(reset_timer)
+		{
+			mBeamTimer.reset();
+		}
+
+		LLMatrix4 transform;
+		transform.initAll(LLVector3(1.f, 1.f, 1.f), bounding_box.getRotation(), bounding_box.getPositionAgent());
+
+		LLVector3 min = bounding_box.getMinLocal();
+		LLVector3 max = bounding_box.getMaxLocal();
 			
+		LLVector3 manipbb[8] = {
+			min,
+			LLVector3(max.mV[VX], min.mV[VY], min.mV[VZ]),
+			LLVector3(min.mV[VX], max.mV[VY], min.mV[VZ]),
+			LLVector3(max.mV[VX], max.mV[VY], min.mV[VZ]),
+			LLVector3(max.mV[VX], min.mV[VY], max.mV[VZ]),
+			LLVector3(min.mV[VX], min.mV[VY], max.mV[VZ]),
+			LLVector3(min.mV[VX], max.mV[VY], max.mV[VZ]),
+			max
+		};
+
+
+		for(int i = 0; i < 8; i++)
+		{
+			mBeam[i]->setTargetObject(NULL);
+			mBeam[i]->setPositionAgent(manipbb[i] * transform);
+		}
+	}
+	else
+	{
+		// force other beams to null
+		if (mBeam[1].notNull()) for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
+
 		if (gAgentCamera.mPointAt.notNull())
 		{
 			// get point from pointat effect

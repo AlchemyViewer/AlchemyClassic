@@ -84,7 +84,7 @@ protected:
 	//--------------------------------------------------------------------
 public:
 	/*virtual*/ void 		updateRegion(LLViewerRegion *regionp);
-	/*virtual*/ void   	 	idleUpdate(LLAgent &agent, LLWorld &world, const F64 &time);
+	/*virtual*/ void   	 	idleUpdate(LLAgent &agent, const F64 &time);
 
 	//--------------------------------------------------------------------
 	// LLCharacter interface and related
@@ -170,7 +170,8 @@ private:
 protected:
 	BOOL 		needsRenderBeam();
 private:
-	LLPointer<LLHUDEffectSpiral> mBeam;
+	//<alchemy> Bounding Box Selection Beams
+	LLPointer<LLHUDEffectSpiral> mBeam[8];
 	LLFrameTimer mBeamTimer;
 
 	//--------------------------------------------------------------------

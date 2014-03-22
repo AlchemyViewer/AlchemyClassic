@@ -189,6 +189,10 @@ public:
 		{
 			LLAvatarActions::offerTeleport(getAvatarId());
 		}
+		else if (level == "request_teleport")
+		{
+			LLAvatarActions::teleportRequest(getAvatarId());
+		}
 		else if (level == "voice_call")
 		{
 			LLAvatarActions::startCall(getAvatarId());
@@ -550,7 +554,9 @@ protected:
 				menu->setItemEnabled("Send IM", false);
 				menu->setItemEnabled("Remove Friend", false);
 				menu->setItemEnabled("Offer Teleport",false);
+				menu->setItemEnabled("Request Teleport",false);
 				menu->setItemEnabled("Voice Call", false);
+				menu->setItemEnabled("Chat History", false);
 				menu->setItemEnabled("Invite Group", false);
 				menu->setItemEnabled("Zoom In", false);
 				menu->setItemEnabled("Share", false);
@@ -566,6 +572,7 @@ protected:
 				menu->setItemVisible("Send IM", false);
 			}
 				menu->setItemEnabled("Offer Teleport", LLAvatarActions::canOfferTeleport(mAvatarID));
+				menu->setItemEnabled("Request Teleport", LLAvatarActions::canOfferTeleport(mAvatarID));
 				menu->setItemEnabled("Voice Call", LLAvatarActions::canCall());
 
 				// We should only show 'Zoom in' item in a nearby chat
@@ -573,9 +580,9 @@ protected:
 				menu->setItemVisible("Zoom In", should_show_zoom && gObjectList.findObject(mAvatarID));	
 				menu->setItemEnabled("Block Unblock", LLAvatarActions::canBlock(mAvatarID));
 				menu->setItemEnabled("Mute Text", LLAvatarActions::canBlock(mAvatarID));
+				menu->setItemEnabled("Chat History", LLLogChat::isTranscriptExist(mAvatarID));
 			}
 
-			menu->setItemEnabled("Chat History", LLLogChat::isTranscriptExist(mAvatarID));
 			menu->setItemEnabled("Map", (LLAvatarTracker::instance().isBuddyOnline(mAvatarID) && is_agent_mappable(mAvatarID)) || gAgent.isGodlike() );
 			menu->buildDrawLabels();
 			menu->updateParent(LLMenuGL::sMenuContainer);
@@ -731,6 +738,7 @@ LLChatHistory::LLChatHistory(const LLChatHistory::Params& p)
 	editor_params.follows.flags = FOLLOWS_ALL;
 	editor_params.enabled = false; // read only
 	editor_params.show_context_menu = "true";
+	editor_params.trusted_content = false;
 	mEditor = LLUICtrlFactory::create<LLTextEditor>(editor_params, this);
 	mEditor->setIsFriendCallback(LLAvatarActions::isFriend);
 }
@@ -1010,21 +1018,8 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 					link_params.font.style = "BOLD";
 				}
 				
-				std::string av_name = chat.mFromName;
-				static LLCachedControl<bool> alchemyPlainChatName(gSavedSettings, "AlchemyPlainChatUsername", true);
-				if (!alchemyPlainChatName)
-				{
-					std::string::size_type username_start = av_name.rfind(" (");
-					std::string::size_type username_end = av_name.rfind(")");
-					if (username_start != std::string::npos && 
-						username_end != std::string::npos)
-					{
-						av_name.erase(username_start, std::string::npos);
-					}
-				}
-
 				// Add link to avatar's inspector and delimiter to message.
-				mEditor->appendText(av_name + delimiter,
+				mEditor->appendText(std::string(link_params.link_href) + delimiter,
 					prependNewLineState, link_params);
 				prependNewLineState = false;
 				// </alchemy>

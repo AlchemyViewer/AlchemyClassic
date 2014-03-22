@@ -54,6 +54,7 @@ const U32	MAX_OBJECT_CACHE_ENTRIES = 50000;
 class LLEventPoll;
 class LLVLComposition;
 class LLViewerObject;
+class LLViewerTexture; // <alchemy/>
 class LLMessageSystem;
 class LLNetMap;
 class LLViewerParcelOverlay;
@@ -349,6 +350,8 @@ public:
 	void resetMaterialsCapThrottle();
 	
 	U32 getMaxMaterialsPerTransaction() const;
+
+	LLViewerTexture* getMapImage(); // <alchemy/>
 public:
 	struct CompareDistance
 	{
@@ -446,6 +449,8 @@ private:
 	// the materials capability throttle
 	LLFrameTimer mMaterialsCapThrottleTimer;
 LLFrameTimer	mRenderInfoRequestTimer;
+
+	LLPointer<LLViewerTexture> mMapImage; // <alchemy/>
 };
 
 inline BOOL LLViewerRegion::getRegionProtocol(U64 protocol) const

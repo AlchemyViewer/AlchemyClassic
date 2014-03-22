@@ -4280,6 +4280,12 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 		{
 			accept = FALSE;
 		}
+		// Don't allow to move a single item to Favorites or Landmarks
+		// if it is not a landmark or a link to a landmark.
+		else if (move_is_into_favorites || move_is_into_landmarks)
+		{
+			accept = can_move_to_landmarks(inv_item);
+		}
 		else
 		{
 			// Don't allow placing an original item from a notecard to Current Outfit or an outfit folder

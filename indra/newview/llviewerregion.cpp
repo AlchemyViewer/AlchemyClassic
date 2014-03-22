@@ -302,9 +302,14 @@ public:
 		
 		if ( regionp->getRegionImpl()->mCapabilities.size() != regionp->getRegionImpl()->mSecondCapabilitiesTracker.size() )
 		{
-			llinfos<<"BaseCapabilitiesCompleteTracker "<<"Sim sent duplicate seed caps that differs in size - most likely content."<<llendl;			
+			llinfos << "BaseCapabilitiesCompleteTracker " << "sim " << regionp->getName()
+				<< " sent duplicate seed caps that differs in size - most likely content. " 
+				<< (S32) regionp->getRegionImpl()->mCapabilities.size() << " vs " << regionp->getRegionImpl()->mSecondCapabilitiesTracker.size()
+				<< llendl;			
+			
 			//todo#add cap debug versus original check?
-			/*CapabilityMap::const_iterator iter = regionp->getRegionImpl()->mCapabilities.begin();
+			/*
+			CapabilityMap::const_iterator iter = regionp->getRegionImpl()->mCapabilities.begin();
 			while (iter!=regionp->getRegionImpl()->mCapabilities.end() )
 			{
 				llinfos << "BaseCapabilitiesCompleteTracker Original " << iter->first << " " << iter->second<<llendl;
@@ -395,6 +400,9 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mImpl->mObjectPartition.push_back(new LLBridgePartition());	//PARTITION_BRIDGE
 	mImpl->mObjectPartition.push_back(new LLHUDParticlePartition());//PARTITION_HUD_PARTICLE
 	mImpl->mObjectPartition.push_back(NULL);						//PARTITION_NONE
+
+	mRenderInfoRequestTimer.resetWithExpiry(0.f);		// Set timer to be expired
+	setCapabilitiesReceivedCallback(boost::bind(&LLAvatarRenderInfoAccountant::expireRenderInfoReportTimer, _1));
 }
 
 
@@ -1579,6 +1587,7 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 	capabilityNames.append("AgentState");
 	capabilityNames.append("AttachmentResources");
 	capabilityNames.append("AvatarPickerSearch");
+	capabilityNames.append("AvatarRenderInfo");
 	capabilityNames.append("CharacterProperties");
 	capabilityNames.append("ChatSessionRequest");
 	capabilityNames.append("CopyInventoryFromNotecard");
@@ -1992,4 +2001,16 @@ U32 LLViewerRegion::getMaxMaterialsPerTransaction() const
 	return max_entries;
 }
 
-
+// <alchemy>
+LLViewerTexture* LLViewerRegion::getMapImage()
+{
+	if (mMapImage.isNull())
+	{
+		U32 gridX, gridY;
+		grid_from_region_handle(mHandle, &gridX, &gridY);
+		const std::string imageurl = gSavedSettings.getString("CurrentMapServerURL") + llformat("map-1-%d-%d-objects.jpg", gridX, gridY);
+		mMapImage = LLViewerTextureManager::getFetchedTextureFromUrl(imageurl, FTT_MAP_TILE, TRUE, LLGLTexture::BOOST_MAP, LLViewerTexture::LOD_TEXTURE);
+	}
+	return mMapImage;
+}
+// </alchemy>

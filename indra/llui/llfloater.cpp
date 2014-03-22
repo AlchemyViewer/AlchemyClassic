@@ -511,8 +511,8 @@ LLFloater::~LLFloater()
 	
 	if( gFocusMgr.childHasKeyboardFocus(this))
 	{
-	// Just in case we might still have focus here, release it.
-	releaseFocus();
+		// Just in case we might still have focus here, release it.
+		releaseFocus();
 	}
 
 	// This is important so that floaters with persistent rects (i.e., those
@@ -530,7 +530,6 @@ LLFloater::~LLFloater()
 	setVisible(false); // We're not visible if we're destroyed
 	storeVisibilityControl();
 	storeDockStateControl();
-
 	delete mMinimizeSignal;
 }
 
@@ -1140,7 +1139,11 @@ void LLFloater::handleReshape(const LLRect& new_rect, bool by_user)
 
 	if (by_user && !getHost())
 	{
-		static_cast<LLFloaterView*>(getParent())->adjustToFitScreen(this, !isMinimized());
+		LLFloaterView * floaterVp = dynamic_cast<LLFloaterView*>(getParent());
+		if (floaterVp)
+		{
+			floaterVp->adjustToFitScreen(this, !isMinimized());
+		}
 	}
 
 	// if not minimized, adjust all snapped dependents to new shape
@@ -1351,7 +1354,8 @@ void LLFloater::setFocus( BOOL b )
 	if (b)
 	{
 		// only push focused floaters to front of stack if not in midst of ctrl-tab cycle
-		if (!getHost() && !((LLFloaterView*)getParent())->getCycleMode())
+		LLFloaterView * parent = dynamic_cast<LLFloaterView *>(getParent());
+		if (!getHost() && parent && !parent->getCycleMode())
 		{
 			if (!isFrontmost())
 			{
@@ -1621,7 +1625,7 @@ void LLFloater::bringToFront( S32 x, S32 y )
 		}
 		else
 		{
-			LLFloaterView* parent = (LLFloaterView*) getParent();
+			LLFloaterView* parent = dynamic_cast<LLFloaterView*>( getParent() );
 			if (parent)
 			{
 				parent->bringToFront( this );
@@ -1660,7 +1664,11 @@ void LLFloater::setFrontmost(BOOL take_focus)
 	{
 		// there are more than one floater view
 		// so we need to query our parent directly
-		((LLFloaterView*)getParent())->bringToFront(this, take_focus);
+		LLFloaterView * parent = dynamic_cast<LLFloaterView*>( getParent() );
+		if (parent)
+		{
+			parent->bringToFront(this, take_focus);
+		}
 
 		// Make sure to set the appropriate transparency type (STORM-732).
 		updateTransparency(hasFocus() || getIsChrome() ? TT_ACTIVE : TT_INACTIVE);
@@ -1953,6 +1961,7 @@ void	LLFloater::drawShadow(LLPanel* panel)
 
 void LLFloater::updateTransparency(LLView* view, ETypeTransparency transparency_type)
 {
+	if (!view) return;
 	child_list_t children = *view->getChildList();
 	child_list_t::iterator it = children.begin();
 
@@ -2389,6 +2398,9 @@ LLRect LLFloaterView::findNeighboringPosition( LLFloater* reference_floater, LLF
 
 void LLFloaterView::bringToFront(LLFloater* child, BOOL give_focus)
 {
+	if (!child)
+		return;
+
 	if (mFrontChild == child)
 	{
 		if (give_focus && !gFocusMgr.childHasKeyboardFocus(child))
@@ -2744,8 +2756,6 @@ void LLFloaterView::refresh()
 	}
 }
 
-const S32 FLOATER_MIN_VISIBLE_PIXELS = 16;
-
 void LLFloaterView::adjustToFitScreen(LLFloater* floater, BOOL allow_partial_outside, BOOL snap_in_toolbars/* = false*/)
 {
 	if (floater->getParent() != this)
@@ -2798,10 +2808,28 @@ void LLFloaterView::adjustToFitScreen(LLFloater* floater, BOOL allow_partial_out
 		}
 	}
 
+	const LLRect& floater_rect = floater->getRect();
+
+	S32 delta_left = mToolbarLeftRect.notEmpty() ? mToolbarLeftRect.mRight - floater_rect.mRight : 0;
+	S32 delta_bottom = mToolbarBottomRect.notEmpty() ? mToolbarBottomRect.mTop - floater_rect.mTop : 0;
+	S32 delta_right = mToolbarRightRect.notEmpty() ? mToolbarRightRect.mLeft - floater_rect.mLeft : 0;
+
 	// move window fully onscreen
 	if (floater->translateIntoRect( snap_in_toolbars ? getSnapRect() : gFloaterView->getRect(), allow_partial_outside ? FLOATER_MIN_VISIBLE_PIXELS : S32_MAX ))
 	{
 		floater->clearSnapTarget();
+	}
+	else if (delta_left > 0 && floater_rect.mTop < mToolbarLeftRect.mTop && floater_rect.mBottom > mToolbarLeftRect.mBottom)
+	{
+		floater->translate(delta_left, 0);
+	}
+	else if (delta_bottom > 0 && floater_rect.mLeft > mToolbarBottomRect.mLeft && floater_rect.mRight < mToolbarBottomRect.mRight)
+	{
+		floater->translate(0, delta_bottom);
+	}
+	else if (delta_right < 0 && floater_rect.mTop < mToolbarRightRect.mTop	&& floater_rect.mBottom > mToolbarRightRect.mBottom)
+	{
+		floater->translate(delta_right, 0);
 	}
 }
 
@@ -2848,10 +2876,13 @@ LLFloater *LLFloaterView::getFocusedFloater() const
 {
 	for ( child_list_const_iter_t child_it = getChildList()->begin(); child_it != getChildList()->end(); ++child_it)
 	{
-		LLUICtrl* ctrlp = (*child_it)->isCtrl() ? static_cast<LLUICtrl*>(*child_it) : NULL;
-		if ( ctrlp && ctrlp->hasFocus() )
+		if ((*child_it)->isCtrl())
 		{
-			return static_cast<LLFloater *>(ctrlp);
+			LLFloater* ctrlp = dynamic_cast<LLFloater*>(*child_it);
+			if ( ctrlp && ctrlp->hasFocus() )
+			{
+				return ctrlp;
+			}
 		}
 	}
 	return NULL;
@@ -3000,6 +3031,25 @@ void LLFloaterView::popVisibleAll(const skip_list_t& skip_list)
 	}
 
 	LLFloaterReg::blockShowFloaters(false);
+}
+
+void LLFloaterView::setToolbarRect(LLToolBarEnums::EToolBarLocation tb, const LLRect& toolbar_rect)
+{
+	switch (tb)
+	{
+	case LLToolBarEnums::TOOLBAR_LEFT:
+		mToolbarLeftRect = toolbar_rect;
+		break;
+	case LLToolBarEnums::TOOLBAR_BOTTOM:
+		mToolbarBottomRect = toolbar_rect;
+		break;
+	case LLToolBarEnums::TOOLBAR_RIGHT:
+		mToolbarRightRect = toolbar_rect;
+		break;
+	default:
+		llwarns << "setToolbarRect() passed odd toolbar number " << (S32) tb << llendl;
+		break;
+	}
 }
 
 void LLFloater::setInstanceName(const std::string& name)

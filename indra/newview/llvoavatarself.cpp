@@ -239,7 +239,7 @@ void LLVOAvatarSelf::initInstance()
 // virtual
 void LLVOAvatarSelf::markDead()
 {
-	mBeam = NULL;
+	for(int i = 0; i < 8; i++) mBeam[i] = NULL;
 	LLVOAvatar::markDead();
 }
 
@@ -625,11 +625,11 @@ BOOL LLVOAvatarSelf::isValid() const
 }
 
 // virtual
-void LLVOAvatarSelf::idleUpdate(LLAgent &agent, LLWorld &world, const F64 &time)
+void LLVOAvatarSelf::idleUpdate(LLAgent &agent, const F64 &time)
 {
 	if (isValid())
 	{
-		LLVOAvatar::idleUpdate(agent, world, time);
+		LLVOAvatar::idleUpdate(agent, time);
 		idleUpdateTractorBeam();
 	}
 }
@@ -856,7 +856,7 @@ void LLVOAvatarSelf::removeMissingBakedTextures()
 		if (!tex || tex->isMissingAsset())
 		{
 			LLViewerTexture *imagep = LLViewerTextureManager::getFetchedTexture(IMG_DEFAULT_AVATAR);
-			if (imagep)
+			if (imagep && imagep != tex)
 			{
 				setTEImage(te, imagep);
 				removed = TRUE;
@@ -872,12 +872,12 @@ void LLVOAvatarSelf::removeMissingBakedTextures()
 			layerset->setUpdatesEnabled(TRUE);
 			invalidateComposite(layerset, FALSE);
 		}
-		updateMeshTextures();
+		updateMeshTextures();	// may call back into this function
 		if (getRegion() && !getRegion()->getCentralBakeVersion())
 		{
-		requestLayerSetUploads();
+			requestLayerSetUploads();
+		}
 	}
-}
 }
 
 //virtual
@@ -941,61 +941,146 @@ void LLVOAvatarSelf::idleUpdateTractorBeam()
 	// This is only done for yourself (maybe it should be in the agent?)
 	if (!needsRenderBeam() || !isBuilt())
 	{
-		mBeam = NULL;
+		for(int i = 0; i < 8; i++) mBeam[i] = NULL;
+		return;
 	}
-	else if (!mBeam || mBeam->isDead())
+
+	if (!mBeam[0] || mBeam[0]->isDead())
 	{
 		// VEFFECT: Tractor Beam
-		mBeam = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
-		mBeam->setColor(LLColor4U(gAgent.getEffectColor()));
-		mBeam->setSourceObject(this);
+		mBeam[0] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
+		mBeam[0]->setColor(LLColor4U(gAgent.getEffectColor()));
+		mBeam[0]->setSourceObject(this);
+
 		mBeamTimer.reset();
 	}
 
-	if (!mBeam.isNull())
+	static LLCachedControl<bool> AlchemyBoundingBoxBeam(gSavedSettings, "AlchemyBoundingBoxBeam");
+	LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+	LLBBox bounding_box;
+
+	bool use_single_beam = true;
+	if(AlchemyBoundingBoxBeam)
 	{
-		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+		use_single_beam = false;
+		for(LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
+		{
+			LLSelectNode* node = *iter;
+			LLViewerObject* object = node->getObject();
+			if (!object)
+				continue;
+			
+			LLViewerObject *root = object->getRootEdit();
+			if ( selection->getSelectType() != SELECT_TYPE_WORLD || // this is an attachment
+				root->isChild(gAgentAvatarp) || // this is the object you're sitting on
+				object->isAvatar()) // this is another avatar
+			{
+				use_single_beam = true;
+				break;
+			}
+			bounding_box.addBBoxAgent( object->getBoundingBoxAgent() );
+		}
+	}
+
+	if(!use_single_beam)
+	{
+		bool reset_timer = false;
+		for(int i = 1; i < 8; i++)
+		{
+			if (!mBeam[i] || mBeam[i]->isDead())
+			{
+				// VEFFECT: Tractor Beam
+				mBeam[i] = (LLHUDEffectSpiral *)LLHUDManager::getInstance()->createViewerEffect(LLHUDObject::LL_HUD_EFFECT_BEAM);
+				mBeam[i]->setColor(LLColor4U(gAgent.getEffectColor()));
+				mBeam[i]->setSourceObject(this);
+
+				reset_timer = true;
+			}
+		}
+
+		if(reset_timer)
+		{
+			mBeamTimer.reset();
+		}
+
+		LLMatrix4 transform;
+		transform.initAll(LLVector3(1.f, 1.f, 1.f), bounding_box.getRotation(), bounding_box.getPositionAgent());
+
+		LLVector3 min = bounding_box.getMinLocal();
+		LLVector3 max = bounding_box.getMaxLocal();
+			
+		LLVector3 manipbb[8] = {
+			min,
+			LLVector3(max.mV[VX], min.mV[VY], min.mV[VZ]),
+			LLVector3(min.mV[VX], max.mV[VY], min.mV[VZ]),
+			LLVector3(max.mV[VX], max.mV[VY], min.mV[VZ]),
+			LLVector3(max.mV[VX], min.mV[VY], max.mV[VZ]),
+			LLVector3(min.mV[VX], min.mV[VY], max.mV[VZ]),
+			LLVector3(min.mV[VX], max.mV[VY], max.mV[VZ]),
+			max
+		};
+
+
+		for(int i = 0; i < 8; i++)
+		{
+			mBeam[i]->setTargetObject(NULL);
+			mBeam[i]->setPositionAgent(manipbb[i] * transform);
+		}
+	}
+	else
+	{
+		// force other beams to null
+		if (mBeam[1].notNull()) for(int i = 1; i < 8; i++) { mBeam[i] = NULL; }
 
 		if (gAgentCamera.mPointAt.notNull())
 		{
 			// get point from pointat effect
-			mBeam->setPositionGlobal(gAgentCamera.mPointAt->getPointAtPosGlobal());
-			mBeam->triggerLocal();
-		}
-		else if (selection->getFirstRootObject() && 
-				selection->getSelectType() != SELECT_TYPE_HUD)
-		{
-			LLViewerObject* objectp = selection->getFirstRootObject();
-			mBeam->setTargetObject(objectp);
+			mBeam[0]->setPositionGlobal(gAgentCamera.mPointAt->getPointAtPosGlobal());
+			mBeam[0]->triggerLocal();
 		}
 		else
 		{
-			mBeam->setTargetObject(NULL);
-			LLTool *tool = LLToolMgr::getInstance()->getCurrentTool();
-			if (tool->isEditing())
+			if(selection->getFirstRootObject()
+				&& selection->getSelectType() != SELECT_TYPE_HUD)
 			{
-				if (tool->getEditingObject())
-				{
-					mBeam->setTargetObject(tool->getEditingObject());
-				}
-				else
-				{
-					mBeam->setPositionGlobal(tool->getEditingPointGlobal());
-				}
+				LLViewerObject* objectp = selection->getFirstRootObject();
+				mBeam[0]->setTargetObject(objectp);
 			}
 			else
 			{
-				const LLPickInfo& pick = gViewerWindow->getLastPick();
-				mBeam->setPositionGlobal(pick.mPosGlobal);
+				mBeam[0]->setTargetObject(NULL);
+				LLTool *tool = LLToolMgr::getInstance()->getCurrentTool();
+				if (tool->isEditing())
+				{
+					if (tool->getEditingObject())
+					{
+						mBeam[0]->setTargetObject(tool->getEditingObject());
+					}
+					else
+					{
+						mBeam[0]->setPositionGlobal(tool->getEditingPointGlobal());
+					}
+				}
+				else
+				{
+					const LLPickInfo& pick = gViewerWindow->getLastPick();
+					mBeam[0]->setPositionGlobal(pick.mPosGlobal);
+				}
 			}
+		}
+	}
 
-		}
-		if (mBeamTimer.getElapsedTimeF32() > 0.25f)
+	if (mBeamTimer.getElapsedTimeF32() > 0.25f)
+	{
+		LLColor4U effect_color(gAgent.getEffectColor());
+		for(int i = 0; i < 8; i++)
 		{
-			mBeam->setColor(LLColor4U(gAgent.getEffectColor()));
-			mBeam->setNeedsSendToSim(TRUE);
-			mBeamTimer.reset();
+			if(mBeam[i].isNull())
+				break;
+			mBeam[i]->setColor(effect_color);
+			mBeam[i]->setNeedsSendToSim(TRUE);
 		}
+		mBeamTimer.reset();
 	}
 }
 
@@ -1325,7 +1410,7 @@ void LLVOAvatarSelf::localTextureLoaded(BOOL success, LLViewerFetchedTexture *sr
 			discard_level < local_tex_obj->getDiscard())
 		{
 			local_tex_obj->setDiscard(discard_level);
-				requestLayerSetUpdate(index);
+			requestLayerSetUpdate(index);
 			if (isEditingAppearance())
 			{
 				LLVisualParamHint::requestHintUpdates();
@@ -1814,10 +1899,10 @@ void LLVOAvatarSelf::setLocalTexture(ETextureIndex type, LLViewerTexture* src_te
 					{
 						requestLayerSetUpdate(type);
 						if (isEditingAppearance())
-					{
-						LLVisualParamHint::requestHintUpdates();
+						{
+							LLVisualParamHint::requestHintUpdates();
+						}
 					}
-				}
 				}
 				else
 				{					
@@ -2595,24 +2680,24 @@ void LLVOAvatarSelf::addLocalTextureStats( ETextureIndex type, LLViewerFetchedTe
 	//if (!covered_by_baked)
 	{
 		if (imagep->getID() != IMG_DEFAULT_AVATAR)
-	{
+		{
 			imagep->setNoDelete();
 			if (imagep->getDiscardLevel() != 0)
-		{
-			F32 desired_pixels;
-			desired_pixels = llmin(mPixelArea, (F32)getTexImageArea());
-
-			imagep->setBoostLevel(getAvatarBoostLevel());
-				imagep->setAdditionalDecodePriority(SELF_ADDITIONAL_PRI) ;
-			imagep->resetTextureStats();
-			imagep->setMaxVirtualSizeResetInterval(MAX_TEXTURE_VIRTURE_SIZE_RESET_INTERVAL);
-			imagep->addTextureStats( desired_pixels / texel_area_ratio );
-			imagep->forceUpdateBindStats() ;
-			if (imagep->getDiscardLevel() < 0)
 			{
-				mHasGrey = TRUE; // for statistics gathering
+				F32 desired_pixels;
+				desired_pixels = llmin(mPixelArea, (F32)getTexImageArea());
+				
+				imagep->setBoostLevel(getAvatarBoostLevel());
+				imagep->setAdditionalDecodePriority(SELF_ADDITIONAL_PRI) ;
+				imagep->resetTextureStats();
+				imagep->setMaxVirtualSizeResetInterval(MAX_TEXTURE_VIRTURE_SIZE_RESET_INTERVAL);
+				imagep->addTextureStats( desired_pixels / texel_area_ratio );
+				imagep->forceUpdateBindStats() ;
+				if (imagep->getDiscardLevel() < 0)
+				{
+					mHasGrey = TRUE; // for statistics gathering
+				}
 			}
-		}
 		}
 		else
 		{
@@ -2936,17 +3021,17 @@ void LLVOAvatarSelf::requestLayerSetUpdate(ETextureIndex index )
 
 LLViewerTexLayerSet* LLVOAvatarSelf::getLayerSet(ETextureIndex index) const
 {
-	/* switch(index)
-		case TEX_HEAD_BAKED:
-		case TEX_HEAD_BODYPAINT:
-			return mHeadLayerSet; */
+       /* switch(index)
+               case TEX_HEAD_BAKED:
+               case TEX_HEAD_BODYPAINT:
+                       return mHeadLayerSet; */
        const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = LLAvatarAppearanceDictionary::getInstance()->getTexture(index);
-	if (texture_dict->mIsUsedByBakedTexture)
-	{
-		const EBakedTextureIndex baked_index = texture_dict->mBakedTextureIndex;
+       if (texture_dict->mIsUsedByBakedTexture)
+       {
+               const EBakedTextureIndex baked_index = texture_dict->mBakedTextureIndex;
                return getLayerSet(baked_index);
-	}
-	return NULL;
+       }
+       return NULL;
 }
 
 LLViewerTexLayerSet* LLVOAvatarSelf::getLayerSet(EBakedTextureIndex baked_index) const
@@ -2974,7 +3059,7 @@ void LLVOAvatarSelf::onCustomizeStart(bool disable_camera_switch)
 		gAgentAvatarp->mUseLocalAppearance = true;
 
 		if (gSavedSettings.getBOOL("AppearanceCameraMovement") && !disable_camera_switch)
-{
+		{
 			gAgentCamera.changeCameraToCustomizeAvatar();
 		}
 

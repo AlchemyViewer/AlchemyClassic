@@ -75,8 +75,7 @@ if(WINDOWS)
         set(release_files ${release_files} fmodex64.dll)
       else(WORD_SIZE STREQUAL 64)
         set(debug_files ${debug_files} fmodexL.dll)
-        set(release_files ${release_files} fmodex.dll)
-      endif(WORD_SIZE STREQUAL 64)
+        set(release_files ${release_files} fmodex.dll)      endif(WORD_SIZE STREQUAL 64)
     endif (FMODEX)
 
 #*******************************
@@ -369,7 +368,8 @@ elseif(LINUX)
     endif (USE_TCMALLOC)
 
     if (FMODEX)
-      set(release_file ${release_files} "libfmodex.so")
+      set(debug_files ${debug_files} "libfmodexL.so")
+      set(release_files ${release_files} "libfmodex.so")
     endif (FMODEX)
 
 else(WINDOWS)

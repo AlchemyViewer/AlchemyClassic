@@ -61,6 +61,10 @@
 #include "llworld.h"
 #include "llworldmapview.h"		// shared draw code
 
+// <alchemy>
+#include "llmutelist.h"
+// </alchemy>
+
 static LLDefaultChildRegistry::Register<LLNetMap> r1("net_map");
 
 const F32 LLNetMap::MAP_SCALE_MIN = 32;
@@ -68,7 +72,7 @@ const F32 LLNetMap::MAP_SCALE_MID = 1024;
 const F32 LLNetMap::MAP_SCALE_MAX = 4096;
 
 const F32 MAP_SCALE_INCREMENT = 16;
-const F32 MAP_SCALE_ZOOM_FACTOR = 1.04f; // Zoom in factor per click of scroll wheel (4%)
+const F32 MAP_SCALE_ZOOM_FACTOR = 1.10f; // Zoom in factor per click of scroll wheel (10%) // <alchemy/>
 const F32 MIN_DOT_RADIUS = 3.5f;
 const F32 DOT_SCALE = 0.75f;
 const F32 MIN_PICK_SCALE = 2.f;
@@ -154,6 +158,7 @@ void LLNetMap::draw()
 	static LLUIColor map_frustum_color = LLUIColorTable::instance().getColor("MapFrustumColor", LLColor4::white);
 	static LLUIColor map_frustum_rotating_color = LLUIColorTable::instance().getColor("MapFrustumRotatingColor", LLColor4::white);
 	// <alchemy>
+	static LLUIColor map_avatar_linden_color = LLUIColorTable::instance().getColor("MapAvatarLindenColor", LLColor4::cyan);
 	static LLCachedControl<bool> useWorldMapImage(gSavedSettings, "AlchemyMinimapTile", true);
 	// </alchemy>
 
@@ -306,7 +311,7 @@ void LLNetMap::draw()
 		// <//alchemy> 
 
 		// Redraw object layer periodically
-		if (mUpdateNow || (map_timer.getElapsedTimeF32() > 0.5f))
+		if (mUpdateNow || (map_timer.getElapsedTimeF32() > 0.1f)) // <lchemy/>
 		{
 			mUpdateNow = false;
 
@@ -368,18 +373,23 @@ void LLNetMap::draw()
 
 		LLWorld::getInstance()->getAvatars(&avatar_ids, &positions, gAgentCamera.getCameraPositionGlobal());
 
+		
 		// Draw avatars
 		for (U32 i = 0; i < avatar_ids.size(); i++)
 		{
-			LLUUID uuid = avatar_ids[i];
+			const LLUUID& uuid = avatar_ids[i];
 			// Skip self, we'll draw it later
 			if (uuid == gAgent.getID()) continue;
 
 			pos_map = globalPosToView(positions[i]);
 
+			LLAvatarName av_name;
+			LLAvatarNameCache::get(uuid, &av_name);
+			bool is_linden = LLMuteList::instance().isLinden(av_name.getUserName());
 			bool show_as_friend = (LLAvatarTracker::instance().getBuddyInfo(uuid) != NULL);
 
-			LLColor4 color = show_as_friend ? map_avatar_friend_color : map_avatar_color;
+			LLColor4 color = show_as_friend ? map_avatar_friend_color : 
+				(is_linden ? map_avatar_linden_color : map_avatar_color);
 
 			unknown_relative_z = positions[i].mdV[VZ] == COARSEUPDATE_MAX_Z &&
 					camera_position.mV[VZ] >= COARSEUPDATE_MAX_Z;

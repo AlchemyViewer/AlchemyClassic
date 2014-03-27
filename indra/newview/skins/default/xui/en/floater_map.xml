@@ -25,14 +25,14 @@
 		[REGION](Double-click to teleport, shift-drag to pan)
 	</floater.string>
 	<floater.string name="mini_map_caption">
-	Mini-map
+	MINIMAP
     </floater.string>
     <net_map
+     bg_color="NetMapBackgroundColor"
      follows="top|left|bottom|right"
      layout="topleft"
      left="0"
      mouse_opaque="false"
-     bg_color="NetMapBackgroundColor"
      name="Net Map"
      width="200"
      height="200"

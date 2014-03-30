@@ -55,6 +55,35 @@
              function="ToggleControl"
              parameter="MiniMapAutoCenter" />
     </menu_item_check>
+    <menu_item_check
+       enabled_control="MiniMapAutoCenter"
+       label="Center Region"
+       name="Center Region">
+          <menu_item_check.on_check
+             control="AlchemyMinimapCenterRegion" />
+          <menu_item_check.on_click
+             function="ToggleControl"
+             parameter="AlchemyMinimapCenterRegion" />
+    </menu_item_check>
+    <menu_item_separator />
+  <menu_item_check
+   label="Use Map Tile"
+   name="Use Map Tile">
+    <menu_item_check.on_check
+       control="AlchemyMinimapTile" />
+    <menu_item_check.on_click
+       function="ToggleControl"
+       parameter="AlchemyMinimapTile" />
+  </menu_item_check>
+  <menu_item_check
+   label="Render Objects"
+   name="Render Objects">
+    <menu_item_check.on_check
+       control="AlchemyMinimapRenderObjects" />
+    <menu_item_check.on_click
+       function="ToggleControl"
+       parameter="AlchemyMinimapRenderObjects" />
+  </menu_item_check>
     <menu_item_separator />
     <menu_item_call
      label="Stop Tracking"

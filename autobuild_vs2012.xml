@@ -630,9 +630,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>61d7303158c3305119e5b550ec44145b</string>
+              <string>187a3edf90982d3c7229ce402fb95f5a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-windows64-20140316.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-windows64-20140403.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

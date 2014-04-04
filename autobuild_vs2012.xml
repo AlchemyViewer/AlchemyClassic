@@ -1143,6 +1143,42 @@
           </map>
         </map>
       </map>
+      <key>inteltbb</key>
+      <map>
+        <key>license</key>
+        <string>gplv2</string>
+        <key>license_file</key>
+        <string>LICENSES/tbb.txt</string>
+        <key>name</key>
+        <string>inteltbb</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fbd94e58f8d9c133b5ab1087bb904325</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/inteltbb-4.2u3-windows-vs11-20140403.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>910d16bf97a6d1dd552a47d82343e427</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/inteltbb-4.2u3-windows64-vs11-20140227.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+        </map>
+      </map>
       <key>jpeglib</key>
       <map>
         <key>license</key>

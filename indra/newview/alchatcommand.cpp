@@ -77,6 +77,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sSetHomeCommand(gSavedSettings, "AlchemyChatCommandSetHome", "/sethome");
 		static LLCachedControl<std::string> sCalcCommand(gSavedSettings, "AlchemyChatCommandCalc", "/calc");
 		static LLCachedControl<std::string> sMaptoCommand(gSavedSettings, "AlchemyChatCommandMapto", "/mapto");
+		static LLCachedControl<std::string> sClearCommand(gSavedSettings, "AlchemyChatCommandClearNearby", "/clr");
 
 		if(cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
@@ -202,6 +203,15 @@ bool ALChatCommand::parseCommand(std::string data)
 				LLCommandDispatcher::dispatch("teleport", params, LLSD(), NULL, "clicked", true);
 				return true;
 			}
+		}
+		else if (cmd == utf8str_tolower(sClearCommand))
+		{
+			LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
+			if (nearby_chat)
+			{
+				nearby_chat->clearChatHistory();
+			}
+			return true;
 		}
 	}
 	return false;

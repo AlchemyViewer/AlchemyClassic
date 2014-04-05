@@ -1096,6 +1096,17 @@ void LLFloaterIMSessionTab::saveCollapsedState()
 		gSavedPerAccountSettings.setBOOL("NearbyChatIsNotCollapsed", isMessagePaneExpanded());
 	}
 }
+
+// <alchemy>
+void LLFloaterIMSessionTab::clearChatHistory()
+{
+	if (mChatHistory)
+	{
+		mChatHistory->clear();
+	}
+}
+// </alchemy>
+
 BOOL LLFloaterIMSessionTab::handleKeyHere(KEY key, MASK mask )
 {
 	BOOL handled = FALSE;

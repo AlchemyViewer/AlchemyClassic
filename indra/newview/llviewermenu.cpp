@@ -2764,6 +2764,35 @@ void handle_object_inspect()
 	*/
 }
 
+// <alchemy>
+void al_handle_object_derender()
+{
+	LLViewerObject* selected_objectp = LLSelectMgr::getInstance()->getSelection()->getFirstRootObject();
+	if (selected_objectp)
+	{
+		const LLUUID& id = selected_objectp->getID();
+		if (id.notNull())
+		{
+			// Copied from LLViewerMessage
+			// ...don't kill the avatar
+			if (id != gAgentID)
+			{
+				// Display green bubble on kill
+				if (gShowObjectUpdates)
+				{
+					LLColor4 color(0.f, 1.f, 0.f, 1.f);
+					gPipeline.addDebugBlip(selected_objectp->getPositionAgent(), color);
+				}
+
+				// Do the kill
+				gObjectList.killObject(selected_objectp);
+				LLSelectMgr::getInstance()->removeObjectFromSelections(id);
+			}
+		}
+	}
+}
+// </alchemy>
+
 //---------------------------------------------------------------------------
 // Land pie menu
 //---------------------------------------------------------------------------
@@ -8947,6 +8976,8 @@ void initialize_menus()
 	enable.add("Object.EnableUnmute", boost::bind(&enable_object_unmute));
 	enable.add("Object.EnableBuy", boost::bind(&enable_buy_object));
 	commit.add("Object.ZoomIn", boost::bind(&handle_look_at_selection, "zoom"));
+
+	commit.add("Alchemy.Derender", boost::bind(&al_handle_object_derender)); // </alchemy>
 
 	// Attachment pie menu
 	enable.add("Attachment.Label", boost::bind(&onEnableAttachmentLabel, _1, _2));

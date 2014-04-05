@@ -123,13 +123,10 @@
       label="Manage"
       name="Remove">
     <menu_item_call
-        enabled="false"
-        label="Report Abuse"
-        name="Report Abuse...">
+     label="Derender"
+     name="Derender">
       <menu_item_call.on_click
-          function="Object.ReportAbuse" />
-      <menu_item_call.on_enable
-          function="Object.EnableReportAbuse" />
+       function="Alchemy.Derender" />
     </menu_item_call>
     <menu_item_call
         enabled="false"
@@ -139,6 +136,15 @@
           function="Object.Mute" />
       <menu_item_call.on_enable
           function="Object.EnableMute" />
+    </menu_item_call>
+    <menu_item_call
+        enabled="false"
+        label="Report Abuse"
+        name="Report Abuse...">
+      <menu_item_call.on_click
+          function="Object.ReportAbuse" />
+      <menu_item_call.on_enable
+          function="Object.EnableReportAbuse" />
     </menu_item_call>
     <menu_item_call
         enabled="false"

@@ -3161,6 +3161,10 @@ bool LLVOAvatar::isVisuallyMuted()
 				} 
 			}
 		}
+		else
+		{
+			muted = LLMuteList::getInstance()->isMuted(getID());
+		}
 	}
 
 	return muted;

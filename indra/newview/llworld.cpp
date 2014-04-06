@@ -291,13 +291,13 @@ void LLWorld::removeRegion(const LLHost &host)
 
 	mRegionRemovedSignal(regionp);
 
-	delete regionp;
-
 	updateWaterObjects();
 
 	//double check all objects of this region are removed.
 	gObjectList.clearAllMapObjectsInRegion(regionp) ;
 	//llassert_always(!gObjectList.hasMapObjectInRegion(regionp)) ;
+
+	delete regionp; // <alchemy/> - Use after free fix?
 }
 
 

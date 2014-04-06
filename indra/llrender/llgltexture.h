@@ -128,8 +128,8 @@ public:
 	void       setFilteringOption(LLTexUnit::eTextureFilterOptions option);
 	void       setExplicitFormat(LLGLint internal_format, LLGLenum primary_format, LLGLenum type_format = 0, BOOL swap_bytes = FALSE);
 	void       setAddressMode(LLTexUnit::eTextureAddressMode mode);
-	BOOL       setSubImage(const LLImageRaw* imageraw, S32 x_pos, S32 y_pos, S32 width, S32 height);
-	BOOL       setSubImage(const U8* datap, S32 data_width, S32 data_height, S32 x_pos, S32 y_pos, S32 width, S32 height);
+	BOOL       setSubImage(const LLImageRaw* imageraw, S32 x_pos, S32 y_pos, S32 width, S32 height, bool fast_update = false); // <alchemy/>
+	BOOL       setSubImage(const U8* datap, S32 data_width, S32 data_height, S32 x_pos, S32 y_pos, S32 width, S32 height, bool fast_update = false); // <alchemy/>
 	void       setGLTextureCreated (bool initialized);
 	void       setCategory(S32 category) ;
 

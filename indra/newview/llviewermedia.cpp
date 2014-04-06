@@ -2889,7 +2889,8 @@ void LLViewerMediaImpl::update()
 							x_pos, 
 							y_pos, 
 							width, 
-							height);
+							height,
+							TRUE); // <alchemy/>
 				}
 
 			}

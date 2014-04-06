@@ -5331,7 +5331,7 @@ void LLObjectBridge::performAction(LLInventoryModel* model, std::string action)
 		{
 			if (LLViewerObject* objectp = gAgentAvatarp->getWornAttachment(itemp->getLinkedUUID()))
 			{
-				LLSelectMgr::getInstance()->clearSelections(); // Clear the current selection first.
+				LLSelectMgr::getInstance()->deselectAll(); // Clear the current selection first.
 				LLFloaterReg::showInstance("build");
 				LLToolMgr::getInstance()->setCurrentToolset(gBasicToolset);
 				LLToolMgr::getInstance()->getCurrentToolset()->selectTool(LLToolCompTranslate::getInstance());

@@ -2767,28 +2767,51 @@ void handle_object_inspect()
 // <alchemy>
 void al_handle_object_derender()
 {
-	LLViewerObject* selected_objectp = LLSelectMgr::getInstance()->getSelection()->getFirstRootObject();
-	if (selected_objectp)
+	LLSelectMgr* select_mgr = LLSelectMgr::getInstance();
+	LLObjectSelectionHandle selection = select_mgr->getSelection();
+	std::vector<LLViewerObject*> objects;
+	for (LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
 	{
-		const LLUUID& id = selected_objectp->getID();
-		if (id.notNull())
+		LLSelectNode* nodep = *iter;
+		if (!nodep)
 		{
-			// Copied from LLViewerMessage
-			// ...don't kill the avatar
-			if (id != gAgentID)
-			{
-				// Display green bubble on kill
-				if (gShowObjectUpdates)
-				{
-					LLColor4 color(0.f, 1.f, 0.f, 1.f);
-					gPipeline.addDebugBlip(selected_objectp->getPositionAgent(), color);
-				}
-
-				// Do the kill
-				gObjectList.killObject(selected_objectp);
-				LLSelectMgr::getInstance()->removeObjectFromSelections(id);
-			}
+			continue;
 		}
+
+		LLViewerObject* selected_objectp = nodep->getObject();
+		if (!selected_objectp)
+		{
+			continue;
+		}
+
+		objects.push_back(selected_objectp);
+	}
+
+	select_mgr->deselectAll();
+
+	for (std::vector<LLViewerObject*>::iterator obj_iter = objects.begin(); obj_iter != objects.end(); obj_iter++)
+	{
+		LLViewerObject* objectp = *obj_iter;
+		if (!objectp)
+		{
+			continue;
+		}
+
+		const LLUUID& id = objectp->getID();
+		if (id.isNull() || id == gAgentID)
+		{
+			continue;
+		}
+
+		// Display green bubble on kill
+		if (gShowObjectUpdates)
+		{
+			LLColor4 color(0.f, 1.f, 0.f, 1.f);
+			gPipeline.addDebugBlip(objectp->getPositionAgent(), color);
+		}
+
+		// Do the kill
+		gObjectList.killObject(objectp);
 	}
 }
 // </alchemy>

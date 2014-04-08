@@ -225,7 +225,7 @@ void LLCrashLogger::gatherFiles()
 
     if (!gDirUtilp->fileExists(mFileMap["SecondLifeLog"]) ) //We would prefer to get this from the per-run but here's our fallback.
     {
-        mFileMap["SecondLifeLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"SecondLife.old");
+        mFileMap["SecondLifeLog"] = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"Alchemy.old");
     }
 
 	gatherPlatformSpecificFiles();
@@ -408,7 +408,7 @@ bool LLCrashLogger::sendCrashLog(std::string dump_dir)
     gDirUtilp->setDumpDir( dump_dir );
     
     std::string dump_path = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,
-                                                           "SecondLifeCrashReport");
+                                                           "AlchemyCrashReport");
     std::string report_file = dump_path + ".log";
    
 	gatherFiles();

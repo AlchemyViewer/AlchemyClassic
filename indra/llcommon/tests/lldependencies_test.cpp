@@ -26,14 +26,14 @@
  * $/LicenseInfo$
  */
 
+// Precompiled header
+#include "linden_common.h" // <alchemy/> Moved up here.
 // STL headers
 #include <iostream>
 #include <string>
 // std headers
 // external library headers
 #include <boost/assign/list_of.hpp>
-// Precompiled header
-#include "linden_common.h"
 // associated header
 #include "../lldependencies.h"
 // other Linden headers

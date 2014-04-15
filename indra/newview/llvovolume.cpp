@@ -78,6 +78,7 @@
 #include "llvoavatar.h"
 #include "llvocache.h"
 #include "llmaterialmgr.h"
+#include "llfloaterreg.h" // <alchemy/>
 
 const S32 MIN_QUIET_FRAMES_COALESCE = 30;
 const F32 FORCE_SIMPLE_RENDER_AREA = 512.f;
@@ -3679,14 +3680,14 @@ BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 
 	if (mDrawable->isState(LLDrawable::RIGGED))
 	{
-		if (LLFloater::isVisible(gFloaterTools) && getAvatar()->isSelf())
+		if (LLFloater::isVisible(gFloaterTools) || LLFloaterReg::instanceVisible("inspect")) // <alchemy/>
 		{
 			updateRiggedVolume();
 			volume = mRiggedVolume;
 			transform = false;
 		}
 		else
-		{ //cannot pick rigged attachments on other avatars or when not in build mode
+		{ //cannot pick rigged attachments when not in build mode
 			return FALSE;
 		}
 	}
@@ -3860,10 +3861,8 @@ BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 
 bool LLVOVolume::treatAsRigged()
 {
-	return LLFloater::isVisible(gFloaterTools) && 
+	return (LLFloater::isVisible(gFloaterTools) || LLFloaterReg::instanceVisible("inspect")) && // <alchemy/>
 			isAttachment() && 
-			getAvatar() &&
-			getAvatar()->isSelf() &&
 			mDrawable.notNull() &&
 			mDrawable->isState(LLDrawable::RIGGED);
 }

@@ -53,6 +53,7 @@
 #include "lltextureatlas.h"
 #include "llglslshader.h"
 #include "llviewershadermgr.h"
+#include "llfloaterreg.h" // <alchemy/>
 
 static LLFastTimer::DeclareTimer FTM_FRUSTUM_CULL("Frustum Culling");
 static LLFastTimer::DeclareTimer FTM_CULL_REBOUND("Cull Rebound Partition");
@@ -4773,7 +4774,7 @@ public:
 				if (vobj->isAvatar())
 				{
 					LLVOAvatar* avatar = (LLVOAvatar*) vobj;
-					if (avatar->isSelf() && LLFloater::isVisible(gFloaterTools))
+					if (LLFloater::isVisible(gFloaterTools) || LLFloaterReg::instanceVisible("inspect")) // <alchemy/>
 					{
 						LLViewerObject* hit = avatar->lineSegmentIntersectRiggedAttachments(mStart, mEnd, -1, mPickTransparent, mFaceHit, &intersection, mTexCoord, mNormal, mTangent);
 						if (hit)

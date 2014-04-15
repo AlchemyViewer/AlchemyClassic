@@ -18,6 +18,10 @@ else (STANDALONE)
       set(JSONCPP_LIBRARIES 
         debug json_vc110debug_libmt.lib
         optimized json_vc110_libmt)
+    elseif(MSVC12)
+      set(JSONCPP_LIBRARIES 
+        debug json_vc120debug_libmt.lib
+        optimized json_vc120_libmt)
     endif(MSVC10)
   elseif (DARWIN)
     set(JSONCPP_LIBRARIES libjson_linux-gcc-4.0.1_libmt.a)

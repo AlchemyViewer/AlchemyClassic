@@ -3270,6 +3270,12 @@ LLSD LLAppViewer::getViewerInfo() const
 #elif LL_GNUC
 	info["COMPILER"] = "GCC";
 	info["COMPILER_VERSION"] = GCC_VERSION;
+#elif LL_CLANG
+	info["COMPILER"] = "Clang";
+	info["COMPILER_VERSION"] = __VERSION__;
+#elif LL_INTEC
+	info["COMPILER"] = "ICC";
+	info["COMPILER_VERSION"] = __ICC;
 #endif
 
 	// <alchemy>

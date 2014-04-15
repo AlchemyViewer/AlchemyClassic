@@ -443,8 +443,6 @@ void show_item_original(const LLUUID& item_uuid)
 	//sidetray inventory panel
 	LLSidepanelInventory *sidepanel_inventory =	LLFloaterSidePanelContainer::getPanel<LLSidepanelInventory>("inventory");
 
-	bool do_reset_inventory_filter = !floater_inventory->isInVisibleChain();
-
 	LLInventoryPanel* active_panel = LLInventoryPanel::getActiveInventoryPanel();
 	if (!active_panel) 
 	{
@@ -463,10 +461,8 @@ void show_item_original(const LLUUID& item_uuid)
 	}
 	active_panel->setSelection(gInventory.getLinkedItemID(item_uuid), TAKE_FOCUS_NO);
 	
-	if(do_reset_inventory_filter)
-	{
-		reset_inventory_filter();
-	}
+	// Reset filters
+	reset_inventory_filter();
 }
 
 

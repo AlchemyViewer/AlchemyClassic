@@ -1935,7 +1935,7 @@ Your search terms were too short so no search was performed.
   <notification
    icon="alertmodal.tga"
    name="CouldNotTeleportReason"
-   type="alertmodal">
+   type="notify">
 Teleport failed.
 [REASON]
   <tag>fail</tag>

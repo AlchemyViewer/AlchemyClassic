@@ -361,6 +361,8 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 
 	mCommitCallbackRegistrar.add("Pref.ClearLog",				boost::bind(&LLConversationLog::onClearLog, &LLConversationLog::instance()));
 	mCommitCallbackRegistrar.add("Pref.DeleteTranscripts",      boost::bind(&LLFloaterPreference::onDeleteTranscripts, this));
+
+	mCommitCallbackRegistrar.add("Pref.ResetToDefault", boost::bind(&LLFloaterPreference::onClickResetControlDefault, this, _2)); // <alchemy/>
 }
 
 void LLFloaterPreference::processProperties( void* pData, EAvatarProcessorType type )
@@ -1697,6 +1699,16 @@ void LLFloaterPreference::onDeleteTranscriptsResponse(const LLSD& notification, 
 	{
 		LLLogChat::deleteTranscripts();
 		updateDeleteTranscriptsButton();
+	}
+}
+
+void LLFloaterPreference::onClickResetControlDefault(const LLSD& userdata)
+{
+	const std::string& control_name = userdata.asString();
+	LLControlVariable* controlp = gSavedSettings.getControl(control_name);
+	if (controlp)
+	{
+		controlp->resetToDefault(true);
 	}
 }
 

@@ -780,7 +780,7 @@
        initial_value="true"
        label="Impostors (2D avatars)"
        layout="topleft"
-       left_dtheelta="0"
+       left_delta="0"
        name="AvatarImpostors"
        top_pad="7"
        width="256" />
@@ -822,7 +822,6 @@
       </text>
       <radio_group
        control_name="RenderTerrainDetail"
-       draw_border="false"
        height="38"
        layout="topleft"
        left_delta="5"
@@ -1017,7 +1016,7 @@
        label_width="160"
        layout="topleft"
        left="20"
-       max_val="5"
+       max_val="9"
        min_val="0"
        mouse_opaque="true"
        name="Iterations"
@@ -1044,7 +1043,8 @@
        name="Strength"
        show_text="true"
        text_width="35"
-       width="385" />
+       width="385"
+       top_pad="5" />
       <slider  
        can_edit_text="true"
        control_name="RenderGlowMinLuminance"
@@ -1058,13 +1058,14 @@
        label="Min. Luminance:"
        label_width="160"
        left="20"
-       max_val="1"
+       max_val="9999"
        min_val="0"
        mouse_opaque="true"
        name="MinLuminance"
        show_text="true"
        text_width="35"
-       width="385" />
+       width="385"
+       top_pad="5" />
       <slider  
        can_edit_text="true"
        control_name="RenderGlowWarmthAmount"
@@ -1084,7 +1085,8 @@
        name="Warmth"
        text_width="35"
        show_text="true"
-       width="385" />
+       width="385"
+       top_pad="5" />
       <slider  
        can_edit_text="true"
        control_name="RenderGlowWidth"
@@ -1104,11 +1106,12 @@
        name="Width"
        show_text="true"
        text_width="35"
-       width="385" />
+       width="385"
+       top_pad="5" />
       <slider  
        can_edit_text="true"
        control_name="RenderGlowMaxExtractAlpha"
-       decimal_digits="4"
+       decimal_digits="3"
        enabled_control="RenderGlow"
        follows="left|top"
        height="16"
@@ -1117,14 +1120,87 @@
        label="Glow Max Alpha:"
        label_width="160"
        left="20"
-       max_val="0.1"
+       max_val="1"
        min_val="0"
        mouse_opaque="true"
        name="MaxAlpha"
        show_text="true"
        text_width="35"
-       val_width="40"
-       width="385" />
+       width="385"
+       top_pad="5" />
+        <button
+         follows="left|top"
+         top="27"
+         height="16"
+         label="D"
+         layout="topleft"
+         left_pad="5"
+         name="RenderGlowIterationsDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowIterations" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="RenderGlowStrengthDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowStrength" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="RenderGlowMinLuminanceDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowMinLuminance" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="RenderGlowWarmthAmountDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowWarmthAmount" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="RenderGlowWidthDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowWidth" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="RenderGlowMaxExtractAlphaDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="RenderGlowMaxExtractAlpha" />
+        </button>
       </panel> <!-- Glow Panel -->
     </panel> <!-- Rendering Tab -->
     <!-- Depth of Field -->
@@ -1147,7 +1223,21 @@
       left="10"
       name="UseDoF"
       top_pad="10"
-      width="256">
+      width="172">
+        <check_box.commit_callback
+         function="Pref.VertexShaderEnable" />
+     </check_box>
+     <check_box
+      enabled_control="RenderDepthOfField"
+      control_name="RenderDeferredDoFGrain"
+      height="16"
+      initial_value="false"
+      label="with Film Grain"
+      layout="topleft"
+      left_pad="5"
+      name="UseDoFInEditMode"
+      top_pad="-16"
+      width="140">
         <check_box.commit_callback
          function="Pref.VertexShaderEnable" />
      </check_box>
@@ -1249,7 +1339,7 @@
         tool_tip="Vertical camera field of view for DoF effect (in degrees)"
         top_pad="5"
         width="385"/>
-       <slider
+       <!--<slider
         control_name="CameraAspectRatio"
         decimal_digits="2"
         follows="left|top"
@@ -1267,7 +1357,7 @@
         name="CameraAspectRatio"
         tool_tip="Camera aspect ratio for DoF effect"
         top_pad="5"
-        width="385"/>
+        width="385"/>-->
        <slider
         control_name="CameraFocusTransitionTime"
         decimal_digits="2"
@@ -1306,6 +1396,79 @@
         tool_tip="Affects the quality of the blurring and the performance of rendering.  (higher = better quality, lower = better perforamce)"
         top_pad="5"
         width="385"/>
+       <button
+        follows="left|top"
+	    	top="-150"
+        height="16"
+        label="D"
+        layout="topleft"
+        left_pad="5"
+        name="CameraFNumDefault"
+        width="16">
+        <button.commit_callback
+         function="Pref.ResetToDefault"
+         parameter="CameraFNumber" />
+		   </button>
+       <button
+        follows="top|left"
+		    top_pad="5"
+        height="16"
+        label="D"
+        layout="topleft"
+        name="CameraFocalLengthDefault"
+        width="16">
+        <button.commit_callback
+         function="Pref.ResetToDefault"
+         parameter="CameraFocalLength" />
+       </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="CameraFieldOfViewDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="CameraFieldOfView" />
+        </button>
+        <!--<button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="CameraAspectRatioDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="CameraAspectRatio" /> 
+        </button>-->
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="CameraFocusTransitionTimeDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="CameraFocusTransitionTime" />
+        </button>
+        <button
+         follows="top|left"
+         top_pad="5"
+         height="16"
+         label="D"
+         layout="topleft"
+         name="CameraDoFResScaleDefault"
+         width="16">
+          <button.commit_callback
+           function="Pref.ResetToDefault"
+           parameter="CameraDoFResScale" />
+        </button>
       </panel> <!-- DepthOfFieldPanel -->
     </panel> <!-- DepthOfFieldTab -->
   </tab_container>

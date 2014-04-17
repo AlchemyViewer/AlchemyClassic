@@ -166,6 +166,7 @@ public:
 	void onClickTranslationSettings();
 	void onClickAutoReplace();
 	void onClickSpellChecker();
+	void onClickResetControlDefault(const LLSD& userdata); // <alchemy/>
 	void applyUIColor(LLUICtrl* ctrl, const LLSD& param);
 	void getUIColor(LLUICtrl* ctrl, const LLSD& param);
 	void onLogChatHistorySaved();	

@@ -182,7 +182,7 @@ public:
 	void setShowInboxFolder(BOOL show);
 	// This method is called when something has changed about the inventory.
 	void modelChanged(U32 mask);
-	LLFolderView* getRootFolder();
+	LLFolderView* getRootFolder() { return mFolderRoot.get(); }
 	LLUUID getRootFolderID();
 	LLScrollContainer* getScrollableContainer() { return mScroller; }
 	
@@ -218,8 +218,11 @@ public:
 	void setSelectionByID(const LLUUID& obj_id, BOOL take_keyboard_focus);
 	void updateSelection();
 
-	LLFolderViewModelInventory* getFolderViewModel();
-	const LLFolderViewModelInventory* getFolderViewModel() const;
+	LLFolderViewModelInventory* getFolderViewModel() { return &mInventoryViewModel; }
+	const LLFolderViewModelInventory* getFolderViewModel() const { return &mInventoryViewModel; }
+    
+    // Clean up stuff when the folder root gets deleted
+    void clearFolderRoot();
 
 protected:
 	void openStartFolderOrMyInventory(); // open the first level of inventory
@@ -234,7 +237,7 @@ protected:
 	bool 						mShowItemLinkOverlays; // Shows link graphic over inventory item icons
 	bool						mShowEmptyMessage;
 
-	LLFolderView*				mFolderRoot;
+	LLHandle<LLFolderView>      mFolderRoot;
 	LLScrollContainer*			mScroller;
 
 	LLFolderViewModelInventory	mInventoryViewModel;

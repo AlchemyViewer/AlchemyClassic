@@ -1142,7 +1142,7 @@ void LLRender::syncLightState()
 		LLVector4 position[8];
 		LLVector3 direction[8];
 		LLVector3 attenuation[8];
-		LLVector3 diffuse[8];
+		LLVector4 diffuse[8]; // <alchemy/>
 
 		for (U32 i = 0; i < 8; i++)
 		{

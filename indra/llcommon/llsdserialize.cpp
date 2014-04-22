@@ -2080,6 +2080,7 @@ std::string zip_llsd(LLSD& data)
 	return result;
 }
 
+// <alchemy>
 //decompress a block of LLSD from provided istream
 // not very efficient -- creats a copy of decompressed LLSD block in memory
 // and deserializes from that copy using LLSDSerialize
@@ -2109,13 +2110,6 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 		strm.avail_out = CHUNK;
 		strm.next_out = out;
 		ret = inflate(&strm, Z_NO_FLUSH);
-		if (ret == Z_STREAM_ERROR)
-		{
-			inflateEnd(&strm);
-			free(result);
-			delete [] in;
-			return false;
-		}
 		
 		switch (ret)
 		{
@@ -2123,6 +2117,7 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 			ret = Z_DATA_ERROR;
 		case Z_DATA_ERROR:
 		case Z_MEM_ERROR:
+		case Z_STREAM_ERROR:
 			inflateEnd(&strm);
 			free(result);
 			delete [] in;
@@ -2172,6 +2167,7 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 	free(result);
 	return true;
 }
+
 //This unzip function will only work with a gzip header and trailer - while the contents
 //of the actual compressed data is the same for either format (gzip vs zlib ), the headers
 //and trailers are different for the formats.
@@ -2201,27 +2197,19 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 		strm.avail_out = CHUNK;
 		strm.next_out = out;
 		ret = inflate(&strm, Z_NO_FLUSH);
-		if (ret == Z_STREAM_ERROR)
-		{
-			inflateEnd(&strm);
-			free(result);
-			delete [] in;
-			valid = false;
-		}
-		
 		switch (ret)
 		{
 		case Z_NEED_DICT:
 			ret = Z_DATA_ERROR;
 		case Z_DATA_ERROR:
 		case Z_MEM_ERROR:
+		case Z_STREAM_ERROR:
 			inflateEnd(&strm);
 			free(result);
 			delete [] in;
 			valid = false;
-			break;
+			return NULL;
 		}
-
 		U32 have = CHUNK-strm.avail_out;
 
 		result = (U8*) realloc(result, cur_size + have);
@@ -2229,7 +2217,7 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 		cur_size += have;
 
 	} while (ret == Z_OK);
-
+	
 	inflateEnd(&strm);
 	delete [] in;
 
@@ -2248,5 +2236,5 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 
 	return result;
 }
-
+// </alchemy>
 

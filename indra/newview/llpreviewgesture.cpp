@@ -504,7 +504,7 @@ void LLPreviewGesture::addKeys()
 	// <alchemy>
 	for (KEY key = ' '; key < KEY_NONE; key++)
 	{
-		char buffer[] = { key, '\0' };
+		char buffer[] = { (char)key, '\0' };
 		std::string str_org(buffer);
 		std::string str_translated = LLKeyboard::stringFromKey(key);
 

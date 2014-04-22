@@ -123,12 +123,14 @@ void LLStandardBumpmap::addstandard()
 	if( fields_read != 1 )
 	{
 		llwarns << "Bad LLStandardBumpmap header" << llendl;
+		fclose(file);
 		return;
 	}
 
 	if( file_version > STD_BUMP_LATEST_FILE_VERSION )
 	{
 		llwarns << "LLStandardBumpmap has newer version (" << file_version << ") than viewer (" << STD_BUMP_LATEST_FILE_VERSION << ")" << llendl;
+		fclose(file);
 		return;
 	}
 
@@ -146,6 +148,7 @@ void LLStandardBumpmap::addstandard()
 		if( fields_read != 2 )
 		{
 			llwarns << "Bad LLStandardBumpmap entry" << llendl;
+			fclose(file);
 			return;
 		}
 

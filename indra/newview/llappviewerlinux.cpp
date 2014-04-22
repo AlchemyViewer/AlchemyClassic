@@ -414,8 +414,8 @@ bool LLAppViewerLinux::beingDebugged()
 			n = readlink(name, buf, sizeof(buf) - 1);
 			if (n != -1)
 			{
-				char *base = strrchr(buf, '/');
 				buf[n] = '\0';
+				char *base = strrchr(buf, '/');
 				if (base == NULL)
 				{
 					base = buf;

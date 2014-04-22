@@ -195,27 +195,11 @@ void LLTaskInvFVBridge::showProperties()
 	show_task_item_profile(mUUID, mPanel->getTaskUUID());
 }
 
-struct LLBuyInvItemData
-{
-	LLUUID mTaskID;
-	LLUUID mItemID;
-	LLAssetType::EType mType;
-
-	LLBuyInvItemData(const LLUUID& task,
-					 const LLUUID& item,
-					 LLAssetType::EType type) :
-		mTaskID(task), mItemID(item), mType(type)
-	{}
-};
-
 void LLTaskInvFVBridge::buyItem()
 {
 	llinfos << "LLTaskInvFVBridge::buyItem()" << llendl;
 	LLInventoryItem* item = findItem();
 	if(!item || !item->getSaleInfo().isForSale()) return;
-	LLBuyInvItemData* inv = new LLBuyInvItemData(mPanel->getTaskUUID(),
-												 mUUID,
-												 item->getType());
 
 	const LLSaleInfo& sale_info = item->getSaleInfo();
 	const LLPermissions& perm = item->getPermissions();
@@ -226,7 +210,6 @@ void LLTaskInvFVBridge::buyItem()
 	{
 		LLNotificationsUtil::add("Cannot_Purchase_an_Attachment");
 		llinfos << "Attempt to purchase an attachment" << llendl;
-		delete inv;
 	}
 	else
 	{
@@ -257,9 +240,9 @@ void LLTaskInvFVBridge::buyItem()
        	}
 
 		LLSD payload;
-		payload["task_id"] = inv->mTaskID;
-		payload["item_id"] = inv->mItemID;
-		payload["type"] = inv->mType;
+		payload["task_id"] = mPanel->getTaskUUID();
+		payload["item_id"] = mUUID;
+		payload["type"] = item->getType();
 		LLNotificationsUtil::add(alertdesc, args, payload, LLTaskInvFVBridge::commitBuyItem);
 	}
 }

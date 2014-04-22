@@ -2030,9 +2030,9 @@ bool LLModel::loadModel(std::istream& is)
 		is.seekg(cur_pos);
 	}
 
-	is.seekg(header[nm[lod]]["offset"].asInteger(), std::ios_base::cur);
+	is.seekg(header[model_names[lod]]["offset"].asInteger(), std::ios_base::cur);
 
-	if (unpackVolumeFaces(is, header[nm[lod]]["size"].asInteger()))
+	if (unpackVolumeFaces(is, header[model_names[lod]]["size"].asInteger()))
 	{
 		if (has_skin)
 		{ 

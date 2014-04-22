@@ -4474,7 +4474,7 @@ void LLMeshRepository::buildPhysicsMesh(LLModel::Decomposition& decomp)
 		hull.mVertexStrideBytes = 12;
 
 		LLCDMeshData mesh;
-		LLCDResult res = -1;
+		LLCDResult res = LLCD_NULL_PTR;
 		if (LLConvexDecomposition::getInstance() != NULL)
 		{
 			res = LLConvexDecomposition::getInstance()->getMeshFromHull(&hull, &mesh);
@@ -4493,7 +4493,7 @@ void LLMeshRepository::buildPhysicsMesh(LLModel::Decomposition& decomp)
 		hull.mVertexStrideBytes = 12;
 
 		LLCDMeshData mesh;
-		LLCDResult res = -1;
+		LLCDResult res = LLCD_NULL_PTR;
 		if (LLConvexDecomposition::getInstance() != NULL)
 		{
 			res = LLConvexDecomposition::getInstance()->getMeshFromHull(&hull, &mesh);

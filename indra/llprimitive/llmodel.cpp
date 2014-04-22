@@ -2004,21 +2004,10 @@ bool LLModel::loadModel(std::istream& is)
 		}
 	}
 
-	std::string nm[] = 
-	{
-		"lowest_lod",
-		"low_lod",
-		"medium_lod",
-		"high_lod",
-		"physics_mesh",
-	};
+	S32 lod = llclamp((S32) mDetail, 0, LLModel::NUM_LODS - 1);
 
-	const S32 MODEL_LODS = 5;
-
-	S32 lod = llclamp((S32) mDetail, 0, MODEL_LODS);
-
-	if (header[nm[lod]]["offset"].asInteger() == -1 || 
-		header[nm[lod]]["size"].asInteger() == 0 )
+	if (header[model_names[lod]]["offset"].asInteger() == -1 || 
+		header[model_names[lod]]["size"].asInteger() == 0 )
 	{ //cannot load requested LOD
 		llwarns << "LoD data is invalid!" << llendl;
 		return false;

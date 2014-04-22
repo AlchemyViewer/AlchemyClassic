@@ -415,7 +415,7 @@ bool LLAppViewerLinux::beingDebugged()
 			if (n != -1)
 			{
 				char *base = strrchr(buf, '/');
-				buf[n + 1] = '\0';
+				buf[n] = '\0';
 				if (base == NULL)
 				{
 					base = buf;

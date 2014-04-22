@@ -275,6 +275,7 @@ LLEditWearableDictionary::WearableEntry::WearableEntry(LLWearableType::EType typ
                 ESubpart part = (ESubpart)va_arg(argp,int);
                 mSubparts.push_back(part);
         }
+        va_end(argp);
 }
 
 LLEditWearableDictionary::Subparts::Subparts()

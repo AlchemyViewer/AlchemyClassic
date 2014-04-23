@@ -592,7 +592,7 @@ bool llsd_equals(const LLSD& lhs, const LLSD& rhs, unsigned bits)
     case LLSD::TypeReal:
         // This is where the 'bits' argument comes in handy. If passed
         // explicitly, it means to use is_approx_equal_fraction() to compare.
-        if (bits >= 0)
+        //if (bits >= 0) // <alchemy/> - DEADCODE
         {
             return is_approx_equal_fraction(lhs.asReal(), rhs.asReal(), bits);
         }
@@ -601,7 +601,7 @@ bool llsd_equals(const LLSD& lhs, const LLSD& rhs, unsigned bits)
         // comparing Real values is only useful when we expect identical bit
         // representation for a given Real value, e.g. for integer-valued
         // Reals.
-        return (lhs.asReal() == rhs.asReal());
+        //return (lhs.asReal() == rhs.asReal());  // <alchemy/> - DEADCODE
 
 #define COMPARE_SCALAR(type)                                    \
     case LLSD::Type##type:                                      \

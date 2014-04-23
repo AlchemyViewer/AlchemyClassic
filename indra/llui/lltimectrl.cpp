@@ -415,7 +415,7 @@ U32 LLTimeCtrl::parseHours(const std::string& str)
 U32 LLTimeCtrl::parseMinutes(const std::string& str)
 {
 	U32 minutes;
-	if (LLStringUtil::convertToU32(str, minutes) && (minutes >= MINUTES_MIN) && (minutes <= MINUTES_MAX))
+	if (LLStringUtil::convertToU32(str, minutes) /*&& (minutes >= MINUTES_MIN)*/ && (minutes <= MINUTES_MAX)) // <alchemy/>
 	{
 		return minutes;
 	}

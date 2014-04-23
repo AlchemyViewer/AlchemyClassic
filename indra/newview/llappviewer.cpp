@@ -800,7 +800,7 @@ bool LLAppViewer::init()
 		// QAModeTermCode set, terminate with that rc on LL_ERRS. Use _exit()
 		// rather than exit() because normal cleanup depends too much on
 		// successful startup!
-		LLError::setFatalFunction(boost::bind(_exit, rc));
+		//LLError::setFatalFunction(boost::bind(_exit, rc));
 	}
 
     mAlloc.setProfilingEnabled(gSavedSettings.getBOOL("MemProfiling"));

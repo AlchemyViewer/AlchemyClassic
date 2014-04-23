@@ -186,9 +186,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>06dd7af75e1eb179aed54fd58d8688af</string>
+              <string>e6dd785c8acbe27bf4314091e9e859a4</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/270698/arch/Darwin/installer/boost-1.52.0-darwin-20130221.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.52.0-darwin-20140423.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -198,9 +198,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>50c8b50b7cced52cc5656fb44e9b12cf</string>
+              <string>c66c4f60a364f7a959cd11ded42500dc</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/270698/arch/Linux/installer/boost-1.52.0-linux-20130222.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.52.0-linux-20140423.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>

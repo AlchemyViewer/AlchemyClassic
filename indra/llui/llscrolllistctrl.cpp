@@ -2097,8 +2097,6 @@ BOOL LLScrollListCtrl::handleKeyHere(KEY key,MASK mask )
 	if (mCanSelect) 
 	{
 		// Ignore capslock
-		mask = mask;
-
 		if (mask == MASK_NONE)
 		{
 			switch(key)

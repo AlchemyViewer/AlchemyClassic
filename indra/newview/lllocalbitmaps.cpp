@@ -205,7 +205,7 @@ bool LLLocalBitmap::updateSelf(EUpdateType optional_firstupdate)
 
 					gTextureList.addImage(texture);
 			
-					if (!optional_firstupdate == UT_FIRSTUSE)
+					if (!(optional_firstupdate == UT_FIRSTUSE)) // <alchemy/>
 					{
 						// seek out everything old_id uses and replace it with mWorldID
 						replaceIDs(old_id, mWorldID);

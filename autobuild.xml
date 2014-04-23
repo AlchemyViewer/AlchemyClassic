@@ -2360,10 +2360,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 12</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2386,10 +2385,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 2</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2408,10 +2406,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 12</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2436,10 +2433,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 2</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2458,10 +2454,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 12</string>
                 </array>
               </map>
               <key>configure</key>
@@ -2484,10 +2479,9 @@
               <key>build</key>
               <map>
                 <key>command</key>
-                <string>make</string>
+                <string>ninja</string>
                 <key>options</key>
                 <array>
-                  <string>-j 2</string>
                 </array>
               </map>
               <key>configure</key>

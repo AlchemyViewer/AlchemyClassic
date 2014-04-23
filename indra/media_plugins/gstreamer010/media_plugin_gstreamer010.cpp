@@ -48,6 +48,8 @@ extern "C" {
 
 #include "llmediaimplgstreamer_syms.h"
 
+const double MIN_LOOP_SEC = 1.0;
+
 //////////////////////////////////////////////////////////////////////////////
 //
 class MediaPluginGStreamer010 : public MediaPluginBase
@@ -75,8 +77,6 @@ private:
 	bool stop();
 	bool play(double rate);
 	bool getTimePos(double &sec_out);
-
-	static const double MIN_LOOP_SEC = 1.0F;
 
 	bool mIsLooping;
 

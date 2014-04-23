@@ -120,7 +120,7 @@ LLPanel::LLPanel(const LLPanel::Params& p)
 {
 	if (p.has_border)
 	{
-		addBorder(static_cast<LLViewBorder::Params>(p.border));
+		addBorder(p.border);
 	}
 }
 
@@ -135,7 +135,7 @@ BOOL LLPanel::isPanel() const
 	return TRUE;
 }
 
-void LLPanel::addBorder(LLViewBorder::Params& p)
+void LLPanel::addBorder(LLViewBorder::Params p)
 {
 	removeBorder();
 	p.rect = getLocalRect();
@@ -466,7 +466,7 @@ void LLPanel::initFromParams(const LLPanel::Params& p)
 	
 	if (p.has_border)
 	{
-		addBorder(static_cast<LLViewBorder::Params>(p.border));
+		addBorder(p.border);
 	}
 	// let constructors set this value if not provided
 	if (p.use_bounding_rect.isProvided())

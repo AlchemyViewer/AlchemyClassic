@@ -2375,7 +2375,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>name</key>
@@ -2397,7 +2397,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>name</key>
@@ -2423,7 +2423,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>default</key>
@@ -2447,7 +2447,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>name</key>
@@ -2473,7 +2473,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>name</key>
@@ -2495,7 +2495,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Unix Makefiles'</string>
+                  <string>'Ninja'</string>
                 </array>
               </map>
               <key>name</key>

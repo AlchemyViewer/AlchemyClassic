@@ -343,7 +343,7 @@ void LLNotificationWellWindow::setVisible(BOOL visible)
 }
 
 //---------------------------------------------------------------------------------
-void LLNotificationWellWindow::addItem(LLSysWellItem::Params p)
+void LLNotificationWellWindow::addItem(const LLSysWellItem::Params& p) // <alchemy/>
 {
 	LLSD value = p.notification_id;
 	// do not add clones

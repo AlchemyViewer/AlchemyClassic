@@ -110,7 +110,7 @@ public:
 	/*virtual*/ void setVisible(BOOL visible);
 	/*virtual*/ void onAdd(LLNotificationPtr notify);
 	// Operating with items
-	void addItem(LLSysWellItem::Params p);
+	void addItem(const LLSysWellItem::Params& p); // <alchemy/>
 
 	// Closes all notifications and removes them from the Notification Well
 	void closeAll();

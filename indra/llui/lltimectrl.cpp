@@ -381,7 +381,7 @@ bool LLTimeCtrl::isHoursStringValid(const std::string& str)
 bool LLTimeCtrl::isMinutesStringValid(const std::string& str)
 {
 	U32 minutes;
-	if (!LLStringUtil::convertToU32(str, minutes) || (minutes <= MINUTES_MAX) && str.length() < 3)
+	if (!LLStringUtil::convertToU32(str, minutes) || ((minutes <= MINUTES_MAX) && str.length() < 3))
 		return true;
 
 	return false;

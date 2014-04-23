@@ -182,9 +182,11 @@ public:
 				// not of right type, so delete it
 				if (!widget) 
 				{
-					llwarns << "Widget in " << filename << " was of type " << typeid(view).name() << " instead of expected type " << typeid(T).name() << llendl;
-					delete view;
-					view = NULL;
+					// <alchemy> - UNDEFINED BEHAVIOR
+					llerrs << "Widget in " << filename << " was of type " << typeid(view).name() << " instead of expected type " << typeid(T).name() << llendl;
+					//delete view;
+					//view = NULL;
+					// </alchemy>
 				}
 			}
 		}

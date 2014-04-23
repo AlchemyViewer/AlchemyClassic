@@ -223,7 +223,7 @@ LLSplitButton::LLSplitButton(const LLSplitButton::Params& p)
 	LLInitParam::ParamIterator<ItemParams>::const_iterator it = p.items.begin();
 
 	//processing shown item button
-	mShownItem = prepareItemButton(static_cast<LLButton::Params>(*it)); // <alchemy/>
+	mShownItem = prepareItemButton(*it);
 	mShownItem->setHeldDownCallback(boost::bind(&LLSplitButton::onHeldDownShownButton, this));
 	mShownItem->setMouseUpCallback(boost::bind(&LLSplitButton::onItemSelected, this, _1));
 	mShownItem->setRect(LLRect(btn_left, rc.getHeight(), btn_right, 0));
@@ -233,7 +233,7 @@ LLSplitButton::LLSplitButton(const LLSplitButton::Params& p)
 	S32 item_top = mItemsPanel->getRect().getHeight();
 	for (++it; it != p.items.end(); ++it)
 	{
-		LLButton* hidden_button = prepareItemButton(static_cast<LLButton::Params>(*it)); // <alchemy/>
+		LLButton* hidden_button = prepareItemButton(*it);
 		hidden_button->setRect(LLRect(btn_left, item_top, btn_right, item_top - rc.getHeight()));
 		hidden_button->setMouseDownCallback(boost::bind(&LLSplitButton::onItemSelected, this, _1));
 		mHidenItems.push_back(hidden_button);
@@ -247,14 +247,14 @@ LLSplitButton::LLSplitButton(const LLSplitButton::Params& p)
 }
 
 
-LLButton* LLSplitButton::prepareItemButton(LLButton::Params& params) // <alchemy/>
+LLButton* LLSplitButton::prepareItemButton(LLButton::Params params)
 {
 	params.label("");
 	params.is_toggle(false);
 	return LLUICtrlFactory::create<LLButton>(params); 
 }
 
-LLPanel* LLSplitButton::prepareItemsPanel(LLPanel::Params& params, S32 items_count) // <alchemy/>
+LLPanel* LLSplitButton::prepareItemsPanel(LLPanel::Params params, S32 items_count)
 {
 	S32 num_hiden_btns = items_count - 1;
 	S32 panel_height = num_hiden_btns * (getRect().getHeight() + BUTTON_PAD);

@@ -90,8 +90,8 @@ protected:
 	friend class LLUICtrlFactory;
 	LLSplitButton(const LLSplitButton::Params& p);
 
-	LLButton* prepareItemButton(LLButton::Params& params); // <alchemy/>
-	LLPanel* prepareItemsPanel(LLPanel::Params& params, S32 items_count); // <alchemy/>
+	LLButton* prepareItemButton(LLButton::Params params);
+	LLPanel* prepareItemsPanel(LLPanel::Params params, S32 items_count);
 
 	LLPanel* mItemsPanel;
 	std::list<LLButton*> mHidenItems;

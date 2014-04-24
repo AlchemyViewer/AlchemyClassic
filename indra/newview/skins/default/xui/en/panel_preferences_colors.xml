@@ -22,9 +22,10 @@
     My effects (selection beam):
   </text>
   <color_swatch
-	 can_apply_immediately="true"
+     disabled_control="AlchemyRainbowEffects"
+     can_apply_immediately="true"
      follows="left|top"
-     height="24"
+     height="26"
      label_height="0"
      layout="topleft"
      left="40"
@@ -40,6 +41,16 @@
     <color_swatch.caption_text
     height="0" />
   </color_swatch>
+    <check_box
+     control_name="AlchemyRainbowEffects"
+     follows="left|top"
+     height="24"
+     label="Use Rainbow Effects"
+     layout="topleft"
+     left_pad="5"
+     top_delta="-1"
+     name="use_rainbow_effects"
+     width="100" />
   <text
    follows="left|top"
    layout="topleft"

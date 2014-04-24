@@ -173,5 +173,93 @@ Dummy Name replaced at run time
         Voice chat Audio coding: Polycom(R) Siren14(TM) (ITU-T Rec. G.722.1 Annex C)
       </text_editor>
       </panel>
+    <panel
+      border="true" 
+      label="Alchemy Credits" 
+      help_topic="about_alchemy_credits_tab"
+      name="alchemy_credits_panel">
+      <text
+          follows="top|left|right"
+          height="10"
+          layout="topleft"
+          left="5"
+          name="alchemy_intro"
+          top="10"
+          width="435"
+          wrap="true">
+AlchemyViewer is brought to you by the Alchemy Development Group:
+      </text>
+      <text_editor
+       enabled="false" 
+       follows="top|left"
+       height="98"
+       bg_readonly_color="Transparent"
+       left="5"
+       text_color="LtGray"
+       max_length="65536"
+       name="alchemy_names"
+       top_pad="10"
+       width="435"
+       word_wrap="true">
+Sovereign Engineer, Inusaito Kanya, Luminous Luminos, Miguael Liamano, Captains Ghost
+      </text_editor>
+      <text
+          follows="top|left"
+          height="10"
+          layout="topleft"
+          left="5"
+          name="opensource_intro"
+          top_pad="10"
+          width="435"
+          wrap="true">
+with open source code from:
+      </text>
+      <text_editor
+       enabled="false" 
+       follows="top|left"
+       height="98"
+       bg_readonly_color="Transparent"
+       left="5"
+       text_color="LtGray"
+       max_length="65536"
+       name="opensource_names"
+       top_pad="10"
+       width="435"
+       word_wrap="true">
+Viewer Projects: Catznip, Exodus, Firestorm, Singularity
+Companies: Simudyne
+People: Cinder Roxley, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard
+      </text_editor>
+      <text
+          follows="top|left"
+          height="10"
+          layout="topleft"
+          left="5"
+          name="services_intro"
+          top_pad="10"
+          width="435"
+          wrap="true">
+and project infrastructure from:
+      </text>
+      <text_editor
+       enabled="false" 
+       follows="top|left"
+       height="98"
+       bg_readonly_color="Transparent"
+       left="5"
+       text_color="LtGray"
+       max_length="65536"
+       name="services_names"
+       top_pad="10"
+       width="435"
+       word_wrap="true">
+Atlassian:
+  Bitbucket
+  Confluence
+  Jira
+Coverity:
+ Coverity Scan
+      </text_editor>
+    </panel>
     </tab_container>
 </floater>

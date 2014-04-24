@@ -154,26 +154,21 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     endif (XCODE_VERSION GREATER 4.2)
   endif (XCODE_VERSION GREATER 4.5)
 
-  set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvmgcc42")
+  if (XCODE_VERSION LESS 5.0)
+    set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvmgcc42")
+  else (XCODE_VERSION LESS 5.0)
+    set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
+  endif (XCODE_VERSION LESS 5.0)
   set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT dwarf-with-dsym)
 
-  # NOTE: To attempt an i386/PPC Universal build, add this on the configure line:
-  # -DCMAKE_OSX_ARCHITECTURES:STRING='i386;ppc'
+  # NOTE: To attempt an i386/x86_64 Universal build, add this on the configure line:
+  # -DCMAKE_OSX_ARCHITECTURES:STRING='i386;x86_64'
   # Build only for i386 by default, system default on MacOSX 10.6 is x86_64
   if (NOT CMAKE_OSX_ARCHITECTURES)
     set(CMAKE_OSX_ARCHITECTURES i386)
   endif (NOT CMAKE_OSX_ARCHITECTURES)
 
-  if (CMAKE_OSX_ARCHITECTURES MATCHES "i386" AND CMAKE_OSX_ARCHITECTURES MATCHES "ppc")
-    set(ARCH universal)
-  else (CMAKE_OSX_ARCHITECTURES MATCHES "i386" AND CMAKE_OSX_ARCHITECTURES MATCHES "ppc")
-    if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ppc")
-      set(ARCH ppc)
-    else (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ppc")
-      set(ARCH i386)
-    endif (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ppc")
-  endif (CMAKE_OSX_ARCHITECTURES MATCHES "i386" AND CMAKE_OSX_ARCHITECTURES MATCHES "ppc")
-
+  set(ARCH i386)
   set(LL_ARCH ${ARCH}_darwin)
   set(LL_ARCH_DIR universal-darwin)
   set(WORD_SIZE 32)

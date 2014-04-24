@@ -22,6 +22,7 @@ build-vc120*
 qtcreator-build/
 indra/build-vc[0-9]*
 indra/CMakeFiles
+indra/CMakeLists.txt.user
 indra/lib/mono/1.0/*.dll
 indra/lib/mono/indra/*.dll
 indra/lib/mono/indra/*.exe

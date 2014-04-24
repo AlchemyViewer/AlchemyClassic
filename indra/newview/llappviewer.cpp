@@ -3273,7 +3273,7 @@ LLSD LLAppViewer::getViewerInfo() const
 #elif LL_CLANG
 	info["COMPILER"] = "Clang";
 	info["COMPILER_VERSION"] = __VERSION__;
-#elif LL_INTEC
+#elif LL_INTELC
 	info["COMPILER"] = "ICC";
 	info["COMPILER_VERSION"] = __ICC;
 #endif

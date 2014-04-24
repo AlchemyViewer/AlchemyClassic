@@ -213,6 +213,25 @@ if (LINUX)
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS_RELEASE}")
+  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
+    add_definitions(
+        -fno-math-errno
+        -msse2
+        )
+
+    if (NOT STANDALONE)
+      add_definitions(-march=pentium4)
+    endif (NOT STANDALONE)
+
+    if (NOT STANDALONE)
+      # this stops us requiring a really recent glibc at runtime
+      add_definitions(-fno-stack-protector)
+      # linking can be very memory-hungry, especially the final viewer link
+      set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
+    endif (NOT STANDALONE)
+
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 endif (LINUX)
 
@@ -238,16 +257,19 @@ endif (DARWIN)
 
 
 if (LINUX OR DARWIN)
-  set(UNIX_WARNINGS "-Wall -Wno-sign-compare -Wno-trigraphs")
-
   if (NOT UNIX_DISABLE_FATAL_WARNINGS)
-    set(UNIX_WARNINGS "${UNIX_WARNINGS} -Werror")
+    set(UNIX_WARNINGS "-Werror")
   endif (NOT UNIX_DISABLE_FATAL_WARNINGS)
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    set(UNIX_WARNINGS "-Wall -Wno-sign-compare -Wno-trigraphs ${UNIX_WARNINGS} ")
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder -Wno-non-virtual-dtor")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(UNIX_WARNINGS "-Wall -Wno-sign-compare -Wno-trigraphs ${UNIX_WARNINGS} ")
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS} -Wno-reorder -Wno-unused-const-variable -Wno-format-extra-args -Wno-unused-private-field -Wno-unused-function -Wno-tautological-compare -Wno-empty-body -Wno-unused-variable -Wno-unused-value")
+  elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
+    set(UNIX_WARNINGS "-w2 -diag-disable remark -wd68 -wd597 -wd780 -wd858 ${UNIX_WARNINGS} ")
+    set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 
   set(CMAKE_C_FLAGS "${UNIX_WARNINGS} ${CMAKE_C_FLAGS}")

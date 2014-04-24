@@ -740,6 +740,42 @@
         name="AlchemyChatCommandPos"
         control_name="AlchemyChatCommandPos"
         width="220"/>
+      <!--mapto-->
+      <text
+        top_pad="10"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandMapto_txt"
+        width="220">
+        Teleport to region
+      </text>
+      <line_editor
+        top_pad="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        text_pad_left="5"
+        name="AlchemyChatCommandMapto"
+        control_name="AlchemyChatCommandMapto"
+        width="220"/>
+      <!--clr-->
+      <text
+        top_pad="10"
+        follows="left|top"
+        height="16"
+        name="AlchemyChatCommandClearNearby_txt"
+        width="220">
+        Clear contents of nearby chat
+      </text>
+      <line_editor
+        top_pad="0"
+        follows="left|top"
+        height="20"
+        max_length_chars="256"
+        text_pad_left="5"
+        name="AlchemyChatCommandClearNearby"
+        control_name="AlchemyChatCommandClearNearby"
+        width="220"/>
         <!--home-->
         <text
           top="41"

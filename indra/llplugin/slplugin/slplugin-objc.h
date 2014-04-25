@@ -29,7 +29,7 @@
  */
 
 //Protos for ObjectiveC classes (cannot import cocoa here due to BOOL conflict)
-#ifdef __OBJC__
+#ifndef __OBJC__
 class NSWindow;
 #endif
 

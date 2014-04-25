@@ -154,6 +154,13 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     endif (XCODE_VERSION GREATER 4.2)
   endif (XCODE_VERSION GREATER 4.5)
 
+  # Borrowed from OGRE cmake 
+  # https://bitbucket.org/sinbad/ogre/src/fc3b24cd9c5c145923046afa487b216d0566ba9f/CMake/Templates/SDK_CMakeLists.txt.in?at=default#cl-88
+  if (CMAKE_GENERATOR STREQUAL "Unix Makefiles" OR CMAKE_GENERATOR STREQUAL "Ninja")
+    execute_process(COMMAND xcodebuild -version -sdk "${CMAKE_OSX_SYSROOT}" Path | head -n 1 OUTPUT_VARIABLE CMAKE_OSX_SYSROOT)
+    string(REGEX REPLACE "(\r?\n)+$" "" CMAKE_OSX_SYSROOT "${CMAKE_OSX_SYSROOT}")
+  endif (CMAKE_GENERATOR STREQUAL "Unix Makefiles" OR CMAKE_GENERATOR STREQUAL "Ninja")
+
   if (XCODE_VERSION LESS 5.0)
     set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvmgcc42")
   else (XCODE_VERSION LESS 5.0)

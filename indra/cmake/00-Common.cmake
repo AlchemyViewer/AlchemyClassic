@@ -193,7 +193,7 @@ if (LINUX)
     endif (NOT STANDALONE)
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
-    set(CMAKE_CXX_FLAGS_RELEASE "-O2 -ffast-math ${CMAKE_CXX_FLAGS_RELEASE}")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     add_definitions(
         -fno-math-errno

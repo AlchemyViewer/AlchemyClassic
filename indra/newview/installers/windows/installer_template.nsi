@@ -117,7 +117,6 @@ Var COMMANDLINE         ; command line passed to this installer, set in .onInit
 Var SHORTCUT_LANG_PARAM ; "--set InstallLanguage de", passes language to viewer
 Var SKIP_DIALOGS        ; set from command line in  .onInit. autoinstall 
                         ; GUI and the defaults.
-Var DO_UNINSTALL_V2     ; If non-null, path to a previous Viewer 2 installation that will be uninstalled.
 
 ;;; Function definitions should go before file includes, because calls to
 ;;; DLLs like LangDLL trigger an implicit file include, so if that call is at
@@ -315,49 +314,6 @@ Function CheckNetworkConnection
     Pop $1
     Pop $0
     Return
-FunctionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Function CheckOldExeName
-; Viewer versions < 3.6.12 used the name 'SecondLife.exe'
-; If that name is found in the install folder, delete it to invalidate any
-; old shortcuts to it that may be in non-standard locations, so that the user
-; does not end up running the old version (potentially getting caught in an 
-; infinite update loop). See MAINT-3575
-; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-Function CheckOldExeName
-  IfFileExists "$INSTDIR\SecondLife.exe" CHECKOLDEXE_FOUND CHECKOLDEXE_DONE
-
-CHECKOLDEXE_FOUND:
-  Delete "$INSTDIR\SecondLife.exe"
-CHECKOLDEXE_DONE:
-FunctionEnd
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Function CheckWillUninstallV2               
-;
-; If we are being called through auto-update, we need to uninstall any
-; existing V2 installation. Otherwise, we wind up with
-; SecondLifeViewer2 and SecondLifeViewer installations existing side
-; by side no indication which to use.
-; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function CheckWillUninstallV2
-
-  StrCpy $DO_UNINSTALL_V2 ""
-
-  ; Uneeded - LD
-  Return
-  StrCmp $SKIP_DIALOGS "true" 0 CHECKV2_DONE
-  StrCmp $INSTDIR "$PROGRAMFILES\${INSTNAME}2" CHECKV2_DONE ; don't uninstall our own install dir.
-  IfFileExists "$PROGRAMFILES\${INSTNAME}2\uninst.exe" CHECKV2_FOUND CHECKV2_DONE
-
-CHECKV2_FOUND:
-  StrCpy $DO_UNINSTALL_V2 "true"
-
-CHECKV2_DONE:
-
 FunctionEnd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -985,14 +941,8 @@ Call CheckIfAdministrator		; Make sure the user can install/uninstall
 Call CheckIfAlreadyCurrent		; Make sure that we haven't already installed this version
 Call CloseSecondLife			; Make sure we're not running
 Call CheckNetworkConnection		; ping secondlife.com
-Call CheckWillUninstallV2               ; See if a V2 install exists and will be removed.
-Call CheckOldExeName                    ; Clean up a previous version of the exe
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-StrCmp $DO_UNINSTALL_V2 "" PRESERVE_DONE
-  Call PreserveUserFiles
-PRESERVE_DONE:
-
 ;;; Don't remove cache files during a regular install, removing the inventory cache on upgrades results in lots of damage to the servers.
 ;Call RemoveCacheFiles			; Installing over removes potentially corrupted
 								; VFS and cache files.
@@ -1083,16 +1033,6 @@ WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open\command" ""
 
 ; write out uninstaller
 WriteUninstaller "$INSTDIR\uninst.exe"
-
-; Uninstall existing "Second Life Viewer 2" install if needed.
-StrCmp $DO_UNINSTALL_V2 "" REMOVE_SLV2_DONE
-  ExecWait '"$PROGRAMFILES\${INSTNAME}2\uninst.exe" /S _?=$PROGRAMFILES\${INSTNAME}2'
-  Delete "$PROGRAMFILES\${INSTNAME}2\uninst.exe" ; with _? option above, uninst.exe will be left behind.
-  RMDir "$PROGRAMFILES\${INSTNAME}2" ; will remove only if empty.
-
-  Call RestoreUserFiles
-  Call RemoveTempUserFiles
-REMOVE_SLV2_DONE:
 
 ; end of default section
 SectionEnd

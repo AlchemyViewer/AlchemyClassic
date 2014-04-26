@@ -1659,6 +1659,11 @@ if (WINDOWS)
     # be met. I'm looking forward to a source-code split-up project next year that will address this kind of thing.
     # In the meantime, if you have any ideas on how to easily maintain one list, either here or in viewer_manifest.py
     # and have the build deps get tracked *please* tell me about it.
+    if(LLCOMMON_LINK_SHARED)
+      set(LLCOMMON_SOURCE
+        ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/llcommon.dll
+        )
+    endif(LLCOMMON_LINK_SHARED)
 
     if(USE_TCMALLOC)
       # Configure a var for tcmalloc location, if used.
@@ -1688,7 +1693,7 @@ if (WINDOWS)
       #${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libtcmalloc_minimal.dll => None ... Skipping libtcmalloc_minimal.dll
       ${CMAKE_SOURCE_DIR}/../etc/message.xml
       ${CMAKE_SOURCE_DIR}/../scripts/messages/message_template.msg
-      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/llcommon.dll
+      ${LLCOMMON_SOURCE}
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libapr-1.dll
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libaprutil-1.dll
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libapriconv-1.dll

@@ -585,17 +585,6 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>RenderDeferredOldShiny</key>
-    <map>
-      <key>Comment</key>
-      <string>Use the old-style Shiny. Gives shiny objects a more "wet", less metallic look.</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
     <key>RenderDeferredSSR</key>
     <map>
       <key>Comment</key>

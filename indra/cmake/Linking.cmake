@@ -26,15 +26,15 @@ endif (WINDOWS)
 # windows) and CMAKE_BUILD_TYPE on Makefile based generators (like linux).  The reason for this is
 # that CMAKE_BUILD_TYPE is essentially meaningless at configuration time for IDE generators and
 # CMAKE_CFG_INTDIR is meaningless at build time for Makefile generators
-if(WINDOWS OR DARWIN)
+if(WINDOWS OR CMAKE_GENERATOR STREQUAL "Xcode")
   # the cmake xcode and VS generators implicitly append ${CMAKE_CFG_INTDIR} to the library paths for us
   # fortunately both windows and darwin are case insensitive filesystems so this works.
   set(AUTOBUILD_LIBS_INSTALL_DIRS "${AUTOBUILD_INSTALL_DIR}/lib/")
-else(WINDOWS OR DARWIN)
+else(WINDOWS OR CMAKE_GENERATOR STREQUAL "Xcode")
   # else block is for linux and any other makefile based generators
   string(TOLOWER ${CMAKE_BUILD_TYPE} CMAKE_BUILD_TYPE_LOWER)
   set(AUTOBUILD_LIBS_INSTALL_DIRS ${AUTOBUILD_INSTALL_DIR}/lib/${CMAKE_BUILD_TYPE_LOWER})
-endif(WINDOWS OR DARWIN)
+endif(WINDOWS OR CMAKE_GENERATOR STREQUAL "Xcode")
 
 if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Release")
   # When we're building something other than Release, append the

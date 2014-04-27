@@ -1825,7 +1825,9 @@ LLPrivateMemoryPoolManager* LLPrivateMemoryPoolManager::sInstance = NULL ;
 BOOL LLPrivateMemoryPoolManager::sPrivatePoolEnabled = FALSE ;
 std::vector<LLPrivateMemoryPool*> LLPrivateMemoryPoolManager::sDanglingPoolList ;
 
-LLPrivateMemoryPoolManager::LLPrivateMemoryPoolManager(BOOL enabled, U32 max_pool_size) 
+LLPrivateMemoryPoolManager::LLPrivateMemoryPoolManager(BOOL enabled, U32 max_pool_size)
+	: 	mTotalReservedSize(0),
+		mTotalAllocatedSize(0)
 {
 	mPoolList.resize(LLPrivateMemoryPool::MAX_TYPES) ;
 

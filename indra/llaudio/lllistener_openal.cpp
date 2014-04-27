@@ -31,8 +31,9 @@
 #include "lllistener_openal.h"
 
 LLListener_OpenAL::LLListener_OpenAL()
+	: LLListener(),
+	  mRolloffFactor(0.f)
 {
-	init();
 }
 
 LLListener_OpenAL::~LLListener_OpenAL()

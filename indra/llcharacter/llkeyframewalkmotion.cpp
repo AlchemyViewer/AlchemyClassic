@@ -140,14 +140,19 @@ BOOL LLKeyframeWalkMotion::onUpdate(F32 time, U8* joint_mask)
 //-----------------------------------------------------------------------------
 LLWalkAdjustMotion::LLWalkAdjustMotion(const LLUUID &id) :
 	LLMotion(id),
+	mCharacter(NULL),
 	mLastTime(0.f),
 	mAnimSpeed(0.f),
 	mAdjustedSpeed(0.f),
 	mRelativeDir(0.f),
-	mAnkleOffset(0.f)
+	mAnkleOffset(0.f),
+	mLeftAnkleJoint(NULL),
+	mRightAnkleJoint(NULL),
+	mPelvisJoint(NULL),
+	// LLPointer<LLJointState>
+	mPelvisState(new LLJointState)
 {
 	mName = "walk_adjust";
-	mPelvisState = new LLJointState;
 }
 
 //-----------------------------------------------------------------------------

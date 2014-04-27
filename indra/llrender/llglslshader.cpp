@@ -307,7 +307,13 @@ LLGLSLShader::LLGLSLShader()
 	  mShaderLevel(0), 
 	  mShaderGroup(SG_DEFAULT), 
 	  mUniformsDirty(FALSE),
-	  mTimerQuery(0)
+	  mTimerQuery(0),
+	  mLightHash(0),
+	  mTimeElapsed(0),
+	  mTrianglesDrawn(0),
+	  mSamplesDrawn(0),
+	  mDrawCalls(0),
+	  mTextureStateFetched(false)
 {
 	
 }

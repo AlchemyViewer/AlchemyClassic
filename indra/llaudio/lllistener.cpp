@@ -28,29 +28,23 @@
 
 #include "lllistener.h"
 
-#define DEFAULT_AT  0.0f,0.0f,-1.0f
-#define DEFAULT_UP  0.0f,1.0f,0.0f
+const LLVector3 DEFAULT_AT(0.0f, 0.0f, -1.0f);
+const LLVector3 DEFAULT_UP(0.0f, 1.0f, 0.0f);
 
 //-----------------------------------------------------------------------
 // constructor
 //-----------------------------------------------------------------------
 LLListener::LLListener()
+	: mPosition(LLVector3::zero),
+	  mListenAt(DEFAULT_AT),
+	  mListenUp(DEFAULT_UP),
+	  mVelocity(LLVector3::zero)
 {
-	init();
 }
 
 //-----------------------------------------------------------------------
 LLListener::~LLListener()
 {
-}
-
-//-----------------------------------------------------------------------
-void LLListener::init(void)
-{
-	mPosition.zeroVec();
-	mListenAt.setVec(DEFAULT_AT);
-	mListenUp.setVec(DEFAULT_UP);
-	mVelocity.zeroVec();
 }
 
 //-----------------------------------------------------------------------

@@ -115,7 +115,16 @@ LLAppErrorHandler LLApp::sErrorHandler = NULL;
 BOOL LLApp::sErrorThreadRunning = FALSE;
 
 
-LLApp::LLApp() : mThreadErrorp(NULL)
+LLApp::LLApp()
+	: mThreadErrorp(NULL),
+	  mExceptionHandler(NULL)
+{
+	commonCtor();
+}
+
+LLApp::LLApp(LLErrorThread *error_thread)
+	: mThreadErrorp(error_thread),
+	  mExceptionHandler(NULL)
 {
 	commonCtor();
 }
@@ -144,20 +153,11 @@ void LLApp::commonCtor()
 	// Set the application to this instance.
 	sApplication = this;
 
-	mExceptionHandler = 0;
-	
 	// initialize the buffer to write the minidump filename to
 	// (this is used to avoid allocating memory in the crash handler)
 	memset(mMinidumpPath, 0, MAX_MINDUMP_PATH_LENGTH);
 	mCrashReportPipeStr = L"\\\\.\\pipe\\LLCrashReporterPipe";
 }
-
-LLApp::LLApp(LLErrorThread *error_thread) :
-	mThreadErrorp(error_thread)
-{
-	commonCtor();
-}
-
 
 LLApp::~LLApp()
 {

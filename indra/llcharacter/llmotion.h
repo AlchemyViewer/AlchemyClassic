@@ -173,8 +173,8 @@ protected:
 	// these are set implicitly by the motion controller and
 	// may be referenced (read only) in the above handlers.
 	//-------------------------------------------------------------------------
-	std::string		mName;			// instance name assigned by motion controller
-	LLUUID			mID;
+	std::string	mName;			// instance name assigned by motion controller
+	LLUUID		mID;
 	
 	F32 mActivationTimestamp;	// time when motion was activated
 	F32 mStopTimestamp;			// time when motion was told to stop

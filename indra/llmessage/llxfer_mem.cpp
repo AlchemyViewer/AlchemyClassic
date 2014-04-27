@@ -50,6 +50,7 @@ LLXfer_Mem::~LLXfer_Mem ()
 
 void LLXfer_Mem::init ()
 {
+	mCallback = NULL;
 	mRemoteFilename.clear();
 	mRemotePath = LL_PATH_NONE;
 	mDeleteRemoteOnCompletion = FALSE;

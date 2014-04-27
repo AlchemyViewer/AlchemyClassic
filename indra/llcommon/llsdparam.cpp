@@ -42,7 +42,8 @@ LLFastTimer::DeclareTimer FTM_SD_PARAM_ADAPTOR("LLSD to LLInitParam conversion")
 // LLParamSDParser
 //
 LLParamSDParser::LLParamSDParser()
-: Parser(sReadFuncs, sWriteFuncs, sInspectFuncs)
+: Parser(sReadFuncs, sWriteFuncs, sInspectFuncs),
+  mCurReadSD(NULL), mCurWriteSD(NULL), mWriteRootSD(NULL)
 {
 	using boost::bind;
 

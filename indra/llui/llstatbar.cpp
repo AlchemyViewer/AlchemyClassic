@@ -53,7 +53,8 @@ LLStatBar::LLStatBar(const Params& p)
 	  mPerSec(p.show_per_sec),
 	  mDisplayBar(p.show_bar),
 	  mDisplayHistory(p.show_history),
-	  mDisplayMean(p.show_mean)
+	  mDisplayMean(p.show_mean),
+	  mValue(0.f)
 {
 }
 

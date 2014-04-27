@@ -46,12 +46,16 @@ const F32 TORSO_ROT_FRACTION = 0.5f;
 // LLTargetingMotion()
 // Class Constructor
 //-----------------------------------------------------------------------------
-LLTargetingMotion::LLTargetingMotion(const LLUUID &id) : LLMotion(id)
+LLTargetingMotion::LLTargetingMotion(const LLUUID &id)
+	: LLMotion(id),
+	  mCharacter(NULL),
+	  mPelvisJoint(NULL),
+	  mTorsoJoint(NULL),
+	  mRightHandJoint(NULL),
+	  // LLPointer<LLJointState>
+	  mTorsoState(new LLJointState)
 {
-	mCharacter = NULL;
 	mName = "targeting";
-
-	mTorsoState = new LLJointState;
 }
 
 

@@ -431,12 +431,12 @@ void LLKeyframeMotion::JointMotion::update(LLJointState* joint_state, F32 time, 
 //-----------------------------------------------------------------------------
 LLKeyframeMotion::LLKeyframeMotion(const LLUUID &id) 
 	: LLMotion(id),
-		mJointMotionList(NULL),
-		mPelvisp(NULL),
-		mLastSkeletonSerialNum(0),
-		mLastUpdateTime(0.f),
-		mLastLoopedTime(0.f),
-		mAssetStatus(ASSET_UNDEFINED)
+	  mJointMotionList(NULL),
+	  mPelvisp(NULL),
+	  mLastSkeletonSerialNum(0),
+	  mLastUpdateTime(0.f),
+	  mLastLoopedTime(0.f),
+	  mAssetStatus(ASSET_UNDEFINED)
 {
 
 }

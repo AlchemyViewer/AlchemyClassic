@@ -35,6 +35,7 @@
 #include <locale.h>
 #include <string>
 #include <iomanip>
+#include <iostream>
 #include <sstream>
 
 #include "lltimer.h"
@@ -125,6 +126,8 @@ std::string LLDate::toHTTPDateString (tm * gmt, std::string fmt)
 
 void LLDate::toStream(std::ostream& s) const
 {
+	std::ios::fmtflags f( s.flags() );
+
 	apr_time_t time = (apr_time_t)(mSecondsSinceEpoch * LL_APR_USEC_PER_SEC);
 	
 	apr_time_exp_t exp_time;
@@ -153,6 +156,8 @@ void LLDate::toStream(std::ostream& s) const
 	}
 	s << 'Z'
 	  << std::setfill(' ');
+
+	s.flags( f );
 }
 
 bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *sec) const

@@ -33,24 +33,17 @@
 //-----------------------------------------------------------------------
 // constructor
 //-----------------------------------------------------------------------
-LLListener_FMODEX::LLListener_FMODEX(FMOD::System *system)
+LLListener_FMODEX::LLListener_FMODEX(FMOD::System *system) 
+	: LLListener(),
+	mDopplerFactor(1.0f),
+	mRolloffFactor(1.0f)
 {
 	mSystem = system;
-	init();
 }
 
 //-----------------------------------------------------------------------
 LLListener_FMODEX::~LLListener_FMODEX()
 {
-}
-
-//-----------------------------------------------------------------------
-void LLListener_FMODEX::init(void)
-{
-	// do inherited
-	LLListener::init();
-	mDopplerFactor = 1.0f;
-	mRolloffFactor = 1.0f;
 }
 
 //-----------------------------------------------------------------------

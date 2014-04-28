@@ -42,7 +42,6 @@ class LLListener_FMODEX : public LLListener
  public:  
 	LLListener_FMODEX(FMOD::System *system);
 	virtual ~LLListener_FMODEX();
-	virtual void init();  
 
 	virtual void translate(LLVector3 offset);
 	virtual void setPosition(LLVector3 pos);

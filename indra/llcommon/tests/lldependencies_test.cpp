@@ -36,8 +36,6 @@
 #include <boost/assign/list_of.hpp>
 // associated header
 #include "../lldependencies.h"
-// other Linden headers
-#include "../test/lltut.h"
 
 using boost::assign::list_of;
 
@@ -112,6 +110,9 @@ std::ostream& operator<<(std::ostream& out, const std::set<ENTRY>& set)
     display_seq(out, "{", set, "}");
     return out;
 }
+
+// This must be included after operator<< overloads
+#include "../test/lltut.h"
 
 const std::string& extract_key(const LLDependencies<>::value_type& entry)
 {

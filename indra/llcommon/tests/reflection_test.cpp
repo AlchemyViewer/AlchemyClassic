@@ -206,8 +206,8 @@ namespace tut
 			const LLMetaProperty* property = (*iter).second;
 			const LLReflective* reflective = property->get(aggregated_data); // Wrong reflective type, should throw exception.
 
-			// useless op to get rid of compiler warning.
-			reflective = reflective;
+			// Supress unused warning
+			static_cast<void>(reflective);
 		}
 		catch(...)
 		{

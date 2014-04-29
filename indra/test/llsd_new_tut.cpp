@@ -26,7 +26,6 @@
  */
 
 #define LLSD_DEBUG_INFO
-#include <tut/tut.hpp>
 #include "linden_common.h"
 #include "lltut.h"
 

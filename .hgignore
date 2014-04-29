@@ -20,6 +20,7 @@ build-vc100*
 build-vc110*
 build-vc120*
 qtcreator-build/
+indra-build/
 indra/build-vc[0-9]*
 indra/CMakeFiles
 indra/CMakeLists.txt.user

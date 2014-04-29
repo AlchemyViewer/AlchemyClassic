@@ -810,9 +810,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>886ee428f058005ab7f90f61784ec9d9</string>
+              <string>1d55f06522eaa6b54056657c245e0a42</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/googlemock-1.1.0-darwin-20101004.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock/rev/274899/arch/Darwin/installer/gmock-1.6.0-darwin-20130426.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -822,9 +822,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>782ca04e56d8eab755adcae297cafa7c</string>
+              <string>95637e8545f69ab6fa5e14eb50e8c007</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/googlemock-1.1.0-linux-20101001.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock/rev/274899/arch/Linux/installer/gmock-1.6.0-linux-20130426.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>

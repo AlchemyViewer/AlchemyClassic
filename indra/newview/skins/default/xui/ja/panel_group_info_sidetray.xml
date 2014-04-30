@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <panel label="グループインベントリ" name="GroupInfo">
 	<panel.string name="default_needs_apply_text">
 		保存していない変更があります

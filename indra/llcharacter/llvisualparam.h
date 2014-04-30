@@ -108,6 +108,18 @@ public:
 	LLVisualParam();
 	virtual ~LLVisualParam();
 
+	// <alchemy>
+	void* operator new(size_t size)
+	{
+		return ll_aligned_malloc_16(size);
+	}
+
+	void operator delete(void* ptr)
+	{
+		ll_aligned_free_16(ptr);
+	}
+	// </alchemy>
+
 	// Special: These functions are overridden by child classes
 	// (They can not be virtual because they use specific derived Info classes)
 	LLVisualParamInfo*		getInfo() const { return mInfo; }

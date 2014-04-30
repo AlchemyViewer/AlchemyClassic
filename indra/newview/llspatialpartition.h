@@ -219,15 +219,17 @@ public:
 		*this = rhs;
 	}
 
+	// <alchemy>
 	void* operator new(size_t size)
 	{
-		return ll_aligned_malloc_16(size);
+		return ll_aligned_malloc(size, 64);
 	}
 
 	void operator delete(void* ptr)
 	{
-		ll_aligned_free_16(ptr);
+		ll_aligned_free(ptr);
 	}
+	// </alchemy>
 
 	const LLSpatialGroup& operator=(const LLSpatialGroup& rhs)
 	{

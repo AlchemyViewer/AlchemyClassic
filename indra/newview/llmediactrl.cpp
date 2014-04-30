@@ -97,6 +97,8 @@ LLMediaCtrl::LLMediaCtrl( const Params& p) :
 	mTextureWidth ( 1024 ),
 	mTextureHeight ( 1024 ),
 	mClearCache(false),
+	mHideLoading(p.hide_loading),
+	mHidingInitialLoad(false),
 	mHomePageMimeType(p.initial_mime_type),
 	mErrorPageURL(p.error_page_url),
 	mTrusted(p.trusted_content),

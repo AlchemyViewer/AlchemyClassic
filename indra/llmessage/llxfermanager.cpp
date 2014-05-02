@@ -1031,7 +1031,7 @@ void LLXferManager::retransmitUnackedPackets ()
 
 	xferp = mSendList; 
 	updateHostStatus();
-	F32 et;
+	F32 et = 0.f;
 	while (xferp)
 	{
 		if (xferp->mWaitingForACK && ( (et = xferp->ACKTimer.getElapsedTimeF32()) > LL_PACKET_TIMEOUT))

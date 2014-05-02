@@ -171,7 +171,7 @@ if (LINUX)
 
     # gcc 4.8 and above added a new spammy warnings!
     if (${CXX_VERSION_NUMBER} GREATER 479)
-      set(CMAKE_CXX_FLAGS "-Wno-attributes -Wno-unused-local-typedefs ${CMAKE_CXX_FLAGS}")
+      set(CMAKE_CXX_FLAGS "-Wno-unused-local-typedefs -Wno-unused-function ${CMAKE_CXX_FLAGS}")
     endif (${CXX_VERSION_NUMBER} GREATER 479)
     # End of hacks.
 

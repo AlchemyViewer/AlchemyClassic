@@ -371,6 +371,26 @@ private:
 		data_to_return = data_value;
 	}
 
+// <alchemy>
+	// UI Widgets
+	LLTextureCtrl*	mTextureCtrl;
+	LLTextureCtrl*	mShinyTextureCtrl;
+	LLTextureCtrl*	mBumpyTextureCtrl;
+	LLColorSwatchCtrl*	mColorSwatch;
+	LLColorSwatchCtrl*	mShinyColorSwatch;
+
+	LLComboBox*		mComboTexGen;
+	LLComboBox*		mComboMatMedia;
+	LLComboBox*		mComboMatType;
+
+	LLCheckBoxCtrl	*mCheckFullbright;
+
+	LLTextBox*		mLabelColorTransp;
+	LLSpinCtrl*		mCtrlColorTransp;		// transparency = 1 - alpha
+
+	LLSpinCtrl*     mCtrlGlow;
+// </alchemy>
+
 	// Update vis and enabling of specific subsets of controls based on material params
 	// (e.g. hide the spec controls if no spec texture is applied)
 	//

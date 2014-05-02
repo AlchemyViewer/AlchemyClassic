@@ -91,21 +91,20 @@ std::string USE_TEXTURE;
 
 LLRender::eTexIndex LLPanelFace::getTextureChannelToEdit()
 {
-	LLComboBox* combobox_matmedia = getChild<LLComboBox>("combobox matmedia");
-	LLComboBox* combobox_mattype	= getChild<LLComboBox>("combobox mattype");
-
-	LLRender::eTexIndex channel_to_edit = (combobox_matmedia && combobox_matmedia->getCurrentIndex() == MATMEDIA_MATERIAL) ?
-													  (combobox_mattype ? (LLRender::eTexIndex)combobox_mattype->getCurrentIndex() : LLRender::DIFFUSE_MAP) : LLRender::DIFFUSE_MAP;
+// <alchemy>
+	LLRender::eTexIndex channel_to_edit = (mComboMatMedia && mComboMatMedia->getCurrentIndex() == MATMEDIA_MATERIAL) ?
+													  (mComboMatType ? (LLRender::eTexIndex)mComboMatType->getCurrentIndex() : LLRender::DIFFUSE_MAP) : LLRender::DIFFUSE_MAP;
 
 	channel_to_edit = (channel_to_edit == LLRender::NORMAL_MAP)		? (getCurrentNormalMap().isNull()		? LLRender::DIFFUSE_MAP : channel_to_edit) : channel_to_edit;
 	channel_to_edit = (channel_to_edit == LLRender::SPECULAR_MAP)	? (getCurrentSpecularMap().isNull()		? LLRender::DIFFUSE_MAP : channel_to_edit) : channel_to_edit;
 	return channel_to_edit;
+ // </alchemy>
 }
 
 // Things the UI provides...
 //
-LLUUID	LLPanelFace::getCurrentNormalMap()			{ return getChild<LLTextureCtrl>("bumpytexture control")->getImageAssetID();	}
-LLUUID	LLPanelFace::getCurrentSpecularMap()		{ return getChild<LLTextureCtrl>("shinytexture control")->getImageAssetID();	}
+LLUUID	LLPanelFace::getCurrentNormalMap()			{ return mBumpyTextureCtrl->getImageAssetID();	} // <alchemy/>
+LLUUID	LLPanelFace::getCurrentSpecularMap()		{ return mShinyTextureCtrl->getImageAssetID();	} // <alchemy/>
 U32		LLPanelFace::getCurrentShininess()			{ return getChild<LLComboBox>("combobox shininess")->getCurrentIndex();			}
 U32		LLPanelFace::getCurrentBumpiness()			{ return getChild<LLComboBox>("combobox bumpiness")->getCurrentIndex();			}
 U8			LLPanelFace::getCurrentDiffuseAlphaMode()	{ return (U8)getChild<LLComboBox>("combobox alphamode")->getCurrentIndex();	}
@@ -155,23 +154,6 @@ BOOL	LLPanelFace::postBuild()
 	childSetCommitCallback("maskcutoff",&LLPanelFace::onCommitMaterialMaskCutoff, this);
 
 	childSetAction("button align",&LLPanelFace::onClickAutoFix,this);
-
-	LLTextureCtrl*	mTextureCtrl;
-	LLTextureCtrl*	mShinyTextureCtrl;
-	LLTextureCtrl*	mBumpyTextureCtrl;
-	LLColorSwatchCtrl*	mColorSwatch;
-	LLColorSwatchCtrl*	mShinyColorSwatch;
-
-	LLComboBox*		mComboTexGen;
-	LLComboBox*		mComboMatMedia;
-	LLComboBox*		mComboMatType;
-
-	LLCheckBoxCtrl	*mCheckFullbright;
-	
-	LLTextBox*		mLabelColorTransp;
-	LLSpinCtrl*		mCtrlColorTransp;		// transparency = 1 - alpha
-
-	LLSpinCtrl*     mCtrlGlow;
 
 	setMouseOpaque(FALSE);
 
@@ -304,6 +286,20 @@ BOOL	LLPanelFace::postBuild()
 
 LLPanelFace::LLPanelFace()
 :	LLPanel(),
+// <alchemy>
+	mTextureCtrl(NULL),
+	mShinyTextureCtrl(NULL),
+	mBumpyTextureCtrl(NULL),
+	mColorSwatch(NULL),
+	mShinyColorSwatch(NULL),
+	mComboTexGen(NULL),
+	mComboMatMedia(NULL),
+	mComboMatType(NULL),
+	mCheckFullbright(NULL),
+	mLabelColorTransp(NULL),
+	mCtrlColorTransp(NULL),	// transparency = 1 - alpha
+	mCtrlGlow(NULL),
+// </alchemy>
 	mIsAlpha(false)
 {
 	USE_TEXTURE = LLTrans::getString("use_texture");

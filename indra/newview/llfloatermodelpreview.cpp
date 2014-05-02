@@ -2254,15 +2254,17 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 //static
 bool LLModelLoader::isAlive(LLModelLoader* loader)
 {
-	if(!loader)
+	if(loader)
 	{
-		return false ;
+		std::list<LLModelLoader*>::iterator iter = sActiveLoaderList.begin() ;
+		for(; iter != sActiveLoaderList.end(); ++iter)
+		{
+			if((*iter) == loader)
+				return true;
+		}
 	}
-
-	std::list<LLModelLoader*>::iterator iter = sActiveLoaderList.begin() ;
-	for(; iter != sActiveLoaderList.end() && (*iter) != loader; ++iter) ;
 	
-	return *iter == loader ;
+	return false;
 }
 
 void LLModelLoader::loadModelCallback()

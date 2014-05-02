@@ -35,6 +35,7 @@
 
 // Linden libs
 #include "llbutton.h"
+#include "llcheckboxctrl.h"
 #include "lltabcontainer.h"
 #include "llfloaterreg.h"
 #include "llfloaterpreference.h"
@@ -54,6 +55,7 @@ LLPanelVolumePulldown::LLPanelVolumePulldown()
 
     mCommitCallbackRegistrar.add("Vol.setControlFalse", boost::bind(&LLPanelVolumePulldown::setControlFalse, this, _2));
 	mCommitCallbackRegistrar.add("Vol.GoAudioPrefs", boost::bind(&LLPanelVolumePulldown::onAdvancedButtonClick, this, _2));
+	mCommitCallbackRegistrar.add("Vol.SetSounds", boost::bind(&LLPanelVolumePulldown::onClickSetSounds, this, _2));
 	buildFromFile( "panel_volume_pulldown.xml");
 }
 
@@ -128,6 +130,13 @@ void LLPanelVolumePulldown::setControlFalse(const LLSD& user_data)
 	
 	if (control)
 		control->set(LLSD(FALSE));
+}
+
+void LLPanelVolumePulldown::onClickSetSounds(const LLSD& user_data)
+{
+	// Disable Enable gesture sounds checkbox if the master sound is disabled
+	// or if sound effects are disabled.
+	getChild<LLCheckBoxCtrl>("gesture_audio_play_btn")->setEnabled(!gSavedSettings.getBOOL("MuteSounds"));
 }
 
 //virtual

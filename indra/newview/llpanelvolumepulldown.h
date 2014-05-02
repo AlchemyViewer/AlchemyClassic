@@ -48,6 +48,7 @@ class LLPanelVolumePulldown : public LLPanel
  private:
 	void setControlFalse(const LLSD& user_data);
 	void onAdvancedButtonClick(const LLSD& user_data);
+    void onClickSetSounds(const LLSD& user_data);
 
 	LLFrameTimer mHoverTimer;
 	static const F32 sAutoCloseFadeStartTimeSec;

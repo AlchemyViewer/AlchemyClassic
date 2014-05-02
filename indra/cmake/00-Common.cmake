@@ -149,9 +149,11 @@ if (LINUX)
       OUTPUT_VARIABLE CXX_VERSION
       OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-    if (${GXX_VERSION} STREQUAL ${CXX_VERSION})
-      add_definitions(-D_FORTIFY_SOURCE=2)
-    endif (${GXX_VERSION} STREQUAL ${CXX_VERSION})
+    if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+      if (${GXX_VERSION} STREQUAL ${CXX_VERSION})
+        add_definitions(-D_FORTIFY_SOURCE=2)
+      endif (${GXX_VERSION} STREQUAL ${CXX_VERSION})
+    endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
     # Let's actually get a numerical version of gxx's version
     STRING(REGEX REPLACE ".* ([0-9])\\.([0-9])\\.([0-9]).*" "\\1\\2\\3" CXX_VERSION_NUMBER ${CXX_VERSION})
@@ -192,7 +194,11 @@ if (LINUX)
       set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
     endif (NOT STANDALONE)
 
-    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
+    if (${CXX_VERSION_NUMBER} GREATER 479)
+      set(CMAKE_CXX_FLAGS_DEBUG "-Og -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
+    else (${CXX_VERSION_NUMBER} GREATER 479)
+      set(CMAKE_CXX_FLAGS_DEBUG "-O0 -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
+    endif (${CXX_VERSION_NUMBER} GREATER 479)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     add_definitions(

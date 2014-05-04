@@ -391,7 +391,7 @@ class LLCubeMap;
 // turn on floating point precision
 // in vs2003 for this class.  Otherwise
 // black dots go everywhere from 7:10 - 8:50
-#if LL_MSVC && __MSVC_VER__ < 8
+#if LL_MSVC && _MSC_VER < 8
 #pragma optimize("p", on)		
 #endif
 
@@ -620,7 +620,7 @@ public:
 };
 
 // turn it off
-#if LL_MSVC && __MSVC_VER__ < 8
+#if LL_MSVC && _MSC_VER < 8
 #pragma optimize("p", off)		
 #endif
 

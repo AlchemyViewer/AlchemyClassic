@@ -744,7 +744,7 @@ LLColor4 LLVOSky::calcSkyColorInDir(const LLVector3 &dir, bool isShiny)
 // turn on floating point precision
 // in vs2003 for this function.  Otherwise
 // sky is aliased looking 7:10 - 8:50
-#if LL_MSVC && __MSVC_VER__ < 8
+#if LL_MSVC && _MSC_VER < 8
 #pragma optimize("p", on)
 #endif
 
@@ -875,7 +875,7 @@ void LLVOSky::calcSkyColorWLVert(LLVector3 & Pn, LLColor3 & vary_HazeColor, LLCo
 	}
 }
 
-#if LL_MSVC && __MSVC_VER__ < 8
+#if LL_MSVC && _MSC_VER < 8
 #pragma optimize("p", off)
 #endif
 

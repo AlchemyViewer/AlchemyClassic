@@ -1157,10 +1157,10 @@ void LLPanelPeople::onAvatarListDoubleClicked(LLUICtrl* ctrl)
 			break;
 		case E_CLICK_TO_TELEPORT:
 			{
-				LLViewerObject* object = gObjectList.findObject(clicked_id);
-				if (object)
+				LLViewerObject* objectp = gObjectList.findObject(clicked_id);
+				if (objectp)
 				{
-					gAgent.teleportViaLocation(object->getPositionGlobal());
+					gAgent.teleportViaLocation(objectp->getPositionGlobal());
 				}
 			}
 			break;

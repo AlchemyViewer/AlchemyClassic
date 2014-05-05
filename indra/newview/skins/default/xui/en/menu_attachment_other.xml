@@ -68,7 +68,7 @@
          function="Avatar.EnableMute" />
     </menu_item_call>
     <menu_item_call
-     label="Report"
+     label="Report Abuse"
      name="abuse">
         <menu_item_call.on_click
          function="Avatar.ReportAbuse" />

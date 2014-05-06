@@ -71,7 +71,7 @@ void LLRegionPresenceVerifier::RegionResponder::result(const LLSD& content)
 	LLHost destination(host, port);
 	LLUUID id = content["region_id"];
 
-	lldebugs << "Verifying " << destination.getString() << " is region " << id << llendl;
+	LL_DEBUGS() << "Verifying " << destination.getString() << " is region " << id << LL_ENDL;
 
 	std::stringstream uri;
 	uri << "http://" << destination.getString() << "/state/basic/";
@@ -107,8 +107,8 @@ void LLRegionPresenceVerifier::VerifiedDestinationResponder::result(const LLSD& 
 	LLUUID actual_region_id = content["region_id"];
 	LLUUID expected_region_id = mContent["region_id"];
 
-	lldebugs << "Actual region: " << content << llendl;
-	lldebugs << "Expected region: " << mContent << llendl;
+	LL_DEBUGS() << "Actual region: " << content << LL_ENDL;
+	LL_DEBUGS() << "Expected region: " << mContent << LL_ENDL;
 
 	if (mSharedData->checkValidity(content) &&
 		(actual_region_id == expected_region_id))
@@ -121,7 +121,7 @@ void LLRegionPresenceVerifier::VerifiedDestinationResponder::result(const LLSD& 
 	}
 	else
 	{
-		llwarns << "Simulator verification failed. Region: " << mUri << llendl;
+		LL_WARNS() << "Simulator verification failed. Region: " << mUri << LL_ENDL;
 		mSharedData->onRegionVerificationFailed();
 	}
 }
@@ -130,8 +130,8 @@ void LLRegionPresenceVerifier::VerifiedDestinationResponder::retry()
 {
 	LLSD headers;
 	headers["Cache-Control"] = "no-cache, max-age=0";
-	llinfos << "Requesting region information, get uncached for region "
-			<< mUri << llendl;
+	LL_INFOS() << "Requesting region information, get uncached for region "
+			<< mUri << LL_ENDL;
 	--mRetryCount;
 	mSharedData->getHttpClient().get(mUri, new RegionResponder(mUri, mSharedData, mRetryCount), headers);
 }
@@ -144,7 +144,7 @@ void LLRegionPresenceVerifier::VerifiedDestinationResponder::error(U32 status, c
 	}
 	else
 	{
-		llwarns << "Failed to contact simulator for verification. Region: " << mUri << llendl;
+		LL_WARNS() << "Failed to contact simulator for verification. Region: " << mUri << LL_ENDL;
 		mSharedData->onRegionVerificationFailed();
 	}
 }

@@ -53,15 +53,15 @@ void LLViewerEventRecorder::setEventLoggingOn() {
   if (! mLog.is_open()) {
     mLog.open(mLogFilename, llofstream::out);
   }
-  mLogEvents=true; // <alchemy/>
-  lldebugs << "LLViewerEventRecorder::setEventLoggingOn event logging turned on" << llendl;
+  logEvents=true; 
+  LL_DEBUGS() << "LLViewerEventRecorder::setEventLoggingOn event logging turned on" << LL_ENDL;
 }
 
 void LLViewerEventRecorder::setEventLoggingOff() {
   mLogEvents=false; // <alchemy/>
   mLog.flush();
   mLog.close();
-  lldebugs << "LLViewerEventRecorder::setEventLoggingOff event logging turned off" << llendl;
+  LL_DEBUGS() << "LLViewerEventRecorder::setEventLoggingOff event logging turned off" << LL_ENDL;
 }
 
 
@@ -107,10 +107,10 @@ void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 g
 
   LLView * target_view = LLUI::resolvePath(LLUI::getRootView(), xui);
   if (! target_view) {
-    lldebugs << "LLViewerEventRecorder::updateMouseEventInfo - xui path on file at moment is NOT valid - so DO NOT record these local coords" << llendl;
+    LL_DEBUGS() << "LLViewerEventRecorder::updateMouseEventInfo - xui path on file at moment is NOT valid - so DO NOT record these local coords" << LL_ENDL;
     return;
   }
-  lldebugs << "LLViewerEventRecorder::updateMouseEventInfo b4 updatemouseeventinfo - local_x|global x   "<< this->local_x << " " << this->global_x  << "local/global y " << this->local_y << " " << this->global_y << " mname: " << mName << " xui: " << xui << llendl;
+  LL_DEBUGS() << "LLViewerEventRecorder::updateMouseEventInfo b4 updatemouseeventinfo - local_x|global x   "<< this->local_x << " " << this->global_x  << "local/global y " << this->local_y << " " << this->global_y << " mname: " << mName << " xui: " << xui << LL_ENDL;
 
 
   if (this->local_x < 1 && this->local_y<1 && local_x && local_y) {
@@ -127,7 +127,7 @@ void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 g
     xui = mName; // TODO review confirm we never call with partial path - also cAN REMOVE CHECK FOR "" - ON OTHER HAND IT'S PRETTY HARMLESS
   }
 
-  lldebugs << "LLViewerEventRecorder::updateMouseEventInfo after updatemouseeventinfo - local_x|global x   "<< this->local_x << " " << this->global_x  << "local/global y " << this->local_y << " " << this->global_y << " mname: " << mName << " xui: " << xui << llendl;
+  LL_DEBUGS() << "LLViewerEventRecorder::updateMouseEventInfo after updatemouseeventinfo - local_x|global x   "<< this->local_x << " " << this->global_x  << "local/global y " << this->local_y << " " << this->global_y << " mname: " << mName << " xui: " << xui << LL_ENDL;
 }
 
 void LLViewerEventRecorder::logVisibilityChange(std::string xui, std::string name, BOOL visibility, std::string event_subtype) {
@@ -168,10 +168,10 @@ void LLViewerEventRecorder::update_xui(std::string xui) {
   if (!mLogEvents) return; // <alchemy/>
 
   if (xui!="" && this->xui=="" ) {
-    lldebugs << "LLViewerEventRecorder::update_xui to " << xui << llendl;
+    LL_DEBUGS() << "LLViewerEventRecorder::update_xui to " << xui << LL_ENDL;
     this->xui=xui;
   } else {
-    lldebugs << "LLViewerEventRecorder::update_xui called with empty string" << llendl;
+    LL_DEBUGS() << "LLViewerEventRecorder::update_xui called with empty string" << LL_ENDL;
   }
 }
 
@@ -211,11 +211,11 @@ void LLViewerEventRecorder::logKeyEvent(KEY key, MASK mask) {
   // (maybe it should) - instead it has a convenience method that generates the keydown and keyup events 
   // Here  we will use  "type" as  our event type
 
-  lldebugs << "LLVIewerEventRecorder::logKeyEvent Serialized LLSD for event " << event.asString() << "\n" << llendl;
+  LL_DEBUGS() << "LLVIewerEventRecorder::logKeyEvent Serialized LLSD for event " << event.asString() << "\n" << LL_ENDL;
 
 
-  //lldebugs  << "[VITA] key_name: "  << LLKeyboard::stringFromKey(key) << "mask: "<< mask  << "handled by " << getName() << llendl;
-  lldebugs  << "LLVIewerEventRecorder::logKeyEvent  key_name: "  << LLKeyboard::stringFromKey(key) << "mask: "<< mask  << llendl;
+  //LL_DEBUGS()  << "[VITA] key_name: "  << LLKeyboard::stringFromKey(key) << "mask: "<< mask  << "handled by " << getName() << LL_ENDL;
+  LL_DEBUGS()  << "LLVIewerEventRecorder::logKeyEvent  key_name: "  << LLKeyboard::stringFromKey(key) << "mask: "<< mask  << LL_ENDL;
 
 
   recordEvent(event);
@@ -229,14 +229,14 @@ void LLViewerEventRecorder::playbackRecording() {
   // ivita sets this on startup, it also sends commands to the viewer to make start, stop, and playback menu items visible in viewer
   LeapCommand =LLUI::sSettingGroups["config"]->getLLSD("LeapPlaybackEventsCommand");
   
-  lldebugs << "[VITA] launching playback - leap command is: " << LLSDXMLStreamer(LeapCommand) << llendl;
+  LL_DEBUGS() << "[VITA] launching playback - leap command is: " << LLSDXMLStreamer(LeapCommand) << LL_ENDL;
   LLLeap::create("", LeapCommand, false); // exception=false
   
 }
 
 
 void LLViewerEventRecorder::recordEvent(LLSD event) {
-  lldebugs << "LLViewerEventRecorder::recordEvent event written to log: " << LLSDXMLStreamer(event) << llendl;
+  LL_DEBUGS() << "LLViewerEventRecorder::recordEvent event written to log: " << LLSDXMLStreamer(event) << LL_ENDL;
   mLog << event << std::endl;
   
 }
@@ -254,7 +254,7 @@ void LLViewerEventRecorder::logKeyUnicodeEvent(llwchar uni_char) {
   // keycode...or
   // char
 
-  lldebugs << "Wrapped in conversion to wstring " <<  wstring_to_utf8str(LLWString( 1, uni_char)) << "\n" << llendl;
+  LL_DEBUGS() << "Wrapped in conversion to wstring " <<  wstring_to_utf8str(LLWString( 1, uni_char)) << "\n" << LL_ENDL;
   
   event.insert("char",
 	       LLSD(  wstring_to_utf8str(LLWString( 1,uni_char))  )
@@ -268,8 +268,8 @@ void LLViewerEventRecorder::logKeyUnicodeEvent(llwchar uni_char) {
 
   event.insert("event",LLSD("keyDown")); 
 
-  lldebugs  << "[VITA] unicode key: " << uni_char   << llendl;
-  lldebugs  << "[VITA] dumpxml " << LLSDXMLStreamer(event) << "\n" << llendl;
+  LL_DEBUGS()  << "[VITA] unicode key: " << uni_char   << LL_ENDL;
+  LL_DEBUGS()  << "[VITA] dumpxml " << LLSDXMLStreamer(event) << "\n" << LL_ENDL;
 
 
   recordEvent(event);

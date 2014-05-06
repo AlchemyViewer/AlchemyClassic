@@ -338,7 +338,7 @@ namespace tut
 /*
 			if(actual != expected)
 			{
-				llwarns << "iteration " << i << llendl;
+				LL_WARNS() << "iteration " << i << LL_ENDL;
 				std::ostringstream e_str;
 				std::string::iterator iter = expected.begin();
 				std::string::iterator end = expected.end();
@@ -348,8 +348,8 @@ namespace tut
 				}
 				e_str << std::endl;
 				llsd_serialize_string(e_str, expected);
-				llwarns << "expected size: " << expected.size() << llendl;
-				llwarns << "expected:      " << e_str.str() << llendl;
+				LL_WARNS() << "expected size: " << expected.size() << LL_ENDL;
+				LL_WARNS() << "expected:      " << e_str.str() << LL_ENDL;
 
 				std::ostringstream a_str;
 				iter = actual.begin();
@@ -360,8 +360,8 @@ namespace tut
 				}
 				a_str << std::endl;
 				llsd_serialize_string(a_str, actual);
-				llwarns << "actual size:   " << actual.size() << llendl;
-				llwarns << "actual:      " << a_str.str() << llendl;
+				LL_WARNS() << "actual size:   " << actual.size() << LL_ENDL;
+				LL_WARNS() << "actual:      " << a_str.str() << LL_ENDL;
 			}
 */
 			ensure_equals("string value", actual, expected);

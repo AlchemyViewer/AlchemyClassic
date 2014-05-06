@@ -74,9 +74,9 @@ class LLWidgetNameRegistry
 //:	public LLRegistrySingleton<const std::type_info*, empty_param_block_func_t, LLDefaultParamBlockRegistry>
 //{};
 
-extern LLFastTimer::DeclareTimer FTM_WIDGET_SETUP;
-extern LLFastTimer::DeclareTimer FTM_WIDGET_CONSTRUCTION;
-extern LLFastTimer::DeclareTimer FTM_INIT_FROM_PARAMS;
+extern LLTrace::BlockTimerStatHandle FTM_WIDGET_SETUP;
+extern LLTrace::BlockTimerStatHandle FTM_WIDGET_CONSTRUCTION;
+extern LLTrace::BlockTimerStatHandle FTM_INIT_FROM_PARAMS;
 
 // Build time optimization, generate this once in .cpp file
 #ifndef LLUICTRLFACTORY_CPP
@@ -170,8 +170,8 @@ public:
 			LLXMLNodePtr root_node;
 
 			if (!LLUICtrlFactory::getLayeredXMLNode(filename, root_node))
-			{
-				llwarns << "Couldn't parse XUI file: " << instance().getCurFileName() << llendl;
+				{							
+				LL_WARNS() << "Couldn't parse XUI file: " << instance().getCurFileName() << LL_ENDL;
 				goto fail;
 			}
 
@@ -183,7 +183,8 @@ public:
 				if (!widget) 
 				{
 					// <alchemy> - UNDEFINED BEHAVIOR
-					llerrs << "Widget in " << filename << " was of type " << typeid(view).name() << " instead of expected type " << typeid(T).name() << llendl;
+					LL_ERRS() << "Widget in " << filename << " was of type " << typeid(view).name() << " instead of expected type " << typeid(T).name() << LL_ENDL;
+					//LL_WARNS() << "Widget in " << filename << " was of type " << typeid(view).name() << " instead of expected type " << typeid(T).name() << LL_ENDL;
 					//delete view;
 					//view = NULL;
 					// </alchemy>
@@ -229,14 +230,14 @@ private:
 
 		if (!params.validateBlock())
 		{
-			llwarns << getInstance()->getCurFileName() << ": Invalid parameter block for " << typeid(T).name() << llendl;
+			LL_WARNS() << getInstance()->getCurFileName() << ": Invalid parameter block for " << typeid(T).name() << LL_ENDL;
 			//return NULL;
 		}
 
-		{ LLFastTimer _(FTM_WIDGET_CONSTRUCTION);
+		{ LL_RECORD_BLOCK_TIME(FTM_WIDGET_CONSTRUCTION);
 			widget = new T(params);	
 		}
-		{ LLFastTimer _(FTM_INIT_FROM_PARAMS);
+		{ LL_RECORD_BLOCK_TIME(FTM_INIT_FROM_PARAMS);
 			widget->initFromParams(params);
 		}
 
@@ -251,7 +252,7 @@ private:
 	template<typename T>
 	static T* defaultBuilder(LLXMLNodePtr node, LLView *parent, LLXMLNodePtr output_node)
 	{
-		LLFastTimer timer(FTM_WIDGET_SETUP);
+		LL_RECORD_BLOCK_TIME(FTM_WIDGET_SETUP);
 
 		typename T::Params params(getDefaultParams<T>());
 
@@ -263,10 +264,8 @@ private:
 			// We always want to output top-left coordinates
 			typename T::Params output_params(params);
 			T::setupParamsForExport(output_params, parent);
-			// Export only the differences between this any default params
-			typename T::Params default_params(getDefaultParams<T>());
 			copyName(node, output_node);
-			parser.writeXUI(output_node, output_params, &default_params);
+			parser.writeXUI(output_node, output_params, LLInitParam::default_parse_rules(), &getDefaultParams<T>());
 		}
 
 		// Apply layout transformations, usually munging rect

@@ -36,7 +36,7 @@
 
 #if LL_WINDOWS   //For windows platform.
 
-#include <windows.h>
+#include "llwin32headerslean.h"
 
 bool isProcessAlive(U32 pid)
 {

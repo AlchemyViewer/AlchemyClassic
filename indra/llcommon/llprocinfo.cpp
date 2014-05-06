@@ -31,8 +31,8 @@
 #if LL_WINDOWS
 
 #define	PSAPI_VERSION	1
-#include "windows.h"
-#include "psapi.h"
+#include "llwin32headerslean.h"
+#include <psapi.h>
 
 #elif LL_DARWIN
 

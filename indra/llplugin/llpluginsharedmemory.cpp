@@ -70,7 +70,7 @@
 	#include <sys/mman.h>
 	#include <errno.h>
 #elif USE_WIN32_SHARED_MEMORY
-#include <windows.h>
+#include "llwin32headerslean.h"
 #endif // USE_APR_SHARED_MEMORY
 
 

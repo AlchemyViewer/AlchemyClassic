@@ -75,7 +75,7 @@ static void crash_handler(int sig)
 #endif
 
 #if LL_WINDOWS
-#include <windows.h>
+#include "llwin32headerslean.h"
 ////////////////////////////////////////////////////////////////////////////////
 //	Our exception handler - will probably just exit and the host application
 //	will miss the heartbeat and log the error in the usual fashion.

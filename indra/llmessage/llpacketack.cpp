@@ -32,7 +32,7 @@
 #if !LL_WINDOWS
 #include <netinet/in.h>
 #else
-#include "winsock2.h"
+#include "llwin32headerslean.h"
 #endif
 
 #include "message.h"

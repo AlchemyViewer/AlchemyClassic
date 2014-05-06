@@ -147,7 +147,7 @@ void LLStandardBumpmap::addstandard()
 		}
 		if( fields_read != 2 )
 		{
-			llwarns << "Bad LLStandardBumpmap entry" << llendl;
+			LL_WARNS() << "Bad LLStandardBumpmap entry" << LL_ENDL;
 			return;
 		}
 

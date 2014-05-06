@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <simple_text_editor
-  background_image="TextField_Off"
-  background_image_disabled="TextField_Disabled"
-  background_image_focused="TextField_Active"
   parse_urls="false"
   mouse_opaque="true"
   font="SansSerifSmall"
@@ -25,6 +22,5 @@
   bg_readonly_color="TextBgReadOnlyColor"
   bg_writeable_color="TextBgWriteableColor"
   bg_selected_color="EmphasisColor"
-  bg_focus_color="TextBgFocusColor"
-  highlight_color="EmphasisColor">
+  bg_focus_color="TextBgFocusColor">
 </simple_text_editor>

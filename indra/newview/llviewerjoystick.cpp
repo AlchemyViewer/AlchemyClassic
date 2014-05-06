@@ -1171,7 +1171,7 @@ void LLViewerJoystick::setXbox360Defaults()
 #endif
 	
 	//gViewerWindow->alertXml("CacheWillClear");
-	llinfos << "restoring Xbox360 defaults..." << llendl;
+	LL_INFOS() << "restoring Xbox360 defaults..." << LL_ENDL;
 	/*
 	Axis 0: Left Thumbstick Horizontal
 	Axis 1: Left Thumbstick Vertical

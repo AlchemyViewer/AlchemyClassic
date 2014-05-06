@@ -11,9 +11,6 @@ Supports all of these:
         bg_selected_color
         default_color; -->
 <chat_editor
-  background_image="TextField_Off"
-  background_image_disabled="TextField_Disabled"
-  background_image_focused="TextField_Active"
   name="chat_editor"
   show_context_menu="true"
   bg_writeable_color="TextField_Off"

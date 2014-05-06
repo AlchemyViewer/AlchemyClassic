@@ -53,7 +53,7 @@ void LLViewerEventRecorder::setEventLoggingOn() {
   if (! mLog.is_open()) {
     mLog.open(mLogFilename, llofstream::out);
   }
-  logEvents=true; 
+  mLogEvents=true; // <alchemy/>
   LL_DEBUGS() << "LLViewerEventRecorder::setEventLoggingOn event logging turned on" << LL_ENDL;
 }
 

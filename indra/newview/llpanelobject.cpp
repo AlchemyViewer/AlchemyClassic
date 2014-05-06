@@ -70,7 +70,7 @@
 //#include "llfirstuse.h"
 
 #include "lldrawpool.h"
-
+#include "llviewerjointattachment.h"
 //
 // Constants
 //

@@ -162,7 +162,6 @@ void PeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
-		items.push_back(std::string("teleport_to"));
 	}
 
     hide_context_entries(menu, items, disabled_items);
@@ -344,6 +343,7 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("remove_friend"));
 		items.push_back(std::string("invite_to_group"));
 		items.push_back(std::string("separator_invite_to_group"));
+		items.push_back(std::string("teleport_to"));
 		items.push_back(std::string("zoom_in"));
 		items.push_back(std::string("map"));
 		items.push_back(std::string("share"));
@@ -354,7 +354,6 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
-		items.push_back(std::string("teleport_to"));
 	}
 
     hide_context_entries(menu, items, disabled_items);

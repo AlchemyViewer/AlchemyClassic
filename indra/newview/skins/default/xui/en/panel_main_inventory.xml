@@ -10,18 +10,19 @@
  width="330">
   <panel.string
    name="Itemcount">
+    INVENTORY
   </panel.string>
   <panel.string
    name="ItemcountFetching">
-    Fetching [ITEM_COUNT] Items... [FILTER]
+    INVENTORY - Fetching [ITEM_COUNT] Items... [FILTER]
   </panel.string>
   <panel.string
    name="ItemcountCompleted">
-    [ITEM_COUNT] Items [FILTER]
+    INVENTORY - [ITEM_COUNT] Items [FILTER]
   </panel.string>
   <panel.string
    name="ItemcountUnknown">
-
+    INVENTORY - ??? Items [FILTER]
   </panel.string>
   <filter_editor
    text_pad_left="10"
@@ -181,20 +182,6 @@
        layout="topleft"
        name="dummy_panel"
        width="212">
-         <text
-           type="string"
-           length="1"
-           follows="left|top"
-           height="13"
-           layout="topleft"
-           left="8"
-           name="ItemcountText"
-           font="SansSerifMedium"
-           text_color="EmphasisColor"
-           top_pad="5"
-           width="300">
-          Items:
-          </text>
           <icon
            follows="bottom|left|right"
            height="25"

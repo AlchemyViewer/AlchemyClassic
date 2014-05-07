@@ -125,7 +125,7 @@ private:
 
 	LLFilterEditor*				mFilterEditor;
 	LLTabContainer*				mFilterTabs;
-    LLUICtrl*                   mCounterCtrl;
+    //LLUICtrl*                   mCounterCtrl;
 	LLHandle<LLFloater>			mFinderHandle;
 	LLInventoryPanel*			mActivePanel;
 	bool						mResortActivePanel;
@@ -134,7 +134,6 @@ private:
 	std::string					mFilterSubString;
 	S32							mItemCount;
 	std::string 				mItemCountString;
-
 
 	//////////////////////////////////////////////////////////////////////////////////
 	// List Commands                                                                //

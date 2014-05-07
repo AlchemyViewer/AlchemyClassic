@@ -131,7 +131,7 @@ BOOL LLPanelMainInventory::postBuild()
 	mFilterTabs = getChild<LLTabContainer>("inventory filter tabs");
 	mFilterTabs->setCommitCallback(boost::bind(&LLPanelMainInventory::onFilterSelected, this));
 	
-    mCounterCtrl = getChild<LLUICtrl>("ItemcountText");
+	//mCounterCtrl = getChild<LLUICtrl>("ItemcountText");
     
 	//panel->getFilter().markDefault();
 
@@ -608,8 +608,19 @@ void LLPanelMainInventory::updateItemcountText()
 	{
 		text = getString("ItemcountUnknown");
 	}
-	
-    mCounterCtrl->setValue(text);
+
+	//mCounterCtrl->setValue(text);
+
+
+	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
+	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); iter++)
+	{
+		LLFloaterSidePanelContainer* iv = dynamic_cast<LLFloaterSidePanelContainer*>(*iter);
+		if (iv)
+		{
+			iv->setTitle(text);
+		}
+	}
 }
 
 void LLPanelMainInventory::onFocusReceived()

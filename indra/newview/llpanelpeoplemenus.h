@@ -48,6 +48,7 @@ private:
 	bool checkContextMenuItem(const LLSD& userdata);
 	void offerTeleport();
 	void requestTeleport();
+	void teleportTo();
 };
 
 /**

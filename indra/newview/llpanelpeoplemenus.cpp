@@ -83,6 +83,7 @@ LLContextMenu* PeopleContextMenu::createMenu()
 			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_SLURL));
 		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const LLUUID&,
 			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_UUID));
+		registrar.add("Avatar.TeleportTo",		boost::bind(&PeopleContextMenu::teleportTo, this));
 
 		enable_registrar.add("Avatar.EnableItem", boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 		enable_registrar.add("Avatar.CheckItem",  boost::bind(&PeopleContextMenu::checkContextMenuItem,	this, _2));
@@ -161,6 +162,7 @@ void PeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
+		items.push_back(std::string("teleport_to"));
 	}
 
     hide_context_entries(menu, items, disabled_items);
@@ -238,7 +240,7 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 	{
 		return LLAvatarActions::canCall();
 	}
-	else if (item == std::string("can_zoom_in"))
+	else if (item == std::string("can_zoom_in") || item == std::string("can_teleport_to"))
 	{
 		const LLUUID& id = mUUIDs.front();
 
@@ -294,6 +296,19 @@ void PeopleContextMenu::offerTeleport()
 	LLAvatarActions::offerTeleport(mUUIDs);
 }
 
+void PeopleContextMenu::teleportTo()
+{
+	const LLUUID& avatar_id = mUUIDs.front();
+	if (avatar_id.notNull())
+	{
+		LLViewerObject* objectp = gObjectList.findObject(avatar_id);
+		if (objectp)
+		{
+			gAgent.teleportViaLocation(objectp->getPositionGlobal());
+		}
+	}
+}
+
 //== NearbyPeopleContextMenu ===============================================================
 
 void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
@@ -339,6 +354,7 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
+		items.push_back(std::string("teleport_to"));
 	}
 
     hide_context_entries(menu, items, disabled_items);

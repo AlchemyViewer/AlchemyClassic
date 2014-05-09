@@ -55,7 +55,7 @@ LLSnapshotFloaterView* gSnapshotFloaterView = NULL;
 const F32 AUTO_SNAPSHOT_TIME_DELAY = 1.f;
 
 const S32 MAX_POSTCARD_DATASIZE = 1024 * 1024; // one megabyte
-const S32 MAX_TEXTURE_SIZE = 512 ; //max upload texture size 512 * 512
+const S32 MAX_TEXTURE_SIZE = 1024 ; //max upload texture size 512 * 512 // <alchemy/>
 
 static LLDefaultChildRegistry::Register<LLSnapshotFloaterView> r("snapshot_floater_view");
 

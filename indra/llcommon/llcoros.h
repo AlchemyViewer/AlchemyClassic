@@ -26,8 +26,10 @@
  * $/LicenseInfo$
  */
 
-#if ! defined(LL_LLCOROS_H)
+#ifndef LL_LLCOROS_H
 #define LL_LLCOROS_H
+
+#include "llwin32headerslean.h"
 
 #include <boost/dcoroutine/coroutine.hpp>
 #include "llsingleton.h"

@@ -26,8 +26,10 @@
  * $/LicenseInfo$
  */
 
-#if ! defined(LL_LLEVENTCORO_H)
+#ifndef LL_LLEVENTCORO_H
 #define LL_LLEVENTCORO_H
+
+#include "llwin32headerslean.h"
 
 #include <boost/dcoroutine/coroutine.hpp>
 #include <boost/dcoroutine/future.hpp>

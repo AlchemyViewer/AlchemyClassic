@@ -1040,6 +1040,10 @@ U32 info_display_from_string(std::string info_display)
 	{
 		return LLPipeline::RENDER_DEBUG_TEXEL_DENSITY;
 	}
+	else if ("rendercomplexity" == info_display)
+	{
+		return LLPipeline::RENDER_DEBUG_RENDER_COMPLEXITY;
+	}
 	else
 	{
 		return 0;

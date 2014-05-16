@@ -931,6 +931,8 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			static LLCachedControl<bool> renderDepthPrePass(gSavedSettings, "RenderDepthPrePass");
 			if (renderDepthPrePass && LLGLSLShader::sNoFixedFunction)
 			{
+				LLGLDepthTest depth(GL_TRUE, GL_TRUE);
+				LLGLEnable cull_face(GL_CULL_FACE);
 				gGL.setColorMask(false, false);
 				
 				U32 types[] = { 

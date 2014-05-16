@@ -41,8 +41,8 @@ LLRender gGL;
 // Handy copies of last good GL matrices
 F32	gGLModelView[16];
 F32	gGLLastModelView[16];
-F32 gGLLastProjection[16];
-F32 gGLProjection[16];
+F32	gGLLastProjection[16];
+F32	gGLProjection[16];
 S32	gGLViewport[4];
 
 U32 LLRender::sUICalls = 0;
@@ -1553,7 +1553,7 @@ void LLRender::popUIMatrix()
 	}
 	else if (mUIScale.empty())
 	{
-		llerrs << "UI scale stack blown." << llendl;
+		LL_ERRS() << "UI scale stack blown." << LL_ENDL;
 	}
 
 	mUIOffset.pop_back();

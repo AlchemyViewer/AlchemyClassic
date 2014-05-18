@@ -84,13 +84,13 @@ public:
 
 protected:
 	// Tracks highlighted (selected) item in inventory panel.
-	LLInventoryItem *getSelectedItem();
-	U32 getSelectedCount();
+	//LLInventoryItem *getSelectedItem();
+	//U32 getSelectedCount();
 	void onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action);
 	// "wear", "teleport", etc.
-	void performActionOnSelection(const std::string &action);
+	//void performActionOnSelection(const std::string &action);
 
-	bool canWearSelected(); // check whether selected items can be worn
+	//bool canWearSelected(); // check whether selected items can be worn
 
 	void onInboxChanged(const LLUUID& inbox_id);
 
@@ -105,23 +105,23 @@ private:
 	LLPanelMainInventory*		mPanelMainInventory;
 
 protected:
-	void 						onInfoButtonClicked();
-	void 						onShareButtonClicked();
-	void 						onShopButtonClicked();
-	void 						onWearButtonClicked();
-	void 						onPlayButtonClicked();
-	void 						onTeleportButtonClicked();
-	void 						onOverflowButtonClicked();
+	//void 						onInfoButtonClicked();
+	//void 						onShareButtonClicked();
+	//void 						onShopButtonClicked();
+	//void 						onWearButtonClicked();
+	//void 						onPlayButtonClicked();
+	//void 						onTeleportButtonClicked();
+	//void 						onOverflowButtonClicked();
 	void 						onBackButtonClicked();
 
 private:
-	LLButton*					mInfoBtn;
-	LLButton*					mShareBtn;
-	LLButton*					mWearBtn;
-	LLButton*					mPlayBtn;
-	LLButton*					mTeleportBtn;
-	LLButton*					mOverflowBtn;
-	LLButton*					mShopBtn;
+	//LLButton*					mInfoBtn;
+	//LLButton*					mShareBtn;
+	//LLButton*					mWearBtn;
+	//LLButton*					mPlayBtn;
+	//LLButton*					mTeleportBtn;
+	//LLButton*					mOverflowBtn;
+	//LLButton*					mShopBtn;
 
 	bool						mInboxEnabled;
 

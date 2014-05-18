@@ -4,10 +4,8 @@
 	  height="570"
 	  label="Things"
 	  layout="topleft"
-	  min_height="350"
-	  min_width="240"
 	  name="objects panel"
-	  width="323">
+	  width="335">
     <panel
 		 follows="all"
 		 layout="topleft"
@@ -18,7 +16,7 @@
 		 height="570"
 		 visible="true"
 		 default_tab_group="1"
-		 width="330">
+		 width="335">
       <layout_stack
               follows="left|right|top|bottom"
               layout="topleft"
@@ -27,15 +25,15 @@
 							tab_group="1"
               orientation="vertical"
               name="inventory_layout_stack"
-              height="535"
-              width="330">
+              height="560"
+              width="335">
              <layout_panel
                  name="main_inventory_layout_panel"
                  layout="topleft"
                  auto_resize="true"
                  user_resize="true"
                  min_dim="150"
-                 width="330"
+                 width="335"
                  follows="bottom|left|right"
                  height="290">
                  <panel
@@ -48,10 +46,10 @@
                       top="0"
                       label=""
                       height="300"
-                      width="330" />
+                      width="335" />
              </layout_panel>
              <layout_panel
-                 width="330"
+                 width="335"
                  layout="topleft"
                  auto_resize="false"
                  user_resize="true"
@@ -70,7 +68,7 @@
                       top="0"
                       label=""
                       height="225"
-                      width="330">
+                      width="335">
                      <string name="InboxLabelWithArg">[NUM] Received items</string>
                      <string name="InboxLabelNoArg">No Received items</string>
                      <button
@@ -79,7 +77,7 @@
 												font="SansSerifMedium"
                         name="inbox_btn"
                         height="25"
-                        width="307"
+                        width="312"
                         image_unselected="MarketplaceBtn_Off"
                         image_selected="MarketplaceBtn_Selected"
                         halign="left"
@@ -110,7 +108,7 @@
                         follows="all"
                         left="10"
                         bottom="225"
-                        width="307"
+                        width="312"
                         top="25"
                         bg_opaque_color="InventoryBackgroundColor"
                         background_visible="true"
@@ -123,7 +121,7 @@
 															layout="topleft"
 															top="0"
 															left="0"
-															width="307"
+															width="312"
 															height="200"
 															wrap="true"
 															halign="center">
@@ -133,7 +131,7 @@ Purchases from the marketplace will be delivered here.
                  </panel>
              </layout_panel>
          </layout_stack>
-			<panel follows="bottom|left|right"
+			<!--<panel follows="bottom|left|right"
 					 height="30"
 					 layout="topleft"
 					 name="button_panel"
@@ -243,7 +241,7 @@ Purchases from the marketplace will be delivered here.
                          width="99" />
 			    </layout_panel>
 			</layout_stack>
-		</panel>
+		</panel>-->
 	</panel>
 	<panel
 		 follows="all"
@@ -256,7 +254,7 @@ Purchases from the marketplace will be delivered here.
 		 label=""
 		 height="570"
 		 visible="false"
-		 width="330">
+		 width="335">
 	</panel>
 	<panel
 		 follows="all"
@@ -269,6 +267,6 @@ Purchases from the marketplace will be delivered here.
 		 label=""
 		 height="570"
 		 visible="false"
-		 width="330">
+		 width="335">
 	</panel>
 </panel>

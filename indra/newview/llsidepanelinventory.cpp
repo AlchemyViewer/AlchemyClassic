@@ -162,6 +162,7 @@ BOOL LLSidepanelInventory::postBuild()
 	{
 		mInventoryPanel = getChild<LLPanel>("sidepanel_inventory_panel");
 
+		/*
 		mInfoBtn = mInventoryPanel->getChild<LLButton>("info_btn");
 		mInfoBtn->setClickedCallback(boost::bind(&LLSidepanelInventory::onInfoButtonClicked, this));
 		
@@ -182,7 +183,8 @@ BOOL LLSidepanelInventory::postBuild()
 		
 		mOverflowBtn = mInventoryPanel->getChild<LLButton>("overflow_btn");
 		mOverflowBtn->setClickedCallback(boost::bind(&LLSidepanelInventory::onOverflowButtonClicked, this));
-		
+		*/		
+
 		mPanelMainInventory = mInventoryPanel->getChild<LLPanelMainInventory>("panel_main_inventory");
 		mPanelMainInventory->setSelectCallback(boost::bind(&LLSidepanelInventory::onSelectionChange, this, _1, _2));
 		LLTabContainer* tabs = mPanelMainInventory->getChild<LLTabContainer>("inventory filter tabs");
@@ -435,6 +437,7 @@ void LLSidepanelInventory::onOpen(const LLSD& key)
 	}
 }
 
+/*
 void LLSidepanelInventory::onInfoButtonClicked()
 {
 	LLInventoryItem *item = getSelectedItem();
@@ -519,6 +522,7 @@ void LLSidepanelInventory::onTeleportButtonClicked()
 void LLSidepanelInventory::onOverflowButtonClicked()
 {
 }
+*/
 
 void LLSidepanelInventory::onBackButtonClicked()
 {
@@ -565,6 +569,7 @@ void LLSidepanelInventory::showInventoryPanel()
 
 void LLSidepanelInventory::updateVerbs()
 {
+/*
 	mInfoBtn->setEnabled(FALSE);
 	mShareBtn->setEnabled(FALSE);
 
@@ -610,6 +615,7 @@ void LLSidepanelInventory::updateVerbs()
 		default:
 			break;
 	}
+*/
 }
 
 bool LLSidepanelInventory::canShare()
@@ -627,7 +633,7 @@ bool LLSidepanelInventory::canShare()
 			|| (inbox ? LLAvatarActions::canShareSelectedItems(inbox) : false) );
 }
 
-
+/*
 bool LLSidepanelInventory::canWearSelected()
 {
 
@@ -683,6 +689,7 @@ U32 LLSidepanelInventory::getSelectedCount()
 
 	return count;
 }
+*/
 
 LLInventoryPanel *LLSidepanelInventory::getActivePanel()
 {

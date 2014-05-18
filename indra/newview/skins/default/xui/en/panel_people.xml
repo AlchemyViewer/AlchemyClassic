@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <!-- Side tray panel -->
 <panel
+ default_tab_group="1"
  follows="all"
  height="449"
  label="People"
@@ -59,6 +60,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
      layout="topleft"
      left="3"
      name="tabs"
+     tab_group="1"
      tab_min_width="60"
      tab_position="top"
      top="0"

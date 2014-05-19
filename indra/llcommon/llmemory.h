@@ -133,7 +133,7 @@ inline void* ll_aligned_malloc_16(size_t size) // returned hunk MUST be freed wi
 #elif defined(LL_DARWIN)
 	return malloc(size); // default osx malloc is 16 byte aligned.
 #else
-	void *rtn;
+	void *rtn = NULL;
 	if (LL_LIKELY(0 == posix_memalign(&rtn, 16, size)))
 		return rtn;
 	else // bad alignment requested, or out of memory
@@ -188,7 +188,7 @@ inline void* ll_aligned_malloc_32(size_t size) // returned hunk MUST be freed wi
 #elif defined(LL_DARWIN)
 	return ll_aligned_malloc_fallback( size, 32 );
 #else
-	void *rtn;
+	void *rtn = NULL;
 	if (LL_LIKELY(0 == posix_memalign(&rtn, 32, size)))
 		return rtn;
 	else // bad alignment requested, or out of memory

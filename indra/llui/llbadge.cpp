@@ -220,6 +220,8 @@ void renderBadgeBackground(F32 centerX, F32 centerY, F32 width, F32 height, cons
 	}
 	gGL.end();
 	
+	gGL.setSceneBlendType(LLRender::BT_ALPHA); // <alchemy/>
+
 	gGL.popUIMatrix();
 }
 

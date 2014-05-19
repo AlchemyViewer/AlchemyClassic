@@ -1390,7 +1390,7 @@ void LLDrawPoolAvatar::renderAvatars(LLVOAvatar* single_avatar, S32 pass)
 				renderRigged(avatarp, RIGGED_SPECMAP_BLEND);
 				renderRigged(avatarp, RIGGED_NORMMAP_BLEND);
 				renderRigged(avatarp, RIGGED_NORMSPEC_BLEND);
-
+				gGL.setSceneBlendType(LLRender::BT_ALPHA); // <alchemy/>
 				gGL.setColorMask(true, false);
 			}
 			return;
@@ -1958,6 +1958,7 @@ void LLDrawPoolAvatar::renderRiggedAlpha(LLVOAvatar* avatar)
 						LLRender::BF_ONE_MINUS_SOURCE_ALPHA);
 
 		renderRigged(avatar, RIGGED_ALPHA);
+		gGL.setSceneBlendType(LLRender::BT_ALPHA); // <alchemy/>
 		gGL.setColorMask(true, false);
 	}
 }
@@ -1975,6 +1976,7 @@ void LLDrawPoolAvatar::renderRiggedFullbrightAlpha(LLVOAvatar* avatar)
 						LLRender::BF_ONE_MINUS_SOURCE_ALPHA);
 
 		renderRigged(avatar, RIGGED_FULLBRIGHT_ALPHA);
+		gGL.setSceneBlendType(LLRender::BT_ALPHA); // <alchemy/>
 		gGL.setColorMask(true, false);
 	}
 }

@@ -113,12 +113,7 @@ void LLChannelManager::onLoginCompleted()
 	}
 	else
 	{
-		// TODO: Seems this code leads to MAINT-3536 new crash in XML_ParserFree.
-		// Need to investigate this and fix possible problems with notifications in startup time
-		// Viewer can normally receive and show of postponed notifications about purchasing in marketplace on startup time.
-		// Other types of postponed notifications did not tested.
 		// create a channel for the StartUp Toast
-		// <alchemy/> - NOTE: This crash has since been resolve, restore startup channel.
 		LLScreenChannelBase::Params p;
 		p.id = LLUUID(gSavedSettings.getString("StartUpChannelUUID"));
 		p.channel_align = CA_RIGHT;

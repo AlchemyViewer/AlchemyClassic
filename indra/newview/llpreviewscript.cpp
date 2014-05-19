@@ -196,12 +196,12 @@ bool LLLiveLSLFile::loadFile()
 //private:
 //
 //	LLScriptEdCore* mEditorCore;
-//
 //	static LLFloaterScriptSearch*	sInstance;
 //
 //protected:
 //	LLLineEditor*			mSearchBox;
-//        void onSearchBoxCommit();
+//	LLLineEditor*			mReplaceBox;
+ //       void onSearchBoxCommit();
 //};
 //
 //LLFloaterScriptSearch* LLFloaterScriptSearch::sInstance = NULL;
@@ -533,6 +533,10 @@ void LLScriptEdCore::initMenu()
 	menuItem = getChild<LLMenuItemCallGL>("Select All");
 	menuItem->setClickCallback(boost::bind(&LLTextEditor::selectAll, mEditor));
 	menuItem->setEnableCallback(boost::bind(&LLTextEditor::canSelectAll, mEditor));
+
+	menuItem = getChild<LLMenuItemCallGL>("Deselect");
+	menuItem->setClickCallback(boost::bind(&LLTextEditor::deselect, mEditor));
+	menuItem->setEnableCallback(boost::bind(&LLTextEditor::canDeselect, mEditor));
 
 	menuItem = getChild<LLMenuItemCallGL>("Search / Replace...");
 //	menuItem->setClickCallback(boost::bind(&LLFloaterScriptSearch::show, this));
@@ -1886,7 +1890,7 @@ void LLLiveLSLEditor::loadAsset()
 			mIsModifiable = item && gAgent.allowOperation(PERM_MODIFY, 
 										item->getPermissions(),
 				   						GP_OBJECT_MANIPULATE);
-			
+			refreshFromItem();
 			// This is commented out, because we don't completely
 			// handle script exports yet.
 			/*

@@ -27,6 +27,7 @@ background_visible="true"
      label="Filter My Places"
      max_length_chars="300"
      name="Filter"
+     tab_group="1"
      top="3"
      width="303" />
     <tab_container
@@ -38,7 +39,7 @@ background_visible="true"
      name="Places Tabs"
      tab_min_width="60"
      tab_max_width="157"
-     tab_group="1"
+     tab_group="2"
      tab_position="top"
      top_pad="10"
      width="315" />

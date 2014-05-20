@@ -62,10 +62,7 @@ public:
 	//whether or not to use FBO implementation
 	static bool sUseFBO; 
 	static U32 sBytesAllocated;
-	static U32 sCurFBO;
-	static U32 sCurResX;
-	static U32 sCurResY;
-
+	static LLRenderTarget* sCurFBO;
 
 	LLRenderTarget();
 	~LLRenderTarget();
@@ -141,6 +138,8 @@ public:
 	//one renderable attachment (i.e. color buffer, depth buffer).
 	bool isComplete() const;
 
+	U32 getFBO() const {return mFBO;}
+
 	static LLRenderTarget* getCurrentBoundTarget() { return sBoundTarget; }
 
 protected:
@@ -149,9 +148,7 @@ protected:
 	std::vector<U32> mTex;
 	std::vector<U32> mInternalFormat;
 	U32 mFBO;
-	U32 mPreviousFBO;
-	U32 mPreviousResX;
-	U32 mPreviousResY;
+	LLRenderTarget* mPreviousFBO;
 
 	U32 mDepth;
 	bool mStencil;

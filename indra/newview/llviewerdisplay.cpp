@@ -993,7 +993,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			if (LLPipeline::sRenderDeferred)
 			{
 				gPipeline.mDeferredScreen.flush();
-				if(LLRenderTarget::sUseFBO)
+				if (gPipeline.mDeferredScreen.getFBO())
 				{
 					LLRenderTarget::copyContentsToFramebuffer(gPipeline.mDeferredScreen, 0, 0, gPipeline.mDeferredScreen.getWidth(), 
 															  gPipeline.mDeferredScreen.getHeight(), 0, 0, 
@@ -1005,7 +1005,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			else
 			{
 				gPipeline.mScreen.flush();
-				if(LLRenderTarget::sUseFBO)
+				if (gPipeline.mScreen.getFBO())
 				{				
 					LLRenderTarget::copyContentsToFramebuffer(gPipeline.mScreen, 0, 0, gPipeline.mScreen.getWidth(), 
 															  gPipeline.mScreen.getHeight(), 0, 0, 

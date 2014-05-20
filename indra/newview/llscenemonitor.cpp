@@ -311,7 +311,7 @@ void LLSceneMonitor::capture()
 
 		LLRenderTarget& cur_target = getCaptureTarget();
 
-		U32 old_FBO = LLRenderTarget::sCurFBO;
+		U32 old_FBO = (LLRenderTarget::sCurFBO ? LLRenderTarget::sCurFBO ->getFBO() : 0);
 
 		gGL.getTexUnit(0)->bind(&cur_target);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, 0); //point to the main frame buffer.

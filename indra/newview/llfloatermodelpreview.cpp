@@ -4820,7 +4820,7 @@ void LLModelPreview::genBuffers(S32 lod, bool include_skin_weights)
 			LLStrider<LLVector3> normal_strider;
 			LLStrider<LLVector2> tc_strider;
 			LLStrider<U16> index_strider;
-			LLStrider<LLVector4> weights_strider;
+			LLStrider<LLVector4a> weights_strider;
 
 			vb->getVertexStrider(vertex_strider);
 			vb->getIndexStrider(index_strider);
@@ -4863,7 +4863,7 @@ void LLModelPreview::genBuffers(S32 lod, bool include_skin_weights)
 						w.mV[i] = joint + wght;
 					}
 
-					*(weights_strider++) = w;
+					(*(weights_strider++)).loadua(w.mV);
 				}
 			}
 
@@ -5506,7 +5506,7 @@ BOOL LLModelPreview::render()
 							LLStrider<LLVector3> position;
 							buffer->getVertexStrider(position);
 
-							LLStrider<LLVector4> weight;
+							LLStrider<LLVector4a> weight;
 							buffer->getWeight4Strider(weight);
 
 							//quick 'n dirty software vertex skinning
@@ -5535,7 +5535,7 @@ BOOL LLModelPreview::render()
 								F32 scale = 0.f;
 								for (U32 k = 0; k < 4; k++)
 								{
-									F32 w = weight[j].mV[k];
+									F32 w = weight[j][k];
 
 									idx[k] = (S32) floorf(w);
 									wght.mV[k] = w - floorf(w);

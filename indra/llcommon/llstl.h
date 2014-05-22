@@ -84,6 +84,7 @@ struct DeletePointer
 	template<typename T> void operator()(T* ptr) const
 	{
 		delete ptr;
+		ptr = NULL;
 	}
 };
 struct DeletePointerArray
@@ -91,6 +92,7 @@ struct DeletePointerArray
 	template<typename T> void operator()(T* ptr) const
 	{
 		delete[] ptr;
+		ptr = NULL;
 	}
 };
 

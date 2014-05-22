@@ -170,11 +170,8 @@ void LLMotionController::deleteAllMotions()
 	mLoadedMotions.clear();
 	mActiveMotions.clear();
 
-	for_each(mAllMotions.begin(), mAllMotions.end(), DeletePairedPointer());
-	mAllMotions.clear();
-
-	for_each(mDeprecatedMotions.begin(), mDeprecatedMotions.end(), DeletePairedPointer());
-	mDeprecatedMotions.clear();
+	delete_and_clear(mAllMotions);
+	delete_and_clear(mDeprecatedMotions);
 }
 
 //-----------------------------------------------------------------------------

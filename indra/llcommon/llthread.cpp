@@ -345,11 +345,11 @@ void LLThread::setQuitting()
 }
 
 // static
-U32 LLThread::currentID()
+uintptr_t LLThread::currentID()
 {
 #if LL_DARWIN
 	// statically allocated thread local storage not supported in Darwin executable formats
-	return (U32)apr_os_thread_current();
+	return reinterpret_cast<uintptr_t>(apr_os_thread_current());
 #else
 	return sThreadID;
 #endif

@@ -1768,9 +1768,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4be51c7cca7d84831e30b63279df7ae5</string>
+              <string>bd42f49f2977ce4aa9bbd04b39999f08</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openjpeg-1.4-darwin-20110302.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/openjpeg-1.4-darwin-20140524u.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -168,17 +168,22 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif (XCODE_VERSION LESS 5.0)
   set(CMAKE_XCODE_ATTRIBUTE_DEBUG_INFORMATION_FORMAT dwarf-with-dsym)
 
-  # NOTE: To attempt an i386/x86_64 Universal build, add this on the configure line:
-  # -DCMAKE_OSX_ARCHITECTURES:STRING='i386;x86_64'
-  # Build only for i386 by default, system default on MacOSX 10.6 is x86_64
+  set(WORD_SIZE 64)
   if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES i386)
+    if (WORD_SIZE EQUAL 64)
+      set(CMAKE_OSX_ARCHITECTURES x86_64)
+    else (WORD_SIZE EQUAL 64)
+      set(CMAKE_OSX_ARCHITECTURES i386)
+    endif (WORD_SIZE EQUAL 64)
   endif (NOT CMAKE_OSX_ARCHITECTURES)
 
-  set(ARCH i386)
+  if (WORD_SIZE EQUAL 64)
+    set(ARCH x86_64)
+  else (WORD_SIZE EQUAL 64)
+    set(ARCH i386)
+  endif (WORD_SIZE EQUAL 64)
   set(LL_ARCH ${ARCH}_darwin)
   set(LL_ARCH_DIR universal-darwin)
-  set(WORD_SIZE 32)
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Default deploy grid

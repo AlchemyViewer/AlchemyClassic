@@ -197,6 +197,18 @@ class LLSpatialGroup : public LLOcclusionCullingGroup
 	friend class LLOctreeStateCheck;
 public:
 
+	// <alchemy>
+	void* operator new(size_t size)
+	{
+		return ll_aligned_malloc<64>(size);
+	}
+
+	void operator delete(void* ptr)
+	{
+		ll_aligned_free<64>(ptr);
+	}
+	// </alchemy>
+
 	LLSpatialGroup(const LLSpatialGroup& rhs) : LLOcclusionCullingGroup(rhs)
 	{
 		*this = rhs;
@@ -703,4 +715,3 @@ extern const F32 SG_MAX_OBJ_RAD;
 
 
 #endif //LL_LLSPATIALPARTITION_H
-

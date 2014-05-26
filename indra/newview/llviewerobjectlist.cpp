@@ -982,12 +982,18 @@ static LLTrace::BlockTimerStatHandle FTM_IDLE_COPY("Idle Copy");
 
 void LLViewerObjectList::update(LLAgent &agent)
 {
+	static LLCachedControl<bool> cc_velocity_interpolate(gSavedSettings, "VelocityInterpolate");
+	static LLCachedControl<bool> cc_ping_interpolate(gSavedSettings, "PingInterpolate");
+	static LLCachedControl<F32> cc_interpolation_time(gSavedSettings, "InterpolationTime");
+	static LLCachedControl<F32> cc_interpolation_phase_out(gSavedSettings, "InterpolationPhaseOut");
+	static LLCachedControl<bool> cc_animate_textures(gSavedSettings, "AnimateTextures");
+
 	// Update globals
-	LLViewerObject::setVelocityInterpolate( gSavedSettings.getBOOL("VelocityInterpolate") );
-	LLViewerObject::setPingInterpolate( gSavedSettings.getBOOL("PingInterpolate") );
+	LLViewerObject::setVelocityInterpolate( cc_velocity_interpolate );
+	LLViewerObject::setPingInterpolate( cc_ping_interpolate );
 	
-	F32 interp_time = gSavedSettings.getF32("InterpolationTime");
-	F32 phase_out_time = gSavedSettings.getF32("InterpolationPhaseOut");
+	F32 interp_time = cc_interpolation_time;
+	F32 phase_out_time = cc_interpolation_phase_out;
 	if (interp_time < 0.0 || 
 		phase_out_time < 0.0 ||
 		phase_out_time > interp_time)
@@ -999,7 +1005,7 @@ void LLViewerObjectList::update(LLAgent &agent)
 	LLViewerObject::setPhaseOutUpdateInterpolationTime( interp_time );
 	LLViewerObject::setMaxUpdateInterpolationTime( phase_out_time );
 
-	gAnimateTextures = gSavedSettings.getBOOL("AnimateTextures");
+	gAnimateTextures = cc_animate_textures;
 
 	// update global timer
 	F32 last_time = gFrameTimeSeconds;
@@ -1059,7 +1065,8 @@ void LLViewerObjectList::update(LLAgent &agent)
 
 	std::vector<LLViewerObject*>::iterator idle_end = idle_list.begin()+idle_count;
 
-	if (gSavedSettings.getBOOL("FreezeTime"))
+	static LLCachedControl<bool> freezeTime(gSavedSettings, "FreezeTime");
+	if (freezeTime)
 	{
 		
 		for (std::vector<LLViewerObject*>::iterator iter = idle_list.begin();
@@ -1750,7 +1757,7 @@ void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 	LLColor4 group_own_below_water_color = 
 						LLUIColorTable::instance().getColor( "NetMapGroupOwnBelowWater" );
 
-	F32 max_radius = gSavedSettings.getF32("MiniMapPrimMaxRadius");
+	static LLCachedControl<F32> max_radius(gSavedSettings, "MiniMapPrimMaxRadius");
 
 	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != mMapObjects.end(); ++iter)
 	{
@@ -1775,7 +1782,7 @@ void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 		// Limit the size of megaprims so they don't blot out everything on the minimap.
 		// Attempting to draw very large megaprims also causes client lag.
 		// See DEV-17370 and DEV-29869/SNOW-79 for details.
-		approx_radius = llmin(approx_radius, max_radius);
+		approx_radius = llmin(approx_radius, (F32)max_radius);
 
 		LLColor4U color = above_water_color;
 		if( objectp->permYouOwner() )

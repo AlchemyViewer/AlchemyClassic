@@ -513,9 +513,9 @@ static LLSD blocking_request(
 
 	LLSD response = LLSD::emptyMap();
 	S32 curl_success = curl_easy_perform(curlp);
-	S32 http_status = 499;
+	long http_status = 499;
 	curl_easy_getinfo(curlp, CURLINFO_RESPONSE_CODE, &http_status);
-	response["status"] = http_status;
+	response["status"] = (S32)http_status;
 	// if we get a non-404 and it's not a 200 OR maybe it is but you have error bits,
 	if ( http_status != 404 && (http_status != 200 || curl_success != 0) )
 	{

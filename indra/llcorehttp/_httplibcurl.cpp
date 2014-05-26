@@ -294,7 +294,7 @@ bool HttpLibcurl::completeRequest(CURLM * multi_handle, CURL * handle, CURLcode 
 	}
 	if (op->mStatus)
 	{
-		int http_status(HTTP_OK);
+		long http_status(HTTP_OK);
 
 		curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &http_status);
 		if (http_status >= 100 && http_status <= 999)

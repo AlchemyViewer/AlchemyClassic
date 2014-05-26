@@ -3004,7 +3004,7 @@ void LLMeshRepository::init()
 {
 	mMeshMutex = new LLMutex(NULL);
 	
-	LLConvexDecomposition::getInstance()->initSystem();
+	LLConvexDecomposition::initSystem(); // <alchemy/>
 
 	mDecompThread = new LLPhysicsDecomp();
 	mDecompThread->start();

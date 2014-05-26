@@ -377,7 +377,7 @@ S32 LLSDXMLParser::Impl::parse(std::istream& input, LLSD& data)
 			break;
 		}
 		{
-
+		
 			count = get_till_eol(input, (char *)buffer, BUFFER_SIZE);
 			if (!count)
 			{

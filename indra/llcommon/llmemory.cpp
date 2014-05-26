@@ -37,7 +37,6 @@
 # include <mach/mach_init.h>
 #elif LL_LINUX || LL_SOLARIS
 # include <unistd.h>
-#include <stdint.h>				// uintptr_t
 #endif
 
 #include "llmemory.h"

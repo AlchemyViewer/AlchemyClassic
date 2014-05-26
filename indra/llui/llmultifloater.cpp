@@ -309,7 +309,11 @@ void LLMultiFloater::removeFloater(LLFloater* floaterp)
 
 	updateResizeLimits();
 
-	tabOpen((LLFloater*)mTabContainer->getCurrentPanel(), false);
+	LLFloater* tab_floaterp = dynamic_cast<LLFloater*>(mTabContainer->getCurrentPanel());
+	if(tab_floaterp)
+	{
+		tabOpen(tab_floaterp, false);
+	}
 }
 
 void LLMultiFloater::tabOpen(LLFloater* opened_floater, bool from_click)

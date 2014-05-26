@@ -1122,9 +1122,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a5b2dff0d97b643227a58473e5c57906</string>
+              <string>263070213d0d98c363d98d8609f46476</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/3p-kdu-private/rev/256978/arch/Darwin/installer/kdu-7.0.0-darwin-20120515.tar.bz2</string>
+              <string>file:///opt/firestorm/onyxkdu-7.32-darwin-20131129.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

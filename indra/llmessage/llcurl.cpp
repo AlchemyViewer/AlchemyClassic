@@ -393,7 +393,7 @@ void LLCurl::Easy::getTransferInfo(LLCurl::TransferInfo* info)
 
 U32 LLCurl::Easy::report(CURLcode code)
 {
-	U32 responseCode = 0;	
+	long responseCode = 0;	
 	std::string responseReason;
 	
 	if (code == CURLE_OK)

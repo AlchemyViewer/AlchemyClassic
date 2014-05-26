@@ -218,6 +218,7 @@ LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 	mIconMaturityGeneral(NULL),
 	mIconMaturityAdult(NULL),
 	mIconMaturityModerate(NULL),
+	isHumanReadableLocationVisible(false),
 	mMaturityHelpTopic(p.maturity_help_topic)
 {
 	// Lets replace default LLLineEditor with LLLocationLineEditor

@@ -71,7 +71,7 @@ public:
 		U64 time_stamp = __rdtsc();
 		return (U32)(time_stamp >> 8);
 	}
-	
+
 	// return full timer value, *not* shifted by 8 bits
 	static U64 getCPUClockCount64()
 	{
@@ -118,7 +118,7 @@ public:
 	// These use QueryPerformanceCounter, which is arguably fine and also works on AMD architectures.
 	static U32 getCPUClockCount32()
 	{
-		return (U32)(get_clock_count()>>8);
+		return (U32)(get_clock_count() >> 8);
 	}
 
 	static U64 getCPUClockCount64()

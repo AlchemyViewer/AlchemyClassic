@@ -32,10 +32,6 @@
 #include <stdint.h>
 #endif
 
-#if !LL_WINDOWS
-#include <stdint.h>
-#endif
-
 class LLMutex ;
 
 #if LL_WINDOWS && LL_DEBUG

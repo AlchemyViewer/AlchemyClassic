@@ -105,23 +105,44 @@ public:
 		mMatrix[3].setAdd(a.mMatrix[3],d3);
 	}
 
-	inline void rotate(const LLVector4a& v, LLVector4a& res)
+// <alchemy>
+	inline void rotate(const LLVector4a& v, LLVector4a& res) const
 	{
-		LLVector4a y,z;
+		LLVector4a x,y,z;
 
-		res = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
+		x = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
 		y = _mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1));
 		z = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 2, 2, 2));
-		
-		res.mul(mMatrix[0]);
+
+		x.mul(mMatrix[0]);
 		y.mul(mMatrix[1]);
 		z.mul(mMatrix[2]);
 
-		res.add(y);
-		res.add(z);
+		x.add(y);
+		res.setAdd(x,z);
 	}
 
-	inline void affineTransform(const LLVector4a& v, LLVector4a& res)
+	inline void rotate4(const LLVector4a& v, LLVector4a& res) const
+	{
+		LLVector4a x,y,z,w;
+
+		x = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
+		y = _mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1));
+		z = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 2, 2, 2));
+		w = _mm_shuffle_ps(v, v, _MM_SHUFFLE(3, 3, 3, 3));
+
+		x.mul(mMatrix[0]);
+		y.mul(mMatrix[1]);
+		z.mul(mMatrix[2]);
+		w.mul(mMatrix[3]);
+
+		x.add(y);
+		z.add(w);
+		res.setAdd(x,z);
+	}
+// </alchemy>
+
+	inline void affineTransform(const LLVector4a& v, LLVector4a& res) const
 	{
 		LLVector4a x,y,z;
 

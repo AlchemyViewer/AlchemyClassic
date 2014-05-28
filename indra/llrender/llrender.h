@@ -43,6 +43,7 @@
 #include "llpointer.h"
 #include "llglheaders.h"
 #include "llmatrix4a.h"
+#include "llrect.h"
 #include "glh/glh_linear.h"
 
 class LLVertexBuffer;
@@ -389,6 +390,8 @@ public:
 	void vertex4a(const LLVector4a& v);
 	// </alchemy>
 	
+	bool projectf(const LLVector3& object, const F32* modelview, const F32* projection, const LLRect& viewport, LLVector3& windowCoordinate);
+
 	void texCoord2i(const GLint& x, const GLint& y);
 	void texCoord2f(const GLfloat& x, const GLfloat& y);
 	void texCoord2fv(const GLfloat* tc);

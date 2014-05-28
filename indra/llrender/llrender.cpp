@@ -39,11 +39,11 @@
 LLRender gGL;
 
 // Handy copies of last good GL matrices
-F32	gGLModelView[16];
-F32	gGLLastModelView[16];
-F32	gGLLastProjection[16];
-F32	gGLProjection[16];
-S32	gGLViewport[4];
+LL_ALIGN_16(F32	gGLModelView[16]);
+LL_ALIGN_16(F32	gGLLastModelView[16]);
+LL_ALIGN_16(F32	gGLLastProjection[16]);
+LL_ALIGN_16(F32	gGLProjection[16]);
+LL_ALIGN_16(S32	gGLViewport[4]);
 
 U32 LLRender::sUICalls = 0;
 U32 LLRender::sUIVerts = 0;
@@ -2226,7 +2226,38 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 //{
 //	vertex3f(v[0], v[1], v[2]);
 //}
-// </alchemy> - Vectorization
+
+bool LLRender::projectf(const LLVector3& object, const F32* modelview, const F32* projection, const LLRect& viewport, LLVector3& windowCoordinate)
+{
+	const LLVector4a obj_vector(object.mV[VX], object.mV[VY], object.mV[VZ]);
+	LLVector4a temp_matrix;
+
+	const LLMatrix4a &view_matrix = *(LLMatrix4a*) modelview;
+	const LLMatrix4a &proj_matrix = *(LLMatrix4a*) projection;
+
+	view_matrix.affineTransform(obj_vector, temp_matrix);
+
+	//Passing temp_matrix as v and res is safe. res not altered until after all other calculations
+	proj_matrix.rotate4(temp_matrix, temp_matrix);
+
+	if (temp_matrix[VW] == 0.0)
+		return false;
+
+	temp_matrix.div(temp_matrix[VW]);
+
+	//Map x, y to range 0-1
+	temp_matrix.mul(.5f);
+	temp_matrix.add(.5f);
+
+	//Window coordinates
+	windowCoordinate[0] = temp_matrix[VX] * viewport.getWidth() + viewport.mLeft;
+	windowCoordinate[1] = temp_matrix[VY] * viewport.getHeight() + viewport.mBottom;
+	//This is only correct when glDepthRange(0.0, 1.0)
+	windowCoordinate[2] = temp_matrix[VZ];
+
+	return true;
+}
+// </alchemy>
 
 void LLRender::texCoord2f(const GLfloat& x, const GLfloat& y)
 { 

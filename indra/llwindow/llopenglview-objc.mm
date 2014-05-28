@@ -94,11 +94,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 // Force a high quality update after live resizing
 - (void) viewDidEndLiveResize
 {
-    if (mOldResize)  //Maint-3135
-    {
-        NSSize size = [self frame].size;
-        callResize(size.width, size.height);
-    }
+    NSSize size = [self frame].size;
+    callResize(size.width, size.height);
 }
 
 - (unsigned long)getVramSize
@@ -127,18 +124,10 @@ attributedStringInfo getSegments(NSAttributedString *str)
 											   object:[self window]];
 }
 
-- (void)setOldResize:(bool)oldresize
-{
-    mOldResize = oldresize;
-}
-
 - (void)windowResized:(NSNotification *)notification;
 {
-    if (!mOldResize)  //Maint-3288
-    {
-        NSSize size = [self frame].size;
-        callResize(size.width, size.height);
-    }
+	//NSSize size = [self frame].size;
+	//callResize(size.width, size.height);
 }
 
 - (void)dealloc
@@ -215,8 +204,6 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		[glContext setValues:(const GLint*)0 forParameter:NSOpenGLCPSwapInterval];
 	}
 	
-    mOldResize = false;
-    
 	return self;
 }
 

@@ -870,9 +870,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e81d9e4526ceac49f1532d6518085985</string>
+              <string>cdce2b04507ffafd106152dba70f98c3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.1-windows-20140120.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.2-windows-20140529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

@@ -203,12 +203,12 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	
 	[glContext makeCurrentContext];
 	
+	GLint glVsync = 0;
 	if (vsync)
 	{
-		[glContext setValues:(const GLint*)1 forParameter:NSOpenGLCPSwapInterval];
-	} else {
-		[glContext setValues:(const GLint*)0 forParameter:NSOpenGLCPSwapInterval];
+		glVsync = 1;
 	}
+	[glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
 	
 	return self;
 }

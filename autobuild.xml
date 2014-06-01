@@ -2581,6 +2581,7 @@
                   <string>"Visual Studio 10"</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DUSE_KDU=FALSE</string>
+                  <string>-DUSE_LL_STUBS:BOOL=ON</string> 
                 </array>
               </map>
               <key>name</key>

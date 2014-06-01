@@ -467,6 +467,7 @@ void LLViewerCamera::projectScreenToPosAgent(const S32 screen_x, const S32 scree
 BOOL LLViewerCamera::projectPosAgentToScreen(const LLVector3 &pos_agent, LLCoordGL &out_point, const BOOL clamp) const
 {
 	BOOL in_front = TRUE;
+	GLdouble	x, y, z;			// object's window coords, GL-style
 
 	LLVector3 dir_to_point = pos_agent - getOrigin();
 	dir_to_point /= dir_to_point.magVec();
@@ -484,13 +485,25 @@ BOOL LLViewerCamera::projectPosAgentToScreen(const LLVector3 &pos_agent, LLCoord
 	}
 
 	LLRect world_view_rect = gViewerWindow->getWorldViewRectRaw();
-	LLVector3 window_coordinates;
+	S32	viewport[4];
+	viewport[0] = world_view_rect.mLeft;
+	viewport[1] = world_view_rect.mBottom;
+	viewport[2] = world_view_rect.getWidth();
+	viewport[3] = world_view_rect.getHeight();
 
-	if (gGL.projectf(pos_agent, gGLModelView, gGLProjection, world_view_rect, window_coordinates))
+	F64 mdlv[16];
+	F64 proj[16];
+
+	for (U32 i = 0; i < 16; i++)
 	{
-		F32 &x = window_coordinates.mV[VX];
-		F32 &y = window_coordinates.mV[VY];
+		mdlv[i] = (F64) gGLModelView[i];
+		proj[i] = (F64) gGLProjection[i];
+	}
 
+	if (GL_TRUE == gluProject(pos_agent.mV[VX], pos_agent.mV[VY], pos_agent.mV[VZ],
+								mdlv, proj, (GLint*)viewport,
+								&x, &y, &z))
+	{
 		// convert screen coordinates to virtual UI coordinates
 		x /= gViewerWindow->getDisplayScale().mV[VX];
 		y /= gViewerWindow->getDisplayScale().mV[VY];
@@ -583,14 +596,28 @@ BOOL LLViewerCamera::projectPosAgentToScreenEdge(const LLVector3 &pos_agent,
 		in_front = FALSE;
 	}
 
-	const LLRect& world_view_rect = gViewerWindow->getWorldViewRectRaw();
-	LLVector3 window_coordinates;
+	LLRect world_view_rect = gViewerWindow->getWorldViewRectRaw();
+	S32	viewport[4];
+	viewport[0] = world_view_rect.mLeft;
+	viewport[1] = world_view_rect.mBottom;
+	viewport[2] = world_view_rect.getWidth();
+	viewport[3] = world_view_rect.getHeight();
+	GLdouble	x, y, z;			// object's window coords, GL-style
 
-	if (gGL.projectf(pos_agent, gGLModelView, gGLProjection, world_view_rect, window_coordinates))
+	F64 mdlv[16];
+	F64 proj[16];
+
+	for (U32 i = 0; i < 16; i++)
 	{
-		F32 &x = window_coordinates.mV[VX];
-		F32 &y = window_coordinates.mV[VY];
+		mdlv[i] = (F64) gGLModelView[i];
+		proj[i] = (F64) gGLProjection[i];
+	}
 
+	if (GL_TRUE == gluProject(pos_agent.mV[VX], pos_agent.mV[VY],
+							  pos_agent.mV[VZ], mdlv,
+							  proj, (GLint*)viewport,
+							  &x, &y, &z))
+	{
 		x /= gViewerWindow->getDisplayScale().mV[VX];
 		y /= gViewerWindow->getDisplayScale().mV[VY];
 		// should now have the x,y coords of grab_point in screen space

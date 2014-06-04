@@ -59,6 +59,7 @@ elseif (DARWIN)
 elseif (LINUX)
 if (STANDALONE)
     set(WEBKIT_PLUGIN_LIBRARIES ${LLQTWEBKIT_LIBRARY} ${QT_LIBRARIES} ${QT_PLUGIN_LIBRARIES})
+else (STANDALONE)
     set(WEBKIT_PLUGIN_LIBRARIES
         llqtwebkit
 #        qico
@@ -87,4 +88,5 @@ if (STANDALONE)
 #        Xi
 #        SM
         )
+endif (STANDALONE)
 endif (WINDOWS)

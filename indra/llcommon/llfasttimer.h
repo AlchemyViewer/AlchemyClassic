@@ -31,6 +31,10 @@
 #include "lltrace.h"
 #include "lltreeiterators.h"
 
+#if LL_WINDOWS
+#include <intrin.h>
+#endif
+
 #if LL_LINUX
 #include <x86intrin.h>
 #endif
@@ -67,24 +71,25 @@ public:
 	//
 #if LL_FASTTIMER_USE_RDTSC
 
-#ifdef _WIN64
-	#include <intrin.h>
-
+#if 1
+	// shift off lower 8 bits for lower resolution but longer term timing
+	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
 	static U32 getCPUClockCount32()
 	{
 		U64 time_stamp = __rdtsc();
-		return (U32)(time_stamp >> 8);
+		time_stamp = time_stamp >> 8U;
+		return static_cast<U32>(time_stamp);
 	}
 
 	// return full timer value, *not* shifted by 8 bits
 	static U64 getCPUClockCount64()
 	{
-		return __rdtsc();
+		return static_cast<U64>(__rdtsc());
 	}
 
+#else
 	// shift off lower 8 bits for lower resolution but longer term timing
 	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
-#else
 	static U32 getCPUClockCount32()
 	{
 		U32 ret_val;

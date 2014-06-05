@@ -58,6 +58,7 @@ set(llmath_HEADER_FILES
     llmath.h
     llmatrix3a.h
     llmatrix3a.inl
+    llmatrix4a.h
     llmodularmath.h
     lloctree.h
     llperlin.h

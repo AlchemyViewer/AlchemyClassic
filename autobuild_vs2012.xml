@@ -3135,6 +3135,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3167,6 +3168,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DUSE_KDU=FALSE</string>
                 </array>
@@ -3208,6 +3210,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>default</key>
@@ -3242,6 +3245,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -3285,6 +3289,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3317,7 +3322,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 11 Win64"</string>
-				  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>

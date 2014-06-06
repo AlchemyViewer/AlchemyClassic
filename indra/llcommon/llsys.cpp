@@ -1433,7 +1433,7 @@ public:
                     << " seconds ";
         }
 
-	S32 precision = LL_CONT.precision();
+	std::streamsize precision = LL_CONT.precision(); // <alchemy/>
 
         LL_CONT << std::fixed << std::setprecision(1) << framerate << '\n'
                 << LLMemoryInfo();

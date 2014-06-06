@@ -2570,8 +2570,8 @@ bool LLVolume::unpackVolumeFaces(std::istream& is, S32 size)
 			}
 
 			// modifier flags?
-			bool do_mirror = (mParams.getSculptType() & LL_SCULPT_FLAG_MIRROR) == LL_SCULPT_FLAG_MIRROR;
-			bool do_invert = (mParams.getSculptType() &LL_SCULPT_FLAG_INVERT) == LL_SCULPT_FLAG_INVERT;
+			bool do_mirror = (mParams.getSculptType() & LL_SCULPT_FLAG_MIRROR) == LL_SCULPT_FLAG_MIRROR; // <alchemy/>
+			bool do_invert = (mParams.getSculptType() &LL_SCULPT_FLAG_INVERT) == LL_SCULPT_FLAG_INVERT; // <alchemy/>
 			
 			
 			// translate to actions:
@@ -3171,7 +3171,7 @@ BOOL LLVolume::isFlat(S32 face)
 
 bool LLVolumeParams::isSculpt() const
 {
-	return mSculptID.notNull();
+	return !!mSculptID.notNull();
 }
 
 bool LLVolumeParams::isMeshSculpt() const

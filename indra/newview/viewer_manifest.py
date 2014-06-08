@@ -681,6 +681,15 @@ class Windows_i686_Manifest(WindowsManifest):
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
 
+            # Get fmod studio dll, continue if missing
+            try:
+                if self.args['configuration'].lower() == 'debug':
+                    self.path("fmodL.dll")
+                else:
+                    self.path("fmod.dll")
+            except:
+                print "Skipping fmodex audio library(assuming other audio engine)"
+
             # Get fmodex dll, continue if missing
             try:
                 if self.args['configuration'].lower() == 'debug':
@@ -707,6 +716,15 @@ class Windows_x86_64_Manifest(WindowsManifest):
                     self.path("fmodexL64.dll")
                 else:
                     self.path("fmodex64.dll")
+            except:
+                print "Skipping fmodex audio library(assuming other audio engine)"
+
+            # Get fmodstudio dll, continue if missing
+            try:
+                if self.args['configuration'].lower() == 'debug':
+                    self.path("fmodL64.dll")
+                else:
+                    self.path("fmod64.dll")
             except:
                 print "Skipping fmodex audio library(assuming other audio engine)"
 

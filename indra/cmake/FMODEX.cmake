@@ -10,6 +10,9 @@ if (INSTALL_PROPRIETARY)
 endif (INSTALL_PROPRIETARY)
 
 if (FMODEX)
+  if (FMODSTUDIO)
+    message( FATAL_ERROR "You can not enable two FMOD variants at the same time." )
+  endif(FMODSTUDIO)
   if (STANDALONE)
     # In that case, we use the version of the library installed on the system
     set(FMODEX_FIND_REQUIRED ON)

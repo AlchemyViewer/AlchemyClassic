@@ -639,6 +639,42 @@
           </map>
         </map>
       </map>
+      <key>fmodstudio</key>
+      <map>
+        <key>license</key>
+        <string>fmodstudio</string>
+        <key>license_file</key>
+        <string>LICENSES/fmodstudio.txt</string>
+        <key>name</key>
+        <string>fmodstudio</string>
+        <key>platforms</key>
+        <map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>f70c92195027094ef6fe76595c2e3fc9</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.03.09-windows-20140608.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>32302dd88b3d16d849f7b5af0d7232aa</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.03.09-windows64-20140608.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+      </map>
       <key>fontconfig</key>
       <map>
         <key>license</key>

@@ -365,7 +365,7 @@ bool LLAudioEngine_FMODSTUDIO::initWind()
 	//	mSystem->playDSP(mWindDSP, NULL, false, 0);
 	//	return true;
 	//}
-	//return false;
+	return false;
 }
 
 

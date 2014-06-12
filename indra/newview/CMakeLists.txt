@@ -11,6 +11,7 @@ include(OpenSSL)
 include(DragDrop)
 include(EXPAT)
 include(FMODEX)
+include(FMODSTUDIO)
 include(OPENAL)
 include(OpenGL)
 include(Hunspell)
@@ -61,6 +62,10 @@ endif (NOT HAVOK_TPV)
 # <alchemy>
 endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 # </alchemy>
+
+if(FMODSTUDIO)
+  include_directories(${FMODSTUDIO_INCLUDE_DIR})
+endif(FMODSTUDIO)
 
 if(FMODEX)
   include_directories(${FMODEX_INCLUDE_DIR})
@@ -1608,6 +1613,11 @@ if (OPENAL)
   set(LLSTARTUP_COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS} -DLL_OPENAL")
 endif (OPENAL)
 
+if (FMODSTUDIO)
+  set(LLSTARTUP_COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS} -DLL_FMODSTUDIO")
+  set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
+endif (FMODSTUDIO)
+
 if (FMODEX)
   set(LLSTARTUP_COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS} -DLL_FMODEX")
   set(FMODWRAPPER_LIBRARY ${FMODEX_LIBRARY})
@@ -1774,6 +1784,14 @@ if (WINDOWS)
       windows-crash-logger
       windows-updater
       )
+
+    if (FMODSTUDIO)
+      list(APPEND COPY_INPUT_DEPENDENCIES
+           ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
+           ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod.dll
+           ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
+          )
+    endif (FMODSTUDIO)
 
     if (FMODEX)
       list(APPEND COPY_INPUT_DEPENDENCIES

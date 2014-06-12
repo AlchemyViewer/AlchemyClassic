@@ -94,30 +94,30 @@ attributedStringInfo getSegments(NSAttributedString *str)
 // Force a high quality update after live resizing
 - (void) viewDidEndLiveResize
 {
-    if (mOldResize)  //Maint-3135
-    {
-        NSSize size = [self frame].size;
-        callResize(size.width, size.height);
-    }
+	if (NSAppKitVersionNumber < NSAppKitVersionNumber10_7)
+	{
+		NSSize size = [self frame].size;
+		callResize(size.width, size.height);
+	}
 }
 
 - (unsigned long)getVramSize
 {
     CGLRendererInfoObj info = 0;
-	GLint vram_bytes = 0;
+	GLint vram_mbytes = 0;
     int num_renderers = 0;
     CGLError the_err = CGLQueryRendererInfo (CGDisplayIDToOpenGLDisplayMask(kCGDirectMainDisplay), &info, &num_renderers);
     if(0 == the_err)
     {
-        CGLDescribeRenderer (info, 0, kCGLRPTextureMemory, &vram_bytes);
+        CGLDescribeRenderer (info, 0, kCGLRPTextureMemoryMegabytes, &vram_mbytes);
         CGLDestroyRendererInfo (info);
     }
     else
     {
-        vram_bytes = (256 << 20);
+        vram_mbytes = 256;
     }
     
-	return (unsigned long)vram_bytes / 1048576; // We need this in megabytes.
+	return (unsigned long)vram_mbytes; // We need this in megabytes.
 }
 
 - (void)viewDidMoveToWindow
@@ -127,18 +127,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
 											   object:[self window]];
 }
 
-- (void)setOldResize:(bool)oldresize
-{
-    mOldResize = oldresize;
-}
-
 - (void)windowResized:(NSNotification *)notification;
 {
-    if (!mOldResize)  //Maint-3288
-    {
-        NSSize size = [self frame].size;
-        callResize(size.width, size.height);
-    }
+	if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_7)
+	{
+		NSSize size = [self frame].size;
+		callResize(size.width, size.height);
+	}
 }
 
 - (void)dealloc
@@ -208,15 +203,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	
 	[glContext makeCurrentContext];
 	
+	GLint glVsync = 0;
 	if (vsync)
 	{
-		[glContext setValues:(const GLint*)1 forParameter:NSOpenGLCPSwapInterval];
-	} else {
-		[glContext setValues:(const GLint*)0 forParameter:NSOpenGLCPSwapInterval];
+		glVsync = 1;
 	}
+	[glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
 	
-    mOldResize = false;
-    
 	return self;
 }
 

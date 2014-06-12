@@ -5339,8 +5339,6 @@ void LLSelectMgr::processForceObjectSelect(LLMessageSystem* msg, void**)
 	LLSelectMgr::getInstance()->highlightObjectAndFamily(objects);
 }
 
-extern F32	gGLModelView[16];
-
 void LLSelectMgr::updateSilhouettes()
 {
 	S32 num_sils_genned = 0;
@@ -6137,8 +6135,7 @@ void LLSelectNode::renderOneWireframe(const LLColor4& color)
 	}
 	
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	// <alchemy>
+	
 	if (LLSelectMgr::sRenderHiddenSelections) // && gFloaterTools && gFloaterTools->getVisible())
 	{
 		gGL.blendFunc(LLRender::BF_SOURCE_COLOR, LLRender::BF_ONE);
@@ -6164,22 +6161,18 @@ void LLSelectNode::renderOneWireframe(const LLColor4& color)
 				pushWireframe(drawable);
 			}
 		}
-		gGL.setSceneBlendType(LLRender::BT_ALPHA);
 	}
-	else
-	{
-		LLGLEnable cull_face(GL_CULL_FACE);
-		LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
 
-		gGL.setSceneBlendType(LLRender::BT_ALPHA);
-		gGL.diffuseColor4f(color.mV[VRED] * 2, color.mV[VGREEN] * 2, color.mV[VBLUE] * 2, LLSelectMgr::sHighlightAlpha * 2);
-		glPolygonOffset(3.f, 3.f);
-		glLineWidth(3.f);
-		pushWireframe(drawable);
-		glLineWidth(1.f);
-	}
-	// </alchemy>
+	gGL.flush();
+	gGL.setSceneBlendType(LLRender::BT_ALPHA);
 
+	gGL.diffuseColor4f(color.mV[VRED]*2, color.mV[VGREEN]*2, color.mV[VBLUE]*2, LLSelectMgr::sHighlightAlpha*2);
+	
+	LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
+	glPolygonOffset(3.f, 3.f);
+	glLineWidth(3.f);
+	pushWireframe(drawable);
+	glLineWidth(1.f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	gGL.popMatrix();
 

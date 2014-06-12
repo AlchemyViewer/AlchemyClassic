@@ -976,8 +976,7 @@ void LLGLManager::initExtensions()
 	mHasSync = ExtensionExists("GL_ARB_sync", gGLHExts.mSysExts);
 	mHasMapBufferRange = ExtensionExists("GL_ARB_map_buffer_range", gGLHExts.mSysExts);
 	mHasFlushBufferRange = ExtensionExists("GL_APPLE_flush_buffer_range", gGLHExts.mSysExts);
-	//mHasDepthClamp = ExtensionExists("GL_ARB_depth_clamp", gGLHExts.mSysExts) || ExtensionExists("GL_NV_depth_clamp", gGLHExts.mSysExts);
-	mHasDepthClamp = FALSE;
+	mHasDepthClamp = ExtensionExists("GL_ARB_depth_clamp", gGLHExts.mSysExts) || ExtensionExists("GL_NV_depth_clamp", gGLHExts.mSysExts);
 	// mask out FBO support when packed_depth_stencil isn't there 'cause we need it for LLRenderTarget -Brad
 #ifdef GL_ARB_framebuffer_object
 	mHasFramebufferObject = ExtensionExists("GL_ARB_framebuffer_object", gGLHExts.mSysExts);
@@ -1431,6 +1430,22 @@ void flush_glerror()
 	glGetError();
 }
 
+std::string get_gl_err_string(GLenum error)
+{
+	switch (error)
+	{
+	case GL_INVALID_ENUM:      return "Invalid enum";
+	case GL_INVALID_VALUE:     return "Invalid value";
+	case GL_INVALID_OPERATION: return "Invalid operation";
+	case GL_INVALID_FRAMEBUFFER_OPERATION: return "Invalid framebuffer operation";
+	case GL_OUT_OF_MEMORY:     return "Out of memory";
+	case GL_STACK_OVERFLOW:    return "Stack overflow";
+	case GL_STACK_UNDERFLOW:   return "Stack underflow";
+	case GL_TABLE_TOO_LARGE:   return "Table too large";
+	default:                   return "";
+	}
+}
+
 //this function outputs gl error to the log file, does not crash the code.
 void log_glerror()
 {
@@ -1443,10 +1458,10 @@ void log_glerror()
 	error = glGetError();
 	while (LL_UNLIKELY(error))
 	{
-		GLubyte const * gl_error_msg = gluErrorString(error);
-		if (NULL != gl_error_msg)
+		const std::string gl_error_msg = get_gl_err_string(error);
+		if (!gl_error_msg.empty())
 		{
-			LL_WARNS() << "GL Error: " << error << " GL Error String: " << gl_error_msg << LL_ENDL ;			
+			LL_WARNS() << "GL Error: " << error << " GL Error String: " << gl_error_msg.c_str() << LL_ENDL ;			
 		}
 		else
 		{
@@ -1467,11 +1482,11 @@ void do_assert_glerror()
 	while (LL_UNLIKELY(error))
 	{
 		quit = TRUE;
-		GLubyte const * gl_error_msg = gluErrorString(error);
-		if (NULL != gl_error_msg)
+		const std::string gl_error_msg = get_gl_err_string(error);
+		if (!gl_error_msg.empty())
 		{
 			LL_WARNS("RenderState") << "GL Error:" << error<< LL_ENDL;
-			LL_WARNS("RenderState") << "GL Error String:" << gl_error_msg << LL_ENDL;
+			LL_WARNS("RenderState") << "GL Error String:" << gl_error_msg.c_str() << LL_ENDL;
 
 			if (gDebugSession)
 			{
@@ -1531,7 +1546,7 @@ void assert_glerror()
 
 void clear_glerror()
 {
-	glGetError();
+	//glGetError(); // <alchemy/>
 	glGetError();
 }
 

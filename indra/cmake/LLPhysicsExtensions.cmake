@@ -24,26 +24,16 @@ if (HAVOK)
 elseif (HAVOK_TPV)
    use_prebuilt_binary(llphysicsextensions_tpv)
    set(LLPHYSICSEXTENSIONS_LIBRARIES    llphysicsextensions_tpv)
-
-   # <alchemy> include paths for LLs version and ours are different.
    set(LLPHYSICSEXTENSIONS_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include/llphysicsextensions)
-   # </alchemy>
-
 else (HAVOK)
+if (NOT USE_LL_STUBS)
    use_prebuilt_binary( ndPhysicsStub )
-
-# <alchemy> Don't set this variable, there is no need to build any stub source if using ndPhysicsStub
-#   set(LLPHYSICSEXTENSIONS_SRC_DIR ${LIBS_PREBUILT_DIR}/llphysicsextensions/stub)
-# </alchemy>
-
    set(LLPHYSICSEXTENSIONS_LIBRARIES nd_hacdConvexDecomposition hacd nd_Pathing )
-
-   # <alchemy> include paths for LLs version and ours are different.
    set(LLPHYSICSEXTENSIONS_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include/ )
-   # </alchemy>
-
+else (NOT USE_LL_STUBS)
+   use_prebuilt_binary(llphysicsextensions_stub)
+   set(LLPHYSICSEXTENSIONS_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include/llphysicsextensions) 
+   set(LLPHYSICSEXTENSIONS_SRC_DIR ${LIBS_PREBUILT_DIR}/llphysicsextensions/stub)
+   set(LLPHYSICSEXTENSIONS_LIBRARIES    llphysicsextensionsstub)
+endif (NOT USE_LL_STUBS)
 endif (HAVOK)
-
-# <alchemy> include paths for LLs version and ours are different.
-#set(LLPHYSICSEXTENSIONS_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include/llphysicsextensions) 
-# </alchemy>

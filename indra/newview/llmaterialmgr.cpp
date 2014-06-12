@@ -558,7 +558,7 @@ void LLMaterialMgr::processGetQueue()
 	{
 		get_queue_t::iterator itRegionQueue = loopRegionQueue++;
 
-		const LLUUID& region_id = itRegionQueue->first;
+		const LLUUID region_id = itRegionQueue->first;
 		if (isGetAllPending(region_id))
 		{
 			continue;

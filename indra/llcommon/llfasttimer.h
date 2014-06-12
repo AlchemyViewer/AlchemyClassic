@@ -31,6 +31,14 @@
 #include "lltrace.h"
 #include "lltreeiterators.h"
 
+#if LL_WINDOWS
+#include <intrin.h>
+#endif
+
+#if LL_LINUX
+#include <x86intrin.h>
+#endif
+
 #define LL_FAST_TIMER_ON 1
 #define LL_FASTTIMER_USE_RDTSC 1
 
@@ -63,24 +71,25 @@ public:
 	//
 #if LL_FASTTIMER_USE_RDTSC
 
-#ifdef _WIN64
-	#include <intrin.h>
-
+#if 1
+	// shift off lower 8 bits for lower resolution but longer term timing
+	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
 	static U32 getCPUClockCount32()
 	{
 		U64 time_stamp = __rdtsc();
-		return (U32)(time_stamp >> 8);
+		time_stamp = time_stamp >> 8U;
+		return static_cast<U32>(time_stamp);
 	}
 
 	// return full timer value, *not* shifted by 8 bits
 	static U64 getCPUClockCount64()
 	{
-		return __rdtsc();
+		return static_cast<U64>(__rdtsc());
 	}
 
+#else
 	// shift off lower 8 bits for lower resolution but longer term timing
 	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
-#else
 	static U32 getCPUClockCount32()
 	{
 		U32 ret_val;
@@ -130,41 +139,23 @@ public:
 
 #endif
 
-
-#if (LL_LINUX || LL_SOLARIS) && !(defined(__i386__) || defined(__amd64__))
-	//
-	// Linux and Solaris implementation of CPU clock - non-x86.
-	// This is accurate but SLOW!  Only use out of desperation.
-	//
-	// Try to use the MONOTONIC clock if available, this is a constant time counter
-	// with nanosecond resolution (but not necessarily accuracy) and attempts are
-	// made to synchronize this value between cores at kernel start. It should not
-	// be affected by CPU frequency. If not available use the REALTIME clock, but
-	// this may be affected by NTP adjustments or other user activity affecting
-	// the system time.
-	static U64 getCPUClockCount64()
-	{
-		struct timespec tp;
-
-#ifdef CLOCK_MONOTONIC // MONOTONIC supported at build-time?
-		if (-1 == clock_gettime(CLOCK_MONOTONIC,&tp)) // if MONOTONIC isn't supported at runtime then ouch, try REALTIME
-#endif
-			clock_gettime(CLOCK_REALTIME,&tp);
-
-		return (tp.tv_sec*sClockResolution)+tp.tv_nsec;        
-	}
-
+#if (LL_LINUX || LL_SOLARIS || LL_DARWIN) && (defined(__i386__) || defined(__amd64__))
+#if LL_LINUX && LL_GNUC && LL_FASTTIMER_USE_RDTSC
 	static U32 getCPUClockCount32()
 	{
-		return (U32)(getCPUClockCount64() >> 8);
+		unsigned long long time_stamp = __rdtsc();
+		time_stamp = time_stamp >> 8;
+		return static_cast<U32>(time_stamp);
 	}
 
-#endif // (LL_LINUX || LL_SOLARIS) && !(defined(__i386__) || defined(__amd64__))
-
-
-#if (LL_LINUX || LL_SOLARIS || LL_DARWIN) && (defined(__i386__) || defined(__amd64__))
+	// return full timer value, *not* shifted by 8 bits
+	static U64 getCPUClockCount64()
+	{
+		return static_cast<U64>(__rdtsc());
+	}
+#else
 	//
-	// Mac+Linux+Solaris FAST x86 implementation of CPU clock
+	// MacSolaris FAST x86 implementation of CPU clock
 	static U32 getCPUClockCount32()
 	{
 		U64 x;
@@ -178,7 +169,7 @@ public:
 		__asm__ volatile (".byte 0x0f, 0x31": "=A"(x));
 		return x;
 	}
-
+#endif
 #endif
 
 	static BlockTimerStatHandle& getRootTimeBlock();

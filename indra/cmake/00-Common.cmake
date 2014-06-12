@@ -160,15 +160,8 @@ if (LINUX)
     STRING(REGEX REPLACE ".* ([0-9])\\.([0-9])\\.([0-9]).*" "\\1\\2\\3" CXX_VERSION_NUMBER ${CXX_VERSION})
 
     if(${CXX_VERSION_NUMBER} GREATER 459)
-      set(CMAKE_CXX_FLAGS "-Wno-deprecated -Wno-unused-but-set-variable -Wno-unused-variable ${CMAKE_CXX_FLAGS}")
+      set(CMAKE_CXX_FLAGS "-Wno-unused-but-set-variable -Wno-unused-variable ${CMAKE_CXX_FLAGS}")
     endif (${CXX_VERSION_NUMBER} GREATER 459)
-
-    # gcc 4.3 and above don't like the LL boost and also
-    # cause warnings due to our use of deprecated headers
-    if(${CXX_VERSION_NUMBER} GREATER 429)
-      add_definitions(-Wno-parentheses)
-      set(CMAKE_CXX_FLAGS "-Wno-deprecated ${CMAKE_CXX_FLAGS}")
-    endif (${CXX_VERSION_NUMBER} GREATER 429)
 
     # gcc 4.8 and above added a new spammy warnings!
     if (${CXX_VERSION_NUMBER} GREATER 479)

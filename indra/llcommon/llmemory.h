@@ -34,7 +34,7 @@
 
 class LLMutex ;
 
-#if LL_WINDOWS && LL_DEBUG
+#if LL_WINDOWS && LL_DEBUG && LL_CHECK_MEM
 #define LL_CHECK_MEMORY llassert(_CrtCheckMemory());
 #else
 #define LL_CHECK_MEMORY 
@@ -181,8 +181,6 @@ inline void* ll_aligned_malloc_32(size_t size) // returned hunk MUST be freed wi
 {
 #if defined(LL_WINDOWS)
 	return _aligned_malloc(size, 32);
-#elif defined(LL_DARWIN)
-	return ll_aligned_malloc_fallback( size, 32 );
 #else
 	void *rtn = NULL;
 	if (LL_LIKELY(0 == posix_memalign(&rtn, 32, size)))
@@ -196,8 +194,6 @@ inline void ll_aligned_free_32(void *p)
 {
 #if defined(LL_WINDOWS)
 	_aligned_free(p);
-#elif defined(LL_DARWIN)
-	ll_aligned_free_fallback( p );
 #else
 	free(p); // posix_memalign() is compatible with heap deallocator
 #endif
@@ -207,8 +203,6 @@ inline void* ll_aligned_malloc_64(size_t size) // returned hunk MUST be freed wi
 {
 #if defined(LL_WINDOWS)
 	return _aligned_malloc(size, 64);
-#elif defined(LL_DARWIN)
-	return ll_aligned_malloc_fallback( size, 64 );
 #else
 	void *rtn = NULL;
 	if (LL_LIKELY(0 == posix_memalign(&rtn, 64, size)))
@@ -222,8 +216,6 @@ inline void ll_aligned_free_64(void *p)
 {
 #if defined(LL_WINDOWS)
 	_aligned_free(p);
-#elif defined(LL_DARWIN)
-	ll_aligned_free_fallback( p );
 #else
 	free(p); // posix_memalign() is compatible with heap deallocator
 #endif

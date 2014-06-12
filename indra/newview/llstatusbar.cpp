@@ -110,6 +110,7 @@ static void onClickVolume(void*);
 LLStatusBar::LLStatusBar(const LLRect& rect)
 :	LLPanel(),
 	mTextTime(NULL),
+	mTextFPS(NULL),
 	mSGBandwidth(NULL),
 	mSGPacketLoss(NULL),
 	mBtnStats(NULL),
@@ -165,6 +166,8 @@ BOOL LLStatusBar::postBuild()
 
 	mTextTime = getChild<LLTextBox>("TimeText" );
 	
+	mTextFPS = getChild<LLTextBox>("FPSText");
+
 	getChild<LLUICtrl>("buyL")->setCommitCallback(
 		boost::bind(&LLStatusBar::onClickBuyCurrency, this));
 
@@ -259,6 +262,13 @@ void LLStatusBar::refresh()
 		//mSGBandwidth->setThreshold(2, bwtotal);
 	}
 	
+	if (mFPSUpdateTimer.getElapsedTimeF32() > 0.25f)
+	{
+		mFPSUpdateTimer.reset();
+		F32 fps = (F32)LLTrace::get_frame_recording().getLastRecording().getPerSec(LLStatViewer::FPS);
+		mTextFPS->setValue(llformat("%.1f", fps));
+	}
+
 	// update clock every second
 	if(mClockUpdateTimer.getElapsedTimeF32() > 1.f) // <alchemy/>
 	{

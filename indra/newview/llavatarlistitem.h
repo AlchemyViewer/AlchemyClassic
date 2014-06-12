@@ -84,7 +84,7 @@ public:
 	/**
 	 * Processes notification from speaker indicator to update children when indicator's visibility is changed.
 	 */
-    virtual void handleVisibilityChange ( BOOL new_visibility );
+    virtual void onVisibilityChange ( BOOL new_visibility ); // <alchemy/>
 	virtual S32	notifyParent(const LLSD& info);
 	virtual void onMouseLeave(S32 x, S32 y, MASK mask);
 	virtual void onMouseEnter(S32 x, S32 y, MASK mask);

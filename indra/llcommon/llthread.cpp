@@ -105,7 +105,7 @@ U32 LLThread::sIDIter = 0;
 
 LL_COMMON_API void assert_main_thread()
 {
-	static U32 s_thread_id = LLThread::currentID();
+	static uintptr_t s_thread_id = LLThread::currentID();
 	if (LLThread::currentID() != s_thread_id)
 	{
 		LL_WARNS() << "Illegal execution from thread id " << (S32) LLThread::currentID()

@@ -251,6 +251,15 @@ void getContentViewBounds(NSWindowRef window, float* bounds)
 	bounds[3] = [[(LLNSWindow*)window contentView] bounds].size.height;
 }
 
+void getScaledContentViewBounds(NSWindowRef window, GLViewRef view, float* bounds)
+{
+    NSRect b = [(NSOpenGLView*)view convertRectToBacking:[[(LLNSWindow*)window contentView] bounds]];
+	bounds[0] = b.origin.x;
+	bounds[1] = b.origin.y;
+	bounds[2] = b.size.width;
+	bounds[3] = b.size.height;
+}
+
 void getWindowSize(NSWindowRef window, float* size)
 {
 	NSRect frame = [(LLNSWindow*)window frame];
@@ -450,3 +459,10 @@ unsigned int getModifiers()
 {
 	return [NSEvent modifierFlags];
 }
+
+// [CR:Retina]
+float getScaleFactor(GLViewRef view)
+{
+	return [(LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
+}
+

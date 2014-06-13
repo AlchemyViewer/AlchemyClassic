@@ -165,6 +165,8 @@ public:
 	
 	// Provide native key event data
 	virtual LLSD getNativeKeyData() { return LLSD::emptyMap(); }
+	
+	virtual float getScaleFactor() { return 1.0f; } //[CR:Retina]
 
 protected:
 	LLWindow(LLWindowCallbacks* callbacks, BOOL fullscreen, U32 flags);

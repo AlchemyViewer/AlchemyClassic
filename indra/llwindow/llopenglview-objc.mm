@@ -125,6 +125,12 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowResized:) name:NSWindowDidResizeNotification
 											   object:[self window]];
+	NSRect rect = [[self window] frame];
+	NSRect scaled_rect = [self convertRectToBacking:rect];
+	if (rect.size.height != scaled_rect.size.height || rect.size.width != scaled_rect.size.width)
+	{
+		callResize(scaled_rect.size.width, scaled_rect.size.height);
+	}
 }
 
 - (void)windowResized:(NSNotification *)notification;
@@ -132,7 +138,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_7)
 	{
 		NSSize size = [self frame].size;
-		callResize(size.width, size.height);
+		NSSize scaled_size = [self convertSizeToBacking:size];
+		callResize(scaled_size.width, scaled_size.height);
 	}
 }
 
@@ -194,6 +201,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		NSLog(@"Failed to create OpenGL context!", nil);
 		return nil;
 	}
+    
+    [self setWantsBestResolutionOpenGLSurface:YES];
 	
 	[self setPixelFormat:pixelFormat];
 	
@@ -298,14 +307,18 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
+	// We need a point to be able to convert these.
+	NSPoint delta = NSMakePoint([theEvent deltaX], [theEvent deltaY]);
+	NSPoint scaled_delta = [self convertPointToBacking:delta];
+	
 	float mouseDeltas[2] = {
-		[theEvent deltaX],
-		[theEvent deltaY]
+		scaled_delta.x,
+		scaled_delta.y
 	};
-	
+
 	callDeltaUpdate(mouseDeltas, 0);
-	
-	NSPoint mPoint = [theEvent locationInWindow];
+    
+	NSPoint mPoint = [self convertPointToBacking:[theEvent locationInWindow]];
 	mMousePos[0] = mPoint.x;
 	mMousePos[1] = mPoint.y;
 	callMouseMoved(mMousePos, 0);
@@ -319,14 +332,18 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	// Trust the deltas supplied by NSEvent.
 	// The old CoreGraphics APIs we previously relied on are now flagged as obsolete.
 	// NSEvent isn't obsolete, and provides us with the correct deltas.
+	// We need a point to be able to convert these.
+    NSPoint delta = NSMakePoint([theEvent deltaX], [theEvent deltaY]);
+	NSPoint scaled_delta = [self convertPointToBacking:delta];
+	
 	float mouseDeltas[2] = {
-		[theEvent deltaX],
-		[theEvent deltaY]
+		scaled_delta.x,
+		scaled_delta.y
 	};
 	
 	callDeltaUpdate(mouseDeltas, 0);
 	
-	NSPoint mPoint = [theEvent locationInWindow];
+	NSPoint mPoint = [self convertPointToBacking:[theEvent locationInWindow]];
 	mMousePos[0] = mPoint.x;
 	mMousePos[1] = mPoint.y;
 	callMouseMoved(mMousePos, 0);
@@ -364,24 +381,24 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void) keyDown:(NSEvent *)theEvent
 {
-    uint keycode = [theEvent keyCode];
-    bool acceptsText = mHasMarkedText ? false : callKeyDown(keycode, mModifiers);
-    if (acceptsText &&
-        !mMarkedTextAllowed &&
-        ![(LLAppDelegate*)[NSApp delegate] romanScript] &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSDeleteCharacter &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSBackspaceCharacter &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSDownArrowFunctionKey &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSUpArrowFunctionKey &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSLeftArrowFunctionKey &&
-        [[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSRightArrowFunctionKey)
-    {
-        [(LLAppDelegate*)[NSApp delegate] showInputWindow:true withEvent:theEvent];
-    }
+	uint keycode = [theEvent keyCode];
+	bool acceptsText = mHasMarkedText ? false : callKeyDown(keycode, mModifiers);
+	if (acceptsText &&
+		!mMarkedTextAllowed &&
+		![(LLAppDelegate*)[NSApp delegate] romanScript] &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSDeleteCharacter &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSBackspaceCharacter &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSDownArrowFunctionKey &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSUpArrowFunctionKey &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSLeftArrowFunctionKey &&
+		[[theEvent charactersIgnoringModifiers] characterAtIndex:0] != NSRightArrowFunctionKey)
+	{
+		[(LLAppDelegate*)[NSApp delegate] showInputWindow:true withEvent:theEvent];
+	}
 	else
-    {
-        [[self inputContext] handleEvent:theEvent];
-    }
+	{
+		[[self inputContext] handleEvent:theEvent];
+	}
 }
 
 - (void)flagsChanged:(NSEvent *)theEvent {
@@ -397,7 +414,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 - (NSDragOperation) draggingEntered:(id<NSDraggingInfo>)sender
 {
 	NSPasteboard *pboard;
-    NSDragOperation sourceDragMask;
+	NSDragOperation sourceDragMask;
 	
 	sourceDragMask = [sender draggingSourceOperationMask];
 	
@@ -408,8 +425,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		if (sourceDragMask & NSDragOperationLink) {
 			NSURL *fileUrl = [[pboard readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:[NSDictionary dictionary]] objectAtIndex:0];
 			mLastDraggedUrl = [[fileUrl absoluteString] UTF8String];
-            return NSDragOperationLink;
-        }
+			return NSDragOperationLink;
+		}
 	}
 	return NSDragOperationNone;
 }

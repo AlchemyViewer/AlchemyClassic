@@ -91,8 +91,10 @@ const unsigned short *copyFromPBoard()
 		NSArray *objToPaste = [pboard readObjectsForClasses:classArray options:[NSDictionary dictionary]];
 		str = [objToPaste objectAtIndex:0];
 	}
-	unichar* temp = (unichar*)calloc([str length]+1, sizeof(unichar));
-	[str getCharacters:temp];
+	NSUInteger len = [str length];
+	unichar* temp = (unichar*)calloc(len+1, sizeof(unichar));
+	[str getCharacters:temp range:NSMakeRange(0, len)];
+
 	[pool release];
 	return temp;
 }

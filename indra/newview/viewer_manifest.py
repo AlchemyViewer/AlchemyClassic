@@ -856,7 +856,7 @@ class DarwinManifest(ViewerManifest):
                                                              libfile), libfile)
                 
                 # our apps
-                for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
+                for app_bld_dir, app in (#("mac_crash_logger", "mac-crash-logger.app"),
                                          # plugin launcher
                                          (os.path.join("llplugin", "slplugin"), "SLPlugin.app"),
                                          ):

@@ -493,7 +493,7 @@ void LLIMModel::LLIMSession::onAdHocNameCache(const LLAvatarName& av_name)
 
 	if (!av_name.isValidName())
 	{
-		S32 separator_index = mName.rfind(" ");
+		size_t separator_index = mName.rfind(" ");
 		std::string name = mName.substr(0, separator_index);
 		++separator_index;
 		std::string conference_word = mName.substr(separator_index, mName.length());

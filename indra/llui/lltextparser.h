@@ -49,7 +49,7 @@ public:
 	bool parseFullLineHighlights(const std::string &text, LLColor4 *color);
 
 private:
-	S32  findPattern(const std::string &text, LLSD highlight);
+	std::string::size_type  findPattern(const std::string &text, LLSD highlight); // <alchemy/>
 	std::string getFileName();
 	void loadKeywords();
 	bool saveToDisk(LLSD highlights);

@@ -756,8 +756,8 @@ void LLFloaterIMNearbyChat::sendChatFromViewer(const LLWString &wtext, EChatType
 bool LLFloaterIMNearbyChat::isWordsName(const std::string& name)
 {
 	// checking to see if it's display name plus username in parentheses
-	S32 open_paren = name.find(" (", 0);
-	S32 close_paren = name.find(')', 0);
+	size_t open_paren = name.find(" (", 0);
+	size_t close_paren = name.find(')', 0);
 
 	if (open_paren != std::string::npos &&
 		close_paren == name.length()-1)
@@ -767,7 +767,7 @@ bool LLFloaterIMNearbyChat::isWordsName(const std::string& name)
 	else
 	{
 		//checking for a single space
-		S32 pos = name.find(' ', 0);
+		size_t pos = name.find(' ', 0);
 		return std::string::npos != pos && name.rfind(' ', name.length()) == pos && 0 != pos && name.length()-1 != pos;
 	}
 }

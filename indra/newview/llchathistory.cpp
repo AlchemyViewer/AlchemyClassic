@@ -395,8 +395,8 @@ public:
 				 mSourceType == CHAT_SOURCE_AGENT)
 		{
 			//if it's an avatar name with a username add formatting
-			S32 username_start = chat.mFromName.rfind(" (");
-			S32 username_end = chat.mFromName.rfind(')');
+			size_t username_start = chat.mFromName.rfind(" (");
+			size_t username_end = chat.mFromName.rfind(')');
 			
 			if (username_start != std::string::npos &&
 				username_end == (chat.mFromName.length() - 1))

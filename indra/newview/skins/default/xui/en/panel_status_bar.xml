@@ -39,7 +39,7 @@
     </panel.string>
   <panel
     height="18"
-    left="-304"
+    left="-337"
     width="95"
     top="1"
     follows="right|top" 
@@ -135,4 +135,18 @@
      top="2"
      name="volume_btn"
      width="16" />
+      <text
+     type="string"
+     font="SansSerifLarge"
+     text_color="BeaconColor"
+     follows="right|top"
+     halign="right"
+     height="16"
+     layout="topleft"
+     left_pad="0"
+     name="FPSText"
+     tool_tip="Current FPS(Frames Per Second)"
+     width="35">
+        00.0
+    </text>
 </panel>

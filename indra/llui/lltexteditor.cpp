@@ -385,11 +385,11 @@ void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insen
 	
 //	S32 loc = text.find(search_text,mCursorPos);
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	S32 loc = (search_up) ? text.rfind(search_text, llmax(0, mCursorPos - (S32)search_text.size())) : text.find(search_text,mCursorPos);
+	size_t loc = (search_up) ? text.rfind(search_text, llmax(0, mCursorPos - (S32)search_text.size())) : text.find(search_text,mCursorPos);
 // [/SL:KB]
 	
 	// If Maybe we wrapped, search again
-	if (wrap && (-1 == loc))
+	if (wrap && (std::string::npos == loc))
 	{	
 //		loc = text.find(search_text);
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-10-29 (Catznip-3.0.0) | Added: Catznip-2.3.0
@@ -398,7 +398,7 @@ void LLTextEditor::selectNext(const std::string& search_text_in, BOOL case_insen
 	}
 	
 	// If still -1, then search_text just isn't found.
-    if (-1 == loc)
+    if (std::string::npos == loc)
 	{
 		mIsSelecting = FALSE;
 		mSelectionEnd = 0;
@@ -1530,7 +1530,7 @@ void LLTextEditor::pasteTextWithLinebreaks(LLWString & clean_string)
 	std::basic_string<llwchar>::size_type start = 0;
 	std::basic_string<llwchar>::size_type pos = clean_string.find('\n',start);
 	
-	while((pos != -1) && (pos != clean_string.length() -1))
+	while((pos != std::basic_string<llwchar>::npos) && (pos != clean_string.length() -1))
 	{
 		if(pos!=start)
 		{
@@ -1803,7 +1803,7 @@ BOOL LLTextEditor::handleKeyHere(KEY key, MASK mask )
 				}
 
 				std::basic_string<llwchar>::size_type pos = tool_tip_text.find('\n',0);
-				if (pos != -1)
+				if (pos != std::basic_string<llwchar>::npos)
 				{	// Extract the first line of the tooltip
 					tool_tip_text = std::basic_string<llwchar>(tool_tip_text, 0, pos);
 				}

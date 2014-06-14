@@ -1581,14 +1581,17 @@
                  function="Floater.Toggle"
                  parameter="stats" />
             </menu_item_check>
-            <menu_item_call
+            <menu_item_check
              label="Scene Load Statistics"
              name="Scene Load Statistics"
              shortcut="control|shift|2">
-                <on_click
-                 function="Floater.Show"
+                <menu_item_check.on_check
+                 function="Floater.Visible"
                  parameter="scene_load_stats" />
-            </menu_item_call>
+                <menu_item_check.on_click
+                 function="Floater.Toggle"
+                 parameter="scene_load_stats" />
+            </menu_item_check>
       <menu_item_check
         label="Show Draw Weight for Avatars"
         name="Avatar Rendering Cost">
@@ -2170,14 +2173,17 @@
                  function="Advanced.ToggleConsole"
                  parameter="debug" />
             </menu_item_check>
-            <menu_item_call
+            <menu_item_check
              label="Notifications Console"
              name="Notifications"
              shortcut="control|shift|5">
-              <menu_item_call.on_click
+              <menu_item_check.on_check
+               function="Floater.Visible"
+               parameter="notifications_console" />
+              <menu_item_check.on_click
                function="Floater.Toggle"
                parameter="notifications_console" />
-            </menu_item_call>
+            </menu_item_check>
             <menu_item_check
              label="Fast Timers"
              name="Fast Timers"

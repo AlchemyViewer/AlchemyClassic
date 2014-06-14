@@ -46,7 +46,7 @@ LLTextParser::LLTextParser()
 {}
 
 
-S32 LLTextParser::findPattern(const std::string &text, LLSD highlight)
+std::string::size_type LLTextParser::findPattern(const std::string &text, LLSD highlight) // <alchemy/>
 {
 	if (!highlight.has("pattern")) return -1;
 	
@@ -59,7 +59,7 @@ S32 LLTextParser::findPattern(const std::string &text, LLSD highlight)
 		pattern= utf8str_tolower(pattern);
 	}
 
-	size_t found=std::string::npos;
+	std::string::size_type found = std::string::npos;
 	
 	switch ((S32)highlight["condition"])
 	{
@@ -73,7 +73,7 @@ S32 LLTextParser::findPattern(const std::string &text, LLSD highlight)
 			found = (! ltext.find(pattern) ? 0 : std::string::npos);
 			break;
 		case ENDS_WITH:
-			S32 pos = ltext.rfind(pattern); 
+			std::string::size_type pos = ltext.rfind(pattern);
 			if (pos >= 0 && (ltext.length()-pattern.length()==pos)) found = pos;
 			break;
 	}
@@ -96,11 +96,11 @@ LLSD LLTextParser::parsePartialLineHighlights(const std::string &text, const LLC
 			     (condition==ENDS_WITH   && part==END)   ||
 				  condition==CONTAINS    || part==WHOLE )
 			{
-				S32 start = findPattern(text,mHighlights[i]);
-				if (start >= 0 )
+				size_t start = findPattern(text,mHighlights[i]);
+				if (start != std::string::npos )
 				{
-					S32 end =  std::string(mHighlights[i]["pattern"]).length();
-					S32 len = text.length();
+					size_t end =  std::string(mHighlights[i]["pattern"]).length();
+					size_t len = text.length();
 					EHighlightPosition newpart;
 					if (start==0)
 					{

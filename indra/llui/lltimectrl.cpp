@@ -322,7 +322,7 @@ LLTimeCtrl::EEditingPart LLTimeCtrl::getEditingPart()
 	S32 cur_pos = mEditor->getCursor();
 	std::string time_str = mEditor->getText();
 
-	S32 colon_index = time_str.find_first_of(':');
+	size_t colon_index = time_str.find_first_of(':');
 
 	if (cur_pos <= colon_index)
 	{

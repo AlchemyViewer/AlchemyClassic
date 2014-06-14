@@ -142,7 +142,7 @@ BOOL  LLAvatarListItem::postBuild()
 	return TRUE;
 }
 
-void LLAvatarListItem::handleVisibilityChange ( BOOL new_visibility )
+void LLAvatarListItem::onVisibilityChange ( BOOL new_visibility ) // <alchemy/>
 {
     //Adjust positions of icons (info button etc) when 
     //speaking indicator visibility was changed/toggled while panel was closed (not visible)

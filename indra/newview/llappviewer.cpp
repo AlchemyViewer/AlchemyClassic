@@ -3308,7 +3308,7 @@ LLSD LLAppViewer::getViewerInfo() const
 #endif
 
 	// <alchemy>
-#if _x86_64 || _WIN64
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
 	info["BUILD_ARCH"] = "x64";
 #else
 	info["BUILD_ARCH"] = "x86";

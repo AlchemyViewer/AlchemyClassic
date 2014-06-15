@@ -231,9 +231,9 @@ BOOL LLPolyMeshSharedData::allocateVertexData( U32 numVertices )
         mBaseCoords = (LLVector4a*) ll_aligned_malloc_16(numVertices*sizeof(LLVector4a));
         mBaseNormals = (LLVector4a*) ll_aligned_malloc_16(numVertices*sizeof(LLVector4a));
         mBaseBinormals = (LLVector4a*) ll_aligned_malloc_16(numVertices*sizeof(LLVector4a));
-        mTexCoords = (LLVector2*) ll_aligned_malloc_16(numVertices*sizeof(LLVector2));
+        mTexCoords = (LLVector2*) ll_aligned_malloc_16((numVertices*sizeof(LLVector2) + 0xF) & ~0xF);
         mDetailTexCoords = (LLVector2*) ll_aligned_malloc_16(numVertices*sizeof(LLVector2));
-        mWeights = (F32*) ll_aligned_malloc_16(numVertices*sizeof(F32));
+        mWeights = (F32*) ll_aligned_malloc_16((numVertices*sizeof(F32) + 0xF) & ~0xF);
         for (i = 0; i < numVertices; i++)
         {
 			mBaseCoords[i].clear();
@@ -980,7 +980,7 @@ void LLPolyMesh::initializeForMorph()
 	LLVector4a::memcpyNonAliased16((F32*) mScaledNormals, (F32*) mSharedData->mBaseNormals, sizeof(LLVector4a) * mSharedData->mNumVertices);
 	LLVector4a::memcpyNonAliased16((F32*) mBinormals, (F32*) mSharedData->mBaseNormals, sizeof(LLVector4a) * mSharedData->mNumVertices);
 	LLVector4a::memcpyNonAliased16((F32*) mScaledBinormals, (F32*) mSharedData->mBaseNormals, sizeof(LLVector4a) * mSharedData->mNumVertices);
-	memcpy(mTexCoords, mSharedData->mTexCoords, sizeof(LLVector2) * mSharedData->mNumVertices);
+	LLVector4a::memcpyNonAliased16((F32*) mTexCoords, (F32*) mSharedData->mTexCoords, sizeof(LLVector2) * (mSharedData->mNumVertices + mSharedData->mNumVertices%2));
 
 	for (U32 i = 0; i < mSharedData->mNumVertices; ++i)
 	{

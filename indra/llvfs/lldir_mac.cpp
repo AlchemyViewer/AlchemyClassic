@@ -134,8 +134,13 @@ LLDir_Mac::LLDir_Mac()
 		
 		{
             mOSCacheDir = *cachedir;
+#if defined(__amd64__) || defined(__x86_64__)
+            //TODO:  This changes from ~/Library/Cache/Secondlife to ~/Library/Cache/com.app.secondlife/Secondlife.  Last dir level could go away.
+            CreateDirectory(mOSCacheDir, secondLifeString + "64", NULL);
+#else
             //TODO:  This changes from ~/Library/Cache/Secondlife to ~/Library/Cache/com.app.secondlife/Secondlife.  Last dir level could go away.
             CreateDirectory(mOSCacheDir, secondLifeString, NULL);
+#endif
 		}
 		
 		// mOSUserAppDir

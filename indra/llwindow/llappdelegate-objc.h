@@ -27,6 +27,9 @@
 #import <Cocoa/Cocoa.h>
 #import "llopenglview-objc.h"
 
+@interface LLNSApplication : NSApplication
+@end
+
 @interface LLAppDelegate : NSObject <NSApplicationDelegate> {
 	LLNSWindow *window;
 	NSWindow *inputWindow;

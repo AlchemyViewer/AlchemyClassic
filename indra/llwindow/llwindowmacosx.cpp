@@ -804,7 +804,7 @@ BOOL LLWindowMacOSX::getSize(LLCoordScreen *size)
 	}
 	else if(mWindow)
 	{
-		getContentViewBounds(mWindow, rect);
+		getScaledContentViewBounds(mWindow, mGLView, rect);
 
 		size->mX = rect[2];
 		size->mY = rect[3];
@@ -830,7 +830,7 @@ BOOL LLWindowMacOSX::getSize(LLCoordWindow *size)
 	}
 	else if(mWindow)
 	{
-		getContentViewBounds(mWindow, rect);
+		getScaledContentViewBounds(mWindow, mGLView, rect);
 		
 		size->mX = rect[2];
 		size->mY = rect[3];
@@ -1066,9 +1066,9 @@ BOOL LLWindowMacOSX::getCursorPosition(LLCoordWindow *position)
 		cursor_point[0] += mCursorLastEventDeltaX;
 		cursor_point[1] += mCursorLastEventDeltaY;
 	}
-
-	position->mX = cursor_point[0];
-	position->mY = cursor_point[1];
+    float scale = getScaleFactor();
+	position->mX = cursor_point[0] * scale;
+	position->mY = cursor_point[1] * scale;
 
 	return TRUE;
 }
@@ -1253,14 +1253,14 @@ BOOL LLWindowMacOSX::convertCoords(LLCoordScreen from, LLCoordWindow* to)
 	if(mWindow)
 	{
 		float mouse_point[2];
-
+        float scale_factor = getScaleFactor();
 		mouse_point[0] = from.mX;
 		mouse_point[1] = from.mY;
 		
 		convertScreenToWindow(mWindow, mouse_point);
 
-		to->mX = mouse_point[0];
-		to->mY = mouse_point[1];
+		to->mX = mouse_point[0] * scale_factor;
+		to->mY = mouse_point[1] * scale_factor;
 
 		return TRUE;
 	}
@@ -1272,9 +1272,9 @@ BOOL LLWindowMacOSX::convertCoords(LLCoordWindow from, LLCoordScreen *to)
 	if(mWindow)
 	{
 		float mouse_point[2];
-
-		mouse_point[0] = from.mX;
-		mouse_point[1] = from.mY;
+        float scale_factor = getScaleFactor();
+		mouse_point[0] = from.mX / scale_factor;
+		mouse_point[1] = from.mY / scale_factor;
 		convertWindowToScreen(mWindow, mouse_point);
 
 		to->mX = mouse_point[0];
@@ -1839,6 +1839,12 @@ MASK LLWindowMacOSX::modifiersToMask(S16 modifiers)
 	if(modifiers & (MAC_CMD_KEY | MAC_CTRL_KEY)) { mask |= MASK_CONTROL; }
 	if(modifiers & MAC_ALT_KEY) { mask |= MASK_ALT; }
 	return mask;
+}
+
+//[CR:Retina]
+F32 LLWindowMacOSX::getScaleFactor()
+{
+	return ::getScaleFactor(mGLView);
 }
 
 #if LL_OS_DRAGDROP_ENABLED

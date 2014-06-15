@@ -28,6 +28,19 @@
 #include "llwindowmacosx-objc.h"
 #include <Carbon/Carbon.h> // Used for Text Input Services ("Safe" API - it's supported)
 
+
+@implementation LLNSApplication
+
+- (void)sendEvent:(NSEvent *)event {
+	// Fuck you, conventions!
+    if ([event type] == NSKeyUp && ([event modifierFlags] & NSCommandKeyMask))
+        [[self keyWindow] sendEvent:event];
+    else
+        [super sendEvent:event];
+}
+
+@end
+
 @implementation LLAppDelegate
 
 @synthesize window;

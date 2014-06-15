@@ -91,8 +91,10 @@ const unsigned short *copyFromPBoard()
 		NSArray *objToPaste = [pboard readObjectsForClasses:classArray options:[NSDictionary dictionary]];
 		str = [objToPaste objectAtIndex:0];
 	}
-	unichar* temp = (unichar*)calloc([str length]+1, sizeof(unichar));
-	[str getCharacters:temp];
+	NSUInteger len = [str length];
+	unichar* temp = (unichar*)calloc(len+1, sizeof(unichar));
+	[str getCharacters:temp range:NSMakeRange(0, len)];
+
 	[pool release];
 	return temp;
 }
@@ -249,6 +251,15 @@ void getContentViewBounds(NSWindowRef window, float* bounds)
 	bounds[1] = [[(LLNSWindow*)window contentView] bounds].origin.y;
 	bounds[2] = [[(LLNSWindow*)window contentView] bounds].size.width;
 	bounds[3] = [[(LLNSWindow*)window contentView] bounds].size.height;
+}
+
+void getScaledContentViewBounds(NSWindowRef window, GLViewRef view, float* bounds)
+{
+    NSRect b = [(NSOpenGLView*)view convertRectToBacking:[[(LLNSWindow*)window contentView] bounds]];
+	bounds[0] = b.origin.x;
+	bounds[1] = b.origin.y;
+	bounds[2] = b.size.width;
+	bounds[3] = b.size.height;
 }
 
 void getWindowSize(NSWindowRef window, float* size)
@@ -450,3 +461,10 @@ unsigned int getModifiers()
 {
 	return [NSEvent modifierFlags];
 }
+
+// [CR:Retina]
+float getScaleFactor(GLViewRef view)
+{
+	return [(LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
+}
+

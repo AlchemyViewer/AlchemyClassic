@@ -27,6 +27,12 @@
 #ifndef LL_LLKDUMEM_H
 #define LL_LLKDUMEM_H
 
+// [CR] Clang doesn't like Kakadu!
+#ifdef LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+#endif
+
 // Support classes for reading and writing from memory buffers in KDU
 #define KDU_NO_THREADS
 #include "kdu_image.h"
@@ -37,6 +43,10 @@
 #include "kdu_sample_processing.h"
 #include "image_local.h"
 #include "stdtypes.h"
+
+#ifdef LL_CLANG
+#pragma clang diagnostic pop
+#endif
 
 class LLKDUMemSource: public kdu_compressed_source
 {

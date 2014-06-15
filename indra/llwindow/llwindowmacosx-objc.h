@@ -74,6 +74,7 @@ void showNSCursor();
 void hideNSCursorTillMove(bool hide);
 void requestUserAttention();
 long showAlert(std::string title, std::string text, int type);
+float getScaleFactor(GLViewRef view); //[CR:Retina]
 
 NSWindowRef createNSWindow(int x, int y, int width, int height);
 
@@ -83,6 +84,7 @@ void glSwapBuffers(void* context);
 CGLContextObj getCGLContextObj(GLViewRef view);
 unsigned long getVramSize(GLViewRef view);
 void getContentViewBounds(NSWindowRef window, float* bounds);
+void getScaledContentViewBounds(NSWindowRef window, GLViewRef view, float* bounds);
 void getWindowSize(NSWindowRef window, float* size);
 void setWindowSize(NSWindowRef window, int width, int height);
 void getCursorPos(NSWindowRef window, float* pos);

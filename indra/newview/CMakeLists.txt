@@ -1312,6 +1312,10 @@ if (DARWIN)
 
   # This should be compiled with the viewer.
   LIST(APPEND viewer_SOURCE_FILES llappdelegate-objc.mm)
+  
+  #OSX 10.8 Notification Center
+  LIST(APPEND viewer_SOURCE_FILES llosxnotificationcenter.mm)
+  LIST(APPEND viewer_HEADER_FILES llosxnotificationcenter.h)
 
   find_library(AGL_LIBRARY AGL)
   find_library(APPKIT_LIBRARY AppKit)

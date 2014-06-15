@@ -1768,9 +1768,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd42f49f2977ce4aa9bbd04b39999f08</string>
+              <string>9d061816100a5318c9f3a21bd457ef82</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/openjpeg-1.4-darwin-20140524u.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/openjpeg-1.5.1-darwin-20140614u.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

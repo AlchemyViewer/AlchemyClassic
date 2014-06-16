@@ -119,6 +119,10 @@
 
 #include "llnotificationmanager.h" //
 
+#if LL_DARWIN
+#include "llosxnotificationcenter.h"
+#endif
+
 #if LL_MSVC
 // disable boost::lexical_cast warning
 #pragma warning (disable:4702)
@@ -3320,6 +3324,19 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	{
 		viewer_window->flashIcon(5.f);
 	}
+	
+#if LL_DARWIN
+	// We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
+	static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
+	if (sOSXNotifications
+		&& !chat.mMuted
+		&& (dialog != IM_CONSOLE_AND_CHAT_HISTORY &&
+			dialog != IM_TYPING_START &&
+			dialog != IM_TYPING_STOP))
+	{
+		LLOSXNotificationCenter::sendNotification(chat.mFromName, chat.mText);
+	}
+#endif //LL_DARWIN
 }
 
 void send_do_not_disturb_message (LLMessageSystem* msg, const LLUUID& from_id, const LLUUID& session_id)

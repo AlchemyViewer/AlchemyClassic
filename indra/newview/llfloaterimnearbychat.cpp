@@ -470,7 +470,11 @@ void LLFloaterIMNearbyChat::onChatBoxKeystroke()
 
 	S32 length = raw_text.length();
 
-	if( (length > 0) && (raw_text[0] != '/') )  // forward slash is used for escape (eg. emote) sequences
+	if( (length > 0)
+	    && ((raw_text[0] != '/')		// forward slash is used for escape (eg. emote) sequences
+		    || (raw_text[0] != ':'))	// colon is used in for MUD poses
+	  )
+	
 	{
 		gAgent.startTyping();
 	}
@@ -594,6 +598,8 @@ void LLFloaterIMNearbyChat::sendChat( EChatType type )
 			std::string utf8_revised_text;
 			if (0 == channel)
 			{
+				applyMUPose(utf8text);
+				
 				// discard returned "found" boolean
 				if(!LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text))
 				{

@@ -384,7 +384,6 @@ static bool handleRepartition(const LLSD&)
 	if (gPipeline.isInit())
 	{
 		gOctreeMaxCapacity = gSavedSettings.getU32("OctreeMaxNodeCapacity");
-		gOctreeMinSize = gSavedSettings.getF32("OctreeMinimumNodeSize");
 		gObjectList.repartitionObjects();
 	}
 	return true;

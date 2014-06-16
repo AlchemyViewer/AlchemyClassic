@@ -157,7 +157,6 @@ set(llcommon_HEADER_FILES
     llframetimer.h
     llhandle.h
     llheartbeat.h
-    llhttpstatuscodes.h
     llindexedvector.h
     llinitparam.h
     llinstancetracker.h

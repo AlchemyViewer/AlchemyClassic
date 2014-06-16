@@ -80,13 +80,13 @@ BOOL LLEmote::onActivate()
 	LLVisualParam* default_param = mCharacter->getVisualParam( "Express_Closed_Mouth" );
 	if( default_param )
 	{
-		default_param->setWeight( default_param->getMaxWeight(), FALSE );
+		default_param->setWeight( default_param->getMaxWeight());
 	}
 
 	mParam = mCharacter->getVisualParam(mName.c_str());
 	if (mParam)
 	{
-		mParam->setWeight(0.f, FALSE);
+		mParam->setWeight(0.f);
 		mCharacter->updateVisualParams();
 	}
 	
@@ -102,7 +102,7 @@ BOOL LLEmote::onUpdate(F32 time, U8* joint_mask)
 	if( mParam )
 	{
 		F32 weight = mParam->getMinWeight() + mPose.getWeight() * (mParam->getMaxWeight() - mParam->getMinWeight());
-		mParam->setWeight(weight, FALSE);
+		mParam->setWeight(weight);
 
 		// Cross fade against the default parameter
 		LLVisualParam* default_param = mCharacter->getVisualParam( "Express_Closed_Mouth" );
@@ -111,7 +111,7 @@ BOOL LLEmote::onUpdate(F32 time, U8* joint_mask)
 			F32 default_param_weight = default_param->getMinWeight() + 
 				(1.f - mPose.getWeight()) * ( default_param->getMaxWeight() - default_param->getMinWeight() );
 			
-			default_param->setWeight( default_param_weight, FALSE );
+			default_param->setWeight( default_param_weight);
 		}
 
 		mCharacter->updateVisualParams();
@@ -128,13 +128,13 @@ void LLEmote::onDeactivate()
 {
 	if( mParam )
 	{
-		mParam->setWeight( mParam->getDefaultWeight(), FALSE );
+		mParam->setWeight( mParam->getDefaultWeight());
 	}
 
 	LLVisualParam* default_param = mCharacter->getVisualParam( "Express_Closed_Mouth" );
 	if( default_param )
 	{
-		default_param->setWeight( default_param->getMaxWeight(), FALSE );
+		default_param->setWeight( default_param->getMaxWeight());
 	}
 
 	mCharacter->updateVisualParams();

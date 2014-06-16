@@ -2639,7 +2639,7 @@ void LLViewerObject::doUpdateInventory(
 	LLViewerInventoryItem* old_item = NULL;
 	if(TASK_INVENTORY_ITEM_KEY == key)
 	{
-		old_item = (LLViewerInventoryItem*)getInventoryObject(item->getUUID());
+		old_item = dynamic_cast<LLViewerInventoryItem*>(getInventoryObject(item->getUUID()));
 	}
 	else if(TASK_INVENTORY_ASSET_KEY == key)
 	{

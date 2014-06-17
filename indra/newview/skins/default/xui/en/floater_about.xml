@@ -201,7 +201,7 @@ AlchemyViewer is brought to you by the Alchemy Development Group:
        top_pad="10"
        width="435"
        word_wrap="true">
-Sovereign Engineer, Inusaito Kanya, Luminous Luminos, Miguael Liamano, Captains Ghost
+Sovereign Engineer, Inusaito Kanya, Luminous Luminos,
       </text_editor>
       <text
           follows="top|left"
@@ -226,9 +226,9 @@ with open source code from:
        top_pad="10"
        width="435"
        word_wrap="true">
-Viewer Projects: Catznip, Exodus, Firestorm, Singularity
-Companies: Simudyne
-People: Cinder Roxley, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard
+        Viewer Projects: Catznip, Exodus, Firestorm, Singularity
+        Companies: Simudyne
+        People: Cinder Roxley, Miguael Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard
       </text_editor>
       <text
           follows="top|left"

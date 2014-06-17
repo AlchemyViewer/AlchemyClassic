@@ -67,7 +67,8 @@ if (WINDOWS)
   set_target_properties(
     media_plugin_example
     PROPERTIES
-    LINK_FLAGS "/MANIFEST:NO"
+    LINK_FLAGS "/MANIFEST:NO /NODEFAULTLIB:LIBCMT"
+    LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
     )
 endif (WINDOWS)
 

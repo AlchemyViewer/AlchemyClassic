@@ -53,7 +53,8 @@ add_executable(SLPlugin
 if (WINDOWS)
 set_target_properties(SLPlugin
   PROPERTIES
-  LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMTD\""
+  LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
+  LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
   )
 else ()
 set_target_properties(SLPlugin

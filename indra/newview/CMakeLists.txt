@@ -1654,7 +1654,7 @@ file(GLOB EVENT_HOST_SCRIPT_GLOB_LIST
 list(APPEND EVENT_HOST_SCRIPTS ${EVENT_HOST_SCRIPT_GLOB_LIST})
 
 set(PACKAGE ON CACHE BOOL
-    "Add a package target that builds an installer package.")
+    "Add a package_viewer target that builds an installer package.")
 
 if (WINDOWS)
     set_target_properties(${VIEWER_BINARY_NAME}
@@ -1899,7 +1899,7 @@ if (WINDOWS)
             ${COPY_INPUT_DEPENDENCIES}
         )
 
-      add_custom_target(package ALL DEPENDS
+      add_custom_target(package_viewer ALL DEPENDS
         ${CMAKE_CFG_INTDIR}/touched.bat
         windows-setup-build-all
         generate_viewer_version
@@ -2044,10 +2044,10 @@ if (LINUX)
   add_custom_target(copy_l_viewer_manifest ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/.${product}.copy_touched)
 
   if (PACKAGE)
-    add_custom_target(package ALL DEPENDS ${product}.tar.xz)
+    add_custom_target(package_viewer ALL DEPENDS ${product}.tar.xz)
     # Make sure we don't run two instances of viewer_manifest.py at the same time.
-    add_dependencies(package copy_l_viewer_manifest)
-    check_message_template(package)
+    add_dependencies(package_viewer copy_l_viewer_manifest)
+    check_message_template(package_viewer)
   endif (PACKAGE)
 endif (LINUX)
 
@@ -2109,11 +2109,11 @@ if (DARWIN)
   endif (ENABLE_SIGNING)
 
   if (PACKAGE)
-      add_custom_target(package ALL DEPENDS ${VIEWER_BINARY_NAME})
-      add_dependencies(package generate_viewer_version)
+      add_custom_target(package_viewer ALL DEPENDS ${VIEWER_BINARY_NAME})
+      add_dependencies(package_viewer generate_viewer_version)
 
       add_custom_command(
-        TARGET package POST_BUILD
+        TARGET package_viewer POST_BUILD
         COMMAND ${PYTHON_EXECUTABLE}
         ARGS
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
@@ -2195,7 +2195,7 @@ if (PACKAGE)
 
   add_custom_target(generate_breakpad_symbols DEPENDS "${VIEWER_SYMBOL_FILE}")
   add_dependencies(generate_breakpad_symbols "${VIEWER_BINARY_NAME}" "${VIEWER_COPY_MANIFEST}")
-  add_dependencies(package generate_breakpad_symbols)
+  add_dependencies(package_viewer generate_breakpad_symbols)
   endif(RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING)
 endif (PACKAGE)
 

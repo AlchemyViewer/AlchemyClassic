@@ -12,6 +12,7 @@ include(LLCommon)
 include(LLMath)
 include(LLMessage)
 include(LLVFS)
+include(LLXML)
 
 include_directories(
     ${LLAUDIO_INCLUDE_DIRS}
@@ -19,6 +20,7 @@ include_directories(
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
     ${OGG_INCLUDE_DIRS}
     ${VORBISENC_INCLUDE_DIRS}
     ${VORBISFILE_INCLUDE_DIRS}
@@ -102,6 +104,7 @@ target_link_libraries(
     ${LLMATH_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLVFS_LIBRARIES}
+    ${LLXML_LIBRARIES}
     ${VORBISENC_LIBRARIES}
     ${VORBISFILE_LIBRARIES}
     ${VORBIS_LIBRARIES}

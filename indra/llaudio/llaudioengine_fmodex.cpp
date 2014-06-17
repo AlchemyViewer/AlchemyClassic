@@ -40,9 +40,9 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 #include "lldir.h"
-#include "llapr.h"
+#include "llcontrol.h"
 
-#include "sound_ids.h"
+extern LLControlGroup gSavedSettings;
 
 FMOD_RESULT F_CALLBACK windCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int outchannels);
 
@@ -99,6 +99,11 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 {
 	U32 version;
 	FMOD_RESULT result;
+	S32 numdrivers;
+	S32 samplerate;
+	FMOD_SPEAKERMODE speakermode;
+	FMOD_DSP_RESAMPLER resampler;
+	FMOD_SOUND_FORMAT soundformat;
 
 	LL_DEBUGS("AppInit") << "LLAudioEngine_FMODEX::init() initializing FMOD" << LL_ENDL;
 
@@ -125,12 +130,61 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 			<< ")!  You should be using FMOD Ex" << FMOD_VERSION << LL_ENDL;
 	}
 
-	result = mSystem->setSoftwareFormat(44100, FMOD_SOUND_FORMAT_PCM16, 0, 0, FMOD_DSP_RESAMPLER_LINEAR);
-	Check_FMOD_Error(result,"FMOD::System::setSoftwareFormat");
-
 	// In this case, all sounds, PLUS wind and stream will be software.
 	result = mSystem->setSoftwareChannels(num_channels + 2);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
+
+	result = mSystem->getNumDrivers(&numdrivers);
+	Check_FMOD_Error(result, "FMOD::System::getNumDrivers");
+	if (numdrivers == 0)
+	{
+		result = mSystem->setOutput(FMOD_OUTPUTTYPE_NOSOUND);
+		Check_FMOD_Error(result, "FMOD::System::setOutput");
+	}
+	else
+	{
+		switch (gSavedSettings.getU32("FMODExSoundFormat"))
+		{
+		default:
+		case 0:
+			soundformat = FMOD_SOUND_FORMAT_PCM16;
+			break;
+		case 1:
+			soundformat = FMOD_SOUND_FORMAT_PCM24;
+			break;
+		case 2:
+			soundformat = FMOD_SOUND_FORMAT_PCM32;
+			break;
+		case 3:
+			soundformat = FMOD_SOUND_FORMAT_PCMFLOAT;
+			break;
+
+		}
+
+		switch (gSavedSettings.getU32("FMODExResampler"))
+		{
+		default:
+		case 0:
+			resampler = FMOD_DSP_RESAMPLER_LINEAR;
+			break;
+		case 1:
+			resampler = FMOD_DSP_RESAMPLER_CUBIC;
+			break;
+		case 2:
+			resampler = FMOD_DSP_RESAMPLER_SPLINE;
+			break;
+		}
+
+		result = mSystem->getDriverCaps(0, 0, &samplerate, &speakermode);
+		Check_FMOD_Error(result, "FMOD::System::getDriverCaps");
+
+		bool use_system_sample = gSavedSettings.getBOOL("FMODExUseSystemSampleRate");
+		result = mSystem->setSoftwareFormat(use_system_sample ? samplerate : 48000, soundformat, 0, 0, resampler);
+		Check_FMOD_Error(result, "FMOD::System::setSoftwareFormat");
+
+		result = mSystem->setSpeakerMode(speakermode);
+		Check_FMOD_Error(result, "FMOD::System::setSpeakerMode");
+	}
 
 	U32 fmod_flags = FMOD_INIT_NORMAL;
 	if(mEnableProfiler)
@@ -237,6 +291,8 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	result = mSystem->init( num_channels + 2, fmod_flags, 0);
 	if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
 	{
+		result = mSystem->setSoftwareFormat(48000, FMOD_SOUND_FORMAT_PCM16, 0, 0, FMOD_DSP_RESAMPLER_LINEAR);
+		Check_FMOD_Error(result, "FMOD::System::setSoftwareFormat");
 		/*
 		Ok, the speaker mode selected isn't supported by this soundcard. Switch it
 		back to stereo...

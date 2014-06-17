@@ -195,7 +195,7 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 		}
 
 		bool use_system_sample = gSavedSettings.getBOOL("FMODExUseSystemSampleRate");
-		result = mSystem->setSoftwareFormat(use_system_sample ? samplerate : 48000, soundformat, 0, 0, resampler);
+		result = mSystem->setSoftwareFormat(use_system_sample ? samplerate : 44100, soundformat, 0, 0, resampler);
 		Check_FMOD_Error(result, "FMOD::System::setSoftwareFormat");
 
 		if (!gSavedSettings.getBOOL("FMODExForceStereo"))

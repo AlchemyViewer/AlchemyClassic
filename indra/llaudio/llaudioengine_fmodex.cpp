@@ -100,10 +100,6 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	U32 version;
 	FMOD_RESULT result;
 	S32 numdrivers;
-	S32 samplerate;
-	FMOD_SPEAKERMODE speakermode;
-	FMOD_DSP_RESAMPLER resampler;
-	FMOD_SOUND_FORMAT soundformat;
 
 	LL_DEBUGS("AppInit") << "LLAudioEngine_FMODEX::init() initializing FMOD" << LL_ENDL;
 
@@ -120,7 +116,7 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 
 	//will call LLAudioEngine_FMODEX::allocateListener, which needs a valid mSystem pointer.
 	LLAudioEngine::init(num_channels, userdata);	
-	
+
 	result = mSystem->getVersion(&version);
 	Check_FMOD_Error(result, "FMOD::System::getVersion");
 
@@ -134,6 +130,12 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	result = mSystem->setSoftwareChannels(num_channels + 2);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
 
+#if LL_WINDOWS || LL_DARWIN
+	S32 samplerate;
+	FMOD_SPEAKERMODE speakermode;
+	FMOD_DSP_RESAMPLER resampler;
+	FMOD_SOUND_FORMAT soundformat;
+	FMOD_CAPS caps;
 	result = mSystem->getNumDrivers(&numdrivers);
 	Check_FMOD_Error(result, "FMOD::System::getNumDrivers");
 	if (numdrivers == 0)
@@ -143,22 +145,39 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	}
 	else
 	{
+		result = mSystem->getDriverCaps(0, &caps, &samplerate, &speakermode);
+		Check_FMOD_Error(result, "FMOD::System::getDriverCaps");
+
 		switch (gSavedSettings.getU32("FMODExSoundFormat"))
 		{
+		case 3:
+			if ((caps & FMOD_CAPS_OUTPUT_FORMAT_PCMFLOAT) == FMOD_CAPS_OUTPUT_FORMAT_PCMFLOAT)
+			{
+				soundformat = FMOD_SOUND_FORMAT_PCMFLOAT;
+				break;
+			}
+			else
+				LL_WARNS("AppInit") << "LLAudioEngine_FMODEX::init(): Output type PCMFLOAT not supported" << LL_ENDL;
+		case 2:
+			if ((caps & FMOD_CAPS_OUTPUT_FORMAT_PCM32) == FMOD_CAPS_OUTPUT_FORMAT_PCM32)
+			{
+				soundformat = FMOD_SOUND_FORMAT_PCM32;
+				break;
+			}
+			else
+				LL_WARNS("AppInit") << "LLAudioEngine_FMODEX::init(): Output type PCM32 not supported" << LL_ENDL;
+		case 1:
+			if ((caps & FMOD_CAPS_OUTPUT_FORMAT_PCM24) == FMOD_CAPS_OUTPUT_FORMAT_PCM24)
+			{
+				soundformat = FMOD_SOUND_FORMAT_PCM24;
+				break;
+			}
+			else
+				LL_WARNS("AppInit") << "LLAudioEngine_FMODEX::init(): Output type PCM24 not supported" << LL_ENDL;
 		default:
 		case 0:
 			soundformat = FMOD_SOUND_FORMAT_PCM16;
 			break;
-		case 1:
-			soundformat = FMOD_SOUND_FORMAT_PCM24;
-			break;
-		case 2:
-			soundformat = FMOD_SOUND_FORMAT_PCM32;
-			break;
-		case 3:
-			soundformat = FMOD_SOUND_FORMAT_PCMFLOAT;
-			break;
-
 		}
 
 		switch (gSavedSettings.getU32("FMODExResampler"))
@@ -175,16 +194,17 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 			break;
 		}
 
-		result = mSystem->getDriverCaps(0, 0, &samplerate, &speakermode);
-		Check_FMOD_Error(result, "FMOD::System::getDriverCaps");
-
 		bool use_system_sample = gSavedSettings.getBOOL("FMODExUseSystemSampleRate");
 		result = mSystem->setSoftwareFormat(use_system_sample ? samplerate : 48000, soundformat, 0, 0, resampler);
 		Check_FMOD_Error(result, "FMOD::System::setSoftwareFormat");
 
-		result = mSystem->setSpeakerMode(speakermode);
-		Check_FMOD_Error(result, "FMOD::System::setSpeakerMode");
+		if (!gSavedSettings.getBOOL("FMODExForceStereo"))
+		{
+			result = mSystem->setSpeakerMode(speakermode);
+			Check_FMOD_Error(result, "FMOD::System::setSpeakerMode");
+		}
 	}
+#endif
 
 	U32 fmod_flags = FMOD_INIT_NORMAL;
 	if(mEnableProfiler)
@@ -315,14 +335,22 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init() FMOD Ex initialized correctly" << LL_ENDL;
 
 	int r_numbuffers, r_samplerate, r_channels, r_bits;
+	FMOD_SOUND_FORMAT r_format;
+	FMOD_DSP_RESAMPLER r_resampler;
+	FMOD_SPEAKERMODE r_speakermode;
 	unsigned int r_bufferlength;
+	mSystem->getSpeakerMode(&r_speakermode);
+	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_speakermode=" << r_speakermode << LL_ENDL;
+
 	mSystem->getDSPBufferSize(&r_bufferlength, &r_numbuffers);
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_bufferlength=" << r_bufferlength << " bytes" << LL_ENDL;
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_numbuffers=" << r_numbuffers << LL_ENDL;
 
-	mSystem->getSoftwareFormat(&r_samplerate, NULL, &r_channels, NULL, NULL, &r_bits);
+	mSystem->getSoftwareFormat(&r_samplerate, &r_format, &r_channels, NULL, &r_resampler, &r_bits);
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_samplerate=" << r_samplerate << "Hz" << LL_ENDL;
+	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_format=" << r_format << LL_ENDL;
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_channels=" << r_channels << LL_ENDL;
+	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_resampler=" << r_resampler << LL_ENDL;
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODEX::init(): r_bits =" << r_bits << LL_ENDL;
 
 	char r_name[512];

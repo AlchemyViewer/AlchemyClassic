@@ -81,7 +81,7 @@ void* F_STDCALL decode_alloc(unsigned int size, FMOD_MEMORY_TYPE type, const cha
 	}
 	else if(type & FMOD_MEMORY_STREAM_FILE)
 	{
-		LL_INFOS() << "Strean buffer size: " << size << LL_ENDL;
+		LL_INFOS() << "Stream buffer size: " << size << LL_ENDL;
 	}
 	return new char[size];
 }
@@ -99,7 +99,6 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 {
 	U32 version;
 	FMOD_RESULT result;
-	S32 numdrivers;
 
 	LL_DEBUGS("AppInit") << "LLAudioEngine_FMODEX::init() initializing FMOD" << LL_ENDL;
 
@@ -131,6 +130,7 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
 
 #if LL_WINDOWS || LL_DARWIN
+	S32 numdrivers;
 	S32 samplerate;
 	FMOD_SPEAKERMODE speakermode;
 	FMOD_DSP_RESAMPLER resampler;

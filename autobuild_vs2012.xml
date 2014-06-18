@@ -594,9 +594,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>da6345c7fc08b3ddc9b1c90b2136042e</string>
+              <string>87f83f38e289eabfaf2f4707f0364604</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-darwin-20140316.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.36-darwin-20140617.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -606,9 +606,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f7634f56f6c6aabf876656a476a7011a</string>
+              <string>87f97527d77c0089fb98876eb6e633a4</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-linux-20140316.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.36-linux-20140617.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -618,9 +618,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a8367aeb30aa0f3d99dd4319d02884a7</string>
+              <string>539ae68e2c136dee328eb265aea30561</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-windows-20140316.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.36-windows-20140618.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -630,9 +630,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>187a3edf90982d3c7229ce402fb95f5a</string>
+              <string>c35e719d92d88acdcbcd6ad64ecac85b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.31-windows64-20140403.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.36-windows64-20140618.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -5,9 +5,6 @@
 # with the version specified
 ## prior to 2.8, the add_custom_target commands used in setting the version did not work correctly
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
-if(${CMAKE_VERSION} VERSION_GREATER 2.8.11.99)
-  cmake_policy(SET CMP0022 OLD)
-endif(${CMAKE_VERSION} VERSION_GREATER 2.8.11.99)
 
 set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
     "The root project/makefile/solution name. Defaults to Alchemy.")
@@ -100,7 +97,7 @@ elseif (SOLARIS)
 endif (LINUX)
 
 add_subdirectory(${VIEWER_PREFIX}newview)
-add_dependencies(viewer secondlife-bin)
+add_dependencies(viewer alchemy-bin)
 
 if (LL_TESTS)
   # Define after the custom targets are created so

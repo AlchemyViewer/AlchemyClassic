@@ -98,4 +98,6 @@ if (WINDOWS)
         )
 endif (WINDOWS)
 
-ll_deploy_sharedlibs_command(windows-crash-logger)
+if (LL_TESTS)
+  ll_deploy_sharedlibs_command(windows-crash-logger)
+endif (LL_TESTS)

@@ -2,7 +2,9 @@
 
 add_subdirectory(base)
 
-add_subdirectory(webkit)
+if (WINDOWS OR LINUX OR DARWIN AND WORD_SIZE EQUAL 32)
+    add_subdirectory(webkit)
+endif (WINDOWS OR LINUX OR DARWIN AND WORD_SIZE EQUAL 32)
 
 if (LINUX)
     add_subdirectory(gstreamer010)

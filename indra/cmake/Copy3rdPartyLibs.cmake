@@ -305,13 +305,16 @@ elseif(DARWIN)
         libexpat.1.5.2.dylib
         libexpat.dylib
         libGLOD.dylib
-        libllqtwebkit.dylib
         libminizip.a
         libndofdev.dylib
         libhunspell-1.3.0.dylib
         libexception_handler.dylib
         libcollada14dom.dylib
        )
+
+    if (WORD_SIZE EQUAL 32)
+      set(release_files ${release_files} libllqtwebkit.dylib)
+    endif (WORD_SIZE EQUAL 32)
 
     if (FMODEX)
       set(debug_files ${debug_files} libfmodexL.dylib)

@@ -31,6 +31,8 @@
 
 #include "is_approx_equal_fraction.h" // instead of llmath.h
 
+#include "llsd.h"
+
 #include <tut/tut.hpp>
 #include <cstring>
 

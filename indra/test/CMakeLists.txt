@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project (test)
+project (tests)
 
 include(00-Common)
 include(LLCommon)
@@ -33,7 +33,7 @@ include_directories(SYSTEM
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 
-set(test_SOURCE_FILES
+set(tests_SOURCE_FILES
     io.cpp
     llapp_tut.cpp
     llblowfish_tut.cpp
@@ -60,7 +60,7 @@ set(test_SOURCE_FILES
     test.cpp
     )
 
-set(test_HEADER_FILES
+set(tests_HEADER_FILES
     CMakeLists.txt
 
     debug.h
@@ -70,19 +70,19 @@ set(test_HEADER_FILES
     )
 
 if (NOT WINDOWS)
-  list(APPEND test_SOURCE_FILES
+  list(APPEND tests_SOURCE_FILES
        llmessagetemplateparser_tut.cpp
        )
 endif (NOT WINDOWS)
 
-set_source_files_properties(${test_HEADER_FILES}
+set_source_files_properties(${tests_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
-list(APPEND test_SOURCE_FILES ${test_HEADER_FILES})
+list(APPEND tests_SOURCE_FILES ${tests_HEADER_FILES})
 
-add_executable(test ${test_SOURCE_FILES})
+add_executable(tests ${tests_SOURCE_FILES})
 
-target_link_libraries(test
+target_link_libraries(tests
     ${LLDATABASE_LIBRARIES}
     ${LLINVENTORY_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
@@ -102,14 +102,14 @@ target_link_libraries(test
     )
 
 if (WINDOWS)
-  set_target_properties(test
+  set_target_properties(tests
           PROPERTIES 
           LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
           LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
           )
 endif (WINDOWS)
 
-get_target_property(TEST_EXE test LOCATION)
+get_target_property(TEST_EXE tests LOCATION)
 
 SET_TEST_PATH(DYLD_LIBRARY_PATH)
 
@@ -127,7 +127,7 @@ ADD_CUSTOM_COMMAND(
   COMMENT "C++ unit tests"
   )
 
-set(test_results ${CMAKE_CURRENT_BINARY_DIR}/cpp_tests_ok.txt)
+set(tests_results ${CMAKE_CURRENT_BINARY_DIR}/cpp_tests_ok.txt)
 
 # This should cause the test executable to be built, but not 
 # run if LL_TESTS is disabled. This will hopefully keep the

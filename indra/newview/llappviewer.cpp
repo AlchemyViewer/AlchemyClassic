@@ -3374,10 +3374,11 @@ LLSD LLAppViewer::getViewerInfo() const
 
 	if (gPacketsIn > 0)
 	{
-		LLTrace::Recording& last_frame = LLTrace::get_frame_recording().getLastRecording();
-		info["PACKETS_LOST"] = last_frame.getSum(LLStatViewer::PACKETS_LOST);
-		info["PACKETS_IN"] = last_frame.getSum(LLStatViewer::PACKETS_IN);
-		info["PACKETS_PCT"] = 100.f*info["PACKETS_LOST"].asReal() / info["PACKETS_IN"].asReal();
+		const F64& packets_lost = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_LOST);
+		const F64& packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
+		info["PACKETS_LOST"] = packets_lost;
+		info["PACKETS_IN"] = packets_in;
+		info["PACKETS_PCT"] = 100.0 * packets_lost / packets_in;
 	}
 
 	if (mServerReleaseNotesURL.empty())

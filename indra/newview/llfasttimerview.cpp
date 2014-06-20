@@ -1098,17 +1098,17 @@ void LLFastTimerView::drawLineGraph()
 				cur_max_calls = llmax(cur_max_calls, calls);
 			}
 			F32 x = mGraphRect.mRight - j * (F32)(mGraphRect.getWidth())/(mRecording.getNumRecordedPeriods()-1);
-			F32 y;
+			F32 y = mGraphRect.mBottom;
 			switch(mDisplayType)
 {
 			case DISPLAY_TIME:
-				y = mGraphRect.mBottom + time.value() * time_scale_factor;
+				y += mGraphRect.mBottom + time.value() * time_scale_factor;
 				break;
 			case DISPLAY_CALLS:
-				y = mGraphRect.mBottom + (F32)calls * call_scale_factor;
+				y += mGraphRect.mBottom + (F32)calls * call_scale_factor;
 				break;
 			case DISPLAY_HZ:
-				y = mGraphRect.mBottom + (1.f / time.value()) * hz_scale_factor;
+				y += mGraphRect.mBottom + (1.f / time.value()) * hz_scale_factor;
 				break;
 			}
 			gGL.vertex2f(x,y);

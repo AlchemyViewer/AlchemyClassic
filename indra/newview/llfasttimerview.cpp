@@ -1102,13 +1102,13 @@ void LLFastTimerView::drawLineGraph()
 			switch(mDisplayType)
 {
 			case DISPLAY_TIME:
-				y += mGraphRect.mBottom + time.value() * time_scale_factor;
+				y += time.value() * time_scale_factor;
 				break;
 			case DISPLAY_CALLS:
-				y += mGraphRect.mBottom + (F32)calls * call_scale_factor;
+				y += (F32)calls * call_scale_factor;
 				break;
 			case DISPLAY_HZ:
-				y += mGraphRect.mBottom + (1.f / time.value()) * hz_scale_factor;
+				y += (1.f / time.value()) * hz_scale_factor;
 				break;
 			}
 			gGL.vertex2f(x,y);

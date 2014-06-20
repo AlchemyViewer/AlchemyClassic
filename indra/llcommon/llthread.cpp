@@ -95,12 +95,12 @@ void set_thread_name( DWORD dwThreadID, const char* threadName)
 #if LL_DARWIN
 // statically allocated thread local storage not supported in Darwin executable formats
 #elif LL_WINDOWS
-U32 __declspec(thread) sThreadID = 0;
+uintptr_t __declspec(thread) sThreadID = 0;
 #elif LL_LINUX
-U32 __thread sThreadID = 0;
+uintptr_t __thread sThreadID = 0;
 #endif 
 
-U32 LLThread::sIDIter = 0;
+uintptr_t LLThread::sIDIter = 0;
 
 
 LL_COMMON_API void assert_main_thread()

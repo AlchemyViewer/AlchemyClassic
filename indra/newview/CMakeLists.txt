@@ -112,6 +112,8 @@ include_directories(SYSTEM
 
 set(viewer_SOURCE_FILES
     alchatcommand.cpp
+    alpanelquicksettings.cpp
+    alpanelquicksettingspulldown.cpp
     groupchatlistener.cpp
     llaccountingcostmanager.cpp
     llaisapi.cpp
@@ -705,6 +707,8 @@ set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
     alchatcommand.h
+    alpanelquicksettings.h
+    alpanelquicksettingspulldown.h
     groupchatlistener.h
     llaccountingcost.h
     llaccountingcostmanager.h

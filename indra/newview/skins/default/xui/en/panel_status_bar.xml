@@ -39,7 +39,7 @@
     </panel.string>
   <panel
     height="18"
-    left="-337"
+    left="-357"
     width="95"
     top="1"
     follows="right|top" 
@@ -135,6 +135,20 @@
      top="2"
      name="volume_btn"
      width="16" />
+    <button
+     follows="right|top"
+     height="16"
+     image_selected="Icon_Gear_Background"
+     image_pressed="Icon_Gear_Background"
+     image_unselected="Icon_Gear_Foreground"
+     left_pad="5"
+     top="2"
+     name="quick_settings_btn"
+     width="16">
+     <click_callback
+      function="Floater.ToggleOrBringToFront"
+      parameter="quick_settings" />
+    </button>
       <text
      type="string"
      font="SansSerifLarge"
@@ -143,7 +157,7 @@
      halign="right"
      height="16"
      layout="topleft"
-     left_pad="0"
+     left_pad="2"
      name="FPSText"
      tool_tip="Current FPS(Frames Per Second)"
      width="35">

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater
+ width="300"
+ height="201"
+ layout="topleft"
+ min_height="226"
+ min_width="300"
+ name="floater_quick_settings"
+ positioning="cascading"
+ title="QUICK SETTINGS">
+ <panel
+  name="quick_settings"
+  class="quick_settings"
+  filename="panel_quick_settings.xml"
+  layout="topleft"
+  follows="all" />
+</floater>

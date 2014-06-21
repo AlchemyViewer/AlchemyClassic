@@ -344,6 +344,7 @@ void LLStatusBar::setVisibleForMouselook(bool visible)
 	mBtnQuickSettings->setVisible(visible);
 	mBtnVolume->setVisible(visible);
 	mMediaToggle->setVisible(visible);
+	mTextFPS->setVisible(visible);
 	mSGBandwidth->setVisible(visible);
 	mSGPacketLoss->setVisible(visible);
 	setBackgroundVisible(visible);

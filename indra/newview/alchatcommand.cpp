@@ -1,15 +1,15 @@
-/** 
+/**
 * @file alchatcommand.cpp
 * @brief ALChatCommand implementation for chat input commands
 *
 * $LicenseInfo:firstyear=2013&license=viewerlgpl$
 * Copyright (C) 2013 Drake Arconis
-* 
+*
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU Lesser General Public
 * License as published by the Free Software Foundation;
 * version 2.1 of the License only.
-* 
+*
 * This library is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
@@ -48,11 +48,11 @@
 
 void add_system_chat(const std::string &msg)
 {
-	if(msg.empty()) return;
+	if (msg.empty()) return;
 
 	LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
-	if(nearby_chat)
-	{		
+	if (nearby_chat)
+	{
 		LLChat chat(msg);
 		chat.mSourceType = CHAT_SOURCE_SYSTEM;
 		nearby_chat->addMessage(chat);
@@ -62,13 +62,13 @@ void add_system_chat(const std::string &msg)
 bool ALChatCommand::parseCommand(std::string data)
 {
 	static LLCachedControl<bool> enableChatCmd(gSavedSettings, "AlchemyChatCommandEnable", true);
-	if(enableChatCmd)
+	if (enableChatCmd)
 	{
 		utf8str_tolower(data);
 		std::istringstream input(data);
 		std::string cmd;
 
-		if(!(input >> cmd))	return false;
+		if (!(input >> cmd))	return false;
 
 		static LLCachedControl<std::string> sDrawDistanceCommand(gSavedSettings, "AlchemyChatCommandDrawDistance", "/dd");
 		static LLCachedControl<std::string> sHeightCommand(gSavedSettings, "AlchemyChatCommandHeight", "/gth");
@@ -81,7 +81,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sMaptoCommand(gSavedSettings, "AlchemyChatCommandMapto", "/mapto");
 		static LLCachedControl<std::string> sClearCommand(gSavedSettings, "AlchemyChatCommandClearNearby", "/clr");
 
-		if(cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
+		if (cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
 			F32 dist;
 			if (input >> dist)
@@ -108,7 +108,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			pos_global.mdV[VZ] = 0.0;
 			gAgent.teleportViaLocation(pos_global);
 			return true;
-		} 
+		}
 		else if (cmd == utf8str_tolower(sPosCommand)) // pos
 		{
 			F64 x, y, z;
@@ -117,17 +117,17 @@ bool ALChatCommand::parseCommand(std::string data)
 				LLViewerRegion* regionp = gAgent.getRegion();
 				if (regionp)
 				{
-					LLVector3d target_pos = regionp->getPosGlobalFromRegion(LLVector3((F32)x, (F32)y, (F32)z));
+					LLVector3d target_pos = regionp->getPosGlobalFromRegion(LLVector3((F32) x, (F32) y, (F32) z));
 					gAgent.teleportViaLocation(target_pos);
 				}
 				return true;
 			}
 		}
-		else if(cmd == utf8str_tolower(sRezPlatCommand)) // plat
+		else if (cmd == utf8str_tolower(sRezPlatCommand)) // plat
 		{
 			F32 size;
 			static LLCachedControl<F32> platSize(gSavedSettings, "AlchemyChatCommandRezPlatSize");
-			if (!(input >> size)) 
+			if (!(input >> size))
 				size = static_cast<F32>(platSize);
 
 			const LLVector3& agent_pos = gAgent.getPositionAgent();
@@ -153,7 +153,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			LLVolumeMessage::packVolumeParams(&volume_params, msg);
 
 			msg->addVector3Fast(_PREHASH_Scale, LLVector3(size, size, 0.25f));
-			msg->addQuatFast(_PREHASH_Rotation,     LLQuaternion());
+			msg->addQuatFast(_PREHASH_Rotation, LLQuaternion());
 			msg->addVector3Fast(_PREHASH_RayStart, rez_pos);
 			msg->addVector3Fast(_PREHASH_RayEnd, rez_pos);
 			msg->addUUIDFast(_PREHASH_RayTargetID, LLUUID::null);

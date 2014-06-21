@@ -53,7 +53,7 @@ private:
 	LLButton* mWaterNextBtn;
 	LLButton* mSkyPrevBtn;
 	LLButton* mSkyNextBtn;
-	
+
 	LLCheckBoxCtrl* mRegionSettingsCheckBox;
 
 	LLComboBox* mWaterPresetCombo;

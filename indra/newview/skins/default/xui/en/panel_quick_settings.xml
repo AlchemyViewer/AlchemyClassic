@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
-class="quick_settings"
+ class="quick_settings"
  layout="topleft"
  width="300"
  height="194"
@@ -12,7 +12,7 @@ class="quick_settings"
    top_pad="12"
    width="120"
    layout="topleft"
-   value="Draw Distance:" />
+   value="Draw Distance:"/>
   <slider_bar
    top_pad="-19"
    height="20"
@@ -25,7 +25,7 @@ class="quick_settings"
    left="93"
    right="-68"
    name="draw_dist_slider_bar"
-   control_name="RenderFarClip" />
+   control_name="RenderFarClip"/>
   <spinner
    top_pad="-21"
    height="20"
@@ -40,7 +40,7 @@ class="quick_settings"
    width="55"
    increment="32"
    name="draw_dist_spinner"
-   control_name="RenderFarClip" />
+   control_name="RenderFarClip"/>
   <text
    follows="left|top"
    height="15"
@@ -48,7 +48,7 @@ class="quick_settings"
    top_pad="6"
    width="120"
    layout="topleft"
-   value="Level of Detail:" />
+   value="Level of Detail:"/>
   <slider_bar
    top_pad="-19"
    height="20"
@@ -61,7 +61,7 @@ class="quick_settings"
    left="93"
    right="-68"
    name="lod_slider_bar"
-   control_name="RenderVolumeLODFactor" />
+   control_name="RenderVolumeLODFactor"/>
   <spinner
    top_pad="-21"
    height="20"
@@ -75,7 +75,7 @@ class="quick_settings"
    width="55"
    increment="0.1"
    name="lod_spinner"
-   control_name="RenderVolumeLODFactor" />
+   control_name="RenderVolumeLODFactor"/>
   <text
    follows="left|top"
    height="15"
@@ -83,7 +83,7 @@ class="quick_settings"
    top_pad="6"
    width="120"
    layout="topleft"
-   value="Max Particles:" />
+   value="Max Particles:"/>
   <slider_bar
    top_pad="-19"
    height="20"
@@ -96,7 +96,7 @@ class="quick_settings"
    left="93"
    right="-68"
    name="max_particles_slider_bar"
-   control_name="RenderMaxPartCount" />
+   control_name="RenderMaxPartCount"/>
   <spinner
    top_pad="-21"
    height="20"
@@ -110,7 +110,7 @@ class="quick_settings"
    width="55"
    increment="12"
    name="max_particles_spinner"
-   control_name="RenderMaxPartCount" />
+   control_name="RenderMaxPartCount"/>
   <text
    follows="left|top"
    height="15"
@@ -118,7 +118,7 @@ class="quick_settings"
    top_pad="6"
    width="120"
    layout="topleft"
-   value="Max Avatars:" />
+   value="Max Avatars:"/>
   <slider_bar
    top_pad="-19"
    height="20"
@@ -131,7 +131,7 @@ class="quick_settings"
    left="93"
    right="-68"
    name="max_avatar_slider_bar"
-   control_name="RenderAvatarMaxVisible" />
+   control_name="RenderAvatarMaxVisible"/>
   <spinner
    top_pad="-21"
    height="20"
@@ -180,7 +180,7 @@ class="quick_settings"
    width="55"
    increment="64"
    name="bandwith_spinner"
-   control_name="ThrottleBandwidthKBPS" />
+   control_name="ThrottleBandwidthKBPS"/>
   <panel
    height="1"
    top_pad="7"
@@ -188,7 +188,7 @@ class="quick_settings"
    right="-8"
    border="true"
    follows="left|top|right"
-   layout="topleft" />
+   layout="topleft"/>
   <check_box
    name="region_settings_checkbox"
    height="16"
@@ -197,8 +197,7 @@ class="quick_settings"
    follows="left|top"
    layout="topleft"
    top_pad="6"
-   width="256" 
-   />
+   width="256"/>
   <text
    name="water_preset_text"
    follows="left|top"
@@ -207,7 +206,7 @@ class="quick_settings"
    top_pad="10"
    width="120"
    layout="topleft"
-   value="Water Preset:" />
+   value="Water Preset:"/>
   <combo_box
    name="water_settings_preset_combo"
    follows="left|top|right"
@@ -216,9 +215,9 @@ class="quick_settings"
    width="186"
    top_delta="-3"
    left_delta="96">
-   <combo_box.item
-    label="-Select a preset-"
-    name="item0"/>
+    <combo_box.item
+     label="-Select a preset-"
+     name="item0"/>
   </combo_box>
   <button
    name="water_settings_prev_btn"
@@ -229,7 +228,7 @@ class="quick_settings"
    bottom_delta="-10"
    left="89"
    image_unselected="Stepper_Up_Off"
-   image_selected="Stepper_Up_Press"  />
+   image_selected="Stepper_Up_Press"/>
   <button
    name="water_settings_next_btn"
    follows="left|top"
@@ -248,7 +247,7 @@ class="quick_settings"
    width="120"
    follows="left|top"
    layout="topleft"
-   value="Sky Preset:" />
+   value="Sky Preset:"/>
   <combo_box
    name="sky_settings_preset_combo"
    follows="left|top|right"
@@ -257,9 +256,9 @@ class="quick_settings"
    width="186"
    top_delta="-3"
    left_delta="96">
-   <combo_box.item
-    label="-Select a preset-"
-    name="item0"/>
+    <combo_box.item
+     label="-Select a preset-"
+     name="item0"/>
   </combo_box>
   <button
    name="sky_settings_prev_btn"
@@ -280,5 +279,5 @@ class="quick_settings"
    bottom_delta="11"
    left="89"
    image_unselected="Stepper_Down_Off"
-   image_selected="Stepper_Down_Press"  />
+   image_selected="Stepper_Down_Press"/>
 </panel>

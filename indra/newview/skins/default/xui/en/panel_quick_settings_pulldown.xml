@@ -8,9 +8,9 @@
  width="300"
  height="203"
  name="quick_settings_pulldown">
- <panel
-  name="quick_settings"
-  class="quick_settings"
-  filename="panel_quick_settings.xml"
-  layout="topleft"/>
+  <panel
+   name="quick_settings"
+   class="quick_settings"
+   filename="panel_quick_settings.xml"
+   layout="topleft"/>
 </panel>

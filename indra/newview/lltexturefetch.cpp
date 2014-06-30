@@ -1712,7 +1712,7 @@ bool LLTextureFetchWorker::doWork(S32 param)
 				mFileSize = total_size + 1 ; //flag the file is not fully loaded.
 			}
 			
-			U8 * buffer = (U8 *) ALLOCATE_MEM(LLImageBase::getPrivatePool(), total_size);
+			U8 * buffer = (U8 *)ll_aligned_malloc_16(total_size);
 			if (cur_size > 0)
 			{
 				memcpy(buffer, mFormattedImage->getData(), cur_size);
@@ -2190,7 +2190,7 @@ bool LLTextureFetchWorker::processSimulatorPackets()
 			if (buffer_size > cur_size)
 			{
 				/// We have new data
-				U8* buffer = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), buffer_size);
+				U8* buffer = (U8*)ll_aligned_malloc_16(buffer_size);
 				S32 offset = 0;
 				if (cur_size > 0 && mFirstPacket > 0)
 				{
@@ -4951,7 +4951,7 @@ void LLTextureFetchDebugger::callbackHTTP(FetchEntry & fetch, LLCore::HttpRespon
 		//LL_INFOS() << "Fetch Debugger : got results for " << fetch.mID << ", data_size = " << data_size << ", received = " << fetch.mCurlReceivedSize << ", requested = " << fetch.mRequestedSize << ", partial = " << partial << LL_ENDL;
 		if ((fetch.mCurlReceivedSize >= fetch.mRequestedSize) || !partial || (fetch.mRequestedSize == 600))
 		{
-			U8* d_buffer = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), data_size);
+			U8* d_buffer = (U8*)ll_aligned_malloc_16(data_size);
 			if (ba)
 			{
 				ba->read(0, d_buffer, data_size);

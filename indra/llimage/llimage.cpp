@@ -49,7 +49,6 @@ std::string LLImage::sLastErrorMessage;
 LLMutex* LLImage::sMutex = NULL;
 bool LLImage::sUseNewByteRange = false;
 S32  LLImage::sMinimalReverseByteRangePercent = 75;
-LLPrivateMemoryPool* LLImageBase::sPrivatePoolp = NULL ;
 
 //static
 void LLImage::initClass(bool use_new_byte_range, S32 minimal_reverse_byte_range_percent)
@@ -57,8 +56,6 @@ void LLImage::initClass(bool use_new_byte_range, S32 minimal_reverse_byte_range_
 	sUseNewByteRange = use_new_byte_range;
     sMinimalReverseByteRangePercent = minimal_reverse_byte_range_percent;
 	sMutex = new LLMutex(NULL);
-
-	LLImageBase::createPrivatePool() ;
 }
 
 //static
@@ -66,8 +63,6 @@ void LLImage::cleanupClass()
 {
 	delete sMutex;
 	sMutex = NULL;
-
-	LLImageBase::destroyPrivatePool() ;
 }
 
 //static
@@ -105,25 +100,6 @@ LLImageBase::~LLImageBase()
 	deleteData(); // virtual
 }
 
-//static 
-void LLImageBase::createPrivatePool() 
-{
-	if(!sPrivatePoolp)
-	{
-		sPrivatePoolp = LLPrivateMemoryPoolManager::getInstance()->newPool(LLPrivateMemoryPool::STATIC_THREADED) ;
-	}
-}
-	
-//static 
-void LLImageBase::destroyPrivatePool() 
-{
-	if(sPrivatePoolp)
-	{
-		LLPrivateMemoryPoolManager::getInstance()->deletePool(sPrivatePoolp) ;
-		sPrivatePoolp = NULL ;
-	}
-}
-
 // virtual
 void LLImageBase::dump()
 {
@@ -157,7 +133,7 @@ void LLImageBase::sanityCheck()
 // virtual
 void LLImageBase::deleteData()
 {
-	FREE_MEM(sPrivatePoolp, mData) ;
+	ll_aligned_free_16(mData) ;
 	disclaimMem(mDataSize);
 	mDataSize = 0;
 	mData = NULL;
@@ -193,7 +169,7 @@ U8* LLImageBase::allocateData(S32 size)
 	{
 		deleteData(); // virtual
 		mBadBufferAllocation = false ;
-		mData = (U8*)ALLOCATE_MEM(sPrivatePoolp, size);
+		mData = (U8*)ll_aligned_malloc_16(size);
 		if (!mData)
 		{
 			LL_WARNS() << "Failed to allocate image data size [" << size << "]" << LL_ENDL;
@@ -211,7 +187,7 @@ U8* LLImageBase::allocateData(S32 size)
 // virtual
 U8* LLImageBase::reallocateData(S32 size)
 {
-	U8 *new_datap = (U8*)ALLOCATE_MEM(sPrivatePoolp, size);
+	U8 *new_datap = (U8*)ll_aligned_malloc_16(size);
 	if (!new_datap)
 	{
 		LL_WARNS() << "Out of memory in LLImageBase::reallocateData" << LL_ENDL;
@@ -221,7 +197,7 @@ U8* LLImageBase::reallocateData(S32 size)
 	{
 		S32 bytes = llmin(mDataSize, size);
 		memcpy(new_datap, mData, bytes);	/* Flawfinder: ignore */
-		FREE_MEM(sPrivatePoolp, mData) ;
+		ll_aligned_free_16(mData) ;
 	}
 	mData = new_datap;
 	disclaimMem(mDataSize);
@@ -1512,7 +1488,7 @@ void LLImageFormatted::appendData(U8 *data, S32 size)
 			S32 newsize = cursize + size;
 			reallocateData(newsize);
 			memcpy(getData() + cursize, data, size);
-			FREE_MEM(LLImageBase::getPrivatePool(), data);
+			ll_aligned_free_16(data);
 		}
 	}
 }

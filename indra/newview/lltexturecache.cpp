@@ -116,7 +116,7 @@ public:
 	~LLTextureCacheWorker()
 	{
 		llassert_always(!haveWork());
-		FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+		ll_aligned_free_16(mReadData);
 	}
 
 	// override this interface
@@ -218,7 +218,7 @@ bool LLTextureCacheLocalFileWorker::doRead()
 			mDataSize = 0;
 			return true;
 		}
-		mReadData = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), mDataSize);
+		mReadData = (U8*)ll_aligned_malloc_16(mDataSize);
 		mBytesRead = -1;
 		mBytesToRead = mDataSize;
 		setPriority(LLWorkerThread::PRIORITY_LOW | mPriority);
@@ -236,7 +236,7 @@ bool LLTextureCacheLocalFileWorker::doRead()
 // 						<< " Bytes: " << mDataSize << " Offset: " << mOffset
 // 						<< " / " << mDataSize << LL_ENDL;
 				mDataSize = 0; // failed
-				FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+				ll_aligned_free_16(mReadData);
 				mReadData = NULL;
 			}
 			return true;
@@ -251,7 +251,7 @@ bool LLTextureCacheLocalFileWorker::doRead()
 	{
 		mDataSize = local_size;
 	}
-	mReadData = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), mDataSize);
+	mReadData = (U8*)ll_aligned_malloc_16(mDataSize);
 	
 	S32 bytes_read = LLAPRFile::readEx(mFileName, mReadData, mOffset, mDataSize, mCache->getLocalAPRFilePool());	
 
@@ -261,7 +261,7 @@ bool LLTextureCacheLocalFileWorker::doRead()
 // 				<< " Bytes: " << mDataSize << " Offset: " << mOffset
 // 				<< " / " << mDataSize << LL_ENDL;
 		mDataSize = 0;
-		FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+		ll_aligned_free_16(mReadData);
 		mReadData = NULL;
 	}
 	else
@@ -385,7 +385,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 			mDataSize = local_size;
 		}
 		// Allocate read buffer
-		mReadData = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), mDataSize);
+		mReadData = (U8*)ll_aligned_malloc_16(mDataSize);
 		S32 bytes_read = LLAPRFile::readEx(local_filename, 
 											 mReadData, mOffset, mDataSize, mCache->getLocalAPRFilePool());
 		if (bytes_read != mDataSize)
@@ -394,7 +394,7 @@ bool LLTextureCacheRemoteWorker::doRead()
  					<< " Bytes: " << mDataSize << " Offset: " << mOffset
  					<< " / " << mDataSize << LL_ENDL;
 			mDataSize = 0;
-			FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+			ll_aligned_free_16(mReadData);
 			mReadData = NULL;
 		}
 		else
@@ -437,7 +437,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 		S32 size = TEXTURE_CACHE_ENTRY_SIZE - mOffset;
 		size = llmin(size, mDataSize);
 		// Allocate the read buffer
-		mReadData = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), size);
+		mReadData = (U8*)ll_aligned_malloc_16(size);
 		S32 bytes_read = LLAPRFile::readEx(mCache->mHeaderDataFileName, 
 											 mReadData, offset, size, mCache->getLocalAPRFilePool());
 		if (bytes_read != size)
@@ -445,7 +445,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 			LL_WARNS() << "LLTextureCacheWorker: "  << mID
 					<< " incorrect number of bytes read from header: " << bytes_read
 					<< " / " << size << LL_ENDL;
-			FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+			ll_aligned_free_16(mReadData);
 			mReadData = NULL;
 			mDataSize = -1; // failed
 			done = true;
@@ -475,7 +475,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 			S32 data_offset, file_size, file_offset;
 			
 			// Reserve the whole data buffer first
-			U8* data = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), mDataSize);
+			U8* data = (U8*)ll_aligned_malloc_16(mDataSize);
 
 			// Set the data file pointers taking the read offset into account. 2 cases:
 			if (mOffset < TEXTURE_CACHE_ENTRY_SIZE)
@@ -488,7 +488,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 				// Copy the raw data we've been holding from the header cache into the new sized buffer
 				llassert_always(mReadData);
 				memcpy(data, mReadData, data_offset);
-				FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+				ll_aligned_free_16(mReadData);
 				mReadData = NULL;
 			}
 			else
@@ -514,7 +514,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 				LL_WARNS() << "LLTextureCacheWorker: "  << mID
 						<< " incorrect number of bytes read from body: " << bytes_read
 						<< " / " << file_size << LL_ENDL;
-				FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+				ll_aligned_free_16(mReadData);
 				mReadData = NULL;
 				mDataSize = -1; // failed
 				done = true;
@@ -614,11 +614,11 @@ bool LLTextureCacheRemoteWorker::doWrite()
 		{
 			// We need to write a full record in the header cache so, if the amount of data is smaller
 			// than a record, we need to transfer the data to a buffer padded with 0 and write that
-			U8* padBuffer = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), TEXTURE_CACHE_ENTRY_SIZE);
+			U8* padBuffer = (U8*) ll_aligned_malloc_16(TEXTURE_CACHE_ENTRY_SIZE);
 			memset(padBuffer, 0, TEXTURE_CACHE_ENTRY_SIZE);		// Init with zeros
 			memcpy(padBuffer, mWriteData, mDataSize);			// Copy the write buffer
 			bytes_written = LLAPRFile::writeEx(mCache->mHeaderDataFileName, padBuffer, offset, size, mCache->getLocalAPRFilePool());
-			FREE_MEM(LLImageBase::getPrivatePool(), padBuffer);
+			ll_aligned_free_16(padBuffer);
 		}
 		else
 		{
@@ -715,7 +715,7 @@ void LLTextureCacheWorker::finishWork(S32 param, bool completed)
 			}
 			else
 			{
-				FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+				ll_aligned_free_16(mReadData);
 				mReadData = NULL;
 			}
 		}
@@ -777,7 +777,7 @@ LLTextureCache::~LLTextureCache()
 	writeUpdatedEntries() ;
 	delete mFastCachep;
 	delete mFastCachePoolp;
-	FREE_MEM(LLImageBase::getPrivatePool(), mFastCachePadBuffer);
+	ll_aligned_free_16(mFastCachePadBuffer);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -1879,10 +1879,10 @@ LLPointer<LLImageRaw> LLTextureCache::readFromFastCache(const LLUUID& id, S32& d
 		}
 		discardlevel = head[3];
 		
-		data =  (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), image_size);
+		data =  (U8*)ll_aligned_malloc_16(image_size);
 		if(mFastCachep->read(data, image_size) != image_size)
 		{
-			FREE_MEM(LLImageBase::getPrivatePool(), data);
+			ll_aligned_free_16(data);
 			closeFastCache();
 			return NULL;
 		}
@@ -1970,7 +1970,7 @@ void LLTextureCache::openFastCache(bool first_time)
 		{
 			if(!mFastCachePadBuffer)
 			{
-				mFastCachePadBuffer = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), TEXTURE_FAST_CACHE_ENTRY_SIZE);
+				mFastCachePadBuffer = (U8*)ll_aligned_malloc_16(TEXTURE_FAST_CACHE_ENTRY_SIZE);
 			}
 			mFastCachePoolp = new LLVolatileAPRPool();
 			if (LLAPRFile::isExist(mFastCacheFileName, mFastCachePoolp))

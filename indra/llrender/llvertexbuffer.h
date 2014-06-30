@@ -94,7 +94,6 @@ public:
 
 //============================================================================
 // base class 
-class LLPrivateMemoryPool;
 class LLVertexBuffer : public LLRefCount, public LLTrace::MemTrackable<LLVertexBuffer>
 {
 public:
@@ -328,9 +327,6 @@ protected:
 	void waitFence() const;
 
 	static S32 determineUsage(S32 usage);
-
-private:
-	static LLPrivateMemoryPool* sPrivatePoolp;
 
 public:
 	static S32 sCount;

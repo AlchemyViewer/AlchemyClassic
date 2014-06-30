@@ -785,7 +785,6 @@ bool LLAppViewer::init()
 	initMaxHeapSize() ;
 	LLCoros::instance().setStackSize(gSavedSettings.getS32("CoroutineStackSize"));
 
-	LLPrivateMemoryPoolManager::initClass((BOOL)gSavedSettings.getBOOL("MemoryPrivatePoolEnabled"), (U32)gSavedSettings.getU32("MemoryPrivatePoolSize")*1024*1024) ;
 	// write Google Breakpad minidump files to a per-run dump directory to avoid multiple viewer issues.
 	std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "");
 	mDumpPath = logdir;
@@ -1323,10 +1322,6 @@ bool LLAppViewer::mainLoop()
 	LLTimer frameTimer,idleTimer;
 	LLTimer debugTime;
 	
-	//LLPrivateMemoryPoolTester::getInstance()->run(false) ;
-	//LLPrivateMemoryPoolTester::getInstance()->run(true) ;
-	//LLPrivateMemoryPoolTester::destroy() ;
-
 	// Handle messages
 #ifdef LL_DARWIN
 	if (!LLApp::isExiting())
@@ -2112,9 +2107,6 @@ bool LLAppViewer::cleanup()
 	LLWearableType::cleanupClass();
 
 	LLMainLoopRepeater::instance().stop();
-
-	//release all private memory pools.
-	LLPrivateMemoryPoolManager::destroyClass() ;
 
 	ll_close_fail_log();
 

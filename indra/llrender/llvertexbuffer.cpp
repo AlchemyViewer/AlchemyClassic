@@ -2002,28 +2002,15 @@ void LLVertexBuffer::unmapBuffer()
 
 //----------------------------------------------------------------------------
 
-template <class T,S32 type> struct VertexBufferStrider
+template <class T, S32 type>
+struct VertexBufferStrider
 {
 	typedef LLStrider<T> strider_t;
-	static bool get(LLVertexBuffer& vbo, 
-					strider_t& strider, 
-					S32 index, S32 count, bool map_range)
+	static bool get(LLVertexBuffer& vbo,
+		strider_t& strider,
+		S32 index, S32 count, bool map_range)
 	{
-		if (type == LLVertexBuffer::TYPE_INDEX)
-		{
-			volatile U8* ptr = vbo.mapIndexBuffer(index, count, map_range);
-
-			if (ptr == NULL)
-			{
-				LL_WARNS() << "mapIndexBuffer failed!" << LL_ENDL;
-				return false;
-			}
-
-			strider = (T*)ptr;
-			strider.setStride(0);
-			return true;
-		}
-		else if (vbo.hasDataType(type))
+		if (vbo.hasDataType(type))
 		{
 			S32 stride = LLVertexBuffer::sTypeSize[type];
 
@@ -2035,7 +2022,7 @@ template <class T,S32 type> struct VertexBufferStrider
 				return false;
 			}
 
-			strider = (T*)ptr;
+			strider = (T*) ptr;
 			strider.setStride(stride);
 			return true;
 		}
@@ -2044,6 +2031,28 @@ template <class T,S32 type> struct VertexBufferStrider
 			LL_ERRS() << "VertexBufferStrider could not find valid vertex data." << LL_ENDL;
 		}
 		return false;
+	}
+};
+
+template<class T>
+struct VertexBufferStrider<T, LLVertexBuffer::TYPE_INDEX>
+{
+	typedef LLStrider<T> strider_t;
+	static bool get(LLVertexBuffer& vbo,
+		strider_t& strider,
+		S32 index, S32 count, bool map_range)
+	{
+		volatile U8* ptr = vbo.mapIndexBuffer(index, count, map_range);
+
+		if (ptr == NULL)
+		{
+			LL_WARNS() << "mapIndexBuffer failed!" << LL_ENDL;
+			return false;
+		}
+
+		strider = (T*) ptr;
+		strider.setStride(0);
+		return true;
 	}
 };
 

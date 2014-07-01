@@ -293,6 +293,7 @@ set(viewer_SOURCE_FILES
     llfloaterregionrestarting.cpp
     llfloatersceneloadstats.cpp
     llfloaterscriptdebug.cpp
+    llfloaterscriptedprefs.cpp
     llfloaterscriptlimits.cpp
     llfloatersearch.cpp
     llfloatersearchreplace.cpp
@@ -519,6 +520,7 @@ set(viewer_SOURCE_FILES
     llscenemonitor.cpp
     llsceneview.cpp
     llscreenchannel.cpp
+    llscripteditor.cpp
     llscriptfloater.cpp
     llscrollingpanelparam.cpp
     llscrollingpanelparambase.cpp
@@ -548,6 +550,7 @@ set(viewer_SOURCE_FILES
     llstylemap.cpp
     llsurface.cpp
     llsurfacepatch.cpp
+    llsyntaxid.cpp
     llsyswellitem.cpp
     llsyswellwindow.cpp
     llteleporthistory.cpp
@@ -899,6 +902,7 @@ set(viewer_HEADER_FILES
     llfloaterregionrestarting.h
     llfloatersceneloadstats.h
     llfloaterscriptdebug.h
+    llfloaterscriptedprefs.h
     llfloaterscriptlimits.h
     llfloatersearch.h
     llfloatersearchreplace.h
@@ -1112,6 +1116,7 @@ set(viewer_HEADER_FILES
     llscenemonitor.h
     llsceneview.h
     llscreenchannel.h
+    llscripteditor.h
     llscriptfloater.h
     llscrollingpanelparam.h
     llscrollingpanelparambase.h
@@ -1140,6 +1145,7 @@ set(viewer_HEADER_FILES
     llstylemap.h
     llsurface.h
     llsurfacepatch.h
+    llsyntaxid.h
     llsyswellitem.h
     llsyswellwindow.h
     lltable.h
@@ -1502,9 +1508,9 @@ if (WINDOWS)
 
     SOURCE_GROUP("Resource Files" FILES ${viewer_RESOURCE_FILES})
 
-    if (NOT STANDALONE)
+    if (NOT USESYSTEMLIBS)
         list(APPEND viewer_SOURCE_FILES ${viewer_RESOURCE_FILES})
-    endif (NOT STANDALONE)
+    endif (NOT USESYSTEMLIBS)
 
     find_library(DINPUT_LIBRARY dinput8 ${DIRECTX_LIBRARY_DIR})
     find_library(DXGUID_LIBRARY dxguid ${DIRECTX_LIBRARY_DIR})
@@ -1579,7 +1585,7 @@ set(viewer_APPSETTINGS_FILES
     app_settings/high_graphics.xml
     app_settings/ignorable_dialogs.xml
     app_settings/keys.xml
-    app_settings/keywords.ini
+    app_settings/keywords_lsl_default.xml
     app_settings/logcontrol.xml
     app_settings/low_graphics.xml
     app_settings/mid_graphics.xml
@@ -1616,9 +1622,9 @@ source_group("Character File" FILES ${viewer_CHARACTER_FILES})
 
 set_source_files_properties(${viewer_CHARACTER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
-if (NOT STANDALONE)
+if (NOT USESYSTEMLIBS)
     list(APPEND viewer_SOURCE_FILES ${viewer_CHARACTER_FILES})
-endif (NOT STANDALONE)
+endif (NOT USESYSTEMLIBS)
 
 if (WINDOWS)
   file(GLOB viewer_INSTALLER_FILES installers/windows/*.nsi)
@@ -1931,7 +1937,7 @@ elseif (DARWIN)
         LINK_FLAGS_RELEASE "${LINK_FLAGS_RELEASE} -Xlinker -dead_strip -Xlinker -map -Xlinker ${CMAKE_CURRENT_BINARY_DIR}/${VIEWER_BINARY_NAME}.MAP"
         )
 else (WINDOWS)
-        # Linux 
+        # Linux
     set_target_properties(${VIEWER_BINARY_NAME}
         PROPERTIES
         LINK_FLAGS_RELEASE "${LINK_FLAGS_RELEASE} -Wl,--Map=${VIEWER_BINARY_NAME}.MAP"
@@ -2118,7 +2124,7 @@ if (DARWIN)
   if (WORD_SIZE EQUAL 32)
       add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit)
   endif (WORD_SIZE EQUAL 32)
-  
+
   if (ENABLE_SIGNING)
       set(SIGNING_SETTING "--signature=${SIGNING_IDENTITY}")
   else (ENABLE_SIGNING)

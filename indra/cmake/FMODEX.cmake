@@ -4,7 +4,7 @@
 # When building using proprietary binaries though (i.e. having access to LL private servers),
 # we always build with FMODEX.
 # Open source devs should use the -DFMODEX:BOOL=ON then if they want to build with FMOD, whether
-# they are using STANDALONE or not.
+# they are using USESYSTEMLIBS or not.
 if (INSTALL_PROPRIETARY)
   set(FMODEX ON CACHE BOOL "Using FMOD Ex sound library.")
 endif (INSTALL_PROPRIETARY)
@@ -13,11 +13,11 @@ if (FMODEX)
   if (FMODSTUDIO)
     message( FATAL_ERROR "You can not enable two FMOD variants at the same time." )
   endif(FMODSTUDIO)
-  if (STANDALONE)
+  if (USESYSTEMLIBS)
     # In that case, we use the version of the library installed on the system
     set(FMODEX_FIND_REQUIRED ON)
     include(FindFMODEX)
-  else (STANDALONE)
+  else (USESYSTEMLIBS)
     if (FMODEX_LIBRARY AND FMODEX_INCLUDE_DIR)
       # If the path have been specified in the arguments, use that
       set(FMODEX_LIBRARIES ${FMODEX_LIBRARY})
@@ -50,6 +50,6 @@ if (FMODEX)
       set(FMODEX_LIBRARIES ${FMODEX_LIBRARY})
       set(FMODEX_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/fmodex)
     endif (FMODEX_LIBRARY AND FMODEX_INCLUDE_DIR)
-  endif (STANDALONE)
+  endif (USESYSTEMLIBS)
 endif (FMODEX)
 

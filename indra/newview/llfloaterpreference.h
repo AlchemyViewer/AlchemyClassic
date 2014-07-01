@@ -164,6 +164,7 @@ public:
 	void onClickBlockList();
 	void onClickProxySettings();
 	void onClickTranslationSettings();
+	void onClickPermsDefault();
 	void onClickAutoReplace();
 	void onClickSpellChecker();
 	void onClickResetControlDefault(const LLSD& userdata); // <alchemy/>

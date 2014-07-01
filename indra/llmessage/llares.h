@@ -33,7 +33,7 @@
 #include "llwin32headerslean.h"
 #endif
 
-#ifdef LL_STANDALONE
+#ifdef LL_USESYSTEMLIBS
 # include <ares.h>
 #else
 # include <ares/ares.h>

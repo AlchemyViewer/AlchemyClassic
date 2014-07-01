@@ -1296,6 +1296,18 @@ BOOL LLPreviewLSL::postBuild()
 	return LLPreview::postBuild();
 }
 
+LLTextEditor* LLPreviewLSL::getEditor()
+{
+	if (mScriptEd)
+	{
+		if (LLTextEditor* textEd = dynamic_cast<LLTextEditor*>(mScriptEd->mEditor))
+		{
+			return textEd;
+		}
+	}
+	return NULL;
+}
+
 // virtual
 void LLPreviewLSL::callbackLSLCompileSucceeded()
 {
@@ -1760,6 +1772,18 @@ BOOL LLLiveLSLEditor::postBuild()
 	mScriptEd->mEditor->setFocus(TRUE);
 
 	return LLPreview::postBuild();
+}
+
+LLTextEditor* LLLiveLSLEditor::getEditor() 
+{
+	if (mScriptEd)
+	{
+		if (LLTextEditor* textEd = dynamic_cast<LLTextEditor*>(mScriptEd->mEditor))
+		{
+			return textEd;
+		}
+	}
+	return NULL;
 }
 
 // virtual

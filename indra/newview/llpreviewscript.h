@@ -38,6 +38,7 @@
 
 class LLLiveLSLFile;
 class LLMessageSystem;
+class LLTextEditor;
 class LLScriptEditor;
 class LLButton;
 class LLCheckBoxCtrl;
@@ -190,7 +191,7 @@ public:
 	/*virtual*/ BOOL postBuild();
 
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	LLTextEditor* getEditor() { return (mScriptEd) ? mScriptEd->mEditor : NULL; }
+	LLTextEditor* getEditor();
 // [/SL:KB]
 
 protected:
@@ -248,7 +249,7 @@ public:
 	void setIsNew() { mIsNew = TRUE; }
 	
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	LLTextEditor* getEditor() { return (mScriptEd) ? mScriptEd->mEditor : NULL; }
+	LLTextEditor* getEditor();
 // [/SL:KB]
 
 private:

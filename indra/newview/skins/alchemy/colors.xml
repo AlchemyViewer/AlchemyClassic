@@ -1,33 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
-	<!-- Alchemy -->
-  <color
-   name="ButtonGlowColor"
-   reference="White" />
-  <color
-   name="ButtonHighlightColor"
-   reference="White" />
-  <color
-   name="ChatHeaderDisplayNameColor"
-   reference="White" />
-  <color
-   name="ChatHeaderTimestampColor"
-   reference="EmphasisColor" />
-  <color
-   name="ChatHeaderUserNameColor"
-   reference="LtGray" />
-  <color
-   name="ScriptFunctionColor"
-   value="0.4 0.8509803921568627 0.9372549019607843 1" />
-  <color
-   name="ScriptTextReadOnlyColor"
-   reference="AlchemyText" />
-  <color
-   name="ScriptBgWriteableColor"
-   value="0.0784 0.0784 0.0784 1" />
-  <color
-   name="ScriptBgFocusColor"
-     value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyBackground"
      value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
@@ -787,7 +759,7 @@
      value="0 1 0 0.4" />
     <color
      name="ScriptBgReadOnlyColor"
-     value="AlchemyScriptBG" />
+     value="0.39 0.39 0.39 1" />
     <color
      name="ScriptErrorColor"
      reference="Red" />
@@ -979,5 +951,62 @@
   <color
     name="ResizebarBody"
     value="0.208 0.208 0.208 1"/>
-    
+
+  <!-- syntax highlighting (LSL Scripts) -->
+  <color
+    name="ScriptText"
+    reference="Black" />
+  <color
+    name="ScriptBackground"
+    reference="White" />
+  <color
+    name="ScriptCursorColor"
+    reference="Black" />
+  <color
+    name="SyntaxLslComment"
+    value="0 0.5 0 1" />
+  <color
+    name="SyntaxLslConstant"
+    value="0 0.6 0.6 1" />
+  <color
+    name="SyntaxLslControlFlow"
+    value="0.4 0 0.8 1" />
+  <color
+    name="SyntaxLslControlLabel"
+    value="0 0 0.8 1" />
+  <color
+    name="SyntaxLslDataType"
+    value="0.8 0.4 0 1" />
+   <color
+    name="SyntaxLslDeprecated"
+    value="0.9 0.0 0.66, 1" />
+  <color
+   name="SyntaxLslEvent"
+   value="0 0.3 0.5 1" />
+  <color
+   name="SyntaxLslFunction"
+   value="0.3 0 0.5 1" />
+  <color
+   name="SyntaxLslGodMode"
+   value="0.7 .2 .35 1" />
+  <color
+    name="SyntaxLslStringLiteral"
+    value="1 0.14 0 1" />
+	
+  <!-- Alchemy -->
+  <color
+   name="ButtonGlowColor"
+   reference="White" />
+  <color
+   name="ButtonHighlightColor"
+   reference="White" />
+  <color
+   name="ChatHeaderDisplayNameColor"
+   reference="White" />
+  <color
+   name="ChatHeaderTimestampColor"
+   reference="EmphasisColor" />
+  <color
+   name="ChatHeaderUserNameColor"
+   reference="LtGray" />
 </colors>

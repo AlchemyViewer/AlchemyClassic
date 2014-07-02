@@ -57,9 +57,9 @@ elseif (DARWIN)
         debug ${ARCH_PREBUILT_DIRS_RELEASE}/libllqtwebkit.dylib
         )
 elseif (LINUX)
-if (STANDALONE)
+if (USESYSTEMLIBS)
     set(WEBKIT_PLUGIN_LIBRARIES ${LLQTWEBKIT_LIBRARY} ${QT_LIBRARIES} ${QT_PLUGIN_LIBRARIES})
-else (STANDALONE)
+else (USESYSTEMLIBS)
     set(WEBKIT_PLUGIN_LIBRARIES
         llqtwebkit
 #        qico
@@ -88,5 +88,5 @@ else (STANDALONE)
 #        Xi
 #        SM
         )
-endif (STANDALONE)
+endif (USESYSTEMLIBS)
 endif (WINDOWS)

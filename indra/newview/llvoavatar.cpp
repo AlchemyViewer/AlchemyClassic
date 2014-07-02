@@ -33,7 +33,7 @@
 #include <sstream>
 
 #include "llaudioengine.h"
-#include "lscript_bytecode.h" // <alchemy/>
+#include "alscriptdefinitions.h"
 #include "noise.h"
 #include "sound_ids.h"
 #include "raytrace.h"

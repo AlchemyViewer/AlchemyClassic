@@ -92,7 +92,7 @@
 #include "llwindow.h"
 #include "llworld.h"
 #include "llworldmap.h"
-#include "lscript_byteformat.h"
+#include "alscriptdefinitions.h"
 #include "stringize.h"
 #include "boost/foreach.hpp"
 

@@ -3785,6 +3785,15 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
         msg_notify["from_id"] = chat.mFromID;
 		msg_notify["source_type"] = chat.mSourceType;
         on_new_message(msg_notify);
+		
+#if LL_DARWIN
+        // We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
+        static LLCachedControl<bool> sOSXNotificationsNearby(gSavedSettings, "OSXNotificationCenterNearby", false);
+        if (sOSXNotificationsNearby && !chat.mMuted)
+        {
+            LLOSXNotificationCenter::sendNotification(chat.mFromName, chat.mText);
+        }
+#endif //LL_DARWIN
 	}
 }
 

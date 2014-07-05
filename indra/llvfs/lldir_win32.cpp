@@ -48,8 +48,28 @@ LLDir_Win32::LLDir_Win32()
 
 	WCHAR w_str[MAX_PATH];
 
+	HRESULT (WINAPI* pSHGetKnownFolderPath)(REFKNOWNFOLDERID rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath) = NULL;
+	HMODULE shell = LoadLibrary(L"shell32");
+	if(shell)	//SHGetSpecialFolderPath is deprecated from Vista an onwards. Try to use SHGetKnownFolderPath if it's available
+	{
+		pSHGetKnownFolderPath = (HRESULT (WINAPI *)(REFKNOWNFOLDERID, DWORD, HANDLE, PWSTR *))GetProcAddress(shell, "SHGetKnownFolderPath");
+	}
+
 	// Application Data is where user settings go
-	SHGetSpecialFolderPath(NULL, w_str, CSIDL_APPDATA, TRUE);
+	if(pSHGetKnownFolderPath)
+	{
+		WCHAR* pPath = NULL;
+		if ((*pSHGetKnownFolderPath)(FOLDERID_RoamingAppData, 0, NULL, &pPath) == S_OK)
+			wcscpy_s(w_str, pPath);
+		else
+			SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
+		if(pPath)
+			CoTaskMemFree(pPath);
+	}
+	else	//XP doesn't support SHGetKnownFolderPath
+	{
+		SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
+	}
 
 	mOSUserDir = utf16str_to_utf8str(llutf16string(w_str));
 
@@ -63,7 +83,26 @@ LLDir_Win32::LLDir_Win32()
 	//
 	// We used to store the cache in AppData\Roaming, and the installer
 	// cleans up that version on upgrade.  JC
-	SHGetSpecialFolderPath(NULL, w_str, CSIDL_LOCAL_APPDATA, TRUE);
+
+	
+	if(pSHGetKnownFolderPath)
+	{
+		WCHAR* pPath = NULL;
+		if((*pSHGetKnownFolderPath)(FOLDERID_LocalAppData, 0, NULL, &pPath) == S_OK)
+			wcscpy_s(w_str,pPath);
+		else
+			SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
+		if(pPath)
+			CoTaskMemFree(pPath);
+	}
+	else	//XP doesn't support SHGetKnownFolderPath
+	{
+		SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
+	}
+
+	if(shell)
+		FreeLibrary(shell);
+
 	mOSCacheDir = utf16str_to_utf8str(llutf16string(w_str));
 
 	if (GetTempPath(MAX_PATH, w_str))

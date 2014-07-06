@@ -920,11 +920,11 @@ BOOL LLFloaterSnapshot::Impl::checkImageSize(LLSnapshotLivePreview* previewp, S3
 		//change another value proportionally
 		if(isWidthChanged)
 		{
-			height = llround(width / aspect_ratio) ;
+			height = llmath::llround(width / aspect_ratio) ;
 		}
 		else
 		{
-			width = llround(height * aspect_ratio) ;
+			width = llmath::llround(height * aspect_ratio) ;
 		}
 
 		//bound w/h by the max_value

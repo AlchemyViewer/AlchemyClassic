@@ -203,65 +203,23 @@ inline S32 llceil( F32 f )
 	return (S32)ceil(f);
 }
 
-
-#ifndef BOGUS_ROUND
-// Use this round.  Does an arithmetic round (0.5 always rounds up)
-inline S32 llround(const F32 val)
+namespace llmath
 {
-	return llfloor(val + 0.5f);
-}
-
-#else // BOGUS_ROUND
-// Old llround implementation - does banker's round (toward nearest even in the case of a 0.5.
-// Not using this because we don't have a consistent implementation on both platforms, use
-// llfloor(val + 0.5f), which is consistent on all platforms.
-inline S32 llround(const F32 val)
-{
-	#if LL_WINDOWS
-		// Note: assumes that the floating point control word is set to rounding mode (the default)
-		S32 ret_val;
-		_asm fld	val
-		_asm fistp	ret_val;
-		return ret_val;
-	#elif LL_LINUX
-		// Note: assumes that the floating point control word is set
-		// to rounding mode (the default)
-		S32 ret_val;
-		__asm__ __volatile__( "flds %1    \n\t"
-							  "fistpl %0  \n\t"
-							  : "=m" (ret_val)
-							  : "m" (val) );
-		return ret_val;
-	#else
-		return llfloor(val + 0.5f);
-	#endif
-}
-
-// A fast arithmentic round on intel, from Laurent de Soras http://ldesoras.free.fr
-inline int round_int(double x)
-{
-	const float round_to_nearest = 0.5f;
-	int i;
-	__asm
+	// Use this round.  Does an arithmetic round (0.5 always rounds up)
+	inline S32 llround(const F32 val)
 	{
-		fld x
-		fadd st, st (0)
-		fadd round_to_nearest
-		fistp i
-		sar i, 1
+		return llfloor(val + 0.5f);
 	}
-	return (i);
-}
-#endif // BOGUS_ROUND
 
-inline F32 llround( F32 val, F32 nearest )
-{
-	return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
-}
+	inline F32 llround(F32 val, F32 nearest)
+	{
+		return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
+	}
 
-inline F64 llround( F64 val, F64 nearest )
-{
-	return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;
+	inline F64 llround(F64 val, F64 nearest)
+	{
+		return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;
+	}
 }
 
 // these provide minimum peak error
@@ -351,7 +309,7 @@ static union
 #define LL_EXP_A (1048576 * OO_LN2) // use 1512775 for integer
 #define LL_EXP_C (60801)			// this value of C good for -4 < y < 4
 
-#define LL_FAST_EXP(y) (LLECO.n.i = llround(F32(LL_EXP_A*(y))) + (1072693248 - LL_EXP_C), LLECO.d)
+#define LL_FAST_EXP(y) (LLECO.n.i = llmath::llround(F32(LL_EXP_A*(y))) + (1072693248 - LL_EXP_C), LLECO.d)
 
 
 

@@ -1224,7 +1224,7 @@ void LLPanelLandObjects::refresh()
 	{
 		S32 sw_max = parcel->getSimWideMaxPrimCapacity();
 		S32 sw_total = parcel->getSimWidePrimCount();
-		S32 max = llround(parcel->getMaxPrimCapacity() * parcel->getParcelPrimBonus());
+		S32 max = llmath::llround(parcel->getMaxPrimCapacity() * parcel->getParcelPrimBonus());
 		S32 total = parcel->getPrimCount();
 		S32 owned = parcel->getOwnerPrimCount();
 		S32 group = parcel->getGroupPrimCount();
@@ -2044,9 +2044,9 @@ void LLPanelLandOptions::refresh()
 		else
 		{
 			mLocationText->setTextArg("[LANDING]",llformat("%d, %d, %d (%d\xC2\xB0)",
-														   llround(pos.mV[VX]),
-														   llround(pos.mV[VY]),
-		   												   llround(pos.mV[VZ]),
+														   llmath::llround(pos.mV[VX]),
+														   llmath::llround(pos.mV[VY]),
+		   												   llmath::llround(pos.mV[VZ]),
 														   user_look_at_angle));
 		}
 

@@ -1223,7 +1223,7 @@ S32	LLVOVolume::computeLODDetail(F32 distance, F32 radius)
 	{
 		// We've got LOD in the profile, and in the twist.  Use radius.
 		F32 tan_angle = (LLVOVolume::sLODFactor*radius)/distance;
-		cur_detail = LLVolumeLODGroup::getDetailFromTan(llround(tan_angle, 0.01f));
+		cur_detail = LLVolumeLODGroup::getDetailFromTan(llmath::llround(tan_angle, 0.01f));
 	}
 	else
 	{
@@ -1281,8 +1281,8 @@ BOOL LLVOVolume::calcLOD()
 	// DON'T Compensate for field of view changing on FOV zoom.
 	distance *= F_PI/3.f;
 
-	cur_detail = computeLODDetail(llround(distance, 0.01f), 
-									llround(radius, 0.01f));
+	cur_detail = computeLODDetail(llmath::llround(distance, 0.01f), 
+									llmath::llround(radius, 0.01f));
 
 
 	if (gPipeline.hasRenderDebugMask(LLPipeline::RENDER_DEBUG_LOD_INFO) &&
@@ -1295,7 +1295,7 @@ BOOL LLVOVolume::calcLOD()
 
 	if (cur_detail != mLOD)
 	{
-		mAppAngle = llround((F32) atan2( mDrawable->getRadius(), mDrawable->mDistanceWRTCamera) * RAD_TO_DEG, 0.01f);
+		mAppAngle = llmath::llround((F32) atan2( mDrawable->getRadius(), mDrawable->mDistanceWRTCamera) * RAD_TO_DEG, 0.01f);
 		mLOD = cur_detail;		
 		return TRUE;
 	}

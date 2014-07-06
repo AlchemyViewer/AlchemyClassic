@@ -47,6 +47,9 @@ else (USESYSTEMLIBS)
       set(BOOST_CONTEXT_LIBRARY 
           optimized libboost_context-mt
           debug libboost_context-mt-gd)
+      set(BOOST_COROUTINE_LIBRARY 
+          optimized libboost_coroutine-mt
+          debug libboost_coroutine-mt-gd)
       set(BOOST_FILESYSTEM_LIBRARY 
           optimized libboost_filesystem-mt
           debug libboost_filesystem-mt-gd)

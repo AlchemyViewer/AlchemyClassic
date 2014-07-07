@@ -65,7 +65,6 @@ if (WINDOWS)
   add_definitions(
       /DLL_WINDOWS=1
       /DNOMINMAX
-      /DDOM_DYNAMIC
       /DUNICODE
       /D_UNICODE 
       /GS
@@ -78,7 +77,11 @@ if (WINDOWS)
       /Zc:wchar_t-
       /fp:fast
       )
-     
+  if (NOT MSVC12)
+    add_definitions(/DDOM_DYNAMIC)
+  endif (NOT MSVC12)
+	  
+	  
   if (MSVC11 OR MSVC12)
     if (RELEASE_EXTRA_DEBUG)
       add_definitions(/d2Zi+)

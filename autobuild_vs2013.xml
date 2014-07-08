@@ -90,9 +90,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4200db96e6a50ef663c9b1e17e6c3219</string>
+              <string>af640abcd9e783b79a1409436c1fa2cc</string>
               <key>url</key>
-              <string>https://dl.dropbox.com/u/8162280/Alchemy/Prebuilts/3p-ares/windows/ares-1.9.1-windows-vs12-20121228.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ares-1.10.0-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -198,9 +198,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8097208ff7bd0fd48117f4dd64d4c963</string>
+              <string>7feefd29643164c17f6461f6790b565a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/curl-7.24.0-windows-vs11-20140224.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.0-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -402,9 +402,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8339d337d0de9a16f8ac89a80b68cb0a</string>
+              <string>43eccd7ab11fdbaad99322fd27db6c6a</string>
               <key>url</key>
-              <string>https://dl.dropbox.com/u/8162280/Alchemy/Prebuilts/3p-freeglut/windows/freeglut-2.8.0-windows-vs12-20121229.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows-vs12-20140707.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1296,9 +1296,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>22a423ab6c8a8a7eafd0dfb526f458c6</string>
+              <string>22abad484a83894d2550495447ec5a06</string>
               <key>url</key>
-              <string>https://dl.dropbox.com/u/8162280/Alchemy/Prebuilts/3p-openssl/windows/openssl-1.0.0g-windows-vs12-20121228.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1h-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

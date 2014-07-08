@@ -139,10 +139,10 @@ namespace tut
 	void math_object::test<9>()
 	{
 		F32 val = 430905.2654f, nearest = 100.f;
-		val = llround(val, nearest);
+		val = llmath::llround(val, nearest);
 		ensure("float llround value 1", (430900 == val));
 		val = -430905.2654f, nearest = 10.f;
-		val = llround(val, nearest);
+		val = llmath::llround(val, nearest);
 		ensure("float llround value 1", (-430910 == val));
 	}
 
@@ -150,10 +150,10 @@ namespace tut
 	void math_object::test<10>()
 	{
 		F64 val = 430905.2654, nearest = 100.0;
-		val = llround(val, nearest);
+		val = llmath::llround(val, nearest);
 		ensure("double llround value 1", (430900 == val));
 		val = -430905.2654, nearest = 10.0;
-		val = llround(val, nearest);
+		val = llmath::llround(val, nearest);
 		ensure("double llround value 1", (-430910.00000 == val));
 	}
 

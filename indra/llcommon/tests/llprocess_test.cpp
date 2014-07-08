@@ -85,7 +85,7 @@ static std::string readfile(const std::string& pathname, const std::string& desc
     }
     std::ifstream inf(pathname.c_str());
     std::string output;
-    tut::ensure(STRINGIZE("No output " << use_desc), std::getline(inf, output));
+    tut::ensure(STRINGIZE("No output " << use_desc), (bool)std::getline(inf, output));
     std::string more;
     while (std::getline(inf, more))
     {
@@ -154,7 +154,7 @@ struct PythonProcessLauncher
     void launch()
     {
         mPy = LLProcess::create(mParams);
-        tut::ensure(STRINGIZE("Couldn't launch " << mDesc << " script"), mPy);
+        tut::ensure(STRINGIZE("Couldn't launch " << mDesc << " script"), (mPy != NULL));
     }
 
     /// Run Python script and wait for it to complete.

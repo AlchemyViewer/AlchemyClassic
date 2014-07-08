@@ -534,9 +534,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e006635a741420a15f40bbdac13bd8d7</string>
+              <string>db907480f8d899b866b14d913e4400ce</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glui-2.36-windows-20110214.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -558,9 +558,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>977379889748bdee99fa411ef42b3de1</string>
+              <string>dae6867ab6d3ba0373aafa0927dd292d</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1343-windows-vs12-20140705.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1343-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -594,9 +594,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d2542614df9dd99cbb5ff67e76d4a6c1</string>
+              <string>617a8d67933ef51d70cfad1ae77a420f</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock/rev/274899/arch/CYGWIN/installer/gmock-1.6.0-windows-20130426.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/gmock-1.7.0-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1260,9 +1260,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>291dbba89dd8162b76f2c2d82e908c6f</string>
+              <string>16d920336dca29c1543f27af95678a8c</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-ogvorbis/rev/229529/arch/CYGWIN/installer/ogg_vorbis-1.2.2-1.3.2-windows-20110510.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ogg_vorbis-1.3.2-1.3.4-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1502,9 +1502,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d12192a4e86eb766440b95aabaa348ae</string>
+              <string>42d8e78b4634aeeb646aeed7d7bbb812</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

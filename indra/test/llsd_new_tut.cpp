@@ -243,8 +243,8 @@ namespace tut
 		}
 		else
 		{
-			int left  = fpclassify(v.asReal());
-			int right = fpclassify(eReal);
+			int left  = ::fpclassify(v.asReal());
+			int right = ::fpclassify(eReal);
 
 			ensure_equals(s+" to real", 	left, 			right);
 			// ensure_equals(s+" to string", v.asString(), eString);

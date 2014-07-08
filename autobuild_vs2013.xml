@@ -402,9 +402,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>43eccd7ab11fdbaad99322fd27db6c6a</string>
+              <string>9aee330fe1d9c7f699f1a06d7d62c073</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows-vs12-20140707.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -534,7 +534,7 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>db907480f8d899b866b14d913e4400ce</string>
+              <string>fdd6cbd4fe9f1b6340684aa65af96219</string>
               <key>url</key>
               <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows-vs12-20140708.tar.bz2</string>
             </map>
@@ -1188,9 +1188,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a4bec9562ed6ac53e85abcb1afc5fc0</string>
+              <string>6d39565e33cd1bbf8a6736f5b5959bc2</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libndofdev-0.1-windows-20110223.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libndofdev-0.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

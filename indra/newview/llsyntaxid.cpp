@@ -47,15 +47,14 @@ public:
 		LL_DEBUGS("SyntaxLSL") << "Instantiating with file saving to: '" << filespec << "'" << LL_ENDL;
 	}
 
-	virtual void errorWithContent(U32 status,
-								  const std::string& reason,
-								  const LLSD& content)
+	virtual void httpFailure()
 	{
-		LL_WARNS("SyntaxLSL") << "failed to fetch syntax file [status:" << status << "]: " << content << LL_ENDL;
+		LL_WARNS("SyntaxLSL") << dumpResponse() << LL_ENDL;
 	}
 
-	virtual void result(const LLSD& content_ref)
+	virtual void httpSuccess()
 	{
+		const LLSD& content_ref = getContent();
 		// Continue only if a valid LLSD object was returned.
 		if (content_ref.isMap())
 		{

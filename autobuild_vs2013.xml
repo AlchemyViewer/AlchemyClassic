@@ -30,9 +30,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c94d5777abf143bc67f34f17bbbb56b8</string>
+              <string>850ebb53847bfd9a97ea8735cb17a434</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/glod-1.0pre4-windows64-20140605.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -66,9 +66,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b13deee09fdc47e3b838c3d45e8e4051</string>
+              <string>a0b2e450fc68edf8f2bf66d461260def</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/apr_suite-1.4.5-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/apr_suite-1.4.5-windows64-vs12-20140710.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -102,9 +102,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d98a23b9ce00128634650b8bc7917581</string>
+              <string>1fccf35baf584b86b783cab6fe2e53e5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ares-1.9.1-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ares-1.10.0-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -138,9 +138,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4ee9039f02d5b044b47d598e2317c527</string>
+              <string>138650dbbbb3d7e8664a19d510260615</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.53.0-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.55.0-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -174,9 +174,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d390640dc5169871a22d8d77cdc495aa</string>
+              <string>d684d8f4d1f460067e9f15b96d5f32b2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/colladadom-2.2-windows64-20140605.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -210,9 +210,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>afe672417001203ba6da4dd512d2934a</string>
+              <string>5de9002be838ed685ebdf8e915c182bc</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/curl-7.24.0-windows64-vs11-20140224.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.0-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -282,9 +282,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bba4b11205d9e860c256e52efd3b4a89</string>
+              <string>93f77c80aa3bc84aae0cfbb0db2f015f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/expat-2.1.0-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/expat-2.1.0-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -373,18 +373,6 @@
         <string>fontconfig</string>
         <key>platforms</key>
         <map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>d8b08b657247566bde5fd853c7622478</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/fontconfig-2.8.0-linux-20110311.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
         </map>
       </map>
       <key>freeglut</key>
@@ -408,6 +396,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>aa348a01216c10ee6a8a9a6fef89e80d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -438,9 +438,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>62efd91f9480daa0764bde0fc40a303b</string>
+              <string>9f37c1bd1f030cd8e28415763523ba8f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/freetype-2.5.0.1-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.4.4-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -570,9 +570,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>27fc46747e085d59f6bed220c10d31cc</string>
+              <string>88752f930592535d8adc182f77502ff1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/google_breakpad-0.0.0-rev1099-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1343-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -762,9 +762,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>779afa45ffb5c5f67744b066168b58bc</string>
+              <string>51c44e4867483706ddb94dfd524bbf7a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/jpeglib-8c-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libjpeg_turbo-1.3.1-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -798,9 +798,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>290c937f3beff6a86ab901876db405b6</string>
+              <string>0bb679605ee6973b0dde5386dc9437a7</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/jsoncpp-0.5.0-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/jsoncpp-0.5.0-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -882,9 +882,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>86b722bfb63080d836bedd602dfc1f5d</string>
+              <string>306e1eac077f7bd200839a057eded614</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libhunspell-1.3.2-windows64-20140605.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.2-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -918,9 +918,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b730910fee2f38542567cdcfdcc113a0</string>
+              <string>044c659df028779a10fdcfe236ee84c9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libpng-1.5.10-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.8-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -984,6 +984,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>425ed9b60b909fc33605bbac76a25f5d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1164,9 +1176,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>34e5b21cbdf2ec38aa3f1fd13600684d</string>
+              <string>ba2698914ca48560d25c956f4f3d23c1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-0.1.1-win64.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ndPhysicsStub-0.1.1-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1200,9 +1212,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>eba68d94a24b7f1f2d5c71434e79630b</string>
+              <string>b0e46812029a02d0e73533c40e631013</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/libndofdev-0.1-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libndofdev-0.1-windows64-vs12-20140710.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1272,9 +1284,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c618dc6f51e0911f6e22f5146d92e913</string>
+              <string>220875d2c9c78881b0cb569c57deed77</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ogg_vorbis-1.2.2-1.3.2-windows64-20131020.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ogg_vorbis-1.3.2-1.3.4-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1308,9 +1320,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6242708dfc24a0d3919d9dfb78179068</string>
+              <string>9d0aa4dfe0f054375dcc46cd0d8c419b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/openssl-1.0.0g-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1h-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1370,9 +1382,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>340dbe6cbd4c713b8e09affa31a96777</string>
+              <string>5734c71ee2bd2065d1473a699f526b4c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/openjpeg-1.5.1-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openjpeg-1.5.1-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1400,6 +1412,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>1bb499f32799306c97bef031105223fb</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1514,9 +1538,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dcd539ccd37e079176791955e0cf5945</string>
+              <string>2ca2b196d594249eec1b184bd747df57</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/xmlrpc_epi-0.54.1-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1550,9 +1574,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>88960974916dcb5799874b40d13695dd</string>
+              <string>7459ddf61c40764e0a58ffd84722bf99</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/zlib-1.2.8-windows64-20131019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/zlib-1.2.8-windows64-vs12-20140709.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

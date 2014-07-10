@@ -14,10 +14,6 @@ else (USESYSTEMLIBS)
       set(JSONCPP_LIBRARIES 
         debug json_vc100debug_libmt.lib
         optimized json_vc100_libmt)
-    elseif(MSVC11)
-      set(JSONCPP_LIBRARIES 
-        debug json_vc110debug_libmt.lib
-        optimized json_vc110_libmt)
     elseif(MSVC12)
       set(JSONCPP_LIBRARIES 
         debug json_vc120debug_libmt.lib

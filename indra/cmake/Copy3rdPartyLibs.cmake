@@ -154,69 +154,6 @@ if (MSVC_VERSION EQUAL 1600) # VisualStudio 2010
         set(third_party_targets ${third_party_targets} ${out_targets})
           
     endif (EXISTS ${release_msvc10_redist_path})
-elseif (MSVC11) # VisualStudio 2012
-    if (WORD_SIZE STREQUAL 32)
-      set (CRT_ARCHITECTURE x86)
-    elseif (WORD_SIZE STREQUAL 64)
-      set (CRT_ARCHITECTURE x64)
-    endif (WORD_SIZE STREQUAL 32)
-    FIND_PATH(debug_msvc11_redist_path msvcr110d.dll
-        PATHS
-        ${MSVC_DEBUG_REDIST_PATH}
-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;11.0]/VC/redist/Debug_NonRedist/${CRT_ARCHITECTURE}/Microsoft.VC110.DebugCRT
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
-        NO_DEFAULT_PATH
-        )
-
-    if(EXISTS ${debug_msvc11_redist_path})
-        set(debug_msvc11_files
-            msvcr110d.dll
-            msvcp110d.dll
-            )
-
-        copy_if_different(
-            ${debug_msvc11_redist_path}
-            "${SHARED_LIB_STAGING_DIR_DEBUG}"
-            out_targets
-            ${debug_msvc11_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-
-    endif ()
-
-    FIND_PATH(release_msvc11_redist_path msvcr110.dll
-        PATHS
-        ${MSVC_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;11.0]/VC/redist/${CRT_ARCHITECTURE}/Microsoft.VC110.CRT
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
-        NO_DEFAULT_PATH
-        )
-
-    if(EXISTS ${release_msvc11_redist_path})
-        set(release_msvc11_files
-            msvcr110.dll
-            msvcp110.dll
-            )
-
-        copy_if_different(
-            ${release_msvc11_redist_path}
-            "${SHARED_LIB_STAGING_DIR_RELEASE}"
-            out_targets
-            ${release_msvc11_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-
-        copy_if_different(
-            ${release_msvc11_redist_path}
-            "${SHARED_LIB_STAGING_DIR_RELWITHDEBINFO}"
-            out_targets
-            ${release_msvc11_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-          
-    endif (EXISTS ${release_msvc11_redist_path})
 elseif (MSVC12) # VisualStudio 2013
     if (WORD_SIZE STREQUAL 32)
       set (CRT_ARCHITECTURE x86)

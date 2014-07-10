@@ -541,6 +541,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>f2e286acc64b48e6646aead1caf9c354</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows64-vs12-20140710.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>google_breakpad</key>
@@ -600,6 +612,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>43e240add60022a17086f331d716073d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/gmock-1.7.0-windows64-vs12-20140710.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1116,9 +1140,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0775a49b4eed3939960bc0293b2387d5</string>
+              <string>6729e9dbb1f6b703fd03f52a85f533e2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/llqtwebkit-4.7.1-windows64-20131021.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-vs12-20140710.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

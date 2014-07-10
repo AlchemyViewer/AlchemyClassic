@@ -22,7 +22,13 @@ if (DARWIN OR LINUX)
 endif (DARWIN OR LINUX)
 
 if (WINDOWS)
+    if (WORD_SIZE EQUAL 64)
+    set(GLUI_LIBRARY
+        debug glui64.lib
+        optimized glui64.lib)
+    else (WORD_SIZE EQUAL 64)
     set(GLUI_LIBRARY
         debug glui32.lib
         optimized glui32.lib)
+    endif (WORD_SIZE EQUAL 64)
 endif (WINDOWS)

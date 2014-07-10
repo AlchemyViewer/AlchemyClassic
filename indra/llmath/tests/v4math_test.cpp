@@ -343,7 +343,9 @@ namespace tut
 		val2 =((x1 - x2)*(x1 - x2) + (y1 - y2)* (y1 - y2) + (z1 - z2)* (z1 -z2));
 		ensure_equals("dist_vec_squared: Fail ",val2, val1);
 	}
-
+#if LL_WINDOWS
+#pragma float_control(precise, on, push)
+#endif
 	template<> template<>
 	void v4math_object::test<20>()
 	{
@@ -357,7 +359,9 @@ namespace tut
 		LLVector4 vec4b = lerp(vec4,vec4a,val);
 		ensure("lerp failed", ((val1 ==vec4b.mV[VX])&& (val2 ==vec4b.mV[VY]) && (val3 ==vec4b.mV[VZ])&& (val4 ==vec4b.mV[VW])));	
 	}
-
+#if LL_WINDOWS
+#pragma float_control(pop)
+#endif
 	template<> template<>
 	void v4math_object::test<21>()
 	{

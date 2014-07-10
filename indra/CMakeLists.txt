@@ -69,10 +69,10 @@ add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
 
   # llplugin testbed code (is this the right way to include it?)
   if (LL_TESTS)
-    if(WINDOWS OR NOT LINUX OR DARWIN AND WORD_SIZE EQUAL 32)
+    if(WORD_SIZE EQUAL 32 AND WINDOWS OR DARWIN)
       add_subdirectory(${VIEWER_PREFIX}test_apps/llplugintest)
       add_subdirectory(${VIEWER_PREFIX}test_apps/llfbconnecttest)
-    endif(WINDOWS OR NOT LINUX OR DARWIN AND WORD_SIZE EQUAL 32)
+    endif(WORD_SIZE EQUAL 32 AND WINDOWS OR DARWIN)
   endif (LL_TESTS)
 
 if (LINUX)

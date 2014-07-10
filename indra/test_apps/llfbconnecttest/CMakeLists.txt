@@ -157,10 +157,6 @@ if(WINDOWS)
   set(fbconnecttest_debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
   set(fbconnecttest_debug_files
     libeay32.dll
-    libglib-2.0-0.dll
-    libgmodule-2.0-0.dll
-    libgobject-2.0-0.dll
-    libgthread-2.0-0.dll
     qtcored4.dll
     qtguid4.dll
     qtnetworkd4.dll
@@ -214,10 +210,6 @@ if(WINDOWS)
   set(fbconnecttest_release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
   set(fbconnecttest_release_files
     libeay32.dll
-    libglib-2.0-0.dll
-    libgmodule-2.0-0.dll
-    libgobject-2.0-0.dll
-    libgthread-2.0-0.dll
     qtcore4.dll
     qtgui4.dll
     qtnetwork4.dll

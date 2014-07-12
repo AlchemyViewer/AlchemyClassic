@@ -34,11 +34,17 @@ LLViewerEventRecorder::LLViewerEventRecorder() {
   mLogEvents = false; // </alchemy>
   // Remove any previous event log file
   std::string old_log_ui_events_to_llsd_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "Alchemy_Events_log.old");
-  LLFile::remove(old_log_ui_events_to_llsd_file);
+  if (gDirUtilp->fileExists(old_log_ui_events_to_llsd_file))
+  {
+	  LLFile::remove(old_log_ui_events_to_llsd_file);
+  }
   
 
   mLogFilename = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "Alchemy_Events_log.llsd");
-  LLFile::rename(mLogFilename, old_log_ui_events_to_llsd_file);
+  if (gDirUtilp->fileExists(mLogFilename))
+  {
+	  LLFile::rename(mLogFilename, old_log_ui_events_to_llsd_file);
+  }
 
   setEventLoggingOff();
 }

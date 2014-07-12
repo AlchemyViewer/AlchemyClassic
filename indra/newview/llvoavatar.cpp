@@ -3506,10 +3506,11 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 
 			static LLCachedControl<F32> s_pelvis_rot_threshold_slow(gSavedSettings, "AvatarRotateThresholdSlow", 60.0f);
 			static LLCachedControl<F32> s_pelvis_rot_threshold_fast(gSavedSettings, "AvatarRotateThresholdFast", 2.0f);
+			static LLCachedControl<bool> useRealisticMouselook(gSavedSettings, "AlchemyRealisticMouselook", false);
 
-			F32 pelvis_rot_threshold = clamp_rescale(speed, 0.1f, 1.0f, s_pelvis_rot_threshold_slow, s_pelvis_rot_threshold_fast);
+			F32 pelvis_rot_threshold = clamp_rescale(speed, 0.1f, 1.0f, useRealisticMouselook ? s_pelvis_rot_threshold_slow * 2.f : s_pelvis_rot_threshold_slow, s_pelvis_rot_threshold_fast);
 						
-			if (self_in_mouselook)
+			if (self_in_mouselook && !useRealisticMouselook)
 			{
 				pelvis_rot_threshold *= MOUSELOOK_PELVIS_FOLLOW_FACTOR;
 			}

@@ -1156,9 +1156,10 @@ void LLAgentCamera::updateCamera()
 	U32 camera_mode = mCameraAnimating ? mLastCameraMode : mCameraMode;
 
 	validateFocusObject();
-
+	static LLCachedControl<bool> useRealisticMouselook(gSavedSettings, "AlchemyRealisticMouselook", false);
 	if (isAgentAvatarValid() && 
 		gAgentAvatarp->isSitting() &&
+		!useRealisticMouselook &&
 		camera_mode == CAMERA_MODE_MOUSELOOK)
 	{
 		//changed camera_skyward to the new global "mCameraUpVector"
@@ -1431,35 +1432,30 @@ void LLAgentCamera::updateCamera()
 	}
 	gAgent.setLastPositionGlobal(global_pos);
 	
-	if (LLVOAvatar::sVisibleInFirstPerson && isAgentAvatarValid() && !gAgentAvatarp->isSitting() && cameraMouselook())
+	if (LLVOAvatar::sVisibleInFirstPerson && isAgentAvatarValid() && (useRealisticMouselook || !gAgentAvatarp->isSitting()) && cameraMouselook())
 	{
 		LLVector3 head_pos = gAgentAvatarp->mHeadp->getWorldPosition() + 
 			LLVector3(0.08f, 0.f, 0.05f) * gAgentAvatarp->mHeadp->getWorldRotation() + 
 			LLVector3(0.1f, 0.f, 0.f) * gAgentAvatarp->mPelvisp->getWorldRotation();
-		LLVector3 diff = mCameraPositionAgent - head_pos;
-		diff = diff * ~gAgentAvatarp->mRoot->getWorldRotation();
 
 		LLJoint* torso_joint = gAgentAvatarp->mTorsop;
 		LLJoint* chest_joint = gAgentAvatarp->mChestp;
 		LLVector3 torso_scale = torso_joint->getScale();
 		LLVector3 chest_scale = chest_joint->getScale();
 
-		// shorten avatar skeleton to avoid foot interpenetration
-		if (!gAgentAvatarp->mInAir)
+		if (useRealisticMouselook)
 		{
-			LLVector3 chest_offset = LLVector3(0.f, 0.f, chest_joint->getPosition().mV[VZ]) * torso_joint->getWorldRotation();
-			F32 z_compensate = llclamp(-diff.mV[VZ], -0.2f, 1.f);
-			F32 scale_factor = llclamp(1.f - ((z_compensate * 0.5f) / chest_offset.mV[VZ]), 0.5f, 1.2f);
-			torso_joint->setScale(LLVector3(1.f, 1.f, scale_factor));
-
-			LLJoint* neck_joint = gAgentAvatarp->mNeckp;
-			LLVector3 neck_offset = LLVector3(0.f, 0.f, neck_joint->getPosition().mV[VZ]) * chest_joint->getWorldRotation();
-			scale_factor = llclamp(1.f - ((z_compensate * 0.5f) / neck_offset.mV[VZ]), 0.5f, 1.2f);
-			chest_joint->setScale(LLVector3(1.f, 1.f, scale_factor));
-			diff.mV[VZ] = 0.f;
+			LLQuaternion agent_rot(gAgent.getFrameAgent().getQuaternion());
+			if (LLViewerObject* parent = static_cast<LLViewerObject*>(gAgentAvatarp->getParent()))
+				if (static_cast<LLViewerObject*>(gAgentAvatarp->getRoot())->flagCameraDecoupled())
+					agent_rot *= parent->getRenderRotation();
+			LLViewerCamera::getInstance()->updateCameraLocation(head_pos, mCameraUpVector, gAgentAvatarp->mHeadp->getWorldPosition() + LLVector3(1.0, 0.0, 0.0) * agent_rot);
 		}
-
-		gAgentAvatarp->mPelvisp->setPosition(gAgentAvatarp->mPelvisp->getPosition() + diff);
+		else
+		{
+			const LLVector3 diff((mCameraPositionAgent - head_pos) * ~gAgentAvatarp->mRoot->getWorldRotation());
+			gAgentAvatarp->mPelvisp->setPosition(gAgentAvatarp->mPelvisp->getPosition() + diff);
+		}
 
 		gAgentAvatarp->mRoot->updateWorldMatrixChildren();
 

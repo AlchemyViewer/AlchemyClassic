@@ -36,6 +36,7 @@ set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING
 # Platform-specific compilation flags.
 
 if (WINDOWS)
+  option(RELEASE_FULL_OPT "Enable Whole Program Optimization and related folding and binary reduction routines" OFF)
   # Don't build DLLs.
   set(BUILD_SHARED_LIBS OFF)
 
@@ -52,12 +53,19 @@ if (WINDOWS)
       "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Od /Zi /MD /MP /Ob0 -D_SECURE_STL=0"
       CACHE STRING "C++ compiler release-with-debug options" FORCE)
   set(CMAKE_CXX_FLAGS_RELEASE
-      "${CMAKE_CXX_FLAGS_RELEASE} ${LL_CXX_FLAGS} /O2 /Zi /MD /MP /Ob2 -D_SECURE_STL=0 -D_HAS_ITERATOR_DEBUGGING=0"
+      "${CMAKE_CXX_FLAGS_RELEASE} ${LL_CXX_FLAGS} /O2 /Oi /Ot /Zi /MD /MP /Ob2 -D_SECURE_STL=0 -D_HAS_ITERATOR_DEBUGGING=0"
       CACHE STRING "C++ compiler release options" FORCE)
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
-  if (MSVC12 AND WORD_SIZE EQUAL 32)
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
-  endif (MSVC12 AND WORD_SIZE EQUAL 32)
+
+  if (WORD_SIZE EQUAL 32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
+    if (MSVC12)
+      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
+    endif (MSVC12)
+  elseif (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG")
+    set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
+  endif (WORLD_SIZE EQUAL 32)
 
   set(CMAKE_CXX_STANDARD_LIBRARIES "")
   set(CMAKE_C_STANDARD_LIBRARIES "")
@@ -77,19 +85,29 @@ if (WINDOWS)
       /Zc:wchar_t-
       /fp:fast
       )
+
+  if (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+    add_definitions(
+        /GL
+        /Gw
+        )
+  endif (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+
   if (NOT MSVC12)
     add_definitions(/DDOM_DYNAMIC)
   endif (NOT MSVC12)
 	  
   if (MSVC12)
     if (RELEASE_EXTRA_DEBUG)
-      add_definitions(/d2Zi+)
+      add_definitions(/Zo)
     endif (RELEASE_EXTRA_DEBUG)
   endif (MSVC12)
 
-  if (WORD_SIZE EQUAL 32)
+  if (USE_AVX)
+    add_definitions(/arch:AVX)
+  else if (WORD_SIZE EQUAL 32)
     add_definitions(/arch:SSE2)
-  endif (WORD_SIZE EQUAL 32)
+  endif (USE_AVX)
 
   # Are we using the crummy Visual Studio KDU build workaround?
   if (NOT VS_DISABLE_FATAL_WARNINGS)

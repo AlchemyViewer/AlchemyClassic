@@ -2041,19 +2041,24 @@ void LLAgent::endAnimationUpdateUI()
 			LLFloaterReg::restoreVisibleInstances();
 #else // Use this for now
 			LLFloaterView::skip_list_t skip_list;
-			if (LLFloaterReg::findInstance("mini_map"))
-			{
-				skip_list.insert(LLFloaterReg::findInstance("mini_map"));
-			}
 			// <alchemy>
-			if (LLFloaterReg::findInstance("stats"))
-			{
-				skip_list.insert(LLFloaterReg::findInstance("stats"));
-			}
 			if (LLFloaterReg::findInstance("beacons"))
 			{
 				skip_list.insert(LLFloaterReg::findInstance("beacons"));
 			}
+			if (LLFloaterReg::findInstance("mini_map"))
+			{
+				skip_list.insert(LLFloaterReg::findInstance("mini_map"));
+			}
+			if (LLFloaterReg::findInstance("nearby_chat"))
+			{
+				skip_list.insert(LLFloaterReg::findInstance("nearby_chat"));
+			}
+			if (LLFloaterReg::findInstance("stats"))
+			{
+				skip_list.insert(LLFloaterReg::findInstance("stats"));
+			}
+
 			// </alchemy>
 
 			LLFloaterIMContainer* im_box = LLFloaterReg::getTypedInstance<LLFloaterIMContainer>("im_container");
@@ -2170,15 +2175,19 @@ void LLAgent::endAnimationUpdateUI()
 
 		// hide all floaters except the mini map
 
-#if 0 // Use this once all floaters are registered
+#if 1 // Use this once all floaters are registered
 		std::set<std::string> exceptions;
+		exceptions.insert("beacons");
 		exceptions.insert("mini_map");
+		exceptions.insert("nearby_chat");
+		exceptions.insert("stats");
 		LLFloaterReg::hideVisibleInstances(exceptions);
 #else // Use this for now
 		LLFloaterView::skip_list_t skip_list;
-		skip_list.insert(LLFloaterReg::findInstance("mini_map"));
-		skip_list.insert(LLFloaterReg::findInstance("stats")); // <alchemy/>
 		skip_list.insert(LLFloaterReg::findInstance("beacons")); // <alchemy/>
+		skip_list.insert(LLFloaterReg::findInstance("mini_map"));
+		skip_list.insert(LLFloaterReg::findInstance("nearby_chat"));
+		skip_list.insert(LLFloaterReg::findInstance("stats")); // <alchemy/>
 		gFloaterView->pushVisibleAll(FALSE, skip_list);
 #endif
 

@@ -14298,9 +14298,10 @@
       <string>LLSD</string>
       <key>Value</key>
       <array>
-	      <string>snapshot</string>
-	      <string>postcard</string>
-	      <string>mini_map</string>
+        <string>mini_map</string>
+        <string>postcard</string>
+        <string>snapshot</string>
+        <string>stats</string>
       </array>
     </map>
     <key>LandmarksSortedByDate</key>

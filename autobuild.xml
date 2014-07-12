@@ -2565,7 +2565,7 @@
                   <string>--config</string>
                   <string>Debug</string>
                   <string>--startup</string>
-                  <string>secondlife-bin</string>
+                  <string>alchemy-bin</string>
                 </array>
                 <key>options</key>
                 <array>
@@ -2592,7 +2592,7 @@
                   <string>/p:Platform=Win32</string>
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
-                  <string>/verbosity:minimal</string>
+                  <string>/verbosity:normal</string>
                   <string>/toolsversion:4.0</string>
                   <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
                 </array>
@@ -2639,7 +2639,7 @@
                   <string>--config</string>
                   <string>RelWithDebInfo</string>
                   <string>--startup</string>
-                  <string>secondlife-bin</string>
+                  <string>alchemy-bin</string>
                 </array>
                 <key>options</key>
                 <array>
@@ -2668,7 +2668,7 @@
                   <string>/p:Platform=Win32</string>
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
-                  <string>/verbosity:minimal</string>
+                  <string>/verbosity:normal</string>
                   <string>/toolsversion:4.0</string>
                   <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
                 </array>
@@ -2715,7 +2715,7 @@
                   <string>--config</string>
                   <string>Release</string>
                   <string>--startup</string>
-                  <string>secondlife-bin</string>
+                  <string>alchemy-bin</string>
                 </array>
                 <key>options</key>
                 <array>
@@ -2742,7 +2742,7 @@
                   <string>/p:Platform=Win32</string>
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
-                  <string>/verbosity:minimal</string>
+                  <string>/verbosity:normal</string>
                   <string>/toolsversion:4.0</string>
                   <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
                 </array>

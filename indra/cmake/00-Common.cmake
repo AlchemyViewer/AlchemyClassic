@@ -61,11 +61,11 @@ if (WINDOWS)
     if (MSVC12)
       set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
     endif (MSVC12)
-  elseif (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+  elseif (WORD_SIZE EQUAL 64 AND RELEASE_FULL_OPT)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LTCG")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /LTCG")
     set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
-  endif (WORLD_SIZE EQUAL 32)
+  endif (WORD_SIZE EQUAL 32)
 
   set(CMAKE_CXX_STANDARD_LIBRARIES "")
   set(CMAKE_C_STANDARD_LIBRARIES "")
@@ -86,12 +86,12 @@ if (WINDOWS)
       /fp:fast
       )
 
-  if (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+  if (WORD_SIZE EQUAL 64 AND RELEASE_FULL_OPT)
     add_definitions(
         /GL
         /Gw
         )
-  endif (WORD_SIZE_EQUAL 64 AND RELEASE_FULL_OPT)
+  endif (WORD_SIZE EQUAL 64 AND RELEASE_FULL_OPT)
 
   if (NOT MSVC12)
     add_definitions(/DDOM_DYNAMIC)
@@ -105,7 +105,7 @@ if (WINDOWS)
 
   if (USE_AVX)
     add_definitions(/arch:AVX)
-  else if (WORD_SIZE EQUAL 32)
+  elseif (WORD_SIZE EQUAL 32)
     add_definitions(/arch:SSE2)
   endif (USE_AVX)
 

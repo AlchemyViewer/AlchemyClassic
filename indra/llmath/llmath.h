@@ -153,7 +153,7 @@ inline F64 llabs(const F64 a)
 
 inline S32 lltrunc( F32 f )
 {
-#if LL_WINDOWS && !defined( __INTEL_COMPILER ) && !defined(_WIN64)
+#if LL_WINDOWS && !defined( __INTEL_COMPILER ) && !defined(_WIN64) && !(_MSC_VER >= 1800)
 		// Avoids changing the floating point control word.
 		// Add or subtract 0.5 - epsilon and then round
 		const static U32 zpfp[] = { 0xBEFFFFFF, 0x3EFFFFFF };
@@ -168,13 +168,21 @@ inline S32 lltrunc( F32 f )
 		}
 		return result;
 #else
+#if _MSC_VER >= 1800
+		return (S32)trunc(f);
+#else
 		return (S32)f;
+#endif
 #endif
 }
 
 inline S32 lltrunc( F64 f )
 {
+#if _MSC_VER >= 1800
+	return (S32)trunc(f);
+#else
 	return (S32)f;
+#endif
 }
 
 inline S32 llfloor( F32 f )
@@ -208,17 +216,30 @@ namespace llmath
 	// Use this round.  Does an arithmetic round (0.5 always rounds up)
 	inline S32 llround(const F32 val)
 	{
+#if _MSC_VER >= 1800
+		return (S32)round(val);
+#else
 		return llfloor(val + 0.5f);
+#endif
 	}
 
 	inline F32 llround(F32 val, F32 nearest)
 	{
+#if _MSC_VER >= 1800
+
+		return F32(round(val * (1.0f / nearest))) * nearest;
+#else
 		return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
+#endif
 	}
 
 	inline F64 llround(F64 val, F64 nearest)
 	{
+#if _MSC_VER >= 1800
+		return F64(round(val * (1.0 / nearest))) * nearest;
+#else
 		return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;
+#endif
 	}
 }
 

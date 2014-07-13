@@ -1275,8 +1275,8 @@ F32 LLAgent::clampPitchToLimits(F32 angle)
 
 	LLVector3 skyward = getReferenceUpVector();
 	static LLCachedControl<bool> useRealisticMouselook(gSavedSettings, "AlchemyRealisticMouselook", false);
-	F32 look_down_limit = (useRealisticMouselook ? 160.f : (isAgentAvatarValid() && gAgentAvatarp->isSitting() ? 170.f : 179.f)) * DEG_TO_RAD;
-	F32 look_up_limit = (useRealisticMouselook ? 20.f : 1.f) * DEG_TO_RAD;
+	const F32 look_down_limit = (useRealisticMouselook ? 160.f : (isAgentAvatarValid() && gAgentAvatarp->isSitting() ? 170.f : 179.f)) * DEG_TO_RAD;
+	const F32 look_up_limit = (useRealisticMouselook ? 20.f : 1.f) * DEG_TO_RAD;
 
 	F32 angle_from_skyward = acos( mFrameAgent.getAtAxis() * skyward );
 
@@ -2175,7 +2175,7 @@ void LLAgent::endAnimationUpdateUI()
 
 		// hide all floaters except the mini map
 
-#if 1 // Use this once all floaters are registered
+#if 0 // Use this once all floaters are registered
 		std::set<std::string> exceptions;
 		exceptions.insert("beacons");
 		exceptions.insert("mini_map");

@@ -85,7 +85,7 @@ static std::string readfile(const std::string& pathname, const std::string& desc
     }
     std::ifstream inf(pathname.c_str());
     std::string output;
-    tut::ensure(STRINGIZE("No output " << use_desc), (bool)std::getline(inf, output));
+    tut::ensure(STRINGIZE("No output " << use_desc), !!std::getline(inf, output));
     std::string more;
     while (std::getline(inf, more))
     {

@@ -104,11 +104,13 @@ if (WINDOWS)
     endif (RELEASE_EXTRA_DEBUG)
   endif (MSVC12)
 
-  if (USE_AVX)
+  if (USE_AVX AND MSVC12)
     add_definitions(/arch:AVX)
+  elseif (USE_AVX2 AND MSVC12)
+    add_definitions(/arch:AVX2)
   elseif (WORD_SIZE EQUAL 32)
     add_definitions(/arch:SSE2)
-  endif (USE_AVX)
+  endif (USE_AVX AND MSVC12)
 
   # Are we using the crummy Visual Studio KDU build workaround?
   if (NOT VS_DISABLE_FATAL_WARNINGS)

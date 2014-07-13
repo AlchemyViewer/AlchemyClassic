@@ -115,6 +115,7 @@ set(llcommon_HEADER_FILES
     ctype_workaround.h
     fix_macros.h
     indra_constants.h
+    is_approx_equal_fraction.h
     linden_common.h
     llalignedarray.h
     llallocator.h
@@ -172,6 +173,7 @@ set(llcommon_HEADER_FILES
     llmetrics.h
     llmetricperformancetester.h
     llmortician.h
+    llmutex.h
     llnametable.h
     llpointer.h
     llpredicate.h

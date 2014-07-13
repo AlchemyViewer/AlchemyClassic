@@ -154,7 +154,7 @@ struct PythonProcessLauncher
     void launch()
     {
         mPy = LLProcess::create(mParams);
-        tut::ensure(STRINGIZE("Couldn't launch " << mDesc << " script"), (mPy != NULL));
+        tut::ensure(STRINGIZE("Couldn't launch " << mDesc << " script"), !!mPy);
     }
 
     /// Run Python script and wait for it to complete.

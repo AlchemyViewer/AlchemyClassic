@@ -975,7 +975,7 @@
           </map>
         </map>
       </map>
-      <key>libxml</key>
+      <key>libxml2</key>
       <map>
         <key>license</key>
         <string>mit</string>

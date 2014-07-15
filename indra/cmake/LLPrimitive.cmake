@@ -6,7 +6,7 @@ include(Boost)
 
 use_prebuilt_binary(colladadom)
 use_prebuilt_binary(pcre)
-use_prebuilt_binary(libxml)
+use_prebuilt_binary(libxml2)
 
 set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llprimitive
@@ -35,7 +35,6 @@ if (WINDOWS)
         )
   endif (MSVC12)
 elseif (LINUX)
-    use_prebuilt_binary(libxml2)
     set(LLPRIMITIVE_LIBRARIES
         llprimitive
         collada14dom

@@ -522,9 +522,33 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>539ae68e2c136dee328eb265aea30561</string>
+              <string>55f4985224e78767cb1529a587f3de2f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.36-windows-20140618.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.39-windows-20140716.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+        </map>
+      </map>
+      <key>fmodstudio</key>
+      <map>
+        <key>license</key>
+        <string>fmodstudio</string>
+        <key>license_file</key>
+        <string>LICENSES/fmodstudio.txt</string>
+        <key>name</key>
+        <string>fmodstudio</string>
+        <key>platforms</key>
+        <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fef7858029feb682160fd4ca9d8157a4</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.04.04-windows-20140716.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

@@ -269,11 +269,11 @@ void LLSidepanelInventory::updateInbox()
 	// Set up observer for inbox changes, if we have an inbox already
 	else 
 	{
-		// Consolidate Received items
-		// We shouldn't have to do that but with a client/server system relying on a "well known folder" convention,
-		// things can get messy and conventions broken. This call puts everything back together in its right place.
-		gInventory.consolidateForType(inbox_id, LLFolderType::FT_INBOX);
-
+        // Consolidate Received items
+        // We shouldn't have to do that but with a client/server system relying on a "well known folder" convention,
+        // things can get messy and conventions broken. This call puts everything back together in its right place.
+        gInventory.consolidateForType(inbox_id, LLFolderType::FT_INBOX);
+        
 		// Enable the display of the inbox if it exists
 		enableInbox(gSavedSettings.getBOOL("InventoryDisplayInbox"));
 

@@ -921,6 +921,9 @@ void LLAgentCamera::cameraZoomIn(const F32 fraction)
 	F32 max_distance = disable_cam_constraints ? INT_MAX : llmin(mDrawDistance - DIST_FUDGE, 
 							 LLWorld::getInstance()->getRegionWidthInMeters() - DIST_FUDGE );
 
+	// <alchemy/> - **NOTE** Remove this hack once real problem is fixed
+	max_distance = llmin(max_distance, current_distance * 4.f); //Scaled max relative to current distance.  MAINT-3154
+
 	if (new_distance > max_distance)
 	{
 		new_distance = max_distance;

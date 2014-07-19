@@ -286,6 +286,7 @@ protected:
 	bool				mParseOnTheFly;
 
 	void				updateLinkSegments();
+	void				keepSelectionOnReturn(bool keep) { mKeepSelectionOnReturn = keep; }
 	class LLViewBorder*	mBorder;
 
 private:
@@ -320,6 +321,7 @@ private:
 	bool			mShowContextMenu;
 	bool			mEnableTooltipPaste;
 	bool			mPassDelete;
+	bool			mKeepSelectionOnReturn;	// disabling of removing selected text after pressing of Enter
 
 	LLUUID			mSourceID;
 

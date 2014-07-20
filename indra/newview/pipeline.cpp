@@ -7392,9 +7392,10 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 
 	LLVertexBuffer::cleanupClass();
 	
+#if 0 // <alchemy/>
 	//delete all name pool caches
 	LLGLNamePool::cleanupPools();
-
+#endif
 	
 
 	if (LLVertexBuffer::sGLCount > 0)

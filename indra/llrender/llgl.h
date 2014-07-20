@@ -354,6 +354,7 @@ public:
 	~LLGLSquashToFarClip();
 };
 
+#if 0 // <alchemy/>
 /*
 	Generic pooling scheme for things which use GL names (used for occlusion queries and vertex buffer objects).
 	Prevents thrashing of GL name caches by avoiding calls to glGenFoo and glDeleteFoo.
@@ -398,6 +399,7 @@ protected:
 	virtual GLuint allocateName() = 0;
 	virtual void releaseName(GLuint name) = 0;
 };
+#endif
 
 /*
 	Interface for objects that need periodic GL updates applied to them.

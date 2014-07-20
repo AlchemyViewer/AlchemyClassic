@@ -196,12 +196,10 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
-#if LL_WINDOWS
-#define LL_TYPEOF(exp) decltype(exp)
-#elif LL_LINUX
-#define LL_TYPEOF(exp) typeof(exp)
-#elif LL_DARWIN
-#define LL_TYPEOF(exp) typeof(exp)
+#if defined(LL_WINDOWS) || defined(LL_CLANG)
+#  define LL_TYPEOF(exp) decltype(exp)
+#else
+#  define LL_TYPEOF(exp) typeof(exp)
 #endif
 
 #define LL_TO_STRING_HELPER(x) #x

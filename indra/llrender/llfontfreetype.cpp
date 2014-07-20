@@ -30,10 +30,16 @@
 #include "llfontgl.h"
 
 // Freetype stuff
+#ifdef LL_DARWIN	// Update this preproc as we move up to modern versions on other platforms
+#include <freetype/ft2build.h>
+#include FT_FREETYPE_H
+#else
 #include <ft2build.h>
+#endif
 
 // For some reason, this won't work if it's not wrapped in the ifdef
-#ifdef FT_FREETYPE_H
+// Doesn't need wrapped in v2.53 .CR.
+#ifndef FT_FREETYPE_H
 #include FT_FREETYPE_H
 #endif
 

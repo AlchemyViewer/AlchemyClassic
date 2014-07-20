@@ -186,9 +186,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1eb36db04aa34dd2a9fcd7af1ff14d45</string>
+              <string>c5365c918e45e0528ff6409c1cefaed6</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/boost-1.52.0-darwin-20140518u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/3p-boost152-libc/downloads/boost-libcpp-1.52.0-darwin-20140624.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -234,9 +234,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dc28ae49a8917ad39d9432b86ff91c82</string>
+              <string>ffc42624d2fd3d5464b68415c323176a</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/colladadom-2.2-darwin-20140519u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/3p-colladadom-libc/downloads/colladadom-libcpp-2.2-darwin-20140625.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -630,9 +630,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>05e66a9a07e7c0e19373a5fde7153378</string>
+              <string>3f54ebd9737c4b5cb5fb863690f3bd3a</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/freetype-2.3.9-darwin-20131114u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/freetype-2.5.3-darwin-20140706u.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1110,9 +1110,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d24884f62c3a67cedace4b54edfec939</string>
+              <string>09ac2617ce6be747aa59fde9fa96d1df</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/jsoncpp-0.5.0-darwin-20131028u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/3p-jsoncpp-libc/downloads/jsoncpp-libcpp-0.5.0-darwin-20140625.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1548,9 +1548,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>eca7d927bef09da2686d60feaf155930</string>
+              <string>27ac7cdf4eb2120d0b8f422ed53705f9</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/ndPhysicsStub-0.1.1-darwin-20131109u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/3p-ndphysicsstub-libc/downloads/ndPhysicsStub-libcpp-0.1.1-darwin-20140624.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1852,9 +1852,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1c38f1cc4eafca2959ff56b7d1dbf79e</string>
+              <string>cf4e74199cdac160113be6fe2ed0a3d8</string>
               <key>url</key>
-              <string>http://bitbucket.org/cinderblocks/darwin64-libs/downloads/pcre-8.32-darwin-20131110u.tar.bz2</string>
+              <string>http://bitbucket.org/cinderblocks/3p-pcre/downloads/pcre-libcpp-8.35-darwin-20140625.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -59,8 +59,8 @@ void LLWLAnimator::update(LLWLParamSet& curParams)
 	}
 
 	// start it off
-	mFirstIt = mTimeTrack.begin();
-	mSecondIt = mTimeTrack.begin();
+	std::map<F32, LLWLParamKey>::iterator mFirstIt = mTimeTrack.begin();
+	std::map<F32, LLWLParamKey>::iterator mSecondIt = mTimeTrack.begin();
 	mSecondIt++;
 
 	// grab the two tween iterators

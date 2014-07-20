@@ -177,8 +177,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFAClosestPolicy,
 		NSOpenGLPFAAccelerated,
-		NSOpenGLPFASampleBuffers, (samples > 0 ? 1 : 0),
-		NSOpenGLPFASamples, samples,
+		NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>((samples > 0 ? 1 : 0)),
+		NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
 		NSOpenGLPFAStencilSize, 8,
 		NSOpenGLPFADepthSize, 24,
 		NSOpenGLPFAAlphaSize, 8,
@@ -312,8 +312,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	NSPoint scaled_delta = [self convertPointToBacking:delta];
 	
 	float mouseDeltas[2] = {
-		scaled_delta.x,
-		scaled_delta.y
+		static_cast<float>(scaled_delta.x),
+		static_cast<float>(scaled_delta.y)
 	};
 
 	callDeltaUpdate(mouseDeltas, 0);
@@ -337,8 +337,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	NSPoint scaled_delta = [self convertPointToBacking:delta];
 	
 	float mouseDeltas[2] = {
-		scaled_delta.x,
-		scaled_delta.y
+		static_cast<float>(scaled_delta.x),
+		static_cast<float>(scaled_delta.y)
 	};
 	
 	callDeltaUpdate(mouseDeltas, 0);
@@ -480,13 +480,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
         if (mMarkedTextAllowed)
         {
             unsigned int selected[2] = {
-                selectedRange.location,
-                selectedRange.length
+                static_cast<unsigned int>(selectedRange.location),
+                static_cast<unsigned int>(selectedRange.length)
             };
             
             unsigned int replacement[2] = {
-                replacementRange.location,
-                replacementRange.length
+                static_cast<unsigned int>(replacementRange.location),
+                static_cast<unsigned int>(replacementRange.length)
             };
             
             unichar text[[aString length]];

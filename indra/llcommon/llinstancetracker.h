@@ -31,13 +31,10 @@
 #include <map>
 #include <typeinfo>
 
+#include "llapr.h"
 #include "llstringtable.h"
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
-
-// Forward declarations
-template <typename Type> class LLAtomic32;
-typedef LLAtomic32<U32> LLAtomicU32;
 
 /**
  * Base class manages "class-static" data that must actually have singleton

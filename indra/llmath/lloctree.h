@@ -353,7 +353,7 @@ public:
 		//is it here?
 		if (isInside(data->getPositionGroup()))
 		{
-			if (((getElementCount() < gOctreeMaxCapacity || getSize()[0] <= gOctreeMinSize) && contains(data->getBinRadius()) ||
+			if ((((getElementCount() < gOctreeMaxCapacity || getSize()[0] <= gOctreeMinSize) && contains(data->getBinRadius())) ||
 				(data->getBinRadius() > getSize()[0] &&	parent && parent->getElementCount() >= gOctreeMaxCapacity))) 
 			{ //it belongs here
 				mData.push_back(NULL);

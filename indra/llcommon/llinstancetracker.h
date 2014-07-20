@@ -35,6 +35,10 @@
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 
+// Forward declarations
+template <typename Type> class LLAtomic32;
+typedef LLAtomic32<U32> LLAtomicU32;
+
 /**
  * Base class manages "class-static" data that must actually have singleton
  * semantics: one instance per process, rather than one instance per module as
@@ -56,7 +60,7 @@ protected:
 		void decrementDepth();
 		U32 getDepth();
 	private:
-		U32 sIterationNestDepth;
+		LLAtomicU32 sIterationNestDepth;
     };
 };
 

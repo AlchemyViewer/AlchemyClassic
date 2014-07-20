@@ -39,6 +39,10 @@
 #include "llavatarname.h"
 #include "llavatarnamecache.h"
 
+#if LL_DARWIN
+#include "llosxnotificationcenter.h"
+#endif
+
 using namespace LLNotificationsUI;
 
 //--------------------------------------------------------------------------
@@ -111,6 +115,12 @@ bool LLScriptHandler::processNotification(const LLNotificationPtr& notification)
 		{
 			channel->addToast(p);
 		}
+		
+#if LL_DARWIN
+		static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
+		if (sOSXNotifications)
+			LLOSXNotificationCenter::sendNotification(notification->getName(), notification->getMessage());
+#endif
 	}
 
 	return false;

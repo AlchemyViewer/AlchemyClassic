@@ -4,5 +4,4 @@
 * [Issue Tracker](http://alchemy.atlassian.net/)
 * [Wiki](https://alchemy.atlassian.net/wiki/)
 ## Code Status
-<script type="text/javascript" src="http://www.openhub.net/p/716064/widgets/project_factoids_stats.js"></script>
 ![Coverity Scan Build Status](https://scan.coverity.com/projects/1904/badge.svg)

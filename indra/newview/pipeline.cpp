@@ -11373,7 +11373,7 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 		LL_RECORD_BLOCK_TIME(FTM_IMPOSTOR_MARK_VISIBLE);
 		markVisible(avatar->mDrawable, *viewer_camera);
 		LLVOAvatar::sUseImpostors = FALSE;
-
+#if USE_LL_APPEARANCE_CODE
 		LLVOAvatar::attachment_map_t::iterator iter;
 		for (iter = avatar->mAttachmentPoints.begin();
 			iter != avatar->mAttachmentPoints.end();
@@ -11390,6 +11390,18 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 				}
 			}
 		}
+#else
+		std::vector<std::pair<LLViewerObject*,LLViewerJointAttachment*> >::iterator attachment_iter = avatar->mAttachedObjectsVector.begin();
+		std::vector<std::pair<LLViewerObject*,LLViewerJointAttachment*> >::iterator end = avatar->mAttachedObjectsVector.end();
+		for(;attachment_iter != end;++attachment_iter)
+		{{
+				if (LLViewerObject* attached_object = attachment_iter->first)
+				{
+					markVisible(attached_object->mDrawable->getSpatialBridge(), *viewer_camera);
+				}
+			}
+		}
+#endif
 	}
 
 	stateSort(*LLViewerCamera::getInstance(), result);

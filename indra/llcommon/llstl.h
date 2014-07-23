@@ -215,35 +215,11 @@ void delete_and_clear_array(T*& ptr)
 	ptr = NULL;
 }
 
-// Simple function to help with finding pointers in maps.
-// For example:
-// 	typedef  map_t;
-//  std::map<int, const char*> foo;
-//	foo[18] = "there";
-//	foo[2] = "hello";
-// 	const char* bar = get_ptr_in_map(foo, 2); // bar -> "hello"
-//  const char* baz = get_ptr_in_map(foo, 3); // baz == NULL
-template <typename K, typename T>
-inline T* get_ptr_in_map(const std::map<K,T*>& inmap, const K& key)
-{
-	// Typedef here avoids warnings because of new c++ naming rules.
-	typedef typename std::map<K,T*>::const_iterator map_iter;
-	map_iter iter = inmap.find(key);
-	if(iter == inmap.end())
-	{
-		return NULL;
-	}
-	else
-	{
-		return iter->second;
-	}
-};
-
 // helper function which returns true if key is in inmap.
-template <typename K, typename T>
-inline bool is_in_map(const std::map<K,T>& inmap, const K& key)
+template <typename T>
+// <alchemy/> - This has been generalized to support a broader range of map-esque containers
+inline bool is_in_map(const T& inmap, typename T::key_type const& key)
 {
-	typedef typename std::map<K,T>::const_iterator map_iter;
 	if(inmap.find(key) == inmap.end())
 	{
 		return false;
@@ -258,11 +234,13 @@ inline bool is_in_map(const std::map<K,T>& inmap, const K& key)
 // To replace LLSkipMap getIfThere, use:
 //   get_if_there(map, key, 0)
 // WARNING: Make sure default_value (generally 0) is not a valid map entry!
-template <typename K, typename T>
-inline T get_if_there(const std::map<K,T>& inmap, const K& key, T default_value)
+//
+// <alchemy/> - This has been generalized to support a broader range of map-esque containers.
+template <typename T>
+inline typename T::mapped_type get_if_there(const T& inmap, typename T::key_type const& key, typename T::mapped_type default_value)
 {
 	// Typedef here avoids warnings because of new c++ naming rules.
-	typedef typename std::map<K,T>::const_iterator map_iter;
+	typedef typename T::const_iterator map_iter;
 	map_iter iter = inmap.find(key);
 	if(iter == inmap.end())
 	{
@@ -274,6 +252,21 @@ inline T get_if_there(const std::map<K,T>& inmap, const K& key, T default_value)
 	}
 };
 
+// Simple function to help with finding pointers in maps.
+// For example:
+// 	typedef  map_t;
+//  std::map<int, const char*> foo;
+//	foo[18] = "there";
+//	foo[2] = "hello";
+// 	const char* bar = get_ptr_in_map(foo, 2); // bar -> "hello"
+//  const char* baz = get_ptr_in_map(foo, 3); // baz == NULL
+// <alchemy/> - This has been generalized to support a broader range of map-esque containers
+template <typename T>
+inline typename T::mapped_type get_ptr_in_map(const T& inmap, typename T::key_type const& key)
+{
+	return get_if_there(inmap,key,NULL);
+};
+
 // Example:
 //  for (std::vector<T>::iterator iter = mList.begin(); iter != mList.end(); )
 //  {
@@ -282,10 +275,12 @@ inline T get_if_there(const std::map<K,T>& inmap, const K& key, T default_value)
 //    else
 //      ++iter;
 //  }
+//
+// <alchemy/> - This has been generalized to support a broader range of sequence containers
 template <typename T>
-inline typename std::vector<T>::iterator vector_replace_with_last(std::vector<T>& invec, typename std::vector<T>::iterator iter)
+inline typename T::iterator vector_replace_with_last(T& invec, typename T::iterator& iter)
 {
-	typename std::vector<T>::iterator last = invec.end(); --last;
+	typename T::iterator last = invec.end(); --last;
 	if (iter == invec.end())
 	{
 		return iter;
@@ -305,13 +300,15 @@ inline typename std::vector<T>::iterator vector_replace_with_last(std::vector<T>
 
 // Example:
 //   vector_replace_with_last(mList, x);
+//
+// <alchemy/> - This has been generalized to support a broader range of sequence containers
 template <typename T>
-inline bool vector_replace_with_last(std::vector<T>& invec, const T& val)
+inline bool vector_replace_with_last(T& invec, typename T::value_type const& val)
 {
-	typename std::vector<T>::iterator iter = std::find(invec.begin(), invec.end(), val);
+	typename T::iterator iter = std::find(invec.begin(), invec.end(), val);
 	if (iter != invec.end())
 	{
-		typename std::vector<T>::iterator last = invec.end(); --last;
+		typename T::iterator last = invec.end(); --last;
 		*iter = *last;
 		invec.pop_back();
 		return true;

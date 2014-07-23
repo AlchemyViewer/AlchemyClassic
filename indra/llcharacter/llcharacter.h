@@ -38,6 +38,10 @@
 #include "llstringtable.h"
 #include "llpointer.h"
 #include "llrefcount.h"
+#if !USE_LL_APPEARANCE_CODE
+#include "llsortedvector.h"
+#include <boost/unordered_map.hpp>
+#endif
 
 class LLPolyMesh;
 
@@ -205,12 +209,20 @@ public:
 	// visual parameter accessors
 	LLVisualParam*	getFirstVisualParam()
 	{
+#if USE_LL_APPEARANCE_CODE
 		mCurIterator = mVisualParamIndexMap.begin();
+#else
+		mCurIterator = mVisualParamSortedVector.begin();
+#endif
 		return getNextVisualParam();
 	}
 	LLVisualParam*	getNextVisualParam()
 	{
+#if USE_LL_APPEARANCE_CODE
 		if (mCurIterator == mVisualParamIndexMap.end())
+#else
+		if (mCurIterator == mVisualParamSortedVector.end())
+#endif
 			return 0;
 		return (mCurIterator++)->second;
 	}
@@ -218,9 +230,15 @@ public:
 	S32 getVisualParamCountInGroup(const EVisualParamGroup group) const
 	{
 		S32 rtn = 0;
+#if USE_LL_APPEARANCE_CODE
 		for (visual_param_index_map_t::const_iterator iter = mVisualParamIndexMap.begin();
 		     iter != mVisualParamIndexMap.end();
 		     /**/ )
+#else
+		for (visual_param_sorted_vec_t::const_iterator iter = mVisualParamSortedVector.begin();
+		     iter != mVisualParamSortedVector.end();
+		     /* */ )
+#endif
 		{
 			if ((iter++)->second->getGroup() == group)
 			{
@@ -235,6 +253,7 @@ public:
 		visual_param_index_map_t::const_iterator iter = mVisualParamIndexMap.find(id);
 		return (iter == mVisualParamIndexMap.end()) ? 0 : iter->second;
 	}
+#if USE_LL_APPEARANCE_CODE
 	S32 getVisualParamID(LLVisualParam *id)
 	{
 		visual_param_index_map_t::iterator iter;
@@ -245,6 +264,7 @@ public:
 		}
 		return 0;
 	}
+#endif
 	S32				getVisualParamCount() const { return (S32)mVisualParamIndexMap.size(); }
 	LLVisualParam*	getVisualParam(const char *name);
 
@@ -275,6 +295,7 @@ protected:
 
 
 private:
+#if USE_LL_APPEARANCE_CODE
 	// visual parameter stuff
 	typedef std::map<S32, LLVisualParam *> 		visual_param_index_map_t;
 	typedef std::map<char *, LLVisualParam *> 	visual_param_name_map_t;
@@ -282,7 +303,18 @@ private:
 	visual_param_index_map_t::iterator 			mCurIterator;
 	visual_param_index_map_t 					mVisualParamIndexMap;
 	visual_param_name_map_t  					mVisualParamNameMap;
+#else
+	// visual parameter stuff
+	//typedef std::map<S32, LLVisualParam *> 		visual_param_index_map_t;
+	typedef boost::unordered_map<S32, LLVisualParam *> 		visual_param_index_map_t;	//Hash map for fast lookup.
+	typedef LLSortedVector<S32,LLVisualParam *>				visual_param_sorted_vec_t;	//Contiguous sorted array.
+	typedef std::map<char *, LLVisualParam *> 				visual_param_name_map_t;	
 
+	visual_param_sorted_vec_t::iterator 			mCurIterator;
+	visual_param_sorted_vec_t						mVisualParamSortedVector;
+	visual_param_index_map_t 						mVisualParamIndexMap;
+	visual_param_name_map_t  						mVisualParamNameMap;
+#endif
 	static LLStringTable sVisualParamNames;	
 };
 

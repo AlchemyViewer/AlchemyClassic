@@ -699,6 +699,9 @@ LLVisualParam* LLWearable::getVisualParam(S32 index) const
 
 void LLWearable::getVisualParams(visual_param_vec_t &list)
 {
+#if !USE_LL_APPEARANCE_CODE
+	list.reserve(mVisualParamIndexMap.size());
+#endif
 	visual_param_index_map_t::iterator iter = mVisualParamIndexMap.begin();
 	visual_param_index_map_t::iterator end = mVisualParamIndexMap.end();
 
@@ -749,7 +752,7 @@ void LLWearable::setClothesColor( S32 te, const LLColor4& new_color)
 void LLWearable::writeToAvatar(LLAvatarAppearance* avatarp)
 {
 	if (!avatarp) return;
-
+#if USE_LL_APPEARANCE_CODE
 	// Pull params
 	for( LLVisualParam* param = avatarp->getFirstVisualParam(); param; param = avatarp->getNextVisualParam() )
 	{
@@ -763,6 +766,14 @@ void LLWearable::writeToAvatar(LLAvatarAppearance* avatarp)
 			avatarp->setVisualParamWeight( param_id, weight);
 		}
 	}
+#else
+	for( visual_param_index_map_t::iterator it = mVisualParamIndexMap.begin(); it != mVisualParamIndexMap.end(); ++it )
+	{
+		LLVisualParam* param = it->second;
+		if(!((LLViewerVisualParam*)param)->getCrossWearable())
+			avatarp->setVisualParamWeight( param->getID(), param->getWeight() );
+	}
+#endif
 }
 
 

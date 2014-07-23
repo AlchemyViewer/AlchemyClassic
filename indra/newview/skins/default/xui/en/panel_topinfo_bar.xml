@@ -23,7 +23,7 @@
     width="16"/>
    <text
      follows="left|top|right"
-     font="DejaVu"
+     font="SansSerifSmall"
      height="16"
      layout="topleft"
      left_pad="11"

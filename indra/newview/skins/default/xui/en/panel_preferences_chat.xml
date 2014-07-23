@@ -25,7 +25,6 @@
       left="13"
       width="517"
       name="chat_tab">
-
     <check_box
         control_name="PlayTypingAnim"
         height="16"
@@ -35,9 +34,7 @@
         top_pad="15"
         left="5"
         name="play_typing_animation"
-        width="150">
-    </check_box>
-
+        width="150"/>
     <check_box
         control_name="AlchemyPlayTypingSound"
         height="16"
@@ -47,8 +44,7 @@
         top_pad="5"
         left="5"
         name="play_typing_sound"
-        width="150">
-    </check_box>
+        width="150"/>
     <check_box
         follows="left|top"
         height="16"
@@ -97,10 +93,8 @@
         name="send_im_to_email"
         left_delta="0"
         top_pad="5"
-        width="330">
-    </check_box>
-
-    <check_box
+        width="330"/>
+     <check_box
         control_name="AlchemyPlainChatUsername"
         height="16"
         label="Display username in plain text chat"
@@ -108,9 +102,17 @@
         name="username_plain_chat"
         left_delta="0"
         top_pad="5"
-        width="350">
-    </check_box>
-
+        width="350"/>
+    <check_box
+        control_name="UseChatBubbles"
+        height="16"
+        label="Display nearby chat in bubbles"
+        tool_tip="Show chat in a bubble under name tags"
+        layout="topleft"
+        name="bubble_text_chat"
+        left_delta="0"
+        top_pad="5"
+        width="350"/>
     <panel
     height="175"
     left="300"
@@ -120,19 +122,19 @@
     name="chat_appearance">
 
     <text
-        left="5"
+        left="0"
         top_pad="10"
         follows="top|left"
         layout="topleft"
-        width="140"
+        width="141"
         use_ellipses="false"
         name="test_text"
         tool_tip="text">
          Nearby Chat toast width:
       </text>
       <spinner
-        left_delta="135"
-        top_delta="-5"
+        left_delta="145"
+        top_delta="-2"
         height="10"
         width="55"
         decimal_digits="0"
@@ -147,54 +149,38 @@
 
     <text
         layout="topleft"
-        left="5"
+        left="0"
         height="12"
         name="chat_appearance_text"
-        width="75"
-        top_pad="20">
+        width="60"
+        top_pad="23">
         Font Size:
     </text>
-    <radio_group
-     height="25"
-     layout="topleft"
-     left_delta="5"
-     name="text_size_radio"
-     control_name="ChatFontSize"
-     tool_tip="Text size"
-     top_delta="15"
-     width="200">
-    <radio_item
-     bottom="20"
-     layout="topleft"
-     label="Small"
-     name="Small"
-     value="0"/>
-    <radio_item
-     bottom="20"
-     left_delta="60"
-     layout="topleft"
-     label="Medium"
-     name="Medium"
-     value="1"/>
-     <radio_item
-     bottom="20"
-     left_delta="70"
-     layout="topleft"
-     label="Large"
-     name="Large"
-     value="2"/>
-    </radio_group>
-    <check_box
-        control_name="UseChatBubbles"
-        height="16"
-        label="Use bubble chat"
-        tool_tip="Show chat in a bubble under name tags"
+    <combo_box
+        control_name="ChatFontSize"
+        height="23"
         layout="topleft"
-        left_delta="0"
-        top_pad="5"
-        name="bubble_text_chat"
-        width="330">
-    </check_box>
+        left_pad="0"
+        name="pass_combo"
+        top_delta="-3"
+        width="140">
+        <combo_box.item
+         label="Monospace"
+         name="Monospace Font"
+         value="3" />
+        <combo_box.item
+         label="Small"
+         name="Small Font"
+         value="0" />
+        <combo_box.item
+         label="Medium"
+         name="Medium Font"
+         value="1" />
+        <combo_box.item
+         label="Large"
+         name="Large Font"
+         value="2" />
+    </combo_box>
     </panel>
     
     <text

@@ -77,6 +77,8 @@
 #include "llupdaterservice.h"
 
 #include "llfloatercamera.h" // <alchemy/>
+#include "llfloaterimsessiontab.h"
+#include "llviewerchat.h"
 
 // Third party library includes
 #include <boost/algorithm/string.hpp>
@@ -800,6 +802,8 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("SpellCheck")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("SpellCheckDictionary")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("LoginLocation")->getSignal()->connect(boost::bind(&handleLoginLocationChanged));
+	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate, false));
+	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLViewerChat::signalChatFontChanged));
 #if ALCHEMY_TEST
 	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy/>
 #endif

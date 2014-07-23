@@ -1098,16 +1098,6 @@ void LLFloaterIMSessionTab::saveCollapsedState()
 	}
 }
 
-// <alchemy>
-void LLFloaterIMSessionTab::clearChatHistory()
-{
-	if (mChatHistory)
-	{
-		mChatHistory->clear();
-	}
-}
-// </alchemy>
-
 // virtual
 void LLFloaterIMSessionTab::applyMUPose(std::string& text)
 {

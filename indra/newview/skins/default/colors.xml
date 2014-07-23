@@ -956,6 +956,9 @@
 	
   <!-- Alchemy -->
   <color
+   name="AvatarListItemOnlineColor"
+   reference="White" />
+  <color
    name="ButtonGlowColor"
    reference="White" />
   <color
@@ -966,6 +969,9 @@
    reference="White" />
   <color
    name="ChatHeaderTimestampColor"
+   reference="White" />
+  <color
+   name="ChatHeaderDisplayNameColor"
    reference="White" />
   <color
    name="ChatHeaderUserNameColor"

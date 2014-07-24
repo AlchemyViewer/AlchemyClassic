@@ -50,7 +50,7 @@
   <font name="SansSerif"
 	comment="Name of italic sans-serif font"
 	font_style="ITALIC">
-    <file>SourceSansPro-It.ttf</file>
+    <file>SourceSansPro-SemiboldIt.ttf</file>
   </font>
 
   <font name="SansSerif"

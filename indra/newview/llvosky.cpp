@@ -1046,7 +1046,7 @@ void LLVOSky::calcAtmospherics(void)
 	mTotalAmbient = vary_AmbientColor;
 	mTotalAmbient.setAlpha(1);
 	
-	mFadeColor = mTotalAmbient + (mSunDiffuse + mMoonDiffuse) * 0.5f;
+	mFadeColor = LLColor4U(mTotalAmbient + (mSunDiffuse + mMoonDiffuse) * 0.5f);
 	mFadeColor.setAlpha(0);
 }
 

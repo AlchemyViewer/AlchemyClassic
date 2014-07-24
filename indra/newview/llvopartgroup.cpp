@@ -679,12 +679,12 @@ void LLVOPartGroup::getGeometry(S32 idx,
 		if (part.mParent)
 		{
 			pglow = part.mParent->mGlow;
-			pcolor = part.mParent->mColor;
+			pcolor = LLColor4U(part.mParent->mColor);
 		}
 		else 
 		{
 			pglow = LLColor4U(0, 0, 0, (U8) llmath::llround(255.f*part.mStartGlow));
-			pcolor = part.mStartColor;
+			pcolor = LLColor4U(part.mStartColor);
 		}
 	}
 	else

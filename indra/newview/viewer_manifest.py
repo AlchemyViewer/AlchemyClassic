@@ -827,8 +827,8 @@ class DarwinManifest(ViewerManifest):
                                 "libaprutil-1.0.dylib",
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
-								"libjpeg.8.0.2.dylib",
-								"libturbojpeg.0.0.0.dylib",
+                                "libjpeg.8.0.2.dylib",
+                                "libturbojpeg.0.0.0.dylib",
                                 ):
                     dylibs += path_optional(os.path.join(libdir, libfile), libfile)
 

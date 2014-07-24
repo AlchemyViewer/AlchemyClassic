@@ -62,6 +62,7 @@
 #include "llcalc.h"
 #include "llconversationlog.h"
 #include "lldxhardware.h"
+#include "llfontfreetype.h"
 #include "lltexturestats.h"
 #include "lltrace.h"
 #include "lltracethreadrecorder.h"
@@ -3350,6 +3351,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["OPENGL_VERSION"] = (const char*)(glGetString(GL_VERSION));
 	info["LIBCURL_VERSION"] = LLCurl::getVersionString();
 	info["J2C_VERSION"] = LLImageJ2C::getEngineInfo();
+	info["FONT_VERSION"] = LLFontFreetype::getVersionString();
 	bool want_fullname = true;
 	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(want_fullname)) : LLSD();
 	if(LLVoiceClient::getInstance()->voiceEnabled())

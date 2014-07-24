@@ -2,6 +2,7 @@
 <fonts>
 
   <font name="default" comment="default font files (global fallbacks)">
+    <file>SourceHanSans-Medium.otf</file>
     <file>DejaVuSans.ttf</file>
     <os name="Windows">
       <file>MSGOTHIC.TTC</file>

@@ -208,10 +208,10 @@ bool ALChatCommand::parseCommand(std::string data)
 		}
 		else if (cmd == utf8str_tolower(sClearCommand))
 		{
-			LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
+			LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
 			if (nearby_chat)
 			{
-				nearby_chat->clearChatHistory();
+				nearby_chat->reloadMessages(true);
 			}
 			return true;
 		}

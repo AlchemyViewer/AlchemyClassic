@@ -874,8 +874,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	LLColor4 name_color = LLUIColorTable::instance().getColor("ChatHeaderDisplayNameColor"); // <alchemy/>
 
 	LLViewerChat::getChatColor(chat,txt_color);
-	static LLCachedControl<bool> alchemyChatMonospace(gSavedSettings, "AlchemyChatMonospace");
-	LLFontGL* fontp = alchemyChatMonospace ?  LLFontGL::getFontMonospace() : LLViewerChat::getChatFont();	
+	LLFontGL* fontp = LLViewerChat::getChatFont();	
 	std::string font_name = LLFontGL::nameFromFont(fontp);
 	std::string font_size = LLFontGL::sizeFromFont(fontp);	
 

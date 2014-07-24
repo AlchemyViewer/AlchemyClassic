@@ -551,7 +551,8 @@ void LLFloaterCompileQueue::removeItemByItemID(const LLUUID& asset_id)
 	{
 		if(asset_id == mCurrentScripts.at(i)->getUUID())
 		{
-			vector_replace_with_last(mCurrentScripts, mCurrentScripts.begin() + i);
+			LLViewerInventoryItem::item_array_t::iterator iter = mCurrentScripts.begin() + i;
+			vector_replace_with_last(mCurrentScripts, iter);
 		}
 		else
 		{

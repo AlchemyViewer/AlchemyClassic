@@ -103,8 +103,6 @@ public:
 	void restoreFloater();
 	void saveCollapsedState();
 
-	void clearChatHistory(); // <alchemy/>
-
 protected:
 
 	// callback for click on any items of the visual states menu

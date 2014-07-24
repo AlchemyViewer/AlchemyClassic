@@ -18,9 +18,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ee2af1002b5ff29ef73a6a716deb1fe8</string>
+              <string>d58fff3d73b900f55871da3bd7cd0d60</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows-vs12-20140723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -30,9 +30,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>850ebb53847bfd9a97ea8735cb17a434</string>
+              <string>a2180d63d9f6bdd2de5f173c421340c8</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows64-vs12-20140723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -198,9 +198,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7feefd29643164c17f6461f6790b565a</string>
+              <string>c7886723761595c475429f188404e5b9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.0-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.1-windows-vs12-20140722.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -210,9 +210,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5de9002be838ed685ebdf8e915c182bc</string>
+              <string>d68b7ab681d6378968a04898058c3fde</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.0-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.1-windows64-vs12-20140722.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -426,9 +426,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f86f99834b9015ef98352b35ee04f655</string>
+              <string>da7a1f52fdebf13eeeb7f51c41fab802</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.4.4-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows-vs12-20140722.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -438,9 +438,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9f37c1bd1f030cd8e28415763523ba8f</string>
+              <string>60b3193ce8246471e9d07a8f98ad5d94</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.4.4-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows64-vs12-20140722.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -570,9 +570,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dae6867ab6d3ba0373aafa0927dd292d</string>
+              <string>4bb095e740f0e5811beffe8ec7267b2e</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1343-windows-vs12-20140708.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1351-windows-vs12-20140723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -582,9 +582,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>88752f930592535d8adc182f77502ff1</string>
+              <string>f72659ec61ac9f4072e535ff88457c7a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1343-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1351-windows64-vs12-20140723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

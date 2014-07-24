@@ -31,6 +31,7 @@
 #include <map>
 #include <typeinfo>
 
+#include "llapr.h"
 #include "llstringtable.h"
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
@@ -56,7 +57,7 @@ protected:
 		void decrementDepth();
 		U32 getDepth();
 	private:
-		U32 sIterationNestDepth;
+		LLAtomicU32 sIterationNestDepth;
     };
 };
 

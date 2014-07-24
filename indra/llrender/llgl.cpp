@@ -2307,6 +2307,7 @@ LLGLUserClipPlane::~LLGLUserClipPlane()
 	}
 }
 
+#if 0 // <alchemy/>
 LLGLNamePool::LLGLNamePool()
 {
 }
@@ -2396,6 +2397,7 @@ void LLGLNamePool::cleanupPools()
 		pool.cleanup();
 	}
 }
+#endif
 
 LLGLDepthTest::LLGLDepthTest(GLboolean depth_enabled, GLboolean write_enabled, GLenum depth_func)
 : mPrevDepthEnabled(sDepthEnabled), mPrevDepthFunc(sDepthFunc), mPrevWriteEnabled(sWriteEnabled)

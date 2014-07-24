@@ -459,6 +459,9 @@ void LLCharacter::addVisualParam(LLVisualParam *param)
 		visual_param_index_map_t::iterator index_iter = idxres.first;
 		index_iter->second = param;
 	}
+#if !USE_LL_APPEARANCE_CODE
+	mVisualParamSortedVector[index] = param;
+#endif
 
 	if (param->getInfo())
 	{

@@ -77,6 +77,7 @@ LLMotionRegistry::~LLMotionRegistry()
 //-----------------------------------------------------------------------------
 BOOL LLMotionRegistry::registerMotion( const LLUUID& id, LLMotionConstructor constructor )
 {
+#if USE_LL_APPEARANCE_CODE
 	//	LL_INFOS() << "Registering motion: " << name << LL_ENDL;
 	if (!is_in_map(mMotionTable, id))
 	{
@@ -85,6 +86,9 @@ BOOL LLMotionRegistry::registerMotion( const LLUUID& id, LLMotionConstructor con
 	}
 	
 	return FALSE;
+#else
+	return mMotionTable.insert(std::make_pair(id, constructor)).second;
+#endif
 }
 
 //-----------------------------------------------------------------------------

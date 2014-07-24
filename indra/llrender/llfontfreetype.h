@@ -139,6 +139,8 @@ public:
 	void setStyle(U8 style);
 	U8 getStyle() const;
 
+	static std::string getVersionString();
+
 private:
 	void resetBitmapCache();
 	void setSubImageLuminanceAlpha(U32 x, U32 y, U32 bitmap_num, U32 width, U32 height, U8 *data, S32 stride = 0) const;

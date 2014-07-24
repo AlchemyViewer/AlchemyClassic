@@ -197,6 +197,7 @@ set(llcommon_HEADER_FILES
     llsdutil.h
     llsimplehash.h
     llsingleton.h
+    llsortedvector.h
     llstacktrace.h
     llstl.h
     llstreamqueue.h

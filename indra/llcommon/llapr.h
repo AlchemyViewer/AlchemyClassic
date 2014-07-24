@@ -174,7 +174,7 @@ public:
 
 	operator const Type() { apr_uint32_t data = apr_atomic_read32(&mData); return Type(data); }
 	
-	Type	CurrentValue() const { apr_uint32_t data = apr_atomic_read32(const_cast< volatile apr_uint32_t* >(&mData)); return Type(data); }
+	Type	load() const { apr_uint32_t data = apr_atomic_read32(const_cast< volatile apr_uint32_t* >(&mData)); return Type(data); }
 
 	Type operator =(const Type& x) { apr_atomic_set32(&mData, apr_uint32_t(x)); return Type(mData); }
 	void operator -=(Type x) { apr_atomic_sub32(&mData, apr_uint32_t(x)); }

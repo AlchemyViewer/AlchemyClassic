@@ -32,8 +32,7 @@
      mouse_opaque="false"
      name="text_editor_box"
      read_only="true"
-     text_color="white"
-     text_readonly_color="white"
+
      top="10"
      width="285"
      wrap="true"

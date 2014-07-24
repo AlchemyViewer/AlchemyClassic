@@ -12211,7 +12211,7 @@
       <key>Type</key>
       <string>S32</string>
       <key>Value</key>
-      <real>7</real>
+      <real>4</real>
     </map>
     <key>UIImgDefaultEyesUUID</key>
     <map>
@@ -12992,7 +12992,7 @@
       <key>Type</key>
       <string>S32</string>
       <key>Value</key>
-      <integer>15</integer>
+      <integer>12</integer>
     </map>
     <key>UpdaterServiceSetting</key>
     <map>

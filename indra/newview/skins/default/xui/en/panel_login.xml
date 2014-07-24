@@ -187,9 +187,9 @@
           font="SansSerifSmall"
           text_color="EmphasisColor"
           left="10"
-          height="16"
+          height="18"
           name="login_help"
-          top="19"
+          top="17"
           width="280">
         Need help logging in?
       </text>
@@ -197,9 +197,9 @@
           follows="left|bottom"
           font="SansSerifSmall"
           text_color="EmphasisColor"
-          height="16"
+          height="18"
           name="forgot_password_text"
-          top="35"
+          top="32"
           width="280">
         Forgot your username or password?
       </text>

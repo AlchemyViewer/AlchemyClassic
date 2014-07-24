@@ -123,7 +123,7 @@
 
     <text
         left="0"
-        top_pad="10"
+        top_pad="5"
         follows="top|left"
         layout="topleft"
         width="141"
@@ -656,7 +656,7 @@
         top_pad="10"
         left="8"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandDrawDistance_txt"
         width="220">
         Change Draw Dist (usage: cmd meters)
@@ -670,13 +670,14 @@
         text_pad_left="5"
         name="AlchemyChatCommandDrawDistance"
         control_name="AlchemyChatCommandDrawDistance"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
       <!--gth-->
       <text
-        top_pad="10"
+        top_pad="5"
         left_delta="0"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandHeight_txt"
         width="220">
         Teleport to height (0-8192)
@@ -689,12 +690,13 @@
         text_pad_left="5"
         name="AlchemyChatCommandHeight"
         control_name="AlchemyChatCommandHeight"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
       <!--flr-->
       <text
-        top_pad="10"
+        top_pad="5"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandGround_txt"
         width="220">
         Teleport to ground
@@ -707,12 +709,13 @@
         text_pad_left="5"
         name="AlchemyChatCommandGround"
         control_name="AlchemyChatCommandGround"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
       <!--pos-->
       <text
-        top_pad="10"
+        top_pad="5"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandPos_txt"
         width="220">
         Teleport to position (usage: cmd x y z)
@@ -725,12 +728,13 @@
         text_pad_left="5"
         name="AlchemyChatCommandPos"
         control_name="AlchemyChatCommandPos"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
       <!--mapto-->
       <text
-        top_pad="10"
+        top_pad="5"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandMapto_txt"
         width="220">
         Teleport to region
@@ -743,12 +747,13 @@
         text_pad_left="5"
         name="AlchemyChatCommandMapto"
         control_name="AlchemyChatCommandMapto"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
       <!--clr-->
       <text
-        top_pad="10"
+        top_pad="5"
         follows="left|top"
-        height="16"
+        height="18"
         name="AlchemyChatCommandClearNearby_txt"
         width="220">
         Clear contents of nearby chat
@@ -761,13 +766,14 @@
         text_pad_left="5"
         name="AlchemyChatCommandClearNearby"
         control_name="AlchemyChatCommandClearNearby"
+        enabled_control="AlchemyChatCommandEnable"
         width="220"/>
         <!--home-->
         <text
           top="41"
           follows="left|top"
           left_pad="30"
-          height="16"
+          height="18"
           name="AlchemyChatCommandHome_txt"
           width="220">
           Teleport Home
@@ -780,12 +786,13 @@
           text_pad_left="5"
           name="AlchemyChatCommandHome"
           control_name="AlchemyChatCommandHome"
+          enabled_control="AlchemyChatCommandEnable"
           width="220"/>
           <!--sethome-->
         <text
-          top_pad="10"
+          top_pad="5"
           follows="left|top"
-          height="16"
+          height="18"
           name="AlchemyChatCommandSetHome_txt"
           width="220">
           Set Home Location
@@ -798,12 +805,13 @@
           text_pad_left="5"
           name="AlchemyChatCommandSetHome"
           control_name="AlchemyChatCommandSetHome"
+          enabled_control="AlchemyChatCommandEnable"
           width="220"/>
           <!--reserved-->
         <text
-          top_pad="10"
+          top_pad="5"
           follows="left|top"
-          height="16"
+          height="18"
           name="reserved_txt"
           width="220">
           Calculator
@@ -816,12 +824,13 @@
           text_pad_left="5"
           name="AlchemyChatCommandCalc"
           control_name="AlchemyChatCommandCalc"
+          enabled_control="AlchemyChatCommandEnable"
           width="220"/>
         <!--rezplat-->
         <text
-          top_pad="10"
+          top_pad="5"
           follows="left|top"
-          height="16"
+          height="18"
           name="AlchemyChatCommandRezPlat_txt"
           width="220">
           Rez a platform (usage: cmd size)
@@ -834,21 +843,24 @@
           text_pad_left="5"
           name="AlchemyChatCommandRezPlat"
           control_name="AlchemyChatCommandRezPlat"
+          enabled_control="AlchemyChatCommandEnable"
           width="220"/>
         <slider
+          can_edit_text="true"
           top_pad="5"
           name="AlchemyChatCommandRezPlatSize"
           control_name="AlchemyChatCommandRezPlatSize"
+          enabled_control="AlchemyChatCommandEnable"
           decimal_digits="0"
           follows="left|top"
           height="18"
           increment="1"
           label="Width"
-          label_width="30"
+          label_width="35"
           max_val="64"
           min_val="1"
           show_text="true"
-          width="226"
+          width="220"
           tool_tip="Default size of rezzed platform when size is not provided with command"/>
 </panel>
 </tab_container>

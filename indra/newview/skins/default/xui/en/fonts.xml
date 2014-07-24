@@ -2,6 +2,7 @@
 <fonts>
 
   <font name="default" comment="default font files (global fallbacks)">
+    <file>SourceSansPro-Semibold.ttf</file>
     <file>SourceHanSans-Medium.otf</file>
     <file>DejaVuSans.ttf</file>
     <os name="Windows">
@@ -21,7 +22,7 @@
 
   <font name="SansSerifBold"
 	comment="Name of bold sans-serif font">
-    <file>DejaVuSans-Bold.ttf</file>
+    <file>SourceSansPro-Bold.ttf</file>
     <os name="Windows">
       <file>arialbd.ttf</file>
       </os>
@@ -31,7 +32,7 @@
   </font>
 
   <font name="SansSerif" comment="Name of san-serif font (Truetype file name)">
-    <file>DejaVuSans.ttf</file>
+    <file>SourceSansPro-Semibold.ttf</file>
     <os name="Windows">
       <file>arial.ttf</file>
       </os>
@@ -43,24 +44,24 @@
   <font name="SansSerif"
 	comment="Name of bold sans-serif font"
 	font_style="BOLD">
-    <file>DejaVuSans-Bold.ttf</file>
+    <file>SourceSansPro-Bold.ttf</file>
   </font>
 
   <font name="SansSerif"
 	comment="Name of italic sans-serif font"
 	font_style="ITALIC">
-    <file>DejaVuSans-Oblique.ttf</file>
+    <file>SourceSansPro-SemiboldIt.ttf</file>
   </font>
 
   <font name="SansSerif"
 	comment="Name of bold italic sans-serif font"
 	font_style="BOLD|ITALIC">
-    <file>DejaVuSans-BoldOblique.ttf</file>
+    <file>SourceSansPro-BoldIt.ttf</file>
   </font>
 
   <font name="Monospace"
 	comment="Name of monospace font">
-    <file>DejaVuSansMono.ttf</file>
+    <file>SourceCodePro-Regular.ttf</file>
   </font>
 
   <font name="DejaVu"
@@ -141,7 +142,7 @@
 
   <font_size name="Monospace"
 	     comment="Size for monospaced font (points, or 1/72 of an inch)"
-	     size="8.0"
+	     size="9.0"
 	     />
   <font_size name="Huge"
 	     comment="Size of huge font (points, or 1/72 of an inch)"
@@ -149,14 +150,14 @@
 	     />
   <font_size name="Large"
 	     comment="Size of large font (points, or 1/72 of an inch)"
-	     size="10.6"
+	     size="11.6"
 	     />
   <font_size name="Medium"
 	     comment="Size of medium font (points, or 1/72 of an inch)"
-	     size="8.6"
+	     size="10.4"
 	     />
   <font_size name="Small"
 	     comment="Size of small font (points, or 1/72 of an inch)"
-	     size="7.6"
+	     size="9.4"
 	     />
 </fonts>

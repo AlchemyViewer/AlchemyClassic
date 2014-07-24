@@ -14,7 +14,7 @@
    layout="topleft"
    value="Draw Distance:"/>
   <slider_bar
-   top_pad="-19"
+   top_pad="-16"
    height="20"
    increment="32"
    initial_value="96"
@@ -45,12 +45,12 @@
    follows="left|top"
    height="15"
    left="10"
-   top_pad="6"
+   top_pad="3"
    width="120"
    layout="topleft"
    value="Level of Detail:"/>
   <slider_bar
-   top_pad="-19"
+   top_pad="-16"
    height="20"
    increment="0.1"
    initial_value="96"
@@ -80,12 +80,12 @@
    follows="left|top"
    height="15"
    left="10"
-   top_pad="6"
+   top_pad="3"
    width="120"
    layout="topleft"
    value="Max Particles:"/>
   <slider_bar
-   top_pad="-19"
+   top_pad="-16"
    height="20"
    increment="6"
    initial_value="96"
@@ -115,12 +115,12 @@
    follows="left|top"
    height="15"
    left="10"
-   top_pad="6"
+   top_pad="3"
    width="120"
    layout="topleft"
    value="Max Avatars:"/>
   <slider_bar
-   top_pad="-19"
+   top_pad="-16"
    height="20"
    increment="1"
    initial_value="96"
@@ -150,12 +150,12 @@
    follows="left|top"
    height="15"
    left="10"
-   top_pad="6"
+   top_pad="3"
    width="120"
    layout="topleft"
    value="Max Bandwidth:" />
   <slider_bar
-   top_pad="-19"
+   top_pad="-16"
    height="20"
    increment="6"
    initial_value="96"

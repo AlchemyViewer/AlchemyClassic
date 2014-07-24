@@ -79,7 +79,7 @@
 	 halign="right"
          right="-5"
          name="time_box"
-         top="4"
+         top="8"
          value="23:30"
          width="50" />
     </panel>

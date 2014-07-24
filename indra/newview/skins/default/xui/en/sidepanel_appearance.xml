@@ -33,7 +33,7 @@ width="333">
    follows="left|top|right"
    layout="topleft"
    width="303"
-   height="35"
+   height="33"
    name="panel_currentlook"
    >
       <button
@@ -68,7 +68,7 @@ width="333">
       follows="top|left|right"
       layout="topleft"
       left="35"
-      top="1"
+      top="3"
       mouse_opaque="false"
       name="currentlook_status" >
       (Status)
@@ -79,7 +79,7 @@ width="333">
       left="35"
       parse_urls="false"
       text_color="White"
-      top="13"
+      top="15"
       use_ellipses="true"
       width="230"
       follows="top|left|right"

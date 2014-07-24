@@ -1568,7 +1568,7 @@ void LLMenuItemBranchDownGL::draw( void )
 	{
 		color = mDisabledColor.get();
 	}
-	getFont()->render(mLabel.getWString(), 0, (F32) (getRect().getWidth() / 2.f), (F32) ((getRect().getHeight() - getFont()->getLineHeight()) / 2.f), color,
+	getFont()->render( mLabel.getWString(), 0, (F32)getRect().getWidth() / 2.f, (F32)LABEL_BOTTOM_PAD_PIXELS, color,
 				   LLFontGL::HCENTER, LLFontGL::BOTTOM, LLFontGL::NORMAL);
 
 

@@ -31,7 +31,7 @@
 
 // Freetype stuff
 #ifdef LL_DARWIN	// Update this preproc as we move up to modern versions on other platforms
-#include <freetype/ft2build.h>
+#include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
 #else
 #include <ft2build.h>

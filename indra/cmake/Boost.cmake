@@ -8,6 +8,7 @@ if (USESYSTEMLIBS)
   include(FindBoost)
 
   set(BOOST_CONTEXT_LIBRARY boost_context-mt)
+  set(BOOST_COROUTINE_LIBRARY boost_coroutine-mt)
   set(BOOST_FILESYSTEM_LIBRARY boost_filesystem-mt)
   set(BOOST_PROGRAM_OPTIONS_LIBRARY boost_program_options-mt)
   set(BOOST_REGEX_LIBRARY boost_regex-mt)
@@ -17,7 +18,7 @@ if (USESYSTEMLIBS)
 else (USESYSTEMLIBS)
   use_prebuilt_binary(boost)
   set(Boost_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include)
-  set(BOOST_VERSION "1.52")
+  set(BOOST_VERSION "1.55")
 
   if (WINDOWS)
     if(MSVC80)
@@ -95,6 +96,9 @@ else (USESYSTEMLIBS)
     set(BOOST_CONTEXT_LIBRARY
         optimized boost_context-mt
         debug boost_context-mt-d)
+    set(BOOST_COROUTINE_LIBRARY
+        optimized boost_coroutine-mt
+        debug boost_coroutine-mt-d)
     set(BOOST_FILESYSTEM_LIBRARY
         optimized boost_filesystem-mt
         debug boost_filesystem-mt-d)

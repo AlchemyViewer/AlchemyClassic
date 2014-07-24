@@ -26,8 +26,8 @@
 #ifndef LL_LLPNGWRAPPER_H
 #define LL_LLPNGWRAPPER_H
 
-#include "png.h"
 #include "llimage.h"
+#include <libpng16/png.h>
 
 class LLPngWrapper
 {

@@ -834,9 +834,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>13876cbc13e76ccf73ada40512fd98a9</string>
+              <string>e2fffaed9f44b34fef5df2767c7980fe</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1351-darwin-201407232009.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1351-darwin-201407242040.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

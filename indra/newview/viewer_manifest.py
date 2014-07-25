@@ -748,7 +748,6 @@ class DarwinManifest(ViewerManifest):
 
             # copy additional libs in <bundle>/Contents/MacOS/
             self.path("../packages/lib/release/libndofdev.dylib", dst="Resources/libndofdev.dylib")
-            self.path("../packages/lib/release/libhunspell-1.3.0.dylib", dst="Resources/libhunspell-1.3.0.dylib")
 
             if self.prefix(dst="MacOS"):
                 self.path2basename("../viewer_components/updater/scripts/darwin", "*.py")

@@ -245,7 +245,6 @@ elseif(DARWIN)
         libaprutil-1.dylib
         libGLOD.dylib
         libndofdev.dylib
-        libhunspell-1.3.0.dylib
         libexception_handler.dylib
        )
 

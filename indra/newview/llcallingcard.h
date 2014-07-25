@@ -40,6 +40,8 @@
 class LLMessageSystem;
 class LLTrackingData;
 
+struct LLDictionaryLess;
+
 class LLFriendObserver
 {
 public:

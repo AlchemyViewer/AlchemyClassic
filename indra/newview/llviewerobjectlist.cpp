@@ -1747,16 +1747,12 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 
 void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 {
-	LLColor4 above_water_color = LLUIColorTable::instance().getColor( "NetMapOtherOwnAboveWater" );
-	LLColor4 below_water_color = LLUIColorTable::instance().getColor( "NetMapOtherOwnBelowWater" );
-	LLColor4 you_own_above_water_color = 
-						LLUIColorTable::instance().getColor( "NetMapYouOwnAboveWater" );
-	LLColor4 you_own_below_water_color = 
-						LLUIColorTable::instance().getColor( "NetMapYouOwnBelowWater" );
-	LLColor4 group_own_above_water_color = 
-						LLUIColorTable::instance().getColor( "NetMapGroupOwnAboveWater" );
-	LLColor4 group_own_below_water_color = 
-						LLUIColorTable::instance().getColor( "NetMapGroupOwnBelowWater" );
+	LLColor4U above_water_color(LLUIColorTable::instance().getColor( "NetMapOtherOwnAboveWater" ));
+	LLColor4U below_water_color(LLUIColorTable::instance().getColor( "NetMapOtherOwnBelowWater" ));
+	LLColor4U you_own_above_water_color(LLUIColorTable::instance().getColor( "NetMapYouOwnAboveWater" ));
+	LLColor4U you_own_below_water_color(LLUIColorTable::instance().getColor( "NetMapYouOwnBelowWater" ));
+	LLColor4U group_own_above_water_color(LLUIColorTable::instance().getColor( "NetMapGroupOwnAboveWater" ));
+	LLColor4U group_own_below_water_color(LLUIColorTable::instance().getColor( "NetMapGroupOwnBelowWater" ));
 
 	static LLCachedControl<F32> max_radius(gSavedSettings, "MiniMapPrimMaxRadius");
 

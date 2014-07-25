@@ -34,6 +34,8 @@
 #include <endian.h>
 #endif	//	LL_LINUX
 
+#include <ciso646> // To detect std::lib .CR.
+
 #if LL_SOLARIS
 #   ifdef  __sparc     // Since we're talking Solaris 10 and up, only 64 bit is supported.
 #      define LL_BIG_ENDIAN 1
@@ -196,12 +198,10 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
-#if LL_WINDOWS
-#define LL_TYPEOF(exp) decltype(exp)
-#elif LL_LINUX
-#define LL_TYPEOF(exp) typeof(exp)
-#elif LL_DARWIN
-#define LL_TYPEOF(exp) typeof(exp)
+#if defined(LL_WINDOWS) || defined(_LIBCPP_VERSION)
+#  define LL_TYPEOF(exp) decltype(exp)
+#else
+#  define LL_TYPEOF(exp) typeof(exp)
 #endif
 
 #define LL_TO_STRING_HELPER(x) #x

@@ -49,7 +49,6 @@ public:
 	
 	// track to play
 	std::map<F32, LLWLParamKey> mTimeTrack;
-	std::map<F32, LLWLParamKey>::iterator mFirstIt, mSecondIt;
 
 	// simple constructor
 	LLWLAnimator();

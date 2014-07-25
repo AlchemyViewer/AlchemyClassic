@@ -45,9 +45,10 @@ typedef FILE	LLFILE;
 typedef struct _stat	llstat;
 #else
 typedef struct stat		llstat;
+#if __has_include(<ext/stdio_filebuf.h>) || defined(LL_GNUC) // Oof, this is pretty ugly
 #include <ext/stdio_filebuf.h>
-#include <bits/postypes.h>
-#endif
+#endif // has_include
+#endif // !LL_WINDOWS
 
 #ifndef S_ISREG
 # define S_ISREG(x) (((x) & S_IFMT) == S_IFREG)
@@ -98,6 +99,9 @@ namespace
 {
 #if LL_WINDOWS
 typedef std::filebuf						_Myfb;
+#elif _LIBCPP_VERSION
+typedef std::basic_filebuf< char >			_Myfb;
+typedef FILE								_Filet;
 #else
 typedef  __gnu_cxx::stdio_filebuf< char >	_Myfb;
 typedef std::__c_file						_Filet;
@@ -128,6 +132,8 @@ public:
 		    size_t __size = static_cast<size_t>(1)) :
 #if LL_WINDOWS
 		_Myfb(__f) {}
+#elif _LIBCPP_VERSION
+		_Myfb() {}
 #else
 		_Myfb(__f, __mode, __size) {}
 #endif
@@ -158,11 +164,15 @@ public:
 	llstdio_filebuf(int __fd, std::ios_base::openmode __mode,
 		//size_t __size = static_cast<size_t>(BUFSIZ)) :
 		size_t __size = static_cast<size_t>(1)) :
+#if _LIBCPP_VERSION
+		_Myfb() {}
+#else
 		_Myfb(__fd, __mode, __size) {}
+#endif
 #endif
 
 // *TODO: Seek the underlying c stream for better cross-platform compatibility?
-#if !LL_WINDOWS
+#if !defined(LL_WINDOWS) && !defined(_LIBCPP_VERSION)
 protected:
 	/** underflow() and uflow() functions are called to get the next
 	 *  character from the real input source when the buffer is empty.

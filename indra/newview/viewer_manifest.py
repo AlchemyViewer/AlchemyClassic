@@ -825,10 +825,10 @@ class DarwinManifest(ViewerManifest):
                 for libfile in (
                                 "libapr-1.0.dylib",
                                 "libaprutil-1.0.dylib",
-                                "libcollada14dom.dylib",
-                                "libexpat.1.5.2.dylib",
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
+                                "libjpeg.8.0.2.dylib",
+                                "libturbojpeg.0.0.0.dylib",
                                 ):
                     dylibs += path_optional(os.path.join(libdir, libfile), libfile)
 

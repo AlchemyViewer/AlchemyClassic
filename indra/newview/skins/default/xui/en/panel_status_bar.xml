@@ -67,7 +67,6 @@
      image_pressed="PushButton_Press"
      height="18"
      label="Buy L$"
-     label_color="White"
      left_pad="0"
      label_shadow="true"
      name="buyL"

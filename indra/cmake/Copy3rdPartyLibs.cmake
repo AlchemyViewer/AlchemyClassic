@@ -243,10 +243,10 @@ elseif(DARWIN)
         libapr-1.dylib
         libaprutil-1.0.dylib
         libaprutil-1.dylib
-        libGLOD.dylib
-        libndofdev.dylib
-        libhunspell-1.3.0.dylib
         libexception_handler.dylib
+        libGLOD.dylib
+        libhunspell-1.3.0.dylib
+        libndofdev.dylib
        )
 
     if (WORD_SIZE EQUAL 32)

@@ -2517,9 +2517,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>
@@ -2542,9 +2539,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>
@@ -2563,9 +2557,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>
@@ -2590,9 +2581,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>
@@ -2611,9 +2599,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>
@@ -2636,9 +2621,6 @@
               <map>
                 <key>command</key>
                 <string>ninja</string>
-                <key>options</key>
-                <array>
-                </array>
               </map>
               <key>configure</key>
               <map>

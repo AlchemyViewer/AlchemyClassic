@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>59272bf31afb42cb8e1d1fe89115680e</string>
+              <string>2d8ee8d46dc93564b09a10a02ac4a370</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201407232116.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201407251411.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -746,9 +746,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0b95360e2da9211bb3547587a226200c</string>
+              <string>6d62462a0ec105f72f9b8002bb2660ff</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glod-1.0pre4-darwin-201407230856.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glod-1.0pre4-darwin-201407251217.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1243,8 +1243,12 @@
       </map>
       <key>libhunspell</key>
       <map>
+        <key>copyright</key>
+        <string>See hunspell.txt</string>
+        <key>description</key>
+        <string>Spell checking library</string>
         <key>license</key>
-        <string>libhunspell</string>
+        <string>LGPL</string>
         <key>license_file</key>
         <string>LICENSES/hunspell.txt</string>
         <key>name</key>
@@ -1256,9 +1260,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1403af81eba47ea08137229100e6a42b</string>
+              <string>755a8cbd1c8852edc2655bfb4130ec4b</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libhunspell-1.3.2-darwin-201407201529.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libhunspell-1.3.3-darwin-201407251529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1288,6 +1292,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.3.3</string>
       </map>
       <key>libndofdev</key>
       <map>
@@ -1423,6 +1429,10 @@
       </map>
       <key>libxml2</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 1998-2012 Daniel Veillard.  All Rights Reserved.</string>
+        <key>description</key>
+        <string>Libxml2 is the XML C parser and toolkit developed for the Gnome project.</string>
         <key>license</key>
         <string>mit</string>
         <key>license_file</key>
@@ -1431,6 +1441,18 @@
         <string>libxml2</string>
         <key>platforms</key>
         <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>10eca2826243e8c6a8cc7b174cd8dba0</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.1-darwin-201407251404.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
           <key>linux</key>
           <map>
             <key>archive</key>
@@ -1444,6 +1466,8 @@
             <string>linux</string>
           </map>
         </map>
+        <key>version</key>
+        <string>2.9.1</string>
       </map>
       <key>llappearanceutility-source</key>
       <map>

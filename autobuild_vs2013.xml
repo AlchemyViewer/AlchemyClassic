@@ -415,9 +415,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>da7a1f52fdebf13eeeb7f51c41fab802</string>
+              <string>573a917698e00c257a8d03fdbded7163</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows-vs12-20140722.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows-vs12-20140725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -427,9 +427,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>60b3193ce8246471e9d07a8f98ad5d94</string>
+              <string>8a83ca8a2136a63c08014d4cf16219ed</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows64-vs12-20140722.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows64-vs12-20140725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -1164,7 +1164,8 @@ void LLInventoryModel::changeCategoryParent(LLViewerInventoryCategory* cat,
 void LLInventoryModel::onAISUpdateReceived(const std::string& context, const LLSD& update)
 {
 	LLTimer timer;
-	if (gSavedSettings.getBOOL("DebugAvatarAppearanceMessage"))
+	static LLCachedControl<bool> debug_ava_appr_msg(gSavedSettings, "DebugAvatarAppearanceMessage");
+	if (debug_ava_appr_msg)
 	{
 		dump_sequential_xml(gAgentAvatarp->getFullname() + "_ais_update", update);
 	}

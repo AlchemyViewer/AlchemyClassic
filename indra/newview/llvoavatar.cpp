@@ -3321,7 +3321,8 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 	// clear debug text
 	mDebugText.clear();
 
-	if (gSavedSettings.getBOOL("DebugAvatarAppearanceMessage"))
+	static LLCachedControl<bool> debug_ava_appr_msg(gSavedSettings, "DebugAvatarAppearanceMessage");
+	if (debug_ava_appr_msg)
 	{
 		S32 central_bake_version = -1;
 		if (getRegion())
@@ -5081,7 +5082,7 @@ void LLVOAvatar::resetAnimations()
 // animations.
 LLUUID LLVOAvatar::remapMotionID(const LLUUID& id)
 {
-	BOOL use_new_walk_run = gSavedSettings.getBOOL("UseNewWalkRun");
+	static LLCachedControl<bool> use_new_walk_run(gSavedSettings, "UseNewWalkRun");
 	LLUUID result = id;
 
 	// start special case female walk for female avatars
@@ -6542,7 +6543,8 @@ BOOL LLVOAvatar::isFullyLoaded() const
 
 bool LLVOAvatar::isTooComplex() const
 {
-	if (gSavedSettings.getS32("RenderAvatarComplexityLimit") > 0 && mVisualComplexity >= gSavedSettings.getS32("RenderAvatarComplexityLimit"))
+	static LLCachedControl<S32> ava_complexity_limit(gSavedSettings, "RenderAvatarComplexityLimit");
+	if (ava_complexity_limit > 0 && mVisualComplexity >= ava_complexity_limit)
 	{
 		return true;
 	}

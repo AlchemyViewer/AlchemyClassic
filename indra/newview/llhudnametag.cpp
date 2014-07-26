@@ -282,8 +282,9 @@ void LLHUDNameTag::renderText(BOOL for_select)
 	LLUIImagePtr imagep = LLUI::getUIImage("Rounded_Rect");
 
 	// *TODO: make this a per-text setting
+	static LLCachedControl<F32> bubble_opacity(gSavedSettings, "ChatBubbleOpacity");
 	LLColor4 bg_color = LLUIColorTable::instance().getColor("NameTagBackground");
-	bg_color.setAlpha(gSavedSettings.getF32("ChatBubbleOpacity") * alpha_factor);
+	bg_color.setAlpha(bubble_opacity * alpha_factor);
 
 	// scale screen size of borders down
 	//RN: for now, text on hud objects is never occluded
@@ -318,7 +319,7 @@ void LLHUDNameTag::renderText(BOOL for_select)
 		const S32 label_height = llmath::llround((mFontp->getLineHeight() * (F32)mLabelSegments.size() + (VERTICAL_PADDING / 3.f)));
 		label_top_rect.mBottom = label_top_rect.mTop - label_height;
 		LLColor4 label_top_color = text_color;
-		label_top_color.mV[VALPHA] = gSavedSettings.getF32("ChatBubbleOpacity") * alpha_factor;
+		label_top_color.mV[VALPHA] = bubble_opacity * alpha_factor;
 
 		rect_top_image->draw3D(render_position, x_pixel_vec, y_pixel_vec, label_top_rect, label_top_color);
 	}

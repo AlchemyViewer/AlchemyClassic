@@ -810,7 +810,8 @@ void LLDrawPoolBump::endBump(U32 pass)
 
 S32 LLDrawPoolBump::getNumDeferredPasses()
 { 
-	if (gSavedSettings.getBOOL("RenderObjectBump"))
+	static LLCachedControl<bool> renderObjectBump(gSavedSettings, "RenderObjectBump");
+	if (renderObjectBump)
 	{
 		return 1;
 	}

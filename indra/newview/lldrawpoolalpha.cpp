@@ -73,11 +73,12 @@ void LLDrawPoolAlpha::prerender()
 
 S32 LLDrawPoolAlpha::getNumPostDeferredPasses() 
 { 
+	static LLCachedControl<bool> render_dof(gSavedSettings, "RenderDepthOfField");
 	if (LLPipeline::sImpostorRender)
 	{ //skip depth buffer filling pass when rendering impostors
 		return 1;
 	}
-	else if (gSavedSettings.getBOOL("RenderDepthOfField"))
+	else if (render_dof)
 	{
 		return 2; 
 	}
@@ -109,7 +110,7 @@ void LLDrawPoolAlpha::beginPostDeferredPass(S32 pass)
 			fullbright_shader = &gDeferredFullbrightProgram;
 		}
 		
-		F32 gamma = gSavedSettings.getF32("RenderDeferredDisplayGamma");
+		static LLCachedControl<F32> gamma(gSavedSettings, "RenderDeferredDisplayGamma", 2.2f);
 
 		fullbright_shader->bind();
 		fullbright_shader->uniform1f(LLShaderMgr::TEXTURE_GAMMA, 2.2f); 

@@ -96,14 +96,6 @@ class LLFileEnableUploadModel : public view_listener_t
 	}
 };
 
-class LLMeshEnabled : public view_listener_t
-{
-	bool handleEvent(const LLSD& userdata)
-	{
-		return gSavedSettings.getBOOL("MeshEnabled");
-	}
-};
-
 class LLMeshUploadVisible : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -1292,7 +1284,6 @@ void init_menu_file()
 
 	view_listener_t::addEnable(new LLFileEnableUpload(), "File.EnableUpload");
 	view_listener_t::addEnable(new LLFileEnableUploadModel(), "File.EnableUploadModel");
-	view_listener_t::addMenu(new LLMeshEnabled(), "File.MeshEnabled");
 	view_listener_t::addMenu(new LLMeshUploadVisible(), "File.VisibleUploadModel");
 
 	// "File.SaveTexture" moved to llpanelmaininventory so that it can be properly handled.

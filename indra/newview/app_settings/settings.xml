@@ -6207,17 +6207,6 @@
       <key>Value</key>
       <real>0</real>
     </map>
-  <key>MeshEnabled</key>
-  <map>
-    <key>Comment</key>
-    <string>Expose UI for mesh functionality (may require restart to take effect).</string>
-    <key>Persist</key>
-    <integer>1</integer>
-    <key>Type</key>
-    <string>Boolean</string>
-    <key>Value</key>
-    <real>1</real>
-  </map>
   <key>MeshImportUseSLM</key>
   <map>
     <key>Comment</key>

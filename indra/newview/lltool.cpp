@@ -191,7 +191,6 @@ LLTool* LLTool::getOverrideTool(MASK mask)
 	{
 		return NULL;
 	}
-	if (gSavedSettings.getBOOL("EnableAltZoom"))
 	{
 		if (mask & MASK_ALT)
 		{

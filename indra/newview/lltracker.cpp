@@ -110,7 +110,8 @@ void LLTracker::stopTracking(void* userdata)
 // static virtual
 void LLTracker::drawHUDArrow()
 {
-	if (!gSavedSettings.getBOOL("RenderTrackerBeacon")) return;
+	static LLCachedControl<bool> render_tracker_beacon(gSavedSettings, "RenderTrackerBeacon");
+	if (!render_tracker_beacon) return;
 
 	if (gViewerWindow->getProgressView()->getVisible()) return;
 
@@ -160,7 +161,8 @@ void LLTracker::drawHUDArrow()
 // static 
 void LLTracker::render3D()
 {
-	if (!gFloaterWorldMap || !gSavedSettings.getBOOL("RenderTrackerBeacon"))
+	static LLCachedControl<bool> render_tracker_beacon(gSavedSettings, "RenderTrackerBeacon");
+	if (!gFloaterWorldMap || !render_tracker_beacon)
 	{
 		return;
 	}

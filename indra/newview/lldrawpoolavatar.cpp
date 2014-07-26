@@ -898,7 +898,7 @@ void LLDrawPoolAvatar::beginRiggedGlow()
 		sVertexProgram->bind();
 
 		sVertexProgram->uniform1f(LLShaderMgr::TEXTURE_GAMMA, LLPipeline::sRenderDeferred ? 2.2f : 1.1f);
-		F32 gamma = gSavedSettings.getF32("RenderDeferredDisplayGamma");
+		static LLCachedControl<F32> gamma(gSavedSettings, "RenderDeferredDisplayGamma", 2.2f);
 		sVertexProgram->uniform1f(LLShaderMgr::DISPLAY_GAMMA, (gamma > 0.1f) ? 1.0f / gamma : (1.0f/2.2f));
 	}
 }
@@ -953,7 +953,7 @@ void LLDrawPoolAvatar::beginRiggedFullbright()
 		{
 			sVertexProgram->uniform1f(LLShaderMgr::TEXTURE_GAMMA, 2.2f);
 
-			F32 gamma = gSavedSettings.getF32("RenderDeferredDisplayGamma");
+			static LLCachedControl<F32> gamma(gSavedSettings, "RenderDeferredDisplayGamma", 2.2f);
 			sVertexProgram->uniform1f(LLShaderMgr::DISPLAY_GAMMA, (gamma > 0.1f) ? 1.0f / gamma : (1.0f/2.2f));
 		}
 	}
@@ -1056,7 +1056,7 @@ void LLDrawPoolAvatar::beginRiggedFullbrightShiny()
 		else 
 		{
 			sVertexProgram->uniform1f(LLShaderMgr::TEXTURE_GAMMA, 2.2f);
-			F32 gamma = gSavedSettings.getF32("RenderDeferredDisplayGamma");
+			static LLCachedControl<F32> gamma(gSavedSettings, "RenderDeferredDisplayGamma", 2.2f);
 			sVertexProgram->uniform1f(LLShaderMgr::DISPLAY_GAMMA, (gamma > 0.1f) ? 1.0f / gamma : (1.0f/2.2f));
 		}
 	}

@@ -159,7 +159,8 @@ void LLFirstUse::firstUseNotification(const std::string& control_var, bool enabl
 
 	if (enable)
 	{
-		if (gSavedSettings.getBOOL("EnableUIHints"))
+		static LLCachedControl<bool> enable_ui_hints(gSavedSettings, "EnableUIHints");
+		if (enable_ui_hints)
 		{
 			LL_DEBUGS("LLFirstUse") << "Trigger first use notification " << notification_name << LL_ENDL;
 

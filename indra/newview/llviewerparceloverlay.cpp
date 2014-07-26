@@ -420,7 +420,8 @@ void LLViewerParcelOverlay::uncompressLandOverlay(S32 chunk, U8 *packed_overlay)
 
 void LLViewerParcelOverlay::updatePropertyLines()
 {
-	if (!gSavedSettings.getBOOL("ShowPropertyLines"))
+	static LLCachedControl<bool> show_prop_lines(gSavedSettings, "ShowPropertyLines");
+	if (!show_prop_lines)
 		return;
 	
 	S32 row, col;
@@ -859,7 +860,8 @@ void LLViewerParcelOverlay::idleUpdate(bool force_update)
 
 S32 LLViewerParcelOverlay::renderPropertyLines	() 
 {
-	if (!gSavedSettings.getBOOL("ShowPropertyLines"))
+	static LLCachedControl<bool> show_prop_lines(gSavedSettings, "ShowPropertyLines");
+	if (!show_prop_lines)
 	{
 		return 0;
 	}

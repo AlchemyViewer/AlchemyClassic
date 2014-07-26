@@ -2749,10 +2749,11 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 	}
 	
 	const F32 time_visible = mTimeVisible.getElapsedTimeF32();
-	const F32 NAME_SHOW_TIME = gSavedSettings.getF32("RenderNameShowTime");	// seconds
-	const F32 FADE_DURATION = gSavedSettings.getF32("RenderNameFadeDuration"); // seconds
+	static LLCachedControl<F32> NAME_SHOW_TIME(gSavedSettings, "RenderNameShowTime");	// seconds
+	static LLCachedControl<F32> FADE_DURATION(gSavedSettings, "RenderNameFadeDuration"); // seconds
 	BOOL visible_avatar = isVisible() || mNeedsAnimUpdate;
-	BOOL visible_chat = gSavedSettings.getBOOL("UseChatBubbles") && (mChats.size() || mTyping);
+	static LLCachedControl<bool> use_chat_bubbles(gSavedSettings, "UseChatBubbles");
+	BOOL visible_chat = use_chat_bubbles && (mChats.size() || mTyping);
 	BOOL render_name =	visible_chat ||
 		(visible_avatar &&
 		 ((sRenderName == RENDER_NAME_ALWAYS) ||
@@ -2761,10 +2762,12 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 	// draw if we're specifically hiding our own name.
 	if (isSelf())
 	{
+		static LLCachedControl<bool> name_show_self(gSavedSettings, "RenderNameShowSelf");
+		static LLCachedControl<S32> name_tag_mode(gSavedSettings, "AvatarNameTagMode");
 		render_name = render_name
 			&& !gAgentCamera.cameraMouselook()
-			&& (visible_chat || (gSavedSettings.getBOOL("RenderNameShowSelf") 
-								 && gSavedSettings.getS32("AvatarNameTagMode") ));
+			&& (visible_chat || (name_show_self
+			&& (name_tag_mode > 0)));
 	}
 
 	if ( !render_name )
@@ -3352,7 +3355,8 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 		}
 		addDebugText(debug_line);
 	}
-	if (gSavedSettings.getBOOL("DebugAvatarCompositeBaked"))
+	static LLCachedControl<bool> debug_avatar_comp_baked(gSavedSettings, "DebugAvatarCompositeBaked");
+	if (debug_avatar_comp_baked)
 	{
 		if (!mBakedTextureDebugText.empty())
 			addDebugText(mBakedTextureDebugText);
@@ -6559,7 +6563,8 @@ LLMotion* LLVOAvatar::findMotion(const LLUUID& id) const
 // colorized if using deferred rendering.
 void LLVOAvatar::debugColorizeSubMeshes(U32 i, const LLColor4& color)
 {
-	if (gSavedSettings.getBOOL("DebugAvatarCompositeBaked"))
+	static LLCachedControl<bool> debug_avatar_comp_baked(gSavedSettings, "DebugAvatarCompositeBaked");
+	if (debug_avatar_comp_baked)
 	{
 		avatar_joint_mesh_list_t::iterator iter = mBakedTextureDatas[i].mJointMeshes.begin();
 		avatar_joint_mesh_list_t::iterator end  = mBakedTextureDatas[i].mJointMeshes.end();

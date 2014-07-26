@@ -3187,7 +3187,8 @@ void LLMeshRepository::notifyLoadedMeshes()
 	if (1 == mGetMeshVersion)
 	{
 		// Legacy GetMesh operation with high connection concurrency
-	LLMeshRepoThread::sMaxConcurrentRequests = gSavedSettings.getU32("MeshMaxConcurrentRequests");
+		static LLCachedControl<U32> mesh_max_concur_req(gSavedSettings, "MeshMaxConcurrentRequests");
+		LLMeshRepoThread::sMaxConcurrentRequests = mesh_max_concur_req;
 		LLMeshRepoThread::sRequestHighWater = llclamp(2 * S32(LLMeshRepoThread::sMaxConcurrentRequests),
 													  REQUEST_HIGH_WATER_MIN,
 													  REQUEST_HIGH_WATER_MAX);
@@ -3199,7 +3200,8 @@ void LLMeshRepository::notifyLoadedMeshes()
 	{
 		// GetMesh2 operation with keepalives, etc.  With pipelining,
 		// we'll increase this.
-		LLMeshRepoThread::sMaxConcurrentRequests = gSavedSettings.getU32("Mesh2MaxConcurrentRequests");
+		static LLCachedControl<U32> mesh2_max_concur_req(gSavedSettings, "Mesh2MaxConcurrentRequests");
+		LLMeshRepoThread::sMaxConcurrentRequests = mesh2_max_concur_req;
 		LLMeshRepoThread::sRequestHighWater = llclamp(5 * S32(LLMeshRepoThread::sMaxConcurrentRequests),
 													  REQUEST2_HIGH_WATER_MIN,
 													  REQUEST2_HIGH_WATER_MAX);
@@ -4504,8 +4506,7 @@ void LLMeshRepository::buildPhysicsMesh(LLModel::Decomposition& decomp)
 bool LLMeshRepository::meshUploadEnabled()
 {
 	LLViewerRegion *region = gAgent.getRegion();
-	if(gSavedSettings.getBOOL("MeshEnabled") &&
-	   region)
+	if(region)
 	{
 		return region->meshUploadEnabled();
 	}
@@ -4515,8 +4516,7 @@ bool LLMeshRepository::meshUploadEnabled()
 bool LLMeshRepository::meshRezEnabled()
 {
 	LLViewerRegion *region = gAgent.getRegion();
-	if(gSavedSettings.getBOOL("MeshEnabled") && 
-	   region)
+	if(region)
 	{
 		return region->meshRezEnabled();
 	}

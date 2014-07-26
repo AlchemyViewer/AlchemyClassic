@@ -117,7 +117,7 @@ void callScrollMoved(float delta);
 void callMouseExit();
 void callWindowFocus();
 void callWindowUnfocus();
-void callDeltaUpdate(float *delta, unsigned int mask);
+void callDeltaUpdate(double *delta, unsigned int mask);
 void callMiddleMouseDown(float *pos, unsigned int mask);
 void callMiddleMouseUp(float *pos, unsigned int mask);
 void callFocus();

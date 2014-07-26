@@ -3373,7 +3373,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			dialog != IM_TYPING_START &&
 			dialog != IM_TYPING_STOP))
 	{
-		LLOSXNotificationCenter::sendNotification(chat.mFromName, chat.mText);
+		LLOSXNotificationCenter::sendNotification(chat.mFromName, message);
 	}
 #endif //LL_DARWIN
 }

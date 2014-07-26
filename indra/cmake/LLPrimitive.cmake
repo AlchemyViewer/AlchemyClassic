@@ -3,13 +3,14 @@
 # these should be moved to their own cmake file
 include(Prebuilt)
 include(Boost)
+include(LibXML2)
 
 use_prebuilt_binary(colladadom)
 use_prebuilt_binary(pcre)
-use_prebuilt_binary(libxml2)
 
 set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llprimitive
+    ${LIBXML2_INCLUDES}
     )
 if (WINDOWS)
   if (MSVC12)
@@ -18,7 +19,6 @@ if (WINDOWS)
         optimized llprimitive
         debug libcollada14dom23-sd
         optimized libcollada14dom23-s
-        libxml2_a
         debug pcrecppd
         optimized pcrecpp
         debug pcred
@@ -39,7 +39,6 @@ elseif (LINUX)
         llprimitive
         collada14dom
         minizip
-        xml2
         pcrecpp
         pcre
         )
@@ -48,9 +47,10 @@ else (WINDOWS)
         llprimitive
         collada14dom
         minizip
-        xml2
         pcrecpp
         pcre
         )
 endif (WINDOWS)
-
+LIST(APPEND LLPRIMITIVE_LIBRARIES
+     ${LIBXML2_LIBRARIES}
+     )

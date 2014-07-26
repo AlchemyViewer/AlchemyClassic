@@ -311,9 +311,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	NSPoint delta = NSMakePoint([theEvent deltaX], [theEvent deltaY]);
 	NSPoint scaled_delta = [self convertPointToBacking:delta];
 	
-	float mouseDeltas[2] = {
-		static_cast<float>(scaled_delta.x),
-		static_cast<float>(scaled_delta.y)
+	double mouseDeltas[2] = {
+		scaled_delta.x,
+		scaled_delta.y
 	};
 
 	callDeltaUpdate(mouseDeltas, 0);
@@ -336,9 +336,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
     NSPoint delta = NSMakePoint([theEvent deltaX], [theEvent deltaY]);
 	NSPoint scaled_delta = [self convertPointToBacking:delta];
 	
-	float mouseDeltas[2] = {
-		static_cast<float>(scaled_delta.x),
-		static_cast<float>(scaled_delta.y)
+	double mouseDeltas[2] = {
+		scaled_delta.x,
+		scaled_delta.y
 	};
 	
 	callDeltaUpdate(mouseDeltas, 0);

@@ -349,7 +349,7 @@ void callWindowUnfocus()
 	gWindowImplementation->getCallbacks()->handleFocusLost(gWindowImplementation);
 }
 
-void callDeltaUpdate(float *delta, MASK mask)
+void callDeltaUpdate(double *delta, MASK mask)
 {
 	gWindowImplementation->updateMouseDeltas(delta);
 }
@@ -503,7 +503,7 @@ void getPreeditLocation(float *location, unsigned int length)
 	}
 }
 
-void LLWindowMacOSX::updateMouseDeltas(float* deltas)
+void LLWindowMacOSX::updateMouseDeltas(double* deltas)
 {
 	if (mCursorDecoupled)
 	{
@@ -530,8 +530,6 @@ void LLWindowMacOSX::getMouseDeltas(float* delta)
 
 BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, BOOL disable_vsync)
 {
-	BOOL			glNeedsInit = FALSE;
-
 	mFullscreen = fullscreen;
 	
 	if (mWindow == NULL)
@@ -545,9 +543,6 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 		// Get the view instead.
 		mGLView = createOpenGLView(mWindow, mFSAASamples, !disable_vsync);
 		mContext = getCGLContextObj(mGLView);
-		
-		// Since we just created the context, it needs to be set up.
-		glNeedsInit = TRUE;
 		
 		gGLManager.mVRAM = getVramSize(mGLView);
 	}

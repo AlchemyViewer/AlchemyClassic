@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2d8ee8d46dc93564b09a10a02ac4a370</string>
+              <string>6788098c1ee12f9ae10e18d8776560bf</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201407251411.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201407252037.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1446,9 +1446,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>10eca2826243e8c6a8cc7b174cd8dba0</string>
+              <string>3187512e28189fd7152f64f0e3f9bf79</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.1-darwin-201407251404.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.1-darwin-201407252028.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -305,6 +305,8 @@ void convertScreenToWindow(NSWindowRef window, float *coord)
 	NSRect point;
 	point.origin.x = coord[0];
 	point.origin.y = coord[1];
+	point.size.width = 0;
+	point.size.height = 0;
 	point = [(LLNSWindow*)window convertRectFromScreen:point];
 	coord[0] = point.origin.x;
 	coord[1] = point.origin.y;

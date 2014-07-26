@@ -123,7 +123,7 @@ public:
 	LLWindowCallbacks* getCallbacks() { return mCallbacks; }
 	LLPreeditor* getPreeditor() { return mPreeditor; }
 	
-	void updateMouseDeltas(float* deltas);
+	void updateMouseDeltas(double* deltas);
 	void getMouseDeltas(float* delta);
 	
 	void handleDragNDrop(std::string url, LLWindowCallbacks::DragNDropAction action);

@@ -1012,4 +1012,13 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="LtGray" />
+  <color
+   name="StatBarBackgroundColor"
+   value="0.2975 0.4269 0.5783 1" />
+  <color
+   name="StatBarBackgroundColor_25"
+   value="0.2975 0.4269 0.5783 0.25" />
+  <color
+   name="StatBarMeanBarColor"
+   reference="Red_80" />
 </colors>

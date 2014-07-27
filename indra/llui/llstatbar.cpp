@@ -432,6 +432,8 @@ void LLStatBar::draw()
 		// draw values
 		if (!llisnan(display_value) && frame_recording.getNumRecordedPeriods() != 0)
 		{
+			static LLUIColor main_bar_color = LLUIColorTable::instance().getColor("StatBarBackgroundColor", LLColor4(1.f, 0.f, 0.f, 1.f));
+			static LLUIColor main_bar_color_25 = LLUIColorTable::instance().getColor("StatBarBackgroundColor_25", LLColor4(1.f, 0.f, 0.f, 0.25f));
 			// draw min and max
 			S32 begin = (S32) ((min - mCurMinBar) * value_scale);
 
@@ -443,11 +445,11 @@ void LLStatBar::draw()
 			S32 end = (S32) ((max - mCurMinBar) * value_scale);
 			if (mOrientation == HORIZONTAL)
 			{
-				gl_rect_2d(bar_rect.mLeft, end, bar_rect.mRight, begin, LLColor4(1.f, 0.f, 0.f, 0.25f));
+				gl_rect_2d(bar_rect.mLeft, end, bar_rect.mRight, begin, main_bar_color_25.get());
 			}
 			else // VERTICAL
 			{
-				gl_rect_2d(begin, bar_rect.mTop, end, bar_rect.mBottom, LLColor4(1.f, 0.f, 0.f, 0.25f));
+				gl_rect_2d(begin, bar_rect.mTop, end, bar_rect.mBottom, main_bar_color_25.get());
 			}
 
 			F32 span = (mOrientation == HORIZONTAL)
@@ -460,7 +462,7 @@ void LLStatBar::draw()
 				F32 min_value = 0.f,
 					max_value = 0.f;
 
-				gGL.color4f(1.f, 0.f, 0.f, 1.f);
+				gGL.color4f(main_bar_color.get().mV[0], main_bar_color.get().mV[1], main_bar_color.get().mV[2], main_bar_color.get().mV[3]);
 				gGL.begin( LLRender::QUADS );
 				const S32 max_frame = llmin(num_frames, num_values);
 				U32 num_samples = 0;
@@ -523,25 +525,26 @@ void LLStatBar::draw()
 				// draw current
 				if (mOrientation == HORIZONTAL)
 				{
-					gl_rect_2d(bar_rect.mLeft, end, bar_rect.mRight, begin, LLColor4(1.f, 0.f, 0.f, 1.f));
+					gl_rect_2d(bar_rect.mLeft, end, bar_rect.mRight, begin, main_bar_color.get());
 				}
 				else
 				{
-					gl_rect_2d(begin, bar_rect.mTop, end, bar_rect.mBottom, LLColor4(1.f, 0.f, 0.f, 1.f));
+					gl_rect_2d(begin, bar_rect.mTop, end, bar_rect.mBottom, main_bar_color.get());
 				}
 			}
 
 			// draw mean bar
 			{
+				static LLUIColor mean_bar_color = LLUIColorTable::instance().getColor("StatBarMeanBarColor", LLColor4(0.f, 1.f, 0.f, 1.f));
 				const S32 begin = (S32) ((mean - mCurMinBar) * value_scale) - 1;
 				const S32 end = (S32) ((mean - mCurMinBar) * value_scale) + 1;
 				if (mOrientation == HORIZONTAL)
 				{
-					gl_rect_2d(bar_rect.mLeft - 2, begin, bar_rect.mRight + 2, end, LLColor4(0.f, 1.f, 0.f, 1.f));
+					gl_rect_2d(bar_rect.mLeft - 2, begin, bar_rect.mRight + 2, end, mean_bar_color.get());
 				}
 				else
 				{
-					gl_rect_2d(begin, bar_rect.mTop + 2, end, bar_rect.mBottom - 2, LLColor4(0.f, 1.f, 0.f, 1.f));
+					gl_rect_2d(begin, bar_rect.mTop + 2, end, bar_rect.mBottom - 2, mean_bar_color.get());
 				}
 			}
 		}

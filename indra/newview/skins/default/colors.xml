@@ -77,6 +77,9 @@
 	 name="Red"
 	 value="1 0 0 1" />
 	<color
+	 name="Red_25"
+	 value="1 0 0 0.25" />
+	<color
 	 name="Blue"
 	 value="0 0 1 1" />
 	<color
@@ -973,4 +976,13 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="EmphasisColor" />
+  <color
+   name="StatBarBackgroundColor"
+   reference="Red" />
+  <color
+   name="StatBarBackgroundColor_25"
+   reference="Red_25" />
+  <color
+   name="StatBarMeanBarColor"
+   value="0.0 1.0 0 1" />
 </colors>

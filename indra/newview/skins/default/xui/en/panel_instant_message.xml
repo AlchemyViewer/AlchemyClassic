@@ -65,7 +65,7 @@
          name="user_name"
          parse_urls="false"
          text_color="ChatHeaderDisplayNameColor"
-         top="8"
+         top="4"
          translate="false"
          use_ellipses="true"
          value="TestString PleaseIgnore"

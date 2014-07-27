@@ -25,10 +25,10 @@
              follows="left|top"
              height="10"
              layout="topleft"
-             left="10"
+             left="12"
              name="color label"
              text_readonly_color="LabelDisabledColor"
-             top="6"
+             top="5"
              width="64">
                 Color
             </text>
@@ -48,12 +48,12 @@
              type="string"
              length="1"
              follows="left|top"
-             height="10"
+             height="12"
              layout="topleft"
              left_pad="15"
              name="color trans"
              text_readonly_color="LabelDisabledColor"
-             top="6"
+             top="5"
              width="110">
                 Transparency %
             </text>
@@ -73,7 +73,7 @@
              type="string"
              length="1"
              follows="left|top"
-             height="10"
+             height="12"
              layout="topleft"
              left_pad="15"
              name="glow label"
@@ -153,7 +153,7 @@
              type="string"
              length="1"
              follows="left|top"
-             height="10"
+             height="12"
              layout="topleft"
              left_pad="10"
              name="label alphamode"
@@ -230,7 +230,7 @@
              type="string"
              length="1"
              follows="left|top"
-             height="10"
+             height="12"
              layout="topleft"
              left_pad="10"
              name="label bumpiness"

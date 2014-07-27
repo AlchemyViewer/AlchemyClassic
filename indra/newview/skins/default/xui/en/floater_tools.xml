@@ -2056,7 +2056,7 @@ even though the user gets a free copy.
              left_delta="0"
              max_val="0.98"
              name="Path Limit Begin"
-             top_pad="3"
+             top_pad="4"
              width="68" />
             <spinner
              follows="left|top"

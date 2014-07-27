@@ -1322,8 +1322,7 @@ void LLFastTimerView::drawHelp( S32 y )
 	// Draw some help
 	const S32 texth = (S32)LLFontGL::getFontMonospace()->getLineHeight();
 
-	y -= (texth + 2);
-	y -= (texth + 2);
+	y -= ((texth * 2) - 4);
 
 	LLFontGL::getFontMonospace()->renderUTF8(std::string("[Right-Click log selected]"),
 		0, MARGIN, y, LLColor4::white, LLFontGL::LEFT, LLFontGL::TOP);

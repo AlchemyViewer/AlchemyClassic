@@ -93,7 +93,12 @@ void LLScriptEditor::drawLineNumbers()
 		S32 top = getRect().getHeight();
 		S32 bottom = 0;
 		
-		gl_rect_2d(left, top, UI_TEXTEDITOR_LINE_NUMBER_MARGIN, bottom, mReadOnlyBgColor.get() ); // line number area always read-only
+		F32 alpha = getCurrentTransparency();
+		LLColor4 bg_color = mReadOnly ? mReadOnlyBgColor.get()
+									  : hasFocus() ? mFocusBgColor.get()
+												   : mWriteableBgColor.get();
+		
+		gl_rect_2d(left, top, UI_TEXTEDITOR_LINE_NUMBER_MARGIN, bottom, bg_color % alpha, FALSE ); // line number area always read-only
 		gl_rect_2d(UI_TEXTEDITOR_LINE_NUMBER_MARGIN, top, UI_TEXTEDITOR_LINE_NUMBER_MARGIN-1, bottom, LLColor4::grey3); // separator
 		
 		S32 last_line_num = -1;
@@ -115,7 +120,7 @@ void LLScriptEditor::drawLineNumbers()
 				const LLWString ltext = utf8str_to_wstring(llformat("%d", line.mLineNum ));
 				BOOL is_cur_line = cursor_line == line.mLineNum;
 				const U8 style = is_cur_line ? LLFontGL::BOLD : LLFontGL::NORMAL;
-				const LLColor4 fg_color = is_cur_line ? mCursorColor : mReadOnlyFgColor;
+				const LLColor4 fg_color = is_cur_line ? mFgColor : mFgColor;
 				num_font->render(
 								 ltext, // string to draw
 								 0, // begin offset

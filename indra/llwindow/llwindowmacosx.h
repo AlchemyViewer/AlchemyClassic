@@ -124,7 +124,7 @@ public:
 	LLPreeditor* getPreeditor() { return mPreeditor; }
 	
 	void updateMouseDeltas(double* deltas);
-	void getMouseDeltas(float* delta);
+	void getMouseDeltas(double* delta);
 	
 	void handleDragNDrop(std::string url, LLWindowCallbacks::DragNDropAction action);
     

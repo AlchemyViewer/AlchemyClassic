@@ -84,9 +84,6 @@
 
 @interface LLNSWindow : NSWindow
 
-- (NSPoint)convertToScreenFromLocalPoint:(NSPoint)point relativeToView:(NSView *)view;
-- (NSPoint)flipPoint:(NSPoint)aPoint;
-
 @end
 
 @interface NSScreen (PointConversion)

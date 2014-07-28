@@ -302,11 +302,7 @@ void makeWindowOrderFront(NSWindowRef window)
 
 void convertScreenToWindow(NSWindowRef window, float *coord)
 {
-	NSRect point;
-	point.origin.x = coord[0];
-	point.origin.y = coord[1];
-	point.size.width = 0;
-	point.size.height = 0;
+	NSRect point = NSMakeRect(coord[0], coord[1], 0, 0);
 	point = [(LLNSWindow*)window convertRectFromScreen:point];
 	coord[0] = point.origin.x;
 	coord[1] = point.origin.y;
@@ -314,12 +310,7 @@ void convertScreenToWindow(NSWindowRef window, float *coord)
 
 void convertRectToScreen(NSWindowRef window, float *coord)
 {
-	NSRect point;
-	point.origin.x = coord[0];
-	point.origin.y = coord[1];
-	point.size.width = coord[2];
-	point.size.height = coord[3];
-	
+	NSRect point = NSMakeRect(coord[0], coord[1], coord[2], coord[3]);
 	point = [(LLNSWindow*)window convertRectToScreen:point];
 	
 	coord[0] = point.origin.x;
@@ -330,12 +321,7 @@ void convertRectToScreen(NSWindowRef window, float *coord)
 
 void convertRectFromScreen(NSWindowRef window, float *coord)
 {
-	NSRect point;
-	point.origin.x = coord[0];
-	point.origin.y = coord[1];
-	point.size.width = coord[2];
-	point.size.height = coord[3];
-	
+	NSRect point = NSMakeRect(coord[0], coord[1], coord[2], coord[3]);
 	point = [(LLNSWindow*)window convertRectFromScreen:point];
 	
 	coord[0] = point.origin.x;
@@ -344,23 +330,15 @@ void convertRectFromScreen(NSWindowRef window, float *coord)
 	coord[3] = point.size.height;
 }
 
-void convertScreenToView(NSWindowRef window, float *coord)
-{
-	NSRect point;
-	point.origin.x = coord[0];
-	point.origin.y = coord[1];
-	point.origin = [(LLNSWindow*)window convertScreenToBase:point.origin];
-	point.origin = [[(LLNSWindow*)window contentView] convertPoint:point.origin fromView:nil];
-}
-
 void convertWindowToScreen(NSWindowRef window, float *coord)
 {
-	NSPoint point;
-	point.x = coord[0];
-	point.y = coord[1];
-	point = [(LLNSWindow*)window convertToScreenFromLocalPoint:point relativeToView:[(LLNSWindow*)window contentView]];
-	coord[0] = point.x;
-	coord[1] = point.y;
+	LLNSWindow *nsWindow = (LLNSWindow*)window;
+	NSRect rect = NSMakeRect(coord[0], coord[1], nsWindow.frame.size.width, nsWindow.frame.size.height);
+	rect = [nsWindow convertRectToScreen:rect];
+	NSRect screenRect = [[NSScreen mainScreen] frame];
+	NSPoint retPoint = NSMakePoint(rect.origin.x, screenRect.size.height - rect.origin.y);
+	coord[0] = retPoint.x;
+	coord[1] = retPoint.y;
 }
 
 void closeWindow(NSWindowRef window)

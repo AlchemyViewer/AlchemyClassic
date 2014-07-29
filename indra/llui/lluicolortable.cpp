@@ -275,15 +275,14 @@ void LLUIColorTable::clearTable(string_color_map_t& table)
 // if the color already exists it changes the color
 void LLUIColorTable::setColor(const std::string& name, const LLColor4& color, string_color_map_t& table)
 {
-	string_color_map_t::iterator it = table.lower_bound(name);
-	if(it != table.end()
-	&& !(table.key_comp()(name, it->first)))
+	string_color_map_t::iterator it = table.find(name);
+	if(it != table.end())
 	{
 		it->second = color;
 	}
 	else
 	{
-		table.insert(it, string_color_map_t::value_type(name, color));
+		table.insert(string_color_map_t::value_type(name, color));
 	}
 }
 

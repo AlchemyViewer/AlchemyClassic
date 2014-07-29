@@ -312,7 +312,7 @@ void callMouseMoved(float *pos, MASK mask)
 	LLCoordGL		outCoords;
 	outCoords.mX = llmath::llround(pos[0]);
 	outCoords.mY = llmath::llround(pos[1]);
-	float deltas[2];
+	double deltas[2];
 	gWindowImplementation->getMouseDeltas(deltas);
 	outCoords.mX += deltas[0];
 	outCoords.mY += deltas[1];
@@ -359,7 +359,7 @@ void callMiddleMouseDown(float *pos, MASK mask)
 	LLCoordGL		outCoords;
 	outCoords.mX = llmath::llround(pos[0]);
 	outCoords.mY = llmath::llround(pos[1]);
-	float deltas[2];
+	double deltas[2];
 	gWindowImplementation->getMouseDeltas(deltas);
 	outCoords.mX += deltas[0];
 	outCoords.mY += deltas[1];
@@ -371,7 +371,7 @@ void callMiddleMouseUp(float *pos, MASK mask)
 	LLCoordGL outCoords;
 	outCoords.mX = llmath::llround(pos[0]);
 	outCoords.mY = llmath::llround(pos[1]);
-	float deltas[2];
+	double deltas[2];
 	gWindowImplementation->getMouseDeltas(deltas);
 	outCoords.mX += deltas[0];
 	outCoords.mY += deltas[1];
@@ -522,7 +522,7 @@ void LLWindowMacOSX::updateMouseDeltas(double* deltas)
 	}
 }
 
-void LLWindowMacOSX::getMouseDeltas(float* delta)
+void LLWindowMacOSX::getMouseDeltas(double* delta)
 {
 	delta[0] = mCursorLastEventDeltaX;
 	delta[1] = mCursorLastEventDeltaY;

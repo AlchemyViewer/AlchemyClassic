@@ -788,12 +788,11 @@ void LLLocationInputCtrl::refreshLocation()
 		return;
 	}
 
+	static LLCachedControl<bool> navbar_show_coord(gSavedSettings, "NavBarShowCoordinates");
 	// Update location field.
 	std::string location_name;
 	LLAgentUI::ELocationFormat format =
-		(gSavedSettings.getBOOL("NavBarShowCoordinates")
-			? LLAgentUI::LOCATION_FORMAT_FULL
-			: LLAgentUI::LOCATION_FORMAT_NO_COORDS);
+		(navbar_show_coord ? LLAgentUI::LOCATION_FORMAT_FULL : LLAgentUI::LOCATION_FORMAT_NO_COORDS);
 
 	if (!LLAgentUI::buildLocationString(location_name, format)) 
 	{

@@ -528,8 +528,12 @@ void audio_update_wind(bool force_update)
 		// don't use the setter setMaxWindGain() because we don't
 		// want to screw up the fade-in on startup by setting actual source gain
 		// outside the fade-in.
-		F32 master_volume  = gSavedSettings.getBOOL("MuteAudio") ? 0.f : gSavedSettings.getF32("AudioLevelMaster");
-		F32 ambient_volume = gSavedSettings.getBOOL("MuteAmbient") ? 0.f : gSavedSettings.getF32("AudioLevelAmbient");
+		static LLCachedControl<bool> mute_audio(gSavedSettings, "MuteAudio");
+		static LLCachedControl<F32> audio_level_master(gSavedSettings, "AudioLevelMaster");
+		static LLCachedControl<bool> mute_ambient(gSavedSettings, "MuteAmbient");
+		static LLCachedControl<F32> audio_level_ambient(gSavedSettings, "AudioLevelAmbient");
+		F32 master_volume = mute_audio ? 0.f : audio_level_master;
+		F32 ambient_volume = mute_ambient ? 0.f : audio_level_ambient;
 		F32 max_wind_volume = master_volume * ambient_volume;
 
 		const F32 WIND_SOUND_TRANSITION_TIME = 2.f;

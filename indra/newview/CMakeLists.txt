@@ -2120,9 +2120,9 @@ if (DARWIN)
       generate_viewer_version
     )
   if (WORD_SIZE EQUAL 32)
-      add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit)
+      add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_webkit mac-crash-logger)
   elseif (WORD_SIZE EQUAL 64)
-     add_dependencies(${VIEWER_BINARY_NAME} mac-crash-logger)
+     add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_webkit mac-crash-logger)
   endif (WORD_SIZE EQUAL 32)
 
   if (ENABLE_SIGNING)
@@ -2415,4 +2415,3 @@ set_source_files_properties(
 endif (LL_TESTS)
 
 check_message_template(${VIEWER_BINARY_NAME})
-

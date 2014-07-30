@@ -873,15 +873,42 @@ class DarwinManifest(ViewerManifest):
                     for libfile in dylibs:
                         symlinkf(os.path.join(os.pardir, os.pardir, os.pardir, libfile),
                                  os.path.join(resource_path, libfile))
+                # SLPlugin.app/Contents/Resources gets those Qt4 libraries it needs.
+                if self.prefix(src="", dst="SLPlugin.app/Contents/Resources"):
+                    for libfile in ('libQtCore.4.dylib',
+                                    'libQtCore.4.8.6.dylib',
+                                    'libQtGui.4.dylib',
+                                    'libQtGui.4.8.6.dylib',
+                                    'libQtNetwork.4.dylib',
+                                    'libQtNetwork.4.8.6.dylib',
+                                    'libQtOpenGL.4.dylib',
+                                    'libQtOpenGL.4.8.6.dylib',
+                                    'libQtSvg.4.dylib',
+                                    'libQtSvg.4.8.6.dylib',
+                                    'libQtWebKit.4.dylib',
+                                    'libQtWebKit.4.9.4.dylib',
+                                    'libQtXml.4.dylib',
+                                    'libQtXml.4.8.6.dylib'):
+                        self.path2basename("../packages/lib/release", libfile)
+                    self.end_prefix("SLPlugin.app/Contents/Resources")
 
-                # plugins
+                # Qt4 codecs go to llplugin.  Not certain why but this is the first
+                # location probed according to dtruss so we'll go with that.
+                if self.prefix(src="../packages/plugins/codecs/", dst="llplugin/codecs"):
+                    self.path("libq*.dylib")
+                    self.end_prefix("llplugin/codecs")
+
+                # Similarly for imageformats.
+                if self.prefix(src="../packages/plugins/imageformats/", dst="llplugin/imageformats"):
+                    self.path("libq*.dylib")
+                    self.end_prefix("llplugin/imageformats")
+
+                # SLPlugin plugins proper
                 if self.prefix(src="", dst="llplugin"):
                     self.path2basename("../media_plugins/quicktime/" + self.args['configuration'],
                                        "media_plugin_quicktime.dylib")
                     self.path2basename("../media_plugins/webkit/" + self.args['configuration'],
                                        "media_plugin_webkit.dylib")
-                    self.path2basename("../packages/lib/release", "libllqtwebkit.dylib")
-
                     self.end_prefix("llplugin")
 
                 self.end_prefix("Resources")
@@ -1050,32 +1077,10 @@ class Darwin_universal_Manifest(DarwinManifest):
     def construct(self):
         super(Darwin_universal_Manifest, self).construct()
 
-        if(self.prefix(src="../packages/bin_x86", dst="Contents/Resources/")):
-            self.path("slplugin.app")
-			
-            if self.prefix(src = "llplugin", dst="llplugin"):
-                self.path("media_plugin_quicktime.dylib")
-                self.path("media_plugin_webkit.dylib")
-                self.path("libllqtwebkit.dylib")
-            self.end_prefix("llplugin")
-
-        self.end_prefix("../packages/bin_x86/slplugin");
-
 
 class Darwin_x86_64_Manifest(DarwinManifest):
     def construct(self):
         super(Darwin_x86_64_Manifest, self).construct()
-
-        if(self.prefix("../packages/bin_x86", dst="Contents/Resources/")):
-            self.path("slplugin.app", "slplugin.app")
-	
-            if self.prefix(src = "llplugin", dst="llplugin"):
-                self.path("media_plugin_quicktime.dylib", "media_plugin_quicktime.dylib")
-                self.path("media_plugin_webkit.dylib", "media_plugin_webkit.dylib")
-                self.path("libllqtwebkit.dylib", "libllqtwebkit.dylib")
-            self.end_prefix("llplugin")
-
-        self.end_prefix("../packages/bin_x86");
 
 
 class LinuxManifest(ViewerManifest):

@@ -248,10 +248,6 @@ elseif(DARWIN)
         libndofdev.dylib
        )
 
-    if (WORD_SIZE EQUAL 32)
-      set(release_files ${release_files} libllqtwebkit.dylib)
-    endif (WORD_SIZE EQUAL 32)
-
     if (FMODEX)
       set(debug_files ${debug_files} libfmodexL.dylib)
       set(release_files ${release_files} libfmodex.dylib)

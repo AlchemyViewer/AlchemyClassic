@@ -888,9 +888,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c248c295c44f5f05636a822373730d3c</string>
+              <string>303c4d2f3840b6cf7b3e4adbf5d4f5a3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201407232056.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201407301424.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

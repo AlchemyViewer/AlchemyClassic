@@ -1601,8 +1601,12 @@
       </map>
       <key>llqtwebkit</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).</string>
+        <key>description</key>
+        <string>QT cross-platform applicaiton and UI framework.</string>
         <key>license</key>
-        <string>lgpl</string>
+        <string>LGPL</string>
         <key>license_file</key>
         <string>LICENSES/llqtwebkit.txt</string>
         <key>name</key>
@@ -1614,9 +1618,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>02f3b29a262a276bd24ff3e32d26c0db</string>
+              <string>49413bca6626079446d6c05f2eb481c8</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-20140730.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201407300827.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1646,6 +1650,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>4.8.6</string>
       </map>
       <key>mesa</key>
       <map>

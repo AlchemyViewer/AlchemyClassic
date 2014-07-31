@@ -185,7 +185,7 @@ or specifying its path in the "Editor Path" field.</string>
           top_delta="0"
           height="25"
           width="120" />
-      
+
         <scroll_list
          bottom="525"
          column_padding="0"
@@ -246,7 +246,7 @@ or specifying its path in the "Editor Path" field.</string>
              font="SansSerif"
              height="20"
              layout="topleft"
-             left_delta="100"
+             left_delta="115"
              max_length_bytes="300"
              name="executable_path_field"
              select_on_focus="true"
@@ -272,10 +272,10 @@ or specifying its path in the "Editor Path" field.</string>
              height="30"
              layout="topleft"
              left="10"
-             left_delta="-420"
+             left_delta="-435"
              name="executable_args_label"
              top="36"
-             width="100">
+             width="110">
                 Editor Arguments:
             </text>
             <line_editor
@@ -285,7 +285,7 @@ or specifying its path in the "Editor Path" field.</string>
              font="SansSerif"
              height="20"
              layout="topleft"
-             left_delta="100"
+             left_delta="115"
              max_length_bytes="300"
              name="executable_args_field"
              select_on_focus="true"

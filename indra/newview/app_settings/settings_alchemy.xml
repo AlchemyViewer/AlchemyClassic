@@ -376,6 +376,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyMinimapGuideLine</key>
+    <map>
+      <key>Comment</key>
+      <string>Render a red line in the center of the camera view frustrum</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyMinimapRenderObjects</key>
     <map>
       <key>Comment</key>

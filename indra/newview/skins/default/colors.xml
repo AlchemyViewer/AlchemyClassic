@@ -76,6 +76,9 @@
 	<color
 	 name="Red"
 	 value="1 0 0 1" />
+  <color
+	 name="Red"
+	 value="1 0 0 1" />
 	<color
 	 name="Red_25"
 	 value="1 0 0 0.25" />
@@ -520,7 +523,7 @@
      reference="White_10" />
     <color
      name="MapFrustumRotatingColor"
-     value="1 1 1 0.2" />
+     reference="White_10" />
     <color
      name="MapTrackColor"
      reference="Red" />
@@ -976,6 +979,9 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="EmphasisColor" />
+  <color
+   name="MapLineColor"
+   reference="Red" />
   <color
    name="StatBarBackgroundColor"
    reference="Red" />

@@ -43,7 +43,7 @@
      layout="topleft"
      left="15"
      name="events_label"
-     top="3"
+     top="0"
      width="215">
         Legend
     </text>
@@ -74,7 +74,7 @@
      follows="top|right"
      halign="left"
      height="13"
-     top_delta="6"
+     top_delta="3"
      left_pad="5"
      layout="topleft"
      name="me_label"
@@ -88,7 +88,7 @@
      layout="topleft"
      left="3"
      name="people_chk"
-     top_pad="9"
+     top_pad="12"
      width="22" />
     <icon
      color="0 1 0 1"
@@ -197,7 +197,7 @@
      layout="topleft"
      left_pad="0"
      name="auction_label"
-     top_delta="3"
+     top_delta="0"
      width="170">
         land auction
     </text>
@@ -210,7 +210,7 @@
      mouse_opaque="true"
      name="square2"
      left="20"
-     top_pad="-5"
+     top_pad="-2"
      width="16" />
     <text
      type="string"
@@ -220,7 +220,7 @@
      layout="topleft"
      left_pad="0"
      name="by_owner_label"
-     top_delta="3"
+     top_delta="0"
      width="100">
        by owner
     </text>
@@ -246,7 +246,7 @@
      follows="top|right"
      halign="left"
      height="13"
-     top_delta="6"
+     top_delta="3"
      left_pad="5"
      layout="topleft"
      name="Home_label"
@@ -262,7 +262,7 @@
      layout="topleft"
      left="137"
      name="events_label"
-     top_pad="9"
+     top_pad="12"
      width="66">
         Events:
     </text>
@@ -387,7 +387,7 @@
      layout="topleft"
      left="15"
      name="find_on_map_label"
-     top="3"
+     top="0"
      width="215">
         Find on Map
     </text>
@@ -598,7 +598,6 @@
       <button
      follows="right|bottom"
      height="23"
-     image_unselected="PushButton_On"
      label="Teleport"
      layout="topleft"
      left="25"
@@ -655,7 +654,7 @@
      layout="topleft"
      left="15"
      name="zoom_label"
-     top="3"
+     top="0"
      width="210">
         Zoom
     </text>

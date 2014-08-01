@@ -983,6 +983,12 @@
    name="MapLineColor"
    reference="Red" />
   <color
+   name="NetMapPhysicalObject"
+   reference="Green" />
+  <color
+   name="NetMapTempObject"
+   reference="Purple" />
+  <color
    name="StatBarBackgroundColor"
    reference="Red" />
   <color

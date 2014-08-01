@@ -1016,6 +1016,12 @@
    name="MapLineColor"
    reference="Red" />
   <color
+   name="NetMapPhysicalObject"
+   reference="Green" />
+  <color
+   name="NetMapTempObject"
+   reference="Purple" />
+  <color
    name="StatBarBackgroundColor"
    value="0.2975 0.4269 0.5783 1" />
   <color

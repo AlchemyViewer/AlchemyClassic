@@ -323,7 +323,9 @@ void LLNetMap::draw()
 		// <//alchemy> 
 
 		// Redraw object layer periodically
-		if (mUpdateNow || (map_timer.getElapsedTimeF32() > 0.1f)) // <alchemy/>
+		static LLCachedControl<F32> object_layer_update_time_setting(gSavedSettings, "AlchemyMinimapObjectUpdateInterval", 0.1f);
+		F32 object_layer_update_time = llclamp((F32)object_layer_update_time_setting, 0.01f, 60.f);
+		if (mUpdateNow || (map_timer.getElapsedTimeF32() > object_layer_update_time)) // <alchemy/>
 		{
 			mUpdateNow = false;
 
@@ -340,7 +342,9 @@ void LLNetMap::draw()
 
 			// Draw objects
 			if (enable_object_render)
+			{
 				gObjectList.renderObjectsForMap(*this);
+			}
 
 			mObjectImagep->setSubImage(mObjectRawImagep, 0, 0, mObjectImagep->getWidth(), mObjectImagep->getHeight());
 			

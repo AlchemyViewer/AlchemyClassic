@@ -556,7 +556,7 @@
      reference="White_10" />
     <color
      name="MapFrustumRotatingColor"
-     value="1 1 1 0.2" />
+     reference="White_10" />
     <color
      name="MapTrackColor"
      reference="Red" />
@@ -1012,6 +1012,15 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="LtGray" />
+  <color
+   name="MapLineColor"
+   reference="Red" />
+  <color
+   name="NetMapPhysicalObject"
+   reference="Green" />
+  <color
+   name="NetMapTempObject"
+   reference="Purple" />
   <color
    name="StatBarBackgroundColor"
    value="0.2975 0.4269 0.5783 1" />

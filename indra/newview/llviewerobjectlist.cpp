@@ -1747,16 +1747,19 @@ void LLViewerObjectList::clearAllMapObjectsInRegion(LLViewerRegion* regionp)
 
 void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 {
-	LLColor4U above_water_color(LLUIColorTable::instance().getColor( "NetMapOtherOwnAboveWater" ));
-	LLColor4U below_water_color(LLUIColorTable::instance().getColor( "NetMapOtherOwnBelowWater" ));
-	LLColor4U you_own_above_water_color(LLUIColorTable::instance().getColor( "NetMapYouOwnAboveWater" ));
-	LLColor4U you_own_below_water_color(LLUIColorTable::instance().getColor( "NetMapYouOwnBelowWater" ));
-	LLColor4U group_own_above_water_color(LLUIColorTable::instance().getColor( "NetMapGroupOwnAboveWater" ));
-	LLColor4U group_own_below_water_color(LLUIColorTable::instance().getColor( "NetMapGroupOwnBelowWater" ));
+	static LLUIColor above_water_color(LLUIColorTable::instance().getColor("NetMapOtherOwnAboveWater"));
+	static LLUIColor below_water_color(LLUIColorTable::instance().getColor("NetMapOtherOwnBelowWater"));
+	static LLUIColor you_own_above_water_color(LLUIColorTable::instance().getColor("NetMapYouOwnAboveWater"));
+	static LLUIColor you_own_below_water_color(LLUIColorTable::instance().getColor("NetMapYouOwnBelowWater"));
+	static LLUIColor group_own_above_water_color(LLUIColorTable::instance().getColor("NetMapGroupOwnAboveWater"));
+	static LLUIColor group_own_below_water_color(LLUIColorTable::instance().getColor("NetMapGroupOwnBelowWater"));
+	static LLUIColor physical_object_color(LLUIColorTable::instance().getColor("NetMapPhysicalObject"));
+	static LLUIColor temp_object_color(LLUIColorTable::instance().getColor("NetMapTempObject"));
 
 	static LLCachedControl<F32> max_radius(gSavedSettings, "MiniMapPrimMaxRadius");
 
-	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != mMapObjects.end(); ++iter)
+	const vobj_list_t::const_iterator end_it = mMapObjects.cend();
+	for (vobj_list_t::iterator iter = mMapObjects.begin(); iter != end_it; ++iter)
 	{
 		LLViewerObject* objectp = *iter;
 
@@ -1769,10 +1772,10 @@ void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 		{
 			continue;
 		}
+
 		const LLVector3& scale = objectp->getScale();
-		const LLVector3d pos = objectp->getPositionGlobal();
+		const LLVector3d& pos = objectp->getPositionGlobal();
 		const F64 water_height = F64( objectp->getRegion()->getWaterHeight() );
-		// LLWorld::getInstance()->getWaterHeight();
 
 		F32 approx_radius = (scale.mV[VX] + scale.mV[VY]) * 0.5f * 0.5f * 1.3f;  // 1.3 is a fudge
 
@@ -1781,42 +1784,49 @@ void LLViewerObjectList::renderObjectsForMap(LLNetMap &netmap)
 		// See DEV-17370 and DEV-29869/SNOW-79 for details.
 		approx_radius = llmin(approx_radius, (F32)max_radius);
 
-		LLColor4U color = above_water_color;
-		if( objectp->permYouOwner() )
+		LLColor4U color = LLColor4U(above_water_color.get());
+		if (objectp->permYouOwner())
 		{
 			const F32 MIN_RADIUS_FOR_OWNED_OBJECTS = 2.f;
-			if( approx_radius < MIN_RADIUS_FOR_OWNED_OBJECTS )
+			if (approx_radius < MIN_RADIUS_FOR_OWNED_OBJECTS)
 			{
 				approx_radius = MIN_RADIUS_FOR_OWNED_OBJECTS;
 			}
 
-			if( pos.mdV[VZ] >= water_height )
+			if (pos.mdV[VZ] >= water_height)
 			{
-				if ( objectp->permGroupOwner() )
+				if (objectp->permGroupOwner())
 				{
-					color = group_own_above_water_color;
+					color = LLColor4U(group_own_above_water_color.get());
 				}
 				else
 				{
-				color = you_own_above_water_color;
-			}
-			}
-			else
-			{
-				if ( objectp->permGroupOwner() )
-				{
-					color = group_own_below_water_color;
+					color = LLColor4U(you_own_above_water_color.get());
 				}
+			}
 			else
 			{
-				color = you_own_below_water_color;
+				if (objectp->permGroupOwner())
+				{
+					color = LLColor4U(group_own_below_water_color.get());
+				}
+				else
+				{
+					color = LLColor4U(you_own_below_water_color.get());
+				}
 			}
 		}
-		}
-		else
-		if( pos.mdV[VZ] < water_height )
+		else if (objectp->flagUsePhysics())
 		{
-			color = below_water_color;
+			color = LLColor4U(physical_object_color.get());
+		}
+		else if (objectp->flagTemporaryOnRez())
+		{
+			color = LLColor4U(temp_object_color.get());
+		}
+		else if (pos.mdV[VZ] < water_height)
+		{
+			color = LLColor4U(below_water_color.get());
 		}
 
 		netmap.renderScaledPointGlobal( 

@@ -67,18 +67,18 @@
 
 static LLDefaultChildRegistry::Register<LLNetMap> r1("net_map");
 
-const F32 LLNetMap::MAP_SCALE_MIN = 32;
-const F32 LLNetMap::MAP_SCALE_MID = 1024;
-const F32 LLNetMap::MAP_SCALE_MAX = 4096;
+const F32 LLNetMap::MAP_SCALE_MIN = 32.f;
+const F32 LLNetMap::MAP_SCALE_MID = 1024.f;
+const F32 LLNetMap::MAP_SCALE_MAX = 4096.f;
 
-const F32 MAP_SCALE_INCREMENT = 16;
+const F32 MAP_SCALE_INCREMENT = 16.f;
 const F32 MAP_SCALE_ZOOM_FACTOR = 1.10f; // Zoom in factor per click of scroll wheel (10%) // <alchemy/>
 const F32 MIN_DOT_RADIUS = 3.5f;
 const F32 DOT_SCALE = 0.75f;
 const F32 MIN_PICK_SCALE = 2.f;
 const S32 MOUSE_DRAG_SLOP = 2;		// How far the mouse needs to move before we think it's a drag
 
-const F64 COARSEUPDATE_MAX_Z = 1020.0f;
+const F64 COARSEUPDATE_MAX_Z = 1020.0;
 
 LLNetMap::LLNetMap (const Params & p)
 :	LLUICtrl (p),
@@ -163,13 +163,15 @@ void LLNetMap::draw()
 	static LLUIColor map_frustum_rotating_color = LLUIColorTable::instance().getColor("MapFrustumRotatingColor", LLColor4::white);
 	// <alchemy>
 	static LLUIColor map_avatar_linden_color = LLUIColorTable::instance().getColor("MapAvatarLindenColor", LLColor4::cyan);
-	static LLCachedControl<bool> useWorldMapImage(gSavedSettings, "AlchemyMinimapTile", true);
-	static LLCachedControl<bool> centerToRegion(gSavedSettings, "AlchemyMinimapCenterRegion", false);
-	static LLCachedControl<bool> enableObjectRender(gSavedSettings, "AlchemyMinimapRenderObjects", true);
+	static LLUIColor map_line_color = LLUIColorTable::instance().getColor("MapLineColor", LLColor4::red);
+	static LLCachedControl<bool> use_world_map_image(gSavedSettings, "AlchemyMinimapTile", true);
+	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
+	static LLCachedControl<bool> enable_object_render(gSavedSettings, "AlchemyMinimapRenderObjects", true);
+	static LLCachedControl<bool> render_guide_line(gSavedSettings, "AlchemyMinimapGuideLine", false);
 	// </alchemy>
 
-	const LLVector3d& globalpos = centerToRegion ? curregionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
-	const LLVector3& agentpos = centerToRegion ? curregionp->getCenterAgent() : gAgentCamera.getCameraPositionAgent();
+	const LLVector3d& globalpos = center_to_region ? curregionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
+	const LLVector3& agentpos = center_to_region ? curregionp->getCenterAgent() : gAgentCamera.getCameraPositionAgent();
 
 	if (mObjectImagep.isNull())
 	{
@@ -183,7 +185,7 @@ void LLNetMap::draw()
 	}
 
 	// Prepare a scissor region
-	F32 rotation = 0;
+	F32 rotation = 0.f;
 
 	gGL.pushMatrix();
 	gGL.pushUIMatrix();
@@ -205,7 +207,7 @@ void LLNetMap::draw()
 			gGL.matrixMode(LLRender::MM_MODELVIEW);
 
 			// Draw background rectangle
-			LLColor4 background_color = mBackgroundColor.get();
+			const LLColor4& background_color = mBackgroundColor.get();
 			gGL.color4fv( background_color.mV );
 			gl_rect_2d(0, getRect().getHeight(), getRect().getWidth(), 0);
 		}
@@ -229,8 +231,9 @@ void LLNetMap::draw()
 		// figure out where agent is
 		S32 region_width = llmath::llround(LLWorld::getInstance()->getRegionWidthInMeters());
 
+		LLWorld::region_list_t::const_iterator end_it = LLWorld::getInstance()->getRegionList().cend();
 		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
-			 iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+			 iter != end_it; ++iter)
 		{
 			LLViewerRegion* regionp = *iter;
 			// Find x and y position relative to camera's center.
@@ -261,7 +264,7 @@ void LLNetMap::draw()
 
 			
 			// <alchemy>
-			if (useWorldMapImage)
+			if (use_world_map_image)
 			{
 				LLViewerTexture* img = regionp->getMapImage();
 				if (img && img->hasGLTexture())
@@ -320,7 +323,9 @@ void LLNetMap::draw()
 		// <//alchemy> 
 
 		// Redraw object layer periodically
-		if (mUpdateNow || (map_timer.getElapsedTimeF32() > 0.1f)) // <lchemy/>
+		static LLCachedControl<F32> object_layer_update_time_setting(gSavedSettings, "AlchemyMinimapObjectUpdateInterval", 0.1f);
+		F32 object_layer_update_time = llclamp((F32)object_layer_update_time_setting, 0.01f, 60.f);
+		if (mUpdateNow || (map_timer.getElapsedTimeF32() > object_layer_update_time)) // <alchemy/>
 		{
 			mUpdateNow = false;
 
@@ -336,8 +341,10 @@ void LLNetMap::draw()
 			memset( default_texture, 0, mObjectImagep->getWidth() * mObjectImagep->getHeight() * mObjectImagep->getComponents() );
 
 			// Draw objects
-			if (enableObjectRender)
+			if (enable_object_render)
+			{
 				gObjectList.renderObjectsForMap(*this);
+			}
 
 			mObjectImagep->setSubImage(mObjectRawImagep, 0, 0, mObjectImagep->getWidth(), mObjectImagep->getHeight());
 			
@@ -383,7 +390,6 @@ void LLNetMap::draw()
 
 		LLWorld::getInstance()->getAvatars(&avatar_ids, &positions, gAgentCamera.getCameraPositionGlobal());
 
-		
 		// Draw avatars
 		for (U32 i = 0; i < avatar_ids.size(); i++)
 		{
@@ -432,7 +438,8 @@ void LLNetMap::draw()
 						S32 x = llmath::llround( pos_map.mV[VX] );
 						S32 y = llmath::llround( pos_map.mV[VY] );
 						LLWorldMapView::drawTrackingCircle( getRect(), x, y, color, 1, 10);
-					} else
+					}
+					else
 					{
 						LLWorldMapView::drawTrackingDot(pos_map.mV[VX],pos_map.mV[VY],color,0.f);
 					}
@@ -468,8 +475,7 @@ void LLNetMap::draw()
 		}
 
 		// Draw dot for self avatar position
-		LLVector3d pos_global = gAgent.getPositionGlobal();
-		pos_map = globalPosToView(pos_global);
+		pos_map = globalPosToView(gAgent.getPositionGlobal());
 		S32 dot_width = llmath::llround(mDotRadius * 2.f);
 		LLUIImagePtr you = LLWorldMapView::sAvatarYouLargeImage;
 		if (you)
@@ -494,16 +500,17 @@ void LLNetMap::draw()
 		F32 far_clip_meters = LLViewerCamera::getInstance()->getFar();
 		F32 far_clip_pixels = far_clip_meters * meters_to_pixels;
 
-		F32 half_width_meters = far_clip_meters * tan( horiz_fov / 2 );
+		F32 half_width_meters = far_clip_meters * tan( horiz_fov / 2.f );
 		F32 half_width_pixels = half_width_meters * meters_to_pixels;
 		
 		LLVector3 cam_pos = globalPosToView(gAgentCamera.getCameraPositionGlobal());
-		F32 ctr_x = centerToRegion ? cam_pos.mV[VX] : (F32)center_sw_left;
-		F32 ctr_y = centerToRegion ? cam_pos.mV[VY] : (F32)center_sw_bottom;
+		F32 ctr_x = center_to_region ? cam_pos.mV[VX] : (F32)center_sw_left;
+		F32 ctr_y = center_to_region ? cam_pos.mV[VY] : (F32)center_sw_bottom;
 
 
 		gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
 
+		const LLColor4& line_col = map_line_color.get();
 		if( rotate_map )
 		{
 			gGL.color4fv((map_frustum_color()).mV);
@@ -513,6 +520,15 @@ void LLNetMap::draw()
 				gGL.vertex2f( ctr_x - half_width_pixels, ctr_y + far_clip_pixels );
 				gGL.vertex2f( ctr_x + half_width_pixels, ctr_y + far_clip_pixels );
 			gGL.end();
+
+			if (render_guide_line)
+			{
+				gGL.begin(LLRender::LINES);
+					gGL.color4fv(line_col.mV);
+					gGL.vertex2f(ctr_x, ctr_y);
+					gGL.vertex2f(ctr_x, ctr_y + far_clip_pixels);
+				gGL.end();
+			}
 		}
 		else
 		{
@@ -520,13 +536,22 @@ void LLNetMap::draw()
 			
 			// If we don't rotate the map, we have to rotate the frustum.
 			gGL.pushMatrix();
-				gGL.translatef( ctr_x, ctr_y, 0 );
+				gGL.translatef( ctr_x, ctr_y, 0.f );
 				gGL.rotatef( atan2( LLViewerCamera::getInstance()->getAtAxis().mV[VX], LLViewerCamera::getInstance()->getAtAxis().mV[VY] ) * RAD_TO_DEG, 0.f, 0.f, -1.f);
 				gGL.begin( LLRender::TRIANGLES  );
-					gGL.vertex2f( 0, 0 );
+					gGL.vertex2f( 0.f, 0.f );
 					gGL.vertex2f( -half_width_pixels, far_clip_pixels );
 					gGL.vertex2f(  half_width_pixels, far_clip_pixels );
 				gGL.end();
+				if (render_guide_line)
+				{
+					gGL.begin(LLRender::LINES);
+						gGL.color4fv(line_col.mV);
+						gGL.vertex2f(0.f, 0.f);
+						gGL.vertex2f(0.f, far_clip_pixels);
+					gGL.end();
+				}
+
 			gGL.popMatrix();
 		}
 	}
@@ -546,9 +571,9 @@ void LLNetMap::reshape(S32 width, S32 height, BOOL called_from_parent)
 LLVector3 LLNetMap::globalPosToView(const LLVector3d& global_pos)
 {
 	// <alchemy>
-	static LLCachedControl<bool> centerToRegion(gSavedSettings, "AlchemyMinimapCenterRegion", false);
+	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
 	LLViewerRegion* regionp = gAgent.getRegion();
-	LLVector3d camera_position = (centerToRegion && regionp) ? regionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
+	LLVector3d camera_position = (center_to_region && regionp) ? regionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
 	// </alchemy>
 
 	LLVector3d relative_pos_global = global_pos - camera_position;
@@ -621,9 +646,9 @@ LLVector3d LLNetMap::viewPosToGlobal( S32 x, S32 y )
 	pos_global.setVec( pos_local );
 
 	// <alchemy>
-	static LLCachedControl<bool> centerToRegion(gSavedSettings, "AlchemyMinimapCenterRegion", false);
+	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
 	LLViewerRegion* regionp = gAgent.getRegion();
-	pos_global += centerToRegion && regionp ? regionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
+	pos_global += center_to_region && regionp ? regionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
 	// </alchemy>
 
 	return pos_global;

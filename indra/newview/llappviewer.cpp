@@ -3367,7 +3367,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	}
 
 	// TODO: Implement media plugin version query
-#if _MSC_VER >= 1800
+#if _MSC_VER >= 1800 || (defined(LL_DARWIN) && __cplusplus >= 201103L)
 	info["QT_WEBKIT_VERSION"] = "4.8.6 (version number hard-coded)";
 #else
 	info["QT_WEBKIT_VERSION"] = "4.7.1 (version number hard-coded)";

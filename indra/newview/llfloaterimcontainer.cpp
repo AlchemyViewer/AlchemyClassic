@@ -1139,6 +1139,18 @@ void LLFloaterIMContainer::doToParticipants(const std::string& command, uuid_vec
 		{
 			LLAvatarActions::pay(userID);
 		}
+		else if ("copy_name" == command)
+		{
+			LLAvatarActions::copyData(userID, LLAvatarActions::E_DATA_NAME);
+		}
+		else if ("copy_slurl" == command)
+		{
+			LLAvatarActions::copyData(userID, LLAvatarActions::E_DATA_SLURL);
+		}
+		else if ("copy_uuid" == command)
+		{
+			LLAvatarActions::copyData(userID, LLAvatarActions::E_DATA_UUID);
+		}
 		else if ("block_unblock" == command)
 		{
 			toggleMute(userID, LLMute::flagVoiceChat);
@@ -1177,6 +1189,18 @@ void LLFloaterIMContainer::doToParticipants(const std::string& command, uuid_vec
 		else if ("remove_friend" == command)
 		{
 			LLAvatarActions::removeFriendsDialog(selectedIDS);
+		}
+		else if ("copy_name" == command)
+		{
+			LLAvatarActions::copyData(selectedIDS, LLAvatarActions::E_DATA_NAME);
+		}
+		else if ("copy_slurl" == command)
+		{
+			LLAvatarActions::copyData(selectedIDS, LLAvatarActions::E_DATA_SLURL);
+		}
+		else if ("copy_uuid" == command)
+		{
+			LLAvatarActions::copyData(selectedIDS, LLAvatarActions::E_DATA_UUID);
 		}
 	}
 }
@@ -1272,6 +1296,18 @@ void LLFloaterIMContainer::doToSelectedGroup(const LLSD& userdata)
     {
         LLGroupActions::leave(mSelectedSession);
     }
+	else if (action == "copy_name")
+	{
+		LLGroupActions::copyData(mSelectedSession, LLGroupActions::E_DATA_NAME);
+	}
+	else if (action == "copy_slurl")
+	{
+		LLGroupActions::copyData(mSelectedSession, LLGroupActions::E_DATA_SLURL);
+	}
+	else if (action == "copy_uuid")
+	{
+		LLGroupActions::copyData(mSelectedSession, LLGroupActions::E_DATA_UUID);
+	}
 }
 
 bool LLFloaterIMContainer::enableContextMenuItem(const LLSD& userdata)

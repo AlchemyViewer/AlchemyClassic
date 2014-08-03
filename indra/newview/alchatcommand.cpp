@@ -37,6 +37,7 @@
 #include "llcommandhandler.h"
 #include "llfloaterreg.h"
 #include "llfloaterimnearbychat.h"
+#include "llnotificationsutil.h"
 #include "llstartup.h"
 #include "lltrans.h"
 #include "llviewercontrol.h"
@@ -45,19 +46,6 @@
 #include "llvoavatarself.h"
 #include "llvolume.h"
 #include "llvolumemessage.h"
-
-void add_system_chat(const std::string &msg)
-{
-	if (msg.empty()) return;
-
-	LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
-	if (nearby_chat)
-	{
-		LLChat chat(msg);
-		chat.mSourceType = CHAT_SOURCE_SYSTEM;
-		nearby_chat->addMessage(chat);
-	}
-}
 
 bool ALChatCommand::parseCommand(std::string data)
 {
@@ -181,13 +169,15 @@ bool ALChatCommand::parseCommand(std::string data)
 				F32 result = 0.f;
 				std::string expr = data.substr(cmd.length() + 1);
 				LLStringUtil::toUpper(expr);
-				const bool success = LLCalc::getInstance()->evalString(expr, result);
-				std::string out = LLTrans::getString("ALChatCalculationFailure");
-				if (success)
+				if (LLCalc::getInstance()->evalString(expr, result))
 				{
-					out = (boost::format("%1%: %2% = %3%") % LLTrans::getString("ALChatCalculation") % expr % result).str();
+					LLSD args;
+					args["EXPRESSION"] = expr;
+					args["RESULT"] = result;
+					LLNotificationsUtil::add("ChatCommandCalc", args);
+					return true;
 				}
-				add_system_chat(out);
+				LLNotificationsUtil::add("ChatCommandCalcFailed");
 				return true;
 			}
 		}
@@ -213,6 +203,16 @@ bool ALChatCommand::parseCommand(std::string data)
 			{
 				nearby_chat->reloadMessages(true);
 			}
+			return true;
+		}
+		else if (cmd == "/droll")
+		{
+			S32 dice_sides;
+			if (!(input >> dice_sides))
+				dice_sides = 6;
+			LLSD args;
+			args["RESULT"] = ((ll_rand() % dice_sides) + 1);
+			LLNotificationsUtil::add("ChatCommandDiceRoll", args);
 			return true;
 		}
 	}

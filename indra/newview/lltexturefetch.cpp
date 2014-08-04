@@ -2650,7 +2650,13 @@ bool LLTextureFetch::createRequest(FTType f_type, const std::string& url, const 
 		worker->setImagePriority(priority);
 		worker->setDesiredDiscard(desired_discard, desired_size);
 		worker->setCanUseHTTP(can_use_http);
-		worker->setUrl(url);
+		// <alchemy> - This potentially works around/fixes the texture reloading forever issue
+		if (!url.empty())
+		{
+			worker->setUrl(url);
+		}
+		// </alchemy>
+
 		if (!worker->haveWork())
 		{
 			worker->setState(LLTextureFetchWorker::INIT);

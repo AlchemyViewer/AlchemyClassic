@@ -291,14 +291,20 @@ void LLAvatarPropertiesProcessor::processAvatarPropertiesReply(LLMessageSystem* 
 
 void LLAvatarPropertiesProcessor::processAvatarInterestsReply(LLMessageSystem* msg, void**)
 {
-/*
-	AvatarInterestsReply is automatically sent by the server in response to the 
-	AvatarPropertiesRequest sent when the panel is opened (in addition to the AvatarPropertiesReply message). 
-	If the interests panel is no longer part of the design (?) we should just register the message 
-	to a handler function that does nothing. 
-	That will suppress the warnings and be compatible with old server versions.
-	WARNING: LLTemplateMessageReader::decodeData: Message from 216.82.37.237:13000 with no handler function received: AvatarInterestsReply
-*/
+	LLAvatarInterests interests;
+	
+	msg->getUUIDFast(   _PREHASH_AgentData,         _PREHASH_AgentID,       interests.agent_id);
+	msg->getUUIDFast(   _PREHASH_AgentData,         _PREHASH_AvatarID,      interests.avatar_id);
+	msg->getU32Fast(    _PREHASH_PropertiesData,	_PREHASH_WantToMask,    interests.want_to_mask);
+	msg->getStringFast( _PREHASH_PropertiesData,    _PREHASH_WantToText,    interests.want_to_text);
+	msg->getU32Fast(    _PREHASH_PropertiesData,	_PREHASH_SkillsMask,    interests.skills_mask);
+	msg->getStringFast( _PREHASH_PropertiesData,    _PREHASH_SkillsText,    interests.skills_text);
+	msg->getString(     _PREHASH_PropertiesData,    _PREHASH_LanguagesText, interests.languages_text);
+	
+	LLAvatarPropertiesProcessor* self = getInstance();
+	// Request processed, no longer pending
+	self->removePendingRequest(interests.avatar_id, APT_INTERESTS);
+	self->notifyObservers(interests.avatar_id, &interests, APT_INTERESTS);
 }
 
 void LLAvatarPropertiesProcessor::processAvatarClassifiedsReply(LLMessageSystem* msg, void**)
@@ -599,6 +605,26 @@ void LLAvatarPropertiesProcessor::sendClassifiedInfoUpdate(const LLAvatarClassif
 	msg->addU8(_PREHASH_ClassifiedFlags, c_data->flags);
 	msg->addS32(_PREHASH_PriceForListing, c_data->price_for_listing);
 
+	gAgent.sendReliableMessage();
+}
+
+void LLAvatarPropertiesProcessor::sendInterestsUpdate(const LLAvatarInterests* i_data)
+{
+	if(!i_data) return;
+	
+	LLMessageSystem* msg = gMessageSystem;
+	
+	msg->newMessage(_PREHASH_AvatarInterestsUpdate);
+	msg->nextBlockFast( _PREHASH_AgentData);
+	msg->addUUIDFast(	_PREHASH_AgentID,       gAgent.getID());
+	msg->addUUIDFast(   _PREHASH_SessionID,     gAgent.getSessionID());
+	msg->nextBlockFast( _PREHASH_PropertiesData);
+	msg->addU32Fast(	_PREHASH_WantToMask,    i_data->want_to_mask);
+	msg->addStringFast(	_PREHASH_WantToText,    i_data->want_to_text);
+	msg->addU32Fast(	_PREHASH_SkillsMask,    i_data->skills_mask);
+	msg->addStringFast(	_PREHASH_SkillsText,    i_data->skills_text);
+	msg->addString(     _PREHASH_LanguagesText, i_data->languages_text);
+	
 	gAgent.sendReliableMessage();
 }
 

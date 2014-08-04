@@ -95,6 +95,7 @@ public:
 	 * Show avatar profile.
 	 */
 	static void showProfile(const LLUUID& id);
+	static void showWebProfile(const LLUUID& id);
 	static void hideProfile(const LLUUID& id);
 	static bool profileVisible(const LLUUID& id);
 	static LLFloater* getProfileFloater(const LLUUID& id);
@@ -215,6 +216,11 @@ public:
 	 */
 	static bool canShareSelectedItems(LLInventoryPanel* inv_panel = NULL);
 
+	/**
+	 * Checks whether agent is mappable
+	 */
+	static bool isAgentMappable(const LLUUID& agent_id);
+	
 	/**
 	 * Builds a string of residents' display names separated by "words_separator" string.
 	 *

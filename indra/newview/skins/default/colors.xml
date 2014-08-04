@@ -997,4 +997,7 @@
   <color
    name="StatBarMeanBarColor"
    value="0.0 1.0 0 1" />
+  <color
+   name="ProfileOnlineIndicatorColor"
+   reference="Green" />
 </colors>

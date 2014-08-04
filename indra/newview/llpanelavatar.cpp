@@ -193,7 +193,7 @@ void LLPanelProfileTab::updateButtons()
 	}
 
 	bool enable_map_btn = (is_buddy_online &&
-			       is_agent_mappable(getAvatarId()))
+			       LLAvatarActions::isAgentMappable(getAvatarId()))
 		|| gAgent.isGodlike();
 	getChildView("show_on_map_btn")->setEnabled(enable_map_btn);
 }

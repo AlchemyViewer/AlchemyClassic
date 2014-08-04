@@ -47,7 +47,6 @@
 
 #include "llaccordionctrl.h"
 #include "llaccordionctrltab.h"
-#include "llavatarpropertiesprocessor.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llpanelavatar.h"
 #include "llpanelprofile.h"
@@ -59,14 +58,6 @@ static const std::string XML_BTN_DELETE = "trash_btn";
 static const std::string XML_BTN_INFO = "info_btn";
 static const std::string XML_BTN_TELEPORT = "teleport_btn";
 static const std::string XML_BTN_SHOW_ON_MAP = "show_on_map_btn";
-
-static const std::string PICK_ID("pick_id");
-static const std::string PICK_CREATOR_ID("pick_creator_id");
-static const std::string PICK_NAME("pick_name");
-
-static const std::string CLASSIFIED_ID("classified_id");
-static const std::string CLASSIFIED_NAME("classified_name");
-
 
 static LLPanelInjector<LLPanelPicks> t_panel_picks("panel_picks");
 
@@ -632,10 +623,12 @@ void LLPanelPicks::onOpen(const LLSD& key)
 	{
 		getChildView("pick_title")->setVisible( !self);
 		getChildView("pick_title_agent")->setVisible( self);
-
-		mPopupMenu->setItemVisible("pick_delete", TRUE);
-		mPopupMenu->setItemVisible("pick_edit", TRUE);
-		mPopupMenu->setItemVisible("pick_separator", TRUE);
+		if (mPopupMenu)
+		{
+			mPopupMenu->setItemVisible("pick_delete", TRUE);
+			mPopupMenu->setItemVisible("pick_edit", TRUE);
+			mPopupMenu->setItemVisible("pick_separator", TRUE);
+		}
 	}
 
 	if(getAvatarId() != id)

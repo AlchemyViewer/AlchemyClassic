@@ -56,6 +56,7 @@ enum EAvatarProcessorType
 	APT_PICKS,
 	APT_PICK_INFO,
 	APT_TEXTURES,
+	APT_INTERESTS,
 	APT_CLASSIFIEDS,
 	APT_CLASSIFIED_INFO
 };
@@ -177,6 +178,17 @@ struct LLAvatarClassifiedInfo
 	S32 price_for_listing;
 };
 
+struct LLAvatarInterests
+{
+	LLUUID      agent_id;
+	LLUUID      avatar_id; //target id
+	U32         want_to_mask;
+	std::string want_to_text;
+	U32         skills_mask;
+	std::string skills_text;
+	std::string languages_text;
+};
+
 class LLAvatarPropertiesObserver
 {
 public:
@@ -215,6 +227,8 @@ public:
 	void sendPickInfoUpdate(const LLPickData* new_pick);
 
 	void sendClassifiedInfoUpdate(const LLAvatarClassifiedInfo* c_data);
+	
+	void sendInterestsUpdate(const LLAvatarInterests* i_data);
 
 	void sendFriendRights(const LLUUID& avatar_id, S32 rights);
 

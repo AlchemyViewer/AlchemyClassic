@@ -34,14 +34,14 @@ Remove Friend
   </panel.string>
   <panel
    name="avatar_info_top"
-   follows="top|left"
+   follows="top|left|right"
    top="0"
    left="0"
    height="29"
    width="313"
    layout="topleft">
     <button
-     follows="top|right"
+     follows="top|left"
      height="24"
      image_hover_unselected="BackButton_Over"
      image_pressed="BackButton_Press"
@@ -171,7 +171,7 @@ Remove Friend
          layout="topleft"
          name="avatar_firstlife_tab"
          title="First Life"
-         fit_panel="false">
+         fit_panel="true">
           <panel
            border="false"
            filename="panel_profile_firstlife.xml"
@@ -186,11 +186,11 @@ Remove Friend
          layout="topleft"
          name="avatar_notes_tab"
          title="Notes"
-         fit_panel="false">
+         fit_panel="true">
           <panel
            border="false"
            filename="panel_profile_notes.xml"
-           follows="left|top|right"
+           follows="all"
            layout="topleft"
            left="0"
            name="notes_tab_panel"

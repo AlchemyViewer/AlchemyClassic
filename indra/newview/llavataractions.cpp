@@ -1261,7 +1261,8 @@ void LLAvatarActions::copyData(const LLUUID& id, ECopyDataType type)
 		default:
 			break;
 		}
-		LLClipboard::instance().copyToClipboard(utf8str_to_wstring(tmp), 0, tmp.length());
+		LLWString wstr = utf8str_to_wstring(tmp);
+		LLClipboard::instance().copyToClipboard(wstr, 0, wstr.length());
 	}
 }
 
@@ -1272,9 +1273,8 @@ void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 	{
 		std::string data_string;
 		static LLCachedControl<std::string> seperator(gSavedSettings, "AlchemyCopySeperator", ", ");
-		for (uuid_vec_t::const_iterator it = ids.begin(); it != ids.end(); ++it)
+		for (const LLUUID& id : ids)
 		{
-			const LLUUID& id = *it;
 			if (id.isNull())
 				continue;
 
@@ -1302,6 +1302,9 @@ void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 		}
 
 		if (!data_string.empty())
-			LLClipboard::instance().copyToClipboard(utf8str_to_wstring(data_string), 0, data_string.length());
+		{
+			LLWString wdata_str = utf8str_to_wstring(data_string);
+			LLClipboard::instance().copyToClipboard(wdata_str, 0, wdata_str.length());
+		}
 	}
 }

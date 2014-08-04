@@ -266,6 +266,18 @@ bool LLGroupList::onContextMenuItemClick(const LLSD& userdata)
 	{
 		LLGroupActions::activate(selected_group);
 	}
+	else if (action == "copy_name")
+	{
+		LLGroupActions::copyData(selected_group, LLGroupActions::E_DATA_NAME);
+	}
+	else if (action == "copy_slurl")
+	{
+		LLGroupActions::copyData(selected_group, LLGroupActions::E_DATA_SLURL);
+	}
+	else if (action == "copy_uuid")
+	{
+		LLGroupActions::copyData(selected_group, LLGroupActions::E_DATA_UUID);
+	}
 	else if (action == "leave")
 	{
 		LLGroupActions::leave(selected_group);

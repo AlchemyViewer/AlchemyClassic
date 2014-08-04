@@ -111,6 +111,15 @@ public:
 	 */
 	static bool isAvatarMemberOfGroup(const LLUUID& group_id, const LLUUID& avatar_id);
 	
+	/**
+	 * Copys various data on the group
+	 */
+	enum ECopyDataType{
+		E_DATA_NAME = 0,
+		E_DATA_SLURL,
+		E_DATA_UUID
+	};
+	static void copyData(const LLUUID& group_id, ECopyDataType data_type);
 private:
 	static bool onJoinGroup(const LLSD& notification, const LLSD& response);
 	static bool onLeaveGroup(const LLSD& notification, const LLSD& response);

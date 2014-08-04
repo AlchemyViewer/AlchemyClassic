@@ -35,6 +35,8 @@
 #include "llpointer.h"
 #include "llcoord.h"
 
+#include <unordered_map>
+
 class LLColor4U;
 class LLImageRaw;
 class LLViewerTexture;
@@ -126,6 +128,10 @@ private:
 	LLUUID			mClosestAgentAtLastRightClick;
 
 	std::string		mToolTipMsg;
+
+	
+	typedef std::unordered_map<LLUUID, LLColor4, LLUUIDHash> uuid_color_umap_t;
+	uuid_color_umap_t mCustomColors;
 
 public:
 	void			setSelected(uuid_vec_t uuids) { gmSelected=uuids; };

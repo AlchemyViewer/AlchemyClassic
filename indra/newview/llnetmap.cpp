@@ -387,6 +387,7 @@ void LLNetMap::draw()
 		uuid_vec_t avatar_ids;
 		std::vector<LLVector3d> positions;
 		bool unknown_relative_z;
+		LLColor4 color;
 
 		LLWorld::getInstance()->getAvatars(&avatar_ids, &positions, gAgentCamera.getCameraPositionGlobal());
 
@@ -402,10 +403,30 @@ void LLNetMap::draw()
 			LLAvatarName av_name;
 			LLAvatarNameCache::get(uuid, &av_name);
 			bool is_linden = LLMuteList::instance().isLinden(av_name.getUserName());
+			bool is_muted = LLMuteList::instance().isMuted(uuid, av_name.getUserName());
 			bool show_as_friend = (LLAvatarTracker::instance().getBuddyInfo(uuid) != NULL);
 
-			LLColor4 color = show_as_friend ? map_avatar_friend_color : 
-				(is_linden ? map_avatar_linden_color : map_avatar_color);
+			const uuid_color_umap_t::const_iterator& user_col_it = mCustomColors.find(uuid);
+			if (user_col_it != mCustomColors.cend())
+			{
+				color = user_col_it->second;
+			}
+			else if (is_linden)
+			{
+				color = map_avatar_linden_color.get();
+			}
+			else if (is_muted)
+			{
+				color = LLColor4::grey;
+			}
+			else if (show_as_friend)
+			{
+				color = map_avatar_friend_color.get();
+			}
+			else
+			{
+				color = map_avatar_color.get();
+			}
 
 			unknown_relative_z = positions[i].mdV[VZ] == COARSEUPDATE_MAX_Z &&
 					camera_position.mV[VZ] >= COARSEUPDATE_MAX_Z;
@@ -419,10 +440,9 @@ void LLNetMap::draw()
 			if(uuid.notNull())
 			{
 				bool selected = false;
-				uuid_vec_t::iterator sel_iter = gmSelected.begin();
-				for (; sel_iter != gmSelected.end(); sel_iter++)
+				for (const auto& sel_uuid : gmSelected)
 				{
-					if(*sel_iter == uuid)
+					if (sel_uuid == uuid)
 					{
 						selected = true;
 						break;

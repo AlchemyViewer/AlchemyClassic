@@ -33,12 +33,14 @@
 
 #include "llagent.h"
 #include "llcommandhandler.h"
+#include "llclipboard.h"
 #include "llfloaterreg.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llgroupmgr.h"
 #include "llfloaterimcontainer.h"
 #include "llimview.h" // for gIMMgr
 #include "llnotificationsutil.h"
+#include "llslurl.h"
 #include "llstatusbar.h"	// can_afford_transaction()
 #include "groupchatlistener.h"
 
@@ -493,6 +495,31 @@ bool LLGroupActions::isAvatarMemberOfGroup(const LLUUID& group_id, const LLUUID&
 	}
 
 	return true;
+}
+
+// static
+void LLGroupActions::copyData(const LLUUID& group_id, ECopyDataType data_type)
+{
+	if (group_id.notNull())
+	{
+		std::string tmp;
+		switch (data_type)
+		{
+		case E_DATA_NAME:
+			tmp = LLGroupMgr::getInstance()->getGroupData(group_id)->mName;
+			break;
+		case E_DATA_SLURL:
+			tmp = LLSLURL("group", group_id, "about").getSLURLString();
+			break;
+		case E_DATA_UUID:
+			tmp = group_id.asString();
+			break;
+		default:
+			break;
+		}
+		LLWString wstr = utf8str_to_wstring(tmp);
+		LLClipboard::instance().copyToClipboard(wstr, 0, wstr.length());
+	}
 }
 
 //-- Private methods ----------------------------------------------------------

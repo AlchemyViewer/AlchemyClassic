@@ -395,7 +395,6 @@ void LLPanelProfileLegacy::onCommitRights()
 {
 	if (!LLAvatarActions::isFriend(getAvatarId())) return;
 	S32 flags = 0;
-	const LLRelationship* buddy_info = LLAvatarTracker::instance().getBuddyInfo(getAvatarId());
 	if (getChild<LLCheckBoxCtrl>("allow_show_online")->getValue().asBoolean())
 		flags |= LLRelationship::GRANT_ONLINE_STATUS;
 	if (getChild<LLCheckBoxCtrl>("allow_mapping")->getValue().asBoolean())

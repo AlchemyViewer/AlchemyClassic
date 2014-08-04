@@ -28,9 +28,9 @@
   </panel>
   <text_editor
    type="string"
-   follows="left|top|right"
+   follows="all"
    left="3"
-   height="140"
+   height="200"
    layout="topleft"
    max_length="253"
    name="fl_about"

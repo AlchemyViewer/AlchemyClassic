@@ -5,7 +5,7 @@
  background_opaque="true"
  follows="all"
  height="360"
- label="Picks"
+ label="Groups"
  layout="topleft"
  left="0"
  name="panel_profile_groups"
@@ -34,5 +34,4 @@
   top="0"
   min_height="150"
   height="360" />
-
 </panel>

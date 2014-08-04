@@ -21,11 +21,12 @@
   </text>
   <text_editor
    type="string"
-   follows="left|top|right"
+   follows="all"
    left="3"
-   height="250"
+   height="320"
    layout="topleft"
    max_length="1022"
+   min_height="55"
    name="notes"
    top_pad="4"
    right="-4"

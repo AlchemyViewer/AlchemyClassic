@@ -151,7 +151,7 @@ void ALPanelQuickSettings::onClickWindlightNext(bool water_or_sky)
 void ALPanelQuickSettings::applyWindlight()
 {
 	// Update environment with the user choice.
-	bool use_region_settings = mRegionSettingsCheckBox->getValue();
+	const bool use_region_settings = mRegionSettingsCheckBox->getValue();
 	const std::string& water_preset = mWaterPresetCombo->getValue().asString();
 	const std::string& sky_preset = mSkyPresetCombo->getValue().asString();
 
@@ -171,24 +171,24 @@ void ALPanelQuickSettings::populateWaterPresetsList()
 {
 	mWaterPresetCombo->removeall();
 
-	std::list<std::string> user_presets, system_presets;
+	LLWLParamManager::preset_name_list_t user_presets, system_presets;
 	LLWaterParamManager::instance().getPresetNames(user_presets, system_presets);
 
 	// Add user presets first.
-	for (std::list<std::string>::const_iterator it = user_presets.begin(); it != user_presets.end(); ++it)
+	for (const auto& user_preset_string : user_presets)
 	{
-		mWaterPresetCombo->add(*it);
+		mWaterPresetCombo->add(user_preset_string);
 	}
 
-	if (user_presets.size() > 0)
+	if (!user_presets.empty())
 	{
 		mWaterPresetCombo->addSeparator();
 	}
 
 	// Add system presets.
-	for (std::list<std::string>::const_iterator it = system_presets.begin(); it != system_presets.end(); ++it)
+	for (const auto& system_preset_string : system_presets)
 	{
-		mWaterPresetCombo->add(*it);
+		mWaterPresetCombo->add(system_preset_string);
 	}
 }
 
@@ -196,14 +196,13 @@ void ALPanelQuickSettings::populateSkyPresetsList()
 {
 	mSkyPresetCombo->removeall();
 
-	LLWLParamManager::preset_name_list_t region_presets; // unused as we don't list region presets here
-	LLWLParamManager::preset_name_list_t user_presets, sys_presets;
-	LLWLParamManager::instance().getPresetNames(region_presets, user_presets, sys_presets);
+	LLWLParamManager::preset_name_list_t region_presets, user_presets, system_presets;
+	LLWLParamManager::instance().getPresetNames(region_presets, user_presets, system_presets);
 
 	// Add user presets.
-	for (LLWLParamManager::preset_name_list_t::const_iterator it = user_presets.begin(); it != user_presets.end(); ++it)
+	for (const auto& user_preset_string : user_presets)
 	{
-		mSkyPresetCombo->add(*it);
+		mSkyPresetCombo->add(user_preset_string);
 	}
 
 	if (!user_presets.empty())
@@ -212,8 +211,8 @@ void ALPanelQuickSettings::populateSkyPresetsList()
 	}
 
 	// Add system presets.
-	for (LLWLParamManager::preset_name_list_t::const_iterator it = sys_presets.begin(); it != sys_presets.end(); ++it)
+	for (const auto& system_preset_string : system_presets)
 	{
-		mSkyPresetCombo->add(*it);
+		mSkyPresetCombo->add(system_preset_string);
 	}
 }

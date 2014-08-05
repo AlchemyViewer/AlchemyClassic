@@ -29,6 +29,7 @@
 
 #include <map>
 #include <set>
+#include <boost/unordered_set.hpp>
 
 // common includes
 #include "llstring.h"
@@ -76,6 +77,9 @@ public:
 	void killObjects(LLViewerRegion *regionp); // Kill all objects owned by a particular region.
 	void killAllObjects();
 	void removeDrawable(LLDrawable* drawablep);
+
+	void derenderObject(LLViewerObject* objectp);
+	void clearDerenderSet() { mDerenderedObjects.clear(); }
 
 	void cleanDeadObjects(const BOOL use_timer = TRUE);	// Clean up the dead object list.
 
@@ -204,6 +208,8 @@ protected:
 	vobj_list_t mMapObjects;
 
 	std::set<LLUUID> mDeadObjects;	
+
+	boost::unordered_set<LLUUID, LLUUIDHash> mDerenderedObjects;
 
 	std::map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
 

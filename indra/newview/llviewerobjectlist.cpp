@@ -317,6 +317,15 @@ LLViewerObject* LLViewerObjectList::processObjectUpdateFromCache(LLVOCacheEntry*
 
 	objectp = findObject(fullid);
 
+	if (mDerenderedObjects.find(fullid) != mDerenderedObjects.cend())
+	{
+		if (objectp)
+		{
+			killObject(objectp);
+		}
+		return NULL;
+	}
+
 	if (objectp)
 	{
 		if(!objectp->isDead() && (objectp->mLocalID != entry->getLocalID() ||
@@ -1489,6 +1498,15 @@ void LLViewerObjectList::cleanDeadObjects(BOOL use_timer)
 	// before blowing away the dead list.
 	mDeadObjects.clear();
 	mNumDeadObjects = 0;
+}
+
+void LLViewerObjectList::derenderObject(LLViewerObject* objectp)
+{
+	if (!objectp)
+		return;
+
+	mDerenderedObjects.insert(objectp->getID());
+	killObject(objectp);
 }
 
 void LLViewerObjectList::removeFromActiveList(LLViewerObject* objectp)

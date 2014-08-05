@@ -35,7 +35,7 @@
 #include "llpointer.h"
 #include "llcoord.h"
 
-#include <unordered_map>
+#include <boost/unordered_map.hpp>
 
 class LLColor4U;
 class LLImageRaw;
@@ -130,7 +130,7 @@ private:
 	std::string		mToolTipMsg;
 
 	
-	typedef std::unordered_map<LLUUID, LLColor4, LLUUIDHash> uuid_color_umap_t;
+	typedef boost::unordered_map<LLUUID, LLColor4, LLUUIDHash> uuid_color_umap_t;
 	uuid_color_umap_t mCustomColors;
 
 public:

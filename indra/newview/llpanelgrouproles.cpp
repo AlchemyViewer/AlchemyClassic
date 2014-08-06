@@ -1169,24 +1169,56 @@ void LLPanelGroupMembersSubTab::onEjectMembers(void *userdata)
 
 void LLPanelGroupMembersSubTab::handleEjectMembers()
 {
-	//send down an eject message
 	uuid_vec_t selected_members;
 
 	std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
-	if (selection.empty()) return;
-
-	std::vector<LLScrollListItem*>::iterator itor;
-	for (itor = selection.begin() ; 
-		 itor != selection.end(); ++itor)
+	if (!selection.empty())
 	{
-		LLUUID member_id = (*itor)->getUUID();
-		selected_members.push_back( member_id );
+		LLSD args;
+		if (selection.size() == 1)
+		{
+			const LLUUID selected_avatar = mMembersList->getValue().asUUID();
+			const std::string avatar_slurl = LLSLURL("agent", selected_avatar, "inspect").getSLURLString();
+			args["MEMBER"] = avatar_slurl;
+		}
+		else
+		{
+			args["MEMBER"] = llformat("%d ", selection.size()).append(getString("members"));
+		}
+		LLNotificationsUtil::add("EjectGroupMemberWarning",
+								 args,
+								 LLSD(),
+								 boost::bind(&LLPanelGroupMembersSubTab::handleEjectCallback, this, _1, _2));
 	}
+}
 
-	mMembersList->deleteSelectedItems();
+bool LLPanelGroupMembersSubTab::handleEjectCallback(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (0 == option) // Eject button
+	{
+		//send down an eject message
+		uuid_vec_t selected_members;
+		
+		std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
+		if (selection.empty()) return false;
+		
+		for (std::vector<LLScrollListItem*>::const_iterator itr = selection.begin();
+			 itr != selection.end(); ++itr)
+		{
+			LLUUID member_id = (*itr)->getUUID();
+			selected_members.push_back( member_id );
+		}
+		
+		mMembersList->deleteSelectedItems();
+		commitEjectMembers(selected_members);
+	}
+	return false;
+}
 
+void LLPanelGroupMembersSubTab::commitEjectMembers(uuid_vec_t& selected_members)
+{
 	sendEjectNotifications(mGroupID, selected_members);
-
 	LLGroupMgr::getInstance()->sendGroupMemberEjects(mGroupID, selected_members);
 }
 
@@ -1806,32 +1838,55 @@ void LLPanelGroupMembersSubTab::onBanMember(void* user_data)
 
 void LLPanelGroupMembersSubTab::handleBanMember()
 {
-	LLGroupMgrGroupData* gdatap	= LLGroupMgr::getInstance()->getGroupData(mGroupID);
-	if(!gdatap) 
-	{
-		LL_WARNS("Groups") << "Unable to get group data for group " << mGroupID << LL_ENDL;
-		return;
-	}
-
 	std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
-	if(selection.empty())
+	if (!selection.empty())
 	{
-		return;
+		LLSD args;
+		if (selection.size() == 1)
+		{
+			const LLUUID selected_avatar = mMembersList->getValue().asUUID();
+			const std::string avatar_slurl = LLSLURL("agent", selected_avatar, "inspect").getSLURLString();
+			args["MEMBER"] = avatar_slurl;
+		}
+		else
+		{
+			args["MEMBER"] = llformat("%d ", selection.size()).append(getString("members"));
+		}
+		LLNotificationsUtil::add("BanGroupMemberWarning",
+								 args,
+								 LLSD(),
+								 boost::bind(&LLPanelGroupMembersSubTab::handleBanMemberCallback, this, _1, _2));
 	}
+}
 
-	uuid_vec_t ban_ids;
-	std::vector<LLScrollListItem*>::iterator itor;
-	for(itor = selection.begin(); itor != selection.end(); ++itor)
+bool LLPanelGroupMembersSubTab::handleBanMemberCallback(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (0 == option) // Eject and Ban button
 	{
-		LLUUID ban_id = (*itor)->getUUID();
-		ban_ids.push_back(ban_id);
+		LLGroupMgrGroupData* gdatap	= LLGroupMgr::getInstance()->getGroupData(mGroupID);
+		if(!gdatap)
+		{
+			LL_WARNS("Groups") << "Unable to get group data for group " << mGroupID << LL_ENDL;
+			return false;
+		}
+		uuid_vec_t ban_ids;
+		std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
+		if (selection.empty()) return false;
+		for(std::vector<LLScrollListItem*>::iterator itor = selection.begin();
+			itor != selection.end(); ++itor)
+		{
+			LLUUID ban_id = (*itor)->getUUID();
+			ban_ids.push_back(ban_id);
 		
-		LLGroupBanData ban_data;
-		gdatap->createBanEntry(ban_id, ban_data);
-	}	
+			LLGroupBanData ban_data;
+			gdatap->createBanEntry(ban_id, ban_data);
+		}
 
-	LLGroupMgr::getInstance()->sendGroupBanRequest(LLGroupMgr::REQUEST_POST, mGroupID, LLGroupMgr::BAN_CREATE, ban_ids);
-	handleEjectMembers();
+		LLGroupMgr::getInstance()->sendGroupBanRequest(LLGroupMgr::REQUEST_POST, mGroupID, LLGroupMgr::BAN_CREATE, ban_ids);
+		commitEjectMembers(ban_ids);
+	}
+	return false;
 }
 
 

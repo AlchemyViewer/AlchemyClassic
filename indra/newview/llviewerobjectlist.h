@@ -29,6 +29,7 @@
 
 #include <map>
 #include <set>
+#include <boost/unordered_map.hpp>
 #include <boost/unordered_set.hpp>
 
 // common includes
@@ -211,7 +212,7 @@ protected:
 
 	boost::unordered_set<LLUUID, LLUUIDHash> mDerenderedObjects;
 
-	std::map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
+	boost::unordered_map<LLUUID, LLPointer<LLViewerObject>, LLUUIDHash > mUUIDObjectMap;
 
 	//set of objects that need to update their cost
 	std::set<LLUUID> mStaleObjectCost;
@@ -261,7 +262,7 @@ extern LLViewerObjectList gObjectList;
  */
 inline LLViewerObject *LLViewerObjectList::findObject(const LLUUID &id)
 {
-	std::map<LLUUID, LLPointer<LLViewerObject> >::iterator iter = mUUIDObjectMap.find(id);
+	boost::unordered_map<LLUUID, LLPointer<LLViewerObject> >::const_iterator iter = mUUIDObjectMap.find(id);
 	if(iter != mUUIDObjectMap.end())
 	{
 		return iter->second;

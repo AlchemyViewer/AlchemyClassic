@@ -76,7 +76,7 @@
    label="Copy Name"
    name="Copy Name">
      <menu_item_call.on_click
-      function="Profile.Copydata"
+      function="Profile.CopyData"
       parameter="copy_name" />
   </menu_item_call>
   <menu_item_call

@@ -207,6 +207,7 @@ Allow this avatar to:
    left="3"
    right="-4"
    text_pad_left="5"
+   tool_tip="Website link"
    name="www_edit">
     <line_editor.commit_callback
      function="Profile.CommitProperties" />

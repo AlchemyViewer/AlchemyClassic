@@ -76,21 +76,21 @@
    label="Copy Name"
    name="Copy Name">
      <menu_item_call.on_click
-      function="Avatar.CopyData"
+      function="Profile.CopyData"
       parameter="copy_name" />
   </menu_item_call>
   <menu_item_call
    label="Copy SLURL"
    name="Copy SLURL">
      <menu_item_call.on_click
-      function="Avatar.CopyData"
+      function="Profile.CopyData"
       parameter="copy_slurl" />
   </menu_item_call>
   <menu_item_call
    label="Copy Key"
    name="Copy Key">
      <menu_item_call.on_click
-      function="Avatar.CopyData"
+      function="Profile.CopyData"
       parameter="copy_key" />
   </menu_item_call>
 </toggleable_menu>

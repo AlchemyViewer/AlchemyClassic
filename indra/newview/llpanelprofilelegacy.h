@@ -65,6 +65,7 @@ private:
 	void onCommitRights();
 	void onBackBtnClick();
 	void onCommitAction(const LLSD& userdata);
+	void copyData(const LLSD& userdata);
 	bool isActionEnabled(const LLSD& userdata);
 	
 	LLToggleableMenu* mActionMenu;

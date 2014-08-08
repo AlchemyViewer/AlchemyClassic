@@ -34,6 +34,7 @@
 
 #include "llfloaterworldmap.h"
 
+#include "alfloaterregiontracker.h"
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llbutton.h"
@@ -266,7 +267,8 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mCommitCallbackRegistrar.add("WMap.ShowAgent",		boost::bind(&LLFloaterWorldMap::onShowAgentBtn, this));		
 	mCommitCallbackRegistrar.add("WMap.Clear",			boost::bind(&LLFloaterWorldMap::onClearBtn, this));		
 	mCommitCallbackRegistrar.add("WMap.CopySLURL",		boost::bind(&LLFloaterWorldMap::onCopySLURL, this));
-	
+	mCommitCallbackRegistrar.add("WMap.TrackRegion",	boost::bind(&LLFloaterWorldMap::onTrackRegion, this));
+
 	gSavedSettings.getControl("PreferredMaturity")->getSignal()->connect(boost::bind(&LLFloaterWorldMap::onChangeMaturity, this));
 }
 
@@ -492,6 +494,7 @@ void LLFloaterWorldMap::draw()
 	//	getChildView("Clear")->setEnabled((BOOL)tracking_status);
 	getChildView("Show Destination")->setEnabled((BOOL)tracking_status || LLWorldMap::getInstance()->isTracking());
 	getChildView("copy_slurl")->setEnabled((mSLURL.isValid()) );
+	getChild<LLButton>("track_region")->setEnabled((BOOL) tracking_status || LLWorldMap::getInstance()->isTracking());
 	
 	setMouseOpaque(TRUE);
 	getDragHandle()->setMouseOpaque(TRUE);
@@ -1301,6 +1304,28 @@ void LLFloaterWorldMap::onCopySLURL()
 	args["SLURL"] = mSLURL.getSLURLString();
 	
 	LLNotificationsUtil::add("CopySLURL", args);
+}
+
+void LLFloaterWorldMap::onTrackRegion()
+{
+	ALFloaterRegionTracker* floaterp = LLFloaterReg::getTypedInstance<ALFloaterRegionTracker>("region_tracker");
+	if (floaterp)
+	{
+		if (LLTracker::getTrackingStatus() != LLTracker::TRACKING_NOTHING)
+		{
+			std::string sim_name;
+			LLWorldMap::getInstance()->simNameFromPosGlobal(LLTracker::getTrackedPositionGlobal(), sim_name);
+			if (!sim_name.empty())
+			{
+				const std::string& temp_label = floaterp->getRegionLabelIfExists(sim_name);
+				LLSD args, payload;
+				args["REGION"] = sim_name;
+				args["LABEL"] = !temp_label.empty() ? temp_label : sim_name;
+				payload["name"] = sim_name;
+				LLNotificationsUtil::add("RegionTrackerAdd", args, payload, boost::bind(&ALFloaterRegionTracker::onRegionAddedCallback, floaterp, _1, _2));
+			}
+		}
+	}
 }
 
 // protected

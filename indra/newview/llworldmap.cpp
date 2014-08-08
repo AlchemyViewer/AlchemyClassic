@@ -37,7 +37,7 @@
 #include "llgltexture.h"
 
 // Timers to temporise database requests
-const F32 AGENTS_UPDATE_TIMER = 60.0;			// Seconds between 2 agent requests for a region
+const F32 AGENTS_UPDATE_TIMER = 30.f;			// Seconds between 2 agent requests for a region
 const F32 REQUEST_ITEMS_TIMER = 10.f * 60.f;	// Seconds before we consider re-requesting item data for the grid
 
 //---------------------------------------------------------------------------

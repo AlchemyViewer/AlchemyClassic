@@ -109,6 +109,7 @@ include_directories(SYSTEM
 
 set(viewer_SOURCE_FILES
     alchatcommand.cpp
+    alfloaterregiontracker.cpp
     alpanelquicksettings.cpp
     alpanelquicksettingspulldown.cpp
     groupchatlistener.cpp
@@ -717,6 +718,7 @@ set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
     alchatcommand.h
+    alfloaterregiontracker.h
     alpanelquicksettings.h
     alpanelquicksettingspulldown.h
     alscriptdefinitions.h

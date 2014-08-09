@@ -656,7 +656,8 @@ void LLFolderView::draw()
 		closeAutoOpenedFolders();
 	}
 
-	if (mSearchTimer.getElapsedTimeF32() > LLUI::sSettingGroups["config"]->getF32("TypeAheadTimeout") || !mSearchString.size())
+	static LLUICachedControl<F32> type_ahead_timeout("TypeAheadTimeout", 0);
+	if (mSearchTimer.getElapsedTimeF32() > type_ahead_timeout || !mSearchString.size())
 	{
 		mSearchString.clear();
 	}

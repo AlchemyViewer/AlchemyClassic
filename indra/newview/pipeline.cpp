@@ -837,22 +837,22 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY)
 {
 	refreshCachedSettings();
 	
-	bool save_settings = sRenderDeferred;
-	if (save_settings)
-	{
-		// Set this flag in case we crash while resizing window or allocating space for deferred rendering targets
-		gSavedSettings.setBOOL("RenderInitError", TRUE);
-		gSavedSettings.saveToFile( gSavedSettings.getString("ClientSettingsFile"), TRUE );
-	}
+	//bool save_settings = sRenderDeferred;
+	//if (save_settings)
+	//{
+	//	// Set this flag in case we crash while resizing window or allocating space for deferred rendering targets
+	//	gSavedSettings.setBOOL("RenderInitError", TRUE);
+	//	gSavedSettings.saveToFile( gSavedSettings.getString("ClientSettingsFile"), TRUE );
+	//}
 
 	eFBOStatus ret = doAllocateScreenBuffer(resX, resY);
 
-	if (save_settings)
-	{
-		// don't disable shaders on next session
-		gSavedSettings.setBOOL("RenderInitError", FALSE);
-		gSavedSettings.saveToFile( gSavedSettings.getString("ClientSettingsFile"), TRUE );
-	}
+	//if (save_settings)
+	//{
+	//	// don't disable shaders on next session
+	//	gSavedSettings.setBOOL("RenderInitError", FALSE);
+	//	gSavedSettings.saveToFile( gSavedSettings.getString("ClientSettingsFile"), TRUE );
+	//}
 	
 	if (ret == FBO_FAILURE)
 	{ //FAILSAFE: screen buffer allocation failed, disable deferred rendering if it's enabled

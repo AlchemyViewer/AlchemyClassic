@@ -58,8 +58,8 @@ public:
 
 private:
 	LLSD mRegionMap;
-	LLButton* mRefreshRegionListBtn;
-	LLButton* mRemoveRegionBtn;
-	LLButton* mOpenMapBtn;
-	LLScrollListCtrl* mRegionScrollList;
+	LLButton* mRefreshRegionListBtn = nullptr;
+	LLButton* mRemoveRegionBtn = nullptr;
+	LLButton* mOpenMapBtn = nullptr;
+	LLScrollListCtrl* mRegionScrollList = nullptr;
 };

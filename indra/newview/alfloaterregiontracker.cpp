@@ -50,11 +50,7 @@
 
 ALFloaterRegionTracker::ALFloaterRegionTracker(const LLSD& key)
 	: LLFloater(key),
-	  LLEventTimer(5.f),
-	  mRefreshRegionListBtn(NULL),
-	  mRemoveRegionBtn(NULL),
-	  mOpenMapBtn(NULL),
-	  mRegionScrollList(NULL)
+	  LLEventTimer(5.f)
 {
 	loadFromJSON();
 }

@@ -1734,7 +1734,7 @@ void LLPanelObjectInventory::createViewsForCategory(LLInventoryObject::object_li
 											  LLInventoryObject* parent,
 											  LLFolderViewFolder* folder)
 {
-	LLUIColor item_color = LLUIColorTable::instance().getColor("MenuItemEnabledColor", DEFAULT_WHITE);
+	static LLUIColor item_color = LLUIColorTable::instance().getColor("MenuItemEnabledColor", DEFAULT_WHITE);
 
 	// Find all in the first pass
 	std::vector<obj_folder_pair*> child_categories;

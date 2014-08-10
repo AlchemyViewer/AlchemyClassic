@@ -478,7 +478,7 @@ void idle_afk_check()
 {
 	// check idle timers
 	F32 current_idle = gAwayTriggerTimer.getElapsedTimeF32();
-	LLCachedControl<S32> afk_timeout(gSavedSettings, "AFKTimeout");
+	static LLCachedControl<S32> afk_timeout(gSavedSettings, "AFKTimeout");
 	if (afk_timeout && (current_idle > (S32)afk_timeout) && ! gAgent.getAFK())
 	{
 		LL_INFOS("IdleAway") << "Idle more than " << afk_timeout << " seconds: automatically changing to Away status" << LL_ENDL;

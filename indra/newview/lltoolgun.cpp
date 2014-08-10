@@ -83,7 +83,7 @@ BOOL LLToolGun::handleHover(S32 x, S32 y, MASK mask)
 	{
 		const F32 NOMINAL_MOUSE_SENSITIVITY = 0.0025f;
 
-		LLCachedControl<F32> mouse_sensitivity_setting(gSavedSettings, "MouseSensitivity");
+		static LLCachedControl<F32> mouse_sensitivity_setting(gSavedSettings, "MouseSensitivity");
 		F32 mouse_sensitivity = clamp_rescale(mouse_sensitivity_setting, 0.f, 15.f, 0.5f, 2.75f) * NOMINAL_MOUSE_SENSITIVITY;
 
 		// ...move the view with the mouse

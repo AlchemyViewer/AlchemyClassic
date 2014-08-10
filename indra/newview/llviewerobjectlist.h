@@ -210,9 +210,9 @@ protected:
 
 	std::set<LLUUID> mDeadObjects;	
 
-	boost::unordered_set<LLUUID, LLUUIDHash> mDerenderedObjects;
+	boost::unordered_set<LLUUID> mDerenderedObjects;
 
-	boost::unordered_map<LLUUID, LLPointer<LLViewerObject>, LLUUIDHash > mUUIDObjectMap;
+	boost::unordered_map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
 
 	//set of objects that need to update their cost
 	std::set<LLUUID> mStaleObjectCost;

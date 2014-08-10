@@ -29,6 +29,8 @@
 #include <iostream>
 #include <set>
 #include <vector>
+#include <functional>
+#include <boost/functional/hash.hpp>
 #include "stdtypes.h"
 #include "llpreprocessor.h"
 
@@ -118,6 +120,19 @@ public:
 	U16 getCRC16() const;
 	U32 getCRC32() const;
 
+	inline size_t hash() const
+	{
+		size_t seed = 0;
+		for (U8 i = 0; i < 4; ++i)
+		{
+			seed ^= static_cast<size_t>(mData[i * 4]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 1]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 2]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+			seed ^= static_cast<size_t>(mData[i * 4 + 3]) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		}
+		return seed;
+	}
+
 	static BOOL validate(const std::string& in_string); // Validate that the UUID string is legal.
 
 	static const LLUUID null;
@@ -150,15 +165,28 @@ struct lluuid_less
 
 typedef std::set<LLUUID, lluuid_less> uuid_list_t;
 
-// <alchemy>
-struct LLUUIDHash
-{
-	inline size_t operator() (const LLUUID& id) const
+
+namespace std {
+	template <> struct hash<LLUUID>
 	{
-		return *reinterpret_cast<const size_t*>(id.mData);
-	}
-};
-// </alchemy>
+	public:
+		size_t operator()(const LLUUID & id) const
+		{
+			return id.hash();
+		}
+	};
+}
+
+namespace boost {
+	template<> class hash<LLUUID>
+	{
+	public:
+		size_t operator()(const LLUUID& id) const
+		{
+			return id.hash();
+		}
+	};
+}
 
 /*
  * Sub-classes for keeping transaction IDs and asset IDs

@@ -572,7 +572,7 @@ public:
 	
 	// <alchemy> - War on std::map
 	//typedef std::map<LLUUID, LLMeshSkinInfo> skin_map;
-	typedef boost::unordered_map<LLUUID, LLMeshSkinInfo, LLUUIDHash> skin_map;
+	typedef boost::unordered_map<LLUUID, LLMeshSkinInfo> skin_map;
 	skin_map mSkinMap;
 
 	typedef std::map<LLUUID, LLModel::Decomposition*> decomposition_map;

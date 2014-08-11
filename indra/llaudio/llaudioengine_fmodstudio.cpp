@@ -486,7 +486,6 @@ bool LLAudioChannelFMODSTUDIO::updateBuffer()
 	// If we have a source for the channel, we need to update its gain.
 	if (mCurrentSourcep)
 	{
-		// SJB: warnings can spam and hurt framerate, disabling
 		//FMOD_RESULT result;
 
 		mChannelp->setVolume(getSecondaryGain() * mCurrentSourcep->getGain());
@@ -677,7 +676,7 @@ bool LLAudioBufferFMODSTUDIO::loadWAV(const std::string& filename)
 		mSoundp = NULL;
 	}
 
-	FMOD_MODE base_mode = FMOD_LOOP_NORMAL | FMOD_SOFTWARE;
+	FMOD_MODE base_mode = FMOD_LOOP_NORMAL;
 	FMOD_CREATESOUNDEXINFO exinfo;
 	memset(&exinfo,0,sizeof(exinfo));
 	exinfo.cbsize = sizeof(exinfo);

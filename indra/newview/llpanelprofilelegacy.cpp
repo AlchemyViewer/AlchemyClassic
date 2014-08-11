@@ -197,6 +197,8 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			if (pData->partner_id.notNull())
 			{
 				getChild<LLTextBase>("partner_info")->setText(LLSLURL("agent", pData->partner_id, "inspect").getSLURLString());
+				getChild<LLTextBase>("partner_label")->setVisible(TRUE);
+				getChild<LLTextBase>("partner_info")->setVisible(TRUE);
 			}
 			else
 			{

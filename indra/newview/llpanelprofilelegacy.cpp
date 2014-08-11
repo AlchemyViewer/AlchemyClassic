@@ -38,6 +38,7 @@
 #include "llcheckboxctrl.h"
 #include "llflatlistview.h"
 #include "lllineeditor.h"
+#include "llloadingindicator.h"
 #include "lltexteditor.h"
 #include "lltexturectrl.h"
 #include "lltrans.h"
@@ -153,6 +154,7 @@ void LLPanelProfileLegacy::resetControls()
 
 void LLPanelProfileLegacy::updateData()
 {
+	setProgress(true);
 	LLAvatarPropertiesProcessor::getInstance()->sendAvatarPropertiesRequest(getAvatarId());
 	LLAvatarPropertiesProcessor::getInstance()->sendAvatarNotesRequest(getAvatarId());
 	mAvatarNameCacheConnection = LLAvatarNameCache::get(getAvatarId(),
@@ -273,6 +275,17 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 		default:
 			break;
 	}
+	setProgress(false);
+}
+
+void LLPanelProfileLegacy::setProgress(bool started)
+{
+	LLLoadingIndicator* indicator = getChild<LLLoadingIndicator>("progress_indicator");
+	indicator->setVisible(started);
+	if (started)
+		indicator->start();
+	else
+		indicator->stop();
 }
 
 void LLPanelProfileLegacy::showAccordion(const std::string& name, bool show)

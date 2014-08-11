@@ -57,6 +57,7 @@ private:
 	/* virtual */ void updateData();
 	/* virtual */ void processProperties(void* data, EAvatarProcessorType type);
 	/* virtual */ void resetControls();
+	void setProgress(bool started);
 	void showAccordion(const std::string& name, bool show);
 	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name);
 	void onCommitAvatarProperties();

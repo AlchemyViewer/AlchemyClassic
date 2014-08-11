@@ -66,6 +66,7 @@ private:
 	std::list<LLAudioStreamManagerFMODSTUDIO *> mDeadStreams;
 
 	std::string mURL;
+	std::string mPendingURL;
 	F32 mGain;
 };
 

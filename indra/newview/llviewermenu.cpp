@@ -6726,37 +6726,41 @@ class LLAttachmentDetach : public view_listener_t
 	{
 		// Called when the user clicked on an object attached to them
 		// and selected "Detach".
-		LLViewerObject *object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
-		if (!object)
+		uuid_vec_t selected_object_ids;
+		LLObjectSelectionHandle selected = LLSelectMgr::getInstance()->getSelection();
+		for (LLObjectSelection::root_object_iterator iter = selected->root_object_begin(); iter != selected->root_object_end(); iter++)
 		{
-			LL_WARNS() << "handle_detach() - no object to detach" << LL_ENDL;
-			return true;
-		}
+			auto* nodep = *iter;
+			if (!nodep)
+				continue;
 
-		LLViewerObject *parent = (LLViewerObject*)object->getParent();
-		while (parent)
-		{
-			if(parent->isAvatar())
+			if (LLViewerObject* objectp = nodep->getObject())
 			{
-				break;
+				LLViewerObject* parentp = dynamic_cast<LLViewerObject*>(objectp->getParent());
+				while (parentp)
+				{
+					if (parentp->isAvatar())
+					{
+						break;
+					}
+					objectp = parentp;
+					parentp = dynamic_cast<LLViewerObject*>(parentp->getParent());
+				}
+				if (!objectp)
+					continue;
+				if (objectp->isAvatar())
+					continue;
+
+				const auto& id = objectp->getAttachmentItemID();
+				if (id.notNull())
+					selected_object_ids.push_back(id);
 			}
-			object = parent;
-			parent = (LLViewerObject*)parent->getParent();
 		}
 
-		if (!object)
-		{
-			LL_WARNS() << "handle_detach() - no object to detach" << LL_ENDL;
-			return true;
-		}
+		LLSelectMgr::getInstance()->deselectAll();
 
-		if (object->isAvatar())
-		{
-			LL_WARNS() << "Trying to detach avatar from avatar." << LL_ENDL;
-			return true;
-		}
-
-		LLAppearanceMgr::instance().removeItemFromAvatar(object->getAttachmentItemID());
+		if (!selected_object_ids.empty())
+			LLAppearanceMgr::instance().removeItemsFromAvatar(selected_object_ids);
 
 		return true;
 	}

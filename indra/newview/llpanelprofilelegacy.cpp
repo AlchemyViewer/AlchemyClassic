@@ -38,6 +38,7 @@
 #include "llcheckboxctrl.h"
 #include "llflatlistview.h"
 #include "lllineeditor.h"
+#include "llloadingindicator.h"
 #include "lltexteditor.h"
 #include "lltexturectrl.h"
 #include "lltrans.h"
@@ -49,7 +50,9 @@
 #include "llcallingcard.h" // for LLAvatarTracker
 #include "lldateutil.h"
 #include "llgroupactions.h"
+#include "llpanelclassified.h"
 #include "llpanelpicks.h"
+#include "llpanelpick.h"
 #include "llmutelist.h"
 #include "llsidetraypanelcontainer.h"
 #include "llslurl.h"
@@ -86,8 +89,9 @@ LLPanelProfileLegacy::~LLPanelProfileLegacy()
 // virtual
 BOOL LLPanelProfileLegacy::postBuild()
 {
-	mPanelPicks = static_cast<LLPanelProfileLegacy::LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelGroups = static_cast<LLPanelProfileLegacy::LLPanelProfileGroups*>(getChild<LLUICtrl>("groups_tab_panel"));
+	mPanelPicks = static_cast<LLPanelProfileLegacy::LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
+	mPanelPicks->setProfilePanel(this);
 	
 	childSetCommitCallback("back", boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this), NULL);
 	childSetCommitCallback("sl_about", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), NULL);
@@ -153,6 +157,7 @@ void LLPanelProfileLegacy::resetControls()
 
 void LLPanelProfileLegacy::updateData()
 {
+	setProgress(true);
 	LLAvatarPropertiesProcessor::getInstance()->sendAvatarPropertiesRequest(getAvatarId());
 	LLAvatarPropertiesProcessor::getInstance()->sendAvatarNotesRequest(getAvatarId());
 	mAvatarNameCacheConnection = LLAvatarNameCache::get(getAvatarId(),
@@ -197,6 +202,8 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			if (pData->partner_id.notNull())
 			{
 				getChild<LLTextBase>("partner_info")->setText(LLSLURL("agent", pData->partner_id, "inspect").getSLURLString());
+				getChild<LLTextBase>("partner_label")->setVisible(TRUE);
+				getChild<LLTextBase>("partner_info")->setVisible(TRUE);
 			}
 			else
 			{
@@ -271,6 +278,17 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 		default:
 			break;
 	}
+	setProgress(false);
+}
+
+void LLPanelProfileLegacy::setProgress(bool started)
+{
+	LLLoadingIndicator* indicator = getChild<LLLoadingIndicator>("progress_indicator");
+	indicator->setVisible(started);
+	if (started)
+		indicator->start();
+	else
+		indicator->stop();
 }
 
 void LLPanelProfileLegacy::showAccordion(const std::string& name, bool show)
@@ -417,13 +435,62 @@ void LLPanelProfileLegacy::onCommitRights()
 		flags |= LLRelationship::GRANT_MODIFY_OBJECTS;
 	
 	LLAvatarPropertiesProcessor::getInstance()->sendFriendRights(getAvatarId(), flags);
+}
 
+void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
+{
+	// Hide currently visible panel.
+	//mChildStack.push();
+	
+	// Add the panel or bring it to front.
+	if (panel->getParent() != this)
+	{
+		addChild(panel);
+	}
+	else
+	{
+		sendChildToFront(panel);
+	}
+	
+	panel->setVisible(TRUE);
+	panel->setFocus(TRUE); // prevent losing focus by the floater
+	panel->onOpen(params);
+	
+	LLRect new_rect = getRect();
+	panel->reshape(new_rect.getWidth(), new_rect.getHeight());
+	new_rect.setLeftTopAndSize(0, new_rect.getHeight(), new_rect.getWidth(), new_rect.getHeight());
+	panel->setRect(new_rect);
+}
+
+void LLPanelProfileLegacy::closePanel(LLPanel* panel)
+{
+	panel->setVisible(FALSE);
+	
+	if (panel->getParent() == this)
+	{
+		removeChild(panel);
+		
+		// Make the underlying panel visible.
+		//mChildStack.pop();
+		
+		// Prevent losing focus by the floater
+		const child_list_t* child_list = getChildList();
+		if (child_list->size() > 0)
+		{
+			child_list->front()->setFocus(TRUE);
+		}
+		else
+		{
+			LL_WARNS() << "No underlying panel to focus." << LL_ENDL;
+		}
+	}
 }
 
 // LLPanelProfilePicks //
 
 LLPanelProfileLegacy::LLPanelProfilePicks::LLPanelProfilePicks()
 :	LLPanelProfileTab()
+,	mProfilePanel(NULL)
 ,	mPicksList(NULL)
 ,	mClassifiedsList(NULL)
 {
@@ -465,7 +532,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			const std::string pick_name = pick.second;
 			
 			LLPickItem* picture = LLPickItem::create();
-			//picture->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+			picture->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
 			picture->setPickName(pick_name);
 			picture->setPickId(pick_id);
 			picture->setCreatorId(getAvatarId());
@@ -489,7 +556,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 		for (const LLAvatarClassifieds::classified_data& c_data: c_info->classifieds_list)
 		{
 			LLClassifiedItem* c_item = new LLClassifiedItem(getAvatarId(), c_data.classified_id);
-			//c_item->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+			c_item->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
 			c_item->setClassifiedName(c_data.name);
 			
 			LLSD pick_value = LLSD();
@@ -529,6 +596,111 @@ LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(
 		}
 	}
 	return c_item;
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo()
+{
+	if(mClassifiedsList->numSelected() > 0)
+		openClassifiedInfo();
+	else if(mPicksList->numSelected() > 0)
+		openPickInfo();
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
+{
+	LLSD selected_value = mPicksList->getSelectedValue();
+	if (selected_value.isUndefined()) return;
+	
+	LLPickItem* pick = (LLPickItem*)mPicksList->getSelectedItem();
+	LLSD params;
+	params["pick_id"] = pick->getPickId();
+	params["avatar_id"] = pick->getCreatorId();
+	params["snapshot_id"] = pick->getSnapshotId();
+	params["pick_name"] = pick->getPickName();
+	params["pick_desc"] = pick->getPickDesc();
+	
+	if(!mPanelPickInfo)
+	{
+		mPanelPickInfo = LLPanelPickInfo::create();
+		mPanelPickInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelPickClose, this, mPanelPickInfo));
+		mPanelPickInfo->setVisible(FALSE);
+	}
+	
+	getProfilePanel()->openPanel(mPanelPickInfo, params);
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::openClassifiedInfo()
+{
+	LLSD selected_value = mClassifiedsList->getSelectedValue();
+	if (selected_value.isUndefined()) return;
+	
+	LLClassifiedItem* c_item = getSelectedClassifiedItem();
+	LLSD params;
+	params["classified_id"] = c_item->getClassifiedId();
+	params["classified_creator_id"] = c_item->getAvatarId();
+	params["classified_snapshot_id"] = c_item->getSnapshotId();
+	params["classified_name"] = c_item->getClassifiedName();
+	params["classified_desc"] = c_item->getDescription();
+	params["from_search"] = false;
+	
+	if (!mPanelClassifiedInfo)
+	{
+		mPanelClassifiedInfo = LLPanelClassifiedInfo::create();
+		mPanelClassifiedInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelClassifiedClose, this, mPanelClassifiedInfo));
+		mPanelClassifiedInfo->setVisible(FALSE);
+	}
+	
+	getProfilePanel()->openPanel(mPanelClassifiedInfo, params);
+}
+
+LLClassifiedItem* LLPanelProfileLegacy::LLPanelProfilePicks::getSelectedClassifiedItem()
+{
+	LLPanel* selected_item = mClassifiedsList->getSelectedItem();
+	if (!selected_item) return NULL;
+	
+	return dynamic_cast<LLClassifiedItem*>(selected_item);
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelClassifiedClose(LLPanelClassifiedInfo* panel)
+{
+	if(panel->getInfoLoaded() && !panel->isDirty())
+	{
+		std::vector<LLSD> values;
+		mClassifiedsList->getValues(values);
+		for(size_t n = 0; n < values.size(); ++n)
+		{
+			LLUUID c_id = values[n][CLASSIFIED_ID].asUUID();
+			if(panel->getClassifiedId() == c_id)
+			{
+				LLClassifiedItem* c_item = dynamic_cast<LLClassifiedItem*>(mClassifiedsList->getItemByValue(values[n]));
+				llassert(c_item);
+				if (c_item)
+				{
+					c_item->setClassifiedName(panel->getClassifiedName());
+					c_item->setDescription(panel->getDescription());
+					c_item->setSnapshotId(panel->getSnapshotId());
+				}
+			}
+		}
+	}
+	
+	onPanelPickClose(panel);
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelPickClose(LLPanel* panel)
+{
+	getProfilePanel()->closePanel(panel);
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::setProfilePanel(LLPanelProfileLegacy* profile_panel)
+{
+	mProfilePanel = profile_panel;
+}
+
+inline LLPanelProfileLegacy* LLPanelProfileLegacy::LLPanelProfilePicks::getProfilePanel()
+{
+	llassert_always(NULL != mProfilePanel);
+	return mProfilePanel;
 }
 
 // LLPanelProfileGroups //

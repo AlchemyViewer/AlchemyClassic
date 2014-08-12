@@ -52,11 +52,16 @@ public:
 	virtual BOOL postBuild();
 	/* virtual */ void onOpen(const LLSD& key);
 	
+protected:
+	void openPanel(LLPanel* panel, const LLSD& params);
+	void closePanel(LLPanel* panel);
+	
 private:
 	~LLPanelProfileLegacy();
 	/* virtual */ void updateData();
 	/* virtual */ void processProperties(void* data, EAvatarProcessorType type);
 	/* virtual */ void resetControls();
+	void setProgress(bool started);
 	void showAccordion(const std::string& name, bool show);
 	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name);
 	void onCommitAvatarProperties();
@@ -85,11 +90,21 @@ public:
 		/* virtual */ void processProperties(void* data, EAvatarProcessorType type);
 		/* virtual */ void resetControls() {};
 		void showAccordion(const std::string& name, bool show);
+		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
+		LLPanelProfileLegacy* getProfilePanel();
+		void onPanelPickClose(LLPanel* panel);
+		void onClickInfo();
 		void openPickInfo();
+		void openClassifiedInfo();
+		void onPanelClassifiedClose(LLPanelClassifiedInfo* panel);
 		LLClassifiedItem* findClassifiedById(const LLUUID& classified_id);
+		LLClassifiedItem* getSelectedClassifiedItem();
 		
+		LLPanelProfileLegacy* mProfilePanel;
 		LLFlatListView* mClassifiedsList;
 		LLFlatListView* mPicksList;
+		LLPanelPickInfo* mPanelPickInfo;
+		LLPanelClassifiedInfo* mPanelClassifiedInfo;
 	};
 	
 	class LLPanelProfileGroups : public LLPanelProfileTab

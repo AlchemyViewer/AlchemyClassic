@@ -154,7 +154,7 @@
    font="SansSerifSmall"
    text_color="White_50"
    width="190"
-   follows="top|left|right"
+   follows="top|left"
    layout="topleft"
    mouse_opaque="false"
    type="string"

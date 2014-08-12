@@ -72,6 +72,14 @@ Remove Friend
      follows="top|left|right"
      word_wrap="false"
      mouse_opaque="false"/>
+    <loading_indicator
+     height="25"
+     follows="top|right"
+     layout="topleft"
+     left_pad="-32"
+     name="progress_indicator"
+     top_delta="1"
+     width="25" />
   </panel>
   <layout_stack
    name="layout"

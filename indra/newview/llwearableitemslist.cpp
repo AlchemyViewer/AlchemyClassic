@@ -33,8 +33,12 @@
 
 #include "llagentwearables.h"
 #include "llappearancemgr.h"
+#include "llfloaterreg.h"
 #include "llinventoryfunctions.h"
 #include "llinventoryicon.h"
+#include "llselectmgr.h"
+#include "lltoolcomp.h"
+#include "lltoolmgr.h"
 #include "lltransutil.h"
 #include "llviewerattachmenu.h"
 #include "llvoavatarself.h"
@@ -805,6 +809,7 @@ LLContextMenu* LLWearableItemsList::ContextMenu::createMenu()
 	// Register handlers for body parts.
 
 	// Register handlers for attachments.
+	registrar.add("Attachment.Edit", boost::bind(&handleAttachmentEdit, ids));
 	registrar.add("Attachment.Detach", 
 				  boost::bind(&LLAppearanceMgr::removeItemsFromAvatar, LLAppearanceMgr::getInstance(), ids));
 	registrar.add("Attachment.Profile", boost::bind(show_item_profile, selected_id));
@@ -893,6 +898,7 @@ void LLWearableItemsList::ContextMenu::updateItemsVisibility(LLContextMenu* menu
 	//visible only when one item selected and this item is worn
 	setMenuItemVisible(menu, "edit",				!standalone && mask & (MASK_CLOTHING|MASK_BODYPART) && n_worn == n_items && n_worn == 1);
 	setMenuItemEnabled(menu, "edit",				n_editable == 1 && n_worn == 1 && n_items == 1);
+	setMenuItemVisible(menu, "edit_attachment", 		mask == MASK_ATTACHMENT && n_worn == n_items);
 	setMenuItemVisible(menu, "create_new",			mask & (MASK_CLOTHING|MASK_BODYPART) && n_items == 1);
 	setMenuItemEnabled(menu, "create_new",			canAddWearables(ids));
 	setMenuItemVisible(menu, "show_original",		!standalone);
@@ -1057,6 +1063,36 @@ bool LLWearableItemsList::ContextMenu::canAddWearables(const uuid_vec_t& item_id
 	}
 
 	return true;
+}
+
+void LLWearableItemsList::ContextMenu::handleAttachmentEdit(const uuid_vec_t& item_uuids)
+{
+	std::vector<LLViewerObject*> object_list;
+	object_list.reserve(item_uuids.size());
+
+	for (const auto& id : item_uuids)
+	{
+		if (id.isNull())
+			continue;
+
+		if (LLInventoryItem* itemp = gInventory.getItem(id))
+		{
+			LLViewerObject* objectp = gAgentAvatarp->getWornAttachment(itemp->getLinkedUUID());
+			if (objectp)
+			{
+				object_list.push_back(objectp);
+			}
+		}
+	}
+
+	if (!object_list.empty())
+	{
+		LLSelectMgr::getInstance()->deselectAll();
+		LLFloaterReg::showInstance("build");
+		LLToolMgr::getInstance()->setCurrentToolset(gBasicToolset);
+		LLToolMgr::getInstance()->getCurrentToolset()->selectTool(LLToolCompTranslate::getInstance());
+		LLSelectMgr::getInstance()->selectObjectAndFamily(object_list);
+	}
 }
 
 // EOF

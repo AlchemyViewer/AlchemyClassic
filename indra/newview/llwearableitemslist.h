@@ -428,6 +428,7 @@ public:
 		static void updateMask(U32& mask, LLAssetType::EType at);
 		static void createNewWearable(const LLUUID& item_id);
 		static bool canAddWearables(const uuid_vec_t& item_ids);
+		static void handleAttachmentEdit(const uuid_vec_t& item_uuids);
 
 		LLWearableItemsList*	mParent;
 	};

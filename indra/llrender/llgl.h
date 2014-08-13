@@ -118,6 +118,7 @@ public:
 	BOOL mHasDebugOutput;
 	BOOL mHassRGBTexture;
 	BOOL mHassRGBFramebuffer;
+	BOOL mHasTextureSwizzle;
 
 	// Vendor-specific extensions
 	BOOL mIsATI;

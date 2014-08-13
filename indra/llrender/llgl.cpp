@@ -448,6 +448,7 @@ LLGLManager::LLGLManager() :
 	mHasCubeMap(FALSE),
 	mHasDebugOutput(FALSE),
 
+	mHasTextureSwizzle(FALSE),
 	mIsATI(FALSE),
 	mIsNVIDIA(FALSE),
 	mIsIntel(FALSE),
@@ -1015,6 +1016,10 @@ void LLGLManager::initExtensions()
 	mHasFragmentShader = ExtensionExists("GL_ARB_fragment_shader", gGLHExts.mSysExts) && (LLRender::sGLCoreProfile || ExtensionExists("GL_ARB_shading_language_100", gGLHExts.mSysExts));
 #endif
 
+#ifdef GL_ARB_texture_swizzle
+	mHasTextureSwizzle = ExtensionExists("GL_ARB_texture_swizzle", gGLHExts.mSysExts);
+#endif
+
 #if LL_LINUX || LL_SOLARIS
 	LL_INFOS() << "initExtensions() checking shell variables to adjust features..." << LL_ENDL;
 	// Our extension support for the Linux Client is very young with some
@@ -1038,6 +1043,7 @@ void LLGLManager::initExtensions()
 		mHasShaderObjects = FALSE;
 		mHasVertexShader = FALSE;
 		mHasFragmentShader = FALSE;
+		mHasTextureSwizzle = FALSE;
 		LL_WARNS("RenderInit") << "GL extension support DISABLED via LL_GL_NOEXT" << LL_ENDL;
 	}
 	else if (getenv("LL_GL_BASICEXT"))	/* Flawfinder: ignore */
@@ -1432,10 +1438,11 @@ void flush_glerror()
 	glGetError();
 }
 
-std::string get_gl_err_string(GLenum error)
+const std::string get_gl_err_string(GLenum error)
 {
 	switch (error)
 	{
+	case GL_NO_ERROR:          return "No error";
 	case GL_INVALID_ENUM:      return "Invalid enum";
 	case GL_INVALID_VALUE:     return "Invalid value";
 	case GL_INVALID_OPERATION: return "Invalid operation";

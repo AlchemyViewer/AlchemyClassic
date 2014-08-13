@@ -262,6 +262,8 @@ LLTrace::BlockTimerStatHandle FTM_RENDER_DEFERRED("Deferred Shading");
 
 static LLTrace::BlockTimerStatHandle FTM_STATESORT_DRAWABLE("Sort Drawables");
 static LLTrace::BlockTimerStatHandle FTM_STATESORT_POSTSORT("Post Sort");
+static LLTrace::BlockTimerStatHandle FTM_TRANSFORM_WAIT("Transform Fence");
+static LLTrace::BlockTimerStatHandle FTM_TRANSFORM_DO_WORK("Transform Work");
 
 static LLStaticHashedString sTint("tint");
 static LLStaticHashedString sAmbiance("ambiance");
@@ -4034,6 +4036,31 @@ void LLPipeline::postSort(LLCamera& camera)
 			LLSelectMgr::getInstance()->getSelection()->applyToTEs(&func);
 		}
 	}
+
+	/*if (use_transform_feedback)
+	{ //using transform feedback, wait for transform feedback to complete
+		LL_RECORD_BLOCK_TIME(FTM_TRANSFORM_WAIT);
+
+		S32 done = 0;
+		//glGetQueryivARB(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, GL_CURRENT_QUERY, &count);
+
+		glGetQueryObjectivARB(mMeshDirtyQueryObject, GL_QUERY_RESULT_AVAILABLE, &done);
+
+		while (!done)
+		{
+			{
+				LL_RECORD_BLOCK_TIME(FTM_TRANSFORM_DO_WORK);
+				F32 max_time = llmin(gFrameIntervalSeconds.value()*10.f, 1.f);
+				//do some useful work while we wait
+				LLAppViewer::getTextureCache()->update(max_time); // unpauses the texture cache thread
+				LLAppViewer::getImageDecodeThread()->update(max_time); // unpauses the image thread
+				LLAppViewer::getTextureFetch()->update(max_time); // unpauses the texture fetch thread
+			}
+			glGetQueryObjectivARB(mMeshDirtyQueryObject, GL_QUERY_RESULT_AVAILABLE, &done);
+		}
+
+		mTransformFeedbackPrimitives = 0;
+	}*/
 
 	//LLSpatialGroup::sNoDelete = FALSE;
 	LL_PUSH_CALLSTACKS();

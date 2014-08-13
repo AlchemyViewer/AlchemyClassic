@@ -31,6 +31,6 @@ VARYING vec4 tangent_out;
 
 void main()
 {
-	tangent_out = vec4(normal_matrix * tangent.xyz), tangent.w);
+	tangent_out = vec4(normal_matrix * tangent.xyz, tangent.w);
 }
 

@@ -29,7 +29,7 @@
 #ifndef LL_LLSDUTIL_MATH_H
 #define LL_LLSDUTIL_MATH_H
 
-class LL_COMMON_API LLSD;
+class LLSD;
 
 // vector3
 class LLVector3;

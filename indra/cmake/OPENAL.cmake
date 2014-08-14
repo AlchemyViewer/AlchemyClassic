@@ -2,11 +2,11 @@
 include(Linking)
 include(Prebuilt)
 
-if (LINUX)
+if (LINUX OR NOT FMODEX OR NOT FMODSTUDIO)
   set(OPENAL ON CACHE BOOL "Enable OpenAL")
-else (LINUX)
+else (LINUX OR NOT FMODEX OR NOT FMODSTUDIO)
   set(OPENAL OFF CACHE BOOL "Enable OpenAL")
-endif (LINUX)
+endif (LINUX OR NOT FMODEX OR NOT FMODSTUDIO)
 
 if (OPENAL)
   set(OPENAL_LIB_INCLUDE_DIRS "${LIBS_PREBUILT_DIR}/include/AL")
@@ -16,7 +16,7 @@ if (OPENAL)
     pkg_check_modules(OPENAL_LIB REQUIRED openal)
     pkg_check_modules(FREEALUT_LIB REQUIRED freealut)
   else (USESYSTEMLIBS)
-    use_prebuilt_binary(openal_soft)
+    use_prebuilt_binary(openal)
   endif (USESYSTEMLIBS)
   if(WINDOWS)
     set(OPENAL_LIBRARIES 

@@ -1395,12 +1395,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>04df406f3e5d04cf176660bdac66c3a1</string>
+              <string>916032313437a9d103a8c8aab1cc011a</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-1.12.854-1.1.0-windows-20110301.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openal-1.15.1-1.1.0-windows-vs12-20140813.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d68c9f84e15f712c6d03b0abca8ba708</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openal-1.15.1-1.1.0-windows64-vs12-20140813.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>

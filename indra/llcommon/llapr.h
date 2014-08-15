@@ -29,6 +29,8 @@
 #ifndef LL_LLAPR_H
 #define LL_LLAPR_H
 
+#define AL_ATOMICS_CXX 1
+
 #if LL_LINUX || LL_SOLARIS
 #include <sys/param.h>  // Need PATH_MAX in APR headers...
 #endif
@@ -39,7 +41,11 @@
 #include "apr_thread_mutex.h"
 #include "apr_getopt.h"
 #include "apr_signal.h"
+#if AL_ATOMICS_CXX && (__cplusplus >= 201103L || _MSC_VER >= 1800)
+#include <boost/atomic.hpp>
+#else
 #include "apr_atomic.h"
+#endif
 
 #include "llstring.h"
 
@@ -165,6 +171,10 @@ protected:
 	apr_thread_mutex_t* mMutex;
 };
 
+#if AL_ATOMICS_CXX && (__cplusplus >= 201103L || _MSC_VER >= 1800)
+template<typename Type>
+using LLAtomic32 = boost::atomic<Type>;
+#else
 template <typename Type> class LLAtomic32
 {
 public:
@@ -188,6 +198,7 @@ public:
 private:
 	volatile apr_uint32_t mData;
 };
+#endif // AL_ATOMICS_CXX
 
 typedef LLAtomic32<U32> LLAtomicU32;
 typedef LLAtomic32<S32> LLAtomicS32;

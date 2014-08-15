@@ -764,7 +764,7 @@ LLTextureCache::LLTextureCache(bool threaded)
 	  mHeaderAPRFile(NULL),
 	  mReadOnly(TRUE), //do not allow to change the texture cache until setReadOnly() is called.
 	  mTexturesSizeTotal(0),
-	  mDoPurge(FALSE),
+	  mDoPurge(false),
 	  mFastCachep(NULL),
 	  mFastCachePoolp(NULL),
 	  mFastCachePadBuffer(NULL)
@@ -1266,7 +1266,7 @@ bool LLTextureCache::updateEntry(S32& idx, Entry& entry, S32 new_image_size, S32
 
 		if (purge)
 		{
-			mDoPurge = TRUE;
+			mDoPurge = true;
 		}
 	}
 
@@ -1828,7 +1828,7 @@ LLTextureCache::handle_t LLTextureCache::writeToCache(const LLUUID& id, U32 prio
 		//  but it really needs to be done on the control thread
 		//  (i.e. here)		
 		purgeTextures(false);
-		mDoPurge = FALSE;
+		mDoPurge = false;
 	}
 	LLMutexLock lock(&mWorkersMutex);
 	LLTextureCacheWorker* worker = new LLTextureCacheRemoteWorker(this, priority, id,

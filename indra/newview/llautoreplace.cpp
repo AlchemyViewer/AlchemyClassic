@@ -39,7 +39,7 @@ void LLAutoReplace::autoreplaceCallback(S32& replacement_start, S32& replacement
 	replacement_length = 0;
 	replacement_string.clear();
 
-	static LLCachedControl<bool> perform_autoreplace(gSavedSettings, "AutoReplace", 0);
+	static LLCachedControl<bool> perform_autoreplace(gSavedSettings, "AutoReplace", false);
 	if (perform_autoreplace)
 	{
 		S32 word_end = cursor_pos - 1;

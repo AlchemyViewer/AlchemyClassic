@@ -688,8 +688,8 @@ LLAppViewer::LLAppViewer()
 	mYieldTime(-1),
 	mMainloopTimeout(NULL),
 	mAgentRegionLastAlive(false),
-	mRandomizeFramerate(LLCachedControl<bool>(gSavedSettings,"Randomize Framerate", FALSE)),
-	mPeriodicSlowFrame(LLCachedControl<bool>(gSavedSettings,"Periodic Slow Frame", FALSE)),
+	mRandomizeFramerate(LLCachedControl<bool>(gSavedSettings,"Randomize Framerate", false)),
+	mPeriodicSlowFrame(LLCachedControl<bool>(gSavedSettings,"Periodic Slow Frame", false)),
 	mFastTimerLogThread(NULL),
 	mUpdater(new LLUpdaterService()),
 	mSettingsLocationList(NULL)

@@ -187,10 +187,10 @@ template class LLSelectMgr* LLSingleton<class LLSelectMgr>::getInstance();
 // LLSelectMgr()
 //-----------------------------------------------------------------------------
 LLSelectMgr::LLSelectMgr()
- : mHideSelectedObjects(LLCachedControl<bool>(gSavedSettings, "HideSelectedObjects", FALSE)),
-   mRenderHighlightSelections(LLCachedControl<bool>(gSavedSettings, "RenderHighlightSelections", TRUE)),
-   mAllowSelectAvatar( LLCachedControl<bool>(gSavedSettings, "AllowSelectAvatar", FALSE)),
-   mDebugSelectMgr(LLCachedControl<bool>(gSavedSettings, "DebugSelectMgr", FALSE))
+ : mHideSelectedObjects(LLCachedControl<bool>(gSavedSettings, "HideSelectedObjects", false)),
+   mRenderHighlightSelections(LLCachedControl<bool>(gSavedSettings, "RenderHighlightSelections", true)),
+   mAllowSelectAvatar( LLCachedControl<bool>(gSavedSettings, "AllowSelectAvatar", false)),
+   mDebugSelectMgr(LLCachedControl<bool>(gSavedSettings, "DebugSelectMgr", false))
 {
 	mTEMode = FALSE;
 	mTextureChannel = LLRender::DIFFUSE_MAP;

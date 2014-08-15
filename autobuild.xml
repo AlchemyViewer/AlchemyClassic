@@ -144,9 +144,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d5d97c83126592bc1d6b43fd9b8da19</string>
+              <string>2338363cbe910ffc474e603a2bb4421a</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.55.0-darwin-201407231336.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.56.0-darwin-201408151449.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -177,7 +177,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.55.0</string>
+        <string>1.56.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6788098c1ee12f9ae10e18d8776560bf</string>
+              <string>26a78139590d2e7f78bc14c39f0de1ce</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201407252037.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201408151522.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -888,9 +888,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>303c4d2f3840b6cf7b3e4adbf5d4f5a3</string>
+              <string>39072947d8e486fcbf58464139288529</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201407301424.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201408151518.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1805,10 +1805,14 @@
       </map>
       <key>openal</key>
       <map>
+        <key>copyright</key>
+        <string>Creative Labs</string>
+        <key>description</key>
+        <string>OpenAL is a cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications.</string>
         <key>license</key>
         <string>lgpl</string>
         <key>license_file</key>
-        <string>LICENSES/OPENAL.txt</string>
+        <string>LICENSES/openal.txt</string>
         <key>name</key>
         <string>openal</string>
         <key>platforms</key>
@@ -1818,11 +1822,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>806eba90e742eb1370ea72f49adadeeb</string>
+              <string>ff147232d46f330abed96f40feec0ec7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.15.1-1.1.0-darwin-201408132019.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.15.1-1.1.0-darwin-201408151322.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1855,7 +1859,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>3ad86a1c</string>
+        <string>1.15.1-1.1.0</string>
       </map>
       <key>openjpeg</key>
       <map>

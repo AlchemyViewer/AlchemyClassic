@@ -846,4 +846,43 @@ namespace tut
 			"secondlife:///app/region/Product%20Engine",
 			"Product Engine");
 	}
+	
+	template<> template<>
+	void object::test<14>()
+	{
+		//
+		// test LLUrlEntryJira - Jira highlighting
+		//
+		LLUrlEntryJira jira;
+		testRegex("Jira ALCH-6969", jira,
+				  "XXX ALCH-6969 XXX",
+				  "http://alchemy.atlassian.net/browse/ALCH-6969");
+		testRegex("Jira STORM-991", jira,
+				  "XXX STORM-991 XXX",
+				  "http://jira.secondlife.com/browse/STORM-991");
+		testRegex("Jira OPEN-22", jira,
+				  "XXX OPEN-22 XXX",
+				  "http://jira.secondlife.com/browse/OPEN-22");
+		testRegex("Jira BUG-3930244", jira,
+				  "XXX BUG-3930244 XXX",
+				  "http://jira.secondlife.com/browse/BUG-3930244");
+		testRegex("Jira Fireshits", jira,
+				  "XXX FIRE-93013 XXX",
+				  "http://jira.phoenixviewer.com/browse/FIRE-93013");
+		testLabel("Jira ALCH-6969", jira,
+				  "http://alchemy.atlasian.net/browse/ALCH-6969",
+				  "ALCH-6969");
+		testLabel("Jira STORM-991", jira,
+				  "http://jira.secondlife.com/browse/STORM-991",
+				  "STORM-991");
+		testLabel("Jira OPEN-22", jira,
+				  "http://jira.secondlife.com/browse/OPEN-22",
+				  "OPEN-22");
+		testLabel("Jira BUG-3930244", jira,
+				  "http://jira.secondlife.com/browse/BUG-3930244",
+				  "BUG-3930244");
+		testLabel("Jira Fireshits", jira,
+				  "http://jira.phoenixviewer.com/browse/FIRE-93013",
+				  "FIRE-93013");
+	}
 }

@@ -2,11 +2,11 @@
 include(Linking)
 include(Prebuilt)
 
-if (NOT FMODEX OR NOT FMODSTUDIO OR LINUX)
+if (LINUX)
   set(OPENAL ON CACHE BOOL "Enable OpenAL")
-else (NOT FMODEX OR NOT FMODSTUDIO OR LINUX)
+else (LINUX)
   set(OPENAL OFF CACHE BOOL "Enable OpenAL")
-endif (NOT FMODEX OR NOT FMODSTUDIO OR LINUX)
+endif (LINUX)
 
 if (OPENAL)
   set(OPENAL_LIB_INCLUDE_DIRS "${LIBS_PREBUILT_DIR}/include/AL")

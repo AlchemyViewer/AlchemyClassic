@@ -2,7 +2,7 @@
  * @file llpanelprofilelegacy.cpp
  * @brief Legacy protocol avatar profile panel
  *
- * Copyright (C) 2014, Cinder Roxley <cinder.roxley@phoenixviewer.com>
+ * Copyright (c) 2014, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by

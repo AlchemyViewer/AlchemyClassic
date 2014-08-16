@@ -1380,14 +1380,18 @@
           </map>
         </map>
       </map>
-      <key>openal_soft</key>
+      <key>openal</key>
       <map>
+        <key>copyright</key>
+        <string>Creative Labs</string>
+        <key>description</key>
+        <string>OpenAL is a cross-platform 3D audio API appropriate for use with gaming applications and many other types of audio applications.</string>
         <key>license</key>
         <string>lgpl</string>
         <key>license_file</key>
-        <string>LICENSES/OPENAL.txt</string>
+        <string>LICENSES/openal.txt</string>
         <key>name</key>
-        <string>openal_soft</string>
+        <string>openal</string>
         <key>platforms</key>
         <map>
           <key>windows</key>
@@ -1416,7 +1420,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>3ad86a1c</string>
+        <string>1.15.1-1.1.0</string>
       </map>
       <key>openjpeg</key>
       <map>

@@ -97,9 +97,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>047bfb76773aaa89a175c1bcd1b7e1e7</string>
+              <string>675c3314d8bc22452672d6b863a0861b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.55.0-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -109,9 +109,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>138650dbbbb3d7e8664a19d510260615</string>
+              <string>638784b2a072c1f4139b0c0e0918c05f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.55.0-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows64-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -135,9 +135,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2549c34ba6d72eaa648fae0bce87d15d</string>
+              <string>493728a391f5ae815be11ad5c60f9f4b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -147,9 +147,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d684d8f4d1f460067e9f15b96d5f32b2</string>
+              <string>cfd8932685f8b1752979a1522e12c9d0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -649,9 +649,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>617a8d67933ef51d70cfad1ae77a420f</string>
+              <string>7a67ad39f19fab9b69e89cda05008b1b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/gmock-1.7.0-windows-vs12-20140708.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -661,9 +661,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>43e240add60022a17086f331d716073d</string>
+              <string>ac93595c7f740a70aa2bc2d4b60bd1f0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/gmock-1.7.0-windows64-vs12-20140710.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1509,7 +1509,7 @@
         <key>license</key>
         <string>bsd</string>
         <key>license_file</key>
-        <string>LICENSES/pcre-license.txt</string>
+        <string>LICENSES/pcre.txt</string>
         <key>name</key>
         <string>pcre</string>
         <key>platforms</key>
@@ -1519,9 +1519,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>618517af75bc872601f4e371a244bef4</string>
+              <string>66c7c13f0225953c7064072e4279a8ca</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1531,9 +1531,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1bb499f32799306c97bef031105223fb</string>
+              <string>1bcc96a7c9d4e34648ddeeaad5a2c66a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows64-vs12-20140816.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

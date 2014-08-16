@@ -867,13 +867,35 @@ namespace tut
     }
 
     /*-------------- support for "get*Pipe() validation" test --------------*/
+	/// For expecting exceptions. Execute CODE, catch EXCEPTION, store its what()
+	/// in std::string THREW, ensure it's not empty (i.e. EXCEPTION did happen).
+#define CATCH_IN(THREW, EXCEPTION, CODE)                                \
+    do                                                                  \
+	    {                                                                   \
+        (THREW).clear();                                                \
+        try                                                             \
+	        {                                                               \
+            CODE;                                                       \
+	        }                                                               \
+        CATCH_AND_STORE_WHAT_IN(THREW, EXCEPTION)                       \
+        ensure("failed to throw " #EXCEPTION ": " #CODE, ! (THREW).empty()); \
+	    } while (0)
+
+#define EXPECT_FAIL_WITH_LOG(EXPECT, CODE)                              \
+    do                                                                  \
+	    {                                                                   \
+        CaptureLog recorder;                                            \
+        ensure(#CODE " succeeded", ! (CODE));                           \
+        recorder.messageWith(EXPECT);                                   \
+	    } while (0)
+
 #define TEST_getPipe(PROCESS, GETPIPE, GETOPTPIPE, VALID, NOPIPE, BADPIPE) \
     do                                                                  \
     {                                                                   \
         std::string threw;                                              \
         /* Both the following calls should work. */                     \
         (PROCESS).GETPIPE(VALID);                                       \
-        ensure(#GETOPTPIPE "(" #VALID ") failed", (PROCESS).GETOPTPIPE(VALID)); \
+        ensure(#GETOPTPIPE "(" #VALID ") failed", !!(PROCESS).GETOPTPIPE(VALID)); \
         /* pass obviously bogus PIPESLOT */                             \
         CATCH_IN(threw, LLProcess::NoPipe, (PROCESS).GETPIPE(LLProcess::FILESLOT(4))); \
         ensure_contains("didn't reject bad slot", threw, "no slot");    \
@@ -889,28 +911,6 @@ namespace tut
         /* so skip "get" to obtain ReadPipe or WritePipe  :-P  */       \
         ensure_contains("didn't reject wrong pipe", threw, (#GETPIPE)+3); \
         EXPECT_FAIL_WITH_LOG(threw, (PROCESS).GETOPTPIPE(BADPIPE));     \
-    } while (0)
-
-/// For expecting exceptions. Execute CODE, catch EXCEPTION, store its what()
-/// in std::string THREW, ensure it's not empty (i.e. EXCEPTION did happen).
-#define CATCH_IN(THREW, EXCEPTION, CODE)                                \
-    do                                                                  \
-    {                                                                   \
-        (THREW).clear();                                                \
-        try                                                             \
-        {                                                               \
-            CODE;                                                       \
-        }                                                               \
-        CATCH_AND_STORE_WHAT_IN(THREW, EXCEPTION)                       \
-        ensure("failed to throw " #EXCEPTION ": " #CODE, ! (THREW).empty()); \
-    } while (0)
-
-#define EXPECT_FAIL_WITH_LOG(EXPECT, CODE)                              \
-    do                                                                  \
-    {                                                                   \
-        CaptureLog recorder;                                            \
-        ensure(#CODE " succeeded", ! (CODE));                           \
-        recorder.messageWith(EXPECT);                                   \
     } while (0)
 
     template<> template<>

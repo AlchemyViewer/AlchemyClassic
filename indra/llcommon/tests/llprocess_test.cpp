@@ -873,7 +873,7 @@ namespace tut
         std::string threw;                                              \
         /* Both the following calls should work. */                     \
         (PROCESS).GETPIPE(VALID);                                       \
-        ensure(#GETOPTPIPE "(" #VALID ") failed", (PROCESS).GETOPTPIPE(VALID)); \
+        ensure(#GETOPTPIPE "(" #VALID ") failed", !!(PROCESS).GETOPTPIPE(VALID)); \
         /* pass obviously bogus PIPESLOT */                             \
         CATCH_IN(threw, LLProcess::NoPipe, (PROCESS).GETPIPE(LLProcess::FILESLOT(4))); \
         ensure_contains("didn't reject bad slot", threw, "no slot");    \

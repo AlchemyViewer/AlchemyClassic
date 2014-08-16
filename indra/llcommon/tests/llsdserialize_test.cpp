@@ -1555,7 +1555,7 @@ namespace tut
             params.executable = PYTHON;
             params.args.add(scriptfile.getName());
             LLProcessPtr py(LLProcess::create(params));
-            ensure(STRINGIZE("Couldn't launch " << desc << " script"), py);
+            ensure(STRINGIZE("Couldn't launch " << desc << " script"), !!py);
             // Implementing timeout would mean messing with alarm() and
             // catching SIGALRM... later maybe...
             int status(0);

@@ -73,6 +73,11 @@ if(WINDOWS)
       set(release_files ${release_files} tbbmalloc.dll tbbmalloc_proxy.dll)
     endif(USE_TBBMALLOC)
 
+    if(OPENAL)
+      set(debug_files ${debug_files} alut.dll OpenAL32.dll)
+      set(release_files ${release_files} alut.dll OpenAL32.dll)
+    endif(OPENAL)
+
     if (FMODSTUDIO)
       if(WORD_SIZE STREQUAL 64)
         set(debug_files ${debug_files} fmodL64.dll)

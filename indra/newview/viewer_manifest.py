@@ -390,6 +390,13 @@ class WindowsManifest(ViewerManifest):
                 print err.message
                 print "Skipping COLLADA and GLOD libraries (assumming linked statically)"
 
+            # Get openal dll, continue if missing
+            try:
+                self.path("alut.dll")
+                self.path("OpenAL32.dll")
+            except:
+                print "Skipping openal audio library(assuming other audio engine)"
+
             # Get fmodex dll, continue if missing
             try:
                 if self.args['configuration'].lower() == 'debug':

@@ -630,33 +630,39 @@ bool idle_startup()
 		// or audio cues in connection UI.
 		//-------------------------------------------------
 
-		if (FALSE == gSavedSettings.getBOOL("NoAudio"))
+		if (!gSavedSettings.getBOOL("NoAudio"))
 		{
 			delete gAudiop;
-			gAudiop = NULL;
+			gAudiop = nullptr;
 
-#ifdef LL_FMODSTUDIO	
+#ifdef LL_FMODSTUDIO
+			if (!gAudiop
 #if !LL_WINDOWS
-			if (NULL == getenv("LL_BAD_FMODEX_DRIVER"))
+				&& NULL == getenv("LL_BAD_FMODSTUDIO_DRIVER")
 #endif // !LL_WINDOWS
+				)
 			{
 				gAudiop = (LLAudioEngine *) new LLAudioEngine_FMODSTUDIO(gSavedSettings.getBOOL("FMODExProfilerEnable"));
 			}
 #endif
 
-#ifdef LL_FMODEX		
+#ifdef LL_FMODEX
+			if (!gAudiop
 #if !LL_WINDOWS
-			if (NULL == getenv("LL_BAD_FMODEX_DRIVER"))
+			&& NULL == getenv("LL_BAD_FMODEX_DRIVER")
 #endif // !LL_WINDOWS
+				)
 			{
 				gAudiop = (LLAudioEngine *) new LLAudioEngine_FMODEX(gSavedSettings.getBOOL("FMODExProfilerEnable"));
 			}
 #endif
 
 #ifdef LL_OPENAL
+			if (!gAudiop
 #if !LL_WINDOWS
-			if (NULL == getenv("LL_BAD_OPENAL_DRIVER"))
+				&& NULL == getenv("LL_BAD_OPENAL_DRIVER")
 #endif // !LL_WINDOWS
+				)
 			{
 				gAudiop = (LLAudioEngine *) new LLAudioEngine_OpenAL();
 			}
@@ -680,13 +686,13 @@ bool idle_startup()
 				{
 					LL_WARNS("AppInit") << "Unable to initialize audio engine" << LL_ENDL;
 					delete gAudiop;
-					gAudiop = NULL;
+					gAudiop = nullptr;
 				}
 
 				if (gAudiop)
 				{
 					// if the audio engine hasn't set up its own preferred handler for streaming audio then set up the generic streaming audio implementation which uses media plugins
-					if (NULL == gAudiop->getStreamingAudioImpl())
+					if (!gAudiop->getStreamingAudioImpl())
 					{
 						LL_INFOS("AppInit") << "Using media plugins to render streaming audio" << LL_ENDL;
 						gAudiop->setStreamingAudioImpl(new LLStreamingAudio_MediaPlugins());

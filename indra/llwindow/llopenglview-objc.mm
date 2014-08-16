@@ -177,12 +177,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFAClosestPolicy,
 		NSOpenGLPFAAccelerated,
+		NSOpenGLPFAMultisample,
 		NSOpenGLPFASampleBuffers, static_cast<NSOpenGLPixelFormatAttribute>((samples > 0 ? 1 : 0)),
 		NSOpenGLPFASamples, static_cast<NSOpenGLPixelFormatAttribute>(samples),
-		NSOpenGLPFAStencilSize, 8,
-		NSOpenGLPFADepthSize, 24,
-		NSOpenGLPFAAlphaSize, 8,
-		NSOpenGLPFAColorSize, 24,
+		NSOpenGLPFAStencilSize, static_cast<NSOpenGLPixelFormatAttribute>(8),
+		NSOpenGLPFADepthSize, static_cast<NSOpenGLPixelFormatAttribute>(24),
+		NSOpenGLPFAAlphaSize, static_cast<NSOpenGLPixelFormatAttribute>(8),
+		NSOpenGLPFAColorSize, static_cast<NSOpenGLPixelFormatAttribute>(24),
 		0
     };
 	

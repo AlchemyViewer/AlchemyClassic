@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
+ background_opaque="true"
  background_visible="true"
  follows="all"
  height="570"

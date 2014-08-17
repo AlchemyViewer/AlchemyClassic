@@ -118,6 +118,7 @@ public:
 	BOOL mHasDebugOutput;
 	BOOL mHassRGBTexture;
 	BOOL mHassRGBFramebuffer;
+	BOOL mHasAdaptiveVSync;
 	BOOL mHasTextureSwizzle;
 
 	// Vendor-specific extensions

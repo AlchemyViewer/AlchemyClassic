@@ -38,6 +38,13 @@ class LLSplashScreen;
 class LLPreeditor;
 class LLWindowCallbacks;
 
+enum EVSyncSetting
+{
+	E_VSYNC_DISABLED = 0,
+	E_VSYNC_NORMAL,
+	E_VSYNC_ADAPTIVE
+};
+
 // Refer to llwindow_test in test/common/llwindow for usage example
 
 class LLWindow : public LLInstanceTracker<LLWindow>
@@ -77,7 +84,7 @@ public:
 	BOOL setSize(LLCoordScreen size);
 	BOOL setSize(LLCoordWindow size);
 	virtual void setMinSize(U32 min_width, U32 min_height, bool enforce_immediately = true);
-	virtual BOOL switchContext(BOOL fullscreen, const LLCoordScreen &size, BOOL disable_vsync, const LLCoordScreen * const posp = NULL) = 0;
+	virtual BOOL switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp = NULL) = 0;
 	virtual BOOL setCursorPosition(LLCoordWindow position) = 0;
 	virtual BOOL getCursorPosition(LLCoordWindow *position) = 0;
 	virtual void showCursor() = 0;
@@ -268,7 +275,7 @@ public:
 		U32 flags = 0,
 		BOOL fullscreen = FALSE,
 		BOOL clearBg = FALSE,
-		BOOL disable_vsync = TRUE,
+		EVSyncSetting vsync_setting = E_VSYNC_DISABLED,
 		BOOL use_gl = TRUE,
 		BOOL ignore_pixel_depth = FALSE,
 		U32 fsaa_samples = 0);

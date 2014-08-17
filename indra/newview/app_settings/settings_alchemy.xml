@@ -665,6 +665,19 @@
       <key>Value</key>
       <integer>12</integer>
     </map>
+    <key>RenderVerticalSync</key>
+    <map>
+      <key>Comment</key>
+      <string>
+0 - disabled, 1 = normal, 2 = adaptive
+      </string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>UIImgTransparentUUID</key>
     <map>
       <key>Comment</key>

@@ -1647,7 +1647,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	const std::string& title, const std::string& name, S32 x, S32 y, S32 width, S32 height, U32 flags,
 	BOOL fullscreen, 
 	BOOL clearBg,
-	BOOL disable_vsync,
+	EVSyncSetting vsync_setting,
 	BOOL ignore_pixel_depth,
 	U32 fsaa_samples)
 	*/
@@ -1656,7 +1656,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 		p.title, p.name, p.x, p.y, p.width, p.height, 0,
 		p.fullscreen, 
 		gHeadlessClient,
-		gSavedSettings.getBOOL("DisableVerticalSync"),
+		(EVSyncSetting)gSavedSettings.getU32("RenderVerticalSync"),
 		!gHeadlessClient,
 		p.ignore_pixel_depth,
 		gSavedSettings.getBOOL("RenderDeferred") ? 0 : gSavedSettings.getU32("RenderFSAASamples")); //don't use window level anti-aliasing if FBOs are enabled

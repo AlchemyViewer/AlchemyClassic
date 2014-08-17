@@ -111,7 +111,7 @@ LLWindowMacOSX::LLWindowMacOSX(LLWindowCallbacks* callbacks,
 							   const std::string& title, const std::string& name, S32 x, S32 y, S32 width,
 							   S32 height, U32 flags,
 							   BOOL fullscreen, BOOL clearBg,
-							   BOOL disable_vsync, BOOL use_gl,
+							   EVSyncSetting vsync_setting, BOOL use_gl,
 							   BOOL ignore_pixel_depth,
 							   U32 fsaa_samples)
 	: LLWindow(NULL, fullscreen, flags)
@@ -165,7 +165,7 @@ LLWindowMacOSX::LLWindowMacOSX(LLWindowCallbacks* callbacks,
 	// Stash an object pointer for OSMessageBox()
 	gWindowImplementation = this;
 	// Create the GL context and set it up for windowed or fullscreen, as appropriate.
-	if(createContext(x, y, width, height, 32, fullscreen, disable_vsync))
+	if(createContext(x, y, width, height, 32, fullscreen, vsync_setting))
 	{
 		if(mWindow != NULL)
 		{
@@ -528,7 +528,7 @@ void LLWindowMacOSX::getMouseDeltas(double* delta)
 	delta[1] = mCursorLastEventDeltaY;
 }
 
-BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, BOOL disable_vsync)
+BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, EVSyncSetting vsync_setting)
 {
 	mFullscreen = fullscreen;
 	
@@ -537,11 +537,34 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 		mWindow = getMainAppWindow();
 	}
 
+	// Disable vertical sync for swap
+	bool vsync_enabled;
+	GLint frames_per_swap;
+	switch (vsync_setting)
+	{
+	default:
+	case E_VSYNC_DISABLED:
+	{
+		LL_INFOS("Window") << "Disabling vertical sync" << LL_ENDL;
+		vsync_enabled = false;
+		frames_per_swap = 0;
+		break;
+	}
+	case E_VSYNC_ADAPTIVE:
+	case E_VSYNC_NORMAL:
+	{
+		LL_INFOS("Window") << "Enabling vertical sync" << LL_ENDL;
+		vsync_enabled = true;
+		frames_per_swap = 1;
+		break;
+	}
+	}
+
 	if(mContext == NULL)
 	{
 		// Our OpenGL view is already defined within SecondLife.xib.
 		// Get the view instead.
-		mGLView = createOpenGLView(mWindow, mFSAASamples, !disable_vsync);
+		mGLView = createOpenGLView(mWindow, mFSAASamples, vsync_enabled);
 		mContext = getCGLContextObj(mGLView);
 		
 		gGLManager.mVRAM = getVramSize(mGLView);
@@ -554,8 +577,6 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 
 	if(mContext != NULL)
 	{
-		
-		
 		U32 err = CGLSetCurrentContext(mContext);
 		if (err != kCGLNoError)
 		{
@@ -564,17 +585,6 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 		}
 	}
 
-	// Disable vertical sync for swap
-	GLint frames_per_swap = 0;
-	if (disable_vsync)
-	{
-		frames_per_swap = 0;
-	}
-	else
-	{
-		frames_per_swap = 1;
-	}
-	
 	CGLSetParameter(mContext, kCGLCPSwapInterval, &frames_per_swap);
 
 	//enable multi-threaded OpenGL
@@ -602,7 +612,7 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 
 // We only support OS X 10.7's fullscreen app mode which is literally a full screen window that fills a virtual desktop.
 // This makes this method obsolete.
-BOOL LLWindowMacOSX::switchContext(BOOL fullscreen, const LLCoordScreen &size, BOOL disable_vsync, const LLCoordScreen * const posp)
+BOOL LLWindowMacOSX::switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp)
 {
 	return FALSE;
 }

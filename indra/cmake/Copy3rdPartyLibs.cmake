@@ -251,9 +251,11 @@ elseif(DARWIN)
         libexception_handler.dylib
         libGLOD.dylib
         libndofdev.dylib
-        libopenal.dylib
-        libalut.dylib
        )
+
+    if (OPENAL)
+      set(release_files ${release_files} libopenal.dylib libalut.dylib)
+    endif (OPENAL)
 
     if (FMODEX)
       set(debug_files ${debug_files} libfmodexL.dylib)

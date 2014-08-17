@@ -49,6 +49,7 @@
 #include "llavataractions.h"
 #include "llcallingcard.h" // for LLAvatarTracker
 #include "lldateutil.h"
+#include "llfloaterreporter.h"
 #include "llgroupactions.h"
 #include "llpanelclassified.h"
 #include "llpanelpicks.h"
@@ -330,6 +331,8 @@ void LLPanelProfileLegacy::onCommitAction(const LLSD& userdata)
 		LLAvatarActions::showOnMap(getAvatarId());
 	else if (action == "pay")
 		LLAvatarActions::pay(getAvatarId());
+	else if (action == "report_abuse")
+		LLFloaterReporter::showFromObject(getAvatarId());
 	else
 		LL_WARNS("LegacyProfiles") << "Unhandled action: " << action << LL_ENDL;
 }
@@ -364,6 +367,8 @@ bool LLPanelProfileLegacy::isActionEnabled(const LLSD& userdata)
 	else if (check == "can_has_pay")
 		action_enabled = (getAvatarId() != gAgentID);
 	else if (check == "can_share")
+		action_enabled = (getAvatarId() != gAgentID);
+	else if (check == "can_drama")
 		action_enabled = (getAvatarId() != gAgentID);
 	else
 		LL_INFOS("LegacyProfiles") << "Unhandled check " << check << LL_ENDL;

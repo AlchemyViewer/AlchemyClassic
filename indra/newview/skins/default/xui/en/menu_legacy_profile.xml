@@ -71,6 +71,16 @@
       function="Profile.Enable"
       parameter="can_has_pay" />
   </menu_item_call>
+  <menu_item_call
+   label="Report Abuse..."
+   name="report_abuse">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="report_abuse"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_drama" />
+  </menu_item_call>
   <menu_item_separator />
   <menu_item_call
    label="Copy Name"

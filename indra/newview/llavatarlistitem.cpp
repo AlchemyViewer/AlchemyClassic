@@ -71,6 +71,8 @@ LLAvatarListItem::LLAvatarListItem(bool not_from_ui_factory/* = true*/)
 	mIconPermissionMap(NULL),
 	mIconPermissionEditMine(NULL),
 	mIconPermissionEditTheirs(NULL),
+	mIconPermissionMapTheirs(NULL),
+	mIconPermissionOnlineTheirs(NULL),
 	mSpeakingIndicator(NULL),
 	mInfoBtn(NULL),
 	mProfileBtn(NULL),
@@ -112,10 +114,14 @@ BOOL  LLAvatarListItem::postBuild()
 	mIconPermissionMap = getChild<LLIconCtrl>("permission_map_icon");
 	mIconPermissionEditMine = getChild<LLIconCtrl>("permission_edit_mine_icon");
 	mIconPermissionEditTheirs = getChild<LLIconCtrl>("permission_edit_theirs_icon");
-	mIconPermissionOnline->setVisible(false);
-	mIconPermissionMap->setVisible(false);
-	mIconPermissionEditMine->setVisible(false);
-	mIconPermissionEditTheirs->setVisible(false);
+	mIconPermissionMapTheirs = getChild<LLIconCtrl>("permission_map_theirs_icon");
+	mIconPermissionOnlineTheirs = getChild<LLIconCtrl>("permission_online_theirs_icon");
+	mIconPermissionOnline->setVisible(FALSE);
+	mIconPermissionMap->setVisible(FALSE);
+	mIconPermissionEditMine->setVisible(FALSE);
+	mIconPermissionEditTheirs->setVisible(FALSE);
+	mIconPermissionOnlineTheirs->setVisible(FALSE);
+	mIconPermissionMapTheirs->setVisible(FALSE);
 
 	mSpeakingIndicator = getChild<LLOutputMonitorCtrl>("speaking_indicator");
 	mInfoBtn = getChild<LLButton>("info_btn");
@@ -539,8 +545,11 @@ void LLAvatarListItem::initChildrenWidths(LLAvatarListItem* avatar_item)
 	// edit their objects permission icon width + padding
 	S32 permission_edit_theirs_width = avatar_item->mIconPermissionEditMine->getRect().mLeft - avatar_item->mIconPermissionEditTheirs->getRect().mLeft;
 
+	S32 permission_map_theirs_width = avatar_item->mIconPermissionEditTheirs->getRect().mLeft - avatar_item->mIconPermissionMapTheirs->getRect().mLeft;
+	S32 permission_online_theirs_width = avatar_item->mIconPermissionMapTheirs->getRect().mLeft - avatar_item->mIconPermissionOnlineTheirs->getRect().mLeft;
+
 	// last interaction time textbox width + padding
-	S32 last_interaction_time_width = avatar_item->mIconPermissionEditTheirs->getRect().mLeft - avatar_item->mLastInteractionTime->getRect().mLeft;
+	S32 last_interaction_time_width = avatar_item->mIconPermissionOnlineTheirs->getRect().mLeft - avatar_item->mLastInteractionTime->getRect().mLeft;
 
 	// avatar icon width + padding
 	S32 icon_width = avatar_item->mAvatarName->getRect().mLeft - avatar_item->mAvatarIcon->getRect().mLeft;
@@ -551,6 +560,8 @@ void LLAvatarListItem::initChildrenWidths(LLAvatarListItem* avatar_item)
 	sChildrenWidths[--index] = icon_width;
 	sChildrenWidths[--index] = 0; // for avatar name we don't need its width, it will be calculated as "left available space"
 	sChildrenWidths[--index] = last_interaction_time_width;
+	sChildrenWidths[--index] = permission_online_theirs_width;
+	sChildrenWidths[--index] = permission_map_theirs_width;
 	sChildrenWidths[--index] = permission_edit_theirs_width;
 	sChildrenWidths[--index] = permission_edit_mine_width;
 	sChildrenWidths[--index] = permission_map_width;
@@ -646,6 +657,8 @@ bool LLAvatarListItem::showPermissions(bool visible)
 		mIconPermissionMap->setVisible(relation->isRightGrantedTo(LLRelationship::GRANT_MAP_LOCATION));
 		mIconPermissionEditMine->setVisible(relation->isRightGrantedTo(LLRelationship::GRANT_MODIFY_OBJECTS));
 		mIconPermissionEditTheirs->setVisible(relation->isRightGrantedFrom(LLRelationship::GRANT_MODIFY_OBJECTS));
+		mIconPermissionOnlineTheirs->setVisible(relation->isRightGrantedFrom(LLRelationship::GRANT_ONLINE_STATUS));
+		mIconPermissionMapTheirs->setVisible(relation->isRightGrantedFrom(LLRelationship::GRANT_MAP_LOCATION));
 	}
 	else
 	{
@@ -653,6 +666,8 @@ bool LLAvatarListItem::showPermissions(bool visible)
 		mIconPermissionMap->setVisible(false);
 		mIconPermissionEditMine->setVisible(false);
 		mIconPermissionEditTheirs->setVisible(false);
+		mIconPermissionOnlineTheirs->setVisible(false);
+		mIconPermissionMapTheirs->setVisible(false);
 	}
 
 	return NULL != relation;
@@ -687,6 +702,12 @@ LLView* LLAvatarListItem::getItemChildView(EAvatarListItemChildIndex child_view_
 		break;
 	case ALIC_PERMISSION_EDIT_THEIRS:
 		child_view = mIconPermissionEditTheirs;
+		break;
+	case ALIC_PERMISSION_MAP_THEIRS:
+		child_view = mIconPermissionMapTheirs;
+		break;
+	case ALIC_PERMISSION_ONLINE_THEIRS:
+		child_view = mIconPermissionOnlineTheirs;
 		break;
 	case ALIC_INFO_BUTTON:
 		child_view = mInfoBtn;

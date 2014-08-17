@@ -251,6 +251,8 @@ elseif(DARWIN)
         libexception_handler.dylib
         libGLOD.dylib
         libndofdev.dylib
+        libopenal.dylib
+        libalut.dylib
        )
 
     if (FMODEX)

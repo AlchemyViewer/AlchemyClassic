@@ -3144,6 +3144,34 @@ class LLObjectMute : public view_listener_t
 	}
 };
 
+class LLSyncAnimations : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		for (U32 i = 0; i < gObjectList.getNumObjects(); ++i)
+		{
+			LLViewerObject* object = gObjectList.getObject(i);
+			if (object &&
+				object->isAvatar())
+			{
+				LLVOAvatar* avatarp = (LLVOAvatar*)object;
+				if (avatarp)
+				{
+					for (LLVOAvatar::AnimIterator anim_it = avatarp->mPlayingAnimations.begin();
+						 anim_it != avatarp->mPlayingAnimations.end();
+						 ++anim_it)
+					{
+						avatarp->stopMotion(anim_it->first, TRUE);
+						avatarp->startMotion(anim_it->first);
+					}
+				}
+			}
+		}
+		return true;
+	}
+};
+
+
 bool handle_go_to()
 {
 	// try simulator autopilot
@@ -9080,4 +9108,6 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelected(), "EditableSelected");
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
+	
+	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 }

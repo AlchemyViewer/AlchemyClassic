@@ -835,6 +835,8 @@ class DarwinManifest(ViewerManifest):
                                 "libGLOD.dylib",
                                 "libjpeg.8.0.2.dylib",
                                 "libturbojpeg.0.0.0.dylib",
+                                "libopenal.dylib",
+                                "libalut.dylib",
                                 ):
                     dylibs += path_optional(os.path.join(libdir, libfile), libfile)
 

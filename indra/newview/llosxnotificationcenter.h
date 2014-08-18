@@ -40,7 +40,7 @@
 class LLOSXNotificationCenter
 {
 public:
-	static void sendNotification(const std::string& title, const std::string& body);
+	static void sendNotification(const std::string& title, const std::string& body, bool play_sound);
 };
 
 #endif // LL_DARWIN

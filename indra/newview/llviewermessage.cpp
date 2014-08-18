@@ -3373,7 +3373,9 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			dialog != IM_TYPING_START &&
 			dialog != IM_TYPING_STOP))
 	{
-		LLOSXNotificationCenter::sendNotification(chat.mFromName, message);
+		LLOSXNotificationCenter::sendNotification(chat.mFromName,
+												  message,
+												  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
 	}
 #endif //LL_DARWIN
 }
@@ -3796,7 +3798,9 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
         static LLCachedControl<bool> sOSXNotificationsNearby(gSavedSettings, "OSXNotificationCenterNearby", false);
         if (sOSXNotificationsNearby && !chat.mMuted)
         {
-            LLOSXNotificationCenter::sendNotification(chat.mFromName, chat.mText);
+            LLOSXNotificationCenter::sendNotification(chat.mFromName,
+													  chat.mText,
+													  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
         }
 #endif //LL_DARWIN
 	}

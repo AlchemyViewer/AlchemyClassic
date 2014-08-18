@@ -36,14 +36,14 @@
 #import <Cocoa/Cocoa.h>
 
 //static
-void LLOSXNotificationCenter::sendNotification(const std::string& title, const std::string& body)
+void LLOSXNotificationCenter::sendNotification(const std::string& title, const std::string& body, bool play_sound)
 {
 	if (NSAppKitVersionNumber <= NSAppKitVersionNumber10_7_2) return;
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSUserNotification *notification = [[NSUserNotification alloc] init];
 	notification.title = [NSString stringWithUTF8String:title.c_str()];
 	notification.informativeText = [NSString stringWithUTF8String:body.c_str()];
-	notification.soundName = NSUserNotificationDefaultSoundName;
+	notification.soundName = play_sound ? NSUserNotificationDefaultSoundName : nil;
 	
 	[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:notification];
 	[notification release];

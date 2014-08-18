@@ -2651,6 +2651,8 @@ bool LLTextureFetch::createRequest(FTType f_type, const std::string& url, const 
 		worker->setDesiredDiscard(desired_discard, desired_size);
 		worker->setCanUseHTTP(can_use_http);
 
+		//MAINT-4184 url is always empty.  Do not set with it.
+
 		if (!worker->haveWork())
 		{
 			worker->setState(LLTextureFetchWorker::INIT);

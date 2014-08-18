@@ -108,10 +108,6 @@ if (WINDOWS)
         )
   endif (WORD_SIZE EQUAL 64 AND RELEASE_FULL_OPT)
 
-  if (NOT MSVC12)
-    add_definitions(/DDOM_DYNAMIC)
-  endif (NOT MSVC12)
-	  
   if (MSVC12)
     if (RELEASE_EXTRA_DEBUG)
       add_definitions(/Zo)

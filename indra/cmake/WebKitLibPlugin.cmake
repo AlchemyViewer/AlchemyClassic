@@ -1,6 +1,7 @@
 # -*- cmake -*-
 include(Linking)
 include(Prebuilt)
+include(OpenSSL)
 
 if (USESYSTEMLIBS)
   # The minimal version, 4.4.3, is rather arbitrary: it's the version in Debian/Lenny.
@@ -36,20 +37,20 @@ endif (USESYSTEMLIBS)
 
 if (WINDOWS)
     set(WEBKIT_PLUGIN_LIBRARIES 
-    debug llqtwebkitd
-    debug QtWebKitd4
-    debug QtOpenGLd4
-    debug QtNetworkd4
-    debug QtGuid4
-    debug QtCored4
-    debug qtmaind
-    optimized llqtwebkit
-    optimized QtWebKit4
-    optimized QtOpenGL4
-    optimized QtNetwork4
-    optimized QtGui4
-    optimized QtCore4
-    optimized qtmain
+        debug llqtwebkitd
+        debug QtWebKitd4
+        debug QtOpenGLd4
+        debug QtNetworkd4
+        debug QtGuid4
+        debug QtCored4
+        debug qtmaind
+        optimized llqtwebkit
+        optimized QtWebKit4
+        optimized QtOpenGL4
+        optimized QtNetwork4
+        optimized QtGui4
+        optimized QtCore4
+        optimized qtmain
     )
 elseif (DARWIN)
     set(WEBKIT_PLUGIN_LIBRARIES
@@ -74,11 +75,10 @@ else (USESYSTEMLIBS)
         QtWebKit
         QtOpenGL
         QtNetwork
+        ${OPENSSL_LIBRARIES}
         QtGui
         QtCore
-        crypto
-        ssl
-        jscore
+#        jscore
 #        qgif
 #        qjpeg
 #        jpeg

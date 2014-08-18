@@ -3359,9 +3359,20 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	}
 
 	LLWindow* viewer_window = gViewerWindow->getWindow();
-	if (viewer_window && viewer_window->getMinimized())
+	if (viewer_window)
 	{
-		viewer_window->flashIcon(5.f);
+#if LL_DARWIN
+		// OSX conventions dictate that we bounce the dock icon whenever the app is out of focus, not just when minimized.
+		if (!gFocusMgr.getAppHasFocus())
+#else
+		if (viewer_window->getMinimized())
+#endif // LL_DARWIN
+			viewer_window->flashIcon(5.f);
+	}
+	if (!gFocusMgr.getAppHasFocus()
+		&& gSavedSettings.getBOOL("OSXBadgeNotifications"))	// *TODO: Remove the option when this is more fleshed out
+	{
+		viewer_window->updateUnreadCount(gIMMgr->getNumberOfUnreadIM());
 	}
 	
 #if LL_DARWIN
@@ -3373,7 +3384,9 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			dialog != IM_TYPING_START &&
 			dialog != IM_TYPING_STOP))
 	{
-		LLOSXNotificationCenter::sendNotification(chat.mFromName, message);
+		LLOSXNotificationCenter::sendNotification(chat.mFromName,
+												  message,
+												  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
 	}
 #endif //LL_DARWIN
 }
@@ -3796,7 +3809,9 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
         static LLCachedControl<bool> sOSXNotificationsNearby(gSavedSettings, "OSXNotificationCenterNearby", false);
         if (sOSXNotificationsNearby && !chat.mMuted)
         {
-            LLOSXNotificationCenter::sendNotification(chat.mFromName, chat.mText);
+            LLOSXNotificationCenter::sendNotification(chat.mFromName,
+													  chat.mText,
+													  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
         }
 #endif //LL_DARWIN
 	}

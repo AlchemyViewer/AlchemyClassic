@@ -119,7 +119,9 @@ bool LLScriptHandler::processNotification(const LLNotificationPtr& notification)
 #if LL_DARWIN
 		static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
 		if (sOSXNotifications)
-			LLOSXNotificationCenter::sendNotification(notification->getName(), notification->getMessage());
+			LLOSXNotificationCenter::sendNotification(notification->getName(),
+													  notification->getMessage(),
+													  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
 #endif
 	}
 

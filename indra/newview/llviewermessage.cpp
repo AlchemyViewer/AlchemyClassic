@@ -3359,9 +3359,20 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	}
 
 	LLWindow* viewer_window = gViewerWindow->getWindow();
-	if (viewer_window && viewer_window->getMinimized())
+	if (viewer_window)
 	{
-		viewer_window->flashIcon(5.f);
+#if LL_DARWIN
+		// OSX conventions dictate that we bounce the dock icon whenever the app is out of focus, not just when minimized.
+		if (!gFocusMgr.getAppHasFocus())
+#else
+		if (viewer_window->getMinimized())
+#endif // LL_DARWIN
+			viewer_window->flashIcon(5.f);
+	}
+	if (!gFocusMgr.getAppHasFocus()
+		&& gSavedSettings.getBOOL("OSXBadgeNotifications"))	// *TODO: Remove the option when this is more fleshed out
+	{
+		viewer_window->updateUnreadCount(gIMMgr->getNumberOfUnreadIM());
 	}
 	
 #if LL_DARWIN

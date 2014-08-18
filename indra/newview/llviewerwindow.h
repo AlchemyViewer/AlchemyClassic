@@ -303,9 +303,9 @@ public:
 	void			updateObjectUnderCursor();
 
 	void			updateUI();		// Once per frame, update UI based on mouse position, calls following update* functions
-	void				updateLayout();						
-	void				updateMouseDelta();		
-	void				updateKeyboardFocus();		
+	void			updateLayout();
+	void			updateMouseDelta();
+	void			updateKeyboardFocus();
 
 	void			updateWorldViewRect(bool use_full_window=false);
 	LLView*			getToolBarHolder() { return mToolBarHolder.get(); }

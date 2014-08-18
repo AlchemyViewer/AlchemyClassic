@@ -448,3 +448,16 @@ float getScaleFactor(GLViewRef view)
 	return [(LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
 }
 
+void updateBadge(int count)
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSDockTile *tile = [[LLNSApplication sharedApplication] dockTile];
+	if (count > 0) {
+		NSString *value = [NSString stringWithFormat:@"%d",count];
+		[tile setBadgeLabel:value];
+	} else {
+		[tile setBadgeLabel:nil];
+	}
+	[pool release];
+}
+

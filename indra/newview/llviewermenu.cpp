@@ -2780,8 +2780,9 @@ void al_handle_object_derender()
 
 	select_mgr->deselectAll();
 
-	for (LLViewerObject* objectp : objects)
+	for (std::vector<LLViewerObject*>::iterator obj_iter = objects.begin(); obj_iter != objects.end(); obj_iter++)
 	{
+		LLViewerObject* objectp = *obj_iter;
 		if (!objectp)
 		{
 			continue;
@@ -2800,7 +2801,8 @@ void al_handle_object_derender()
 			gPipeline.addDebugBlip(objectp->getPositionAgent(), color);
 		}
 
-		gObjectList.derenderObject(objectp);
+		// Do the kill
+		gObjectList.killObject(objectp);
 	}
 }
 // </alchemy>

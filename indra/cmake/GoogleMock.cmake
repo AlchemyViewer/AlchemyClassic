@@ -2,7 +2,7 @@
 include(Prebuilt)
 include(Linking)
 
-use_prebuilt_binary(gmock)
+use_prebuilt_binary(googlemock)
 
 set(GOOGLEMOCK_INCLUDE_DIRS 
     ${LIBS_PREBUILT_DIR}/include)

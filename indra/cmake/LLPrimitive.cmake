@@ -7,7 +7,6 @@ include(LibXML2)
 
 use_prebuilt_binary(colladadom)
 use_prebuilt_binary(pcre)
-use_prebuilt_binary(libxml2)
 
 set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llprimitive
@@ -19,7 +18,6 @@ if (WINDOWS)
         optimized llprimitive
         debug libcollada14dom23-sd
         optimized libcollada14dom23-s
-        libxml2_a
         debug pcrecppd
         optimized pcrecpp
         debug pcred
@@ -40,7 +38,6 @@ elseif (LINUX)
         debug collada14dom-d
         optimized collada14dom
         minizip
-        xml2
         pcrecpp
         pcre
         )

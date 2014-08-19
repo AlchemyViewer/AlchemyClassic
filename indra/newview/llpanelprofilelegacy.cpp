@@ -37,6 +37,7 @@
 #include "llavatarnamecache.h"
 #include "llcheckboxctrl.h"
 #include "llflatlistview.h"
+#include "llfloaterreg.h"
 #include "lllineeditor.h"
 #include "llloadingindicator.h"
 #include "lltexteditor.h"
@@ -50,6 +51,7 @@
 #include "llcallingcard.h" // for LLAvatarTracker
 #include "lldateutil.h"
 #include "llfloaterreporter.h"
+#include "llfloaterworldmap.h"
 #include "llgroupactions.h"
 #include "llpanelclassified.h"
 #include "llpanelpicks.h"
@@ -523,6 +525,10 @@ BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
 {
 	mPicksList = getChild<LLFlatListView>("picks_list");
 	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
+	childSetAction("teleport_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickTeleport, this));
+	childSetAction("show_on_map_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickShowOnMap, this));
+	childSetAction("info_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+	updateButtons();
 	return TRUE;
 }
 
@@ -568,6 +574,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			pick_value.insert(PICK_CREATOR_ID, getAvatarId());
 			
 			mPicksList->addItem(picture, pick_value);
+			picture->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_picks", mPicksList->size());
 	}
@@ -589,10 +596,11 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			{
 				mClassifiedsList->addItem(c_item, pick_value);
 			}
-
+			c_item->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_classifieds", mClassifiedsList->size());
 	}
+	updateButtons();
 }
 
 void LLPanelProfileLegacy::LLPanelProfilePicks::showAccordion(const std::string& name, bool show)
@@ -620,6 +628,16 @@ LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(
 	return c_item;
 }
 
+void LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons()
+{
+	bool has_selected = (mPicksList->numSelected() > 0||
+						 mClassifiedsList->numSelected() > 0);
+	
+	getChildView("info_btn")->setEnabled(has_selected);
+	getChildView("teleport_btn")->setEnabled(has_selected);
+	getChildView("show_on_map_btn")->setEnabled(has_selected);
+}
+
 void LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo()
 {
 	if(mClassifiedsList->numSelected() > 0)
@@ -628,12 +646,57 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo()
 		openPickInfo();
 }
 
+void LLPanelProfileLegacy::LLPanelProfilePicks::onClickTeleport()
+{
+	LLPickItem* pick_item = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLClassifiedItem* c_item = getSelectedClassifiedItem();
+	
+	LLVector3d pos;
+	if (pick_item)
+	{
+		pos = pick_item->getPosGlobal();
+	}
+	else if (c_item)
+	{
+		pos = c_item->getPosGlobal();
+		LLPanelClassifiedInfo::sendClickMessage("teleport", false,
+												c_item->getClassifiedId(), LLUUID::null, pos, LLStringUtil::null);
+	}
+	
+	if (!pos.isExactlyZero())
+	{
+		gAgent.teleportViaLocation(pos);
+		LLFloaterWorldMap::getInstance()->trackLocation(pos);
+	}
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onClickShowOnMap()
+{
+	LLPickItem* pick_item = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLClassifiedItem* c_item = getSelectedClassifiedItem();
+	
+	LLVector3d pos;
+	if (pick_item)
+	{
+		pos = pick_item->getPosGlobal();
+	}
+	else if (c_item)
+	{
+		LLPanelClassifiedInfo::sendClickMessage("map", false,
+												c_item->getClassifiedId(), LLUUID::null, pos, LLStringUtil::null);
+		pos = c_item->getPosGlobal();
+	}
+	
+	LLFloaterWorldMap::getInstance()->trackLocation(pos);
+	LLFloaterReg::showInstance("world_map", "center");
+}
+
 void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 {
 	LLSD selected_value = mPicksList->getSelectedValue();
 	if (selected_value.isUndefined()) return;
 	
-	LLPickItem* pick = (LLPickItem*)mPicksList->getSelectedItem();
+	LLPickItem* pick = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
 	LLSD params;
 	params["pick_id"] = pick->getPickId();
 	params["avatar_id"] = pick->getCreatorId();

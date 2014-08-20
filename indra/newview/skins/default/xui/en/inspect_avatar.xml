@@ -85,14 +85,15 @@
      use_ellipses="true" />
      <text
      follows="left|top|right"
-     height="35"
+     height="43"
      left="8"
      name="user_details"
      right="-10"
      word_wrap="true"
      top_pad="4"
      use_ellipses="true"
-     width="220">This is my second life description and I really think it is great. But for some reason my description is super extra long because I like to talk a whole lot
+     width="220">
+This is my second life description and I really think it is great. But for some reason my description is super extra long because I like to talk a whole lot
     </text>
     <slider
      follows="top|left"
@@ -122,12 +123,12 @@
      width="16" />
     <text
      follows="top|left"
-     height="16"
+     height="12"
      left="8"
      name="avatar_profile_link"
      font="SansSerifSmall"
      text_color="White"
-     top_pad="5"
+     top_pad="2"
      translate="false"
      value="[[LINK] View full profile]"
      width="175" />

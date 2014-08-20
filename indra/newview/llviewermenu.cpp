@@ -3157,12 +3157,10 @@ class LLSyncAnimations : public view_listener_t
 				LLVOAvatar* avatarp = (LLVOAvatar*)object;
 				if (avatarp)
 				{
-					for (LLVOAvatar::AnimIterator anim_it = avatarp->mPlayingAnimations.begin();
-						 anim_it != avatarp->mPlayingAnimations.end();
-						 ++anim_it)
+					for (const auto& keyvalue : avatarp->mPlayingAnimations)
 					{
-						avatarp->stopMotion(anim_it->first, TRUE);
-						avatarp->startMotion(anim_it->first);
+						avatarp->stopMotion(keyvalue.first, TRUE);
+						avatarp->startMotion(keyvalue.first);
 					}
 				}
 			}

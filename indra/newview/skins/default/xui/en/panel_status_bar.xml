@@ -151,7 +151,7 @@
       <text
      type="string"
      font="SansSerifLarge"
-     text_color="AlBlue"
+     text_color="FPSTextColor"
      follows="right|top"
      halign="right"
      height="16"

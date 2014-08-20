@@ -24,10 +24,6 @@
      <color
      name="AlchemyScriptErrorBG"
      value="0.694 0.125 0.161 1" />
-	 <color
-	 name="FPSTextColor"
-	 reference="AlchemyBlue" />
-	 
     <color
      name="AlchemyText"
      value="0.72 0.72 0.72 1" />
@@ -1069,6 +1065,9 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="LtGray" />
+  <color
+   name="FPSTextColor"
+   reference="AlBlue" />
   <color
    name="MapLineColor"
    reference="Red" />

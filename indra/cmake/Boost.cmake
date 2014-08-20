@@ -22,6 +22,7 @@ else (USESYSTEMLIBS)
 
   if (WINDOWS)
     if(MSVC80)
+      # This should be obsolete at this point
       set(BOOST_CONTEXT_LIBRARY 
           optimized libboost_context-vc80-mt-${BOOST_VERSION}
           debug libboost_context-vc80-mt-gd-${BOOST_VERSION})
@@ -74,6 +75,9 @@ else (USESYSTEMLIBS)
     set(BOOST_CONTEXT_LIBRARY
         optimized boost_context-mt
         debug boost_context-mt-d)
+    set(BOOST_COROUTINE_LIBRARY
+        optimized boost_coroutine-mt
+        debug boost_coroutine-mt-d)
     set(BOOST_FILESYSTEM_LIBRARY
         optimized boost_filesystem-mt
         debug boost_filesystem-mt-d)

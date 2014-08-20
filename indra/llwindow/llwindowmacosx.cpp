@@ -334,14 +334,14 @@ void callWindowFocus()
 {
    if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
 	{
-		gWindowImplementation->getCallbacks()->handleFocus (gWindowImplementation);
+		gWindowImplementation->getCallbacks()->handleFocus(gWindowImplementation);
+		// Reset badge count
+		updateBadge(0);
 	}
 	else
 	{
 		LL_WARNS("COCOA") << "Window Implementation or callbacks not yet initialized." << LL_ENDL;
 	}
-
-
 }
 
 void callWindowUnfocus()
@@ -641,17 +641,17 @@ void LLWindowMacOSX::destroyContext()
 		mPixelFormat = NULL;
 	}
 
-	// Clean up the GL context
-	if(mContext != NULL)
-	{
-		CGLDestroyContext(mContext);
-	}
-	
 	// Destroy our LLOpenGLView
 	if(mGLView != NULL)
 	{
 		removeGLView(mGLView);
 		mGLView = NULL;
+	}
+	
+	// Clean up the GL context
+	if(mContext != NULL)
+	{
+		CGLDestroyContext(mContext);
 	}
 	
 	// Close the window
@@ -735,9 +735,10 @@ BOOL LLWindowMacOSX::getVisible()
 	if(mFullscreen)
 	{
 		result = TRUE;
-	}if (mWindow)
+	}
+	if (mWindow)
 	{
-			result = TRUE;
+		result = TRUE;
 	}
 
 	return(result);
@@ -1871,6 +1872,11 @@ MASK LLWindowMacOSX::modifiersToMask(S16 modifiers)
 F32 LLWindowMacOSX::getScaleFactor()
 {
 	return ::getScaleFactor(mGLView);
+}
+
+void LLWindowMacOSX::updateUnreadCount(S32 num_conversations)
+{
+	updateBadge(num_conversations);
 }
 
 #if LL_OS_DRAGDROP_ENABLED

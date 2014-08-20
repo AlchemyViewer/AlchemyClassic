@@ -953,19 +953,19 @@ BOOL LLAvatarAppearance::loadSkeletonNode ()
 	mRoot->addChild(mMeshLOD[MESH_ID_SKIRT]);
 	mRoot->addChild(mMeshLOD[MESH_ID_HEAD]);
 
-	LLAvatarJoint *skull = (LLAvatarJoint*)mRoot->findJoint("mSkull");
+	LLAvatarJoint *skull = dynamic_cast<LLAvatarJoint*>(mRoot->findJoint("mSkull"));
 	if (skull)
 	{
 		skull->addChild(mMeshLOD[MESH_ID_HAIR] );
 	}
 
-	LLAvatarJoint *eyeL = (LLAvatarJoint*)mRoot->findJoint("mEyeLeft");
+	LLAvatarJoint *eyeL = dynamic_cast<LLAvatarJoint*>(mRoot->findJoint("mEyeLeft"));
 	if (eyeL)
 	{
 		eyeL->addChild( mMeshLOD[MESH_ID_EYEBALL_LEFT] );
 	}
 
-	LLAvatarJoint *eyeR = (LLAvatarJoint*)mRoot->findJoint("mEyeRight");
+	LLAvatarJoint *eyeR = dynamic_cast<LLAvatarJoint*>(mRoot->findJoint("mEyeRight"));
 	if (eyeR)
 	{
 		eyeR->addChild( mMeshLOD[MESH_ID_EYEBALL_RIGHT] );

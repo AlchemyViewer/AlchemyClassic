@@ -143,21 +143,24 @@ U32 LLViewerJoint::render( F32 pixelArea, BOOL first_pass, BOOL is_dummy )
 	// render children
 	//----------------------------------------------------------------
 	for (child_list_t::iterator iter = mChildren.begin();
-		 iter != mChildren.end(); ++iter)
+		iter != mChildren.end(); ++iter)
 	{
 		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		F32 jointLOD = joint->getLOD();
-		if (pixelArea >= jointLOD || sDisableLOD)
+		if (joint)
 		{
-			triangle_count += joint->render( pixelArea, TRUE, is_dummy );
-
-			if (jointLOD != DEFAULT_AVATAR_JOINT_LOD)
+			F32 jointLOD = joint->getLOD();
+			if (pixelArea >= jointLOD || sDisableLOD)
 			{
-				break;
+				triangle_count += joint->render(pixelArea, TRUE, is_dummy);
+
+				if (jointLOD != DEFAULT_AVATAR_JOINT_LOD)
+				{
+					break;
+				}
 			}
+
 		}
 	}
-
 	return triangle_count;
 }
 

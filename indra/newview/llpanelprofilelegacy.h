@@ -51,6 +51,7 @@ public:
 	LLPanelProfileLegacy();
 	virtual BOOL postBuild();
 	/* virtual */ void onOpen(const LLSD& key);
+	/* virtual */ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
 	
 protected:
 	void openPanel(LLPanel* panel, const LLSD& params);
@@ -76,6 +77,31 @@ private:
 	LLToggleableMenu* mActionMenu;
 	boost::signals2::connection mAvatarNameCacheConnection;
 	
+	class ChildStack
+	{
+	public:
+		ChildStack();
+		~ChildStack();
+		void setParent(LLPanel* parent);
+		
+		bool push();
+		bool pop();
+		void preParentReshape();
+		void postParentReshape();
+		
+	private:
+		void dump();
+		
+		typedef LLView::child_list_t view_list_t;
+		typedef std::list<view_list_t> stack_t;
+		
+		stack_t		mStack;
+		stack_t		mSavedStack;
+		LLPanel*	mParent;
+	};
+	ChildStack		mChildStack;
+	LLPanel*		mPickDetail;
+	
 public:
 	class LLPanelProfilePicks : public LLPanelProfileTab
 	{
@@ -93,7 +119,10 @@ public:
 		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
 		LLPanelProfileLegacy* getProfilePanel();
 		void onPanelPickClose(LLPanel* panel);
+		void updateButtons();
 		void onClickInfo();
+		void onClickTeleport();
+		void onClickShowOnMap();
 		void openPickInfo();
 		void openClassifiedInfo();
 		void onPanelClassifiedClose(LLPanelClassifiedInfo* panel);

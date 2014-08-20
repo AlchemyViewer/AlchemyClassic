@@ -13,8 +13,7 @@ set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBXML2_INCLUDES}
     )
 if (WINDOWS)
-  if (MSVC12)
-    set(LLPRIMITIVE_LIBRARIES 
+    set(LLPRIMITIVE_LIBRARIES
         debug llprimitive
         optimized llprimitive
         debug libcollada14dom23-sd
@@ -25,16 +24,7 @@ if (WINDOWS)
         optimized pcre
         ${BOOST_SYSTEM_LIBRARIES}
         )
-  else (MSVC12)
-    set(LLPRIMITIVE_LIBRARIES
-        debug llprimitive
-        optimized llprimitive
-        debug libcollada14dom22-d
-        optimized libcollada14dom22
-        ${BOOST_SYSTEM_LIBRARIES}
-        )
-  endif (MSVC12)
-elseif (LINUX)
+elseif (DARWIN)
     set(LLPRIMITIVE_LIBRARIES
         llprimitive
         collada14dom
@@ -42,10 +32,11 @@ elseif (LINUX)
         pcrecpp
         pcre
         )
-else (WINDOWS)
-    set(LLPRIMITIVE_LIBRARIES
+elseif (LINUX)
+    set(LLPRIMITIVE_LIBRARIES 
         llprimitive
-        collada14dom
+        debug collada14dom-d
+        optimized collada14dom
         minizip
         pcrecpp
         pcre

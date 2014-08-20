@@ -148,5 +148,6 @@ NSWindowRef getMainAppWindow();
 GLViewRef getGLView();
 
 unsigned int getModifiers();
+void updateBadge(int count);
 
 #endif // LL_LLWINDOWMACOSX_OBJC_H

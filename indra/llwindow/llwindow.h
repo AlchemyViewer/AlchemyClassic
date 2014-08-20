@@ -167,6 +167,7 @@ public:
 	virtual void updateLanguageTextInputArea() {}
 	virtual void interruptLanguageTextInput() {}
 	virtual void spawnWebBrowser(const std::string& escaped_url, bool async) {};
+	virtual void updateUnreadCount(S32 num_conversations) {};
 
 	static std::vector<std::string> getDynamicFallbackFontList();
 	

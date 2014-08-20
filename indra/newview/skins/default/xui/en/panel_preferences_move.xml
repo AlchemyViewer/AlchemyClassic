@@ -135,6 +135,36 @@
    name="appearance_camera_movement"
    tool_tip="Use automatic camera positioning while in edit mode"
    width="242" />
+  <text
+   follows="left|top"
+   type="string"
+   length="1"
+   height="10"
+   left="300"
+   name="camera_constraints_label"
+   width="270">
+   Camera constraints:
+  </text>
+  <check_box
+   control_name="AlchemyDisableMinZoomDist"
+   height="20"
+   follows="left|top"
+   label="Disable minimum zoom"
+   layout="topleft"
+   left_delta="10"
+   name="AlchemyDisableMinZoomDist"
+   tool_tip="Disabling this removes the minimum zoom constraint on the camera"
+   width="280"
+   top_pad="5" />
+  <check_box
+   control_name="AlchemyDisableSimCamConstraint"
+   follows="left|top"
+   height="16"
+   label="Disable object push"
+   layout="topleft"
+   name="AlchemyDisableSimCamConstraint"
+   tool_tip="Disable the push the simulator applies when camera collides with objects"
+   width="242" />
    <!-- End Column #2 -->
   <icon
 	 follows="left|top"
@@ -217,9 +247,20 @@
    height="20"
    label="Show me in Mouselook"
    layout="topleft"
-   left_delta="5"
+   left_delta="10"
    name="first_person_avatar_visible"
    top_pad="5"
+   width="256" />
+  <check_box
+   control_name="AlchemyRealisticMouselook"
+   follows="left|top"
+   height="20"
+   label="Realistic mouselook"
+   layout="topleft"
+   left_delta="0"
+   name="AlchemyRealisticMouselook"
+   tool_tip="Make the camera follow avatar body movements and animations while in mouselook"
+   top_pad="0"
    width="256" />
   <text
    type="string"
@@ -227,9 +268,9 @@
    follows="left|top"
    height="15"
    layout="topleft"
-   left_delta="0"
-   name=" Mouse Sensitivity"
-   top_pad="10"
+   left_delta="4"
+   name="Mouse Sensitivity"
+   top_pad="5"
    width="160"
    wrap="true">
     Mouselook mouse sensitivity:
@@ -261,7 +302,7 @@
    length="1"
    height="10"
    layout="topleft"
-   left="40"
+   left="48"
    name="single_click_action_lbl"
    width="150"
    top_pad="20">
@@ -291,7 +332,7 @@
    length="1"
    height="10"
    layout="topleft"
-   left="40"
+   left="48"
    name="double_click_action_lbl"
    width="150"
    top_pad="12">

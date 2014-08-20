@@ -18,9 +18,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>69ae3b1c9cdb0ebc0d0e1ac8413e3eb7</string>
+              <string>8da309d24fb0bad8eaaa667fb04c6dc7</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/SDL-1.2.14-linux-20110309.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-sdl-update/rev/290561/arch/Linux/installer/SDL-1.2.15-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -106,9 +106,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0745872db83d45f4ab3bdc697d98e264</string>
+              <string>92f6a454d90b5740a38fb68e369cc13e</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-ares/rev/223275/arch/Linux/installer/ares-1.7.1-linux-20110310.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-ares-update/rev/290399/arch/Linux/installer/ares-1.10.0-linux-20140529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -118,9 +118,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1dcec6babd249a2597114d4ac226c461</string>
+              <string>887c93c4075beefefa44b69fb2c0461e</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-ares/rev/220963/arch/CYGWIN/installer/ares-1.7.1-windows-20110211.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-ares-update/rev/290399/arch/CYGWIN/installer/ares-1.10.0-windows-20140529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -156,9 +156,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c66c4f60a364f7a959cd11ded42500dc</string>
+              <string>2f076eae296600a1b810ce375dc4b42d</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/boost-1.52.0-linux-20140423.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-boost-update/rev/290566/arch/Linux/installer/boost-1.55.0-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -168,9 +168,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>742fc9675b033df7f9c6f215ff250f6c</string>
+              <string>8af0500013739866a41cfc2ce90e4f4b</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-boost/rev/270698/arch/CYGWIN/installer/boost-1.52.0-windows-20130221.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-boost-update/rev/290566/arch/CYGWIN/installer/boost-1.55.0-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -206,9 +206,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>be7321370b69b6d66938b82a9230a067</string>
+              <string>bdec5fe5fd008da4328f84115128ee61</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-colladadom/rev/233450/arch/Linux/installer/colladadom-2.2-linux-20110621.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-colladadom-update/rev/290576/arch/Linux/installer/colladadom-2.3-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -218,9 +218,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a9f548eb6f9aaf292508a8b09c7f2f73</string>
+              <string>ae103c9481be20cd6c035940832b2650</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-colladadom/rev/226584/arch/CYGWIN/installer/colladadom-2.2-windows-20110413.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-colladadom-update/rev/290576/arch/CYGWIN/installer/colladadom-2.3-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -260,9 +260,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>58b7bf45383c1b1bc24afb303b1519c8</string>
+              <string>2bc285edffd0e55e0cd6290f39854a89</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-curl/rev/280289/arch/Linux/installer/curl-7.24.0-linux-20130826.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-curl-update/rev/290664/arch/Linux/installer/curl-7.37.0-linux-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -272,9 +272,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8d9ccb0277a26bfe3f346c3c49ce4b58</string>
+              <string>8d3b197d7a114d2b688d2831a0a59757</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-curl/rev/280289/arch/CYGWIN/installer/curl-7.24.0-windows-20130826.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-curl-update/rev/290664/arch/CYGWIN/installer/curl-7.37.0-windows-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -554,9 +554,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d8b08b657247566bde5fd853c7622478</string>
+              <string>2843c48e6c84a51e3d6aa05dace4c8c0</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/fontconfig-2.8.0-linux-20110311.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-fontconfig-update/rev/290569/arch/Linux/installer/fontconfig-2.11.0-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -618,9 +618,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd6f84f9fb3c2e68850676d06935373f</string>
+              <string>52f87a65cc61ec4b05721c079d015b19</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freetype/rev/271684/arch/Linux/installer/freetype-2.4.4-linux-20130312.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-freetype-update/rev/290557/arch/Linux/installer/freetype-2.4.4-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -630,9 +630,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>271349827b939406162ce42e42cd18e0</string>
+              <string>6e9fc0fe628a7c88f6f614bf3b0450ae</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/freetype-2.4.4-windows-20110218.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-freetype-update/rev/290557/arch/CYGWIN/installer/freetype-2.4.4-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -900,9 +900,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>95637e8545f69ab6fa5e14eb50e8c007</string>
+              <string>3de99704847b34c7acccf5ab87222f6c</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock/rev/274899/arch/Linux/installer/gmock-1.6.0-linux-20130426.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-google-mock-update/rev/290574/arch/Linux/installer/gmock-1.7.0-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -912,9 +912,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98994d5b0b4b3d43be22aa6a5c36e6fa</string>
+              <string>5d91c1d03780aa26bcd5481145ee9e86</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-mock-graham/rev/272961/arch/CYGWIN/installer/gmock-1.6.0-windows-20130327.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-google-mock-update/rev/290574/arch/CYGWIN/installer/gmock-1.7.0-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1380,9 +1380,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0681ab7e1988dfdbdad7dd9edb7760ee</string>
+              <string>3368a25b361c22a03f7ec7e0f8d5ff9d</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libpng-1.5.1-linux-20110223.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libpng-update/rev/290558/arch/Linux/installer/libpng-1.6.8-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1392,9 +1392,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f194ba857ca8dd86483a3ef24535d0db</string>
+              <string>596f4798f90941817b1ca5009c24d16a</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-libpng/rev/226532/arch/CYGWIN/installer/libpng-1.5.1-windows-20110413.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libpng-update/rev/290558/arch/CYGWIN/installer/libpng-1.6.8-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1458,12 +1458,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fd34e3e818ad7dd26add1f05e6069c11</string>
+              <string>7eb90f075730f8d7d176f8fb7bad5ef5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-libxml/rev/282218/arch/Linux/installer/libxml2-2.7.8-linux-20131009.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libxml-update/rev/290562/arch/Linux/installer/libxml2-2.9.1-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ba20e2634b4c249a7064620d135f7972</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libxml-update/rev/290562/arch/CYGWIN/installer/libxml2-2.9.1-windows-20140602.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
           </map>
         </map>
         <key>version</key>
@@ -1630,9 +1642,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f50e5f0cc880c55b3f0f7e67dc8f7221</string>
+              <string>090190a8dd80efe1f0933c7ed307e6f1</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-llqtwebkit/rev/250147/arch/Linux/installer/llqtwebkit-4.7.1-linux-20120228.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-llqtwebkit2/rev/290663/arch/Linux/installer/llqtwebkit-4.7.1-linux-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1642,9 +1654,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5e3cd6af397e853a963a6de40d440ff4</string>
+              <string>650f2a30a83eacde238fcc87ff161190</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-llqtwebkit/rev/250147/arch/CYGWIN/installer/llqtwebkit-4.7.1-windows-20120228.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-llqtwebkit2/rev/290663/arch/CYGWIN/installer/llqtwebkit-4.7.1-windows-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1940,9 +1952,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d40be8566fa4b9df9a38e2a0f9ea467</string>
+              <string>0665c18f8cdbe2f90cb0a2f088cfe1a6</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/226882/arch/Linux/installer/openssl-1.0.0d-linux-20110418.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-openssl-update/rev/290662/arch/Linux/installer/openssl-1.0.1h-linux-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -1952,9 +1964,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>774c7f0a0312bee3054757a623e227bc</string>
+              <string>138997e1a73c65525d45c00f43f08010</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-openssl/rev/220986/arch/CYGWIN/installer/openssl-0.9.8q-windows-20110211.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-openssl-update/rev/290662/arch/CYGWIN/installer/openssl-1.0.1h-windows-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1994,9 +2006,21 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bb0abe962b3b8208ed2dab0424aab33d</string>
+              <string>5e6368d39b95f2c0d5162dac2c17c67f</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-pcre/rev/228822/arch/Linux/installer/pcre-7.6-linux-20110504.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-pcre-update/rev/290406/arch/Linux/installer/pcre-8.35-linux-20140530.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9250f74fed826ad1b8700229e964519d</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-pcre-update/rev/290406/arch/CYGWIN/installer/pcre-8.35-windows-20140529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2212,9 +2236,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7b4cf3aa2c04937d0a20761516587896</string>
+              <string>63a62bb3cbef2aad3cca49cb6f2d0aeb</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/223739/arch/Linux/installer/zlib-1.2.5-linux-20110314.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-zlib-update/rev/290556/arch/Linux/installer/zlib-1.2.8-linux-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2224,9 +2248,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5852192646681817fc3c3a8c95e91c1e</string>
+              <string>ab45a628e22a495814e806ce46081806</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-zlib/rev/220983/arch/CYGWIN/installer/zlib-1.2.5-windows-20110211.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-zlib-update/rev/290556/arch/CYGWIN/installer/zlib-1.2.8-windows-20140602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

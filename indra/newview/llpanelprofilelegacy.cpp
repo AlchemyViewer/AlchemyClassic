@@ -37,6 +37,7 @@
 #include "llavatarnamecache.h"
 #include "llcheckboxctrl.h"
 #include "llflatlistview.h"
+#include "llfloaterreg.h"
 #include "lllineeditor.h"
 #include "llloadingindicator.h"
 #include "lltexteditor.h"
@@ -50,6 +51,7 @@
 #include "llcallingcard.h" // for LLAvatarTracker
 #include "lldateutil.h"
 #include "llfloaterreporter.h"
+#include "llfloaterworldmap.h"
 #include "llgroupactions.h"
 #include "llpanelclassified.h"
 #include "llpanelpicks.h"
@@ -70,7 +72,9 @@ LLPanelProfileLegacy::LLPanelProfileLegacy()
 :	LLPanelProfileTab()
 ,	mPanelGroups(NULL)
 ,	mPanelPicks(NULL)
+,	mPickDetail(NULL)
 {
+	mChildStack.setParent(this);
 	mCommitCallbackRegistrar.add("Profile.CommitInterest", boost::bind(&LLPanelProfileLegacy::onCommitInterest, this));
 	mCommitCallbackRegistrar.add("Profile.CommitProperties", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
 	mCommitCallbackRegistrar.add("Profile.CommitRights", boost::bind(&LLPanelProfileLegacy::onCommitRights, this));
@@ -103,6 +107,16 @@ BOOL LLPanelProfileLegacy::postBuild()
 	return TRUE;
 }
 
+// virtual
+void LLPanelProfileLegacy::reshape(S32 width, S32 height, BOOL called_from_parent)
+{
+	// Temporarily add saved children back and reshape them.
+	mChildStack.preParentReshape();
+	LLPanel::reshape(width, height, called_from_parent);
+	mChildStack.postParentReshape();
+}
+
+// virtual
 void LLPanelProfileLegacy::onOpen(const LLSD& key)
 {
 	if (!key.has("avatar_id")) return;
@@ -113,6 +127,8 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 		// *TODO: Actions, if any
 		return;
 	}
+	if (mPickDetail != NULL)
+		closePanel(mPickDetail);
 	
 	setAvatarId(av_id);
 	
@@ -215,6 +231,7 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			getChild<LLTextEditor>("fl_about")->setText(pData->fl_about_text);
 			getChild<LLLineEditor>("uuid_editor")->setText(pData->agent_id.asString());
 			getChild<LLTextBase>("www")->setText(pData->profile_url);
+			getChild<LLLineEditor>("www_edit")->setText(pData->profile_url);
 			
 			LLStringUtil::format_map_t args;
 			std::string birth_date = LLTrans::getString("AvatarBirthDateFormat");
@@ -445,7 +462,7 @@ void LLPanelProfileLegacy::onCommitRights()
 void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 {
 	// Hide currently visible panel.
-	//mChildStack.push();
+	mChildStack.push();
 	
 	// Add the panel or bring it to front.
 	if (panel->getParent() != this)
@@ -465,6 +482,7 @@ void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 	panel->reshape(new_rect.getWidth(), new_rect.getHeight());
 	new_rect.setLeftTopAndSize(0, new_rect.getHeight(), new_rect.getWidth(), new_rect.getHeight());
 	panel->setRect(new_rect);
+	mPickDetail = panel;
 }
 
 void LLPanelProfileLegacy::closePanel(LLPanel* panel)
@@ -476,7 +494,7 @@ void LLPanelProfileLegacy::closePanel(LLPanel* panel)
 		removeChild(panel);
 		
 		// Make the underlying panel visible.
-		//mChildStack.pop();
+		mChildStack.pop();
 		
 		// Prevent losing focus by the floater
 		const child_list_t* child_list = getChildList();
@@ -489,6 +507,7 @@ void LLPanelProfileLegacy::closePanel(LLPanel* panel)
 			LL_WARNS() << "No underlying panel to focus." << LL_ENDL;
 		}
 	}
+	mPickDetail = NULL;
 }
 
 // LLPanelProfilePicks //
@@ -506,6 +525,10 @@ BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
 {
 	mPicksList = getChild<LLFlatListView>("picks_list");
 	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
+	childSetAction("teleport_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickTeleport, this));
+	childSetAction("show_on_map_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickShowOnMap, this));
+	childSetAction("info_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+	updateButtons();
 	return TRUE;
 }
 
@@ -551,6 +574,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			pick_value.insert(PICK_CREATOR_ID, getAvatarId());
 			
 			mPicksList->addItem(picture, pick_value);
+			picture->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_picks", mPicksList->size());
 	}
@@ -572,10 +596,11 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			{
 				mClassifiedsList->addItem(c_item, pick_value);
 			}
-
+			c_item->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_classifieds", mClassifiedsList->size());
 	}
+	updateButtons();
 }
 
 void LLPanelProfileLegacy::LLPanelProfilePicks::showAccordion(const std::string& name, bool show)
@@ -603,6 +628,16 @@ LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(
 	return c_item;
 }
 
+void LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons()
+{
+	bool has_selected = (mPicksList->numSelected() > 0||
+						 mClassifiedsList->numSelected() > 0);
+	
+	getChildView("info_btn")->setEnabled(has_selected);
+	getChildView("teleport_btn")->setEnabled(has_selected);
+	getChildView("show_on_map_btn")->setEnabled(has_selected);
+}
+
 void LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo()
 {
 	if(mClassifiedsList->numSelected() > 0)
@@ -611,12 +646,57 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo()
 		openPickInfo();
 }
 
+void LLPanelProfileLegacy::LLPanelProfilePicks::onClickTeleport()
+{
+	LLPickItem* pick_item = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLClassifiedItem* c_item = getSelectedClassifiedItem();
+	
+	LLVector3d pos;
+	if (pick_item)
+	{
+		pos = pick_item->getPosGlobal();
+	}
+	else if (c_item)
+	{
+		pos = c_item->getPosGlobal();
+		LLPanelClassifiedInfo::sendClickMessage("teleport", false,
+												c_item->getClassifiedId(), LLUUID::null, pos, LLStringUtil::null);
+	}
+	
+	if (!pos.isExactlyZero())
+	{
+		gAgent.teleportViaLocation(pos);
+		LLFloaterWorldMap::getInstance()->trackLocation(pos);
+	}
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onClickShowOnMap()
+{
+	LLPickItem* pick_item = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLClassifiedItem* c_item = getSelectedClassifiedItem();
+	
+	LLVector3d pos;
+	if (pick_item)
+	{
+		pos = pick_item->getPosGlobal();
+	}
+	else if (c_item)
+	{
+		LLPanelClassifiedInfo::sendClickMessage("map", false,
+												c_item->getClassifiedId(), LLUUID::null, pos, LLStringUtil::null);
+		pos = c_item->getPosGlobal();
+	}
+	
+	LLFloaterWorldMap::getInstance()->trackLocation(pos);
+	LLFloaterReg::showInstance("world_map", "center");
+}
+
 void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 {
 	LLSD selected_value = mPicksList->getSelectedValue();
 	if (selected_value.isUndefined()) return;
 	
-	LLPickItem* pick = (LLPickItem*)mPicksList->getSelectedItem();
+	LLPickItem* pick = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
 	LLSD params;
 	params["pick_id"] = pick->getPickId();
 	params["avatar_id"] = pick->getCreatorId();
@@ -847,4 +927,117 @@ void LLProfileGroupItem::changed(LLGroupChange gc)
 		setCharter(group_data->mCharter);
 	}
 	LLGroupMgr::getInstance()->removeObserver(this);
+}
+
+// ChildStack //
+
+LLPanelProfileLegacy::ChildStack::ChildStack()
+:	mParent(NULL)
+{
+}
+
+LLPanelProfileLegacy::ChildStack::~ChildStack()
+{
+	while (mStack.size() != 0)
+	{
+		view_list_t& top = mStack.back();
+		for (view_list_t::const_iterator it = top.begin(); it != top.end(); ++it)
+		{
+			LLView* viewp = *it;
+			if (viewp)
+			{
+				viewp->die();
+			}
+		}
+		mStack.pop_back();
+	}
+}
+
+void LLPanelProfileLegacy::ChildStack::setParent(LLPanel* parent)
+{
+	llassert_always(parent != NULL);
+	mParent = parent;
+}
+
+/// Save current parent's child views and remove them from the child list.
+bool LLPanelProfileLegacy::ChildStack::push()
+{
+	view_list_t vlist = *mParent->getChildList();
+	
+	for (view_list_t::const_iterator it = vlist.begin(); it != vlist.end(); ++it)
+	{
+		LLView* viewp = *it;
+		mParent->removeChild(viewp);
+	}
+	
+	mStack.push_back(vlist);
+	dump();
+	return true;
+}
+
+/// Restore saved children (adding them back to the child list).
+bool LLPanelProfileLegacy::ChildStack::pop()
+{
+	if (mStack.size() == 0)
+	{
+		LL_WARNS() << "Empty stack" << LL_ENDL;
+		llassert(mStack.size() == 0);
+		return false;
+	}
+	
+	view_list_t& top = mStack.back();
+	for (view_list_t::const_iterator it = top.begin(); it != top.end(); ++it)
+	{
+		LLView* viewp = *it;
+		mParent->addChild(viewp);
+	}
+	
+	mStack.pop_back();
+	dump();
+	return true;
+}
+
+/// Temporarily add all saved children back.
+void LLPanelProfileLegacy::ChildStack::preParentReshape()
+{
+	mSavedStack = mStack;
+	while(mStack.size() > 0)
+	{
+		pop();
+	}
+}
+
+/// Add the temporarily saved children back.
+void LLPanelProfileLegacy::ChildStack::postParentReshape()
+{
+	mStack = mSavedStack;
+	mSavedStack = stack_t();
+	
+	for (stack_t::const_iterator stack_it = mStack.begin(); stack_it != mStack.end(); ++stack_it)
+	{
+		const view_list_t& vlist = (*stack_it);
+		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
+		{
+			LLView* viewp = *list_it;
+			LL_DEBUGS() << "removing " << viewp->getName() << LL_ENDL;
+			mParent->removeChild(viewp);
+		}
+	}
+}
+
+void LLPanelProfileLegacy::ChildStack::dump()
+{
+	unsigned lvl = 0;
+	LL_DEBUGS() << "child stack dump:" << LL_ENDL;
+	for (stack_t::const_iterator stack_it = mStack.begin(); stack_it != mStack.end(); ++stack_it, ++lvl)
+	{
+		std::ostringstream dbg_line;
+		dbg_line << "lvl #" << lvl << ":";
+		const view_list_t& vlist = (*stack_it);
+		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
+		{
+			dbg_line << " " << (*list_it)->getName();
+		}
+		LL_DEBUGS() << dbg_line.str() << LL_ENDL;
+	}
 }

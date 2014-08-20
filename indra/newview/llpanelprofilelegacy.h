@@ -119,7 +119,10 @@ public:
 		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
 		LLPanelProfileLegacy* getProfilePanel();
 		void onPanelPickClose(LLPanel* panel);
+		void updateButtons();
 		void onClickInfo();
+		void onClickTeleport();
+		void onClickShowOnMap();
 		void openPickInfo();
 		void openClassifiedInfo();
 		void onPanelClassifiedClose(LLPanelClassifiedInfo* panel);

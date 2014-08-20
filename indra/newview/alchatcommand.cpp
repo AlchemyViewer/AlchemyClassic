@@ -34,14 +34,18 @@
 // viewer includes
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llagentui.h"
 #include "llcommandhandler.h"
-#include "llfloaterreg.h"
 #include "llfloaterimnearbychat.h"
+#include "llfloaterreg.h"
+#include "llfloaterregioninfo.h"
 #include "llnotificationsutil.h"
+#include "llregioninfomodel.h"
 #include "llstartup.h"
 #include "lltrans.h"
 #include "llviewercontrol.h"
 #include "llviewermessage.h"
+#include "llviewerobjectlist.h"
 #include "llviewerregion.h"
 #include "llvoavatarself.h"
 #include "llvolume.h"
@@ -68,6 +72,8 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sCalcCommand(gSavedSettings, "AlchemyChatCommandCalc", "/calc");
 		static LLCachedControl<std::string> sMaptoCommand(gSavedSettings, "AlchemyChatCommandMapto", "/mapto");
 		static LLCachedControl<std::string> sClearCommand(gSavedSettings, "AlchemyChatCommandClearNearby", "/clr");
+		static LLCachedControl<std::string> sRegionMsgCommand(gSavedSettings, "AlchemyChatCommandRegionMessage", "/regionmsg");
+		static LLCachedControl<std::string> sResyncAnimCommand(gSavedSettings, "AlchemyChatCommandResyncAnim", "/resync");
 
 		if (cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
@@ -214,6 +220,44 @@ bool ALChatCommand::parseCommand(std::string data)
 			LLSD args;
 			args["RESULT"] = ((ll_rand() % dice_sides) + 1);
 			LLNotificationsUtil::add("ChatCommandDiceRoll", args);
+			return true;
+		}
+		else if (cmd == utf8str_tolower(sRegionMsgCommand)) // Region Message / Dialog
+		{
+			if (data.length() > cmd.length() + 1)
+			{
+				std::string notification_message = data.substr(cmd.length() + 1);
+				std::vector<std::string> strings(5, "-1");
+				// [0] grid_x, unused here
+				// [1] grid_y, unused here
+				strings[2] = gAgentID.asString(); // [2] agent_id of sender
+				// [3] senter name
+				std::string name;
+				LLAgentUI::buildFullname(name);
+				strings[3] = name;
+				strings[4] = notification_message; // [4] message
+				LLRegionInfoModel::sendEstateOwnerMessage(gMessageSystem, "simulatormessage", LLFloaterRegionInfo::getLastInvoice(), strings);
+				return true;
+			}
+		}
+		else if (cmd == utf8str_tolower(sResyncAnimCommand)) // Resync Animations
+		{
+			for (S32 i = 0; i < gObjectList.getNumObjects(); i++)
+			{
+				LLViewerObject* object = gObjectList.getObject(i);
+				if (object && object->isAvatar())
+				{
+					LLVOAvatar* avatarp = (LLVOAvatar*)object;
+					if (avatarp)
+					{
+						for (const auto& keyvalue : avatarp->mPlayingAnimations)
+						{
+							avatarp->stopMotion(keyvalue.first, TRUE);
+							avatarp->startMotion(keyvalue.first);
+						}
+					}
+				}
+			}
 			return true;
 		}
 	}

@@ -24,10 +24,6 @@
      <color
      name="AlchemyScriptErrorBG"
      value="0.694 0.125 0.161 1" />
-	 <color
-	 name="FPSTextColor"
-	 reference="AlchemyBlue" />
-	 
     <color
      name="AlchemyText"
      value="0.72 0.72 0.72 1" />
@@ -58,7 +54,7 @@
      value="0 0.631 0.878 0.35" />
     <color
      name="BeaconColor"
-	 reference="AlBlue" />
+	 value="0.65 0.25 0.23 0.97" />
 	<color
 	 name="WarningRed"
 	 value="0.694 0.125 0.161 0.97" />
@@ -93,6 +89,9 @@
 	 name="DkGray"
 	 value="0.1647 0.1647 0.1647 1" />
 	<color
+	 name="DkGray_33"
+	 value="0.125 0.125 0.125 .33" />
+	<color
 	 name="DkGray_66"
 	 value="0.125 0.125 0.125 .66" />
 	<color
@@ -119,6 +118,12 @@
 	<color
 	 name="Red"
 	 value="1 0 0 1" />
+	<color
+	 name="Red"
+	 value="1 0 0 1" />
+	<color
+	 name="Red_25"
+	 value="1 0 0 0.25" />
 	<color
 	 name="Blue"
 	 value="0 0 1 1" />
@@ -1070,6 +1075,9 @@
    name="ChatHeaderUserNameColor"
    reference="LtGray" />
   <color
+   name="FPSTextColor"
+   reference="AlBlue" />
+  <color
    name="MapLineColor"
    reference="Red" />
   <color
@@ -1087,4 +1095,7 @@
   <color
    name="StatBarMeanBarColor"
    reference="Red_80" />
+  <color
+   name="ProfileOnlineIndicatorColor"
+   reference="Green" />
 </colors>

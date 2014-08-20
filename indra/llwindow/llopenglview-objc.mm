@@ -168,6 +168,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 {
 	self = [super initWithFrame:frame];
 	if (!self) { return self; }	// Despite what this may look like, returning nil self is a-ok.
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
 	
 	// Initialize with a default "safe" pixel format that will work with versions dating back to OS X 10.6.
@@ -221,6 +222,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	}
 	[glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
 	
+	[pool release];
 	return self;
 }
 
@@ -231,6 +233,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (BOOL) rebuildContextWithFormat:(NSOpenGLPixelFormat *)format
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSOpenGLContext *ctx = [self openGLContext];
 	
 	[ctx clearDrawable];
@@ -245,6 +248,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	[self setOpenGLContext:ctx];
 	[ctx setView:self];
 	[ctx makeCurrentContext];
+	[pool release];
 	return true;
 }
 

@@ -89,6 +89,9 @@
 	 name="DkGray"
 	 value="0.1647 0.1647 0.1647 1" />
 	<color
+	 name="DkGray_33"
+	 value="0.125 0.125 0.125 .33" />
+	<color
 	 name="DkGray_66"
 	 value="0.125 0.125 0.125 .66" />
 	<color
@@ -115,6 +118,12 @@
 	<color
 	 name="Red"
 	 value="1 0 0 1" />
+	<color
+	 name="Red"
+	 value="1 0 0 1" />
+	<color
+	 name="Red_25"
+	 value="1 0 0 0.25" />
 	<color
 	 name="Blue"
 	 value="0 0 1 1" />
@@ -1086,4 +1095,7 @@
   <color
    name="StatBarMeanBarColor"
    reference="Red_80" />
+  <color
+   name="ProfileOnlineIndicatorColor"
+   reference="Green" />
 </colors>

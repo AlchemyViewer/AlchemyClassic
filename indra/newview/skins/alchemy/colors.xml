@@ -2,7 +2,7 @@
 <colors>
      <color
      name="AlchemyBackground"
-     value="0.1372549019607843 0.1372549019607843 0.1372549019607843 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
+     value="0.145 0.157 0.165 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
     <color
      name="AlchemyBlack1"
      value="0.1084 0.1084 0.1084 1" />
@@ -14,22 +14,22 @@
      reference="AlchemyWhite" /> <!-- White until someone figures how to change text color when highlighed -->
     <color
      name="Alchemy_Inv_Link"
-    value="0.4843 0.4843 0.4843 1 " />
+    value="0.624 0.635 0.639 1 " />
     <color
      name="AlchemyOrange"
-     value="0.9372 0.4588 0.1960 1" />
+     value="0.824 0.373 0.082 1" />
     <color
      name="AlchemyScriptBG"
      value="0.0784 0.0784 0.0784 1" />
      <color
      name="AlchemyScriptErrorBG"
-     value="0.369 0.137 0.137 1" />
+     value="0.694 0.125 0.161 1" />
     <color
      name="AlchemyText"
      value="0.72 0.72 0.72 1" />
      <color
      name="AlchemyTextDark"
-     value="0.52 0.52 0.52 1" />
+     value="0.624 0.635 0.639 1" />
     <color
      name="AlchemyWhite"
      value="0.8078 0.8078 0.8078 1" />
@@ -45,19 +45,19 @@
     <!-- Named Colors -->
     <color
      name="EmphasisColor"
-     value="0.2975 0.4269 0.5783 1" />
+     value="0 0.631 0.878 1" />
     <color
      name="EmphasisColor_13"
-     value="0.2975 0.4269 0.5783 0.13" />
+     value="0 0.631 0.878 0.13" />
     <color
      name="EmphasisColor_35"
-     value="0.2975 0.4269 0.5783 0.35" />
+     value="0 0.631 0.878 0.35" />
     <color
      name="BeaconColor"
-    value="0.55 0.25 0.23 0.97" />
+	 reference="AlBlue" />
 	<color
 	 name="WarningRed"
-	 value="0.85 0.35 0.33 0.97" />
+	 value="0.694 0.125 0.161 0.97" />
 	<color
 	 name="White"
 	 value="1 1 1 1" />
@@ -169,6 +169,59 @@
   <color
       name="Orange"
       value="1 .82 .46 1" />
+   <color
+      name="AlBlue"
+	  value="0 0.631 0.874 1" />
+   <color
+      name="AlDarkBlue"
+	  value="0 0.29 0.533 1" />
+	<color
+      name="AlCoalBlack"
+	  value="0.145 0.157 0.165 1" />
+	<color
+      name="AlAshGrey"
+	  value="0.329 0.341 0.353 1" />
+	<color
+      name="AlSilverGrey"
+	  value="0.624 0.635 0.639 1" />
+	<color
+      name="AlCoralRed"
+	  value="0.98 0.212 0.29 1" />
+	<color
+      name="AlScarlet"
+	  value="0.694 0.125 0.161 1" />
+	<color
+      name="AlPurpleDrank"
+	  value="0.239 0.067 0.322 1" />
+	<color
+      name="AlGrape"
+	  value="0.361 0.059 0.549 1" />
+	<color
+      name="AlPrimaryBlue"
+	  value="0 0.29 0.533 1" />
+	<color
+      name="AlWarningOrange"
+	  value="0.824 0.373 0.082 1" />
+	<color
+      name="AlDangerRed"
+	  value="0.694 0.125 0.161 1" />
+	<color
+      name="AlInformationBlue"
+	  value="0 0.631 0.878 1" />
+	<color
+      name="AlSuccessGreen"
+	  value="0.42 0.753 0.294 1" />
+	<color
+      name="AlUrgentInfoYellow"
+	  value="0.957 0.745 0.286 1" />
+	<color
+      name="AlMiscPurple"
+	  value="0.361 0.059 0.549 1" />
+		<color
+      name="AlMisc2Coral"
+	  value="0 0.212 0.29 1" />
+	  
+
 
   <!-- This color name makes potentially unused colors show up bright purple.
   Leave this here until all Unused? are removed below, otherwise
@@ -187,10 +240,10 @@
      value="0.8705882352941176 0.8705882352941176 0.8705882352941176 1" />
     <color
      name="AlertBoxColor"
-     value="0.24 0.24 0.24 1" />
+     value="0.329 0.341 0.353 1" />
     <color
      name="AlertCautionBoxColor"
-     value="1 0.82 0.46 1" />
+     value="0.957 0.745 0.286 1" />
     <color
      name="AlertCautionTextColor"
      reference="LtYellow" />
@@ -376,7 +429,7 @@
      reference="AlchemyBlack1" />
     <color
      name="ContextSilhouetteColor"
-     value="0.905882 0.27451 0.27451 1" /> <!-- Prim color right-clicked, but not in edit mode yet -->
+     reference="AlCoralRed" /> <!-- Prim color right-clicked, but not in edit mode yet -->
     <color
      name="DefaultHighlightDark"
      reference="EmphasisColor" />
@@ -442,10 +495,10 @@
      reference="LtGray" />
     <color
      name="GroupOverTierColor"
-     value="0.43 0.06 0.06 1" />
+     reference="AlScarlet" />
     <color
      name="HTMLLinkColor"
-     value="0.3607843137254902 0.6823529411764706 0.9686274509803922" /> <!-- Lighter color since dark blue is unreadable on the chat toasts -->
+     reference="AlBlue" /> <!-- Lighter color since dark blue is unreadable on the chat toasts -->
     <color
      name="HealthTextColor"
      reference="AlchemyText" />
@@ -550,7 +603,7 @@
      value="0 1 1 1" />  
     <color
      name="MapAvatarSelfColor"
-     value="0.53125 0 0.498047 1" />
+     reference="AlPurpleDrank" />
     <color
      name="MapFrustumColor"
      reference="White_10" />
@@ -601,7 +654,7 @@
 	  reference="DkGray" />
     <color
      name="ModelUploaderLabels"
-     value="1 0.6 0 1" />	  
+     reference="AlWarningOrange"/>	  
     <color
      name="MultiSliderDisabledThumbColor"
      reference="Black" />
@@ -633,7 +686,7 @@
      reference="AlchemyWhite" />
     <color
      name="NameTagFriend"
-     value="0.5254901960784314 0.7490196078431373 0.9843137254901961" />
+     reference="AlBlue" />
     <color
      name="NameTagLegacy"
      reference="AlchemyWhite" />
@@ -669,7 +722,7 @@
      value="LtGray" />
     <color
      name="NotifyCautionBoxColor"
-     value="1 0.82 0.46 1" />
+     reference="AlUrgentInfoYellow" />
     <color
      name="NotifyCautionWarnColor"
      reference="AlchemyWhite" />
@@ -681,7 +734,7 @@
      reference="DkGray_66" />
     <color
      name="ObjectChatColor"
-     value="0.472046 0.746704 0.643707 1" />
+     reference="AlSuccessGreen" />
     <color
      name="OverdrivenColor"
      reference="Red" />
@@ -696,7 +749,7 @@
      reference="DkGray" />
     <color
      name="PanelNotificationBackground"
-     value="1 0.3 0.3 0" />
+     reference="AlCoalBlack" />
     <color
      name="ParcelHoverColor"
      reference="AlchemyWhite" />
@@ -879,7 +932,7 @@
      value="0.601563 0.601563 0.601563 1" />
     <color
      name="llOwnerSayChatColor"
-     value="0.7843137254901961 0.8274509803921569 0.9333333333333333 1" />
+     value="0.957 0.745 0.286 1" />
 
     <!-- New Colors -->
     <color
@@ -911,7 +964,7 @@
       value="1 1 1 1"/>
     <color
       name="MeshImportTableHighlightColor"
-      value="0.2 0.8 1 1"/>
+      reference="AlBlue"/>
 
     <color
      name="DirectChatColor"
@@ -1012,6 +1065,9 @@
   <color
    name="ChatHeaderUserNameColor"
    reference="LtGray" />
+  <color
+   name="FPSTextColor"
+   reference="AlBlue" />
   <color
    name="MapLineColor"
    reference="Red" />

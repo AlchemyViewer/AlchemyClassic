@@ -73,7 +73,8 @@ void LLProgressBar::draw()
 	image_bar_color.setAlpha(alpha);
 	mImageBar->draw(getLocalRect(), image_bar_color);
 
-	alpha *= 0.5f + 0.5f*0.5f*(1.f + (F32)sin(3.f*timer.getElapsedTimeF32()));
+	//alpha *= 0.5f + 0.5f*0.5f*(1.f + (F32)sin(3.f*timer.getElapsedTimeF32()));
+	alpha = 1.0f;
 	LLColor4 bar_color = mColorBar.get();
 	bar_color.mV[VALPHA] *= alpha; // modulate alpha
 	LLRect progress_rect = getLocalRect();

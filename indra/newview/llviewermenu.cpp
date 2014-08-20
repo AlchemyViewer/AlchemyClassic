@@ -2787,8 +2787,9 @@ void al_handle_object_derender()
 			continue;
 		}
 
+		LLViewerRegion* regionp = objectp->getRegion();
 		const LLUUID& id = objectp->getID();
-		if (id.isNull() || id == gAgentID)
+		if (id.isNull() || id == gAgentID || !regionp)
 		{
 			continue;
 		}
@@ -2796,11 +2797,16 @@ void al_handle_object_derender()
 		// Display green bubble on kill
 		if (gShowObjectUpdates)
 		{
-			LLColor4 color(0.f, 1.f, 0.f, 1.f);
-			gPipeline.addDebugBlip(objectp->getPositionAgent(), color);
+			gPipeline.addDebugBlip(objectp->getPositionAgent(), LLColor4(0.f, 1.f, 0.f, 1.f));
 		}
 
-		gObjectList.derenderObject(objectp);
+		// Do the kill
+		gObjectList.killObject(objectp);
+
+		if (LLViewerRegion::sVOCacheCullingEnabled)
+		{
+			regionp->killCacheEntry(objectp->getLocalID());
+		}
 	}
 }
 // </alchemy>

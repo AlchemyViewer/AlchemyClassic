@@ -409,7 +409,7 @@ void LLApp::setupErrorHandling(bool second_instance)
 	// API.  We disable this test for shipping versions to avoid conflicts with
 	// future releases of Darwin.  This test is really only needed for developers
 	// starting the app from a debugger anyway.
-	#ifndef LL_RELEASE_FOR_DOWNLOAD
+	#if 0
     int mib[4];
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_PROC;

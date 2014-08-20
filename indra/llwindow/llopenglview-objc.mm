@@ -166,8 +166,10 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (id) initWithFrame:(NSRect)frame withSamples:(NSUInteger)samples andVsync:(BOOL)vsync
 {
+	self = [super initWithFrame:frame];
+	if (!self) { return self; }	// Despite what this may look like, returning nil self is a-ok.
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	[self registerForDraggedTypes:[NSArray arrayWithObject:NSURLPboardType]];
-	[self initWithFrame:frame];
 	
 	// Initialize with a default "safe" pixel format that will work with versions dating back to OS X 10.6.
 	// Any specialized pixel formats, i.e. a core profile pixel format, should be initialized through rebuildContextWithFormat.
@@ -195,7 +197,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		return nil;
 	}
 	
-	NSOpenGLContext *glContext = [[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil];
+	NSOpenGLContext *glContext = [[[NSOpenGLContext alloc] initWithFormat:pixelFormat shareContext:nil] autorelease];
 	
 	if (glContext == nil)
 	{
@@ -220,6 +222,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	}
 	[glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
 	
+	[pool release];
 	return self;
 }
 
@@ -230,10 +233,11 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (BOOL) rebuildContextWithFormat:(NSOpenGLPixelFormat *)format
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSOpenGLContext *ctx = [self openGLContext];
 	
 	[ctx clearDrawable];
-	[ctx initWithFormat:format shareContext:nil];
+	ctx = [[[NSOpenGLContext alloc] initWithFormat:format shareContext:nil] autorelease];
 	
 	if (ctx == nil)
 	{
@@ -244,6 +248,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	[self setOpenGLContext:ctx];
 	[ctx setView:self];
 	[ctx makeCurrentContext];
+	[pool release];
 	return true;
 }
 

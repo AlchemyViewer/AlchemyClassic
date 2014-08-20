@@ -3821,9 +3821,6 @@ bool LLAgent::teleportCore(bool is_local)
 		//release geometry from old location
 		gPipeline.resetVertexBuffers();
 		LLSpatialPartition::sTeleportRequested = TRUE;
-
-		// clear the derender list
-		gObjectList.clearDerenderSet();
 	}
 	if (gSavedSettings.getBOOL("AlchemyPlayTeleportSound")) // <alchemy/>
 		make_ui_sound("UISndTeleportOut");

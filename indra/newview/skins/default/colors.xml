@@ -76,7 +76,7 @@
 	<color
 	 name="Red"
 	 value="1 0 0 1" />
-  <color
+	<color
 	 name="Red"
 	 value="1 0 0 1" />
 	<color
@@ -978,6 +978,9 @@
    reference="White" />
   <color
    name="ChatHeaderUserNameColor"
+   reference="EmphasisColor" />
+  <color
+   name="FPSTextColor"
    reference="EmphasisColor" />
   <color
    name="MapLineColor"

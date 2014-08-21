@@ -133,12 +133,12 @@ Remove Friend
          layout="topleft"
          name="avatar_groups_tab"
          title="Groups"
-         fit_panel="false">
+         fit_panel="true">
           <panel
            border="false"
            class="panel_profile_groups"
            filename="panel_profile_groups.xml"
-           follows="left|top|right"
+           follows="all"
            layout="topleft"
            left="0"
            name="groups_tab_panel"
@@ -164,12 +164,12 @@ Remove Friend
          layout="topleft"
          name="avatar_picks_tab"
          title="Picks"
-         fit_panel="false">
+         fit_panel="true">
           <panel
            border="false"
            class="panel_profile_picks"
            filename="panel_profile_picks.xml"
-           follows="left|top|right"
+           follows="all"
            layout="topleft"
            left="0"
            name="picks_tab_panel"

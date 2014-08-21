@@ -229,7 +229,6 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			}
 			getChild<LLTextEditor>("sl_about")->setText(pData->about_text);
 			getChild<LLTextEditor>("fl_about")->setText(pData->fl_about_text);
-			getChild<LLLineEditor>("uuid_editor")->setText(pData->agent_id.asString());
 			getChild<LLTextBase>("www")->setText(pData->profile_url);
 			getChild<LLLineEditor>("www_edit")->setText(pData->profile_url);
 			

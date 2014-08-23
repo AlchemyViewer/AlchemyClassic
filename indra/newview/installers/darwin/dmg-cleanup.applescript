@@ -7,9 +7,9 @@ tell application "Finder"
 	set foo to every item in front window
 	repeat with i in foo
 		if the name of i is "Applications" then
-			set the position of i to {391, 165}
+			set the position of i to {391, 152}
 		else if the name of i ends with ".app" then
-			set the position of i to {121, 166}
+			set the position of i to {121, 162}
 		end if
 	end repeat
 	

@@ -164,7 +164,7 @@ BOOL LLFloaterHardwareSettings::postBuild()
 
 #if LL_LINUX || LL_DARWIN // FIXME: Linux will support this once we transition to SDL2
 	LLComboBox* combo = getChild<LLComboBox>("vertical_sync");
-	combo->remove("adaptive_vsync");
+	combo->remove(2);
 #endif
 
 	refresh();

@@ -31,6 +31,7 @@
 #include "m4math.h"
 #include "m3math.h"
 
+LL_ALIGN_PREFIX(16)
 class LLMatrix4a
 {
 public:
@@ -137,6 +138,6 @@ public:
 		z.add(mMatrix[3]);
 		res.setAdd(x,z);
 	}
-};
+} LL_ALIGN_POSTFIX(16);
 
 #endif

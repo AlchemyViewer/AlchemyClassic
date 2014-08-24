@@ -40,6 +40,7 @@
 /////////////////////////////
 #include "llquaternion.h"
 
+LL_ALIGN_PREFIX(16)
 class LLQuaternion2
 {
 public:
@@ -98,8 +99,8 @@ public:
 
 protected:
 
-	LLVector4a mQ;
+	LL_ALIGN_16(LLVector4a mQ);
 
-};
+} LL_ALIGN_POSTFIX(16);
 
 #endif

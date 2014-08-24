@@ -3154,21 +3154,18 @@ class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
 	{
-		for (U32 i = 0; i < gObjectList.getNumObjects(); ++i)
+		for (S32 i = 0; i < gObjectList.getNumObjects(); ++i)
 		{
 			LLViewerObject* object = gObjectList.getObject(i);
-			if (object &&
-				object->isAvatar())
+			if (object && object->isAvatar())
 			{
-				LLVOAvatar* avatarp = (LLVOAvatar*)object;
+				LLVOAvatar* avatarp = static_cast<LLVOAvatar*>(object);
 				if (avatarp)
 				{
-					for (LLVOAvatar::AnimIterator anim_it = avatarp->mPlayingAnimations.begin();
-						 anim_it != avatarp->mPlayingAnimations.end();
-						 ++anim_it)
+					for (const auto& anim_it : avatarp->mPlayingAnimations)
 					{
-						avatarp->stopMotion(anim_it->first, TRUE);
-						avatarp->startMotion(anim_it->first);
+						avatarp->stopMotion(anim_it.first, TRUE);
+						avatarp->startMotion(anim_it.first);
 					}
 				}
 			}

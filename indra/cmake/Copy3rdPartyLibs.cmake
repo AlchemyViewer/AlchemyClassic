@@ -250,6 +250,7 @@ elseif(DARWIN)
         libaprutil-1.dylib
         libexception_handler.dylib
         libGLOD.dylib
+        libjpeg.8.0.2.dylib
         libndofdev.dylib
        )
 

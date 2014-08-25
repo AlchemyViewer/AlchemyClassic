@@ -481,7 +481,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void)setMarkedText:(id)aString selectedRange:(NSRange)selectedRange replacementRange:(NSRange)replacementRange
 {
-    if ([aString class] == NSClassFromString(@"NSConcreteMutableAttributedString"))
+	if ([aString isKindOfClass:NSClassFromString(@"NSConcreteMutableAttributedString")])
     {
         if (mMarkedTextAllowed)
         {

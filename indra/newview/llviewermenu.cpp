@@ -3163,10 +3163,10 @@ class LLSyncAnimations : public view_listener_t
 				LLVOAvatar* avatarp = (LLVOAvatar*)object;
 				if (avatarp)
 				{
-					for (const auto& keyvalue : avatarp->mPlayingAnimations)
+					for (const std::pair<LLUUID, S32>& playpair : avatarp->mPlayingAnimations)
 					{
-						avatarp->stopMotion(keyvalue.first, TRUE);
-						avatarp->startMotion(keyvalue.first);
+						avatarp->stopMotion(playpair.first, TRUE);
+						avatarp->startMotion(playpair.first);
 					}
 				}
 			}

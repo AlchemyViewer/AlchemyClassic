@@ -76,6 +76,7 @@ LLToolCamera::LLToolCamera()
 	mOutsideSlopY(FALSE),
 	mValidClickPoint(FALSE),
 	mMouseSteering(FALSE),
+	mRightMouseDown(false),
 	mMouseUpX(0),
 	mMouseUpY(0),
 	mMouseUpMask(MASK_NONE)
@@ -127,6 +128,27 @@ BOOL LLToolCamera::handleMouseDown(S32 x, S32 y, MASK mask)
 	gViewerWindow->pickAsync(x, y, mask, pickCallback);
 
 	return TRUE;
+}
+
+BOOL LLToolCamera::handleRightMouseDown(S32 x, S32 y, MASK mask)
+{
+	if (mMouseSteering)
+	{
+		gAgent.moveAt(1);
+		mRightMouseDown = true;
+		return TRUE;
+	}
+	return LLTool::handleRightMouseDown(x,y,mask);
+}
+
+BOOL LLToolCamera::handleRightMouseUp(S32 x, S32 y, MASK mask)
+{
+	if (mMouseSteering)
+	{
+		mRightMouseDown = false;
+		return TRUE;
+	}
+	return LLTool::handleRightMouseUp(x, y, mask);
 }
 
 void LLToolCamera::pickCallback(const LLPickInfo& pick_info)
@@ -314,6 +336,11 @@ BOOL LLToolCamera::handleHover(S32 x, S32 y, MASK mask)
 	S32 dx = gViewerWindow->getCurrentMouseDX();
 	S32 dy = gViewerWindow->getCurrentMouseDY();
 	
+	if (mRightMouseDown)
+	{
+		gAgent.moveAt(1);
+	}
+
 	if (hasMouseCapture() && mValidClickPoint)
 	{
 		mAccumX += llabs(dx);
@@ -449,4 +476,5 @@ BOOL LLToolCamera::handleHover(S32 x, S32 y, MASK mask)
 void LLToolCamera::onMouseCaptureLost()
 {
 	releaseMouse();
+	mRightMouseDown = false;
 }

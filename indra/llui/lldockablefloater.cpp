@@ -33,25 +33,25 @@
 LLHandle<LLFloater> LLDockableFloater::sInstanceHandle;
 
 //static
-void LLDockableFloater::init(LLDockableFloater* thiz)
+void LLDockableFloater::init()
 {
-	thiz->setDocked(thiz->mDockControl.get() != NULL
-			&& thiz->mDockControl.get()->isDockVisible());
-	thiz->resetInstance();
+	this->setDocked(this->mDockControl.get() != NULL
+			&& this->mDockControl.get()->isDockVisible());
+	this->resetInstance();
 
 	// all dockable floaters should have close, dock and minimize buttons
-	thiz->setCanClose(TRUE);
-	thiz->setCanDock(true);
-	thiz->setCanMinimize(TRUE);
-	thiz->setOverlapsScreenChannel(false);
-	thiz->mForceDocking = false;
+	this->setCanClose(TRUE);
+	this->setCanDock(true);
+	this->setCanMinimize(TRUE);
+	this->setOverlapsScreenChannel(false);
+	this->mForceDocking = false;
 }
 
 LLDockableFloater::LLDockableFloater(LLDockControl* dockControl,
 		const LLSD& key, const Params& params) :
 	LLFloater(key, params), mDockControl(dockControl), mUniqueDocking(true)
 {
-	init(this);
+	init();
 	mUseTongue = true;
 }
 
@@ -59,7 +59,7 @@ LLDockableFloater::LLDockableFloater(LLDockControl* dockControl, bool uniqueDock
 		const LLSD& key, const Params& params) :
 	LLFloater(key, params), mDockControl(dockControl), mUniqueDocking(uniqueDocking)
 {
-	init(this);
+	init();
 	mUseTongue = true;
 }
 
@@ -67,7 +67,7 @@ LLDockableFloater::LLDockableFloater(LLDockControl* dockControl, bool uniqueDock
 		bool useTongue, const LLSD& key, const Params& params) :
 	LLFloater(key, params), mDockControl(dockControl), mUseTongue(useTongue), mUniqueDocking(uniqueDocking)
 {
-	init(this);
+	init();
 }
 
 LLDockableFloater::~LLDockableFloater()

@@ -39,7 +39,7 @@ class LLDockableFloater : public LLFloater
 {
 	static const U32 UNDOCK_LEAP_HEIGHT = 12;
 
-	static void init(LLDockableFloater* thiz);
+	void init();
 public:
 	LOG_CLASS(LLDockableFloater);
 	LLDockableFloater(LLDockControl* dockControl, const LLSD& key,
@@ -131,7 +131,7 @@ protected:
 	boost::function<BOOL ()> mIsDockedStateForcedCallback;
 
 private:
-	std::auto_ptr<LLDockControl> mDockControl;
+	boost::scoped_ptr<LLDockControl> mDockControl;
 	LLUIImagePtr mDockTongue;
 	static LLHandle<LLFloater> sInstanceHandle;
 	/**

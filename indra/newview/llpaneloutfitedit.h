@@ -237,7 +237,7 @@ private:
 	LLToggleableMenu*	mGearMenu;
 	LLToggleableMenu*	mAddWearablesGearMenu;
 	bool				mInitialized;
-	std::auto_ptr<LLSaveOutfitComboBtn> mSaveComboBtn;
+	boost::scoped_ptr<LLSaveOutfitComboBtn> mSaveComboBtn;
 	LLMenuButton*		mWearablesGearMenuBtn;
 	LLMenuButton*		mGearMenuBtn;
 

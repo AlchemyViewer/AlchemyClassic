@@ -696,6 +696,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 	if (selected_value.isUndefined()) return;
 	
 	LLPickItem* pick = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	if (!pick) return;
 	LLSD params;
 	params["pick_id"] = pick->getPickId();
 	params["avatar_id"] = pick->getCreatorId();

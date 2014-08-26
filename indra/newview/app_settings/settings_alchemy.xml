@@ -134,6 +134,28 @@
       <key>Value</key>
       <string>/pos</string>
     </map>
+    <key>AlchemyChatCommandRegionMessage</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to send a region message</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/regionmsg</string>
+    </map>
+    <key>AlchemyChatCommandResyncAnim</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to stop/start in order to resync animations</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/resync</string>
+    </map>
     <key>AlchemyChatCommandRezPlat</key>
     <map>
       <key>Comment</key>

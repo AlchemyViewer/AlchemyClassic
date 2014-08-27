@@ -460,6 +460,9 @@ void LLPanelProfileLegacy::onCommitRights()
 
 void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 {
+	if (!panel)
+		return;
+
 	// Hide currently visible panel.
 	mChildStack.push();
 	

@@ -66,6 +66,7 @@ public:
 
 	static LLPanelClassifiedInfo* create();
 
+	LLPanelClassifiedInfo();
 	virtual ~LLPanelClassifiedInfo();
 
 	/*virtual*/ void onOpen(const LLSD& key);
@@ -142,8 +143,6 @@ public:
 	/*virtual*/ void draw();
 
 protected:
-
-	LLPanelClassifiedInfo();
 
 	virtual void resetData();
 

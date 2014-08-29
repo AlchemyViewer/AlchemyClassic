@@ -241,6 +241,7 @@ set(viewer_SOURCE_FILES
     llfloaterconversationpreview.cpp
     llfloaterdeleteenvpreset.cpp
     llfloaterdestinations.cpp
+    llfloaterdirectory.cpp
     llfloaterdisplayname.cpp
     llfloatereditdaycycle.cpp
     llfloatereditsky.cpp
@@ -426,6 +427,7 @@ set(viewer_SOURCE_FILES
     llpanelclassified.cpp
     llpanelcontents.cpp
     llpaneleditwearable.cpp
+    llpaneleventinfo.cpp
     llpanelface.cpp
     llpanelgenerictip.cpp
     llpanelgroup.cpp
@@ -469,6 +471,13 @@ set(viewer_SOURCE_FILES
     llpanelprimmediacontrols.cpp
     llpanelprofile.cpp
     llpanelprofilelegacy.cpp
+    llpanelsearchbase.cpp
+    llpanelsearchclassifieds.cpp
+    llpanelsearchevents.cpp
+    llpanelsearchgroups.cpp
+    llpanelsearchlandsales.cpp
+    llpanelsearchpeople.cpp
+    llpanelsearchplaces.cpp
     llpanelsnapshot.cpp
     llpanelsnapshotinventory.cpp
     llpanelsnapshotlocal.cpp
@@ -853,6 +862,7 @@ set(viewer_HEADER_FILES
     llfloaterconversationpreview.h
     llfloaterdeleteenvpreset.h
     llfloaterdestinations.h
+    llfloaterdirectory.h
     llfloaterdisplayname.h
     llfloatereditdaycycle.h
     llfloatereditsky.h
@@ -1031,6 +1041,7 @@ set(viewer_HEADER_FILES
     llpanelclassified.h
     llpanelcontents.h
     llpaneleditwearable.h
+    llpaneleventinfo.h
     llpanelface.h
     llpanelgenerictip.h
     llpanelgroup.h
@@ -1075,6 +1086,13 @@ set(viewer_HEADER_FILES
     llpanelprimmediacontrols.h
     llpanelprofile.h
     llpanelprofilelegacy.h
+    llpanelsearchbase.h
+    llpanelsearchclassifieds.h
+    llpanelsearchevents.h
+    llpanelsearchgroups.h
+    llpanelsearchlandsales.h
+    llpanelsearchpeople.h
+    llpanelsearchplaces.h
     llpanelsnapshot.h
     llpanelteleporthistory.h
     llpaneltiptoast.h

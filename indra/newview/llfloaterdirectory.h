@@ -38,8 +38,6 @@ class LLPanel;
 class LLScrollListCtrl;
 class LLTextBase;
 
-class LLRemoteParcelInfoObserver;
-
 static const size_t MIN_SEARCH_STRING_SIZE = 3;
 
 typedef enum {
@@ -108,7 +106,6 @@ private:
 	LLPanel* mDetailPeople;
 	LLScrollListCtrl* mResultList;
 	LLTextBase* mResultsStatus;
-	LLRemoteParcelInfoObserver* mRemoteParcelObserver;
 };
 
 #endif // LL_FLOATERDIRECTORY_H

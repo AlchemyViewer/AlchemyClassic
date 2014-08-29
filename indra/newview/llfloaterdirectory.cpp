@@ -63,7 +63,6 @@ LLFloaterDirectory::LLFloaterDirectory(const LLSD& key)
 ,	mResultList(NULL)
 ,	mCurrentQuery()
 ,	mCurrentResultType(SE_UNDEFINED)
-,	mRemoteParcelObserver(NULL)
 {
 	mCommitCallbackRegistrar.add("Search.Page", boost::bind(&LLFloaterDirectory::choosePage, this, _2));
 }

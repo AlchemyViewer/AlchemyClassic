@@ -460,6 +460,9 @@ void LLPanelProfileLegacy::onCommitRights()
 
 void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 {
+	if (!panel || !panel->getParent())
+		return;
+
 	// Hide currently visible panel.
 	mChildStack.push();
 	
@@ -695,7 +698,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 	LLSD selected_value = mPicksList->getSelectedValue();
 	if (selected_value.isUndefined()) return;
 	
-	LLPickItem* pick = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLPickItem* pick = dynamic_cast<LLPickItem*>(mPicksList->getSelectedItem());
 	if (!pick) return;
 	LLSD params;
 	params["pick_id"] = pick->getPickId();

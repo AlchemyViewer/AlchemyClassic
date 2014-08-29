@@ -108,6 +108,8 @@ protected:
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
+static LLPanelInjector<LLPanelClassifiedInfo> t_classified_info("panel_classified_info");
+
 LLPanelClassifiedInfo::LLPanelClassifiedInfo()
  : LLPanel()
  , mInfoLoaded(false)
@@ -196,7 +198,7 @@ void LLPanelClassifiedInfo::onOpen(const LLSD& key)
 	LLUUID avatar_id = key["classified_creator_id"];
 	if(avatar_id.isNull())
 	{
-		return;
+		//return;
 	}
 
 	if(getAvatarId().notNull())

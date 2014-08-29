@@ -136,7 +136,8 @@
    right="-4"
    bg_readonly_color="DkGray2"
    text_readonly_color="White"
-   word_wrap="true" />
+   word_wrap="true"
+   parse_urls="true" />
   <text
    font="SansSerifSmall"
    text_color="White_50"

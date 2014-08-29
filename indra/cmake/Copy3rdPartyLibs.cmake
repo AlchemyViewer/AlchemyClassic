@@ -57,12 +57,6 @@ if(WINDOWS)
         libhunspell.dll
         )
 
-    if (NOT MSVC12)
-      set(debug_files ${debug_files} libcollada14dom22-d.dll)
-      set(release_files ${release_files} libcollada14dom22.dll)
-	endif (NOT MSVC12)
-
-
     if(USE_TCMALLOC)
       set(debug_files ${debug_files} libtcmalloc_minimal-debug.dll)
       set(release_files ${release_files} libtcmalloc_minimal.dll)

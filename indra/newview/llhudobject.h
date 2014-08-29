@@ -118,6 +118,12 @@ protected:
 private:
 	typedef std::list<LLPointer<LLHUDObject> > hud_object_list_t;
 	static hud_object_list_t sHUDObjects;
+	// <Alchemy>
+public:
+	// Used to clean up the dirty viewer effect spam that can occur.
+	// This includes: LOOKAT, POINTAT, SPIRAL, POINT, EDIT, BEAM, SPHERE
+	static void markViewerEffectsDead();
+	// </Alchemy>
 };
 
 #endif // LL_LLHUDOBJECT_H

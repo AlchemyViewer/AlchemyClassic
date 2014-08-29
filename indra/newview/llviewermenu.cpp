@@ -3150,6 +3150,7 @@ class LLObjectMute : public view_listener_t
 	}
 };
 
+// <Alchemy>
 class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -3174,6 +3175,16 @@ class LLSyncAnimations : public view_listener_t
 		return true;
 	}
 };
+
+class ALMarkViewerEffectsDead : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLHUDObject::markViewerEffectsDead();
+		return true;
+	}
+};
+// </Alchemy>
 
 
 bool handle_go_to()
@@ -9112,6 +9123,8 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelected(), "EditableSelected");
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
-	
+	// <Alchemy>
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
+	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
+	// </Alchemy>
 }

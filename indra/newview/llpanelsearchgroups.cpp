@@ -85,7 +85,7 @@ void LLPanelSearchGroups::search()
 		LLNotificationsUtil::add("NoContentToSearch");
 		return;
 	}
-	bool adult_enabled = gAgent.canAccessAdult();
+
 	if (inc_pg)
 		query.scope |= DFQ_INC_PG;
 	if (inc_mature && gAgent.canAccessMature())

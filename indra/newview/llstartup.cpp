@@ -178,6 +178,7 @@
 #include "llappviewer.h"
 #include "llfasttimerview.h"
 #include "llfloatermap.h"
+#include "llfloaterdirectory.h"
 #include "llweb.h"
 #include "llvoiceclient.h"
 #include "llnamelistctrl.h"
@@ -2518,6 +2519,13 @@ void register_viewer_callbacks(LLMessageSystem* msg)
 	// Special handler as this message is sometimes used for group land.
 	msg->setHandlerFunc("PlacesReply", process_places_reply);
 	msg->setHandlerFunc("GroupNoticesListReply", LLPanelGroupNotices::processGroupNoticesListReply);
+	
+	msg->setHandlerFunc("DirPeopleReply", LLFloaterDirectory::processSearchPeopleReply);
+	msg->setHandlerFunc("DirGroupsReply", LLFloaterDirectory::processSearchGroupsReply);
+	msg->setHandlerFunc("DirPlacesReply", LLFloaterDirectory::processSearchPlacesReply);
+	msg->setHandlerFunc("DirEventsReply", LLFloaterDirectory::processSearchEventsReply);
+	msg->setHandlerFunc("DirLandReply",   LLFloaterDirectory::processSearchLandReply);
+	msg->setHandlerFunc("DirClassifiedReply",  LLFloaterDirectory::processSearchClassifiedsReply);
 
 	msg->setHandlerFunc("AvatarPickerReply", LLFloaterAvatarPicker::processAvatarPickerReply);
 

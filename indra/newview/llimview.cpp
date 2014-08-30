@@ -3469,7 +3469,7 @@ void LLIMMgr::processIMTypingCore(const LLIMInfo* im_info, BOOL typing)
 	{
 		im_floater->processIMTyping(im_info, typing);
 	}
-	else if (sNotifyIncomingMessage)
+	else if (typing && sNotifyIncomingMessage)
 	{
 		LLStringUtil::format_map_t args;
 		args["[NAME]"] = im_info->mName;

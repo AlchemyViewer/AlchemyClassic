@@ -29,6 +29,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 !include "x64.nsh"
 !include "LogicLib.nsh"
+!include 'StdUtils.nsh'
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Compiler flags
@@ -151,7 +152,7 @@ label_ask_launch:
         
 label_launch:
 	# Assumes SetOutPath $INSTDIR
-	Exec '"$INSTDIR\$INSTEXE" $SHORTCUT_LANG_PARAM'
+	${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$INSTEXE" "open" "$SHORTCUT_LANG_PARAM"
 label_no_launch:
 	Pop $R0
 FunctionEnd

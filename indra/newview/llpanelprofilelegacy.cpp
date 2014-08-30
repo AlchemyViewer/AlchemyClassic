@@ -461,9 +461,6 @@ void LLPanelProfileLegacy::onCommitRights()
 
 void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 {
-	if (!panel || !panel->getParent())
-		return;
-
 	// Hide currently visible panel.
 	mChildStack.push();
 	
@@ -702,20 +699,20 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 	if (selected_value.isUndefined()) return;
 	
 	LLPickItem* pick = dynamic_cast<LLPickItem*>(mPicksList->getSelectedItem());
-	if (!pick) return;
+	
+	if (!mPanelPickInfo)
+	{
+		mPanelPickInfo = LLPanelPickInfo::create();
+		mPanelPickInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelPickClose, this, mPanelPickInfo));
+		mPanelPickInfo->setVisible(FALSE);
+	}
+	
 	LLSD params;
 	params["pick_id"] = pick->getPickId();
 	params["avatar_id"] = pick->getCreatorId();
 	params["snapshot_id"] = pick->getSnapshotId();
 	params["pick_name"] = pick->getPickName();
 	params["pick_desc"] = pick->getPickDesc();
-	
-	if(!mPanelPickInfo)
-	{
-		mPanelPickInfo = LLPanelPickInfo::create();
-		mPanelPickInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelPickClose, this, mPanelPickInfo));
-		mPanelPickInfo->setVisible(FALSE);
-	}
 	
 	getProfilePanel()->openPanel(mPanelPickInfo, params);
 }
@@ -726,13 +723,6 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openClassifiedInfo()
 	if (selected_value.isUndefined()) return;
 	
 	LLClassifiedItem* c_item = getSelectedClassifiedItem();
-	LLSD params;
-	params["classified_id"] = c_item->getClassifiedId();
-	params["classified_creator_id"] = c_item->getAvatarId();
-	params["classified_snapshot_id"] = c_item->getSnapshotId();
-	params["classified_name"] = c_item->getClassifiedName();
-	params["classified_desc"] = c_item->getDescription();
-	params["from_search"] = false;
 	
 	if (!mPanelClassifiedInfo)
 	{
@@ -740,6 +730,14 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openClassifiedInfo()
 		mPanelClassifiedInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelClassifiedClose, this, mPanelClassifiedInfo));
 		mPanelClassifiedInfo->setVisible(FALSE);
 	}
+	
+	LLSD params;
+	params["classified_id"] = c_item->getClassifiedId();
+	params["classified_creator_id"] = c_item->getAvatarId();
+	params["classified_snapshot_id"] = c_item->getSnapshotId();
+	params["classified_name"] = c_item->getClassifiedName();
+	params["classified_desc"] = c_item->getDescription();
+	params["from_search"] = false;
 	
 	getProfilePanel()->openPanel(mPanelClassifiedInfo, params);
 }

@@ -4161,5 +4161,6 @@ Try enclosing path to the editor with double quotes.
   <!-- Alchemy string below this line-->
   <!-- Build Floater-->
   <string name="BuildMultiSelect">(multiple)</string>
+  <string name="NotifyIncomingMessage">Incoming message from [NAME]...</string>
   
   </strings>

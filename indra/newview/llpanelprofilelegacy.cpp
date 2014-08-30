@@ -70,9 +70,10 @@ static LLPanelInjector<LLPanelProfileLegacy::LLPanelProfilePicks> t_panel_picks(
 
 LLPanelProfileLegacy::LLPanelProfileLegacy()
 :	LLPanelProfileTab()
-,	mPanelGroups(NULL)
-,	mPanelPicks(NULL)
-,	mPickDetail(NULL)
+,	mActionMenu(nullptr)
+,	mPickDetail(nullptr)
+,	mPanelPicks(nullptr)
+,	mPanelGroups(nullptr)
 {
 	mChildStack.setParent(this);
 	mCommitCallbackRegistrar.add("Profile.CommitInterest", boost::bind(&LLPanelProfileLegacy::onCommitInterest, this));
@@ -98,12 +99,12 @@ BOOL LLPanelProfileLegacy::postBuild()
 	mPanelPicks = static_cast<LLPanelProfileLegacy::LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelPicks->setProfilePanel(this);
 	
-	childSetCommitCallback("back", boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this), NULL);
-	childSetCommitCallback("sl_about", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), NULL);
-	childSetCommitCallback("fl_about", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), NULL);
-	childSetCommitCallback("sl_profile_pic", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), NULL);
-	childSetCommitCallback("fl_profile_pic", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), NULL);
-	childSetCommitCallback("notes", boost::bind(&LLPanelProfileLegacy::onCommitNotes, this), NULL);
+	getChild<LLButton>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this), nullptr);
+	getChild<LLTextEditor>("sl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
+	getChild<LLTextEditor>("fl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
+	getChild<LLTextureCtrl>("sl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
+	getChild<LLTextureCtrl>("fl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
+	getChild<LLTextEditor>("notes")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitNotes, this), nullptr);
 	return TRUE;
 }
 
@@ -127,7 +128,7 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 		// *TODO: Actions, if any
 		return;
 	}
-	if (mPickDetail != NULL)
+	if (mPickDetail != nullptr)
 		closePanel(mPickDetail);
 	
 	setAvatarId(av_id);
@@ -163,7 +164,7 @@ void LLPanelProfileLegacy::resetControls()
 	button->setEnabled(getAvatarId() != gAgentID);
 	button = getChild<LLButton>("btn_friend");
 	button->setEnabled(getAvatarId() != gAgentID);
-	button->setLabel(getString((LLAvatarTracker::instance().getBuddyInfo(getAvatarId()) == NULL)
+	button->setLabel(getString((LLAvatarTracker::instance().getBuddyInfo(getAvatarId()) == nullptr)
 							   ? "add_friend" : "remove_friend"));
 	button = getChild<LLButton>("btn_block");
 	button->setEnabled(getAvatarId() != gAgentID);
@@ -320,7 +321,7 @@ void LLPanelProfileLegacy::onCommitAction(const LLSD& userdata)
 	const std::string action = userdata.asString();
 	if (action == "friend")
 	{
-		if (LLAvatarTracker::instance().getBuddyInfo(getAvatarId()) == NULL)
+		if (LLAvatarTracker::instance().getBuddyInfo(getAvatarId()) == nullptr)
 			LLAvatarActions::requestFriendshipDialog(getAvatarId());
 		else
 			LLAvatarActions::removeFriendDialog(getAvatarId());
@@ -460,7 +461,7 @@ void LLPanelProfileLegacy::onCommitRights()
 
 void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 {
-	if (!panel)
+	if (!panel || !panel->getParent())
 		return;
 
 	// Hide currently visible panel.
@@ -509,18 +510,20 @@ void LLPanelProfileLegacy::closePanel(LLPanel* panel)
 			LL_WARNS() << "No underlying panel to focus." << LL_ENDL;
 		}
 	}
-	mPickDetail = NULL;
+	mPickDetail = nullptr;
 }
 
 // LLPanelProfilePicks //
 
 LLPanelProfileLegacy::LLPanelProfilePicks::LLPanelProfilePicks()
-:	LLPanelProfileTab()
-,	mProfilePanel(NULL)
-,	mPicksList(NULL)
-,	mClassifiedsList(NULL)
+	: LLPanelProfileTab(),
+	mProfilePanel(nullptr),
+	mClassifiedsList(nullptr),
+	mPicksList(nullptr),
+	mPanelPickInfo(nullptr),
+	mPanelClassifiedInfo(nullptr)
 {
-	
+
 }
 
 BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
@@ -617,7 +620,7 @@ LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(
 	// HACK - find item by classified id.  Should be a better way.
 	std::vector<LLPanel*> items;
 	mClassifiedsList->getItems(items);
-	LLClassifiedItem* c_item = NULL;
+	LLClassifiedItem* c_item = nullptr;
 	for(LLPanel* it: items)
 	{
 		LLClassifiedItem *test_item = dynamic_cast<LLClassifiedItem*>(it);
@@ -698,7 +701,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 	LLSD selected_value = mPicksList->getSelectedValue();
 	if (selected_value.isUndefined()) return;
 	
-	LLPickItem* pick = static_cast<LLPickItem*>(mPicksList->getSelectedItem());
+	LLPickItem* pick = dynamic_cast<LLPickItem*>(mPicksList->getSelectedItem());
 	if (!pick) return;
 	LLSD params;
 	params["pick_id"] = pick->getPickId();
@@ -744,7 +747,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openClassifiedInfo()
 LLClassifiedItem* LLPanelProfileLegacy::LLPanelProfilePicks::getSelectedClassifiedItem()
 {
 	LLPanel* selected_item = mClassifiedsList->getSelectedItem();
-	if (!selected_item) return NULL;
+	if (!selected_item) return nullptr;
 	
 	return dynamic_cast<LLClassifiedItem*>(selected_item);
 }
@@ -787,7 +790,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::setProfilePanel(LLPanelProfileLe
 
 inline LLPanelProfileLegacy* LLPanelProfileLegacy::LLPanelProfilePicks::getProfilePanel()
 {
-	llassert_always(NULL != mProfilePanel);
+	llassert_always(mProfilePanel != nullptr);
 	return mProfilePanel;
 }
 
@@ -795,8 +798,8 @@ inline LLPanelProfileLegacy* LLPanelProfileLegacy::LLPanelProfilePicks::getProfi
 
 LLPanelProfileLegacy::LLPanelProfileGroups::LLPanelProfileGroups()
 :	LLPanelProfileTab()
-,	mGroupsList(NULL)
-,	mGroupsText(NULL)
+,	mGroupsText(nullptr)
+,	mGroupsList(nullptr)
 {
 	
 }
@@ -935,7 +938,7 @@ void LLProfileGroupItem::changed(LLGroupChange gc)
 // ChildStack //
 
 LLPanelProfileLegacy::ChildStack::ChildStack()
-:	mParent(NULL)
+:	mParent(nullptr)
 {
 }
 
@@ -944,9 +947,8 @@ LLPanelProfileLegacy::ChildStack::~ChildStack()
 	while (mStack.size() != 0)
 	{
 		view_list_t& top = mStack.back();
-		for (view_list_t::const_iterator it = top.begin(); it != top.end(); ++it)
+		for (auto viewp : top)
 		{
-			LLView* viewp = *it;
 			if (viewp)
 			{
 				viewp->die();
@@ -958,7 +960,7 @@ LLPanelProfileLegacy::ChildStack::~ChildStack()
 
 void LLPanelProfileLegacy::ChildStack::setParent(LLPanel* parent)
 {
-	llassert_always(parent != NULL);
+	llassert_always(parent != nullptr);
 	mParent = parent;
 }
 
@@ -967,9 +969,8 @@ bool LLPanelProfileLegacy::ChildStack::push()
 {
 	view_list_t vlist = *mParent->getChildList();
 	
-	for (view_list_t::const_iterator it = vlist.begin(); it != vlist.end(); ++it)
+	for (auto viewp : vlist)
 	{
-		LLView* viewp = *it;
 		mParent->removeChild(viewp);
 	}
 	
@@ -989,9 +990,8 @@ bool LLPanelProfileLegacy::ChildStack::pop()
 	}
 	
 	view_list_t& top = mStack.back();
-	for (view_list_t::const_iterator it = top.begin(); it != top.end(); ++it)
+	for (auto viewp : top)
 	{
-		LLView* viewp = *it;
 		mParent->addChild(viewp);
 	}
 	
@@ -1016,12 +1016,10 @@ void LLPanelProfileLegacy::ChildStack::postParentReshape()
 	mStack = mSavedStack;
 	mSavedStack = stack_t();
 	
-	for (stack_t::const_iterator stack_it = mStack.begin(); stack_it != mStack.end(); ++stack_it)
+	for (const auto& vlist : mStack)
 	{
-		const view_list_t& vlist = (*stack_it);
-		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
+		for (auto viewp : vlist)
 		{
-			LLView* viewp = *list_it;
 			LL_DEBUGS() << "removing " << viewp->getName() << LL_ENDL;
 			mParent->removeChild(viewp);
 		}
@@ -1032,14 +1030,14 @@ void LLPanelProfileLegacy::ChildStack::dump()
 {
 	unsigned lvl = 0;
 	LL_DEBUGS() << "child stack dump:" << LL_ENDL;
-	for (stack_t::const_iterator stack_it = mStack.begin(); stack_it != mStack.end(); ++stack_it, ++lvl)
+	for (const auto& vlist : mStack)
 	{
+		++lvl;
 		std::ostringstream dbg_line;
 		dbg_line << "lvl #" << lvl << ":";
-		const view_list_t& vlist = (*stack_it);
-		for (view_list_t::const_iterator list_it = vlist.begin(); list_it != vlist.end(); ++list_it)
+		for (const auto& list_it : vlist)
 		{
-			dbg_line << " " << (*list_it)->getName();
+			dbg_line << " " << list_it->getName();
 		}
 		LL_DEBUGS() << dbg_line.str() << LL_ENDL;
 	}

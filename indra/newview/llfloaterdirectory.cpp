@@ -1093,7 +1093,7 @@ void LLFloaterDirectory::processSearchEventsReply(LLMessageSystem* msg, void**)
 	for (S32 i = 0; i < num_new_rows; ++i)
 	{
 		U32 event_id;
-		U32 unix_time;
+		//U32 unix_time;
 		U32 event_flags;
 		
 		msg->getUUID(	"QueryReplies",	"OwnerID",		owner_id,	i);

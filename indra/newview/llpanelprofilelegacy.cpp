@@ -40,6 +40,7 @@
 #include "llfloaterreg.h"
 #include "lllineeditor.h"
 #include "llloadingindicator.h"
+#include "llnotificationsutil.h"
 #include "lltexteditor.h"
 #include "lltexturectrl.h"
 #include "lltrans.h"
@@ -79,6 +80,7 @@ LLPanelProfileLegacy::LLPanelProfileLegacy()
 	mCommitCallbackRegistrar.add("Profile.CommitInterest", boost::bind(&LLPanelProfileLegacy::onCommitInterest, this));
 	mCommitCallbackRegistrar.add("Profile.CommitProperties", boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
 	mCommitCallbackRegistrar.add("Profile.CommitRights", boost::bind(&LLPanelProfileLegacy::onCommitRights, this));
+	mCommitCallbackRegistrar.add("Profile.CommitModifyObjectRights", boost::bind(&LLPanelProfileLegacy::onCommitModifyObjectsRights, this, _1));
 	mCommitCallbackRegistrar.add("Profile.CopyData", boost::bind(&LLPanelProfileLegacy::copyData, this, _2));
 	mCommitCallbackRegistrar.add("Profile.Action", boost::bind(&LLPanelProfileLegacy::onCommitAction, this, _2));
 	mEnableCallbackRegistrar.add("Profile.Enable", boost::bind(&LLPanelProfileLegacy::isActionEnabled, this, _2));
@@ -443,6 +445,34 @@ void LLPanelProfileLegacy::onBackBtnClick()
 	{
 		parent->openPreviousPanel();
 	}
+}
+
+void LLPanelProfileLegacy::onCommitModifyObjectsRights(LLUICtrl* ctrl)
+{
+	if (ctrl->getValue().asBoolean()) // We want to confirm that the user really wants to grant object rights
+	{
+		LLNotificationsUtil::add("ConfirmGrantModifyRights",
+								 LLSD().with("AGENT", LLSLURL("agent", getAvatarId(), "inspect").getSLURLString()),
+								 LLSD(),
+								 boost::bind(&LLPanelProfileLegacy::handleConfirmModifyRightsCallback, this, _1, _2));
+	}
+	else // No confirmation needed on removing rights
+	{
+		onCommitRights();
+	}
+}
+
+bool LLPanelProfileLegacy::handleConfirmModifyRightsCallback(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (option == 0)
+	{
+		onCommitRights();
+		return true;
+	}
+	// Make sure to flip the checkbox back off
+	findChild<LLCheckBoxCtrl>("allow_object_perms")->setValue(false);
+	return false;
 }
 
 void LLPanelProfileLegacy::onCommitRights()

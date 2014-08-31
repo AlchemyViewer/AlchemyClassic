@@ -70,9 +70,11 @@ private:
 	void onCommitNotes();
 	void onCommitRights();
 	void onBackBtnClick();
+	void onCommitModifyObjectsRights(LLUICtrl* ctrl);
 	void onCommitAction(const LLSD& userdata);
 	void copyData(const LLSD& userdata);
 	bool isActionEnabled(const LLSD& userdata);
+	bool handleConfirmModifyRightsCallback(const LLSD& notification, const LLSD& response);
 	
 	LLToggleableMenu* mActionMenu;
 	boost::signals2::connection mAvatarNameCacheConnection;

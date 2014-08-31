@@ -10397,6 +10397,20 @@ the region &quot;[REGION]&quot;?
        text="Cancel"/>
     </form>
   </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ConfirmGrantModifyRights"
+   type="alertmodal">
+    Granting modify rights would allow [AGENT] to modify, delete, or take any or all objects you have placed inworld.
+    Are you sure you want to grant modify rights?
+    <tag>confirm</tag>
+    <usetemplate
+     name="okcancelbuttons"
+     notext="No"
+     yestext="Yes"/>
+  </notification>
+
   <notification
     icon="alertmodal.tga"
     name="RevokedMapRights"

@@ -10356,6 +10356,14 @@ Cannot create large prims that intersect other players.  Please re-try when othe
   </notification>
 
   <notification
+   icon="notify.tga"
+   name="DumpArchetypeSuccess"
+   type="notify">
+    Successfully saved appearance to [FILE_PATH].
+  </notification>
+
+
+  <notification
    icon="alert.tga"
    name="RegionTrackerAdd"
    type="alert">

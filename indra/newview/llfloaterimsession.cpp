@@ -269,16 +269,40 @@ void LLFloaterIMSession::sendMsgFromInputEditor()
 
 void LLFloaterIMSession::sendMsg(const std::string& msg)
 {
-	const std::string utf8_text = utf8str_truncate(msg, MAX_MSG_BUF_SIZE - 1);
-
-	if (mSessionInitialized)
+	if (msg.size() > 1023)
 	{
-		LLIMModel::sendMessage(utf8_text, mSessionID, mOtherParticipantUUID, mDialog);
+		for (size_t text_pos = 0; text_pos < msg.length();)
+		{
+			size_t word_pos = msg.find_last_of(" ", text_pos + 1023U);
+			std::string temp_str = msg.substr(text_pos, (word_pos != std::string::npos) ? word_pos : 1023U);
+			text_pos += temp_str.size();
+			if (temp_str.front() == ' ')
+			{
+				temp_str.erase(temp_str.front());
+			}
+
+			if (mSessionInitialized)
+			{
+				LLIMModel::sendMessage(temp_str, mSessionID, mOtherParticipantUUID, mDialog);
+			}
+			else
+			{
+				//queue up the message to send once the session is initialized
+				mQueuedMsgsForInit.append(temp_str);
+			}
+		}
 	}
 	else
 	{
-		//queue up the message to send once the session is initialized
-		mQueuedMsgsForInit.append(utf8_text);
+		if (mSessionInitialized)
+		{
+			LLIMModel::sendMessage(msg, mSessionID, mOtherParticipantUUID, mDialog);
+		}
+		else
+		{
+			//queue up the message to send once the session is initialized
+			mQueuedMsgsForInit.append(msg);
+		}
 	}
 
 	updateMessages();
@@ -347,7 +371,6 @@ BOOL LLFloaterIMSession::postBuild()
 {
 	BOOL result = LLFloaterIMSessionTab::postBuild();
 
-	mInputEditor->setMaxTextLength(1023);
 	mInputEditor->setAutoreplaceCallback(boost::bind(&LLAutoReplace::autoreplaceCallback, LLAutoReplace::getInstance(), _1, _2, _3, _4, _5));
 	mInputEditor->setFocusReceivedCallback( boost::bind(onInputEditorFocusReceived, _1, this) );
 	mInputEditor->setFocusLostCallback( boost::bind(onInputEditorFocusLost, _1, this) );

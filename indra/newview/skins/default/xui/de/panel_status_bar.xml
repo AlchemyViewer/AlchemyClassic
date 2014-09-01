@@ -9,16 +9,18 @@
 	<panel.string name="time">
 		[hour12, datetime, slt]:[min, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]
 	</panel.string>
+	<panel.string name="timePrecise">
+		[hour12, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]
+	</panel.string>
 	<panel.string name="timeTooltip">
 		[weekday, datetime, slt], [day, datetime, slt] [month, datetime, slt] [year, datetime, slt]
 	</panel.string>
 	<panel.string name="buycurrencylabel">
 		[AMT] L$
 	</panel.string>
-	<panel left="-415" name="balance_bg" width="205">
-		<text name="balance" tool_tip="Klicken, um L$-Guthaben zu aktualisieren" value="20 L$"/>
-		<button label="L$ kaufen" name="buyL" tool_tip="Hier klicken, um mehr L$ zu kaufen"/>
-		<button label="Einkaufen" name="goShop" tool_tip="Second Life-Marktplatz öffnen" width="85"/>
+	<panel left="-357" name="balance_bg" width="95">
+		<text name="balance" tool_tip="Klicken, um L$-Guthaben zu aktualisieren" value="-- L$"/>
+		<button width="75" label="L$ kaufen" name="buyL" tool_tip="Hier klicken, um mehr L$ zu kaufen"/>
 	</panel>
 	<text name="TimeText" tool_tip="Aktuelle Zeit (Pazifik)">
 		24:00 H PST

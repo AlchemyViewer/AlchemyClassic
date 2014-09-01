@@ -61,7 +61,8 @@ void launchApplication(const std::string* app_name, const std::vector<std::strin
 		[task setLaunchPath:[bundle executablePath]];
 	}
 	@catch (NSException *theException) {
-		NSLog(@"Caught a %@ exception", theException);
+		NSLog(@"Caught a %@ exception, bailing.", theException);
+		[pool release];
 		return;
 	}
     [task setArguments:args_ns];

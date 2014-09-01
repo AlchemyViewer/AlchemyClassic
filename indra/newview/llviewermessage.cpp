@@ -3284,7 +3284,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		{
 			LLSD payload;
 			payload["from_id"] = from_id;
-			payload["session_id"] = session_id;;
+			payload["session_id"] = session_id;
 			payload["online"] = (offline == IM_ONLINE);
 			payload["sender"] = msg->getSender().getIPandPort();
 

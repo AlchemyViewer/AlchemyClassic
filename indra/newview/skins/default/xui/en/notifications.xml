@@ -10356,6 +10356,28 @@ Cannot create large prims that intersect other players.  Please re-try when othe
   </notification>
 
   <notification
+   icon="notify.tga"
+   name="DumpArchetypeSuccess"
+   type="notify">
+    Successfully saved appearance to [FILE_PATH].
+  </notification>
+
+  <notification
+   icon="notifytip.tga"
+   name="ShapeImportGenericFail"
+   type="notifytip">
+    <tag>fail</tag>
+    There was a problem importing [FILENAME]. Please see the log for more details.
+  </notification>
+  <notification
+   icon="notifytip.tga"
+   name="ShapeImportVersionFail"
+   type="notifytip">
+    <tag>fail</tag>
+    Shape import failed. Are you sure [FILENAME] is an avatar genepool file?
+  </notification>
+
+  <notification
    icon="alert.tga"
    name="RegionTrackerAdd"
    type="alert">
@@ -10375,6 +10397,20 @@ the region &quot;[REGION]&quot;?
        text="Cancel"/>
     </form>
   </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ConfirmGrantModifyRights"
+   type="alertmodal">
+    Granting modify rights would allow [AGENT] to modify, delete, or take any or all objects you have placed inworld.
+    Are you sure you want to grant modify rights?
+    <tag>confirm</tag>
+    <usetemplate
+     name="okcancelbuttons"
+     notext="No"
+     yestext="Yes"/>
+  </notification>
+
   <notification
     icon="alertmodal.tga"
     name="RevokedMapRights"

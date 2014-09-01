@@ -57,7 +57,14 @@ void launchApplication(const std::string* app_name, const std::vector<std::strin
 
     NSTask *task = [[NSTask alloc] init];
     NSBundle *bundle = [NSBundle bundleWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:app_name_ns]];
-    [task setLaunchPath:[bundle executablePath]];
+	@try {
+		[task setLaunchPath:[bundle executablePath]];
+	}
+	@catch (NSException *theException) {
+		NSLog(@"Caught a %@ exception, bailing.", theException);
+		[pool release];
+		return;
+	}
     [task setArguments:args_ns];
     [task launch];
     

@@ -644,7 +644,7 @@ void LLIMModel::LLIMSession::sessionInitReplyReceived(const LLUUID& new_session_
 	}
 }
 
-void LLIMModel::LLIMSession::addMessage(const std::string& from, const LLUUID& from_id, const std::string& utf8_text, const std::string& time, const bool is_history)
+void LLIMModel::LLIMSession::addMessage(const std::string& from, const LLUUID& from_id, const std::string& utf8_text, const std::string& time, const bool is_history, const LLSD& bonus)
 {
 	LLSD message;
 	message["from"] = from;
@@ -653,6 +653,7 @@ void LLIMModel::LLIMSession::addMessage(const std::string& from, const LLUUID& f
 	message["time"] = time; 
 	message["index"] = (LLSD::Integer)mMsgs.size(); 
 	message["is_history"] = is_history;
+	message["is_announcement"] = bonus.has("announcement");
 
 	mMsgs.push_front(message); 
 
@@ -1009,7 +1010,7 @@ void LLIMModel::sendNoUnreadMessages(const LLUUID& session_id)
 	mNoUnreadMsgsSignal(arg);
 }
 
-bool LLIMModel::addToHistory(const LLUUID& session_id, const std::string& from, const LLUUID& from_id, const std::string& utf8_text) {
+bool LLIMModel::addToHistory(const LLUUID& session_id, const std::string& from, const LLUUID& from_id, const std::string& utf8_text, const LLSD& bonus) {
 	
 	LLIMSession* session = findIMSession(session_id);
 
@@ -1019,7 +1020,7 @@ bool LLIMModel::addToHistory(const LLUUID& session_id, const std::string& from, 
 		return false;
 	}
 
-	session->addMessage(from, from_id, utf8_text, LLLogChat::timestamp(false)); //might want to add date separately
+	session->addMessage(from, from_id, utf8_text, LLLogChat::timestamp(false), bonus); //might want to add date separately
 
 	return true;
 }
@@ -1057,9 +1058,9 @@ bool LLIMModel::proccessOnlineOfflineNotification(
 }
 
 bool LLIMModel::addMessage(const LLUUID& session_id, const std::string& from, const LLUUID& from_id, 
-						   const std::string& utf8_text, bool log2file /* = true */) { 
-
-	LLIMSession* session = addMessageSilently(session_id, from, from_id, utf8_text, log2file);
+						   const std::string& utf8_text, bool log2file /* = true */, const LLSD& bonus)
+{
+	LLIMSession* session = addMessageSilently(session_id, from, from_id, utf8_text, log2file, bonus);
 	if (!session) return false;
 
 	//good place to add some1 to recent list
@@ -1084,7 +1085,7 @@ bool LLIMModel::addMessage(const LLUUID& session_id, const std::string& from, co
 }
 
 LLIMModel::LLIMSession* LLIMModel::addMessageSilently(const LLUUID& session_id, const std::string& from, const LLUUID& from_id, 
-													 const std::string& utf8_text, bool log2file /* = true */)
+													 const std::string& utf8_text, bool log2file /* = true */, const LLSD& bonus)
 {
 	LLIMSession* session = findIMSession(session_id);
 
@@ -1101,7 +1102,7 @@ LLIMModel::LLIMSession* LLIMModel::addMessageSilently(const LLUUID& session_id, 
 		from_name = SYSTEM_FROM;
 	}
 
-	addToHistory(session_id, from_name, from_id, utf8_text);
+	addToHistory(session_id, from_name, from_id, utf8_text, bonus);
 	if (log2file)
 	{
 		logToFile(getHistoryFileName(session_id), from_name, from_id, utf8_text);
@@ -2677,7 +2678,8 @@ void LLIMMgr::addMessage(
 	U32 parent_estate_id,
 	const LLUUID& region_id,
 	const LLVector3& position,
-	bool link_name) // If this is true, then we insert the name and link it to a profile
+	bool link_name, // If this is true, then we insert the name and link it to a profile
+	const LLSD& bonus)
 {
 	LLUUID other_participant_id = target_id;
 
@@ -3460,11 +3462,32 @@ void LLIMMgr::processIMTypingStop(const LLIMInfo* im_info)
 
 void LLIMMgr::processIMTypingCore(const LLIMInfo* im_info, BOOL typing)
 {
+	static LLCachedControl<bool> sNotifyIncomingMessage(gSavedSettings, "AlchemyNotifyIncomingMessage");
 	LLUUID session_id = computeSessionID(im_info->mIMType, im_info->mFromID);
 	LLFloaterIMSession* im_floater = LLFloaterIMSession::findInstance(session_id);
 	if ( im_floater )
 	{
 		im_floater->processIMTyping(im_info, typing);
+	}
+	else if (typing && sNotifyIncomingMessage)
+	{
+		LLStringUtil::format_map_t args;
+		args["[NAME]"] = im_info->mName;
+		const std::string notify_str = LLTrans::getString("NotifyIncomingMessage", args);
+		gIMMgr->addMessage(session_id,
+						   im_info->mFromID,
+						   LLStringUtil::null,
+						   notify_str,
+						   false,
+						   LLStringUtil::null,
+						   IM_NOTHING_SPECIAL,
+						   im_info->mParentEstateID,
+						   im_info->mRegionID,
+						   im_info->mPosition,
+						   false,
+						   LLSD().with("announcement", true)
+						   );
+
 	}
 }
 

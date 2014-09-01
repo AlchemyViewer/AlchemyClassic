@@ -48,11 +48,21 @@
     <check_box
         follows="left|top"
         height="16"
+        label="Announce incoming instant messages"
+        tool_tip="Notifies you of incoming messages by monitoring typing start messages"
+        left_delta="0"
+        top_pad="5"
+        name="announce_im_toggle"
+        width="275"
+        control_name="AlchemyNotifyIncomingMessage"/>
+    <check_box
+        follows="left|top"
+        height="16"
         label="Don&apos;t send typing notification in IM"
         tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
         left_delta="0"
         top_pad="5"
-        name="chat_cmd_toggle"
+        name="typing_notifications_toggle"
         width="275"
         control_name="AlchemyIMHideTyping"/>
     <check_box
@@ -72,7 +82,7 @@
         tool_tip="Enables shouting with the Ctrl+Enter key combination."
         left_delta="0"
         top_pad="5"
-        name="chat_cmd_toggle"
+        name="close_chat_on_return_toggle"
         width="275"
         control_name="AlchemyEnableKeyboardShout"/>
     <check_box
@@ -82,7 +92,7 @@
         tool_tip="Enables whispering with the Shift+Enter key combination."
         left_delta="0"
         top_pad="5"
-        name="chat_cmd_toggle"
+        name="shift_whisper_toggle"
         width="275"
         control_name="AlchemyEnableKeyboardWhisper"/>
     <check_box

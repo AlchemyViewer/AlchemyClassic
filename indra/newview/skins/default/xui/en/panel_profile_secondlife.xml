@@ -198,7 +198,7 @@ Allow this avatar to:
    name="allow_object_perms"
    width="150">
     <check_box.commit_callback
-     function="Profile.CommitRights" />
+     function="Profile.CommitModifyObjectRights" />
   </check_box>
   <line_editor
    top="105"

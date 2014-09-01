@@ -203,6 +203,7 @@ public:
 	void setNearbyDistances();
 	void reSelectConversation();
 	void updateSpeakBtnState();
+	void updateTypingState(const LLUUID& session_id, bool typing);
 	static bool isConversationLoggingAllowed();
 	void flashConversationItemWidget(const LLUUID& session_id, bool is_flashes);
 	void highlightConversationItemWidget(const LLUUID& session_id, bool is_highlighted);

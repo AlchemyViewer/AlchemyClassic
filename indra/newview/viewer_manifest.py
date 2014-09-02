@@ -52,7 +52,7 @@ class ViewerManifest(LLManifest):
         # files during the build (see copy_w_viewer_manifest
         # and copy_l_viewer_manifest targets)
         return 'package' in self.args['actions']
-    
+
     def construct(self):
         super(ViewerManifest, self).construct()
         self.exclude("*.svn*")
@@ -100,7 +100,7 @@ class ViewerManifest(LLManifest):
 
                 # ... and the entire image filters directory
                 self.path("filters")
-            
+
                 # ... and the included spell checking dictionaries
                 pkgdir = os.path.join(self.args['build'], os.pardir, 'packages')
                 if self.prefix(src=pkgdir,dst=""):
@@ -161,37 +161,37 @@ class ViewerManifest(LLManifest):
 
             # skins
             if self.prefix(src="skins"):
-                    # include the entire textures directory recursively
-                    if self.prefix(src="*/textures"):
-                            self.path("*/*.tga")
-                            self.path("*/*.j2c")
-                            self.path("*/*.jpg")
-                            self.path("*/*.png")
-                            self.path("*.tga")
-                            self.path("*.j2c")
-                            self.path("*.jpg")
-                            self.path("*.png")
-                            self.path("textures.xml")
-                            self.end_prefix("*/textures")
-                    self.path("*/xui/*/*.xml")
-                    self.path("*/xui/*/widgets/*.xml")
-                    self.path("*/*.xml")
-                    self.path("*/*.ini")
+                # include the entire textures directory recursively
+                if self.prefix(src="*/textures"):
+                    self.path("*/*.tga")
+                    self.path("*/*.j2c")
+                    self.path("*/*.jpg")
+                    self.path("*/*.png")
+                    self.path("*.tga")
+                    self.path("*.j2c")
+                    self.path("*.jpg")
+                    self.path("*.png")
+                    self.path("textures.xml")
+                    self.end_prefix("*/textures")
+                self.path("*/xui/*/*.xml")
+                self.path("*/xui/*/widgets/*.xml")
+                self.path("*/*.xml")
+                self.path("*/*.ini")
 
-                    # Local HTML files (e.g. loading screen)
-                    # The claim is that we never use local html files any
-                    # longer. But rather than commenting out this block, let's
-                    # rename every html subdirectory as html.old. That way, if
-                    # we're wrong, a user actually does have the relevant
-                    # files; s/he just needs to rename every html.old
-                    # directory back to html to recover them.
-                    if self.prefix(src="*/html", dst="*/html.old"):
-                            self.path("*.png")
-                            self.path("*/*/*.html")
-                            self.path("*/*/*.gif")
-                            self.end_prefix("*/html")
+                # Local HTML files (e.g. loading screen)
+                # The claim is that we never use local html files any
+                # longer. But rather than commenting out this block, let's
+                # rename every html subdirectory as html.old. That way, if
+                # we're wrong, a user actually does have the relevant
+                # files; s/he just needs to rename every html.old
+                # directory back to html to recover them.
+                if self.prefix(src="*/html", dst="*/html.old"):
+                    self.path("*.png")
+                    self.path("*/*/*.html")
+                    self.path("*/*/*.gif")
+                    self.end_prefix("*/html")
 
-                    self.end_prefix("skins")
+                self.end_prefix("skins")
 
             # local_assets dir (for pre-cached textures)
             if self.prefix(src="local_assets"):
@@ -270,7 +270,7 @@ class ViewerManifest(LLManifest):
 
     def app_name_oneword(self):
         return ''.join(self.app_name().split())
-    
+
     def icon_path(self):
         return "icons/" + self.channel_type()
 
@@ -299,8 +299,8 @@ class ViewerManifest(LLManifest):
 
 class WindowsManifest(ViewerManifest):
     def is_win64(self):
-         return self.args.get('arch') == "x86_64"
- 
+        return self.args.get('arch') == "x86_64"
+
     def final_exe(self):
         return self.app_name_oneword()+".exe"
 
@@ -343,13 +343,13 @@ class WindowsManifest(ViewerManifest):
                     pass
                 except NoMatchingAssemblyException, err:
                     pass
-                    
+
                 self.ccopy(src,dst)
             else:
                 raise Exception("Directories are not supported by test_CRT_and_copy_action()")
         else:
             print "Doesn't exist:", src
-        
+
     def construct(self):
         super(WindowsManifest, self).construct()
 
@@ -361,7 +361,7 @@ class WindowsManifest(ViewerManifest):
         self.path2basename(os.path.join(os.pardir,
                                         'llplugin', 'slplugin', self.args['configuration']),
                            "slplugin.exe")
-        
+
         self.path2basename("../viewer_components/updater/scripts/windows", "update_install.bat")
         # Get shared libs from the shared libs staging directory
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
@@ -373,7 +373,7 @@ class WindowsManifest(ViewerManifest):
                 self.path('libapr-1.dll')
                 self.path('libaprutil-1.dll')
                 self.path('libapriconv-1.dll')
-                
+
             except RuntimeError, err:
                 print err.message
                 print "Skipping llcommon.dll (assuming llcommon was linked statically)"
@@ -384,7 +384,7 @@ class WindowsManifest(ViewerManifest):
                     self.path("libcollada14dom22-d.dll")
                 else:
                     self.path("libcollada14dom22.dll")
-                    
+
                 self.path("glod.dll")
             except RuntimeError, err:
                 print err.message
@@ -415,11 +415,11 @@ class WindowsManifest(ViewerManifest):
             # These need to be installed as a SxS assembly, currently a 'private' assembly.
             # See http://msdn.microsoft.com/en-us/library/ms235291(VS.80).aspx
             if self.args['configuration'].lower() == 'debug':
-                 self.path("msvcr*d.dll")
-                 self.path("msvcp*d.dll")
+                self.path("msvcr*d.dll")
+                self.path("msvcp*d.dll")
             else:
-                 self.path("msvcr*.dll")
-                 self.path("msvcp*.dll")
+                self.path("msvcr*.dll")
+                self.path("msvcp*.dll")
 
             # Vivox runtimes
             self.path("SLVoice.exe")
@@ -430,7 +430,7 @@ class WindowsManifest(ViewerManifest):
             self.path("vivoxplatform.dll")
             self.path("vivoxoal.dll")
             self.path("ca-bundle.crt")
-            
+
             # Security
             self.path("ssleay32.dll")
             self.path("libeay32.dll")
@@ -549,7 +549,7 @@ class WindowsManifest(ViewerManifest):
                   dst="win_crash_logger.exe")
 
         if not self.is_packaging_viewer():
-            self.package_file = "copied_deps"    
+            self.package_file = "copied_deps"
 
     def nsi_file_commands(self, install=True):
         def wpath(path):
@@ -609,14 +609,14 @@ class WindowsManifest(ViewerManifest):
 
         installer_file = self.installer_base_name() + '_Setup.exe'
         substitution_strings['installer_file'] = installer_file
-        
+
         version_vars = """
         !define INSTEXE  "%(final_exe)s"
         !define VERSION "%(version_short)s"
         !define VERSION_LONG "%(version)s"
         !define VERSION_DASHES "%(version_dashes)s"
         """ % substitution_strings
-        
+
         if self.channel_type() == 'release':
             substitution_strings['caption'] = CHANNEL_VENDOR_BASE
         else:
@@ -779,7 +779,7 @@ class DarwinManifest(ViewerManifest):
                     self.end_prefix(icon_path)
 
                 self.path("Alchemy.nib")
-                
+
                 # Translations
                 self.path("English.lproj/language.txt")
                 self.replace_in(src="English.lproj/InfoPlist.strings",
@@ -850,7 +850,7 @@ class DarwinManifest(ViewerManifest):
                                 'ca-bundle.crt',
                                 'SLVoice',
                                 ):
-                     self.path2basename(libdir, libfile)
+                    self.path2basename(libdir, libfile)
 
                 # dylibs that vary based on configuration
                 if self.args['configuration'].lower() == 'debug':
@@ -865,7 +865,7 @@ class DarwinManifest(ViewerManifest):
                                 ):
                         dylibs += path_optional(os.path.join("../packages/lib/release",
                                                              libfile), libfile)
-                
+
                 # our apps
                 for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
                                          # plugin launcher
@@ -928,7 +928,7 @@ class DarwinManifest(ViewerManifest):
         # annotated backtraces (i.e. function names in the crash log).  'strip' with no
         # arguments yields a slightly smaller binary but makes crash logs mostly useless.
         # This may be desirable for the final release.  Or not.
-        if ("package" in self.args['actions'] or 
+        if ("package" in self.args['actions'] or
             "unpacked" in self.args['actions']):
             self.run_command('strip -S %(viewer_binary)r' %
                              { 'viewer_binary' : self.dst_path_of('Contents/MacOS/Alchemy')})
@@ -1066,7 +1066,7 @@ class DarwinManifest(ViewerManifest):
             # Set the disk image root's custom icon bit
             self.run_command('SetFile -a C %r' % volpath)
         finally:
-            # Unmount the image even if exceptions from any of the above 
+            # Unmount the image even if exceptions from any of the above
             self.run_command('hdiutil detach -force %r' % devfile)
 
         print "Converting temp disk image to final disk image"

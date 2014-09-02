@@ -83,6 +83,7 @@ public:
 	LLConversationViewParticipant* findParticipant(const LLUUID& participant_id);
 
 	void showVoiceIndicator(bool visible);
+	void showTypingIndicator(bool visible);
 
 	virtual void refresh();
 
@@ -99,6 +100,7 @@ private:
 
 	LLPanel*				mItemPanel;
 	LLPanel*				mCallIconLayoutPanel;
+	LLPanel*				mTypingIconLayoutPanel;
 	LLTextBox*				mSessionTitle;
 	LLOutputMonitorCtrl*	mSpeakingIndicator;
 	LLFlashTimer*			mFlashTimer;

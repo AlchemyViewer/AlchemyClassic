@@ -3,14 +3,12 @@
 include(Variables)
 
 if (WINDOWS)
-  if (WORD_SIZE EQUAL 32)
-    set (DIRECTX_ARCHITECTURE x86)
-  elseif (WORD_SIZE EQUAL 64)
+  if (WORD_SIZE EQUAL 64)
     set (DIRECTX_ARCHITECTURE x64)
   else (WORD_SIZE EQUAL 32)
     set (DIRECTX_ARCHITECTURE x86)
-  endif (WORD_SIZE EQUAL 32)
-
+  endif (WORD_SIZE EQUAL 64)
+  
   find_path(DIRECTX_ROOT_DIR Include/dxdiag.h
             PATHS
             "$ENV{DXSDK_DIR}"
@@ -32,7 +30,7 @@ if (WINDOWS)
             "$ENV{ProgramFiles(x86)}/Microsoft DirectX SDK (August 2007)"
             )
 
-  if (DIRECTX_ROOT_DIR)
+  if (DIRECTX_ROOT_DIR AND MSVC10)
     set (DIRECTX_INCLUDE_DIR "${DIRECTX_ROOT_DIR}/Include")
     set (DIRECTX_LIBRARY_DIR "${DIRECTX_ROOT_DIR}/Lib/${DIRECTX_ARCHITECTURE}")
   else (DIRECTX_ROOT_DIR)

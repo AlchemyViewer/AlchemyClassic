@@ -32,10 +32,13 @@
 #define LL_FLOATERDIRECTORY_H
 
 #include "llfloater.h"
+#include "llsdparam.h"
 
 class LLUICtrl;
 class LLPanel;
+class LLPanelSearchWeb;
 class LLScrollListCtrl;
+class LLTabContainer;
 class LLTextBase;
 
 static const size_t MIN_SEARCH_STRING_SIZE = 3;
@@ -49,6 +52,14 @@ typedef enum {
 	SE_EVENTS,
 	SE_CLASSIFIEDS
 } ESearch;
+
+struct SearchQuery : public LLInitParam::Block<SearchQuery>
+{
+	Optional<std::string> category;
+	Optional<std::string> query;
+	
+	SearchQuery();
+};
 
 typedef struct dir_query
 {
@@ -74,9 +85,17 @@ class LLFloaterDirectory : public LLFloater
 	friend class LLPanelSearchLandSales;
 	friend class LLPanelSearchPeople;
 	friend class LLPanelSearchPlaces;
+	
 public:
-	LLFloaterDirectory(const LLSD& key);
+	struct _Params : public LLInitParam::Block<_Params, LLFloater::Params>
+	{
+		Optional<SearchQuery> search;
+	};
+	typedef LLSDParamAdapter<_Params> Params;
+	
+	LLFloaterDirectory(const Params& key);
 	BOOL postBuild();
+	void onOpen(const LLSD& key);
 	
 	static void processSearchPeopleReply(LLMessageSystem* msg, void**);
 	static void processSearchGroupsReply(LLMessageSystem* msg, void**);
@@ -92,7 +111,8 @@ protected:
 private:
 	~LLFloaterDirectory();
 	void onCommitSelection();
-	void choosePage(const LLSD& userdata);
+	void choosePage(LLUICtrl* ctrl);
+	void onTabChanged();
 	void paginate();
 	void showDetailPanel(const std::string& panel_name);
 	void rebuildResultList();
@@ -103,7 +123,9 @@ private:
 	S32 mNumResultsReceived;
 	LLUUID mQueryID;
 	
+	LLTabContainer*	mTabContainer;
 	LLPanel* mDetailPeople;
+	LLPanelSearchWeb* mPanelWeb;
 	LLScrollListCtrl* mResultList;
 	LLTextBase* mResultsStatus;
 };

@@ -110,6 +110,7 @@
 #include "llfloaterhud.h"
 #include "llfloaterland.h"
 #include "llfloaterpreference.h"
+#include "llfloatersearch.h"
 #include "llfloatertopobjects.h"
 #include "llfloaterworldmap.h"
 #include "llgesturemgr.h"
@@ -1902,6 +1903,10 @@ bool idle_startup()
 			LLViewerHelp::instance().showTopic("");
 		}
 
+		display_startup();
+		
+		// Build the search floater early on so it pops open quick when we want it.
+		LLFloaterReg::getTypedInstance<LLFloaterDirectory>("search");
 		display_startup();
 
 		// We're successfully logged in.

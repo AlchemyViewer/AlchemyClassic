@@ -37,7 +37,7 @@ const F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
 ///----------------------------------------------------------------------------
 
 // Default constructor
-ALPanelQuickSettingsPulldown::ALPanelQuickSettingsPulldown()
+ALPanelQuickSettingsPulldown::ALPanelQuickSettingsPulldown() : LLPanel()
 {
 	mHoverTimer.stop();
 	buildFromFile("panel_quick_settings_pulldown.xml");

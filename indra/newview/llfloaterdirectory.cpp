@@ -38,33 +38,39 @@
 
 // llui
 #include "llfloaterreg.h"
+#include "lllayoutstack.h"
 #include "llpanel.h"
 #include "llresmgr.h"
 #include "llscrolllistctrl.h"
+#include "lltabcontainer.h"
 #include "lltextbase.h"
 #include "lltrans.h"
 
 // newview
 #include "llagent.h"
 #include "llpanelsearchbase.h"
+#include "llpanelsearchweb.h"
 #include "llpanelplaces.h"
 #include "llproductinforequest.h"
 
-bool filterShortWords(std::string query_string);
+SearchQuery::SearchQuery()
+:	category("category", ""), query("query")
+{}
 
 static const std::array<std::string, 6> sSearchPanels{ {"panel_search_people", "panel_search_groups", "panel_search_places", "panel_search_classifieds", "panel_search_events", "panel_search_landsales"} };
 static const std::array<std::string, 5> sDetailPanels{ {"detail_avatar", "detail_group", "detail_place", "detail_classified", "detail_event"} };
 
-LLFloaterDirectory::LLFloaterDirectory(const LLSD& key)
+LLFloaterDirectory::LLFloaterDirectory(const Params& key)
 :	LLFloater(key)
 ,	mQueryID(LLUUID())
 ,	mResultStart(0)
 ,	mNumResultsReceived(0)
-,	mResultList(NULL)
+,	mResultList(nullptr)
+,	mTabContainer(nullptr)
+,	mPanelWeb(nullptr)
 ,	mCurrentQuery()
 ,	mCurrentResultType(SE_UNDEFINED)
 {
-	mCommitCallbackRegistrar.add("Search.Page", boost::bind(&LLFloaterDirectory::choosePage, this, _2));
 }
 
 LLFloaterDirectory::~LLFloaterDirectory()
@@ -73,23 +79,50 @@ LLFloaterDirectory::~LLFloaterDirectory()
 
 BOOL LLFloaterDirectory::postBuild()
 {
-	mResultList = getChild<LLScrollListCtrl>("results");
+	mResultList = findChild<LLScrollListCtrl>("results");
 	mResultList->setCommitCallback(boost::bind(&LLFloaterDirectory::onCommitSelection, this));
 	for (std::string panel_name: sSearchPanels)
 	{
-		LLPanelSearch* panel = static_cast<LLPanelSearch*>(getChild<LLUICtrl>(panel_name));
-		panel->setSearchFloater(this);
+		LLPanelSearch* panel = static_cast<LLPanelSearch*>(findChild<LLUICtrl>(panel_name));
+		if (panel)
+			panel->setSearchFloater(this);
 	}
+	mPanelWeb = findChild<LLPanelSearchWeb>("panel_search_web");
+	mTabContainer = findChild<LLTabContainer>("search_tabs");
+	mTabContainer->setCommitCallback(boost::bind(&LLFloaterDirectory::onTabChanged, this));
 	setProgress(false);
-	mResultsStatus = getChild<LLTextBase>("results_status");
+	mResultsStatus = findChild<LLTextBase>("results_status");
+	getChild<LLButton>("PageUp")->setCommitCallback(boost::bind(&LLFloaterDirectory::choosePage, this, _1));
+	getChild<LLButton>("PageDn")->setCommitCallback(boost::bind(&LLFloaterDirectory::choosePage, this, _1));
 	showDetailPanel(LLStringUtil::null); // hide all the panels
 	paginate();
 	return TRUE;
 }
 
+void LLFloaterDirectory::onOpen(const LLSD& key)
+{
+	Params p(key);
+	mPanelWeb->loadUrl(p.search);
+	if (key.has("query"))
+	{
+		mTabContainer->selectTabPanel(mPanelWeb);
+	}
+	onTabChanged();
+}
+
 void LLFloaterDirectory::setProgress(bool working)
 {
 	getChild<LLUICtrl>("loading")->setVisible(working);
+}
+
+void LLFloaterDirectory::onTabChanged()
+{
+	LLPanel* active_panel = mTabContainer->getCurrentPanel();
+	bool show_detail = active_panel != mPanelWeb;
+	findChild<LLLayoutStack>("results_stack")->setVisible(show_detail);
+	findChild<LLButton>("PageUp")->setVisible(show_detail);
+	findChild<LLButton>("PageDn")->setVisible(show_detail);
+	mResultsStatus->setVisible(show_detail);
 }
 
 void LLFloaterDirectory::onCommitSelection()
@@ -165,16 +198,15 @@ void LLFloaterDirectory::paginate()
 	childSetEnabled("PageDn", mResultStart > 0);
 }
 
-void LLFloaterDirectory::choosePage(const LLSD& userdata)
+void LLFloaterDirectory::choosePage(LLUICtrl* ctrl)
 {
-	const std::string command = userdata.asString();
-	if (command == "forward")
+	if (ctrl->getName() == "PageUp")
 		mResultStart += mCurrentQuery.results_per_page;
-	else if (command == "back")
+	else if (ctrl->getName() == "PageDn")
 		mResultStart -= mCurrentQuery.results_per_page;
 	else
 	{
-		LL_WARNS("Search") << "Unhandled command: " << command << LL_ENDL;
+		LL_WARNS("Search") << "Unknown control: " << ctrl->getName() << LL_ENDL;
 		return; // Fuck you, you lose.
 	}
 	queryDirectory(mCurrentQuery, false);
@@ -487,11 +519,11 @@ void LLFloaterDirectory::processSearchPeopleReply(LLMessageSystem* msg, void**)
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	// *TODO: Get rid of this so we can have multiple search windows
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	self->setProgress(false);
 
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	S32 num_new_rows = msg->getNumberOfBlocksFast(_PREHASH_QueryReplies);
 	if (num_new_rows == 0)
@@ -558,11 +590,11 @@ void LLFloaterDirectory::processSearchGroupsReply(LLMessageSystem* msg, void**)
 	if (agent_id != gAgent.getID()) return; // not for us
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	// Check for status messages
 	if (msg->getNumberOfBlocks("StatusData"))
@@ -660,11 +692,11 @@ void LLFloaterDirectory::processSearchPlacesReply(LLMessageSystem* msg, void**)
 	if (agent_id != gAgent.getID()) return; // not for us
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	// Check for status messages
 	if (msg->getNumberOfBlocks("StatusData"))
@@ -776,11 +808,11 @@ void LLFloaterDirectory::processSearchClassifiedsReply(LLMessageSystem* msg, voi
 	if (agent_id != gAgent.getID()) return; // not for us
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	// Check for status messages
 	if (msg->getNumberOfBlocks("StatusData"))
@@ -879,11 +911,11 @@ void LLFloaterDirectory::processSearchLandReply(LLMessageSystem* msg, void**)
 	if (agent_id != gAgent.getID()) return; // not for us
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	// Check for status messages
 	if (msg->getNumberOfBlocks("StatusData"))
@@ -1031,11 +1063,11 @@ void LLFloaterDirectory::processSearchEventsReply(LLMessageSystem* msg, void**)
 	if (agent_id != gAgent.getID()) return; // not for us
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
-	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("directory");
+	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
 	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
-	LLScrollListCtrl* pResults = self->getChild<LLScrollListCtrl>("results");
+	LLScrollListCtrl* pResults = self->mResultList;
 	
 	// Check for status messages
 	if (msg->getNumberOfBlocks("StatusData"))

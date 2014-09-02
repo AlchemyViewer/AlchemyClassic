@@ -3386,7 +3386,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	{
 		LLOSXNotificationCenter::sendNotification(chat.mFromName,
 												  message,
-												  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
+												  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
 	}
 #endif //LL_DARWIN
 }
@@ -3811,7 +3811,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
         {
             LLOSXNotificationCenter::sendNotification(chat.mFromName,
 													  chat.mText,
-													  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
+													  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
         }
 #endif //LL_DARWIN
 	}

@@ -121,7 +121,7 @@ bool LLScriptHandler::processNotification(const LLNotificationPtr& notification)
 		if (sOSXNotifications)
 			LLOSXNotificationCenter::sendNotification(notification->getName(),
 													  notification->getMessage(),
-													  gSavedSettings.getBOOL("OSXNotificatioCenterAudioAlert"));
+													  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
 #endif
 	}
 

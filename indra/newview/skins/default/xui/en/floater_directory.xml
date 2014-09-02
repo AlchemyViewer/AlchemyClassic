@@ -6,7 +6,7 @@
  min_height="135"
  min_width="430"
  layout="topleft"
- name="directory"
+ name="search"
  save_rect="true"
  title="SEARCH"
  width="602">
@@ -60,10 +60,10 @@ Your search terms were missing a query string.
   </floater.string>
   <tab_container
    border="true"
-   follows="top|left|right"
+   follows="all"
    top="16"
    left="0"
-   height="70"
+   height="573"
    width="602"
    name="search_tabs"
    tab_min_width="70"
@@ -77,7 +77,8 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-16" />
     <panel
      border="false"
      label="Groups"
@@ -87,7 +88,8 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-1" />
     <panel
      border="false"
      label="Places"
@@ -97,7 +99,8 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-1" />
     <panel
      border="false"
      label="Land"
@@ -107,7 +110,8 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-1" />
     <panel
      border="false"
      label="Events"
@@ -117,7 +121,8 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-1" />
     <panel
      border="false"
      label="Classifieds"
@@ -127,13 +132,25 @@ Your search terms were missing a query string.
      follows="left|top|right"
      layout="topleft"
      left="0"
-     top="0" />
+     top="0"
+     bottom="-1" />
+    <panel
+     border="false"
+     label="AltaVista"
+     filename="panel_search_web.xml"
+     class="panel_search_web"
+     name="panel_search_web"
+     follows="all"
+     layout="topleft"
+     left="0"
+     top="0"
+     bottom="-1" />
   </tab_container>
  <layout_stack
   follows="all"
   animate="false"
-  top="87"
-  bottom="-25"
+  top="86"
+  height="480"
   left="0"
   right="-1"
   drag_handle_gap="2"
@@ -247,11 +264,7 @@ Your search terms were missing a query string.
   layout="topleft"
   left_pad="5"
   name="PageDn"
-  top_delta="0">
-   <button.commit_callback
-    function="Search.Page"
-    parameter="back"/>
- </button>
+  top_delta="0" />
  <button
   follows="bottom|left"
   height="16"
@@ -265,11 +278,7 @@ Your search terms were missing a query string.
   layout="topleft"
   left_pad="5"
   name="PageUp"
-  top_delta="0">
-   <button.commit_callback
-    function="Search.Page"
-    parameter="forward" />
-  </button>
+  top_delta="0" />
  <loading_indicator
   follows="bottom|right"
   height="16"

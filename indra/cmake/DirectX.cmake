@@ -51,7 +51,7 @@ if (WINDOWS)
       set (DIRECTX_INCLUDE_DIR "${WIN_KIT_ROOT_DIR}/Include/um" "${WIN_KIT_ROOT_DIR}/Include/shared")
       set (DIRECTX_LIBRARY_DIR "${WIN_KIT_LIB_DIR}")
     endif (WIN_KIT_ROOT_DIR)
-  endif (DIRECTX_ROOT_DIR)
+  endif (DIRECTX_ROOT_DIR AND MSVC10)
 
   if (DIRECTX_INCLUDE_DIR)
     include_directories(${DIRECTX_INCLUDE_DIR})

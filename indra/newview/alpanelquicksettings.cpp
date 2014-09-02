@@ -38,7 +38,7 @@
 static LLPanelInjector<ALPanelQuickSettings> t_quick_settings("quick_settings");
 
 ALPanelQuickSettings::ALPanelQuickSettings()
-	:
+	: LLPanel(),
 	mWaterPrevBtn(NULL),
 	mWaterNextBtn(NULL),
 	mSkyPrevBtn(NULL),

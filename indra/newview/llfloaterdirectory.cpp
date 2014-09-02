@@ -115,6 +115,11 @@ void LLFloaterDirectory::setProgress(bool working)
 	getChild<LLUICtrl>("loading")->setVisible(working);
 }
 
+void LLFloaterDirectory::setResultsComment(const std::string& message)
+{
+	mResultList->setCommentText(message);
+}
+
 void LLFloaterDirectory::onTabChanged()
 {
 	LLPanel* active_panel = mTabContainer->getCurrentPanel();

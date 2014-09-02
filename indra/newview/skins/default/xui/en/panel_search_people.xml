@@ -4,6 +4,9 @@
  class="panel_search_people"
  name="panel_search_people"
  width="602">
+  <panel.string name="SeachFilteredOnShortWordsEmpty">
+   Your search terms were too short so no search was performed.
+  </panel.string>
   <text
    follows="left|top|right"
    height="16"

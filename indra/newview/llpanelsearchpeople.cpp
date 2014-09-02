@@ -67,13 +67,21 @@ void LLPanelSearchPeople::onCommitSearch(LLUICtrl* ctrl)
 	search();
 }
 
+bool isNotAlphaNum(char c)
+{
+	return !std::isalnum(c);
+}
+
 void LLPanelSearchPeople::search()
 {
 	LLDirQuery query;
 	query.type = SE_PEOPLE;
 	query.results_per_page = 100;
 	query.text = mSearchEditor->getText();
+	std::replace_if(query.text.begin(), query.text.end(), isNotAlphaNum, ' ');
 	LLStringUtil::trim(query.text);
 
 	mFloater->queryDirectory(query, true);
+	if (query.text.length() < MIN_SEARCH_STRING_SIZE)
+		mFloater->setResultsComment(getString("SeachFilteredOnShortWordsEmpty"));
 }

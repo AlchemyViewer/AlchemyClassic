@@ -107,6 +107,7 @@ public:
 protected:
 	void setProgress(bool working);
 	void queryDirectory(const LLDirQuery& query, bool new_search = false);
+	void setResultsComment(const std::string& message);
 	
 private:
 	~LLFloaterDirectory();

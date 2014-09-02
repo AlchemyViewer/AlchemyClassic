@@ -695,7 +695,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>OSXNotificatioCenterAudioAlert</key>
+    <key>OSXNotificationCenterAudioAlert</key>
       <map>
       <key>Comment</key>
       <string>Enable for Notification Center to play a sound with the alert</string>

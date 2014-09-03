@@ -59,3 +59,40 @@ std::string LLBase64::encode(const U8* input, size_t input_size)
 	return output;
 }
 
+// static
+std::string LLBase64::encode(const std::string& in_str)
+{
+	size_t data_size = in_str.size();
+	std::vector<U8> data;
+	data.resize(data_size);
+	memcpy(&data[0], in_str.c_str(), data_size);
+	return encode(&data[0], data_size);
+}
+
+// static
+size_t LLBase64::decode(const std::string& input, U8 * buffer, size_t buffer_size)
+{
+	size_t len = apr_base64_decode_len(input.c_str());
+	if (len != buffer_size || buffer_size <= 0 || buffer == 0 || input.empty())
+		return 0;
+	
+	len = apr_base64_decode_binary(buffer, input.c_str());
+	
+	return len;
+}
+
+std::string LLBase64::decode(const std::string& input)
+{
+	U32 buffer_len = LLBase64::requiredDecryptionSpace(input);
+	std::vector<U8> buffer(buffer_len);
+	buffer_len = LLBase64::decode(input, &buffer[0], buffer_len);
+	buffer.resize(buffer_len);
+	return std::string(reinterpret_cast<const char*>(&buffer[0]), buffer_len);
+}
+
+// static
+U32 LLBase64::requiredDecryptionSpace(const std::string& str)
+{
+	return apr_base64_decode_len(str.c_str());
+}
+

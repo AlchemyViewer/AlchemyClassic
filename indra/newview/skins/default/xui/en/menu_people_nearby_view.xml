@@ -91,4 +91,13 @@
          function="ToggleControl"
          parameter="NearbyListShowMap" />
     </menu_item_check>
+    <menu_item_separator layout="topleft" />
+    <menu_item_check name ="radar_alerts" label="Radar alerts">
+        <menu_item_check.on_check
+         function="CheckControl"
+         parameter="AlchemyRadarAlerts" />
+        <menu_item_check.on_click
+         function="ToggleControl"
+         parameter="AlchemyRadarAlerts" />
+    </menu_item_check>
 </toggleable_menu>

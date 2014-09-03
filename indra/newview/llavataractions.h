@@ -193,6 +193,11 @@ public:
 	 * Open csr page for avatar
 	 */	
 	static void csr(const LLUUID& id, std::string name);
+	
+	/**
+	 * Zooms in to the avatar
+	 */
+	static void zoomIn(const LLUUID& id);
 
 	/**
 	 * Checks whether we can offer a teleport to the avatar, only offline friends

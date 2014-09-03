@@ -45,6 +45,7 @@
 
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llavataractions.h"
 #include "llavatarrenderinfoaccountant.h"
 #include "llcallingcard.h"
 #include "llcaphttpsender.h"
@@ -56,8 +57,10 @@
 #include "llfloaterreporter.h"
 #include "llfloaterregioninfo.h"
 #include "llhttpnode.h"
+#include "llnotificationsutil.h"
 #include "llregioninfomodel.h"
 #include "llsdutil.h"
+#include "llslurl.h"
 #include "llstartup.h"
 #include "lltrans.h"
 #include "llurldispatcher.h"
@@ -1953,12 +1956,31 @@ LLHTTPRegistration<CoarseLocationUpdate>
 	   "/message/CoarseLocationUpdate");
 
 
+void sendRadarAlert(const LLUUID& agent, const std::string& region_str, bool entering)
+{
+	LLSD args;
+	args["AGENT"] = LLSLURL("agent", agent, "inspect").getSLURLString();
+	args["REGION"] = region_str;
+	if (entering)
+		LLNotificationsUtil::add("RadarAlertEnter", args,
+								 LLSD().with("respond_on_mousedown", TRUE),
+								 boost::bind(&LLAvatarActions::zoomIn, agent));
+	else
+		LLNotificationsUtil::add("RadarAlertLeave", args);
+}
+
+static uuid_vec_t mVecAgents;
+
 // the deprecated coarse location handler
 void LLViewerRegion::updateCoarseLocations(LLMessageSystem* msg)
 {
 	//LL_INFOS() << "CoarseLocationUpdate" << LL_ENDL;
 	mMapAvatars.clear();
 	mMapAvatarIDs.clear(); // only matters in a rare case but it's good to be safe.
+	
+	static LLCachedControl<bool> sRadarAlerts(gSavedSettings, "AlchemyRadarAlerts", false);
+	LLViewerRegion* cur_region = gAgent.getRegion();
+	uuid_vec_t region_agents;
 
 	U8 x_pos = 0;
 	U8 y_pos = 0;
@@ -2011,8 +2033,33 @@ void LLViewerRegion::updateCoarseLocations(LLMessageSystem* msg)
 			if(has_agent_data)
 			{
 				mMapAvatarIDs.push_back(agent_id);
+				
+				if (this == cur_region)
+				{
+					region_agents.push_back(agent_id);
+					uuid_vec_t::iterator end = mVecAgents.end();
+					if (find(mVecAgents.begin(), end, agent_id) == end)
+					{
+						if (sRadarAlerts)
+							sendRadarAlert(agent_id, this->getName(), true);
+					}
+				}
 			}
 		}
+	}
+	if (this == cur_region)
+	{
+		for (const LLUUID& agent: mVecAgents)
+		{
+			uuid_vec_t::iterator end = region_agents.end();
+			if (find(region_agents.begin(), end, agent) == end)
+			{
+				if (sRadarAlerts)
+					sendRadarAlert(agent, this->getName(), false);
+			}
+		}
+		mVecAgents.clear();
+		mVecAgents = region_agents;
 	}
 }
 

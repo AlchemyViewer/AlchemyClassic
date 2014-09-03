@@ -527,6 +527,12 @@ void LLAvatarActions::csr(const LLUUID& id, std::string name)
 	LLWeb::loadURL(url);
 }
 
+//static
+void LLAvatarActions::zoomIn(const LLUUID& id)
+{
+	handle_zoom_to_object(id);
+}
+
 //static 
 void LLAvatarActions::share(const LLUUID& id)
 {

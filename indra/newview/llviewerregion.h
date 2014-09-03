@@ -429,7 +429,7 @@ public:
 	// positions stored in the first array so they're maintained separately until 
 	// we stop supporting the old CoarseLocationUpdate message.
 	std::vector<U32> mMapAvatars;
-	std::vector<LLUUID> mMapAvatarIDs;
+	uuid_vec_t mMapAvatarIDs;
 
 	static BOOL sVOCacheCullingEnabled; //vo cache culling enabled or not.
 	static S32  sLastCameraUpdated;

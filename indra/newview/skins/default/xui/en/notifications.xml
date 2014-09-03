@@ -10399,6 +10399,19 @@ the region &quot;[REGION]&quot;?
   </notification>
 
   <notification
+   icon="notifytip.tga"
+   name="RadarAlertEnter"
+   type="notifytip">
+    [AGENT] has entered [REGION].
+   </notification>
+   <notification
+    icon="notifytip.tga"
+    name="RadarAlertLeave"
+    type="notifytip">
+     [AGENT] has left [REGION].
+  </notification>
+
+  <notification
    icon="alertmodal.tga"
    name="ConfirmGrantModifyRights"
    type="alertmodal">

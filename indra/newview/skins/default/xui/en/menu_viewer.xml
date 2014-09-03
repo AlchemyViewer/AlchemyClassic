@@ -120,6 +120,20 @@
            function="World.AlwaysRun" />
         </menu_item_check>
         <menu_item_call
+         label="Walk / run / fly..."
+         name="Walk / run / fly">
+          <menu_item_call.on_click
+           function="Floater.ToggleOrBringToFront"
+           parameter="moveview" />
+        </menu_item_call>
+      </menu>
+
+      <menu
+       create_jump_keys="true"
+       label="Health"
+       name="Health"
+       tear_off="true">
+        <menu_item_call
          label="Stop Animating Me"
          name="Stop Animating My Avatar"
          shortcut="alt|shift|A">
@@ -127,17 +141,10 @@
            function="Tools.StopAllAnimations" />
         </menu_item_call>
         <menu_item_call
-         label="Resync Animations"
-         name="Resync Animations">
+         label="Clear ViewerEffects"
+         name="Clear ViewerEffects">
           <menu_item_call.on_click
-           function="Tools.ResyncAnimations" />
-        </menu_item_call>
-        <menu_item_call
-         label="Walk / run / fly..."
-         name="Walk / run / fly">
-          <menu_item_call.on_click
-           function="Floater.ToggleOrBringToFront"
-           parameter="moveview" />
+           function="Tools.AllVEDead" />
         </menu_item_call>
       </menu>
 
@@ -410,6 +417,13 @@
      label="World"
      name="World"
      tear_off="true">
+        <menu_item_call
+         label="Resync Animations"
+         name="Resync Animations">
+          <menu_item_call.on_click
+           function="Tools.ResyncAnimations" />
+        </menu_item_call>
+        <menu_item_separator/>
         <menu_item_call
          label="Landmark This Place"
          name="Create Landmark Here">

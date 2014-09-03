@@ -3150,6 +3150,7 @@ class LLObjectMute : public view_listener_t
 	}
 };
 
+// <Alchemy>
 class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -3163,10 +3164,10 @@ class LLSyncAnimations : public view_listener_t
 				LLVOAvatar* avatarp = static_cast<LLVOAvatar*>(object);
 				if (avatarp)
 				{
-					for (const auto& keyvalue : avatarp->mPlayingAnimations)
+					for (const std::pair<LLUUID, S32>& playpair : avatarp->mPlayingAnimations)
 					{
-						avatarp->stopMotion(keyvalue.first, TRUE);
-						avatarp->startMotion(keyvalue.first);
+						avatarp->stopMotion(playpair.first, TRUE);
+						avatarp->startMotion(playpair.first);
 					}
 				}
 			}
@@ -3174,6 +3175,16 @@ class LLSyncAnimations : public view_listener_t
 		return true;
 	}
 };
+
+class ALMarkViewerEffectsDead : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLHUDObject::markViewerEffectsDead();
+		return true;
+	}
+};
+// </Alchemy>
 
 
 bool handle_go_to()
@@ -9112,6 +9123,8 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelected(), "EditableSelected");
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
-	
+	// <Alchemy>
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
+	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
+	// </Alchemy>
 }

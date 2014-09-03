@@ -24,6 +24,7 @@ include_directories(
     )
 
 set(llmessage_SOURCE_FILES
+    llaescipher.cpp
     llares.cpp
     llareslistener.cpp
     llassetstorage.cpp
@@ -111,6 +112,7 @@ set(llmessage_SOURCE_FILES
 set(llmessage_HEADER_FILES
     CMakeLists.txt
 
+    llaescipher.h
     llares.h
     llareslistener.h
     llassetstorage.h

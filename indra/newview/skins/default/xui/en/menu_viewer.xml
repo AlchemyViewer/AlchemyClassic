@@ -451,7 +451,7 @@
              function="Floater.Toggle"
              parameter="world_map" />
         </menu_item_check>
-            <menu_item_check
+        <menu_item_check
          label="Mini-map"
          name="Mini-Map"
          shortcut="control|shift|M">
@@ -463,6 +463,16 @@
              parameter="mini_map" />
         </menu_item_check>
         <menu_item_check
+        label="Region Tracker"
+        name="Region Tracker">
+            <menu_item_check.on_check
+             function="Floater.Visible"
+             parameter="region_tracker" />
+            <menu_item_check.on_click
+             function="Floater.Toggle"
+             parameter="region_tracker" />
+        </menu_item_check>
+        <menu_item_check
         label="Search"
         name="Search"
         shortcut="control|F">
@@ -472,7 +482,7 @@
             <menu_item_check.on_click
              function="Floater.Toggle"
              parameter="search" />
-            </menu_item_check>
+        </menu_item_check>
         <menu_item_separator/>
         <menu_item_call
          label="Teleport home"

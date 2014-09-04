@@ -420,18 +420,13 @@ void LLFastTimerView::onOpen(const LLSD& key)
 	setPauseState(false);
 	mRecording.reset();
 	mRecording.appendPeriodicRecording(LLTrace::get_frame_recording());
-	for(std::deque<TimerBarRow>::iterator it = mTimerBarRows.begin(), end_it = mTimerBarRows.end();
-		it != end_it; 
-		++it)
-	{
-		delete []it->mBars;
-		it->mBars = NULL;
-	}
 }
 										
 void LLFastTimerView::onClose(bool app_quitting)
 {
 	setVisible(FALSE);
+	mTimerBarRows.clear();
+	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 }
 
 void saveChart(const std::string& label, const char* suffix, LLImageRaw* scratch)
@@ -1647,4 +1642,13 @@ S32 LLFastTimerView::drawBar(LLRect bar_rect, TimerBarRow& row, S32 image_width,
 	}
 
 	return bar_index;
+}
+
+LLFastTimerView::TimerBarRow::~TimerBarRow()
+{
+	if (mBars != nullptr) 
+	{
+		delete[] mBars;
+		mBars = nullptr;
+	}
 }

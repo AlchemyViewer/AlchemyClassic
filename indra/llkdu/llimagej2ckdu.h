@@ -70,9 +70,9 @@ private:
 
 	// Encode variable
 	LLKDUMemSource *mInputp;
-	kdu_codestream *mCodeStreamp;
-	kdu_coords *mTPosp; // tile position
-	kdu_dims *mTileIndicesp;
+	kdu_core::kdu_codestream *mCodeStreamp;
+	kdu_core::kdu_coords *mTPosp; // tile position
+	kdu_core::kdu_dims *mTileIndicesp;
 	int mBlocksSize;
 	int mPrecinctsSize;
 	int mLevels;

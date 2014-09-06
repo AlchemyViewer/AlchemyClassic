@@ -120,6 +120,9 @@ protected:
 
 	LLButton*		mButtonJoin;
 	LLUICtrl*		mJoinText;
+	
+private:
+	void copyData(const LLSD& userdata);
 };
 
 class LLPanelGroupTab : public LLPanel

@@ -256,7 +256,7 @@ background_visible="true"
 			         left="1"
 			         height="23"
 				     name="btn_call"
-				     label="Group Call"
+				     label="Call"
 			         layout="topleft"
 			         tool_tip="Call this group"
 			         top="0"
@@ -286,12 +286,36 @@ background_visible="true"
 	                 layout="topleft"
 	                 left="1"
 	                 top="0"
-	                 label="Create Group"
+	                 label="Create"
      				 name="btn_create"
                		 visible="true"
                  	 tool_tip="Create a new Group"
                  	 width="90" />	
 				</layout_panel>
+                <layout_panel
+                 follows="bottom|left|right"
+                 height="23"
+                 layout="bottomleft"
+                 left_pad="2"
+                 top_delta="0"
+                 name="btn_menu_lp"
+                 auto_resize="false"
+                 width="31">
+                    <menu_button
+                     follows="bottom|left|right"
+                     height="23"
+                     image_hover_unselected="Toolbar_Middle_Over"
+                     image_overlay="OptionsMenu_Off"
+                     image_selected="Toolbar_Middle_Selected"
+                     image_unselected="Toolbar_Middle_Off"
+                     menu_filename="menu_group_info.xml"
+                     menu_position="bottomleft"
+                     tooltip="Group actions"
+                     layout="topleft"
+                     left="1"
+                     top="0"
+                     name="btn_menu"
+                     width="30" />
+                </layout_panel>
 		   </layout_stack>
-  
 </panel>

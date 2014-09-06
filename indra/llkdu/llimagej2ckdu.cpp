@@ -205,6 +205,7 @@ LLImageJ2CKDU::~LLImageJ2CKDU()
 }
 
 // Stuff for new simple decode
+
 void transfer_bytes(kdu_byte *dest, kdu_line_buf &src, int gap, int precision);
 
 void LLImageJ2CKDU::setupCodeStream(LLImageJ2C &base, BOOL keep_codestream, ECodeStreamMode mode)

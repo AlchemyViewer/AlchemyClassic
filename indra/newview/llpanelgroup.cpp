@@ -92,6 +92,7 @@ LLPanelGroup::LLPanelGroup()
 	// Set up the factory callbacks.
 	// Roles sub tabs
 	LLGroupMgr::getInstance()->addObserver(this);
+	mCommitCallbackRegistrar.add("Group.CopyData", boost::bind(&LLPanelGroup::copyData, this, _2));
 }
 
 
@@ -634,7 +635,6 @@ void LLPanelGroup::refreshCreatedGroup(const LLUUID& group_id)
 }
 
 //static
-
 void LLPanelGroup::showNotice(const std::string& subject,
 					   const std::string& message,
 					   const LLUUID& group_id,
@@ -649,7 +649,18 @@ void LLPanelGroup::showNotice(const std::string& subject,
 	if(panel->getID() != group_id)//???? only for current group_id or switch panels? FIXME
 		return;
 	panel->showNotice(subject,message,has_inventory,inventory_name,inventory_offer);
-
 }
 
 
+void LLPanelGroup::copyData(const LLSD& userdata)
+{
+	const std::string& param = userdata.asString();
+	if (param == "copy_name")
+		LLGroupActions::copyData(mID, LLGroupActions::E_DATA_NAME);
+	else if (param == "copy_slurl")
+		LLGroupActions::copyData(mID, LLGroupActions::E_DATA_SLURL);
+	else if (param == "copy_key")
+		LLGroupActions::copyData(mID, LLGroupActions::E_DATA_UUID);
+	else
+		LL_WARNS() << "Unhandled action: " << param << LL_ENDL;
+}

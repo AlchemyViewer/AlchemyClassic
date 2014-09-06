@@ -48,6 +48,8 @@
 #pragma clang diagnostic pop
 #endif
 
+using namespace kd_supp_image_local;
+
 class LLKDUMemSource: public kdu_compressed_source
 {
 public:

@@ -322,47 +322,4 @@ protected:
 	LLTextEditor*	mActionDescription;
 };
 
-
-class LLPanelGroupBanListSubTab : public LLPanelGroupSubTab
-{
-public:
-	LLPanelGroupBanListSubTab();
-	virtual ~LLPanelGroupBanListSubTab() {}
-
-	virtual BOOL postBuildSubTab(LLView* root);
-
-	virtual void activate();
-	virtual void update(LLGroupChange gc);
-	virtual void draw();
-
-	static void onBanEntrySelect(LLUICtrl* ctrl, void* user_data);
-	void handleBanEntrySelect();
-	
-	static void onCreateBanEntry(void* user_data);
-	void handleCreateBanEntry();
-	
-	static void onDeleteBanEntry(void* user_data);
-	void handleDeleteBanEntry();
-
-	static void onRefreshBanList(void* user_data);
-	void handleRefreshBanList();
-
-	void onBanListCompleted(bool isComplete);
-
-protected:
-	void setBanCount(U32 ban_count);
-	void populateBanList();
-
-public:
-	virtual void setGroupID(const LLUUID& id);
-
-protected:
-	LLNameListCtrl* mBanList;
-	LLButton* mCreateBanButton;
-	LLButton* mDeleteBanButton;
-	LLButton* mRefreshBanListButton;
-	LLTextBase* mBanCountText;
-
-};
-
 #endif // LL_LLPANELGROUPROLES_H

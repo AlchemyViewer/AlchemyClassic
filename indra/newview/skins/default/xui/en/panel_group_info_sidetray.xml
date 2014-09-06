@@ -55,17 +55,17 @@ background_visible="true"
      name="group_name"
      v_pad="0"
      value="(Loading...)"
-      font="SansSerifHugeBold"
+     font="SansSerifHugeBold"
      h_pad="0"
-      height="26"
-      left_pad="8"
+     height="26"
+     left_pad="8"
      text_color="LtGray"
-      top="1"
+     top="1"
      use_ellipses="true"
-      width="275"
-      follows="top|left|right"
-      word_wrap="false"
-      mouse_opaque="false"/>
+     width="275"
+     follows="top|left|right"
+     word_wrap="false"
+     mouse_opaque="false"/>
     <line_editor
      follows="left|top"
      font="SansSerif"
@@ -82,50 +82,50 @@ background_visible="true"
    <layout_stack
      name="layout"
      orientation="vertical"
-      follows="all"
+     follows="all"
      left="8"
      top_pad="0"
      height="506"
-     width="292"
+     width="302"
      border_size="0">
    <layout_panel
-       bg_alpha_color="DkGray2"
-       bg_opaque_color="DkGray2"
-       background_visible="true"
-       background_opaque="true"
-       name="group_accordions"
-       follows="all"
-       layout="topleft"
-       auto_resize="true"
-       user_resize="true"
-       height="513"
-       width="313">
-   <accordion
-     left="0"
-     top="0"
-     single_expansion="true"
-     fit_parent="true"
-     follows="all"
-     layout="topleft"
-     name="groups_accordion"
-     height="513"
-     width="313">
-         <accordion_tab
-            expanded="true"
-            layout="topleft"
-            name="group_general_tab"
-            title="General"
-            fit_panel="false">
-                   <panel
-                      border="false"
-                      class="panel_group_general"
-                      filename="panel_group_general.xml"
-                      layout="topleft"
-                      left="0"
-                      follows="left|top|right"
-                      help_topic="group_general_tab"
-                      name="group_general_tab_panel"
-                      top="0" />
+    bg_alpha_color="DkGray2"
+    bg_opaque_color="DkGray2"
+    background_visible="true"
+    background_opaque="true"
+    name="group_accordions"
+    follows="all"
+    layout="topleft"
+    auto_resize="true"
+    user_resize="true"
+    height="513"
+    width="313">
+     <accordion
+      left="0"
+      top="0"
+      single_expansion="true"
+      fit_parent="true"
+      follows="all"
+      layout="topleft"
+      name="groups_accordion"
+      height="513"
+      width="313">
+       <accordion_tab
+        expanded="true"
+        layout="topleft"
+        name="group_general_tab"
+        title="General"
+        fit_panel="false">
+         <panel
+          border="false"
+          class="panel_group_general"
+          filename="panel_group_general.xml"
+          layout="topleft"
+          left="0"
+          follows="left|top|right"
+          help_topic="group_general_tab"
+          name="group_general_tab_panel"
+          top="0" />
          </accordion_tab>
          <accordion_tab
             expanded="false"
@@ -142,6 +142,22 @@ background_visible="true"
                    left="0"
                    name="group_roles_tab_panel"
                    top="0" />
+         </accordion_tab>
+         <accordion_tab
+            expanded="false"
+            layout="topleft"
+            name="group_banlist_tab"
+            title="Banned Residents"
+            fit_panel="false">
+                <panel
+                  border="false"
+                  class="panel_group_banlist"
+                  filename="panel_group_banlist.xml"
+                  follows="left|top|right"
+                  layout="topleft"
+                  left="0"
+                  name="group_banlist_tab_panel"
+                  top="0" />
          </accordion_tab>
          <accordion_tab
             expanded="false"
@@ -188,7 +204,7 @@ background_visible="true"
 			left="6"
 			orientation="horizontal"
 			top_pad="5"
-			width="297">
+			width="302">
 	
 				<layout_panel
 				follows="bottom|left|right"

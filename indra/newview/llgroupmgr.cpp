@@ -1900,10 +1900,10 @@ void GroupBanDataResponder::httpSuccess()
 	}
 }
 
-void LLGroupMgr::sendGroupBanRequest(	EBanRequestType request_type, 
-										const LLUUID& group_id, 
-										U32 ban_action, /* = BAN_NO_ACTION */
-										const std::vector<LLUUID> ban_list) /* = std::vector<LLUUID>() */
+void LLGroupMgr::sendGroupBanRequest(EBanRequestType request_type,
+									 const LLUUID& group_id,
+									 U32 ban_action, /* = BAN_NO_ACTION */
+									 const std::vector<LLUUID> ban_list) /* = std::vector<LLUUID>() */
 {
 	LLViewerRegion* currentRegion = gAgent.getRegion();
 	if(!currentRegion)

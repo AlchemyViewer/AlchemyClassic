@@ -431,6 +431,7 @@ set(viewer_SOURCE_FILES
     llpanelface.cpp
     llpanelgenerictip.cpp
     llpanelgroup.cpp
+    llpanelgroupbanlist.cpp
     llpanelgroupbulk.cpp
     llpanelgroupbulkban.cpp
     llpanelgroupgeneral.cpp
@@ -1046,6 +1047,7 @@ set(viewer_HEADER_FILES
     llpanelface.h
     llpanelgenerictip.h
     llpanelgroup.h
+    llpanelgroupbanlist.h
     llpanelgroupbulk.h
     llpanelgroupbulkimpl.h
     llpanelgroupbulkban.h

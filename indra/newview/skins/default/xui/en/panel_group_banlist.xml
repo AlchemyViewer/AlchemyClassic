@@ -1,0 +1,118 @@
+<panel
+ border="false"
+ height="303"
+ label="BANNED RESIDENTS"
+ layout="topleft"
+ left="0"
+ width="304"
+ help_topic="roles_banlist_tab"
+ name="banlist_sub_tab"
+ class="panel_group_banlist_subtab"
+ follows="all">
+  <panel.string
+   name="help_text">
+   Any resident on the ban list will be unable to join the group.
+  </panel.string>
+  <panel.string
+   name="ban_count_template">
+   Ban count: [COUNT]/[LIMIT]
+  </panel.string>
+  <name_list
+   column_padding="0"
+   draw_heading="true"
+   height="270"
+   follows="all"
+   layout="topleft"
+   left="0"
+   right="-1"
+   multi_select="true"
+   name="ban_list"
+   short_names="false"
+   top_pad="5">
+	<name_list.columns
+	 label="Resident"
+	 name="name"
+	 font.name="SANSSERIF_SMALL"
+	 font.style="NORMAL"
+	 relative_width="0.7" />
+	<name_list.columns
+	 label="Date Banned"
+	 name="ban_date"
+	 relative_width="0.3" />
+  </name_list>
+  <layout_stack
+   follows="bottom|left|right"
+   height="25"
+   layout="topleft"
+   name="button_row_ls"
+   left="2"
+   orientation="horizontal"
+   width="302">
+    <layout_panel
+     follows="top|left|right"
+     height="23"
+     layout="bottomleft"
+     left="0"
+     name="btn_ban_lp"
+     auto_resize="true"
+     width="111">
+      <button
+       enabled="false"
+       follows="top|left|right"
+       height="23"
+       label="Ban Resident"
+       layout="topleft"
+       left="1"
+       top="0"
+       name="ban_create"
+       width="110">
+        <button.commit_callback
+         function="Banlist.add"/>
+      </button>
+	</layout_panel>
+	<layout_panel
+	 follows="top|left|right"
+	 height="23"
+	 layout="topleft"
+	 left_pad="2"
+	 name="delete_btn_lp"
+	 auto_resize="true"
+	 width="111">
+	  <button
+       enabled="false"
+	   follows="top|left|right"
+	   left="1"
+	   height="23"
+	   name="ban_delete"
+	   label="Remove Ban"
+	   layout="topleft"
+	   top="0"
+	   width="110">
+        <button.commit_callback
+         function="Banlist.remove"/>
+      </button>
+	</layout_panel>
+	<layout_panel
+	 follows="top|left|right"
+	 height="23"
+	 layout="topleft"
+	 left_pad="2"
+	 name="refresh_btn_lp"
+	 auto_resize="false"
+	 width="23">
+	  <button
+       follows="top|left|right"
+       left="1"
+       height="23"
+       name="ban_refresh"
+       image_overlay="Refresh_Off"
+       tool_tip="Refetch the ban list"
+       layout="topleft"
+       top="0"
+       width="23">
+        <button.commit_callback
+         function="Banlist.refresh"/>
+      </button>
+	</layout_panel>
+  </layout_stack>
+</panel>

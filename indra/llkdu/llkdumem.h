@@ -28,7 +28,11 @@
 #define LL_LLKDUMEM_H
 
 // [CR] Clang doesn't like Kakadu!
-#ifdef LL_CLANG
+#if defined(LL_MSVC)
+#pragma warning (push)
+#pragma warning (disable : 4263)
+#pragma warning (disable : 4264)
+#elif defined(LL_CLANG)
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Woverloaded-virtual"
 #endif
@@ -44,7 +48,9 @@
 #include "image_local.h"
 #include "stdtypes.h"
 
-#ifdef LL_CLANG
+#if defined(LL_MSVC)
+#pragma warning (pop)
+#elif defined(LL_CLANG)
 #pragma clang diagnostic pop
 #endif
 

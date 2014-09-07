@@ -41,6 +41,8 @@
 #include "lldrawpoolalpha.h"
 #include "llfeaturemanager.h"
 //#include "llfirstuse.h"
+#include "llfloaterprogressview.h"
+#include "llfloaterreg.h"
 #include "llhudmanager.h"
 #include "llimagebmp.h"
 #include "llmemory.h"
@@ -416,49 +418,49 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			gAgent.setTeleportMessage(std::string());
 		}
 
+		LLFloaterProgressView* pProgFloater = (LLFloaterProgressView*)LLFloaterReg::getInstance("progress_view");
+		
 		const std::string& message = gAgent.getTeleportMessage();
 		switch( gAgent.getTeleportState() )
 		{
 		case LLAgent::TELEPORT_PENDING:
 			gTeleportDisplayTimer.reset();
-			gViewerWindow->setShowProgress(TRUE);
-			gViewerWindow->setProgressPercent(llmin(teleport_percent, 0.0f));
+			pProgFloater->setVisible(TRUE);
+			pProgFloater->setProgressPercent(llmin(teleport_percent, 0.f));
 			gAgent.setTeleportMessage(LLAgent::sTeleportProgressMessages["pending"]);
-			gViewerWindow->setProgressString(LLAgent::sTeleportProgressMessages["pending"]);
+			pProgFloater->setProgressText(LLAgent::sTeleportProgressMessages["pending"]);
 			break;
 
 		case LLAgent::TELEPORT_START:
 			// Transition to REQUESTED.  Viewer has sent some kind
 			// of TeleportRequest to the source simulator
 			gTeleportDisplayTimer.reset();
-			gViewerWindow->setShowProgress(TRUE);
-			gViewerWindow->setProgressPercent(llmin(teleport_percent, 0.0f));
+			pProgFloater->setVisible(TRUE);
+			pProgFloater->setProgressPercent(llmin(teleport_percent, 0.f));
 			gAgent.setTeleportState( LLAgent::TELEPORT_REQUESTED );
-			gAgent.setTeleportMessage(
-				LLAgent::sTeleportProgressMessages["requesting"]);
-			gViewerWindow->setProgressString(LLAgent::sTeleportProgressMessages["requesting"]);
+			gAgent.setTeleportMessage(LLAgent::sTeleportProgressMessages["requesting"]);
+			pProgFloater->setProgressText(LLAgent::sTeleportProgressMessages["requesting"]);
 			break;
 
 		case LLAgent::TELEPORT_REQUESTED:
 			// Waiting for source simulator to respond
-			gViewerWindow->setProgressPercent( llmin(teleport_percent, 37.5f) );
-			gViewerWindow->setProgressString(message);
+			pProgFloater->setProgressPercent(llmin(teleport_percent, 37.5f));
+			pProgFloater->setProgressText(message);
 			break;
 
 		case LLAgent::TELEPORT_MOVING:
 			// Viewer has received destination location from source simulator
-			gViewerWindow->setProgressPercent( llmin(teleport_percent, 75.f) );
-			gViewerWindow->setProgressString(message);
+			pProgFloater->setProgressPercent(llmin(teleport_percent, 75.f));
+			pProgFloater->setProgressText(message);
 			break;
 
 		case LLAgent::TELEPORT_START_ARRIVAL:
 			// Transition to ARRIVING.  Viewer has received avatar update, etc., from destination simulator
 			gTeleportArrivalTimer.reset();
-				gViewerWindow->setProgressCancelButtonVisible(FALSE, LLTrans::getString("Cancel"));
-			gViewerWindow->setProgressPercent(75.f);
+			pProgFloater->setProgressCancelButtonVisible(FALSE, LLTrans::getString("Cancel"));
+			pProgFloater->setProgressPercent(75.f);
 			gAgent.setTeleportState( LLAgent::TELEPORT_ARRIVING );
-			gAgent.setTeleportMessage(
-				LLAgent::sTeleportProgressMessages["arriving"]);
+			gAgent.setTeleportMessage(LLAgent::sTeleportProgressMessages["arriving"]);
 			gTextureList.mForceResetTextureStats = TRUE;
 			gAgentCamera.resetView(TRUE, TRUE);
 			
@@ -474,9 +476,9 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 					//LLFirstUse::useTeleport();
 					gAgent.setTeleportState( LLAgent::TELEPORT_NONE );
 				}
-				gViewerWindow->setProgressCancelButtonVisible(FALSE, LLTrans::getString("Cancel"));
-				gViewerWindow->setProgressPercent(  arrival_fraction * 25.f + 75.f);
-				gViewerWindow->setProgressString(message);
+				pProgFloater->setProgressCancelButtonVisible(FALSE, LLTrans::getString("Cancel"));
+				pProgFloater->setProgressPercent(arrival_fraction * 25.f + 75.f);
+				pProgFloater->setProgressText(message);
 			}
 			break;
 
@@ -494,7 +496,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 
 		case LLAgent::TELEPORT_NONE:
 			// No teleport in progress
-			gViewerWindow->setShowProgress(FALSE);
+			pProgFloater->setVisible(FALSE);
 			gTeleportDisplay = FALSE;
 			break;
 		}

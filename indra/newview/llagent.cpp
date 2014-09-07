@@ -48,6 +48,7 @@
 #include "llfloatercamera.h"
 #include "llfloaterimcontainer.h"
 #include "llfloaterperms.h"
+#include "llfloaterprogressview.h"
 #include "llfloaterreg.h"
 #include "llfloatertools.h"
 #include "llgroupactions.h"
@@ -3937,6 +3938,13 @@ void LLAgent::teleportRequest(
 	bool is_local = (region_handle == to_region_handle(getPositionGlobal()));
 	if(regionp && teleportCore(is_local))
 	{
+		LLFloaterProgressView* pProgFloater = (LLFloaterProgressView*)LLFloaterReg::getInstance("progress_view");
+		LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(region_handle);
+		if (info)
+			pProgFloater->setRegion(info->getName(), true);
+		else
+			pProgFloater->setRegion(LLTrans::getString("APP_NAME"), false);
+		
 		LL_INFOS("") << "TeleportLocationRequest: '" << region_handle << "':"
 					 << pos_local << LL_ENDL;
 		LLMessageSystem* msg = gMessageSystem;
@@ -4055,8 +4063,10 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 
 	U64 handle = to_region_handle(pos_global);
 	LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(handle);
+	LLFloaterProgressView* pProgFloater = (LLFloaterProgressView*)LLFloaterReg::getInstance("progress_view");
 	if(regionp && info)
 	{
+		pProgFloater->setRegion(info->getName(), true);
 		LLVector3d region_origin = info->getGlobalOrigin();
 		LLVector3 pos_local(
 			(F32)(pos_global.mdV[VX] - region_origin.mdV[VX]),
@@ -4067,6 +4077,7 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 	else if(regionp && 
 		teleportCore(regionp->getHandle() == to_region_handle_global((F32)pos_global.mdV[VX], (F32)pos_global.mdV[VY])))
 	{
+		pProgFloater->setRegion(LLTrans::getString("APP_NAME"), false);
 		LL_WARNS() << "Using deprecated teleportlocationrequest." << LL_ENDL; 
 		// send the message
 		LLMessageSystem* msg = gMessageSystem;

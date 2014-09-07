@@ -62,6 +62,7 @@
 #include "llfloaterregioninfo.h"
 #include "llfloaterlandholdings.h"
 #include "llfloaterpreference.h"
+#include "llfloaterprogressview.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llfloatersnapshot.h"
 #include "llhudeffecttrail.h"
@@ -3836,13 +3837,14 @@ void process_teleport_start(LLMessageSystem *msg, void**)
 	// *NOTE: The server sends two StartTeleport packets when you are teleporting to a LM
 	LLViewerMessage::getInstance()->mTeleportStartedSignal();
 
+	LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 	if (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL)
 	{
-		gViewerWindow->setProgressCancelButtonVisible(FALSE);
+		pProgFloater->setProgressCancelButtonVisible(FALSE);
 	}
 	else
 	{
-		gViewerWindow->setProgressCancelButtonVisible(TRUE, LLTrans::getString("Cancel"));
+		pProgFloater->setProgressCancelButtonVisible(TRUE, LLTrans::getString("Cancel"));
 	}
 
 	// Freeze the UI and show progress bar
@@ -3882,13 +3884,14 @@ void process_teleport_progress(LLMessageSystem* msg, void**)
 	}
 	U32 teleport_flags = 0x0;
 	msg->getU32("Info", "TeleportFlags", teleport_flags);
+	LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 	if (teleport_flags & TELEPORT_FLAGS_DISABLE_CANCEL)
 	{
-		gViewerWindow->setProgressCancelButtonVisible(FALSE);
+		pProgFloater->setProgressCancelButtonVisible(FALSE);
 	}
 	else
 	{
-		gViewerWindow->setProgressCancelButtonVisible(TRUE, LLTrans::getString("Cancel"));
+		pProgFloater->setProgressCancelButtonVisible(TRUE, LLTrans::getString("Cancel"));
 	}
 	std::string buffer;
 	msg->getString("Info", "Message", buffer);
@@ -4014,7 +4017,8 @@ void process_teleport_finish(LLMessageSystem* msg, void**)
 	}
 	
 	// Teleport is finished; it can't be cancelled now.
-	gViewerWindow->setProgressCancelButtonVisible(FALSE);
+	LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
+	pProgFloater->setProgressCancelButtonVisible(FALSE);
 
 	gPipeline.doResetVertexBuffers(true);
 

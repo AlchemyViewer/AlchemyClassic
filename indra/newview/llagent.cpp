@@ -3938,7 +3938,7 @@ void LLAgent::teleportRequest(
 	bool is_local = (region_handle == to_region_handle(getPositionGlobal()));
 	if(regionp && teleportCore(is_local))
 	{
-		LLFloaterProgressView* pProgFloater = (LLFloaterProgressView*)LLFloaterReg::getInstance("progress_view");
+		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 		LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(region_handle);
 		if (info)
 			pProgFloater->setRegion(info->getName(), true);

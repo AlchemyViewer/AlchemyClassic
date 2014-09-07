@@ -418,7 +418,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			gAgent.setTeleportMessage(std::string());
 		}
 
-		LLFloaterProgressView* pProgFloater = (LLFloaterProgressView*)LLFloaterReg::getInstance("progress_view");
+		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 		
 		const std::string& message = gAgent.getTeleportMessage();
 		switch( gAgent.getTeleportState() )

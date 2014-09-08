@@ -17,7 +17,7 @@
          follows="top|left|right"
          font="SansSerifSmallBold"
          halign="right"
-         height="12"
+         height="16"
          layout="topleft"
          left="0"
          name="avatar_height"

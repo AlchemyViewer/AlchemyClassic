@@ -47,22 +47,22 @@ public:
 		LL_DEBUGS("SyntaxLSL") << "Instantiating with file saving to: '" << filespec << "'" << LL_ENDL;
 	}
 
-	virtual void httpFailure()
+	/* virtual */ void httpFailure()
 	{
-		LL_WARNS("SyntaxLSL") << dumpResponse() << LL_ENDL;
+		LL_WARNS("SyntaxLSL") << "failed to fetch syntax file [status:" << getStatus() << "]: " << getContent() << LL_ENDL;
 	}
 
-	virtual void httpSuccess()
+	/* virtual */ void httpSuccess()
 	{
-		const LLSD& content_ref = getContent();
 		// Continue only if a valid LLSD object was returned.
-		if (content_ref.isMap())
+		const LLSD& content = getContent();
+		if (content.isMap())
 		{
-			if (LLSyntaxIdLSL::getInstance()->isSupportedVersion(content_ref))
+			if (LLSyntaxIdLSL::getInstance()->isSupportedVersion(content))
 			{
-				LLSyntaxIdLSL::getInstance()->setKeywordsXml(content_ref);
+				LLSyntaxIdLSL::getInstance()->setKeywordsXml(content);
 
-				cacheFile(content_ref);
+				cacheFile(content);
 				LLSyntaxIdLSL::getInstance()->handleFileFetched(mFileSpec);
 			}
 			else

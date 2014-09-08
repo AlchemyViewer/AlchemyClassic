@@ -29,25 +29,27 @@
 #include "linden_common.h"
 
 #include "llgl.h"
-
+ 
 #include "llplugininstance.h"
 #include "llpluginmessage.h"
 #include "llpluginmessageclasses.h"
 #include "media_plugin_base.h"
-
+ 
 #if LL_QUICKTIME_ENABLED
-
+ 
 #if defined(LL_DARWIN)
-	#include <QuickTime/QuickTime.h>
+#include <QuickTime/QuickTime.h>
 #elif defined(LL_WINDOWS)
-	#include "llwin32headers.h"
-	#include "MacTypes.h"
-	#include "QTML.h"
-	#include "Movies.h"
-	#include "QDoffscreen.h"
-	#include "FixMath.h"
-	#include "QTLoadLibraryUtils.h"
+#include "llwin32headers.h"
+#include "MacTypes.h"
+#include "QTML.h"
+#include "Movies.h"
+#include "QDoffscreen.h"
+#include "FixMath.h"
+#include "QTLoadLibraryUtils.h"
 #endif
+
+
 
 // TODO: Make sure that the only symbol exported from this library is LLPluginInitEntryPoint
 ////////////////////////////////////////////////////////////////////////////////

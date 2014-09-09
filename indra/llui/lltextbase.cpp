@@ -265,6 +265,7 @@ LLTextBase::~LLTextBase()
 {
 	mSegments.clear();
 	delete mURLClickSignal;
+	delete mIsFriendSignal;
 }
 
 void LLTextBase::initFromParams(const LLTextBase::Params& p)

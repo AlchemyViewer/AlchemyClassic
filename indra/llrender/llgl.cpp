@@ -306,6 +306,7 @@ PFNGLUNIFORM3IVARBPROC glUniform3ivARB = NULL;
 PFNGLUNIFORM4IVARBPROC glUniform4ivARB = NULL;
 PFNGLUNIFORMMATRIX2FVARBPROC glUniformMatrix2fvARB = NULL;
 PFNGLUNIFORMMATRIX3FVARBPROC glUniformMatrix3fvARB = NULL;
+PFNGLUNIFORMMATRIX3X4FVPROC glUniformMatrix3x4fv = NULL;
 PFNGLUNIFORMMATRIX4FVARBPROC glUniformMatrix4fvARB = NULL;
 PFNGLGETOBJECTPARAMETERFVARBPROC glGetObjectParameterfvARB = NULL;
 PFNGLGETOBJECTPARAMETERIVARBPROC glGetObjectParameterivARB = NULL;
@@ -447,8 +448,8 @@ LLGLManager::LLGLManager() :
 	mHasARBEnvCombine(FALSE),
 	mHasCubeMap(FALSE),
 	mHasDebugOutput(FALSE),
-	mHasAdaptiveVSync(FALSE),
 
+	mHasAdaptiveVSync(FALSE),
 	mHasTextureSwizzle(FALSE),
 	mIsATI(FALSE),
 	mIsNVIDIA(FALSE),
@@ -475,7 +476,8 @@ LLGLManager::LLGLManager() :
 	mGLSLVersionMinor(0),		
 	mVRAM(0),
 	mGLMaxVertexRange(0),
-	mGLMaxIndexRange(0)
+	mGLMaxIndexRange(0),
+	mGLMaxVertexUniformComponents(0)
 {
 }
 
@@ -714,6 +716,12 @@ bool LLGLManager::initGL()
 		GLint num_tex_image_units;
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS_ARB, &num_tex_image_units);
 		mNumTextureImageUnits = llmin(num_tex_image_units, 32);
+	}
+
+	if (mHasVertexShader)
+	{
+		//According to the spec, the resulting value should never be less than 512. We need at least 1024 to use skinned shaders.
+		glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS_ARB, &mGLMaxVertexUniformComponents);
 	}
 
 	if (LLRender::sGLCoreProfile)
@@ -1345,6 +1353,7 @@ void LLGLManager::initExtensions()
 		glUniform4ivARB = (PFNGLUNIFORM4IVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glUniform4ivARB");
 		glUniformMatrix2fvARB = (PFNGLUNIFORMMATRIX2FVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glUniformMatrix2fvARB");
 		glUniformMatrix3fvARB = (PFNGLUNIFORMMATRIX3FVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glUniformMatrix3fvARB");
+		glUniformMatrix3x4fv = (PFNGLUNIFORMMATRIX3X4FVPROC) GLH_EXT_GET_PROC_ADDRESS("glUniformMatrix3x4fv");
 		glUniformMatrix4fvARB = (PFNGLUNIFORMMATRIX4FVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glUniformMatrix4fvARB");
 		glGetObjectParameterfvARB = (PFNGLGETOBJECTPARAMETERFVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glGetObjectParameterfvARB");
 		glGetObjectParameterivARB = (PFNGLGETOBJECTPARAMETERIVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glGetObjectParameterivARB");

@@ -357,6 +357,14 @@ list Class5
 RenderVBOEnable				1	1
 
 //
+// Vertex Uniforms < 1024
+//
+list VertexUniformsLT1024
+RenderAvatarVP				0	0
+RenderAvatarCloth			0	0
+RenderDeferred 				0	0
+
+//
 // VRAM > 512MB
 //
 list VRAMGT512
@@ -433,6 +441,11 @@ RenderObjectBump			0	0
 //
 list OpenGLPre15
 RenderVBOEnable				1	0
+
+list OpenGLPre21
+RenderAvatarVP				0	0
+RenderAvatarCloth			0	0
+RenderDeferred				0	0
 
 list OpenGLPre30
 RenderDeferred				0	0
@@ -596,6 +609,7 @@ Disregard128DefaultDrawDistance	1	0
 list ATIOldDriver
 RenderAvatarVP				0	0
 RenderAvatarCloth			0	0
+RenderDeferred				0	0
 // Avoid driver crashes with some features on Linux with old ATI drivers
 UseOcclusion				0	0
 WindLightUseAtmosShaders	0	0

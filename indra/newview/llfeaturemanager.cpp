@@ -919,6 +919,10 @@ void LLFeatureManager::applyBaseMasks()
 	{
 		maskFeatures("OpenGLPre15");
 	}
+	if (gGLManager.mGLVersion < 2.1f || glUniformMatrix3x4fv == NULL)
+	{
+		maskFeatures("OpenGLPre21");
+	}
 	if (gGLManager.mGLVersion < 3.f)
 	{
 		maskFeatures("OpenGLPre30");
@@ -930,6 +934,10 @@ void LLFeatureManager::applyBaseMasks()
 	if (gGLManager.mHasMapBufferRange)
 	{
 		maskFeatures("MapBufferRange");
+	}
+	if (gGLManager.mGLMaxVertexUniformComponents < 1024)
+	{
+		maskFeatures("VertexUniformsLT1024");
 	}
 	if (gGLManager.mVRAM > 512)
 	{

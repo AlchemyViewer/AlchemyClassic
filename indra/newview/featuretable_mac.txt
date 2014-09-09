@@ -356,6 +356,14 @@ list Class5
 RenderVBOEnable				1	1
 
 //
+// Vertex Uniforms < 1024
+//
+list VertexUniformsLT1024
+RenderAvatarVP				0	0
+RenderAvatarCloth			0	0
+RenderDeferred 				0	0
+
+//
 // No Pixel Shaders available
 //
 list NoPixelShaders
@@ -426,6 +434,10 @@ RenderObjectBump			0	0
 list OpenGLPre15
 RenderVBOEnable				1	0
 
+list OpenGLPre21
+RenderAvatarVP				0	0
+RenderAvatarCloth			0	0
+RenderDeferred				0	0
 
 list TexUnit8orLess
 RenderDeferredSSAO			0	0

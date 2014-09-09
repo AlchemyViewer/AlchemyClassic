@@ -55,8 +55,6 @@ static U32 sDataMask = LLDrawPoolAvatar::VERTEX_DATA_MASK;
 static U32 sBufferUsage = GL_STREAM_DRAW_ARB;
 static U32 sShaderLevel = 0;
 
-#define JOINT_COUNT 52
-
 LLGLSLShader* LLDrawPoolAvatar::sVertexProgram = NULL;
 BOOL	LLDrawPoolAvatar::sSkipOpaque = FALSE;
 BOOL	LLDrawPoolAvatar::sSkipTransparent = FALSE;
@@ -1578,88 +1576,8 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(LLVOAvatar* avatar, LLFace* 
 	}
 
 	if (sShaderLevel <= 0 && face->mLastSkinTime < avatar->getLastSkinTime())
-	{ //perform software vertex skinning for this face
-		LLStrider<LLVector3> position;
-		LLStrider<LLVector3> normal;
-
-		bool has_normal = buffer->hasDataType(LLVertexBuffer::TYPE_NORMAL);
-		buffer->getVertexStrider(position);
-
-		if (has_normal)
-		{
-			buffer->getNormalStrider(normal);
-		}
-
-		LLVector4a* pos = (LLVector4a*) position.get();
-
-		LLVector4a* norm = has_normal ? (LLVector4a*) normal.get() : NULL;
-		
-		//build matrix palette
-		LLMatrix4a mp[JOINT_COUNT];
-		LLMatrix4* mat = (LLMatrix4*) mp;
-
-		U32 count = llmin((U32) skin->mJointNames.size(), (U32) JOINT_COUNT);
-		for (U32 j = 0; j < count; ++j)
-		{
-			LLJoint* joint = avatar->getJoint(skin->mJointNames[j]);
-			if (joint)
-			{
-				mat[j] = skin->mInvBindMatrix[j];
-				mat[j] *= joint->getWorldMatrix();
-			}
-		}
-
-		LLMatrix4a bind_shape_matrix;
-		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
-
-		for (U32 j = 0; j < buffer->getNumVerts(); ++j)
-		{
-			LLMatrix4a final_mat;
-			final_mat.clear();
-
-			S32 idx[4];
-
-			LLVector4 wght;
-
-			F32 scale = 0.f;
-			for (U32 k = 0; k < 4; k++)
-			{
-				F32 w = weight[j][k];
-
-				idx[k] = llclamp((S32) floorf(w), 0, 63);
-				wght[k] = w - floorf(w);
-				scale += wght[k];
-			}
-
-			wght *= 1.f/scale;
-
-			for (U32 k = 0; k < 4; k++)
-			{
-				F32 w = wght[k];
-
-				LLMatrix4a src;
-				src.setMul(mp[idx[k]], w);
-
-				final_mat.add(src);
-			}
-
-			
-			LLVector4a& v = vol_face.mPositions[j];
-			LLVector4a t;
-			LLVector4a dst;
-			bind_shape_matrix.affineTransform(v, t);
-			final_mat.affineTransform(t, dst);
-			pos[j] = dst;
-
-			if (norm)
-			{
-				LLVector4a& n = vol_face.mNormals[j];
-				bind_shape_matrix.rotate(n, t);
-				final_mat.rotate(t, dst);
-				dst.normalize3fast();
-				norm[j] = dst;
-			}
-		}
+	{ 
+		avatar->updateSoftwareSkinnedVertices(skin, weight, vol_face, buffer);
 	}
 }
 
@@ -1739,42 +1657,36 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				
 				stop_glerror();
 
-				F32 mp[JOINT_COUNT*9];
-
-				F32 transp[JOINT_COUNT*3];
+				F32 mp[JOINT_COUNT*12];
 
 				for (U32 i = 0; i < count; ++i)
 				{
 					F32* m = (F32*) mat[i].mMatrix;
 
-					U32 idx = i*9;
+					U32 idx = i*12;
 
 					mp[idx+0] = m[0];
 					mp[idx+1] = m[1];
 					mp[idx+2] = m[2];
+					mp[idx+3] = m[12];
 
-					mp[idx+3] = m[4];
-					mp[idx+4] = m[5];
-					mp[idx+5] = m[6];
+					mp[idx+4] = m[4];
+					mp[idx+5] = m[5];
+					mp[idx+6] = m[6];
+					mp[idx+7] = m[13];
 
-					mp[idx+6] = m[8];
-					mp[idx+7] = m[9];
-					mp[idx+8] = m[10];
-
-					idx = i*3;
-
-					transp[idx+0] = m[12];
-					transp[idx+1] = m[13];
-					transp[idx+2] = m[14];
+					mp[idx+8] = m[8];
+					mp[idx+9] = m[9];
+					mp[idx+10] = m[10];
+					mp[idx+11] = m[14];
 				}
 
-				LLDrawPoolAvatar::sVertexProgram->uniformMatrix3fv(LLViewerShaderMgr::AVATAR_MATRIX, 
+				LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX, 
 					count,
 					FALSE,
 					(GLfloat*) mp);
 
-				LLDrawPoolAvatar::sVertexProgram->uniform3fv(LLShaderMgr::AVATAR_TRANSLATION, count, transp);
-
+				LLDrawPoolAvatar::sVertexProgram->uniform1f(LLShaderMgr::AVATAR_MAX_WEIGHT, F32(count-1));
 				
 				stop_glerror();
 			}

@@ -8131,6 +8131,10 @@ void LLVOAvatar::updateSoftwareSkinnedVertices(const LLMeshSkinInfo* skin, const
 	for (j = 0; j < count; ++j)
 	{
 		LLJoint* joint = getJoint(skin->mJointNames[j]);
+		if(!joint)
+		{
+			joint = getJoint("mRoot");
+		}
 		if (joint)
 		{
 			mat[j] = skin->mInvBindMatrix[j];

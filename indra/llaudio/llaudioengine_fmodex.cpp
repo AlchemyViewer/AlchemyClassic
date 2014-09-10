@@ -206,7 +206,7 @@ bool LLAudioEngine_FMODEX::init(const S32 num_channels, void* userdata)
 	}
 #endif
 
-	U32 fmod_flags = FMOD_INIT_NORMAL;
+	U32 fmod_flags = FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED;
 	if(mEnableProfiler)
 	{
 		fmod_flags |= FMOD_INIT_ENABLE_PROFILE;
@@ -492,7 +492,7 @@ void LLAudioEngine_FMODEX::updateWind(LLVector3 wind_vec, F32 camera_height_abov
 		// need to convert this to the conventional orientation DS3D and OpenAL use
 		// where +X = right, +Y = up, +Z = backwards
 
-		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], -wind_vec.mV[0]);
+		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], wind_vec.mV[0]);
 
 		// cerr << "Wind update" << endl;
 

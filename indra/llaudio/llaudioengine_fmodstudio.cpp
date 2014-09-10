@@ -337,78 +337,79 @@ LLAudioChannel * LLAudioEngine_FMODSTUDIO::createChannel()
 
 bool LLAudioEngine_FMODSTUDIO::initWind()
 {
-	//mNextWindUpdate = 0.0;
+	mNextWindUpdate = 0.0;
 
-	//if (!mWindDSP)
-	//{
-	//	memset(mWindDSPDesc, 0, sizeof(*mWindDSPDesc));	//Set everything to zero
-	//	strncpy(mWindDSPDesc->name, "Wind Unit", sizeof(mWindDSPDesc->name));
-	//	mWindDSPDesc->read = &windDSPCallback; // Assign callback - may be called from arbitrary threads
-	//	if (Check_FMOD_Error(mSystem->createDSP(mWindDSPDesc, &mWindDSP), "FMOD::createDSP"))
-	//		return false;
+	if (!mWindDSP)
+	{
+		memset(mWindDSPDesc, 0, sizeof(*mWindDSPDesc));	//Set everything to zero
+		strncpy(mWindDSPDesc->name, "Wind Unit", sizeof(mWindDSPDesc->name));
+		mWindDSPDesc->read = &windDSPCallback; // Assign callback - may be called from arbitrary threads
+		if (Check_FMOD_Error(mSystem->createDSP(mWindDSPDesc, &mWindDSP), "FMOD::createDSP"))
+			return false;
 
-	//	if (mWindGen)
-	//		delete mWindGen;
-	//
-	//	int frequency = 44100;
-	//	mSystem->getSoftwareFormat(&frequency, NULL, NULL);
-	//	mWindGen = new LLWindGen<MIXBUFFERFORMAT>((U32)frequency);
-	//	mWindDSP->setUserData((void*)mWindGen);
-	//}
+		if (mWindGen)
+			delete mWindGen;
 
-	//// *TODO:  Should this guard against multiple plays?
-	//if (mWindDSP)
-	//{
-	//	mSystem->playDSP(mWindDSP, NULL, false, 0);
-	//	return true;
-	//}
+		int frequency = 44100;
+		mSystem->getSoftwareFormat(&frequency, NULL, NULL);
+		mWindGen = new LLWindGen<MIXBUFFERFORMAT>((U32)frequency);
+		mWindDSP->setUserData((void*)mWindGen);
+		mWindDSP->setChannelFormat(FMOD_CHANNELMASK_STEREO, 2, FMOD_SPEAKERMODE_STEREO);
+	}
+
+	// *TODO:  Should this guard against multiple plays?
+	if (mWindDSP)
+	{
+		mSystem->playDSP(mWindDSP, NULL, false, 0);
+		return true;
+	}
 	return false;
 }
 
 
 void LLAudioEngine_FMODSTUDIO::cleanupWind()
 {
-	//if (mWindDSP)
-	//{
-	//	mWindDSP->release();
-	//	mWindDSP = NULL;
-	//}
+	if (mWindDSP)
+	{
+		mWindDSP->release();
+		mWindDSP = NULL;
+	}
 
-	//delete mWindGen;
-	//mWindGen = NULL;
+	delete mWindGen;
+	mWindGen = NULL;
 }
 
 
 //-----------------------------------------------------------------------
 void LLAudioEngine_FMODSTUDIO::updateWind(LLVector3 wind_vec, F32 camera_height_above_water)
 {
-	//LLVector3 wind_pos;
-	//F64 pitch;
-	//F64 center_freq;
+	LLVector3 wind_pos;
+	F64 pitch;
+	F64 center_freq;
 
-	//if (!mEnableWind)
-	//{
-	//	return;
-	//}
-	//
-	//if (mWindUpdateTimer.checkExpirationAndReset(LL_WIND_UPDATE_INTERVAL))
-	//{
-	//	
-	//	// wind comes in as Linden coordinate (+X = forward, +Y = left, +Z = up)
-	//	// need to convert this to the conventional orientation DS3D and OpenAL use
-	//	// where +X = right, +Y = up, +Z = backwards
+	if (!mEnableWind)
+	{
+		return;
+	}
+	
+	if (mWindUpdateTimer.checkExpirationAndReset(LL_WIND_UPDATE_INTERVAL))
+	{
+		
+		// wind comes in as Linden coordinate (+X = forward, +Y = left, +Z = up)
+		// need to convert this to the conventional orientation DS3D and OpenAL use
+		// where +X = right, +Y = up, +Z = backwards
 
-	//	wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], -wind_vec.mV[0]);
+		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], wind_vec.mV[0]);
 
-	//	// cerr << "Wind update" << endl;
+		// cerr << "Wind update" << endl;
 
-	//	pitch = 1.0 + mapWindVecToPitch(wind_vec);
-	//	center_freq = 80.0 * pow(pitch,2.5*(mapWindVecToGain(wind_vec)+1.0));
-	//	
-	//	mWindGen->mTargetFreq = (F32)center_freq;
-	//	mWindGen->mTargetGain = (F32)mapWindVecToGain(wind_vec) * mMaxWindGain;
-	//	mWindGen->mTargetPanGainR = (F32)mapWindVecToPan(wind_vec);
- // 	}
+		pitch = 1.0 + mapWindVecToPitch(wind_vec);
+		center_freq = 80.0 * pow(pitch,2.5*(mapWindVecToGain(wind_vec)+1.0));
+		
+		mWindGen->mTargetFreq = (F32)center_freq;
+		mWindGen->mTargetGain = (F32)mapWindVecToGain(wind_vec) * mMaxWindGain;
+		mWindGen->mTargetPanGainR = (F32)mapWindVecToPan(wind_vec);
+  	}
 }
 
 //-----------------------------------------------------------------------

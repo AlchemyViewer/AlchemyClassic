@@ -93,9 +93,6 @@ void LLListener::orient(LLVector3 up, LLVector3 at)
 //-----------------------------------------------------------------------
 void LLListener::set(LLVector3 pos, LLVector3 vel, LLVector3 up, LLVector3 at)
 {
-	mPosition = pos;
-	mVelocity = vel;
-
 	setPosition(pos);
 	setVelocity(vel);
 	orient(up,at);

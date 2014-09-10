@@ -148,7 +148,7 @@ void LLStreamingAudio_FMODSTUDIO::update()
 	if(!mPendingURL.empty())
 	{
 		llassert_always(mCurrentInternetStreamp == NULL);
-		llinfos << "Starting internet stream: " << mPendingURL << LL_ENDL;
+		LL_INFOS() << "Starting internet stream: " << mPendingURL << LL_ENDL;
 		mCurrentInternetStreamp = new LLAudioStreamManagerFMODSTUDIO(mSystem,mPendingURL);
 		mURL = mPendingURL;
 		mPendingURL.clear();

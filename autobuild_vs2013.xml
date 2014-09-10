@@ -3,7 +3,6 @@
 <map>
     <key>installables</key>
     <map>
-
       <key>apr_suite</key>
       <map>
         <key>description</key>
@@ -291,9 +290,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>55f4985224e78767cb1529a587f3de2f</string>
+              <string>e59dd944aa00610b44bf69ab66437170</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.39-windows-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -303,9 +302,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>014ad17052cdd4ceae364ec99296a3f3</string>
+              <string>671a6ed2dc0b75e07f04ded3b92b0fc8</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.39-windows64-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows64-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -327,9 +326,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fef7858029feb682160fd4ca9d8157a4</string>
+              <string>d120d931a01e18e585fd351ea915e1f0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.04.04-windows-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.05.00-windows-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -339,9 +338,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4c6478973f827eed410784b31e1681db</string>
+              <string>38be7b10ab786ccb42aa6084050a8919</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.04.04-windows64-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.05.00-windows64-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

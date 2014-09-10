@@ -470,9 +470,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6326f02c3b33b7627addf81f083744c1</string>
+              <string>3fca94182fd24708363460707cbce493</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodex-4.44.39-darwin-201407201436.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodex-4.44.41-darwin-201409092129.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -494,9 +494,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>55f4985224e78767cb1529a587f3de2f</string>
+              <string>e59dd944aa00610b44bf69ab66437170</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.39-windows-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -518,9 +518,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e4ab24773f9e2197a4f94304ab3fb152</string>
+              <string>d480b4ee2d1810e0fa2b0eb599ba36ac</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.04.04-darwin-201407201438.tar.bz2</string>
+              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.00-darwin-201409092130.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -530,9 +530,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fef7858029feb682160fd4ca9d8157a4</string>
+              <string>d120d931a01e18e585fd351ea915e1f0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.04.04-windows-20140716.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodstudio-1.05.00-windows-20140909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

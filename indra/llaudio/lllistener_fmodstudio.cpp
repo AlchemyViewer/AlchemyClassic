@@ -75,12 +75,6 @@ void LLListener_FMODSTUDIO::orient(LLVector3 up, LLVector3 at)
 {
 	LLListener::orient(up, at);
 
-	// Welcome to the transition between right and left
-	// (coordinate systems, that is)
-	// Leaving the at vector alone results in a L/R reversal
-	// since DX is left-handed and we (LL, OpenGL, OpenAL) are right-handed
-	at = -at;
-
 	mSystem->set3DListenerAttributes(0, NULL, NULL, (FMOD_VECTOR*)at.mV, (FMOD_VECTOR*)up.mV);
 }
 

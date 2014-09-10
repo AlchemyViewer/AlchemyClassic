@@ -105,9 +105,6 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	//if(Check_FMOD_Error(result, "FMOD::Memory_Initialize"))
 	//	return false;
 
-	// turn off non-error log spam to fmod.log (TODO: why do we even have an fmod.log if we don't link against log lib?)
-	FMOD::Debug_SetLevel(FMOD_DEBUG_LEVEL_ERROR);
-
 	result = FMOD::System_Create(&mSystem);
 	if(Check_FMOD_Error(result, "FMOD::System_Create"))
 		return false;
@@ -128,7 +125,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	result = mSystem->setSoftwareChannels(num_channels + 2);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
 
-	U32 fmod_flags = FMOD_INIT_NORMAL;
+	U32 fmod_flags = FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED;
 	if(mEnableProfiler)
 	{
 		fmod_flags |= FMOD_INIT_PROFILE_ENABLE;
@@ -263,7 +260,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODSTUDIO::init(): r_numbuffers=" << r_numbuffers << LL_ENDL;
 
 	char r_name[512];
-	mSystem->getDriverInfo(0, r_name, NULL, 511, NULL, &r_samplerate, NULL, &r_channels);
+	mSystem->getDriverInfo(0, r_name, 511, NULL, &r_samplerate, NULL, &r_channels);
 	r_name[511] = '\0';
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODSTUDIO::init(): r_name=\"" << r_name << "\"" <<  LL_ENDL;
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODSTUDIO::init(): r_samplerate=" << r_samplerate << "Hz" << LL_ENDL;
@@ -682,12 +679,7 @@ bool LLAudioBufferFMODSTUDIO::loadWAV(const std::string& filename)
 	exinfo.cbsize = sizeof(exinfo);
 	exinfo.suggestedsoundtype = FMOD_SOUND_TYPE_WAV;	//Hint to speed up loading.
 	// Load up the wav file into an fmod sample
-#if LL_WINDOWS
-	FMOD_RESULT result = getSystem()->createSound((const char*)utf8str_to_utf16str(filename).c_str(), base_mode | FMOD_UNICODE, &exinfo, &mSoundp);
-#else
 	FMOD_RESULT result = getSystem()->createSound(filename.c_str(), base_mode, &exinfo, &mSoundp);
-#endif
-
 	if (result != FMOD_OK)
 	{
 		// We failed to load the file for some reason.

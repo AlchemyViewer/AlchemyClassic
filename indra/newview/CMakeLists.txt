@@ -473,6 +473,7 @@ set(viewer_SOURCE_FILES
     llpanelprimmediacontrols.cpp
     llpanelprofile.cpp
     llpanelprofilelegacy.cpp
+    llpanelradaralert.cpp
     llpanelsearchbase.cpp
     llpanelsearchclassifieds.cpp
     llpanelsearchevents.cpp
@@ -1091,6 +1092,7 @@ set(viewer_HEADER_FILES
     llpanelprimmediacontrols.h
     llpanelprofile.h
     llpanelprofilelegacy.h
+    llpanelradaralert.h
     llpanelsearchbase.h
     llpanelsearchclassifieds.h
     llpanelsearchevents.h

@@ -93,7 +93,7 @@
    top_pad="5"/>
   <button
    height="28"
-   follow="bottom|left|right"
+   follows="bottom|left|right"
    label="Joystick/Freecam configuration"
    left="65"
    name="joystick_setup_button"

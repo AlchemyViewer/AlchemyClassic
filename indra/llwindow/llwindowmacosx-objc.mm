@@ -68,9 +68,10 @@ bool copyToPBoard(const unsigned short *str, unsigned int len)
 	NSPasteboard *pboard = [NSPasteboard generalPasteboard];
 	[pboard clearContents];
 	
-	NSArray *contentsToPaste = [[NSArray alloc] initWithObjects:[NSString stringWithCharacters:str length:len], nil];
+	NSArray *contentsToPaste = [[[NSArray alloc] initWithObjects:[NSString stringWithCharacters:str length:len], nil] autorelease];
+	BOOL ret = [pboard writeObjects:contentsToPaste];
 	[pool release];
-	return [pboard writeObjects:contentsToPaste];
+	return ret;
 }
 
 bool pasteBoardAvailable()

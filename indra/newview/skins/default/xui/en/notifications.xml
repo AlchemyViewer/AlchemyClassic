@@ -7159,6 +7159,7 @@ To grant this permission please update your viewer to the latest version from [D
    type="notify">
 [NAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos;
 [MESSAGE]
+(chan. [CHANNEL])
     <form name="form">
       <button
        index="-2"
@@ -7179,6 +7180,7 @@ To grant this permission please update your viewer to the latest version from [D
     <tag>group</tag>
 [GROUPNAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos;
 [MESSAGE]
+(chan. [CHANNEL])
     <form name="form">
       <button
        index="-2"

@@ -212,6 +212,7 @@ LLLandmarksPanel::~LLLandmarksPanel()
 	{
 		gInventory.removeObserver(mInventoryObserver);
 	}
+	delete mInventoryObserver;
 }
 
 BOOL LLLandmarksPanel::postBuild()

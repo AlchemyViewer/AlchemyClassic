@@ -401,6 +401,7 @@ LLPanelOutfitEdit::LLPanelOutfitEdit()
 	mFolderViewFilterCmbBox(NULL),
 	mListViewFilterCmbBox(NULL),
 	mWearableListManager(NULL),
+	mWearableListViewItemsComparator(NULL),
 	mPlusBtn(NULL),
 	mWearablesGearMenuBtn(NULL),
 	mGearMenuBtn(NULL)
@@ -430,7 +431,7 @@ LLPanelOutfitEdit::~LLPanelOutfitEdit()
 {
 	delete mWearableListManager;
 	delete mSavedFolderState;
-
+	delete mWearableListViewItemsComparator;
 	delete mCOFDragAndDropObserver;
 
 	while (!mListViewItemTypes.empty()) {

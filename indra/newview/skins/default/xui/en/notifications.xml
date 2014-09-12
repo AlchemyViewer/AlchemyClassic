@@ -7157,9 +7157,8 @@ To grant this permission please update your viewer to the latest version from [D
    name="ScriptDialog"
    show_toast="false"
    type="notify">
-[NAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos;
+[NAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos; on channel [CHANNEL]
 [MESSAGE]
-(chan. [CHANNEL])
     <form name="form">
       <button
        index="-2"
@@ -7178,9 +7177,8 @@ To grant this permission please update your viewer to the latest version from [D
    show_toast="false"
    type="notify">
     <tag>group</tag>
-[GROUPNAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos;
+[GROUPNAME]&apos;s &apos;&lt;nolink&gt;[TITLE]&lt;/nolink&gt;&apos; on channel [CHANNEL]
 [MESSAGE]
-(chan. [CHANNEL])
     <form name="form">
       <button
        index="-2"

@@ -10425,12 +10425,14 @@ the region &quot;[REGION]&quot;?
    icon="notifytip.tga"
    name="RadarAlertEnter"
    type="notifytip">
+    <tag>radar</tag>
     [AGENT] has entered [REGION].
    </notification>
    <notification
     icon="notifytip.tga"
     name="RadarAlertLeave"
     type="notifytip">
+     <tag>radar</tag>
      [AGENT] has left [REGION].
   </notification>
 

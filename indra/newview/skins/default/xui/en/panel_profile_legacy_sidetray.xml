@@ -303,7 +303,7 @@ Remove Friend
      image_unselected="Toolbar_Middle_Off"
      menu_filename="menu_legacy_profile.xml"
      menu_position="bottomleft"
-     tooltip="Actions on this avatar"
+     tool_tip="Actions on this avatar"
      layout="topleft"
      left="1"
      top="0"

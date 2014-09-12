@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
     border="true"
-    has_border="true"
     height="408"
     label="Text Chat"
     layout="topleft"
@@ -268,7 +267,7 @@
         layout="topleft"
         left_pad="20"
         text_pad_left="5"
-        max_length="4096"
+        max_length_bytes="4096"
         name="log_path_string"
         top_delta="-5"
         width="312">

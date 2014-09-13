@@ -40,22 +40,22 @@
 
 // --------------------------------------------------------------------------------
 
-static bool CreateDirectory(const std::string &parent, 
-                            const std::string &child,
-                            std::string *fullname)
+static bool CreateDirectory(const std::string &parent,
+							const std::string &child,
+							std::string *fullname)
 {
-    
-    boost::filesystem::path p(parent);
-    p /= child;
-    
-    if (fullname)
-        *fullname = std::string(p.string());
-    
-    if (! boost::filesystem::create_directory(p))
-    {
-        return (boost::filesystem::is_directory(p));
-    }
-    return true;
+	
+	boost::filesystem::path p(parent);
+	p /= child;
+	
+	if (fullname)
+		*fullname = std::string(p.string());
+	
+	if (! boost::filesystem::create_directory(p))
+	{
+		return (boost::filesystem::is_directory(p));
+	}
+	return true;
 }
 
 // --------------------------------------------------------------------------------
@@ -63,28 +63,26 @@ static bool CreateDirectory(const std::string &parent,
 LLDir_Mac::LLDir_Mac()
 {
 	mDirDelimiter = "/";
-
-    const std::string     secondLifeString = "Alchemy";
-    
-    std::string *executablepathstr = getSystemExecutableFolder();
-
-    //NOTE:  LLINFOS/LLERRS will not output to log here.  The streams are not initialized.
-    
-	if (executablepathstr)
+	
+	const std::string     secondLifeString = "Alchemy";
+	
+	std::string executablepathstr = getSystemExecutableFolder();
+	
+	//NOTE:  LLINFOS/LLERRS will not output to log here.  The streams are not initialized.
+	
+	if (!executablepathstr.empty())
 	{
 		// mExecutablePathAndName
-		mExecutablePathAndName = *executablepathstr;
-        
-        boost::filesystem::path executablepath(*executablepathstr);
-        
-# ifndef BOOST_SYSTEM_NO_DEPRECATED
-#endif
-        mExecutableFilename = executablepath.filename().string();
-        mExecutableDir = executablepath.parent_path().string();
+		mExecutablePathAndName = executablepathstr;
+		
+		boost::filesystem::path executablepath(executablepathstr);
+		
+		mExecutableFilename = executablepath.filename().string();
+		mExecutableDir = executablepath.parent_path().string();
 		
 		// mAppRODataDir
-        std::string *resourcepath = getSystemResourceFolder();
-        mAppRODataDir = *resourcepath;
+		std::string resourcepath = getSystemResourceFolder();
+		mAppRODataDir = resourcepath;
 		
 		// *NOTE: When running in a dev tree, use the copy of
 		// skins in indra/newview/ rather than in the application bundle.  This
@@ -93,15 +91,15 @@ LLDir_Mac::LLDir_Mac()
 		
 		// MBW -- This keeps the mac application from finding other things.
 		// If this is really for skins, it should JUST apply to skins.
-        
+		
 		size_t build_dir_pos = mExecutableDir.rfind("/build-darwin-");
 		if (build_dir_pos != std::string::npos)
 		{
 			// ...we're in a dev checkout
 			mSkinBaseDir = mExecutableDir.substr(0, build_dir_pos)
-				+ "/indra/newview/skins";
+			+ "/indra/newview/skins";
 			LL_INFOS() << "Running in dev checkout with mSkinBaseDir "
-				<< mSkinBaseDir << LL_ENDL;
+			<< mSkinBaseDir << LL_ENDL;
 		}
 		else
 		{
@@ -110,54 +108,45 @@ LLDir_Mac::LLDir_Mac()
 		}
 		
 		// mOSUserDir
-        std::string *appdir = getSystemApplicationSupportFolder();
-        std::string rootdir;
-
-        //Create root directory
-        if (CreateDirectory(*appdir, secondLifeString, &rootdir))
-        {
-            
-            // Save the full path to the folder
-            mOSUserDir = rootdir;
-            
-            // Create our sub-dirs
-            CreateDirectory(rootdir, std::string("data"), NULL);
-            CreateDirectory(rootdir, std::string("logs"), NULL);
-            CreateDirectory(rootdir, std::string("user_settings"), NULL);
-            CreateDirectory(rootdir, std::string("browser_profile"), NULL);
-        }
-    
-		//mOSCacheDir
-        std::string *cachedir =  getSystemCacheFolder();
-
-        if (cachedir)
+		std::string appdir = getSystemApplicationSupportFolder();
+		std::string rootdir;
 		
+		//Create root directory
+		if (CreateDirectory(appdir, secondLifeString, &rootdir))
 		{
-            mOSCacheDir = *cachedir;
-#if defined(__amd64__) || defined(__x86_64__)
-            //TODO:  This changes from ~/Library/Cache/Secondlife to ~/Library/Cache/com.app.secondlife/Secondlife.  Last dir level could go away.
-            CreateDirectory(mOSCacheDir, secondLifeString + "64", NULL);
-#else
-            //TODO:  This changes from ~/Library/Cache/Secondlife to ~/Library/Cache/com.app.secondlife/Secondlife.  Last dir level could go away.
-            CreateDirectory(mOSCacheDir, secondLifeString, NULL);
-#endif
+			// Save the full path to the folder
+			mOSUserDir = rootdir;
+			
+			// Create our sub-dirs
+			CreateDirectory(rootdir, std::string("data"), NULL);
+			CreateDirectory(rootdir, std::string("logs"), NULL);
+			CreateDirectory(rootdir, std::string("user_settings"), NULL);
+			CreateDirectory(rootdir, std::string("browser_profile"), NULL);
+		}
+		
+		//mOSCacheDir
+		std::string cachedir = getSystemCacheFolder();
+		
+		if (!cachedir.empty())
+			
+		{
+			mOSCacheDir = cachedir;
+			//TODO:  This changes from ~/Library/Cache/Secondlife to ~/Library/Cache/com.app.secondlife/Secondlife.  Last dir level could go away.
+			CreateDirectory(mOSCacheDir, secondLifeString, NULL);
 		}
 		
 		// mOSUserAppDir
 		mOSUserAppDir = mOSUserDir;
 		
 		// mTempDir
-        //Aura 120920 boost::filesystem::temp_directory_path() not yet implemented on mac. :(
-        std::string *tmpdir = getSystemTempFolder();
-        if (tmpdir)
-        {
-            
-            CreateDirectory(*tmpdir, secondLifeString, &mTempDir);
-            if (tmpdir) delete tmpdir;
-        }
+		//Aura 120920 boost::filesystem::temp_directory_path() not yet implemented on mac. :(
+		std::string tmpdir = getSystemTempFolder();
+		if (!tmpdir.empty())
+		{
+			CreateDirectory(tmpdir, secondLifeString, &mTempDir);
+		}
 		
 		mWorkingDir = getCurPath();
-
 		mLLPluginDir = mAppRODataDir + mDirDelimiter + "llplugin";
 	}
 }
@@ -186,24 +175,23 @@ std::string LLDir_Mac::getCurPath()
 	return boost::filesystem::path( boost::filesystem::current_path() ).string();
 }
 
-
-
 bool LLDir_Mac::fileExists(const std::string &filename) const
 {
-    return boost::filesystem::exists(filename);
+	return boost::filesystem::exists(filename);
 }
 
-
-/*virtual*/ std::string LLDir_Mac::getLLPluginLauncher()
+/*virtual*/
+std::string LLDir_Mac::getLLPluginLauncher()
 {
 	return gDirUtilp->getAppRODataDir() + gDirUtilp->getDirDelimiter() +
-		"SLPlugin.app/Contents/MacOS/SLPlugin";
+	"SLPlugin.app/Contents/MacOS/SLPlugin";
 }
 
-/*virtual*/ std::string LLDir_Mac::getLLPluginFilename(std::string base_name)
+/*virtual*/
+std::string LLDir_Mac::getLLPluginFilename(std::string base_name)
 {
 	return gDirUtilp->getLLPluginDir() + gDirUtilp->getDirDelimiter() +
-		base_name + ".dylib";
+	base_name + ".dylib";
 }
 
 

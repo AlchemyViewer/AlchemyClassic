@@ -30,25 +30,25 @@
 #include "llvfs_objc.h"
 #import <Cocoa/Cocoa.h>
 
-std::string* getSystemTempFolder()
+std::string getSystemTempFolder()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSString * tempDir = NSTemporaryDirectory();
     if (tempDir == nil)
         tempDir = @"/tmp";
-    std::string *result = ( new std::string([tempDir UTF8String]) );
+    std::string result([tempDir UTF8String]);
     [pool release];
     
     return result;
 }
 
 //findSystemDirectory scoped exclusively to this file. 
-std::string* findSystemDirectory(NSSearchPathDirectory searchPathDirectory,
-                                   NSSearchPathDomainMask domainMask)
+std::string findSystemDirectory(NSSearchPathDirectory searchPathDirectory,
+								NSSearchPathDomainMask domainMask)
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    std::string *result = NULL;
+	
+	std::string result = "";
     NSString *path = nil;
     
     // Search for the path
@@ -64,45 +64,44 @@ std::string* findSystemDirectory(NSSearchPathDirectory searchPathDirectory,
         [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error];
 
         
-        result = new std::string([path UTF8String]);        
+		result = [path UTF8String];
     }
     [pool release];
     return result;
 }
 
-std::string* getSystemExecutableFolder()
+std::string getSystemExecutableFolder()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *bundlePath = [[NSBundle mainBundle] executablePath];
-    std::string *result = (new std::string([bundlePath UTF8String]));  
+    std::string result([bundlePath UTF8String]);
     [pool release];
 
     return result;
 }
 
-std::string* getSystemResourceFolder()
+std::string getSystemResourceFolder()
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
     NSString *bundlePath = [[NSBundle mainBundle] resourcePath];
-    std::string *result = (new std::string([bundlePath UTF8String]));
+    std::string result([bundlePath UTF8String]);
     [pool release];
     
     return result;
 }
 
-std::string* getSystemCacheFolder()
+std::string getSystemCacheFolder()
 {
-    return findSystemDirectory (NSCachesDirectory,
-                                NSUserDomainMask);
+    return findSystemDirectory(NSCachesDirectory,
+							   NSUserDomainMask);
 }
 
-std::string* getSystemApplicationSupportFolder()
+std::string getSystemApplicationSupportFolder()
 {
-    return findSystemDirectory (NSApplicationSupportDirectory,
-                                NSUserDomainMask);
-    
+    return findSystemDirectory(NSApplicationSupportDirectory,
+							   NSUserDomainMask);
 }
 
 #endif // LL_DARWIN

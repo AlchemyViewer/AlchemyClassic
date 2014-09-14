@@ -24,17 +24,16 @@
  * $/LicenseInfo$
  */
 
-/*
+
 #import <Cocoa/Cocoa.h>
 
 @interface LLCrashLoggerMacDelegate : NSObject <NSApplicationDelegate>
 {
-    IBOutlet NSTextField *crashText;
-    IBOutlet NSButton *rememberCheck;
-    
-    NSWindow *_window;
-    bool mRemember;
-
+	IBOutlet NSTextField *crashText;
+	IBOutlet NSButton *rememberCheck;
+	
+	NSWindow *_window;
+	BOOL mRemember;
 }
 
 - (void)setWindow:(NSWindow *)newWindow;
@@ -47,6 +46,3 @@
 @property (assign) IBOutlet NSWindow *window;
 
 @end
-*/
-
-

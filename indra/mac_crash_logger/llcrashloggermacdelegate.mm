@@ -25,7 +25,6 @@
  */
 
 
-/*
 #import "llcrashloggermacdelegate.h"
 #include <iostream>
 
@@ -37,39 +36,39 @@ extern bool gRememberChoice;
 
 - (void)setWindow:(NSWindow *)window
 {
-    _window = window;
+	_window = window;
 }
 
 - (NSWindow *)window
 {
-    return _window;
+	return _window;
 }
 
 - (void)dealloc
 {
-    [super dealloc];
+	[super dealloc];
 }
 
-std::string* NSToString( NSString *ns_str )
+std::string NSToString( NSString *ns_str )
 {
-    return ( new std::string([ns_str UTF8String]) );
+	return std::string([ns_str UTF8String]);
 }
 
 - (IBAction)remember:(id)sender
 {
-    gRememberChoice = [rememberCheck state];
+	gRememberChoice = [rememberCheck state];
 }
 
 - (IBAction)send:(id)sender
 {
-    std::string* user_input = NSToString([crashText stringValue]);
-    gUserNotes = *user_input;
-    gSendReport = true;
+	std::string user_input = NSToString([crashText stringValue]);
+	gUserNotes = user_input;
+	gSendReport = true;
 }
 
 - (IBAction)cancel:(id)sender
 {
-    [ _window close];
+	[ _window close];
 }
+
 @end
-*/

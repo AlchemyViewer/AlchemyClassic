@@ -73,8 +73,10 @@ bool LLCrashLoggerMac::mainLoop()
 	
 	if(gRememberChoice)
 	{
-		if(gSendReport) saveCrashBehaviorSetting(CRASH_BEHAVIOR_ALWAYS_SEND);
-		else saveCrashBehaviorSetting(CRASH_BEHAVIOR_NEVER_SEND);
+		if (gSendReport)
+			saveCrashBehaviorSetting(CRASH_BEHAVIOR_ALWAYS_SEND);
+		else
+			saveCrashBehaviorSetting(CRASH_BEHAVIOR_NEVER_SEND);
 	}
 	
 	if(gSendReport)

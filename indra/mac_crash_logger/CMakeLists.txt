@@ -27,6 +27,7 @@ include_directories(SYSTEM
 set(mac_crash_logger_SOURCE_FILES
     mac_crash_logger.cpp
     llcrashloggermac.cpp
+    llcrashloggermac-objc.mm
     llcrashloggermacdelegate.mm
     )
 
@@ -34,6 +35,7 @@ set(mac_crash_logger_HEADER_FILES
     CMakeLists.txt
 
     llcrashloggermac.h
+    llcrashloggermac-objc.h
     llcrashloggermacdelegate.h
     )
 

@@ -28,6 +28,7 @@
 #include "llcrashloggermac.h"
 #include "indra_constants.h"
 #include "llpidlock.h"
+#include "llcrashloggermac-objc.h"
 
 #include <iostream>
     
@@ -51,7 +52,7 @@ int main(int argc, char **argv)
 	}
     if (app.getCrashBehavior() != CRASH_BEHAVIOR_ALWAYS_SEND)
     {
-//        return NSApplicationMain(argc, (const char **)argv);
+		return createNSApp(argc, (const char**)argv);
     }
 	app.mainLoop();
 	app.cleanup();

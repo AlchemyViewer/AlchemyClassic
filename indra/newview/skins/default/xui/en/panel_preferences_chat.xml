@@ -45,6 +45,16 @@
         name="play_typing_sound"
         width="150"/>
     <check_box
+        control_name="AlchemyNearbyTypingIndicators"
+        height="16"
+        initial_value="true"
+        label="Show nearby chat indicators"
+        layout="topleft"
+        top_pad="5"
+        left="5"
+        name="show_nearby_chat_indicators"
+        width="150"/>
+    <check_box
         follows="left|top"
         height="16"
         label="Announce incoming instant messages"

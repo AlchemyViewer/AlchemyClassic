@@ -916,6 +916,7 @@ private:
 	LLFrameTimer	mTimeVisible;
 	std::deque<LLChat> mChats;
 	BOOL			mTyping;
+	BOOL			mTypingLast;
 	LLFrameTimer	mTypingTimer;
 
 /**                    Name

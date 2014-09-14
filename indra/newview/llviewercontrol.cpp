@@ -76,7 +76,9 @@
 #include "llstartup.h"
 #include "llupdaterservice.h"
 
+#include "llfloaterreg.h"
 #include "llfloatercamera.h" // <alchemy/>
+#include "llfloaterimnearbychat.h"
 #include "llfloaterimsessiontab.h"
 #include "llviewerchat.h"
 
@@ -152,6 +154,12 @@ static bool validateVSync(const LLSD& val)
 {
 	const U32 preset = val.asInteger();
 	return preset <= 2U;
+}
+
+static bool handleChatChannelChanged(const LLSD& val)
+{
+	LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat")->changeChannelLabel(val.asInteger());
+	return true;
 }
 
 static bool handleRenderPerfTestChanged(const LLSD& newvalue)
@@ -811,6 +819,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate, false));
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLViewerChat::signalChatFontChanged));
 	gSavedSettings.getControl("RenderVerticalSync")->getValidateSignal()->connect(boost::bind(validateVSync, _2));
+	gSavedSettings.getControl("AlchemyNearbyChatChannel")->getValidateSignal()->connect(boost::bind(&handleChatChannelChanged, _2));
 #if ALCHEMY_TEST
 	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy/>
 #endif

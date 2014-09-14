@@ -134,6 +134,17 @@
       <key>Value</key>
       <string>/pos</string>
     </map>
+    <key>AlchemyChatCommandSetChatChannel</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to set nearby chat channel</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/setchannel</string>
+    </map>
     <key>AlchemyChatCommandRegionMessage</key>
     <map>
       <key>Comment</key>
@@ -474,6 +485,17 @@
       <string>Boolean</string>
       <key>Value</key>
       <integer>1</integer>
+    </map>
+    <key>AlchemyNearbyChatChannel</key>
+    <map>
+      <key>Comment</key>
+      <string>Chat channel used for sending nearby chat from the viewer</string>
+      <key>Persist</key>
+      <integer>0</integer>
+      <key>Type</key>
+      <string>S32</string>
+      <key>Value</key>
+      <integer>0</integer>
     </map>
     <key>AlchemyNearbyTypingIndicators</key>
     <map>

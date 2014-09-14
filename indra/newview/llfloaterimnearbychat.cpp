@@ -119,7 +119,7 @@ BOOL LLFloaterIMNearbyChat::postBuild()
 	mInputEditor->setKeystrokeCallback(boost::bind(&LLFloaterIMNearbyChat::onChatBoxKeystroke, this));
 	mInputEditor->setFocusLostCallback(boost::bind(&LLFloaterIMNearbyChat::onChatBoxFocusLost, this));
 	mInputEditor->setFocusReceivedCallback(boost::bind(&LLFloaterIMNearbyChat::onChatBoxFocusReceived, this));
-	mInputEditor->setLabel(LLTrans::getString("NearbyChatTitle"));
+	changeChannelLabel(gSavedSettings.getS32("AlchemyNearbyChatChannel"));
 
 	// Title must be defined BEFORE call to addConversationListItem() because
 	// it is used to show the item's name in the conversations list
@@ -713,7 +713,7 @@ void LLFloaterIMNearbyChat::sendChatFromViewer(const std::string &utf8text, ECha
 void LLFloaterIMNearbyChat::sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate)
 {
 	// Look for "/20 foo" channel chats.
-	S32 channel = 0;
+	S32 channel = gSavedSettings.getS32("AlchemyNearbyChatChannel");
 	LLWString out_text = stripChannelNumber(wtext, &channel);
 	std::string utf8_out_text = wstring_to_utf8str(out_text);
 	std::string utf8_text = wstring_to_utf8str(wtext);
@@ -757,6 +757,18 @@ void LLFloaterIMNearbyChat::sendChatFromViewer(const LLWString &wtext, EChatType
 	}
 
 	send_chat_from_viewer(utf8_out_text, type, channel);
+}
+
+void LLFloaterIMNearbyChat::changeChannelLabel(S32 channel)
+{
+	if (channel == 0)
+		mInputEditor->setLabel(LLTrans::getString("NearbyChatTitle"));
+	else
+	{
+		LLStringUtil::format_map_t args;
+		args["CHANNEL"] = llformat("%d", channel);
+		mInputEditor->setLabel(LLTrans::getString("NearbyChatTitleChannel", args));
+	}
 }
 
 // static 
@@ -863,7 +875,6 @@ LLWString LLFloaterIMNearbyChat::stripChannelNumber(const LLWString &mesg, S32* 
 	else
 	{
 		// This is normal chat.
-		*channel = 0;
 		return mesg;
 	}
 }
@@ -871,15 +882,30 @@ LLWString LLFloaterIMNearbyChat::stripChannelNumber(const LLWString &mesg, S32* 
 void send_chat_from_viewer(const std::string& utf8_out_text, EChatType type, S32 channel)
 {
 	LLMessageSystem* msg = gMessageSystem;
-	msg->newMessageFast(_PREHASH_ChatFromViewer);
-	msg->nextBlockFast(_PREHASH_AgentData);
-	msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
-	msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
-	msg->nextBlockFast(_PREHASH_ChatData);
-	msg->addStringFast(_PREHASH_Message, utf8_out_text);
-	msg->addU8Fast(_PREHASH_Type, type);
-	msg->addS32("Channel", channel);
-
+	if (channel >= 0)
+	{
+		
+		msg->newMessageFast(_PREHASH_ChatFromViewer);
+		msg->nextBlockFast(_PREHASH_AgentData);
+		msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+		msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+		msg->nextBlockFast(_PREHASH_ChatData);
+		msg->addStringFast(_PREHASH_Message, utf8_out_text);
+		msg->addU8Fast(_PREHASH_Type, type);
+		msg->addS32("Channel", channel);
+	}
+	else
+	{
+		msg->newMessageFast(_PREHASH_ScriptDialogReply);
+		msg->nextBlockFast(_PREHASH_AgentData);
+		msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+		msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+		msg->nextBlockFast(_PREHASH_Data);
+		msg->addUUIDFast(_PREHASH_ObjectID, gAgent.getID());
+		msg->addS32("ChatChannel", channel);
+		msg->addS32Fast(_PREHASH_ButtonIndex, 0);
+		msg->addStringFast(_PREHASH_ButtonLabel, utf8_out_text);
+	}
 	gAgent.sendReliableMessage();
 
 	add(LLStatViewer::CHAT_COUNT, 1);

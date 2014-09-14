@@ -73,6 +73,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sMaptoCommand(gSavedSettings, "AlchemyChatCommandMapto", "/mapto");
 		static LLCachedControl<std::string> sClearCommand(gSavedSettings, "AlchemyChatCommandClearNearby", "/clr");
 		static LLCachedControl<std::string> sRegionMsgCommand(gSavedSettings, "AlchemyChatCommandRegionMessage", "/regionmsg");
+		static LLCachedControl<std::string> sSetNearbyChatChannelCmd(gSavedSettings, "AlchemyChatCommandSetChatChannel", "/setchannel");
 		static LLCachedControl<std::string> sResyncAnimCommand(gSavedSettings, "AlchemyChatCommandResyncAnim", "/resync");
 
 		if (cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
@@ -237,6 +238,16 @@ bool ALChatCommand::parseCommand(std::string data)
 				strings[3] = name;
 				strings[4] = notification_message; // [4] message
 				LLRegionInfoModel::sendEstateOwnerMessage(gMessageSystem, "simulatormessage", LLFloaterRegionInfo::getLastInvoice(), strings);
+				return true;
+			}
+		}
+		else if (cmd == utf8str_tolower(sSetNearbyChatChannelCmd)) // Set nearby chat channel
+		{
+			S32 chan;
+			if (input >> chan)
+			{
+				boost::lexical_cast<S32>(chan);
+				gSavedSettings.setS32("AlchemyNearbyChatChannel", chan);
 				return true;
 			}
 		}

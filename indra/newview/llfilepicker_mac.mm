@@ -79,7 +79,7 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_t
         result = [panel runModal];
     }
     
-    if (result == NSOKButton) 
+    if (result == NSModalResponseOK)
     {
         NSArray *filesToOpen = [panel URLs];
         NSInteger i, count = [filesToOpen count];

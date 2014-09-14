@@ -32,7 +32,8 @@
 std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_types, 
                  unsigned int flags)
 {
-    int i, result;
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSInteger result;
     
     //Aura TODO:  We could init a small window and release it at the end of this routine
     //for a modeless interface.
@@ -46,7 +47,7 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_t
     {
         fileTypes = [[NSMutableArray alloc] init];
         
-        for (i=0;i<allowed_types->size();++i)
+        for (int i = 0; i < allowed_types->size(); ++i)
         {
             [fileTypes addObject: 
              [NSString stringWithCString:(*allowed_types)[i].c_str() 
@@ -81,19 +82,20 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_t
     if (result == NSOKButton) 
     {
         NSArray *filesToOpen = [panel URLs];
-        int i, count = [filesToOpen count];
+        NSInteger i, count = [filesToOpen count];
         
         if (count > 0)
         {
             outfiles = new std::vector<std::string>;
         }
         
-        for (i=0; i<count; i++) {
+        for (i = 0; i < count; i++) {
             NSString *aFile = [[filesToOpen objectAtIndex:i] path];
             std::string *afilestr = new std::string([aFile UTF8String]);
             outfiles->push_back(*afilestr);
         }
     }
+	[pool release];
     return outfiles;
 }
 
@@ -104,6 +106,7 @@ std::string* doSaveDialog(const std::string* file,
                   const std::string* extension,
                   unsigned int flags)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSSavePanel *panel = [NSSavePanel savePanel]; 
     
     NSString *extensionns = [NSString stringWithCString:extension->c_str() encoding:[NSString defaultCStringEncoding]];
@@ -119,14 +122,14 @@ std::string* doSaveDialog(const std::string* file,
     NSURL* url = [NSURL fileURLWithPath:fileName];
     [panel setNameFieldStringValue: fileName];
     [panel setDirectoryURL: url];
-    if([panel runModal] == 
-       NSFileHandlingPanelOKButton) 
+    if([panel runModal] == NSFileHandlingPanelOKButton)
     {
         NSURL* url = [panel URL];
         NSString* p = [url path];
         outfile = new std::string( [p UTF8String] );
         // write the file 
-    } 
+    }
+	[pool release];
     return outfile;
 }
 

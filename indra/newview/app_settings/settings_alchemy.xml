@@ -651,6 +651,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyRecentPeopleMaxAge</key>
+    <map>
+      <key>Comment</key>
+      <string>Maximum age to keep recent people around</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>S32</string>
+      <key>Value</key>
+      <integer>30</integer>
+    </map>
     <key>AlchemyRegionRestartShake</key>
     <map>
       <key>Comment</key>

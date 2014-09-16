@@ -1235,12 +1235,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackU16(version, "version"))
 	{
 		LL_WARNS() << "can't read version number" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
 	if (!dp.unpackU16(sub_version, "sub_version"))
 	{
 		LL_WARNS() << "can't read sub version number" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1252,6 +1254,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	{
 #if LL_RELEASE
 		LL_WARNS() << "Bad animation version " << version << "." << sub_version << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 #else
 		LL_ERRS() << "Bad animation version " << version << "." << sub_version << LL_ENDL;
@@ -1261,6 +1264,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackS32(temp_priority, "base_priority"))
 	{
 		LL_WARNS() << "can't read animation base_priority" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 	mJointMotionList->mBasePriority = (LLJoint::JointPriority) temp_priority;
@@ -1273,6 +1277,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	else if (mJointMotionList->mBasePriority < LLJoint::USE_MOTION_PRIORITY)
 	{
 		LL_WARNS() << "bad animation base_priority " << mJointMotionList->mBasePriority << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1282,6 +1287,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackF32(mJointMotionList->mDuration, "duration"))
 	{
 		LL_WARNS() << "can't read duration" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 	
@@ -1289,6 +1295,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	    !llfinite(mJointMotionList->mDuration))
 	{
 		LL_WARNS() << "invalid animation duration" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1298,12 +1305,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackString(mJointMotionList->mEmoteName, "emote_name"))
 	{
 		LL_WARNS() << "can't read optional_emote_animation" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
 	if(mJointMotionList->mEmoteName==mID.asString())
 	{
 		LL_WARNS() << "Malformed animation mEmoteName==mID" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1314,6 +1323,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	    !llfinite(mJointMotionList->mLoopInPoint))
 	{
 		LL_WARNS() << "can't read loop point" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1321,12 +1331,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	    !llfinite(mJointMotionList->mLoopOutPoint))
 	{
 		LL_WARNS() << "can't read loop point" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
 	if (!dp.unpackS32(mJointMotionList->mLoop, "loop"))
 	{
 		LL_WARNS() << "can't read loop" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1337,6 +1349,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	    !llfinite(mJointMotionList->mEaseInDuration))
 	{
 		LL_WARNS() << "can't read easeIn" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1344,6 +1357,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	    !llfinite(mJointMotionList->mEaseOutDuration))
 	{
 		LL_WARNS() << "can't read easeOut" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1354,12 +1368,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackU32(word, "hand_pose"))
 	{
 		LL_WARNS() << "can't read hand pose" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 	
 	if(word > LLHandMotion::NUM_HAND_POSES)
 	{
 		LL_WARNS() << "invalid LLHandMotion::eHandPose index: " << word << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 	
@@ -1372,17 +1388,20 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackU32(num_motions, "num_joints"))
 	{
 		LL_WARNS() << "can't read number of joints" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
 	if (num_motions == 0)
 	{
 		LL_WARNS() << "no joints in animation" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 	else if (num_motions > LL_CHARACTER_MAX_JOINTS)
 	{
 		LL_WARNS() << "too many joints in animation" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1404,12 +1423,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 		if (!dp.unpackString(joint_name, "joint_name"))
 		{
 			LL_WARNS() << "can't read joint name" << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 
 		if (joint_name == "mScreen" || joint_name == "mRoot")
 		{
 			LL_WARNS() << "attempted to animate special " << joint_name << " joint" << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 				
@@ -1441,12 +1462,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 		if (!dp.unpackS32(joint_priority, "joint_priority"))
 		{
 			LL_WARNS() << "can't read joint priority." << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 
 		if (joint_priority < LLJoint::USE_MOTION_PRIORITY)
 		{
 			LL_WARNS() << "joint priority unknown - too low." << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 		
@@ -1465,6 +1488,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 		if (!dp.unpackS32(joint_motion->mRotationCurve.mNumKeys, "num_rot_keys") || joint_motion->mRotationCurve.mNumKeys < 0)
 		{
 			LL_WARNS() << "can't read number of rotation keys" << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 
@@ -1490,6 +1514,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				    !llfinite(time))
 				{
 					LL_WARNS() << "can't read rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 
@@ -1499,6 +1524,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				if (!dp.unpackU16(time_short, "time"))
 				{
 					LL_WARNS() << "can't read rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 
@@ -1507,6 +1533,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				if (time < 0 || time > mJointMotionList->mDuration)
 				{
 					LL_WARNS() << "invalid frame time" << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 			}
@@ -1541,12 +1568,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			if( !(rot_key.mRotation.isFinite()) )
 			{
 				LL_WARNS() << "non-finite angle in rotation key" << LL_ENDL;
+				delete mJointMotionList;
 				success = FALSE;
 			}
 			
 			if (!success)
 			{
 				LL_WARNS() << "can't read rotation key (" << k << ")" << LL_ENDL;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1559,6 +1588,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 		if (!dp.unpackS32(joint_motion->mPositionCurve.mNumKeys, "num_pos_keys") || joint_motion->mPositionCurve.mNumKeys < 0)
 		{
 			LL_WARNS() << "can't read number of position keys" << LL_ENDL;
+			delete mJointMotionList;
 			return FALSE;
 		}
 
@@ -1584,6 +1614,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				    !llfinite(pos_key.mTime))
 				{
 					LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 			}
@@ -1592,6 +1623,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				if (!dp.unpackU16(time_short, "time"))
 				{
 					LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 
@@ -1620,12 +1652,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			if( !(pos_key.mPosition.isFinite()) )
 			{
 				LL_WARNS() << "non-finite position in key" << LL_ENDL;
+				delete mJointMotionList;
 				success = FALSE;
 			}
 			
 			if (!success)
 			{
 				LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			
@@ -1647,6 +1681,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 	if (!dp.unpackS32(num_constraints, "num_constraints"))
 	{
 		LL_WARNS() << "can't read number of constraints" << LL_ENDL;
+		delete mJointMotionList;
 		return FALSE;
 	}
 
@@ -1670,6 +1705,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint chain length" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			constraintp->mChainLength = (S32) byte;
@@ -1678,6 +1714,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "invalid constraint chain length" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1685,6 +1722,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint type" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			
@@ -1692,6 +1730,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "invalid constraint type" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			constraintp->mConstraintType = (EConstraintType)byte;
@@ -1702,6 +1741,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read source volume name" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1713,6 +1753,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint source offset" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			
@@ -1720,6 +1761,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "non-finite constraint source offset" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			
@@ -1727,6 +1769,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read target volume name" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1747,6 +1790,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint target offset" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1754,6 +1798,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "non-finite constraint target offset" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 			
@@ -1761,6 +1806,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint target direction" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1768,6 +1814,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "non-finite constraint target direction" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1781,6 +1828,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint ease in start time" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1788,6 +1836,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint ease in stop time" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1795,6 +1844,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint ease out start time" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1802,6 +1852,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				LL_WARNS() << "can't read constraint ease out stop time" << LL_ENDL;
 				delete constraintp;
+				delete mJointMotionList;
 				return FALSE;
 			}
 
@@ -1813,6 +1864,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			// get joint to which this collision volume is attached
 			if (!joint)
 			{
+				delete mJointMotionList;
 				return FALSE;
 			}
 			for (S32 i = 0; i < constraintp->mChainLength + 1; i++)
@@ -1822,6 +1874,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				{
 					LL_WARNS() << "Joint with no parent: " << joint->getName()
 							<< " Emote: " << mJointMotionList->mEmoteName << LL_ENDL;
+					delete mJointMotionList;
 					return FALSE;
 				}
 				joint = parent;
@@ -1833,6 +1886,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 					if ( !constraint_joint )
 					{
 						LL_WARNS() << "Invalid joint " << j << LL_ENDL;
+						delete mJointMotionList;
 						return FALSE;
 					}
 					
@@ -1845,7 +1899,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				if (constraintp->mJointStateIndices[i] < 0 )
 				{
 					LL_WARNS() << "No joint index for constraint " << i << LL_ENDL;
-					delete constraintp;
+					delete mJointMotionList;
 					return FALSE;
 				}
 			}

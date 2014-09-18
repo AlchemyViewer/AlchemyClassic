@@ -534,6 +534,7 @@ LLPanelPeople::LLPanelPeople()
 	mCommitCallbackRegistrar.add("People.Nearby.ViewSort.Action",  boost::bind(&LLPanelPeople::onNearbyViewSortMenuItemClicked,  this, _2));
 	mCommitCallbackRegistrar.add("People.Groups.ViewSort.Action",  boost::bind(&LLPanelPeople::onGroupsViewSortMenuItemClicked,  this, _2));
 	mCommitCallbackRegistrar.add("People.Recent.ViewSort.Action",  boost::bind(&LLPanelPeople::onRecentViewSortMenuItemClicked,  this, _2));
+	mCommitCallbackRegistrar.add("People.Recent.ClearHistory.Action",	boost::bind(&LLPanelPeople::onRecentViewClearHistoryMenuItemClicked, this));
 
 	mEnableCallbackRegistrar.add("People.Friends.ViewSort.CheckItem",	boost::bind(&LLPanelPeople::onFriendsViewSortMenuItemCheck,	this, _2));
 	mEnableCallbackRegistrar.add("People.Recent.ViewSort.CheckItem",	boost::bind(&LLPanelPeople::onRecentViewSortMenuItemCheck,	this, _2));
@@ -686,6 +687,8 @@ BOOL LLPanelPeople::postBuild()
 	mTabContainer->selectTabByName(NEARBY_TAB_NAME);
 
 	LLVoiceClient::getInstance()->addObserver(this);
+	
+	updateRecentList();
 
 	// call this method in case some list is empty and buttons can be in inconsistent state
 	updateButtons();
@@ -1446,6 +1449,11 @@ void LLPanelPeople::onRecentViewSortMenuItemClicked(const LLSD& userdata)
 	{
 		mRecentList->toggleIcons();
 	}
+}
+
+void LLPanelPeople::onRecentViewClearHistoryMenuItemClicked()
+{
+	LLRecentPeople::instance().clearHistory();
 }
 
 bool LLPanelPeople::onFriendsViewSortMenuItemCheck(const LLSD& userdata) 

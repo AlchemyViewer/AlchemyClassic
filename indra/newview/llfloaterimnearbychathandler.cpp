@@ -544,11 +544,13 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 		&& chat_msg.mFromID.notNull() 
 		&& chat_msg.mFromID != gAgentID)
 	{
- 		LLFirstUse::otherAvatarChatFirst();
+		LLFirstUse::otherAvatarChatFirst();
 
- 		// Add sender to the recent people list.
- 		LLRecentPeople::instance().add(chat_msg.mFromID);
-
+		// Add sender to the recent people list.
+		LLSD userdata;
+		userdata["date"] = LLDate::now();
+		userdata["nearby"] = true;
+		LLRecentPeople::instance().add(chat_msg.mFromID, userdata);
 	}
 
 	// Send event on to LLEventStream

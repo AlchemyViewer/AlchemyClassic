@@ -30,10 +30,25 @@
 #include "llgroupmgr.h"
 
 #include "llagent.h"
+#include "llsdserialize.h"
+#include "llviewercontrol.h"
 
 using namespace LLOldEvents;
 
-bool LLRecentPeople::add(const LLUUID& id, const LLSD& userdata)
+static const std::string sRecentCacheFilename("recent_people.xml");
+
+LLRecentPeople::LLRecentPeople()
+:	mFilename(gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, sRecentCacheFilename))
+{
+	load();
+}
+
+LLRecentPeople::~LLRecentPeople()
+{
+	save();
+}
+
+bool LLRecentPeople::add(const LLUUID& id, LLSD& userdata)
 {
 	if (id == gAgent.getID())
 		return false;
@@ -50,6 +65,8 @@ bool LLRecentPeople::add(const LLUUID& id, const LLSD& userdata)
 		if (caller_id.notNull())
 			mPeople.erase(caller_id);
 
+		// Really dumb hack for persistant storage saving/loading
+		userdata["id"] = id;
 		//[] instead of insert to replace existing id->llsd["date"] with new date value
 		mPeople[id] = userdata;
 		mChangedSignal();
@@ -125,4 +142,64 @@ bool LLRecentPeople::handleEvent(LLPointer<LLEvent> event, const LLSD& userdata)
 	(void) userdata;
 	add(event->getValue().asUUID());
 	return true;
+}
+
+bool LLRecentPeople::save() const
+{
+	if (mFilename.empty()) return false;
+
+	llofstream file(mFilename);
+	if (!file.is_open())
+		return false;
+	
+	for (const std::pair<LLUUID, LLSD> &item : mPeople)
+	{
+		if (item.second.has("nearby") && item.second["nearby"].asBoolean()) continue;
+		
+		file << LLSDOStreamer<LLSDNotationFormatter>(item.second) << std::endl;
+	}
+	
+	file.close();
+	return true;
+}
+
+bool LLRecentPeople::load()
+{
+	LL_INFOS("RecentPeople") << "Loading recent storage" << LL_ENDL;
+	if (mFilename.empty()) return false;
+	
+	llifstream file(mFilename);
+	
+	mPeople.clear();
+	
+	// add each line in the file to the list
+	std::string line;
+	LLPointer<LLSDParser> parser = new LLSDNotationParser();
+	while (std::getline(file, line))
+	{
+		LLSD s_item;
+		std::istringstream iss(line);
+		if (parser->parse(iss, s_item, line.length()) == LLSDParser::PARSE_FAILURE) break;
+		
+		// No id? wtf is going on here? skip this shit.
+		if (!s_item.has("id")) break;
+
+		static LLCachedControl<S32> sRecentPeopleMaxAge(gSavedSettings, "AlchemyRecentPeopleMaxAge", 30);
+		if (s_item["date"].asDate().secondsSinceEpoch() > LLDate::now().secondsSinceEpoch() - sRecentPeopleMaxAge * 86400)
+		{
+			LLUUID id = (s_item["id"].asUUID());
+			mPeople.insert(std::make_pair(id, s_item));
+		}
+	}
+	
+	file.close();
+	mChangedSignal();
+	return true;
+}
+
+void LLRecentPeople::clearHistory()
+{
+	mPeople.clear();
+	mChangedSignal();
+	save();
 }

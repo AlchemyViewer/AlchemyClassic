@@ -523,7 +523,8 @@ void LLFloaterIMNearbyChat::onChatBoxKeystroke()
 			}
 
 		}
-		else if (matchChatTypeTrigger(utf8_trigger, &utf8_out_str))
+		// [CR] this pisses me off
+		else if (0) // (matchChatTypeTrigger(utf8_trigger, &utf8_out_str))
 		{
 			std::string rest_of_match = utf8_out_str.substr(utf8_trigger.size());
 			mInputEditor->setText(utf8_trigger + rest_of_match + " "); // keep original capitalization for user-entered part

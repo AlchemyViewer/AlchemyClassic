@@ -8,7 +8,7 @@ else (USESYSTEMLIBS)
   use_prebuilt_binary(libxml2)
 
   set(LIBXML2_INCLUDES
-      ${LIBS_PREBUILT_DIR}/include/libxml2}
+      ${LIBS_PREBUILT_DIR}/include/libxml2
 	  )
   if (DARWIN OR LINUX)
     set(LIBXML2_LIBRARIES

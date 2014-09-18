@@ -187,6 +187,11 @@ LLToast::~LLToast()
 	{
 		mOnToastDestroyedSignal(this);
 	}
+
+	if (mPanel != NULL)
+	{
+		mPanel->die();
+	}
 }
 
 //--------------------------------------------------------------------------

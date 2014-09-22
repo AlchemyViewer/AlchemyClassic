@@ -864,10 +864,8 @@ void LLPanelEditWearable::draw()
 
 void LLPanelEditWearable::onClose()
 {
-	if ( isDirty() )
-	{
-		revertChanges();
-	}
+	// any unsaved changes should be reverted at this point
+	revertChanges();
 }
 
 void LLPanelEditWearable::setVisible(BOOL visible)
@@ -955,7 +953,7 @@ void LLPanelEditWearable::onCommitSexChange()
         gAgentAvatarp->updateSexDependentLayerSets();
 
         gAgentAvatarp->updateVisualParams();
-
+        showWearable(mWearablePtr, TRUE, TRUE);
         updateScrollingPanelUI();
 }
 

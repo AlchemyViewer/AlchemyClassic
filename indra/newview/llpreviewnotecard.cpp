@@ -492,11 +492,16 @@ bool LLPreviewNotecard::saveIfNeeded(LLInventoryItem* copyitem)
 												&onSaveComplete,
 												(void*)info,
 												FALSE);
+				return true;
 			}
 			else // !gAssetStorage
 			{
 				LL_WARNS() << "Not connected to an asset storage system." << LL_ENDL;
 				return false;
+			}
+			if(mCloseAfterSave)
+			{
+				closeFloater();
 			}
 		}
 	}

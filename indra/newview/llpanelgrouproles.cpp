@@ -2888,6 +2888,6 @@ void LLPanelGroupActionsSubTab::setGroupID(const LLUUID& id)
 	if(mActionMembers) mActionMembers->deleteAllItems();
 
 	if(mActionDescription) mActionDescription->clear();
-
+	
 	LLPanelGroupSubTab::setGroupID(id);
 }

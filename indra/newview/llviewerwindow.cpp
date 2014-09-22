@@ -1392,6 +1392,13 @@ BOOL LLViewerWindow::handleTranslatedKeyUp(KEY key,  MASK mask)
 	// Let the voice chat code check for its PTT key.  Note that this never affects event processing.
 	LLVoiceClient::getInstance()->keyUp(key, mask);
 
+	// Let the inspect tool code check for ALT key to set LLToolSelectRect active instead LLToolCamera
+	LLToolCompInspect * tool_inspectp = LLToolCompInspect::getInstance();
+	if (LLToolMgr::getInstance()->getCurrentTool() == tool_inspectp)
+	{
+		tool_inspectp->keyUp(key, mask);
+	}
+
 	return FALSE;
 }
 
@@ -1647,7 +1654,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	const std::string& title, const std::string& name, S32 x, S32 y, S32 width, S32 height, U32 flags,
 	BOOL fullscreen, 
 	BOOL clearBg,
-	EVSyncSetting vsync_setting,
+	BOOL disable_vsync,
 	BOOL ignore_pixel_depth,
 	U32 fsaa_samples)
 	*/
@@ -1962,7 +1969,7 @@ void LLViewerWindow::initWorldUI()
 
 	// Force gFloaterTools to initialize
 	LLFloaterReg::getInstance("build");
-	LLFloaterReg::hideInstance("build");
+
 
 	// Status bar
 	LLPanel* status_bar_container = getRootView()->getChild<LLPanel>("status_bar_container");
@@ -3223,6 +3230,8 @@ void LLViewerWindow::updateUI()
 				}
 
 				append_xui_tooltip(tooltip_view, params);
+				params.styled_message.add().text("\n");
+
 				screen_sticky_rect.intersectWith(tooltip_view->calcScreenRect());
 				
 				params.sticky_rect = screen_sticky_rect;
@@ -3512,6 +3521,7 @@ void LLViewerWindow::saveLastMouse(const LLCoordGL &point)
 {
 	// Store last mouse location.
 	// If mouse leaves window, pretend last point was on edge of window
+
 	if (point.mX < 0)
 	{
 		mCurrentMousePoint.mX = 0;
@@ -5526,8 +5536,8 @@ LLVector2 LLPickInfo::pickUV()
 		objectp->mDrawable.notNull() && objectp->getPCode() == LL_PCODE_VOLUME &&
 		mObjectFace < objectp->mDrawable->getNumFaces())
 	{
-		S32 scaled_x = llmath::llround((F32)mPickPt.mX * gViewerWindow->getDisplayScale().mV[VX]);
-		S32 scaled_y = llmath::llround((F32)mPickPt.mY * gViewerWindow->getDisplayScale().mV[VY]);
+		S32 scaled_x = llround((F32)mPickPt.mX * gViewerWindow->getDisplayScale().mV[VX]);
+		S32 scaled_y = llround((F32)mPickPt.mY * gViewerWindow->getDisplayScale().mV[VY]);
 		const S32 UV_PICK_WIDTH = 5;
 		const S32 UV_PICK_HALF_WIDTH = (UV_PICK_WIDTH - 1) / 2;
 		U8 uv_pick_buffer[UV_PICK_WIDTH * UV_PICK_WIDTH * 4];

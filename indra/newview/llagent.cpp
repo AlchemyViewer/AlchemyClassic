@@ -3759,6 +3759,12 @@ bool LLAgent::teleportCore(bool is_local)
 		return false;
 	}
 
+	// force stand up and stop a sitting animation (if any), see MAINT-3969
+	if (isAgentAvatarValid() && gAgentAvatarp->getParent() && gAgentAvatarp->isSitting())
+	{
+		gAgentAvatarp->getOffObject();
+	}
+
 #if 0
 	// This should not exist. It has been added, removed, added, and now removed again.
 	// This change needs to come from the simulator. Otherwise, the agent ends up out of
@@ -3935,7 +3941,7 @@ void LLAgent::teleportRequest(
 	bool look_at_from_camera)
 {
 	LLViewerRegion* regionp = getRegion();
-	bool is_local = (region_handle == to_region_handle(getPositionGlobal()));
+	bool is_local = (region_handle == regionp->getHandle());
 	if(regionp && teleportCore(is_local))
 	{
 		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
@@ -4112,7 +4118,12 @@ void LLAgent::teleportViaLocationLookAt(const LLVector3d& pos_global)
 void LLAgent::doTeleportViaLocationLookAt(const LLVector3d& pos_global)
 {
 	mbTeleportKeepsLookAt = true;
-	gAgentCamera.setFocusOnAvatar(FALSE, ANIMATE);	// detach camera form avatar, so it keeps direction
+
+	if(!gAgentCamera.isfollowCamLocked())
+	{
+		gAgentCamera.setFocusOnAvatar(FALSE, ANIMATE);	// detach camera form avatar, so it keeps direction
+	}
+
 	U64 region_handle = to_region_handle(pos_global);
 	LLVector3 pos_local = (LLVector3)(pos_global - from_region_handle(region_handle));
 	teleportRequest(region_handle, pos_local, getTeleportKeepsLookAt());

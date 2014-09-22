@@ -2254,7 +2254,7 @@ void LLAppViewer::initLoggingAndGetLastDuration()
 	// Rename current log file to ".old"
 	LLFile::rename(log_file, old_log_file);
 
-	// Set the log file to Alchemy.log
+	// Set the log file to SecondLife.log
 	LLError::logToFile(log_file);
 	if (!duration_log_msg.empty())
 	{
@@ -3373,13 +3373,12 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["QT_WEBKIT_VERSION"] = "4.7.1 (version number hard-coded)";
 #endif
 
-	if (gPacketsIn > 0)
+	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
+	if (packets_in > 0)
 	{
-		const F64& packets_lost = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_LOST);
-		const F64& packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
-		info["PACKETS_LOST"] = packets_lost;
+		info["PACKETS_LOST"] = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_LOST);
 		info["PACKETS_IN"] = packets_in;
-		info["PACKETS_PCT"] = 100.0 * packets_lost / packets_in;
+		info["PACKETS_PCT"] = 100.f*info["PACKETS_LOST"].asReal() / info["PACKETS_IN"].asReal();
 	}
 
 	if (mServerReleaseNotesURL.empty())
@@ -3834,10 +3833,10 @@ bool LLAppViewer::markerIsSameVersion(const std::string& marker_name) const
 void LLAppViewer::processMarkerFiles()
 {
 	//We've got 4 things to test for here
-	// - Other Process Running (Alchemy.exec_marker present, locked)
-	// - Freeze (Alchemy.exec_marker present, not locked)
-	// - LLError Crash (Alchemy.llerror_marker present)
-	// - Other Crash (Alchemy.error_marker present)
+	// - Other Process Running (SecondLife.exec_marker present, locked)
+	// - Freeze (SecondLife.exec_marker present, not locked)
+	// - LLError Crash (SecondLife.llerror_marker present)
+	// - Other Crash (SecondLife.error_marker present)
 	// These checks should also remove these files for the last 2 cases if they currently exist
 
 	bool marker_is_same_version = true;
@@ -4152,18 +4151,18 @@ void LLAppViewer::abortQuit()
 void LLAppViewer::migrateCacheDirectory()
 {
 #if LL_WINDOWS || LL_DARWIN
-	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/Alchemy from
-	// /library/application support/Alchemy/cache This should clear/delete the old dir.
+	// NOTE: (Nyx) as of 1.21, cache for mac is moving to /library/caches/SecondLife from
+	// /library/application support/SecondLife/cache This should clear/delete the old dir.
 
 	// As of 1.23 the Windows cache moved from
-	//   C:\Documents and Settings\James\Application Support\Alchemy\cache
+	//   C:\Documents and Settings\James\Application Support\SecondLife\cache
 	// to
-	//   C:\Documents and Settings\James\Local Settings\Application Support\Alchemy
+	//   C:\Documents and Settings\James\Local Settings\Application Support\SecondLife
 	//
 	// The Windows Vista equivalent is from
-	//   C:\Users\James\AppData\Roaming\Alchemy\cache
+	//   C:\Users\James\AppData\Roaming\SecondLife\cache
 	// to
-	//   C:\Users\James\AppData\Local\Alchemy
+	//   C:\Users\James\AppData\Local\SecondLife
 	//
 	// Note the absence of \cache on the second path.  James.
 

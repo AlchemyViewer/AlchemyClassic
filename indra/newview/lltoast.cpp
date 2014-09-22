@@ -187,11 +187,6 @@ LLToast::~LLToast()
 	{
 		mOnToastDestroyedSignal(this);
 	}
-
-	if (mPanel != NULL)
-	{
-		mPanel->die();
-	}
 }
 
 //--------------------------------------------------------------------------
@@ -338,7 +333,7 @@ void LLToast::reshapeToPanel()
 void LLToast::insertPanel(LLPanel* panel)
 {
 	mPanel = panel;
-	mWrapperPanel->addChild(panel);	
+	mWrapperPanel->addChild(mPanel);	
 	reshapeToPanel();
 }
 

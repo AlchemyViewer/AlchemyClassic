@@ -5536,8 +5536,8 @@ LLVector2 LLPickInfo::pickUV()
 		objectp->mDrawable.notNull() && objectp->getPCode() == LL_PCODE_VOLUME &&
 		mObjectFace < objectp->mDrawable->getNumFaces())
 	{
-		S32 scaled_x = llround((F32)mPickPt.mX * gViewerWindow->getDisplayScale().mV[VX]);
-		S32 scaled_y = llround((F32)mPickPt.mY * gViewerWindow->getDisplayScale().mV[VY]);
+		S32 scaled_x = llmath::llround((F32)mPickPt.mX * gViewerWindow->getDisplayScale().mV[VX]);
+		S32 scaled_y = llmath::llround((F32)mPickPt.mY * gViewerWindow->getDisplayScale().mV[VY]);
 		const S32 UV_PICK_WIDTH = 5;
 		const S32 UV_PICK_HALF_WIDTH = (UV_PICK_WIDTH - 1) / 2;
 		U8 uv_pick_buffer[UV_PICK_WIDTH * UV_PICK_WIDTH * 4];

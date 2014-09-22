@@ -360,7 +360,7 @@ void LLLogChat::loadChatHistory(const std::string& file_name, std::list<LLSD>& m
 
 	char buffer[LOG_RECALL_SIZE];		/*Flawfinder: ignore*/
 	char *bptr;
-	size_t len;  // <alchemy/>s
+	size_t len;  // <alchemy/>
 	bool firstline = TRUE;
 
 	if (load_all_history || fseek(fptr, (LOG_RECALL_SIZE - 1) * -1  , SEEK_END))

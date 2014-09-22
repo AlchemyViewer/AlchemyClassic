@@ -135,6 +135,7 @@ private:
 	S32							mItemCount;
 	std::string 				mItemCountString;
 
+
 	//////////////////////////////////////////////////////////////////////////////////
 	// List Commands                                                                //
 protected:

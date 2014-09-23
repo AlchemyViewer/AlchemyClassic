@@ -1034,19 +1034,21 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 #if LL_DARWIN
 	// on Mac, if it's an application bundle, figure out the actual path from the Info.plist file
 	CFStringRef path_cfstr = CFStringCreateWithCString(kCFAllocatorDefault, chosen_path.c_str(), kCFStringEncodingMacRoman);		// get path as a CFStringRef
-	CFURLRef path_url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path_cfstr, kCFURLPOSIXPathStyle, TRUE);			// turn it into a CFURLRef
-	CFBundleRef chosen_bundle = CFBundleCreate(kCFAllocatorDefault, path_url);												// get a handle for the bundle
+	CFURLRef path_url = CFURLCreateWithFileSystemPath(kCFAllocatorDefault, path_cfstr, kCFURLPOSIXPathStyle, TRUE);	// turn it into a CFURLRef
+	CFRelease(path_cfstr);
+	CFBundleRef chosen_bundle = CFBundleCreate(kCFAllocatorDefault, path_url);	// get a handle for the bundle
+	CFRelease(path_url);
 	if(NULL != chosen_bundle)
 	{
 		CFDictionaryRef bundleInfoDict = CFBundleGetInfoDictionary(chosen_bundle);												// get the bundle's dictionary
 		if(NULL != bundleInfoDict)
 		{
 			CFStringRef executable_cfstr = (CFStringRef)CFDictionaryGetValue(bundleInfoDict, CFSTR("CFBundleExecutable"));	// get the name of the actual executable (e.g. TextEdit or firefox-bin)
-			int max_file_length = 256;																						// (max file name length is 255 in OSX)
+			int max_file_length = 256;	// (max file name length is 255 in OSX)
 			char executable_buf[max_file_length];
-			if(CFStringGetCString(executable_cfstr, executable_buf, max_file_length, kCFStringEncodingMacRoman))			// convert CFStringRef to char*
+			if(CFStringGetCString(executable_cfstr, executable_buf, max_file_length, kCFStringEncodingMacRoman))	// convert CFStringRef to char*
 			{
-				executable_path += std::string("/Contents/MacOS/") + std::string(executable_buf);							// append path to executable directory and then executable name to exec path
+				executable_path += std::string("/Contents/MacOS/") + std::string(executable_buf);	// append path to executable directory and then executable name to exec path
 			}
 			else
 			{
@@ -1059,6 +1061,7 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 			std::string warning = "Unable to get bundle info dictionary from application bundle";
 			popupAndPrintWarning(warning);
 		}
+		CFRelease(bundleInfoDict);
 	}
 	else
 	{
@@ -1087,7 +1090,7 @@ void LLFloaterUIPreview::onClickBrowseForDiffs()
 	// put the selected path into text field
 	const std::string chosen_path = picker.getFirstFile();
 	mDiffPathTextBox->setText(std::string(chosen_path));	// copy the path to the executable to the textfield for display and later fetching
-	if(LLView::sHighlightingDiffs)								// if we're already highlighting, toggle off and then on so we get the data from the new file
+	if(LLView::sHighlightingDiffs)	// if we're already highlighting, toggle off and then on so we get the data from the new file
 	{
 		onClickToggleDiffHighlighting();
 		onClickToggleDiffHighlighting();

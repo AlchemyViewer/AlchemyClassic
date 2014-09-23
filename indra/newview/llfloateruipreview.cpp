@@ -65,11 +65,6 @@
 #include <boost/tokenizer.hpp>
 #include <boost/shared_ptr.hpp>
 
-// External utility
-#include <string>
-#include <list>
-#include <map>
-
 #if LL_DARWIN
 #include <CoreFoundation/CFURL.h>
 #include <CoreFoundation/CFBundle.h>
@@ -356,7 +351,7 @@ LLFadeEventTimer::LLFadeEventTimer(F32 refresh, LLGUIPreviewLiveFile* parent)
 // Single tick of fade event timer: increment the color
 BOOL LLFadeEventTimer::tick()
 {
-	float diff = 0.04f;
+	F32 diff = 0.04f;
 	if(TRUE == mFadingOut)	// set fade for in/out color direction
 	{
 		diff = -diff;
@@ -484,42 +479,42 @@ BOOL LLFloaterUIPreview::postBuild()
 	BOOL found_en_us = FALSE;
 	std::string language_directory;
 	std::string xui_dir = get_xui_dir();	// directory containing localizations -- don't forget trailing delim
-	mLanguageSelection->removeall();																				// clear out anything temporarily in list from XML
+	mLanguageSelection->removeall();	// clear out anything temporarily in list from XML
 
 	LLDirIterator iter(xui_dir, "*");
-	while(found)																									// for every directory
+	while(found)	// for every directory
 	{
-		if((found = iter.next(language_directory)))							// get next directory
+		if((found = iter.next(language_directory)))		// get next directory
 		{
 			std::string full_path = gDirUtilp->add(xui_dir, language_directory);
-			if(LLFile::isfile(full_path.c_str()))																	// if it's not a directory, skip it
+			if(LLFile::isfile(full_path.c_str()))	// if it's not a directory, skip it
 			{
 				continue;
 			}
 
-			if(strncmp("template",language_directory.c_str(),8) && std::string::npos == language_directory.find("."))				// if it's not the template directory or a hidden directory
+			if(strncmp("template",language_directory.c_str(),8)	// if it's not the template directory or a hidden directory
+			   && std::string::npos == language_directory.find("."))
 			{
-				if(!strncmp("en",language_directory.c_str(),5))													// remember if we've seen en, so we can make it default
+				if(!strncmp("en",language_directory.c_str(),5))	// remember if we've seen en, so we can make it default
 				{
 					found_en_us = TRUE;
 				}
 				else
 				{
-					mLanguageSelection->add(std::string(language_directory));											// add it to the language selection dropdown menu
-					mLanguageSelection_2->add(std::string(language_directory));
+					mLanguageSelection->add(language_directory);	// add it to the language selection dropdown menu
+					mLanguageSelection_2->add(language_directory);
 				}
 			}
 		}
 	}
 	if(found_en_us)
 	{
-		mLanguageSelection->add(std::string("en"),ADD_TOP);															// make en first item if we found it
-		mLanguageSelection_2->add(std::string("en"),ADD_TOP);	
+		mLanguageSelection->add(LLStringExplicit("en"), ADD_TOP);	// make en first item if we found it
+		mLanguageSelection_2->add(LLStringExplicit("en"), ADD_TOP);
 	}
 	else
 	{
-		std::string warning = std::string("No EN localization found; check your XUI directories!");
-		popupAndPrintWarning(warning);
+		popupAndPrintWarning(LLStringExplicit("No EN localization found; check your XUI directories!"));
 	}
 	mLanguageSelection->selectFirstItem();																			// select the first item
 	mLanguageSelection_2->selectFirstItem();
@@ -535,7 +530,7 @@ void LLFloaterUIPreview::onLanguageComboSelect(LLUICtrl* ctrl)
 	LLComboBox* caller = dynamic_cast<LLComboBox*>(ctrl);
 	if (!caller)
 		return;
-	if(caller->getName() == std::string("language_select_combo"))
+	if(caller->getName() == LLStringExplicit("language_select_combo"))
 	{
 		if(mDisplayedFloater)
 		{
@@ -617,14 +612,8 @@ void LLFloaterUIPreview::popupAndPrintWarning(const std::string& warning)
 // Get localization string from drop-down menu
 std::string LLFloaterUIPreview::getLocStr(S32 ID)
 {
-	if(ID == 1)
-	{
-		return mLanguageSelection->getSelectedItemLabel(0);
-	}
-	else
-	{
-		return mLanguageSelection_2->getSelectedItemLabel(0);
-	}
+	return (ID == 1) ? mLanguageSelection->getSelectedItemLabel(0)
+					 : mLanguageSelection_2->getSelectedItemLabel(0);
 }
 
 // Get localized directory (build path from data directory to XUI files, substituting localization string in for language)
@@ -642,7 +631,7 @@ void LLFloaterUIPreview::refreshList()
 	std::string name;
 	BOOL found = TRUE;
 
-	LLDirIterator floater_iter(getLocalizedDirectory(), "floater_*.xml");
+	LLDirIterator floater_iter(getLocalizedDirectory(), LLStringExplicit("floater_*.xml"));
 	while(found)				// for every floater file that matches the pattern
 	{
 		if((found = floater_iter.next(name)))	// get next file matching pattern
@@ -652,7 +641,7 @@ void LLFloaterUIPreview::refreshList()
 	}
 	found = TRUE;
 
-	LLDirIterator inspect_iter(getLocalizedDirectory(), "inspect_*.xml");
+	LLDirIterator inspect_iter(getLocalizedDirectory(), LLStringExplicit("inspect_*.xml"));
 	while(found)				// for every inspector file that matches the pattern
 	{
 		if((found = inspect_iter.next(name)))	// get next file matching pattern
@@ -662,7 +651,7 @@ void LLFloaterUIPreview::refreshList()
 	}
 	found = TRUE;
 
-	LLDirIterator menu_iter(getLocalizedDirectory(), "menu_*.xml");
+	LLDirIterator menu_iter(getLocalizedDirectory(), LLStringExplicit("menu_*.xml"));
 	while(found)				// for every menu file that matches the pattern
 	{
 		if((found = menu_iter.next(name)))	// get next file matching pattern
@@ -672,7 +661,7 @@ void LLFloaterUIPreview::refreshList()
 	}
 	found = TRUE;
 
-	LLDirIterator panel_iter(getLocalizedDirectory(), "panel_*.xml");
+	LLDirIterator panel_iter(getLocalizedDirectory(), LLStringExplicit("panel_*.xml"));
 	while(found)				// for every panel file that matches the pattern
 	{
 		if((found = panel_iter.next(name)))	// get next file matching pattern
@@ -682,7 +671,7 @@ void LLFloaterUIPreview::refreshList()
 	}
 	found = TRUE;
 
-	LLDirIterator sidepanel_iter(getLocalizedDirectory(), "sidepanel_*.xml");
+	LLDirIterator sidepanel_iter(getLocalizedDirectory(), LLStringExplicit("sidepanel_*.xml"));
 	while(found)				// for every sidepanel file that matches the pattern
 	{
 		if((found = sidepanel_iter.next(name)))	// get next file matching pattern
@@ -722,24 +711,24 @@ void LLFloaterUIPreview::addFloaterEntry(const std::string& path)
 		LLXmlTreeNode* root_floater = xml_tree.getRoot();
 		if (!root_floater)
 		{
-			std::string warning = std::string("No root node found in XUI file: ") + path;
+			std::string warning = LLStringExplicit("No root node found in XUI file: ") + path;
 			popupAndPrintWarning(warning);
 			return;
 		}
 
 		// get name
-		root_floater->getAttributeString("name",entry_name);
-		if(std::string("") == entry_name)
+		root_floater->getAttributeString(LLStringExplicit("name"), entry_name);
+		if (entry_name.empty())
 		{
 			entry_name = "Error: unable to load " + std::string(path);	// set to error state if load fails
 		}
 
 		// get title
-		root_floater->getAttributeString("title",entry_title); // some don't have a title, and some have title = "(unknown)", so just leave it blank if it fails
+		root_floater->getAttributeString(LLStringExplicit("title"), entry_title); // some don't have a title, and some have title = "(unknown)", so just leave it blank if it fails
 	}
 	else
 	{
-		std::string warning = std::string("Unable to parse XUI file: ") + path;	// error handling
+		std::string warning = std::string("Unable to parse XUI file: ").append(path);	// error handling
 		popupAndPrintWarning(warning);
 		if(mLiveFile)
 		{
@@ -757,7 +746,7 @@ void LLFloaterUIPreview::addFloaterEntry(const std::string& path)
 	// Fill floater path column
 	columns[1]["column"] = "file_column";
 	columns[1]["type"] = "text";
-	columns[1]["value"] = std::string(path);
+	columns[1]["value"] = path;
 
 	// Fill floater name column
 	columns[2]["column"] = "top_level_node_column";
@@ -777,7 +766,7 @@ void LLFloaterUIPreview::onClickDisplayFloater(S32 caller_id)
 void LLFloaterUIPreview::onClickSaveFloater(S32 caller_id)
 {
 	displayFloater(TRUE, caller_id);
-	popupAndPrintWarning("Save-floater functionality removed, use XML schema to clean up XUI files");
+	popupAndPrintWarning(LLStringExplicit("Save-floater functionality removed, use XML schema to clean up XUI files"));
 }
 
 // Saves all floater/panels
@@ -785,12 +774,12 @@ void LLFloaterUIPreview::onClickSaveAll(S32 caller_id)
 {
 	int listSize = mFileList->getItemCount();
 
-	for (int index = 0; index < listSize; index++)
+	for (S32 index = 0; index < listSize; index++)
 	{
 		mFileList->selectNthItem(index);
 		displayFloater(TRUE, caller_id);
 	}
-	popupAndPrintWarning("Save-floater functionality removed, use XML schema to clean up XUI files");
+	popupAndPrintWarning(LLStringExplicit("Save-floater functionality removed, use XML schema to clean up XUI files"));
 }
 
 // Actually display the floater
@@ -823,14 +812,14 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 	}
 
 	std::string path = mFileList->getSelectedItemLabel(1);		// get the path of the currently-selected floater
-	if(std::string("") == path)											// if no item is selected
+	if(path.empty())								// if no item is selected
 	{
-		return;															// ignore click (this can only happen with empty list; otherwise an item is always selected)
+		return;	// ignore click (this can only happen with empty list; otherwise an item is always selected)
 	}
 
 	LLFloater::Params p(LLFloater::getDefaultParams());
-	p.min_height=p.header_height;
-	p.min_width=10;
+	p.min_height = p.header_height;
+	p.min_width = 10;
 
 	*floaterp = new LLPreviewedFloater(this, p);
 
@@ -890,15 +879,15 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 	}
 
 	// Add localization to title so user knows whether it's localized or defaulted to en
-	std::string full_path = getLocalizedDirectory() + path;
-	std::string floater_lang = "EN";
+	std::string full_path(getLocalizedDirectory().append(path));
+	std::string floater_lang("EN");
 	llstat dummy;
 	if(!LLFile::stat(full_path.c_str(), &dummy))	// if the file does not exist
 	{
 		floater_lang = getLocStr(ID);
 	}
-	std::string new_title = (*floaterp)->getTitle() + std::string(" [") + floater_lang +
-						(ID == 1 ? " - Primary" : " - Secondary") + std::string("]");
+	std::string new_title = (*floaterp)->getTitle() + LLStringExplicit(" [") + floater_lang +
+						(ID == 1 ? " - Primary" : " - Secondary") + LLStringExplicit("]");
 	(*floaterp)->setTitle(new_title);
 
 	(*floaterp)->center();
@@ -970,7 +959,7 @@ void LLFloaterUIPreview::onClickEditFloater()
 		llstat dummy;
 		if(LLFile::stat(file_path.c_str(), &dummy))								// if the file does not exist
 		{
-			popupAndPrintWarning("No file for this floater exists in the selected localization.  Opening the EN version instead.");
+			popupAndPrintWarning(LLStringExplicit("No file for this floater exists in the selected localization.  Opening the EN version instead."));
 			file_path = get_xui_dir() + mDelim + "en" + mDelim + file_name; // open the en version instead, by default
 		}
 	}
@@ -1052,14 +1041,12 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 			}
 			else
 			{
-				std::string warning = "Unable to get CString from CFString for executable path";
-				popupAndPrintWarning(warning);
+				popupAndPrintWarning(LLStringExplicit("Unable to get CString from CFString for executable path"));
 			}
 		}
 		else
 		{
-			std::string warning = "Unable to get bundle info dictionary from application bundle";
-			popupAndPrintWarning(warning);
+			popupAndPrintWarning(LLStringExplicit("Unable to get bundle info dictionary from application bundle"));
 		}
 		CFRelease(bundleInfoDict);
 	}
@@ -1067,7 +1054,7 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 	{
 		if(std::string::npos != executable_path.find(".app"))	// only warn if this path actually had ".app" in it, i.e. it probably just wasn'nt an app bundle and that's okay
 		{
-			std::string warning = std::string("Unable to get bundle from path \"") + chosen_path + std::string("\"");
+			std::string warning = LLStringExplicit("Unable to get bundle from path \"") + chosen_path + LLStringExplicit("\"");
 			popupAndPrintWarning(warning);
 		}
 	}
@@ -1080,9 +1067,8 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 void LLFloaterUIPreview::onClickBrowseForDiffs()
 {
 	// create load dialog box
-	LLFilePicker::ELoadFilter type = (LLFilePicker::ELoadFilter)((intptr_t)((void*)LLFilePicker::FFLOAD_XML));	// nothing for *.exe so just use all
 	LLFilePicker& picker = LLFilePicker::instance();
-	if (!picker.getOpenFile(type))	// user cancelled -- do nothing
+	if (!picker.getOpenFile(LLFilePicker::FFLOAD_EXE))	// user cancelled -- do nothing
 	{
 		return;
 	}
@@ -1120,17 +1106,16 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 		std::string path_in_textfield = mDiffPathTextBox->getText();	// get file path
 		BOOL error = FALSE;
 
-		if(std::string("") == path_in_textfield)									// check for blank file
+		if(path_in_textfield.empty())	// check for blank file
 		{
-			std::string warning = "Unable to highlight differences because no file was provided; fill in the relevant text field";
-			popupAndPrintWarning(warning);
+			popupAndPrintWarning(LLStringExplicit("Unable to highlight differences because no file was provided; fill in the relevant text field"));
 			error = TRUE;
 		}
 
 		llstat dummy;
 		if(LLFile::stat(path_in_textfield.c_str(), &dummy) && !error)			// check if the file exists (empty check is reduntant but useful for the informative error message)
 		{
-			std::string warning = std::string("Unable to highlight differences because an invalid path to a difference file was provided:\"") + path_in_textfield + "\"";
+			std::string warning = LLStringExplicit("Unable to highlight differences because an invalid path to a difference file was provided:\"") + path_in_textfield + "\"";
 			popupAndPrintWarning(warning);
 			error = TRUE;
 		}
@@ -1175,14 +1160,14 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 			}
 			else
 			{
-				std::string warning = std::string("Root node not named XuiDelta:\"") + path_in_textfield + "\"";
+				std::string warning = LLStringExplicit("Root node not named XuiDelta:\"") + path_in_textfield + "\"";
 				popupAndPrintWarning(warning);
 				error = TRUE;
 			}
 		}
 		else if(!error)
 		{
-			std::string warning = std::string("Unable to create tree from XML:\"") + path_in_textfield + "\"";
+			std::string warning = LLStringExplicit("Unable to create tree from XML:\"") + path_in_textfield + "\"";
 			popupAndPrintWarning(warning);
 			error = TRUE;
 		}
@@ -1205,9 +1190,9 @@ void LLFloaterUIPreview::scanDiffFile(LLXmlTreeNode* file_node)
 	// Get file name
 	std::string file_name;
 	file_node->getAttributeString("name",file_name);
-	if(std::string("") == file_name)
+	if(file_name.empty())
 	{
-		std::string warning = std::string("Empty file name encountered in differences:\"") + file_name + "\"";
+		std::string warning = LLStringExplicit("Empty file name encountered in differences:\"") + file_name + "\"";
 		popupAndPrintWarning(warning);
 		return;
 	}
@@ -1228,7 +1213,7 @@ void LLFloaterUIPreview::scanDiffFile(LLXmlTreeNode* file_node)
 		}
 		else
 		{
-			std::string warning = std::string("Child of file was not a delta, but rather the following:\"") + std::string(child->getName()) + "\"";
+			std::string warning = LLStringExplicit("Child of file was not a delta, but rather the following:\"") + child->getName() + "\"";
 			popupAndPrintWarning(warning);
 			return;
 		}
@@ -1297,7 +1282,7 @@ void LLFloaterUIPreview::highlightChangedElements()
 	}
 	for(std::list<std::string>::iterator iter = error_list->begin(); iter != error_list->end(); ++iter)	// for every changed element path
 	{
-		std::string warning = std::string("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" + *iter + "\"";
+		std::string warning = LLStringExplicit("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" + *iter + "\"";
 		popupAndPrintWarning(warning);
 	}
 }

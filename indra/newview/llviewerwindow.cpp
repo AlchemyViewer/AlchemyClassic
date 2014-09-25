@@ -4665,7 +4665,7 @@ void LLViewerWindow::drawMouselookInstructions()
 
 	//to be on top of Bottom bar when it is opened
 	const S32 INSTRUCTIONS_PAD = getWorldViewRectScaled().mTop - 15;
-	const S32 text_pos_start = getWorldViewRectScaled().getCenterX() - 100;
+	const S32 text_pos_start = getWorldViewRectScaled().getCenterX() - 150;
 	font->renderUTF8(
 		llformat("X: %.2f", vec.mV[VX]), 0,
 		text_pos_start,

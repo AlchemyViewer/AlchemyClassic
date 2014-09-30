@@ -10,16 +10,16 @@
  top="1"
  width="517">
   <icon
-     follows="left|top"
-     height="18"
-     image_name="Cam_FreeCam_Off"
-     layout="topleft"
-     name="camera_icon"
-     mouse_opaque="false"
-     visible="true"
-     width="18"
-     left="10"
-     top="5"/>
+   follows="left|top"
+   height="18"
+   image_name="Cam_FreeCam_Off"
+   layout="topleft"
+   name="camera_icon"
+   mouse_opaque="false"
+   visible="true"
+   width="18"
+   left="10"
+   top="5"/>
   <slider
    can_edit_text="true"
    control_name="CameraAngle"
@@ -116,16 +116,16 @@
     Automatic position for:
   </text>
   <check_box
-     control_name="EditCameraMovement"
-     height="20"
-     follows="left|top"
-     label="Build/Edit"
-     layout="topleft"
-     left_delta="10"
-     name="edit_camera_movement"
-     tool_tip="Use automatic camera positioning when entering and exiting edit mode"
-     width="280"
-     top_pad="5" />
+   control_name="EditCameraMovement"
+   height="20"
+   follows="left|top"
+   label="Build/Edit"
+   layout="topleft"
+   left_delta="10"
+   name="edit_camera_movement"
+   tool_tip="Use automatic camera positioning when entering and exiting edit mode"
+   width="280"
+   top_pad="5" />
   <check_box
    control_name="AppearanceCameraMovement"
    follows="left|top"
@@ -167,14 +167,14 @@
    width="242" />
    <!-- End Column #2 -->
   <icon
-	 follows="left|top"
-	 height="18"
-	 image_name="Move_Walk_Off"
+   follows="left|top"
+   height="18"
+   image_name="Move_Walk_Off"
    layout="topleft"
-	 name="avatar_icon"
-	 mouse_opaque="false"
-	 visible="true"
-	 width="18"
+   name="avatar_icon"
+   mouse_opaque="false"
+   visible="true"
+   width="18"
    top_pad="65"
    left="10" />
   <text

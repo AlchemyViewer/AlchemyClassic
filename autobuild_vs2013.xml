@@ -188,9 +188,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d68b7ab681d6378968a04898058c3fde</string>
+              <string>14a15cc841dca8d356d6c33f466a8c07</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.1-windows64-vs12-20140722.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows64-vs12-20141002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1232,9 +1232,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6729e9dbb1f6b703fd03f52a85f533e2</string>
+              <string>ae008116e2bf6d552fa45440f6d33544</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-vs12-20140710.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-vs12-20141002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1488,9 +1488,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9d0aa4dfe0f054375dcc46cd0d8c419b</string>
+              <string>4b260de62019a2c176748e328030fa8f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1h-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1i-windows64-20141002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

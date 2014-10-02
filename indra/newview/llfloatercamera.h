@@ -31,6 +31,7 @@
 #include "lliconctrl.h"
 #include "lltextbox.h"
 #include "llflatlistview.h"
+#include "llbutton.h"
 
 class LLJoystickCameraRotate;
 class LLJoystickCameraTrack;
@@ -115,6 +116,9 @@ private:
 	void fillFlatlistFromPanel (LLFlatListView* list, LLPanel* panel);
 
 	void handleAvatarEditingAppearance(bool editing);
+	
+	void toggleCollapse();
+	void collapse();
 
 	// set to true when free camera mode is selected in modes list
 	// remains true until preset camera mode is chosen, or pan button is clicked, or escape pressed
@@ -124,6 +128,8 @@ private:
 	ECameraControlMode mPrevMode;
 	ECameraControlMode mCurrMode;
 	std::map<ECameraControlMode, LLButton*> mMode2Button;
+	
+	LLButton* mBtnCollapse;
 };
 
 /**

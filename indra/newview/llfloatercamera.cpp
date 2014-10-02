@@ -348,7 +348,8 @@ LLFloaterCamera::LLFloaterCamera(const LLSD& val)
 :	LLFloater(val),
 	mClosed(FALSE),
 	mCurrMode(CAMERA_CTRL_MODE_PAN),
-	mPrevMode(CAMERA_CTRL_MODE_PAN)
+	mPrevMode(CAMERA_CTRL_MODE_PAN),
+	mBtnCollapse(nullptr)
 {
 	LLHints::registerHintTarget("view_popup", getHandle());
 	mCommitCallbackRegistrar.add("CameraPresets.ChangeView", boost::bind(&LLFloaterCamera::onClickCameraItem, _2));
@@ -371,6 +372,10 @@ BOOL LLFloaterCamera::postBuild()
 
 	// ensure that appearance mode is handled while building. See EXT-7796.
 	handleAvatarEditingAppearance(sAppearanceEditing);
+	
+	mBtnCollapse = getChild<LLButton>("collapse_btn");
+	mBtnCollapse->setCommitCallback(boost::bind(&LLFloaterCamera::toggleCollapse, this));
+	collapse();
 
 	return LLFloater::postBuild();
 }
@@ -592,4 +597,19 @@ void LLFloaterCamera::fromFreeToPresets()
 	{
 		switchMode(CAMERA_CTRL_MODE_PRESETS);
 	}
+}
+
+void LLFloaterCamera::toggleCollapse()
+{
+	BOOL setting = !gSavedSettings.getBOOL("AlchemyCameraExpanded");
+	gSavedSettings.setBOOL("AlchemyCameraExpanded", setting);
+	collapse();
+}
+
+void LLFloaterCamera::collapse()
+{
+	BOOL collapse = gSavedSettings.getBOOL("AlchemyCameraExpanded");
+	mBtnCollapse->setImageOverlay(collapse ? "Conv_toolbar_collapse" : "Conv_toolbar_expand");
+	getChild<LLPanel>("controls")->setVisible(collapse);
+	reshape(collapse ? 210 : 30, getRect().getHeight(), FALSE);
 }

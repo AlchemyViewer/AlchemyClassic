@@ -248,9 +248,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98143afd8275009d6d210c7dc2a7602c</string>
+              <string>bf145aa178a8332924d61c21a9ef83a9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.37.1-darwin-201407231636.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.38-darwin-201409291622.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -281,7 +281,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.37.1</string>
+        <string>7.38</string>
       </map>
       <key>db</key>
       <map>
@@ -1630,9 +1630,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>49413bca6626079446d6c05f2eb481c8</string>
+              <string>ffff24f7c7833ac66ca6cf749db8292f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201407300827.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201409291655.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1940,9 +1940,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6ec2f6c9ff545816dba59262ccad0cf5</string>
+              <string>5ea8b34048eb7d9cdbd8b43e1aae4988</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openssl-1.0.1h-darwin-201407231612.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openssl-1.0.1i-darwin-201409291345.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1973,7 +1973,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.0.1h</string>
+        <string>1.0.1i</string>
       </map>
       <key>pcre</key>
       <map>

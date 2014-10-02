@@ -962,6 +962,18 @@
 	
   <!-- Alchemy -->
   <color
+   name="AvatarColor1"
+   reference="Red" />
+  <color
+   name="AvatarColor2"
+   reference="Green" />
+  <color
+   name="AvatarColor3"
+   reference="Blue" />
+  <color
+   name="AvatarColor4"
+   reference="Yellow" />
+  <color
    name="AvatarListItemOnlineColor"
    reference="White" />
   <color

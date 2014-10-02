@@ -918,6 +918,7 @@ private:
 	BOOL			mTyping;
 	bool			mTypingLast;
 	LLFrameTimer	mTypingTimer;
+	LLColor4		mColorLast;
 
 /**                    Name
  **                                                                            **

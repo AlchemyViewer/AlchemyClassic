@@ -38,6 +38,7 @@
 #include "sound_ids.h"
 #include "raytrace.h"
 
+#include "alavatarcolormgr.h"
 #include "llagent.h" //  Get state values from here
 #include "llagentcamera.h"
 #include "llagentwearables.h"
@@ -688,7 +689,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mIsSitting(FALSE),
 	mTimeVisible(),
 	mTyping(FALSE),
-	mTypingLast(FALSE),
+	mTypingLast(false),
 	mMeshValid(FALSE),
 	mVisible(FALSE),
 	mWindFreq(0.f),
@@ -704,6 +705,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mNameAppearance(false),
 	mNameFriend(false),
 	mNameAlpha(0.f),
+	mColorLast(LLColor4::white),
 	mRenderGroupTitles(sRenderGroupTitles),
 	mNameCloud(false),
 	mFirstTEMessageReceived( FALSE ),
@@ -2886,6 +2888,8 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 			debugAvatarRezTime("AvatarRezLeftAppearanceNotification","left appearance mode");
 		}
 	}
+	static LLCachedControl<bool> use_color_mgr(gSavedSettings, "AlchemyNametagColorMgr", false);
+	const LLColor4& name_tag_color = use_color_mgr ? isSelf() ? LLColor4::white : ALAvatarColorMgr::instance().getColor(getID()) : getNameTagColor(is_friend);
 
 	// Rebuild name tag if state change detected
 	if (!mNameIsSet
@@ -2898,10 +2902,9 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 		|| is_appearance != mNameAppearance 
 		|| is_friend != mNameFriend
 		|| is_cloud != mNameCloud
-		|| is_typing != mTypingLast)
+		|| is_typing != mTypingLast
+		|| name_tag_color != mColorLast)
 	{
-		LLColor4 name_tag_color = getNameTagColor(is_friend);
-
 		clearNameTag();
 
 		if (is_away || is_muted || is_do_not_disturb || is_appearance || is_typing)
@@ -2994,6 +2997,7 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 		mNameFriend = is_friend;
 		mNameCloud = is_cloud;
 		mTypingLast = is_typing;
+		mColorLast = name_tag_color;
 		mTitle = title ? title->getString() : "";
 		LLStringFn::replace_ascii_controlchars(mTitle,LL_UNKNOWN_CHAR);
 		new_name = TRUE;

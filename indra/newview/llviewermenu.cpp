@@ -43,6 +43,7 @@
 #include "llviewereventrecorder.h"
 
 // newview includes
+#include "alavatarcolormgr.h"
 #include "llagent.h"
 #include "llagentaccess.h"
 #include "llagentcamera.h"
@@ -6075,6 +6076,39 @@ class LLAvatarCopyData : public view_listener_t
 	}
 };
 
+class ALAvatarColorize : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+		if (avatarp)
+		{
+			const std::string& param = userdata.asString();
+			if (param == "color1")
+			{
+				ALAvatarColorMgr::instance().addOrUpdateCustomColor(avatarp->getID(), ALAvatarColorMgr::E_FIRST_COLOR);
+			}
+			else if (param == "color2")
+			{
+				ALAvatarColorMgr::instance().addOrUpdateCustomColor(avatarp->getID(), ALAvatarColorMgr::E_SECOND_COLOR);
+			}
+			else if (param == "color3")
+			{
+				ALAvatarColorMgr::instance().addOrUpdateCustomColor(avatarp->getID(), ALAvatarColorMgr::E_THIRD_COLOR);
+			}
+			else if (param == "color4")
+			{
+				ALAvatarColorMgr::instance().addOrUpdateCustomColor(avatarp->getID(), ALAvatarColorMgr::E_FOURTH_COLOR);
+			}
+			else if (param == "clear")
+			{
+				ALAvatarColorMgr::instance().clearCustomColor(avatarp->getID());
+			}
+		}
+		return false;
+	}
+};
+
 bool complete_give_money(const LLSD& notification, const LLSD& response, LLObjectSelectionHandle selection)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
@@ -9059,6 +9093,8 @@ void initialize_menus()
 	
 	view_listener_t::addMenu(new LLAvatarEnableAddFriend(), "Avatar.EnableAddFriend");
 	enable.add("Avatar.EnableFreezeEject", boost::bind(&enable_freeze_eject, _2));
+
+	view_listener_t::addMenu(new ALAvatarColorize(), "Avatar.Colorize");
 
 	// Object pie menu
 	view_listener_t::addMenu(new LLObjectBuild(), "Object.Build");

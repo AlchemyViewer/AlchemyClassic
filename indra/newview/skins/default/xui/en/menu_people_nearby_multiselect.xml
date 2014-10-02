@@ -92,4 +92,48 @@
          function="Avatar.CopyKey" />
     </menu_item_call>
     </menu>
+  <menu
+   label="Tag Color"
+   name="tag_color">
+    <menu_item_call
+     label="Color 1"
+     name="Color 1"
+     enabled_color="AvatarColor1">
+      <menu_item_call.on_click
+      function="Avatar.Colorize"
+      parameter="color1" />
+    </menu_item_call>
+    <menu_item_call
+     label="Color 2"
+     name="Color 2"
+     enabled_color="AvatarColor2">
+      <menu_item_call.on_click
+      function="Avatar.Colorize"
+      parameter="color2" />
+    </menu_item_call>
+    <menu_item_call
+     label="Color 3"
+     name="Color 3"
+     enabled_color="AvatarColor3">
+      <menu_item_call.on_click
+      function="Avatar.Colorize"
+      parameter="color3" />
+    </menu_item_call>
+    <menu_item_call
+     label="Color 4"
+     name="Color 4"
+     enabled_color="AvatarColor4">
+      <menu_item_call.on_click
+      function="Avatar.Colorize"
+      parameter="color4" />
+    </menu_item_call>
+    <menu_item_separator />
+    <menu_item_call
+     label="Clear Color"
+     name="clear_color">
+      <menu_item_call.on_click
+      function="Avatar.Colorize"
+      parameter="clear" />
+    </menu_item_call>
+  </menu>
 </context_menu>

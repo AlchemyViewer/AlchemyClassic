@@ -43,6 +43,7 @@
 #include "llglheaders.h"
 
 // Viewer includes
+#include "alavatarcolormgr.h"
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llappviewer.h" // for gDisconnected
@@ -155,14 +156,11 @@ void LLNetMap::draw()
 		return;
 
 	static LLFrameTimer map_timer;
-	static LLUIColor map_avatar_color = LLUIColorTable::instance().getColor("MapAvatarColor", LLColor4::white);
-	static LLUIColor map_avatar_friend_color = LLUIColorTable::instance().getColor("MapAvatarFriendColor", LLColor4::white);
 	static LLUIColor map_track_color = LLUIColorTable::instance().getColor("MapTrackColor", LLColor4::white);
 	//static LLUIColor map_track_disabled_color = LLUIColorTable::instance().getColor("MapTrackDisabledColor", LLColor4::white);
 	static LLUIColor map_frustum_color = LLUIColorTable::instance().getColor("MapFrustumColor", LLColor4::white);
 	static LLUIColor map_frustum_rotating_color = LLUIColorTable::instance().getColor("MapFrustumRotatingColor", LLColor4::white);
 	// <alchemy>
-	static LLUIColor map_avatar_linden_color = LLUIColorTable::instance().getColor("MapAvatarLindenColor", LLColor4::cyan);
 	static LLUIColor map_line_color = LLUIColorTable::instance().getColor("MapLineColor", LLColor4::red);
 	static LLCachedControl<bool> use_world_map_image(gSavedSettings, "AlchemyMinimapTile", true);
 	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
@@ -400,33 +398,7 @@ void LLNetMap::draw()
 
 			pos_map = globalPosToView(positions[i]);
 
-			LLAvatarName av_name;
-			LLAvatarNameCache::get(uuid, &av_name);
-			bool is_linden = LLMuteList::instance().isLinden(av_name.getUserName());
-			bool is_muted = LLMuteList::instance().isMuted(uuid, av_name.getUserName());
-			bool show_as_friend = (LLAvatarTracker::instance().getBuddyInfo(uuid) != NULL);
-
-			const uuid_color_umap_t::const_iterator& user_col_it = mCustomColors.find(uuid);
-			if (user_col_it != mCustomColors.cend())
-			{
-				color = user_col_it->second;
-			}
-			else if (is_linden)
-			{
-				color = map_avatar_linden_color.get();
-			}
-			else if (is_muted)
-			{
-				color = LLColor4::grey;
-			}
-			else if (show_as_friend)
-			{
-				color = map_avatar_friend_color.get();
-			}
-			else
-			{
-				color = map_avatar_color.get();
-			}
+			color = ALAvatarColorMgr::instance().getColor(uuid);
 
 			unknown_relative_z = positions[i].mdV[VZ] == COARSEUPDATE_MAX_Z &&
 					camera_position.mV[VZ] >= COARSEUPDATE_MAX_Z;

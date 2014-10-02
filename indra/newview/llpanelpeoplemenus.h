@@ -50,6 +50,7 @@ private:
 	void startConference();
 	void requestTeleport();
 	void teleportTo();
+	void colorize(const LLSD& userdata);
 };
 
 /**

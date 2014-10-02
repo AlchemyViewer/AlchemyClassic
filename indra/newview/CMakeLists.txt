@@ -110,6 +110,7 @@ include_directories(SYSTEM
     )
 
 set(viewer_SOURCE_FILES
+    alavatarcolormgr.cpp
     alchatcommand.cpp
     alfloaterregiontracker.cpp
     alpanelquicksettings.cpp
@@ -733,6 +734,7 @@ set(VIEWER_BINARY_NAME "alchemy-bin" CACHE STRING
 set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
+    alavatarcolormgr.h
     alchatcommand.h
     alfloaterregiontracker.h
     alpanelquicksettings.h

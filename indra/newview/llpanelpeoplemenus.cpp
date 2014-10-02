@@ -33,6 +33,7 @@
 #include "llpanelpeoplemenus.h"
 
 // newview
+#include "alavatarcolormgr.h"
 #include "llagent.h"
 #include "llagentdata.h"			// for gAgentID
 #include "llavataractions.h"
@@ -84,6 +85,7 @@ LLContextMenu* PeopleContextMenu::createMenu()
 		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const LLUUID&,
 			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_UUID));
 		registrar.add("Avatar.TeleportTo",		boost::bind(&PeopleContextMenu::teleportTo, this));
+		registrar.add("Avatar.Colorize",		boost::bind(&PeopleContextMenu::colorize, this, _2));
 
 		enable_registrar.add("Avatar.EnableItem", boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 		enable_registrar.add("Avatar.CheckItem",  boost::bind(&PeopleContextMenu::checkContextMenuItem,	this, _2));
@@ -109,6 +111,7 @@ LLContextMenu* PeopleContextMenu::createMenu()
 			(&LLAvatarActions::copyData), mUUIDs, LLAvatarActions::E_DATA_SLURL));
 		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const uuid_vec_t&, LLAvatarActions::ECopyDataType)>
 			(&LLAvatarActions::copyData), mUUIDs, LLAvatarActions::E_DATA_UUID));
+		registrar.add("Avatar.Colorize", boost::bind(&PeopleContextMenu::colorize, this, _2));
 		
 		enable_registrar.add("Avatar.EnableItem",	boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
 
@@ -321,6 +324,43 @@ void PeopleContextMenu::teleportTo()
 	}
 }
 
+void PeopleContextMenu::colorize(const LLSD& userdata)
+{
+	const std::string& param = userdata.asString();
+	U32 color = 99;
+	if (param == "color1")
+	{
+		color = ALAvatarColorMgr::E_FIRST_COLOR;
+	}
+	else if (param == "color2")
+	{
+		color = ALAvatarColorMgr::E_SECOND_COLOR;
+	}
+	else if (param == "color3")
+	{
+		color = ALAvatarColorMgr::E_THIRD_COLOR;
+	}
+	else if (param == "color4")
+	{
+		color = ALAvatarColorMgr::E_FOURTH_COLOR;
+	}
+
+	for (const LLUUID& id : mUUIDs)
+	{
+		if (id != gAgentID)
+		{
+			if (color != 99)
+			{
+				ALAvatarColorMgr::instance().addOrUpdateCustomColor(id, (ALAvatarColorMgr::e_custom_colors)color);
+			}
+			else
+			{
+				ALAvatarColorMgr::instance().clearCustomColor(id);
+			}
+		}
+	}
+}
+
 //== NearbyPeopleContextMenu ===============================================================
 
 void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
@@ -342,6 +382,7 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
+		items.push_back(std::string("tag_color"));
 	}
 	else 
 	{
@@ -367,6 +408,7 @@ void NearbyPeopleContextMenu::buildContextMenu(class LLMenuGL& menu, U32 flags)
 		items.push_back(std::string("copy_name"));
 		items.push_back(std::string("copy_slurl"));
 		items.push_back(std::string("copy_uuid"));
+		items.push_back(std::string("tag_color"));
 	}
 
     hide_context_entries(menu, items, disabled_items);

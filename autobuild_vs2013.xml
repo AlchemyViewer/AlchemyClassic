@@ -176,9 +176,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c7886723761595c475429f188404e5b9</string>
+              <string>761502e585eb95b24e0815d453f41a20</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.37.1-windows-vs12-20140722.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows-vs12-20141002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1476,9 +1476,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>22abad484a83894d2550495447ec5a06</string>
+              <string>0e771eaf70172cd8a8377f1f0cd76c12</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1h-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1i-windows-20141002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

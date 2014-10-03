@@ -51,6 +51,7 @@
 #include "llavataractions.h"
 #include "llcallingcard.h" // for LLAvatarTracker
 #include "lldateutil.h"
+#include "lldroptarget.h"
 #include "llfloaterreporter.h"
 #include "llfloaterworldmap.h"
 #include "llgroupactions.h"
@@ -153,6 +154,8 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 		childSetEnabled(checkbox, is_self);
 	for (const std::string& checkbox: sSkillsCheckboxes)
 		childSetEnabled(checkbox, is_self);
+	childSetEnabled("drop_target", !is_self);
+	getChild<LLDropTarget>("drop_target")->setAgentID(av_id);
 	
 	updateData();
 	resetControls();

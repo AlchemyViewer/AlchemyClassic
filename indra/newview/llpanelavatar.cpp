@@ -56,68 +56,7 @@
 // its parent.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-class LLDropTarget : public LLView
-{
-public:
-	struct Params : public LLInitParam::Block<Params, LLView::Params>
-	{
-		Optional<LLUUID> agent_id;
-		Params()
-		:	agent_id("agent_id")
-		{
-			changeDefault(mouse_opaque, false);
-			changeDefault(follows.flags, FOLLOWS_ALL);
-		}
-	};
-
-	LLDropTarget(const Params&);
-	~LLDropTarget();
-
-	void doDrop(EDragAndDropType cargo_type, void* cargo_data);
-
-	//
-	// LLView functionality
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
-								   EDragAndDropType cargo_type,
-								   void* cargo_data,
-								   EAcceptance* accept,
-								   std::string& tooltip_msg);
-	void setAgentID(const LLUUID &agent_id)		{ mAgentID = agent_id; }
-protected:
-	LLUUID mAgentID;
-};
-
-LLDropTarget::LLDropTarget(const LLDropTarget::Params& p) 
-:	LLView(p),
-	mAgentID(p.agent_id)
-{}
-
-LLDropTarget::~LLDropTarget()
-{}
-
-void LLDropTarget::doDrop(EDragAndDropType cargo_type, void* cargo_data)
-{
-	LL_INFOS() << "LLDropTarget::doDrop()" << LL_ENDL;
-}
-
-BOOL LLDropTarget::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
-									 EDragAndDropType cargo_type,
-									 void* cargo_data,
-									 EAcceptance* accept,
-									 std::string& tooltip_msg)
-{
-	if(getParent())
-	{
-		LLToolDragAndDrop::handleGiveDragAndDrop(mAgentID, LLUUID::null, drop,
-												 cargo_type, cargo_data, accept);
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static LLDefaultChildRegistry::Register<LLDropTarget> r("drop_target");
+/* Moved to lldroptarget.cpp */
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////

@@ -311,4 +311,13 @@ Remove Friend
      width="30" />
     </layout_panel>
   </layout_stack>
+  <drop_target
+   top="0"
+   bottom="-1"
+   left="0"
+   right="-1"
+   layout="topleft"
+   follows="all"
+   name="drop_target"
+   mouse_opaque="false" />
 </panel>

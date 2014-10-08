@@ -15,10 +15,11 @@ if (USESYSTEMLIBS)
   set(BOOST_SIGNALS_LIBRARY boost_signals-mt)
   set(BOOST_SYSTEM_LIBRARY boost_system-mt)
   set(BOOST_THREAD_LIBRARY boost_thread-mt)
+  set(BOOST_IOSTREAMS_LIBRARY boost_iostreams-mt)
 else (USESYSTEMLIBS)
   use_prebuilt_binary(boost)
   set(Boost_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include)
-  set(BOOST_VERSION "1.55")
+  set(BOOST_VERSION "1.56")
 
   if (WINDOWS)
     if(MSVC80)
@@ -44,6 +45,9 @@ else (USESYSTEMLIBS)
       set(BOOST_THREAD_LIBRARY 
           optimized libboost_thread-vc80-mt-${BOOST_VERSION}
           debug libboost_thread-vc80-mt-gd-${BOOST_VERSION})
+      set(BOOST_IOSTREAMS_LIBRARY
+          optimized libboost_iostreams-vc80-mt-${BOOST_VERSION}
+          debug libboost_iostreams-vc80-mt-gd-${BOOST_VERSION})
     else(MSVC80)
       # MSVC 10.0 config
       set(BOOST_CONTEXT_LIBRARY 
@@ -70,6 +74,9 @@ else (USESYSTEMLIBS)
       set(BOOST_THREAD_LIBRARY 
           optimized libboost_thread-mt
           debug libboost_thread-mt-gd)
+      set(BOOST_IOSTREAMS_LIBRARY
+          optimized libboost_iostreams-mt
+          debug libboost_iostreams-mt-gd)
     endif (MSVC80)
   elseif (LINUX)
     set(BOOST_CONTEXT_LIBRARY
@@ -96,6 +103,9 @@ else (USESYSTEMLIBS)
     set(BOOST_THREAD_LIBRARY
         optimized boost_thread-mt
         debug boost_thread-mt-d)
+    set(BOOST_IOSTREAMS_LIBRARY
+        optimized boost_iostreams-mt
+        debug boost_iostreams-mt-d)
   elseif (DARWIN)
     set(BOOST_CONTEXT_LIBRARY
         optimized boost_context-mt
@@ -121,5 +131,8 @@ else (USESYSTEMLIBS)
     set(BOOST_THREAD_LIBRARY
         optimized boost_thread-mt
         debug boost_thread-mt-d)
+    set(BOOST_IOSTREAMS_LIBRARY
+        optimized boost_iostreams-mt
+        debug boost_iostreams-mt-d)
   endif (WINDOWS)
 endif (USESYSTEMLIBS)

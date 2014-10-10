@@ -736,7 +736,7 @@ class Windows_x86_64_Manifest(WindowsManifest):
                 else:
                     self.path("fmod64.dll")
             except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
+                print "Skipping fmodstudio audio library(assuming other audio engine)"
 
             self.end_prefix()
 
@@ -862,6 +862,19 @@ class DarwinManifest(ViewerManifest):
                 else:
                     for libfile in (
                                 "libfmodex.dylib",
+                                ):
+                        dylibs += path_optional(os.path.join("../packages/lib/release",
+                                                             libfile), libfile)
+
+                if self.args['configuration'].lower() == 'debug':
+                    for libfile in (
+                                "libfmodL.dylib",
+                                ):
+                        dylibs += path_optional(os.path.join("../packages/lib/debug",
+                                                             libfile), libfile)
+                else:
+                    for libfile in (
+                                "libfmod.dylib",
                                 ):
                         dylibs += path_optional(os.path.join("../packages/lib/release",
                                                              libfile), libfile)

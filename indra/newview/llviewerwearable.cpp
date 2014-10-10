@@ -29,6 +29,7 @@
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llagentwearables.h"
+#include "llassetuploadresponders.h"
 #include "llfloatersidepanelcontainer.h"
 #include "lllocaltextureobject.h"
 #include "llnotificationsutil.h"
@@ -534,28 +535,29 @@ void LLViewerWearable::saveNewAsset() const
 	// save it out to database
 	if( gAssetStorage )
 	{
-		 /*
-		std::string url = gAgent.getRegion()->getCapability("NewAgentInventory");
+#if 0
+		const std::string url = gAgent.getRegion()->getCapability("NewFileAgentInventory");
 		if (!url.empty())
 		{
 			LL_INFOS() << "Update Agent Inventory via capability" << LL_ENDL;
 			LLSD body;
-			body["folder_id"] = gInventory.findCategoryUUIDForType(LLFolderType::assetToFolderType(getAssetType()));
+			body["folder_id"] = gInventory.findCategoryUUIDForType(LLFolderType::assetTypeToFolderType(getAssetType()));
 			body["asset_type"] = LLAssetType::lookup(getAssetType());
 			body["inventory_type"] = LLInventoryType::lookup(LLInventoryType::IT_WEARABLE);
 			body["name"] = getName();
 			body["description"] = getDescription();
-			LLHTTPClient::post(url, body, new LLNewAgentInventoryResponder(body, filename));
+			LLHTTPClient::post(url, body, new LLNewAgentInventoryResponder(body, filename,
+																		   getAssetType()));
 		}
 		else
+#endif // 0
 		{
+			LLWearableSaveData* data = new LLWearableSaveData;
+			data->mType = mType;
+			gAssetStorage->storeAssetData(filename, mTransactionID, getAssetType(),
+										  &LLViewerWearable::onSaveNewAssetComplete,
+										  (void*)data);
 		}
-		 */
-		 LLWearableSaveData* data = new LLWearableSaveData;
-		 data->mType = mType;
-		 gAssetStorage->storeAssetData(filename, mTransactionID, getAssetType(),
-                                     &LLViewerWearable::onSaveNewAssetComplete,
-                                     (void*)data);
 	}
 }
 

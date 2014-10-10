@@ -34,6 +34,8 @@
 #include "llavatarappearancedefines.h"
 #include "llwearable.h"
 #include "boost/bind.hpp"
+#include <boost/iostreams/device/file_descriptor.hpp>
+#include <boost/iostreams/stream.hpp>
 
 using namespace LLAvatarAppearanceDefines;
 
@@ -88,7 +90,13 @@ LLAssetType::EType LLWearable::getAssetType() const
 
 BOOL LLWearable::exportFile(LLFILE* fp) const
 {
+#ifdef LL_DARWIN
+	using namespace boost::iostreams;
+	stream_buffer<file_descriptor_sink> bis(fileno(fp), never_close_handle);
+	std::ostream ofs(&bis);
+#else // !LL_DARWIN
 	llofstream ofs(fp);
+#endif
 	return exportStream(ofs);
 }
 

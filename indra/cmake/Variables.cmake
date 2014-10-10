@@ -140,16 +140,10 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     COMMAND sh -c "xcodebuild -version | grep Xcode  | cut -d ' ' -f2 | cut -d'.' -f1-2"
     OUTPUT_VARIABLE XCODE_VERSION )
 
-  # To support a different SDK update these Xcode settings:
-  if (XCODE_VERSION GREATER 5.9)
-    set(CMAKE_OSX_SYSROOT macosx10.10)
-  elseif (XCODE_VERSION GREATER 4.9)
-    set(CMAKE_OSX_SYSROOT macosx10.9)
-  elseif (XCODE_VERSION GREATER 4.5)
-    set(CMAKE_OSX_SYSROOT macosx10.8)
-  else (XCODE_VERSION GREATER 4.9)
+  if (XCODE_VERSION LESS 4.6)
     message( FATAL_ERROR "Xcode 4.6 or greater is required." )
-  endif ()
+  endif (XCODE_VERSION LESS 4.6)
+  message( "Building with " ${CMAKE_OSX_SYSROOT} )
   set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
 
   set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")

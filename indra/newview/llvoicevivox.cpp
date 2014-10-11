@@ -322,6 +322,7 @@ LLVivoxVoiceClient::LLVivoxVoiceClient() :
 	mCaptureBufferRecording(false),
 	mCaptureBufferRecorded(false),
 	mCaptureBufferPlaying(false),
+	mShutdownComplete(true),
 	mPlayRequestCount(0),
 
 	mAvatarNameCacheConnection()
@@ -377,6 +378,14 @@ void LLVivoxVoiceClient::terminate()
 	{
 		logout();
 		connectorShutdown();
+#ifdef LL_WINDOWS
+		S32 count = 0;
+		while (!mShutdownComplete && 10 > ++count)
+		{
+			stateMachine();
+			_sleep(1000);
+		}
+#endif // LL_WINDOW
 		closeSocket();		// Need to do this now -- bad things happen if the destructor does it later.
 		cleanUp();
 	}
@@ -476,24 +485,24 @@ void LLVivoxVoiceClient::connectorCreate()
 
 	std::string savedLogLevel = gSavedSettings.getString("VivoxDebugLevel");
 		
-	if(savedLogLevel != "-0")
+	if(savedLogLevel != "0")
 	{
 		LL_DEBUGS("Voice") << "creating connector with logging enabled" << LL_ENDL;
-		loglevel = "0";
 	}
 	
 	stream 
 	<< "<Request requestId=\"" << mCommandCookie++ << "\" action=\"Connector.Create.1\">"
-		<< "<ClientName>V2 SDK</ClientName>"
-		<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
-		<< "<Mode>Normal</Mode>"
-		<< "<Logging>"
-			<< "<Folder>" << logpath << "</Folder>"
-			<< "<FileNamePrefix>Connector</FileNamePrefix>"
-			<< "<FileNameSuffix>.log</FileNameSuffix>"
-			<< "<LogLevel>" << loglevel << "</LogLevel>"
-		<< "</Logging>"
-		<< "<Application>SecondLifeViewer.1</Application>"
+	<< "<ClientName>V2 SDK</ClientName>"
+	<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
+	<< "<Mode>Normal</Mode>"
+	<< "<Logging>"
+	<< "<Folder>" << logpath << "</Folder>"
+	<< "<FileNamePrefix>Connector</FileNamePrefix>"
+	<< "<FileNameSuffix>.log</FileNameSuffix>"
+	<< "<LogLevel>" << loglevel << "</LogLevel>"
+	<< "</Logging>"
+	<< "<Application></Application>"  //Name can cause problems per vivox.
+	<< "<MaxCalls>12</MaxCalls>"
 	<< "</Request>\n\n\n";
 	
 	writeString(stream.str());
@@ -512,6 +521,7 @@ void LLVivoxVoiceClient::connectorShutdown()
 		<< "</Request>"
 		<< "\n\n\n";
 		
+		mShutdownComplete = false;
 		mConnectorHandle.clear();
 		
 		writeString(stream.str());
@@ -791,12 +801,39 @@ void LLVivoxVoiceClient::stateMachine()
 						// SLIM SDK: these arguments are no longer necessary.
 //						std::string args = " -p tcp -h -c";
 						std::string loglevel = gSavedSettings.getString("VivoxDebugLevel");
+						std::string shutdown_timeout = gSavedSettings.getString("VivoxShutdownTimeout");
 						if(loglevel.empty())
 						{
 							loglevel = "0";	// turn logging off completely
 						}
 						params.args.add("-ll");
 						params.args.add(loglevel);
+						
+						params.args.add("-lf");
+						std::string log_folder = gSavedSettings.getString("VivoxLogDirectory");
+						if (log_folder.empty())
+						{
+							log_folder = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+						}
+						params.args.add("logfolder");
+						
+						if(!shutdown_timeout.empty())
+						{
+							params.args.add("-st");
+							params.args.add(shutdown_timeout);
+						}
+						
+						if (gSavedSettings.getBOOL("VoiceMultiInstance"))
+						{
+							S32 port_nr = 30000 + ll_rand(20000);
+							LLControlVariable* voice_port = gSavedSettings.getControl("VivoxVoicePort");
+							if (voice_port)
+							{
+								voice_port->setValue(LLSD(port_nr), false);
+								params.args.add("-i");
+								params.args.add(llformat("127.0.0.1:%u",  gSavedSettings.getU32("VivoxVoicePort")));
+							}
+						}
 						params.cwd = gDirUtilp->getAppRODataDir();
 						sGatewayPtr = LLProcess::create(params);
 
@@ -1538,7 +1575,7 @@ void LLVivoxVoiceClient::stateMachine()
 			mAccountHandle.clear();
 			cleanUp();
 
-			if((mVoiceEnabled || !mIsInitialized) && !mRelogRequested)
+			if((mVoiceEnabled || !mIsInitialized) && !mRelogRequested  && !LLApp::isExiting())
 			{
 				// User was logged out, but wants to be logged in.  Send a new login request.
 				setState(stateNeedsLogin);
@@ -1553,6 +1590,7 @@ void LLVivoxVoiceClient::stateMachine()
 		//MARK: stateConnectorStopping
 		case stateConnectorStopping:	// waiting for connector stop
 			// The handler for the Connector.InitiateShutdown response will transition from here to stateConnectorStopped.
+			mShutdownComplete = true;
 		break;
 
 		//MARK: stateConnectorStopped

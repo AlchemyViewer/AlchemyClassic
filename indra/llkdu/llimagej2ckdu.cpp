@@ -454,6 +454,10 @@ BOOL LLImageJ2CKDU::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 deco
 			return TRUE; // done
 		}
 	}
+	
+	raw_image.mComment.assign(mCodeStreamp->get_comment().exists()
+							  ? mCodeStreamp->get_comment().get_text()
+							  : LLStringUtil::null);
 
 	// These can probably be grabbed from what's saved in the class.
 	kdu_dims dims;

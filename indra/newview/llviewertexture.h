@@ -405,6 +405,10 @@ public:
 	bool        isInFastCacheList() { return mInFastCacheList; }
 
 	/*virtual*/bool  isActiveFetching(); //is actively in fetching by the fetching pipeline.
+	
+	LLUUID		getUploader();
+	std::string	getUploadTime();
+	std::string getComment();
 
 protected:
 	/*virtual*/ void switchToCachedImage();
@@ -504,6 +508,8 @@ protected:
 
 	BOOL   mForSculpt ; //a flag if the texture is used as sculpt data.
 	BOOL   mIsFetched ; //is loaded from remote or from cache, not generated locally.
+	
+	std::map<S8, std::string> mComment;
 
 public:
 	static LLPointer<LLViewerFetchedTexture> sMissingAssetImagep;	// Texture to show for an image asset that is not in the database

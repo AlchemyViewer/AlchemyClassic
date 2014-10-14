@@ -40,6 +40,7 @@
 #include "llinventory.h"
 #include "llnotificationsutil.h"
 #include "llresmgr.h"
+#include "llslurl.h"
 #include "lltrans.h"
 #include "lltextbox.h"
 #include "lltextureview.h"
@@ -442,8 +443,19 @@ void LLPreviewTexture::updateDimensions()
 	}
 	
 	// Update the width/height display every time
-	getChild<LLUICtrl>("dimensions")->setTextArg("[WIDTH]",  llformat("%d", mImage->getFullWidth()));
-	getChild<LLUICtrl>("dimensions")->setTextArg("[HEIGHT]", llformat("%d", mImage->getFullHeight()));
+	LLUICtrl* dimensions = getChild<LLUICtrl>("dimensions");
+	if (mImage->getUploader().notNull())
+	{
+		LLStringUtil::format_map_t args;
+		args["UPLOADER"] = LLSLURL("agent", mImage->getUploader(), "inspect").getSLURLString();
+		args["DATE"] = mImage->getUploadTime().toHTTPDateString(LLStringExplicit("%d %b %Y"));
+		std::string info = getString("UploadInfo", args);
+		dimensions->setTextArg("[UPLOAD_INFO]", info);
+	}
+	else
+		dimensions->setTextArg("[UPLOAD_INFO]", LLStringUtil::null);
+	dimensions->setTextArg("[WIDTH]",  llformat("%d", mImage->getFullWidth()));
+	dimensions->setTextArg("[HEIGHT]", llformat("%d", mImage->getFullHeight()));
 
 	// Reshape the floater only when required
 	if (mUpdateDimensions)

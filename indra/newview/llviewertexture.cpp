@@ -2973,7 +2973,7 @@ LLUUID LLViewerFetchedTexture::getUploader()
 	return (mComment.find('a') != mComment.end()) ? LLUUID(mComment['a']) : LLUUID::null;
 }
 
-std::string LLViewerFetchedTexture::getUploadTime()
+LLDate LLViewerFetchedTexture::getUploadTime()
 {
 	if (mComment.find('z') != mComment.end())
 	{
@@ -2981,10 +2981,9 @@ std::string LLViewerFetchedTexture::getUploadTime()
 		sscanf(mComment['z'].c_str(), "%4d%2d%2d%2d%2d%2d",
 			   &t.tm_year, &t.tm_mon, &t.tm_mday, &t.tm_hour, &t.tm_min, &t.tm_sec);
 		std::string iso_date = llformat("%d-%d-%dT%d:%d:%dZ", t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec);
-		LLDate date(iso_date);
-		return date.asRFC1123();
+		return LLDate(iso_date);
 	}
-	return LLStringUtil::null;
+	return LLDate();
 }
 
 std::string LLViewerFetchedTexture::getComment()

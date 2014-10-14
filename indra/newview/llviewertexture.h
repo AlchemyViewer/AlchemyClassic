@@ -407,7 +407,7 @@ public:
 	/*virtual*/bool  isActiveFetching(); //is actively in fetching by the fetching pipeline.
 	
 	LLUUID		getUploader();
-	std::string	getUploadTime();
+	LLDate		getUploadTime();
 	std::string getComment();
 
 protected:

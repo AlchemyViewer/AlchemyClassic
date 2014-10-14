@@ -17,6 +17,10 @@
      name="Copy">
         Copy To Inventory
     </floater.string>
+    <floater.string
+     name="UploadInfo">
+       - Uploaded by [UPLOADER] on [DATE]
+    </floater.string>
     <text
      type="string"
      length="1"
@@ -43,68 +47,99 @@
      width="190" />
     <text
      type="string"
-     halign="right"
      length="1"
-     follows="right|bottom"
+     follows="left|right|bottom"
      height="16"
-     layout="topleft"
-     left="110"
-     name="dimensions"
-     top="255"
-     width="200">
-        [WIDTH]px x [HEIGHT]px
-    </text>
-    <text
-     type="string"
-     halign="right"
-     length="1"
-     follows="right|bottom"
-     height="16"
-     layout="topleft"
-     left_delta="-110"
-     name="aspect_ratio"
-     top_pad="5"
-     width="200">
-        Preview aspect ratio
-    </text>
-    <combo_box
-     allow_text_entry="true" 
-     top_delta="-3" 
-     follows="right|bottom" 
-     height="23"
-     left_pad="10"
-     max_chars="20"
-     mouse_opaque="true"
-     enabled="true"
-     width="108"
-     name="combo_aspect_ratio"
-     tool_tip="Preview at a fixed aspect ratio">
-	</combo_box>
-    <button
-     follows="right|bottom"
-     height="22"
-     label="OK"
      layout="topleft"
      left="6"
-     name="Keep"
+     name="dimensions"
+     top="298"
+     right="-6">
+        [WIDTH]px x [HEIGHT]px [UPLOAD_INFO]
+    </text>
+    <layout_stack
+     follows="bottom|left|right"
+     height="25"
+     layout="topleft"
+     name="button_row_ls"
+     left="6"
+     orientation="horizontal"
      top_pad="5"
-     width="110" />
-    <button
-     follows="right|bottom"
-     height="22"
-     label="Discard"
-     layout="topleft"
-     left_pad="5"
-     name="Discard"
-     top_delta="0"
-     width="110" />
-    <button
-     follows="right|bottom"
-     height="22"
-     label="Save As"
-     layout="topleft"
-     left_pad="5"
-     name="save_tex_btn"
-     top_delta="0"
-     width="110" />
+     right="-6">
+      <layout_panel
+       follows="bottom|left|right"
+       height="23"
+       layout="bottomleft"
+       left="0"
+       name="btn_keep_lp"
+       auto_resize="true"
+       width="110">
+        <button
+         follows="bottom|left|right"
+         height="22"
+         label="OK"
+         layout="topleft"
+         left="0"
+         name="Keep"
+         top="0"
+         width="110" />
+      </layout_panel>
+      <layout_panel
+       follows="bottom|left|right"
+       height="23"
+       layout="bottomleft"
+       left_pad="3"
+       name="btn_discard_lp"
+       auto_resize="true"
+       width="110">
+        <button
+         follows="bottom|left|right"
+         height="22"
+         label="Discard"
+         layout="topleft"
+         left="0"
+         name="Discard"
+         top="0"
+         width="110" />
+      </layout_panel>
+      <layout_panel
+       follows="bottom|left|right"
+       height="23"
+       layout="bottomleft"
+       left_pad="3"
+       name="btn_save_lp"
+       auto_resize="true"
+       width="110">
+        <button
+         follows="bottom|left|right"
+         height="22"
+         label="Save As"
+         layout="topleft"
+         left="0"
+         name="save_tex_btn"
+         top="0"
+         width="110" />
+      </layout_panel>
+      <layout_panel
+       follows="bottom|left|right"
+       height="23"
+       layout="bottomleft"
+       left_pad="3"
+       name="aspect_combo_lp"
+       auto_resize="true"
+       width="108">
+        <combo_box
+         allow_text_entry="true"
+         top_delta="0"
+         follows="bottom|left|right"
+         height="23"
+         left="0"
+         max_chars="20"
+         mouse_opaque="true"
+         enabled="true"
+         width="108"
+         name="combo_aspect_ratio"
+         tool_tip="Preview at a fixed aspect ratio" />
+      </layout_panel>
+</layout_stack>
 </floater>

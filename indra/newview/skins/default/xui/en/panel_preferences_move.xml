@@ -95,10 +95,10 @@
    height="28"
    follows="bottom|left|right"
    label="Joystick/Freecam configuration"
-   left="65"
+   left="60"
    name="joystick_setup_button"
    top="315"
-   width="180">
+   width="190">
     <button.commit_callback
      function="Floater.Show"
      parameter="pref_joystick" />
@@ -134,7 +134,8 @@
    layout="topleft"
    name="appearance_camera_movement"
    tool_tip="Use automatic camera positioning while in edit mode"
-   width="242" />
+   width="242"
+   top_pad="2" />
   <text
    follows="left|top"
    type="string"
@@ -164,7 +165,51 @@
    layout="topleft"
    name="AlchemyDisableSimCamConstraint"
    tool_tip="Disable the push the simulator applies when camera collides with objects"
-   width="242" />
+   width="242"
+   top_pad="2" />
+  <text
+   follows="left|top"
+   type="string"
+   length="1"
+   height="10"
+   left="300"
+   name="move_it_label"
+   width="270">
+   Movement:
+  </text>
+  <check_box
+   control_name="AlchemyFlyEnableAlways"
+   height="20"
+   follows="left|top"
+   label="Always enable flight ability"
+   layout="topleft"
+   left_delta="10"
+   name="AlchemyFlyEnableAlways"
+   tool_tip="Keep in mind that abusing this ability to leave you ask risk of being banned"
+   width="280"
+   top_pad="5" />
+  <check_box
+   control_name="AlchemyMoonwalk"
+   height="16"
+   follows="left|top"
+   label="Moonwalk"
+   layout="topleft"
+   left_delta="0"
+   name="AlchemyMoonwalk"
+   tool_tip="Don't turn around while walking backwards"
+   width="280"
+   top_pad="2" />
+  <check_box
+   control_name="AlchemyNimble"
+   height="16"
+   follows="left|top"
+   label="Nimble"
+   layout="topleft"
+   left_delta="0"
+   name="AlchemyNimble"
+   tool_tip="Don't run certain animations, such as landing to appear more nimble"
+   width="280"
+   top_pad="2" />
    <!-- End Column #2 -->
   <icon
    follows="left|top"
@@ -241,34 +286,13 @@
    top_pad="15">
     Mouse:
   </text>
-  <check_box
-   control_name="FirstPersonAvatarVisible"
-   follows="left|top"
-   height="20"
-   label="Show me in Mouselook"
-   layout="topleft"
-   left_delta="10"
-   name="first_person_avatar_visible"
-   top_pad="5"
-   width="256" />
-  <check_box
-   control_name="AlchemyRealisticMouselook"
-   follows="left|top"
-   height="20"
-   label="Realistic mouselook"
-   layout="topleft"
-   left_delta="0"
-   name="AlchemyRealisticMouselook"
-   tool_tip="Make the camera follow avatar body movements and animations while in mouselook"
-   top_pad="0"
-   width="256" />
   <text
    type="string"
    length="1"
    follows="left|top"
    height="15"
    layout="topleft"
-   left_delta="4"
+   left_delta="12"
    name="Mouse Sensitivity"
    top_pad="5"
    width="160"

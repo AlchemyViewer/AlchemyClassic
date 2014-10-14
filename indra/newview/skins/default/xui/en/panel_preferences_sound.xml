@@ -336,16 +336,48 @@
 		left="25"
     width="230"/>
 	<check_box
-		name="gesture_audio_play_btn"
-		control_name="EnableGestureSounds"
-        disabled_control="MuteAudio"
-		value="true"
-		follows="left|bottom|right"
-		height="15"
-		tool_tip="Check this to hear sounds from gestures"
-		label="Play sounds from gestures"
-		top_pad="1"
-		left="25"/>
+     name="gesture_audio_play_btn"
+     control_name="EnableGestureSounds"
+     disabled_control="MuteAudio"
+     value="true"
+     follows="left|bottom|right"
+     height="15"
+     tool_tip="Check this to hear sounds from gestures"
+     label="Play sounds from gestures"
+     top_pad="1"
+     left="25"/>
+    <text
+     type="string"
+     length="1"
+     follows="left|top"
+     height="20"
+     layout="topleft"
+     left="29"
+     name="play_sound_helper"
+     width="100"
+     top_pad="0">
+      Play sounds for:
+    </text>
+    <check_box
+     control_name="AlchemyPlayTypingSound"
+     height="20"
+     initial_value="true"
+     label="Typing"
+     layout="topleft"
+     top_delta="-2"
+     left_pad="5"
+     name="AlchemyPlayTypingSound"
+     width="70"/>
+    <check_box
+     control_name="AlchemyPlayTeleportSound"
+     height="20"
+     initial_value="true"
+     label="Teleport"
+     layout="topleft"
+     top_delta="0"
+     left_pad="5"
+     name="AlchemyPlayTeleportSound"
+     width="70"/>
     <text
      type="string"
      length="1"

@@ -41,16 +41,16 @@
     <color_swatch.caption_text
     height="0" />
   </color_swatch>
-    <check_box
-     control_name="AlchemyRainbowEffects"
-     follows="left|top"
-     height="24"
-     label="Use Rainbow Effects"
-     layout="topleft"
-     left_pad="5"
-     top_delta="-1"
-     name="use_rainbow_effects"
-     width="100" />
+  <check_box
+   control_name="AlchemyRainbowEffects"
+   follows="left|top"
+   height="24"
+   label="Use Rainbow Effects"
+   layout="topleft"
+   left_pad="5"
+   top_delta="-1"
+   name="use_rainbow_effects"
+   width="100" />
   <text
    follows="left|top"
    layout="topleft"
@@ -402,4 +402,14 @@
    show_text="true"
    top_pad="5"
    width="415" />
+  <check_box
+   control_name="AlchemyNametagColorMgr"
+   follows="left|top"
+   height="24"
+   label="Color nametags based on the central color yiff"
+   layout="topleft"
+   left_pad="5"
+   top_delta="-1"
+   name="AlchemyNametagColorMgr"
+   width="100" />
 </panel>

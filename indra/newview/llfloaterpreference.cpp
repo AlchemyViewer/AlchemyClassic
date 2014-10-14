@@ -467,6 +467,12 @@ BOOL LLFloaterPreference::postBuild()
 	changed();
 
 	LLLogChat::setSaveHistorySignal(boost::bind(&LLFloaterPreference::onLogChatHistorySaved, this));
+	
+#ifdef LL_DARWIN
+	getChild<LLPanel>("ohehsex")->setVisible(TRUE);
+#else // !LL_DARWIN
+	getChild<LLPanel>("ohehsex")->setVisible(FALSE);
+#endif // LL_DARWIN
 
 	return TRUE;
 }

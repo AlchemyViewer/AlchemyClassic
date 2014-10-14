@@ -66,7 +66,7 @@
     </panel>
     <panel
      follows="left|right|top"
-     height="126"
+     height="142"
      top_pad="0"
      width="238"
      name="layout_panel_2">
@@ -202,7 +202,7 @@
        layout="topleft"
        mouse_opaque="true"
        name="square2"
-       left="20"
+       left="23"
        top_pad="2"
        width="16" />
       <text
@@ -225,7 +225,7 @@
        layout="topleft"
        mouse_opaque="true"
        name="square2"
-       left="20"
+       left="23"
        top_pad="-2"
        width="16" />
       <text
@@ -381,6 +381,16 @@
      width="66">
         Adult
     </text>
+    <check_box
+     control_name="AlchemyMapShowAgentCount"
+     follows="top|left"
+     height="16"
+     layout="topleft"
+     left="135"
+     name="AlchemyMapShowAgentCount"
+     top_pad="2"
+     width="22"
+     label="Agent Count"/>
   </panel>
 
   <panel

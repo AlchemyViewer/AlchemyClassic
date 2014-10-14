@@ -9,7 +9,6 @@
  name="interface Panel"
  top="1"
  width="517">
-<!-- Placeholder -->
   <tab_container
     layout="topleft"
     follows="all"
@@ -19,73 +18,248 @@
     tab_min_width="50"
     tab_position="top">
    <panel
-       label="General"
-       border="false"
-       height="380"
-       layout="topleft"
-       top="0"
-       left="13"
-       width="517"
-       name="general_ui_tab">
-      <check_box
-            follows="left|top"
-            height="16"
-            label="Show Hover Tips"
-            tool_tip="Show descriptive tooltip when mouse hovers over items in world"
-            left="7"
-            top_pad="20"
-            name="show_hover_tips"
-            width="275"
-            control_name="ShowHoverTips"/>
+    label="General"
+    border="false"
+    height="380"
+    layout="topleft"
+    top="0"
+    left="13"
+    width="517"
+    name="general_ui_tab">
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Show Hover Tips"
+        tool_tip="Show descriptive tooltip when mouse hovers over items in world"
+        left="7"
+        top_pad="15"
+        name="show_hover_tips"
+        width="275"
+        control_name="ShowHoverTips"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Selection Beam points at object's bounding box"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyBoundingBoxBeam"
+        width="275"
+        control_name="AlchemyBoundingBoxBeam"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Disable forced stand on appearance edit"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyIgnoreForcedStand"
+        width="275"
+        control_name="AlchemyIgnoreForcedStand"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Be retarded and annoying when the region is about to restart"
+        tool_tip="Shake it like a polaroid picture"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyRegionRestartShake"
+        width="275"
+        control_name="AlchemyRegionRestartShake"/>
     </panel>
     <panel
-        label="Inventory"
-        border="false"
-        height="380"
+     label="Inventory"
+     border="false"
+     height="380"
+     layout="topleft"
+     top="0"
+     left="13"
+     width="517"
+     name="inventory_tab">
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Enable &quot;Paste as Link&quot;"
+        tool_tip="Enable ability to create links to folders and items via &quot;Paste as link.&quot;"
+        left="7"
+        top_pad="15"
+        name="inventory_linking"
+        width="275"
+        control_name="InventoryLinking"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Hide empty system folders"
+        tool_tip="Prevents visual clutter if you don't use the system folders to sort your inventory"
+        left_delta="0"
+        top_pad="5"
+        name="hide_empty_folders"
+        width="275"
+        control_name="DebugHideEmptySystemFolders"/>
+       <check_box
+        control_name="AutoAcceptNewInventory"
+        height="16"
+        label="Auto-accept new inventory offers"
         layout="topleft"
-        top="0"
-        left="13"
-        width="517"
-        name="inventory_tab">
+        left_delta="0"
+        name="auto_accept_new_inventory"
+        top_pad="5"
+        width="350" />
        <check_box
-             follows="left|top"
-             height="16"
-             label="Enable &quot;Paste as Link&quot;"
-             tool_tip="Enable ability to create links to folders and items via &quot;Paste as link.&quot;"
-             left="7"
-             top_pad="10"
-             name="inventory_linking"
-             width="275"
-             control_name="InventoryLinking"/>
+        enabled_control="AutoAcceptNewInventory"
+        control_name="AlchemyAutoAcceptAllInventory"
+        height="16"
+        label="Auto-accept all types of inventory"
+        layout="topleft"
+        left_delta="0"
+        name="auto_accept_new_inventory"
+        top_pad="5"
+        width="350" />
        <check_box
-             follows="left|top"
-             height="16"
-             label="Hide empty system folders"
-             tool_tip="Prevents visual clutter if you don't use the system folders to sort your inventory"
-             left="7"
-             top_pad="10"
-             name="hide_empty_folders"
-             width="275"
-             control_name="DebugHideEmptySystemFolders"/>
+        follows="left|top"
+        height="16"
+        label="Rez objects under currently activated group"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyRezUnderLandGroup"
+        width="275"
+        control_name="AlchemyRezUnderLandGroup"/>
+    </panel>
+    <panel
+     label="Mouselook"
+     border="false"
+     height="380"
+     layout="topleft"
+     top="0"
+     left="13"
+     width="517"
+     name="mouselook_tab">
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Draw mouselook instructions"
+        left="7"
+        top_pad="15"
+        name="AlchemyMouselookInstructions"
+        width="275"
+        control_name="AlchemyMouselookInstructions"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Reset camera on application focus change"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyMouselookResetOnFocus"
+        width="275"
+        control_name="AlchemyMouselookResetOnFocus"/>
+       <check_box
+        control_name="FirstPersonAvatarVisible"
+        follows="left|top"
+        height="16"
+        label="Show me in Mouselook"
+        layout="topleft"
+        left_delta="0"
+        name="first_person_avatar_visible"
+        top_pad="5"
+        width="256" />
+       <check_box
+        control_name="AlchemyRealisticMouselook"
+        follows="left|top"
+        height="16"
+        label="Realistic mouselook"
+        layout="topleft"
+        left_delta="0"
+        name="AlchemyRealisticMouselook"
+        tool_tip="Make the camera follow avatar body movements and animations while in mouselook"
+        top_pad="5"
+        width="256" />
    </panel>
    <panel
-        label="Status Bar"
-        border="false"
-        height="380"
-        layout="topleft"
-        top="0"
-        left="13"
-        width="517"
-        name="statusbar_tab">
-        <check_box
-             follows="left|top"
-             height="16"
-             label="Show seconds in clock"
-             left="7"
-             top_pad="10"
-             name="precise_clock"
-             width="275"
-             control_name="AlchemyPreciseClock"/>
+    label="Status Bar"
+    border="false"
+    height="380"
+    layout="topleft"
+    top="0"
+    left="13"
+    width="517"
+    name="statusbar_tab">
+      <check_box
+       follows="left|top"
+       height="16"
+       label="Show seconds in clock"
+       left="7"
+       top_pad="15"
+       name="precise_clock"
+       width="275"
+       control_name="AlchemyPreciseClock"/>
+   </panel>
+   <panel
+    label="Security"
+    border="false"
+    height="380"
+    layout="topleft"
+    top="0"
+    left="13"
+    width="517"
+    name="security_tab">
+      <check_box
+       follows="left|top"
+       height="16"
+       label="Disable click to sit on objects"
+       left="7"
+       top_pad="15"
+       name="AlchemyDisableClickToSit"
+       width="275"
+       control_name="AlchemyDisableClickToSit"/>
+      <text
+       type="string"
+       length="1"
+       follows="left|top"
+       height="16"
+       layout="topleft"
+       left_delta="5"
+       name="inworld_typing_rg_label"
+       top_pad="1"
+       width="300"
+       value="Revoke object permissions when:" />
+      <radio_group
+       control_name="AlchemyRevokeObjectPerms"
+       height="20"
+       layout="topleft"
+       name="revoke_perms_radio"
+       width="340">
+        <radio_item
+         top_pad="0"
+         left_delta="15"
+         height="16"
+         label="Never"
+         layout="topleft"
+         name="None"
+         value="0"
+         width="90" />
+        <radio_item
+         left_pad="1"
+         height="16"
+         label="Sitting"
+         layout="topleft"
+         name="Sitting"
+         value="1"
+         width="90" />
+        <radio_item
+         left_pad="1"
+         height="16"
+         label="Standing"
+         layout="topleft"
+         name="Standing"
+         value="2"
+         width="90" />
+        <radio_item
+         left_pad="1"
+         height="16"
+         label="Both"
+         layout="topleft"
+         name="Both"
+         value="3"
+         width="90" />
+    </radio_group>
    </panel>
   </tab_container>
 </panel>

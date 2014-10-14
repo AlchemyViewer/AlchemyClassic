@@ -315,8 +315,7 @@
 	 name="display_names_check"
 	 width="237"
 	 tool_tip="Check to use display names in chat, IM, name tags, etc."
-	 top_pad="3"/>
-	 
+	 top_pad="3"/>	 
 	<text
 	 type="string"
 	 length="1"

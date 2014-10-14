@@ -1,145 +1,144 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
-    border="true"
-    height="408"
-    label="Text Chat"
-    layout="topleft"
-    name="general_chat_settings"
-    width="517">
+ border="true"
+ height="408"
+ label="Text Chat"
+ layout="topleft"
+ name="general_chat_settings"
+ width="517">
 
   <tab_container
-    layout="topleft"
-    follows="all"
-    top="5"
-    bottom="-1"
-    name="tab_container"
-    tab_min_width="50"
-    tab_position="top">
+   layout="topleft"
+   follows="all"
+   top="5"
+   bottom="-1"
+   name="tab_container"
+   tab_min_width="50"
+   tab_position="top">
   <panel
-      label="Chat"
-      border="false"
-      height="380"
-      layout="topleft"
-      top="0"
-      left="13"
-      width="517"
-      name="chat_tab">
+   label="Chat"
+   border="false"
+   height="380"
+   layout="topleft"
+   top="0"
+   left="13"
+   width="517"
+   name="chat_tab">
     <check_box
-        control_name="PlayTypingAnim"
-        height="16"
-        initial_value="true"
-        label="Play typing animation when chatting"
-        layout="topleft"
-        top_pad="15"
-        left="5"
-        name="play_typing_animation"
-        width="150"/>
+     control_name="PlayTypingAnim"
+     height="16"
+     initial_value="true"
+     label="Play typing animation when chatting"
+     layout="topleft"
+     top_pad="15"
+     left="5"
+     name="play_typing_animation"
+     width="150"/>
     <check_box
-        control_name="AlchemyPlayTypingSound"
-        height="16"
-        initial_value="true"
-        label="Play typing sound when chatting"
-        layout="topleft"
-        top_pad="5"
-        left="5"
-        name="play_typing_sound"
-        width="150"/>
+     control_name="AlchemyNearbyTypingIndicators"
+     height="16"
+     initial_value="true"
+     label="Show nearby chat indicators"
+     layout="topleft"
+     top_pad="5"
+     left="5"
+     name="show_nearby_chat_indicators"
+     width="150"/>
     <check_box
-        control_name="AlchemyNearbyTypingIndicators"
-        height="16"
-        initial_value="true"
-        label="Show nearby chat indicators"
-        layout="topleft"
-        top_pad="5"
-        left="5"
-        name="show_nearby_chat_indicators"
-        width="150"/>
+     follows="left|top"
+     height="16"
+     label="Announce incoming instant messages"
+     tool_tip="Notifies you of incoming messages by monitoring typing start messages"
+     left_delta="0"
+     top_pad="5"
+     name="announce_im_toggle"
+     width="275"
+     control_name="AlchemyNotifyIncomingMessage"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Announce incoming instant messages"
-        tool_tip="Notifies you of incoming messages by monitoring typing start messages"
-        left_delta="0"
-        top_pad="5"
-        name="announce_im_toggle"
-        width="275"
-        control_name="AlchemyNotifyIncomingMessage"/>
+     follows="left|top"
+     height="16"
+     label="Don&apos;t send typing notification in IM"
+     tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
+     left_delta="0"
+     top_pad="5"
+     name="typing_notifications_toggle"
+     width="275"
+     control_name="AlchemyIMHideTyping"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Don&apos;t send typing notification in IM"
-        tool_tip="This won't show your correspondent &quot;[name] is typing...&quot;"
-        left_delta="0"
-        top_pad="5"
-        name="typing_notifications_toggle"
-        width="275"
-        control_name="AlchemyIMHideTyping"/>
+     follows="left|top"
+     height="16"
+     label="Automatically close chat bar when pressing Enter"
+     tool_tip="Will only close the torn off (detached) chat bar and window, not the CHUI floater."
+     left_delta="0"
+     top_pad="5"
+     name="chat_auto_close"
+     width="275"
+     control_name="CloseChatOnReturn"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Automatically close chat bar when pressing Enter"
-        tool_tip="Will only close the torn off (detached) chat bar and window, not the CHUI floater."
-        left_delta="0"
-        top_pad="5"
-        name="chat_auto_close"
-        width="275"
-        control_name="CloseChatOnReturn"/>
+     follows="left|top"
+     height="16"
+     label="Enable Ctrl+Enter to shout"
+     tool_tip="Enables shouting with the Ctrl+Enter key combination."
+     left_delta="0"
+     top_pad="5"
+     name="close_chat_on_return_toggle"
+     width="275"
+     control_name="AlchemyEnableKeyboardShout"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Enable Ctrl+Enter to shout"
-        tool_tip="Enables shouting with the Ctrl+Enter key combination."
-        left_delta="0"
-        top_pad="5"
-        name="close_chat_on_return_toggle"
-        width="275"
-        control_name="AlchemyEnableKeyboardShout"/>
+     follows="left|top"
+     height="16"
+     label="Enable Shift+Enter to Whisper"
+     tool_tip="Enables whispering with the Shift+Enter key combination."
+     left_delta="0"
+     top_pad="5"
+     name="shift_whisper_toggle"
+     width="275"
+     control_name="AlchemyEnableKeyboardWhisper"/>
     <check_box
-        follows="left|top"
-        height="16"
-        label="Enable Shift+Enter to Whisper"
-        tool_tip="Enables whispering with the Shift+Enter key combination."
-        left_delta="0"
-        top_pad="5"
-        name="shift_whisper_toggle"
-        width="275"
-        control_name="AlchemyEnableKeyboardWhisper"/>
+     enabled="false"
+     height="16"
+     label="Forward offline IMs to my E-mail"
+     layout="topleft"
+     name="send_im_to_email"
+     left_delta="0"
+     top_pad="5"
+     width="330"/>
     <check_box
-        enabled="false"
-        height="16"
-        label="Forward offline IMs to my E-mail"
-        layout="topleft"
-        name="send_im_to_email"
-        left_delta="0"
-        top_pad="5"
-        width="330"/>
-     <check_box
-        control_name="AlchemyPlainChatUsername"
-        height="16"
-        label="Display username in plain text chat"
-        layout="topleft"
-        name="username_plain_chat"
-        left_delta="0"
-        top_pad="5"
-        width="350"/>
+     control_name="AlchemyPlainChatUsername"
+     height="16"
+     label="Display username in plain text chat"
+     layout="topleft"
+     name="username_plain_chat"
+     left_delta="0"
+     top_pad="5"
+     width="350"/>
     <check_box
-        control_name="UseChatBubbles"
-        height="16"
-        label="Display nearby chat in bubbles"
-        tool_tip="Show chat in a bubble under name tags"
-        layout="topleft"
-        name="bubble_text_chat"
-        left_delta="0"
-        top_pad="5"
-        width="350"/>
-    <panel
-    height="175"
-    left="300"
-    top="10"
-    width="212"
-    border="false"
-    name="chat_appearance">
+     control_name="UseChatBubbles"
+     height="16"
+     label="Display nearby chat in bubbles"
+     tool_tip="Show chat in a bubble under name tags"
+     layout="topleft"
+     name="bubble_text_chat"
+     left_delta="0"
+     top_pad="5"
+     width="350"/>
+    <check_box
+     control_name="AlchemyChatSeconds"
+     height="16"
+     label="Show seconds in chatlog timestamps"
+     layout="topleft"
+     name="AlchemyChatSeconds"
+     left_delta="0"
+     top_pad="5"
+     width="350"/>
 
+    <panel
+     height="175"
+     left="300"
+     top="10"
+     width="212"
+     border="false"
+     name="chat_appearance">
     <text
         left="0"
         top_pad="5"
@@ -651,7 +650,54 @@
         top_pad="5"
         name="inventory_offer"
         width="150" />
-</panel> <!--end of Notifications Tab-->
+    <panel
+     name="ohehsex"
+     top="444"
+     left="13"
+     right="-13"
+     height="40">
+      <check_box
+       control_name="OSXNotificationCenter"
+       height="16"
+       label="Notification Center alerts"
+       layout="topleft"
+       left="0"
+       top="3"
+       name="OSXNotificationCenter"
+       width="150" />
+      <check_box
+       control_name="OSXBadgeNotifications"
+       height="16"
+       label="Show unread message count in dock badge"
+       layout="topleft"
+       left="220"
+       top_delta="0"
+       name="OSXBadgeNotifications"
+       width="150" />
+      <check_box
+       enabled_control="OSXNotificationCenter"
+       control_name="OSXNotificationCenterAudioAlert"
+       height="16"
+       label="Play system sound with alert"
+       layout="topleft"
+       left="12"
+       top_pad="3"
+       name="OSXNotificationCenterAudioAlert"
+       width="150" />
+      <check_box
+       enabled_control="OSXNotificationCenter"
+       control_name="OSXNotificationCenterNearby"
+       height="16"
+       label="Notify on nearby chat"
+       layout="topleft"
+       left="12"
+       top_pad="3"
+       name="OSXNotificationCenterNearby"
+       width="150" />
+    </panel>
+  </panel>
+  <!--end of Notifications Tab-->
+
   <panel
       label="Commands"
       border="false"

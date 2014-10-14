@@ -313,9 +313,35 @@
 	 layout="topleft"
 	 left="35"
 	 name="display_names_check"
-	 width="237"
+	 width="100"
 	 tool_tip="Check to use display names in chat, IM, name tags, etc."
 	 top_pad="3"/>
+    <combo_box
+     control_name="AlchemyAvatarListNameFormat"
+     follows="left|top"
+     height="23"
+     layout="topleft"
+     name="AlchemyAvatarListNameFormat"
+     left_pad="53"
+	 top_delta="-1"
+     width="150">
+        <combo_box.item
+         label="Display Name"
+         name="displayname"
+         value="0" />
+        <combo_box.item
+         label="Display Name (username)"
+         name="completename"
+         value="1" />
+        <combo_box.item
+         label="User Name"
+         name="username"
+         value="2" />
+        <combo_box.item
+         label="account.name"
+         name="accountname"
+         value="3" />
+    </combo_box>
 	 
 	<text
 	 type="string"
@@ -334,7 +360,7 @@
      height="34"
      layout="topleft"
      left="35"
-     top_pad="0" 
+     top_pad="2" 
      name="inworld_typing_preference">
         <radio_item
          label="Starts local chat"

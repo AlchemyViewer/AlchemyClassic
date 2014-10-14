@@ -40,7 +40,7 @@
      follows="left|top"
      height="16"
      layout="topleft"
-     left="10"
+     left="15"
      mouse_opaque="false"
      name="stealth"
      top="10"
@@ -48,25 +48,6 @@
      width="60">
      Stealth:
     </text>
-    <check_box
-     control_name="AutoAcceptNewInventory"
-     height="16"
-     label="Auto-accept new inventory offers"
-     layout="topleft"
-     left="15"
-     name="auto_accept_new_inventory"
-     top_pad="5"
-     width="350" />
-    <check_box
-     enabled_control="AutoAcceptNewInventory"
-     control_name="AlchemyAutoAcceptAllInventory"
-     height="16"
-     label="Auto-accept all types of inventory"
-     layout="topleft"
-     left_delta="0"
-     name="auto_accept_new_inventory"
-     top_pad="5"
-     width="350" />
     <check_box
      control_name="AlchemyPointAtDisable"
      height="16"

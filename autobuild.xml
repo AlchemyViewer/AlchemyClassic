@@ -446,9 +446,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3fca94182fd24708363460707cbce493</string>
+              <string>1ad3e56f282be59a85b121cda32bf0e3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodex-4.44.41-darwin-201409092129.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodex-4.44.46-darwin-201410170835.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -478,6 +478,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>4.44.46</string>
       </map>
       <key>fmodstudio</key>
       <map>
@@ -494,9 +496,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d480b4ee2d1810e0fa2b0eb599ba36ac</string>
+              <string>c633a0fb2a5777c12d8c286452c53ee2</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.00-darwin-201409092130.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.03-darwin-201410170839.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -514,6 +516,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.05.03</string>
       </map>
       <key>fontconfig</key>
       <map>

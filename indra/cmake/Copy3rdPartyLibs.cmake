@@ -243,6 +243,7 @@ elseif(DARWIN)
         libaprutil-1.0.dylib
         libaprutil-1.dylib
         libexception_handler.dylib
+        libfreetype.6.dylib
         libGLOD.dylib
         libjpeg.8.0.2.dylib
         libndofdev.dylib

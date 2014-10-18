@@ -46,6 +46,11 @@
 // Linden library includes
 #include "llwindow.h"			// setMouseClipping()
 
+#include "alavatarcolormgr.h"
+#include "llavatarnamecache.h"
+#include "llnetmap.h"
+#include "llworld.h"
+
 LLToolGun::LLToolGun( LLToolComposite* composite )
 :	LLTool( std::string("gun"), composite ),
 		mIsSelected(FALSE)
@@ -135,13 +140,59 @@ BOOL LLToolGun::handleHover(S32 x, S32 y, MASK mask)
 void LLToolGun::draw()
 {
 	static LLCachedControl<bool> show_crosshairs(gSavedSettings, "ShowCrosshairs");
+	static LLCachedControl<bool> show_iff(gSavedSettings, "AlchemyMouselookIFF", true);
+	static LLCachedControl<F32> iff_range(gSavedSettings, "AlchemyMouselookIFFRange", 380.f);
 	if (show_crosshairs)
 	{
-		// LLUIImagePtr crosshair = LLUI::getUIImage("crosshairs.tga");
-		// <alchemy> - UI Caching
+		const S32 windowWidth = gViewerWindow->getWorldViewRectScaled().getWidth();
+		const S32 windowHeight = gViewerWindow->getWorldViewRectScaled().getHeight();
+		LLColor4 targetColor = LLColor4::white;
+		targetColor.mV[VALPHA] = 0.5f;
+		if (show_iff)
+		{
+			LLVector3d myPosition = gAgentCamera.getCameraPositionGlobal();
+			LLQuaternion myRotation = LLViewerCamera::getInstance()->getQuaternion();
+			myRotation.set(-myRotation.mQ[VX], -myRotation.mQ[VY], -myRotation.mQ[VZ], myRotation.mQ[VW]);
+
+			uuid_vec_t avatars;
+			std::vector<LLVector3d> positions;
+			LLWorld::getInstance()->getAvatars(&avatars, &positions, gAgent.getPositionGlobal(), iff_range);
+			for (size_t i = 0; i < avatars.size(); i++)
+			{
+				const LLUUID& id = avatars[i];
+				if (id == gAgentID)
+				{
+					continue;
+				}
+
+				LLVector3d targetPosition = positions[i];
+				if (targetPosition.isNull())
+				{
+					continue;
+				}
+
+				LLVector3d magicVector = (targetPosition - myPosition) * myRotation;
+				magicVector.setVec(-magicVector.mdV[VY], magicVector.mdV[VZ], magicVector.mdV[VX]);
+
+				if (magicVector.mdV[VX] > -0.75 && magicVector.mdV[VX] < 0.75 && magicVector.mdV[VZ] > 0.0 && magicVector.mdV[VY] > -1.5 && magicVector.mdV[VY] < 1.5) // Do not fuck with these, cheater. :(
+				{
+					LLAvatarName avatarName;
+					LLAvatarNameCache::get(id, &avatarName);
+					targetColor = ALAvatarColorMgr::instance().getColor(id);
+					targetColor.mV[VALPHA] = 0.5f;
+					LLFontGL::getFontSansSerifBold()->renderUTF8(
+						llformat("%s : %.2fm", avatarName.getCompleteName().c_str(), (targetPosition - myPosition).magVec()),
+						0, (windowWidth / 2.f), (windowHeight / 2.f) - 25.f, targetColor,
+						LLFontGL::HCENTER, LLFontGL::TOP, LLFontGL::BOLD, LLFontGL::NO_SHADOW
+						);
+
+					break;
+				}
+			}
+		}
+
 		mCrosshairp->draw(
-			( gViewerWindow->getWorldViewRectScaled().getWidth() - mCrosshairp->getWidth() ) / 2,
-			( gViewerWindow->getWorldViewRectScaled().getHeight() - mCrosshairp->getHeight() ) / 2);
-		// </alchemy>
+			(windowWidth - mCrosshairp->getWidth()) / 2,
+			(windowHeight - mCrosshairp->getHeight()) / 2, targetColor);
 	}
 }

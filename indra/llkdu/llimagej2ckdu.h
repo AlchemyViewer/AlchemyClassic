@@ -33,6 +33,8 @@
 // KDU core header files
 //
 #define KDU_NO_THREADS
+#define KDU_NO_AVX
+#define KDU_NO_AVX2
 #include "kdu_elementary.h"
 #include "kdu_messaging.h"
 #include "kdu_params.h"

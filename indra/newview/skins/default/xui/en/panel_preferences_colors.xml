@@ -406,7 +406,7 @@
    control_name="AlchemyNametagColorMgr"
    follows="left|top"
    height="24"
-   label="Color nametags based on the central color yiff"
+   label="Color nametags based on minimap colors"
    layout="topleft"
    left_pad="5"
    top_delta="-1"

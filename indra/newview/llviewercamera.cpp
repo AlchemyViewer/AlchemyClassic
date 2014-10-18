@@ -113,6 +113,7 @@ LLViewerCamera::LLViewerCamera() : LLCamera()
 {
 	calcProjection(getFar());
 	mCameraFOVDefault = DEFAULT_FIELD_OF_VIEW;
+	mSavedFOVDefault = DEFAULT_FIELD_OF_VIEW;
 	mCosHalfCameraFOV = cosf(mCameraFOVDefault * 0.5f);
 	mPixelMeterRatio = 0.f;
 	mScreenPixelArea = 0;
@@ -882,6 +883,13 @@ void LLViewerCamera::setDefaultFOV(F32 vertical_fov_rads)
 	mCosHalfCameraFOV = cosf(mCameraFOVDefault * 0.5f);
 }
 
+void LLViewerCamera::loadDefaultFOV()
+{
+	setView(mSavedFOVDefault);
+	mSavedFOVLoaded = true;
+	mCameraFOVDefault = mSavedFOVDefault; 
+	mCosHalfCameraFOV = cosf(mCameraFOVDefault * 0.5f);
+}
 
 // static
 void LLViewerCamera::updateCameraAngle( void* user_data, const LLSD& value)

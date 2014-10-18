@@ -1,0 +1,15 @@
+<llsd>
+    <map>
+    <key>AlchemyAlternativeFOV</key>
+        <map>
+        <key>Comment</key>
+            <string>Adjusted when scrolling back and forth while holding rightclick in mouselook.</string>
+        <key>Persist</key>
+            <integer>1</integer>
+        <key>Type</key>
+            <string>F32</string>
+        <key>Value</key>
+            <real>0.5</real>
+        </map>
+    </map>
+</llsd>

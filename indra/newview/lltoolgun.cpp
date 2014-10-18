@@ -100,17 +100,18 @@ BOOL LLToolGun::handleHover(S32 x, S32 y, MASK mask)
 		if (dx != 0 || dy != 0)
 		{
 			// ...actually moved off center
+			const F32 fov = LLViewerCamera::getInstance()->getView() / DEFAULT_FIELD_OF_VIEW;
 			static LLCachedControl<bool> invert_mouse(gSavedSettings, "InvertMouse");
 			if (invert_mouse)
 			{
-				gAgent.pitch(mouse_sensitivity * -dy);
+				gAgent.pitch(mouse_sensitivity * fov * -dy);
 			}
 			else
 			{
-				gAgent.pitch(mouse_sensitivity * dy);
+				gAgent.pitch(mouse_sensitivity * fov * dy);
 			}
 			LLVector3 skyward = gAgent.getReferenceUpVector();
-			gAgent.rotate(mouse_sensitivity * dx, skyward.mV[VX], skyward.mV[VY], skyward.mV[VZ]);
+			gAgent.rotate(mouse_sensitivity * fov * dx, skyward.mV[VX], skyward.mV[VY], skyward.mV[VZ]);
 
 			static LLCachedControl<bool> mouse_sun(gSavedSettings, "MouseSun");
 			if (mouse_sun)

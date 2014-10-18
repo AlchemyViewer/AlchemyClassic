@@ -31,22 +31,22 @@ class ALAvatarColorMgr : public LLSingleton < ALAvatarColorMgr >
 private:
 	friend class LLSingleton < ALAvatarColorMgr > ;
 public:
-	enum e_custom_colors
+	typedef enum e_custom_colors
 	{
 		E_FIRST_COLOR = 0,
 		E_SECOND_COLOR,
 		E_THIRD_COLOR,
 		E_FOURTH_COLOR
-	};
+	} EAvatarColors;
 
 	ALAvatarColorMgr(){}
 	~ALAvatarColorMgr(){}
 
-	void addOrUpdateCustomColor(const LLUUID& id, e_custom_colors color);
+	void addOrUpdateCustomColor(const LLUUID& id, EAvatarColors color);
 	void clearCustomColor(const LLUUID& id);
 	const LLColor4& getColor(const LLUUID& id);
 
 private:
-	typedef boost::unordered_map<LLUUID, LLColor4> uuid_color_umap_t;
+	typedef boost::unordered_map<LLUUID, EAvatarColors> uuid_color_umap_t;
 	uuid_color_umap_t mCustomColors;
 };

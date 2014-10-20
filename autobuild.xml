@@ -333,8 +333,10 @@
       </map>
       <key>dictionaries</key>
       <map>
+        <key>description</key>
+        <string>Spell checking dictionaries to bundled into the viewer</string>
         <key>license</key>
-        <string>various open</string>
+        <string>various open source</string>
         <key>license_file</key>
         <string>LICENSES/dictionaries.txt</string>
         <key>name</key>
@@ -346,14 +348,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6907cefddfd689bba7dc7db0fb62658f</string>
+              <string>5dbd058bf0595626eba8669ad044f2f1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/dictionaries-1-darwin-201410161640.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/dictionaries-1-common-201410192105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1</string>
       </map>
       <key>elfio</key>
       <map>
@@ -2160,9 +2164,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0d36e6cef070949004302d93f1d85711</string>
+              <string>8bd0d7ef3f293fdaefb1ae1231895d08</string>
               <key>url</key>
-			  <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/tut-2013-12-18-darwin-201410182120.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/tut-2013-12-18-common-201410192056.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>

@@ -1094,9 +1094,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0cd1af82260d1700efae735100b0c05d</string>
+              <string>00cba1b1985bffff409911c3f0197e49</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jpeglib-1.3.1-darwin-201407241042.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jpeglib-1.3.1-darwin-201410201403.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1328,9 +1328,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9e797d0d0b987d9a6492522237421df7</string>
+              <string>7af21c94d11d8b9b3e5a5c9012e8e0ee</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libndofdev-0.1-darwin-201407232147.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libndofdev-0.1-darwin-201410201421.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

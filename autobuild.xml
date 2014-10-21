@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4753ea5fac69639dde819907e31c031f</string>
+              <string>6355a7d9eeceeae085bef53d0f6b8a77</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201410161552.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201410211301.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2008,9 +2008,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>938eb095d244a082091a9ca61b262741</string>
+              <string>521d56d2ff1421e4a42d8087c6cbe45d</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/pcre-8.35-darwin-201407230726.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/pcre-8.36-darwin-201410211250.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2041,7 +2041,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>8.35</string>
+        <string>8.36</string>
       </map>
       <key>quicktime</key>
       <map>

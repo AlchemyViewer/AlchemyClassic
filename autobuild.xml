@@ -1644,9 +1644,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>195fd6d17c1a8c6992c09747374951cf</string>
+              <string>6cbaa0065288650530eba653d6f84ee2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201410162113.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201410212107.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

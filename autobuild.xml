@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6355a7d9eeceeae085bef53d0f6b8a77</string>
+              <string>47806007e4a1d453f326c890c183b771</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201410211301.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201410211658.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1460,9 +1460,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>883977cd66dec28860dc854b0214652b</string>
+              <string>e606257668e3ed02a28583418a3c876b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.1-darwin-201410161520.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201410211636.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1493,7 +1493,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>2.9.1</string>
+        <string>2.9.2</string>
       </map>
       <key>llappearanceutility-source</key>
       <map>

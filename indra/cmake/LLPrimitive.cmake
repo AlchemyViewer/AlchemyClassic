@@ -4,6 +4,7 @@
 include(Prebuilt)
 include(Boost)
 include(LibXML2)
+include(ICU4C)
 
 use_prebuilt_binary(colladadom)
 use_prebuilt_binary(pcre)
@@ -44,4 +45,5 @@ elseif (LINUX)
 endif (WINDOWS)
 LIST(APPEND LLPRIMITIVE_LIBRARIES
      ${LIBXML2_LIBRARIES}
+     ${ICU4C_LIBRARIES}
      )

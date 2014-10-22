@@ -53,6 +53,7 @@ set(cmake_SOURCE_FILES
     GooglePerfTools.cmake
     Havok.cmake
     Hunspell.cmake
+    ICU4C.cmake
     JPEG.cmake
     JsonCpp.cmake
     LLAddBuildTest.cmake

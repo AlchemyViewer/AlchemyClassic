@@ -96,9 +96,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>675c3314d8bc22452672d6b863a0861b</string>
+              <string>d6fea61e598ab6bb07f7a4f9300e9df6</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -108,16 +108,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>638784b2a072c1f4139b0c0e0918c05f</string>
+              <string>136679baa3cdc2383c9018db4d22dc93</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows64-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows64-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.55.0</string>
+        <string>1.56.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -134,9 +134,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>493728a391f5ae815be11ad5c60f9f4b</string>
+              <string>2ff7c142519b0f4c9c32d18793e7bd9e</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -146,9 +146,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cfd8932685f8b1752979a1522e12c9d0</string>
+              <string>8aac58a18b96c2ea574da403930cee69</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -176,9 +176,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>761502e585eb95b24e0815d453f41a20</string>
+              <string>14dc739a0a20b73c88a58dee4c734c45</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows-vs12-20141002.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -188,52 +188,44 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>14a15cc841dca8d356d6c33f466a8c07</string>
+              <string>d481691a146abea4fb0b25c831fec2a7</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows64-vs12-20141002.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows64-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.37.1</string>
+        <string>7.38</string>
       </map>
       <key>dictionaries</key>
       <map>
+        <key>description</key>
+        <string>Spell checking dictionaries to bundled into the viewer</string>
         <key>license</key>
-        <string>various open</string>
+        <string>various open source</string>
         <key>license_file</key>
         <string>LICENSES/dictionaries.txt</string>
         <key>name</key>
         <string>dictionaries</string>
         <key>platforms</key>
         <map>
-          <key>windows</key>
+          <key>common</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7520d75f6af325328322201c888191d4</string>
+              <string>5dbd058bf0595626eba8669ad044f2f1</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-dictionaries/rev/259873/arch/CYGWIN/installer/dictionaries-1-windows-20120616.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/dictionaries-1-common-201410192105.tar.bz2</string>
             </map>
             <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>7520d75f6af325328322201c888191d4</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-dictionaries/rev/259873/arch/CYGWIN/installer/dictionaries-1-windows-20120616.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
+            <string>common</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1</string>
       </map>
       <key>expat</key>
       <map>
@@ -648,9 +640,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7a67ad39f19fab9b69e89cda05008b1b</string>
+              <string>01a702d961fe00d071f67cb0f7e31676</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-20141022.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -660,9 +652,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ac93595c7f740a70aa2bc2d4b60bd1f0</string>
+              <string>c17acdb8a3176ad32997f45766f346ef</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-20141022.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -766,6 +758,84 @@
             <string>windows</string>
           </map>
         </map>
+      </map>
+      <key>icu4c</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 1995-2011 International Business Machines Corporation and others &lt;http://source.icu-project.org&gt;</string>
+        <key>description</key>
+        <string>ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization support for software applications. ICU is widely portable and gives applications the same results on all platforms and between C/C++ and Java software.</string>
+        <key>license</key>
+        <string>ICU, permissive non-copyleft free software license</string>
+        <key>license_file</key>
+        <string>LICENSES/icu.txt</string>
+        <key>name</key>
+        <string>icu4c</string>
+        <key>platforms</key>
+        <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3040ff26252c05472e057f65c573a595</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/icu4c-54.1-darwin-201410161435.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
+          <key>linux</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9a758afca3e193d710b8ff6a59849c01</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-icu4c/rev/268323/arch/Linux/installer/icu4c-48.1-linux-20121218.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fdad33834ebcc3b7d9472e372b62cc7a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/icu4c-53.1-linux64-20140827.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>45b7bd31539ec09f9b936cc03ac47db6</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/icu4c-54.1-windows-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>329b40877e90cab505479207bc01b4a9</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/icu4c-54.1-windows64-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>54.1</string>
       </map>
       <key>inteltbb</key>
       <map>
@@ -938,9 +1008,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>66502095467f3d9a1dffb82f62d6d1fb</string>
+              <string>a30628453ca7b92d39663ef2f2563f02</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.2-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.3-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -950,9 +1020,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>306e1eac077f7bd200839a057eded614</string>
+              <string>6dca2a3a6c1b729612c0d488468eb046</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.2-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.3-windows64-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1020,9 +1090,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>63d179f423e9aa8068f8b20ae5d6ce19</string>
+              <string>26ea7c62f7396b6743c21a51aa42bae3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.8-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.13-windows-vs12-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1032,16 +1102,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>044c659df028779a10fdcfe236ee84c9</string>
+              <string>a83a39ce761d41354514b0a61588210a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.8-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.13-windows64-vs12-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.8</string>
+        <string>1.6.13</string>
       </map>
       <key>libuuid</key>
       <map>
@@ -1077,26 +1147,14 @@
         <string>libxml2</string>
         <key>platforms</key>
         <map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>6414642528f42dac1cd9a012c99cd748</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libxml-2.6.24-linux-20101013.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9f6cf700b497fd1af69ef3d6f931be53</string>
+              <string>680643aa631c1128246b51b4f02508bc</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.1-windows-vs12-20140706.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.2-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1106,9 +1164,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>425ed9b60b909fc33605bbac76a25f5d</string>
+              <string>252c1336bafeed1506afdd60cfe61c6e</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.2-windows64-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1232,9 +1290,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ae008116e2bf6d552fa45440f6d33544</string>
+              <string>14fa3497c2d9fa02b1147b45ce516fa2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-vs12-20141002.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-20141022.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1476,9 +1534,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0e771eaf70172cd8a8377f1f0cd76c12</string>
+              <string>ceb2ed054fb1835956e3fd3fa3992a02</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1i-windows-20141002.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1j-windows-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1488,16 +1546,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4b260de62019a2c176748e328030fa8f</string>
+              <string>1e2e1935e609214e6505b27b7be5ada1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1i-windows64-20141002.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1j-windows64-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.0.1h</string>
+        <string>1.0.1j</string>
       </map>
       <key>pcre</key>
       <map>
@@ -1518,9 +1576,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>66c7c13f0225953c7064072e4279a8ca</string>
+              <string>c7c98dccb566375fc66330a1784606b2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1530,16 +1588,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1bcc96a7c9d4e34648ddeeaad5a2c66a</string>
+              <string>f2a1d71bba183c166acf99996d5dce11</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.35-windows64-vs12-20140816.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows64-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>8.35</string>
+        <string>8.36</string>
       </map>
       <key>quicktime</key>
       <map>
@@ -1603,6 +1661,10 @@
       </map>
       <key>tut</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright 2002-2006 Vladimir Dyuzhev, Copyright 2007 Denis Kononenko, Copyright 2008-2009 Michał Rzechonek</string>
+        <key>description</key>
+        <string>TUT is a small and portable unit test framework for C++.</string>
         <key>license</key>
         <string>bsd</string>
         <key>license_file</key>
@@ -1616,14 +1678,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5c6d3e606f027e78f056cb77b20f228e</string>
+              <string>8bd0d7ef3f293fdaefb1ae1231895d08</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/tut-2008-11-30-common-20101001.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/tut-2013-12-18-common-201410192056.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
+        <key>version</key>
+        <string>2013-12-18</string>
       </map>
       <key>xmlrpc-epi</key>
       <map>

@@ -26,13 +26,18 @@
 
 #include "linden_common.h"
 
+#include "llspellcheck.h"
+
 #include "lldir.h"
 #include "llsdserialize.h"
 
-#include "llspellcheck.h"
 #if LL_WINDOWS
+    #pragma push_macro("near")
+    #ifdef near
+    #undef near
+    #endif 
 	#include <hunspell/hunspelldll.h>
-	#pragma comment(lib, "libhunspell.lib")
+    #pragma pop_macro("near")
 #else
 	#include <hunspell/hunspell.hxx>
 #endif

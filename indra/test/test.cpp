@@ -230,7 +230,7 @@ public:
 
 		// If this test failed, dump requested log messages BEFORE stating the
 		// test result.
-		if (tr.result != tut::test_result::ok && tr.result != tut::test_result::skipped)
+		if (tr.result != tut::test_result::ok && tr.result != tut::test_result::skip)
 		{
 			mReplayer->replay(*mStream);
 		}
@@ -264,7 +264,7 @@ public:
 				++mFailedTests;
 				out << "abnormal termination";
 				break;
-			case tut::test_result::skipped:
+			case tut::test_result::skip:
 				++mSkippedTests;			
 				out << "skipped known failure";
 				break;
@@ -379,7 +379,7 @@ public:
 						  << "' message='" << escape(tr.message) << "']" << std::endl;
 				break;
 
-			case tut::test_result::skipped:
+			case tut::test_result::skip:
 				std::cout << "##teamcity[testIgnored name='" << testname << "']" << std::endl;
 				break;
 

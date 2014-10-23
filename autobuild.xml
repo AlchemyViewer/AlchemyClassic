@@ -2164,16 +2164,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8bd0d7ef3f293fdaefb1ae1231895d08</string>
+              <string>9592d7473bf06bf5bd66591fd56ec68b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/tut-2013-12-18-common-201410192056.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/tut-2008-11-30-darwin-201410161615.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
         <key>version</key>
-        <string>2013-12-18</string>
+        <string>2008-11-30</string>
       </map>
       <key>xmlrpc-epi</key>
       <map>

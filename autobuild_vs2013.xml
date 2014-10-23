@@ -1278,9 +1278,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c35c52f2d2c0be4b791e8306bea0995d</string>
+              <string>b30f1088e8f01fb2617dd35e690faf12</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows-vs12-20140707.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows-20141022.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

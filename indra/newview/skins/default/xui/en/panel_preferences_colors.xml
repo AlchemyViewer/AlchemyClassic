@@ -319,6 +319,38 @@
    top_pad="20"
    width="495"
    >
+    Name tag text color:
+  </text>
+  <check_box
+  disabled_control="AlchemyNametagColorMgr"
+   control_name="NameTagShowFriends"
+   follows="left|top"
+   height="24"
+   label="Highlight friends"
+   tool_tip="Highlight the name tags of your friends"
+   layout="topleft"
+   left_delta="10"
+   top_delta="12"
+   name="AlchemyNametagColorMgr"
+   width="100" />
+  <check_box
+   control_name="AlchemyNametagColorMgr"
+   follows="left|top"
+   height="24"
+   label="Synchronize with minimap colors"
+   layout="topleft"
+   top_delta="19"
+   name="AlchemyNametagColorMgr"
+   width="100" />
+  <text
+   follows="left|top"
+   layout="topleft"
+   left="30"
+   height="12"
+   name="bubble_chat"
+   top_pad="5"
+   width="495"
+   >
     Name tag background color (also affects Bubble Chat):
   </text>
   <color_swatch
@@ -361,7 +393,7 @@
    left="30"
    height="12"
    name="floater_opacity"
-   top_pad="15"
+   top_pad="7"
    width="200"
    >
     Floater Opacity:
@@ -402,14 +434,4 @@
    show_text="true"
    top_pad="5"
    width="415" />
-  <check_box
-   control_name="AlchemyNametagColorMgr"
-   follows="left|top"
-   height="24"
-   label="Color nametags based on minimap colors"
-   layout="topleft"
-   left_pad="5"
-   top_delta="-1"
-   name="AlchemyNametagColorMgr"
-   width="100" />
 </panel>

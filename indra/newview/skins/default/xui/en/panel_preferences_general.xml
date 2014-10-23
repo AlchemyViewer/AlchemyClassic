@@ -297,15 +297,6 @@
 	 tool_tip="Show group titles, like Officer or Member"
      top_pad="3" />
     <check_box
-     control_name="NameTagShowFriends"
-	 enabled_control="AvatarNameTagMode"
-     height="16"
-     label="Highlight friends"
-     layout="topleft"
-     left_pad="50"
-     name="show_friends"
-     tool_tip="Highlight the name tags of your friends"/>     
-    <check_box
 	 control_name="UseDisplayNames"
 	 follows="top|left"
 	 height="16"
@@ -313,9 +304,36 @@
 	 layout="topleft"
 	 left="35"
 	 name="display_names_check"
-	 width="237"
+	 width="100"
 	 tool_tip="Check to use display names in chat, IM, name tags, etc."
-	 top_pad="3"/>	 
+	 top_pad="3"/>
+    <combo_box
+     control_name="AlchemyAvatarListNameFormat"
+     follows="left|top"
+     height="23"
+     layout="topleft"
+     name="AlchemyAvatarListNameFormat"
+     left_pad="53"
+	 top_delta="-20"
+     width="150">
+        <combo_box.item
+         label="Display Name"
+         name="displayname"
+         value="0" />
+        <combo_box.item
+         label="Display Name (username)"
+         name="completename"
+         value="1" />
+        <combo_box.item
+         label="User Name"
+         name="username"
+         value="2" />
+        <combo_box.item
+         label="account.name"
+         name="accountname"
+         value="3" />
+    </combo_box>
+	 
 	<text
 	 type="string"
 	 length="1"
@@ -324,7 +342,7 @@
 	 layout="topleft"
 	 left="30"
 	 name="inworld_typing_rg_label"
-	 top_pad="1"
+	 top_pad="13"
 	 width="400">
        Pressing letter keys:
    </text>
@@ -333,7 +351,7 @@
      height="34"
      layout="topleft"
      left="35"
-     top_pad="0" 
+     top_pad="2" 
      name="inworld_typing_preference">
         <radio_item
          label="Starts local chat"

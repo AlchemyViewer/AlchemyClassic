@@ -57,7 +57,7 @@
        <check_box
         follows="left|top"
         height="16"
-        label="Be retarded and annoying when the region is about to restart"
+        label="Shake the screen when the region is about to restart"
         tool_tip="Shake it like a polaroid picture"
         left_delta="0"
         top_pad="5"
@@ -135,12 +135,21 @@
        <check_box
         follows="left|top"
         height="16"
-        label="Draw mouselook instructions"
+        label="Display position and avatar health"
         left="7"
         top_pad="15"
         name="AlchemyMouselookInstructions"
         width="275"
         control_name="AlchemyMouselookInstructions"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Display targeted avatars name under the crosshair"
+        left="7"
+        top_pad="15"
+        name="AlchemyMouselookIFF"
+        width="275"
+        control_name="AlchemyMouselookIFF"/>
        <check_box
         follows="left|top"
         height="16"

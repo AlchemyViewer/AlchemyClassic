@@ -947,23 +947,6 @@
         name="EnableSSR"
         top_pad="5"
         width="170" />
-       <text
-        type="string"
-        length="1"
-        enabled_control="RenderDeferred"
-        follows="left|top"
-        font="SansSerifSmall"
-        halign="left"
-        height="12"
-        layout="topleft"
-        left_pad="5"
-        mouse_opaque="true"
-        name="DofOptsText"
-        width="128"
-        top_delta="0"
-        text_color="WarningRed">
-        Warning: Very intensive!
-       </text>
       </panel>
       <panel
        enabled_control="VertexShaderEnable"

@@ -7,7 +7,7 @@
  help_topic="environment_editor_floater"
  save_rect="true"
  title="ENVIRONMENT SETTINGS"
- width="365">
+ width="367">
 
 <check_box
      height="15"
@@ -96,7 +96,7 @@
   top_pad="5"
   width="360"
   wrap="true">
-  Note: your custom settings will not be visible to other users.
+  Note: Your custom settings will not be visible to other users.
  </text>
   </panel>
 

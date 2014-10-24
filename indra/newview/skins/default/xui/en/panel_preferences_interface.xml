@@ -146,7 +146,7 @@
         height="16"
         label="Display targeted avatars name under the crosshair"
         left="7"
-        top_pad="15"
+        top_pad="5"
         name="AlchemyMouselookIFF"
         width="275"
         control_name="AlchemyMouselookIFF"/>

@@ -144,7 +144,7 @@ LLSidepanelInventory::~LLSidepanelInventory()
 	{
 		gInventory.removeObserver(mInboxAddedObserver);
 	}
-	//delete mInboxAddedObserver; // FIXME: Leak fix crashes on shutdown :(
+	delete mInboxAddedObserver;
 }
 
 void handleInventoryDisplayInboxChanged()

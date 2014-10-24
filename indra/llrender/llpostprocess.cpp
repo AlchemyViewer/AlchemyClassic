@@ -538,6 +538,35 @@ void LLPostProcess::createNoiseTexture(LLPointer<LLImageGL>& texture)
 	}
 }
 
+const char* gLOLErrorString(GLenum errorCode)
+{
+	static const struct {
+		GLenum code;
+		const char *string;
+	}
+	errors[] = {
+		/* GL */
+		{GL_NO_ERROR, "no error"},
+		{GL_INVALID_ENUM, "invalid enumerant"},
+		{GL_INVALID_VALUE, "invalid value"},
+		{GL_INVALID_OPERATION, "invalid operation"},
+		{GL_STACK_OVERFLOW, "stack overflow"},
+		{GL_STACK_UNDERFLOW, "stack underflow"},
+		{GL_OUT_OF_MEMORY, "out of memory"},
+		{0, NULL }
+	};
+	
+	S32 i;
+	for (i = 0; errors[i].string; ++i)
+	{
+		if (errors[i].code == errorCode)
+		{
+			return errors[i].string;
+		}
+	}
+	return NULL;
+}
+
 bool LLPostProcess::checkError(void)
 {
 	GLenum glErr;
@@ -547,7 +576,7 @@ bool LLPostProcess::checkError(void)
     while (glErr != GL_NO_ERROR)
     {
 		// shaderErrorLog << (const char *) gluErrorString(glErr) << std::endl;
-		char const * err_str_raw = (const char *) gluErrorString(glErr);
+		char const * err_str_raw = (const char *) gLOLErrorString(glErr);
 
 		if(err_str_raw == NULL)
 		{

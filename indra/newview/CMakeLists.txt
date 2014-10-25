@@ -96,7 +96,7 @@ include_directories(
     ${LLLOGIN_INCLUDE_DIRS}
     ${UPDATER_INCLUDE_DIRS}
     ${LIBS_PREBUILT_DIR}/include/collada
-    ${LIBS_PREBUILD_DIR}/include/hunspell
+    ${HUNSPELL_INCLUDE_DIR}
     ${OPENAL_LIB_INCLUDE_DIRS}
     ${LIBS_PREBUILT_DIR}/include/collada/1.4
     ${LLAPPEARANCE_INCLUDE_DIRS}

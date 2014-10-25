@@ -20,9 +20,8 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
            find_program(SED sed)
            if (DEFINED MERCURIAL AND DEFINED WORDCOUNT AND DEFINED SED)
               execute_process(
-                 COMMAND ${MERCURIAL} log -r tip:0 --template '\\n'
-                 COMMAND ${WORDCOUNT} -l
-                 COMMAND ${SED} "s/ //g"
+                 COMMAND ${MERCURIAL} identify -n
+                 COMMAND ${SED} "s/+//"
                  OUTPUT_VARIABLE VIEWER_VERSION_REVISION
                  OUTPUT_STRIP_TRAILING_WHITESPACE
                  )

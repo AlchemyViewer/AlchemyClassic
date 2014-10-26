@@ -76,24 +76,6 @@
              start_folder.name="My Inventory"
              width="307"/>
           </accordion_tab>
-          <accordion_tab
-           layout="topleft"
-           name="tab_library"
-           title="Library">
-            <places_inventory_panel
-             allow_multi_select="true"
-             border="false"
-             bottom="0"
-             follows="all"
-             height="126"
-             left="0"
-             mouse_opaque="true"
-             name="library_list"
-             scroll.hide_scrollbar="true"
-             folder_view.use_ellipses="true"
-             start_folder.name="LIBRARY"
-             width="313"/>
-        </accordion_tab>
     </accordion>
     <panel
        background_visible="true"

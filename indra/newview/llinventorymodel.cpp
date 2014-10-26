@@ -35,7 +35,6 @@
 #include "llagentwearables.h"
 #include "llappearancemgr.h"
 #include "llclipboard.h"
-#include "llinventorypanel.h"
 #include "llinventorybridge.h"
 #include "llinventoryfunctions.h"
 #include "llinventoryobserver.h"

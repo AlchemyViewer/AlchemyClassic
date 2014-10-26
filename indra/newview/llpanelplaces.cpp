@@ -1217,3 +1217,32 @@ static void onSLURLBuilt(std::string& slurl)
 
 	LLNotificationsUtil::add("CopySLURL", args);
 }
+
+// Ahhhhhhhhhhh!
+static LLPanelInjector<LLHackyHackPlacesPanel> t_hacky_places("hacky_places");
+
+void LLHackyHackPlacesPanel::createTabs()
+{
+	if (!LLTeleportHistory::getInstance() && mTabsCreated) return;
+	
+	LLTeleportHistoryPanel* teleport_history_panel = new LLTeleportHistoryPanel();
+	if (teleport_history_panel)
+	{
+		teleport_history_panel->setPanelPlacesButtons(this);
+		
+		mTabContainer->addTabPanel(LLTabContainer::TabPanelParams().
+								   panel(teleport_history_panel).
+								   label(getString("teleport_history_tab_title")).
+								   insert_at(LLTabContainer::END));
+	}
+	
+	mTabContainer->selectFirstTab();
+	
+	mActivePanel = dynamic_cast<LLPanelPlacesTab*>(mTabContainer->getCurrentPanel());
+	
+	// Filter applied to show all items.
+	if (mActivePanel)
+		mActivePanel->onSearchEdit(mActivePanel->getFilterSubString());
+	
+	mTabsCreated = true;
+}

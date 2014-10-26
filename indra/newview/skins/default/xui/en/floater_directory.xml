@@ -221,7 +221,7 @@ Your search terms were missing a query string.
       bottom="-1"
       left="0"
       width="313"
-      class="panel_places"
+      class="hacky_places"
       filename="panel_places.xml" />
      <panel
       follows="all"

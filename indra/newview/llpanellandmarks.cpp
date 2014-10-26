@@ -46,7 +46,6 @@
 #include "llfloatersidepanelcontainer.h"
 #include "llfloaterworldmap.h"
 #include "llfolderviewitem.h"
-#include "llinventorymodelbackgroundfetch.h"
 #include "llinventorypanel.h"
 #include "llinventoryfunctions.h"
 #include "lllandmarkactions.h"
@@ -117,39 +116,6 @@ void LLCheckFolderState::doFolder(LLFolderViewFolder* folder)
 	}
 }
 
-// Functor searching and opening a folder specified by UUID
-// in a folder view tree.
-class LLOpenFolderByID : public LLFolderViewFunctor
-{
-public:
-	LLOpenFolderByID(const LLUUID& folder_id)
-	:	mFolderID(folder_id)
-	,	mIsFolderOpen(false)
-	{}
-	virtual ~LLOpenFolderByID() {}
-	/*virtual*/ void doFolder(LLFolderViewFolder* folder);
-	/*virtual*/ void doItem(LLFolderViewItem* item) {}
-
-	bool isFolderOpen() { return mIsFolderOpen; }
-
-private:
-	bool	mIsFolderOpen;
-	LLUUID	mFolderID;
-};
-
-// virtual
-void LLOpenFolderByID::doFolder(LLFolderViewFolder* folder)
-{
-	if (folder->getViewModelItem() && static_cast<LLFolderViewModelItemInventory*>(folder->getViewModelItem())->getUUID() == mFolderID)
-	{
-		if (!folder->isOpen())
-		{
-			folder->setOpen(TRUE);
-			mIsFolderOpen = true;
-		}
-	}
-}
-
 /**
  * Bridge to support knowing when the inventory has changed to update Landmarks tab
  * ShowFolderState filter setting to show all folders when the filter string is empty and
@@ -202,9 +168,6 @@ LLLandmarksPanel::~LLLandmarksPanel()
 
 BOOL LLLandmarksPanel::postBuild()
 {
-	if (!gInventory.isInventoryUsable())
-		return FALSE;
-
 	// mast be called before any other initXXX methods to init Gear menu
 	initListCommandsHandlers();
 
@@ -225,7 +188,7 @@ void LLLandmarksPanel::onSearchEdit(const std::string& string)
 		tab->setVisible(TRUE);
 
 		// expand accordion to see matched items in each one. See EXT-2014.
-		if (string != "")
+		if (!string.empty())
 		{
 			tab->changeOpenClose(false);
 		}
@@ -598,17 +561,6 @@ void LLLandmarksPanel::onAccordionExpandedCollapsed(const LLSD& param, LLPlacesI
 	// Start background fetch, mostly for My Inventory and Library
 	if (expanded)
 	{
-		const LLUUID &cat_id = inventory_list->getRootFolderID();
-		// Just because the category itself has been fetched, doesn't mean its child folders have.
-		/*
-		  if (!gInventory.isCategoryComplete(cat_id))
-		*/
-		{
-			LLInventoryModelBackgroundFetch::instance().start(cat_id);
-		}
-
-		// Apply filter substring because it might have been changed
-		// while accordion was closed. See EXT-3714.
 		filter_list(inventory_list, sFilterSubString);
 	}
 }
@@ -1327,7 +1279,7 @@ void LLLandmarksPanel::doCreatePick(LLLandmark* landmark)
 static void filter_list(LLPlacesInventoryPanel* inventory_list, const std::string& string)
 {
 	// When search is cleared, restore the old folder state.
-	if (!inventory_list->getFilterSubString().empty() && string == "")
+	if (!inventory_list->getFilterSubString().empty() && string.empty())
 	{
 		inventory_list->setFilterSubString(LLStringUtil::null);
 		// Re-open folders that were open before

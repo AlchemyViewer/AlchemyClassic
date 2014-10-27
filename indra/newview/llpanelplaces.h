@@ -64,7 +64,7 @@ public:
 	void changedParcelSelection();
 	// Called once on agent inventory first change to find out when inventory gets usable
 	// and to create "My Landmarks" and "Teleport History" tabs.
-	virtual void createTabs();
+	void createTabs();
 	// Called when we receive the global 3D position of a parcel.
 	void changedGlobalPos(const LLVector3d &global_pos);
 
@@ -80,12 +80,6 @@ public:
 	bool tabsCreated() { return mTabsCreated;}
 
 	/*virtual*/ S32 notifyParent(const LLSD& info);
-	
-protected:
-	LLPanelPlacesTab*			mActivePanel;
-	LLTabContainer*				mTabContainer;
-	// Holds info whether "My Landmarks" and "Teleport History" tabs have been created.
-	bool						mTabsCreated;
 
 private:
 	void onLandmarkLoaded(LLLandmark* landmark);
@@ -115,6 +109,8 @@ private:
 	LLPanelPlaceInfo* getCurrentInfoPanel();
 
 	LLFilterEditor*				mFilterEditor;
+	LLPanelPlacesTab*			mActivePanel;
+	LLTabContainer*				mTabContainer;
 	LLPanelPlaceProfile*		mPlaceProfile;
 	LLPanelLandmarkInfo*		mLandmarkInfo;
 
@@ -152,15 +148,12 @@ private:
 
 	bool						isLandmarkEditModeOn;
 
+	// Holds info whether "My Landmarks" and "Teleport History" tabs have been created.
+	bool						mTabsCreated;
+
 	LLSafeHandle<LLParcelSelection>	mParcel;
 
 	boost::signals2::connection mAgentParcelChangedConnection;
-};
-
-// This crazy little class is just a workaround for directory search until the landmarks panel is fixed!
-class LLHackyHackPlacesPanel : public LLPanelPlaces
-{
-	void createTabs();
 };
 
 #endif //LL_LLPANELPLACES_H

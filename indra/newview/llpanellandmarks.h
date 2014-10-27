@@ -111,7 +111,7 @@ protected:
 private:
 	void initFavoritesInventoryPanel();
 	void initLandmarksInventoryPanel();
-	void initMyInventoryPanel();
+	//void initMyInventoryPanel();
 	void initLandmarksPanel(LLPlacesInventoryPanel* inventory_list);
 	LLAccordionCtrlTab* initAccordion(const std::string& accordion_tab_name, LLPlacesInventoryPanel* inventory_list, bool expand_tab);
 	void onAccordionExpandedCollapsed(const LLSD& param, LLPlacesInventoryPanel* inventory_list);
@@ -165,7 +165,7 @@ private:
 private:
 	LLPlacesInventoryPanel*		mFavoritesInventoryPanel;
 	LLPlacesInventoryPanel*		mLandmarksInventoryPanel;
-	LLPlacesInventoryPanel*		mMyInventoryPanel;
+	//LLPlacesInventoryPanel*		mMyInventoryPanel;
 	LLMenuButton*				mGearButton;
 	LLToggleableMenu*			mGearLandmarkMenu;
 	LLToggleableMenu*			mGearFolderMenu;

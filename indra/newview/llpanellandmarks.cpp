@@ -144,7 +144,7 @@ LLLandmarksPanel::LLLandmarksPanel()
 	:	LLPanelPlacesTab()
 	,	mFavoritesInventoryPanel(NULL)
 	,	mLandmarksInventoryPanel(NULL)
-	,	mMyInventoryPanel(NULL)
+	//,	mMyInventoryPanel(NULL)
 	,	mCurrentSelectedList(NULL)
 	,	mListCommands(NULL)
 	,	mGearButton(NULL)
@@ -173,7 +173,7 @@ BOOL LLLandmarksPanel::postBuild()
 
 	initFavoritesInventoryPanel();
 	initLandmarksInventoryPanel();
-	initMyInventoryPanel();
+	//initMyInventoryPanel();
 
 	return TRUE;
 }
@@ -335,10 +335,10 @@ void LLLandmarksPanel::setItemSelected(const LLUUID& obj_id, BOOL take_keyboard_
 		return;
 	}
 
-	if (selectItemInAccordionTab(mMyInventoryPanel, "tab_inventory", obj_id, take_keyboard_focus))
-	{
-		return;
-	}
+	//if (selectItemInAccordionTab(mMyInventoryPanel, "tab_inventory", obj_id, take_keyboard_focus))
+	//{
+	//	return;
+	//}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -504,14 +504,14 @@ void LLLandmarksPanel::initLandmarksInventoryPanel()
 	mMyLandmarksAccordionTab = initAccordion("tab_landmarks", mLandmarksInventoryPanel, true);
 }
 
-void LLLandmarksPanel::initMyInventoryPanel()
-{
-	mMyInventoryPanel= getChild<LLPlacesInventoryPanel>("my_inventory_list");
-
-	initLandmarksPanel(mMyInventoryPanel);
-
-	initAccordion("tab_inventory", mMyInventoryPanel, false);
-}
+//void LLLandmarksPanel::initMyInventoryPanel()
+//{
+//	mMyInventoryPanel= getChild<LLPlacesInventoryPanel>("my_inventory_list");
+//
+//	initLandmarksPanel(mMyInventoryPanel);
+//
+//	initAccordion("tab_inventory", mMyInventoryPanel, false);
+//}
 
 void LLLandmarksPanel::initLandmarksPanel(LLPlacesInventoryPanel* inventory_list)
 {
@@ -576,10 +576,10 @@ void LLLandmarksPanel::deselectOtherThan(const LLPlacesInventoryPanel* inventory
 	{
 		mLandmarksInventoryPanel->clearSelection();
 	}
-	if (inventory_list != mMyInventoryPanel)
-	{
-		mMyInventoryPanel->clearSelection();
-	}
+	//if (inventory_list != mMyInventoryPanel)
+	//{
+	//	mMyInventoryPanel->clearSelection();
+	//}
 }
 
 // List Commands Handlers
@@ -763,7 +763,7 @@ void LLLandmarksPanel::onFoldingAction(const LLSD& userdata)
 	{
 		expand_all_folders(mFavoritesInventoryPanel->getRootFolder());
 		expand_all_folders(mLandmarksInventoryPanel->getRootFolder());
-		expand_all_folders(mMyInventoryPanel->getRootFolder());
+		//expand_all_folders(mMyInventoryPanel->getRootFolder());
 
 		for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
 		{
@@ -774,7 +774,7 @@ void LLLandmarksPanel::onFoldingAction(const LLSD& userdata)
 	{
 		collapse_all_folders(mFavoritesInventoryPanel->getRootFolder());
 		collapse_all_folders(mLandmarksInventoryPanel->getRootFolder());
-		collapse_all_folders(mMyInventoryPanel->getRootFolder());
+		//collapse_all_folders(mMyInventoryPanel->getRootFolder());
 
 		for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
 		{
@@ -787,7 +787,7 @@ void LLLandmarksPanel::onFoldingAction(const LLSD& userdata)
 		sorting_order=!sorting_order;
 		gSavedSettings.setBOOL("LandmarksSortedByDate",sorting_order);
 		updateSortOrder(mLandmarksInventoryPanel, sorting_order);
-		updateSortOrder(mMyInventoryPanel, sorting_order);
+		//updateSortOrder(mMyInventoryPanel, sorting_order);
 	}
 	else
 	{
@@ -822,8 +822,8 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 	if ("collapse_all" == command_name)
 	{
 		bool disable_collapse_all =	!has_expanded_folders(mFavoritesInventoryPanel->getRootFolder())
-									&& !has_expanded_folders(mLandmarksInventoryPanel->getRootFolder())
-									&& !has_expanded_folders(mMyInventoryPanel->getRootFolder());
+									&& !has_expanded_folders(mLandmarksInventoryPanel->getRootFolder());
+									/*&& !has_expanded_folders(mMyInventoryPanel->getRootFolder());*/
 		if (disable_collapse_all)
 		{
 			for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
@@ -841,8 +841,8 @@ bool LLLandmarksPanel::isActionEnabled(const LLSD& userdata) const
 	else if ("expand_all" == command_name)
 	{
 		bool disable_expand_all = !has_collapsed_folders(mFavoritesInventoryPanel->getRootFolder())
-								  && !has_collapsed_folders(mLandmarksInventoryPanel->getRootFolder())
-								  && !has_collapsed_folders(mMyInventoryPanel->getRootFolder());
+								  && !has_collapsed_folders(mLandmarksInventoryPanel->getRootFolder());
+								  /* && !has_collapsed_folders(mMyInventoryPanel->getRootFolder());*/
 		if (disable_expand_all)
 		{
 			for (accordion_tabs_t::const_iterator iter = mAccordionTabs.begin(); iter != mAccordionTabs.end(); ++iter)
@@ -1055,10 +1055,10 @@ bool LLLandmarksPanel::canItemBeModified(const std::string& command_name, LLFold
 		can_be_modified = true;
 
 		// we can modify landmarks anywhere except paste to My Inventory
-		if ("paste" == command_name)
-		{
-			can_be_modified = (mCurrentSelectedList != mMyInventoryPanel);
-		}
+		//if ("paste" == command_name)
+		//{
+		//	can_be_modified = true (mCurrentSelectedList != mMyInventoryPanel);
+		//}
 	}
 	else
 	{

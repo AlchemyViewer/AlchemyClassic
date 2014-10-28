@@ -75,6 +75,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sRegionMsgCommand(gSavedSettings, "AlchemyChatCommandRegionMessage", "/regionmsg");
 		static LLCachedControl<std::string> sSetNearbyChatChannelCmd(gSavedSettings, "AlchemyChatCommandSetChatChannel", "/setchannel");
 		static LLCachedControl<std::string> sResyncAnimCommand(gSavedSettings, "AlchemyChatCommandResyncAnim", "/resync");
+		static LLCachedControl<std::string> sTeleportToCam(gSavedSettings, "AlchemyChatCommandTeleportToCam", "/tp2cam");
 
 		if (cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
@@ -250,6 +251,11 @@ bool ALChatCommand::parseCommand(std::string data)
 				gSavedSettings.setS32("AlchemyNearbyChatChannel", chan);
 				return true;
 			}
+		}
+		else if (cmd == utf8str_tolower(sTeleportToCam))
+		{
+			gAgent.teleportViaLocation(gAgentCamera.getCameraPositionGlobal());
+			return true;
 		}
 		else if (cmd == utf8str_tolower(sResyncAnimCommand)) // Resync Animations
 		{

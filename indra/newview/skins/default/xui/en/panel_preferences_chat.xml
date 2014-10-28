@@ -853,7 +853,7 @@
           control_name="AlchemyChatCommandHome"
           enabled_control="AlchemyChatCommandEnable"
           width="220"/>
-          <!--sethome-->
+        <!--sethome-->
         <text
           top_pad="5"
           follows="left|top"
@@ -870,6 +870,25 @@
           text_pad_left="5"
           name="AlchemyChatCommandSetHome"
           control_name="AlchemyChatCommandSetHome"
+          enabled_control="AlchemyChatCommandEnable"
+          width="220"/>
+        <!--tp2cam-->
+        <text
+          top_pad="5"
+          follows="left|top"
+          height="18"
+          name="AlchemyChatCommandTeleportToCam_txt"
+          width="220">
+          Teleport to Cam
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          text_pad_left="5"
+          name="AlchemyChatCommandTeleportToCam"
+          control_name="AlchemyChatCommandTeleportToCam"
           enabled_control="AlchemyChatCommandEnable"
           width="220"/>
           <!--reserved-->

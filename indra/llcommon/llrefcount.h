@@ -28,6 +28,7 @@
 
 #include <boost/noncopyable.hpp>
 #include <boost/intrusive_ptr.hpp>
+#include "llatomic.h"
 #include "llmutex.h"
 #include "llapr.h"
 

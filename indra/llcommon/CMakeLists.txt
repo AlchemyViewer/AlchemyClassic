@@ -123,6 +123,7 @@ set(llcommon_HEADER_FILES
     llapp.h
     llapr.h
     llassettype.h
+    llatomic.h
     llbase32.h
     llbase64.h
     llbitpack.h

@@ -28,20 +28,16 @@
 #define LL_LLAPP_H
 
 #include <map>
+#include "llatomic.h"
 #include "llrun.h"
 #include "llsd.h"
-// Forward declarations
-#if __cplusplus >= 201103L || _MSC_VER >= 1800
-#include "llapr.h"
-#else
-template <typename Type> class LLAtomic32;
-typedef LLAtomic32<U32> LLAtomicU32;
-#endif
-class LLErrorThread;
-class LLLiveFile;
+
 #if LL_LINUX
 #include <signal.h>
 #endif
+
+class LLErrorThread;
+class LLLiveFile;
 
 typedef void (*LLAppErrorHandler)();
 

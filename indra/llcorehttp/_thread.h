@@ -33,6 +33,8 @@
 #include <boost/function.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
+#include "llwin32headerslean.h"
+
 #include "_refcounted.h"
 
 namespace LLCoreInt

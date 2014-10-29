@@ -317,6 +317,7 @@ set(viewer_SOURCE_FILES
     llfloatertopobjects.cpp
     llfloatertos.cpp
     llfloatertoybox.cpp
+    llfloatertransactionlog.cpp
     llfloatertranslationsettings.cpp
     llfloatertwitter.cpp
     llfloateruipreview.cpp
@@ -948,6 +949,7 @@ set(viewer_HEADER_FILES
     llfloatertopobjects.h
     llfloatertos.h
     llfloatertoybox.h
+    llfloatertransactionlog.h
     llfloatertranslationsettings.h
     llfloatertwitter.h
     llfloateruipreview.h

@@ -49,7 +49,7 @@ public:
 	virtual ~LLMutex();
 	
 	void lock();		// blocks
-	bool trylock();		// non-blocking, returns true if lock held.
+	bool try_lock();		// non-blocking, returns true if lock held.
 	void unlock();		// undefined behavior when called on mutex not being held
 	bool isLocked(); 	// non-blocking, but does do a lock/unlock so not free
 	bool isSelfLocked(); //return true if locked in a same thread
@@ -105,7 +105,7 @@ private:
 //============================================================================
 
 // Scoped locking class similar in function to LLMutexLock but uses
-// the trylock() method to conditionally acquire lock without
+// the try_lock() method to conditionally acquire lock without
 // blocking.  Caller resolves the resulting condition by calling
 // the isLocked() method and either punts or continues as indicated.
 //
@@ -120,7 +120,7 @@ public:
 		  mLocked(false)
 	{
 		if (mMutex)
-			mLocked = mMutex->trylock();
+			mLocked = mMutex->try_lock();
 	}
 
 	~LLMutexTrylock()

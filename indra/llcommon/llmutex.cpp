@@ -133,7 +133,7 @@ uintptr_t LLMutex::lockingThread() const
 	return mLockingThread;
 }
 
-bool LLMutex::trylock()
+bool LLMutex::try_lock()
 {
 	if(isSelfLocked())
 	{ //redundant lock

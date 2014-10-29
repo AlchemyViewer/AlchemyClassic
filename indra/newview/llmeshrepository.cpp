@@ -2513,7 +2513,7 @@ void LLMeshRepoThread::notifyLoadedMeshes()
 
 	if (! mSkinInfoQ.empty() || ! mDecompositionQ.empty())
 	{
-		if (mMutex->trylock())
+		if (mMutex->try_lock())
 		{
 			std::list<LLMeshSkinInfo> skin_info_q;
 			std::list<LLModel::Decomposition*> decomp_q;

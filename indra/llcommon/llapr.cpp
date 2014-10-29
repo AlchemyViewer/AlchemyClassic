@@ -30,6 +30,7 @@
 #include "llapr.h"
 #include "apr_dso.h"
 #include "llthreadlocalstorage.h"
+#include "llmutex.h"
 
 apr_pool_t *gAPRPoolp = NULL; // Global APR memory pool
 LLVolatileAPRPool *LLAPRFile::sAPRFilePoolp = NULL ; //global volatile APR memory pool.
@@ -169,25 +170,18 @@ LLVolatileAPRPool::LLVolatileAPRPool(BOOL is_local, apr_pool_t *parent, apr_size
 				  : LLAPRPool(parent, size, releasePoolFlag),
 				  mNumActiveRef(0),
 				  mNumTotalRef(0),
-				  mMutexPool(NULL),
 				  mMutexp(NULL)
 {
 	//create mutex
 	if(!is_local) //not a local apr_pool, that is: shared by multiple threads.
 	{
-		apr_pool_create(&mMutexPool, NULL); // Create a pool for mutex
-		apr_thread_mutex_create(&mMutexp, APR_THREAD_MUTEX_UNNESTED, mMutexPool);
+		mMutexp = new LLMutex();
 	}
 }
 
 LLVolatileAPRPool::~LLVolatileAPRPool()
 {
-	//delete mutex
-	if(mMutexp)
-	{
-		apr_thread_mutex_destroy(mMutexp);
-		apr_pool_destroy(mMutexPool);
-	}
+	delete_and_clear(mMutexp);
 }
 
 //
@@ -201,7 +195,7 @@ apr_pool_t* LLVolatileAPRPool::getAPRPool()
 
 apr_pool_t* LLVolatileAPRPool::getVolatileAPRPool() 
 {	
-	LLScopedLock lock(mMutexp) ;
+	LLMutexLock lock(mMutexp);
 
 	mNumTotalRef++ ;
 	mNumActiveRef++ ;
@@ -216,7 +210,7 @@ apr_pool_t* LLVolatileAPRPool::getVolatileAPRPool()
 
 void LLVolatileAPRPool::clearVolatileAPRPool() 
 {
-	LLScopedLock lock(mMutexp) ;
+	LLMutexLock lock(mMutexp) ;
 
 	if(mNumActiveRef > 0)
 	{
@@ -249,44 +243,6 @@ void LLVolatileAPRPool::clearVolatileAPRPool()
 BOOL LLVolatileAPRPool::isFull()
 {
 	return mNumTotalRef > FULL_VOLATILE_APR_POOL ;
-}
-//---------------------------------------------------------------------
-//
-// LLScopedLock
-//
-LLScopedLock::LLScopedLock(apr_thread_mutex_t* mutex) : mMutex(mutex)
-{
-	if(mutex)
-	{
-		if(ll_apr_warn_status(apr_thread_mutex_lock(mMutex)))
-		{
-			mLocked = false;
-		}
-		else
-		{
-			mLocked = true;
-		}
-	}
-	else
-	{
-		mLocked = false;
-	}
-}
-
-LLScopedLock::~LLScopedLock()
-{
-	unlock();
-}
-
-void LLScopedLock::unlock()
-{
-	if(mLocked)
-	{
-		if(!ll_apr_warn_status(apr_thread_mutex_unlock(mMutex)))
-		{
-			mLocked = false;
-		}
-	}
 }
 
 //---------------------------------------------------------------------

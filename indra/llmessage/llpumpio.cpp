@@ -54,7 +54,7 @@
 
 // constants for poll timeout. if we are threading, we want to have a
 // longer poll timeout.
-#if LL_THREADS_APR
+#if LL_THREADS_PUMPIO
 static const S32 DEFAULT_POLL_TIMEOUT = 1000;
 #else
 static const S32 DEFAULT_POLL_TIMEOUT = 0;
@@ -169,8 +169,10 @@ LLPumpIO::LLPumpIO(apr_pool_t* pool) :
 	mPool(NULL),
 	mCurrentPool(NULL),
 	mCurrentPoolReallocCount(0),
+#if LL_THREADS_PUMPIO
 	mChainsMutex(NULL),
 	mCallbackMutex(NULL),
+#endif
 	mCurrentChain(mRunningChains.end())
 {
 	mCurrentChain = mRunningChains.end();
@@ -194,8 +196,8 @@ bool LLPumpIO::addChain(const chain_t& chain, F32 timeout, bool has_curl_request
 {
 	if(chain.empty()) return false;
 
-#if LL_THREADS_APR
-	LLScopedLock lock(mChainsMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mChainsMutex);
 #endif
 	LLChainInfo info;
 	info.mHasCurlRequest = has_curl_request;
@@ -234,8 +236,8 @@ bool LLPumpIO::addChain(
 	if(!data) return false;
 	if(links.empty()) return false;
 
-#if LL_THREADS_APR
-	LLScopedLock lock(mChainsMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mChainsMutex);
 #endif
 #if LL_DEBUG_PIPE_TYPE_IN_PUMP
 	LL_DEBUGS() << "LLPumpIO::addChain() " << links[0].mPipe << " '"
@@ -391,8 +393,8 @@ void LLPumpIO::clearLock(S32 key)
 	// therefore won't be treading into deleted memory. I think we can
 	// also clear the lock on the chain safely since the pump only
 	// reads that value.
-#if LL_THREADS_APR
-	LLScopedLock lock(mChainsMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mChainsMutex);
 #endif
 	mClearLocks.insert(key);
 }
@@ -457,8 +459,8 @@ void LLPumpIO::pump(const S32& poll_timeout)
 	PUMP_DEBUG;
 	if(true)
 	{
-#if LL_THREADS_APR
-		LLScopedLock lock(mChainsMutex);
+#if LL_THREADS_PUMPIO
+		LLMutexLock lock(mChainsMutex);
 #endif
 		// bail if this pump is paused.
 		if(PAUSING == mState)
@@ -726,8 +728,8 @@ void LLPumpIO::pump(const S32& poll_timeout)
 
 //bool LLPumpIO::respond(const chain_t& pipes)
 //{
-//#if LL_THREADS_APR
-//	LLScopedLock lock(mCallbackMutex);
+//#if LL_THREADS_PUMPIO
+//	LLMutexLock lock(mCallbackMutex);
 //#endif
 //	LLChainInfo info;
 //	links_t links;
@@ -740,8 +742,8 @@ bool LLPumpIO::respond(LLIOPipe* pipe)
 {
 	if(NULL == pipe) return false;
 
-#if LL_THREADS_APR
-	LLScopedLock lock(mCallbackMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mCallbackMutex);
 #endif
 	LLChainInfo info;
 	LLLinkInfo link;
@@ -761,8 +763,8 @@ bool LLPumpIO::respond(
 	if(!data) return false;
 	if(links.empty()) return false;
 
-#if LL_THREADS_APR
-	LLScopedLock lock(mCallbackMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mCallbackMutex);
 #endif
 
 	// Add the callback response
@@ -781,8 +783,8 @@ void LLPumpIO::callback()
 	//LL_INFOS() << "LLPumpIO::callback()" << LL_ENDL;
 	if(true)
 	{
-#if LL_THREADS_APR
-		LLScopedLock lock(mCallbackMutex);
+#if LL_THREADS_PUMPIO
+		LLMutexLock lock(mCallbackMutex);
 #endif
 		std::copy(
 			mPendingCallbacks.begin(),
@@ -809,8 +811,8 @@ void LLPumpIO::callback()
 
 void LLPumpIO::control(LLPumpIO::EControl op)
 {
-#if LL_THREADS_APR
-	LLScopedLock lock(mChainsMutex);
+#if LL_THREADS_PUMPIO
+	LLMutexLock lock(mChainsMutex);
 #endif
 	switch(op)
 	{
@@ -829,22 +831,19 @@ void LLPumpIO::control(LLPumpIO::EControl op)
 void LLPumpIO::initialize(apr_pool_t* pool)
 {
 	if(!pool) return;
-#if LL_THREADS_APR
-	// SJB: Windows defaults to NESTED and OSX defaults to UNNESTED, so use UNNESTED explicitly.
-	apr_thread_mutex_create(&mChainsMutex, APR_THREAD_MUTEX_UNNESTED, pool);
-	apr_thread_mutex_create(&mCallbackMutex, APR_THREAD_MUTEX_UNNESTED, pool);
+#if LL_THREADS_PUMPIO
+	mChainsMutex = new LLMutex(pool);
+	mCallbackMutex = new LLMutex(pool);
 #endif
 	mPool = pool;
 }
 
 void LLPumpIO::cleanup()
 {
-#if LL_THREADS_APR
-	if(mChainsMutex) apr_thread_mutex_destroy(mChainsMutex);
-	if(mCallbackMutex) apr_thread_mutex_destroy(mCallbackMutex);
+#if LL_THREADS_PUMPIO
+	delete_and_clear(mChainsMutex);
+	delete_and_clear(mCallbackMutex);
 #endif
-	mChainsMutex = NULL;
-	mCallbackMutex = NULL;
 	if(mPollset)
 	{
 //		LL_DEBUGS() << "cleaning up pollset" << LL_ENDL;

@@ -42,6 +42,8 @@
 
 #include "llstring.h"
 
+class LLMutex;
+
 extern LL_COMMON_API apr_thread_mutex_t* gLogMutexp;
 extern apr_thread_mutex_t* gCallStacksLogMutexp;
 
@@ -120,49 +122,8 @@ private:
 	S32 mNumActiveRef ; //number of active pointers pointing to the apr_pool.
 	S32 mNumTotalRef ;  //number of total pointers pointing to the apr_pool since last creating.  
 
-	apr_thread_mutex_t *mMutexp;
-	apr_pool_t         *mMutexPool;
+	LLMutex*			mMutexp;
 } ;
-
-/** 
- * @class LLScopedLock
- * @brief Small class to help lock and unlock mutexes.
- *
- * This class is used to have a stack level lock once you already have
- * an apr mutex handy. The constructor handles the lock, and the
- * destructor handles the unlock. Instances of this class are
- * <b>not</b> thread safe.
- */
-class LL_COMMON_API LLScopedLock : private boost::noncopyable
-{
-public:
-	/**
-	 * @brief Constructor which accepts a mutex, and locks it.
-	 *
-	 * @param mutex An allocated APR mutex. If you pass in NULL,
-	 * this wrapper will not lock.
-	 */
-	LLScopedLock(apr_thread_mutex_t* mutex);
-
-	/**
-	 * @brief Destructor which unlocks the mutex if still locked.
-	 */
-	~LLScopedLock();
-
-	/** 
-	 * @brief Check lock.
-	 */
-	bool isLocked() const { return mLocked; }
-
-	/** 
-	 * @brief This method unlocks the mutex.
-	 */
-	void unlock();
-
-protected:
-	bool mLocked;
-	apr_thread_mutex_t* mMutex;
-};
 
 // File IO convenience functions.
 // Returns NULL if the file fails to open, sets *sizep to file size if not NULL

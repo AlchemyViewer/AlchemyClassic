@@ -59,7 +59,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 
-const S32 LOG_RECALL_SIZE = 2048;
+const size_t LOG_RECALL_SIZE = 2048;
 
 const std::string LL_IM_TIME("time");
 const std::string LL_IM_TEXT("message");
@@ -570,7 +570,7 @@ void LLLogChat::findTranscriptFiles(std::string pattern, std::vector<std::string
 		LLFILE * filep = LLFile::fopen(fullname, "rb");
 		if (NULL != filep)
 		{
-			if(makeLogFileName("chat")== fullname)
+			if(makeLogFileName("chat") == fullname)
 			{
 				//Add Nearby chat history to the list of transcriptions
 				list_of_transcriptions.push_back(gDirUtilp->add(dirname, filename));
@@ -580,7 +580,7 @@ void LLLogChat::findTranscriptFiles(std::string pattern, std::vector<std::string
 			char buffer[LOG_RECALL_SIZE];
 
 			fseek(filep, 0, SEEK_END);			// seek to end of file
-			S32 bytes_to_read = ftell(filep);	// get current file pointer
+			size_t bytes_to_read = ftell(filep);	// get current file pointer
 			fseek(filep, 0, SEEK_SET);			// seek back to beginning of file
 
 			// limit the number characters to read from file

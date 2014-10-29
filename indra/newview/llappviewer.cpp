@@ -2173,7 +2173,7 @@ bool LLAppViewer::initThreads()
 
 	if (LLTrace::BlockTimer::sLog || LLTrace::BlockTimer::sMetricLog)
 	{
-		LLTrace::BlockTimer::setLogLock(new LLMutex(NULL));
+		LLTrace::BlockTimer::setLogLock(new LLMutex());
 		mFastTimerLogThread = new LLFastTimerLogThread(LLTrace::BlockTimer::sLogName);
 		mFastTimerLogThread->start();
 	}

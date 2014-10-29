@@ -24,182 +24,46 @@
  */
 
 #include "linden_common.h"
-#include "llapr.h"
-
-#include "apr_portable.h"
-
 #include "llmutex.h"
 #include "llthread.h"
 
-//============================================================================
-
-LLMutex::LLMutex(apr_pool_t *poolp) :
-	mAPRMutexp(NULL), mCount(0), mLockingThread(NO_THREAD)
+void LLMutex::lock()	// blocks
 {
-	//if (poolp)
-	//{
-	//	mIsLocalPool = FALSE;
-	//	mAPRPoolp = poolp;
-	//}
-	//else
-	{
-		mIsLocalPool = TRUE;
-		apr_pool_create(&mAPRPoolp, NULL); // Create a subpool for this thread
-	}
-	apr_thread_mutex_create(&mAPRMutexp, APR_THREAD_MUTEX_UNNESTED, mAPRPoolp);
-}
-
-
-LLMutex::~LLMutex()
-{
-#if MUTEX_DEBUG
-	//bad assertion, the subclass LLSignal might be "locked", and that's OK
-	//llassert_always(!isLocked()); // better not be locked!
-#endif
-	if (ll_apr_is_initialized())
-	{
-		apr_thread_mutex_destroy(mAPRMutexp);
-		if (mIsLocalPool)
-		{
-			apr_pool_destroy(mAPRPoolp);
-		}
-	}
-	mAPRMutexp = NULL;
-}
-
-
-void LLMutex::lock()
-{
-	if(isSelfLocked())
-	{ //redundant lock
-		mCount++;
-		return;
-	}
-	
-	apr_thread_mutex_lock(mAPRMutexp);
-	
-#if MUTEX_DEBUG
-	// Have to have the lock before we can access the debug info
-	uintptr_t id = LLThread::currentID();
-	if (mIsLocked[id] != FALSE)
-		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
-	mIsLocked[id] = TRUE;
-#endif
-
+	LLMutexImpl::lock();
 	mLockingThread = LLThread::currentID();
 }
 
 void LLMutex::unlock()
 {
-	if (mCount > 0)
-	{ //not the root unlock
-		mCount--;
-		return;
-	}
-	
-#if MUTEX_DEBUG
-	// Access the debug info while we have the lock
-	uintptr_t id = LLThread::currentID();
-	if (mIsLocked[id] != TRUE)
-		LL_ERRS() << "Not locked in Thread: " << id << LL_ENDL;	
-	mIsLocked[id] = FALSE;
-#endif
-
+	LLMutexImpl::unlock();
 	mLockingThread = NO_THREAD;
-	apr_thread_mutex_unlock(mAPRMutexp);
 }
 
-bool LLMutex::isLocked()
-{
-	apr_status_t status = apr_thread_mutex_trylock(mAPRMutexp);
-	if (APR_STATUS_IS_EBUSY(status))
-	{
-		return true;
-	}
-	else
-	{
-		apr_thread_mutex_unlock(mAPRMutexp);
-		return false;
-	}
-}
-
-bool LLMutex::isSelfLocked()
-{
-	return mLockingThread == LLThread::currentID();
-}
-
-uintptr_t LLMutex::lockingThread() const
-{
-	return mLockingThread;
-}
-
+// Returns true if lock was obtained successfully.
 bool LLMutex::try_lock()
 {
-	if(isSelfLocked())
-	{ //redundant lock
-		mCount++;
-		return true;
-	}
-	
-	apr_status_t status(apr_thread_mutex_trylock(mAPRMutexp));
-	if (APR_STATUS_IS_EBUSY(status))
-	{
+	if (!LLMutexImpl::try_lock())
 		return false;
-	}
-	
-#if MUTEX_DEBUG
-	// Have to have the lock before we can access the debug info
-	uintptr_t id = LLThread::currentID();
-	if (mIsLocked[id] != FALSE)
-		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
-	mIsLocked[id] = TRUE;
-#endif
-
 	mLockingThread = LLThread::currentID();
 	return true;
 }
 
-//============================================================================
-
-LLCondition::LLCondition(apr_pool_t *poolp) :
-	LLMutex(poolp)
+// Returns true if locked not by this thread
+bool LLMutex::isLocked()
 {
-	// base class (LLMutex) has already ensured that mAPRPoolp is set up.
-
-	apr_thread_cond_create(&mAPRCondp, mAPRPoolp);
-}
-
-
-LLCondition::~LLCondition()
-{
-	apr_thread_cond_destroy(mAPRCondp);
-	mAPRCondp = NULL;
-}
-
-
-void LLCondition::wait()
-{
-	if (!isLocked())
-	{ //mAPRMutexp MUST be locked before calling apr_thread_cond_wait
-		apr_thread_mutex_lock(mAPRMutexp);
-#if MUTEX_DEBUG
-		// avoid asserts on destruction in non-release builds
-		uintptr_t id = LLThread::currentID();
-		mIsLocked[id] = TRUE;
-#endif
+	if (isSelfLocked())
+		return false;
+	if (LLMutexImpl::try_lock())
+	{
+		LLMutexImpl::unlock();
+		return false;
 	}
-	apr_thread_cond_wait(mAPRCondp, mAPRMutexp);
+	return true;
 }
-
-void LLCondition::signal()
+// Returns true if locked by this thread.
+bool LLMutex::isSelfLocked() const
 {
-	apr_thread_cond_signal(mAPRCondp);
+	return mLockingThread == LLThread::currentID();
 }
-
-void LLCondition::broadcast()
-{
-	apr_thread_cond_broadcast(mAPRCondp);
-}
-
 
 //============================================================================

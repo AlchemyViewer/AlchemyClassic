@@ -706,9 +706,9 @@ LLCurl::Multi::Multi(F32 idle_time_out)
 	{
 	if(LLCurl::getCurlThread()->getThreaded())
 	{
-		mMutexp = new LLMutex(NULL) ;
-		mDeletionMutexp = new LLMutex(NULL) ;
-		mEasyMutexp = new LLMutex(NULL) ;
+		mMutexp = new LLMutex() ;
+		mDeletionMutexp = new LLMutex() ;
+		mEasyMutexp = new LLMutex() ;
 	}
 	LLCurl::getCurlThread()->addMulti(this) ;
 
@@ -1408,7 +1408,7 @@ LLCurlTextureRequest::LLCurlTextureRequest(S32 concurrency) :
 	LLCurlRequest(), 
 	mConcurrency(concurrency),
 	mInQueue(0),
-	mMutex(NULL),
+	mMutex(),
 	mHandleCounter(1),
 	mTotalIssuedRequests(0),
 	mTotalReceivedBits(0)
@@ -1854,7 +1854,7 @@ void LLCurl::initClass(F32 curl_reuest_timeout, S32 max_number_handles, bool mul
 	S32 mutex_count = CRYPTO_num_locks();
 	for (S32 i=0; i<mutex_count; i++)
 	{
-		sSSLMutex.push_back(new LLMutex(NULL));
+		sSSLMutex.push_back(new LLMutex());
 	}
 	CRYPTO_set_id_callback(&LLCurl::ssl_thread_id);
 	CRYPTO_set_locking_callback(&LLCurl::ssl_locking_callback);
@@ -1863,8 +1863,8 @@ void LLCurl::initClass(F32 curl_reuest_timeout, S32 max_number_handles, bool mul
 	sCurlThread = new LLCurlThread(multi_threaded) ;
 	if(multi_threaded)
 	{
-		sHandleMutexp = new LLMutex(NULL) ;
-		Easy::sHandleMutexp = new LLMutex(NULL) ;
+		sHandleMutexp = new LLMutex() ;
+		Easy::sHandleMutexp = new LLMutex() ;
 	}
 }
 

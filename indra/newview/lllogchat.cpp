@@ -507,9 +507,9 @@ void LLLogChat::cleanupHistoryThreads()
 //static
 LLMutex* LLLogChat::historyThreadsMutex()
 {
-	if (sHistoryThreadsMutex == NULL)
+	if (!sHistoryThreadsMutex)
 	{
-		sHistoryThreadsMutex = new LLMutex(NULL);
+		sHistoryThreadsMutex = new LLMutex();
 	}
 	return sHistoryThreadsMutex;
 }
@@ -970,8 +970,8 @@ void LLDeleteHistoryThread::run()
 
 LLActionThread::LLActionThread(const std::string& name)
 	: LLThread(name),
-	mMutex(NULL),
-	mRunCondition(NULL),
+	mMutex(),
+	mRunCondition(),
 	mFinished(false)
 {
 }

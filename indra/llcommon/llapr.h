@@ -36,16 +36,12 @@
 #include <boost/noncopyable.hpp>
 #include "llwin32headerslean.h"
 #include "apr_thread_proc.h"
-#include "apr_thread_mutex.h"
 #include "apr_getopt.h"
 #include "apr_signal.h"
 
 #include "llstring.h"
 
 class LLMutex;
-
-extern LL_COMMON_API apr_thread_mutex_t* gLogMutexp;
-extern apr_thread_mutex_t* gCallStacksLogMutexp;
 
 struct apr_dso_handle_t;
 /**

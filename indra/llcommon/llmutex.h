@@ -29,15 +29,25 @@
 
 #include "stdtypes.h"
 
-//============================================================================
+#define AL_BOOST_MUTEX 1
 
-#define MUTEX_DEBUG (LL_DEBUG || LL_RELEASE_WITH_DEBUG_INFO)
+#if AL_BOOST_MUTEX
+#include "fix_macros.h"
+#define BOOST_SYSTEM_NO_DEPRECATED
+#include <boost/thread/recursive_mutex.hpp>
+#include <boost/thread/condition_variable.hpp>
+typedef boost::recursive_mutex LLMutexImpl;
+typedef boost::condition_variable_any LLConditionImpl;
+#elif AL_STD_MUTEX
+#include <mutex>
+#include <condition_variable>
+typedef std::recursive_mutex LLMutexImpl;
+typedef std::condition_variable_any LLConditionImpl;
+#else
+#error Mutex definition required.
+#endif
 
-struct apr_thread_mutex_t;
-struct apr_pool_t;
-struct apr_thread_cond_t;
-
-class LL_COMMON_API LLMutex
+class LL_COMMON_API LLMutex : public LLMutexImpl
 {
 public:
 	typedef enum
@@ -45,42 +55,36 @@ public:
 		NO_THREAD = 0xFFFFFFFF
 	} e_locking_thread;
 
-	LLMutex(apr_pool_t *apr_poolp = NULL); // NULL pool constructs a new pool for the mutex
-	virtual ~LLMutex();
-	
-	void lock();		// blocks
-	bool try_lock();		// non-blocking, returns true if lock held.
-	void unlock();		// undefined behavior when called on mutex not being held
-	bool isLocked(); 	// non-blocking, but does do a lock/unlock so not free
-	bool isSelfLocked(); //return true if locked in a same thread
-	uintptr_t lockingThread() const; //get ID of locking thread
-	
-protected:
-	apr_thread_mutex_t *mAPRMutexp;
-	mutable U32			mCount;
-	mutable uintptr_t	mLockingThread;
-	
-	apr_pool_t			*mAPRPoolp;
-	BOOL				mIsLocalPool;
-	
-#if MUTEX_DEBUG
-	std::map<uintptr_t, BOOL> mIsLocked;
-#endif
+	LLMutex() : LLMutexImpl(), mLockingThread(NO_THREAD) {}
+	~LLMutex() {}
+
+	void lock();	// blocks
+
+	void unlock();
+
+	// Returns true if lock was obtained successfully.
+	bool try_lock();
+
+	// Returns true if locked not by this thread
+	bool isLocked();
+
+	// Returns true if locked by this thread.
+	bool isSelfLocked() const;
+
+private:
+	mutable uintptr_t mLockingThread;
 };
 
 // Actually a condition/mutex pair (since each condition needs to be associated with a mutex).
-class LL_COMMON_API LLCondition : public LLMutex
+class LL_COMMON_API LLCondition : public LLConditionImpl, public LLMutex
 {
 public:
-	LLCondition(apr_pool_t* apr_poolp); // Defaults to global pool, could use the thread pool as well.
-	~LLCondition();
-	
-	void wait();		// blocks
-	void signal();
-	void broadcast();
-	
-protected:
-	apr_thread_cond_t* mAPRCondp;
+	LLCondition() : LLMutex(), LLConditionImpl() {}
+	~LLCondition() {}
+
+	void wait() { LLConditionImpl::wait(*this); }
+	void signal()		{ LLConditionImpl::notify_one(); }
+	void broadcast()	{ LLConditionImpl::notify_all(); }
 };
 
 class LLMutexLock

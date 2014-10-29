@@ -749,9 +749,9 @@ LLMeshRepoThread::LLMeshRepoThread()
 {
 	LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
-	mMutex = new LLMutex(NULL);
-	mHeaderMutex = new LLMutex(NULL);
-	mSignal = new LLCondition(NULL);
+	mMutex = new LLMutex();
+	mHeaderMutex = new LLMutex();
+	mSignal = new LLCondition();
 	mHttpRequest = new LLCore::HttpRequest;
 	mHttpOptions = new LLCore::HttpOptions;
 	mHttpOptions->setTransferTimeout(SMALL_MESH_XFER_TIMEOUT);
@@ -1869,7 +1869,7 @@ LLMeshUploadThread::LLMeshUploadThread(LLMeshUploadThread::instance_list& data, 
 	mUploadTextures = upload_textures;
 	mUploadSkin = upload_skin;
 	mUploadJoints = upload_joints;
-	mMutex = new LLMutex(NULL);
+	mMutex = new LLMutex();
 	mPendingUploads = 0;
 	mFinished = false;
 	mOrigin = gAgent.getPositionAgent();
@@ -3037,7 +3037,7 @@ void LLMeshPhysicsShapeHandler::processData(LLCore::BufferArray * /* body */, S3
 }
 
 LLMeshRepository::LLMeshRepository()
-: mMeshMutex(NULL),
+: mMeshMutex(),
   mMeshThreadCount(0),
   mThread(NULL),
   mGetMeshVersion(2)
@@ -3047,7 +3047,7 @@ LLMeshRepository::LLMeshRepository()
 
 void LLMeshRepository::init()
 {
-	mMeshMutex = new LLMutex(NULL);
+	mMeshMutex = new LLMutex();
 	
 	LLConvexDecomposition::initSystem(); // <alchemy/>
 
@@ -3948,8 +3948,8 @@ LLPhysicsDecomp::LLPhysicsDecomp()
 	mQuitting = false;
 	mDone = false;
 
-	mSignal = new LLCondition(NULL);
-	mMutex = new LLMutex(NULL);
+	mSignal = new LLCondition();
+	mMutex = new LLMutex();
 }
 
 LLPhysicsDecomp::~LLPhysicsDecomp()

@@ -412,7 +412,7 @@ mCalculateBtn(NULL)
 	sInstance = this;
 	mLastMouseX = 0;
 	mLastMouseY = 0;
-	mStatusLock = new LLMutex(NULL);
+	mStatusLock = new LLMutex();
 	mModelPreview = NULL;
 
 	mLODMode[LLModel::LOD_HIGH] = 0;
@@ -3126,7 +3126,7 @@ LLColor4 LLModelLoader::getDaeColor(daeElement* element)
 //-----------------------------------------------------------------------------
 
 LLModelPreview::LLModelPreview(S32 width, S32 height, LLFloater* fmp)
-: LLViewerDynamicTexture(width, height, 3, ORDER_MIDDLE, FALSE), LLMutex(NULL)
+: LLViewerDynamicTexture(width, height, 3, ORDER_MIDDLE, FALSE), LLMutex()
 , mPelvisZOffset( 0.0f )
 , mLegacyRigValid( false )
 , mRigValidJointUpload( false )

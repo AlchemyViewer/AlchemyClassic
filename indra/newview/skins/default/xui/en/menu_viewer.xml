@@ -180,6 +180,16 @@
         <menu_item_call.on_click
          function="BuyCurrency" />
       </menu_item_call>
+      <menu_item_check
+         label="Transaction Log..."
+         name="transaction_log">
+            <menu_item_check.on_check
+             function="Floater.Visible"
+             parameter="transaction_log" />
+            <menu_item_check.on_click
+             function="Floater.Toggle"
+             parameter="transaction_log" />
+        </menu_item_check>
       <menu_item_call
          label="Merchant Outbox..."
          name="MerchantOutbox">

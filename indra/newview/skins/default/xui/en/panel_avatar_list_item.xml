@@ -75,7 +75,7 @@
      name="last_interaction"
      text_color="LtGray_50"
      value="0s"
-     width="35" />
+     width="38" />
     <icon
      height="16"
      follows="right"

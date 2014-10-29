@@ -250,7 +250,8 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mTrackedStatus(LLTracker::TRACKING_NOTHING),
 	mListFriendCombo(NULL),
 	mListLandmarkCombo(NULL),
-	mListSearchResults(NULL)
+	mListSearchResults(NULL),
+	mPanel(nullptr)
 {
 	gFloaterWorldMap = this;
 	

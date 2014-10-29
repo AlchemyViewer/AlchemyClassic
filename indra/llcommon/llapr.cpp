@@ -147,7 +147,7 @@ LLVolatileAPRPool::LLVolatileAPRPool(BOOL is_local, apr_pool_t *parent, apr_size
 				  : LLAPRPool(parent, size, releasePoolFlag),
 				  mNumActiveRef(0),
 				  mNumTotalRef(0),
-				  mMutexp(NULL)
+				  mMutexp()
 {
 	//create mutex
 	if(!is_local) //not a local apr_pool, that is: shared by multiple threads.

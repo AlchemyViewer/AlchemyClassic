@@ -553,7 +553,7 @@ std::string LLLogChat::oldLogFileName(std::string filename)
 }
 
 // static
-void LLLogChat::findTranscriptFiles(std::string pattern, std::vector<std::string>& list_of_transcriptions)
+void LLLogChat::findTranscriptFiles(const std::string& pattern, std::vector<std::string>& list_of_transcriptions)
 {
 	// get Users log directory
 	std::string dirname = gDirUtilp->getPerAccountChatLogsDir();
@@ -749,42 +749,22 @@ void LLLogChat::deleteTranscripts()
 // static
 bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 {
-	std::vector<std::string> list_of_transcriptions;
-	LLLogChat::getListOfTranscriptFiles(list_of_transcriptions);
-
-	if (list_of_transcriptions.size() > 0)
+	if (is_group)
+	{
+		std::string file_name;
+		gCacheName->getGroupName(avatar_id, file_name);
+		file_name = makeLogFileName(file_name);
+		return gDirUtilp->fileExists(file_name);
+	}
+	else
 	{
 		LLAvatarName avatar_name;
 		LLAvatarNameCache::get(avatar_id, &avatar_name);
-		std::string avatar_user_name = avatar_name.getAccountName();
-		if(!is_group)
-		{
-			std::replace(avatar_user_name.begin(), avatar_user_name.end(), '.', '_');
-			BOOST_FOREACH(std::string& transcript_file_name, list_of_transcriptions)
-			{
-				if (std::string::npos != transcript_file_name.find(avatar_user_name))
-				{
-					return true;
-				}
-			}
-		}
-		else
-		{
-			std::string file_name;
-			gCacheName->getGroupName(avatar_id, file_name);
-			file_name = makeLogFileName(file_name);
-			BOOST_FOREACH(std::string& transcript_file_name, list_of_transcriptions)
-			{
-				if (transcript_file_name == file_name)
-				{
-					return true;
-				}
-			}
-		}
-
+		std::string file_name = avatar_name.getAccountName();
+		std::replace(file_name.begin(), file_name.end(), '.', '_');
+		file_name = makeLogFileName(file_name);
+		return gDirUtilp->fileExists(file_name);
 	}
-
-	return false;
 }
 
 bool LLLogChat::isNearbyTranscriptExist()

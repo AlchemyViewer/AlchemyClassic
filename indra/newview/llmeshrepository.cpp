@@ -3037,7 +3037,7 @@ void LLMeshPhysicsShapeHandler::processData(LLCore::BufferArray * /* body */, S3
 }
 
 LLMeshRepository::LLMeshRepository()
-: mMeshMutex(),
+: mMeshMutex(NULL),
   mMeshThreadCount(0),
   mThread(NULL),
   mGetMeshVersion(2)

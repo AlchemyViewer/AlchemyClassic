@@ -31,9 +31,9 @@
 #include "../llsechandler_basic.h"
 #include "../../llxml/llcontrol.h"
 #include "../llviewernetwork.h"
+#include "llbase64.h"
 #include "lluuid.h"
 #include "llxorcipher.h"
-#include "apr_base64.h"
 #include <vector>
 #include <ios>
 #include <llsdserialize.h>
@@ -331,7 +331,8 @@ namespace tut
 			   mPemTestCert, test_cert->getPem());
 		std::vector<U8> binary_cert = test_cert->getBinary();
 
-		apr_base64_encode(buffer, (const char *)&binary_cert[0], binary_cert.size());
+		const std::string& tmp = LLBase64::encode(&binary_cert[0], binary_cert.size());
+		std::strcpy(buffer, tmp.c_str());
 		
 		ensure_equals("Der Format is correct", memcmp(buffer, mDerFormat.c_str(), mDerFormat.length()), 0);
 		
@@ -391,8 +392,8 @@ namespace tut
 		"4ZT9Y4wZ9Rh8nnF3fDUL6IGamHe1ClXM1jgBu10F6UMhZbnH4C3aJ2E9+LiOntU+l3iCb2MpkEpr"
 		"82r2ZAMwIrpnirL/xoYoyz7MJQYwUuMvBPToZJrxNSsjI+S2Z+I3iEJAELMAAA==";
 		
-		std::vector<U8> binary_data(apr_base64_decode_len(protected_data.c_str()));
-		apr_base64_decode_binary(&binary_data[0], protected_data.c_str());
+		std::vector<U8> binary_data(LLBase64::requiredDecryptionSpace(protected_data));
+		LLBase64::decode(protected_data, &binary_data[0], binary_data.size());
 
 		LLXORCipher cipher(gMACAddress, MAC_ADDRESS_BYTES);
 		cipher.decrypt(&binary_data[0], 16);
@@ -576,9 +577,9 @@ namespace tut
 		// test loading of an unknown credential with legacy saved password and username
 
 		std::string hashed_password = "fSQcLG03eyIWJmkzfyYaKm81dSweLmsxeSAYKGE7fSQ=";		
-		int length = apr_base64_decode_len(hashed_password.c_str());
-		std::vector<char> decoded_password(length);
-		apr_base64_decode(&decoded_password[0], hashed_password.c_str());
+		size_t length = LLBase64::requiredDecryptionSpace(hashed_password);
+		std::vector<U8> decoded_password(length);
+		LLBase64::decode(hashed_password, &decoded_password[0], length);
 		LLXORCipher cipher(gMACAddress, MAC_ADDRESS_BYTES);
 		cipher.decrypt((U8*)&decoded_password[0], length);
 		unsigned char unique_id[MAC_ADDRESS_BYTES];
@@ -586,7 +587,7 @@ namespace tut
 		LLXORCipher cipher2(unique_id, sizeof(unique_id));
 		cipher2.encrypt((U8*)&decoded_password[0], length);
 		llofstream password_file("test_password.dat", std::ofstream::binary);
-		password_file.write(&decoded_password[0], length); 
+		password_file.write(reinterpret_cast<char*>(&decoded_password[0]), length);
 		password_file.close();
 		
 		my_new_cred = handler->loadCredential("my_legacy_grid2");		

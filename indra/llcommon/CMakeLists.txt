@@ -7,6 +7,7 @@ include(00-Common)
 include(LLCommon)
 include(Linking)
 include(Boost)
+include(OpenSSL)
 include(LLSharedLibs)
 include(GoogleBreakpad)
 include(GooglePerfTools)
@@ -16,6 +17,7 @@ include(ZLIB)
 include_directories(
     ${EXPAT_INCLUDE_DIRS}
     ${LLCOMMON_INCLUDE_DIRS}
+    ${OPENSSL_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     )
@@ -260,6 +262,7 @@ target_link_libraries(
     ${APRUTIL_LIBRARIES}
     ${APR_LIBRARIES}
     ${EXPAT_LIBRARIES}
+    ${OPENSSL_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${WINDOWS_LIBRARIES}
     ${BOOST_PROGRAM_OPTIONS_LIBRARY}
@@ -286,7 +289,7 @@ if (LL_TESTS)
   LL_ADD_PROJECT_UNIT_TESTS(llcommon "${llcommon_TEST_SOURCE_FILES}")
 
   #set(TEST_DEBUG on)
-  set(test_libs llcommon ${LLCOMMON_LIBRARIES} ${WINDOWS_LIBRARIES} ${GOOGLEMOCK_LIBRARIES})
+  set(test_libs llcommon ${LLCOMMON_LIBRARIES} ${WINDOWS_LIBRARIES} ${GOOGLEMOCK_LIBRARIES} ${OPENSSL_LIBRARIES})
   LL_ADD_INTEGRATION_TEST(commonmisc "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(bitpack "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llbase64 "" "${test_libs}")

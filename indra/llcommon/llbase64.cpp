@@ -28,35 +28,30 @@
 #include "linden_common.h"
 
 #include "llbase64.h"
-
+#include <openssl/evp.h>
 #include <string>
-
-#include "apr_base64.h"
-
 
 // static
 std::string LLBase64::encode(const U8* input, size_t input_size)
 {
-	std::string output;
-	if (input
-		&& input_size > 0)
-	{
-		// Yes, it returns int.
-		int b64_buffer_length = apr_base64_encode_len(input_size);
-		char* b64_buffer = new char[b64_buffer_length];
-		
-		// This is faster than apr_base64_encode() if you know
-		// you're not on an EBCDIC machine.  Also, the output is
-		// null terminated, even though the documentation doesn't
-		// specify.  See apr_base64.c for details. JC
-		b64_buffer_length = apr_base64_encode_binary(
-			b64_buffer,
-			input,
-			input_size);
-		output.assign(b64_buffer);
-		delete[] b64_buffer;
-	}
-	return output;
+	if (!(input && input_size > 0)) return LLStringUtil::null;
+	
+	BIO *b64 = BIO_new(BIO_f_base64());
+	BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
+	
+	BIO *bio = BIO_new(BIO_s_mem());
+	BIO_set_flags(bio, BIO_FLAGS_BASE64_NO_NL);
+	bio = BIO_push(b64, bio);
+	BIO_write(bio, input, input_size);
+	
+	BIO_flush(bio);
+	
+	char *new_data;
+	size_t bytes_written = BIO_get_mem_data(bio, &new_data);
+	std::string result(new_data, bytes_written);
+	BIO_free_all(bio);
+	
+	return result;
 }
 
 // static
@@ -72,13 +67,18 @@ std::string LLBase64::encode(const std::string& in_str)
 // static
 size_t LLBase64::decode(const std::string& input, U8 * buffer, size_t buffer_size)
 {
-	size_t len = apr_base64_decode_len(input.c_str());
-	if (len != buffer_size || buffer_size <= 0 || buffer == 0 || input.empty())
-		return 0;
+	if (input.empty()) return 0;
 	
-	len = apr_base64_decode_binary(buffer, input.c_str());
+	BIO *b64 = BIO_new(BIO_f_base64());
+	BIO_set_flags(b64, BIO_FLAGS_BASE64_NO_NL);
 	
-	return len;
+	// BIO_new_mem_buf is not const aware, but it doesn't modify the buffer
+	BIO *bio = BIO_new_mem_buf(const_cast<char*>(input.c_str()), input.length());
+	bio = BIO_push(b64, bio);
+	size_t bytes_written = BIO_read(bio, buffer, buffer_size);
+	BIO_free_all(bio);
+	
+	return bytes_written;
 }
 
 std::string LLBase64::decode(const std::string& input)
@@ -91,8 +91,16 @@ std::string LLBase64::decode(const std::string& input)
 }
 
 // static
-U32 LLBase64::requiredDecryptionSpace(const std::string& str)
+size_t LLBase64::requiredDecryptionSpace(const std::string& str)
 {
-	return apr_base64_decode_len(str.c_str());
+	size_t len = str.length();
+	U32 padding = 0;
+ 
+	if (str[len - 1] == '=' && str[len - 2] == '=') //last two chars are =
+		padding = 2;
+	else if (str[len - 1] == '=') //last char is =
+		padding = 1;
+ 
+	return len * 0.75 - padding;
 }
 

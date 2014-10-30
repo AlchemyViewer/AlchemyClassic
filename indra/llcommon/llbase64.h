@@ -35,7 +35,7 @@ public:
 	static std::string encode(const U8* input, size_t input_size);
 	static size_t decode(const std::string& input, U8 * buffer, size_t buffer_size);
 	static std::string decode(const std::string& input);
-	static U32 requiredDecryptionSpace(const std::string& str);
+	static size_t requiredDecryptionSpace(const std::string& str);
 };
 
 #endif

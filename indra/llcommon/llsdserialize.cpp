@@ -30,9 +30,9 @@
 #include "llsdserialize.h"
 #include "llpointer.h"
 #include "llstreamtools.h" // for fullread
+#include "llbase64.h"
 
 #include <iostream>
-#include "apr_base64.h"
 
 #ifdef LL_USESYSTEMLIBS
 # include <zlib.h>
@@ -807,12 +807,12 @@ bool LLSDNotationParser::parseBinary(std::istream& istr, LLSD& data) const
 		get(istr, *(coded_stream.rdbuf()), '\"');
 		c = get(istr);
 		std::string encoded(coded_stream.str());
-		S32 len = apr_base64_decode_len(encoded.c_str());
+		size_t len = LLBase64::requiredDecryptionSpace(encoded);
 		std::vector<U8> value;
 		if(len)
 		{
 			value.resize(len);
-			len = apr_base64_decode_binary(&value[0], encoded.c_str());
+			len = LLBase64::decode(encoded, &value[0], len);
 			value.resize(len);
 		}
 		data = value;

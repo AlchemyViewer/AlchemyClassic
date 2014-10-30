@@ -66,9 +66,6 @@
 
 #include "stringize.h"
 
-// for base64 decoding
-#include "apr_base64.h"
-
 #define USE_SESSION_GROUPS 0
 
 extern LLMenuBarGL* gMenuBarView;
@@ -4480,8 +4477,8 @@ bool LLVivoxVoiceClient::IDFromName(const std::string inName, LLUUID &uuid)
 		LLStringUtil::replaceChar(temp, '-', '+');
 		LLStringUtil::replaceChar(temp, '_', '/');
 
-		U8 rawuuid[UUID_BYTES + 1]; 
-		int len = apr_base64_decode_binary(rawuuid, temp.c_str() + 1);
+		U8 rawuuid[UUID_BYTES + 1];
+		int len = LLBase64::decode(temp, rawuuid, UUID_BYTES + 1);
 		if(len == UUID_BYTES)
 		{
 			// The decode succeeded.  Stuff the bits into the result's UUID

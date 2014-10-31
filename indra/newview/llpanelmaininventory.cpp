@@ -157,6 +157,11 @@ BOOL LLPanelMainInventory::postBuild()
 		recent_items_panel->getFilter().markDefault();
 		recent_items_panel->setSelectCallback(boost::bind(&LLPanelMainInventory::onSelectionChange, this, recent_items_panel, _1, _2));
 	}
+	LLInventoryPanel* worn_items_panel = getChild<LLInventoryPanel>("Worn Items");
+	worn_items_panel->setSortOrder(gSavedSettings.getU32(LLInventoryPanel::DEFAULT_SORT_ORDER));
+	worn_items_panel->setShowFolderState(LLInventoryFilter::SHOW_NON_EMPTY_FOLDERS);
+	worn_items_panel->getFilter().markDefault();
+	worn_items_panel->setSelectCallback(boost::bind(&LLPanelMainInventory::onSelectionChange, this, worn_items_panel, _1, _2));
 
 	// Now load the stored settings from disk, if available.
 	std::ostringstream filterSaveName;
@@ -183,7 +188,18 @@ BOOL LLPanelMainInventory::postBuild()
 				recent_items_panel->getFilter().fromParams(p);
 			}
 		}
-
+		if(worn_items_panel)
+		{
+			if(savedFilterState.has(worn_items_panel->getFilter().getName()))
+			{
+				LLSD worn_items = savedFilterState.get(
+					worn_items_panel->getFilter().getName());
+				LLInventoryFilter::Params p;
+				LLParamSDParser parser;
+				parser.readSD(worn_items, p);
+				worn_items_panel->getFilter().fromParams(p);
+			}
+		}
 	}
 
 	mFilterEditor = getChild<LLFilterEditor>("inventory search editor");
@@ -235,6 +251,20 @@ LLPanelMainInventory::~LLPanelMainInventory( void )
 		LLInventoryPanel::InventoryState p;
 		panel->getFilter().toParams(p.filter);
 		panel->getRootViewModel().getSorter().toParams(p.sort);
+		if (p.validateBlock(false))
+		{
+			LLParamSDParser().writeSD(filterState, p);
+			filterRoot[panel->getName()] = filterState;
+		}
+	}
+	
+	LLInventoryPanel* worn_panel = findChild<LLInventoryPanel>("Worn Items");
+	if (worn_panel)
+	{
+		LLSD filterState;
+		LLInventoryPanel::InventoryState p;
+		worn_panel->getFilter().toParams(p.filter);
+		worn_panel->getRootViewModel().getSorter().toParams(p.sort);
 		if (p.validateBlock(false))
 		{
 			LLParamSDParser().writeSD(filterState, p);
@@ -669,6 +699,7 @@ void LLPanelMainInventory::setSelectCallback(const LLFolderView::signal_t::slot_
 {
 	getChild<LLInventoryPanel>("All Items")->setSelectCallback(cb);
 	getChild<LLInventoryPanel>("Recent Items")->setSelectCallback(cb);
+	getChild<LLInventoryPanel>("Worn Items")->setSelectCallback(cb);
 }
 
 void LLPanelMainInventory::onSelectionChange(LLInventoryPanel *panel, const std::deque<LLFolderViewItem*>& items, BOOL user_action)

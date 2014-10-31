@@ -52,7 +52,8 @@ public:
 		FILTERTYPE_UUID	= 0x1 << 2,		// find the object with UUID and any links to it
 		FILTERTYPE_DATE = 0x1 << 3,		// search by date range
 		FILTERTYPE_WEARABLE = 0x1 << 4,	// search by wearable type
-		FILTERTYPE_EMPTYFOLDERS = 0x1 << 5		// pass if folder is not a system   folder to be hidden if
+		FILTERTYPE_EMPTYFOLDERS = 0x1 << 5,		// pass if folder is not a system   folder to be hidden if
+		FILTERTYPE_WORN = 0x1 << 6		// search by worn items
 	};
 
 	enum EFilterDateDirection
@@ -96,7 +97,8 @@ public:
 			Optional<U32>				types;
 			Optional<U64>				object_types,
 										wearable_types,
-										category_types;
+										category_types,
+										worn_items;
 			Optional<EFilterLink>		links;
 			Optional<LLUUID>			uuid;
 			Optional<DateRange>			date_range;
@@ -110,6 +112,7 @@ public:
 				object_types("object_types", 0xffffFFFFffffFFFFULL),
 				wearable_types("wearable_types", 0xffffFFFFffffFFFFULL),
 				category_types("category_types", 0xffffFFFFffffFFFFULL),
+				worn_items("worn_items", 0xffffFFFFffffFFFFULL),
 				links("links", FILTERLINK_INCLUDE_LINKS),
 				uuid("uuid"),
 				date_range("date_range"),
@@ -126,7 +129,8 @@ public:
 		U64				mFilterObjectTypes,   // For _OBJECT
 						mFilterWearableTypes,
 						mFilterLinks,
-						mFilterCategoryTypes; // For _CATEGORY
+						mFilterCategoryTypes, // For _CATEGORY
+						mFilterWornItems;
 		LLUUID      	mFilterUUID; 		  // for UUID
 
 		time_t			mMinDate,
@@ -164,6 +168,7 @@ public:
 	U64 				getFilterObjectTypes() const;
 	U64					getFilterCategoryTypes() const;
 	U64					getFilterWearableTypes() const;
+	U64					getFilterWornItems() const;
 	bool 				isFilterObjectTypesWith(LLInventoryType::EType t) const;
 	void 				setFilterObjectTypes(U64 types);
 	void 				setFilterCategoryTypes(U64 types);
@@ -171,6 +176,7 @@ public:
 	void				setFilterWearableTypes(U64 types);
 	void				setFilterEmptySystemFolders();
 	void				updateFilterTypes(U64 types, U64& current_types);
+	void				setFilterWornItems();
 
 	void 				setFilterSubString(const std::string& string);
 	const std::string& 	getFilterSubString(BOOL trim = FALSE) const;

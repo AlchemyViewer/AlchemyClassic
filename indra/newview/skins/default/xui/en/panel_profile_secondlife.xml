@@ -204,7 +204,7 @@ Allow this avatar to:
    top="105"
    follows="left|top|right"
    height="20"
-   max_length_chars="36"
+   max_length_chars="254"
    left="3"
    right="-4"
    text_pad_left="5"

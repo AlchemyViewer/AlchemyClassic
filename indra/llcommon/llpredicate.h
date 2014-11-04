@@ -139,12 +139,9 @@ namespace LLPredicate
 		Rule()
 		{}
 
-		// <alchemy> Fix for linux compiler
-		// I don't know why this works on MSVC
-		void require(ENUM e)
+		void require(ENUM e, bool match)
 		{
-			//mRule.set(e, require);
-			mRule.set(e);
+			mRule.set(e, match);
 		}
 
 		void allow(ENUM e)

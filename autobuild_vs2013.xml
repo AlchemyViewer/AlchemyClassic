@@ -96,9 +96,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d6fea61e598ab6bb07f7a4f9300e9df6</string>
+              <string>12ba3224d665dd5c1ac4c0ef7cffdc37</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows-20141021.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.57.0-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -108,16 +108,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>136679baa3cdc2383c9018db4d22dc93</string>
+              <string>7e00da215c2c5b2e0c41e7dfa01f05c1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.56.0-windows64-20141021.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.57.0-windows64-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.56.0</string>
+        <string>1.57.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -134,9 +134,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2ff7c142519b0f4c9c32d18793e7bd9e</string>
+              <string>1701922d89b848cd8078e0d408943313</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-20141021.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -146,9 +146,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8aac58a18b96c2ea574da403930cee69</string>
+              <string>be383b75f072b31831a5582a7cc83359</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-20141021.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -640,9 +640,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>01a702d961fe00d071f67cb0f7e31676</string>
+              <string>b54bd6785a841131c934b508102fb951</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-20141022.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -652,9 +652,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c17acdb8a3176ad32997f45766f346ef</string>
+              <string>fa8f6782d8ef1aa9982c9a28dc4e07cd</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-20141022.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

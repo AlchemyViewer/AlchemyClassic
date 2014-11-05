@@ -36,7 +36,7 @@
 #include "llversioninfo.h"
 #include "llviewercontrol.h"
 
-#include "reader.h"
+#include "jsoncpp/reader.h"
 
 // virtual
 void LLGoogleTranslationHandler::getTranslateURL(

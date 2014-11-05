@@ -39,7 +39,7 @@
 #include "llviewermedia.h" // FIXME: don't use LLViewerMedia internals
 
 // third-party
-#include "reader.h" // JSON
+#include "jsoncpp/reader.h" // JSON
 
 /*
  * Workflow:

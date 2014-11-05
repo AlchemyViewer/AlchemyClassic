@@ -144,9 +144,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>229814e3229c282c0b3f94dcdf607e43</string>
+              <string>285aca45e1fe8bbcf244b08a3c68887a</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.56.0-darwin-201410161532.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.57.0-darwin-201411041704.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -177,7 +177,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.56.0</string>
+        <string>1.57.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>47806007e4a1d453f326c890c183b771</string>
+              <string>990a36bb4d4294232be0e2c71147dccd</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201410211658.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201411041719.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -872,9 +872,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b8befc1aef4f9389b4e3e63f5ee92317</string>
+              <string>c060dc235f5c8a95846765b482becc13</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201410161610.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201411041742.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

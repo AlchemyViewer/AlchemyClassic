@@ -818,9 +818,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e2fffaed9f44b34fef5df2767c7980fe</string>
+              <string>e52d7ec430004fc2a59e4dbf6f3b704e</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1351-darwin-201407242040.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1400-darwin-201411052348.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -851,7 +851,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1351</string>
+        <string>1400</string>
       </map>
       <key>googlemock</key>
       <map>
@@ -1131,8 +1131,10 @@
       </map>
       <key>jsoncpp</key>
       <map>
+        <key>description</key>
+        <string>jsoncpp is an implementation of a JSON (http://json.org) reader and writer in C++.</string>
         <key>license</key>
-        <string>jsoncpp</string>
+        <string>public domain</string>
         <key>license_file</key>
         <string>LICENSES/jsoncpp.txt</string>
         <key>name</key>
@@ -1144,9 +1146,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>862f37187340fc44faadac42c5e9bf3a</string>
+              <string>d1b88fb1ee98628c692beea111055ba1</string>
               <key>url</key>
-              <string>http://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-0.5.0-darwin-201407201523.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-e384e49-darwin-201411060014.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1176,6 +1178,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>e384e49</string>
       </map>
       <key>kdu</key>
       <map>

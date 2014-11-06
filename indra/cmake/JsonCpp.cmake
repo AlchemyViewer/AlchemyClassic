@@ -14,7 +14,7 @@ else (USESYSTEMLIBS)
       debug jsoncppd.lib
       optimized jsoncpp.lib)
   elseif (DARWIN)
-    set(JSONCPP_LIBRARIES libjson_darwin_libmt.a)
+    set(JSONCPP_LIBRARIES libjsoncpp.a)
   elseif (LINUX)
     set(JSONCPP_LIBRARIES libjson_linux-gcc-4.1.3_libmt.a)
   endif (WINDOWS)

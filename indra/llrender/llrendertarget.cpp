@@ -378,17 +378,20 @@ void LLRenderTarget::release()
 	}
 
 	// Detach any extra color buffers (e.g. SRGB spec buffers)
-	// <alchemy/> - This is unnecessary. glDeleteFramebuffers should handle this for us.
-	//if (mFBO && (mTex.size() > 1))
-	//{		
-	//	for (S32 z = mTex.size() - 1; z >= 1; z--)
-	//	{
-	//		sBytesAllocated -= mResX*mResY*4;
-	//		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+z, LLTexUnit::getInternalType(mUsage), 0, 0);
-	//		stop_glerror();
-	//		LLImageGL::deleteTextures(1, &mTex[z]);
-	//	}
-	//}
+	//
+	if (mFBO && (mTex.size() > 1))
+	{		
+		glBindFramebuffer(GL_FRAMEBUFFER, mFBO);
+		S32 z;
+		for (z = mTex.size() - 1; z >= 1; z--)
+		{
+			sBytesAllocated -= mResX*mResY*4;
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0+z, LLTexUnit::getInternalType(mUsage), 0, 0);
+			stop_glerror();
+			LLImageGL::deleteTextures(1, &mTex[z]);
+		}
+		glBindFramebuffer(GL_FRAMEBUFFER,0);
+	}
 
 	if (mFBO)
 	{

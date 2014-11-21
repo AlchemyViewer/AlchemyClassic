@@ -2483,6 +2483,42 @@
               <key>name</key>
               <string>DebugOS</string>
             </map>
+            <key>Coverity</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>cov-build</string>
+                <key>options</key>
+                <array>
+                  <string>--dir</string>
+                  <string>cov-int</string>
+                  <string>make</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../indra</string>
+                </array>
+                <key>command</key>
+                <string>cmake</string>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Unix Makefiles"</string>
+                  <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>false</string>
+              <key>name</key>
+              <string>Coverity</string>
+            </map>
             <key>RelWithDebInfo</key>
             <map>
               <key>build</key>

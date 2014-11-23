@@ -500,9 +500,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c633a0fb2a5777c12d8c286452c53ee2</string>
+              <string>150adc0b266188e4a396d23c650d2d0d</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.03-darwin-201410170839.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.07-darwin-201411231011.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

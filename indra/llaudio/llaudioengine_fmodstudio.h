@@ -77,7 +77,6 @@ protected:
 
 	FMOD_DSP_DESCRIPTION *mWindDSPDesc;
 	FMOD::DSP *mWindDSP;
-	FMOD::ChannelGroup *mMasterGroup;
 	FMOD::System *mSystem;
 	bool mEnableProfiler;
 

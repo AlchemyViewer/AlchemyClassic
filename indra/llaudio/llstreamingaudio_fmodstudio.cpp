@@ -70,14 +70,6 @@ LLStreamingAudio_FMODSTUDIO::LLStreamingAudio_FMODSTUDIO(FMOD::System *system) :
 	const U32 buffer_seconds = 10;		//sec
 	const U32 estimated_bitrate = 128;	//kbit/sec
 	mSystem->setStreamBufferSize(estimated_bitrate * buffer_seconds * 128/*bytes/kbit*/, FMOD_TIMEUNIT_RAWBYTES);
-
-	// Here's where we set the size of the network buffer and some buffering 
-	// parameters.  In this case we want a network buffer of 16k, we want it 
-	// to prebuffer 40% of that when we first connect, and we want it 
-	// to rebuffer 80% of that whenever we encounter a buffer underrun.
-
-	// Leave the net buffer properties at the default.
-	//FSOUND_Stream_Net_SetBufferProperties(20000, 40, 80);
 }
 
 
@@ -256,7 +248,6 @@ void LLStreamingAudio_FMODSTUDIO::stop()
 			mDeadStreams.push_back(mCurrentInternetStreamp);
 		}
 		mCurrentInternetStreamp = NULL;
-		//mURL.clear();
 	}
 }
 

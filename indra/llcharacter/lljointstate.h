@@ -65,7 +65,6 @@ public:
 	// Constructor
 	LLJointState()
 	{
-		mUsage = 0;
 		mJoint = NULL;
 		mUsage = 0;
 		mWeight = 0.f;
@@ -74,7 +73,6 @@ public:
 
 	LLJointState(LLJoint* joint)
 	{
-		mUsage = 0;
 		mJoint = joint;
 		mUsage = 0;
 		mWeight = 0.f;

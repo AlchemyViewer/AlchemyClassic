@@ -282,9 +282,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e59dd944aa00610b44bf69ab66437170</string>
+              <string>028ccb637c4ae65cfb4e004fccdb9c0c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows-20140909.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodex-4.44.47-windows-20141123.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -294,9 +294,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>671a6ed2dc0b75e07f04ded3b92b0fc8</string>
+              <string>fd9583c0e9bb21b8eceda58db32a0709</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows64-20140909.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodex-4.44.47-windows64-20141123.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

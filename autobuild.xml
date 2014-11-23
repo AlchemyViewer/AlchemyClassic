@@ -474,16 +474,16 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e59dd944aa00610b44bf69ab66437170</string>
+              <string>028ccb637c4ae65cfb4e004fccdb9c0c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fmodex-4.44.41-windows-20140909.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodex-4.44.47-windows-20141123.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
           </map>
         </map>
         <key>version</key>
-        <string>4.44.46</string>
+        <string>4.44.47</string>
       </map>
       <key>fmodstudio</key>
       <map>

@@ -70,14 +70,6 @@ LLStreamingAudio_FMODEX::LLStreamingAudio_FMODEX(FMOD::System *system) :
 	const U32 buffer_seconds = 10;		//sec
 	const U32 estimated_bitrate = 128;	//kbit/sec
 	mSystem->setStreamBufferSize(estimated_bitrate * buffer_seconds * 128/*bytes/kbit*/, FMOD_TIMEUNIT_RAWBYTES);
-
-	// Here's where we set the size of the network buffer and some buffering 
-	// parameters.  In this case we want a network buffer of 16k, we want it 
-	// to prebuffer 40% of that when we first connect, and we want it 
-	// to rebuffer 80% of that whenever we encounter a buffer underrun.
-
-	// Leave the net buffer properties at the default.
-	//FSOUND_Stream_Net_SetBufferProperties(20000, 40, 80);
 }
 
 
@@ -100,9 +92,17 @@ void LLStreamingAudio_FMODEX::start(const std::string& url)
 
 	if (!url.empty())
 	{
-		LL_INFOS() << "Starting internet stream: " << url << LL_ENDL;
-		mCurrentInternetStreamp = new LLAudioStreamManagerFMODEX(mSystem,url);
-		mURL = url;
+		if(mDeadStreams.empty())
+		{
+			LL_INFOS() << "Starting internet stream: " << url << LL_ENDL;
+			mCurrentInternetStreamp = new LLAudioStreamManagerFMODEX(mSystem,url);
+			mURL = url;
+		}
+		else
+		{
+			LL_INFOS() << "Deferring stream load until buffer release: " << url << LL_ENDL;
+			mPendingURL = url;
+		}
 	}
 	else
 	{
@@ -129,6 +129,21 @@ void LLStreamingAudio_FMODEX::update()
 		{
 			iter++;
 		}
+	}
+
+	if(!mDeadStreams.empty())
+	{
+		llassert_always(mCurrentInternetStreamp == NULL);
+		return;
+	}
+
+	if(!mPendingURL.empty())
+	{
+		llassert_always(mCurrentInternetStreamp == NULL);
+		LL_INFOS() << "Starting internet stream: " << mPendingURL << LL_ENDL;
+		mCurrentInternetStreamp = new LLAudioStreamManagerFMODEX(mSystem,mPendingURL);
+		mURL = mPendingURL;
+		mPendingURL.clear();
 	}
 
 	// Don't do anything if there are no streams playing
@@ -211,6 +226,8 @@ void LLStreamingAudio_FMODEX::update()
 
 void LLStreamingAudio_FMODEX::stop()
 {
+	mPendingURL.clear();
+
 	if (mFMODInternetStreamChannelp)
 	{
 		mFMODInternetStreamChannelp->setPaused(true);
@@ -264,7 +281,7 @@ int LLStreamingAudio_FMODEX::isPlaying()
 	{
 		return 1; // Active and playing
 	}
-	else if (!mURL.empty())
+	else if (!mURL.empty() || !mPendingURL.empty())
 	{
 		return 2; // "Paused"
 	}
@@ -356,9 +373,8 @@ bool LLAudioStreamManagerFMODEX::stopStream()
 			close = true;
 		}
 
-		if (close)
+		if (close && mInternetStream->release() == FMOD_OK)
 		{
-			mInternetStream->release();
 			mStreamChannel = NULL;
 			mInternetStream = NULL;
 			return true;

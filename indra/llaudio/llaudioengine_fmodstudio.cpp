@@ -72,38 +72,12 @@ inline bool Check_FMOD_Error(FMOD_RESULT result, const char *string)
 	return true;
 }
 
-void* F_STDCALL decode_alloc(unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr)
-{
-	if(type & FMOD_MEMORY_STREAM_DECODE)
-	{
-		LL_INFOS() << "Decode buffer size: " << size << LL_ENDL;
-	}
-	else if(type & FMOD_MEMORY_STREAM_FILE)
-	{
-		LL_INFOS() << "Strean buffer size: " << size << LL_ENDL;
-	}
-	return new char[size];
-}
-void* F_STDCALL decode_realloc(void *ptr, unsigned int size, FMOD_MEMORY_TYPE type, const char *sourcestr)
-{
-	memset(ptr,0,size);
-	return ptr;
-}
-void F_STDCALL decode_dealloc(void *ptr, FMOD_MEMORY_TYPE type, const char *sourcestr)
-{
-	delete[] (char*)ptr;
-}
-
 bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 {
 	U32 version;
 	FMOD_RESULT result;
 
 	LL_DEBUGS("AppInit") << "LLAudioEngine_FMODSTUDIO::init() initializing FMOD" << LL_ENDL;
-
-	//result = FMOD::Memory_Initialize(NULL, 0, &decode_alloc, &decode_realloc, &decode_dealloc, FMOD_MEMORY_STREAM_DECODE | FMOD_MEMORY_STREAM_FILE);
-	//if(Check_FMOD_Error(result, "FMOD::Memory_Initialize"))
-	//	return false;
 
 	result = FMOD::System_Create(&mSystem);
 	if(Check_FMOD_Error(result, "FMOD::System_Create"))
@@ -129,10 +103,6 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	if(mEnableProfiler)
 	{
 		fmod_flags |= FMOD_INIT_PROFILE_ENABLE;
-		mSystem->createChannelGroup("None", &mChannelGroups[AUDIO_TYPE_NONE]);
-		mSystem->createChannelGroup("SFX", &mChannelGroups[AUDIO_TYPE_SFX]);
-		mSystem->createChannelGroup("UI", &mChannelGroups[AUDIO_TYPE_UI]);
-		mSystem->createChannelGroup("Ambient", &mChannelGroups[AUDIO_TYPE_AMBIENT]);
 	}
 
 #if LL_LINUX
@@ -234,7 +204,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 		Ok, the speaker mode selected isn't supported by this soundcard. Switch it
 		back to stereo...
 		*/
-		result = mSystem->setSoftwareFormat(44100, FMOD_SPEAKERMODE_STEREO, 2);
+		result = mSystem->setSoftwareFormat(44100, FMOD_SPEAKERMODE_STEREO, 0);
 		Check_FMOD_Error(result,"Error falling back to stereo mode");
 		/*
 		... and re-init.
@@ -244,6 +214,14 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	if(Check_FMOD_Error(result, "Error initializing FMOD Studio"))
 		return false;
 #endif
+
+	if (mEnableProfiler)
+	{
+		mSystem->createChannelGroup("None", &mChannelGroups[AUDIO_TYPE_NONE]);
+		mSystem->createChannelGroup("SFX", &mChannelGroups[AUDIO_TYPE_SFX]);
+		mSystem->createChannelGroup("UI", &mChannelGroups[AUDIO_TYPE_UI]);
+		mSystem->createChannelGroup("Ambient", &mChannelGroups[AUDIO_TYPE_AMBIENT]);
+	}
 
 	// set up our favourite FMOD-native streaming audio implementation if none has already been added
 	if (!getStreamingAudioImpl()) // no existing implementation added
@@ -335,79 +313,84 @@ LLAudioChannel * LLAudioEngine_FMODSTUDIO::createChannel()
 
 bool LLAudioEngine_FMODSTUDIO::initWind()
 {
-	//mNextWindUpdate = 0.0;
+	mNextWindUpdate = 0.0;
 
-	//if (!mWindDSP)
-	//{
-	//	memset(mWindDSPDesc, 0, sizeof(*mWindDSPDesc));	//Set everything to zero
-	//	strncpy(mWindDSPDesc->name, "Wind Unit", sizeof(mWindDSPDesc->name));
-	//	mWindDSPDesc->read = &windDSPCallback; // Assign callback - may be called from arbitrary threads
-	//	if (Check_FMOD_Error(mSystem->createDSP(mWindDSPDesc, &mWindDSP), "FMOD::createDSP"))
-	//		return false;
+	if (!mWindDSP)
+	{
+		FMOD_DSP_DESCRIPTION dspdesc;
+		memset(&dspdesc, 0, sizeof(FMOD_DSP_DESCRIPTION));	//Set everything to zero
+		dspdesc.pluginsdkversion = FMOD_PLUGIN_SDK_VERSION;
+		strncpy(dspdesc.name, "Wind Unit", sizeof(dspdesc.name));	//Set name to "Wind Unit"
+		dspdesc.numoutputbuffers = 1;
+		dspdesc.read = &windDSPCallback; //Assign callback.
+		if (Check_FMOD_Error(mSystem->createDSP(&dspdesc, &mWindDSP), "FMOD::createDSP"))
+			return false;
 
-	//	if (mWindGen)
-	//		delete mWindGen;
+		if (mWindGen)
+			delete mWindGen;
 
-	//	int frequency = 44100;
-	//	mSystem->getSoftwareFormat(&frequency, NULL, NULL);
-	//	mWindGen = new LLWindGen<MIXBUFFERFORMAT>((U32) frequency);
-	//	mWindDSP->setUserData((void*) mWindGen);
-	//	mWindDSP->setChannelFormat(FMOD_CHANNELMASK_STEREO, 2, FMOD_SPEAKERMODE_STEREO);
-	//}
+		int frequency = 44100;
+		mSystem->getSoftwareFormat(&frequency, NULL, NULL);
+		mWindGen = new LLWindGen<MIXBUFFERFORMAT>((U32)frequency);
+		mWindDSP->setUserData((void*)mWindGen);
 
-	//// *TODO:  Should this guard against multiple plays?
-	//if (mWindDSP)
-	//{
-	//	mSystem->playDSP(mWindDSP, NULL, false, 0);
-	//	return true;
-	//}
+	}
+
+	if (mWindDSP)
+	{
+		mSystem->playDSP(mWindDSP, NULL, false, 0);
+		FMOD_SPEAKERMODE mode;
+		mSystem->getSoftwareFormat(NULL, &mode, NULL);
+		mWindDSP->setChannelFormat(FMOD_CHANNELMASK_STEREO, 2, mode);
+		return true;
+	}
 	return false;
 }
 
 
 void LLAudioEngine_FMODSTUDIO::cleanupWind()
 {
-	//if (mWindDSP)
-	//{
-	//	mWindDSP->release();
-	//	mWindDSP = NULL;
-	//}
+	if (mWindDSP)
+	{
+		mWindDSP->release();
+		mWindDSP = NULL;
+	}
 
-	//delete mWindGen;
-	//mWindGen = NULL;
+	delete mWindGen;
+	mWindGen = NULL;
 }
 
 
 //-----------------------------------------------------------------------
 void LLAudioEngine_FMODSTUDIO::updateWind(LLVector3 wind_vec, F32 camera_height_above_water)
 {
-//	LLVector3 wind_pos;
-//	F64 pitch;
-//	F64 center_freq;
-//
-//	if (!mEnableWind)
-//	{
-//		return;
-//	}
-//	
-//	if (mWindUpdateTimer.checkExpirationAndReset(LL_WIND_UPDATE_INTERVAL))
-//	{
-//		
-//		// wind comes in as Linden coordinate (+X = forward, +Y = left, +Z = up)
-//		// need to convert this to the conventional orientation DS3D and OpenAL use
-//		// where +X = right, +Y = up, +Z = backwards
-//
-//		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], wind_vec.mV[0]);
-//
-//		// cerr << "Wind update" << endl;
-//
-//		pitch = 1.0 + mapWindVecToPitch(wind_vec);
-//		center_freq = 80.0 * pow(pitch,2.5*(mapWindVecToGain(wind_vec)+1.0));
-//		
-//		mWindGen->mTargetFreq = (F32)center_freq;
-//		mWindGen->mTargetGain = (F32)mapWindVecToGain(wind_vec) * mMaxWindGain;
-//		mWindGen->mTargetPanGainR = (F32)mapWindVecToPan(wind_vec);
-//  	}
+	LLVector3 wind_pos;
+	F64 pitch;
+	F64 center_freq;
+
+	if (!mEnableWind)
+	{
+		return;
+	}
+	
+	if (mWindUpdateTimer.checkExpirationAndReset(LL_WIND_UPDATE_INTERVAL))
+	{
+		
+		// wind comes in as Linden coordinate (+X = forward, +Y = left, +Z = up)
+		// need to convert this to the conventional orientation DS3D and OpenAL use
+		// where +X = right, +Y = up, +Z = backwards
+
+		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], wind_vec.mV[0]);
+
+		// cerr << "Wind update" << endl;
+
+		pitch = 1.0 + mapWindVecToPitch(wind_vec);
+		center_freq = 80.0 * pow(pitch,2.5*(mapWindVecToGain(wind_vec)+1.0));
+		
+		mWindGen->mTargetFreq = (F32)center_freq;
+		mWindGen->mTargetGain = (F32)mapWindVecToGain(wind_vec) * mMaxWindGain;
+		mWindGen->mTargetPanGainR = (F32)mapWindVecToPan(wind_vec);
+  	}
 }
 
 //-----------------------------------------------------------------------

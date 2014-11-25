@@ -856,7 +856,7 @@ BOOL LLToolCompGun::handleScrollWheel(S32 x, S32 y, S32 clicks)
 		mStartFOV = LLViewerCamera::getInstance()->getDefaultFOV();
 
 		gSavedPerAccountSettings.setF32(
-			"ExodusAlternativeFOV",
+			"AlchemyAlternativeFOV",
 			mTargetFOV = clicks > 0 ?
 				llclamp(mTargetFOV += (0.05f * clicks), 0.1f, 3.0f) :
 				llclamp(mTargetFOV -= (0.05f * -clicks), 0.1f, 3.0f)

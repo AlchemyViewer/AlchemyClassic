@@ -82,6 +82,9 @@ const F32 COARSE_FREQUENCY = 2.2f;
 const F32 FIND_FREQUENCY = 29.7f;	// This results in a database query, so cut these back
 const F32 OFFLINE_SECONDS = FIND_FREQUENCY + 8.0f;
 
+// static
+LLAvatarTracker LLAvatarTracker::sInstance;
+
 static void on_avatar_name_cache_notify(const LLUUID& agent_id,
 										const LLAvatarName& av_name,
 										bool online,
@@ -236,6 +239,8 @@ const LLUUID& LLAvatarTracker::getAvatarID()
 
 S32 LLAvatarTracker::addBuddyList(const LLAvatarTracker::buddy_map_t& buds)
 {
+	using namespace std;
+
 	U32 new_buddy_count = 0;
 	std::string full_name;
 	LLUUID agent_id;

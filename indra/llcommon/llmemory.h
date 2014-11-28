@@ -199,7 +199,7 @@ inline void ll_aligned_free_32(void *p)
 #endif
 }
 
-inline void* ll_aligned_malloc_64(size_t size) // returned hunk MUST be freed with ll_aligned_free_32().
+inline void* ll_aligned_malloc_64(size_t size) // returned hunk MUST be freed with ll_aligned_free_64().
 {
 #if defined(LL_WINDOWS)
 	return _aligned_malloc(size, 64);

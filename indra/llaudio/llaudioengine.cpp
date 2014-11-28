@@ -69,6 +69,7 @@ LLStreamingAudioInterface* LLAudioEngine::getStreamingAudioImpl()
 
 void LLAudioEngine::setStreamingAudioImpl(LLStreamingAudioInterface *impl)
 {
+	delete mStreamingAudioImpl;
 	mStreamingAudioImpl = impl;
 }
 
@@ -137,6 +138,10 @@ void LLAudioEngine::shutdown()
 
 	// Clean up wind source
 	cleanupWind();
+
+	// Clean up streaming audio
+	delete mStreamingAudioImpl;
+	mStreamingAudioImpl = NULL;
 
 	// Clean up audio sources
 	source_map::iterator iter_src;

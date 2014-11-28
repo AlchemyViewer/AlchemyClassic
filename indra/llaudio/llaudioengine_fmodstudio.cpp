@@ -63,7 +63,6 @@ LLAudioEngine_FMODSTUDIO::~LLAudioEngine_FMODSTUDIO()
 	delete mWindDSPDesc;
 }
 
-
 inline bool Check_FMOD_Error(FMOD_RESULT result, const char *string)
 {
 	if(result == FMOD_OK)
@@ -282,8 +281,6 @@ void LLAudioEngine_FMODSTUDIO::allocateListener(void)
 
 void LLAudioEngine_FMODSTUDIO::shutdown()
 {
-	stopInternetStream();
-
 	LL_INFOS() << "About to LLAudioEngine::shutdown()" << LL_ENDL;
 	LLAudioEngine::shutdown();
 	
@@ -317,13 +314,12 @@ bool LLAudioEngine_FMODSTUDIO::initWind()
 
 	if (!mWindDSP)
 	{
-		FMOD_DSP_DESCRIPTION dspdesc;
-		memset(&dspdesc, 0, sizeof(FMOD_DSP_DESCRIPTION));	//Set everything to zero
-		dspdesc.pluginsdkversion = FMOD_PLUGIN_SDK_VERSION;
-		strncpy(dspdesc.name, "Wind Unit", sizeof(dspdesc.name));	//Set name to "Wind Unit"
-		dspdesc.numoutputbuffers = 1;
-		dspdesc.read = &windDSPCallback; //Assign callback.
-		if (Check_FMOD_Error(mSystem->createDSP(&dspdesc, &mWindDSP), "FMOD::createDSP"))
+		memset(mWindDSPDesc, 0, sizeof(*mWindDSPDesc));	//Set everything to zero
+		mWindDSPDesc->pluginsdkversion = FMOD_PLUGIN_SDK_VERSION;
+		strncpy(mWindDSPDesc->name, "Wind Unit", sizeof(mWindDSPDesc->name));	//Set name to "Wind Unit"
+		mWindDSPDesc->numoutputbuffers = 1;
+		mWindDSPDesc->read = &windDSPCallback; //Assign callback.
+		if (Check_FMOD_Error(mSystem->createDSP(mWindDSPDesc, &mWindDSP), "FMOD::createDSP"))
 			return false;
 
 		if (mWindGen)

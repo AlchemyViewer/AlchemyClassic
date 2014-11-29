@@ -144,9 +144,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>285aca45e1fe8bbcf244b08a3c68887a</string>
+              <string>7817a5fbc299b7ef8f37e0dcc24f68a1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.57.0-darwin-201411041704.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.57.0-darwin-201411281755.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -194,9 +194,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>990a36bb4d4294232be0e2c71147dccd</string>
+              <string>d87264dca3c876d9e0442a5d1f295a12</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201411041719.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201411282141.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -872,9 +872,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c060dc235f5c8a95846765b482becc13</string>
+              <string>3b5096205027898a8559a252fdad11da</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201411041742.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201411282204.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1464,9 +1464,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e606257668e3ed02a28583418a3c876b</string>
+              <string>1db8479034168e3c088464c860e3f0ee</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201410211636.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201411282129.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

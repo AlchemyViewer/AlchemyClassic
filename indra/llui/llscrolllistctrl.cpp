@@ -125,6 +125,7 @@ LLScrollListCtrl::Contents::Contents()
 
 LLScrollListCtrl::Params::Params()
 :	multi_select("multi_select", false),
+	remove_callback("remove_callback"),
 	has_border("draw_border"),
 	draw_heading("draw_heading"),
 	search_column("search_column", 0),
@@ -162,6 +163,7 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	mAllowKeyboardMovement(true),
 	mCommitOnKeyboardMovement(p.commit_on_keyboard_movement),
 	mCommitOnSelectionChange(false),
+	mItemRemoved(false),
 	mSelectionChanged(false),
 	mNeedsScroll(false),
 	mCanSelect(true),
@@ -171,6 +173,7 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	mOnDoubleClickCallback( NULL ),
 	mOnMaximumSelectCallback( NULL ),
 	mOnSortChangedCallback( NULL ),
+	mRemoveSignal( NULL ),
 	mHighlightedItem(-1),
 	mBorder(NULL),
 	mSortCallback(NULL),
@@ -256,6 +259,10 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 		sortByColumnIndex(p.sort_column, p.sort_ascending);
 	}
 
+	if (p.remove_callback.isProvided())
+	{
+		setRemoveCallback(initCommitCallback(p.remove_callback));
+	}
 	
 	for (LLInitParam::ParamIterator<LLScrollListColumn::Params>::const_iterator row_it = p.contents.columns.begin();
 		row_it != p.contents.columns.end();
@@ -279,6 +286,14 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	// word wrap was added accroding to the EXT-6841
 	text_p.wrap(true);
 	addChild(LLUICtrlFactory::create<LLTextBox>(text_p));
+}
+
+boost::signals2::connection LLScrollListCtrl::setRemoveCallback(const commit_signal_t::slot_type& cb)
+{
+	if (!mRemoveSignal) mRemoveSignal = new commit_signal_t();
+	claimMem(mRemoveSignal);
+	
+	return mRemoveSignal->connect(cb);
 }
 
 S32 LLScrollListCtrl::getSearchColumn()
@@ -318,6 +333,7 @@ bool LLScrollListCtrl::preProcessChildNode(LLXMLNodePtr child)
 LLScrollListCtrl::~LLScrollListCtrl()
 {
 	delete mSortCallback;
+	delete mRemoveSignal;
 
 	std::for_each(mItemList.begin(), mItemList.end(), DeletePointer());
 	mItemList.clear();
@@ -1520,6 +1536,13 @@ void LLScrollListCtrl::drawItems()
 				}
 
 				item->draw(item_rect, fg_color % alpha, bg_color% alpha, highlight_color % alpha, mColumnPadding);
+				
+				if (item->getUserRemovable())
+				{
+					if (mRemoveIcon.isNull())
+						mRemoveIcon = LLUI::getUIImage("Icon_Close_Foreground");
+					mRemoveIcon->draw(item_rect.mRight - mRemoveIcon->getWidth() - 5, item_rect.mTop - 2 - mLineHeight);
+				}
 
 				cur_y -= mLineHeight;
 			}
@@ -1767,7 +1790,7 @@ BOOL LLScrollListCtrl::handleMouseDown(S32 x, S32 y, MASK mask)
 
 BOOL LLScrollListCtrl::handleMouseUp(S32 x, S32 y, MASK mask)
 {	
-	if (hasMouseCapture())
+	if (!mItemRemoved && hasMouseCapture())
 	{
 		// release mouse capture immediately so 
 		// scroll to show selected logic will work
@@ -1780,7 +1803,7 @@ BOOL LLScrollListCtrl::handleMouseUp(S32 x, S32 y, MASK mask)
 	}
 
 	// always commit when mouse operation is completed inside list
-	if (mItemListRect.pointInRect(x,y))
+	if (!mItemRemoved && mItemListRect.pointInRect(x,y))
 	{
 		mDirty = mDirty || mSelectionChanged;
 		mSelectionChanged = false;
@@ -1912,6 +1935,30 @@ BOOL LLScrollListCtrl::handleClick(S32 x, S32 y, MASK mask)
 	LLScrollListItem* hit_item = hitItem(x, y);
 	if (!hit_item) return FALSE;
 
+	// Check if the user hit the user-remove area
+	if (hit_item->getUserRemovable())
+	{
+		S32 dX = mItemListRect.mRight - x - 5;
+		if ( (mRemoveIcon) && (dX >= 0) && (dX <= mRemoveIcon->getWidth()) )
+		{
+			if (mRemoveSignal)
+			{
+				(*mRemoveSignal)(this, getValue());
+				item_list::iterator it = std::find(mItemList.begin(), mItemList.end(), hit_item);
+				if (mItemList.end() != it)
+					mItemList.erase(it);
+				if (hit_item == mLastSelected)
+					mLastSelected = NULL;
+				delete hit_item;
+				
+				dirtyColumns();
+			}
+			
+			mItemRemoved = true;
+			return TRUE;
+		}
+	}
+	
 	// get appropriate cell from that row
 	S32 column_index = getColumnIndexFromOffset(x);
 	LLScrollListCell* hit_cell = hit_item->getColumn(column_index);

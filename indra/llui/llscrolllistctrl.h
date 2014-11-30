@@ -98,6 +98,8 @@ public:
 						commit_on_keyboard_movement,
 						mouse_wheel_opaque;
 
+		Optional<CommitCallbackParam> remove_callback;
+		
 		// display flags
 		Optional<bool>	has_border,
 						draw_heading,
@@ -299,6 +301,7 @@ public:
 	S32				getRowOffsetFromIndex(S32 index);
 
 	void			clearSearchString() { mSearchString.clear(); }
+	boost::signals2::connection setRemoveCallback(const commit_signal_t::slot_type& cb);
 
 	// support right-click context menus for avatar/group lists
 	enum ContextMenuType { MENU_NONE, MENU_AVATAR, MENU_GROUP };
@@ -447,6 +450,7 @@ private:
 	bool			mCommitOnKeyboardMovement;
 	bool			mCommitOnSelectionChange;
 	bool			mSelectionChanged;
+	bool			mItemRemoved;
 	bool			mNeedsScroll;
 	bool			mMouseWheelOpaque;
 	bool			mCanSelect;
@@ -480,6 +484,8 @@ private:
 	callback_t		mOnDoubleClickCallback;
 	callback_t 		mOnMaximumSelectCallback;
 	callback_t 		mOnSortChangedCallback;
+	commit_signal_t*	mRemoveSignal;
+	LLPointer<LLUIImage> mRemoveIcon;
 
 	S32				mHighlightedItem;
 	class LLViewBorder*	mBorder;

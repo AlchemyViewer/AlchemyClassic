@@ -42,6 +42,7 @@ LLScrollListItem::LLScrollListItem( const Params& p )
 	mHighlighted(FALSE),
 	mEnabled(p.enabled),
 	mUserdata(p.userdata),
+	mUserRemovable(p.user_removable),
 	mItemValue(p.value)
 {
 }

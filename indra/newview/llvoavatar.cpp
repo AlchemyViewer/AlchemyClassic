@@ -467,7 +467,10 @@ public:
 		mCharacter = character;
 		BOOL success = true;
 
-		if ( !mChestState->setJoint( character->getJoint( "mChest" ) ) ) { success = false; }
+		if ( !mChestState->setJoint( character->getJoint( "mChest" ) ) )
+		{
+			success = false;
+		}
 
 		if ( success )
 		{
@@ -999,10 +1002,11 @@ void LLVOAvatar::getNearbyRezzedStats(std::vector<S32>& counts)
 		 iter != LLCharacter::sInstances.end(); ++iter)
 	{
 		LLVOAvatar* inst = (LLVOAvatar*) *iter;
-		if (!inst)
-			continue;
-		S32 rez_status = inst->getRezzedStatus();
-		counts[rez_status]++;
+		if (inst)
+		{
+			S32 rez_status = inst->getRezzedStatus();
+			counts[rez_status]++;
+		}
 	}
 }
 
@@ -1373,28 +1377,25 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 	{
 		LLViewerJointAttachment* attachment = iter->second;
 
-		if (!attachment->getValid())
+		if (attachment->getValid())
 		{
-			continue ;
-		}
-
-		for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-			 attachment_iter != attachment->mAttachedObjects.end();
-			 ++attachment_iter)
-		{
-			const LLViewerObject* attached_object = (*attachment_iter);
-			if (attached_object && !attached_object->isHUDAttachment())
+			for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
+				 attachment_iter != attachment->mAttachedObjects.end();
+				 ++attachment_iter)
 			{
-				LLDrawable* drawable = attached_object->mDrawable;
-				if (drawable && !drawable->isState(LLDrawable::RIGGED))
+				const LLViewerObject* attached_object = (*attachment_iter);
+				if (attached_object && !attached_object->isHUDAttachment())
 				{
-					LLSpatialBridge* bridge = drawable->getSpatialBridge();
-					if (bridge)
+					LLDrawable* drawable = attached_object->mDrawable;
+					if (drawable && !drawable->isState(LLDrawable::RIGGED))
 					{
-						const LLVector4a* ext = bridge->getSpatialExtents();
-						LLVector4a distance;
-						distance.setSub(ext[1], ext[0]);
-						LLVector4a max_span(max_attachment_span);
+						LLSpatialBridge* bridge = drawable->getSpatialBridge();
+						if (bridge)
+						{
+							const LLVector4a* ext = bridge->getSpatialExtents();
+							LLVector4a distance;
+							distance.setSub(ext[1], ext[0]);
+							LLVector4a max_span(max_attachment_span);
 
 						S32 lt = distance.lessThan(max_span).getGatheredBits() & 0x7;
 						
@@ -2069,9 +2070,6 @@ U32 LLVOAvatar::processUpdateMessage(LLMessageSystem *mesgsys,
 			gAgent.teleportViaLocation(gAgent.getPositionGlobal());
 		}
 	}
-
-	//LL_INFOS() << getRotation() << LL_ENDL;
-	//LL_INFOS() << getPosition() << LL_ENDL;
 
 	return retval;
 }
@@ -3752,10 +3750,14 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 
 	// update animations
 	if (mSpecialRenderMode == 1) // Animation Preview
+	{
 		updateMotions(LLCharacter::FORCE_UPDATE);
+	}
 	else
+	{
 		updateMotions(LLCharacter::NORMAL_UPDATE);
-
+	}
+	
 	// update head position
 	updateHeadOffset();
 
@@ -6185,9 +6187,6 @@ BOOL LLVOAvatar::isWearingWearableType(LLWearableType::EType type) const
 			break; // Do nothing
 	}
 
-	/* switch(type)
-		case LLWearableType::WT_SHIRT:
-			indicator_te = TEX_UPPER_SHIRT; */
 	for (LLAvatarAppearanceDictionary::Textures::const_iterator tex_iter = LLAvatarAppearanceDictionary::getInstance()->getTextures().begin();
 		 tex_iter != LLAvatarAppearanceDictionary::getInstance()->getTextures().end();
 		 ++tex_iter)
@@ -6275,7 +6274,7 @@ void LLVOAvatar::onGlobalColorChanged(const LLTexGlobalColor* global_color)
 	} 
 	else if (global_color == mTexEyeColor)
 	{
-//		LL_INFOS() << "invalidateComposite cause: onGlobalColorChanged( eyecolor )" << LL_ENDL; 
+		// LL_INFOS() << "invalidateComposite cause: onGlobalColorChanged( eyecolor )" << LL_ENDL; 
 		invalidateComposite( mBakedTextureDatas[BAKED_EYES].mTexLayerSet);
 	}
 	updateMeshTextures();
@@ -6590,9 +6589,7 @@ void LLVOAvatar::debugColorizeSubMeshes(U32 i, const LLColor4& color)
 			LLAvatarJointMesh* mesh = (*iter);
 			if (mesh)
 			{
-				{
-					mesh->setColor(color);
-				}
+				mesh->setColor(color);
 			}
 		}
 	}
@@ -7891,8 +7888,7 @@ void LLVOAvatar::dumpArchetypeXML(const std::string& prefix, bool group_by_weara
 			dump_visual_param(file, viewer_param, viewer_param->getWeight());
 		}
 
-		for (U8 te = 0; te < TEX_NUM_INDICES; te++)
-		{
+			for (U8 te = 0; te < TEX_NUM_INDICES; te++)
 			{
 				// MULTIPLE_WEARABLES: extend to multiple wearables?
 				LLViewerTexture* te_image = getImage((ETextureIndex)te, 0);
@@ -7904,10 +7900,8 @@ void LLVOAvatar::dumpArchetypeXML(const std::string& prefix, bool group_by_weara
 				}
 			}
 		}
-
-	}
-	apr_file_printf( file, "\t</archetype>\n" );
-	apr_file_printf( file, "\n</linden_genepool>\n" );
+		apr_file_printf( file, "\t</archetype>\n" );
+		apr_file_printf( file, "\n</linden_genepool>\n" );
 
 	bool ultra_verbose = false;
 	if (isSelf() && ultra_verbose)
@@ -7915,6 +7909,7 @@ void LLVOAvatar::dumpArchetypeXML(const std::string& prefix, bool group_by_weara
 		// show the cloned params inside the wearables as well.
 		gAgentAvatarp->dumpWearableInfo(outfile);
 	}
+	outfile.close();
 	// File will close when handle goes out of scope
 	LL_INFOS("DumpArchetypeXML") << "Archetype xml written successfully!" << LL_ENDL;
 	LLNotificationsUtil::add("DumpArchetypeSuccess", LLSD().with("FILE_PATH", fullpath));
@@ -8431,9 +8426,8 @@ void LLVOAvatar::calculateUpdateRenderCost()
 			for (LLVOVolume::texture_cost_t::iterator it = textures.begin(); it != textures.end(); ++it)
 			{
 				LLUUID image_id = it->first;
-				if( image_id.isNull() || image_id == IMG_DEFAULT || image_id == IMG_DEFAULT_AVATAR)
-					continue;
-				if (all_textures.find(image_id) == all_textures.end())
+				if( ! (image_id.isNull() || image_id == IMG_DEFAULT || image_id == IMG_DEFAULT_AVATAR)
+				   && (all_textures.find(image_id) == all_textures.end()))
 				{
 					// attachment texture not previously seen.
 					LL_INFOS() << "attachment_texture: " << image_id.asString() << LL_ENDL;
@@ -8499,15 +8493,17 @@ LLColor4 LLVOAvatar::calcMutedAVColor(F32 value, S32 range_low, S32 range_high)
 // static
 BOOL LLVOAvatar::isIndexLocalTexture(ETextureIndex index)
 {
-	if (index < 0 || index >= TEX_NUM_INDICES) return false;
-	return LLAvatarAppearanceDictionary::getInstance()->getTexture(index)->mIsLocalTexture;
+	return (index < 0 || index >= TEX_NUM_INDICES)
+		? false
+		: LLAvatarAppearanceDictionary::getInstance()->getTexture(index)->mIsLocalTexture;
 }
 
 // static
 BOOL LLVOAvatar::isIndexBakedTexture(ETextureIndex index)
 {
-	if (index < 0 || index >= TEX_NUM_INDICES) return false;
-	return LLAvatarAppearanceDictionary::getInstance()->getTexture(index)->mIsBakedTexture;
+	return (index < 0 || index >= TEX_NUM_INDICES)
+		? false
+		: LLAvatarAppearanceDictionary::getInstance()->getTexture(index)->mIsBakedTexture;
 }
 
 const std::string LLVOAvatar::getBakedStatusForPrintout() const

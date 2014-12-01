@@ -152,27 +152,6 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	}
 	if (!audio_ok)
 	{
-		if (NULL == getenv("LL_BAD_FMOD_OSS")) 	 /*Flawfinder: ignore*/
-		{
-			LL_DEBUGS("AppInit") << "Trying OSS audio output..." << LL_ENDL;
-			if(mSystem->setOutput(FMOD_OUTPUTTYPE_OSS) == FMOD_OK &&
-			    (result = mSystem->init(num_channels + 2, fmod_flags, 0)) == FMOD_OK)
-			{
-				LL_DEBUGS("AppInit") << "OSS audio output initialized OKAY" << LL_ENDL;
-				audio_ok = true;
-			}
-			else
-			{
-				Check_FMOD_Error(result, "OSS audio output FAILED to initialize");
-			}
-		}
-		else 
-		{
-			LL_DEBUGS("AppInit") << "OSS audio output SKIPPED" << LL_ENDL;
-		}
-	}
-	if (!audio_ok)
-	{
 		LL_WARNS("AppInit") << "Overall audio init failure." << LL_ENDL;
 		return false;
 	}
@@ -189,8 +168,6 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 			LL_INFOS("AppInit") << "Audio output: PulseAudio" << LL_ENDL; break;
 		case FMOD_OUTPUTTYPE_ALSA: 
 			LL_INFOS("AppInit") << "Audio output: ALSA" << LL_ENDL; break;
-		case FMOD_OUTPUTTYPE_OSS:	
-			LL_INFOS("AppInit") << "Audio output: OSS" << LL_ENDL; break;
 		default:
 			LL_INFOS("AppInit") << "Audio output: Unknown!" << LL_ENDL; break;
 	};

@@ -45,7 +45,7 @@ typedef FILE	LLFILE;
 typedef struct _stat	llstat;
 #else
 typedef struct stat		llstat;
-#if __has_include(<ext/stdio_filebuf.h>) || defined(LL_GNUC) // Oof, this is pretty ugly
+#if !defined(LL_DARWIN) || defined(LL_GNUC) // Oof, this is pretty ugly
 #include <ext/stdio_filebuf.h>
 #endif // has_include
 #endif // !LL_WINDOWS

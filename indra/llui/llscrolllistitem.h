@@ -55,6 +55,7 @@ public:
 		Optional<bool>		enabled;
 		Optional<void*>		userdata;
 		Optional<LLSD>		value;
+		Optional<bool>		user_removable;
 		
 		Ignored				name; // use for localization tools
 		Ignored				type; 
@@ -65,6 +66,7 @@ public:
 		Params()
 		:	enabled("enabled", true),
 			value("value"),
+			user_removable("user_removable"),
 			name("name"),
 			type("type"),
 			length("length"),
@@ -88,6 +90,9 @@ public:
 
 	void	setUserdata( void* userdata )	{ mUserdata = userdata; }
 	void*	getUserdata() const 			{ return mUserdata; }
+
+	void	setUserRemovable(bool b)		{ mUserRemovable = b; }
+	bool	getUserRemovable() const 		{ return mUserRemovable; }
 
 	virtual LLUUID	getUUID() const			{ return mItemValue.asUUID(); }
 	LLSD	getValue() const				{ return mItemValue; }
@@ -117,6 +122,7 @@ private:
 	BOOL	mHighlighted;
 	BOOL	mEnabled;
 	void*	mUserdata;
+	bool	mUserRemovable;
 	LLSD	mItemValue;
 	std::vector<LLScrollListCell *> mColumns;
 	LLRect  mRectangle;

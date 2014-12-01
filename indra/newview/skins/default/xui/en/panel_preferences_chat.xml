@@ -35,6 +35,16 @@
      name="play_typing_animation"
      width="150"/>
     <check_box
+     control_name="PlayChatAnim"
+     height="16"
+     initial_value="true"
+     label="Play shout/whisper animations when chatting"
+     layout="topleft"
+     top_pad="5"
+     left="5"
+     name="PlayChatAnim"
+     width="150"/>
+    <check_box
      control_name="AlchemyNearbyTypingIndicators"
      height="16"
      initial_value="true"

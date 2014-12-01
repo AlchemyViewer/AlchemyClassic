@@ -285,6 +285,18 @@ LLScrollListItem* LLComboBox::add(const std::string& name, LLSD value, EAddPosit
 	return item;
 }
 
+LLScrollListItem* LLComboBox::addRemovable(const std::string& name, LLSD value, EAddPosition pos, BOOL enabled )
+{
+	LLScrollListItem* item = mList->addSimpleElement(name, pos, value);
+	item->setEnabled(enabled);
+	item->setUserRemovable(true);
+	if (!mAllowTextEntry && mLabel.empty())
+	{
+		selectFirstItem();
+	}
+	return item;
+}
+
 LLScrollListItem* LLComboBox::addSeparator(EAddPosition pos)
 {
 	return mList->addSeparator(pos);

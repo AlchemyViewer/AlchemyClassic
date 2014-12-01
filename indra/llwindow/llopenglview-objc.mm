@@ -510,20 +510,15 @@ attributedStringInfo getSegments(NSAttributedString *str)
     {
         if (mMarkedTextAllowed)
         {
-            unsigned int selected[2] = {
-                static_cast<unsigned int>(selectedRange.location),
-                static_cast<unsigned int>(selectedRange.length)
-            };
-            
-            unsigned int replacement[2] = {
-                static_cast<unsigned int>(replacementRange.location),
-                static_cast<unsigned int>(replacementRange.length)
+            int replacement[2] = {
+                static_cast<int>(replacementRange.location),
+                static_cast<int>(replacementRange.length)
             };
             
             unichar text[[aString length]];
             [[aString mutableString] getCharacters:text range:NSMakeRange(0, [aString length])];
             attributedStringInfo segments = getSegments((NSAttributedString *)aString);
-            setMarkedText(text, selected, replacement, [aString length], segments);
+            setMarkedText(text, replacement, [aString length], segments);
             mHasMarkedText = TRUE;
             mMarkedTextLength = [aString length];
         } else {

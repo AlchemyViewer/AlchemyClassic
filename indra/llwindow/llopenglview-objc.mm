@@ -42,19 +42,6 @@
     return screen;
 }
 
-- (NSPoint)convertPointToScreenCoordinates:(NSPoint)aPoint
-{
-    float normalizedX = fabs(fabs(self.frame.origin.x) - fabs(aPoint.x));
-    float normalizedY = aPoint.y - self.frame.origin.y;
-    
-    return NSMakePoint(normalizedX, normalizedY);
-}
-
-- (NSPoint)flipPoint:(NSPoint)aPoint
-{
-    return NSMakePoint(aPoint.x, self.frame.size.height - aPoint.y);
-}
-
 @end
 
 attributedStringInfo getSegments(NSAttributedString *str)
@@ -519,58 +506,31 @@ attributedStringInfo getSegments(NSAttributedString *str)
 
 - (void)setMarkedText:(id)aString selectedRange:(NSRange)selectedRange replacementRange:(NSRange)replacementRange
 {
-    // Apple says aString can be either an NSString or NSAttributedString instance.
-    // But actually it's NSConcreteMutableAttributedString or __NSCFConstantString.
-    // I observed aString was __NSCFConstantString only aString was null string(zero length).
-    // Apple also says when aString is an NSString object,
-    // the receiver is expected to render the marked text with distinguishing appearance.
-    // So I tried to make attributedStringInfo, but it won't be used...   (Pell Smit)
-
-    if (mMarkedTextAllowed)
+	if ([aString isKindOfClass:NSClassFromString(@"NSConcreteMutableAttributedString")])
     {
-        unsigned int selected[2] = {
-            selectedRange.location,
-            selectedRange.length
-        };
-        
-        unsigned int replacement[2] = {
-            replacementRange.location,
-            replacementRange.length
-        };
-        
-        int string_length = [aString length];
-        unichar text[string_length];
-        attributedStringInfo segments;
-        // I used 'respondsToSelector:@selector(string)'
-        // to judge aString is an attributed string or not.
-        if ([aString respondsToSelector:@selector(string)])
+        if (mMarkedTextAllowed)
         {
-            // aString is attibuted
-            [[aString string] getCharacters:text range:NSMakeRange(0, string_length)];
-            segments = getSegments((NSAttributedString *)aString);
-        }
-        else
-        {
-            // aString is not attributed
-            [aString getCharacters:text range:NSMakeRange(0, string_length)];
-            segments.seg_lengths.push_back(string_length);
-            segments.seg_standouts.push_back(true);
-        }
-        setMarkedText(text, selected, replacement, string_length, segments);
-        if (string_length > 0)
-        {
+            unsigned int selected[2] = {
+                static_cast<unsigned int>(selectedRange.location),
+                static_cast<unsigned int>(selectedRange.length)
+            };
+            
+            unsigned int replacement[2] = {
+                static_cast<unsigned int>(replacementRange.location),
+                static_cast<unsigned int>(replacementRange.length)
+            };
+            
+            unichar text[[aString length]];
+            [[aString mutableString] getCharacters:text range:NSMakeRange(0, [aString length])];
+            attributedStringInfo segments = getSegments((NSAttributedString *)aString);
+            setMarkedText(text, selected, replacement, [aString length], segments);
             mHasMarkedText = TRUE;
-            mMarkedTextLength = string_length;
-        }
-        else
-        {
-            // we must clear the marked text when aString is null.
-            [self unmarkText];
-        }
-    } else {
-        if (mHasMarkedText)
-        {
-            [self unmarkText];
+            mMarkedTextLength = [aString length];
+        } else {
+            if (mHasMarkedText)
+            {
+                [self unmarkText];
+            }
         }
     }
 }

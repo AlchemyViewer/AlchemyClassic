@@ -195,15 +195,17 @@ if (LINUX)
     # End of hacks.
 
     add_definitions(
+        -std=gnu++11
         -fno-math-errno
         -fno-strict-aliasing
         -fsigned-char
-        -msse2
-        -mfpmath=sse
         )
 
     if (WORD_SIZE EQUAL 32)
-      add_definitions(-march=pentium4)
+      add_definitions(
+        -msse2
+        -mfpmath=sse
+        -march=pentium4)
     endif (WORD_SIZE EQUAL 32)
 
     if (NOT USESYSTEMLIBS)

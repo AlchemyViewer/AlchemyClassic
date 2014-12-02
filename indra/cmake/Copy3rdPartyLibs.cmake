@@ -297,18 +297,19 @@ elseif(LINUX)
         libdb-5.1.so
         libexpat.so
         libexpat.so.1
-        libfreetype.so.6.6.2
+        libfreetype.so.6.11.2
         libfreetype.so.6
+        libfreetype.so
         libGLOD.so
         libgmodule-2.0.so
         libgobject-2.0.so
-        libhunspell-1.3.so.0.0.0
         libopenal.so
         libopenjpeg.so
-        libuuid.so.16
-        libuuid.so.16.0.22
+        #libuuid.so.16
+        #libuuid.so.16.0.22
         libfontconfig.so.1.8.0
         libfontconfig.so.1
+        libfontconfig.so
        )
 
     if (USE_TCMALLOC)
@@ -319,6 +320,11 @@ elseif(LINUX)
       set(debug_files ${debug_files} "libfmodexL.so")
       set(release_files ${release_files} "libfmodex.so")
     endif (FMODEX)
+
+    if (FMODSTUDIO)
+      set(debug_files ${debug_files} "libfmodL.so")
+      set(release_files ${release_files} "libfmod.so")
+    endif (FMODSTUDIO)
 
 else(WINDOWS)
     message(STATUS "WARNING: unrecognized platform for staging 3rd party libs, skipping...")

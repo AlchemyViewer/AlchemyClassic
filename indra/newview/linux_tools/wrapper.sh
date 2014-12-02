@@ -119,7 +119,12 @@ export SAVED_LD_LIBRARY_PATH="${LD_LIBRARY_PATH}"
 #    fi
 #fi
 
-export LD_LIBRARY_PATH="$PWD/lib:${LD_LIBRARY_PATH}"
+BINARY_TYPE=$(expr match "$(file -b bin/do-not-directly-run-alchemy-bin)" '\(.*executable\)')
+if [ "${BINARY_TYPE}" == "ELF 32-bit LSB executable" ]; then
+    export LD_LIBRARY_PATH="$PWD/lib:${LD_LIBRARY_PATH}"
+else
+    export LD_LIBRARY_PATH="$PWD/lib64:$PWD/lib32:${LD_LIBRARY_PATH}"
+fi
 
 # Copy "$@" to ARGS array specifically to delete the --skip-gridargs switch.
 # The gridargs.dat file is no more, but we still want to avoid breaking

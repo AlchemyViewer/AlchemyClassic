@@ -13,7 +13,6 @@ else (USESYSTEMLIBS)
   if (DARWIN OR LINUX)
     set(LIBXML2_LIBRARIES
         xml2
-        iconv
 	    )
   elseif (WINDOWS)
     set(LIBXML2_LIBRARIES

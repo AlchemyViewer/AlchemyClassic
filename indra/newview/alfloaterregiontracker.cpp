@@ -46,7 +46,7 @@
 #include "llworldmap.h"
 #include "llworldmapmessage.h"
 
-#define TRACKER_FILE "tracked_regions.json"
+const std::string TRACKER_FILE = "tracked_regions.json";
 
 ALFloaterRegionTracker::ALFloaterRegionTracker(const LLSD& key)
 	: LLFloater(key),

@@ -168,7 +168,7 @@ inline S32 lltrunc( F32 f )
 		}
 		return result;
 #else
-#if _MSC_VER >= 1800 || __cplusplus >= 201103L
+#ifdef LL_CPP11
 		return (S32)trunc(f);
 #else
 		return (S32)f;
@@ -178,7 +178,7 @@ inline S32 lltrunc( F32 f )
 
 inline S32 lltrunc( F64 f )
 {
-#if _MSC_VER >= 1800 || __cplusplus >= 201103L
+#ifdef LL_CPP11
 	return (S32)trunc(f);
 #else
 	return (S32)f;
@@ -216,7 +216,7 @@ namespace llmath
 	// Use this round.  Does an arithmetic round (0.5 always rounds up)
 	inline S32 llround(const F32 val)
 	{
-#if _MSC_VER >= 1800 || __cplusplus >= 201103L
+#ifdef LL_CPP11
 		return (S32)round(val);
 #else
 		return llfloor(val + 0.5f);
@@ -225,7 +225,7 @@ namespace llmath
 
 	inline F32 llround(F32 val, F32 nearest)
 	{
-#if _MSC_VER >= 1800 || __cplusplus >= 201103L
+#ifdef LL_CPP11
 		return F32(round(val * (1.0f / nearest))) * nearest;
 #else
 		return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
@@ -234,7 +234,7 @@ namespace llmath
 
 	inline F64 llround(F64 val, F64 nearest)
 	{
-#if _MSC_VER >= 1800 || __cplusplus >= 201103L
+#ifdef LL_CPP11
 		return F64(round(val * (1.0 / nearest))) * nearest;
 #else
 		return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;

@@ -114,6 +114,12 @@
 
 #endif
 
+// Check for C++11 support
+#if __cplusplus >= 201100L || _MSC_VER >= 1800
+#  define LL_CPP11
+#else
+#  warning "Sorry, your compiler is only good enough to compile Firestorm."
+#endif
 
 #if LL_WINDOWS
 # define LL_THREAD_LOCAL __declspec(thread)

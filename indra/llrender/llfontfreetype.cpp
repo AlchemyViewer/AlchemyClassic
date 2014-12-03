@@ -30,16 +30,8 @@
 #include "llfontgl.h"
 
 // Freetype stuff
-#if defined(LL_DARWIN) || (defined(LL_WINDOWS) && _MSC_VER >= 1800)	// Update this preproc as we move up to modern versions on other platforms
 #include <freetype2/ft2build.h>
 #include FT_FREETYPE_H
-#else
-#include <ft2build.h>
-// For some reason, this won't work if it's not wrapped in the ifdef
-#ifdef FT_FREETYPE_H
-#include FT_FREETYPE_H
-#endif
-#endif
 
 #include "llerror.h"
 #include "llimage.h"

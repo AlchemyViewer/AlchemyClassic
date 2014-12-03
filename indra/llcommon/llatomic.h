@@ -31,7 +31,7 @@
 #define AL_CXX_ATOMICS 1
 #define AL_BOOST_ATOMICS 1
 
-#if AL_CXX_ATOMICS && (__cplusplus >= 201103L || _MSC_VER >= 1800)
+#if AL_CXX_ATOMICS && defined(LL_CPP11)
 #if AL_BOOST_ATOMICS
 #include <boost/atomic.hpp>
 template<typename Type>

@@ -2069,6 +2069,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>df44f00bb16e7517a0bb4d1a66caf51e</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/llqtwebkit-4.8.6-linux64-20141202.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -3310,6 +3322,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3328,6 +3341,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3350,6 +3364,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>default</key>
@@ -3370,6 +3385,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3392,6 +3408,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>
@@ -3410,6 +3427,7 @@
                 <array>
                   <string>-G</string>
                   <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
               <key>name</key>

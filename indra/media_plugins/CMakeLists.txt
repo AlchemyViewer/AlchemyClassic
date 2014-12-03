@@ -1,9 +1,7 @@
 # -*- cmake -*-
 
 add_subdirectory(base)
-if (NOT LINUX)
 add_subdirectory(webkit)
-endif (NOT LINUX)
 
 if (LINUX)
     add_subdirectory(gstreamer010)

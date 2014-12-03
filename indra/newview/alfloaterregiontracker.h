@@ -41,6 +41,7 @@ private:
 public:
 	/*virtual*/ BOOL postBuild();
 	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onClose(bool app_quitting);
 	/*virtual*/ void refresh();
 	/*virtual*/ BOOL tick();
 

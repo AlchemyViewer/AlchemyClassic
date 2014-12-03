@@ -84,6 +84,12 @@ BOOL ALFloaterRegionTracker::postBuild()
 void ALFloaterRegionTracker::onOpen(const LLSD& key)
 {
 	requestRegionData();
+	mEventTimer.start();
+}
+
+void ALFloaterRegionTracker::onClose(bool app_quitting)
+{
+	mEventTimer.stop();
 }
 
 void ALFloaterRegionTracker::updateHeader()
@@ -163,7 +169,6 @@ void ALFloaterRegionTracker::refresh()
 
 BOOL ALFloaterRegionTracker::tick()
 {
-	mEventTimer.stop();
 	refresh();
 	return FALSE;
 }

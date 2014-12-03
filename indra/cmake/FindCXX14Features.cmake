@@ -9,6 +9,7 @@
 #    HAVE_LAMBDA_CAPTURE
 #    HAVE_GENERIC_LAMBDA
 #    HAVE_ATTRIBUTE_DEPRECATED
+#    HAVE_SINGLE_QUOTE_DIGIT_SEPERATOR
 
 include(CMakePushCheckState)
 include(CheckCXXSourceCompiles)
@@ -42,8 +43,8 @@ endif(CXX_FLAG_CXX14)
 # Binary literals
 CHECK_CXX_SOURCE_COMPILES("
     int main(void) {
-      int x = 0b1001;
-      return 0;
+      int x = 0b000;
+      return x;
     }
 "  HAVE_BINARY_LITERAL
 )
@@ -79,6 +80,15 @@ CHECK_CXX_SOURCE_COMPILES("
       return 0;
     }
 " HAVE_ATTRIBUTE_DEPRECATED
+)
+
+# Single-quote digit seperator
+CHECK_CXX_SOURCE_COMPILES("
+    int main(void) {
+      float x = 1.602'176'565e-19;
+      return x-x;
+    }
+" HAVE_SINGLE_QUOTE_DIGIT_SEPERATOR
 )
 
 cmake_pop_check_state()

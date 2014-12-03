@@ -9,6 +9,7 @@
 #   LINUX   - Linux
 #   WINDOWS - Windows
 
+include(FindCXX14Features)
 
 # Relative and absolute paths to subtrees.
 

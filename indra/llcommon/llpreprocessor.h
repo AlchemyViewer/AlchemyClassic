@@ -204,7 +204,7 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
-#if defined(LL_WINDOWS) || defined(_LIBCPP_VERSION)
+#if defined(LL_WINDOWS) || __cplusplus >= 201103L
 #  define LL_TYPEOF(exp) decltype(exp)
 #else
 #  define LL_TYPEOF(exp) typeof(exp)

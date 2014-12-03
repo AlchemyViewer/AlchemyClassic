@@ -881,7 +881,7 @@ void LLViewerObjectList::renderObjectBeacons()
 
 F32 gpu_benchmark()
 {
-	if (!gGLManager.mHasShaderObjects)
+	if (!gGLManager.mHasShaderObjects || !gGLManager.mHasTimerQuery)
 	{ //don't bother benchmarking the fixed function
 		return -1.f;
 	}

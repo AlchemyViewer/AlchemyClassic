@@ -1331,8 +1331,110 @@ class Linux_x86_64_Manifest(LinuxManifest):
     def construct(self):
         super(Linux_x86_64_Manifest, self).construct()
 
-        # support file for valgrind debug tool
-        self.path("secondlife-i686.supp")
+        if self.prefix("../packages/lib/release", dst="lib64"):
+            self.path("libapr-1.so")
+            self.path("libapr-1.so.0")
+            self.path("libapr-1.so.0.4.5")
+            self.path("libaprutil-1.so")
+            self.path("libaprutil-1.so.0")
+            self.path("libaprutil-1.so.0.4.1")
+            self.path("libdb*.so")
+            self.path("libexpat.so.*")
+            self.path("libGLOD.so")
+            self.path("libuuid.so*")
+            self.path("libSDL-1.2.so.*")
+            self.path("libopenjpeg.so*")
+            self.path("libhunspell-1.3.so*")
+            self.path("libalut.so*")
+            self.path("libopenal.so*")
+            # KLUDGE: As of 2012-04-11, the 'fontconfig' package installs
+            # libfontconfig.so.1.4.4, along with symlinks libfontconfig.so.1
+            # and libfontconfig.so. Before we added support for library-file
+            # wildcards, though, this self.path() call specifically named
+            # libfontconfig.so.1.4.4 WITHOUT also copying the symlinks. When I
+            # (nat) changed the call to self.path("libfontconfig.so.*"), we
+            # ended up with the libfontconfig.so.1 symlink in the target
+            # directory as well. But guess what! At least on Ubuntu 10.04,
+            # certain viewer fonts look terrible with libfontconfig.so.1
+            # present in the target directory. Removing that symlink suffices
+            # to improve them. I suspect that means we actually do better when
+            # the viewer fails to find our packaged libfontconfig.so*, falling
+            # back on the system one instead -- but diagnosing and fixing that
+            # is a bit out of scope for the present project. Meanwhile, this
+            # particular wildcard specification gets us exactly what the
+            # previous call did, without having to explicitly state the
+            # version number.
+            self.path("libfontconfig.so.*.*")
+
+            # Include libfreetype.so. but have it work as libfontconfig does.
+            self.path("libfreetype.so*")
+
+            try:
+                self.path("libtcmalloc.so*") #formerly called google perf tools
+                pass
+            except:
+                print "tcmalloc files not found, skipping"
+                pass
+
+            try:
+                self.path("libfmod.so*")
+                pass
+            except:
+                print "Skipping libfmod.so - not found"
+                pass
+
+            try:
+                self.path("libfmodex-*.so")
+                self.path("libfmodex.so")
+                pass
+            except:
+                print "Skipping libfmodex.so - not found"
+                pass
+
+            self.end_prefix("lib64")
+
+            # Vivox runtimes
+            if self.prefix(src="../packages/lib/release", dst="bin"):
+                self.path("SLVoice")
+                self.end_prefix()
+            if self.prefix(src="../packages/lib/release", dst="lib32"):
+                self.path("libortp.so")
+                self.path("libsndfile.so.1")
+                self.path("libvivoxoal.so.1")
+                self.path("libvivoxsdk.so")
+                self.path("libvivoxplatform.so")
+                self.end_prefix("lib32")
+
+            # plugin runtime
+            if self.prefix(src="../packages/lib/release", dst="lib64"):
+                self.path("libQtCore.so*")
+                self.path("libQtGui.so*")
+                self.path("libQtNetwork.so*")
+                self.path("libQtOpenGL.so*")
+                self.path("libQtSvg.so*")
+                self.path("libQtWebKit.so*")
+                self.path("libQtXml.so*")
+                self.end_prefix("lib64")
+
+            # For WebKit/Qt plugin runtimes (image format plugins)
+            if self.prefix(src="../packages/plugins/imageformats", dst="bin/llplugin/imageformats"):
+                self.path("libqgif.so")
+                self.path("libqico.so")
+                self.path("libqjpeg.so")
+                self.path("libqmng.so")
+                self.path("libqsvg.so")
+                self.path("libqtiff.so")
+                self.end_prefix("bin/llplugin/imageformats")
+
+            # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+            if self.prefix(src="../packages/plugins/codecs", dst="bin/llplugin/codecs"):
+                self.path("libqcncodecs.so")
+                self.path("libqjpcodecs.so")
+                self.path("libqkrcodecs.so")
+                self.path("libqtwcodecs.so")
+                self.end_prefix("bin/llplugin/codecs")
+
+            self.strip_binaries()
 
 ################################################################
 

@@ -25,6 +25,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a1e8d9c0bb960423b3ad809d4b924715</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/SDL-1.2.15-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
         </map>
       </map>
       <key>apr_suite</key>
@@ -62,6 +74,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ca63fd7f3339304bdc47806c1ede9df8</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/apr_suite-1.4.5-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -113,6 +137,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ed2c0e338ddf074c0f810519b3de97e7</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ares-1.10.0-linux64-20141126.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -163,6 +199,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>77c6d85604041933a11114c18ce63461</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/boost-1.57.0-linux64-20141129.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -209,6 +257,18 @@
               <string>bdec5fe5fd008da4328f84115128ee61</string>
               <key>url</key>
               <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-colladadom-update/rev/290576/arch/Linux/installer/colladadom-2.3-linux-20140602.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>2233238cabf8a21c120cf8caf3293c8a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/colladadom-2.3-linux64-20141130.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -267,6 +327,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>45e02521ef0340399bd39782f86905d8</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/curl-7.38-linux64-20141127.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -305,6 +377,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>922163f31a7c93b51d7dd1fcbab77061</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/db-5.1.25-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
         </map>
       </map>
       <key>dbusglib</key>
@@ -328,6 +412,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>52e94a772aeb21f0d6f8337a3ed5582e</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/dbus_glib-0.76-linux64-20141201.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
         </map>
       </map>
@@ -419,6 +515,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>80efc48883a32fa401dc584a37c82464</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/expat-2.1.0-linux64-20141127.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -507,6 +615,30 @@
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>linux</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b7aeb7ea3d5aea28cdc24f4bb12e8d80</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fmodstudio-1.05.07-linux-20141125.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d16a08aba80530031528ad9db8b1b4e1</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fmodstudio-1.05.07-linux64-20141202.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -544,6 +676,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>8e19c830d29b71c15ad41a455dd297ce</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fontconfig-2.11.0-linux64-20141201.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
         </map>
       </map>
@@ -609,6 +753,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9cfdd763fe24b089137b05f7dd8e328b</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/freetype-2.5.3-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -646,6 +802,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>5de58ca0fe19abf68b25956762ee0d29</string>
+              <key>url</key>
+              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glext-68-windows-20110406.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -699,6 +867,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>1b1f1e9975e3a671c9faf32fcf4b6d43</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-glh_linear/rev/263308/arch/Linux/installer/glh_linear-0.0.0-linux-20120810.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -748,6 +928,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>0878355119848ae6ac0a0dc72147c29c</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/glod-1.0pre4-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -836,6 +1028,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>be085da564eaef5721b367df4d4d3d1b</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/google_breakpad-1406-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -965,6 +1169,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ddbc0a64ad788107877fee777403592c</string>
+              <key>url</key>
+              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gstreamer-linux-20101013.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
         </map>
       </map>
       <key>gtk-atk-pango-glib</key>
@@ -988,6 +1204,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9a6eccabbf98e610d655dff3cd0a4247</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/gtk_atk_pango_glib-0.0.1-linux64-20141202.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1051,6 +1279,84 @@
           </map>
         </map>
       </map>
+      <key>icu4c</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 1995-2011 International Business Machines Corporation and others &lt;http://source.icu-project.org&gt;</string>
+        <key>description</key>
+        <string>ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization support for software applications. ICU is widely portable and gives applications the same results on all platforms and between C/C++ and Java software.</string>
+        <key>license</key>
+        <string>ICU, permissive non-copyleft free software license</string>
+        <key>license_file</key>
+        <string>LICENSES/icu.txt</string>
+        <key>name</key>
+        <string>icu4c</string>
+        <key>platforms</key>
+        <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3040ff26252c05472e057f65c573a595</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/icu4c-54.1-darwin-201410161435.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
+          <key>linux</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9a758afca3e193d710b8ff6a59849c01</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-icu4c/rev/268323/arch/Linux/installer/icu4c-48.1-linux-20121218.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a48b0db61face944216be4feb92ff5ca</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/icu4c-54.1-linux64-20141127.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>45b7bd31539ec09f9b936cc03ac47db6</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/icu4c-54.1-windows-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>329b40877e90cab505479207bc01b4a9</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/icu4c-54.1-windows64-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>54.1</string>
+      </map>
       <key>inteltbb</key>
       <map>
         <key>license</key>
@@ -1113,6 +1419,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3d342b30d74c45359032b361770f03bf</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/jpeglib-1.3.1-linux64-20141130.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1164,6 +1482,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7104f6d12083d16b1c709f66061474bb</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/jsoncpp-e384e49-linux64-20141201.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1267,6 +1597,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9463cb7ebb4e3fece9835e854163afad</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libhunspell-1.3.3-linux64-20141201.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1309,6 +1651,18 @@
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b485b9ee82b759d1469c314b9061685a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libidn-1.28-linux64-20141127.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
         </map>
         <key>version</key>
         <string>1.28</string>
@@ -1350,6 +1704,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3fe90e2687dbb810b3bb7f2db59c8bab</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libndofdev-0.3-linux64-20141201.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1404,6 +1770,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>89824e0d20913167c2220229269929db</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libpng-1.6.13-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1482,6 +1860,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>78fb16cde57d8d9adecff1d06604a687</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libxml2-2.9.2-linux64-20141129.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1613,6 +2003,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>aa8a2f25e8629cf5e6a96cc0eb93de8e</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub/rev/263415/arch/Linux/installer/llphysicsextensions_stub-0.3-linux-20120814.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1666,6 +2068,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>df44f00bb16e7517a0bb4d1a66caf51e</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/llqtwebkit-4.8.6-linux64-20141202.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1745,6 +2159,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ea389d75fb49b4474dd904e821e5c55d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ndPhysicsStub-0.1.1-linux64-20141130.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1819,6 +2245,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>4c67e45caad92912c00d20f84e838493</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ogg_vorbis-1.3.2-1.3.4-linux64-20141130.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1875,6 +2313,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3c2168201d80f349599b17b153a1dbc7</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openal-1.15.1-1.1.0-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -1924,6 +2374,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>13b75a0deb1c244638b94ba88d1bc111</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openjpeg-1.5.1-linux64-20141126.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1976,6 +2438,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3684adf9e9d94a7d6bff4dfcaa743737</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openssl-1.0.1j-linux64-20141126.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -2030,6 +2504,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>98bfc7f3b02829442710e3a479b06336</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/pcre-8.36-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -2128,12 +2614,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>957773fff7148ffaca42b1ea4a18d192</string>
+              <string>9f60e56aba35ec90b3045e9d049ac284</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/270512/arch/Linux/installer/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>9f60e56aba35ec90b3045e9d049ac284</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -2217,6 +2715,18 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b1ebe07008522fcf18ad0650d6a44386</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/xmlrpc_epi-0.54.2-linux64-20141128.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -2266,6 +2776,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>34f49ffedc5ee34ceb1f10767d9f69b5</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/zlib-1.2.8-linux64-20141125.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -2776,6 +3298,152 @@
           </map>
           <key>name</key>
           <string>linux</string>
+        </map>
+        <key>linux64</key>
+        <map>
+          <key>build_directory</key>
+          <string>build-linux-x86_64</string>
+          <key>configurations</key>
+          <map>
+            <key>Debug</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../indra</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Debug</string>
+            </map>
+            <key>DebugOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>DebugOS</string>
+            </map>
+            <key>RelWithDebInfo</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../indra</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>RelWithDebInfo</string>
+            </map>
+            <key>RelWithDebInfoOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>RelWithDebInfoOS</string>
+            </map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../indra</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+            <key>ReleaseOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>make -j4</string>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>'Unix Makefiles'</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>ReleaseOS</string>
+            </map>
+            <key>default</key>
+            <map>
+              <key>build</key>
+              <map>
+              </map>
+              <key>name</key>
+              <string>default</string>
+            </map>
+          </map>
+          <key>name</key>
+          <string>linux64</string>
         </map>
         <key>windows</key>
         <map>

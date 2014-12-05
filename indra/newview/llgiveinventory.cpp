@@ -44,6 +44,7 @@
 #include "llinventoryfunctions.h"
 #include "llmutelist.h"
 #include "llrecentpeople.h"
+#include "llviewercontrol.h"
 #include "llviewerobjectlist.h"
 #include "llvoavatarself.h"
 
@@ -328,7 +329,9 @@ void LLGiveInventory::logInventoryOffer(const LLUUID& to_agent, const LLUUID &im
 		{
 			// Build a new format username or firstname_lastname for legacy names
 			// to use it for a history log filename.
-			full_name = LLCacheName::buildUsername(full_name);
+			full_name = gSavedSettings.getBOOL("UseLegacyLogNames")
+						? full_name.substr(0, full_name.find(" Resident"))
+						: LLCacheName::buildUsername(full_name);
 			LLIMModel::instance().logToFile(full_name, LLTrans::getString("SECOND_LIFE"), im_session_id, LLTrans::getString("inventory_item_offered-im"));
 		}
 	}

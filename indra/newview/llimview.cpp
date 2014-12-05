@@ -831,12 +831,22 @@ void LLIMModel::LLIMSession::buildHistoryFileName()
 		// so no need for a callback in LLAvatarNameCache::get()
 		if (LLAvatarNameCache::get(mOtherParticipantID, &av_name))
 		{
-			mHistoryFileName = LLCacheName::buildUsername(av_name.getUserName());
+			if (gSavedSettings.getBOOL("UseLegacyLogNames"))
+			{
+				const std::string& username = av_name.getUserName();
+				mHistoryFileName = username.substr(0, username.find(" Resident"));
+			}
+			else
+			{
+				mHistoryFileName = LLCacheName::buildUsername(av_name.getUserName());
+			}
 		}
 		else
 		{
 			// Incoming P2P sessions include a name that we can use to build a history file name
-			mHistoryFileName = LLCacheName::buildUsername(mName);
+			mHistoryFileName = gSavedSettings.getBOOL("UseLegacyLogNames")
+							   ? mName.substr(0, mName.find(" Resident"))
+							   : mHistoryFileName = LLCacheName::buildUsername(mName);
 		}
 	}
 }
@@ -2823,7 +2833,9 @@ void LLIMMgr::addSystemMessage(const LLUUID& session_id, const std::string& mess
 			std::string session_name;
 			// since we select user to share item with - his name is already in cache
 			gCacheName->getFullName(args["user_id"], session_name);
-			session_name = LLCacheName::buildUsername(session_name);
+			session_name = gSavedSettings.getBOOL("UseLegacyLogNames")
+						   ? session_name.substr(0, session_name.find(" Resident"))
+						   : LLCacheName::buildUsername(session_name);
 			LLIMModel::instance().logToFile(session_name, SYSTEM_FROM, LLUUID::null, message.getString());
 		}
 	}

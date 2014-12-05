@@ -1045,7 +1045,15 @@ void LLAvatarActions::viewChatHistory(const LLUUID& id)
 
 		LLAvatarNameCache::get(id, &avatar_name);
 		extended_id[LL_FCP_COMPLETE_NAME] = avatar_name.getCompleteName();
-		extended_id[LL_FCP_ACCOUNT_NAME] = avatar_name.getAccountName();
+		if (gSavedSettings.getBOOL("UseLegacyLogNames"))
+		{
+			const std::string& username = avatar_name.getUserName();
+			extended_id[LL_FCP_ACCOUNT_NAME] = username.substr(0, username.find(" Resident"));
+		}
+		else
+		{
+			extended_id[LL_FCP_ACCOUNT_NAME] = avatar_name.getAccountName();
+		}
 		LLFloaterReg::showInstance("preview_conversation", extended_id, true);
 	}
 }

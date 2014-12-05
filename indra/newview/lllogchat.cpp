@@ -758,10 +758,19 @@ bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 	}
 	else
 	{
+		std::string file_name;
 		LLAvatarName avatar_name;
 		LLAvatarNameCache::get(avatar_id, &avatar_name);
-		std::string file_name = avatar_name.getAccountName();
-		std::replace(file_name.begin(), file_name.end(), '.', '_');
+		if (gSavedSettings.getBOOL("UseLegacyLogNames"))
+		{
+			file_name = avatar_name.getUserName();
+			file_name = file_name.substr(0, file_name.find(" Resident"));
+		}
+		else
+		{
+			std::string file_name = avatar_name.getAccountName();
+			std::replace(file_name.begin(), file_name.end(), '.', '_');
+		}
 		file_name = makeLogFileName(file_name);
 		return gDirUtilp->fileExists(file_name);
 	}

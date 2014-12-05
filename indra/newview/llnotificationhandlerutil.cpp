@@ -96,7 +96,9 @@ void LLHandlerUtil::logToIM(const EInstantMessage& session_type,
 
 		// Build a new format username or firstname_lastname for legacy names
 		// to use it for a history log filename.
-		std::string user_name = LLCacheName::buildUsername(session_name);
+		std::string user_name = gSavedSettings.getBOOL("UseLegacyLogNames")
+								? session_name.substr(0, session_name.find(" Resident"))
+								: LLCacheName::buildUsername(session_name);
 		LLIMModel::instance().logToFile(user_name, from, from_id, message);
 	}
 	else

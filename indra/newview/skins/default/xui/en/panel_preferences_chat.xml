@@ -141,6 +141,15 @@
      left_delta="0"
      top_pad="5"
      width="350"/>
+    <check_box
+     control_name="UseLegacyLogNames"
+     height="16"
+     label="Use legacy log naming conventions"
+     layout="topleft"
+     name="UseLegacyLogNames"
+     left_delta="0"
+     top_pad="5"
+     width="350"/>
 
     <panel
      height="175"

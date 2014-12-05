@@ -38,6 +38,8 @@ namespace FMOD
 {
 	class System;
 	class Channel;
+	class ChannelGroup;
+	class DSP;
 }
 
 //Interfaces
@@ -64,6 +66,7 @@ private:
 	FMOD::System *mSystem;
 
 	LLAudioStreamManagerFMODSTUDIO *mCurrentInternetStreamp;
+	FMOD::ChannelGroup* mStreamGroup;
 	FMOD::Channel *mFMODInternetStreamChannelp;
 	std::list<LLAudioStreamManagerFMODSTUDIO *> mDeadStreams;
 

@@ -317,7 +317,7 @@ LLGLSLShader::LLGLSLShader()
       mTimeElapsed(0),
       mTrianglesDrawn(0),
       mSamplesDrawn(0),
-      mSamplesQuery(0)
+      mSamplesQuery(0),
       mDrawCalls(0),
       mTextureStateFetched(false)
 

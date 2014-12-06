@@ -177,15 +177,15 @@ or specifying its path in the "Editor Path" field.</string>
          name="export_schema"
          top_delta="0"
          width="120" />
-		<button
-		 follows="left|top"
-		 height="25"
-		 label="Refresh"
-		 layout="topleft"
-		 left_pad="3"
-		 name="refresh_btn"
-		 top_delta="0"
-		 width="95" />
+        <button
+         follows="left|top"
+         height="25"
+         label="Refresh"
+         layout="topleft"
+         left_pad="3"
+         name="refresh_btn"
+         top_delta="0"
+         width="95" />
         <check_box
           follows="left|top"
           label="Show Rectangles"

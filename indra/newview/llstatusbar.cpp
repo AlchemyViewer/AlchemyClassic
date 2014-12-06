@@ -61,6 +61,7 @@
 #include "llresmgr.h"
 #include "llworld.h"
 #include "llstatgraph.h"
+#include "llviewerjoystick.h"
 #include "llviewermedia.h"
 #include "llviewermenu.h"	// for gMenuBarView
 #include "llviewerparcelmgr.h"
@@ -118,6 +119,7 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mBtnQuickSettings(NULL),
 	mBtnVolume(NULL),
 	mBoxBalance(NULL),
+	mPanelFlycam(nullptr),
 	mBalance(0),
 	mHealth(100),
 	mSquareMetersCredit(0),
@@ -190,6 +192,8 @@ BOOL LLStatusBar::postBuild()
 	mMediaToggle = getChild<LLButton>("media_toggle_btn");
 	mMediaToggle->setClickedCallback( &LLStatusBar::onClickMediaToggle, this );
 	mMediaToggle->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterNearbyMedia, this));
+	
+	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
 	LLHints::registerHintTarget("linden_balance", getChild<LLView>("balance_bg")->getHandle());
 
@@ -320,6 +324,7 @@ void LLStatusBar::refresh()
 	mSGBandwidth->setVisible(show_net_stats);
 	mSGPacketLoss->setVisible(show_net_stats);
 	mBtnStats->setEnabled(show_net_stats);
+	mPanelFlycam->setVisible(LLViewerJoystick::instance().getOverrideCamera());
 
 	// update the master volume button state
 	bool mute_audio = LLAppViewer::instance()->getMasterSystemAudioMute();

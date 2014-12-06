@@ -42,8 +42,8 @@
  layout="topleft"
  orientation="horizontal"
  height="18"
- left="-390"
- width="390"
+ left="-408"
+ width="408"
  top="0"
  follows="right|top"
  name="status_ls">
@@ -172,6 +172,25 @@
       function="Floater.ToggleOrBringToFront"
       parameter="quick_settings" />
     </button>
+  </layout_panel>
+  <layout_panel
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="flycam_lp"
+   width="18">
+    <icon
+     height="18"
+     width="18"
+     image_name="Flycam"
+     mouse_opaque="true"
+     name="flycam_indicator"
+     tool_tip="Flycam"
+     left="0"
+     top="1"/>
   </layout_panel>
   <layout_panel
    visibility_control="ShowStatusBarFPS"

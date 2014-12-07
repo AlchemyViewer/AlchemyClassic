@@ -802,5 +802,7 @@ with the same filename but different name
   <texture name="NavBar Separator" file_name="navbar/separator.png"/>
   <texture name="Cake" file_name="icons/cake_32.png" preload="false"/>
   <texture name="Flycam" file_name="icons/Flycam.png" preload="false"/>
+  <texture name="Inv_FolderClosedToxic" file_name="icons/Inv_FolderClosedToxic.png" preload="false" />
+  <texture name="Inv_FolderOpenToxic" file_name="icons/Inv_FolderOpenToxic.png" preload="false" />
 
 </textures>

@@ -1846,12 +1846,6 @@ void LLAgent::propagate(const F32 dt)
 //-----------------------------------------------------------------------------
 void LLAgent::updateAgentPosition(const F32 dt, const F32 yaw_radians, const S32 mouse_x, const S32 mouse_y)
 {
-	static LLCachedControl<F32> notmoving_hint_timeout(gSavedSettings, "NotMovingHintTimeout");
-	if (mMoveTimer.getStarted() && mMoveTimer.getElapsedTimeF32() > notmoving_hint_timeout)
-	{
-		LLFirstUse::notMoving();
-	}
-
 	propagate(dt);
 
 	// static S32 cameraUpdateCount = 0;

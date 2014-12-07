@@ -61,6 +61,7 @@
 #include "llresmgr.h"
 #include "llworld.h"
 #include "llstatgraph.h"
+#include "llviewerjoystick.h"
 #include "llviewermedia.h"
 #include "llviewermenu.h"	// for gMenuBarView
 #include "llviewerparcelmgr.h"
@@ -118,6 +119,7 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mBtnQuickSettings(NULL),
 	mBtnVolume(NULL),
 	mBoxBalance(NULL),
+	mPanelFlycam(nullptr),
 	mBalance(0),
 	mHealth(100),
 	mSquareMetersCredit(0),
@@ -190,6 +192,8 @@ BOOL LLStatusBar::postBuild()
 	mMediaToggle = getChild<LLButton>("media_toggle_btn");
 	mMediaToggle->setClickedCallback( &LLStatusBar::onClickMediaToggle, this );
 	mMediaToggle->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterNearbyMedia, this));
+	
+	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
 	LLHints::registerHintTarget("linden_balance", getChild<LLView>("balance_bg")->getHandle());
 
@@ -260,9 +264,9 @@ BOOL LLStatusBar::postBuild()
 void LLStatusBar::refresh()
 {
 	static LLCachedControl<bool> show_net_stats(gSavedSettings, "ShowNetStats", false);
-	bool net_stats_visible = show_net_stats;
+	static LLCachedControl<bool> show_fps(gSavedSettings, "ShowStatusBarFPS", true);
 
-	if (net_stats_visible)
+	if (show_net_stats)
 	{
 		// Adding Net Stat Meter back in
 		F32 bwtotal = gViewerThrottle.getMaxBandwidth() / 1000.f;
@@ -273,7 +277,7 @@ void LLStatusBar::refresh()
 		//mSGBandwidth->setThreshold(2, bwtotal);
 	}
 	
-	if (mFPSUpdateTimer.getElapsedTimeF32() > 0.25f)
+	if (show_fps && mFPSUpdateTimer.getElapsedTimeF32() > 0.25f)
 	{
 		mFPSUpdateTimer.reset();
 		F32 fps = (F32)LLTrace::get_frame_recording().getLastRecording().getPerSec(LLStatViewer::FPS);
@@ -317,9 +321,10 @@ void LLStatusBar::refresh()
 		gMenuBarView->reshape(MENU_RIGHT, gMenuBarView->getRect().getHeight());
 	}
 
-	mSGBandwidth->setVisible(net_stats_visible);
-	mSGPacketLoss->setVisible(net_stats_visible);
-	mBtnStats->setEnabled(net_stats_visible);
+	mSGBandwidth->setVisible(show_net_stats);
+	mSGPacketLoss->setVisible(show_net_stats);
+	mBtnStats->setEnabled(show_net_stats);
+	mPanelFlycam->setVisible(LLViewerJoystick::instance().getOverrideCamera());
 
 	// update the master volume button state
 	bool mute_audio = LLAppViewer::instance()->getMasterSystemAudioMute();
@@ -344,6 +349,7 @@ void LLStatusBar::setVisibleForMouselook(bool visible)
 	mTextTime->setVisible(visible);
 	getChild<LLUICtrl>("balance_bg")->setVisible(visible);
 	mBoxBalance->setVisible(visible);
+	getChild<LLUICtrl>("buyL")->setVisible(visible);
 	mBtnQuickSettings->setVisible(visible);
 	mBtnVolume->setVisible(visible);
 	mMediaToggle->setVisible(visible);
@@ -382,7 +388,6 @@ void LLStatusBar::setBalance(S32 balance)
 		const S32 HPAD = 24;
 		LLRect balance_rect = mBoxBalance->getTextBoundingRect();
 		LLRect buy_rect = getChildView("buyL")->getRect();
-		//LLRect shop_rect = getChildView("goShop")->getRect();
 		LLView* balance_bg_view = getChildView("balance_bg");
 		LLRect balance_bg_rect = balance_bg_view->getRect();
 		balance_bg_rect.mLeft = balance_bg_rect.mRight - (buy_rect.getWidth() + /*shop_rect.getWidth() +*/ balance_rect.getWidth() + HPAD);
@@ -520,17 +525,18 @@ void LLStatusBar::onMouseEnterQuickSettings()
 
 void LLStatusBar::onMouseEnterVolume()
 {
+	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
+	LLRect volume_pulldown_rect = mPanelVolumePulldown->getRect();
 	LLButton* volbtn =  getChild<LLButton>( "volume_btn" );
 	LLRect vol_btn_rect = volbtn->getRect();
-	LLRect volume_pulldown_rect = mPanelVolumePulldown->getRect();
 	volume_pulldown_rect.setLeftTopAndSize(vol_btn_rect.mLeft -
-	     (volume_pulldown_rect.getWidth() - vol_btn_rect.getWidth()),
-			       vol_btn_rect.mBottom,
-			       volume_pulldown_rect.getWidth(),
-			       volume_pulldown_rect.getHeight());
+										   (volume_pulldown_rect.getWidth() - vol_btn_rect.getWidth()),
+										   vol_btn_rect.mBottom,
+										   volume_pulldown_rect.getWidth(),
+										   volume_pulldown_rect.getHeight());
 
+	volume_pulldown_rect.translate(popup_holder->getRect().getWidth() - volume_pulldown_rect.mRight, 0);
 	mPanelVolumePulldown->setShape(volume_pulldown_rect);
-
 
 	// show the master volume pull-down
 	LLUI::clearPopups();

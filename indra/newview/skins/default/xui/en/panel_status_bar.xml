@@ -37,27 +37,60 @@
      name="buycurrencylabel">
         L$ [AMT]
     </panel.string>
-  <panel
-    height="18"
-    left="-357"
-    width="95"
-    top="1"
-    follows="right|top" 
-    name="balance_bg">
+<layout_stack
+ animate="true"
+ layout="topleft"
+ orientation="horizontal"
+ height="18"
+ left="-408"
+ width="408"
+ top="0"
+ follows="right|top"
+ name="status_ls">
+  <layout_panel
+   auto_resize="true"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="left_pad_lp"
+   width="1" />
+  <layout_panel
+   visibility_control="ShowStatusBarCurrency"
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="currency_balance_panel"
+   width="60">
     <text
-     halign="center"
+     halign="right"
      font="SansSerifSmall"
      follows="all"
      height="18"
      left="0"
-     right="30"	 
+     right="58"
      name="balance"
      tool_tip="Click to refresh your L$ balance"
      v_pad="2"
      top="0"
      wrap="false" 
-     value="L$ --" 
-     width="40" />
+     value="L$ --"
+     width="60" />
+  </layout_panel>
+  <layout_panel
+   visibility_control="ShowStatusBarBuyCurrency"
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="buy_currency_lp"
+   width="60">
     <button
      halign="center"
      font="SansSerifSmall"
@@ -67,33 +100,23 @@
      image_pressed="PushButton_Press"
      height="18"
      label="Buy L$"
-     left_pad="0"
+     left="0"
      label_shadow="true"
      name="buyL"
      pad_right="0"
      tool_tip="Click to buy more L$"
      top="0"
      width="60" />
-    <!--<button
-     halign="left"
-     font="SansSerifSmall"
-     follows="right|top|bottom"
-     imgoverlay_label_space="7"
-     image_overlay="Command_MiniCart_Icon"
-     image_overlay_alignment="left"
-     image_hover_unselected="PushButton_Over"
-     image_unselected="PushButton_Off"
-     image_pressed="PushButton_Press"
-     height="18"
-     label="Shop"
-     label_color="White"
-     left_pad="0"
-     label_shadow="true"
-     name="goShop"
-     tool_tip="Open Second Life Marketplace"
-     top="0"
-     width="65" />-->
-  </panel>
+  </layout_panel>
+  <layout_panel
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="time_lp"
+   width="193">
     <text
      type="string"
      font="SansSerifSmall"
@@ -103,7 +126,7 @@
      height="16"
      top="2"
      layout="topleft"
-     left_pad="0"
+     left="0"
      name="TimeText"
      tool_tip="Current time (Pacific)"
      width="135">
@@ -117,7 +140,7 @@
      image_pressed="Pause_Press"
      image_pressed_selected="Play_Press"
      is_toggle="true"
-     left_pad="10"
+     left_pad="0"
      top="2"
      name="media_toggle_btn"
      tool_tip="Start/Stop All Media (Music, Video, Web pages)"
@@ -141,6 +164,7 @@
      image_pressed="Icon_Gear_Background"
      image_unselected="Icon_Gear_Foreground"
      left_pad="5"
+     right_pad="5"
      top="2"
      name="quick_settings_btn"
      width="16">
@@ -148,7 +172,37 @@
       function="Floater.ToggleOrBringToFront"
       parameter="quick_settings" />
     </button>
-      <text
+  </layout_panel>
+  <layout_panel
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="flycam_lp"
+   width="18">
+    <icon
+     height="18"
+     width="18"
+     image_name="Flycam"
+     mouse_opaque="true"
+     name="flycam_indicator"
+     tool_tip="Flycam"
+     left="0"
+     top="1"/>
+  </layout_panel>
+  <layout_panel
+   visibility_control="ShowStatusBarFPS"
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="fps_lp"
+   width="35">
+    <text
      type="string"
      font="SansSerifLarge"
      text_color="FPSTextColor"
@@ -158,10 +212,22 @@
      layout="topleft"
      top="0"
      v_pad="-1"
-     left_pad="2"
+     left="0"
      name="FPSText"
      tool_tip="Current FPS(Frames Per Second)"
      width="35">
         00.0
     </text>
+  </layout_panel>
+  <layout_panel
+   visibility_control="ShowNetStats"
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="netstats_lp"
+   width="20" />
+</layout_stack>
 </panel>

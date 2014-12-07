@@ -109,6 +109,7 @@ private:
 	LLButton	*mBtnQuickSettings;
 	LLButton	*mBtnVolume;
 	LLTextBox	*mBoxBalance;
+	LLUICtrl	*mPanelFlycam;
 	LLButton	*mMediaToggle;
 	LLView		*mScriptOut;
 	LLFrameTimer	mClockUpdateTimer;

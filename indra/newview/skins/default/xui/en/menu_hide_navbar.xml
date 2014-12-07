@@ -30,4 +30,46 @@
              function="CheckControl"
              parameter="ShowMiniLocationPanel" />
     </menu_item_check>
+
+    <menu_item_seperator />
+    <menu_item_check
+     label="Show L$ Balance"
+     name="ShowStatusBarCurrency">
+        <menu_item_check.on_check
+         function="CheckControl"
+         parameter="ShowStatusBarCurrency" />
+        <menu_item_check.on_click
+         function="ToggleControl"
+         parameter="ShowStatusBarCurrency" />
+    </menu_item_check>
+    <menu_item_check
+     label="Show Buy L$"
+     name="ShowStatusBarBuyCurrency">
+        <menu_item_check.on_check
+         function="CheckControl"
+         parameter="ShowStatusBarBuyCurrency" />
+        <menu_item_check.on_click
+         function="ToggleControl"
+         parameter="ShowStatusBarBuyCurrency" />
+    </menu_item_check>
+    <menu_item_check
+     label="Show FPS"
+     name="ShowStatusBarFPS">
+        <menu_item_check.on_check
+         function="CheckControl"
+         parameter="ShowStatusBarFPS" />
+        <menu_item_check.on_click
+         function="ToggleControl"
+         parameter="ShowStatusBarFPS" />
+    </menu_item_check>
+    <menu_item_check
+     label="Show NetStats"
+     name="ShowNetStats">
+        <menu_item_check.on_check
+         function="CheckControl"
+         parameter="ShowNetStats" />
+        <menu_item_check.on_click
+         function="ToggleControl"
+         parameter="ShowNetStats" />
+    </menu_item_check>
 </menu>

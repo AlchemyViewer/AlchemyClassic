@@ -86,7 +86,9 @@ public:
 		FT_OUTBOX = 51,
 
 		FT_BASIC_ROOT = 52,
-
+		
+		FT_TOXIC,
+		
 		FT_COUNT,
 
 		FT_NONE = -1

@@ -171,8 +171,9 @@ public:
 private:
 	static	std::string sPreviousReason;
 
-	void error(U32 status, const std::string& reason)
+	void httpFailure()
 	{
+		const std::string& reason = getReason();
 		// Do not display the same error more than once in a row
 		if (reason != sPreviousReason)
 		{
@@ -182,7 +183,7 @@ private:
 			LLNotificationsUtil::add("DefaultObjectPermissions", args);
 		}
 	}
-	void result(const LLSD& content)
+	void httpSuccess()
 	{
 		// Since we have had a successful POST call be sure to display the next error message
 		// even if it is the same as a previous one.

@@ -65,10 +65,10 @@ public:
 	{
 	}
 
-	virtual void httpError()
+	virtual void httpFailure()
 	{
-		const std::string& reason = getReason();
 		const S32 statusNum = getStatus();
+		const std::string& reason = getReason();
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
 		{
@@ -165,8 +165,8 @@ public:
 
 	virtual void httpFailure()
 	{
-		const std::string& reason = getReason();
 		const S32 statusNum = getStatus();
+		const std::string& reason = getReason();
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
 		{

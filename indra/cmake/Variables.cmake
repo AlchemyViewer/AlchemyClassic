@@ -9,10 +9,6 @@
 #   LINUX   - Linux
 #   WINDOWS - Windows
 
-if (NOT MSVC)
-    include(FindCXX14Features)
-endif (NOT MSVC)
-
 # Relative and absolute paths to subtrees.
 if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")

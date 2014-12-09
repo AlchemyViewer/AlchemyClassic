@@ -17,6 +17,7 @@ project(${ROOT_PROJECT_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(Variables)
+include(FindCXX14Features)
 include(BuildVersion)
 
 if (NOT CMAKE_BUILD_TYPE)

@@ -121,6 +121,15 @@
 #  warning "Sorry, your compiler is only good enough to compile Firestorm."
 #endif
 
+#if defined(HAVE_ATTRIBUTE_DEPRECATED) || defined(__GNUC__)
+#  define DEPRECATED(func) func __attribute__ ((deprecated))
+#elif defined(LL_MSVC)
+#  define DEPRECATED(func) __declspec(deprecated) func
+#else
+#  warning "DEPRECATED is not supported in this compiler!"
+#  define DEPRECATED(func) func
+#endif
+
 #if LL_WINDOWS
 # define LL_THREAD_LOCAL __declspec(thread)
 #else
@@ -144,7 +153,6 @@
 #define XML_STATIC
 #endif
 #endif	//	LL_WINDOWS
-
 
 // Deal with VC6 problems
 #if LL_MSVC

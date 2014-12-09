@@ -65,8 +65,10 @@ public:
 	{
 	}
 
-	virtual void error(U32 statusNum, const std::string& reason)
+	virtual void httpError()
 	{
+		const std::string& reason = getReason();
+		const S32 statusNum = getStatus();
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
 		{
@@ -86,7 +88,7 @@ public:
 
 	}
 
-	virtual void result(const LLSD& content)
+	virtual void httpSuccess()
 	{
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
@@ -96,6 +98,7 @@ public:
 				LL_INFOS() << "LRI: Result for avatar weights request for region " << regionp->getName() << ":" << LL_ENDL;
 			}
 
+			const LLSD& content = getContent();
 			if (content.isMap())
 			{
 				if (content.has(KEY_AGENTS))
@@ -160,8 +163,10 @@ public:
 	{
 	}
 
-	virtual void error(U32 statusNum, const std::string& reason)
+	virtual void httpFailure()
 	{
+		const std::string& reason = getReason();
+		const S32 statusNum = getStatus();
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
 		{
@@ -180,11 +185,12 @@ public:
 		}
 	}
 
-	virtual void result(const LLSD& content)
+	virtual void httpSuccess()
 	{
 		LLViewerRegion * regionp = LLWorld::getInstance()->getRegionFromHandle(mRegionHandle);
 		if (regionp)
 		{
+			const LLSD& content = getContent();
 			if (LLAvatarRenderInfoAccountant::logRenderInfo())
 			{
 				LL_INFOS() << "LRI: Result for avatar weights POST for region " << regionp->getName()

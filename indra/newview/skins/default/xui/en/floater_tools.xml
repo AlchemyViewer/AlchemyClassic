@@ -1481,9 +1481,10 @@ even though the user gets a free copy.
              text_enabled_color="1 0 0.3 .7"
              top_pad="5"
              width="87" />
-            <button follows="top|right"
+            <button
+             follows="top|right"
              height="18" 
-             label="C"
+             image_overlay="Clipboard_Copy"
              left_pad="5"
              mouse_opaque="true"
              name="copy_pos_btn"
@@ -1508,9 +1509,10 @@ even though the user gets a free copy.
              text_enabled_color="EmphasisColor"
              top_pad="3"
              width="87" />
-            <button follows="top|right"
+            <button 
+             follows="top|right"
              height="18"
-             label="P"
+             image_overlay="Clipboard_Paste"
              left_pad="5"
              mouse_opaque="true"
              name="paste_pos_btn"
@@ -1563,9 +1565,10 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="5"
              width="87" />
-            <button follows="top|right"
+            <button 
+             follows="top|right"
              height="18" 
-             label="C"
+             image_overlay="Clipboard_Copy"
              left_pad="5"
              mouse_opaque="true"
              name="copy_scale_btn"
@@ -1592,9 +1595,10 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="3"
              width="87" />
-            <button follows="top|right"
+            <button
+             follows="top|right"
              height="18"
-             label="P"
+             image_overlay="Clipboard_Paste"
              left_pad="5"
              mouse_opaque="true"
              name="paste_scale_btn"
@@ -1649,9 +1653,10 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="5"
              width="87" />
-            <button follows="top|right"
+            <button
+             follows="top|right"
              height="18"
-             label="C"
+             image_overlay="Clipboard_Copy"
              left_pad="5"
              mouse_opaque="true"
              name="copy_rot_btn"
@@ -1678,9 +1683,10 @@ even though the user gets a free copy.
              text_enabled_color="1 1 1 1"
              top_pad="3"
              width="87" />
-            <button follows="top|right"
+            <button
+             follows="top|right"
              height="18"
-             label="P"
+             image_overlay="Clipboard_Paste"
              left_pad="5"
              mouse_opaque="true"
              name="paste_rot_btn"

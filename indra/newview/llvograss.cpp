@@ -136,6 +136,7 @@ void LLVOGrass::initClass()
 		}
 		F32 F32_val;
 		LLUUID id;
+		std::string name;
 
 		BOOL success = TRUE;
 
@@ -167,6 +168,10 @@ void LLVOGrass::initClass()
 		static LLStdStringHandle blade_sizey_string = LLXmlTree::addAttributeString("blade_size_y");
 		success &= grass_def->getFastAttributeF32(blade_sizey_string, F32_val);
 		newGrass->mBladeSizeY = F32_val;
+		
+		static LLStdStringHandle name_string = LLXmlTree::addAttributeString("name");
+		grass_def->getFastAttributeString(name_string, name);
+		newGrass->mName = name;
 
 		if (sSpeciesTable.count(species))
 		{
@@ -183,9 +188,6 @@ void LLVOGrass::initClass()
 
 		if (!success)
 		{
-			std::string name;
-			static LLStdStringHandle name_string = LLXmlTree::addAttributeString("name");
-			grass_def->getFastAttributeString(name_string, name);
 			LL_WARNS() << "Incomplete definition of grass " << name << LL_ENDL;
 		}
 	}

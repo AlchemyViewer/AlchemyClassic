@@ -129,6 +129,7 @@ void LLVOTree::initClass()
 			F32 F32_val;
 			LLUUID id;
 			S32 S32_val;
+			std::string name;
 
 			BOOL success = TRUE;
 
@@ -231,6 +232,10 @@ void LLVOTree::initClass()
 			static LLStdStringHandle repeat_z_string = LLXmlTree::addAttributeString("repeat_z");
 			success &= tree_def->getFastAttributeF32(repeat_z_string, F32_val);
 			newTree->mRepeatTrunkZ = F32_val;
+			
+			static LLStdStringHandle name_string = LLXmlTree::addAttributeString("name"); // MC
+			tree_def->getFastAttributeString(name_string, name);
+			newTree->mName = name;
 
 			sSpeciesTable[species] = newTree;
 
@@ -238,9 +243,6 @@ void LLVOTree::initClass()
 
 			if (!success)
 			{
-				std::string name;
-				static LLStdStringHandle name_string = LLXmlTree::addAttributeString("name");
-				tree_def->getFastAttributeString(name_string, name);
 				LL_WARNS() << "Incomplete definition of tree " << name << LL_ENDL;
 			}
 		}

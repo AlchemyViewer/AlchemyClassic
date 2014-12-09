@@ -120,6 +120,8 @@ private:
 	static bool multipleFacesSelectedConfirm(const LLSD& notification, const LLSD& response);
 	static void setObjectType( LLPCode pcode );
 	void onClickGridOptions();
+	void buildTreeGrassCombo();
+	void onSelectTreeGrassCombo();
 
 public:
 	LLCheckBoxCtrl*  mAlchEditRootAxis;
@@ -161,6 +163,7 @@ public:
 	LLButton	*mBtnDelete;
 	LLButton	*mBtnDuplicate;
 	LLButton	*mBtnDuplicateInPlace;
+	LLComboBox*		mTreeGrassCombo;
 
 	// Create buttons
 	LLCheckBoxCtrl	*mCheckSticky;

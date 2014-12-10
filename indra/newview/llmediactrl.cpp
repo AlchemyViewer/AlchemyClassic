@@ -122,8 +122,8 @@ LLMediaCtrl::LLMediaCtrl( const Params& p) :
 
 	if(!getDecoupleTextureSize())
 	{
-		S32 screen_width = llmath::llround((F32)getRect().getWidth() * LLUI::getScaleFactor().mV[VX]);
-		S32 screen_height = llmath::llround((F32)getRect().getHeight() * LLUI::getScaleFactor().mV[VY]);
+		S32 screen_width = ll_round((F32)getRect().getWidth() * LLUI::getScaleFactor().mV[VX]);
+		S32 screen_height = ll_round((F32)getRect().getHeight() * LLUI::getScaleFactor().mV[VY]);
 			
 		setTextureSize(screen_width, screen_height);
 	}
@@ -476,8 +476,8 @@ void LLMediaCtrl::reshape( S32 width, S32 height, BOOL called_from_parent )
 {
 	if(!getDecoupleTextureSize())
 	{
-		S32 screen_width = llmath::llround((F32)width * LLUI::getScaleFactor().mV[VX]);
-		S32 screen_height = llmath::llround((F32)height * LLUI::getScaleFactor().mV[VY]);
+		S32 screen_width = ll_round((F32)width * LLUI::getScaleFactor().mV[VX]);
+		S32 screen_height = ll_round((F32)height * LLUI::getScaleFactor().mV[VY]);
 
 		// when floater is minimized, these sizes are negative
 		if ( screen_height > 0 && screen_width > 0 )
@@ -791,13 +791,13 @@ void LLMediaCtrl::draw()
 					{
 						// max width, adjusted height
 						width = r.getWidth();
-						height = llmin(llmax(llmath::llround(width / media_aspect), 0), r.getHeight());
+						height = llmin(llmax(ll_round(width / media_aspect), 0), r.getHeight());
 					}
 					else
 					{
 						// max height, adjusted width
 						height = r.getHeight();
-						width = llmin(llmax(llmath::llround(height * media_aspect), 0), r.getWidth());
+						width = llmin(llmax(ll_round(height * media_aspect), 0), r.getWidth());
 					}
 				}
 				else
@@ -881,14 +881,14 @@ void LLMediaCtrl::convertInputCoords(S32& x, S32& y)
 		coords_opengl = mMediaSource->getMediaPlugin()->getTextureCoordsOpenGL();
 	}
 	
-	x = llmath::llround((F32)x * LLUI::getScaleFactor().mV[VX]);
+	x = ll_round((F32)x * LLUI::getScaleFactor().mV[VX]);
 	if ( ! coords_opengl )
 	{
-		y = llmath::llround((F32)(y) * LLUI::getScaleFactor().mV[VY]);
+		y = ll_round((F32)(y) * LLUI::getScaleFactor().mV[VY]);
 	}
 	else
 	{
-		y = llmath::llround((F32)(getRect().getHeight() - y) * LLUI::getScaleFactor().mV[VY]);
+		y = ll_round((F32)(getRect().getHeight() - y) * LLUI::getScaleFactor().mV[VY]);
 	};
 }
 

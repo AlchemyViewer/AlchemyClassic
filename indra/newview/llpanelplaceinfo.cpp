@@ -231,15 +231,15 @@ void LLPanelPlaceInfo::processParcelInfo(const LLParcelData& parcel_data)
 	// If the region position is zero, grab position from the global
 	if(mPosRegion.isExactlyZero())
 	{
-		region_x = llmath::llround(parcel_data.global_x) % REGION_WIDTH_UNITS;
-		region_y = llmath::llround(parcel_data.global_y) % REGION_WIDTH_UNITS;
-		region_z = llmath::llround(parcel_data.global_z);
+		region_x = ll_round(parcel_data.global_x) % REGION_WIDTH_UNITS;
+		region_y = ll_round(parcel_data.global_y) % REGION_WIDTH_UNITS;
+		region_z = ll_round(parcel_data.global_z);
 	}
 	else
 	{
-		region_x = llmath::llround(mPosRegion.mV[VX]);
-		region_y = llmath::llround(mPosRegion.mV[VY]);
-		region_z = llmath::llround(mPosRegion.mV[VZ]);
+		region_x = ll_round(mPosRegion.mV[VX]);
+		region_y = ll_round(mPosRegion.mV[VY]);
+		region_z = ll_round(mPosRegion.mV[VZ]);
 	}
 
 	if (!parcel_data.name.empty())

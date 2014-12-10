@@ -217,10 +217,10 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 	case LEFT:
 		break;
 	case RIGHT:
-	  	cur_x -= llmin(scaled_max_pixels, llmath::llround(getWidthF32(wstr.c_str(), begin_offset, length) * sScaleX));
+	  	cur_x -= llmin(scaled_max_pixels, ll_round(getWidthF32(wstr.c_str(), begin_offset, length) * sScaleX));
 		break;
 	case HCENTER:
-	    cur_x -= llmin(scaled_max_pixels, llmath::llround(getWidthF32(wstr.c_str(), begin_offset, length) * sScaleX)) / 2;
+	    cur_x -= llmin(scaled_max_pixels, ll_round(getWidthF32(wstr.c_str(), begin_offset, length) * sScaleX)) / 2;
 		break;
 	default:
 		break;
@@ -229,7 +229,7 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 	cur_render_y = cur_y;
 	cur_render_x = cur_x;
 
-	F32 start_x = (F32)llmath::llround(cur_x);
+	F32 start_x = (F32)ll_round(cur_x);
 
 	const LLFontBitmapCache* font_bitmap_cache = mFontFreetype->getFontBitmapCache();
 
@@ -243,12 +243,12 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 	if (use_ellipses)
 	{
 		// check for too long of a string
-		S32 string_width = llmath::llround(getWidthF32(wstr.c_str(), begin_offset, max_chars) * sScaleX);
+		S32 string_width = ll_round(getWidthF32(wstr.c_str(), begin_offset, max_chars) * sScaleX);
 		if (string_width > scaled_max_pixels)
 		{
 			// use four dots for ellipsis width to generate padding
 			const LLWString dots(utf8str_to_wstring(std::string("....")));
-			scaled_max_pixels = llmax(0, scaled_max_pixels - llmath::llround(getWidthF32(dots.c_str())));
+			scaled_max_pixels = llmax(0, scaled_max_pixels - ll_round(getWidthF32(dots.c_str())));
 			draw_ellipses = TRUE;
 		}
 	}
@@ -313,10 +313,10 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 				(fgi->mXBitmapOffset + fgi->mWidth) * inv_width,
 				(fgi->mYBitmapOffset - PAD_UVY) * inv_height);
 		// snap glyph origin to whole screen pixel
-		LLRectf screen_rect((F32)llmath::llround(cur_render_x + (F32)fgi->mXBearing),
-				    (F32)llmath::llround(cur_render_y + (F32)fgi->mYBearing),
-				    (F32)llmath::llround(cur_render_x + (F32)fgi->mXBearing) + (F32)fgi->mWidth,
-				    (F32)llmath::llround(cur_render_y + (F32)fgi->mYBearing) - (F32)fgi->mHeight);
+		LLRectf screen_rect((F32)ll_round(cur_render_x + (F32)fgi->mXBearing),
+				    (F32)ll_round(cur_render_y + (F32)fgi->mYBearing),
+				    (F32)ll_round(cur_render_x + (F32)fgi->mXBearing) + (F32)fgi->mWidth,
+				    (F32)ll_round(cur_render_y + (F32)fgi->mYBearing) - (F32)fgi->mHeight);
 		
 		if (glyph_count >= GLYPH_BATCH_SIZE)
 		{
@@ -347,8 +347,8 @@ S32 LLFontGL::render(const LLWString &wstr, S32 begin_offset, F32 x, F32 y, cons
 		// Must do this to cur_x, not just to cur_render_x, otherwise you
 		// will squish sub-pixel kerned characters too close together.
 		// For example, "CCCCC" looks bad.
-		cur_x = (F32)llmath::llround(cur_x);
-		//cur_y = (F32)llmath::llround(cur_y);
+		cur_x = (F32)ll_round(cur_x);
+		//cur_y = (F32)ll_round(cur_y);
 
 		cur_render_x = cur_x;
 		cur_render_y = cur_y;
@@ -461,7 +461,7 @@ S32 LLFontGL::getWidth(const std::string& utf8text, S32 begin_offset, S32 max_ch
 S32 LLFontGL::getWidth(const llwchar* wchars, S32 begin_offset, S32 max_chars) const
 {
 	F32 width = getWidthF32(wchars, begin_offset, max_chars);
-	return llmath::llround(width);
+	return ll_round(width);
 }
 
 F32 LLFontGL::getWidthF32(const std::string& utf8text) const
@@ -523,7 +523,7 @@ F32 LLFontGL::getWidthF32(const llwchar* wchars, S32 begin_offset, S32 max_chars
 			cur_x += mFontFreetype->getXKerning(fgi, next_glyph);
 		}
 		// Round after kerning.
-		cur_x = (F32)llmath::llround(cur_x);
+		cur_x = (F32)ll_round(cur_x);
 	}
 
 	// add in extra pixels for last character's width past its xadvance
@@ -631,7 +631,7 @@ S32 LLFontGL::maxDrawableChars(const llwchar* wchars, F32 max_pixels, S32 max_ch
 		}
 
 		// Round after kerning.
-		cur_x = (F32)llmath::llround(cur_x);
+		cur_x = (F32)ll_round(cur_x);
 	}
 
 	if( clip )
@@ -701,7 +701,7 @@ S32	LLFontGL::firstDrawableChar(const llwchar* wchars, F32 max_pixels, S32 text_
 		}
 
 		// Round after kerning.
-		total_width = (F32)llmath::llround(total_width);
+		total_width = (F32)ll_round(total_width);
 	}
 
 	if (drawable_chars == 0)
@@ -784,7 +784,7 @@ S32 LLFontGL::charFromPixelOffset(const llwchar* wchars, S32 begin_offset, F32 t
 
 
 		// Round after kerning.
-		cur_x = (F32)llmath::llround(cur_x);
+		cur_x = (F32)ll_round(cur_x);
 	}
 
 	return llmin(max_chars, pos - begin_offset);

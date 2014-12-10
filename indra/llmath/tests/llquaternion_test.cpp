@@ -175,10 +175,10 @@ namespace tut
 	void llquat_test_object_t::test<6>()
 	{
 		LLQuaternion quat1(3.0f, 2.0f, 6.0f, 0.0f), quat2(1.0f, 1.0f, 1.0f, 1.0f);
-		ensure("1. The two values are different", llmath::llround(12.000000f, 2) == llmath::llround(dot(quat1, quat2), 2));
+		ensure("1. The two values are different", llmath::ll_round(12.000000f, 2) == llmath::ll_round(dot(quat1, quat2), 2));
 
 		LLQuaternion quat0(3.0f, 9.334f, 34.5f, 23.0f), quat(34.5f, 23.23f, 2.0f, 45.5f);
-		ensure("2. The two values are different", llmath::llround(1435.828807f, 2) == llmath::llround(dot(quat0, quat), 2));
+		ensure("2. The two values are different", llmath::ll_round(1435.828807f, 2) == llmath::ll_round(dot(quat0, quat), 2));
 	}
 
 	//test case for LLQuaternion &LLQuaternion::constrain(F32 radians) fn.

@@ -683,7 +683,7 @@ void LLVOPartGroup::getGeometry(S32 idx,
 		}
 		else 
 		{
-			pglow = LLColor4U(0, 0, 0, (U8) llmath::llround(255.f*part.mStartGlow));
+			pglow = LLColor4U(0, 0, 0, (U8) ll_round(255.f*part.mStartGlow));
 			pcolor = LLColor4U(part.mStartColor);
 		}
 	}

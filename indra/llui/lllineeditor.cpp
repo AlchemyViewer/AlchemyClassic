@@ -829,7 +829,7 @@ BOOL LLLineEditor::handleHover(S32 x, S32 y, MASK mask)
 		// Scroll if mouse cursor outside of bounds
 		if (mScrollTimer.hasExpired())
 		{
-			S32 increment = llmath::llround(mScrollTimer.getElapsedTimeF32() / AUTO_SCROLL_TIME);
+			S32 increment = ll_round(mScrollTimer.getElapsedTimeF32() / AUTO_SCROLL_TIME);
 			mScrollTimer.reset();
 			mScrollTimer.setTimerExpirySec(AUTO_SCROLL_TIME);
 			if( (x < mTextLeftEdge) && (mScrollHPos > 0 ) )
@@ -1870,7 +1870,7 @@ void LLLineEditor::draw()
 				0,
 				LLFontGL::NO_SHADOW,
 				select_left - mScrollHPos,
-				mTextRightEdge - llmath::llround(rendered_pixels_right),
+				mTextRightEdge - ll_round(rendered_pixels_right),
 				&rendered_pixels_right);
 		}
 		
@@ -1880,8 +1880,8 @@ void LLLineEditor::draw()
 			color.setAlpha(alpha);
 			// selected middle
 			S32 width = mGLFont->getWidth(mText.getWString().c_str(), mScrollHPos + rendered_text, select_right - mScrollHPos - rendered_text);
-			width = llmin(width, mTextRightEdge - llmath::llround(rendered_pixels_right));
-			gl_rect_2d(llmath::llround(rendered_pixels_right), cursor_top, llmath::llround(rendered_pixels_right)+width, cursor_bottom, color);
+			width = llmin(width, mTextRightEdge - ll_round(rendered_pixels_right));
+			gl_rect_2d(ll_round(rendered_pixels_right), cursor_top, ll_round(rendered_pixels_right)+width, cursor_bottom, color);
 
 			LLColor4 tmp_color( 1.f - text_color.mV[0], 1.f - text_color.mV[1], 1.f - text_color.mV[2], alpha );
 			rendered_text += mGLFont->render( 
@@ -1892,7 +1892,7 @@ void LLLineEditor::draw()
 				0,
 				LLFontGL::NO_SHADOW,
 				select_right - mScrollHPos - rendered_text,
-				mTextRightEdge - llmath::llround(rendered_pixels_right),
+				mTextRightEdge - ll_round(rendered_pixels_right),
 				&rendered_pixels_right);
 		}
 
@@ -1907,7 +1907,7 @@ void LLLineEditor::draw()
 				0,
 				LLFontGL::NO_SHADOW,
 				S32_MAX,
-				mTextRightEdge - llmath::llround(rendered_pixels_right),
+				mTextRightEdge - ll_round(rendered_pixels_right),
 				&rendered_pixels_right);
 		}
 	}
@@ -1921,7 +1921,7 @@ void LLLineEditor::draw()
 			0,
 			LLFontGL::NO_SHADOW,
 			S32_MAX,
-			mTextRightEdge - llmath::llround(rendered_pixels_right),
+			mTextRightEdge - ll_round(rendered_pixels_right),
 			&rendered_pixels_right);
 	}
 #if 1 // for when we're ready for image art.
@@ -2081,7 +2081,7 @@ void LLLineEditor::draw()
 							0,
 							LLFontGL::NO_SHADOW,
 							S32_MAX,
-							mTextRightEdge - llmath::llround(rendered_pixels_right),
+							mTextRightEdge - ll_round(rendered_pixels_right),
 							&rendered_pixels_right, FALSE);
 		}
 
@@ -2106,7 +2106,7 @@ void LLLineEditor::draw()
 							0,
 							LLFontGL::NO_SHADOW,
 							S32_MAX,
-							mTextRightEdge - llmath::llround(rendered_pixels_right),
+							mTextRightEdge - ll_round(rendered_pixels_right),
 							&rendered_pixels_right, FALSE);
 		}
 		// Draw children (border)
@@ -2610,7 +2610,7 @@ void LLLineEditor::markAsPreedit(S32 position, S32 length)
 
 S32 LLLineEditor::getPreeditFontSize() const
 {
-	return llmath::llround(mGLFont->getLineHeight() * LLUI::getScaleFactor().mV[VY]);
+	return ll_round(mGLFont->getLineHeight() * LLUI::getScaleFactor().mV[VY]);
 }
 
 void LLLineEditor::setReplaceNewlinesWithSpaces(BOOL replace)

@@ -1331,7 +1331,7 @@ void LLBumpImageList::onSourceLoaded( BOOL success, LLViewerTexture *src_vi, LLI
 					for( i = minimum; i <= maximum; i++ )
 					{
 						F32 minus_one_to_one = F32(maximum - i) * twice_one_over_range - 1.f;
-						bias_and_scale_lut[i] = llclampb(llmath::llround(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
+						bias_and_scale_lut[i] = llclampb(ll_round(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
 					}
 				}
 				else
@@ -1339,7 +1339,7 @@ void LLBumpImageList::onSourceLoaded( BOOL success, LLViewerTexture *src_vi, LLI
 					for( i = minimum; i <= maximum; i++ )
 					{
 						F32 minus_one_to_one = F32(i - minimum) * twice_one_over_range - 1.f;
-						bias_and_scale_lut[i] = llclampb(llmath::llround(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
+						bias_and_scale_lut[i] = llclampb(ll_round(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
 					}
 				}
 

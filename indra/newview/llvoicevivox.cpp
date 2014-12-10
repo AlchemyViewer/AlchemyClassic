@@ -2501,7 +2501,7 @@ void LLVivoxVoiceClient::sendPositionalUpdate(void)
 				if(!p->mIsSelf)
 				{
 					// scale from the range 0.0-1.0 to vivox volume in the range 0-100
-					S32 volume = llmath::llround(p->mVolume / VOLUME_SCALE_VIVOX);
+					S32 volume = ll_round(p->mVolume / VOLUME_SCALE_VIVOX);
 					bool mute = p->mOnMuteList;
 					
 					if(mute)

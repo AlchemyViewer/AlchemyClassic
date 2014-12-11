@@ -846,7 +846,7 @@ void LLIMModel::LLIMSession::buildHistoryFileName()
 			// Incoming P2P sessions include a name that we can use to build a history file name
 			mHistoryFileName = gSavedSettings.getBOOL("UseLegacyLogNames")
 							   ? mName.substr(0, mName.find(" Resident"))
-							   : mHistoryFileName = LLCacheName::buildUsername(mName);
+							   : LLCacheName::buildUsername(mName);
 		}
 	}
 }

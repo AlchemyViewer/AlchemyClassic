@@ -353,7 +353,7 @@ struct WhichButton: public StringLookup<Actions>
 };
 static WhichButton buttons;
 
-typedef std::function<BOOL(LLCoordGL, MASK)> MouseFunc;
+typedef std::function<bool(LLCoordGL, MASK)> MouseFunc;
 
 static void mouseEvent(const MouseFunc& func, const LLSD& request)
 {
@@ -479,8 +479,8 @@ void LLWindowListener::mouseUp(LLSD const & request)
 
 void LLWindowListener::mouseMove(LLSD const & request)
 {
-	// handleMouseMove returns void while the other return a BOOL, wrap in a lambda and just return TRUE
-	mouseEvent([&](LLCoordGL p, MASK m) -> BOOL { mWindow->handleMouseMove(nullptr, p, m); return TRUE; },
+	// handleMouseMove returns void while the other return a bool, wrap in a lambda and just return true 
+	mouseEvent([&](LLCoordGL p, MASK m) -> BOOL { mWindow->handleMouseMove(nullptr, p, m); return true; },
 			   request);
 }
 

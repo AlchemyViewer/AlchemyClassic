@@ -41,13 +41,10 @@
 #include "llrootview.h"
 #include "llsdutil.h"
 #include "stringize.h"
+#include <functional>
 #include <typeinfo>
 #include <map>
 #include <boost/scoped_ptr.hpp>
-#include <boost/lambda/core.hpp>
-#include <boost/lambda/bind.hpp>
-
-namespace bll = boost::lambda;
 
 LLWindowListener::LLWindowListener(LLViewerWindow *window, const KeyboardGetter& kbgetter)
 	: LLEventAPI("LLWindow", "Inject input events into the LLWindow instance"),
@@ -356,7 +353,7 @@ struct WhichButton: public StringLookup<Actions>
 };
 static WhichButton buttons;
 
-typedef boost::function<bool(LLCoordGL, MASK)> MouseFunc;
+typedef std::function<BOOL(LLCoordGL, MASK)> MouseFunc;
 
 static void mouseEvent(const MouseFunc& func, const LLSD& request)
 {
@@ -463,12 +460,8 @@ void LLWindowListener::mouseDown(LLSD const & request)
 	Actions actions(buttons.lookup(request["button"]));
 	if (actions.valid)
 	{
-		// Normally you can pass NULL to an LLWindow* without compiler
-		// complaint, but going through boost::lambda::bind() evidently
-		// bypasses that special case: it only knows you're trying to pass an
-		// int to a pointer. Explicitly cast NULL to the desired pointer type.
-		mouseEvent(bll::bind(actions.down, mWindow,
-							 static_cast<LLWindow*>(NULL), bll::_1, bll::_2),
+		mouseEvent(std::bind(actions.down, mWindow,
+							 nullptr, std::placeholders::_1, std::placeholders::_2),
 				   request);
 	}
 }
@@ -478,23 +471,16 @@ void LLWindowListener::mouseUp(LLSD const & request)
 	Actions actions(buttons.lookup(request["button"]));
 	if (actions.valid)
 	{
-		mouseEvent(bll::bind(actions.up, mWindow,
-							 static_cast<LLWindow*>(NULL), bll::_1, bll::_2),
+		mouseEvent(std::bind(actions.up, mWindow,
+							 nullptr, std::placeholders::_1, std::placeholders::_2),
 				   request);
 	}
 }
 
 void LLWindowListener::mouseMove(LLSD const & request)
 {
-	// We want to call the same central mouseEvent() routine for
-	// handleMouseMove() as for button clicks. But handleMouseMove() returns
-	// void, whereas mouseEvent() accepts a function returning bool -- and
-	// uses that bool return. Use (void-lambda-expression, true) to construct
-	// a callable that returns bool anyway. Pass 'true' because we expect that
-	// our caller will usually treat 'false' as a problem.
-	mouseEvent((bll::bind(&LLWindowCallbacks::handleMouseMove, mWindow,
-						  static_cast<LLWindow*>(NULL), bll::_1, bll::_2),
-				true),
+	// handleMouseMove returns void while the other return a BOOL, wrap in a lambda and just return TRUE
+	mouseEvent([&](LLCoordGL p, MASK m) -> BOOL { mWindow->handleMouseMove(nullptr, p, m); return TRUE; },
 			   request);
 }
 

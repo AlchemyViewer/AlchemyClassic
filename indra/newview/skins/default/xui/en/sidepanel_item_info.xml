@@ -425,6 +425,7 @@
     <panel
 		 height="30"
 		 layout="topleft"
+         follows="bottom|right|left"
 		 name="button_panel"
 		 left="5"
 		 top_pad="0"
@@ -433,6 +434,7 @@
 		     height="23"
 		     label="Cancel"
 		     layout="topleft"
+             follows="bottom|right"
 		     name="cancel_btn"
 		     right="-1"
 		     width="100" />

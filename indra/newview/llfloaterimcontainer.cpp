@@ -212,10 +212,7 @@ BOOL LLFloaterIMContainer::postBuild()
 	// a scroller for folder view
 	LLRect scroller_view_rect = mConversationsListPanel->getRect();
 	scroller_view_rect.translate(-scroller_view_rect.mLeft, -scroller_view_rect.mBottom);
-	// <alchemy> HACK: reduced bottom padding in the conversations list to maximize usable space.
-	// scroller_view_rect.mBottom += getChild<LLLayoutStack>("conversations_pane_buttons_stack")->getRect().getHeight();
-	scroller_view_rect.mBottom += getChild<LLLayoutStack>("conversations_pane_buttons_stack")->getRect().getHeight()-21;
-	// </alchemy>
+	scroller_view_rect.mBottom += getChild<LLLayoutStack>("conversations_pane_buttons_stack")->getRect().getHeight();
 	LLScrollContainer::Params scroller_params(LLUICtrlFactory::getDefaultParams<LLFolderViewScrollContainer>());
 	scroller_params.rect(scroller_view_rect);
 

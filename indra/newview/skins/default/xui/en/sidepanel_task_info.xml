@@ -63,6 +63,14 @@
    name="Sale Mixed">
    Mixed Sale
   </panel.string>
+  <panel.string
+   name="stats_fmt">
+Objects: [COUNT]
+Vertices: [vCOUNT]
+Triangles: [tCOUNT]
+Streaming Cost: [COST]
+[BYTES]
+  </panel.string>
     <button
      follows="top|left"
      height="24"
@@ -416,21 +424,31 @@
           tool_tip="Next owner can give away or resell this object"
           width="106" />
        </panel>
+       <text
+        type="string"
+        follows="left|top"
+        name="object_stats"
+        top_pad="6"
+        width="140"
+        height="80"
+        left="5">
+       </text>
        <check_box
         height="23"
         label="For Sale"
         layout="topleft"
-        left="20"
+        left="150"
         name="checkbox for sale"
-        top_pad="10"
-        width="100" />
+        top_delta="-1"
+        width="80" />
        <combo_box
         height="23"
+        top_delta="2"
         left_pad="0"
         layout="topleft"
         follows="left|top"
         name="sale type"
-        width="170">
+        width="90">
          <combo_box.item
           name="Copy"
           label="Copy"
@@ -448,13 +466,13 @@
         follows="left|top"
         decimal_digits="0"
         increment="1"
-        top_pad="10"
-        left="120"
+        top_pad="4"
+        left="166"
         control_name="Edit Cost"
         name="Edit Cost"
         label="Price: L$"
-        label_width="65"
-        width="150"
+        label_width="60"
+        width="154"
         min_val="1"
         height="20"
         max_val="999999999" />
@@ -464,14 +482,14 @@
 	    top_pad="6"
 	    label="Show in search"
         layout="topleft"
-	    left="120"
+	    left="150"
         name="search_check"
         tool_tip="Let people see this object in search results" />
        <text
         type="string"
         follows="left|top"
         name="pathfinding_attributes_label"
-        top_pad="6"
+        top_pad="10"
         width="150"
         left="5">
          Pathfinding attributes:
@@ -642,24 +660,4 @@
        width="90" />
     </layout_panel>
   </layout_stack>
-   <!--
-     <button
-      follows="bottom|left"
-      height="23"
-      label="Buy"
-      layout="topleft"
-      left_pad="5"
-      name="buy_btn"
-      top="0"
-      width="73" />
-     <button
-      follows="bottom|left"
-      height="23"
-      label="Details"
-      layout="topleft"
-      left_pad="5"
-      name="details_btn"
-      top="0"
-      width="74" />
-	</panel>-->
 </panel>

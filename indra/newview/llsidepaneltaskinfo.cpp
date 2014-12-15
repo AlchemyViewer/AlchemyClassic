@@ -65,6 +65,26 @@
 #include "llstring.h"
 #include "lltrans.h"
 
+static const std::array<std::string, 17> sNoItemNames{{
+	"Object Name",
+	"Object Description",
+	"button set group",
+	"checkbox share with group",
+	"button deed",
+	"checkbox allow everyone move",
+	"checkbox allow everyone copy",
+	"checkbox for sale",
+	"sale type",
+	"Edit Cost",
+	"checkbox next owner can modify",
+	"checkbox next owner can copy",
+	"checkbox next owner can transfer",
+	"clickaction",
+	"search_check",
+	"perm_modify",
+	"Group Name",
+}};
+
 ///----------------------------------------------------------------------------
 /// Class llsidepaneltaskinfo
 ///----------------------------------------------------------------------------
@@ -261,24 +281,18 @@ void LLSidepanelTaskInfo::disableAll()
 	mOpenBtn->setEnabled(FALSE);
 	mPayBtn->setEnabled(FALSE);
 	mBuyBtn->setEnabled(FALSE);
+	getChild<LLTextBase>("object_stats")->setValue(LLStringUtil::null);
 }
 
 void LLSidepanelTaskInfo::refresh()
 {
-	LLButton* btn_deed_to_group = mDeedBtn; 
-	if (btn_deed_to_group)
+	if (mDeedBtn)
 	{	
-		std::string deedText;
-		if (gWarningSettings.getBOOL("DeedObject"))
-		{
-			deedText = getString("text deed continued");
-		}
-		else
-		{
-			deedText = getString("text deed");
-		}
-		btn_deed_to_group->setLabelSelected(deedText);
-		btn_deed_to_group->setLabelUnselected(deedText);
+		const std::string& deedText = getString(gWarningSettings.getBOOL("DeedObject")
+												? "text deed continued"
+												: "text deed");
+		mDeedBtn->setLabelSelected(deedText);
+		mDeedBtn->setLabelUnselected(deedText);
 	}
 
 	BOOL root_selected = TRUE;
@@ -313,6 +327,27 @@ void LLSidepanelTaskInfo::refresh()
 	const BOOL is_nonpermanent_enforced = (mObjectSelection->getFirstRootNode() && LLSelectMgr::getInstance()->selectGetRootsNonPermanentEnforced()) ||
 		LLSelectMgr::getInstance()->selectGetNonPermanentEnforced();
 
+	S32 total_bytes = 0;
+	S32 visible_bytes = 0;
+	S32 vertex_count = 0;
+	F32 streaming_cost = mObjectSelection->getSelectedObjectStreamingCost(&total_bytes, &visible_bytes);
+	S32 triangle_count = mObjectSelection->getSelectedObjectTriangleCount(&vertex_count);
+	
+	/* Objects: [COUNT]
+	   Vertices: [vCOUNT]
+	   Triangles: [tCOUNT]
+	   Streaming Cost: [COST]
+	   [BYTES] */
+	LLStringUtil::format_map_t args;
+	args["COUNT"]	= std::to_string(object_count);
+	args["vCOUNT"]	= std::to_string(vertex_count);
+	args["tCOUNT"]	= std::to_string(triangle_count);
+	args["COST"]	= llformat("%.3f", streaming_cost);
+	args["BYTES"]	= total_bytes != 0 ? llformat("%d / %d KB", visible_bytes/1024, total_bytes/1024) : LLStringUtil::null;
+	LLUIString fmt = getString("stats_fmt");
+	fmt.setArgs(args);
+	getChild<LLTextBase>("object_stats")->setText(fmt.getString());
+	
 	S32 string_index = 0;
 	std::string MODIFY_INFO_STRINGS[] =
 		{
@@ -457,27 +492,15 @@ void LLSidepanelTaskInfo::refresh()
 	}
 
 	// figure out the contents of the name, description, & category
-	BOOL edit_name_desc = FALSE;
-	if (is_one_object && objectp->permModify() && !objectp->isPermanentEnforced())
-	{
-		edit_name_desc = TRUE;
-	}
-	if (edit_name_desc)
-	{
-		getChildView("Object Name")->setEnabled(TRUE);
-		getChildView("Object Description")->setEnabled(TRUE);
-	}
-	else
-	{
-		getChildView("Object Name")->setEnabled(FALSE);
-		getChildView("Object Description")->setEnabled(FALSE);
-	}
+	BOOL edit_name_desc = (is_one_object && objectp->permModify() && !objectp->isPermanentEnforced());
+	getChildView("Object Name")->setEnabled(edit_name_desc);
+	getChildView("Object Description")->setEnabled(edit_name_desc);
 
 	S32 total_sale_price = 0;
 	S32 individual_sale_price = 0;
 	BOOL is_for_sale_mixed = FALSE;
 	BOOL is_sale_price_mixed = FALSE;
-	U32 num_for_sale = FALSE;
+	U32 num_for_sale = 0;
     LLSelectMgr::getInstance()->selectGetAggregateSaleInfo(num_for_sale,
 														   is_for_sale_mixed,
 														   is_sale_price_mixed,
@@ -500,14 +523,9 @@ void LLSidepanelTaskInfo::refresh()
 	else if (self_owned || (group_owned && gAgent.hasPowerInGroup(group_id,GP_OBJECT_SET_SALE)))
 	{
 		// If there are multiple items for sale then set text to PRICE PER UNIT.
-		if (num_for_sale > 1)
-		{
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Per Unit"));
-		}
-		else
-		{
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
-		}
+		getChild<LLUICtrl>("Cost")->setValue(getString(num_for_sale > 1
+													   ? "Cost Per Unit"
+													   : "Cost Default"));
 		
 		LLSpinCtrl *edit_price = getChild<LLSpinCtrl>("Edit Cost");
 		if (!edit_price->hasFocus())
@@ -540,16 +558,14 @@ void LLSidepanelTaskInfo::refresh()
 		getChildView("Edit Cost")->setEnabled(FALSE);
 		
 		// Don't show a price if none of the items are for sale.
-		if (num_for_sale)
-			getChild<LLUICtrl>("Edit Cost")->setValue(llformat("%d",total_sale_price));
-		else
-			getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
+		getChild<LLUICtrl>("Edit Cost")->setValue(num_for_sale
+												  ? llformat("%d",total_sale_price)
+												  : LLStringUtil::null);
 
 		// If multiple items are for sale, set text to TOTAL PRICE.
-		if (num_for_sale > 1)
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Total"));
-		else
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
+		getChild<LLUICtrl>("Cost")->setValue(getString(num_for_sale > 1
+													   ? "Cost Total"
+													   : "Cost Default"));
 	}
 	// This is a public object.
 	else
@@ -829,12 +845,9 @@ void LLSidepanelTaskInfo::refresh()
 	// but are no-transfer.  We need to let users turn for-sale off, but only
 	// if for-sale is set.
 	bool cannot_actually_sell = !can_transfer || (!can_copy && sale_type == LLSaleInfo::FS_COPY);
-	if (cannot_actually_sell)
+	if (cannot_actually_sell && num_for_sale && has_change_sale_ability)
 	{
-		if (num_for_sale && has_change_sale_ability)
-		{
-			getChildView("checkbox for sale")->setEnabled(true);
-		}
+		getChildView("checkbox for sale")->setEnabled(true);
 	}
 	
 	// Check search status of objects
@@ -860,29 +873,9 @@ void LLSidepanelTaskInfo::refresh()
 
 	if (!getIsEditing())
 	{
-		const std::string no_item_names[] = 
-			{
-				"Object Name",
-				"Object Description",
-				"button set group",
-				"checkbox share with group",
-				"button deed",
-				"checkbox allow everyone move",
-				"checkbox allow everyone copy",
-				"checkbox for sale",
-				"sale type",
-				"Edit Cost",
-				"checkbox next owner can modify",
-				"checkbox next owner can copy",
-				"checkbox next owner can transfer",
-				"clickaction",
-				"search_check",
-				"perm_modify",
-				"Group Name",
-			};
-		for (size_t t=0; t<LL_ARRAY_SIZE(no_item_names); ++t)
+		for (const std::string& name : sNoItemNames)
 		{
-			getChildView(no_item_names[t])->setEnabled(	FALSE);
+			getChildView(name)->setEnabled(FALSE);
 		}
 	}
 	updateVerbs();

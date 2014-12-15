@@ -608,9 +608,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>150adc0b266188e4a396d23c650d2d0d</string>
+              <string>e4617cd729ee033509dd30fe1a6379f5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.07-darwin-201411231011.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.09-darwin-201412142058.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -653,7 +653,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.05.07</string>
+        <string>1.05.09</string>
       </map>
       <key>fontconfig</key>
       <map>

@@ -318,9 +318,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>20d243e56466be94fd297ed5e8e3bf20</string>
+              <string>7c636fd95f654056c174540dc932aac9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.07-windows-20141123.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows-20141215.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -330,9 +330,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8c6f6ea4e5522b9aec21606edcaebb54</string>
+              <string>a313fa6fd85e7ffba22c410de084a54d</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.07-windows64-20141123.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows64-20141215.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

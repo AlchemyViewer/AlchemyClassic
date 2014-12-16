@@ -136,6 +136,7 @@
 #include "llfloaterwhitelistentry.h"
 #include "llfloaterwindowsize.h"
 #include "llfloaterworldmap.h"
+#include "llfloatertexturezoom.h"
 #include "llfloaterimcontainer.h"
 #include "llinspectavatar.h"
 #include "llinspectgroup.h"
@@ -359,7 +360,8 @@ void LLViewerFloaterReg::registerFloaters()
 	LLFloaterReg::add("web_content", "floater_web_content.xml", (LLFloaterBuildFunc)&LLFloaterWebContent::create);	
 	LLFloaterReg::add("whitelist_entry", "floater_whitelist_entry.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterWhiteListEntry>);	
 	LLFloaterReg::add("window_size", "floater_window_size.xml", &LLFloaterReg::build<LLFloaterWindowSize>);
-	LLFloaterReg::add("world_map", "floater_world_map.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterWorldMap>);	
+	LLFloaterReg::add("world_map", "floater_world_map.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterWorldMap>);
+	LLFloaterReg::add("zoom_texture", "floater_zoom_texture.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterTextureZoom>);
 
 	// *NOTE: Please keep these alphabetized for easier merges
 	

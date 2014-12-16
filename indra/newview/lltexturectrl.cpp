@@ -1096,7 +1096,8 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mImageAssetID(p.image_id),
 	mDefaultImageAssetID(p.default_image_id),
 	mDefaultImageName(p.default_image_name),
-	mFallbackImage(p.fallback_image)
+	mFallbackImage(p.fallback_image),
+	mPreview(!p.enabled)
 {
 
 	// <alchemy>
@@ -1218,8 +1219,9 @@ void LLTextureCtrl::setEnabled( BOOL enabled )
 	}
 
 	mCaption->setEnabled( enabled );
-
-	LLView::setEnabled( enabled );
+	
+	LLView::setEnabled(enabled || getValue().asUUID().notNull());
+	mPreview = !enabled;
 }
 
 void LLTextureCtrl::setValid(BOOL valid )
@@ -1329,11 +1331,18 @@ BOOL LLTextureCtrl::handleMouseDown(S32 x, S32 y, MASK mask)
 
 	if (!handled && mBorder->parentPointInView(x, y))
 	{
-		showPicker(FALSE);
-		//grab textures first...
-		LLInventoryModelBackgroundFetch::instance().start(gInventory.findCategoryUUIDForType(LLFolderType::FT_TEXTURE));
-		//...then start full inventory fetch.
-		LLInventoryModelBackgroundFetch::instance().start();
+		if (mPreview)
+		{
+			LLFloaterReg::showInstance("zoom_texture", LLSD(getValue()), TRUE);
+		}
+		else
+		{
+			showPicker(FALSE);
+			//grab textures first...
+			LLInventoryModelBackgroundFetch::instance().start(gInventory.findCategoryUUIDForType(LLFolderType::FT_TEXTURE));
+			//...then start full inventory fetch.
+			LLInventoryModelBackgroundFetch::instance().start();
+		}
 		handled = TRUE;
 	}
 
@@ -1459,7 +1468,7 @@ BOOL LLTextureCtrl::handleDragAndDrop(S32 x, S32 y, MASK mask,
 	LLInventoryItem* item = (LLInventoryItem*)cargo_data; 
 	bool is_mesh = cargo_type == DAD_MESH;
 
-	if (getEnabled() &&
+	if (getEnabled() && !mPreview &&
 		((cargo_type == DAD_TEXTURE) || is_mesh) &&
 		 allowDrop(item))
 	{
@@ -1657,7 +1666,9 @@ BOOL LLTextureCtrl::handleUnicodeCharHere(llwchar uni_char)
 
 void LLTextureCtrl::setValue( const LLSD& value )
 {
-	setImageAssetID(value.asUUID());
+	LLUUID uuid = value.asUUID();
+	setImageAssetID(uuid);
+	LLView::setEnabled( (!mPreview || uuid.notNull()) );
 }
 
 LLSD LLTextureCtrl::getValue() const

@@ -2290,11 +2290,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ff147232d46f330abed96f40feec0ec7</string>
+              <string>4c0dd5385dbd8787d134e5e91f82f04a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.15.1-1.1.0-darwin-201408151322.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2339,7 +2339,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.15.1-1.1.0</string>
+        <string>1.16.0-1.1.0</string>
       </map>
       <key>openjpeg</key>
       <map>

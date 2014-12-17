@@ -2086,9 +2086,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>df44f00bb16e7517a0bb4d1a66caf51e</string>
+              <string>ddffc8a915aa3eb20ab0e54785df964b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/llqtwebkit-4.8.6-linux64-20141202.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/llqtwebkit-4.8.6-linux64-20141217.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

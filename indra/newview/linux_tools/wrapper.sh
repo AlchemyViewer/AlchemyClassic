@@ -4,14 +4,16 @@
 ## These options are for self-assisted troubleshooting during this beta
 ## testing phase; you should not usually need to touch them.
 
+## - Avoids using any FMOD Studio audio driver.
+#export LL_BAD_FMODSTUDIO_DRIVER=x
 ## - Avoids using any FMOD Ex audio driver.
 #export LL_BAD_FMODEX_DRIVER=x
 ## - Avoids using any OpenAL audio driver.
 #export LL_BAD_OPENAL_DRIVER=x
 
-## - Avoids using the FMOD Ex PulseAudio audio driver.
+## - Avoids using the FMOD Studio or Ex PulseAudio audio driver.
 #export LL_BAD_FMOD_PULSEAUDIO=x
-## - Avoids using the FMOD Ex ALSA audio driver.
+## - Avoids using the FMOD Studio or Ex ALSA audio driver.
 #export LL_BAD_FMOD_ALSA=x
 ## - Avoids using the FMOD Ex OSS audio driver.
 #export LL_BAD_FMOD_OSS=x
@@ -147,6 +149,7 @@ LL_RUN_ERR=$?
 if [ $LL_RUN_ERR -ne 0 ]; then
 	# generic error running the binary
 	echo '*** Bad shutdown ($LL_RUN_ERR). ***'
+    if [ "${BINARY_TYPE}" == "ELF 32-bit LSB executable" ]; then
 	if [ "$(uname -m)" = "x86_64" ]; then
 		echo
 		cat << EOFMARKER
@@ -159,6 +162,7 @@ For example, on Ubuntu and other Debian-based Linuxes you might run:
 $ sudo apt-get install ia32-libs ia32-libs-gtk ia32-libs-kde ia32-libs-sdl
 EOFMARKER
 	fi
+    fi
 fi
 
 echo

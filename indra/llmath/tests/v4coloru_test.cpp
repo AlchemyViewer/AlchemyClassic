@@ -329,8 +329,8 @@ namespace tut
 		llcolor4u.setVecScaleClamp(color3);
 		const S32 MAX_COLOR = 255;
 		F32 color_scale_factor = MAX_COLOR/r;
-		S32 r2 = llmath::ll_round(r * color_scale_factor);
-		S32 g2 = llmath::ll_round(g * color_scale_factor);
+		S32 r2 = ll_round(r * color_scale_factor);
+		S32 g2 = ll_round(g * color_scale_factor);
 		ensure("setVecScaleClamp():Fail to add the value ",  ((r2 == llcolor4u.mV[VX]) && (g2 == llcolor4u.mV[VY]) && (0 == llcolor4u.mV[VZ])&& (255 == llcolor4u.mV[VW])));
 	}
 }

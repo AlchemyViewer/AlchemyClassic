@@ -48,8 +48,8 @@
 #define	THROW_BAD_ALLOC()	_THROW1(std::bad_alloc)
 #define	THROW_NOTHING()		_THROW0()
 #else
-#define	THROW_BAD_ALLOC()	throw(std::bad_alloc)
-#define	THROW_NOTHING()		throw()
+#define	THROW_BAD_ALLOC()
+#define	THROW_NOTHING()		noexcept
 #endif
 
 

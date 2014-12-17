@@ -1210,9 +1210,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8ee7448264072b23fe8bc277bfcf2f8d</string>
+              <string>d68c26a8a044d31a6e8f1547c6b32dfa</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/gtk_atk_pango_glib-0.0.1-linux64-20141214.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/gtk_atk_pango_glib-0.0.1-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

@@ -30,9 +30,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a1e8d9c0bb960423b3ad809d4b924715</string>
+              <string>d81d5e887dd953b7596b703ac66c4c16</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/SDL-1.2.15-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/SDL-1.2.15-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -80,9 +80,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ca63fd7f3339304bdc47806c1ede9df8</string>
+              <string>4ed4871e65323ec7077e14255ed5e36b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/apr_suite-1.4.5-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/apr_suite-1.4.5-linux64-20141214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -142,9 +142,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ed2c0e338ddf074c0f810519b3de97e7</string>
+              <string>d19a0c92da2bcfee82536f005a23cc00</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ares-1.10.0-linux64-20141126.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/ares-1.10.0-linux64-20141214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -204,9 +204,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>77c6d85604041933a11114c18ce63461</string>
+              <string>8eee9988144d47eb6fdc689d1b80eac1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/boost-1.57.0-linux64-20141129.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/boost-1.57.0-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -266,9 +266,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2233238cabf8a21c120cf8caf3293c8a</string>
+              <string>45f33f59dac6bb6d540f2a22c7b0b505</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/colladadom-2.3-linux64-20141130.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/colladadom-2.3-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -332,9 +332,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>45e02521ef0340399bd39782f86905d8</string>
+              <string>47574cb5bcdf586ea104e17926c86d57</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/curl-7.38-linux64-20141127.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/curl-7.38-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -382,9 +382,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>922163f31a7c93b51d7dd1fcbab77061</string>
+              <string>6639c833b8f15c5189ff8b3653fe891b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/db-5.1.25-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/db-5.1.25-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -418,9 +418,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>52e94a772aeb21f0d6f8337a3ed5582e</string>
+              <string>002be02043505395aafc931ead4d7777</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/dbus_glib-0.76-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/dbus_glib-0.76-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -520,9 +520,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>80efc48883a32fa401dc584a37c82464</string>
+              <string>d92b89d9c8eb9c57346f9896712c1e27</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/expat-2.1.0-linux64-20141127.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/expat-2.1.0-linux64-20141210.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -615,26 +615,14 @@
             <key>name</key>
             <string>darwin</string>
           </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>b7aeb7ea3d5aea28cdc24f4bb12e8d80</string>
-              <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fmodstudio-1.05.07-linux-20141125.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d16a08aba80530031528ad9db8b1b4e1</string>
+              <string>7de304100c9a66d41dd884ced4cec86b</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fmodstudio-1.05.07-linux64-20141202.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.05.09-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -646,7 +634,7 @@
               <key>hash</key>
               <string>20d243e56466be94fd297ed5e8e3bf20</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.07-windows-20141123.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows-20141214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -682,9 +670,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8e19c830d29b71c15ad41a455dd297ce</string>
+              <string>138a6c4dbe0f9fa3042ee3726741ca31</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/fontconfig-2.11.0-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/fontconfig-2.11.0-linux64-20141211.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -758,9 +746,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9cfdd763fe24b089137b05f7dd8e328b</string>
+              <string>b20abbb02c6d3ee40678858445cbf07c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/freetype-2.5.3-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/freetype-2.5.3-linux64-20141210.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -936,7 +924,7 @@
               <key>hash</key>
               <string>0878355119848ae6ac0a0dc72147c29c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/glod-1.0pre4-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/glod-1.0pre4-linux64-20141128.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1010,9 +998,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e52d7ec430004fc2a59e4dbf6f3b704e</string>
+              <string>c788a259125bdbee7e362ff4a7b9fb4f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1400-darwin-201411052348.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1411-darwin-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1034,9 +1022,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>be085da564eaef5721b367df4d4d3d1b</string>
+              <string>a56173fcc2c2a657eaa43f4531d6f16f</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/google_breakpad-1406-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/google_breakpad-1411-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1094,6 +1082,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>6bf8796639e1bc5ef3c6cbec4c564337</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/googlemock-1.7.0-linux64-20141216.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>
@@ -1210,9 +1210,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9a6eccabbf98e610d655dff3cd0a4247</string>
+              <string>d68c26a8a044d31a6e8f1547c6b32dfa</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/gtk_atk_pango_glib-0.0.1-linux64-20141202.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/gtk_atk_pango_glib-0.0.1-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1322,9 +1322,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a48b0db61face944216be4feb92ff5ca</string>
+              <string>2ac556e0b6a66f784a916b2992d625e5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/icu4c-54.1-linux64-20141127.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/icu4c-54.1-linux64-20141209.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1424,9 +1424,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d342b30d74c45359032b361770f03bf</string>
+              <string>631f4b69d2247a99306ccb0903c3b5c5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/jpeglib-1.3.1-linux64-20141130.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/jpeglib-1.3.1-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1488,9 +1488,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7104f6d12083d16b1c709f66061474bb</string>
+              <string>a788f4504dc8c3207ea95f6ca116a9f1</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/jsoncpp-e384e49-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/jsoncpp-e384e49-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1604,7 +1604,7 @@
               <key>hash</key>
               <string>9463cb7ebb4e3fece9835e854163afad</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libhunspell-1.3.3-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libhunspell-1.3.3-linux64-20141201.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1656,9 +1656,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b485b9ee82b759d1469c314b9061685a</string>
+              <string>2e899fbcde9a7b43d1a971fe8125236c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libidn-1.28-linux64-20141127.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libidn-1.28-linux64-20141215.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1712,7 +1712,7 @@
               <key>hash</key>
               <string>3fe90e2687dbb810b3bb7f2db59c8bab</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libndofdev-0.3-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libndofdev-0.3-linux64-20141201.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1776,9 +1776,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>89824e0d20913167c2220229269929db</string>
+              <string>3d977b7ae82b72da5eb315ea01a415e2</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libpng-1.6.13-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libpng-1.6.13-linux64-20141213.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1804,7 +1804,7 @@
         <key>license</key>
         <string>lgpl</string>
         <key>license_file</key>
-        <string>LICENSES/libuuid.txt</string>
+        <string>LICENSES/uuid.txt</string>
         <key>name</key>
         <string>libuuid</string>
         <key>platforms</key>
@@ -1820,6 +1820,18 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3da0ea94d49f8bcffba9071283796b9b</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/uuid-1.6.2-linux64-20141216.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
         </map>
       </map>
@@ -1866,9 +1878,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>78fb16cde57d8d9adecff1d06604a687</string>
+              <string>b3f8ec9c4cb67cea292d035febd34e41</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/libxml2-2.9.2-linux64-20141129.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/libxml2-2.9.2-linux64-20141210.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2166,7 +2178,7 @@
               <key>hash</key>
               <string>ea389d75fb49b4474dd904e821e5c55d</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ndPhysicsStub-0.1.1-linux64-20141130.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/ndPhysicsStub-0.1.1-linux64-20141130.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2250,9 +2262,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4c67e45caad92912c00d20f84e838493</string>
+              <string>01d455afe21c94eb944a567907be42d3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/ogg_vorbis-1.3.2-1.3.4-linux64-20141130.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/ogg_vorbis-1.3.2-1.3.4-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2290,11 +2302,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ff147232d46f330abed96f40feec0ec7</string>
+              <string>4c0dd5385dbd8787d134e5e91f82f04a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.15.1-1.1.0-darwin-201408151322.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2318,9 +2330,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3c2168201d80f349599b17b153a1dbc7</string>
+              <string>450e99c96b0184aee4a4ea053dee73c3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openal-1.15.1-1.1.0-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/openal-1.16.0-1.1.0-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2339,7 +2351,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.15.1-1.1.0</string>
+        <string>1.16.0-1.1.0</string>
       </map>
       <key>openjpeg</key>
       <map>
@@ -2382,7 +2394,7 @@
               <key>hash</key>
               <string>13b75a0deb1c244638b94ba88d1bc111</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openjpeg-1.5.1-linux64-20141126.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/openjpeg-1.5.1-linux64-20141126.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2444,9 +2456,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3684adf9e9d94a7d6bff4dfcaa743737</string>
+              <string>1be4419f17fb8a948ed61556d3126327</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/openssl-1.0.1j-linux64-20141126.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/openssl-1.0.1j-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2510,9 +2522,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98bfc7f3b02829442710e3a479b06336</string>
+              <string>45132e467b6ef0473c52331cde349242</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/pcre-8.36-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/pcre-8.36-linux64-20141212.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2616,7 +2628,7 @@
               <key>hash</key>
               <string>9f60e56aba35ec90b3045e9d049ac284</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/slvoice-4.5.0009.17865-linux-20141214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2628,7 +2640,7 @@
               <key>hash</key>
               <string>9f60e56aba35ec90b3045e9d049ac284</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/slvoice-4.5.0009.17865-linux-20130216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/slvoice-4.5.0009.17865-linux-20141214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2720,9 +2732,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b1ebe07008522fcf18ad0650d6a44386</string>
+              <string>f9e01f2542fd996d1cd282101cb0dd78</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/xmlrpc_epi-0.54.2-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/xmlrpc_epi-0.54.2-linux64-20141216.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2782,9 +2794,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>34f49ffedc5ee34ceb1f10767d9f69b5</string>
+              <string>23967544a78df78fcf3a69a30fee33a8</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-linux/downloads/zlib-1.2.8-linux64-20141125.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/zlib-1.2.8-linux64-20141209.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

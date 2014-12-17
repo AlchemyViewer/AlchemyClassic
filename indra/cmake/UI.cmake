@@ -48,7 +48,6 @@ else (USESYSTEMLIBS)
         gtk-x11-2.0
         pango-1.0
         pangoft2-1.0
-        pangox-1.0
         pangoxft-1.0
         pixman-1
         pangocairo-1.0

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater
+ legacy_header_height="18"
+ positioning="centered"
+ can_resize="true"
+ can_close="true"
+ header_height="0"
+ chrome="true"
+ layout="topleft"
+ name="zoom_texture"
+ title=""
+ height="400"
+ width="420">
+  <ui_ctrl
+   name="yusteal"
+   left="150"
+   right="-150"
+   top="150"
+   bottom="-150"/>
+</floater>

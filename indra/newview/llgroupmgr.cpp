@@ -53,6 +53,7 @@
 #include "lltrans.h"
 #include "llviewerregion.h"
 #include <boost/regex.hpp>
+#include <boost/format.hpp>
 
 #if LL_MSVC
 #pragma warning(push)   
@@ -877,7 +878,7 @@ static void formatDateString(std::string &date_string)
 		S32 day		= boost::lexical_cast<S32>(result[2]);
 
 		// ISO 8601 date format
-		date_string = llformat("%04d/%02d/%02d", year, month, day);
+		date_string = (boost::format("%1%/%2%/%3%") % year % month % day).str();
 	}
 }
 

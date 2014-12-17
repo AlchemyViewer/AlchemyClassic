@@ -44,7 +44,7 @@ std::string LLBase64::encode(const U8* input, size_t input_size)
 	bio = BIO_push(b64, bio);
 	BIO_write(bio, input, input_size);
 	
-	BIO_flush(bio);
+	(void)BIO_flush(bio);
 	
 	char *new_data;
 	size_t bytes_written = BIO_get_mem_data(bio, &new_data);

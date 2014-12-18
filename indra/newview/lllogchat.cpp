@@ -43,13 +43,6 @@
 #include <boost/regex.hpp>
 #include <boost/regex/v4/match_results.hpp>
 
-#if LL_MSVC
-#pragma warning(push)  
-// disable warning about boost::lexical_cast unreachable code
-// when it fails to parse the string
-#pragma warning (disable:4702)
-#endif
-
 #include <boost/date_time/gregorian/gregorian.hpp>
 #if LL_MSVC
 #pragma warning(pop)   // Restore all warnings to the previous state
@@ -654,7 +647,7 @@ bool LLLogChat::moveTranscripts(const std::string originDirectory,
 			while(LLFile::isfile(backupFileName))
 			{
 				++backupFileCount;
-				backupFileName = newFullPath + ".backup" + boost::lexical_cast<std::string>(backupFileCount);
+				backupFileName = newFullPath + ".backup" + std::to_string(backupFileCount);
 			}
 
 			//Rename the file to its backup name so it is not overwritten

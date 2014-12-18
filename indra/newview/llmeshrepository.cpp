@@ -73,8 +73,6 @@
 #include "llfasttimer.h"
 #include "llcorehttputil.h"
 
-#include "boost/lexical_cast.hpp"
-
 #ifndef LL_WINDOWS
 #include "netdb.h"
 #endif
@@ -392,7 +390,7 @@ LLDeadmanTimer LLMeshRepository::sQuiescentTimer(15.0, false);	// true -> gather
 static S32 dump_num = 0;
 std::string make_dump_name(std::string prefix, S32 num)
 {
-	return prefix + boost::lexical_cast<std::string>(num) + std::string(".xml");
+	return prefix + std::to_string(num) + LLStringExplicit(".xml");
 }
 void dump_llsd_to_file(const LLSD& content, std::string filename);
 LLSD llsd_from_file(std::string filename);

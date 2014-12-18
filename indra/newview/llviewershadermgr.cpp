@@ -42,8 +42,6 @@
 #include "llvosky.h"
 #include "llrender.h"
 
-#include <boost/lexical_cast.hpp>
-
 #ifdef LL_RELEASE_FOR_DOWNLOAD
 #define UNIFORM_ERRS LL_WARNS_ONCE("Shader")
 #else
@@ -1910,7 +1908,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gFXAAProgram.mShaderFiles.clear();
 		gFXAAProgram.mShaderFiles.push_back(make_pair("deferred/postDeferredV.glsl", GL_VERTEX_SHADER_ARB));
 		gFXAAProgram.mShaderFiles.push_back(make_pair("deferred/fxaaF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gFXAAProgram.addPermutation("FXAA_QUALITY__PRESET", boost::lexical_cast<std::string>(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
+		gFXAAProgram.addPermutation("FXAA_QUALITY__PRESET", std::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
 		gFXAAProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gFXAAProgram.createShader(NULL, NULL);
 	}

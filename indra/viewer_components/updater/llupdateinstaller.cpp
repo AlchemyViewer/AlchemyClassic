@@ -31,12 +31,6 @@
 #include "lldir.h" 
 #include "llsd.h"
 
-#if defined(LL_WINDOWS)
-#pragma warning(disable: 4702)      // disable 'unreachable code' so we can use lexical_cast (really!).
-#endif
-#include <boost/lexical_cast.hpp>
-
-
 namespace {
 	class RelocateError {};
 	
@@ -82,7 +76,7 @@ int ll_install_update(std::string const & script,
 	params.executable = actualScriptPath;
 	params.args.add(updatePath);
 	params.args.add(ll_install_failed_marker_path());
-	params.args.add(boost::lexical_cast<std::string>(required));
+	params.args.add(std::to_string(required));
 	params.autokill = false;
 	return LLProcess::create(params)? 0 : -1;
 }

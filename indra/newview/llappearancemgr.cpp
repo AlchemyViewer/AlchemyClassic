@@ -26,7 +26,6 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include <boost/lexical_cast.hpp>
 #include "llaccordionctrltab.h"
 #include "llagent.h"
 #include "llagentcamera.h"
@@ -54,11 +53,6 @@
 #include "llsdserialize.h"
 #include "llhttpretrypolicy.h"
 #include "llaisapi.h"
-
-#if LL_MSVC
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
 
 std::string self_av_string()
 {
@@ -3432,7 +3426,7 @@ LLSD LLAppearanceMgr::dumpCOF() const
 			LLUUID linked_asset_id(linked_item->getAssetUUID());
 			md5.update((unsigned char*)linked_asset_id.mData, 16);
 			U32 flags = linked_item->getFlags();
-			md5.update(boost::lexical_cast<std::string>(flags));
+			md5.update(std::to_string(flags));
 		}
 		else if (LLAssetType::AT_LINK_FOLDER != inv_item->getActualType())
 		{

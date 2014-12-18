@@ -138,7 +138,6 @@
 #endif
 
 #include "llapr.h"
-#include <boost/lexical_cast.hpp>
 
 #include "llviewerkeyboard.h"
 #include "lllfsthread.h"
@@ -248,11 +247,6 @@
 #if (LL_LINUX || LL_SOLARIS) && LL_GTK
 #include "glib.h"
 #endif // (LL_LINUX || LL_SOLARIS) && LL_GTK
-
-#if LL_MSVC
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
 
 static LLAppViewerListener sAppViewerListener(LLAppViewer::instance);
 

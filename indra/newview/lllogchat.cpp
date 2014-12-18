@@ -42,14 +42,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 #include <boost/regex/v4/match_results.hpp>
-#include <boost/foreach.hpp>
-
-#if LL_MSVC
-#pragma warning(push)  
-// disable warning about boost::lexical_cast unreachable code
-// when it fails to parse the string
-#pragma warning (disable:4702)
-#endif
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #if LL_MSVC
@@ -641,7 +633,7 @@ bool LLLogChat::moveTranscripts(const std::string originDirectory,
 	std::string backupFileName;
 	unsigned backupFileCount;
 
-	BOOST_FOREACH(const std::string& fullpath, listOfFilesToMove)
+	for (const std::string& fullpath : listOfFilesToMove)
 	{
 		backupFileCount = 0;
 		newFullPath = targetDirectory + fullpath.substr(originDirectory.length(), std::string::npos);
@@ -655,7 +647,7 @@ bool LLLogChat::moveTranscripts(const std::string originDirectory,
 			while(LLFile::isfile(backupFileName))
 			{
 				++backupFileCount;
-				backupFileName = newFullPath + ".backup" + boost::lexical_cast<std::string>(backupFileCount);
+				backupFileName = newFullPath + ".backup" + std::to_string(backupFileCount);
 			}
 
 			//Rename the file to its backup name so it is not overwritten
@@ -712,7 +704,7 @@ void LLLogChat::deleteTranscripts()
 	getListOfTranscriptFiles(list_of_transcriptions);
 	getListOfTranscriptBackupFiles(list_of_transcriptions);
 
-	BOOST_FOREACH(const std::string& fullpath, list_of_transcriptions)
+	for (const std::string& fullpath : list_of_transcriptions)
 	{
 		S32 retry_count = 0;
 		while (retry_count < 5)
@@ -783,7 +775,7 @@ bool LLLogChat::isNearbyTranscriptExist()
 
 	std::string file_name;
 	file_name = makeLogFileName("chat");
-	BOOST_FOREACH(std::string& transcript_file_name, list_of_transcriptions)
+	for (std::string& transcript_file_name : list_of_transcriptions)
 	{
 	   	if (transcript_file_name == file_name)
 	   	{

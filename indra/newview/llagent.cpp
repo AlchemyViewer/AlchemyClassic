@@ -95,7 +95,6 @@
 #include "llworldmap.h"
 #include "alscriptdefinitions.h"
 #include "stringize.h"
-#include "boost/foreach.hpp"
 
 using namespace LLAvatarAppearanceDefines;
 
@@ -2052,7 +2051,7 @@ void LLAgent::endAnimationUpdateUI()
 			LLFloaterIMContainer* im_box = LLFloaterReg::getTypedInstance<LLFloaterIMContainer>("im_container");
 			LLFloaterIMContainer::floater_list_t conversations;
 			im_box->getDetachedConversationFloaters(conversations);
-			BOOST_FOREACH(LLFloater* conversation, conversations)
+			for (LLFloater* conversation : conversations)
 			{
 				LL_INFOS() << "skip_list.insert(session_floater): " << conversation->getTitle() << LL_ENDL;
 				skip_list.insert(conversation);

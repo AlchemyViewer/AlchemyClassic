@@ -28,13 +28,6 @@
 
 #include "llmediadataclient.h"
 
-#if LL_MSVC
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
-
-#include <boost/lexical_cast.hpp>
-
 #include "llhttpconstants.h"
 #include "llsdutil.h"
 #include "llmediaentry.h"

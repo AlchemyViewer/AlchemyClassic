@@ -127,7 +127,6 @@
 
 // Third party library includes
 #include <boost/bind.hpp>
-#include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 
@@ -139,7 +138,6 @@
 #endif
 
 #include "llapr.h"
-#include <boost/lexical_cast.hpp>
 
 #include "llviewerkeyboard.h"
 #include "lllfsthread.h"
@@ -249,11 +247,6 @@
 #if (LL_LINUX || LL_SOLARIS) && LL_GTK
 #include "glib.h"
 #endif // (LL_LINUX || LL_SOLARIS) && LL_GTK
-
-#if LL_MSVC
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
 
 static LLAppViewerListener sAppViewerListener(LLAppViewer::instance);
 
@@ -1171,7 +1164,7 @@ bool LLAppViewer::init()
 		LLSD item(LeapCommand);
 		LeapCommand.append(item);
 	}
-	BOOST_FOREACH(const std::string& leap, llsd::inArray(LeapCommand))
+	for (const std::string& leap : llsd::inArray(LeapCommand))
 	{
 		LL_INFOS("InitInfo") << "processing --leap \"" << leap << '"' << LL_ENDL;
 		// We don't have any better description of this plugin than the
@@ -1719,7 +1712,7 @@ bool LLAppViewer::cleanup()
 		}
 		// Okay, now trash them all. We don't have to NULL or erase the entry
 		// in 'leaps' because the whole vector is going away momentarily.
-		BOOST_FOREACH(LLLeap* leap, leaps)
+		for (LLLeap* leap : leaps)
 		{
 			delete leap;
 		}
@@ -2273,7 +2266,7 @@ bool LLAppViewer::loadSettingsFromDirectory(const std::string& location_key,
 		LL_ERRS() << "Invalid settings location list" << LL_ENDL;
 	}
 
-	BOOST_FOREACH(const SettingsGroup& group, mSettingsLocationList->groups)
+	for (const SettingsGroup& group : mSettingsLocationList->groups)
 	{
 		// skip settings groups that aren't the one we requested
 		if (group.name() != location_key) continue;
@@ -2285,7 +2278,7 @@ bool LLAppViewer::loadSettingsFromDirectory(const std::string& location_key,
 			return false;
 		}
 
-		BOOST_FOREACH(const SettingsFile& file, group.files)
+		for (const SettingsFile& file : group.files)
 		{
 			LL_INFOS("Settings") << "Attempting to load settings for the group " << file.name()
 			    << " - from location " << location_key << LL_ENDL;
@@ -2349,11 +2342,11 @@ bool LLAppViewer::loadSettingsFromDirectory(const std::string& location_key,
 std::string LLAppViewer::getSettingsFilename(const std::string& location_key,
 											 const std::string& file)
 {
-	BOOST_FOREACH(const SettingsGroup& group, mSettingsLocationList->groups)
+	for (const SettingsGroup& group : mSettingsLocationList->groups)
 	{
 		if (group.name() == location_key)
 		{
-			BOOST_FOREACH(const SettingsFile& settings_file, group.files)
+			for (const SettingsFile& settings_file : group.files)
 			{
 				if (settings_file.name() == file)
 				{
@@ -2876,7 +2869,7 @@ void LLAppViewer::initStrings()
 	// Now that we've set "[sourceid]", have to go back through
 	// default_trans_args and reinitialize all those other keys because some
 	// of them, in turn, reference "[sourceid]".
-	BOOST_FOREACH(std::string key, default_trans_args)
+	for (std::string key : default_trans_args)
 	{
 		std::string brackets(key), nobrackets(key);
 		// Invalid to inspect key[0] if key is empty(). But then, the entire
@@ -5750,7 +5743,7 @@ void LLAppViewer::launchUpdater()
 	std::string xml_search_paths;
 	const char* delim = "";
 	// build comma-delimited list of xml paths to pass to updater
-	BOOST_FOREACH(std::string this_skin_path, xui_path_vec)
+	for (std::string this_skin_path : xui_path_vec)
 	{
 		// Although we already have the full set of paths with the filename
 		// appended, the linux-updater.bin command-line switches require us to

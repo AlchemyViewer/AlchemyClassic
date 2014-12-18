@@ -32,9 +32,6 @@
 #include "llnotificationsutil.h"
 #include "lltrans.h"
 
-#include <boost/foreach.hpp>
-#include "boost/lexical_cast.hpp"
-
 const S32Days CONVERSATION_LIFETIME = (S32Days)30; // lifetime of LLConversation is 30 days by spec
 
 struct ConversationParams : public LLInitParam::Block<ConversationParams>
@@ -404,7 +401,7 @@ void LLConversationLog::deleteBackupLogs()
 	std::vector<std::string> backup_logs;
 	getListOfBackupLogs(backup_logs);
 
-	BOOST_FOREACH(const std::string& fullpath, backup_logs)
+	for (const std::string& fullpath : backup_logs)
 	{
 		LLFile::remove(fullpath);
 	}
@@ -428,7 +425,7 @@ bool LLConversationLog::moveLog(const std::string &originDirectory, const std::s
 			while(LLFile::isfile(backupFileName))
 			{
 				++backupFileCount;
-				backupFileName = targetDirectory + ".backup" + boost::lexical_cast<std::string>(backupFileCount);
+				backupFileName = targetDirectory + ".backup" + std::to_string(backupFileCount);
 			}
 
 			//Rename the file to its backup name so it is not overwritten

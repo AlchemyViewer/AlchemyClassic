@@ -34,8 +34,6 @@
 #include "llerror.h"
 #include "llxuiparser.h"
 
-#include <boost/foreach.hpp>
-
 
 //
 // LLCommandId class
@@ -163,7 +161,7 @@ bool LLCommandManager::load()
 		return false;
 	}
 
-	BOOST_FOREACH(LLCommand::Params& commandParams, commandsParams.commands)
+	for (LLCommand::Params& commandParams : commandsParams.commands)
 	{
 		LLCommand * command = new LLCommand(commandParams);
 

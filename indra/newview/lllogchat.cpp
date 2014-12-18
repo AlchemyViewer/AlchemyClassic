@@ -42,7 +42,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 #include <boost/regex/v4/match_results.hpp>
-#include <boost/foreach.hpp>
 
 #if LL_MSVC
 #pragma warning(push)  
@@ -641,7 +640,7 @@ bool LLLogChat::moveTranscripts(const std::string originDirectory,
 	std::string backupFileName;
 	unsigned backupFileCount;
 
-	BOOST_FOREACH(const std::string& fullpath, listOfFilesToMove)
+	for (const std::string& fullpath : listOfFilesToMove)
 	{
 		backupFileCount = 0;
 		newFullPath = targetDirectory + fullpath.substr(originDirectory.length(), std::string::npos);
@@ -712,7 +711,7 @@ void LLLogChat::deleteTranscripts()
 	getListOfTranscriptFiles(list_of_transcriptions);
 	getListOfTranscriptBackupFiles(list_of_transcriptions);
 
-	BOOST_FOREACH(const std::string& fullpath, list_of_transcriptions)
+	for (const std::string& fullpath : list_of_transcriptions)
 	{
 		S32 retry_count = 0;
 		while (retry_count < 5)
@@ -783,7 +782,7 @@ bool LLLogChat::isNearbyTranscriptExist()
 
 	std::string file_name;
 	file_name = makeLogFileName("chat");
-	BOOST_FOREACH(std::string& transcript_file_name, list_of_transcriptions)
+	for (std::string& transcript_file_name : list_of_transcriptions)
 	{
 	   	if (transcript_file_name == file_name)
 	   	{

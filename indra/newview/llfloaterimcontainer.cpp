@@ -55,7 +55,6 @@
 #include "llworld.h"
 #include "llsdserialize.h"
 #include "llviewerobjectlist.h"
-#include "boost/foreach.hpp"
 
 #include "llfloaterreporter.h"
 
@@ -692,7 +691,7 @@ void LLFloaterIMContainer::getDetachedConversationFloaters(floater_list_t& float
 	typedef conversations_widgets_map::value_type conv_pair;
 	LLFloaterIMNearbyChat *nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
 
-	BOOST_FOREACH(conv_pair item, mConversationsWidgets)
+	for (conv_pair item : mConversationsWidgets)
 	{
 		LLConversationViewSession* widget = dynamic_cast<LLConversationViewSession*>(item.second);
 		if (widget)

@@ -246,17 +246,17 @@ LLPanelMainInventory::~LLPanelMainInventory( void )
 		}
 	}
 
-	LLInventoryPanel* panel = findChild<LLInventoryPanel>("Recent Items");
-	if (panel)
+	LLInventoryPanel* recent_panel = findChild<LLInventoryPanel>("Recent Items");
+	if (recent_panel)
 	{
 		LLSD filterState;
 		LLInventoryPanel::InventoryState p;
-		panel->getFilter().toParams(p.filter);
-		panel->getRootViewModel().getSorter().toParams(p.sort);
+		recent_panel->getFilter().toParams(p.filter);
+		recent_panel->getRootViewModel().getSorter().toParams(p.sort);
 		if (p.validateBlock(false))
 		{
 			LLParamSDParser().writeSD(filterState, p);
-			filterRoot[panel->getName()] = filterState;
+			filterRoot[recent_panel->getName()] = filterState;
 		}
 	}
 	
@@ -270,7 +270,7 @@ LLPanelMainInventory::~LLPanelMainInventory( void )
 		if (p.validateBlock(false))
 		{
 			LLParamSDParser().writeSD(filterState, p);
-			filterRoot[panel->getName()] = filterState;
+			filterRoot[worn_panel->getName()] = filterState;
 		}
 	}
 

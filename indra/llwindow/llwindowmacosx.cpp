@@ -345,11 +345,29 @@ void callWindowFocus()
 	{
 		LL_WARNS("COCOA") << "Window Implementation or callbacks not yet initialized." << LL_ENDL;
 	}
+
+
 }
 
 void callWindowUnfocus()
 {
 	gWindowImplementation->getCallbacks()->handleFocusLost(gWindowImplementation);
+}
+
+void callWindowHide()
+{	
+	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
+	{
+		gWindowImplementation->getCallbacks()->handleActivate(gWindowImplementation, false);
+	}
+}
+
+void callWindowUnhide()
+{	
+	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
+	{
+		gWindowImplementation->getCallbacks()->handleActivate(gWindowImplementation, true);
+	}
 }
 
 void callDeltaUpdate(double *delta, MASK mask)
@@ -580,6 +598,8 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 
 	if(mContext != NULL)
 	{
+		
+		
 		U32 err = CGLSetCurrentContext(mContext);
 		if (err != kCGLNoError)
 		{
@@ -738,10 +758,9 @@ BOOL LLWindowMacOSX::getVisible()
 	if(mFullscreen)
 	{
 		result = TRUE;
-	}
-	if (mWindow)
+	}if (mWindow)
 	{
-		result = TRUE;
+			result = TRUE;
 	}
 
 	return(result);

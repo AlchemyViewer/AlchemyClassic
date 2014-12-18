@@ -111,6 +111,14 @@ attributedStringInfo getSegments(NSAttributedString *str)
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowResized:) name:NSWindowDidResizeNotification
+											   object:[self window]];    
+ 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowWillMiniaturize:) name:NSWindowWillMiniaturizeNotification
+											   object:[self window]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowDidDeminiaturize:) name:NSWindowDidDeminiaturizeNotification
 											   object:[self window]];
 	NSRect rect = [[self window] frame];
 	NSRect scaled_rect = [self convertRectToBacking:rect];
@@ -128,6 +136,16 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		NSSize scaled_size = [self convertSizeToBacking:size];
 		callResize(scaled_size.width, scaled_size.height);
 	}
+}
+
+- (void)windowWillMiniaturize:(NSNotification *)notification;
+{
+    callWindowHide();
+}
+
+- (void)windowDidDeminiaturize:(NSNotification *)notification;
+{
+    callWindowUnhide();
 }
 
 - (void)dealloc
@@ -352,9 +370,14 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	callMiddleMouseUp(mMousePos, [theEvent modifierFlags]);
 }
 
+- (void) rightMouseDragged:(NSEvent *)theEvent
+{
+	[self mouseDragged:theEvent];
+}
+
 - (void) otherMouseDragged:(NSEvent *)theEvent
 {
-	
+	[self mouseDragged:theEvent];        
 }
 
 - (void) scrollWheel:(NSEvent *)theEvent

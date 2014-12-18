@@ -70,6 +70,7 @@
 #include "apr_base64.h"
 
 #define USE_SESSION_GROUPS 0
+#define VX_NULL_POSITION -2147483648.0 /*The Silence*/
 
 extern LLMenuBarGL* gMenuBarView;
 extern void handle_voice_morphing_subscribe();
@@ -492,18 +493,18 @@ void LLVivoxVoiceClient::connectorCreate()
 	
 	stream 
 	<< "<Request requestId=\"" << mCommandCookie++ << "\" action=\"Connector.Create.1\">"
-	<< "<ClientName>V2 SDK</ClientName>"
-	<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
-	<< "<Mode>Normal</Mode>"
-	<< "<Logging>"
-		<< "<Folder>" << logpath << "</Folder>"
-		<< "<FileNamePrefix>Connector</FileNamePrefix>"
-		<< "<FileNameSuffix>.log</FileNameSuffix>"
-		<< "<LogLevel>" << loglevel << "</LogLevel>"
-	<< "</Logging>"
-	<< "<Application></Application>"  //Name can cause problems per vivox.
-	<< "<MaxCalls>12</MaxCalls>"
-	<< "</Request>\n\n\n";
+		<< "<ClientName>V2 SDK</ClientName>"
+		<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
+		<< "<Mode>Normal</Mode>"
+		<< "<Logging>"
+        << "<Folder>" << logpath << "</Folder>"
+        << "<FileNamePrefix>Connector</FileNamePrefix>"
+        << "<FileNameSuffix>.log</FileNameSuffix>"
+        << "<LogLevel>" << loglevel << "</LogLevel>"
+		<< "</Logging>"
+		<< "<Application></Application>"  //Name can cause problems per vivox.
+        << "<MaxCalls>12</MaxCalls>"
+        << "</Request>\n\n\n";
 	
 	writeString(stream.str());
 }
@@ -798,8 +799,7 @@ void LLVivoxVoiceClient::stateMachine()
 						// vivox executable exists.  Build the command line and launch the daemon.
 						LLProcess::Params params;
 						params.executable = exe_path;
-						// SLIM SDK: these arguments are no longer necessary.
-//						std::string args = " -p tcp -h -c";
+
 						std::string loglevel = gSavedSettings.getString("VivoxDebugLevel");
 						std::string shutdown_timeout = gSavedSettings.getString("VivoxShutdownTimeout");
 						if(loglevel.empty())
@@ -808,15 +808,16 @@ void LLVivoxVoiceClient::stateMachine()
 						}
 						params.args.add("-ll");
 						params.args.add(loglevel);
-						
-						params.args.add("-lf");
+
 						std::string log_folder = gSavedSettings.getString("VivoxLogDirectory");
 						if (log_folder.empty())
 						{
 							log_folder = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
 						}
-						params.args.add("logfolder");
-						
+
+						params.args.add("-lf");
+						params.args.add(log_folder);
+
 						if(!shutdown_timeout.empty())
 						{
 							params.args.add("-st");
@@ -1547,7 +1548,7 @@ void LLVivoxVoiceClient::stateMachine()
 			// Always reset the terminate request flag when we get here.
 			mSessionTerminateRequested = false;
 
-			if((mVoiceEnabled || !mIsInitialized) && !mRelogRequested)
+			if((mVoiceEnabled || !mIsInitialized) && !mRelogRequested  && !LLApp::isExiting())
 			{				
 				// Just leaving a channel, go back to stateNoChannel (the "logged in but have no channel" state).
 				setState(stateNoChannel);
@@ -2356,6 +2357,14 @@ static void oldSDKTransform (LLVector3 &left, LLVector3 &up, LLVector3 &at, LLVe
 #endif
 }
 
+void LLVivoxVoiceClient::setHidden(bool hidden)
+{
+    mHidden = hidden;
+    
+    sendPositionalUpdate();
+    return;
+}
+
 void LLVivoxVoiceClient::sendPositionalUpdate(void)
 {	
 	std::ostringstream stream;
@@ -2383,8 +2392,16 @@ void LLVivoxVoiceClient::sendPositionalUpdate(void)
 		// SLIM SDK: the old SDK was doing a transform on the passed coordinates that the new one doesn't do anymore.
 		// The old transform is replicated by this function.
 		oldSDKTransform(l, u, a, pos, vel);
+        
+        if (mHidden)
+        {
+            for (int i=0;i<3;++i)
+            {
+                pos.mdV[i] = VX_NULL_POSITION;
+            }
+        }
 		
-		stream 
+		stream
 			<< "<Position>"
 				<< "<X>" << pos.mdV[VX] << "</X>"
 				<< "<Y>" << pos.mdV[VY] << "</Y>"
@@ -2451,7 +2468,15 @@ void LLVivoxVoiceClient::sendPositionalUpdate(void)
 		
 		oldSDKTransform(l, u, a, pos, vel);
 		
-		stream 
+        if (mHidden)
+        {
+            for (int i=0;i<3;++i)
+            {
+                pos.mdV[i] = VX_NULL_POSITION;
+            }
+        }
+        
+		stream
 			<< "<Position>"
 				<< "<X>" << pos.mdV[VX] << "</X>"
 				<< "<Y>" << pos.mdV[VY] << "</Y>"
@@ -5471,7 +5496,8 @@ void LLVivoxVoiceClient::notifyStatusObservers(LLVoiceClientStatusObserver::ESta
 
 	// skipped to avoid speak button blinking
 	if (   status != LLVoiceClientStatusObserver::STATUS_JOINING
-		&& status != LLVoiceClientStatusObserver::STATUS_LEFT_CHANNEL)
+		&& status != LLVoiceClientStatusObserver::STATUS_LEFT_CHANNEL
+		&& status != LLVoiceClientStatusObserver::STATUS_VOICE_DISABLED)
 	{
 		bool voice_status = LLVoiceClient::getInstance()->voiceEnabled() && LLVoiceClient::getInstance()->isVoiceWorking();
 

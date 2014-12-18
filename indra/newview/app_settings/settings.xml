@@ -6153,16 +6153,16 @@
     <integer>0</integer>
   </map>
   <key>MemoryLogFrequency</key>
-  <map>
-    <key>Comment</key>
-    <string>Seconds between display of Memory in log (0 for never)</string>
-    <key>Persist</key>
-    <integer>1</integer>
-    <key>Type</key>
-    <string>F32</string>
-    <key>Value</key>
-    <real>30.0</real>
-  </map>
+        <map>
+        <key>Comment</key>
+            <string>Seconds between display of Memory in log (0 for never)</string>
+        <key>Persist</key>
+            <integer>1</integer>
+        <key>Type</key>
+            <string>F32</string>
+        <key>Value</key>
+            <real>60.0</real>
+        </map>
     <key>MemProfiling</key>
     <map>
       <key>Comment</key>
@@ -13511,6 +13511,17 @@
       <key>Value</key>
       <string>0</string>
     </map>
+    <key>VivoxLogDirectory</key>
+    <map>
+        <key>Comment</key>
+        <string>Default log path is Application Support/SecondLife/logs specify alternate absolute path here.</string>
+        <key>Persist</key>
+        <integer>1</integer>
+        <key>Type</key>
+        <string>String</string>
+        <key>Value</key>
+        <string></string>
+    </map>
     <key>VivoxShutdownTimeout</key>
     <map>
       <key>Comment</key>
@@ -13521,17 +13532,6 @@
       <string>String</string>
       <key>Value</key>
       <string>5</string>
-    </map>
-    <key>VivoxLogDirectory</key>
-    <map>
-      <key>Comment</key>
-      <string>Default log path is Application Support/SecondLife/logs specify alternate absolute path here.</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>String</string>
-      <key>Value</key>
-      <string />
     </map>
     <key>VivoxDebugSIPURIHostName</key>
     <map>

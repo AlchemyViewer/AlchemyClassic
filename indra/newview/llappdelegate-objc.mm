@@ -103,7 +103,17 @@
 	callWindowUnfocus();
 }
 
-- (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
+- (void) applicationDidHide:(NSNotification *)notification
+{
+	callWindowHide();
+}
+
+- (void) applicationDidUnhide:(NSNotification *)notification
+{
+	callWindowUnhide();
+}
+
+- (NSApplicationDelegateReply) applicationShouldTerminate:(NSApplication *)sender
 {
 	if (!runMainLoop())
 	{

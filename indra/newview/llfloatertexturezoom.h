@@ -45,7 +45,6 @@ private:
 	~LLFloaterTextureZoom();
 	void updateDimensions();
 	void updateImageID();
-	void adjustAspectRatio();
 	
 	bool mLoadingFullImage;
 	bool mUpdateDimensions;

@@ -292,7 +292,9 @@ bool LLAppViewerLinux::sendURLToOtherInstance(const std::string& url)
 	DBusGConnection *bus;
 	GError *error = NULL;
 
+#if !GLIB_CHECK_VERSION(2, 36, 0)
 	g_type_init();
+#endif
 	
 	bus = lldbus_g_bus_get (DBUS_BUS_SESSION, &error);
 	if (bus)

@@ -10,6 +10,8 @@
 #    HAVE_GENERIC_LAMBDA
 #    HAVE_ATTRIBUTE_DEPRECATED
 #    HAVE_SINGLE_QUOTE_DIGIT_SEPERATOR
+#    HAVE_REVERSE_ITERATOR
+#    HAVE_MAKE_REVERSE_ITERATOR
 
 include(CMakePushCheckState)
 include(CheckCXXSourceCompiles)
@@ -89,6 +91,32 @@ CHECK_CXX_SOURCE_COMPILES("
       return x-x;
     }
 " HAVE_SINGLE_QUOTE_DIGIT_SEPERATOR
+)
+
+CHECK_CXX_SOURCE_COMPILES("
+    #include <iostream>
+    #include <vector>
+    #include <iterator>
+    #include <algorithm>
+    int main(void) {
+      std::vector<int> v = { 1, 2, 3 };
+      std::copy(std::rbegin(v), std::rend(v), std::ostream_iterator<int>(std::cout, ' '));
+      return 0;
+    }
+" HAVE_REVERSE_ITERATOR
+)
+
+CHECK_CXX_SOURCE_COMPILES("
+    #include <iterator>
+    template< class Iterator >
+    std::reverse_iterator<Iterator> make_reverse_iterator( Iterator i ) {
+      return std::reverse_iterator<Iterator>(i);
+    }
+
+    int main(void) {
+      return 0;
+    }
+" HAVE_MAKE_REVERSE_ITERATOR
 )
 
 cmake_pop_check_state()

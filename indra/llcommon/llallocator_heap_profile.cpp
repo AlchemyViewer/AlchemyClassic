@@ -26,6 +26,10 @@
  */
 
 #include "linden_common.h"
+
+#ifdef LL_GNUC
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
 #include "llallocator_heap_profile.h"
 
 #if LL_MSVC

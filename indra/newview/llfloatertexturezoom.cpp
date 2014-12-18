@@ -179,8 +179,6 @@ void LLFloaterTextureZoom::updateDimensions()
 	if (mAssetStatus != PREVIEW_ASSET_LOADED)
 	{
 		mAssetStatus = PREVIEW_ASSET_LOADED;
-		// Asset has been fully loaded, adjust aspect ratio
-		adjustAspectRatio();
 	}
 	
 	// Reshape the floater only when required
@@ -213,26 +211,6 @@ LLPreview::EAssetStatus LLFloaterTextureZoom::getAssetStatus()
 		mAssetStatus = PREVIEW_ASSET_LOADED;
 	}
 	return mAssetStatus;
-}
-
-void LLFloaterTextureZoom::adjustAspectRatio()
-{
-	S32 w = mImage->getFullWidth();
-	S32 h = mImage->getFullHeight();
-	
-	// Determine aspect ratio of the image
-	S32 tmp;
-	while (h != 0)
-	{
-		tmp = w % h;
-		w = h;
-		h = tmp;
-	}
-	S32 divisor = w;
-	S32 num = mImage->getFullWidth() / divisor;
-	S32 denom = mImage->getFullHeight() / divisor;
-	
-	mUpdateDimensions = true;
 }
 
 void LLFloaterTextureZoom::updateImageID()

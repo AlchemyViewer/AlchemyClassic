@@ -1568,7 +1568,6 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			if( !(rot_key.mRotation.isFinite()) )
 			{
 				LL_WARNS() << "non-finite angle in rotation key" << LL_ENDL;
-				delete mJointMotionList;
 				success = FALSE;
 			}
 			

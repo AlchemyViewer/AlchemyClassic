@@ -723,8 +723,6 @@ private:
 	bool mRenderDeviceDirty;
 
 	bool mIsInitialized;
-	bool mShutdownComplete;
-	
 	
 	bool checkParcelChanged(bool update = false);
 	// This should be called when the code detects we have changed parcels.

@@ -1652,7 +1652,6 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			if( !(pos_key.mPosition.isFinite()) )
 			{
 				LL_WARNS() << "non-finite position in key" << LL_ENDL;
-				delete mJointMotionList;
 				success = FALSE;
 			}
 			

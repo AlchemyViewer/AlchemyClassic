@@ -3849,10 +3849,6 @@ void LLAgent::restartFailedTeleportRequest()
 
 void LLAgent::clearTeleportRequest()
 {
-    if(LLVoiceClient::instanceExists())
-    {
-        LLVoiceClient::getInstance()->setHidden(FALSE);
-    }
 	mTeleportRequest.reset();
 }
 
@@ -3871,10 +3867,6 @@ bool LLAgent::hasPendingTeleportRequest()
 
 void LLAgent::startTeleportRequest()
 {
-    if(LLVoiceClient::instanceExists())
-    {
-        LLVoiceClient::getInstance()->setHidden(TRUE);
-    }
 	if (hasPendingTeleportRequest())
 	{
 		if  (!isMaturityPreferenceSyncedWithServer())
@@ -3920,11 +3912,6 @@ void LLAgent::handleTeleportFinished()
 
 void LLAgent::handleTeleportFailed()
 {
-    if(LLVoiceClient::instanceExists())
-    {
-        LLVoiceClient::getInstance()->setHidden(FALSE);
-    }
-
 	if (mTeleportRequest != NULL)
 	{
 		mTeleportRequest->setStatus(LLTeleportRequest::kFailed);

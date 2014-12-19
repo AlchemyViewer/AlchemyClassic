@@ -35,7 +35,6 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
-uniform float display_gamma;
 uniform vec4 gamma;
 uniform vec4 lightnorm;
 uniform vec4 sunlight_color;

@@ -216,7 +216,6 @@ public:
 		TERRAIN_ALPHARAMP,
 		
 		SHINY_ORIGIN,
-DISPLAY_GAMMA,
 // <alchemy>
 		SECONDS60,
 // </alchemy>

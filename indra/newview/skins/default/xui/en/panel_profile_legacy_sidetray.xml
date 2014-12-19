@@ -57,7 +57,7 @@ Remove Friend
     <text_editor
      allow_scroll="false"
      bg_visible="false"
-     read_only = "true"
+     read_only="true"
      layout="topleft"
      name="avatar_name"
      v_pad="0"

@@ -61,6 +61,7 @@
 #include "llmutelist.h"
 #include "llsidetraypanelcontainer.h"
 #include "llslurl.h"
+#include "llviewerdisplayname.h"
 
 // These are order-senstitive so don't fk with 'em!
 static const std::array<std::string, 8> sWantCheckboxes{{"wanna_build", "wanna_explore", "wanna_yiff", "wanna_work", "wanna_group", "wanna_buy", "wanna_sell", "wanna_hire"}};
@@ -93,6 +94,8 @@ LLPanelProfileLegacy::~LLPanelProfileLegacy()
 		LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(), this);
 	if (mAvatarNameCacheConnection.connected())
 		mAvatarNameCacheConnection.disconnect();
+	if (mNameChangedConnection.connected())
+		mNameChangedConnection.disconnect();
 }
 
 // virtual
@@ -107,7 +110,8 @@ BOOL LLPanelProfileLegacy::postBuild()
 	getChild<LLTextEditor>("fl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
 	getChild<LLTextureCtrl>("sl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
 	getChild<LLTextureCtrl>("fl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
-	getChild<LLTextEditor>("notes")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitNotes, this), nullptr);
+	getChild<LLTextEditor>("notes")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitNotes, this, _1), nullptr);
+	getChild<LLTextEditor>("avatar_name")->setDoubleClickCallback(boost::bind(&LLPanelProfileLegacy::onDoubleClickName, this));
 	return TRUE;
 }
 
@@ -133,6 +137,11 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 	}
 	if (mPickDetail != nullptr)
 		closePanel(mPickDetail);
+	
+	if (mNameChangedConnection.connected())
+	{
+		mNameChangedConnection.disconnect();
+	}
 	
 	setAvatarId(av_id);
 	
@@ -202,7 +211,7 @@ void LLPanelProfileLegacy::updateData()
 
 void LLPanelProfileLegacy::onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name)
 {
-	getChild<LLTextBase>("avatar_name")->setText(av_name.getCompleteName());
+	getChild<LLTextEditor>("avatar_name")->setText(av_name.getCompleteName());
 }
 
 void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType type)
@@ -429,10 +438,25 @@ void LLPanelProfileLegacy::onCommitInterest()
 	LLAvatarPropertiesProcessor::getInstance()->sendInterestsUpdate(&data);
 }
 
-void LLPanelProfileLegacy::onCommitNotes()
+void LLPanelProfileLegacy::onCommitNotes(LLUICtrl* ctrl)
 {
-	const std::string notes = getChild<LLTextEditor>("notes")->getValue().asString();
+	const std::string& notes = ctrl->getValue().asString();
 	LLAvatarPropertiesProcessor::getInstance()->sendNotes(getAvatarId(), notes);
+}
+
+void LLPanelProfileLegacy::onDoubleClickName()
+{
+	if (getAvatarId() == gAgentID)
+	{
+		LLFloaterReg::showInstance("display_name");
+		mNameChangedConnection = LLViewerDisplayName::addNameChangedCallback(boost::bind(&LLPanelProfileLegacy::onNameChanged, this));
+	}
+}
+
+void LLPanelProfileLegacy::onNameChanged()
+{
+	mAvatarNameCacheConnection = LLAvatarNameCache::get(getAvatarId(),
+														boost::bind(&LLPanelProfileLegacy::onAvatarNameCache, this, _1, _2));
 }
 
 void LLPanelProfileLegacy::onBackBtnClick()

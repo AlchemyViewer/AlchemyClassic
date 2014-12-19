@@ -35,6 +35,7 @@ S32 diffuse_channel = -1;
 
 LLDrawPoolMaterials::LLDrawPoolMaterials()
 :  LLRenderPass(LLDrawPool::POOL_MATERIALS)
+,  mShader(nullptr)
 {
 	
 }

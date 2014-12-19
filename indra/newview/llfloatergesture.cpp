@@ -579,6 +579,7 @@ void LLFloaterGesture::onClickEdit()
 
 void LLFloaterGesture::onCommitList()
 {
+	if (!mGestureList) return;
 	const LLUUID& item_id = mGestureList->getCurrentID();
 
 	mSelectedID = item_id;

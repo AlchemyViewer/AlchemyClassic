@@ -6239,7 +6239,7 @@ void LLVOAvatar::getOffObject()
 		gAgentCamera.setSitCamera(LLUUID::null);
 
 		static LLCachedControl<U32> revoke_perms(gSavedSettings, "AlchemyRevokeObjectPerms");
-		if ((revoke_perms == 2 || revoke_perms == 3) && !sit_object->permYouOwner())
+		if ((revoke_perms == 2 || revoke_perms == 3) && sit_object && !sit_object->permYouOwner())
 		{
 			revoke_permissions_on_object(sit_object->getID());
 		}

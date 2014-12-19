@@ -440,7 +440,7 @@ BOOL LLParcel::importAccessEntry(std::istream& input_stream, LLAccessEntry* entr
     while (input_stream.good())
     {
         skip_comments_and_emptyspace(input_stream);
-        std::string line, keyword, value;
+		std::string line, keyword, value = LLStringUtil::null;
         get_line(line, input_stream, MAX_STRING);
         get_keyword_and_value(keyword, value, line);
         
@@ -458,13 +458,13 @@ BOOL LLParcel::importAccessEntry(std::istream& input_stream, LLAccessEntry* entr
         }
         else if ("time" == keyword)
         {
-            S32 when;
+            S32 when = 0;
             LLStringUtil::convertToS32(value, when);
             entry->mTime = when;
         }
         else if ("flags" == keyword)
         {
-            U32 setting;
+            U32 setting = 0;
             LLStringUtil::convertToU32(value, setting);
             entry->mFlags = setting;
         }

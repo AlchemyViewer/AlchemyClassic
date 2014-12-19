@@ -1729,7 +1729,7 @@ bool LLPanelEstateInfo::accessAddCore2(const LLSD& notification, const LLSD& res
                                                     TRUE, TRUE, FALSE, parent_floater_name, button);
 
     //Allows the closed parent floater to close the child floater (avatar picker)
-    if (child_floater)
+    if (child_floater && parent_floater)
     {
         parent_floater->addDependentFloater(child_floater);
     }

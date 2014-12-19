@@ -615,7 +615,7 @@ void LLPanelGroupInvite::updateLists()
 	else
 	{
 		mPendingUpdate = FALSE;
-		if (mImplementation->mOKButton && mImplementation->mRoleNames->getItemCount()) 
+		if (mImplementation->mOKButton && mImplementation->mRoleNames && mImplementation->mRoleNames->getItemCount())
 		{
 			mImplementation->mOKButton->setEnabled(TRUE);
 		}

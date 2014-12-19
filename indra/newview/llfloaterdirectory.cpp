@@ -221,7 +221,7 @@ void LLFloaterDirectory::showDetailPanel(const std::string& panel_name)
 {
 	for (const std::string& panel_itr: sDetailPanels)
 	{
-		childSetVisible(panel_itr, panel_itr == panel_name);
+		getChild<LLPanel>(panel_itr)->setVisible(panel_itr == panel_name);
 	}
 }
 

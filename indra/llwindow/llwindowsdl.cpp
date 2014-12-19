@@ -1,4 +1,4 @@
-/** 
+/**
  * @file llwindowsdl.cpp
  * @brief SDL implementation of LLWindow class
  * @author This module has many fathers, and it shows.
@@ -6,21 +6,21 @@
  * $LicenseInfo:firstyear=2001&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2010, Linden Research, Inc.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation;
  * version 2.1 of the License only.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
@@ -67,7 +67,7 @@ extern BOOL gDebugWindowProc;
 const S32 MAX_NUM_RESOLUTIONS = 200;
 
 // static variable for ATI mouse cursor crash work-around:
-static bool ATIbug = false; 
+static bool ATIbug = false;
 
 //
 // LLWindowSDL
@@ -75,6 +75,7 @@ static bool ATIbug = false;
 
 #if LL_X11
 # include <X11/Xutil.h>
+# include <boost/regex.hpp>
 #endif //LL_X11
 
 // TOFU HACK -- (*exactly* the same hack as LLWindowMacOSX for a similar
@@ -118,7 +119,7 @@ bool LLWindowSDL::ll_try_gtk_init(void)
 		maybe_unlock_display();
 		done_setlocale = TRUE;
 	}
-	
+
 	if (!tried_gtk_init)
 	{
 		tried_gtk_init = TRUE;
@@ -260,15 +261,15 @@ static SDL_Surface *Load_BMP_Resource(const char *basename)
 {
 	const int PATH_BUFFER_SIZE=1000;
 	char path_buffer[PATH_BUFFER_SIZE];	/* Flawfinder: ignore */
-	
+
 	// Figure out where our BMP is living on the disk
-	snprintf(path_buffer, PATH_BUFFER_SIZE-1, "%s%sres-sdl%s%s",	
+	snprintf(path_buffer, PATH_BUFFER_SIZE-1, "%s%sres-sdl%s%s",
 		 gDirUtilp->getAppRODataDir().c_str(),
 		 gDirUtilp->getDirDelimiter().c_str(),
 		 gDirUtilp->getDirDelimiter().c_str(),
 		 basename);
 	path_buffer[PATH_BUFFER_SIZE-1] = '\0';
-	
+
 	return SDL_LoadBMP(path_buffer);
 }
 
@@ -277,117 +278,64 @@ static SDL_Surface *Load_BMP_Resource(const char *basename)
 // on this machine.  It works by searching /var/log/var/log/Xorg.?.log or
 // /var/log/XFree86.?.log for a ': (VideoRAM ?|Memory): (%d+) kB' regex, where
 // '?' is the X11 display number derived from $DISPLAY
-static int x11_detect_VRAM_kb_fp(FILE *fp, const char *prefix_str)
-{
-	const int line_buf_size = 1000;
-	char line_buf[line_buf_size];
-	while (fgets(line_buf, line_buf_size, fp))
-	{
-		//LL_DEBUGS() << "XLOG: " << line_buf << LL_ENDL;
+#define X11_VRAM_REGEX "(VRAM|Memory|Video\\s?RAM)\\D*(\\d+)\\s?([kK]B?)"
 
-		// Why the ad-hoc parser instead of using a regex?  Our
-		// favourite regex implementation - libboost_regex - is
-		// quite a heavy and troublesome dependency for the client, so
-		// it seems a shame to introduce it for such a simple task.
-		// *FIXME: libboost_regex is a dependency now anyway, so we may
-		// as well use it instead of this hand-rolled nonsense.
-		const char *part1_template = prefix_str;
-		const char part2_template[] = " kB";
-		char *part1 = strstr(line_buf, part1_template);
-		if (part1) // found start of matching line
-		{
-			part1 = &part1[strlen(part1_template)]; // -> after
-			char *part2 = strstr(part1, part2_template);
-			if (part2) // found end of matching line
-			{
-				// now everything between part1 and part2 is
-				// supposed to be numeric, describing the
-				// number of kB of Video RAM supported
-				int rtn = 0;
-				for (; part1 < part2; ++part1)
-				{
-					if (*part1 < '0' || *part1 > '9')
-					{
-						// unexpected char, abort parse
-						rtn = 0;
-						break;
-					}
-					rtn *= 10;
-					rtn += (*part1) - '0';
-				}
-				if (rtn > 0)
-				{
-					// got the kB number.  return it now.
-					return rtn;
-				}
+static int x11_detect_VRAM_kb_fp(FILE *fp) {
+	boost::regex pattern(X11_VRAM_REGEX);
+	if(fp)
+	{
+		char * line = NULL;
+		size_t len = 0;
+		ssize_t read;
+		while((read = getline(&line, &len, fp)) != -1) {
+			std::string sline(line, len);
+			boost::cmatch match;
+			if(boost::regex_search(line, match, pattern)) {
+				long int vram = strtol(std::string(match[2]).c_str(), NULL, 10);
+				LL_INFOS() << "Found VRAM " << vram << LL_ENDL;
+				return (int)vram;
 			}
 		}
 	}
-	return 0; // 'could not detect'
+	return 0; // not detected
 }
 
 static int x11_detect_VRAM_kb()
 {
-#if LL_SOLARIS && defined(__sparc)
-      //  NOTE: there's no Xorg server on SPARC so just return 0
-      //        and allow SDL to attempt to get the amount of VRAM
-      return(0);
-#else
-
-	std::string x_log_location("/var/log/");
-	std::string fname;
+	const std::string x_log_location("/var/log/");
 	int rtn = 0; // 'could not detect'
-	int display_num = 0;
 	FILE *fp;
-	char *display_env = getenv("DISPLAY"); // e.g. :0 or :0.0 or :1.0 etc
-	// parse DISPLAY number so we can go grab the right log file
-	if (display_env[0] == ':' &&
-	    display_env[1] >= '0' && display_env[1] <= '9')
-	{
-		display_num = display_env[1] - '0';
-	}
 
 	// *TODO: we could be smarter and see which of Xorg/XFree86 has the
 	// freshest time-stamp.
 
-	// Try Xorg log first
-	fname = x_log_location;
-	fname += "Xorg.";
-	fname += ('0' + display_num);
-	fname += ".log";
-	fp = fopen(fname.c_str(), "r");
+	// try journald first
+	fp = popen("journalctl -e _COMM=Xorg{,.bin}", "r");
 	if (fp)
 	{
-		LL_INFOS() << "Looking in " << fname
-			<< " for VRAM info..." << LL_ENDL;
-		rtn = x11_detect_VRAM_kb_fp(fp, ": VideoRAM: ");
-		fclose(fp);
-		if (0 == rtn)
-		{
-			fp = fopen(fname.c_str(), "r");
-			if (fp)
-			{
-				rtn = x11_detect_VRAM_kb_fp(fp, ": Video RAM: ");
-				fclose(fp);
-				if (0 == rtn)
-				{
-					fp = fopen(fname.c_str(), "r");
-					if (fp)
-					{
-						rtn = x11_detect_VRAM_kb_fp(fp, ": Memory: ");
-						fclose(fp);
-					}
-				}
-			}
-		}
+		LL_INFOS() << "Looking in journald for VRAM info..." << LL_ENDL;
+		rtn = x11_detect_VRAM_kb_fp(fp);
+		pclose(fp);
+	} else {
+		LL_INFOS() << "Failed to popen journalctl (expected on non-systemd)" << LL_ENDL;
 	}
-	else
+
+	if (rtn == 0)
 	{
-		LL_INFOS() << "Could not open " << fname
-			<< " - skipped." << LL_ENDL;	
-		// Try old XFree86 log otherwise
+		// Try Xorg log last
+		// XXX: this will not work on system that output Xorg logs to syslog
+		std::string fname;
+		int display_num = 0;
+		char *display_env = getenv("DISPLAY"); // e.g. :0 or :0.0 or :1.0 etc
+		// parse DISPLAY number so we can go grab the right log file
+		if (display_env[0] == ':' &&
+			display_env[1] >= '0' && display_env[1] <= '9')
+		{
+			display_num = display_env[1] - '0';
+		}
+
 		fname = x_log_location;
-		fname += "XFree86.";
+		fname += "Xorg.";
 		fname += ('0' + display_num);
 		fname += ".log";
 		fp = fopen(fname.c_str(), "r");
@@ -395,26 +343,32 @@ static int x11_detect_VRAM_kb()
 		{
 			LL_INFOS() << "Looking in " << fname
 				<< " for VRAM info..." << LL_ENDL;
-			rtn = x11_detect_VRAM_kb_fp(fp, ": VideoRAM: ");
+			rtn = x11_detect_VRAM_kb_fp(fp);
 			fclose(fp);
-			if (0 == rtn)
-			{
-				fp = fopen(fname.c_str(), "r");
-				if (fp)
-				{
-					rtn = x11_detect_VRAM_kb_fp(fp, ": Memory: ");
-					fclose(fp);
-				}
-			}
 		}
 		else
 		{
 			LL_INFOS() << "Could not open " << fname
 				<< " - skipped." << LL_ENDL;
+			// Try old XFree86 log otherwise
+			fname = x_log_location;
+			fname += "XFree86.";
+			fname += ('0' + display_num);
+			fname += ".log";
+			fp = fopen(fname.c_str(), "r");
+			if (fp)
+			{
+				rtn = x11_detect_VRAM_kb_fp(fp);
+				fclose(fp);
+			}
+			else
+			{
+				LL_INFOS() << "Could not open " << fname
+					<< " - skipped." << LL_ENDL;
+			}
 		}
 	}
 	return rtn;
-#endif // LL_SOLARIS
 }
 #endif // LL_X11
 
@@ -428,7 +382,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	// captures don't survive contexts
 	mGrabbyKeyFlags = 0;
 	mReallyCapturedCount = 0;
-	
+
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LL_INFOS() << "sdl_init() failed! " << SDL_GetError() << LL_ENDL;
@@ -499,7 +453,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
         //     - This should not affect better GPUs and has been proven
         //	 to provide 24-bit z-buffers when available.
 	//
-        // As the API states: 
+        // As the API states:
 	//
         // GLX_DEPTH_SIZE    Must be followed by a nonnegative
         //                   minimum size specification.  If this
@@ -525,7 +479,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, mFSAASamples);
 	}
-	
+
     	mSDLFlags = sdlflags;
 
 	if (mFullscreen)
@@ -611,7 +565,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 			mFullscreenBits    = -1;
 			mFullscreenRefresh = -1;
 
-			std::string error = llformat("Unable to run fullscreen at %d x %d.\nRunning in window.", width, height);	
+			std::string error = llformat("Unable to run fullscreen at %d x %d.\nRunning in window.", width, height);
 			OSMessageBox(error, "Error", OSMB_OK);
 		}
 	}
@@ -641,15 +595,16 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	{
 		LL_INFOS() << "createContext: SKIPPING - !fullscreen, but +mWindow " << width << "x" << height << "x" << bits << LL_ENDL;
 	}
-	
+
 	// Detect video memory size.
-# if LL_X11
+#if LL_X11 && !(LL_SOLARIS && defined(__sparc))
 	gGLManager.mVRAM = x11_detect_VRAM_kb() / 1024;
 	if (gGLManager.mVRAM != 0)
 	{
 		LL_INFOS() << "X11 log-parser detected " << gGLManager.mVRAM << "MB VRAM." << LL_ENDL;
-	} else
-# endif // LL_X11
+	}
+	else
+#endif // LL_X11
 	{
 		// fallback to letting SDL detect VRAM.
 		// note: I've not seen SDL's detection ever actually find
@@ -674,7 +629,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	glGetIntegerv(GL_ALPHA_BITS, &alphaBits);
 	glGetIntegerv(GL_DEPTH_BITS, &depthBits);
 	glGetIntegerv(GL_STENCIL_BITS, &stencilBits);
-	
+
 	LL_INFOS() << "GL buffer:" << LL_ENDL;
         LL_INFOS() << "  Red Bits " << S32(redBits) << LL_ENDL;
         LL_INFOS() << "  Green Bits " << S32(greenBits) << LL_ENDL;
@@ -760,7 +715,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 	//make sure multisampling is disabled by default
 	glDisable(GL_MULTISAMPLE_ARB);
-	
+
 	// We need to do this here, once video is init'd
 	if (-1 == SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
 				      SDL_DEFAULT_REPEAT_INTERVAL))
@@ -982,7 +937,7 @@ BOOL LLWindowSDL::setSizeImpl(const LLCoordScreen size)
 
 		return TRUE;
 	}
-		
+
 	return FALSE;
 }
 
@@ -1008,7 +963,7 @@ BOOL LLWindowSDL::setSizeImpl(const LLCoordWindow size)
 void LLWindowSDL::swapBuffers()
 {
 	if (mWindow)
-	{	
+	{
 		SDL_GL_SwapBuffers();
 	}
 }
@@ -1090,7 +1045,7 @@ BOOL LLWindowSDL::setCursorPosition(const LLCoordWindow position)
 
 	// do the actual forced cursor move.
 	SDL_WarpMouse(screen_pos.mX, screen_pos.mY);
-	
+
 	//LL_INFOS() << llformat("llcw %d,%d -> scr %d,%d", position.mX, position.mY, screen_pos.mX, screen_pos.mY) << LL_ENDL;
 
 	return result;
@@ -1134,8 +1089,8 @@ F32 LLWindowSDL::getNativeAspectRatio()
 	// - The user runs their display at a native resolution, so the resolution of the display
 	//    when the app is launched has an aspect ratio that matches the monitor.
 
-	//RN: actually, the assumption that there are no ridiculous resolutions (above the display's native capabilities) has 
-	// been born out in my experience.  
+	//RN: actually, the assumption that there are no ridiculous resolutions (above the display's native capabilities) has
+	// been born out in my experience.
 	// Pixels are often not square (just ask the people who run their LCDs at 1024x768 or 800x600 when running fullscreen, like me)
 	// The ordering of display list is a blind assumption though, so we should check for max values
 	// Things might be different on the Mac though, so I'll defer to MBW
@@ -1242,7 +1197,7 @@ void LLWindowSDL::x11_set_urgent(BOOL urgent)
 	if (mSDL_Display && !mFullscreen)
 	{
 		XWMHints *wm_hints;
-		
+
 		LL_INFOS() << "X11 hint for urgency, " << urgent << LL_ENDL;
 
 		maybe_lock_display();
@@ -1267,9 +1222,9 @@ void LLWindowSDL::flashIcon(F32 seconds)
 {
 #if !LL_X11
 	LL_INFOS() << "Stub LLWindowSDL::flashIcon(" << seconds << ")" << LL_ENDL;
-#else	
+#else
 	LL_INFOS() << "X11 LLWindowSDL::flashIcon(" << seconds << ")" << LL_ENDL;
-	
+
 	F32 remaining_time = mFlashTimer.getRemainingTimeF32();
 	if (remaining_time < seconds)
 		remaining_time = seconds;
@@ -1522,7 +1477,7 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 		mReallyCapturedCount = 1;
 	else
 		mReallyCapturedCount = 0;
-	
+
 	SDL_GrabMode wantmode, newmode;
 	if (mReallyCapturedCount <= 0) // uncapture
 	{
@@ -1531,7 +1486,7 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 	{
 		wantmode = SDL_GRAB_ON;
 	}
-	
+
 	if (mReallyCapturedCount < 0) // yuck, imbalance.
 	{
 		mReallyCapturedCount = 0;
@@ -1572,7 +1527,7 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 				//LL_INFOS() << "X11 POINTER UNGRABBY" << LL_ENDL;
 				newmode = SDL_GRAB_OFF;
 				//newmode = SDL_WM_GrabInput(SDL_GRAB_OFF);
-				
+
 				maybe_lock_display();
 				XUngrabPointer(mSDL_Display, CurrentTime);
 				// Make sure the ungrab happens RIGHT NOW.
@@ -1589,7 +1544,7 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 		// pretend we got what we wanted, when really we don't care.
 		newmode = wantmode;
 	}
-	
+
 	// return boolean success for whether we ended up in the desired state
 	return (capture && SDL_GRAB_ON==newmode) ||
 		(!capture && SDL_GRAB_OFF==newmode);
@@ -1984,7 +1939,7 @@ void LLWindowSDL::gatherInput()
 		break;
         }
     }
-	
+
 	updateCursor();
 
 #if LL_X11
@@ -2186,7 +2141,7 @@ void LLWindowSDL::captureMouse()
 	// SDL already enforces the semantics that captureMouse is
 	// used for, i.e. that we continue to get mouse events as long
 	// as a button is down regardless of whether we left the
-	// window, and in a less obnoxious way than SDL_WM_GrabInput	
+	// window, and in a less obnoxious way than SDL_WM_GrabInput
 	// which would confine the cursor to the window too.
 
 	LL_DEBUGS() << "LLWindowSDL::captureMouse" << LL_ENDL;
@@ -2195,7 +2150,7 @@ void LLWindowSDL::captureMouse()
 void LLWindowSDL::releaseMouse()
 {
 	// see LWindowSDL::captureMouse()
-	
+
 	LL_DEBUGS() << "LLWindowSDL::releaseMouse" << LL_ENDL;
 }
 
@@ -2297,7 +2252,7 @@ S32 OSMessageBoxSDL(const std::string& text, const std::string& caption, U32 typ
 		GtkWidget *win = NULL;
 
 		LL_INFOS() << "Creating a dialog because we're in windowed mode and GTK is happy." << LL_ENDL;
-		
+
 		GtkDialogFlags flags = GTK_DIALOG_MODAL;
 		GtkMessageType messagetype;
 		GtkButtonsType buttons;
@@ -2344,7 +2299,7 @@ S32 OSMessageBoxSDL(const std::string& text, const std::string& caption, U32 typ
 
 		gint response = GTK_RESPONSE_NONE;
 		g_signal_connect (win,
-				  "response", 
+				  "response",
 				  G_CALLBACK (response_callback),
 				  &response);
 
@@ -2386,7 +2341,7 @@ static void color_changed_callback(GtkWidget *widget,
 {
 	GtkColorSelection *colorsel = GTK_COLOR_SELECTION(widget);
 	GdkColor *colorp = (GdkColor*)user_data;
-	
+
 	gtk_color_selection_get_current_color(colorsel, colorp);
 }
 
@@ -2463,7 +2418,7 @@ BOOL LLWindowSDL::dialogColorPicker( F32 *r, F32 *g, F32 *b)
 
 		gint response = GTK_RESPONSE_NONE;
 		g_signal_connect (win,
-				  "response", 
+				  "response",
 				  G_CALLBACK (response_callback),
 				  &response);
 
@@ -2559,7 +2514,7 @@ void LLWindowSDL::spawnWebBrowser(const std::string& escaped_url, bool async)
 	}
 
 	LL_INFOS() << "spawn_web_browser: " << escaped_url << LL_ENDL;
-	
+
 #if LL_LINUX || LL_SOLARIS
 # if LL_X11
 	if (mSDL_Display)
@@ -2602,9 +2557,9 @@ void *LLWindowSDL::getPlatformWindow()
 		gtk_container_add(GTK_CONTAINER(owin), rtnw);
 		gtk_widget_realize(rtnw);
 		GTK_WIDGET_UNSET_FLAGS(GTK_WIDGET(rtnw), GTK_NO_WINDOW);
-		
+
 		maybe_unlock_display();
-		
+
 		return rtnw;
 	}
 #endif // LL_GTK && LL_LLMOZLIB_ENABLED

@@ -1728,7 +1728,7 @@ LLConversationItem* LLFloaterIMContainer::addConversationListItem(const LLUUID& 
 		}
 	}
 
-	if (uuid.notNull() && im_sessionp->isP2PSessionType())
+	if (uuid.notNull() && im_sessionp && im_sessionp->isP2PSessionType())
 	{
 		item->fetchAvatarName(false);
 	}

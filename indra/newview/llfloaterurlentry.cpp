@@ -120,18 +120,16 @@ void LLFloaterURLEntry::buildURLHistory()
 	if (url_list)
 	{
 		url_list->operateOnAll(LLCtrlListInterface::OP_DELETE);
-	}
 
-	// Get all of the entries in the "parcel" collection
-	LLSD parcel_history = LLURLHistory::getURLHistory("parcel");
+		// Get all of the entries in the "parcel" collection
+		LLSD parcel_history = LLURLHistory::getURLHistory("parcel");
 
-	LLSD::array_iterator iter_history =
-		parcel_history.beginArray();
-	LLSD::array_iterator end_history =
-		parcel_history.endArray();
-	for(; iter_history != end_history; ++iter_history)
-	{
-		url_list->addSimpleElement((*iter_history).asString());
+		LLSD::array_iterator iter_history = parcel_history.beginArray();
+		LLSD::array_iterator end_history = parcel_history.endArray();
+		for(; iter_history != end_history; ++iter_history)
+		{
+			url_list->addSimpleElement((*iter_history).asString());
+		}
 	}
 }
 

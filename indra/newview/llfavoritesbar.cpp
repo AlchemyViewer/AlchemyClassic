@@ -478,7 +478,7 @@ BOOL LLFavoritesBarCtrl::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 			else
 			{
 				const LLUUID favorites_id = gInventory.findCategoryUUIDForType(LLFolderType::FT_FAVORITE);
-				if (item->getParentUUID() == favorites_id)
+				if (item && item->getParentUUID() == favorites_id)
 				{
 					LL_WARNS() << "Attemt to copy a favorite item into the same folder." << LL_ENDL;
 					break;
@@ -547,6 +547,7 @@ void LLFavoritesBarCtrl::handleExistingFavoriteDragAndDrop(S32 x, S32 y)
 
 void LLFavoritesBarCtrl::handleNewFavoriteDragAndDrop(LLInventoryItem *item, const LLUUID& favorites_id, S32 x, S32 y)
 {
+	if (!item) return;
 	// Identify the button hovered and the side to drop
 	LLFavoriteLandmarkButton* dest = NULL;
 	bool insert_before = true;

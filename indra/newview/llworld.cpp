@@ -711,7 +711,7 @@ void LLWorld::updateRegions(F32 max_update_time)
 		{
 			region_list.insert(regionp);
 		}
-		mNumOfActiveCachedObjects += regionp->getNumOfActiveCachedObjects();
+		if (regionp) mNumOfActiveCachedObjects += regionp->getNumOfActiveCachedObjects();
 	}
 
 	// Perform idle time updates for the regions (and associated surfaces)

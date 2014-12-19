@@ -2001,7 +2001,6 @@ void LLMessageSystem::processUseCircuitCode(LLMessageSystem* msg,
 		{
 			cdp->setRemoteID(id);
 			cdp->setRemoteSessionID(session_id);
-		}
 
 		if (!had_circuit_already)
 		{
@@ -2020,6 +2019,7 @@ void LLMessageSystem::processUseCircuitCode(LLMessageSystem* msg,
 			// (and bad from a state point of view).  DJS 9/23/04
 			//
 			cdp->checkPacketInID(gMessageSystem->mCurrentRecvPacketID, FALSE ); // Since this is the first message on the circuit, by definition it's not resent.
+		}
 		}
 
 		msg->mIPPortToCircuitCode[ip_port_in] = circuit_code_in;

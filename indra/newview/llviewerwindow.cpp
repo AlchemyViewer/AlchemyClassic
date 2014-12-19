@@ -3678,7 +3678,7 @@ void LLViewerWindow::renderSelections( BOOL for_gl_pick, BOOL pick_parcel_walls,
 						LLViewerObject* object = nodep->getObject();
 						LLViewerObject *root_object = (object == NULL) ? NULL : object->getRootEdit();
 						BOOL this_object_movable = FALSE;
-						if (object->permMove() && !object->isPermanentEnforced() &&
+						if (object && object->permMove() && !object->isPermanentEnforced() &&
 							((root_object == NULL) || !root_object->isPermanentEnforced()) &&
 							(object->permModify() || selecting_linked_set))
 						{

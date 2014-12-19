@@ -705,7 +705,7 @@ bool LLViewerObject::isReturnable()
 	{		
 		//Get list of neighboring regions relative to this vo's region
 		std::vector<LLViewerRegion*> uniqueRegions;
-		mRegionp->getNeighboringRegions( uniqueRegions );
+		if (mRegionp) mRegionp->getNeighboringRegions( uniqueRegions );
 	
 		//Build aabb's - for root and all children
 		std::vector<PotentialReturnableObject> returnables;

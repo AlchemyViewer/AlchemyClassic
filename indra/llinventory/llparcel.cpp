@@ -440,7 +440,7 @@ BOOL LLParcel::importAccessEntry(std::istream& input_stream, LLAccessEntry* entr
     while (input_stream.good())
     {
         skip_comments_and_emptyspace(input_stream);
-		std::string line, keyword, value = LLStringUtil::null;
+        std::string line, keyword, value;
         get_line(line, input_stream, MAX_STRING);
         get_keyword_and_value(keyword, value, line);
         

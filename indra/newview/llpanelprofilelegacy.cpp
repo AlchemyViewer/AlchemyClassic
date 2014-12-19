@@ -140,13 +140,13 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 	mPanelPicks->onOpen(LLSD(av_id));
 	// Oh joy!
 	bool is_self = (getAvatarId() == gAgentID);
-	childSetEnabled("sl_profile_pic", is_self);
-	childSetEnabled("fl_profile_pic", is_self);
-	childSetEnabled("sl_about", is_self);
-	childSetEnabled("fl_about", is_self);
-	childSetVisible("www", !is_self);
-	childSetVisible("www_edit", is_self);
-	childSetVisible("allow_publish", is_self);
+	getChild<LLView>("sl_profile_pic")->setEnabled(is_self);
+	getChild<LLView>("fl_profile_pic")->setEnabled(is_self);
+	getChild<LLView>("sl_about")->setEnabled(is_self);
+	getChild<LLView>("fl_about")->setEnabled(is_self);
+	getChild<LLView>("www")->setVisible(!is_self);
+	getChild<LLView>("www_edit")->setVisible(is_self);
+	getChild<LLView>("allow_publish")->setVisible(is_self);
 	childSetEnabled("wanna_something", is_self);
 	childSetEnabled("can_something", is_self);
 	childSetEnabled("languages", is_self);
@@ -186,23 +186,17 @@ void LLPanelProfileLegacy::updateData()
 	mAvatarNameCacheConnection = LLAvatarNameCache::get(getAvatarId(),
 														boost::bind(&LLPanelProfileLegacy::onAvatarNameCache, this, _1, _2));
 	const LLRelationship* relation = LLAvatarTracker::instance().getBuddyInfo(getAvatarId());
-	if (relation && getAvatarId() != gAgentID)
+	bool is_other = (relation && getAvatarId() != gAgentID);
+	getChild<LLView>("permissions_label")->setVisible(is_other);
+	getChild<LLView>("allow_show_online")->setVisible(is_other);
+	getChild<LLView>("allow_mapping")->setVisible(is_other);
+	getChild<LLView>("allow_object_perms")->setVisible(is_other);
+	if (is_other)
 	{
-		childSetVisible("permissions_label", true);
-		childSetVisible("allow_show_online", true);
-		childSetVisible("allow_mapping", true);
-		childSetVisible("allow_object_perms", true);
 		S32 rights = relation->getRightsGrantedTo();
 		getChild<LLCheckBoxCtrl>("allow_show_online")->setValue(rights & LLRelationship::GRANT_ONLINE_STATUS ? TRUE : FALSE);
 		getChild<LLCheckBoxCtrl>("allow_mapping")->setValue(rights & LLRelationship::GRANT_MAP_LOCATION ? TRUE : FALSE);
 		getChild<LLCheckBoxCtrl>("allow_object_perms")->setValue(rights & LLRelationship::GRANT_MODIFY_OBJECTS ? TRUE : FALSE);
-	}
-	else
-	{
-		childSetVisible("permissions_label", false);
-		childSetVisible("allow_show_online", false);
-		childSetVisible("allow_mapping", false);
-		childSetVisible("allow_object_perms", false);
 	}
 }
 
@@ -250,7 +244,7 @@ void LLPanelProfileLegacy::processProperties(void* data, EAvatarProcessorType ty
 			getChild<LLTextBase>("account_info")->setValue(formatted_info);
 			formatted_info = LLSD(getString("rezday_fmt", args));
 			getChild<LLTextBase>("rezday")->setValue(formatted_info);
-			childSetVisible("cake", pData->born_on.toHTTPDateString(LLStringExplicit("%d %b")) ==
+			getChild<LLView>("cake")->setVisible(pData->born_on.toHTTPDateString(LLStringExplicit("%d %b")) ==
 							LLDate::now().toHTTPDateString(LLStringExplicit("%d %b")));
 			getChild<LLCheckBoxCtrl>("allow_publish")->setValue(static_cast<bool>(pData->flags & AVATAR_ALLOW_PUBLISH));
 			getChild<LLUICtrl>("online")->setVisible(static_cast<BOOL>(pData->flags & AVATAR_ONLINE ||

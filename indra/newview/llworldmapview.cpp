@@ -1429,10 +1429,6 @@ void LLWorldMapView::updateDirections()
 	mTextBoxNorthEast->setOrigin(right, top);
 	mTextBoxSouthWest->setOrigin(left, bottom);
 	mTextBoxSouthEast->setOrigin(right, bottom);
-
-// 	S32 hint_width = mTextBoxScrollHint->getRect().getWidth();
-// 	mTextBoxScrollHint->setOrigin( width - hint_width - text_width - 2 * PAD, 
-// 			PAD * 2 + text_height );
 }
 
 

@@ -1208,7 +1208,6 @@ void LLShaderMgr::initAttribsAndUniforms()
 	mReservedUniforms.push_back("alpha_ramp");
 
 	mReservedUniforms.push_back("origin");
-	mReservedUniforms.push_back("display_gamma");
 	// <alchemy>
 	mReservedUniforms.push_back("seconds60");
 	// </alchemy>

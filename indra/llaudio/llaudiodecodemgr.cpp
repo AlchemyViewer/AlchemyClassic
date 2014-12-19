@@ -435,7 +435,7 @@ BOOL LLVorbisDecodeState::finishDecode()
 		//
 		{
 			S16 *samplep;
-			S32 i;
+			S32 i = 0;
 			S32 fade_length;
 			char pcmout[4096];		/*Flawfinder: ignore*/ 	
 

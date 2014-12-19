@@ -44,10 +44,6 @@
 #include <boost/regex/v4/match_results.hpp>
 
 #include <boost/date_time/gregorian/gregorian.hpp>
-#if LL_MSVC
-#pragma warning(pop)   // Restore all warnings to the previous state
-#endif
-
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 

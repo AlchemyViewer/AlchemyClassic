@@ -29,7 +29,6 @@
 #define DIFFUSE_ALPHA_MODE_EMISSIVE 3
 
 uniform float emissive_brightness;
-uniform float display_gamma;
 
 vec3 srgb_to_linear(vec3 cs)
 {

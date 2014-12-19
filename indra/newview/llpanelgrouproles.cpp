@@ -425,7 +425,7 @@ void LLPanelGroupRoles::setGroupID(const LLUUID& id)
 
 	if(mSubTabContainer)
 		mSubTabContainer->selectTab(0);
-	group_roles_tab->mFirstOpen = TRUE;
+	if (group_roles_tab) group_roles_tab->mFirstOpen = TRUE;
 	activate();
 }
 

@@ -1908,7 +1908,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gFXAAProgram.mShaderFiles.clear();
 		gFXAAProgram.mShaderFiles.push_back(make_pair("deferred/postDeferredV.glsl", GL_VERTEX_SHADER_ARB));
 		gFXAAProgram.mShaderFiles.push_back(make_pair("deferred/fxaaF.glsl", GL_FRAGMENT_SHADER_ARB));
-		gFXAAProgram.addPermutation("FXAA_QUALITY__PRESET", std::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
+		gFXAAProgram.addPermutation("FXAA_QUALITY_PRESET", std::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
 		gFXAAProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gFXAAProgram.createShader(NULL, NULL);
 	}

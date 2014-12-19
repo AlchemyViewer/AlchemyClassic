@@ -181,7 +181,6 @@ public:
 	LLTextBox*		mTextBoxNorthEast;
 	LLTextBox*		mTextBoxNorthWest;
 	LLTextBox*		mTextBoxSouthWest;
-	LLTextBox*		mTextBoxScrollHint;
 
 	static BOOL		sHandledLastClick;
 	S32				mSelectIDStart;

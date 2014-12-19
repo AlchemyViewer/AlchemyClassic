@@ -3370,11 +3370,11 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		if (viewer_window->getMinimized())
 #endif // LL_DARWIN
 			viewer_window->flashIcon(5.f);
-	}
-	if (!gFocusMgr.getAppHasFocus()
-		&& gSavedSettings.getBOOL("OSXBadgeNotifications"))	// *TODO: Remove the option when this is more fleshed out
-	{
-		viewer_window->updateUnreadCount(gIMMgr->getNumberOfUnreadIM());
+		if (!gFocusMgr.getAppHasFocus()
+			&& gSavedSettings.getBOOL("OSXBadgeNotifications"))	// *TODO: Remove the option when this is more fleshed out
+		{
+			viewer_window->updateUnreadCount(gIMMgr->getNumberOfUnreadIM());
+		}
 	}
 	
 #if LL_DARWIN

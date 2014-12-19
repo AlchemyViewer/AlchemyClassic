@@ -148,6 +148,7 @@ void LLStandardBumpmap::addstandard()
 		if( fields_read != 2 )
 		{
 			LL_WARNS() << "Bad LLStandardBumpmap entry" << LL_ENDL;
+			fclose(file);
 			return;
 		}
 

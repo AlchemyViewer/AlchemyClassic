@@ -261,8 +261,7 @@ void LLConversationItemSession::updateName(LLConversationItemParticipant* partic
 		// In the case of a P2P conversation, we need to grab the name of the other participant in the session instance itself
 		// as we do not create participants for such a session.
 
-		LLFolderViewModelItem * itemp = nullptr;
-		for (auto & itemp : mChildren)
+		for (LLFolderViewModelItem* itemp : mChildren)
 		{
 			LLConversationItem* current_participant = dynamic_cast<LLConversationItem*>(itemp);
 			// Add the avatar uuid to the list (except if it's the own agent uuid)

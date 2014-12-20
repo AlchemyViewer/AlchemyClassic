@@ -223,12 +223,14 @@ if (LINUX)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     add_definitions(
+        -std=gnu++11
         -fno-math-errno
-        -msse2
+        -fno-strict-aliasing
+        -fsigned-char
         )
 
     if (WORD_SIZE EQUAL 32)
-      add_definitions(-march=pentium4)
+      add_definitions(-msse2 -march=pentium4)
     endif (WORD_SIZE EQUAL 32)
 
     if (NOT USESYSTEMLIBS)

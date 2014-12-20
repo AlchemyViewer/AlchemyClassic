@@ -2733,7 +2733,7 @@ void LLVOAvatarSelf::onCustomizeEnd(bool disable_camera_switch)
 		gAgentAvatarp->mIsEditingAppearance = false;
 		gAgentAvatarp->invalidateAll();
 
-		if (gSavedSettings.getBOOL("AppearanceCameraMovement") && !disable_camera_switch)
+		if (gAgentCamera.cameraCustomizeAvatar() && !disable_camera_switch)
 		{
 			gAgentCamera.changeCameraToDefault();
 			gAgentCamera.resetView();

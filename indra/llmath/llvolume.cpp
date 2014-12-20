@@ -4914,32 +4914,32 @@ F64 find_vertex_score(LLVCacheVertexData& data)
 {
 	F64 score = -1.0;
 
-	if (data.mActiveTriangles >= 0)
+	//if (data.mActiveTriangles >= 0)
 	{ 
 		score = 0.0;
 
-	S32 cache_idx = data.mCacheTag;
+		S32 cache_idx = data.mCacheTag;
 
-	if (cache_idx < 0)
-	{
-		//not in cache
-	}
-	else
-	{
-		if (cache_idx < 3)
-		{ //vertex was in the last triangle
-			score = FindVertexScore_LastTriScore;
+		if (cache_idx < 0)
+		{
+			//not in cache
 		}
 		else
-		{ //more points for being higher in the cache
+		{
+			if (cache_idx < 3)
+			{ //vertex was in the last triangle
+				score = FindVertexScore_LastTriScore;
+			}
+			else
+			{ //more points for being higher in the cache
 				score = 1.0-((cache_idx-3)*FindVertexScore_Scaler);
 				score = pow(score, FindVertexScore_CacheDecayPower);
+			}
 		}
-	}
 
-	//bonus points for having low valence
+		//bonus points for having low valence
 		F64 valence_boost = pow((F64)data.mActiveTriangles, -FindVertexScore_ValenceBoostPower);
-	score += FindVertexScore_ValenceBoostScale * valence_boost;
+		score += FindVertexScore_ValenceBoostScale * valence_boost;
 	}
 
 	return score;

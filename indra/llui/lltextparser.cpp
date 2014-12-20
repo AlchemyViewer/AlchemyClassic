@@ -74,7 +74,7 @@ std::string::size_type LLTextParser::findPattern(const std::string &text, LLSD h
 			break;
 		case ENDS_WITH:
 			std::string::size_type pos = ltext.rfind(pattern);
-			if (pos >= 0 && (ltext.length()-pattern.length()==pos)) found = pos;
+			if (ltext.length()-pattern.length() == pos) found = pos;
 			break;
 	}
 	return found;
@@ -180,7 +180,7 @@ bool LLTextParser::parseFullLineHighlights(const std::string &text, LLColor4 *co
 	{
 		if ((S32)mHighlights[i]["highlight"]==ALL || (S32)mHighlights[i]["condition"]==MATCHES)
 		{
-			if (findPattern(text,mHighlights[i]) >= 0 )
+			if (findPattern(text,mHighlights[i]))
 			{
 				LLSD color_llsd = mHighlights[i]["color"];
 				color->setValue(color_llsd);

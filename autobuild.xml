@@ -836,9 +836,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>82ef28edce6b8490ca74d4a145914e30</string>
+              <string>c83bce2518cd45cc53ca7acebecba0a3</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glh_linear-0.0.0-darwin-201407231953.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glh_linear-0.0.0-darwin-201412192309.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

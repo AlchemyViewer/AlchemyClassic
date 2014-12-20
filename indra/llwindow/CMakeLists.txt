@@ -75,7 +75,6 @@ if (LINUX)
       ${LLMATH_LIBRARIES}
       ${LLRENDER_LIBRARIES}
       ${LLVFS_LIBRARIES}
-      ${LLWINDOW_LIBRARIES}
       ${LLXML_LIBRARIES}
       ${UI_LIBRARIES}     # for GTK
       ${SDL_LIBRARY}

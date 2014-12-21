@@ -154,10 +154,11 @@ class ViewerManifest(LLManifest):
                 self.end_prefix("character")
 
             # Include our fonts
-            if self.prefix(src="fonts"):
+            if self.prefix(src="../packages/fonts"):
                 self.path("*.ttf")
+				self.path("*.otf")
                 self.path("*.txt")
-                self.end_prefix("fonts")
+                self.end_prefix("../packages/fonts")
 
             # skins
             if self.prefix(src="skins"):

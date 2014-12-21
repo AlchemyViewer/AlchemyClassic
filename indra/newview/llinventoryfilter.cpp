@@ -59,7 +59,8 @@ LLInventoryFilter::FilterOps::FilterOps(const Params& p)
 	mPermissions(p.permissions),
 	mFilterTypes(p.types),
 	mFilterUUID(p.uuid),
-	mFilterLinks(p.links)
+	mFilterLinks(p.links),
+	mFilterWornItems(p.worn_items)
 {
 }
 

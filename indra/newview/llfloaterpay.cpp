@@ -244,12 +244,16 @@ void LLFloaterPay::processPayPriceReply(LLMessageSystem* msg, void **userdata)
 			self->getChildView("amount")->setVisible(FALSE);
 			self->getChildView("pay btn")->setVisible(FALSE);
 			self->getChildView("amount text")->setVisible(FALSE);
+			self->getChildView("message text")->setVisible(FALSE);
+			self->getChildView("message")->setVisible(FALSE);
 		}
 		else if (PAY_PRICE_DEFAULT == price)
 		{			
 			self->getChildView("amount")->setVisible(TRUE);
 			self->getChildView("pay btn")->setVisible(TRUE);
 			self->getChildView("amount text")->setVisible(TRUE);
+			self->getChildView("message text")->setVisible(TRUE);
+			self->getChildView("message")->setVisible(TRUE);
 		}
 		else
 		{
@@ -260,6 +264,8 @@ void LLFloaterPay::processPayPriceReply(LLMessageSystem* msg, void **userdata)
 			self->getChildView("pay btn")->setVisible(TRUE);
 			self->getChildView("pay btn")->setEnabled(TRUE);
 			self->getChildView("amount text")->setVisible(TRUE);
+			self->getChildView("message text")->setVisible(TRUE);
+			self->getChildView("message")->setVisible(TRUE);
 
 			self->getChild<LLUICtrl>("amount")->setValue(llformat("%d", llabs(price)));
 		}
@@ -526,7 +532,8 @@ void LLFloaterPay::give(S32 amount)
 		else
 		{
 			// just transfer the L$
-			mCallback(mTargetUUID, gAgent.getRegion(), amount, mTargetIsGroup, TRANS_GIFT, LLStringUtil::null);
+			const std::string& message = getChild<LLUICtrl>("message")->getValue().asString();
+			mCallback(mTargetUUID, gAgent.getRegion(), amount, mTargetIsGroup, TRANS_GIFT, message);
 
 			// check if the payee needs to be unmuted
 			LLMuteList::getInstance()->autoRemove(mTargetUUID, LLMuteList::AR_MONEY);

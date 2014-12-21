@@ -125,7 +125,29 @@
        top_pad="0"
        max_length_bytes="9"
        name="amount"
-       width="90" />
+       width="110" />
+      <text
+       type="string"
+       length="1"
+       follows="left|top"
+       height="18"
+       layout="topleft"
+       left="10"
+       top_pad="0"
+       name="message text"
+       width="110">
+        Optional message:
+      </text>
+      <line_editor
+       border_style="line"
+       follows="left|top|right"
+       height="19"
+       layout="topleft"
+       left="10"
+       top_pad="0"
+       max_length_bytes="9"
+       name="message"
+       width="110" />
       <button
        enabled="false"
        height="23"
@@ -133,17 +155,17 @@
        label_selected="Pay"
        layout="topleft"
        left="10"
-       top_pad="17"
+       top_pad="7"
        name="pay btn"
-       width="110" />
+       width="55" />
       <button
        height="23"
        label="Cancel"
        label_selected="Cancel"
        layout="topleft"
-       left="10"
-       top_pad="4"
+       left_pad="0"
+       top_delta="0"
        name="cancel btn"
-       width="110" />
+       width="55" />
     </panel>
 </floater>

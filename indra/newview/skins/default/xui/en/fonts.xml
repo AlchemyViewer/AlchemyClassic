@@ -3,7 +3,7 @@
 
   <font name="default" comment="default font files (global fallbacks)">
     <file>SourceSansPro-Semibold.ttf</file>
-    <file>SourceHanSans-Medium.otf</file>
+    <file>SourceHanSans-Normal.otf</file>
     <file>DejaVuSans.ttf</file>
     <os name="Windows">
       <file>MSGOTHIC.TTC</file>

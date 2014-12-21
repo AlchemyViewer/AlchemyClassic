@@ -487,13 +487,17 @@ void LLInventoryAddItemByAssetObserver::changed(U32 mask)
 	for (uuid_set_t::iterator it = added.begin(); it != added.end(); ++it)
 	{
 		LLInventoryItem *item = gInventory.getItem(*it);
+		if (!item)
+			continue;
+
+		const LLUUID& item_uuid = item->getUUID();
 		const LLUUID& asset_uuid = item->getAssetUUID();
-		if (item && item->getUUID().notNull() && asset_uuid.notNull())
+		if (item_uuid.notNull() && asset_uuid.notNull())
 		{
 			if (isAssetWatched(asset_uuid))
 			{
 				LL_DEBUGS("Inventory_Move") << "Found asset UUID: " << asset_uuid << LL_ENDL;
-				mAddedItems.push_back(item->getUUID());
+				mAddedItems.push_back(item_uuid);
 			}
 		}
 	}

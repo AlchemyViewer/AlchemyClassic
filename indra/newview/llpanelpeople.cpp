@@ -606,10 +606,10 @@ BOOL LLPanelPeople::postBuild()
 	mSuggestedFriends = friends_tab->getChild<LLAvatarList>("suggested_friends");
 	mOnlineFriendList->setNoItemsCommentText(getString("no_friends_online"));
 	mOnlineFriendList->setShowIcons("FriendsListShowIcons");
-	mOnlineFriendList->showPermissions("FriendsListShowPermissions");
+	mOnlineFriendList->showPermissions(gSavedSettings.getBOOL("FriendsListShowPermissions"));
 	mAllFriendList->setNoItemsCommentText(getString("no_friends"));
 	mAllFriendList->setShowIcons("FriendsListShowIcons");
-	mAllFriendList->showPermissions("FriendsListShowPermissions");
+	mAllFriendList->showPermissions(gSavedSettings.getBOOL("FriendsListShowPermissions"));
 
 	LLPanel* nearby_tab = getChild<LLPanel>(NEARBY_TAB_NAME);
 	nearby_tab->setVisibleCallback(boost::bind(&Updater::setActive, mNearbyListUpdater, _2));

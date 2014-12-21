@@ -77,24 +77,26 @@ GLHExts gGLHExts;
 
 static int ExtensionExists(const char* extName, const char* sysExts)
 {
-    char *padExtName = (char*)malloc(strlen(extName) + 2);
-    strcat(strcpy(padExtName, extName), " ");
+	char *padExtName = (char*)malloc(strlen(extName) + 2);
+	strcat(strcpy(padExtName, extName), " ");
 
 	if (0 == strcmp(extName, "GL_VERSION_1_2")) {
 		const char *version = (const char*)glGetString(GL_VERSION);
 		if (strstr(version, "1.0") == version || strstr(version, "1.1") == version) {
+			free(padExtName);
 			return FALSE;
 		} else {
+			free(padExtName);
 			return TRUE;
 		}
 	}
-    if (strstr(sysExts, padExtName)) {
+	if (strstr(sysExts, padExtName)) {
 		free(padExtName);
-        return TRUE;
-    } else {
+		return TRUE;
+	} else {
 		free(padExtName);
-        return FALSE;
-    }
+		return FALSE;
+	}
 }
 
 static const char* EatWhiteSpace(const char *str)

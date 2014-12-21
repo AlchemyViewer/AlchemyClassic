@@ -32,8 +32,8 @@ if (USESYSTEMLIBS)
     add_definitions(${${pkg}_CFLAGS_OTHERS})
   endforeach(pkg)
 else (USESYSTEMLIBS)
-  use_prebuilt_binary(gtk-atk-pango-glib)
   if (LINUX)
+    use_prebuilt_binary(gtk-atk-pango-glib)
     set(UI_LIBRARIES
         atk-1.0
         cairo

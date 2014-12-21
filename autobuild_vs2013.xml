@@ -439,29 +439,17 @@
         <string>glext</string>
         <key>platforms</key>
         <map>
-          <key>windows</key>
+          <key>common</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5de58ca0fe19abf68b25956762ee0d29</string>
+              <string>09d362bdbcff3c2ef38c695985633936</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glext-68-windows-20110406.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/glext-20141118-common-20141220.tar.bz2</string>
             </map>
             <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>5de58ca0fe19abf68b25956762ee0d29</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glext-68-windows-20110406.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
+            <string>common</string>
           </map>
         </map>
       </map>

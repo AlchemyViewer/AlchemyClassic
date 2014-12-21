@@ -79,6 +79,7 @@ public:
 	BOOL mHasMultitexture;
 	BOOL mHasATIMemInfo;
 	BOOL mHasNVXMemInfo;
+	BOOL mHasMESAQueryRenderer;
 	S32	 mNumTextureUnits;
 	BOOL mHasMipMapGeneration;
 	BOOL mHasCompressedTextures;

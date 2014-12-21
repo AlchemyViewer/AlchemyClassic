@@ -465,43 +465,31 @@
           </map>
         </map>
       </map>
-      <key>glh_linear</key>
+      <key>glh-linear</key>
       <map>
         <key>copyright</key>
         <string>Copyright (c) 2000 Cass Everitt</string>
         <key>description</key>
-        <string>glh - is a platform-indepenedent C++ OpenGL helper library </string>
+        <string>glh - is a platform-indepenedent C++ OpenGL helper library</string>
         <key>license</key>
-        <string>MIT</string>
+        <string>BSD</string>
         <key>license_file</key>
-        <string>LICENSES/glh_linear.txt</string>
+        <string>LICENSES/glh-linear.txt</string>
         <key>name</key>
-        <string>glh_linear</string>
+        <string>glh-linear</string>
         <key>platforms</key>
         <map>
-          <key>windows</key>
+          <key>common</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>57f8be28bbaa2505ae3b59deb2c77cdf</string>
+              <string>e516a9a6ddb542ea4fb9ce7c45a84440</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glh_linear-windows-20101011.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/glh_linear-0.0.0-common-201412201307.tar.bz2</string>
             </map>
             <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>57f8be28bbaa2505ae3b59deb2c77cdf</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glh_linear-windows-20101011.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
+            <string>common</string>
           </map>
         </map>
         <key>version</key>

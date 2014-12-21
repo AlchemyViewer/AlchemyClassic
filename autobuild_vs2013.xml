@@ -1109,30 +1109,6 @@
         <key>version</key>
         <string>1.6.13</string>
       </map>
-      <key>libuuid</key>
-      <map>
-        <key>license</key>
-        <string>lgpl</string>
-        <key>license_file</key>
-        <string>LICENSES/libuuid.txt</string>
-        <key>name</key>
-        <string>libuuid</string>
-        <key>platforms</key>
-        <map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>873e8e99d29711df2efa30646dca1795</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/uuid-1.6.2-linux-20110315.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
-        </map>
-      </map>
       <key>libxml2</key>
       <map>
         <key>license</key>

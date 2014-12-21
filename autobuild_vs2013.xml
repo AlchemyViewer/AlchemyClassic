@@ -339,17 +339,37 @@
           </map>
         </map>
       </map>
-      <key>fontconfig</key>
+      <key>fonts</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2003 by Bitstream, Inc. Copyright (c) 2012 Adobe, Inc.</string>
+        <key>description</key>
+        <string>Font collection</string>
         <key>license</key>
-        <string>mit</string>
+        <string>Various</string>
         <key>license_file</key>
-        <string>LICENSES/fontconfig.txt</string>
+        <string>LICENSES/Source.txt</string>
         <key>name</key>
-        <string>fontconfig</string>
+        <string>fonts</string>
         <key>platforms</key>
         <map>
+          <key>common</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>01f2357df16dde3d2157407cd576474a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fonts-1.0-common-201412202319.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>common</string>
+          </map>
         </map>
+        <key>version</key>
+        <string>1.0</string>
       </map>
       <key>freeglut</key>
       <map>

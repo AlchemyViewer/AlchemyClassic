@@ -156,7 +156,7 @@ class ViewerManifest(LLManifest):
             # Include our fonts
             if self.prefix(src="../packages/fonts"):
                 self.path("*.ttf")
-				self.path("*.otf")
+                self.path("*.otf")
                 self.path("*.txt")
                 self.end_prefix("../packages/fonts")
 

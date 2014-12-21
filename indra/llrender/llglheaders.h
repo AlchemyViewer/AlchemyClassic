@@ -547,13 +547,6 @@ extern PFNGLTRANSFORMFEEDBACKVARYINGSPROC glTransformFeedbackVaryings;
 extern PFNGLBINDBUFFERRANGEPROC glBindBufferRange;
 extern PFNGLBINDBUFFERBASEPROC glBindBufferBase;
 
-//GLX_MESA_query_renderer
-#if GLX_MESA_query_renderer
-extern PFNGLXQUERYCURRENTRENDERERINTEGERMESAPROC glXQueryCurrentRendererIntegerMESA;
-extern PFNGLXQUERYCURRENTRENDERERSTRINGMESAPROC glXQueryCurrentRendererStringMESA;
-extern PFNGLXQUERYRENDERERINTEGERMESAPROC glXQueryRendererIntegerMESA
-extern PFNGLXQUERYRENDERERSTRINGMESAPROC glXQueryRendererStringMESA
-#endif
 
 #elif LL_WINDOWS
 //----------------------------------------------------------------------------

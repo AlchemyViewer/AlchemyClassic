@@ -415,7 +415,6 @@ LLGLManager::LLGLManager() :
 	mHasMultitexture(FALSE),
 	mHasATIMemInfo(FALSE),
 	mHasNVXMemInfo(FALSE),
-	mHasMESAQueryRenderer(FALSE),
 	mNumTextureUnits(1),
 	mHasMipMapGeneration(FALSE),
 	mHasCompressedTextures(FALSE),
@@ -689,19 +688,11 @@ bool LLGLManager::initGL()
 
 	S32 old_vram = mVRAM;
 
-#if GLX_MESA_query_renderer
-	if (mHasMESAQueryRenderer)
-	{
-		S32 video_memory;
-		glXQueryCurrentRendererIntegerMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &video_memory);
-		mVRAM = video_memory;
-	}
-	else
-#endif
-  	if (mHasATIMemInfo)
+	if (mHasATIMemInfo)
 	{ //ask the gl how much vram is free at startup and attempt to use no more than half of that
 		S32 meminfo[4];
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, meminfo);
+
 		mVRAM = meminfo[0]/1024;
 	}
 	else if (mHasNVXMemInfo)
@@ -982,11 +973,6 @@ void LLGLManager::initExtensions()
 	mHasMultitexture = glh_init_extensions("GL_ARB_multitexture");
 	mHasATIMemInfo = ExtensionExists("GL_ATI_meminfo", gGLHExts.mSysExts);
 	mHasNVXMemInfo = ExtensionExists("GL_NVX_gpu_memory_info", gGLHExts.mSysExts);
-#if GLX_MESA_query_renderer
-	mHasMESAQueryRenderer = ExtensionExists("GLX_MESA_query_renderer", gGLHExts.mSysExts);
-#else
-	mHasMESAQueryRenderer = FALSE;
-#endif
 	mHasSeparateSpecularColor = glh_init_extensions("GL_EXT_separate_specular_color");
 	mHasAnisotropic = glh_init_extensions("GL_EXT_texture_filter_anisotropic");
 	glh_init_extensions("GL_ARB_texture_cube_map");
@@ -1449,17 +1435,6 @@ void LLGLManager::initExtensions()
 		glGetVertexAttribPointervARB = (PFNGLGETVERTEXATTRIBPOINTERVARBPROC) GLH_EXT_GET_PROC_ADDRESS("glgetVertexAttribPointervARB");
 		glIsProgramARB = (PFNGLISPROGRAMARBPROC) GLH_EXT_GET_PROC_ADDRESS("glIsProgramARB");
 	}
-
-#if GLX_MESA_query_renderer
-	if (mHasMESAQueryRenderer)
-	{
-		glXQueryCurrentRendererIntegerMESA = (PFNGLXQUERYCURRENTRENDERERINTEGERMESAPROC)GLH_EXT_GET_PROC_ADDRESS("glXQueryCurrentRendererIntegerMESA");
-		glXQueryCurrentRendererStringMESA = (PFNGLXQUERYCURRENTRENDERERSTRINGMESAPROC)GLH_EXT_GET_PROC_ADDRESS("glXQueryCurrentRendererStringMESA");
-		glXQueryRendererIntegerMESA = (PFNGLXQUERYRENDERERINTEGERMESAPROC)GLH_EXT_GET_PROC_ADDRESS("glXQueryRendererIntegerMESA");
-		glXQueryRendererStringMESA = (PFNGLXQUERYRENDERERSTRINGMESAPROC)GLH_EXT_GET_PROC_ADDRESS("glXQueryRendererStringMESA");
-	}
-#endif
-
 	LL_DEBUGS("RenderInit") << "GL Probe: Got symbols" << LL_ENDL;
 #endif
 

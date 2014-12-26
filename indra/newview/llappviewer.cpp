@@ -3285,9 +3285,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	std::string url = LLTrans::getString("RELEASE_NOTES_BASE_URL");
 	if (! LLStringUtil::endsWith(url, "/"))
 		url += "/";
-	url += LLURI::escape(LLVersionInfo::getChannel()) + "/";
-	url += LLURI::escape(LLVersionInfo::getVersion());
-
+	url += LLURI::escape(LLVersionInfo::getChannel() + " " + LLVersionInfo::getVersion());
 	info["VIEWER_RELEASE_NOTES_URL"] = url;
 
 #if LL_MSVC

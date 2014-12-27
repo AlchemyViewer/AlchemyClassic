@@ -1,12 +1,8 @@
 # ll_deploy_sharedlibs_command
 # target_exe: the cmake target of the executable for which the shared libs will be deployed.
 macro(ll_deploy_sharedlibs_command target_exe) 
-  if (WINDOWS)
-    set (OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/$(Configuration)")
-  else (WINDOWS)
-    set (OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-  endif (WINDOWS)
-  
+  set(OUTPUT_PATH $<TARGET_FILE_DIR:${target_exe}>) 
+
   if(DARWIN)
     SET_TEST_PATH(SEARCH_DIRS)
     get_target_property(IS_BUNDLE ${target_exe} MACOSX_BUNDLE)

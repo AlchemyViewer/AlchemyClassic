@@ -1406,7 +1406,6 @@ if (DARWIN)
   # Add resource files to the project.
   set(viewer_RESOURCE_FILES
     alchemy.icns
-    macview.r
     gpu_table.txt
     Info-SecondLife.plist
     Alchemy.xib

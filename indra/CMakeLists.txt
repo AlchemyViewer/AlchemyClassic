@@ -6,10 +6,6 @@
 ## prior to 2.8, the add_custom_target commands used in setting the version did not work correctly
 cmake_minimum_required(VERSION 2.8.8 FATAL_ERROR)
 
-if(NOT ${CMAKE_VERSION} VERSION_LESS 3.0.0)
-  cmake_policy(SET CMP0026 OLD)
-endif (NOT ${CMAKE_VERSION} VERSION_LESS 3.0.0)
-
 set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
     "The root project/makefile/solution name. Defaults to Alchemy.")
 project(${ROOT_PROJECT_NAME})
@@ -72,10 +68,10 @@ add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
 
   # llplugin testbed code (is this the right way to include it?)
   if (LL_TESTS)
-    if(WORD_SIZE EQUAL 32 AND WINDOWS OR WORD_SIZE EQUAL 32 AND DARWIN)
+    if(WINDOWS OR DARWIN)
       add_subdirectory(${VIEWER_PREFIX}test_apps/llplugintest)
       add_subdirectory(${VIEWER_PREFIX}test_apps/llfbconnecttest)
-    endif(WORD_SIZE EQUAL 32 AND WINDOWS OR WORD_SIZE EQUAL 32 AND DARWIN)
+    endif(WINDOWS OR DARWIN)
   endif (LL_TESTS)
 
 if (LINUX)

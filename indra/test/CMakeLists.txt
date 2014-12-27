@@ -105,7 +105,7 @@ if (WINDOWS)
           )
 endif (WINDOWS)
 
-get_target_property(TEST_EXE tests LOCATION)
+set(TEST_EXE $<TARGET_FILE:tests>)
 
 SET_TEST_PATH(DYLD_LIBRARY_PATH)
 

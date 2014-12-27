@@ -1,8 +1,7 @@
 # ll_deploy_sharedlibs_command
 # target_exe: the cmake target of the executable for which the shared libs will be deployed.
 macro(ll_deploy_sharedlibs_command target_exe) 
-  get_target_property(TARGET_LOCATION ${target_exe} LOCATION)
-  get_filename_component(OUTPUT_PATH ${TARGET_LOCATION} PATH)
+  set (OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}/$(Configuration)")
   
   if(DARWIN)
     SET_TEST_PATH(SEARCH_DIRS)
@@ -26,7 +25,7 @@ macro(ll_deploy_sharedlibs_command target_exe)
     TARGET ${target_exe} POST_BUILD
     COMMAND ${CMAKE_COMMAND} 
     ARGS
-    "-DBIN_NAME=\"${TARGET_LOCATION}\""
+    "-DBIN_NAME=\"$<TARGET_FILE:${target_exe}>\""
     "-DSEARCH_DIRS=\"${SEARCH_DIRS}\""
     "-DDST_PATH=\"${OUTPUT_PATH}\""
     "-P"

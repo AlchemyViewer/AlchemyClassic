@@ -43,7 +43,7 @@ bool LLGetDarwinOperatingSystemInfo(int &major, int &minor, int &patch)
 {
 	// Mavericks gains a nifty little method for getting OS version, prior to that
 	// we have to (ugh) parse systemversion.plist. :O
-	if (NSAppKitVersionNumber <= NSAppKitVersionNumber10_9) {
+	if (NSAppKitVersionNumber < NSAppKitVersionNumber10_8) {
 		NSOperatingSystemVersion osVersion = [[NSProcessInfo processInfo] operatingSystemVersion];
 		major = osVersion.majorVersion;
 		minor = osVersion.minorVersion;

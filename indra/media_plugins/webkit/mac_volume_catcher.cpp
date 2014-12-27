@@ -39,9 +39,6 @@
 #include <AudioUnit/AudioUnit.h>
 #include <list>
 
-#if LL_DARWIN
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
 
 struct VolumeCatcherStorage;
 
@@ -269,7 +266,3 @@ void VolumeCatcher::pump()
 {
 	// No periodic tasks are necessary for this implementation.
 }
-
-#if LL_DARWIN
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#endif

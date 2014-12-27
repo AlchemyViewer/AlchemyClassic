@@ -71,8 +71,8 @@ const char FEATURE_TABLE_VER_FILENAME[] = "featuretable_linux.%s.txt";
 const char FEATURE_TABLE_FILENAME[] = "featuretable_solaris.txt";
 const char FEATURE_TABLE_VER_FILENAME[] = "featuretable_solaris.%s.txt";
 #else
-const char FEATURE_TABLE_FILENAME[] = "featuretable%s.txt";
-const char FEATURE_TABLE_VER_FILENAME[] = "featuretable%s.%s.txt";
+const char FEATURE_TABLE_FILENAME[] = "featuretable.txt";
+const char FEATURE_TABLE_VER_FILENAME[] = "featuretable.%s.txt";
 #endif
 
 LLFeatureInfo::LLFeatureInfo(const std::string& name, const BOOL available, const F32 level)
@@ -271,28 +271,11 @@ bool LLFeatureManager::loadFeatureTables()
 	std::string app_path = gDirUtilp->getAppRODataDir();
 	app_path += gDirUtilp->getDirDelimiter();
 
-	std::string filename;
-	std::string http_filename; 
-#if LL_WINDOWS
-	std::string os_string = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
-	if (os_string.find("Microsoft Windows XP") == 0)
-	{
-		filename = llformat(FEATURE_TABLE_FILENAME, "_xp");
-		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "_xp", LLVersionInfo::getVersion().c_str());
-	}
-	else
-	{
-		filename = llformat(FEATURE_TABLE_FILENAME, "");
-		http_filename = llformat(FEATURE_TABLE_VER_FILENAME, "", LLVersionInfo::getVersion().c_str());
-	}
-#else
-	filename = FEATURE_TABLE_FILENAME;
-	http_filename = llformat(FEATURE_TABLE_VER_FILENAME, LLVersionInfo::getVersion().c_str());
-#endif
+	std::string filename = FEATURE_TABLE_FILENAME;
+	std::string http_filename = llformat(FEATURE_TABLE_VER_FILENAME, LLVersionInfo::getVersion().c_str());
 
 	app_path += filename;
 
-	
 	// second table is downloaded with HTTP
 	std::string http_path = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, http_filename);
 
@@ -546,20 +529,7 @@ void fetch_feature_table(std::string table)
 {
 	const std::string base       = gSavedSettings.getString("FeatureManagerHTTPTable");
 
-#if LL_WINDOWS
-	std::string os_string = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
-	std::string filename;
-	if (os_string.find("Microsoft Windows XP") == 0)
-	{
-		filename = llformat(table.c_str(), "_xp", LLVersionInfo::getVersion().c_str());
-	}
-	else
-	{
-		filename = llformat(table.c_str(), "", LLVersionInfo::getVersion().c_str());
-	}
-#else
 	const std::string filename   = llformat(table.c_str(), LLVersionInfo::getVersion().c_str());
-#endif
 
 	const std::string url        = base + "/" + filename;
 

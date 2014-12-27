@@ -46,7 +46,6 @@ set(cmake_SOURCE_FILES
     GLH.cmake
     GLOD.cmake
     GStreamer010Plugin.cmake
-    GetPrerequisites_2_8.cmake
     Glui.cmake
     Glut.cmake
     GoogleBreakpad.cmake

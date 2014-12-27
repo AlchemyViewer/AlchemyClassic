@@ -101,7 +101,7 @@ public:
 		typedef std::size_t size_type;
 		typedef std::ptrdiff_t difference_type;
 
-		static char * malloc(const std::size_t bytes)
+		static char * malloc(const size_type bytes)
 		{ return (char *)ll_aligned_malloc<16>(bytes); }
 		static void free(char * const block)
 		{ ll_aligned_free<16>(block); }

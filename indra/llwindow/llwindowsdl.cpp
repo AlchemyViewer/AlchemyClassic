@@ -2055,12 +2055,9 @@ void LLWindowSDL::updateCursor()
 
 void LLWindowSDL::initCursors()
 {
-	int i;
 	// Blank the cursor pointer array for those we may miss.
-	for (i=0; i<UI_CURSOR_COUNT; ++i)
-	{
-		mSDLCursors[i] = NULL;
-	}
+	quitCursors();
+
 	// Pre-make an SDL cursor for each of the known cursor types.
 	// We hardcode the hotspots - to avoid that we'd have to write
 	// a .cur file loader.
@@ -2124,8 +2121,8 @@ void LLWindowSDL::quitCursors()
 			if (mSDLCursors[i])
 			{
 				SDL_FreeCursor(mSDLCursors[i]);
-				mSDLCursors[i] = NULL;
 			}
+			mSDLCursors[i] = NULL;
 		}
 	} else {
 		// SDL doesn't refcount cursors, so if the window has

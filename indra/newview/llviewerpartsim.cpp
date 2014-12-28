@@ -311,7 +311,6 @@ void LLViewerPartGroup::updateParticles(const F32 lastdt)
 
 		if (part->mFlags & LLPartData::LL_PART_WIND_MASK)
 		{
-			LLVector3 tempVel(part->mVelocity);
 			part->mVelocity *= 1.f - 0.1f*dt;
 			part->mVelocity += 0.1f*dt*regionp->mWind.getVelocity(regionp->getPosRegionFromAgent(part->mPosAgent));
 		}

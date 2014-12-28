@@ -32,7 +32,8 @@
 #else
 
 #import "llsys_objc.h"
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
+#import <Appkit/NSApplication.h>
 
 static int intAtStringIndex(NSArray *array, int index)
 {

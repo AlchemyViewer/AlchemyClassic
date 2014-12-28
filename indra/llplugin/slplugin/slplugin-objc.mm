@@ -48,12 +48,6 @@ void LLCocoaPlugin::setupCocoa()
 		// ie. running './secondlife -set Language fr' would cause a pop-up saying can't open document 'fr' 
 		// when init'ing the Cocoa App window.		
 		[[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"NSTreatUnknownArgumentsAsOpen"];
-		
-		// This is a bit of voodoo taken from the Apple sample code "CarbonCocoa_PictureCursor":
-		//   http://developer.apple.com/samplecode/CarbonCocoa_PictureCursor/index.html
-		
-		//	Needed for Carbon based applications which call into Cocoa
-		NSApplicationLoad();
 
 		//	Must first call [[[NSWindow alloc] init] release] to get the NSWindow machinery set up so that NSCursor can use a window to cache the cursor image
 		[[[NSWindow alloc] init] release];

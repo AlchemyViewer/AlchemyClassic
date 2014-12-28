@@ -758,7 +758,8 @@ BOOL LLWindowMacOSX::getVisible()
 	if(mFullscreen)
 	{
 		result = TRUE;
-	}if (mWindow)
+	}
+	if (mWindow)
 	{
 			result = TRUE;
 	}

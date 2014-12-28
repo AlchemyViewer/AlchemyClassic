@@ -1301,7 +1301,7 @@ BOOL LLXMLNode::getAttributeU8(const char* name, U8& value )
 BOOL LLXMLNode::getAttributeS8(const char* name, S8& value )
 {
 	LLXMLNodePtr node;
-	S32 val;
+	S32 val = 0;
 	if (!(getAttribute(name, node) && node->getIntValue(1, &val)))
 	{
 		return false;
@@ -1313,7 +1313,7 @@ BOOL LLXMLNode::getAttributeS8(const char* name, S8& value )
 BOOL LLXMLNode::getAttributeU16(const char* name, U16& value )
 {
 	LLXMLNodePtr node;
-	U32 val;
+	U32 val = 0;
 	if (!(getAttribute(name, node) && node->getUnsignedValue(1, &val)))
 	{
 		return false;
@@ -1325,7 +1325,7 @@ BOOL LLXMLNode::getAttributeU16(const char* name, U16& value )
 BOOL LLXMLNode::getAttributeS16(const char* name, S16& value )
 {
 	LLXMLNodePtr node;
-	S32 val;
+	S32 val = 0;
 	if (!(getAttribute(name, node) && node->getIntValue(1, &val)))
 	{
 		return false;

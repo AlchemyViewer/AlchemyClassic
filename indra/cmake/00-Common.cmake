@@ -121,15 +121,9 @@ if (WINDOWS)
     add_definitions(/WX)
   endif (NOT VS_DISABLE_FATAL_WARNINGS)
 
-  if (MSVC12)
-    # configure win32 API for windows vista+ compatibility
-    set(WINVER "0x0600" CACHE STRING "Win32 API Target version (see http://msdn.microsoft.com/en-us/library/aa383745%28v=VS.85%29.aspx)")
-    add_definitions("/DWINVER=${WINVER}" "/D_WIN32_WINNT=${WINVER}")
-  else (MSVC12)
-    # configure win32 API for windows XP+ compatibility
-    set(WINVER "0x0501" CACHE STRING "Win32 API Target version (see http://msdn.microsoft.com/en-us/library/aa383745%28v=VS.85%29.aspx)")
-    add_definitions("/DWINVER=${WINVER}" "/D_WIN32_WINNT=${WINVER}")
-  endif (MSVC12)
+  # configure win32 API for windows vista+ compatibility
+  set(WINVER "0x0600" CACHE STRING "Win32 API Target version (see http://msdn.microsoft.com/en-us/library/aa383745%28v=VS.85%29.aspx)")
+  add_definitions("/DWINVER=${WINVER}" "/D_WIN32_WINNT=${WINVER}")
 endif (WINDOWS)
 
 

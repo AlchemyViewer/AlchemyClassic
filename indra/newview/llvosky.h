@@ -387,15 +387,6 @@ protected:
 
 
 class LLCubeMap;
-
-// turn on floating point precision
-// in vs2003 for this class.  Otherwise
-// black dots go everywhere from 7:10 - 8:50
-#if LL_MSVC && _MSC_VER < 8
-#pragma optimize("p", on)		
-#endif
-
-
 class LLVOSky : public LLStaticViewerObject
 {
 public:
@@ -618,11 +609,6 @@ public:
 
 	BOOL mHeavenlyBodyUpdated ;
 };
-
-// turn it off
-#if LL_MSVC && _MSC_VER < 8
-#pragma optimize("p", off)		
-#endif
 
 // Utility functions
 F32 azimuth(const LLVector3 &v);

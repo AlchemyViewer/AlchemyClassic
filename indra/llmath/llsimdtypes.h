@@ -37,14 +37,6 @@ typedef __m128	LLQuad;
 #if LL_WINDOWS
 #pragma warning(push)
 #pragma warning( disable : 4800 3 ) // Disable warning about casting int to bool for this class.
-#if defined(_MSC_VER) && (_MSC_VER < 1500)
-// VC++ 2005 is missing these intrinsics
-// __forceinline is MSVC specific and attempts to override compiler inlining judgment. This is so
-// even in debug builds this call is a NOP.
-__forceinline const __m128 _mm_castsi128_ps( const __m128i a ) { return reinterpret_cast<const __m128&>(a); }
-__forceinline const __m128i _mm_castps_si128( const __m128 a ) { return reinterpret_cast<const __m128i&>(a); }
-#endif // _MSC_VER
-
 #endif // LL_WINDOWS
 
 class LLBool32

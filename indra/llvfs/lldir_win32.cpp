@@ -48,7 +48,6 @@ LLDir_Win32::LLDir_Win32()
 
 	WCHAR w_str[MAX_PATH];
 
-#if _MSC_VER >= 1700
 	WCHAR* pPath = NULL;
 	if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pPath) == S_OK)
 		wcscpy_s(w_str, pPath);
@@ -56,69 +55,21 @@ LLDir_Win32::LLDir_Win32()
 	CoTaskMemFree(pPath);
 	pPath = NULL;
 		
-#else
-	HRESULT (WINAPI* pSHGetKnownFolderPath)(REFKNOWNFOLDERID rfid, DWORD dwFlags, HANDLE hToken, PWSTR *ppszPath) = NULL;
-	HMODULE shell = LoadLibrary(L"shell32");
-	if(shell)	//SHGetSpecialFolderPath is deprecated from Vista an onwards. Try to use SHGetKnownFolderPath if it's available
-	{
-		pSHGetKnownFolderPath = (HRESULT (WINAPI *)(REFKNOWNFOLDERID, DWORD, HANDLE, PWSTR *))GetProcAddress(shell, "SHGetKnownFolderPath");
-	}
-
-	// Application Data is where user settings go
-	if(pSHGetKnownFolderPath)
-	{
-		WCHAR* pPath = NULL;
-		if ((*pSHGetKnownFolderPath)(FOLDERID_RoamingAppData, 0, NULL, &pPath) == S_OK)
-			wcscpy_s(w_str, pPath);
-		else
-			SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
-		if(pPath)
-			CoTaskMemFree(pPath);
-	}
-	else	//XP doesn't support SHGetKnownFolderPath
-	{
-		SHGetFolderPath(NULL, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
-	}
-#endif
-
 	mOSUserDir = utf16str_to_utf8str(llutf16string(w_str));
 
 	// We want cache files to go on the local disk, even if the
 	// user is on a network with a "roaming profile".
 	//
-	// On XP this is:
-	//   C:\Docments and Settings\James\Local Settings\Application Data
-	// On Vista this is:
-	//   C:\Users\James\AppData\Local
+	// On Vista and above this is:
+	//   C:\Users\<USERNAME>\AppData\Local
 	//
 	// We used to store the cache in AppData\Roaming, and the installer
 	// cleans up that version on upgrade.  JC
-
-#if _MSC_VER >= 1700
 	if(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &pPath) == S_OK)
 		wcscpy_s(w_str, pPath);
 
 	CoTaskMemFree(pPath);
 	pPath = NULL;
-#else
-	if(pSHGetKnownFolderPath)
-	{
-		WCHAR* pPath = NULL;
-		if((*pSHGetKnownFolderPath)(FOLDERID_LocalAppData, 0, NULL, &pPath) == S_OK)
-			wcscpy_s(w_str,pPath);
-		else
-			SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
-		if(pPath)
-			CoTaskMemFree(pPath);
-	}
-	else	//XP doesn't support SHGetKnownFolderPath
-	{
-		SHGetFolderPath(NULL, CSIDL_LOCAL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, w_str);
-	}
-
-	if(shell)
-		FreeLibrary(shell);
-#endif
 
 	mOSCacheDir = utf16str_to_utf8str(llutf16string(w_str));
 

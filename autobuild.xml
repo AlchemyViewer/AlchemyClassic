@@ -92,12 +92,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4a9d040582342699c58c886c5ccd2caf</string>
+              <string>fca7286a420f547bdc0e611e8e485fec</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-apr/rev/259951/arch/CYGWIN/installer/apr_suite-1.4.5-windows-20120618.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/apr_suite-1.4.5-windows-vs12-20140705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a0b2e450fc68edf8f2bf66d461260def</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/apr_suite-1.4.5-windows64-vs12-20140710.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -154,12 +166,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>887c93c4075beefefa44b69fb2c0461e</string>
+              <string>af640abcd9e783b79a1409436c1fa2cc</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-ares-update/rev/290399/arch/CYGWIN/installer/ares-1.10.0-windows-20140529.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ares-1.10.0-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>1fccf35baf584b86b783cab6fe2e53e5</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ares-1.10.0-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -216,12 +240,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8af0500013739866a41cfc2ce90e4f4b</string>
+              <string>12ba3224d665dd5c1ac4c0ef7cffdc37</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-boost-update/rev/290566/arch/CYGWIN/installer/boost-1.55.0-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.57.0-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7e00da215c2c5b2e0c41e7dfa01f05c1</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.57.0-windows64-20141104.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -278,12 +314,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ae103c9481be20cd6c035940832b2650</string>
+              <string>1701922d89b848cd8078e0d408943313</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-colladadom-update/rev/290576/arch/CYGWIN/installer/colladadom-2.3-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>be383b75f072b31831a5582a7cc83359</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-20141104.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -344,12 +392,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e4280eae792a5f13bc9d01d8cfb7c557</string>
+              <string>14dc739a0a20b73c88a58dee4c734c45</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-curl-update/rev/295367/arch/CYGWIN/installer/curl-7.38.0-windows-20141010.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d481691a146abea4fb0b25c831fec2a7</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows64-20141021.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -532,12 +592,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e72db1bda49b205ebdf4945d4ed2b8f8</string>
+              <string>c123dfa22c7bfa984c7ecb3baa539a6c</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/expat-2.0.1-windows-20110215.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/expat-2.1.0-windows-vs12-20140705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>93f77c80aa3bc84aae0cfbb0db2f015f</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/expat-2.1.0-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -589,6 +661,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fd9583c0e9bb21b8eceda58db32a0709</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodex-4.44.47-windows64-20141123.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>version</key>
         <string>4.44.47</string>
@@ -632,12 +716,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>20d243e56466be94fd297ed5e8e3bf20</string>
+              <string>7c636fd95f654056c174540dc932aac9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows-20141214.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows-20141215.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a313fa6fd85e7ffba22c410de084a54d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows64-20141215.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -726,12 +822,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>825d5a9bafcc5bfe28dc4c1c4f87c576</string>
+              <string>9aee330fe1d9c7f699f1a06d7d62c073</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-freeglut/rev/221064/arch/CYGWIN/installer/freeglut-2.6.0-windows-20110214.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>aa348a01216c10ee6a8a9a6fef89e80d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -790,12 +898,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6e9fc0fe628a7c88f6f614bf3b0450ae</string>
+              <string>573a917698e00c257a8d03fdbded7163</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-freetype-update/rev/290557/arch/CYGWIN/installer/freetype-2.4.4-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows-vs12-20140725.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>8a83ca8a2136a63c08014d4cf16219ed</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows64-vs12-20140725.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -906,12 +1026,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>842208365f5b108dac4c7c733b99da9c</string>
+              <string>d58fff3d73b900f55871da3bd7cd0d60</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-glod/rev/232684/arch/CYGWIN/installer/glod-1.0pre4-windows-20110610.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows-vs12-20140723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a2180d63d9f6bdd2de5f173c421340c8</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows64-vs12-20140723.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -944,12 +1076,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e006635a741420a15f40bbdac13bd8d7</string>
+              <string>fdd6cbd4fe9f1b6340684aa65af96219</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/glui-2.36-windows-20110214.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>f2e286acc64b48e6646aead1caf9c354</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows64-vs12-20140710.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -1006,12 +1150,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a1e519d08c507c12f9d412b2ae8328c8</string>
+              <string>8a8a5d24da3cff1c812a3ff6510566b0</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-google-breakpad/rev/279804/arch/CYGWIN/installer/google_breakpad-0.0.0-rev1099-windows-20130813.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1400-windows-20141105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>69e360938a6a13d9b10edfe09dc1bd9d</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1400-windows64-20141105.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1072,12 +1228,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5d91c1d03780aa26bcd5481145ee9e86</string>
+              <string>b54bd6785a841131c934b508102fb951</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-google-mock-update/rev/290574/arch/CYGWIN/installer/gmock-1.7.0-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows-20141104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fa8f6782d8ef1aa9982c9a28dc4e07cd</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-20141104.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1110,9 +1278,21 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cdce2b04507ffafd106152dba70f98c3</string>
+              <string>e81d9e4526ceac49f1532d6518085985</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.2-windows-20140529.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.1-windows-20140120.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>da6ec7472ed69fe3231eb95432a789d9</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.2-windows64-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1344,9 +1524,21 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>eeaf0744b27b1d9e8eadbb9c21b0178c</string>
+              <string>fbd94e58f8d9c133b5ab1087bb904325</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/inteltbb-4.2u3-windows-20140227.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/inteltbb-4.2u3-windows-vs11-20140403.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>910d16bf97a6d1dd552a47d82343e427</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/inteltbb-4.2u3-windows64-vs11-20140227.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1408,12 +1600,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a202ec58cef9097c94acfa958ed6da8d</string>
+              <string>a1ce7a896499c6684c288618a0b1c972</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/jpeglib-8c-windows-20110217.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libjpeg_turbo-1.3.1-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>51c44e4867483706ddb94dfd524bbf7a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libjpeg_turbo-1.3.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1472,12 +1676,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>afff2018e6a887c281b072eecdd9343e</string>
+              <string>b7fecf5e893fe83e22eaf8fb81a1e089</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/jsoncpp-0.5.0-windows-20110208.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/jsoncpp-e384e49-windows-20141105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>0bd342526cd17bb07998529ef7aac0bf</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/jsoncpp-e384e49-windows64-20141105.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1586,12 +1802,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6a140e5620826aa5e587b4157f57b389</string>
+              <string>a30628453ca7b92d39663ef2f2563f02</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-hunspell/rev/259874/arch/CYGWIN/installer/libhunspell-1.3.2-windows-20120616.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.3-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>6dca2a3a6c1b729612c0d488468eb046</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.3-windows64-20141021.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1694,12 +1922,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a4bec9562ed6ac53e85abcb1afc5fc0</string>
+              <string>6d39565e33cd1bbf8a6736f5b5959bc2</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/libndofdev-0.1-windows-20110223.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libndofdev-0.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b0e46812029a02d0e73533c40e631013</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libndofdev-0.1-windows64-vs12-20140710.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1760,12 +2000,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>596f4798f90941817b1ca5009c24d16a</string>
+              <string>26ea7c62f7396b6743c21a51aa42bae3</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libpng-update/rev/290558/arch/CYGWIN/installer/libpng-1.6.8-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.13-windows-vs12-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a83a39ce761d41354514b0a61588210a</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.13-windows64-vs12-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -1862,12 +2114,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ba20e2634b4c249a7064620d135f7972</string>
+              <string>680643aa631c1128246b51b4f02508bc</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-libxml-update/rev/290562/arch/CYGWIN/installer/libxml2-2.9.1-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.2-windows-20141021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>252c1336bafeed1506afdd60cfe61c6e</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.2-windows64-20141021.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2011,6 +2275,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>3ea4cee6a8dd4c89fbfd3ad6abd703c2</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub/rev/263415/arch/CYGWIN/installer/llphysicsextensions_stub-0.3-windows-20120814.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>version</key>
         <string>0.2</string>
@@ -2070,12 +2346,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bb4e8c8006c8a7aef6d3e3c36a8cebbf</string>
+              <string>b30f1088e8f01fb2617dd35e690faf12</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/canonical_3p-llqtwebkit2/rev/295522/arch/CYGWIN/installer/llqtwebkit-4.7.1-windows-20141015.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows-20141022.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>14fa3497c2d9fa02b1147b45ce516fa2</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-20141022.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2160,12 +2448,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d8fdf76fbeda3bcd592759780fd3cbe1</string>
+              <string>2e7918ad9f5f07d42a348f92a5a3e8a0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-win32-vs10.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ndPhysicsStub-0.1.1-windows-vs12-20140706.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ba2698914ca48560d25c956f4f3d23c1</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ndPhysicsStub-0.1.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2192,6 +2492,18 @@
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d72740c30056203c71fa1de441b881d3</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/nvapi-304-windows-x64-20130802.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -2246,12 +2558,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>291dbba89dd8162b76f2c2d82e908c6f</string>
+              <string>16d920336dca29c1543f27af95678a8c</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-ogvorbis/rev/229529/arch/CYGWIN/installer/ogg_vorbis-1.2.2-1.3.2-windows-20110510.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ogg_vorbis-1.3.2-1.3.4-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>220875d2c9c78881b0cb569c57deed77</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ogg_vorbis-1.3.2-1.3.4-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -2314,12 +2638,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>04df406f3e5d04cf176660bdac66c3a1</string>
+              <string>916032313437a9d103a8c8aab1cc011a</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/openal-1.12.854-1.1.0-windows-20110301.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openal-1.15.1-1.1.0-windows-vs12-20140813.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>d68c9f84e15f712c6d03b0abca8ba708</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openal-1.15.1-1.1.0-windows64-vs12-20140813.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2376,12 +2712,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9d0879971c88bb8265f7655c5a389094</string>
+              <string>257607f6fc840f8c3bcd0a6521107313</string>
               <key>url</key>
-              <string>https://dl.dropboxusercontent.com/u/8162280/Alchemy/Prebuilts/3p-openjpeg/windows/openjpeg-1.5.1-windows-20130425.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openjpeg-1.5.1-windows-vs12-20140705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>5734c71ee2bd2065d1473a699f526b4c</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openjpeg-1.5.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -2440,12 +2788,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>138997e1a73c65525d45c00f43f08010</string>
+              <string>ceb2ed054fb1835956e3fd3fa3992a02</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-openssl-update/rev/290662/arch/CYGWIN/installer/openssl-1.0.1h-windows-20140605.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1j-windows-20141016.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>1e2e1935e609214e6505b27b7be5ada1</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1j-windows64-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2506,12 +2866,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9250f74fed826ad1b8700229e964519d</string>
+              <string>c7c98dccb566375fc66330a1784606b2</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-pcre-update/rev/290406/arch/CYGWIN/installer/pcre-8.35-windows-20140529.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows-20141016.tar.bz2</string>
             </map>
             <key>name</key>
-            <string>linux</string>
+            <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>f2a1d71bba183c166acf99996d5dce11</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows64-20141016.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2532,9 +2904,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>52e49ab6937b09882389da0dbaec17f5</string>
+              <string>ebcfd469abb1ae5bb6f4a245b86dce85</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/quicktime-7.3-windows-20110127.tar.bz2</string>
+              <string>https://dl.dropbox.com/u/8162280/Alchemy/Prebuilts/3p-quicktime/windows/quicktime-7.3-windows-vs12-20121029.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2629,6 +3001,18 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>ce89b881ee24977641d1ecbf8aff6dc7</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/287264/arch/CYGWIN/installer/slvoice-4.6.0009.20030-windows-20140227.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
       </map>
       <key>tut</key>
@@ -2716,12 +3100,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5181d1a8f2516928ac064d72acf164a4</string>
+              <string>42d8e78b4634aeeb646aeed7d7bbb812</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/xmlrpc_epi-0.54.1-windows-20110224.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows-vs12-20140708.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>2ca2b196d594249eec1b184bd747df57</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
         <key>version</key>
@@ -2778,12 +3174,24 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ab45a628e22a495814e806ce46081806</string>
+              <string>9b4f4d1324aabd722e6a01e748d151cd</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-zlib-update/rev/290556/arch/CYGWIN/installer/zlib-1.2.8-windows-20140602.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/zlib-1.2.8-windows-vs12-20140705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
+          </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>7459ddf61c40764e0a58ffd84722bf99</string>
+              <key>url</key>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/zlib-1.2.8-windows64-vs12-20140709.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
           </map>
         </map>
       </map>
@@ -3432,7 +3840,7 @@
         <key>windows</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc100</string>
+          <string>build-vc120</string>
           <key>configurations</key>
           <map>
             <key>Debug</key>
@@ -3468,7 +3876,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                 </array>
               </map>
               <key>name</key>
@@ -3491,8 +3899,7 @@
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
-                  <string>/toolsversion:4.0</string>
-                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                  <string>/toolsversion:12.0</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3500,7 +3907,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -3542,7 +3949,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                 </array>
               </map>
               <key>default</key>
@@ -3567,8 +3974,7 @@
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
-                  <string>/toolsversion:4.0</string>
-                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                  <string>/toolsversion:12.0</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3576,7 +3982,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -3618,7 +4024,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                 </array>
               </map>
               <key>name</key>
@@ -3641,8 +4047,7 @@
                   <string>/t:Build</string>
                   <string>/p:useenv=true</string>
                   <string>/verbosity:normal</string>
-                  <string>/toolsversion:4.0</string>
-                  <string>/p:"VCBuildAdditionalOptions= /incremental"</string>
+                  <string>/toolsversion:12.0</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3650,7 +4055,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 10"</string>
+                  <string>"Visual Studio 12"</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -3662,6 +4067,244 @@
           </map>
           <key>name</key>
           <string>windows</string>
+        </map>
+        <key>windows64</key>
+        <map>
+          <key>build_directory</key>
+          <string>build-vc120-x86_64</string>
+          <key>configurations</key>
+          <map>
+            <key>Debug</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=Debug|x64"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>Debug</string>
+                  <string>--startup</string>
+                  <string>alchemy-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Debug</string>
+            </map>
+            <key>DebugOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=Debug</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:normal</string>
+                  <string>/toolsversion:12.0</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                  <string>-DUSE_LL_STUBS:BOOL=ON</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>DebugOS</string>
+            </map>
+            <key>RelWithDebInfo</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=RelWithDebInfo|x64"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>RelWithDebInfo</string>
+                  <string>--startup</string>
+                  <string>alchemy-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>True</string>
+              <key>name</key>
+              <string>RelWithDebInfo</string>
+            </map>
+            <key>RelWithDebInfoOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=RelWithDebInfo</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:normal</string>
+                  <string>/toolsversion:12.0</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>RelWithDebInfoOS</string>
+            </map>
+            <key>Release</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>BuildConsole</string>
+                <key>options</key>
+                <array>
+                  <string>/build</string>
+                  <string>"/cfg=Release|x64"</string>
+                  <string>"/CL_ADD=/m:1"</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>..\indra</string>
+                  <string>&amp;&amp;</string>
+                  <string>..\indra\tools\vstool\VSTool.exe</string>
+                  <string>--solution</string>
+                  <string>Alchemy.sln</string>
+                  <string>--config</string>
+                  <string>Release</string>
+                  <string>--startup</string>
+                  <string>alchemy-bin</string>
+                </array>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Release</string>
+            </map>
+            <key>ReleaseOS</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>msbuild.exe</string>
+                <key>options</key>
+                <array>
+                  <string>/p:Configuration=Release</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:normal</string>
+                  <string>/toolsversion:12.0</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                  <string>-DUSE_KDU=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>ReleaseOS</string>
+            </map>
+          </map>
+          <key>name</key>
+          <string>windows64</string>
         </map>
       </map>
       <key>version</key>

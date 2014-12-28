@@ -679,32 +679,32 @@ void LLManipScale::renderFaces( const LLBBox& bbox )
 			{
 			  case 0:
 				conditionalHighlight( LL_FACE_POSZ, &z_highlight_color, &z_normal_color );
-				renderAxisHandle( LL_FACE_POSZ, ctr, LLVector3( ctr.mV[VX], ctr.mV[VY], max.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_NNP, ctr, LLVector3( ctr.mV[VX], ctr.mV[VY], max.mV[VZ] ) );
 				break;
 
 			  case 1:
 				conditionalHighlight( LL_FACE_POSX, &x_highlight_color, &x_normal_color );
-				renderAxisHandle( LL_FACE_POSX, ctr, LLVector3( max.mV[VX], ctr.mV[VY], ctr.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_NPN, ctr, LLVector3( max.mV[VX], ctr.mV[VY], ctr.mV[VZ] ) );
 				break;
 
 			  case 2:
 				conditionalHighlight( LL_FACE_POSY, &y_highlight_color, &y_normal_color );
-				renderAxisHandle( LL_FACE_POSY, ctr, LLVector3( ctr.mV[VX], max.mV[VY], ctr.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_NPP, ctr, LLVector3( ctr.mV[VX], max.mV[VY], ctr.mV[VZ] ) );
 				break;
 
 			  case 3:
 				conditionalHighlight( LL_FACE_NEGX, &x_highlight_color, &x_normal_color );
-				renderAxisHandle( LL_FACE_NEGX, ctr, LLVector3( min.mV[VX], ctr.mV[VY], ctr.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_PNN, ctr, LLVector3( min.mV[VX], ctr.mV[VY], ctr.mV[VZ] ) );
 				break;
 
 			  case 4:
 				conditionalHighlight( LL_FACE_NEGY, &y_highlight_color, &y_normal_color );
-				renderAxisHandle( LL_FACE_NEGY, ctr, LLVector3( ctr.mV[VX], min.mV[VY], ctr.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_PNP, ctr, LLVector3( ctr.mV[VX], min.mV[VY], ctr.mV[VZ] ) );
 				break;
 
 			  case 5:
 				conditionalHighlight( LL_FACE_NEGZ, &z_highlight_color, &z_normal_color );
-				renderAxisHandle( LL_FACE_NEGZ, ctr, LLVector3( ctr.mV[VX], ctr.mV[VY], min.mV[VZ] ) );
+				renderAxisHandle( LL_CORNER_PPN, ctr, LLVector3( ctr.mV[VX], ctr.mV[VY], min.mV[VZ] ) );
 				break;
 			}
 		}

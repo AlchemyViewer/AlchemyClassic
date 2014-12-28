@@ -100,66 +100,7 @@ if(WINDOWS)
 
 #*******************************
 # Copy MS C runtime dlls, required for packaging.
-# *TODO - Adapt this to support VC9
-if (MSVC_VERSION EQUAL 1600) # VisualStudio 2010
-    FIND_PATH(debug_msvc10_redist_path msvcr100d.dll
-        PATHS
-        ${MSVC_DEBUG_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\10.0\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/x86/Microsoft.VC100.DebugCRT
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
-        NO_DEFAULT_PATH
-        )
-
-    if(EXISTS ${debug_msvc10_redist_path})
-        set(debug_msvc10_files
-            msvcr100d.dll
-            msvcp100d.dll
-            )
-
-        copy_if_different(
-            ${debug_msvc10_redist_path}
-            "${SHARED_LIB_STAGING_DIR_DEBUG}"
-            out_targets
-            ${debug_msvc10_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-
-    endif (EXISTS ${debug_msvc10_redist_path})
-
-    FIND_PATH(release_msvc10_redist_path msvcr100.dll
-        PATHS
-        ${MSVC_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\10.0\\Setup\\VC;ProductDir]/redist/x86/Microsoft.VC100.CRT
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
-        [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
-        NO_DEFAULT_PATH
-        )
-
-    if(EXISTS ${release_msvc10_redist_path})
-        set(release_msvc10_files
-            msvcr100.dll
-            msvcp100.dll
-            )
-
-        copy_if_different(
-            ${release_msvc10_redist_path}
-            "${SHARED_LIB_STAGING_DIR_RELEASE}"
-            out_targets
-            ${release_msvc10_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-
-        copy_if_different(
-            ${release_msvc10_redist_path}
-            "${SHARED_LIB_STAGING_DIR_RELWITHDEBINFO}"
-            out_targets
-            ${release_msvc10_files}
-            )
-        set(third_party_targets ${third_party_targets} ${out_targets})
-          
-    endif (EXISTS ${release_msvc10_redist_path})
-elseif (MSVC12) # VisualStudio 2013
+if (MSVC12) # VisualStudio 2013
     if (WORD_SIZE STREQUAL 32)
       set (CRT_ARCHITECTURE x86)
     elseif (WORD_SIZE STREQUAL 64)
@@ -222,7 +163,7 @@ elseif (MSVC12) # VisualStudio 2013
         set(third_party_targets ${third_party_targets} ${out_targets})
           
     endif (EXISTS ${release_msvc12_redist_path})
-endif (MSVC_VERSION EQUAL 1600)
+endif (MSVC12)
 
 elseif(DARWIN)
     set(SHARED_LIB_STAGING_DIR_DEBUG            "${SHARED_LIB_STAGING_DIR}/Debug/Resources")

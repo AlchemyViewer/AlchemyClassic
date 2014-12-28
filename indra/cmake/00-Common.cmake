@@ -40,13 +40,6 @@ if (WINDOWS)
   # Don't build DLLs.
   set(BUILD_SHARED_LIBS OFF)
 
-  # for "backwards compatibility", cmake sneaks in the Zm1000 option which royally
-  # screws incredibuild. this hack disables it.
-  # for details see: http://connect.microsoft.com/VisualStudio/feedback/details/368107/clxx-fatal-error-c1027-inconsistent-values-for-ym-between-creation-and-use-of-precompiled-headers
-  # http://www.ogre3d.org/forums/viewtopic.php?f=2&t=60015
-  # http://www.cmake.org/pipermail/cmake/2009-September/032143.html
-  string(REPLACE "/Zm1000" " " CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /MDd /MP -D_SCL_SECURE_NO_WARNINGS=1"
       CACHE STRING "C++ compiler debug options" FORCE)
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO 
@@ -58,9 +51,7 @@ if (WINDOWS)
 
   if (WORD_SIZE EQUAL 32)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
-    if (MSVC12)
-      set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
-    endif (MSVC12)
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SAFESEH:NO")
   endif (WORD_SIZE EQUAL 32)
 
   if (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
@@ -94,27 +85,26 @@ if (WINDOWS)
       /fp:fast
       )
 
-  if (MSVC12)
-    if (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
-      add_definitions(
-          /GL
-          /Gy
-          /Gw
-          )
-    endif (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
+  if (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
+    add_definitions(
+        /GL
+        /Gy
+        /Gw
+        )
+  endif (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
 
-    if (RELEASE_EXTRA_DEBUG)
-      add_definitions(/Zo)
-    endif (RELEASE_EXTRA_DEBUG)
-  endif (MSVC12)
+  if (RELEASE_EXTRA_DEBUG)
+    add_definitions(/Zo)
+  endif (RELEASE_EXTRA_DEBUG)
 
-  if (USE_AVX AND MSVC12)
+
+  if (USE_AVX)
     add_definitions(/arch:AVX)
-  elseif (USE_AVX2 AND MSVC12)
+  elseif (USE_AVX2)
     add_definitions(/arch:AVX2)
   elseif (WORD_SIZE EQUAL 32)
     add_definitions(/arch:SSE2)
-  endif (USE_AVX AND MSVC12)
+  endif (USE_AVX)
 
   # Are we using the crummy Visual Studio KDU build workaround?
   if (NOT VS_DISABLE_FATAL_WARNINGS)

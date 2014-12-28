@@ -395,55 +395,27 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 void LLAppViewerWin32::disableWinErrorReporting()
 {
-	if (IsWindowsVistaOrGreater())
+	// Note: we need to use run-time dynamic linking, because load-time dynamic linking will fail
+	// on systems that don't have the library installed (all non-Windows XP systems)
+	HRESULT(WINAPI* pWerAddExcludedApplication)(PCWSTR pwzExeName, BOOL bAllUsers) = NULL;
+	HMODULE wer = LoadLibrary(L"wer.dll");
+	if (wer)
 	{
-		// Note: we need to use run-time dynamic linking, because load-time dynamic linking will fail
-		// on systems that don't have the library installed (all non-Windows XP systems)
-		HRESULT(WINAPI* pWerAddExcludedApplication)(PCWSTR pwzExeName, BOOL bAllUsers) = NULL;
-		HMODULE wer = LoadLibrary(L"wer.dll");
-		if (wer)
+		pWerAddExcludedApplication = (HRESULT(WINAPI *)(PCWSTR, BOOL))GetProcAddress(wer, "WerAddExcludedApplication");
+		if (pWerAddExcludedApplication)
 		{
-			pWerAddExcludedApplication = (HRESULT(WINAPI *)(PCWSTR, BOOL))GetProcAddress(wer, "WerAddExcludedApplication");
-			if (pWerAddExcludedApplication)
+			// Strip the path off the name
+			llutf16string executable_name = utf8str_to_utf16str(gDirUtilp->getExecutableFilename());
+			if (pWerAddExcludedApplication(executable_name.c_str(), FALSE) != S_OK)
 			{
-				// Strip the path off the name
-				llutf16string executable_name = utf8str_to_utf16str(gDirUtilp->getExecutableFilename());
-				if (pWerAddExcludedApplication(executable_name.c_str(), FALSE) != S_OK)
-				{
-					LL_INFOS() << "WerAddExcludedApplication() failed" << LL_ENDL;
-				}
-				else
-				{
-					LL_INFOS() << "WerAddExcludedApplication() success for " << utf16str_to_utf8str(executable_name).c_str() << LL_ENDL;
-				}
+				LL_INFOS() << "WerAddExcludedApplication() failed" << LL_ENDL;
 			}
-			FreeLibrary(wer);
-		}
-	}
-	else if (IsWindowsXPOrGreater())
-	{
-		// Note: we need to use run-time dynamic linking, because load-time dynamic linking will fail
-		// on systems that don't have the library installed (all non-Windows XP systems)
-		HMODULE fault_rep_dll_handle = LoadLibrary(L"faultrep.dll");		/* Flawfinder: ignore */
-		if( fault_rep_dll_handle )
-		{
-			pfn_ADDEREXCLUDEDAPPLICATIONW pAddERExcludedApplicationW = (pfn_ADDEREXCLUDEDAPPLICATIONW)GetProcAddress(fault_rep_dll_handle, "AddERExcludedApplicationW");
-			if( pAddERExcludedApplicationW )
+			else
 			{
-				// Strip the path off the name
-				llutf16string executable_name = utf8str_to_utf16str(gDirUtilp->getExecutableFilename());
-				if(pAddERExcludedApplicationW(executable_name.c_str()) == 0)
-				{
-					U32 error_code = GetLastError();
-					LL_INFOS() << "AddERExcludedApplicationW() failed with error code " << error_code << LL_ENDL;
-				}
-				else
-				{
-					LL_INFOS() << "AddERExcludedApplicationW() success for " << utf16str_to_utf8str(executable_name).c_str() << LL_ENDL;
-				}
+				LL_INFOS() << "WerAddExcludedApplication() success for " << utf16str_to_utf8str(executable_name).c_str() << LL_ENDL;
 			}
-			FreeLibrary( fault_rep_dll_handle );
 		}
+		FreeLibrary(wer);
 	}
 }
 

@@ -292,7 +292,6 @@ if (DARWIN)
     libexception_handler.dylib
     libaprutil-1.0.dylib
     libapr-1.0.dylib
-    libexpat.1.5.2.dylib
     libQtCore.4.8.6.dylib
     libQtCore.4.dylib
     libQtGui.4.8.6.dylib

@@ -1138,9 +1138,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a56173fcc2c2a657eaa43f4531d6f16f</string>
+              <string>3cb9cf60f5140e3f2b32a373aa0ec92f</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/google_breakpad-1411-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/google_breakpad-1412-linux64-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1171,7 +1171,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1400</string>
+        <string>1412</string>
       </map>
       <key>googlemock</key>
       <map>

@@ -1676,9 +1676,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b7fecf5e893fe83e22eaf8fb81a1e089</string>
+              <string>2c0113550ec0cc2ae609356be5d59e1c</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/jsoncpp-e384e49-windows-20141105.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1688,9 +1688,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0bd342526cd17bb07998529ef7aac0bf</string>
+              <string>f96e2b8575f450b96d2826b0298efef0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/jsoncpp-e384e49-windows64-20141105.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows64-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

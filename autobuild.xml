@@ -1114,9 +1114,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c788a259125bdbee7e362ff4a7b9fb4f</string>
+              <string>3f176113feddaeccae064c2e2cf71cf3</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1411-darwin-20141216.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1412-darwin-201412291532.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1640,9 +1642,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d1b88fb1ee98628c692beea111055ba1</string>
+              <string>377954feeed4e348b1ef0bf9f12526a4</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-e384e49-darwin-201411060014.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.0.0-darwin-201412291529.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

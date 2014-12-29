@@ -219,7 +219,7 @@ void LLImageJ2CKDU::setupCodeStream(LLImageJ2C &base, BOOL keep_codestream, ECod
 	if (!kdu_message_initialized)
 	{
 		kdu_message_initialized = true;
-		kdu_customize_errors(&LLKDUMessageError::sDefaultMessage);
+		kdu_core::kdu_customize_errors(&LLKDUMessageError::sDefaultMessage);
 		kdu_customize_warnings(&LLKDUMessageWarning::sDefaultMessage);
 	}
 

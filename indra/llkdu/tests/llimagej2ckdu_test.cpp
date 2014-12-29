@@ -176,9 +176,9 @@ void kdu_subband::get_valid_blocks(kdu_dims &indices) { }
 kdu_block* kdu_subband::open_block(kdu_coords, int*, kdu_thread_env*, int, bool) { return NULL; }
 bool kdu_codestream_comment::put_text(const char*) { return false; }
 const char* kdu_codestream_comment::get_text() { return "\0"; }
-bool kdu_core_sample_alignment_checker(int, int, int, int, bool, bool);
-void kdu_customize_warnings(kdu_message*) { }
-void kdu_customize_errors(kdu_message*) { }
+bool kdu_core::kdu_core_sample_alignment_checker(int, int, int, int, bool, bool) { return false; }
+void kdu_core::kdu_customize_warnings(kdu_message*) { }
+void kdu_core::kdu_customize_errors(kdu_message*) { }
 
 kdu_long kdu_multi_analysis::create(kdu_codestream, kdu_tile, kdu_thread_env*, kdu_thread_queue*, int, kdu_roi_image*, int, kdu_sample_allocator*, const kdu_push_pull_params*) { kdu_long a = 0; return a; }
 
@@ -192,10 +192,10 @@ bool siz_params::read_marker_segment(kdu_uint16, int, kdu_byte a[], int) { retur
 
 kdu_decoder::kdu_decoder(kdu_subband , kdu_sample_allocator*, bool , float, int, kdu_thread_env*, kdu_thread_queue*, int) { }
 void kdu_codestream::create(siz_params*, kdu_compressed_target*, kdu_dims*, int, kdu_long, kdu_thread_env* ) { }
-void (*kdu_convert_ycc_to_rgb_rev16)(kdu_int16*,kdu_int16*,kdu_int16*,int);
-void (*kdu_convert_ycc_to_rgb_irrev16)(kdu_int16*,kdu_int16*,kdu_int16*,int);
-void (*kdu_convert_ycc_to_rgb_rev32)(kdu_int32*,kdu_int32*,kdu_int32*,int);
-void (*kdu_convert_ycc_to_rgb_irrev32)(float*,float*,float*,int);
+void (*kdu_core::kdu_convert_ycc_to_rgb_rev16)(kdu_int16*,kdu_int16*,kdu_int16*,int);
+void (*kdu_core::kdu_convert_ycc_to_rgb_irrev16)(kdu_int16*,kdu_int16*,kdu_int16*,int);
+void (*kdu_core::kdu_convert_ycc_to_rgb_rev32)(kdu_int32*,kdu_int32*,kdu_int32*,int);
+void (*kdu_core::kdu_convert_ycc_to_rgb_irrev32)(float*,float*,float*,int);
 
 // -------------------------------------------------------------------------------------------
 // TUT

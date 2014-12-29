@@ -1664,9 +1664,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a788f4504dc8c3207ea95f6ca116a9f1</string>
+              <string>0569796d58e3dd599defcaad0a535316</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/jsoncpp-e384e49-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/jsoncpp-1.0.0-linux64-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1697,7 +1697,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>e384e49</string>
+        <string>1.0.0</string>
       </map>
       <key>kdu</key>
       <map>

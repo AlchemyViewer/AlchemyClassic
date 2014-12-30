@@ -1152,9 +1152,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8a8a5d24da3cff1c812a3ff6510566b0</string>
+              <string>2b378024a3f7767559f96aa1fe3f1d29</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1400-windows-20141105.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/google_breakpad-1412-windows-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1164,9 +1164,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>69e360938a6a13d9b10edfe09dc1bd9d</string>
+              <string>c0c19ebafcc1c16e6b693b1e6c22cab0</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/google_breakpad-1400-windows64-20141105.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/google_breakpad-1412-windows64-20141229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

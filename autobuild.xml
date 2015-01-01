@@ -489,6 +489,8 @@
       </map>
       <key>dictionaries</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright 2014 Apache OpenOffice software</string>
         <key>description</key>
         <string>Spell checking dictionaries to bundled into the viewer</string>
         <key>license</key>
@@ -504,9 +506,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5dbd058bf0595626eba8669ad044f2f1</string>
+              <string>078604ad9373fe35081a7d3e4892ae41</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/dictionaries-1-common-201410192105.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/dictionaries-1-common-201412301501.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
@@ -784,7 +788,7 @@
         <key>license</key>
         <string>Various</string>
         <key>license_file</key>
-        <string>LICENSES/Source.txt</string>
+        <string>LICENSES/fonts.txt</string>
         <key>name</key>
         <string>fonts</string>
         <key>platforms</key>
@@ -794,11 +798,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>01f2357df16dde3d2157407cd576474a</string>
+              <string>83e7511fa5e20fe476af4d0dc58b923b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/fonts-1.0-common-201412202319.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/fonts-1.0-common-201412301818.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
@@ -923,8 +927,12 @@
       </map>
       <key>glext</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2013-2014 The Khronos Group Inc.</string>
+        <key>description</key>
+        <string>glext headers define function prototypes and constants for OpenGL extensions</string>
         <key>license</key>
-        <string>glext</string>
+        <string>MIT</string>
         <key>license_file</key>
         <string>LICENSES/glext.txt</string>
         <key>name</key>
@@ -936,14 +944,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>09d362bdbcff3c2ef38c695985633936</string>
+              <string>1c22ebb8a5c3ed82d2d2051bfe2e3535</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/common/lib/glext-20141118-common-20141220.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/glext-20141118-common-201412300219.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
+        <key>version</key>
+        <string>20141118</string>
       </map>
       <key>glh-linear</key>
       <map>
@@ -964,9 +976,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e516a9a6ddb542ea4fb9ce7c45a84440</string>
+              <string>fed9e6e9de1ea8210b0519f54df81bef</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/glh_linear-0.0.0-common-201412201307.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/glh_linear-0.0.0-common-201412301528.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
@@ -3207,7 +3221,7 @@
       <key>license</key>
       <string>LGPL</string>
       <key>name</key>
-      <string>Second Life Viewer</string>
+      <string>Alchemy Viewer</string>
       <key>platforms</key>
       <map>
         <key>common</key>

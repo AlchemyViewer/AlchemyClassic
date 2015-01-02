@@ -175,7 +175,7 @@ LLWinImm::LLWinImm() : mHImmDll(NULL)
 	if ( !GetSystemMetrics( SM_IMMENABLED ) )
 		return;
 
-	mHImmDll = LoadLibraryA("Imm32");
+	mHImmDll = LoadLibraryW(TEXT("Imm32"));
 	if (mHImmDll != NULL)
 	{
 		mImmIsIME               = (BOOL (WINAPI *)(HKL))                    GetProcAddress(mHImmDll, "ImmIsIME");
@@ -3179,7 +3179,7 @@ S32 OSMessageBoxWin32(const std::string& text, const std::string& caption, U32 t
 	}
 
 	// HACK! Doesn't properly handle wide strings!
-	int retval_win = MessageBoxA(NULL, text.c_str(), caption.c_str(), uType);
+	int retval_win = MessageBoxW(NULL, utf8str_to_utf16str(text).c_str(), utf8str_to_utf16str(caption).c_str(), uType);
 	S32 retval;
 
 	switch(retval_win)

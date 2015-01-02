@@ -41,10 +41,12 @@
       </map>
       <key>apr_suite</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright © 2012 The Apache Software Foundation, Licensed under the Apache License, Version 2.0.</string>
         <key>description</key>
         <string>Apache portable runtime project</string>
         <key>license</key>
-        <string>apache</string>
+        <string>Apache 2.0</string>
         <key>license_file</key>
         <string>LICENSES/apr_suite.txt</string>
         <key>name</key>
@@ -104,19 +106,25 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a0b2e450fc68edf8f2bf66d461260def</string>
+              <string>b85caa6108c310b09c3585bac8069109</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/apr_suite-1.4.5-windows64-vs12-20140710.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/apr_suite-1.4.5-windows64-201501010153.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.5.1</string>
+        <string>1.4.5</string>
       </map>
       <key>ares</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright 1998 by the Massachusetts Institute of Technology.</string>
+        <key>description</key>
+        <string>C-ares, an asynchronous resolver library.</string>
         <key>license</key>
         <string>c-ares</string>
         <key>license_file</key>
@@ -178,17 +186,23 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1fccf35baf584b86b783cab6fe2e53e5</string>
+              <string>5715f402395fdf445189d7c3c10e4ec5</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ares-1.10.0-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/ares-1.10.0-windows64-201501010107.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.10.0</string>
       </map>
       <key>boost</key>
       <map>
+        <key>copyright</key>
+        <string>(see individual source files)</string>
         <key>description</key>
         <string>Boost C++ Libraries</string>
         <key>license</key>
@@ -252,9 +266,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7e00da215c2c5b2e0c41e7dfa01f05c1</string>
+              <string>7104cd763768d0308168293adf16e2db</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/boost-1.57.0-windows64-20141104.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/boost-1.57.0-windows64-201501011800.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -265,6 +281,8 @@
       </map>
       <key>colladadom</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright 2006 Sony Computer Entertainment Inc.</string>
         <key>license</key>
         <string>SCEA</string>
         <key>license_file</key>
@@ -326,9 +344,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>be383b75f072b31831a5582a7cc83359</string>
+              <string>0c46c63bf4a38e4024c30156ea0a88c8</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/colladadom-2.3-windows64-20141104.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/colladadom-2.3-windows64-201501011947.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -404,9 +424,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d481691a146abea4fb0b25c831fec2a7</string>
+              <string>459d191aee31d56665becfbdfe022ffd</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/curl-7.38-windows64-20141021.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.38-windows64-201501010342.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -545,6 +567,8 @@
       </map>
       <key>expat</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd and Clark Cooper - Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006 Expat maintainers.</string>
         <key>description</key>
         <string>Expat is an XML parser library written in C</string>
         <key>license</key>
@@ -608,9 +632,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>93f77c80aa3bc84aae0cfbb0db2f015f</string>
+              <string>18295330fdbc65db03a25bc479a38928</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/expat-2.1.0-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/expat-2.1.0-windows64-201501010148.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -621,6 +647,10 @@
       </map>
       <key>fmodex</key>
       <map>
+        <key>copyright</key>
+        <string>FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2014.</string>
+        <key>description</key>
+        <string>FMOD Ex audio system library</string>
         <key>license</key>
         <string>fmodex</string>
         <key>license_file</key>
@@ -670,9 +700,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fd9583c0e9bb21b8eceda58db32a0709</string>
+              <string>3932269b6cc66e83cf277d5ed5ec07a6</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodex-4.44.47-windows64-20141123.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodex-4.44.47-windows64-201412292154.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -683,6 +715,10 @@
       </map>
       <key>fmodstudio</key>
       <map>
+        <key>copyright</key>
+        <string>FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2014.</string>
+        <key>description</key>
+        <string>FMOD Studio audio system library</string>
         <key>license</key>
         <string>fmodstudio</string>
         <key>license_file</key>
@@ -732,9 +768,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a313fa6fd85e7ffba22c410de084a54d</string>
+              <string>8b355809b6b9fb664000ceeb437c7a2f</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows64-20141215.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.05.09-windows64-201412300154.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -850,7 +888,7 @@
       <key>freetype</key>
       <map>
         <key>copyright</key>
-        <string>Copyright 2006, 2007, 2008, 2009, 2010 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
+        <string>Copyright 2006-2014 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
         <key>description</key>
         <string>Font rendering library</string>
         <key>license</key>
@@ -914,16 +952,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8a83ca8a2136a63c08014d4cf16219ed</string>
+              <string>e9fc22f6373aefd6462c65fce8270706</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freetype-2.5.3-windows64-vs12-20140725.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/freetype-2.5.4-windows64-201501010321.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.5.3</string>
+        <string>2.5.4</string>
       </map>
       <key>glext</key>
       <map>
@@ -991,10 +1031,14 @@
       </map>
       <key>glod</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 2003-04 Jonathan Cohen, Nat Duca, Chris Niski, Johns Hopkins University and David Luebke, Brenden Schubert, University of Virginia. All rights reserved.</string>
+        <key>description</key>
+        <string>Geometric Level of Detail library</string>
         <key>license</key>
-        <string>GLOD Open-Source License   Version 1.0</string>
+        <string>GLOD Open-Source License 1.0</string>
         <key>license_file</key>
-        <string>LICENSES/GLOD.txt</string>
+        <string>LICENSES/glod.txt</string>
         <key>name</key>
         <string>glod</string>
         <key>platforms</key>
@@ -1052,9 +1096,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a2180d63d9f6bdd2de5f173c421340c8</string>
+              <string>950aa8883b52484a905c460822844f7a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glod-1.0pre4-windows64-vs12-20140723.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/glod-1.0pre4-windows64-201501010109.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1115,6 +1161,8 @@
       <map>
         <key>copyright</key>
         <string>Copyright (c) 2006, Google Inc.</string>
+        <key>description</key>
+        <string>Breakpad is a crossplatform library for capturing crash callstacks and runtime data.</string>
         <key>license</key>
         <string>BSD</string>
         <key>license_file</key>
@@ -1178,9 +1226,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c0c19ebafcc1c16e6b693b1e6c22cab0</string>
+              <string>6b468505bbff6556197dc58bd672f3a5</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/google_breakpad-1412-windows64-20141229.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/google_breakpad-1412-windows64-201501010136.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1256,9 +1306,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fa8f6782d8ef1aa9982c9a28dc4e07cd</string>
+              <string>e5ae835aae1dd6cc21fcc6979f32df68</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/googlemock-1.7.0-windows64-20141104.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/googlemock-1.7.0-windows64-201501012054.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1450,7 +1502,7 @@
       <key>icu4c</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1995-2011 International Business Machines Corporation and others &lt;http://source.icu-project.org&gt;</string>
+        <string>Copyright (c) 1995-2014 International Business Machines Corporation and others</string>
         <key>description</key>
         <string>ICU is a mature, widely used set of C/C++ and Java libraries providing Unicode and Globalization support for software applications. ICU is widely portable and gives applications the same results on all platforms and between C/C++ and Java software.</string>
         <key>license</key>
@@ -1514,9 +1566,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>329b40877e90cab505479207bc01b4a9</string>
+              <string>217941d61b763bbed4c8db88c861c870</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/icu4c-54.1-windows64-20141016.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/icu4c-54.1-windows64-201501010244.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1628,9 +1682,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>51c44e4867483706ddb94dfd524bbf7a</string>
+              <string>636fd7cf4572d5cf103a2489c504dd23</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libjpeg_turbo-1.3.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/jpeglib-1.3.1-windows64-201501010105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1641,10 +1697,12 @@
       </map>
       <key>jsoncpp</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2007-2010 by Baptiste Lepilleur</string>
         <key>description</key>
-        <string>jsoncpp is an implementation of a JSON (http://json.org) reader and writer in C++.</string>
+        <string>JsonCpp is an implementation of a JSON (http://json.org) reader and writer in C++.</string>
         <key>license</key>
-        <string>public domain</string>
+        <string>Public Domain</string>
         <key>license_file</key>
         <string>LICENSES/jsoncpp.txt</string>
         <key>name</key>
@@ -1706,9 +1764,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f96e2b8575f450b96d2826b0298efef0</string>
+              <string>06cefb7700caba271c26d9c97d6c8932</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows64-20141229.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows64-201501010147.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1832,9 +1892,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6dca2a3a6c1b729612c0d488468eb046</string>
+              <string>9caed8c71313ae4c165a3e734c87e073</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libhunspell-1.3.3-windows64-20141021.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/libhunspell-1.3.3-windows64-201501010112.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1952,9 +2014,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b0e46812029a02d0e73533c40e631013</string>
+              <string>0cb0c6289929db91c2ef68a2f337bc5f</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libndofdev-0.1-windows64-vs12-20140710.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/libndofdev-0.1-windows64-201501010145.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1966,7 +2030,7 @@
       <key>libpng</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 2004, 2006-2013 Glenn Randers-Pehrson</string>
+        <string>Copyright (c) 2004, 2006-2014 Glenn Randers-Pehrson</string>
         <key>description</key>
         <string>PNG Reference library</string>
         <key>license</key>
@@ -2030,16 +2094,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a83a39ce761d41354514b0a61588210a</string>
+              <string>31f5bf1ca0c32ac0ceab8e4d0dcd74f1</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libpng-1.6.13-windows64-vs12-20141016.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/libpng-1.6.15-windows64-201501010319.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.13</string>
+        <string>1.6.15</string>
       </map>
       <key>libuuid</key>
       <map>
@@ -2084,7 +2150,7 @@
         <key>description</key>
         <string>Libxml2 is the XML C parser and toolkit developed for the Gnome project.</string>
         <key>license</key>
-        <string>mit</string>
+        <string>MIT</string>
         <key>license_file</key>
         <string>LICENSES/libxml2.txt</string>
         <key>name</key>
@@ -2144,9 +2210,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>252c1336bafeed1506afdd60cfe61c6e</string>
+              <string>96af2103b229060bf603f12dc074cea8</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/libxml2-2.9.2-windows64-20141021.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/libxml2-2.9.2-windows64-201501010353.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2478,23 +2546,27 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ba2698914ca48560d25c956f4f3d23c1</string>
+              <string>b9bc6cef6547e22ce5b8ddd78b3987bd</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ndPhysicsStub-0.1.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/ndPhysicsStub-0.1.2-windows64-201501010004.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>0.1.1</string>
+        <string>0.1.2</string>
       </map>
       <key>nvapi</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2007- 2014 NVIDIA Corporation. All rights reserved. </string>
         <key>license</key>
-        <string>NVAPI</string>
+        <string>nvapi</string>
         <key>license_file</key>
-        <string>LICENSES/NVAPI_SDK_License_Agreement.pdf</string>
+        <string>LICENSES/nvapi.txt</string>
         <key>name</key>
         <string>nvapi</string>
         <key>platforms</key>
@@ -2516,17 +2588,25 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d72740c30056203c71fa1de441b881d3</string>
+              <string>927d631c438ee2f2d3b43d2b6e517744</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/nvapi-304-windows-x64-20130802.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/nvapi-r343-windows64-201412301852.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>r343</string>
       </map>
       <key>ogg-vorbis</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2002, Xiph.org Foundation</string>
+        <key>description</key>
+        <string>Audio encoding library</string>
         <key>license</key>
         <string>ogg-vorbis</string>
         <key>license_file</key>
@@ -2588,14 +2668,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>220875d2c9c78881b0cb569c57deed77</string>
+              <string>566f666f401e0f0331b03a31e6778372</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/ogg_vorbis-1.3.2-1.3.4-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/ogg_vorbis-1.3.2-1.3.4-windows64-201412312320.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.3.2-1.3.4</string>
       </map>
       <key>openal</key>
       <map>
@@ -2681,8 +2765,12 @@
       </map>
       <key>openjpeg</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2002-2012, Communications and Remote Sensing Laboratory, Universite catholique de Louvain (UCL), Belgium, Copyright (c) 2002-2012, Professor Benoit Macq, Copyright (c) 2003-2012, Antonin Descampe, Copyright (c) 2003-2009, Francois-Olivier Devaux, Copyright (c) 2005, Herve Drolon, FreeImage Team, Copyright (c) 2002-2003, Yannick Verschueren, Copyright (c) 2001-2003, David Janssens</string>
+        <key>description</key>
+        <string>The OpenJPEG library is an open-source JPEG 2000 codec written in C language.</string>
         <key>license</key>
-        <string>openjpeg</string>
+        <string>BSD</string>
         <key>license_file</key>
         <string>LICENSES/openjpeg.txt</string>
         <key>name</key>
@@ -2742,14 +2830,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5734c71ee2bd2065d1473a699f526b4c</string>
+              <string>35ddde6c6c758d4b617717c09d7492d8</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openjpeg-1.5.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/openjpeg-1.5.1-windows64-201412312328.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.5.1</string>
       </map>
       <key>openssl</key>
       <map>
@@ -2818,9 +2910,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1e2e1935e609214e6505b27b7be5ada1</string>
+              <string>d36bcd8f93e408f7fb19aaf4a2b14599</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openssl-1.0.1j-windows64-20141016.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/openssl-1.0.1j-windows64-201501010326.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2836,7 +2930,7 @@
         <key>description</key>
         <string>PCRE Perl-compatible regular expression library</string>
         <key>license</key>
-        <string>bsd</string>
+        <string>BSD</string>
         <key>license_file</key>
         <string>LICENSES/pcre.txt</string>
         <key>name</key>
@@ -2896,9 +2990,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f2a1d71bba183c166acf99996d5dce11</string>
+              <string>5ab629c0fa68794bb8780d54d90e93b9</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows64-20141016.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/pcre-8.36-windows64-201501010019.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2963,8 +3059,12 @@
       </map>
       <key>slvoice</key>
       <map>
+        <key>copyright</key>
+        <string>2010 Vivox</string>
+        <key>description</key>
+        <string>Vivox SDK components</string>
         <key>license</key>
-        <string>vivox</string>
+        <string>Mixed</string>
         <key>license_file</key>
         <string>LICENSES/slvoice.txt</string>
         <key>name</key>
@@ -3024,14 +3124,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ce89b881ee24977641d1ecbf8aff6dc7</string>
+              <string>ba637d1ecc0043e6743106daedcf8634</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/287264/arch/CYGWIN/installer/slvoice-4.6.0009.20030-windows-20140227.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/slvoice-4.6.0009.20030-windows64-201412300147.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>4.6.0009.20030</string>
       </map>
       <key>tut</key>
       <map>
@@ -3130,9 +3234,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2ca2b196d594249eec1b184bd747df57</string>
+              <string>63426e759eaefb756c668eeadefd076a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/xmlrpc_epi-0.54.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/xmlrpc_epi-0.54.2-windows64-201501010150.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3143,6 +3249,10 @@
       </map>
       <key>zlib</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler</string>
+        <key>description</key>
+        <string>Zlib Data Compression Library</string>
         <key>license</key>
         <string>zlib</string>
         <key>license_file</key>
@@ -3204,22 +3314,30 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7459ddf61c40764e0a58ffd84722bf99</string>
+              <string>5b42d6cba346aa0a9fd5055b5eff2cb7</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/zlib-1.2.8-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/zlib-1.2.8-windows64-201501010307.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.2.8</string>
       </map>
     </map>
     <key>package_description</key>
     <map>
+      <key>copyright</key>
+      <string>Copyright (c) 2013-2014, Alchemy Development Group</string>
       <key>description</key>
-      <string>Second Life Viewer</string>
+      <string>Alchemy Viewer</string>
       <key>license</key>
       <string>LGPL</string>
+      <key>license_file</key>
+      <string>docs/LICENSE-source.txt</string>
       <key>name</key>
       <string>Alchemy Viewer</string>
       <key>platforms</key>
@@ -4397,12 +4515,12 @@
           <string>windows64</string>
         </map>
       </map>
-      <key>version</key>
-      <string>1.0</string>
+      <key>version_file</key>
+      <string>newview/viewer_version.txt</string>
     </map>
     <key>type</key>
     <string>autobuild</string>
     <key>version</key>
-    <string>1.2</string>
+    <string>1.3</string>
   </map>
 </llsd>

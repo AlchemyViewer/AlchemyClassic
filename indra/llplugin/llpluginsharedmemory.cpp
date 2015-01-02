@@ -445,13 +445,13 @@ bool LLPluginSharedMemory::create(size_t size)
 	mName += createName();
 	mSize = size;
 
-	mImpl->mMapFile = CreateFileMappingA(
+	mImpl->mMapFile = CreateFileMappingW(
                  INVALID_HANDLE_VALUE,		// use paging file
                  NULL,						// default security 
                  PAGE_READWRITE,			// read/write access
                  0,							// max. object size 
                  mSize,						// buffer size  
-                 mName.c_str());			// name of mapping object
+				 utf8str_to_utf16str(mName).c_str());			// name of mapping object
 
 	if(mImpl->mMapFile == NULL)
 	{
@@ -476,10 +476,10 @@ bool LLPluginSharedMemory::attach(const std::string &name, size_t size)
 	mName = name;
 	mSize = size;
 
-	mImpl->mMapFile = OpenFileMappingA(
+	mImpl->mMapFile = OpenFileMappingW(
 				FILE_MAP_ALL_ACCESS,		// read/write access
 				FALSE,						// do not inherit the name
-				mName.c_str());				// name of mapping object
+				utf8str_to_utf16str(mName).c_str());				// name of mapping object
 	
 	if(mImpl->mMapFile == NULL)
 	{

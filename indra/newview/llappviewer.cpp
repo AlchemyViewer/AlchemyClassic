@@ -5696,7 +5696,7 @@ void LLAppViewer::launchUpdater()
 			<< LL_ENDL;
 
 
-	if (!CopyFileA(updater_source.c_str(), LLAppViewer::sUpdaterInfo->mUpdateExePath.c_str(), FALSE))
+	if (!CopyFileW(utf8str_to_utf16str(updater_source).c_str(), utf8str_to_utf16str(LLAppViewer::sUpdaterInfo->mUpdateExePath).c_str(), FALSE))
 	{
 		delete LLAppViewer::sUpdaterInfo ;
 		LLAppViewer::sUpdaterInfo = NULL ;

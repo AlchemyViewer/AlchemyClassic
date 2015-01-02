@@ -17,8 +17,7 @@ elseif(WINDOWS)
         gmock)
     set(GOOGLEMOCK_INCLUDE_DIRS
         ${LIBS_PREBUILT_DIR}/include
-        ${LIBS_PREBUILT_DIR}/include/gmock
-        ${LIBS_PREBUILT_DIR}/include/gmock/boost/tr1/tr1)
+        ${LIBS_PREBUILT_DIR}/include/gmock)
 elseif(DARWIN)
     set(GOOGLEMOCK_LIBRARIES
         gmock

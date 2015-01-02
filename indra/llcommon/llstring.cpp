@@ -194,10 +194,10 @@ S32 wchar_to_utf8chars(llwchar in_char, char* outchars)
 	return outchars - base;
 }	
 
-S32 utf16chars_to_wchar(const U16* inchars, llwchar* outchar)
+S32 utf16chars_to_wchar(const utf16strtype* inchars, llwchar* outchar)
 {
-	const U16* base = inchars;
-	U16 cur_char = *inchars++;
+	const utf16strtype* base = inchars;
+	utf16strtype cur_char = *inchars++;
 	llwchar char32 = cur_char;
 	if ((cur_char >= 0xD800) && (cur_char <= 0xDFFF))
 	{
@@ -256,7 +256,7 @@ LLWString utf16str_to_wstring(const llutf16string &utf16str, S32 len)
 
 	S32 i = 0;
 	// craziness to make gcc happy (llutf16string.c_str() is tweaked on linux):
-	const U16* chars16 = &(*(utf16str.begin()));
+	const utf16strtype* chars16 = &(*(utf16str.begin()));
 	while (i < len)
 	{
 		llwchar cur_char;
@@ -265,6 +265,7 @@ LLWString utf16str_to_wstring(const llutf16string &utf16str, S32 len)
 	}
 	return wout;
 }
+
 
 LLWString utf16str_to_wstring(const llutf16string &utf16str)
 {
@@ -277,18 +278,18 @@ S32 utf16str_wstring_length(const llutf16string &utf16str, const S32 utf16_len)
 {
 	S32 surrogate_pairs = 0;
 	// ... craziness to make gcc happy (llutf16string.c_str() is tweaked on linux):
-	const U16 *const utf16_chars = &(*(utf16str.begin()));
+	const utf16strtype *const utf16_chars = &(*(utf16str.begin()));
 	S32 i = 0;
 	while (i < utf16_len)
 	{
-		const U16 c = utf16_chars[i++];
+		const utf16strtype c = utf16_chars[i++];
 		if (c >= 0xD800 && c <= 0xDBFF)		// See http://en.wikipedia.org/wiki/UTF-16
 		{   // Have first byte of a surrogate pair
 			if (i >= utf16_len)
 			{
 				break;
 			}
-			const U16 d = utf16_chars[i];
+			const utf16strtype d = utf16_chars[i];
 			if (d >= 0xDC00 && d <= 0xDFFF)
 			{   // Have valid second byte of a surrogate pair
 				surrogate_pairs++;
@@ -517,6 +518,7 @@ std::string utf16str_to_utf8str(const llutf16string& utf16str, S32 len)
 {
 	return wstring_to_utf8str(utf16str_to_wstring(utf16str, len), len);
 }
+
 
 std::string utf8str_trim(const std::string& utf8str)
 {

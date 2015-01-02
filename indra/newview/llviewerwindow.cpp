@@ -1489,15 +1489,15 @@ BOOL LLViewerWindow::handlePaint(LLWindow *window,  S32 x,  S32 y, S32 width,  S
 				recording.getLastValue(LLStatViewer::SIM_PHYSICS_FPS), 
 				recording.getLastValue(LLStatViewer::SIM_TIME_DILATION));
 		S32 len = temp_str.length();
-		TextOutA(hdc, 0, 0, temp_str.c_str(), len); 
+		TextOutW(hdc, 0, 0, utf8str_to_utf16str(temp_str).c_str(), len);
 
 
 		LLVector3d pos_global = gAgent.getPositionGlobal();
 		temp_str = llformat( "Avatar pos %6.1lf %6.1lf %6.1lf", pos_global.mdV[0], pos_global.mdV[1], pos_global.mdV[2]);
 		len = temp_str.length();
-		TextOutA(hdc, 0, 25, temp_str.c_str(), len); 
+		TextOutW(hdc, 0, 25, utf8str_to_utf16str(temp_str).c_str(), len);
 
-		TextOutA(hdc, 0, 50, "Set \"HeadlessClient FALSE\" in settings.ini file to reenable", 61);
+		TextOutW(hdc, 0, 50, TEXT("Set \"HeadlessClient FALSE\" in settings.ini file to reenable"), 61);
 		EndPaint(window_handle, &ps); 
 		return TRUE;
 	}

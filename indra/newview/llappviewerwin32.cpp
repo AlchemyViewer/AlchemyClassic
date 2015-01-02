@@ -40,7 +40,6 @@
 
 #include <fcntl.h>		//_O_APPEND
 #include <io.h>			//_open_osfhandle()
-#include <errorrep.h>	// for AddERExcludedApplicationA()
 #include <process.h>	// _spawnl()
 #include <tchar.h>		// For TCHAR support
 #include <Werapi.h>
@@ -142,12 +141,10 @@ void ll_nvapi_init(NvDRSSessionHandle hSession)
 		return;
 	}
 
-	NvAPI_UnicodeString profile_name;
-	//std::string app_name = LLTrans::getString("APP_NAME");
-	std::string app_name("Second Life"); // <alchemy/>
-	llutf16string w_app_name = utf8str_to_utf16str(app_name);
-	wsprintf(profile_name, L"%s", w_app_name.c_str());
-	status = NvAPI_DRS_SetCurrentGlobalProfile(hSession, profile_name);
+	llutf16string w_app_name(TEXT("Second Life"));
+	NvAPI_UnicodeString wsz;
+	memcpy_s(wsz, sizeof(wsz), w_app_name.c_str(), sizeof(w_app_name.c_str()) * sizeof(utf16strtype));
+	status = NvAPI_DRS_SetCurrentGlobalProfile(hSession, wsz);
 	if (status != NVAPI_OK)
 	{
 		nvapi_error(status);
@@ -398,7 +395,7 @@ void LLAppViewerWin32::disableWinErrorReporting()
 	// Note: we need to use run-time dynamic linking, because load-time dynamic linking will fail
 	// on systems that don't have the library installed (all non-Windows XP systems)
 	HRESULT(WINAPI* pWerAddExcludedApplication)(PCWSTR pwzExeName, BOOL bAllUsers) = NULL;
-	HMODULE wer = LoadLibrary(L"wer.dll");
+	HMODULE wer = LoadLibrary(TEXT("wer.dll"));
 	if (wer)
 	{
 		pWerAddExcludedApplication = (HRESULT(WINAPI *)(PCWSTR, BOOL))GetProcAddress(wer, "WerAddExcludedApplication");
@@ -754,7 +751,7 @@ std::string LLAppViewerWin32::generateSerialNumber()
 	DWORD serial = 0;
 	DWORD flags = 0;
 	BOOL success = GetVolumeInformation(
-			L"C:\\",
+			TEXT("C:\\"),
 			NULL,		// volume name buffer
 			0,			// volume name buffer size
 			&serial,	// volume serial

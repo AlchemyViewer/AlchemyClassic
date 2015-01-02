@@ -78,10 +78,10 @@ if (WINDOWS)
       /TP
       /W3
       /c
+      /Zc:wchar_t
       /Zc:forScope
       /nologo
       /Oy-
-      /Zc:wchar_t-
       /fp:fast
       )
 

@@ -251,6 +251,12 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 			bar_index < end_index; 
 			++bar_index)
 		{
+			if (!row.mBars)
+			{
+				LL_WARNS() << "Timber row mTimerBarRows.mBars is null bailing out" << LL_ENDL;
+				break;
+			}
+
 			TimerBar& bar = row.mBars[bar_index];
 			if (bar.mSelfStart > mouse_time_offset)
 			{

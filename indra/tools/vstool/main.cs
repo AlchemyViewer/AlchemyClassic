@@ -556,10 +556,6 @@ namespace VSTool
                         break;
 
                     case "12.00":
-                        version = "VC110";
-                        break;
-
-                    case "13.00":
                         version = "VC120";
                         break;
 

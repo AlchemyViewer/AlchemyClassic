@@ -851,8 +851,12 @@
       </map>
       <key>freeglut</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 1999-2000 Pawel W. Olszta. All Rights Reserved.</string>
+        <key>description</key>
+        <string>freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library.</string>
         <key>license</key>
-        <string>mit</string>
+        <string>freeglut</string>
         <key>license_file</key>
         <string>LICENSES/freeglut.txt</string>
         <key>name</key>
@@ -876,14 +880,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>aa348a01216c10ee6a8a9a6fef89e80d</string>
+              <string>9a3a5691b13fdf7f886378e10ed63d58</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/freeglut-2.8.1-windows64-vs12-20140709.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/freeglut-2.8.1-windows64-201501020026.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>2.8.1</string>
       </map>
       <key>freetype</key>
       <map>
@@ -2380,7 +2388,7 @@
       <key>llqtwebkit</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 2010 Nokia Corporation and/or its subsidiary(-ies).</string>
+        <string>Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).</string>
         <key>description</key>
         <string>QT cross-platform applicaiton and UI framework.</string>
         <key>license</key>
@@ -2444,9 +2452,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>14fa3497c2d9fa02b1147b45ce516fa2</string>
+              <string>786cedc6c8cec60ac45d2dbb01ccd478</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/llqtwebkit-4.8.6-windows64-20141022.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/llqtwebkit-4.8.6-windows64-201501020105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -29,6 +29,7 @@
 #include "linden_common.h"
 #include "indra_constants.h" // for indra keyboard codes
 
+#include "llstring.h"
 #include "lltimer.h"
 #include "llgl.h"
 
@@ -250,24 +251,26 @@ private:
 #if LL_WINDOWS
 		//*NOTE:Mani - On windows, at least, the component path is the
 		// location of this dll's image file. 
-		std::string component_dir;
-		char dll_path[_MAX_PATH];
-		DWORD len = GetModuleFileNameA(gModuleHandle, (LPCH)&dll_path, _MAX_PATH);
+		llutf16string component_dir_w;
+		wchar_t dll_path[_MAX_PATH];
+		DWORD len = GetModuleFileNameW(gModuleHandle, dll_path, _MAX_PATH);
 		while(len && dll_path[ len ] != ('\\') )
 		{
 			len--;
 		}
 		if(len >= 0)
 		{
+
 			dll_path[len] = 0;
-			component_dir = dll_path;
+			component_dir_w = dll_path;
 		}
 		else
 		{
 			// *NOTE:Mani - This case should be an rare exception. 
-			// GetModuleFileNameA should always give you a full path, no?
-			component_dir = application_dir;
+			// GetModuleFileNameW should always give you a full path, no?
+			component_dir_w = utf8str_to_utf16str(application_dir);
 		}
+		std::string component_dir = utf16str_to_utf8str(component_dir_w);
 #else
 		std::string component_dir = application_dir;
 #endif
@@ -277,9 +280,9 @@ private:
 
 		// window handle - needed on Windows and must be app window.
 #if LL_WINDOWS
-		char window_title[ MAX_PATH ];
-		GetConsoleTitleA( window_title, MAX_PATH );
-		void* native_window_handle = (void*)FindWindowA( NULL, window_title );
+		wchar_t window_title[ MAX_PATH ];
+		GetConsoleTitleW( window_title, MAX_PATH );
+		void* native_window_handle = (void*)FindWindowW( NULL, window_title );
 #else
 		void* native_window_handle = 0;
 #endif

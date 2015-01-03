@@ -571,7 +571,7 @@ std::string llsd_matches(const LLSD& prototype, const LLSD& data, const std::str
     return match_types(prototype.type(), TypeVector(), data.type(), pfx);
 }
 
-bool llsd_equals(const LLSD& lhs, const LLSD& rhs, unsigned bits)
+bool llsd_equals(const LLSD& lhs, const LLSD& rhs, int bits)
 {
     // We're comparing strict equality of LLSD representation rather than
     // performing any conversions. So if the types aren't equal, the LLSD
@@ -591,7 +591,7 @@ bool llsd_equals(const LLSD& lhs, const LLSD& rhs, unsigned bits)
     case LLSD::TypeReal:
         // This is where the 'bits' argument comes in handy. If passed
         // explicitly, it means to use is_approx_equal_fraction() to compare.
-        //if (bits >= 0) // <alchemy/> - DEADCODE
+        if (bits >= 0)
         {
             return is_approx_equal_fraction(lhs.asReal(), rhs.asReal(), bits);
         }
@@ -600,7 +600,7 @@ bool llsd_equals(const LLSD& lhs, const LLSD& rhs, unsigned bits)
         // comparing Real values is only useful when we expect identical bit
         // representation for a given Real value, e.g. for integer-valued
         // Reals.
-        //return (lhs.asReal() == rhs.asReal());  // <alchemy/> - DEADCODE
+        return (lhs.asReal() == rhs.asReal());
 
 #define COMPARE_SCALAR(type)                                    \
     case LLSD::Type##type:                                      \

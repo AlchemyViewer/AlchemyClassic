@@ -2684,11 +2684,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7b974d3cdafb1f2e95c8ba34736b2312</string>
+              <string>8b15bb646b8cce838fa19612fd0d9f6e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ogg_vorbis-1.3.2-1.3.4-darwin-201412312027.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ogg_vorbis-1.3.2-1.3.4-darwin-201501021924.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

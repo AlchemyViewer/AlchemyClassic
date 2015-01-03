@@ -5,17 +5,19 @@ project(viewer)
 include(00-Common)
 include(Boost)
 include(BuildVersion)
+include(CMakeCopyIfDifferent)
 include(DBusGlib)
 include(DirectX)
-include(OpenSSL)
 include(DragDrop)
 include(EXPAT)
 include(FMODEX)
 include(FMODSTUDIO)
-include(OPENAL)
-include(OpenGL)
+include(GLOD)
+include(GooglePerfTools)
 include(Hunspell)
+include(IntelTBB)
 include(JsonCpp)
+include(LLAppearance)
 include(LLAudio)
 include(LLCharacter)
 include(LLCommon)
@@ -23,6 +25,8 @@ include(LLCoreHttp)
 include(LLImage)
 include(LLImageJ2COJ)
 include(LLInventory)
+include(LLKDU)
+include(LLLogin)
 include(LLMath)
 include(LLMessage)
 include(LLPhysicsExtensions)
@@ -36,19 +40,15 @@ include(LLXML)
 include(Linking)
 include(NDOF)
 include(NVAPI)
-include(GooglePerfTools)
-include(IntelTBB)
+include(OPENAL)
+include(OpenGL)
+include(OpenSSL)
+include(PNG)
 include(TemplateCheck)
 include(UI)
 include(UnixInstall)
-include(LLKDU)
 include(ViewerMiscLibs)
-include(LLLogin)
 include(VisualLeakDetector)
-include(GLOD)
-include(CMakeCopyIfDifferent)
-include(LLAppearance)
-include(PNG)
 include(ZLIB)
 
 # <alchemy> if using ndPhysicsstub this variable will be unset, we don't need to build any stub code viewer side in that case
@@ -2473,11 +2473,6 @@ include(LLAddBuildTest)
 SET(viewer_TEST_SOURCE_FILES
   llagentaccess.cpp
   llwlparammanager.cpp
-  # Not *actually* a unit test, it's an integration test.
-  # Because it won't work in the new unit test iface, i've commented out
-  # and notified Nat. Delete this when it's replaced!
-  # + poppy & brad 2009-06-05
-  # llcapabilitylistener.cpp
   )
 set_source_files_properties(
   ${viewer_TEST_SOURCE_FILES}
@@ -2488,3 +2483,4 @@ set_source_files_properties(
 endif (LL_TESTS)
 
 check_message_template(${VIEWER_BINARY_NAME})
+

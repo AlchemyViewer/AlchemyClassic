@@ -612,11 +612,11 @@ bool LLGLManager::initGL()
 	// Trailing space necessary to keep "nVidia Corpor_ati_on" cards
 	// from being recognized as ATI.
 	if (mGLVendor.substr(0,4) == "ATI "
-#if LL_LINUX
-		// The Mesa-based drivers put this in the Renderer string,
-		// not the Vendor string.
-		|| mGLRenderer.find("AMD") != std::string::npos
-#endif //LL_LINUX
+//#if LL_LINUX
+//		// The Mesa-based drivers put this in the Renderer string,
+//		// not the Vendor string.
+//		|| mGLRenderer.find("AMD") != std::string::npos
+//#endif //LL_LINUX
 		)
 	{
 		mGLVendorShort = "ATI";

@@ -976,18 +976,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e9fc22f6373aefd6462c65fce8270706</string>
+              <string>1044a2b1c504c3a9ce28353ccba545ca</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/freetype-2.5.4-windows64-201501010321.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/freetype-2.5.5-windows64-201501030428.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.5.4</string>
+        <string>2.5.5</string>
       </map>
       <key>glext</key>
       <map>

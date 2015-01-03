@@ -926,11 +926,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f9b928d80864841c8377edf9ee7c6a24</string>
+              <string>560f01261cf6f24cedae6dc6cdb8b18d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/freetype-2.5.4-darwin-201501011622.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/freetype-2.5.5-darwin-201501030828.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

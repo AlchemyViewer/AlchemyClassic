@@ -2156,11 +2156,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fae645314f5cb908370f948747b288ae</string>
+              <string>e03345571fc2d731a95f042dc7523dbf</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libndofdev_open-0.6-linux64-201501030409.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libndofdev_open-0.6-linux64-201501032203.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

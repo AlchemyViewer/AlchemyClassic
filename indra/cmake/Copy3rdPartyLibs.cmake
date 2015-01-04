@@ -238,7 +238,7 @@ elseif(LINUX)
         libdb-5.1.so
         libexpat.so
         libexpat.so.1
-        libfreetype.so.6.11.2
+        libfreetype.so.6.11.4
         libfreetype.so.6
         libfreetype.so
         libGLOD.so

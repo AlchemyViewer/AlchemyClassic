@@ -5,6 +5,10 @@
     <map>
       <key>SDL</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2004, 2006-2013 Sam Lantinga</string>
+        <key>description</key>
+        <string>Simple DirectMedia Layer is a cross-platform multimedia library designed to provide low level access to audio, keyboard, mouse, joystick, 3D hardware via OpenGL, and 2D video framebuffer.</string>
         <key>license</key>
         <string>lgpl</string>
         <key>license_file</key>
@@ -30,14 +34,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d81d5e887dd953b7596b703ac66c4c16</string>
+              <string>9ebf216d1c9e25bbea05876e563c81b1</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/SDL-1.2.15-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/SDL-1.2.15-linux64-201501030357.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.2.15</string>
       </map>
       <key>apr_suite</key>
       <map>
@@ -84,9 +92,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4ed4871e65323ec7077e14255ed5e36b</string>
+              <string>b0e436c5d731b7272540ee61970492cc</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/apr_suite-1.4.5-linux64-20141214.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/apr_suite-1.4.5-linux64-201501030159.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -166,9 +176,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d19a0c92da2bcfee82536f005a23cc00</string>
+              <string>0596f58044d33e1174c5e80364867def</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/ares-1.10.0-linux64-20141214.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/ares-1.10.0-linux64-201501030124.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -248,9 +260,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8eee9988144d47eb6fdc689d1b80eac1</string>
+              <string>c521a125dd22111053e4f0202ba54a9d</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/boost-1.57.0-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/boost-1.57.0-linux64-201501031025.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -328,9 +342,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>45f33f59dac6bb6d540f2a22c7b0b505</string>
+              <string>45781dfadb4e2e025ae281e354cd7aaa</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/colladadom-2.3-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/colladadom-2.3-linux64-201501031701.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -410,9 +426,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>47574cb5bcdf586ea104e17926c86d57</string>
+              <string>cd7cca6c8f8329fb3f8a99b0043d3597</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/curl-7.38-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/curl-7.38-linux64-201501030609.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -449,6 +467,10 @@
       </map>
       <key>db</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 1990, 2010 Oracle and/or its affiliates.  All rights reserved.</string>
+        <key>description</key>
+        <string>Berkeley DB (libdb) is a programmatic toolkit that provides embedded database support for both traditional and client/server applications.</string>
         <key>license</key>
         <string>bsd</string>
         <key>license_file</key>
@@ -474,23 +496,31 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6639c833b8f15c5189ff8b3653fe891b</string>
+              <string>f501cca2e6dadef1bf9e407a9cd89142</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/db-5.1.25-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/db-5.1.25-linux64-201501030326.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>5.1.25</string>
       </map>
-      <key>dbusglib</key>
+      <key>dbus-glib</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) Red Hat Inc.</string>
+        <key>description</key>
+        <string>D-Bus bindings for glib</string>
         <key>license</key>
-        <string>AFL2.1</string>
+        <string>Academic Free License v. 2.1</string>
         <key>license_file</key>
         <string>LICENSES/dbus-glib.txt</string>
         <key>name</key>
-        <string>dbusglib</string>
+        <string>dbus-glib</string>
         <key>platforms</key>
         <map>
           <key>linux</key>
@@ -510,14 +540,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>002be02043505395aafc931ead4d7777</string>
+              <string>84e51f2e14db023be5419e74ab3b51d3</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/dbus_glib-0.76-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/dbus_glib-0.76-linux64-201501030130.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>0.76</string>
       </map>
       <key>dictionaries</key>
       <map>
@@ -620,9 +654,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d92b89d9c8eb9c57346f9896712c1e27</string>
+              <string>13c66126ef85daf9fc145eabde6426a7</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/expat-2.1.0-linux64-20141210.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/expat-2.1.0-linux64-201501030119.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -695,6 +731,20 @@
             <key>name</key>
             <string>linux</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>642d89238768a0d004bcdcd198c99f0e</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodex-4.44.47-linux64-201501022328.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -758,9 +808,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7de304100c9a66d41dd884ced4cec86b</string>
+              <string>dd2eda248a7ae0967b8588a358ec4ca3</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.05.09-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.05.09-linux64-201501022327.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -797,8 +849,12 @@
       </map>
       <key>fontconfig</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 2000,2001,2002,2003,2004,2006,2007 Keith Packard, 2005 Patrick Lam, 2009 Roozbeh Pournader, 2008,2009 Red Hat, Inc., 2008 Danilo Šegan, 2012 Google, Inc.</string>
+        <key>description</key>
+        <string>Fontconfig is a library for configuring and customizing font access.</string>
         <key>license</key>
-        <string>mit</string>
+        <string>bsd</string>
         <key>license_file</key>
         <string>LICENSES/fontconfig.txt</string>
         <key>name</key>
@@ -822,14 +878,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>138a6c4dbe0f9fa3042ee3726741ca31</string>
+              <string>8535ea199a354c9611db6ecf2a959270</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/fontconfig-2.11.0-linux64-20141211.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fontconfig-2.11.0-linux64-201501030510.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>2.11.0</string>
       </map>
       <key>fonts</key>
       <map>
@@ -952,9 +1012,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b20abbb02c6d3ee40678858445cbf07c</string>
+              <string>73a1563b512eee0795c66e202845f39b</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/freetype-2.5.3-linux64-20141210.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/freetype-2.5.5-linux64-201501030502.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1098,9 +1160,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0878355119848ae6ac0a0dc72147c29c</string>
+              <string>2f48b26c2996ae45b905a2afddb9fa8e</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/glod-1.0pre4-linux64-20141128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/glod-1.0pre4-linux64-201501030012.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1236,9 +1300,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3cb9cf60f5140e3f2b32a373aa0ec92f</string>
+              <string>f070bc9efda201e29b5804530b94e784</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/google_breakpad-1412-linux64-20141229.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/google_breakpad-1412-linux64-201501030010.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1318,9 +1384,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6bf8796639e1bc5ef3c6cbec4c564337</string>
+              <string>a6c3e60653a3e2714583390cf0524a07</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/googlemock-1.7.0-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/googlemock-1.7.0-linux64-201501032003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1405,42 +1473,40 @@
       </map>
       <key>gstreamer</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (C) 2007 Free Software Foundation, Inc. &lt;http://fsf.org/&gt;</string>
         <key>license</key>
-        <string>lgpl</string>
+        <string>LGPL</string>
         <key>license_file</key>
         <string>LICENSES/gstreamer.txt</string>
         <key>name</key>
         <string>gstreamer</string>
         <key>platforms</key>
         <map>
-          <key>linux</key>
+          <key>common</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ddbc0a64ad788107877fee777403592c</string>
+              <string>df57a59e832f9e3ca8ba31e37e383dfb</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gstreamer-linux-20101013.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/gstreamer-0.10.6.201501032013-common-201501032013.tar.bz2</string>
             </map>
             <key>name</key>
-            <string>linux</string>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>ddbc0a64ad788107877fee777403592c</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/gstreamer-linux-20101013.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux64</string>
+            <string>common</string>
           </map>
         </map>
+        <key>version</key>
+        <string>0.10.6.201501032013</string>
       </map>
       <key>gtk-atk-pango-glib</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright various(See license file)</string>
+        <key>description</key>
+        <string>gtk-atk-pango-glib</string>
         <key>license</key>
         <string>lgpl</string>
         <key>license_file</key>
@@ -1466,9 +1532,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d68c26a8a044d31a6e8f1547c6b32dfa</string>
+              <string>4234e0b9c1c47ad40572b0f1368f4acd</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/gtk_atk_pango_glib-0.0.1-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/gtk_atk_pango_glib-0.0.2-linux64-201501031730.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1486,6 +1554,8 @@
             <string>windows</string>
           </map>
         </map>
+        <key>version</key>
+        <string>0.0.2</string>
       </map>
       <key>havok-source</key>
       <map>
@@ -1580,9 +1650,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2ac556e0b6a66f784a916b2992d625e5</string>
+              <string>cbc8c61a37825a160f3df6226f86fe80</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/icu4c-54.1-linux64-20141209.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/icu4c-54.1-linux64-201501030432.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1698,9 +1770,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>631f4b69d2247a99306ccb0903c3b5c5</string>
+              <string>cbc2ce0e4fa0ed9fc4a2d7e69180127b</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/jpeglib-1.3.1-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jpeglib-1.3.1-linux64-201501030121.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1780,9 +1854,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0569796d58e3dd599defcaad0a535316</string>
+              <string>76e9be8f5a5d501c944e277826ba4f59</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/jsoncpp-1.0.0-linux64-20141229.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jsoncpp-1.0.0-linux64-201501022339.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1918,9 +1994,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9463cb7ebb4e3fece9835e854163afad</string>
+              <string>a95c6fdf9bad73cef70262d7bbe02d22</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libhunspell-1.3.3-linux64-20141201.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libhunspell-1.3.3-linux64-201501030045.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1988,9 +2066,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2e899fbcde9a7b43d1a971fe8125236c</string>
+              <string>e2c4c93ff4a7c0fa6e9c429799b2c4fe</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libidn-1.28-linux64-20141215.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libidn-1.28-linux64-201501030605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2027,30 +2107,6 @@
             <key>name</key>
             <string>darwin</string>
           </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>9bf7a96c1d2fadb180fda91740c945c6</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-libndofdev-linux/rev/233137/arch/Linux/installer/libndofdev-0.3-linux-20110617.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>3fe90e2687dbb810b3bb7f2db59c8bab</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libndofdev-0.3-linux64-20141201.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux64</string>
-          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -2080,6 +2136,38 @@
         </map>
         <key>version</key>
         <string>0.1</string>
+      </map>
+      <key>libndofdev-open</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2008, Jan Ciger (jan.ciger (at) gmail.com)</string>
+        <key>description</key>
+        <string>3DConnection SDK</string>
+        <key>license</key>
+        <string>BSD</string>
+        <key>license_file</key>
+        <string>LICENSES/libndofdev.txt</string>
+        <key>name</key>
+        <string>libndofdev-open</string>
+        <key>platforms</key>
+        <map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fae645314f5cb908370f948747b288ae</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libndofdev_open-0.6-linux64-201501030409.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>0.6</string>
       </map>
       <key>libpng</key>
       <map>
@@ -2126,9 +2214,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d977b7ae82b72da5eb315ea01a415e2</string>
+              <string>d48ea3669683e0bc7abf5ed6bcad8db5</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libpng-1.6.13-linux64-20141213.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libpng-1.6.15-linux64-201501030340.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2165,8 +2255,12 @@
       </map>
       <key>libuuid</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2004-2008 Ralf S. Engelschall (rse@engelschall.com) Copyright (c) 2004-2008 The OSSP Project (http://www.ossp.org/)</string>
+        <key>description</key>
+        <string>OSSP uuid is a ISO-C:1999 application programming interface (API) and corresponding command line interface (CLI) for the generation of DCE 1.1, ISO/IEC 11578:1996 and RFC 4122 compliant Universally Unique Identifier (UUID). </string>
         <key>license</key>
-        <string>lgpl</string>
+        <string>UUID</string>
         <key>license_file</key>
         <string>LICENSES/uuid.txt</string>
         <key>name</key>
@@ -2190,14 +2284,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3da0ea94d49f8bcffba9071283796b9b</string>
+              <string>ee13f908fb50995ff3cdbc21c3c938ad</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/uuid-1.6.2-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libuuid-1.6.2-linux64-201501030156.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
+        <key>version</key>
+        <string>1.6.2</string>
       </map>
       <key>libxml2</key>
       <map>
@@ -2244,9 +2342,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b3f8ec9c4cb67cea292d035febd34e41</string>
+              <string>36f7e30c25ff6ffc2da092dbf17cc1eb</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/libxml2-2.9.2-linux64-20141210.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libxml2-2.9.2-linux64-201501031010.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2480,9 +2580,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ddffc8a915aa3eb20ab0e54785df964b</string>
+              <string>13c952a1b2dd61d214ecf79fa70a90fe</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/llqtwebkit-4.8.6-linux64-20141217.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/llqtwebkit-4.8.6-linux64-201501031811.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2586,9 +2688,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ea389d75fb49b4474dd904e821e5c55d</string>
+              <string>809261b253663cb90abc35bf7d06ca48</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/ndPhysicsStub-0.1.1-linux64-20141130.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/ndPhysicsStub-0.1.2-linux64-201501030131.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2710,9 +2814,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>01d455afe21c94eb944a567907be42d3</string>
+              <string>803c0300f797f26bbfe47329b19cacb8</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/ogg_vorbis-1.3.2-1.3.4-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/ogg_vorbis-1.3.2-1.3.4-linux64-201501030140.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2794,9 +2900,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>450e99c96b0184aee4a4ea053dee73c3</string>
+              <string>9b87b4240ebaf7c3564d1a968a8ee36d</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/openal-1.16.0-1.1.0-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/openal-1.16.0-1.1.0-linux64-201501031705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2874,9 +2982,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>13b75a0deb1c244638b94ba88d1bc111</string>
+              <string>d34f13e4f0af694396ac98d5fafe62ce</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/openjpeg-1.5.1-linux64-20141126.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/openjpeg-1.5.1-linux64-201501030103.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2956,9 +3066,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1be4419f17fb8a948ed61556d3126327</string>
+              <string>afeffa85d8a44932b293f32074b0464a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/openssl-1.0.1j-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/openssl-1.0.1j-linux64-201501030522.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3038,9 +3150,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>45132e467b6ef0473c52331cde349242</string>
+              <string>a9dc6b77957573e7c13385034d9f3822</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/pcre-8.36-linux64-20141212.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/pcre-8.36-linux64-201501030107.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3174,9 +3288,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9f60e56aba35ec90b3045e9d049ac284</string>
+              <string>df43d3df49296bfe93996ec537b9eddf</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/slvoice-4.5.0009.17865-linux-20141214.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/slvoice-4.6.0009.20030-linux64-201501031918.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3286,9 +3402,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f9e01f2542fd996d1cd282101cb0dd78</string>
+              <string>bc50c33c2c51c8a144bb95663b482be1</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/xmlrpc_epi-0.54.2-linux64-20141216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/xmlrpc_epi-0.54.2-linux64-201501030150.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3368,9 +3486,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>23967544a78df78fcf3a69a30fee33a8</string>
+              <string>7e02ce63286a14c28e410fd399e7a748</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/zlib-1.2.8-linux64-20141209.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/zlib-1.2.8-linux64-201501030147.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

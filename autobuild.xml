@@ -1244,9 +1244,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f2e286acc64b48e6646aead1caf9c354</string>
+              <string>cf0bca3ac5360e4f741c70180f5b7e73</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/glui-2.36-windows64-vs12-20140710.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/glui-2.36-windows64-201501040118.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

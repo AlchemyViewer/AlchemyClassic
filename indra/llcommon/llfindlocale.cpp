@@ -137,15 +137,10 @@ accumulate_locstring(const char *str, FL_Locale *l) {
 
 static int
 accumulate_env(const char *name, FL_Locale *l) {
-  char *env;
-  char *lang = NULL;
-  char *country = NULL;
-  char *variant = NULL;
-  env = getenv(name);
+  char *env = getenv(name);
   if (env) {
     return accumulate_locstring(env, l);
   }
-  free(lang); free(country); free(variant);
   return 0;
 }
 
@@ -157,14 +152,22 @@ canonise_fl(FL_Locale *l) {
   if (l->lang && 0 == strcmp(l->lang, "en")) {
     if (l->country && 0 == strcmp(l->country, "UK")) {
       free((void*)l->country);
+#if LL_WINDOWS
+      l->country = _strdup("GB");
+#else
       l->country = strdup("GB");
+#endif
     }
   }
   /* ja_JA -> ja_JP */
   if (l->lang && 0 == strcmp(l->lang, "ja")) {
     if (l->country && 0 == strcmp(l->country, "JA")) {
       free((void*)l->country);
+#if LL_WINDOWS
+      l->country = _strdup("JP");
+#else
       l->country = strdup("JP");
+#endif
     }
   }
 }

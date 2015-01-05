@@ -1216,6 +1216,7 @@ class LinuxManifest(ViewerManifest):
             print "* Going strip-crazy on the packaged binaries, since this is a RELEASE build"
             self.run_command(r"find %(d)r/bin %(d)r/lib %(d)r/lib32 %(d)r/lib64 -type f \! -name update_install | xargs --no-run-if-empty strip -S" % {'d': self.get_dst_prefix()} ) # makes some small assumptions about our packaged dir structure
 
+
 class Linux_i686_Manifest(LinuxManifest):
     def construct(self):
         super(Linux_i686_Manifest, self).construct()
@@ -1282,48 +1283,48 @@ class Linux_i686_Manifest(LinuxManifest):
 
             self.end_prefix("lib")
 
-            # Vivox runtimes
-            if self.prefix(src="../packages/lib/release", dst="bin"):
-                self.path("SLVoice")
-                self.end_prefix()
-            if self.prefix(src="../packages/lib/release", dst="lib"):
-                self.path("libortp.so")
-                self.path("libsndfile.so.1")
-                #self.path("libvivoxoal.so.1") # no - we'll re-use the viewer's own OpenAL lib
-                self.path("libvivoxsdk.so")
-                self.path("libvivoxplatform.so")
-                self.end_prefix("lib")
+        # Vivox runtimes
+        if self.prefix(src="../packages/lib/release", dst="bin"):
+            self.path("SLVoice")
+            self.end_prefix("bin")
+        if self.prefix(src="../packages/lib/release", dst="lib"):
+            self.path("libortp.so")
+            self.path("libsndfile.so.1")
+            #self.path("libvivoxoal.so.1") # no - we'll re-use the viewer's own OpenAL lib
+            self.path("libvivoxsdk.so")
+            self.path("libvivoxplatform.so")
+            self.end_prefix("lib")
 
             # plugin runtime
-            if self.prefix(src="../packages/lib/release", dst="lib"):
-                self.path("libQtCore.so*")
-                self.path("libQtGui.so*")
-                self.path("libQtNetwork.so*")
-                self.path("libQtOpenGL.so*")
-                self.path("libQtSvg.so*")
-                self.path("libQtWebKit.so*")
-                self.path("libQtXml.so*")
-                self.end_prefix("lib")
+        if self.prefix(src="../packages/lib/release", dst="lib"):
+            self.path("libQtCore.so*")
+            self.path("libQtGui.so*")
+            self.path("libQtNetwork.so*")
+            self.path("libQtOpenGL.so*")
+            self.path("libQtSvg.so*")
+            self.path("libQtWebKit.so*")
+            self.path("libQtXml.so*")
+            self.end_prefix("lib")
 
-            # For WebKit/Qt plugin runtimes (image format plugins)
-            if self.prefix(src="../packages/plugins/imageformats", dst="bin/llplugin/imageformats"):
-                self.path("libqgif.so")
-                self.path("libqico.so")
-                self.path("libqjpeg.so")
-                self.path("libqmng.so")
-                self.path("libqsvg.so")
-                self.path("libqtiff.so")
-                self.end_prefix("bin/llplugin/imageformats")
+        # For WebKit/Qt plugin runtimes (image format plugins)
+        if self.prefix(src="../packages/plugins/imageformats", dst="bin/llplugin/imageformats"):
+            self.path("libqgif.so")
+            self.path("libqico.so")
+            self.path("libqjpeg.so")
+            self.path("libqmng.so")
+            self.path("libqsvg.so")
+            self.path("libqtiff.so")
+            self.end_prefix("bin/llplugin/imageformats")
 
-            # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-            if self.prefix(src="../packages/plugins/codecs", dst="bin/llplugin/codecs"):
-                self.path("libqcncodecs.so")
-                self.path("libqjpcodecs.so")
-                self.path("libqkrcodecs.so")
-                self.path("libqtwcodecs.so")
-                self.end_prefix("bin/llplugin/codecs")
+        # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+        if self.prefix(src="../packages/plugins/codecs", dst="bin/llplugin/codecs"):
+            self.path("libqcncodecs.so")
+            self.path("libqjpcodecs.so")
+            self.path("libqkrcodecs.so")
+            self.path("libqtwcodecs.so")
+            self.end_prefix("bin/llplugin/codecs")
 
-            self.strip_binaries()
+        self.strip_binaries()
 
 
 class Linux_x86_64_Manifest(LinuxManifest):
@@ -1392,48 +1393,48 @@ class Linux_x86_64_Manifest(LinuxManifest):
 
             self.end_prefix("lib64")
 
-            # Vivox runtimes
-            if self.prefix(src="../packages/lib/release", dst="bin"):
-                self.path("SLVoice")
-                self.end_prefix()
-            if self.prefix(src="../packages/lib/release", dst="lib32"):
-                self.path("libortp.so")
-                self.path("libsndfile.so.1")
-                self.path("libvivoxoal.so.1")
-                self.path("libvivoxsdk.so")
-                self.path("libvivoxplatform.so")
-                self.end_prefix("lib32")
+        # Vivox runtimes
+        if self.prefix(src="../packages/lib/release", dst="bin"):
+            self.path("SLVoice")
+            self.end_prefix("bin")
+        if self.prefix(src="../packages/lib/release", dst="lib32"):
+            self.path("libortp.so")
+            self.path("libsndfile.so.1")
+            self.path("libvivoxoal.so.1")
+            self.path("libvivoxsdk.so")
+            self.path("libvivoxplatform.so")
+            self.end_prefix("lib32")
 
-            # plugin runtime
-            if self.prefix(src="../packages/lib/release", dst="lib64"):
-                self.path("libQtCore.so*")
-                self.path("libQtGui.so*")
-                self.path("libQtNetwork.so*")
-                self.path("libQtOpenGL.so*")
-                self.path("libQtSvg.so*")
-                self.path("libQtWebKit.so*")
-                self.path("libQtXml.so*")
-                self.end_prefix("lib64")
+        # plugin runtime
+        if self.prefix(src="../packages/lib/release", dst="lib64"):
+            self.path("libQtCore.so*")
+            self.path("libQtGui.so*")
+            self.path("libQtNetwork.so*")
+            self.path("libQtOpenGL.so*")
+            self.path("libQtSvg.so*")
+            self.path("libQtWebKit.so*")
+            self.path("libQtXml.so*")
+            self.end_prefix("lib64")
 
-            # For WebKit/Qt plugin runtimes (image format plugins)
-            if self.prefix(src="../packages/plugins/imageformats", dst="bin/llplugin/imageformats"):
-                self.path("libqgif.so")
-                self.path("libqico.so")
-                self.path("libqjpeg.so")
-                self.path("libqmng.so")
-                self.path("libqsvg.so")
-                self.path("libqtiff.so")
-                self.end_prefix("bin/llplugin/imageformats")
+        # For WebKit/Qt plugin runtimes (image format plugins)
+        if self.prefix(src="../packages/plugins/imageformats", dst="bin/llplugin/imageformats"):
+            self.path("libqgif.so")
+            self.path("libqico.so")
+            self.path("libqjpeg.so")
+            self.path("libqmng.so")
+            self.path("libqsvg.so")
+            self.path("libqtiff.so")
+            self.end_prefix("bin/llplugin/imageformats")
 
-            # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
-            if self.prefix(src="../packages/plugins/codecs", dst="bin/llplugin/codecs"):
-                self.path("libqcncodecs.so")
-                self.path("libqjpcodecs.so")
-                self.path("libqkrcodecs.so")
-                self.path("libqtwcodecs.so")
-                self.end_prefix("bin/llplugin/codecs")
+        # For WebKit/Qt plugin runtimes (codec/character encoding plugins)
+        if self.prefix(src="../packages/plugins/codecs", dst="bin/llplugin/codecs"):
+            self.path("libqcncodecs.so")
+            self.path("libqjpcodecs.so")
+            self.path("libqkrcodecs.so")
+            self.path("libqtwcodecs.so")
+            self.end_prefix("bin/llplugin/codecs")
 
-            self.strip_binaries()
+        self.strip_binaries()
 
 ################################################################
 

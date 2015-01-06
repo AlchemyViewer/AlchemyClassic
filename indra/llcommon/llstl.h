@@ -278,7 +278,7 @@ inline typename T::mapped_type get_ptr_in_map(const T& inmap, typename T::key_ty
 //
 // <alchemy/> - This has been generalized to support a broader range of sequence containers
 template <typename T>
-inline typename T::iterator vector_replace_with_last(T& invec, typename T::iterator& iter)
+inline typename T::iterator vector_replace_with_last(T& invec, typename T::iterator iter)
 {
 	typename T::iterator last = invec.end(); --last;
 	if (iter == invec.end())

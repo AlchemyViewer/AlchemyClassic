@@ -49,11 +49,17 @@ const F32 MAX_PART_LIFETIME = 120.f;
 extern U64MicrosecondsImplicit gFrameTime;
 
 LLPointer<LLVertexBuffer> LLVOPartGroup::sVB = NULL;
-S32 LLVOPartGroup::sVBSlotCursor = 0;
+S32 LLVOPartGroup::sVBSlotFree[];
+S32* LLVOPartGroup::sVBSlotCursor = NULL;
 
 void LLVOPartGroup::initClass()
 {
-	
+	for (S32 i = 0; i < LL_MAX_PARTICLE_COUNT; ++i)
+	{
+		sVBSlotFree[i] = i;
+	}
+
+	sVBSlotCursor = sVBSlotFree;
 }
 
 //static
@@ -118,41 +124,44 @@ void LLVOPartGroup::destroyGL()
 //static
 S32 LLVOPartGroup::findAvailableVBSlot()
 {
-	if (sVBSlotCursor >= LL_MAX_PARTICLE_COUNT)
+	if (sVBSlotCursor >= sVBSlotFree + LL_MAX_PARTICLE_COUNT)
 	{ //no more available slots
 		return -1;
 	}
 
-	return sVBSlotCursor++;
+	S32 ret = *sVBSlotCursor;
+	sVBSlotCursor++;
+
+	return ret;
 }
 
 bool ll_is_part_idx_allocated(S32 idx, S32* start, S32* end)
 {
-	/*while (start < end)
+	while (start < end)
 	{
 		if (*start == idx)
 		{ //not allocated (in free list)
 			return false;
 		}
 		++start;
-	}*/
+	}
 
 	//allocated (not in free list)
-	return false;
+	return true;
 }
 
 //static
 void LLVOPartGroup::freeVBSlot(S32 idx)
 {
-	/*llassert(idx < LL_MAX_PARTICLE_COUNT && idx >= 0);
-	//llassert(sVBSlotCursor > sVBSlotFree);
-	//llassert(ll_is_part_idx_allocated(idx, sVBSlotCursor, sVBSlotFree+LL_MAX_PARTICLE_COUNT));
+	llassert(idx < LL_MAX_PARTICLE_COUNT && idx >= 0);
+	llassert(sVBSlotCursor > sVBSlotFree);
+	llassert(ll_is_part_idx_allocated(idx, sVBSlotCursor, sVBSlotFree+LL_MAX_PARTICLE_COUNT));
 
 	if (sVBSlotCursor > sVBSlotFree)
 	{
 		sVBSlotCursor--;
 		*sVBSlotCursor = idx;
-	}*/
+	}
 }
 
 LLVOPartGroup::LLVOPartGroup(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp)
@@ -698,7 +707,8 @@ void LLVOPartGroup::getGeometry(S32 idx,
 	*colorsp++ = color;
 	*colorsp++ = color;
 
-	if (pglow.mV[3] > F_ALMOST_ZERO || part.mGlow.mV[3] > F_ALMOST_ZERO)
+	//Only add emissive attributes if glowing (doing it for all particles is INCREDIBLY inefficient as it leads to a second, slower, render pass.)
+	if (gPipeline.canUseVertexShaders() && (pglow.mV[3] > 0 || part.mGlow.mV[3] > 0))
 	{ //only write glow if it is not zero
 		*emissivep++ = pglow;
 		*emissivep++ = pglow;
@@ -863,7 +873,7 @@ void LLParticlePartition::getGeometry(LLSpatialGroup* group)
 		LLFace* facep = *i;
 		LLAlphaObject* object = (LLAlphaObject*) facep->getViewerObject();
 
-		//if (!facep->isState(LLFace::PARTICLE))
+		if (!facep->isState(LLFace::PARTICLE))
 		{ //set the indices of this face
 			S32 idx = LLVOPartGroup::findAvailableVBSlot();
 			if (idx >= 0)
@@ -872,7 +882,7 @@ void LLParticlePartition::getGeometry(LLSpatialGroup* group)
 				facep->setIndicesIndex(idx*6);
 				facep->setVertexBuffer(LLVOPartGroup::sVB);
 				facep->setPoolType(LLDrawPool::POOL_ALPHA);
-				//facep->setState(LLFace::PARTICLE);
+				facep->setState(LLFace::PARTICLE);
 			}
 			else
 			{

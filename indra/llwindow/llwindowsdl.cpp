@@ -334,8 +334,8 @@ static int x11_detect_VRAM_kb()
 			display_num = display_env[1] - '0';
 		}
 
-		fname = x_log_location;
-		fname += "Xorg.";
+		fname = getenv("HOME");
+		fname += "/.local/share/xorg/Xorg.";
 		fname += ('0' + display_num);
 		fname += ".log";
 		fp = fopen(fname.c_str(), "r");
@@ -348,16 +348,15 @@ static int x11_detect_VRAM_kb()
 		}
 		else
 		{
-			LL_INFOS() << "Could not open " << fname
-				<< " - skipped." << LL_ENDL;
-			// Try old XFree86 log otherwise
 			fname = x_log_location;
-			fname += "XFree86.";
+			fname += "Xorg.";
 			fname += ('0' + display_num);
 			fname += ".log";
 			fp = fopen(fname.c_str(), "r");
 			if (fp)
 			{
+				LL_INFOS() << "Looking in " << fname
+					<< " for VRAM info..." << LL_ENDL;
 				rtn = x11_detect_VRAM_kb_fp(fp);
 				fclose(fp);
 			}
@@ -365,6 +364,24 @@ static int x11_detect_VRAM_kb()
 			{
 				LL_INFOS() << "Could not open " << fname
 					<< " - skipped." << LL_ENDL;
+				// Try old XFree86 log otherwise
+				fname = x_log_location;
+				fname += "XFree86.";
+				fname += ('0' + display_num);
+				fname += ".log";
+				fp = fopen(fname.c_str(), "r");
+				if (fp)
+				{
+					LL_INFOS() << "Looking in " << fname
+						<< " for VRAM info..." << LL_ENDL;
+					rtn = x11_detect_VRAM_kb_fp(fp);
+					fclose(fp);
+				}
+				else
+				{
+					LL_INFOS() << "Could not open " << fname
+						<< " - skipped." << LL_ENDL;
+				}
 			}
 		}
 	}

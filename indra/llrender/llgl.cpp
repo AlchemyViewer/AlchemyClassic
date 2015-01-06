@@ -457,6 +457,7 @@ LLGLManager::LLGLManager() :
 	mIsGF2or4MX(FALSE),
 	mIsGF3(FALSE),
 	mIsGFFX(FALSE),
+	mIsHD3K(FALSE),
 	mATIOffsetVerticalLines(FALSE),
 	mATIOldDriver(FALSE),
 #if LL_DARWIN
@@ -681,6 +682,14 @@ bool LLGLManager::initGL()
 	{
 		mGLVendorShort = "INTEL";
 		mIsIntel = TRUE;
+#if LL_WINDOWS
+		if (mGLRenderer.find("HD") != std::string::npos 
+			&& (mGLRenderer.find("2000") != std::string::npos
+			|| mGLRenderer.find("3000") != std::string::npos))
+		{
+			mIsHD3K = TRUE;
+		}
+#endif
 	}
 	else
 	{
@@ -728,6 +737,10 @@ bool LLGLManager::initGL()
 	{
 		//According to the spec, the resulting value should never be less than 512. We need at least 1024 to use skinned shaders.
 		glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS_ARB, &mGLMaxVertexUniformComponents);
+		if (mIsHD3K)
+		{
+			mGLMaxVertexUniformComponents = llmax(mGLMaxVertexUniformComponents, 1024);
+		}
 	}
 
 	if (LLRender::sGLCoreProfile)
@@ -1013,12 +1026,6 @@ void LLGLManager::initExtensions()
 	mHassRGBFramebuffer = ExtensionExists("GL_EXT_framebuffer_sRGB", gGLHExts.mSysExts);
 #endif
 
-#if WGL_EXT_swap_control && WGL_EXT_extensions_string
-	mHasAdaptiveVSync = ExtensionExists("WGL_EXT_swap_control_tear", gGLHExts.mSysExts);
-#else
-	mHasAdaptiveVSync = FALSE;
-#endif
-
 	mHasMipMapGeneration = mHasFramebufferObject || mGLVersion >= 1.4f;
 
 	mHasDrawBuffers = ExtensionExists("GL_ARB_draw_buffers", gGLHExts.mSysExts);
@@ -1026,7 +1033,7 @@ void LLGLManager::initExtensions()
 	mHasTextureRectangle = ExtensionExists("GL_ARB_texture_rectangle", gGLHExts.mSysExts);
 	mHasTextureMultisample = ExtensionExists("GL_ARB_texture_multisample", gGLHExts.mSysExts);
 	mHasDebugOutput = ExtensionExists("GL_ARB_debug_output", gGLHExts.mSysExts);
-	mHasTransformFeedback = mGLVersion >= 4.f ? TRUE : FALSE;
+	mHasTransformFeedback = mGLVersion >= 4.f || ExtensionExists("GL_EXT_transform_feedback", gGLHExts.mSysExts);
 #if !LL_DARWIN
 	mHasPointParameters = !mIsATI && ExtensionExists("GL_ARB_point_parameters", gGLHExts.mSysExts);
 #endif
@@ -1036,6 +1043,11 @@ void LLGLManager::initExtensions()
 	mHasFragmentShader = ExtensionExists("GL_ARB_fragment_shader", gGLHExts.mSysExts) && (LLRender::sGLCoreProfile || ExtensionExists("GL_ARB_shading_language_100", gGLHExts.mSysExts));
 #endif
 
+#if WGL_EXT_swap_control && WGL_EXT_extensions_string
+	mHasAdaptiveVSync = ExtensionExists("WGL_EXT_swap_control_tear", gGLHExts.mSysExts);
+#elif LL_LINUX && GLX_EXT_swap_control_tear
+	mHasAdaptiveVSync = ExtensionExists("GLX_EXT_swap_control_tear", gGLHExts.mSysExts);
+#endif
 #ifdef GL_ARB_texture_swizzle
 	mHasTextureSwizzle = ExtensionExists("GL_ARB_texture_swizzle", gGLHExts.mSysExts);
 #endif

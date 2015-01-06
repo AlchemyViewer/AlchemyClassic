@@ -128,6 +128,7 @@ public:
 	BOOL mIsGF2or4MX;
 	BOOL mIsGF3;
 	BOOL mIsGFFX;
+	BOOL mIsHD3K;
 	BOOL mATIOffsetVerticalLines;
 	BOOL mATIOldDriver;
 

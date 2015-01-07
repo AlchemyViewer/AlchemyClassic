@@ -77,6 +77,7 @@
 
 // <alchemy> - Includes
 #include "llclipboard.h"
+#include "llworld.h"
 // </alchemy>
 
 // Flags for kick message
@@ -1329,4 +1330,66 @@ void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 			LLClipboard::instance().copyToClipboard(wdata_str, 0, wdata_str.length());
 		}
 	}
+}
+
+
+// static
+void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	LLVector3d global_pos;
+	uuid_vec_t avatars;
+	std::vector<LLVector3d> positions;
+	LLWorld::getInstance()->getAvatars(&avatars, &positions, gAgent.getPositionGlobal(), 4096.f);
+	for (size_t i = 0; i < avatars.size(); i++)
+	{
+		const LLUUID& id = avatars[i];
+		if (id == gAgentID || id != avatar_id)
+		{
+			continue;
+		}
+
+		const LLVector3d& targetPosition = positions[i];
+		if (targetPosition.isNull())
+		{
+			continue;
+		}
+
+		global_pos = targetPosition;
+		break;
+	}
+
+	if (!global_pos.isNull())
+	{
+		gAgent.teleportViaLocation(global_pos);
+	}
+}
+
+// static
+bool LLAvatarActions::canTeleportTo(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return false;
+
+	uuid_vec_t avatars;
+	std::vector<LLVector3d> positions;
+	LLWorld::getInstance()->getAvatars(&avatars, &positions, gAgent.getPositionGlobal(), 4096.f);
+	for (size_t i = 0; i < avatars.size(); i++)
+	{
+		const LLUUID& id = avatars[i];
+		if (id == gAgentID || id != avatar_id)
+		{
+			continue;
+		}
+
+		const LLVector3d& targetPosition = positions[i];
+		if (targetPosition.isNull())
+		{
+			continue;
+		}
+		return true;
+	}
+	return false;
 }

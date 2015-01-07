@@ -84,7 +84,7 @@ LLContextMenu* PeopleContextMenu::createMenu()
 			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_SLURL));
 		registrar.add("Avatar.CopyKey",			boost::bind(static_cast<void(*)(const LLUUID&,
 			LLAvatarActions::ECopyDataType)>(&LLAvatarActions::copyData), id, LLAvatarActions::E_DATA_UUID));
-		registrar.add("Avatar.TeleportTo",		boost::bind(&PeopleContextMenu::teleportTo, this));
+		registrar.add("Avatar.TeleportTo",		boost::bind(&LLAvatarActions::teleportTo, id));
 		registrar.add("Avatar.Colorize",		boost::bind(&PeopleContextMenu::colorize, this, _2));
 
 		enable_registrar.add("Avatar.EnableItem", boost::bind(&PeopleContextMenu::enableContextMenuItem, this, _2));
@@ -242,11 +242,15 @@ bool PeopleContextMenu::enableContextMenuItem(const LLSD& userdata)
 	{
 		return LLAvatarActions::canCall();
 	}
-	else if (item == std::string("can_zoom_in") || item == std::string("can_teleport_to"))
+	else if (item == std::string("can_zoom_in"))
 	{
 		const LLUUID& id = mUUIDs.front();
-
 		return gObjectList.findObject(id);
+	}
+	else if (item == std::string("can_teleport_to"))
+	{
+		const LLUUID& id = mUUIDs.front();
+		return LLAvatarActions::canTeleportTo(id);
 	}
 	else if (item == std::string("can_show_on_map"))
 	{
@@ -309,19 +313,6 @@ void PeopleContextMenu::startConference()
 		}
 	}
 	LLAvatarActions::startConference(uuids);
-}
-
-void PeopleContextMenu::teleportTo()
-{
-	const LLUUID& avatar_id = mUUIDs.front();
-	if (avatar_id.notNull())
-	{
-		LLViewerObject* objectp = gObjectList.findObject(avatar_id);
-		if (objectp)
-		{
-			gAgent.teleportViaLocation(objectp->getPositionGlobal());
-		}
-	}
 }
 
 void PeopleContextMenu::colorize(const LLSD& userdata)

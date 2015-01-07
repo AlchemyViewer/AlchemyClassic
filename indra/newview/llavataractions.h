@@ -260,6 +260,9 @@ public:
 	static void copyData(const LLUUID& id, ECopyDataType type);
 	static void copyData(const uuid_vec_t& ids, ECopyDataType type);
 
+	static void teleportTo(const LLUUID& avatar_id);
+	static bool canTeleportTo(const LLUUID& avatar_id);
+
 private:
 	static bool callbackAddFriendWithMessage(const LLSD& notification, const LLSD& response);
 	static bool handleRemove(const LLSD& notification, const LLSD& response);

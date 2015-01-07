@@ -2928,9 +2928,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d68c9f84e15f712c6d03b0abca8ba708</string>
+              <string>f101c936afb4164155feba1dfac99bc1</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/openal-1.15.1-1.1.0-windows64-vs12-20140813.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/openal-1.16.0-1.1.0-windows64-201501070014.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

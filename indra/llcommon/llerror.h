@@ -84,7 +84,7 @@ const int LL_ERR_NOERR = 0;
 #define llverify(func)			do {if (func) {}} while(0)
 #endif
 
-#ifdef LL_WINDOWS
+#if defined(LL_WINDOWS) || defined(LL_CPP11)
 #define LL_STATIC_ASSERT(func, msg) static_assert(func, msg)
 #define LL_BAD_TEMPLATE_INSTANTIATION(type, msg) static_assert(false, msg)
 #else

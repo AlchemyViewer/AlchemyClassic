@@ -1428,12 +1428,12 @@ void LLPipeline::restoreGL()
 
 BOOL LLPipeline::canUseVertexShaders()
 {
-	static const std::string vertex_shader_enable_feature_string = "VertexShaderEnable";
+	static const bool has_vertex_shader = LLFeatureManager::instance().isFeatureAvailable("VertexShaderEnable");
 
 	if (sDisableShaders ||
 		!gGLManager.mHasVertexShader ||
 		!gGLManager.mHasFragmentShader ||
-		!LLFeatureManager::getInstance()->isFeatureAvailable(vertex_shader_enable_feature_string) ||
+		!has_vertex_shader ||
 		(assertInitialized() && mVertexShadersLoaded != 1) )
 	{
 		return FALSE;

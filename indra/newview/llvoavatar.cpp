@@ -1367,17 +1367,17 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 
 	//stretch bounding box by attachments
 #if USE_LL_APPEARANCE_CODE
-	for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
-		 iter != mAttachmentPoints.end();
-		 ++iter)
+	for (attachment_map_t::iterator iter = mAttachmentPoints.begin();
+		iter != mAttachmentPoints.end();
+		++iter)
 	{
 		LLViewerJointAttachment* attachment = iter->second;
 
 		if (attachment->getValid())
 		{
 			for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-				 attachment_iter != attachment->mAttachedObjects.end();
-				 ++attachment_iter)
+				attachment_iter != attachment->mAttachedObjects.end();
+				++attachment_iter)
 			{
 				const LLViewerObject* attached_object = (*attachment_iter);
 				if (attached_object && !attached_object->isHUDAttachment())
@@ -1394,14 +1394,15 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 							LLVector4a max_span(max_attachment_span);
 
 							S32 lt = distance.lessThan(max_span).getGatheredBits() & 0x7;
-						
-						// Only add the prim to spatial extents calculations if it isn't a megaprim.
-						// max_attachment_span calculated at the start of the function 
-						// (currently 5 times our max prim size) 
-						if (lt == 0x7)
-						{
-							update_min_max(newMin,newMax,ext[0]);
-							update_min_max(newMin,newMax,ext[1]);
+
+							// Only add the prim to spatial extents calculations if it isn't a megaprim.
+							// max_attachment_span calculated at the start of the function 
+							// (currently 5 times our max prim size) 
+							if (lt == 0x7)
+							{
+								update_min_max(newMin, newMax, ext[0]);
+								update_min_max(newMin, newMax, ext[1]);
+							}
 						}
 					}
 				}

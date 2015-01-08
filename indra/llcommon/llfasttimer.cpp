@@ -306,8 +306,8 @@ void BlockTimer::processTimes()
 	updateTimes();
 
 	// reset for next frame
-	for (BlockTimerStatHandle::instance_tracker_t::instance_iter it = BlockTimerStatHandle::instance_tracker_t::beginInstances(),
-			end_it = BlockTimerStatHandle::instance_tracker_t::endInstances();
+	for (BlockTimerStatHandle::instance_tracker_t::instance_iter it = BlockTimerStatHandle::instance_tracker_t::beginInstances(), 
+		end_it = BlockTimerStatHandle::instance_tracker_t::endInstances();
 		it != end_it;
 		++it)
 	{
@@ -365,7 +365,7 @@ void BlockTimer::logStats()
 			for (BlockTimerStatHandle::instance_tracker_t::instance_iter it = BlockTimerStatHandle::instance_tracker_t::beginInstances(), 
 				end_it = BlockTimerStatHandle::instance_tracker_t::endInstances(); 
 				it != end_it; 
-			++it)
+				++it)
 			{
 				BlockTimerStatHandle& timer = static_cast<BlockTimerStatHandle&>(*it);
 				LLTrace::PeriodicRecording& frame_recording = LLTrace::get_frame_recording();

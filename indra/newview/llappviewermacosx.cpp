@@ -91,10 +91,6 @@ static void exceptionTerminateHandler()
 
 bool initViewer()
 {
-#if LL_SOLARIS && defined(__sparc)
-	asm ("ta\t6");		 // NOTE:  Make sure memory alignment is enforced on SPARC
-#endif
-
 	// Set the working dir to <bundle>/Contents/Resources
 	if (chdir(gDirUtilp->getAppRODataDir().c_str()) == -1)
 	{

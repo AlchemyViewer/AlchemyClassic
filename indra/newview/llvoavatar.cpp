@@ -2427,7 +2427,7 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 					
 				BOOL visibleAttachment =	visible || 
 											!attached_object->mDrawable->getSpatialBridge() || 
-											attached_object->mDrawable->getSpatialBridge()->getRadius() < 2.f;
+											attached_object->mDrawable->getSpatialBridge()->getRadius() >= 2.f;
 				
 				if (visibleAttachment)
 				{

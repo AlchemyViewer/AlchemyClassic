@@ -100,7 +100,7 @@ void LLMemory::initMaxHeapSizeGB(F32Gigabytes max_heap_size, BOOL prevent_heap_f
 }
 
 //static 
-void LLMemory::updateMemoryInfo() 
+void LLMemory::updateMemoryInfo(bool for_cache) 
 {
 #if LL_WINDOWS	
 	HANDLE self = GetCurrentProcess();
@@ -117,17 +117,20 @@ void LLMemory::updateMemoryInfo()
 	sAllocatedPageSizeInKB = (U32Bytes)(counters.PagefileUsage) ;
 	sample(sVirtualMem, sAllocatedPageSizeInKB);
 
-	U32Kilobytes avail_phys, avail_virtual;
-	LLMemoryInfo::getAvailableMemoryKB(avail_phys, avail_virtual) ;
-	sMaxPhysicalMemInKB = llmin(avail_phys + sAllocatedMemInKB, sMaxHeapSizeInKB);
+	if (!for_cache)
+	{
+		U32Kilobytes avail_phys, avail_virtual;
+		LLMemoryInfo::getAvailableMemoryKB(avail_phys, avail_virtual);
+		sMaxPhysicalMemInKB = llmin(avail_phys + sAllocatedMemInKB, sMaxHeapSizeInKB);
 
-	if(sMaxPhysicalMemInKB > sAllocatedMemInKB)
-	{
-		sAvailPhysicalMemInKB = sMaxPhysicalMemInKB - sAllocatedMemInKB ;
-	}
-	else
-	{
-		sAvailPhysicalMemInKB = U32Kilobytes(0);
+		if (sMaxPhysicalMemInKB > sAllocatedMemInKB)
+		{
+			sAvailPhysicalMemInKB = sMaxPhysicalMemInKB - sAllocatedMemInKB;
+		}
+		else
+		{
+			sAvailPhysicalMemInKB = U32Kilobytes(0);
+		}
 	}
 #else
 	//not valid for other systems for now.

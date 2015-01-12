@@ -383,7 +383,7 @@ BOOL LLVOCacheEntry::writeToFile(LLAPRFile* apr_file) const
 void LLVOCacheEntry::updateDebugSettings()
 {
 	static LLFrameTimer timer;
-	if(timer.getElapsedTimeF32() < 1.0f) //update frequency once per second.
+	if(timer.getElapsedTimeF32() < 10.0f) //update frequency once per second.
 	{
 		return;
 	}
@@ -418,7 +418,7 @@ void LLVOCacheEntry::updateDebugSettings()
 	static LLCachedControl<U32> low_mem_bound_MB(gSavedSettings,"SceneLoadLowMemoryBound");
 	static LLCachedControl<U32> high_mem_bound_MB(gSavedSettings,"SceneLoadHighMemoryBound");
 	
-	LLMemory::updateMemoryInfo() ;
+	LLMemory::updateMemoryInfo(true);
 	U32 allocated_mem = LLMemory::getAllocatedMemKB().value();
 	allocated_mem /= 1024; //convert to MB.
 	if(allocated_mem < low_mem_bound_MB)

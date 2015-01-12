@@ -37,7 +37,7 @@ void LLUrlRegistryNullCallback(const std::string &url, const std::string &label,
 
 LLUrlRegistry::LLUrlRegistry()
 {
-	mUrlEntry.reserve(21); // <alchemy/>
+	mUrlEntry.reserve(22); // <alchemy/>
 
 	// Urls are matched in the order that they were registered
 	registerUrl(new LLUrlEntryNoLink());
@@ -61,6 +61,8 @@ LLUrlRegistry::LLUrlRegistry()
 	registerUrl(new LLUrlEntryObjectIM());
 	registerUrl(new LLUrlEntryPlace());
 	registerUrl(new LLUrlEntryInventory());
+	registerUrl(new LLUrlEntryObjectIM());
+    registerUrl(new LLUrlEntryExperienceProfile());
 	//LLUrlEntrySL and LLUrlEntrySLLabel have more common pattern, 
 	//so it should be registered in the end of list
 	registerUrl(new LLUrlEntrySL());

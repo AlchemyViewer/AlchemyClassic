@@ -247,13 +247,13 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 
 		TimerBar* hover_bar = NULL;
 		F32Seconds mouse_time_offset = ((F32)(x - mBarRect.mLeft) / (F32)mBarRect.getWidth()) * mTotalTimeDisplay;
-		for (int bar_index = 0, end_index = LLTrace::BlockTimerStatHandle::instance_tracker_t::instanceCount(); 
+		for (S32 bar_index = 0, end_index = LLTrace::BlockTimerStatHandle::instance_tracker_t::instanceCount(); 
 			bar_index < end_index; 
 			++bar_index)
 		{
 			if (!row.mBars)
 			{
-				LL_WARNS() << "Timber row mTimerBarRows.mBars is null bailing out" << LL_ENDL;
+				LL_WARNS() << "mTimerBarRows.mBars is null at index: " << bar_index << " bailing out" << LL_ENDL;
 				break;
 			}
 

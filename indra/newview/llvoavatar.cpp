@@ -2412,9 +2412,11 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 			}
 		}
 #else
-		std::vector<std::pair<LLViewerObject*,LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-		for(;attachment_iter!=mAttachedObjectsVector.end();++attachment_iter)
-		{{
+		std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin(),
+			iter_end = mAttachedObjectsVector.end();
+		for (; attachment_iter != iter_end; ++attachment_iter)
+		{
+			{
 				LLViewerJointAttachment* attachment = attachment_iter->second;
 				LLViewerObject* attached_object = attachment_iter->first;
 
@@ -6086,12 +6088,7 @@ BOOL LLVOAvatar::detachObject(LLViewerObject *viewer_object)
 		{
 			mVisualComplexityStale = TRUE;
 #if !USE_LL_APPEARANCE_CODE
-			std::vector<std::pair<LLViewerObject*,LLViewerJointAttachment*> >::iterator it = std::find(mAttachedObjectsVector.begin(),mAttachedObjectsVector.end(),std::make_pair(viewer_object,attachment));
-			if(it != mAttachedObjectsVector.end())
-			{
-				(*it) = mAttachedObjectsVector.back();
-				mAttachedObjectsVector.pop_back();
-			}
+			vector_replace_with_last(mAttachedObjectsVector,std::make_pair(viewer_object,attachment));
 #endif
 
 			cleanupAttachedMesh( viewer_object );

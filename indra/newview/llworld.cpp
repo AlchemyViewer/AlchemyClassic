@@ -703,8 +703,8 @@ void LLWorld::updateRegions(F32 max_update_time)
 	//sort regions by its mLastUpdate
 	//smaller mLastUpdate first to make sure every region has chance to get updated.
 	LLViewerRegion::region_priority_list_t region_list;
-	for (region_list_t::iterator iter = mRegionList.begin();
-		 iter != mRegionList.end(); ++iter)
+	for (region_list_t::iterator iter = mRegionList.begin(), iter_end = mRegionList.end();
+		iter != iter_end; ++iter)
 	{
 		LLViewerRegion* regionp = *iter;
 		if(regionp != self_regionp)
@@ -715,8 +715,8 @@ void LLWorld::updateRegions(F32 max_update_time)
 	}
 
 	// Perform idle time updates for the regions (and associated surfaces)
-	for (LLViewerRegion::region_priority_list_t::iterator iter = region_list.begin();
-		 iter != region_list.end(); ++iter)
+	for (LLViewerRegion::region_priority_list_t::iterator iter = region_list.begin(), iter_end = region_list.end();
+		 iter != iter_end; ++iter)
 	{
 		if(max_time > 0.f)
 		{

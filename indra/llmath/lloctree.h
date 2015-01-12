@@ -102,9 +102,9 @@ public:
 		typedef std::ptrdiff_t difference_type;
 
 		static char * malloc(const size_type bytes)
-		{ return (char *)ll_aligned_malloc<16>(bytes); }
+		{ return (char *)ll_aligned_malloc_16((bytes); }
 		static void free(char * const block)
-		{ ll_aligned_free<16>(block); }
+		{ ll_aligned_free_16(block); }
 	};
 	static boost::pool<octree_pool_alloc>& getPool(const std::size_t& size)
 	{

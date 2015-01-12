@@ -117,7 +117,6 @@ set(viewer_SOURCE_FILES
     alpanelquicksettingspulldown.cpp
     groupchatlistener.cpp
     llaccountingcostmanager.cpp
-    llaisapi.cpp
     llagent.cpp
     llagentaccess.cpp
     llagentcamera.cpp
@@ -128,6 +127,7 @@ set(viewer_SOURCE_FILES
     llagentpilot.cpp
     llagentui.cpp
     llagentwearables.cpp
+    llaisapi.cpp
     llanimstatelabels.cpp
     llappcorehttp.cpp
     llappearancemgr.cpp
@@ -142,8 +142,8 @@ set(viewer_SOURCE_FILES
     llavatariconctrl.cpp
     llavatarlist.cpp
     llavatarlistitem.cpp
-    llavatarrenderinfoaccountant.cpp
     llavatarpropertiesprocessor.cpp
+    llavatarrenderinfoaccountant.cpp
     llblockedlistitem.cpp
     llblocklist.cpp
     llbox.cpp
@@ -185,8 +185,8 @@ set(viewer_SOURCE_FILES
     lldeferredsounds.cpp
     lldelayedgestureerror.cpp
     lldirpicker.cpp
-    lldonotdisturbnotificationstorage.cpp
     lldndbutton.cpp
+    lldonotdisturbnotificationstorage.cpp
     lldrawable.cpp
     lldrawpool.cpp
     lldrawpoolalpha.cpp
@@ -222,7 +222,6 @@ set(viewer_SOURCE_FILES
     llflexibleobject.cpp
     llflickrconnect.cpp
     llfloaterabout.cpp
-    llfloaterbvhpreview.cpp
     llfloaterauction.cpp
     llfloaterautoreplacesettings.cpp
     llfloateravatar.cpp
@@ -238,6 +237,7 @@ set(viewer_SOURCE_FILES
     llfloaterbuycurrency.cpp
     llfloaterbuycurrencyhtml.cpp
     llfloaterbuyland.cpp
+    llfloaterbvhpreview.cpp
     llfloatercamera.cpp
     llfloaterchatvoicevolume.cpp
     llfloatercolorpicker.cpp
@@ -269,9 +269,12 @@ set(viewer_SOURCE_FILES
     llfloaterhelpbrowser.cpp
     llfloaterhud.cpp
     llfloaterimagepreview.cpp
-    llfloaterimsessiontab.cpp
-    llfloaterimsession.cpp
     llfloaterimcontainer.cpp
+    llfloaterimnearbychat.cpp
+    llfloaterimnearbychathandler.cpp
+    llfloaterimnearbychatlistener.cpp
+    llfloaterimsession.cpp
+    llfloaterimsessiontab.cpp
     llfloaterinspect.cpp
     llfloaterinventory.cpp
     llfloaterjoystick.cpp
@@ -300,8 +303,8 @@ set(viewer_SOURCE_FILES
     llfloaterproperties.cpp
     llfloaterregiondebugconsole.cpp
     llfloaterregioninfo.cpp
-    llfloaterreporter.cpp
     llfloaterregionrestarting.cpp
+    llfloaterreporter.cpp
     llfloatersceneloadstats.cpp
     llfloaterscriptdebug.cpp
     llfloaterscriptedprefs.cpp
@@ -352,10 +355,10 @@ set(viewer_SOURCE_FILES
     llhttpretrypolicy.cpp
     llhudeffect.cpp
     llhudeffectbeam.cpp
+    llhudeffectblob.cpp
     llhudeffectlookat.cpp
     llhudeffectpointat.cpp
     llhudeffecttrail.cpp
-    llhudeffectblob.cpp
     llhudicon.cpp
     llhudmanager.cpp
     llhudnametag.cpp
@@ -415,9 +418,6 @@ set(viewer_SOURCE_FILES
     llnameeditor.cpp
     llnamelistctrl.cpp
     llnavigationbar.cpp
-    llfloaterimnearbychat.cpp
-    llfloaterimnearbychathandler.cpp
-    llfloaterimnearbychatlistener.cpp
     llnetmap.cpp
     llnotificationalerthandler.cpp
     llnotificationgrouphandler.cpp
@@ -428,8 +428,8 @@ set(viewer_SOURCE_FILES
     llnotificationscripthandler.cpp
     llnotificationstorage.cpp
     llnotificationtiphandler.cpp
-    lloutfitslist.cpp
     lloutfitobserver.cpp
+    lloutfitslist.cpp
     lloutputmonitorctrl.cpp
     llpanelappearancetab.cpp
     llpanelavatar.cpp
@@ -466,10 +466,10 @@ set(viewer_SOURCE_FILES
     llpanelmaininventory.cpp
     llpanelmarketplaceinbox.cpp
     llpanelmarketplaceinboxinventory.cpp
+    llpanelme.cpp
     llpanelmediasettingsgeneral.cpp
     llpanelmediasettingspermissions.cpp
     llpanelmediasettingssecurity.cpp
-    llpanelme.cpp
     llpanelnearbymedia.cpp
     llpanelobject.cpp
     llpanelobjectinventory.cpp
@@ -505,9 +505,9 @@ set(viewer_SOURCE_FILES
     llpanelsnapshotprofile.cpp
     llpanelteleporthistory.cpp
     llpaneltiptoast.cpp
-    llpanelvoiceeffect.cpp
     llpaneltopinfobar.cpp
     llpanelvoicedevicesettings.cpp
+    llpanelvoiceeffect.cpp
     llpanelvolume.cpp
     llpanelvolumepulldown.cpp
     llpanelwearing.cpp
@@ -529,9 +529,9 @@ set(viewer_SOURCE_FILES
     llphysicsmotion.cpp
     llphysicsshapebuilderutil.cpp
     llpipelinelistener.cpp
+    llplacesfolderview.cpp
     llplacesinventorybridge.cpp
     llplacesinventorypanel.cpp
-    llplacesfolderview.cpp
     llpopupview.cpp
     llpostcard.cpp
     llpreview.cpp
@@ -603,8 +603,8 @@ set(viewer_SOURCE_FILES
     lltoastimpanel.cpp
     lltoastnotifypanel.cpp
     lltoastpanel.cpp
-    lltoastscripttextbox.cpp
     lltoastscriptquestion.cpp
+    lltoastscripttextbox.cpp
     lltool.cpp
     lltoolbarview.cpp
     lltoolbrush.cpp
@@ -732,8 +732,8 @@ set(viewer_SOURCE_FILES
     llworld.cpp
     llworldmap.cpp
     llworldmapmessage.cpp
-    llworldmipmap.cpp
     llworldmapview.cpp
+    llworldmipmap.cpp
     llxmlrpclistener.cpp
     llxmlrpctransaction.cpp
     noise.cpp
@@ -756,7 +756,6 @@ set(viewer_HEADER_FILES
     groupchatlistener.h
     llaccountingcost.h
     llaccountingcostmanager.h
-    llaisapi.h
     llagent.h
     llagentaccess.h
     llagentcamera.h
@@ -767,6 +766,7 @@ set(viewer_HEADER_FILES
     llagentpilot.h
     llagentui.h
     llagentwearables.h
+    llaisapi.h
     llanimstatelabels.h
     llappcorehttp.h
     llappearance.h
@@ -825,15 +825,15 @@ set(viewer_HEADER_FILES
     lldeferredsounds.h
     lldelayedgestureerror.h
     lldirpicker.h
-    lldonotdisturbnotificationstorage.h
     lldndbutton.h
+    lldonotdisturbnotificationstorage.h
     lldrawable.h
     lldrawpool.h
     lldrawpoolalpha.h
     lldrawpoolavatar.h
     lldrawpoolbump.h
-    lldrawpoolmaterials.h
     lldrawpoolground.h
+    lldrawpoolmaterials.h
     lldrawpoolsimple.h
     lldrawpoolsky.h
     lldrawpoolterrain.h
@@ -862,7 +862,6 @@ set(viewer_HEADER_FILES
     llflexibleobject.h
     llflickrconnect.h
     llfloaterabout.h
-    llfloaterbvhpreview.h
     llfloaterauction.h
     llfloaterautoreplacesettings.h
     llfloateravatar.h
@@ -878,6 +877,7 @@ set(viewer_HEADER_FILES
     llfloaterbuycurrency.h
     llfloaterbuycurrencyhtml.h
     llfloaterbuyland.h
+    llfloaterbvhpreview.h
     llfloatercamera.h
     llfloaterchatvoicevolume.h
     llfloatercolorpicker.h
@@ -909,12 +909,12 @@ set(viewer_HEADER_FILES
     llfloaterhelpbrowser.h
     llfloaterhud.h
     llfloaterimagepreview.h
+    llfloaterimcontainer.h
     llfloaterimnearbychat.h
     llfloaterimnearbychathandler.h
     llfloaterimnearbychatlistener.h
-    llfloaterimsessiontab.h
     llfloaterimsession.h
-    llfloaterimcontainer.h
+    llfloaterimsessiontab.h
     llfloaterinspect.h
     llfloaterinventory.h
     llfloaterjoystick.h
@@ -943,8 +943,8 @@ set(viewer_HEADER_FILES
     llfloaterproperties.h
     llfloaterregiondebugconsole.h
     llfloaterregioninfo.h
-    llfloaterreporter.h
     llfloaterregionrestarting.h
+    llfloaterreporter.h
     llfloatersceneloadstats.h
     llfloaterscriptdebug.h
     llfloaterscriptedprefs.h
@@ -990,14 +990,14 @@ set(viewer_HEADER_FILES
     llgroupmgr.h
     llhasheduniqueid.h
     llhints.h
-    llhttpretrypolicy.h
     llhomelocationresponder.h
+    llhttpretrypolicy.h
     llhudeffect.h
     llhudeffectbeam.h
+    llhudeffectblob.h
     llhudeffectlookat.h
     llhudeffectpointat.h
     llhudeffecttrail.h
-    llhudeffectblob.h
     llhudicon.h
     llhudmanager.h
     llhudnametag.h
@@ -1061,8 +1061,8 @@ set(viewer_HEADER_FILES
     llnotificationhandler.h
     llnotificationmanager.h
     llnotificationstorage.h
-    lloutfitslist.h
     lloutfitobserver.h
+    lloutfitslist.h
     lloutputmonitorctrl.h
     llpanelappearancetab.h
     llpanelavatar.h
@@ -1081,8 +1081,8 @@ set(viewer_HEADER_FILES
     llpanelgroup.h
     llpanelgroupbanlist.h
     llpanelgroupbulk.h
-    llpanelgroupbulkimpl.h
     llpanelgroupbulkban.h
+    llpanelgroupbulkimpl.h
     llpanelgroupexperiences.h
     llpanelgroupgeneral.h
     llpanelgroupinvite.h
@@ -1100,10 +1100,10 @@ set(viewer_HEADER_FILES
     llpanelmaininventory.h
     llpanelmarketplaceinbox.h
     llpanelmarketplaceinboxinventory.h
+    llpanelme.h
     llpanelmediasettingsgeneral.h
     llpanelmediasettingspermissions.h
     llpanelmediasettingssecurity.h
-    llpanelme.h
     llpanelnearbymedia.h
     llpanelobject.h
     llpanelobjectinventory.h
@@ -1134,9 +1134,9 @@ set(viewer_HEADER_FILES
     llpanelsnapshot.h
     llpanelteleporthistory.h
     llpaneltiptoast.h
+    llpaneltopinfobar.h
     llpanelvoicedevicesettings.h
     llpanelvoiceeffect.h
-    llpaneltopinfobar.h
     llpanelvolume.h
     llpanelvolumepulldown.h
     llpanelwearing.h
@@ -1158,9 +1158,9 @@ set(viewer_HEADER_FILES
     llphysicsmotion.h
     llphysicsshapebuilderutil.h
     llpipelinelistener.h
+    llplacesfolderview.h
     llplacesinventorybridge.h
     llplacesinventorypanel.h
-    llplacesfolderview.h
     llpopupview.h
     llpostcard.h
     llpreview.h
@@ -1234,8 +1234,8 @@ set(viewer_HEADER_FILES
     lltoastimpanel.h
     lltoastnotifypanel.h
     lltoastpanel.h
-    lltoastscripttextbox.h
     lltoastscriptquestion.h
+    lltoastscripttextbox.h
     lltool.h
     lltoolbarview.h
     lltoolbrush.h
@@ -1363,8 +1363,8 @@ set(viewer_HEADER_FILES
     llworld.h
     llworldmap.h
     llworldmapmessage.h
-    llworldmipmap.h
     llworldmapview.h
+    llworldmipmap.h
     llxmlrpclistener.h
     llxmlrpctransaction.h
     macmain.h

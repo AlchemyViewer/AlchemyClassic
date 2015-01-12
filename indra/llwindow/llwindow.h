@@ -288,6 +288,9 @@ public:
 // helper funcs
 //
 extern BOOL gDebugWindowProc;
+#ifdef LL_DARWIN
+extern BOOL gUseMultGL;
+#endif
 
 // Protocols, like "http" and "https" we support in URLs
 extern const S32 gURLProtocolWhitelistCount;

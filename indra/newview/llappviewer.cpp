@@ -597,6 +597,9 @@ static void settings_to_globals()
 	gDebugWindowProc = gSavedSettings.getBOOL("DebugWindowProc");
 	gShowObjectUpdates = gSavedSettings.getBOOL("ShowObjectUpdates");
 	LLWorldMapView::sMapScale = gSavedSettings.getF32("MapScale");
+#ifdef LL_DARWIN
+	gUseMultGL = gSavedSettings.getBOOL("RenderAppleUseMultGL");
+#endif
 }
 
 static void settings_modify()

@@ -477,14 +477,22 @@ bool LLVivoxVoiceClient::writeString(const std::string &str)
 void LLVivoxVoiceClient::connectorCreate()
 {
 	std::ostringstream stream;
-	std::string logpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
 	std::string loglevel = "0";
 	
 	// Transition to stateConnectorStarted when the connector handle comes back.
 	setState(stateConnectorStarting);
 
+	std::string logpath = gSavedSettings.getString("VivoxLogDirectory");
+	if (logpath.empty())
+	{
+		logpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+	}
+	if (LLStringUtil::endsWith(logpath, gDirUtilp->getDirDelimiter()))
+	{
+		logpath.pop_back();
+	}
+
 	std::string savedLogLevel = gSavedSettings.getString("VivoxDebugLevel");
-		
 	if(savedLogLevel != "0")
 	{
 		LL_DEBUGS("Voice") << "creating connector with logging enabled" << LL_ENDL;
@@ -813,6 +821,10 @@ void LLVivoxVoiceClient::stateMachine()
 						if (log_folder.empty())
 						{
 							log_folder = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+						}
+						if (LLStringUtil::endsWith(log_folder, gDirUtilp->getDirDelimiter()))
+						{
+							log_folder.pop_back();
 						}
 
 						params.args.add("-lf");

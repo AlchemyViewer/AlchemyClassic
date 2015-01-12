@@ -43,6 +43,7 @@
 #include <CoreServices/CoreServices.h>
 
 extern BOOL gDebugWindowProc;
+extern BOOL gUseMultGL;
 
 // culled from winuser.h
 //const S32	WHEEL_DELTA = 120;     /* Value for rolling one detent */
@@ -56,8 +57,6 @@ const S32	MAX_NUM_RESOLUTIONS = 32;
 //
 // LLWindowMacOSX
 //
-
-BOOL LLWindowMacOSX::sUseMultGL = FALSE;
 
 // Cross-platform bits:
 
@@ -611,7 +610,7 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 	CGLSetParameter(mContext, kCGLCPSwapInterval, &frames_per_swap);
 
 	//enable multi-threaded OpenGL
-	if (sUseMultGL)
+	if (gUseMultGL)
 	{
 		CGLError cgl_err;
 		CGLContextObj ctx = CGLGetCurrentContext();

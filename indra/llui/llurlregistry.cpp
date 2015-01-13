@@ -176,7 +176,6 @@ static bool stringHasJira(const std::string &text)
 			text.find("SUN")	 != std::string::npos ||
 			text.find("SVC")	 != std::string::npos ||
 			text.find("VWR")	 != std::string::npos ||
-			text.find("WAPM")	 != std::string::npos ||
 			text.find("WEB")	 != std::string::npos);
 }
 // </alchemy>

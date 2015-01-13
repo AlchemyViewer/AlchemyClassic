@@ -93,7 +93,10 @@ void LLPanelExperienceListEditor::addExperienceIds( const uuid_vec_t& experience
 void LLPanelExperienceListEditor::setExperienceIds( const LLSD& experience_ids )
 {
 	mExperienceIds.clear();
-	mExperienceIds.insert(experience_ids.beginArray(), experience_ids.endArray());
+	for_each(experience_ids.beginArray(), experience_ids.endArray(), [this] (const LLUUID& id)
+	{
+		mExperienceIds.insert(id);
+	});
 	onItems();
 }
 

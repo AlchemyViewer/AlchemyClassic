@@ -84,9 +84,9 @@ void main()
 	pos.xyz = oEyeVec.xyz*(waterHeight/oEyeVec.z);
 	pos.w = 1.0;
 	pos = modelview_matrix*pos;
-	
-	calcAtmospherics(pos.xyz);
-		
+
+	calcAtmospherics(view.xyz);
+
 	//pass wave parameters to pixel shader
 	vec2 bigWave =  (v.xy) * vec2(0.04,0.04)  + d1 * time * 0.055;
 	//get two normal map (detail map) texture coordinates

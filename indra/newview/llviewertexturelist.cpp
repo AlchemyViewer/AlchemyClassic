@@ -296,6 +296,7 @@ void LLViewerTextureList::dump()
 		<< " size " << image->getWidth() << "x" << image->getHeight()
 		<< " discard " << image->getDiscardLevel()
 		<< " desired " << image->getDesiredDiscardLevel()
+		<< " references " << image->getNumRefs()
 		<< " http://asset.siva.lindenlab.com/" << image->getID() << ".texture"
 		<< LL_ENDL;
 	}
@@ -882,9 +883,9 @@ void LLViewerTextureList::updateImagesDecodePriorities()
 			if ((decode_priority_test < old_priority_test * .8f) ||
 				(decode_priority_test > old_priority_test * 1.25f))
 			{
-				mImageList.erase(imagep) ;
+				removeImageFromList(imagep);
 				imagep->setDecodePriority(decode_priority);
-				mImageList.insert(imagep);
+				addImageToList(imagep);
 			}
 		}
 	}

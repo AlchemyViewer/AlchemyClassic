@@ -2183,16 +2183,19 @@ void LLViewerMediaImpl::updateVolume()
 
 		if (mProximityCamera > 0) 
 		{
-			if (mProximityCamera > gSavedSettings.getF32("MediaRollOffMax"))
+			static LLCachedControl<F32> sMediaRollOffMax(gSavedSettings, "MediaRollOffMax", 30.f);
+			static LLCachedControl<F32> sMediaRollOffMin(gSavedSettings, "MediaRollOffMin", 5.f);
+			static LLCachedControl<F32> sMediaRollOffRate(gSavedSettings, "MediaRollOffRate", 0.125f);
+			if (mProximityCamera > sMediaRollOffMax)
 			{
 				volume = 0;
 			}
-			else if (mProximityCamera > gSavedSettings.getF32("MediaRollOffMin"))
+			else if (mProximityCamera > sMediaRollOffMin)
 			{
 				// attenuated_volume = 1 / (roll_off_rate * (d - min))^2
 				// the +1 is there so that for distance 0 the volume stays the same
-				F64 adjusted_distance = mProximityCamera - gSavedSettings.getF32("MediaRollOffMin");
-				F64 attenuation = 1.0 + (gSavedSettings.getF32("MediaRollOffRate") * adjusted_distance);
+				F64 adjusted_distance = mProximityCamera - sMediaRollOffMin;
+				F64 attenuation = 1.0 + (sMediaRollOffRate * adjusted_distance);
 				attenuation = 1.0 / (attenuation * attenuation);
 				// the attenuation multiplier should never be more than one since that would increase volume
 				volume = volume * llmin(1.0, attenuation);

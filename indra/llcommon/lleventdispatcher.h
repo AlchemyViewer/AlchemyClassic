@@ -183,7 +183,7 @@ public:
      * instantiate, instead of directly storing an instance pointer, accept a
      * nullary callable returning a pointer/reference to the desired class
      * instance. If you already have an instance in hand,
-     * boost::lambda::var(instance) or boost::lambda::constant(instance_ptr)
+     * [&] { return instance; } 
      * produce suitable callables.
      *
      * When calling this name, pass an LLSD::Array. Each entry in turn will be
@@ -230,7 +230,7 @@ public:
      * instantiate, instead of directly storing an instance pointer, accept a
      * nullary callable returning a pointer/reference to the desired class
      * instance. If you already have an instance in hand,
-     * boost::lambda::var(instance) or boost::lambda::constant(instance_ptr)
+     * [&] { return instance; }
      * produce suitable callables.
      *
      * Pass an LLSD::Array of parameter names, and optionally another

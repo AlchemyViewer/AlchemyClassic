@@ -1390,6 +1390,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		}
 	}
 	
+	/*
 	static LLCachedControl<bool> use_transform_feedback(gSavedSettings, "RenderUseTransformFeedback", false);
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
@@ -1539,6 +1540,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	}
 	else
 #endif
+		*/
 	{
 		//if it's not fullbright and has no normals, bake sunlight based on face normal
 		//bool bake_sunlight = !getTextureEntry()->getFullbright() &&

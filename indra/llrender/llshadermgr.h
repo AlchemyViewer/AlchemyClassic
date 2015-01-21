@@ -228,10 +228,11 @@ public:
 	virtual void initAttribsAndUniforms(void);
 
 	BOOL attachShaderFeatures(LLGLSLShader * shader);
-	void dumpObjectLog(GLhandleARB ret, BOOL warns = TRUE, const std::string& filename = "");
-	BOOL	linkProgramObject(GLhandleARB obj, BOOL suppress_errors = FALSE);
-	BOOL	validateProgramObject(GLhandleARB obj);
-	GLhandleARB loadShaderFile(const std::string& filename, S32 & shader_level, GLenum type, boost::unordered_map<std::string, std::string>* defines = NULL, S32 texture_index_channels = -1);
+	void dumpProgramLog(GLuint ret, BOOL warns = TRUE, const std::string& filename = "");
+	void dumpShaderLog(GLuint ret, BOOL warns = TRUE, const std::string& filename = "");
+	BOOL	linkProgramObject(GLuint obj, BOOL suppress_errors = FALSE);
+	BOOL	validateProgramObject(GLuint obj);
+	GLuint loadShaderFile(const std::string& filename, S32 & shader_level, GLenum type, boost::unordered_map<std::string, std::string>* defines = NULL, S32 texture_index_channels = -1);
 
 	// Implemented in the application to actually point to the shader directory.
 	virtual std::string getShaderDirPrefix(void) = 0; // Pure Virtual
@@ -241,7 +242,9 @@ public:
 
 public:
 	// Map of shader names to compiled
-	std::map<std::string, GLhandleARB> mShaderObjects;
+	std::map<std::string, GLuint> mShaderObjects;
+
+	std::map<std::string, GLuint> mProgramObjects;
 
 	//global (reserved slot) shader parameters
 	std::vector<std::string> mReservedAttribs;

@@ -354,12 +354,12 @@ void LLPostProcess::createBloomShader(void)
 	bloomBlurUniforms[sBlurWidth] = 0;
 }
 
-void LLPostProcess::getShaderUniforms(glslUniforms & uniforms, GLhandleARB & prog)
+void LLPostProcess::getShaderUniforms(glslUniforms & uniforms, GLuint & prog)
 {
 	/// Find uniform locations and insert into map	
 	glslUniforms::iterator i;
 	for (i  = uniforms.begin(); i != uniforms.end(); ++i){
-		i->second = glGetUniformLocationARB(prog, i->first.String().c_str());
+		i->second = glGetUniformLocation(prog, (const GLchar*)i->first.String().c_str());
 	}
 }
 
@@ -595,7 +595,7 @@ bool LLPostProcess::checkError(void)
     return retCode;
 }
 
-void LLPostProcess::checkShaderError(GLhandleARB shader)
+void LLPostProcess::checkShaderError(GLuint shader)
 {
     GLint infologLength = 0;
     GLint charsWritten  = 0;
@@ -603,7 +603,7 @@ void LLPostProcess::checkShaderError(GLhandleARB shader)
 
     checkError();  // Check for OpenGL errors
 
-    glGetObjectParameterivARB(shader, GL_OBJECT_INFO_LOG_LENGTH_ARB, &infologLength);
+    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infologLength);
 
     checkError();  // Check for OpenGL errors
 
@@ -615,7 +615,7 @@ void LLPostProcess::checkShaderError(GLhandleARB shader)
             /// Could not allocate infolog buffer
             return;
         }
-        glGetInfoLogARB(shader, infologLength, &charsWritten, infoLog);
+        glGetShaderInfoLog(shader, infologLength, &charsWritten, infoLog);
 		// shaderErrorLog << (char *) infoLog << std::endl;
 		mShaderErrorString = (char *) infoLog;
         free(infoLog);

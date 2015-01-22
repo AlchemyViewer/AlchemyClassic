@@ -3916,32 +3916,12 @@ void LLPipeline::postSort(LLCamera& camera)
 	//flush particle VB
 	LLVOPartGroup::sVB->flush();
 
-	/*bool use_transform_feedback = gTransformPositionProgram.mProgramObject && !mMeshDirtyGroup.empty();
-
-	if (use_transform_feedback)
-	{ //place a query around potential transform feedback code for synchronization
-		mTransformFeedbackPrimitives = 0;
-
-		if (!mMeshDirtyQueryObject)
-		{
-			glGenQueriesARB(1, &mMeshDirtyQueryObject);
-		}
-
-		
-		glBeginQueryARB(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, mMeshDirtyQueryObject);
-	}*/
-
 	//pack vertex buffers for groups that chose to delay their updates
 	for (LLSpatialGroup::sg_vector_t::iterator iter = mMeshDirtyGroup.begin(); iter != mMeshDirtyGroup.end(); ++iter)
 	{
 		(*iter)->rebuildMesh();
 	}
 
-	/*if (use_transform_feedback)
-	{
-		glEndQueryARB(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
-	}*/
-	
 	mMeshDirtyGroup.clear();
 
 	if (!sShadowRender)
@@ -4036,31 +4016,6 @@ void LLPipeline::postSort(LLCamera& camera)
 			LLSelectMgr::getInstance()->getSelection()->applyToTEs(&func);
 		}
 	}
-
-	/*if (use_transform_feedback)
-	{ //using transform feedback, wait for transform feedback to complete
-		LL_RECORD_BLOCK_TIME(FTM_TRANSFORM_WAIT);
-
-		S32 done = 0;
-		//glGetQueryivARB(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, GL_CURRENT_QUERY, &count);
-
-		glGetQueryObjectivARB(mMeshDirtyQueryObject, GL_QUERY_RESULT_AVAILABLE, &done);
-
-		while (!done)
-		{
-			{
-				LL_RECORD_BLOCK_TIME(FTM_TRANSFORM_DO_WORK);
-				F32 max_time = llmin(gFrameIntervalSeconds.value()*10.f, 1.f);
-				//do some useful work while we wait
-				LLAppViewer::getTextureCache()->update(max_time); // unpauses the texture cache thread
-				LLAppViewer::getImageDecodeThread()->update(max_time); // unpauses the image thread
-				LLAppViewer::getTextureFetch()->update(max_time); // unpauses the texture fetch thread
-			}
-			glGetQueryObjectivARB(mMeshDirtyQueryObject, GL_QUERY_RESULT_AVAILABLE, &done);
-		}
-
-		mTransformFeedbackPrimitives = 0;
-	}*/
 
 	//LLSpatialGroup::sNoDelete = FALSE;
 	LL_PUSH_CALLSTACKS();

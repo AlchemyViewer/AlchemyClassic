@@ -85,7 +85,6 @@ const U32 LL_VBO_POOL_SEED_COUNT = vbo_block_index(LL_VBO_POOL_MAX_SEED_SIZE);
 //static
 LLVBOPool LLVertexBuffer::sStreamVBOPool(GL_STREAM_DRAW_ARB, GL_ARRAY_BUFFER_ARB);
 LLVBOPool LLVertexBuffer::sDynamicVBOPool(GL_DYNAMIC_DRAW_ARB, GL_ARRAY_BUFFER_ARB);
-LLVBOPool LLVertexBuffer::sDynamicCopyVBOPool(GL_DYNAMIC_COPY_ARB, GL_ARRAY_BUFFER_ARB);
 LLVBOPool LLVertexBuffer::sStreamIBOPool(GL_STREAM_DRAW_ARB, GL_ELEMENT_ARRAY_BUFFER_ARB);
 LLVBOPool LLVertexBuffer::sDynamicIBOPool(GL_DYNAMIC_DRAW_ARB, GL_ELEMENT_ARRAY_BUFFER_ARB);
 
@@ -103,7 +102,7 @@ U32 LLVertexBuffer::sSetCount = 0;
 S32 LLVertexBuffer::sCount = 0;
 S32 LLVertexBuffer::sGLCount = 0;
 S32 LLVertexBuffer::sMappedCount = 0;
-bool LLVertexBuffer::sDisableVBOMapping = false;
+bool LLVertexBuffer::sDisableVBOMapping = true;
 bool LLVertexBuffer::sEnableVBOs = true;
 U32 LLVertexBuffer::sGLRenderBuffer = 0;
 U32 LLVertexBuffer::sGLRenderArray = 0;
@@ -187,10 +186,7 @@ volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
 		if (LLVertexBuffer::sDisableVBOMapping || mUsage != GL_DYNAMIC_DRAW_ARB)
 		{
 			glBufferDataARB(mType, size, 0, mUsage);
-			if (mUsage != GL_DYNAMIC_COPY_ARB)
-			{ //data will be provided by application
-				ret = (U8*) ll_aligned_malloc<64>(size);
-			}
+			ret = (U8*) ll_aligned_malloc<64>(size);
 		}
 		else
 		{ //always use a true hint of static draw when allocating non-client-backed buffers
@@ -403,7 +399,6 @@ void LLVertexBuffer::seedPools()
 {
 	sStreamVBOPool.seedPool();
 	sDynamicVBOPool.seedPool();
-	sDynamicCopyVBOPool.seedPool();
 	sStreamIBOPool.seedPool();
 	sDynamicIBOPool.seedPool();
 }
@@ -849,7 +844,7 @@ void LLVertexBuffer::drawArrays(U32 mode, U32 first, U32 count) const
 void LLVertexBuffer::initClass(bool use_vbo, bool no_vbo_mapping)
 {
 	sEnableVBOs = use_vbo && gGLManager.mHasVertexBufferObject;
-	sDisableVBOMapping = sEnableVBOs && no_vbo_mapping;
+	sDisableVBOMapping = sEnableVBOs;// && no_vbo_mapping;
 }
 
 //static 
@@ -891,7 +886,6 @@ void LLVertexBuffer::cleanupClass()
 	sDynamicIBOPool.cleanup();
 	sStreamVBOPool.cleanup();
 	sDynamicVBOPool.cleanup();
-	sDynamicCopyVBOPool.cleanup();
 }
 
 //----------------------------------------------------------------------------
@@ -922,8 +916,6 @@ S32 LLVertexBuffer::determineUsage(S32 usage)
 	
 	if (ret_usage && ret_usage != GL_STREAM_DRAW_ARB)
 	{ //only stream_draw and dynamic_draw are supported when using VBOs, dynamic draw is the default
-		if (ret_usage != GL_DYNAMIC_COPY_ARB)
-		{
 		if (sDisableVBOMapping)
 		{ //always use stream draw if VBO mapping is disabled
 			ret_usage = GL_STREAM_DRAW_ARB;
@@ -932,7 +924,6 @@ S32 LLVertexBuffer::determineUsage(S32 usage)
 		{
 			ret_usage = GL_DYNAMIC_DRAW_ARB;
 		}
-	}
 	}
 	
 	return ret_usage;
@@ -1084,15 +1075,10 @@ void LLVertexBuffer::genBuffer(U32 size)
 	{
 		mMappedData = sStreamVBOPool.allocate(mGLBuffer, mSize);
 	}
-	else if (mUsage == GL_DYNAMIC_DRAW_ARB)
+	else
 	{
 		mMappedData = sDynamicVBOPool.allocate(mGLBuffer, mSize);
 	}
-	else
-	{
-		mMappedData = sDynamicCopyVBOPool.allocate(mGLBuffer, mSize);
-	}
-	
 	
 	sGLCount++;
 }
@@ -2190,16 +2176,6 @@ void LLVertexBuffer::flush()
 	{
 		unmapBuffer();
 	}
-}
-
-// bind for transform feedback (quick 'n dirty)
-void LLVertexBuffer::bindForFeedback(U32 channel, U32 type, U32 index, U32 count)
-{
-#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
-	U32 offset = mOffsets[type] + sTypeSize[type]*index;
-	U32 size= (sTypeSize[type]*count);
-	glBindBufferRange(GL_TRANSFORM_FEEDBACK_BUFFER, channel, mGLBuffer, offset, size);
-#endif
 }
 
 // Set for rendering

@@ -27,7 +27,7 @@
 #ifndef LL_LLSNAPSHOTLIVEPREVIEW_H
 #define LL_LLSNAPSHOTLIVEPREVIEW_H
 
-#include "llpanelsnapshot.h"
+#include "llfloatersnapshot.h"
 #include "llviewertexture.h"
 #include "llviewerwindow.h"
 

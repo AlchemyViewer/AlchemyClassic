@@ -37,6 +37,7 @@
 #include "llimagefiltersmanager.h"
 #include "llcheckboxctrl.h"
 #include "llcombobox.h"
+#include "llpanelsnapshot.h"
 #include "llpostcard.h"
 #include "llresmgr.h"		// LLLocale
 #include "llsdserialize.h"

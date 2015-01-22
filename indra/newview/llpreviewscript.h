@@ -34,7 +34,6 @@
 #include "lliconctrl.h"
 #include "llframetimer.h"
 #include "llfloatergotoline.h"
-#include "llsyntaxid.h"
 
 class LLLiveLSLFile;
 class LLMessageSystem;

@@ -70,6 +70,7 @@
 #include "llviewerregion.h"
 #include "llkeyboard.h"
 #include "llscrollcontainer.h"
+#include "llsyntaxid.h"
 #include "llcheckboxctrl.h"
 #include "llscripteditor.h"
 #include "llselectmgr.h"

@@ -97,7 +97,7 @@ namespace {
 	};
 
 
-	const char * gSecondLifeUpdateRecord = "SecondLifeUpdateDownload.xml";
+	const char * gSecondLifeUpdateRecord = "AlchemyUpdateDownload.xml";
 };
 
 

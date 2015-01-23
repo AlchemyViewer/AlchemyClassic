@@ -3,7 +3,7 @@
 # @file   update_install
 # @author Nat Goodspeed
 # @date   2013-01-09
-# @brief  Update the containing Second Life application bundle to the version in
+# @brief  Update the containing Alchemy application bundle to the version in
 #         the specified tarball.
 # 
 #         This bash implementation is derived from the previous linux-updater.bin
@@ -69,17 +69,17 @@ then # zenity on PATH and is executable
          # clear any previous message
          clear_message
          # put up a new zenity box and capture its pid
-##       "$zenpath" --info --title "Second Life Viewer Updater" \
+##       "$zenpath" --info --title "Alchemy Viewer Updater" \
 ##                  --width=320 --height=120 --text="$*" &
          # MAINT-2333: use bouncing progress bar
-         "$zenpath" --progress --pulsate --no-cancel --title "Second Life Viewer Updater" \
+         "$zenpath" --progress --pulsate --no-cancel --title "Alchemy Viewer Updater" \
                     --width=320 --height=120 --text "$*" </dev/null &
          statuspid=$!
      }
 
      # display an error box and wait for user
      function errorbox {
-         "$zenpath" --error --title "Second Life Viewer Updater" \
+         "$zenpath" --error --title "Alchemy Viewer Updater" \
                     --width=320 --height=120 --text="$*"
      }
 
@@ -106,9 +106,9 @@ function fail {
     # tell subsequent viewer things went south
     echo "$mandatory" > "$markerfile"
     # add boilerplate
-    errorbox "An error occurred while updating Second Life:
+    errorbox "An error occurred while updating Alchemy:
 $*
-Please download the latest viewer from www.secondlife.com."
+Please download the latest viewer from www.alchemyviewer.org."
     exit 1
 }
 
@@ -119,7 +119,7 @@ kdesu="$(which kdesu)"
 if [ -n "$gksudo" ]
 then function mysudo {
          # gksudo allows you to specify description
-         err="$("$gksudo" --description "Second Life Viewer Updater" "$@" 2>&1)"
+         err="$("$gksudo" --description "Alchemy Viewer Updater" "$@" 2>&1)"
      }
 elif [ -n "$kdesu" ]
 then function mysudo {
@@ -168,7 +168,7 @@ log "$0 $*"
 # Log every command we execute, along with any stderr it might produce
 set -x
 
-status 'Installing Second Life...'
+status 'Installing Alchemy...'
 
 # Creating tempdir under /tmp means it's possible that tempdir is on a
 # different filesystem than INSTALL_DIR. One is tempted to create tempdir on a
@@ -217,4 +217,4 @@ rm -f "$tarball"
 
 # Launch the updated viewer. Restore original stderr from file descriptor 3,
 # though -- otherwise updater.log gets cluttered with the viewer log!
-"$INSTALL_DIR/secondlife" 2>&3- &
+"$INSTALL_DIR/alchemy" 2>&3- &

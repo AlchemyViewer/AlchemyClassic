@@ -55,7 +55,7 @@ namespace
 {
 	boost::weak_ptr<LLUpdaterServiceImpl> gUpdater;
 
-	const std::string UPDATE_MARKER_FILENAME("SecondLifeUpdateReady.xml");
+	const std::string UPDATE_MARKER_FILENAME("AlchemyUpdateReady.xml");
 	std::string update_marker_path()
 	{
 		return gDirUtilp->getExpandedFilename(LL_PATH_LOGS, 
@@ -458,7 +458,7 @@ void LLUpdaterServiceImpl::downloadComplete(LLSD const & data)
 { 
 	mIsDownloading = false;
 
-	// Save out the download data to the SecondLifeUpdateReady
+	// Save out the download data to the AlchemyUpdateReady
 	// marker file. 
 	llofstream update_marker(update_marker_path());
 	LLSDSerialize::toPrettyXML(data, update_marker);

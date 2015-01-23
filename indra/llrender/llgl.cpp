@@ -1996,11 +1996,11 @@ void LLGLState::checkClientArrays(const std::string& msg, U32 data_mask)
 	if (gGLManager.mHasVertexShader && LLGLSLShader::sNoFixedFunction)
 	{	//make sure vertex attribs are all disabled
 		GLint count;
-		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS_ARB, &count);
+		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &count);
 		for (GLint i = 0; i < count; i++)
 		{
 			GLint enabled;
-			glGetVertexAttribiv((GLuint) i, GL_VERTEX_ATTRIB_ARRAY_ENABLED_ARB, &enabled);
+			glGetVertexAttribiv((GLuint) i, GL_VERTEX_ATTRIB_ARRAY_ENABLED, &enabled);
 			if (enabled)
 			{
 				error = TRUE;

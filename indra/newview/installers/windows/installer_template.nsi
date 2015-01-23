@@ -118,6 +118,7 @@ Var COMMANDLINE         ; command line passed to this installer, set in .onInit
 Var SHORTCUT_LANG_PARAM ; "--set InstallLanguage de", passes language to viewer
 Var SKIP_DIALOGS        ; set from command line in  .onInit. autoinstall 
                         ; GUI and the defaults.
+Var SKIP_AUTORUN		; skip automatic launch of viewer after install
 
 ;;; Function definitions should go before file includes, because calls to
 ;;; DLLs like LangDLL trigger an implicit file include, so if that call is at
@@ -136,6 +137,8 @@ Var SKIP_DIALOGS        ; set from command line in  .onInit. autoinstall
 Function .onInstSuccess
 Call CheckWindowsServPack				; Warn if not on the latest SP before asking to launch.
     Push $R0	# Option value, unused
+
+    StrCmp $SKIP_AUTORUN "true" +2;
 
     StrCmp $SKIP_DIALOGS "true" label_launch 
 
@@ -167,29 +170,28 @@ FunctionEnd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Make sure this computer meets the minimum system requirements.
-; Currently: Windows 32bit XP SP3, 64bit XP SP2 and Server 2003 SP2
+; Currently: Windows Vista SP2, and Server 2008 SP2
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function CheckWindowsVersion
-  ${If} ${AtMostWin2000}
+!ifdef WIN64_BIN_BUILD
+    ${IfNot} ${RunningX64}
+        MessageBox MB_OK|MB_ICONSTOP "This version requires a 64 bit operating system."
+        Quit
+    ${EndIf}
+    SetRegView 64
+!endif
+
+  ${If} ${AtMostWinXP}
     MessageBox MB_OK $(CheckWindowsVersionMB)
     Quit
   ${EndIf}
-
-  ${If} ${IsWinXP}
-  ${AndIfNot} ${RunningX64}
-  ${AndIfNot} ${IsServicePack} 3
-    MessageBox MB_OK $(CheckWindowsVersionMB)
-    Quit
-  ${EndIf}
-
-  ${If} ${IsWinXP}
-  ${AndIf} ${RunningX64}
+  ${If} ${IsWinVista}
   ${AndIfNot} ${IsServicePack} 2
     MessageBox MB_OK $(CheckWindowsVersionMB)
     Quit
   ${EndIf}
 
-  ${If} ${IsWin2003}
+  ${If} ${IsWin2008}
   ${AndIfNot} ${IsServicePack} 2
     MessageBox MB_OK $(CheckWindowsVersionMB)
     Quit
@@ -356,144 +358,6 @@ Function CheckNetworkConnection
     Pop $0
     Return
 FunctionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Save user files to temp location
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function PreserveUserFiles
-!ifdef WIN64_BIN_BUILD
-    SetRegView 64
-!endif
-Push $0
-Push $1
-Push $2
-
-    RMDir /r "$TEMP\AlchemySettingsBackup"
-    CreateDirectory "$TEMP\AlchemySettingsBackup"
-    StrCpy $0 0 ; Index number used to iterate via EnumRegKey
-
-  LOOP:
-    EnumRegKey $1 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" $0
-    StrCmp $1 "" DONE               ; no more users
-
-    ReadRegStr $2 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$1" "ProfileImagePath" 
-    StrCmp $2 "" CONTINUE 0         ; "ProfileImagePath" value is missing
-
-    ; Required since ProfileImagePath is of type REG_EXPAND_SZ
-    ExpandEnvStrings $2 $2
-
-    CreateDirectory "$TEMP\AlchemySettingsBackup\$0"
-    CopyFiles /SILENT "$2\Application Data\Alchemy\*" "$TEMP\AlchemySettingsBackup\$0"
-
-  CONTINUE:
-    IntOp $0 $0 + 1
-    Goto LOOP
-  DONE:
-
-Pop $2
-Pop $1
-Pop $0
-
-; Copy files in Documents and Settings\All Users\Alchemy
-Push $0
-    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
-    StrCmp $0 "" +2
-    CreateDirectory "$TEMP\AlchemySettingsBackup\AllUsers\"
-    CopyFiles /SILENT "$2\Application Data\Alchemy\*" "$TEMP\AlchemySettingsBackup\AllUsers\"
-Pop $0
-
-FunctionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Restore user files from temp location
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function RestoreUserFiles
-!ifdef WIN64_BIN_BUILD
-    SetRegView 64
-!endif
-
-Push $0
-Push $1
-Push $2
-
-    StrCpy $0 0 ; Index number used to iterate via EnumRegKey
-
-  LOOP:
-    EnumRegKey $1 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" $0
-    StrCmp $1 "" DONE               ; no more users
-
-    ReadRegStr $2 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$1" "ProfileImagePath" 
-    StrCmp $2 "" CONTINUE 0         ; "ProfileImagePath" value is missing
-
-    ; Required since ProfileImagePath is of type REG_EXPAND_SZ
-    ExpandEnvStrings $2 $2
-
-    CreateDirectory "$2\Application Data\Alchemy\"
-    CopyFiles /SILENT "$TEMP\AlchemySettingsBackup\$0\*" "$2\Application Data\Alchemy\" 
-
-  CONTINUE:
-    IntOp $0 $0 + 1
-    Goto LOOP
-  DONE:
-
-Pop $2
-Pop $1
-Pop $0
-
-; Copy files in Documents and Settings\All Users\Alchemy
-Push $0
-    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
-    StrCmp $0 "" +2
-    CreateDirectory "$2\Application Data\Alchemy\"
-    CopyFiles /SILENT "$TEMP\AlchemySettingsBackup\AllUsers\*" "$2\Application Data\Alchemy\" 
-Pop $0
-
-FunctionEnd
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Remove temp dirs
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-Function RemoveTempUserFiles
-!ifdef WIN64_BIN_BUILD
-    SetRegView 64
-!endif
-
-Push $0
-Push $1
-Push $2
-
-    StrCpy $0 0 ; Index number used to iterate via EnumRegKey
-
-  LOOP:
-    EnumRegKey $1 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList" $0
-    StrCmp $1 "" DONE               ; no more users
-
-    ReadRegStr $2 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$1" "ProfileImagePath" 
-    StrCmp $2 "" CONTINUE 0         ; "ProfileImagePath" value is missing
-
-    ; Required since ProfileImagePath is of type REG_EXPAND_SZ
-    ExpandEnvStrings $2 $2
-
-    RMDir /r "$TEMP\AlchemySettingsBackup\$0\*"
-
-  CONTINUE:
-    IntOp $0 $0 + 1
-    Goto LOOP
-  DONE:
-
-Pop $2
-Pop $1
-Pop $0
-
-; Copy files in Documents and Settings\All Users\Alchemy
-Push $0
-    ReadRegStr $0 HKEY_LOCAL_MACHINE "SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders" "Common AppData"
-    StrCmp $0 "" +2
-    RMDir /r "$TEMP\AlchemySettingsBackup\AllUsers\*"
-Pop $0
-
-FunctionEnd
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Clobber user files - TEST ONLY
@@ -803,14 +667,8 @@ SectionEnd 				; end of uninstall section
 ;;  entry to the language ID selector below
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Function .onInit
-Call CheckWindowsVersion		; Don't install On unsupported systems
-!ifdef WIN64_BIN_BUILD
-    ${IfNot} ${RunningX64}
-        MessageBox MB_OK|MB_ICONSTOP "This version requires a 64 bit operating system."
-        Quit
-    ${EndIf}
-    SetRegView 64
-!endif
+    Call CheckWindowsVersion		; Don't install On unsupported systems
+
     Push $0
     ${GetParameters} $COMMANDLINE              ; get our command line
 
@@ -818,7 +676,12 @@ Call CheckWindowsVersion		; Don't install On unsupported systems
     IfErrors +2 0 ; If error jump past setting SKIP_DIALOGS
         StrCpy $SKIP_DIALOGS "true"
 
+    ${GetOptions} $COMMANDLINE "/SKIP_AUTORUN" $0
+    IfErrors +2 0 ; If error jump past setting SKIP_AUTORUN
+		StrCpy $SKIP_AUTORUN "true"
+
     ${GetOptions} $COMMANDLINE "/LANGID=" $0   ; /LANGID=1033 implies US English
+
     ; If no language (error), then proceed
     IfErrors lbl_configure_default_lang
     ; No error means we got a language, so use it

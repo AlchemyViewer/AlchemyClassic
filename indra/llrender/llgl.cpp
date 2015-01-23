@@ -1336,6 +1336,7 @@ void LLGLManager::initExtensions()
 		glGetAttachedShaders = (PFNGLGETATTACHEDSHADERSPROC)GLH_EXT_GET_PROC_ADDRESS("glGetAttachedShaders");
 		glGetActiveUniform = (PFNGLGETACTIVEUNIFORMPROC)GLH_EXT_GET_PROC_ADDRESS("glGetActiveUniform");
 		glGetUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC)GLH_EXT_GET_PROC_ADDRESS("glGetUniformLocation");
+
 		// Shaders
 		glCreateShader = (PFNGLCREATESHADERPROC)GLH_EXT_GET_PROC_ADDRESS("glCreateShader");
 		glDeleteShader = (PFNGLDELETESHADERPROC)GLH_EXT_GET_PROC_ADDRESS("glDeleteShader");
@@ -1999,7 +2000,7 @@ void LLGLState::checkClientArrays(const std::string& msg, U32 data_mask)
 		for (GLint i = 0; i < count; i++)
 		{
 			GLint enabled;
-			glGetVertexAttribivARB((GLuint) i, GL_VERTEX_ATTRIB_ARRAY_ENABLED_ARB, &enabled);
+			glGetVertexAttribiv((GLuint) i, GL_VERTEX_ATTRIB_ARRAY_ENABLED_ARB, &enabled);
 			if (enabled)
 			{
 				error = TRUE;

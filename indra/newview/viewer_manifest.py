@@ -38,7 +38,7 @@ viewer_dir = os.path.dirname(__file__)
 # Put it FIRST because some of our build hosts have an ancient install of
 # indra.util.llmanifest under their system Python!
 sys.path.insert(0, os.path.join(viewer_dir, os.pardir, "lib", "python"))
-from indra.util.llmanifest import LLManifest, main, proper_windows_path, path_ancestors, CHANNEL_VENDOR_BASE, RELEASE_CHANNEL, ManifestError
+from indra.util.llmanifest import LLManifest, main, path_ancestors, CHANNEL_VENDOR_BASE, RELEASE_CHANNEL, ManifestError
 try:
     from llbase import llsd
 except ImportError:
@@ -55,7 +55,6 @@ class ViewerManifest(LLManifest):
 
     def construct(self):
         super(ViewerManifest, self).construct()
-        self.exclude("*.svn*")
         self.path(src="../../scripts/messages/message_template.msg", dst="app_settings/message_template.msg")
         self.path(src="../../etc/message.xml", dst="app_settings/message.xml")
 
@@ -664,7 +663,7 @@ class WindowsManifest(ViewerManifest):
         while (not installer_created) and (nsis_attempts > 0):
             try:
                 nsis_attempts-=1;
-                self.run_command('"' + proper_windows_path(NSIS_path) + '" ' + self.dst_path_of(tempfile))
+                self.run_command('"' + NSIS_path + '" ' + self.dst_path_of(tempfile))
                 installer_created=True # if no exception was raised, the codesign worked
             except ManifestError, err:
                 if nsis_attempts:

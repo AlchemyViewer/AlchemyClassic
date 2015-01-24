@@ -1747,19 +1747,13 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		bool use_ssao = gSavedSettings.getBOOL("RenderDeferredSSAO");
-		std::string shader_file("deferred/softenLightF.glsl");
-		if ((mVertexShaderLevel[SHADER_DEFERRED] > 1 || use_ssao) && gSavedSettings.getBOOL("RenderDeferredSSR"))
-		{
-			shader_file = "deferred/softenLightSSRF.glsl";
-		}
 		gDeferredSoftenProgram.mName = "Deferred Soften Shader";
 		gDeferredSoftenProgram.mShaderFiles.clear();
 		gDeferredSoftenProgram.mShaderFiles.push_back(make_pair("deferred/softenLightV.glsl", GL_VERTEX_SHADER));
-		gDeferredSoftenProgram.mShaderFiles.push_back(make_pair(shader_file, GL_FRAGMENT_SHADER));
+		gDeferredSoftenProgram.mShaderFiles.push_back(make_pair("deferred/softenLightF.glsl", GL_FRAGMENT_SHADER));
 		gDeferredSoftenProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 
-		if (use_ssao)
+		if (gSavedSettings.getBOOL("RenderDeferredSSAO"))
 		{ //if using SSAO, take screen space light map into account as if shadows are enabled
 			gDeferredSoftenProgram.mShaderLevel = llmax(gDeferredSoftenProgram.mShaderLevel, 2);
 		}

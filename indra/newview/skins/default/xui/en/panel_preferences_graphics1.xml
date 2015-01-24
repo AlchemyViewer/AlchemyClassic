@@ -936,17 +936,6 @@
        name="DeferredOptions Panel"
        top_pad="0"
        width="460">
-       <check_box
-        control_name="RenderDeferredSSR"
-        height="16"
-        initial_value="true"
-        label="Screen Space Reflections"
-        tool_tip="Shiny and Specular mapped prims will have pseudo-reflections of objects around them. High FPS impact."
-        layout="topleft"
-        left="0"
-        name="EnableSSR"
-        top_pad="5"
-        width="170" />
       </panel>
       <panel
        enabled_control="VertexShaderEnable"

@@ -902,6 +902,28 @@ F32 gpu_benchmark()
 		{
 			return -1.f;
 		}
+
+		for (auto iter = LLShaderMgr::instance()->mProgramObjects.cbegin(),
+			iter_end = LLShaderMgr::instance()->mProgramObjects.cend(); iter != iter_end; iter++)
+		{
+			GLuint program = iter->second;
+			GLuint shaders[1024];
+			GLsizei count;
+			glGetAttachedShaders(program, 1024, &count, shaders);
+			for (GLsizei i = 0; i < count; i++)
+			{
+				if (glIsShader(shaders[i]))
+				{
+					glDetachShader(program, shaders[i]);
+				}
+			}
+		}
+
+		for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
+			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; iter++)
+		{
+			glDeleteShader(iter->second);
+		}
 	}
 
 	LLGLDisable blend(GL_BLEND);
@@ -956,6 +978,13 @@ F32 gpu_benchmark()
 
     delete [] pixels;
 
+	U32 vao;
+	if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
+	{
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+	}
+
 	//make a dummy triangle to draw with
 	LLPointer<LLVertexBuffer> buff = new LLVertexBuffer(LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_TEXCOORD0, GL_STATIC_DRAW_ARB);
 	buff->allocateBuffer(3, 0, true);
@@ -964,10 +993,10 @@ F32 gpu_benchmark()
 	LLStrider<LLVector2> tc;
 
 	buff->getVertexStrider(v);
-	
-	v[0].set(-1,1,0);
-	v[1].set(-1,-3,0);
-	v[2].set(3,1,0);
+
+	v[0].set(-1.f, -1.f, 0.f);
+	v[1].set(3.f, -1.f, 0.f);
+	v[2].set(-1.f, 3.f, 0.f);
 
 	buff->flush();
 
@@ -1056,6 +1085,14 @@ F32 gpu_benchmark()
 	F64 samples_drawn = res*res*count*samples;
 	F32 samples_sec = (samples_drawn/1000000000.0)/seconds;
 	gbps = samples_sec*8;
+
+	if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
+	{
+		glBindVertexArray(0);
+		glDeleteVertexArrays(1, &vao);
+	}
+
+	gBenchmarkProgram.unload();
 
 	LL_INFOS() << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to ARB_timer_query" << LL_ENDL;
 

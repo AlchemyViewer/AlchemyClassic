@@ -1935,7 +1935,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredPostNoDoFProgram.mName = "Deferred Post Shader";
+		gDeferredPostNoDoFProgram.mName = "Deferred Post No DoF Shader";
 		gDeferredPostNoDoFProgram.mShaderFiles.clear();
 		gDeferredPostNoDoFProgram.mShaderFiles.push_back(make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gDeferredPostNoDoFProgram.mShaderFiles.push_back(make_pair("deferred/postDeferredNoDoFF.glsl", GL_FRAGMENT_SHADER));
@@ -2393,7 +2393,7 @@ BOOL LLViewerShaderMgr::loadShadersObject()
 
 	if (success)
 	{
-		gObjectPreviewProgram.mName = "Simple Shader";
+		gObjectPreviewProgram.mName = "Preview Shader";
 		gObjectPreviewProgram.mFeatures.calculatesLighting = false;
 		gObjectPreviewProgram.mFeatures.calculatesAtmospherics = false;
 		gObjectPreviewProgram.mFeatures.hasGamma = false;

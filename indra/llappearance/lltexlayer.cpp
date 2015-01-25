@@ -1576,8 +1576,12 @@ void LLTexLayer::renderMorphMasks(S32 x, S32 y, S32 width, S32 height, const LLC
 				mAlphaCache.erase(iter2);
 			}
 			alpha_data = new U8[width * height];
+			U8* pixels_tmp = new U8[width * height * 4];
+			glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, pixels_tmp);
+			for (int i = 0; i < width * height; ++i)
+				alpha_data[i] = pixels_tmp[i * 4 + 3];
+			delete[] pixels_tmp;
 			mAlphaCache[cache_index] = alpha_data;
-			glReadPixels(x, y, width, height, GL_ALPHA, GL_UNSIGNED_BYTE, alpha_data);
 		}
 		
 		getTexLayerSet()->getAvatarAppearance()->dirtyMesh();

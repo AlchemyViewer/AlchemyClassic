@@ -203,6 +203,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
              right="-1"
              user_resize="true">
              <avatar_list
+               show_distance="true"
                allow_select="true"
                follows="all"
                height="211"

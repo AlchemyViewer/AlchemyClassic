@@ -1334,6 +1334,56 @@ void LLWorld::getAvatars(uuid_vec_t* avatar_ids, std::vector<LLVector3d>* positi
 	}
 }
 
+void LLWorld::getAvatars(boost::unordered_map<LLUUID, LLVector3d>* umap, const LLVector3d& relative_to, F32 radius) const
+{
+	F32 radius_squared = radius * radius;
+	
+	if (!umap->empty())
+	{
+		umap->clear();
+	}
+	// get the list of avatars from the character list first, so distances are correct
+	// when agent is above 1020m and other avatars are nearby
+	for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();
+		 iter != LLCharacter::sInstances.end(); ++iter)
+	{
+		LLVOAvatar* pVOAvatar = (LLVOAvatar*) *iter;
+		
+		if (!pVOAvatar->isDead() && !pVOAvatar->mIsDummy)
+		{
+			LLVector3d pos_global = pVOAvatar->getPositionGlobal();
+			LLUUID uuid = pVOAvatar->getID();
+			
+			if (!uuid.isNull()
+				&& dist_vec_squared(pos_global, relative_to) <= radius_squared)
+			{
+				umap->emplace(uuid, pos_global);
+			}
+		}
+	}
+	// region avatars added for situations where radius is greater than RenderFarClip
+	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
+		 iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	{
+		LLViewerRegion* regionp = *iter;
+		const LLVector3d& origin_global = regionp->getOriginGlobal();
+		S32 count = regionp->mMapAvatars.size();
+		for (S32 i = 0; i < count; i++)
+		{
+			LLVector3d pos_global = unpackLocalToGlobalPosition(regionp->mMapAvatars.at(i), origin_global);
+			if(dist_vec_squared(pos_global, relative_to) <= radius_squared)
+			{
+				LLUUID uuid = regionp->mMapAvatarIDs.at(i);
+				// if this avatar doesn't already exist in the list, add it
+				if(uuid.notNull())
+				{
+					umap->emplace(uuid, pos_global);
+				}
+			}
+		}
+	}
+}
+
 bool LLWorld::isRegionListed(const LLViewerRegion* region) const
 {
 	region_list_t::const_iterator it = find(mRegionList.begin(), mRegionList.end(), region);

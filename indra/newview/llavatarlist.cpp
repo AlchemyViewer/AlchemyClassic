@@ -36,6 +36,7 @@
 #include "lltextutil.h"
 
 // newview
+#include "llagent.h"
 #include "llagentdata.h" // for comparator
 #include "llavatariconctrl.h"
 #include "llavatarnamecache.h"
@@ -47,11 +48,12 @@
 #include "llvoiceclient.h"
 #include "llviewercontrol.h"	// for gSavedSettings
 #include "lltooldraganddrop.h"
+#include "llworld.h"
 
 static LLDefaultChildRegistry::Register<LLAvatarList> r("avatar_list");
 
 // Last interaction time update period.
-static const F32 LIT_UPDATE_PERIOD = 5;
+static const F32 LIT_UPDATE_PERIOD = 2;
 
 // Maximum number of avatars that can be added to a list in one pass.
 // Used to limit time spent for avatar list update per frame.
@@ -120,6 +122,7 @@ static const LLFlatListView::ItemReverseComparator REVERSE_NAME_COMPARATOR(NAME_
 LLAvatarList::Params::Params()
 : ignore_online_status("ignore_online_status", false)
 , show_last_interaction_time("show_last_interaction_time", false)
+, show_distance("show_distance", false)
 , show_info_btn("show_info_btn", true)
 , show_profile_btn("show_profile_btn", true)
 , show_speaking_indicator("show_speaking_indicator", true)
@@ -131,6 +134,7 @@ LLAvatarList::LLAvatarList(const Params& p)
 :	LLFlatListViewEx(p)
 , mIgnoreOnlineStatus(p.ignore_online_status)
 , mShowLastInteractionTime(p.show_last_interaction_time)
+, mShowDistance(p.show_distance)
 , mContextMenu(NULL)
 , mDirty(true) // to force initial update
 , mNeedUpdateNames(false)
@@ -146,7 +150,7 @@ LLAvatarList::LLAvatarList(const Params& p)
 	// Set default sort order.
 	setComparator(&NAME_COMPARATOR);
 
-	if (mShowLastInteractionTime)
+	if (mShowLastInteractionTime || mShowDistance)
 	{
 		mLITUpdateTimer = new LLTimer();
 		mLITUpdateTimer->setTimerExpirySec(0); // zero to force initial update
@@ -198,6 +202,11 @@ void LLAvatarList::draw()
 		updateLastInteractionTimes();
 		mLITUpdateTimer->setTimerExpirySec(LIT_UPDATE_PERIOD); // restart the timer
 	}
+	else if (mShowDistance && mLITUpdateTimer->hasExpired())
+	{
+		updateDistances();
+		mLITUpdateTimer->setTimerExpirySec(LIT_UPDATE_PERIOD);
+	}
 }
 
 //virtual
@@ -245,6 +254,7 @@ void LLAvatarList::addAvalineItem(const LLUUID& item_id, const LLUUID& session_i
 	item->setAvatarId(item_id, session_id, true, false);
 	item->setName(item_name);
 	item->showLastInteractionTime(mShowLastInteractionTime);
+	item->showDistance(mShowDistance);
 	item->showSpeakingIndicator(mShowSpeakingIndicator);
 	item->setOnline(false);
 
@@ -441,6 +451,7 @@ void LLAvatarList::addNewItem(const LLUUID& id, const std::string& name, BOOL is
 	item->setAvatarId(id, mSessionID, mIgnoreOnlineStatus);
 	item->setOnline(mIgnoreOnlineStatus ? true : is_online);
 	item->showLastInteractionTime(mShowLastInteractionTime);
+	item->showDistance(mShowDistance);
 
 	item->setAvatarIconVisible(mShowIcons);
 	item->setShowInfoBtn(mShowInfoBtn);
@@ -577,6 +588,26 @@ void LLAvatarList::updateLastInteractionTimes()
 	}
 }
 
+void LLAvatarList::updateDistances()
+{
+	std::vector<LLPanel*> items;
+	getItems(items);
+	
+	for(std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); ++it)
+	{
+		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(*it);
+		if (item->getAvatarId() == gAgentID) continue;
+		
+		boost::unordered_map<LLUUID, LLVector3d> positions;
+		LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
+		boost::unordered_map<LLUUID, LLVector3d>::iterator iter = positions.find(item->getAvatarId());
+		if (iter != positions.end())
+			item->setDistance((iter->second - gAgent.getPositionGlobal()).magVec());
+		else
+			item->setDistance(0);
+	}
+}
+
 void LLAvatarList::onItemDoubleClicked(LLUICtrl* ctrl, S32 x, S32 y, MASK mask)
 {
 	mItemDoubleClickSignal(ctrl, x, y, mask);
@@ -639,6 +670,7 @@ BOOL LLAvalineListItem::postBuild()
 	{
 		setOnline(true);
 		showLastInteractionTime(false);
+		showDistance(false);
 		setShowProfileBtn(false);
 		setShowInfoBtn(false);
 		mAvatarIcon->setValue("Avaline_Icon");

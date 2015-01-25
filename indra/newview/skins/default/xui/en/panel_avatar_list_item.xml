@@ -71,6 +71,17 @@
      height="15"
      layout="topleft"
      left_pad="5"
+     right="-168"
+     name="distance"
+     text_color="LtGray_50"
+     value=""
+     width="60" />
+    <text
+     follows="right"
+     font="SansSerifSmall"
+     height="15"
+     layout="topleft"
+     left_pad="5"
      right="-164"
      name="last_interaction"
      text_color="LtGray_50"

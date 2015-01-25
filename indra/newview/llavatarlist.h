@@ -51,6 +51,7 @@ public:
 	{
 		Optional<bool>	ignore_online_status, // show all items as online
 						show_last_interaction_time, // show most recent interaction time. *HACK: move this to a derived class
+						show_distance,	// *HACK: my sinuses hurt and i want pizza.
 						show_info_btn,
 						show_profile_btn,
 						show_speaking_indicator,
@@ -69,7 +70,7 @@ public:
 
 	void setNameFilter(const std::string& filter);
 	void setDirty(bool val = true, bool force_refresh = false);
-	uuid_vec_t& getIDs() 							{ return mIDs; }
+	uuid_vec_t& getIDs() { return mIDs; }
 	bool contains(const LLUUID& id);
 
 	void setContextMenu(LLListContextMenu* menu) { mContextMenu = menu; }
@@ -108,7 +109,8 @@ protected:
 		const uuid_vec_t& vnew,
 		uuid_vec_t& vadded,
 		uuid_vec_t& vremoved);
-	void updateLastInteractionTimes();	
+	void updateLastInteractionTimes();
+	void updateDistances();
 	void rebuildNames();
 	void onItemDoubleClicked(LLUICtrl* ctrl, S32 x, S32 y, MASK mask);
 	void updateAvatarNames();
@@ -119,6 +121,7 @@ private:
 
 	bool mIgnoreOnlineStatus;
 	bool mShowLastInteractionTime;
+	bool mShowDistance;
 	bool mDirty;
 	bool mNeedUpdateNames;
 	bool mShowIcons;

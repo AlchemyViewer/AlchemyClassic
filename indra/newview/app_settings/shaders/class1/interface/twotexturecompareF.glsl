@@ -41,18 +41,12 @@ VARYING vec2 vary_texcoord1;
 
 void main() 
 {
-	frag_color = abs(texture2D(tex0, vary_texcoord0.xy) - texture2D(tex1, vary_texcoord0.xy));
+	frag_color = abs((texture2D(tex0, vary_texcoord0.xy) - texture2D(tex1, vary_texcoord1.xy)));
 
-	vec2 dither_coord;
-	dither_coord[0] = vary_texcoord0[0] * dither_scale_s;
-	dither_coord[1] = vary_texcoord0[1] * dither_scale_t;
-	vec4 dither_vec = texture(dither_tex, dither_coord.xy);
-
-	for(int i = 0; i < 3; i++)
-	{
-		if(frag_color[i] < dither_vec[i] * dither_scale)
-		{
-			frag_color[i] = 0.f;
-		}
-	}
+	vec2 dither_coord = vary_texcoord0 * vec2(dither_scale_s, dither_scale_t);
+	vec4 dither_vec = texture2D(dither_tex, dither_coord.xy) * dither_scale;
+	if(frag_color.x < dither_vec.x) frag_color.x = 0.f;
+	if(frag_color.y < dither_vec.y) frag_color.y = 0.f;
+	if(frag_color.z < dither_vec.z) frag_color.z = 0.f;
+	if(frag_color.w < dither_vec.w) frag_color.w = 0.f;
 }

@@ -99,7 +99,6 @@ public:
 		DYNAMIC_TEXTURE,
 		FETCHED_TEXTURE,
 		LOD_TEXTURE,
-		ATLAS_TEXTURE,
 		INVALID_TEXTURE_TYPE
 	};
 
@@ -420,11 +419,6 @@ private:
 
 	void saveRawImage() ;
 	void setCachedRawImage() ;
-
-	//for atlas
-	void resetFaceAtlas() ;
-	void invalidateAtlas(BOOL rebuild_geom) ;
-	BOOL insertToAtlas() ;
 
 private:
 	BOOL  mFullyLoaded;

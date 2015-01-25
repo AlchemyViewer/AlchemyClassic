@@ -663,7 +663,6 @@ BOOL LLDrawPoolBump::bindBumpMap(LLFace* face, S32 channel)
 //static
 BOOL LLDrawPoolBump::bindBumpMap(U8 bump_code, LLViewerTexture* texture, F32 vsize, S32 channel)
 {
-	//Note: texture atlas does not support bump texture now.
 	LLViewerFetchedTexture* tex = LLViewerTextureManager::staticCastToFetchedTexture(texture) ;
 	if(!tex)
 	{

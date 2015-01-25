@@ -47,7 +47,6 @@ class LLTextureEntry;
 class LLVertexProgram;
 class LLViewerTexture;
 class LLGeometryManager;
-class LLTextureAtlasSlot;
 class LLDrawInfo;
 
 const F32 MIN_ALPHA_SIZE = 1024.f;

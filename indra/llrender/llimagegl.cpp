@@ -425,10 +425,6 @@ void LLImageGL::init(BOOL usemipmaps)
 	mHeight	= 0;
 	mCurrentDiscardLevel = -1;	
 
-	mDiscardLevelInAtlas = -1 ;
-	mTexelsInAtlas = 0 ;
-	mTexelsInGLTexture = 0 ;
-
 	mAllowCompression = true;
 	
 	mTarget = GL_TEXTURE_2D;
@@ -887,94 +883,6 @@ void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 	}
 	stop_glerror();
 	mGLTextureCreated = true;
-}
-
-BOOL LLImageGL::preAddToAtlas(S32 discard_level, const LLImageRaw* raw_image)
-{
-	//not compatible with core GL profile
-	llassert(!LLRender::sGLCoreProfile);
-
-	if (gGLManager.mIsDisabled)
-	{
-		LL_WARNS() << "Trying to create a texture while GL is disabled!" << LL_ENDL;
-		return FALSE;
-	}
-	llassert(gGLManager.mInited);
-	stop_glerror();
-
-	if (discard_level < 0)
-	{
-		llassert(mCurrentDiscardLevel >= 0);
-		discard_level = mCurrentDiscardLevel;
-	}
-	
-	// Actual image width/height = raw image width/height * 2^discard_level
-	S32 w = raw_image->getWidth() << discard_level;
-	S32 h = raw_image->getHeight() << discard_level;
-
-	// setSize may call destroyGLTexture if the size does not match
-	setSize(w, h, raw_image->getComponents(), discard_level);
-
-	if( !mHasExplicitFormat )
-	{
-		switch (mComponents)
-		{
-			case 1:
-			// Use luminance alpha (for fonts)
-			mFormatInternal = GL_LUMINANCE8;
-			mFormatPrimary = GL_LUMINANCE;
-			mFormatType = GL_UNSIGNED_BYTE;
-			break;
-			case 2:
-			// Use luminance alpha (for fonts)
-			mFormatInternal = GL_LUMINANCE8_ALPHA8;
-			mFormatPrimary = GL_LUMINANCE_ALPHA;
-			mFormatType = GL_UNSIGNED_BYTE;
-			break;
-			case 3:
-			mFormatInternal = GL_RGB8;
-			mFormatPrimary = GL_RGB;
-			mFormatType = GL_UNSIGNED_BYTE;
-			break;
-			case 4:
-			mFormatInternal = GL_RGBA8;
-			mFormatPrimary = GL_RGBA;
-			mFormatType = GL_UNSIGNED_BYTE;
-			break;
-			default:
-			LL_ERRS() << "Bad number of components for texture: " << (U32)getComponents() << LL_ENDL;
-		}
-	}
-
-	mCurrentDiscardLevel = discard_level;	
-	mDiscardLevelInAtlas = discard_level;
-	mTexelsInAtlas = raw_image->getWidth() * raw_image->getHeight() ;
-	mLastBindTime = sLastFrameTime;
-	mGLTextureCreated = false ;
-	
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, raw_image->getWidth());
-	stop_glerror();
-
-	if(mFormatSwapBytes)
-	{
-		glPixelStorei(GL_UNPACK_SWAP_BYTES, 1);
-		stop_glerror();
-	}
-
-	return TRUE ;
-}
-
-void LLImageGL::postAddToAtlas()
-{
-	if(mFormatSwapBytes)
-	{
-		glPixelStorei(GL_UNPACK_SWAP_BYTES, 0);
-		stop_glerror();
-	}
-
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	gGL.getTexUnit(0)->setTextureFilteringOption(mFilterOption);	
-	stop_glerror();	
 }
 
 BOOL LLImageGL::setSubImage(const U8* datap, S32 data_width, S32 data_height, S32 x_pos, S32 y_pos, S32 width, S32 height, BOOL force_fast_update)
@@ -1441,7 +1349,6 @@ BOOL LLImageGL::createGLTexture(S32 discard_level, const U8* data_in, BOOL data_
 	mTextureMemory = (S32Bytes)getMipBytes(discard_level);
 	claimMem(mTextureMemory);
 	sGlobalTextureMemory += mTextureMemory;
-	mTexelsInGLTexture = getWidth() * getHeight() ;
 
 	// mark this as bound at this point, so we don't throw it out immediately
 	mLastBindTime = sLastFrameTime;

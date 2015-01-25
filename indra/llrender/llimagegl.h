@@ -37,7 +37,6 @@
 #include "llunits.h"
 
 #include "llrender.h"
-class LLTextureAtlas ;
 #define BYTES_TO_MEGA_BYTES(x) ((x) >> 20)
 #define MEGA_BYTES_TO_BYTES(x) ((x) << 20)
 
@@ -167,18 +166,11 @@ public:
 	LLTexUnit::eTextureFilterOptions getFilteringOption(void) const { return mFilterOption; }
 
 	LLGLenum getTexTarget()const { return mTarget ;}
-	S8       getDiscardLevelInAtlas()const {return mDiscardLevelInAtlas;}
-	U32      getTexelsInAtlas()const { return mTexelsInAtlas ;}
-	U32      getTexelsInGLTexture()const {return mTexelsInGLTexture;}
-
 	
 	void init(BOOL usemipmaps);
 	virtual void cleanup(); // Clean up the LLImageGL so it can be reinitialized.  Be careful when using this in derived class destructors
 
 	void setNeedsAlphaAndPickMask(BOOL need_mask);
-
-	BOOL preAddToAtlas(S32 discard_level, const LLImageRaw* raw_image);
-	void postAddToAtlas() ;	
 
 public:
 	// Various GL/Rendering options
@@ -208,10 +200,6 @@ private:
 	U16      mHeight;	
 	S8       mCurrentDiscardLevel;
 	
-	S8       mDiscardLevelInAtlas;
-	U32      mTexelsInAtlas ;
-	U32      mTexelsInGLTexture;
-
 	bool mAllowCompression;
 
 protected:

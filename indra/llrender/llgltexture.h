@@ -148,10 +148,7 @@ public:
 	BOOL       isJustBound()const ;
 	void       forceUpdateBindStats(void) const;
 
-	U32        getTexelsInAtlas() const ;
-	U32        getTexelsInGLTexture() const ;
 	BOOL       isGLTextureCreated() const ;
-	S32        getDiscardLevelInAtlas() const ;
 	LLGLTextureState getTextureState() const { return mTextureState; }
 	
 	//---------------------------------------------------------------------------------------------

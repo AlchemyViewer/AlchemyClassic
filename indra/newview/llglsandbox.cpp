@@ -976,14 +976,16 @@ F32 gpu_benchmark()
 		LLImageGL::setManualImage(GL_TEXTURE_2D, 0, GL_RGBA, res,res,GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 	}
 
-    delete [] pixels;
+	delete [] pixels;
 
+#ifdef GL_ARB_vertex_array_object
 	U32 vao;
 	if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
 	{
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 	}
+#endif
 
 	//make a dummy triangle to draw with
 	LLPointer<LLVertexBuffer> buff = new LLVertexBuffer(LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_TEXCOORD0, GL_STATIC_DRAW_ARB);
@@ -1086,11 +1088,13 @@ F32 gpu_benchmark()
 	F32 samples_sec = (samples_drawn/1000000000.0)/seconds;
 	gbps = samples_sec*8;
 
+#ifdef GL_ARB_vertex_array_object
 	if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
 	{
 		glBindVertexArray(0);
 		glDeleteVertexArrays(1, &vao);
 	}
+#endif
 
 	gBenchmarkProgram.unload();
 

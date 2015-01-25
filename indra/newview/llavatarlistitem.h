@@ -99,11 +99,13 @@ public:
 	void setState(EItemState item_style);
 	void setAvatarId(const LLUUID& id, const LLUUID& session_id, bool ignore_status_changes = false, bool is_resident = true);
 	void setLastInteractionTime(U32 secs_since);
+	void setDistance(F32 distance);
 	//Show/hide profile/info btn, translating speaker indicator and avatar name coordinates accordingly
 	void setShowProfileBtn(bool show);
 	void setShowInfoBtn(bool show);
 	void showSpeakingIndicator(bool show);
 	void setShowPermissions(bool show) { mShowPermissions = show; };
+	void showDistance(bool show);
 	void showLastInteractionTime(bool show);
 	void setAvatarIconVisible(bool visible);
 	
@@ -165,6 +167,7 @@ private:
 		ALIC_PERMISSION_MAP_THEIRS,
 		ALIC_PERMISSION_ONLINE_THEIRS,
 		ALIC_INTERACTION_TIME,
+		ALIC_DISTANCE,
 		ALIC_NAME,
 		ALIC_ICON,
 		ALIC_COUNT,
@@ -206,6 +209,7 @@ private:
 	LLView* getItemChildView(EAvatarListItemChildIndex child_index);
 
 	LLTextBox* mAvatarName;
+	LLTextBox* mDistance;
 	LLTextBox* mLastInteractionTime;
 	LLStyle::Params mAvatarNameStyle;
 	

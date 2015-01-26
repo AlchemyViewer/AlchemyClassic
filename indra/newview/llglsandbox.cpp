@@ -888,8 +888,10 @@ F32 gpu_benchmark()
 		return -1.f;
 	}
 
-    if (gBenchmarkProgram.mProgramObject == 0)
+	bool local_init = false;
+	if (gBenchmarkProgram.mProgramObject == 0)
 	{
+		local_init = true;
 		LLViewerShaderMgr::instance()->initAttribsAndUniforms();
 
 		gBenchmarkProgram.mName = "Benchmark Shader";
@@ -1096,7 +1098,10 @@ F32 gpu_benchmark()
 	}
 #endif
 
-	gBenchmarkProgram.unload();
+	if (local_init)
+	{
+		gBenchmarkProgram.unload();
+	}
 
 	LL_INFOS() << "Memory bandwidth is " << llformat("%.3f", gbps) << "GB/sec according to ARB_timer_query" << LL_ENDL;
 

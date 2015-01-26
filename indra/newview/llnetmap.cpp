@@ -382,25 +382,25 @@ void LLNetMap::draw()
 		F32 min_pick_dist_squared = (mDotRadius * MIN_PICK_SCALE) * (mDotRadius * MIN_PICK_SCALE);
 
 		LLVector3 pos_map;
-		uuid_vec_t avatar_ids;
-		std::vector<LLVector3d> positions;
+		boost::unordered_map<LLUUID, LLVector3d> positions;
 		bool unknown_relative_z;
 		LLColor4 color;
 
-		LLWorld::getInstance()->getAvatars(&avatar_ids, &positions, gAgentCamera.getCameraPositionGlobal());
+		LLWorld::getInstance()->getAvatars(&positions, gAgentCamera.getCameraPositionGlobal());
 
 		// Draw avatars
-		for (U32 i = 0; i < avatar_ids.size(); i++)
+		for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
 		{
-			const LLUUID& uuid = avatar_ids[i];
+			const auto& uuid = iter->first;
 			// Skip self, we'll draw it later
 			if (uuid == gAgent.getID()) continue;
 
-			pos_map = globalPosToView(positions[i]);
+			const auto& position = iter->second;
+			pos_map = globalPosToView(position);
 
 			color = ALAvatarColorMgr::instance().getColor(uuid);
 
-			unknown_relative_z = positions[i].mdV[VZ] == COARSEUPDATE_MAX_Z &&
+			unknown_relative_z = position.mdV[VZ] == COARSEUPDATE_MAX_Z &&
 					camera_position.mV[VZ] >= COARSEUPDATE_MAX_Z;
 
 			LLWorldMapView::drawAvatar(

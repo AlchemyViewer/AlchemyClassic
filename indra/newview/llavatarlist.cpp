@@ -604,7 +604,7 @@ void LLAvatarList::updateDistances()
 		if (iter != positions.end())
 			item->setDistance((iter->second - gAgent.getPositionGlobal()).magVec());
 		else
-			item->setDistance(0);
+			item->setDistance(0.f);
 	}
 }
 

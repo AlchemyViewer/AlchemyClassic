@@ -1651,20 +1651,20 @@ void LLFloaterIMContainer::setNearbyDistances()
 	if (item)
 	{
 		// Get the positions of the nearby avatars and their ids
-		std::vector<LLVector3d> positions;
-		uuid_vec_t avatar_ids;
-		LLWorld::getInstance()->getAvatars(&avatar_ids, &positions, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
+		boost::unordered_map<LLUUID, LLVector3d> positions;
+		LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 110.f);
 		// Get the position of the agent
 		const LLVector3d& me_pos = gAgent.getPositionGlobal();
 		// For each nearby avatar, compute and update the distance
-		int avatar_count = positions.size();
-		for (int i = 0; i < avatar_count; i++)
+		for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
 		{
-			F64 dist = dist_vec_squared(positions[i], me_pos);
-			item->setDistance(avatar_ids[i],dist);
+			const auto& id = iter->first;
+			const auto& pos = iter->second;
+			F64 dist = dist_vec_squared(pos, me_pos);
+			item->setDistance(id, dist);
 		}
 		// Also does it for the agent itself
-		item->setDistance(gAgent.getID(),0.0f);
+		item->setDistance(gAgent.getID(),0.0);
 		// Request resort
 		mConversationViewModel.requestSortAll();
 		mConversationsRoot->arrangeAll();

@@ -1339,31 +1339,18 @@ void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
 	if (avatar_id.isNull())
 		return;
 
-	LLVector3d global_pos;
-	uuid_vec_t avatars;
-	std::vector<LLVector3d> positions;
-	LLWorld::getInstance()->getAvatars(&avatars, &positions, gAgent.getPositionGlobal(), 4096.f);
-	for (size_t i = 0; i < avatars.size(); i++)
+	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
+	pos_map_t positions;
+	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
+	auto iter = positions.find(avatar_id);
+	if (iter != positions.cend())
 	{
-		const LLUUID& id = avatars[i];
-		if (id == gAgentID || id != avatar_id)
+		const auto& id = iter->first;
+		const auto& pos = iter->second;
+		if (id != gAgentID && !pos.isNull())
 		{
-			continue;
+			gAgent.teleportViaLocation(pos);
 		}
-
-		const LLVector3d& targetPosition = positions[i];
-		if (targetPosition.isNull())
-		{
-			continue;
-		}
-
-		global_pos = targetPosition;
-		break;
-	}
-
-	if (!global_pos.isNull())
-	{
-		gAgent.teleportViaLocation(global_pos);
 	}
 }
 
@@ -1373,23 +1360,18 @@ bool LLAvatarActions::canTeleportTo(const LLUUID& avatar_id)
 	if (avatar_id.isNull())
 		return false;
 
-	uuid_vec_t avatars;
-	std::vector<LLVector3d> positions;
-	LLWorld::getInstance()->getAvatars(&avatars, &positions, gAgent.getPositionGlobal(), 4096.f);
-	for (size_t i = 0; i < avatars.size(); i++)
+	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
+	pos_map_t positions;
+	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
+	auto iter = positions.find(avatar_id);
+	if (iter != positions.cend())
 	{
-		const LLUUID& id = avatars[i];
-		if (id == gAgentID || id != avatar_id)
+		const auto& id = iter->first;
+		const auto& pos = iter->second;
+		if (id != gAgentID && !pos.isNull())
 		{
-			continue;
+			return true;
 		}
-
-		const LLVector3d& targetPosition = positions[i];
-		if (targetPosition.isNull())
-		{
-			continue;
-		}
-		return true;
 	}
 	return false;
 }

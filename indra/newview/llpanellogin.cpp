@@ -477,7 +477,7 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 	LL_INFOS("Credentials") << "Setting login fields to " << *credential << LL_ENDL;
 
 	LLSD identifier = credential->getIdentifier();
-	if((std::string)identifier["type"] == "agent") 
+	if(identifier["type"].asString() == "agent")
 	{
 		std::string firstname = identifier["first_name"].asString();
 		std::string lastname = identifier["last_name"].asString();
@@ -492,11 +492,11 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 	}
 	else if((std::string)identifier["type"] == "account")
 	{
-		sInstance->getChild<LLComboBox>("username_combo")->setLabel((std::string)identifier["account_name"]);		
+		sInstance->getChild<LLComboBox>("username_combo")->setLabel(identifier["account_name"].asString());
 	}
 	else
 	{
-	  sInstance->getChild<LLComboBox>("username_combo")->setLabel(std::string());	
+		sInstance->getChild<LLComboBox>("username_combo")->setLabel(LLStringUtil::null);
 	}
 	sInstance->addFavoritesToStartLocation();
 	// if the password exists in the credential, set the password field with
@@ -513,7 +513,7 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 		// fill it with MAX_PASSWORD characters so we get a 
 		// nice row of asterixes.
 		const std::string filler("123456789!123456");
-		sInstance->getChild<LLUICtrl>("password_edit")->setValue(std::string("123456789!123456"));
+		sInstance->getChild<LLUICtrl>("password_edit")->setValue(filler);
 	}
 	else
 	{

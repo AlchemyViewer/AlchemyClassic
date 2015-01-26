@@ -1135,23 +1135,6 @@ void LLFace::cacheFaceInVRAM(const LLVolumeFace& vf)
 	buff->flush();
 }
 
-//helper function for pushing primitives for transform shaders and cleaning up
-//uninitialized data on the tail, plus tracking number of expected primitives
-void push_for_transform(LLVertexBuffer* buff, U32 source_count, U32 dest_count)
-{
-	if (source_count > 0 && dest_count >= source_count) //protect against possible U32 wrapping
-	{
-		//push source primitives
-		buff->drawArrays(LLRender::POINTS, 0, source_count);
-		U32 tail = dest_count-source_count;
-		for (U32 i = 0; i < tail; ++i)
-		{ //copy last source primitive into each element in tail
-			buff->drawArrays(LLRender::POINTS, source_count-1, 1);
-		}
-		gPipeline.mTransformFeedbackPrimitives += dest_count;
-	}
-}
-
 static LLTrace::BlockTimerStatHandle FTM_FACE_GET_GEOM("Face Geom");
 static LLTrace::BlockTimerStatHandle FTM_FACE_GEOM_POSITION("Position");
 static LLTrace::BlockTimerStatHandle FTM_FACE_GEOM_NORMAL("Normal");

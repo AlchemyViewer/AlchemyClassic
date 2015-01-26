@@ -289,10 +289,10 @@ void LLFloaterAvatarPicker::populateNearMe()
 	near_me_scroller->deleteAllItems();
 
 	uuid_vec_t avatar_ids;
-	LLWorld::getInstance()->getAvatars(&avatar_ids, NULL, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
-	for(U32 i=0; i<avatar_ids.size(); i++)
+	LLWorld::getInstance()->getAvatars(&avatar_ids, nullptr, gAgent.getPositionGlobal(), gSavedSettings.getF32("AvatarPickerRange"));
+	for (auto it = avatar_ids.cbegin(), it_end = avatar_ids.cend(); it != it_end; ++it)
 	{
-		LLUUID& av = avatar_ids[i];
+		const LLUUID& av = *it;
 		if(av == gAgent.getID()) continue;
 		LLSD element;
 		element["id"] = av; // value

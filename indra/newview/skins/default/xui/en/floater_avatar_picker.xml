@@ -172,7 +172,7 @@
                 Select a person nearby:
             </text>
             <slider
-             control_name="NearMeRange"
+             control_name="AvatarPickerRange"
              decimal_digits="0"
              follows="left|top"
              height="18"
@@ -181,7 +181,7 @@
              label="Range"
              layout="topleft"
              left="10"
-             max_val="130"
+             max_val="256"
              min_val="5"
              name="near_me_range"
              top_pad="0"

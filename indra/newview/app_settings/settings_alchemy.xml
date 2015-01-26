@@ -761,6 +761,17 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>AvatarPickerRange</key>
+    <map>
+      <key>Comment</key>
+      <string>Search radius for nearby avatars in avatar picker</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>F32</string>
+      <key>Value</key>
+      <real>128.0</real>
+    </map>
     <key>FindLandSort</key>
     <map>
       <key>Comment</key>

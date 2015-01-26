@@ -6447,7 +6447,7 @@
       <key>Type</key>
       <string>F32</string>
       <key>Value</key>
-      <integer>4096</integer>
+      <real>4096.0</real>
     </map>
     <key>NewObjectCreationThrottle</key>
     <map>

@@ -1339,8 +1339,7 @@ void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
 	if (avatar_id.isNull())
 		return;
 
-	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
-	pos_map_t positions;
+	boost::unordered_map<LLUUID, LLVector3d> positions;
 	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
 	auto iter = positions.find(avatar_id);
 	if (iter != positions.cend())
@@ -1360,8 +1359,7 @@ bool LLAvatarActions::canTeleportTo(const LLUUID& avatar_id)
 	if (avatar_id.isNull())
 		return false;
 
-	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
-	pos_map_t positions;
+	boost::unordered_map<LLUUID, LLVector3d> positions;
 	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
 	auto iter = positions.find(avatar_id);
 	if (iter != positions.cend())

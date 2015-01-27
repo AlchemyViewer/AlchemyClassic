@@ -1651,7 +1651,7 @@ void LLFloaterIMContainer::setNearbyDistances()
 	if (item)
 	{
 		// Get the positions of the nearby avatars and their ids
-		boost::unordered_map<LLUUID, LLVector3d> positions;
+		LLWorld::pos_map_t positions;
 		LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 110.f);
 		// Get the position of the agent
 		const LLVector3d& me_pos = gAgent.getPositionGlobal();

@@ -1334,7 +1334,7 @@ void LLWorld::getAvatars(uuid_vec_t* avatar_ids, std::vector<LLVector3d>* positi
 	}
 }
 
-void LLWorld::getAvatars(boost::unordered_map<LLUUID, LLVector3d>* umap, const LLVector3d& relative_to, F32 radius) const
+void LLWorld::getAvatars(pos_map_t* umap, const LLVector3d& relative_to, F32 radius) const
 {
 	F32 radius_squared = radius * radius;
 	

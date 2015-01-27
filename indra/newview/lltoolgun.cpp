@@ -155,7 +155,7 @@ void LLToolGun::draw()
 			LLQuaternion myRotation = LLViewerCamera::getInstance()->getQuaternion();
 			myRotation.set(-myRotation.mQ[VX], -myRotation.mQ[VY], -myRotation.mQ[VZ], myRotation.mQ[VW]);
 
-			boost::unordered_map<LLUUID, LLVector3d> positions;
+			LLWorld::pos_map_t positions;
 			LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), iff_range);
 			for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
 			{

@@ -382,7 +382,7 @@ void LLNetMap::draw()
 		F32 min_pick_dist_squared = (mDotRadius * MIN_PICK_SCALE) * (mDotRadius * MIN_PICK_SCALE);
 
 		LLVector3 pos_map;
-		boost::unordered_map<LLUUID, LLVector3d> positions;
+		LLWorld::pos_map_t positions;
 		bool unknown_relative_z;
 		LLColor4 color;
 

@@ -598,9 +598,9 @@ void LLAvatarList::updateDistances()
 		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(*it);
 		if (item->getAvatarId() == gAgentID) continue;
 		
-		boost::unordered_map<LLUUID, LLVector3d> positions;
+		LLWorld::pos_map_t positions;
 		LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
-		boost::unordered_map<LLUUID, LLVector3d>::iterator iter = positions.find(item->getAvatarId());
+		LLWorld::pos_map_t::iterator iter = positions.find(item->getAvatarId());
 		if (iter != positions.end())
 			item->setDistance((iter->second - gAgent.getPositionGlobal()).magVec());
 		else

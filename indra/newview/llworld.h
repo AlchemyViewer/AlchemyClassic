@@ -163,7 +163,8 @@ public:
 		std::vector<LLVector3d>* positions = NULL, 
 		const LLVector3d& relative_to = LLVector3d(), F32 radius = FLT_MAX) const;
 	
-	void getAvatars(boost::unordered_map<LLUUID, LLVector3d>* map = NULL,
+	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
+	void getAvatars(pos_map_t* map = NULL,
 					const LLVector3d& relative_to = LLVector3d(),
 					F32 radius = FLT_MAX) const;
 

@@ -403,7 +403,7 @@ bool LLInventoryFilter::checkAgainstFilterLinks(const LLFolderViewModelItemInven
 {
 	if (!listener) return TRUE;
 
-	const LLUUID object_id = listener->getUUID();
+	const LLUUID& object_id = listener->getUUID();
 	const LLInventoryObject *object = gInventory.getObject(object_id);
 	if (!object) return TRUE;
 
@@ -749,17 +749,17 @@ U32 LLInventoryFilter::getDateSearchDirection() const
 	return mFilterOps.mDateSearchDirection;
 }
 
-void LLInventoryFilter::setFilterLinks(U64 filter_links)
+void LLInventoryFilter::setFilterLinks(EFilterLink filter_links)
 {
 	if (mFilterOps.mFilterLinks != filter_links)
 	{
-		if (mFilterOps.mFilterLinks == FILTERLINK_EXCLUDE_LINKS ||
-			mFilterOps.mFilterLinks == FILTERLINK_ONLY_LINKS)
+		mFilterOps.mFilterLinks = filter_links;
+		if (filter_links == FILTERLINK_EXCLUDE_LINKS ||
+			filter_links == FILTERLINK_ONLY_LINKS)
 			setModified(FILTER_MORE_RESTRICTIVE);
 		else
 			setModified(FILTER_LESS_RESTRICTIVE);
 	}
-	mFilterOps.mFilterLinks = filter_links;
 }
 
 void LLInventoryFilter::setShowFolderState(EFolderShow state)
@@ -1115,7 +1115,7 @@ U32 LLInventoryFilter::getHoursAgo() const
 { 
 	return mFilterOps.mHoursAgo; 
 }
-U64 LLInventoryFilter::getFilterLinks() const
+LLInventoryFilter::EFilterLink LLInventoryFilter::getFilterLinks() const
 {
 	return mFilterOps.mFilterLinks;
 }

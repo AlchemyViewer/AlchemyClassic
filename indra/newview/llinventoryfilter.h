@@ -128,9 +128,9 @@ public:
 		U32 			mFilterTypes;
 		U64				mFilterObjectTypes,   // For _OBJECT
 						mFilterWearableTypes,
-						mFilterLinks,
 						mFilterCategoryTypes, // For _CATEGORY
 						mFilterWornItems;
+		EFilterLink		mFilterLinks;
 		LLUUID      	mFilterUUID; 		  // for UUID
 
 		time_t			mMinDate,
@@ -196,8 +196,8 @@ public:
 	void				setDateSearchDirection(U32 direction);
 	U32					getDateSearchDirection() const;
 
-	void 				setFilterLinks(U64 filter_link);
-	U64					getFilterLinks() const;
+	void 				setFilterLinks(EFilterLink filter_link);
+	EFilterLink			getFilterLinks() const;
 
 	// +-------------------------------------------------------------------+
 	// + Execution And Results

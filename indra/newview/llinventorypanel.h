@@ -175,7 +175,7 @@ public:
 	void setHoursAgo(U32 hours);
 	void setDateSearchDirection(U32 direction);
 	BOOL getSinceLogoff();
-	void setFilterLinks(U64 filter_links);
+	void setFilterLinks(LLInventoryFilter::EFilterLink filter_links);
 
 	void setShowFolderState(LLInventoryFilter::EFolderShow show);
 	LLInventoryFilter::EFolderShow getShowFolderState();

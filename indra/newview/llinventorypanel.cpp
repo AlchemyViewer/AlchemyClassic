@@ -407,7 +407,7 @@ void LLInventoryPanel::setDateSearchDirection(U32 direction)
 	getFilter().setDateSearchDirection(direction);
 }
 
-void LLInventoryPanel::setFilterLinks(U64 filter_links)
+void LLInventoryPanel::setFilterLinks(LLInventoryFilter::EFilterLink filter_links)
 {
 	getFilter().setFilterLinks(filter_links);
 }

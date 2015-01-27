@@ -81,6 +81,7 @@ public:
 	/*virtual*/	BOOL	postBuild();
 	void changeFilter(LLInventoryFilter* filter);
 	void updateElementsFromFilter();
+	BOOL getCheckShowLinks();
 	BOOL getCheckShowEmpty();
 	BOOL getCheckSinceLogoff();
 	U32 getDateSearchDirection();
@@ -797,6 +798,7 @@ void LLFloaterInventoryFinder::updateElementsFromFilter()
 	// Get data needed for filter display
 	U32 filter_types = mFilter->getFilterObjectTypes();
 	std::string filter_string = mFilter->getFilterSubString();
+	LLInventoryFilter::EFilterLink show_links = mFilter->getFilterLinks();
 	LLInventoryFilter::EFolderShow show_folders = mFilter->getShowFolderState();
 	U32 hours = mFilter->getHoursAgo();
 	U32 date_search_direction = mFilter->getDateSearchDirection();
@@ -817,6 +819,7 @@ void LLFloaterInventoryFinder::updateElementsFromFilter()
 	getChild<LLUICtrl>("check_sound")->setValue((S32) (filter_types & 0x1 << LLInventoryType::IT_SOUND));
 	getChild<LLUICtrl>("check_texture")->setValue((S32) (filter_types & 0x1 << LLInventoryType::IT_TEXTURE));
 	getChild<LLUICtrl>("check_snapshot")->setValue((S32) (filter_types & 0x1 << LLInventoryType::IT_SNAPSHOT));
+	getChild<LLUICtrl>("check_show_links")->setValue(show_links == LLInventoryFilter::FILTERLINK_INCLUDE_LINKS);
 	getChild<LLUICtrl>("check_show_empty")->setValue(show_folders == LLInventoryFilter::SHOW_ALL_FOLDERS);
 	getChild<LLUICtrl>("check_since_logoff")->setValue(mFilter->isSinceLogoff());
 	mSpinSinceHours->set((F32)(hours % 24));
@@ -912,6 +915,9 @@ void LLFloaterInventoryFinder::draw()
 	}
 
 	// update the panel, panel will update the filter
+	mPanelMainInventory->getPanel()->setFilterLinks(getCheckShowLinks() ?
+		LLInventoryFilter::FILTERLINK_INCLUDE_LINKS : LLInventoryFilter::FILTERLINK_EXCLUDE_LINKS);
+
 	mPanelMainInventory->getPanel()->setShowFolderState(getCheckShowEmpty() ?
 		LLInventoryFilter::SHOW_ALL_FOLDERS : LLInventoryFilter::SHOW_NON_EMPTY_FOLDERS);
 	mPanelMainInventory->getPanel()->setFilterTypes(filter);
@@ -941,6 +947,11 @@ void LLFloaterInventoryFinder::draw()
 	mPanelMainInventory->getPanel()->setDateSearchDirection(getDateSearchDirection());
 
 	LLPanel::draw();
+}
+
+BOOL LLFloaterInventoryFinder::getCheckShowLinks()
+{
+	return getChild<LLUICtrl>("check_show_links")->getValue();
 }
 
 BOOL LLFloaterInventoryFinder::getCheckShowEmpty()

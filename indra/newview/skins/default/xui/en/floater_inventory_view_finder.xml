@@ -7,7 +7,7 @@
  name="Inventory Finder"
  help_topic="inventory_finder"
  title="INVENTORY_RECENT_ITEMS"
- width="280">
+ width="225">
     <icon
      height="16"
      image_name="Inv_Animation"
@@ -232,11 +232,19 @@
      width="100" />
     <check_box
      height="16"
+     label="Show links"
+     layout="topleft"
+     left="8"
+     name="check_show_links"
+     top_pad="6"
+     width="144" />
+    <check_box
+     height="16"
      label="Always show folders"
      layout="topleft"
      left="8"
      name="check_show_empty"
-     top_pad="6"
+     top_pad="2"
      width="144" />
     <view_border
      bevel_style="none"
@@ -245,35 +253,33 @@
      layout="topleft"
      left="10"
      name="horiz_separator"
-     top_pad="8"
-     width="260"/>
+     top_pad="4"
+     width="205"/>
     <check_box
      height="16"
-     top="324"
      label="Since Logoff"
      layout="topleft"
-     left_delta="0"
+     left="8"
      name="check_since_logoff"
-     top_pad="4"
+     top_pad="6"
      width="144" />
     <text
      type="string"
      length="1"
      follows="left|top"
      halign="center"
-     height="12"
+     height="14"
      layout="topleft"
-     left_delta="0"
+     left_delta="50"
+	 top_pad="0"
      name="- OR -"
-     top="342"
-     width="144">
+     width="40">
         - OR -
     </text>
     <radio_group
      height="16"
      layout="topleft"
      name="date_search_direction"
-     top="360"
      left="8"
      width="270">
      <radio_item
@@ -307,8 +313,8 @@
      height="16"
      layout="topleft"
      left_pad="3"
-     top_delta="4"
-     width="80">
+     top_delta="3"
+     width="40">
         Hours
     </text>
     <spinner
@@ -319,7 +325,7 @@
      layout="topleft"
      max_val="10000"
      name="spin_days_ago"
-     top_pad="4"
+     top_pad="5"
      left="8"
      width="64" />
     <text
@@ -329,18 +335,17 @@
      height="16"
      layout="topleft"
      left_pad="3"
-     top_delta="4"
-     width="80">
+     top_delta="3"
+     width="40">
         Days
     </text>
     <button
-     follows="top|right"
+     follows="top|left"
      height="20"
      label="Close"
      label_selected="Close"
      layout="topleft"
      name="Close"
-     right="-6"
-     top="406"
+     left_pad="27"
      width="76" />
 </floater>

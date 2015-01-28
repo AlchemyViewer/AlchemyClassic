@@ -418,6 +418,12 @@ public:
 	void			standUp();
 	/// @brief ground-sit at agent's current position
 	void			sitDown();
+	
+	void			setSitDownAway(bool away);
+	bool			isAwaySitting() const { return mIsAwaySitting; }
+	
+private:
+	bool			mIsAwaySitting;
 
 	//--------------------------------------------------------------------
 	// Do Not Disturb

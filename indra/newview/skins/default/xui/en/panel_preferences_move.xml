@@ -179,7 +179,7 @@
   </text>
   <check_box
    control_name="AlchemyFlyEnableAlways"
-   height="20"
+   height="16"
    follows="left|top"
    label="Always enable flight ability"
    layout="topleft"
@@ -188,6 +188,17 @@
    tool_tip="Keep in mind that abusing this ability to leave you ask risk of being banned"
    width="280"
    top_pad="5" />
+  <check_box
+   control_name="AlchemySitOnAway"
+   height="16"
+   follows="left|top"
+   label="Sit while Away"
+   layout="topleft"
+   left_delta="0"
+   name="AlchemySitOnAway"
+   tool_tip="Sit down when in away mode"
+   width="280"
+   top_pad="2" />
   <check_box
    control_name="AlchemyMoonwalk"
    height="16"

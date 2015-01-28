@@ -45,7 +45,8 @@
      tab_position="top"
      tab_min_width="60"
      top_pad="5"
-     width="312">
+     width="312"
+     open_tabs_on_drag_and_drop="true">
     <inventory_panel
      bg_opaque_color="DkGray2"
      bg_alpha_color="DkGray2"

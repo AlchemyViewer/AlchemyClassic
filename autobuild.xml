@@ -794,25 +794,39 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>063aa6dbc0bf65ba4a09bce74fbe961a</string>
+              <string>1af152ce79422c791ccc6e04571b41d7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/fmodstudio-1.05.09-darwin-201412312037.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.11-darwin-201501281806.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
+          </map>
+          <key>linux</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>5da725258b66d8f73fdb2ea574851486</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.05.11-linux-201501282022.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux</string>
           </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dd2eda248a7ae0967b8588a358ec4ca3</string>
+              <string>58912a8d907a784a6bba435deac08c73</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.05.09-linux64-201501022327.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.05.11-linux64-201501282019.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -822,9 +836,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7c636fd95f654056c174540dc932aac9</string>
+              <string>526d82fc9f91e6c974a0b50a4b89c7a6</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/fmodstudio-1.05.09-windows-20141215.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.05.11-windows-201501282003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -834,18 +850,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8b355809b6b9fb664000ceeb437c7a2f</string>
+              <string>70d3bb37400298694776d797ec16a1c1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.05.09-windows64-201412300154.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.05.11-windows64-201501282002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.05.09</string>
+        <string>1.05.11</string>
       </map>
       <key>fontconfig</key>
       <map>

@@ -120,6 +120,10 @@ attributedStringInfo getSegments(NSAttributedString *str)
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidDeminiaturize:) name:NSWindowDidDeminiaturizeNotification
 											   object:[self window]];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification
+											   object:[self window]];
 	NSRect rect = [[self window] frame];
 	NSRect scaled_rect = [self convertRectToBacking:rect];
 	if (rect.size.height != scaled_rect.size.height || rect.size.width != scaled_rect.size.width)
@@ -146,6 +150,11 @@ attributedStringInfo getSegments(NSAttributedString *str)
 - (void)windowDidDeminiaturize:(NSNotification *)notification;
 {
     callWindowUnhide();
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification;
+{
+    mModifiers = [NSEvent modifierFlags];
 }
 
 - (void)dealloc

@@ -101,10 +101,8 @@ namespace
 typedef std::filebuf						_Myfb;
 #elif _LIBCPP_VERSION
 typedef std::basic_filebuf< char >			_Myfb;
-typedef FILE								_Filet;
 #else
 typedef  __gnu_cxx::stdio_filebuf< char >	_Myfb;
-typedef std::__c_file						_Filet;
 #endif /* LL_WINDOWS */
 }
 
@@ -116,60 +114,6 @@ public:
 	*/
 	llstdio_filebuf() : _Myfb() {}
 	virtual ~llstdio_filebuf() {} 
-
-	/**
-	 *  @param  f  An open @c FILE*.
-	 *  @param  mode  Same meaning as in a standard filebuf.
-	 *  @param  size  Optimal or preferred size of internal buffer, in chars.
-	 *                Defaults to system's @c BUFSIZ.
-	 *
-	 *  This constructor associates a file stream buffer with an open
-	 *  C @c FILE*.  The @c FILE* will not be automatically closed when the
-	 *  stdio_filebuf is closed/destroyed.
-	*/
-	llstdio_filebuf(_Filet* __f, std::ios_base::openmode __mode,
-		    //size_t __size = static_cast<size_t>(BUFSIZ)) :
-		    size_t __size = static_cast<size_t>(1)) :
-#if LL_WINDOWS
-		_Myfb(__f) {}
-#elif _LIBCPP_VERSION
-		_Myfb() {}
-#else
-		_Myfb(__f, __mode, __size) {}
-#endif
-
-	/**
-	 *  @brief  Opens an external file.
-	 *  @param  s  The name of the file.
-	 *  @param  mode  The open mode flags.
-	 *  @return  @c this on success, NULL on failure
-	 *
-	 *  If a file is already open, this function immediately fails.
-	 *  Otherwise it tries to open the file named @a s using the flags
-	 *  given in @a mode.
-	*/
-	//llstdio_filebuf* open(const char *_Filename,
-	//		std::ios_base::openmode _Mode);
-
-	/**
-	 *  @param  fd  An open file descriptor.
-	 *  @param  mode  Same meaning as in a standard filebuf.
-	 *  @param  size  Optimal or preferred size of internal buffer, in chars.
-	 *
-	 *  This constructor associates a file stream buffer with an open
-	 *  POSIX file descriptor. The file descriptor will be automatically
-	 *  closed when the stdio_filebuf is closed/destroyed.
-	*/
-#if !LL_WINDOWS
-	llstdio_filebuf(int __fd, std::ios_base::openmode __mode,
-		//size_t __size = static_cast<size_t>(BUFSIZ)) :
-		size_t __size = static_cast<size_t>(1)) :
-#if _LIBCPP_VERSION
-		_Myfb() {}
-#else
-		_Myfb(__fd, __mode, __size) {}
-#endif
-#endif
 
 // *TODO: Seek the underlying c stream for better cross-platform compatibility?
 #if !defined(LL_WINDOWS) && !defined(_LIBCPP_VERSION)
@@ -237,32 +181,6 @@ public:
 			ios_base::openmode _Mode = ios_base::in);
 	explicit llifstream(const char* _Filename,
 			ios_base::openmode _Mode = ios_base::in);
-
-	/**
-	 *  @brief  Create a stream using an open c file stream.
-	 *  @param  File  An open @c FILE*.
-        @param  Mode  Same meaning as in a standard filebuf.
-        @param  Size  Optimal or preferred size of internal buffer, in chars.
-                      Defaults to system's @c BUFSIZ.
-	*/
-	explicit llifstream(_Filet *_File,
-			ios_base::openmode _Mode = ios_base::in,
-			//size_t _Size = static_cast<size_t>(BUFSIZ));
-			size_t _Size = static_cast<size_t>(1));
-	
-	/**
-	 *  @brief  Create a stream using an open file descriptor.
-	 *  @param  fd    An open file descriptor.
-        @param  Mode  Same meaning as in a standard filebuf.
-        @param  Size  Optimal or preferred size of internal buffer, in chars.
-                      Defaults to system's @c BUFSIZ.
-	*/
-#if !LL_WINDOWS
-	explicit llifstream(int __fd,
-			ios_base::openmode _Mode = ios_base::in,
-			//size_t _Size = static_cast<size_t>(BUFSIZ));
-			size_t _Size = static_cast<size_t>(1));
-#endif
 
 	/**
 	 *  @brief  The destructor does nothing.
@@ -349,32 +267,6 @@ public:
 			ios_base::openmode _Mode = ios_base::out|ios_base::trunc);
 	explicit llofstream(const char* _Filename,
 			ios_base::openmode _Mode = ios_base::out|ios_base::trunc);
-
-	/**
-	 *  @brief  Create a stream using an open c file stream.
-	 *  @param  File  An open @c FILE*.
-        @param  Mode  Same meaning as in a standard filebuf.
-        @param  Size  Optimal or preferred size of internal buffer, in chars.
-                      Defaults to system's @c BUFSIZ.
-	*/
-	explicit llofstream(_Filet *_File,
-			ios_base::openmode _Mode = ios_base::out,
-			//size_t _Size = static_cast<size_t>(BUFSIZ));
-			size_t _Size = static_cast<size_t>(1));
-
-	/**
-	 *  @brief  Create a stream using an open file descriptor.
-	 *  @param  fd    An open file descriptor.
-        @param  Mode  Same meaning as in a standard filebuf.
-        @param  Size  Optimal or preferred size of internal buffer, in chars.
-                      Defaults to system's @c BUFSIZ.
-	*/
-#if !LL_WINDOWS
-	explicit llofstream(int __fd,
-			ios_base::openmode _Mode = ios_base::out,
-			//size_t _Size = static_cast<size_t>(BUFSIZ));
-			size_t _Size = static_cast<size_t>(1));
-#endif
 
 	/**
 	 *  @brief  The destructor does nothing.

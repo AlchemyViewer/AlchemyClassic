@@ -132,7 +132,7 @@ int warnif(const std::string& desc, const std::string& filename, int rc, int acc
 		// process has the file open. Try to find out.
 		if (errn == EACCES)         // *not* EPERM
 		{
-			// Only do any of this stuff (before LL_ENDL) if it will be logged.
+			// Only do any of this stuff (before LfileL_ENDL) if it will be logged.
 			LL_DEBUGS("LLFile") << empty;
 			const char* TEMP = getenv("TEMP");
 			if (! TEMP)
@@ -422,26 +422,6 @@ LLFILE *	LLFile::_Fiopen(const std::string& filename,
 #endif /* LL_WINDOWS */
 
 /************** llstdio file buffer ********************************/
-
-
-//llstdio_filebuf* llstdio_filebuf::open(const char *_Filename,
-//	ios_base::openmode _Mode)
-//{
-//#if LL_WINDOWS
-//	_Filet *_File;
-//	if (is_open() || (_File = LLFILE::_Fiopen(_Filename, _Mode)) == 0)
-//		return (0);	// open failed
-//
-//	_Init(_File, _Openfl);
-//	_Initcvt(&_USE(_Mysb::getloc(), _Cvt));
-//	return (this);	// open succeeded
-//#else
-//	std::filebuf* _file = std::filebuf::open(_Filename, _Mode);
-//	if (NULL == _file) return NULL;
-//	return this;
-//#endif
-//}
-
 
 // *TODO: Seek the underlying c stream for better cross-platform compatibility?
 #if !defined(LL_WINDOWS) && !defined(_LIBCPP_VERSION)
@@ -930,36 +910,6 @@ llifstream::llifstream(const char* _Filename,
 }
 #endif
 
-
-// explicit
-llifstream::llifstream(_Filet *_File,
-		ios_base::openmode _Mode, size_t _Size) :
-	_M_filebuf(_File, _Mode, _Size),
-#if LL_WINDOWS
-	std::istream(&_M_filebuf) {}
-#elif _LIBCPP_VERSION
-	std::istream(&_M_filebuf)
-{
-	this->init(&_M_filebuf);
-}
-#else
-	std::istream()
-{
-	this->init(&_M_filebuf);
-}
-#endif
-
-#if !defined(LL_WINDOWS) && !defined(_LIBCPP_VERSION)
-// explicit
-llifstream::llifstream(int __fd,
-		ios_base::openmode _Mode, size_t _Size) :
-	_M_filebuf(__fd, _Mode, _Size),
-	std::istream()
-{
-	this->init(&_M_filebuf);
-}
-#endif
-
 bool llifstream::is_open() const
 {	// test if C stream has been opened
 	return _M_filebuf.is_open();
@@ -1053,30 +1003,6 @@ llofstream::llofstream(const char* _Filename,
 {
 	this->init(&_M_filebuf);
 	this->open(_Filename, _Mode | ios_base::out);
-}
-#endif
-
-// explicit
-llofstream::llofstream(_Filet *_File,
-			ios_base::openmode _Mode, size_t _Size) :
-	_M_filebuf(_File, _Mode, _Size),
-#if LL_WINDOWS
-	std::ostream(&_M_filebuf) {}
-#else
-	std::ostream()
-{
-	this->init(&_M_filebuf);
-}
-#endif
-
-#if !LL_WINDOWS
-// explicit
-llofstream::llofstream(int __fd,
-			ios_base::openmode _Mode, size_t _Size) :
-	_M_filebuf(__fd, _Mode, _Size),
-	std::ostream()
-{
-	this->init(&_M_filebuf);
 }
 #endif
 

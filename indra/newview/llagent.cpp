@@ -393,6 +393,7 @@ LLAgent::LLAgent() :
 	mShowAvatar(TRUE),
 	mFrameAgent(),
 
+	mIsAwaySitting(false),
 	mIsDoNotDisturb(false),
 
 	mControlFlags(0x00000000),
@@ -1393,6 +1394,9 @@ void LLAgent::setAFK()
 		sendAnimationRequest(ANIM_AGENT_AWAY, ANIM_REQUEST_START);
 		setControlFlags(AGENT_CONTROL_AWAY | AGENT_CONTROL_STOP);
 		gAwayTimer.start();
+		
+		if (!gAgentAvatarp->isSitting() && gSavedSettings.getBOOL("AlchemySitOnAway"))
+			gAgent.setSitDownAway(true);
 	}
 }
 
@@ -1411,7 +1415,23 @@ void LLAgent::clearAFK()
 	{
 		sendAnimationRequest(ANIM_AGENT_AWAY, ANIM_REQUEST_STOP);
 		clearControlFlags(AGENT_CONTROL_AWAY);
+		
+		if (gAgentAvatarp->isSitting() && gAgent.isAwaySitting())
+			gAgent.setSitDownAway(false);
 	}
+}
+
+//-----------------------------------------------------------------------------
+// setSitDownAway(bool)
+//-----------------------------------------------------------------------------
+
+void LLAgent::setSitDownAway(bool go_away)
+{
+	if (go_away)
+		gAgent.sitDown();
+	else
+		gAgent.standUp();
+	mIsAwaySitting = go_away;
 }
 
 //-----------------------------------------------------------------------------

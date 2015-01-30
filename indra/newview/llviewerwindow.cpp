@@ -33,7 +33,6 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
-#include <boost/lambda/core.hpp>
 #include <boost/regex.hpp>
 
 #include "llagent.h"
@@ -1627,7 +1626,6 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	// gKeyboard is still NULL, so it doesn't do LLWindowListener any good to
 	// pass its value right now. Instead, pass it a nullary function that
 	// will, when we later need it, return the value of gKeyboard.
-	// boost::lambda::var() constructs such a functor on the fly.
 	mWindowListener.reset(new LLWindowListener(this, [] { return gKeyboard; } ));
 	mViewerWindowListener.reset(new LLViewerWindowListener(this));
 

@@ -146,9 +146,17 @@ public:
     }
 
 private:
+    friend std::ostream& operator<<(std::ostream& out, const CaptureLogRecorder& log);
+
     typedef std::list<std::string> MessageList;
     MessageList mMessages;
 };
+
+inline
+std::ostream& operator<<(std::ostream& out, const CaptureLogRecorder& log)
+{
+    return log.streamto(out);
+}
 
 /**
  * Capture log messages. This is adapted (simplified) from the one in
@@ -199,11 +207,5 @@ private:
     LLError::SettingsStoragePtr mOldSettings;
 	LLError::RecorderPtr mRecorder;
 };
-
-inline
-std::ostream& operator<<(std::ostream& out, const CaptureLogRecorder& log)
-{
-    return log.streamto(out);
-}
 
 #endif /* ! defined(LL_WRAPLLERRS_H) */

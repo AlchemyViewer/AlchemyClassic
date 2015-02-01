@@ -1199,7 +1199,7 @@ void LLPanelFace::updateUI()
 			
 			LLSelectedTE::getFullbright(fullbright_flag,identical_fullbright);
 
-			getChild<LLUICtrl>("checkbox fullbright")->setValue((S32)(fullbright_flag != 0));
+			getChild<LLUICtrl>("checkbox fullbright")->setValue(fullbright_flag != 0);
 			getChildView("checkbox fullbright")->setEnabled(editable);
 			getChild<LLUICtrl>("checkbox fullbright")->setTentative(!identical_fullbright);
 		}
@@ -2200,7 +2200,7 @@ void LLPanelFace::LLSelectedTE::getFace(LLFace*& face_to_return, bool& identical
 
 void LLPanelFace::LLSelectedTE::getImageFormat(LLGLenum& image_format_to_return, bool& identical_face)
 {
-	LLGLenum image_format;
+	LLGLenum image_format = 0;
 	struct LLSelectedTEGetImageFormat : public LLSelectedTEGetFunctor<LLGLenum>
 	{
 		LLGLenum get(LLViewerObject* object, S32 te_index)

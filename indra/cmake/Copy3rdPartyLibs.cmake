@@ -192,7 +192,6 @@ elseif(DARWIN)
         libexception_handler.dylib
         libfreetype.6.dylib
         libGLOD.dylib
-        libjpeg.8.0.2.dylib
         libndofdev.dylib
        )
 

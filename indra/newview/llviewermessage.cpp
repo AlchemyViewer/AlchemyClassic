@@ -1935,19 +1935,7 @@ void inventory_offer_handler(LLOfferInfo* info)
 		info->forceResponse(IOR_MUTE);
 		return;
 	}
-
-	bool bAutoAccept(false);
-	// Avoid the Accept/Discard dialog if the user so desires. JC
-	if (gSavedSettings.getBOOL("AutoAcceptNewInventory")
-		&& (info->mType == LLAssetType::AT_NOTECARD
-			|| info->mType == LLAssetType::AT_LANDMARK
-			|| info->mType == LLAssetType::AT_TEXTURE))
-	{
-		// For certain types, just accept the items into the inventory,
-		// and possibly open them on receipt depending upon "ShowNewInventory".
-		bAutoAccept = true;
-	}
-
+	
 	// Strip any SLURL from the message display. (DEV-2754)
 	std::string msg = info->mDesc;
 	int indx = msg.find(" ( http://slurl.com/secondlife/");
@@ -1959,6 +1947,34 @@ void inventory_offer_handler(LLOfferInfo* info)
 	if(indx >= 0)
 	{
 		LLStringUtil::truncate(msg, indx);
+	}
+
+	bool bAutoAccept(false);
+	// Avoid the Accept/Discard dialog if the user so desires. JC
+	if ((gSavedSettings.getBOOL("AutoAcceptNewInventory")
+		 || gSavedSettings.getBOOL("AlchemyAutoAcceptNewInventory"))
+		&& (info->mType == LLAssetType::AT_NOTECARD
+			|| info->mType == LLAssetType::AT_LANDMARK
+			|| info->mType == LLAssetType::AT_TEXTURE))
+	{
+		// For certain types, just accept the items into the inventory,
+		// and possibly open them on receipt depending upon "ShowNewInventory".
+		bAutoAccept = true;
+	}
+	// Option to accept all inventory offers automatically
+	else if (gSavedSettings.getBOOL("AlchemyAutoAcceptNewInventory"))
+	{
+		bAutoAccept = true;
+		LLSD args;
+		args["NAME"] = LLSLURL(info->mFromGroup ? "group" : "agent", info->mFromID, "about").getSLURLString();
+		if (info->mFromObject)
+			args["ITEM"] = msg;
+		else
+		{
+			const std::string& verb = "select?name=" + LLURI::escape(msg);
+			args["ITEM"] = LLSLURL("inventory", info->mObjectID, verb.c_str()).getSLURLString();
+		}
+		LLNotificationsUtil::add("AutoAcceptedInventory", args);
 	}
 
 	LLSD args;

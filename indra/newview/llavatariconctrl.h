@@ -136,6 +136,7 @@ private:
 	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name);
 
 	boost::signals2::connection mAvatarNameCacheConnection;
+	LLCachedControl<bool> mUseDefaultImage;
 };
 
 #endif  // LL_LLAVATARICONCTRL_H

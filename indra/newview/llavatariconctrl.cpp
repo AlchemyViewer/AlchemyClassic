@@ -179,7 +179,8 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 	mSymbolHpad(p.symbol_hpad),
 	mSymbolVpad(p.symbol_vpad),
 	mSymbolSize(p.symbol_size),
-	mSymbolPos(p.symbol_pos)
+	mSymbolPos(p.symbol_pos),
+	mUseDefaultImage(gSavedSettings, "AlchemyUseDefaultAvatarIcon", false)
 {
 	mPriority = LLViewerFetchedTexture::BOOST_ICON;
 	
@@ -215,7 +216,7 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 		rect.setOriginAndSize(left, bottom, mSymbolSize, mSymbolSize);
 	}
 
-	if (p.avatar_id.isProvided())
+	if (p.avatar_id.isProvided() && !mUseDefaultImage)
 	{
 		LLSD value(p.avatar_id);
 		setValue(value);
@@ -304,7 +305,7 @@ bool LLAvatarIconCtrl::updateFromCache()
 	const LLUUID& icon_id = *icon_id_ptr;
 
 	// Update the avatar
-	if (icon_id.notNull())
+	if (icon_id.notNull() && !mUseDefaultImage)
 	{
 		LLIconCtrl::setValue(icon_id);
 	}

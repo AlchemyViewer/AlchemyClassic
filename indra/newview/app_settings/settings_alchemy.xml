@@ -772,6 +772,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyUseDefaultAvatarIcon</key>
+    <map>
+      <key>Comment</key>
+      <string>Override Avatar Icon Control to use default image at all times</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AvatarPickerRange</key>
     <map>
       <key>Comment</key>

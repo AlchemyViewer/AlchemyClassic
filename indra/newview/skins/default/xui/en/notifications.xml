@@ -10718,6 +10718,14 @@ the region &quot;[REGION]&quot;?
   </notification>
 
   <notification
+   icon="notify.tga"
+   name="AutoAcceptedInventory"
+   persist="true"
+   type="notify">
+    Auto-accepted [ITEM] from [NAME] and placed in inventory.
+  </notification>
+
+  <notification
     icon="alertmodal.tga"
     name="RevokedMapRights"
     persist="true"

@@ -104,13 +104,12 @@
         top_pad="5"
         width="350" />
        <check_box
-        enabled_control="AutoAcceptNewInventory"
-        control_name="AlchemyAutoAcceptAllInventory"
+        control_name="AlchemyAutoAcceptNewInventory"
         height="16"
         label="Auto-accept all types of inventory"
         layout="topleft"
         left_delta="0"
-        name="auto_accept_new_inventory"
+        name="alchemy_auto_accept_new_inventory"
         top_pad="5"
         width="350" />
        <check_box

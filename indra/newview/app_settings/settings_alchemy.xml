@@ -2,7 +2,7 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
   <map>
-    <key>AlchemyAutoAcceptAllInventory</key>
+    <key>AlchemyAutoAcceptNewInventory</key>
     <map>
       <key>Comment</key>
       <string>Automatically accept all types of inventory</string>

@@ -758,7 +758,7 @@ void LLFeatureManager::applyBaseMasks()
 	{
 		maskFeatures("OpenGLPre15");
 	}
-	if (gGLManager.mGLVersion < 2.1f || glUniformMatrix3x4fv == NULL)
+	if (gGLManager.mGLVersion < 2.1f || &glUniformMatrix3x4fv == NULL)
 	{
 		maskFeatures("OpenGLPre21");
 	}

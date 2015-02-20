@@ -2725,25 +2725,35 @@ void LLIMMgr::addMessage(
 		{
 			fixed_session_name = av_name.getDisplayName();
 		}
+
 		LLIMModel::getInstance()->newSession(new_session_id, fixed_session_name, dialog, other_participant_id, false, is_offline_msg);
 
 		LLIMModel::LLIMSession* session = LLIMModel::instance().findIMSession(new_session_id);
-		skip_message &= !session->isGroupSessionType();			// Do not skip group chats...
-		if(skip_message)
+		if (!session)
+		{
+			skip_message &= true;
+			LL_WARNS() << "Unable to find session for id: " << new_session_id << " or session is null, skipping message." << LL_ENDL;
+		}
+		else
+		{
+			skip_message &= !session->isGroupSessionType();			// Do not skip group chats...
+		}
+
+		if (skip_message)
 		{
 			gIMMgr->leaveSession(new_session_id);
 		}
 		// When we get a new IM, and if you are a god, display a bit
 		// of information about the source. This is to help liaisons
 		// when answering questions.
-		if(gAgent.isGodlike())
+		if (gAgent.isGodlike())
 		{
 			// *TODO:translate (low priority, god ability)
 			std::ostringstream bonus_info;
-			bonus_info << LLTrans::getString("***")+ " "+ LLTrans::getString("IMParentEstate") + ":" + " "
+			bonus_info << LLTrans::getString("***") + " " + LLTrans::getString("IMParentEstate") + ":" + " "
 				<< parent_estate_id
 				<< ((parent_estate_id == 1) ? "," + LLTrans::getString("IMMainland") : "")
-				<< ((parent_estate_id == 5) ? "," + LLTrans::getString ("IMTeen") : "");
+				<< ((parent_estate_id == 5) ? "," + LLTrans::getString("IMTeen") : "");
 
 			// once we have web-services (or something) which returns
 			// information about a region id, we can print this out
@@ -2759,18 +2769,18 @@ void LLIMMgr::addMessage(
 		if (LLMuteList::getInstance()->isMuted(other_participant_id) && !from_linden)
 		{
 			LL_WARNS() << "Leaving IM session from initiating muted resident " << from << LL_ENDL;
-			if(!gIMMgr->leaveSession(new_session_id))
+			if (!gIMMgr->leaveSession(new_session_id))
 			{
 				LL_INFOS() << "Session " << new_session_id << " does not exist." << LL_ENDL;
 			}
 			return;
 		}
 
-        //Play sound for new conversations
+		//Play sound for new conversations
 		if (!gAgent.isDoNotDisturb() && (gSavedSettings.getBOOL("PlaySoundNewConversation") == TRUE))
-        {
-            make_ui_sound("UISndNewIncomingIMSession");
-        }
+		{
+			make_ui_sound("UISndNewIncomingIMSession");
+		}
 	}
 
 	if (!LLMuteList::getInstance()->isMuted(other_participant_id, LLMute::flagTextChat) && !skip_message)

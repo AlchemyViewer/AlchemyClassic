@@ -44,7 +44,7 @@ void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors co
 	}
 	else
 	{
-		mCustomColors.insert(uuid_color_umap_t::value_type(id, color_val));
+		mCustomColors.insert(std::make_pair(id, color_val));
 	}
 }
 
@@ -66,7 +66,7 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 		static LLUIColor avatar_color_2 = LLUIColorTable::instance().getColor("AvatarColor2", LLColor4::green);
 		static LLUIColor avatar_color_3 = LLUIColorTable::instance().getColor("AvatarColor3", LLColor4::blue);
 		static LLUIColor avatar_color_4 = LLUIColorTable::instance().getColor("AvatarColor4", LLColor4::yellow);
-		const U32 color_val = user_col_it->second;
+		const EAvatarColors color_val = user_col_it->second;
 		switch (color_val)
 		{
 		case E_FIRST_COLOR:

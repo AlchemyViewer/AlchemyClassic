@@ -94,8 +94,6 @@ public:
 	BOOL mHasFlushBufferRange;
 	BOOL mHasPBuffer;
 	BOOL mHasShaderObjects;
-	BOOL mHasVertexShader;
-	BOOL mHasFragmentShader;
 	S32  mNumTextureImageUnits;
 	BOOL mHasOcclusionQuery;
 	BOOL mHasTimerQuery;

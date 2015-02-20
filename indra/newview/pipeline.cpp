@@ -1430,8 +1430,7 @@ BOOL LLPipeline::canUseVertexShaders()
 	static const bool has_vertex_shader = LLFeatureManager::instance().isFeatureAvailable("VertexShaderEnable");
 
 	if (sDisableShaders ||
-		!gGLManager.mHasVertexShader ||
-		!gGLManager.mHasFragmentShader ||
+		!gGLManager.mHasShaderObjects ||
 		!has_vertex_shader ||
 		(assertInitialized() && mVertexShadersLoaded != 1) )
 	{

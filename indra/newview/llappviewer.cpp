@@ -1077,7 +1077,7 @@ bool LLAppViewer::init()
 		U64Bytes minRAM;
 		minRAMString >> minRAM;
 
-		if(!LLFeatureManager::getInstance()->isGPUSupported() && LLFeatureManager::getInstance()->getGPUClass() != GPU_CLASS_UNKNOWN)
+		if(LLFeatureManager::getInstance()->getGPUClass() == GPU_CLASS_UNKNOWN)
 		{
 			minSpecs += LLNotifications::instance().getGlobalString("UnsupportedGPU");
 			minSpecs += "\n";

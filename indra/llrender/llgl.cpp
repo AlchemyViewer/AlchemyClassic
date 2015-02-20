@@ -409,8 +409,6 @@ LLGLManager::LLGLManager() :
 	mHasFlushBufferRange(FALSE),
 	mHasPBuffer(FALSE),
 	mHasShaderObjects(FALSE),
-	mHasVertexShader(FALSE),
-	mHasFragmentShader(FALSE),
 	mNumTextureImageUnits(0),
 	mHasOcclusionQuery(FALSE),
 	mHasTimerQuery(FALSE),
@@ -707,15 +705,12 @@ bool LLGLManager::initGL()
 
 	stop_glerror();
 
-	if (mHasFragmentShader)
+	if (mHasShaderObjects)
 	{
 		GLint num_tex_image_units;
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS_ARB, &num_tex_image_units);
 		mNumTextureImageUnits = llmin(num_tex_image_units, 32);
-	}
 
-	if (mHasVertexShader)
-	{
 		//According to the spec, the resulting value should never be less than 512. We need at least 1024 to use skinned shaders.
 		glGetIntegerv(GL_MAX_VERTEX_UNIFORM_COMPONENTS_ARB, &mGLMaxVertexUniformComponents);
 		if (mIsHD3K)
@@ -966,8 +961,6 @@ void LLGLManager::initExtensions()
 	mHasOcclusionQuery = FALSE;
 	mHasPointParameters = FALSE;
 	mHasShaderObjects = FALSE;
-	mHasVertexShader = FALSE;
-	mHasFragmentShader = FALSE;
 	mHasTextureRectangle = FALSE;
 #else // LL_MESA_HEADLESS //important, gGLHExts.mSysExts is uninitialized until after glh_init_extensions is called
 	mHasMultitexture = glh_init_extensions("GL_ARB_multitexture");
@@ -1018,10 +1011,7 @@ void LLGLManager::initExtensions()
 #if !LL_DARWIN
 	mHasPointParameters = !mIsATI && ExtensionExists("GL_ARB_point_parameters", gGLHExts.mSysExts);
 #endif
-	mHasShaderObjects = ExtensionExists("GL_ARB_shader_objects", gGLHExts.mSysExts) && (LLRender::sGLCoreProfile || ExtensionExists("GL_ARB_shading_language_100", gGLHExts.mSysExts));
-	mHasVertexShader = mHasShaderObjects && ExtensionExists("GL_ARB_vertex_program", gGLHExts.mSysExts) && ExtensionExists("GL_ARB_vertex_shader", gGLHExts.mSysExts)
-		&& (LLRender::sGLCoreProfile || ExtensionExists("GL_ARB_shading_language_100", gGLHExts.mSysExts));
-	mHasFragmentShader = mHasShaderObjects && ExtensionExists("GL_ARB_fragment_shader", gGLHExts.mSysExts) && (LLRender::sGLCoreProfile || ExtensionExists("GL_ARB_shading_language_100", gGLHExts.mSysExts));
+	mHasShaderObjects = mGLVersion >= 2.f;
 #endif
 
 #if WGL_EXT_swap_control && WGL_EXT_extensions_string
@@ -1054,8 +1044,6 @@ void LLGLManager::initExtensions()
 		mHasOcclusionQuery = FALSE;
 		mHasPointParameters = FALSE;
 		mHasShaderObjects = FALSE;
-		mHasVertexShader = FALSE;
-		mHasFragmentShader = FALSE;
 		mHasTextureSwizzle = FALSE;
 		LL_WARNS("RenderInit") << "GL extension support DISABLED via LL_GL_NOEXT" << LL_ENDL;
 	}
@@ -1070,8 +1058,6 @@ void LLGLManager::initExtensions()
 		//mHasCubeMap = FALSE; // apparently fatal on Intel 915 & similar
 		//mHasOcclusionQuery = FALSE; // source of many ATI system hangs
 		mHasShaderObjects = FALSE;
-		mHasVertexShader = FALSE;
-		mHasFragmentShader = FALSE;
 		mHasBlendFuncSeparate = FALSE;
 		LL_WARNS("RenderInit") << "GL extension support forced to SIMPLE level via LL_GL_BASICEXT" << LL_ENDL;
 	}
@@ -1094,8 +1080,6 @@ void LLGLManager::initExtensions()
 // 		if (strchr(blacklist,'k')) mHasATIVAO = FALSE;//S
 		if (strchr(blacklist,'l')) mHasOcclusionQuery = FALSE;
 		if (strchr(blacklist,'m')) mHasShaderObjects = FALSE;//S
-		if (strchr(blacklist,'n')) mHasVertexShader = FALSE;//S
-		if (strchr(blacklist,'o')) mHasFragmentShader = FALSE;//S
 		if (strchr(blacklist,'p')) mHasPointParameters = FALSE;//S
 		if (strchr(blacklist,'q')) mHasFramebufferObject = FALSE;//S
 		if (strchr(blacklist,'r')) mHasDrawBuffers = FALSE;//S
@@ -1145,14 +1129,6 @@ void LLGLManager::initExtensions()
 	if (!mHasShaderObjects)
 	{
 		LL_INFOS("RenderInit") << "Couldn't initialize GL_ARB_shader_objects" << LL_ENDL;
-	}
-	if (!mHasVertexShader)
-	{
-		LL_INFOS("RenderInit") << "Couldn't initialize GL_ARB_vertex_shader" << LL_ENDL;
-	}
-	if (!mHasFragmentShader)
-	{
-		LL_INFOS("RenderInit") << "Couldn't initialize GL_ARB_fragment_shader" << LL_ENDL;
 	}
 	if (!mHasBlendFuncSeparate)
 	{
@@ -1322,7 +1298,7 @@ void LLGLManager::initExtensions()
 		glPointParameterfvARB = (PFNGLPOINTPARAMETERFVARBPROC)GLH_EXT_GET_PROC_ADDRESS("glPointParameterfvARB");
 	}
 
-	if (mHasShaderObjects && mHasVertexShader && mHasFragmentShader && mGLVersion >= 2.f)
+	if (mHasShaderObjects)
 	{
 		glCreateProgram = (PFNGLCREATEPROGRAMPROC)GLH_EXT_GET_PROC_ADDRESS("glCreateProgram");
 		glDeleteProgram = (PFNGLDELETEPROGRAMPROC)GLH_EXT_GET_PROC_ADDRESS("glDeleteProgram");
@@ -1993,7 +1969,7 @@ void LLGLState::checkClientArrays(const std::string& msg, U32 data_mask)
 	glClientActiveTextureARB(GL_TEXTURE0_ARB);
 	gGL.getTexUnit(0)->activate();
 
-	if (gGLManager.mHasVertexShader && LLGLSLShader::sNoFixedFunction)
+	if (gGLManager.mHasShaderObjects && LLGLSLShader::sNoFixedFunction)
 	{	//make sure vertex attribs are all disabled
 		GLint count;
 		glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &count);

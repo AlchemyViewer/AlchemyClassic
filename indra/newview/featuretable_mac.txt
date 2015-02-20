@@ -364,32 +364,6 @@ RenderAvatarCloth			0	0
 RenderDeferred 				0	0
 
 //
-// No Pixel Shaders available
-//
-list NoPixelShaders
-RenderAvatarVP				0	0
-RenderAvatarCloth			0	0
-RenderReflectionDetail		0	0
-VertexShaderEnable			0	0
-WindLightUseAtmosShaders	0	0
-RenderDeferred				0	0
-RenderDeferredSSAO			0	0
-RenderShadowDetail			0	0
-
-//
-// No Vertex Shaders available
-//
-list NoVertexShaders
-RenderAvatarVP				0	0
-RenderAvatarCloth			0	0
-RenderReflectionDetail		0	0
-VertexShaderEnable			0	0
-WindLightUseAtmosShaders	0	0
-RenderDeferred				0	0
-RenderDeferredSSAO			0	0
-RenderShadowDetail			0	0
-
-//
 // VRAM > 512MB
 //
 list VRAMGT512
@@ -433,6 +407,16 @@ RenderObjectBump			0	0
 //
 list OpenGLPre15
 RenderVBOEnable				1	0
+
+list OpenGLPre20
+RenderAvatarVP				0	0
+RenderAvatarCloth			0	0
+RenderReflectionDetail		0	0
+VertexShaderEnable			0	0
+WindLightUseAtmosShaders	0	0
+RenderDeferred				0	0
+RenderDeferredSSAO			0	0
+RenderShadowDetail			0	0
 
 list OpenGLPre21
 RenderAvatarVP				0	0

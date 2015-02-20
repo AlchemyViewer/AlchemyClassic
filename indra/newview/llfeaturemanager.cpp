@@ -467,7 +467,6 @@ bool LLFeatureManager::loadGPUClass()
 
 	// defaults
 	mGPUString = gGLManager.getRawGLString();
-	mGPUSupported = TRUE;
 
 	return true; // indicates that a gpu value was established
 }
@@ -718,14 +717,6 @@ void LLFeatureManager::applyBaseMasks()
 	}
 
 	// now all those wacky ones
-	if (!gGLManager.mHasFragmentShader)
-	{
-		maskFeatures("NoPixelShaders");
-	}
-	if (!gGLManager.mHasVertexShader || !mGPUSupported)
-	{
-		maskFeatures("NoVertexShaders");
-	}
 	if (gGLManager.mIsNVIDIA)
 	{
 		maskFeatures("NVIDIA");
@@ -757,6 +748,10 @@ void LLFeatureManager::applyBaseMasks()
 	if (gGLManager.mGLVersion < 1.5f)
 	{
 		maskFeatures("OpenGLPre15");
+	}
+	if (gGLManager.mGLVersion < 2.0f)
+	{
+		maskFeatures("OpenGLPre20");
 	}
 	if (gGLManager.mGLVersion < 2.1f)
 	{

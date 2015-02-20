@@ -47,7 +47,8 @@ public:
 		Optional<const LLFontGL*>		font;
 		Optional<LLUIImage*>			image;
 		Optional<std::string>			link_href;
-		Optional<bool>					is_link;
+		Optional<bool>					is_link,
+										override_link_style;
 		Params();
 	};
 	LLStyle(const Params& p = Params());

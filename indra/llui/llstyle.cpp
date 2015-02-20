@@ -41,7 +41,8 @@ LLStyle::Params::Params()
 	font("font", LLFontGL::getFontMonospace()),
 	image("image"),
 	link_href("href"),
-	is_link("is_link")
+	is_link("is_link"),
+	override_link_style("override_link_style", false)
 {}
 
 

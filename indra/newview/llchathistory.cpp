@@ -33,6 +33,7 @@
 #include "llavatarnamecache.h"
 #include "llinstantmessage.h"
 
+#include "alavatarcolormgr.h"
 #include "llimview.h"
 #include "llcommandhandler.h"
 #include "llpanel.h"
@@ -873,6 +874,12 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	LLColor4 txt_color = LLUIColorTable::instance().getColor("White");
 	LLColor4 name_color = LLUIColorTable::instance().getColor("ChatHeaderDisplayNameColor"); // <alchemy/>
 
+	static LLCachedControl<bool> use_colorizer(gSavedSettings, "AlchemyChatColorManager", false);
+	if (use_colorizer && chat.mSourceType != CHAT_SOURCE_OBJECT && chat.mFromName != SYSTEM_FROM && chat.mFromID.notNull() && chat.mFromID != gAgent.getID())
+	{
+		name_color = ALAvatarColorMgr::instance().getColor(chat.mFromID);
+	}
+
 	LLViewerChat::getChatColor(chat,txt_color);
 	LLFontGL* fontp = LLViewerChat::getChatFont();	
 	std::string font_name = LLFontGL::nameFromFont(fontp);
@@ -940,17 +947,16 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	{
 		square_brackets = chat.mFromName == SYSTEM_FROM;
 
-		LLStyle::Params timestamp_style(body_message_params);
-
 		// out of the timestamp
 		if (args["show_time"].asBoolean())
 		{
-		if (!message_from_log)
-		{
-			LLColor4 timestamp_color = LLUIColorTable::instance().getColor("ChatTimestampColor");
-			timestamp_style.color(timestamp_color);
-			timestamp_style.readonly_color(timestamp_color);
-		}
+			LLStyle::Params timestamp_style(body_message_params);
+			if (!message_from_log)
+			{
+				LLColor4 timestamp_color = LLUIColorTable::instance().getColor("ChatTimestampColor");
+				timestamp_style.color(timestamp_color);
+				timestamp_style.readonly_color(timestamp_color);
+			}
 			mEditor->appendText("[" + chat.mTimeStr + "] ", prependNewLineState, timestamp_style);
 			prependNewLineState = false;
 		}
@@ -988,18 +994,21 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 				LLStyle::Params link_params(body_message_params);
 				link_params.overwriteFrom(LLStyleMap::instance().lookupAgent(chat.mFromID));
 
-				// <alchemy>
+				if (use_colorizer && chat.mFromID != gAgent.getID())
+				{
+					link_params.override_link_style = true;
+					link_params.color = name_color;
+					link_params.readonly_color = name_color;
+				}
 				static LLCachedControl<bool> alchemyPlainChatNameBold(gSavedSettings, "AlchemyPlainChatNameBold", false);
 				if (alchemyPlainChatNameBold)
 				{
 					link_params.font.style = "BOLD";
 				}
-				
 				// Add link to avatar's inspector and delimiter to message.
 				mEditor->appendText(std::string(link_params.link_href) + delimiter,
 					prependNewLineState, link_params);
 				prependNewLineState = false;
-				// </alchemy>
 			}
 			else
 			{

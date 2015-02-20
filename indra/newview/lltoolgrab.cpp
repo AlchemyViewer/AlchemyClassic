@@ -942,11 +942,8 @@ BOOL LLToolGrab::handleMouseUp(S32 x, S32 y, MASK mask)
 
 	mMode = GRAB_INACTIVE;
 
-	if(mClickedInMouselook && !gAgentCamera.cameraMouselook())
-	{
-		mClickedInMouselook = FALSE;
-	}
-	else
+	if ((mClickedInMouselook && gAgentCamera.cameraMouselook())
+		|| (!mClickedInMouselook && !gAgentCamera.cameraMouselook()))
 	{
 		// HACK: Make some grabs temporary
 		if (gGrabTransientTool)
@@ -954,6 +951,10 @@ BOOL LLToolGrab::handleMouseUp(S32 x, S32 y, MASK mask)
 			gBasicToolset->selectTool( gGrabTransientTool );
 			gGrabTransientTool = NULL;
 		}
+	}
+	if (mClickedInMouselook)
+	{
+		mClickedInMouselook = FALSE;
 	}
 
 	//gAgent.setObjectTracking(gSavedSettings.getBOOL("TrackFocusObject"));

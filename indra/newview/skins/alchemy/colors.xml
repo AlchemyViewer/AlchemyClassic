@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <colors>
-     <color
+    <color
+     name="AlBlue"
+     value="0 0.631 0.874 1" />
+    <color
+     name="AlDarkBlue"
+     value="0 0.29 0.533 1" />
+    <color
+     name="AlCoalBlack"
+     value="0.145 0.157 0.165 1" />
+    <color
+     name="AlAshGrey"
+     value="0.329 0.341 0.353 1" />
+    <color
+     name="AlSilverGrey"
+     value="0.624 0.635 0.639 1" />
+    <color
+     name="AlCoralRed"
+     value="0.98 0.212 0.29 1" />
+    <color
+     name="AlScarlet"
+     value="0.694 0.125 0.161 1" />
+    <color
+     name="AlPurpleDrank"
+     value="0.239 0.067 0.322 1" />
+    <color
+     name="AlGrape"
+     value="0.361 0.059 0.549 1" />
+    <color
+     name="AlPrimaryBlue"
+     value="0 0.29 0.533 1" />
+    <color
+     name="AlWarningOrange"
+     value="0.824 0.373 0.082 1" />
+    <color
+     name="AlDangerRed"
+     value="0.694 0.125 0.161 1" />
+    <color
+     name="AlInformationBlue"
+     value="0 0.631 0.878 1" />
+    <color
+     name="AlSuccessGreen"
+     value="0.42 0.753 0.294 1" />
+    <color
+     name="AlUrgentInfoYellow"
+     value="0.957 0.745 0.286 1" />
+    <color
+     name="AlMiscPurple"
+     value="0.361 0.059 0.549 1" />
+    <color
+     name="AlMisc2Coral"
+     value="0 0.212 0.29 1" />
+    <color
      name="AlchemyBackground"
      value="0.145 0.157 0.165 1" /> <!-- yes, we need that much precision, otherwise we get difference with texture. -->
     <color
@@ -178,59 +229,6 @@
   <color
       name="Orange"
       value="1 .82 .46 1" />
-   <color
-      name="AlBlue"
-	  value="0 0.631 0.874 1" />
-   <color
-      name="AlDarkBlue"
-	  value="0 0.29 0.533 1" />
-	<color
-      name="AlCoalBlack"
-	  value="0.145 0.157 0.165 1" />
-	<color
-      name="AlAshGrey"
-	  value="0.329 0.341 0.353 1" />
-	<color
-      name="AlSilverGrey"
-	  value="0.624 0.635 0.639 1" />
-	<color
-      name="AlCoralRed"
-	  value="0.98 0.212 0.29 1" />
-	<color
-      name="AlScarlet"
-	  value="0.694 0.125 0.161 1" />
-	<color
-      name="AlPurpleDrank"
-	  value="0.239 0.067 0.322 1" />
-	<color
-      name="AlGrape"
-	  value="0.361 0.059 0.549 1" />
-	<color
-      name="AlPrimaryBlue"
-	  value="0 0.29 0.533 1" />
-	<color
-      name="AlWarningOrange"
-	  value="0.824 0.373 0.082 1" />
-	<color
-      name="AlDangerRed"
-	  value="0.694 0.125 0.161 1" />
-	<color
-      name="AlInformationBlue"
-	  value="0 0.631 0.878 1" />
-	<color
-      name="AlSuccessGreen"
-	  value="0.42 0.753 0.294 1" />
-	<color
-      name="AlUrgentInfoYellow"
-	  value="0.957 0.745 0.286 1" />
-	<color
-      name="AlMiscPurple"
-	  value="0.361 0.059 0.549 1" />
-		<color
-      name="AlMisc2Coral"
-	  value="0 0.212 0.29 1" />
-	  
-
 
   <!-- This color name makes potentially unused colors show up bright purple.
   Leave this here until all Unused? are removed below, otherwise
@@ -1057,17 +1055,29 @@
 	
   <!-- Alchemy -->
   <color
-   name="AvatarColor1"
+   name="AvatarCustomColor1"
    reference="Red" />
   <color
-   name="AvatarColor2"
+   name="AvatarCustomColor2"
    reference="Green" />
   <color
-   name="AvatarColor3"
+   name="AvatarCustomColor3"
    reference="Blue" />
   <color
-   name="AvatarColor4"
+   name="AvatarCustomColor4"
    reference="Yellow" />
+  <color
+   name="AvatarDefaultColor"
+   reference="MapAvatarColor" />
+  <color
+   name="AvatarFriendColor"
+   reference="MapAvatarFriendColor" />
+  <color
+   name="AvatarLindenColor"
+   reference="MapAvatarLindenColor" />
+  <color
+   name="AvatarMutedColor"
+   reference="Gray" />
   <color
    name="AvatarListItemOnlineColor"
    reference="AlchemyText" />

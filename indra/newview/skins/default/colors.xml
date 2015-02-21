@@ -962,17 +962,29 @@
 	
   <!-- Alchemy -->
   <color
-   name="AvatarColor1"
+   name="AvatarCustomColor1"
    reference="Red" />
   <color
-   name="AvatarColor2"
+   name="AvatarCustomColor2"
    reference="Green" />
   <color
-   name="AvatarColor3"
+   name="AvatarCustomColor3"
    reference="Blue" />
   <color
-   name="AvatarColor4"
+   name="AvatarCustomColor4"
    reference="Yellow" />
+  <color
+   name="AvatarDefaultColor"
+   reference="MapAvatarColor" />
+  <color
+   name="AvatarFriendColor"
+   reference="MapAvatarFriendColor" />
+  <color
+   name="AvatarLindenColor"
+   reference="MapAvatarLindenColor" />
+  <color
+   name="AvatarMutedColor"
+   reference="Gray" />
   <color
    name="AvatarListItemOnlineColor"
    reference="White" />

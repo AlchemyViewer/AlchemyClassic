@@ -62,24 +62,20 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 	uuid_color_umap_t::const_iterator user_col_it = mCustomColors.find(id);
 	if (user_col_it != mCustomColors.cend())
 	{
-		static LLUIColor avatar_color_1 = LLUIColorTable::instance().getColor("AvatarColor1", LLColor4::red);
-		static LLUIColor avatar_color_2 = LLUIColorTable::instance().getColor("AvatarColor2", LLColor4::green);
-		static LLUIColor avatar_color_3 = LLUIColorTable::instance().getColor("AvatarColor3", LLColor4::blue);
-		static LLUIColor avatar_color_4 = LLUIColorTable::instance().getColor("AvatarColor4", LLColor4::yellow);
 		const EAvatarColors color_val = user_col_it->second;
 		switch (color_val)
 		{
 		case E_FIRST_COLOR:
-			return  avatar_color_1.get();
+			return LLUIColorTable::instance().getColor("AvatarCustomColor1", LLColor4::red).get();
 			break;
 		case E_SECOND_COLOR:
-			return avatar_color_2.get();
+			return LLUIColorTable::instance().getColor("AvatarCustomColor2", LLColor4::green).get();
 			break;
 		case E_THIRD_COLOR:
-			return avatar_color_3.get();
+			return LLUIColorTable::instance().getColor("AvatarCustomColor3", LLColor4::blue).get();
 			break;
 		case E_FOURTH_COLOR:
-			return avatar_color_4.get();
+			return LLUIColorTable::instance().getColor("AvatarCustomColor4", LLColor4::yellow).get();
 			break;
 		default:
 			return LLColor4::white;
@@ -87,30 +83,23 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 	}
 	else
 	{
-		static LLUIColor map_avatar_color = LLUIColorTable::instance().getColor("MapAvatarColor", LLColor4::white);
-		static LLUIColor map_avatar_friend_color = LLUIColorTable::instance().getColor("MapAvatarFriendColor", LLColor4::yellow);
-		static LLUIColor map_avatar_linden_color = LLUIColorTable::instance().getColor("MapAvatarLindenColor", LLColor4::cyan);
 		LLAvatarName av_name;
 		LLAvatarNameCache::get(id, &av_name);
-		bool is_linden = LLMuteList::instance().isLinden(av_name.getUserName());
-		bool is_muted = LLMuteList::instance().isMuted(id, av_name.getUserName());
-		bool show_as_friend = LLAvatarTracker::instance().isBuddy(id);
-
-		if (is_linden)
+		if (LLMuteList::instance().isLinden(av_name.getUserName())) // linden
 		{
-			return map_avatar_linden_color.get();
+			return LLUIColorTable::instance().getColor("AvatarLindenColor", LLColor4::cyan).get();
 		}
-		else if (is_muted)
+		else if (LLMuteList::instance().isMuted(id, av_name.getUserName())) // muted
 		{
-			return LLColor4::grey;
+			return LLUIColorTable::instance().getColor("AvatarMutedColor", LLColor4::grey).get();
 		}
-		else if (show_as_friend)
+		else if (LLAvatarTracker::instance().isBuddy(id)) // friend
 		{
-			return map_avatar_friend_color.get();
+			return LLUIColorTable::instance().getColor("AvatarFriendColor", LLColor4::yellow).get();
 		}
-		else
+		else // everyone else
 		{
-			return map_avatar_color.get();
+			return LLUIColorTable::instance().getColor("AvatarDefaultColor", LLColor4::green).get();
 		}
 	}
 }

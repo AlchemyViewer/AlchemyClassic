@@ -114,15 +114,6 @@
      top_pad="5"
      width="330"/>
     <check_box
-     control_name="AlchemyPlainChatUsername"
-     height="16"
-     label="Display username in plain text chat"
-     layout="topleft"
-     name="username_plain_chat"
-     left_delta="0"
-     top_pad="5"
-     width="350"/>
-    <check_box
      control_name="UseChatBubbles"
      height="16"
      label="Display nearby chat in bubbles"
@@ -147,6 +138,15 @@
      label="Use legacy log naming conventions"
      layout="topleft"
      name="UseLegacyLogNames"
+     left_delta="0"
+     top_pad="5"
+     width="350"/>
+    <check_box
+     control_name="AlchemyChatColorManager"
+     height="16"
+     label="Color chat names based on name tags"
+     layout="topleft"
+     name="username_tag_color"
      left_delta="0"
      top_pad="5"
      width="350"/>

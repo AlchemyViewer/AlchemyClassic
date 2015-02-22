@@ -99,6 +99,7 @@
 #include "llanimstatelabels.h"
 #include "lltrans.h"
 #include "llappearancemgr.h"
+#include "llfloaterimnearbychathandler.h"
 
 #include "llgesturemgr.h" //needed to trigger the voice gesticulations
 #include "llvoiceclient.h"
@@ -2755,8 +2756,9 @@ void LLVOAvatar::idleUpdateNameTag(const LLVector3& root_pos_last)
 	static LLCachedControl<F32> NAME_SHOW_TIME(gSavedSettings, "RenderNameShowTime");	// seconds
 	static LLCachedControl<F32> FADE_DURATION(gSavedSettings, "RenderNameFadeDuration"); // seconds
 	BOOL visible_avatar = isVisible() || mNeedsAnimUpdate;
-	static LLCachedControl<bool> use_chat_bubbles(gSavedSettings, "UseChatBubbles");
-	BOOL visible_chat = use_chat_bubbles && (mChats.size() || mTyping);
+	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
+	BOOL visible_chat = (nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_BOTH) 
+		&& (mChats.size() || mTyping);
 	BOOL render_name =	visible_chat ||
 		(visible_avatar &&
 		 ((sRenderName == RENDER_NAME_ALWAYS) ||

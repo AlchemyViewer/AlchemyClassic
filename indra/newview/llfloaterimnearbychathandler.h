@@ -29,6 +29,13 @@
 
 #include "llnotificationhandler.h"
 
+typedef enum e_nearby_chat_output
+{
+	E_NEARBY_OUTPUT_TOAST = 0,
+	E_NEARBY_OUTPUT_BUBBLE,
+	E_NEARBY_OUTPUT_BOTH
+}ENearbyChatOutput;
+
 class LLEventPump;
 
 //add LLFloaterIMNearbyChatHandler to LLNotificationsUI namespace
@@ -37,6 +44,7 @@ namespace LLNotificationsUI{
 class LLFloaterIMNearbyChatHandler : public LLChatHandler
 {
 public:
+
 	LLFloaterIMNearbyChatHandler();
 	virtual ~LLFloaterIMNearbyChatHandler();
 

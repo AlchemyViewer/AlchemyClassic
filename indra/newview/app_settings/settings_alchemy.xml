@@ -574,6 +574,17 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
+    <key>AlchemyNearbyChatOutput</key>
+    <map>
+      <key>Comment</key>
+      <string>Output display for nearby chat(0 toasts, 1, bubbles, 2 both)</string>
+      <key>Persist</key>
+      <integer>0</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyNearbyTypingIndicators</key>
     <map>
       <key>Comment</key>

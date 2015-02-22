@@ -60,6 +60,7 @@
 #include "llfeaturemanager.h"
 #include "llviewernetwork.h"
 #include "llmeshrepository.h" //for LLMeshRepository::sBytesReceived
+#include "llfloaterimnearbychathandler.h"
 
 namespace LLStatViewer
 {
@@ -340,11 +341,12 @@ void update_statistics()
 
 	static LLCachedControl<bool> render_vbo_enable(gSavedSettings, "RenderVBOEnable");
 	static LLCachedControl<F32> render_far_clip(gSavedSettings, "RenderFarClip");
-	static LLCachedControl<bool> use_chat_bubbles(gSavedSettings, "UseChatBubbles");
+	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
+	bool is_bubble = nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_BOTH;
 	sample(LLStatViewer::ENABLE_VBO,      (F64)render_vbo_enable);
 	sample(LLStatViewer::LIGHTING_DETAIL, (F64)gPipeline.getLightingDetail());
 	sample(LLStatViewer::DRAW_DISTANCE,   (F64)render_far_clip);
-	sample(LLStatViewer::CHAT_BUBBLES,    use_chat_bubbles);
+	sample(LLStatViewer::CHAT_BUBBLES,	  is_bubble);
 
 	typedef LLTrace::StatType<LLTrace::TimeBlockAccumulator>::instance_tracker_t stat_type_t;
 

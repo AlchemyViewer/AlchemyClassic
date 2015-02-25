@@ -1412,6 +1412,7 @@ BOOL LLVOSky::updateHeavenlyBodyGeometry(LLDrawable *drawable, const S32 f, cons
 	LLStrider<LLVector3> normalsp;
 	LLStrider<LLVector2> texCoordsp;
 	LLStrider<U16> indicesp;
+	LLStrider<LLColor4U> colorsp;
 	S32 index_offset;
 	LLFace *facep;
 
@@ -1468,7 +1469,7 @@ BOOL LLVOSky::updateHeavenlyBodyGeometry(LLDrawable *drawable, const S32 f, cons
 	if (!facep->getVertexBuffer())
 	{
 		facep->setSize(4, 6);	
-		LLVertexBuffer* buff = new LLVertexBuffer(LLDrawPoolSky::VERTEX_DATA_MASK, GL_STREAM_DRAW_ARB);
+		LLVertexBuffer* buff = new LLVertexBuffer(LLDrawPoolWLSky::STAR_VERTEX_DATA_MASK, GL_STREAM_DRAW_ARB); //Singu Note: Using LLDrawPoolWLSky::STAR_VERTEX_DATA_MASK on purpose.
 		buff->allocateBuffer(facep->getGeomCount(), facep->getIndicesCount(), TRUE);
 		facep->setGeomIndex(0);
 		facep->setIndicesIndex(0);
@@ -1478,6 +1479,7 @@ BOOL LLVOSky::updateHeavenlyBodyGeometry(LLDrawable *drawable, const S32 f, cons
 	llassert(facep->getVertexBuffer()->getNumIndices() == 6);
 
 	index_offset = facep->getGeometry(verticesp,normalsp,texCoordsp, indicesp);
+	facep->getColors(colorsp);
 
 	if (-1 == index_offset)
 	{
@@ -1502,6 +1504,11 @@ BOOL LLVOSky::updateHeavenlyBodyGeometry(LLDrawable *drawable, const S32 f, cons
 	*indicesp++ = index_offset + 1;
 	*indicesp++ = index_offset + 2;
 	*indicesp++ = index_offset + 3;
+
+	*(colorsp++) = LLColor4::white;
+	*(colorsp++) = LLColor4::white;
+	*(colorsp++) = LLColor4::white;
+	*(colorsp++) = LLColor4::white;
 
 	facep->getVertexBuffer()->flush();
 

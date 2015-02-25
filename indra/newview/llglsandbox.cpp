@@ -468,11 +468,8 @@ void LLViewerParcelMgr::renderOneSegment(F32 x1, F32 y1, F32 x2, F32 y2, F32 hei
 	if (clamped_y2 > BORDER) clamped_y2 = BORDER;
 
 	F32 z;
-	F32 z1;
-	F32 z2;
-
-	z1 = regionp->getLand().resolveHeightRegion( LLVector3( clamped_x1, clamped_y1, 0.f ) );
-	z2 = regionp->getLand().resolveHeightRegion( LLVector3( clamped_x2, clamped_y2, 0.f ) );
+	F32 z1 = regionp->getLand().resolveHeightRegion( LLVector3( clamped_x1, clamped_y1, 0.f ) );
+	F32 z2 = regionp->getLand().resolveHeightRegion( LLVector3( clamped_x2, clamped_y2, 0.f ) );
 
 	// Convert x1 and x2 from region-local to agent coords.
 	LLVector3 origin = regionp->getOriginAgent();

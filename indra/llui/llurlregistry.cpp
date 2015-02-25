@@ -38,7 +38,7 @@ void LLUrlRegistryNullCallback(const std::string &url, const std::string &label,
 
 LLUrlRegistry::LLUrlRegistry()
 {
-	mUrlEntry.reserve(22); // <alchemy/>
+	mUrlEntry.reserve(23); // <alchemy/>
 
 	// Urls are matched in the order that they were registered
 	registerUrl(new LLUrlEntryNoLink());
@@ -47,7 +47,8 @@ LLUrlRegistry::LLUrlRegistry()
 	registerUrl(new LLUrlEntrySLURL());
 
 	// decorated links for host names like: secondlife.com and lindenlab.com
-	registerUrl(new LLUrlEntrySeconlifeURL());
+	mUrlEntryTrusted = new LLUrlEntrySecondlifeURL();
+	registerUrl(mUrlEntryTrusted);
 
 	registerUrl(new LLUrlEntryHTTP());
 	mUrlEntryHTTPLabel = new LLUrlEntryHTTPLabel();
@@ -96,7 +97,7 @@ void LLUrlRegistry::registerUrl(LLUrlEntryBase *url, bool force_front)
 		if (force_front)  // IDEVO
 			mUrlEntry.insert(mUrlEntry.begin(), url);
 		else
-		mUrlEntry.push_back(url);
+			mUrlEntry.push_back(url);
 	}
 }
 
@@ -235,9 +236,12 @@ bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LL
 		// fill in the LLUrlMatch object and return it
 		std::string url = text.substr(match_start, match_end - match_start + 1);
 
-		LLUriParser up(url);
-		up.normalize();
-		url = up.normalizedUri();
+		if (match_entry == mUrlEntryTrusted)
+		{
+			LLUriParser up(url);
+			up.normalize();
+			url = up.normalizedUri();
+		}
 
 		match.setValues(match_start, match_end,
 						match_entry->getUrl(url),

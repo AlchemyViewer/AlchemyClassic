@@ -281,7 +281,7 @@ target_link_libraries(
     ${BOOST_THREAD_LIBRARY}
     ${BOOST_SYSTEM_LIBRARY}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
-    ${URIPARSER_LIBRARIES}
+    ${URIPARSER_LIBRARY}
     )
 
 add_dependencies(llcommon stage_third_party_libs)

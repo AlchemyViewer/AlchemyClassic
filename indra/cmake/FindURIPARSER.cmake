@@ -4,7 +4,7 @@
 # Find the URIPARSER includes and library
 # This module defines
 #  URIPARSER_INCLUDE_DIRS, where to find uriparser.h, etc.
-#  URIPARSER_LIBRARIES, the libraries needed to use uriparser.
+#  URIPARSER_LIBRARY, the libraries needed to use uriparser.
 #  URIPARSER_FOUND, If false, do not try to use uriparser.
 #
 # This FindURIPARSER is about 43 times as fast the one provided with cmake (2.8.x),
@@ -22,7 +22,7 @@ FIND_LIBRARY(URIPARSER_LIBRARY uriparser)
 
 if (URIPARSER_LIBRARY AND URIPARSER_INCLUDE_DIR)
   SET(URIPARSER_INCLUDE_DIRS ${URIPARSER_INCLUDE_DIR})
-  SET(URIPARSER_LIBRARIES ${URIPARSER_LIBRARY})
+  SET(URIPARSER_LIBRARY ${URIPARSER_LIBRARY})
   SET(URIPARSER_FOUND "YES")
 else (URIPARSER_LIBRARY AND URIPARSER_INCLUDE_DIR)
   SET(URIPARSER_FOUND "NO")
@@ -30,7 +30,7 @@ endif (URIPARSER_LIBRARY AND URIPARSER_INCLUDE_DIR)
 
 if (URIPARSER_FOUND)
   if (NOT URIPARSER_FIND_QUIETLY)
-    message(STATUS "Found URIPARSER: ${URIPARSER_LIBRARIES}")
+    message(STATUS "Found URIPARSER: ${URIPARSER_LIBRARY}")
     SET(URIPARSER_FIND_QUIETLY TRUE)
   endif (NOT URIPARSER_FIND_QUIETLY)
 else (URIPARSER_FOUND)

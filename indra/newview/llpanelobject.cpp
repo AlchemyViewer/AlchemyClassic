@@ -301,7 +301,8 @@ LLPanelObject::LLPanelObject()
 	mIsPhantom(FALSE),
 	mSelectedType(MI_BOX),
 	mSculptTextureRevert(LLUUID::null),
-	mSculptTypeRevert(0)
+	mSculptTypeRevert(0),
+	mSizeChanged(FALSE)
 {
 	mCommitCallbackRegistrar.add("Build.Copy", boost::bind(&LLPanelObject::onClickBtnCopyData, this, _2));
 	mCommitCallbackRegistrar.add("Build.Paste", boost::bind(&LLPanelObject::onClickBtnPasteData, this, _2));
@@ -1653,9 +1654,10 @@ void LLPanelObject::sendScale(BOOL btn_down)
 	LLVector3 newscale(mCtrlScaleX->get(), mCtrlScaleY->get(), mCtrlScaleZ->get());
 
 	LLVector3 delta = newscale - mObject->getScale();
-	if (delta.magVec() >= 0.0005f)
+	if (delta.magVec() >= 0.0005f || (mSizeChanged && !btn_down))
 	{
 		// scale changed by more than 1/2 millimeter
+		mSizeChanged = btn_down;
 
 		// check to see if we aren't scaling the textures
 		// (in which case the tex coord's need to be recomputed)

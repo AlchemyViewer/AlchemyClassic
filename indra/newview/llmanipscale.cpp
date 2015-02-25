@@ -85,7 +85,6 @@ const LLManip::EManipPart MANIPULATOR_IDS[LLManipScale::NUM_MANIPULATORS] =
 	LLManip::LL_FACE_NEGZ
 };
 
-
 F32 get_default_max_prim_scale(bool is_flora)
 {
 	// a bit of a hack, but if it's foilage, we don't want to use the
@@ -290,10 +289,6 @@ void LLManipScale::render()
 				LLGLEnable poly_offset(GL_POLYGON_OFFSET_FILL);
 				glPolygonOffset( -2.f, -2.f);
 
-				// JC - Band-aid until edge stretch working similar to side stretch
-				// in non-uniform.
-				// renderEdges( bbox );
-
 				renderCorners( bbox );
 				renderFaces( bbox );
 
@@ -349,6 +344,10 @@ BOOL LLManipScale::handleMouseDownOnPart( S32 x, S32 y, MASK mask )
 	LLVector3 box_corner_agent = bbox.localToAgent( unitVectorToLocalBBoxExtent( partToUnitVector( mManipPart ), bbox ) );
 
 	updateSnapGuides(bbox);
+
+	mFirstClickX = x;
+	mFirstClickY = y;
+	mIsFirstClick = true;
 
 	mDragStartPointGlobal = gAgent.getPosGlobalFromAgent(box_corner_agent);
 	mDragStartCenterGlobal = gAgent.getPosGlobalFromAgent(box_center_agent);
@@ -413,7 +412,15 @@ BOOL LLManipScale::handleHover(S32 x, S32 y, MASK mask)
 		}
 		else
 		{
-			drag( x, y );
+			if((mFirstClickX != x) || (mFirstClickY != y))
+			{
+				mIsFirstClick = false;
+			}
+
+			if(!mIsFirstClick)
+			{
+				drag( x, y );
+			}
 		}
 		LL_DEBUGS("UserInput") << "hover handled by LLManipScale (active)" << LL_ENDL;		
 	}
@@ -711,31 +718,6 @@ void LLManipScale::renderFaces( const LLBBox& bbox )
 	}
 }
 
-void LLManipScale::renderEdges( const LLBBox& bbox )
-{
-	LLVector3 extent = bbox.getExtentLocal();
-
-	for( U32 part = LL_EDGE_MIN; part <= LL_EDGE_MAX; part++ )
-	{
-		F32 edge_width = mBoxHandleSize[part] * .6f;
-		LLVector3 direction = edgeToUnitVector( part );
-		LLVector3 center_to_edge = unitVectorToLocalBBoxExtent( direction, bbox );
-
-		gGL.pushMatrix();
-		{
-			gGL.translatef( center_to_edge.mV[0], center_to_edge.mV[1], center_to_edge.mV[2] );
-			conditionalHighlight( part );
-			gGL.scalef(
-				direction.mV[0] ? edge_width : extent.mV[VX],
-				direction.mV[1] ? edge_width : extent.mV[VY],
-				direction.mV[2] ? edge_width : extent.mV[VZ] );
-			gBox.render();
-		}
-		gGL.popMatrix();
-	}
-}
-
-
 void LLManipScale::renderCorners( const LLBBox& bbox )
 {
 	U32 part = LL_CORNER_NNN;
@@ -778,14 +760,14 @@ void LLManipScale::renderBoxHandle( F32 x, F32 y, F32 z )
 }
 
 
-void LLManipScale::renderAxisHandle( U32 part, const LLVector3& start, const LLVector3& end )
+void LLManipScale::renderAxisHandle( U32 handle_index, const LLVector3& start, const LLVector3& end )
 {
 	if( getShowAxes() )
 	{
 		// Draws a single "jacks" style handle: a long, retangular box from start to end.
 		LLVector3 offset_start = end - start;
 		offset_start.normalize();
-		offset_start = start + mBoxHandleSize[part] * offset_start;
+		offset_start = start + mBoxHandleSize[handle_index] * offset_start;
 
 		LLVector3 delta = end - offset_start;
 		LLVector3 pos = offset_start + 0.5f * delta;
@@ -794,9 +776,9 @@ void LLManipScale::renderAxisHandle( U32 part, const LLVector3& start, const LLV
 		{
 			gGL.translatef( pos.mV[VX], pos.mV[VY], pos.mV[VZ] );
 			gGL.scalef(
-				mBoxHandleSize[part] + llabs(delta.mV[VX]),
-				mBoxHandleSize[part] + llabs(delta.mV[VY]),
-				mBoxHandleSize[part] + llabs(delta.mV[VZ]));
+				mBoxHandleSize[handle_index] + llabs(delta.mV[VX]),
+				mBoxHandleSize[handle_index] + llabs(delta.mV[VY]),
+				mBoxHandleSize[handle_index] + llabs(delta.mV[VZ]));
 			gBox.render();
 		}
 		gGL.popMatrix();

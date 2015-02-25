@@ -120,8 +120,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidDeminiaturize:) name:NSWindowDidDeminiaturizeNotification
 											   object:[self window]];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification
 											   object:[self window]];
 	NSRect rect = [[self window] frame];

@@ -168,6 +168,7 @@ void LLDrawPoolWLSky::renderSkyHaze(F32 camHeightLocal) const
 	if (gPipeline.canUseWindLightShaders() && gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_SKY))
 	{
 		LLGLDisable blend(GL_BLEND);
+		gGL.setSceneBlendType(LLRender::BT_ALPHA);
 
 		sky_shader->bind();
 

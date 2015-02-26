@@ -3396,9 +3396,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>99c5a966ac74eea5a505317396152168</string>
+              <string>51f14537fe05b6efbeb12bdf976b0415</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-uriparser/rev/294299/arch/Darwin/installer/uriparser-0.8.0.1-darwin-20140917.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/uriparser-0.8.1-darwin-201502250633.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

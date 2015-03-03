@@ -477,7 +477,14 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
         unbind();
     }
 
-    LLShaderMgr::instance()->mProgramObjects[mName] = mProgramObject;
+	if (LLShaderMgr::instance()->mProgramObjects.find(mName) == LLShaderMgr::instance()->mProgramObjects.end())
+	{
+		LLShaderMgr::instance()->mProgramObjects[mName] = mProgramObject;
+	}
+	else
+	{
+		LL_WARNS("ShaderLoading") << "Attempting to create shader program with duplicate name: " << mName << LL_ENDL;
+	}
 
     return success;
 }

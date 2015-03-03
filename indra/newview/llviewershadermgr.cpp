@@ -377,6 +377,37 @@ S32 LLViewerShaderMgr::getVertexShaderLevel(S32 type)
 
 //============================================================================
 // Shader Management
+void cleanup_shader_src()
+{
+	if (!LLShaderMgr::instance()->mProgramObjects.empty())
+	{	
+		for (auto iter = LLShaderMgr::instance()->mProgramObjects.cbegin(),
+			iter_end = LLShaderMgr::instance()->mProgramObjects.cend(); iter != iter_end; iter++)
+		{
+			GLuint program = iter->second;
+			GLuint shaders[1024];
+			GLsizei count;
+			glGetAttachedShaders(program, 1024, &count, shaders);
+			for (GLsizei i = 0; i < count; i++)
+			{
+				if (glIsShader(shaders[i]))
+				{
+					glDetachShader(program, shaders[i]);
+				}
+			}
+		}
+		LLShaderMgr::instance()->mProgramObjects.clear();
+	}
+	if (!LLShaderMgr::instance()->mShaderObjects.empty())
+	{
+		for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
+			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; iter++)
+		{
+			glDeleteShader(iter->second);
+		}
+		LLShaderMgr::instance()->mShaderObjects.clear();
+	}
+}
 
 void LLViewerShaderMgr::setShaders()
 {
@@ -413,8 +444,8 @@ void LLViewerShaderMgr::setShaders()
 	LLShaderMgr::instance()->mDefinitions["NUM_TEX_UNITS"] = llformat("%d", gGLManager.mNumTextureImageUnits);
 	
 	// Make sure the compiled shader map is cleared before we recompile shaders.
-	mProgramObjects.clear();
-	mShaderObjects.clear();
+	LLShaderMgr::instance()->mProgramObjects.clear();
+	LLShaderMgr::instance()->mShaderObjects.clear();
 	
 	initAttribsAndUniforms();
 	gPipeline.releaseGLBuffers();
@@ -609,6 +640,7 @@ void LLViewerShaderMgr::setShaders()
 				{ //disable windlight and try again
 					gSavedSettings.setBOOL("WindLightUseAtmosShaders", FALSE);
 					reentrance = false;
+					cleanup_shader_src();
 					setShaders();
 					return;
 				}
@@ -617,6 +649,7 @@ void LLViewerShaderMgr::setShaders()
 				{ //disable shaders outright and try again
 					gSavedSettings.setBOOL("VertexShaderEnable", FALSE);
 					reentrance = false;
+					cleanup_shader_src();
 					setShaders();
 					return;
 				}
@@ -626,31 +659,12 @@ void LLViewerShaderMgr::setShaders()
 			{ //everything else succeeded but deferred failed, disable deferred and try again
 				gSavedSettings.setBOOL("RenderDeferred", FALSE);
 				reentrance = false;
+				cleanup_shader_src();
 				setShaders();
 				return;
 			}
 
-			for (auto iter = LLShaderMgr::instance()->mProgramObjects.cbegin(),
-				iter_end = LLShaderMgr::instance()->mProgramObjects.cend(); iter != iter_end; iter++)
-			{
-				GLuint program = iter->second;
-				GLuint shaders[1024];
-				GLsizei count;
-				glGetAttachedShaders(program, 1024, &count, shaders);
-				for (GLsizei i = 0; i < count; i++)
-				{
-					if (glIsShader(shaders[i]))
-					{
-						glDetachShader(program, shaders[i]);
-					}
-				}
-			}
-			for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
-				iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; iter++)
-			{
-				glDeleteShader(iter->second);
-			}
-			mShaderObjects.clear();
+			cleanup_shader_src();
 		}
 		else
 		{
@@ -1202,7 +1216,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	
 	if (success)
 	{
-		gDeferredNonIndexedDiffuseAlphaMaskNoColorProgram.mName = "Deferred Diffuse Non-Indexed Alpha Mask Shader";
+		gDeferredNonIndexedDiffuseAlphaMaskNoColorProgram.mName = "Deferred Diffuse Non-Indexed No Color Alpha Mask Shader";
 		gDeferredNonIndexedDiffuseAlphaMaskNoColorProgram.mShaderFiles.clear();
 		gDeferredNonIndexedDiffuseAlphaMaskNoColorProgram.mShaderFiles.push_back(make_pair("deferred/diffuseNoColorV.glsl", GL_VERTEX_SHADER));
 		gDeferredNonIndexedDiffuseAlphaMaskNoColorProgram.mShaderFiles.push_back(make_pair("deferred/diffuseAlphaMaskNoColorF.glsl", GL_FRAGMENT_SHADER));
@@ -1519,7 +1533,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredAlphaImpostorProgram.mName = "Deferred Alpha Shader";
+		gDeferredAlphaImpostorProgram.mName = "Deferred Alpha Impostor Shader";
 
 		gDeferredAlphaImpostorProgram.mFeatures.calculatesLighting = false;
 		gDeferredAlphaImpostorProgram.mFeatures.hasLighting = false;
@@ -1661,7 +1675,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredFullbrightShinyProgram.mName = "Deferred FullbrightShiny Shader";
+		gDeferredFullbrightShinyProgram.mName = "Deferred Fullbright Shiny Shader";
 		gDeferredFullbrightShinyProgram.mFeatures.calculatesAtmospherics = true;
 		gDeferredFullbrightShinyProgram.mFeatures.hasGamma = true;
 		gDeferredFullbrightShinyProgram.mFeatures.hasTransport = true;
@@ -1675,7 +1689,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredSkinnedFullbrightProgram.mName = "Skinned Fullbright Shader";
+		gDeferredSkinnedFullbrightProgram.mName = "Deferred Skinned Fullbright Shader";
 		gDeferredSkinnedFullbrightProgram.mFeatures.calculatesAtmospherics = true;
 		gDeferredSkinnedFullbrightProgram.mFeatures.hasGamma = true;
 		gDeferredSkinnedFullbrightProgram.mFeatures.hasTransport = true;
@@ -1690,7 +1704,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredSkinnedFullbrightShinyProgram.mName = "Skinned Fullbright Shiny Shader";
+		gDeferredSkinnedFullbrightShinyProgram.mName = "Deferred Skinned Fullbright Shiny Shader";
 		gDeferredSkinnedFullbrightShinyProgram.mFeatures.calculatesAtmospherics = true;
 		gDeferredSkinnedFullbrightShinyProgram.mFeatures.hasGamma = true;
 		gDeferredSkinnedFullbrightShinyProgram.mFeatures.hasTransport = true;
@@ -1850,7 +1864,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredAvatarProgram.mName = "Avatar Shader";
+		gDeferredAvatarProgram.mName = "Deferred Avatar Shader";
 		gDeferredAvatarProgram.mFeatures.hasSkinning = true;
 		gDeferredAvatarProgram.mShaderFiles.clear();
 		gDeferredAvatarProgram.mShaderFiles.push_back(make_pair("deferred/avatarV.glsl", GL_VERTEX_SHADER));
@@ -1861,7 +1875,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 
 	if (success)
 	{
-		gDeferredAvatarAlphaProgram.mName = "Avatar Alpha Shader";
+		gDeferredAvatarAlphaProgram.mName = "Deferred Avatar Alpha Shader";
 		gDeferredAvatarAlphaProgram.mFeatures.hasSkinning = true;
 		gDeferredAvatarAlphaProgram.mFeatures.calculatesLighting = false;
 		gDeferredAvatarAlphaProgram.mFeatures.hasLighting = false;
@@ -2603,7 +2617,7 @@ BOOL LLViewerShaderMgr::loadShadersObject()
 
 	if (success)
 	{
-		gObjectFullbrightWaterAlphaMaskProgram.mName = "Fullbright Water Shader";
+		gObjectFullbrightWaterAlphaMaskProgram.mName = "Fullbright Water Alpha Mask Shader";
 		gObjectFullbrightWaterAlphaMaskProgram.mFeatures.calculatesAtmospherics = true;
 		gObjectFullbrightWaterAlphaMaskProgram.mFeatures.isFullbright = true;
 		gObjectFullbrightWaterAlphaMaskProgram.mFeatures.hasWaterFog = true;		

@@ -118,6 +118,7 @@ public:
 	BOOL mHassRGBFramebuffer;
 	BOOL mHasAdaptiveVSync;
 	BOOL mHasTextureSwizzle;
+	BOOL mHasGpuShader5;
 
 	// Vendor-specific extensions
 	BOOL mIsATI;

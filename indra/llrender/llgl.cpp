@@ -430,6 +430,7 @@ LLGLManager::LLGLManager() :
 
 	mHasAdaptiveVSync(FALSE),
 	mHasTextureSwizzle(FALSE),
+	mHasGpuShader5(FALSE),
 	mIsATI(FALSE),
 	mIsNVIDIA(FALSE),
 	mIsIntel(FALSE),
@@ -1022,6 +1023,9 @@ void LLGLManager::initExtensions()
 #ifdef GL_ARB_texture_swizzle
 	mHasTextureSwizzle = ExtensionExists("GL_ARB_texture_swizzle", gGLHExts.mSysExts);
 #endif
+#ifdef GL_ARB_gpu_shader5
+	mHasGpuShader5 = ExtensionExists("GL_ARB_gpu_shader5", gGLHExts.mSysExts);
+#endif
 
 #if LL_LINUX || LL_SOLARIS
 	LL_INFOS() << "initExtensions() checking shell variables to adjust features..." << LL_ENDL;
@@ -1045,6 +1049,7 @@ void LLGLManager::initExtensions()
 		mHasPointParameters = FALSE;
 		mHasShaderObjects = FALSE;
 		mHasTextureSwizzle = FALSE;
+		mHasGpuShader5 = FALSE;
 		LL_WARNS("RenderInit") << "GL extension support DISABLED via LL_GL_NOEXT" << LL_ENDL;
 	}
 	else if (getenv("LL_GL_BASICEXT"))	/* Flawfinder: ignore */

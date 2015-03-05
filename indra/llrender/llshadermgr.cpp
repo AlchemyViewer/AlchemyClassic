@@ -686,20 +686,26 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			text[count++] = strdup("#version 130\n");
 			text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
 			text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
-
+			if (minor_version == 50 && gGLManager.mHasGpuShader5)
+			{
+				text[count++] = strdup("#extension GL_ARB_gpu_shader5 : enable\n");
+			}
 			//some implementations of GLSL 1.30 require integer precision be explicitly declared
 			text[count++] = strdup("precision mediump int;\n");
 			text[count++] = strdup("precision highp float;\n");
+
+			text[count++] = strdup("#define FXAA_GLSL_130 1\n");
 		}
 		else
 		{ //set version to 400
 			text[count++] = strdup("#version 400\n");
 			text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
 			text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
+
+			text[count++] = strdup("#define FXAA_GLSL_400 1\n");
 		}
 
 		text[count++] = strdup("#define DEFINE_GL_FRAGCOLOR 1\n");
-		text[count++] = strdup("#define FXAA_GLSL_130 1\n");
 
 		text[count++] = strdup("#define ATTRIBUTE in\n");
 

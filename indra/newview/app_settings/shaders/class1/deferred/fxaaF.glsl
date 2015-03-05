@@ -255,6 +255,10 @@ A. Or use FXAA_GREEN_AS_LUMA.
     #define FXAA_GLSL_130 0
 #endif
 /*--------------------------------------------------------------------------*/
+#ifndef FXAA_GLSL_400
+    #define FXAA_GLSL_400 0
+#endif
+/*--------------------------------------------------------------------------*/
 #ifndef FXAA_HLSL_3
     #define FXAA_HLSL_3 0
 #endif
@@ -341,8 +345,8 @@ A. Or use FXAA_GREEN_AS_LUMA.
     // 1 = API supports gather4 on alpha channel.
     // 0 = API does not support gather4 on alpha channel.
     //
-	#if (FXAA_GLSL_130 == 0)
-		#define FXAA_GATHER4_ALPHA 0
+	#if (FXAA_GLSL_400 == 1)
+		#define FXAA_GATHER4_ALPHA 1
 	#endif
     #if (FXAA_HLSL_5 == 1)
         #define FXAA_GATHER4_ALPHA 1
@@ -651,7 +655,7 @@ NOTE the other tuning knobs are now in the shader function inputs!
                                 API PORTING
 
 ============================================================================*/
-#if (FXAA_GLSL_120 == 1) || (FXAA_GLSL_130 == 1)
+#if (FXAA_GLSL_120 == 1) || (FXAA_GLSL_130 == 1) || (FXAA_GLSL_400 == 1)
     #define FxaaBool bool
     #define FxaaDiscard discard
     #define FxaaFloat float
@@ -711,6 +715,16 @@ NOTE the other tuning knobs are now in the shader function inputs!
         #define FxaaTexGreen4(t, p) textureGather(t, p, 1)
         #define FxaaTexOffGreen4(t, p, o) textureGatherOffset(t, p, o, 1)
     #endif
+#endif
+/*--------------------------------------------------------------------------*/
+#if (FXAA_GLSL_400 == 1)
+    // Requires "#version 130" or better
+    #define FxaaTexTop(t, p) textureLod(t, p, 0.0)
+    #define FxaaTexOff(t, p, o, r) textureLodOffset(t, p, 0.0, o)
+    #define FxaaTexAlpha4(t, p) textureGather(t, p, 3)
+    #define FxaaTexOffAlpha4(t, p, o) textureGatherOffset(t, p, o, 3)
+    #define FxaaTexGreen4(t, p) textureGather(t, p, 1)
+    #define FxaaTexOffGreen4(t, p, o) textureGatherOffset(t, p, o, 1)
 #endif
 /*--------------------------------------------------------------------------*/
 #if (FXAA_HLSL_3 == 1) || (FXAA_360 == 1) || (FXAA_PS3 == 1)

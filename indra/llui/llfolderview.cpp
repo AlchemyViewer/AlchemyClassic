@@ -1297,12 +1297,6 @@ BOOL LLFolderView::handleUnicodeCharHere(llwchar uni_char)
 		return FALSE;
 	}
 
-	if (uni_char > 0x7f)
-	{
-		LL_WARNS() << "LLFolderView::handleUnicodeCharHere - Don't handle non-ascii yet, aborting" << LL_ENDL;
-		return FALSE;
-	}
-
 	BOOL handled = FALSE;
 	if (mParentPanel.get()->hasFocus())
 	{
@@ -1315,7 +1309,8 @@ BOOL LLFolderView::handleUnicodeCharHere(llwchar uni_char)
 		}
 
 		//do text search
-		if (mSearchTimer.getElapsedTimeF32() > LLUI::sSettingGroups["config"]->getF32("TypeAheadTimeout"))
+		static LLUICachedControl<F32> type_ahead_timeout("TypeAheadTimeout", 0.f);
+		if (mSearchTimer.getElapsedTimeF32() > type_ahead_timeout)
 		{
 			mSearchString.clear();
 		}
@@ -1324,7 +1319,7 @@ BOOL LLFolderView::handleUnicodeCharHere(llwchar uni_char)
 		{
 			mSearchString += uni_char;
 		}
-		search(getCurSelectedItem(), mSearchString, FALSE);
+		search(getCurSelectedItem(), wstring_to_utf8str(mSearchString), FALSE);
 
 		handled = TRUE;
 	}

@@ -289,7 +289,7 @@ protected:
 	LLFolderViewFolder*				mAutoOpenCandidate;
 	LLFrameTimer					mAutoOpenTimer;
 	LLFrameTimer					mSearchTimer;
-	std::string						mSearchString;
+	LLWString						mSearchString;
 	LLFrameTimer					mMultiSelectionFadeTimer;
 	S32								mArrangeGeneration;
 

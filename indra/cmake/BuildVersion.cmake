@@ -15,25 +15,15 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
            message("Revision (from environment): ${VIEWER_VERSION_REVISION}")
 
         else (DEFINED ENV{revision})
-           find_program(MERCURIAL hg)
-           find_program(SED sed)
-           if (DEFINED MERCURIAL AND DEFINED SED)
-              execute_process(
-                 COMMAND ${MERCURIAL} identify -n
-                 COMMAND ${SED} "s/+//"
-                 OUTPUT_VARIABLE VIEWER_VERSION_REVISION
-                 OUTPUT_STRIP_TRAILING_WHITESPACE
-                 )
-              if ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-                 message("Revision (from hg) ${VIEWER_VERSION_REVISION}")
-              else ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-                 message("Revision not set (repository not found?); using 0")
-                 set(VIEWER_VERSION_REVISION 0 )
-              endif ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
-           else (DEFINED MERCURIAL AND DEFINED SED)
-              message("Revision not set: 'hg' or 'sed' not found; using 0")
-              set(VIEWER_VERSION_REVISION 0)
-           endif (DEFINED MERCURIAL AND DEFINED SED)
+		  include(FindHg)
+          if (HG_FOUND)
+            HG_WC_INFO(${CMAKE_SOURCE_DIR} Viewer)
+            message("Revision (from hg) ${Viewer_WC_REVISION}")
+            set(VIEWER_VERSION_REVISION "${Viewer_WC_REVISION}")
+          else (HG_FOUND)
+            message("Revision not set: Mercurial not found; using 0")
+            set(VIEWER_VERSION_REVISION 0)
+          endif (HG_FOUND)
         endif (DEFINED ENV{revision})
         message("Building '${VIEWER_CHANNEL}' Version ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
     else ( EXISTS ${VIEWER_VERSION_BASE_FILE} )

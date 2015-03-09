@@ -15,15 +15,33 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
            message("Revision (from environment): ${VIEWER_VERSION_REVISION}")
 
         else (DEFINED ENV{revision})
-		  include(FindHg)
-          if (HG_FOUND)
-            HG_WC_INFO(${CMAKE_SOURCE_DIR} Viewer)
-            message("Revision (from hg) ${Viewer_WC_REVISION}")
-            set(VIEWER_VERSION_REVISION "${Viewer_WC_REVISION}")
-          else (HG_FOUND)
-            message("Revision not set: Mercurial not found; using 0")
-            set(VIEWER_VERSION_REVISION 0)
-          endif (HG_FOUND)
+          find_program(MERCURIAL
+                       NAMES hg
+                       PATHS [HKEY_LOCAL_MACHINE\\Software\\TortoiseHG]
+                       PATH_SUFFIXES Mercurial)
+          mark_as_advanced(MERCURIAL)
+          if (MERCURIAL)
+            execute_process(COMMAND ${MERCURIAL} identify -n
+                            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                            RESULT_VARIABLE hg_id_result
+                            ERROR_VARIABLE hg_id_error
+                            OUTPUT_VARIABLE VIEWER_VERSION_REVISION
+                            OUTPUT_STRIP_TRAILING_WHITESPACE)
+            if (NOT ${hg_id_result} EQUAL 0)
+              message(SEND_ERROR "Revision number generation failed with output:\n${hg_id_error}")
+            else (NOT ${hg_id_result} EQUAL 0)
+              string(REGEX REPLACE "[^0-9a-f]" "" VIEWER_VERSION_REVISION ${VIEWER_VERSION_REVISION})
+            endif (NOT ${hg_id_result} EQUAL 0)
+            if ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
+              message("Revision (from hg) ${VIEWER_VERSION_REVISION}")
+            else ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
+              message("Revision not set (repository not found?); using 0")
+              set(VIEWER_VERSION_REVISION 0 )
+            endif ("${VIEWER_VERSION_REVISION}" MATCHES "^[0-9]+$")
+           else (MERCURIAL)
+              message("Revision not set: mercurial not found; using 0")
+              set(VIEWER_VERSION_REVISION 0)
+           endif (MERCURIAL)
         endif (DEFINED ENV{revision})
         message("Building '${VIEWER_CHANNEL}' Version ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
     else ( EXISTS ${VIEWER_VERSION_BASE_FILE} )

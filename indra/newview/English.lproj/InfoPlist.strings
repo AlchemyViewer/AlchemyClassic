@@ -3,5 +3,5 @@
 CFBundleName = "Alchemy";
 
 CFBundleShortVersionString = "Alchemy version %%VERSION%%";
-CFBundleGetInfoString = "Alchemy version %%VERSION%%, Copyright 2013-2014 Alchemy Viewer Project";
+CFBundleGetInfoString = "Alchemy version %%VERSION%%, Copyright © 2013-2015 Alchemy Viewer Project";
 

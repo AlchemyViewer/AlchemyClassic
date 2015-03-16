@@ -618,31 +618,28 @@ class WindowsManifest(ViewerManifest):
         installer_file = self.installer_base_name() + '_Setup.exe'
         substitution_strings['installer_file'] = installer_file
 
-        version_vars = """
-        !define INSTEXE  "%(final_exe)s"
-        !define VERSION "%(version_short)s"
-        !define VERSION_LONG "%(version)s"
-        !define VERSION_DASHES "%(version_dashes)s"
-        """ % substitution_strings
-
         if self.channel_type() == 'release':
             substitution_strings['caption'] = CHANNEL_VENDOR_BASE
         else:
             substitution_strings['caption'] = self.app_name() + ' ${VERSION}'
 
         inst_vars_template = """
-            OutFile "%(installer_file)s"
-            !define INSTNAME   "%(app_name_oneword)s"
-            !define SHORTCUT   "%(app_name)s"
+            !define INSTOUTFILE "%(installer_file)s"
+            !define INSTEXE  "%(final_exe)s"
+            !define APPNAME   "%(app_name)s"
+            !define APPNAMEONEWORD   "%(app_name_oneword)s"
+            !define VERSION "%(version_short)s"
+            !define VERSION_LONG "%(version)s"
+            !define VERSION_DASHES "%(version_dashes)s"
             !define URLNAME   "secondlife"
-            Caption "%(caption)s"
+            !define CAPTIONSTR "%(caption)s"
+            !define VENDORSTR "Alchemy Viewer Project"
             """
 
         tempfile = "alchemy_setup_tmp.nsi"
         # the following replaces strings in the nsi template
         # it also does python-style % substitution
         self.replace_in("installers/windows/installer_template.nsi", tempfile, {
-                "%%VERSION%%":version_vars,
                 "%%SOURCE%%":self.get_src_prefix(),
                 "%%INST_VARS%%":inst_vars_template % substitution_strings,
                 "%%INSTALL_FILES%%":self.nsi_file_commands(True),

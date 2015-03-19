@@ -88,7 +88,7 @@ public:
 		Json::Reader reader;
 		if (!reader.parse(body, root))
 		{
-			LL_WARNS() << "Failed to parse upload config: " << reader.getFormatedErrorMessages() << LL_ENDL;
+			LL_WARNS() << "Failed to parse upload config: " << reader.getFormattedErrorMessages() << LL_ENDL;
 			LLWebProfile::reportImageUploadStatus(false);
 			return;
 		}

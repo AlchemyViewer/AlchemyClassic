@@ -75,7 +75,7 @@ bool LLGoogleTranslationHandler::parseResponse(
 
 	if (!reader.parse(body, root))
 	{
-		err_msg = reader.getFormatedErrorMessages();
+		err_msg = reader.getFormattedErrorMessages();
 		return false;
 	}
 

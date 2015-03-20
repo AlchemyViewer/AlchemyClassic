@@ -1872,11 +1872,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>76e9be8f5a5d501c944e277826ba4f59</string>
+              <string>e0cfdd3219136b87df20a5757adff5ef</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jsoncpp-1.0.0-linux64-201501022339.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jsoncpp-1.6.0-linux64-201503192222.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3416,6 +3416,20 @@
             </map>
             <key>name</key>
             <string>linux</string>
+          </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fc6a1bae3c9e8363e01d832d5f7c1332</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/uriparser-0.8.1-linux64-201503192220.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
           </map>
           <key>windows</key>
           <map>

@@ -64,6 +64,7 @@
 #include "llpaneltopinfobar.h"
 #include "llparcel.h"
 #include "llrendersphere.h"
+#include "llscriptruntimeperms.h"
 #include "llsdmessage.h"
 #include "llsdutil.h"
 #include "llsky.h"
@@ -93,7 +94,6 @@
 #include "llwindow.h"
 #include "llworld.h"
 #include "llworldmap.h"
-#include "alscriptdefinitions.h"
 #include "stringize.h"
 
 using namespace LLAvatarAppearanceDefines;
@@ -4212,7 +4212,7 @@ void LLAgent::stopCurrentAnimations()
 		if (mRegionp &&
 			gSavedSettings.getBOOL("RevokePermsOnStopAnimation"))
 		{
-			U32 permissions = LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_TRIGGER_ANIMATION] | LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS];
+			U32 permissions = SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_TRIGGER_ANIMATION].permbit | SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS].permbit;
 			sendRevokePermissions(mRegionp->getRegionID(), permissions);
 			if (gAgentAvatarp->isSitting())
 			{	// Also stand up, since auto-granted sit animation permission has been revoked

@@ -751,7 +751,6 @@ set(viewer_HEADER_FILES
     alfloaterregiontracker.h
     alpanelquicksettings.h
     alpanelquicksettingspulldown.h
-    alscriptdefinitions.h
     groupchatlistener.h
     llaccountingcost.h
     llaccountingcostmanager.h
@@ -1184,6 +1183,7 @@ set(viewer_HEADER_FILES
     llscreenchannel.h
     llscripteditor.h
     llscriptfloater.h
+    llscriptruntimeperms.h
     llscrollingpanelparam.h
     llscrollingpanelparambase.h
     llsearchcombobox.h

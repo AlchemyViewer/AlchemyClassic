@@ -33,7 +33,6 @@
 #include <sstream>
 
 #include "llaudioengine.h"
-#include "alscriptdefinitions.h"
 #include "noise.h"
 #include "sound_ids.h"
 #include "raytrace.h"
@@ -76,6 +75,7 @@
 #include "llrand.h"
 #include "llregionhandle.h"
 #include "llresmgr.h"
+#include "llscriptruntimeperms.h"
 #include "llselectmgr.h"
 #include "llsprite.h"
 #include "lltargetingmotion.h"
@@ -673,7 +673,7 @@ static F32 calc_bouncy_animation(F32 x);
 //-----------------------------------------------------------------------------
 void revoke_permissions_on_object(const LLUUID &object_id)
 {
-	U32 permissions = LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_TRIGGER_ANIMATION] | LSCRIPTRunTimePermissionBits[SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS];
+	U32 permissions = SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_TRIGGER_ANIMATION].permbit | SCRIPT_PERMISSIONS[SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS].permbit;
 	gAgent.sendRevokePermissions(object_id, permissions);
 }
 

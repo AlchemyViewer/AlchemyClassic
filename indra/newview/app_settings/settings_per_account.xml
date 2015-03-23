@@ -4,6 +4,17 @@
     <array>
       <string>settings_per_account_alchemy.xml</string>
     </array>
+    <key>AvatarHoverOffsetZ</key>
+    <map>
+      <key>Comment</key>
+      <string>After-everything-else fixup for avatar Z position.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>F32</string>
+      <key>Value</key>
+        <real>0.0</real>
+    </map>
     <key>DoNotDisturbResponseChanged</key>
         <map>
         <key>Comment</key>

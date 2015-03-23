@@ -158,7 +158,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                  image_unselected="Toolbar_Middle_Off"
                  left_pad="2"
                  layout="topleft"
-                 name="nearby_del_btn"
+                 name="friends_del_btn"
                  tool_tip="Remove selected person as a friend"
                  top_delta="0"
                  width="31">
@@ -609,7 +609,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
                  image_unselected="Toolbar_Middle_Off"
                  left_pad="2"
                  layout="topleft"
-                 name="recent_del_btn"
+                 name="friends_del_btn"
                  tool_tip="Remove selected person as a friend"
                  top_delta="0"
                  width="31">

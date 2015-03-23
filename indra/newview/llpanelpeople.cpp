@@ -889,9 +889,7 @@ void LLPanelPeople::updateFacebookList(bool visible)
 void LLPanelPeople::updateButtons()
 {
 	std::string cur_tab		= getActiveTabName();
-	bool friends_tab_active = (cur_tab == FRIENDS_TAB_NAME);
 	bool group_tab_active	= (cur_tab == GROUP_TAB_NAME);
-	//bool recent_tab_active	= (cur_tab == RECENT_TAB_NAME);
 	LLUUID selected_id;
 
 	uuid_vec_t selected_uuids;
@@ -922,16 +920,35 @@ void LLPanelPeople::updateButtons()
 			is_friend = LLAvatarTracker::instance().getBuddyInfo(selected_id) != NULL;
 			is_self = gAgent.getID() == selected_id;
 		}
+		else if (multiple_selected)
+		{
+			for (uuid_vec_t::const_iterator itr = selected_uuids.begin(); itr != selected_uuids.end(); ++itr)
+			{
+				if (LLAvatarTracker::instance().getBuddyInfo(*itr) != NULL)
+				{
+					is_friend = true;
+				}
+				else
+				{
+					is_friend = false;
+					// Since this is being used to check that *all* selected agents are friends, break here.
+					// We know all we need to know.
+					break;
+				}
+			}
+		}
 
 		LLPanel* cur_panel = mTabContainer->getCurrentPanel();
 		if (cur_panel)
 		{
 			if (cur_panel->hasChild("add_friend_btn", TRUE))
-				cur_panel->getChildView("add_friend_btn")->setEnabled(item_selected && !is_friend && !is_self);
-
-			if (friends_tab_active)
 			{
-				cur_panel->getChildView("friends_del_btn")->setEnabled(multiple_selected);
+				cur_panel->getChildView("add_friend_btn")->setEnabled(item_selected && !is_friend && !is_self);
+			}
+
+			if (cur_panel->hasChild("friends_del_btn", TRUE))
+			{
+				cur_panel->getChildView("friends_del_btn")->setEnabled(multiple_selected && is_friend);
 			}
 
 			if (!group_tab_active)

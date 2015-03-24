@@ -21,10 +21,6 @@
 
 #include "alchatcommand.h"
 
-// system includes
-#include <boost/format.hpp>
-#include <boost/lexical_cast.hpp>
-
 // lib includes
 #include "llcalc.h"
 #include "llstring.h"
@@ -248,7 +244,6 @@ bool ALChatCommand::parseCommand(std::string data)
 			S32 chan;
 			if (input >> chan)
 			{
-				boost::lexical_cast<S32>(chan);
 				gSavedSettings.setS32("AlchemyNearbyChatChannel", chan);
 				return true;
 			}

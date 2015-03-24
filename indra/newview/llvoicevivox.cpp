@@ -4726,7 +4726,7 @@ void LLVivoxVoiceClient::setVoiceEnabled(bool enabled)
 			LLVoiceChannel::getCurrentVoiceChannel()->activate();
 			status = LLVoiceClientStatusObserver::STATUS_VOICE_ENABLED;
 		}
-		else
+		else if (gAgentAvatarp)
 		{
 			// Turning voice off looses your current channel -- this makes sure the UI isn't out of sync when you re-enable it.
 			LLVoiceChannel::getCurrentVoiceChannel()->deactivate();

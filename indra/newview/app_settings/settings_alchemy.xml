@@ -123,6 +123,17 @@
       <key>Value</key>
       <string>/gth</string>
     </map>
+    <key>AlchemyChatCommandHoverHeight</key>
+    <map>
+      <key>Comment</key>
+      <string>Command to hover your height or something</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string>/hover</string>
+    </map>
     <key>AlchemyChatCommandHome</key>
     <map>
       <key>Comment</key>

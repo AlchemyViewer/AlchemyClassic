@@ -76,6 +76,7 @@ bool ALChatCommand::parseCommand(std::string data)
 		static LLCachedControl<std::string> sSetNearbyChatChannelCmd(gSavedSettings, "AlchemyChatCommandSetChatChannel", "/setchannel");
 		static LLCachedControl<std::string> sResyncAnimCommand(gSavedSettings, "AlchemyChatCommandResyncAnim", "/resync");
 		static LLCachedControl<std::string> sTeleportToCam(gSavedSettings, "AlchemyChatCommandTeleportToCam", "/tp2cam");
+		static LLCachedControl<std::string> sHoverHeight(gSavedSettings, "AlchemyChatCommandHoverHeight", "/hover");
 
 		if (cmd == utf8str_tolower(sDrawDistanceCommand)) // dd
 		{
@@ -256,6 +257,16 @@ bool ALChatCommand::parseCommand(std::string data)
 		{
 			gAgent.teleportViaLocation(gAgentCamera.getCameraPositionGlobal());
 			return true;
+		}
+		else if (cmd == utf8str_tolower(sHoverHeight)) // Hover height
+		{
+			F32 height;
+			if (input >> height)
+			{
+				gSavedPerAccountSettings.set("AvatarHoverOffsetZ",
+											 llclamp<F32>(height, MIN_HOVER_Z, MAX_HOVER_Z));
+				return true;
+			}
 		}
 		else if (cmd == utf8str_tolower(sResyncAnimCommand)) // Resync Animations
 		{

@@ -30,28 +30,38 @@
 #include "llbutton.h"
 #include "llcheckboxctrl.h"
 #include "llcombobox.h"
+#include "llsliderctrl.h"
+#include "llspinctrl.h"
 
 #include "llenvmanager.h"
 #include "llwaterparammanager.h"
 #include "llwlparammanager.h"
 
+#include "llagent.h"
+#include "llviewercontrol.h"
+#include "llviewerregion.h"
+#include "llvoavatar.h"
+#include "llvoavatarself.h"
+
 static LLPanelInjector<ALPanelQuickSettings> t_quick_settings("quick_settings");
 
 ALPanelQuickSettings::ALPanelQuickSettings()
 	: LLPanel(),
-	mWaterPrevBtn(NULL),
-	mWaterNextBtn(NULL),
-	mSkyPrevBtn(NULL),
-	mSkyNextBtn(NULL),
-	mRegionSettingsCheckBox(NULL),
-	mWaterPresetCombo(NULL),
-	mSkyPresetCombo(NULL)
+	mWaterPrevBtn(nullptr),
+	mWaterNextBtn(nullptr),
+	mSkyPrevBtn(nullptr),
+	mSkyNextBtn(nullptr),
+	mRegionSettingsCheckBox(nullptr),
+	mWaterPresetCombo(nullptr),
+	mSkyPresetCombo(nullptr),
+	mHoverHeight(nullptr)
 {
 }
 
 // virtual
 BOOL ALPanelQuickSettings::postBuild()
 {
+	// Windlight
 	mRegionSettingsCheckBox = getChild<LLCheckBoxCtrl>("region_settings_checkbox");
 	mRegionSettingsCheckBox->setCommitCallback(boost::bind(&ALPanelQuickSettings::onSwitchRegionSettings, this));
 
@@ -76,8 +86,45 @@ BOOL ALPanelQuickSettings::postBuild()
 	LLWaterParamManager::instance().setPresetListChangeCallback(boost::bind(&ALPanelQuickSettings::populateWaterPresetsList, this));
 
 	refresh();
+	
+	// Hover height
+	mHoverHeight = getChild<LLSliderCtrl>("HoverHeightSlider");
+	mHoverHeight->setMinValue(MIN_HOVER_Z);
+	mHoverHeight->setMaxValue(MAX_HOVER_Z);
+	mHoverHeight->setSliderMouseUpCallback(boost::bind(&ALPanelQuickSettings::onHoverSliderFinalCommit,this));
+	mHoverHeight->setSliderEditorCommitCallback(boost::bind(&ALPanelQuickSettings::onHoverSliderFinalCommit,this));
+	childSetCommitCallback("HoverHeightSlider", &ALPanelQuickSettings::onHoverSliderMoved, NULL);
+	
+	// Initialize slider from pref setting.
+	syncFromPreferenceSetting(this);
+	// Update slider on future pref changes.
+	if (gSavedPerAccountSettings.getControl("AvatarHoverOffsetZ"))
+	{
+		gSavedPerAccountSettings.getControl("AvatarHoverOffsetZ")->getCommitSignal()->connect(boost::bind(&syncFromPreferenceSetting, this));
+	}
+	else
+	{
+		LL_WARNS() << "Control not found for AvatarHoverOffsetZ" << LL_ENDL;
+	}
+	
+	updateEditHoverEnabled();
+	
+	if (!mRegionChangedSlot.connected())
+	{
+		mRegionChangedSlot = gAgent.addRegionChangedCallback(boost::bind(&ALPanelQuickSettings::onRegionChanged,this));
+	}
+	// Set up based on initial region.
+	onRegionChanged();
 
 	return LLPanel::postBuild();
+}
+
+void ALPanelQuickSettings::onClose(bool app_quitting)
+{
+	if (mRegionChangedSlot.connected())
+	{
+		mRegionChangedSlot.disconnect();
+	}
 }
 
 // virtual
@@ -214,5 +261,77 @@ void ALPanelQuickSettings::populateSkyPresetsList()
 	for (const auto& system_preset_string : system_presets)
 	{
 		mSkyPresetCombo->add(system_preset_string);
+	}
+}
+
+// Hover junk
+void ALPanelQuickSettings::syncFromPreferenceSetting(void *user_data)
+{
+	F32 value = gSavedPerAccountSettings.getF32("AvatarHoverOffsetZ");
+	
+	ALPanelQuickSettings *self = static_cast<ALPanelQuickSettings*>(user_data);
+	LLSliderCtrl* sldrCtrl = self->getChild<LLSliderCtrl>("HoverHeightSlider");
+	sldrCtrl->setValue(value,FALSE);
+	
+	if (isAgentAvatarValid())
+	{
+		LLVector3 offset(0.0, 0.0, llclamp(value,MIN_HOVER_Z,MAX_HOVER_Z));
+		LL_INFOS("Avatar") << "setting hover from preference setting " << offset[2] << LL_ENDL;
+		gAgentAvatarp->setHoverOffset(offset);
+	}
+}
+
+// static
+void ALPanelQuickSettings::onHoverSliderMoved(LLUICtrl* ctrl, void* userData)
+{
+	LLSliderCtrl* sldrCtrl = static_cast<LLSliderCtrl*>(ctrl);
+	F32 value = sldrCtrl->getValueF32();
+	LLVector3 offset(0.0, 0.0, llclamp(value,MIN_HOVER_Z,MAX_HOVER_Z));
+	LL_INFOS("Avatar") << "setting hover from slider moved" << offset[2] << LL_ENDL;
+	gAgentAvatarp->setHoverOffset(offset, false);
+}
+
+// Do send-to-the-server work when slider drag completes, or new
+// value entered as text.
+void ALPanelQuickSettings::onHoverSliderFinalCommit()
+{
+	F32 value = mHoverHeight->getValueF32();
+	gSavedPerAccountSettings.setF32("AvatarHoverOffsetZ",value);
+	
+	LLVector3 offset(0.0, 0.0, llclamp(value,MIN_HOVER_Z,MAX_HOVER_Z));
+	LL_INFOS("Avatar") << "setting hover from slider final commit " << offset[2] << LL_ENDL;
+	gAgentAvatarp->setHoverOffset(offset, true); // will send update this time.
+}
+
+void ALPanelQuickSettings::onRegionChanged()
+{
+	LLViewerRegion *region = gAgent.getRegion();
+	if (region && region->simulatorFeaturesReceived())
+	{
+		updateEditHoverEnabled();
+	}
+	else if (region)
+	{
+		region->setSimulatorFeaturesReceivedCallback(boost::bind(&ALPanelQuickSettings::onSimulatorFeaturesReceived,this,_1));
+	}
+}
+
+void ALPanelQuickSettings::onSimulatorFeaturesReceived(const LLUUID &region_id)
+{
+	LLViewerRegion *region = gAgent.getRegion();
+	if (region && (region->getRegionID()==region_id))
+	{
+		updateEditHoverEnabled();
+	}
+}
+
+void ALPanelQuickSettings::updateEditHoverEnabled()
+{
+	bool enabled = gAgent.getRegion() && gAgent.getRegion()->avatarHoverHeightEnabled();
+	mHoverHeight->setEnabled(enabled);
+	getChild<LLSpinCtrl>("hover_spinner")->setEnabled(enabled);
+	if (enabled)
+	{
+		syncFromPreferenceSetting(this);
 	}
 }

@@ -35,8 +35,6 @@
 #include "llagent.h"
 #include "llviewerregion.h"
 #include "llnotificationsutil.h"
-#include "llsdserialize.h"
-#include "llvoavatar.h"
 
 LLFloaterPerms::LLFloaterPerms(const LLSD& seed)
 : LLFloater(seed)
@@ -188,9 +186,6 @@ private:
 
 	void httpSuccess()
 	{
-		//const LLSD& content = getContent();
-		//dump_sequential_xml("perms_responder_result.xml", content);
-
 		// Since we have had a successful POST call be sure to display the next error message
 		// even if it is the same as a previous one.
 		sPreviousReason = "";

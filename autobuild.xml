@@ -794,11 +794,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1af152ce79422c791ccc6e04571b41d7</string>
+              <string>a4b16d7930cfe07f1c5a852f9e82537f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.05.11-darwin-201501281806.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/fmodstudio-1.05.14-darwin-201503261832.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -861,7 +861,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.05.11</string>
+        <string>1.05.14</string>
       </map>
       <key>fontconfig</key>
       <map>
@@ -2806,11 +2806,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8b15bb646b8cce838fa19612fd0d9f6e</string>
+              <string>dd8b46ff8005c5ef1af5f251c362286b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ogg_vorbis-1.3.2-1.3.4-darwin-201501021924.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ogg_vorbis-1.3.2-1.3.5-darwin-201503262014.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2869,7 +2869,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.3.2-1.3.4</string>
+        <string>1.3.2-1.3.5</string>
       </map>
       <key>openal</key>
       <map>

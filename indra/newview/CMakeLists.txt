@@ -268,7 +268,6 @@ set(viewer_SOURCE_FILES
     llfloaterhandler.cpp
     llfloaterhardwaresettings.cpp
     llfloaterhelpbrowser.cpp
-    llfloaterhoverheight.cpp
     llfloaterhud.cpp
     llfloaterimagepreview.cpp
     llfloaterimcontainer.cpp
@@ -906,7 +905,6 @@ set(viewer_HEADER_FILES
     llfloaterhandler.h
     llfloaterhardwaresettings.h
     llfloaterhelpbrowser.h
-    llfloaterhoverheight.h
     llfloaterhud.h
     llfloaterimagepreview.h
     llfloaterimcontainer.h
@@ -1661,6 +1659,7 @@ set(viewer_APPSETTINGS_FILES
     app_settings/settings_crash_behavior.xml
     app_settings/settings_files.xml
     app_settings/settings_per_account.xml
+    app_settings/settings_per_account_alchemy.xml
     app_settings/std_bump.ini
     app_settings/toolbars.xml
     app_settings/trees.xml

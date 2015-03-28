@@ -2405,7 +2405,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	chat.mMuted = is_muted;
 	chat.mFromID = from_id;
 	chat.mFromName = name;
-	chat.mSourceType = (from_id.isNull() || (name == std::string(SYSTEM_FROM))) ? CHAT_SOURCE_SYSTEM : CHAT_SOURCE_AGENT;
+	chat.mSourceType = (from_id.isNull() || (name == SYSTEM_FROM)) ? CHAT_SOURCE_SYSTEM : CHAT_SOURCE_AGENT;
 
 	LLViewerObject *source = gObjectList.findObject(session_id); //Session ID is probably the wrong thing.
 	if (source)

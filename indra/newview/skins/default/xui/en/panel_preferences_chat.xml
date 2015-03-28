@@ -875,6 +875,25 @@
         control_name="AlchemyChatCommandClearNearby"
         enabled_control="AlchemyChatCommandEnable"
         width="220"/>
+        <!--Hover-->
+        <text
+          top_pad="5"
+          follows="left|top"
+          height="18"
+          name="hover_txt"
+          width="220">
+          Hover Height
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          text_pad_left="5"
+          name="AlchemyChatCommandHoverHeight"
+          control_name="AlchemyChatCommandHoverHeight"
+          enabled_control="AlchemyChatCommandEnable"
+          width="220"/>
         <!--home-->
         <text
           top="41"
@@ -933,12 +952,12 @@
           control_name="AlchemyChatCommandTeleportToCam"
           enabled_control="AlchemyChatCommandEnable"
           width="220"/>
-          <!--reserved-->
+          <!--Calculatooor-->
         <text
           top_pad="5"
           follows="left|top"
           height="18"
-          name="reserved_txt"
+          name="calc_txt"
           width="220">
           Calculator
         </text>

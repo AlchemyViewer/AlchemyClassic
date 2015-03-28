@@ -31,6 +31,7 @@
 class LLButton;
 class LLCheckBoxCtrl;
 class LLComboBox;
+class LLSliderCtrl;
 
 class ALPanelQuickSettings : public LLPanel
 {
@@ -39,6 +40,7 @@ public:
 
 	/*virtual*/ BOOL postBuild();
 	/*virtual*/ void refresh();
+	/*virtual*/ void onClose(bool app_quitting);
 
 private:
 	void onSwitchRegionSettings();
@@ -48,6 +50,14 @@ private:
 	void applyWindlight();
 	void populateWaterPresetsList();
 	void populateSkyPresetsList();
+	
+	static void onHoverSliderMoved(LLUICtrl* ctrl, void* userData);
+	void onHoverSliderFinalCommit();
+	static void syncFromPreferenceSetting(void *user_data);
+	
+	void onRegionChanged();
+	void onSimulatorFeaturesReceived(const LLUUID &region_id);
+	void updateEditHoverEnabled();
 
 	LLButton* mWaterPrevBtn;
 	LLButton* mWaterNextBtn;
@@ -58,6 +68,10 @@ private:
 
 	LLComboBox* mWaterPresetCombo;
 	LLComboBox* mSkyPresetCombo;
+	
+	LLSliderCtrl* mHoverHeight;
+	
+	boost::signals2::connection mRegionChangedSlot;
 };
 
 #endif // AL_ALPANELQUICKSETTINGS_H

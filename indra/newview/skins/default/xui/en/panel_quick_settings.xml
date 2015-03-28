@@ -3,7 +3,7 @@
  class="quick_settings"
  layout="topleft"
  width="300"
- height="194"
+ height="209"
  name="quick_settings">
   <text
    follows="left|top"
@@ -181,6 +181,45 @@
    increment="64"
    name="bandwith_spinner"
    control_name="ThrottleBandwidthKBPS"/>
+  <text
+   follows="left|top"
+   height="15"
+   left="10"
+   top_pad="3"
+   width="120"
+   layout="topleft"
+   value="Hover Height:" />
+  <slider
+   enabled="false"
+   top_delta="0"
+   height="20"
+   label_width="0"
+   left="93"
+   right="-68"
+   show_text="false"
+   decimal_digits="3"
+   follows="top|right"
+   layout="topleft"
+   width="55"
+   increment="0.001"
+   initial_value="0.0"
+   name="HoverHeightSlider"
+   control_name="AvatarHoverOffsetZ"/>
+  <spinner
+   enabled="false"
+   top_pad="-21"
+   height="20"
+   label_width="0"
+   right="-8"
+   decimal_digits="3"
+   follows="top|right"
+   layout="topleft"
+   max_val="2.0"
+   min_val="-2.0"
+   width="55"
+   increment="0.001"
+   name="hover_spinner"
+   control_name="AvatarHoverOffsetZ"/>
   <panel
    height="1"
    top_pad="7"

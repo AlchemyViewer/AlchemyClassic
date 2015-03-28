@@ -400,11 +400,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>82c6ca1e1bb468e72fef66c2b2c143ee</string>
+              <string>2b52d69886b6c405577bf72a11792754</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/curl-7.41.0-darwin-201503191240.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/curl-7.41.0-darwin-201503231034.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

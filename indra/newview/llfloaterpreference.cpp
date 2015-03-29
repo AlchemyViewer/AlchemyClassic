@@ -669,7 +669,8 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 	// this variable and if that follows it are used to properly handle do not disturb mode response message
 	static bool initialized = FALSE;
 	// if user is logged in and we haven't initialized do not disturb mode response yet, do it
-	if (!initialized && LLStartUp::getStartupState() == STATE_STARTED)
+	bool logged_in = LLStartUp::getStartupState() == STATE_STARTED;
+	if (!initialized && logged_in)
 	{
 		// Special approach is used for do not disturb response localization, because "DoNotDisturbModeResponse" is
 		// in non-localizable xml, and also because it may be changed by user and in this case it shouldn't be localized.
@@ -682,6 +683,8 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 		// do not disturb response message.
 		gSavedPerAccountSettings.getControl("DoNotDisturbModeResponse")->getSignal()->connect(boost::bind(&LLFloaterPreference::onDoNotDisturbResponseChanged, this));
 	}
+	getChildView("do_not_disturb_response")->setEnabled(logged_in);
+	
 	gAgent.sendAgentUserInfoRequest();
 
 	/////////////////////////// From LLPanelGeneral //////////////////////////

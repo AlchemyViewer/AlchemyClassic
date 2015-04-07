@@ -10,7 +10,6 @@ set(cmake_SOURCE_FILES
     00-Common.cmake
     APR.cmake
     Audio.cmake
-    BerkeleyDB.cmake
     Boost.cmake
     BuildVersion.cmake
     CARes.cmake
@@ -26,7 +25,6 @@ set(cmake_SOURCE_FILES
     ExamplePlugin.cmake
     FindAPR.cmake
     FindAutobuild.cmake
-    FindBerkeleyDB.cmake
     FindCARes.cmake
     FindCXX14Features.cmake
     FindFMODEX.cmake

@@ -1,4 +1,3 @@
-include(BerkeleyDB)
 include(Linking)
 include(Prebuilt)
 
@@ -49,7 +48,6 @@ else (USESYSTEMLIBS)
   set(APR_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/apr-1)
 
   if (LINUX)
-      list(APPEND APRUTIL_LIBRARIES ${DB_LIBRARIES})
-    list(APPEND APRUTIL_LIBRARIES ${DB_LIBRARIES} rt)
+    list(APPEND APRUTIL_LIBRARIES rt)
   endif (LINUX)
 endif (USESYSTEMLIBS)

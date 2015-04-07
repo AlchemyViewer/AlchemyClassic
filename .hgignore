@@ -5,7 +5,6 @@ syntax: glob
 # Compiled python bytecode
 *.pyc
 # Emacs temp files
-*~
 .*.swp
 #OSX image cache file
 *.DS_Store

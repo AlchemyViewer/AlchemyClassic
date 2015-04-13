@@ -21,6 +21,7 @@ if (USESYSTEMLIBS)
         pangox
         pangoxft
         sdl
+        X11
         )
   endif (LINUX)
 
@@ -51,6 +52,7 @@ else (USESYSTEMLIBS)
         pangoxft-1.0
         pixman-1
         pangocairo-1.0
+        X11
         ${FREETYPE_LIBRARIES}
         )
   endif (LINUX)

@@ -30,6 +30,11 @@
 #include "llcontrol.h"
 #include "llfloater.h"
 
+class LLColorSwatchCtrl;
+class LLComboBox;
+class LLSpinCtrl;
+class LLUICtrl;
+
 class LLFloaterSettingsDebug 
 :	public LLFloater
 {
@@ -51,6 +56,15 @@ private:
 	// "all", "base", "account", "skin"
 	LLFloaterSettingsDebug(const LLSD& key);
 	virtual ~LLFloaterSettingsDebug();
+	
+	LLComboBox* mComboSettings;
+	LLSpinCtrl* mValSpinner1;
+	LLSpinCtrl* mValSpinner2;
+	LLSpinCtrl* mValSpinner3;
+	LLSpinCtrl* mValSpinner4;
+	LLColorSwatchCtrl* mValColor;
+	LLUICtrl* mValBool;
+	LLUICtrl* mValText;
 	
 protected:
 	class LLTextEditor* mComment;

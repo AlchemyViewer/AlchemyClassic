@@ -1898,18 +1898,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>06cefb7700caba271c26d9c97d6c8932</string>
+              <string>9dcaf2e7c7bf3e64f0677bd58a384db5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows64-201501010147.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/jsoncpp-1.6.1-windows64-201504141630.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.0</string>
+        <string>1.6.1</string>
       </map>
       <key>kdu</key>
       <map>

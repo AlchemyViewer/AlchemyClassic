@@ -131,12 +131,6 @@ void LLUriParser::textRangeToString(UriTextRangeA& textRange, std::string& str)
 
 void LLUriParser::extractParts()
 {
-	if(&mUri == NULL)
-	{
-		LL_WARNS() << "mUri is NULL for uri: " << mNormalizedUri << LL_ENDL;
-		return;
-	}
-
 	if (mTmpScheme || mNormalizedTmp)
 	{
 		mScheme.clear();

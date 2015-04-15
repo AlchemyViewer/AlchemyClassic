@@ -9,7 +9,7 @@ else (USESYSTEMLIBS)
   if (LINUX)
     # Need to add dependency pthread explicitely to support ld.gold.
     use_prebuilt_binary(db)
-    set(DB_LIBRARIES db-5.1 pthread)
+    set(DB_LIBRARIES db-5.1)
   else (LINUX)
     set(DB_LIBRARIES db-4.2)
   endif (LINUX)

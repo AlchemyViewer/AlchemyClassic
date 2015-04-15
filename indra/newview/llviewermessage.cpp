@@ -6608,7 +6608,7 @@ void process_script_question(LLMessageSystem *msg, void **user_data)
 	std::string script_question;
 	if (questions)
 	{
-		BOOL caution = FALSE;
+		bool caution = false;
 		S32 count = 0;
 		LLSD args;
 		args["OBJECTNAME"] = object_name;

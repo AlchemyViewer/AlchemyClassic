@@ -51,7 +51,11 @@ private:
 LLDirIterator::Impl::Impl(const std::string &dirname, const std::string &mask)
 	: mIsValid(false)
 {
+#if LL_WINDOWS
+	fs::path dir_path(utf8str_to_utf16str(dirname).c_str());
+#else
 	fs::path dir_path(dirname);
+#endif
 
 	bool is_dir = false;
 
@@ -68,7 +72,7 @@ LLDirIterator::Impl::Impl(const std::string &dirname, const std::string &mask)
 
 	if (!is_dir)
 	{
-		LL_WARNS() << "Invalid path: \"" << dir_path.string() << "\"" << LL_ENDL;
+		LL_WARNS() << "Invalid path: \"" << dir_path.string().c_str() << "\"" << LL_ENDL;
 		return;
 	}
 

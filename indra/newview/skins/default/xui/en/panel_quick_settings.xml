@@ -9,7 +9,7 @@
    follows="left|top"
    height="15"
    left="10"
-   top_pad="12"
+   top_pad="2"
    width="120"
    layout="topleft"
    value="Draw Distance:"/>

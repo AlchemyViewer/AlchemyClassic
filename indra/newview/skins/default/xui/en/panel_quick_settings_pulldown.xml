@@ -6,7 +6,7 @@
  background_visible="true"
  layout="topleft"
  width="300"
- height="220"
+ height="217"
  name="quick_settings_pulldown">
   <panel
    name="quick_settings"

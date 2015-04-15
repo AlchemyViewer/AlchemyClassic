@@ -565,12 +565,12 @@ void LLSidepanelTaskInfo::refresh()
 		getChildView("Edit Cost")->setEnabled(FALSE);
 		
 		// Don't show a price if none of the items are for sale.
-		getChild<LLUICtrl>("Edit Cost")->setValue(num_for_sale
+		getChild<LLSpinCtrl>("Edit Cost")->setValue(num_for_sale
 												  ? llformat("%d",total_sale_price)
 												  : LLStringUtil::null);
 
 		// If multiple items are for sale, set text to TOTAL PRICE.
-		getChild<LLSpinCtrl>("Cost")->>setLabel(getString(num_for_sale > 1
+		getChild<LLSpinCtrl>("Edit Cost")->setLabel(getString(num_for_sale > 1
 													   ? "Cost Total"
 													   : "Cost Default"));
 	}

@@ -720,18 +720,19 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 			extension = "slg";
 			break;
 #endif
-		case FFSAVE_CSV:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
-			extension = "csv";
-			break;
-			
+		
 		case FFSAVE_XML:
 			type = "\?\?\?\?";
 			creator = "\?\?\?\?";
 			extension = "xml";
 			break;
-			
+
+		case FFSAVE_CSV:
+			type = "\?\?\?\?";
+			creator = "\?\?\?\?";
+			extension = "csv";
+			break;
+
 		case FFSAVE_RAW:
 			type = "\?\?\?\?";
 			creator = "\?\?\?\?";

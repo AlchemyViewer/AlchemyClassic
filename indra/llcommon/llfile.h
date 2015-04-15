@@ -45,9 +45,6 @@ typedef FILE	LLFILE;
 typedef struct _stat	llstat;
 #else
 typedef struct stat		llstat;
-#if !defined(LL_DARWIN) || defined(LL_GNUC) // Oof, this is pretty ugly
-#include <ext/stdio_filebuf.h>
-#endif // has_include
 #endif // !LL_WINDOWS
 
 #ifndef S_ISREG
@@ -87,6 +84,11 @@ public:
 	static  const char * tmpdir();
 };
 
+#if !defined(LL_WINDOWS)
+typedef std::ifstream llifstream;
+typedef std::ofstream llofstream;
+#else
+
 /**
  *  @brief Provides a layer of compatibility for C/POSIX.
  *
@@ -97,13 +99,7 @@ public:
 */
 namespace
 {
-#if LL_WINDOWS
 typedef std::filebuf						_Myfb;
-#elif _LIBCPP_VERSION
-typedef std::basic_filebuf< char >			_Myfb;
-#else
-typedef  __gnu_cxx::stdio_filebuf< char >	_Myfb;
-#endif /* LL_WINDOWS */
 }
 
 class LL_COMMON_API llstdio_filebuf : public _Myfb
@@ -114,36 +110,6 @@ public:
 	*/
 	llstdio_filebuf() : _Myfb() {}
 	virtual ~llstdio_filebuf() {} 
-
-// *TODO: Seek the underlying c stream for better cross-platform compatibility?
-#if !defined(LL_WINDOWS) && !defined(_LIBCPP_VERSION)
-protected:
-	/** underflow() and uflow() functions are called to get the next
-	 *  character from the real input source when the buffer is empty.
-	 *  Buffered input uses underflow()
-	*/
-	/*virtual*/ int_type underflow();
-
-	/*  Convert internal byte sequence to external, char-based
-	 * sequence via codecvt.
-	*/
-	bool _convert_to_external(char_type*, std::streamsize);
-
-	/** The overflow() function is called to transfer characters to the
-	 *  real output destination when the buffer is full. A call to
-	 *  overflow(c) outputs the contents of the buffer plus the
-	 *  character c.
-	 *  Consume some sequence of the characters in the pending sequence.
-	*/
-	/*virtual*/ int_type overflow(int_type __c = traits_type::eof());
-
-	/** sync() flushes the underlying @c FILE* stream.
-	*/
-	/*virtual*/ int sync();
-
-	std::streamsize xsgetn(char_type*, std::streamsize);
-	std::streamsize xsputn(const char_type*, std::streamsize);
-#endif
 };
 
 
@@ -317,16 +283,6 @@ public:
 private:
 	llstdio_filebuf _M_filebuf;
 };
-
-
-/**
- * @breif filesize helpers.
- *
- * The file size helpers are not considered particularly efficient,
- * and should only be used for config files and the like -- not in a
- * loop.
- */
-std::streamsize LL_COMMON_API llifstream_size(llifstream& fstr);
-std::streamsize LL_COMMON_API llofstream_size(llofstream& fstr);
+#endif
 
 #endif // not LL_LLFILE_H

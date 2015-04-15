@@ -217,7 +217,7 @@ public:
 	void        setHasMedia(bool has_media)  { mHasMedia = has_media ;}
 	BOOL        hasMedia() const ;
 
-	BOOL                  switchTexture() ;
+	BOOL		switchTexture() ;
 
 	//vertex buffer tracking
 	void setVertexBuffer(LLVertexBuffer* buffer);
@@ -229,10 +229,13 @@ public:
 
 	static U32 getRiggedDataMask(U32 type);
 
+	void	notifyAboutCreatingTexture(LLViewerTexture *texture);
+	void	notifyAboutMissingAsset(LLViewerTexture *texture);
+
 public: //aligned members
 	LLVector4a		mExtents[2];
 
-private:	
+private:
 	F32         adjustPartialOverlapPixelArea(F32 cos_angle_to_view_dir, F32 radius );
 	BOOL        calcPixelArea(F32& cos_angle_to_view_dir, F32& radius) ;
 public:

@@ -2006,7 +2006,8 @@ void LLLiveLSLEditor::loadAsset()
 				{
 					mItem = new LLViewerInventoryItem(item);
 					// request the text from the object
-					LLUUID* user_data = new LLUUID(mItemUUID); //  ^ mObjectUUID
+					LLSD* user_data = new LLSD();
+					user_data->with("taskid", mObjectUUID).with("itemid", mItemUUID);
 					gAssetStorage->getInvItemAsset(object->getRegion()->getHost(),
 						gAgent.getID(),
 						gAgent.getSessionID(),
@@ -2085,9 +2086,9 @@ void LLLiveLSLEditor::onLoadComplete(LLVFS *vfs, const LLUUID& asset_id,
 {
 	LL_DEBUGS() << "LLLiveLSLEditor::onLoadComplete: got uuid " << asset_id
 		 << LL_ENDL;
-	LLUUID* xored_id = (LLUUID*)user_data;
+	LLSD* floater_key = (LLSD*)user_data;
 	
-	LLLiveLSLEditor* instance = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", *xored_id);
+	LLLiveLSLEditor* instance = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", *floater_key);
 	
 	if(instance )
 	{
@@ -2116,7 +2117,7 @@ void LLLiveLSLEditor::onLoadComplete(LLVFS *vfs, const LLUUID& asset_id,
 		}
 	}
 
-	delete xored_id;
+	delete floater_key;
 }
 
 void LLLiveLSLEditor::loadScriptText(LLVFS *vfs, const LLUUID &uuid, LLAssetType::EType type)
@@ -2377,7 +2378,10 @@ void LLLiveLSLEditor::onSaveTextComplete(const LLUUID& asset_uuid, void* user_da
 	}
 	else
 	{
-		LLLiveLSLEditor* self = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", data->mItem->getUUID()); //  ^ data->mSaveObjectID
+		LLSD floater_key;
+		floater_key["taskid"] = data->mSaveObjectID;
+		floater_key["itemid"] = data->mItem->getUUID();
+		LLLiveLSLEditor* self = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", floater_key);
 		if (self)
 		{
 			self->getWindow()->decBusyCount();
@@ -2402,7 +2406,10 @@ void LLLiveLSLEditor::onSaveBytecodeComplete(const LLUUID& asset_uuid, void* use
 	if(0 ==status)
 	{
 		LL_INFOS() << "LSL Bytecode saved" << LL_ENDL;
-		LLLiveLSLEditor* self = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", data->mItem->getUUID()); //  ^ data->mSaveObjectID
+		LLSD floater_key;
+		floater_key["taskid"] = data->mSaveObjectID;
+		floater_key["itemid"] = data->mItem->getUUID();
+		LLLiveLSLEditor* self = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", floater_key);
 		if (self)
 		{
 			// Tell the user that the compile worked.
@@ -2480,7 +2487,10 @@ void LLLiveLSLEditor::processScriptRunningReply(LLMessageSystem* msg, void**)
 	msg->getUUIDFast(_PREHASH_Script, _PREHASH_ObjectID, object_id);
 	msg->getUUIDFast(_PREHASH_Script, _PREHASH_ItemID, item_id);
 
-	LLLiveLSLEditor* instance = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", item_id); //  ^ object_id
+	LLSD floater_key;
+	floater_key["taskid"] = object_id;
+	floater_key["itemid"] = item_id;
+	LLLiveLSLEditor* instance = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", floater_key);
 	if(instance)
 	{
 		instance->mHaveRunningInfo = TRUE;

@@ -168,9 +168,13 @@ public:
 	/*virtual*/ void updateBindStatsForTester() ;
 protected:
 	void cleanup() ;
-	void init(bool firstinit) ;	
+	void init(bool firstinit) ;
 	void reorganizeFaceList() ;
 	void reorganizeVolumeList() ;
+
+	void notifyAboutMissingAsset();
+	void notifyAboutCreatingTexture();
+
 private:
 	friend class LLBumpImageList;
 	friend class LLUIImageList;
@@ -306,10 +310,11 @@ public:
 
 	void addToCreateTexture();
 
+
 	 // ONLY call from LLViewerTextureList
 	BOOL createTexture(S32 usename = 0);
-	void destroyTexture() ;	
-	
+	void destroyTexture() ;
+
 	virtual void processTextureStats() ;
 	F32  calcDecodePriority() ;
 

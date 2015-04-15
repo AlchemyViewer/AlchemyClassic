@@ -514,8 +514,11 @@ void LLGroupActions::copyData(const LLUUID& group_id, ECopyDataType data_type)
 		default:
 			break;
 		}
-		LLWString wstr = utf8str_to_wstring(tmp);
-		LLClipboard::instance().copyToClipboard(wstr, 0, wstr.length());
+		if (!tmp.empty())
+		{
+			LLWString wstr = utf8str_to_wstring(tmp);
+			LLClipboard::instance().copyToClipboard(wstr, 0, wstr.length());
+		}
 	}
 }
 

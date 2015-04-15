@@ -1395,7 +1395,7 @@ void LLAgent::setAFK()
 		setControlFlags(AGENT_CONTROL_AWAY | AGENT_CONTROL_STOP);
 		gAwayTimer.start();
 		
-		if (!gAgentAvatarp->isSitting() && gSavedSettings.getBOOL("AlchemySitOnAway"))
+		if (isAgentAvatarValid() && !gAgentAvatarp->isSitting() && gSavedSettings.getBOOL("AlchemySitOnAway"))
 			gAgent.setSitDownAway(true);
 	}
 }
@@ -1416,7 +1416,7 @@ void LLAgent::clearAFK()
 		sendAnimationRequest(ANIM_AGENT_AWAY, ANIM_REQUEST_STOP);
 		clearControlFlags(AGENT_CONTROL_AWAY);
 		
-		if (gAgentAvatarp->isSitting() && gAgent.isAwaySitting())
+		if (isAgentAvatarValid() && gAgentAvatarp->isSitting() && gAgent.isAwaySitting())
 			gAgent.setSitDownAway(false);
 	}
 }

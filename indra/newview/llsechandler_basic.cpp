@@ -602,28 +602,25 @@ void LLBasicCertificateStore::load_from_file(const std::string& filename)
 		return;
 	}
 	
-	BIO* file_bio = BIO_new(BIO_s_file());
+	BIO *file_bio = BIO_new_file(filename.c_str(), "r");
 	if(file_bio)
 	{
-		if (BIO_read_filename(file_bio, filename.c_str()) > 0)
-		{	
-			X509 *cert_x509 = NULL;
-			while((PEM_read_bio_X509(file_bio, &cert_x509, 0, NULL)) && 
-				  (cert_x509 != NULL))
+		X509 *cert_x509 = NULL;
+		while((PEM_read_bio_X509(file_bio, &cert_x509, 0, NULL)) && 
+			  (cert_x509 != NULL))
+		{
+			try
 			{
-				try
-				{
-					add(new LLBasicCertificate(cert_x509));
-				}
-				catch (...)
-				{
-					LL_WARNS("SECAPI") << "Failure creating certificate from the certificate store file." << LL_ENDL;
-				}
-				X509_free(cert_x509);
-				cert_x509 = NULL;
+				add(new LLBasicCertificate(cert_x509));
 			}
-			BIO_free(file_bio);
+			catch (...)
+			{
+				LL_WARNS("SECAPI") << "Failure creating certificate from the certificate store file." << LL_ENDL;
+			}
+			X509_free(cert_x509);
+			cert_x509 = NULL;
 		}
+		BIO_free(file_bio);
 	}
 	else
 	{

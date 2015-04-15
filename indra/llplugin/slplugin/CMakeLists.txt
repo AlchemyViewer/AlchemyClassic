@@ -68,6 +68,7 @@ target_link_libraries(SLPlugin
   ${LLMESSAGE_LIBRARIES}
   ${LLCOMMON_LIBRARIES}
   ${PLUGIN_API_WINDOWS_LIBRARIES}
+  ${PTHREAD_LIBRARY}
 )
 
 add_dependencies(SLPlugin

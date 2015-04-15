@@ -285,7 +285,25 @@ clicking on their names.
                      layout="topleft"
                      top="0"
                      width="90" />
-            </layout_panel>
+                </layout_panel>
+                <layout_panel
+                 follows="top|left|right"
+                 height="23"
+                 layout="topleft"
+                 left_pad="2"
+                 name="export_btn_lp"
+                 auto_resize="true"
+                 width="91">
+                    <button
+                     follows="top|left|right"
+                     left="1"
+                     height="23"
+                     name="export_list"
+                     label="Export"
+                     layout="topleft"
+                     top="0"
+                     width="90" />
+                </layout_panel>
         </layout_stack>
     </panel>
     <panel

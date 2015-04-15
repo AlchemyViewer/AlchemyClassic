@@ -12,9 +12,9 @@
   
   <tab_container
     follows="all" 
-    top="25"
+    top="20"
     left="10"
-    height="405" 
+    height="420" 
     width="450" 
     name="about_tab"
     tab_position="top">
@@ -27,8 +27,7 @@
         parse_urls="true" 
        follows="top|left"
        font="SansSerif"
-       height="343"
-       bg_readonly_color="Transparent"
+       height="358"
        left="5"
        max_length="65536"
        name="support_editor"
@@ -39,7 +38,7 @@
         follows="left|top" 
         label="Copy to Clipboard"
         name="copy_btn"
-        left="10"
+        left="5"
         top_pad="5"
         height="25"
         width="180" />
@@ -63,8 +62,7 @@ Second Life is brought to you by the Lindens:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
        text_color="LtGray"
        max_length="65536"
@@ -80,7 +78,7 @@ Philip, Andrew, Doug, Richard, Phoenix, Ian, Mark, Robin, Dan, Char, Ryan, Eric,
           layout="topleft"
           left="5"
           name="contrib_intro"
-          top_pad="10"
+          top_pad="2"
           width="435"
           wrap="true">
 with open source contributions from:
@@ -88,13 +86,12 @@ with open source contributions from:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
        text_color="LtGray"
        max_length="65536"
        name="contrib_names"
-       top_pad="10"
+       top_pad="12"
        width="435"
        word_wrap="true">
 Dummy Name replaced at run time
@@ -105,7 +102,7 @@ Dummy Name replaced at run time
           layout="topleft"
           left="5"
           name="trans_intro"
-          top_pad="10"
+          top_pad="2"
           width="435"
           wrap="true">
 and translations from:
@@ -113,13 +110,12 @@ and translations from:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
        text_color="LtGray"
        max_length="65536"
        name="trans_names"
-       top_pad="10"
+       top_pad="12"
        width="435"
        word_wrap="true">
 Dummy Name replaced at run time
@@ -133,15 +129,13 @@ Dummy Name replaced at run time
       <text_editor
        enabled="false"
        follows="left|top"
-       height="375"
-       bg_readonly_color="Transparent"
+       height="385"
        left="5"
        text_color="LtGray"
        max_length="65536"
        name="credits_editor"
        top="5"
-       width="435"
-       word_wrap="true">
+       width="435">
 3Dconnexion SDK Copyright (C) 1992-2009 3Dconnexion
 APR Copyright (C) 2011 The Apache Software Foundation
 Collada DOM Copyright 2006 Sony Computer Entertainment Inc.
@@ -192,8 +186,7 @@ Alchemy Viewer is brought to you by the Alchemy Development Group:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
        text_color="LtGray"
        max_length="65536"
@@ -201,7 +194,7 @@ Alchemy Viewer is brought to you by the Alchemy Development Group:
        top_pad="10"
        width="435"
        word_wrap="true">
-        Sovereign Engineer, Cinder Roxley, Inusaito Kanya, Luminous Luminos, Electron Electricteeth
+Sovereign Engineer, Cinder Roxley, Inusaito Kanya, Luminous Luminos, Electron Electricteeth
       </text_editor>
       <text
           follows="top|left"
@@ -209,7 +202,7 @@ Alchemy Viewer is brought to you by the Alchemy Development Group:
           layout="topleft"
           left="5"
           name="opensource_intro"
-          top_pad="10"
+          top_pad="2"
           width="435"
           wrap="true">
 with open source code from:
@@ -217,18 +210,15 @@ with open source code from:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
        text_color="LtGray"
        max_length="65536"
        name="opensource_names"
-       top_pad="10"
+       top_pad="12"
        width="435"
        word_wrap="true">
-Viewer Projects: Catznip, Exodus, Firestorm, Singularity
-Companies: Simudyne
-People: Miguael Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard
+Siana Gearz, Shyotl Kuhr, Xenhat Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard, Ansariel Hiller, Kitty Barnett, Ayamo Nozaki, Kitty Barnett
       </text_editor>
       <text
           follows="top|left"
@@ -236,7 +226,7 @@ People: Miguael Liamano, NiranV Dean, Qarl Fizz, TheDarkest Fairey, Tofu Buzzard
           layout="topleft"
           left="5"
           name="services_intro"
-          top_pad="10"
+          top_pad="2"
           width="435"
           wrap="true">
 and project infrastructure from:
@@ -244,21 +234,15 @@ and project infrastructure from:
       <text_editor
        enabled="false" 
        follows="top|left"
-       height="98"
-       bg_readonly_color="Transparent"
+       height="103"
        left="5"
-       text_color="LtGray"
        max_length="65536"
        name="services_names"
-       top_pad="10"
+       top_pad="12"
        width="435"
        word_wrap="true">
-Atlassian:
-  Bitbucket
-  Confluence
-  Jira
-Coverity:
- Coverity Scan
+Atlassian: Bitbucket, Confluence, Jira, Bamboo
+Coverity: Coverity Scan
       </text_editor>
     </panel>
     </tab_container>

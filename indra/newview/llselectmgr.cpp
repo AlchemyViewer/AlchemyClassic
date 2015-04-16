@@ -5980,7 +5980,7 @@ void LLSelectNode::saveShinyColors()
 			const LLMaterialPtr mat = mObject->getTE(i)->getMaterialParams();
 			if (!mat.isNull())
 			{
-				mSavedShinyColors.push_back(mat->getSpecularLightColor());
+				mSavedShinyColors.push_back(LLColor4(mat->getSpecularLightColor()));
 			}
 			else
 			{

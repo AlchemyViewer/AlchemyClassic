@@ -500,7 +500,7 @@ private:
 			}
 			else
 			{
-				return (size_t)lhs < (size_t)rhs; // <alchemy/>
+				return (uintptr_t)lhs < (uintptr_t)rhs; // <alchemy/>
 			}
 		}
 	};

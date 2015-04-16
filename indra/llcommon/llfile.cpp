@@ -425,124 +425,69 @@ LLFILE *	LLFile::_Fiopen(const std::string& filename,
 #if LL_WINDOWS
 /************** input file stream ********************************/
 
-llifstream::llifstream() :
-    _M_filebuf(),
-	std::istream(&_M_filebuf)
+llifstream::llifstream() : std::ifstream()
 {
 }
 
 // explicit
-llifstream::llifstream(const std::string& _Filename, 
-                       ios_base::openmode _Mode) :
-    _M_filebuf(),
-	std::istream(&_M_filebuf)
+llifstream::llifstream(const std::string& _Filename, ios_base::openmode _Mode) :
+	std::ifstream(utf8str_to_utf16str(_Filename),
+				 _Mode | ios_base::in)
 {
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open(wideName.c_str(), _Mode | ios_base::in) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
 }
 
 // explicit
-llifstream::llifstream(const char* _Filename, 
-                       ios_base::openmode _Mode) :
-    _M_filebuf(),
-	std::istream(&_M_filebuf)
+llifstream::llifstream(const char* _Filename, ios_base::openmode _Mode) :
+	std::ifstream(utf8str_to_utf16str(_Filename).c_str(),
+				 _Mode | ios_base::in)
+
 {
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open(wideName.c_str(), _Mode | ios_base::in) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
 }
 
-bool llifstream::is_open() const
-{	// test if C stream has been opened
-	return _M_filebuf.is_open();
+void llifstream::open(const std::string& _Filename, ios_base::openmode _Mode)
+{
+	std::ifstream::open(utf8str_to_utf16str(_Filename),
+		_Mode | ios_base::in);
 }
 
 void llifstream::open(const char* _Filename, ios_base::openmode _Mode)
-{	// open a C stream with specified mode
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open( wideName.c_str(), _Mode | ios_base::in) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
-	else
-	{
-		_Myios::clear();
-	}
-}
-
-void llifstream::close()
-{	// close the C stream
-	if (_M_filebuf.close() == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
+{
+	std::ifstream::open(utf8str_to_utf16str(_Filename).c_str(),
+		_Mode | ios_base::in);
 }
 
 
 /************** output file stream ********************************/
 
 
-llofstream::llofstream() :
-    _M_filebuf(),
-	std::ostream(&_M_filebuf)
+llofstream::llofstream() : std::ofstream()
 {
 }
 
 // explicit
-llofstream::llofstream(const std::string& _Filename,
-                       ios_base::openmode _Mode) :
-    _M_filebuf(),
-	std::ostream(&_M_filebuf)
+llofstream::llofstream(const std::string& _Filename, ios_base::openmode _Mode) :
+	std::ofstream(utf8str_to_utf16str(_Filename),
+				  _Mode | ios_base::out)
 {
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open( wideName.c_str(), _Mode | ios_base::out) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
 }
 
 // explicit
-llofstream::llofstream(const char* _Filename,
-                       ios_base::openmode _Mode) :
-    _M_filebuf(),
-	std::ostream(&_M_filebuf)
+llofstream::llofstream(const char* _Filename, ios_base::openmode _Mode) :
+	std::ofstream(utf8str_to_utf16str(_Filename).c_str(),
+				  _Mode | ios_base::out)
 {
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open( wideName.c_str(), _Mode | ios_base::out) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
 }
 
-bool llofstream::is_open() const
-{	// test if C stream has been opened
-	return _M_filebuf.is_open();
+void llofstream::open(const std::string& _Filename, ios_base::openmode _Mode)
+{
+	std::ofstream::open(utf8str_to_utf16str(_Filename),
+		_Mode | ios_base::out);
 }
 
 void llofstream::open(const char* _Filename, ios_base::openmode _Mode)
-{	// open a C stream with specified mode
-	llutf16string wideName = utf8str_to_utf16str( _Filename );
-	if (_M_filebuf.open( wideName.c_str(), _Mode | ios_base::out) == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
-	else
-	{
-		_Myios::clear();
-	}
-}
-
-void llofstream::close()
-{	// close the C stream
-	if (_M_filebuf.close() == 0)
-	{
-		_Myios::setstate(ios_base::failbit);
-	}
+{
+	std::ofstream::open(utf8str_to_utf16str(_Filename).c_str(),
+		_Mode | ios_base::out);
 }
 
 #endif  // LL_WINDOWS

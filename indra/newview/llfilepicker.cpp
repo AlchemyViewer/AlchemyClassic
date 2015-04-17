@@ -1259,7 +1259,7 @@ BOOL LLFilePicker::getSaveFile( ESaveFilter filter, const std::string& filename 
 			suggest_ext = ".xml";
 			break;
 		case FFSAVE_CSV:
-			caption += add_simple_patterm_filter_to_gtkchooser
+			caption += add_simple_pattern_filter_to_gtkchooser
 				(picker, "*.csv", LLTrans::getString("csv_files") + " (*.csv)");
 			break;
 		case FFSAVE_RAW:

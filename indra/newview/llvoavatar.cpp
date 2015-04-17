@@ -2885,7 +2885,7 @@ void LLVOAvatar::idleUpdateNameTagText(BOOL new_name)
 	}
 	else
 	{
-		is_muted = LLMuteList::getInstance()->isMuted(getID());
+		is_muted = isInMuteList();
 	}
 	bool is_friend = LLAvatarTracker::instance().isBuddy(getID());
 	bool is_cloud = getIsCloud();
@@ -3324,10 +3324,6 @@ bool LLVOAvatar::isVisuallyMuted()
 					mCachedVisualMute = muted;
 				} 
 			}
-		}
-		else
-		{
-			muted = LLMuteList::getInstance()->isMuted(getID());
 		}
 	}
 

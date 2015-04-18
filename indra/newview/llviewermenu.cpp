@@ -67,6 +67,7 @@
 #include "llfloaterimcontainer.h"
 #include "llfloaterland.h"
 #include "llfloaterimnearbychat.h"
+#include "llfloaterparticleeditor.h"
 #include "llfloaterpathfindingcharacters.h"
 #include "llfloaterpathfindinglinksets.h"
 #include "llfloaterpay.h"
@@ -3174,6 +3175,37 @@ class LLObjectMute : public view_listener_t
 };
 
 // <Alchemy>
+class LLEnableEditParticleSource : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		if (LLSelectMgr::instance().getSelection()->getObjectCount())
+		{
+			LLObjectSelection::valid_root_iterator iter = LLSelectMgr::instance().getSelection()->valid_root_begin();
+			LLSelectNode* node = *iter;
+			
+			if (node->mPermissions->getOwner() == gAgent.getID())
+				return true;
+		}
+		return false;
+	}
+};
+
+class LLEditParticleSource : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
+		if (objectp)
+		{
+			LLFloaterParticleEditor* particleEditor = LLFloaterReg::showTypedInstance<LLFloaterParticleEditor>("particle_editor", LLSD(objectp->getID()), TAKE_FOCUS_YES);
+			if(particleEditor)
+				particleEditor->setObject(objectp);
+		}
+		return true;
+	}
+};
+
 class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -9208,6 +9240,8 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
 	// <Alchemy>
+    view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
+    view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
 	// </Alchemy>

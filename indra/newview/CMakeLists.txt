@@ -1807,9 +1807,6 @@ if (WINDOWS)
       ${SHARED_LIB_STAGING_DIR}/Release/glod.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/glod.dll
       ${SHARED_LIB_STAGING_DIR}/Debug/glod.dll
-      ${SHARED_LIB_STAGING_DIR}/Release/libcollada14dom22.dll
-      ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libcollada14dom22.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/libcollada14dom22-d.dll
       ${SHARED_LIB_STAGING_DIR}/Release/openjpeg.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/openjpeg.dll
       ${SHARED_LIB_STAGING_DIR}/Debug/openjpegd.dll
@@ -1834,7 +1831,6 @@ if (WINDOWS)
       ${TBBMALLOC_SOURCE}
       ${CMAKE_CURRENT_SOURCE_DIR}/licenses-win32.txt
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable.txt
-      ${CMAKE_CURRENT_SOURCE_DIR}/featuretable_xp.txt
       ${ARCH_PREBUILT_DIRS_RELEASE}/libeay32.dll
       ${ARCH_PREBUILT_DIRS_RELEASE}/qtcore4.dll
       ${ARCH_PREBUILT_DIRS_RELEASE}/qtgui4.dll
@@ -1867,31 +1863,51 @@ if (WINDOWS)
       ${ARCH_PREBUILT_DIRS_DEBUG}/imageformats/qmngd4.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/imageformats/qsvgd4.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/imageformats/qtiffd4.dll
-      ${ARCH_PREBUILT_DIRS_RELEASE}/codecs/qcncodecsd4.dll
-      ${ARCH_PREBUILT_DIRS_RELEASE}/codecs/qjpcodecsd4.dll
-      ${ARCH_PREBUILT_DIRS_RELEASE}/codecs/qkrcodecsd4.dll
-      ${ARCH_PREBUILT_DIRS_RELEASE}/codecs/qtwcodecsd4.dll
+      ${ARCH_PREBUILT_DIRS_DEBUG}/codecs/qcncodecsd4.dll
+      ${ARCH_PREBUILT_DIRS_DEBUG}/codecs/qjpcodecsd4.dll
+      ${ARCH_PREBUILT_DIRS_DEBUG}/codecs/qkrcodecsd4.dll
+      ${ARCH_PREBUILT_DIRS_DEBUG}/codecs/qtwcodecsd4.dll
       SLPlugin
-      media_plugin_quicktime
       media_plugin_webkit
-      winmm_shim
       windows-crash-logger
       )
 
-    if (FMODSTUDIO)
+    if (WORD_SIZE EQUAL 32)
       list(APPEND COPY_INPUT_DEPENDENCIES
-           ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
-           ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod.dll
-           ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
-          )
+           media_plugin_quicktime
+           )
+    endif (WORD_SIZE EQUAL 32)
+
+    if (FMODSTUDIO)
+      if (WORD_SIZE EQUAL 32)
+        list(APPEND COPY_INPUT_DEPENDENCIES
+             ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
+             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod.dll
+             ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
+            )
+      elseif (WORD_SIZE EQUAL 64)
+        list(APPEND COPY_INPUT_DEPENDENCIES
+             ${SHARED_LIB_STAGING_DIR}/Release/fmod64.dll
+             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod64.dll
+             ${SHARED_LIB_STAGING_DIR}/Debug/fmodL64.dll
+            )
+      endif (WORD_SIZE EQUAL 32)
     endif (FMODSTUDIO)
 
     if (FMODEX)
-      list(APPEND COPY_INPUT_DEPENDENCIES
-           ${SHARED_LIB_STAGING_DIR}/Release/fmodex.dll
-           ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmodex.dll
-           ${SHARED_LIB_STAGING_DIR}/Debug/fmodexL.dll
-          )
+      if (WORD_SIZE EQUAL 32)
+        list(APPEND COPY_INPUT_DEPENDENCIES
+             ${SHARED_LIB_STAGING_DIR}/Release/fmodex.dll
+             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmodex.dll
+             ${SHARED_LIB_STAGING_DIR}/Debug/fmodexL.dll
+            )
+      elseif (WORD_SIZE EQUAL 64)
+        list(APPEND COPY_INPUT_DEPENDENCIES
+             ${SHARED_LIB_STAGING_DIR}/Release/fmodex64.dll
+             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmodex64.dll
+             ${SHARED_LIB_STAGING_DIR}/Debug/fmodexL64.dll
+            )
+      endif (WORD_SIZE EQUAL 32)
     endif (FMODEX)
     
     add_custom_command(

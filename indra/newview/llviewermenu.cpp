@@ -3179,13 +3179,15 @@ class LLEnableEditParticleSource : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
 	{
-		if (LLSelectMgr::instance().getSelection()->getObjectCount())
+		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+		for (LLObjectSelection::valid_root_iterator iter = selection->valid_root_begin();
+			 iter != selection->valid_root_end(); iter++)
 		{
-			LLObjectSelection::valid_root_iterator iter = LLSelectMgr::instance().getSelection()->valid_root_begin();
 			LLSelectNode* node = *iter;
-			
 			if (node->mPermissions->getOwner() == gAgent.getID())
+			{
 				return true;
+			}
 		}
 		return false;
 	}

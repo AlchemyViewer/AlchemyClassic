@@ -10750,6 +10750,68 @@ the region &quot;[REGION]&quot;?
   </notification>
 
   <notification
+   icon="alertmodal.tga"
+   name="ParticleScriptFindFolderFailed"
+   type="alertmodal">
+Could not find a folder for the new script in inventory.
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ParticleScriptCreationFailed"
+   type="alertmodal">
+Could not create new script for this particle system.
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ParticleScriptNotFound"
+   type="alertmodal">
+Could not find the newly created script for this particle system.
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ParticleScriptCreateTempFileFailed"
+   type="alertmodal">
+Could not create temporary file for script upload.
+   <form name="form">
+      <ignore name="ignore"
+       text="A particle script was copied to my clipboard"/>
+    </form>
+  </notification>
+
+  <notification
+   icon="notify.tga"
+   name="ParticleScriptInjected"
+   type="alertmodal">
+Particle script was injected successfully.
+   <form name="form">
+      <ignore name="ignore"
+       text="A particle script was injected to an object."/>
+    </form>
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="ParticleScriptCapsFailed"
+   type="alertmodal">
+Failed to inject script into object. Request for capabilities returned an empty address.
+  </notification>
+
+  <notification
+   icon="notify.tga"
+   name="ParticleScriptCopiedToClipboard"
+   type="alertmodal">
+The LSL script to create this particle system has been copied to your clipboard. You can now paste it into a new script to use it.
+   <form name="form">
+      <ignore name="ignore"
+       text="A particle script was copied to my clipboard"/>
+    </form>
+  </notification>
+
+
+  <notification
     icon="alertmodal.tga"
     name="RevokedMapRights"
     persist="true"

@@ -62,7 +62,6 @@ private:
 
 	void onClickClearTarget();
 	void onClickTargetPicker();
-	static void startPicking(void* userdata);
 	static void onTargetPicked(void* userdata);
 
 	void callbackReturned(const LLUUID& inv_item);

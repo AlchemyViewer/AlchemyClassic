@@ -1,20 +1,20 @@
-/** 
+/**
  * @file llfloaterparticleeditor.cpp
  * @brief Particle Editor
  *
  * Copyright (C) 2011, Zi Ree @ Second Life
  * Copyright (C) 2015, Cinder Roxley <cinder@sdf.org>
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation;
  * version 2.1 of the License only.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
@@ -54,45 +54,47 @@ struct lsl_part_st {
 	U8 flag;
 	const char* script_const;
 	lsl_part_st(const U8 f, const char* sc)
-		{ flag = f, script_const = sc; }
+	{
+		flag = f, script_const = sc;
+	}
 };
 
 static const std::map<std::string, lsl_part_st> sParticlePatterns{
-	{"drop", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_DROP, "PSYS_SRC_PATTERN_DROP")},
-	{"explode", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_EXPLODE, "PSYS_SRC_PATTERN_EXPLODE")},
-	{"angle", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE, "PSYS_SRC_PATTERN_ANGLE")},
-	{"angle_cone", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE, "PSYS_SRC_PATTERN_ANGLE_CONE")},
-	{"angle_cone_empty", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE_EMPTY, "PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY")}
+	{ "drop", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_DROP, "PSYS_SRC_PATTERN_DROP") },
+	{ "explode", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_EXPLODE, "PSYS_SRC_PATTERN_EXPLODE") },
+	{ "angle", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE, "PSYS_SRC_PATTERN_ANGLE") },
+	{ "angle_cone", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE, "PSYS_SRC_PATTERN_ANGLE_CONE") },
+	{ "angle_cone_empty", lsl_part_st(LLPartSysData::LL_PART_SRC_PATTERN_ANGLE_CONE_EMPTY, "PSYS_SRC_PATTERN_ANGLE_CONE_EMPTY") }
 };
 
 static const std::map<std::string, lsl_part_st> sParticleBlends{
-	{"blend_one", lsl_part_st(LLPartData::LL_PART_BF_ONE, "PSYS_PART_BF_ONE")},
-	{"blend_zero", lsl_part_st(LLPartData::LL_PART_BF_ZERO, "PSYS_PART_BF_ZERO")},
-	{"blend_dest_color", lsl_part_st(LLPartData::LL_PART_BF_DEST_COLOR, "PSYS_PART_BF_DEST_COLOR")},
-	{"blend_src_color", lsl_part_st(LLPartData::LL_PART_BF_SOURCE_COLOR, "PSYS_PART_BF_SOURCE_COLOR")},
-	{"blend_one_minus_dest_color", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_DEST_COLOR, "PSYS_PART_BF_ONE_MINUS_DEST_COLOR")},
-	{"blend_one_minus_src_color", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_SOURCE_COLOR, "PSYS_PART_BF_SOURCE_ALPHA")},
-	{"blend_src_alpha", lsl_part_st(LLPartData::LL_PART_BF_SOURCE_ALPHA, "PSYS_PART_BF_SOURCE_ALPHA")},
-	{"blend_one_minus_src_alpha", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_SOURCE_ALPHA, "PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA")}
+	{ "blend_one", lsl_part_st(LLPartData::LL_PART_BF_ONE, "PSYS_PART_BF_ONE") },
+	{ "blend_zero", lsl_part_st(LLPartData::LL_PART_BF_ZERO, "PSYS_PART_BF_ZERO") },
+	{ "blend_dest_color", lsl_part_st(LLPartData::LL_PART_BF_DEST_COLOR, "PSYS_PART_BF_DEST_COLOR") },
+	{ "blend_src_color", lsl_part_st(LLPartData::LL_PART_BF_SOURCE_COLOR, "PSYS_PART_BF_SOURCE_COLOR") },
+	{ "blend_one_minus_dest_color", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_DEST_COLOR, "PSYS_PART_BF_ONE_MINUS_DEST_COLOR") },
+	{ "blend_one_minus_src_color", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_SOURCE_COLOR, "PSYS_PART_BF_SOURCE_ALPHA") },
+	{ "blend_src_alpha", lsl_part_st(LLPartData::LL_PART_BF_SOURCE_ALPHA, "PSYS_PART_BF_SOURCE_ALPHA") },
+	{ "blend_one_minus_src_alpha", lsl_part_st(LLPartData::LL_PART_BF_ONE_MINUS_SOURCE_ALPHA, "PSYS_PART_BF_ONE_MINUS_SOURCE_ALPHA") }
 };
 
 LLFloaterParticleEditor::LLFloaterParticleEditor(const LLSD& key)
-:	LLFloater(key), mObject(nullptr), mParticleScriptInventoryItem(nullptr)
-,	mPatternTypeCombo(nullptr), mTexturePicker(nullptr)
-,	mBurstRateCtrl(nullptr), mBurstCountCtrl(nullptr), mBurstRadiusCtrl(nullptr)
-,	mAngleBeginCtrl(nullptr), mAngleEndCtrl(nullptr), mBurstSpeedMinCtrl(nullptr)
-,	mBurstSpeedMaxCtrl(nullptr), mStartAlphaCtrl(nullptr), mEndAlphaCtrl(nullptr)
-,	mScaleStartXCtrl(nullptr), mScaleStartYCtrl(nullptr), mScaleEndXCtrl(nullptr)
-,	mScaleEndYCtrl(nullptr), mSourceMaxAgeCtrl(nullptr), mParticlesMaxAgeCtrl(nullptr)
-,	mStartGlowCtrl(nullptr), mEndGlowCtrl(nullptr), mBlendFuncSrcCombo(nullptr)
-,	mBlendFuncDestCombo(nullptr), mBounceCheckBox(nullptr), mEmissiveCheckBox(nullptr)
-,	mFollowSourceCheckBox(nullptr), mFollowVelocityCheckBox(nullptr), mInterpolateColorCheckBox(nullptr)
-,	mInterpolateScaleCheckBox(nullptr), mTargetPositionCheckBox(nullptr), mTargetLinearCheckBox(nullptr)
-,	mWindCheckBox(nullptr), mRibbonCheckBox(nullptr), mAcellerationXCtrl(nullptr)
-,	mAcellerationYCtrl(nullptr), mAcellerationZCtrl(nullptr), mOmegaXCtrl(nullptr)
-,	mOmegaYCtrl(nullptr), mOmegaZCtrl(nullptr), mStartColorSelector(nullptr)
-,	mEndColorSelector(nullptr), mTargetKeyInput(nullptr), mClearTargetButton(nullptr)
-,	mPickTargetButton(nullptr), mInjectScriptButton(nullptr), mCopyToLSLButton(nullptr)
+	: LLFloater(key), mObject(nullptr), mParticleScriptInventoryItem(nullptr)
+	, mPatternTypeCombo(nullptr), mTexturePicker(nullptr)
+	, mBurstRateCtrl(nullptr), mBurstCountCtrl(nullptr), mBurstRadiusCtrl(nullptr)
+	, mAngleBeginCtrl(nullptr), mAngleEndCtrl(nullptr), mBurstSpeedMinCtrl(nullptr)
+	, mBurstSpeedMaxCtrl(nullptr), mStartAlphaCtrl(nullptr), mEndAlphaCtrl(nullptr)
+	, mScaleStartXCtrl(nullptr), mScaleStartYCtrl(nullptr), mScaleEndXCtrl(nullptr)
+	, mScaleEndYCtrl(nullptr), mSourceMaxAgeCtrl(nullptr), mParticlesMaxAgeCtrl(nullptr)
+	, mStartGlowCtrl(nullptr), mEndGlowCtrl(nullptr), mBlendFuncSrcCombo(nullptr)
+	, mBlendFuncDestCombo(nullptr), mBounceCheckBox(nullptr), mEmissiveCheckBox(nullptr)
+	, mFollowSourceCheckBox(nullptr), mFollowVelocityCheckBox(nullptr), mInterpolateColorCheckBox(nullptr)
+	, mInterpolateScaleCheckBox(nullptr), mTargetPositionCheckBox(nullptr), mTargetLinearCheckBox(nullptr)
+	, mWindCheckBox(nullptr), mRibbonCheckBox(nullptr), mAcellerationXCtrl(nullptr)
+	, mAcellerationYCtrl(nullptr), mAcellerationZCtrl(nullptr), mOmegaXCtrl(nullptr)
+	, mOmegaYCtrl(nullptr), mOmegaZCtrl(nullptr), mStartColorSelector(nullptr)
+	, mEndColorSelector(nullptr), mTargetKeyInput(nullptr), mClearTargetButton(nullptr)
+	, mPickTargetButton(nullptr), mInjectScriptButton(nullptr), mCopyToLSLButton(nullptr)
 {
 	mCommitCallbackRegistrar.add("Particle.Edit", boost::bind(&LLFloaterParticleEditor::onParameterChange, this));
 	mDefaultParticleTexture = LLViewerTextureManager::getFetchedTextureFromFile("pixiesmall.j2c");
@@ -113,7 +115,7 @@ BOOL LLFloaterParticleEditor::postBuild()
 	mBurstSpeedMaxCtrl = panel->getChild<LLUICtrl>("burst_speed_max");
 	mSourceMaxAgeCtrl = panel->getChild<LLUICtrl>("source_max_age");
 	mParticlesMaxAgeCtrl = panel->getChild<LLUICtrl>("particle_max_age");
-	
+
 	panel = getChild<LLPanel>("angle_panel");
 	mAngleBeginCtrl = panel->getChild<LLUICtrl>("angle_begin");
 	mAngleEndCtrl = panel->getChild<LLUICtrl>("angle_end");
@@ -121,13 +123,13 @@ BOOL LLFloaterParticleEditor::postBuild()
 	mScaleStartYCtrl = panel->getChild<LLUICtrl>("scale_start_y");
 	mScaleEndXCtrl = panel->getChild<LLUICtrl>("scale_end_x");
 	mScaleEndYCtrl = panel->getChild<LLUICtrl>("scale_end_y");
-	
+
 	panel = getChild<LLPanel>("alpha_panel");
 	mStartAlphaCtrl = panel->getChild<LLUICtrl>("start_alpha");
 	mEndAlphaCtrl = panel->getChild<LLUICtrl>("end_alpha");
 	mStartGlowCtrl = panel->getChild<LLUICtrl>("start_glow");
 	mEndGlowCtrl = panel->getChild<LLUICtrl>("end_glow");
-	
+
 	panel = getChild<LLPanel>("omega_panel");
 	mAcellerationXCtrl = panel->getChild<LLUICtrl>("acceleration_x");
 	mAcellerationYCtrl = panel->getChild<LLUICtrl>("acceleration_y");
@@ -135,14 +137,14 @@ BOOL LLFloaterParticleEditor::postBuild()
 	mOmegaXCtrl = panel->getChild<LLUICtrl>("omega_x");
 	mOmegaYCtrl = panel->getChild<LLUICtrl>("omega_y");
 	mOmegaZCtrl = panel->getChild<LLUICtrl>("omega_z");
-	
+
 	panel = getChild<LLPanel>("color_panel");
 	mStartColorSelector = panel->getChild<LLColorSwatchCtrl>("start_color_selector");
 	mEndColorSelector = panel->getChild<LLColorSwatchCtrl>("end_color_selector");
 	mTexturePicker = panel->getChild<LLTextureCtrl>("texture_picker");
 	mBlendFuncSrcCombo = panel->getChild<LLComboBox>("blend_func_src_combo");
 	mBlendFuncDestCombo = panel->getChild<LLComboBox>("blend_func_dest_combo");
-	
+
 	panel = getChild<LLPanel>("checkbox_panel");
 	mPatternTypeCombo = panel->getChild<LLComboBox>("pattern_type_combo");
 	mBounceCheckBox = panel->getChild<LLCheckBoxCtrl>("bounce_checkbox");
@@ -161,7 +163,7 @@ BOOL LLFloaterParticleEditor::postBuild()
 	mPickTargetButton = panel->getChild<LLButton>("pick_target_button");
 	mInjectScriptButton = panel->getChild<LLButton>("inject_button");
 	mCopyToLSLButton = panel->getChild<LLButton>("copy_button");
-	
+
 	mClearTargetButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickClearTarget, this));
 	mPickTargetButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickTargetPicker, this));
 	mInjectScriptButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickInject, this));
@@ -177,7 +179,8 @@ BOOL LLFloaterParticleEditor::postBuild()
 
 void LLFloaterParticleEditor::clearParticles()
 {
-	if (!mObject) return;
+	if (!mObject)
+		return;
 
 	LL_DEBUGS("ParticleEditor") << "clearing particles from " << mObject->getID() << LL_ENDL;
 
@@ -234,9 +237,9 @@ void LLFloaterParticleEditor::onParameterChange()
 	mParticles.mPartData.setStartAlpha(mStartAlphaCtrl->getValue().asReal());
 	mParticles.mPartData.setEndAlpha(mEndAlphaCtrl->getValue().asReal());
 	mParticles.mPartData.setStartScale(mScaleStartXCtrl->getValue().asReal(),
-									   mScaleStartYCtrl->getValue().asReal());
+					   mScaleStartYCtrl->getValue().asReal());
 	mParticles.mPartData.setEndScale(mScaleEndXCtrl->getValue().asReal(),
-									 mScaleEndYCtrl->getValue().asReal());
+					 mScaleEndYCtrl->getValue().asReal());
 	mParticles.mMaxAge = mSourceMaxAgeCtrl->getValue().asReal();
 	mParticles.mPartData.setMaxAge(mParticlesMaxAgeCtrl->getValue().asReal());
 
@@ -262,11 +265,11 @@ void LLFloaterParticleEditor::onParameterChange()
 	mParticles.mTargetUUID = mTargetKeyInput->getValue().asUUID();
 
 	mParticles.mPartAccel = LLVector3(mAcellerationXCtrl->getValue().asReal(),
-									  mAcellerationYCtrl->getValue().asReal(),
-									  mAcellerationZCtrl->getValue().asReal());
+					  mAcellerationYCtrl->getValue().asReal(),
+					  mAcellerationZCtrl->getValue().asReal());
 	mParticles.mAngularVelocity = LLVector3(mOmegaXCtrl->getValue().asReal(),
-											mOmegaYCtrl->getValue().asReal(),
-											mOmegaZCtrl->getValue().asReal());
+						mOmegaYCtrl->getValue().asReal(),
+						mOmegaZCtrl->getValue().asReal());
 
 	LLColor4 color = mStartColorSelector->get();
 	mParticles.mPartData.setStartColor(LLVector3(color.mV[VRED], color.mV[VGREEN], color.mV[VBLUE]));
@@ -329,14 +332,7 @@ void LLFloaterParticleEditor::onClickTargetPicker()
 {
 	mPickTargetButton->setToggleState(TRUE);
 	mPickTargetButton->setEnabled(FALSE);
-	startPicking(this);
-}
-
-// static
-void LLFloaterParticleEditor::startPicking(void* userdata)
-{
-	LLFloaterParticleEditor* self = static_cast<LLFloaterParticleEditor*>(userdata);
-	LLToolObjPicker::getInstance()->setExitCallback(LLFloaterParticleEditor::onTargetPicked, self);
+	LLToolObjPicker::getInstance()->setExitCallback(LLFloaterParticleEditor::onTargetPicked, this);
 	LLToolMgr::getInstance()->setTransientTool(LLToolObjPicker::getInstance());
 }
 
@@ -414,7 +410,7 @@ default\n\
 
 	if (targetKey.notNull() && targetKey != mObject->getID())
 	{
-		keyString="(key) \"" + targetKey.asString() + "\"";
+		keyString = "(key) \"" + targetKey.asString() + "\"";
 	}
 
 	LLUUID textureKey = mTexture->getID();
@@ -424,38 +420,38 @@ default\n\
 		textureString = textureKey.asString();
 	}
 
-	LLStringUtil::replaceString(script,"[PATTERN]", sParticlePatterns.at(mPatternTypeCombo->getValue()).script_const);
-	LLStringUtil::replaceString(script,"[BURST_RADIUS]", mBurstRadiusCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[ANGLE_BEGIN]", mAngleBeginCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[ANGLE_END]", mAngleEndCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[TARGET_KEY]", keyString);
-	LLStringUtil::replaceString(script,"[START_COLOR]", lslColor(mStartColorSelector->get()));
-	LLStringUtil::replaceString(script,"[END_COLOR]", lslColor(mEndColorSelector->get()));
-	LLStringUtil::replaceString(script,"[START_ALPHA]", mStartAlphaCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[END_ALPHA]", mEndAlphaCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[START_GLOW]", mStartGlowCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[END_GLOW]", mEndGlowCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[START_SCALE]", lslVector(mScaleStartXCtrl->getValue().asReal(),
-																  mScaleStartYCtrl->getValue().asReal(),
-																  0.0f));
-	LLStringUtil::replaceString(script,"[END_SCALE]", lslVector(mScaleEndXCtrl->getValue().asReal(),
-																mScaleEndYCtrl->getValue().asReal(),
-																0.0f));
-	LLStringUtil::replaceString(script,"[TEXTURE]", textureString);
-	LLStringUtil::replaceString(script,"[SOURCE_MAX_AGE]", mSourceMaxAgeCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[PART_MAX_AGE]", mParticlesMaxAgeCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[BURST_RATE]", mBurstRateCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[BURST_COUNT]", mBurstCountCtrl->getValue());
-	LLStringUtil::replaceString(script,"[ACCELERATION]", lslVector(mAcellerationXCtrl->getValue().asReal(),
-																   mAcellerationYCtrl->getValue().asReal(),
-																   mAcellerationZCtrl->getValue().asReal()));
-	LLStringUtil::replaceString(script,"[OMEGA]", lslVector(mOmegaXCtrl->getValue().asReal(),
-															mOmegaYCtrl->getValue().asReal(),
-															mOmegaZCtrl->getValue().asReal()));
-	LLStringUtil::replaceString(script,"[BURST_SPEED_MIN]", mBurstSpeedMinCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[BURST_SPEED_MAX]", mBurstSpeedMaxCtrl->getValue().asString());
-	LLStringUtil::replaceString(script,"[BLEND_FUNC_SOURCE]", sParticleBlends.at(mBlendFuncSrcCombo->getValue().asString()).script_const);
-	LLStringUtil::replaceString(script,"[BLEND_FUNC_DEST]", sParticleBlends.at(mBlendFuncDestCombo->getValue().asString()).script_const);
+	LLStringUtil::replaceString(script, "[PATTERN]", sParticlePatterns.at(mPatternTypeCombo->getValue()).script_const);
+	LLStringUtil::replaceString(script, "[BURST_RADIUS]", mBurstRadiusCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[ANGLE_BEGIN]", mAngleBeginCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[ANGLE_END]", mAngleEndCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[TARGET_KEY]", keyString);
+	LLStringUtil::replaceString(script, "[START_COLOR]", lslColor(mStartColorSelector->get()));
+	LLStringUtil::replaceString(script, "[END_COLOR]", lslColor(mEndColorSelector->get()));
+	LLStringUtil::replaceString(script, "[START_ALPHA]", mStartAlphaCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[END_ALPHA]", mEndAlphaCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[START_GLOW]", mStartGlowCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[END_GLOW]", mEndGlowCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[START_SCALE]", lslVector(mScaleStartXCtrl->getValue().asReal(),
+								       mScaleStartYCtrl->getValue().asReal(),
+								       0.0f));
+	LLStringUtil::replaceString(script, "[END_SCALE]", lslVector(mScaleEndXCtrl->getValue().asReal(),
+								     mScaleEndYCtrl->getValue().asReal(),
+								     0.0f));
+	LLStringUtil::replaceString(script, "[TEXTURE]", textureString);
+	LLStringUtil::replaceString(script, "[SOURCE_MAX_AGE]", mSourceMaxAgeCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[PART_MAX_AGE]", mParticlesMaxAgeCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[BURST_RATE]", mBurstRateCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[BURST_COUNT]", mBurstCountCtrl->getValue());
+	LLStringUtil::replaceString(script, "[ACCELERATION]", lslVector(mAcellerationXCtrl->getValue().asReal(),
+									mAcellerationYCtrl->getValue().asReal(),
+									mAcellerationZCtrl->getValue().asReal()));
+	LLStringUtil::replaceString(script, "[OMEGA]", lslVector(mOmegaXCtrl->getValue().asReal(),
+								 mOmegaYCtrl->getValue().asReal(),
+								 mOmegaZCtrl->getValue().asReal()));
+	LLStringUtil::replaceString(script, "[BURST_SPEED_MIN]", mBurstSpeedMinCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[BURST_SPEED_MAX]", mBurstSpeedMaxCtrl->getValue().asString());
+	LLStringUtil::replaceString(script, "[BLEND_FUNC_SOURCE]", sParticleBlends.at(mBlendFuncSrcCombo->getValue().asString()).script_const);
+	LLStringUtil::replaceString(script, "[BLEND_FUNC_DEST]", sParticleBlends.at(mBlendFuncDestCombo->getValue().asString()).script_const);
 
 	std::string delimiter = " |\n                ";
 	std::string flagsString;
@@ -542,7 +538,7 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 	}
 
 	mParticleScriptInventoryItem = gInventory.getItem(inventoryItemID);
-	if (!mParticleScriptInventoryItem) 
+	if (!mParticleScriptInventoryItem)
 	{
 		LLNotificationsUtil::add("ParticleScriptNotFound");
 		return;
@@ -613,7 +609,7 @@ void LLFloaterParticleEditor::scriptInjectReturned(const LLSD& content)
 
 LLFloaterParticleEditor::LLParticleScriptCreationCallback::
 LLParticleScriptCreationCallback(LLFloaterParticleEditor* editor)
-:	mEditor(editor)
+	: mEditor(editor)
 {
 }
 
@@ -628,12 +624,12 @@ void LLFloaterParticleEditor::LLParticleScriptCreationCallback::fire(const LLUUI
 // ---------------------------------- Responders ----------------------------------
 
 LLFloaterParticleEditor::LLParticleScriptUploadResponder::
-	LLParticleScriptUploadResponder(const LLSD& post_data,
-									const std::string& file_name,
-									LLAssetType::EType asset_type,
-									LLFloaterParticleEditor* editor)
-:	LLUpdateAgentInventoryResponder(post_data, file_name, asset_type)
-,	mEditor(editor)
+LLParticleScriptUploadResponder(const LLSD& post_data,
+				const std::string& file_name,
+				LLAssetType::EType asset_type,
+				LLFloaterParticleEditor* editor)
+	: LLUpdateAgentInventoryResponder(post_data, file_name, asset_type)
+	, mEditor(editor)
 {}
 
 void LLFloaterParticleEditor::LLParticleScriptUploadResponder::uploadComplete(const LLSD& content)

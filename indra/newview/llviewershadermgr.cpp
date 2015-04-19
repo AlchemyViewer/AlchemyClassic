@@ -388,7 +388,7 @@ void cleanup_shader_src()
 			GLuint shaders[1024];
 			GLsizei count;
 			glGetAttachedShaders(program, 1024, &count, shaders);
-			for (GLsizei i = 0; i < count; i++)
+			for (GLsizei i = 0; i < count; ++i)
 			{
 				if (glIsShader(shaders[i]))
 				{
@@ -401,9 +401,10 @@ void cleanup_shader_src()
 	if (!LLShaderMgr::instance()->mShaderObjects.empty())
 	{
 		for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
-			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; iter++)
+			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; ++iter)
 		{
-			glDeleteShader(iter->second);
+			if (iter->second.mHandle && glIsShader(iter->second.mHandle))
+				glDeleteShader(iter->second.mHandle);
 		}
 		LLShaderMgr::instance()->mShaderObjects.clear();
 	}

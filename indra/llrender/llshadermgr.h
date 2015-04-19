@@ -242,7 +242,16 @@ public:
 
 public:
 	// Map of shader names to compiled
-	std::map<std::string, GLuint> mShaderObjects;
+	struct CachedShaderObject
+	{
+		CachedShaderObject(GLuint handle, S32 level, GLenum type, boost::unordered_map<std::string, std::string> *definitions) :
+			mHandle(handle), mLevel(level), mType(type), mDefinitions(definitions ? *definitions : boost::unordered_map<std::string, std::string>()) {}
+		GLuint mHandle;
+		S32 mLevel;
+		GLenum mType;
+		boost::unordered_map<std::string, std::string> mDefinitions;
+	};
+	std::multimap<std::string, CachedShaderObject> mShaderObjects;
 
 	std::map<std::string, GLuint> mProgramObjects;
 

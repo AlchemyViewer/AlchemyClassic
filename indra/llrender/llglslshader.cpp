@@ -491,14 +491,19 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
 
 BOOL LLGLSLShader::attachShader(std::string object)
 {
-    if (LLShaderMgr::instance()->mShaderObjects.count(object) > 0)
-    {
-        stop_glerror();
-        glAttachShader(mProgramObject, LLShaderMgr::instance()->mShaderObjects[object]);
-        stop_glerror();
-        return TRUE;
-    }
-    else
+	for (auto it = LLShaderMgr::instance()->mShaderObjects.begin(); it != LLShaderMgr::instance()->mShaderObjects.end(); it++)
+	{
+		if (it->first == object)
+		{
+			if (glIsShader(it->second.mHandle))
+			{
+				glAttachShader(mProgramObject, it->second.mHandle);
+				stop_glerror();
+				return TRUE;
+			}
+		}
+	}
+
     {
         LL_WARNS("ShaderLoading") << "Attempting to attach shader object that hasn't been compiled: " << object << LL_ENDL;
         return FALSE;
@@ -509,6 +514,19 @@ void LLGLSLShader::attachShader(GLuint object)
 {
     if (object != 0)
     {
+		auto it = LLShaderMgr::instance()->mShaderObjects.begin();
+		for (; it != LLShaderMgr::instance()->mShaderObjects.end(); it++)
+		{
+			if (it->second.mHandle == object)
+			{
+				LL_DEBUGS("ShaderLoading") << "Attached: " << (*it).first << LL_ENDL;
+				break;
+			}
+		}
+		if (it == LLShaderMgr::instance()->mShaderObjects.end())
+		{
+			LL_WARNS("ShaderLoading") << "Attached unknown shader!" << LL_ENDL;
+		}
         stop_glerror();
         glAttachShader(mProgramObject, object);
         stop_glerror();

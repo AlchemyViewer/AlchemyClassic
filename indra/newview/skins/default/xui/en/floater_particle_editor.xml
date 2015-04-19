@@ -2,14 +2,14 @@
 <floater
  can_resize="true"
  height="357"
-	min_height="359"
-	min_width="450"
-	name="particle_editor_floater"
-	save_rect="true"
-	save_visibility="false"
-	single_instance="false"
-	title="PARTICLE EDITOR"
-	width="450">
+ min_height="359"
+ min_width="480"
+ name="particle_editor_floater"
+ save_rect="true"
+ save_visibility="false"
+ single_instance="false"
+ title="PARTICLE EDITOR"
+ width="480">
   <layout_stack
    follows="all"
    animate="false"
@@ -35,7 +35,7 @@
      auto_resize="false"
      user_resize="false"
      height="357"
-     width="280">
+     width="300">
       <accordion
        left="0"
        top="0"
@@ -44,7 +44,7 @@
        layout="topleft"
        name="accordion_master"
        height="357"
-       width="275">
+       width="300">
         <accordion_tab
          expanded="true"
          layout="topleft"
@@ -556,10 +556,10 @@
            top="0"
         	  width="313">
             <texture_picker
-             follows="top|right"
+             follows="left|top"
              height="70"
-             width="60"
-             left="50"
+             width="62"
+             left="0"
              can_apply_immediately="true"
              name="texture_picker"
              label="Texture"
@@ -570,9 +570,9 @@
             <color_swatch
              follows="left|top"
              height="70"
-             width="60"
+             width="62"
              label="Start Color"
-             left_delta="17"
+             left_pad="5"
              can_apply_immediately="true"
              name="start_color_selector"
              top_delta="0">
@@ -582,9 +582,9 @@
             <color_swatch
              follows="left|top"
              height="70"
-             width="60"
+             width="62"
              label="End Color"
-             left_pad="3"
+             left_pad="5"
              name="end_color_selector"
              can_apply_immediately="true"
              top_delta="0">
@@ -861,8 +861,8 @@
       	label="Copy"
       	tool_tip="Copies the particle system's parameter as LSL script to the clipboard."
       	top_pad="7"
-       left="0"
-      	width="80" />
+       left="2"
+      	width="85" />
       <button
       	follows="left|top"
       	height="24"
@@ -870,7 +870,7 @@
       	label="Inject"
       	tool_tip="Inject this particle system into the selected object."
       	left_pad="4"
-       width="80" />
+       width="85" />
     </layout_panel>
   </layout_stack>
 </floater>

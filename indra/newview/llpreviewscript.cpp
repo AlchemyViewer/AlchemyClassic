@@ -514,6 +514,7 @@ BOOL LLScriptEdCore::postBuild()
 void LLScriptEdCore::processKeywords()
 {
 	LL_DEBUGS("SyntaxLSL") << "Processing keywords" << LL_ENDL;
+	mFunctions->clearRows();
 	mEditor->clearSegments();
 	mEditor->initKeywords();
 	mEditor->loadKeywords();

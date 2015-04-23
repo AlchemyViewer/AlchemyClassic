@@ -1358,11 +1358,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a6c3e60653a3e2714583390cf0524a07</string>
+              <string>c6e45120273752f6200ea2e87db5ffea</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/googlemock-1.7.0-linux64-201501032003.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/googlemock-1.7.0-linux64-201504231410.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2510,11 +2510,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>13c952a1b2dd61d214ecf79fa70a90fe</string>
+              <string>f008ca71683ebbb7cc8b2f5e694b1697</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/llqtwebkit-4.8.6-linux64-201501031811.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/llqtwebkit-4.8.6-linux64-201504231429.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3036,90 +3036,6 @@
         </map>
         <key>version</key>
         <string>1.0.1m</string>
-      </map>
-      <key>pcre</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 1997-2014 University of Cambridge; Copyright(c) 2009-2014 Zoltan Herczeg; Copyright (c) 2007-2012, Google Inc.</string>
-        <key>description</key>
-        <string>PCRE Perl-compatible regular expression library</string>
-        <key>license</key>
-        <string>BSD</string>
-        <key>license_file</key>
-        <string>LICENSES/pcre.txt</string>
-        <key>name</key>
-        <string>pcre</string>
-        <key>platforms</key>
-        <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>e4bcc671f386b97d26938b1a442c84ab</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/pcre-8.36-darwin-201501011107.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>5e6368d39b95f2c0d5162dac2c17c67f</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3pl_3p-pcre-update/rev/290406/arch/Linux/installer/pcre-8.35-linux-20140530.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>a9dc6b77957573e7c13385034d9f3822</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/pcre-8.36-linux64-201501030107.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>c7c98dccb566375fc66330a1784606b2</string>
-              <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-vs12/downloads/pcre-8.36-windows-20141016.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>5ab629c0fa68794bb8780d54d90e93b9</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/pcre-8.36-windows64-201501010019.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>8.36</string>
       </map>
       <key>quicktime</key>
       <map>

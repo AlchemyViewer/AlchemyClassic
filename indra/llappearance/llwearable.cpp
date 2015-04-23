@@ -34,8 +34,6 @@
 #include "llavatarappearancedefines.h"
 #include "llwearable.h"
 #include "boost/bind.hpp"
-#include <boost/iostreams/device/file_descriptor.hpp>
-#include <boost/iostreams/stream.hpp>
 
 using namespace LLAvatarAppearanceDefines;
 

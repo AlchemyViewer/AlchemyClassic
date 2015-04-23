@@ -64,20 +64,18 @@ protected:
 public:
 	// Constructor
 	LLJointState()
-	{
-		mJoint = NULL;
-		mUsage = 0;
-		mWeight = 0.f;
-		mPriority = LLJoint::USE_MOTION_PRIORITY;
-	}
+		: mJoint(NULL)
+		, mUsage(0)
+		, mWeight(0.f)
+		, mPriority(LLJoint::USE_MOTION_PRIORITY)
+	{}
 
 	LLJointState(LLJoint* joint)
-	{
-		mJoint = joint;
-		mUsage = 0;
-		mWeight = 0.f;
-		mPriority = LLJoint::USE_MOTION_PRIORITY;
-	}
+		: mJoint(joint)
+		, mUsage(0)
+		, mWeight(0.f)
+		, mPriority(LLJoint::USE_MOTION_PRIORITY)
+	{}
 
 	// joint that this state is applied to
 	LLJoint* getJoint()				{ return mJoint; }

@@ -364,7 +364,6 @@ void LLJoint::removeAttachmentPosOverride( const LLUUID& mesh_id, const std::str
 		}
 		updatePos(av_info);
 	}
-
 }
 
 //--------------------------------------------------------------------

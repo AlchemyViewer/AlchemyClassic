@@ -522,12 +522,19 @@ void LLSidepanelTaskInfo::refresh()
 	// You own these objects.
 	else if (self_owned || (group_owned && gAgent.hasPowerInGroup(group_id,GP_OBJECT_SET_SALE)))
 	{
-		// If there are multiple items for sale then set text to PRICE PER UNIT.
-		getChild<LLUICtrl>("Cost")->setValue(getString(num_for_sale > 1
-													   ? "Cost Per Unit"
-													   : "Cost Default"));
-		
 		LLSpinCtrl *edit_price = getChild<LLSpinCtrl>("Edit Cost");
+
+		// If there are multiple items for sale then set text to PRICE PER UNIT.
+		if (num_for_sale > 1)
+		{
+			std::string label_text = is_sale_price_mixed? "Cost Mixed" :"Cost Per Unit";
+			edit_price->setLabel(getString(label_text));
+		}
+		else
+		{
+			edit_price->setLabel(getString("Cost Default"));
+		}
+		
 		if (!edit_price->hasFocus())
 		{
 			// If the sale price is mixed then set the cost to MIXED, otherwise
@@ -558,12 +565,12 @@ void LLSidepanelTaskInfo::refresh()
 		getChildView("Edit Cost")->setEnabled(FALSE);
 		
 		// Don't show a price if none of the items are for sale.
-		getChild<LLUICtrl>("Edit Cost")->setValue(num_for_sale
+		getChild<LLSpinCtrl>("Edit Cost")->setValue(num_for_sale
 												  ? llformat("%d",total_sale_price)
 												  : LLStringUtil::null);
 
 		// If multiple items are for sale, set text to TOTAL PRICE.
-		getChild<LLUICtrl>("Cost")->setValue(getString(num_for_sale > 1
+		getChild<LLSpinCtrl>("Edit Cost")->setLabel(getString(num_for_sale > 1
 													   ? "Cost Total"
 													   : "Cost Default"));
 	}
@@ -571,9 +578,8 @@ void LLSidepanelTaskInfo::refresh()
 	else
 	{
 		getChildView("Cost")->setEnabled(FALSE);
-		getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
-		
-		getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
+		getChild<LLSpinCtrl>("Edit Cost")->setLabel(getString("Cost Default"));
+		getChild<LLSpinCtrl>("Edit Cost")->setValue(LLStringUtil::null);
 		getChildView("Edit Cost")->setEnabled(FALSE);
 	}
 

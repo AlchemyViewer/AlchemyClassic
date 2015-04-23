@@ -67,6 +67,7 @@
 #include "llfloaterimcontainer.h"
 #include "llfloaterland.h"
 #include "llfloaterimnearbychat.h"
+#include "llfloaterparticleeditor.h"
 #include "llfloaterpathfindingcharacters.h"
 #include "llfloaterpathfindinglinksets.h"
 #include "llfloaterpay.h"
@@ -2602,9 +2603,13 @@ static LLStringExplicit get_default_item_label(const std::string& item_name)
 
 bool enable_object_touch(LLUICtrl* ctrl)
 {
+	bool new_value = false;
 	LLViewerObject* obj = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
-
-	bool new_value = obj && obj->flagHandleTouch();
+	if (obj)
+	{
+		LLViewerObject* parent = (LLViewerObject*)obj->getParent();
+		new_value = obj->flagHandleTouch() || (parent && parent->flagHandleTouch());
+	}
 
 	std::string item_name = ctrl->getName();
 	init_default_item_label(item_name);
@@ -2947,6 +2952,11 @@ bool enable_object_select_in_pathfinding_linksets()
 	return LLPathfindingManager::getInstance()->isPathfindingEnabledForCurrentRegion() && LLSelectMgr::getInstance()->selectGetEditableLinksets();
 }
 
+bool visible_object_select_in_pathfinding_linksets()
+{
+	return LLPathfindingManager::getInstance()->isPathfindingEnabledForCurrentRegion();
+}
+
 bool enable_object_select_in_pathfinding_characters()
 {
 	return LLPathfindingManager::getInstance()->isPathfindingEnabledForCurrentRegion() &&  LLSelectMgr::getInstance()->selectGetViewableCharacters();
@@ -3165,6 +3175,39 @@ class LLObjectMute : public view_listener_t
 };
 
 // <Alchemy>
+class LLEnableEditParticleSource : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+		for (LLObjectSelection::valid_root_iterator iter = selection->valid_root_begin();
+			 iter != selection->valid_root_end(); iter++)
+		{
+			LLSelectNode* node = *iter;
+			if (node->mPermissions->getOwner() == gAgent.getID())
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
+class LLEditParticleSource : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
+		if (objectp)
+		{
+			LLFloaterParticleEditor* particleEditor = LLFloaterReg::showTypedInstance<LLFloaterParticleEditor>("particle_editor", LLSD(objectp->getID()), TAKE_FOCUS_YES);
+			if(particleEditor)
+				particleEditor->setObject(objectp);
+		}
+		return true;
+	}
+};
+
 class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -4472,7 +4515,10 @@ static bool get_derezzable_objects(
 			break;
 
 		case DRD_RETURN_TO_OWNER:
-			can_derez_current = TRUE;
+			if(!object->isAttachment())
+			{
+				can_derez_current = TRUE;
+			}
 			break;
 
 		default:
@@ -4883,7 +4929,7 @@ BOOL enable_take()
 			&& object->permModify())
 			|| (node->mPermissions->getOwner() == gAgent.getID())))
 		{
-			return TRUE;
+			return !object->isAttachment();
 		}
 #endif
 	}
@@ -8473,6 +8519,10 @@ class LLWorldEnableEnvSettings : public view_listener_t
 			{
 				result = (LLEnvManagerNew::instance().getSkyPresetName() == "Midnight");
 			}
+			else if (tod == "region")
+			{
+				return false;
+			}
 			else
 			{
 				LL_WARNS() << "Unknown time-of-day item:  " << tod << LL_ENDL;
@@ -9179,6 +9229,7 @@ void initialize_menus()
 	enable.add("VisibleBuild", boost::bind(&enable_object_build));
 	commit.add("Pathfinding.Linksets.Select", boost::bind(&LLFloaterPathfindingLinksets::openLinksetsWithSelectedObjects));
 	enable.add("EnableSelectInPathfindingLinksets", boost::bind(&enable_object_select_in_pathfinding_linksets));
+	enable.add("VisibleSelectInPathfindingLinksets", boost::bind(&visible_object_select_in_pathfinding_linksets));
 	commit.add("Pathfinding.Characters.Select", boost::bind(&LLFloaterPathfindingCharacters::openCharactersWithSelectedObjects));
 	enable.add("EnableSelectInPathfindingCharacters", boost::bind(&enable_object_select_in_pathfinding_characters));
 
@@ -9191,6 +9242,8 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
 	// <Alchemy>
+    view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
+    view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
 	// </Alchemy>

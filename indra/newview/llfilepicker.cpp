@@ -492,6 +492,17 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 			L"XML File (*.xml)\0*.xml\0" \
 			L"\0";
 		break;
+	case FFSAVE_CSV:
+		if (filename.empty())
+		{
+			wcsncpy( mFilesW,L"untitled.csv", FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
+		}
+			
+		mOFN.lpstrDefExt = L"csv";
+		mOFN.lpstrFilter =
+			L"Comma seperated values (*.csv)\0*.csv\0" \
+			L"\0";
+		break;
 	case FFSAVE_COLLADA:
 		if (filename.empty())
 		{
@@ -708,14 +719,20 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 			creator = "\?\?\?\?";
 			extension = "slg";
 			break;
-#endif	
-			
+#endif
+		
 		case FFSAVE_XML:
 			type = "\?\?\?\?";
 			creator = "\?\?\?\?";
 			extension = "xml";
 			break;
-			
+
+		case FFSAVE_CSV:
+			type = "\?\?\?\?";
+			creator = "\?\?\?\?";
+			extension = "csv";
+			break;
+
 		case FFSAVE_RAW:
 			type = "\?\?\?\?";
 			creator = "\?\?\?\?";
@@ -1240,6 +1257,10 @@ BOOL LLFilePicker::getSaveFile( ESaveFilter filter, const std::string& filename 
 			caption += add_simple_pattern_filter_to_gtkchooser
 				(picker, "*.xml", LLTrans::getString("xml_file") + " (*.xml)");
 			suggest_ext = ".xml";
+			break;
+		case FFSAVE_CSV:
+			caption += add_simple_pattern_filter_to_gtkchooser
+				(picker, "*.csv", LLTrans::getString("csv_files") + " (*.csv)");
 			break;
 		case FFSAVE_RAW:
 			caption += add_simple_pattern_filter_to_gtkchooser

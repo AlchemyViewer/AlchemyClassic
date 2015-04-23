@@ -249,6 +249,8 @@ S32 start_net(S32& socket_out, int& nPort)
 			if (nRet == SOCKET_ERROR)
 			{
 				LL_WARNS("AppInit") << "startNet() : Couldn't find available network port." << LL_ENDL;
+				closesocket(hSocket);
+				WSACleanup();
 				// Fail gracefully here in release
 				return 3;
 			}
@@ -257,6 +259,8 @@ S32 start_net(S32& socket_out, int& nPort)
 		// Some other socket error
 		{
 			LL_WARNS("AppInit") << llformat("bind() port: %d failed, Err: %d\n", nPort, WSAGetLastError()) << LL_ENDL;
+			closesocket(hSocket);
+			WSACleanup();
 			// Fail gracefully in release.
 			return 4;
 		}
@@ -455,6 +459,7 @@ S32 start_net(S32& socket_out, int& nPort)
 				if (nRet < 0)
 				{
 					LL_WARNS() << "startNet() : Couldn't find available network port." << LL_ENDL;
+					close(hSocket);
 					// Fail gracefully in release.
 					return 3;
 				}
@@ -463,6 +468,7 @@ S32 start_net(S32& socket_out, int& nPort)
 			else
 			{
 				LL_WARNS() << llformat ("bind() port: %d failed, Err: %s\n", nPort, strerror(errno)) << LL_ENDL;
+				close(hSocket);
 				// Fail gracefully in release.
 				return 4;
 			}

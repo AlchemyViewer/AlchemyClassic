@@ -519,7 +519,6 @@ std::string utf16str_to_utf8str(const llutf16string& utf16str, S32 len)
 	return wstring_to_utf8str(utf16str_to_wstring(utf16str, len), len);
 }
 
-
 std::string utf8str_trim(const std::string& utf8str)
 {
 	LLWString wstr = utf8str_to_wstring(utf8str);

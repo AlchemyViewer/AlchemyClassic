@@ -9,12 +9,14 @@ if (WINDOWS)
     set (DIRECTX_ARCHITECTURE x86)
   endif (WORD_SIZE EQUAL 64)
 
+  if (NOT WIN_KIT_ROOT_DIR)
   set(programfilesx86 "ProgramFiles(x86)")
   find_path (WIN_KIT_ROOT_DIR Include/um/windows.h
              PATHS
              "$ENV{ProgramFiles}/Windows Kits/8.1"
              "$ENV{programfilesx86}/Windows Kits/8.1"
              )
+  endif (NOT WIN_KIT_ROOT_DIR)
 
   find_path (WIN_KIT_LIB_DIR dxguid.lib
              "${WIN_KIT_ROOT_DIR}/Lib/winv6.3/um/${DIRECTX_ARCHITECTURE}"

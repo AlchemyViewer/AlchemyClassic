@@ -921,8 +921,10 @@ F32 gpu_benchmark()
 		for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
 			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; iter++)
 		{
-			glDeleteShader(iter->second);
+			if (iter->second.mHandle)
+				glDeleteShader(iter->second.mHandle);
 		}
+		LLShaderMgr::instance()->mShaderObjects.clear();
 	}
 
 	LLGLDisable blend(GL_BLEND);

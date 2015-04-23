@@ -410,13 +410,6 @@ LLCurl::Easy* LLCurl::Easy::getEasy()
 	result = curl_easy_setopt(easy->mCurlEasyHandle, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 	check_curl_code(result);
 	
-	// Disable SSL/TLS session caching. Some servers refuse to talk to us when session ids are enabled.
-	// id.secondlife.com is such a server, when greeted with a SSL HELLO and a session id, it immediatly returns a RST packet and closes
-	// the connections.
-	// Fixes: VWR-28039, VWR-28629
-	result = curl_easy_setopt(easy->mCurlEasyHandle, CURLOPT_SSL_SESSIONID_CACHE, 0);
-	check_curl_code(result);
-
 	++gCurlEasyCount;
 	return easy;
 }

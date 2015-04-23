@@ -29,7 +29,7 @@
 #include "linden_common.h"
 #include "lluriparser.h"
 
-LLUriParser::LLUriParser(const std::string& u) : mTmpScheme(false), mRes(0)
+LLUriParser::LLUriParser(const std::string& u) : mTmpScheme(false), mNormalizedTmp(false), mRes(0)
 {
 	mState.uri = &mUri;
 
@@ -131,7 +131,7 @@ void LLUriParser::textRangeToString(UriTextRangeA& textRange, std::string& str)
 
 void LLUriParser::extractParts()
 {
-	if (mTmpScheme)
+	if (mTmpScheme || mNormalizedTmp)
 	{
 		mScheme.clear();
 	}
@@ -160,6 +160,7 @@ void LLUriParser::extractParts()
 
 S32 LLUriParser::normalize()
 {
+	mNormalizedTmp = mTmpScheme;
 	if (!mRes)
 	{
 		mRes = uriNormalizeSyntaxExA(&mUri, URI_NORMALIZE_SCHEME | URI_NORMALIZE_HOST);
@@ -178,9 +179,16 @@ S32 LLUriParser::normalize()
 				if (!mRes)
 				{
 					mNormalizedUri = &label_buf[mTmpScheme ? 7 : 0];
+					mTmpScheme = false;
 				}
 			}
 		}
+	}
+
+	if(mTmpScheme)
+	{
+		mNormalizedUri = mNormalizedUri.substr(7);
+		mTmpScheme = false;
 	}
 
 	return mRes;
@@ -188,18 +196,40 @@ S32 LLUriParser::normalize()
 
 void LLUriParser::glue(std::string& uri) const
 {
+	std::string first_part;
+	glueFirst(first_part);
+
+	std::string second_part;
+	glueSecond(second_part);
+
+	uri = first_part + second_part;
+}
+
+void LLUriParser::glueFirst(std::string& uri) const
+{
 	if (mScheme.size())
 	{
 		uri = mScheme;
 		uri += "://";
 	}
+	else
+	{
+		uri.clear();
+	}
 
 	uri += mHost;
+}
 
+void LLUriParser::glueSecond(std::string& uri) const
+{
 	if (mPort.size())
 	{
-		uri += ':';
+		uri = ':';
 		uri += mPort;
+	}
+	else
+	{
+		uri.clear();
 	}
 
 	uri += mPath;

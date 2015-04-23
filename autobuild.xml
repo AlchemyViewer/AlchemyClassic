@@ -316,11 +316,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b867ee84686fe12b33ac790664b2dc05</string>
+              <string>39a0877f11df46432691dd509830127b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/colladadom-2.3-darwin-201501021028.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/colladadom-2.3-darwin-201504091626.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -750,11 +750,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a4b16d7930cfe07f1c5a852f9e82537f</string>
+              <string>e3d6945d9e6a0fdf6800f957670d46d9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/fmodstudio-1.05.14-darwin-201503261832.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/fmodstudio-1.05.15-darwin-201504091546.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -817,7 +817,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.05.14</string>
+        <string>1.05.15</string>
       </map>
       <key>fontconfig</key>
       <map>
@@ -1854,18 +1854,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>06cefb7700caba271c26d9c97d6c8932</string>
+              <string>9dcaf2e7c7bf3e64f0677bd58a384db5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.0.0-windows64-201501010147.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/jsoncpp-1.6.1-windows64-201504141630.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.0</string>
+        <string>1.6.1</string>
       </map>
       <key>kdu</key>
       <map>

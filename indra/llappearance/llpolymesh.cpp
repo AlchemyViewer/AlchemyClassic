@@ -307,7 +307,11 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                 //----------------------------------------------------------------
                 // File Header (seek past it)
                 //----------------------------------------------------------------
-                fseek(fp, 24, SEEK_SET);
+                if (fseek(fp, 24, SEEK_SET) != 0)
+                {
+                        LL_ERRS() << "can't seek past header from " << fileName << LL_ENDL;
+                        return FALSE;
+                }
 
                 //----------------------------------------------------------------
                 // HasWeights
@@ -605,7 +609,7 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                         //-------------------------------------------------------------------------
                         char morphName[64+1];
                         morphName[sizeof(morphName)-1] = '\0'; // ensure nul-termination
-                        while(fread(&morphName, sizeof(char), 64, fp) == 64)
+                        while(fread(morphName, sizeof(char), 64, fp) == 64)
                         {
                                 if (!strcmp(morphName, "End Morphs"))
                                 {

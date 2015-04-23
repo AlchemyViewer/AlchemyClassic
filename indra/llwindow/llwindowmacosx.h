@@ -87,7 +87,7 @@ public:
 	/*virtual*/ void gatherInput();
 	/*virtual*/ void delayInputProcessing() {};
 	/*virtual*/ void swapBuffers();
-
+	
 	// handy coordinate space conversion routines
 	/*virtual*/ BOOL convertCoords(LLCoordScreen from, LLCoordWindow *to);
 	/*virtual*/ BOOL convertCoords(LLCoordWindow from, LLCoordScreen *to);
@@ -155,6 +155,8 @@ protected:
 
 	BOOL	shouldPostQuit() { return mPostQuit; }
 
+private:
+    void restoreGLContext();
 
 protected:
 	//

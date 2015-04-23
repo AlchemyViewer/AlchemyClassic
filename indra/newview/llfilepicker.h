@@ -101,13 +101,14 @@ public:
 		FFSAVE_GEOMETRY = 8,
 #endif
 		FFSAVE_XML = 9,
-		FFSAVE_COLLADA = 10,
-		FFSAVE_RAW = 11,
-		FFSAVE_J2C = 12,
-		FFSAVE_PNG = 13,
-		FFSAVE_JPEG = 14,
-		FFSAVE_SCRIPT = 15,
-		FFSAVE_TGAPNG = 16
+		FFSAVE_CSV =10,
+		FFSAVE_COLLADA = 11,
+		FFSAVE_RAW = 12,
+		FFSAVE_J2C = 13,
+		FFSAVE_PNG = 14,
+		FFSAVE_JPEG = 15,
+		FFSAVE_SCRIPT = 16,
+		FFSAVE_TGAPNG = 17
 	};
 
 	// open the dialog. This is a modal operation

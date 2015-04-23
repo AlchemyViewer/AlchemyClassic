@@ -35,6 +35,7 @@
 #include "llfloaterreg.h"
 #include "llhudmanager.h"
 #include "lljoystickbutton.h"
+#include "llmorphview.h"
 #include "llmoveview.h"
 #include "llselectmgr.h"
 #include "llsmoothstep.h"
@@ -1702,7 +1703,7 @@ LLVector3d LLAgentCamera::calcCameraPositionTargetGlobal(BOOL *hit_limit)
 	F32			camera_land_height;
 	LLVector3d	frame_center_global = !isAgentAvatarValid() ? 
 		gAgent.getPositionGlobal() :
-		gAgent.getPosGlobalFromAgent(gAgentAvatarp->mRoot->getWorldPosition());
+		gAgent.getPosGlobalFromAgent(gAgentAvatarp->mRoot->getWorldPosition() - gAgentAvatarp->getHoverOffset());
 	
 	BOOL		isConstrained = FALSE;
 	LLVector3d	head_offset;
@@ -2302,7 +2303,10 @@ void LLAgentCamera::changeCameraToCustomizeAvatar()
 
 		gFocusMgr.setKeyboardFocus( NULL );
 		gFocusMgr.setMouseCapture( NULL );
-
+		if( gMorphView )
+		{
+			gMorphView->setVisible( TRUE );
+		}
 		// Remove any pitch or rotation from the avatar
 		LLVector3 at = gAgent.getAtAxis();
 		at.mV[VZ] = 0.f;

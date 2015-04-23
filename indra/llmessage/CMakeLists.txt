@@ -234,6 +234,7 @@ target_link_libraries(
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
   ${XMLRPCEPI_LIBRARIES}
+  ${PTHREAD_LIBRARY}
   )
 
 # tests

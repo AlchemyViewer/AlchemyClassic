@@ -7,7 +7,6 @@ include(LibXML2)
 include(ICU4C)
 
 use_prebuilt_binary(colladadom)
-use_prebuilt_binary(pcre)
 
 set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llprimitive
@@ -19,10 +18,6 @@ if (WINDOWS)
         optimized llprimitive
         debug libcollada14dom23-sd
         optimized libcollada14dom23-s
-        debug pcrecppd
-        optimized pcrecpp
-        debug pcred
-        optimized pcre
         ${BOOST_SYSTEM_LIBRARIES}
         )
 elseif (DARWIN)
@@ -30,8 +25,6 @@ elseif (DARWIN)
         llprimitive
         collada14dom
         minizip
-        pcrecpp
-        pcre
         )
 elseif (LINUX)
     set(LLPRIMITIVE_LIBRARIES 
@@ -39,8 +32,6 @@ elseif (LINUX)
         debug collada14dom-d
         optimized collada14dom
         minizip
-        pcrecpp
-        pcre
         )
 endif (WINDOWS)
 LIST(APPEND LLPRIMITIVE_LIBRARIES

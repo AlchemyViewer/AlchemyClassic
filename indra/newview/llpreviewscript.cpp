@@ -514,11 +514,11 @@ BOOL LLScriptEdCore::postBuild()
 void LLScriptEdCore::processKeywords()
 {
 	LL_DEBUGS("SyntaxLSL") << "Processing keywords" << LL_ENDL;
+	mFunctions->clearRows();
 	mEditor->clearSegments();
 	mEditor->initKeywords();
 	mEditor->loadKeywords();
 	
-	string_vec_t primary_keywords;
 	string_vec_t secondary_keywords;
 	LLKeywordToken *token;
 	LLKeywords::keyword_iterator_t token_it;
@@ -527,17 +527,12 @@ void LLScriptEdCore::processKeywords()
 		token = token_it->second;
 		if (token->getType() == LLKeywordToken::TT_FUNCTION)
 		{
-			primary_keywords.push_back( wstring_to_utf8str(token->getToken()) );
+			mFunctions->add(wstring_to_utf8str(token->getToken()));
 		}
 		else
 		{
 			secondary_keywords.push_back( wstring_to_utf8str(token->getToken()) );
 		}
-	}
-	for (string_vec_t::const_iterator iter = primary_keywords.begin();
-		 iter!= primary_keywords.end(); ++iter)
-	{
-		mFunctions->add(*iter);
 	}
 	for (string_vec_t::const_iterator iter = secondary_keywords.begin();
 		 iter!= secondary_keywords.end(); ++iter)

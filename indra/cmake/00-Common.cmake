@@ -5,6 +5,7 @@
 if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")
 
+include(CheckCCompilerFlag)
 include(Variables)
 
 # Portable compilation flags.
@@ -118,10 +119,25 @@ if (LINUX)
       -D_REENTRANT
       -fvisibility=hidden
       -fexceptions
+      -fno-math-errno
+      -fno-strict-aliasing
+      -fsigned-char
+      -std=gnu++11
       -g
       -pthread
       )
 
+  CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
+  CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
+
+  if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
+    if(HAS_STRONG_STACK_PROTECTOR)
+      add_definitions(-fstack-protector-strong)
+    elseif(HAS_STACK_PROTECTOR)
+      add_definitions(-fstack-protector)
+    endif(HAS_STRONG_STACK_PROTECTOR)
+    add_definitions(-D_FORTIFY_SOURCE=2)
+  endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     find_program(GXX g++)
@@ -139,23 +155,17 @@ if (LINUX)
       set(GXX_VERSION x)
     endif (GXX)
 
-  # The quoting hack here is necessary in case we're using distcc or
-  # ccache as our compiler.  CMake doesn't pass the command line
-  # through the shell by default, so we end up trying to run "distcc"
-  # " g++" - notice the leading space.  Ugh.
+    # The quoting hack here is necessary in case we're using distcc or
+    # ccache as our compiler.  CMake doesn't pass the command line
+    # through the shell by default, so we end up trying to run "distcc"
+    # " g++" - notice the leading space.  Ugh.
 
-  execute_process(
-      COMMAND sh -c "${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1} --version"
-      COMMAND sed "s/^[gc+ ]*//"
-      COMMAND head -1
-      OUTPUT_VARIABLE CXX_VERSION
+    execute_process(
+        COMMAND sh -c "${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1} --version"
+        COMMAND sed "s/^[gc+ ]*//"
+        COMMAND head -1
+        OUTPUT_VARIABLE CXX_VERSION
       OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
-      if (${GXX_VERSION} STREQUAL ${CXX_VERSION})
-        add_definitions(-D_FORTIFY_SOURCE=2)
-      endif (${GXX_VERSION} STREQUAL ${CXX_VERSION})
-    endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
     # Let's actually get a numerical version of gxx's version
     STRING(REGEX REPLACE ".* ([0-9])\\.([0-9])\\.([0-9]).*" "\\1\\2\\3" CXX_VERSION_NUMBER ${CXX_VERSION})
@@ -170,13 +180,6 @@ if (LINUX)
     endif (${CXX_VERSION_NUMBER} GREATER 479)
     # End of hacks.
 
-    add_definitions(
-        -std=gnu++11
-        -fno-math-errno
-        -fno-strict-aliasing
-        -fsigned-char
-        )
-
     if (WORD_SIZE EQUAL 32)
       add_definitions(
         -msse2
@@ -185,8 +188,6 @@ if (LINUX)
     endif (WORD_SIZE EQUAL 32)
 
     if (NOT USESYSTEMLIBS)
-      # this stops us requiring a really recent glibc at runtime
-      add_definitions(-fno-stack-protector)
       # linking can be very memory-hungry, especially the final viewer link
       set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
     endif (NOT USESYSTEMLIBS)
@@ -198,20 +199,11 @@ if (LINUX)
     endif (${CXX_VERSION_NUMBER} GREATER 479)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    add_definitions(
-        -std=gnu++11
-        -fno-math-errno
-        -fno-strict-aliasing
-        -fsigned-char
-        )
-
     if (WORD_SIZE EQUAL 32)
       add_definitions(-msse2 -march=pentium4)
     endif (WORD_SIZE EQUAL 32)
 
     if (NOT USESYSTEMLIBS)
-      # this stops us requiring a really recent glibc at runtime
-      add_definitions(-fno-stack-protector)
       # linking can be very memory-hungry, especially the final viewer link
       set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
     endif (NOT USESYSTEMLIBS)
@@ -219,18 +211,11 @@ if (LINUX)
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    add_definitions(
-        -fno-math-errno
-        -msse2
-        )
-
     if (NOT USESYSTEMLIBS)
       add_definitions(-march=pentium4)
     endif (NOT USESYSTEMLIBS)
 
     if (NOT USESYSTEMLIBS)
-      # this stops us requiring a really recent glibc at runtime
-      add_definitions(-fno-stack-protector)
       # linking can be very memory-hungry, especially the final viewer link
       set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
     endif (NOT USESYSTEMLIBS)

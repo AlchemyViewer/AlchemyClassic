@@ -62,7 +62,6 @@ target_link_libraries(linux-crash-logger
     ${LLMATH_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     ${UI_LIBRARIES}
-    ${DB_LIBRARIES}
     ${FREETYPE_LIBRARIES}
     )
 

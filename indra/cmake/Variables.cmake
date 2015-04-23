@@ -138,9 +138,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     COMMAND sh -c "xcodebuild -version | grep Xcode  | cut -d ' ' -f2 | cut -d'.' -f1-2"
     OUTPUT_VARIABLE XCODE_VERSION )
 
-  if (XCODE_VERSION LESS 4.6)
-    message( FATAL_ERROR "Xcode 4.6 or greater is required." )
-  endif (XCODE_VERSION LESS 4.6)
+  if (XCODE_VERSION LESS 6.0)
+    message( FATAL_ERROR "Xcode 6.0 or greater is required." )
+  endif (XCODE_VERSION LESS 6.0)
   message( "Building with " ${CMAKE_OSX_SYSROOT} )
   set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
 

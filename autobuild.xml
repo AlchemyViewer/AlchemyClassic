@@ -66,11 +66,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5e8312ec8a888d4210cec564acc08219</string>
+              <string>09c1c5a0306fb641a561c4d151e1516f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/apr_suite-1.4.5-darwin-201501021132.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/apr_suite-1.4.5-darwin-201504232350.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -150,11 +150,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e7091d65065ab9b8536072274c431164</string>
+              <string>fcde7847f50aa8f605f713a02fed959f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ares-1.10.0-darwin-201501010829.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/ares-1.10.0-darwin-201504232116.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -234,11 +234,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7529e2687b3435f483dc40de2970aa3d</string>
+              <string>30ffa1d4a5585b9b5ce456a9f50863ea</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/boost-1.57.0-darwin-201501020627.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201504240923.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -316,11 +316,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>39a0877f11df46432691dd509830127b</string>
+              <string>5357051fa2ea7f0117db8ca3eb6970e0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/colladadom-2.3-darwin-201504091626.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201504240957.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -400,11 +400,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2b52d69886b6c405577bf72a11792754</string>
+              <string>39d12e52fb56c8a8275dd496133da143</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/curl-7.41.0-darwin-201503231034.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.42.0-darwin-201504241926.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -584,11 +584,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8d040202a7cdc92a2fd7df790c7f40c8</string>
+              <string>fe974f60cd08ed9f08bdd58f63e2a5cb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/expat-2.1.0-darwin-201501011053.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/expat-2.1.0-darwin-201504231852.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -750,11 +750,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e3d6945d9e6a0fdf6800f957670d46d9</string>
+              <string>ec1d51c8a39e7a25f564c0e74bad6076</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/fmodstudio-1.05.15-darwin-201504091546.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.06.01-darwin-201504232122.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -958,11 +958,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>847f0624761970223c92bd5d85399cf7</string>
+              <string>9a5b0d3ca8f068f3523d7cc0a204c70e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/freetype-2.5.5-darwin-201503191355.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/freetype-2.5.5-darwin-201504240656.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1106,11 +1106,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ccdcda5bb16a77c420ed0e882e6a3206</string>
+              <string>52fec493fadec32c7e5af9d2a382ea1d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/glod-1.0pre4-darwin-201501012150.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glod-1.0pre4-darwin-201504232143.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1190,11 +1190,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7ba2977f011014162c1b355fd9d124c1</string>
+              <string>6f04ad970b18e74618cd3afc5687471d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/glui-2.36-darwin-201501011050.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glui-2.36-darwin-201504240758.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1248,11 +1248,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d2e16672a230dacc2ac86f72373d0d37</string>
+              <string>437f6f1f698b81bfb28eee9f00254eaa</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/google_breakpad-1434-darwin-201503181653.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1435-darwin-201504232151.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1332,11 +1332,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c3feabdaf9f0d8b7339d987387e34417</string>
+              <string>0703d56505c1d8c26a0f672b343b7998</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/googlemock-1.7.0-darwin-201501021003.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/googlemock-1.7.0-darwin-201504240950.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1598,11 +1598,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c4a9252c4dcbf55f30109f36c593c27e</string>
+              <string>30b6f7fd928a2f5803ca82446875048c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/icu4c-54.1-darwin-201501011952.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/icu4c-55.1-darwin-201504232003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1718,11 +1718,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4cc16a5a5fcecf9f1332a6ff9250eb62</string>
+              <string>6f25315ccc6caff1e83b22768dac018c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/jpeglib-1.4.0-darwin-201503181654.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jpeglib-1.4.0-darwin-201504232105.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1802,11 +1802,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e1bfa5700cb82b864ff273dc3466069a</string>
+              <string>d18a1b234d3a03bf69ef5aa5b8fe9c6b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/jsoncpp-1.6.0-darwin-201503181644.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.6.1-darwin-201504232203.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1886,11 +1886,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>90792f5df9a15e11475ebb9165f63e64</string>
+              <string>fe31909559780ae7a181a5c5a59ae6d6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///opt/buildlibs/kdu-7.5-darwin-201501021114.tar.bz2</string>
+              <string>file:///opt/buildlibs/kdu-7.5-darwin-201504240901.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1942,11 +1942,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd0eb88370c633082327bd83defed628</string>
+              <string>8298fbcc9922bb8a71785629ebe42586</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/libhunspell-1.3.3-darwin-201412312047.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libhunspell-1.3.3-darwin-201504232147.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2026,11 +2026,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e1c9c7a08bf1130a682e0e9f426d82f2</string>
+              <string>4001e78475f2672c1f3353e1cc595661</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/libidn-1.28-darwin-201501011115.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libidn-1.28-darwin-201504231931.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2051,7 +2051,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.30</string>
+        <string>1.28</string>
       </map>
       <key>libndofdev</key>
       <map>
@@ -2072,11 +2072,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9a23e051c69b20daecaeee6296acd162</string>
+              <string>1d542606b146462cdfdc47a94f14eaf5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/libndofdev-0.1-darwin-201501010842.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libndofdev-0.1-darwin-201504232110.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2162,11 +2162,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>51fceba461110a3c8dad4e3924be6f67</string>
+              <string>2833067b23868e28f0015cef9668ebed</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/libpng-1.6.16-darwin-201503181647.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libpng-1.6.17-darwin-201504232231.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2246,11 +2246,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3d4801e01eb04ea6c709371f1dac8d13</string>
+              <string>a79f8f6273921e285dcca886a86d5534</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/libxml2-2.9.2-darwin-201501021011.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201504232308.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2484,11 +2484,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8c550786af64f7ca0b9ce0e8af9df3dd</string>
+              <string>cb51f9d38e9b454e1d1a5afa3fd01599</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/llqtwebkit-4.8.6-darwin-201503191256.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201504241741.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2592,11 +2592,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>38317ae109193abf626e2c8b30879db5</string>
+              <string>8c22586ca17dd6ef0a9bf7a527d6887e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ndPhysicsStub-0.1.2-darwin-201412312041.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/ndPhysicsStub-0.1.2-darwin-201504232155.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2718,11 +2718,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8b15bb646b8cce838fa19612fd0d9f6e</string>
+              <string>9771c138a395bb6435a9972160cd6f95</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/ogg_vorbis-1.3.2-1.3.4-darwin-201501021924.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/ogg_vorbis-1.3.2-1.3.5-darwin-201504240751.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2888,11 +2888,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d3cceeafc933fed6f7479d4d4e08acbd</string>
+              <string>184fedf2a082db487c880dc8bdabd3da</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/openjpeg-1.5.1-darwin-201412312046.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openjpeg-1.5.1-darwin-201504232103.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2972,11 +2972,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dff3c18662ffd04b89d22e80d55b65db</string>
+              <string>9e6dbe3637f084bce1561cd6e2856fb7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/openssl-1.0.1m-darwin-201503191218.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openssl-1.0.1m-darwin-201504241711.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3061,36 +3061,6 @@
           </map>
         </map>
       </map>
-      <key>slplugin_x86</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright 2014 Cinder R Roxley</string>
-        <key>description</key>
-        <string>32-bit slplugin blob</string>
-        <key>license</key>
-        <string>LGPL</string>
-        <key>license_file</key>
-        <string>LICENSES/slplugin.txt</string>
-        <key>name</key>
-        <string>slplugin_x86</string>
-        <key>platforms</key>
-        <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>6befaacda1a7ce9db6ab07f38b584d5c</string>
-              <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/slplugin_x86-999-darwin-201407232203.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>999</string>
-      </map>
       <key>slvoice</key>
       <map>
         <key>copyright</key>
@@ -3114,7 +3084,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/slvoice-4.6.0009.20030-darwin-201501010827.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/slvoice-4.6.0009.20030-darwin-201501010827.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3224,11 +3194,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>51f14537fe05b6efbeb12bdf976b0415</string>
+              <string>2579b92d8af551fe7ac7d9a03c2fe08d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/uriparser-0.8.1-darwin-201502250633.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/uriparser-0.8.1-darwin-201504232205.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3308,11 +3278,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e0f9e9ef30aef78be326025c4191cd3f</string>
+              <string>205d9878c86939c52858dd44bd2791d8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/xmlrpc_epi-0.54.2-darwin-201501011055.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/xmlrpc_epi-0.54.2-darwin-201504232347.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3392,11 +3362,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1a740545afddb5b037640efacf9e8088</string>
+              <string>cbee0492c983eebf68fc4f813fc26b93</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin2/downloads/zlib-1.2.8-darwin-201501011110.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/zlib-1.2.8-darwin-201504231927.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

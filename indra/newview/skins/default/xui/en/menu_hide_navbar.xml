@@ -31,7 +31,7 @@
              parameter="ShowMiniLocationPanel" />
     </menu_item_check>
 
-    <menu_item_seperator />
+    <menu_item_separator />
     <menu_item_check
      label="Show L$ Balance"
      name="ShowStatusBarCurrency">

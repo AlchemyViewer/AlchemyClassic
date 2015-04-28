@@ -170,16 +170,6 @@ if (LINUX)
     # Let's actually get a numerical version of gxx's version
     STRING(REGEX REPLACE ".* ([0-9])\\.([0-9])\\.([0-9]).*" "\\1\\2\\3" CXX_VERSION_NUMBER ${CXX_VERSION})
 
-    if(${CXX_VERSION_NUMBER} GREATER 459)
-      set(CMAKE_CXX_FLAGS "-Wno-unused-but-set-variable -Wno-unused-variable ${CMAKE_CXX_FLAGS}")
-    endif (${CXX_VERSION_NUMBER} GREATER 459)
-
-    # gcc 4.8 and above added a new spammy warnings!
-    if (${CXX_VERSION_NUMBER} GREATER 479)
-      set(CMAKE_CXX_FLAGS "-Wno-unused-local-typedefs -Wno-unused-function ${CMAKE_CXX_FLAGS}")
-    endif (${CXX_VERSION_NUMBER} GREATER 479)
-    # End of hacks.
-
     if (WORD_SIZE EQUAL 32)
       add_definitions(
         -msse2

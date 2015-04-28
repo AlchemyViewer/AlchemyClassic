@@ -35,6 +35,7 @@
 #include "llagent.h"
 #include "llviewerregion.h"
 #include "llnotificationsutil.h"
+#include "llsdserialize.h"
 
 LLFloaterPerms::LLFloaterPerms(const LLSD& seed)
 : LLFloater(seed)

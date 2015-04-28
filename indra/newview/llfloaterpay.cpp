@@ -39,6 +39,7 @@
 #include "llresmgr.h"
 #include "lltextbox.h"
 #include "lllineeditor.h"
+#include "llnotificationsutil.h"
 #include "llmutelist.h"
 #include "llfloaterreporter.h"
 #include "llslurl.h"

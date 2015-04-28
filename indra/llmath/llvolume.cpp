@@ -56,8 +56,6 @@
 #define DEBUG_SILHOUETTE_NORMALS 0 // TomY: Use this to display normals using the silhouette
 #define DEBUG_SILHOUETTE_EDGE_MAP 0 // DaveP: Use this to display edge map using the silhouette
 
-const F32 CUT_MIN = 0.f;
-const F32 CUT_MAX = 1.f;
 const F32 MIN_CUT_DELTA = 0.02f;
 
 const F32 HOLLOW_MIN = 0.f;
@@ -4038,7 +4036,6 @@ LLVertexIndexPair::LLVertexIndexPair(const LLVector3 &vertex, const S32 index)
 }
 
 const F32 VERTEX_SLOP = 0.00001f;
-const F32 VERTEX_SLOP_SQRD = VERTEX_SLOP * VERTEX_SLOP;
 
 struct lessVertex
 {
@@ -4925,33 +4922,30 @@ F64 find_vertex_score(LLVCacheVertexData& data)
 {
 	F64 score = -1.0;
 
-	//if (data.mActiveTriangles >= 0)
-	{ 
-		score = 0.0;
+	score = 0.0;
 
-		S32 cache_idx = data.mCacheTag;
+	S32 cache_idx = data.mCacheTag;
 
-		if (cache_idx < 0)
-		{
-			//not in cache
+	if (cache_idx < 0)
+	{
+		//not in cache
+	}
+	else
+	{
+		if (cache_idx < 3)
+		{ //vertex was in the last triangle
+			score = FindVertexScore_LastTriScore;
 		}
 		else
-		{
-			if (cache_idx < 3)
-			{ //vertex was in the last triangle
-				score = FindVertexScore_LastTriScore;
-			}
-			else
-			{ //more points for being higher in the cache
+		{ //more points for being higher in the cache
 				score = 1.0-((cache_idx-3)*FindVertexScore_Scaler);
 				score = pow(score, FindVertexScore_CacheDecayPower);
-			}
 		}
-
-		//bonus points for having low valence
-		F64 valence_boost = pow((F64)data.mActiveTriangles, -FindVertexScore_ValenceBoostPower);
-		score += FindVertexScore_ValenceBoostScale * valence_boost;
 	}
+
+	//bonus points for having low valence
+	F64 valence_boost = pow((F64)data.mActiveTriangles, -FindVertexScore_ValenceBoostPower);
+	score += FindVertexScore_ValenceBoostScale * valence_boost;
 
 	return score;
 }

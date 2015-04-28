@@ -199,7 +199,7 @@ protected:
 class LLInventoryFolderViewModelBuilder
 {
 public:
-	LLInventoryFolderViewModelBuilder() {}
+ 	LLInventoryFolderViewModelBuilder() {}
  	virtual ~LLInventoryFolderViewModelBuilder() {}
 	virtual LLInvFVBridge* createBridge(LLAssetType::EType asset_type,
 										LLAssetType::EType actual_asset_type,
@@ -656,7 +656,6 @@ class LLRecentInventoryBridgeBuilder : public LLInventoryFolderViewModelBuilder
 {
 public:
 	LLRecentInventoryBridgeBuilder() {}
-
 	// Overrides FolderBridge for Recent Inventory Panel.
 	// It use base functionality for bridges other than FolderBridge.
 	virtual LLInvFVBridge* createBridge(LLAssetType::EType asset_type,

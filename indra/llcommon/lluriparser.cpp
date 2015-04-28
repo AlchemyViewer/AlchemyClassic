@@ -118,7 +118,7 @@ void LLUriParser::fragment(const std::string& s)
 
 void LLUriParser::textRangeToString(UriTextRangeA& textRange, std::string& str)
 {
-	if (textRange.first != nullptr && textRange.afterLast != nullptr && textRange.first < textRange.afterLast)
+	if (textRange.first != NULL && textRange.afterLast != NULL && textRange.first < textRange.afterLast)
 	{
 		const ptrdiff_t len = textRange.afterLast - textRange.first;
 		str.assign(textRange.first, static_cast<std::string::size_type>(len));

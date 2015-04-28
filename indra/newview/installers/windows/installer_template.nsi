@@ -19,7 +19,7 @@
 ;;
 ;; Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
 ;;
-;; NSIS Unicode 2.38.1 or higher required
+;; NSIS Unicode 2.46.5 or higher required
 ;; http://www.scratchpaper.com/
 ;;
 ;; Author: James Cook, Don Kjer, Callum Prentice, Drake Arconis

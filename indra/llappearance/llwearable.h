@@ -83,7 +83,7 @@ public:
 		BAD_HEADER
 	};
 	BOOL				exportFile(const std::string& filename) const;
-	EImportResult		importFile(const std::string& filename, LLAvatarAppearance* avatarp);
+	EImportResult		importFile(const std::string& filename, LLAvatarAppearance* avatarp );
 	virtual BOOL				exportStream( std::ostream& output_stream ) const;
 	virtual EImportResult		importStream( std::istream& input_stream, LLAvatarAppearance* avatarp );
 

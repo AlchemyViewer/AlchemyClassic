@@ -510,7 +510,7 @@ void LLViewerWearable::saveNewAsset() const
 	//LL_INFOS() << *this << LL_ENDL;
 
 	const std::string filename = asset_id_to_filename(mAssetID);
-	if (!exportFile(filename))
+	if(! exportFile(filename))
 	{
 		std::string buffer = llformat("Unable to save '%s' to wearable file.", mName.c_str());
 		LL_WARNS() << buffer << LL_ENDL;

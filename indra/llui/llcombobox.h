@@ -201,6 +201,11 @@ public:
 	void			setTextEntryCallback( commit_callback_t cb ) { mTextEntryCallback = cb; }
 	void			setTextChangedCallback( commit_callback_t cb ) { mTextChangedCallback = cb; }
 
+	/**
+	* Connects callback to signal called when Return key is pressed.
+	*/
+	boost::signals2::connection setReturnCallback( const commit_signal_t::slot_type& cb ) { return mOnReturnSignal.connect(cb); }
+
 	void			setButtonVisible(BOOL visible);
 
 	void			onButtonMouseDown();
@@ -233,6 +238,7 @@ private:
 	commit_callback_t	mTextChangedCallback;
 	commit_callback_t	mSelectionCallback;
 	boost::signals2::connection mTopLostSignalConnection;
+	commit_signal_t		mOnReturnSignal;
 	S32                 mLastSelectedIndex;
 };
 

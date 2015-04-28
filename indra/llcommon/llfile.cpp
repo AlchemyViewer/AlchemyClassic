@@ -132,7 +132,7 @@ int warnif(const std::string& desc, const std::string& filename, int rc, int acc
 		// process has the file open. Try to find out.
 		if (errn == EACCES)         // *not* EPERM
 		{
-			// Only do any of this stuff (before LfileL_ENDL) if it will be logged.
+			// Only do any of this stuff (before LL_ENDL) if it will be logged.
 			LL_DEBUGS("LLFile") << empty;
 			const char* TEMP = getenv("TEMP");
 			if (! TEMP)

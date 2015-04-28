@@ -45,7 +45,7 @@ typedef FILE	LLFILE;
 typedef struct _stat	llstat;
 #else
 typedef struct stat		llstat;
-#endif // !LL_WINDOWS
+#endif
 
 #ifndef S_ISREG
 # define S_ISREG(x) (((x) & S_IFMT) == S_IFREG)

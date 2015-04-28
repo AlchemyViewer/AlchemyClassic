@@ -54,13 +54,7 @@
 #include "llviewercamera.h"
 #include "lleventtimer.h"
 
-const S32 BUTTON_HEIGHT = 16;
-const S32 BUTTON_WIDTH_SMALL = 32;
-const S32 BUTTON_WIDTH_BIG = 48;
-const S32 HPAD = 4;
-
 extern LLControlGroup gSavedSettings;
-
 
 // we use this in various places instead of NULL
 static LLPointer<LLTool> sNullTool(new LLTool(std::string("null"), NULL)); 

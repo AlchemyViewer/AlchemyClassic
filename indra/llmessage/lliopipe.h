@@ -265,48 +265,4 @@ inline void intrusive_ptr_release(LLIOPipe* p)
 	}
 }
 
-
-#if 0
-/** 
- * @class LLIOBoiler
- * @brief This class helps construct new LLIOPipe specializations
- * @see LLIOPipe
- *
- * THOROUGH_DESCRIPTION
- */
-class LLIOBoiler : public LLIOPipe
-{
-public:
-	LLIOBoiler();
-	virtual ~LLIOBoiler();
-
-protected:
-	/* @name LLIOPipe virtual implementations
-	 */
-	//@{
-	/** 
-	 * @brief Process the data in buffer
-	 */
-	virtual EStatus process_impl(
-		const LLChannelDescriptors& channels,
-		buffer_ptr_t& buffer,
-		bool& eos,
-		LLSD& context,
-		LLPumpIO* pump);
-	//@}
-};
-
-// virtual
-LLIOPipe::EStatus process_impl(
-	const LLChannelDescriptors& channels,
-	buffer_ptr_t& buffer,
-	bool& eos,
-	LLSD& context,
-	LLPumpIO* pump)
-{
-	return STATUS_NOT_IMPLEMENTED;
-}
-
-#endif // #if 0 - use this block as a boilerplate
-
 #endif // LL_LLIOPIPE_H

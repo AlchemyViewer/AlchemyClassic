@@ -117,7 +117,6 @@ protected:
 
 
 S32 LLFloaterPay::sLastAmount = 0;
-const S32 MAX_AMOUNT_LENGTH = 10;
 const S32 FASTPAY_BUTTON_WIDTH = 80;
 
 LLFloaterPay::LLFloaterPay(const LLSD& key)
@@ -379,7 +378,8 @@ void LLFloaterPay::payViaObject(money_callback callback, LLSafeHandle<LLObjectSe
 	LLSelectNode* node = selection->getFirstRootNode();
 	if (!node) 
 	{
-		//FIXME: notify user object no longer exists
+		// object no longer exists
+		LLNotificationsUtil::add("PayObjectFailed");
 		floater->closeFloater();
 		return;
 	}
@@ -527,6 +527,10 @@ void LLFloaterPay::give(S32 amount)
 					msg->addUUIDFast(_PREHASH_ObjectID, 	mTargetUUID);
 					msg->sendReliable( region->getHost() );
 				}
+			}
+			else
+			{
+				LLNotificationsUtil::add("PayObjectFailed");
 			}
 		}
 		else

@@ -365,11 +365,13 @@ add_custom_command(TARGET llmediaplugintest POST_BUILD
 )
 
 if (WORD_SIZE EQUAL 32)
-  set(BUILT_QUICKTIME_PLUGIN $<TARGET_FILE:media_plugin_quicktime>)
-  add_custom_command(TARGET llmediaplugintest POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy ${BUILT_QUICKTIME_PLUGIN}  ${PLUGINS_DESTINATION_DIR}
-    DEPENDS ${BUILT_QUICKTIME_PLUGIN}
-  )
+  if (DARWIN OR WINDOWS)
+    set(BUILT_QUICKTIME_PLUGIN $<TARGET_FILE:media_plugin_quicktime>)
+    add_custom_command(TARGET llmediaplugintest POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy ${BUILT_QUICKTIME_PLUGIN}  ${PLUGINS_DESTINATION_DIR}
+      DEPENDS ${BUILT_QUICKTIME_PLUGIN}
+    )
+  endif (DARWIN OR WINDOWS)
 endif (WORD_SIZE EQUAL 32)
 
 set(BUILT_EXAMPLE_PLUGIN $<TARGET_FILE:media_plugin_example>)

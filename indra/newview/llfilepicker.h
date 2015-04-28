@@ -166,7 +166,6 @@ private:
 	
 	bool doNavChooseDialog(ELoadFilter filter);
 	bool doNavSaveDialog(ESaveFilter filter, const std::string& filename);
-	//static Boolean navOpenFilterProc(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode);
     std::vector<std::string>* navOpenFilterProc(ELoadFilter filter);
 #endif
 

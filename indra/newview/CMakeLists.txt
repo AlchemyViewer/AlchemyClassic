@@ -4,6 +4,7 @@ project(viewer)
 
 include(00-Common)
 include(Boost)
+include(BuildPackagesInfo)
 include(BuildVersion)
 include(CMakeCopyIfDifferent)
 include(DBusGlib)
@@ -44,6 +45,7 @@ include(OPENAL)
 include(OpenGL)
 include(OpenSSL)
 include(PNG)
+include(Prebuilt)
 include(TemplateCheck)
 include(UI)
 include(UnixInstall)
@@ -72,6 +74,9 @@ endif(FMODSTUDIO)
 if(FMODEX)
   include_directories(${FMODEX_INCLUDE_DIR})
 endif(FMODEX)
+
+# install SLPlugin host executable and its dynamic-library plugins
+use_prebuilt_binary(slplugins)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
@@ -1453,6 +1458,9 @@ if (LINUX)
     set(viewer_LIBRARIES
         Xinerama
         )
+    if (OPENAL)
+      LIST(APPEND viewer_LIBRARIES ${OPENAL_LIBRARIES})
+    endif (OPENAL)
 endif (LINUX)
 
 if (WINDOWS)
@@ -1669,6 +1677,7 @@ set(viewer_APPSETTINGS_FILES
     app_settings/viewerart.xml
     ${CMAKE_SOURCE_DIR}/../etc/message.xml
     ${CMAKE_SOURCE_DIR}/../scripts/messages/message_template.msg
+    packages-info.txt
     )
 
 source_group("App Settings" FILES ${viewer_APPSETTINGS_FILES})

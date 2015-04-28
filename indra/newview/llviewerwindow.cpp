@@ -5526,52 +5526,6 @@ void LLPickInfo::getSurfaceInfo()
 	}
 }
 
-
-/* code to get UV via a special UV render - removed in lieu of raycast method
-LLVector2 LLPickInfo::pickUV()
-{
-	LLVector2 result(-1.f, -1.f);
-
-	LLViewerObject* objectp = getObject();
-	if (!objectp)
-	{
-		return result;
-	}
-
-	if (mObjectFace > -1 &&
-		objectp->mDrawable.notNull() && objectp->getPCode() == LL_PCODE_VOLUME &&
-		mObjectFace < objectp->mDrawable->getNumFaces())
-	{
-		S32 scaled_x = ll_round((F32)mPickPt.mX * gViewerWindow->getDisplayScale().mV[VX]);
-		S32 scaled_y = ll_round((F32)mPickPt.mY * gViewerWindow->getDisplayScale().mV[VY]);
-		const S32 UV_PICK_WIDTH = 5;
-		const S32 UV_PICK_HALF_WIDTH = (UV_PICK_WIDTH - 1) / 2;
-		U8 uv_pick_buffer[UV_PICK_WIDTH * UV_PICK_WIDTH * 4];
-		LLFace* facep = objectp->mDrawable->getFace(mObjectFace);
-		if (facep)
-		{
-			LLGLState scissor_state(GL_SCISSOR_TEST);
-			scissor_state.enable();
-			LLViewerCamera::getInstance()->setPerspective(FOR_SELECTION, scaled_x - UV_PICK_HALF_WIDTH, scaled_y - UV_PICK_HALF_WIDTH, UV_PICK_WIDTH, UV_PICK_WIDTH, FALSE);
-			//glViewport(scaled_x - UV_PICK_HALF_WIDTH, scaled_y - UV_PICK_HALF_WIDTH, UV_PICK_WIDTH, UV_PICK_WIDTH);
-			glScissor(scaled_x - UV_PICK_HALF_WIDTH, scaled_y - UV_PICK_HALF_WIDTH, UV_PICK_WIDTH, UV_PICK_WIDTH);
-
-			glClear(GL_DEPTH_BUFFER_BIT);
-
-			facep->renderSelectedUV();
-
-			glReadPixels(scaled_x - UV_PICK_HALF_WIDTH, scaled_y - UV_PICK_HALF_WIDTH, UV_PICK_WIDTH, UV_PICK_WIDTH, GL_RGBA, GL_UNSIGNED_BYTE, uv_pick_buffer);
-			U8* center_pixel = &uv_pick_buffer[4 * ((UV_PICK_WIDTH * UV_PICK_HALF_WIDTH) + UV_PICK_HALF_WIDTH + 1)];
-
-			result.mV[VX] = (F32)((center_pixel[VGREEN] & 0xf) + (16.f * center_pixel[VRED])) / 4095.f;
-			result.mV[VY] = (F32)((center_pixel[VGREEN] >> 4) + (16.f * center_pixel[VBLUE])) / 4095.f;
-		}
-	}
-
-	return result;
-} */
-
-
 //static 
 bool LLPickInfo::isFlora(LLViewerObject* object)
 {

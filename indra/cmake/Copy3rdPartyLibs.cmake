@@ -98,72 +98,73 @@ if(WINDOWS)
       endif(WORD_SIZE STREQUAL 64)
     endif (FMODEX)
 
-#*******************************
-# Copy MS C runtime dlls, required for packaging.
-if (MSVC12) # VisualStudio 2013
-    if (WORD_SIZE STREQUAL 32)
-      set (CRT_ARCHITECTURE x86)
-    elseif (WORD_SIZE STREQUAL 64)
-      set (CRT_ARCHITECTURE x64)
-    endif (WORD_SIZE STREQUAL 32)
-    FIND_PATH(debug_msvc12_redist_path msvcr120d.dll
+    #*******************************
+    # Copy MS C runtime dlls, required for packaging.
+    # *TODO - Adapt this to support VC9
+    if (MSVC_VERSION EQUAL 1800) # VisualStudio 2013, which is (sigh) VS 12
+        set(MSVC_VER 120)
+        set(MSVC_VERDOT 12.0)
+    else (MSVC80)
+        MESSAGE(WARNING "New MSVC_VERSION ${MSVC_VERSION} of MSVC: adapt Copy3rdPartyLibs.cmake")
+    endif (MSVC80)
+
+    FIND_PATH(debug_msvc_redist_path msvcr${MSVC_VER}d.dll
         PATHS
         ${MSVC_DEBUG_REDIST_PATH}
-        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;12.0]/VC/redist/Debug_NonRedist/${CRT_ARCHITECTURE}/Microsoft.VC120.DebugCRT
+         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\${MSVC_VERDOT}\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/x86/Microsoft.VC${MSVC_VER}.DebugCRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH
         )
 
-    if(EXISTS ${debug_msvc12_redist_path})
-        set(debug_msvc12_files
-            msvcr120d.dll
-            msvcp120d.dll
+    if(EXISTS ${debug_msvc_redist_path})
+        set(debug_msvc_files
+            msvcr${MSVC_VER}d.dll
+            msvcp${MSVC_VER}d.dll
             )
 
         copy_if_different(
-            ${debug_msvc12_redist_path}
+            ${debug_msvc_redist_path}
             "${SHARED_LIB_STAGING_DIR_DEBUG}"
             out_targets
-            ${debug_msvc12_files}
+            ${debug_msvc_files}
             )
         set(third_party_targets ${third_party_targets} ${out_targets})
 
     endif ()
 
-    FIND_PATH(release_msvc12_redist_path msvcr120.dll
+    FIND_PATH(release_msvc_redist_path msvcr${MSVC_VER}.dll
         PATHS
         ${MSVC_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;12.0]/VC/redist/${CRT_ARCHITECTURE}/Microsoft.VC120.CRT
+         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\${MSVC_VERDOT}\\Setup\\VC;ProductDir]/redist/x86/Microsoft.VC${MSVC_VER}.CRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH
         )
 
-    if(EXISTS ${release_msvc12_redist_path})
-        set(release_msvc12_files
-            msvcr120.dll
-            msvcp120.dll
+    if(EXISTS ${release_msvc_redist_path})
+        set(release_msvc_files
+            msvcr${MSVC_VER}.dll
+            msvcp${MSVC_VER}.dll
             )
 
         copy_if_different(
-            ${release_msvc12_redist_path}
+            ${release_msvc_redist_path}
             "${SHARED_LIB_STAGING_DIR_RELEASE}"
             out_targets
-            ${release_msvc12_files}
+            ${release_msvc_files}
             )
         set(third_party_targets ${third_party_targets} ${out_targets})
 
         copy_if_different(
-            ${release_msvc12_redist_path}
+            ${release_msvc_redist_path}
             "${SHARED_LIB_STAGING_DIR_RELWITHDEBINFO}"
             out_targets
-            ${release_msvc12_files}
+            ${release_msvc_files}
             )
         set(third_party_targets ${third_party_targets} ${out_targets})
           
-    endif (EXISTS ${release_msvc12_redist_path})
-endif (MSVC12)
+    endif ()
 
 elseif(DARWIN)
     set(SHARED_LIB_STAGING_DIR_DEBUG            "${SHARED_LIB_STAGING_DIR}/Debug/Resources")

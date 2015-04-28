@@ -499,6 +499,15 @@ LLUrlEntrySecondlifeURL::LLUrlEntrySecondlifeURL()
 	mTooltip = LLTrans::getString("TooltipHttpUrl");
 }
 
+std::string LLUrlEntrySecondlifeURL::getUrl(const std::string &string) const
+{
+	if (string.find("://") == std::string::npos)
+	{
+		return "https://" + escapeUrl(string);
+	}
+	return escapeUrl(string);
+}
+
 std::string LLUrlEntrySecondlifeURL::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
 	return urlToLabelWithGreyQuery(url);
@@ -514,14 +523,6 @@ std::string LLUrlEntrySecondlifeURL::getTooltip(const std::string &url) const
 	return url;
 }
 
-std::string LLUrlEntrySecondlifeURL::getUrl(const std::string &string) const
-{
-	if (string.find("://") == std::string::npos)
-	{
-		return "https://" + escapeUrl(string);
-	}
-	return escapeUrl(string);
-}
 
 //
 // LLUrlEntrySimpleSecondlifeURL Describes *secondlife.com and *lindenlab.com urls to substitute icon 'hand.png' before link

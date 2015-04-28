@@ -13,9 +13,7 @@ else (USESYSTEMLIBS)
     set(JSONCPP_LIBRARIES
       debug jsoncppd.lib
       optimized jsoncpp.lib)
-  elseif (DARWIN)
-    set(JSONCPP_LIBRARIES libjsoncpp.a)
-  elseif (LINUX)
+  elseif (DARWIN OR LINUX)
     set(JSONCPP_LIBRARIES libjsoncpp.a)
   endif (WINDOWS)
   set(JSONCPP_INCLUDE_DIR "${LIBS_PREBUILT_DIR}/include")

@@ -381,7 +381,9 @@ private:
 class LLWearableItemCreationDateComparator : public LLWearableItemNameComparator
 {
 	LOG_CLASS(LLWearableItemCreationDateComparator);
+
 public:
+	// clang demands a default ctor here 
 	LLWearableItemCreationDateComparator() {}
 
 protected:

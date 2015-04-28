@@ -224,7 +224,7 @@ inline S32 ll_round(const F32 val)
 #endif
 }
 
-inline F32 ll_round(F32 val, F32 nearest)
+inline F32 ll_round( F32 val, F32 nearest )
 {
 #ifdef LL_CPP11
 	return F32(round(val * (1.0f / nearest))) * nearest;
@@ -233,7 +233,7 @@ inline F32 ll_round(F32 val, F32 nearest)
 #endif
 }
 
-inline F64 ll_round(F64 val, F64 nearest)
+inline F64 ll_round( F64 val, F64 nearest )
 {
 #ifdef LL_CPP11
 	return F64(round(val * (1.0 / nearest))) * nearest;
@@ -287,25 +287,6 @@ const S32 LL_SHIFT_AMOUNT			= 16;                    //16.16 fixed point represe
 	#define LL_MAN_INDEX				1
 #endif
 
-/* Deprecated: use ll_round(), lltrunc(), or llfloor() instead
-// ================================================================================================
-// Real2Int
-// ================================================================================================
-inline S32 F64toS32(F64 val)
-{
-	val		= val + LL_DOUBLE_TO_FIX_MAGIC;
-	return ((S32*)&val)[LL_MAN_INDEX] >> LL_SHIFT_AMOUNT; 
-}
-
-// ================================================================================================
-// Real2Int
-// ================================================================================================
-inline S32 F32toS32(F32 val)
-{
-	return F64toS32 ((F64)val);
-}
-*/
-
 ////////////////////////////////////////////////
 //
 // Fast exp and log
@@ -331,8 +312,6 @@ static union
 
 #define LL_FAST_EXP(y) (LLECO.n.i = ll_round(F32(LL_EXP_A*(y))) + (1072693248 - LL_EXP_C), LLECO.d)
 
-
-
 inline F32 llfastpow(const F32 x, const F32 y)
 {
 	return (F32)(LL_FAST_EXP(y * log(x)));
@@ -347,9 +326,6 @@ inline F32 snap_to_sig_figs(F32 foo, S32 sig_figs)
 	{
 		bar *= 10.f;
 	}
-
-	//F32 new_foo = (F32)ll_round(foo * bar);
-	// the ll_round() implementation sucks.  Don't us it.
 
 	F32 sign = (foo > 0.f) ? 1.f : -1.f;
 	F32 new_foo = F32( S64(foo * bar + sign * 0.5f));

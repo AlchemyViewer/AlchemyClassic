@@ -1684,19 +1684,12 @@ bool LLAppViewer::cleanup()
 	//dump scene loading monitor results
 	LLSceneMonitor::instance().dumpToFile(gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "scene_monitor_results.csv"));
 
-	if (LLFastTimerView::sAnalyzePerformance)
-	{
-		LL_INFOS() << "Analyzing performance" << LL_ENDL;
-		std::string baseline_name = LLTrace::BlockTimer::sLogName + "_baseline.slp";
-		std::string current_name  = LLTrace::BlockTimer::sLogName + ".slp"; 
-		std::string report_name   = LLTrace::BlockTimer::sLogName + "_report.csv";
-
-		LLFastTimerView::doAnalysis(
-			gDirUtilp->getExpandedFilename(LL_PATH_LOGS, baseline_name),
-			gDirUtilp->getExpandedFilename(LL_PATH_LOGS, current_name),
-			gDirUtilp->getExpandedFilename(LL_PATH_LOGS, report_name));		
-	}
-	LLMetricPerformanceTesterBasic::cleanClass();
+	// There used to be an 'if (LLFastTimerView::sAnalyzePerformance)' block
+	// here, completely redundant with the one that occurs later in this same
+	// function. Presumably the duplication was due to an automated merge gone
+	// bad. Not knowing which instance to prefer, we chose to retain the later
+	// one because it happens just after mFastTimerLogThread is deleted. This
+	// comment is in case we guessed wrong, so we can move it here instead.
 
 	// remove any old breakpad minidump files from the log directory
 	if (! isError())
@@ -2035,7 +2028,7 @@ bool LLAppViewer::cleanup()
     sImageDecodeThread = NULL;
 	delete mFastTimerLogThread;
 	mFastTimerLogThread = NULL;
-	
+
 	if (LLFastTimerView::sAnalyzePerformance)
 	{
 		LL_INFOS() << "Analyzing performance" << LL_ENDL;
@@ -3268,7 +3261,7 @@ void LLAppViewer::writeDebugInfo(bool isStatic)
         : getDynamicDebugFile() );
     
 	LL_INFOS() << "Opening debug file " << *debug_filename << LL_ENDL;
-	llofstream out_file(*debug_filename);
+	llofstream out_file(debug_filename->c_str());
     
     isStatic ?  LLSDSerialize::toPrettyXML(gDebugInfo, out_file)
              :  LLSDSerialize::toPrettyXML(gDebugInfo["Dynamic"], out_file);
@@ -3769,7 +3762,7 @@ void LLAppViewer::handleViewerCrash()
 	{
 		std::string filename;
 		filename = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "stats.log");
-		llofstream file(filename, llofstream::binary);
+		llofstream file(filename.c_str(), std::ios_base::binary);
 		if(file.good())
 		{
 			LL_INFOS() << "Handle viewer crash generating stats log." << LL_ENDL;
@@ -4657,17 +4650,22 @@ void LLAppViewer::loadNameCache()
 	std::string filename =
 		gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "avatar_name_cache.xml");
 	LL_INFOS("AvNameCache") << filename << LL_ENDL;
-	llifstream name_cache_stream(filename);
+	llifstream name_cache_stream(filename.c_str());
 	if(name_cache_stream.is_open())
 	{
-		LLAvatarNameCache::importFile(name_cache_stream);
+		if ( ! LLAvatarNameCache::importFile(name_cache_stream))
+        {
+            LL_WARNS("AppInit") << "removing invalid '" << filename << "'" << LL_ENDL;
+            name_cache_stream.close();
+            LLFile::remove(filename);
+        }
 	}
 
 	if (!gCacheName) return;
 
 	std::string name_cache;
 	name_cache = gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "name.cache");
-	llifstream cache_file(name_cache);
+	llifstream cache_file(name_cache.c_str());
 	if(cache_file.is_open())
 	{
 		if(gCacheName->importFile(cache_file)) return;
@@ -4679,23 +4677,24 @@ void LLAppViewer::saveNameCache()
 	// display names cache
 	std::string filename =
 		gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "avatar_name_cache.xml");
-	llofstream name_cache_stream(filename);
+	llofstream name_cache_stream(filename.c_str());
 	if(name_cache_stream.is_open())
 	{
 		LLAvatarNameCache::exportFile(name_cache_stream);
-	}
-
-	if (!gCacheName) return;
-
-	std::string name_cache;
-	name_cache = gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "name.cache");
-	llofstream cache_file(name_cache);
-	if(cache_file.is_open())
-	{
-		gCacheName->exportFile(cache_file);
+    }
+    
+    // real names cache
+	if (gCacheName)
+    {
+        std::string name_cache;
+        name_cache = gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "name.cache");
+        llofstream cache_file(name_cache.c_str());
+        if(cache_file.is_open())
+        {
+            gCacheName->exportFile(cache_file);
+        }
 	}
 }
-
 
 void LLAppViewer::saveExperienceCache()
 {

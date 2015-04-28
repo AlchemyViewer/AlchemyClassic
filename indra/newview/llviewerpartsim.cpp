@@ -42,8 +42,6 @@
 #include "llvovolume.h"
 
 const F32 PART_SIM_BOX_SIDE = 16.f;
-const F32 PART_SIM_BOX_OFFSET = 0.5f*PART_SIM_BOX_SIDE;
-const F32 PART_SIM_BOX_RAD = 0.5f*F_SQRT3*PART_SIM_BOX_SIDE;
 
 //static
 S32 LLViewerPartSim::sMaxParticleCount = 0;

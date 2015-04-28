@@ -9,6 +9,8 @@ if(INSTALL_PROPRIETARY)
 endif(INSTALL_PROPRIETARY)
 
 set(PREBUILD_TRACKING_DIR ${AUTOBUILD_INSTALL_DIR}/cmake_tracking)
+# For the library installation process;
+# see cmake/Prebuild.cmake for the counterpart code.
 if ("${CMAKE_SOURCE_DIR}/../autobuild.xml" IS_NEWER_THAN "${PREBUILD_TRACKING_DIR}/sentinel_installed")
   file(MAKE_DIRECTORY ${PREBUILD_TRACKING_DIR})
   file(WRITE ${PREBUILD_TRACKING_DIR}/sentinel_installed "0")

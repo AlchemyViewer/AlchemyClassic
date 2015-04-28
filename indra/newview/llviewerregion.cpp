@@ -91,8 +91,6 @@
 // out the two lists of capabilities for analysis.
 //#define DEBUG_CAPS_GRANTS
 
-const F32 WATER_TEXTURE_SCALE = 8.f;			//  Number of times to repeat the water texture across a region
-const S16 MAX_MAP_DIST = 10;
 // The server only keeps our pending agent info for 60 seconds.
 // We want to allow for seed cap retry, but its not useful after that 60 seconds.
 // Give it 3 chances, each at 18 seconds to give ourselves a few seconds to connect anyways if we give up.
@@ -1940,7 +1938,6 @@ public:
 			}
 			else if( i != you_index)
 			{
-				//U32 loc = x << 16 | y << 8 | z; loc = loc; // <alchemy/>
 				U32 pos = 0x0;
 				pos |= x;
 				pos <<= 8;
@@ -2775,15 +2772,12 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 	capabilityNames.append("FlickrConnect");
 	capabilityNames.append("TwitterConnect");
 
-	if (gSavedSettings.getBOOL("UseHTTPInventory"))
-	{
-		capabilityNames.append("FetchLib2");
-		capabilityNames.append("FetchLibDescendents2");
-		capabilityNames.append("FetchInventory2");
-		capabilityNames.append("FetchInventoryDescendents2");
-		capabilityNames.append("IncrementCOFVersion");
-		AISCommand::getCapabilityNames(capabilityNames);
-	}
+	capabilityNames.append("FetchLib2");
+	capabilityNames.append("FetchLibDescendents2");
+	capabilityNames.append("FetchInventory2");
+	capabilityNames.append("FetchInventoryDescendents2");
+	capabilityNames.append("IncrementCOFVersion");
+	AISCommand::getCapabilityNames(capabilityNames);
 
 	capabilityNames.append("GetDisplayNames");
 	capabilityNames.append("GetExperiences");

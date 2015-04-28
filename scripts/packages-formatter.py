@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """\
 This module formats the package version and copyright information for the
 viewer and its dependent packages.
@@ -29,6 +29,15 @@ import sys
 import errno
 import re
 import subprocess
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+        '-p', '--platform',
+        default=None,
+        dest='platform',
+        help='Override the automatically determined platform.')
+parsedargs = parser.parse_args()
 
 _autobuild=os.getenv('AUTOBUILD', 'autobuild')
 
@@ -40,7 +49,10 @@ def autobuild(*args):
     Return its stdout pipe from which the caller can read.
     """
     # subprocess wants a list, not a tuple
-    command = [_autobuild] + list(args)
+    temp = list(args)
+    if parsedargs.platform is not None :
+        temp.append("-p=" + str(parsedargs.platform))
+    command = [_autobuild] + temp
     try:
         child = subprocess.Popen(command,
                                  stdin=None, stdout=subprocess.PIPE,

@@ -101,12 +101,12 @@ if(WINDOWS)
     #*******************************
     # Copy MS C runtime dlls, required for packaging.
     # *TODO - Adapt this to support VC9
-    if (MSVC_VERSION EQUAL 1800) # VisualStudio 2013, which is (sigh) VS 12
+    if (MSVC12) # VisualStudio 2013, which is (sigh) VS 12
         set(MSVC_VER 120)
         set(MSVC_VERDOT 12.0)
-    else (MSVC80)
+    else (MSVC12)
         MESSAGE(WARNING "New MSVC_VERSION ${MSVC_VERSION} of MSVC: adapt Copy3rdPartyLibs.cmake")
-    endif (MSVC80)
+    endif (MSVC12)
 
     FIND_PATH(debug_msvc_redist_path msvcr${MSVC_VER}d.dll
         PATHS

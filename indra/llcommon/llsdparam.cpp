@@ -44,7 +44,7 @@ LLTrace::BlockTimerStatHandle FTM_SD_PARAM_ADAPTOR("LLSD to LLInitParam conversi
 //
 LLParamSDParser::LLParamSDParser()
 : Parser(sReadFuncs, sWriteFuncs, sInspectFuncs),
-  mCurReadSD(NULL), mCurWriteSD(NULL), mWriteRootSD(NULL)
+  mCurReadSD(NULL), mWriteRootSD(NULL)
 {
 	using boost::bind;
 

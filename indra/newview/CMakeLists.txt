@@ -75,9 +75,6 @@ if(FMODEX)
   include_directories(${FMODEX_INCLUDE_DIR})
 endif(FMODEX)
 
-# install SLPlugin host executable and its dynamic-library plugins
-use_prebuilt_binary(slplugins)
-
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIR}
@@ -1458,9 +1455,6 @@ if (LINUX)
     set(viewer_LIBRARIES
         Xinerama
         )
-    if (OPENAL)
-      LIST(APPEND viewer_LIBRARIES ${OPENAL_LIBRARIES})
-    endif (OPENAL)
 endif (LINUX)
 
 if (WINDOWS)

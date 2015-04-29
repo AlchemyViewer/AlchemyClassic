@@ -20,14 +20,15 @@ include_directories(
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
+    )
+include_directories(SYSTEM 
     ${OGG_INCLUDE_DIRS}
     ${VORBISENC_INCLUDE_DIRS}
     ${VORBISFILE_INCLUDE_DIRS}
     ${VORBIS_INCLUDE_DIRS}
     ${OPENAL_LIB_INCLUDE_DIRS}
     ${FREEAULT_LIB_INCLUDE_DIRS}
-    )
-
+)
 set(llaudio_SOURCE_FILES
     llaudioengine.cpp
     lllistener.cpp

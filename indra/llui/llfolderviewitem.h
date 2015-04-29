@@ -317,7 +317,6 @@ protected:
 	F32			mAutoOpenCountdown;
 	S32			mLastArrangeGeneration;
 	S32			mLastCalculatedWidth;
-	bool		mNeedsSort;
 
 public:
 	typedef enum e_recurse_type

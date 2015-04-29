@@ -192,8 +192,8 @@ namespace tut
     template<> template<>
     void object::test<5>()
     {
-#if defined(_LIBCPP_VERSION)
-		skip("Skip on libc++ for now. WrapLLErrs is buggered");
+#if defined(LL_CPP11)
+		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
 #endif
         set_test_name("delete Keyed with outstanding instance_iter");
         std::string what;
@@ -216,8 +216,8 @@ namespace tut
     template<> template<>
     void object::test<6>()
     {
-#if defined(_LIBCPP_VERSION)
-		skip("Skip on libc++ for now. WrapLLErrs is buggered");
+#if defined(LL_CPP11)
+		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
 #endif
         set_test_name("delete Keyed with outstanding key_iter");
         std::string what;
@@ -240,8 +240,8 @@ namespace tut
     template<> template<>
     void object::test<7>()
     {
-#if defined(_LIBCPP_VERSION)
-		skip("Skip on libc++ for now. WrapLLErrs is buggered");
+#if defined(LL_CPP11)
+		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
 #endif
         set_test_name("delete Unkeyed with outstanding instance_iter");
         std::string what;

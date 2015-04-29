@@ -32,6 +32,7 @@
 
 #include "lldate.h"
 #include "llformat.h"
+#include "llsd.h"
 #include "lluri.h"
 #include "stringize.h"
 

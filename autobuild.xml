@@ -3126,7 +3126,7 @@
       <key>slvoice</key>
       <map>
         <key>copyright</key>
-        <string>2010 Vivox</string>
+        <string>2010 Vivox, including audio coding using Polycom¨ Siren14TM (ITU-T Rec. G.722.1 Annex C)</string>
         <key>description</key>
         <string>Vivox SDK components</string>
         <key>license</key>
@@ -3142,11 +3142,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f6d8090d988ff19444737b47ee3e1bfb</string>
+              <string>68a8fab5ad3a180487598d3a3e0d57b1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/slvoice-4.6.0009.20030-darwin-201501010827.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/slvoice_3p-update-slvoice/rev/298329/arch/Darwin/installer/slvoice-4.6.0017.21209.298329-darwin-298329.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3182,9 +3182,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ce89b881ee24977641d1ecbf8aff6dc7</string>
+              <string>399afab7047e6fa62e7b2fb1768059ea</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-slvoice/rev/287264/arch/CYGWIN/installer/slvoice-4.6.0009.20030-windows-20140227.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/slvoice_3p-update-slvoice/rev/298329/arch/CYGWIN/installer/slvoice-4.6.0017.21209.298329-windows-298329.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3194,18 +3196,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ba637d1ecc0043e6743106daedcf8634</string>
+              <string>dabbc146137c13ec2ea026aa69e1f045</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/slvoice-4.6.0009.20030-windows64-201412300147.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/slvoice-4.6.0017.21209.298329-windows64-298329.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>4.6.0009.20030</string>
+        <string>4.6.0017.21209.298329</string>
       </map>
       <key>tut</key>
       <map>

@@ -73,7 +73,6 @@ static LLPanelInjector<LLPanelProfileLegacy::LLPanelProfilePicks> t_panel_picks(
 
 LLPanelProfileLegacy::LLPanelProfileLegacy()
 :	LLPanelProfileTab()
-,	mActionMenu(nullptr)
 ,	mPickDetail(nullptr)
 ,	mPanelPicks(nullptr)
 ,	mPanelGroups(nullptr)

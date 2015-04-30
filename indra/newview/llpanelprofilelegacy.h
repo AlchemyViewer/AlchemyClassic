@@ -78,7 +78,6 @@ private:
 	bool isActionEnabled(const LLSD& userdata);
 	bool handleConfirmModifyRightsCallback(const LLSD& notification, const LLSD& response);
 	
-	LLToggleableMenu* mActionMenu;
 	boost::signals2::connection mAvatarNameCacheConnection;
 	boost::signals2::connection mNameChangedConnection;
 	

@@ -62,7 +62,7 @@ private:
 	LLButton* mBtnStop;
 	
 	LLSD mCategoryPaths;
-	U8 mSearchGodLevel;
+	//U8 mSearchGodLevel;
 	LLMediaCtrl* mWebBrowser;
 };
 

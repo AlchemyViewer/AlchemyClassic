@@ -61,8 +61,8 @@
          value="[i512,i512]" />
         <combo_box.item
          label="Extra Large (1024x1024)"
-         name="Large(1024x1024)"
-         value="[i,i1024]" />
+         name="ExtraLarge(1024x1024)"
+         value="[i1024,i1024]" />
         <combo_box.item
          label="Current Window"
          name="CurrentWindow"

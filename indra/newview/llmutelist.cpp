@@ -620,6 +620,9 @@ BOOL LLMuteList::saveToFile(const std::string& filename)
 
 BOOL LLMuteList::isMuted(const LLUUID& id, const std::string& name, U32 flags) const
 {
+	if (mMutes.empty() && mLegacyMutes.empty())
+		return FALSE;
+
 	// for objects, check for muting on their parent prim
 	LLViewerObject* mute_object = get_object_to_mute_from_id(id);
 	LLUUID id_to_check  = (mute_object) ? mute_object->getID() : id;

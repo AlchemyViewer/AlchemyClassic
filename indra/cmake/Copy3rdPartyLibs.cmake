@@ -64,37 +64,37 @@ if(WINDOWS)
         )
 
     if(USE_TCMALLOC)
-      set(debug_files ${debug_files} libtcmalloc_minimal-debug.dll)
-      set(release_files ${release_files} libtcmalloc_minimal.dll)
+      list(APPEND debug_files libtcmalloc_minimal-debug.dll)
+      list(APPEND release_files libtcmalloc_minimal.dll)
     endif(USE_TCMALLOC)
 
     if(USE_TBBMALLOC)
-      set(debug_files ${debug_files} tbbmalloc_debug.dll tbbmalloc_proxy_debug.dll)
-      set(release_files ${release_files} tbbmalloc.dll tbbmalloc_proxy.dll)
+      list(APPEND debug_files tbbmalloc_debug.dll tbbmalloc_proxy_debug.dll)
+      list(APPEND release_files tbbmalloc.dll tbbmalloc_proxy.dll)
     endif(USE_TBBMALLOC)
 
     if(OPENAL)
-      set(debug_files ${debug_files} alut.dll OpenAL32.dll)
-      set(release_files ${release_files} alut.dll OpenAL32.dll)
+      list(APPEND debug_files alut.dll OpenAL32.dll)
+      list(APPEND release_files alut.dll OpenAL32.dll)
     endif(OPENAL)
 
     if (FMODSTUDIO)
       if(WORD_SIZE STREQUAL 64)
-        set(debug_files ${debug_files} fmodL64.dll)
-        set(release_files ${release_files} fmod64.dll)
+        list(APPEND debug_files fmodL64.dll)
+        list(APPEND release_files fmod64.dll)
       else(WORD_SIZE STREQUAL 64)
-        set(debug_files ${debug_files} fmodL.dll)
-        set(release_files ${release_files} fmod.dll)
+        list(APPEND debug_files fmodL.dll)
+        list(APPEND release_files fmod.dll)
       endif(WORD_SIZE STREQUAL 64)
     endif (FMODSTUDIO)
 
     if (FMODEX)
       if(WORD_SIZE STREQUAL 64)
-        set(debug_files ${debug_files} fmodexL64.dll)
-        set(release_files ${release_files} fmodex64.dll)
+        list(APPEND debug_files fmodexL64.dll)
+        list(APPEND release_files fmodex64.dll)
       else(WORD_SIZE STREQUAL 64)
-        set(debug_files ${debug_files} fmodexL.dll)
-        set(release_files ${release_files} fmodex.dll)
+        list(APPEND debug_files fmodexL.dll)
+        list(APPEND release_files fmodex.dll)
       endif(WORD_SIZE STREQUAL 64)
     endif (FMODEX)
 
@@ -107,16 +107,22 @@ if(WINDOWS)
     else (MSVC12)
         MESSAGE(WARNING "New MSVC_VERSION ${MSVC_VERSION} of MSVC: adapt Copy3rdPartyLibs.cmake")
     endif (MSVC12)
+	if (WORD_SIZE EQUAL 32)
+      set (CRT_ARCHITECTURE x86)
+    elseif (WORD_SIZE EQUAL 64)
+      set (CRT_ARCHITECTURE x64)
+    endif (WORD_SIZE EQUAL 32)
 
     FIND_PATH(debug_msvc_redist_path msvcr${MSVC_VER}d.dll
         PATHS
         ${MSVC_DEBUG_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\${MSVC_VERDOT}\\Setup\\VC;ProductDir]/redist/Debug_NonRedist/x86/Microsoft.VC${MSVC_VER}.DebugCRT
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;${MSVC_VERDOT}]/VC/redist/Debug_NonRedist/${CRT_ARCHITECTURE}/Microsoft.VC${MSVC_VER}.DebugCRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH
         )
 
+	mark_as_advanced(debug_msvc_redist_path)
     if(EXISTS ${debug_msvc_redist_path})
         set(debug_msvc_files
             msvcr${MSVC_VER}d.dll
@@ -136,12 +142,13 @@ if(WINDOWS)
     FIND_PATH(release_msvc_redist_path msvcr${MSVC_VER}.dll
         PATHS
         ${MSVC_REDIST_PATH}
-         [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\${MSVC_VERDOT}\\Setup\\VC;ProductDir]/redist/x86/Microsoft.VC${MSVC_VER}.CRT
+        [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\SxS\\VS7;${MSVC_VERDOT}]/VC/redist/${CRT_ARCHITECTURE}/Microsoft.VC${MSVC_VER}.CRT
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/SysWOW64
         [HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Windows;Directory]/System32
         NO_DEFAULT_PATH
         )
 
+    mark_as_advanced(release_msvc_redist_path)
     if(EXISTS ${release_msvc_redist_path})
         set(release_msvc_files
             msvcr${MSVC_VER}.dll
@@ -197,12 +204,12 @@ elseif(DARWIN)
        )
 
     if (OPENAL)
-      set(release_files ${release_files} libopenal.dylib libalut.dylib)
+      list(APPEND release_files libopenal.dylib libalut.dylib)
     endif (OPENAL)
 
     if (FMODEX)
-      set(debug_files ${debug_files} libfmodexL.dylib)
-      set(release_files ${release_files} libfmodex.dylib)
+      list(APPEND debug_files libfmodexL.dylib)
+      list(APPEND release_files libfmodex.dylib)
     endif (FMODEX)
 
 elseif(LINUX)
@@ -251,17 +258,17 @@ elseif(LINUX)
        )
 
     if (USE_TCMALLOC)
-      set(release_files ${release_files} "libtcmalloc_minimal.so")
+      list(APPEND release_files "libtcmalloc_minimal.so")
     endif (USE_TCMALLOC)
 
     if (FMODEX)
-      set(debug_files ${debug_files} "libfmodexL.so")
-      set(release_files ${release_files} "libfmodex.so")
+      list(APPEND debug_files "libfmodexL.so")
+      list(APPEND release_files "libfmodex.so")
     endif (FMODEX)
 
     if (FMODSTUDIO)
-      set(debug_files ${debug_files} "libfmodL.so")
-      set(release_files ${release_files} "libfmod.so")
+      list(APPEND debug_files "libfmodL.so")
+      list(APPEND release_files "libfmod.so")
     endif (FMODSTUDIO)
 
 else(WINDOWS)

@@ -16,8 +16,8 @@ set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
     "-DLL_RELEASE=1 -DNDEBUG -DLL_RELEASE_WITH_DEBUG_INFO=1")
 
 # Configure crash reporting
-set(RELEASE_CRASH_REPORTING OFF CACHE BOOL "Enable use of crash reporting in release builds")
-set(NON_RELEASE_CRASH_REPORTING OFF CACHE BOOL "Enable use of crash reporting in developer builds")
+option(RELEASE_CRASH_REPORTING "Enable use of crash reporting in release builds" OFF)
+option(NON_RELEASE_CRASH_REPORTING "Enable use of crash reporting in developer builds" OFF)
 
 if(RELEASE_CRASH_REPORTING)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLL_SEND_CRASH_REPORTS=1")
@@ -32,11 +32,8 @@ endif()
 set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING
     "Supported build types." FORCE)
 
-
 # Platform-specific compilation flags.
-
 if (WINDOWS)
-  option(RELEASE_FULL_OPT "Enable Whole Program Optimization and related folding and binary reduction routines" OFF)
   # Don't build DLLs.
   set(BUILD_SHARED_LIBS OFF)
 
@@ -53,17 +50,17 @@ if (WINDOWS)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
   endif (WORD_SIZE EQUAL 32)
 
-  if (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
+  if (USE_LTO AND NOT INCREMENTAL_LINK)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /OPT:REF /OPT:ICF /LTCG")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /OPT:ICF /LTCG")
     set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG")
-  elseif (INCREMENTAL_LINK AND NOT RELEASE_FULL_OPT)
+  elseif (INCREMENTAL_LINK AND NOT USE_LTO)
     set(CMAKE_SHARED_LINKER_FLAGS_RELEASE "${CMAKE_SHARED_LINKER_FLAGS} /INCREMENTAL /VERBOSE:INCR")
     set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS} /INCREMENTAL /VERBOSE:INCR")
   else ()
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /OPT:REF /INCREMENTAL:NO")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:REF /INCREMENTAL:NO")
-  endif (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
+  endif (USE_LTO AND NOT INCREMENTAL_LINK)
 
   set(CMAKE_CXX_STANDARD_LIBRARIES "")
   set(CMAKE_C_STANDARD_LIBRARIES "")
@@ -73,6 +70,9 @@ if (WINDOWS)
       /DNOMINMAX
       /DUNICODE
       /D_UNICODE 
+      )
+
+  add_compile_options(
       /GS
       /TP
       /W3
@@ -84,24 +84,24 @@ if (WINDOWS)
       /fp:fast
       )
 
-  if (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
-    add_definitions(
+  if (USE_LTO AND NOT INCREMENTAL_LINK)
+    add_compile_options(
         /GL
         /Gy
         /Gw
         )
-  endif (RELEASE_FULL_OPT AND NOT INCREMENTAL_LINK)
+  endif (USE_LTO AND NOT INCREMENTAL_LINK)
 
   if (USE_AVX)
-    add_definitions(/arch:AVX)
+    add_compile_options(/arch:AVX)
   elseif (USE_AVX2)
-    add_definitions(/arch:AVX2)
+    add_compile_options(/arch:AVX2)
   elseif (WORD_SIZE EQUAL 32)
-    add_definitions(/arch:SSE2)
+    add_compile_options(/arch:SSE2)
   endif (USE_AVX)
 
   if (NOT VS_DISABLE_FATAL_WARNINGS)
-    add_definitions(/WX)
+    add_compile_options(/WX)
   endif (NOT VS_DISABLE_FATAL_WARNINGS)
 
   # configure win32 API for windows vista+ compatibility
@@ -127,6 +127,7 @@ if (LINUX)
       -pthread
       )
 
+  CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
   CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
   CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
 
@@ -140,79 +141,39 @@ if (LINUX)
   endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-    find_program(GXX g++)
-    mark_as_advanced(GXX)
-
-    if (GXX)
-      execute_process(
-          COMMAND ${GXX} --version
-          COMMAND sed "s/^[gc+ ]*//"
-          COMMAND head -1
-          OUTPUT_VARIABLE GXX_VERSION
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-          )
-    else (GXX)
-      set(GXX_VERSION x)
-    endif (GXX)
-
-    # The quoting hack here is necessary in case we're using distcc or
-    # ccache as our compiler.  CMake doesn't pass the command line
-    # through the shell by default, so we end up trying to run "distcc"
-    # " g++" - notice the leading space.  Ugh.
-
-    execute_process(
-        COMMAND sh -c "${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1} --version"
-        COMMAND sed "s/^[gc+ ]*//"
-        COMMAND head -1
-        OUTPUT_VARIABLE CXX_VERSION
-      OUTPUT_STRIP_TRAILING_WHITESPACE)
-
-    # Let's actually get a numerical version of gxx's version
-    STRING(REGEX REPLACE ".* ([0-9])\\.([0-9])\\.([0-9]).*" "\\1\\2\\3" CXX_VERSION_NUMBER ${CXX_VERSION})
-
-    if (WORD_SIZE EQUAL 32)
+    if (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
       add_definitions(
         -msse2
         -mfpmath=sse
         -march=pentium4)
-    endif (WORD_SIZE EQUAL 32)
+    endif (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
 
-    if (NOT USESYSTEMLIBS)
-      # linking can be very memory-hungry, especially the final viewer link
-      set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
-    endif (NOT USESYSTEMLIBS)
-
-    if (${CXX_VERSION_NUMBER} GREATER 479)
-      set(CMAKE_CXX_FLAGS_DEBUG "-Og -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
-    else (${CXX_VERSION_NUMBER} GREATER 479)
+    if (HAS_DEBUG_OPTIMIZATION)
+      set(CMAKE_CXX_FLAGS_DEBUG "-Og ${CMAKE_CXX_FLAGS_DEBUG}")
+    else (HAS_DEBUG_OPTIMIZATION)
       set(CMAKE_CXX_FLAGS_DEBUG "-O0 -fno-inline ${CMAKE_CXX_FLAGS_DEBUG}")
-    endif (${CXX_VERSION_NUMBER} GREATER 479)
+    endif (HAS_DEBUG_OPTIMIZATION)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    if (WORD_SIZE EQUAL 32)
+    if (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
       add_definitions(-msse2 -march=pentium4)
-    endif (WORD_SIZE EQUAL 32)
-
-    if (NOT USESYSTEMLIBS)
-      # linking can be very memory-hungry, especially the final viewer link
-      set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
-    endif (NOT USESYSTEMLIBS)
+    endif (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
-    if (NOT USESYSTEMLIBS)
+    if (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
       add_definitions(-march=pentium4)
-    endif (NOT USESYSTEMLIBS)
-
-    if (NOT USESYSTEMLIBS)
-      # linking can be very memory-hungry, especially the final viewer link
-      set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
-    endif (NOT USESYSTEMLIBS)
+    endif (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+  
+  if (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+    # linking can be very memory-hungry, especially the final viewer link
+    set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
+  endif (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4)
 endif (LINUX)
 
 
@@ -250,8 +211,8 @@ if (LINUX OR DARWIN)
     set(UNIX_CXX_WARNINGS "${UNIX_WARNINGS}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 
-  set(CMAKE_C_FLAGS "${UNIX_WARNINGS} ${CMAKE_C_FLAGS}")
-  set(CMAKE_CXX_FLAGS "${UNIX_CXX_WARNINGS} ${CMAKE_CXX_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${UNIX_WARNINGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${UNIX_CXX_WARNINGS}")
 
   if (WORD_SIZE EQUAL 32)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")

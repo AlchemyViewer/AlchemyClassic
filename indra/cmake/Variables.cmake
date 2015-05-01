@@ -22,9 +22,31 @@ set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
 set(VIEWER_PREFIX)
 set(INTEGRATION_TESTS_PREFIX)
-set(LL_TESTS OFF CACHE BOOL "Build and run unit and integration tests (disable for build timing runs to reduce variation")
-set(INCREMENTAL_LINK OFF CACHE BOOL "Use incremental linking on win32 builds (enable for faster links on some machines)")
-set(ENABLE_MEDIA_PLUGINS ON CACHE BOOL "Turn off building media plugins if they are imported by third-party library mechanism")
+option(LL_TESTS "Build and run unit and integration tests (disable for build timing runs to reduce variation" OFF)
+
+# Compiler and toolchain options
+option(USESYSTEMLIBS "Use libraries from your system rather than Linden-supplied prebuilt libraries." OFF)
+option(INCREMENTAL_LINK "Use incremental linking on win32 builds (enable for faster links on some machines)" OFF)
+option(USE_PRECOMPILED_HEADERS "Enable use of precompiled header directives where supported." ON)
+option(USE_LTO "Enable Whole Program Optimization and related folding and binary reduction routines" OFF)
+
+# Media Plugins
+option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)
+option(USE_QUICKTIME_PREBUILT "Use prebuilt quicktime SDK" OFF)
+
+# Mallocs
+option(USE_TCMALLOC "Build the viewer with google tcmalloc" OFF)
+option(USE_TBBMALLOC "Build the viewer with intel tbbmalloc" OFF)
+if (USE_TCMALLOC AND USE_TBBMALLOC)
+  message(FATAL_ERROR "Only one malloc may be enabled at a time.")
+endif (USE_TCMALLOC AND USE_TBBMALLOC)
+
+# Audio Engines
+option(FMODEX "Build with support for the FMOD Ex audio engine" OFF)
+option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
+if (FMODEX AND FMODSTUDIO)
+  message( FATAL_ERROR "You can not enable two FMOD variants at the same time." )
+endif(FMODEX AND FMODSTUDIO)
 
 if(LIBS_CLOSED_DIR)
   file(TO_CMAKE_PATH "${LIBS_CLOSED_DIR}" LIBS_CLOSED_DIR)
@@ -90,15 +112,16 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(PLATFORM_NAME "linux64")
   else (WORD_SIZE EQUAL 32)
     #message(STATUS "WORD_SIZE is UNDEFINED")
-    execute_process(COMMAND uname -m COMMAND sed s/i.86/i686/
-                    OUTPUT_VARIABLE ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
-    if (ARCH STREQUAL x86_64)
-      #message(STATUS "ARCH is detected as 64; ARCH is ${ARCH}")
+    if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+      message(STATUS "Size of void pointer is detected as 8; ARCH is 64-bit")
       set(WORD_SIZE 64)
-    else (ARCH STREQUAL x86_64)
-      #message(STATUS "ARCH is detected as 32; ARCH is ${ARCH}")
+      set(PLATFORM_NAME "linux64")
+    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)
+      message(STATUS "Size of void pointer is detected as 4; ARCH is 32-bit")
       set(WORD_SIZE 32)
-    endif (ARCH STREQUAL x86_64)
+    else()
+      message(FATAL_ERROR "Unkown Architecture!")
+    endif (CMAKE_SIZEOF_VOID_P EQUAL 8)
   endif (WORD_SIZE EQUAL 32)
 
   if (WORD_SIZE EQUAL 32)
@@ -139,13 +162,9 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(DARWIN 1)
   
-  execute_process(
-    COMMAND sh -c "xcodebuild -version | grep Xcode  | cut -d ' ' -f2 | cut -d'.' -f1-2"
-    OUTPUT_VARIABLE XCODE_VERSION )
-
-  if (XCODE_VERSION LESS 6.0)
-    message( FATAL_ERROR "Xcode 6.0 or greater is required." )
-  endif (XCODE_VERSION LESS 6.0)
+  if (XCODE_VERSION LESS 6.0.0)
+    message( FATAL_ERROR "Xcode 6.0.0 or greater is required." )
+  endif (XCODE_VERSION LESS 6.0.0)
   message( "Building with " ${CMAKE_OSX_SYSROOT} )
   set(CMAKE_OSX_DEPLOYMENT_TARGET 10.8)
 
@@ -186,15 +205,10 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 set(GRID agni CACHE STRING "Target Grid")
 
 set(VIEWER_CHANNEL "Alchemy Test" CACHE STRING "Viewer Channel Name")
-
-set(ENABLE_SIGNING OFF CACHE BOOL "Enable signing the viewer")
-set(SIGNING_IDENTITY "" CACHE STRING "Specifies the signing identity to use, if necessary.")
-
 set(VERSION_BUILD "0" CACHE STRING "Revision number passed in from the outside")
-set(USESYSTEMLIBS OFF CACHE BOOL "Use libraries from your system rather than Linden-supplied prebuilt libraries.")
-set(UNATTENDED OFF CACHE BOOL "Should be set to ON for building with VC Express editions.")
 
-set(USE_PRECOMPILED_HEADERS ON CACHE BOOL "Enable use of precompiled header directives where supported.")
+option(ENABLE_SIGNING "Enable signing the viewer" OFF)
+set(SIGNING_IDENTITY "" CACHE STRING "Specifies the signing identity to use, if necessary.")
 
 source_group("CMake Rules" FILES CMakeLists.txt)
 

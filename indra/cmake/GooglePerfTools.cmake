@@ -1,10 +1,6 @@
 # -*- cmake -*-
 include(Prebuilt)
 
-# If you want to enable or disable TCMALLOC in viewer builds, this is the place.
-# set ON or OFF as desired.
-set (USE_TCMALLOC OFF CACHE BOOL "Build the viewer with google tcmalloc")
-
 if (USESYSTEMLIBS)
   include(FindGooglePerfTools)
 else (USESYSTEMLIBS)
@@ -14,10 +10,10 @@ else (USESYSTEMLIBS)
        set(TCMALLOC_LIBRARIES 
          debug libtcmalloc_minimal-debug
          optimized libtcmalloc_minimal)
-       set(TCMALLOC_LINK_FLAGS  "/INCLUDE:__tcmalloc")
+       set(MALLOC_LINK_FLAGS  "/INCLUDE:__tcmalloc")
     else (USE_TCMALLOC)
       set(TCMALLOC_LIBRARIES)
-      set(TCMALLOC_LINK_FLAGS)
+      set(MALLOC_LINK_FLAGS)
     endif (USE_TCMALLOC)
     set(GOOGLE_PERFTOOLS_FOUND "YES")
   endif (WINDOWS)

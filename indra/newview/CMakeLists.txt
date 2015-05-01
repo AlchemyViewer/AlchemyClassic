@@ -1373,7 +1373,6 @@ set(viewer_HEADER_FILES
     pipeline.h
     qtoolalign.h
     roles_constants.h
-    VertexCache.h
     VorbisFramework.h
     )
 

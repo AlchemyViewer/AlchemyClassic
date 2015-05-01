@@ -47,7 +47,7 @@ extern float gOctreeMinSize;
 #define LL_OCTREE_MAX_CAPACITY 128
 #endif*/
 
-#define LL_OCTREE_POOLS 1
+#define LL_OCTREE_POOLS 0
 
 template <class T> class LLOctreeNode;
 
@@ -172,7 +172,7 @@ public:
 		mData.push_back(NULL);
 		mDataEnd = &mData[0];
 
-		for (U32 i = 0; i < getChildCount(); i++)
+		for (U32 i = 0; i < getChildCount(); ++i)
 		{
 			delete getChild(i);
 		} 
@@ -290,7 +290,7 @@ public:
 	
 	void validateChildMap()
 	{
-		for (U32 i = 0; i < 8; i++)
+		for (U32 i = 0; i < 8; ++i)
 		{
 			U8 idx = mChildMap[i];
 			if (idx != 255)
@@ -368,7 +368,7 @@ public:
 			{ 	
 				//find a child to give it to
 				oct_node* child = NULL;
-				for (U32 i = 0; i < getChildCount(); i++)
+				for (U32 i = 0; i < getChildCount(); ++i)
 				{
 					child = getChild(i);
 					if (child->isInside(data->getPositionGroup()))
@@ -414,7 +414,7 @@ public:
 				}
 				
 				//make sure no existing node matches this position
-				for (U32 i = 0; i < getChildCount(); i++)
+				for (U32 i = 0; i < getChildCount(); ++i)
 				{
 					if (mChild[i]->getCenter().equals3(center))
 					{
@@ -537,7 +537,7 @@ public:
 			}
 		}
 		
-		for (U32 i = 0; i < getChildCount(); i++)
+		for (U32 i = 0; i < getChildCount(); ++i)
 		{	//we don't contain data, so pass this guy down
 			LLOctreeNode<T>* child = (LLOctreeNode<T>*) getChild(i);
 			child->removeByAddress(data);
@@ -555,7 +555,7 @@ public:
 	void validate()
 	{
 #if LL_OCTREE_PARANOIA_CHECK
-		for (U32 i = 0; i < getChildCount(); i++)
+		for (U32 i = 0; i < getChildCount(); ++i)
 		{
 			mChild[i]->validate();
 			if (mChild[i]->getParent() != this)
@@ -573,7 +573,7 @@ public:
 
 	void destroy()
 	{
-		for (U32 i = 0; i < getChildCount(); i++) 
+		for (U32 i = 0; i < getChildCount(); ++i) 
 		{	
 			mChild[i]->destroy();
 			delete mChild[i];
@@ -589,7 +589,7 @@ public:
 			OCT_ERRS << "Child size is same as parent size!" << LL_ENDL;
 		}
 
-		for (U32 i = 0; i < getChildCount(); i++)
+		for (U32 i = 0; i < getChildCount(); ++i)
 		{
 			if(!mChild[i]->getSize().equals3(child->getSize())) 
 			{
@@ -615,7 +615,7 @@ public:
 
 		if (!silent)
 		{
-			for (U32 i = 0; i < this->getListenerCount(); i++)
+			for (U32 i = 0; i < this->getListenerCount(); ++i)
 			{
 				oct_listener* listener = getOctListener(i);
 				listener->handleChildAddition(this, child);
@@ -625,7 +625,7 @@ public:
 
 	void removeChild(S32 index, BOOL destroy = FALSE)
 	{
-		for (U32 i = 0; i < this->getListenerCount(); i++)
+		for (U32 i = 0; i < this->getListenerCount(); ++i)
 		{
 			oct_listener* listener = getOctListener(i);
 			listener->handleChildRemoval(this, getChild(index));
@@ -668,7 +668,7 @@ public:
 
 	void deleteChild(oct_node* node)
 	{
-		for (U32 i = 0; i < getChildCount(); i++)
+		for (U32 i = 0; i < getChildCount(); ++i)
 		{
 			if (getChild(i) == node)
 			{
@@ -760,7 +760,7 @@ public:
 
 			//copy the child's children into the root node silently 
 			//(don't notify listeners of addition)
-			for (U32 i = 0; i < child->getChildCount(); i++)
+			for (U32 i = 0; i < child->getChildCount(); ++i)
 			{
 				this->addChild(child->getChild(i), TRUE);
 			}
@@ -857,7 +857,7 @@ public:
 				//copy our children to a new branch
 				LLOctreeNode<T>* newnode = new LLOctreeNode<T>(center, size, this);
 				
-				for (U32 i = 0; i < this->getChildCount(); i++)
+				for (U32 i = 0; i < this->getChildCount(); ++i)
 				{
 					LLOctreeNode<T>* child = this->getChild(i);
 					newnode->addChild(child);
@@ -883,7 +883,7 @@ template <class T>
 void LLOctreeTraveler<T>::traverse(const LLOctreeNode<T>* node)
 {
 	node->accept(this);
-	for (U32 i = 0; i < node->getChildCount(); i++)
+	for (U32 i = 0; i < node->getChildCount(); ++i)
 	{
 		traverse(node->getChild(i));
 	}
@@ -892,7 +892,7 @@ void LLOctreeTraveler<T>::traverse(const LLOctreeNode<T>* node)
 template <class T>
 void LLOctreeTravelerDepthFirst<T>::traverse(const LLOctreeNode<T>* node)
 {
-	for (U32 i = 0; i < node->getChildCount(); i++)
+	for (U32 i = 0; i < node->getChildCount(); ++i)
 	{
 		traverse(node->getChild(i));
 	}

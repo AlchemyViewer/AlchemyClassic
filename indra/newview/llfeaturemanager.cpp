@@ -67,9 +67,6 @@ const char FEATURE_TABLE_VER_FILENAME[] = "featuretable_mac.%s.txt";
 #elif LL_LINUX
 const char FEATURE_TABLE_FILENAME[] = "featuretable_linux.txt";
 const char FEATURE_TABLE_VER_FILENAME[] = "featuretable_linux.%s.txt";
-#elif LL_SOLARIS
-const char FEATURE_TABLE_FILENAME[] = "featuretable_solaris.txt";
-const char FEATURE_TABLE_VER_FILENAME[] = "featuretable_solaris.%s.txt";
 #else
 const char FEATURE_TABLE_FILENAME[] = "featuretable.txt";
 const char FEATURE_TABLE_VER_FILENAME[] = "featuretable.%s.txt";
@@ -808,12 +805,7 @@ void LLFeatureManager::applyBaseMasks()
 		maskFeatures("RAM256MB");
 	}
 	
-#if LL_SOLARIS && defined(__sparc) 	//  even low MHz SPARCs are fast
-#error The 800 is hinky. Would something like a LL_MIN_MHZ make more sense here?
-	if (gSysCPU.getMHz() < 800)
-#else
 	if (gSysCPU.getMHz() < 1100)
-#endif
 	{
 		maskFeatures("CPUSlow");
 	}

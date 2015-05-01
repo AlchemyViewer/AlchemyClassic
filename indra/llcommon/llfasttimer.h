@@ -140,7 +140,7 @@ public:
 
 #endif
 
-#if (LL_LINUX || LL_SOLARIS || LL_DARWIN) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
+#if (LL_LINUX || LL_DARWIN) && (defined(__i386__) || defined(__x86_64__) || defined(__amd64__))
 #if LL_LINUX && LL_GNUC
 	static U32 getCPUClockCount32()
 	{
@@ -171,7 +171,7 @@ public:
 	}
 #else
 	//
-	// LinuxMacSolaris FAST x86 implementation of RDTSC clock
+	// Linux and Darwin FAST x86 implementation of RDTSC clock
 	static U32 getCPUClockCount32()
 	{
 		U64 x;

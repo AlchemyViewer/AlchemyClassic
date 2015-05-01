@@ -80,17 +80,6 @@ using namespace llsd;
 #   include <stdexcept>
 const char MEMINFO_FILE[] = "/proc/meminfo";
 #   include <gnu/libc-version.h>
-#elif LL_SOLARIS
-#	include <stdio.h>
-#	include <unistd.h>
-#	include <sys/utsname.h>
-#	define _STRUCTURED_PROC 1
-#	include <sys/procfs.h>
-#	include <sys/types.h>
-#	include <sys/stat.h>
-#	include <fcntl.h>
-#	include <errno.h>
-extern int errno;
 #endif
 
 LLCPUInfo gSysCPU;
@@ -686,24 +675,6 @@ U32 LLOSInfo::getProcessVirtualSizeKB()
 		}
 		fclose(status_filep);
 	}
-#elif LL_SOLARIS
-	char proc_ps[LL_MAX_PATH];
-	sprintf(proc_ps, "/proc/%d/psinfo", (int)getpid());
-	int proc_fd = -1;
-	if((proc_fd = open(proc_ps, O_RDONLY)) == -1){
-		LL_WARNS() << "unable to open " << proc_ps << LL_ENDL;
-		return 0;
-	}
-	psinfo_t proc_psinfo;
-	if(read(proc_fd, &proc_psinfo, sizeof(psinfo_t)) != sizeof(psinfo_t)){
-		LL_WARNS() << "Unable to read " << proc_ps << LL_ENDL;
-		close(proc_fd);
-		return 0;
-	}
-
-	close(proc_fd);
-
-	virtual_size = proc_psinfo.pr_size;
 #endif
 	return virtual_size;
 }
@@ -732,24 +703,6 @@ U32 LLOSInfo::getProcessResidentSizeKB()
 		}
 		fclose(status_filep);
 	}
-#elif LL_SOLARIS
-	char proc_ps[LL_MAX_PATH];
-	sprintf(proc_ps, "/proc/%d/psinfo", (int)getpid());
-	int proc_fd = -1;
-	if((proc_fd = open(proc_ps, O_RDONLY)) == -1){
-		LL_WARNS() << "unable to open " << proc_ps << LL_ENDL;
-		return 0;
-	}
-	psinfo_t proc_psinfo;
-	if(read(proc_fd, &proc_psinfo, sizeof(psinfo_t)) != sizeof(psinfo_t)){
-		LL_WARNS() << "Unable to read " << proc_ps << LL_ENDL;
-		close(proc_fd);
-		return 0;
-	}
-
-	close(proc_fd);
-
-	resident_size = proc_psinfo.pr_rssize;
 #endif
 	return resident_size;
 }
@@ -892,11 +845,6 @@ U32Kilobytes LLMemoryInfo::getPhysicalMemoryKB() const
 #elif LL_LINUX
 	U64 phys = 0;
 	phys = (U64)(getpagesize()) * (U64)(get_phys_pages());
-	return U64Bytes(phys);
-
-#elif LL_SOLARIS
-	U64 phys = 0;
-	phys = (U64)(getpagesize()) * (U64)(sysconf(_SC_PHYS_PAGES));
 	return U64Bytes(phys);
 
 #else
@@ -1211,13 +1159,6 @@ LLSD LLMemoryInfo::loadStatsMap()
 			stats.add("Basic new thread policy",				taskinfo.policy);
 		}
 	}
-
-#elif LL_SOLARIS
-	U64 phys = 0;
-
-	phys = (U64)(sysconf(_SC_PHYS_PAGES)) * (U64)(sysconf(_SC_PAGESIZE)/1024);
-
-	stats.add("Total Physical KB", phys);
 
 #elif LL_LINUX
 	std::ifstream meminfo(MEMINFO_FILE);

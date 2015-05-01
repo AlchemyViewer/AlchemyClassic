@@ -149,15 +149,6 @@ if (WINDOWS)
        )
 endif (WINDOWS)
 
-if (SOLARIS)
-  list(APPEND llwindow_SOURCE_FILES
-       llwindowsolaris.cpp
-       )
-  list(APPEND llwindow_HEADER_FILES
-       llwindowsolaris.h
-       )
-endif (SOLARIS)
-
 set_source_files_properties(${llwindow_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 

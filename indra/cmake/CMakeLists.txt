@@ -19,7 +19,6 @@ set(cmake_SOURCE_FILES
     Copy3rdPartyLibs.cmake
     DBusGlib.cmake
     DeploySharedLibs.cmake
-    DirectX.cmake
     DragDrop.cmake
     EXPAT.cmake
     ExamplePlugin.cmake
@@ -35,7 +34,6 @@ set(cmake_SOURCE_FILES
     FindJsonCpp.cmake
     FindNDOF.cmake
     FindOpenJPEG.cmake
-    FindSCP.cmake
     FindURIPARSER.cmake
     FindXmlRpcEpi.cmake
     FindZLIB.cmake

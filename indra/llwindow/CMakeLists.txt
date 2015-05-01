@@ -11,7 +11,6 @@
 project(llwindow)
 
 include(00-Common)
-include(DirectX)
 include(DragDrop)
 include(LLCommon)
 include(LLImage)
@@ -30,7 +29,6 @@ include_directories(
     ${LLVFS_INCLUDE_DIRS}
     ${LLWINDOW_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
-    ${DIRECTX_INCLUDE_DIR}
     )
 include_directories(SYSTEM
     ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
@@ -148,15 +146,6 @@ if (WINDOWS)
        ole32
        )
 endif (WINDOWS)
-
-if (SOLARIS)
-  list(APPEND llwindow_SOURCE_FILES
-       llwindowsolaris.cpp
-       )
-  list(APPEND llwindow_HEADER_FILES
-       llwindowsolaris.h
-       )
-endif (SOLARIS)
 
 set_source_files_properties(${llwindow_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)

@@ -3,7 +3,6 @@
 project(win_crash_logger)
 
 include(00-Common)
-include(DirectX)
 include(LLCommon)
 include(LLCrashLogger)
 include(LLMath)
@@ -66,8 +65,6 @@ list(APPEND
     ${win_crash_logger_RESOURCE_FILES}
     )
 
-find_library(DXGUID_LIBRARY dxguid ${DIRECTX_LIBRARY_DIR})
-
 add_executable(windows-crash-logger WIN32 ${win_crash_logger_SOURCE_FILES})
 
 target_link_libraries(windows-crash-logger
@@ -80,8 +77,8 @@ target_link_libraries(windows-crash-logger
     ${LLMATH_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     ${WINDOWS_LIBRARIES}
-    ${DXGUID_LIBRARY}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
+    dxguid
     user32
     gdi32
     ole32

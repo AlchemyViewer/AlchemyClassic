@@ -35,7 +35,7 @@
 #include "lltrace.h"
 #include "lltracethreadrecorder.h"
 
-#if LL_LINUX || LL_SOLARIS
+#if LL_LINUX
 #include <sched.h>
 #endif
 
@@ -343,7 +343,7 @@ uintptr_t LLThread::currentID()
 // static
 void LLThread::yield()
 {
-#if LL_LINUX || LL_SOLARIS
+#if LL_LINUX
 	sched_yield(); // annoyingly, apr_thread_yield  is a noop on linux...
 #else
 	apr_thread_yield();

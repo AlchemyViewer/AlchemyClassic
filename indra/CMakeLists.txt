@@ -4,7 +4,11 @@
 # other commands to guarantee full compatibility
 # with the version specified
 ## prior to 2.8, the add_custom_target commands used in setting the version did not work correctly
-cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
+if(WIN32)
+  cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+else()
+  cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
+endif(WIN32)
 
 set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
     "The root project/makefile/solution name. Defaults to Alchemy.")
@@ -13,9 +17,9 @@ project(${ROOT_PROJECT_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(Variables)
-if (NOT MSVC AND NOT LINUX)
+if (NOT MSVC)
   include(FindCXX14Features)
-endif (NOT MSVC AND NOT LINUX)
+endif (NOT MSVC)
 include(BuildVersion)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -88,9 +92,6 @@ elseif (WINDOWS)
   endif (EXISTS ${VIEWER_DIR}win_setup)
   # add_dependencies(viewer windows-setup windows-crash-logger)
   add_dependencies(viewer windows-crash-logger)
-elseif (SOLARIS)
-  add_subdirectory(solaris_crash_logger)
-  add_dependencies(viewer solaris-crash-logger)
 endif (LINUX)
 
 add_subdirectory(${VIEWER_PREFIX}newview)

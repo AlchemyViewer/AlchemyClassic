@@ -50,7 +50,7 @@
 #include "llwindow.h"
 #include "llviewerwindow.h"
 #include "llprogressview.h"
-#if LL_LINUX || LL_SOLARIS
+#if LL_LINUX
 #include "lltrans.h"
 #endif
 #include "llsecapi.h"

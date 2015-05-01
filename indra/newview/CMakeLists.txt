@@ -8,7 +8,6 @@ include(BuildPackagesInfo)
 include(BuildVersion)
 include(CMakeCopyIfDifferent)
 include(DBusGlib)
-include(DirectX)
 include(DragDrop)
 include(EXPAT)
 include(FMODEX)
@@ -1373,7 +1372,6 @@ set(viewer_HEADER_FILES
     pipeline.h
     qtoolalign.h
     roles_constants.h
-    VertexCache.h
     VorbisFramework.h
     )
 
@@ -1581,20 +1579,13 @@ if (WINDOWS)
         list(APPEND viewer_SOURCE_FILES ${viewer_RESOURCE_FILES})
     endif (NOT USESYSTEMLIBS)
 
-    find_library(DINPUT_LIBRARY dinput8 ${DIRECTX_LIBRARY_DIR})
-    find_library(DXGUID_LIBRARY dxguid ${DIRECTX_LIBRARY_DIR})
-    mark_as_advanced(
-        DINPUT_LIBRARY
-        DXGUID_LIBRARY
-        )
-
 # see EXP-1765 - theory is opengl32.lib needs to be included before gdi32.lib (windows libs)
     set(viewer_LIBRARIES
         opengl32
         ${WINDOWS_LIBRARIES}
         comdlg32
-        ${DINPUT_LIBRARY}
-        ${DXGUID_LIBRARY}
+        dinput8
+        dxguid
         kernel32
         odbc32
         odbccp32
@@ -1752,10 +1743,9 @@ set(PACKAGE ON CACHE BOOL
 if (WINDOWS)
     set_target_properties(${VIEWER_BINARY_NAME}
         PROPERTIES
-        # *TODO -reenable this once we get server usage sorted out
-        LINK_FLAGS "/debug /NODEFAULTLIB:LIBCMT /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} ${TBBMALLOC_LINK_FLAGS} /LARGEADDRESSAWARE"
-        LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\" /LARGEADDRESSAWARE"
-        LINK_FLAGS_RELEASE "/MAP\"alchemy-bin.MAP\" /LARGEADDRESSAWARE"
+        LINK_FLAGS "/debug /NODEFAULTLIB:LIBCMT /SUBSYSTEM:WINDOWS ${TCMALLOC_LINK_FLAGS} ${TBBMALLOC_LINK_FLAGS}"
+        LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
+        LINK_FLAGS_RELEASE "/MAP:\"alchemy-bin.MAP\""
         )
 
     add_dependencies(${VIEWER_BINARY_NAME} generate_viewer_version)
@@ -1779,29 +1769,6 @@ if (WINDOWS)
         ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/llcommon.dll
         )
     endif(LLCOMMON_LINK_SHARED)
-
-    if(USE_TCMALLOC)
-      # Configure a var for tcmalloc location, if used.
-      # Note the need to specify multiple names explicitly.
-      set(GOOGLE_PERF_TOOLS_SOURCE
-        ${SHARED_LIB_STAGING_DIR}/Release/libtcmalloc_minimal.dll
-        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libtcmalloc_minimal.dll
-        ${SHARED_LIB_STAGING_DIR}/Debug/libtcmalloc_minimal-debug.dll
-        )
-     endif(USE_TCMALLOC)
-
-    if(USE_TBBMALLOC)
-      # Configure a var for tbbmalloc location, if used.
-      # Note the need to specify multiple names explicitly.
-      set(TBBMALLOC_SOURCE
-        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc.dll
-        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc.dll
-        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_debug.dll
-        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc_proxy.dll
-        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc_proxy.dll
-        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_proxy_debug.dll
-        )
-     endif(USE_TBBMALLOC)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
@@ -1835,8 +1802,6 @@ if (WINDOWS)
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxplatform.dll
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/vivoxoal.dll
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ca-bundle.crt
-      ${GOOGLE_PERF_TOOLS_SOURCE}
-      ${TBBMALLOC_SOURCE}
       ${CMAKE_CURRENT_SOURCE_DIR}/licenses-win32.txt
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable.txt
       ${ARCH_PREBUILT_DIRS_RELEASE}/libeay32.dll
@@ -1880,6 +1845,29 @@ if (WINDOWS)
       windows-crash-logger
       )
 
+	if(USE_TCMALLOC)
+      # Configure a var for tcmalloc location, if used.
+      # Note the need to specify multiple names explicitly.
+      list(APPEND COPY_INPUT_DEPENDENCIES
+        ${SHARED_LIB_STAGING_DIR}/Release/libtcmalloc_minimal.dll
+        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libtcmalloc_minimal.dll
+        ${SHARED_LIB_STAGING_DIR}/Debug/libtcmalloc_minimal-debug.dll
+        )
+     endif(USE_TCMALLOC)
+
+    if(USE_TBBMALLOC)
+      # Configure a var for tbbmalloc location, if used.
+      # Note the need to specify multiple names explicitly.
+      list(APPEND COPY_INPUT_DEPENDENCIES
+        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc.dll
+        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc.dll
+        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_debug.dll
+        ${SHARED_LIB_STAGING_DIR}/Release/tbbmalloc_proxy.dll
+        ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/tbbmalloc_proxy.dll
+        ${SHARED_LIB_STAGING_DIR}/Debug/tbbmalloc_proxy_debug.dll
+        )
+    endif(USE_TBBMALLOC)
+	  
     if (WORD_SIZE EQUAL 32)
       list(APPEND COPY_INPUT_DEPENDENCIES
            media_plugin_quicktime
@@ -1955,20 +1943,17 @@ if (WINDOWS)
       windows-crash-logger
       )
 
-    # sets the 'working directory' for debugging from visual studio.
-    if (NOT UNATTENDED)
-        add_custom_command(
-            TARGET ${VIEWER_BINARY_NAME} POST_BUILD
-            COMMAND ${CMAKE_SOURCE_DIR}/tools/vstool/vstool.exe
-            ARGS
-              --solution
-              ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.sln
-              --workingdir
-              ${VIEWER_BINARY_NAME}
-              "${CMAKE_CURRENT_SOURCE_DIR}"
-            COMMENT "Setting the ${VIEWER_BINARY_NAME} working directory for debugging."
-            )
-    endif (NOT UNATTENDED)
+    add_custom_command(
+        TARGET ${VIEWER_BINARY_NAME} POST_BUILD
+        COMMAND ${CMAKE_SOURCE_DIR}/tools/vstool/vstool.exe
+        ARGS
+          --solution
+          ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.sln
+          --workingdir
+          ${VIEWER_BINARY_NAME}
+          "${CMAKE_CURRENT_SOURCE_DIR}"
+        COMMENT "Setting the ${VIEWER_BINARY_NAME} working directory for debugging."
+        )
 
     if (PACKAGE)
       add_custom_command(

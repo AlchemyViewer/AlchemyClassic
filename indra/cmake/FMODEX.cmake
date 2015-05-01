@@ -6,13 +6,10 @@
 # Open source devs should use the -DFMODEX:BOOL=ON then if they want to build with FMOD, whether
 # they are using USESYSTEMLIBS or not.
 if (INSTALL_PROPRIETARY)
-  set(FMODEX ON CACHE BOOL "Using FMOD Ex sound library.")
+  set(FMODEX OFF)
 endif (INSTALL_PROPRIETARY)
 
 if (FMODEX)
-  if (FMODSTUDIO)
-    message( FATAL_ERROR "You can not enable two FMOD variants at the same time." )
-  endif(FMODSTUDIO)
   if (USESYSTEMLIBS)
     # In that case, we use the version of the library installed on the system
     set(FMODEX_FIND_REQUIRED ON)

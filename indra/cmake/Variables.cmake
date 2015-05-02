@@ -198,7 +198,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif (WORD_SIZE EQUAL 64)
   set(LL_ARCH ${ARCH}_darwin)
   set(LL_ARCH_DIR universal-darwin)
-  set(PLATFORM_NAME "darwin")
+  set(PLATFORM_NAME "darwin64")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Default deploy grid

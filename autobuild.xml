@@ -3528,6 +3528,27 @@
         <map>
           <key>configurations</key>
           <map>
+            <key>Coverity</key>
+            <map>
+              <key>configure</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>../indra</string>
+                </array>
+                <key>command</key>
+                <string>cmake</string>
+                <key>options</key>
+                <array>
+                  <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
+                  <string>-DWORD_SIZE:STRING=32</string>
+                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
+                  <string>-DINSTALL_PROPRIETARY=FALSE</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Coverity</string>
+            </map>
             <key>Debug</key>
             <map>
               <key>build</key>
@@ -4015,6 +4036,33 @@
           <string>build-linux-x86_64</string>
           <key>configurations</key>
           <map>
+            <key>Coverity</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>command</key>
+                <string>cov-build</string>
+                <key>options</key>
+                <array>
+                  <string>--dir</string>
+                  <string>cov-int</string>
+                  <string>make</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Unix Makefiles"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                </array>
+              </map>
+              <key>default</key>
+              <string>false</string>
+              <key>name</key>
+              <string>Coverity</string>
+            </map>
             <key>Debug</key>
             <map>
               <key>build</key>
@@ -4426,6 +4474,43 @@
           <string>build-vc120-x86_64</string>
           <key>configurations</key>
           <map>
+            <key>Coverity</key>
+            <map>
+              <key>build</key>
+              <map>
+                <key>arguments</key>
+                <array>
+                  <string>Alchemy.sln</string>
+                </array>
+                <key>command</key>
+                <string>cov-build</string>
+                <key>options</key>
+                <array>
+                  <string>--dir</string>
+                  <string>cov-int</string>
+                  <string>msbuild.exe</string>
+                  <string>/p:Configuration=Release</string>
+                  <string>/p:Platform=x64</string>
+                  <string>/t:Build</string>
+                  <string>/p:useenv=true</string>
+                  <string>/verbosity:minimal</string>
+                  <string>/toolsversion:12.0</string>
+                </array>
+              </map>
+              <key>configure</key>
+              <map>
+                <key>options</key>
+                <array>
+                  <string>-G</string>
+                  <string>"Visual Studio 12 Win64"</string>
+                  <string>-DWORD_SIZE:STRING=64</string>
+                  <string>-DUSE_KDU:BOOL=OFF</string>
+                  <string>-DUNATTENDED:BOOL=ON</string>
+                </array>
+              </map>
+              <key>name</key>
+              <string>Coverity</string>
+            </map>
             <key>Debug</key>
             <map>
               <key>build</key>

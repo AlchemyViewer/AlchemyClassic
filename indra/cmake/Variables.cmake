@@ -29,6 +29,7 @@ option(USESYSTEMLIBS "Use libraries from your system rather than Linden-supplied
 option(INCREMENTAL_LINK "Use incremental linking on win32 builds (enable for faster links on some machines)" OFF)
 option(USE_PRECOMPILED_HEADERS "Enable use of precompiled header directives where supported." ON)
 option(USE_LTO "Enable Whole Program Optimization and related folding and binary reduction routines" OFF)
+option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Media Plugins
 option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)

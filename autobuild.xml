@@ -3713,8 +3713,6 @@
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
-              <key>default</key>
-              <string>false</string>
               <key>name</key>
               <string>Coverity</string>
             </map>
@@ -4018,14 +4016,6 @@
               <key>name</key>
               <string>ReleaseOS</string>
             </map>
-            <key>default</key>
-            <map>
-              <key>build</key>
-              <map>
-              </map>
-              <key>name</key>
-              <string>default</string>
-            </map>
           </map>
           <key>name</key>
           <string>linux</string>
@@ -4058,8 +4048,6 @@
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
-              <key>default</key>
-              <string>false</string>
               <key>name</key>
               <string>Coverity</string>
             </map>
@@ -4190,14 +4178,6 @@
               </map>
               <key>name</key>
               <string>ReleaseOS</string>
-            </map>
-            <key>default</key>
-            <map>
-              <key>build</key>
-              <map>
-              </map>
-              <key>name</key>
-              <string>default</string>
             </map>
           </map>
           <key>name</key>

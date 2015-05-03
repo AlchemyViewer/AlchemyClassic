@@ -1383,7 +1383,7 @@ source_group("CMake Rules" FILES ViewerInstall.cmake)
 add_custom_target(generate_viewer_version ALL
                   COMMAND printf '${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}' > ${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
                   COMMAND printf '{"Type":"viewer","Version":"${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}"}' > ${CMAKE_BINARY_DIR}/summary.json
-                  COMMENT Generating viewer_version.txt for manifest processing
+                  COMMENT "Generating viewer_version.txt for manifest processing"
                   )
 
 set_source_files_properties(

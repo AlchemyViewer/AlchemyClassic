@@ -22,6 +22,10 @@ include_directories(
     ${LLCOREHTTP_INCLUDE_DIRS}
     )
 
+include_directories(
+    ${LLCOREHTTP_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llcorehttp_SOURCE_FILES
     bufferarray.cpp
     bufferstream.cpp
@@ -77,11 +81,6 @@ set(llcorehttp_HEADER_FILES
 
 set_source_files_properties(${llcorehttp_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
-if (DARWIN OR LINUX)
-  # Boost headers define unused members in condition_variable so...
-  set_source_files_properties(${llcorehttp_SOURCE_FILES}
-                              PROPERTIES COMPILE_FLAGS -Wno-unused-variable)
-endif (DARWIN OR LINUX)
 
 list(APPEND llcorehttp_SOURCE_FILES ${llcorehttp_HEADER_FILES})
 

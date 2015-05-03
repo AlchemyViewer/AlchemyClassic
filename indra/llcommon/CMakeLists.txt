@@ -24,6 +24,11 @@ include_directories(
     ${URIPARSER_INCLUDE_DIRS}
     )
 
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 # add_executable(lltreeiterators lltreeiterators.cpp)
 # 
 # target_link_libraries(lltreeiterators

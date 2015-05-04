@@ -3608,7 +3608,7 @@
         <key>Type</key>
         <string>F32</string>
         <key>Value</key>
-        <real>10.0</real>
+        <real>15.0</real>
         </map>
     <key>FilterItemsMaxTimePerFrameVisible</key>
     <map>
@@ -6187,7 +6187,7 @@
         <key>Type</key>
             <string>F32</string>
         <key>Value</key>
-            <real>60.0</real>
+            <real>300.0</real>
         </map>
     <key>MemProfiling</key>
     <map>

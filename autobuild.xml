@@ -1912,9 +1912,9 @@
       <key>kdu</key>
       <map>
         <key>copyright</key>
-        <string>Copyright 2001, David Taubman, The University of New South Wales (UNSW)</string>
+        <string>Kakadu software</string>
         <key>description</key>
-        <string>A C++ implementation of the JPEG2000 standard </string>
+        <string>JPEG2000 library by Kakadu</string>
         <key>license</key>
         <string>Kakadu</string>
         <key>license_file</key>
@@ -2361,14 +2361,18 @@
         <key>version</key>
         <string>2.9.2</string>
       </map>
-      <key>llappearanceutility-source</key>
+      <key>llappearance_utility</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2000-2012, Linden Research, Inc.</string>
+        <key>description</key>
+        <string>Linden Lab appearance utility for server-side avatar baking services.</string>
         <key>license</key>
-        <string>TEMPORARY</string>
+        <string>Proprietary</string>
         <key>license_file</key>
         <string>LICENSES/llappearanceutility.txt</string>
         <key>name</key>
-        <string>llappearanceutility-source</string>
+        <string>llappearance_utility</string>
         <key>platforms</key>
         <map>
           <key>linux</key>
@@ -2376,21 +2380,23 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0e15751836ac0492250001b80aea379f</string>
+              <string>ce1261a54d877ab5530ae6a9134a77a3</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llappearanceutility-source/rev/293888/arch/Linux/installer/llappearanceutility_source-0.1-linux-20140908.tar.bz2</string>
+              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llappearance_viewer-update-llappearance-utility/rev/294906/arch/Linux/installer/llappearance_utility-0.0.1-linux-294906.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
           </map>
         </map>
         <key>version</key>
-        <string>0.1</string>
+        <string>0.0.1</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2010, Linden Research, Inc.</string>
         <key>license</key>
-        <string>TEMPORARY</string>
+        <string>internal</string>
         <key>license_file</key>
         <string>LICENSES/llphysicsextensions.txt</string>
         <key>name</key>
@@ -2402,11 +2408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0578fa67ef9906c6aaa326f51db2669f</string>
+              <string>468e88a527e610804c3eecf07f4ed70b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source/rev/263415/arch/Darwin/installer/llphysicsextensions_source-0.3-darwin-20120814.tar.bz2</string>
+              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source_llphysicsextensions-update/rev/298369/arch/Darwin/installer/llphysicsextensions_source-1.0.298369-darwin-298369.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2416,9 +2422,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a6856b4d58a3b71321acad7e1fa9c8d4</string>
+              <string>793964e49c935b414c4bdbb8a0d14ad1</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source/rev/265749/arch/Linux/installer/llphysicsextensions_source-0.3-linux-20121011.tar.bz2</string>
+              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source_llphysicsextensions-update/rev/298369/arch/Linux/installer/llphysicsextensions_source-1.0.298369-linux-298369.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2428,21 +2434,23 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0cebd359ea732a7db363d88f9886a1ef</string>
+              <string>922aad5261aac150e5ce3c094e57f373</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source/rev/263415/arch/CYGWIN/installer/llphysicsextensions_source-0.3-windows-20120814.tar.bz2</string>
+              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/llphysicsextensions-source_llphysicsextensions-update/rev/298369/arch/CYGWIN/installer/llphysicsextensions_source-1.0.298369-windows-298369.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
           </map>
         </map>
         <key>version</key>
-        <string>0.2</string>
+        <string>1.0.298369</string>
       </map>
       <key>llphysicsextensions_stub</key>
       <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2010, Linden Research, Inc.</string>
         <key>license</key>
-        <string>TEMPORARY</string>
+        <string>internal</string>
         <key>license_file</key>
         <string>LICENSES/llphysicsextensions.txt</string>
         <key>name</key>
@@ -2454,11 +2462,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3ae798d4dfb54a1d806ee5f8b31f7626</string>
+              <string>1175977a191ffc936fd0ccca433c8278</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub/rev/263415/arch/Darwin/installer/llphysicsextensions_stub-0.3-darwin-20120814.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub_llphysicsextensions-update/rev/298370/arch/Darwin/installer/llphysicsextensions_stub-1.0.298370-darwin-298370.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2468,9 +2476,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>aa8a2f25e8629cf5e6a96cc0eb93de8e</string>
+              <string>d13d7927692eab2d6a63e36166b72a8a</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub/rev/263415/arch/Linux/installer/llphysicsextensions_stub-0.3-linux-20120814.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub_llphysicsextensions-update/rev/298370/arch/Linux/installer/llphysicsextensions_stub-1.0.298370-linux-298370.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2492,9 +2500,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3ea4cee6a8dd4c89fbfd3ad6abd703c2</string>
+              <string>9594f6fd79ee924fe675a4a23e30516e</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub/rev/263415/arch/CYGWIN/installer/llphysicsextensions_stub-0.3-windows-20120814.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/llphysicsextensions-stub_llphysicsextensions-update/rev/298370/arch/CYGWIN/installer/llphysicsextensions_stub-1.0.298370-windows-298370.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2513,7 +2521,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>0.2</string>
+        <string>1.0.298370</string>
       </map>
       <key>llqtwebkit</key>
       <map>
@@ -4199,11 +4207,11 @@
                   <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
-                <string>BuildConsole</string>
+                <string>devenv</string>
                 <key>options</key>
                 <array>
                   <string>/build</string>
-                  <string>"/cfg=Debug|Win32"</string>
+                  <string>"Debug|Win32"</string>
                 </array>
               </map>
               <key>configure</key>
@@ -4283,11 +4291,11 @@
                   <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
-                <string>BuildConsole</string>
+                <string>devenv</string>
                 <key>options</key>
                 <array>
                   <string>/build</string>
-                  <string>"/cfg=RelWithDebInfo|Win32"</string>
+                  <string>"RelWithDebInfo|Win32"</string>
                 </array>
               </map>
               <key>configure</key>
@@ -4370,11 +4378,11 @@
                   <string>Alchemy.sln</string>
                 </array>
                 <key>command</key>
-                <string>BuildConsole</string>
+                <string>devenv</string>
                 <key>options</key>
                 <array>
                   <string>/build</string>
-                  <string>"/cfg=Release|Win32"</string>
+                  <string>"Release|Win32"</string>
                 </array>
               </map>
               <key>configure</key>

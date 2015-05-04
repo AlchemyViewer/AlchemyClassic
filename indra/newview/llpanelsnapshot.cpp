@@ -37,7 +37,7 @@
 #include "llsidetraypanelcontainer.h"
 #include "llviewercontrol.h" // gSavedSettings
 
-const S32 MAX_TEXTURE_SIZE = 512 ; //max upload texture size 512 * 512
+const S32 MAX_TEXTURE_SIZE = 1024 ; //max upload texture size 512 * 512
 
 S32 power_of_two(S32 sz, S32 upper)
 {

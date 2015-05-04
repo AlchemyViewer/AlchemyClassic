@@ -873,12 +873,14 @@ U32Bytes LLMemoryInfo::getPhysicalMemoryClamped() const
 void LLMemoryInfo::getAvailableMemoryKB(U32Kilobytes& avail_physical_mem_kb, U32Kilobytes& avail_virtual_mem_kb)
 {
 #if LL_WINDOWS
-	// Sigh, this shouldn't be a static method, then we wouldn't have to
-	// reload this data separately from refresh()
-	LLSD statsMap(loadStatsMap());
+	MEMORYSTATUSEX state;
+	state.dwLength = sizeof(state);
+	GlobalMemoryStatusEx(&state);
 
-	avail_physical_mem_kb = (U32Kilobytes)statsMap["Avail Physical KB"].asInteger();
-	avail_virtual_mem_kb  = (U32Kilobytes)statsMap["Avail Virtual KB"].asInteger();
+	const DWORDLONG div = 1024;
+
+	avail_physical_mem_kb = U32Kilobytes(state.ullAvailPhys/div);
+	avail_virtual_mem_kb  = U32Kilobytes(state.ullAvailVirtual/div);
 
 #elif LL_DARWIN
 	// mStatsMap is derived from vm_stat, look for (e.g.) "kb free":

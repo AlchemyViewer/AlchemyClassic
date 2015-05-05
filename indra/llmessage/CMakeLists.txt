@@ -25,6 +25,11 @@ include_directories(
     ${LLVFS_INCLUDE_DIRS}
     )
 
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llmessage_SOURCE_FILES
     llaescipher.cpp
     llares.cpp

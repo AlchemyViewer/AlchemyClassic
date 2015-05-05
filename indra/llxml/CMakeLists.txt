@@ -13,7 +13,9 @@ include_directories(
     ${LLMATH_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
     )
+
 include_directories(
+    SYSTEM
     ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 

@@ -27,6 +27,11 @@ include_directories(
     ${LLXML_INCLUDE_DIRS}
     )
 
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llappearance_SOURCE_FILES
     llavatarappearance.cpp
     llavatarjoint.cpp

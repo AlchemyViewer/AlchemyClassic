@@ -8,6 +8,10 @@ include(UnixInstall)
 
 include_directories(
     ${LLCOMMON_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
     ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 

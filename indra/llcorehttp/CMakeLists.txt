@@ -23,6 +23,8 @@ include_directories(
     )
 
 include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLCOREHTTP_SYSTEM_INCLUDE_DIRS}
     )
 

@@ -459,7 +459,7 @@ bool HttpPolicy::stageAfterCompletion(HttpOpRequest * op)
 	
 HttpPolicyClass & HttpPolicy::getClassOptions(HttpRequest::policy_t pclass)
 {
-	llassert_always(pclass >= 0 && pclass < mClasses.size());
+	llassert_always(pclass < mClasses.size());
 	
 	return mClasses[pclass]->mOptions;
 }

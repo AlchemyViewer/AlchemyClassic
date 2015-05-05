@@ -132,8 +132,6 @@ public:
 	Window mSDL_XWindowID;
 	Display *mSDL_Display;
 #endif
-	void (*Lock_Display)(void);
-	void (*Unlock_Display)(void);
 
 #if LL_GTK
 	// Lazily initialize and check the runtime GTK version for goodness.

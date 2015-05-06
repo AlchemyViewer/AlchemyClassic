@@ -433,6 +433,7 @@ LLKeyframeMotion::LLKeyframeMotion(const LLUUID &id)
 	: LLMotion(id),
 	  mJointMotionList(NULL),
 	  mPelvisp(NULL),
+	  mCharacter(NULL),
 	  mLastSkeletonSerialNum(0),
 	  mLastUpdateTime(0.f),
 	  mLastLoopedTime(0.f),

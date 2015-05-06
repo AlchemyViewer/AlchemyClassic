@@ -334,6 +334,7 @@ void LLWalkAdjustMotion::onDeactivate()
 //-----------------------------------------------------------------------------
 LLFlyAdjustMotion::LLFlyAdjustMotion(const LLUUID &id)
 	: LLMotion(id),
+	  mCharacter(NULL),
 	  mRoll(0.f)
 {
 	mName = "fly_adjust";

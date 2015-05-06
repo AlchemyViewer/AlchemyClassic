@@ -415,6 +415,7 @@ LLGLManager::LLGLManager() :
 	mHasOcclusionQuery2(FALSE),
 	mHasPointParameters(FALSE),
 	mHasDrawBuffers(FALSE),
+	mHasDepthClamp(FALSE),
 	mHasTextureRectangle(FALSE),
 	mHasTextureMultisample(FALSE),
 	mHasTransformFeedback(FALSE),
@@ -427,7 +428,8 @@ LLGLManager::LLGLManager() :
 	mHasARBEnvCombine(FALSE),
 	mHasCubeMap(FALSE),
 	mHasDebugOutput(FALSE),
-
+	mHassRGBTexture(FALSE),
+	mHassRGBFramebuffer(FALSE),
 	mHasAdaptiveVSync(FALSE),
 	mHasTextureSwizzle(FALSE),
 	mHasGpuShader5(FALSE),
@@ -458,6 +460,7 @@ LLGLManager::LLGLManager() :
 	mVRAM(0),
 	mGLMaxVertexRange(0),
 	mGLMaxIndexRange(0),
+	mGLMaxTextureSize(0),
 	mGLMaxVertexUniformComponents(0)
 {
 }

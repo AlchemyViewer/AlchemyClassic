@@ -191,25 +191,25 @@ bool LLUrlEntryBase::isWikiLinkCorrect(std::string url)
 
 std::string LLUrlEntryBase::urlToLabelWithGreyQuery(const std::string &url) const
 {
-	LLUriParser up(unescapeUrl(url));
+	LLUriParser up(url);
 	up.normalize();
 
 	std::string label;
 	up.extractParts();
 	up.glueFirst(label);
 
-	return label;
+	return unescapeUrl(label);
 }
 
 std::string LLUrlEntryBase::urlToGreyQuery(const std::string &url) const
 {
-	LLUriParser up(unescapeUrl(url));
+	LLUriParser up(url);
 
 	std::string query;
 	up.extractParts();
 	up.glueSecond(query);
 
-	return query;
+	return unescapeUrl(query);
 }
 
 
@@ -258,7 +258,7 @@ std::string LLUrlEntryHTTP::getUrl(const std::string &string) const
 
 std::string LLUrlEntryHTTP::getTooltip(const std::string &url) const
 {
-	return unescapeUrl(url);
+	return mTooltip;;
 }
 
 //

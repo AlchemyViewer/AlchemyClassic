@@ -87,7 +87,7 @@ namespace {
 			U32 render_feature = feature_from_string( iter->asString() );
 			if ( render_feature != 0 )
 			{
-				LLPipeline::toggleRenderDebugControl( reinterpret_cast<void*>(render_feature) ); // <alchemy/>
+				LLPipeline::toggleRenderDebugFeature( reinterpret_cast<void*>(render_feature) ); // <alchemy/>
 			}
 		}
 	}

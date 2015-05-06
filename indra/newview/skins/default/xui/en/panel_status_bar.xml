@@ -164,7 +164,6 @@
      image_pressed="Icon_Gear_Background"
      image_unselected="Icon_Gear_Foreground"
      left_pad="5"
-     right_pad="5"
      top="2"
      name="quick_settings_btn"
      width="16">

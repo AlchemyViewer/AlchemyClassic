@@ -81,6 +81,7 @@ MediaPluginExample::MediaPluginExample( LLPluginInstance::sendMessageFunction ho
     mMouseButtonDown = false;
     mStopAction = false;
     mLastUpdateTime = 0;
+    mBackgroundPixels = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -886,8 +886,10 @@ MediaPluginWebKit::MediaPluginWebKit(LLPluginInstance::sendMessageFunction host_
 	mBackgroundR = 0.0f;
 	mBackgroundG = 0.0f;
 	mBackgroundB = 0.0f;
+	mAuthOK = false;
 
 	mHostLanguage = "en";		// default to english
+	mCookiesEnabled = true;		// default to on
 	mJavascriptEnabled = true;	// default to on
 	mPluginsEnabled = true;		// default to on
 	mEnableMediaPluginDebugging = false;

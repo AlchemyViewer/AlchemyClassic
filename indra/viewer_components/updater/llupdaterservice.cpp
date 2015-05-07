@@ -165,6 +165,7 @@ private:
 const std::string LLUpdaterServiceImpl::sListenerName = "LLUpdaterServiceImpl";
 
 LLUpdaterServiceImpl::LLUpdaterServiceImpl() :
+	mWillingToTest(false),
 	mIsChecking(false),
 	mIsDownloading(false),
 	mCheckPeriod(0),

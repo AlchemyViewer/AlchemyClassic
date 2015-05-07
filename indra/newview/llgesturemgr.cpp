@@ -517,7 +517,7 @@ void LLGestureMgr::replaceGesture(const LLUUID& item_id, const LLUUID& new_asset
 {
 	const LLUUID& base_item_id = get_linked_uuid(item_id);
 
-	item_map_t::iterator it = LLGestureMgr::instance().mActive.find(base_item_id);
+	item_map_t::iterator it = mActive.find(base_item_id);
 	if (it == mActive.end())
 	{
 		LL_WARNS() << "replaceGesture for inactive gesture " << base_item_id << LL_ENDL;
@@ -526,7 +526,7 @@ void LLGestureMgr::replaceGesture(const LLUUID& item_id, const LLUUID& new_asset
 
 	// mActive owns this gesture pointer, so clean up memory.
 	LLMultiGesture* gesture = (*it).second;
-	LLGestureMgr::instance().replaceGesture(base_item_id, gesture, new_asset_id);
+	replaceGesture(base_item_id, gesture, new_asset_id);
 }
 
 void LLGestureMgr::playGesture(LLMultiGesture* gesture)

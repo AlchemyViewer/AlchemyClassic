@@ -583,7 +583,7 @@ void LLScriptFloaterManager::saveFloaterPosition(const LLUUID& object_id, const 
 {
 	if(object_id.notNull())
 	{
-		LLScriptFloaterManager::getInstance()->mFloaterPositions[object_id] = fpi;
+		mFloaterPositions[object_id] = fpi;
 	}
 	else
 	{
@@ -594,7 +594,7 @@ void LLScriptFloaterManager::saveFloaterPosition(const LLUUID& object_id, const 
 bool LLScriptFloaterManager::getFloaterPosition(const LLUUID& object_id, FloaterPositionInfo& fpi)
 {
 	floater_position_map_t::const_iterator it = mFloaterPositions.find(object_id);
-	if(LLScriptFloaterManager::getInstance()->mFloaterPositions.end() != it)
+	if(mFloaterPositions.end() != it)
 	{
 		fpi = it->second;
 		return true;

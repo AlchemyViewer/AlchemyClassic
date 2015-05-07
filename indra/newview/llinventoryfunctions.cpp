@@ -85,8 +85,6 @@
 #include "llvoavatarself.h"
 #include "llwearablelist.h"
 
-#include <boost/foreach.hpp>
-
 BOOL LLInventoryState::sWearNewClothing = FALSE;
 LLUUID LLInventoryState::sWearNewClothingTransactionID;
 

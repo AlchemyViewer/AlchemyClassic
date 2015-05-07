@@ -35,8 +35,6 @@
 #include "llcriticaldamp.h"
 #include "lliconctrl.h"
 
-#include <boost/foreach.hpp>
-
 static const F32 MIN_FRACTIONAL_SIZE = 0.00001f;
 static const F32 MAX_FRACTIONAL_SIZE = 1.f;
 

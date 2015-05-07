@@ -35,6 +35,8 @@
 #include "llcriticaldamp.h"
 #include "lliconctrl.h"
 
+#include <boost/range/adaptor/reversed.hpp>
+
 static const F32 MIN_FRACTIONAL_SIZE = 0.00001f;
 static const F32 MAX_FRACTIONAL_SIZE = 1.f;
 
@@ -806,7 +808,7 @@ void LLLayoutStack::updatePanelRect( LLLayoutPanel* resized_panel, const LLRect&
 	LLLayoutPanel* other_resize_panel = NULL;
 	LLLayoutPanel* following_panel = NULL;
 
-	BOOST_REVERSE_FOREACH(LLLayoutPanel* panelp, mPanels)
+	for(LLLayoutPanel* panelp : boost::adaptors::reverse(mPanels))
 	{
 		if (panelp->mAutoResize)
 		{
@@ -963,7 +965,7 @@ void LLLayoutStack::reshape(S32 width, S32 height, BOOL called_from_parent)
 void LLLayoutStack::updateResizeBarLimits()
 {
 	LLLayoutPanel* previous_visible_panelp = NULL;
-	BOOST_REVERSE_FOREACH(LLLayoutPanel* visible_panelp, mPanels)
+	for(LLLayoutPanel* visible_panelp : boost::adaptors::reverse(mPanels))
 	{
 		if (!visible_panelp->getVisible() || visible_panelp->mCollapsed)
 		{

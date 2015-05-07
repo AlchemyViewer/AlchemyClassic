@@ -1060,11 +1060,13 @@ BOOL LLWindowMacOSX::setCursorPosition(const LLCoordWindow position)
 	newPosition.x = screen_pos.mX;
 	newPosition.y = screen_pos.mY;
 
+	CGEventSourceRef src = CGEventSourceCreate(kCGEventSourceStateHIDSystemState);
+	CGEventSourceSetLocalEventsSuppressionInterval(src, 0.0);
 	if(CGWarpMouseCursorPosition(newPosition) == noErr)
 	{
 		result = TRUE;
 	}
-	CGAssociateMouseAndMouseCursorPosition(true);
+	CFRelease(src);
 
 	// Under certain circumstances, this will trigger us to decouple the cursor.
 	adjustCursorDecouple(true);

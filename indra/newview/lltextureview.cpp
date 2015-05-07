@@ -640,7 +640,7 @@ BOOL LLGLTexMemBar::handleMouseDown(S32 x, S32 y, MASK mask)
 LLRect LLGLTexMemBar::getRequiredRect()
 {
 	LLRect rect;
-	rect.mTop = 68; //LLFontGL::getFontMonospace()->getLineHeight() * 6;
+	rect.mTop = 78; //LLFontGL::getFontMonospace()->getLineHeight() * 6;
 	return rect;
 }
 

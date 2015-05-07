@@ -115,6 +115,7 @@ if (DARWIN)
   set_target_properties(
     media_plugin_webkit
     PROPERTIES
+    COMPILE_FLAGS "-Wno-deprecated-declarations"
     PREFIX ""
     BUILD_WITH_INSTALL_RPATH 1
     INSTALL_NAME_DIR "@executable_path"

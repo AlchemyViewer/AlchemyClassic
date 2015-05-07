@@ -48,7 +48,9 @@
 
 // Default constructor
 LLFloaterBump::LLFloaterBump(const LLSD& key) 
-:	LLFloater(key)
+:	LLFloater(key),
+	mList(NULL),
+	mPopupMenu(NULL)
 {
 	mCommitCallbackRegistrar.add("Avatar.SendIM", boost::bind(&LLFloaterBump::startIM, this));
 	mCommitCallbackRegistrar.add("Avatar.ReportAbuse", boost::bind(&LLFloaterBump::reportAbuse, this));

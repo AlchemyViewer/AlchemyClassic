@@ -462,7 +462,11 @@ class LLPanelRegionExperiences : public LLPanelRegionInfo
 	LOG_CLASS(LLPanelEnvironmentInfo);
 
 public:
-	LLPanelRegionExperiences(){}
+	LLPanelRegionExperiences()
+		: mTrusted(NULL)
+		, mAllowed(NULL)
+		, mBlocked(NULL)
+	{}
 	/*virtual*/ BOOL postBuild();
 	virtual BOOL sendUpdate();
 	

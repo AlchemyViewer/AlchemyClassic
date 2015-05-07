@@ -79,7 +79,7 @@ static const std::map<std::string, lsl_part_st> sParticleBlends{
 };
 
 LLFloaterParticleEditor::LLFloaterParticleEditor(const LLSD& key)
-	: LLFloater(key), mObject(nullptr), mParticleScriptInventoryItem(nullptr)
+	: LLFloater(key), mObject(nullptr), mTexture(nullptr), mParticleScriptInventoryItem(nullptr)
 	, mPatternTypeCombo(nullptr), mTexturePicker(nullptr)
 	, mBurstRateCtrl(nullptr), mBurstCountCtrl(nullptr), mBurstRadiusCtrl(nullptr)
 	, mAngleBeginCtrl(nullptr), mAngleEndCtrl(nullptr), mBurstSpeedMinCtrl(nullptr)

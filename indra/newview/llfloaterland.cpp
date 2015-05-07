@@ -3077,7 +3077,9 @@ void insert_maturity_into_textbox(LLTextBox* target_textbox, LLFloater* names_fl
 }
 
 LLPanelLandExperiences::LLPanelLandExperiences( LLSafeHandle<LLParcelSelection>& parcelp ) 
-	: mParcel(parcelp)
+	: mParcel(parcelp),
+	  mAllowed(NULL),
+	  mBlocked(NULL)
 {
 
 }

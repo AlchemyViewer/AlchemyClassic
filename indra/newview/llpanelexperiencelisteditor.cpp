@@ -46,6 +46,7 @@ static LLPanelInjector<LLPanelExperienceListEditor> t_panel_experience_list_edit
 LLPanelExperienceListEditor::LLPanelExperienceListEditor()
 	:mItems(NULL)
 	,mProfile(NULL)
+	,mAdd(NULL)
 	,mRemove(NULL)
 	,mReadonly(false)
 	,mMaxExperienceIDs(0)

@@ -1060,11 +1060,11 @@ BOOL LLWindowMacOSX::setCursorPosition(const LLCoordWindow position)
 	newPosition.x = screen_pos.mX;
 	newPosition.y = screen_pos.mY;
 
-	CGSetLocalEventsSuppressionInterval(0.0);
 	if(CGWarpMouseCursorPosition(newPosition) == noErr)
 	{
 		result = TRUE;
 	}
+	CGAssociateMouseAndMouseCursorPosition(true);
 
 	// Under certain circumstances, this will trigger us to decouple the cursor.
 	adjustCursorDecouple(true);
@@ -1225,7 +1225,7 @@ LLWindow::LLWindowResolution* LLWindowMacOSX::getSupportedResolutions(S32 &num_r
 {
 	if (!mSupportedResolutions)
 	{
-		CFArrayRef modes = CGDisplayAvailableModes(mDisplay);
+		CFArrayRef modes = CGDisplayCopyAllDisplayModes(mDisplay, NULL);
 
 		if(modes != NULL)
 		{
@@ -1263,8 +1263,10 @@ LLWindow::LLWindowResolution* LLWindowMacOSX::getSupportedResolutions(S32 &num_r
 						mNumSupportedResolutions++;
 					}
 				}
+				CFRelease(mode);
 			}
 		}
+		CFRelease(modes);
 	}
 
 	num_resolutions = mNumSupportedResolutions;

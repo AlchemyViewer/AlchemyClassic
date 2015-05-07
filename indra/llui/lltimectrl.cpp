@@ -416,7 +416,7 @@ U32 LLTimeCtrl::parseMinutes(const std::string& str)
 {
 	U32 minutes;
 	// not sure of this fix - clang doesnt like compare minutes U32 to >= MINUTES_MIN (0) but MINUTES_MIN can change
-	if (LLStringUtil::convertToU32(str, minutes) && ((S32)minutes >= MINUTES_MIN) && ((S32)minutes <= MINUTES_MAX))
+	if (LLStringUtil::convertToU32(str, minutes) && (minutes <= MINUTES_MAX))
 	{
 		return minutes;
 	}

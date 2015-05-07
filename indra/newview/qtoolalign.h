@@ -38,7 +38,7 @@ private:
 	F32             mManipulatorSize;
 	S32             mHighlightedAxis;
 	F32             mHighlightedDirection;
-	BOOL            mForce;
+	bool            mForce;
 };
 
 #endif // Q_QTOOLALIGN_H

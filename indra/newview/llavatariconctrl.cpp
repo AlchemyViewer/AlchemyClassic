@@ -192,29 +192,32 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 
 	switch(mSymbolPos)
 	{
-	case LLAvatarIconCtrlEnums::BOTTOM_LEFT:
-	{
-		left = mSymbolHpad;
-		bottom = mSymbolVpad;
+		default:
+		case LLAvatarIconCtrlEnums::BOTTOM_RIGHT:
+		{
+			//We set bottom right as the default so nothing to do here.
+			break;
+		}
+		case LLAvatarIconCtrlEnums::BOTTOM_LEFT:
+		{
+			left = mSymbolHpad;
+			bottom = mSymbolVpad;
+			break;
+		}
+		case LLAvatarIconCtrlEnums::TOP_LEFT:
+		{
+			left = mSymbolHpad;
+			bottom = rect.getHeight() - mSymbolSize - mSymbolVpad;
+			break;
+		}
+		case LLAvatarIconCtrlEnums::TOP_RIGHT:
+		{
+			left = rect.getWidth() - mSymbolSize - mSymbolHpad;
+			bottom = rect.getHeight() - mSymbolSize - mSymbolVpad;
+			break;
+		}
 	}
-
-	case LLAvatarIconCtrlEnums::TOP_LEFT:
-	{
-		left = mSymbolHpad;
-		bottom = rect.getHeight() - mSymbolSize - mSymbolVpad;
-	}
-
-	case LLAvatarIconCtrlEnums::TOP_RIGHT:
-	{
-		left = rect.getWidth() - mSymbolSize - mSymbolHpad;
-		bottom = rect.getHeight() - mSymbolSize - mSymbolVpad;
-	}
-
-	case LLAvatarIconCtrlEnums::BOTTOM_RIGHT:
-		// fallthrough, is default
-	default:
-		rect.setOriginAndSize(left, bottom, mSymbolSize, mSymbolSize);
-	}
+	rect.setOriginAndSize(left, bottom, mSymbolSize, mSymbolSize);
 
 	if (p.avatar_id.isProvided() && !mUseDefaultImage)
 	{

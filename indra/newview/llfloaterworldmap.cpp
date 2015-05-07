@@ -1316,8 +1316,7 @@ void LLFloaterWorldMap::onTrackRegion()
 		if (LLTracker::getTrackingStatus() != LLTracker::TRACKING_NOTHING)
 		{
 			std::string sim_name;
-			LLWorldMap::getInstance()->simNameFromPosGlobal(LLTracker::getTrackedPositionGlobal(), sim_name);
-			if (!sim_name.empty())
+			if (LLWorldMap::getInstance()->simNameFromPosGlobal(LLTracker::getTrackedPositionGlobal(), sim_name))
 			{
 				const std::string& temp_label = floaterp->getRegionLabelIfExists(sim_name);
 				LLSD args, payload;

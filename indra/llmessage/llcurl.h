@@ -371,8 +371,8 @@ private:
 	LLQueuedThread::handle_t mHandle ;
 	ePerformState mState;
 
-	BOOL mDead ;
-	BOOL mValid ;
+	bool mDead ;
+	bool mValid ;
 	LLMutex* mMutexp ;
 	LLMutex* mDeletionMutexp ;
 	LLMutex* mEasyMutexp ;

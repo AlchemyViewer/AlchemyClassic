@@ -680,8 +680,8 @@ LLCurl::Multi::Multi(F32 idle_time_out)
 	: mQueued(0),
 	  mErrorCount(0),
 	  mState(STATE_READY),
-	  mDead(FALSE),
-	  mValid(TRUE),
+	  mDead(false),
+	  mValid(true),
 	  mMutexp(NULL),
 	  mDeletionMutexp(NULL),
 	  mEasyMutexp(NULL)
@@ -807,7 +807,7 @@ void LLCurl::Multi::markDead()
 	
 		if(mCurlMultiHandle != NULL)
 		{
-			mDead = TRUE ;
+			mDead = true;
 			LLCurl::getCurlThread()->setPriority(mHandle, LLQueuedThread::PRIORITY_URGENT) ; 
 
 			return;
@@ -915,7 +915,7 @@ bool LLCurl::Multi::doPerform()
 	}
 	else if(mValid && mIdleTimer.getElapsedTimeF32() > mIdleTimeOut - 1.f) //idle for too long, mark it invalid.
 	{
-		mValid = FALSE ;
+		mValid = false ;
 	}
 
 	return dead ;

@@ -1646,6 +1646,12 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	LLViewerWindow::sMovieBaseName = "SLmovie";
 	resetSnapshotLoc();
 
+	U32 vsync_mode = gSavedSettings.getU32("RenderVerticalSync");
+	if (vsync_mode == 2 && !gGLManager.mHasAdaptiveVSync)
+	{
+		vsync_mode = 0; //Disable vsync if adaptive is desired yet isn't supported.
+		gSavedSettings.setU32("RenderVerticalSync", 0);
+	}
 
 	/*
 	LLWindowCallbacks* callbacks,
@@ -1661,7 +1667,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 		p.title, p.name, p.x, p.y, p.width, p.height, 0,
 		p.fullscreen, 
 		gHeadlessClient,
-		(EVSyncSetting)gSavedSettings.getU32("RenderVerticalSync"),
+		(EVSyncSetting)vsync_mode,
 		!gHeadlessClient,
 		p.ignore_pixel_depth,
 		gSavedSettings.getBOOL("RenderDeferred") ? 0 : gSavedSettings.getU32("RenderFSAASamples")); //don't use window level anti-aliasing if FBOs are enabled

@@ -522,5 +522,5 @@ void LLFloaterTopObjects::showBeacon()
 	LLVector3 pos_agent(x, y, z);
 	LLVector3d pos_global = gAgent.getPosGlobalFromAgent(pos_agent);
 	std::string tooltip("");
-	LLTracker::trackLocation(pos_global, name, tooltip, LLTracker::LOCATION_ITEM);
+	LLTracker::getInstance()->trackLocation(pos_global, name, tooltip, LLTracker::LOCATION_ITEM);
 }

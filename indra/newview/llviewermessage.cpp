@@ -4228,14 +4228,15 @@ void process_agent_movement_complete(LLMessageSystem* msg, void**)
 		}
 	}
 
-	if ( LLTracker::isTracking(NULL) )
+	LLTracker& tracker = LLTracker::instance();
+	if ( tracker.isTracking() )
 	{
 		// Check distance to beacon, if < 5m, remove beacon
-		LLVector3d beacon_pos = LLTracker::getTrackedPositionGlobal();
+		LLVector3d beacon_pos = tracker.getTrackedPositionGlobal();
 		LLVector3 beacon_dir(agent_pos.mV[VX] - (F32)fmod(beacon_pos.mdV[VX], 256.0), agent_pos.mV[VY] - (F32)fmod(beacon_pos.mdV[VY], 256.0), 0);
 		if (beacon_dir.magVecSquared() < 25.f)
 		{
-			LLTracker::stopTracking(NULL);
+			tracker.stopTracking();
 		}
 		else if ( is_teleport && !gAgent.getTeleportKeepsLookAt() && look_at.isExactlyZero())
 		{

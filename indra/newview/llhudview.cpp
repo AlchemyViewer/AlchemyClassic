@@ -57,14 +57,14 @@ LLHUDView::~LLHUDView()
 // virtual
 void LLHUDView::draw()
 {
-	LLTracker::drawHUDArrow();
+	LLTracker::getInstance()->drawHUDArrow();
 	LLView::draw();
 }
 
 /*virtual*/
 BOOL LLHUDView::handleMouseDown(S32 x, S32 y, MASK mask)
 {
-	if (LLTracker::handleMouseDown(x, y))
+	if (LLTracker::getInstance()->handleMouseDown(x, y))
 	{
 		return TRUE;
 	}

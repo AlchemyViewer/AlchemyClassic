@@ -1860,12 +1860,8 @@ bool LLAppViewer::cleanup()
 
 	LLAvatarAppearance::cleanupClass();
 	
-	//LLAvatarAppearance::cleanupClass(); // <alchemy/> Merge Botch
-	
 	LLPostProcess::cleanupClass();
 
-	LLTracker::cleanupInstance();
-	
 	// *FIX: This is handled in LLAppViewerWin32::cleanup().
 	// I'm keeping the comment to remember its order in cleanup,
 	// in case of unforseen dependency.

@@ -453,7 +453,8 @@ void LLNetMap::draw()
 		}
 		else
 		{
-			LLTracker::ETrackingStatus tracking_status = LLTracker::getTrackingStatus();
+			LLTracker& tracker = LLTracker::instance();
+			LLTracker::ETrackingStatus tracking_status = tracker.getTrackingStatus();
 			if (  LLTracker::TRACKING_AVATAR == tracking_status )
 			{
 				drawTracking( LLAvatarTracker::instance().getGlobalPos(), map_track_color );
@@ -461,7 +462,7 @@ void LLNetMap::draw()
 			else if ( LLTracker::TRACKING_LANDMARK == tracking_status 
 					|| LLTracker::TRACKING_LOCATION == tracking_status )
 			{
-				drawTracking( LLTracker::getTrackedPositionGlobal(), map_track_color );
+				drawTracking(tracker.getTrackedPositionGlobal(), map_track_color);
 			}
 		}
 
@@ -931,7 +932,7 @@ BOOL LLNetMap::handleRightMouseDown(S32 x, S32 y, MASK mask)
 	{
 		mPopupMenu->buildDrawLabels();
 		mPopupMenu->updateParent(LLMenuGL::sMenuContainer);
-		mPopupMenu->setItemEnabled("Stop Tracking", LLTracker::isTracking(0));
+		mPopupMenu->setItemEnabled("Stop Tracking", LLTracker::getInstance()->isTracking());
 		LLMenuGL::showPopup(this, mPopupMenu, x, y);
 	}
 	return TRUE;
@@ -957,7 +958,7 @@ BOOL LLNetMap::handleDoubleClick(S32 x, S32 y, MASK mask)
 	if (double_click_teleport || double_click_show_world_map)
 	{
 		// If we're not tracking a beacon already, double-click will set one 
-		if (!LLTracker::isTracking(NULL))
+		if (!LLTracker::getInstance()->isTracking())
 		{
 			LLFloaterWorldMap* world_map = LLFloaterWorldMap::getInstance();
 			if (world_map)
@@ -1061,6 +1062,7 @@ void LLNetMap::handleStopTracking (const LLSD& userdata)
 	if (mPopupMenu)
 	{
 		mPopupMenu->setItemEnabled ("Stop Tracking", false);
-		LLTracker::stopTracking (reinterpret_cast<void*>(LLTracker::isTracking(NULL))); // <alchemy/>
+		LLTracker& tracker = LLTracker::instance();
+		tracker.stopTracking(tracker.isTracking());
 	}
 }

@@ -126,7 +126,7 @@ BOOL LLFloaterMap::handleDoubleClick(S32 x, S32 y, MASK mask)
 
 	LLVector3d pos_global = mMap->viewPosToGlobal(x, y);
 	
-	LLTracker::stopTracking(NULL);
+	LLTracker::getInstance()->stopTracking();
 	LLFloaterWorldMap* world_map = LLFloaterWorldMap::getInstance();
 	if (world_map)
 	{

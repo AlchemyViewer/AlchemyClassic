@@ -539,20 +539,21 @@ void LLWorldMapView::draw()
 	}
 
 	// Always draw tracking information
-	LLTracker::ETrackingStatus tracking_status = LLTracker::getTrackingStatus();
+	LLTracker& tracker = LLTracker::instance();
+	LLTracker::ETrackingStatus tracking_status = tracker.getTrackingStatus();
 	if ( LLTracker::TRACKING_AVATAR == tracking_status )
 	{
-		drawTracking( LLAvatarTracker::instance().getGlobalPos(), map_track_color, TRUE, LLTracker::getLabel(), "" );
+		drawTracking(LLAvatarTracker::instance().getGlobalPos(), map_track_color, TRUE, tracker.getLabel(), "");
 	}
 	else if ( LLTracker::TRACKING_LANDMARK == tracking_status
 			  || LLTracker::TRACKING_LOCATION == tracking_status )
 	{
 		// While fetching landmarks, will have 0,0,0 location for a while,
 		// so don't draw. JC
-		LLVector3d pos_global = LLTracker::getTrackedPositionGlobal();
+		LLVector3d pos_global = tracker.getTrackedPositionGlobal();
 		if (!pos_global.isExactlyZero())
 		{
-			drawTracking( pos_global, map_track_color, TRUE, LLTracker::getLabel(), LLTracker::getToolTip() );
+			drawTracking(pos_global, map_track_color, TRUE, tracker.getLabel(), tracker.getToolTip());
 		}
 	}
 	else if (LLWorldMap::getInstance()->isTracking())
@@ -973,6 +974,7 @@ void LLWorldMapView::drawTracking(const LLVector3d& pos_global, const LLColor4& 
 	LLFontGL* font = LLFontGL::getFontSansSerifSmall();
 	S32 text_x = x;
 	S32 text_y = (S32)(y - sTrackCircleImage->getHeight()/2 - font->getLineHeight());
+	LLTracker& tracker = LLTracker::instance();
 
 	if(    x < 0 
 		|| y < 0 
@@ -987,8 +989,8 @@ void LLWorldMapView::drawTracking(const LLVector3d& pos_global, const LLColor4& 
 			text_y = sTrackingArrowY;
 		}
 	}
-	else if (LLTracker::getTrackingStatus() == LLTracker::TRACKING_LOCATION &&
-		LLTracker::getTrackedLocationType() != LLTracker::LOCATION_NOTHING)
+	else if (tracker.getTrackingStatus() == LLTracker::TRACKING_LOCATION &&
+		tracker.getTrackedLocationType() != LLTracker::LOCATION_NOTHING)
 	{
 		drawTrackingCircle( getRect(), x, y, color, 3, 15 );
 	}
@@ -1710,8 +1712,8 @@ BOOL LLWorldMapView::handleHover( S32 x, S32 y, MASK mask )
 	else
 	{
 		// While we're waiting for data from the tracker, we're busy. JC
-		LLVector3d pos_global = LLTracker::getTrackedPositionGlobal();
-		if (LLTracker::isTracking(NULL)
+		LLVector3d pos_global = LLTracker::getInstance()->getTrackedPositionGlobal();
+		if (LLTracker::getInstance()->isTracking()
 			&& pos_global.isExactlyZero())
 		{
 			gViewerWindow->setCursor( UI_CURSOR_WAIT );

@@ -34,15 +34,19 @@
 #define LL_LLTRACKER_H
 
 #include "llpointer.h"
+#include "llsingleton.h"
 #include "llstring.h"
 #include "lluuid.h"
 #include "v3dmath.h"
 
+#include "llcontrol.h"
+
 class LLHUDText;
 
 
-class LLTracker
+class LLTracker : public LLSingleton<LLTracker>
 {
+	friend class LLSingleton<LLTracker>;
 public:
 	enum ETrackingStatus
 	{
@@ -59,56 +63,46 @@ public:
 		LOCATION_ITEM,
 	};
 
-	static LLTracker* instance() 
-	{ 
-		if (!sTrackerp)
-		{
-			sTrackerp = new LLTracker();
-		}
-		return sTrackerp; 
-	}
-
-	static void cleanupInstance() { delete sTrackerp; sTrackerp = NULL; }
-
 	//static void drawTrackerArrow(); 
 	// these are static so that they can be used a callbacks
-	static ETrackingStatus getTrackingStatus() { return instance()->mTrackingStatus; }
-	static ETrackingLocationType getTrackedLocationType() { return instance()->mTrackingLocationType; }
-	static BOOL isTracking(void*) { return instance()->mTrackingStatus != TRACKING_NOTHING; }
-	static void stopTracking(void*);
-	static void clearFocus();
+	ETrackingStatus getTrackingStatus() { return mTrackingStatus; }
+	ETrackingLocationType getTrackedLocationType() { return mTrackingLocationType; }
+	bool isTracking() { return mTrackingStatus != TRACKING_NOTHING; }
+	void stopTracking(bool clear_ui = false);
+	void clearFocus();
 	
-	static const LLUUID& getTrackedLandmarkAssetID() { return instance()->mTrackedLandmarkAssetID; }
-	static const LLUUID& getTrackedLandmarkItemID()	 { return instance()->mTrackedLandmarkItemID; }
+	const LLUUID& getTrackedLandmarkAssetID() { return mTrackedLandmarkAssetID; }
+	const LLUUID& getTrackedLandmarkItemID()	 { return mTrackedLandmarkItemID; }
 
-	static void	trackAvatar( const LLUUID& avatar_id, const std::string& name );
-	static void	trackLandmark( const LLUUID& landmark_asset_id, const LLUUID& landmark_item_id , const std::string& name);
-	static void	trackLocation(const LLVector3d& pos, const std::string& full_name, const std::string& tooltip, ETrackingLocationType location_type = LOCATION_NOTHING);
+	void trackAvatar( const LLUUID& avatar_id, const std::string& name );
+	void trackLandmark( const LLUUID& landmark_asset_id, const LLUUID& landmark_item_id , const std::string& name);
+	void trackLocation(const LLVector3d& pos, const std::string& full_name, const std::string& tooltip, ETrackingLocationType location_type = LOCATION_NOTHING);
 
 	// returns global pos of tracked thing
-	static LLVector3d 	getTrackedPositionGlobal();
+	LLVector3d 	getTrackedPositionGlobal();
 
-	static BOOL 		hasLandmarkPosition();
-	static const std::string& getTrackedLocationName();
+	BOOL 		hasLandmarkPosition();
+	const std::string& getTrackedLocationName();
 
-	static void drawHUDArrow();
+	void drawHUDArrow();
 
 	// Draw in-world 3D tracking stuff
-	static void	render3D();
+	void render3D();
 
-	static BOOL handleMouseDown(S32 x, S32 y);
+	BOOL handleMouseDown(S32 x, S32 y);
 
-	static LLTracker* sTrackerp;
 	static BOOL sCheesyBeacon;
 	
-	static const std::string& getLabel() { return instance()->mLabel; }
-	static const std::string& getToolTip() { return instance()->mToolTip; }
+	const std::string& getLabel() { return mLabel; }
+	const std::string& getToolTip() { return mToolTip; }
 protected:
 	LLTracker();
 	~LLTracker();
 
-	static void drawBeacon(LLVector3 pos_agent, std::string direction, LLColor4 fogged_color, F32 dist);
-	static void renderBeacon( LLVector3d pos_global, 
+	F32 pulseFunc(F32 t, F32 z, bool tracking_avatar, bool direction_down);
+	void drawShockwave(F32 center_z, F32 t, S32 steps, LLColor4 color);
+	void drawBeacon(LLVector3 pos_agent, bool direction_down, LLColor4 fogged_color, F32 dist);
+	void renderBeacon( LLVector3d pos_global, 
 							 const LLColor4& color, 
 							 const LLColor4& color_under,
 							 LLHUDText* hud_textp, 
@@ -148,6 +142,7 @@ protected:
 	std::string				mTrackedLocationName;
 	BOOL					mIsTrackingLocation;
 	BOOL					mHasReachedLocation;
+	LLCachedControl<bool>	mCheesyBeacon;
 };
 
 

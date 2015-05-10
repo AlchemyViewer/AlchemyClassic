@@ -4031,7 +4031,7 @@ void render_hud_elements()
 		gViewerWindow->renderSelections(FALSE, FALSE, FALSE); // For HUD version in render_ui_3d()
 	
 		// Draw the tracking overlays
-		LLTracker::render3D();
+		LLTracker::getInstance()->render3D();
 		
 		// Show the property lines
 		LLWorld::getInstance()->renderPropertyLines();

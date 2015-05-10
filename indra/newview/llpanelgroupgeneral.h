@@ -67,10 +67,10 @@ private:
 
 	void	resetDirty();
 
+	void onCommitAny();
+	void onCommitUserOnly();
+	void onCommitEnrollment();
 	static void onFocusEdit(LLFocusableElement* ctrl, void* data);
-	static void onCommitAny(LLUICtrl* ctrl, void* data);
-	static void onCommitUserOnly(LLUICtrl* ctrl, void* data);
-	static void onCommitEnrollment(LLUICtrl* ctrl, void* data);
 	static void onClickInfo(void* userdata);
 	static void onReceiveNotices(LLUICtrl* ctrl, void* data);
 

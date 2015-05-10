@@ -68,7 +68,6 @@ public:
 	void respond();
 
 private:
-	static void onCommitResponse(LLUICtrl* ctrl, void* data) { ((LLFloaterNotification*)data)->respond(); }
 	LLNotification* mNote;
 };
 #endif

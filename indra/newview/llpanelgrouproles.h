@@ -158,7 +158,6 @@ public:
 
 	virtual BOOL postBuildSubTab(LLView* root);
 
-	static void onMemberSelect(LLUICtrl*, void*);
 	void handleMemberSelect();
 
 	static void onMemberDoubleClick(void*);
@@ -173,7 +172,7 @@ public:
 	bool handleEjectCallback(const LLSD& notification, const LLSD& response);
 	void commitEjectMembers(uuid_vec_t& selected_members);
 
-	static void onRoleCheck(LLUICtrl* check, void* user_data);
+	void onRoleCheck(const LLSD& userdata);
 	void handleRoleCheck(const LLUUID& role_id,
 						 LLRoleMemberChangeType type);
 
@@ -248,7 +247,6 @@ public:
 	bool matchesSearchFilter(std::string rolename, std::string roletitle);
 	virtual void update(LLGroupChange gc);
 
-	static void onRoleSelect(LLUICtrl*, void*);
 	void handleRoleSelect();
 	void buildMembersList();
 
@@ -261,8 +259,7 @@ public:
 
 	static void onDescriptionCommit(LLUICtrl*, void*);
 
-	static void onMemberVisibilityChange(LLUICtrl*, void*);
-	void handleMemberVisibilityChange(bool value);
+	void handleMemberVisibilityChange(const LLSD& value);
 
 	static void onCreateRole(void*);
 	void handleCreateRole();

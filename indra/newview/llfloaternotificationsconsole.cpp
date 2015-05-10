@@ -253,7 +253,7 @@ BOOL LLFloaterNotification::postBuild()
 		return TRUE;
 	}
 
-	responses_combo->setCommitCallback(onCommitResponse, this);
+	responses_combo->setCommitCallback(boost::bind(&LLFloaterNotification::respond, this));
 
 	LLSD form_sd = form->asLLSD();
 

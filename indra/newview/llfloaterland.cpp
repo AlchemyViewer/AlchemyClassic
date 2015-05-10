@@ -399,12 +399,12 @@ LLPanelLandGeneral::LLPanelLandGeneral(LLParcelSelectionHandle& parcel)
 BOOL LLPanelLandGeneral::postBuild()
 {
 	mEditName = getChild<LLLineEditor>("Name");
-	mEditName->setCommitCallback(onCommitAny, this);	
+	mEditName->setCommitCallback(boost::bind(&LLPanelLandGeneral::onCommitAny, this));
 	getChild<LLLineEditor>("Name")->setPrevalidate(LLTextValidate::validateASCIIPrintableNoPipe);
 
 	mEditDesc = getChild<LLTextEditor>("Description");
 	mEditDesc->setCommitOnFocusLost(TRUE);
-	mEditDesc->setCommitCallback(onCommitAny, this);	
+	mEditDesc->setCommitCallback(boost::bind(&LLPanelLandGeneral::onCommitAny, this));
 	// No prevalidate function - historically the prevalidate function was broken,
 	// allowing residents to put in characters like U+2661 WHITE HEART SUIT, so
 	// preserve that ability.
@@ -429,7 +429,7 @@ BOOL LLPanelLandGeneral::postBuild()
 
 	
 	mCheckDeedToGroup = getChild<LLCheckBoxCtrl>( "check deed");
-	childSetCommitCallback("check deed", onCommitAny, this);
+	mCheckDeedToGroup->setCommitCallback(boost::bind(&LLPanelLandGeneral::onCommitAny, this));
 
 	
 	mBtnDeedToGroup = getChild<LLButton>("Deed...");
@@ -437,8 +437,7 @@ BOOL LLPanelLandGeneral::postBuild()
 
 	
 	mCheckContributeWithDeed = getChild<LLCheckBoxCtrl>( "check contrib");
-	childSetCommitCallback("check contrib", onCommitAny, this);
-
+	mCheckContributeWithDeed->setCommitCallback(boost::bind(&LLPanelLandGeneral::onCommitAny, this));
 	
 	
 	mSaleInfoNotForSale = getChild<LLTextBox>("Not for sale.");
@@ -1044,20 +1043,17 @@ bool LLPanelLandGeneral::cbBuyPass(const LLSD& notification, const LLSD& respons
 	return false;
 }
 
-// static
-void LLPanelLandGeneral::onCommitAny(LLUICtrl *ctrl, void *userdata)
+void LLPanelLandGeneral::onCommitAny()
 {
-	LLPanelLandGeneral *panelp = (LLPanelLandGeneral *)userdata;
-
-	LLParcel* parcel = panelp->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (!parcel)
 	{
 		return;
 	}
 
 	// Extract data from UI
-	std::string name = panelp->mEditName->getText();
-	std::string desc = panelp->mEditDesc->getText();
+	std::string name = mEditName->getText();
+	std::string desc = mEditDesc->getText();
 
 	// Valid data from UI
 
@@ -1065,8 +1061,8 @@ void LLPanelLandGeneral::onCommitAny(LLUICtrl *ctrl, void *userdata)
 	parcel->setName(name);
 	parcel->setDesc(desc);
 
-	BOOL allow_deed_to_group= panelp->mCheckDeedToGroup->get();
-	BOOL contribute_with_deed = panelp->mCheckContributeWithDeed->get();
+	BOOL allow_deed_to_group= mCheckDeedToGroup->get();
+	BOOL contribute_with_deed = mCheckContributeWithDeed->get();
 
 	parcel->setParcelFlag(PF_ALLOW_DEED_TO_GROUP, allow_deed_to_group);
 	parcel->setContributeWithDeed(contribute_with_deed);
@@ -1075,7 +1071,7 @@ void LLPanelLandGeneral::onCommitAny(LLUICtrl *ctrl, void *userdata)
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );
 
 	// Might have changed properties, so let's redraw!
-	panelp->refresh();
+	refresh();
 }
 
 // static
@@ -1167,7 +1163,7 @@ BOOL LLPanelLandObjects::postBuild()
 	mCleanOtherObjectsTime = getChild<LLLineEditor>("clean other time");
 
 	mCleanOtherObjectsTime->setFocusLostCallback(boost::bind(onLostFocus, _1, this));
-	mCleanOtherObjectsTime->setCommitCallback(onCommitClean, this);
+	mCleanOtherObjectsTime->setCommitCallback(boost::bind(&LLPanelLandObjects::onCommitClean, this));
 	getChild<LLLineEditor>("clean other time")->setPrevalidate(LLTextValidate::validateNonNegativeS32);
 	
 	mBtnRefresh = getChild<LLButton>("Refresh List");
@@ -1822,24 +1818,23 @@ void LLPanelLandObjects::onClickReturnOtherObjects(void* userdata)
 // static
 void LLPanelLandObjects::onLostFocus(LLFocusableElement* caller, void* user_data)
 {
-	onCommitClean((LLUICtrl*)caller, user_data);
+	LLPanelLandObjects *lop = static_cast<LLPanelLandObjects*>(user_data);
+	if (lop) lop->onCommitClean();
 }
 
-// static
-void LLPanelLandObjects::onCommitClean(LLUICtrl *caller, void* user_data)
+void LLPanelLandObjects::onCommitClean()
 {
-	LLPanelLandObjects	*lop = (LLPanelLandObjects *)user_data;
-	LLParcel* parcel = lop->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (parcel)
 	{
-		S32 return_time = atoi(lop->mCleanOtherObjectsTime->getText().c_str());
+		S32 return_time = atoi(mCleanOtherObjectsTime->getText().c_str());
 		// Only send return time if it has changed
-		if (return_time != lop->mOtherTime)
+		if (return_time != mOtherTime)
 		{
-			lop->mOtherTime = return_time;
+			mOtherTime = return_time;
 
-		parcel->setCleanOtherTime(lop->mOtherTime);
-		send_other_clean_time_message(parcel->getLocalID(), lop->mOtherTime);
+		parcel->setCleanOtherTime(mOtherTime);
+		send_other_clean_time_message(parcel->getLocalID(), mOtherTime);
 	}
 }
 }
@@ -1877,49 +1872,49 @@ LLPanelLandOptions::LLPanelLandOptions(LLParcelSelectionHandle& parcel)
 BOOL LLPanelLandOptions::postBuild()
 {
 	mCheckEditObjects = getChild<LLCheckBoxCtrl>( "edit objects check");
-	childSetCommitCallback("edit objects check", onCommitAny, this);
+	mCheckEditObjects->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 	
 	mCheckEditGroupObjects = getChild<LLCheckBoxCtrl>( "edit group objects check");
-	childSetCommitCallback("edit group objects check", onCommitAny, this);
+	mCheckEditGroupObjects->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	mCheckAllObjectEntry = getChild<LLCheckBoxCtrl>( "all object entry check");
-	childSetCommitCallback("all object entry check", onCommitAny, this);
+	mCheckAllObjectEntry->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	mCheckGroupObjectEntry = getChild<LLCheckBoxCtrl>( "group object entry check");
-	childSetCommitCallback("group object entry check", onCommitAny, this);
+	mCheckGroupObjectEntry->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 	
 	mCheckGroupScripts = getChild<LLCheckBoxCtrl>( "check group scripts");
-	childSetCommitCallback("check group scripts", onCommitAny, this);
+	mCheckGroupScripts->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	
 	mCheckFly = getChild<LLCheckBoxCtrl>( "check fly");
-	childSetCommitCallback("check fly", onCommitAny, this);
+	mCheckFly->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	
 	mCheckOtherScripts = getChild<LLCheckBoxCtrl>( "check other scripts");
-	childSetCommitCallback("check other scripts", onCommitAny, this);
+	mCheckOtherScripts->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	
 	mCheckSafe = getChild<LLCheckBoxCtrl>( "check safe");
-	childSetCommitCallback("check safe", onCommitAny, this);
+	mCheckSafe->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	
 	mPushRestrictionCtrl = getChild<LLCheckBoxCtrl>( "PushRestrictCheck");
-	childSetCommitCallback("PushRestrictCheck", onCommitAny, this);
+	mPushRestrictionCtrl->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	mSeeAvatarsCtrl = getChild<LLCheckBoxCtrl>( "SeeAvatarsCheck");
-	childSetCommitCallback("SeeAvatarsCheck", onCommitAny, this);
+	mSeeAvatarsCtrl->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	mCheckShowDirectory = getChild<LLCheckBoxCtrl>( "ShowDirectoryCheck");
-	childSetCommitCallback("ShowDirectoryCheck", onCommitAny, this);
+	mCheckShowDirectory->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	
 	mCategoryCombo = getChild<LLComboBox>( "land category");
-	childSetCommitCallback("land category", onCommitAny, this);
+	mCategoryCombo->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 	
 
 	mMatureCtrl = getChild<LLCheckBoxCtrl>( "MatureCheck");
-	childSetCommitCallback("MatureCheck", onCommitAny, this);
+	mMatureCtrl->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 	
 	if (gAgent.wantsPGOnly())
 	{
@@ -1932,7 +1927,7 @@ BOOL LLPanelLandOptions::postBuild()
 	mSnapshotCtrl = getChild<LLTextureCtrl>("snapshot_ctrl");
 	if (mSnapshotCtrl)
 	{
-		mSnapshotCtrl->setCommitCallback( onCommitAny, this );
+		mSnapshotCtrl->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 		mSnapshotCtrl->setAllowNoTexture ( TRUE );
 		mSnapshotCtrl->setImmediateFilterPermMask(PERM_COPY | PERM_TRANSFER);
 		mSnapshotCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
@@ -1955,7 +1950,7 @@ BOOL LLPanelLandOptions::postBuild()
 
 
 	mLandingTypeCombo = getChild<LLComboBox>( "landing type");
-	childSetCommitCallback("landing type", onCommitAny, this);
+	mLandingTypeCombo->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 
 	return TRUE;
 }
@@ -2244,37 +2239,34 @@ void LLPanelLandOptions::refreshSearch()
 }
 
 
-// static
-void LLPanelLandOptions::onCommitAny(LLUICtrl *ctrl, void *userdata)
+void LLPanelLandOptions::onCommitAny()
 {
-	LLPanelLandOptions *self = (LLPanelLandOptions *)userdata;
-
-	LLParcel* parcel = self->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (!parcel)
 	{
 		return;
 	}
 
 	// Extract data from UI
-	BOOL create_objects		= self->mCheckEditObjects->get();
-	BOOL create_group_objects	= self->mCheckEditGroupObjects->get() || self->mCheckEditObjects->get();
-	BOOL all_object_entry		= self->mCheckAllObjectEntry->get();
-	BOOL group_object_entry	= self->mCheckGroupObjectEntry->get() || self->mCheckAllObjectEntry->get();
-	BOOL allow_terraform	= false; // removed from UI so always off now - self->mCheckEditLand->get();
-	BOOL allow_damage		= !self->mCheckSafe->get();
-	BOOL allow_fly			= self->mCheckFly->get();
+	BOOL create_objects		= mCheckEditObjects->get();
+	BOOL create_group_objects	= mCheckEditGroupObjects->get() || mCheckEditObjects->get();
+	BOOL all_object_entry		= mCheckAllObjectEntry->get();
+	BOOL group_object_entry	= mCheckGroupObjectEntry->get() || mCheckAllObjectEntry->get();
+	BOOL allow_terraform	= false; // removed from UI so always off now - mCheckEditLand->get();
+	BOOL allow_damage		= !mCheckSafe->get();
+	BOOL allow_fly			= mCheckFly->get();
 	BOOL allow_landmark		= TRUE; // cannot restrict landmark creation
-	BOOL allow_other_scripts	= self->mCheckOtherScripts->get();
-	BOOL allow_group_scripts	= self->mCheckGroupScripts->get() || allow_other_scripts;
+	BOOL allow_other_scripts	= mCheckOtherScripts->get();
+	BOOL allow_group_scripts	= mCheckGroupScripts->get() || allow_other_scripts;
 	BOOL allow_publish		= FALSE;
-	BOOL mature_publish		= self->mMatureCtrl->get();
-	BOOL push_restriction	= self->mPushRestrictionCtrl->get();
-	BOOL see_avs			= self->mSeeAvatarsCtrl->get();
-	BOOL show_directory		= self->mCheckShowDirectory->get();
+	BOOL mature_publish		= mMatureCtrl->get();
+	BOOL push_restriction	= mPushRestrictionCtrl->get();
+	BOOL see_avs			= mSeeAvatarsCtrl->get();
+	BOOL show_directory		= mCheckShowDirectory->get();
 	// we have to get the index from a lookup, not from the position in the dropdown!
-	S32  category_index		= LLParcel::getCategoryFromString(self->mCategoryCombo->getSelectedValue());
-	S32  landing_type_index	= self->mLandingTypeCombo->getCurrentIndex();
-	LLUUID snapshot_id		= self->mSnapshotCtrl->getImageAssetID();
+	S32  category_index		= LLParcel::getCategoryFromString(mCategoryCombo->getSelectedValue());
+	S32  landing_type_index	= mLandingTypeCombo->getCurrentIndex();
+	LLUUID snapshot_id		= mSnapshotCtrl->getImageAssetID();
 	LLViewerRegion* region;
 	region = LLViewerParcelMgr::getInstance()->getSelectionRegion();
 
@@ -2283,8 +2275,8 @@ void LLPanelLandOptions::onCommitAny(LLUICtrl *ctrl, void *userdata)
 		if ( (!allow_other_scripts && parcel->getParcelFlag(PF_ALLOW_OTHER_SCRIPTS)) ||
 			 (!allow_group_scripts && parcel->getParcelFlag(PF_ALLOW_GROUP_SCRIPTS)) )
 		{	// Don't allow turning off "Run Scripts" if damage is allowed in the region
-			self->mCheckOtherScripts->set(parcel->getParcelFlag(PF_ALLOW_OTHER_SCRIPTS));	// Restore UI to actual settings
-			self->mCheckGroupScripts->set(parcel->getParcelFlag(PF_ALLOW_GROUP_SCRIPTS));
+			mCheckOtherScripts->set(parcel->getParcelFlag(PF_ALLOW_OTHER_SCRIPTS));	// Restore UI to actual settings
+			mCheckGroupScripts->set(parcel->getParcelFlag(PF_ALLOW_GROUP_SCRIPTS));
 			LLNotificationsUtil::add("UnableToDisableOutsideScripts");
 			return;
 		}
@@ -2314,7 +2306,7 @@ void LLPanelLandOptions::onCommitAny(LLUICtrl *ctrl, void *userdata)
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );
 
 	// Might have changed properties, so let's redraw!
-	self->refresh();
+	refresh();
 }
 
 
@@ -2376,13 +2368,13 @@ LLPanelLandAccess::LLPanelLandAccess(LLParcelSelectionHandle& parcel)
 BOOL LLPanelLandAccess::postBuild()
 {
 	childSetCommitCallback("public_access", onCommitPublicAccess, this);
-	childSetCommitCallback("limit_payment", onCommitAny, this);
-	childSetCommitCallback("limit_age_verified", onCommitAny, this);
+	getChild<LLUICtrl>("limit_payment")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
+	getChild<LLUICtrl>("limit_age_verified")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
 	childSetCommitCallback("GroupCheck", onCommitGroupCheck, this);
-	childSetCommitCallback("PassCheck", onCommitAny, this);
-	childSetCommitCallback("pass_combo", onCommitAny, this);
-	childSetCommitCallback("PriceSpin", onCommitAny, this);
-	childSetCommitCallback("HoursSpin", onCommitAny, this);
+	getChild<LLUICtrl>("PassCheck")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
+	getChild<LLUICtrl>("pass_combo")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
+	getChild<LLUICtrl>("PriceSpin")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
+	getChild<LLUICtrl>("HoursSpin")->setCommitCallback(boost::bind(&LLPanelLandAccess::onCommitAny, this));
 
 	childSetAction("add_allowed", boost::bind(&LLPanelLandAccess::onClickAddAccess, this));
 	childSetAction("remove_allowed", onClickRemoveAccess, this);
@@ -2700,7 +2692,7 @@ void LLPanelLandAccess::onCommitPublicAccess(LLUICtrl *ctrl, void *userdata)
 		return;
 	}
 
-	onCommitAny(ctrl, userdata);
+	self->onCommitAny();
 }
 
 void LLPanelLandAccess::onCommitGroupCheck(LLUICtrl *ctrl, void *userdata)
@@ -2726,23 +2718,20 @@ void LLPanelLandAccess::onCommitGroupCheck(LLUICtrl *ctrl, void *userdata)
 		}
 	}
 
-	onCommitAny(ctrl, userdata);
+	self->onCommitAny();
 }
 
-// static
-void LLPanelLandAccess::onCommitAny(LLUICtrl *ctrl, void *userdata)
+void LLPanelLandAccess::onCommitAny()
 {
-	LLPanelLandAccess *self = (LLPanelLandAccess *)userdata;
-
-	LLParcel* parcel = self->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (!parcel)
 	{
 		return;
 	}
 
 	// Extract data from UI
-	BOOL public_access = self->getChild<LLUICtrl>("public_access")->getValue().asBoolean();
-	BOOL use_access_group = self->getChild<LLUICtrl>("GroupCheck")->getValue().asBoolean();
+	BOOL public_access = getChild<LLUICtrl>("public_access")->getValue().asBoolean();
+	BOOL use_access_group = getChild<LLUICtrl>("GroupCheck")->getValue().asBoolean();
 	if (use_access_group)
 	{
 		std::string group_name;
@@ -2759,14 +2748,14 @@ void LLPanelLandAccess::onCommitAny(LLUICtrl *ctrl, void *userdata)
 	if (public_access)
 	{
 		use_access_list = FALSE;
-		limit_payment = self->getChild<LLUICtrl>("limit_payment")->getValue().asBoolean();
-		limit_age_verified = self->getChild<LLUICtrl>("limit_age_verified")->getValue().asBoolean();
+		limit_payment = getChild<LLUICtrl>("limit_payment")->getValue().asBoolean();
+		limit_age_verified = getChild<LLUICtrl>("limit_age_verified")->getValue().asBoolean();
 	}
 	else
 	{
 		use_access_list = TRUE;
-		use_pass_list = self->getChild<LLUICtrl>("PassCheck")->getValue().asBoolean();
-		LLCtrlSelectionInterface* passcombo = self->childGetSelectionInterface("pass_combo");
+		use_pass_list = getChild<LLUICtrl>("PassCheck")->getValue().asBoolean();
+		LLCtrlSelectionInterface* passcombo = childGetSelectionInterface("pass_combo");
 		if (passcombo)
 		{
 			if (use_access_group && use_pass_list)
@@ -2779,8 +2768,8 @@ void LLPanelLandAccess::onCommitAny(LLUICtrl *ctrl, void *userdata)
 		}
 	}
 
-	S32 pass_price = llfloor((F32)self->getChild<LLUICtrl>("PriceSpin")->getValue().asReal());
-	F32 pass_hours = (F32)self->getChild<LLUICtrl>("HoursSpin")->getValue().asReal();
+	S32 pass_price = llfloor((F32)getChild<LLUICtrl>("PriceSpin")->getValue().asReal());
+	F32 pass_hours = (F32)getChild<LLUICtrl>("HoursSpin")->getValue().asReal();
 
 	// Push data into current parcel
 	parcel->setParcelFlag(PF_USE_ACCESS_GROUP,	use_access_group);
@@ -2797,7 +2786,7 @@ void LLPanelLandAccess::onCommitAny(LLUICtrl *ctrl, void *userdata)
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );
 
 	// Might have changed properties, so let's redraw!
-	self->refresh();
+	refresh();
 }
 
 void LLPanelLandAccess::onClickAddAccess()

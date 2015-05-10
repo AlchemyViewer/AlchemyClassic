@@ -43,7 +43,7 @@ public:
 	void refresh();
 
 private:
-	static void onCommitAny(LLUICtrl* ctrl, void *userdata);
+	void onCommitAny();
 
 private:
 	LLCheckBoxCtrl* mCheckSoundLocal;

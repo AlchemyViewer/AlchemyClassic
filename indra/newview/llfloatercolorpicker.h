@@ -119,7 +119,7 @@ class LLFloaterColorPicker
 		static void onClickSelect ( void* data );
 			   void onClickPipette ( );
 		static void onTextCommit ( LLUICtrl* ctrl, void* data );
-		static void onImmediateCheck ( LLUICtrl* ctrl, void* data );
+			   void onImmediateCheck ();
 			   void onColorSelect( const class LLTextureEntry& te );
 	private:
 		// mutators for color values, can raise event to preview changes at object

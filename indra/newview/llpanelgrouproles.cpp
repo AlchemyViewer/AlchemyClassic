@@ -832,7 +832,7 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 
 	// We want to be notified whenever a member is selected.
 	mMembersList->setCommitOnSelectionChange(TRUE);
-	mMembersList->setCommitCallback(onMemberSelect, this);
+	mMembersList->setCommitCallback(boost::bind(&LLPanelGroupMembersSubTab::handleMemberSelect, this));
 	// Show the member's profile on double click.
 	mMembersList->setDoubleClickCallback(onMemberDoubleClick, this);
 	mMembersList->setContextMenu(LLScrollListCtrl::MENU_AVATAR);
@@ -887,13 +887,6 @@ void LLPanelGroupMembersSubTab::setGroupID(const LLUUID& id)
 	if(mAllowedActionsList) mAllowedActionsList->deleteAllItems();
 
 	LLPanelGroupSubTab::setGroupID(id);
-}
-
-// static
-void LLPanelGroupMembersSubTab::onMemberSelect(LLUICtrl* ctrl, void* user_data)
-{
-	LLPanelGroupMembersSubTab* self = static_cast<LLPanelGroupMembersSubTab*>(user_data);
-	self->handleMemberSelect();
 }
 
 void LLPanelGroupMembersSubTab::handleMemberSelect()
@@ -1062,7 +1055,7 @@ void LLPanelGroupMembersSubTab::handleMemberSelect()
 				// Extract the checkbox that was created.
 				LLScrollListCheck* check_cell = (LLScrollListCheck*) item->getColumn(0);
 				LLCheckBoxCtrl* check = check_cell->getCheckBox();
-				check->setCommitCallback(onRoleCheck, this);
+				check->setCommitCallback(boost::bind(&LLPanelGroupMembersSubTab::onRoleCheck, this, _2));
 				check->set( count > 0 );
 				check->setTentative(
 					(0 != count)
@@ -1333,23 +1326,18 @@ void LLPanelGroupMembersSubTab::handleRoleCheck(const LLUUID& role_id,
 					 FALSE);
 }
 
-// static 
-void LLPanelGroupMembersSubTab::onRoleCheck(LLUICtrl* ctrl, void* user_data)
+void LLPanelGroupMembersSubTab::onRoleCheck(const LLSD& userdata)
 {
-	LLPanelGroupMembersSubTab* self = static_cast<LLPanelGroupMembersSubTab*>(user_data);
-	LLCheckBoxCtrl* check_box = static_cast<LLCheckBoxCtrl*>(ctrl);
-	if (!check_box || !self) return;
 
-	LLScrollListItem* first_selected =
-		self->mAssignedRolesList->getFirstSelected();
+	LLScrollListItem* first_selected = mAssignedRolesList->getFirstSelected();
 	if (first_selected)
 	{
 		LLUUID role_id = first_selected->getUUID();
-		LLRoleMemberChangeType change_type = (check_box->get() ? 
-						      RMC_ADD : 
-						      RMC_REMOVE);
+		LLRoleMemberChangeType change_type = (userdata.asBoolean()
+											  ? RMC_ADD
+											  : RMC_REMOVE);
 		
-		self->handleRoleCheck(role_id, change_type);
+		handleRoleCheck(role_id, change_type);
 	}
 }
 
@@ -2002,11 +1990,11 @@ BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 	}
 
 	mRolesList->setCommitOnSelectionChange(TRUE);
-	mRolesList->setCommitCallback(onRoleSelect, this);
+	mRolesList->setCommitCallback(boost::bind(&LLPanelGroupRolesSubTab::handleRoleSelect, this));
 
 	mAssignedMembersList->setContextMenu(LLScrollListCtrl::MENU_AVATAR);
 
-	mMemberVisibleCheck->setCommitCallback(onMemberVisibilityChange, this);
+	mMemberVisibleCheck->setCommitCallback(boost::bind(&LLPanelGroupRolesSubTab::handleMemberVisibilityChange, this, _2));
 
 	mAllowedActionsList->setCommitOnSelectionChange(TRUE);
 
@@ -2227,16 +2215,6 @@ void LLPanelGroupRolesSubTab::update(LLGroupChange gc)
 	{
 		buildMembersList();
 	}
-}
-
-// static
-void LLPanelGroupRolesSubTab::onRoleSelect(LLUICtrl* ctrl, void* user_data)
-{
-	LLPanelGroupRolesSubTab* self = static_cast<LLPanelGroupRolesSubTab*>(user_data);
-	if (!self) 
-		return;
-
-	self->handleRoleSelect();
 }
 
 void LLPanelGroupRolesSubTab::handleRoleSelect()
@@ -2578,17 +2556,7 @@ void LLPanelGroupRolesSubTab::onDescriptionCommit(LLUICtrl* ctrl, void* user_dat
 	self->notifyObservers();
 }
 
-// static 
-void LLPanelGroupRolesSubTab::onMemberVisibilityChange(LLUICtrl* ctrl, void* user_data)
-{
-	LLPanelGroupRolesSubTab* self = static_cast<LLPanelGroupRolesSubTab*>(user_data);
-	LLCheckBoxCtrl* check = static_cast<LLCheckBoxCtrl*>(ctrl);
-	if (!check || !self) return;
-
-	self->handleMemberVisibilityChange(check->get());
-}
-
-void LLPanelGroupRolesSubTab::handleMemberVisibilityChange(bool value)
+void LLPanelGroupRolesSubTab::handleMemberVisibilityChange(const LLSD& value)
 {
 	LL_DEBUGS() << "LLPanelGroupRolesSubTab::handleMemberVisibilityChange()" << LL_ENDL;
 
@@ -2606,7 +2574,7 @@ void LLPanelGroupRolesSubTab::handleMemberVisibilityChange(bool value)
 		return;
 	}
 
-	if (value)
+	if (value.asBoolean())
 	{
 		gdatap->addRolePower(role_item->getUUID(),GP_MEMBER_VISIBLE_IN_DIR);
 	}

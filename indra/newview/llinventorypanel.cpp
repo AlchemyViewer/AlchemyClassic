@@ -256,7 +256,7 @@ void LLInventoryPanel::initFromParams(const LLInventoryPanel::Params& params)
 		addChild(mScroller);
 		mScroller->addChild(mFolderRoot.get());
 		mFolderRoot.get()->setScrollContainer(mScroller);
-		mFolderRoot.get()->setFollowsAll();
+		mFolderRoot.get()->setFollows(FOLLOWS_ALL);
 		mFolderRoot.get()->addChild(mFolderRoot.get()->mStatusTextBox);
 
 	// Set up the callbacks from the inventory we're viewing, and then build everything.

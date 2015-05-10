@@ -647,9 +647,7 @@ BOOL LLAccordionCtrlTab::postBuild()
 
 		mScrollbar = LLUICtrlFactory::create<LLScrollbar> (sbparams);
 		LLView::addChild( mScrollbar );
-		mScrollbar->setFollowsRight();
-		mScrollbar->setFollowsTop();
-		mScrollbar->setFollowsBottom();
+		mScrollbar->setFollows(FOLLOWS_RIGHT|FOLLOWS_TOP|FOLLOWS_BOTTOM);
 
 		mScrollbar->setVisible(false);
 	}

@@ -3904,7 +3904,7 @@ void LLTearOffMenu::closeTearOff()
 	removeChild(mMenu);
 	mOldParent->addChild(mMenu);
 	mMenu->clearHoverItem();
-	mMenu->setFollowsNone();
+	mMenu->setFollows(FOLLOWS_NONE);
 	mMenu->setBackgroundVisible(TRUE);
 	mMenu->setVisible(FALSE);
 	mMenu->setTornOff(FALSE);

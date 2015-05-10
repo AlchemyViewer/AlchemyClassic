@@ -224,8 +224,7 @@ LLFolderView::LLFolderView(const Params& p)
 	text_p.h_pad(STATUS_TEXT_HPAD);
 	text_p.v_pad(STATUS_TEXT_VPAD);
 	mStatusTextBox = LLUICtrlFactory::create<LLTextBox> (text_p);
-	mStatusTextBox->setFollowsLeft();
-	mStatusTextBox->setFollowsTop();
+	mStatusTextBox->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
 	addChild(mStatusTextBox);
 
 

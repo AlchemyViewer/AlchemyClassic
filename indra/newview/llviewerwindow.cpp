@@ -1952,7 +1952,7 @@ void LLViewerWindow::initWorldUI()
 	LLPanel* chiclet_container = getRootView()->getChild<LLPanel>("chiclet_container");
 	LLChicletBar* chiclet_bar = LLChicletBar::getInstance();
 	chiclet_bar->setShape(chiclet_container->getLocalRect());
-	chiclet_bar->setFollowsAll();
+	chiclet_bar->setFollows(FOLLOWS_ALL);
 	chiclet_container->addChild(chiclet_bar);
 	chiclet_container->setVisible(TRUE);
 
@@ -1978,7 +1978,7 @@ void LLViewerWindow::initWorldUI()
 	// Status bar
 	LLPanel* status_bar_container = getRootView()->getChild<LLPanel>("status_bar_container");
 	gStatusBar = new LLStatusBar(status_bar_container->getLocalRect());
-	gStatusBar->setFollowsAll();
+	gStatusBar->setFollows(FOLLOWS_ALL);
 	gStatusBar->setShape(status_bar_container->getLocalRect());
 	// sync bg color with menu bar
 	gStatusBar->setBackgroundColor( gMenuBarView->getBackgroundColor().get() );

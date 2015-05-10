@@ -2229,23 +2229,23 @@ void LLView::parseFollowsFlags(const LLView::Params& params)
 			const std::string& token_str = *token_iter;
 			if (token_str == "left")
 			{
-				setFollowsLeft();
+				setFollows(FOLLOWS_LEFT);
 			}
 			else if (token_str == "right")
 			{
-				setFollowsRight();
+				setFollows(FOLLOWS_RIGHT);
 			}
 			else if (token_str == "top")
 			{
-				setFollowsTop();
+				setFollows(FOLLOWS_TOP);
 			}
 			else if (token_str == "bottom")
 			{
-				setFollowsBottom();
+				setFollows(FOLLOWS_BOTTOM);
 			}
 			else if (token_str == "all")
 			{
-				setFollowsAll();
+				setFollows(FOLLOWS_ALL);
 			}
 			++token_iter;
 		}

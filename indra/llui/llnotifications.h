@@ -699,7 +699,7 @@ namespace LLNotificationComparators
 {
 	struct orderByUUID
 	{
-		bool operator()(LLNotificationPtr lhs, LLNotificationPtr rhs)
+		bool operator()(LLNotificationPtr lhs, LLNotificationPtr rhs) const
 		{
 			return lhs->id() < rhs->id();
 		}

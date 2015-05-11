@@ -1402,13 +1402,13 @@ void LLVertexBuffer::setupVertexArray()
 				//glVertexattribIPointer requires GLSL 1.30 or later
 				if (gGLManager.mGLSLVersionMajor > 1 || gGLManager.mGLSLVersionMinor >= 30)
 				{
-					glVertexAttribIPointer(i, attrib_size[i], attrib_type[i], sTypeSize[i], reinterpret_cast<void*>(mOffsets[i])); 
+					glVertexAttribIPointer(i, attrib_size[i], attrib_type[i], sTypeSize[i], reinterpret_cast<void*>((intptr_t)mOffsets[i])); 
 				}
 #endif
 			}
 			else
 			{
-				glVertexAttribPointer(i, attrib_size[i], attrib_type[i], attrib_normalized[i], sTypeSize[i], reinterpret_cast<void*>(mOffsets[i])); 
+				glVertexAttribPointer(i, attrib_size[i], attrib_type[i], attrib_normalized[i], sTypeSize[i], reinterpret_cast<void*>((intptr_t) mOffsets[i]));
 			}
 		}
 		else

@@ -1205,47 +1205,47 @@ void LLPanelFace::updateUI()
 			calcp->setVar(LLCalc::TEX_TRANSPARENCY, childGetValue("ColorTrans").asReal());
 			calcp->setVar(LLCalc::TEX_GLOW, childGetValue("glow").asReal());
 		}
-		else
+	}
+	else
+	{
+		// Disable all UICtrls
+		clearCtrls();
+		
+		// Disable non-UICtrls
+		LLTextureCtrl*	texture_ctrl = getChild<LLTextureCtrl>("texture control");
+		if(texture_ctrl)
 		{
-			// Disable all UICtrls
-			clearCtrls();
-			
-			// Disable non-UICtrls
-			LLTextureCtrl*	texture_ctrl = getChild<LLTextureCtrl>("texture control");
-			if(texture_ctrl)
-			{
-				texture_ctrl->setImageAssetID( LLUUID::null );
-				texture_ctrl->setEnabled( FALSE );  // this is a LLUICtrl, but we don't want it to have keyboard focus so we add it as a child, not a ctrl.
-			}
-			LLColorSwatchCtrl* mColorSwatch = getChild<LLColorSwatchCtrl>("colorswatch");
-			if(mColorSwatch)
-			{
-				mColorSwatch->setEnabled( FALSE );
-				mColorSwatch->setFallbackImage(LLUI::getUIImage("locked_image.j2c") );
-				mColorSwatch->setValid(FALSE);
-			}
-			getChildView("color trans")->setEnabled(FALSE);
-			getChildView("rpt")->setEnabled(FALSE);
-			getChildView("tex offset")->setEnabled(FALSE);
-			getChildView("tex gen")->setEnabled(FALSE);
-			getChildView("label shininess")->setEnabled(FALSE);
-			getChildView("label bumpiness")->setEnabled(FALSE);
-			getChildView("button align")->setEnabled(FALSE);
-			//getChildView("has media")->setEnabled(FALSE);
-			//getChildView("media info set")->setEnabled(FALSE);
-			
-			updateVisibility();
-			
-			// Set variable values for numeric expressions
-			LLCalc* calcp = LLCalc::getInstance();
-			calcp->clearVar(LLCalc::TEX_U_SCALE);
-			calcp->clearVar(LLCalc::TEX_V_SCALE);
-			calcp->clearVar(LLCalc::TEX_U_OFFSET);
-			calcp->clearVar(LLCalc::TEX_V_OFFSET);
-			calcp->clearVar(LLCalc::TEX_ROTATION);
-			calcp->clearVar(LLCalc::TEX_TRANSPARENCY);
-			calcp->clearVar(LLCalc::TEX_GLOW);
+			texture_ctrl->setImageAssetID( LLUUID::null );
+			texture_ctrl->setEnabled( FALSE );  // this is a LLUICtrl, but we don't want it to have keyboard focus so we add it as a child, not a ctrl.
 		}
+		LLColorSwatchCtrl* mColorSwatch = getChild<LLColorSwatchCtrl>("colorswatch");
+		if(mColorSwatch)
+		{
+			mColorSwatch->setEnabled( FALSE );
+			mColorSwatch->setFallbackImage(LLUI::getUIImage("locked_image.j2c") );
+			mColorSwatch->setValid(FALSE);
+		}
+		getChildView("color trans")->setEnabled(FALSE);
+		getChildView("rpt")->setEnabled(FALSE);
+		getChildView("tex offset")->setEnabled(FALSE);
+		getChildView("tex gen")->setEnabled(FALSE);
+		getChildView("label shininess")->setEnabled(FALSE);
+		getChildView("label bumpiness")->setEnabled(FALSE);
+		getChildView("button align")->setEnabled(FALSE);
+		//getChildView("has media")->setEnabled(FALSE);
+		//getChildView("media info set")->setEnabled(FALSE);
+		
+		updateVisibility();
+		
+		// Set variable values for numeric expressions
+		LLCalc* calcp = LLCalc::getInstance();
+		calcp->clearVar(LLCalc::TEX_U_SCALE);
+		calcp->clearVar(LLCalc::TEX_V_SCALE);
+		calcp->clearVar(LLCalc::TEX_U_OFFSET);
+		calcp->clearVar(LLCalc::TEX_V_OFFSET);
+		calcp->clearVar(LLCalc::TEX_ROTATION);
+		calcp->clearVar(LLCalc::TEX_TRANSPARENCY);
+		calcp->clearVar(LLCalc::TEX_GLOW);
 	}
 }
 

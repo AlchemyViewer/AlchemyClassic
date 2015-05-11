@@ -164,7 +164,6 @@ BOOL LLPanelFace::postBuild()
 	mTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
 	mTextureCtrl->setOnCloseCallback( boost::bind(&LLPanelFace::onCloseTexturePicker, this, _2) );
 
-	mTextureCtrl->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	mTextureCtrl->setImmediateFilterPermMask(PERM_NONE);
 	mTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
 
@@ -177,7 +176,6 @@ BOOL LLPanelFace::postBuild()
 		
 	mShinyTextureCtrl->setDragCallback(boost::bind(&LLPanelFace::onDragTexture, this, _2));
 	mShinyTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
-	mShinyTextureCtrl->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	mShinyTextureCtrl->setImmediateFilterPermMask(PERM_NONE);
 	mShinyTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
 
@@ -191,7 +189,6 @@ BOOL LLPanelFace::postBuild()
 
 	mBumpyTextureCtrl->setDragCallback(boost::bind(&LLPanelFace::onDragTexture, this, _2));
 	mBumpyTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
-	mBumpyTextureCtrl->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	mBumpyTextureCtrl->setImmediateFilterPermMask(PERM_NONE);
 	mBumpyTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
 
@@ -199,33 +196,27 @@ BOOL LLPanelFace::postBuild()
 	mColorSwatch->setCommitCallback(boost::bind(&LLPanelFace::onCommitColor, this, _2));
 	mColorSwatch->setOnCancelCallback(boost::bind(&LLPanelFace::onCancelColor, this, _2));
 	mColorSwatch->setOnSelectCallback(boost::bind(&LLPanelFace::onSelectColor, this, _2));
-	mColorSwatch->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	mColorSwatch->setCanApplyImmediately(TRUE);
 
 	mShinyColorSwatch = getChild<LLColorSwatchCtrl>("shinycolorswatch");
 	mShinyColorSwatch->setCommitCallback(boost::bind(&LLPanelFace::onCommitShinyColor, this, _2));
 	mShinyColorSwatch->setOnCancelCallback(boost::bind(&LLPanelFace::onCancelShinyColor, this, _2));
 	mShinyColorSwatch->setOnSelectCallback(boost::bind(&LLPanelFace::onSelectShinyColor, this, _2));
-	mShinyColorSwatch->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	mShinyColorSwatch->setCanApplyImmediately(TRUE);
 
 	mLabelColorTransp = getChild<LLTextBox>("color trans");
-	mLabelColorTransp->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 
 	mCtrlColorTransp = getChild<LLSpinCtrl>("ColorTrans");
 	mCtrlColorTransp->setCommitCallback(boost::bind(&LLPanelFace::onCommitAlpha, this, _2));
-	mCtrlColorTransp->setPrecision(0);
-	mCtrlColorTransp->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 
 	mCheckFullbright = getChild<LLCheckBoxCtrl>("checkbox fullbright");
 	mCheckFullbright->setCommitCallback(LLPanelFace::onCommitFullbright, this);
 
 	mComboTexGen = getChild<LLComboBox>("combobox texgen");
 	mComboTexGen->setCommitCallback(LLPanelFace::onCommitTexGen, this);
-	mComboTexGen->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
 
 	mComboMatMedia = getChild<LLComboBox>("combobox matmedia");
-	mComboMatMedia->setCommitCallback(LLPanelFace::onCommitMaterialsMedia,this);
+	mComboMatMedia->setCommitCallback(LLPanelFace::onCommitMaterialsMedia, this);
 	mComboMatMedia->selectNthItem(MATMEDIA_MATERIAL);
 
 	mComboMatType = getChild<LLComboBox>("combobox mattype");

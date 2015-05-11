@@ -79,11 +79,10 @@ public:
 };
 	
 
-class LLAvatarTracker
+class LLAvatarTracker : public LLSingleton<LLAvatarTracker>
 {
+	friend class LLSingleton<LLAvatarTracker>;
 public:
-	static LLAvatarTracker& instance() { return sInstance; }
-	
 	void track(const LLUUID& avatar_id, const std::string& name);
 	void untrack(const LLUUID& avatar_id);
 	bool isTrackedAgentValid() { return mTrackedAgentValid; }
@@ -187,7 +186,6 @@ protected:
 	void processChange(LLMessageSystem* msg);
 
 protected:
-	static LLAvatarTracker sInstance;
 	LLTrackingData* mTrackingData;
 	bool mTrackedAgentValid;
 	U32 mModifyMask;
@@ -206,12 +204,7 @@ protected:
     typedef std::map<LLUUID, observer_set_t> observer_map_t;
     observer_map_t mParticularFriendObserverMap;
 
-private:
-	// do not implement
-	LLAvatarTracker(const LLAvatarTracker&);
-	bool operator==(const LLAvatarTracker&);
-
-public:
+protected:
 	// don't you dare create or delete this object
 	LLAvatarTracker();
 	~LLAvatarTracker();

@@ -26,16 +26,13 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#if LL_WINDOWS
-#pragma warning( disable : 4800 ) // performance warning in <functional>
-#endif
-
 #include "llcallingcard.h"
 
 #include <algorithm>
 
 #include "indra_constants.h"
 //#include "llcachename.h"
+#include "llsingleton.h"
 #include "llstl.h"
 #include "lltimer.h"
 #include "lluuid.h"
@@ -81,9 +78,6 @@ public:
 const F32 COARSE_FREQUENCY = 2.2f;
 const F32 FIND_FREQUENCY = 29.7f;	// This results in a database query, so cut these back
 const F32 OFFLINE_SECONDS = FIND_FREQUENCY + 8.0f;
-
-// static
-LLAvatarTracker LLAvatarTracker::sInstance;
 
 static void on_avatar_name_cache_notify(const LLUUID& agent_id,
 										const LLAvatarName& av_name,

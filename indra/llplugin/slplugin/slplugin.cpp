@@ -39,8 +39,6 @@
 
 #include <iostream>
 #include <fstream>
-using namespace std;
-
 
 #if LL_DARWIN
 	#include "slplugin-objc.h"

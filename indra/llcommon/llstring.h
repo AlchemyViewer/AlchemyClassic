@@ -606,7 +606,7 @@ LL_COMMON_API std::string utf8str_removeCRLF(const std::string& utf8str);
  * formatted string.
  *
  */
-
+#if _MSC_VER <= 1800
 // Deal with the differeneces on Windows
 namespace snprintf_hack
 {
@@ -614,6 +614,7 @@ namespace snprintf_hack
 }
 
 using snprintf_hack::snprintf;
+#endif
 
 /**
  * @brief Convert a wide string to std::string

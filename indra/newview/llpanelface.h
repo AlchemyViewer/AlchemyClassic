@@ -130,24 +130,20 @@ protected:
 	// this function is to return TRUE if the drag should succeed.
 	static BOOL onDragTexture(LLUICtrl* ctrl, LLInventoryItem* item);
 
-	void 	onCommitTexture(const LLSD& data);
-	void 	onCancelTexture(const LLSD& data);
-	void 	onSelectTexture(const LLSD& data);
-	void 	onCommitSpecularTexture(const LLSD& data);
-	void 	onCancelSpecularTexture(const LLSD& data);
-	void 	onSelectSpecularTexture(const LLSD& data);
-	void 	onCommitNormalTexture(const LLSD& data);
-	void 	onCancelNormalTexture(const LLSD& data);
-	void 	onSelectNormalTexture(const LLSD& data);
-	void 	onCommitColor(const LLSD& data);
-	void 	onCommitShinyColor(const LLSD& data);
-	void 	onCommitAlpha(const LLSD& data);
-	void 	onCancelColor(const LLSD& data);
-	void 	onCancelShinyColor(const LLSD& data);
-	void 	onSelectColor(const LLSD& data);
-	void 	onSelectShinyColor(const LLSD& data);
-
-	void 	onCloseTexturePicker(const LLSD& data);
+	void 	onCommitTexture();
+	void 	onCancelTexture();
+	void 	onSelectTexture();
+	void 	onCommitSpecularTexture();
+	void 	onCancelSpecularTexture();
+	void 	onSelectSpecularTexture();
+	void 	onCommitNormalTexture();
+	void 	onCancelNormalTexture();
+	void 	onSelectNormalTexture();
+	void 	onCommitShinyColor(LLUICtrl* ctrl);
+	void 	onCancelColor();
+	void 	onCancelShinyColor();
+	void 	onSelectColor();
+	void 	onSelectShinyColor(LLUICtrl* ctrl);
 
 	// Make UI reflect state of currently selected material (refresh)
 	// and UI mode (e.g. editing normal map v diffuse map)
@@ -186,7 +182,7 @@ protected:
 	static void		onCommitShiny(				LLUICtrl* ctrl, void* userdata);
 	static void		onCommitAlphaMode(		LLUICtrl* ctrl, void* userdata);
 	static void		onCommitFullbright(		LLUICtrl* ctrl, void* userdata);
-	static void    onCommitGlow(				LLUICtrl* ctrl, void *userdata);
+	static void		onCommitGlow(				LLUICtrl* ctrl, void *userdata);
 	static void		onCommitPlanarAlign(		LLUICtrl* ctrl, void* userdata);
 	static void		onCommitRepeatsPerMeter(	LLUICtrl* ctrl, void* userinfo);
 	static void		onClickAutoFix(void*);
@@ -205,10 +201,10 @@ private:
 	LLUUID	getCurrentSpecularMap();
 	U32		getCurrentShininess();
 	U32		getCurrentBumpiness();
-	U8			getCurrentDiffuseAlphaMode();
-	U8			getCurrentAlphaMaskCutoff();
-	U8			getCurrentEnvIntensity();
-	U8			getCurrentGlossiness();
+	U8		getCurrentDiffuseAlphaMode();
+	U8		getCurrentAlphaMaskCutoff();
+	U8		getCurrentEnvIntensity();
+	U8		getCurrentGlossiness();
 	F32		getCurrentBumpyRot();
 	F32		getCurrentBumpyScaleU();
 	F32		getCurrentBumpyScaleV();

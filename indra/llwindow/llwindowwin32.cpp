@@ -3759,11 +3759,11 @@ LLWindowCallbacks::DragNDropResult LLWindowWin32::completeDragNDropRequest( cons
 // When it handled the message, the value to be returned from
 // the Window Procedure is set to *result.
 
-BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
+BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *result)
 {
 	if ( mPreeditor )
 	{
-		switch (request)
+		switch (w_param)
 		{
 			case IMR_CANDIDATEWINDOW:		// http://msdn2.microsoft.com/en-us/library/ms776080.aspx
 			{
@@ -3771,7 +3771,7 @@ BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
 				LLRect preedit_bounds;
 				mPreeditor->getPreeditLocation(-1, &caret_coord, &preedit_bounds, NULL);
 				
-				CANDIDATEFORM *const form = (CANDIDATEFORM *)param;
+				CANDIDATEFORM *const form = (CANDIDATEFORM *)l_param;
 				DWORD const dwIndex = form->dwIndex;
 				fillCandidateForm(caret_coord, preedit_bounds, form);
 				form->dwIndex = dwIndex;
@@ -3781,7 +3781,7 @@ BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
 			}
 			case IMR_QUERYCHARPOSITION:
 			{
-				IMECHARPOSITION *const char_position = (IMECHARPOSITION *)param;
+				IMECHARPOSITION *const char_position = (IMECHARPOSITION *)l_param;
 
 				// char_position->dwCharPos counts in number of
 				// WCHARs, i.e., UTF-16 encoding units, so we can't simply pass the
@@ -3806,7 +3806,7 @@ BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
 			}
 			case IMR_COMPOSITIONFONT:
 			{
-				fillCompositionLogfont((LOGFONT *)param);
+				fillCompositionLogfont((LOGFONT *)l_param);
 
 				*result = 1;
 				return TRUE;
@@ -3821,7 +3821,7 @@ BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
 				S32 context_offset;
 				const LLWString context = find_context(wtext, select, select_length, &context_offset);
 
-				RECONVERTSTRING * const reconvert_string = (RECONVERTSTRING *)param;
+				RECONVERTSTRING * const reconvert_string = (RECONVERTSTRING *)l_param;
 				const U32 size = fillReconvertString(context, select - context_offset, select_length, reconvert_string);
 				if (reconvert_string)
 				{
@@ -3871,7 +3871,7 @@ BOOL LLWindowWin32::handleImeRequests(U32 request, U32 param, LRESULT *result)
 					context.erase(preedit, preedit_length);
 				}
 				
-				RECONVERTSTRING *reconvert_string = (RECONVERTSTRING *)param;
+				RECONVERTSTRING *reconvert_string = (RECONVERTSTRING *)l_param;
 				*result = fillReconvertString(context, preedit, 0, reconvert_string);
 				return TRUE;
 			}

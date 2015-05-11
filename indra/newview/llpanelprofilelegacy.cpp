@@ -104,12 +104,12 @@ BOOL LLPanelProfileLegacy::postBuild()
 	mPanelPicks = static_cast<LLPanelProfileLegacy::LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelPicks->setProfilePanel(this);
 	
-	getChild<LLButton>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this), nullptr);
-	getChild<LLTextEditor>("sl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
-	getChild<LLTextEditor>("fl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
-	getChild<LLTextureCtrl>("sl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
-	getChild<LLTextureCtrl>("fl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this), nullptr);
-	getChild<LLTextEditor>("notes")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitNotes, this, _1), nullptr);
+	getChild<LLButton>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this));
+	getChild<LLTextEditor>("sl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
+	getChild<LLTextEditor>("fl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
+	getChild<LLTextureCtrl>("sl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
+	getChild<LLTextureCtrl>("fl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
+	getChild<LLTextEditor>("notes")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitNotes, this, _1));
 	getChild<LLTextEditor>("avatar_name")->setDoubleClickCallback(boost::bind(&LLPanelProfileLegacy::onDoubleClickName, this));
 	return TRUE;
 }

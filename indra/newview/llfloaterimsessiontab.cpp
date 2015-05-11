@@ -260,7 +260,7 @@ BOOL LLFloaterIMSessionTab::postBuild()
 	LLScrollContainer::Params scroller_params(LLUICtrlFactory::getDefaultParams<LLFolderViewScrollContainer>());
 	scroller_params.rect(scroller_view_rect);
 	mScroller = LLUICtrlFactory::create<LLFolderViewScrollContainer>(scroller_params);
-	mScroller->setFollowsAll();
+	mScroller->setFollows(FOLLOWS_ALL);
 
 	// Insert that scroller into the panel widgets hierarchy
 	mParticipantListPanel->addChild(mScroller);	
@@ -312,7 +312,7 @@ BOOL LLFloaterIMSessionTab::postBuild()
 	// Attach that root to the scroller
 	mScroller->addChild(mConversationsRoot);
 	mConversationsRoot->setScrollContainer(mScroller);
-	mConversationsRoot->setFollowsAll();
+	mConversationsRoot->setFollows(FOLLOWS_ALL);
 	mConversationsRoot->addChild(mConversationsRoot->mStatusTextBox);
 
 	setMessagePaneExpanded(true);

@@ -162,7 +162,6 @@ public:
 	void updateAgentInfo();
 	void updateParcelInfo();
 	void updateCovenantInfo();
-	static void onChangeAgreeCovenant(LLUICtrl* ctrl, void* user_data);
 	void updateFloaterCovenantText(const std::string& string, const LLUUID &asset_id);
 	void updateFloaterEstateName(const std::string& name);
 	void updateFloaterLastModified(const std::string& text);
@@ -563,7 +562,7 @@ void LLFloaterBuyLandUI::updateCovenantInfo()
 	{
 		check->set(false);
 		check->setEnabled(true);
-		check->setCommitCallback(onChangeAgreeCovenant, this);
+		check->setCommitCallback(boost::bind(&LLFloaterBuyLandUI::refreshUI, this));
 	}
 
 	LLTextBox* box = getChild<LLTextBox>("covenant_text");
@@ -579,16 +578,6 @@ void LLFloaterBuyLandUI::updateCovenantInfo()
 	msg->addUUIDFast(_PREHASH_AgentID,	gAgent.getID());
 	msg->addUUIDFast(_PREHASH_SessionID,gAgent.getSessionID());
 	msg->sendReliable(region->getHost());
-}
-
-// static
-void LLFloaterBuyLandUI::onChangeAgreeCovenant(LLUICtrl* ctrl, void* user_data)
-{
-	LLFloaterBuyLandUI* self = (LLFloaterBuyLandUI*)user_data;
-	if(self)
-	{
-		self->refreshUI();
-	}
 }
 
 void LLFloaterBuyLandUI::updateFloaterCovenantText(const std::string &string, const LLUUID& asset_id)

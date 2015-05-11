@@ -406,7 +406,7 @@ LLScriptEdCore::LLScriptEdCore(
 	mContainer(container),
 	mHasScriptData(FALSE)
 {
-	setFollowsAll();
+	setFollows(FOLLOWS_ALL);
 	setBorderVisible(FALSE);
 
 	setXMLFilename("panel_script_ed.xml");

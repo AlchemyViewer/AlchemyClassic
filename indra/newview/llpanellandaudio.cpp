@@ -77,25 +77,25 @@ LLPanelLandAudio::~LLPanelLandAudio()
 BOOL LLPanelLandAudio::postBuild()
 {
 	mCheckSoundLocal = getChild<LLCheckBoxCtrl>("check sound local");
-	childSetCommitCallback("check sound local", onCommitAny, this);
+	mCheckSoundLocal->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	mCheckParcelEnableVoice = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel");
-	childSetCommitCallback("parcel_enable_voice_channel", onCommitAny, this);
+	mCheckParcelEnableVoice->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	// This one is always disabled so no need for a commit callback
 	mCheckEstateDisabledVoice = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel_is_estate_disabled");
 
 	mCheckParcelVoiceLocal = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel_local");
-	childSetCommitCallback("parcel_enable_voice_channel_local", onCommitAny, this);
+	mCheckParcelVoiceLocal->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	mMusicURLEdit = getChild<LLLineEditor>("music_url");
-	childSetCommitCallback("music_url", onCommitAny, this);
+	mMusicURLEdit->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	mCheckAVSoundAny = getChild<LLCheckBoxCtrl>("all av sound check");
-	childSetCommitCallback("all av sound check", onCommitAny, this);
+	mCheckAVSoundAny->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	mCheckAVSoundGroup = getChild<LLCheckBoxCtrl>("group av sound check");
-	childSetCommitCallback("group av sound check", onCommitAny, this);
+	mCheckAVSoundGroup->setCommitCallback(boost::bind(&LLPanelLandAudio::onCommitAny, this));
 
 	return TRUE;
 }
@@ -160,28 +160,26 @@ void LLPanelLandAudio::refresh()
 	}
 }
 // static
-void LLPanelLandAudio::onCommitAny(LLUICtrl*, void *userdata)
+void LLPanelLandAudio::onCommitAny()
 {
-	LLPanelLandAudio *self = (LLPanelLandAudio *)userdata;
-
-	LLParcel* parcel = self->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (!parcel)
 	{
 		return;
 	}
 
 	// Extract data from UI
-	BOOL sound_local		= self->mCheckSoundLocal->get();
-	std::string music_url	= self->mMusicURLEdit->getText();
+	BOOL sound_local		= mCheckSoundLocal->get();
+	std::string music_url	= mMusicURLEdit->getText();
 
-	BOOL voice_enabled = self->mCheckParcelEnableVoice->get();
-	BOOL voice_estate_chan = !self->mCheckParcelVoiceLocal->get();
+	BOOL voice_enabled = mCheckParcelEnableVoice->get();
+	BOOL voice_estate_chan = !mCheckParcelVoiceLocal->get();
 
-	BOOL any_av_sound		= self->mCheckAVSoundAny->get();
+	BOOL any_av_sound		= mCheckAVSoundAny->get();
 	BOOL group_av_sound		= TRUE;		// If set to "Everyone" then group is checked as well
 	if (!any_av_sound)
 	{	// If "Everyone" is off, use the value from the checkbox
-		group_av_sound = self->mCheckAVSoundGroup->get();
+		group_av_sound = mCheckAVSoundGroup->get();
 	}
 
 	// Remove leading/trailing whitespace (common when copying/pasting)
@@ -199,5 +197,5 @@ void LLPanelLandAudio::onCommitAny(LLUICtrl*, void *userdata)
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );
 
 	// Might have changed properties, so let's redraw!
-	self->refresh();
+	refresh();
 }

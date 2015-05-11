@@ -82,32 +82,32 @@ BOOL LLPanelLandMedia::postBuild()
 {
 
 	mMediaTextureCtrl = getChild<LLTextureCtrl>("media texture");
-	mMediaTextureCtrl->setCommitCallback( onCommitAny, this );
+	mMediaTextureCtrl->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 	mMediaTextureCtrl->setAllowNoTexture ( TRUE );
 	mMediaTextureCtrl->setImmediateFilterPermMask(PERM_COPY | PERM_TRANSFER);
 	mMediaTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
 	mMediaTextureCtrl->setNonImmediateFilterPermMask(PERM_COPY | PERM_TRANSFER);
 
 	mMediaAutoScaleCheck = getChild<LLCheckBoxCtrl>("media_auto_scale");
-	childSetCommitCallback("media_auto_scale", onCommitAny, this);
+	mMediaAutoScaleCheck->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 
 	mMediaLoopCheck = getChild<LLCheckBoxCtrl>("media_loop");
-	childSetCommitCallback("media_loop", onCommitAny, this );
+	mMediaLoopCheck->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 
 	mMediaURLEdit = getChild<LLLineEditor>("media_url");
-	childSetCommitCallback("media_url", onCommitAny, this );
+	mMediaURLEdit->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 
 	mMediaDescEdit = getChild<LLLineEditor>("url_description");
-	childSetCommitCallback("url_description", onCommitAny, this);
+	mMediaDescEdit->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 
 	mMediaTypeCombo = getChild<LLComboBox>("media type");
 	childSetCommitCallback("media type", onCommitType, this);
 	populateMIMECombo();
 
 	mMediaWidthCtrl = getChild<LLSpinCtrl>("media_size_width");
-	childSetCommitCallback("media_size_width", onCommitAny, this);
+	mMediaWidthCtrl->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 	mMediaHeightCtrl = getChild<LLSpinCtrl>("media_size_height");
-	childSetCommitCallback("media_size_height", onCommitAny, this);
+	mMediaHeightCtrl->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 	mMediaSizeCtrlLabel = getChild<LLTextBox>("media_size");
 
 	mSetURLButton = getChild<LLButton>("set_media_url");
@@ -258,33 +258,30 @@ void LLPanelLandMedia::onCommitType(LLUICtrl *ctrl, void *userdata)
 	{
 		self->getChild<LLUICtrl>("mime_type")->setValue(LLMIMETypes::findDefaultMimeType(new_type));
 	}
-	onCommitAny(ctrl, userdata);
+	self->onCommitAny();
 
 }
 
-// static
-void LLPanelLandMedia::onCommitAny(LLUICtrl*, void *userdata)
+void LLPanelLandMedia::onCommitAny()
 {
-	LLPanelLandMedia *self = (LLPanelLandMedia *)userdata;
-
-	LLParcel* parcel = self->mParcel->getParcel();
+	LLParcel* parcel = mParcel->getParcel();
 	if (!parcel)
 	{
 		return;
 	}
 
 	// Extract data from UI
-	std::string media_url	= self->mMediaURLEdit->getText();
-	std::string media_desc	= self->mMediaDescEdit->getText();
-	std::string mime_type	= self->getChild<LLUICtrl>("mime_type")->getValue().asString();
-	U8 media_auto_scale		= self->mMediaAutoScaleCheck->get();
-	U8 media_loop           = self->mMediaLoopCheck->get();
-	S32 media_width			= (S32)self->mMediaWidthCtrl->get();
-	S32 media_height		= (S32)self->mMediaHeightCtrl->get();
-	LLUUID media_id			= self->mMediaTextureCtrl->getImageAssetID();
+	std::string media_url	= mMediaURLEdit->getText();
+	std::string media_desc	= mMediaDescEdit->getText();
+	std::string mime_type	= getChild<LLUICtrl>("mime_type")->getValue().asString();
+	U8 media_auto_scale		= mMediaAutoScaleCheck->get();
+	U8 media_loop           = mMediaLoopCheck->get();
+	S32 media_width			= (S32)mMediaWidthCtrl->get();
+	S32 media_height		= (S32)mMediaHeightCtrl->get();
+	LLUUID media_id			= mMediaTextureCtrl->getImageAssetID();
 
 
-	self->getChild<LLUICtrl>("mime_type")->setValue(mime_type);
+	getChild<LLUICtrl>("mime_type")->setValue(mime_type);
 
 	// Remove leading/trailing whitespace (common when copying/pasting)
 	LLStringUtil::trim(media_url);
@@ -303,7 +300,7 @@ void LLPanelLandMedia::onCommitAny(LLUICtrl*, void *userdata)
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );
 
 	// Might have changed properties, so let's redraw!
-	self->refresh();
+	refresh();
 }
 // static
 void LLPanelLandMedia::onSetBtn(void *userdata)

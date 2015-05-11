@@ -92,15 +92,13 @@ void LLDebugView::init()
 	mFastTimerView = dynamic_cast<LLFastTimerView*>(LLFloaterReg::getInstance("block_timers"));
 
 	gSceneView = new LLSceneView(r);
-	gSceneView->setFollowsTop();
-	gSceneView->setFollowsLeft();
+	gSceneView->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	gSceneView->setVisible(FALSE);
 	addChild(gSceneView);
 	gSceneView->setRect(rect);
 	
 	gSceneMonitorView = new LLSceneMonitorView(r);
-	gSceneMonitorView->setFollowsTop();
-	gSceneMonitorView->setFollowsLeft();
+	gSceneMonitorView->setFollows(FOLLOWS_TOP | FOLLOWS_LEFT);
 	gSceneMonitorView->setVisible(FALSE);
 	addChild(gSceneMonitorView);
 	gSceneMonitorView->setRect(rect);

@@ -1066,7 +1066,7 @@ BOOL LLComboBox::setCurrentByID(const LLUUID& id)
 
 LLUUID LLComboBox::getCurrentID() const
 {
-	return mList->getStringUUIDSelectedItem();
+	return mList->getSelectedValue().asUUID();
 }
 BOOL LLComboBox::setSelectedByValue(const LLSD& value, BOOL selected)
 {

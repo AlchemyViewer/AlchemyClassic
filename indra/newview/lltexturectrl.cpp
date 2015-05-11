@@ -148,11 +148,11 @@ public:
 	static void		onApplyImmediateCheck(LLUICtrl* ctrl, void* userdata);
 		   void		onTextureSelect( const LLTextureEntry& te );
 
-	static void		onModeSelect(LLUICtrl* ctrl, void *userdata);
+	void		onModeSelect();
 	static void		onBtnAdd(void* userdata);
 	static void		onBtnRemove(void* userdata);
 	static void		onBtnUpload(void* userdata);
-	static void		onLocalScrollCommit(LLUICtrl* ctrl, void* userdata);
+	void		onLocalScrollCommit();
 
 	static void		onApplyUUID(void* userdata);
 
@@ -470,7 +470,7 @@ BOOL LLFloaterTexturePicker::postBuild()
 	}
 
 	mModeSelector = getChild<LLRadioGroup>("mode_selection");
-	mModeSelector->setCommitCallback(onModeSelect, this);
+	mModeSelector->setCommitCallback(boost::bind(&LLFloaterTexturePicker::onModeSelect, this));
 	mModeSelector->setSelectedIndex(0, 0);
 
 	childSetAction("l_add_btn", LLFloaterTexturePicker::onBtnAdd, this);
@@ -478,7 +478,7 @@ BOOL LLFloaterTexturePicker::postBuild()
 	childSetAction("l_upl_btn", LLFloaterTexturePicker::onBtnUpload, this);
 
 	mLocalScrollCtrl = getChild<LLScrollListCtrl>("l_name_list");
-	mLocalScrollCtrl->setCommitCallback(onLocalScrollCommit, this);
+	mLocalScrollCtrl->setCommitCallback(boost::bind(&LLFloaterTexturePicker::onLocalScrollCommit, this));
 	LLLocalBitmapMgr::feedScrollList(mLocalScrollCtrl);
 
 	getChild<LLLineEditor>("uuid_editor")->setCommitCallback(boost::bind(&onApplyUUID, this));
@@ -863,29 +863,27 @@ void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem
 	}
 }
 
-// static
-void LLFloaterTexturePicker::onModeSelect(LLUICtrl* ctrl, void *userdata)
+void LLFloaterTexturePicker::onModeSelect()
 {
-	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
-	bool mode = (self->mModeSelector->getSelectedIndex() == 0);
+	bool mode = (mModeSelector->getSelectedIndex() == 0);
 
-	self->getChild<LLButton>("Default")->setVisible(mode);
-	self->getChild<LLButton>("Transparent")->setVisible(mode); // <alchemy/>
-	self->getChild<LLButton>("Blank")->setVisible(mode);
-	self->getChild<LLButton>("None")->setVisible(mode);
-	self->getChild<LLButton>("Pipette")->setVisible(mode);
-	self->getChild<LLFilterEditor>("inventory search editor")->setVisible(mode);
-	self->getChild<LLInventoryPanel>("inventory panel")->setVisible(mode);
-	self->getChild<LLLineEditor>("uuid_editor")->setVisible(mode);
-	self->getChild<LLButton>("apply_uuid_btn")->setVisible(mode);
+	getChild<LLButton>("Default")->setVisible(mode);
+	getChild<LLButton>("Transparent")->setVisible(mode); // <alchemy/>
+	getChild<LLButton>("Blank")->setVisible(mode);
+	getChild<LLButton>("None")->setVisible(mode);
+	getChild<LLButton>("Pipette")->setVisible(mode);
+	getChild<LLFilterEditor>("inventory search editor")->setVisible(mode);
+	getChild<LLInventoryPanel>("inventory panel")->setVisible(mode);
+	getChild<LLLineEditor>("uuid_editor")->setVisible(mode);
+	getChild<LLButton>("apply_uuid_btn")->setVisible(mode);
 
-	/*self->getChild<LLCheckBox>("show_folders_check")->setVisible(mode);
+	/*getChild<LLCheckBox>("show_folders_check")->setVisible(mode);
 	  no idea under which conditions the above is even shown, needs testing. */
 
-	self->getChild<LLButton>("l_add_btn")->setVisible(!mode);
-	self->getChild<LLButton>("l_rem_btn")->setVisible(!mode);
-	self->getChild<LLButton>("l_upl_btn")->setVisible(!mode);
-	self->getChild<LLScrollListCtrl>("l_name_list")->setVisible(!mode);
+	getChild<LLButton>("l_add_btn")->setVisible(!mode);
+	getChild<LLButton>("l_rem_btn")->setVisible(!mode);
+	getChild<LLButton>("l_upl_btn")->setVisible(!mode);
+	getChild<LLScrollListCtrl>("l_name_list")->setVisible(!mode);
 }
 
 // static
@@ -948,26 +946,24 @@ void LLFloaterTexturePicker::onBtnUpload(void* userdata)
 
 }
 
-//static
-void LLFloaterTexturePicker::onLocalScrollCommit(LLUICtrl* ctrl, void* userdata)
+void LLFloaterTexturePicker::onLocalScrollCommit()
 {
-	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
-	std::vector<LLScrollListItem*> selected_items = self->mLocalScrollCtrl->getAllSelected();
+	std::vector<LLScrollListItem*> selected_items = mLocalScrollCtrl->getAllSelected();
 	bool has_selection = !selected_items.empty();
 
-	self->getChild<LLButton>("l_rem_btn")->setEnabled(has_selection);
-	self->getChild<LLButton>("l_upl_btn")->setEnabled(has_selection && (selected_items.size() < 2));
+	getChild<LLButton>("l_rem_btn")->setEnabled(has_selection);
+	getChild<LLButton>("l_upl_btn")->setEnabled(has_selection && (selected_items.size() < 2));
 	/* since multiple-localbitmap upload is not implemented, upl button gets disabled if more than one is selected. */
 
 	if (has_selection)
 	{
-		LLUUID tracking_id = (LLUUID)self->mLocalScrollCtrl->getSelectedItemLabel(LOCAL_TRACKING_ID_COLUMN); 
+		LLUUID tracking_id = LLUUID(mLocalScrollCtrl->getSelectedItemLabel(LOCAL_TRACKING_ID_COLUMN));
 		LLUUID inworld_id = LLLocalBitmapMgr::getWorldID(tracking_id);
-		self->mOwner->setImageAssetID(inworld_id);
+		mOwner->setImageAssetID(inworld_id);
 
-		if (self->childGetValue("apply_immediate_check").asBoolean())
+		if (childGetValue("apply_immediate_check").asBoolean())
 		{
-			self->mOwner->onFloaterCommit(LLTextureCtrl::TEXTURE_CHANGE, inworld_id);
+			mOwner->onFloaterCommit(LLTextureCtrl::TEXTURE_CHANGE, inworld_id);
 		}
 	}
 }

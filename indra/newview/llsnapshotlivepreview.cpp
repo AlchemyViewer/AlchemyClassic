@@ -103,7 +103,7 @@ LLSnapshotLivePreview::LLSnapshotLivePreview (const LLSnapshotLivePreview::Param
 	mSnapshotDelayTimer.start();
 	// 	gIdleCallbacks.addFunction( &LLSnapshotLivePreview::onIdle, (void*)this );
 	sList.insert(this);
-	setFollowsAll();
+	setFollows(FOLLOWS_ALL);
 	mWidth[0] = gViewerWindow->getWindowWidthRaw();
 	mWidth[1] = gViewerWindow->getWindowWidthRaw();
 	mHeight[0] = gViewerWindow->getWindowHeightRaw();

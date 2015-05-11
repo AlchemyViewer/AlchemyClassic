@@ -288,8 +288,7 @@ LLToastAlertPanel::LLToastAlertPanel( LLNotificationPtr notification, bool modal
 
 			setEditTextArgs(notification->getSubstitutions());
 
-			mLineEditor->setFollowsLeft();
-			mLineEditor->setFollowsRight();
+			mLineEditor->setFollows(FOLLOWS_LEFT | FOLLOWS_RIGHT);
 
 			// find form text input field
 			LLSD form_text;

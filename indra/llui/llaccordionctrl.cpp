@@ -128,9 +128,7 @@ BOOL LLAccordionCtrl::postBuild()
 	mScrollbar = LLUICtrlFactory::create<LLScrollbar> (sbparams);
 	LLView::addChild( mScrollbar );
 	mScrollbar->setVisible( false );
-	mScrollbar->setFollowsRight();
-	mScrollbar->setFollowsTop();
-	mScrollbar->setFollowsBottom();
+	mScrollbar->setFollows(FOLLOWS_RIGHT|FOLLOWS_TOP|FOLLOWS_BOTTOM);
 
 	//if it was created from xml...
 	std::vector<LLUICtrl*> accordion_tabs;

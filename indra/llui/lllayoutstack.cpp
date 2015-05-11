@@ -81,7 +81,7 @@ LLLayoutPanel::LLLayoutPanel(const Params& p)
 void LLLayoutPanel::initFromParams(const Params& p)
 {
 	LLPanel::initFromParams(p);
-	setFollowsNone();
+	setFollows(FOLLOWS_NONE);
 }
 
 

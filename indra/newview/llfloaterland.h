@@ -151,7 +151,7 @@ public:
 	static void onClickReclaim(void*);
 	static void onClickBuyPass(void* deselect_when_done);
 	static BOOL enableBuyPass(void*);
-	static void onCommitAny(LLUICtrl* ctrl, void *userdata);
+		   void onCommitAny();
 	static void finalizeCommit(void * userdata);
 	static void onForSaleChange(LLUICtrl *ctrl, void * userdata);
 	static void finalizeSetSellChange(void * userdata);
@@ -268,7 +268,7 @@ public:
 
 	static void onCommitList(LLUICtrl* ctrl, void* data);
 	static void onLostFocus(LLFocusableElement* caller, void* user_data);
-	static void onCommitClean(LLUICtrl* caller, void* user_data);
+		   void onCommitClean();
 	static void processParcelObjectOwnersReply(LLMessageSystem *msg, void **);
 	
 	virtual BOOL postBuild();
@@ -324,7 +324,7 @@ private:
 	// Refresh the "show in search" checkbox and category selector.
 	void refreshSearch();
 
-	static void onCommitAny(LLUICtrl* ctrl, void *userdata);
+	void onCommitAny();
 	static void onClickSet(void* userdata);
 	static void onClickClear(void* userdata);
 
@@ -368,7 +368,7 @@ public:
 	virtual void draw();
 
 	static void onCommitPublicAccess(LLUICtrl* ctrl, void *userdata);
-	static void onCommitAny(LLUICtrl* ctrl, void *userdata);
+		   void onCommitAny();
 	static void onCommitGroupCheck(LLUICtrl* ctrl, void *userdata);
 	static void onClickRemoveAccess(void*);
 	static void onClickRemoveBanned(void*);

@@ -47,7 +47,7 @@ public:
 
 private:
 	void populateMIMECombo();
-	static void onCommitAny(LLUICtrl* ctrl, void *userdata);
+	void onCommitAny();
 	static void onCommitType(LLUICtrl* ctrl, void *userdata);
 	static void onSetBtn(void* userdata);
 	static void onResetBtn(void* userdata);

@@ -184,8 +184,8 @@ public:
 	LLCtrlScrollInterface*		getScrollInterface()	{ return (LLCtrlScrollInterface*)this; }
 
 	// DEPRECATED: Use setSelectedByValue() below.
-	BOOL			setCurrentByID( const LLUUID& id )	{ return selectByID(id); }
-	virtual LLUUID	getCurrentID() const				{ return getStringUUIDSelectedItem(); }
+	BOOL			DEPRECATED(setCurrentByID( const LLUUID& id ))	{ return selectByID(id); }
+	virtual LLUUID	DEPRECATED(getCurrentID() const)				{ return getStringUUIDSelectedItem(); }
 
 	BOOL			operateOnSelection(EOperation op);
 	BOOL			operateOnAll(EOperation op);
@@ -253,7 +253,7 @@ public:
 	// "StringUUID" interface: use this when you're creating a list that contains non-unique strings each of which
 	// has an associated, unique UUID, and only one of which can be selected at a time.
 	LLScrollListItem*	addStringUUIDItem(const std::string& item_text, const LLUUID& id, EAddPosition pos = ADD_BOTTOM, BOOL enabled = TRUE);
-	LLUUID				getStringUUIDSelectedItem() const;
+	LLUUID				DEPRECATED(getStringUUIDSelectedItem() const);
 
 	LLScrollListItem*	getFirstSelected() const;
 	virtual S32			getFirstSelectedIndex() const;

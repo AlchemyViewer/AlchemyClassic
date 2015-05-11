@@ -994,7 +994,7 @@ void LLTabContainer::addTabPanel(const TabPanelParams& panel)
 								getRect().getWidth()-LLPANEL_BORDER_WIDTH,
 								tab_panel_bottom );
 	}
-	child->setFollowsAll();
+	child->setFollows(FOLLOWS_ALL);
 	child->translate( tab_panel_rect.mLeft - child->getRect().mLeft, tab_panel_rect.mBottom - child->getRect().mBottom);
 	child->reshape( tab_panel_rect.getWidth(), tab_panel_rect.getHeight(), TRUE );
 	// add this child later
@@ -1928,17 +1928,18 @@ void LLTabContainer::initButtons()
 
 		if( getTabPosition() == TOP )
 		{
-			mNextArrowBtn->setFollowsTop();
-			mPrevArrowBtn->setFollowsTop();
-			mJumpPrevArrowBtn->setFollowsTop();
-			mJumpNextArrowBtn->setFollowsTop();
+			
+			mNextArrowBtn->setFollows(FOLLOWS_TOP);
+			mPrevArrowBtn->setFollows(FOLLOWS_TOP);
+			mJumpPrevArrowBtn->setFollows(FOLLOWS_TOP);
+			mJumpNextArrowBtn->setFollows(FOLLOWS_TOP);
 		}
 		else
 		{
-			mNextArrowBtn->setFollowsBottom();
-			mPrevArrowBtn->setFollowsBottom();
-			mJumpPrevArrowBtn->setFollowsBottom();
-			mJumpNextArrowBtn->setFollowsBottom();
+			mNextArrowBtn->setFollows(FOLLOWS_BOTTOM);
+			mPrevArrowBtn->setFollows(FOLLOWS_BOTTOM);
+			mJumpPrevArrowBtn->setFollows(FOLLOWS_BOTTOM);
+			mJumpNextArrowBtn->setFollows(FOLLOWS_BOTTOM);
 		}
 	}
 

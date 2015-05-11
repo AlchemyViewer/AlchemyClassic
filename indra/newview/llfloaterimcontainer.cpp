@@ -216,11 +216,11 @@ BOOL LLFloaterIMContainer::postBuild()
 	scroller_params.rect(scroller_view_rect);
 
 	LLScrollContainer* scroller = LLUICtrlFactory::create<LLFolderViewScrollContainer>(scroller_params);
-	scroller->setFollowsAll();
+	scroller->setFollows(FOLLOWS_ALL);
 	mConversationsListPanel->addChild(scroller);
 	scroller->addChild(mConversationsRoot);
 	mConversationsRoot->setScrollContainer(scroller);
-	mConversationsRoot->setFollowsAll();
+	mConversationsRoot->setFollows(FOLLOWS_ALL);
 	mConversationsRoot->addChild(mConversationsRoot->mStatusTextBox);
 
 	addConversationListItem(LLUUID()); // manually add nearby chat

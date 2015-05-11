@@ -750,461 +750,458 @@ void LLPanelFace::updateUI()
 		
 		updateAlphaControls();
 		
-		if(texture_ctrl)
+		if (identical_diffuse)
 		{
-			if (identical_diffuse)
+			texture_ctrl->setTentative( FALSE );
+			texture_ctrl->setEnabled( editable );
+			texture_ctrl->setImageAssetID( id );
+			getChildView("combobox alphamode")->setEnabled(editable && mIsAlpha && transparency <= 0.f);
+			getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
+			getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
+			getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
+		}
+		else if (id.isNull())
+		{
+			// None selected
+			texture_ctrl->setTentative( FALSE );
+			texture_ctrl->setEnabled( FALSE );
+			texture_ctrl->setImageAssetID( LLUUID::null );
+			getChildView("combobox alphamode")->setEnabled( FALSE );
+			getChildView("label alphamode")->setEnabled( FALSE );
+			getChildView("maskcutoff")->setEnabled( FALSE);
+			getChildView("label maskcutoff")->setEnabled( FALSE );
+		}
+		else
+		{
+			// Tentative: multiple selected with different textures
+			texture_ctrl->setTentative( TRUE );
+			texture_ctrl->setEnabled( editable );
+			texture_ctrl->setImageAssetID( id );
+			getChildView("combobox alphamode")->setEnabled(editable && mIsAlpha && transparency <= 0.f);
+			getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
+			getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
+			getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
+		}
+		
+		shinytexture_ctrl->setTentative( !identical_spec );
+		shinytexture_ctrl->setEnabled( editable );
+		shinytexture_ctrl->setImageAssetID( specmap_id );
+		
+		bumpytexture_ctrl->setTentative( !identical_norm );
+		bumpytexture_ctrl->setEnabled( editable );
+		bumpytexture_ctrl->setImageAssetID( normmap_id );
+		
+		// planar align
+		bool align_planar = false;
+		bool identical_planar_aligned = false;
+		
+		LLCheckBoxCtrl*	cb_planar_align = getChild<LLCheckBoxCtrl>("checkbox planar align");
+		align_planar = (cb_planar_align && cb_planar_align->get());
+		
+		bool enabled = (editable && isIdenticalPlanarTexgen());
+		childSetValue("checkbox planar align", align_planar && enabled);
+		childSetEnabled("checkbox planar align", enabled);
+		
+		if (align_planar && enabled)
+		{
+			LLFace* last_face = NULL;
+			bool identical_face = false;
+			LLSelectedTE::getFace(last_face, identical_face);
+			
+			LLPanelFaceGetIsAlignedTEFunctor get_is_aligend_func(last_face);
+			// this will determine if the texture param controls are tentative:
+			identical_planar_aligned = LLSelectMgr::getInstance()->getSelection()->applyToTEs(&get_is_aligend_func);
+		}
+		
+		// Needs to be public and before tex scale settings below to properly reflect
+		// behavior when in planar vs default texgen modes in the
+		// NORSPEC-84 et al
+		LLTextureEntry::e_texgen selected_texgen = LLTextureEntry::TEX_GEN_DEFAULT;
+		bool identical_texgen = true;
+		bool identical_planar_texgen = false;
+		
+		LLSelectedTE::getTexGen(selected_texgen, identical_texgen);
+		identical_planar_texgen = (identical_texgen && (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR));
+		
+		// Texture scale
+		bool identical_diff_scale_s = false;
+		bool identical_spec_scale_s = false;
+		bool identical_norm_scale_s = false;
+		
+		identical = align_planar ? identical_planar_aligned : identical;
+		
+		F32 diff_scale_s = 1.f;
+		F32 spec_scale_s = 1.f;
+		F32 norm_scale_s = 1.f;
+		
+		LLSelectedTE::getScaleS(diff_scale_s, identical_diff_scale_s);
+		LLSelectedTEMaterial::getSpecularRepeatX(spec_scale_s, identical_spec_scale_s);
+		LLSelectedTEMaterial::getNormalRepeatX(norm_scale_s, identical_norm_scale_s);
+		
+		diff_scale_s = editable ? diff_scale_s : 1.0f;
+		diff_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		norm_scale_s = editable ? norm_scale_s : 1.0f;
+		norm_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		spec_scale_s = editable ? spec_scale_s : 1.0f;
+		spec_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		getChild<LLUICtrl>("TexScaleU")->setValue(diff_scale_s);
+		getChild<LLUICtrl>("shinyScaleU")->setValue(spec_scale_s);
+		getChild<LLUICtrl>("bumpyScaleU")->setValue(norm_scale_s);
+		
+		getChildView("TexScaleU")->setEnabled(editable);
+		getChildView("shinyScaleU")->setEnabled(editable && specmap_id.notNull());
+		getChildView("bumpyScaleU")->setEnabled(editable && normmap_id.notNull());
+		
+		BOOL diff_scale_tentative = !(identical && identical_diff_scale_s);
+		BOOL norm_scale_tentative = !(identical && identical_norm_scale_s);
+		BOOL spec_scale_tentative = !(identical && identical_spec_scale_s);
+		
+		getChild<LLUICtrl>("TexScaleU")->setTentative( LLSD(diff_scale_tentative));
+		getChild<LLUICtrl>("shinyScaleU")->setTentative(LLSD(spec_scale_tentative));
+		getChild<LLUICtrl>("bumpyScaleU")->setTentative(LLSD(norm_scale_tentative));
+		
+		{
+			bool identical_diff_scale_t = false;
+			bool identical_spec_scale_t = false;
+			bool identical_norm_scale_t = false;
+			
+			F32 diff_scale_t = 1.f;
+			F32 spec_scale_t = 1.f;
+			F32 norm_scale_t = 1.f;
+			
+			LLSelectedTE::getScaleT(diff_scale_t, identical_diff_scale_t);
+			LLSelectedTEMaterial::getSpecularRepeatY(spec_scale_t, identical_spec_scale_t);
+			LLSelectedTEMaterial::getNormalRepeatY(norm_scale_t, identical_norm_scale_t);
+			
+			diff_scale_t = editable ? diff_scale_t : 1.0f;
+			diff_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
+			
+			norm_scale_t = editable ? norm_scale_t : 1.0f;
+			norm_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
+			
+			spec_scale_t = editable ? spec_scale_t : 1.0f;
+			spec_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
+			
+			BOOL diff_scale_tentative = !identical_diff_scale_t;
+			BOOL norm_scale_tentative = !identical_norm_scale_t;
+			BOOL spec_scale_tentative = !identical_spec_scale_t;
+			
+			getChildView("TexScaleV")->setEnabled(editable);
+			getChildView("shinyScaleV")->setEnabled(editable && specmap_id.notNull());
+			getChildView("bumpyScaleV")->setEnabled(editable && normmap_id.notNull());
+			
+			getChild<LLUICtrl>("TexScaleV")->setValue(diff_scale_t);
+			getChild<LLUICtrl>("shinyScaleV")->setValue(norm_scale_t);
+			getChild<LLUICtrl>("bumpyScaleV")->setValue(spec_scale_t);
+			
+			getChild<LLUICtrl>("TexScaleV")->setTentative(LLSD(diff_scale_tentative));
+			getChild<LLUICtrl>("shinyScaleV")->setTentative(LLSD(norm_scale_tentative));
+			getChild<LLUICtrl>("bumpyScaleV")->setTentative(LLSD(spec_scale_tentative));
+		}
+		
+		// Texture offset
+		{
+			bool identical_diff_offset_s = false;
+			bool identical_norm_offset_s = false;
+			bool identical_spec_offset_s = false;
+			
+			F32 diff_offset_s = 0.0f;
+			F32 norm_offset_s = 0.0f;
+			F32 spec_offset_s = 0.0f;
+			
+			LLSelectedTE::getOffsetS(diff_offset_s, identical_diff_offset_s);
+			LLSelectedTEMaterial::getNormalOffsetX(norm_offset_s, identical_norm_offset_s);
+			LLSelectedTEMaterial::getSpecularOffsetX(spec_offset_s, identical_spec_offset_s);
+			
+			BOOL diff_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_diff_offset_s);
+			BOOL norm_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_norm_offset_s);
+			BOOL spec_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_spec_offset_s);
+			
+			getChild<LLUICtrl>("TexOffsetU")->setValue(editable ? diff_offset_s : 0.0f);
+			getChild<LLUICtrl>("bumpyOffsetU")->setValue(editable ? norm_offset_s : 0.0f);
+			getChild<LLUICtrl>("shinyOffsetU")->setValue(editable ? spec_offset_s : 0.0f);
+			
+			getChild<LLUICtrl>("TexOffsetU")->setTentative(LLSD(diff_offset_u_tentative));
+			getChild<LLUICtrl>("shinyOffsetU")->setTentative(LLSD(norm_offset_u_tentative));
+			getChild<LLUICtrl>("bumpyOffsetU")->setTentative(LLSD(spec_offset_u_tentative));
+			
+			getChildView("TexOffsetU")->setEnabled(editable);
+			getChildView("shinyOffsetU")->setEnabled(editable && specmap_id.notNull());
+			getChildView("bumpyOffsetU")->setEnabled(editable && normmap_id.notNull());
+		}
+		
+		{
+			bool identical_diff_offset_t = false;
+			bool identical_norm_offset_t = false;
+			bool identical_spec_offset_t = false;
+			
+			F32 diff_offset_t = 0.0f;
+			F32 norm_offset_t = 0.0f;
+			F32 spec_offset_t = 0.0f;
+			
+			LLSelectedTE::getOffsetT(diff_offset_t, identical_diff_offset_t);
+			LLSelectedTEMaterial::getNormalOffsetY(norm_offset_t, identical_norm_offset_t);
+			LLSelectedTEMaterial::getSpecularOffsetY(spec_offset_t, identical_spec_offset_t);
+			
+			BOOL diff_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_diff_offset_t);
+			BOOL norm_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_norm_offset_t);
+			BOOL spec_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_spec_offset_t);
+			
+			getChild<LLUICtrl>("TexOffsetV")->setValue(  editable ? diff_offset_t : 0.0f);
+			getChild<LLUICtrl>("bumpyOffsetV")->setValue(editable ? norm_offset_t : 0.0f);
+			getChild<LLUICtrl>("shinyOffsetV")->setValue(editable ? spec_offset_t : 0.0f);
+			
+			getChild<LLUICtrl>("TexOffsetV")->setTentative(LLSD(diff_offset_v_tentative));
+			getChild<LLUICtrl>("shinyOffsetV")->setTentative(LLSD(norm_offset_v_tentative));
+			getChild<LLUICtrl>("bumpyOffsetV")->setTentative(LLSD(spec_offset_v_tentative));
+			
+			getChildView("TexOffsetV")->setEnabled(editable);
+			getChildView("shinyOffsetV")->setEnabled(editable && specmap_id.notNull());
+			getChildView("bumpyOffsetV")->setEnabled(editable && normmap_id.notNull());
+		}
+		
+		// Texture rotation
+		{
+			bool identical_diff_rotation = false;
+			bool identical_norm_rotation = false;
+			bool identical_spec_rotation = false;
+			
+			F32 diff_rotation = 0.f;
+			F32 norm_rotation = 0.f;
+			F32 spec_rotation = 0.f;
+			
+			LLSelectedTE::getRotation(diff_rotation,identical_diff_rotation);
+			LLSelectedTEMaterial::getSpecularRotation(spec_rotation,identical_spec_rotation);
+			LLSelectedTEMaterial::getNormalRotation(norm_rotation,identical_norm_rotation);
+			
+			BOOL diff_rot_tentative = !(align_planar ? identical_planar_aligned : identical_diff_rotation);
+			BOOL norm_rot_tentative = !(align_planar ? identical_planar_aligned : identical_norm_rotation);
+			BOOL spec_rot_tentative = !(align_planar ? identical_planar_aligned : identical_spec_rotation);
+			
+			F32 diff_rot_deg = diff_rotation * RAD_TO_DEG;
+			F32 norm_rot_deg = norm_rotation * RAD_TO_DEG;
+			F32 spec_rot_deg = spec_rotation * RAD_TO_DEG;
+			
+			getChildView("TexRot")->setEnabled(editable);
+			getChildView("shinyRot")->setEnabled(editable && specmap_id.notNull());
+			getChildView("bumpyRot")->setEnabled(editable && normmap_id.notNull());
+			
+			getChild<LLUICtrl>("TexRot")->setTentative(diff_rot_tentative);
+			getChild<LLUICtrl>("shinyRot")->setTentative(LLSD(norm_rot_tentative));
+			getChild<LLUICtrl>("bumpyRot")->setTentative(LLSD(spec_rot_tentative));
+			
+			getChild<LLUICtrl>("TexRot")->setValue(  editable ? diff_rot_deg : 0.0f);
+			getChild<LLUICtrl>("shinyRot")->setValue(editable ? spec_rot_deg : 0.0f);
+			getChild<LLUICtrl>("bumpyRot")->setValue(editable ? norm_rot_deg : 0.0f);
+		}
+		
+		F32 glow = 0.f;
+		bool identical_glow = false;
+		LLSelectedTE::getGlow(glow,identical_glow);
+		getChild<LLUICtrl>("glow")->setValue(glow);
+		getChild<LLUICtrl>("glow")->setTentative(!identical_glow);
+		getChildView("glow")->setEnabled(editable);
+		getChildView("glow label")->setEnabled(editable);
+		
+		{
+			LLCtrlSelectionInterface* combobox_texgen = childGetSelectionInterface("combobox texgen");
+			if (combobox_texgen)
 			{
-				texture_ctrl->setTentative( FALSE );
-				texture_ctrl->setEnabled( editable );
-				texture_ctrl->setImageAssetID( id );
-				getChildView("combobox alphamode")->setEnabled(editable && mIsAlpha && transparency <= 0.f);
-				getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
-				getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
-				getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
-			}
-			else if (id.isNull())
-			{
-				// None selected
-				texture_ctrl->setTentative( FALSE );
-				texture_ctrl->setEnabled( FALSE );
-				texture_ctrl->setImageAssetID( LLUUID::null );
-				getChildView("combobox alphamode")->setEnabled( FALSE );
-				getChildView("label alphamode")->setEnabled( FALSE );
-				getChildView("maskcutoff")->setEnabled( FALSE);
-				getChildView("label maskcutoff")->setEnabled( FALSE );
+				// Maps from enum to combobox entry index
+				combobox_texgen->selectNthItem(((S32)selected_texgen) >> 1);
 			}
 			else
 			{
-				// Tentative: multiple selected with different textures
-				texture_ctrl->setTentative( TRUE );
-				texture_ctrl->setEnabled( editable );
-				texture_ctrl->setImageAssetID( id );
-				getChildView("combobox alphamode")->setEnabled(editable && mIsAlpha && transparency <= 0.f);
-				getChildView("label alphamode")->setEnabled(editable && mIsAlpha);
-				getChildView("maskcutoff")->setEnabled(editable && mIsAlpha);
-				getChildView("label maskcutoff")->setEnabled(editable && mIsAlpha);
+				LL_WARNS() << "failed childGetSelectionInterface for 'combobox texgen'" << LL_ENDL;
 			}
 			
-			shinytexture_ctrl->setTentative( !identical_spec );
-			shinytexture_ctrl->setEnabled( editable );
-			shinytexture_ctrl->setImageAssetID( specmap_id );
+			getChildView("combobox texgen")->setEnabled(editable);
+			getChild<LLUICtrl>("combobox texgen")->setTentative(!identical);
+			getChildView("tex gen")->setEnabled(editable);
 			
-			bumpytexture_ctrl->setTentative( !identical_norm );
-			bumpytexture_ctrl->setEnabled( editable );
-			bumpytexture_ctrl->setImageAssetID( normmap_id );
-			
-			// planar align
-			bool align_planar = false;
-			bool identical_planar_aligned = false;
-			
-			LLCheckBoxCtrl*	cb_planar_align = getChild<LLCheckBoxCtrl>("checkbox planar align");
-			align_planar = (cb_planar_align && cb_planar_align->get());
-			
-			bool enabled = (editable && isIdenticalPlanarTexgen());
-			childSetValue("checkbox planar align", align_planar && enabled);
-			childSetEnabled("checkbox planar align", enabled);
-			
-			if (align_planar && enabled)
+			if (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR)
 			{
-				LLFace* last_face = NULL;
-				bool identical_face = false;
-				LLSelectedTE::getFace(last_face, identical_face);
-				
-				LLPanelFaceGetIsAlignedTEFunctor get_is_aligend_func(last_face);
-				// this will determine if the texture param controls are tentative:
-				identical_planar_aligned = LLSelectMgr::getInstance()->getSelection()->applyToTEs(&get_is_aligend_func);
+				// EXP-1507 (change label based on the mapping mode)
+				getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per meter"));
 			}
-			
-			// Needs to be public and before tex scale settings below to properly reflect
-			// behavior when in planar vs default texgen modes in the
-			// NORSPEC-84 et al
-			LLTextureEntry::e_texgen selected_texgen = LLTextureEntry::TEX_GEN_DEFAULT;
-			bool identical_texgen = true;
-			bool identical_planar_texgen = false;
-			
-			LLSelectedTE::getTexGen(selected_texgen, identical_texgen);
-			identical_planar_texgen = (identical_texgen && (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR));
-			
-			// Texture scale
-			bool identical_diff_scale_s = false;
-			bool identical_spec_scale_s = false;
-			bool identical_norm_scale_s = false;
-			
-			identical = align_planar ? identical_planar_aligned : identical;
-			
-			F32 diff_scale_s = 1.f;
-			F32 spec_scale_s = 1.f;
-			F32 norm_scale_s = 1.f;
-			
-			LLSelectedTE::getScaleS(diff_scale_s, identical_diff_scale_s);
-			LLSelectedTEMaterial::getSpecularRepeatX(spec_scale_s, identical_spec_scale_s);
-			LLSelectedTEMaterial::getNormalRepeatX(norm_scale_s, identical_norm_scale_s);
-			
-			diff_scale_s = editable ? diff_scale_s : 1.0f;
-			diff_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-			
-			norm_scale_s = editable ? norm_scale_s : 1.0f;
-			norm_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-			
-			spec_scale_s = editable ? spec_scale_s : 1.0f;
-			spec_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-			
-			getChild<LLUICtrl>("TexScaleU")->setValue(diff_scale_s);
-			getChild<LLUICtrl>("shinyScaleU")->setValue(spec_scale_s);
-			getChild<LLUICtrl>("bumpyScaleU")->setValue(norm_scale_s);
-			
-			getChildView("TexScaleU")->setEnabled(editable);
-			getChildView("shinyScaleU")->setEnabled(editable && specmap_id.notNull());
-			getChildView("bumpyScaleU")->setEnabled(editable && normmap_id.notNull());
-			
-			BOOL diff_scale_tentative = !(identical && identical_diff_scale_s);
-			BOOL norm_scale_tentative = !(identical && identical_norm_scale_s);
-			BOOL spec_scale_tentative = !(identical && identical_spec_scale_s);
-			
-			getChild<LLUICtrl>("TexScaleU")->setTentative( LLSD(diff_scale_tentative));
-			getChild<LLUICtrl>("shinyScaleU")->setTentative(LLSD(spec_scale_tentative));
-			getChild<LLUICtrl>("bumpyScaleU")->setTentative(LLSD(norm_scale_tentative));
-			
+			else if (selected_texgen == LLTextureEntry::TEX_GEN_DEFAULT)
 			{
-				bool identical_diff_scale_t = false;
-				bool identical_spec_scale_t = false;
-				bool identical_norm_scale_t = false;
-				
-				F32 diff_scale_t = 1.f;
-				F32 spec_scale_t = 1.f;
-				F32 norm_scale_t = 1.f;
-				
-				LLSelectedTE::getScaleT(diff_scale_t, identical_diff_scale_t);
-				LLSelectedTEMaterial::getSpecularRepeatY(spec_scale_t, identical_spec_scale_t);
-				LLSelectedTEMaterial::getNormalRepeatY(norm_scale_t, identical_norm_scale_t);
-				
-				diff_scale_t = editable ? diff_scale_t : 1.0f;
-				diff_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
-				
-				norm_scale_t = editable ? norm_scale_t : 1.0f;
-				norm_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
-				
-				spec_scale_t = editable ? spec_scale_t : 1.0f;
-				spec_scale_t *= identical_planar_texgen ? 2.0f : 1.0f;
-				
-				BOOL diff_scale_tentative = !identical_diff_scale_t;
-				BOOL norm_scale_tentative = !identical_norm_scale_t;
-				BOOL spec_scale_tentative = !identical_spec_scale_t;
-				
-				getChildView("TexScaleV")->setEnabled(editable);
-				getChildView("shinyScaleV")->setEnabled(editable && specmap_id.notNull());
-				getChildView("bumpyScaleV")->setEnabled(editable && normmap_id.notNull());
-				
-				getChild<LLUICtrl>("TexScaleV")->setValue(diff_scale_t);
-				getChild<LLUICtrl>("shinyScaleV")->setValue(norm_scale_t);
-				getChild<LLUICtrl>("bumpyScaleV")->setValue(spec_scale_t);
-				
-				getChild<LLUICtrl>("TexScaleV")->setTentative(LLSD(diff_scale_tentative));
-				getChild<LLUICtrl>("shinyScaleV")->setTentative(LLSD(norm_scale_tentative));
-				getChild<LLUICtrl>("bumpyScaleV")->setTentative(LLSD(spec_scale_tentative));
+				getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per face"));
 			}
-			
-			// Texture offset
-			{
-				bool identical_diff_offset_s = false;
-				bool identical_norm_offset_s = false;
-				bool identical_spec_offset_s = false;
-				
-				F32 diff_offset_s = 0.0f;
-				F32 norm_offset_s = 0.0f;
-				F32 spec_offset_s = 0.0f;
-				
-				LLSelectedTE::getOffsetS(diff_offset_s, identical_diff_offset_s);
-				LLSelectedTEMaterial::getNormalOffsetX(norm_offset_s, identical_norm_offset_s);
-				LLSelectedTEMaterial::getSpecularOffsetX(spec_offset_s, identical_spec_offset_s);
-				
-				BOOL diff_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_diff_offset_s);
-				BOOL norm_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_norm_offset_s);
-				BOOL spec_offset_u_tentative = !(align_planar ? identical_planar_aligned : identical_spec_offset_s);
-				
-				getChild<LLUICtrl>("TexOffsetU")->setValue(editable ? diff_offset_s : 0.0f);
-				getChild<LLUICtrl>("bumpyOffsetU")->setValue(editable ? norm_offset_s : 0.0f);
-				getChild<LLUICtrl>("shinyOffsetU")->setValue(editable ? spec_offset_s : 0.0f);
-				
-				getChild<LLUICtrl>("TexOffsetU")->setTentative(LLSD(diff_offset_u_tentative));
-				getChild<LLUICtrl>("shinyOffsetU")->setTentative(LLSD(norm_offset_u_tentative));
-				getChild<LLUICtrl>("bumpyOffsetU")->setTentative(LLSD(spec_offset_u_tentative));
-				
-				getChildView("TexOffsetU")->setEnabled(editable);
-				getChildView("shinyOffsetU")->setEnabled(editable && specmap_id.notNull());
-				getChildView("bumpyOffsetU")->setEnabled(editable && normmap_id.notNull());
-			}
-			
-			{
-				bool identical_diff_offset_t = false;
-				bool identical_norm_offset_t = false;
-				bool identical_spec_offset_t = false;
-				
-				F32 diff_offset_t = 0.0f;
-				F32 norm_offset_t = 0.0f;
-				F32 spec_offset_t = 0.0f;
-				
-				LLSelectedTE::getOffsetT(diff_offset_t, identical_diff_offset_t);
-				LLSelectedTEMaterial::getNormalOffsetY(norm_offset_t, identical_norm_offset_t);
-				LLSelectedTEMaterial::getSpecularOffsetY(spec_offset_t, identical_spec_offset_t);
-				
-				BOOL diff_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_diff_offset_t);
-				BOOL norm_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_norm_offset_t);
-				BOOL spec_offset_v_tentative = !(align_planar ? identical_planar_aligned : identical_spec_offset_t);
-				
-				getChild<LLUICtrl>("TexOffsetV")->setValue(  editable ? diff_offset_t : 0.0f);
-				getChild<LLUICtrl>("bumpyOffsetV")->setValue(editable ? norm_offset_t : 0.0f);
-				getChild<LLUICtrl>("shinyOffsetV")->setValue(editable ? spec_offset_t : 0.0f);
-				
-				getChild<LLUICtrl>("TexOffsetV")->setTentative(LLSD(diff_offset_v_tentative));
-				getChild<LLUICtrl>("shinyOffsetV")->setTentative(LLSD(norm_offset_v_tentative));
-				getChild<LLUICtrl>("bumpyOffsetV")->setTentative(LLSD(spec_offset_v_tentative));
-				
-				getChildView("TexOffsetV")->setEnabled(editable);
-				getChildView("shinyOffsetV")->setEnabled(editable && specmap_id.notNull());
-				getChildView("bumpyOffsetV")->setEnabled(editable && normmap_id.notNull());
-			}
-			
-			// Texture rotation
-			{
-				bool identical_diff_rotation = false;
-				bool identical_norm_rotation = false;
-				bool identical_spec_rotation = false;
-				
-				F32 diff_rotation = 0.f;
-				F32 norm_rotation = 0.f;
-				F32 spec_rotation = 0.f;
-				
-				LLSelectedTE::getRotation(diff_rotation,identical_diff_rotation);
-				LLSelectedTEMaterial::getSpecularRotation(spec_rotation,identical_spec_rotation);
-				LLSelectedTEMaterial::getNormalRotation(norm_rotation,identical_norm_rotation);
-				
-				BOOL diff_rot_tentative = !(align_planar ? identical_planar_aligned : identical_diff_rotation);
-				BOOL norm_rot_tentative = !(align_planar ? identical_planar_aligned : identical_norm_rotation);
-				BOOL spec_rot_tentative = !(align_planar ? identical_planar_aligned : identical_spec_rotation);
-				
-				F32 diff_rot_deg = diff_rotation * RAD_TO_DEG;
-				F32 norm_rot_deg = norm_rotation * RAD_TO_DEG;
-				F32 spec_rot_deg = spec_rotation * RAD_TO_DEG;
-				
-				getChildView("TexRot")->setEnabled(editable);
-				getChildView("shinyRot")->setEnabled(editable && specmap_id.notNull());
-				getChildView("bumpyRot")->setEnabled(editable && normmap_id.notNull());
-				
-				getChild<LLUICtrl>("TexRot")->setTentative(diff_rot_tentative);
-				getChild<LLUICtrl>("shinyRot")->setTentative(LLSD(norm_rot_tentative));
-				getChild<LLUICtrl>("bumpyRot")->setTentative(LLSD(spec_rot_tentative));
-				
-				getChild<LLUICtrl>("TexRot")->setValue(  editable ? diff_rot_deg : 0.0f);
-				getChild<LLUICtrl>("shinyRot")->setValue(editable ? spec_rot_deg : 0.0f);
-				getChild<LLUICtrl>("bumpyRot")->setValue(editable ? norm_rot_deg : 0.0f);
-			}
-			
-			F32 glow = 0.f;
-			bool identical_glow = false;
-			LLSelectedTE::getGlow(glow,identical_glow);
-			getChild<LLUICtrl>("glow")->setValue(glow);
-			getChild<LLUICtrl>("glow")->setTentative(!identical_glow);
-			getChildView("glow")->setEnabled(editable);
-			getChildView("glow label")->setEnabled(editable);
-			
-			{
-				LLCtrlSelectionInterface* combobox_texgen = childGetSelectionInterface("combobox texgen");
-				if (combobox_texgen)
-				{
-					// Maps from enum to combobox entry index
-					combobox_texgen->selectNthItem(((S32)selected_texgen) >> 1);
-				}
-				else
-				{
-					LL_WARNS() << "failed childGetSelectionInterface for 'combobox texgen'" << LL_ENDL;
-				}
-				
-				getChildView("combobox texgen")->setEnabled(editable);
-				getChild<LLUICtrl>("combobox texgen")->setTentative(!identical);
-				getChildView("tex gen")->setEnabled(editable);
-				
-				if (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR)
-				{
-					// EXP-1507 (change label based on the mapping mode)
-					getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per meter"));
-				}
-				else if (selected_texgen == LLTextureEntry::TEX_GEN_DEFAULT)
-				{
-					getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per face"));
-				}
-			}
-			
-			U8 fullbright_flag = 0;
-			bool identical_fullbright = false;
-			
-			LLSelectedTE::getFullbright(fullbright_flag,identical_fullbright);
-			
-			getChild<LLUICtrl>("checkbox fullbright")->setValue(fullbright_flag != 0);
-			getChildView("checkbox fullbright")->setEnabled(editable);
-			getChild<LLUICtrl>("checkbox fullbright")->setTentative(!identical_fullbright);
-			
-			// Repeats per meter
-			{
-				F32 repeats_diff = 1.f;
-				F32 repeats_norm = 1.f;
-				F32 repeats_spec = 1.f;
-				
-				bool identical_diff_repeats = false;
-				bool identical_norm_repeats = false;
-				bool identical_spec_repeats = false;
-				
-				LLSelectedTE::getMaxDiffuseRepeats(repeats_diff, identical_diff_repeats);
-				LLSelectedTEMaterial::getMaxNormalRepeats(repeats_norm, identical_norm_repeats);
-				LLSelectedTEMaterial::getMaxSpecularRepeats(repeats_spec, identical_spec_repeats);
-				
-				LLComboBox*	mComboTexGen = getChild<LLComboBox>("combobox texgen");
-				S32 index = mComboTexGen ? mComboTexGen->getCurrentIndex() : 0;
-				BOOL enabled = editable && (index != 1);
-				BOOL identical_repeats = true;
-				F32  repeats = 1.0f;
-				
-				U32 material_type = (combobox_matmedia->getCurrentIndex() == MATMEDIA_MATERIAL) ? combobox_mattype->getCurrentIndex() : MATTYPE_DIFFUSE;
-				
-				LLSelectMgr::getInstance()->setTextureChannel(LLRender::eTexIndex(material_type));
-				
-				switch (material_type)
-				{
-					default:
-					case MATTYPE_DIFFUSE:
-						enabled = editable && !id.isNull();
-						identical_repeats = identical_diff_repeats;
-						repeats = repeats_diff;
-						break;
-						
-					case MATTYPE_SPECULAR:
-						enabled = (editable && ((shiny == SHINY_TEXTURE) && !specmap_id.isNull()));
-						identical_repeats = identical_spec_repeats;
-						repeats = repeats_spec;
-						break;
-						
-					case MATTYPE_NORMAL:
-						enabled = (editable && ((bumpy == BUMPY_TEXTURE) && !normmap_id.isNull()));
-						identical_repeats = identical_norm_repeats;
-						repeats = repeats_norm;
-						break;
-				}
-				
-				BOOL repeats_tentative = !identical_repeats;
-				getChildView("rptctrl")->setEnabled(identical_planar_texgen ? FALSE : enabled);
-				getChild<LLUICtrl>("rptctrl")->setValue(editable ? repeats : 1.0f);
-				getChild<LLUICtrl>("rptctrl")->setTentative(LLSD(repeats_tentative));
-			}
-			
-			// Materials
-			LLMaterialPtr material;
-			LLSelectedTEMaterial::getCurrent(material, identical);
-			
-			if (material && editable)
-			{
-				LL_DEBUGS("Materials") << " OnMatererialsLoaded: " << material->asLLSD() << LL_ENDL;
-				
-				// Alpha
-				LLCtrlSelectionInterface* combobox_alphamode = childGetSelectionInterface("combobox alphamode");
-				if (combobox_alphamode)
-				{
-					U32 alpha_mode = material->getDiffuseAlphaMode();
-					
-					if (transparency > 0.f)
-					{ //it is invalid to have any alpha mode other than blend if transparency is greater than zero ...
-						alpha_mode = LLMaterial::DIFFUSE_ALPHA_MODE_BLEND;
-					}
-					
-					if (!mIsAlpha)
-					{ // ... unless there is no alpha channel in the texture, in which case alpha mode MUST ebe none
-						alpha_mode = LLMaterial::DIFFUSE_ALPHA_MODE_NONE;
-					}
-					
-					combobox_alphamode->selectNthItem(alpha_mode);
-				}
-				else
-				{
-					LL_WARNS() << "failed childGetSelectionInterface for 'combobox alphamode'" << LL_ENDL;
-				}
-				getChild<LLUICtrl>("maskcutoff")->setValue(material->getAlphaMaskCutoff());
-				updateAlphaControls();
-				
-				identical_planar_texgen = isIdenticalPlanarTexgen();
-				
-				// Shiny (specular)
-				F32 offset_x, offset_y, repeat_x, repeat_y, rot;
-				LLTextureCtrl* texture_ctrl = getChild<LLTextureCtrl>("shinytexture control");
-				texture_ctrl->setImageAssetID(material->getSpecularID());
-				
-				if (!material->getSpecularID().isNull() && (shiny == SHINY_TEXTURE))
-				{
-					material->getSpecularOffset(offset_x,offset_y);
-					material->getSpecularRepeat(repeat_x,repeat_y);
-					
-					if (identical_planar_texgen)
-					{
-						repeat_x *= 2.0f;
-						repeat_y *= 2.0f;
-					}
-					
-					rot = material->getSpecularRotation();
-					getChild<LLUICtrl>("shinyScaleU")->setValue(repeat_x);
-					getChild<LLUICtrl>("shinyScaleV")->setValue(repeat_y);
-					getChild<LLUICtrl>("shinyRot")->setValue(rot*RAD_TO_DEG);
-					getChild<LLUICtrl>("shinyOffsetU")->setValue(offset_x);
-					getChild<LLUICtrl>("shinyOffsetV")->setValue(offset_y);
-					getChild<LLUICtrl>("glossiness")->setValue(material->getSpecularLightExponent());
-					getChild<LLUICtrl>("environment")->setValue(material->getEnvironmentIntensity());
-					
-					updateShinyControls(!material->getSpecularID().isNull(), true);
-				}
-				
-				// Assert desired colorswatch color to match material AFTER updateShinyControls
-				// to avoid getting overwritten with the default on some UI state changes.
-				//
-				if (!material->getSpecularID().isNull())
-				{
-					getChild<LLColorSwatchCtrl>("shinycolorswatch")->setOriginal(material->getSpecularLightColor());
-					getChild<LLColorSwatchCtrl>("shinycolorswatch")->set(material->getSpecularLightColor(),TRUE);
-				}
-				
-				// Bumpy (normal)
-				texture_ctrl = getChild<LLTextureCtrl>("bumpytexture control");
-				texture_ctrl->setImageAssetID(material->getNormalID());
-				
-				if (!material->getNormalID().isNull())
-				{
-					material->getNormalOffset(offset_x,offset_y);
-					material->getNormalRepeat(repeat_x,repeat_y);
-					
-					if (identical_planar_texgen)
-					{
-						repeat_x *= 2.0f;
-						repeat_y *= 2.0f;
-					}
-					
-					rot = material->getNormalRotation();
-					getChild<LLUICtrl>("bumpyScaleU")->setValue(repeat_x);
-					getChild<LLUICtrl>("bumpyScaleV")->setValue(repeat_y);
-					getChild<LLUICtrl>("bumpyRot")->setValue(rot*RAD_TO_DEG);
-					getChild<LLUICtrl>("bumpyOffsetU")->setValue(offset_x);
-					getChild<LLUICtrl>("bumpyOffsetV")->setValue(offset_y);
-					
-					updateBumpyControls(!material->getNormalID().isNull(), true);
-				}
-			}
-			
-			
-			// Set variable values for numeric expressions
-			LLCalc* calcp = LLCalc::getInstance();
-			calcp->setVar(LLCalc::TEX_U_SCALE, childGetValue("TexScaleU").asReal());
-			calcp->setVar(LLCalc::TEX_V_SCALE, childGetValue("TexScaleV").asReal());
-			calcp->setVar(LLCalc::TEX_U_OFFSET, childGetValue("TexOffsetU").asReal());
-			calcp->setVar(LLCalc::TEX_V_OFFSET, childGetValue("TexOffsetV").asReal());
-			calcp->setVar(LLCalc::TEX_ROTATION, childGetValue("TexRot").asReal());
-			calcp->setVar(LLCalc::TEX_TRANSPARENCY, childGetValue("ColorTrans").asReal());
-			calcp->setVar(LLCalc::TEX_GLOW, childGetValue("glow").asReal());
 		}
+		
+		U8 fullbright_flag = 0;
+		bool identical_fullbright = false;
+		
+		LLSelectedTE::getFullbright(fullbright_flag,identical_fullbright);
+		
+		getChild<LLUICtrl>("checkbox fullbright")->setValue(fullbright_flag != 0);
+		getChildView("checkbox fullbright")->setEnabled(editable);
+		getChild<LLUICtrl>("checkbox fullbright")->setTentative(!identical_fullbright);
+		
+		// Repeats per meter
+		{
+			F32 repeats_diff = 1.f;
+			F32 repeats_norm = 1.f;
+			F32 repeats_spec = 1.f;
+			
+			bool identical_diff_repeats = false;
+			bool identical_norm_repeats = false;
+			bool identical_spec_repeats = false;
+			
+			LLSelectedTE::getMaxDiffuseRepeats(repeats_diff, identical_diff_repeats);
+			LLSelectedTEMaterial::getMaxNormalRepeats(repeats_norm, identical_norm_repeats);
+			LLSelectedTEMaterial::getMaxSpecularRepeats(repeats_spec, identical_spec_repeats);
+			
+			LLComboBox*	mComboTexGen = getChild<LLComboBox>("combobox texgen");
+			S32 index = mComboTexGen ? mComboTexGen->getCurrentIndex() : 0;
+			BOOL enabled = editable && (index != 1);
+			BOOL identical_repeats = true;
+			F32  repeats = 1.0f;
+			
+			U32 material_type = (combobox_matmedia->getCurrentIndex() == MATMEDIA_MATERIAL) ? combobox_mattype->getCurrentIndex() : MATTYPE_DIFFUSE;
+			
+			LLSelectMgr::getInstance()->setTextureChannel(LLRender::eTexIndex(material_type));
+			
+			switch (material_type)
+			{
+				default:
+				case MATTYPE_DIFFUSE:
+					enabled = editable && !id.isNull();
+					identical_repeats = identical_diff_repeats;
+					repeats = repeats_diff;
+					break;
+					
+				case MATTYPE_SPECULAR:
+					enabled = (editable && ((shiny == SHINY_TEXTURE) && !specmap_id.isNull()));
+					identical_repeats = identical_spec_repeats;
+					repeats = repeats_spec;
+					break;
+					
+				case MATTYPE_NORMAL:
+					enabled = (editable && ((bumpy == BUMPY_TEXTURE) && !normmap_id.isNull()));
+					identical_repeats = identical_norm_repeats;
+					repeats = repeats_norm;
+					break;
+			}
+			
+			BOOL repeats_tentative = !identical_repeats;
+			getChildView("rptctrl")->setEnabled(identical_planar_texgen ? FALSE : enabled);
+			getChild<LLUICtrl>("rptctrl")->setValue(editable ? repeats : 1.0f);
+			getChild<LLUICtrl>("rptctrl")->setTentative(LLSD(repeats_tentative));
+		}
+		
+		// Materials
+		LLMaterialPtr material;
+		LLSelectedTEMaterial::getCurrent(material, identical);
+		
+		if (material && editable)
+		{
+			LL_DEBUGS("Materials") << " OnMatererialsLoaded: " << material->asLLSD() << LL_ENDL;
+			
+			// Alpha
+			LLCtrlSelectionInterface* combobox_alphamode = childGetSelectionInterface("combobox alphamode");
+			if (combobox_alphamode)
+			{
+				U32 alpha_mode = material->getDiffuseAlphaMode();
+				
+				if (transparency > 0.f)
+				{ //it is invalid to have any alpha mode other than blend if transparency is greater than zero ...
+					alpha_mode = LLMaterial::DIFFUSE_ALPHA_MODE_BLEND;
+				}
+				
+				if (!mIsAlpha)
+				{ // ... unless there is no alpha channel in the texture, in which case alpha mode MUST ebe none
+					alpha_mode = LLMaterial::DIFFUSE_ALPHA_MODE_NONE;
+				}
+				
+				combobox_alphamode->selectNthItem(alpha_mode);
+			}
+			else
+			{
+				LL_WARNS() << "failed childGetSelectionInterface for 'combobox alphamode'" << LL_ENDL;
+			}
+			getChild<LLUICtrl>("maskcutoff")->setValue(material->getAlphaMaskCutoff());
+			updateAlphaControls();
+			
+			identical_planar_texgen = isIdenticalPlanarTexgen();
+			
+			// Shiny (specular)
+			F32 offset_x, offset_y, repeat_x, repeat_y, rot;
+			LLTextureCtrl* texture_ctrl = getChild<LLTextureCtrl>("shinytexture control");
+			texture_ctrl->setImageAssetID(material->getSpecularID());
+			
+			if (!material->getSpecularID().isNull() && (shiny == SHINY_TEXTURE))
+			{
+				material->getSpecularOffset(offset_x,offset_y);
+				material->getSpecularRepeat(repeat_x,repeat_y);
+				
+				if (identical_planar_texgen)
+				{
+					repeat_x *= 2.0f;
+					repeat_y *= 2.0f;
+				}
+				
+				rot = material->getSpecularRotation();
+				getChild<LLUICtrl>("shinyScaleU")->setValue(repeat_x);
+				getChild<LLUICtrl>("shinyScaleV")->setValue(repeat_y);
+				getChild<LLUICtrl>("shinyRot")->setValue(rot*RAD_TO_DEG);
+				getChild<LLUICtrl>("shinyOffsetU")->setValue(offset_x);
+				getChild<LLUICtrl>("shinyOffsetV")->setValue(offset_y);
+				getChild<LLUICtrl>("glossiness")->setValue(material->getSpecularLightExponent());
+				getChild<LLUICtrl>("environment")->setValue(material->getEnvironmentIntensity());
+				
+				updateShinyControls(!material->getSpecularID().isNull(), true);
+			}
+			
+			// Assert desired colorswatch color to match material AFTER updateShinyControls
+			// to avoid getting overwritten with the default on some UI state changes.
+			//
+			if (!material->getSpecularID().isNull())
+			{
+				getChild<LLColorSwatchCtrl>("shinycolorswatch")->setOriginal(material->getSpecularLightColor());
+				getChild<LLColorSwatchCtrl>("shinycolorswatch")->set(material->getSpecularLightColor(),TRUE);
+			}
+			
+			// Bumpy (normal)
+			texture_ctrl = getChild<LLTextureCtrl>("bumpytexture control");
+			texture_ctrl->setImageAssetID(material->getNormalID());
+			
+			if (!material->getNormalID().isNull())
+			{
+				material->getNormalOffset(offset_x,offset_y);
+				material->getNormalRepeat(repeat_x,repeat_y);
+				
+				if (identical_planar_texgen)
+				{
+					repeat_x *= 2.0f;
+					repeat_y *= 2.0f;
+				}
+				
+				rot = material->getNormalRotation();
+				getChild<LLUICtrl>("bumpyScaleU")->setValue(repeat_x);
+				getChild<LLUICtrl>("bumpyScaleV")->setValue(repeat_y);
+				getChild<LLUICtrl>("bumpyRot")->setValue(rot*RAD_TO_DEG);
+				getChild<LLUICtrl>("bumpyOffsetU")->setValue(offset_x);
+				getChild<LLUICtrl>("bumpyOffsetV")->setValue(offset_y);
+				
+				updateBumpyControls(!material->getNormalID().isNull(), true);
+			}
+		}
+		
+		
+		// Set variable values for numeric expressions
+		LLCalc* calcp = LLCalc::getInstance();
+		calcp->setVar(LLCalc::TEX_U_SCALE, childGetValue("TexScaleU").asReal());
+		calcp->setVar(LLCalc::TEX_V_SCALE, childGetValue("TexScaleV").asReal());
+		calcp->setVar(LLCalc::TEX_U_OFFSET, childGetValue("TexOffsetU").asReal());
+		calcp->setVar(LLCalc::TEX_V_OFFSET, childGetValue("TexOffsetV").asReal());
+		calcp->setVar(LLCalc::TEX_ROTATION, childGetValue("TexRot").asReal());
+		calcp->setVar(LLCalc::TEX_TRANSPARENCY, childGetValue("ColorTrans").asReal());
+		calcp->setVar(LLCalc::TEX_GLOW, childGetValue("glow").asReal());
 	}
 	else
 	{
@@ -1213,18 +1210,14 @@ void LLPanelFace::updateUI()
 		
 		// Disable non-UICtrls
 		LLTextureCtrl*	texture_ctrl = getChild<LLTextureCtrl>("texture control");
-		if(texture_ctrl)
-		{
-			texture_ctrl->setImageAssetID( LLUUID::null );
-			texture_ctrl->setEnabled( FALSE );  // this is a LLUICtrl, but we don't want it to have keyboard focus so we add it as a child, not a ctrl.
-		}
+		texture_ctrl->setImageAssetID( LLUUID::null );
+		texture_ctrl->setEnabled( FALSE );  // this is a LLUICtrl, but we don't want it to have keyboard focus so we add it as a child, not a ctrl.
+
 		LLColorSwatchCtrl* mColorSwatch = getChild<LLColorSwatchCtrl>("colorswatch");
-		if(mColorSwatch)
-		{
-			mColorSwatch->setEnabled( FALSE );
-			mColorSwatch->setFallbackImage(LLUI::getUIImage("locked_image.j2c") );
-			mColorSwatch->setValid(FALSE);
-		}
+		mColorSwatch->setEnabled( FALSE );
+		mColorSwatch->setFallbackImage(LLUI::getUIImage("locked_image.j2c") );
+		mColorSwatch->setValid(FALSE);
+
 		getChildView("color trans")->setEnabled(FALSE);
 		getChildView("rpt")->setEnabled(FALSE);
 		getChildView("tex offset")->setEnabled(FALSE);

@@ -162,7 +162,7 @@ BOOL LLPanelFace::postBuild()
 	mTextureCtrl->setOnSelectCallback( boost::bind(&LLPanelFace::onSelectTexture, this) );
 	mTextureCtrl->setDragCallback(boost::bind(&LLPanelFace::onDragTexture, this, _2));
 	mTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
-	mTextureCtrl->setOnCloseCallback( boost::bind(&::LLPanelFace::updateUI, this) );
+	mTextureCtrl->setOnCloseCallback( boost::bind(&::LLPanelFace::refresh, this) );
 	
 	mTextureCtrl->setImmediateFilterPermMask(PERM_NONE);
 	mTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
@@ -172,7 +172,7 @@ BOOL LLPanelFace::postBuild()
 	mShinyTextureCtrl->setCommitCallback( boost::bind(&LLPanelFace::onCommitSpecularTexture, this) );
 	mShinyTextureCtrl->setOnCancelCallback( boost::bind(&LLPanelFace::onCancelSpecularTexture, this) );
 	mShinyTextureCtrl->setOnSelectCallback( boost::bind(&LLPanelFace::onSelectSpecularTexture, this) );
-	mShinyTextureCtrl->setOnCloseCallback( boost::bind(&LLPanelFace::updateUI, this) );
+	mShinyTextureCtrl->setOnCloseCallback( boost::bind(&LLPanelFace::refresh, this) );
 	
 	mShinyTextureCtrl->setDragCallback(boost::bind(&LLPanelFace::onDragTexture, this, _2));
 	mShinyTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
@@ -185,7 +185,7 @@ BOOL LLPanelFace::postBuild()
 	mBumpyTextureCtrl->setCommitCallback( boost::bind(&LLPanelFace::onCommitNormalTexture, this) );
 	mBumpyTextureCtrl->setOnCancelCallback( boost::bind(&LLPanelFace::onCancelNormalTexture, this) );
 	mBumpyTextureCtrl->setOnSelectCallback( boost::bind(&LLPanelFace::onSelectNormalTexture, this) );
-	mBumpyTextureCtrl->setOnCloseCallback( boost::bind(&LLPanelFace::updateUI, this) );
+	mBumpyTextureCtrl->setOnCloseCallback( boost::bind(&LLPanelFace::refresh, this) );
 	
 	mBumpyTextureCtrl->setDragCallback(boost::bind(&LLPanelFace::onDragTexture, this, _2));
 	mBumpyTextureCtrl->setOnTextureSelectedCallback(boost::bind(&LLPanelFace::onTextureSelectionChanged, this, _1));
@@ -207,13 +207,13 @@ BOOL LLPanelFace::postBuild()
 	mLabelColorTransp = getChild<LLTextBox>("color trans");
 	
 	mCtrlColorTransp = getChild<LLSpinCtrl>("ColorTrans");
-	mCtrlColorTransp->setCommitCallback(boost::bind(&LLPanelFace::sendAlpha, this));
+	mCtrlColorTransp->setCommitCallback(boost::bind(&LLPanelFace::sendAlpha, this, _2));
 	
 	mCheckFullbright = getChild<LLCheckBoxCtrl>("checkbox fullbright");
-	mCheckFullbright->setCommitCallback(boost::bind(&LLPanelFace::sendFullbright, this));
+	mCheckFullbright->setCommitCallback(boost::bind(&LLPanelFace::sendFullbright, this, _2));
 	
 	mComboTexGen = getChild<LLComboBox>("combobox texgen");
-	mComboTexGen->setCommitCallback(boost::bind(&LLPanelFace::sendTexGen, this));
+	mComboTexGen->setCommitCallback(boost::bind(&LLPanelFace::sendTexGen, this, _2));
 	
 	mComboMatMedia = getChild<LLComboBox>("combobox matmedia");
 	mComboMatMedia->setCommitCallback(boost::bind(&LLPanelFace::onCommitMaterialsMedia, this));
@@ -224,7 +224,7 @@ BOOL LLPanelFace::postBuild()
 	mComboMatType->selectNthItem(MATTYPE_DIFFUSE);
 	
 	mCtrlGlow = getChild<LLSpinCtrl>("glow");
-	mCtrlGlow->setCommitCallback(boost::bind(&LLPanelFace::sendGlow, this));
+	mCtrlGlow->setCommitCallback(boost::bind(&LLPanelFace::sendGlow, this, _2));
 	
 	clearCtrls();
 	
@@ -232,22 +232,22 @@ BOOL LLPanelFace::postBuild()
 }
 
 LLPanelFace::LLPanelFace()
-:	LLPanel(),
+:	LLPanel()
 // <alchemy>
-mTextureCtrl(NULL),
-mShinyTextureCtrl(NULL),
-mBumpyTextureCtrl(NULL),
-mColorSwatch(NULL),
-mShinyColorSwatch(NULL),
-mComboTexGen(NULL),
-mComboMatMedia(NULL),
-mComboMatType(NULL),
-mCheckFullbright(NULL),
-mLabelColorTransp(NULL),
-mCtrlColorTransp(NULL),	// transparency = 1 - alpha
-mCtrlGlow(NULL),
+,	mTextureCtrl(NULL)
+,	mShinyTextureCtrl(NULL)
+,	mBumpyTextureCtrl(NULL)
+,	mColorSwatch(NULL)
+,	mShinyColorSwatch(NULL)
+,	mComboTexGen(NULL)
+,	mComboMatMedia(NULL)
+,	mComboMatType(NULL)
+,	mCheckFullbright(NULL)
+,	mLabelColorTransp(NULL)
+,	mCtrlColorTransp(NULL)	// transparency = 1 - alpha
+,	mCtrlGlow(NULL)
 // </alchemy>
-mIsAlpha(false)
+,	mIsAlpha(false)
 {
 	USE_TEXTURE = LLTrans::getString("use_texture");
 }
@@ -303,10 +303,9 @@ void LLPanelFace::sendBump(U32 bumpiness)
 	LLSelectMgr::getInstance()->selectionSetBumpmap( bump );
 }
 
-void LLPanelFace::sendTexGen()
+void LLPanelFace::sendTexGen(const LLSD& userdata)
 {
-	LLComboBox*	mComboTexGen = getChild<LLComboBox>("combobox texgen");
-	U8 tex_gen = (U8) mComboTexGen->getCurrentIndex() << TEM_TEX_GEN_SHIFT;
+	U8 tex_gen = (U8) userdata.asInteger() << TEM_TEX_GEN_SHIFT;
 	LLSelectMgr::getInstance()->selectionSetTexGen( tex_gen );
 }
 
@@ -331,39 +330,31 @@ void LLPanelFace::sendShiny(U32 shininess)
 	LLSelectMgr::getInstance()->selectionSetShiny( shiny );
 	
 	updateShinyControls(!specmap.isNull(), true);
-	
 }
 
-void LLPanelFace::sendFullbright()
+void LLPanelFace::sendFullbright(const LLSD& userdata)
 {
-	LLCheckBoxCtrl*	mCheckFullbright = getChild<LLCheckBoxCtrl>("checkbox fullbright");
-	U8 fullbright = mCheckFullbright->get() ? TEM_FULLBRIGHT_MASK : 0;
+	U8 fullbright = userdata.asBoolean() ? TEM_FULLBRIGHT_MASK : 0;
 	LLSelectMgr::getInstance()->selectionSetFullbright( fullbright );
 }
 
 void LLPanelFace::sendColor()
 {
-	
-	LLColorSwatchCtrl*	mColorSwatch = getChild<LLColorSwatchCtrl>("colorswatch");
-	LLColor4 color = mColorSwatch->get();
+	LLColorSwatchCtrl* swatch = getChild<LLColorSwatchCtrl>("colorswatch");
+	LLColor4 color = swatch->get();
 	
 	LLSelectMgr::getInstance()->selectionSetColorOnly( color );
 }
 
-void LLPanelFace::sendAlpha()
+void LLPanelFace::sendAlpha(const LLSD& userdata)
 {
-	LLSpinCtrl*	mCtrlColorTransp = getChild<LLSpinCtrl>("ColorTrans");
-	F32 alpha = (100.f - mCtrlColorTransp->get()) / 100.f;
-	
+	F32 alpha = (100.f - userdata.asReal()) / 100.f;
 	LLSelectMgr::getInstance()->selectionSetAlphaOnly( alpha );
 }
 
-
-void LLPanelFace::sendGlow()
+void LLPanelFace::sendGlow(const LLSD& userdata)
 {
-	LLSpinCtrl* mCtrlGlow = getChild<LLSpinCtrl>("glow");
-	F32 glow = mCtrlGlow->get();
-	LLSelectMgr::getInstance()->selectionSetGlow( glow );
+	LLSelectMgr::getInstance()->selectionSetGlow( userdata.asReal() );
 }
 
 struct LLPanelFaceSetTEFunctor : public LLSelectedTEFunctor
@@ -562,12 +553,7 @@ void LLPanelFace::sendTextureInfo()
 	LLSelectMgr::getInstance()->getSelection()->applyToObjects(&sendfunc);
 }
 
-void LLPanelFace::getState()
-{
-	updateUI();
-}
-
-void LLPanelFace::updateUI()
+void LLPanelFace::refresh()
 {
 	LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getFirstObject();
 	
@@ -1242,11 +1228,6 @@ void LLPanelFace::updateUI()
 	}
 }
 
-void LLPanelFace::refresh()
-{
-	getState();
-}
-
 //
 // Static functions
 //
@@ -1290,7 +1271,7 @@ void LLPanelFace::onCommitMaterialsMedia()
 {
 	updateShinyControls(false,true);
 	updateBumpyControls(false,true);
-	updateUI();
+	refresh();
 }
 
 void LLPanelFace::updateVisibility()
@@ -1368,7 +1349,7 @@ void LLPanelFace::onCommitMaterialType()
 {
 	updateShinyControls(false, true);
 	updateBumpyControls(false, true);
-	updateUI();
+	refresh();
 }
 
 // static
@@ -1838,7 +1819,7 @@ void LLPanelFace::setMediaType(const std::string& mime_type)
 
 void LLPanelFace::onCommitPlanarAlign()
 {
-	getState();
+	refresh();
 	sendTextureInfo();
 }
 

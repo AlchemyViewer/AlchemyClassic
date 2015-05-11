@@ -157,8 +157,6 @@ protected:
 
 	// Callback funcs for individual controls
 	//
-	static void		onCommitTextureInfo( 	LLUICtrl* ctrl, void* userdata);
-
 	static void		onCommitMaterialBumpyScaleX(	LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialBumpyScaleY(	LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialBumpyRot(		LLUICtrl* ctrl, void* userdata);
@@ -175,21 +173,16 @@ protected:
 	static void		onCommitMaterialEnv(				LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialMaskCutoff(	LLUICtrl* ctrl, void* userdata);
 
-	static void		onCommitMaterialsMedia(	LLUICtrl* ctrl, void* userdata);
-	static void		onCommitMaterialType(	LLUICtrl* ctrl, void* userdata);
-	static void		onCommitBump(				LLUICtrl* ctrl, void* userdata);
-	static void		onCommitTexGen(			LLUICtrl* ctrl, void* userdata);
-	static void		onCommitShiny(				LLUICtrl* ctrl, void* userdata);
-	static void		onCommitAlphaMode(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitFullbright(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitGlow(				LLUICtrl* ctrl, void *userdata);
-	static void		onCommitPlanarAlign(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitRepeatsPerMeter(	LLUICtrl* ctrl, void* userinfo);
-	static void		onClickAutoFix(void*);
+	void		onCommitMaterialsMedia();
+	void		onCommitMaterialType();
+	void		onCommitBump(const LLSD& userdata);
+	void		onCommitShiny(const LLSD& userdata);
+	void		onCommitAlphaMode();
+	void		onCommitPlanarAlign();
+	void		onCommitRepeatsPerMeter(LLUICtrl* ctrl);
+	void		onClickAutoFix();
 
 	static F32     valueGlow(LLViewerObject* object, S32 face);
-
-	
 
 private:
 

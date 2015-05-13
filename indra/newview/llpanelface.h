@@ -114,18 +114,16 @@ public:
 	LLRender::eTexIndex getTextureChannelToEdit();
 
 protected:
-	void			getState();
-
-	void			sendTexture();			// applies and sends texture
-	void			sendTextureInfo();		// applies and sends texture scale, offset, etc.
-	void			sendColor();			// applies and sends color
-	void			sendAlpha();			// applies and sends transparency
-	void			sendBump(U32 bumpiness);				// applies and sends bump map
-	void			sendTexGen();				// applies and sends bump map
-	void			sendShiny(U32 shininess);			// applies and sends shininess
-	void			sendFullbright();		// applies and sends full bright
-	void        sendGlow();
-	void			sendMedia();
+	void	sendTexture();							// applies and sends texture
+	void	sendTextureInfo();						// applies and sends texture scale, offset, etc.
+	void	sendColor();							// applies and sends color
+	void	sendGlow(const LLSD& userdata);			// applies and sends glow
+	void	sendAlpha(const LLSD& userdata);		// applies and sends transparency
+	void	sendTexGen(const LLSD& userdata);		// applies and sends bump map
+	void	sendFullbright(const LLSD& userdata);	// applies and sends full bright
+	void	sendBump(U32 bumpiness);				// applies and sends bump map
+	void	sendShiny(U32 shininess);				// applies and sends shininess
+	void	sendMedia();
 
 	// this function is to return TRUE if the drag should succeed.
 	static BOOL onDragTexture(LLUICtrl* ctrl, LLInventoryItem* item);
@@ -145,11 +143,6 @@ protected:
 	void 	onSelectColor();
 	void 	onSelectShinyColor(LLUICtrl* ctrl);
 
-	// Make UI reflect state of currently selected material (refresh)
-	// and UI mode (e.g. editing normal map v diffuse map)
-	//
-	void updateUI();
-
 	// Convenience func to determine if all faces in selection have
 	// identical planar texgen settings during edits
 	// 
@@ -157,8 +150,6 @@ protected:
 
 	// Callback funcs for individual controls
 	//
-	static void		onCommitTextureInfo( 	LLUICtrl* ctrl, void* userdata);
-
 	static void		onCommitMaterialBumpyScaleX(	LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialBumpyScaleY(	LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialBumpyRot(		LLUICtrl* ctrl, void* userdata);
@@ -175,21 +166,16 @@ protected:
 	static void		onCommitMaterialEnv(				LLUICtrl* ctrl, void* userdata);
 	static void		onCommitMaterialMaskCutoff(	LLUICtrl* ctrl, void* userdata);
 
-	static void		onCommitMaterialsMedia(	LLUICtrl* ctrl, void* userdata);
-	static void		onCommitMaterialType(	LLUICtrl* ctrl, void* userdata);
-	static void		onCommitBump(				LLUICtrl* ctrl, void* userdata);
-	static void		onCommitTexGen(			LLUICtrl* ctrl, void* userdata);
-	static void		onCommitShiny(				LLUICtrl* ctrl, void* userdata);
-	static void		onCommitAlphaMode(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitFullbright(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitGlow(				LLUICtrl* ctrl, void *userdata);
-	static void		onCommitPlanarAlign(		LLUICtrl* ctrl, void* userdata);
-	static void		onCommitRepeatsPerMeter(	LLUICtrl* ctrl, void* userinfo);
-	static void		onClickAutoFix(void*);
+	void		onCommitMaterialsMedia();
+	void		onCommitMaterialType();
+	void		onCommitBump(const LLSD& userdata);
+	void		onCommitShiny(const LLSD& userdata);
+	void		onCommitAlphaMode();
+	void		onCommitPlanarAlign();
+	void		onCommitRepeatsPerMeter(LLUICtrl* ctrl);
+	void		onClickAutoFix();
 
 	static F32     valueGlow(LLViewerObject* object, S32 face);
-
-	
 
 private:
 

@@ -269,7 +269,7 @@ LLOSInfo::LLOSInfo() :
 		{
 			service_pack = "Service Pack 2 ";
 		}
-		if (IsWindowsVistaSP2OrGreater())
+		else if (IsWindowsVistaSP1OrGreater())
 		{
 			service_pack = "Service Pack 1 ";
 		}

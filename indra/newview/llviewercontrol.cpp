@@ -75,6 +75,8 @@
 #include "llslurl.h"
 #include "llstartup.h"
 #include "llupdaterservice.h"
+#include "lldrawpoolwlsky.h"
+#include "llwlparammanager.h"
 
 #include "llfloaterreg.h"
 #include "llfloatercamera.h" // <alchemy/>
@@ -585,6 +587,44 @@ bool handleSpellCheckChanged()
 	return true;
 }
 
+bool handleWindlightCloudChanged(const LLSD& new_value)
+{
+	std::string cloudNoiseFilename(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight/clouds", new_value.asString()));
+	if (!gDirUtilp->fileExists(cloudNoiseFilename))
+	{
+		cloudNoiseFilename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight/clouds", "Default.tga");
+	}
+	LL_INFOS() << "loading WindLight cloud noise from " << cloudNoiseFilename << LL_ENDL;
+
+	LLPointer<LLImageFormatted> cloudNoiseFile(LLImageFormatted::createFromExtension(cloudNoiseFilename));
+
+	if (cloudNoiseFile.isNull())
+	{
+		LL_WARNS() << "Error: Failed to load cloud noise image " << cloudNoiseFilename << LL_ENDL;
+		return true;
+	}
+
+	if (cloudNoiseFile->load(cloudNoiseFilename))
+	{
+		LLDrawPoolWLSky::sCloudNoiseRawImage = new LLImageRaw();
+
+		if (cloudNoiseFile->decode(LLDrawPoolWLSky::sCloudNoiseRawImage, 0.0f))
+		{
+			//debug use			
+			LL_DEBUGS() << "cloud noise raw image width: " << LLDrawPoolWLSky::sCloudNoiseRawImage->getWidth() << " : height: " << LLDrawPoolWLSky::sCloudNoiseRawImage->getHeight() << " : components: " <<
+				(S32) LLDrawPoolWLSky::sCloudNoiseRawImage->getComponents() << " : data size: " << LLDrawPoolWLSky::sCloudNoiseRawImage->getDataSize() << LL_ENDL;
+			llassert_always(LLDrawPoolWLSky::sCloudNoiseRawImage->getData());
+
+			LLDrawPoolWLSky::sCloudNoiseTexture = LLViewerTextureManager::getLocalTexture(LLDrawPoolWLSky::sCloudNoiseRawImage.get(), TRUE);
+		}
+		else
+		{
+			LLDrawPoolWLSky::sCloudNoiseRawImage = NULL;
+		}
+	}
+	return true;
+}
+
 // <alchemy> - Camera Testing
 #if ALCHEMY_TEST
 bool handleCameraPresetChanged(const LLSD& new_value)
@@ -819,6 +859,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLViewerChat::signalChatFontChanged));
 	gSavedSettings.getControl("RenderVerticalSync")->getValidateSignal()->connect(boost::bind(validateVSync, _2));
 	gSavedSettings.getControl("AlchemyNearbyChatChannel")->getValidateSignal()->connect(boost::bind(&handleChatChannelChanged, _2));
+	gSavedSettings.getControl("AlchemyWLCloudTexture")->getSignal()->connect(boost::bind(&handleWindlightCloudChanged, _2));
 #if ALCHEMY_TEST
 	gSavedSettings.getControl("CameraPreset")->getSignal()->connect(boost::bind(&handleCameraPresetChanged, _2)); // <alchemy/>
 #endif

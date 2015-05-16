@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <floater
  legacy_header_height="18"
- height="170"
+ height="190"
  layout="topleft"
  name="Environment Editor Floater"
  help_topic="environment_editor_floater"
@@ -87,13 +87,47 @@
        name="item0"/>
   </combo_box>
  <text
+  name="cloud_settings_title"
+  follows="top|left"
+  height="16"
+  layout="topleft"
+  left="4"
+  top_pad="3"
+  width="148">
+  		Cloud Setting
+  </text>
+  <combo_box
+   follows="top|left"
+   control_name="AlchemyWLCloudTexture"
+   left_pad="0"
+   name="cloud_settings_preset_combo"
+   top_delta="-2"
+   width="200">
+      <combo_box.item
+       label="Altocumulus"
+       name="altocumulus_cloud"
+	   value="Altocumulus.tga"/>
+      <combo_box.item
+       label="Cumulo-Nimbus"
+       name="cumulonimbus_cloud"
+	   value="Cumulo-Nimbus.tga"/>
+      <combo_box.item
+       label="Default"
+       name="default_cloud"
+	   value="Default.tga"/>
+      <combo_box.item
+       label="Layered"
+       name="layered_cloud"
+	   value="Layered.tga"/>
+  </combo_box>
+ <text
   follows="top|left|right"
   font="SansSerifItalic"
   height="15"
   layout="topleft"
-  left="5"
+  left="3"
   name="note"
-  top_pad="5"
+  top_pad="3"
   width="360"
   wrap="true">
   Note: Your custom settings will not be visible to other users.
@@ -107,7 +141,7 @@
    layout="topleft"
    right="-119"
    name="ok_btn"
-   top_pad="-5"
+   top_pad="15"
    width="100" />
   <button
    follows="left|top"

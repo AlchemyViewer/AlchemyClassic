@@ -41,6 +41,7 @@
 #include "llviewerregion.h"
 #include "llface.h"
 #include "llrender.h"
+#include "llviewercontrol.h"
 
 LLPointer<LLViewerTexture> LLDrawPoolWLSky::sCloudNoiseTexture = NULL;
 
@@ -53,7 +54,11 @@ static LLGLSLShader* star_shader = NULL;
 LLDrawPoolWLSky::LLDrawPoolWLSky(void) :
 	LLDrawPool(POOL_WL_SKY)
 {
-	const std::string cloudNoiseFilename(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight", "clouds2.tga"));
+	std::string cloudNoiseFilename(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight/clouds", gSavedSettings.getString("AlchemyWLCloudTexture")));
+	if (!gDirUtilp->fileExists(cloudNoiseFilename))
+	{
+		cloudNoiseFilename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "windlight/clouds", "Default.tga");
+	}
 	LL_INFOS() << "loading WindLight cloud noise from " << cloudNoiseFilename << LL_ENDL;
 
 	LLPointer<LLImageFormatted> cloudNoiseFile(LLImageFormatted::createFromExtension(cloudNoiseFilename));

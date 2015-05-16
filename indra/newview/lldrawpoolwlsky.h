@@ -76,7 +76,7 @@ private:
 	void renderSkyClouds(F32 camHeightLocal) const;
 	void renderHeavenlyBodies();
 
-private:
+public:
 	static LLPointer<LLViewerTexture> sCloudNoiseTexture;
 	static LLPointer<LLImageRaw> sCloudNoiseRawImage;
 };

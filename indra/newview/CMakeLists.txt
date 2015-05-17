@@ -1943,6 +1943,16 @@ if (WINDOWS)
       windows-crash-logger
       )
 
+    add_custom_command(
+      TARGET ${VIEWER_BINARY_NAME} POST_BUILD
+      COMMAND "mt.exe"
+      ARGS
+      -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
+      -inputresource:\"$<TARGET_FILE:${VIEWER_BINARY_NAME}>\"\;\#1 
+      -outputresource:\"$<TARGET_FILE:${VIEWER_BINARY_NAME}>\"\;\#1
+      COMMENT "Adding compatibility manifest to ${VIEWER_BINARY_NAME}..." 
+      )
+
     # sets the 'working directory' for debugging from visual studio.
     if (NOT UNATTENDED)
         add_custom_command(

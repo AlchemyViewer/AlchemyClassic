@@ -93,6 +93,16 @@ if (WINDOWS)
         LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
         LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
         )
+		
+    add_custom_command(
+      TARGET windows-crash-logger POST_BUILD
+      COMMAND "mt.exe"
+      ARGS
+      -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
+      -inputresource:\"$<TARGET_FILE:windows-crash-logger>\"\;\#1 
+      -outputresource:\"$<TARGET_FILE:windows-crash-logger>\"\;\#1
+      COMMENT "Adding compatibility manifest to win_crash_logger..." 
+      )
 endif (WINDOWS)
 
 if (LL_TESTS)

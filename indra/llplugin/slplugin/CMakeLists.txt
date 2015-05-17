@@ -56,6 +56,16 @@ set_target_properties(SLPlugin
   LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
   LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
   )
+  
+  add_custom_command(
+    TARGET SLPlugin POST_BUILD
+    COMMAND "mt.exe"
+    ARGS
+    -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
+    -inputresource:\"$<TARGET_FILE:SLPlugin>\"\;\#1 
+    -outputresource:\"$<TARGET_FILE:SLPlugin>\"\;\#1
+    COMMENT "Adding compatibility manifest to SLPlugin..." 
+    )
 else ()
 set_target_properties(SLPlugin
   PROPERTIES

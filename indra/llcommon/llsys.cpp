@@ -303,18 +303,26 @@ LLOSInfo::LLOSInfo() :
 		mOSStringSimple += "32-bit ";
 	}
 
-	DWORD shell32_major, shell32_minor, shell32_build;
-	bool got_shell32_version = get_shell32_dll_version(shell32_major,
-		shell32_minor,
-		shell32_build);
+	OSVERSIONINFOEX osvi;
+	BOOL bOsVersionInfoEx;
+	// Try calling GetVersionEx using the OSVERSIONINFOEX structure.
+	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
+	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+	if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi)))
+	{
+		// If OSVERSIONINFOEX doesn't work, try OSVERSIONINFO.
+		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+		bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi);
+	}
+
 	
 	std::string tmpstr;
-	if (got_shell32_version)
+	if (bOsVersionInfoEx)
 	{
-		mMajorVer = shell32_major;
-		mMinorVer = shell32_minor;
-		mBuild = shell32_build;
-		tmpstr = llformat("%s(Build %d)", service_pack.c_str(), shell32_build);
+		mMajorVer = osvi.dwMajorVersion;
+		mMinorVer = osvi.dwMinorVersion;
+		mBuild = osvi.dwBuildNumber;
+		tmpstr = llformat("%s(Build %d)", service_pack.c_str(), mBuild);
 	}
 	else
 	{

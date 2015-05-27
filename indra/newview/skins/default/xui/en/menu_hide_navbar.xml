@@ -13,22 +13,33 @@
          layout="topleft"
          name="ShowNavbarNavigationPanel">
            <on_click
-             function="ToggleControl"
-             parameter="ShowNavbarNavigationPanel" /> 
+             function="ToggleLocationBar"
+             parameter="2" />
              <on_check
-             function="CheckControl"
-             parameter="ShowNavbarNavigationPanel" />
+             function="CheckLocationBar"
+             parameter="2" />
     </menu_item_check>
     <menu_item_check
          label="Show Mini-Location Bar"
          layout="topleft"
          name="ShowMiniLocationPanel">
            <on_click
-             function="ToggleControl"
-             parameter="ShowMiniLocationPanel" />
+             function="ToggleLocationBar"
+             parameter="1" />
              <on_check
-             function="CheckControl"
-             parameter="ShowMiniLocationPanel" />
+             function="CheckLocationBar"
+             parameter="1" />
+    </menu_item_check>
+    <menu_item_check
+         label="Hide Location Bar"
+         layout="topleft"
+         name="HideLocationPanels">
+           <on_click
+             function="ToggleLocationBar"
+             parameter="0" />
+             <on_check
+             function="CheckLocationBar"
+             parameter="0" />
     </menu_item_check>
 
     <menu_item_separator />

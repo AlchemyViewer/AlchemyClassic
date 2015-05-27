@@ -3241,6 +3241,25 @@ class ALMarkViewerEffectsDead : public view_listener_t
 		return true;
 	}
 };
+
+class ALToggleLocationBar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		const U32 val = userdata.asInteger();
+		gSavedSettings.setU32("NavigationBarStyle", val);
+		return true;
+	}
+};
+
+class ALCheckLocationBar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		return userdata.asInteger() == gSavedSettings.getU32("NavigationBarStyle");
+	}
+};
+
 // </Alchemy>
 
 
@@ -9245,5 +9264,8 @@ void initialize_menus()
     view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
+
+	view_listener_t::addMenu(new ALToggleLocationBar(), "ToggleLocationBar");
+	view_listener_t::addMenu(new ALCheckLocationBar(), "CheckLocationBar");
 	// </Alchemy>
 }

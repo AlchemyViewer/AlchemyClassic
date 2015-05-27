@@ -2020,13 +2020,10 @@ void LLAgent::endAnimationUpdateUI()
 		gViewerWindow->showCursor();
 		// show menus
 		gMenuBarView->setVisible(TRUE);
-		LLNavigationBar::getInstance()->setVisible(TRUE && gSavedSettings.getBOOL("ShowNavbarNavigationPanel"));
+		const U32 nav_style = gSavedSettings.getU32("NavigationBarStyle");
+		LLNavigationBar::getInstance()->setVisible(nav_style == 2);
 		gStatusBar->setVisibleForMouselook(true);
-
-		if (gSavedSettings.getBOOL("ShowMiniLocationPanel"))
-		{
-			LLPanelTopInfoBar::getInstance()->setVisible(TRUE);
-		}
+		LLPanelTopInfoBar::getInstance()->setVisible(nav_style == 1);
 
 		LLChicletBar::getInstance()->setVisible(TRUE);
 

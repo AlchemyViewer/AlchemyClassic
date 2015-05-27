@@ -10798,17 +10798,6 @@
       <key>Value</key>
       <integer>1</integer>   
     </map>
-    <key>ShowNavbarNavigationPanel</key>        
-    <map>
-      <key>Comment</key>
-      <string>Show/hide navigation bar navigation panel</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>1</integer>   
-    </map>
     <key>ShowWorldMapButton</key>
     <map>
       <key>Comment</key>

@@ -929,17 +929,17 @@ void LLPanelEditWearable::onCommitSexChange()
         if (!isAgentAvatarValid()) return;
 
         LLWearableType::EType type = mWearablePtr->getType();
-        U32 index = gAgentWearables.getWearableIndex(mWearablePtr);
-
-        if( !gAgentWearables.isWearableModifiable(type, index))
+        U32 index;
+        if( !gAgentWearables.getWearableIndex(mWearablePtr, index) ||
+			!gAgentWearables.isWearableModifiable(type, index))
         {
-                return;
+			return;
         }
 
         LLViewerVisualParam* param = static_cast<LLViewerVisualParam*>(gAgentAvatarp->getVisualParam( "male" ));
         if( !param )
         {
-                return;
+			return;
         }
 
         bool is_new_sex_male = (gSavedSettings.getU32("AvatarSex") ? SEX_MALE : SEX_FEMALE) == SEX_MALE;
@@ -982,10 +982,17 @@ void LLPanelEditWearable::onTexturePickerCommit(const LLUICtrl* ctrl)
                         }
                         if (getWearable())
                         {
-                                U32 index = gAgentWearables.getWearableIndex(getWearable());
-                                gAgentAvatarp->setLocalTexture(entry->mTextureIndex, image, FALSE, index);
-                                LLVisualParamHint::requestHintUpdates();
-                                gAgentAvatarp->wearableUpdated(type);
+							U32 index;
+							if (gAgentWearables.getWearableIndex(getWearable(), index))
+							{
+								gAgentAvatarp->setLocalTexture(entry->mTextureIndex, image, FALSE, index);
+								LLVisualParamHint::requestHintUpdates();
+								gAgentAvatarp->wearableUpdated(type);
+							}
+							else
+							{
+								LL_WARNS() << "wearable not found in gAgentWearables" << LL_ENDL;
+							}
                         }
                 }
                 else
@@ -1062,7 +1069,12 @@ void LLPanelEditWearable::saveChanges(bool force_save_as)
                 return;
         }
 
-        U32 index = gAgentWearables.getWearableIndex(mWearablePtr);
+        U32 index;
+		if (!gAgentWearables.getWearableIndex(mWearablePtr, index))
+		{
+			LL_WARNS() << "wearable not found" << LL_ENDL;
+			return;
+		}
 
         std::string new_name = mNameEditor->getText();
 
@@ -1578,6 +1590,12 @@ void LLPanelEditWearable::onInvisibilityCommit(LLCheckBoxCtrl* checkbox_ctrl, LL
 
         LL_INFOS() << "onInvisibilityCommit, self " << this << " checkbox_ctrl " << checkbox_ctrl << LL_ENDL;
 
+		U32 index;
+		if (!gAgentWearables.getWearableIndex(getWearable(),index))
+		{
+			LL_WARNS() << "wearable not found" << LL_ENDL;
+			return;
+		}
         bool new_invis_state = checkbox_ctrl->get();
         if (new_invis_state)
         {
@@ -1585,9 +1603,8 @@ void LLPanelEditWearable::onInvisibilityCommit(LLCheckBoxCtrl* checkbox_ctrl, LL
                 mPreviousAlphaTexture[te] = lto->getID();
                 
                 LLViewerFetchedTexture* image = LLViewerTextureManager::getFetchedTexture( IMG_INVISIBLE );
-                U32 index = gAgentWearables.getWearableIndex(getWearable());
-                gAgentAvatarp->setLocalTexture(te, image, FALSE, index);
-                gAgentAvatarp->wearableUpdated(getWearable()->getType());
+				gAgentAvatarp->setLocalTexture(te, image, FALSE, index);
+				gAgentAvatarp->wearableUpdated(getWearable()->getType());
         }
         else
         {
@@ -1602,7 +1619,6 @@ void LLPanelEditWearable::onInvisibilityCommit(LLCheckBoxCtrl* checkbox_ctrl, LL
                 LLViewerFetchedTexture* image = LLViewerTextureManager::getFetchedTexture(prev_id);
                 if (!image) return;
 
-                U32 index = gAgentWearables.getWearableIndex(getWearable());
                 gAgentAvatarp->setLocalTexture(te, image, FALSE, index);
                 gAgentAvatarp->wearableUpdated(getWearable()->getType());
         }

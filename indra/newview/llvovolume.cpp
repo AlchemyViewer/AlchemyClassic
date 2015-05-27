@@ -4160,6 +4160,10 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 	for (U32 j = 0; j < count; ++j)
 	{
 		LLJoint* joint = avatar->getJoint(skin->mJointNames[j]);
+		if(!joint)
+		{
+			joint = avatar->getJoint("mRoot");
+		}
 		if (joint)
 		{
 			mat[j] = skin->mInvBindMatrix[j];
@@ -4175,14 +4179,17 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 		
 		LLVector4a* weight = vol_face.mWeights;
 
-		if ( weight )
+		if(!weight)
 		{
+			continue;
+		}
+
 			LLMatrix4a bind_shape_matrix;
 			bind_shape_matrix.loadu(skin->mBindShapeMatrix);
 
 			LLVector4a* pos = dst_face.mPositions;
 
-			if( pos && weight && dst_face.mExtents )
+			if( pos && dst_face.mExtents )
 			{
 				LL_RECORD_BLOCK_TIME(FTM_SKIN_RIGGED);
 
@@ -4257,7 +4264,6 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				size.splat(size.getLength3().getF32()*0.5f);
 			
 				dst_face.createOctree(1.f);
-			}
 		}
 	}
 }

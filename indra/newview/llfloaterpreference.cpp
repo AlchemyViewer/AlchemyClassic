@@ -692,6 +692,10 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 		gSavedPerAccountSettings.getControl("DoNotDisturbModeResponse")->getSignal()->connect(boost::bind(&LLFloaterPreference::onDoNotDisturbResponseChanged, this));
 	}
 	getChildView("do_not_disturb_response")->setEnabled(logged_in);
+	getChildView("AlchemyAutoresponse")->setEnabled(logged_in);
+	getChildView("AlchemyAutoresponseNotFriend")->setEnabled(logged_in);
+	getChildView("AlchemyAutoresponseEnable")->setEnabled(logged_in);
+	getChildView("AlchemyAutoresponseNotFriendEnable")->setEnabled(logged_in);
 	
 	gAgent.sendAgentUserInfoRequest();
 

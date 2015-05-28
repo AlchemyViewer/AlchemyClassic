@@ -3502,32 +3502,12 @@ void LLIMMgr::processIMTypingStop(const LLIMInfo* im_info)
 
 void LLIMMgr::processIMTypingCore(const LLIMInfo* im_info, BOOL typing)
 {
-	static LLCachedControl<bool> sNotifyIncomingMessage(gSavedSettings, "AlchemyNotifyIncomingMessage");
+	
 	LLUUID session_id = computeSessionID(im_info->mIMType, im_info->mFromID);
 	LLFloaterIMSession* im_floater = LLFloaterIMSession::findInstance(session_id);
 	if ( im_floater )
 	{
 		im_floater->processIMTyping(im_info, typing);
-	}
-	else if (typing && sNotifyIncomingMessage)
-	{
-		LLStringUtil::format_map_t args;
-		args["[NAME]"] = im_info->mName;
-		const std::string notify_str = LLTrans::getString("NotifyIncomingMessage", args);
-		gIMMgr->addMessage(session_id,
-						   im_info->mFromID,
-						   LLStringUtil::null,
-						   notify_str,
-						   false,
-						   LLStringUtil::null,
-						   IM_NOTHING_SPECIAL,
-						   im_info->mParentEstateID,
-						   im_info->mRegionID,
-						   im_info->mPosition,
-						   false,
-						   LLSD().with("announcement", true)
-						   );
-
 	}
 }
 

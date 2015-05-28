@@ -741,6 +741,121 @@
   <!--end of Notifications Tab-->
 
   <panel
+   label="Autoresponse"
+   border="false"
+   height="500"
+   layout="topleft"
+   name="Autoresponse"
+   top="0"
+   left="13"
+   width="517">
+    <text
+     type="string"
+     length="1"
+     follows="left|top"
+     height="13"
+     layout="topleft"
+     left="10"
+     mouse_opaque="false"
+     name="dnd_box"
+     top_pad="3"
+     width="240">
+       Do Not Disturb response:
+    </text>
+    <text_editor
+     control_name="DoNotDisturbModeResponse"
+     text_readonly_color="TextFgReadOnlyColor"
+     bg_writeable_color="TextBgWriteableColor"
+     use_ellipses="false"
+     commit_on_focus_lost="true"
+     follows="left|top"
+     height="60"
+     layout="topleft"
+     left="15"
+     name="do_not_disturb_response"
+     right="-15"
+     word_wrap="true">
+       log_in_to_change
+    </text_editor>
+    <text
+     type="string"
+     length="1"
+     follows="left|top"
+     height="13"
+     layout="topleft"
+     left="10"
+     mouse_opaque="false"
+     name="autoresponse_box"
+     top_pad="3"
+     width="240">
+       Autoresponse:
+    </text>
+    <text_editor
+     control_name="AlchemyAutoresponse"
+     text_readonly_color="TextFgReadOnlyColor"
+     bg_writeable_color="TextBgWriteableColor"
+     use_ellipses="false"
+     commit_on_focus_lost="true"
+     follows="left|top"
+     height="60"
+     layout="topleft"
+     left="15"
+     name="AlchemyAutoresponse"
+     right="-15"
+     word_wrap="true">
+       log_in_to_change
+    </text_editor>
+    <text
+     type="string"
+     length="1"
+     follows="left|top"
+     height="13"
+     layout="topleft"
+     left="10"
+     mouse_opaque="false"
+     name="autoresponse_nf_box"
+     top_pad="3"
+     width="240">
+       Autoresponse to Non-Friends:
+    </text>
+    <text_editor
+     control_name="AlchemyAutoresponseNotFriend"
+     text_readonly_color="TextFgReadOnlyColor"
+     bg_writeable_color="TextBgWriteableColor"
+     use_ellipses="false"
+     commit_on_focus_lost="true"
+     follows="left|top"
+     height="60"
+     layout="topleft"
+     left="15"
+     name="AlchemyAutoresponseNotFriend"
+     right="-15"
+     word_wrap="true">
+       log_in_to_change
+    </text_editor>
+
+    <check_box
+     top_pad="5"
+     follows="left|top"
+     height="16"
+     label="Autorespond to new instant messages from anyone"
+     left="10"
+     name="AlchemyAutoresponseEnable"
+     width="270"
+     control_name="AlchemyAutoresponseEnable"/>
+    <check_box
+     top_pad="5"
+     follows="left|top"
+     height="16"
+     label="Autorespond to new instant messages from non-friends (uses the designated message)"
+     left="10"
+     name="AlchemyAutoresponseNotFriendEnable"
+     width="270"
+     control_name="AlchemyAutoresponseNotFriendEnable"/>
+  </panel>
+  <!--end of Autoresponse Tab-->
+
+  <panel
       label="Commands"
       border="false"
       height="500"
@@ -757,7 +872,7 @@
         left="5"
         name="chat_cmd_toggle"
         width="270"
-        control_name="AlchemyChatCommandEnable"/>.
+        control_name="AlchemyChatCommandEnable"/>
       <!--dd-->
       <text
         top_pad="10"

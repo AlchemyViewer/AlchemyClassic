@@ -117,6 +117,7 @@
 
 #include <boost/algorithm/string/split.hpp> //
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
+#include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 
 #include "llnotificationmanager.h" //
@@ -565,6 +566,20 @@ void process_layer_data(LLMessageSystem *mesgsys, void **user_data)
 // 		gExportDialog->setMessage(llformat("Exported %d/%d object files, %d/%d textures.", current_object_count, exported_object_count, current_image_count, exported_image_count));
 // 	}
 //}
+
+// Replace wild cards in message strings
+std::string replace_wildcards(std::string input, const LLUUID& id, const std::string& name)
+{
+	boost::algorithm::replace_all(input, "#n", name);
+	
+	LLSLURL slurl;
+	LLAgentUI::buildSLURL(slurl);
+	boost::algorithm::replace_all(input, "#r", slurl.getSLURLString());
+	
+	LLAvatarName av_name;
+	boost::algorithm::replace_all(input, "#d", LLAvatarNameCache::get(id, &av_name) ? av_name.getDisplayName() : name);
+	return input;
+}
 
 void process_derez_ack(LLMessageSystem*, void**)
 {
@@ -1839,7 +1854,7 @@ bool LLOfferInfo::inventory_task_offer_callback(const LLSD& notification, const 
 				LLNotificationsUtil::add("SystemMessageTip", args);
 			}
 			
-			if (is_do_not_disturb &&	(!mFromGroup && !mFromObject))
+			if (is_do_not_disturb && (!mFromGroup && !mFromObject))
 			{
 				send_do_not_disturb_message(msg,mFromID);
 			}
@@ -2389,15 +2404,18 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	// IDEVO convert new-style "Resident" names for display
 	name = clean_name_from_im(name, dialog);
 
-	BOOL is_do_not_disturb = gAgent.isDoNotDisturb();
-	BOOL is_muted = LLMuteList::getInstance()->isMuted(from_id, name, LLMute::flagTextChat)
+	bool is_do_not_disturb = gAgent.isDoNotDisturb();
+	bool is_muted = LLMuteList::getInstance()->isMuted(from_id, name, LLMute::flagTextChat)
 		// object IMs contain sender object id in session_id (STORM-1209)
 		|| (dialog == IM_FROM_TASK && LLMuteList::getInstance()->isMuted(session_id));
-	BOOL is_owned_by_me = FALSE;
-	BOOL is_friend = (LLAvatarTracker::instance().getBuddyInfo(from_id) == NULL) ? false : true;
-	BOOL accept_im_from_only_friend = gSavedSettings.getBOOL("VoiceCallsFriendsOnly");
-	BOOL is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
+	bool is_owned_by_me = false;
+	bool is_friend = (LLAvatarTracker::instance().getBuddyInfo(from_id) == NULL) ? false : true;
+	bool accept_im_from_only_friend = gSavedSettings.getBOOL("VoiceCallsFriendsOnly");
+	bool is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
 			LLMuteList::getInstance()->isLinden(name);
+	
+	static LLCachedControl<bool> sAutorespond(gSavedPerAccountSettings, "AlchemyAutoresponseEnable", false);
+	static LLCachedControl<bool> sAutorespondNonFriend(gSavedPerAccountSettings, "AlchemyAutoresponseNotFriendEnable", false);
 
 	chat.mMuted = is_muted;
 	chat.mFromID = from_id;
@@ -2442,12 +2460,11 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 					&& from_id.notNull() //not a system message
 					&& to_id.notNull()) //not global message
 		{
-
 			// now store incoming IM in chat history
 
 			buffer = message;
 	
-			LL_INFOS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
+			LL_DEBUGS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
 
 			// add to IM panel, but do not bother the user
 			gIMMgr->addMessage(
@@ -2471,6 +2488,55 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 				gIMMgr->setDNDMessageSent(session_id, true);
 			}
 
+		}
+		else if (offline == IM_ONLINE
+				 && (sAutorespond || (sAutorespondNonFriend && !is_friend))
+				 && from_id.notNull() //not a system message
+				 && to_id.notNull()) //not global message
+		{
+			buffer = message;
+			
+			LL_DEBUGS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
+			
+			bool send_response = !gIMMgr->hasSession(session_id);
+			
+			// add to IM panel, but do not bother the user
+			gIMMgr->addMessage(session_id,
+							   from_id,
+							   name,
+							   buffer,
+							   IM_OFFLINE == offline,
+							   LLStringUtil::null,
+							   dialog,
+							   parent_estate_id,
+							   region_id,
+							   position,
+							   true);
+			
+			if (send_response)
+			{
+				std::string my_name;
+				LLAgentUI::buildFullname(my_name);
+				std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
+																		  ? "AlchemyAutoresponseNotFriend"
+																		  : "AlchemyAutoresponse");
+				response = replace_wildcards(response, from_id, name);
+				pack_instant_message(
+					msg,
+					gAgent.getID(),
+					FALSE,
+					gAgent.getSessionID(),
+					from_id,
+					my_name,
+					response,
+					IM_ONLINE,
+					IM_DO_NOT_DISTURB_AUTO_RESPONSE,
+					session_id);
+				gAgent.sendReliableMessage();
+				
+				gIMMgr->addMessage(session_id, gAgent.getID(), my_name, LLTrans::getString("AutoresponsePrefix").append(response));
+			}
+			
 		}
 		else if (from_id.isNull())
 		{
@@ -2496,7 +2562,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			}
 			buffer = saved + message;
 
-			LL_INFOS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
+			LL_DEBUGS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
 
 			bool mute_im = is_muted;
 			if(accept_im_from_only_friend && !is_friend && !is_linden)
@@ -2546,6 +2612,55 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 
 	case IM_TYPING_START:
 		{
+			static LLCachedControl<bool> sNotifyIncomingMessage(gSavedSettings, "AlchemyNotifyIncomingMessage");
+			if (sNotifyIncomingMessage &&
+				!gIMMgr->hasSession(session_id) &&
+				((accept_im_from_only_friend && (is_friend || is_linden)) ||
+				 (!(is_muted || is_do_not_disturb)))
+				)
+			{
+				LLStringUtil::format_map_t args;
+				args["[NAME]"] = name;
+				const std::string notify_str = LLTrans::getString("NotifyIncomingMessage", args);
+				gIMMgr->addMessage(session_id,
+								   from_id,
+								   LLStringUtil::null,
+								   notify_str,
+								   IM_ONLINE,
+								   LLStringUtil::null,
+								   IM_NOTHING_SPECIAL,
+								   parent_estate_id,
+								   region_id,
+								   position,
+								   false,
+								   LLSD().with("announcement", true)
+								   );
+				
+				// Ehhhhh.
+				if (sAutorespond || (sAutorespondNonFriend && !is_friend))
+				{
+					std::string my_name;
+					LLAgentUI::buildFullname(my_name);
+					std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
+																			  ? "AlchemyAutoresponseNotFriend"
+																			  : "AlchemyAutoresponse");
+					response = replace_wildcards(response, from_id, name);
+					pack_instant_message(msg,
+										 gAgent.getID(),
+										 FALSE,
+										 gAgent.getSessionID(),
+										 from_id,
+										 my_name,
+										 response,
+										 IM_ONLINE,
+										 IM_DO_NOT_DISTURB_AUTO_RESPONSE,
+										 session_id);
+					gAgent.sendReliableMessage();
+					
+					gIMMgr->addMessage(session_id, gAgent.getID(), my_name, LLTrans::getString("AutoresponsePrefix").append(response));
+				}
+				
+			}
 			LLPointer<LLIMInfo> im_info = new LLIMInfo(gMessageSystem);
 			gIMMgr->processIMTypingStart(im_info);
 		}
@@ -2956,7 +3071,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 
 			buffer = message;
 	
-			LL_INFOS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
+			LL_DEBUGS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
 
 			// add to IM panel, but do not bother the user
 			gIMMgr->addMessage(
@@ -2983,7 +3098,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 
 			buffer = saved + message;
 
-			LL_INFOS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
+			LL_DEBUGS("Messaging") << "process_improved_im: session_id( " << session_id << " ), from_id( " << from_id << " )" << LL_ENDL;
 
 			gIMMgr->addMessage(
 				session_id,
@@ -3368,12 +3483,15 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 #endif //LL_DARWIN
 }
 
-void send_do_not_disturb_message (LLMessageSystem* msg, const LLUUID& from_id, const LLUUID& session_id)
+void send_do_not_disturb_message(LLMessageSystem* msg, const LLUUID& from_id, const LLUUID& session_id)
 {
 	if (gAgent.isDoNotDisturb())
 	{
 		std::string my_name;
 		LLAgentUI::buildFullname(my_name);
+		std::string name;
+		msg->getStringFast(_PREHASH_MessageBlock, _PREHASH_FromAgentName, name);
+		name = LLCacheName::cleanFullName(name);
 		std::string response = gSavedPerAccountSettings.getString("DoNotDisturbModeResponse");
 		pack_instant_message(
 			msg,
@@ -3382,7 +3500,7 @@ void send_do_not_disturb_message (LLMessageSystem* msg, const LLUUID& from_id, c
 			gAgent.getSessionID(),
 			from_id,
 			my_name,
-			response,
+			replace_wildcards(response, from_id, name),
 			IM_ONLINE,
 			IM_DO_NOT_DISTURB_AUTO_RESPONSE,
 			session_id);
@@ -3596,10 +3714,10 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 		chat.mFromName = from_name;
 	}
 
-	BOOL is_do_not_disturb = gAgent.isDoNotDisturb();
+	bool is_do_not_disturb = gAgent.isDoNotDisturb();
 
-	BOOL is_muted = FALSE;
-	BOOL is_linden = FALSE;
+	bool is_muted = false;
+	bool is_linden = false;
 	is_muted = LLMuteList::getInstance()->isMuted(
 		from_id,
 		from_name,
@@ -3608,7 +3726,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 	is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
 		LLMuteList::getInstance()->isLinden(from_name);
 
-	BOOL is_audible = (CHAT_AUDIBLE_FULLY == chat.mAudible);
+	bool is_audible = (CHAT_AUDIBLE_FULLY == chat.mAudible);
 	chatter = gObjectList.findObject(from_id);
 	if (chatter)
 	{
@@ -3726,7 +3844,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 			if (!is_muted && !is_do_not_disturb)
 			{
 				//visible_in_chat_bubble = gSavedSettings.getBOOL("UseChatBubbles");
-				std::string formated_msg = "";
+				std::string formated_msg = LLStringUtil::null;
 				LLViewerChat::formatChatMsg(chat, formated_msg);
 				LLChat chat_bubble = chat;
 				chat_bubble.mText = formated_msg;
@@ -3764,7 +3882,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 			{
 				mesg = mesg.substr(4, std::string::npos);
 			}
-			const std::string from_lang = ""; // leave empty to trigger autodetect
+			const std::string from_lang = LLStringUtil::null; // leave empty to trigger autodetect
 			const std::string to_lang = LLTranslate::getTranslateLanguage();
 
 			LLTranslate::TranslationReceiverPtr result = ChatTranslationReceiver::build(from_lang, to_lang, mesg, chat, args);

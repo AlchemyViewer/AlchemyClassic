@@ -774,7 +774,8 @@
      left="15"
      name="do_not_disturb_response"
      right="-15"
-     word_wrap="true">
+     word_wrap="true"
+     max_length_bytes="1024">
        log_in_to_change
     </text_editor>
     <text
@@ -802,7 +803,8 @@
      left="15"
      name="AlchemyAutoresponse"
      right="-15"
-     word_wrap="true">
+     word_wrap="true"
+     max_length_bytes="1024">
        log_in_to_change
     </text_editor>
     <text
@@ -830,7 +832,8 @@
      left="15"
      name="AlchemyAutoresponseNotFriend"
      right="-15"
-     word_wrap="true">
+     word_wrap="true"
+     max_length_bytes="1024">
        log_in_to_change
     </text_editor>
 

@@ -627,7 +627,7 @@ void LLFloaterIMNearbyChat::sendChat( EChatType type )
 			}
 		}
 
-		mInputEditor->setText(LLStringExplicit(""));
+		mInputEditor->setText(LLStringUtil::null);
 	}
 
 	gAgent.stopTyping();
@@ -844,10 +844,14 @@ LLWString LLFloaterIMNearbyChat::stripChannelNumber(const LLWString &mesg, S32* 
 	}
 	else if (mesg[0] == '/'
 			 && mesg[1]
-			 && LLStringOps::isDigit(mesg[1]))
+			 && (LLStringOps::isDigit(mesg[1])
+				 || mesg[1] == '-' ))
+
 	{
 		// This a special "/20" speak on a channel
 		S32 pos = 0;
+		if(mesg[1] == '-')
+			pos++;
 
 		// Copy the channel number into a string
 		LLWString channel_string;
@@ -870,6 +874,8 @@ LLWString LLFloaterIMNearbyChat::stripChannelNumber(const LLWString &mesg, S32* 
 		}
 		
 		sLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), NULL, 10);
+		if(mesg[1] == '-')
+			sLastSpecialChatChannel = -sLastSpecialChatChannel;
 		*channel = sLastSpecialChatChannel;
 		return mesg.substr(pos, mesg.length() - pos);
 	}

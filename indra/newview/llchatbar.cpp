@@ -313,11 +313,15 @@ LLWString LLChatBar::stripChannelNumber(const LLWString &mesg, S32* channel)
 	}
 	else if (mesg[0] == '/'
 			 && mesg[1]
-			 && LLStringOps::isDigit(mesg[1]))
+			 && (LLStringOps::isDigit(mesg[1])
+				 || mesg[1] == '-' ))
+		
 	{
 		// This a special "/20" speak on a channel
 		S32 pos = 0;
-
+		if(mesg[1] == '-')
+			pos++;
+		
 		// Copy the channel number into a string
 		LLWString channel_string;
 		llwchar c;
@@ -339,6 +343,8 @@ LLWString LLChatBar::stripChannelNumber(const LLWString &mesg, S32* channel)
 		}
 		
 		mLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), NULL, 10);
+		if(mesg[1] == '-')
+			mLastSpecialChatChannel = -mLastSpecialChatChannel;
 		*channel = mLastSpecialChatChannel;
 		return mesg.substr(pos, mesg.length() - pos);
 	}

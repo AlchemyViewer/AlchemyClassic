@@ -213,6 +213,10 @@
          label="Toasts and Bubble"
          name="toast_and_bubble"
          value="2" />
+        <combo_box.item
+         label="None"
+         name="nearby_output_none"
+         value="3" />
     </combo_box>
     <text
         left="0"

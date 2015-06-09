@@ -560,7 +560,7 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 
 	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
 	if((  ( chat_msg.mSourceType == CHAT_SOURCE_AGENT
-			&& nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE )
+		&& nearby_chat_out != E_NEARBY_OUTPUT_TOAST && nearby_chat_out != E_NEARBY_OUTPUT_BOTH)
 		|| mChannel.isDead()
 		|| !mChannel.get()->getShowToasts() )
 		&& nearby_chat->isMessagePaneExpanded())

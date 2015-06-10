@@ -33,7 +33,8 @@ typedef enum e_nearby_chat_output
 {
 	E_NEARBY_OUTPUT_TOAST = 0,
 	E_NEARBY_OUTPUT_BUBBLE,
-	E_NEARBY_OUTPUT_BOTH
+	E_NEARBY_OUTPUT_BOTH,
+	E_NEARBY_OUTPUT_NONE
 }ENearbyChatOutput;
 
 class LLEventPump;

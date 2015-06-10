@@ -335,18 +335,17 @@ void LLFloaterIMNearbyChat::show()
 		openFloater(getKey());
 }
 
-bool LLFloaterIMNearbyChat::isChatVisible() const
+bool LLFloaterIMNearbyChat::isChatVisible()
 {
 	bool isVisible = false;
 	LLFloaterIMContainer* im_box = LLFloaterIMContainer::getInstance();
 	// Is the IM floater container ever null?
 	llassert(im_box != NULL);
-	if (im_box != NULL)
+	if (im_box)
 	{
-		isVisible =
-				isChatMultiTab() && gSavedPerAccountSettings.getBOOL("NearbyChatIsNotTornOff")?
-						im_box->getVisible() && !im_box->isMinimized() :
-						getVisible() && !isMinimized();
+		isVisible = !isTornOff() ?
+			im_box->isShown() && im_box->getSelectedSession().isNull() && !im_box->isMessagesPaneCollapsed() :
+			isShown() && isMessagePaneExpanded();
 	}
 
 	return isVisible;

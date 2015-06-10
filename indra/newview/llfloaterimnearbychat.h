@@ -62,7 +62,7 @@ public:
 	void removeScreenChat();
 
 	void show();
-	bool isChatVisible() const;
+	bool isChatVisible();
 
 	/** @param archive true - to save a message to the chat history log */
 	void	addMessage			(const LLChat& message,bool archive = true, const LLSD &args = LLSD());

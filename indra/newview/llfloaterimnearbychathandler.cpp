@@ -485,8 +485,9 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 	if(chat_msg.mText.empty())
 		return;//don't process empty messages
 
-    LLFloaterReg::getInstance("im_container");
 	LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
+	if (!nearby_chat)
+		return;
 
 	// Build notification data 
 	LLSD chat;
@@ -525,11 +526,8 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 
 		if (gSavedSettings.getS32("ShowScriptErrorsLocation")== 1)// show error in window //("ScriptErrorsAsChat"))
 		{
-
 			LLColor4 txt_color;
-
 			LLViewerChat::getChatColor(chat_msg,txt_color);
-
 			LLFloaterScriptDebug::addScriptLine(chat_msg.mText,
 												chat_msg.mFromName,
 												txt_color,
@@ -556,85 +554,51 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 	// Send event on to LLEventStream
 	sChatWatcher->post(chat);
 
-    LLFloaterIMContainer* im_box = LLFloaterReg::getTypedInstance<LLFloaterIMContainer>("im_container");
-
 	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
-	if((  ( chat_msg.mSourceType == CHAT_SOURCE_AGENT
-		&& nearby_chat_out != E_NEARBY_OUTPUT_TOAST && nearby_chat_out != E_NEARBY_OUTPUT_BOTH)
-		|| mChannel.isDead()
-		|| !mChannel.get()->getShowToasts() )
-		&& nearby_chat->isMessagePaneExpanded())
-		// to prevent toasts in Do Not Disturb mode
-		return;//no need in toast if chat is visible or if bubble chat is enabled
-
-	// arrange a channel on a screen
-	if(!mChannel.get()->getVisible())
-	{
-		initChannel();
-	}
-
-	/*
-	//comment all this due to EXT-4432
-	..may clean up after some time...
-
-	//only messages from AGENTS
-	if(CHAT_SOURCE_OBJECT == chat_msg.mSourceType)
-	{
-		if(chat_msg.mChatType == CHAT_TYPE_DEBUG_MSG)
-			return;//ok for now we don't skip messeges from object, so skip only debug messages
-	}
-	*/
+	if ((chat_msg.mSourceType == CHAT_SOURCE_AGENT
+		&& (nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_NONE))
+		|| (mChannel.isDead() || !mChannel.get()->getShowToasts())
+		|| nearby_chat->isChatVisible())
+		// no need to toast if bubble chat is enabled or nearby chat toasts are disabled
+		// or if in Do Not Disturb mode
+		// or if conversation is visible and selected and not collapsed
+		return;
 
 	LLFloaterIMNearbyChatScreenChannel* channel = dynamic_cast<LLFloaterIMNearbyChatScreenChannel*>(mChannel.get());
-
-	if(channel)
+	if (channel)
 	{
-		// Handle IRC styled messages.
-		std::string toast_msg;
-		if (chat_msg.mChatStyle == CHAT_STYLE_IRC)
+		//Will show toast when chat preference is set        
+		if (gSavedSettings.getString("NotificationNearbyChatOptions") == "toast")
 		{
-			if (!chat_msg.mFromName.empty())
+			// Handle IRC styled messages.
+			std::string toast_msg;
+			if (chat_msg.mChatStyle == CHAT_STYLE_IRC)
 			{
-				toast_msg += chat_msg.mFromName;
+				if (!chat_msg.mFromName.empty())
+				{
+					toast_msg += chat_msg.mFromName;
+				}
+				toast_msg += chat_msg.mText.substr(3);
 			}
-			toast_msg += chat_msg.mText.substr(3);
-		}
-		else
-		{
-			toast_msg = chat_msg.mText;
-		}
-
-		//Don't show nearby toast, if conversation is visible and selected
-		if ((nearby_chat->hasFocus()) ||
-			(LLFloater::isVisible(nearby_chat) && nearby_chat->isTornOff() && !nearby_chat->isMinimized()) ||
-		    ((im_box->getSelectedSession().isNull() &&
-				((LLFloater::isVisible(im_box) && !im_box->isMinimized() && im_box->isFrontmost())
-						|| (LLFloater::isVisible(nearby_chat) && !nearby_chat->isMinimized() && nearby_chat->isFrontmost())))))
-		{
-			if(nearby_chat->isMessagePaneExpanded())
+			else
 			{
-				return;
+				toast_msg = chat_msg.mText;
 			}
+
+			// Add a nearby chat toast.
+			LLUUID id;
+			id.generate();
+			chat["id"] = id;
+			std::string r_color_name = "White";
+			F32 r_color_alpha = 1.0f;
+			LLViewerChat::getChatColor(chat_msg, r_color_name, r_color_alpha);
+
+			chat["text_color"] = r_color_name;
+			chat["color_alpha"] = r_color_alpha;
+			chat["font_size"] = (S32) LLViewerChat::getChatFontSize();
+			chat["message"] = toast_msg;
+			channel->addChat(chat);
 		}
-
-        //Will show toast when chat preference is set        
-        if((gSavedSettings.getString("NotificationNearbyChatOptions") == "toast") || !nearby_chat->isMessagePaneExpanded())
-        {
-            // Add a nearby chat toast.
-            LLUUID id;
-            id.generate();
-            chat["id"] = id;
-            std::string r_color_name = "White";
-            F32 r_color_alpha = 1.0f; 
-            LLViewerChat::getChatColor( chat_msg, r_color_name, r_color_alpha);
-
-            chat["text_color"] = r_color_name;
-            chat["color_alpha"] = r_color_alpha;
-            chat["font_size"] = (S32)LLViewerChat::getChatFontSize() ;
-            chat["message"] = toast_msg;
-            channel->addChat(chat);	
-        }
-
 	}
 }
 

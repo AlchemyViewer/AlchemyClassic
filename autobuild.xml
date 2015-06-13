@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>39d12e52fb56c8a8275dd496133da143</string>
+              <string>ff883870da177194438485430513bf53</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.42.0-darwin-201504241926.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.42.0-darwin-201506131440.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1912,7 +1912,7 @@
       <key>kdu</key>
       <map>
         <key>copyright</key>
-        <string>Kakadu software</string>
+        <string>Copyright 2001, David Taubman, The University of New South Wales (UNSW)</string>
         <key>description</key>
         <string>JPEG2000 library by Kakadu</string>
         <key>license</key>
@@ -1928,11 +1928,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fe31909559780ae7a181a5c5a59ae6d6</string>
+              <string>4809473744a7b3b3e77b4a9cbf1fd9ee</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///opt/buildlibs/kdu-7.5-darwin-201504240901.tar.bz2</string>
+              <string>file:///opt/buildlibs/kdu-7.6-darwin-201505091918.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1963,7 +1963,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.5</string>
+        <string>7.6</string>
       </map>
       <key>libhunspell</key>
       <map>
@@ -2542,11 +2542,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cb51f9d38e9b454e1d1a5afa3fd01599</string>
+              <string>fa3a72af779b0abb17b2d3f695171db6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201504241741.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llqtwebkit-4.8.6-darwin-201506131446.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3042,11 +3042,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9e6dbe3637f084bce1561cd6e2856fb7</string>
+              <string>05fd9a1f105f57142c8e9587ae89e5f2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openssl-1.0.1m-darwin-201504241711.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openssl-1.0.2b-darwin-201506120857.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3107,7 +3107,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.0.1m</string>
+        <string>1.0.2b</string>
       </map>
       <key>quicktime</key>
       <map>

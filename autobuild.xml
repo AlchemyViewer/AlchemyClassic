@@ -434,11 +434,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b7c468206b751e4ffef7d082765c2e63</string>
+              <string>76c4d12d4c237f879581c4eba2843265</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/curl-7.42.0-linux64-201504230008.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/curl-7.42.1-linux64-201506141603.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -473,7 +473,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.42.0</string>
+        <string>7.42.1</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -2526,7 +2526,7 @@
       <key>llqtwebkit</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).</string>
+        <string>Copyright (C) 2015 The Qt Company Ltd.</string>
         <key>description</key>
         <string>QT cross-platform applicaiton and UI framework.</string>
         <key>license</key>
@@ -2568,11 +2568,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f008ca71683ebbb7cc8b2f5e694b1697</string>
+              <string>e74b2a5eb1eaa2a7f5b6da1396469134</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/llqtwebkit-4.8.6-linux64-201504231429.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/llqtwebkit-4.8.7-linux64-201506141453.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2607,7 +2607,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>4.8.6</string>
+        <string>4.8.7</string>
       </map>
       <key>mesa</key>
       <map>
@@ -3068,11 +3068,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d87a615e791aa21dc40c2949d6b787fe</string>
+              <string>c47a53b94a86c7f8fe358a6e18e655fb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/openssl-1.0.1m-linux64-201504222334.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/openssl-1.0.2c-linux64-201506140358.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3107,7 +3107,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.0.2b</string>
+        <string>1.0.2c</string>
       </map>
       <key>quicktime</key>
       <map>

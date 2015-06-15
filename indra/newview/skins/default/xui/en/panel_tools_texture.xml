@@ -250,75 +250,75 @@
                 <combo_box.item
                  label="None"
                  name="None"
-                 value="None" />
+                 value="0" />
                 <combo_box.item
                  label="Brightness"
                  name="Brightness"
-                 value="Brightness" />
+                 value="1" />
                 <combo_box.item
                  label="Darkness"
                  name="Darkness"
-                 value="Darkness" />
+                 value="2" />
                 <combo_box.item
                  label="woodgrain"
                  name="woodgrain"
-                 value="woodgrain" />
+                 value="3" />
                 <combo_box.item
                  label="bark"
                  name="bark"
-                 value="bark" />
+                 value="4" />
                 <combo_box.item
                  label="bricks"
                  name="bricks"
-                 value="bricks" />
+                 value="5" />
                 <combo_box.item
                  label="checker"
                  name="checker"
-                 value="checker" />
+                 value="6" />
                 <combo_box.item
                  label="concrete"
                  name="concrete"
-                 value="concrete" />
+                 value="7" />
                 <combo_box.item
                  label="crustytile"
                  name="crustytile"
-                 value="crustytile" />
+                 value="8" />
                 <combo_box.item
                  label="cutstone"
                  name="cutstone"
-                 value="cutstone" />
+                 value="9" />
                 <combo_box.item
                  label="discs"
                  name="discs"
-                 value="discs" />
+                 value="10" />
                 <combo_box.item
                  label="gravel"
                  name="gravel"
-                 value="gravel" />
+                 value="11" />
                 <combo_box.item
                  label="petridish"
                  name="petridish"
-                 value="petridish" />
+                 value="12" />
                 <combo_box.item
                  label="siding"
                  name="siding"
-                 value="siding" />
+                 value="13" />
                 <combo_box.item
                  label="stonetile"
                  name="stonetile"
-                 value="stonetile" />
+                 value="14" />
                 <combo_box.item
                  label="stucco"
                  name="stucco"
-                 value="stucco" />
+                 value="15" />
                 <combo_box.item
                  label="suction"
                  name="suction"
-                 value="suction" />
+                 value="16" />
                 <combo_box.item
                  label="weave"
                  name="weave"
-                 value="weave" />
+                 value="17" />
               <!--
                  NORSPEC-182, ensure item doesn't show up in menu until it should
                 <combo_box.item
@@ -364,19 +364,19 @@
                 <combo_box.item
                  label="None"
                  name="None"
-                 value="None" />
+                 value="0" />
                 <combo_box.item
                  label="Low"
                  name="Low"
-                 value="Low" />
+                 value="1" />
                 <combo_box.item
                  label="Medium"
                  name="Medium"
-                 value="Medium" />
+                 value="2" />
                 <combo_box.item
                  label="High"
                  name="High"
-                 value="High" />
+                 value="3" />
               <!--
                  NORSPEC-182, ensure item doesn't show up in menu until it should
                 <combo_box.item

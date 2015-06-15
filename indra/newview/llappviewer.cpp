@@ -3362,7 +3362,7 @@ LLSD LLAppViewer::getViewerInfo() const
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
-	info["QT_WEBKIT_VERSION"] = "4.8.6 (version number hard-coded)";
+	info["QT_WEBKIT_VERSION"] = "4.8.7 (version number hard-coded)";
 
 	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
 	if (packets_in > 0)

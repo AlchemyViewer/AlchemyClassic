@@ -1366,7 +1366,7 @@ void LLPanelFace::updateShinyControls(bool is_setting_texture, bool mess_with_sh
 		{
 			if (!comboShiny->itemExists(USE_TEXTURE))
 			{
-				comboShiny->add(USE_TEXTURE);
+				comboShiny->add(USE_TEXTURE, LLSD(SHINY_TEXTURE));
 			}
 			comboShiny->setSimple(USE_TEXTURE);
 		}
@@ -1414,7 +1414,7 @@ void LLPanelFace::updateBumpyControls(bool is_setting_texture, bool mess_with_co
 		{
 			if (!comboBumpy->itemExists(USE_TEXTURE))
 			{
-				comboBumpy->add(USE_TEXTURE);
+				comboBumpy->add(USE_TEXTURE, LLSD(BUMPY_TEXTURE));
 			}
 			comboBumpy->setSimple(USE_TEXTURE);
 		}

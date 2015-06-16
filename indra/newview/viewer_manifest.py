@@ -885,19 +885,19 @@ class DarwinManifest(ViewerManifest):
                 # SLPlugin.app/Contents/Resources gets those Qt4 libraries it needs.
                 if self.prefix(src="", dst="SLPlugin.app/Contents/Resources"):
                     for libfile in ('libQtCore.4.dylib',
-                                    'libQtCore.4.8.6.dylib',
+                                    'libQtCore.4.8.7.dylib',
                                     'libQtGui.4.dylib',
-                                    'libQtGui.4.8.6.dylib',
+                                    'libQtGui.4.8.7.dylib',
                                     'libQtNetwork.4.dylib',
-                                    'libQtNetwork.4.8.6.dylib',
+                                    'libQtNetwork.4.8.7.dylib',
                                     'libQtOpenGL.4.dylib',
-                                    'libQtOpenGL.4.8.6.dylib',
+                                    'libQtOpenGL.4.8.7.dylib',
                                     'libQtSvg.4.dylib',
-                                    'libQtSvg.4.8.6.dylib',
+                                    'libQtSvg.4.8.7.dylib',
                                     'libQtWebKit.4.dylib',
                                     'libQtWebKit.4.9.4.dylib',
                                     'libQtXml.4.dylib',
-                                    'libQtXml.4.8.6.dylib'):
+                                    'libQtXml.4.8.7.dylib'):
                         self.path2basename(relpkgdir, libfile)
                     self.end_prefix("SLPlugin.app/Contents/Resources")
 

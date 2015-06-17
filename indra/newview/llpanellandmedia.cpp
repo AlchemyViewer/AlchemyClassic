@@ -52,6 +52,14 @@
 #include "roles_constants.h"
 #include "llscrolllistctrl.h"
 
+// Values for the parcel voice settings radio group
+enum
+{
+	kRadioVoiceChatEstate = 0,
+	kRadioVoiceChatPrivate = 1,
+	kRadioVoiceChatDisable = 2
+};
+
 //---------------------------------------------------------------------------
 // LLPanelLandMedia
 //---------------------------------------------------------------------------
@@ -112,6 +120,27 @@ BOOL LLPanelLandMedia::postBuild()
 
 	mSetURLButton = getChild<LLButton>("set_media_url");
 	childSetAction("set_media_url", onSetBtn, this);
+	
+	mCheckSoundLocal = getChild<LLCheckBoxCtrl>("check sound local");
+	mCheckSoundLocal->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
+	
+	mCheckParcelEnableVoice = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel");
+	mCheckParcelEnableVoice->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
+	
+	// This one is always disabled so no need for a commit callback
+	mCheckEstateDisabledVoice = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel_is_estate_disabled");
+	
+	mCheckParcelVoiceLocal = getChild<LLCheckBoxCtrl>("parcel_enable_voice_channel_local");
+	mCheckParcelVoiceLocal->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
+	
+	mMusicURLEdit = getChild<LLLineEditor>("music_url");
+	mMusicURLEdit->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
+	
+	mCheckAVSoundAny = getChild<LLCheckBoxCtrl>("all av sound check");
+	mCheckAVSoundAny->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
+	
+	mCheckAVSoundGroup = getChild<LLCheckBoxCtrl>("group av sound check");
+	mCheckAVSoundGroup->setCommitCallback(boost::bind(&LLPanelLandMedia::onCommitAny, this));
 
 	return TRUE;
 }
@@ -184,6 +213,47 @@ void LLPanelLandMedia::refresh()
 		mMediaTextureCtrl->setEnabled( can_change_media );
 
 		mSetURLButton->setEnabled( can_change_media );
+		
+		mCheckSoundLocal->set( parcel->getSoundLocal() );
+		mCheckSoundLocal->setEnabled( can_change_media );
+		
+		bool allow_voice = parcel->getParcelFlagAllowVoice();
+		
+		LLViewerRegion* region = LLViewerParcelMgr::getInstance()->getSelectionRegion();
+		if (region && region->isVoiceEnabled())
+		{
+			mCheckEstateDisabledVoice->setVisible(false);
+			
+			mCheckParcelEnableVoice->setVisible(true);
+			mCheckParcelEnableVoice->setEnabled( can_change_media );
+			mCheckParcelEnableVoice->set(allow_voice);
+			
+			mCheckParcelVoiceLocal->setEnabled( can_change_media && allow_voice );
+		}
+		else
+		{
+			// Voice disabled at estate level, overrides parcel settings
+			// Replace the parcel voice checkbox with a disabled one
+			// labelled with an explanatory message
+			mCheckEstateDisabledVoice->setVisible(true);
+			
+			mCheckParcelEnableVoice->setVisible(false);
+			mCheckParcelEnableVoice->setEnabled(false);
+			mCheckParcelVoiceLocal->setEnabled(false);
+		}
+		
+		mCheckParcelEnableVoice->set(allow_voice);
+		mCheckParcelVoiceLocal->set(!parcel->getParcelFlagUseEstateVoiceChannel());
+		
+		mMusicURLEdit->setText(parcel->getMusicURL());
+		mMusicURLEdit->setEnabled( can_change_media );
+		
+		BOOL can_change_av_sounds = LLViewerParcelMgr::isParcelModifiableByAgent(parcel, GP_LAND_OPTIONS) && parcel->getHaveNewParcelLimitData();
+		mCheckAVSoundAny->set(parcel->getAllowAnyAVSounds());
+		mCheckAVSoundAny->setEnabled(can_change_av_sounds);
+		
+		mCheckAVSoundGroup->set(parcel->getAllowGroupAVSounds() || parcel->getAllowAnyAVSounds());	// On if "Everyone" is on
+		mCheckAVSoundGroup->setEnabled(can_change_av_sounds && !parcel->getAllowAnyAVSounds());		// Enabled if "Everyone" is off
 
 	}
 }
@@ -279,12 +349,25 @@ void LLPanelLandMedia::onCommitAny()
 	S32 media_width			= (S32)mMediaWidthCtrl->get();
 	S32 media_height		= (S32)mMediaHeightCtrl->get();
 	LLUUID media_id			= mMediaTextureCtrl->getImageAssetID();
-
+	
+	BOOL sound_local		= mCheckSoundLocal->get();
+	std::string music_url	= mMusicURLEdit->getText();
+	
+	BOOL voice_enabled = mCheckParcelEnableVoice->get();
+	BOOL voice_estate_chan = !mCheckParcelVoiceLocal->get();
+	
+	BOOL any_av_sound		= mCheckAVSoundAny->get();
+	BOOL group_av_sound		= TRUE;		// If set to "Everyone" then group is checked as well
+	if (!any_av_sound)
+	{	// If "Everyone" is off, use the value from the checkbox
+		group_av_sound = mCheckAVSoundGroup->get();
+	}
 
 	getChild<LLUICtrl>("mime_type")->setValue(mime_type);
 
 	// Remove leading/trailing whitespace (common when copying/pasting)
 	LLStringUtil::trim(media_url);
+	LLStringUtil::trim(music_url);
 
 	// Push data into current parcel
 	parcel->setMediaURL(media_url);
@@ -295,6 +378,13 @@ void LLPanelLandMedia::onCommitAny()
 	parcel->setMediaID(media_id);
 	parcel->setMediaAutoScale ( media_auto_scale );
 	parcel->setMediaLoop ( media_loop );
+	
+	parcel->setParcelFlag(PF_ALLOW_VOICE_CHAT, voice_enabled);
+	parcel->setParcelFlag(PF_USE_ESTATE_VOICE_CHAN, voice_estate_chan);
+	parcel->setParcelFlag(PF_SOUND_LOCAL, sound_local);
+	parcel->setMusicURL(music_url);
+	parcel->setAllowAnyAVSounds(any_av_sound);
+	parcel->setAllowGroupAVSounds(group_av_sound);
 
 	// Send current parcel data upstream to server
 	LLViewerParcelMgr::getInstance()->sendParcelPropertiesUpdate( parcel );

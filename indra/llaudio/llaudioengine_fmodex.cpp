@@ -681,7 +681,7 @@ void LLAudioChannelFMODEX::play()
 		return;
 	}
 
-	Check_FMOD_Error(mChannelp->setPaused(false), "FMOD::Channel::pause");
+	Check_FMOD_Error(mChannelp->setPaused(false), "FMOD::Channel::setPaused");
 
 	getSource()->setPlayedOnce(true);
 

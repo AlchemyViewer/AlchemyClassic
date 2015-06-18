@@ -64,7 +64,14 @@ private:
 	LLCheckBoxCtrl*	mMediaAutoScaleCheck;
 	LLCheckBoxCtrl*	mMediaLoopCheck;
 	LLHandle<LLFloater>	mURLEntryFloater;
-
+	
+	LLCheckBoxCtrl* mCheckSoundLocal;
+	LLCheckBoxCtrl* mCheckParcelEnableVoice;
+	LLCheckBoxCtrl* mCheckEstateDisabledVoice;
+	LLCheckBoxCtrl* mCheckParcelVoiceLocal;
+	LLLineEditor*	mMusicURLEdit;
+	LLCheckBoxCtrl* mCheckAVSoundAny;
+	LLCheckBoxCtrl* mCheckAVSoundGroup;
 
 	
 	LLSafeHandle<LLParcelSelection>&	mParcel;

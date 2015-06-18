@@ -392,7 +392,7 @@
       <key>curl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1996 - 2014, Daniel Stenberg, (daniel@haxx.se).</string>
+        <string>Copyright (c) 1996 - 2015, Daniel Stenberg, (daniel@haxx.se).</string>
         <key>description</key>
         <string>Library for transferring data specified with URL syntax</string>
         <key>license</key>
@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a28910ca53e2889d55f1448a54539d5e</string>
+              <string>b4495a2ce055f661b5d49cf657bf1956</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.42.1-darwin-201506141626.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.43.0-darwin-201506180743.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -473,7 +473,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.42.1</string>
+        <string>7.43.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

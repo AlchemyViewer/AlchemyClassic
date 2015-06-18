@@ -606,6 +606,18 @@ void LLVertexBuffer::drawElements(U32 mode, const S32 num_vertices, const LLVect
 {
 	llassert(!LLGLSLShader::sNoFixedFunction || LLGLSLShader::sCurBoundShaderPtr != NULL);
 
+	if (num_vertices <= 0)
+	{
+		LL_WARNS() << "Called drawElements with 0 vertices" << LL_ENDL;
+		return;
+	}
+
+	if (num_indices <= 0)
+	{
+		LL_WARNS() << "Called drawElements with 0 indices" << LL_ENDL;
+		return;
+	}
+
 	gGL.syncMatrices();
 
 	if (!sUtilityBuffer)

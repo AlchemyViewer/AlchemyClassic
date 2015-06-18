@@ -434,11 +434,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>76c4d12d4c237f879581c4eba2843265</string>
+              <string>0c72b46a76a83fa44838c0f5f92f2480</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/curl-7.42.1-linux64-201506141603.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/curl-7.43.0-linux64-201506181524.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -448,11 +448,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7a13c95f4aa7979497bb376b1773ff26</string>
+              <string>466b6c6616584a58165f08172f8c3a90</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.42.1-windows-201506142125.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.43.0-windows-201506181444.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -462,11 +462,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>40b22c55ca1f3ad44775237ed23e882d</string>
+              <string>4d897feadcb5289cfc2a6ae47167e06f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/curl-7.42.1-windows64-201506142116.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/curl-7.43.0-windows64-201506181436.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

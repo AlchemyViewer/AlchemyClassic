@@ -51,7 +51,7 @@
       <key>Type</key>
       <string>S32</string>
       <key>Value</key>
-      <real>300</real>
+      <integer>300</integer>
     </map>
     <key>AckCollectTime</key>
     <map>

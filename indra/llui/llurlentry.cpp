@@ -499,6 +499,7 @@ LLUrlEntrySecondlifeURL::LLUrlEntrySecondlifeURL()
 	mTooltip = LLTrans::getString("TooltipHttpUrl");
 }
 
+/// Return the url from a string that matched the regex
 std::string LLUrlEntrySecondlifeURL::getUrl(const std::string &string) const
 {
 	if (string.find("://") == std::string::npos)
@@ -522,7 +523,6 @@ std::string LLUrlEntrySecondlifeURL::getTooltip(const std::string &url) const
 {
 	return url;
 }
-
 
 //
 // LLUrlEntrySimpleSecondlifeURL Describes *secondlife.com and *lindenlab.com urls to substitute icon 'hand.png' before link

@@ -4695,7 +4695,7 @@ void LLAppViewer::saveExperienceCache()
 	std::string filename =
 		gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "experience_cache.xml");
 	LL_INFOS("ExperienceCache") << "Saving " << filename << LL_ENDL;
-	llofstream cache_stream(filename);
+	llofstream cache_stream(filename.c_str());
 	if(cache_stream.is_open())
 	{
 		LLExperienceCache::exportFile(cache_stream);
@@ -4707,7 +4707,7 @@ void LLAppViewer::loadExperienceCache()
 	std::string filename =
 		gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "experience_cache.xml");
 	LL_INFOS("ExperienceCache") << "Loading " << filename << LL_ENDL;
-	llifstream cache_stream(filename);
+	llifstream cache_stream(filename.c_str());
 	if(cache_stream.is_open())
 	{
 		LLExperienceCache::importFile(cache_stream);

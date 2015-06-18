@@ -1969,13 +1969,11 @@ LLHTTPRegistration<CoarseLocationUpdate>
 
 void sendRadarAlert(const LLUUID& agent, const std::string& region_str, bool entering)
 {
-	// <Alchemy>
 	// If we're teleporting, we don't want to see the radar's alerts about EVERY agent leaving.
 	if(gAgent.getTeleportState() != LLAgent::TELEPORT_NONE && !entering)
 	{
 		return;
 	}
-	// </Alchemy>
 	LLSD args;
 	args["AGENT"] = LLSLURL("agent", agent, "inspect").getSLURLString();
 	args["REGION"] = region_str;

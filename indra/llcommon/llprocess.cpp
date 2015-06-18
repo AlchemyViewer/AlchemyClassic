@@ -737,8 +737,6 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 		{
 			mPipes.replace(i, new ReadPipeImpl(desc, pipe, FILESLOT(i)));
 		}
-		LL_DEBUGS("LLProcess") << "Instantiating " << typeid(mPipes[i]).name()
-							   << "('" << desc << "')" << LL_ENDL;
 	}
 }
 

@@ -30,6 +30,8 @@
 
 #include "stdtypes.h" // from llcommon
 
+class LLSD;
+
 // Entirely abstract.  Based exactly on the historic API.
 class LLStreamingAudioInterface
 {
@@ -45,8 +47,14 @@ class LLStreamingAudioInterface
 	virtual void setGain(F32 vol) = 0;
 	virtual F32 getGain() = 0;
 	virtual std::string getURL() = 0;
+
 	virtual bool supportsAdjustableBufferSizes(){return false;}
 	virtual void setBufferSizes(U32 streambuffertime, U32 decodebuffertime){};
+
+	virtual bool supportsMetaData() { return false; };
+	virtual const LLSD *getMetaData(){ return NULL; };
+	virtual bool supportsWaveData() { return false; };
+	virtual bool getWaveData(float* arr, S32 count, S32 stride = 1){ return false; };
 };
 
 #endif // LL_STREAMINGAUDIO_H

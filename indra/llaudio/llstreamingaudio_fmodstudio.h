@@ -60,12 +60,19 @@ class LLStreamingAudio_FMODSTUDIO : public LLStreamingAudioInterface
 
 	/*virtual*/ bool supportsAdjustableBufferSizes(){return true;}
 	/*virtual*/ void setBufferSizes(U32 streambuffertime, U32 decodebuffertime);
+
+	/*virtual*/ bool supportsMetaData(){return true;}
+	/*virtual*/ const LLSD *getMetaData(){return mMetaData;}	//return NULL if not playing.
+	/*virtual*/ bool supportsWaveData(){return true;}
+	/*virtual*/ bool getWaveData(float* arr, S32 count, S32 stride = 1);
 private:
 	bool releaseDeadStreams();
+	void cleanupWaveData();
 
 	FMOD::System *mSystem;
 
 	LLAudioStreamManagerFMODSTUDIO *mCurrentInternetStreamp;
+	FMOD::DSP* mStreamDSP;
 	FMOD::ChannelGroup* mStreamGroup;
 	FMOD::Channel *mFMODInternetStreamChannelp;
 	std::list<LLAudioStreamManagerFMODSTUDIO *> mDeadStreams;
@@ -73,6 +80,8 @@ private:
 	std::string mURL;
 	std::string mPendingURL;
 	F32 mGain;
+
+	LLSD *mMetaData;
 };
 
 

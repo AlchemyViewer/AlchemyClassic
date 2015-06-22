@@ -131,6 +131,10 @@ if (LINUX)
   CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
   CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
 
+  if (USE_LTO)
+    add_definitions(-flto=8)
+  endif (USE_LTO)  
+
   if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     if(HAS_STRONG_STACK_PROTECTOR)
       add_definitions(-fstack-protector-strong)

@@ -13,6 +13,11 @@ include_directories(
     ${OPENJPEG_INCLUDE_DIR}
     )
 
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llimagej2coj_SOURCE_FILES
     llimagej2coj.cpp
     )

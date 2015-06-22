@@ -2303,6 +2303,7 @@ void LLPanelEstateInfo::getEstateOwner()
 }
 */
 
+/*
 class LLEstateChangeInfoResponder : public LLHTTPClient::Responder
 {
 	LOG_CLASS(LLEstateChangeInfoResponder);
@@ -2332,6 +2333,7 @@ protected:
 private:
 	LLHandle<LLPanel> mpPanel;
 };
+*/
 
 const std::string LLPanelEstateInfo::getOwnerName() const
 {

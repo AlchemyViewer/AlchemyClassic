@@ -66,11 +66,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>09c1c5a0306fb641a561c4d151e1516f</string>
+              <string>8cd30b44befc8be49a74fba9f8640303</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/apr_suite-1.4.5-darwin-201504232350.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/apr_suite-1.5.2-darwin-201506191538.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -131,7 +131,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.4.5</string>
+        <string>1.5.2</string>
       </map>
       <key>ares</key>
       <map>

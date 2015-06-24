@@ -62,7 +62,8 @@ class LLStreamingAudio_FMODSTUDIO : public LLStreamingAudioInterface
 	/*virtual*/ void setBufferSizes(U32 streambuffertime, U32 decodebuffertime);
 
 	/*virtual*/ bool supportsMetaData(){return true;}
-	/*virtual*/ const LLSD *getMetaData(){return mMetaData;}	//return NULL if not playing.
+	/*virtual*/ const LLSD *getMetaData() { return mMetaData; }	//return NULL if not playing.
+	/*virtual*/ const bool hasNewMetaData();
 	/*virtual*/ bool supportsWaveData(){return true;}
 	/*virtual*/ bool getWaveData(float* arr, S32 count, S32 stride = 1);
 private:
@@ -82,6 +83,7 @@ private:
 	F32 mGain;
 
 	LLSD *mMetaData;
+	bool mNewMetadata;
 };
 
 

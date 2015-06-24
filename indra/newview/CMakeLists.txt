@@ -507,6 +507,7 @@ set(viewer_SOURCE_FILES
     llpanelsnapshotoptions.cpp
     llpanelsnapshotpostcard.cpp
     llpanelsnapshotprofile.cpp
+    llpanelstreaminfo.cpp
     llpanelteleporthistory.cpp
     llpaneltiptoast.cpp
     llpaneltopinfobar.cpp
@@ -583,6 +584,7 @@ set(viewer_SOURCE_FILES
     llstartup.cpp
     llstartuplistener.cpp
     llstatusbar.cpp
+    llstreaminfo.cpp
     llstylemap.cpp
     llsurface.cpp
     llsurfacepatch.cpp
@@ -1133,6 +1135,7 @@ set(viewer_HEADER_FILES
     llpanelsearchplaces.h
     llpanelsearchweb.h
     llpanelsnapshot.h
+    llpanelstreaminfo.h
     llpanelteleporthistory.h
     llpaneltiptoast.h
     llpaneltopinfobar.h
@@ -1211,6 +1214,7 @@ set(viewer_HEADER_FILES
     llstartup.h
     llstartuplistener.h
     llstatusbar.h
+    llstreaminfo.h
     llstylemap.h
     llsurface.h
     llsurfacepatch.h

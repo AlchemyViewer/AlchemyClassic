@@ -4204,6 +4204,7 @@ Try enclosing path to the editor with double quotes.
   <string name="BuildMultiSelect">(multiple)</string>
   <string name="NotifyIncomingMessage">Incoming message from [NAME]...</string>
   <string name="NearbyChatTitleChannel">Nearby chat (on channel [CHANNEL])</string>
+  <string name="NowPlaying">Now Playing</string>
   <string name="AvatarTyping">Typing</string>
 
 

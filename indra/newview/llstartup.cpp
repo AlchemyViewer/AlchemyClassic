@@ -139,6 +139,7 @@
 #include "llproductinforequest.h"
 #include "llselectmgr.h"
 #include "llsky.h"
+#include "llstreaminfo.h"
 #include "llstatview.h"
 #include "llstatusbar.h"		// sendMoneyBalanceRequest(), owns L$ balance
 #include "llsurface.h"
@@ -2829,6 +2830,8 @@ void LLStartUp::multimediaInit()
 
 	// LLViewerMedia::initClass();
 	LLViewerParcelMedia::initClass();
+	
+	new LLStreamInfo();
 }
 
 void LLStartUp::fontInit()

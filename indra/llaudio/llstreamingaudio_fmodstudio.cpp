@@ -117,7 +117,8 @@ LLStreamingAudio_FMODSTUDIO::LLStreamingAudio_FMODSTUDIO(FMOD::System *system) :
 	mStreamGroup(NULL),
 	mFMODInternetStreamChannelp(NULL),
 	mGain(1.0f),
-	mMetaData(NULL)
+	mMetaData(NULL),
+	mNewMetadata(true)
 {
 	FMOD_RESULT result;
 
@@ -294,6 +295,7 @@ void LLStreamingAudio_FMODSTUDIO::update()
 			if(sound->getNumTags(&tagcount, &dirtytagcount) == FMOD_OK && dirtytagcount)
 			{
 				mMetaData->clear();
+				mNewMetadata = true;
 
 				for(S32 i = 0; i < tagcount; ++i)
 				{
@@ -498,7 +500,21 @@ void LLStreamingAudio_FMODSTUDIO::setGain(F32 vol)
 	}
 }
 
-/*virtual*/ bool LLStreamingAudio_FMODSTUDIO::getWaveData(float* arr, S32 count, S32 stride/*=1*/)
+const bool LLStreamingAudio_FMODSTUDIO::hasNewMetaData()
+{
+	if (mCurrentInternetStreamp && mNewMetadata)
+	{
+		mNewMetadata = false;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+/* virtual */
+bool LLStreamingAudio_FMODSTUDIO::getWaveData(float* arr, S32 count, S32 stride/*=1*/)
 {
 	if (count > (WAVE_BUFFER_SIZE / 2))
 		LL_ERRS("AudioImpl") << "Count=" << count << " exceeds WAVE_BUFFER_SIZE/2=" << WAVE_BUFFER_SIZE << LL_ENDL;

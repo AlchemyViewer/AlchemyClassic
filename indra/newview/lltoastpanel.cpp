@@ -29,6 +29,7 @@
 #include "llpanelgenerictip.h"
 #include "llpanelonlinestatus.h"
 #include "llpanelradaralert.h"
+#include "llpanelstreaminfo.h"
 #include "llnotifications.h"
 #include "lltoastnotifypanel.h"
 #include "lltoastpanel.h"
@@ -122,6 +123,10 @@ LLToastPanel* LLToastPanel::buidPanelFromNotification(
 		else if (notification->matchesTag("radar"))
 		{
 			res = new LLPanelRadarAlert(notification);
+		}
+		else if (notification->matchesTag("StreamInfo"))
+		{
+			res = new LLPanelStreamInfo(notification);
 		}
 		// in all other case we use generic tip panel
 		else

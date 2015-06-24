@@ -92,11 +92,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e4eae07f4dd22071e69bfa8ce7717075</string>
+              <string>e66a2e7fb424f37aa4a02e854c240b3c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/apr_suite-1.4.5-linux64-201504222306.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/apr_suite-1.5.2-linux64-201506231118.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -106,11 +106,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>53f64197f7e241b0559fc5d9cebace76</string>
+              <string>cffa0ed20ccc8b383efdcb6517c505f4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/apr_suite-1.4.5-windows-201504270642.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/apr_suite-1.5.2-windows-201506231924.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -120,11 +120,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d51511e112a458464598013ac89c397f</string>
+              <string>86cc2b603cda37089e029d1d88224471</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/apr_suite-1.4.5-windows64-201504270637.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/apr_suite-1.5.2-windows64-201506231854.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

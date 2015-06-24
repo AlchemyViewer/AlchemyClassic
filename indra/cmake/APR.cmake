@@ -29,6 +29,9 @@ else (USESYSTEMLIBS)
       debug ${ARCH_PREBUILT_DIRS_DEBUG}/${APR_selector}aprutil-1.lib ${APRICONV_LIBRARIES}
       optimized ${ARCH_PREBUILT_DIRS_RELEASE}/${APR_selector}aprutil-1.lib ${APRICONV_LIBRARIES}
       )
+    if(NOT LLCOMMON_LINK_SHARED)
+      list(APPEND APR_LIBRARIES Rpcrt4)
+    endif(NOT LLCOMMON_LINK_SHARED)
   elseif (DARWIN)
     if (LLCOMMON_LINK_SHARED)
       set(APR_selector     "0.dylib")

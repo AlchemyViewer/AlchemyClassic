@@ -62,10 +62,6 @@
 #include "llworld.h"
 #include "llworldmapview.h"		// shared draw code
 
-// <alchemy>
-#include "llmutelist.h"
-// </alchemy>
-
 static LLDefaultChildRegistry::Register<LLNetMap> r1("net_map");
 
 const F32 LLNetMap::MAP_SCALE_MIN = 32.f;

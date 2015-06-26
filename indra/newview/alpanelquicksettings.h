@@ -51,9 +51,9 @@ private:
 	void populateWaterPresetsList();
 	void populateSkyPresetsList();
 	
-	static void onHoverSliderMoved(LLUICtrl* ctrl, void* userData);
+	void onHoverSliderMoved(const LLSD& val);
 	void onHoverSliderFinalCommit();
-	static void syncFromPreferenceSetting(void *user_data);
+	void syncFromPreferenceSetting();
 	
 	void onRegionChanged();
 	void onSimulatorFeaturesReceived(const LLUUID &region_id);

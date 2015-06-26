@@ -93,19 +93,13 @@ BOOL ALPanelQuickSettings::postBuild()
 	mHoverHeight->setMaxValue(MAX_HOVER_Z);
 	mHoverHeight->setSliderMouseUpCallback(boost::bind(&ALPanelQuickSettings::onHoverSliderFinalCommit,this));
 	mHoverHeight->setSliderEditorCommitCallback(boost::bind(&ALPanelQuickSettings::onHoverSliderFinalCommit,this));
-	childSetCommitCallback("HoverHeightSlider", &ALPanelQuickSettings::onHoverSliderMoved, NULL);
+	mHoverHeight->setCommitCallback(boost::bind(&ALPanelQuickSettings::onHoverSliderMoved, this, _2));
 	
 	// Initialize slider from pref setting.
-	syncFromPreferenceSetting(this);
+	syncFromPreferenceSetting();
+
 	// Update slider on future pref changes.
-	if (gSavedPerAccountSettings.getControl("AvatarHoverOffsetZ"))
-	{
-		gSavedPerAccountSettings.getControl("AvatarHoverOffsetZ")->getCommitSignal()->connect(boost::bind(&syncFromPreferenceSetting, this));
-	}
-	else
-	{
-		LL_WARNS() << "Control not found for AvatarHoverOffsetZ" << LL_ENDL;
-	}
+	gSavedPerAccountSettings.getControl("AvatarHoverOffsetZ")->getCommitSignal()->connect(boost::bind(&ALPanelQuickSettings::syncFromPreferenceSetting, this));
 	
 	updateEditHoverEnabled();
 	
@@ -264,14 +258,10 @@ void ALPanelQuickSettings::populateSkyPresetsList()
 	}
 }
 
-// Hover junk
-void ALPanelQuickSettings::syncFromPreferenceSetting(void *user_data)
+void ALPanelQuickSettings::syncFromPreferenceSetting()
 {
 	F32 value = gSavedPerAccountSettings.getF32("AvatarHoverOffsetZ");
-	
-	ALPanelQuickSettings *self = static_cast<ALPanelQuickSettings*>(user_data);
-	LLSliderCtrl* sldrCtrl = self->getChild<LLSliderCtrl>("HoverHeightSlider");
-	sldrCtrl->setValue(value,FALSE);
+	mHoverHeight->setValue(value, FALSE);
 	
 	if (isAgentAvatarValid())
 	{
@@ -281,11 +271,9 @@ void ALPanelQuickSettings::syncFromPreferenceSetting(void *user_data)
 	}
 }
 
-// static
-void ALPanelQuickSettings::onHoverSliderMoved(LLUICtrl* ctrl, void* userData)
+void ALPanelQuickSettings::onHoverSliderMoved(const LLSD& val)
 {
-	LLSliderCtrl* sldrCtrl = static_cast<LLSliderCtrl*>(ctrl);
-	F32 value = sldrCtrl->getValueF32();
+	F32 value = val.asReal();
 	LLVector3 offset(0.0, 0.0, llclamp(value,MIN_HOVER_Z,MAX_HOVER_Z));
 	LL_INFOS("Avatar") << "setting hover from slider moved" << offset[2] << LL_ENDL;
 	gAgentAvatarp->setHoverOffset(offset, false);
@@ -332,6 +320,6 @@ void ALPanelQuickSettings::updateEditHoverEnabled()
 	getChild<LLSpinCtrl>("hover_spinner")->setEnabled(enabled);
 	if (enabled)
 	{
-		syncFromPreferenceSetting(this);
+		syncFromPreferenceSetting();
 	}
 }

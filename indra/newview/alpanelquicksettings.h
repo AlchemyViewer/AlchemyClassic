@@ -31,7 +31,8 @@
 class LLButton;
 class LLCheckBoxCtrl;
 class LLComboBox;
-class LLSliderCtrl;
+class LLSlider;
+class LLSpinCtrl;
 
 class ALPanelQuickSettings : public LLPanel
 {
@@ -69,7 +70,8 @@ private:
 	LLComboBox* mWaterPresetCombo;
 	LLComboBox* mSkyPresetCombo;
 	
-	LLSliderCtrl* mHoverHeight;
+	LLSlider* mHoverSlider;
+	LLSpinCtrl* mHoverSpinner;
 	
 	boost::signals2::connection mRegionChangedSlot;
 };

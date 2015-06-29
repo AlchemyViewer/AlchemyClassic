@@ -34,6 +34,8 @@
 #include "llviewermenu.h" 
 
 // linden library includes
+#include "llaudioengine.h"
+#include "llstreamingaudio.h"
 #include "llavatarnamecache.h"	// IDEVO
 #include "llfloaterreg.h"
 #include "llfloatersidepanelcontainer.h"
@@ -8742,6 +8744,11 @@ void show_topinfobar_context_menu(LLView* ctrl, S32 x, S32 y)
 	LLMenuGL::showPopup(ctrl, show_topbarinfo_context_menu, x, y);
 }
 
+bool enable_music_ticker()
+{
+	return gAudiop && gAudiop->getStreamingAudioImpl() && gAudiop->getStreamingAudioImpl()->supportsMetaData();
+}
+
 void initialize_edit_menu()
 {
 	view_listener_t::addMenu(new LLEditUndo(), "Edit.Undo");
@@ -9267,5 +9274,7 @@ void initialize_menus()
 
 	view_listener_t::addMenu(new ALToggleLocationBar(), "ToggleLocationBar");
 	view_listener_t::addMenu(new ALCheckLocationBar(), "CheckLocationBar");
+
+	enable.add("EnableMusicTicker", boost::bind(&enable_music_ticker));
 	// </Alchemy>
 }

@@ -116,6 +116,7 @@ include_directories(SYSTEM
 set(viewer_SOURCE_FILES
     alavatarcolormgr.cpp
     alchatcommand.cpp
+    alpanelmusicticker.cpp
     alfloaterregiontracker.cpp
     alpanelquicksettings.cpp
     alpanelquicksettingspulldown.cpp
@@ -753,6 +754,7 @@ set(viewer_HEADER_FILES
     ViewerInstall.cmake
     alavatarcolormgr.h
     alchatcommand.h
+    alpanelmusicticker.h
     alfloaterregiontracker.h
     alpanelquicksettings.h
     alpanelquicksettingspulldown.h

@@ -38,6 +38,9 @@
 #include "llurlaction.h"
 #include "llviewercontrol.h" // LLCachedControl
 
+#include "llfloater.h"
+#include "llfloaterreg.h"
+
 LLStreamInfo::LLStreamInfo()
 :	LLEventTimer(1.f)
 {}
@@ -46,9 +49,14 @@ BOOL LLStreamInfo::tick()
 {
 	static LLCachedControl<bool> show_stream_info(gSavedSettings, "ShowStreamInfo", false);
 	if (!show_stream_info) return FALSE;
+
+	LLFloater* music_ticker = LLFloaterReg::findInstance("music_ticker");
+	if (music_ticker)
+		return FALSE;
 	
 	LLStreamingAudioInterface *stream = gAudiop->getStreamingAudioImpl();
-	if (!stream || !stream->getMetaData() || !stream->hasNewMetaData()) return FALSE;
+	if (!stream || !stream->getMetaData() || !stream->hasNewMetaData()) 
+		return FALSE;
 	
 	const LLSD& data = *(stream->getMetaData());
 	if (data)

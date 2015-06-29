@@ -169,6 +169,8 @@ LLFloater::Params::Params()
 	single_instance("single_instance", false),
 	reuse_instance("reuse_instance", false),
 	can_resize("can_resize", false),
+	can_resize_height("can_resize_height", true),
+	can_resize_width("can_resize_width", true),
 	can_minimize("can_minimize", true),
 	can_close("can_close", true),
 	can_drag_on_left("can_drag_on_left", false),
@@ -250,6 +252,8 @@ LLFloater::LLFloater(const LLSD& key, const LLFloater::Params& p)
 	mShowHelp(p.show_help),
 	mDragOnLeft(p.can_drag_on_left),
 	mResizable(p.can_resize),
+	mResizableHeight(p.can_resize_height),
+	mResizableWidth(p.can_resize_width),
 	mPositioning(p.positioning),
 	mMinWidth(p.min_width),
 	mMinHeight(p.min_height),
@@ -2017,7 +2021,7 @@ void	LLFloater::setCanTearOff(BOOL can_tear_off)
 void LLFloater::setCanResize(BOOL can_resize)
 {
 	mResizable = can_resize;
-	enableResizeCtrls(can_resize);
+	enableResizeCtrls(can_resize, mResizableWidth, mResizableHeight);
 }
 
 void LLFloater::setCanDrag(BOOL can_drag)
@@ -3126,6 +3130,8 @@ void LLFloater::initFromParams(const LLFloater::Params& p)
 	setCanMinimize(p.can_minimize);
 	setCanClose(p.can_close);
 	setCanDock(p.can_dock);
+	mResizableWidth = p.can_resize_width;
+	mResizableHeight = p.can_resize_height;
 	setCanResize(p.can_resize);
 	setResizeLimits(p.min_width, p.min_height);
 	

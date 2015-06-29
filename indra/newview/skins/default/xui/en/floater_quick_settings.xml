@@ -8,7 +8,9 @@
  name="floater_quick_settings"
  positioning="cascading"
  title="QUICK SETTINGS"
- save_rect="true">
+ save_rect="true"
+ can_resize="true"
+ can_resize_height="false">
   <panel
    name="quick_settings"
    class="quick_settings"

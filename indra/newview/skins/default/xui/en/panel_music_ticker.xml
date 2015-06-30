@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <panel
  layout="topleft"
+ follows="top|right|left"
  width="300"
- height="34"
+ height="38"
  name="music_ticker">
-    <icon 
-     top="19" 
+    <string name="paused">
+        (not playing)
+    </string>
+    <string name="loading">
+        (loading...)
+    </string>
+    <icon
+     top="19"
      color="AlAshGrey"
      follows="left|top|right" 
-     height="1" 
+     height="1"
      layout="topleft"
      image_name="white.tga"
      left="0"
      mouse_opaque="false"
      name="ticker_background"
-     width="177" />
+     width="244" />
     <locate
      top="0"
-     height="38"
-     left="177"
+     bottom="-1"
+     left="244"
      name="visualizer_box"
      width="60"
      follows="top|right"
@@ -26,12 +33,12 @@
      layout="topleft"/>
     <icon
      top="0"
+     bottom="-1"
      color="AlAshGrey"
      follows="top|right"
-     height="37"
      layout="topleft"
      image_name="Ticker_Grid"
-     left="177"
+     left="244"
      mouse_opaque="false"
      name="visualizer_grid"
      width="60" />
@@ -67,7 +74,7 @@
      mouse_opaque="false" 
      name="artist_text" 
      v_pad="0" 
-     width="125">
+     width="193">
     </text>
     <text 
      text_color="AlBlue" 
@@ -101,14 +108,6 @@
      mouse_opaque="false"
      name="title_text"
      v_pad="0"
-     width="125">
+     width="193">
     </text>
-
-    
-    <string name="paused">
-        (not playing)
-    </string>
-    <string name="loading">
-        (loading...)
-    </string>        
-	</panel>
+</panel>

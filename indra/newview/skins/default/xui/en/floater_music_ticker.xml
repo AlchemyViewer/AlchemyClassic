@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <floater
- width="305"
+ width="320"
  height="39"
  layout="topleft"
- min_width="305"
+ min_width="300"
  min_height="39"
  name="floater_music_ticker"
  positioning="cascading"
@@ -21,7 +21,7 @@
    filename="panel_music_ticker.xml"
    layout="topleft"
    follows="all"
-   width="350"
+   width="296"
    top="0"
    mouse_opaque="false"/>
 </floater>

@@ -21,16 +21,14 @@ ALPanelMusicTicker::ALPanelMusicTicker() : LLPanel(),
 	mArtistScrollChars(0), 
 	mTitleScrollChars(0), 
 	mCurScrollChar(0),
-	mTickerBackground(NULL),
-	mArtistText(NULL),
-	mTitleText(NULL),
-	mVisualizer(NULL)
+	mArtistText(nullptr),
+	mTitleText(nullptr),
+	mVisualizer(nullptr)
 {
 }
 
 BOOL ALPanelMusicTicker::postBuild()
 {
-	mTickerBackground = getChild<LLIconCtrl>("ticker_background");
 	mArtistText =	getChild<LLTextBox>("artist_text");
 	mTitleText	=	getChild<LLTextBox>("title_text");
 	mVisualizer =	getChild<LLUICtrl>("visualizer_box");
@@ -57,12 +55,13 @@ void ALPanelMusicTicker::reshape(S32 width, S32 height, BOOL called_from_parent/
 	if(width_changed)
 	{
 		if(mTitleText)
-			mTitleScrollChars = countExtraChars(mTitleText,mszTitle);
+			mTitleScrollChars = countExtraChars(mTitleText, mszTitle);
 		if(mArtistText)
-			mArtistScrollChars = countExtraChars(mArtistText,mszArtist);
+			mArtistScrollChars = countExtraChars(mArtistText, mszArtist);
 		resetTicker();
 	}
 }
+
 void ALPanelMusicTicker::updateTickerText() //called via draw.
 {
 	if(!gAudiop)
@@ -88,9 +87,9 @@ void ALPanelMusicTicker::updateTickerText() //called via draw.
 			else if(mLoadTimer.getStarted() && mLoadTimer.getElapsedTimeF64() > 10.f) //It has been 10 seconds.. give up.
 			{
 				if(!artist.isDefined())
-					dirty |= setArtist("");
+					dirty |= setArtist(LLStringUtil::null);
 				if(!title.isDefined())
-					dirty |= setTitle("");
+					dirty |= setTitle(LLStringUtil::null);
 				mLoadTimer.stop();
 			}
 		}
@@ -109,10 +108,10 @@ void ALPanelMusicTicker::drawOscilloscope() //called via draw.
 	static const S32 NUM_LINE_STRIPS = 64;			//How many lines to draw. 64 is more than enough.
 	static const S32 WAVE_DATA_STEP_SIZE = 4;		//Increase to provide more history at expense of cpu/memory.
 
-	static const S32 NUM_WAVE_DATA_VALUES = NUM_LINE_STRIPS*WAVE_DATA_STEP_SIZE;	//Actual buffer size. Don't toy with this. Change above vars to tweak.
+	static const S32 NUM_WAVE_DATA_VALUES = NUM_LINE_STRIPS * WAVE_DATA_STEP_SIZE;	//Actual buffer size. Don't toy with this. Change above vars to tweak.
 	static F32 buf[NUM_WAVE_DATA_VALUES];
 
-	LLRect root_rect = mVisualizer->getRect();
+	const LLRect& root_rect = mVisualizer->getRect();
 
 	F32 height = root_rect.getHeight();
 	F32 height_scale = height / 2.f;	//WaveData ranges from 1 to -1, so height_scale = height / 2
@@ -122,16 +121,20 @@ void ALPanelMusicTicker::drawOscilloscope() //called via draw.
 	gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
 	gGL.color4fv(mOscillatorColor.mV);
 	gGL.pushMatrix();
-		gGL.translatef((F32)root_rect.mLeft, (F32)root_rect.mBottom + height*.5f, 0.f);
+		const auto& ui_scale = gGL.getUIScale();
+		F32 x = (F32) root_rect.mLeft * ui_scale[VX];
+		F32 y = (F32) (root_rect.mBottom + height * 0.5f) * ui_scale[VY];
+		gGL.translatef(x, y, 0.f);
 		gGL.begin( LLRender::LINE_STRIP );
-			if(mPlayState == STATE_PAUSED || !gAudiop->getStreamingAudioImpl()->getWaveData(&buf[0],NUM_WAVE_DATA_VALUES,WAVE_DATA_STEP_SIZE))
+			if(mPlayState == STATE_PAUSED
+			   || !gAudiop->getStreamingAudioImpl()->getWaveData(&buf[0], NUM_WAVE_DATA_VALUES,WAVE_DATA_STEP_SIZE))
 			{
-				gGL.vertex2i(0,0);
-				gGL.vertex2i((S32)width,0);
+				gGL.vertex2i(0, 0);
+				gGL.vertex2i((S32)width, 0);
 			}
 			else
-				for(S32 i = NUM_WAVE_DATA_VALUES-1; i>=0;i-=WAVE_DATA_STEP_SIZE)
-					gGL.vertex2f((F32)i * width_scale, buf[i]*height_scale);
+				for(S32 i = NUM_WAVE_DATA_VALUES - 1; i >= 0; i -= WAVE_DATA_STEP_SIZE)
+					gGL.vertex2f((F32)i * width_scale, buf[i] * height_scale);
 		gGL.end();
 	gGL.popMatrix();
 	gGL.flush();
@@ -153,9 +156,11 @@ bool ALPanelMusicTicker::setPaused(bool pause)
 void ALPanelMusicTicker::resetTicker()
 {
 	mScrollTimer.reset();
-	mCurScrollChar=0;
-	if(mArtistText)	mArtistText->setText(LLStringExplicit(mszArtist.substr(0,mszArtist.length()-mArtistScrollChars)));
-	if(mTitleText)	mTitleText->setText(LLStringExplicit(mszTitle.substr(0,mszTitle.length()-mTitleScrollChars)));
+	mCurScrollChar = 0;
+	if(mArtistText)
+		mArtistText->setText(LLStringExplicit(mszArtist.substr(0, mszArtist.length() - mArtistScrollChars)));
+	if(mTitleText)
+		mTitleText->setText(LLStringExplicit(mszTitle.substr(0, mszTitle.length() - mTitleScrollChars)));
 }
 
 bool ALPanelMusicTicker::setArtist(const std::string &artist)
@@ -164,7 +169,7 @@ bool ALPanelMusicTicker::setArtist(const std::string &artist)
 		return false;
 	mszArtist = artist;
 	mArtistText->setText(mszArtist);
-	mArtistScrollChars = countExtraChars(mArtistText,mszArtist);
+	mArtistScrollChars = countExtraChars(mArtistText, mszArtist);
 	return true;
 }
 
@@ -172,9 +177,9 @@ bool ALPanelMusicTicker::setTitle(const std::string &title)
 {
 	if(!mTitleText || mszTitle == title)
 		return false;
-	mszTitle=title;
+	mszTitle = title;
 	mTitleText->setText(mszTitle);
-	mTitleScrollChars = countExtraChars(mTitleText,mszTitle);
+	mTitleScrollChars = countExtraChars(mTitleText, mszTitle);
 	return true;
 }
 
@@ -185,11 +190,11 @@ S32 ALPanelMusicTicker::countExtraChars(LLTextBox *texbox, const std::string &te
 	if(text_width > box_width)
 	{
 		const LLFontGL* font = texbox->getFont();
-		for(S32 count = 1;count<(S32)text.length();count++)
+		for(S32 count = 1; count < (S32)text.length(); count++)
 		{
 			//This isn't very efficient...
-			const std::string substr = text.substr(0,text.length()-count);
-			if(font->getWidth(substr) <= box_width)
+			const std::string substr = text.substr(0, text.length() - count);
+			if (font->getWidth(substr) <= box_width)
 				return count;
 		}
 	}
@@ -198,10 +203,10 @@ S32 ALPanelMusicTicker::countExtraChars(LLTextBox *texbox, const std::string &te
 
 void ALPanelMusicTicker::iterateTickerOffset()
 {
-	if(	(mPlayState != STATE_PAUSED) &&
-		(mArtistScrollChars || mTitleScrollChars) &&
-		((!mCurScrollChar && mScrollTimer.getElapsedTimeF32() >= 5.f) ||
-		 ( mCurScrollChar && mScrollTimer.getElapsedTimeF32() >= .5f)))
+	if((mPlayState != STATE_PAUSED)
+	   && (mArtistScrollChars || mTitleScrollChars)
+	   && ((!mCurScrollChar && mScrollTimer.getElapsedTimeF32() >= 5.f)
+		   || (mCurScrollChar && mScrollTimer.getElapsedTimeF32() >= .5f)))
 	{
 		if(++mCurScrollChar > llmax(mArtistScrollChars, mTitleScrollChars))
 		{
@@ -213,11 +218,11 @@ void ALPanelMusicTicker::iterateTickerOffset()
 			mScrollTimer.reset();
 			if(mArtistText && mCurScrollChar <= mArtistScrollChars)
 			{
-				mArtistText->setText(LLStringExplicit(mszArtist.substr(mCurScrollChar,mszArtist.length()-mArtistScrollChars+mCurScrollChar)));
+				mArtistText->setText(LLStringExplicit(mszArtist.substr(mCurScrollChar, mszArtist.length()-mArtistScrollChars + mCurScrollChar)));
 			}
 			if(mTitleText && mCurScrollChar <= mTitleScrollChars)
 			{
-				mTitleText->setText(LLStringExplicit(mszTitle.substr(mCurScrollChar,mszTitle.length()-mTitleScrollChars+mCurScrollChar)));
+				mTitleText->setText(LLStringExplicit(mszTitle.substr(mCurScrollChar, mszTitle.length()-mTitleScrollChars + mCurScrollChar)));
 			}
 		}
 	}

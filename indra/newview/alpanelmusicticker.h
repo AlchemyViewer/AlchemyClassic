@@ -45,7 +45,6 @@ private:
 	LLColor4 mOscillatorColor;
 
 	//UI elements
-	LLIconCtrl* mTickerBackground;
 	LLTextBox* mArtistText;
 	LLTextBox* mTitleText;
 	LLUICtrl* mVisualizer;

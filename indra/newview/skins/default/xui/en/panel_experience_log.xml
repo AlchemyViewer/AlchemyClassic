@@ -7,7 +7,6 @@
   width="500"
   height="300"
   label="EVENTS"
-  bg_opaque_color="0 0.5 0 0.3"
   follows="all">
   <string
     name="no_events"

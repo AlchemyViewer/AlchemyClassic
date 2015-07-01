@@ -3316,7 +3316,7 @@ bool LLVOAvatar::isVisuallyMuted()
 		}
 	}
 
-	return muted || isInMuteList();
+	return isInMuteList() || muted;
 }
 
 void	LLVOAvatar::forceUpdateVisualMuteSettings()
@@ -8475,7 +8475,7 @@ void LLVOAvatar::updateImpostors()
 
 BOOL LLVOAvatar::isImpostor()
 {
-	return (sUseImpostors && (isVisuallyMuted() || (mUpdatePeriod >= IMPOSTOR_PERIOD))) || isInMuteList() ? TRUE : FALSE;
+	return (sUseImpostors && (mUpdatePeriod >= IMPOSTOR_PERIOD)) ? TRUE : FALSE;
 }
 
 

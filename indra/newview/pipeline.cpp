@@ -11538,9 +11538,9 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 		}
 
 
-		if (LLMuteList::getInstance()->isMuted(avatar->getID()))
+		if (avatar->isInMuteList())
 		{ //grey muted avatar
-			gGL.diffuseColor4ub(64,64,64,255);
+			gGL.diffuseColor4fv(LLColor4::grey4.mV);
 		}
 		else
 		{	// Visually muted avatar

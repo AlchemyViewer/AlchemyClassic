@@ -2775,6 +2775,16 @@ BOOL LLWindowWin32::pasteTextFromClipboard(LLWString &dst)
 	return success;
 }
 
+void LLWindowWin32::setWindowTitle(const std::string& title)
+{
+	size_t retsize;
+	wchar_t wintitle[255];
+	mbstate_t pstate;
+	mbstowcs_s(&retsize, wintitle, title.c_str(), title.length(), 254, &pstate)
+	
+	(void)SetWindowText(mWindowHandle, wintitle);
+}
+
 
 BOOL LLWindowWin32::copyTextToClipboard(const LLWString& wstr)
 {

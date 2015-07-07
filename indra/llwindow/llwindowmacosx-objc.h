@@ -151,5 +151,6 @@ GLViewRef getGLView();
 
 unsigned int getModifiers();
 void updateBadge(int count);
+void setTitle(const std::string& title);
 
 #endif // LL_LLWINDOWMACOSX_OBJC_H

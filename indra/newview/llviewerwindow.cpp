@@ -5274,6 +5274,11 @@ bool LLViewerWindow::getUIVisibility()
 	return mUIVisible;
 }
 
+void LLViewerWindow::setWindowTitle(const std::string& title)
+{
+	mWindow->setWindowTitle(title);
+}
+
 ////////////////////////////////////////////////////////////////////////////
 //
 // LLPickInfo

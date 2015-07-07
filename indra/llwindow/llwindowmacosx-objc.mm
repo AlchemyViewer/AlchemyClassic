@@ -462,3 +462,12 @@ void updateBadge(int count)
 	[pool release];
 }
 
+void setTitle(const std::string& title)
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	LLNSWindow *winRef = [(LLAppDelegate*)[[LLNSApplication sharedApplication] delegate] window];
+	NSString *nsTitle = [NSString stringWithUTF8String:title.c_str()];
+	[winRef setTitle:nsTitle];
+	[pool release];
+}
+

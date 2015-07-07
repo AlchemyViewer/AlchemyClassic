@@ -63,6 +63,7 @@ public:
 	/*virtual*/ void setMouseClipping( BOOL b ) {};
 	/*virtual*/ BOOL isClipboardTextAvailable() {return FALSE; };
 	/*virtual*/ BOOL pasteTextFromClipboard(LLWString &dst) {return FALSE; };
+	/*virtual*/ void setWindowTitle(const std::string& title) {}
 	/*virtual*/ BOOL copyTextToClipboard(const LLWString &src) {return FALSE; };
 	/*virtual*/ void flashIcon(F32 seconds) {};
 	/*virtual*/ F32 getGamma() {return 1.0f; };

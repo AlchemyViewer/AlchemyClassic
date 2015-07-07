@@ -2605,4 +2605,9 @@ std::vector<std::string> LLWindowSDL::getDynamicFallbackFontList()
 	return rtns;
 }
 
+void LLWindowSDL::setWindowTitle(const std::string& title)
+{
+	SDL_SetWindowTitle(mWindow, title.c_str());
+}
+
 #endif // LL_SDL

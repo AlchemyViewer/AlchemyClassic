@@ -109,7 +109,7 @@
   type="string"
   length="1"
   height="10"
-  left="300"
+  left="320"
   name="heading2"
   width="270"
   top="400">
@@ -141,22 +141,32 @@
    type="string"
    length="1"
    height="10"
-   left="300"
+   left="320"
    name="camera_constraints_label"
    width="270">
    Camera constraints:
   </text>
   <check_box
-   control_name="AlchemyDisableMinZoomDist"
+   control_name="DisableCameraConstraints"
    height="20"
+   follows="left|top"
+   label="Disable camera constraints"
+   layout="topleft"
+   left_delta="10"
+   name="DisableCameraConstraints"
+   tool_tip="Disabling this removes the zoom and object collision on camera"
+   width="280"
+   top_pad="5" />
+  <check_box
+   control_name="AlchemyDisableMinZoomDist"
+   height="16"
    follows="left|top"
    label="Disable minimum zoom"
    layout="topleft"
-   left_delta="10"
    name="AlchemyDisableMinZoomDist"
    tool_tip="Disabling this removes the minimum zoom constraint on the camera"
    width="280"
-   top_pad="5" />
+   top_pad="2" />
   <check_box
    control_name="AlchemyDisableSimCamConstraint"
    follows="left|top"
@@ -172,7 +182,7 @@
    type="string"
    length="1"
    height="10"
-   left="300"
+   left="320"
    name="move_it_label"
    width="270">
    Movement:
@@ -185,7 +195,7 @@
    layout="topleft"
    left_delta="10"
    name="AlchemyFlyEnableAlways"
-   tool_tip="Keep in mind that abusing this ability to leave you ask risk of being banned"
+   tool_tip="Keep in mind that abusing this ability can leave you at risk of being banned"
    width="280"
    top_pad="5" />
   <check_box

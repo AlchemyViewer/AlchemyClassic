@@ -64,6 +64,15 @@
         name="AlchemyRegionRestartShake"
         width="275"
         control_name="AlchemyRegionRestartShake"/>
+       <check_box
+        follows="left|top"
+        height="16"
+        label="Open profiles in web mode"
+        left_delta="0"
+        top_pad="5"
+        name="AlchemyUseWannabeFacebook"
+        width="275"
+        control_name="AlchemyUseWannabeFacebook"/>
     </panel>
     <panel
      label="Inventory"

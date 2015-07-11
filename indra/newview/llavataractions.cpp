@@ -342,8 +342,11 @@ void LLAvatarActions::showProfile(const LLUUID& id)
 {
 	if (id.notNull())
 	{
-		LLFloaterSidePanelContainer::showPanel("people", "panel_profile_legacy_sidetray",
-											   LLSD().with("avatar_id", id));
+		if (gSavedSettings.getBOOL("AlchemyUseWannabeFacebook"))
+			LLAvatarNameCache::get(id, boost::bind(&on_avatar_name_show_profile, _1, _2));
+		else
+			LLFloaterSidePanelContainer::showPanel("people", "panel_profile_legacy_sidetray",
+												   LLSD().with("avatar_id", id));
 	}
 }
 

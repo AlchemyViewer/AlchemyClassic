@@ -154,7 +154,9 @@ LLGLManager::LLGLManager() :
 	mHasMultitexture(FALSE),
 	mHasATIMemInfo(FALSE),
 	mHasNVXMemInfo(FALSE),
+#if LL_LINUX
 	mHasMESAQueryRenderer(FALSE),
+#endif
 	mNumTextureUnits(1),
 	mHasMipMapGeneration(FALSE),
 	mHasCompressedTextures(FALSE),
@@ -417,7 +419,7 @@ bool LLGLManager::initGL()
 #if GLX_MESA_query_renderer
 	if (mHasMESAQueryRenderer)
 	{
-		U32 video_memory;
+		U32 video_memory = 0;
 		glXQueryCurrentRendererIntegerMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &video_memory);
 		mVRAM = video_memory;
 	}
@@ -708,9 +710,7 @@ void LLGLManager::initExtensions()
 	mHasATIMemInfo = GLEW_ATI_meminfo;
 	mHasNVXMemInfo = GLEW_NVX_gpu_memory_info;
 #if GLX_MESA_query_renderer
-	mHasMESAQueryRenderer = GLXEW_MESA_query_renderer;
-#else
-	mHasMESAQueryRenderer = FALSE;
+	mHasMESAQueryRenderer = FALSE; //GLXEW_MESA_query_renderer;
 #endif
 	mHasSeparateSpecularColor = GLEW_EXT_separate_specular_color;
 	mHasAnisotropic = GLEW_EXT_texture_filter_anisotropic;

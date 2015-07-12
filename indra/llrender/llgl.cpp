@@ -955,24 +955,7 @@ void LLGLManager::initExtensions()
 	glGetIntegerv(GL_MAX_ELEMENTS_INDICES, (GLint*) &mGLMaxIndexRange);
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, (GLint*) &mGLMaxTextureSize);
 
-#if (LL_WINDOWS || LL_LINUX) && !LL_MESA_HEADLESS
-	if (mHasVertexBufferObject)
-	{
-		if (!glBindBufferARB)
-		{
-			mHasVertexBufferObject = FALSE;
-		}
-	}
-#endif
-
 	mInited = TRUE;
-}
-
-void rotate_quat(LLQuaternion& rotation)
-{
-	F32 angle_radians, x, y, z;
-	rotation.getAngleAxis(&angle_radians, &x, &y, &z);
-	gGL.rotatef(angle_radians * RAD_TO_DEG, x, y, z);
 }
 
 void flush_glerror()

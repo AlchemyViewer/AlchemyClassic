@@ -1055,6 +1055,34 @@
         <string>glew</string>
         <key>platforms</key>
         <map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>aabbfbb1bca96b922d5ad28346cf56bd</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/glew-1.12.0-linux64-201507120713.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>e0dd5a99f36f9d1885bdb6ebc672164a</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/glew-1.12.0-windows-201507120657.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
           <key>windows64</key>
           <map>
             <key>archive</key>

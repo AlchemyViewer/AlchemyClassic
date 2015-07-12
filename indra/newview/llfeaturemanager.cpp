@@ -720,10 +720,6 @@ void LLFeatureManager::applyBaseMasks()
 	{
 		maskFeatures("NVIDIA");
 	}
-	if (gGLManager.mIsGF2or4MX)
-	{
-		maskFeatures("GeForce2");
-	}
 	if (gGLManager.mIsATI)
 	{
 		maskFeatures("ATI");
@@ -735,10 +731,6 @@ void LLFeatureManager::applyBaseMasks()
 	if (gGLManager.mATIOldDriver)
 	{
 		maskFeatures("ATIOldDriver");
-	}
-	if (gGLManager.mIsGFFX)
-	{
-		maskFeatures("GeForceFX");
 	}
 	if (gGLManager.mIsIntel)
 	{

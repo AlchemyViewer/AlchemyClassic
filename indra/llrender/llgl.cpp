@@ -194,9 +194,6 @@ LLGLManager::LLGLManager() :
 	mIsATI(FALSE),
 	mIsNVIDIA(FALSE),
 	mIsIntel(FALSE),
-	mIsGF2or4MX(FALSE),
-	mIsGF3(FALSE),
-	mIsGFFX(FALSE),
 	mIsHD3K(FALSE),
 	mATIOffsetVerticalLines(FALSE),
 	mATIOldDriver(FALSE),
@@ -355,27 +352,8 @@ bool LLGLManager::initGL()
 	{
 		mGLVendorShort = "NVIDIA";
 		mIsNVIDIA = TRUE;
-		if (   mGLRenderer.find("GEFORCE4 MX") != std::string::npos
-			|| mGLRenderer.find("GEFORCE2") != std::string::npos
-			|| mGLRenderer.find("GEFORCE 2") != std::string::npos
-			|| mGLRenderer.find("GEFORCE4 460 GO") != std::string::npos
-			|| mGLRenderer.find("GEFORCE4 440 GO") != std::string::npos
-			|| mGLRenderer.find("GEFORCE4 420 GO") != std::string::npos)
-		{
-			mIsGF2or4MX = TRUE;
-		}
-		else if (mGLRenderer.find("GEFORCE FX") != std::string::npos
-				 || mGLRenderer.find("QUADRO FX") != std::string::npos
-				 || mGLRenderer.find("NV34") != std::string::npos)
-		{
-			mIsGFFX = TRUE;
-		}
-		else if(mGLRenderer.find("GEFORCE3") != std::string::npos)
-		{
-			mIsGF3 = TRUE;
-		}
 #if LL_DARWIN
-		else if ((mGLRenderer.find("9400M") != std::string::npos)
+		if ((mGLRenderer.find("9400M") != std::string::npos)
 			  || (mGLRenderer.find("9600M") != std::string::npos)
 			  || (mGLRenderer.find("9800M") != std::string::npos))
 		{

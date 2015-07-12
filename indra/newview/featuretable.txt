@@ -446,15 +446,8 @@ RenderAnisotropic			1	0
 RenderVBOEnable				1	0
 RenderFSAASamples			1	0
 
-list GeForce2
-RenderAnisotropic			1	0
-RenderMaxPartCount			1	2048
-RenderTerrainDetail			1	0
-RenderVBOEnable				1	1
-
 list SiS
 UseOcclusion				0	0
-
 
 list Intel_830M
 RenderTerrainDetail			1	0

@@ -417,7 +417,7 @@ bool LLGLManager::initGL()
 #if GLX_MESA_query_renderer
 	if (mHasMESAQueryRenderer)
 	{
-		S32 video_memory;
+		U32 video_memory;
 		glXQueryCurrentRendererIntegerMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &video_memory);
 		mVRAM = video_memory;
 	}

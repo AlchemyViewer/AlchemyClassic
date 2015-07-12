@@ -900,20 +900,6 @@ void LLGLManager::initExtensions()
 			mHasVertexBufferObject = FALSE;
 		}
 	}
-
-#if !LL_LINUX || LL_LINUX_NV_GL_HEADERS
-	// This is expected to be a static symbol on Linux GL implementations, except if we use the nvidia headers - bah
-	if (!glDrawRangeElements)
-	{
-		mGLMaxVertexRange = 0;
-		mGLMaxIndexRange = 0;
-	}
-#endif // !LL_LINUX || LL_LINUX_NV_GL_HEADERS
-#if LL_LINUX_NV_GL_HEADERS
-	// nvidia headers are critically different from mesa-esque
- 	glActiveTextureARB = (PFNGLACTIVETEXTUREARBPROC)GLH_EXT_GET_PROC_ADDRESS("glActiveTextureARB");
- 	glClientActiveTextureARB = (PFNGLCLIENTACTIVETEXTUREARBPROC)GLH_EXT_GET_PROC_ADDRESS("glClientActiveTextureARB");
-#endif // LL_LINUX_NV_GL_HEADERS
 #endif
 
 	mInited = TRUE;

@@ -154,6 +154,7 @@ LLGLManager::LLGLManager() :
 	mHasMultitexture(FALSE),
 	mHasATIMemInfo(FALSE),
 	mHasNVXMemInfo(FALSE),
+	mHasMESAQueryRenderer(FALSE),
 	mNumTextureUnits(1),
 	mHasMipMapGeneration(FALSE),
 	mHasCompressedTextures(FALSE),
@@ -413,6 +414,15 @@ bool LLGLManager::initGL()
 
 	S32 old_vram = mVRAM;
 
+#if GLX_MESA_query_renderer
+	if (mHasMESAQueryRenderer)
+	{
+		S32 video_memory;
+		glXQueryCurrentRendererIntegerMESA(GLX_RENDERER_VIDEO_MEMORY_MESA, &video_memory);
+		mVRAM = video_memory;
+	}
+	else
+#endif
 	if (mHasATIMemInfo)
 	{ //ask the gl how much vram is free at startup and attempt to use no more than half of that
 		S32 meminfo[4];
@@ -697,6 +707,11 @@ void LLGLManager::initExtensions()
 	mHasMultitexture = GLEW_ARB_multitexture;
 	mHasATIMemInfo = GLEW_ATI_meminfo;
 	mHasNVXMemInfo = GLEW_NVX_gpu_memory_info;
+#if GLX_MESA_query_renderer
+	mHasMESAQueryRenderer = GLXEW_MESA_query_renderer;
+#else
+	mHasMESAQueryRenderer = FALSE;
+#endif
 	mHasSeparateSpecularColor = GLEW_EXT_separate_specular_color;
 	mHasAnisotropic = GLEW_EXT_texture_filter_anisotropic;
 	mHasCubeMap = GLEW_ARB_texture_cube_map;

@@ -4,6 +4,7 @@ project(llrender)
 
 include(00-Common)
 include(OpenGL)
+include(GLEW)
 include(FreeType)
 include(LLCommon)
 include(LLImage)
@@ -16,6 +17,7 @@ include(LLVFS)
 
 include_directories(
     ${FREETYPE_INCLUDE_DIRS}
+    ${GLEW_INCLUDE_DIR}
     ${LLCOMMON_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
@@ -126,5 +128,6 @@ target_link_libraries(llrender
     ${LLVFS_LIBRARIES}
     ${LLWINDOW_LIBRARIES}
     ${FREETYPE_LIBRARIES}
+    ${GLEW_LIBRARIES}
     ${OPENGL_LIBRARIES})
 

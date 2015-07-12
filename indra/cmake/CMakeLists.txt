@@ -42,6 +42,7 @@ set(cmake_SOURCE_FILES
     GLEXT.cmake
     GLH.cmake
     GLOD.cmake
+    GLEW.cmake
     GStreamer010Plugin.cmake
     Glui.cmake
     Glut.cmake

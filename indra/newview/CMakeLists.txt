@@ -13,6 +13,7 @@ include(EXPAT)
 include(FMODEX)
 include(FMODSTUDIO)
 include(GLOD)
+include(GLEW)
 include(GooglePerfTools)
 include(Hunspell)
 include(IntelTBB)
@@ -2087,6 +2088,7 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${NVAPI_LIBRARY}
     ${URIPARSER_LIBRARY}
     ${HUNSPELL_LIBRARY}
+    ${GLEW_LIBRARIES}
     ${viewer_LIBRARIES}
     ${BOOST_PROGRAM_OPTIONS_LIBRARY}
     ${BOOST_REGEX_LIBRARY}

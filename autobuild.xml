@@ -1041,6 +1041,38 @@
         <key>version</key>
         <string>2.5.5</string>
       </map>
+      <key>glew</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (C) 2002-2007, Milan Ikits, Copyright (C) 2002-2007, Marcelo E. Magallon, Copyright (C) 2002, Lev Povalahev</string>
+        <key>description</key>
+        <string>The OpenGL Extension Wrangler Library.</string>
+        <key>license</key>
+        <string>BSD</string>
+        <key>license_file</key>
+        <string>LICENSES/glew.txt</string>
+        <key>name</key>
+        <string>glew</string>
+        <key>platforms</key>
+        <map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>e88114df761a8074df2d236f7c89e873</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/glew-1.12.0-windows64-201507120545.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>1.12.0</string>
+      </map>
       <key>glext</key>
       <map>
         <key>copyright</key>

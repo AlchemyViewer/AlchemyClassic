@@ -59,37 +59,9 @@
 #elif LL_DARWIN
 //----------------------------------------------------------------------------
 // LL_DARWIN
-
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <OpenGL/glext.h>
-
-//
-// Define multisample headers on Mac
-//
-#ifndef GL_ARB_texture_multisample
-#define GL_SAMPLE_POSITION                0x8E50
-#define GL_SAMPLE_MASK                    0x8E51
-#define GL_SAMPLE_MASK_VALUE              0x8E52
-#define GL_MAX_SAMPLE_MASK_WORDS          0x8E59
-#define GL_TEXTURE_2D_MULTISAMPLE         0x9100
-#define GL_PROXY_TEXTURE_2D_MULTISAMPLE   0x9101
-#define GL_TEXTURE_2D_MULTISAMPLE_ARRAY   0x9102
-#define GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY 0x9103
-#define GL_TEXTURE_BINDING_2D_MULTISAMPLE 0x9104
-#define GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY 0x9105
-#define GL_TEXTURE_SAMPLES                0x9106
-#define GL_TEXTURE_FIXED_SAMPLE_LOCATIONS 0x9107
-#define GL_SAMPLER_2D_MULTISAMPLE         0x9108
-#define GL_INT_SAMPLER_2D_MULTISAMPLE     0x9109
-#define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE 0x910A
-#define GL_SAMPLER_2D_MULTISAMPLE_ARRAY   0x910B
-#define GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910C
-#define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910D
-#define GL_MAX_COLOR_TEXTURE_SAMPLES      0x910E
-#define GL_MAX_DEPTH_TEXTURE_SAMPLES      0x910F
-#define GL_MAX_INTEGER_SAMPLES            0x9110
-#endif
 
 #endif // LL_MESA / LL_WINDOWS / LL_DARWIN
 

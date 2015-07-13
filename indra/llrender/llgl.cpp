@@ -159,6 +159,7 @@ LLGLManager::LLGLManager() :
 	mHasCompressedTextures(FALSE),
 	mHasFramebufferObject(FALSE),
 	mMaxSamples(0),
+	mHasFramebufferMultisample(FALSE),
 	mHasBlendFuncSeparate(FALSE),
 	mHasSync(FALSE),
 	mHasVertexBufferObject(FALSE),
@@ -175,7 +176,6 @@ LLGLManager::LLGLManager() :
 	mHasDrawBuffers(FALSE),
 	mHasDepthClamp(FALSE),
 	mHasTextureRectangle(FALSE),
-	mHasTextureMultisample(FALSE),
 	mHasTransformFeedback(FALSE),
 	mMaxSampleMaskWords(0),
 	mMaxColorTextureSamples(0),
@@ -464,12 +464,10 @@ bool LLGLManager::initGL()
 	
 	stop_glerror();
 
-	if (mHasTextureMultisample)
+	if (mHasFramebufferMultisample)
 	{
-		glGetIntegerv(GL_MAX_COLOR_TEXTURE_SAMPLES, &mMaxColorTextureSamples);
-		glGetIntegerv(GL_MAX_DEPTH_TEXTURE_SAMPLES, &mMaxDepthTextureSamples);
 		glGetIntegerv(GL_MAX_INTEGER_SAMPLES, &mMaxIntegerSamples);
-		glGetIntegerv(GL_MAX_SAMPLE_MASK_WORDS, &mMaxSampleMaskWords);
+		glGetIntegerv(GL_MAX_SAMPLES, &mMaxSamples);
 	}
 
 	stop_glerror();
@@ -485,28 +483,14 @@ bool LLGLManager::initGL()
 
 	stop_glerror();
 
-	//HACK always disable texture multisample, use FXAA instead
-	mHasTextureMultisample = FALSE;
+
 #if LL_WINDOWS
-	if (mIsATI)
-	{ //using multisample textures on ATI results in black screen for some reason
-		mHasTextureMultisample = FALSE;
-	}
-
-
 	if (mIsIntel && mGLVersion <= 3.f)
 	{ //never try to use framebuffer objects on older intel drivers (crashy)
 		mHasFramebufferObject = FALSE;
 	}
 #endif
 
-	if (mHasFramebufferObject)
-	{
-		glGetIntegerv(GL_MAX_SAMPLES, &mMaxSamples);
-	}
-
-	stop_glerror();
-	
 	setToDebugGPU();
 
 	stop_glerror();
@@ -659,6 +643,11 @@ void LLGLManager::initExtensions()
 # else
 	mHasFramebufferObject = FALSE;
 # endif // GL_EXT_framebuffer_object
+# ifdef GL_EXT_framebuffer_multisample
+	mHasFramebufferMultisample = TRUE;
+# else
+	mHasFramebufferMultisample = FALSE;
+# endif // GL_EXT_framebuffer_multisample
 # ifdef GL_ARB_draw_buffers
 	mHasDrawBuffers = TRUE;
 #else
@@ -723,6 +712,9 @@ void LLGLManager::initExtensions()
     extensions.find("GL_EXT_framebuffer_multisample") != extensions.end() &&
     extensions.find("GL_EXT_packed_depth_stencil") != extensions.end();
 #endif
+
+    mHasFramebufferMultisample = mHasFramebufferObject && extensions.find("GL_EXT_framebuffer_multisample") != extensions.end();
+
 #ifdef GL_EXT_texture_sRGB
     mHassRGBTexture = extensions.find("GL_EXT_texture_sRGB") != extensions.end();
 #endif
@@ -738,7 +730,6 @@ void LLGLManager::initExtensions()
     mHasDrawBuffers = extensions.find("GL_ARB_draw_buffers") != extensions.end();
     mHasBlendFuncSeparate = extensions.find("GL_EXT_blend_func_separate") != extensions.end();
     mHasTextureRectangle = extensions.find("GL_ARB_texture_rectangle") != extensions.end();
-    mHasTextureMultisample = extensions.find("GL_ARB_texture_multisample") != extensions.end();
     mHasDebugOutput = extensions.find("GL_ARB_debug_output") != extensions.end();
     mHasTransformFeedback = mGLVersion >= 4.f || extensions.find("GL_EXT_transform_feedback") != extensions.end();
 #if !LL_DARWIN
@@ -783,6 +774,9 @@ void LLGLManager::initExtensions()
 							GLEW_EXT_framebuffer_multisample &&
 							GLEW_EXT_packed_depth_stencil;
 #endif
+
+	mHasFramebufferMultisample = mHasFramebufferObject && GLEW_EXT_framebuffer_multisample;
+
 #ifdef GL_EXT_texture_sRGB
 	mHassRGBTexture = GLEW_EXT_texture_sRGB;
 #endif
@@ -798,7 +792,6 @@ void LLGLManager::initExtensions()
 	mHasDrawBuffers = GLEW_ARB_draw_buffers;
 	mHasBlendFuncSeparate = GLEW_EXT_blend_func_separate;
 	mHasTextureRectangle = GLEW_ARB_texture_rectangle;
-	mHasTextureMultisample = GLEW_ARB_texture_multisample;
 	mHasDebugOutput = GLEW_ARB_debug_output;
 	mHasTransformFeedback = mGLVersion >= 4.f || GLEW_EXT_transform_feedback;
 #if !LL_DARWIN
@@ -1245,8 +1238,7 @@ void LLGLState::checkTextureChannels(const std::string& msg)
 		"GL_TEXTURE_GEN_T",
 		"GL_TEXTURE_GEN_Q",
 		"GL_TEXTURE_GEN_R",
-		"GL_TEXTURE_RECTANGLE_ARB",
-		"GL_TEXTURE_2D_MULTISAMPLE"
+		"GL_TEXTURE_RECTANGLE_ARB"
 	};
 
 	static GLint value[] =
@@ -1259,8 +1251,7 @@ void LLGLState::checkTextureChannels(const std::string& msg)
 		GL_TEXTURE_GEN_T,
 		GL_TEXTURE_GEN_Q,
 		GL_TEXTURE_GEN_R,
-		GL_TEXTURE_RECTANGLE_ARB,
-		GL_TEXTURE_2D_MULTISAMPLE
+		GL_TEXTURE_RECTANGLE_ARB
 	};
 
 	GLint stackDepth = 0;
@@ -1305,13 +1296,7 @@ void LLGLState::checkTextureChannels(const std::string& msg)
 			}
 				
 			for (S32 j = (i == 0 ? 1 : 0); 
-				j < 9; j++)
-			{
-				if (j == 8 && !gGLManager.mHasTextureRectangle ||
-					j == 9 && !gGLManager.mHasTextureMultisample)
-				{
-					continue;
-				}
+				j < (gGLManager.mHasTextureRectangle ? 9 : 8); j++)
 				
 				if (glIsEnabled(value[j]))
 				{

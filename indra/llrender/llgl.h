@@ -87,6 +87,7 @@ public:
 	BOOL mHasCompressedTextures;
 	BOOL mHasFramebufferObject;
 	S32 mMaxSamples;
+	BOOL mHasFramebufferMultisample;
 	BOOL mHasBlendFuncSeparate;
 		
 	// ARB Extensions
@@ -105,7 +106,6 @@ public:
 	BOOL mHasDrawBuffers;
 	BOOL mHasDepthClamp;
 	BOOL mHasTextureRectangle;
-	BOOL mHasTextureMultisample;
 	BOOL mHasTransformFeedback;
 	S32 mMaxSampleMaskWords;
 	S32 mMaxColorTextureSamples;

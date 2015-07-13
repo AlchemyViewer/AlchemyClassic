@@ -942,7 +942,8 @@ void LLGLManager::initExtensions()
 		LL_INFOS("RenderInit") << "Disabling mip-map generation for Intel GPUs" << LL_ENDL;
 		mHasMipMapGeneration = FALSE;
 	}
-#if !LL_DARWIN
+// This bug has been fixed since this.
+#if 0
 	if (mIsATI && mHasMipMapGeneration)
 	{
 		LL_INFOS("RenderInit") << "Disabling mip-map generation for ATI GPUs (performance opt)" << LL_ENDL;

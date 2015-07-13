@@ -1547,15 +1547,10 @@ void LLRender::pushUIMatrix()
 
 void LLRender::popUIMatrix()
 {
-	if (mUIOffset.empty())
+	if (mUIOffset.empty() || mUIScale.empty())
 	{
-		LL_ERRS() << "UI offset stack blown." << LL_ENDL;
+		LL_ERRS() << "UI offset or scale stack blown." << LL_ENDL;
 	}
-	else if (mUIScale.empty())
-	{
-		LL_ERRS() << "UI scale stack blown." << LL_ENDL;
-	}
-
 	mUIOffset.pop_back();
 	mUIScale.pop_back();
 }
@@ -1566,11 +1561,7 @@ LLVector3 LLRender::getUITranslation()
 	{
 		return LLVector3(0,0,0);
 	}
-
-	// return mUIOffset.back();
-	// <alchemy> - Manual Vectorization
 	return LLVector3(mUIOffset.back().getF32ptr());
-	// </alchemy>
 }
 
 LLVector3 LLRender::getUIScale()
@@ -1579,27 +1570,18 @@ LLVector3 LLRender::getUIScale()
 	{
 		return LLVector3(1,1,1);
 	}
-
-	// return mUIScale.back();
-	// <alchemy> - Manual Vectorization
 	return LLVector3(mUIScale.back().getF32ptr());
-	// </alchemy>
 }
 
 
 void LLRender::loadUIIdentity()
 {
-	if (mUIOffset.empty())
+	if (mUIOffset.empty() || mUIScale.empty())
 	{
 		LL_ERRS() << "Need to push UI translation frame before clearing offset." << LL_ENDL;
 	}
-
-	// mUIOffset.back().setVec(0,0,0);
-	// mUIScale.back().setVec(1,1,1);
-	// <alchemy> - Manual Vectorization
 	mUIOffset.back().splat(0.f);
 	mUIScale.back().splat(1.f);
-	// </alchemy>
 }
 
 void LLRender::setColorMask(bool writeColor, bool writeAlpha)
@@ -1961,8 +1943,6 @@ void LLRender::flush()
 	}
 }
 
-// void LLRender::vertex3f(const GLfloat& x, const GLfloat& y, const GLfloat& z)
-// <alchemy> - Manual Vectorization
 void LLRender::vertex4a(const LLVector4a& vertex)
 { 
 	//the range of mVerticesp, mColorsp and mTexcoordsp is [0, 4095]
@@ -1985,19 +1965,13 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 
 	if (mUIOffset.empty())
 	{
-		// mVerticesp[mCount] = LLVector3(x,y,z);
-		// <alchemy> - Manual Vectorization
 		mVerticesp[mCount] = vertex;
-		// </alchemy>
 	}
 	else
 	{
 		// LLVector3 vert = (LLVector3(x,y,z)+mUIOffset.back()).scaledVec(mUIScale.back());
-		// mVerticesp[mCount] = vert;
-		// <alchemy> - Manual Vectorization
 		mVerticesp[mCount].setAdd(vertex, mUIOffset.back());
 		mVerticesp[mCount].mul(mUIScale.back());
-		// </alchemy>
 	}
 
 	if (mMode == LLRender::QUADS && LLRender::sGLCoreProfile)
@@ -2025,8 +1999,6 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];	
 }
 
-// void LLRender::vertexBatchPreTransformed(LLVector3* verts, S32 vert_count)
-// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2084,8 +2056,6 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 	mVerticesp[mCount] = mVerticesp[mCount-1];
 }
 
-// void LLRender::vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, S32 vert_count)
-// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2144,8 +2114,6 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 
 	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
 }
 
-// void LLRender::vertexBatchPreTransformed(LLVector3* verts, LLVector2* uvs, LLColor4U* colors, S32 vert_count)
-// <alchemy> - Manual Vectorization
 void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLColor4U* colors, S32 vert_count)
 {
 	if (mCount + vert_count > 4094)
@@ -2205,28 +2173,6 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
 	mColorsp[mCount] = mColorsp[mCount-1];
 }
-
-// <alchemy> - Manual Vectorization
-//void LLRender::vertex2i(const GLint& x, const GLint& y)
-//{
-//	vertex3f((GLfloat) x, (GLfloat) y, 0);	
-//}
-//
-//void LLRender::vertex2f(const GLfloat& x, const GLfloat& y)
-//{ 
-//	vertex3f(x,y,0);
-//}
-//
-//void LLRender::vertex2fv(const GLfloat* v)
-//{ 
-//	vertex3f(v[0], v[1], 0);
-//}
-//
-//void LLRender::vertex3fv(const GLfloat* v)
-//{
-//	vertex3f(v[0], v[1], v[2]);
-//}
-// </alchemy> - Vectorization
 
 void LLRender::texCoord2f(const GLfloat& x, const GLfloat& y)
 { 

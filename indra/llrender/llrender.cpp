@@ -1157,7 +1157,7 @@ void LLRender::syncLightState()
 		shader->uniform3fv(LLShaderMgr::LIGHT_DIFFUSE, 8, diffuse[0].mV);
 		shader->uniform4fv(LLShaderMgr::LIGHT_AMBIENT, 1, mAmbientLightColor.mV);
 		//HACK -- duplicate sunlight color for compatibility with drivers that can't deal with multiple shader objects referencing the same uniform
-		shader->uniform3fv(LLShaderMgr::SUNLIGHT_COLOR, 1, diffuse[0].mV); // <alchemy/>
+		shader->uniform3fv(LLShaderMgr::SUNLIGHT_COLOR, 1, diffuse[0].mV);
 	}
 }
 
@@ -1492,13 +1492,8 @@ void LLRender::translateUI(F32 x, F32 y, F32 z)
 		LL_ERRS() << "Need to push a UI translation frame before offsetting" << LL_ENDL;
 	}
 
-	// mUIOffset.back().mV[0] += x;
-	// mUIOffset.back().mV[1] += y;
-	// mUIOffset.back().mV[2] += z;
-	// <alchemy> - Manual Vectorization
 	LLVector4a add(x,y,z);
 	mUIOffset.back().add(add);
-	// </alchemy>
 }
 
 void LLRender::scaleUI(F32 x, F32 y, F32 z)
@@ -1508,21 +1503,15 @@ void LLRender::scaleUI(F32 x, F32 y, F32 z)
 		LL_ERRS() << "Need to push a UI transformation frame before scaling." << LL_ENDL;
 	}
 
-	// mUIScale.back().scaleVec(LLVector3(x,y,z));
-	// <alchemy> - Manual Vectorization
 	LLVector4a scale(x,y,z);
 	mUIScale.back().mul(scale);
-	// </alchemy>
 }
 
 void LLRender::pushUIMatrix()
 {
 	if (mUIOffset.empty())
 	{
-		// mUIOffset.push_back(LLVector3(0,0,0));
-		// <alchemy> - Manual Vectorization
 		mUIOffset.push_back(LLVector4a(0.f));
-		// </alchemy>
 	}
 	else
 	{
@@ -1531,10 +1520,7 @@ void LLRender::pushUIMatrix()
 	
 	if (mUIScale.empty())
 	{
-		// mUIScale.push_back(LLVector3(1,1,1));
-		// <alchemy> - Manual Vectorization
 		mUIScale.push_back(LLVector4a(1.f));
-		// </alchemy>
 	}
 	else
 	{

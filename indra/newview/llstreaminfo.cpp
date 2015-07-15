@@ -54,6 +54,9 @@ BOOL LLStreamInfo::tick()
 	if (music_ticker)
 		return FALSE;
 	
+	if (!gAudiop)
+		return FALSE;
+
 	LLStreamingAudioInterface *stream = gAudiop->getStreamingAudioImpl();
 	if (!stream || !stream->getMetaData() || !stream->hasNewMetaData()) 
 		return FALSE;

@@ -448,11 +448,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>466b6c6616584a58165f08172f8c3a90</string>
+              <string>78263373f5215090f53aa26efbfdb2a9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.43.0-windows-201506181444.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.43.0-windows-201507131935.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -462,11 +462,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4d897feadcb5289cfc2a6ae47167e06f</string>
+              <string>f8d14b6716f430f318b4914b965033db</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/curl-7.43.0-windows64-201506181436.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/curl-7.43.0-windows64-201507131916.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2582,11 +2582,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cb8c9d40f77f7954e35dd93d2a06e904</string>
+              <string>cfe206ecb94baee4cd0850b1fce1ae6b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/llqtwebkit-4.8.7-windows-201506150612.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/llqtwebkit-4.8.7-windows-201507150724.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2596,11 +2596,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>60b49fdeda51b666511fc3f2810754cd</string>
+              <string>cf8f6668857522b667eb8f8b3cfa0627</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/llqtwebkit-4.8.7-windows64-201506142244.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/llqtwebkit-4.8.7-windows64-201507141841.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3082,11 +3082,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4a40518fc541868fff76c7554e81bf25</string>
+              <string>842f57ea64108fe0357734535fd066ac</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/openssl-1.0.2c-windows-201506142050.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/openssl-1.0.2d-windows-201507120223.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3096,11 +3096,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>85ad59daf3d5ad28d5428a55379f6d75</string>
+              <string>eefedae7a6223891ca4f35dec0f08184</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/openssl-1.0.2c-windows64-201506142034.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/openssl-1.0.2d-windows64-201507112045.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

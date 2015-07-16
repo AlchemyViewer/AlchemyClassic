@@ -534,11 +534,11 @@
                 <combo_box.item
                  label="Default"
                  name="Default"
-                 value="Default" />
+                 value="0" />
                 <combo_box.item
                  label="Planar"
                  name="Planar"
-                 value="Planar" />
+                 value="1" />
             </combo_box>
             <spinner
              follows="left|top"

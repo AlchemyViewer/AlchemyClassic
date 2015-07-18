@@ -158,7 +158,7 @@ LLGLManager::LLGLManager() :
 	mHasMipMapGeneration(FALSE),
 	mHasCompressedTextures(FALSE),
 	mHasFramebufferObject(FALSE),
-	mMaxSamples(0),
+	//mMaxSamples(0),
 	mHasFramebufferMultisample(FALSE),
 	mHasBlendFuncSeparate(FALSE),
 	mHasSync(FALSE),
@@ -180,7 +180,7 @@ LLGLManager::LLGLManager() :
 	mMaxSampleMaskWords(0),
 	mMaxColorTextureSamples(0),
 	mMaxDepthTextureSamples(0),
-	mMaxIntegerSamples(0),
+	//mMaxIntegerSamples(0),
 
 	mHasAnisotropic(FALSE),
 	mHasARBEnvCombine(FALSE),
@@ -464,11 +464,11 @@ bool LLGLManager::initGL()
 	
 	stop_glerror();
 
-	if (mHasFramebufferMultisample)
-	{
-		glGetIntegerv(GL_MAX_INTEGER_SAMPLES, &mMaxIntegerSamples);
-		glGetIntegerv(GL_MAX_SAMPLES, &mMaxSamples);
-	}
+	//if (mHasFramebufferMultisample)
+	//{
+	//	glGetIntegerv(GL_MAX_INTEGER_SAMPLES, &mMaxIntegerSamples);
+	//	glGetIntegerv(GL_MAX_SAMPLES, &mMaxSamples);
+	//}
 
 	stop_glerror();
 

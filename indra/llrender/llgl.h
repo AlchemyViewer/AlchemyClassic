@@ -86,7 +86,7 @@ public:
 	BOOL mHasMipMapGeneration;
 	BOOL mHasCompressedTextures;
 	BOOL mHasFramebufferObject;
-	S32 mMaxSamples;
+	//S32 mMaxSamples;
 	BOOL mHasFramebufferMultisample;
 	BOOL mHasBlendFuncSeparate;
 		
@@ -110,7 +110,7 @@ public:
 	S32 mMaxSampleMaskWords;
 	S32 mMaxColorTextureSamples;
 	S32 mMaxDepthTextureSamples;
-	S32 mMaxIntegerSamples;
+	//S32 mMaxIntegerSamples;
 
 	// Other extensions.
 	BOOL mHasAnisotropic;

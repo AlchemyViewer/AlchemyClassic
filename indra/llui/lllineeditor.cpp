@@ -935,14 +935,14 @@ void LLLineEditor::removeChar()
 // Remove a word (set of characters up to next space/punctuation) from the text
 void LLLineEditor::removeWord(bool prev)
 {
-	const U32 pos(getCursor());
+	const S32 pos(getCursor());
 	if (prev ? pos > 0 : static_cast<S32>(pos) < getLength())
 	{
-		U32 new_pos(prev ? prevWordPos(pos) : nextWordPos(pos));
+		S32 new_pos(prev ? prevWordPos(pos) : nextWordPos(pos));
 		if (new_pos == pos) // Other character we don't jump over
 			new_pos = prev ? prevWordPos(new_pos-1) : nextWordPos(new_pos+1);
 
-		const U32 diff((pos - new_pos));
+		const S32 diff(llabs(pos - new_pos));
 		if (prev)
 		{
 			mText.erase(new_pos, diff);

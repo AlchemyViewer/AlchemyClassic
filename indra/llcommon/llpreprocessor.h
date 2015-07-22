@@ -146,7 +146,7 @@
 //#pragma warning( 3	: 4018 )	// "signed/unsigned mismatch"  Treat this as level 3, not level 4.
 #pragma warning( 3      :  4263 )	// 'function' : member function does not override any base class virtual member function
 #pragma warning( 3      :  4264 )	// "'virtual_function' : no override available for virtual member function from base 'class'; function is hidden"
-#pragma warning( 3       : 4265 )	// "class has virtual functions, but destructor is not virtual"
+//#pragma warning( 3       : 4265 )	// "class has virtual functions, but destructor is not virtual"
 #pragma warning( 3      :  4266 )	// 'function' : no override available for virtual member function from base 'type'; function is hidden
 #pragma warning (disable : 4180)	// qualifier applied to function type has no meaning; ignored
 #pragma warning( disable : 4800 )	// 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)

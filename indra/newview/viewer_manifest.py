@@ -402,16 +402,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("msvcr*.dll")
                 self.path("msvcp*.dll")
 
-            # ICU4C
-            if self.args['configuration'].lower() == 'debug':
-                self.path("icuin*d.dll")
-                self.path("icuuc*d.dll")
-                self.path("icudt*.dll")
-            else:
-                self.path("icuin*.dll")
-                self.path("icuuc*.dll")
-                self.path("icudt*.dll")
-
             # Vivox runtimes
             self.path("SLVoice.exe")
             self.path("vivoxsdk.dll")

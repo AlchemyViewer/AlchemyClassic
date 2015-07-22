@@ -43,9 +43,6 @@ if(WINDOWS)
         libeay32.dll
         glod.dll    
         libhunspell.dll
-        icuin55d.dll
-        icuuc55d.dll
-        icudt55.dll
         )
 
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
@@ -58,9 +55,6 @@ if(WINDOWS)
         libeay32.dll
         glod.dll
         libhunspell.dll
-        icuin55.dll
-        icuuc55.dll
-        icudt55.dll
         )
 
     if(USE_TCMALLOC)

@@ -29,7 +29,15 @@
 
 #include "stdtypes.h"
 #include "llwin32headerslean.h"
+
+#if LL_WINDOWS
+#pragma warning (push)
+#pragma warning (disable : 4091)
+#endif
 #include <dbghelp.h>
+#if LL_WINDOWS
+#pragma warning (pop)
+#endif
 
 class LLWinDebug:
 	public LLSingleton<LLWinDebug>

@@ -47,7 +47,6 @@ set(cmake_SOURCE_FILES
     Glui.cmake
     Glut.cmake
     GoogleBreakpad.cmake
-    GoogleMock.cmake
     GooglePerfTools.cmake
     Havok.cmake
     Hunspell.cmake

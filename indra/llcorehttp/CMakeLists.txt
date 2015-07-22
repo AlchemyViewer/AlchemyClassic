@@ -3,7 +3,6 @@
 project(llcorehttp)
 
 include(00-Common)
-include(GoogleMock)
 include(CURL)
 include(CARes)
 include(OpenSSL)
@@ -127,7 +126,6 @@ if (LL_TESTS)
       ${WINDOWS_LIBRARIES}
       ${LLMESSAGE_LIBRARIES}
       ${LLCOMMON_LIBRARIES}
-      ${GOOGLEMOCK_LIBRARIES}
       ${CURL_LIBRARIES}
       ${CARES_LIBRARIES}
       ${OPENSSL_LIBRARIES}
@@ -155,7 +153,6 @@ if (LL_TESTS)
       ${WINDOWS_LIBRARIES}
       ${LLMESSAGE_LIBRARIES}
       ${LLCOMMON_LIBRARIES}
-      ${GOOGLEMOCK_LIBRARIES}
       ${CURL_LIBRARIES}
       ${CARES_LIBRARIES}
       ${OPENSSL_LIBRARIES}

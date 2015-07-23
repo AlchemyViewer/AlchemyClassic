@@ -1088,11 +1088,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a840eefa48c33381217f1e706a174cb1</string>
+              <string>1158fae47ab3d6f99bdca05831973a2f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/glew-1.12.0-windows64-201507220513.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/glew-1.12.0-windows64-201507230616.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1698,11 +1698,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>623edaa9055e6312e58d52505406fecb</string>
+              <string>ad32b1b83fd5d8f025324362f099353d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/jpeglib-1.4.1-windows64-201507220442.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/jpeglib-1.4.1-windows64-201507230624.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2150,11 +2150,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f264cf203bdb0dd52962ef1f07bb245f</string>
+              <string>7a27d6a08a410105d5d490f5f83cdc5a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/libpng-1.6.17-windows64-201507220208.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/libpng-1.6.17-windows64-201507230726.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2484,11 +2484,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7329020113ef99aaff0b0d865d6264f9</string>
+              <string>35c4aa37dacc86c8abd023044c11d786</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/llqtwebkit-4.8.7-windows64-201507230115.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/llqtwebkit-4.8.7-windows64-201507230741.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2724,11 +2724,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>04ac3384af682c3cd7595536e603a3d0</string>
+              <string>1f00047f005aae0c35223cedfa6e77dd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/ogg_vorbis-1.3.2-1.3.5-windows64-201507220612.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/ogg_vorbis-1.3.2-1.3.5-windows64-201507230657.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -4083,7 +4083,7 @@
         <key>windows</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc120</string>
+          <string>build-vc140</string>
           <key>configurations</key>
           <map>
             <key>Debug</key>
@@ -4348,7 +4348,7 @@
         <key>windows64</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc120-x86_64</string>
+          <string>build-vc140-x86_64</string>
           <key>configurations</key>
           <map>
             <key>Coverity</key>

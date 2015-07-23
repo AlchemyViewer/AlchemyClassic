@@ -43,7 +43,7 @@
 
 
 // work around for Windows & older gcc non-standard function names.
-#if LL_WINDOWS
+#if (LL_WINDOWS && (_MSC_VER < 1900))
 #include <float.h>
 #define llisnan(val)	_isnan(val)
 #define llfinite(val)	_finite(val)

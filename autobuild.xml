@@ -748,7 +748,7 @@
       <key>fmodstudio</key>
       <map>
         <key>copyright</key>
-        <string>FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2014.</string>
+        <string>FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2015.</string>
         <key>description</key>
         <string>FMOD Studio audio system library</string>
         <key>license</key>
@@ -778,11 +778,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5da725258b66d8f73fdb2ea574851486</string>
+              <string>1331456a3df95294eaf44fab990f62cd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.05.11-linux-201501282022.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux/lib/fmodstudio-1.06.07-linux-201507231333.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -792,11 +792,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a72129a00d987dd12ceec14674a77b52</string>
+              <string>fa9c3084cfdef0aa91ba6fdce7fb1039</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.06.04-linux64-201506142211.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.06.07-linux64-201507231333.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -806,11 +806,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8bc3dcc62eeec22d44dcffa1ed9a8181</string>
+              <string>57daaff787d824a61cfbac4fa1539338</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.06.04-windows-201506110045.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.06.07-windows-201507231336.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -820,18 +820,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fd7012968e397b7cc937fcafb133631c</string>
+              <string>b36e2f5ecb2fd4ce7df8e593e97e58bb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.06.04-windows64-201506110044.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.06.07-windows64-201507231335.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.06.04</string>
+        <string>1.06.07</string>
       </map>
       <key>fontconfig</key>
       <map>

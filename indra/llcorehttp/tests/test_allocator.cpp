@@ -45,8 +45,8 @@
 
 
 #if	defined(WIN32)
-#define	THROW_BAD_ALLOC()	_THROW1(std::bad_alloc)
-#define	THROW_NOTHING()		_THROW0()
+#define	THROW_BAD_ALLOC()
+#define	THROW_NOTHING()		noexcept
 #else
 #define	THROW_BAD_ALLOC()
 #define	THROW_NOTHING()		noexcept

@@ -644,7 +644,7 @@ void term_curl()
 unsigned long ssl_thread_id_callback(void)
 {
 #if defined(WIN32)
-	return (unsigned long) GetCurrentThread();
+	return (unsigned long) GetCurrentThreadId();
 #else
 	return (unsigned long) pthread_self();
 #endif

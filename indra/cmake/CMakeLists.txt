@@ -26,6 +26,7 @@ set(cmake_SOURCE_FILES
     FindAutobuild.cmake
     FindCARes.cmake
     FindCXX14Features.cmake
+    FindCXXThreadLocal.cmake
     FindFMODEX.cmake
     FindGLH.cmake
     FindGoogleBreakpad.cmake

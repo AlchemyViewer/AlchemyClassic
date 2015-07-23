@@ -942,18 +942,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>40f45e3ca13cb077b93d0580bb2974f3</string>
+              <string>27f3895670bb4142af276c75cf194cd8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/freeglut-2.8.1-windows64-201504270617.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/freeglut-3.0.0-windows64-201507221212.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.8.1</string>
+        <string>3.0.0</string>
       </map>
       <key>freetype</key>
       <map>
@@ -2484,11 +2484,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cf8f6668857522b667eb8f8b3cfa0627</string>
+              <string>7329020113ef99aaff0b0d865d6264f9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/llqtwebkit-4.8.7-windows64-201507141841.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/llqtwebkit-4.8.7-windows64-201507230115.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -686,6 +686,10 @@ class Windows_i686_Manifest(WindowsManifest):
 
             self.end_prefix()
 
+        if self.prefix(src=os.path.join(self.args['build'], os.pardir, 'packages', 'bin'), dst="redist"):
+            self.path("vc_redist.x86.exe")
+            self.end_prefix()
+
 
 class Windows_x86_64_Manifest(WindowsManifest):
     def construct(self):
@@ -713,6 +717,10 @@ class Windows_x86_64_Manifest(WindowsManifest):
             except:
                 print "Skipping fmodstudio audio library(assuming other audio engine)"
 
+            self.end_prefix()
+
+        if self.prefix(src=os.path.join(self.args['build'], os.pardir, 'packages', 'bin'), dst="redist"):
+            self.path("vc_redist.x64.exe")
             self.end_prefix()
 
 

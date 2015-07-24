@@ -10,10 +10,14 @@ else (USESYSTEMLIBS)
   set(LIBXML2_INCLUDES
       ${LIBS_PREBUILT_DIR}/include/libxml2
 	  )
-  if (DARWIN OR LINUX)
+  if (DARWIN)
     set(LIBXML2_LIBRARIES
         xml2
         iconv
+            )
+  elseif(LINUX)
+    set(LIBXML2_LIBRARIES
+        xml2
 	    )
   elseif (WINDOWS)
     set(LIBXML2_LIBRARIES

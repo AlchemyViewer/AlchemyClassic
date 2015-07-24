@@ -19,9 +19,9 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(Variables)
 if (NOT MSVC AND NOT LINUX)
   include(FindCXX14Features)
+  include(FindCXXThreadLocal)
 endif (NOT MSVC AND NOT LINUX)
 include(BuildVersion)
-include(FindCXXThreadLocal)
 
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING

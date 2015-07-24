@@ -106,11 +106,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cffa0ed20ccc8b383efdcb6517c505f4</string>
+              <string>495b06aa047a1e19152ae70f5a2ab8ab</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/apr_suite-1.5.2-windows-201506231924.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/apr_suite-1.5.2-windows-201507231929.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -192,11 +192,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fedbc04ffcf9662d6a9dba92739b866d</string>
+              <string>ccf77682159cee86fd3b0b2a3c6892a7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/ares-1.10.0-windows-201504270520.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/ares-1.10.0-windows-201507231905.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -278,11 +278,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1a8ece93cf80ac0dfbc5315543309e7c</string>
+              <string>a20616e2a687b6fac9c2614dc4d82812</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/boost-1.58.0-windows-201504271706.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/boost-1.58.0-windows-201507232038.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -362,11 +362,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c768959246cebea6986e677f062f5799</string>
+              <string>42dcfa0df8265bb47bb64f87dbef5b80</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/colladadom-2.3-windows-201504271818.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/colladadom-2.3-windows-201507232104.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -448,11 +448,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>78263373f5215090f53aa26efbfdb2a9</string>
+              <string>5fb531adc6a6282e00b68faddc350051</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/curl-7.43.0-windows-201507131935.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/curl-7.43.0-windows-201507232032.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -634,11 +634,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f127c397e1d797ca4cae060bab2ab8a1</string>
+              <string>11a8db2d9fecf77f2363f2ae5168138a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/expat-2.1.0-windows-201504262258.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/expat-2.1.0-windows-201507231844.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -928,11 +928,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5e9310012432daa7898b39adaab9e020</string>
+              <string>34f973293556326beb99d3b9a8697b0e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/freeglut-2.8.1-windows-201504270618.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/freeglut-3.0.0-windows-201507231908.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1014,11 +1014,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8ec40de37f0d66c97063a33918f08d46</string>
+              <string>1c365e29a71a0df770cddb4479c72b82</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/freetype-2.5.5-windows-201504270710.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/freetype-2.6.0-windows-201507232019.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1074,11 +1074,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e0dd5a99f36f9d1885bdb6ebc672164a</string>
+              <string>b01f4e70c22666f5a91e7c193d2b2036</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/glew-1.12.0-windows-201507120657.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/glew-1.12.0-windows-201507231853.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1224,11 +1224,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9a685edac9a05026cb37ed9acfa39cd7</string>
+              <string>c3c73acda7cec013883b36981cdb3c76</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/glod-1.0pre4-windows-201504270609.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/glod-1.0pre4-windows-201507231911.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1370,11 +1370,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ad6fc1582692c0440e1950e30a7488af</string>
+              <string>93b420108befdb3e32014f8d1aeaf9cf</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/google_breakpad-1435-windows-201504270614.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/google_breakpad-1474-windows-201507231913.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1684,11 +1684,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8427abe191d95eec255df72c5bf6a449</string>
+              <string>ac4332f99f93b8946f62d4d8babb0531</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/jpeglib-1.4.0-windows-201504270546.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/jpeglib-1.4.1-windows-201507231857.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1770,11 +1770,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>67f49f521f42196b5cb017061f543ace</string>
+              <string>ede3260778c461cac5fdcdca3071c76a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/jsoncpp-1.6.1-windows-201504270602.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/jsoncpp-1.6.1-windows-201507231854.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1912,11 +1912,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>708f6c00fe844951b25963ef6266d7af</string>
+              <string>5dd4e74ad93640a4b0c4df152d186ab3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/libhunspell-1.3.3-windows-201504270606.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libhunspell-1.3.3-windows-201507231856.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2018,11 +2018,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a214e2edd5d02443d26775ae0806581c</string>
+              <string>4e32d658e262cfe28ba2916d3fa28dbd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/libndofdev-0.1-windows-201504270600.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libndofdev-0.1-windows-201507231850.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2136,11 +2136,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bf3c40accd13d5d9b0cd169c701fb449</string>
+              <string>c1d1978f10bf2b1521c68700cc9ba777</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/libpng-1.6.17-windows-201504270645.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libpng-1.6.17-windows-201507232005.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2222,11 +2222,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b30f21bd48de311568ce3c1a51f0670a</string>
+              <string>e9633ef398c30dff63112a7dd1b48872</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/libxml2-2.9.2-windows-201504271403.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libxml2-2.9.2-windows-201507232021.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2470,11 +2470,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cfe206ecb94baee4cd0850b1fce1ae6b</string>
+              <string>c95379c0b3c3c65b7f5f023aca6c00e4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/llqtwebkit-4.8.7-windows-201507150724.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/llqtwebkit-4.8.7-windows-201507240547.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2580,11 +2580,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>089e05ef42ee76861fae64339cb759f7</string>
+              <string>627fbf98b2b38c4bb0858f2b4a81cadd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/ndPhysicsStub-0.1.2-windows-201504270558.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/ndPhysicsStub-0.1.2-windows-201507231858.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2710,11 +2710,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>94afa139c464c67023baa73b0becf647</string>
+              <string>6c661963cbef4af80c2df2bdedf2b922</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/ogg_vorbis-1.3.2-1.3.5-windows-201504270615.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/ogg_vorbis-1.3.2-1.3.5-windows-201507231859.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2884,11 +2884,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>edfb4597c1a01fd466f5a01665c8e8e5</string>
+              <string>4ac413e4670d041990b2c8aa9b82849d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/openjpeg-1.5.1-windows-201504270526.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openjpeg-1.5.1-windows-201507231909.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2970,11 +2970,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>842f57ea64108fe0357734535fd066ac</string>
+              <string>aaa29b6673b3dcf1712de3fb051e37ba</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/openssl-1.0.2d-windows-201507120223.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openssl-1.0.2d-windows-201507232008.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3206,11 +3206,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8ac267ad9de7baa054e0cbb118610fc4</string>
+              <string>f4a90de994c95603f5a5f5bcbe6625eb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/uriparser-0.8.1-windows-201504270523.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/uriparser-0.8.2-windows-201507231842.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3338,11 +3338,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9d392f21cee4dcb69eb095c851f7cb76</string>
+              <string>16ba4b05f3b4a81615227e26e6d73576</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/xmlrpc_epi-0.54.2-windows-201504270629.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/xmlrpc_epi-0.54.2-windows-201507231927.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3424,11 +3424,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>180ccbbf9c262a823fb5ad1d1917767d</string>
+              <string>86efee0b20b3cb204dba538b1205f966</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/zlib-1.2.8-windows-201504262238.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/zlib-1.2.8-windows-201507231838.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

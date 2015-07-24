@@ -2437,7 +2437,7 @@ void LLModel::Decomposition::fromLLSD(LLSD& decomp)
 
 		range = max-min;
 
-		U16 count = position.size()/6;
+		size_t count = position.size()/6;
 		
 		for (U32 j = 0; j < count; ++j)
 		{

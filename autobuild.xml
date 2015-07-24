@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>30ffa1d4a5585b9b5ce456a9f50863ea</string>
+              <string>d827d8dd08dc71dad671a87dc625f128</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201504240923.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201507232309.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -264,11 +264,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>35eee78f0d9ee96a5ea1b89830501f16</string>
+              <string>fcc8965fc8e4c77b02c63158f5bd61ba</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/boost-1.58.0-linux64-201504230342.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/boost-1.58.0-linux64-201507231705.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5357051fa2ea7f0117db8ca3eb6970e0</string>
+              <string>91a823e2bfb7e3e9c486cfe5a797a380</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201504240957.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201507240000.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -348,11 +348,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>71da073bb36ecd040611a29f727d7f33</string>
+              <string>3bc514a5ba94502e16ea8c31ba57c337</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/colladadom-2.3-linux64-201504231318.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/colladadom-2.3-linux64-201507231924.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -864,11 +864,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f05f9e95973d8694fa0feefb923f2191</string>
+              <string>333c37f6ec2c1db04b2d73493b3a4c09</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fontconfig-2.11.0-linux64-201504230108.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fontconfig-2.11.0-linux64-201507231614.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1000,11 +1000,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>01ec991d548bfc599a26538f91cdf475</string>
+              <string>f0588eb6aba810febd3ad48e6a259436</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/freetype-2.5.5-linux64-201504230101.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/freetype-2.6.0-linux64-201507231602.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1356,11 +1356,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f56de54581ea778f04ea3ea844fd2d80</string>
+              <string>97d74247b36e67d88f4a8ba8c7ee96a4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/google_breakpad-1435-linux64-201504222109.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/google_breakpad-1474-linux64-201507231539.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1506,11 +1506,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d06ff4ca9ad2dd3e85dd15e7f02ba258</string>
+              <string>5d820cbb71bac0ccc142622bc3a7d56f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/gtk_atk_pango_glib-0.0.2-linux64-201504230128.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/gtk_atk_pango_glib-0.0.2-linux64-201507231955.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1670,11 +1670,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>63887fe96250641e9a4e83c8d189abe4</string>
+              <string>bb3cfffb1e0079c0a4e1a731ca404e99</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jpeglib-1.4.0-linux64-201504222152.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/jpeglib-1.4.1-linux64-201507231342.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2182,11 +2182,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a79f8f6273921e285dcca886a86d5534</string>
+              <string>3f23352757385fac6942051cac5ac370</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201504232308.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201507231939.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2208,11 +2208,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2b5734e69de4451e0dd6fc6ce882d0e2</string>
+              <string>bcfb3196df9b18aaf4f25ae40c8eda69</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libxml2-2.9.2-linux64-201504230046.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/libxml2-2.9.2-linux64-201507231608.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3192,11 +3192,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>367edae9b73b929e9de14335efb17e82</string>
+              <string>185066409eccc8f4fbb8a8ba00cace8a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/uriparser-0.8.1-linux64-201504222214.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/uriparser-0.8.2-linux64-201507231504.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

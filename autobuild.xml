@@ -974,11 +974,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9a5b0d3ca8f068f3523d7cc0a204c70e</string>
+              <string>e4c6a15c0bd6d0d757af54c70cc1bad9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/freetype-2.5.5-darwin-201504240656.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/freetype-2.6.0-darwin-201507240601.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1330,11 +1330,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>437f6f1f698b81bfb28eee9f00254eaa</string>
+              <string>a20993c06c6e7d1148cf53ac5aa01d05</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1435-darwin-201504232151.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-1474-darwin-201507240649.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3166,11 +3166,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2579b92d8af551fe7ac7d9a03c2fe08d</string>
+              <string>be3091973630516f7bc66e4ccbe4e73e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/uriparser-0.8.1-darwin-201504232205.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/uriparser-0.8.2-darwin-201507240558.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>30ffa1d4a5585b9b5ce456a9f50863ea</string>
+              <string>d827d8dd08dc71dad671a87dc625f128</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201504240923.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201507232309.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5357051fa2ea7f0117db8ca3eb6970e0</string>
+              <string>91a823e2bfb7e3e9c486cfe5a797a380</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201504240957.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201507240000.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2182,11 +2182,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a79f8f6273921e285dcca886a86d5534</string>
+              <string>3f23352757385fac6942051cac5ac370</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201504232308.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libxml2-2.9.2-darwin-201507231939.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

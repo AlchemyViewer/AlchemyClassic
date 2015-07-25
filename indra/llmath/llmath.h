@@ -43,11 +43,7 @@
 
 
 // work around for Windows & older gcc non-standard function names.
-#if (LL_WINDOWS && (_MSC_VER < 1900))
-#include <float.h>
-#define llisnan(val)	_isnan(val)
-#define llfinite(val)	_finite(val)
-#elif (LL_LINUX && __GNUC__ <= 2)
+#if (LL_LINUX && __GNUC__ <= 2)
 #define llisnan(val)	isnan(val)
 #define llfinite(val)	isfinite(val)
 #else
@@ -153,36 +149,12 @@ inline F64 llabs(const F64 a)
 
 inline S32 lltrunc( F32 f )
 {
-#if LL_WINDOWS && !defined( __INTEL_COMPILER ) && !defined(_WIN64) && !(_MSC_VER >= 1800)
-		// Avoids changing the floating point control word.
-		// Add or subtract 0.5 - epsilon and then round
-		const static U32 zpfp[] = { 0xBEFFFFFF, 0x3EFFFFFF };
-		S32 result;
-		__asm {
-			fld		f
-			mov		eax,	f
-			shr		eax,	29
-			and		eax,	4
-			fadd	dword ptr [zpfp + eax]
-			fistp	result
-		}
-		return result;
-#else
-#ifdef LL_CPP11
-		return (S32)trunc(f);
-#else
-		return (S32)f;
-#endif
-#endif
+	return (S32)trunc(f);
 }
 
 inline S32 lltrunc( F64 f )
 {
-#ifdef LL_CPP11
 	return (S32)trunc(f);
-#else
-	return (S32)f;
-#endif
 }
 
 inline S32 llfloor( F32 f )

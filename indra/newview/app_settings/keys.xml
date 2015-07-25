@@ -33,7 +33,7 @@
     <binding key="W" mask="SHIFT" command="push_forward"/>
     <binding key="S" mask="SHIFT" command="push_backward"/>
     <binding key="E" mask="SHIFT" command="jump"/>
-    <binding key="C" mask="SHIFT" command="push_down"/>
+    <binding key="C" mask="SHIFT" command="toggle_down"/>
     <binding key="F" mask="SHIFT" command="toggle_fly"/>
 
     <binding key="SPACE" mask="NONE" command="stop_moving"/>
@@ -45,14 +45,14 @@
     <binding key="UP" mask="SHIFT" command="push_forward"/>
     <binding key="DOWN" mask="SHIFT" command="push_backward"/>
     <binding key="PGUP" mask="SHIFT" command="jump"/>
-    <binding key="PGDN" mask="SHIFT" command="push_down"/>
+    <binding key="PGDN" mask="SHIFT" command="toggle_down"/>
 
     <binding key="PAD_LEFT" mask="SHIFT" command="slide_left"/>
     <binding key="PAD_RIGHT" mask="SHIFT" command="slide_right"/>
     <binding key="PAD_UP" mask="SHIFT" command="push_forward"/>
     <binding key="PAD_DOWN" mask="SHIFT" command="push_backward"/>
     <binding key="PAD_PGUP" mask="SHIFT" command="jump"/>
-    <binding key="PAD_PGDN" mask="SHIFT" command="push_down"/>
+    <binding key="PAD_PGDN" mask="SHIFT" command="toggle_down"/>
     <binding key="PAD_HOME" mask="SHIFT" command="toggle_fly"/>
     <binding key="PAD_ENTER" mask="SHIFT" command="start_chat"/>
     <binding key="PAD_DIVIDE" mask="SHIFT" command="start_gesture"/>
@@ -69,7 +69,7 @@
     <binding key="E" mask="NONE" command="jump"/>
     <binding key="C" mask="NONE" command="push_down"/>
     <binding key="E" mask="SHIFT" command="jump"/>
-    <binding key="C" mask="SHIFT" command="push_down"/>
+    <binding key="C" mask="SHIFT" command="toggle_down"/>
 
     <binding key="F" mask="NONE" command="toggle_fly"/>
     <binding key="F" mask="SHIFT" command="toggle_fly"/>

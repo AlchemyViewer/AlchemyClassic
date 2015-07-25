@@ -423,6 +423,7 @@ LLAgent::LLAgent() :
 
 	mNextFidgetTime(0.f),
 	mCurrentFidget(0),
+	mCrouch(false),
 	mFirstLogin(FALSE),
 	mOutfitChosen(FALSE),
 
@@ -660,13 +661,15 @@ void LLAgent::moveUp(S32 direction)
 	if (direction > 0)
 	{
 		setControlFlags(AGENT_CONTROL_UP_POS | AGENT_CONTROL_FAST_UP);
+		mCrouch = false;
 	}
 	else if (direction < 0)
 	{
 		setControlFlags(AGENT_CONTROL_UP_NEG | AGENT_CONTROL_FAST_UP);
 	}
 
-	camera_reset_on_motion();
+	if (!mCrouch)
+		camera_reset_on_motion();
 }
 
 //-----------------------------------------------------------------------------
@@ -706,6 +709,11 @@ void LLAgent::movePitch(F32 mag)
 	{
 		setControlFlags(AGENT_CONTROL_PITCH_NEG);
 	}
+}
+
+bool LLAgent::isCrouching() const
+{
+	return mCrouch && !getFlying();
 }
 
 
@@ -773,6 +781,7 @@ void LLAgent::setFlying(BOOL fly)
 		{
 			add(LLStatViewer::FLY, 1);
 		}
+		mCrouch = false;
 		setControlFlags(AGENT_CONTROL_FLY);
 	}
 	else

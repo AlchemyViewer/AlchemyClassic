@@ -64,13 +64,14 @@ LLViewerKeyboard gViewerKeyboard;
 void agent_jump( EKeystate s )
 {
 	if( KEYSTATE_UP == s  ) return;
+	static LLCachedControl<bool> sAutomaticFly(gSavedSettings, "AutomaticFly");
 	F32 time = gKeyboard->getCurKeyElapsedTime();
 	S32 frame_count = ll_round(gKeyboard->getCurKeyElapsedFrameCount());
 
 	if( time < FLY_TIME 
 		|| frame_count <= FLY_FRAMES 
 		|| gAgent.upGrabbed()
-		|| !gSavedSettings.getBOOL("AutomaticFly"))
+		|| !sAutomaticFly())
 	{
 		gAgent.moveUp(1);
 	}
@@ -81,9 +82,23 @@ void agent_jump( EKeystate s )
 	}
 }
 
+void agent_toggle_down( EKeystate s )
+{
+	if( KEYSTATE_UP == s ) return;
+	
+	static LLCachedControl<bool> sCrouchToggle(gSavedSettings, "AlchemyCrouchToggle");
+	if (KEYSTATE_DOWN == s
+		&& !gAgent.getFlying()
+		&& sCrouchToggle())
+	{
+		gAgent.toggleCrouch();
+	}
+	gAgent.moveUp(-1);
+}
+
 void agent_push_down( EKeystate s )
 {
-	if( KEYSTATE_UP == s  ) return;
+	if( KEYSTATE_UP == s ) return;
 	gAgent.moveUp(-1);
 }
 
@@ -599,6 +614,7 @@ void start_gesture( EKeystate s )
 #define REGISTER_KEYBOARD_ACTION(KEY, ACTION) LLREGISTER_STATIC(LLKeyboardActionRegistry, KEY, ACTION);
 REGISTER_KEYBOARD_ACTION("jump", agent_jump);
 REGISTER_KEYBOARD_ACTION("push_down", agent_push_down);
+REGISTER_KEYBOARD_ACTION("toggle_down", agent_toggle_down);
 REGISTER_KEYBOARD_ACTION("push_forward", agent_push_forward);
 REGISTER_KEYBOARD_ACTION("push_backward", agent_push_backward);
 REGISTER_KEYBOARD_ACTION("look_up", agent_look_up);

@@ -794,6 +794,17 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>AlchemyCrouchToggle</key>
+    <map>
+      <key>Comment</key>
+      <string>Crouch toggle via shift-crouch</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
     <key>AlchemySitOnAway</key>
     <map>
       <key>Comment</key>

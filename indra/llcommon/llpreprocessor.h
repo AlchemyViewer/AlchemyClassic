@@ -150,7 +150,7 @@
 #pragma warning( 3      :  4266 )	// 'function' : no override available for virtual member function from base 'type'; function is hidden
 #pragma warning (disable : 4180)	// qualifier applied to function type has no meaning; ignored
 #pragma warning( disable : 4800 )	// 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-#pragma warning( disable : 4996 )	// warning: deprecated
+//#pragma warning( disable : 4996 )	// warning: deprecated
 
 // Linker optimization with "extern template" generates these warnings
 #pragma warning( disable : 4506 )   // no definition for inline function
@@ -168,7 +168,7 @@
 #pragma warning (disable : 4018) // '<' : signed/unsigned mismatch	
 
 #if _WIN64
-#pragma warning (disable : 4267) // member needs to have dll-interface to be used by clients of class
+#pragma warning (disable : 4267) // 'var' : conversion from 'size_t' to 'type', possible loss of data
 #endif
 
 #endif	//	LL_MSVC

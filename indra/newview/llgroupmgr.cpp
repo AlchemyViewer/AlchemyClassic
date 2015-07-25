@@ -54,18 +54,8 @@
 #include "llviewerregion.h"
 #include <boost/regex.hpp>
 #include <boost/format.hpp>
-
-#if LL_MSVC
-#pragma warning(push)   
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
-
 #include <boost/lexical_cast.hpp>
 
-#if LL_MSVC
-#pragma warning(pop)   // Restore all warnings to the previous state
-#endif
 
 const U32 MAX_CACHED_GROUPS = 20;
 

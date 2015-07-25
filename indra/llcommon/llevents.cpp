@@ -45,21 +45,13 @@
 #include <cctype>
 // external library headers
 #include <boost/range/iterator_range.hpp>
-#if LL_WINDOWS
-#pragma warning (push)
-#pragma warning (disable : 4701) // compiler thinks might use uninitialized var, but no
-#endif
 #include <boost/lexical_cast.hpp>
-#if LL_WINDOWS
-#pragma warning (pop)
-#endif
+
 // other Linden headers
 #include "stringize.h"
 #include "llerror.h"
 #include "llsdutil.h"
-#if LL_MSVC
-#pragma warning (disable : 4702)
-#endif
+
 
 /*****************************************************************************
 *   queue_names: specify LLEventPump names that should be instantiated as

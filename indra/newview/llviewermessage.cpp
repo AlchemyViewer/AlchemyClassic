@@ -127,11 +127,6 @@
 #include "llosxnotificationcenter.h"
 #endif
 
-#if LL_MSVC
-// disable boost::lexical_cast warning
-#pragma warning (disable:4702)
-#endif
-
 extern void on_new_message(const LLSD& msg);
 
 //

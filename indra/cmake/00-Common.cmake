@@ -69,7 +69,9 @@ if (WINDOWS)
       /DLL_WINDOWS=1
       /DNOMINMAX
       /DUNICODE
-      /D_UNICODE 
+      /D_UNICODE
+      /D_CRT_SECURE_NO_WARNINGS
+      /D_WINSOCK_DEPRECATED_NO_WARNINGS
       )
 
   add_compile_options(

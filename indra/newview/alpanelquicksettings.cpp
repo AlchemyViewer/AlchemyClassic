@@ -59,6 +59,14 @@ ALPanelQuickSettings::ALPanelQuickSettings()
 {
 }
 
+ALPanelQuickSettings::~ALPanelQuickSettings()
+{
+	if (mRegionChangedSlot.connected())
+	{
+		mRegionChangedSlot.disconnect();
+	}
+}
+
 // virtual
 BOOL ALPanelQuickSettings::postBuild()
 {
@@ -115,14 +123,6 @@ BOOL ALPanelQuickSettings::postBuild()
 	onRegionChanged();
 
 	return LLPanel::postBuild();
-}
-
-void ALPanelQuickSettings::onClose(bool app_quitting)
-{
-	if (mRegionChangedSlot.connected())
-	{
-		mRegionChangedSlot.disconnect();
-	}
 }
 
 // virtual

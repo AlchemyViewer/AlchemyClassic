@@ -34,11 +34,11 @@ class ALPanelQuickSettingsPulldown : public LLPanel
 {
 public:
 	ALPanelQuickSettingsPulldown();
-	/*virtual*/ void draw();
-	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onTopLost();
-	/*virtual*/ void onVisibilityChange(BOOL new_visibility);
+	void draw() override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	void onTopLost() override;
+	void onVisibilityChange(BOOL new_visibility) override;
 
 private:
 	LLFrameTimer mHoverTimer;

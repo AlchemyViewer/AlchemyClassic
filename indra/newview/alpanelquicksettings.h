@@ -38,10 +38,10 @@ class ALPanelQuickSettings : public LLPanel
 {
 public:
 	ALPanelQuickSettings();
+	~ALPanelQuickSettings();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void refresh();
-	/*virtual*/ void onClose(bool app_quitting);
+	BOOL postBuild() override;
+	void refresh() override;
 
 private:
 	void onSwitchRegionSettings();

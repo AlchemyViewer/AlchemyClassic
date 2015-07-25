@@ -36,11 +36,7 @@
 static void va_format(std::string& out, const char *fmt, va_list va)
 {
 	char tstr[1024];	/* Flawfinder: ignore */
-#if LL_WINDOWS
-	_vsnprintf(tstr, 1024, fmt, va);
-#else
 	vsnprintf(tstr, 1024, fmt, va);	/* Flawfinder: ignore */
-#endif
 	out.assign(tstr);
 }
 

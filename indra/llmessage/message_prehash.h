@@ -1387,4 +1387,11 @@ extern char const* const _PREHASH_AppearanceHover;
 extern char const* const _PREHASH_HoverHeight;
 extern char const* const _PREHASH_Experience;
 extern char const* const _PREHASH_ExperienceID;
+
+// Varregion support
+extern char const* const _PREHASH_RegionSizeX;
+extern char const* const _PREHASH_RegionSizeY;
+extern char const* const _PREHASH_SizeX;
+extern char const* const _PREHASH_SizeY;
+
 #endif

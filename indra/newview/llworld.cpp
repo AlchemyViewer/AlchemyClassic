@@ -74,12 +74,13 @@ const S32 WORLD_PATCH_SIZE = 16;
 
 extern LLColor4U MAX_WATER_COLOR;
 
-const U32 LLWorld::mWidth = 256;
+U32 LLWorld::mWidth = 256;
+U32 LLWorld::mLength = 256;
 
 // meters/point, therefore mWidth * mScale = meters per edge
 const F32 LLWorld::mScale = 1.f;
 
-const F32 LLWorld::mWidthInMeters = mWidth * mScale;
+F32 LLWorld::mWidthInMeters = mWidth * mScale;
 
 //
 // Functions
@@ -137,6 +138,12 @@ void LLWorld::destroyClass()
 	LLSceneMonitor::deleteSingleton();
 }
 
+void LLWorld::setRegionSize(const U32& width, const U32& length)
+{
+	mWidth = width ? width : 256; // Width of 0 is really 256
+	mLength = length ? length : 256; // Length of 0 is really 256
+	mWidthInMeters = mWidth * mScale;
+}
 
 LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 {
@@ -180,8 +187,8 @@ LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 	U32 iindex = 0;
 	U32 jindex = 0;
 	from_region_handle(region_handle, &iindex, &jindex);
-	S32 x = (S32)(iindex/mWidth);
-	S32 y = (S32)(jindex/mWidth);
+	S32 x = (S32)(iindex/256);
+	S32 y = (S32)(jindex/256);
 	LL_INFOS() << "Adding new region (" << x << ":" << y << ")" 
 		<< " on host: " << host << LL_ENDL;
 
@@ -229,13 +236,43 @@ LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 	{
 		adj_x = region_x + width * gDirAxes[dir][0];
 		adj_y = region_y + width * gDirAxes[dir][1];
-		to_region_handle(adj_x, adj_y, &adj_handle);
 
-		neighborp = getRegionFromHandle(adj_handle);
-		if (neighborp)
+		if (mWidth == 256 && mLength == 256)
 		{
-			//LL_INFOS() << "Connecting " << region_x << ":" << region_y << " -> " << adj_x << ":" << adj_y << LL_ENDL;
-			regionp->connectNeighbor(neighborp, dir);
+			to_region_handle(adj_x, adj_y, &adj_handle);
+			neighborp = getRegionFromHandle(adj_handle);
+			if (neighborp)
+			{
+				//LL_INFOS() << "Connecting " << region_x << ":" << region_y << " -> " << adj_x << ":" << adj_y << LL_ENDL;
+				regionp->connectNeighbor(neighborp, dir);
+			}
+		}
+		else // Unconventional region size
+		{
+			LLViewerRegion* last_neighborp = NULL;
+			if(gDirAxes[dir][0] < 0) adj_x = region_x - WORLD_PATCH_SIZE;
+			if(gDirAxes[dir][1] < 0) adj_y = region_y - WORLD_PATCH_SIZE;
+
+			for (S32 offset = 0; offset < width; offset += WORLD_PATCH_SIZE)
+			{
+				to_region_handle(adj_x, adj_y, &adj_handle);
+				neighborp = getRegionFromHandle(adj_handle);
+
+				if (neighborp && last_neighborp != neighborp)
+				{
+					//LL_INFOS() << "Connecting " << region_x << ":" << region_y << " -> " << adj_x << ":" << adj_y << LL_ENDL;
+					regionp->connectNeighbor(neighborp, dir);
+					last_neighborp = neighborp;
+				}
+
+				if (dir == NORTH || dir == SOUTH)
+					adj_x += WORLD_PATCH_SIZE;
+				else if (dir == EAST || dir == WEST)
+					adj_y += WORLD_PATCH_SIZE;
+				else if (dir == NORTHEAST || dir == NORTHWEST || dir == SOUTHWEST || dir == SOUTHEAST)
+					break;
+
+			}
 		}
 	}
 
@@ -408,11 +445,19 @@ LLVector3d	LLWorld::clipToVisibleRegions(const LLVector3d &start_pos, const LLVe
 
 LLViewerRegion* LLWorld::getRegionFromHandle(const U64 &handle)
 {
-	for (region_list_t::iterator iter = mRegionList.begin();
-		 iter != mRegionList.end(); ++iter)
+	U32 x, y;
+	from_region_handle(handle, &x, &y);
+
+	for (region_list_t::iterator iter = mRegionList.begin(), iter_end(mRegionList.end());
+		 iter != iter_end; ++iter)
 	{
 		LLViewerRegion* regionp = *iter;
-		if (regionp->getHandle() == handle)
+		U32 checkRegionX, checkRegionY;
+		F32 checkRegionWidth = regionp->getWidth();
+		from_region_handle(regionp->getHandle(), &checkRegionX, &checkRegionY);
+
+		if (x >= checkRegionX && x < (checkRegionX + checkRegionWidth) &&
+			y >= checkRegionY && y < (checkRegionY + checkRegionWidth))
 		{
 			return regionp;
 		}
@@ -422,8 +467,8 @@ LLViewerRegion* LLWorld::getRegionFromHandle(const U64 &handle)
 
 LLViewerRegion* LLWorld::getRegionFromID(const LLUUID& region_id)
 {
-	for (region_list_t::iterator iter = mRegionList.begin();
-		 iter != mRegionList.end(); ++iter)
+	for (region_list_t::iterator iter = mRegionList.begin(), iter_end(mRegionList.end());
+		 iter != iter_end; ++iter)
 	{
 		LLViewerRegion* regionp = *iter;
 		if (regionp->getRegionID() == region_id)
@@ -449,8 +494,8 @@ void LLWorld::updateAgentOffset(const LLVector3d &offset_global)
 
 BOOL LLWorld::positionRegionValidGlobal(const LLVector3d &pos_global)
 {
-	for (region_list_t::iterator iter = mRegionList.begin();
-		 iter != mRegionList.end(); ++iter)
+	for (region_list_t::iterator iter = mRegionList.begin(), iter_end(mRegionList.end());
+		 iter != iter_end; ++iter)
 	{
 		LLViewerRegion* regionp = *iter;
 		if (regionp->pointInRegionGlobal(pos_global))
@@ -846,7 +891,7 @@ F32 LLWorld::getLandFarClip() const
 
 void LLWorld::setLandFarClip(const F32 far_clip)
 {
-	static S32 const rwidth = (S32)REGION_WIDTH_U32;
+	S32 const rwidth = (S32)getRegionWidthInMeters();
 	S32 const n1 = (llceil(mLandFarClip) - 1) / rwidth;
 	S32 const n2 = (llceil(far_clip) - 1) / rwidth;
 	bool need_water_objects_update = n1 != n2;
@@ -892,12 +937,14 @@ void LLWorld::updateWaterObjects()
 	S32 max_y = 0;
 	U32 region_x, region_y;
 
-	S32 rwidth = 256;
+	LLViewerRegion const* regionp = gAgent.getRegion();
+
+	// Region width in meters.
+	S32 const rwidth = (S32)regionp->getWidth();
 
 	// We only want to fill in water for stuff that's near us, say, within 256 or 512m
 	S32 range = LLViewerCamera::getInstance()->getFar() > 256.f ? 512 : 256;
 
-	LLViewerRegion* regionp = gAgent.getRegion();
 	from_region_handle(regionp->getHandle(), &region_x, &region_y);
 
 	min_x = (S32)region_x - range;
@@ -1116,6 +1163,14 @@ void process_enable_simulator(LLMessageSystem *msg, void **user_data)
 
 	// Viewer trusts the simulator.
 	msg->enableCircuit(sim, TRUE);
+	/*if (!gHippoGridManager->getConnectedGrid()->isSecondLife())
+	{
+		U32 region_size_x = 256;
+		msg->getU32Fast(_PREHASH_SimulatorInfo, _PREHASH_RegionSizeX, region_size_x);
+		U32 region_size_y = 256;
+		msg->getU32Fast(_PREHASH_SimulatorInfo, _PREHASH_RegionSizeY, region_size_y);
+		LLWorld::getInstance()->setRegionSize(region_size_x, region_size_y);
+	}*/
 	LLWorld::getInstance()->addRegion(handle, sim);
 
 	// give the simulator a message it can use to get ip and port

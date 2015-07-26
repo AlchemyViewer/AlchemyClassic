@@ -316,5 +316,11 @@ namespace tut
 		ensure_equals("region", slurl.getRegion(), "my region");
 		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
 
+		slurl = LLSLURL("http://my.grid.com:8002/region/my%20region/1/2/3");
+		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
+		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
+		ensure_equals("grid", slurl.getGrid(), "my.grid.com");
+		ensure_equals("region", slurl.getRegion(), "my region");
+		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
 	}
 }

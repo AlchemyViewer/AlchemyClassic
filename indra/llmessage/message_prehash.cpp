@@ -1387,3 +1387,9 @@ char const* const _PREHASH_AppearanceHover = LLMessageStringTable::getInstance()
 char const* const _PREHASH_HoverHeight = LLMessageStringTable::getInstance()->getString("HoverHeight");
 char const* const _PREHASH_Experience = LLMessageStringTable::getInstance()->getString("Experience");
 char const* const _PREHASH_ExperienceID = LLMessageStringTable::getInstance()->getString("ExperienceID");
+
+// Varregion support
+char const* const _PREHASH_RegionSizeX = LLMessageStringTable::getInstance()->getString("RegionSizeX");
+char const* const _PREHASH_RegionSizeY = LLMessageStringTable::getInstance()->getString("RegionSizeY");
+char const* const _PREHASH_SizeX = LLMessageStringTable::getInstance()->getString("SizeX");
+char const* const _PREHASH_SizeY = LLMessageStringTable::getInstance()->getString("SizeY");

@@ -37,8 +37,14 @@
 #include "llbitpack.h"
 
 const	char	LAND_LAYER_CODE					= 'L';
+const	char	WATER_LAYER_CODE				= 'W';
 const	char	WIND_LAYER_CODE					= '7';
 const	char	CLOUD_LAYER_CODE				= '8';
+
+const	char	AURORA_LAND_LAYER_CODE			= 'M';
+const	char	AURORA_WATER_LAYER_CODE			= 'X';
+const	char	AURORA_WIND_LAYER_CODE			= '9';
+const	char	AURORA_CLOUD_LAYER_CODE			= ':';
 
 LLVLManager gVLManager;
 
@@ -54,15 +60,19 @@ LLVLManager::~LLVLManager()
 
 void LLVLManager::addLayerData(LLVLData *vl_datap, const S32Bytes mesg_size)
 {
-	if (LAND_LAYER_CODE == vl_datap->mType)
+	if (LAND_LAYER_CODE == vl_datap->mType || AURORA_LAND_LAYER_CODE == vl_datap->mType)
 	{
 		mLandBits += mesg_size;
 	}
-	else if (WIND_LAYER_CODE == vl_datap->mType)
+	else if (WATER_LAYER_CODE == vl_datap->mType || AURORA_WATER_LAYER_CODE == vl_datap->mType)
+	{
+		mWaterBits += mesg_size;
+	}
+	else if (WIND_LAYER_CODE == vl_datap->mType || AURORA_WIND_LAYER_CODE == vl_datap->mType)
 	{
 		mWindBits += mesg_size;
 	}
-	else if (CLOUD_LAYER_CODE == vl_datap->mType)
+	else if (CLOUD_LAYER_CODE == vl_datap->mType || AURORA_CLOUD_LAYER_CODE == vl_datap->mType)
 	{
 		mCloudBits += mesg_size;
 	}
@@ -128,6 +138,11 @@ U32Bits LLVLManager::getWindBits() const
 U32Bits LLVLManager::getCloudBits() const
 {
 	return mCloudBits;
+}
+
+U32Bits LLVLManager::getWaterBits() const
+{
+	return mWaterBits;
 }
 
 S32Bytes LLVLManager::getTotalBytes() const

@@ -43,7 +43,9 @@
 // viewer
 #include "noise.h"
 #include "v4color.h"
+#include "llagent.h"	// for gAgent
 #include "llworld.h"
+#include "llviewerregion.h"	// for getRegion()
 
 
 //////////////////////////////////////////////////////////////////////
@@ -210,7 +212,7 @@ LLVector3 LLWind::getVelocity(const LLVector3 &pos_region)
 
 	LLVector3 pos_clamped_region(pos_region);
 	
-	F32 region_width_meters = LLWorld::getInstance()->getRegionWidthInMeters();
+	F32 region_width_meters = gAgent.getRegion()->getWidth();
 
 	if (pos_clamped_region.mV[VX] < 0.f)
 	{

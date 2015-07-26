@@ -494,7 +494,7 @@ void LLImageGL::setSize(S32 width, S32 height, S32 ncomponents, S32 discard_leve
 		// Check if dimensions are a power of two!
 		if (!checkSize(width,height))
 		{
-			LL_ERRS() << llformat("Texture has non power of two dimension: %dx%d",width,height) << LL_ENDL;
+			LL_WARNS() << llformat("Texture has non power of two dimension: %dx%d",width,height) << LL_ENDL;
 		}
 		
 		if (mTexName)

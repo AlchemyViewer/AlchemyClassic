@@ -2354,7 +2354,7 @@ void LLAgent::setStartPosition( U32 location_id )
     // this simulator.  Clamp it to the region the agent is
     // in, a little bit in on each side.
     const F32 INSET = 0.5f; //meters
-    const F32 REGION_WIDTH = LLWorld::getInstance()->getRegionWidthInMeters();
+    const F32 REGION_WIDTH = getRegion()->getWidth();
 
     LLVector3 agent_pos = getPositionAgent();
 
@@ -4095,7 +4095,7 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 			(F32)(pos_global.mdV[VX] - region_origin.mdV[VX]),
 			(F32)(pos_global.mdV[VY] - region_origin.mdV[VY]),
 			(F32)(pos_global.mdV[VZ]));
-		teleportRequest(handle, pos_local);
+		teleportRequest(info->getHandle(), pos_local);
 	}
 	else if(regionp && 
 		teleportCore(regionp->getHandle() == to_region_handle_global((F32)pos_global.mdV[VX], (F32)pos_global.mdV[VY])))
@@ -4142,6 +4142,11 @@ void LLAgent::doTeleportViaLocationLookAt(const LLVector3d& pos_global)
 	}
 
 	U64 region_handle = to_region_handle(pos_global);
+	LLSimInfo* simInfo = LLWorldMap::instance().simInfoFromHandle(region_handle);
+	if (simInfo)
+	{
+		region_handle = simInfo->getHandle();
+	}
 	LLVector3 pos_local = (LLVector3)(pos_global - from_region_handle(region_handle));
 	teleportRequest(region_handle, pos_local, getTeleportKeepsLookAt());
 }

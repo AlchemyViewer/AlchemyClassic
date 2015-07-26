@@ -280,11 +280,11 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			  
 			  mPosition = LLVector3(path_array); // this construction handles LLSD without all components (values default to 0.f)
 			  if((F32(mPosition[VX]) < 0.f) || 
-                             (mPosition[VX] > REGION_WIDTH_METERS) ||
+                             (mPosition[VX] > 8192.f) ||
 			     (F32(mPosition[VY]) < 0.f) || 
-                             (mPosition[VY] > REGION_WIDTH_METERS) ||
+                             (mPosition[VY] > 8192.f) ||
 			     (F32(mPosition[VZ]) < 0.f) || 
-                             (mPosition[VZ] > REGION_HEIGHT_METERS))
+                             (mPosition[VZ] > 8192.f))
 			    {
 			      mType = INVALID;
 			      return;
@@ -323,8 +323,8 @@ LLSLURL::LLSLURL(const std::string& grid,
 {
 	mGrid = grid;
 	mRegion = region;
-	S32 x = ll_round( (F32)fmod( position[VX], (F32)REGION_WIDTH_METERS ) );
-	S32 y = ll_round( (F32)fmod( position[VY], (F32)REGION_WIDTH_METERS ) );
+	S32 x = ll_round( (F32)position[VX] );
+	S32 y = ll_round( (F32)position[VY] );
 	S32 z = ll_round( (F32)position[VZ] );
 	mType = LOCATION;
 	mPosition = LLVector3(x, y, z);

@@ -442,7 +442,7 @@ public:
 	// Global colors
 	//--------------------------------------------------------------------
 public:
-	/*virtual*/void onGlobalColorChanged(const LLTexGlobalColor* global_color, BOOL upload_bake) override;
+	/*virtual*/void onGlobalColorChanged(const LLTexGlobalColor* global_color, BOOL upload_bake);
 
 	//--------------------------------------------------------------------
 	// Visibility

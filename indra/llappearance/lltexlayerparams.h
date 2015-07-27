@@ -85,16 +85,16 @@ public:
 	// LLVisualParam Virtual functions
 	///*virtual*/ BOOL		parseData(LLXmlTreeNode* node);
 	/*virtual*/ void		apply( ESex avatar_sex ) {}
-	/*virtual*/ void		setWeight(F32 weight, BOOL upload_bake) override;
-	/*virtual*/ void		setAnimationTarget(F32 target_value, BOOL upload_bake) override;
-	/*virtual*/ void		animate(F32 delta, BOOL upload_bake) override;
+	/*virtual*/ void		setWeight(F32 weight, BOOL upload_bake);
+	/*virtual*/ void		setAnimationTarget(F32 target_value, BOOL upload_bake);
+	/*virtual*/ void		animate(F32 delta, BOOL upload_bake);
 	// LLViewerVisualParam Virtual functions
-	/*virtual*/ F32					getTotalDistortion()									{ return 1.f; }
-	/*virtual*/ const LLVector4a&	getAvgDistortion()										{ return mAvgDistortionVec; }
-	/*virtual*/ F32					getMaxDistortion()										{ return 3.f; }
-	/*virtual*/ LLVector4a			getVertexDistortion(S32 index, LLPolyMesh *poly_mesh)	{ return LLVector4a(1.f, 1.f, 1.f);}
-	/*virtual*/ const LLVector4a*	getFirstDistortion(U32 *index, LLPolyMesh **poly_mesh)	{ index = 0; poly_mesh = NULL; return &mAvgDistortionVec;};
-	/*virtual*/ const LLVector4a*	getNextDistortion(U32 *index, LLPolyMesh **poly_mesh)	{ index = 0; poly_mesh = NULL; return NULL;};
+	/*virtual*/ F32					getTotalDistortion() 									{ return 1.f; }
+	/*virtual*/ const LLVector4a&	getAvgDistortion() 										{ return mAvgDistortionVec; }
+	/*virtual*/ F32					getMaxDistortion() 										{ return 3.f; }
+	/*virtual*/ LLVector4a			getVertexDistortion(S32 index, LLPolyMesh *poly_mesh) 	{ return LLVector4a(1.f, 1.f, 1.f);}
+	/*virtual*/ const LLVector4a*	getFirstDistortion(U32 *index, LLPolyMesh **poly_mesh) 	{ index = 0; poly_mesh = NULL; return &mAvgDistortionVec;};
+	/*virtual*/ const LLVector4a*	getNextDistortion(U32 *index, LLPolyMesh **poly_mesh) 	{ index = 0; poly_mesh = NULL; return NULL;};
 
 	// New functions
 	BOOL					render( S32 x, S32 y, S32 width, S32 height );
@@ -177,18 +177,18 @@ public:
 	// LLVisualParam Virtual functions
 	///*virtual*/ BOOL			parseData(LLXmlTreeNode* node);
 	/*virtual*/ void			apply( ESex avatar_sex ) {}
-	/*virtual*/ void			setWeight(F32 weight, BOOL upload_bake) override;
-	/*virtual*/ void			setAnimationTarget(F32 target_value, BOOL upload_bake) override;
-	/*virtual*/ void			animate(F32 delta, BOOL upload_bake) override;
+	/*virtual*/ void			setWeight(F32 weight, BOOL upload_bake);
+	/*virtual*/ void			setAnimationTarget(F32 target_value, BOOL upload_bake);
+	/*virtual*/ void			animate(F32 delta, BOOL upload_bake);
 
 
 	// LLViewerVisualParam Virtual functions
 	/*virtual*/ F32					getTotalDistortion()									{ return 1.f; }
 	/*virtual*/ const LLVector4a&	getAvgDistortion()										{ return mAvgDistortionVec; }
-	/*virtual*/ F32					getMaxDistortion()										{ return 3.f; }
-	/*virtual*/ LLVector4a			getVertexDistortion(S32 index, LLPolyMesh *poly_mesh)	{ return LLVector4a(1.f, 1.f, 1.f); }
-	/*virtual*/ const LLVector4a*	getFirstDistortion(U32 *index, LLPolyMesh **poly_mesh)	{ index = 0; poly_mesh = NULL; return &mAvgDistortionVec;};
-	/*virtual*/ const LLVector4a*	getNextDistortion(U32 *index, LLPolyMesh **poly_mesh)	{ index = 0; poly_mesh = NULL; return NULL;};
+	/*virtual*/ F32					getMaxDistortion() 										{ return 3.f; }
+	/*virtual*/ LLVector4a			getVertexDistortion(S32 index, LLPolyMesh *poly_mesh) 	{ return LLVector4a(1.f, 1.f, 1.f); }
+	/*virtual*/ const LLVector4a*	getFirstDistortion(U32 *index, LLPolyMesh **poly_mesh)  { index = 0; poly_mesh = NULL; return &mAvgDistortionVec;};
+	/*virtual*/ const LLVector4a*	getNextDistortion(U32 *index, LLPolyMesh **poly_mesh) 	{ index = 0; poly_mesh = NULL; return NULL;};
 
 	// New functions
 	LLColor4				getNetColor() const;

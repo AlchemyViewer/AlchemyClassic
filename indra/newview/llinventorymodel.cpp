@@ -2212,11 +2212,12 @@ void LLInventoryModel::buildParentChildMap()
 	{
 		LLViewerInventoryCategory* cat = cats.at(i);
 		catsp = getUnlockedCatArray(cat->getParentUUID());
-		if(catsp &&
-		   // Only the two root folders should be children of null.
-		   // Others should go to lost & found.
-		   (cat->getParentUUID().notNull() || 
-			cat->getPreferredType() == LLFolderType::FT_ROOT_INVENTORY ))
+		if (catsp &&
+			// Only the two root folders should be children of null.
+			// Others should go to lost & found.
+			(cat->getParentUUID().notNull() ||
+				(cat->getPreferredType() == LLFolderType::FT_ROOT_INVENTORY
+					|| (cat->getParentUUID().isNull() && cat->getName() == "My Inventory"))))
 		{
 			catsp->push_back(cat);
 		}

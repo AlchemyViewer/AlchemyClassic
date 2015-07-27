@@ -167,6 +167,13 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	std::string getAppSLURLBase() { return getAppSLURLBase(mGrid); }	
 
 	//@}
+	
+	typedef enum e_grid_platform {
+		NOPLATFORM = 0,
+		SLMAIN,
+		SLBETA,
+		OPENSIM
+	}EGridPlatform;
 
 	/* ================================================================
 	 * @name Selecting the current grid
@@ -191,9 +198,19 @@ class LLGridManager : public LLSingleton<LLGridManager>
 
 	/// Is the selected grid one of the hard-coded default grids (Agni or Aditi)
 	bool isSystemGrid() { return isSystemGrid(mGrid); }
-
-	/// Is the selected grid a production grid?
-	bool isInProductionGrid();
+	
+	/// Is the selected grid Second Life?
+	bool isInSecondlife();
+	
+	/// Is the selected grid OpenSimulator?
+	bool isInOpenSim();
+	
+	/// Is the selected grid agni?
+	bool isInSLMain();
+	
+	/// Is the selected grid aditi?
+	bool isInSLBeta();
+	
 	/**
 	 * yes, that's not a very helpful description.
 	 * I don't really know why that is different from isSystemGrid()
@@ -222,7 +239,7 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	std::string mGrid;
 	std::string mGridFile;
 	LLSD mGridList;
-	bool mIsInProductionGrid;
+	EGridPlatform mPlatform;
 };
 
 const S32 MAC_ADDRESS_BYTES = 6;

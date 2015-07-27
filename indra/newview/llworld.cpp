@@ -1163,14 +1163,14 @@ void process_enable_simulator(LLMessageSystem *msg, void **user_data)
 
 	// Viewer trusts the simulator.
 	msg->enableCircuit(sim, TRUE);
-	/*if (!gHippoGridManager->getConnectedGrid()->isSecondLife())
+	if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		U32 region_size_x = 256;
 		msg->getU32Fast(_PREHASH_SimulatorInfo, _PREHASH_RegionSizeX, region_size_x);
 		U32 region_size_y = 256;
 		msg->getU32Fast(_PREHASH_SimulatorInfo, _PREHASH_RegionSizeY, region_size_y);
 		LLWorld::getInstance()->setRegionSize(region_size_x, region_size_y);
-	}*/
+	}
 	LLWorld::getInstance()->addRegion(handle, sim);
 
 	// give the simulator a message it can use to get ip and port

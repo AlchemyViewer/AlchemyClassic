@@ -75,7 +75,7 @@ const char* DEFAULT_SLURL_BASE = "https://%s/region/";
 const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
 
 LLGridManager::LLGridManager()
-:	mIsInProductionGrid(false)
+:	mPlatform(NOPLATFORM)
 {
 	// by default, we use the 'grids.xml' file in the user settings directory
 	// this file is an LLSD file containing multiple grid definitions.
@@ -571,34 +571,63 @@ std::string LLGridManager::getUpdateServiceURL()
 
 void LLGridManager::updateIsInProductionGrid()
 {
-	mIsInProductionGrid = false;
-
 	// *NOTE:Mani This used to compare GRID_INFO_AGNI to gGridChoice,
 	// but it seems that loginURI trumps that.
 	std::vector<std::string> uris;
 	getLoginURIs(uris);
 	if (uris.empty())
 	{
-		mIsInProductionGrid = true;
+		LL_DEBUGS("GridManager") << "uri is empty, Setting grid platform to NOTHING." << LL_ENDL;
+		mPlatform = NOPLATFORM;
+		return;
 	}
-	else
+
+	// Detect Second Life Agni. We want to match the exact uri here because we're dealing with a live economy
+	for (const std::string& uri : uris)
 	{
-		for ( std::vector<std::string>::iterator uri_it = uris.begin();
-			  ! mIsInProductionGrid && uri_it != uris.end();
-			  uri_it++
-			 )
+		if (MAIN_GRID_LOGIN_URI == uri)
 		{
-			if( MAIN_GRID_LOGIN_URI == *uri_it )
-			{
-				mIsInProductionGrid = true;
-			}
+			LL_DEBUGS("GridManager")<< "Setting grid platform to SLMAIN" << LL_ENDL;
+			mPlatform = SLMAIN;
+			return;
 		}
 	}
+	
+	// Detect Second Life Aditi et al.
+	for (const std::string& uri : uris)
+	{
+		LLURI login_uri = LLURI(uri);
+		if (login_uri.authority().find("lindenlab.com") != std::string::npos) // Any old lab domain will do
+		{
+			LL_DEBUGS("GridManager")<< "Setting grid platform to SLBETA" << LL_ENDL;
+			mPlatform = SLBETA;
+			return;
+		}
+	}
+	
+	// HACK: OPENSIM - I don't really know of a good way to detect an opensim grid. Just fallthrough to that.
+	LL_DEBUGS("GridManager")<< "Setting grid platform to OPENSIM" << LL_ENDL;
+	mPlatform = OPENSIM;
 }
 
-bool LLGridManager::isInProductionGrid()
+bool LLGridManager::isInSecondlife()
 {
-	return mIsInProductionGrid;
+	return (isInSLMain() || isInSLBeta());
+}
+
+bool LLGridManager::isInOpenSim()
+{
+	return mPlatform == OPENSIM;
+}
+
+bool LLGridManager::isInSLMain()
+{
+	return mPlatform == SLMAIN;
+}
+
+bool LLGridManager::isInSLBeta()
+{
+	return mPlatform == SLBETA;
 }
 
 bool LLGridManager::isSystemGrid(const std::string& grid)

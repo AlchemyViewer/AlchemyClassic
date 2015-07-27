@@ -46,14 +46,15 @@ std::string getProfileURL(const std::string& agent_name)
 {
 	std::string url;
 
-	if (LLGridManager::getInstance()->isInProductionGrid())
+	if (LLGridManager::getInstance()->isInSLMain())
 	{
 		url = gSavedSettings.getString("WebProfileURL");
 	}
-	else
+	else if (LLGridManager::getInstance()->isInSLBeta())
 	{
 		url = gSavedSettings.getString("WebProfileNonProductionURL");
 	}
+	// *TODO: OPENSIM WebProfile url support
 	LLSD subs;
 	subs["AGENT_NAME"] = agent_name;
 	url = LLWeb::expandURLSubstitutions(url,subs);

@@ -22,7 +22,6 @@ if (NOT MSVC AND NOT LINUX)
   include(FindCXXThreadLocal)
 endif (NOT MSVC AND NOT LINUX)
 include(BuildVersion)
-include(FindCXXThreadLocal)
 
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING

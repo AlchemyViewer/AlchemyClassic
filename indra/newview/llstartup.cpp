@@ -930,8 +930,9 @@ bool idle_startup()
 		gDebugInfo["LoginName"] = userid;                                                                              
          
 		// create necessary directories
+		const std::string& gridlabel = !LLGridManager::getInstance()->isInSecondlife() ? LLGridManager::getInstance()->getGridLabel() : LLStringUtil::null;
 		// *FIX: these mkdir's should error check
-		gDirUtilp->setLindenUserDir(userid);
+		gDirUtilp->setLindenUserDir(userid, gridlabel);
 		LLFile::mkdir(gDirUtilp->getLindenUserDir());
 
 		// As soon as directories are ready initialize notification storages
@@ -974,7 +975,7 @@ bool idle_startup()
 		{
 			gDirUtilp->setChatLogsDir(gSavedPerAccountSettings.getString("InstantMessageLogPath"));		
 		}
-		gDirUtilp->setPerAccountChatLogsDir(userid);  
+		gDirUtilp->setPerAccountChatLogsDir(userid, gridlabel);
 		
 		LLFile::mkdir(gDirUtilp->getChatLogsDir());
 		LLFile::mkdir(gDirUtilp->getPerAccountChatLogsDir());

@@ -89,7 +89,8 @@ LLDir::LLDir()
 	mTempDir(""),
 	mDirDelimiter("/"), // fallback to forward slash if not overridden
 	mLanguage("en"),
-	mUserName("undefined")
+	mUserName("undefined"),
+	mGrid("")
 {
 }
 
@@ -880,7 +881,7 @@ std::string LLDir::getForbiddenFileChars()
 	return "\\/:*?\"<>|";
 }
 
-void LLDir::setLindenUserDir(const std::string &username)
+void LLDir::setLindenUserDir(const std::string &username, const std::string &gridname)
 {
 	// if the username isn't set, that's bad
 	if (!username.empty())
@@ -890,7 +891,13 @@ void LLDir::setLindenUserDir(const std::string &username)
 		std::string userlower(username);
 		LLStringUtil::toLower(userlower);
 		LLStringUtil::replaceChar(userlower, ' ', '_');
-		mLindenUserDir = add(getOSUserAppDir(), userlower);
+		std::string gridlower(gridname);
+		LLStringUtil::toLower(gridlower);
+		LLStringUtil::replaceChar(gridlower, ' ', '_');
+		const std::string& logname = (gridlower.empty())
+			? userlower : userlower.append(".").append(gridlower);
+		
+		mLindenUserDir = add(getOSUserAppDir(), logname);
 	}
 	else
 	{
@@ -914,10 +921,12 @@ void LLDir::setChatLogsDir(const std::string &path)
 
 void LLDir::updatePerAccountChatLogsDir()
 {
-	mPerAccountChatLogsDir = add(getChatLogsDir(), mUserName);
+	const std::string& logname = (mGrid.empty())
+		? mUserName : mUserName.append(".").append(mGrid);
+	mPerAccountChatLogsDir = add(getChatLogsDir(), logname);
 }
 
-void LLDir::setPerAccountChatLogsDir(const std::string &username)
+void LLDir::setPerAccountChatLogsDir(const std::string &username, const std::string &gridname)
 {
 	// if both first and last aren't set, assume we're grabbing the cached dir
 	if (!username.empty())
@@ -927,8 +936,12 @@ void LLDir::setPerAccountChatLogsDir(const std::string &username)
 		std::string userlower(username);
 		LLStringUtil::toLower(userlower);
 		LLStringUtil::replaceChar(userlower, ' ', '_');
-
+		std::string gridlower(gridname);
+		LLStringUtil::toLower(gridlower);
+		LLStringUtil::replaceChar(gridlower, ' ', '_');
+		
 		mUserName = userlower;
+		mGrid = gridlower;
 		updatePerAccountChatLogsDir();
 	}
 	else

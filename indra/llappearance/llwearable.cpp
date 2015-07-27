@@ -549,7 +549,7 @@ void LLWearable::revertValues()
 		LLVisualParam *param = getVisualParam(id);
 		if(param &&  !dynamic_cast<LLDriverParam*>(param) )
 		{
-			setVisualParamWeight(id, value);
+			setVisualParamWeight(id, value, TRUE);
 		}
 	}
 
@@ -561,7 +561,7 @@ void LLWearable::revertValues()
 		LLVisualParam *param = getVisualParam(id);
 		if(param &&  dynamic_cast<LLDriverParam*>(param) )
 		{
-			setVisualParamWeight(id, value);
+			setVisualParamWeight(id, value, TRUE);
 		}
 	}
 
@@ -664,12 +664,12 @@ void LLWearable::addVisualParam(LLVisualParam *param)
 }
 
 
-void LLWearable::setVisualParamWeight(S32 param_index, F32 value)
+void LLWearable::setVisualParamWeight(S32 param_index, F32 value, BOOL upload_bake)
 {
 	if( is_in_map(mVisualParamIndexMap, param_index ) )
 	{
 		LLVisualParam *wearable_param = mVisualParamIndexMap[param_index];
-		wearable_param->setWeight(value);
+		wearable_param->setWeight(value, upload_bake);
 	}
 	else
 	{
@@ -713,14 +713,14 @@ void LLWearable::getVisualParams(visual_param_vec_t &list)
 	}
 }
 
-void LLWearable::animateParams(F32 delta)
+void LLWearable::animateParams(F32 delta, BOOL upload_bake)
 {
 	for(visual_param_index_map_t::iterator iter = mVisualParamIndexMap.begin();
 		 iter != mVisualParamIndexMap.end();
 		 ++iter)
 	{
 		LLVisualParam *param = (LLVisualParam*) iter->second;
-		param->animate(delta);
+		param->animate(delta, upload_bake);
 	}
 }
 
@@ -738,14 +738,14 @@ LLColor4 LLWearable::getClothesColor(S32 te) const
 	return color;
 }
 
-void LLWearable::setClothesColor( S32 te, const LLColor4& new_color)
+void LLWearable::setClothesColor( S32 te, const LLColor4& new_color, BOOL upload_bake)
 {
 	U32 param_name[3];
 	if( LLAvatarAppearance::teToColorParams( (LLAvatarAppearanceDefines::ETextureIndex)te, param_name ) )
 	{
 		for( U8 index = 0; index < 3; index++ )
 		{
-			setVisualParamWeight(param_name[index], new_color.mV[index]);
+			setVisualParamWeight(param_name[index], new_color.mV[index], upload_bake);
 		}
 	}
 }
@@ -764,7 +764,7 @@ void LLWearable::writeToAvatar(LLAvatarAppearance* avatarp)
 			S32 param_id = param->getID();
 			F32 weight = getVisualParamWeight(param_id);
 
-			avatarp->setVisualParamWeight( param_id, weight);
+			avatarp->setVisualParamWeight( param_id, weight, FALSE);
 		}
 	}
 #else
@@ -772,7 +772,7 @@ void LLWearable::writeToAvatar(LLAvatarAppearance* avatarp)
 	{
 		LLVisualParam* param = it->second;
 		if(!((LLViewerVisualParam*)param)->getCrossWearable())
-			avatarp->setVisualParamWeight( param->getID(), param->getWeight() );
+			avatarp->setVisualParamWeight( param->getID(), param->getWeight(), FALSE );
 	}
 #endif
 }

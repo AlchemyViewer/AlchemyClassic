@@ -725,6 +725,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mLastRezzedStatus(-1),
 	mIsEditingAppearance(FALSE),
 	mUseLocalAppearance(FALSE),
+	mUseServerBakes(FALSE),
 	mLastUpdateRequestCOFVersion(-1),
 	mLastUpdateReceivedCOFVersion(-1),
 	mCachedMuteListUpdateTime(0),
@@ -1102,7 +1103,7 @@ void LLVOAvatar::restoreGL()
 	gAgentAvatarp->setCompositeUpdatesEnabled(TRUE);
 	for (U32 i = 0; i < gAgentAvatarp->mBakedTextureDatas.size(); i++)
 	{
-		gAgentAvatarp->invalidateComposite(gAgentAvatarp->getTexLayerSet(i));
+		gAgentAvatarp->invalidateComposite(gAgentAvatarp->getTexLayerSet(i), FALSE);
 	}
 	gAgentAvatarp->updateMeshTextures();
 }
@@ -2091,14 +2092,20 @@ LLViewerFetchedTexture *LLVOAvatar::getBakedTextureImage(const U8 te, const LLUU
 	{
 		const std::string url = getImageURL(te,uuid);
 
-		if (url.empty())
+		if (!url.empty())
 		{
-			LL_WARNS() << "unable to determine URL for te " << te << " uuid " << uuid << LL_ENDL;
-			return NULL;
+			LL_DEBUGS("Avatar") << avString() << "get server-bake image from URL " << url << LL_ENDL;
+			result = LLViewerTextureManager::getFetchedTextureFromUrl(
+				url, FTT_SERVER_BAKE, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE, 0, 0, uuid);
 		}
-		LL_DEBUGS("Avatar") << avString() << "get server-bake image from URL " << url << LL_ENDL;
-		result = LLViewerTextureManager::getFetchedTextureFromUrl(
-			url, FTT_SERVER_BAKE, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE, 0, 0, uuid);
+		else
+		{
+			LL_DEBUGS("Avatar") << avString() << "get old-bake image from host " << uuid << LL_ENDL;
+			LLHost host = getObjectHost();
+			result = LLViewerTextureManager::getFetchedTexture(
+				uuid, FTT_HOST_BAKE, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE, 0, 0, host);
+		}
+
 		if (result->isMissingAsset())
 		{
 			result->setIsMissingAsset(false);
@@ -2332,8 +2339,8 @@ void LLVOAvatar::idleUpdateVoiceVisualizer(bool voice_enabled)
 				
 				if ( mLipSyncActive )
 				{
-					if( mOohMorph ) mOohMorph->setWeight(mOohMorph->getMinWeight());
-					if( mAahMorph ) mAahMorph->setWeight(mAahMorph->getMinWeight());
+					if( mOohMorph ) mOohMorph->setWeight(mOohMorph->getMinWeight(), FALSE);
+					if( mAahMorph ) mAahMorph->setWeight(mAahMorph->getMinWeight(), FALSE);
 					
 					mLipSyncActive = false;
 					LLCharacter::updateVisualParams();
@@ -2539,10 +2546,14 @@ void LLVOAvatar::idleUpdateAppearanceAnimation()
 			{
 				if (param->isTweakable())
 				{
-					param->stopAnimating();
+					param->stopAnimating(FALSE);
 				}
 			}
 			updateVisualParams();
+			if (isSelf())
+			{
+				gAgent.sendAgentSetAppearance();
+			}
 		}
 		else
 		{
@@ -2558,7 +2569,7 @@ void LLVOAvatar::idleUpdateAppearanceAnimation()
 				{
 					if (param->isTweakable())
 					{
-						param->animate(morph_amt);
+						param->animate(morph_amt, FALSE);
 					}
 				}
 			}
@@ -2611,7 +2622,7 @@ void LLVOAvatar::idleUpdateLipSync(bool voice_enabled)
 			F32 ooh_weight = mOohMorph->getMinWeight()
 				+ ooh_morph_amount * (mOohMorph->getMaxWeight() - mOohMorph->getMinWeight());
 
-			mOohMorph->setWeight( ooh_weight);
+			mOohMorph->setWeight( ooh_weight, FALSE);
 		}
 
 		if( mAahMorph )
@@ -2619,7 +2630,7 @@ void LLVOAvatar::idleUpdateLipSync(bool voice_enabled)
 			F32 aah_weight = mAahMorph->getMinWeight()
 				+ aah_morph_amount * (mAahMorph->getMaxWeight() - mAahMorph->getMinWeight());
 
-			mAahMorph->setWeight( aah_weight);
+			mAahMorph->setWeight( aah_weight, FALSE);
 		}
 
 		mLipSyncActive = true;
@@ -3363,7 +3374,7 @@ void LLVOAvatar::updateDebugText()
 										  isSelf() ? (all_local_downloaded ? "L" : "l") : "-",
 										  all_baked_downloaded ? "B" : "b",
 										  mUseLocalAppearance, mIsEditingAppearance,
-										  1, central_bake_version);
+										  mUseServerBakes, central_bake_version);
 		std::string origin_string = bakedTextureOriginInfo();
 		debug_line += " [" + origin_string + "]";
 		S32 curr_cof_version = LLAppearanceMgr::instance().getCOFVersion();
@@ -4510,6 +4521,34 @@ bool LLVOAvatar::allBakedTexturesCompletelyDownloaded() const
 	return allTexturesCompletelyDownloaded(baked_ids);
 }
 
+void LLVOAvatar::bakedTextureOriginCounts(S32 &sb_count, // server-bake, has origin URL.
+										  S32 &host_count, // host-based bake, has host.
+										  S32 &both_count, // error - both host and URL set.
+										  S32 &neither_count) // error - neither set.
+{
+	sb_count = host_count = both_count = neither_count = 0;
+	
+	std::set<LLUUID> baked_ids;
+	collectBakedTextureUUIDs(baked_ids);
+	for (std::set<LLUUID>::const_iterator it = baked_ids.begin(); it != baked_ids.end(); ++it)
+	{
+		LLViewerFetchedTexture *imagep = gTextureList.findImage(*it);
+		bool has_url = false, has_host = false;
+		if (!imagep->getUrl().empty())
+		{
+			has_url = true;
+		}
+		if (imagep->getTargetHost().isOk())
+		{
+			has_host = true;
+		}
+		if (has_url && !has_host) sb_count++;
+		else if (has_host && !has_url) host_count++;
+		else if (has_host && has_url) both_count++;
+		else if (!has_host && !has_url) neither_count++;
+	}
+}
+
 std::string LLVOAvatar::bakedTextureOriginInfo()
 {
 	std::string result;
@@ -4750,6 +4789,19 @@ void LLVOAvatar::updateTextures()
 		{
 			const S32 boost_level = getAvatarBakedBoostLevel();
 			imagep = LLViewerTextureManager::staticCastToFetchedTexture(getImage(texture_index,0), TRUE);
+			// Spam if this is a baked texture, not set to default image, without valid host info
+			if (isIndexBakedTexture((ETextureIndex)texture_index)
+				&& imagep->getID() != IMG_DEFAULT_AVATAR
+				&& imagep->getID() != IMG_INVISIBLE
+				&& !isUsingServerBakes() 
+				&& !imagep->getTargetHost().isOk())
+			{
+				LL_WARNS_ONCE("Texture") << "LLVOAvatar::updateTextures No host for texture "
+										 << imagep->getID() << " for avatar "
+										 << (isSelf() ? "<myself>" : getID().asString()) 
+										 << " on host " << getRegion()->getHost() << LL_ENDL;
+			}
+
 			addBakedTextureStats( imagep, mPixelArea, texel_area_ratio, boost_level );			
 		}
 	}
@@ -4881,19 +4933,22 @@ const std::string LLVOAvatar::getImageURL(const U8 te, const LLUUID &uuid)
 {
 	llassert(isIndexBakedTexture(ETextureIndex(te)));
 	std::string url = "";
-	const std::string& appearance_service_url = LLAppearanceMgr::instance().getAppearanceServiceURL();
-	if (appearance_service_url.empty())
+	if (isUsingServerBakes())
 	{
-		// Probably a server-side issue if we get here:
-		LL_WARNS() << "AgentAppearanceServiceURL not set - Baked texture requests will fail" << LL_ENDL;
-		return url;
-	}
+		const std::string& appearance_service_url = LLAppearanceMgr::instance().getAppearanceServiceURL();
+		if (appearance_service_url.empty())
+		{
+			// Probably a server-side issue if we get here:
+			LL_WARNS() << "AgentAppearanceServiceURL not set - Baked texture requests will fail" << LL_ENDL;
+			return url;
+		}
 	
-	const LLAvatarAppearanceDictionary::TextureEntry* texture_entry = LLAvatarAppearanceDictionary::getInstance()->getTexture((ETextureIndex)te);
-	if (texture_entry != NULL)
-	{
-		url = appearance_service_url + "texture/" + getID().asString() + "/" + texture_entry->mDefaultImageName + "/" + uuid.asString();
-		//LL_INFOS() << "baked texture url: " << url << LL_ENDL;
+		const LLAvatarAppearanceDictionary::TextureEntry* texture_entry = LLAvatarAppearanceDictionary::getInstance()->getTexture((ETextureIndex)te);
+		if (texture_entry != NULL)
+		{
+			url = appearance_service_url + "texture/" + getID().asString() + "/" + texture_entry->mDefaultImageName + "/" + uuid.asString();
+			//LL_INFOS() << "baked texture url: " << url << LL_ENDL;
+		}
 	}
 	return url;
 }
@@ -5851,11 +5906,11 @@ BOOL LLVOAvatar::updateGeometry(LLDrawable *drawable)
 //-----------------------------------------------------------------------------
 // updateSexDependentLayerSets()
 //-----------------------------------------------------------------------------
-void LLVOAvatar::updateSexDependentLayerSets()
+void LLVOAvatar::updateSexDependentLayerSets(BOOL upload_bake)
 {
-	invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet);
-	invalidateComposite( mBakedTextureDatas[BAKED_UPPER].mTexLayerSet);
-	invalidateComposite( mBakedTextureDatas[BAKED_LOWER].mTexLayerSet);
+	invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet, upload_bake);
+	invalidateComposite( mBakedTextureDatas[BAKED_UPPER].mTexLayerSet, upload_bake);
+	invalidateComposite( mBakedTextureDatas[BAKED_LOWER].mTexLayerSet, upload_bake);
 }
 
 //-----------------------------------------------------------------------------
@@ -6443,8 +6498,7 @@ LLViewerObject *	LLVOAvatar::findAttachmentByID( const LLUUID & target_id ) cons
 }
 
 // virtual
-void LLVOAvatar::invalidateComposite( LLTexLayerSet* layerset)
-{
+void LLVOAvatar::invalidateComposite( LLTexLayerSet* layerset, BOOL upload_result){
 }
 
 void LLVOAvatar::invalidateAll()
@@ -6452,19 +6506,18 @@ void LLVOAvatar::invalidateAll()
 }
 
 // virtual
-void LLVOAvatar::onGlobalColorChanged(const LLTexGlobalColor* global_color)
+void LLVOAvatar::onGlobalColorChanged(const LLTexGlobalColor* global_color, BOOL upload_bake)
 {
 	if (global_color == mTexSkinColor)
 	{
-		invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet);
-		invalidateComposite( mBakedTextureDatas[BAKED_UPPER].mTexLayerSet);
-		invalidateComposite( mBakedTextureDatas[BAKED_LOWER].mTexLayerSet);
+		invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet, upload_bake);
+		invalidateComposite( mBakedTextureDatas[BAKED_UPPER].mTexLayerSet, upload_bake);
+		invalidateComposite( mBakedTextureDatas[BAKED_LOWER].mTexLayerSet, upload_bake);	
 	}
 	else if (global_color == mTexHairColor)
 	{
-		invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet);
-		invalidateComposite( mBakedTextureDatas[BAKED_HAIR].mTexLayerSet);
-		
+		invalidateComposite( mBakedTextureDatas[BAKED_HEAD].mTexLayerSet, upload_bake);
+		invalidateComposite( mBakedTextureDatas[BAKED_HAIR].mTexLayerSet, upload_bake);		
 		// ! BACKWARDS COMPATIBILITY !
 		// Fix for dealing with avatars from viewers that don't bake hair.
 		if (!isTextureDefined(mBakedTextureDatas[BAKED_HAIR].mTextureIndex))
@@ -6485,8 +6538,7 @@ void LLVOAvatar::onGlobalColorChanged(const LLTexGlobalColor* global_color)
 	else if (global_color == mTexEyeColor)
 	{
 		// LL_INFOS() << "invalidateComposite cause: onGlobalColorChanged( eyecolor )" << LL_ENDL; 
-		invalidateComposite( mBakedTextureDatas[BAKED_EYES].mTexLayerSet);
-	}
+		invalidateComposite( mBakedTextureDatas[BAKED_EYES].mTexLayerSet, upload_bake);	}
 	updateMeshTextures();
 }
 
@@ -6681,7 +6733,7 @@ void LLVOAvatar::logMetricsTimerRecord(const std::string& phase_name, F32 elapse
 	}
 	record["grid_x"] = LLSD::Integer(grid_x);
 	record["grid_y"] = LLSD::Integer(grid_y);
-	record["is_using_server_bakes"] = true;
+	record["is_using_server_bakes"] = ((bool) isUsingServerBakes());
 	record["is_self"] = isSelf();
 		
 	if (isAgentAvatarValid())
@@ -7538,13 +7590,13 @@ bool resolve_appearance_version(const LLAppearanceMessageContents& contents, S32
 	{
 		appearance_version = contents.mParamAppearanceVersion;
 	}
-	else if (contents.mAppearanceVersion > 0)
+	if (contents.mAppearanceVersion >= 0)
 	{
 		appearance_version = contents.mAppearanceVersion;
 	}
-	else // still not set, go with 1.
+	if (appearance_version < 0) // still not set, go with 0.
 	{
-		appearance_version = 1;
+		appearance_version = 0;
 	}
 	LL_DEBUGS("Avatar") << "appearance version info - field " << contents.mAppearanceVersion
 						<< " param: " << contents.mParamAppearanceVersion
@@ -7599,6 +7651,14 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 		LL_DEBUGS("Avatar") << "this_update_cof_version " << this_update_cof_version
 				<< " last_update_request_cof_version " << last_update_request_cof_version
 				<<  " my_cof_version " << LLAppearanceMgr::instance().getCOFVersion() << LL_ENDL;
+		if (getRegion() && (getRegion()->getCentralBakeVersion()==0))
+		{
+			LL_WARNS() << avString() << "Received AvatarAppearance message for self in non-server-bake region" << LL_ENDL;
+		}
+		if( mFirstTEMessageReceived && (appearance_version == 0))
+		{
+			return;
+		}
 	}
 	else
 	{
@@ -7607,6 +7667,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 
 	// Check for stale update.
 	if (isSelf()
+		&& (appearance_version>0)
 		&& (this_update_cof_version < last_update_request_cof_version))
 	{
 		LL_WARNS() << "Stale appearance update, wanted version " << last_update_request_cof_version
@@ -7633,13 +7694,17 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 	}
 
 	// No backsies zone - if we get here, the message should be valid and usable, will be processed.
+	setIsUsingServerBakes(appearance_version > 0);
 
+	if (appearance_version > 0)
+	{
 	// Note:
 	// RequestAgentUpdateAppearanceResponder::onRequestRequested()
 	// assumes that cof version is only updated with server-bake
 	// appearance messages.
 	mLastUpdateReceivedCOFVersion = this_update_cof_version;
 		
+	}
 	applyParsedTEMessage(contents.mTEContents);
 
 	// prevent the overwriting of valid baked textures with invalid baked textures
@@ -7649,13 +7714,13 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 			&& mBakedTextureDatas[baked_index].mLastTextureID != IMG_DEFAULT
 			&& baked_index != BAKED_SKIRT)
 		{
-			LL_DEBUGS("Avatar") << avString() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
+			LL_DEBUGS("Avatar") << avString() << "sb " << (S32) isUsingServerBakes() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
 			setTEImage(mBakedTextureDatas[baked_index].mTextureIndex, 
 				LLViewerTextureManager::getFetchedTexture(mBakedTextureDatas[baked_index].mLastTextureID, FTT_DEFAULT, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE));
 		}
 		else
 		{
-			LL_DEBUGS("Avatar") << avString() << " baked_index " << (S32) baked_index << " using texture id "
+			LL_DEBUGS("Avatar") << avString() << "sb " << (S32) isUsingServerBakes() << " baked_index " << (S32) baked_index << " using texture id "
 								<< getTE(mBakedTextureDatas[baked_index].mTextureIndex)->getID() << LL_ENDL;
 		}
 	}
@@ -7698,12 +7763,12 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 				if(is_first_appearance_message)
 				{
 					//LL_DEBUGS("Avatar") << "param slam " << i << " " << newWeight << LL_ENDL;
-					param->setWeight(newWeight);
+					param->setWeight(newWeight, FALSE);
 				}
 				else
 				{
 					interp_params = TRUE;
-					param->setAnimationTarget(newWeight);
+					param->setAnimationTarget(newWeight, FALSE);
 				}
 			}
 		}
@@ -7726,7 +7791,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 			ESex new_sex = getSex();
 			if( old_sex != new_sex )
 			{
-				updateSexDependentLayerSets();
+				updateSexDependentLayerSets(FALSE);
 			}	
 		}
 
@@ -8292,6 +8357,39 @@ void LLVOAvatar::startAppearanceAnimation()
 		mAppearanceMorphTimer.reset();
 		mLastAppearanceBlendTime = 0.f;
 	}
+}
+
+// virtual
+void LLVOAvatar::bodySizeChanged()
+{
+	if (isSelf() && !LLAppearanceMgr::instance().isInUpdateAppearanceFromCOF())
+	{	// notify simulator of change in size
+		// but not if we are in the middle of updating appearance
+		gAgent.sendAgentSetAppearance();
+	}
+}
+
+BOOL LLVOAvatar::isUsingServerBakes() const
+{
+	// Sanity check - visual param for appearance version should match mUseServerBakes
+	LLVisualParam* appearance_version_param = getVisualParam(11000);
+	llassert(appearance_version_param);
+	F32 wt = appearance_version_param->getWeight();
+	F32 expect_wt = mUseServerBakes ? 1.0 : 0.0;
+	if (!is_approx_equal(wt, expect_wt))
+	{
+		LL_WARNS() << "wt " << wt << " differs from expected " << expect_wt << LL_ENDL;
+	}
+
+	return mUseServerBakes;
+}
+
+void LLVOAvatar::setIsUsingServerBakes(BOOL newval)
+{
+	mUseServerBakes = newval;
+	LLVisualParam* appearance_version_param = getVisualParam(11000);
+	llassert(appearance_version_param);
+	appearance_version_param->setWeight(newval ? 1.0 : 0.0, false);
 }
 
 // virtual

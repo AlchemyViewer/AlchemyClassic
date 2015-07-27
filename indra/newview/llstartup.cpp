@@ -2078,7 +2078,8 @@ bool idle_startup()
 		{
 			gAgentWearables.notifyLoadingStarted();
 			gAgent.setOutfitChosen(TRUE);
-			gAgentWearables.sendDummyAgentWearablesUpdate();
+			if (LLGridManager::getInstance()->isInSecondlife())
+				gAgentWearables.sendDummyAgentWearablesUpdate();
 			callAfterCategoryFetch(LLAppearanceMgr::instance().getCOF(), set_flags_and_update_appearance);
 		}
 
@@ -2137,7 +2138,8 @@ bool idle_startup()
 		
 		display_startup();
 
-		if (gAgent.isOutfitChosen() && (wearables_time > max_wearables_time))
+		if ((LLGridManager::getInstance()->isInSecondlife() && gAgent.isOutfitChosen() && (wearables_time > max_wearables_time)) ||
+			(!LLGridManager::getInstance()->isInSecondlife() && (wearables_time > max_wearables_time)))
 		{
 			LLNotificationsUtil::add("ClothingLoading");
 			record(LLStatViewer::LOADING_WEARABLES_LONG_DELAY, wearables_time);
@@ -2413,6 +2415,8 @@ void register_viewer_callbacks(LLMessageSystem* msg)
 	msg->setHandlerFuncFast(_PREHASH_RemoveNameValuePair,	process_remove_name_value);
 	msg->setHandlerFuncFast(_PREHASH_AvatarAnimation,		process_avatar_animation);
 	msg->setHandlerFuncFast(_PREHASH_AvatarAppearance,		process_avatar_appearance);
+	msg->setHandlerFunc("AgentCachedTextureResponse",	LLAgent::processAgentCachedTextureResponse);
+	msg->setHandlerFunc("RebakeAvatarTextures", LLVOAvatarSelf::processRebakeAvatarTextures);
 	msg->setHandlerFuncFast(_PREHASH_CameraConstraint,		process_camera_constraint);
 	msg->setHandlerFuncFast(_PREHASH_AvatarSitResponse,		process_avatar_sit_response);
 	msg->setHandlerFunc("SetFollowCamProperties",			process_set_follow_cam_properties);
@@ -2485,6 +2489,8 @@ void register_viewer_callbacks(LLMessageSystem* msg)
 	// ratings deprecated
 	// msg->setHandlerFuncFast(_PREHASH_ReputationIndividualReply,
 	//					LLFloaterRate::processReputationIndividualReply);
+
+	msg->setHandlerFuncFast(_PREHASH_AgentWearablesUpdate, LLAgentWearables::processAgentInitialWearablesUpdate );
 
 	msg->setHandlerFunc("ScriptControlChange",
 						LLAgent::processScriptControlChange );
@@ -2650,7 +2656,8 @@ void LLStartUp::loadInitialOutfit( const std::string& outfit_folder_name,
 	}
 
 	gAgent.setOutfitChosen(TRUE);
-	gAgentWearables.sendDummyAgentWearablesUpdate();
+	if (LLGridManager::getInstance()->isInSecondlife())
+		gAgentWearables.sendDummyAgentWearablesUpdate();
 }
 
 //static

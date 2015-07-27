@@ -102,6 +102,7 @@
 #include "llmediaentry.h"
 #include "llfloaterperms.h"
 #include "llvocache.h"
+#include "llviewernetwork.h"
 
 //#define DEBUG_UPDATE_TYPE
 
@@ -154,7 +155,11 @@ LLViewerObject *LLViewerObject::createObject(const LLUUID &id, const LLPCode pco
 			{
 				gAgentAvatarp = new LLVOAvatarSelf(id, pcode, regionp);
 				gAgentAvatarp->initInstance();
-				gAgentWearables.setAvatarObject(gAgentAvatarp);
+				if (LLGridManager::getInstance()->isInSecondlife())
+				{
+					gAgentWearables.setAvatarObject(gAgentAvatarp);
+
+				}
 			}
 			else 
 			{
@@ -5631,7 +5636,7 @@ BOOL LLViewerObject::permOwnerModify() const
 		return TRUE;
 #else
 # ifdef TOGGLE_HACKED_GODLIKE_VIEWER
-		if (!LLGridManager::getInstance()->isInProductionGrid()
+		if (!LLGridManager::getInstance()->isInSLMain()
             && (gAgent.getGodLevel() >= GOD_MAINTENANCE))
 	{
 			return TRUE;
@@ -5655,7 +5660,7 @@ BOOL LLViewerObject::permModify() const
 		return TRUE;
 #else
 # ifdef TOGGLE_HACKED_GODLIKE_VIEWER
-		if (!LLGridManager::getInstance()->isInProductionGrid()
+		if (!LLGridManager::getInstance()->isInSLMain()
             && (gAgent.getGodLevel() >= GOD_MAINTENANCE))
 	{
 			return TRUE;

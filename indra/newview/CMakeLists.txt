@@ -133,6 +133,7 @@ set(viewer_SOURCE_FILES
     llagentpilot.cpp
     llagentui.cpp
     llagentwearables.cpp
+    llagentwearablesfetch.cpp
     llaisapi.cpp
     llanimstatelabels.cpp
     llappcorehttp.cpp
@@ -772,6 +773,7 @@ set(viewer_HEADER_FILES
     llagentpilot.h
     llagentui.h
     llagentwearables.h
+    llagentwearablesfetch.h
     llaisapi.h
     llanimstatelabels.h
     llappcorehttp.h

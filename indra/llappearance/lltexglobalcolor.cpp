@@ -117,9 +117,9 @@ LLTexParamGlobalColor::~LLTexParamGlobalColor()
 	return new LLTexParamGlobalColor(*this);
 }
 
-void LLTexParamGlobalColor::onGlobalColorChanged()
+void LLTexParamGlobalColor::onGlobalColorChanged(bool upload_bake)
 {
-	mAvatarAppearance->onGlobalColorChanged(mTexGlobalColor);
+	mAvatarAppearance->onGlobalColorChanged(mTexGlobalColor, upload_bake);
 }
 
 //-----------------------------------------------------------------------------

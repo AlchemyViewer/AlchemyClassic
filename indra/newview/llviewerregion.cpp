@@ -463,7 +463,11 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 
 	// Create the object lists
 	initStats();
+	initPartitions();
+}
 
+void LLViewerRegion::initPartitions()
+{
 	//create object partitions
 	//MUST MATCH declaration of eObjectPartitions
 	mImpl->mObjectPartition.push_back(new LLHUDPartition(this));		//PARTITION_HUD
@@ -498,6 +502,13 @@ void LLViewerRegion::initStats()
 	mLastPacketsLost = 0;
 	mPingDelay = (U32Seconds)0;
 	mAlive = false;					// can become false if circuit disconnects
+}
+
+void LLViewerRegion::reInitPartitions()
+{
+	std::for_each(mImpl->mObjectPartition.begin(), mImpl->mObjectPartition.end(), DeletePointer());
+	mImpl->mObjectPartition.clear();
+	initPartitions();
 }
 
 LLViewerRegion::~LLViewerRegion() 

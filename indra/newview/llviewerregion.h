@@ -416,10 +416,12 @@ public:
 	};
 
 	void showReleaseNotes();
+	void reInitPartitions();
 
 protected:
 	void disconnectAllNeighbors();
 	void initStats();
+	void initPartitions();
 
 public:
 	LLWind  mWind;

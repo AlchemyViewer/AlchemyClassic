@@ -432,21 +432,6 @@ public:
 				child->insert(data);
 			}
 		}
-		else 
-		{
-			//it's not in here, give it to the root
-			OCT_ERRS << "Octree insertion failed, starting over from root!" << LL_ENDL;
-
-			oct_node* node = this;
-
-			while (parent)
-			{
-				node = parent;
-				parent = node->getOctParent();
-			}
-
-			node->insert(data);
-		}
 
 		return false;
 	}

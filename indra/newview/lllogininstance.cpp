@@ -591,6 +591,7 @@ void LLLoginInstance::constructAuthParams(LLPointer<LLCredential> user_credentia
 	if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		requested_options.append("currency");
+		requested_options.append("max_groups");
 	}
 
 	// (re)initialize the request params with creds.

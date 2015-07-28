@@ -3558,13 +3558,17 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 		LLViewerMedia::openIDSetup(openid_url, openid_token);
 	}
 
-	if(response.has("max-agent-groups")) {		
-		std::string max_agent_groups(response["max-agent-groups"]);
+	if(response.has("max-agent-groups") || response.has("max_groups"))
+	{
+		std::string max_agent_groups(response.has("max_groups")
+									 ? response["max_groups"]
+									 : response["max-agent-groups"]);
 		gMaxAgentGroups = atoi(max_agent_groups.c_str());
 		LL_INFOS("LLStartup") << "gMaxAgentGroups read from login.cgi: "
 							  << gMaxAgentGroups << LL_ENDL;
 	}
-	else {
+	else
+	{
 		gMaxAgentGroups = DEFAULT_MAX_AGENT_GROUPS;
 		LL_INFOS("LLStartup") << "using gMaxAgentGroups default: "
 							  << gMaxAgentGroups << LL_ENDL;
@@ -3574,12 +3578,10 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 	if(response.has("currency"))
 	{
 		currency = response["currency"].asString();
-		LL_DEBUGS("OS_SETTINGS") << "currency " << currency << llendl;
 	}
 	else if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		currency = "$$";
-		LL_DEBUGS("OS_SETTINGS") << "no currency in login response" << llendl;
 	}
 	LLCurrencyWrapper::setCurrency(currency);
 

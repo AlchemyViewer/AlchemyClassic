@@ -62,18 +62,8 @@ LLSDRPCServer::LLSDRPCServer() :
 
 LLSDRPCServer::~LLSDRPCServer()
 {
-	std::for_each(
-		mMethods.begin(),
-		mMethods.end(),
-		llcompose1(
-			DeletePointerFunctor<LLSDRPCMethodCallBase>(),
-			llselect2nd<method_map_t::value_type>()));
-	std::for_each(
-		mCallbackMethods.begin(),
-		mCallbackMethods.end(),
-		llcompose1(
-			DeletePointerFunctor<LLSDRPCMethodCallBase>(),
-			llselect2nd<method_map_t::value_type>()));
+	delete_and_clear(mMethods);
+	delete_and_clear(mCallbackMethods);
 }
 
 

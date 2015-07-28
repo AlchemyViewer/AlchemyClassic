@@ -754,14 +754,6 @@ S32 LLGestureMgr::getPlayingCount() const
 }
 
 
-struct IsGesturePlaying : public std::unary_function<LLMultiGesture*, bool>
-{
-	bool operator()(const LLMultiGesture* gesture) const
-	{
-		return gesture->mPlaying ? true : false;
-	}
-};
-
 void LLGestureMgr::update()
 {
 	S32 i;
@@ -773,9 +765,8 @@ void LLGestureMgr::update()
 	// Clear out gestures that are done, by moving all the
 	// ones that are still playing to the front.
 	std::vector<LLMultiGesture*>::iterator new_end;
-	new_end = std::partition(mPlaying.begin(),
-							 mPlaying.end(),
-							 IsGesturePlaying());
+	new_end = std::partition(mPlaying.begin(), mPlaying.end(),
+		[](const LLMultiGesture* gesture) { return gesture->mPlaying ? true : false; });
 
 	// Something finished playing
 	if (new_end != mPlaying.end())

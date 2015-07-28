@@ -592,6 +592,7 @@ void LLLoginInstance::constructAuthParams(LLPointer<LLCredential> user_credentia
 	{
 		requested_options.append("currency");
 		requested_options.append("max_groups");
+		requested_options.append("search");
 	}
 
 	// (re)initialize the request params with creds.

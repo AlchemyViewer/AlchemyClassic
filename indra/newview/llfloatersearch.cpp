@@ -37,6 +37,7 @@
 #include "lluri.h"
 #include "llagent.h"
 #include "llui.h"
+#include "llviewernetwork.h"
 #include "llviewercontrol.h"
 #include "llweb.h"
 
@@ -197,7 +198,13 @@ void LLFloaterSearch::search(const SearchQuery &p)
 
 	// get the search URL and expand all of the substitutions
 	// (also adds things like [LANGUAGE], [VERSION], [OS], etc.)
-	std::string url = gSavedSettings.getString("SearchURL");
+	std::string url;
+	if  (LLLoginInstance::getInstance()->hasResponse("search"))
+		url = LLLoginInstance::getInstance()->getResponse("search").asString();
+	else if (LLGridManager::getInstance()->isInOpenSim())
+		url = gSavedSettings.getString("OpenSimSearchURL");
+	else
+		url = gSavedSettings.getString("SearchURL");
 	url = LLWeb::expandURLSubstitutions(url, subs);
 
 	// and load the URL in the web view

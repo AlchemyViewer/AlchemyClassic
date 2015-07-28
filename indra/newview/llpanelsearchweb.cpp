@@ -38,6 +38,7 @@
 #include "llprogressbar.h"
 #include "lltextbox.h"
 #include "llviewercontrol.h"
+#include "llviewernetwork.h"
 #include "llweb.h"
 
 static LLPanelInjector<LLPanelSearchWeb> t_panel_search_web("panel_search_web");
@@ -130,7 +131,13 @@ void LLPanelSearchWeb::loadUrl(const SearchQuery &p)
 	
 	// Get the search URL and expand all of the substitutions
 	// (also adds things like [LANGUAGE], [VERSION], [OS], etc.)
-	std::string url = gSavedSettings.getString("SearchURL");
+	std::string url;
+	if  (LLLoginInstance::getInstance()->hasResponse("search"))
+		url = LLLoginInstance::getInstance()->getResponse("search").asString();
+	else if (LLGridManager::getInstance()->isInOpenSim())
+		url = gSavedSettings.getString("OpenSimSearchURL");
+	else
+		url = gSavedSettings.getString("SearchURL");
 	url = LLWeb::expandURLSubstitutions(url, subs);
 	
 	// Finally, load the URL in the webpanel

@@ -30,6 +30,7 @@
 
 #include "llavatarnamecache.h"
 #include "llagent.h"
+#include "lleconomy.h"
 #include "llsdparam.h"
 #include "lluictrlfactory.h"
 #include "roles_constants.h"
@@ -305,7 +306,9 @@ bool LLPanelGroupGeneral::apply(std::string& mesg)
 				return false;
 			}
 
-			LLNotificationsUtil::add("CreateGroupCost",  LLSD(), LLSD(), boost::bind(&LLPanelGroupGeneral::createGroupCallback, this, _1, _2));
+			LLNotificationsUtil::add("CreateGroupCost",
+									 LLSD().with("COST", std::to_string(LLGlobalEconomy::Singleton::getInstance()->getPriceGroupCreate())),
+									 LLSD(), boost::bind(&LLPanelGroupGeneral::createGroupCallback, this, _1, _2));
 
 			return false;
 		}

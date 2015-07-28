@@ -55,6 +55,7 @@
 #include "llexperiencecache.h"
 #include "lllandmark.h"
 #include "llcachename.h"
+#include "llcurrencywrapper.h"
 #include "lldir.h"
 #include "lldonotdisturbnotificationstorage.h"
 #include "llerrorcontrol.h"
@@ -3568,7 +3569,20 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 		LL_INFOS("LLStartup") << "using gMaxAgentGroups default: "
 							  << gMaxAgentGroups << LL_ENDL;
 	}
-		
+
+	std::string currency = "L$";
+	if(response.has("currency"))
+	{
+		currency = response["currency"].asString();
+		LL_DEBUGS("OS_SETTINGS") << "currency " << currency << llendl;
+	}
+	else if (LLGridManager::getInstance()->isInOpenSim())
+	{
+		currency = "$$";
+		LL_DEBUGS("OS_SETTINGS") << "no currency in login response" << llendl;
+	}
+	LLCurrencyWrapper::setCurrency(currency);
+
 	bool success = false;
 	// JC: gesture loading done below, when we have an asset system
 	// in place.  Don't delete/clear gUserCredentials until then.

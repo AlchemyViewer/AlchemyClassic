@@ -49,6 +49,7 @@ set(llcommon_SOURCE_FILES
     llcoros.cpp
     llcrc.cpp
     llcriticaldamp.cpp
+    llcurrencywrapper.cpp
     lldate.cpp
     lldeadmantimer.cpp
     lldependencies.cpp
@@ -143,6 +144,7 @@ set(llcommon_HEADER_FILES
     llcoros.h
     llcrc.h
     llcriticaldamp.h
+    llcurrencywrapper.h
     lldate.h
     lldeadmantimer.h
     lldefs.h

@@ -30,6 +30,7 @@
 #include "llfasttimer.h"
 #include "llsd.h"
 #include "lltrans.h"
+#include "llcurrencywrapper.h"
 
 LLTrace::BlockTimerStatHandle FTM_UI_STRING("UI String");
 
@@ -129,7 +130,7 @@ void LLUIString::updateResult() const
 		return;
 	}
 	mResult = mOrig;
-	
+
 	// get the default args + local args
 	LLStringUtil::format_map_t combined_args = LLTrans::getDefaultArgs();
 	if (mArgs && !mArgs->empty())
@@ -137,6 +138,9 @@ void LLUIString::updateResult() const
 		combined_args.insert(mArgs->begin(), mArgs->end());
 	}
 	LLStringUtil::format(mResult, combined_args);
+	// Impact on lag: at average frame time 15.9 ms
+	// FTM_UI_STRING 0.01ms both with/without wrapCurrency so bite me.
+	LLCurrencyWrapper::wrapCurrency(mResult);
 }
 
 void LLUIString::updateWResult() const

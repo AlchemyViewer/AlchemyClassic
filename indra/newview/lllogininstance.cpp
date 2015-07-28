@@ -586,7 +586,13 @@ void LLLoginInstance::constructAuthParams(LLPointer<LLCredential> user_credentia
 		gSavedSettings.setBOOL("UseDebugMenus", TRUE);
 		requested_options.append("god-connect");
 	}
-	
+
+	// Hey guys, let's stuff all the opensim options right here, ok?
+	if (LLGridManager::getInstance()->isInOpenSim())
+	{
+		requested_options.append("currency");
+	}
+
 	// (re)initialize the request params with creds.
 	LLSD request_params = user_credential->getLoginParams();
 

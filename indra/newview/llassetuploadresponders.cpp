@@ -53,6 +53,7 @@
 #include "lltrans.h"
 
 // library includes
+#include "llcurrencywrapper.h"
 #include "lldir.h"
 #include "lleconomy.h"
 #include "llfloaterreg.h"
@@ -844,7 +845,7 @@ public:
 		// to be localized
 		if ( _INSUFFICIENT_FUNDS == error_identifier )
 		{
-			displayCannotUploadReason("You do not have a sufficient L$ balance to complete this upload.");
+			displayCannotUploadReason(LLCurrencyWrapper::wrapCurrency("You do not have a sufficient L$ balance to complete this upload."));
 		}
 		else if ( _MISSING_REQUIRED_PARAMETER == error_identifier )
 		{

@@ -42,6 +42,7 @@
 #include "llagent.h"
 #include "llavataractions.h"
 #include "llcallbacklist.h"
+#include "llcurrencywrapper.h"
 #include "llbuycurrencyhtml.h"
 #include "llfloaterreg.h"
 #include "llfolderview.h"
@@ -653,7 +654,7 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info << LLTrans::getString("BuyforL$") << price;
+			info << LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 
@@ -967,7 +968,7 @@ void LLTaskSoundBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info <<  LLTrans::getString("BuyforL$") << price;
+			info <<  LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 
@@ -1328,7 +1329,7 @@ void LLTaskMeshBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info <<  LLTrans::getString("BuyforL$") << price;
+			info <<  LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 

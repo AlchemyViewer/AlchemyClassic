@@ -50,8 +50,10 @@
 #include "llsdparam.h"
 #include "llspinctrl.h"
 #include "lltoggleablemenu.h"
+#include "lltrans.h"
 #include "lltooldraganddrop.h"
 #include "llviewermenu.h"
+#include "llviewernetwork.h"
 #include "llviewertexturelist.h"
 #include "llsidepanelinventory.h"
 #include "llfolderview.h"
@@ -215,7 +217,13 @@ BOOL LLPanelMainInventory::postBuild()
 	initListCommandsHandlers();
 
 	// *TODO:Get the cost info from the server
-	const std::string upload_cost("10");
+	S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+	std::string upload_cost;
+	if (LLGridManager::getInstance()->isInSecondlife())
+		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
+	else
+		upload_cost = cost > 0 ? llformat("L$%d", cost) : LLTrans::getString("Free");
+	
 	mMenuAdd->getChild<LLMenuItemGL>("Upload Image")->setLabelArg("[COST]", upload_cost);
 	mMenuAdd->getChild<LLMenuItemGL>("Upload Sound")->setLabelArg("[COST]", upload_cost);
 	mMenuAdd->getChild<LLMenuItemGL>("Upload Animation")->setLabelArg("[COST]", upload_cost);
@@ -1345,19 +1353,12 @@ void LLPanelMainInventory::setUploadCostIfNeeded()
 		LLMenuItemBranchGL* upload_menu = mMenuAdd->findChild<LLMenuItemBranchGL>("upload");
 		if(upload_menu)
 		{
-			S32 upload_cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+			S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
 			std::string cost_str;
-
-			// getPriceUpload() returns -1 if no data available yet.
-			if(upload_cost >= 0)
-			{
-				mNeedUploadCost = false;
-				cost_str = llformat("%d", upload_cost);
-			}
+			if (LLGridManager::getInstance()->isInSecondlife())
+				cost_str = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
 			else
-			{
-				cost_str = llformat("%d", gSavedSettings.getU32("DefaultUploadCost"));
-			}
+				cost_str = cost > 0 ? llformat("L$%d", cost) : LLTrans::getString("Free");
 
 			upload_menu->getChild<LLView>("Upload Image")->setLabelArg("[COST]", cost_str);
 			upload_menu->getChild<LLView>("Upload Sound")->setLabelArg("[COST]", cost_str);

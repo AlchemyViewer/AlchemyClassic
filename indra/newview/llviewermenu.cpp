@@ -485,7 +485,12 @@ void init_menus()
 
 	// Assume L$10 for now, the server will tell us the real cost at login
 	// *TODO:Also fix cost in llfolderview.cpp for Inventory menus
-	const std::string upload_cost("10");
+	S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+	std::string upload_cost;
+	if (LLGridManager::getInstance()->isInSecondlife())
+		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
+	else
+		upload_cost = cost > 0 ? llformat("L$%d", cost) : LLTrans::getString("Free");
 	gMenuHolder->childSetLabelArg("Upload Image", "[COST]", upload_cost);
 	gMenuHolder->childSetLabelArg("Upload Sound", "[COST]", upload_cost);
 	gMenuHolder->childSetLabelArg("Upload Animation", "[COST]", upload_cost);
@@ -8660,6 +8665,7 @@ class LLUploadCostCalculator : public view_listener_t
 	bool handleEvent(const LLSD& userdata)
 	{
 		std::string menu_name = userdata.asString();
+		calculateCost();
 		gMenuHolder->childSetLabelArg(menu_name, "[COST]", mCostStr);
 
 		return true;
@@ -8670,7 +8676,7 @@ class LLUploadCostCalculator : public view_listener_t
 public:
 	LLUploadCostCalculator()
 	{
-		calculateCost();
+		//calculateCost();
 	}
 };
 
@@ -8694,16 +8700,10 @@ class LLToggleUIHints : public view_listener_t
 void LLUploadCostCalculator::calculateCost()
 {
 	S32 upload_cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
-
-	// getPriceUpload() returns -1 if no data available yet.
-	if(upload_cost >= 0)
-	{
-		mCostStr = llformat("%d", upload_cost);
-	}
+	if (LLGridManager::getInstance()->isInSecondlife())
+		mCostStr = upload_cost > 0 ? llformat("L$%d", upload_cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
 	else
-	{
-		mCostStr = llformat("%d", gSavedSettings.getU32("DefaultUploadCost"));
-	}
+		mCostStr = upload_cost > 0 ? llformat("L$%d", upload_cost) : LLTrans::getString("Free");
 }
 
 void show_navbar_context_menu(LLView* ctrl, S32 x, S32 y)

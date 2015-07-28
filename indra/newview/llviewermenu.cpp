@@ -3267,6 +3267,27 @@ class ALCheckLocationBar : public view_listener_t
 	}
 };
 
+class LLEnableGrid : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		const std::string& grid_type = userdata.asString();
+		if (grid_type == "secondlife")
+		{
+			return LLGridManager::getInstance()->isInSecondlife();
+		}
+		else if (grid_type == "opensim")
+		{
+			return LLGridManager::getInstance()->isInOpenSim();
+		}
+		else
+		{
+			LL_WARNS("ViewerMenu") << "Unhandled or bad on_visible gridcheck parameter!" << LL_ENDL;
+		}
+		return true;
+	}
+};
+
 // </Alchemy>
 
 
@@ -9274,7 +9295,7 @@ void initialize_menus()
 
 	view_listener_t::addMenu(new ALToggleLocationBar(), "ToggleLocationBar");
 	view_listener_t::addMenu(new ALCheckLocationBar(), "CheckLocationBar");
-
+	view_listener_t::addEnable(new LLEnableGrid(), "EnableGrid");
 	enable.add("EnableMusicTicker", boost::bind(&enable_music_ticker));
 	// </Alchemy>
 }

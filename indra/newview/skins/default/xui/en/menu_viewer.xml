@@ -224,6 +224,9 @@
          function="PromptShowURL"
          name="ManageMyAccount_url"
          parameter="WebLaunchJoinNow,http://secondlife.com/account/" />
+        <menu_item_call.on_visible
+         function="EnableGrid"
+         parameter="secondlife" />
       </menu_item_call>
 
       <menu_item_separator/>
@@ -1490,7 +1493,10 @@
              name="Knowledge Base">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-            parameter="http://community.secondlife.com/t5/English-Knowledge-Base/Second-Life-User-s-Guide/ta-p/1244857"/>
+                 parameter="http://community.secondlife.com/t5/English-Knowledge-Base/Second-Life-User-s-Guide/ta-p/1244857"/>
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
              label="[SECOND_LIFE] Wiki"
@@ -1498,6 +1504,9 @@
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
                  parameter="http://wiki.secondlife.com"/>
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
              label="[SECOND_LIFE] Community Forums"
@@ -1505,21 +1514,30 @@
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
                  parameter="http://community.secondlife.com/t5/Forums/ct-p/Forums"/>
-        </menu_item_call>         
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
+        </menu_item_call>
         <menu_item_call
              label="[SECOND_LIFE] Support portal"
              name="Support portal">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://support.secondlife.com/"/>         
+                 parameter="https://support.secondlife.com/"/>
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
         </menu_item_call>
-        <menu_item_separator/>
+        <menu_item_separator />
         <menu_item_call
              label="[SECOND_LIFE] News"
              name="Second Life News">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="http://community.secondlife.com/t5/Featured-News/bg-p/blog_feature_news"/>  
+                 parameter="http://community.secondlife.com/t5/Featured-News/bg-p/blog_feature_news"/>
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
              label="[SECOND_LIFE] Blogs"
@@ -1527,6 +1545,9 @@
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
                  parameter="http://community.secondlife.com/t5/Blogs/ct-p/Blogs"/>
+             <menu_item_call.on_visible
+              function="EnableGrid"
+              parameter="secondlife" />
         </menu_item_call>
         <menu_item_separator/>
 
@@ -1537,7 +1558,7 @@
                  function="ReportAbuse" />
             </menu_item_call>
         <menu_item_call
-             label="Report [SECOND_LIFE] Bug"
+             label="Report a Bug"
              name="Report SecondLife Bug">
                 <menu_item_call.on_click
                  function="Advanced.ReportBug"/>

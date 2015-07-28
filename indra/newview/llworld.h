@@ -115,7 +115,12 @@ public:
 	// region X and Y size in meters
 	F32						getRegionWidthInMeters() const	{ return mWidthInMeters; }
 	F32						getRegionMinHeight() const		{ return -mWidthInMeters; }
-	F32						getRegionMaxHeight() const		{ return MAX_OBJECT_Z; }
+	F32						getRegionMaxHeight() const		{ return mRegionMaxHeight; }
+	F32						getRegionMinPrimScale() const	{ return mRegionMinPrimScale; }
+	F32						getRegionMaxPrimScale() const	{ return mRegionMaxPrimScale; }
+	F32						getRegionMaxPrimScaleNoMesh() const	{ return mRegionMaxPrimScaleNoMesh; }
+	F32						getRegionMaxHollowSize() const	{ return mRegionMaxHollowSize; }
+	F32						getRegionMinHoleSize() const	{ return mRegionMinHoleSize; }
 
 	void					updateRegions(F32 max_update_time);
 	void					updateVisibilities();
@@ -149,6 +154,8 @@ public:
 	U32  getNumOfActiveCachedObjects() const {return mNumOfActiveCachedObjects;}
 
 	void clearAllVisibleObjects();
+	void refreshLimits();
+	
 public:
 	typedef std::list<LLViewerRegion*> region_list_t;
 	const region_list_t& getRegionList() const { return mActiveRegionList; }
@@ -190,6 +197,13 @@ private:
 	static const F32 mScale;
 
 	static F32 mWidthInMeters;
+	F32 mRegionMaxHeight;
+	F32 mRegionMinPrimScale;
+	F32 mRegionMaxPrimScale;
+	F32 mRegionMaxPrimScaleNoMesh;
+	F32 mRegionMaxHollowSize;
+	F32 mRegionMinHoleSize;
+	bool mRefreshLimits;
 
 	F32 mLandFarClip;					// Far clip distance for land.
 	LLPatchVertexArray		mLandPatch;

@@ -92,7 +92,8 @@ LLWorld::LLWorld() :
 	mLastPacketsIn(0),
 	mLastPacketsOut(0),
 	mLastPacketsLost(0),
-	mSpaceTimeUSec(0)
+	mSpaceTimeUSec(0),
+	mRefreshLimits(true)
 {
 	for (S32 i = 0; i < 8; i++)
 	{
@@ -277,6 +278,9 @@ LLViewerRegion* LLWorld::addRegion(const U64 &region_handle, const LLHost &host)
 	}
 
 	updateWaterObjects();
+	
+	if (mRefreshLimits)
+		refreshLimits();
 
 	return regionp;
 }
@@ -788,6 +792,30 @@ void LLWorld::clearAllVisibleObjects()
 	{
 		//clear all cached visible objects.
 		(*iter)->clearCachedVisibleObjects();
+	}
+}
+
+void LLWorld::refreshLimits()
+{
+	mRefreshLimits = false;
+
+	if (LLGridManager::getInstance()->isInOpenSim())
+	{
+		mRegionMaxHeight = OS_MAX_OBJECT_Z; //llmath/xform.h
+		mRegionMinPrimScale = OS_MIN_PRIM_SCALE;
+		mRegionMaxPrimScale = OS_DEFAULT_MAX_PRIM_SCALE;
+		mRegionMaxPrimScaleNoMesh = OS_DEFAULT_MAX_PRIM_SCALE; // no restrictions here
+		mRegionMaxHollowSize = OS_OBJECT_MAX_HOLLOW_SIZE;
+		mRegionMinHoleSize = OS_OBJECT_MIN_HOLE_SIZE;
+	}
+	else
+	{
+		mRegionMaxHeight = SL_MAX_OBJECT_Z;
+		mRegionMinPrimScale = SL_MIN_PRIM_SCALE;
+		mRegionMaxPrimScale = SL_DEFAULT_MAX_PRIM_SCALE;
+		mRegionMaxPrimScaleNoMesh = SL_DEFAULT_MAX_PRIM_SCALE_NO_MESH;
+		mRegionMaxHollowSize = SL_OBJECT_MAX_HOLLOW_SIZE;
+		mRegionMinHoleSize = SL_OBJECT_MIN_HOLE_SIZE;
 	}
 }
 

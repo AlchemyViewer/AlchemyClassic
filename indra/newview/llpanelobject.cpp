@@ -302,7 +302,8 @@ LLPanelObject::LLPanelObject()
 	mSelectedType(MI_BOX),
 	mSculptTextureRevert(LLUUID::null),
 	mSculptTypeRevert(0),
-	mSizeChanged(FALSE)
+	mSizeChanged(FALSE),
+	mUpdateLimits(true)
 {
 	mCommitCallbackRegistrar.add("Build.Copy", boost::bind(&LLPanelObject::onClickBtnCopyData, this, _2));
 	mCommitCallbackRegistrar.add("Build.Paste", boost::bind(&LLPanelObject::onClickBtnPasteData, this, _2));
@@ -942,9 +943,9 @@ void LLPanelObject::getState( )
 		mSpinScaleY->set( scale_y );
 		calcp->setVar(LLCalc::X_HOLE, scale_x);
 		calcp->setVar(LLCalc::Y_HOLE, scale_y);
-		mSpinScaleX->setMinValue(OBJECT_MIN_HOLE_SIZE);
+		mSpinScaleX->setMinValue(mMinHoleSize);
 		mSpinScaleX->setMaxValue(OBJECT_MAX_HOLE_SIZE_X);
-		mSpinScaleY->setMinValue(OBJECT_MIN_HOLE_SIZE);
+		mSpinScaleY->setMinValue(mMinHoleSize);
 		mSpinScaleY->setMaxValue(OBJECT_MAX_HOLE_SIZE_Y);
 		break;
 	default:
@@ -980,7 +981,7 @@ void LLPanelObject::getState( )
 	else 
 	{
 		mSpinHollow->setMinValue(0.f);
-		mSpinHollow->setMaxValue(100.f); // <alchemy/>
+		mSpinHollow->setMaxValue(mMaxHollowSize);
 	}
 
 	// Update field enablement
@@ -1511,11 +1512,11 @@ void LLPanelObject::getVolumeParams(LLVolumeParams& volume_params)
 	{
 		scale_x = llclamp(
 			scale_x,
-			OBJECT_MIN_HOLE_SIZE,
+			mMinHoleSize,
 			OBJECT_MAX_HOLE_SIZE_X);
 		scale_y = llclamp(
 			scale_y,
-			OBJECT_MIN_HOLE_SIZE,
+			mMinHoleSize,
 			OBJECT_MAX_HOLE_SIZE_Y);
 
 		// Limit radius offset, based on taper and hole size y.
@@ -1838,6 +1839,9 @@ void LLPanelObject::sendSculpt()
 
 void LLPanelObject::refresh()
 {
+	if (mUpdateLimits)
+		refreshLimits();
+	
 	getState();
 	if (mObject.notNull() && mObject->isDead())
 	{
@@ -1856,6 +1860,26 @@ void LLPanelObject::refresh()
 	getChild<LLSpinCtrl>("Scale Z")->setMaxValue(max_scale);
 }
 
+void LLPanelObject::refreshLimits()
+{
+	mUpdateLimits = false;
+
+	mRegionMaxHeight = LLWorld::getInstance()->getRegionMaxHeight();
+	mCtrlPosZ->setMaxValue(mRegionMaxHeight);
+	mMinScale = LLWorld::getInstance()->getRegionMinPrimScale();
+	mMaxScale = LLWorld::getInstance()->getRegionMaxPrimScale();
+	mCtrlScaleX->setMinValue(mMinScale);
+	mCtrlScaleX->setMaxValue(mMaxScale);
+	mCtrlScaleY->setMinValue(mMinScale);
+	mCtrlScaleY->setMaxValue(mMaxScale);
+	mCtrlScaleZ->setMinValue(mMinScale);
+	mCtrlScaleZ->setMaxValue(mMaxScale);
+	mMaxHollowSize = LLWorld::getInstance()->getRegionMaxHollowSize();
+	mSpinHollow->setMaxValue(mMaxHollowSize);
+	mMinHoleSize = LLWorld::getInstance()->getRegionMinHoleSize();
+	mSpinScaleX->setMinValue(mMinHoleSize);
+	mSpinScaleY->setMinValue(mMinHoleSize);
+}
 
 void LLPanelObject::draw()
 {

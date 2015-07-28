@@ -55,6 +55,7 @@ public:
 	virtual void 	clearCtrls();
 
 	void			refresh();
+	void			refreshLimits();
 
 	static bool		precommitValidate(const LLSD& data);
 	
@@ -177,6 +178,13 @@ protected:
 
 	LLUUID          mSculptTextureRevert;   // so we can revert the sculpt texture on cancel
 	U8              mSculptTypeRevert;      // so we can revert the sculpt type on cancel
+	
+	F32				mRegionMaxHeight;
+	F32				mMinScale;
+	F32				mMaxScale;
+	F32				mMaxHollowSize;
+	F32				mMinHoleSize;
+	bool			mUpdateLimits;
 
 	LLSD			mCopiedObjectData;
 

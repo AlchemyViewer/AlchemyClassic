@@ -881,6 +881,10 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 
 void LLPanelGroupMembersSubTab::setGroupID(const LLUUID& id)
 {
+	LLButton* button = getChild<LLButton>("export_list");
+	if (button)
+		button->setEnabled(gAgent.hasPowerInGroup(mGroupID, GP_MEMBER_VISIBLE_IN_DIR));
+
 	//clear members list
 	if(mMembersList) mMembersList->deleteAllItems();
 	if(mAssignedRolesList) mAssignedRolesList->deleteAllItems();

@@ -38,6 +38,7 @@
 #include "llagent.h"
 #include "llui.h"
 #include "llviewernetwork.h"
+#include "llviewerregion.h"
 #include "llviewercontrol.h"
 #include "llweb.h"
 
@@ -200,7 +201,7 @@ void LLFloaterSearch::search(const SearchQuery &p)
 	// (also adds things like [LANGUAGE], [VERSION], [OS], etc.)
 	LLViewerRegion* regionp = gAgent.getRegion();
 	std::string url = regionp != nullptr ? regionp->getSearchServerURL()
-		: gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL"):
+		: gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL");
 	url = LLWeb::expandURLSubstitutions(url, subs);
 
 	// and load the URL in the web view

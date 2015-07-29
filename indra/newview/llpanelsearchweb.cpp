@@ -39,6 +39,7 @@
 #include "lltextbox.h"
 #include "llviewercontrol.h"
 #include "llviewernetwork.h"
+#include "llviewerregion.h"
 #include "llweb.h"
 
 static LLPanelInjector<LLPanelSearchWeb> t_panel_search_web("panel_search_web");
@@ -133,7 +134,7 @@ void LLPanelSearchWeb::loadUrl(const SearchQuery &p)
 	// (also adds things like [LANGUAGE], [VERSION], [OS], etc.)
 	LLViewerRegion* regionp = gAgent.getRegion();
 	std::string url = regionp != nullptr ? regionp->getSearchServerURL()
-	: gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL"):
+		: gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL");
 	url = LLWeb::expandURLSubstitutions(url, subs);
 	// Finally, load the URL in the webpanel
 	mWebBrowser->navigateTo(url, "text/html");

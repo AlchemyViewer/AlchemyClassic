@@ -123,7 +123,7 @@ clicking on their names.
                  left="0"
                  name="btn_invite_lp"
                  auto_resize="true"
-                 width="91">
+                 width="68">
                     <button
                      follows="top|left|right"
                      height="23"
@@ -132,7 +132,7 @@ clicking on their names.
                      left="1"
                      top="0"
                      name="member_invite"
-                     width="90" />
+                     width="67" />
                 </layout_panel>
                 <layout_panel
                  follows="top|left|right"
@@ -141,7 +141,7 @@ clicking on their names.
                  left_pad="2"
                  name="eject_btn_lp"
                  auto_resize="true"
-                 width="91">
+                 width="68">
                     <button
                      follows="top|left|right"
                      left="1"
@@ -150,7 +150,7 @@ clicking on their names.
                      label="Eject"
                      layout="topleft"
                      top="0"
-                     width="90" />
+                     width="67" />
                 </layout_panel>
                 <layout_panel
                  follows="top|left|right"
@@ -159,7 +159,7 @@ clicking on their names.
                  left_pad="2"
                  name="ban_btn_lp"
                  auto_resize="true"
-                 width="91">
+                 width="68">
                     <button
                      follows="top|left|right"
                      left="1"
@@ -168,7 +168,25 @@ clicking on their names.
                      label="Ban"
                      layout="topleft"
                      top="0"
-                     width="90" />
+                     width="67" />
+                </layout_panel>
+                <layout_panel
+                 follows="top|left|right"
+                 height="23"
+                 layout="topleft"
+                 left_pad="2"
+                 name="export_btn_lp"
+                 auto_resize="true"
+                 width="68">
+                    <button
+                     follows="top|left|right"
+                     left="1"
+                     height="23"
+                     name="export_list"
+                     label="Export"
+                     layout="topleft"
+                     top="0"
+                     width="67" />
                 </layout_panel>
             </layout_stack>
         </panel>
@@ -257,7 +275,7 @@ clicking on their names.
                  left="0"
                  name="btn_create_lp"
                  auto_resize="true"
-                 width="91">
+                 width="136">
                     <button
                      follows="top|left|right"
                      height="23"
@@ -266,7 +284,7 @@ clicking on their names.
                      left="1"
                      top="0"
                      name="role_create"
-                     width="90" />
+                     width="135" />
                 </layout_panel>
                 <layout_panel
                  follows="top|left|right"
@@ -275,7 +293,7 @@ clicking on their names.
                  left_pad="2"
                  name="delete_btn_lp"
                  auto_resize="true"
-                 width="91">
+                 width="136">
                     <button
                      follows="top|left|right"
                      left="1"
@@ -284,25 +302,7 @@ clicking on their names.
                      label="Delete"
                      layout="topleft"
                      top="0"
-                     width="90" />
-                </layout_panel>
-                <layout_panel
-                 follows="top|left|right"
-                 height="23"
-                 layout="topleft"
-                 left_pad="2"
-                 name="export_btn_lp"
-                 auto_resize="true"
-                 width="91">
-                    <button
-                     follows="top|left|right"
-                     left="1"
-                     height="23"
-                     name="export_list"
-                     label="Export"
-                     layout="topleft"
-                     top="0"
-                     width="90" />
+                     width="135" />
                 </layout_panel>
         </layout_stack>
     </panel>

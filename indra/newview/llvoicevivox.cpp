@@ -1345,7 +1345,7 @@ void LLVivoxVoiceClient::stateMachine()
 			{
 				setState(stateCaptureBufferPaused);
 			}
-			else if(checkParcelChanged() || (mNextAudioSession == NULL))
+			else if(checkParcelChanged() || (!mAreaVoiceDisabled && mNextAudioSession == NULL))
 			{
 				// the parcel is changed, or we have no pending audio sessions,
 				// so try to request the parcel voice info

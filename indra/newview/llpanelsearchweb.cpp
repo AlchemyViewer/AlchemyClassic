@@ -131,15 +131,10 @@ void LLPanelSearchWeb::loadUrl(const SearchQuery &p)
 	
 	// Get the search URL and expand all of the substitutions
 	// (also adds things like [LANGUAGE], [VERSION], [OS], etc.)
-	std::string url;
-	if  (LLLoginInstance::getInstance()->hasResponse("search"))
-		url = LLLoginInstance::getInstance()->getResponse("search").asString();
-	else if (LLGridManager::getInstance()->isInOpenSim())
-		url = gSavedSettings.getString("OpenSimSearchURL");
-	else
-		url = gSavedSettings.getString("SearchURL");
+	LLViewerRegion* regionp = gAgent.getRegion();
+	std::string url = regionp != nullptr ? regionp->getSearchServerURL()
+	: gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL"):
 	url = LLWeb::expandURLSubstitutions(url, subs);
-	
 	// Finally, load the URL in the webpanel
 	mWebBrowser->navigateTo(url, "text/html");
 }

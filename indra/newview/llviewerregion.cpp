@@ -57,6 +57,7 @@
 #include "llfloaterreporter.h"
 #include "llfloaterregioninfo.h"
 #include "llhttpnode.h"
+#include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llregioninfomodel.h"
 #include "llsdutil.h"
@@ -80,6 +81,7 @@
 #include "llfloaterperms.h"
 #include "llvieweroctree.h"
 #include "llviewerdisplay.h"
+#include "llviewernetwork.h"
 #include "llviewerwindow.h"
 #include "llprogressview.h"
 
@@ -3274,6 +3276,28 @@ std::string LLViewerRegion::getMapServerURL() const
 	else
 	{
 		url = gSavedSettings.getString("CurrentMapServerURL");
+	}
+	return url;
+}
+
+std::string LLViewerRegion::getSearchServerURL() const
+{
+	std::string url;
+	// Check the region it trumps the grid
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("search-server-url"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["search-server-url"].asString();
+	}
+	// Check the login message
+	else if (LLLoginInstance::getInstance()->hasResponse("search"))
+	{
+		url = LLLoginInstance::getInstance()->getResponse("search").asString();
+	}
+	// If all else fails, fall back to defaults
+	else
+	{
+		url = gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL");
 	}
 	return url;
 }

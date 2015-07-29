@@ -3265,6 +3265,44 @@ U32 LLViewerRegion::getMaxMaterialsPerTransaction() const
 }
 
 // <alchemy>
+std::string LLViewerRegion::getAvatarPickerURL() const
+{
+	std::string url = LLStringUtil::null;
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("avatar-picker-url"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["avatar-picker-url"].asString();
+	}
+	else if (LLLoginInstance::getInstance()->hasResponse("avatar_picker_url"))
+	{
+		url = LLLoginInstance::getInstance()->getResponse("avatar_picker_url").asString();
+	}
+	else if (LLGridManager::getInstance()->isInSecondlife())
+	{
+		url = gSavedSettings.getString("AvatarPickerURL");
+	}
+	return url;
+}
+
+std::string LLViewerRegion::getDestinationGuideURL() const
+{
+	std::string url = LLStringUtil::null;
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("destination-guide-url"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["destination-guide-url"].asString();
+	}
+	else if (LLLoginInstance::getInstance()->hasResponse("destination_guide_url"))
+	{
+		url = LLLoginInstance::getInstance()->getResponse("destination_guide_url").asString();
+	}
+	else if (LLGridManager::getInstance()->isInSecondlife())
+	{
+		url = gSavedSettings.getString("DestinationGuideURL");
+	}
+	return url;
+}
+
 std::string LLViewerRegion::getMapServerURL() const
 {
 	std::string url;

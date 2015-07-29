@@ -40,6 +40,7 @@
 #include "llcommunicationchannel.h"
 #include "llfloaterreg.h"
 #include "llhudicon.h"
+#include "lllogininstance.h"
 #include "llmeshrepository.h"
 #include "llnotificationhandler.h"
 #include "llpanellogin.h"
@@ -2043,21 +2044,44 @@ void LLViewerWindow::initWorldUI()
 		gToolBarView->setVisible(TRUE);
 	}
 
-	LLMediaCtrl* destinations = LLFloaterReg::getInstance("destinations")->getChild<LLMediaCtrl>("destination_guide_contents");
-	if (destinations)
+	std::string dest_url = LLStringUtil::null;
+	if (LLLoginInstance::getInstance()->hasResponse("destination_guide_url"))
 	{
-		destinations->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
-		std::string url = gSavedSettings.getString("DestinationGuideURL");
-		url = LLWeb::expandURLSubstitutions(url, LLSD());
-		destinations->navigateTo(url, HTTP_CONTENT_TEXT_HTML);
+		dest_url = LLLoginInstance::getInstance()->getResponse("destination_guide_url").asString();
 	}
-	LLMediaCtrl* avatar_picker = LLFloaterReg::getInstance("avatar")->findChild<LLMediaCtrl>("avatar_picker_contents");
-	if (avatar_picker)
+	else if (LLGridManager::getInstance()->isInSecondlife())
 	{
-		avatar_picker->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
-		std::string url = gSavedSettings.getString("AvatarPickerURL");
-		url = LLWeb::expandURLSubstitutions(url, LLSD());
-		avatar_picker->navigateTo(url, HTTP_CONTENT_TEXT_HTML);
+		dest_url = gSavedSettings.getString("DestinationGuideURL");
+	}
+	if (!dest_url.empty())
+	{
+		LLMediaCtrl* destinations = LLFloaterReg::getInstance("destinations")->getChild<LLMediaCtrl>("destination_guide_contents");
+		if (destinations)
+		{
+			destinations->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
+			dest_url = LLWeb::expandURLSubstitutions(dest_url, LLSD());
+			destinations->navigateTo(dest_url, HTTP_CONTENT_TEXT_HTML);
+		}
+	}
+	
+	std::string ava_url = LLStringUtil::null;
+	if (LLLoginInstance::getInstance()->hasResponse("avatar_picker_url"))
+	{
+		ava_url = LLLoginInstance::getInstance()->getResponse("avatar_picker_url").asString();
+	}
+	else if (LLGridManager::getInstance()->isInSecondlife())
+	{
+		ava_url = gSavedSettings.getString("AvatarPickerURL");
+	}
+	if (!ava_url.empty())
+	{
+		LLMediaCtrl* avatar_picker = LLFloaterReg::getInstance("avatar")->findChild<LLMediaCtrl>("avatar_picker_contents");
+		if (avatar_picker)
+		{
+			avatar_picker->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
+			ava_url = LLWeb::expandURLSubstitutions(ava_url, LLSD());
+			avatar_picker->navigateTo(ava_url, HTTP_CONTENT_TEXT_HTML);
+		}
 	}
 }
 

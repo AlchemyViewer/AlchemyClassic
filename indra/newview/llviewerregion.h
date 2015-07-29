@@ -390,6 +390,8 @@ public:
 
 	static BOOL isNewObjectCreationThrottleDisabled() {return sNewObjectCreationThrottle < 0;}
 
+	std::string getAvatarPickerURL() const;
+	std::string getDestinationGuideURL() const;
 	std::string getMapServerURL() const;
 	std::string getSearchServerURL() const;
 	LLViewerTexture* getMapImage(); // <alchemy/>

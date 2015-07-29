@@ -390,6 +390,7 @@ public:
 
 	static BOOL isNewObjectCreationThrottleDisabled() {return sNewObjectCreationThrottle < 0;}
 
+	std::string getMapServerURL() const;
 	LLViewerTexture* getMapImage(); // <alchemy/>
 
 private:
@@ -515,7 +516,7 @@ private:
 	std::string mColoName;
 	std::string mProductSKU;
 	std::string mProductName;
-	std::string mHttpUrl ;
+	std::string mHttpUrl;
 	
 	// Maps local ids to cache entries.
 	// Regions can have order 10,000 objects, so assume

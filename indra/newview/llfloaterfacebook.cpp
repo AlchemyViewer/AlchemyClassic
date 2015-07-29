@@ -78,7 +78,7 @@ std::string get_map_url()
     }
     int x_pos = center_agent[0] / 256.0;
     int y_pos = center_agent[1] / 256.0;
-    std::string map_url = gSavedSettings.getString("CurrentMapServerURL") + llformat("map-1-%d-%d-objects.jpg", x_pos, y_pos);
+    std::string map_url = regionp->getMapServerURL().append(llformat("map-1-%d-%d-objects.jpg", x_pos, y_pos));
     return map_url;
 }
 

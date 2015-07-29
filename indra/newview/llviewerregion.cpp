@@ -3263,13 +3263,28 @@ U32 LLViewerRegion::getMaxMaterialsPerTransaction() const
 }
 
 // <alchemy>
+std::string LLViewerRegion::getMapServerURL() const
+{
+	std::string url;
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("map-server-url"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["map-server-url"].asString();
+	}
+	else
+	{
+		url = gSavedSettings.getString("CurrentMapServerURL");
+	}
+	return url;
+}
+
 LLViewerTexture* LLViewerRegion::getMapImage()
 {
 	if (mMapImage.isNull())
 	{
 		U32 gridX, gridY;
 		grid_from_region_handle(mHandle, &gridX, &gridY);
-		const std::string imageurl = gSavedSettings.getString("CurrentMapServerURL") + llformat("map-1-%d-%d-objects.jpg", gridX, gridY);
+		const std::string imageurl = getMapServerURL().append(llformat("map-1-%d-%d-objects.jpg", gridX, gridY));
 		mMapImage = LLViewerTextureManager::getFetchedTextureFromUrl(imageurl, FTT_MAP_TILE, TRUE, LLGLTexture::BOOST_MAP, LLViewerTexture::LOD_TEXTURE);
 	}
 	return mMapImage;

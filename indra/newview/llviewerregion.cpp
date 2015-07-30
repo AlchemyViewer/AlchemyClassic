@@ -2137,6 +2137,8 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 	LLSDSerialize::toPrettyXML(sim_features, str);
 	LL_INFOS() << str.str() << LL_ENDL;
 	mSimulatorFeatures = sim_features;
+	if (LLGridManager::getInstance()->isInOpenSim())
+		setGodnames();
 
 	setSimulatorFeaturesReceived(true);
 	
@@ -3338,6 +3340,34 @@ std::string LLViewerRegion::getSearchServerURL() const
 		url = gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL");
 	}
 	return url;
+}
+
+void LLViewerRegion::setGodnames()
+{
+	mGodNames.clear();
+	if (mSimulatorFeatures.has("god_names"))
+	{
+		if (mSimulatorFeatures["god_names"].has("full_names"))
+		{
+			LLSD god_names = mSimulatorFeatures["god_names"]["full_names"];
+			for (LLSD::array_iterator itr = god_names.beginArray();
+				 itr != god_names.endArray();
+				 itr++)
+			{
+				mGodNames.insert((*itr).asString());
+			}
+		}
+		if (mSimulatorFeatures["god_names"].has("last_names"))
+		{
+			LLSD god_names = mSimulatorFeatures["god_names"]["last_names"];
+			for (LLSD::array_iterator itr = god_names.beginArray();
+				 itr != god_names.endArray();
+				 itr++)
+			{
+				mGodNames.insert((*itr).asString());
+			}
+		}
+	}
 }
 
 LLViewerTexture* LLViewerRegion::getMapImage()

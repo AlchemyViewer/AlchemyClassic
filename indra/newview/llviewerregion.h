@@ -394,6 +394,7 @@ public:
 	std::string getDestinationGuideURL() const;
 	std::string getMapServerURL() const;
 	std::string getSearchServerURL() const;
+	std::set<std::string> getGods() const { return mGodNames; };
 	LLViewerTexture* getMapImage(); // <alchemy/>
 
 private:
@@ -408,7 +409,8 @@ private:
 
 	void addCacheMiss(U32 id, LLViewerRegion::eCacheMissType miss_type);
 	void decodeBoundingInfo(LLVOCacheEntry* entry);
-	bool isNonCacheableObjectCreated(U32 local_id);	
+	bool isNonCacheableObjectCreated(U32 local_id);
+	void setGodnames();
 
 public:
 	struct CompareDistance
@@ -558,6 +560,7 @@ private:
 	LLFrameTimer mRenderInfoRequestTimer;
 
 	LLPointer<LLViewerTexture> mMapImage; // <alchemy/>
+    std::set<std::string> mGodNames;
 };
 
 inline BOOL LLViewerRegion::getRegionProtocol(U64 protocol) const

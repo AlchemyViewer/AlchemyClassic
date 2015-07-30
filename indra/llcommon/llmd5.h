@@ -109,11 +109,11 @@ private:
 
 
 // next, the private data:
-  uint4 state[4];
-  uint4 count[2];     // number of *bits*, mod 2^64
-  uint1 buffer[64];   // input buffer
-  uint1 digest[16];
-  uint1 finalized;
+  uint4 mState[4];
+  uint4 mCount[2];     // number of *bits*, mod 2^64
+  uint1 mBuffer[64];   // input buffer
+  uint1 mDigest[16];
+  bool  mFinalized;
 
 // last, the private methods, mostly static:
   void init             ();               // called by all constructors

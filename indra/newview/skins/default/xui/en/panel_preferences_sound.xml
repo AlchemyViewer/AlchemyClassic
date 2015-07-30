@@ -9,10 +9,29 @@
  name="Preference Media panel"
  top="1"
  width="517">
-    <panel.string
-     name="middle_mouse">
-     Middle Mouse
-    </panel.string>
+ <panel.string
+  name="middle_mouse">
+  Middle Mouse
+ </panel.string>
+<tab_container
+ label="Audio"
+ layout="topleft"
+ follows="all"
+ top="5"
+ bottom="-10"
+ left="1"
+ right="-1"
+ name="sound_tabs"
+ tab_min_width="50"
+ tab_position="top" >
+    <panel
+     top_pad="5"
+     bottom="-1"
+     left="1"
+     right="-1"
+     follows="all"
+     label="Sounds"
+     name="tab-Sounds" >
     <slider
      control_name="AudioLevelMaster"
      follows="left|top"
@@ -317,7 +336,7 @@
 	<check_box
         name="ShowStreamInfo"
         control_name="ShowStreamInfo"
-        follows="left|bottom|right"
+        follows="left|top"
         height="15"
         tool_tip="Show audio stream metadata"
         label="Show audio stream notifications"
@@ -328,7 +347,7 @@
 		control_name="ParcelMediaAutoPlayEnable"
 		enabled_control="AudioStreamingMedia"
 		value="true"
-		follows="left|bottom|right"
+		follows="left|top"
 		height="15"
 		tool_tip="Check this to let media auto-play if it wants"
 		label="Allow Media to auto-play"
@@ -338,7 +357,7 @@
 		name="media_show_on_others_btn"
 		control_name="MediaShowOnOthers"
 		value="true"
-		follows="left|bottom|right"
+		follows="left|top"
 		height="15"
 		tool_tip="Uncheck this to hide media attached to other avatars nearby"
 		label="Play media attached to other avatars"
@@ -350,7 +369,7 @@
      control_name="EnableGestureSounds"
      disabled_control="MuteAudio"
      value="true"
-     follows="left|bottom|right"
+     follows="left|top"
      height="15"
      tool_tip="Check this to hear sounds from gestures"
      label="Play sounds from gestures"
@@ -388,6 +407,19 @@
      left_pad="5"
      name="AlchemyPlayTeleportSound"
      width="70"/>
+    </panel>
+    <panel
+     top_pad="5"
+     bottom="-1"
+     left="1"
+     right="-1"
+     follows="all"
+     label="Voice"
+     name="tab-Voice" >
+    <panel.string
+     name="middle_mouse">
+     Middle Mouse
+    </panel.string>
     <text
      type="string"
      length="1"
@@ -542,3 +574,5 @@
     left="18"
     class="panel_voice_device_settings"/>
     </panel>
+  </tab_container>
+</panel>

@@ -1149,7 +1149,7 @@ void LLInventoryAction::doToSelected(LLInventoryModel* model, LLFolderView* root
     {
         wear_multiple(ids, false);
     }
-    else if (isRemoveAction(action))
+    else if (isRemoveAction(action) && action != "deactivate")
     {
         LLAppearanceMgr::instance().removeItemsFromAvatar(ids);
     }

@@ -60,7 +60,6 @@ if (WINDOWS)
   set(WINDOWS_LIBRARIES
       advapi32
       shell32
-      ole32
       ws2_32
       mswsock
       psapi

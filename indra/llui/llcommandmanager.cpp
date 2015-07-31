@@ -129,6 +129,22 @@ LLCommand * LLCommandManager::getCommand(const LLCommandId& commandId)
 	return command_match;
 }
 
+LLCommand * LLCommandManager::getCommand(const std::string& name)
+{
+	LLCommand * command_match = NULL;
+    
+	for (auto it = mCommands.cbegin(), it_end = mCommands.cend(); it != it_end; ++it)
+	{
+        if ((*it)->name() == name)
+        {
+            command_match = *it;
+            break;
+        }
+	}
+    
+	return command_match;
+}
+
 void LLCommandManager::addCommand(LLCommand * command)
 {
 	LLCommandId command_id = command->id();

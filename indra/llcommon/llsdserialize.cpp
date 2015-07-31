@@ -1701,12 +1701,12 @@ int deserialize_string_raw(
 		// *FIX: This is memory inefficient.
 		S32 len = strtol(buf + 1, NULL, 0);
 		if((max_bytes>0)&&(len>max_bytes)) return LLSDParser::PARSE_FAILURE;
-		std::vector<char> buf;
+		std::vector<char> buf2;
 		if(len)
 		{
-			buf.resize(len);
-			count += (int)fullread(istr, (char *)&buf[0], len);
-			value.assign(buf.begin(), buf.end());
+			buf2.resize(len);
+			count += (int)fullread(istr, (char *)&buf2[0], len);
+			value.assign(buf2.begin(), buf2.end());
 		}
 		c = istr.get();
 		++count;

@@ -740,8 +740,7 @@ void LLFolderView::removeSelectedItems()
 		// items, since the removal will futz with internal data
 		// structures.
 		std::vector<LLFolderViewItem*> items;
-		S32 count = mSelectedItems.size();
-		if(count == 0) return;
+		if(mSelectedItems.empty()) return;
 		LLFolderViewItem* item = NULL;
 		selected_items_t::iterator item_it;
 		for (item_it = mSelectedItems.begin(); item_it != mSelectedItems.end(); ++item_it)
@@ -759,7 +758,7 @@ void LLFolderView::removeSelectedItems()
 		}
 
 		// iterate through the new container.
-		count = items.size();
+		size_t count = items.size();
 		LLUUID new_selection_id;
 		LLFolderViewItem* item_to_select = getNextUnselectedItem();
 
@@ -958,7 +957,6 @@ void LLFolderView::cut()
 			if (listener)
 			{
 				listener->cutToClipboard();
-				listener->removeItem();
 			}
 		}
 		

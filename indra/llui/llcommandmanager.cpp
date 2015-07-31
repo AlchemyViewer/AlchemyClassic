@@ -133,8 +133,6 @@ LLCommand * LLCommandManager::getCommand(const std::string& name)
 {
 	LLCommand * command_match = NULL;
     
-	CommandVector::const_iterator it = mCommands.begin();
-	
 	for (auto it = mCommands.cbegin(), it_end = mCommands.cend(); it != it_end; ++it)
 	{
         if ((*it)->name() == name)

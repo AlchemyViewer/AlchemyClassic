@@ -43,8 +43,8 @@
 #include "llviewernetwork.h"
 #include "llviewerregion.h"
 
-#include "reader.h" // JSON
-#include "writer.h" // JSON
+#include "jsoncpp/reader.h" // JSON
+#include "jsoncpp/writer.h" // JSON
 
 //
 // Helpers
@@ -218,11 +218,12 @@ public:
             return;
 		}
 
-        Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::Value root;
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Get /listings", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Get /listings", getStatus(), "Json parsing failed", errors, body);
             LLMarketplaceData::instance().setSLMDataFetched(MarketplaceFetchCodes::MARKET_FETCH_FAILED);
             update_marketplace_category(mExpectedFolderId, false);
             gInventory.notifyObservers();
@@ -291,11 +292,12 @@ public:
             return;
 		}
         
-        Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::Value root;
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Post /listings", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Post /listings", getStatus(), "Json parsing failed", errors, body);
             update_marketplace_category(mExpectedFolderId, false);
             gInventory.notifyObservers();
             return;
@@ -365,11 +367,12 @@ public:
             return;
 		}
         
-        Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::Value root;
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Get /listing", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Get /listing", getStatus(), "Json parsing failed", errors, body);
             update_marketplace_category(mExpectedFolderId, false);
             gInventory.notifyObservers();
             return;
@@ -441,10 +444,11 @@ public:
 		}
         
         Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::CharReaderBuilder reader;
+		std::string errors;
+        if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Put /listing", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Put /listing", getStatus(), "Json parsing failed", errors, body);
             update_marketplace_category(mExpectedFolderId, false);
             gInventory.notifyObservers();
             return;
@@ -527,11 +531,12 @@ public:
             return;
 		}
         
-        Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::Value root;
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Put /associate_inventory", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Put /associate_inventory", getStatus(), "Json parsing failed", errors, body);
             update_marketplace_category(mExpectedFolderId, false);
             update_marketplace_category(mSourceFolderId, false);
             gInventory.notifyObservers();
@@ -612,11 +617,12 @@ public:
             return;
 		}
         
-        Json::Value root;
-        Json::Reader reader;
-        if (!reader.parse(body,root))
+		Json::Value root;
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
         {
-            log_SLM_warning("Delete /listing", getStatus(), "Json parsing failed", reader.getFormatedErrorMessages(), body);
+            log_SLM_warning("Delete /listing", getStatus(), "Json parsing failed", errors, body);
             update_marketplace_category(mExpectedFolderId, false);
             gInventory.notifyObservers();
             return;
@@ -1283,8 +1289,8 @@ void LLMarketplaceData::createSLMListing(const LLUUID& folder_id, const LLUUID& 
 	headers["Content-Type"] = "application/json";
     
     // Build the json message
-    Json::Value root;
-    Json::FastWriter writer;
+	Json::Value root;
+	Json::StreamWriterBuilder writer;
     
     LLViewerInventoryCategory* category = gInventory.getCategory(folder_id);
     root["listing"]["name"] = category->getName();
@@ -1292,7 +1298,7 @@ void LLMarketplaceData::createSLMListing(const LLUUID& folder_id, const LLUUID& 
     root["listing"]["inventory_info"]["version_folder_id"] = version_id.asString();
     root["listing"]["inventory_info"]["count_on_hand"] = count;
     
-    std::string json_str = writer.write(root);
+    std::string json_str = Json::writeString(writer, root);
     
 	// postRaw() takes ownership of the buffer and releases it later.
 	size_t size = json_str.size();
@@ -1313,7 +1319,7 @@ void LLMarketplaceData::updateSLMListing(const LLUUID& folder_id, S32 listing_id
 	headers["Content-Type"] = "application/json";
 
     Json::Value root;
-    Json::FastWriter writer;
+	Json::StreamWriterBuilder writer;
 
     // Note : auto unlist if the count is 0 (out of stock)
     if (is_listed && (count == 0))
@@ -1329,7 +1335,7 @@ void LLMarketplaceData::updateSLMListing(const LLUUID& folder_id, S32 listing_id
     root["listing"]["inventory_info"]["version_folder_id"] = version_id.asString();
     root["listing"]["inventory_info"]["count_on_hand"] = count;
     
-    std::string json_str = writer.write(root);
+    std::string json_str = Json::writeString(writer, root);
     
 	// postRaw() takes ownership of the buffer and releases it later.
 	size_t size = json_str.size();
@@ -1350,14 +1356,13 @@ void LLMarketplaceData::associateSLMListing(const LLUUID& folder_id, S32 listing
 	headers["Content-Type"] = "application/json";
     
     Json::Value root;
-    Json::FastWriter writer;
+    Json::StreamWriterBuilder writer;
     
     // Note : we're assuming that sending unchanged info won't break anything server side...
     root["listing"]["id"] = listing_id;
     root["listing"]["inventory_info"]["listing_folder_id"] = folder_id.asString();
     root["listing"]["inventory_info"]["version_folder_id"] = version_id.asString();
-    
-    std::string json_str = writer.write(root);
+	std::string json_str = Json::writeString(writer, root);
     
 	// postRaw() takes ownership of the buffer and releases it later.
 	size_t size = json_str.size();

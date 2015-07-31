@@ -135,14 +135,13 @@ LLCommand * LLCommandManager::getCommand(const std::string& name)
     
 	CommandVector::const_iterator it = mCommands.begin();
 	
-	while (it != mCommands.end())
+	for (auto it = mCommands.cbegin(), it_end = mCommands.cend(); it != it_end; ++it)
 	{
         if ((*it)->name() == name)
         {
             command_match = *it;
             break;
         }
-        it++;
 	}
     
 	return command_match;

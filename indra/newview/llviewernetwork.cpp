@@ -53,6 +53,10 @@ const std::string  GRID_LOGIN_PAGE_VALUE = "login_page";
 const std::string  GRID_IS_SYSTEM_GRID_VALUE = "system_grid";
 /// whether this is single or double names
 const std::string  GRID_LOGIN_IDENTIFIER_TYPES = "login_identifier_types";
+/// the url for registering a new account for the given grid
+const std::string GRID_ACCOUNT_REGISTRATION_URL = "register";
+/// the url for retrieving passwords for the given grid
+const std::string GRID_FORGOT_PASSWORD_URL = "password";
 
 // defines slurl formats associated with various grids.
 // we need to continue to support existing forms, as slurls
@@ -124,6 +128,8 @@ void LLGridManager::initialize(const std::string& grid_file)
 				  MAIN_GRID_LOGIN_URI,
 				  "https://secondlife.com/helpers/",
 				  DEFAULT_LOGIN_PAGE,
+				  "http://secondlife.com/account/request.php",
+				  "http://join.secondlife.com/?sourceid=AlchemyViewer",
 				  SL_UPDATE_QUERY_URL,
 				  "Agni");
 	addSystemGrid("Second Life Beta",
@@ -131,6 +137,8 @@ void LLGridManager::initialize(const std::string& grid_file)
 				  "https://login.aditi.lindenlab.com/cgi-bin/login.cgi",
 				  "http://aditi-secondlife.webdev.lindenlab.com/helpers/",
 				  DEFAULT_LOGIN_PAGE,
+				  "http://secondlife.com/account/request.php",
+				  "http://join.secondlife.com/?sourceid=AlchemyViewer",
 				  SL_UPDATE_QUERY_URL,
 				  "Aditi");
 
@@ -338,6 +346,8 @@ void LLGridManager::addSystemGrid(const std::string& label,
 								  const std::string& login_uri,
 								  const std::string& helper,
 								  const std::string& login_page,
+								  const std::string& password_url,
+								  const std::string& register_url,
 								  const std::string& update_url_base,
 								  const std::string& login_id)
 {
@@ -352,6 +362,8 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	grid[GRID_IS_SYSTEM_GRID_VALUE] = true;
 	grid[GRID_LOGIN_IDENTIFIER_TYPES] = LLSD::emptyArray();
 	grid[GRID_LOGIN_IDENTIFIER_TYPES].append(CRED_IDENTIFIER_TYPE_AGENT);
+	grid[GRID_FORGOT_PASSWORD_URL] = password_url;
+	grid[GRID_ACCOUNT_REGISTRATION_URL] = register_url;
 
 	grid[GRID_APP_SLURL_BASE] = SYSTEM_GRID_APP_SLURL_BASE;
 	if (login_id.empty())
@@ -533,6 +545,24 @@ std::string LLGridManager::getLoginPage()
 	std::string login_page = mGridList[mGrid][GRID_LOGIN_PAGE_VALUE].asString();
 	LL_DEBUGS("GridManager")<<"returning "<<login_page<<LL_ENDL;
 	return login_page;
+}
+
+std::string LLGridManager::getForgotPasswordURL()
+{
+	std::string url = mGridList[mGrid].has(GRID_FORGOT_PASSWORD_URL)
+					  ? mGridList[mGrid][GRID_FORGOT_PASSWORD_URL].asString()
+					  : LLStringUtil::null;
+	LL_DEBUGS("GridManager") << "returning " << url << LL_ENDL;
+	return url;
+}
+
+std::string LLGridManager::getCreateAccountURL()
+{
+	std::string url = mGridList[mGrid].has(GRID_ACCOUNT_REGISTRATION_URL)
+					  ? mGridList[mGrid][GRID_ACCOUNT_REGISTRATION_URL].asString()
+					  : LLStringUtil::null;
+	LL_DEBUGS("GridManager") << "returning " << url << LL_ENDL;
+	return url;
 }
 
 void LLGridManager::getLoginIdentifierTypes(LLSD& idTypes)

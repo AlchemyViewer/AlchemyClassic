@@ -128,6 +128,12 @@ class LLGridManager : public LLSingleton<LLGridManager>
 
 	/// Get the URI for the login splash page for the selected grid
 	std::string getLoginPage();
+	
+	/// Get the url for recovering a user's password for the selected grid
+	std::string getForgotPasswordURL();
+	
+	/// Get the url for creating an account for the selected grid
+	std::string getCreateAccountURL();
 
 	/// Get the id to be used as a short name in url path components or parameters
 	std::string getGridLoginID();
@@ -232,6 +238,8 @@ class LLGridManager : public LLSingleton<LLGridManager>
 					   const std::string& login, 
 					   const std::string& helper,
 					   const std::string& login_page,
+					   const std::string& password_url,
+					   const std::string& register_url,
 					   const std::string& update_url_base,
 					   const std::string& login_id = "");	
 	

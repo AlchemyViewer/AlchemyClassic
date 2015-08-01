@@ -8,13 +8,6 @@
     focus_root="true" 
     top="600"
     width="1130">
-  <string name="reg_in_client_url" translate="false">
-    http://secondlife.eniac15.lindenlab.com/reg-in-client/
-  </string>
-  <panel.string
-      name="forgot_password_url">
-    http://secondlife.com/account/request.php
-  </panel.string>
   <!-- *NOTE: Custom resize logic for login_html in llpanellogin.cpp -->
   <web_browser
       tab_stop="false" 

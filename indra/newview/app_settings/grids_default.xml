@@ -20,6 +20,10 @@
     <string>http://grid.yrgrid.com/helpers/helper/</string>
     <key>login_page</key>
     <string>http://www.yrgrid.com/splash/</string>
+    <key>password</key>
+    <string>https://www.yrgrid.com/user/forgetpass.php</string>
+    <key>register</key>
+    <string>https://www.yrgrid.com/user/register.php</string>
     <key>login_identifier_types</key>
       <array>
         <string>agent</string>

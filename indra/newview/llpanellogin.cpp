@@ -877,7 +877,7 @@ void LLPanelLogin::onClickNewAccount(void*)
 {
 	if (sInstance)
 	{
-		LLWeb::loadURLExternal(LLTrans::getString("create_account_url"));
+		LLWeb::loadURLExternal(LLGridManager::getInstance()->getCreateAccountURL());
 	}
 }
 
@@ -893,7 +893,7 @@ void LLPanelLogin::onClickForgotPassword(void*)
 {
 	if (sInstance )
 	{
-		LLWeb::loadURLExternal(sInstance->getString( "forgot_password_url" ));
+		LLWeb::loadURLExternal(LLGridManager::getInstance()->getForgotPasswordURL());
 	}
 }
 

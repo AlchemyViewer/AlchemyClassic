@@ -85,10 +85,11 @@ public:
 		}
 
 		Json::Value root;
-		Json::Reader reader;
-		if (!reader.parse(body, root))
+		Json::CharReaderBuilder reader;
+		std::string errors;
+		if (!Json::parseFromStream(reader, std::istringstream(body), &root, &errors))
 		{
-			LL_WARNS() << "Failed to parse upload config: " << reader.getFormattedErrorMessages() << LL_ENDL;
+			LL_WARNS() << "Failed to parse upload config: " << errors << LL_ENDL;
 			LLWebProfile::reportImageUploadStatus(false);
 			return;
 		}

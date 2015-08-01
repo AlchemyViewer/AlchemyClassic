@@ -71,11 +71,11 @@ bool LLGoogleTranslationHandler::parseResponse(
 	std::string& err_msg) const
 {
 	Json::Value root;
-	Json::Reader reader;
-
-	if (!reader.parse(body, root))
+	Json::CharReaderBuilder reader;
+	std::string errors;
+	if (!Json::parseFromStream(reader, std::istringstream(body), &root, &errors))
 	{
-		err_msg = reader.getFormattedErrorMessages();
+		err_msg = errors;
 		return false;
 	}
 

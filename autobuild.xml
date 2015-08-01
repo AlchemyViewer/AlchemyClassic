@@ -1730,11 +1730,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d18a1b234d3a03bf69ef5aa5b8fe9c6b</string>
+              <string>f9926e026f6106ae72775ef8d408d226</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.6.1-darwin-201504232203.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.6.5-darwin-201507312053.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

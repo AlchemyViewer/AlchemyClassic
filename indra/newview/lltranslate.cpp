@@ -70,10 +70,11 @@ bool LLGoogleTranslationHandler::parseResponse(
 	std::string& detected_lang,
 	std::string& err_msg) const
 {
+	std::stringstream stream(body);
 	Json::Value root;
 	Json::CharReaderBuilder reader;
 	std::string errors;
-	if (!Json::parseFromStream(reader, std::istringstream(body), &root, &errors))
+	if (!Json::parseFromStream(reader, stream, &root, &errors))
 	{
 		err_msg = errors;
 		return false;

@@ -1543,13 +1543,6 @@
                 <menu_item_call.on_click
                  function="ReportAbuse" />
             </menu_item_call>
-        <menu_item_call
-             label="Report [SECOND_LIFE] Bug"
-             name="Report SecondLife Bug">
-                <menu_item_call.on_click
-                 function="Advanced.ReportBug"/>
-            </menu_item_call>
-
         <menu_item_separator/>
 		<menu_item_call
              label="Bumps, Pushes &amp; Hits"

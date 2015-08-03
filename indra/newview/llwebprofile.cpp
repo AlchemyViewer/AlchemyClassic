@@ -75,7 +75,6 @@ public:
 		LLBufferStream istr(channels, buffer.get());
 		std::stringstream strstrm;
 		strstrm << istr.rdbuf();
-		const std::string body = strstrm.str();
 
 		if (getStatus() != HTTP_OK)
 		{
@@ -87,7 +86,7 @@ public:
 		Json::Value root;
 		Json::CharReaderBuilder reader;
 		std::string errors;
-		if (!Json::parseFromStream(reader, std::istringstream(body), &root, &errors))
+		if (!Json::parseFromStream(reader, strstrm, &root, &errors))
 		{
 			LL_WARNS() << "Failed to parse upload config: " << errors << LL_ENDL;
 			LLWebProfile::reportImageUploadStatus(false);

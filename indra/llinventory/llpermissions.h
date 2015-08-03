@@ -30,7 +30,6 @@
 #include "llpermissionsflags.h"
 #include "llsd.h"
 #include "lluuid.h"
-#include "llxmlnode.h"
 #include "llinventorytype.h"
 
 // prototypes

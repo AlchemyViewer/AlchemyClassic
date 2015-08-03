@@ -401,7 +401,8 @@ namespace tut
 		ensure_equals("update url base for Agni", // relies on agni being the default
 					  std::string("https://update.secondlife.com/update"),
 					  LLGridManager::getInstance()->getUpdateServiceURL());
-		ensure("Is Agni a production grid", LLGridManager::getInstance()->isInProductionGrid());
+		ensure("Is Agni Second Life", LLGridManager::getInstance()->isInSecondlife());
+		ensure("Agni is NOT OpenSim", LLGridManager::getInstance()->isInOpenSim());
 		std::vector<std::string> uris;
 		LLGridManager::getInstance()->getLoginURIs(uris);
 		ensure_equals("getLoginURIs size", 1, uris.size());
@@ -418,8 +419,10 @@ namespace tut
 					  std::string("AltGrid"));
 		ensure("alternative grid is not a system grid",
 			   !LLGridManager::getInstance()->isSystemGrid());
-		ensure("alternative grid is not a production grid",
-			   !LLGridManager::getInstance()->isInProductionGrid());
+		ensure("alternative grid is OpenSim",
+			   LLGridManager::getInstance()->isInOpenSim());
+		ensure("alternative grid is not Second Life",
+			   LLGridManager::getInstance()->isInSecondlife());
 	}
 
 }

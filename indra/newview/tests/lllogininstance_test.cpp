@@ -121,7 +121,7 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 }
 LLGridManager::LLGridManager()
 :
-	mIsInProductionGrid(false)
+	mPlatform(NOPLATFORM)
 {	
 }
 
@@ -130,11 +130,13 @@ void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
 	uris.push_back(VIEWERLOGIN_URI);
 }
 
-void LLGridManager::addSystemGrid(const std::string& label, 
-								  const std::string& name, 
-								  const std::string& login, 
+void LLGridManager::addSystemGrid(const std::string& label,
+								  const std::string& name,
+								  const std::string& login,
 								  const std::string& helper,
 								  const std::string& login_page,
+								  const std::string& password_url,
+								  const std::string& register_url,
 								  const std::string& update_url_base,
 								  const std::string& login_id)
 {
@@ -149,7 +151,12 @@ void LLGridManager::setGridChoice(const std::string& grid_name)
 {
 }
 
-bool LLGridManager::isInProductionGrid()
+bool LLGridManager::isInSecondlife()
+{
+	return false;
+}
+
+bool LLGridManager::isInOpenSim()
 {
 	return false;
 }

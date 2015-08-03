@@ -114,6 +114,7 @@ endif (WINDOWS)
 
 
 if (LINUX)
+  option(CONSERVE_MEMORY "Optimize for memory usage during link stage for memory-starved systems" OFF)
   set(CMAKE_SKIP_RPATH TRUE)
   add_definitions(
       -DLL_LINUX=1
@@ -177,10 +178,10 @@ if (LINUX)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
   
-  if (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  if (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4 OR CONSERVE_MEMORY)
     # linking can be very memory-hungry, especially the final viewer link
     set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
-  endif (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+  endif (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4 OR CONSERVE_MEMORY)
 endif (LINUX)
 
 

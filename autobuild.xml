@@ -1730,11 +1730,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d18a1b234d3a03bf69ef5aa5b8fe9c6b</string>
+              <string>f9926e026f6106ae72775ef8d408d226</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.6.1-darwin-201504232203.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/jsoncpp-1.6.5-darwin-201507312053.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1770,11 +1770,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ede3260778c461cac5fdcdca3071c76a</string>
+              <string>60828e7eb06801d4f1b85ce3c283c5c3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/jsoncpp-1.6.1-windows-201507231854.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/jsoncpp-1.6.5-windows-201508011509.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1784,18 +1784,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d0b1a9b13bf0af73b2656a17c01275b1</string>
+              <string>deb9b8195c87da8fbaf084e372126cd0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/jsoncpp-1.6.1-windows64-201507221046.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/jsoncpp-1.6.5-windows64-201508011504.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.1</string>
+        <string>1.6.5</string>
       </map>
       <key>kdu</key>
       <map>

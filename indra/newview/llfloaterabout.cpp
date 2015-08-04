@@ -106,7 +106,7 @@ private:
 		LL_DEBUGS("ServerReleaseNotes") << dumpResponse()
 			<< " [headers:" << getResponseHeaders() << "]" << LL_ENDL;
 
-		LLFloaterAbout* floater_about = LLFloaterReg::getTypedInstance<LLFloaterAbout>("sl_about");
+		LLFloaterAbout* floater_about = LLFloaterReg::findTypedInstance<LLFloaterAbout>("sl_about");
 		if (floater_about)
 		{
 			std::string location = getResponseHeader(HTTP_IN_HEADER_LOCATION);
@@ -120,10 +120,9 @@ private:
 
 	/*virtual*/ void httpFailure()
 	{
-		LLFloaterAbout* floater_about = LLFloaterReg::getTypedInstance<LLFloaterAbout>("sl_about");
+		LLFloaterAbout* floater_about = LLFloaterReg::findTypedInstance<LLFloaterAbout>("sl_about");
 		if (floater_about)
 		{
-			std::string location = LLTrans::getString("ErrorFetchingServerReleaseNotesURL");
 			floater_about->setSupportText(LLTrans::getString("ErrorFetchingServerReleaseNotesURL"));
 		}
 	}

@@ -81,8 +81,8 @@ S32 LLDir::deleteFilesInDir(const std::string &dirname,
 { return 0; }
 
 void LLDir::setChatLogsDir(const std::string &path){}		
-void LLDir::setPerAccountChatLogsDir(const std::string &username){}
-void LLDir::setLindenUserDir(const std::string &username){}		
+void LLDir::setPerAccountChatLogsDir(const std::string &username, const std::string &gridname){}
+void LLDir::setLindenUserDir(const std::string &username, const std::string &gridname){}
 void LLDir::setSkinFolder(const std::string &skin_folder, const std::string& language){}
 std::string LLDir::getSkinFolder() const { return "default"; }
 std::string LLDir::getLanguage() const { return "en"; }
@@ -93,7 +93,7 @@ void LLDir::updatePerAccountChatLogsDir() {}
 #include "llviewernetwork.h"
 LLGridManager::LLGridManager() :
 	mGrid("test.grid.lindenlab.com"),
-	mIsInProductionGrid(false)
+	mPlatform(NOPLATFORM)
 {
 }
 std::string LLGridManager::getUpdateServiceURL()

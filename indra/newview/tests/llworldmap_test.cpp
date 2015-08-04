@@ -31,6 +31,8 @@
 #include "llsingleton.h"
 #include "lltrans.h"
 #include "lluistring.h"
+#include "../llagent.h"
+#include "../llagentaccess.h"
 #include "../llviewertexture.h"
 #include "../llworldmapmessage.h"
 // Class to test
@@ -45,6 +47,11 @@
 // * Add as little as possible (let the link errors guide you)
 // * Do not make any assumption as to how those classes or methods work (i.e. don't copy/paste code)
 // * A simulator for a class can be implemented here. Please comment and document thoroughly.
+
+// Stub LLAgent calls
+LLAgent::LLAgent() : mAgentAccess(NULL) { }
+LLAgent::~LLAgent() { }
+LLAgent gAgent;
 
 // Stub image calls
 void LLGLTexture::setBoostLevel(S32 ) { }
@@ -63,7 +70,6 @@ LLWorldMipmap::~LLWorldMipmap() { }
 void LLWorldMipmap::reset() { }
 void LLWorldMipmap::dropBoostLevels() { }
 void LLWorldMipmap::equalizeBoostLevels() { }
-LLPointer<LLViewerFetchedTexture> LLWorldMipmap::getObjectsTile(U32 grid_x, U32 grid_y, S32 level, bool load) { return NULL; }
 
 // Stub other stuff
 std::string LLTrans::getString(const std::string &, const LLStringUtil::format_map_t& ) { return std::string("test_trans"); }
@@ -366,13 +372,6 @@ namespace tut
  		} catch (...) {
  			fail("LLWorldMap::equalizeBoostLevels() test failed");
  		}
-		// Test 7 : getObjectsTile()
-		try {
-			LLPointer<LLViewerFetchedTexture> image = mWorld->getObjectsTile((U32)(X_WORLD_TEST/REGION_WIDTH_METERS), (U32)(Y_WORLD_TEST/REGION_WIDTH_METERS), 1);
-			ensure("LLWorldMap::getObjectsTile() failed", image.isNull());
-		} catch (...) {
-			fail("LLWorldMap::getObjectsTile() test failed with exception");
-		}
 	}
 	// Test management of LLSimInfo lists
 	template<> template<>
@@ -394,12 +393,12 @@ namespace tut
 		bool success;
 		LLUUID id;
 		std::string name_sim = SIM_NAME_TEST;
-		success = mWorld->insertRegion(	U32(X_WORLD_TEST), 
-						U32(Y_WORLD_TEST), 
-										name_sim,
-										id,
-										SIM_ACCESS_PG,
-										REGION_FLAGS_SANDBOX);
+		success = mWorld->insertRegion(U32(X_WORLD_TEST), U32(Y_WORLD_TEST),
+									   REGION_WIDTH_UNITS, REGION_WIDTH_UNITS,
+									   name_sim,
+									   id,
+									   SIM_ACCESS_PG,
+									   REGION_FLAGS_SANDBOX);
 		list = mWorld->getRegionMap();
 		ensure("LLWorldMap::insertRegion() failed", success && (list.size() == 1));
 

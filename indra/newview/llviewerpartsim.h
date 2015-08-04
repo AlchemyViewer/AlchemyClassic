@@ -39,8 +39,6 @@ class LLVOPartGroup;
 
 #define LL_MAX_PARTICLE_COUNT 8192
 
-typedef void (*LLVPCallback)(LLViewerPart &part, const F32 dt);
-
 ///////////////////
 //
 // An individual particle
@@ -50,18 +48,19 @@ typedef void (*LLVPCallback)(LLViewerPart &part, const F32 dt);
 class LLViewerPart : public LLPartData
 {
 public:
+	typedef boost::function<void(LLViewerPart&, const F32)>	vp_callback_t;
 	~LLViewerPart();
 public:
 	LLViewerPart();
 
-	void init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, LLVPCallback cb);
+	void init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, vp_callback_t cb = 0);
 
 
 	U32					mPartID;					// Particle ID used primarily for moving between groups
 	F32					mLastUpdateTime;			// Last time the particle was updated
 	F32					mSkipOffset;				// Offset against current group mSkippedTime
 
-	LLVPCallback		mVPCallback;				// Callback function for more complicated behaviors
+	vp_callback_t mVPCallback;						// Callback function for more complicated behaviors
 	LLPointer<LLViewerPartSource> mPartSourcep;		// Particle source used for this object
 
 	LLViewerPart*		mParent;					// particle to connect to if this is part of a particle ribbon

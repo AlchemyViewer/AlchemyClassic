@@ -74,7 +74,6 @@ LLViewerPart::LLViewerPart() :
 	mPartID(0),
 	mLastUpdateTime(0.f),
 	mSkipOffset(0.f),
-	mVPCallback(NULL),
 	mImagep(NULL)
 {
 	mPartSourcep = NULL;
@@ -108,7 +107,7 @@ LLViewerPart::~LLViewerPart()
 	--LLViewerPartSim::sParticleCount2 ;
 }
 
-void LLViewerPart::init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, LLVPCallback cb)
+void LLViewerPart::init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, vp_callback_t cb)
 {
 	mPartID = LLViewerPart::sNextPartID;
 	LLViewerPart::sNextPartID++;
@@ -302,9 +301,9 @@ void LLViewerPartGroup::updateParticles(const F32 lastdt)
 		}
 
 		// Do a custom callback if we have one...
-		if (part->mVPCallback)
+		if (!part->mVPCallback.empty())
 		{
-			(*part->mVPCallback)(*part, dt);
+			part->mVPCallback(*part, dt);
 		}
 
 		if (part->mFlags & LLPartData::LL_PART_WIND_MASK)

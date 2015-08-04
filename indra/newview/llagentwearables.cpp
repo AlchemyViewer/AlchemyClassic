@@ -262,11 +262,6 @@ void LLAgentWearables::AddWearableToAgentInventoryCallback::fire(const LLUUID& i
 	/*
 	 * Do this for every one in the loop
 	 */
-	if (mTodo & CALL_CREATESTANDARDDONE)
-	{
-		LLAppearanceMgr::instance().addCOFItemLink(inv_item);
-		gAgentWearables.createStandardWearablesDone(mType, mIndex);
-	}
 	if (mTodo & CALL_MAKENEWOUTFITDONE)
 	{
 		gAgentWearables.makeNewOutfitDone(mType, mIndex);
@@ -555,8 +550,8 @@ void LLAgentWearables::saveAllWearables()
 		for (U32 j=0; j < getWearableCount((LLWearableType::EType)i); j++)
 			saveWearable((LLWearableType::EType)i, j, FALSE);
 	}
-	//sendAgentWearablesUpdate();
-	gAgent.sendAgentSetAppearance();
+	sendAgentWearablesUpdate();
+	//gAgent.sendAgentSetAppearance();
 }
 
 // Called when the user changes the name of a wearable inventory item that is currently being worn.
@@ -1277,8 +1272,9 @@ void LLAgentWearables::removeWearableFinal(const LLWearableType::EType type, boo
 	}
 
 	queryWearableCache();
-	updateServer();
 
+	// Update the server
+	updateServer();
 	gInventory.notifyObservers();
 }
 
@@ -1415,7 +1411,6 @@ void LLAgentWearables::setWearableOutfit(const LLInventoryItem::item_array_t& it
 
 	// Start rendering & update the server
 	mWearablesLoaded = TRUE; 
-
 	checkWearablesLoaded();
 	notifyLoadingFinished();
 
@@ -1553,13 +1548,20 @@ void LLAgentWearables::setWearableFinal(LLInventoryItem* new_item, LLViewerWeara
 		LL_INFOS() << "Replaced current element 0 for type " << type
 				<< " size is now " << getWearableCount(type) << LL_ENDL;
 	}
+
+	//LL_INFOS() << "LLVOAvatar::setWearableItem()" << LL_ENDL;
+	queryWearableCache();
+
+	updateServer();
 }
+
 void LLAgentWearables::queryWearableCache()
 {
 	if (!areWearablesLoaded() || (gAgent.getRegion() && gAgent.getRegion()->getCentralBakeVersion()))
 	{
 		return;
 	}
+	gAgentAvatarp->setIsUsingServerBakes(false);
 
 	// Look up affected baked textures.
 	// If they exist:

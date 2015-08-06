@@ -2,38 +2,6 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:noNamespaceSchemaLocation="llsd.xsd">
 <map>
-  <key>YrGrid</key>
-  <map>
-    <key>keyname</key>
-    <string>YrGrid</string>
-    <key>label</key>
-    <string>YrGrid</string>
-    <key>grid_login_id</key>
-    <string>YrGrid</string>
-    <key>login_uri</key>
-      <array>
-        <string>http://login.yrgrid.com:8002/</string>
-      </array>
-    <key>update_query_url_base</key>
-    <string />
-    <key>helper_uri</key>
-    <string>http://grid.yrgrid.com/helpers/helper/</string>
-    <key>login_page</key>
-    <string>http://www.yrgrid.com/splash/</string>
-    <key>password</key>
-    <string>https://www.yrgrid.com/user/forgetpass.php</string>
-    <key>register</key>
-    <string>https://www.yrgrid.com/user/register.php</string>
-    <key>login_identifier_types</key>
-      <array>
-        <string>agent</string>
-        <string>account</string>
-      </array>
-    <key>slurl_base</key>
-    <string>secondlife://%s/secondlife/</string>
-    <key>app_slurl_base</key>
-    <string>secondlife:///app</string>
-  </map>
   <key>SimOnAStick</key>
   <map>
     <key>keyname</key>

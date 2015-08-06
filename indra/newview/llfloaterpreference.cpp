@@ -96,6 +96,7 @@
 #include "llstartup.h"
 #include "lltextbox.h"
 #include "llui.h"
+#include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
 #include "llvoavatar.h"
 #include "llvovolume.h"
@@ -375,6 +376,9 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.DeleteTranscripts",      boost::bind(&LLFloaterPreference::onDeleteTranscripts, this));
 
 	mCommitCallbackRegistrar.add("Pref.ResetToDefault", boost::bind(&LLFloaterPreference::onClickResetControlDefault, this, _2)); // <alchemy/>
+	mCommitCallbackRegistrar.add("Pref.AddGrid", boost::bind(&LLFloaterPreference::onClickAddGrid, this));
+	mCommitCallbackRegistrar.add("Pref.RemoveGrid", boost::bind(&LLFloaterPreference::onClickRemoveGrid, this));
+	mCommitCallbackRegistrar.add("Pref.SelectGrid", boost::bind(&LLFloaterPreference::onSelectGrid, this, _2));
 }
 
 void LLFloaterPreference::processProperties( void* pData, EAvatarProcessorType type )
@@ -476,6 +480,9 @@ BOOL LLFloaterPreference::postBuild()
 
 	LLLogChat::setSaveHistorySignal(boost::bind(&LLFloaterPreference::onLogChatHistorySaved, this));
 	
+	refreshGridList();
+	mGridListChangedConnection = LLGridManager::getInstance()->addGridListChangedCallback(boost::bind(&LLFloaterPreference::refreshGridList, this));
+	
 #ifdef LL_DARWIN
 	getChild<LLPanel>("ohehsex")->setVisible(TRUE);
 #else // !LL_DARWIN
@@ -502,6 +509,92 @@ void LLFloaterPreference::onDoNotDisturbResponseChanged()
 	gSavedPerAccountSettings.setBOOL("DoNotDisturbResponseChanged", response_changed_flag );
 }
 
+void LLFloaterPreference::refreshGridList()
+{
+	LLScrollListCtrl* grid_list = getChild<LLScrollListCtrl>("grid_list");
+	grid_list->clearRows();
+	std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
+	for (std::map<std::string, std::string>::iterator grid_iter = known_grids.begin();
+		 grid_iter != known_grids.end(); grid_iter++)
+	{
+		if (!grid_iter->first.empty() && !grid_iter->second.empty())
+		{
+			bool connected_grid = LLGridManager::getInstance()->getGrid() == grid_iter->first;
+			std::vector<std::string> uris;
+			LLGridManager::getInstance()->getLoginURIs(grid_iter->first, uris);
+			LLURI login_uri = LLURI(uris.at(0));
+			
+			LLSD row;
+			row["id"] = grid_iter->first;
+			row["columns"][0]["column"] = "grid_label";
+			row["columns"][0]["value"] = grid_iter->second;
+			row["columns"][0]["font"]["style"] = connected_grid ? "BOLD" : "NORMAL";
+			row["columns"][1]["column"] = "login_uri";
+			row["columns"][1]["value"] = login_uri.authority();
+			row["columns"][1]["font"]["style"] = connected_grid ? "BOLD" : "NORMAL";
+			
+			grid_list->addElement(row);
+		}
+	}
+}
+
+void LLFloaterPreference::onClickAddGrid()
+{
+	std::string login_uri = getChild<LLLineEditor>("add_grid")->getValue().asString();
+	LLGridManager::getInstance()->addRemoteGrid(login_uri);
+}
+
+void LLFloaterPreference::onClickRemoveGrid()
+{
+	std::string grid = getChild<LLScrollListCtrl>("grid_list")->getSelectedValue().asString();
+	if (LLGridManager::getInstance()->getGrid() == grid)
+	{
+		LLNotificationsUtil::add("CannotRemoveConnectedGrid",
+								 LLSD().with("GRID", LLGridManager::getInstance()->getGridLabel()));
+	}
+	else
+	{
+		LLNotificationsUtil::add("ConfirmRemoveGrid",
+								 LLSD().with("GRID", LLGridManager::getInstance()->getGridLabel(grid)),
+								 LLSD(grid), boost::bind(&LLFloaterPreference::handleRemoveGridCB, this, _1, _2));
+	}
+}
+
+void LLFloaterPreference::onClickRefreshGrid()
+{
+	std::string grid = getChild<LLScrollListCtrl>("grid_list")->getSelectedValue().asString();
+	// So I'm a little paranoid, no big deal...
+	if (!LLGridManager::getInstance()->isSystemGrid(grid))
+	{
+		LLGridManager::getInstance()->addRemoteGrid(grid);
+	}
+}
+
+void LLFloaterPreference::onClickDebugGrid()
+{
+	// no-op for now
+}
+
+void LLFloaterPreference::onSelectGrid(const LLSD& data)
+{
+	getChild<LLUICtrl>("remove_grid")->setEnabled(LLGridManager::getInstance()->getGrid() != data.asString()
+												  && !LLGridManager::getInstance()->isSystemGrid(data.asString()));
+	getChild<LLUICtrl>("refresh_grid")->setEnabled(!LLGridManager::getInstance()->isSystemGrid(data.asString()));
+}
+
+bool LLFloaterPreference::handleRemoveGridCB(const LLSD& notification, const LLSD& response)
+{
+	const S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (0 == option)
+	{
+		const std::string& grid = notification["payload"].asString();
+		if (!LLGridManager::getInstance()->removeGrid(grid))
+			LLNotificationsUtil::add("RemoveGridFailure",
+									 LLSD().with("GRID", notification["substitutions"]["GRID"].asString()));
+	}
+	return false;
+}
+
 LLFloaterPreference::~LLFloaterPreference()
 {
 	// clean up user data
@@ -510,6 +603,9 @@ LLFloaterPreference::~LLFloaterPreference()
 	{
 		ctrl_window_size->setCurrentByIndex(i);
 	}
+	
+	if (mGridListChangedConnection.connected())
+		mGridListChangedConnection.disconnect();
 
 	LLConversationLog::instance().removeObserver(this);
 }
@@ -2380,4 +2476,3 @@ void LLFloaterPreferenceProxy::onChangeSocksSettings()
 	}
 
 }
-

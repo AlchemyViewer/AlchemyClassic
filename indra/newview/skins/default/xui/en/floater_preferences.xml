@@ -120,19 +120,18 @@
          layout="topleft"
          help_topic="preferences_advanced1_tab"
          name="advanced1" />
-         <panel
+        <panel
          class="panel_preference"
          filename="panel_preferences_interface.xml"
          label="Interface"
          layout="topleft"
          name="alchemy" />
-   <!-- Unused at the moment, what was there is in the chat preferences now. reserved for future use. -->
-   <!-- <panel
-         class="panel_preference"
-         filename="panel_preferences_alchemy.xml"
-         label="Alchemy"
+        <panel
+         class="panel_preference_grid"
+         filename="panel_preferences_grids.xml"
+         label="Grids"
          layout="topleft"
-         name="alchemy" /> -->
+         name="grids" />
     </tab_container>
 
 </floater>

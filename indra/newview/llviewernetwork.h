@@ -28,6 +28,9 @@
 #ifndef LL_LLVIEWERNETWORK_H
 #define LL_LLVIEWERNETWORK_H
 
+#include "../llxml/llxmlnode.h"
+#include <boost/signals2.hpp>
+
 // @TODO this really should be private, but is used in llslurl
 #define MAINGRID "util.agni.lindenlab.com"
 
@@ -58,6 +61,8 @@ protected:
  **/
 class LLGridManager : public LLSingleton<LLGridManager>
 {
+  friend class LLGridInfoRequestResponder;
+	
   public:
 	/* ================================================================
 	 * @name Initialization and Configuration
@@ -137,6 +142,9 @@ class LLGridManager : public LLSingleton<LLGridManager>
 
 	/// Get the id to be used as a short name in url path components or parameters
 	std::string getGridLoginID();
+	
+	/// Get the platform string for the selected grid
+	std::string getPlatformString();
 
 	/// Get an array of the login types supported by the grid
 	void getLoginIdentifierTypes(LLSD& idTypes);
@@ -217,19 +225,33 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Is the selected grid aditi?
 	bool isInSLBeta();
 	
-	/**
-	 * yes, that's not a very helpful description.
-	 * I don't really know why that is different from isSystemGrid()
-	 * In practice, the implementation is that it
-	 * @returns true if the login uri for the grid is the uri for MAINGRID
+	/* ===============================================================
+	 * @name User grid management functions
+	 * @{
 	 */
-
-  private:
 	
-	/// Add a grid to the list of grids 
+	/// Add a grid by fetching its gridInfo
+	void addRemoteGrid(const std::string& login_uri);
+	
+	/// Remove a grid from the grid list by key
+	bool removeGrid(const std::string& gridkey);
+	///< @returns true if successfully removed
+	
+	//@}
+	
+protected:
+
+	void gridInfoResponderCallback(LLSD& data, LLXMLNodePtr root_node);
+	
+private:
+	
+	/// Add a grid to the list of grids
 	bool addGrid(LLSD& grid_info);
 	///< @returns true if successfully added
-
+	
+	/// Save grids list to file
+	void saveGridList();
+	
 	void updateIsInProductionGrid();
 
 	// helper function for adding the hard coded grids
@@ -241,13 +263,30 @@ class LLGridManager : public LLSingleton<LLGridManager>
 					   const std::string& password_url,
 					   const std::string& register_url,
 					   const std::string& update_url_base,
-					   const std::string& login_id = "");	
-	
+					   const std::string& platform,
+					   const std::string& login_id = "");
 	
 	std::string mGrid;
 	std::string mGridFile;
 	LLSD mGridList;
 	EGridPlatform mPlatform;
+	
+	
+	/* ===============================================================
+	 * @name Grid list signal updates
+	 * @{
+	 */
+	
+private:
+	typedef boost::signals2::signal<void()> grid_list_changed_signal_t;
+	grid_list_changed_signal_t mGridListChangedSignal;
+	
+public:
+	/// Add grid list change callback
+	boost::signals2::connection addGridListChangedCallback(const grid_list_changed_signal_t::slot_type& cb)
+		{ return mGridListChangedSignal.connect(cb); }
+	
+	//@}
 };
 
 const S32 MAC_ADDRESS_BYTES = 6;

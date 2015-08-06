@@ -93,6 +93,7 @@ private:
 	void addUsersWithFavoritesToUsername();
 	void onSelectServer();
 	void onLocationSLURL();
+	void refreshGridList();
 
 	static void onClickConnect(void*);
 	static void onClickNewAccount(void*);
@@ -113,6 +114,8 @@ private:
 
 	static LLPanelLogin* sInstance;
 	static BOOL		sCapslockDidNotification;
+	
+	boost::signals2::connection mGridListChangedConnection;
 };
 
 #endif

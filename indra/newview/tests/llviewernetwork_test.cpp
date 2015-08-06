@@ -28,18 +28,19 @@
 #include "../llviewerprecompiledheaders.h"
 #include "../llviewernetwork.h"
 #include "../test/lltut.h"
-#include "../../llxml/llcontrol.h"
+#include "llcontrol.h"
 #include "llfile.h"
 #include "llxmlnode.h"
 #include "llnotificationsutil.h"
 
 namespace
 {
-
-// Should not collide with other test programs creating temp files.
-static const char * const TEST_FILENAME("llviewernetwork_test.xml");
-
+	// Should not collide with other test programs creating temp files.
+	static const char * const TEST_FILENAME("llviewernetwork_test.xml");
 }
+
+const std::string REMOTE_GRID = "http://login.yrgrid.com:8002/";
+
 //----------------------------------------------------------------------------
 // Mock objects for the dependencies of the code we're testing
 
@@ -52,7 +53,6 @@ LLControlVariable* LLControlGroup::declareString(const std::string& name,
                                    LLControlVariable::ePersist persist) {return NULL;}
 void LLControlGroup::setString(const std::string& name, const std::string& val) {}
 LLNotificationPtr LLNotificationsUtil::add(const std::string& name, const LLSD& substitutions) { return NULL; }
-bool LLXMLNode::parseStream(std::istream& str, LLXMLNodePtr& node, LLXMLNode* defaults) { return true; }
 
 std::string gCmdLineLoginURI;
 std::string gCmdLineGridChoice;
@@ -377,7 +377,7 @@ namespace tut
 
 	// validate grid selection
 	template<> template<>
-	void viewerNetworkTestObject::test<7>()
+	void viewerNetworkTestObject::test<3>()
 	{
 		// adding a grid with simply a name will populate the values.
 		llofstream gridfile(TEST_FILENAME);
@@ -428,5 +428,4 @@ namespace tut
 		ensure("alternative grid is not Second Life",
 			   !LLGridManager::getInstance()->isInSecondlife());
 	}
-
 }

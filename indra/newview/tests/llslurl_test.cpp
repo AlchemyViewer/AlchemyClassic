@@ -30,7 +30,7 @@
 #include "../test/lltut.h"
 #include "../llslurl.h"
 #include "llxmlnode.h"
-#include "../../llxml/llcontrol.h"
+#include "llcontrol.h"
 #include "llsdserialize.h"
 #include "llnotificationsutil.h"
 
@@ -54,7 +54,6 @@ LLControlVariable* LLControlGroup::declareString(const std::string& name,
                                    LLControlVariable::ePersist persist) {return NULL;}
 void LLControlGroup::setString(const std::string& name, const std::string& val) {}
 LLNotificationPtr LLNotificationsUtil::add(const std::string& name, const LLSD& substitutions) { return NULL; }
-bool LLXMLNode::parseStream(std::istream& str, LLXMLNodePtr& node, LLXMLNode* defaults) { return true; }
 
 
 std::string gCmdLineLoginURI;

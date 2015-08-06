@@ -138,29 +138,9 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	
 	LLComboBox* server_choice_combo = getChild<LLComboBox>("server_combo");
 	server_choice_combo->setCommitCallback(boost::bind(&LLPanelLogin::onSelectServer, this));
-
-	// Load all of the grids, sorted, and then add a bar and the current grid at the top
-	server_choice_combo->removeall();
-
-	std::string current_grid = LLGridManager::getInstance()->getGrid();
-	std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
-	for (std::map<std::string, std::string>::iterator grid_choice = known_grids.begin();
-		 grid_choice != known_grids.end();
-		 grid_choice++)
-	{
-		if (!grid_choice->first.empty() && current_grid != grid_choice->first)
-		{
-			LL_DEBUGS("AppInit")<<"adding "<<grid_choice->first<<LL_ENDL;
-			server_choice_combo->add(grid_choice->second, grid_choice->first);
-		}
-	}
-	server_choice_combo->sortByName();
-	server_choice_combo->addSeparator(ADD_TOP);
-	LL_DEBUGS("AppInit")<<"adding current "<<current_grid<<LL_ENDL;
-	server_choice_combo->add(LLGridManager::getInstance()->getGridLabel(), 
-							 current_grid,
-							 ADD_TOP);	
-	server_choice_combo->selectFirstItem();		
+	
+	refreshGridList();
+	mGridListChangedConnection = LLGridManager::getInstance()->addGridListChangedCallback(boost::bind(&LLPanelLogin::refreshGridList, this));
 
 	LLSLURL start_slurl(LLStartUp::getStartSLURL());
 	if ( !start_slurl.isSpatial() ) // has a start been established by the command line or NextLoginLocation ? 
@@ -312,6 +292,9 @@ void LLPanelLogin::reshapeBrowser()
 
 LLPanelLogin::~LLPanelLogin()
 {
+	if (mGridListChangedConnection.connected())
+		mGridListChangedConnection.disconnect();
+	
 	LLPanelLogin::sInstance = NULL;
 
 	// Controls having keyboard focus by default
@@ -1014,4 +997,25 @@ void LLPanelLogin::onLocationSLURL()
 	LL_DEBUGS("AppInit")<<location<<LL_ENDL;
 
 	LLStartUp::setStartSLURL(location); // calls onUpdateStartSLURL, above 
+}
+
+void LLPanelLogin::refreshGridList()
+{
+	LLComboBox* server_choice_combo = getChild<LLComboBox>("server_combo");
+	server_choice_combo->removeall();
+	
+	const std::string& current_grid = LLGridManager::getInstance()->getGrid();
+	std::map<std::string, std::string> known_grids = LLGridManager::getInstance()->getKnownGrids();
+	for (std::map<std::string, std::string>::iterator grid_choice = known_grids.begin();
+		 grid_choice != known_grids.end(); grid_choice++)
+	{
+		if (!grid_choice->first.empty() && current_grid != grid_choice->first)
+		{
+			server_choice_combo->add(grid_choice->second, grid_choice->first);
+		}
+	}
+	server_choice_combo->sortByName();
+	server_choice_combo->addSeparator(ADD_TOP);
+	server_choice_combo->add(LLGridManager::getInstance()->getGridLabel(), current_grid, ADD_TOP);
+	server_choice_combo->selectFirstItem();
 }

@@ -331,6 +331,7 @@ private:
 	LLCheckBoxCtrl*	mCheckEditGroupObjects;
 	LLCheckBoxCtrl*	mCheckAllObjectEntry;
 	LLCheckBoxCtrl*	mCheckGroupObjectEntry;
+	LLCheckBoxCtrl*	mCheckEditLand;
 	LLCheckBoxCtrl*	mCheckSafe;
 	LLCheckBoxCtrl*	mCheckFly;
 	LLCheckBoxCtrl*	mCheckGroupScripts;

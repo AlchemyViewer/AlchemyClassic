@@ -1838,6 +1838,7 @@ LLPanelLandOptions::LLPanelLandOptions(LLParcelSelectionHandle& parcel)
 	mCheckEditGroupObjects(NULL),
 	mCheckAllObjectEntry(NULL),
 	mCheckGroupObjectEntry(NULL),
+	mCheckEditLand(NULL),
 	mCheckSafe(NULL),
 	mCheckFly(NULL),
 	mCheckGroupScripts(NULL),
@@ -1870,6 +1871,9 @@ BOOL LLPanelLandOptions::postBuild()
 
 	mCheckGroupObjectEntry = getChild<LLCheckBoxCtrl>( "group object entry check");
 	mCheckGroupObjectEntry->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
+	
+	mCheckEditLand = getChild<LLCheckBoxCtrl>( "edit land check");
+	mCheckEditLand->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
 	
 	mCheckGroupScripts = getChild<LLCheckBoxCtrl>( "check group scripts");
 	mCheckGroupScripts->setCommitCallback(boost::bind(&LLPanelLandOptions::onCommitAny, this));
@@ -1968,6 +1972,9 @@ void LLPanelLandOptions::refresh()
 
 		mCheckGroupObjectEntry	->set(FALSE);
 		mCheckGroupObjectEntry	->setEnabled(FALSE);
+		
+		mCheckEditLand		->set(FALSE);
+		mCheckEditLand		->setEnabled(FALSE);
 
 		mCheckSafe			->set(FALSE);
 		mCheckSafe			->setEnabled(FALSE);
@@ -2016,6 +2023,10 @@ void LLPanelLandOptions::refresh()
 
 		mCheckGroupObjectEntry	->set( parcel->getAllowGroupObjectEntry() ||  parcel->getAllowAllObjectEntry());
 		mCheckGroupObjectEntry	->setEnabled( can_change_options && !parcel->getAllowAllObjectEntry() );
+		
+		BOOL can_change_terraform = LLViewerParcelMgr::isParcelModifiableByAgent(parcel, GP_LAND_EDIT);
+		mCheckEditLand		->set( parcel->getAllowTerraform() );
+		mCheckEditLand		->setEnabled( can_change_terraform );
 		
 		mCheckSafe			->set( !parcel->getAllowDamage() );
 		mCheckSafe			->setEnabled( can_change_options );
@@ -2239,7 +2250,7 @@ void LLPanelLandOptions::onCommitAny()
 	BOOL create_group_objects	= mCheckEditGroupObjects->get() || mCheckEditObjects->get();
 	BOOL all_object_entry		= mCheckAllObjectEntry->get();
 	BOOL group_object_entry	= mCheckGroupObjectEntry->get() || mCheckAllObjectEntry->get();
-	BOOL allow_terraform	= false; // removed from UI so always off now - mCheckEditLand->get();
+	BOOL allow_terraform	= mCheckEditLand->get();
 	BOOL allow_damage		= !mCheckSafe->get();
 	BOOL allow_fly			= mCheckFly->get();
 	BOOL allow_landmark		= TRUE; // cannot restrict landmark creation

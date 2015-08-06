@@ -1227,16 +1227,25 @@ Only large parcels can be listed in search.
            left="20"
            name="allow_label0"
            width="150">
-            Fly:
+            Everyone:
           </text>
 
-          <check_box
+            <check_box
              height="16"
-             label="Everyone"
+             label="Fly"
              layout="topleft"
              name="check fly"
              tool_tip="If checked, Residents can fly on your land. If unchecked, they can only fly into and over your land."
              left_pad="2"
+             width="130" />
+            <check_box
+             height="16"
+             label="Edit Terrain"
+             layout="topleft"
+             left_pad="2"
+             name="edit land check"
+             tool_tip="If checked, anyone can terraform your land. It is best to leave this unchecked, as you can always edit your own land."
+             top_delta="0"
              width="130" />
             <text
              type="string"

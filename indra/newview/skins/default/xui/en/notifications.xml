@@ -10953,6 +10953,54 @@ Cannot create large prims that intersect other players.  Please re-try when othe
   </notification>
 
   <notification
+   icon="alertmodal.tga"
+   name="InvalidGrid"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    '[GRID]' is not a valid grid identifier.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="MalformedGridInfo"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    [GRID] provided malformed grid info.
+
+    Please contact them for support.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="CannotRemoveConnectedGrid"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    [GRID] cannot be removed while you are connected to it.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="ConfirmRemoveGrid"
+   type="alertmodal">
+    <tag>opensim</tag>
+    <tag>confirm</tag>
+    Are you sure you want to remove [GRID] from the grid list?
+    <usetemplate
+     ignoretext="Confirm removing grids"
+     name="okcancelignore"
+     notext="Cancel"
+     yestext="OK"/>
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="RemoveGridFailure"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    Failed to remove [GRID] from the list.
+  </notification>
+
+  <notification
    icon="alert.tga"
    name="RegionTrackerAdd"
    type="alert">

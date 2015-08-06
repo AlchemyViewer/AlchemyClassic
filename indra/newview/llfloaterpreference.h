@@ -180,6 +180,14 @@ private:
 	void onDeleteTranscripts();
 	void onDeleteTranscriptsResponse(const LLSD& notification, const LLSD& response);
 	void updateDeleteTranscriptsButton();
+	
+	void refreshGridList();
+	void onClickAddGrid();
+	void onClickRemoveGrid();
+	void onClickRefreshGrid();
+	void onClickDebugGrid();
+	void onSelectGrid(const LLSD& data);
+	bool handleRemoveGridCB(const LLSD& notification, const LLSD& response);
 
 	static std::string sSkin;
 	notifications_map mNotificationOptions;
@@ -194,6 +202,8 @@ private:
 	std::string mDirectoryVisibility;
 	
 	LLAvatarData mAvatarProperties;
+	
+	boost::signals2::connection mGridListChangedConnection;
 };
 
 class LLPanelPreference : public LLPanel

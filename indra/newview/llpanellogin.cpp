@@ -202,6 +202,7 @@ void LLPanelLogin::addUsersWithFavoritesToUsername()
 {
 	LLComboBox* combo = getChild<LLComboBox>("username_combo");
 	if (!combo) return;
+	combo->removeall();
 	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "stored_favorites_" + LLGridManager::getInstance()->getGrid() + ".xml");
 	std::string old_filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "stored_favorites.xml");
 	LLSD fav_llsd;
@@ -947,7 +948,7 @@ void LLPanelLogin::onSelectServer()
 	LLSD server_combo_val = server_combo->getSelectedValue();
 	LL_INFOS("AppInit") << "grid "<<server_combo_val.asString()<< LL_ENDL;
 	LLGridManager::getInstance()->setGridChoice(server_combo_val.asString());
-	addFavoritesToStartLocation();
+	addUsersWithFavoritesToUsername();
 	
 	/*
 	 * Determine whether or not the value in the start_location_combo makes sense

@@ -1060,7 +1060,6 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 			if (pixformat == GL_ALPHA && pixtype == GL_UNSIGNED_BYTE)
 			{ //GL_ALPHA is deprecated, convert to RGBA
 				scratch.resize(width*height);
-				pixels = &scratch[0];
 
 				U32 pixel_count = (U32) (width*height);
 				for (U32 i = 0; i < pixel_count; i++)
@@ -1070,6 +1069,8 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 					pix[3] = ((U8*) pixels)[i];
 				}
 
+				pixels = &scratch[0];
+
 				pixformat = GL_RGBA;
 				intformat = GL_RGBA8;
 			}
@@ -1077,7 +1078,6 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 			if (pixformat == GL_LUMINANCE_ALPHA && pixtype == GL_UNSIGNED_BYTE)
 			{ //GL_LUMINANCE_ALPHA is deprecated, convert to RGBA
 				scratch.resize(width*height);
-				pixels = &scratch[0];
 
 				U32 pixel_count = (U32) (width*height);
 				for (U32 i = 0; i < pixel_count; i++)
@@ -1090,6 +1090,8 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 					pix[3] = alpha;
 				}
 
+				pixels = &scratch[0];
+
 				pixformat = GL_RGBA;
 				intformat = GL_RGBA8;
 			}
@@ -1097,7 +1099,6 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 			if (pixformat == GL_LUMINANCE && pixtype == GL_UNSIGNED_BYTE)
 			{ //GL_LUMINANCE_ALPHA is deprecated, convert to RGB
 				scratch.resize(width*height);
-				pixels = &scratch[0];
 
 				U32 pixel_count = (U32) (width*height);
 				for (U32 i = 0; i < pixel_count; i++)
@@ -1108,6 +1109,8 @@ void LLImageGL::setManualImage(U32 target, S32 miplevel, S32 intformat, S32 widt
 					pix[0] = pix[1] = pix[2] = lum;
 					pix[3] = 255;
 				}
+
+				pixels = &scratch[0];
 
 				pixformat = GL_RGBA;
 				intformat = GL_RGB8;

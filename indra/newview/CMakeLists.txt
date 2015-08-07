@@ -2365,12 +2365,12 @@ if (LL_TESTS)
     llviewerhelputil.cpp
     llversioninfo.cpp
     llworldmap.cpp
-    llworldmipmap.cpp
+#    llworldmipmap.cpp
   )
 
   set_source_files_properties(
     llworldmap.cpp
-    llworldmipmap.cpp
+#    llworldmipmap.cpp
     PROPERTIES
     LL_TEST_ADDITIONAL_SOURCE_FILES 
     tests/llviewertexture_stub.cpp
@@ -2408,7 +2408,7 @@ if (LL_TESTS)
 
   set_source_files_properties(
     llworldmap.cpp
-    llworldmipmap.cpp
+#    llworldmipmap.cpp
     PROPERTIES
     LL_TEST_ADDITIONAL_SOURCE_FILES 
     tests/llviewertexture_stub.cpp
@@ -2470,6 +2470,7 @@ if (LL_TESTS)
     )
 
   set(test_libs
+    ${LLXML_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}
     ${WINDOWS_LIBRARIES}

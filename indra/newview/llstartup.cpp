@@ -2144,25 +2144,21 @@ bool idle_startup()
 		
 		display_startup();
 
-		if ((LLGridManager::getInstance()->isInSecondlife() && gAgent.isOutfitChosen() && (wearables_time > max_wearables_time)) ||
-			(!LLGridManager::getInstance()->isInSecondlife() && (wearables_time > max_wearables_time)))
+		if (gAgent.isOutfitChosen() && (wearables_time > max_wearables_time))
 		{
 			LLNotificationsUtil::add("ClothingLoading");
 			record(LLStatViewer::LOADING_WEARABLES_LONG_DELAY, wearables_time);
 			LLStartUp::setStartupState( STATE_CLEANUP );
 		}
+		// wait for avatar to be completely loaded
 		else if (gAgent.isFirstLogin()
 				&& isAgentAvatarValid()
 				&& gAgentAvatarp->isFullyLoaded())
 		{
-			// wait for avatar to be completely loaded
-			if (isAgentAvatarValid()
-				&& gAgentAvatarp->isFullyLoaded())
-			{
-				LL_DEBUGS("Avatar") << "avatar fully loaded" << LL_ENDL;
-				LLStartUp::setStartupState( STATE_CLEANUP );
-				return TRUE;
-			}
+			
+			LL_DEBUGS("Avatar") << "avatar fully loaded" << LL_ENDL;
+			LLStartUp::setStartupState( STATE_CLEANUP );
+			return TRUE;
 		}
 		else
 		{

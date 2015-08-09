@@ -656,6 +656,18 @@ std::string LLGridManager::getGrid(const std::string& grid) const
 	return grid_name;
 }
 
+std::string LLGridManager::getGridByProbing(const std::string& identifier) const
+{
+	std::string grid = LLStringUtil::null;
+	grid = getGridByAttribute(GRID_VALUE, identifier);
+	if (!grid.empty()) return grid;
+	grid = getGridByAttribute(GRID_ID_VALUE, identifier);
+	if (!grid.empty()) return grid;
+	grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
+	if (!grid.empty()) return grid;
+	return grid;
+}
+
 std::string LLGridManager::getGridByAttribute(const std::string& attribute, const std::string& value) const
 {
 	if (attribute.empty() || value.empty()) return LLStringUtil::null;
@@ -958,7 +970,9 @@ std::string LLGridManager::getAppSLURLBase(const std::string& grid) const
 		}
 		else
 		{
-			grid_base = llformat(DEFAULT_APP_SLURL_BASE, grid_name.c_str());
+			// *FIXME: Revert this when slurls are fixed!
+			//grid_base = llformat(DEFAULT_APP_SLURL_BASE, grid_name.c_str());
+			grid_base = SYSTEM_GRID_APP_SLURL_BASE;
 		}
 	}
 	LL_DEBUGS("GridManager")<<"returning '"<<grid_base<<"'"<<LL_ENDL;

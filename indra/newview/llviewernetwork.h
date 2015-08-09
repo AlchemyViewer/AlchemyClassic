@@ -90,6 +90,9 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Return the name of a grid, given either its name or its id
 	std::string getGrid(const std::string& grid) const;
 	
+	/// Returns the grid value by probing attributes
+	std::string getGridByProbing(const std::string& identifier) const;
+	
 	/// Return the grid value by attribute
 	std::string getGridByAttribute(const std::string& attribute, const std::string& value) const;
 

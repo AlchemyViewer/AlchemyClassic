@@ -54,6 +54,8 @@ const std::string  GRID_HELPER_URI_VALUE = "helper_uri";
 const std::string  GRID_LOGIN_PAGE_VALUE = "login_page";
 /// internal data on system grids
 const std::string  GRID_IS_SYSTEM_GRID_VALUE = "system_grid";
+/// internal data on hypergrid
+const std::string GRID_IS_HYPERGRID_VALUE = "hypergrid";
 /// whether this is single or double names
 const std::string  GRID_LOGIN_IDENTIFIER_TYPES = "login_identifier_types";
 /// the url for registering a new account for the given grid
@@ -62,6 +64,8 @@ const std::string GRID_ACCOUNT_REGISTRATION_URL = "register";
 const std::string GRID_FORGOT_PASSWORD_URL = "password";
 /// the platform string for a given grid
 const std::string GRID_PLATFORM = "platform";
+/// a grid's gatekeeper address
+const std::string GRID_GATEKEEPER = "gatekeeper";
 
 // defines slurl formats associated with various grids.
 // we need to continue to support existing forms, as slurls
@@ -79,9 +83,9 @@ const std::string SL_UPDATE_QUERY_URL = "https://update.secondlife.com/update";
 const std::string MAIN_GRID_SLURL_BASE = "http://maps.secondlife.com/secondlife/";
 const std::string SYSTEM_GRID_APP_SLURL_BASE = "secondlife:///app";
 
-const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
-const char* DEFAULT_SLURL_BASE = "https://%s/region/";
-const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
+const char* SYSTEM_GRID_SLURL_BASE	= "secondlife://%s/secondlife/";
+const char* DEFAULT_SLURL_BASE		= "https://%s/region/";
+const char* DEFAULT_APP_SLURL_BASE	= "x-grid-location-info://%s/app";
 
 //
 const std::string GRIDS_USER_FILE = "grids_user.xml";
@@ -322,7 +326,7 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 
 		if ( getGrid(grid_data[GRID_VALUE]).empty() && getGrid(grid).empty() )
 		{
-			std::string grid_id = grid_data.has(GRID_ID_VALUE) ? grid_data[GRID_ID_VALUE].asString() : "";
+			std::string grid_id = grid_data.has(GRID_ID_VALUE) ? grid_data[GRID_ID_VALUE].asString() : LLStringUtil::null;
 			if ( getGrid(grid_id).empty() )
 			{
 				// populate the other values if they don't exist
@@ -491,8 +495,7 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri)
 		grid.insert(0, "http://");
 	}
 	LLSD data;
-	data[GRID_VALUE] = grid_value;
-	data[GRID_IS_SYSTEM_GRID_VALUE] = false;
+	data[GRID_VALUE] = LLURI(grid_value).authority();
 	
 	LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
 					  new LLGridInfoRequestResponder(this, data));
@@ -508,16 +511,26 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 			grid[GRID_LOGIN_URI_VALUE].append(node->getTextContents());
 			LL_DEBUGS("GridManager") << "[\"login\"]: " << grid[GRID_LOGIN_URI_VALUE] << LL_ENDL;
 		}
+		else if (node->hasName("gridnick"))
+		{
+			grid[GRID_ID_VALUE] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "[\"gridnick\"]: " << grid[GRID_ID_VALUE] << LL_ENDL;
+		}
 		else if (node->hasName("gridname"))
 		{
+			if (!grid.has(GRID_ID_VALUE))
+			{
+				grid[GRID_ID_VALUE] = node->getTextContents();
+			}
 			grid[GRID_LABEL_VALUE] = node->getTextContents();
 			LL_DEBUGS("GridManager") << "[\"gridname\"]: " << grid[GRID_LABEL_VALUE] << LL_ENDL;
 		}
-		/*else if (node->hasName("gridnick"))
+		else if (node->hasName("gatekeeper"))
 		{
-			grid[GRID_LABEL_VALUE] = node->getTextContents();
-			LL_DEBUGS("GridManager") << "[\"gridnick\"]: " << grid[GRID_LABEL_VALUE] << LL_ENDL;
-		}*/
+			LLURI gatekeeper(node->getTextContents());
+			grid[GRID_GATEKEEPER] = gatekeeper.authority();
+			LL_DEBUGS("GridManager") << "[\"gatekeeper\"]: " << grid[GRID_GATEKEEPER] << LL_ENDL;
+		}
 		else if (node->hasName("platform"))
 		{
 			grid[GRID_PLATFORM] = node->getTextContents();
@@ -544,10 +557,13 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 			grid[GRID_HELPER_URI_VALUE] = node->getTextContents();
 			LL_DEBUGS("GridManager") << "[\"economy\"]: " << grid[GRID_HELPER_URI_VALUE] << LL_ENDL;
 		}
+		else if (node->hasName("slurl_base"))
+		{
+			grid[GRID_SLURL_BASE] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "[\"slurl_base\"]: " << grid[GRID_SLURL_BASE] << LL_ENDL;
+		}
 	}
-	grid[GRID_LOGIN_IDENTIFIER_TYPES] = LLSD::emptyArray();
-	grid[GRID_LOGIN_IDENTIFIER_TYPES].append(CRED_IDENTIFIER_TYPE_AGENT);
-	grid[GRID_LOGIN_IDENTIFIER_TYPES].append(CRED_IDENTIFIER_TYPE_ACCOUNT);
+	
 	if (addGrid(grid))
 	{
 		mGridListChangedSignal();
@@ -563,7 +579,8 @@ void LLGridManager::saveGridList()
 		grid_iter++)
 	{
 		// We don't need to store system grids, they're hard coded!
-		if (grid_iter->second[GRID_IS_SYSTEM_GRID_VALUE].asBoolean())
+		if (grid_iter->second.has(GRID_IS_SYSTEM_GRID_VALUE)
+			 && grid_iter->second[GRID_IS_SYSTEM_GRID_VALUE].asBoolean())
 			continue;
 		data[grid_iter->first] = grid_iter->second;
 	}
@@ -575,10 +592,10 @@ void LLGridManager::saveGridList()
 }
 
 // return a list of grid name -> grid label mappings for UI purposes
-std::map<std::string, std::string> LLGridManager::getKnownGrids()
+std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 {
 	std::map<std::string, std::string> result;
-	for(LLSD::map_iterator grid_iter = mGridList.beginMap();
+	for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
 		grid_iter != mGridList.endMap();
 		grid_iter++)
 	{
@@ -609,7 +626,7 @@ void LLGridManager::setGridChoice(const std::string& grid)
 	}
 }
 
-std::string LLGridManager::getGrid( const std::string &grid )
+std::string LLGridManager::getGrid(const std::string& grid) const
 {
 	std::string grid_name;
 
@@ -621,7 +638,7 @@ std::string LLGridManager::getGrid( const std::string &grid )
 	else
 	{
 		// search the grid list for a grid with a matching id
-		for(LLSD::map_iterator grid_iter = mGridList.beginMap();
+		for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
 			grid_name.empty() && grid_iter != mGridList.endMap();
 			grid_iter++)
 		{
@@ -639,7 +656,24 @@ std::string LLGridManager::getGrid( const std::string &grid )
 	return grid_name;
 }
 
-std::string LLGridManager::getGridLabel(const std::string& grid)
+std::string LLGridManager::getGridByAttribute(const std::string& attribute, const std::string& value) const
+{
+	if (attribute.empty() || value.empty()) return LLStringUtil::null;
+	
+	for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
+		grid_iter != mGridList.endMap();
+		grid_iter++)
+	{
+		if (grid_iter->second.has(attribute)
+			&& LLStringUtil::compareStrings(value, grid_iter->second[attribute].asString()) == 0)
+		{
+			return grid_iter->first;
+		}
+	}
+	return LLStringUtil::null;
+}
+
+std::string LLGridManager::getGridLabel(const std::string& grid) const
 {
 	std::string grid_label;
 	std::string grid_name = getGrid(grid);
@@ -655,7 +689,7 @@ std::string LLGridManager::getGridLabel(const std::string& grid)
 	return grid_label;
 }
 
-std::string LLGridManager::getGridId(const std::string& grid)
+std::string LLGridManager::getGridId(const std::string& grid) const
 {
 	std::string grid_id;
 	std::string grid_name = getGrid(grid);
@@ -671,13 +705,13 @@ std::string LLGridManager::getGridId(const std::string& grid)
 	return grid_id;
 }
 
-void LLGridManager::getLoginURIs(const std::string& grid, std::vector<std::string>& uris)
+void LLGridManager::getLoginURIs(const std::string& grid, std::vector<std::string>& uris) const
 {
 	uris.clear();
 	std::string grid_name = getGrid(grid);
 	if (!grid_name.empty())
 	{
-		for (LLSD::array_iterator llsd_uri = mGridList[grid_name][GRID_LOGIN_URI_VALUE].beginArray();
+		for (LLSD::array_const_iterator llsd_uri = mGridList[grid_name][GRID_LOGIN_URI_VALUE].beginArray();
 			 llsd_uri != mGridList[grid_name][GRID_LOGIN_URI_VALUE].endArray();
 			 llsd_uri++)
 		{
@@ -690,12 +724,21 @@ void LLGridManager::getLoginURIs(const std::string& grid, std::vector<std::strin
 	}
 }
 
-void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
+void LLGridManager::getLoginURIs(std::vector<std::string>& uris) const
 {
 	getLoginURIs(mGrid, uris);
 }
 
-std::string LLGridManager::getHelperURI(const std::string& grid)
+std::string LLGridManager::getGatekeeper(const std::string& grid) const
+{
+	std::string url = mGridList[grid].has(GRID_GATEKEEPER)
+					  ? mGridList[grid][GRID_GATEKEEPER].asString()
+					  : LLStringUtil::null;
+	LL_DEBUGS("GridManager") << "returning " << url << LL_ENDL;
+	return url;
+}
+
+std::string LLGridManager::getHelperURI(const std::string& grid) const
 {
 	std::string helper_uri;
 	std::string grid_name = getGrid(grid);
@@ -712,7 +755,7 @@ std::string LLGridManager::getHelperURI(const std::string& grid)
 	return helper_uri;
 }
 
-std::string LLGridManager::getLoginPage(const std::string& grid)
+std::string LLGridManager::getLoginPage(const std::string& grid) const
 {
 	std::string grid_login_page;
 	std::string grid_name = getGrid(grid);
@@ -727,14 +770,14 @@ std::string LLGridManager::getLoginPage(const std::string& grid)
 	return grid_login_page;
 }
 
-std::string LLGridManager::getLoginPage()
+std::string LLGridManager::getLoginPage() const
 {
 	std::string login_page = mGridList[mGrid][GRID_LOGIN_PAGE_VALUE].asString();
 	LL_DEBUGS("GridManager")<<"returning "<<login_page<<LL_ENDL;
 	return login_page;
 }
 
-std::string LLGridManager::getForgotPasswordURL()
+std::string LLGridManager::getForgotPasswordURL() const
 {
 	std::string url = mGridList[mGrid].has(GRID_FORGOT_PASSWORD_URL)
 					  ? mGridList[mGrid][GRID_FORGOT_PASSWORD_URL].asString()
@@ -743,7 +786,7 @@ std::string LLGridManager::getForgotPasswordURL()
 	return url;
 }
 
-std::string LLGridManager::getCreateAccountURL()
+std::string LLGridManager::getCreateAccountURL() const
 {
 	std::string url = mGridList[mGrid].has(GRID_ACCOUNT_REGISTRATION_URL)
 					  ? mGridList[mGrid][GRID_ACCOUNT_REGISTRATION_URL].asString()
@@ -752,17 +795,17 @@ std::string LLGridManager::getCreateAccountURL()
 	return url;
 }
 
-void LLGridManager::getLoginIdentifierTypes(LLSD& idTypes)
+void LLGridManager::getLoginIdentifierTypes(LLSD& idTypes) const
 {
 	idTypes = mGridList[mGrid][GRID_LOGIN_IDENTIFIER_TYPES];
 }
 
-std::string LLGridManager::getGridLoginID()
+std::string LLGridManager::getGridLoginID() const
 {
 	return mGridList[mGrid][GRID_ID_VALUE];
 }
 
-std::string LLGridManager::getPlatformString()
+std::string LLGridManager::getPlatformString() const
 {
 	std::string platform = mGridList[mGrid].has(GRID_PLATFORM)
 						   ? mGridList[mGrid][GRID_PLATFORM].asString()
@@ -770,7 +813,7 @@ std::string LLGridManager::getPlatformString()
 	return platform;
 }
 
-std::string LLGridManager::getUpdateServiceURL()
+std::string LLGridManager::getUpdateServiceURL() const
 {
 	std::string update_url_base = gSavedSettings.getString("CmdLineUpdateService");;
 	if ( !update_url_base.empty() )
@@ -842,27 +885,27 @@ void LLGridManager::updateIsInProductionGrid()
 	mPlatform = OPENSIM;
 }
 
-bool LLGridManager::isInSecondlife()
+bool LLGridManager::isInSecondlife() const
 {
 	return (isInSLMain() || isInSLBeta());
 }
 
-bool LLGridManager::isInOpenSim()
+bool LLGridManager::isInOpenSim() const
 {
 	return mPlatform == OPENSIM;
 }
 
-bool LLGridManager::isInSLMain()
+bool LLGridManager::isInSLMain() const
 {
 	return mPlatform == SLMAIN;
 }
 
-bool LLGridManager::isInSLBeta()
+bool LLGridManager::isInSLBeta() const
 {
 	return mPlatform == SLBETA;
 }
 
-bool LLGridManager::isSystemGrid(const std::string& grid)
+bool LLGridManager::isSystemGrid(const std::string& grid) const
 {
 	std::string grid_name = getGrid(grid);
 
@@ -873,8 +916,17 @@ bool LLGridManager::isSystemGrid(const std::string& grid)
 			);
 }
 
+bool LLGridManager::isHypergrid(const std::string& grid) const
+{
+	std::string grid_name = getGrid(grid);
+	return (!grid_name.empty()
+			&& mGridList.has(grid)
+			&& mGridList[grid].has(GRID_IS_HYPERGRID_VALUE)
+			&& mGridList[grid][GRID_IS_HYPERGRID_VALUE].asBoolean());
+}
+
 // build a slurl for the given region within the selected grid
-std::string LLGridManager::getSLURLBase(const std::string& grid)
+std::string LLGridManager::getSLURLBase(const std::string& grid) const
 {
 	std::string grid_base = "";
 	std::string grid_name = getGrid(grid);
@@ -894,7 +946,7 @@ std::string LLGridManager::getSLURLBase(const std::string& grid)
 }
 
 // build a slurl for the given region within the selected grid
-std::string LLGridManager::getAppSLURLBase(const std::string& grid)
+std::string LLGridManager::getAppSLURLBase(const std::string& grid) const
 {
 	std::string grid_base = "";
 	std::string grid_name = getGrid(grid);

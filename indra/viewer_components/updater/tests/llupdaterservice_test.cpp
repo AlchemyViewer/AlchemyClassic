@@ -96,7 +96,7 @@ LLGridManager::LLGridManager() :
 	mPlatform(NOPLATFORM)
 {
 }
-std::string LLGridManager::getUpdateServiceURL()
+std::string LLGridManager::getUpdateServiceURL() const
 {
 	return "https://update.secondlife.com/update";
 }

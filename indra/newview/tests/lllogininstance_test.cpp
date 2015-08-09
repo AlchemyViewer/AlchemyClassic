@@ -125,7 +125,7 @@ LLGridManager::LLGridManager()
 {	
 }
 
-void LLGridManager::getLoginURIs(std::vector<std::string>& uris)
+void LLGridManager::getLoginURIs(std::vector<std::string>& uris) const
 {
 	uris.push_back(VIEWERLOGIN_URI);
 }
@@ -143,7 +143,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 {
 }
 
-std::map<std::string, std::string> LLGridManager::getKnownGrids()
+std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 {
 	std::map<std::string, std::string> result;
 	return result;
@@ -153,21 +153,21 @@ void LLGridManager::setGridChoice(const std::string& grid_name)
 {
 }
 
-bool LLGridManager::isInSecondlife()
+bool LLGridManager::isInSecondlife() const
 {
 	return false;
 }
 
-bool LLGridManager::isInOpenSim()
+bool LLGridManager::isInOpenSim() const
 {
 	return false;
 }
 
-std::string LLGridManager::getSLURLBase(const std::string& grid_name)
+std::string LLGridManager::getSLURLBase(const std::string& grid_name) const
 {
 	return "myslurl";
 }
-std::string LLGridManager::getAppSLURLBase(const std::string& grid_name)
+std::string LLGridManager::getAppSLURLBase(const std::string& grid_name) const
 {
 	return "myappslurl";
 }

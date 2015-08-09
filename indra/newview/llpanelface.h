@@ -174,6 +174,8 @@ protected:
 	void		onCommitPlanarAlign();
 	void		onCommitRepeatsPerMeter(LLUICtrl* ctrl);
 	void		onClickAutoFix();
+	void		onClickAlignMats(const LLSD& userdata);
+	void		alignMaterialProperties();
 
 	static F32     valueGlow(LLViewerObject* object, S32 face);
 
@@ -201,6 +203,11 @@ private:
 	F32		getCurrentShinyScaleV();
 	F32		getCurrentShinyOffsetU();
 	F32		getCurrentShinyOffsetV();
+	F32		getCurrentTextureRot();
+	F32		getCurrentTextureScaleU();
+	F32		getCurrentTextureScaleV();
+	F32		getCurrentTextureOffsetU();
+	F32		getCurrentTextureOffsetV();
 
 	// Update visibility of controls to match current UI mode
 	// (e.g. materials vs media editing)

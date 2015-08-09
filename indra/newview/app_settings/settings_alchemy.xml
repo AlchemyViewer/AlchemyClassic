@@ -2,6 +2,17 @@
 <llsd xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:noNamespaceSchemaLocation="llsd.xsd">
   <map>
+    <key>AlchemyAlignMaterials</key>
+    <map>
+      <key>Comment</key>
+      <string>Align material layers when modifying object faces</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyAutoAcceptNewInventory</key>
     <map>
       <key>Comment</key>

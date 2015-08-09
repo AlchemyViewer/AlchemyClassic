@@ -495,7 +495,7 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri)
 		grid.insert(0, "http://");
 	}
 	LLSD data;
-	data[GRID_VALUE] = LLURI(grid_value).authority();
+	data[GRID_VALUE] = LLURI(grid).authority();
 	
 	LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
 					  new LLGridInfoRequestResponder(this, data));

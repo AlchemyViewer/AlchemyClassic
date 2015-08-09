@@ -65,8 +65,11 @@
 
 // extern
 const S32Megabytes gMinVideoRam(32);
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+const S32Megabytes gMaxVideoRam(2048);
+#else
 const S32Megabytes gMaxVideoRam(512);
-
+#endif
 
 // statics
 LLPointer<LLViewerTexture>        LLViewerTexture::sNullImagep = NULL;

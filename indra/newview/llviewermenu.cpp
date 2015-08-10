@@ -103,6 +103,7 @@
 #include "llselectmgr.h"
 #include "llspellcheckmenuhandler.h"
 #include "llstatusbar.h"
+#include "lltexturecache.h"
 #include "lltextureview.h"
 #include "lltoolbarview.h"
 #include "lltoolcomp.h"
@@ -120,6 +121,7 @@
 #include "llviewerparcelmgr.h"
 #include "llviewerstats.h"
 #include "llvoavatarself.h"
+#include "llvovolume.h"
 #include "llvoicevivox.h"
 #include "llworldmap.h"
 #include "pipeline.h"
@@ -3321,6 +3323,69 @@ class ALCheckLocationBar : public view_listener_t
 	bool handleEvent(const LLSD& userdata)
 	{
 		return userdata.asInteger() == gSavedSettings.getU32("NavigationBarStyle");
+	}
+};
+
+void destroy_texture(const LLUUID& id)
+{
+	if (id.isNull() || id == IMG_DEFAULT) return;
+	LLViewerFetchedTexture* texture = LLViewerTextureManager::getFetchedTexture(id);
+	if (texture)
+		texture->clearFetchedResults();
+	LLAppViewer::getTextureCache()->removeFromCache(id);
+}
+
+class LLRefreshTexturesObject : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		for (LLObjectSelection::root_iterator iter = LLSelectMgr::getInstance()->getSelection()->root_begin();
+			 iter != LLSelectMgr::getInstance()->getSelection()->root_end();
+			 ++iter)
+		{
+			LLSelectNode* node = *iter;
+			std::map< LLUUID, std::vector<U8> > faces_per_tex;
+			for (U8 i = 0; i < node->getObject()->getNumTEs(); ++i)
+			{
+				if (!node->isTESelected(i)) continue;
+				LLViewerTexture* img = node->getObject()->getTEImage(i);
+				faces_per_tex[img->getID()].push_back(i);
+				
+				if (node->getObject()->getTE(i)->getMaterialParams().notNull())
+				{
+					LLViewerTexture* norm_img = node->getObject()->getTENormalMap(i);
+					faces_per_tex.at(norm_img->getID()).push_back(i);
+					LLViewerTexture* spec_img = node->getObject()->getTESpecularMap(i);
+					faces_per_tex.at(spec_img->getID()).push_back(i);
+				}
+			}
+			
+			for (std::pair< LLUUID, std::vector<U8> > it : faces_per_tex)
+			{
+				destroy_texture(it.first);
+			}
+			
+			if (node->getObject()->isSculpted())
+			{
+				LLSculptParams* sculpt_params = dynamic_cast<LLSculptParams*>(node->getObject()->getParameterEntry(LLNetworkData::PARAMS_SCULPT));
+				if (sculpt_params)
+				{
+					LLUUID sculptie = sculpt_params->getSculptTexture();
+					LLViewerFetchedTexture* tx = LLViewerTextureManager::getFetchedTexture(sculptie);
+					if (tx)
+					{
+						const LLViewerTexture::ll_volume_list_t* pVolumeList = tx->getVolumeList();
+						destroy_texture(sculptie);
+						for (S32 idxVolume = 0; idxVolume < tx->getNumVolumes(); ++idxVolume)
+						{
+							LLVOVolume* pVolume = pVolumeList->at(idxVolume);
+							if (pVolume) pVolume->notifyMeshLoaded();
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 };
 
@@ -9312,6 +9377,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLEditableSelectedMono(), "EditableSelectedMono");
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
 	// <Alchemy>
+	view_listener_t::addMenu(new LLRefreshTexturesObject(), "Object.RefreshTex");
     view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
     view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");

@@ -374,8 +374,8 @@ bool LLGLManager::initGL()
 		mIsIntel = TRUE;
 #if LL_WINDOWS
 		if (mGLRenderer.find("HD") != std::string::npos 
-			&& (mGLRenderer.find("2000") != std::string::npos
-			|| mGLRenderer.find("3000") != std::string::npos))
+			&& ((mGLRenderer.find("2000") != std::string::npos || mGLRenderer.find("3000") != std::string::npos) 
+				|| (mGLVersion == 3.1f && mGLRenderer.find("INTEL(R) HD GRAPHICS") != std::string::npos)))
 		{
 			mIsHD3K = TRUE;
 		}

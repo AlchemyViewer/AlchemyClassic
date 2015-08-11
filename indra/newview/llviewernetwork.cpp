@@ -977,9 +977,7 @@ std::string LLGridManager::getAppSLURLBase(const std::string& grid) const
 		}
 		else
 		{
-			// *FIXME: Revert this when slurls are fixed!
-			//grid_base = llformat(DEFAULT_APP_SLURL_BASE, grid_name.c_str());
-			grid_base = SYSTEM_GRID_APP_SLURL_BASE;
+			grid_base = llformat(DEFAULT_APP_SLURL_BASE, grid_name.c_str());
 		}
 	}
 	LL_DEBUGS("GridManager")<<"returning '"<<grid_base<<"'"<<LL_ENDL;

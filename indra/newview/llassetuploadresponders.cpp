@@ -503,7 +503,7 @@ void LLSendTexLayerResponder::uploadComplete(const LLSD& content)
 	std::string result = content["state"];
 	LLUUID new_id = content["new_asset"];
 
-	llinfos << "result: " << result << " new_id: " << new_id << llendl;
+	LL_INFOS() << "result: " << result << " new_id: " << new_id << LL_ENDL;
 	if (result == "complete"
 		&& mBakedUploadData != NULL)
 	{	// Invoke 
@@ -519,7 +519,7 @@ void LLSendTexLayerResponder::uploadComplete(const LLSD& content)
 
 void LLSendTexLayerResponder::httpFailure()
 {
-	llwarns << dumpResponse() << llendl;
+	LL_WARNS() << dumpResponse() << LL_ENDL;
 	
 	// Invoke the original callback with an error result
 	LLViewerTexLayerSetBuffer::onTextureUploadComplete(LLUUID(), (void*) mBakedUploadData, -1, LL_EXSTAT_NONE);

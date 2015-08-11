@@ -310,13 +310,15 @@ bool LLPathfindingManager::isPathfindingViewEnabled() const
 
 bool LLPathfindingManager::isPathfindingEnabledForCurrentRegion() const
 {
-	return isPathfindingEnabledForRegion(getCurrentRegion());
+	return isPathfindingEnabledForRegion(gAgent.getRegion());
 }
 
 bool LLPathfindingManager::isPathfindingEnabledForRegion(LLViewerRegion *pRegion) const
 {
-	std::string retrieveNavMeshURL = getRetrieveNavMeshURLForRegion(pRegion);
-	return !retrieveNavMeshURL.empty();
+	bool ret = false;
+	if (pRegion)
+		ret = pRegion->isCapabilityAvailable(CAP_SERVICE_RETRIEVE_NAVMESH);
+	return ret;
 }
 
 bool LLPathfindingManager::isAllowViewTerrainProperties() const

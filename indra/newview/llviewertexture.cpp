@@ -90,11 +90,15 @@ S32 LLViewerTexture::sAuxCount = 0;
 LLFrameTimer LLViewerTexture::sEvaluationTimer;
 F32 LLViewerTexture::sDesiredDiscardBias = 0.f;
 F32 LLViewerTexture::sDesiredDiscardScale = 1.1f;
-S32Bytes LLViewerTexture::sBoundTextureMemory;
-S32Bytes LLViewerTexture::sTotalTextureMemory;
 S32Megabytes LLViewerTexture::sMaxBoundTextureMemory;
 S32Megabytes LLViewerTexture::sMaxTotalTextureMem;
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+S64Bytes LLViewerTexture::sBoundTextureMemory;
+S64Bytes LLViewerTexture::sTotalTextureMemory;
+S64Bytes LLViewerTexture::sMaxDesiredTextureMem;
+#else
 S32Bytes LLViewerTexture::sMaxDesiredTextureMem;
+#endif
 S8  LLViewerTexture::sCameraMovingDiscardBias = 0;
 F32 LLViewerTexture::sCameraMovingBias = 0.0f;
 S32 LLViewerTexture::sMaxSculptRez = 128; //max sculpt image size
@@ -482,7 +486,7 @@ bool LLViewerTexture::isMemoryForTextureLow()
 	bool low_mem = false;
 	if (gGLManager.mHasATIMemInfo)
 	{
-		S32 meminfo[4];
+		GLint meminfo[4];
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, meminfo);
 
 		if((S32Megabytes)meminfo[0] < MIN_FREE_TEXTURE_MEMORY)
@@ -539,7 +543,11 @@ void LLViewerTexture::updateClass(const F32 velocity, const F32 angular_velocity
 	sTotalTextureMemory = LLImageGL::sGlobalTextureMemory;
 	sMaxBoundTextureMemory = gTextureList.getMaxResidentTexMem();
 	sMaxTotalTextureMem = gTextureList.getMaxTotalTextureMem();
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+	sMaxDesiredTextureMem = S64Megabytes(sMaxTotalTextureMem); //in Bytes, by default and when total used texture memory is small.
+#else
 	sMaxDesiredTextureMem = sMaxTotalTextureMem; //in Bytes, by default and when total used texture memory is small.
+#endif
 
 	if (sBoundTextureMemory >= sMaxBoundTextureMemory ||
 		sTotalTextureMemory >= sMaxTotalTextureMem)

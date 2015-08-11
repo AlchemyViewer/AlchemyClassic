@@ -101,6 +101,16 @@
              name="checkbox fullbright"
              top_pad="4"
              width="81" />
+            <check_box
+             control_name="AlchemyAlignMaterials"
+             height="19"
+             label="Sync Materials Layers"
+             layout="topleft"
+             left_pad="50"
+             name="checkbox align mats"
+             tool_tip="Synchronize material layers across faces of an object"
+             top_delta="0"
+             width="110" />
             <combo_box
              height="23"
              layout="topleft"

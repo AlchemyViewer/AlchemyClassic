@@ -51,9 +51,15 @@ U32 wpo2(U32 i);
 
 U32 LLImageGL::sUniqueCount				= 0;
 U32 LLImageGL::sBindCount				= 0;
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+S64Bytes LLImageGL::sGlobalTextureMemory(0);
+S64Bytes LLImageGL::sBoundTextureMemory(0);
+S64Bytes LLImageGL::sCurBoundTextureMemory(0);
+#else
 S32Bytes LLImageGL::sGlobalTextureMemory(0);
 S32Bytes LLImageGL::sBoundTextureMemory(0);
 S32Bytes LLImageGL::sCurBoundTextureMemory(0);
+#endif
 S32 LLImageGL::sCount					= 0;
 
 BOOL LLImageGL::sGlobalUseAnisotropic	= FALSE;

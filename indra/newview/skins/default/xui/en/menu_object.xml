@@ -287,6 +287,12 @@
      function="Object.EnableDelete" />
   </menu_item_call>
   <menu_item_call
+   label="Refresh"
+   name="Refresh">
+    <menu_item_call.on_click
+     function="Object.RefreshTex" />
+  </menu_item_call>
+  <menu_item_call
    enabled="true"
    label="Copy Key"
    name="Copy Key">

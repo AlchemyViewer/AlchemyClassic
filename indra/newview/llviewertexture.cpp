@@ -482,7 +482,7 @@ bool LLViewerTexture::isMemoryForTextureLow()
 	bool low_mem = false;
 	if (gGLManager.mHasATIMemInfo)
 	{
-		S32 meminfo[4];
+		GLint meminfo[4];
 		glGetIntegerv(GL_TEXTURE_FREE_MEMORY_ATI, meminfo);
 
 		if((S32Megabytes)meminfo[0] < MIN_FREE_TEXTURE_MEMORY)

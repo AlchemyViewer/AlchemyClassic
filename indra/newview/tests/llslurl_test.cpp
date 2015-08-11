@@ -123,6 +123,19 @@ const char *gSampleGridFile =
 	"      <key>credential_type</key><string>agent</string>"
 	"      <key>grid_login_id</key><string>MyGrid</string>"
 	"    </map>"
+	"    <key>my.stupidgrid.com:8002</key>"
+	"    <map>"
+	"      <key>helper_uri</key><string>https://my.stupidgrid.com/helpers/</string>"
+	"      <key>label</key><string>My Stupid Grid</string>"
+	"      <key>login_page</key><string>my.stupidgrid.com/loginpage</string>"
+	"      <key>login_uri</key>"
+	"      <array>"
+	"        <string>my.stupidgrid.com:8002/</string>"
+	"      </array>"
+	"      <key>keyname</key><string>my.stupidgrid.com:8002</string>"
+	"      <key>credential_type</key><string>agent</string>"
+	"      <key>grid_login_id</key><string>My Stupid Grid</string>"
+	"    </map>"
 	"  </map>"
 	"</llsd>"
 	;
@@ -302,6 +315,7 @@ namespace tut
 					  "https://my.grid.com/region/my%20region/1/2/3");
 
 	}
+	
 	// Accessors
 	template<> template<>
 	void slurlTestObject::test<3>()
@@ -323,7 +337,52 @@ namespace tut
 		slurl = LLSLURL("http://my.grid.com:8002/region/my%20region/1/2/3");
 		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
 		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
-		ensure_equals("grid", slurl.getGrid(), "my.grid.com");
+		ensure_equals("grid", slurl.getGrid(), "my.grid.com:8002");
+		ensure_equals("region", slurl.getRegion(), "my region");
+		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
+	}
+	
+	// x-grid-location-info
+	template<> template<>
+	void slurlTestObject::test<4>()
+	{
+		llofstream gridfile(TEST_FILENAME);
+		gridfile << gSampleGridFile;
+		gridfile.close();
+		
+		LLGridManager::getInstance()->initialize(TEST_FILENAME);
+		
+		LLGridManager::getInstance()->setGridChoice("my.grid.com");
+		LLSLURL slurl = LLSLURL("x-grid-location-info://my.grid.com/app/foo/bar?12345");
+		ensure_equals("app", slurl.getType(), LLSLURL::APP);
+		ensure_equals("appcmd", slurl.getAppCmd(), "foo");
+		ensure_equals("apppath", slurl.getAppPath().size(), 1);
+		ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "bar");
+		ensure_equals("appquery", slurl.getAppQuery(), "12345");
+		ensure_equals("grid1", slurl.getGrid(), "my.grid.com");
+		
+		slurl = LLSLURL("x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		ensure_equals("app", slurl.getType(), LLSLURL::APP);
+		ensure_equals("appcmd", slurl.getAppCmd(), "agent");
+		ensure_equals("apppath", slurl.getAppPath().size(), 2);
+		ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "0e346d8b-4433-4d66-a6b0-fd37083abc4c");
+		ensure_equals("apppath3", slurl.getAppPath()[1].asString(), "about");
+		ensure_equals("grid1", slurl.getGrid(), "lincoln.lindenlab.com");
+		
+		LLGridManager::getInstance()->setGridChoice("my.stupidgrid.com:8002");
+		slurl = LLSLURL("x-grid-location-info://my.stupidgrid.com:8002/app/foo/bar/baz?12345");
+		ensure_equals("app", slurl.getType(), LLSLURL::APP);
+		ensure_equals("appcmd", slurl.getAppCmd(), "foo");
+		ensure_equals("apppath", slurl.getAppPath().size(), 2);
+		ensure_equals("apppath2", slurl.getAppPath()[0].asString(), "bar");
+		ensure_equals("apppath3", slurl.getAppPath()[1].asString(), "baz");
+		ensure_equals("appquery", slurl.getAppQuery(), "12345");
+		ensure_equals("grid1", slurl.getGrid(), "my.stupidgrid.com:8002");
+		
+		slurl = LLSLURL("x-grid-location-info://my.stupidgrid.com:8002/region/my%20region/1/2/3");
+		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
+		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
+		ensure_equals("grid", slurl.getGrid(), "my.stupidgrid.com:8002");
 		ensure_equals("region", slurl.getRegion(), "my region");
 		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
 	}

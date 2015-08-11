@@ -71,7 +71,9 @@ const std::string GRID_GATEKEEPER = "gatekeeper";
 // we need to continue to support existing forms, as slurls
 // are shared between viewers that may not understand newer
 // forms.
+/// slurl base for grid slurls
 const std::string GRID_SLURL_BASE = "slurl_base";
+/// slurl base for grid slapp links
 const std::string GRID_APP_SLURL_BASE = "app_slurl_base";
 
 const std::string DEFAULT_LOGIN_PAGE = "http://viewer-login.agni.lindenlab.com/";
@@ -562,6 +564,11 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 			grid[GRID_SLURL_BASE] = node->getTextContents();
 			LL_DEBUGS("GridManager") << "[\"slurl_base\"]: " << grid[GRID_SLURL_BASE] << LL_ENDL;
 		}
+		else if (node->hasName("app_slurl_base"))
+		{
+			grid[GRID_APP_SLURL_BASE] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "[\"app_slurl_base\"]: " << grid[GRID_APP_SLURL_BASE] << LL_ENDL;
+		}
 	}
 	
 	if (addGrid(grid))
@@ -654,6 +661,18 @@ std::string LLGridManager::getGrid(const std::string& grid) const
 		}
 	}
 	return grid_name;
+}
+
+std::string LLGridManager::getGridByProbing(const std::string& identifier) const
+{
+	std::string grid = LLStringUtil::null;
+	grid = getGridByAttribute(GRID_VALUE, identifier);
+	if (!grid.empty()) return grid;
+	grid = getGridByAttribute(GRID_ID_VALUE, identifier);
+	if (!grid.empty()) return grid;
+	grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
+	if (!grid.empty()) return grid;
+	return grid;
 }
 
 std::string LLGridManager::getGridByAttribute(const std::string& attribute, const std::string& value) const

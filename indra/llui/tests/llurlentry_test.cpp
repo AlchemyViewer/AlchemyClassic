@@ -380,7 +380,19 @@ namespace tut
 
 		testRegex("Standalone Agent Url Multicase with Text", url,
 				  "M x-grid-location-info://lincoln.lindenlab.com/app/AGENT/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about M",
-				  "x-grid-location-info://lincoln.lindenlab.com/app/AGENT/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");		
+				  "x-grid-location-info://lincoln.lindenlab.com/app/AGENT/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone Agent Url with Port", url,
+				  "x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about",
+				  "x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone Agent Url using IP address", url,
+				  "x-grid-location-info://127.0.0.1:9000/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about",
+				  "x-grid-location-info://127.0.0.1:9000/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone Agent Url with an ungodly long uri alternate command", url,
+				  "x-grid-location-info://holyshitthisdomainiswaytolongwhywouldyoudothistomewhatthefuckisyourproblem.hi.edu:99999/app/agent/0E346D8B-4433-4d66-a6b0-fd37083abc4c/foobar",
+				  "x-grid-location-info://holyshitthisdomainiswaytolongwhywouldyoudothistomewhatthefuckisyourproblem.hi.edu:99999/app/agent/0E346D8B-4433-4d66-a6b0-fd37083abc4c/foobar");
 	}
 
 	template<> template<>
@@ -417,7 +429,15 @@ namespace tut
 		
 		testRegex("Standalone Group Url Multicase ith Text", url,
 				  "M x-grid-location-info://lincoln.lindenlab.com/app/GROUP/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about M",
-				  "x-grid-location-info://lincoln.lindenlab.com/app/GROUP/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");		
+				  "x-grid-location-info://lincoln.lindenlab.com/app/GROUP/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone Group Url with Port", url,
+				  "x-grid-location-info://my.grid.com:8002/app/group/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about",
+				  "x-grid-location-info://my.grid.com:8002/app/group/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone Group Url using IP address", url,
+				  "x-grid-location-info://127.0.0.1:9000/app/group/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about",
+				  "x-grid-location-info://127.0.0.1:9000/app/group/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
 		
 	}
 
@@ -469,7 +489,15 @@ namespace tut
 		
 		testRegex("Standalone All Hands (50,50) [2] with text", url,
 				  "XXX x-grid-location-info://lincoln.lindenlab.com/region/All%20Hands/50/50/50 XXX",
-				  "x-grid-location-info://lincoln.lindenlab.com/region/All%20Hands/50/50/50");		
+				  "x-grid-location-info://lincoln.lindenlab.com/region/All%20Hands/50/50/50");
+		
+		testRegex("Standalone Hippo Pants (50,50) [2] with port and text", url,
+				  "XXX x-grid-location-info://my.grid.com:8002/region/Hippo%20Pants/50/50/50 XXX",
+				  "x-grid-location-info://my.grid.com:8002/region/Hippo%20Pants/50/50/50");
+		
+		testRegex("Standalone Hippo Pants (50,50) [2] with ip address and text", url,
+				  "XXX x-grid-location-info://127.0.0.1:9000/region/Hippo%20Pants/50/50/50 XXX",
+				  "x-grid-location-info://127.0.0.1:9000/region/Hippo%20Pants/50/50/50");
 	}
 
 	template<> template<>
@@ -572,7 +600,16 @@ namespace tut
 		
 		testRegex("Standalone All Hands", url,
 				  "XXX x-grid-location-info://lincoln.lindenlab.com/app/teleport/All%20Hands/50/50/50 XXX",
-				  "x-grid-location-info://lincoln.lindenlab.com/app/teleport/All%20Hands/50/50/50");		
+				  "x-grid-location-info://lincoln.lindenlab.com/app/teleport/All%20Hands/50/50/50");
+		
+		testRegex("Standalone Hippo Pants", url,
+				  "XXX x-grid-location-info://my.grid.com:8002/app/teleport/Hippo%20Pants/50/50/50 XXX",
+				  "x-grid-location-info://my.grid.com:8002/app/teleport/Hippo%20Pants/50/50/50");
+		
+		
+		testRegex("Standalone Hippo Pants with ip address", url,
+				  "XXX x-grid-location-info://127.0.0.1:9000/app/teleport/Hippo%20Pants/50/50/50 XXX",
+				  "x-grid-location-info://127.0.0.1:9000/app/teleport/Hippo%20Pants/50/50/50");
 	}
 
 	template<> template<>

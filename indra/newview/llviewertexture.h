@@ -211,11 +211,17 @@ public:
 	static LLFrameTimer sEvaluationTimer;
 	static F32 sDesiredDiscardBias;
 	static F32 sDesiredDiscardScale;
-	static S32Bytes sBoundTextureMemory;
-	static S32Bytes sTotalTextureMemory;
 	static S32Megabytes sMaxBoundTextureMemory;
 	static S32Megabytes sMaxTotalTextureMem;
-	static S32Bytes sMaxDesiredTextureMem ;
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+	static S64Bytes sBoundTextureMemory;
+	static S64Bytes sTotalTextureMemory;
+	static S64Bytes sMaxDesiredTextureMem ;
+#else
+	static S32Bytes sBoundTextureMemory;
+	static S32Bytes sTotalTextureMemory;
+	static S32Bytes sMaxDesiredTextureMem;
+#endif
 	static S8  sCameraMovingDiscardBias;
 	static F32 sCameraMovingBias;
 	static S32 sMaxSculptRez ;

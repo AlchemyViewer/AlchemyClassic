@@ -230,9 +230,15 @@ public:
 	static F32 sLastFrameTime;
 
 	// Global memory statistics
+#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
+	static S64Bytes sGlobalTextureMemory;	// Tracks main memory texmem
+	static S64Bytes sBoundTextureMemory;	// Tracks bound texmem for last completed frame
+	static S64Bytes sCurBoundTextureMemory;		// Tracks bound texmem for current frame
+#else
 	static S32Bytes sGlobalTextureMemory;	// Tracks main memory texmem
 	static S32Bytes sBoundTextureMemory;	// Tracks bound texmem for last completed frame
 	static S32Bytes sCurBoundTextureMemory;		// Tracks bound texmem for current frame
+#endif
 	static U32 sBindCount;					// Tracks number of texture binds for current frame
 	static U32 sUniqueCount;				// Tracks number of unique texture binds for current frame
 	static BOOL sGlobalUseAnisotropic;

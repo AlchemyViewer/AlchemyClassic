@@ -934,7 +934,7 @@ std::string LLUrlEntryInventory::getLabel(const std::string &url, const LLUrlLab
 //
 LLUrlEntryObjectIM::LLUrlEntryObjectIM()
 {
-	mPattern = boost::regex("secondlife:///app/objectim/[\\da-f-]+\?.*",
+	mPattern = boost::regex(APP_HEADER_REGEX "/objectim/[\\da-f-]+\?.*",
 							boost::regex::perl|boost::regex::icase);
 	mMenuName = "menu_url_objectim.xml";
 }

@@ -66,6 +66,8 @@ const std::string GRID_FORGOT_PASSWORD_URL = "password";
 const std::string GRID_PLATFORM = "platform";
 /// a grid's gatekeeper address
 const std::string GRID_GATEKEEPER = "gatekeeper";
+/// a grid's uas service address
+const std::string GRID_UAS = "uas";
 
 // defines slurl formats associated with various grids.
 // we need to continue to support existing forms, as slurls
@@ -533,6 +535,11 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 			grid[GRID_GATEKEEPER] = gatekeeper.authority();
 			LL_DEBUGS("GridManager") << "[\"gatekeeper\"]: " << grid[GRID_GATEKEEPER] << LL_ENDL;
 		}
+		else if (node->hasName("uas"))
+		{
+			grid[GRID_UAS] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "[\"uas\"]: " << grid[GRID_UAS] << LL_ENDL;
+		}
 		else if (node->hasName("platform"))
 		{
 			grid[GRID_PLATFORM] = node->getTextContents();
@@ -754,6 +761,19 @@ std::string LLGridManager::getGatekeeper(const std::string& grid) const
 					  ? mGridList[grid][GRID_GATEKEEPER].asString()
 					  : LLStringUtil::null;
 	LL_DEBUGS("GridManager") << "returning " << url << LL_ENDL;
+	return url;
+}
+
+std::string LLGridManager::getUserAccountServiceURL(const std::string& grid) const
+{
+	std::string url = LLStringUtil::null;
+	std::string grid_name = getGrid(grid);
+	if (!grid_name.empty())
+	{
+		url = mGridList[grid_name].has(GRID_UAS)
+			? mGridList[grid_name][GRID_UAS].asString()
+			: LLStringUtil::null;
+	}
 	return url;
 }
 

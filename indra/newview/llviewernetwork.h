@@ -131,6 +131,9 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Get the hypergrid gatekeeper uri for the specified grid
 	std::string getGatekeeper(const std::string& grid) const;
 	
+	/// Get the uas service for the specified grid if available
+	std::string getUserAccountServiceURL(const std::string& grid) const;
+	
 	/// Get the URI for webdev help functions for the specified grid
 	std::string getHelperURI(const std::string& grid) const;
 

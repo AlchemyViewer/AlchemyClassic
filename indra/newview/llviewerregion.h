@@ -390,11 +390,26 @@ public:
 
 	static BOOL isNewObjectCreationThrottleDisabled() {return sNewObjectCreationThrottle < 0;}
 
+	/* ================================================================
+	 * @name OpenSimExtras Simulator Features capability
+	 * @{
+	 */
+	/// Avatar picker url
 	std::string getAvatarPickerURL() const;
+	/// Destination guide url
 	std::string getDestinationGuideURL() const;
+	/// Hypergrid map server url
 	std::string getMapServerURL() const;
+	/// Hypergrid search server url
 	std::string getSearchServerURL() const;
+	/// Grid login/gateway uri (for generating slurls (0.8.1)
+	std::string getGridURL() const;
+	/// Grid name (0.8.1)
+	std::string getGridName() const;
+	/// "God names" surname and full account names map
 	std::set<std::string> getGods() const { return mGodNames; };
+	//@}
+	
 	LLViewerTexture* getMapImage(); // <alchemy/>
 
 private:

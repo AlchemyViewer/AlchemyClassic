@@ -3343,6 +3343,38 @@ std::string LLViewerRegion::getSearchServerURL() const
 	return url;
 }
 
+std::string LLViewerRegion::getGridURL() const
+{
+	std::string url;
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
+	}
+	else
+	{
+		std::vector<std::string> uris;
+		LLGridManager::getInstance()->getLoginURIs(uris);
+		url = uris.front();
+	}
+	return url;
+}
+
+std::string LLViewerRegion::getGridName() const
+{
+	std::string name;
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("GridName"))
+	{
+		name = mSimulatorFeatures["OpenSimExtras"]["GridName"].asString();
+	}
+	else
+	{
+		name = LLGridManager::getInstance()->getGridLabel();
+	}
+	return name;
+}
+
 void LLViewerRegion::setGodnames()
 {
 	mGodNames.clear();

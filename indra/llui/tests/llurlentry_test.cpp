@@ -684,6 +684,10 @@ namespace tut
 		testRegex("teleport slurl with label", url,
 				  "XXX [secondlife:///app/teleport/Ahern/50/50/50/ Teleport to Ahern] YYY",
 				  "secondlife:///app/teleport/Ahern/50/50/50/");
+		
+		testRegex("Standalone agent slurl with label", url,
+				  "[x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about  Profile]",
+				  "x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
 	}
 
 	template<> template<>

@@ -787,6 +787,9 @@ void LLFloaterWorldMap::updateLocation()
 		// simNameFromPosGlobal can fail, so don't give the user an invalid SLURL
 		if ( gotSimName )
 		{
+			const LLSimInfo* sim = LLWorldMap::getInstance()->simInfoFromPosGlobal(pos_global);
+			pos_global[0] = fmod(pos_global[0], sim ? sim->getSizeX() : 256);
+			pos_global[1] = fmod(pos_global[1], sim ? sim->getSizeY() : 256);
 			mSLURL = LLSLURL(sim_name, pos_global);
 		}
 		else

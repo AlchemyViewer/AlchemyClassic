@@ -688,6 +688,10 @@ namespace tut
 		testRegex("Standalone agent slurl with label", url,
 				  "[x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about  Profile]",
 				  "x-grid-location-info://my.grid.com:8002/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		
+		testRegex("Standalone teleport slurl with label", url,
+				  "XXX [x-grid-location-info://my.grid.com:8002/app/teleport/SexyDungeon/50/50/50/ Teleport to Scary] YYY",
+				  "x-grid-location-info://my.grid.com:8002/app/teleport/SexyDungeon/50/50/50/");
 	}
 
 	template<> template<>

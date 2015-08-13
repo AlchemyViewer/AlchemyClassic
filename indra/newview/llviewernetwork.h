@@ -246,7 +246,7 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	 */
 	
 	/// Add a grid by fetching its gridInfo
-	void addRemoteGrid(const std::string& login_uri);
+	void addRemoteGrid(const std::string& login_uri, bool manual);
 	
 	/// Remove a grid from the grid list by key
 	bool removeGrid(const std::string& gridkey);

@@ -11002,6 +11002,16 @@ Cannot create large prims that intersect other players.  Please re-try when othe
   </notification>
 
   <notification
+   icon="alertmodal.tga"
+   name="CantAddGrid"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+Could not get grid info for [GRID].
+Error: [STATUS] [REASON]
+  </notification>
+
+  <notification
    icon="alert.tga"
    name="RegionTrackerAdd"
    type="alert">

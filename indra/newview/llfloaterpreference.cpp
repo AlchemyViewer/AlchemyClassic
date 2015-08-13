@@ -541,7 +541,7 @@ void LLFloaterPreference::refreshGridList()
 void LLFloaterPreference::onClickAddGrid()
 {
 	std::string login_uri = getChild<LLLineEditor>("add_grid")->getValue().asString();
-	LLGridManager::getInstance()->addRemoteGrid(login_uri);
+	LLGridManager::getInstance()->addRemoteGrid(login_uri, true);
 }
 
 void LLFloaterPreference::onClickRemoveGrid()
@@ -566,7 +566,7 @@ void LLFloaterPreference::onClickRefreshGrid()
 	// So I'm a little paranoid, no big deal...
 	if (!LLGridManager::getInstance()->isSystemGrid(grid))
 	{
-		LLGridManager::getInstance()->addRemoteGrid(grid);
+		LLGridManager::getInstance()->addRemoteGrid(grid, true);
 	}
 }
 

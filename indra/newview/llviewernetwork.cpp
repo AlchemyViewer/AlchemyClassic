@@ -68,6 +68,8 @@ const std::string GRID_PLATFORM = "platform";
 const std::string GRID_GATEKEEPER = "gatekeeper";
 /// a grid's uas service address
 const std::string GRID_UAS = "uas";
+/// internal data on whether a grid was added manually or temporarily
+const std::string GRID_TEMPORARY = "temporary";
 
 // defines slurl formats associated with various grids.
 // we need to continue to support existing forms, as slurls
@@ -129,14 +131,11 @@ public:
 	
 	void httpFailure() override
 	{
-		if (getStatus() == HTTP_GATEWAY_TIME_OUT)
-		{
-			
-		}
-		else
-		{
-			
-		}
+		LLSD args;
+		args["GRID"] = mData[GRID_VALUE];
+		args["STATUS"] = getStatus();
+		args["REASON"] = getReason();
+		LLNotificationsUtil::add("CantAddGrid", args);
 	}
 };
 
@@ -466,7 +465,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	addGrid(grid);
 }
 
-void LLGridManager::addRemoteGrid(const std::string& login_uri)
+void LLGridManager::addRemoteGrid(const std::string& login_uri, bool manual)
 {
 	LL_DEBUGS("GridManager") << "Adding '" << login_uri << "' to grid manager." << LL_ENDL;
 	if (login_uri.empty()) return;
@@ -500,6 +499,8 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri)
 	}
 	LLSD data;
 	data[GRID_VALUE] = LLURI(grid).authority();
+	if (!manual)
+		data[GRID_TEMPORARY] = true;
 	
 	LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
 					  new LLGridInfoRequestResponder(this, data));
@@ -596,6 +597,10 @@ void LLGridManager::saveGridList()
 		if (grid_iter->second.has(GRID_IS_SYSTEM_GRID_VALUE)
 			 && grid_iter->second[GRID_IS_SYSTEM_GRID_VALUE].asBoolean())
 			continue;
+		if (grid_iter->second.has(GRID_TEMPORARY)
+			&& grid_iter->second[GRID_TEMPORARY].asBoolean())
+			continue;
+		
 		data[grid_iter->first] = grid_iter->second;
 	}
 	const std::string& filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, GRIDS_USER_FILE);

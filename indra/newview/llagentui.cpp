@@ -50,16 +50,16 @@ void LLAgentUI::buildFullname(std::string& name)
 //static
 void LLAgentUI::buildSLURL(LLSLURL& slurl, const bool escaped /*= true*/)
 {
-      LLSLURL return_slurl;
-      LLViewerRegion *regionp = gAgent.getRegion();
-      if (regionp)
-      {
-		  LLVector3d pos_global = gAgent.getPositionGlobal();
-		  const LLSimInfo* sim = LLWorldMap::getInstance()->simInfoFromPosGlobal(pos_global);
-		  pos_global[0] = fmod(pos_global[0], sim ? sim->getSizeX() : 256);
-		  pos_global[1] = fmod(pos_global[1], sim ? sim->getSizeY() : 256);
-		  return_slurl = LLSLURL(regionp->getName(), pos_global);
-      }
+	LLSLURL return_slurl;
+	LLViewerRegion *regionp = gAgent.getRegion();
+	if (regionp)
+	{
+		LLVector3d pos_global = gAgent.getPositionGlobal();
+		const LLSimInfo* sim = LLWorldMap::getInstance()->simInfoFromPosGlobal(pos_global);
+		pos_global[0] = fmod(pos_global[0], sim ? sim->getSizeX() : 256);
+		pos_global[1] = fmod(pos_global[1], sim ? sim->getSizeY() : 256);
+		return_slurl = LLSLURL(regionp->getHGGrid(), regionp->getName(), pos_global);
+	}
 	slurl = return_slurl;
 }
 

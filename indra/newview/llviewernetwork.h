@@ -225,9 +225,6 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Is the selected grid one of the hard-coded default grids (Agni or Aditi)
 	bool isSystemGrid() const { return isSystemGrid(mGrid); }
 	
-	/// Is the selected grid Hypergrid fetched?
-	bool isHypergrid(const std::string& grid) const;
-	
 	/// Is the selected grid Second Life?
 	bool isInSecondlife() const;
 	

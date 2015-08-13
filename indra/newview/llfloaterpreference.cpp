@@ -378,6 +378,7 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.ResetToDefault", boost::bind(&LLFloaterPreference::onClickResetControlDefault, this, _2)); // <alchemy/>
 	mCommitCallbackRegistrar.add("Pref.AddGrid", boost::bind(&LLFloaterPreference::onClickAddGrid, this));
 	mCommitCallbackRegistrar.add("Pref.RemoveGrid", boost::bind(&LLFloaterPreference::onClickRemoveGrid, this));
+	mCommitCallbackRegistrar.add("Pref.RefreshGrid", boost::bind(&LLFloaterPreference::onClickRefreshGrid, this));
 	mCommitCallbackRegistrar.add("Pref.SelectGrid", boost::bind(&LLFloaterPreference::onSelectGrid, this, _2));
 }
 

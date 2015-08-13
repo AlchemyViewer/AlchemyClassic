@@ -2138,10 +2138,17 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 	LL_INFOS() << str.str() << LL_ENDL;
 	mSimulatorFeatures = sim_features;
 	if (LLGridManager::getInstance()->isInOpenSim())
+	{
 		setGodnames();
-
+		if (mSimulatorFeatures.has("OpenSimExtras")
+			&& mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
+		{
+			const std::string& grid_url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
+			if (LLGridManager::getInstance()->getGrid(grid_url).empty())
+				LLGridManager::getInstance()->addRemoteGrid(grid_url, false);
+		}
+	}
 	setSimulatorFeaturesReceived(true);
-	
 }
 
 //this is called when the parent is not cacheable.
@@ -2838,6 +2845,7 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 	capabilityNames.append("ObjectMedia");
 	capabilityNames.append("ObjectMediaNavigate");
 	capabilityNames.append("ObjectNavMeshProperties");
+	capabilityNames.append("OpenSimExtras");
 	capabilityNames.append("ParcelPropertiesUpdate");
 	capabilityNames.append("ParcelVoiceInfoRequest");
 	capabilityNames.append("ProductInfoRequest");
@@ -3343,24 +3351,23 @@ std::string LLViewerRegion::getSearchServerURL() const
 	return url;
 }
 
-std::string LLViewerRegion::getGridURL() const
+std::string LLViewerRegion::getHGGrid() const
 {
-	std::string url;
+	std::string authority = LLStringUtil::null;
 	if (mSimulatorFeatures.has("OpenSimExtras")
 		&& mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
 	{
-		url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
+		const std::string& url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
+		authority = LLURI(url).authority();
 	}
 	else
 	{
-		std::vector<std::string> uris;
-		LLGridManager::getInstance()->getLoginURIs(uris);
-		url = uris.front();
+		authority = LLGridManager::getInstance()->getGrid();
 	}
-	return url;
+	return authority;
 }
 
-std::string LLViewerRegion::getGridName() const
+std::string LLViewerRegion::getHGGridName() const
 {
 	std::string name;
 	if (mSimulatorFeatures.has("OpenSimExtras")

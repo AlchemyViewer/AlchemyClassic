@@ -54,8 +54,6 @@ const std::string  GRID_HELPER_URI_VALUE = "helper_uri";
 const std::string  GRID_LOGIN_PAGE_VALUE = "login_page";
 /// internal data on system grids
 const std::string  GRID_IS_SYSTEM_GRID_VALUE = "system_grid";
-/// internal data on hypergrid
-const std::string GRID_IS_HYPERGRID_VALUE = "hypergrid";
 /// whether this is single or double names
 const std::string  GRID_LOGIN_IDENTIFIER_TYPES = "login_identifier_types";
 /// the url for registering a new account for the given grid
@@ -618,6 +616,9 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 		grid_iter != mGridList.endMap();
 		grid_iter++)
 	{
+		// skip temp grids. since this is just for "grid label mappings for UI purposes"
+		if (grid_iter->second.has(GRID_TEMPORARY) && grid_iter->second[GRID_TEMPORARY].asBoolean())
+			continue;
 		result[grid_iter->first] = grid_iter->second[GRID_LABEL_VALUE].asString();
 	}
 
@@ -678,11 +679,11 @@ std::string LLGridManager::getGrid(const std::string& grid) const
 std::string LLGridManager::getGridByProbing(const std::string& identifier) const
 {
 	std::string grid = LLStringUtil::null;
+	grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
+	if (!grid.empty()) return grid;
 	grid = getGridByAttribute(GRID_VALUE, identifier);
 	if (!grid.empty()) return grid;
 	grid = getGridByAttribute(GRID_ID_VALUE, identifier);
-	if (!grid.empty()) return grid;
-	grid = getGridByAttribute(GRID_GATEKEEPER, identifier);
 	if (!grid.empty()) return grid;
 	return grid;
 }
@@ -958,15 +959,6 @@ bool LLGridManager::isSystemGrid(const std::string& grid) const
 			&& mGridList[grid].has(GRID_IS_SYSTEM_GRID_VALUE)
 			&& mGridList[grid][GRID_IS_SYSTEM_GRID_VALUE].asBoolean()
 			);
-}
-
-bool LLGridManager::isHypergrid(const std::string& grid) const
-{
-	std::string grid_name = getGrid(grid);
-	return (!grid_name.empty()
-			&& mGridList.has(grid)
-			&& mGridList[grid].has(GRID_IS_HYPERGRID_VALUE)
-			&& mGridList[grid][GRID_IS_HYPERGRID_VALUE].asBoolean());
 }
 
 // build a slurl for the given region within the selected grid

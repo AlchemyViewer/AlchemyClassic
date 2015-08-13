@@ -402,10 +402,10 @@ public:
 	std::string getMapServerURL() const;
 	/// Hypergrid search server url
 	std::string getSearchServerURL() const;
-	/// Grid login/gateway uri (for generating slurls (0.8.1)
-	std::string getGridURL() const;
+	/// Grid login/gateway authority (0.8.1)
+	std::string getHGGrid() const;
 	/// Grid name (0.8.1)
-	std::string getGridName() const;
+	std::string getHGGridName() const;
 	/// "God names" surname and full account names map
 	std::set<std::string> getGods() const { return mGodNames; };
 	//@}

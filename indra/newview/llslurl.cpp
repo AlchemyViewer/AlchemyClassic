@@ -33,7 +33,7 @@
 #include "llviewercontrol.h"
 #include "llviewernetwork.h"
 #include "llfiltersd2xmlrpc.h"
-#include "curl/curl.h"
+
 const char* LLSLURL::SLURL_HTTP_SCHEME		 = "http";
 const char* LLSLURL::SLURL_HTTPS_SCHEME		 = "https";
 const char* LLSLURL::SLURL_SECONDLIFE_SCHEME	 = "secondlife";
@@ -184,28 +184,15 @@ LLSLURL::LLSLURL(const std::string& slurl)
 		   (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME))
 		{
 		    // We're dealing with either a Standalone style slurl or slurl.com slurl
-		  if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
-		      (slurl_uri.hostName() == LLSLURL::WWW_SLURL_COM) || 
-		      (slurl_uri.hostName() == LLSLURL::MAPS_SECONDLIFE_COM))
+			if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
+				(slurl_uri.hostName() == LLSLURL::WWW_SLURL_COM) ||
+				(slurl_uri.hostName() == LLSLURL::MAPS_SECONDLIFE_COM))
 			{
 				// slurl.com implies maingrid
 				mGrid = MAINGRID;
 			}
 		    else
 			{
-				// Don't try to match any old http://<host>/ URL as a SLurl.
-				// SLE SLurls will have the grid hostname in the URL, so only
-				// match http URLs if the hostname matches the grid hostname
-				// (or its a slurl.com or maps.secondlife.com URL).
-				
-				if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME ||
-					 slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) &&
-					 (slurl_uri.hostName() != LLGridManager::getInstance()->getGrid() &&
-					  slurl_uri.hostNameAndPort() != LLGridManager::getInstance()->getGrid()))
-				{
-					return;
-				}
-
 				// As it's a Standalone grid/open, we will always have a hostname, as Standalone/open  style
 				// urls are properly formed, unlike the stinky maingrid style
 				mGrid = slurl_uri.hostNameAndPort();
@@ -346,7 +333,7 @@ LLSLURL::LLSLURL(const std::string& grid,
 		 const std::string& region, 
 		 const LLVector3d& global_position)
 {
-	*this = LLSLURL(LLGridManager::getInstance()->getGridId(grid),
+	*this = LLSLURL(LLGridManager::getInstance()->getGridByProbing(grid),
 		  region, LLVector3(global_position.mdV[VX],
 				    global_position.mdV[VY],
 				    global_position.mdV[VZ]));

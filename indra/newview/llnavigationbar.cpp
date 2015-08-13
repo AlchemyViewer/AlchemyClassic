@@ -42,6 +42,7 @@
 #include "lllandmarkactions.h"
 #include "lllocationhistory.h"
 #include "lllocationinputctrl.h"
+#include "llnotificationsutil.h"
 #include "llpaneltopinfobar.h"
 #include "llteleporthistory.h"
 #include "llsearchcombobox.h"
@@ -54,6 +55,7 @@
 #include "llworldmapmessage.h"
 #include "llappviewer.h"
 #include "llviewercontrol.h"
+#include "llviewernetwork.h"
 #include "llweb.h"
 #include "llhints.h"
 
@@ -473,25 +475,32 @@ void LLNavigationBar::onLocationSelection()
 // </alchemy>
 	else if(!slurl.isValid())
 	{
-	  // we have to do this check after previous, because LLUrlRegistry contains handlers for slurl too  
-	  // but we need to know whether typed_location is a simple http url.
-	  if (LLUrlRegistry::instance().isUrl(typed_location)) 
-	    {
-		// display http:// URLs in the media browser, or
-		// anything else is sent to the search floater
-		LLWeb::loadURL(typed_location);
-		return;
-	  }
-	  else
-	  {
-	      // assume that an user has typed the {region name} or possible {region_name, parcel}
-	      region_name  = typed_location.substr(0,typed_location.find(','));
-	    }
+		// we have to do this check after previous, because LLUrlRegistry contains handlers for slurl too
+		// but we need to know whether typed_location is a simple http url.
+		if (LLUrlRegistry::instance().isUrl(typed_location))
+		{
+			// display http:// URLs in the media browser, or
+			// anything else is sent to the search floater
+			LLWeb::loadURL(typed_location);
+			return;
+		}
+		else
+		{
+			// assume that an user has typed the {region name} or possible {region_name, parcel}
+			region_name  = typed_location.substr(0,typed_location.find(','));
+		}
 	}
 	else
 	{
-	  // was an app slurl, home, whatever.  Bail // <alchemy/> - We support app slurls here now.
-	  return;
+		// was an app slurl, home, whatever.  Bail // <alchemy/> - We support app slurls here now.
+		return;
+	}
+	
+	const std::string& grid = slurl.getGrid();
+	const std::string& current_grid = LLGridManager::getInstance()->getGrid();
+	if (grid != current_grid)
+	{
+		region_name.insert(0, llformat("%s:", grid.c_str()));
 	}
 	
 	// Resolve the region name to its global coordinates.

@@ -882,6 +882,11 @@ std::string LLGridManager::getUpdateServiceURL() const
 	return update_url_base;
 }
 
+LLSD LLGridManager::getGridInfo(const std::string& grid) const
+{
+	return mGridList.has(grid) ? mGridList[grid] : LLSD();
+}
+
 void LLGridManager::updateIsInProductionGrid()
 {
 	// *NOTE:Mani This used to compare GRID_INFO_AGNI to gGridChoice,

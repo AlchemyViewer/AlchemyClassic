@@ -103,7 +103,7 @@
     <button.commit_callback
      function="Pref.RemoveGrid" />
   </button>
-  <!--<button
+  <button
    enabled="false"
    follows="left|top"
    height="19"
@@ -115,5 +115,5 @@
    width="75">
     <button.commit_callback
      function="Pref.DebugGrid" />
-  </button>-->
+  </button>
 </panel>

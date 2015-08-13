@@ -265,6 +265,7 @@ set(viewer_SOURCE_FILES
     llfloaterfacebook.cpp
     llfloaterflickr.cpp
     llfloaterfonttest.cpp
+    llfloatergenerictext.cpp
     llfloatergesture.cpp
     llfloatergodtools.cpp
     llfloatergotoline.cpp
@@ -907,6 +908,7 @@ set(viewer_HEADER_FILES
     llfloaterfacebook.h
     llfloaterflickr.h
     llfloaterfonttest.h
+    llfloatergenerictext.h
     llfloatergesture.h
     llfloatergodtools.h
     llfloatergotoline.h

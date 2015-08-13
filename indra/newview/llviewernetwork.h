@@ -107,6 +107,9 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	
 	/// Get the user-friendly long form descriptor for the selected grid
 	std::string getGridLabel() const { return getGridLabel(mGrid); }
+	
+	/// Returns gridInfo for a given grid as an LLSD map
+	LLSD getGridInfo(const std::string& grid) const;
 
 	/// Retrieve a map of grid-name -> label
 	std::map<std::string, std::string> getKnownGrids() const;

@@ -98,6 +98,7 @@
 #include "llui.h"
 #include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
+#include "llviewerregion.h"
 #include "llvoavatar.h"
 #include "llvovolume.h"
 #include "llwindow.h"
@@ -379,6 +380,7 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.AddGrid", boost::bind(&LLFloaterPreference::onClickAddGrid, this));
 	mCommitCallbackRegistrar.add("Pref.RemoveGrid", boost::bind(&LLFloaterPreference::onClickRemoveGrid, this));
 	mCommitCallbackRegistrar.add("Pref.RefreshGrid", boost::bind(&LLFloaterPreference::onClickRefreshGrid, this));
+	mCommitCallbackRegistrar.add("Pref.DebugGrid", boost::bind(&LLFloaterPreference::onClickDebugGrid, this));
 	mCommitCallbackRegistrar.add("Pref.SelectGrid", boost::bind(&LLFloaterPreference::onSelectGrid, this, _2));
 }
 
@@ -573,7 +575,14 @@ void LLFloaterPreference::onClickRefreshGrid()
 
 void LLFloaterPreference::onClickDebugGrid()
 {
-	// no-op for now
+	LLSD args;
+	std::stringstream data_str;
+	const std::string& grid = getChild<LLScrollListCtrl>("grid_list")->getSelectedValue().asString().c_str();
+	LLSD gridInfo = LLGridManager::getInstance()->getGridInfo(grid);
+	LLSDSerialize::toPrettyXML(gridInfo, data_str);
+	args["title"] = llformat("%s - %s", LLTrans::getString("GridInfoTitle").c_str(), grid.c_str());
+	args["data"] = data_str.str();
+	LLFloaterReg::showInstance("generic_text", args);
 }
 
 void LLFloaterPreference::onSelectGrid(const LLSD& data)
@@ -581,6 +590,7 @@ void LLFloaterPreference::onSelectGrid(const LLSD& data)
 	getChild<LLUICtrl>("remove_grid")->setEnabled(LLGridManager::getInstance()->getGrid() != data.asString()
 												  && !LLGridManager::getInstance()->isSystemGrid(data.asString()));
 	getChild<LLUICtrl>("refresh_grid")->setEnabled(!LLGridManager::getInstance()->isSystemGrid(data.asString()));
+	getChild<LLUICtrl>("debug_grid")->setEnabled(!data.asString().empty());
 }
 
 bool LLFloaterPreference::handleRemoveGridCB(const LLSD& notification, const LLSD& response)
@@ -904,6 +914,7 @@ void LLFloaterPreference::onOpenHardwareSettings()
 	LLFloater* floater = LLFloaterReg::showInstance("prefs_hardware_settings");
 	addDependentFloater(floater, FALSE);
 }
+
 // static 
 void LLFloaterPreference::onBtnOK()
 {

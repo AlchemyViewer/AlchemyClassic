@@ -2403,6 +2403,12 @@
                  function="Advanced.DumpInfoToConsole"
                  parameter="capabilities" />
             </menu_item_call>
+            <menu_item_call
+             label="View Simulator Features"
+             name="View Simulator Features">
+                <menu_item_call.on_click
+                 function="Advanced.DebugSimFeatures" />
+            </menu_item_call>
 
             <menu_item_separator/>
 

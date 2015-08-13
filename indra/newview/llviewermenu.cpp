@@ -3279,6 +3279,24 @@ class LLEditParticleSource : public view_listener_t
 	}
 };
 
+class LLSpawnDebugSimFeatures : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		if (LLViewerRegion* regionp = gAgent.getRegion())
+		{
+			LLSD sim_features, args;
+			std::stringstream features_str;
+			regionp->getSimulatorFeatures(sim_features);
+			LLSDSerialize::toPrettyXML(sim_features, features_str);
+			args["title"] = llformat("%s - %s", LLTrans::getString("SimulatorFeaturesTitle").c_str(), regionp->getName().c_str());
+			args["data"] = features_str.str();
+			LLFloaterReg::showInstance("generic_text", args);
+		}
+		return true;
+	}
+};
+
 class LLSyncAnimations : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -9401,6 +9419,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLRefreshTexturesObject(), "Object.RefreshTex");
     view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
     view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
+    view_listener_t::addMenu(new LLSpawnDebugSimFeatures(), "Advanced.DebugSimFeatures");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
 

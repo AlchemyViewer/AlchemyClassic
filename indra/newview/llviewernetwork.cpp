@@ -463,7 +463,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	addGrid(grid);
 }
 
-void LLGridManager::addRemoteGrid(const std::string& login_uri, bool manual)
+void LLGridManager::addRemoteGrid(const std::string& login_uri, const bool manual)
 {
 	LL_DEBUGS("GridManager") << "Adding '" << login_uri << "' to grid manager." << LL_ENDL;
 	if (login_uri.empty()) return;

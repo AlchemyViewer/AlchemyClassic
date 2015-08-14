@@ -6,11 +6,12 @@
 <strings>
 
 	<!-- Default Args - these arguments will be replaced in all strings -->
-	<string name="SECOND_LIFE">Second Life</string>
+    <string name="SECOND_LIFE">[CURRENT_GRID]</string> <!-- I'd like to drop this but server supplied strings use it -->
 	<string name="APP_NAME">Alchemy</string>
 	<string name="CAPITALIZED_APP_NAME">ALCHEMY</string>
 	<string name="SECOND_LIFE_GRID">Second Life Grid</string>
 	<string name="SUPPORT_SITE">Second Life Support Portal</string>
+    <string name="CURRENT_GRID"/> <!-- Set in LLViewerNetwork -->
 
 	<!-- starting up -->
 	<string name="StartupDetectingHardware">Detecting hardware...</string>
@@ -870,7 +871,7 @@ Returns the rotation velocity in radians per second
 	</string>
 	<string name="LSLTipText_llGetTimeOfDay" translate="false">
 float llGetTimeOfDay()
-Returns the time in seconds since [SECOND_LIFE] server midnight or since region up-time, whichever is smaller
+Returns the time in seconds since [CURRENT_GRID] server midnight or since region up-time, whichever is smaller
 	</string>
 	<string name="LSLTipText_llGetWallclock" translate="false">
 float llGetWallclock()

@@ -210,7 +210,7 @@
              top="10"
             name="second_life_photo_title_text"
              text_color="white"
-             value="[SECOND_LIFE]:"
+             value="[CURRENT_GRID]:"
              width="100" />
             <texture_picker
              allow_no_texture="true"

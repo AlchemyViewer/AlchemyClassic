@@ -1502,7 +1502,7 @@
         </menu_item_call>
 		<menu_item_separator/>
         <menu_item_call
-             label="[SECOND_LIFE] Knowledge Base"
+             label="Second Life Knowledge Base"
              name="Knowledge Base">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
@@ -1512,7 +1512,7 @@
               parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
-             label="[SECOND_LIFE] Wiki"
+             label="Second Life Wiki"
              name="Wiki">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
@@ -1522,7 +1522,7 @@
               parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
-             label="[SECOND_LIFE] Community Forums"
+             label="Second Life Community Forums"
              name="Community Forums">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
@@ -1532,7 +1532,7 @@
               parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
-             label="[SECOND_LIFE] Support portal"
+             label="Second Life Support portal"
              name="Support portal">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
@@ -1543,7 +1543,7 @@
         </menu_item_call>
         <menu_item_separator />
         <menu_item_call
-             label="[SECOND_LIFE] News"
+             label="Second Life News"
              name="Second Life News">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
@@ -1553,7 +1553,7 @@
               parameter="secondlife" />
         </menu_item_call>
         <menu_item_call
-             label="[SECOND_LIFE] Blogs"
+             label="Second Life Blogs"
              name="Second Life Blogs">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"

@@ -58,6 +58,7 @@
 #include "llnotifications.h"
 #include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
+#include "llviewerregion.h"
 #include "lltrans.h"
 
 namespace 
@@ -199,12 +200,12 @@ BOOL LLMuteList::isLinden(const std::string& name) const
 	}
 	else if (LLGridManager::getInstance()->isInOpenSim())
 	{
-		/*LLViewerRegion* region = gAgent.getRegion();
+		LLViewerRegion* region = gAgent.getRegion();
 		if (!region) return FALSE;
-		std::set<std::string>& gods = region->getGods();
+		std::set<std::string> gods = region->getGods();
 		if (gods.empty()) return FALSE;
 		
-		return (gods.find(name) != gods.end() || gods.find(last_name) != gods.end());*/
+		return (gods.find(name) != gods.end() || gods.find(last_name) != gods.end());
 	}
 	return FALSE;
 }

@@ -200,9 +200,10 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 		U32 y_world = (U32)(y_regions) * REGION_WIDTH_UNITS;
 
 		// name shouldn't be empty, see EXT-4568
-		if (name.empty())
+		if (name.empty() && accesscode != 255)
 		{
 			LL_WARNS("World Map") << "MapBlockReply returned an empty region name; not inserting in the world map" << LL_ENDL;
+			continue;
 		}
 
 		// Insert that region in the world map, if failure, flag it as a "null_sim"

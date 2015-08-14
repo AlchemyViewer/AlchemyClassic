@@ -1004,19 +1004,20 @@ void LLWorld::updateWaterObjects()
 
 	// Now, get a list of the holes
 	S32 x, y;
-	for (x = min_x; x <= max_x; x += rwidth)
+	const S32 step = 256;
+	for (x = min_x; x <= max_x; x += step)
 	{
-		for (y = min_y; y <= max_y; y += rwidth)
+		for (y = min_y; y <= max_y; y += step)
 		{
 			U64 region_handle = to_region_handle(x, y);
 			if (!getRegionFromHandle(region_handle))
 			{	// No region at that area, so make water
 				LLVOWater* waterp = (LLVOWater *)gObjectList.createObjectViewer(LLViewerObject::LL_VO_WATER, gAgent.getRegion());
 				waterp->setUseTexture(FALSE);
-				waterp->setPositionGlobal(LLVector3d(x + rwidth/2,
-													 y + rwidth/2,
+				waterp->setPositionGlobal(LLVector3d(x + step/2,
+													 y + step/2,
 													 256.f + water_height));
-				waterp->setScale(LLVector3((F32)rwidth, (F32)rwidth, 512.f));
+				waterp->setScale(LLVector3((F32)step, (F32)step, 512.f));
 				gPipeline.createObject(waterp);
 				mHoleWaterObjects.push_back(waterp);
 			}
@@ -1026,14 +1027,14 @@ void LLWorld::updateWaterObjects()
 	// Update edge water objects
 	S32 wx, wy;
 	S32 center_x, center_y;
-	wx = (max_x - min_x) + rwidth;
-	wy = (max_y - min_y) + rwidth;
+	wx = (max_x - min_x) + step;
+	wy = (max_y - min_y) + step;
 	center_x = min_x + (wx >> 1);
 	center_y = min_y + (wy >> 1);
 
 	S32 add_boundary[4] = {
-		512 - (max_x - (S32)region_x),
-		512 - (max_y - (S32)region_y),
+		static_cast<S32>(512 - (max_x - (rwidth - 256) - region_x)),
+		static_cast<S32>(512 - (max_y - (rwidth - 256) - region_y)),
 		512 - ((S32)region_x - min_x),
 		512 - ((S32)region_y - min_y) };
 		

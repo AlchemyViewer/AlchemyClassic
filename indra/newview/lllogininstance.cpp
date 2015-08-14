@@ -276,7 +276,7 @@ void MandatoryUpdateMachine::CheckingForUpdate::enter(void)
 	
 	mProgressView = gViewerWindow->getProgressView();
 	mProgressView->setMessage("Looking for update...");
-	mProgressView->setText("There is a required update for your Second Life installation.");
+	mProgressView->setText("There is a required update for your viewer installation.");
 	mProgressView->setPercent(0);
 	mProgressView->setVisible(true);
 	mConnection = LLEventPumps::instance().obtain(LLUpdaterService::pumpName()).
@@ -428,7 +428,7 @@ void MandatoryUpdateMachine::WaitingForDownload::enter(void)
 	mProgressView = gViewerWindow->getProgressView();
 	mProgressView->setMessage("Downloading update...");
 	std::ostringstream stream;
-	stream << "There is a required update for your Second Life installation." << std::endl <<
+	stream << "There is a required update for your viewer installation." << std::endl <<
 		"Version " << mMachine.mUpdaterService.updatedVersion();
 	mProgressView->setText(stream.str());
 	mProgressView->setPercent(0);

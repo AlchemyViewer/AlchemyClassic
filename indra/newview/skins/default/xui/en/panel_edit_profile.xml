@@ -30,7 +30,7 @@
     value="Charter Member" />
    <string
     name="AcctTypeEmployee"
-    value="Linden Lab Employee" />
+    value="[CURRENT_GRID] Employee" />
    <string
     name="PaymentInfoUsed"
     value="Payment Info Used" />

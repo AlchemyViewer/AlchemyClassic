@@ -6523,7 +6523,7 @@
                </map>
             </array>
             <key>tooltip</key>
-            <string>This event is triggered when a resident has given an amount of Linden dollars to the object.</string>
+            <string>This event is triggered when a resident has paid the object.</string>
          </map>
          <key>moving_end</key>
          <map>
@@ -17760,7 +17760,7 @@
                </map>
             </array>
             <key>tooltip</key>
-            <string>Transfer Amount of linden dollars (L$) from script owner to AvatarID. Returns a key to a corresponding transaction_result event for the success of the transfer.\nAttempts to send the amount of money to the specified avatar, and trigger a transaction_result event identified by the returned key.</string>
+            <string>Transfer Amount of money from script owner to AvatarID. Returns a key to a corresponding transaction_result event for the success of the transfer.\nAttempts to send the amount of money to the specified avatar, and trigger a transaction_result event identified by the returned key.</string>
          </map>
          <key>llTriggerSound</key>
          <map>

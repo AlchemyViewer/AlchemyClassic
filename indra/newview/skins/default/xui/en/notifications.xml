@@ -187,7 +187,7 @@ No tutorial is currently available.
    icon="alertmodal.tga"
    name="BadInstallation"
    type="alertmodal">
- An error occurred while updating [APP_NAME].  Please [http://get.secondlife.com download the latest version] of the Viewer.
+ An error occurred while updating [APP_NAME].  Please [http://www.alchemyviewer.org download the latest version] of the viewer.
     <tag>fail</tag>
     <usetemplate
      name="okbutton"
@@ -3758,7 +3758,7 @@ Download to your Applications folder?
    type="alertmodal">
 An error occurred installing the viewer update.
 Please download and install the latest viewer from
-http://secondlife.com/download.
+http://www.alchemyviewer.org/
     <usetemplate
      name="okbutton"
      yestext="OK"/>
@@ -3772,7 +3772,7 @@ We were unable to install a required update.
 You will be unable to log in until [APP_NAME] has been updated.
 
 Please download and install the latest viewer from
-http://secondlife.com/download.
+http://www.alchemyviewer.org/
   <tag>fail</tag>
     <usetemplate
      name="okbutton"
@@ -3783,14 +3783,14 @@ http://secondlife.com/download.
    icon="alertmodal.tga"
    name="UpdaterServiceNotRunning"
    type="alertmodal">
-There is a required update for your Second Life Installation.
+There is a required update for your viewer installation.
 
-You may download this update from http://www.secondlife.com/downloads
+You may download this update from https://alchemyviewer.org/
 or you can install it now.
     <tag>confirm</tag>
     <usetemplate
      name="okcancelbuttons"
-     notext="Quit Second Life"
+     notext="Quit [APP_NAME]"
      yestext="Download and install now"/>
   </notification>
 
@@ -5706,7 +5706,7 @@ You cannot undo this action.
    type="alert">
     <unique/>
     
-Use this tool to report violations of the [http://secondlife.com/corporate/tos.php Terms of Service] and [http://secondlife.com/corporate/cs.php Community Standards].
+Use this tool to report violations of the Terms of Service and Community Standards.
 
 All reported abuses are investigated and resolved.
   </notification>
@@ -5765,7 +5765,7 @@ Dear Resident,
 
 You appear to be reporting intellectual property infringement. Please make sure you are reporting it correctly:
 
-(1) The Abuse Process. You may submit an abuse report if you believe a Resident is exploiting the [CURRENT_GRID] permissions system, for example, by using CopyBot or similar copying tools, to infringe intellectual property rights. The Abuse Team investigates and issues appropriate disciplinary action for behavior that violates the [CURRENT_GRID] [http://secondlife.com/corporate/tos.php Terms of Service] or [http://secondlife.com/corporate/cs.php Community Standards]. However, the Abuse Team does not handle and will not respond to requests to remove content from the [CURRENT_GRID] world.
+(1) The Abuse Process. You may submit an abuse report if you believe a Resident is exploiting the [CURRENT_GRID] permissions system, for example, by using CopyBot or similar copying tools, to infringe intellectual property rights. The Abuse Team investigates and issues appropriate disciplinary action for behavior that violates the [CURRENT_GRID] Terms of Service and Community Standards. However, the Abuse Team does not handle and will not respond to requests to remove content from the [CURRENT_GRID] world.
 
 (2) The DMCA or Content Removal Process. To request removal of content from [CURRENT_GRID], you MUST submit a valid notification of infringement as provided in our [http://secondlife.com/corporate/dmca.php DMCA Policy].
 
@@ -5773,7 +5773,7 @@ If you still wish to continue with the abuse process, please close this window a
 
 Thank you,
 
-Linden Lab
+[CURRENT_GRID]
   </notification>
 
   <notification
@@ -6074,7 +6074,7 @@ You can&apos;t buy an object while it is attached.
    label="About Requests for the Debit Permission"
    name="DebitPermissionDetails"
    type="alertmodal">
-Granting this request gives a script ongoing permission to take Linden dollars (L$) from your account. To revoke this permission, the object owner must delete the object or reset the scripts in the object.
+Granting this request gives a script ongoing permission to take funds (L$) from your account. To revoke this permission, the object owner must delete the object or reset the scripts in the object.
     <usetemplate
      name="okbutton"
      yestext="OK"/>
@@ -7649,7 +7649,7 @@ Scripts associated with this experience will be able to do the following on regi
    priority="critical"
    persist="true"
    type="notify">
-Warning: The object &apos;&lt;nolink&gt;[OBJECTNAME]&lt;/nolink&gt;&apos; wants total access to your Linden Dollars account. If you allow access, it can remove funds from your account at any time, or empty your account completely, on an ongoing basis with no additional warnings.
+Warning: The object &apos;&lt;nolink&gt;[OBJECTNAME]&lt;/nolink&gt;&apos; wants total access to your inworld L$ account. If you allow access, it can remove funds from your account at any time, or empty your account completely, on an ongoing basis with no additional warnings.
   
 Do not allow access if you do not fully understand why it wants access to your account.
 
@@ -8623,10 +8623,10 @@ Click and drag anywhere on the world to rotate your view
 
   <notification
   name="HintLindenDollar"
-  label="You've got Linden Dollars!"
+  label="You've got L$!"
   type="hint">
     <unique/>
-    Here's your current balance of L$. Click Buy L$ to purchase more Linden Dollars.
+    Here's your current balance of L$.
     <tag>funds</tag>
   </notification>
 

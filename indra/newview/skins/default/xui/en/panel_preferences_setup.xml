@@ -159,7 +159,7 @@
       width="480" />
     <radio_item
       height="20"
-      label="Use built-in browser for Second Life links only"
+      label="Use built-in browser for inworld links only"
       layout="topleft"
       left_delta="0"
       name="external"

@@ -375,6 +375,9 @@
                  function="Communicate.VoiceMorphing.NoVoiceMorphing.Check" />
                 <menu_item_check.on_click
                  function="Communicate.VoiceMorphing.NoVoiceMorphing.Click" />
+                <menu_item_call.on_visible
+                 function="EnableGrid"
+                 parameter="secondlife" />
             </menu_item_check>
             <menu_item_separator/>
             <menu_item_check

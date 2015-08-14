@@ -56,8 +56,8 @@
 		<action description="Deed land and buy land for group"
 		     longdescription="Deed land and buy land for group. This is done in About Land &gt; General tab."
 		     name="land deed" value="12" />
-		<action description="Abandon land to Governor Linden"
-		     longdescription="Abandon land to Governor Linden. *WARNING* Any Member in a Role with this Ability can abandon group-owned land in About Land &gt; General tab, reverting it to Linden ownership without a sale! Be sure you know what you&apos;re doing before assigning this Ability."
+		<action description="Abandon landn"
+		     longdescription="Abandon land. *WARNING* Any Member in a Role with this Ability can abandon group-owned land in About Land &gt; General tab, reverting it to grid ownership without a sale! Be sure you know what you&apos;re doing before assigning this Ability."
 		     name="land release" value="13" />
 		<action description="Set land for sale info"
 		     longdescription="Set land for sale info. *WARNING* Any Member in a Role with this Ability can sell group-owned land in About Land &gt; General tab as they wish! Be sure you know what you&apos;re doing before assigning this Ability."

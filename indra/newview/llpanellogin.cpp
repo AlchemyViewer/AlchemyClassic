@@ -266,7 +266,7 @@ void LLPanelLogin::addFavoritesToStartLocation()
 		{
 			std::string label = (*iter1)["name"].asString();
 			std::string value = (*iter1)["slurl"].asString();
-			if(!label.empty() && !value.empty())
+			if (label != LLStringUtil::null && value != LLStringUtil::null)
 			{
 				combo->add(label, value);
 			}

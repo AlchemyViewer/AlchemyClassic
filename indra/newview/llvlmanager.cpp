@@ -156,7 +156,7 @@ U32Bits LLVLManager::getWaterBits() const
 
 S32Bytes LLVLManager::getTotalBytes() const
 {
-	return mLandBits + mWindBits + mCloudBits;
+	return mLandBits + mWindBits + mCloudBits + mWaterBits;
 }
 
 void LLVLManager::cleanupData(LLViewerRegion *regionp)

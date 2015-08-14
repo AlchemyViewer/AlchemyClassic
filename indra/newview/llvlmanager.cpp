@@ -101,12 +101,21 @@ void LLVLManager::unpackData(const S32 num_packets)
 		{
 			datap->mRegionp->getLand().decompressDCTPatch(bit_pack, &goph, FALSE);
 		}
-		else if (WIND_LAYER_CODE == datap->mType)
+		else if (AURORA_LAND_LAYER_CODE == datap->mType)
+		{
+			datap->mRegionp->getLand().decompressDCTPatch(bit_pack, &goph, TRUE);
+		}
+		else if (WIND_LAYER_CODE == datap->mType || AURORA_WIND_LAYER_CODE == datap->mType)
+
 		{
 			datap->mRegionp->mWind.decompress(bit_pack, &goph);
 
 		}
-		else if (CLOUD_LAYER_CODE == datap->mType)
+		else if (CLOUD_LAYER_CODE == datap->mType || AURORA_CLOUD_LAYER_CODE == datap->mType)
+		{
+
+		}
+		else if (WATER_LAYER_CODE == datap->mType || AURORA_WATER_LAYER_CODE == datap->mType)
 		{
 
 		}

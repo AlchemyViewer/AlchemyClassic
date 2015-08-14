@@ -9417,9 +9417,9 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
 	// <Alchemy>
 	view_listener_t::addMenu(new LLRefreshTexturesObject(), "Object.RefreshTex");
-    view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
-    view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
-    view_listener_t::addMenu(new LLSpawnDebugSimFeatures(), "Advanced.DebugSimFeatures");
+	view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
+	view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
+	view_listener_t::addMenu(new LLSpawnDebugSimFeatures(), "Advanced.DebugSimFeatures");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");
 

@@ -488,7 +488,7 @@ Section "Viewer"
 
 
   ;Write URL registry info
-  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "(default)" "URL:Second Life"
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "(Default)" "URL:Second Life"
   WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "URL Protocol" ""
   WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\DefaultIcon" "" "$INSTDIR\$INSTEXE"
   ;; URL param must be last item passed to viewer, it ignores subsequent params

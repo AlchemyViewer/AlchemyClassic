@@ -266,7 +266,7 @@ void LLPanelLogin::addFavoritesToStartLocation()
 		{
 			std::string label = (*iter1)["name"].asString();
 			std::string value = (*iter1)["slurl"].asString();
-			if(label != "" && value != "")
+			if(!label.empty() && !value.empty())
 			{
 				combo->add(label, value);
 			}
@@ -470,7 +470,7 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 	    }
 		sInstance->getChild<LLComboBox>("username_combo")->setLabel(login_id);	
 	}
-	else if((std::string)identifier["type"] == "account")
+	else if(identifier["type"].asString() == "account")
 	{
 		sInstance->getChild<LLComboBox>("username_combo")->setLabel(identifier["account_name"].asString());
 	}
@@ -497,7 +497,7 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 	}
 	else
 	{
-		sInstance->getChild<LLUICtrl>("password_edit")->setValue(std::string());		
+		sInstance->getChild<LLUICtrl>("password_edit")->setValue(LLStringUtil::null);		
 	}
 	sInstance->getChild<LLUICtrl>("remember_check")->setValue(remember);
 }

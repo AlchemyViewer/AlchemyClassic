@@ -53,6 +53,7 @@
 #include "llsurface.h"
 #include "llviewercamera.h"
 #include "llviewercontrol.h"
+#include "llviewernetwork.h"
 #include "llviewertexture.h"
 #include "llviewertexturelist.h"
 #include "llviewermenu.h"
@@ -258,7 +259,7 @@ void LLNetMap::draw()
 
 			
 			// <alchemy>
-			if (use_world_map_image)
+			if (use_world_map_image && LLGridManager::getInstance()->isInSecondlife())
 			{
 				LLViewerTexture* img = regionp->getMapImage();
 				if (img && img->hasGLTexture())

@@ -26,19 +26,54 @@
  */
 
 #include "llviewerprecompiledheaders.h"
-#include "llcheckboxctrl.h"
 #include "llfloaterperms.h"
-#include "llviewercontrol.h"
-#include "llviewerwindow.h"
-#include "lluictrlfactory.h"
-#include "llpermissions.h"
-#include "llagent.h"
-#include "llviewerregion.h"
-#include "llnotificationsutil.h"
-#include "llsdserialize.h"
 
-LLFloaterPerms::LLFloaterPerms(const LLSD& seed)
-: LLFloater(seed)
+#include "llagent.h"
+#include "llfloaterreg.h"
+#include "llnotificationsutil.h"
+#include "llpermissions.h"
+#include "llsdserialize.h"
+#include "lluictrlfactory.h"
+#include "llviewercontrol.h"
+#include "llviewerregion.h"
+#include "llviewerwindow.h"
+
+// String equivalents of enum Categories - initialization order must match enum order!
+const std::array<std::string, 6> LLFloaterPermsDefault::sCategoryNames {{
+	"Objects",
+	"Uploads",
+	"Scripts",
+	"Notecards",
+	"Gestures",
+	"Wearables"
+}};
+
+// Oh hi! I'm a caps responder. I'm here because thing
+class LLFloaterPermsResponder : public LLHTTPClient::Responder
+{
+public:
+	LLFloaterPermsResponder() : LLHTTPClient::Responder() {}
+	
+private:
+	void httpFailure()
+	{
+		const std::string& reason = getReason();
+		//LLNotificationsUtil::add("DefaultObjectPermissions", LLSD().with("REASON", reason));
+		// This happens often enough to be irritating... Let's just drop it into the log.
+		LL_WARNS("ObjectPermissions") << "There was a problem saving the default object permissions: " << reason << LL_ENDL;
+	}
+	
+	void httpSuccess()
+	{
+		// Since we have had a successful POST call be sure to display the next error message
+		// even if it is the same as a previous one.
+		LL_INFOS("ObjectPermissionsFloater") << "Default permissions successfully sent to simulator" << LL_ENDL;
+	}
+};
+
+
+LLFloaterPerms::LLFloaterPerms(const LLSD& key)
+:	LLFloater(key)
 {
 }
 
@@ -48,19 +83,19 @@ BOOL LLFloaterPerms::postBuild()
 }
 
 //static 
-U32 LLFloaterPerms::getGroupPerms(std::string prefix)
+U32 LLFloaterPerms::getGroupPerms(const std::string& prefix)
 {	
 	return gSavedSettings.getBOOL(prefix+"ShareWithGroup") ? PERM_COPY | PERM_MOVE | PERM_MODIFY : PERM_NONE;
 }
 
 //static 
-U32 LLFloaterPerms::getEveryonePerms(std::string prefix)
+U32 LLFloaterPerms::getEveryonePerms(const std::string& prefix)
 {
 	return gSavedSettings.getBOOL(prefix+"EveryoneCopy") ? PERM_COPY : PERM_NONE;
 }
 
 //static 
-U32 LLFloaterPerms::getNextOwnerPerms(std::string prefix)
+U32 LLFloaterPerms::getNextOwnerPerms(const std::string& prefix)
 {
 	U32 flags = PERM_MOVE;
 	if ( gSavedSettings.getBOOL(prefix+"NextOwnerCopy") )
@@ -78,47 +113,14 @@ U32 LLFloaterPerms::getNextOwnerPerms(std::string prefix)
 	return flags;
 }
 
-//static 
-U32 LLFloaterPerms::getNextOwnerPermsInverted(std::string prefix)
-{
-	// Sets bits for permissions that are off
-	U32 flags = PERM_MOVE;
-	if ( !gSavedSettings.getBOOL(prefix+"NextOwnerCopy") )
-	{
-		flags |= PERM_COPY;
-	}
-	if ( !gSavedSettings.getBOOL(prefix+"NextOwnerModify") )
-	{
-		flags |= PERM_MODIFY;
-	}
-	if ( !gSavedSettings.getBOOL(prefix+"NextOwnerTransfer") )
-	{
-		flags |= PERM_TRANSFER;
-	}
-	return flags;
-}
 
-static bool mCapSent = false;
-
-LLFloaterPermsDefault::LLFloaterPermsDefault(const LLSD& seed)
-	: LLFloater(seed)
+LLFloaterPermsDefault::LLFloaterPermsDefault(const LLSD& key)
+:	LLFloater(key)
 {
 	mCommitCallbackRegistrar.add("PermsDefault.Copy", boost::bind(&LLFloaterPermsDefault::onCommitCopy, this, _2));
 	mCommitCallbackRegistrar.add("PermsDefault.OK", boost::bind(&LLFloaterPermsDefault::onClickOK, this));
 	mCommitCallbackRegistrar.add("PermsDefault.Cancel", boost::bind(&LLFloaterPermsDefault::onClickCancel, this));
 }
-
- 
-// String equivalents of enum Categories - initialization order must match enum order!
-const std::string LLFloaterPermsDefault::sCategoryNames[CAT_LAST] =
-{
-	"Objects",
-	"Uploads",
-	"Scripts",
-	"Notecards",
-	"Gestures",
-	"Wearables"
-};
 
 BOOL LLFloaterPermsDefault::postBuild()
 {
@@ -134,7 +136,7 @@ BOOL LLFloaterPermsDefault::postBuild()
 
 	mCloseSignal.connect(boost::bind(&LLFloaterPermsDefault::cancel, this));
 
-	refresh();
+	reload();
 	
 	return true;
 }
@@ -154,70 +156,37 @@ void LLFloaterPermsDefault::onClickCancel()
 void LLFloaterPermsDefault::onCommitCopy(const LLSD& user_data)
 {
 	// Implements fair use
-	std::string prefix = user_data.asString();
+	const std::string& prefix = user_data.asString();
 
 	BOOL copyable = gSavedSettings.getBOOL(prefix+"NextOwnerCopy");
 	if(!copyable)
 	{
 		gSavedSettings.setBOOL(prefix+"NextOwnerTransfer", TRUE);
 	}
-	LLCheckBoxCtrl* xfer = getChild<LLCheckBoxCtrl>(prefix+"_transfer");
+	LLUICtrl* xfer = getChild<LLUICtrl>(prefix+"_transfer");
 	xfer->setEnabled(copyable);
 }
 
-class LLFloaterPermsResponder : public LLHTTPClient::Responder
+//static
+void LLFloaterPermsDefault::setCapsReceivedCallback(LLViewerRegion* regionp)
 {
-public:
-	LLFloaterPermsResponder(): LLHTTPClient::Responder() {}
-private:
-	static	std::string sPreviousReason;
-
-	void httpFailure()
-	{
-		const std::string& reason = getReason();
-		// Do not display the same error more than once in a row
-		if (reason != sPreviousReason)
-		{
-			sPreviousReason = reason;
-			LLSD args;
-			args["REASON"] = reason;
-			LLNotificationsUtil::add("DefaultObjectPermissions", args);
-		}
-	}
-
-	void httpSuccess()
-	{
-		// Since we have had a successful POST call be sure to display the next error message
-		// even if it is the same as a previous one.
-		sPreviousReason = "";
-		LLFloaterPermsDefault::setCapSent(true);
-		LL_INFOS("ObjectPermissionsFloater") << "Default permissions successfully sent to simulator" << LL_ENDL;
-	}
-};
-
-	std::string	LLFloaterPermsResponder::sPreviousReason;
-
-void LLFloaterPermsDefault::sendInitialPerms()
-{
-	if(!mCapSent)
-	{
-		updateCap();
-	}
+	LLFloaterPermsDefault* floater = dynamic_cast<LLFloaterPermsDefault*>(LLFloaterReg::getInstance("perms_default"));
+	regionp->setCapabilitiesReceivedCallback(boost::bind(&LLFloaterPermsDefault::updateCap, floater));
 }
 
 void LLFloaterPermsDefault::updateCap()
 {
-	std::string object_url = gAgent.getRegion()->getCapability("AgentPreferences");
+	const std::string& object_url = gAgent.getRegion()->getCapability("AgentPreferences");
 
 	if(!object_url.empty())
 	{
 		LLSD report = LLSD::emptyMap();
 		report["default_object_perm_masks"]["Group"] =
-			(LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[CAT_OBJECTS]);
+			(LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[0]);
 		report["default_object_perm_masks"]["Everyone"] =
-			(LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[CAT_OBJECTS]);
+			(LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[0]);
 		report["default_object_perm_masks"]["NextOwner"] =
-			(LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[CAT_OBJECTS]);
+			(LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[0]);
 
         {
             LL_DEBUGS("ObjectPermissionsFloater") << "Sending default permissions to '"
@@ -235,16 +204,11 @@ void LLFloaterPermsDefault::updateCap()
     }
 }
 
-void LLFloaterPermsDefault::setCapSent(bool cap_sent)
-{
-	mCapSent = cap_sent;
-}
-
 void LLFloaterPermsDefault::ok()
 {
 //	Changes were already applied automatically to saved settings.
 //	Refreshing internal values makes it official.
-	refresh();
+	reload();
 
 // We know some setting has changed but not which one.  Just in case it was a setting for
 // object permissions tell the server what the values are.
@@ -253,7 +217,7 @@ void LLFloaterPermsDefault::ok()
 
 void LLFloaterPermsDefault::cancel()
 {
-	for (U32 iter = CAT_OBJECTS; iter < CAT_LAST; iter++)
+	for (U32 iter = 0; iter < sCategoryNames.size() ; iter++)
 	{
 		gSavedSettings.setBOOL(sCategoryNames[iter]+"NextOwnerCopy",		mNextOwnerCopy[iter]);
 		gSavedSettings.setBOOL(sCategoryNames[iter]+"NextOwnerModify",		mNextOwnerModify[iter]);
@@ -263,9 +227,9 @@ void LLFloaterPermsDefault::cancel()
 	}
 }
 
-void LLFloaterPermsDefault::refresh()
+void LLFloaterPermsDefault::reload()
 {
-	for (U32 iter = CAT_OBJECTS; iter < CAT_LAST; iter++)
+	for (U32 iter = 0; iter < sCategoryNames.size(); iter++)
 	{
 		mShareWithGroup[iter]    = gSavedSettings.getBOOL(sCategoryNames[iter]+"ShareWithGroup");
 		mEveryoneCopy[iter]      = gSavedSettings.getBOOL(sCategoryNames[iter]+"EveryoneCopy");

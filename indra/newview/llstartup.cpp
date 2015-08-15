@@ -73,6 +73,7 @@
 #include "llmoveview.h"
 #include "llfloaterimcontainer.h"
 #include "llfloaterimnearbychat.h"
+#include "llfloaterperms.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"
 #include "llpersistentnotificationstorage.h"
@@ -1323,10 +1324,12 @@ bool idle_startup()
 		LLViewerRegion *regionp = LLWorld::getInstance()->getRegionFromHandle(gFirstSimHandle);
 		LL_INFOS("AppInit") << "Adding initial simulator " << regionp->getOriginGlobal() << LL_ENDL;
 		
+		LLFloaterPermsDefault::setCapsReceivedCallback(regionp);
+		
 		LL_DEBUGS("CrossingCaps") << "Calling setSeedCapability from init_idle(). Seed cap == "
 		<< gFirstSimSeedCap << LL_ENDL;
 		regionp->setSeedCapability(gFirstSimSeedCap);
-		LL_DEBUGS("AppInit") << "Waiting for seed grant ...." << LL_ENDL;
+		LL_DEBUGS("AppInit") << "Waiting for seed grant..." << LL_ENDL;
 		display_startup();
 		// Set agent's initial region to be the one we just created.
 		gAgent.setRegion(regionp);

@@ -431,7 +431,7 @@ public:
 	// Public so external views or floaters can watch for this floater opening
 	commit_signal_t mOpenSignal;
 
-	// Called when floater is closed, passes app_qitting as LLSD()
+	// Called when floater is closed, passes app_qutting as LLSD()
 	// Public so external views or floaters can watch for this floater closing
 	commit_signal_t mCloseSignal;		
 

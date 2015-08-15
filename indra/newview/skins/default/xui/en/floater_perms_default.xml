@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <floater
  legacy_header_height="18"
+ single_instance="true"
  height="250"
  layout="topleft"
  name="perms default"

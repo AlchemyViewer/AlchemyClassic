@@ -54,6 +54,7 @@
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
 #include "llviewercontrol.h"
+#include "llviewernetwork.h"
 #include "llviewerwindow.h"
 #include "llgroupactions.h"
 
@@ -142,6 +143,8 @@ BOOL LLFloaterProperties::postBuild()
 	getChild<LLUICtrl>("CheckNextOwnerModify")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckNextOwnerCopy")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckNextOwnerTransfer")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
+	getChild<LLUICtrl>("CheckOwnerExport")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
+	getChild<LLUICtrl>("CheckOwnerExport")->setVisible(LLGridManager::getInstance()->isInOpenSim());
 	// Mark for sale or not, and sale info
 	getChild<LLUICtrl>("CheckPurchase")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitSaleInfo, this));
 	getChild<LLUICtrl>("ComboBoxSaleType")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitSaleType, this));
@@ -188,6 +191,7 @@ void LLFloaterProperties::refresh()
 			"CheckNextOwnerModify",
 			"CheckNextOwnerCopy",
 			"CheckNextOwnerTransfer",
+			"CheckOwnerExport",
 			"CheckPurchase",
 			"ComboBoxSaleType",
 			"Edit Cost"
@@ -359,6 +363,8 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 	getChild<LLUICtrl>("CheckOwnerCopy")->setValue(LLSD((BOOL)(owner_mask & PERM_COPY)));
 	getChildView("CheckOwnerTransfer")->setEnabled(FALSE);
 	getChild<LLUICtrl>("CheckOwnerTransfer")->setValue(LLSD((BOOL)(owner_mask & PERM_TRANSFER)));
+	getChildView("CheckOwnerExport")->setEnabled(FALSE);
+	getChild<LLUICtrl>("CheckOwnerExport")->setValue(LLSD((BOOL)(owner_mask & PERM_EXPORT)));
 
 	///////////////////////
 	// DEBUG PERMISSIONS //
@@ -437,6 +443,7 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 		getChildView("CheckShareWithGroup")->setEnabled(FALSE);
 		getChildView("CheckEveryoneCopy")->setEnabled(FALSE);
 	}
+	getChildView("CheckOwnerExport")->setEnabled(gAgentID == item->getCreatorUUID());
 
 	// Set values.
 	BOOL is_group_copy = (group_mask & PERM_COPY) ? TRUE : FALSE;
@@ -675,6 +682,10 @@ void LLFloaterProperties::onCommitPermissions()
 		perm.setNextOwnerBits(gAgent.getID(), gAgent.getGroupID(),
 							CheckNextOwnerTransfer->get(), PERM_TRANSFER);
 	}
+	
+	LLCheckBoxCtrl* CheckOwnerExport = getChild<LLCheckBoxCtrl>("CheckOwnerExport");
+	perm.setNextOwnerBits(gAgent.getID(), gAgent.getGroupID(), CheckOwnerExport->get(), PERM_EXPORT);
+
 	if(perm != item->getPermissions()
 		&& item->isFinished())
 	{

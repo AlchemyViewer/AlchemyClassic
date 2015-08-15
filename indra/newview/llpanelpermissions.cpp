@@ -58,6 +58,7 @@
 #include "llavataractions.h"
 #include "llnamebox.h"
 #include "llviewercontrol.h"
+#include "llviewernetwork.h"
 #include "lluictrlfactory.h"
 #include "llspinctrl.h"
 #include "roles_constants.h"
@@ -161,6 +162,8 @@ BOOL LLPanelPermissions::postBuild()
 
 	childSetCommitCallback("checkbox allow everyone copy",LLPanelPermissions::onCommitEveryoneCopy,this);
 	
+	childSetCommitCallback("checkbox allow export", LLPanelPermissions::onCommitExport, this);
+	
 	childSetCommitCallback("checkbox for sale",LLPanelPermissions::onCommitSaleInfo,this);
 
 	childSetCommitCallback("sale type",LLPanelPermissions::onCommitSaleType,this);
@@ -232,6 +235,10 @@ void LLPanelPermissions::disableAll()
 	getChild<LLUICtrl>("checkbox allow everyone copy")->setValue(FALSE);
 	getChildView("checkbox allow everyone copy")->setEnabled(FALSE);
 
+	getChild<LLUICtrl>("checkbox allow export")->setVisible(LLGridManager::getInstance()->isInOpenSim());
+	getChild<LLUICtrl>("checkbox allow export")->setValue(FALSE);
+	getChildView("checkbox allow export")->setEnabled(FALSE);
+	
 	//Next owner can:
 	getChildView("Next owner can:")->setEnabled(FALSE);
 	getChild<LLUICtrl>("checkbox next owner can modify")->setValue(FALSE);
@@ -631,6 +638,7 @@ void LLPanelPermissions::refresh()
 		if (objectp->permModify()) 		flag_mask |= PERM_MODIFY;
 		if (objectp->permCopy()) 		flag_mask |= PERM_COPY;
 		if (objectp->permTransfer()) 	flag_mask |= PERM_TRANSFER;
+		//if (objectp->permExport())		flag_mask |= PERM_EXPORT;
 
 		getChild<LLUICtrl>("F:")->setValue("F:" + mask_to_string(flag_mask));
 		getChildView("F:")->setVisible(								TRUE);
@@ -677,6 +685,8 @@ void LLPanelPermissions::refresh()
 		getChildView("checkbox allow everyone move")->setEnabled(FALSE);
 		getChildView("checkbox allow everyone copy")->setEnabled(FALSE);
 	}
+	
+	getChildView("checkbox allow export")->setEnabled(gAgentID == mCreatorID);
 
 	if (has_change_sale_ability && (owner_mask_on & PERM_TRANSFER))
 	{
@@ -758,6 +768,23 @@ void LLPanelPermissions::refresh()
 		{
 			getChild<LLUICtrl>("checkbox allow everyone copy")->setValue(TRUE);
 			getChild<LLUICtrl>("checkbox allow everyone copy")->setTentative(	TRUE);
+		}
+		
+		// Export
+		if (everyone_mask_on & PERM_EXPORT)
+		{
+			getChild<LLUICtrl>("checkbox allow export")->setValue(TRUE);
+			getChild<LLUICtrl>("checkbox allow export")->setTentative( 	FALSE);
+		}
+		else if (everyone_mask_off & PERM_COPY)
+		{
+			getChild<LLUICtrl>("checkbox allow export")->setValue(FALSE);
+			getChild<LLUICtrl>("checkbox allow export")->setTentative(	FALSE);
+		}
+		else
+		{
+			getChild<LLUICtrl>("checkbox allow export")->setValue(TRUE);
+			getChild<LLUICtrl>("checkbox allow export")->setTentative(	TRUE);
 		}
 	}
 
@@ -1040,6 +1067,12 @@ void LLPanelPermissions::onCommitNextOwnerTransfer(LLUICtrl* ctrl, void* data)
 {
 	//LL_INFOS() << "LLPanelPermissions::onCommitNextOwnerTransfer" << LL_ENDL;
 	onCommitPerm(ctrl, data, PERM_NEXT_OWNER, PERM_TRANSFER);
+}
+
+// static
+void LLPanelPermissions::onCommitExport(LLUICtrl* ctrl, void* data)
+{
+	onCommitPerm(ctrl, data, PERM_EVERYONE, PERM_EXPORT);
 }
 
 // static

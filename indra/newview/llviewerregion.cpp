@@ -3276,6 +3276,16 @@ U32 LLViewerRegion::getMaxMaterialsPerTransaction() const
 }
 
 // <alchemy>
+bool LLViewerRegion::getRegionAllowsExport() const
+{
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("ExportSupported"))
+	{
+		return mSimulatorFeatures["OpenSimExtras"]["ExportSupported"].asBoolean();
+	}
+	return false;
+}
+
 std::string LLViewerRegion::getAvatarPickerURL() const
 {
 	std::string url = LLStringUtil::null;

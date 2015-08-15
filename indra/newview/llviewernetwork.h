@@ -108,6 +108,12 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Get the user-friendly long form descriptor for the selected grid
 	std::string getGridLabel() const { return getGridLabel(mGrid); }
 	
+	/// Get the grid administrator for a given grid
+	std::string getGridAdministrator(const std::string& grid) const;
+	
+	/// Get the grid administrator for the selected grid
+	std::string getGridAdministrator() const {return getGridAdministrator(mGrid); }
+	
 	/// Returns gridInfo for a given grid as an LLSD map
 	LLSD getGridInfo(const std::string& grid) const;
 
@@ -278,6 +284,7 @@ private:
 					   const std::string& password_url,
 					   const std::string& register_url,
 					   const std::string& update_url_base,
+					   const std::string& administrator,
 					   const std::string& platform,
 					   const std::string& login_id = "");
 	

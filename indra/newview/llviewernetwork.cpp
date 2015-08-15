@@ -66,6 +66,8 @@ const std::string GRID_PLATFORM = "platform";
 const std::string GRID_GATEKEEPER = "gatekeeper";
 /// a grid's uas service address
 const std::string GRID_UAS = "uas";
+/// a grid's operating agent (optional)
+const std::string GRID_ADMIN = "administrator";
 /// internal data on whether a grid was added manually or temporarily
 const std::string GRID_TEMPORARY = "temporary";
 
@@ -190,6 +192,7 @@ void LLGridManager::initialize(const std::string& grid_file)
 				  "http://secondlife.com/account/request.php",
 				  "http://join.secondlife.com/?sourceid=AlchemyViewer",
 				  SL_UPDATE_QUERY_URL,
+				  "Linden Lab",
 				  "secondlife",
 				  "Agni");
 	addSystemGrid("Second Life Beta",
@@ -200,6 +203,7 @@ void LLGridManager::initialize(const std::string& grid_file)
 				  "http://secondlife.com/account/request.php",
 				  "http://join.secondlife.com/?sourceid=AlchemyViewer",
 				  SL_UPDATE_QUERY_URL,
+				  "Linden Lab",
 				  "secondlife",
 				  "Aditi");
 
@@ -423,6 +427,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 								  const std::string& password_url,
 								  const std::string& register_url,
 								  const std::string& update_url_base,
+								  const std::string& administrator,
 								  const std::string& platform,
 								  const std::string& login_id)
 {
@@ -458,6 +463,10 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	else
 	{
 		grid[GRID_SLURL_BASE] = llformat(SYSTEM_GRID_SLURL_BASE, grid[GRID_ID_VALUE].asString().c_str());
+	}
+	if (!administrator.empty())
+	{
+		grid[GRID_ADMIN] = administrator;
 	}
 
 	addGrid(grid);
@@ -527,6 +536,11 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 			}
 			grid[GRID_LABEL_VALUE] = node->getTextContents();
 			LL_DEBUGS("GridManager") << "[\"gridname\"]: " << grid[GRID_LABEL_VALUE] << LL_ENDL;
+		}
+		else if (node->hasName("administrator"))
+		{
+			grid[GRID_ADMIN] = node->getTextContents();
+			LL_DEBUGS("GridManager") << "[\"administrator\" " << grid[GRID_ADMIN] << LL_ENDL;
 		}
 		else if (node->hasName("gatekeeper"))
 		{
@@ -637,6 +651,7 @@ void LLGridManager::setGridChoice(const std::string& grid)
 		mGrid = grid_name;
 		gSavedSettings.setString("CurrentGrid", grid_name);
 		LLTrans::setDefaultArg("CURRENT_GRID", getGridLabel());
+		LLTrans::setDefaultArg("GRID_ADMIN", getGridAdministrator());
 		
 		updateIsInProductionGrid();
 	}
@@ -736,6 +751,24 @@ std::string LLGridManager::getGridId(const std::string& grid) const
 	}
 	LL_DEBUGS("GridManager")<<"returning "<<grid_id<<LL_ENDL;
 	return grid_id;
+}
+
+std::string LLGridManager::getGridAdministrator(const std::string& grid) const
+{
+	std::string admininstrator = "Linden Lab"; // gotta default to something
+	std::string grid_name = getGrid(grid);
+	if(!grid_name.empty() && mGridList.has(grid))
+	{
+		if (mGridList[grid].has(GRID_ADMIN))
+		{
+			admininstrator = mGridList[grid][GRID_ADMIN].asString();
+		}
+		else if (mGridList[grid].has(GRID_LABEL_VALUE))
+		{
+			admininstrator = mGridList[grid][GRID_LABEL_VALUE].asString();
+		}
+	}
+	return admininstrator;
 }
 
 void LLGridManager::getLoginURIs(const std::string& grid, std::vector<std::string>& uris) const

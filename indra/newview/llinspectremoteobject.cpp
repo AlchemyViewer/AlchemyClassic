@@ -35,6 +35,7 @@
 #include "llui.h"
 #include "lluictrl.h"
 #include "llurlaction.h"
+#include "llviewernetwork.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // LLInspectRemoteObject
@@ -173,7 +174,7 @@ void LLInspectRemoteObject::update()
 	std::string url;
 	if (! mSLurl.empty())
 	{
-		url = "secondlife:///app/teleport/" + mSLurl;
+		url = llformat("%s/teleport/%s", LLGridManager::getInstance()->getAppSLURLBase().c_str(), mSLurl.c_str());
 	}
 	getChild<LLUICtrl>("object_slurl")->setValue(url);
 

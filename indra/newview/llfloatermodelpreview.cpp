@@ -5576,8 +5576,9 @@ BOOL LLModelPreview::render()
 
 							//build matrix palette
 							
-							LLMatrix4 mat[64];
-							for (U32 j = 0; j < model->mSkinInfo.mJointNames.size(); ++j)
+							LLMatrix4 mat[JOINT_COUNT];
+							U32 count = llmin((U32) model->mSkinInfo.mJointNames.size(), (U32) JOINT_COUNT);
+							for (U32 j = 0; j < count; ++j)
 							{
 								LLJoint* joint = getPreviewAvatar()->getJoint(model->mSkinInfo.mJointNames[j]);
 								if (joint)

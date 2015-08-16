@@ -4184,75 +4184,74 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 			continue;
 		}
 
-			LLMatrix4a bind_shape_matrix;
-			bind_shape_matrix.loadu(skin->mBindShapeMatrix);
+		LLMatrix4a bind_shape_matrix;
+		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
 
-			LLVector4a* pos = dst_face.mPositions;
+		LLVector4a* pos = dst_face.mPositions;
 
-			if( pos && dst_face.mExtents )
+		if( pos && dst_face.mExtents )
+		{
+			LL_RECORD_BLOCK_TIME(FTM_SKIN_RIGGED);
+
+			for (U32 j = 0; j < dst_face.mNumVertices; ++j)
 			{
-				LL_RECORD_BLOCK_TIME(FTM_SKIN_RIGGED);
+				LLMatrix4a final_mat;
+				final_mat.clear();
 
-				for (U32 j = 0; j < dst_face.mNumVertices; ++j)
+				S32 idx[4];
+
+				LLVector4 wght;
+
+				F32 scale = 0.f;
+				for (U32 k = 0; k < 4; k++)
 				{
-					LLMatrix4a final_mat;
-					final_mat.clear();
+					F32 w = weight[j][k];
 
-					S32 idx[4];
-
-					LLVector4 wght;
-
-					F32 scale = 0.f;
-					for (U32 k = 0; k < 4; k++)
-					{
-						F32 w = weight[j][k];
-
-						idx[k] = (S32) floorf(w);
-						wght[k] = w - floorf(w);
-						scale += wght[k];
-					}
-
-					if (scale > 0.f)
-						wght *= 1.f/scale;
-					else 
-						wght = LLVector4(F32_MAX, F32_MAX, F32_MAX, F32_MAX);
-
-					for (U32 k = 0; k < 4; k++)
-					{
-						F32 w = wght[k];
-
-						LLMatrix4a src;
-						// clamp k to kMaxJoints to avoid reading garbage off stack in release
-						src.setMul(mp[idx[k]], w);
-						final_mat.add(src);
-					}
-
-				
-					LLVector4a& v = vol_face.mPositions[j];
-					LLVector4a t;
-					LLVector4a dst;
-					bind_shape_matrix.affineTransform(v, t);
-					final_mat.affineTransform(t, dst);
-					pos[j] = dst;
+					const F32 w_floor = floorf(w);
+					idx[k] = (S32) w_floor;
+					wght[k] = w - w_floor;
+					scale += wght[k];
 				}
 
-				//update bounding box
-				LLVector4a& min = dst_face.mExtents[0];
-				LLVector4a& max = dst_face.mExtents[1];
+				if (scale > 0.f)
+					wght *= 1.f/scale;
+				else
+					wght = LLVector4(F32_MAX, F32_MAX, F32_MAX, F32_MAX);
 
-				min = pos[0];
-				max = pos[1];
-
-				for (U32 j = 1; j < dst_face.mNumVertices; ++j)
+				for (U32 k = 0; k < 4; k++)
 				{
-					min.setMin(min, pos[j]);
-					max.setMax(max, pos[j]);
+					F32 w = wght[k];
+
+					LLMatrix4a src;
+					// clamp k to kMaxJoints to avoid reading garbage off stack in release
+					src.setMul(mp[(idx[k] < count) ? idx[k] : 0], w);
+					final_mat.add(src);
 				}
 
-				dst_face.mCenter->setAdd(dst_face.mExtents[0], dst_face.mExtents[1]);
-				dst_face.mCenter->mul(0.5f);
 
+				LLVector4a& v = vol_face.mPositions[j];
+				LLVector4a t;
+				LLVector4a dst;
+				bind_shape_matrix.affineTransform(v, t);
+				final_mat.affineTransform(t, dst);
+				pos[j] = dst;
 			}
+
+			//update bounding box
+			LLVector4a& min = dst_face.mExtents[0];
+			LLVector4a& max = dst_face.mExtents[1];
+
+			min = pos[0];
+			max = pos[1];
+
+			for (U32 j = 1; j < dst_face.mNumVertices; ++j)
+			{
+				min.setMin(min, pos[j]);
+				max.setMax(max, pos[j]);
+			}
+
+			dst_face.mCenter->setAdd(dst_face.mExtents[0], dst_face.mExtents[1]);
+			dst_face.mCenter->mul(0.5f);
 
 			{
 				LL_RECORD_BLOCK_TIME(FTM_RIGGED_OCTREE);
@@ -4262,8 +4261,9 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				LLVector4a size;
 				size.setSub(dst_face.mExtents[1], dst_face.mExtents[0]);
 				size.splat(size.getLength3().getF32()*0.5f);
-			
+
 				dst_face.createOctree(1.f);
+			}
 		}
 	}
 }

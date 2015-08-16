@@ -116,4 +116,15 @@
     <button.commit_callback
      function="Pref.DebugGrid" />
   </button>
+  <check_box
+   control_name="ForceShowGrid"
+   height="20"
+   follows="left|top"
+   label="Show grid selection on login screen"
+   layout="topleft"
+   left="30"
+   name="ForceShowGrid"
+   tool_tip="Show grid selection on login screen to login to other worlds"
+   width="280"
+   top="310" />
 </panel>

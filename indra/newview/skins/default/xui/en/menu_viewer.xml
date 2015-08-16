@@ -216,9 +216,6 @@
         <menu_item_call.on_click
          function="Floater.ToggleOrBringToFront"
          parameter="outbox" />
-        <menu_item_call.on_visible
-         function="EnableGrid"
-         parameter="secondlife" />
       </menu_item_call>
         <menu_item_call
             label="Marketplace listings..."
@@ -226,9 +223,6 @@
             <menu_item_call.on_click
              function="Floater.ToggleOrBringToFront"
              parameter="marketplace_listings" />
-            <menu_item_call.on_visible
-             function="EnableGrid"
-             parameter="secondlife" />
         </menu_item_call>
       <menu_item_call
            label="Account dashboard..."
@@ -375,9 +369,6 @@
                  function="Communicate.VoiceMorphing.NoVoiceMorphing.Check" />
                 <menu_item_check.on_click
                  function="Communicate.VoiceMorphing.NoVoiceMorphing.Click" />
-                <menu_item_call.on_visible
-                 function="EnableGrid"
-                 parameter="secondlife" />
             </menu_item_check>
             <menu_item_separator/>
             <menu_item_check

@@ -2144,7 +2144,7 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 			&& mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
 		{
 			const std::string& grid_url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
-			if (LLGridManager::getInstance()->getGrid(grid_url).empty())
+			if (LLGridManager::getInstance()->getGrid(LLURI(grid_url).authority()).empty())
 				LLGridManager::getInstance()->addRemoteGrid(grid_url, false);
 		}
 	}

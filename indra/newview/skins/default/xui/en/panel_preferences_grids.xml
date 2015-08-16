@@ -120,10 +120,10 @@
    control_name="ForceShowGrid"
    height="20"
    follows="left|top"
-   label="Show grid selection on login screen"
+   label="Show Grid Selection at Login"
    layout="topleft"
    left="30"
-   name="ForceShowGrid"
+   name="show_grid_selection_check"
    tool_tip="Show grid selection on login screen to login to other worlds"
    width="280"
    top="310" />

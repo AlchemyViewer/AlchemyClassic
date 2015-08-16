@@ -163,6 +163,12 @@ public:
 	BOOL getDontDiscard() const { return mDontDiscard; }
 	//-----------------	
 
+	void setNeedsAlphaAndPickMask(BOOL need_mask) 
+	{ 
+		if (mGLTexturep.notNull())
+			mGLTexturep->setNeedsAlphaAndPickMask(need_mask);
+	}
+
 private:
 	void cleanup();
 	void init();

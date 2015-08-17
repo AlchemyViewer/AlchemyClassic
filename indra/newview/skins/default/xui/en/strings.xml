@@ -4232,6 +4232,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Free">free</string>
   <string name="NotifyIncomingMessage">Incoming message from [NAME]...</string>
   <string name="NearbyChatTitleChannel">Nearby chat (on channel [CHANNEL])</string>
+  <string name="NothingHappens">Nothing happens</string>
   <string name="NowPlaying">Now Playing</string>
   <string name="SimulatorFeaturesTitle">SIMULATOR FEATURES</string>
   <string name="GridInfoTitle">GRID INFO</string>

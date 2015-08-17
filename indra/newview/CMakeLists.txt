@@ -2473,6 +2473,7 @@ if (LL_TESTS)
     )
 
   set(test_libs
+    ${LLUI_LIBRARIES}
     ${LLXML_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}

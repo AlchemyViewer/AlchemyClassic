@@ -604,8 +604,6 @@ void LLPanelFace::refresh()
 		// Color swatch
 		getChildView("color label")->setEnabled(editable);
 		
-		LLColorSwatchCtrl* mColorSwatch = getChild<LLColorSwatchCtrl>("colorswatch");
-		
 		LLColor4 color = LLColor4::white;
 		bool identical_color = false;
 		
@@ -1164,8 +1162,7 @@ void LLPanelFace::refresh()
 			}
 			
 			// Bumpy (normal)
-			mTextureCtrl = getChild<LLTextureCtrl>("bumpytexture control");
-			mTextureCtrl->setImageAssetID(material->getNormalID());
+			mBumpyTextureCtrl->setImageAssetID(material->getNormalID());
 			
 			if (!material->getNormalID().isNull())
 			{

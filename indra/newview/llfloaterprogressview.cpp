@@ -1,4 +1,4 @@
-/*
+/**
  * @file llfloaterprogressview.cpp
  * @brief Progress floater
  *
@@ -34,6 +34,7 @@
 #include "llfloaterreg.h"
 #include "llprogressbar.h"
 #include "lltextbase.h"
+#include "lltrans.h"
 
 #include "llagent.h"
 
@@ -60,17 +61,16 @@ BOOL LLFloaterProgressView::postBuild()
 	return TRUE;
 }
 
-void LLFloaterProgressView::setRegion(const std::string& region, bool haz_region)
+void LLFloaterProgressView::setRegion(const std::string& region)
 {
-	// yeah, this bool is pretty fucking stupid. so what? wanna fight about it?
-	if (haz_region)
+	if (region.empty())
+		mLocationText->setText(getString("teleporting"));
+	else
 	{
 		LLStringUtil::format_map_t arg;
 		arg["REGION"] = region;
 		mLocationText->setText(getString("loc_fmt", arg));
 	}
-	else
-		mLocationText->setText(region);
 }
 
 void LLFloaterProgressView::setProgressText(const std::string& text)

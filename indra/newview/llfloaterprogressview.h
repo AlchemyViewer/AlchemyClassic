@@ -1,4 +1,4 @@
-/*
+/**
  * @file llfloaterprogressview.h
  * @brief Progress floater
  *
@@ -41,11 +41,11 @@ class LLFloaterProgressView : public LLFloater
 {
 public:
 	LLFloaterProgressView(const LLSD& key);
-	/*virtual*/ BOOL postBuild();
+	BOOL postBuild() override;
 	void setProgressCancelButtonVisible(BOOL visible, const std::string& label = LLStringUtil::null);
 	void setProgressText(const std::string& text);
 	void setProgressPercent(const F32 percent);
-	void setRegion(const std::string& region, bool haz_region);
+	void setRegion(const std::string& region = LLStringUtil::null);
 	
 private:
 	~LLFloaterProgressView();

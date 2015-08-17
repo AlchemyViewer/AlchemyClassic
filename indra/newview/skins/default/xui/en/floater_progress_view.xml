@@ -15,6 +15,10 @@
    name="loc_fmt">
 Teleporting to [REGION]...
   </floater.string>
+  <floater.string
+   name="teleporting">
+Teleporting...
+  </floater.string>
   <text
    height="26"
    use_ellipses="true"

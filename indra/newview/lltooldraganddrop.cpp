@@ -1013,7 +1013,7 @@ BOOL LLToolDragAndDrop::handleDropTextureProtections(LLViewerObject* hit_obj,
 
 	// In case the inventory has not been updated (e.g. due to some recent operation
 	// causing a dirty inventory), stall the user while fetching the inventory.
-	if (hit_obj->isInventoryDirty())
+	if (hit_obj->isInventoryDirty() && hit_obj->getInventoryRoot() == NULL)
 	{
 		hit_obj->fetchInventoryFromServer();
 		LLSD args;

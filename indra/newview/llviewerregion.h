@@ -230,7 +230,7 @@ public:
 
 	void setCacheID(const LLUUID& id);
 
-	F32	getWidth() const						{ return mWidth; }
+	F32	getWidth()						const { return mWidth; }
 
 	void idleUpdate(F32 max_update_time);
 	void lightIdleUpdate();

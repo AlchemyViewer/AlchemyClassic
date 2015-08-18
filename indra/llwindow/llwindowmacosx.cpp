@@ -478,7 +478,7 @@ void resetPreedit()
 
 // For reasons of convenience, handle IME updates here.
 // This largely mirrors the old implementation, only sans the carbon parameters.
-void setMarkedText(unsigned short *unitext, int *replacementRange, long text_len, attributedStringInfo segments)
+void setMarkedText(unsigned short *unitext, unsigned int *replacementRange, long text_len, attributedStringInfo segments)
 {
 	if (gWindowImplementation->getPreeditor())
 	{

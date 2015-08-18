@@ -542,9 +542,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
     {
         if (mMarkedTextAllowed)
         {
-            int replacement[2] = {
-                static_cast<int>(replacementRange.location),
-                static_cast<int>(replacementRange.length)
+            unsigned int replacement[2] = {
+                static_cast<unsigned int>(replacementRange.location),
+                static_cast<unsigned int>(replacementRange.length)
             };
             
             unichar text[[aString length]];

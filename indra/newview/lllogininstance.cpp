@@ -590,11 +590,12 @@ void LLLoginInstance::constructAuthParams(LLPointer<LLCredential> user_credentia
 	// Hey guys, let's stuff all the opensim options right here, ok?
 	if (LLGridManager::getInstance()->isInOpenSim())
 	{
+		requested_options.append("avatar_picker_url");
+		requested_options.append("classified_fee");
 		requested_options.append("currency");
+		requested_options.append("destination_guide_url");
 		requested_options.append("max_groups");
 		requested_options.append("search");
-		requested_options.append("destination_guide_url");
-		requested_options.append("avatar_picker_url");
 	}
 
 	// (re)initialize the request params with creds.

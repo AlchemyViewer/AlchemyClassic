@@ -46,6 +46,7 @@
 #include "lliconctrl.h"
 #include "lllineeditor.h"
 #include "llcombobox.h"
+#include "lllogininstance.h"
 #include "lltexturectrl.h"
 #include "lltexteditor.h"
 #include "llviewerparcelmgr.h"
@@ -837,7 +838,15 @@ void LLPanelClassifiedEdit::resetControls()
 	getChild<LLComboBox>("category")->setCurrentByIndex(0);
 	getChild<LLComboBox>("content_type")->setCurrentByIndex(0);
 	getChild<LLUICtrl>("auto_renew")->setValue(false);
-	getChild<LLUICtrl>("price_for_listing")->setValue(MINIMUM_PRICE_FOR_LISTING);
+	if (LLLoginInstance::getInstance()->hasResponse("classified_fee"))
+	{
+		getChild<LLUICtrl>("price_for_listing")->setValue(LLLoginInstance::getInstance()->
+														  getResponse("classified_fee").asInteger());
+	}
+	else
+	{
+		getChild<LLUICtrl>("price_for_listing")->setValue(MINIMUM_PRICE_FOR_LISTING);
+	}
 	getChildView("price_for_listing")->setEnabled(TRUE);
 }
 

@@ -3438,7 +3438,6 @@ const LLViewerRegion::tex_matrix_t& LLViewerRegion::getWorldMapTiles() const
 			for (U32 y = 0; y != totalY; ++y)
 			{
 				const std::string map_url = getMapServerURL().append(llformat("map-1-%d-%d-objects.jpg", gridX + x, gridY + y));
-				LL_WARNS() << "WOO! " << map_url << LL_ENDL;
 				LLPointer<LLViewerTexture> tex(LLViewerTextureManager::getFetchedTextureFromUrl(map_url, FTT_MAP_TILE, TRUE,
 											   LLViewerTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE));
 				mWorldMapTiles.push_back(tex);

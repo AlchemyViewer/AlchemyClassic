@@ -415,8 +415,6 @@ public:
 	typedef std::vector<LLPointer<LLViewerTexture> > tex_matrix_t;
 	const tex_matrix_t& getWorldMapTiles() const;
 
-	LLViewerTexture* getMapImage(); // <alchemy/>
-
 private:
 	void addToVOCacheTree(LLVOCacheEntry* entry);
 	LLViewerObject* addNewObject(LLVOCacheEntry* entry);

@@ -3446,17 +3446,5 @@ const LLViewerRegion::tex_matrix_t& LLViewerRegion::getWorldMapTiles() const
 	}
 	return mWorldMapTiles;
 }
-
-LLViewerTexture* LLViewerRegion::getMapImage()
-{
-	if (mMapImage.isNull())
-	{
-		U32 gridX, gridY;
-		grid_from_region_handle(mHandle, &gridX, &gridY);
-		const std::string imageurl = getMapServerURL().append(llformat("map-1-%d-%d-objects.jpg", gridX, gridY));
-		mMapImage = LLViewerTextureManager::getFetchedTextureFromUrl(imageurl, FTT_MAP_TILE, TRUE, LLGLTexture::BOOST_MAP, LLViewerTexture::LOD_TEXTURE);
-	}
-	return mMapImage;
-}
 // </alchemy>
 

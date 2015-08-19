@@ -356,7 +356,8 @@ BOOL LLToolPie::handleLeftClickPick()
 			gViewerWindow->hideCursor();
 			LLToolCamera::getInstance()->setMouseCapture(TRUE);
 			LLToolCamera::getInstance()->pickCallback(mPick);
-			gAgentCamera.setFocusOnAvatar(TRUE, TRUE);
+			BOOL focus = gSavedSettings.getBOOL("AlchemyAvatarClickFocus");
+			gAgentCamera.setFocusOnAvatar(focus, focus);
 
 			return TRUE;
 		}

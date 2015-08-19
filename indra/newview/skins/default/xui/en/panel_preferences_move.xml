@@ -231,6 +231,17 @@
    tool_tip="Don't run certain animations, such as landing to appear more nimble"
    width="280"
    top_pad="2" />
+  <check_box
+   control_name="AlchemyAvatarClickFocus"
+   height="16"
+   follows="left|top"
+   label="Avatar Click Focus"
+   layout="topleft"
+   left_delta="0"
+   name="ClickFocus"
+   tool_tip="Focus the camera on your avatar when clicked"
+   width="280"
+   top_pad="2" />
    <!-- End Column #2 -->
   <icon
    follows="left|top"

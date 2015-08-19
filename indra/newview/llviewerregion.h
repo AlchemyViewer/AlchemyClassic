@@ -578,7 +578,6 @@ private:
 	LLFrameTimer mRenderInfoRequestTimer;
 
 	mutable tex_matrix_t mWorldMapTiles;
-	LLPointer<LLViewerTexture> mMapImage; // <alchemy/>
 	std::set<std::string> mGodNames;
 };
 

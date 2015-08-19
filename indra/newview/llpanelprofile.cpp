@@ -31,6 +31,7 @@
 #include "llavataractions.h"
 #include "llfloaterreg.h"
 #include "llcommandhandler.h"
+#include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llpanelpicks.h"
 #include "lltabcontainer.h"
@@ -44,9 +45,13 @@ static const std::string PANEL_PICKS = "panel_picks";
 
 std::string getProfileURL(const std::string& agent_name)
 {
-	std::string url;
+	std::string url = LLStringUtil::null;
 
-	if (LLGridManager::getInstance()->isInSLMain())
+	if (LLLoginInstance::getInstance()->hasResponse("profile-server-url"))
+	{
+		url = LLLoginInstance::getInstance()->getResponse("profile-server-url").asString();
+	}
+	else if (LLGridManager::getInstance()->isInSLMain())
 	{
 		url = gSavedSettings.getString("WebProfileURL");
 	}
@@ -54,7 +59,6 @@ std::string getProfileURL(const std::string& agent_name)
 	{
 		url = gSavedSettings.getString("WebProfileNonProductionURL");
 	}
-	// *TODO: OPENSIM WebProfile url support
 	LLSD subs;
 	subs["AGENT_NAME"] = agent_name;
 	url = LLWeb::expandURLSubstitutions(url,subs);

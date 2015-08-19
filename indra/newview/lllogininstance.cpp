@@ -595,6 +595,7 @@ void LLLoginInstance::constructAuthParams(LLPointer<LLCredential> user_credentia
 		requested_options.append("currency");
 		requested_options.append("destination_guide_url");
 		requested_options.append("max_groups");
+		requested_options.append("profile-server-url");
 		requested_options.append("search");
 	}
 

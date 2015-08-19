@@ -3446,6 +3446,5 @@ const LLViewerRegion::tex_matrix_t& LLViewerRegion::getWorldMapTiles() const
 	}
 	return mWorldMapTiles;
 }
-
 // </alchemy>
 

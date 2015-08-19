@@ -411,7 +411,10 @@ public:
 	/// "God names" surname and full account names map
 	std::set<std::string> getGods() const { return mGodNames; };
 	//@}
-	
+
+	typedef std::vector<LLPointer<LLViewerTexture> > tex_matrix_t;
+	const tex_matrix_t& getWorldMapTiles() const;
+
 	LLViewerTexture* getMapImage(); // <alchemy/>
 
 private:
@@ -576,8 +579,9 @@ private:
 	LLFrameTimer mMaterialsCapThrottleTimer;
 	LLFrameTimer mRenderInfoRequestTimer;
 
+	mutable tex_matrix_t mWorldMapTiles;
 	LLPointer<LLViewerTexture> mMapImage; // <alchemy/>
-    std::set<std::string> mGodNames;
+	std::set<std::string> mGodNames;
 };
 
 inline BOOL LLViewerRegion::getRegionProtocol(U64 protocol) const

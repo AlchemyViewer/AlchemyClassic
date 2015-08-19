@@ -53,7 +53,6 @@
 #include "llsurface.h"
 #include "llviewercamera.h"
 #include "llviewercontrol.h"
-#include "llviewernetwork.h"
 #include "llviewertexture.h"
 #include "llviewertexturelist.h"
 #include "llviewermenu.h"
@@ -259,24 +258,34 @@ void LLNetMap::draw()
 
 			
 			// <alchemy>
-			if (use_world_map_image && LLGridManager::getInstance()->isInSecondlife())
+			if (use_world_map_image)
 			{
-				LLViewerTexture* img = regionp->getMapImage();
-				if (img && img->hasGLTexture())
+				const LLViewerRegion::tex_matrix_t& tiles(regionp->getWorldMapTiles());
+				for (S32 i(0), scaled_width(real_width / region_width), square_width(scaled_width * scaled_width);
+					 i < square_width; ++i)
 				{
-					gGL.getTexUnit(0)->bind(img);
-					gGL.begin(LLRender::QUADS);
-					gGL.texCoord2f(0.f, 1.f);
-					gGL.vertex2f(left, top);
-					gGL.texCoord2f(0.f, 0.f);
-					gGL.vertex2f(left, bottom);
-					gGL.texCoord2f(1.f, 0.f);
-					gGL.vertex2f(right, bottom);
-					gGL.texCoord2f(1.f, 1.f);
-					gGL.vertex2f(right, top);
-					gGL.end();
-
-					img->setBoostLevel(LLGLTexture::BOOST_MAP_VISIBLE);
+					const F32 y(i / scaled_width);
+					const F32 x(i - y * scaled_width);
+					const F32 local_left(left + x * mScale);
+					const F32 local_right(local_left + mScale);
+					const F32 local_bottom(bottom + y * mScale);
+					const F32 local_top(local_bottom + mScale);
+					LLViewerTexture* img = tiles[x * scaled_width + y];
+					if (img && img->hasGLTexture())
+					{
+						gGL.getTexUnit(0)->bind(img);
+						gGL.begin(LLRender::QUADS);
+							gGL.texCoord2f(0.f, 1.f);
+							gGL.vertex2f(local_left, local_top);
+							gGL.texCoord2f(0.f, 0.f);
+							gGL.vertex2f(local_left, local_bottom);
+							gGL.texCoord2f(1.f, 0.f);
+							gGL.vertex2f(local_right, local_bottom);
+							gGL.texCoord2f(1.f, 1.f);
+							gGL.vertex2f(local_right, local_top);
+						gGL.end();
+						img->setBoostLevel(LLViewerTexture::BOOST_MAP_VISIBLE);
+					}
 				}
 			}
 			else

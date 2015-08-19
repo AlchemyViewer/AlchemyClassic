@@ -231,7 +231,7 @@ void LLFloaterLand::refreshAll()
 
 void LLFloaterLand::onOpen(const LLSD& key)
 {
-	// moved from triggering show instance in llviwermenu.cpp
+	// moved from triggering show instance in llviewermenu.cpp
 	
 	if (LLViewerParcelMgr::getInstance()->selectionEmpty())
 	{
@@ -463,22 +463,15 @@ BOOL LLPanelLandGeneral::postBuild()
 	// note: on region change this will not be re checked, should not matter on Agni as
 	// 99% of the time all regions will return the same caps. In case of an erroneous setting
 	// to enabled the floater will just throw an error when trying to get it's cap
+	mBtnScriptLimits = getChild<LLButton>("Scripts...");
 	std::string url = gAgent.getRegion()->getCapability("LandResources");
 	if (!url.empty())
 	{
-		mBtnScriptLimits = getChild<LLButton>("Scripts...");
-		if(mBtnScriptLimits)
-		{
-			mBtnScriptLimits->setClickedCallback(onClickScriptLimits, this);
-		}
+		mBtnScriptLimits->setClickedCallback(onClickScriptLimits, this);
 	}
 	else
 	{
-		mBtnScriptLimits = getChild<LLButton>("Scripts...");
-		if(mBtnScriptLimits)
-		{
-			mBtnScriptLimits->setVisible(false);
-		}
+		mBtnScriptLimits->setVisible(false);
 	}
 	
 	mBtnBuyGroupLand = getChild<LLButton>("Buy For Group...");

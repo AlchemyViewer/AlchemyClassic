@@ -3349,8 +3349,8 @@ class LLRefreshTexturesObject : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
 	{
-		for (LLObjectSelection::root_iterator iter = LLSelectMgr::getInstance()->getSelection()->root_begin();
-			 iter != LLSelectMgr::getInstance()->getSelection()->root_end();
+		for (LLObjectSelection::valid_iterator iter = LLSelectMgr::getInstance()->getSelection()->valid_begin();
+			 iter != LLSelectMgr::getInstance()->getSelection()->valid_end();
 			 ++iter)
 		{
 			LLSelectNode* node = *iter;
@@ -3365,9 +3365,9 @@ class LLRefreshTexturesObject : public view_listener_t
 				if (node->getObject()->getTE(i)->getMaterialParams().notNull())
 				{
 					LLViewerTexture* norm_img = node->getObject()->getTENormalMap(i);
-					faces_per_tex.at(norm_img->getID()).push_back(i);
+					faces_per_tex[norm_img->getID()].push_back(i);
 					LLViewerTexture* spec_img = node->getObject()->getTESpecularMap(i);
-					faces_per_tex.at(spec_img->getID()).push_back(i);
+					faces_per_tex[spec_img->getID()].push_back(i);
 				}
 			}
 			

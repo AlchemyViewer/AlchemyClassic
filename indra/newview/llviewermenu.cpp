@@ -3354,6 +3354,7 @@ class LLRefreshTexturesObject : public view_listener_t
 			 ++iter)
 		{
 			LLSelectNode* node = *iter;
+			if (!node) continue;
 			std::map< LLUUID, std::vector<U8> > faces_per_tex;
 			for (U8 i = 0; i < node->getObject()->getNumTEs(); ++i)
 			{

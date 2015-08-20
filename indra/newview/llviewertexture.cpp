@@ -97,6 +97,8 @@ S64Bytes LLViewerTexture::sBoundTextureMemory;
 S64Bytes LLViewerTexture::sTotalTextureMemory;
 S64Bytes LLViewerTexture::sMaxDesiredTextureMem;
 #else
+S32Bytes LLViewerTexture::sBoundTextureMemory;
+S32Bytes LLViewerTexture::sTotalTextureMemory;
 S32Bytes LLViewerTexture::sMaxDesiredTextureMem;
 #endif
 S8  LLViewerTexture::sCameraMovingDiscardBias = 0;

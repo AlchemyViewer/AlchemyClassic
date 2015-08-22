@@ -70,7 +70,7 @@ LLNameListCtrl::LLNameListCtrl(const LLNameListCtrl::Params& p)
 
 // public
 LLScrollListItem* LLNameListCtrl::addNameItem(const LLUUID& agent_id, EAddPosition pos,
-								 BOOL enabled, const std::string& suffix, const std::string& prefix)
+								 BOOL enabled, const std::string& suffix)
 {
 	//LL_INFOS() << "LLNameListCtrl::addNameItem " << agent_id << LL_ENDL;
 
@@ -79,7 +79,7 @@ LLScrollListItem* LLNameListCtrl::addNameItem(const LLUUID& agent_id, EAddPositi
 	item.enabled = enabled;
 	item.target = INDIVIDUAL;
 
-	return addNameItemRow(item, pos, suffix, prefix);
+	return addNameItemRow(item, pos, suffix);
 }
 
 // virtual, public
@@ -291,8 +291,7 @@ LLScrollListItem* LLNameListCtrl::addElement(const LLSD& element, EAddPosition p
 LLScrollListItem* LLNameListCtrl::addNameItemRow(
 	const LLNameListCtrl::NameItem& name_item,
 	EAddPosition pos,
-	const std::string& suffix,
-	const std::string& prefix)
+	const std::string& suffix)
 {
 	LLUUID id = name_item.value().asUUID();
 	LLNameListItem* item = new LLNameListItem(name_item,name_item.target() == GROUP);
@@ -366,7 +365,7 @@ LLScrollListItem* LLNameListCtrl::addNameItemRow(
 	LLScrollListCell* cell = item->getColumn(mNameColumnIndex);
 	if (cell)
 	{
-		cell->setValue(prefix + fullname);
+		cell->setValue(fullname);
 	}
 
 	dirtyColumns();

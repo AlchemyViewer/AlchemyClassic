@@ -23,15 +23,15 @@
     </floater.string>
     <floater.string
      name="Minutes">
-        [MINUTES] min.
+        [MINUTES] minutes
     </floater.string>
     <floater.string
      name="Minute">
-        min.
+        minute
     </floater.string>
     <floater.string
      name="Seconds">
-        [SECONDS] sec.
+        [SECONDS] seconds
     </floater.string>
     <floater.string
      name="Remaining">

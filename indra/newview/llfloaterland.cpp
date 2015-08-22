@@ -2429,33 +2429,33 @@ void LLPanelLandAccess::refresh()
 				 cit != parcel->mAccessList.end(); ++cit)
 			{
 				const LLAccessEntry& entry = (*cit).second;
-				std::string prefix;
+				std::string suffix;
 				if (entry.mTime != 0)
 				{
 					LLStringUtil::format_map_t args;
 					S32 now = time(NULL);
 					S32 seconds = entry.mTime - now;
 					if (seconds < 0) seconds = 0;
-					prefix.assign(" (");
+					suffix.assign(" (");
 					if (seconds >= 120)
 					{
 						args["[MINUTES]"] = llformat("%d", (seconds/60));
 						std::string buf = parent_floater->getString ("Minutes", args);
-						prefix.append(buf);
+						suffix.append(buf);
 					}
 					else if (seconds >= 60)
 					{
-						prefix.append("1 " + parent_floater->getString("Minute"));
+						suffix.append("1 " + parent_floater->getString("Minute"));
 					}
 					else
 					{
 						args["[SECONDS]"] = llformat("%d", seconds);
 						std::string buf = parent_floater->getString ("Seconds", args);
-						prefix.append(buf);
+						suffix.append(buf);
 					}
-					prefix.append(" " + parent_floater->getString("Remaining") + ") ");
+					suffix.append(" " + parent_floater->getString("Remaining") + ")");
 				}
-				mListAccess->addNameItem(entry.mID, ADD_DEFAULT, TRUE, "", prefix);
+				mListAccess->addNameItem(entry.mID, ADD_DEFAULT, TRUE, suffix);
 			}
 			mListAccess->sortByName(TRUE);
 		}
@@ -2475,33 +2475,33 @@ void LLPanelLandAccess::refresh()
 				 cit != parcel->mBanList.end(); ++cit)
 			{
 				const LLAccessEntry& entry = (*cit).second;
-				std::string prefix;
+				std::string suffix;
 				if (entry.mTime != 0)
 				{
 					LLStringUtil::format_map_t args;
 					S32 now = time(NULL);
 					S32 seconds = entry.mTime - now;
 					if (seconds < 0) seconds = 0;
-					prefix.assign(" (");
+					suffix.assign(" (");
 					if (seconds >= 120)
 					{
 						args["[MINUTES]"] = llformat("%d", (seconds/60));
 						std::string buf = parent_floater->getString ("Minutes", args);
-						prefix.append(buf);
+						suffix.append(buf);
 					}
 					else if (seconds >= 60)
 					{
-						prefix.append("1 " + parent_floater->getString("Minute"));
+						suffix.append("1 " + parent_floater->getString("Minute"));
 					}
 					else
 					{
 						args["[SECONDS]"] = llformat("%d", seconds);
 						std::string buf = parent_floater->getString ("Seconds", args);
-						prefix.append(buf);
+						suffix.append(buf);
 					}
-					prefix.append(" " + parent_floater->getString("Remaining") + ") ");
+					suffix.append(" " + parent_floater->getString("Remaining") + ")");
 				}
-				mListBanned->addNameItem(entry.mID, ADD_DEFAULT, TRUE, "",  prefix);
+				mListBanned->addNameItem(entry.mID, ADD_DEFAULT, TRUE, suffix);
 			}
 			mListBanned->sortByName(TRUE);
 		}

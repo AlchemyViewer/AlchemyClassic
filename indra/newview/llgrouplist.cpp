@@ -177,7 +177,7 @@ void LLGroupList::refresh()
 		const LLGroupData& group_data = gAgent.mGroups.at(i);
 		if (have_filter && !findInsensitive(group_data.mName, mNameFilter))
 			continue;
-		addNewItem(id, group_data.mName, group_data.mInsigniaID, ADD_BOTTOM);
+		addNewItem(id, group_data.mName, group_data.mInsigniaID, group_data.mListInProfile, ADD_BOTTOM);
 	}
 
 	// Sort the list.
@@ -188,7 +188,7 @@ void LLGroupList::refresh()
 	if (!have_filter && count > 0)
 	{
 		std::string loc_none = LLTrans::getString("GroupsNone");
-		addNewItem(LLUUID::null, loc_none, LLUUID::null, ADD_TOP);
+		addNewItem(LLUUID::null, loc_none, LLUUID::null, false, ADD_TOP);
 	}
 
 	selectItemByUUID(highlight_id);
@@ -216,7 +216,8 @@ void LLGroupList::toggleIcons()
 // PRIVATE Section
 //////////////////////////////////////////////////////////////////////////
 
-void LLGroupList::addNewItem(const LLUUID& id, const std::string& name, const LLUUID& icon_id, EAddPosition pos)
+void LLGroupList::addNewItem(const LLUUID& id, const std::string& name, const LLUUID& icon_id,
+							 const bool visible_in_profile, EAddPosition pos)
 {
 	LLGroupListItem* item = new LLGroupListItem();
 
@@ -226,6 +227,7 @@ void LLGroupList::addNewItem(const LLUUID& id, const std::string& name, const LL
 
 	item->getChildView("info_btn")->setVisible( false);
 	item->getChildView("profile_btn")->setVisible( false);
+	item->getChildView("visible_btn")->setVisible(visible_in_profile);
 	item->setGroupIconVisible(mShowIcons);
 
 	addItem(item, id, pos);

@@ -506,8 +506,6 @@ public:
 
 	bool unlinkObjects();
 
-	void confirmUnlinkObjects(const LLSD& notification, const LLSD& response);
-
 	bool enableLinkObjects();
 
 	bool enableUnlinkObjects();

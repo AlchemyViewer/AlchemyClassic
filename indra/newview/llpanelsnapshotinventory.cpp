@@ -95,7 +95,7 @@ void LLPanelSnapshotInventory::updateControls(const LLSD& info)
 
 void LLPanelSnapshotInventory::onResolutionCommit(LLUICtrl* ctrl)
 {
-	BOOL current_window_selected = (getChild<LLComboBox>(getImageSizeComboName())->getCurrentIndex() == 3);
+	BOOL current_window_selected = (getChild<LLComboBox>(getImageSizeComboName())->getCurrentIndex() == 4);
 	getChild<LLSpinCtrl>(getWidthSpinnerName())->setVisible(!current_window_selected);
 	getChild<LLSpinCtrl>(getHeightSpinnerName())->setVisible(!current_window_selected);
 }

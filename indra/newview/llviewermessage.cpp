@@ -1852,7 +1852,7 @@ bool LLOfferInfo::inventory_task_offer_callback(const LLSD& notification, const 
 				LLNotificationsUtil::add("SystemMessageTip", args);
 			}
 			
-			if (is_do_not_disturb && (!mFromGroup && !mFromObject))
+			if (is_do_not_disturb &&	(!mFromGroup && !mFromObject))
 			{
 				send_do_not_disturb_message(msg,mFromID);
 			}
@@ -2458,6 +2458,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 					&& from_id.notNull() //not a system message
 					&& to_id.notNull()) //not global message
 		{
+
 			// now store incoming IM in chat history
 
 			buffer = message;
@@ -2801,6 +2802,13 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		break;
 	case IM_GROUP_INVITATION:
 		{
+			if (!is_muted)
+			{
+				// group is not blocked, but we still need to check agent that sent the invitation
+				// and we have no agent's id
+				// Note: server sends username "first.last".
+				is_muted |= LLMuteList::getInstance()->isMuted(name);
+			}
 			if (is_do_not_disturb || is_muted)
 			{
 				send_do_not_disturb_message(msg, from_id);
@@ -3724,7 +3732,12 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 	is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
 		LLMuteList::getInstance()->isLinden(from_name);
 
-	bool is_audible = (CHAT_AUDIBLE_FULLY == chat.mAudible);
+	if (is_muted && (chat.mSourceType == CHAT_SOURCE_OBJECT))
+	{
+		return;
+	}
+
+	BOOL is_audible = (CHAT_AUDIBLE_FULLY == chat.mAudible);
 	chatter = gObjectList.findObject(from_id);
 	if (chatter)
 	{
@@ -5584,7 +5597,6 @@ void process_money_balance_reply( LLMessageSystem* msg, void** )
 	msg->getStringFast(_PREHASH_MoneyData, _PREHASH_Description, desc);
 	LL_INFOS("Messaging") << LLCurrencyWrapper::wrapCurrency("L$, credit, committed: ") << balance << " " << credit << " "
 			<< committed << LL_ENDL;
-
     
 	if (gStatusBar)
 	{

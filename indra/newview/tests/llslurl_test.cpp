@@ -41,7 +41,7 @@ namespace
 static const char * const TEST_FILENAME("llslurl_test.xml");
 
 }
-	
+
 //----------------------------------------------------------------------------
 // Mock objects for the dependencies of the code we're testing
 

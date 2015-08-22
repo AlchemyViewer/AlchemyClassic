@@ -2311,7 +2311,6 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 					sHandleLeftMouseUp = true;
 					break;
 				}
-
 				sHandleDoubleClick = true;
 
 				//if (gDebugClicks)

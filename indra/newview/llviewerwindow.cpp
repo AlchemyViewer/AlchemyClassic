@@ -2365,12 +2365,6 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
     LLSD args;
     LLColor4 new_bg_color;
 
-	// no l10n problem because channel is always an english string
-	std::string channel = LLVersionInfo::getChannel();
-	static const boost::regex is_beta_channel("\\bBeta\\b");
-	static const boost::regex is_project_channel("\\bProject\\b");
-	static const boost::regex is_test_channel("\\bTest$");
-	
 	// god more important than project, proj more important than grid
     if ( god_mode ) 
     {
@@ -2383,11 +2377,35 @@ void LLViewerWindow::setMenuBackgroundColor(bool god_mode, bool dev_grid)
 			new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionGodBgColor" );
 		}
     }
-	else 
-	{
-		new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBgColor" );
-	}
+    else
+    {
+        switch (LLVersionInfo::getViewerMaturity())
+        {
+        case LLVersionInfo::TEST_VIEWER:
+            new_bg_color = LLUIColorTable::instance().getColor( "MenuBarTestBgColor" );
+            break;
 
+        case LLVersionInfo::PROJECT_VIEWER:
+            new_bg_color = LLUIColorTable::instance().getColor( "MenuBarProjectBgColor" );
+            break;
+            
+        case LLVersionInfo::BETA_VIEWER:
+            new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBetaBgColor" );
+            break;
+            
+        case LLVersionInfo::RELEASE_VIEWER:
+            if(LLGridManager::getInstance()->isInSLBeta())
+            {
+                new_bg_color = LLUIColorTable::instance().getColor( "MenuNonProductionBgColor" );
+            }
+            else 
+            {
+                new_bg_color = LLUIColorTable::instance().getColor( "MenuBarBgColor" );
+            }
+            break;
+        }
+    }
+    
     if(gMenuBarView)
     {
         gMenuBarView->setBackgroundColor( new_bg_color );

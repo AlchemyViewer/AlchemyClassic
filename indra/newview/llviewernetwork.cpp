@@ -48,7 +48,7 @@ const std::string  GRID_ID_VALUE = "grid_login_id";
 const std::string  GRID_LOGIN_URI_VALUE = "login_uri";
 /// url base for update queries
 const std::string  GRID_UPDATE_SERVICE_URL = "update_query_url_base";
-/// uri for data helpers like currency and landbuy
+///
 const std::string  GRID_HELPER_URI_VALUE = "helper_uri";
 /// the splash page url
 const std::string  GRID_LOGIN_PAGE_VALUE = "login_page";
@@ -89,9 +89,9 @@ const std::string SL_UPDATE_QUERY_URL = "https://update.secondlife.com/update";
 const std::string MAIN_GRID_SLURL_BASE = "http://maps.secondlife.com/secondlife/";
 const std::string SYSTEM_GRID_APP_SLURL_BASE = "secondlife:///app";
 
-const char* SYSTEM_GRID_SLURL_BASE	= "secondlife://%s/secondlife/";
-const char* DEFAULT_SLURL_BASE		= "https://%s/region/";
-const char* DEFAULT_APP_SLURL_BASE	= "x-grid-location-info://%s/app";
+const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
+const char* DEFAULT_SLURL_BASE = "https://%s/region/";
+const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
 
 //
 const std::string GRIDS_USER_FILE = "grids_user.xml";

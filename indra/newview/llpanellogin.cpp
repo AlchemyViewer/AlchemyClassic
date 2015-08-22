@@ -245,6 +245,7 @@ void LLPanelLogin::addFavoritesToStartLocation()
 		if (!file.is_open()) return;
 	}
 	LLSDSerialize::fromXML(fav_llsd, file);
+
 	for (LLSD::map_const_iterator iter = fav_llsd.beginMap();
 		iter != fav_llsd.endMap(); ++iter)
 	{
@@ -491,7 +492,7 @@ void LLPanelLogin::setFields(LLPointer<LLCredential> credential,
 		// This is a MD5 hex digest of a password.
 		// We don't actually use the password input field, 
 		// fill it with MAX_PASSWORD characters so we get a 
-		// nice row of asterixes.
+		// nice row of asterisks.
 		const std::string filler("123456789!123456");
 		sInstance->getChild<LLUICtrl>("password_edit")->setValue(filler);
 	}
@@ -787,7 +788,6 @@ void LLPanelLogin::handleMediaEvent(LLPluginClassMedia* /*self*/, EMediaEvent ev
 //---------------------------------------------------------------------------
 // Protected methods
 //---------------------------------------------------------------------------
-
 // static
 void LLPanelLogin::onClickConnect(void *)
 {

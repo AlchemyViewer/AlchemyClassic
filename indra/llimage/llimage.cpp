@@ -1414,7 +1414,7 @@ BOOL LLImageRaw::scale( S32 new_width, S32 new_height, BOOL scale_image_data )
 		S32 new_data_size = new_width * new_height * getComponents();
 		llassert_always(new_data_size > 0);
 
-		U8 *new_data = (U8*)ALLOCATE_MEM(LLImageBase::getPrivatePool(), new_data_size); 
+		U8 *new_data = (U8*)ll_aligned_malloc_16(new_data_size);
 		if(NULL == new_data) 
 		{
 			return FALSE; 

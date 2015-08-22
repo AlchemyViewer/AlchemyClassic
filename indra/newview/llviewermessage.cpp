@@ -2807,7 +2807,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 				// group is not blocked, but we still need to check agent that sent the invitation
 				// and we have no agent's id
 				// Note: server sends username "first.last".
-				is_muted |= LLMuteList::getInstance()->isMuted(name);
+				is_muted |= (bool)LLMuteList::getInstance()->isMuted(name);
 			}
 			if (is_do_not_disturb || is_muted)
 			{

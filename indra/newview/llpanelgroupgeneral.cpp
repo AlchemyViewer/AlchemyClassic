@@ -192,6 +192,7 @@ void LLPanelGroupGeneral::onCommitUserOnly()
 {
 	mChanged = TRUE;
 	notifyObservers();
+	gAgent.fireEvent(new LLOldEvents::LLEvent(&gAgent, "new group"), ""); // *HACK: for ALCH-278
 }
 
 void LLPanelGroupGeneral::onCommitEnrollment()

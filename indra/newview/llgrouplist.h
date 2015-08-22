@@ -69,7 +69,8 @@ public:
 private:
 	void setDirty(bool val = true)		{ mDirty = val; }
 	void refresh();
-	void addNewItem(const LLUUID& id, const std::string& name, const LLUUID& icon_id, EAddPosition pos = ADD_BOTTOM);
+	void addNewItem(const LLUUID& id, const std::string& name, const LLUUID& icon_id,
+					const bool visible_in_profile, EAddPosition pos = ADD_BOTTOM);
 	bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata); // called on agent group list changes
 
 	bool onContextMenuItemClick(const LLSD& userdata);

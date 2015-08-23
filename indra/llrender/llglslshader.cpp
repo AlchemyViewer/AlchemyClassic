@@ -769,8 +769,8 @@ BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 	*/
 	
 
-	S32 diffuseMap = glGetUniformLocationARB(mProgramObject, "diffuseMap");
-	S32 bumpMap = glGetUniformLocationARB(mProgramObject, "bumpMap");
+	S32 diffuseMap = glGetUniformLocation(mProgramObject, "diffuseMap");
+	S32 bumpMap = glGetUniformLocation(mProgramObject, "bumpMap");
 
 	std::set<S32> skip_index;
 
@@ -786,7 +786,7 @@ BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 		{
 			name[0] = 0;
 			
-			glGetActiveUniformARB(mProgramObject, i, 1024, &length, &size, &type, (GLcharARB *)name);
+			glGetActiveUniform(mProgramObject, i, 1024, &length, &size, &type, (GLchar *)name);
 
 			if(std::string(name) == "diffuseMap") {
 				diffuseMap = i;

@@ -771,7 +771,7 @@ void LLPanelLogin::loadLoginPage()
 									 login_page.path(),
 									 params));
 
-	gViewerWindow->setMenuBackgroundColor(false, LLGridManager::getInstance()->isInSLBeta());
+	gViewerWindow->setMenuBackgroundColor(false);
 
 	LLMediaCtrl* web_browser = sInstance->getChild<LLMediaCtrl>("login_html");
 	if (web_browser->getCurrentNavUrl() != login_uri.asString())

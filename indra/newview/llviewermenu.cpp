@@ -531,8 +531,7 @@ void init_menus()
 
 	menu_bar_holder->addChild(gMenuBarView);
   
-    gViewerWindow->setMenuBackgroundColor(false,
-        !LLGridManager::getInstance()->isInSLBeta());
+    gViewerWindow->setMenuBackgroundColor(false);
 
 	// Assume L$10 for now, the server will tell us the real cost at login
 	// *TODO:Also fix cost in llfolderview.cpp for Inventory menus
@@ -4063,8 +4062,7 @@ void set_god_level(U8 god_level)
 
         if(gViewerWindow)
         {
-            gViewerWindow->setMenuBackgroundColor(god_level > GOD_NOT,
-            !LLGridManager::getInstance()->isInSLBeta());
+            gViewerWindow->setMenuBackgroundColor(god_level > GOD_NOT);
         }
     
         LLSD args;

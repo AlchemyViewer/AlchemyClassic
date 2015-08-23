@@ -48,7 +48,7 @@ const std::string  GRID_ID_VALUE = "grid_login_id";
 const std::string  GRID_LOGIN_URI_VALUE = "login_uri";
 /// url base for update queries
 const std::string  GRID_UPDATE_SERVICE_URL = "update_query_url_base";
-///
+/// uri for data helpers like currency and landbuy
 const std::string  GRID_HELPER_URI_VALUE = "helper_uri";
 /// the splash page url
 const std::string  GRID_LOGIN_PAGE_VALUE = "login_page";

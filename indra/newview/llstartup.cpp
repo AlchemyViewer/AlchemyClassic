@@ -252,7 +252,6 @@ static std::string gAgentStartLocation = "safe";
 static bool mLoginStatePastUI = false;
 
 const S32 DEFAULT_MAX_AGENT_GROUPS = 42;
-const S32 ALLOWED_MAX_AGENT_GROUPS = 500;
 
 boost::scoped_ptr<LLEventPump> LLStartUp::sStateWatcher(new LLEventStream("StartupState"));
 boost::scoped_ptr<LLStartupListener> LLStartUp::sListener(new LLStartupListener());

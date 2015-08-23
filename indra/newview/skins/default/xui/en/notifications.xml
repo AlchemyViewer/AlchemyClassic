@@ -5706,7 +5706,7 @@ You cannot undo this action.
    type="alert">
     <unique/>
     
-Use this tool to report violations of the [http://secondlife.com/corporate/tos.php Terms of Service] and [http://secondlife.com/corporate/cs.php Community Standards].
+Use this tool to report violations of the Terms of Service and Community Standards.
 
 All reported abuses are investigated and resolved.
   </notification>
@@ -8255,7 +8255,7 @@ Select residents to share with.
     icon="alert.tga"
     type="alert">
       [LABEL] failed to upload: [MESSAGE] [IDENTIFIER]
-[DETAILS]See SecondLife.log for details
+[DETAILS]See the log file for details.
   </notification>
    
   <notification

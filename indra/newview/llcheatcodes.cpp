@@ -34,6 +34,7 @@
 #include "llchat.h"
 #include "llfloaterimnearbychat.h"
 #include "llfloaterreg.h"
+#include "llstatusbar.h"
 #include "lltrans.h"
 
 class LLXyzzyHandler : public LLCommandHandler
@@ -54,4 +55,23 @@ public:
 	}
 };
 
+class LLDyeMenuHandler : public LLCommandHandler
+{
+public:
+	LLDyeMenuHandler() : LLCommandHandler("dyemenu", UNTRUSTED_THROTTLE) {}
+	
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	{
+		if (params.size() != 1)
+			return false;
+		
+		LLColor4 color = LLUIColorTable::instance().getColor(params[0].asString(),
+															 gMenuBarView->getBackgroundColor().get());
+		gMenuBarView->setBackgroundColor(color);
+		gStatusBar->setBackgroundColor(color);
+		return true;
+	}
+};
+
 LLXyzzyHandler gXyzzyHandler;
+LLDyeMenuHandler gDyeMenuHandler;

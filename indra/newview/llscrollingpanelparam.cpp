@@ -266,7 +266,8 @@ void LLScrollingPanelParam::onHintHeldDown( LLVisualParamHint* hint )
 			if (slider->getMinValue() < new_percent
 				&& new_percent < slider->getMaxValue())
 			{
-				mWearable->setVisualParamWeight( hint->getVisualParam()->getID(), new_weight, FALSE);				mWearable->writeToAvatar(gAgentAvatarp);
+				mWearable->setVisualParamWeight( hint->getVisualParam()->getID(), new_weight, FALSE);
+				mWearable->writeToAvatar(gAgentAvatarp);
 				gAgentAvatarp->updateVisualParams();
 
 				slider->setValue( weightToPercent( new_weight ) );

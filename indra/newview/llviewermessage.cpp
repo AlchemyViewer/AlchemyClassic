@@ -2804,10 +2804,25 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		{
 			if (!is_muted)
 			{
-				// group is not blocked, but we still need to check agent that sent the invitation
-				// and we have no agent's id
-				// Note: server sends username "first.last".
-				is_muted |= (bool)LLMuteList::getInstance()->isMuted(name);
+				// The group invitation packet does not have an AgentID.  Obtain one from the name cache.
+				// If last name is "Resident" strip it out so the cache name lookup works.
+				size_t index = original_name.find(" Resident");
+				if (index != std::string::npos)
+				{
+					original_name = original_name.substr(0, index);
+				}
+				std::string legacy_name = gCacheName->buildLegacyName(original_name);
+				LLUUID agent_id;
+				gCacheName->getUUID(legacy_name, agent_id);
+
+				if (agent_id.isNull())
+				{
+					LL_WARNS("Messaging") << "buildLegacyName returned null while processing " << original_name << LL_ENDL;
+				}
+				else
+				{
+					is_muted |= (bool) LLMuteList::getInstance()->isMuted(agent_id);
+				}
 			}
 			if (is_do_not_disturb || is_muted)
 			{

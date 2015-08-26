@@ -572,8 +572,28 @@ class WindowsManifest(ViewerManifest):
                 prev = d
 
         return result
+	
+    def sign_command(self, *argv):
+        return [
+            "signtool.exe", "sign", "/v",
+            "/n", self.args['signature'],
+            "/p", os.environ['VIEWER_SIGNING_PWD'],
+            "/d","%s" % self.channel(),
+            "/t","http://timestamp.comodoca.com/authenticode"
+        ] + list(argv)
+	
+    def sign(self, *argv):
+        subprocess.check_call(self.sign_command(*argv))
 
     def package_finish(self):
+        if 'signature' in self.args and 'VIEWER_SIGNING_PWD' in os.environ:
+            try:
+                self.sign(self.args['configuration']+"\\"+self.final_exe())
+                self.sign(self.args['configuration']+"\\SLPlugin.exe")
+                self.sign(self.args['configuration']+"\\SLVoice.exe")
+            except:
+                print "Couldn't sign binaries. Tried to sign %s" % self.args['configuration'] + "\\" + self.final_exe()
+		
         # a standard map of strings for replacing in the templates
         substitution_strings = {
             'version' : '.'.join(self.args['version']),
@@ -641,19 +661,12 @@ class WindowsManifest(ViewerManifest):
                     print >> sys.stderr, "Maximum nsis attempts exceeded; giving up"
                     raise
         # self.remove(self.dst_path_of(tempfile))
-        # If we're on a build machine, sign the code using our Authenticode certificate. JC
-        sign_py = os.path.expandvars("${SIGN}")
-        if not sign_py or sign_py == "${SIGN}":
-            sign_py = 'C:\\buildscripts\\code-signing\\sign.py'
-        else:
-            sign_py = sign_py.replace('\\', '\\\\\\\\')
-        python = os.path.expandvars("${PYTHON}")
-        if not python or python == "${PYTHON}":
-            python = 'python'
-        if os.path.exists(sign_py):
-            self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
-        else:
-            print "Skipping code signing,", sign_py, "does not exist"
+        if 'signature' in self.args and 'VIEWER_SIGNING_PWD' in os.environ:
+            try:
+                self.sign(self.args['configuration'] + "\\" + substitution_strings['installer_file'])
+            except: 
+                print "Couldn't sign windows installer. Tried to sign %s" % self.args['configuration'] + "\\" + substitution_strings['installer_file']
+
         self.created_path(self.dst_path_of(installer_file))
         self.package_file = installer_file
 
@@ -1033,18 +1046,9 @@ class DarwinManifest(ViewerManifest):
                 if identity == '':
                     identity = 'Developer ID Application'
 
-                # Look for an environment variable set via build.sh when running in Team City.
-                try:
-                    build_secrets_checkout = os.environ['build_secrets_checkout']
-                except KeyError:
-                    pass
-                else:
-                    # variable found so use it to unlock keychain followed by codesign
-                    home_path = os.environ['HOME']
-                    keychain_pwd_path = os.path.join(build_secrets_checkout,'code-signing-osx','password.txt')
-                    keychain_pwd = open(keychain_pwd_path).read().rstrip()
-
-                    self.run_command('security unlock-keychain -p "%s" "%s/Library/Keychains/viewer.keychain"' % ( keychain_pwd, home_path ) )
+                home_path = os.environ['HOME']
+                if 'VIEWER_SIGNING_PWD' in os.environ:
+                    self.run_command('security unlock-keychain -p "%s" "%s/Library/Keychains/viewer.keychain"' % (os.environ['VIEWER_SIGNING_PWD'], home_path ) )
                     signed=False
                     sign_attempts=3
                     sign_retry_wait=15
@@ -1052,11 +1056,11 @@ class DarwinManifest(ViewerManifest):
                         try:
                             sign_attempts-=1;
                             self.run_command(
-                               'codesign --verbose --deep --force --keychain "%(home_path)s/Library/Keychains/viewer.keychain" --sign %(identity)r %(bundle)r' % {
-                                   'home_path' : home_path,
-                                   'identity': identity,
-                                   'bundle': app_in_dmg
-                                   })
+                                'codesign --verbose --deep --force --keychain "%(home_path)s/Library/Keychains/viewer.keychain" --sign %(identity)r %(bundle)r' % {
+                                    'home_path' : home_path,
+                                    'identity': identity,
+                                    'bundle': app_in_dmg
+                                    })
                             signed=True # if no exception was raised, the codesign worked
                         except ManifestError, err:
                             if sign_attempts:

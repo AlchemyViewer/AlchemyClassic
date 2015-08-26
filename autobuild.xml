@@ -3782,8 +3782,6 @@
                 <array>
                   <string>-configuration Release</string>
                   <string>-project Alchemy.xcodeproj</string>
-                  <string>-DENABLE_SIGNING:BOOL=YES</string>
-                  <string>-DSIGNING_IDENTITY:STRING="Developer ID Application: Linden Research, Inc."</string>
                 </array>
               </map>
               <key>configure</key>
@@ -3811,8 +3809,6 @@
                 <array>
                   <string>-configuration Release</string>
                   <string>-project Alchemy.xcodeproj</string>
-                  <string>-DENABLE_SIGNING:BOOL=YES</string>
-                  <string>-DSIGNING_IDENTITY:STRING="Developer ID Application: Linden Research, Inc."</string>
                 </array>
               </map>
               <key>configure</key>

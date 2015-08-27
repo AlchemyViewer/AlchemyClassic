@@ -90,7 +90,7 @@ const std::string MAIN_GRID_SLURL_BASE = "http://maps.secondlife.com/secondlife/
 const std::string SYSTEM_GRID_APP_SLURL_BASE = "secondlife:///app";
 
 const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
-const char* DEFAULT_SLURL_BASE = "https://%s/region/";
+const char* DEFAULT_SLURL_BASE = "http://%s/region/";
 const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
 
 //

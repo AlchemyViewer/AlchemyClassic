@@ -180,6 +180,11 @@ public:
            mNotifyCallback(*value);
         }
     }
+	
+	virtual bool adjacent_tokens_only() const
+	{
+		return false;
+	}
 
 protected:
     void xparse(boost::any& value_store,

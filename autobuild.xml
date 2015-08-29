@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d827d8dd08dc71dad671a87dc625f128</string>
+              <string>e38bee1bfca80c843191d87b0f21e267</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.58.0-darwin-201507232309.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.59.0-darwin-201508281849.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -303,7 +303,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.58.0</string>
+        <string>1.59.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>91a823e2bfb7e3e9c486cfe5a797a380</string>
+              <string>2cddc5f66d5674bf5a5e397031de54f2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201507240000.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201508290327.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0ff63855673de247fe96efab954b6fbf</string>
+              <string>7c7776a228287446dc308faa38ffa642</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.43.0-darwin-201507101054.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.44.0-darwin-201508281632.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -473,7 +473,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.43.0</string>
+        <string>7.44.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

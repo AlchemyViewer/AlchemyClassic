@@ -357,10 +357,6 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 				{
 					grid_data[GRID_LOGIN_PAGE_VALUE] = std::string("http://") + grid + "/app/login/";
 				}
-				if (!grid_data.has(GRID_HELPER_URI_VALUE))
-				{
-					grid_data[GRID_HELPER_URI_VALUE] = std::string("https://") + grid + "/helpers/";
-				}
 
 				if (!grid_data.has(GRID_LOGIN_IDENTIFIER_TYPES))
 				{
@@ -374,8 +370,7 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 				LL_DEBUGS("GridManager") <<grid<<"\n"
 										 <<"  id:          "<<grid_data[GRID_ID_VALUE].asString()<<"\n"
 										 <<"  label:       "<<grid_data[GRID_LABEL_VALUE].asString()<<"\n"
-										 <<"  login page:  "<<grid_data[GRID_LOGIN_PAGE_VALUE].asString()<<"\n"
-										 <<"  helper page: "<<grid_data[GRID_HELPER_URI_VALUE].asString()<<"\n";
+										 <<"  login page:  "<<grid_data[GRID_LOGIN_PAGE_VALUE].asString()<<"\n";
 				/* still in LL_DEBUGS */ 
 				for (LLSD::array_const_iterator login_uris = grid_data[GRID_LOGIN_URI_VALUE].beginArray();
 					 login_uris != grid_data[GRID_LOGIN_URI_VALUE].endArray();
@@ -823,7 +818,9 @@ std::string LLGridManager::getHelperURI(const std::string& grid) const
 	std::string grid_name = getGrid(grid);
 	if (!grid_name.empty())
 	{
-		helper_uri = mGridList[grid_name][GRID_HELPER_URI_VALUE].asString();
+		helper_uri = mGridList[grid_name].has(GRID_HELPER_URI_VALUE)
+				   ? mGridList[grid_name][GRID_HELPER_URI_VALUE].asString()
+				   : llformat("https://%s/helpers/", grid.c_str());
 	}
 	else
 	{

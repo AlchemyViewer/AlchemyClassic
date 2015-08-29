@@ -216,26 +216,26 @@ namespace tut
 					  "http://maps.secondlife.com/secondlife/my%20region/1/2/3");
 
 		LLGridManager::getInstance()->setGridChoice("my.grid.com");
-		slurl = LLSLURL("https://my.grid.com/region/my%20region/1/2/3");
+		slurl = LLSLURL("http://my.grid.com/region/my%20region/1/2/3");
 		ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
-					  "https://my.grid.com/region/my%20region/1/2/3");
+					  "http://my.grid.com/region/my%20region/1/2/3");
 
-		slurl = LLSLURL("https://my.grid.com/region/my region");
+		slurl = LLSLURL("http://my.grid.com/region/my region");
 		ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
-					  "https://my.grid.com/region/my%20region/128/128/0");
+					  "http://my.grid.com/region/my%20region/128/128/0");
 
 		LLGridManager::getInstance()->setGridChoice("foo.bar.com");
 		slurl = LLSLURL("/myregion/1/2/3");
 		ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("/ slurl, region + coords", slurl.getSLURLString(),
-					  "https://foo.bar.com/region/myregion/1/2/3");
+					  "http://foo.bar.com/region/myregion/1/2/3");
 
 		slurl = LLSLURL("myregion/1/2/3");
 		ensure_equals(": slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" slurl, region + coords", slurl.getSLURLString(),
-					  "https://foo.bar.com/region/myregion/1/2/3");
+					  "http://foo.bar.com/region/myregion/1/2/3");
 
 		slurl = LLSLURL(LLSLURL::SIM_LOCATION_HOME);
 		ensure_equals("home", slurl.getType(), LLSLURL::HOME_LOCATION);
@@ -295,12 +295,12 @@ namespace tut
 		LLSLURL slurl = LLSLURL("my.grid.com", "my region");
 		ensure_equals("grid/region - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid/region", slurl.getSLURLString(),
-					  "https://my.grid.com/region/my%20region/128/128/0");
+					  "http://my.grid.com/region/my%20region/128/128/0");
 
 		slurl = LLSLURL("my.grid.com", "my region", LLVector3(1,2,3));
 		ensure_equals("grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" grid/region/vector", slurl.getSLURLString(),
-					  "https://my.grid.com/region/my%20region/1/2/3");
+					  "http://my.grid.com/region/my%20region/1/2/3");
 
 		LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");
 		slurl = LLSLURL("my region", LLVector3(1,2,3));
@@ -312,7 +312,7 @@ namespace tut
 		slurl = LLSLURL("my region", LLVector3(1,2,3));
 		ensure_equals("default grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" default grid/region/vector", slurl.getSLURLString(),
-					  "https://my.grid.com/region/my%20region/1/2/3");
+					  "http://my.grid.com/region/my%20region/1/2/3");
 
 	}
 	

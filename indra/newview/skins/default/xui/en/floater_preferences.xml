@@ -132,6 +132,12 @@
          label="Grids"
          layout="topleft"
          name="grids" />
+        <panel
+         class="panel_preference_skins"
+         filename="panel_preferences_skins.xml"
+         label="Skinning"
+         layout="topleft"
+         name="skins" />
     </tab_container>
 
 </floater>

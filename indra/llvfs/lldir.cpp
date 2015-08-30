@@ -1047,6 +1047,7 @@ void LLDir::dumpCurrentDirectories()
 	LL_DEBUGS("AppInit","Directories") << "  CAFile:				 " << getCAFile() << LL_ENDL;
 	LL_DEBUGS("AppInit","Directories") << "  SkinBaseDir:           " << getSkinBaseDir() << LL_ENDL;
 	LL_DEBUGS("AppInit","Directories") << "  SkinDir:               " << getSkinDir() << LL_ENDL;
+	LL_DEBUGS("AppInit","Directories") << "  UserSkinDir:           " << getUserSkinDir() << LL_ENDL;
 }
 
 std::string LLDir::add(const std::string& path, const std::string& name) const

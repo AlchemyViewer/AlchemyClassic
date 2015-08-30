@@ -11002,6 +11002,36 @@ Cannot create large prims that intersect other players.  Please re-try when othe
 
   <notification
    icon="alertmodal.tga"
+   name="ConfirmRemoveSkin"
+   type="alertmodal">
+    <tag>opensim</tag>
+    <tag>confirm</tag>
+    Are you sure you want to remove [SKIN]? This will erase it permenantly from your hard disk.
+    <usetemplate
+     ignoretext="Confirm removing skins"
+     name="okcancelignore"
+     notext="Cancel"
+     yestext="OK"/>
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="RemoveSkinSuccess"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    Removed [SKIN] successfully.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="RemoveSkinFailure"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+    Failed to remove [SKIN].
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
    name="CantAddGrid"
    type="alertmodal">
     <tag>fail</tag>

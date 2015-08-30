@@ -42,6 +42,7 @@
 #include "llcolorswatch.h"
 #include "llcombobox.h"
 #include "llcommandhandler.h"
+#include "lldiriterator.h"
 #include "lldirpicker.h"
 #include "lleventtimer.h"
 #include "llfeaturemanager.h"
@@ -119,6 +120,8 @@ char const* const VISIBILITY_HIDDEN = "hidden";
 
 //control value for middle mouse as talk2push button
 const static std::string MIDDLE_MOUSE_CV = "MiddleMouse";
+
+const std::string DEFAULT_SKIN = "alchemy";
 
 class LLVoiceSetKeyDialog : public LLModalDialog
 {
@@ -337,8 +340,6 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.WebClearCache",			boost::bind(&LLFloaterPreference::onClickBrowserClearCache, this));
 	mCommitCallbackRegistrar.add("Pref.SetCache",				boost::bind(&LLFloaterPreference::onClickSetCache, this));
 	mCommitCallbackRegistrar.add("Pref.ResetCache",				boost::bind(&LLFloaterPreference::onClickResetCache, this));
-	mCommitCallbackRegistrar.add("Pref.ClickSkin",				boost::bind(&LLFloaterPreference::onClickSkin, this,_1, _2));
-	mCommitCallbackRegistrar.add("Pref.SelectSkin",				boost::bind(&LLFloaterPreference::onSelectSkin, this));
 	mCommitCallbackRegistrar.add("Pref.VoiceSetKey",			boost::bind(&LLFloaterPreference::onClickSetKey, this));
 	mCommitCallbackRegistrar.add("Pref.VoiceSetMiddleMouse",	boost::bind(&LLFloaterPreference::onClickSetMiddleMouse, this));
 	mCommitCallbackRegistrar.add("Pref.SetSounds",				boost::bind(&LLFloaterPreference::onClickSetSounds, this));
@@ -382,6 +383,9 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.RefreshGrid", boost::bind(&LLFloaterPreference::onClickRefreshGrid, this));
 	mCommitCallbackRegistrar.add("Pref.DebugGrid", boost::bind(&LLFloaterPreference::onClickDebugGrid, this));
 	mCommitCallbackRegistrar.add("Pref.SelectGrid", boost::bind(&LLFloaterPreference::onSelectGrid, this, _2));
+	mCommitCallbackRegistrar.add("Pref.RemoveSkin", boost::bind(&LLFloaterPreference::onRemoveSkin, this));
+	mCommitCallbackRegistrar.add("Pref.ApplySkin", boost::bind(&LLFloaterPreference::onApplySkin, this));
+	mCommitCallbackRegistrar.add("Pref.SelectSkin", boost::bind(&LLFloaterPreference::onSelectSkin, this, _2));
 }
 
 void LLFloaterPreference::processProperties( void* pData, EAvatarProcessorType type )
@@ -486,6 +490,8 @@ BOOL LLFloaterPreference::postBuild()
 	refreshGridList();
 	mGridListChangedConnection = LLGridManager::getInstance()->addGridListChangedCallback(boost::bind(&LLFloaterPreference::refreshGridList, this));
 	
+	loadUserSkins();
+	
 #ifdef LL_DARWIN
 	getChild<LLPanel>("ohehsex")->setVisible(TRUE);
 #else // !LL_DARWIN
@@ -511,6 +517,9 @@ void LLFloaterPreference::onDoNotDisturbResponseChanged()
 
 	gSavedPerAccountSettings.setBOOL("DoNotDisturbResponseChanged", response_changed_flag );
 }
+
+////////////////////////////////////////////////////
+// Grid panel
 
 void LLFloaterPreference::refreshGridList()
 {
@@ -606,6 +615,109 @@ bool LLFloaterPreference::handleRemoveGridCB(const LLSD& notification, const LLS
 	return false;
 }
 
+////////////////////////////////////////////////////
+// Skins panel
+
+void LLFloaterPreference::loadUserSkins()
+{
+	const std::string skindir = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
+	
+	LLDirIterator iter(skindir, "*");
+	bool found = true;
+	while (found)
+	{
+		std::string dir;
+		if ((found = iter.next(dir)))
+		{
+			const std::string& fullpath = gDirUtilp->add(skindir, dir);
+			if (!LLFile::isdir(fullpath)) continue; // only directories!
+			
+			// *TODO: Load information from manifest.
+			
+			mUserSkins.push_back(dir);
+		}
+	}
+	reloadSkinList();
+}
+
+void LLFloaterPreference::reloadSkinList()
+{
+	LLScrollListCtrl* skin_list = getChild<LLScrollListCtrl>("skin_list");
+	const std::string current_skin = gSavedSettings.getString("SkinCurrent");
+	
+	skin_list->clearRows();
+	for (const std::string& skin : mUserSkins)
+	{
+		LLSD row;
+		row["id"] = skin;
+		row["columns"][0]["value"] = skin;
+		row["columns"][0]["font"]["style"] = current_skin == skin ? "BOLD" : "NORMAL";
+		skin_list->addElement(row);
+	}
+	
+	// Default skin always on top.
+	LLSD row;
+	row["id"] = DEFAULT_SKIN;
+	row["columns"][0]["value"] = "Alchemy";
+	row["columns"][0]["font"]["style"] = current_skin == DEFAULT_SKIN ? "BOLD" : "NORMAL";
+	skin_list->addElement(row, EAddPosition::ADD_TOP);
+}
+
+void LLFloaterPreference::onRemoveSkin()
+{
+	LLScrollListCtrl* skin_list = findChild<LLScrollListCtrl>("skin_list");
+	if (skin_list)
+	{
+		LLSD args;
+		args["SKIN"] = skin_list->getSelectedValue().asString();
+		LLNotificationsUtil::add("ConfirmRemoveSkin", args, args,
+								 boost::bind(&LLFloaterPreference::callbackRemoveSkin, this, _1, _2));
+	}
+}
+
+void LLFloaterPreference::callbackRemoveSkin(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (option == 0) // YES
+	{
+		const std::string& skin = notification["payload"]["SKIN"].asString();
+		std::string dir = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
+		dir = gDirUtilp->add(dir, skin);
+		if (gDirUtilp->deleteDirAndContents(dir) > 0)
+		{
+			mUserSkins.erase(std::remove(mUserSkins.begin(), mUserSkins.end(), skin), mUserSkins.end());
+			// If we just deleted the current skin, reset to default. It might not even be a good
+			// idea to allow this, but we'll see!
+			if (gSavedSettings.getString("SkinCurrent") == skin)
+			{
+				gSavedSettings.setString("SkinCurrent", DEFAULT_SKIN);
+			}
+			LLNotificationsUtil::add("RemoveSkinSuccess", LLSD().with("SKIN", skin));
+		}
+		else
+		{
+			LLNotificationsUtil::add("RemoveSkinFailure", LLSD().with("SKIN", skin));
+		}
+		reloadSkinList();
+	}
+}
+
+void LLFloaterPreference::onApplySkin()
+{
+	LLScrollListCtrl* skin_list = findChild<LLScrollListCtrl>("skin_list");
+	if (skin_list)
+	{
+		gSavedSettings.setString("SkinCurrent", skin_list->getSelectedValue().asString());
+		reloadSkinList();
+	}
+}
+
+void LLFloaterPreference::onSelectSkin(const LLSD& data)
+{
+	// Can't remove the default.
+	getChild<LLUICtrl>("remove_skin")->setEnabled(data.asString() != DEFAULT_SKIN);
+}
+
 LLFloaterPreference::~LLFloaterPreference()
 {
 	// clean up user data
@@ -654,7 +766,7 @@ void LLFloaterPreference::apply()
 	if (sSkin != gSavedSettings.getString("SkinCurrent"))
 	{
 		LLNotificationsUtil::add("ChangeSkin");
-		refreshSkin(this);
+		sSkin = gSavedSettings.getString("SkinCurrent");
 	}
 	// Call apply() on all panels that derive from LLPanelPreference
 	for (child_list_t::const_iterator iter = tabcontainer->getChildList()->begin();
@@ -1129,25 +1241,6 @@ void LLFloaterPreference::onClickResetCache()
 	gSavedSettings.setString("CacheLocation", cache_location);
 	std::string top_folder(gDirUtilp->getBaseFileName(cache_location));
 	gSavedSettings.setString("CacheLocationTopFolder", top_folder);
-}
-
-void LLFloaterPreference::onClickSkin(LLUICtrl* ctrl, const LLSD& userdata)
-{
-	gSavedSettings.setString("SkinCurrent", userdata.asString());
-	ctrl->setValue(userdata.asString());
-}
-
-void LLFloaterPreference::onSelectSkin()
-{
-	std::string skin_selection = getChild<LLRadioGroup>("skin_selection")->getValue().asString();
-	gSavedSettings.setString("SkinCurrent", skin_selection);
-}
-
-void LLFloaterPreference::refreshSkin(void* data)
-{
-	LLPanel*self = (LLPanel*)data;
-	sSkin = gSavedSettings.getString("SkinCurrent");
-	self->getChild<LLRadioGroup>("skin_selection", true)->setValue(sSkin);
 }
 
 void LLFloaterPreference::buildPopupLists()
@@ -1999,21 +2092,6 @@ BOOL LLPanelPreference::postBuild()
 		BOOL voice_disabled = gSavedSettings.getBOOL("CmdLineDisableVoice");
 		getChildView("voice_unavailable")->setVisible( voice_disabled);
 		getChildView("enable_voice_check")->setVisible( !voice_disabled);
-	}
-	
-	//////////////////////PanelSkins ///////////////////
-	
-	if (hasChild("skin_selection", TRUE))
-	{
-		LLFloaterPreference::refreshSkin(this);
-
-		// if skin is set to a skin that no longer exists (silver) set back to default
-		if (getChild<LLRadioGroup>("skin_selection")->getSelectedIndex() < 0)
-		{
-			gSavedSettings.setString("SkinCurrent", "default");
-			LLFloaterPreference::refreshSkin(this);
-		}
-
 	}
 
 	//////////////////////PanelPrivacy ///////////////////

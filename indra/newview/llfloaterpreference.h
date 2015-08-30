@@ -172,7 +172,6 @@ public:
 	void getUIColor(LLUICtrl* ctrl, const LLSD& param);
 	void onLogChatHistorySaved();	
 	void buildPopupLists();
-	static void refreshSkin(void* data);
 	void selectPanel(const LLSD& name);
 
 private:
@@ -188,6 +187,13 @@ private:
 	void onClickDebugGrid();
 	void onSelectGrid(const LLSD& data);
 	bool handleRemoveGridCB(const LLSD& notification, const LLSD& response);
+	
+	void loadUserSkins();
+	void reloadSkinList();
+	void onRemoveSkin();
+	void callbackRemoveSkin(const LLSD& notification, const LLSD& response);
+	void onApplySkin();
+	void onSelectSkin(const LLSD& data);
 
 	static std::string sSkin;
 	notifications_map mNotificationOptions;
@@ -202,6 +208,8 @@ private:
 	std::string mDirectoryVisibility;
 	
 	LLAvatarData mAvatarProperties;
+	
+	std::vector<std::string> mUserSkins;
 	
 	boost::signals2::connection mGridListChangedConnection;
 };

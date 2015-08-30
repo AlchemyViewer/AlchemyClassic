@@ -878,6 +878,11 @@ void LLFloaterIMSession::updateMessages()
 			chat.mTimeStr = time;
 			chat.mChatStyle = is_history ? CHAT_STYLE_HISTORY : chat.mChatStyle;
 
+			if (from == SYSTEM_FROM && from_id.isNull())
+			{
+				chat.mSourceType = CHAT_SOURCE_SYSTEM;
+			}
+
 			// process offer notification
 			if (msg.has("notification_id"))
 			{

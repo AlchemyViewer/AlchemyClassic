@@ -240,12 +240,7 @@ LLUrlEntryHTTP::LLUrlEntryHTTP()
 
 std::string LLUrlEntryHTTP::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
-	return urlToLabelWithGreyQuery(url);
-}
-
-std::string LLUrlEntryHTTP::getQuery(const std::string &url) const
-{
-	return urlToGreyQuery(url);
+	return unescapeUrl(url);
 }
 
 std::string LLUrlEntryHTTP::getUrl(const std::string &string) const
@@ -308,12 +303,7 @@ LLUrlEntryHTTPNoProtocol::LLUrlEntryHTTPNoProtocol()
 
 std::string LLUrlEntryHTTPNoProtocol::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
-	return urlToLabelWithGreyQuery(url);
-}
-
-std::string LLUrlEntryHTTPNoProtocol::getQuery(const std::string &url) const
-{
-	return urlToGreyQuery(url);
+	return unescapeUrl(url);
 }
 
 std::string LLUrlEntryHTTPNoProtocol::getUrl(const std::string &string) const
@@ -323,11 +313,6 @@ std::string LLUrlEntryHTTPNoProtocol::getUrl(const std::string &string) const
 		return "http://" + escapeUrl(string);
 	}
 	return escapeUrl(string);
-}
-
-std::string LLUrlEntryHTTPNoProtocol::getTooltip(const std::string &url) const
-{
-	return unescapeUrl(url);
 }
 
 LLUrlEntryInvalidSLURL::LLUrlEntryInvalidSLURL()

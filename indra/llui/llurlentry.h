@@ -140,7 +140,6 @@ class LLUrlEntryHTTP : public LLUrlEntryBase
 public:
 	LLUrlEntryHTTP();
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getQuery(const std::string &url) const;
 	/*virtual*/ std::string getUrl(const std::string &string) const;
 	/*virtual*/ std::string getTooltip(const std::string &url) const;
 };
@@ -165,9 +164,7 @@ class LLUrlEntryHTTPNoProtocol : public LLUrlEntryBase
 public:
 	LLUrlEntryHTTPNoProtocol();
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getQuery(const std::string &url) const;
 	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getTooltip(const std::string &url) const;
 };
 
 class LLUrlEntryInvalidSLURL : public LLUrlEntryBase

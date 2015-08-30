@@ -227,7 +227,7 @@ void LLGLManager::initWGL()
 {
 	mHasPBuffer = FALSE;
 #if LL_WINDOWS && !LL_MESA_HEADLESS
-	GLenum err = glewInit();
+	GLenum err = wglewInit();
 	if (GLEW_OK != err)
 	{
 		LL_ERRS("RenderInit") << "GLEW WGL Extension init failure." << LL_ENDL;

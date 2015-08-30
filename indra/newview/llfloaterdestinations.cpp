@@ -33,15 +33,14 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llfloaterdestinations.h"
-#include "lluictrlfactory.h"
+#include "llagent.h"
+#include "llmediactrl.h"
+#include "llviewerregion.h"
 
+std::string LLFloaterDestinations::sCurrentURL = LLStringUtil::null;
 
 LLFloaterDestinations::LLFloaterDestinations(const LLSD& key)
-	:	LLFloater(key)
-{
-}
-
-LLFloaterDestinations::~LLFloaterDestinations()
+:	LLFloater(key)
 {
 }
 
@@ -51,4 +50,13 @@ BOOL LLFloaterDestinations::postBuild()
 	return TRUE;
 }
 
-
+void LLFloaterDestinations::onOpen(const LLSD& key)
+{
+	LLViewerRegion *regionp = gAgent.getRegion();
+	if (!regionp) return;
+	const std::string dest_url = regionp->getDestinationGuideURL();
+	if (dest_url == sCurrentURL) return;
+	sCurrentURL = dest_url;
+	getChild<LLMediaCtrl>("destination_guide_contents")->navigateTo(LLWeb::expandURLSubstitutions(dest_url, LLSD()),
+																	HTTP_CONTENT_TEXT_HTML);
+}

@@ -158,6 +158,12 @@ static bool validateVSync(const LLSD& val)
 	return preset <= 2U;
 }
 
+static bool validateLODFactor(const LLSD& val)
+{
+	const F64 lod = val.asReal();
+	return lod >= 0.0 && lod <= 4.0;
+}
+
 static bool handleChatChannelChanged(const LLSD& val)
 {
 	LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat")->changeChannelLabel(val.asInteger());
@@ -717,6 +723,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("RenderGammaFull")->getSignal()->connect(boost::bind(&handleSetShaderChanged, _2));
 	gSavedSettings.getControl("RenderAvatarMaxVisible")->getSignal()->connect(boost::bind(&handleAvatarMaxVisibleChanged, _2));
 	gSavedSettings.getControl("RenderAvatarComplexityLimit")->getSignal()->connect(boost::bind(&handleRenderAvatarComplexityLimitChanged, _2));
+	gSavedSettings.getControl("RenderVolumeLODFactor")->getValidateSignal()->connect(boost::bind(&validateLODFactor, _2));
 	gSavedSettings.getControl("RenderVolumeLODFactor")->getSignal()->connect(boost::bind(&handleVolumeLODChanged, _2));
 	gSavedSettings.getControl("RenderAvatarLODFactor")->getSignal()->connect(boost::bind(&handleAvatarLODChanged, _2));
 	gSavedSettings.getControl("RenderAvatarPhysicsLODFactor")->getSignal()->connect(boost::bind(&handleAvatarPhysicsLODChanged, _2));

@@ -96,7 +96,7 @@
 		     left="5"
 		     name="conversation_title"
 		     parse_urls="false"
-		     top="4"
+		     top="5"
 		     use_ellipses="true"
 		     value="(loading)"
 		     width="35" />

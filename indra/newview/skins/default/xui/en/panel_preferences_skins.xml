@@ -18,7 +18,7 @@
    left="30"
    name="select_skin_text"
    top="12"
-   width="200">
+   width="180">
    Select a skin:
   </text>
   <!-- Chooser -->
@@ -87,22 +87,12 @@
    height="20"
    layout="topleft"
    font="SansSerifLarge"
-   left="230"
+   left="215"
    name="skin_name"
    top="10"
    right="-10">
    Boring skin!
   </text>
-  <texture_picker
-   default_image_name="Generic_Person_Large"
-   fallback_image="Generic_Person_Large"
-   follows="left|top"
-   height="200"
-   layout="topleft"
-   name="skin_preview"
-   no_commit_on_selection="true"
-   top_pad="2"
-   width="200" />
   <text
    type="string"
    length="1"
@@ -111,7 +101,7 @@
    layout="topleft"
    name="skin_author_label"
    top_pad="2"
-   width="120"
+   width="90"
    value="Author:" />
   <text
    type="string"
@@ -121,7 +111,7 @@
    layout="topleft"
    name="skin_homepage_label"
    top_pad="2"
-   width="120"
+   width="90"
    value="Homepage:" />
   <text
    type="string"
@@ -131,7 +121,7 @@
    layout="topleft"
    name="skin_date_label"
    top_pad="2"
-   width="120"
+   width="90"
    value="Date:" />
   <text
    type="string"
@@ -141,8 +131,8 @@
    layout="topleft"
    name="skin_compatibility_label"
    top_pad="2"
-   width="120"
-   value="Compatible Version:" />
+   width="90"
+   value="Compatiblity:" />
   <text
    type="string"
    length="1"
@@ -152,7 +142,7 @@
    name="skin_author"
    top_delta="-48"
    left_pad="1"
-   width="160">
+   width="200">
 Nobody
   </text>
   <text
@@ -163,7 +153,7 @@ Nobody
    layout="topleft"
    name="skin_homepage"
    top_pad="2"
-   width="160">
+   width="200">
 http://www.example.com/
   </text>
   <text
@@ -174,7 +164,7 @@ http://www.example.com/
    layout="topleft"
    name="skin_date"
    top_pad="2"
-   width="160">
+   width="200">
 Jan 1, 2001
   </text>
   <text
@@ -185,7 +175,28 @@ Jan 1, 2001
    layout="topleft"
    name="skin_compatibility"
    top_pad="2"
-   width="160">
-3.8.2
+   width="200">
+0.0.0
   </text>
+  <text
+   type="string"
+   length="1"
+   follows="left|top"
+   height="14"
+   layout="topleft"
+   name="skin_notes_label"
+   top_pad="2"
+   left="215"
+   width="90"
+   value="Notes:" />
+  <text
+   type="string"
+   length="1"
+   follows="left|top"
+   height="70"
+   layout="topleft"
+   name="skin_notes"
+   top_pad="2"
+   word_wrap="true"
+   width="291" />
 </panel>

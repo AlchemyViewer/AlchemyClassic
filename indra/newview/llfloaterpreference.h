@@ -46,6 +46,7 @@ class LLScrollListCtrl;
 class LLSliderCtrl;
 class LLSD;
 class LLTextBox;
+struct skin_t;
 
 typedef std::map<std::string, std::string> notifications_map;
 
@@ -194,6 +195,7 @@ private:
 	void callbackRemoveSkin(const LLSD& notification, const LLSD& response);
 	void onApplySkin();
 	void onSelectSkin(const LLSD& data);
+	void refreshSkinInfo(const skin_t& skin);
 
 	static std::string sSkin;
 	notifications_map mNotificationOptions;
@@ -209,7 +211,8 @@ private:
 	
 	LLAvatarData mAvatarProperties;
 	
-	std::vector<std::string> mUserSkins;
+	typedef std::map<std::string, skin_t> skinmap_t;
+	skinmap_t mUserSkins;
 	
 	boost::signals2::connection mGridListChangedConnection;
 };

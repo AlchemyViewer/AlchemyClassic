@@ -97,6 +97,7 @@
 #include "llstartup.h"
 #include "lltextbox.h"
 #include "llui.h"
+#include "llversioninfo.h"
 #include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
@@ -113,6 +114,8 @@
 
 #include "lllogininstance.h"        // to check if logged in yet
 #include "llsdserialize.h"
+
+#include <jsoncpp/reader.h>
 
 const F32 BANDWIDTH_UPDATER_TIMEOUT = 0.5f;
 char const* const VISIBILITY_DEFAULT = "default";
@@ -139,6 +142,24 @@ public:
 private:
 	LLFloaterPreference* mParent;
 };
+
+typedef enum e_skin_type
+{
+	SYSTEM_SKIN,
+	USER_SKIN
+} ESkinType;
+
+typedef struct skin_t
+{
+	std::string mName = "Unknown";
+	std::string mAuthor = "Unknown";
+	std::string mUrl = "Unknown";
+	LLDate mDate = LLDate(0.0);
+	std::string mCompatVer = "Unknown";
+	std::string mNotes = LLStringUtil::null;
+	ESkinType mType = USER_SKIN;
+	
+} skin_t;
 
 LLVoiceSetKeyDialog::LLVoiceSetKeyDialog(const LLSD& key)
   : LLModalDialog(key),
@@ -618,23 +639,73 @@ bool LLFloaterPreference::handleRemoveGridCB(const LLSD& notification, const LLS
 ////////////////////////////////////////////////////
 // Skins panel
 
+skin_t manifestFromJson(const std::string& filename, const ESkinType type)
+{
+	skin_t skin;
+	Json::Reader reader;
+	Json::Value root;
+	llifstream in;
+	in.open(filename);
+	if (in.is_open())
+	{
+		if (reader.parse(in, root, false))
+		{
+			skin.mName = root.get("name", "Unknown").asString();
+			skin.mAuthor = root.get("author", "Unknown").asString();
+			skin.mUrl = root.get("url", "Unknown").asString();
+			skin.mCompatVer = root.get("compatibility", "Unknown").asString();
+			skin.mDate = LLDate(root.get("date", "1983-04-20T00:00:00+00:00").asString());
+			skin.mNotes = root.get("notes", "").asString();
+			// If it's a system skin, the compatability version is always the current build
+			if (type == SYSTEM_SKIN)
+			{
+				skin.mCompatVer = LLVersionInfo::getShortVersion();
+			}
+		}
+		else
+		{
+			LL_WARNS() << "Failed to parse " << filename << ": " << reader.getFormattedErrorMessages() << LL_ENDL;
+		}
+		in.close();
+	}
+	skin.mType = type;
+	return skin;
+}
+
 void LLFloaterPreference::loadUserSkins()
 {
-	const std::string skindir = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
-	
-	LLDirIterator iter(skindir, "*");
+	LLDirIterator sysiter(gDirUtilp->getSkinBaseDir(), "*");
 	bool found = true;
+	while (found)
+	{
+		std::string dir;
+		if ((found = sysiter.next(dir)))
+		{
+			const std::string& fullpath = gDirUtilp->add(gDirUtilp->getSkinBaseDir(), dir);
+			if (!LLFile::isdir(fullpath)) continue; // only directories!
+			
+			const std::string& manifestpath = gDirUtilp->add(fullpath, "manifest.json");
+			skin_t skin = manifestFromJson(manifestpath, SYSTEM_SKIN);
+			
+			mUserSkins.emplace(dir, skin);
+		}
+	}
+	
+	const std::string userskindir = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
+	LLDirIterator iter(userskindir, "*");
+	found = true;
 	while (found)
 	{
 		std::string dir;
 		if ((found = iter.next(dir)))
 		{
-			const std::string& fullpath = gDirUtilp->add(skindir, dir);
+			const std::string& fullpath = gDirUtilp->add(userskindir, dir);
 			if (!LLFile::isdir(fullpath)) continue; // only directories!
 			
-			// *TODO: Load information from manifest.
+			const std::string& manifestpath = gDirUtilp->add(fullpath, "manifest.json");
+			skin_t skin = manifestFromJson(manifestpath, USER_SKIN);
 			
-			mUserSkins.push_back(dir);
+			mUserSkins.emplace(dir, skin);
 		}
 	}
 	reloadSkinList();
@@ -647,31 +718,17 @@ void LLFloaterPreference::reloadSkinList()
 	
 	skin_list->clearRows();
 
-	// Alchemy skin always on top.
-	LLSD row_alchemy;
-	row_alchemy["id"] = DEFAULT_SKIN;
-	row_alchemy["columns"][0]["value"] = "Alchemy";
-	row_alchemy["columns"][0]["font"]["style"] = current_skin == DEFAULT_SKIN ? "BOLD" : "NORMAL";
-	skin_list->addElement(row_alchemy);
-
-	// Linden skin after
-	LLSD row_linden;
-	row_linden["id"] = "default";
-	row_linden["columns"][0]["value"] = "Linden";
-	row_linden["columns"][0]["font"]["style"] = current_skin == "default" ? "BOLD" : "NORMAL";
-	skin_list->addElement(row_linden);
-
 	// User Downloaded Skins
-	for (const std::string& skin : mUserSkins)
+	for (const std::pair<std::string, skin_t>& skin : mUserSkins)
 	{
-		LLSD row_temp;
-		row_temp["id"] = skin;
-		row_temp["columns"][0]["value"] = skin;
-		row_temp["columns"][0]["font"]["style"] = current_skin == skin ? "BOLD" : "NORMAL";
-		skin_list->addElement(row_temp);
+		LLSD row;
+		row["id"] = skin.first;
+		row["columns"][0]["value"] = skin.second.mName == "Unknown" ? skin.first : skin.second.mName;
+		row["columns"][0]["font"]["style"] = current_skin == skin.first ? "BOLD" : "NORMAL";
+		skin_list->addElement(row);
 	}
-	
-
+	skin_list->setSelectedByValue(current_skin, TRUE);
+	onSelectSkin(skin_list->getSelectedValue());
 }
 
 void LLFloaterPreference::onRemoveSkin()
@@ -696,7 +753,9 @@ void LLFloaterPreference::callbackRemoveSkin(const LLSD& notification, const LLS
 		dir = gDirUtilp->add(dir, skin);
 		if (gDirUtilp->deleteDirAndContents(dir) > 0)
 		{
-			mUserSkins.erase(std::remove(mUserSkins.begin(), mUserSkins.end(), skin), mUserSkins.end());
+			skinmap_t::iterator iter = mUserSkins.find(skin);
+			if (iter != mUserSkins.end())
+				mUserSkins.erase(iter);
 			// If we just deleted the current skin, reset to default. It might not even be a good
 			// idea to allow this, but we'll see!
 			if (gSavedSettings.getString("SkinCurrent") == skin)
@@ -725,8 +784,24 @@ void LLFloaterPreference::onApplySkin()
 
 void LLFloaterPreference::onSelectSkin(const LLSD& data)
 {
-	// Can't remove the default.
-	getChild<LLUICtrl>("remove_skin")->setEnabled(data.asString() != DEFAULT_SKIN && data.asString() != "default");
+	bool userskin = false;
+	skinmap_t::iterator iter = mUserSkins.find(data.asString());
+	if (iter != mUserSkins.end())
+	{
+		refreshSkinInfo(iter->second);
+		userskin = (iter->second.mType == USER_SKIN);
+	}
+	getChild<LLUICtrl>("remove_skin")->setEnabled(userskin);
+}
+
+void LLFloaterPreference::refreshSkinInfo(const skin_t& skin)
+{
+	getChild<LLTextBase>("skin_name")->setText(skin.mName);
+	getChild<LLTextBase>("skin_author")->setText(skin.mAuthor);
+	getChild<LLTextBase>("skin_homepage")->setText(skin.mUrl);
+	getChild<LLTextBase>("skin_date")->setText(skin.mDate.toHTTPDateString("%A, %d %b %Y"));
+	getChild<LLTextBase>("skin_compatibility")->setText(skin.mCompatVer);
+	getChild<LLTextBase>("skin_notes")->setText(skin.mNotes);
 }
 
 LLFloaterPreference::~LLFloaterPreference()

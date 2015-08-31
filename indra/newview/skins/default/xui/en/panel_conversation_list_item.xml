@@ -52,7 +52,7 @@
          mouse_opaque="false"
          name="call_icon_panel"
          visible="false"
-         width="12">
+         width="14">
             <icon
              height="18"
              follows="top|right|left"
@@ -70,7 +70,7 @@
          mouse_opaque="false"
          name="typing_icon_panel"
          visible="false"
-         width="18">
+         width="17">
             <icon
              height="16"
              follows="top|right|left"
@@ -78,7 +78,7 @@
              layout="topleft"
              left="2"
              name="typing_icon"
-             top="4"
+             top="5"
              width="16" />
         </layout_panel>
         <layout_panel
@@ -96,7 +96,7 @@
 		     left="5"
 		     name="conversation_title"
 		     parse_urls="false"
-		     top="6"
+		     top="4"
 		     use_ellipses="true"
 		     value="(loading)"
 		     width="35" />
@@ -106,6 +106,7 @@
 		     draw_border="false"
 		     height="16"
 		     layout="topleft"
+		     top="6"
 		     left_pad="5"
  		     mouse_opaque="true"
  		     name="speaking_indicator"

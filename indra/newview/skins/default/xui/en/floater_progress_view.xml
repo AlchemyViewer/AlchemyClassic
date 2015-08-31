@@ -63,5 +63,6 @@ Teleporting...
    top_pad="4"
    left="6"
    right="-6"
-   tool_tip="progress bar" />
+   tool_tip="progress bar" 
+   color_bar="EmphasisColor"/>
 </floater>

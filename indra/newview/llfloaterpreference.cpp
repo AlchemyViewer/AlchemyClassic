@@ -646,21 +646,32 @@ void LLFloaterPreference::reloadSkinList()
 	const std::string current_skin = gSavedSettings.getString("SkinCurrent");
 	
 	skin_list->clearRows();
+
+	// Alchemy skin always on top.
+	LLSD row_alchemy;
+	row_alchemy["id"] = DEFAULT_SKIN;
+	row_alchemy["columns"][0]["value"] = "Alchemy";
+	row_alchemy["columns"][0]["font"]["style"] = current_skin == DEFAULT_SKIN ? "BOLD" : "NORMAL";
+	skin_list->addElement(row_alchemy);
+
+	// Linden skin after
+	LLSD row_linden;
+	row_linden["id"] = "default";
+	row_linden["columns"][0]["value"] = "Linden";
+	row_linden["columns"][0]["font"]["style"] = current_skin == "default" ? "BOLD" : "NORMAL";
+	skin_list->addElement(row_linden);
+
+	// User Downloaded Skins
 	for (const std::string& skin : mUserSkins)
 	{
-		LLSD row;
-		row["id"] = skin;
-		row["columns"][0]["value"] = skin;
-		row["columns"][0]["font"]["style"] = current_skin == skin ? "BOLD" : "NORMAL";
-		skin_list->addElement(row);
+		LLSD row_temp;
+		row_temp["id"] = skin;
+		row_temp["columns"][0]["value"] = skin;
+		row_temp["columns"][0]["font"]["style"] = current_skin == skin ? "BOLD" : "NORMAL";
+		skin_list->addElement(row_temp);
 	}
 	
-	// Default skin always on top.
-	LLSD row;
-	row["id"] = DEFAULT_SKIN;
-	row["columns"][0]["value"] = "Alchemy";
-	row["columns"][0]["font"]["style"] = current_skin == DEFAULT_SKIN ? "BOLD" : "NORMAL";
-	skin_list->addElement(row, EAddPosition::ADD_TOP);
+
 }
 
 void LLFloaterPreference::onRemoveSkin()
@@ -715,7 +726,7 @@ void LLFloaterPreference::onApplySkin()
 void LLFloaterPreference::onSelectSkin(const LLSD& data)
 {
 	// Can't remove the default.
-	getChild<LLUICtrl>("remove_skin")->setEnabled(data.asString() != DEFAULT_SKIN);
+	getChild<LLUICtrl>("remove_skin")->setEnabled(data.asString() != DEFAULT_SKIN && data.asString() != "default");
 }
 
 LLFloaterPreference::~LLFloaterPreference()

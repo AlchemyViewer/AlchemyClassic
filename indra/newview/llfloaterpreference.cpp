@@ -642,13 +642,14 @@ bool LLFloaterPreference::handleRemoveGridCB(const LLSD& notification, const LLS
 skin_t manifestFromJson(const std::string& filename, const ESkinType type)
 {
 	skin_t skin;
-	Json::Reader reader;
+	Json::CharReaderBuilder reader;
 	Json::Value root;
+	std::string errors;
 	llifstream in;
 	in.open(filename);
 	if (in.is_open())
 	{
-		if (reader.parse(in, root, false))
+		if (Json::parseFromStream(reader, in, &root, &errors))
 		{
 			skin.mName = root.get("name", "Unknown").asString();
 			skin.mAuthor = root.get("author", "Unknown").asString();
@@ -664,7 +665,7 @@ skin_t manifestFromJson(const std::string& filename, const ESkinType type)
 		}
 		else
 		{
-			LL_WARNS() << "Failed to parse " << filename << ": " << reader.getFormattedErrorMessages() << LL_ENDL;
+			LL_WARNS() << "Failed to parse " << filename << ": " << errors << LL_ENDL;
 		}
 		in.close();
 	}

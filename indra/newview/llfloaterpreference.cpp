@@ -781,6 +781,10 @@ void LLFloaterPreference::onApplySkin()
 		gSavedSettings.setString("SkinCurrent", skin_list->getSelectedValue().asString());
 		reloadSkinList();
 	}
+	if (sSkin != gSavedSettings.getString("SkinCurrent"))
+	{
+		LLNotificationsUtil::add("ChangeSkin");
+	}
 }
 
 void LLFloaterPreference::onSelectSkin(const LLSD& data)
@@ -852,7 +856,6 @@ void LLFloaterPreference::apply()
 	LLTabContainer* tabcontainer = getChild<LLTabContainer>("pref core");
 	if (sSkin != gSavedSettings.getString("SkinCurrent"))
 	{
-		LLNotificationsUtil::add("ChangeSkin");
 		sSkin = gSavedSettings.getString("SkinCurrent");
 	}
 	// Call apply() on all panels that derive from LLPanelPreference

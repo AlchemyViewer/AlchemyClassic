@@ -66,6 +66,7 @@
 #include "lltoolbarview.h"
 #include "llviewercontrol.h"
 #include "llviewerparcelmgr.h"
+#include "llviewernetwork.h"
 #include "llconversationlog.h"
 #include "message.h"
 #include "llviewerregion.h"
@@ -3711,12 +3712,13 @@ public:
 				args["[LONG_TIMESTAMP]"] = formatted_time(timestamp);
 				saved = LLTrans::getString("Saved_message", args);
 			}
-			std::string buffer = saved + message;
 
-			if(from_id == gAgentID)
+			if (LLGridManager::getInstance()->isInSecondlife() && from_id == gAgentID)
 			{
 				return;
 			}
+			
+			std::string buffer = saved + message;
 			gIMMgr->addMessage(
 				session_id,
 				from_id,
@@ -3729,6 +3731,11 @@ public:
 				message_params["region_id"].asUUID(),
 				ll_vector3_from_sd(message_params["position"]),
 				true);
+			
+			if (LLGridManager::getInstance()->isInOpenSim() && from_id == gAgentID)
+			{
+				return;
+			}
 
 			if (LLMuteList::getInstance()->isMuted(from_id, name, LLMute::flagTextChat))
 			{

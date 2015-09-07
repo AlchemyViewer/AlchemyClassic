@@ -1159,7 +1159,6 @@ void LLAgentCamera::updateCamera()
 	static LLCachedControl<bool> useRealisticMouselook(gSavedSettings, "AlchemyRealisticMouselook", false);
 	if (isAgentAvatarValid() && 
 		gAgentAvatarp->isSitting() &&
-		!useRealisticMouselook &&
 		camera_mode == CAMERA_MODE_MOUSELOOK)
 	{
 		//changed camera_skyward to the new global "mCameraUpVector"
@@ -1434,7 +1433,7 @@ void LLAgentCamera::updateCamera()
 	}
 	gAgent.setLastPositionGlobal(global_pos);
 	
-	if (LLVOAvatar::sVisibleInFirstPerson && isAgentAvatarValid() && (useRealisticMouselook || !gAgentAvatarp->isSitting()) && cameraMouselook())
+	if (LLVOAvatar::sVisibleInFirstPerson && isAgentAvatarValid() && !gAgentAvatarp->isSitting() && cameraMouselook())
 	{
 		LLVector3 head_pos = gAgentAvatarp->mHeadp->getWorldPosition() + 
 			LLVector3(0.08f, 0.f, 0.05f) * gAgentAvatarp->mHeadp->getWorldRotation() + 

@@ -792,11 +792,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fa9c3084cfdef0aa91ba6fdce7fb1039</string>
+              <string>d3e83c5c73ee961616896cf6d06e1c1a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.06.07-linux64-201507231333.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.06.09-linux64-201509072357.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -806,11 +806,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>57daaff787d824a61cfbac4fa1539338</string>
+              <string>88e846f4ecd3a7ddb39b4a8c07737123</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.06.07-windows-201507231336.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.06.09-windows-201509072358.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -820,18 +820,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b36e2f5ecb2fd4ce7df8e593e97e58bb</string>
+              <string>8f9b6438888b6c533a4f8bf685ef115e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.06.07-windows64-201507231335.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.06.09-windows64-201509072356.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.06.07</string>
+        <string>1.06.09</string>
       </map>
       <key>fontconfig</key>
       <map>

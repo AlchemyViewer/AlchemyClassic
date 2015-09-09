@@ -666,115 +666,70 @@ bool	LLFilePicker::doNavChooseDialog(ELoadFilter filter)
 bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filename)
 {
 	
-	// Setup the type, creator, and extension
-    std::string		extension, type, creator;
+	// Setup the extension
+    std::string extension;
     
 	switch (filter)
 	{
 		case FFSAVE_WAV:
-			type = "WAVE";
-			creator = "TVOD";
 			extension = "wav";
 			break;
 		case FFSAVE_TGA:
-			type = "TPIC";
-			creator = "prvw";
 			extension = "tga";
 			break;
 		case FFSAVE_TGAPNG:
-			type = "PNG ";
-			creator = "prvw";
 			extension = "png,tga,jpg,jpeg,j2c,bmp";
 			break;
 		case FFSAVE_BMP:
-			type = "BMPf";
-			creator = "prvw";
 			extension = "bmp";
 			break;
 		case FFSAVE_JPEG:
-			type = "JPEG";
-			creator = "prvw";
 			extension = "jpeg";
 			break;
 		case FFSAVE_PNG:
-			type = "PNG ";
-			creator = "prvw";
 			extension = "png";
 			break;
 		case FFSAVE_AVI:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "mov";
 			break;
-
 		case FFSAVE_ANIM:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "xaf";
 			break;
 
 #ifdef _CORY_TESTING
 		case FFSAVE_GEOMETRY:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "slg";
 			break;
 #endif
-		
 		case FFSAVE_XML:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "xml";
 			break;
-
 		case FFSAVE_CSV:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "csv";
 			break;
-
 		case FFSAVE_RAW:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "raw";
 			break;
-
 		case FFSAVE_J2C:
-			type = "\?\?\?\?";
-			creator = "prvw";
 			extension = "j2c";
 			break;
-		
+		case FFSAVE_LSL:
 		case FFSAVE_SCRIPT:
-			type = "LSL ";
-			creator = "\?\?\?\?";
 			extension = "lsl";
 			break;
-		
 		case FFSAVE_ALL:
 		default:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
-			extension = "";
+			extension = LLStringUtil::null;
 			break;
 	}
 	
-    std::string namestring = filename;
-    if (namestring.empty()) namestring="Untitled";
-    
-//    if (! boost::algorithm::ends_with(namestring, extension) )
-//    {
-//        namestring = namestring + "." + extension;
-//        
-//    }
+	const std::string namestring = filename.empty() ? LLStringExplicit("Untitled") : filename;
     
 	gViewerWindow->getWindow()->beforeDialog();
 
 	// Run the dialog
-    std::string* filev = doSaveDialog(&namestring, 
-                 &type,
-                 &creator,
-                 &extension,
+    std::string* filev = doSaveDialog(namestring,
+                 extension,
                  mPickOptions);
 
 	gViewerWindow->getWindow()->afterDialog();

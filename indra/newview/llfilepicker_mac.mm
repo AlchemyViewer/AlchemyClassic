@@ -100,23 +100,21 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_t
 }
 
 
-std::string* doSaveDialog(const std::string* file, 
-                  const std::string* type,
-                  const std::string* creator,
-                  const std::string* extension,
+std::string* doSaveDialog(const std::string& file,
+                  const std::string& extension,
                   unsigned int flags)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSSavePanel *panel = [NSSavePanel savePanel]; 
     
-    NSString *extensionns = [NSString stringWithCString:extension->c_str() encoding:[NSString defaultCStringEncoding]];
+    NSString *extensionns = [NSString stringWithCString:extension.c_str() encoding:[NSString defaultCStringEncoding]];
     NSArray *fileType = [extensionns componentsSeparatedByString:@","];
     
     //[panel setMessage:@"Save Image File"]; 
     [panel setTreatsFilePackagesAsDirectories: ( flags & F_NAV_SUPPORT ) ];
     [panel setCanSelectHiddenExtension:true]; 
     [panel setAllowedFileTypes:fileType];
-    NSString *fileName = [NSString stringWithCString:file->c_str() encoding:[NSString defaultCStringEncoding]];
+    NSString *fileName = [NSString stringWithCString:file.c_str() encoding:[NSString defaultCStringEncoding]];
     
     std::string *outfile = NULL;
     NSURL* url = [NSURL fileURLWithPath:fileName];

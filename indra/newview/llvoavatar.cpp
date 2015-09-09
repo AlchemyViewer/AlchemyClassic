@@ -1411,16 +1411,17 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 		}
 	}
 #else
-	std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-	for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
+	for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
+		attachment_iter != attachment_iter_end; ++attachment_iter)
 	{
-		if (!attachment_iter->second->getValid())
+		LLViewerJointAttachment* attachment = attachment_iter->second;
+		if (!attachment || !attachment->getValid())
 		{
 			continue;
 		}
 
 		const LLViewerObject* attached_object = attachment_iter->first;
-		if (attached_object && !attached_object->isHUDAttachment())
+		if (attached_object && !attached_object->isDead() && !attached_object->isHUDAttachment())
 		{
 			LLDrawable* drawable = attached_object->mDrawable;
 			if (drawable && !drawable->isState(LLDrawable::RIGGED))
@@ -2425,21 +2426,20 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 			}
 		}
 #else
-		std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin(),
-			iter_end = mAttachedObjectsVector.end();
-		for (; attachment_iter != iter_end; ++attachment_iter)
+		for (auto  attachment_iter = mAttachedObjectsVector.begin(), iter_end = mAttachedObjectsVector.end(); 
+			attachment_iter != iter_end; ++attachment_iter)
 		{
 			{
 				LLViewerJointAttachment* attachment = attachment_iter->second;
 				LLViewerObject* attached_object = attachment_iter->first;
 
-				if(	!attached_object || 
+				if (!attached_object ||
 					attached_object->isDead() ||
 					!attached_object->mDrawable ||
 					!attachment ||
 					!attachment->getValid())
 					continue;
-					
+
 				BOOL visibleAttachment =	visible || 
 											!attached_object->mDrawable->getSpatialBridge() || 
 											attached_object->mDrawable->getSpatialBridge()->getRadius() >= 2.f;
@@ -4076,8 +4076,8 @@ void LLVOAvatar::updateVisibility()
 				}
 			}
 #else
-			std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-			for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
+			for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
+				attachment_iter != attachment_iter_end; ++attachment_iter)
 			{
 				if(LLViewerObject* attached_object = attachment_iter->first)
 				{
@@ -6202,8 +6202,8 @@ void LLVOAvatar::rebuildRiggedAttachments( void )
 		}
 	}
 #else
-	std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-	for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
+	for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
+		attachment_iter != attachment_iter_end; ++attachment_iter)
 	{
 		const LLViewerObject* attached_object = attachment_iter->first;
 		if (attachment_iter->second && attached_object->mDrawable.notNull())
@@ -8744,8 +8744,8 @@ void LLVOAvatar::calculateUpdateRenderCost()
 			}
 		}
 #else
-		std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-		for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
+		for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end();
+			attachment_iter != attachment_iter_end; ++attachment_iter)
 		{
 			const LLViewerObject* attached_object = attachment_iter->first;
 			if (attached_object && !attached_object->isHUDAttachment())

@@ -29,7 +29,7 @@
 #include <iostream>
 #include "llfilepicker_mac.h"
 
-std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_types, 
+std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_types,
                  unsigned int flags)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -43,14 +43,14 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_t
     NSMutableArray *fileTypes = nil;
     
     
-    if ( allowed_types && !allowed_types->empty()) 
+    if (!allowed_types.empty())
     {
         fileTypes = [[NSMutableArray alloc] init];
         
-        for (int i = 0; i < allowed_types->size(); ++i)
+        for (int i = 0; i < allowed_types.size(); ++i)
         {
             [fileTypes addObject: 
-             [NSString stringWithCString:(*allowed_types)[i].c_str() 
+             [NSString stringWithCString:(allowed_types)[i].c_str()
                                 encoding:[NSString defaultCStringEncoding]]];
         }
     }

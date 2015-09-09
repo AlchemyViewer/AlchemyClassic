@@ -39,7 +39,7 @@
 #include <vector>
 
 //void modelessPicker();
-std::vector<std::string>* doLoadDialog(const std::vector<std::string>* allowed_types, 
+std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_types, 
                  unsigned int flags);
 std::string* doSaveDialog(const std::string& file,
                   const std::string& extension,

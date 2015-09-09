@@ -571,61 +571,61 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 
 #elif LL_DARWIN
 
-std::vector<std::string>* LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode)
+std::vector<std::string> LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode)
 {
-    std::vector<std::string> *allowedv = new std::vector< std::string >;
+    std::vector<std::string> allowedv;
     switch(filter)
     {
         case FFLOAD_ALL:
-            allowedv->push_back("wav");
-            allowedv->push_back("bvh");
-            allowedv->push_back("anim");
-            allowedv->push_back("dae");
-            allowedv->push_back("raw");
-            allowedv->push_back("lsl");
-            allowedv->push_back("dic");
-            allowedv->push_back("xcu");
-            allowedv->push_back("gif");
+            allowedv.push_back("wav");
+            allowedv.push_back("bvh");
+            allowedv.push_back("anim");
+            allowedv.push_back("dae");
+            allowedv.push_back("raw");
+            allowedv.push_back("lsl");
+            allowedv.push_back("dic");
+            allowedv.push_back("xcu");
+            allowedv.push_back("gif");
         case FFLOAD_IMAGE:
-            allowedv->push_back("jpg");
-            allowedv->push_back("jpeg");
-            allowedv->push_back("bmp");
-            allowedv->push_back("tga");
-            allowedv->push_back("bmpf");
-            allowedv->push_back("tpic");
-            allowedv->push_back("png");
+            allowedv.push_back("jpg");
+            allowedv.push_back("jpeg");
+            allowedv.push_back("bmp");
+            allowedv.push_back("tga");
+            allowedv.push_back("bmpf");
+            allowedv.push_back("tpic");
+            allowedv.push_back("png");
             break;
         case FFLOAD_EXE:
-            allowedv->push_back("app");
-            allowedv->push_back("exe");
+            allowedv.push_back("app");
+            allowedv.push_back("exe");
             break;
         case FFLOAD_WAV:
-            allowedv->push_back("wav");
+            allowedv.push_back("wav");
             break;
         case FFLOAD_ANIM:
-            allowedv->push_back("bvh");
-            allowedv->push_back("anim");
+            allowedv.push_back("bvh");
+            allowedv.push_back("anim");
             break;
         case FFLOAD_COLLADA:
-            allowedv->push_back("dae");
+            allowedv.push_back("dae");
             break;
 #ifdef _CORY_TESTING
         case FFLOAD_GEOMETRY:
-            allowedv->push_back("slg");
+            allowedv.push_back("slg");
             break;
 #endif
         case FFLOAD_XML:
-            allowedv->push_back("xml");
+            allowedv.push_back("xml");
             break;
         case FFLOAD_RAW:
-            allowedv->push_back("raw");
+            allowedv.push_back("raw");
             break;
         case FFLOAD_SCRIPT:
-            allowedv->push_back("lsl");
+            allowedv.push_back("lsl");
             break;
         case FFLOAD_DICTIONARY:
-            allowedv->push_back("dic");
-            allowedv->push_back("xcu");
+            allowedv.push_back("dic");
+            allowedv.push_back("xcu");
             break;
         case FFLOAD_DIRECTORY:
             break;
@@ -646,9 +646,9 @@ bool	LLFilePicker::doNavChooseDialog(ELoadFilter filter)
     
 	gViewerWindow->getWindow()->beforeDialog();
     
-    std::vector<std::string> *allowed_types=navOpenFilterProc(filter);
+    std::vector<std::string> allowed_types = navOpenFilterProc(filter);
     
-    std::vector<std::string> *filev  = doLoadDialog(allowed_types, 
+    std::vector<std::string> *filev  = doLoadDialog(allowed_types,
                                                     mPickOptions);
 
 	gViewerWindow->getWindow()->afterDialog();

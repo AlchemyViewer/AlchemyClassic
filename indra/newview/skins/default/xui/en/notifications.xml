@@ -888,7 +888,7 @@ Please invite members within 48 hours.
      canceltext="Cancel"
      name="okcancelbuttons"
      notext="Cancel"
-     yestext="Create group for L$100"/>
+     yestext="Create group for L$[COST]"/>
   </notification>
 
   <notification

@@ -678,10 +678,10 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 			extension = "tga";
 			break;
 		case FFSAVE_TGAPNG:
-			extension = "png,tga,jpg,jpeg,j2c,bmp";
+			extension = "png,tga,jpg,jpeg,j2c,bmp,bmpf";
 			break;
 		case FFSAVE_BMP:
-			extension = "bmp";
+			extension = "bmp,bmpf";
 			break;
 		case FFSAVE_JPEG:
 			extension = "jpeg";

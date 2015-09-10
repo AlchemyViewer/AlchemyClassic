@@ -91,7 +91,8 @@ LLFastTimerView::LLFastTimerView(const LLSD& key)
 	mHoverBarIndex(-1),
 	mStatsIndex(-1),
 	mPauseHistory(false),
-	mRecording(NUM_FRAMES_HISTORY)
+	mRecording(NUM_FRAMES_HISTORY),
+	mScrollPos(0)
 {
 	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 }
@@ -130,6 +131,7 @@ BOOL LLFastTimerView::postBuild()
 	LLButton& pause_btn = getChildRef<LLButton>("pause_btn");
 	
 	pause_btn.setCommitCallback(boost::bind(&LLFastTimerView::onPause, this));
+	
 	return TRUE;
 }
 
@@ -358,10 +360,19 @@ BOOL LLFastTimerView::handleToolTip(S32 x, S32 y, MASK mask)
 
 BOOL LLFastTimerView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 {
-	setPauseState(true);
-	mScrollIndex = llclamp(	mScrollIndex + clicks,
-							0,
-							llmin((S32)mRecording.getNumRecordedPeriods(), (S32)mRecording.getNumRecordedPeriods() - MAX_VISIBLE_HISTORY));
+	if (mLegendRect.pointInRect(x, y))
+	{
+		mScrollPos += clicks;
+		mScrollPos = llclamp(mScrollPos, 0, 420); // *FIXME: magic numbers, idgaf
+		drawLegend();
+	}
+	else
+	{
+		setPauseState(true);
+		mScrollIndex = llclamp(mScrollIndex + clicks, 0,
+							   llmin((S32)mRecording.getNumRecordedPeriods(),
+									 (S32)mRecording.getNumRecordedPeriods() - MAX_VISIBLE_HISTORY));
+	}
 	return TRUE;
 }
 
@@ -1196,11 +1207,14 @@ void LLFastTimerView::drawLegend()
 		S32 cur_line = 0;
 		ft_display_idx.clear();
 		std::map<BlockTimerStatHandle*, S32> display_line;
+		S32 item = 0;
 		for (block_timer_tree_df_iterator_t it = LLTrace::begin_block_timer_tree_df(FTM_FRAME);
 			it != block_timer_tree_df_iterator_t();
 			++it)
 		{
 			BlockTimerStatHandle* idp = (*it);
+			if (mScrollPos <= item)
+			{
 			display_line[idp] = cur_line;
 			ft_display_idx.push_back(idp);
 			cur_line++;
@@ -1277,7 +1291,8 @@ void LLFastTimerView::drawLegend()
 				is_child_of_hover_item ? LLFontGL::BOLD : LLFontGL::NORMAL);
 
 			y -= (TEXT_HEIGHT + 2);
-
+			}
+			item++;
 			if (idp->getTreeNode().mCollapsed) 
 			{
 				it.skipDescendants();

@@ -571,61 +571,61 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 
 #elif LL_DARWIN
 
-std::vector<std::string>* LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode)
+std::vector<std::string> LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(AEDesc *theItem, void *info, void *callBackUD, NavFilterModes filterMode)
 {
-    std::vector<std::string> *allowedv = new std::vector< std::string >;
+    std::vector<std::string> allowedv;
     switch(filter)
     {
         case FFLOAD_ALL:
-            allowedv->push_back("wav");
-            allowedv->push_back("bvh");
-            allowedv->push_back("anim");
-            allowedv->push_back("dae");
-            allowedv->push_back("raw");
-            allowedv->push_back("lsl");
-            allowedv->push_back("dic");
-            allowedv->push_back("xcu");
-            allowedv->push_back("gif");
+            allowedv.push_back("wav");
+            allowedv.push_back("bvh");
+            allowedv.push_back("anim");
+            allowedv.push_back("dae");
+            allowedv.push_back("raw");
+            allowedv.push_back("lsl");
+            allowedv.push_back("dic");
+            allowedv.push_back("xcu");
+            allowedv.push_back("gif");
         case FFLOAD_IMAGE:
-            allowedv->push_back("jpg");
-            allowedv->push_back("jpeg");
-            allowedv->push_back("bmp");
-            allowedv->push_back("tga");
-            allowedv->push_back("bmpf");
-            allowedv->push_back("tpic");
-            allowedv->push_back("png");
+            allowedv.push_back("jpg");
+            allowedv.push_back("jpeg");
+            allowedv.push_back("bmp");
+            allowedv.push_back("tga");
+            allowedv.push_back("bmpf");
+            allowedv.push_back("tpic");
+            allowedv.push_back("png");
             break;
         case FFLOAD_EXE:
-            allowedv->push_back("app");
-            allowedv->push_back("exe");
+            allowedv.push_back("app");
+            allowedv.push_back("exe");
             break;
         case FFLOAD_WAV:
-            allowedv->push_back("wav");
+            allowedv.push_back("wav");
             break;
         case FFLOAD_ANIM:
-            allowedv->push_back("bvh");
-            allowedv->push_back("anim");
+            allowedv.push_back("bvh");
+            allowedv.push_back("anim");
             break;
         case FFLOAD_COLLADA:
-            allowedv->push_back("dae");
+            allowedv.push_back("dae");
             break;
 #ifdef _CORY_TESTING
         case FFLOAD_GEOMETRY:
-            allowedv->push_back("slg");
+            allowedv.push_back("slg");
             break;
 #endif
         case FFLOAD_XML:
-            allowedv->push_back("xml");
+            allowedv.push_back("xml");
             break;
         case FFLOAD_RAW:
-            allowedv->push_back("raw");
+            allowedv.push_back("raw");
             break;
         case FFLOAD_SCRIPT:
-            allowedv->push_back("lsl");
+            allowedv.push_back("lsl");
             break;
         case FFLOAD_DICTIONARY:
-            allowedv->push_back("dic");
-            allowedv->push_back("xcu");
+            allowedv.push_back("dic");
+            allowedv.push_back("xcu");
             break;
         case FFLOAD_DIRECTORY:
             break;
@@ -646,9 +646,9 @@ bool	LLFilePicker::doNavChooseDialog(ELoadFilter filter)
     
 	gViewerWindow->getWindow()->beforeDialog();
     
-    std::vector<std::string> *allowed_types=navOpenFilterProc(filter);
+    std::vector<std::string> allowed_types = navOpenFilterProc(filter);
     
-    std::vector<std::string> *filev  = doLoadDialog(allowed_types, 
+    std::vector<std::string> *filev  = doLoadDialog(allowed_types,
                                                     mPickOptions);
 
 	gViewerWindow->getWindow()->afterDialog();
@@ -666,115 +666,70 @@ bool	LLFilePicker::doNavChooseDialog(ELoadFilter filter)
 bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filename)
 {
 	
-	// Setup the type, creator, and extension
-    std::string		extension, type, creator;
+	// Setup the extension
+    std::string extension;
     
 	switch (filter)
 	{
 		case FFSAVE_WAV:
-			type = "WAVE";
-			creator = "TVOD";
 			extension = "wav";
 			break;
 		case FFSAVE_TGA:
-			type = "TPIC";
-			creator = "prvw";
 			extension = "tga";
 			break;
 		case FFSAVE_TGAPNG:
-			type = "PNG ";
-			creator = "prvw";
-			extension = "png,tga,jpg,jpeg,j2c,bmp";
+			extension = "png,tga,jpg,jpeg,j2c,bmp,bmpf";
 			break;
 		case FFSAVE_BMP:
-			type = "BMPf";
-			creator = "prvw";
-			extension = "bmp";
+			extension = "bmp,bmpf";
 			break;
 		case FFSAVE_JPEG:
-			type = "JPEG";
-			creator = "prvw";
 			extension = "jpeg";
 			break;
 		case FFSAVE_PNG:
-			type = "PNG ";
-			creator = "prvw";
 			extension = "png";
 			break;
 		case FFSAVE_AVI:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "mov";
 			break;
-
 		case FFSAVE_ANIM:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "xaf";
 			break;
 
 #ifdef _CORY_TESTING
 		case FFSAVE_GEOMETRY:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "slg";
 			break;
 #endif
-		
 		case FFSAVE_XML:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "xml";
 			break;
-
 		case FFSAVE_CSV:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "csv";
 			break;
-
 		case FFSAVE_RAW:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
 			extension = "raw";
 			break;
-
 		case FFSAVE_J2C:
-			type = "\?\?\?\?";
-			creator = "prvw";
 			extension = "j2c";
 			break;
-		
+		case FFSAVE_LSL:
 		case FFSAVE_SCRIPT:
-			type = "LSL ";
-			creator = "\?\?\?\?";
 			extension = "lsl";
 			break;
-		
 		case FFSAVE_ALL:
 		default:
-			type = "\?\?\?\?";
-			creator = "\?\?\?\?";
-			extension = "";
+			extension = LLStringUtil::null;
 			break;
 	}
 	
-    std::string namestring = filename;
-    if (namestring.empty()) namestring="Untitled";
-    
-//    if (! boost::algorithm::ends_with(namestring, extension) )
-//    {
-//        namestring = namestring + "." + extension;
-//        
-//    }
+	const std::string namestring = filename.empty() ? LLStringExplicit("Untitled") : filename;
     
 	gViewerWindow->getWindow()->beforeDialog();
 
 	// Run the dialog
-    std::string* filev = doSaveDialog(&namestring, 
-                 &type,
-                 &creator,
-                 &extension,
+    std::string* filev = doSaveDialog(namestring,
+                 extension,
                  mPickOptions);
 
 	gViewerWindow->getWindow()->afterDialog();

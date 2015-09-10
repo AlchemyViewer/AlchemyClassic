@@ -764,11 +764,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>93eb542d108a0af11e0b37e2fd44d307</string>
+              <string>b624302b29ef94a282db8d2fbb707591</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.06.04-darwin-201506102304.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.06.09-darwin-201509090342.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

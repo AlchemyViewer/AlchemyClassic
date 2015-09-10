@@ -85,8 +85,8 @@ public:
 		FFLOAD_COLLADA = 10,
 		FFLOAD_SCRIPT = 11,
 		FFLOAD_DICTIONARY = 12,
-        FFLOAD_DIRECTORY = 13,   // To call from lldirpicker.
-        FFLOAD_EXE = 14          // Note: EXE will be treated as ALL on Windows and Linux but not on Darwin
+		FFLOAD_DIRECTORY = 13,   // To call from lldirpicker.
+		FFLOAD_EXE = 14          // Note: EXE will be treated as ALL on Windows and Linux but not on Darwin
 	};
 
 	enum ESaveFilter
@@ -166,7 +166,7 @@ private:
 	
 	bool doNavChooseDialog(ELoadFilter filter);
 	bool doNavSaveDialog(ESaveFilter filter, const std::string& filename);
-    std::vector<std::string>* navOpenFilterProc(ELoadFilter filter);
+    std::vector<std::string> navOpenFilterProc(ELoadFilter filter);
 #endif
 
 #if LL_GTK

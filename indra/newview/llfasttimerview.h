@@ -143,6 +143,8 @@ private:
 									mLegendRect;
 	LLFrameTimer					mHighlightTimer;
 	LLTrace::PeriodicRecording		mRecording;
+	
+	S32 mScrollPos;
 };
 
 #endif

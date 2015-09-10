@@ -281,6 +281,10 @@ void LLPanelClassifiedInfo::processProperties(void* data, EAvatarProcessorType t
 			LLStringUtil::format(date_str, LLSD().with("datetime", (S32) c_info->creation_date));
 			getChild<LLUICtrl>("creation_date")->setValue(date_str);
 
+			date_str = date_fmt;
+			LLStringUtil::format(date_str, LLSD().with("datetime", (S32) c_info->expiration_date));
+			getChild<LLUICtrl>("expiration_date")->setValue(date_str);
+
 			setInfoLoaded(true);
 		}
 	}

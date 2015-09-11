@@ -3132,3 +3132,14 @@ void LLScrollListCtrl::onFocusLost()
 	LLUICtrl::onFocusLost();
 }
 
+void LLScrollListIcon::setClickCallback(BOOL (*callback)(void*), void* user_data)
+{
+	mCallback = callback;
+	mUserData = user_data;
+}
+
+BOOL LLScrollListIcon::handleClick()
+{
+	if(mCallback) return mCallback(mUserData);
+	return FALSE;
+}

@@ -575,7 +575,6 @@ protected:
 	void							updateScrollFromCursor();
 
 	// text selection
-	bool							hasSelection() const { return (mSelectionStart !=mSelectionEnd); }
 	void 							startSelection();
 	void 							endSelection();
 
@@ -591,6 +590,8 @@ protected:
 	void							appendTextImpl(const std::string &new_text, const LLStyle::Params& input_params = LLStyle::Params());
 	void							appendAndHighlightTextImpl(const std::string &new_text, S32 highlight_part, const LLStyle::Params& style_params, bool underline_on_hover_only = false);
 	
+public:
+	bool							hasSelection() const { return (mSelectionStart !=mSelectionEnd); }
 
 protected:
 	// text segmentation and flow

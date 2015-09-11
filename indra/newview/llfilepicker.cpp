@@ -713,7 +713,6 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 		case FFSAVE_J2C:
 			extension = "j2c";
 			break;
-		case FFSAVE_LSL:
 		case FFSAVE_SCRIPT:
 			extension = "lsl";
 			break;

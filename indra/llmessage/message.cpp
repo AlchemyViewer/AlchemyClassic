@@ -595,7 +595,7 @@ BOOL LLMessageSystem::checkMessages( S64 frame_count, bool faked_message, U8 fak
 			LLCircuitData* cdp;
 			
 			// note if packet acks are appended.
-			if(buffer[0] & LL_ACK_FLAG && !faked_message)
+			if((buffer[0] & LL_ACK_FLAG) && !faked_message)
 			{
 				acks += buffer[--receive_size];
 				true_rcv_size = receive_size;

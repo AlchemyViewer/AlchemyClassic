@@ -86,6 +86,7 @@ LLMessageLogEntry::LLMessageLogEntry(const LLMessageLogEntry& entry)
 LLMessageLogEntry::~LLMessageLogEntry()
 {
 	delete[] mData;
+	mData = NULL;
 }
 
 LogCallback LLMessageLog::sCallback = NULL;

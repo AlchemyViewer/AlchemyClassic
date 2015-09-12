@@ -19,6 +19,9 @@
 #include "lltemplatemessagereader.h"
 #include "llmessageconfig.h"
 
+#ifndef LL_LLFLOATERMESSAGEREWRITER_H
+#define LL_LLFLOATERMESSAGEREWRITER_H
+
 class LLFloaterMessageRewriter : public LLFloater
 {
 public:
@@ -31,3 +34,5 @@ private:
 	void onClickNewRule();
 	void refreshRuleList();
 };
+
+#endif // LL_LLFLOATERMESSAGEREWRITER_H

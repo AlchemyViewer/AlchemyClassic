@@ -21,6 +21,9 @@
 
 #include <boost/unordered_map.hpp>
 
+#ifndef LL_LLFLOATERMESSAGELOG_H
+#define LL_LLFLOATERMESSAGELOG_H
+
 struct LLNetListItem;
 class LLScrollListCtrl;
 class LLEasyMessageLogEntry;
@@ -173,3 +176,5 @@ protected:
 	friend class LLMessageLogFilterApply;
 	friend class LLMessageLogNetMan;
 };
+
+#endif // LL_LLFLOATERMESSAGELOG_H

@@ -274,7 +274,9 @@ S32 LLPacketRing::receivePacket (S32 socket, char *datap)
 
 BOOL LLPacketRing::sendPacket(int h_socket, char * send_buffer, S32 buf_size, LLHost host)
 {
-	LLMessageLog::log(LLHost(16777343, gMessageSystem->getListenPort()), host, (U8*)send_buffer, buf_size);
+#define LOCALHOST_ADDR 16777343
+	LLMessageLog::log(LLHost(LOCALHOST_ADDR, gMessageSystem->getListenPort()), host, (U8*)send_buffer, buf_size);
+#undef LOCALHOST_ADDR
 	BOOL status = TRUE;
 	if (!mUseOutThrottle)
 	{

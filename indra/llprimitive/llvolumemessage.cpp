@@ -478,11 +478,11 @@ bool LLVolumeMessage::constrainVolumeParams(LLVolumeParams& params)
 	bad |= params.setRevolutions(params.getPathParams().getRevolutions()) ? 0 : 0x200;
 	bad |= params.setRadiusOffset(params.getPathParams().getRadiusOffset()) ? 0 : 0x400;
 	bad |= params.setSkew(params.getPathParams().getSkew()) ? 0 : 0x800;
-	if(bad && false)
+	if(bad)
 	{
-		LL_WARNS() << "LLVolumeMessage::constrainVolumeParams() - "
-				<< "forced to constrain incoming volume params: "
-				<< llformat("0x%04x",bad) << LL_ENDL;
+		LL_DEBUGS() << "LLVolumeMessage::constrainVolumeParams() - "
+					<< "forced to constrain incoming volume params: "
+					<< llformat("0x%04x",bad) << LL_ENDL;
 	}
 	return bad ? false : true;
 }

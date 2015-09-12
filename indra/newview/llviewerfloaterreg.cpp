@@ -89,6 +89,9 @@
 #include "llfloatermarketplacelistings.h"
 #include "llfloatermediasettings.h"
 #include "llfloatermemleak.h"
+#include "llfloatermessagelog.h"
+#include "llfloatermessagebuilder.h"
+#include "llfloatermessagerewriter.h"
 #include "llfloatermodelpreview.h"
 #include "llfloaternamedesc.h"
 #include "llfloaternotificationsconsole.h"
@@ -269,7 +272,10 @@ void LLViewerFloaterReg::registerFloaters()
 	LLFloaterReg::add("media_settings", "floater_media_settings.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMediaSettings>);	
 	LLFloaterReg::add("marketplace_listings", "floater_marketplace_listings.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMarketplaceListings>);
 	LLFloaterReg::add("marketplace_validation", "floater_marketplace_validation.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMarketplaceValidation>);
+	LLFloaterReg::add("message_builder", "floater_message_builder.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMessageBuilder>);
 	LLFloaterReg::add("message_critical", "floater_critical.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterTOS>);
+	LLFloaterReg::add("message_log", "floater_message_log.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMessageLog>);
+	LLFloaterReg::add("message_rewriter", "floater_message_rewriter.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMessageRewriter>);
 	LLFloaterReg::add("message_tos", "floater_tos.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterTOS>);
 	LLFloaterReg::add("moveview", "floater_moveview.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMove>);
 	LLFloaterReg::add("music_ticker", "floater_music_ticker.xml", (LLFloaterBuildFunc) &LLFloaterReg::build<LLFloater>);

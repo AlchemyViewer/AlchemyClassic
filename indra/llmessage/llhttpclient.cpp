@@ -40,6 +40,9 @@
 #include "message.h"
 #include <curl/curl.h>
 
+#include "llmessagelog.h"
+
+#include <boost/algorithm/string.hpp>
 
 const F32 HTTP_REQUEST_EXPIRY_SECS = 60.0f;
 LLURLRequest::SSLCertVerifyCallback LLHTTPClient::mCertVerifyCallback = NULL;
@@ -53,9 +56,9 @@ namespace
 	class LLHTTPClientURLAdaptor : public LLURLRequestComplete
 	{
 	public:
-		LLHTTPClientURLAdaptor(LLCurl::ResponderPtr responder)
+		LLHTTPClientURLAdaptor(LLCurl::ResponderPtr responder, U64 request_id)
 			: LLURLRequestComplete(), mResponder(responder), mStatus(HTTP_INTERNAL_ERROR),
-			  mReason("LLURLRequest complete w/no status")
+			  mReason("LLURLRequest complete w/no status"), mRequestID(request_id)
 		{
 		}
 		
@@ -77,6 +80,10 @@ namespace
 			// *TODO: Re-interpret mRequestStatus codes?
 			//        Would like to detect curl errors, such as
 			//        connection errors, write erros, etc.
+			if(LLMessageLog::haveLogger())
+			{
+				LLMessageLog::logHTTPResponse(mStatus, channels, buffer, mLoggedHeaders, mRequestID);
+			}
 			if (mResponder.get())
 			{
 				mResponder->setResult(mStatus, mReason);
@@ -89,12 +96,19 @@ namespace
 			{
 				mResponder->setResponseHeader(header, value);
 			}
+			if(LLMessageLog::haveLogger())
+			{
+				mLoggedHeaders[header] = value;
+			}
 		}
 
 	private:
 		LLCurl::ResponderPtr mResponder;
 		S32 mStatus;
 		std::string mReason;
+
+		U64 mRequestID;
+		LLSD mLoggedHeaders;
 	};
 	
 	class Injector : public LLIOPipe
@@ -242,14 +256,16 @@ static void request(
 		{
 			responder->completeResult(HTTP_INTERNAL_CURL_ERROR, "Internal Error - curl failure");
 		}
-		delete req ;
+		delete req;
 		delete body_injector;
-		return ;
+		return;
 	}
 
 	req->setSSLVerifyCallback(LLHTTPClient::getCertVerifyCallback(), (void *)req);
 
 	LL_DEBUGS("LLHTTPClient") << httpMethodAsVerb(method) << " " << url << " " << headers << LL_ENDL;
+
+	LLSD final_headers = headers;
 
 	// Insert custom headers if the caller sent any
 	if (headers.isMap())
@@ -259,8 +275,8 @@ static void request(
 			req->allowCookies();
 		}
 
-        LLSD::map_const_iterator iter = headers.beginMap();
-        LLSD::map_const_iterator end  = headers.endMap();
+		LLSD::map_const_iterator iter = headers.beginMap();
+		LLSD::map_const_iterator end  = headers.endMap();
 
 		for (; iter != end; ++iter)
 		{
@@ -287,6 +303,7 @@ static void request(
 		if(!headers.has(HTTP_OUT_HEADER_ACCEPT))
 		{
 			req->addHeader(HTTP_OUT_HEADER_ACCEPT, HTTP_CONTENT_LLSD_XML);
+			final_headers[HTTP_OUT_HEADER_ACCEPT] = HTTP_CONTENT_LLSD_XML;
 		}
 	}
 
@@ -296,12 +313,12 @@ static void request(
 		responder->setHTTPMethod(method);
 	}
 
-	req->setCallback(new LLHTTPClientURLAdaptor(responder));
-
 	if (method == HTTP_POST  &&  gMessageSystem)
 	{
 		req->addHeader("X-SecondLife-UDP-Listen-Port", llformat("%d",
 					gMessageSystem->mPort));
+		final_headers["X-SecondLife-UDP-Listen-Port"] = llformat("%d",
+					gMessageSystem->mPort);
 	}
 
 	if (method == HTTP_PUT || method == HTTP_POST || method == HTTP_PATCH)
@@ -314,9 +331,28 @@ static void request(
 			// if they did not specify a Content-Type, then ask the
 			// injector.
 			req->addHeader(HTTP_OUT_HEADER_CONTENT_TYPE, body_injector->contentType());
+			final_headers[HTTP_OUT_HEADER_CONTENT_TYPE] = body_injector->contentType();
 		}
-   		chain.push_back(LLIOPipe::ptr_t(body_injector));
+		chain.push_back(LLIOPipe::ptr_t(body_injector));
 	}
+
+	//<edit> TODO: Will this log cookies from cURL's cookie jar?
+	static U64 request_id = 0;
+	++request_id;
+	if(LLMessageLog::haveLogger())
+	{
+		LLIOPipe::buffer_ptr_t body_buffer(new LLBufferArray);
+		LLChannelDescriptors body_channels = body_buffer->nextChannel();
+		LLSD body_context = LLSD();
+		bool body_eos = false;
+
+		if(body_injector)
+			body_injector->process(body_channels, body_buffer, body_eos, body_context, NULL);
+
+		LLMessageLog::logHTTPRequest(url, method, body_channels, body_buffer, final_headers, request_id);
+	}
+
+	req->setCallback(new LLHTTPClientURLAdaptor(responder, request_id));
 
 	chain.push_back(LLIOPipe::ptr_t(req));
 
@@ -661,6 +697,22 @@ void LLHTTPClient::copy(
 	request(url, HTTP_COPY, NULL, responder, timeout, headers);
 }
 
+void LLHTTPClient::builderRequest(
+	EHTTPMethod method,
+	const std::string& url,
+	const U8* data,
+	S32 size,
+	const LLSD& headers,
+	ResponderPtr responder,
+	const F32 timeout)
+{
+	Injector* body_injector = NULL;
+	if(data != NULL && size)
+	{
+		body_injector = new RawInjector(data, size);
+	}
+	request(url, method, body_injector, responder, timeout, headers);
+}
 
 void LLHTTPClient::setPump(LLPumpIO& pump)
 {
@@ -670,4 +722,32 @@ void LLHTTPClient::setPump(LLPumpIO& pump)
 bool LLHTTPClient::hasPump()
 {
 	return theClientPump != NULL;
+}
+
+std::string get_base_cap_url(std::string url)
+{
+	std::vector<std::string> url_parts;
+	boost::algorithm::split(url_parts, url, boost::is_any_of("/"));
+
+	// This is a normal linden-style CAP url.
+	if(url_parts.size() >= 4 && url_parts[3] == "cap")
+	{
+		url_parts.resize(5);
+		return boost::algorithm::join(url_parts, "/");
+	}
+	// Maybe OpenSim? Just cut off the query string and last /.
+	else
+	{
+		size_t query_pos = url.find_first_of("\?");
+
+		if(query_pos != std::string::npos)
+		{
+			LLStringUtil::truncate(url, query_pos);
+		}
+
+		static const std::string tokens(" /\?");
+		LLStringUtil::trimTail(url, tokens);
+
+		return url;
+	}
 }

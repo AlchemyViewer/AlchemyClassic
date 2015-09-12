@@ -77,6 +77,8 @@
 #include "v3math.h"
 #include "v4math.h"
 #include "lltransfertargetvfile.h"
+#include "llrand.h"
+#include "llmessagelog.h"
 
 // Constants
 //const char* MESSAGE_LOG_FILENAME = "message.log";
@@ -519,7 +521,7 @@ LLCircuitData* LLMessageSystem::findCircuit(const LLHost& host,
 }
 
 // Returns TRUE if a valid, on-circuit message has been received.
-BOOL LLMessageSystem::checkMessages( S64 frame_count )
+BOOL LLMessageSystem::checkMessages( S64 frame_count, bool faked_message, U8 fake_buffer[MAX_BUFFER_SIZE], LLHost fake_host, S32 fake_size )
 {
 	// Pump 
 	BOOL	valid_packet = FALSE;
@@ -547,16 +549,34 @@ BOOL LLMessageSystem::checkMessages( S64 frame_count )
 		S32 acks = 0;
 		S32 true_rcv_size = 0;
 
-		U8* buffer = mTrueReceiveBuffer;
+		U8* buffer = mTrueReceiveBuffer.buffer;
+
+		if(!faked_message)
+		{
 		
-		mTrueReceiveSize = mPacketRing.receivePacket(mSocket, (char *)mTrueReceiveBuffer);
+			mTrueReceiveSize = mPacketRing.receivePacket(mSocket, (char *)mTrueReceiveBuffer.buffer);
+		
+			receive_size = mTrueReceiveSize;
+			mLastSender = mPacketRing.getLastSender();
+			mLastReceivingIF = mPacketRing.getLastReceivingInterface();
+		} else {
+			buffer = fake_buffer; //true my ass.
+			mTrueReceiveSize = fake_size;
+			receive_size = mTrueReceiveSize;
+			mLastSender = fake_host;
+			mLastReceivingIF = mPacketRing.getLastReceivingInterface(); //don't really give two tits about the interface, just leave it
+		}
+		
 		// If you want to dump all received packets into SecondLife.log, uncomment this
 		//dumpPacketToLog();
 		
-		receive_size = mTrueReceiveSize;
-		mLastSender = mPacketRing.getLastSender();
-		mLastReceivingIF = mPacketRing.getLastReceivingInterface();
-		
+ 		if(mTrueReceiveSize && receive_size > (S32) LL_MINIMUM_VALID_PACKET_SIZE && !faked_message)
+ 		{
+#define LOCALHOST_ADDR 16777343
+ 			LLMessageLog::log(mLastSender, LLHost(LOCALHOST_ADDR, mPort), buffer, mTrueReceiveSize);
+#undef LOCALHOST_ADDR
+ 		}
+
 		if (receive_size < (S32) LL_MINIMUM_VALID_PACKET_SIZE)
 		{
 			// A receive size of zero is OK, that means that there are no more packets available.
@@ -575,7 +595,7 @@ BOOL LLMessageSystem::checkMessages( S64 frame_count )
 			LLCircuitData* cdp;
 			
 			// note if packet acks are appended.
-			if(buffer[0] & LL_ACK_FLAG)
+			if(buffer[0] & LL_ACK_FLAG && !faked_message)
 			{
 				acks += buffer[--receive_size];
 				true_rcv_size = receive_size;
@@ -607,14 +627,14 @@ BOOL LLMessageSystem::checkMessages( S64 frame_count )
 			// this message came in on if it's valid, and NULL if the
 			// circuit was bogus.
 
-			if(cdp && (acks > 0) && ((S32)(acks * sizeof(TPACKETID)) < (true_rcv_size)))
+			if(cdp && (acks > 0) && ((S32)(acks * sizeof(TPACKETID)) < (true_rcv_size)) && !faked_message)
 			{
 				TPACKETID packet_id;
 				U32 mem_id=0;
 				for(S32 i = 0; i < acks; ++i)
 				{
 					true_rcv_size -= sizeof(TPACKETID);
-					memcpy(&mem_id, &mTrueReceiveBuffer[true_rcv_size], /* Flawfinder: ignore*/
+					memcpy(&mem_id, &buffer[true_rcv_size], /* Flawfinder: ignore*/
 					     sizeof(TPACKETID));
 					packet_id = ntohl(mem_id);
 					//LL_INFOS("Messaging") << "got ack: " << packet_id << LL_ENDL;
@@ -2969,18 +2989,32 @@ void LLMessageSystem::addTemplate(LLMessageTemplate *templatep)
 	mMessageNumbers[templatep->mMessageNumber] = templatep;
 }
 
-
-void LLMessageSystem::setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
+boost::signals2::connection LLMessageSystem::setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
 {
 	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
 	if (msgtemplate)
 	{
-		msgtemplate->setHandlerFunc(handler_func, user_data);
+		return msgtemplate->setHandlerFunc(handler_func, user_data);
 	}
 	else
 	{
 		LL_ERRS("Messaging") << name << " is not a known message name!" << LL_ENDL;
 	}
+	return boost::signals2::connection();//dummy connection. we should never get here.
+}
+
+boost::signals2::connection LLMessageSystem::addHandlerFuncFast(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot)
+{
+	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
+	if(msgtemplate)
+	{
+		return msgtemplate->addHandlerFunc(handler_slot);
+	}
+	else
+	{
+		LL_ERRS("Messaging") << name << " is not a known message name!" << LL_ENDL;
+	}
+	return boost::signals2::connection();//dummy connection. we should never get here.
 }
 
 bool LLMessageSystem::callHandler(const char *name,
@@ -3383,7 +3417,7 @@ void LLMessageSystem::dumpPacketToLog()
 	{
 		S32 offset = cur_line_pos * 3;
 		snprintf(line_buffer + offset, sizeof(line_buffer) - offset,
-				 "%02x ", mTrueReceiveBuffer[i]);	/* Flawfinder: ignore */
+				 "%02x ", mTrueReceiveBuffer.buffer[i]);	/* Flawfinder: ignore */
 		cur_line_pos++;
 		if (cur_line_pos >= 16)
 		{
@@ -4050,9 +4084,15 @@ void LLMessageSystem::banUdpMessage(const std::string& name)
 		LL_WARNS() << "Attempted to ban an unknown message: " << name << "." << LL_ENDL;
 	}
 }
+
 const LLHost& LLMessageSystem::getSender() const
 {
 	return mLastSender;
+}
+
+LLCircuit* LLMessageSystem::getCircuit()
+{
+	return &mCircuitInfo;
 }
 
 LLHTTPRegistration<LLHTTPNodeAdapter<LLTrustedMessageService> >

@@ -1311,6 +1311,37 @@ void send_agent_pause()
 	LLViewerStats::instance().getRecording().stop();
 }
 
+CapUrlMatches LLWorld::getCapURLMatches(const std::string &cap_url)
+{
+	std::set<std::string> url_capnames;
+	std::set<LLViewerRegion*> url_capregions;
+
+	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin();
+		 iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	{
+		LLViewerRegion* regionp = *iter;
+		std::set<std::string> new_url_capnames = regionp->getCapURLNames(cap_url);
+
+		if(new_url_capnames.size() > 0)
+		{
+			url_capregions.insert(regionp);
+			url_capnames.insert(new_url_capnames.begin(), new_url_capnames.end());
+		}
+	}
+
+	return CapUrlMatches(url_capregions, url_capnames);
+}
+
+
+bool LLWorld::isCapURLMapped(const std::string &cap_url)
+{
+	for (LLViewerRegion* regionp : LLWorld::getInstance()->getRegionList())
+	{
+		if(regionp->isCapURLMapped(cap_url))
+			return true;
+	}
+	return false;
+}
 
 void send_agent_resume()
 {

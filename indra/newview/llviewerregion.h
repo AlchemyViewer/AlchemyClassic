@@ -31,6 +31,7 @@
 // that are in to a particular region.
 #include <string>
 #include <boost/signals2.hpp>
+#include <boost/unordered_map.hpp>
 
 #include "llwind.h"
 #include "v3dmath.h"
@@ -42,6 +43,7 @@
 #include "m4math.h"					// LLMatrix4
 #include "llhttpclient.h"
 #include "llframetimer.h"
+#include "lleasymessagesender.h"
 
 // Surface id's
 #define LAND  1
@@ -261,6 +263,10 @@ public:
 	bool isCapabilityAvailable(const std::string& name) const;
 	// implements LLCapabilityProvider
     virtual std::string getCapability(const std::string& name) const;
+
+	virtual std::set<std::string> getCapURLNames(const std::string& cap_url);
+	virtual bool isCapURLMapped(const std::string& cap_url);
+	virtual std::set<std::string> getAllCaps();
 
 	// has region received its final (not seed) capability list?
 	bool capabilitiesReceived() const;
@@ -579,6 +585,10 @@ private:
 
 	mutable tex_matrix_t mWorldMapTiles;
 	std::set<std::string> mGodNames;
+
+	LLEasyMessageSender mMessageSender;
+	typedef boost::unordered_multimap<std::string, std::string> url_mapping_t;
+	url_mapping_t mCapURLMappings;
 };
 
 inline BOOL LLViewerRegion::getRegionProtocol(U64 protocol) const

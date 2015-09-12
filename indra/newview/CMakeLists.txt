@@ -210,6 +210,8 @@ set(viewer_SOURCE_FILES
     lldrawpoolwlsky.cpp
     lldroptarget.cpp
     lldynamictexture.cpp
+    lleasymessagereader.cpp
+    lleasymessagesender.cpp
     llemote.cpp
     llenvmanager.cpp
     llestateinfomodel.cpp
@@ -294,6 +296,9 @@ set(viewer_SOURCE_FILES
     llfloatermap.cpp
     llfloatermediasettings.cpp
     llfloatermemleak.cpp
+    llfloatermessagebuilder.cpp
+    llfloatermessagelog.cpp
+    llfloatermessagerewriter.cpp
     llfloatermodelpreview.cpp
     llfloatermodeluploadbase.cpp
     llfloaternamedesc.cpp
@@ -853,6 +858,8 @@ set(viewer_HEADER_FILES
     lldrawpoolwlsky.h
     lldroptarget.h
     lldynamictexture.h
+    lleasymessagereader.h
+    lleasymessagesender.h
     llemote.h
     llenvmanager.h
     llestateinfomodel.h
@@ -937,6 +944,9 @@ set(viewer_HEADER_FILES
     llfloatermarketplacelistings.h
     llfloatermediasettings.h
     llfloatermemleak.h
+    llfloatermessagebuilder.h
+    llfloatermessagelog.h
+    llfloatermessagerewriter.h
     llfloatermodelpreview.h
     llfloatermodeluploadbase.h
     llfloaternamedesc.h

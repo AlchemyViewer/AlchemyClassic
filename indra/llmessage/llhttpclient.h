@@ -59,6 +59,14 @@ public:
 	
 	/** @name non-blocking API */
 	//@{
+	static void builderRequest(
+		EHTTPMethod method,
+		const std::string& url,
+		const U8* data,
+		S32 size,
+		const LLSD& headers = LLSD(),
+		ResponderPtr responder = NULL,
+		const F32 timeout = HTTP_REQUEST_EXPIRY_SECS);
 	static void head(
 		const std::string& url,
 		ResponderPtr,
@@ -197,5 +205,7 @@ public:
 protected:
 	static LLURLRequest::SSLCertVerifyCallback mCertVerifyCallback;
 };
+
+std::string get_base_cap_url(std::string url);
 
 #endif // LL_LLHTTPCLIENT_H

@@ -117,6 +117,7 @@ enum EHTTPMethod
 };
 
 const std::string& httpMethodAsVerb(EHTTPMethod method);
+EHTTPMethod httpVerbAsMethod(const std::string&);
 bool isHttpInformationalStatus(S32 status);
 bool isHttpGoodStatus(S32 status);
 bool isHttpRedirectStatus(S32 status);

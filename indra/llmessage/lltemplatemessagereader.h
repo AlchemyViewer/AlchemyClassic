@@ -99,24 +99,25 @@ public:
 	virtual void copyToBuilder(LLMessageBuilder&) const;
 
 	BOOL validateMessage(const U8* buffer, S32 buffer_size, 
-						 const LLHost& sender, bool trusted = false);
+						 const LLHost& sender, bool trusted = false, BOOL custom = FALSE);
 	BOOL readMessage(const U8* buffer, const LLHost& sender);
 
 	bool isTrusted() const;
 	bool isBanned(bool trusted_source) const;
 	bool isUdpBanned() const;
-	
+
+	BOOL decodeData(const U8* buffer, const LLHost& sender, BOOL custom = FALSE);
+	LLMessageTemplate* getTemplate();
+
 private:
 
 	void getData(const char *blockname, const char *varname, void *datap, 
 				 S32 size = 0, S32 blocknum = 0, S32 max_size = S32_MAX);
 
 	BOOL decodeTemplate(const U8* buffer, S32 buffer_size,  // inputs
-						LLMessageTemplate** msg_template ); // outputs
+						LLMessageTemplate** msg_template, BOOL custom = FALSE);	// outputs
 
 	void logRanOffEndOfPacket( const LLHost& host, const S32 where, const S32 wanted );
-
-	BOOL decodeData(const U8* buffer, const LLHost& sender );
 
 	S32	mReceiveSize;
 	LLMessageTemplate* mCurrentRMessageTemplate;

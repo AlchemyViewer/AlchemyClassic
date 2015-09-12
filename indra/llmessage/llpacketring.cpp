@@ -43,6 +43,8 @@
 #include "message.h"
 #include "u64.h"
 
+#include "llmessagelog.h"
+
 ///////////////////////////////////////////////////////////
 LLPacketRing::LLPacketRing () :
 	mUseInThrottle(FALSE),
@@ -272,6 +274,7 @@ S32 LLPacketRing::receivePacket (S32 socket, char *datap)
 
 BOOL LLPacketRing::sendPacket(int h_socket, char * send_buffer, S32 buf_size, LLHost host)
 {
+	LLMessageLog::log(LLHost(16777343, gMessageSystem->getListenPort()), host, (U8*)send_buffer, buf_size);
 	BOOL status = TRUE;
 	if (!mUseOutThrottle)
 	{

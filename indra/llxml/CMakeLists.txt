@@ -24,6 +24,7 @@ set(llxml_SOURCE_FILES
     llxmlnode.cpp
     llxmlparser.cpp
     llxmltree.cpp
+    pugixml.cpp
     )
 
 set(llxml_HEADER_FILES
@@ -34,6 +35,8 @@ set(llxml_HEADER_FILES
     llxmlnode.h
     llxmlparser.h
     llxmltree.h
+    pugixml.hpp
+    pugiconfig.hpp
     )
 
 set_source_files_properties(${llxml_HEADER_FILES}

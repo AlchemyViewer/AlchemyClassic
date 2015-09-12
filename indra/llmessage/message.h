@@ -57,6 +57,8 @@
 
 #include "llstoredmessage.h"
 
+#include <boost/signals2/connection.hpp>
+
 const U32 MESSAGE_MAX_STRINGS_LENGTH = 64;
 const U32 MESSAGE_NUMBER_OF_HASH_BUCKETS = 8192;
 
@@ -215,11 +217,9 @@ class LLMessageSystem : public LLMessageSenderInterface
 	typedef std::map<const char *, LLMessageTemplate*> message_template_name_map_t;
 	typedef std::map<U32, LLMessageTemplate*> message_template_number_map_t;
 
-private:
 	message_template_name_map_t		mMessageTemplates;
 	message_template_number_map_t	mMessageNumbers;
 
-public:
 	S32					mSystemVersionMajor;
 	S32					mSystemVersionMinor;
 	S32					mSystemVersionPatch;
@@ -292,10 +292,16 @@ public:
 
 
 	// methods for building, sending, receiving, and handling messages
-	void	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
-	void	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
+	boost::signals2::connection	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
+	boost::signals2::connection	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
 	{
-		setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
+		return setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
+	}
+
+	boost::signals2::connection	addHandlerFuncFast(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot);
+	boost::signals2::connection	addHandlerFunc(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot)
+	{
+		return addHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_slot);
 	}
 
 	// Set a callback function for a message system exception.
@@ -326,7 +332,7 @@ public:
 	bool addCircuitCode(U32 code, const LLUUID& session_id);
 
 	BOOL	poll(F32 seconds); // Number of seconds that we want to block waiting for data, returns if data was received
-	BOOL	checkMessages( S64 frame_count = 0 );
+	BOOL	checkMessages( S64 frame_count = 0, bool faked_message = false, U8 fake_buffer[MAX_BUFFER_SIZE] = NULL, LLHost fake_host = LLHost(), S32 fake_size = 0 );
 	void	processAcks(F32 collect_time = 0.f);
 
 	BOOL	isMessageFast(const char *msg);
@@ -571,6 +577,7 @@ public:
 	void getCircuitInfo(LLSD& info) const;
 
 	U32 getOurCircuitCode();
+	LLCircuit* getCircuit();
 	
 	void	enableCircuit(const LLHost &host, BOOL trusted);
 	void	disableCircuit(const LLHost &host);
@@ -767,7 +774,18 @@ private:
 	LLMessagePollInfo						*mPollInfop;
 
 	U8	mEncodedRecvBuffer[MAX_BUFFER_SIZE];
-	U8	mTrueReceiveBuffer[MAX_BUFFER_SIZE];
+
+// Push current alignment to stack and set alignment to 1 byte boundary
+#pragma pack(push,1)
+
+	struct ReceiveBuffer_t
+	{
+		proxywrap_t header;
+		U8			buffer[MAX_BUFFER_SIZE];
+	} mTrueReceiveBuffer;
+
+#pragma pack(pop)   /* restore original alignment from stack */
+
 	S32	mTrueReceiveSize;
 
 	// Must be valid during decode
@@ -807,6 +825,7 @@ private:
 	S32 mIncomingCompressedSize;		// original size of compressed msg (0 if uncomp.)
 	TPACKETID mCurrentRecvPacketID;       // packet ID of current receive packet (for reporting)
 
+public:
 	LLMessageBuilder* mMessageBuilder;
 	LLTemplateMessageBuilder* mTemplateMessageBuilder;
 	LLSDMessageBuilder* mLLSDMessageBuilder;
@@ -814,6 +833,7 @@ private:
 	LLTemplateMessageReader* mTemplateMessageReader;
 	LLSDMessageReader* mLLSDMessageReader;
 
+private:
 	friend class LLMessageHandlerBridge;
 	
 	bool callHandler(const char *name, bool trustedSource,

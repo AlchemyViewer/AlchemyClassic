@@ -1116,9 +1116,11 @@ class FrameWatcher
 public:
     FrameWatcher():
         // Hooking onto the "mainloop" event pump gets us one call per frame.
+#if 0
         mConnection(LLEventPumps::instance()
                     .obtain("mainloop")
                     .listen("FrameWatcher", boost::bind(&FrameWatcher::tick, this, _1))),
+#endif
         // Initializing mSampleStart to an invalid timestamp alerts us to skip
         // trying to compute framerate on the first call.
         mSampleStart(-1),

@@ -22,7 +22,6 @@
 #include "llsdserialize.h"
 
 #include <pugixml.hpp>
-#include <libxml2/libxml/parser.h>
 #include <boost/algorithm/string/predicate.hpp>
 
 //I doubt any of this is thread safe!

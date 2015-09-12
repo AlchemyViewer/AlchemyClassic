@@ -71,7 +71,7 @@
        image_overlay="OptionsMenu_Off"
        image_selected="Toolbar_Middle_Selected"
        image_unselected="Toolbar_Middle_Off"
-       menu_filename="menu_filter_choice.xml"
+       menu_filename="menu_message_log_filter.xml"
        menu_position="bottomleft"
        tool_tip="Filter selection"
        layout="topleft"

@@ -99,10 +99,9 @@ BOOL LLMessageLogFilterApply::tick()
 
 	LLMutexLock lock(LLFloaterMessageLog::sMessageListMutex);
 
-	LogPayloadList::iterator end = mParent->sMessageLogEntries.end();
 	for(S32 i = 0; i < 256; i++)
 	{
-		if(mIter == end)
+		if(mIter == mParent->sMessageLogEntries.end())
 		{
 			mFinished = TRUE;
 
@@ -124,30 +123,16 @@ BOOL LLMessageLogFilterApply::tick()
 	return FALSE;
 }
 
-LLMessageLogNetMan::LLMessageLogNetMan()
-    : LLEventTimer(1.0f),
-      mCancel(false)
+LLFloaterMessageLog::LLMessageLogNetMan::LLMessageLogNetMan(LLFloaterMessageLog* parent)
+:	LLEventTimer(1.0f)
+,	mParent(parent)
 {
 }
 
-void LLMessageLogNetMan::cancel()
+BOOL LLFloaterMessageLog::LLMessageLogNetMan::tick()
 {
-	mCancel = true;
-}
-
-BOOL LLMessageLogNetMan::tick()
-{
-	if(mCancel)
-		return TRUE;
-
-	LLFloaterMessageLog* floaterp = static_cast<LLFloaterMessageLog*>(LLFloaterReg::findInstance("message_log"));
-	if (floaterp)
-		floaterp->updateGlobalNetList();
+	if (mParent) mParent->updateGlobalNetList();
 	return FALSE;
-}
-
-LLMessageLogNetMan::~LLMessageLogNetMan()
-{
 }
 
 ////////////////////////////////
@@ -156,7 +141,6 @@ LLMessageLogNetMan::~LLMessageLogNetMan()
 
 std::list<LLNetListItem*> LLFloaterMessageLog::sNetListItems;
 LogPayloadList LLFloaterMessageLog::sMessageLogEntries;
-LLMessageLogNetMan* LLFloaterMessageLog::sNetListTimer = NULL;
 LLMutex* LLFloaterMessageLog::sNetListMutex = NULL;
 LLMutex* LLFloaterMessageLog::sMessageListMutex = NULL;
 LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = NULL;
@@ -186,9 +170,6 @@ LLFloaterMessageLog::~LLFloaterMessageLog()
 	clearFloaterMessageItems(true);
 	
 	LLMessageLog::setCallback(NULL);
-
-	sNetListTimer->cancel();
-	sNetListTimer = NULL;
 
 	sNetListMutex->lock();
 	sNetListItems.clear();
@@ -222,7 +203,7 @@ BOOL LLFloaterMessageLog::postBuild()
 	startApplyingFilter(mMessageLogFilter.asString(), TRUE);
 
 	updateGlobalNetList(true);
-	sNetListTimer = new LLMessageLogNetMan();
+	mNetListTimer.reset(new LLMessageLogNetMan(this));
 
 	setInfoPaneMode(IPANE_NET);
 	wrapInfoPaneText(true);

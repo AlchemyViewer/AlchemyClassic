@@ -71,20 +71,6 @@ private:
 };
 
 
-class LLMessageLogNetMan : public LLEventTimer
-{
-public:
-	LLMessageLogNetMan();
-	~LLMessageLogNetMan();
-
-	void cancel();
-
-protected:
-	bool mCancel;
-	BOOL tick();
-};
-
-
 class LLFloaterMessageLog : public LLFloater
 {
 public:
@@ -144,7 +130,6 @@ protected:
 	LLMessageLogFilter mMessageLogFilter;
 	LLMessageLogFilterApply* mMessageLogFilterApply;
 
-	static LLMessageLogNetMan* sNetListTimer;
 	EInfoPaneMode mInfoPaneMode;
 
 	bool mBeautifyMessages;
@@ -171,10 +156,22 @@ protected:
 	void clearMessageLogEntries();
 	void clearFloaterMessageItems(bool dying = false);
 
+	class LLMessageLogNetMan : public LLEventTimer
+	{
+	public:
+		LLMessageLogNetMan(LLFloaterMessageLog* parent);
+		~LLMessageLogNetMan() {}
+		
+	private:
+		BOOL tick();
+		LLFloaterMessageLog* mParent;
+	};
+	
+	boost::scoped_ptr<LLMessageLogNetMan> mNetListTimer;
+	
 	//this needs to be able to look through the list of raw messages
 	//to be able to create floater message items on a timer.
 	friend class LLMessageLogFilterApply;
-	friend class LLMessageLogNetMan;
 };
 
 #endif // LL_LLFLOATERMESSAGELOG_H

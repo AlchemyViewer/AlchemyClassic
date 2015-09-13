@@ -278,11 +278,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a20616e2a687b6fac9c2614dc4d82812</string>
+              <string>a4d97d4653bd6ac5be65059d6bbd9fa8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/boost-1.58.0-windows-201507232038.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/boost-1.59.0-windows-201509081002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -292,11 +292,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b9354591f2a0d9025d756672f1c4cbd7</string>
+              <string>7226a4a4836a84ac55ed1255bf34a923</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/boost-1.58.0-windows64-201507220333.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/boost-1.59.0-windows64-201509080045.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -362,11 +362,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>42dcfa0df8265bb47bb64f87dbef5b80</string>
+              <string>f8ff228b603887efeb3a575fa30e5f0f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/colladadom-2.3-windows-201507232104.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/colladadom-2.3-windows-201509130314.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -376,11 +376,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>87220540996402e2520fc39c1d369ec9</string>
+              <string>455c06ceb2b3236d09697ecc06102524</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/colladadom-2.3-windows64-201507220652.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/colladadom-2.3-windows64-201509130245.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

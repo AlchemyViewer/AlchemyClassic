@@ -17,6 +17,8 @@
 
 #include "llmessagelog.h"
 
+static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);
+
 LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size)
 :	mType(type),
 	mFromHost(from_host),
@@ -92,42 +94,46 @@ LLMessageLogEntry::~LLMessageLogEntry()
 LogCallback LLMessageLog::sCallback = NULL;
 
 void LLMessageLog::setCallback(LogCallback callback)
-{
+{	
+	if (callback != NULL)
+	{
+		for (auto m : sRingBuffer)
+		{
+			callback(m);
+		}
+	}
 	sCallback = callback;
 }
 
 void LLMessageLog::log(LLHost from_host, LLHost to_host, U8* data, S32 data_size)
 {
-	//we don't store anything locally anymore, don't bother creating a
-	//log entry if it's not even going to be logged.
-	if(!sCallback || !data_size || data == NULL) return;
+	if(!data_size || data == NULL) return;
 
-	// TODO: We usually filter on message type. We can avoid unnecessary copies
-	// by first only calling LLTemplateMessageReader::decodeTemplate() and asking
-	// if we're even interested in that message type.
-	LogPayload payload = new LLMessageLogEntry(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size);
+	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size));
 
-	sCallback(payload);
+	sRingBuffer.push_back(payload);
+
+	if(sCallback) sCallback(payload);
 }
 
 void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, const LLChannelDescriptors& channels,
                                   const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
 {
-	if(!sCallback) return;
+	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
+	                                         headers, request_id, method));
 
-	LogPayload payload = new LLMessageLogEntry(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
-	                                         headers, request_id, method);
+	sRingBuffer.push_back(payload);
 
-	sCallback(payload);
+	if (sCallback) sCallback(payload);
 }
 
 void LLMessageLog::logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
                                    const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
 {
-	if(!sCallback) return;
+	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
+	                                         headers, request_id, HTTP_INVALID, status_code));
 
-	LogPayload payload = new LLMessageLogEntry(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
-	                                         headers, request_id, HTTP_INVALID, status_code);
+	sRingBuffer.push_back(payload);
 
-	sCallback(payload);
+	if (sCallback) sCallback(payload);
 }

@@ -41,6 +41,7 @@ public:
 
 private:
 	LLTemplateMessageReader mTemplateMessageReader;
+	U8	mRecvBuffer[MAX_BUFFER_SIZE];
 };
 
 class LLEasyMessageLogEntry : public LLMessageLogEntry

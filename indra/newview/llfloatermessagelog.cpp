@@ -208,9 +208,18 @@ BOOL LLFloaterMessageLog::postBuild()
 	setInfoPaneMode(IPANE_NET);
 	wrapInfoPaneText(true);
 
-	LLMessageLog::setCallback(onLog);
-
 	return TRUE;
+}
+
+void LLFloaterMessageLog::onOpen(const LLSD& key)
+{
+	LLMessageLog::setCallback(onLog);
+}
+
+void LLFloaterMessageLog::onClose(bool app_quiting)
+{
+	LLMessageLog::setCallback(NULL);
+	if (!app_quiting) onClickClearLog();
 }
 
 void LLFloaterMessageLog::clearFloaterMessageItems(bool dying)
@@ -238,13 +247,6 @@ void LLFloaterMessageLog::clearFloaterMessageItems(bool dying)
 void LLFloaterMessageLog::clearMessageLogEntries()
 {
 	LLMutexLock lock(sMessageListMutex);
-	//make sure to delete the objects referenced by these pointers first
-	LogPayloadList::iterator iter = sMessageLogEntries.begin();
-	LogPayloadList::const_iterator end = sMessageLogEntries.end();
-	for (;iter != end; ++iter)
-    {
-       delete *iter;
-    }
 
 	sMessageLogEntries.clear();
 }
@@ -456,7 +458,6 @@ void LLFloaterMessageLog::onLog(LogPayload entry)
 	LLFloaterMessageLog* floaterp = static_cast<LLFloaterMessageLog*>(LLFloaterReg::findInstance("message_log"));
 	if (!floaterp)
 	{
-		delete entry;
 		return;
 	}
 	if (entry->mType != LLMessageLogEntry::HTTP_RESPONSE)
@@ -464,8 +465,6 @@ void LLFloaterMessageLog::onLog(LogPayload entry)
 		sMessageListMutex->lock();
 		while(!floaterp->mMessageLogFilterApply && sMessageLogEntries.size() > 4096)
 		{
-			//delete the raw message we're getting rid of
-			delete sMessageLogEntries.front();
 			sMessageLogEntries.pop_front();
 		}
 
@@ -632,8 +631,6 @@ void LLFloaterMessageLog::pairHTTPResponse(LogPayload entry)
 		}
 		mIncompleteHTTPConvos.erase(iter);
 	}
-	else
-		delete entry;
 }
 
 void LLFloaterMessageLog::onCommitNetList(LLUICtrl* ctrl)

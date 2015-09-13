@@ -109,7 +109,6 @@ void LLEasyMessageLogEntry::setResponseMessage(LogPayload entry)
 		delete mResponseMsg;
 
 	mResponseMsg = new LLEasyMessageLogEntry(entry);
-	delete entry;
 }
 std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 {
@@ -269,14 +268,33 @@ LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data
 
 LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data_len, LLHost from_host, U32& sequence_id)
 {
-	if(data_len > NET_BUFFER_SIZE)
+	if(data_len > MAX_BUFFER_SIZE)
 	{
-		LL_ERRS("") << "Tried to decode a template message of size " << data_len << ", greater than NET_BUFFER_SIZE!" << LL_ENDL;
+		LL_ERRS("") << "Tried to decode a template message of size " << data_len << ", greater than MAX_BUFFER_SIZE!" << LL_ENDL;
 		return NULL;
 	}
-	U8 decode_buf[NET_BUFFER_SIZE];
-	memcpy(&(decode_buf[0]), data, data_len);
-	U8* decodep = &(decode_buf[0]);
+
+	U8* decodep = (&mRecvBuffer[0]);
+	memcpy(decodep, data, data_len);
+
+	// note if packet acks are appended.
+	if ((decodep[0] & LL_ACK_FLAG))
+	{
+		S32 acks = decodep[--data_len];
+		if (data_len >= ((S32)(acks * sizeof(TPACKETID) + LL_MINIMUM_VALID_PACKET_SIZE)))
+		{
+			data_len -= acks * sizeof(TPACKETID);
+		}
+		else
+		{
+			// mal-formed packet. ignore it and continue with
+			// the next one
+			LL_WARNS("Messaging") << "Malformed packet received. Packet size "
+				<< data_len << " with invalid no. of acks " << acks
+				<< LL_ENDL;
+			return NULL;
+		}
+	}
 
 	LLMessageTemplate* message_template = NULL;
 

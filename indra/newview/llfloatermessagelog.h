@@ -78,6 +78,9 @@ public:
 	~LLFloaterMessageLog();
 	static void onLog(LogPayload entry);
 
+	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onClose(bool app_quitting);
+
 protected:
 	BOOL postBuild() override;
 	void updateGlobalNetList(bool starting = false);

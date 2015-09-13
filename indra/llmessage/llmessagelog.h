@@ -22,13 +22,14 @@
 #include "llhost.h"
 #include "lliopipe.h"
 #include "llurlrequest.h"
+#include <boost/circular_buffer.hpp>
 #include <queue>
 #include <string.h>
 
 class LLMessageSystem;
 
 class LLMessageLogEntry;
-typedef LLMessageLogEntry* LogPayload;
+typedef std::shared_ptr<LLMessageLogEntry> LogPayload;
 
 class LLMessageLogEntry
 {

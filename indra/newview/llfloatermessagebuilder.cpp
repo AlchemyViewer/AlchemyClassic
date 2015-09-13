@@ -79,71 +79,73 @@ BOOL LLFloaterMessageBuilder::tick()
 }
 LLNetListItem* LLFloaterMessageBuilder::findNetListItem(LLHost host)
 {
-	for (LLNetListItem* itemp : sNetListItems)
-		if(itemp->mCircuitData && itemp->mCircuitData->getHost() == host)
-			return itemp;
-	return nullptr;
+	std::list<LLNetListItem*>::iterator end = sNetListItems.end();
+	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
+		if((*iter)->mCircuitData && (*iter)->mCircuitData->getHost() == host)
+			return (*iter);
+	return NULL;
 }
 LLNetListItem* LLFloaterMessageBuilder::findNetListItem(LLUUID id)
 {
-	for (LLNetListItem* itemp : sNetListItems)
-		if(itemp->mID == id)
-			return itemp;
-	return nullptr;
+	std::list<LLNetListItem*>::iterator end = sNetListItems.end();
+	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
+		if((*iter)->mID == id)
+			return (*iter);
+	return NULL;
 }
 void LLFloaterMessageBuilder::refreshNetList()
 {
 	LLScrollListCtrl* scrollp = getChild<LLScrollListCtrl>("net_list");
 	// Update circuit data of net list items
 	std::vector<LLCircuitData*> circuits = gMessageSystem->getCircuit()->getCircuitDataList();
-	for (LLCircuitData* cdp : circuits)
+	std::vector<LLCircuitData*>::iterator circuits_end = circuits.end();
+	for(std::vector<LLCircuitData*>::iterator iter = circuits.begin(); iter != circuits_end; ++iter)
 	{
-		LLNetListItem* itemp = findNetListItem(cdp->getHost());
+		LLNetListItem* itemp = findNetListItem((*iter)->getHost());
 		if(!itemp)
 		{
 			LLUUID id; id.generate();
 			itemp = new LLNetListItem(id);
 			sNetListItems.push_back(itemp);
 		}
-		itemp->mCircuitData = cdp;
+		itemp->mCircuitData = (*iter);
 	}
 	// Clear circuit data of items whose circuits are gone
-	for (LLNetListItem* itemp : sNetListItems)
+	std::list<LLNetListItem*>::iterator items_end = sNetListItems.end();
+	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
 	{
-		if (std::find(circuits.begin(), circuits.end(), itemp->mCircuitData) == circuits.end())
-			itemp->mCircuitData = nullptr;
+		if(std::find(circuits.begin(), circuits.end(), (*iter)->mCircuitData) == circuits.end())
+			(*iter)->mCircuitData = NULL;
 	}
 	// Remove net list items that are totally useless now
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end();)
 	{
 		if((*iter)->mCircuitData == NULL)
 			iter = sNetListItems.erase(iter);
-		else
-			++iter;
+		else ++iter;
 	}
 	// Update names of net list items
-	for (LLNetListItem* itemp : sNetListItems)
+	items_end = sNetListItems.end();
+	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
 	{
-		if (itemp->mAutoName)
+		LLNetListItem* itemp = (*iter);
+		if(itemp->mAutoName)
 		{
-			if (itemp->mCircuitData)
+			if(itemp->mCircuitData)
 			{
 				LLViewerRegion* regionp = LLWorld::getInstance()->getRegion(itemp->mCircuitData->getHost());
-				if (regionp)
+				if(regionp)
 				{
 					std::string name = regionp->getName();
-					if(name == ::LLStringUtil::null)
-						name = llformat("%s (awaiting region name)",
-										itemp->mCircuitData->getHost().getString().c_str());
+					if(name == "") name = llformat("%s (awaiting region name)", itemp->mCircuitData->getHost().getString().c_str());
 					itemp->mName = name;
 					itemp->mPreviousRegionName = name;
 				}
 				else
 				{
 					itemp->mName = itemp->mCircuitData->getHost().getString();
-					if(itemp->mPreviousRegionName != LLStringUtil::null)
-						itemp->mName.append(llformat(" (was %s)",
-													 itemp->mPreviousRegionName.c_str()));
+					if(itemp->mPreviousRegionName != "")
+						itemp->mName.append(llformat(" (was %s)", itemp->mPreviousRegionName.c_str()));
 				}
 			}
 			else
@@ -184,33 +186,28 @@ void LLFloaterMessageBuilder::refreshNetList()
 	if(scroll_pos < scrollp->getItemCount())
 		scrollp->setScrollPos(scroll_pos);
 }
-
 BOOL LLFloaterMessageBuilder::postBuild()
 {
 	getChild<LLTextBase>("message_edit")->setText(mInitialText);
 	getChild<LLUICtrl>("send_btn")->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onClickSend, this));
 	std::vector<std::string> names;
+	LLComboBox* combo;
+	LLMessageSystem::message_template_name_map_t::iterator temp_end = gMessageSystem->mMessageTemplates.end();
 	LLMessageSystem::message_template_name_map_t::iterator temp_iter;
 	std::vector<std::string>::iterator names_end;
 	std::vector<std::string>::iterator names_iter;
-	for(temp_iter = gMessageSystem->mMessageTemplates.begin();
-		temp_iter != gMessageSystem->mMessageTemplates.end(); ++temp_iter)
-	{
+	for(temp_iter = gMessageSystem->mMessageTemplates.begin(); temp_iter != temp_end; ++temp_iter)
 		if((*temp_iter).second->getTrust() == MT_NOTRUST)
 			names.push_back((*temp_iter).second->mName);
-	}
 	std::sort(names.begin(), names.end());
-	LLComboBox* combo = getChild<LLComboBox>("untrusted_message_combo");
+	combo = getChild<LLComboBox>("untrusted_message_combo");
 	names_end = names.end();
-	for (names_iter = names.begin(); names_iter != names_end; ++names_iter)
+	for(names_iter = names.begin(); names_iter != names_end; ++names_iter)
 		combo->add((*names_iter));
 	names.clear();
-	for(temp_iter = gMessageSystem->mMessageTemplates.begin();
-		temp_iter != gMessageSystem->mMessageTemplates.end(); ++temp_iter)
-	{
+	for(temp_iter = gMessageSystem->mMessageTemplates.begin(); temp_iter != temp_end; ++temp_iter)
 		if((*temp_iter).second->getTrust() == MT_TRUST)
 			names.push_back((*temp_iter).second->mName);
-	}
 	std::sort(names.begin(), names.end());
 	combo = getChild<LLComboBox>("trusted_message_combo");
 	names_end = names.end();

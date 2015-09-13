@@ -79,11 +79,10 @@ public:
 	static void onLog(LogPayload entry);
 
 protected:
-	BOOL postBuild();
+	BOOL postBuild() override;
 	void updateGlobalNetList(bool starting = false);
 	static LLNetListItem* findNetListItem(LLHost host);
 	static LLNetListItem* findNetListItem(LLUUID id);
-
 
 	void refreshNetList();
 	void refreshNetInfo(BOOL force);
@@ -112,8 +111,8 @@ protected:
 	void onClickFilterMenu(const LLSD& user_data);
 	void onClickFilterApply();
 	void onClickSendToMessageBuilder();
-	void onCheckWrapNetInfo(LLUICtrl* ctrl);
-	void onCheckBeautifyMessages(LLUICtrl* ctrl);
+	void onCheckWrapNetInfo(const LLSD& value);
+	void onCheckBeautifyMessages(const LLSD& value);
 	static BOOL onClickCloseCircuit(void* user_data);
 	static void onConfirmCloseCircuit(const LLSD& notification, const LLSD& response);
 	static void onConfirmRemoveRegion(const LLSD& notification, const LLSD& response);

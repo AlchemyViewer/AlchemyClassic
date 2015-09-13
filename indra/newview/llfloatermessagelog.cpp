@@ -194,8 +194,8 @@ BOOL LLFloaterMessageLog::postBuild()
 	getChild<LLUICtrl>("message_log")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCommitMessageLog, this, _1));
 	getChild<LLUICtrl>("filter_apply_btn")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onClickFilterApply, this));
 	getChild<LLUICtrl>("filter_edit")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCommitFilter, this));
-	getChild<LLUICtrl>("wrap_net_info")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCheckWrapNetInfo, this, _1));
-	getChild<LLUICtrl>("beautify_messages")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCheckBeautifyMessages, this, _1));
+	getChild<LLUICtrl>("wrap_net_info")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCheckWrapNetInfo, this, _2));
+	getChild<LLUICtrl>("beautify_messages")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onCheckBeautifyMessages, this, _2));
 	getChild<LLUICtrl>("clear_log_btn")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onClickClearLog, this));
 	getChild<LLUICtrl>("msg_builder_send_btn")->setCommitCallback(boost::bind(&LLFloaterMessageLog::onClickSendToMessageBuilder, this));
 	getChild<LLLineEditor>("filter_edit")->setText(mMessageLogFilter.asString());
@@ -271,8 +271,7 @@ void LLFloaterMessageLog::updateGlobalNetList(bool starting)
 		itemp->mCircuitData = (*iter);
 	}
 	// Clear circuit data of items whose circuits are gone
-	std::list<LLNetListItem*>::iterator items_end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
+	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end(); ++iter)
 	{
 		if(std::find(circuits.begin(), circuits.end(), (*iter)->mCircuitData) == circuits.end())
 			(*iter)->mCircuitData = NULL;
@@ -318,45 +317,39 @@ void LLFloaterMessageLog::refreshNetList()
 	LLScrollListCtrl* scrollp = getChild<LLScrollListCtrl>("net_list");
 
 	// Update names of net list items
-	std::list<LLNetListItem*>::iterator items_end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
+	for (LLNetListItem* itemp : sNetListItems)
 	{
-		LLNetListItem* itemp = (*iter);
-		if(itemp->mAutoName)
+		if(itemp->mAutoName && itemp->mCircuitData)
 		{
-			if(itemp->mCircuitData)
+			LLViewerRegion* regionp = LLWorld::getInstance()->getRegion(itemp->mCircuitData->getHost());
+			if(regionp)
 			{
-				LLViewerRegion* regionp = LLWorld::getInstance()->getRegion(itemp->mCircuitData->getHost());
-				if(regionp)
-				{
-					std::string name = regionp->getName();
-					if(name.empty())
-						name = llformat("%s (awaiting region name)", itemp->mCircuitData->getHost().getString().c_str());
-					itemp->mName = name;
-					itemp->mPreviousRegionName = name;
-					itemp->mHandle = regionp->getHandle();
-				}
-				else
-				{
-					itemp->mName = itemp->mCircuitData->getHost().getString();
-					if(!itemp->mPreviousRegionName.empty())
-						itemp->mName.append(llformat(" (was %s)", itemp->mPreviousRegionName.c_str()));
-				}
+				std::string name = regionp->getName();
+				if(name.empty())
+					name = llformat("%s (awaiting region name)", itemp->mCircuitData->getHost().getString().c_str());
+				itemp->mName = name;
+				itemp->mPreviousRegionName = name;
+				itemp->mHandle = regionp->getHandle();
 			}
 			else
 			{
-				// an item just for an event queue, not handled yet
-				itemp->mName = "Something else";
+				itemp->mName = itemp->mCircuitData->getHost().getString();
+				if(!itemp->mPreviousRegionName.empty())
+					itemp->mName.append(llformat(" (was %s)", itemp->mPreviousRegionName.c_str()));
 			}
+		}
+		else
+		{
+			// an item just for an event queue, not handled yet
+			itemp->mName = "Something else";
 		}
 	}
 	// Rebuild scroll list from scratch
-	LLUUID selected_id = scrollp->getFirstSelected() ? scrollp->getFirstSelected()->getUUID() : LLUUID::null;
-	S32 scroll_pos = scrollp->getScrollPos();
+	const LLUUID& selected_id = scrollp->getFirstSelected() ? scrollp->getFirstSelected()->getUUID() : LLUUID::null;
+	const S32 scroll_pos = scrollp->getScrollPos();
 	scrollp->clearRows();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
+	for (LLNetListItem* itemp : sNetListItems)
 	{
-		LLNetListItem* itemp = (*iter);
 		LLSD element;
 		element["id"] = itemp->mID;
 		LLSD& text_column = element["columns"][0];
@@ -391,20 +384,22 @@ void LLFloaterMessageLog::refreshNetList()
 		icon->setColor(LLColor4(0.1f,0.1f,0.1f,0.7f));
 		icon->setClickCallback(NULL, NULL);
 	}
-	if(selected_id.notNull()) scrollp->selectByID(selected_id);
-	if(scroll_pos < scrollp->getItemCount()) scrollp->setScrollPos(scroll_pos);
+	if(selected_id.notNull())
+		scrollp->selectByID(selected_id);
+	if(scroll_pos < scrollp->getItemCount())
+		scrollp->setScrollPos(scroll_pos);
 }
 
 void LLFloaterMessageLog::refreshNetInfo(BOOL force)
 {
 	if(mInfoPaneMode != IPANE_NET) return;
-	LLScrollListCtrl* scrollp = getChild<LLScrollListCtrl>("net_list");
-	LLScrollListItem* selected_itemp = scrollp->getFirstSelected();
+	const LLScrollListCtrl* scrollp = getChild<LLScrollListCtrl>("net_list");
+	const LLScrollListItem* selected_itemp = scrollp->getFirstSelected();
 	if(selected_itemp)
 	{
-		LLTextEditor* net_info = getChild<LLTextEditor>("net_info");
+		const LLTextEditor* net_info = getChild<LLTextEditor>("net_info");
 		if(!force && (net_info->hasSelection() || net_info->hasFocus())) return;
-		LLNetListItem* itemp = findNetListItem(selected_itemp->getUUID());
+		const LLNetListItem* itemp = findNetListItem(selected_itemp->getUUID());
 		if(itemp)
 		{
 			std::string info(llformat("%s, %d\n--------------------------------\n\n", itemp->mName.c_str(), itemp->mHandle));
@@ -492,19 +487,16 @@ void LLFloaterMessageLog::onLog(LogPayload entry)
 void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 {
 	if(!mMessageLogFilterApply)
-		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages of %d", mFloaterMessageLogItems.size(), mMessagesLogged));
+		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages of %d",
+																  mFloaterMessageLogItems.size(), mMessagesLogged));
 
 	FloaterMessageItem item = new LLEasyMessageLogEntry(entry, mEasyMessageReader);
 
-
-	std::set<std::string>::const_iterator end_msg_name = item->mNames.end();
-	std::set<std::string>::iterator iter_msg_name = item->mNames.begin();
-
 	bool have_positive = false;
 
-	for(; iter_msg_name != end_msg_name; ++iter_msg_name)
+	for(const std::string& msg_name : item->mNames)
 	{
-		std::string find_name = *iter_msg_name;
+		std::string find_name = msg_name;
 		LLStringUtil::toLower(find_name);
 
 		//keep the message if we allowed its name so long as one of its other names hasn't been blacklisted
@@ -548,20 +540,19 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	{
 		//LLHost find_host = outgoing ? item->mToHost : item->mFromHost;
 		//net_name = find_host.getIPandPort();
-		for(std::set<LLHost>::iterator host_iter = item->mRegionHosts.begin(); host_iter != item->mRegionHosts.end(); ++host_iter)
+		for (const auto& host : item->mRegionHosts)
 		{
 			std::string region_name = LLStringUtil::null;
-			std::list<LLNetListItem*>::iterator end = sNetListItems.end();
-			for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
+			for (LLNetListItem* item : sNetListItems)
 			{
-				if((*host_iter) == (*iter)->mCircuitData->getHost())
+				if (host == item->mCircuitData->getHost())
 				{
-					region_name += (*iter)->mName;
+					region_name += item->mName;
 					break;
 				}
 			}
 			if(region_name.empty())
-				region_name = host_iter->getIPandPort();
+				region_name = host.getIPandPort();
 			if(!net_name.empty())
 				net_name += ", ";
 			net_name += region_name;
@@ -620,8 +611,6 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 
 	if(scroll_pos > mMessagelogScrollListCtrl->getItemCount() - mMessagelogScrollListCtrl->getLinesPerPage() - 4)
 		mMessagelogScrollListCtrl->setScrollPos(mMessagelogScrollListCtrl->getItemCount());
-
-
 }
 
 void LLFloaterMessageLog::pairHTTPResponse(LogPayload entry)
@@ -635,7 +624,7 @@ void LLFloaterMessageLog::pairHTTPResponse(LogPayload entry)
 
 		//if this message was already selected in the message log,
 		//redisplay it to show the response as well.
-		LLScrollListItem* itemp = mMessagelogScrollListCtrl->getFirstSelected();
+		const LLScrollListItem* itemp = mMessagelogScrollListCtrl->getFirstSelected();
 
 		if(itemp && itemp->getUUID() == iter->second->mID)
 		{
@@ -660,9 +649,9 @@ void LLFloaterMessageLog::onCommitMessageLog(LLUICtrl* ctrl)
 
 void LLFloaterMessageLog::showSelectedMessage()
 {
-	LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
+	const LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
 	if (!selected_itemp) return;
-	LLUUID id = selected_itemp->getUUID();
+	const LLUUID& id = selected_itemp->getUUID();
 	for (LLEasyMessageLogEntry* entryp : mFloaterMessageLogItems)
 	{
 		if(entryp->mID == id)
@@ -675,16 +664,20 @@ void LLFloaterMessageLog::showSelectedMessage()
 
 void LLFloaterMessageLog::showMessage(FloaterMessageItem item)
 {
-	if(item->mType == LLMessageLogEntry::TEMPLATE)
+	switch (item->mType)
 	{
-		setInfoPaneMode(IPANE_TEMPLATE_LOG);
-		getChild<LLTextBase>("net_info")->setText(item->getFull(mBeautifyMessages));
-	}
-	else if(item->mType == LLMessageLogEntry::HTTP_REQUEST)
-	{
-		setInfoPaneMode(IPANE_HTTP_LOG);
-		getChild<LLTextBase>("conv_request")->setText(item->getFull(mBeautifyMessages));
-		getChild<LLTextBase>("conv_response")->setText(item->getResponseFull(mBeautifyMessages));
+		case LLMessageLogEntry::TEMPLATE:
+			setInfoPaneMode(IPANE_TEMPLATE_LOG);
+			getChild<LLTextBase>("net_info")->setText(item->getFull(mBeautifyMessages));
+			break;
+		case LLMessageLogEntry::HTTP_REQUEST:
+			setInfoPaneMode(IPANE_HTTP_LOG);
+			getChild<LLTextBase>("conv_request")->setText(item->getFull(mBeautifyMessages));
+			getChild<LLTextBase>("conv_response")->setText(item->getResponseFull(mBeautifyMessages));
+			break;
+		case LLMessageLogEntry::HTTP_RESPONSE:
+		default:
+			break;
 	}
 }
 
@@ -719,7 +712,6 @@ void LLFloaterMessageLog::onConfirmCloseCircuit(const LLSD& notification, const 
 		break;
 	case 2: // cancel
 		return;
-		break;
 	case 1: // no
 	default:
 		break;
@@ -790,10 +782,10 @@ void LLFloaterMessageLog::updateFilterStatus()
 {
 	if (!mMessageLogFilterApply) return;
 
-	S32 progress = mMessageLogFilterApply->getProgress();
-	S32 packets = sMessageLogEntries.size();
-	S32 matches = mFloaterMessageLogItems.size();
-	std::string text = llformat("Filtering ( %d / %d ), %d matches ...", progress, packets, matches);
+	const S32 progress = mMessageLogFilterApply->getProgress();
+	const size_t packets = sMessageLogEntries.size();
+	const size_t matches = mFloaterMessageLogItems.size();
+	const std::string& text = llformat("Filtering ( %d / %d ), %d matches ...", progress, packets, matches);
 	getChild<LLTextBase>("log_status_text")->setText(text);
 }
 
@@ -820,31 +812,30 @@ void LLFloaterMessageLog::onClickFilterMenu(const LLSD& user_data)
 
 void LLFloaterMessageLog::onClickSendToMessageBuilder()
 {
-	LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
+	const LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
 
 	if (!selected_itemp) return;
 
-	LLUUID id = selected_itemp->getUUID();
-	FloaterMessageList::iterator end = mFloaterMessageLogItems.end();
-	for(FloaterMessageList::iterator iter = mFloaterMessageLogItems.begin(); iter != end; ++iter)
+	const LLUUID& id = selected_itemp->getUUID();
+	for(LLEasyMessageLogEntry* entry : mFloaterMessageLogItems)
 	{
-		if((*iter)->mID == id)
+		if(entry->mID == id)
 		{
-			std::string message_text = (*iter)->getFull(getBeautifyMessages());
+			const std::string& message_text = entry->getFull(getBeautifyMessages());
 			LLFloaterMessageBuilder::show(message_text);
 			break;
 		}
 	}
 }
 
-void LLFloaterMessageLog::onCheckWrapNetInfo(LLUICtrl* ctrl)
+void LLFloaterMessageLog::onCheckWrapNetInfo(const LLSD& value)
 {
-	wrapInfoPaneText(static_cast<LLCheckBoxCtrl*>(ctrl)->getValue());
+	wrapInfoPaneText(value.asBoolean());
 }
 
-void LLFloaterMessageLog::onCheckBeautifyMessages(LLUICtrl* ctrl)
+void LLFloaterMessageLog::onCheckBeautifyMessages(const LLSD& value)
 {
-	mBeautifyMessages = static_cast<LLCheckBoxCtrl*>(ctrl)->getValue();
+	mBeautifyMessages = value.asBoolean();
 
 	//if we already had a message selected, we need to set the full
 	//text of the message again

@@ -79,73 +79,71 @@ BOOL LLFloaterMessageBuilder::tick()
 }
 LLNetListItem* LLFloaterMessageBuilder::findNetListItem(LLHost host)
 {
-	std::list<LLNetListItem*>::iterator end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
-		if((*iter)->mCircuitData && (*iter)->mCircuitData->getHost() == host)
-			return (*iter);
-	return NULL;
+	for (LLNetListItem* itemp : sNetListItems)
+		if(itemp->mCircuitData && itemp->mCircuitData->getHost() == host)
+			return itemp;
+	return nullptr;
 }
 LLNetListItem* LLFloaterMessageBuilder::findNetListItem(LLUUID id)
 {
-	std::list<LLNetListItem*>::iterator end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
-		if((*iter)->mID == id)
-			return (*iter);
-	return NULL;
+	for (LLNetListItem* itemp : sNetListItems)
+		if(itemp->mID == id)
+			return itemp;
+	return nullptr;
 }
 void LLFloaterMessageBuilder::refreshNetList()
 {
 	LLScrollListCtrl* scrollp = getChild<LLScrollListCtrl>("net_list");
 	// Update circuit data of net list items
 	std::vector<LLCircuitData*> circuits = gMessageSystem->getCircuit()->getCircuitDataList();
-	std::vector<LLCircuitData*>::iterator circuits_end = circuits.end();
-	for(std::vector<LLCircuitData*>::iterator iter = circuits.begin(); iter != circuits_end; ++iter)
+	for (LLCircuitData* cdp : circuits)
 	{
-		LLNetListItem* itemp = findNetListItem((*iter)->getHost());
+		LLNetListItem* itemp = findNetListItem(cdp->getHost());
 		if(!itemp)
 		{
 			LLUUID id; id.generate();
 			itemp = new LLNetListItem(id);
 			sNetListItems.push_back(itemp);
 		}
-		itemp->mCircuitData = (*iter);
+		itemp->mCircuitData = cdp;
 	}
 	// Clear circuit data of items whose circuits are gone
-	std::list<LLNetListItem*>::iterator items_end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
+	for (LLNetListItem* itemp : sNetListItems)
 	{
-		if(std::find(circuits.begin(), circuits.end(), (*iter)->mCircuitData) == circuits.end())
-			(*iter)->mCircuitData = NULL;
+		if (std::find(circuits.begin(), circuits.end(), itemp->mCircuitData) == circuits.end())
+			itemp->mCircuitData = nullptr;
 	}
 	// Remove net list items that are totally useless now
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end();)
 	{
 		if((*iter)->mCircuitData == NULL)
 			iter = sNetListItems.erase(iter);
-		else ++iter;
+		else
+			++iter;
 	}
 	// Update names of net list items
-	items_end = sNetListItems.end();
-	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != items_end; ++iter)
+	for (LLNetListItem* itemp : sNetListItems)
 	{
-		LLNetListItem* itemp = (*iter);
-		if(itemp->mAutoName)
+		if (itemp->mAutoName)
 		{
-			if(itemp->mCircuitData)
+			if (itemp->mCircuitData)
 			{
 				LLViewerRegion* regionp = LLWorld::getInstance()->getRegion(itemp->mCircuitData->getHost());
-				if(regionp)
+				if (regionp)
 				{
 					std::string name = regionp->getName();
-					if(name == "") name = llformat("%s (awaiting region name)", itemp->mCircuitData->getHost().getString().c_str());
+					if(name == ::LLStringUtil::null)
+						name = llformat("%s (awaiting region name)",
+										itemp->mCircuitData->getHost().getString().c_str());
 					itemp->mName = name;
 					itemp->mPreviousRegionName = name;
 				}
 				else
 				{
 					itemp->mName = itemp->mCircuitData->getHost().getString();
-					if(itemp->mPreviousRegionName != "")
-						itemp->mName.append(llformat(" (was %s)", itemp->mPreviousRegionName.c_str()));
+					if(itemp->mPreviousRegionName != LLStringUtil::null)
+						itemp->mName.append(llformat(" (was %s)",
+													 itemp->mPreviousRegionName.c_str()));
 				}
 			}
 			else
@@ -186,35 +184,36 @@ void LLFloaterMessageBuilder::refreshNetList()
 	if(scroll_pos < scrollp->getItemCount())
 		scrollp->setScrollPos(scroll_pos);
 }
+
 BOOL LLFloaterMessageBuilder::postBuild()
 {
+	string_vec_t untrusted_names;
+	string_vec_t trusted_names;
+	for (const auto& msg : gMessageSystem->mMessageTemplates)
+	{
+		switch (msg.second->getTrust())
+		{
+			case MT_NOTRUST:
+				untrusted_names.push_back(msg.second->mName);
+				break;
+			case MT_TRUST:
+				trusted_names.push_back(msg.second->mName);
+		}
+	}
+	std::sort(untrusted_names.begin(), untrusted_names.end());
+	std::sort(trusted_names.begin(), trusted_names.end());
+	LLComboBox* combo = getChild<LLComboBox>("untrusted_message_combo");
+	combo->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onCommitPacketCombo, this, _1));
+	for (const std::string& name : untrusted_names)
+		combo->add(name);
+	combo = getChild<LLComboBox>("trusted_message_combo");
+	combo->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onCommitPacketCombo, this, _1));
+	for (const std::string& name : trusted_names)
+		combo->add(name);
+	
 	getChild<LLTextBase>("message_edit")->setText(mInitialText);
 	getChild<LLUICtrl>("send_btn")->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onClickSend, this));
-	std::vector<std::string> names;
-	LLComboBox* combo;
-	LLMessageSystem::message_template_name_map_t::iterator temp_end = gMessageSystem->mMessageTemplates.end();
-	LLMessageSystem::message_template_name_map_t::iterator temp_iter;
-	std::vector<std::string>::iterator names_end;
-	std::vector<std::string>::iterator names_iter;
-	for(temp_iter = gMessageSystem->mMessageTemplates.begin(); temp_iter != temp_end; ++temp_iter)
-		if((*temp_iter).second->getTrust() == MT_NOTRUST)
-			names.push_back((*temp_iter).second->mName);
-	std::sort(names.begin(), names.end());
-	combo = getChild<LLComboBox>("untrusted_message_combo");
-	names_end = names.end();
-	for(names_iter = names.begin(); names_iter != names_end; ++names_iter)
-		combo->add((*names_iter));
-	names.clear();
-	for(temp_iter = gMessageSystem->mMessageTemplates.begin(); temp_iter != temp_end; ++temp_iter)
-		if((*temp_iter).second->getTrust() == MT_TRUST)
-			names.push_back((*temp_iter).second->mName);
-	std::sort(names.begin(), names.end());
-	combo = getChild<LLComboBox>("trusted_message_combo");
-	names_end = names.end();
-	for(names_iter = names.begin(); names_iter != names_end; ++names_iter)
-		combo->add((*names_iter));
-	getChild<LLUICtrl>("untrusted_message_combo")->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onCommitPacketCombo, this, _1));
-	getChild<LLUICtrl>("trusted_message_combo")->setCommitCallback(boost::bind(&LLFloaterMessageBuilder::onCommitPacketCombo, this, _1));
+	
 	return TRUE;
 }
 
@@ -222,10 +221,10 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 {
 	LLViewerObject* selected_objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 	LLParcel* agent_parcelp = LLViewerParcelMgr::getInstance()->getAgentParcel();
-	std::string message = ctrl->getValue();
-	std::map<const char *, LLMessageTemplate*>::iterator template_iter;
+	const std::string& message = ctrl->getValue();
+	LLMessageSystem::message_template_name_map_t::iterator template_iter;
 	template_iter = gMessageSystem->mMessageTemplates.find(LLMessageStringTable::getInstance()->getString(message.c_str()));
-	if(template_iter == gMessageSystem->mMessageTemplates.end())
+	if (template_iter == gMessageSystem->mMessageTemplates.end())
 	{
 		getChild<LLTextBase>("message_edit")->setText(LLStringUtil::null);
 		return;
@@ -233,30 +232,23 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 	std::string text(llformat((*template_iter).second->getTrust() == MT_NOTRUST
 							  ? "out %s\n\n" : "in %s\n\n", message.c_str()));
 	LLMessageTemplate* temp = (*template_iter).second;
-	LLMessageTemplate::message_block_map_t::iterator blocks_end = temp->mMemberBlocks.end();
-	for (LLMessageTemplate::message_block_map_t::iterator blocks_iter = temp->mMemberBlocks.begin();
-		 blocks_iter != blocks_end; ++blocks_iter)
+	for (const auto& block : temp->mMemberBlocks)
 	{
-		LLMessageBlock* block = (*blocks_iter);
-		const char* block_name = block->mName;
-		std::string block_name_string = std::string(block_name);
+		std::string block_name = std::string(block->mName);
 		S32 num_blocks = 1;
 		if(block->mType == MBT_MULTIPLE)
 			num_blocks = block->mNumber;
-		else if(("ObjectLink" == message && "ObjectData" == block_name_string))
+		else if("ObjectLink" == message && "ObjectData" == block_name)
 			num_blocks = 2;
+		
 		for(S32 i = 0; i < num_blocks; i++)
 		{
-			text.append(llformat("[%s]\n", block_name));
-			LLMessageBlock::message_variable_map_t::iterator var_end = block->mMemberVariables.end();
-			for (LLMessageBlock::message_variable_map_t::iterator var_iter = block->mMemberVariables.begin();
-				 var_iter != var_end; ++var_iter)
+			text.append(llformat("[%s]\n", block_name.c_str()));
+			for (const auto& variable : block->mMemberVariables)
 			{
-				LLMessageVariable* variable = (*var_iter);
-				const char* var_name = variable->getName();
-				std::string var_name_string = std::string(var_name);
-				text.append(llformat("    %s = ", var_name));
-				std::string value("");
+				std::string var_name = std::string(variable->getName());
+				text.append(llformat("    %s = ", var_name.c_str()));
+				std::string value(LLStringUtil::null);
 				S32 size = variable->getSize();
 				switch(variable->getType())
 				{
@@ -269,36 +261,33 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 				case MVT_S32:
 				case MVT_IP_ADDR:
 				case MVT_IP_PORT:
-					if("RegionHandle" == var_name_string || "Handle" == var_name_string)
+					if("RegionHandle" == var_name || "Handle" == var_name)
 						value = "$RegionHandle";
-					else if("CircuitCode" == var_name_string || "ViewerCircuitCode" == var_name_string
-						|| ("Code" == var_name_string && "CircuitCode" == block_name_string) )
+					else if("CircuitCode" == var_name || "ViewerCircuitCode" == var_name
+						|| ("Code" == var_name && "CircuitCode" == block_name) )
 					{
 						value = "$CircuitCode";
 					}
 					else if(selected_objectp &&
-							("ObjectLocalID" == var_name_string || "TaskLocalID" == var_name_string || ("LocalID" == var_name_string && ("ObjectData" == block_name_string || "UpdateData" == block_name_string || "InventoryData" == block_name_string))))
+							("ObjectLocalID" == var_name || "TaskLocalID" == var_name || ("LocalID" == var_name && ("ObjectData" == block_name || "UpdateData" == block_name || "InventoryData" == block_name))))
 					{
-						std::stringstream temp_stream;
-						temp_stream << selected_objectp->getLocalID();
-						value = temp_stream.str();
+
+						value = std::to_string(selected_objectp->getLocalID());
 					}
-					else if(agent_parcelp && "LocalID" == var_name_string
-							&& ("ParcelData" == block_name_string || message.find("Parcel") != message.npos))
+					else if(agent_parcelp && "LocalID" == var_name
+							&& ("ParcelData" == block_name || message.find("Parcel") != message.npos))
 					{
-						std::stringstream temp_stream;
-						temp_stream << agent_parcelp->getLocalID();
-						value = temp_stream.str();
+						value = std::to_string(agent_parcelp->getLocalID());
 					}
-					else if("PCode" == var_name_string)
+					else if("PCode" == var_name)
 						value = "9";
-					else if("PathCurve" == var_name_string)
+					else if("PathCurve" == var_name)
 						value = "16";
-					else if("ProfileCurve" == var_name_string)
+					else if("ProfileCurve" == var_name)
 						value = "1";
-					else if("PathScaleX" == var_name_string || "PathScaleY" == var_name_string)
+					else if("PathScaleX" == var_name || "PathScaleY" == var_name)
 						value = "100";
-					else if("BypassRaycast" == var_name_string)
+					else if("BypassRaycast" == var_name)
 						value = "1";
 					else
 						value = "0";
@@ -310,9 +299,9 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 				case MVT_LLVector3:
 				case MVT_LLVector3d:
 				case MVT_LLQuaternion:
-					if("Position" == var_name_string || "RayStart" == var_name_string || "RayEnd" == var_name_string)
+					if("Position" == var_name || "RayStart" == var_name || "RayEnd" == var_name)
 						value = "$Position";
-					else if("Scale" == var_name_string)
+					else if("Scale" == var_name)
 						value = "<0.5, 0.5, 0.5>";
 					else
 						value = "<0, 0, 0>";
@@ -321,16 +310,16 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 					value = "<0, 0, 0, 0>";
 					break;
 				case MVT_LLUUID:
-					if("AgentID" == var_name_string)
+					if("AgentID" == var_name)
 						value = "$AgentID";
-					else if("SessionID" == var_name_string)
+					else if("SessionID" == var_name)
 						value = "$SessionID";
-					else if("ObjectID" == var_name_string && selected_objectp)
+					else if("ObjectID" == var_name && selected_objectp)
 						value = selected_objectp->getID().asString();
-					else if("ParcelID" == var_name_string && agent_parcelp)
+					else if("ParcelID" == var_name && agent_parcelp)
 						value = agent_parcelp->getID().asString();
 					else
-						value = "00000000-0000-0000-0000-000000000000";
+						value = LLUUID::null.asString();
 					break;
 				case MVT_BOOL:
 					value = "false";
@@ -343,7 +332,7 @@ void LLFloaterMessageBuilder::onCommitPacketCombo(LLUICtrl* ctrl)
 						value.append("a");
 					break;
 				default:
-					value = "";
+					value = LLStringUtil::null;
 					break;
 				}
 				text.append(llformat("%s\n", value.c_str()));

@@ -44,12 +44,14 @@ private:
 	U8	mRecvBuffer[MAX_BUFFER_SIZE];
 };
 
-class LLEasyMessageLogEntry : public LLMessageLogEntry
+class LLEasyMessageLogEntry
 {
 public:
 	LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader = NULL);
 	LLEasyMessageLogEntry(LLEasyMessageReader* message_reader = NULL);
 	~LLEasyMessageLogEntry();
+
+	LogPayload operator()() { return mEntry; };
 
 	std::string getFull(BOOL beautify = FALSE, BOOL show_header = FALSE);
 	std::string getName();
@@ -69,6 +71,8 @@ public:
 	U32 mFlags;
 
 private:
+	LogPayload mEntry;
+
 	LLEasyMessageLogEntry* mResponseMsg;
 	LLEasyMessageReader* mEasyMessageReader;
 };

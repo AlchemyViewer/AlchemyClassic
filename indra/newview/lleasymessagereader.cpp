@@ -26,33 +26,33 @@
 
 //I doubt any of this is thread safe!
 LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader)
-:	LLMessageLogEntry((*entry))
+:	mEntry(entry)
 ,	mEasyMessageReader(message_reader)
 ,	mResponseMsg(NULL)
 {
 	mID.generate();
 	mSequenceID = 0;
 
-	if(mType == TEMPLATE)
+	if(mEntry->mType == LLMessageLogEntry::TEMPLATE)
 	{
-		mFlags = mData[0];
+		mFlags = mEntry->mData[0];
 
 		LLMessageTemplate* temp = NULL;
 
 		if (mEasyMessageReader)
 			temp = mEasyMessageReader->decodeTemplateMessage(
-							&(mData[0]), mDataSize, mFromHost, mSequenceID);
+							&(mEntry->mData[0]), mEntry->mDataSize, mEntry->mFromHost, mSequenceID);
 
 		if (temp)
 			mNames.insert(temp->mName);
 		else
 			mNames.insert("Invalid");
 
-		mRegionHosts.insert(isOutgoing() ? mToHost : mFromHost);
+		mRegionHosts.insert(isOutgoing() ? mEntry->mToHost : mEntry->mFromHost);
 	}
-	else if(mType == HTTP_REQUEST)// not template
+	else if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST)// not template
 	{
-		std::string base_url = get_base_cap_url(mURL);
+		std::string base_url = get_base_cap_url(mEntry->mURL);
 
 		if(LLWorld::getInstance()->isCapURLMapped(base_url))
 		{
@@ -64,7 +64,7 @@ LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageRead
 			}
 		}
 		else
-			mNames.insert(mURL);
+			mNames.insert(mEntry->mURL);
 	}
 	else // not template
 	{
@@ -80,7 +80,7 @@ LLEasyMessageLogEntry::~LLEasyMessageLogEntry()
 BOOL LLEasyMessageLogEntry::isOutgoing()
 {
 #define LOCALHOST_ADDR 16777343
-	return mFromHost == LLHost(LOCALHOST_ADDR, gMessageSystem->getListenPort());
+	return mEntry->mFromHost == LLHost(LOCALHOST_ADDR, gMessageSystem->getListenPort());
 #undef LOCALHOST_ADDR
 }
 std::string LLEasyMessageLogEntry::getName()
@@ -113,12 +113,12 @@ void LLEasyMessageLogEntry::setResponseMessage(LogPayload entry)
 std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 {
 	std::ostringstream full;
-	if(mType == TEMPLATE)
+	if(mEntry->mType == LLMessageLogEntry::TEMPLATE)
 	{
 		LLMessageTemplate* temp = NULL;
 
 		if(mEasyMessageReader)
-			temp = mEasyMessageReader->decodeTemplateMessage(&(mData[0]), mDataSize, mFromHost);
+			temp = mEasyMessageReader->decodeTemplateMessage(&(mEntry->mData[0]), mEntry->mDataSize, mEntry->mFromHost);
 
 		if(temp)
 		{
@@ -164,21 +164,21 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 		else
 		{
 			full << (isOutgoing() ? "out" : "in") << "\n";
-			for(S32 i = 0; i < mDataSize; i++)
-				full << llformat("%02X ", mData[i]);
+			for(S32 i = 0; i < mEntry->mDataSize; i++)
+				full << llformat("%02X ", mEntry->mData[i]);
 		}
 	}
-	else if(mType == HTTP_REQUEST || HTTP_RESPONSE)
+	else if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST || LLMessageLogEntry::HTTP_RESPONSE)
 	{
-		if(mType == HTTP_REQUEST)
-			full << llformat("%s %s\n", httpMethodAsVerb(mMethod).c_str(), mURL.c_str());
-		if(mType == HTTP_RESPONSE)
-			full << llformat("%d\n", mStatusCode);
+		if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST)
+			full << llformat("%s %s\n", httpMethodAsVerb(mEntry->mMethod).c_str(), mEntry->mURL.c_str());
+		if(mEntry->mType == LLMessageLogEntry::HTTP_RESPONSE)
+			full << llformat("%d\n", mEntry->mStatusCode);
 
-		if (mHeaders.isMap())
+		if (mEntry->mHeaders.isMap())
 		{
-	        LLSD::map_const_iterator iter = mHeaders.beginMap();
-	        LLSD::map_const_iterator end  = mHeaders.endMap();
+	        LLSD::map_const_iterator iter = mEntry->mHeaders.beginMap();
+	        LLSD::map_const_iterator end  = mEntry->mHeaders.endMap();
 
 	        for (; iter != end; ++iter)
 	        {
@@ -187,13 +187,13 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 	    }
 		full << "\n";
 
-		if(mDataSize)
+		if(mEntry->mDataSize)
 		{
 			bool can_beautify = false;
 			if(beautify)
 			{
 				std::string content_type;
-				for(LLSD::map_iterator iter = mHeaders.beginMap(); iter != mHeaders.endMap(); ++iter)
+				for(LLSD::map_iterator iter = mEntry->mHeaders.beginMap(); iter != mEntry->mHeaders.endMap(); ++iter)
 				{
 					if(boost::iequals(iter->first, "content-type"))
 					{
@@ -212,7 +212,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 						pugi::xml_document doc;
 						U32 parse_opts = (pugi::parse_default | pugi::parse_comments | pugi::parse_doctype
 										  | pugi::parse_declaration | pugi::parse_pi) & ~(pugi::parse_escapes);
-						pugi::xml_parse_result res = doc.load_buffer(mData, mDataSize, parse_opts);
+						pugi::xml_parse_result res = doc.load_buffer(mEntry->mData, mEntry->mDataSize, parse_opts);
 						if(res)
 						{
 							U32 format_opts = pugi::format_default | pugi::format_no_escapes | pugi::format_no_declaration;
@@ -229,7 +229,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 				}
 			}
 			if(!can_beautify)
-				full << mData;
+				full << mEntry->mData;
 		}
 	}
 	//unsupported message type

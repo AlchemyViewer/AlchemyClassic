@@ -453,7 +453,7 @@ void LLFloaterMessageLog::setInfoPaneMode(EInfoPaneMode mode)
 }
 
 // static
-void LLFloaterMessageLog::onLog(LogPayload entry)
+void LLFloaterMessageLog::onLog(LogPayload& entry)
 {
 	LLFloaterMessageLog* floaterp = static_cast<LLFloaterMessageLog*>(LLFloaterReg::findInstance("message_log"));
 	if (!floaterp)
@@ -463,17 +463,15 @@ void LLFloaterMessageLog::onLog(LogPayload entry)
 	if (entry->mType != LLMessageLogEntry::HTTP_RESPONSE)
 	{
 		sMessageListMutex->lock();
+
 		while(!floaterp->mMessageLogFilterApply && sMessageLogEntries.size() > 4096)
 		{
 			sMessageLogEntries.pop_front();
 		}
-
 		++floaterp->mMessagesLogged;
-
 		sMessageLogEntries.push_back(entry);
 
 		sMessageListMutex->unlock();
-
 		floaterp->conditionalLog(entry);
 	}
 	//this is a response, try to add it to the relevant request
@@ -528,10 +526,10 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	mFloaterMessageLogItems.push_back(item); // moved from beginning...
 	sMessageListMutex->unlock();
 
-	if(item->mType == LLEasyMessageLogEntry::HTTP_REQUEST)
+	if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
 	{
 		LLMutexLock lock(sIncompleteHTTPConvoMutex);
-		mIncompleteHTTPConvos.insert(HTTPConvoMap::value_type(item->mRequestID, item));
+		mIncompleteHTTPConvos.insert(HTTPConvoMap::value_type((*item)()->mRequestID, item));
 	}
 
 	std::string net_name;
@@ -572,12 +570,12 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 
 	LLSD& type_column = element["columns"][1];
 	type_column["column"] = "type";
-	switch(item->mType)
+	switch((*item)()->mType)
 	{
-	case LLEasyMessageLogEntry::TEMPLATE:
+	case LLMessageLogEntry::TEMPLATE:
 		type_column["value"] = "UDP";
 		break;
-	case LLEasyMessageLogEntry::HTTP_REQUEST:
+	case LLMessageLogEntry::HTTP_REQUEST:
 		type_column["value"] = "HTTP";
 		break;
 	default:
@@ -586,9 +584,9 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 
 	LLSD& direction_column = element["columns"][2];
 	direction_column["column"] = "direction";
-	if(item->mType == LLEasyMessageLogEntry::TEMPLATE)
+	if((*item)()->mType == LLMessageLogEntry::TEMPLATE)
 		direction_column["value"] = item->isOutgoing() ? "to" : "from";
-	else if(item->mType == LLEasyMessageLogEntry::HTTP_REQUEST)
+	else if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
 		direction_column["value"] = "both";
 
 	LLSD& net_column = element["columns"][3];
@@ -661,7 +659,7 @@ void LLFloaterMessageLog::showSelectedMessage()
 
 void LLFloaterMessageLog::showMessage(FloaterMessageItem item)
 {
-	switch (item->mType)
+	switch ((*item)()->mType)
 	{
 		case LLMessageLogEntry::TEMPLATE:
 			setInfoPaneMode(IPANE_TEMPLATE_LOG);

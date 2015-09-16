@@ -191,6 +191,7 @@ private:
 	
 	void loadUserSkins();
 	void reloadSkinList();
+	void onAddSkin();
 	void onRemoveSkin();
 	void callbackRemoveSkin(const LLSD& notification, const LLSD& response);
 	void onApplySkin();

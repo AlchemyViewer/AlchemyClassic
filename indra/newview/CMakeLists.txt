@@ -653,6 +653,7 @@ set(viewer_SOURCE_FILES
     llurlhistory.cpp
     llurllineeditorctrl.cpp
     llurlwhitelist.cpp
+    llunzip.cpp
     llvectorperfoptions.cpp
     llversioninfo.cpp
     llviewchildren.cpp
@@ -1294,6 +1295,7 @@ set(viewer_HEADER_FILES
     llurlhistory.h
     llurllineeditorctrl.h
     llurlwhitelist.h
+    llunzip.h
     llvectorperfoptions.h
     llversioninfo.h
     llviewchildren.h

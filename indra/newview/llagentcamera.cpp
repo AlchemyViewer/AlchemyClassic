@@ -1461,7 +1461,6 @@ void LLAgentCamera::updateCamera()
 
 		gAgentAvatarp->mRoot->updateWorldMatrixChildren();
 
-#if USE_LL_APPEARANCE_CODE
 		for (LLVOAvatar::attachment_map_t::iterator iter = gAgentAvatarp->mAttachmentPoints.begin(); 
 			 iter != gAgentAvatarp->mAttachmentPoints.end(); )
 		{
@@ -1481,21 +1480,6 @@ void LLAgentCamera::updateCamera()
 				}
 			}
 		}
-#else
-		std::vector<std::pair<LLViewerObject*,LLViewerJointAttachment*> >::iterator attachment_iter = gAgentAvatarp->mAttachedObjectsVector.begin();
-		for(;attachment_iter!=gAgentAvatarp->mAttachedObjectsVector.end();++attachment_iter)
-		{{
-				LLViewerObject* attached_object = attachment_iter->first;
-				if (attached_object && !attached_object->isDead() && attached_object->mDrawable.notNull())
-				{
-					// clear any existing "early" movements of attachment
-					attached_object->mDrawable->clearState(LLDrawable::EARLY_MOVE);
-					gPipeline.updateMoveNormalAsync(attached_object->mDrawable);
-					attached_object->updateText();
-				}
-			}
-		}
-#endif
 
 		torso_joint->setScale(torso_scale);
 		chest_joint->setScale(chest_scale);

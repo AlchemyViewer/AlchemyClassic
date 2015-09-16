@@ -731,9 +731,6 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mCachedMuteListUpdateTime(0),
 	mCachedInMuteList(false)
 {
-#if !USE_LL_APPEARANCE_CODE
-	mAttachedObjectsVector.reserve(MAX_AGENT_ATTACHMENTS);
-#endif
 	//VTResume();  // VTune
 	setHoverOffset(LLVector3(0.0, 0.0, 0.0));
 
@@ -1367,7 +1364,6 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 	mPixelArea = LLPipeline::calcPixelArea(center, size, *LLViewerCamera::getInstance());
 
 	//stretch bounding box by attachments
-#if USE_LL_APPEARANCE_CODE
 	for (attachment_map_t::iterator iter = mAttachmentPoints.begin();
 		iter != mAttachmentPoints.end();
 		++iter)
@@ -1410,47 +1406,6 @@ void LLVOAvatar::getSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 			}
 		}
 	}
-#else
-	for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
-		attachment_iter != attachment_iter_end; ++attachment_iter)
-	{
-		LLViewerJointAttachment* attachment = attachment_iter->second;
-		if (!attachment || !attachment->getValid())
-		{
-			continue;
-		}
-
-		const LLViewerObject* attached_object = attachment_iter->first;
-		if (attached_object && !attached_object->isDead() && !attached_object->isHUDAttachment())
-		{
-			LLDrawable* drawable = attached_object->mDrawable;
-			if (drawable && !drawable->isState(LLDrawable::RIGGED))
-			{
-				LLSpatialBridge* bridge = drawable->getSpatialBridge();
-				if (bridge)
-				{
-					const LLVector4a* ext = bridge->getSpatialExtents();
-					LLVector4a distance;
-					distance.setSub(ext[1], ext[0]);
-					LLVector4a max_span(max_attachment_span);
-
-					S32 lt = distance.lessThan(max_span).getGatheredBits() & 0x7;
-
-					// Only add the prim to spatial extents calculations if it isn't a megaprim.
-					// max_attachment_span calculated at the start of the function 
-					// (currently 5 times our max prim size) 
-					if (lt == 0x7)
-					{
-						update_min_max(newMin, newMax, ext[0]);
-						update_min_max(newMin, newMax, ext[1]);
-					}
-				}
-
-			}
-		}
-	}
-
-#endif
 
 	//pad bounding box	
 
@@ -1626,7 +1581,6 @@ BOOL LLVOAvatar::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 
 		if (isSelf())
 		{
-#if USE_LL_APPEARANCE_CODE
 			for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
 			 iter != mAttachmentPoints.end();
 			 ++iter)
@@ -1649,24 +1603,6 @@ BOOL LLVOAvatar::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 					}
 				}
 			}
-#else
-			std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-			for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
-			{
-				if (attachment_iter->second->getValid())
-				{
-					const LLViewerObject* attached_object = attachment_iter->first;
-					if (attached_object && !attached_object->isDead())
-					{
-						LLDrawable* drawable = attached_object->mDrawable;
-						if (drawable->isState(LLDrawable::RIGGED))
-						{ //regenerate octree for rigged attachment
-							gPipeline.markRebuild(mDrawable, LLDrawable::REBUILD_RIGGED, TRUE);
-						}
-					}
-				}
-			}
-#endif
 		}
 	}
 
@@ -1707,7 +1643,6 @@ LLViewerObject* LLVOAvatar::lineSegmentIntersectRiggedAttachments(const LLVector
 		LLVector4a local_end = end;
 		LLVector4a local_intersection;
 
-#if USE_LL_APPEARANCE_CODE
 		for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
 			iter != mAttachmentPoints.end();
 			++iter)
@@ -1732,23 +1667,6 @@ LLViewerObject* LLVOAvatar::lineSegmentIntersectRiggedAttachments(const LLVector
 				}
 			}
 		}
-#else
-		std::vector<std::pair<LLViewerObject*, LLViewerJointAttachment*> >::iterator attachment_iter = mAttachedObjectsVector.begin();
-		for (; attachment_iter != mAttachedObjectsVector.end(); ++attachment_iter)
-		{
-			LLViewerObject* attached_object = attachment_iter->first;
-			if (attached_object->lineSegmentIntersect(start, local_end, face, pick_transparent, face_hit, &local_intersection, tex_coord, normal, tangent))
-			{
-				local_end = local_intersection;
-				if (intersection)
-				{
-					*intersection = local_intersection;
-				}
-
-				hit = attached_object;
-			}
-		}
-#endif
 	}
 		
 	return hit;
@@ -2388,7 +2306,6 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 	if (detailed_update || !sUseImpostors)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_ATTACHMENT_UPDATE);
-#if USE_LL_APPEARANCE_CODE
 		for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
 			 iter != mAttachmentPoints.end();
 			 ++iter)
@@ -2425,47 +2342,6 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 				}
 			}
 		}
-#else
-		for (auto  attachment_iter = mAttachedObjectsVector.begin(), iter_end = mAttachedObjectsVector.end(); 
-			attachment_iter != iter_end; ++attachment_iter)
-		{
-			{
-				LLViewerJointAttachment* attachment = attachment_iter->second;
-				LLViewerObject* attached_object = attachment_iter->first;
-
-				if (!attached_object ||
-					attached_object->isDead() ||
-					!attached_object->mDrawable ||
-					!attachment ||
-					!attachment->getValid())
-					continue;
-
-				BOOL visibleAttachment =	visible || 
-											!attached_object->mDrawable->getSpatialBridge() || 
-											attached_object->mDrawable->getSpatialBridge()->getRadius() >= 2.f;
-				
-				if (visibleAttachment)
-				{
-					// if selecting any attachments, update all of them as non-damped
-					if (LLSelectMgr::getInstance()->getSelection()->getObjectCount() && LLSelectMgr::getInstance()->getSelection()->isAttachment())
-					{
-						gPipeline.updateMoveNormalAsync(attached_object->mDrawable);
-					}
-					else
-					{
-						gPipeline.updateMoveDampedAsync(attached_object->mDrawable);
-					}
-
-					LLSpatialBridge* bridge = attached_object->mDrawable->getSpatialBridge();
-					if (bridge)
-					{
-						gPipeline.updateMoveNormalAsync(bridge);
-					}
-					attached_object->updateText();
-				}
-			}
-		}
-#endif
 	}
 
 	mNeedsAnimUpdate = FALSE;
@@ -4051,7 +3927,7 @@ void LLVOAvatar::updateVisibility()
 			LL_INFOS() << "PA: " << getPositionAgent() << LL_ENDL;
 			/*LL_INFOS() << "SPA: " << sel_pos_agent << LL_ENDL;
 			LL_INFOS() << "WPA: " << wrist_right_pos_agent << LL_ENDL;*/
-#if USE_LL_APPEARANCE_CODE
+
 			for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
 				 iter != mAttachmentPoints.end();
 				 ++iter)
@@ -4075,23 +3951,6 @@ void LLVOAvatar::updateVisibility()
 					}
 				}
 			}
-#else
-			for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
-				attachment_iter != attachment_iter_end; ++attachment_iter)
-			{
-				if(LLViewerObject* attached_object = attachment_iter->first)
-				{
-					if (attached_object->mDrawable->isVisible())
-					{
-						LL_INFOS() << attachment_iter->second->getName() << " visible" << LL_ENDL;
-					}
-					else
-					{
-						LL_INFOS() << attachment_iter->second->getName() << " not visible at " << mDrawable->getWorldPosition() << " and radius " << mDrawable->getRadius() << LL_ENDL;
-					}
-				}
-			}
-#endif
 		}
 	}
 
@@ -6076,15 +5935,6 @@ const LLViewerJointAttachment *LLVOAvatar::attachObject(LLViewerObject *viewer_o
 		LLSelectMgr::getInstance()->updatePointAt();
 	}
 
-#if !USE_LL_APPEARANCE_CODE
-	// The object can already exist in the vector if it was attached while was already attached (causing a re-attach).
-	std::pair<LLViewerObject*, LLViewerJointAttachment*> const val(viewer_object, attachment);
-	if (std::find(mAttachedObjectsVector.begin(), mAttachedObjectsVector.end(), val) == mAttachedObjectsVector.end())
-	{
-		mAttachedObjectsVector.push_back(val);
-	}
-#endif
-
 	return attachment;
 }
 
@@ -6185,7 +6035,6 @@ void LLVOAvatar::resetHUDAttachments()
 
 void LLVOAvatar::rebuildRiggedAttachments( void )
 {
-#if USE_LL_APPEARANCE_CODE
 	for ( attachment_map_t::iterator iter = mAttachmentPoints.begin(); iter != mAttachmentPoints.end(); ++iter )
 	{
 		LLViewerJointAttachment* pAttachment = iter->second;
@@ -6201,17 +6050,6 @@ void LLVOAvatar::rebuildRiggedAttachments( void )
 			}
 		}
 	}
-#else
-	for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end(); 
-		attachment_iter != attachment_iter_end; ++attachment_iter)
-	{
-		const LLViewerObject* attached_object = attachment_iter->first;
-		if (attachment_iter->second && attached_object->mDrawable.notNull())
-		{
-			gPipeline.markRebuild(attached_object->mDrawable);
-		}
-	}
-#endif
 }
 //-----------------------------------------------------------------------------
 // cleanupAttachedMesh()
@@ -6246,9 +6084,6 @@ BOOL LLVOAvatar::detachObject(LLViewerObject *viewer_object)
 		if (attachment->isObjectAttached(viewer_object))
 		{
 			mVisualComplexityStale = TRUE;
-#if !USE_LL_APPEARANCE_CODE
-			vector_replace_with_last(mAttachedObjectsVector,std::make_pair(viewer_object,attachment));
-#endif
 
 			cleanupAttachedMesh( viewer_object );
 		
@@ -8698,7 +8533,6 @@ void LLVOAvatar::calculateUpdateRenderCost()
 			}
 		}
 
-#if USE_LL_APPEARANCE_CODE
 		for (attachment_map_t::const_iterator iter = mAttachmentPoints.begin(); 
 			 iter != mAttachmentPoints.end();
 			 ++iter)
@@ -8743,46 +8577,6 @@ void LLVOAvatar::calculateUpdateRenderCost()
 				}
 			}
 		}
-#else
-		for (auto attachment_iter = mAttachedObjectsVector.begin(), attachment_iter_end = mAttachedObjectsVector.end();
-			attachment_iter != attachment_iter_end; ++attachment_iter)
-		{
-			const LLViewerObject* attached_object = attachment_iter->first;
-			if (attached_object && !attached_object->isHUDAttachment())
-			{
-				textures.clear();
-				const LLDrawable* drawable = attached_object->mDrawable;
-				if (drawable)
-				{
-					const LLVOVolume* volume = drawable->getVOVolume();
-					if (volume)
-					{
-						cost += volume->getRenderCost(textures);
-
-						const_child_list_t children = volume->getChildren();
-						for (const_child_list_t::const_iterator child_iter = children.begin();
-							child_iter != children.end();
-							++child_iter)
-						{
-							LLViewerObject* child_obj = *child_iter;
-							LLVOVolume *child = dynamic_cast<LLVOVolume*>(child_obj);
-							if (child)
-							{
-								cost += child->getRenderCost(textures);
-							}
-						}
-
-						for (LLVOVolume::texture_cost_t::iterator iter = textures.begin(); iter != textures.end(); ++iter)
-						{
-							// add the cost of each individual texture in the linkset
-							cost += iter->second;
-						}
-					}
-				}
-			}
-
-		}
-#endif
 
 		// Diagnostic output to identify all avatar-related textures.
 		// Does not affect rendering cost calculation.

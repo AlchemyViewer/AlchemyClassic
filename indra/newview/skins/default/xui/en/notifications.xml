@@ -11002,9 +11002,18 @@ Cannot create large prims that intersect other players.  Please re-try when othe
 
   <notification
    icon="alertmodal.tga"
+   name="CantAddGrid"
+   type="alertmodal">
+    <tag>fail</tag>
+    <tag>opensim</tag>
+Could not get grid info for [GRID].
+Error: [STATUS] [REASON]
+  </notification>
+
+  <notification
+   icon="alertmodal.tga"
    name="ConfirmRemoveSkin"
    type="alertmodal">
-    <tag>opensim</tag>
     <tag>confirm</tag>
     Are you sure you want to remove [SKIN]? This will erase it permenantly from your hard disk.
     <usetemplate
@@ -11018,7 +11027,6 @@ Cannot create large prims that intersect other players.  Please re-try when othe
    name="RemoveSkinSuccess"
    type="alertmodal">
     <tag>fail</tag>
-    <tag>opensim</tag>
     Removed [SKIN] successfully.
   </notification>
   <notification
@@ -11026,18 +11034,35 @@ Cannot create large prims that intersect other players.  Please re-try when othe
    name="RemoveSkinFailure"
    type="alertmodal">
     <tag>fail</tag>
-    <tag>opensim</tag>
     Failed to remove [SKIN].
   </notification>
-
   <notification
    icon="alertmodal.tga"
-   name="CantAddGrid"
+   name="AddSkinNoManifest"
    type="alertmodal">
     <tag>fail</tag>
-    <tag>opensim</tag>
-Could not get grid info for [GRID].
-Error: [STATUS] [REASON]
+    [PACKAGE] doesn't contain a manifest or is unreadable.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="AddSkinCantParseManifest"
+   type="alertmodal">
+    <tag>fail</tag>
+    [PACKAGE] has an invalid manifest.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="AddSkinUnpackFailed"
+   type="alertmodal">
+    <tag>fail</tag>
+    Failed to unpack the skin package. See the log for more details.
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="AddSkinSuccess"
+   type="alertmodal">
+    <tag>fail</tag>
+    [PACKAGE] was added successfully.
   </notification>
 
   <notification

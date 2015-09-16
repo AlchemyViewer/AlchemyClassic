@@ -76,7 +76,7 @@ class LLFloaterMessageLog : public LLFloater
 public:
 	LLFloaterMessageLog(const LLSD& key);
 	~LLFloaterMessageLog();
-	static void onLog(LogPayload entry);
+	static void onLog(LogPayload& entry);
 
 	void onOpen(const LLSD& key) override;
 	void onClose(bool app_quitting) override;

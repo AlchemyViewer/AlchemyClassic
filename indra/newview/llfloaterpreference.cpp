@@ -46,6 +46,7 @@
 #include "lldirpicker.h"
 #include "lleventtimer.h"
 #include "llfeaturemanager.h"
+#include "llfilepicker.h"
 #include "llfocusmgr.h"
 //#include "llfirstuse.h"
 #include "llfloaterreg.h"
@@ -86,6 +87,7 @@
 #include "llfontgl.h"
 #include "llrect.h"
 #include "llstring.h"
+#include "llunzip.h"
 
 // project includes
 
@@ -404,6 +406,7 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mCommitCallbackRegistrar.add("Pref.RefreshGrid", boost::bind(&LLFloaterPreference::onClickRefreshGrid, this));
 	mCommitCallbackRegistrar.add("Pref.DebugGrid", boost::bind(&LLFloaterPreference::onClickDebugGrid, this));
 	mCommitCallbackRegistrar.add("Pref.SelectGrid", boost::bind(&LLFloaterPreference::onSelectGrid, this, _2));
+	mCommitCallbackRegistrar.add("Pref.AddSkin", boost::bind(&LLFloaterPreference::onAddSkin, this));
 	mCommitCallbackRegistrar.add("Pref.RemoveSkin", boost::bind(&LLFloaterPreference::onRemoveSkin, this));
 	mCommitCallbackRegistrar.add("Pref.ApplySkin", boost::bind(&LLFloaterPreference::onApplySkin, this));
 	mCommitCallbackRegistrar.add("Pref.SelectSkin", boost::bind(&LLFloaterPreference::onSelectSkin, this, _2));
@@ -675,6 +678,7 @@ skin_t manifestFromJson(const std::string& filename, const ESkinType type)
 
 void LLFloaterPreference::loadUserSkins()
 {
+	mUserSkins.clear();
 	LLDirIterator sysiter(gDirUtilp->getSkinBaseDir(), "*");
 	bool found = true;
 	while (found)
@@ -730,6 +734,64 @@ void LLFloaterPreference::reloadSkinList()
 	}
 	skin_list->setSelectedByValue(current_skin, TRUE);
 	onSelectSkin(skin_list->getSelectedValue());
+}
+
+void LLFloaterPreference::onAddSkin()
+{
+	LLFilePicker& filepicker = LLFilePicker::instance();
+	if (filepicker.getOpenFile(LLFilePicker::FFLOAD_ZIP))
+	{
+		const std::string& package = filepicker.getFirstFile();
+		LLUnZip* zip = new LLUnZip(package);
+		if (zip->isValid())
+		{
+			size_t buf_size = zip->getSizeFile("manifest.json");
+			if (buf_size)
+			{
+				buf_size++;
+				buf_size *= sizeof(char);
+				char * buf = (char*)malloc(buf_size);
+				zip->extractFile("manifest.json", buf, buf_size);
+				buf[buf_size - 1] = '\0'; // force.
+				std::stringstream ss;
+				ss << buf;
+				free(buf);
+				
+				Json::CharReaderBuilder reader;
+				Json::Value root;
+				std::string errors;
+				if (Json::parseFromStream(reader, ss, &root, &errors))
+				{
+					const std::string& name = root.get("name", "Unknown").asString();
+					std::string pathname = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
+					pathname = gDirUtilp->add(pathname, name);
+					if (!LLFile::isdir(pathname) && (LLFile::mkdir(pathname) != 0))
+					{
+						LLNotificationsUtil::add("AddSkinUnpackFailed");
+					}
+					else if (!zip->extract(pathname))
+					{
+						LLNotificationsUtil::add("AddSkinUnpackFailed");
+					}
+					else
+					{
+						loadUserSkins();
+						LLNotificationsUtil::add("AddSkinSuccess", LLSD().with("PACKAGE", name));
+					}
+				}
+				else
+				{
+					LLNotificationsUtil::add("AddSkinCantParseManifest", LLSD().with("PACKAGE", package));
+				}
+			}
+			else
+			{
+				LLNotificationsUtil::add("AddSkinNoManifest", LLSD().with("PACKAGE", package));
+			}
+		}
+		
+		delete zip;
+	}
 }
 
 void LLFloaterPreference::onRemoveSkin()

@@ -22,7 +22,6 @@
 #include "llhost.h"
 #include "lliopipe.h"
 #include "llurlrequest.h"
-#include <boost/circular_buffer.hpp>
 #include <queue>
 #include <string.h>
 
@@ -63,7 +62,7 @@ public:
 	U64 mRequestID;
 };
 
-typedef void (*LogCallback) (LogPayload);
+typedef void(*LogCallback) (LogPayload&);
 
 class LLMessageLog
 {

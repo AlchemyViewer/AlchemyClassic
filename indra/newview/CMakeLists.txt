@@ -77,6 +77,7 @@ endif(FMODEX)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
+    ${ZLIB_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIR}
     ${GLOD_INCLUDE_DIR}
     ${LLAUDIO_INCLUDE_DIRS}

@@ -1329,7 +1329,7 @@ BOOL LLFilePicker::getOpenFile( ELoadFilter filter, bool blocking )
 			filtername = add_dictionary_filter_to_gtkchooser(picker);
 			break;
 		case FFLOAD_ZIP:
-			filtername = add_dictionary_filter_to_gtkchooser(picker);
+			filtername = add_zip_filter_to_gtkchooser(picker);
 			break;
 		default:;
 			break;

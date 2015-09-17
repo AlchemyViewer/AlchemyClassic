@@ -2514,6 +2514,8 @@ BOOL LLTextEditor::tryToRevertToPristineState()
 
 void LLTextEditor::updateLinkSegments()
 {
+	if (!mParseHTML) return;
+
 	LLWString wtext = getWText();
 
 	// update any segments that contain a link
@@ -2524,19 +2526,21 @@ void LLTextEditor::updateLinkSegments()
 		{
 			LLStyleConstSP style = segment->getStyle();
 			LLStyleSP new_style(new LLStyle(*style));
+			std::string url_label_str; //XXX: Hack until we can get WString caching
 			LLWString url_label = wtext.substr(segment->getStart(), segment->getEnd()-segment->getStart());
 
 			segment_set_t::const_iterator next_it = mSegments.upper_bound(segment);
 			LLTextSegment *next_segment = *next_it;
 			if (next_segment)
 			{
-				LLWString next_url_label = wtext.substr(next_segment->getStart(), next_segment->getEnd()-next_segment->getStart());
-				std::string link_check = wstring_to_utf8str(url_label) + wstring_to_utf8str(next_url_label);
+				std::string next_url_label = wstring_to_utf8str(wtext.substr(next_segment->getStart(), next_segment->getEnd()-next_segment->getStart()));
+				url_label_str = wstring_to_utf8str(url_label);
+				std::string link_check = url_label_str + next_url_label;
 				LLUrlMatch match;
 
 				if ( LLUrlRegistry::instance().findUrl(link_check, match))
 				{
-					if(match.getQuery() == wstring_to_utf8str(next_url_label))
+					if(match.getQuery() == next_url_label)
 					{
 						continue;
 					}
@@ -2548,9 +2552,11 @@ void LLTextEditor::updateLinkSegments()
 			// This lets users edit Urls in-place.
 			if (LLUrlRegistry::instance().hasUrl(url_label))
 			{
-				std::string new_url = wstring_to_utf8str(url_label);
-				LLStringUtil::trim(new_url);
-				new_style->setLinkHREF(new_url);
+				//XXX: Hack until we can get WString caching
+				if (url_label_str.empty())
+					url_label_str = wstring_to_utf8str(url_label);
+				LLStringUtil::trim(url_label_str);
+				new_style->setLinkHREF(url_label_str);
 				LLStyleConstSP sp(new_style);
 				segment->setStyle(sp);
 			}

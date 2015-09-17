@@ -395,12 +395,12 @@ S32 wstring_utf8_length(const LLWString& wstr)
 
 LLWString utf8str_to_wstring(const std::string& utf8str, S32 len)
 {
+	llwchar unichar;
 	LLWString wout;
+	wout.reserve(len);
 
-	S32 i = 0;
-	while (i < len)
+	for (S32 i = 0; i < len; i++)
 	{
-		llwchar unichar;
 		U8 cur_char = utf8str[i];
 
 		if (cur_char < 0x80)
@@ -476,7 +476,6 @@ LLWString utf8str_to_wstring(const std::string& utf8str, S32 len)
 		}
 
 		wout += unichar;
-		++i;
 	}
 	return wout;
 }
@@ -489,16 +488,15 @@ LLWString utf8str_to_wstring(const std::string& utf8str)
 
 std::string wstring_to_utf8str(const LLWString& utf32str, S32 len)
 {
+	char tchars[8];		/* Flawfinder: ignore */
 	std::string out;
+	out.reserve(len);
 
-	S32 i = 0;
-	while (i < len)
+	for (S32 i = 0; i < len; i++)
 	{
-		char tchars[8];		/* Flawfinder: ignore */
 		S32 n = wchar_to_utf8chars(utf32str[i], tchars);
 		tchars[n] = 0;
 		out += tchars;
-		i++;
 	}
 	return out;
 }
@@ -721,7 +719,7 @@ S32	LLStringOps::collate(const llwchar* a, const llwchar* b)
 	#if LL_WINDOWS
 		// in Windows, wide string functions operator on 16-bit strings, 
 		// not the proper 32 bit wide string
-		return strcmp(wstring_to_utf8str(LLWString(a)).c_str(), wstring_to_utf8str(LLWString(b)).c_str());
+		return strcoll(wstring_to_utf8str(LLWString(a)).c_str(), wstring_to_utf8str(LLWString(b)).c_str());
 	#else
 		return wcscoll(a, b);
 	#endif

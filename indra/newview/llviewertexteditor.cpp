@@ -1046,8 +1046,11 @@ llwchar LLViewerTextEditor::pasteEmbeddedItem(llwchar ext_char)
 void LLViewerTextEditor::onValueChange(S32 start, S32 end)
 {
 	updateSegments();
-	updateLinkSegments();
-	findEmbeddedItemSegments(start, end);
+	if (mParseHTML)
+	{
+		updateLinkSegments();
+		findEmbeddedItemSegments(start, end);
+	}
 }
 
 void LLViewerTextEditor::findEmbeddedItemSegments(S32 start, S32 end)

@@ -229,11 +229,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	
 	[glContext makeCurrentContext];
 	
-	GLint glVsync = 0;
-	if (vsync)
-	{
-		glVsync = 1;
-	}
+	GLint glVsync = vsync ? 1 : 0;
 	[glContext setValues:&glVsync forParameter:NSOpenGLCPSwapInterval];
 	
 	[pool release];

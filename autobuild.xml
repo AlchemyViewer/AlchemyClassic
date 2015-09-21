@@ -264,11 +264,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1c0f56e80382e20893136579e88d66f5</string>
+              <string>543643b22f086af333a3dcfbf75742e2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/boost-1.59.0-linux64-201508270053.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/boost-1.59.0-linux64-201509201640.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -348,11 +348,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6cfb94a51acd69a2404b0ab5589dff86</string>
+              <string>f5f4552817b4d0533c21cb20369fac6d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/colladadom-2.3-linux64-201509081002.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/colladadom-2.3-linux64-201509211635.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>

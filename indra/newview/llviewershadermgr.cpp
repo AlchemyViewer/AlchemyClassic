@@ -385,7 +385,7 @@ void cleanup_shader_src()
 			iter_end = LLShaderMgr::instance()->mProgramObjects.cend(); iter != iter_end; iter++)
 		{
 			GLuint program = iter->second;
-			GLuint shaders[1024];
+			GLuint shaders[1024] = {};
 			GLsizei count = -1;
 			glGetAttachedShaders(program, 1024, &count, shaders);
 			if (count > 0)

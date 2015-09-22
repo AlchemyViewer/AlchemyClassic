@@ -39,7 +39,13 @@
       <menu_item_call.on_click
          function="Avatar.InviteToGroup" />
       </menu_item_call>
-    
+    <menu_item_call
+     label="Refresh"
+     name="Refresh">
+      <menu_item_call.on_click
+       function="Avatar.RefreshTex" />
+    </menu_item_call>
+
    <menu_item_separator />
     <menu_item_call
      label="Derender"

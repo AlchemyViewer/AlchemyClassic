@@ -68,6 +68,12 @@ name="Stand Up">
      function="Self.EnableStandUp" />
   </menu_item_call>
   <menu_item_call
+   label="Refresh"
+   name="Refresh">
+    <menu_item_call.on_click
+     function="Object.RefreshTex" />
+  </menu_item_call>
+  <menu_item_call
   label="My Appearance"
   name="Change Outfit">
     <menu_item_call.on_click

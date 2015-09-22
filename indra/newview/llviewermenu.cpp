@@ -3400,6 +3400,26 @@ class LLRefreshTexturesObject : public view_listener_t
 	}
 };
 
+class LLRefreshTexturesAvatar : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLVOAvatar* avatar = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+		if (!avatar) return true;
+		
+		for (U32 baked_idx = 0; baked_idx < BAKED_NUM_INDICES; ++baked_idx)
+		{
+			ETextureIndex te_idx = LLAvatarAppearanceDictionary::bakedToLocalTextureIndex((EBakedTextureIndex)baked_idx);
+			destroy_texture(avatar->getTE(te_idx)->getID());
+		}
+		LLAvatarPropertiesProcessor::getInstance()->sendAvatarTexturesRequest(avatar->getID());
+		
+		// *TODO: We want to refresh their attachments too!
+
+		return true;
+	}
+};
+
 class LLEnableGrid : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -9404,6 +9424,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLToggleUIHints(), "ToggleUIHints");
 	// <Alchemy>
 	view_listener_t::addMenu(new LLRefreshTexturesObject(), "Object.RefreshTex");
+	view_listener_t::addMenu(new LLRefreshTexturesAvatar(), "Avatar.RefreshTex");
 	view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
 	view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
 	view_listener_t::addMenu(new LLSpawnDebugSimFeatures(), "Advanced.DebugSimFeatures");

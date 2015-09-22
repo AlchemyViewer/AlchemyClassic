@@ -386,13 +386,16 @@ void cleanup_shader_src()
 		{
 			GLuint program = iter->second;
 			GLuint shaders[1024];
-			GLsizei count;
+			GLsizei count = -1;
 			glGetAttachedShaders(program, 1024, &count, shaders);
-			for (GLsizei i = 0; i < count; ++i)
+			if (count > 0)
 			{
-				if (glIsShader(shaders[i]))
+				for (GLsizei i = 0; i < count; ++i)
 				{
-					glDetachShader(program, shaders[i]);
+					if (glIsShader(shaders[i]))
+					{
+						glDetachShader(program, shaders[i]);
+					}
 				}
 			}
 		}

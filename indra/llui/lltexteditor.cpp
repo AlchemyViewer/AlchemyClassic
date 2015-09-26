@@ -2524,8 +2524,6 @@ void LLTextEditor::updateLinkSegments()
 		LLTextSegment *segment = *it;
 		if (segment && segment->getStyle() && segment->getStyle()->isLink())
 		{
-			LLStyleConstSP style = segment->getStyle();
-			LLStyleSP new_style(new LLStyle(*style));
 			std::string url_label_str; //XXX: Hack until we can get WString caching
 			LLWString url_label = wtext.substr(segment->getStart(), segment->getEnd()-segment->getStart());
 
@@ -2556,6 +2554,7 @@ void LLTextEditor::updateLinkSegments()
 				if (url_label_str.empty())
 					url_label_str = wstring_to_utf8str(url_label);
 				LLStringUtil::trim(url_label_str);
+				LLStyleSP new_style(new LLStyle(*segment->getStyle()));
 				new_style->setLinkHREF(url_label_str);
 				LLStyleConstSP sp(new_style);
 				segment->setStyle(sp);

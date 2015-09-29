@@ -54,6 +54,7 @@
 #endif
 
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include "lldaeloader.h"
 #include "llsdserialize.h"
@@ -844,8 +845,11 @@ struct ModelSort
 bool LLDAELoader::OpenFile(const std::string& filename)
 {
 	//no suitable slm exists, load from the .dae file
+	//replace illegal # in path as collada's escapser is broken
+	std::string tmp_file = filename;
+	boost::replace_all(tmp_file, "#", "%23");
 	DAE dae;
-	domCOLLADA* dom = dae.open(filename);
+	domCOLLADA* dom = dae.open(tmp_file);
 	
 	if (!dom)
 	{
@@ -873,7 +877,7 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 	
 	daeInt count = db->getElementCount(NULL, COLLADA_TYPE_MESH);
 	
-	daeDocument* doc = dae.getDoc(mFilename);
+	daeDocument* doc = dae.getDoc(tmp_file);
 	if (!doc)
 	{
 		LL_WARNS() << "can't find internal doc" << LL_ENDL;
@@ -2222,7 +2226,7 @@ std::string LLDAELoader::getElementLabel(daeElement *element)
 // static
 size_t LLDAELoader::getSuffixPosition(std::string label)
 {
-	if ((label.find("_LOD") != -1) || (label.find("_PHYS") != -1))
+	if ((label.find("_LOD") != std::string::npos) || (label.find("_PHYS") != std::string::npos))
 	{
 		return label.rfind('_');
 	}

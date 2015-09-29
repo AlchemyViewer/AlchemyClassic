@@ -44,6 +44,7 @@ set(llcommon_SOURCE_FILES
     llbase32.cpp
     llbase64.cpp
     llbitpack.cpp
+    llcallbacklist.cpp
     llcommon.cpp
     llcommonutils.cpp
     llcoros.cpp
@@ -139,6 +140,7 @@ set(llcommon_HEADER_FILES
     llbase64.h
     llbitpack.h
     llboost.h
+    llcallbacklist.h
     llcommon.h
     llcommonutils.h
     llcoros.h

@@ -24,16 +24,10 @@
  * $/LicenseInfo$
  */
 
-#include "llviewerprecompiledheaders.h"
-
 #include "llcallbacklist.h"
 #include "lleventtimer.h"
+#include "llerrorlegacy.h"
 
-// Library includes
-#include "llerror.h"
-
-
-//
 // Globals
 //
 LLCallbackList gIdleCallbacks;
@@ -56,24 +50,25 @@ void LLCallbackList::addFunction( callback_t func, void *data)
 {
 	if (!func)
 	{
-		LL_ERRS() << "LLCallbackList::addFunction - function is NULL" << LL_ENDL;
+		LL_WARNS() << "LLCallbackList::addFunction - function is NULL" << LL_ENDL;
 		return;
 	}
 
 	// only add one callback per func/data pair
-	callback_pair_t t(func, data);
-	callback_list_t::iterator iter = std::find(mCallbackList.begin(), mCallbackList.end(), t);
-	if (iter == mCallbackList.end())
+	//
+	if (containsFunction(func))
 	{
-		mCallbackList.push_back(t);
+		return;
 	}
+	
+	callback_pair_t t(func, data);
+	mCallbackList.push_back(t);
 }
 
-
-BOOL LLCallbackList::containsFunction( callback_t func, void *data)
+bool LLCallbackList::containsFunction( callback_t func, void *data)
 {
 	callback_pair_t t(func, data);
-	callback_list_t::iterator iter = std::find(mCallbackList.begin(), mCallbackList.end(), t);
+	callback_list_t::iterator iter = find(func,data);
 	if (iter != mCallbackList.end())
 	{
 		return TRUE;
@@ -85,10 +80,9 @@ BOOL LLCallbackList::containsFunction( callback_t func, void *data)
 }
 
 
-BOOL LLCallbackList::deleteFunction( callback_t func, void *data)
+bool LLCallbackList::deleteFunction( callback_t func, void *data)
 {
-	callback_pair_t t(func, data);
-	callback_list_t::iterator iter = std::find(mCallbackList.begin(), mCallbackList.end(), t);
+	callback_list_t::iterator iter = find(func,data);
 	if (iter != mCallbackList.end())
 	{
 		mCallbackList.erase(iter);
@@ -100,6 +94,13 @@ BOOL LLCallbackList::deleteFunction( callback_t func, void *data)
 	}
 }
 
+inline 
+LLCallbackList::callback_list_t::iterator
+LLCallbackList::find(callback_t func, void *data)
+{
+	callback_pair_t t(func, data);
+	return std::find(mCallbackList.begin(), mCallbackList.end(), t);
+}
 
 void LLCallbackList::deleteAllFunctions()
 {

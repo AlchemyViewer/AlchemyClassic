@@ -124,7 +124,7 @@
        <check_box
         follows="left|top"
         height="16"
-        label="Rez objects under currently activated group"
+        label="Rez objects under land group"
         left_delta="0"
         top_pad="5"
         name="AlchemyRezUnderLandGroup"

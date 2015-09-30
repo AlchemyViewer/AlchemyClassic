@@ -129,7 +129,6 @@
 // Third party library includes
 #include <boost/bind.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
 
 
 #if LL_WINDOWS

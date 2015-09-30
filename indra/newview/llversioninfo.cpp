@@ -27,9 +27,9 @@
 
 #include "llviewerprecompiledheaders.h"
 #include <iostream>
+#include <regex>
 #include <sstream>
 #include "llversioninfo.h"
-#include <boost/regex.hpp>
 
 #if ! defined(LL_VIEWER_CHANNEL)       \
  || ! defined(LL_VIEWER_VERSION_MAJOR) \
@@ -140,24 +140,24 @@ LLVersionInfo::ViewerMaturity LLVersionInfo::getViewerMaturity()
     
     std::string channel = getChannel();
 
-	static const boost::regex is_test_channel("\\bTest\\b");
-	static const boost::regex is_beta_channel("\\bBeta\\b");
-	static const boost::regex is_project_channel("\\bProject\\b");
-	static const boost::regex is_release_channel("\\bRelease\\b");
+	static const std::regex is_test_channel("\\bTest\\b");
+	static const std::regex is_beta_channel("\\bBeta\\b");
+	static const std::regex is_project_channel("\\bProject\\b");
+	static const std::regex is_release_channel("\\bRelease\\b");
 
-    if (boost::regex_search(channel, is_release_channel))
+    if (std::regex_search(channel, is_release_channel))
     {
         maturity = RELEASE_VIEWER;
     }
-    else if (boost::regex_search(channel, is_beta_channel))
+    else if (std::regex_search(channel, is_beta_channel))
     {
         maturity = BETA_VIEWER;
     }
-    else if (boost::regex_search(channel, is_project_channel))
+    else if (std::regex_search(channel, is_project_channel))
     {
         maturity = PROJECT_VIEWER;
     }
-    else if (boost::regex_search(channel, is_test_channel))
+    else if (std::regex_search(channel, is_test_channel))
     {
         maturity = TEST_VIEWER;
     }

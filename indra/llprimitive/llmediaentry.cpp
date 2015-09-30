@@ -25,10 +25,10 @@
  */
 
 #include "linden_common.h"
+
 #include "llmediaentry.h"
 #include "lllslconstants.h"
-
-#include <boost/regex.hpp>
+#include <regex>
 
 // LLSD key defines
 // DO NOT REORDER OR REMOVE THESE!
@@ -450,13 +450,13 @@ static bool pattern_match(const std::string &candidate_str, const std::string &p
     // copy it
     std::string expression = pattern;
     
-    // Escape perl's regexp chars with a backslash, except all "*" chars
+    // Escape EMCAScript's regexp chars with a backslash, except all "*" chars
     prefix_with(expression, ".[{()\\+?|^$", "\\");
     prefix_with(expression, "*", ".");
                     
     // case-insensitive matching:
-    boost::regex regexp(expression, boost::regex::perl|boost::regex::icase);
-    return boost::regex_match(candidate_str, regexp);
+	std::regex regexp(expression, std::regex_constants::ECMAScript|std::regex_constants::icase);
+    return std::regex_match(candidate_str, regexp);
 }
 
 bool LLMediaEntry::checkCandidateUrl(const std::string& url) const

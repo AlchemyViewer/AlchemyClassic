@@ -30,8 +30,7 @@
 
 #include <iostream>
 #include <deque>
-
-#include <boost/regex.hpp>
+#include <regex>
 
 extern "C"
 {
@@ -768,9 +767,9 @@ void LLSDXMLParser::Impl::endElementHandler(const XML_Char* name)
 			// created by python and other non-linden systems - DEV-39358
 			// Fortunately we have very little binary passing now,
 			// so performance impact shold be negligible. + poppy 2009-09-04
-			boost::regex r;
+			std::regex r;
 			r.assign("\\s");
-			std::string stripped = boost::regex_replace(mCurrentContent, r, "");
+			std::string stripped = std::regex_replace(mCurrentContent, r, "");
 			size_t len = LLBase64::requiredDecryptionSpace(stripped);
 			std::vector<U8> data;
 			data.resize(len);

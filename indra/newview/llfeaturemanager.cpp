@@ -29,8 +29,6 @@
 #include <iostream>
 #include <fstream>
 
-#include <boost/regex.hpp>
-
 #include "llfeaturemanager.h"
 #include "lldir.h"
 

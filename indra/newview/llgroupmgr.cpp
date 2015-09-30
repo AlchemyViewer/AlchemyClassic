@@ -33,8 +33,7 @@
 
 #include "llgroupmgr.h"
 
-#include <vector>
-#include <algorithm>
+#include <regex>
 
 #include "llappviewer.h"
 #include "llagent.h"
@@ -52,7 +51,6 @@
 #include "lluictrlfactory.h"
 #include "lltrans.h"
 #include "llviewerregion.h"
-#include <boost/regex.hpp>
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -857,9 +855,8 @@ LLGroupMgrGroupData* LLGroupMgr::getGroupData(const LLUUID& id)
 // so that the sorter can sort by year before month before day.
 static void formatDateString(std::string &date_string)
 {
-	using namespace boost;
-	cmatch result;
-	const regex expression("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})");
+	std::cmatch result;
+	const std::regex expression("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})");
 	if (regex_match(date_string.c_str(), result, expression))
 	{
 		// convert matches to integers so that we can pad them with zeroes on Linux

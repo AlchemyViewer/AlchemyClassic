@@ -29,8 +29,6 @@
 
 #include "lltoast.h"
 
-#include <boost/shared_ptr.hpp>
-
 namespace LLNotificationsUI
 {
 

@@ -27,13 +27,11 @@
 #ifndef LL_LLPATHFINDINGOBJECTLIST_H
 #define LL_LLPATHFINDINGOBJECTLIST_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "llpathfindingobject.h"
 
 class LLPathfindingObjectList;
 
-typedef boost::shared_ptr<LLPathfindingObjectList> LLPathfindingObjectListPtr;
+typedef std::shared_ptr<LLPathfindingObjectList> LLPathfindingObjectListPtr;
 typedef std::map<std::string, LLPathfindingObjectPtr> LLPathfindingObjectMap;
 
 class LLPathfindingObjectList

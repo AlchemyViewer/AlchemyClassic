@@ -43,8 +43,6 @@
 #include "llrefcount.h"
 #include "lluri.h"
 
-#include <boost/shared_ptr.hpp>
-
 class LLQueryResponder;
 class LLAresListener;
 
@@ -442,8 +440,8 @@ protected:
 	ares_channel chan_;
 	bool mInitSuccess;
     // boost::scoped_ptr would actually fit the requirement better, but it
-    // can't handle incomplete types as boost::shared_ptr can.
-    boost::shared_ptr<LLAresListener> mListener;
+    // can't handle incomplete types as std::shared_ptr can.
+    std::shared_ptr<LLAresListener> mListener;
 };
 	
 /**

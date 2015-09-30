@@ -32,7 +32,7 @@
 #include "llindexedvector.h"
 
 #include <boost/signals2.hpp>
-#include <boost/shared_ptr.hpp>
+
 using namespace boost::signals2::keywords;
 
 class LLMsgVarData
@@ -434,6 +434,6 @@ public:
 private:
 	// message handler function (this is set by each application)
 	typedef boost::signals2::signal_type<void (LLMessageSystem*), mutex_type<boost::signals2::dummy_mutex> >::type message_signal_t;
-	boost::shared_ptr< message_signal_t >	mMessageSignal;};
+	std::shared_ptr< message_signal_t >	mMessageSignal;};
 
 #endif // LL_LLMESSAGETEMPLATE_H

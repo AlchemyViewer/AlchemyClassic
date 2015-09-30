@@ -144,7 +144,7 @@ public:
 
 		void setTextureSize(S32 width, S32 height);
 
-		void showNotification(boost::shared_ptr<class LLNotification> notify);
+		void showNotification(std::shared_ptr<class LLNotification> notify);
 		void hideNotification();
 
 		void setTrustedContent(bool trusted);

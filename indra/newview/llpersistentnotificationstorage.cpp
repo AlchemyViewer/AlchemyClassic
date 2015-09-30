@@ -36,6 +36,8 @@
 #include "llscriptfloater.h"
 #include "llviewermessage.h"
 #include "llviewernetwork.h"
+#include <boost/smart_ptr.hpp>
+
 LLPersistentNotificationStorage::LLPersistentNotificationStorage()
 	: LLSingleton<LLPersistentNotificationStorage>()
 	, LLNotificationStorage("")

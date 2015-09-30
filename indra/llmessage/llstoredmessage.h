@@ -29,8 +29,6 @@
 
 #include "linden_common.h"
 #include "llsd.h"
-#include <boost/shared_ptr.hpp>
-
 
 class LLMessageSystem;
 
@@ -45,7 +43,7 @@ private:
 	std::string mName;
 };
 
-typedef boost::shared_ptr<LLStoredMessage> LLStoredMessagePtr;
+typedef std::shared_ptr<LLStoredMessage> LLStoredMessagePtr;
 
 
 #endif // LL_STOREDMESSAGE_H

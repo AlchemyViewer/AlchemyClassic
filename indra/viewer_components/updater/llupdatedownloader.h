@@ -28,7 +28,6 @@
 
 
 #include <string>
-#include <boost/shared_ptr.hpp>
 #include "lluri.h"
 
 
@@ -69,7 +68,7 @@ public:
 	void setBandwidthLimit(U64 bytesPerSecond);
 	
 private:
-	boost::shared_ptr<Implementation> mImplementation;
+	std::shared_ptr<Implementation> mImplementation;
 };
 
 

@@ -34,7 +34,6 @@
 #include "llupdateinstaller.h"
 
 #include <boost/scoped_ptr.hpp>
-#include <boost/weak_ptr.hpp>
 #include "lldir.h"
 #include "llsdserialize.h"
 #include "llfile.h"
@@ -53,7 +52,7 @@
 
 namespace 
 {
-	boost::weak_ptr<LLUpdaterServiceImpl> gUpdater;
+	std::weak_ptr<LLUpdaterServiceImpl> gUpdater;
 
 	const std::string UPDATE_MARKER_FILENAME("AlchemyUpdateReady.xml");
 	std::string update_marker_path()
@@ -629,7 +628,7 @@ LLUpdaterService::LLUpdaterService()
 	if(gUpdater.expired())
 	{
 		mImpl = 
-			boost::shared_ptr<LLUpdaterServiceImpl>(new LLUpdaterServiceImpl());
+			std::shared_ptr<LLUpdaterServiceImpl>(new LLUpdaterServiceImpl());
 		gUpdater = mImpl;
 	}
 	else

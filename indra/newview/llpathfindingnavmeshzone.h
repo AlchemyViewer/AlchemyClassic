@@ -27,8 +27,6 @@
 #ifndef LL_LLPATHFINDINGNAVMESHZONE_H
 #define LL_LLPATHFINDINGNAVMESHZONE_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "llpathfindingnavmesh.h"
 #include "llpathfindingnavmeshstatus.h"
 #include "llsd.h"
@@ -110,7 +108,7 @@ private:
 		LLPathfindingNavMesh::navmesh_slot_t        mNavMeshSlot;
 	};
 
-	typedef boost::shared_ptr<NavMeshLocation> NavMeshLocationPtr;
+	typedef std::shared_ptr<NavMeshLocation> NavMeshLocationPtr;
 	typedef std::vector<NavMeshLocationPtr> NavMeshLocationPtrs;
 
 	void handleNavMeshLocation();

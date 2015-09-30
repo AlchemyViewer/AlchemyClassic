@@ -30,10 +30,8 @@
 #define LL_LLDOUBLEDISPATCH_H
 
 #include <list>
-#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
-#include <boost/ref.hpp>
 
 /**
  * This class supports function calls which are virtual on the dynamic type of
@@ -255,7 +253,7 @@ private:
     };
 
     /// shared_ptr manages Entry lifespan for us
-    typedef boost::shared_ptr<EntryBase> EntryPtr;
+    typedef std::shared_ptr<EntryBase> EntryPtr;
     /// use a @c list to make it easy to insert
     typedef std::list<EntryPtr> DispatchTable;
     DispatchTable mDispatch;
@@ -273,7 +271,7 @@ private:
     {
         return std::find_if(mDispatch.begin(), mDispatch.end(),
                             boost::bind(&EntryBase::matches, _1,
-                                        boost::ref(param1), boost::ref(param2)));
+                                        std::ref(param1), std::ref(param2)));
     }
 
     /// Look up the first matching entry.

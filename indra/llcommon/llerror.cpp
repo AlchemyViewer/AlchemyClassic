@@ -874,7 +874,7 @@ namespace LLError
 		}
 		
 		RecorderPtr recordToFile(new RecordToFile(file_name));
-		if (boost::dynamic_pointer_cast<RecordToFile>(recordToFile)->okay())
+		if (std::dynamic_pointer_cast<RecordToFile>(recordToFile)->okay())
 		{
 			s->mFileRecorderFileName = file_name;
 			s->mFileRecorder = recordToFile;

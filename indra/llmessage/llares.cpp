@@ -108,7 +108,7 @@ LLAres::LLAres() :
 		return;
 	}
 
-	mListener = boost::shared_ptr< LLAresListener >(new LLAresListener(this));
+	mListener = std::shared_ptr< LLAresListener >(new LLAresListener(this));
 
 	mInitSuccess = true;
 }

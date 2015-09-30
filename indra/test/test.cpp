@@ -35,6 +35,8 @@
  */
 
 #include "linden_common.h"
+
+#include <memory>
 #include "llerrorcontrol.h"
 #include "lltut.h"
 #include "tests/wrapllerrs.h"             // RecorderProxy
@@ -64,9 +66,6 @@
 #endif
 
 #include <boost/scoped_ptr.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
-#include <boost/foreach.hpp>
 #include <boost/lambda/lambda.hpp>
 
 #include <fstream>
@@ -155,12 +154,12 @@ public:
 
 	virtual void reset()
 	{
-		boost::dynamic_pointer_cast<RecordToTempFile>(mRecorder)->reset();
+		std::dynamic_pointer_cast<RecordToTempFile>(mRecorder)->reset();
 	}
 
 	virtual void replay(std::ostream& out)
 	{
-		boost::dynamic_pointer_cast<RecordToTempFile>(mRecorder)->replay(out);
+		std::dynamic_pointer_cast<RecordToTempFile>(mRecorder)->replay(out);
 	}
 
 private:
@@ -172,7 +171,7 @@ class LLTestCallback : public tut::callback
 {
 public:
 	LLTestCallback(bool verbose_mode, std::ostream *stream,
-				   boost::shared_ptr<LLReplayLog> replayer) :
+				   std::shared_ptr<LLReplayLog> replayer) :
 		mVerboseMode(verbose_mode),
 		mTotalTests(0),
 		mPassedTests(0),
@@ -180,7 +179,7 @@ public:
 		mSkippedTests(0),
 		// By default, capture a shared_ptr to std::cout, with a no-op "deleter"
 		// so that destroying the shared_ptr makes no attempt to delete std::cout.
-		mStream(boost::shared_ptr<std::ostream>(&std::cout, boost::lambda::_1)),
+		mStream(std::shared_ptr<std::ostream>(&std::cout, boost::lambda::_1)),
 		mReplayer(replayer)
 	{
 		if (stream)
@@ -194,7 +193,7 @@ public:
 			// Allocate and assign in two separate steps, per Herb Sutter.
 			// (Until we turn on C++11 support, have to wrap *stream with
 			// boost::ref() due to lack of perfect forwarding.)
-			boost::shared_ptr<std::ostream> pstream(new TeeStream(std::cout, boost::ref(*stream)));
+			std::shared_ptr<std::ostream> pstream(new TeeStream(std::cout, boost::ref(*stream)));
 			mStream = pstream;
 		}
 	}
@@ -313,8 +312,8 @@ protected:
 	int mPassedTests;
 	int mFailedTests;
 	int mSkippedTests;
-	boost::shared_ptr<std::ostream> mStream;
-	boost::shared_ptr<LLReplayLog> mReplayer;
+	std::shared_ptr<std::ostream> mStream;
+	std::shared_ptr<LLReplayLog> mReplayer;
 };
 
 // TeamCity specific class which emits service messages
@@ -324,7 +323,7 @@ class LLTCTestCallback : public LLTestCallback
 {
 public:
 	LLTCTestCallback(bool verbose_mode, std::ostream *stream,
-					 boost::shared_ptr<LLReplayLog> replayer) :
+					 std::shared_ptr<LLReplayLog> replayer) :
 		LLTestCallback(verbose_mode, stream, replayer)
 	{
 	}
@@ -389,7 +388,7 @@ public:
 	{
 		// Per http://confluence.jetbrains.net/display/TCD65/Build+Script+Interaction+with+TeamCity#BuildScriptInteractionwithTeamCity-ServiceMessages
 		std::string result;
-		BOOST_FOREACH(char c, str)
+		for(char c : str)
 		{
 			switch (c)
 			{
@@ -618,7 +617,7 @@ int main(int argc, char **argv)
 	// run the tests
 
 	const char* LOGFAIL = getenv("LOGFAIL");
-	boost::shared_ptr<LLReplayLog> replayer;
+	std::shared_ptr<LLReplayLog> replayer;
 	// As described in stream_usage(), LOGFAIL overrides both --debug and
 	// LOGTEST.
 	if (LOGFAIL)

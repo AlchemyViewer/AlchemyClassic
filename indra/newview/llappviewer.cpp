@@ -3015,7 +3015,7 @@ namespace {
 
 		// *TODO thread the update service's response through to this point
 		std::string const & channel = LLVersionInfo::getChannel();
-		boost::shared_ptr<char> channel_escaped(curl_escape(channel.c_str(), channel.size()), &curl_free);
+		std::shared_ptr<char> channel_escaped(curl_escape(channel.c_str(), channel.size()), &curl_free);
 
 		relnotes_url.setArg("[CHANNEL_URL]", channel_escaped.get());
 		relnotes_url.setArg("[RELEASE_NOTES_BASE_URL]", LLTrans::getString("RELEASE_NOTES_BASE_URL"));

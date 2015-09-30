@@ -27,8 +27,6 @@
 #define LL_UPDATERCHECKER_H
 
 
-#include <boost/shared_ptr.hpp>
-
 #include "llmd5.h"
 #include "llhttpclient.h"
 

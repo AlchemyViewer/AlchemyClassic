@@ -45,7 +45,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/assign/list_of.hpp>
 #include <boost/bind.hpp>
-#include <boost/ref.hpp>
 #include <algorithm>
 
 using boost::assign::list_of;
@@ -794,7 +793,7 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 		// FUNCTION the subsubdir as well as the full pathname. We just want
 		// the full pathname.
 		walkSearchSkinDirs(subdir, subsubdirs, filename,
-						   boost::bind(push_back, boost::ref(results), _2));
+						   boost::bind(push_back, std::ref(results), _2));
 	}
 	else                            // CURRENT_SKIN
 	{
@@ -818,7 +817,7 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 		// walkSearchSkinDirs(), update the map entry for its subsubdir.
 		StringMap path_for;
 		walkSearchSkinDirs(subdir, subsubdirs, filename,
-						   boost::bind(store_in_map, boost::ref(path_for), _1, _2));
+						   boost::bind(store_in_map, std::ref(path_for), _1, _2));
 		// Now that we have a path for each of the default language and the
 		// current language, copy them -- in proper order -- into results.
 		// Don't drive this by walking the map itself: it matters that we

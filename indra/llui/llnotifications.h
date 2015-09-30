@@ -77,9 +77,6 @@
 
 #include <iomanip>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
-
 #include "llevents.h"
 #include "llfunctorregistry.h"
 #include "llinitparam.h"
@@ -122,7 +119,7 @@ public:
 
 typedef boost::function<void (const LLSD&, const LLSD&)> LLNotificationResponder;
 
-typedef boost::shared_ptr<LLNotificationResponderInterface> LLNotificationResponderPtr;
+typedef std::shared_ptr<LLNotificationResponderInterface> LLNotificationResponderPtr;
 
 typedef LLFunctorRegistry<LLNotificationResponder> LLNotificationFunctorRegistry;
 typedef LLFunctorRegistration<LLNotificationResponder> LLNotificationFunctorRegistration;
@@ -262,19 +259,19 @@ private:
 	bool								mInvertSetting;
 };
 
-typedef boost::shared_ptr<LLNotificationForm> LLNotificationFormPtr;
+typedef std::shared_ptr<LLNotificationForm> LLNotificationFormPtr;
 
 
 struct LLNotificationTemplate;
 
 // we want to keep a map of these by name, and it's best to manage them
 // with smart pointers
-typedef boost::shared_ptr<LLNotificationTemplate> LLNotificationTemplatePtr;
+typedef std::shared_ptr<LLNotificationTemplate> LLNotificationTemplatePtr;
 
 
 struct LLNotificationVisibilityRule;
 
-typedef boost::shared_ptr<LLNotificationVisibilityRule> LLNotificationVisibilityRulePtr;
+typedef std::shared_ptr<LLNotificationVisibilityRule> LLNotificationVisibilityRulePtr;
 
 /**
  * @class LLNotification
@@ -290,7 +287,7 @@ typedef boost::shared_ptr<LLNotificationVisibilityRule> LLNotificationVisibility
  */
 class LLNotification  : 
 	boost::noncopyable,
-	public boost::enable_shared_from_this<LLNotification>
+	public std::enable_shared_from_this<LLNotification>
 {
 LOG_CLASS(LLNotification);
 friend class LLNotifications;
@@ -734,7 +731,7 @@ public:
     LLBoundListener connectChanged(const LISTENER& slot)
     {
         // Examine slot to see if it binds an LLEventTrackable subclass, or a
-        // boost::shared_ptr to something, or a boost::weak_ptr to something.
+        // std::shared_ptr to something, or a std::weak_ptr to something.
         // Call this->connectChangedImpl() to actually connect it.
         return LLEventDetail::visit_and_connect(slot,
                                   boost::bind(&LLNotificationChannelBase::connectChangedImpl,

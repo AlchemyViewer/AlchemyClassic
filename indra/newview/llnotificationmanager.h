@@ -31,8 +31,6 @@
 #include "lluictrl.h"
 #include "llnotificationhandler.h"
 
-#include <boost/shared_ptr.hpp>
-
 namespace LLNotificationsUI {
 
 class LLToast;
@@ -56,7 +54,7 @@ public:
 	void onChat(const LLChat& msg, const LLSD &args);
 
 private:
-	boost::shared_ptr<class LLFloaterIMNearbyChatHandler> mChatHandler;
+	std::shared_ptr<class LLFloaterIMNearbyChatHandler> mChatHandler;
 	std::vector<LLNotificationChannelPtr> mChannels;
 };
 

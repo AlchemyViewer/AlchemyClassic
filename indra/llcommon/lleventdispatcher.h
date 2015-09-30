@@ -57,7 +57,6 @@ static const int& nil(nil_);
 #endif
 
 #include <string>
-#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
 #include <boost/iterator/transform_iterator.hpp>
@@ -65,8 +64,6 @@ static const int& nil(nil_);
 #include <boost/function_types/is_nonmember_callable_builtin.hpp>
 #include <boost/function_types/parameter_types.hpp>
 #include <boost/function_types/function_arity.hpp>
-#include <boost/type_traits/remove_cv.hpp>
-#include <boost/type_traits/remove_reference.hpp>
 #include <boost/fusion/include/push_back.hpp>
 #include <boost/fusion/include/cons.hpp>
 #include <boost/fusion/include/invoke.hpp>
@@ -299,8 +296,8 @@ private:
     // around, I want it to continue pointing to the same DispatchEntry
     // subclass object. However, I definitely want DispatchMap to destroy
     // DispatchEntry if no references are outstanding at the time an entry is
-    // removed. This looks like a job for boost::shared_ptr.
-    typedef std::map<std::string, boost::shared_ptr<DispatchEntry> > DispatchMap;
+    // removed. This looks like a job for std::shared_ptr.
+    typedef std::map<std::string, std::shared_ptr<DispatchEntry> > DispatchMap;
 
 public:
     /// We want the flexibility to redefine what data we store per name,

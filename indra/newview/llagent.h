@@ -37,7 +37,6 @@
 #include "v3dmath.h"
 
 #include <boost/function.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/signals2.hpp>
 
 extern const BOOL 	ANIMATE;
@@ -61,7 +60,7 @@ class LLPauseRequestHandle;
 class LLUIColor;
 class LLTeleportRequest;
 
-typedef boost::shared_ptr<LLTeleportRequest> LLTeleportRequestPtr;
+typedef std::shared_ptr<LLTeleportRequest> LLTeleportRequestPtr;
 
 //--------------------------------------------------------------------
 // Types
@@ -126,7 +125,7 @@ public:
 private:
 	BOOL			mInitialized;
 	BOOL			mFirstLogin;
-	boost::shared_ptr<LLAgentListener> mListener;
+	std::shared_ptr<LLAgentListener> mListener;
 
 	//--------------------------------------------------------------------
 	// Session

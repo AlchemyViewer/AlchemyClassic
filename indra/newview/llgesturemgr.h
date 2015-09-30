@@ -184,7 +184,7 @@ private:
 	std::set<LLUUID> mLoadingAssets;
 
 	// LLEventHost interface
-	boost::shared_ptr<LLGestureListener> mListener;
+	std::shared_ptr<LLGestureListener> mListener;
 };
 
 #endif

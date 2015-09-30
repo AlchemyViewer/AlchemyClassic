@@ -30,8 +30,6 @@
 
 #include "llpathfindingnavmeshzone.h"
 
-#include <boost/shared_ptr.hpp>
-
 #include "llagent.h"
 #include "llpathfindingmanager.h"
 #include "llpathfindingnavmesh.h"

@@ -26,7 +26,6 @@
 #ifndef LL_UPDATERSERVICE_H
 #define LL_UPDATERSERVICE_H
 
-#include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 #include "llhasheduniqueid.h"
 
@@ -101,7 +100,7 @@ public:
 	std::string updatedVersion(void);
 
 private:
-	boost::shared_ptr<LLUpdaterServiceImpl> mImpl;
+	std::shared_ptr<LLUpdaterServiceImpl> mImpl;
 	void setImplAppExitCallback(app_exit_callback_t aecb);
 };
 

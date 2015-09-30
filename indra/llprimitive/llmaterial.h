@@ -27,8 +27,6 @@
 #ifndef LL_LLMATERIAL_H
 #define LL_LLMATERIAL_H
 
-#include <boost/shared_ptr.hpp>
-
 #include "llmaterialid.h"
 #include "llsd.h"
 #include "v4coloru.h"

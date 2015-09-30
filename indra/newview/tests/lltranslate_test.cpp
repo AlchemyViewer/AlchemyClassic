@@ -305,7 +305,7 @@ LLCurl::Responder::Responder() {}
 void LLCurl::Responder::httpFailure() { }
 void LLCurl::Responder::httpSuccess() { }
 void LLCurl::Responder::httpCompleted() { }
-void LLCurl::Responder::completedRaw(LLChannelDescriptors const &,boost::shared_ptr<LLBufferArray> const &) { }
+void LLCurl::Responder::completedRaw(LLChannelDescriptors const &, std::shared_ptr<LLBufferArray> const &) { }
 LLCurl::Responder::~Responder() {}
 
 void LLHTTPClient::get(const std::string&, const LLSD&, ResponderPtr, const LLSD&, const F32, bool) {}

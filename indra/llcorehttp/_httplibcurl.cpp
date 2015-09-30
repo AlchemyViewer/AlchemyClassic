@@ -302,7 +302,13 @@ void HttpLibcurl::cancelRequest(HttpOpRequest * op)
 bool HttpLibcurl::completeRequest(CURLM * multi_handle, CURL * handle, CURLcode status)
 {
 	HttpOpRequest * op(NULL);
-	curl_easy_getinfo(handle, CURLINFO_PRIVATE, &op);
+	if (curl_easy_getinfo(handle, CURLINFO_PRIVATE, &op) != CURLE_OK)
+	{
+		LL_WARNS(LOG_CORE) << "libcurl returned CURLE_OK on curl_easy_getinfo."
+			<< "  Handle:  " << static_cast<HttpHandle>(handle)
+			<< LL_ENDL;
+		return false;
+	}
 
 	if (handle != op->mCurlHandle || ! op->mCurlActive)
 	{

@@ -23,16 +23,14 @@
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
+
 #include "llexperiencecache.h"
 
 #include "llavatarname.h"
 #include "llframetimer.h"
 #include "llhttpclient.h"
 #include "llsdserialize.h"
-#include <set>
-#include <map>
-#include "boost/tokenizer.hpp"
-
+#include <boost/tokenizer.hpp>
 
 namespace LLExperienceCache
 {

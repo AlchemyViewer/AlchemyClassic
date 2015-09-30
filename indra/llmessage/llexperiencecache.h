@@ -24,8 +24,6 @@
  * $/LicenseInfo$
  */
 
-
-
 #ifndef LL_LLEXPERIENCECACHE_H
 #define LL_LLEXPERIENCECACHE_H
 
@@ -34,8 +32,6 @@
 
 class LLSD;
 class LLUUID;
-
-
 
 namespace LLExperienceCache
 {

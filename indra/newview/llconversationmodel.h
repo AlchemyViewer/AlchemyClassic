@@ -27,8 +27,6 @@
 #ifndef LL_LLCONVERSATIONMODEL_H
 #define LL_LLCONVERSATIONMODEL_H
 
-#include <boost/signals2.hpp>
-
 #include "llavatarname.h"
 #include "../llui/llfolderviewitem.h"
 #include "../llui/llfolderviewmodel.h"

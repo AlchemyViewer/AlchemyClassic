@@ -28,8 +28,6 @@
 #define LL_LLPATHFINDINGNAVMESH_H
 
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
 
 #include "llpathfindingnavmeshstatus.h"
 #include "llsd.h"

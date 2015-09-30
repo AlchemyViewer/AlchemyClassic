@@ -37,8 +37,6 @@
 
 #include <set>
 
-#include <boost/signals2.hpp>
-
 class LLScrollContainer;
 class LLContextMenu;
 class LLUrlMatch;

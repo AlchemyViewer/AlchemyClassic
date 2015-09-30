@@ -29,9 +29,6 @@
 
 #include "llsingleton.h" // for LLSingleton
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 class LLSD;
 /**
  * This enum is responsible for identifying of history item.

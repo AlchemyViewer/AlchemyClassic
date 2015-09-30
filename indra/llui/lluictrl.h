@@ -31,8 +31,6 @@
 //#include "llboost.h"
 #include "llrect.h"
 #include "llsd.h"
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
 
 #include "llinitparam.h"
 #include "llview.h"

@@ -27,8 +27,6 @@
 #ifndef LL_LLAVATARICONCTRL_H
 #define LL_LLAVATARICONCTRL_H
 
-#include <boost/signals2.hpp>
-
 #include "lliconctrl.h"
 #include "llavatarpropertiesprocessor.h"
 #include "llviewermenu.h"

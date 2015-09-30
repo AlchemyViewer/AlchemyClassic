@@ -29,7 +29,6 @@
 #define LL_LLVIEWERNETWORK_H
 
 #include "../llxml/llxmlnode.h"
-#include <boost/signals2.hpp>
 
 // @TODO this really should be private, but is used in llslurl
 #define MAINGRID "util.agni.lindenlab.com"

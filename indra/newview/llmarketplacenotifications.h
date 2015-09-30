@@ -30,7 +30,6 @@
 
 
 #include <llsd.h>
-#include <boost/function.hpp>
 
 
 //

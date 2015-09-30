@@ -27,9 +27,6 @@
 #ifndef LL_LLPATHFINDINGPATHTOOL_H
 #define LL_LLPATHFINDINGPATHTOOL_H
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 #include "llpathinglib.h"
 #include "llsingleton.h"
 #include "lltool.h"

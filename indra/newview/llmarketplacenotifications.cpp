@@ -33,9 +33,6 @@
 
 #include "llerror.h"
 
-#include <boost/signals2.hpp>
-
-
 namespace LLMarketplaceInventoryNotifications
 {
 	typedef boost::signals2::signal<void (const LLSD& param)>	no_copy_payload_cb_signal_t;

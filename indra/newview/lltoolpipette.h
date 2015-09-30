@@ -34,8 +34,6 @@
 
 #include "lltool.h"
 #include "lltextureentry.h"
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
 
 class LLViewerObject;
 class LLPickInfo;

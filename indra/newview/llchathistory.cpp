@@ -28,8 +28,6 @@
 
 #include "llchathistory.h"
 
-#include <boost/signals2.hpp>
-
 #include "llavatarnamecache.h"
 #include "llinstantmessage.h"
 

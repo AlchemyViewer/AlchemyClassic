@@ -30,7 +30,6 @@
 #define LL_LLAPPVIEWERLISTENER_H
 
 #include "lleventapi.h"
-#include <boost/function.hpp>
 
 class LLAppViewer;
 class LLSD;

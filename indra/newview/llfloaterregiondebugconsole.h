@@ -28,8 +28,6 @@
 #ifndef LL_LLFLOATERREGIONDEBUGCONSOLE_H
 #define LL_LLFLOATERREGIONDEBUGCONSOLE_H
 
-#include <boost/signals2.hpp>
-
 #include "llfloater.h"
 #include "llhttpclient.h"
 

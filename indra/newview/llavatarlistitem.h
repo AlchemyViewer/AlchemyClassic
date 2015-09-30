@@ -27,8 +27,6 @@
 #ifndef LL_LLAVATARLISTITEM_H
 #define LL_LLAVATARLISTITEM_H
 
-#include <boost/signals2.hpp>
-
 #include "llpanel.h"
 #include "lloutputmonitorctrl.h"
 #include "llbutton.h"

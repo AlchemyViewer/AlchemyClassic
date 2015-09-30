@@ -27,7 +27,6 @@
 #ifndef LL_LLLANDMARKLIST_H
 #define LL_LLLANDMARKLIST_H
 
-#include <boost/function.hpp>
 #include "lllandmark.h"
 #include "lluuid.h"
 #include "llassetstorage.h"

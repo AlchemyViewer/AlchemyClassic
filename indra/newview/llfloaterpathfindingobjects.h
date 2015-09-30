@@ -27,8 +27,6 @@
 #ifndef LL_LLFLOATERPATHFINDINGOBJECTS_H
 #define LL_LLFLOATERPATHFINDINGOBJECTS_H
 
-#include <boost/signals2.hpp>
-
 #include "llagent.h"
 #include "llfloater.h"
 #include "llpathfindingmanager.h"

@@ -81,7 +81,6 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/type_traits.hpp>
-#include <boost/signals2.hpp>
 #include <boost/range.hpp>
 
 #include "llevents.h"

@@ -28,8 +28,6 @@
 
 #include "llavatariconctrl.h"
 
-#include <boost/signals2.hpp>
-
 // viewer includes
 #include "llagent.h"
 #include "llcallingcard.h" // for LLAvatarTracker

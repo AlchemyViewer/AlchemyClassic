@@ -36,9 +36,6 @@
 #include "llnotifications.h"
 #include "llextendedstatus.h"
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 //
 // Forward declarations
 //

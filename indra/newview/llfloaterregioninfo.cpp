@@ -93,7 +93,6 @@
 #include "llmeshrepository.h"
 #include "llfloaterregionrestarting.h"
 #include "llpanelexperiencelisteditor.h"
-#include <boost/function.hpp>
 #include "llpanelexperiencepicker.h"
 #include "llexperiencecache.h"
 #include "llpanelexperiences.h"

@@ -27,8 +27,6 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include <boost/signals2.hpp>
-
 #include "llavataractions.h"
 #include "llavatarlistitem.h"
 

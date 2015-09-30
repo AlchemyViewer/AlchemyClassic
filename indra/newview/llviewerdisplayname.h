@@ -27,8 +27,6 @@
 #ifndef LLVIEWERDISPLAYNAME_H
 #define LLVIEWERDISPLAYNAME_H
 
-#include <boost/signals2.hpp>
-
 class LLSD;
 class LLUUID;
 

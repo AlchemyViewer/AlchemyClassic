@@ -27,10 +27,6 @@
 #ifndef LL_LLFLOATERPATHFINDINGCONSOLE_H
 #define LL_LLFLOATERPATHFINDINGCONSOLE_H
 
-#include <vector>
-
-#include <boost/signals2.hpp>
-
 #include "llfloater.h"
 #include "llhandle.h"
 #include "llpathfindingnavmeshzone.h"

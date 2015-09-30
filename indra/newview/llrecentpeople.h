@@ -31,10 +31,6 @@
 #include "llsingleton.h"
 #include "lluuid.h"
 
-#include <vector>
-#include <set>
-#include <boost/signals2.hpp>
-
 class LLDate;
 
 /**

@@ -33,9 +33,6 @@
 #include "llparcelselection.h"
 #include "llui.h"
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 class LLUUID;
 class LLMessageSystem;
 class LLParcel;

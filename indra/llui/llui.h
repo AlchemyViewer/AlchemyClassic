@@ -41,7 +41,6 @@
 #include "lluicolor.h"
 #include "lluicolortable.h"
 #include "lluiimage.h"
-#include <boost/signals2.hpp>
 #include "llframetimer.h"
 #include "v2math.h"
 #include <limits>

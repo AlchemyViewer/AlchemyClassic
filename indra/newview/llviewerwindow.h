@@ -47,8 +47,6 @@
 #include "llinitparam.h"
 #include "lltrace.h"
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
 #include <boost/scoped_ptr.hpp>
 
 class LLView;

@@ -27,11 +27,7 @@
 #ifndef LL_LLPATHFINDINGNAVMESHZONE_H
 #define LL_LLPATHFINDINGNAVMESHZONE_H
 
-#include <vector>
-
 #include <boost/shared_ptr.hpp>
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
 
 #include "llpathfindingnavmesh.h"
 #include "llpathfindingnavmeshstatus.h"

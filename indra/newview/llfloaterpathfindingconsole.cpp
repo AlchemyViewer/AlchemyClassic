@@ -30,10 +30,6 @@
 
 #include "llfloaterpathfindingconsole.h"
 
-#include <vector>
-
-#include <boost/signals2.hpp>
-
 #include "llagent.h"
 #include "llbutton.h"
 #include "llcheckboxctrl.h"

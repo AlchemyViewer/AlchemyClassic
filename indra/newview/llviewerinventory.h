@@ -32,8 +32,6 @@
 #include "llwearable.h"
 #include "llui.h" //for LLDestroyClass
 
-#include <boost/signals2.hpp>	// boost::signals2::trackable
-
 class LLInventoryPanel;
 class LLFolderView;
 class LLFolderBridge;

@@ -27,8 +27,6 @@
 #ifndef LL_LLMENUOPTIONPATHFINDINGREBAKENAVMESH_H
 #define LL_LLMENUOPTIONPATHFINDINGREBAKENAVMESH_H
 
-#include <boost/signals2.hpp>
-
 #include "llpathfindingmanager.h"
 #include "llpathfindingnavmesh.h"
 #include "llsingleton.h"

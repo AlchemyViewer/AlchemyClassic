@@ -45,9 +45,7 @@
 #include "llviewerobject.h"	// LLObjectSelection::getSelectedTEValue template
 #include "llmaterial.h"
 
-#include <deque>
 #include <boost/iterator/filter_iterator.hpp>
-#include <boost/signals2.hpp>
 #include <boost/make_shared.hpp>	// boost::make_shared
 
 class LLMessageSystem;

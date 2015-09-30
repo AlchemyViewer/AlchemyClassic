@@ -31,9 +31,7 @@
 #include "llregistry.h"
 #include "llxmlnode.h"
 
-#include <boost/function.hpp>
 #include <iosfwd>
-#include <stack>
 #include <set>
 
 class LLView;

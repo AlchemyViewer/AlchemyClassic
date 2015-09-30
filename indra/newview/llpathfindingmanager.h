@@ -27,9 +27,6 @@
 #ifndef LL_LLPATHFINDINGMANAGER_H
 #define LL_LLPATHFINDINGMANAGER_H
 
-#include <boost/function.hpp>
-#include <boost/signals2.hpp>
-
 #include "llpathfindinglinkset.h"
 #include "llpathfindingobjectlist.h"
 #include "llpathfindingnavmesh.h"

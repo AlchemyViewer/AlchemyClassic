@@ -56,10 +56,6 @@
 #include "pipeline.h"
 #include "llappviewer.h"		// for do_disconnect()
 #include "llscenemonitor.h"
-#include <deque>
-#include <queue>
-#include <map>
-#include <cstring>
 
 
 //

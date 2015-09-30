@@ -30,9 +30,6 @@
 
 #include "llpathfindinglinksetlist.h"
 
-#include <string>
-#include <map>
-
 #include "llpathfindinglinkset.h"
 #include "llpathfindingobject.h"
 #include "llpathfindingobjectlist.h"

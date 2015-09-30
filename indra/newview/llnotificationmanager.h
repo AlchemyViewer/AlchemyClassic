@@ -31,10 +31,6 @@
 #include "lluictrl.h"
 #include "llnotificationhandler.h"
 
-
-#include <map>
-#include <string>
-
 #include <boost/shared_ptr.hpp>
 
 namespace LLNotificationsUI {

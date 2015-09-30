@@ -27,8 +27,6 @@
 #ifndef LL_LLPATHFINDINGNAVMESHSTATUS_H
 #define LL_LLPATHFINDINGNAVMESHSTATUS_H
 
-#include <string>
-
 #include "lluuid.h"
 
 class LLSD;

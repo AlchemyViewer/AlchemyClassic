@@ -30,8 +30,6 @@
 //-----------------------------------------------------------------------------
 // Header Files
 //-----------------------------------------------------------------------------
-#include <string>
-
 #include "lljoint.h"
 #include "llmotioncontroller.h"
 #include "llvisualparam.h"

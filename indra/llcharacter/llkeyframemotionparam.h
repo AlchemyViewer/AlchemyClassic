@@ -31,8 +31,6 @@
 // Header files
 //-----------------------------------------------------------------------------
 
-#include <string>
-
 #include "llmotion.h"
 #include "lljointstate.h"
 #include "v3math.h"

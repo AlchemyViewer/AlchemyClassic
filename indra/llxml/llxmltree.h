@@ -28,8 +28,6 @@
 #ifndef LL_LLXMLTREE_H
 #define LL_LLXMLTREE_H
 
-#include <map>
-#include <list>
 #include "llstring.h"
 #include "llxmlparser.h"
 #include "llstringtable.h"

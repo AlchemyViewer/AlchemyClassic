@@ -28,12 +28,12 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llsecapi.h"
+
 #include "llsechandler_basic.h"
-#include <openssl/evp.h>
-#include <openssl/err.h>
-#include <map>
 #include "llhttpclient.h"
 
+#include <openssl/evp.h>
+#include <openssl/err.h>
 
 
 std::map<std::string, LLPointer<LLSecAPIHandler> > gHandlerMap;

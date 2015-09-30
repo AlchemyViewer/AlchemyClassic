@@ -27,10 +27,6 @@
 #ifndef LL_WLPARAM_SET_H
 #define LL_WLPARAM_SET_H
 
-#include <string>
-#include <map>
-#include <vector>
-
 #include "v4math.h"
 #include "v4color.h"
 #include "llstaticstringtable.h"

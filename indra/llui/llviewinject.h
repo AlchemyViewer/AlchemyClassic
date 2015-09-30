@@ -13,7 +13,6 @@
 #define LL_LLVIEWINJECT_H
 
 #include "llview.h"
-#include <map>
 
 namespace llview
 {

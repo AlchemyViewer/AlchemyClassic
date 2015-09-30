@@ -30,8 +30,6 @@
 #include "llmessagereader.h"
 #include "llsd.h"
 
-#include <map>
-
 class LLMessageTemplate;
 class LLMsgData;
 

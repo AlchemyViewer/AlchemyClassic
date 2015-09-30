@@ -33,7 +33,6 @@
 #include "llmemory.h"
 #include "llsingleton.h"
 #include "llthread.h"
-#include <string>
 
 // SOCKS error codes returned from the StartProxy method
 #define SOCKS_OK 0

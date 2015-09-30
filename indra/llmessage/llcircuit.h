@@ -28,9 +28,6 @@
 #ifndef LL_LLCIRCUIT_H
 #define LL_LLCIRCUIT_H
 
-#include <map>
-#include <vector>
-
 #include "llerror.h"
 
 #include "lltimer.h"

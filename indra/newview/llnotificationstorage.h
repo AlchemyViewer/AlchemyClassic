@@ -27,8 +27,6 @@
 #ifndef LL_NOTIFICATIONSTORAGE_H
 #define LL_NOTIFICATIONSTORAGE_H
 
-#include <string>
-
 #include "llerror.h"
 
 class LLNotificationResponderInterface;

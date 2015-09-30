@@ -27,8 +27,6 @@
 #ifndef LL_LLPOLYMESHINTERFACE_H
 #define LL_LLPOLYMESHINTERFACE_H
 
-#include <string>
-#include <map>
 #include "llstl.h"
 
 #include "v3math.h"

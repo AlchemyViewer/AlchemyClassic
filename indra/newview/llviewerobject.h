@@ -27,8 +27,6 @@
 #ifndef LL_LLVIEWEROBJECT_H
 #define LL_LLVIEWEROBJECT_H
 
-#include <map>
-
 #include "llassetstorage.h"
 //#include "llhudicon.h"
 #include "llinventory.h"

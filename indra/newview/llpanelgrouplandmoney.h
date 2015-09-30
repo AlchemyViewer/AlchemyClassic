@@ -28,7 +28,6 @@
 #define LL_PANEL_GROUP_LAND_MONEY_H
 
 #include "llpanelgroup.h"
-#include <map>
 #include "lluuid.h"
 
 class LLPanelGroupLandMoney : public LLPanelGroupTab

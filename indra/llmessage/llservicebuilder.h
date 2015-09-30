@@ -27,8 +27,6 @@
 #ifndef LLSERVICEBUILDER_H
 #define LLSERVICEBUILDER_H
 
-#include <string>
-#include <map>
 #include "llerror.h"
 
 class LLSD;

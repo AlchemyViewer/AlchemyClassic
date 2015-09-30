@@ -30,9 +30,6 @@
 #include "llsd.h"
 #include "lluuid.h"
 
-#include <string>
-#include <vector>
-
 class LLAvatarName;
 class LLInventoryPanel;
 class LLFloater;

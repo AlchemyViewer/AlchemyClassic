@@ -30,8 +30,6 @@
 
 #include "llfloaterpathfindingcharacters.h"
 
-#include <string>
-
 #include "llcheckboxctrl.h"
 #include "llfloaterreg.h"
 #include "llfloaterpathfindingobjects.h"

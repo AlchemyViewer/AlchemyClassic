@@ -31,10 +31,6 @@
 #include "lltextbox.h"
 #include "llscrollbar.h"
 
-#include <vector>
-#include <algorithm>
-#include <string>
-
 class LLAccordionCtrlTab;
 
 class LLAccordionCtrl: public LLPanel

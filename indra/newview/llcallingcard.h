@@ -27,10 +27,6 @@
 #ifndef LL_LLCALLINGCARD_H
 #define LL_LLCALLINGCARD_H
 
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 #include "lluserrelations.h"
 #include "lluuid.h"
 #include "v3dmath.h"

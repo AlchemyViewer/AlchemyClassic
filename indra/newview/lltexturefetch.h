@@ -27,9 +27,6 @@
 #ifndef LL_LLTEXTUREFETCH_H
 #define LL_LLTEXTUREFETCH_H
 
-#include <vector>
-#include <map>
-
 #include "lldir.h"
 #include "llimage.h"
 #include "lluuid.h"

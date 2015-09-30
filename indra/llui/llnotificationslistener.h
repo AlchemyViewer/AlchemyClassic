@@ -32,8 +32,6 @@
 #include "lleventapi.h"
 #include "llnotificationptr.h"
 #include <boost/shared_ptr.hpp>
-#include <map>
-#include <string>
 
 class LLNotifications;
 class LLSD;

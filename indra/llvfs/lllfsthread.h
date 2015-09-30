@@ -27,11 +27,6 @@
 #ifndef LL_LLLFSTHREAD_H
 #define LL_LLLFSTHREAD_H
 
-#include <queue>
-#include <string>
-#include <map>
-#include <set>
-
 #include "llapr.h"
 #include "llpointer.h"
 #include "llqueuedthread.h"

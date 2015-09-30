@@ -64,7 +64,6 @@
  * methods below to help.
  */
 
-#include <map>
 #include "lliopipe.h"
 #include "lliohttpserver.h"
 #include "llfiltersd2xmlrpc.h"

@@ -30,8 +30,6 @@
 
 #include "llpathfindingnavmeshstatus.h"
 
-#include <string>
-
 #include "llsd.h"
 #include "llstring.h"
 #include "lluuid.h"

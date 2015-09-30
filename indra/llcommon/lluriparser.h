@@ -30,7 +30,7 @@
 #define LL_LLURIPARSER_H
 
 #include <string>
-#include "uriparser/Uri.h"
+#include <uriparser/Uri.h>
 
 class LL_COMMON_API LLUriParser
 {

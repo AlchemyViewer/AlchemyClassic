@@ -27,7 +27,6 @@
 #ifndef LL_MESSAGETEMPLATEPARSER_H
 #define LL_MESSAGETEMPLATEPARSER_H
 
-#include <string>
 #include "llmessagetemplate.h"
 
 class LLTemplateTokenizer

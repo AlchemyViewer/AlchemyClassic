@@ -27,9 +27,6 @@
 #ifndef LL_LLPOLYMORPH_H
 #define LL_LLPOLYMORPH_H
 
-#include <string>
-#include <vector>
-
 #include "llviewervisualparam.h"
 
 class LLAvatarJointCollisionVolume;

@@ -27,8 +27,6 @@
 #ifndef LL_LLPATHFINDINGLINKSET_H
 #define LL_LLPATHFINDINGLINKSET_H
 
-#include <string>
-
 #include "llpathfindingobject.h"
 
 class LLSD;

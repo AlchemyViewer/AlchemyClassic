@@ -31,8 +31,6 @@
 #include "lltextbox.h"
 #include "llnotificationptr.h"
 
-#include <string>
-
 /**
  * Base class for all panels that can be added to the toast.
  * All toast panels should contain necessary logic for representing certain notification

@@ -27,8 +27,6 @@
 #ifndef LL_LLTEMPLATEMESSAGEBUILDER_H
 #define LL_LLTEMPLATEMESSAGEBUILDER_H
 
-#include <map>
-
 #include "llmessagebuilder.h"
 #include "llmsgvariabletype.h"
 

@@ -29,8 +29,6 @@
 
 #include "llsingleton.h" // for LLSingleton
 
-#include <vector>
-#include <string>
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>
 #include "llteleporthistorystorage.h"

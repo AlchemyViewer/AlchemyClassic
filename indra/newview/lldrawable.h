@@ -27,9 +27,6 @@
 #ifndef LL_DRAWABLE_H
 #define LL_DRAWABLE_H
 
-#include <vector>
-#include <map>
-
 #include "v2math.h"
 #include "v3math.h"
 #include "v4math.h"

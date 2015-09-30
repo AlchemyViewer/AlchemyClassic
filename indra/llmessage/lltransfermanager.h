@@ -28,9 +28,6 @@
 #ifndef LL_LLTRANSFERMANAGER_H
 #define LL_LLTRANSFERMANAGER_H
 
-#include <map>
-#include <list>
-
 #include "llhost.h"
 #include "lluuid.h"
 #include "llthrottle.h"

@@ -30,7 +30,6 @@
 #include "lluuid.h"
 #include "lltextureinfodetails.h"
 #include "lltracerecording.h"
-#include <map>
 
 class LLTextureInfo
 {

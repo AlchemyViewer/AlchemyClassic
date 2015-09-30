@@ -27,7 +27,6 @@
 #ifndef LL_LLFOLDERTYPE_H
 #define LL_LLFOLDERTYPE_H
 
-#include <string>
 #include "llassettype.h"
 
 // This class handles folder types (similar to assettype, except for folders)

@@ -28,11 +28,6 @@
 #ifndef LL_VOAVATAR_H
 #define LL_VOAVATAR_H
 
-#include <map>
-#include <deque>
-#include <string>
-#include <vector>
-
 #include <boost/signals2/trackable.hpp>
 
 #include "llavatarappearance.h"

@@ -27,8 +27,6 @@
 #ifndef LL_POSTPROCESS_H
 #define LL_POSTPROCESS_H
 
-#include <map>
-#include <fstream>
 #include "llgl.h"
 #include "llglheaders.h"
 #include "llstaticstringtable.h"

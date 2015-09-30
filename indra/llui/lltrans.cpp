@@ -33,8 +33,6 @@
 #include "llsd.h"
 #include "llxmlnode.h"
 
-#include <map>
-
 LLTrans::template_map_t LLTrans::sStringTemplates;
 LLStringUtil::format_map_t LLTrans::sDefaultArgs;
 

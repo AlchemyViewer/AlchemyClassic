@@ -28,9 +28,6 @@
 #ifndef LL_LLFUNCTORREGISTRY_H
 #define LL_LLFUNCTORREGISTRY_H
 
-#include <string>
-#include <map>
-
 #include <boost/function.hpp>
 
 #include "llsd.h"

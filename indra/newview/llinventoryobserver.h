@@ -29,8 +29,6 @@
 
 #include "lluuid.h"
 #include "llmd5.h"
-#include <string>
-#include <vector>
 
 class LLViewerInventoryCategory;
 

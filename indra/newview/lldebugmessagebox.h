@@ -33,8 +33,6 @@
 #include "lltextbox.h"
 #include "llstring.h"
 #include "llframetimer.h"
-#include <vector>
-#include <map>
 
 class LLSliderCtrl;
 

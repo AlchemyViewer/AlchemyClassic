@@ -27,8 +27,6 @@
 #ifndef LL_LLMESSAGEBUILDER_H
 #define LL_LLMESSAGEBUILDER_H
 
-#include <string>
-
 #include "stdtypes.h"
 
 class LLMsgData;

@@ -28,10 +28,6 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llpathfindingobjectlist.h"
-
-#include <string>
-#include <map>
-
 #include "llpathfindingobject.h"
 
 //---------------------------------------------------------------------------

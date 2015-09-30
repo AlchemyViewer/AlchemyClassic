@@ -27,7 +27,6 @@
 #ifndef LL_LLVIEWERCONTROL_H
 #define LL_LLVIEWERCONTROL_H
 
-#include <map>
 #include "llcontrol.h"
 
 // Enabled this definition to compile a 'hacked' viewer that

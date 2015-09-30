@@ -30,8 +30,6 @@
 #include "linden_common.h"
 #include "llcurl.h"
 
-#include <string>
-
 class LLHTTPClientInterface
 {
 public:

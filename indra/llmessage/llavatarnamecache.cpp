@@ -36,9 +36,6 @@
 
 #include <boost/tokenizer.hpp>
 
-#include <map>
-#include <set>
-
 namespace LLAvatarNameCache
 {
 	use_display_name_signal_t mUseDisplayNamesSignal;

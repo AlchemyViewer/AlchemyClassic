@@ -28,8 +28,6 @@
 #ifndef LL_LLWEB_H
 #define LL_LLWEB_H
 
-#include <string>
-
 ///
 /// The LLWeb class provides various static methods to display the
 /// contents of a Url in a web browser. Variations are provided to 

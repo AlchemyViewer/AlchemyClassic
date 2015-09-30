@@ -27,11 +27,9 @@
 #ifndef LL_TRANS_H
 #define LL_TRANS_H
 
-#include <map>
-#include <set>
-
 #include "llpointer.h"
 #include "llstring.h"
+#include <set>
 
 class LLXMLNode;
 

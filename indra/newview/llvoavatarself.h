@@ -30,7 +30,6 @@
 
 #include "llviewertexture.h"
 #include "llvoavatar.h"
-#include <map>
 
 struct LocalTextureData;
 class LLInventoryCallback;

@@ -27,7 +27,6 @@
 #ifndef LL_LLFLOATERPROPERTIES_H
 #define LL_LLFLOATERPROPERTIES_H
 
-#include <map>
 #include "llmultifloater.h"
 #include "lliconctrl.h"
 

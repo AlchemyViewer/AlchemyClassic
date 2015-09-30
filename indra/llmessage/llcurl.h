@@ -32,8 +32,6 @@
 #include "linden_common.h"
 
 #include <sstream>
-#include <string>
-#include <vector>
 
 #include <boost/intrusive_ptr.hpp>
 #include <curl/curl.h> // TODO: remove dependency

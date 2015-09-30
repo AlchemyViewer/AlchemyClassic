@@ -27,10 +27,6 @@
 #ifndef LL_LLGESTUREMGR_H
 #define LL_LLGESTUREMGR_H
 
-#include <map>
-#include <string>
-#include <vector>
-
 #include "llassetstorage.h"	// LLAssetType
 #include "llinventoryobserver.h"
 #include "llsingleton.h"

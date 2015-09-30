@@ -28,8 +28,6 @@
 #ifndef LL_LLVIEWERHOME_H
 #define LL_LLVIEWERHOME_H
 
-#include <string>
-
 class LLViewerHome
 {
 public:

@@ -35,7 +35,6 @@
 #else
 #include "expat/expat.h"
 #endif
-#include <map>
 
 #include "indra_constants.h"
 #include "llrefcount.h"

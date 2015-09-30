@@ -35,9 +35,6 @@
 #include "lljoint.h"
 #include "llpointer.h"
 
-#include <map>
-#include <string>
-
 
 //-----------------------------------------------------------------------------
 // class LLPose

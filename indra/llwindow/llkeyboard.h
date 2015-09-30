@@ -27,7 +27,6 @@
 #ifndef LL_LLKEYBOARD_H
 #define LL_LLKEYBOARD_H
 
-#include <map>
 #include <boost/function.hpp>
 
 #include "llstringtable.h"

@@ -27,8 +27,6 @@
 #ifndef LL_WATER_PARAMMANAGER_H
 #define LL_WATER_PARAMMANAGER_H
 
-#include <list>
-#include <map>
 #include "llwaterparamset.h"
 #include "llviewercamera.h"
 #include "v4color.h"

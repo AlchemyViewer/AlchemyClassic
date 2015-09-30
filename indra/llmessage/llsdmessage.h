@@ -33,7 +33,6 @@
 #include "llerror.h"                // LOG_CLASS()
 #include "llevents.h"               // LLEventPumps
 #include "llhttpclient.h"
-#include <string>
 #include <stdexcept>
 
 class LLSD;

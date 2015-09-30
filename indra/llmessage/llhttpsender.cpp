@@ -28,9 +28,6 @@
 
 #include "llhttpsender.h"
 
-#include <map>
-#include <sstream>
-
 #include "llhost.h"
 #include "llsd.h"
 

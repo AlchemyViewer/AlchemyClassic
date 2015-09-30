@@ -27,9 +27,6 @@
 #ifndef LL_LLDAYCYCLEMANAGER_H
 #define LL_LLDAYCYCLEMANAGER_H
 
-#include <map>
-#include <string>
-
 #include "llwldaycycle.h"
 #include "llwlparammanager.h"
 

@@ -28,7 +28,6 @@
 #ifndef LL_LLVERSIONINFO_H
 #define LL_LLVERSIONINFO_H
 
-#include <string>
 #include "stdtypes.h"
 
 ///

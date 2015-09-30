@@ -27,8 +27,6 @@
 #ifndef LLXMLRPCTRANSACTION_H
 #define LLXMLRPCTRANSACTION_H
 
-#include <string>
-
 typedef struct _xmlrpc_request* XMLRPC_REQUEST;
 typedef struct _xmlrpc_value* XMLRPC_VALUE;
 	// foward decl of types from xmlrpc.h (this usage is type safe)

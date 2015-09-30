@@ -31,10 +31,6 @@
 #include "llviewerprecompiledheaders.h"
 // associated header
 #include "llxmlrpclistener.h"
-// STL headers
-#include <map>
-#include <set>
-// std headers
 // external library headers
 #include <boost/scoped_ptr.hpp>
 #include <boost/range.hpp>          // boost::begin(), boost::end()

@@ -29,7 +29,6 @@
 
 #define MATERIAL_ID_SIZE 16
 
-#include <string>
 #include "llsd.h"
 
 class LLMaterialID

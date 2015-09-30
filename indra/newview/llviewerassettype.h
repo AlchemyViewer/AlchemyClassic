@@ -27,7 +27,6 @@
 #ifndef LL_LLVIEWERASSETTYPE_H
 #define LL_LLVIEWERASSETTYPE_H
 
-#include <string>
 #include "llassettype.h"
 #include "llui.h" //EDragAndDropType
 

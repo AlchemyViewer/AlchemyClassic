@@ -27,10 +27,7 @@
 
 
 #include "llviewerprecompiledheaders.h"
-
 #include "llpathfindinglinkset.h"
-
-#include <string>
 
 #include "llpathfindingobject.h"
 #include "llsd.h"

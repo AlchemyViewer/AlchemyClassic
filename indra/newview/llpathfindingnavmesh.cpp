@@ -30,8 +30,6 @@
 
 #include "llpathfindingnavmesh.h"
 
-#include <string>
-
 #include "llpathfindingnavmeshstatus.h"
 #include "llsd.h"
 #include "llsdserialize.h"

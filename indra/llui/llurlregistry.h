@@ -33,9 +33,6 @@
 #include "llsingleton.h"
 #include "llstring.h"
 
-#include <string>
-#include <vector>
-
 /// This default callback for findUrl() simply ignores any label updates
 void LLUrlRegistryNullCallback(const std::string &url,
 							   const std::string &label,

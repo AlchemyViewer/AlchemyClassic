@@ -27,7 +27,6 @@
 #ifndef LL_ACCORDIONCTRLTAB_H_
 #define LL_ACCORDIONCTRLTAB_H_
 
-#include <string>
 #include "llrect.h"
 #include "lluictrl.h"
 #include "lluicolor.h"

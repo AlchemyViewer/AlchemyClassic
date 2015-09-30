@@ -27,10 +27,7 @@
 #ifndef LL_LLSTATEMACHINE_H
 #define LL_LLSTATEMACHINE_H
 
-#include <string>
-
 #include "llerror.h"
-#include <map>
 
 class LLUniqueID
 {

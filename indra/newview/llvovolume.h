@@ -34,7 +34,6 @@
 #include "lllocalbitmaps.h"
 #include "m3math.h"		// LLMatrix3
 #include "m4math.h"		// LLMatrix4
-#include <map>
 
 class LLViewerTextureAnim;
 class LLDrawPool;

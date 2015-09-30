@@ -29,7 +29,6 @@
 #define LL_LLUISTRING_H
 
 #include "llstring.h"
-#include <string>
 
 // Use this class to store translated text that may have arguments
 // e.g. "Welcome [USERNAME] to [SECONDLIFE]!"

@@ -29,7 +29,6 @@
 #define LL_LLHOST_H
 
 #include <iostream>
-#include <string>
 
 #include "net.h"
 

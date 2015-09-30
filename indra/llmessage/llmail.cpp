@@ -30,7 +30,6 @@
 
 // APR on Windows needs full windows headers
 #include "llwin32headers.h"
-#include <string>
 #include <sstream>
 
 #include "apr_pools.h"

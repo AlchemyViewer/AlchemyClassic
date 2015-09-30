@@ -27,11 +27,6 @@
 #ifndef LL_LLINVENTORYMODEL_H
 #define LL_LLINVENTORYMODEL_H
 
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
-
 #include "llassettype.h"
 #include "llfoldertype.h"
 #include "llframetimer.h"

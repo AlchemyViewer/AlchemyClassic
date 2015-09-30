@@ -27,8 +27,6 @@
 #ifndef LL_LLPATHFINDINGOBJECT_H
 #define LL_LLPATHFINDINGOBJECT_H
 
-#include <string>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>

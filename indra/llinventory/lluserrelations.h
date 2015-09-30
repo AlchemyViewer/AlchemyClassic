@@ -29,7 +29,6 @@
 #ifndef LL_LLUSERRELAIONS_H
 #define LL_LLUSERRELAIONS_H
 
-#include <map>
 #include "lluuid.h"
 
 /** 

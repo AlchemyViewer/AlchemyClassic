@@ -27,8 +27,6 @@
 #ifndef LL_LLVOLUMEMGR_H
 #define LL_LLVOLUMEMGR_H
 
-#include <map>
-
 #include "llvolume.h"
 #include "llpointer.h"
 #include "llthread.h"

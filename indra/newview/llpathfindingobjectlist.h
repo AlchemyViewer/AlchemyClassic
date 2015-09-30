@@ -27,9 +27,6 @@
 #ifndef LL_LLPATHFINDINGOBJECTLIST_H
 #define LL_LLPATHFINDINGOBJECTLIST_H
 
-#include <string>
-#include <map>
-
 #include <boost/shared_ptr.hpp>
 
 #include "llpathfindingobject.h"

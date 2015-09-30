@@ -29,8 +29,6 @@
 
 #include "llmaterialid.h"
 
-#include <string>
-
 #include "llformat.h"
 
 const LLMaterialID LLMaterialID::null;

@@ -27,7 +27,6 @@
 #ifndef LL_LLVIEWERFOLDERTYPE_H
 #define LL_LLVIEWERFOLDERTYPE_H
 
-#include <string>
 #include "llfoldertype.h"
 
 // This class is similar to llfoldertype, but contains methods

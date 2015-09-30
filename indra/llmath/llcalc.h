@@ -27,9 +27,6 @@
 #ifndef LL_CALC_H
 #define LL_CALC_H
 
-#include <map>
-#include <string>
-
 class LLCalc
 {
 public:

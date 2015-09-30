@@ -27,7 +27,6 @@
 #ifndef LL_LLUICOLORTABLE_H_
 #define LL_LLUICOLORTABLE_H_
 
-#include <map>
 #include <boost/unordered_map.hpp>
 
 #include "llinitparam.h"

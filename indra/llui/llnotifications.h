@@ -75,13 +75,7 @@
  *
  */
 
-#include <string>
-#include <list>
-#include <vector>
-#include <map>
-#include <set>
 #include <iomanip>
-#include <sstream>
 
 #include <boost/utility.hpp>
 #include <boost/shared_ptr.hpp>

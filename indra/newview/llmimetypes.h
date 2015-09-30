@@ -28,9 +28,6 @@
 #ifndef LLMIMETYPES_H
 #define LLMIMETYPES_H
 
-#include <string>
-#include <map>
-
 class LLMIMETypes
 {
 public:

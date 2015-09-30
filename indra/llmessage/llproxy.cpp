@@ -28,7 +28,6 @@
 
 #include "llproxy.h"
 
-#include <string>
 #include <curl/curl.h>
 
 #include "llapr.h"

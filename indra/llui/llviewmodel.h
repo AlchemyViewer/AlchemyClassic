@@ -40,7 +40,6 @@
 #include "llstring.h"
 #include "lltrace.h"
 #include "llui.h"
-#include <string>
 
 class LLScrollListItem;
 

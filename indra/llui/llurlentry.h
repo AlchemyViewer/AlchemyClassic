@@ -37,8 +37,6 @@
 
 #include <boost/signals2.hpp>
 #include <boost/regex.hpp>
-#include <string>
-#include <map>
 
 class LLAvatarName;
 

@@ -27,8 +27,6 @@
 #ifndef LL_WLPARAMMANAGER_H
 #define LL_WLPARAMMANAGER_H
 
-#include <list>
-#include <map>
 #include "llenvmanager.h"
 #include "llwlparamset.h"
 #include "llwlanimator.h"

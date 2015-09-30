@@ -29,9 +29,6 @@
 
 #include "lluuid.h"
 
-#include <string>
-#include <deque>
-
 class LLAssetUploadQueueSupplier;
 
 class LLAssetUploadQueue

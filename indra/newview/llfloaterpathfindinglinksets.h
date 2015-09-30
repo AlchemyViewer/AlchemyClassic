@@ -27,8 +27,6 @@
 #ifndef LL_LLFLOATERPATHFINDINGLINKSETS_H
 #define LL_LLFLOATERPATHFINDINGLINKSETS_H
 
-#include <string>
-
 #include "llfloaterpathfindingobjects.h"
 #include "llpathfindinglinkset.h"
 #include "llpathfindingobjectlist.h"

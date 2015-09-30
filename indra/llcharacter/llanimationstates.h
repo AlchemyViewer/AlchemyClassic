@@ -27,8 +27,6 @@
 #ifndef LL_LLANIMATIONSTATES_H
 #define LL_LLANIMATIONSTATES_H
 
-#include <map>
-
 #include "llstringtable.h"
 #include "lluuid.h"
 

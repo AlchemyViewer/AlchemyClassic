@@ -27,10 +27,6 @@
 #ifndef LL_LLDISPATCHER_H
 #define LL_LLDISPATCHER_H
 
-#include <map>
-#include <vector>
-#include <string>
-
 class LLDispatcher;
 class LLMessageSystem;
 class LLUUID;

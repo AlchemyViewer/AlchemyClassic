@@ -31,8 +31,6 @@
 #include "lluuid.h"
 #include "llframetimer.h"
 
-#include <map>
-
 class LLUserOperation
 {
 public:

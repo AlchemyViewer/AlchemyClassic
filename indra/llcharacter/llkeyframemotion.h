@@ -31,8 +31,6 @@
 // Header files
 //-----------------------------------------------------------------------------
 
-#include <string>
-
 #include "llassetstorage.h"
 #include "llbboxlocal.h"
 #include "llhandmotion.h"

@@ -41,9 +41,6 @@
 #include "llrootview.h"
 #include "llsdutil.h"
 #include "stringize.h"
-#include <functional>
-#include <typeinfo>
-#include <map>
 #include <boost/scoped_ptr.hpp>
 
 LLWindowListener::LLWindowListener(LLViewerWindow *window, const KeyboardGetter& kbgetter)

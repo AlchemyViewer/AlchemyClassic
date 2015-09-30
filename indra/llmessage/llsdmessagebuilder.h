@@ -27,8 +27,6 @@
 #ifndef LL_LLSDMESSAGEBUILDER_H
 #define LL_LLSDMESSAGEBUILDER_H
 
-#include <map>
-
 #include "llmessagebuilder.h"
 #include "llmsgvariabletype.h"
 #include "llsd.h"

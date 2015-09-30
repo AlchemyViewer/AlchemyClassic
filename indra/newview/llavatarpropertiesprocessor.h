@@ -30,8 +30,6 @@
 #include "lluuid.h"
 #include "llsingleton.h"
 #include "v3dmath.h"	// LLVector3d
-#include <list>
-#include <map>
 
 // For Flags in AvatarPropertiesReply
 const U32 AVATAR_ALLOW_PUBLISH			= 0x1 << 0;	// whether profile is externally visible or not

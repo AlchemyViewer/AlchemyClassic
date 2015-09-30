@@ -27,9 +27,6 @@
 #ifndef LL_VIEWEROCTREE_H
 #define LL_VIEWEROCTREE_H
 
-#include <vector>
-#include <map>
-
 #include "v2math.h"
 #include "v3math.h"
 #include "v4math.h"

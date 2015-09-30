@@ -27,8 +27,6 @@
 #ifndef LL_LLVIEWEROBJECTLIST_H
 #define LL_LLVIEWEROBJECTLIST_H
 
-#include <map>
-#include <set>
 #include <boost/unordered_map.hpp>
 
 // common includes

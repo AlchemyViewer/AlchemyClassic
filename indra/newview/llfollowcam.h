@@ -46,8 +46,6 @@
 #include "lltimer.h"
 #include "llquaternion.h"
 #include "llcriticaldamp.h"
-#include <map>
-#include <vector>
 
 class LLFollowCamParams
 {

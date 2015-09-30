@@ -27,8 +27,6 @@
 #ifndef LL_LLPATHFINDINGNAVMESH_H
 #define LL_LLPATHFINDINGNAVMESH_H
 
-#include <string>
-
 #include <boost/shared_ptr.hpp>
 #include <boost/function.hpp>
 #include <boost/signals2.hpp>

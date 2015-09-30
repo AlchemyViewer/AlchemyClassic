@@ -31,8 +31,6 @@
 #include "llfloaterwebcontent.h"
 #include "llviewermediaobserver.h"
 
-#include <string>
-
 class LLMediaCtrl;
 
 ///

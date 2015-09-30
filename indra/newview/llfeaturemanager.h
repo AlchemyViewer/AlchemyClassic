@@ -31,7 +31,6 @@
 
 #include "llsingleton.h"
 #include "llstring.h"
-#include <map>
 
 typedef enum EGPUClass
 {

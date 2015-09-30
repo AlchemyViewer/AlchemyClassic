@@ -28,7 +28,6 @@
 #ifndef LL_LLURLACTION_H
 #define LL_LLURLACTION_H
 
-#include <string>
 #include <boost/function.hpp>
 
 ///

@@ -27,16 +27,15 @@
 #ifndef LL_LLFLOATERIMCONTAINER_H
 #define LL_LLFLOATERIMCONTAINER_H
 
-#include <map>
-#include <vector>
-
+// LLUI
+#include "lltrans.h"
+#include "llfloater.h"
+#include "llmultifloater.h"
+// newview
 #include "llimview.h"
 #include "llevents.h"
-#include "../llui/llfloater.h"
-#include "../llui/llmultifloater.h"
 #include "llavatarpropertiesprocessor.h"
 #include "llgroupmgr.h"
-#include "../llui/lltrans.h"
 #include "llconversationmodel.h"
 #include "llconversationview.h"
 

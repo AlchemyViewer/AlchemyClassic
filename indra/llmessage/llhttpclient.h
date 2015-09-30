@@ -31,8 +31,6 @@
  * These classes represent the HTTP client framework.
  */
 
-#include <string>
-
 #include <boost/intrusive_ptr.hpp>
 #include <openssl/x509_vfy.h>
 #include "llurlrequest.h"

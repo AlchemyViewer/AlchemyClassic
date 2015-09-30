@@ -28,7 +28,6 @@
 #ifndef LL_LLLANDMARK_H
 #define LL_LLLANDMARK_H
 
-#include <map>
 #include <boost/function.hpp>
 #include "llframetimer.h"
 #include "lluuid.h"

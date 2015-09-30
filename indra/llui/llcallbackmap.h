@@ -27,8 +27,6 @@
 #ifndef LLCALLBACKMAP_H
 #define LLCALLBACKMAP_H
 
-#include <map>
-#include <string>
 #include <boost/function.hpp>
 
 class LLCallbackMap

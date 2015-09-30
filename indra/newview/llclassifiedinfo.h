@@ -27,8 +27,6 @@
 #ifndef LL_LLCLASSIFIEDINFO_H
 #define LL_LLCLASSIFIEDINFO_H
 
-#include <map>
-
 #include "v3dmath.h"
 #include "lluuid.h"
 

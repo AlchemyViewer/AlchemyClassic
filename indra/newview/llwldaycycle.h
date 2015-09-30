@@ -29,9 +29,6 @@
 
 class LLWLDayCycle;
 
-#include <vector>
-#include <map>
-#include <string>
 #include "llwlparamset.h"
 #include "llwlanimator.h"
 struct LLWLParamKey;

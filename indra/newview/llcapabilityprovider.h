@@ -31,7 +31,6 @@
 #define LL_LLCAPABILITYPROVIDER_H
 
 #include "llhost.h"
-#include <string>
 
 /// Interface for obtaining a capability URL, given a capability name
 class LLCapabilityProvider

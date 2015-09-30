@@ -27,9 +27,6 @@
 #ifndef LL_LLCOMMUNICATIONCHANNEL_H
 #define LL_LLCOMMUNICATIONCHANNEL_H
 
-#include <string>
-#include <map>
-
 #include "lldate.h"
 #include "llerror.h"
 #include "llnotifications.h"

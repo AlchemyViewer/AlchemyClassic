@@ -29,8 +29,6 @@
 
 #include "llcommon.h"
 
-#include <string>
-#include <map>
 #include "llstl.h"
 
 #include "v3math.h"

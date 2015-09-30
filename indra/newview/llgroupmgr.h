@@ -29,9 +29,6 @@
 
 #include "lluuid.h"
 #include "roles_constants.h"
-#include <vector>
-#include <string>
-#include <map>
 
 // Forward Declarations
 class LLMessageSystem;

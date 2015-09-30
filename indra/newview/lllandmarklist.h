@@ -28,7 +28,6 @@
 #define LL_LLLANDMARKLIST_H
 
 #include <boost/function.hpp>
-#include <map>
 #include "lllandmark.h"
 #include "lluuid.h"
 #include "llassetstorage.h"

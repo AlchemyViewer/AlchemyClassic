@@ -50,7 +50,6 @@
 #include <boost/circular_buffer.hpp>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/range.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_integral.hpp>
 #include <boost/type_traits/is_float.hpp>

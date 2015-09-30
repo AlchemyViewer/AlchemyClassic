@@ -303,7 +303,7 @@ void LLAgentListener::getAxes(const LLSD& event_data) const
     // The official query API for LLQuaternion's [x, y, z, w] values is its
     // public member mQ...
 	LLSD reply = LLSD::emptyMap();
-	reply["quat"] = llsd_copy_array(boost::begin(quat.mQ), boost::end(quat.mQ));
+	reply["quat"] = llsd_copy_array(std::begin(quat.mQ), std::end(quat.mQ));
 	reply["euler"] = LLSD::emptyMap();
 	reply["euler"]["roll"] = roll;
 	reply["euler"]["pitch"] = pitch;

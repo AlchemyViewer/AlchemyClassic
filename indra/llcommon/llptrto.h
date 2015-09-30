@@ -31,10 +31,9 @@
 #if ! defined(LL_LLPTRTO_H)
 #define LL_LLPTRTO_H
 
+#include <type_traits>
 #include "llpointer.h"
 #include "llrefcount.h"             // LLRefCount
-#include <boost/type_traits/is_base_of.hpp>
-#include <boost/type_traits/remove_pointer.hpp>
 #include <boost/utility/enable_if.hpp>
 
 /**
@@ -55,14 +54,14 @@ struct LLPtrTo
 
 /// specialize for subclasses of LLRefCount
 template <class T>
-struct LLPtrTo<T, typename boost::enable_if< boost::is_base_of<LLRefCount, T> >::type>
+struct LLPtrTo<T, typename boost::enable_if< std::is_base_of<LLRefCount, T> >::type>
 {
     typedef LLPointer<T> type;
 };
 
 /// specialize for subclasses of LLThreadSafeRefCount
 template <class T>
-struct LLPtrTo<T, typename boost::enable_if< boost::is_base_of<LLThreadSafeRefCount, T> >::type>
+struct LLPtrTo<T, typename boost::enable_if< std::is_base_of<LLThreadSafeRefCount, T> >::type>
 {
     typedef LLPointer<T> type;
 };
@@ -73,7 +72,7 @@ struct LLPtrTo<T, typename boost::enable_if< boost::is_base_of<LLThreadSafeRefCo
 template <typename PTRTYPE>
 struct LLRemovePointer
 {
-    typedef typename boost::remove_pointer<PTRTYPE>::type type;
+    typedef typename std::remove_pointer<PTRTYPE>::type type;
 };
 
 /// specialize for LLPointer<SOMECLASS>

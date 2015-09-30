@@ -77,10 +77,8 @@
 
 #include <iomanip>
 
-#include <boost/utility.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/enable_shared_from_this.hpp>
-#include <boost/type_traits.hpp>
 
 #include "llevents.h"
 #include "llfunctorregistry.h"

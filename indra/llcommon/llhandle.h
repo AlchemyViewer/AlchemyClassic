@@ -28,7 +28,6 @@
 #define LLHANDLE_H
 
 #include "llpointer.h"
-#include <boost/type_traits/is_convertible.hpp>
 #include <boost/utility/enable_if.hpp>
 
 /**
@@ -86,7 +85,7 @@ public:
 	LLHandle() : mTombStone(getDefaultTombStone()) {}
 
 	template<typename U>
-	LLHandle(const LLHandle<U>& other, typename boost::enable_if< typename boost::is_convertible<U*, T*> >::type* dummy = 0)
+	LLHandle(const LLHandle<U>& other, typename boost::enable_if< typename std::is_convertible<U*, T*> >::type* dummy = 0)
 	: mTombStone(other.mTombStone)
 	{}
 
@@ -195,7 +194,7 @@ public:
 	}
 
 	template <typename U>
-	LLHandle<U> getDerivedHandle(typename boost::enable_if< typename boost::is_convertible<U*, T*> >::type* dummy = 0) const
+	LLHandle<U> getDerivedHandle(typename boost::enable_if< typename std::is_convertible<U*, T*> >::type* dummy = 0) const
 	{
 		LLHandle<U> downcast_handle;
 		downcast_handle.mTombStone = getHandle().mTombStone;

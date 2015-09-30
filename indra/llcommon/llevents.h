@@ -47,7 +47,6 @@
 #include <boost/optional/optional.hpp>
 #include <boost/visit_each.hpp>
 #include <boost/ref.hpp>            // reference_wrapper
-#include <boost/type_traits/is_pointer.hpp>
 #include <boost/function.hpp>
 #include <boost/static_assert.hpp>
 #include "llsd.h"

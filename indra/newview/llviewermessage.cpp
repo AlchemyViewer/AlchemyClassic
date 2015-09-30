@@ -26,8 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llviewermessage.h"
-#include <boost/lexical_cast.hpp>
-#include <regex>
+#include "boost/lexical_cast.hpp"
 
 // Linden libraries
 #include "llanimationstates.h"
@@ -122,6 +121,7 @@
 #include <boost/algorithm/string/split.hpp> //
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/regex.hpp>
 
 #include "llnotificationmanager.h" //
 #include "llexperiencecache.h"
@@ -2292,10 +2292,10 @@ static std::string clean_name_from_im(const std::string& name, EInstantMessage t
 static std::string clean_name_from_task_im(const std::string& msg,
 										   BOOL from_group)
 {
-	std::smatch match;
-	static const std::regex returned_exp(
+	boost::smatch match;
+	static const boost::regex returned_exp(
 		"(.*been returned to your inventory lost and found folder by )(.+)( (from|near).*)");
-	if (std::regex_match(msg, match, returned_exp))
+	if (boost::regex_match(msg, match, returned_exp))
 	{
 		// match objects are 1-based for groups
 		std::string final = match[1].str();

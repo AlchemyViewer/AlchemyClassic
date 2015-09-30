@@ -33,6 +33,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <boost/regex.hpp>
 
 #include "llagent.h"
 #include "llagentcamera.h"

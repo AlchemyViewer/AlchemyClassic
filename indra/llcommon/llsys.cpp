@@ -33,7 +33,6 @@
 #include "llsys.h"
 
 #include <iostream>
-#include <regex>
 #ifdef LL_USESYSTEMLIBS
 # include <zlib.h>
 #else
@@ -49,6 +48,7 @@
 #include "llsdutil.h"
 #include <boost/bind.hpp>
 #include <boost/circular_buffer.hpp>
+#include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/type_traits/is_integral.hpp>
@@ -100,13 +100,13 @@ static const F32 MEM_INFO_WINDOW = 10*60;
 #endif
 #endif // LL_WINDOWS
 
-// Wrap std::regex_match() with a function that doesn't throw.
+// Wrap boost::regex_match() with a function that doesn't throw.
 template <typename S, typename M, typename R>
 static bool regex_match_no_exc(const S& string, M& match, const R& regex)
 {
     try
     {
-        return std::regex_match(string, match, regex);
+        return boost::regex_match(string, match, regex);
     }
     catch (const std::runtime_error& e)
     {
@@ -116,13 +116,13 @@ static bool regex_match_no_exc(const S& string, M& match, const R& regex)
     }
 }
 
-// Wrap std::regex_search() with a function that doesn't throw.
+// Wrap boost::regex_search() with a function that doesn't throw.
 template <typename S, typename M, typename R>
 static bool regex_search_no_exc(const S& string, M& match, const R& regex)
 {
     try
     {
-        return std::regex_search(string, match, regex);
+        return boost::regex_search(string, match, regex);
     }
     catch (const std::runtime_error& e)
     {
@@ -349,7 +349,7 @@ LLOSInfo::LLOSInfo() :
 	}
 
 	const char OS_VERSION_MATCH_EXPRESSION[] = "([0-9]+)\\.([0-9]+)(\\.([0-9]+))?";
-	std::regex os_version_parse(OS_VERSION_MATCH_EXPRESSION);
+	boost::regex os_version_parse(OS_VERSION_MATCH_EXPRESSION);
 	boost::smatch matched;
 
 	std::string glibc_version(gnu_get_libc_version());
@@ -1042,10 +1042,10 @@ LLSD LLMemoryInfo::loadStatsMap()
 		// DirectMap2M:		 477184 kB
 
 		// Intentionally don't pass the boost::no_except flag. This
-		// std::regex object is constructed with a string literal, so it
+		// boost::regex object is constructed with a string literal, so it
 		// should be valid every time. If it becomes invalid, we WANT an
 		// exception, hopefully even before the dev checks in.
-		std::regex stat_rx("(.+): +([0-9]+)( kB)?");
+		boost::regex stat_rx("(.+): +([0-9]+)( kB)?");
 		boost::smatch matched;
 
 		std::string line;

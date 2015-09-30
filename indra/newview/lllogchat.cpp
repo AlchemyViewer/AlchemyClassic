@@ -38,10 +38,10 @@
 #include "llinstantmessage.h"
 #include "llsingleton.h" // for LLSingleton
 
-#include <regex>
-
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/regex.hpp>
+#include <boost/regex/v4/match_results.hpp>
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -75,14 +75,14 @@ const static std::string MULTI_LINE_PREFIX(" ");
  *
  * Note: "You" was used as an avatar names in viewers of previous versions
  */
-const static std::regex TIMESTAMP_AND_STUFF("^(\\[\\d{4}/\\d{1,2}/\\d{1,2}\\s+\\d{1,2}:\\d{2}\\]\\s+|\\[\\d{1,2}:\\d{2}\\]\\s+)?(.*)$");
-const static std::regex TIMESTAMP("^(\\[\\d{4}/\\d{1,2}/\\d{1,2}\\s+\\d{1,2}:\\d{2}\\]|\\[\\d{1,2}:\\d{2}\\]).*");
+const static boost::regex TIMESTAMP_AND_STUFF("^(\\[\\d{4}/\\d{1,2}/\\d{1,2}\\s+\\d{1,2}:\\d{2}\\]\\s+|\\[\\d{1,2}:\\d{2}\\]\\s+)?(.*)$");
+const static boost::regex TIMESTAMP("^(\\[\\d{4}/\\d{1,2}/\\d{1,2}\\s+\\d{1,2}:\\d{2}\\]|\\[\\d{1,2}:\\d{2}\\]).*");
 
 /**
  *  Regular expression suitable to match names like
  *  "You", "Second Life", "Igor ProductEngine", "Object", "Mega House"
  */
-const static std::regex NAME_AND_TEXT("([^:]+[:]{1})?(\\s*)(.*)");
+const static boost::regex NAME_AND_TEXT("([^:]+[:]{1})?(\\s*)(.*)");
 
 /**
  * These are recognizers for matching the names of ad-hoc conferences when generating the log file name
@@ -91,8 +91,8 @@ const static std::regex NAME_AND_TEXT("([^:]+[:]{1})?(\\s*)(.*)");
  * If the naming system for ad-hoc conferences are change in LLIMModel::LLIMSession::buildHistoryFileName()
  * then these definition need to be adjusted as well.
  */
-const static std::regex INBOUND_CONFERENCE("^[a-zA-Z]{1,31} [a-zA-Z]{1,31} Conference [0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2} [0-9a-f]{4}");
-const static std::regex OUTBOUND_CONFERENCE("^Ad-hoc Conference hash[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
+const static boost::regex INBOUND_CONFERENCE("^[a-zA-Z]{1,31} [a-zA-Z]{1,31} Conference [0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2} [0-9a-f]{4}");
+const static boost::regex OUTBOUND_CONFERENCE("^Ad-hoc Conference hash[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}");
 
 //is used to parse complex object names like "Xstreet SL Terminal v2.2.5 st"
 const static std::string NAME_TEXT_DIVIDER(": ");
@@ -208,9 +208,9 @@ std::string LLLogChat::makeLogFileName(std::string filename)
 	 * if it is then skip date stamping.
 	 **/
 
-	std::match_results<std::string::const_iterator> matches;
-	bool inboundConf = std::regex_match(filename, matches, INBOUND_CONFERENCE);
-	bool outboundConf = std::regex_match(filename, matches, OUTBOUND_CONFERENCE);
+	boost::match_results<std::string::const_iterator> matches;
+	bool inboundConf = boost::regex_match(filename, matches, INBOUND_CONFERENCE);
+	bool outboundConf = boost::regex_match(filename, matches, OUTBOUND_CONFERENCE);
 	if (!(inboundConf || outboundConf))
 	{
 		if( gSavedPerAccountSettings.getBOOL("LogFileNamewithDate") )
@@ -580,8 +580,8 @@ void LLLogChat::findTranscriptFiles(const std::string& pattern, std::vector<std:
 			if (bytes_to_read > 0 && NULL != fgets(buffer, bytes_to_read, filep))
 			{
 				//matching a timestamp
-				std::match_results<std::string::const_iterator> matches;
-				if (std::regex_match(std::string(buffer), matches, TIMESTAMP))
+				boost::match_results<std::string::const_iterator> matches;
+				if (boost::regex_match(std::string(buffer), matches, TIMESTAMP))
 				{
 					list_of_transcriptions.push_back(gDirUtilp->add(dirname, filename));
 				}
@@ -830,8 +830,8 @@ bool LLChatLogParser::parse(std::string& raw, LLSD& im, const LLSD& parse_params
 	im = LLSD::emptyMap();
 
 	//matching a timestamp
-	std::match_results<std::string::const_iterator> matches;
-	if (!std::regex_match(raw, matches, TIMESTAMP_AND_STUFF)) return false;
+	boost::match_results<std::string::const_iterator> matches;
+	if (!boost::regex_match(raw, matches, TIMESTAMP_AND_STUFF)) return false;
 	
 	bool has_timestamp = matches[IDX_TIMESTAMP].matched;
 	if (has_timestamp)
@@ -863,8 +863,8 @@ bool LLChatLogParser::parse(std::string& raw, LLSD& im, const LLSD& parse_params
 
 	//matching a name and a text
 	std::string stuff = matches[IDX_STUFF];
-	std::match_results<std::string::const_iterator> name_and_text;
-	if (!std::regex_match(stuff, name_and_text, NAME_AND_TEXT)) return false;
+	boost::match_results<std::string::const_iterator> name_and_text;
+	if (!boost::regex_match(stuff, name_and_text, NAME_AND_TEXT)) return false;
 	
 	bool has_name = name_and_text[IDX_NAME].matched;
 	std::string name = name_and_text[IDX_NAME];

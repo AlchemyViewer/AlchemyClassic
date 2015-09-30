@@ -66,6 +66,8 @@
 #include "llagentui.h"
 #include "llurlaction.h"
 
+#include <boost/regex.hpp>
+
 //-- LLTeleportHistoryMenuItem -----------------------------------------------
 
 /**

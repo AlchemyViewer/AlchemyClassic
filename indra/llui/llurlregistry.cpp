@@ -29,6 +29,8 @@
 #include "llurlregistry.h"
 #include "lluriparser.h"
 
+#include <boost/regex.hpp>
+
 // default dummy callback that ignores any label updates from the server
 void LLUrlRegistryNullCallback(const std::string &url, const std::string &label, const std::string& icon)
 {
@@ -102,15 +104,15 @@ void LLUrlRegistry::registerUrl(LLUrlEntryBase *url, bool force_front)
 	}
 }
 
-static bool matchRegex(const char *text, std::regex regex, U32 &start, U32 &end)
+static bool matchRegex(const char *text, boost::regex regex, U32 &start, U32 &end)
 {
-	std::cmatch result;
+	boost::cmatch result;
 	bool found;
 
 	// regex_search can potentially throw an exception, so check for it
 	try
 	{
-		found = std::regex_search(text, result, regex);
+		found = boost::regex_search(text, result, regex);
 	}
 	catch (std::runtime_error &)
 	{

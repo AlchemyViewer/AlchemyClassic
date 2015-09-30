@@ -26,8 +26,6 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include <regex>
-
 #include "llcombobox.h"
 #include "llnotificationsutil.h"
 #include "llsidetraypanelcontainer.h"
@@ -42,6 +40,8 @@
 #include "llpostcard.h"
 #include "llviewercontrol.h" // gSavedSettings
 #include "llviewerwindow.h"
+
+#include <boost/regex.hpp>
 
 /**
  * Sends postcard via email.
@@ -218,15 +218,15 @@ void LLPanelSnapshotPostcard::onSend()
 	// Validate input.
 	std::string to(getChild<LLUICtrl>("to_form")->getValue().asString());
 
-	std::regex email_format("[A-Za-z0-9.%+-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}(,[ \t]*[A-Za-z0-9.%+-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,})*");
+	boost::regex email_format("[A-Za-z0-9.%+-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}(,[ \t]*[A-Za-z0-9.%+-_]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,})*");
 
-	if (to.empty() || !std::regex_match(to, email_format))
+	if (to.empty() || !boost::regex_match(to, email_format))
 	{
 		LLNotificationsUtil::add("PromptRecipientEmail");
 		return;
 	}
 
-	if (mAgentEmail.empty() || !std::regex_match(mAgentEmail, email_format))
+	if (mAgentEmail.empty() || !boost::regex_match(mAgentEmail, email_format))
 	{
 		LLNotificationsUtil::add("PromptSelfEmail");
 		return;

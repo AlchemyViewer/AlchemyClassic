@@ -28,14 +28,14 @@
 #ifndef LL_LLURLENTRY_H
 #define LL_LLURLENTRY_H
 
-#include <regex>
-
 #include "lluuid.h"
 #include "lluicolor.h"
 #include "llstyle.h"
 
 #include "llavatarname.h"
 #include "llhost.h" // for resolving parcel name by parcel id
+
+#include <boost/regex.hpp>
 
 class LLAvatarName;
 
@@ -67,7 +67,7 @@ public:
 	virtual ~LLUrlEntryBase();
 	
 	/// Return the regex pattern that matches this Url 
-	std::regex getPattern() const { return mPattern; }
+	boost::regex getPattern() const { return mPattern; }
 
 	/// Return the url from a string that matched the regex
 	virtual std::string getUrl(const std::string &string) const;
@@ -122,7 +122,7 @@ protected:
 		LLUrlLabelSignal *signal;
 	} LLUrlEntryObserver;
 
-	std::regex                                   	mPattern;
+	boost::regex                                   	mPattern;
 	std::string                                    	mIcon;
 	std::string                                    	mMenuName;
 	std::string                                    	mTooltip;

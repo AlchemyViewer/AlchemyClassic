@@ -37,6 +37,8 @@
 #include "lluuid.h"
 #include "message.h"
 
+#include <boost/regex.hpp>
+
 // llsd serialization constants
 static const std::string AGENTS("agents");
 static const std::string GROUPS("groups");

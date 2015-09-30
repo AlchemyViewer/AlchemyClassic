@@ -37,15 +37,15 @@
 #include "lluictrl.h"
 
 // System libraries
-#include <regex>
+#include <boost/regex.hpp>
 
 // Extract from strings of the form "<width> x <height>", e.g. "640 x 480".
 bool extractWindowSizeFromString(const std::string& instr, U32 *width, U32 *height)
 {
-	std::cmatch what;
+	boost::cmatch what;
 	// matches (any number)(any non-number)(any number)
-	const std::regex expression("([0-9]+)[^0-9]+([0-9]+)");
-	if (std::regex_match(instr.c_str(), what, expression))
+	const boost::regex expression("([0-9]+)[^0-9]+([0-9]+)");
+	if (boost::regex_match(instr.c_str(), what, expression))
 	{
 		*width = atoi(what[1].first);
 		*height = atoi(what[2].first);

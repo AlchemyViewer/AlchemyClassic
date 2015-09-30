@@ -27,8 +27,8 @@
 #include "lldiriterator.h"
 
 #include "fix_macros.h"
-#include <regex>
 #include <boost/filesystem.hpp>
+#include <boost/regex.hpp>
 
 namespace fs = boost::filesystem;
 
@@ -43,7 +43,7 @@ public:
 	bool next(std::string &fname);
 
 private:
-	std::regex				mFilterExp;
+	boost::regex			mFilterExp;
 	fs::directory_iterator	mIter;
 	bool					mIsValid;
 };
@@ -90,14 +90,14 @@ LLDirIterator::Impl::Impl(const std::string &dirname, const std::string &mask)
 	// Convert the glob mask to a regular expression
 	std::string exp = glob_to_regex(mask);
 
-	// Initialize std::regex with the expression converted from
+	// Initialize boost::regex with the expression converted from
 	// the glob mask.
 	// An exception is thrown if the expression is not valid.
 	try
 	{
 		mFilterExp.assign(exp);
 	}
-	catch (std::regex_error& e)
+	catch (boost::regex_error& e)
 	{
 		LL_WARNS() << "\"" << exp << "\" is not a valid regular expression: "
 				<< e.what() << LL_ENDL;
@@ -129,9 +129,9 @@ bool LLDirIterator::Impl::next(std::string &fname)
 	{
 		while (mIter != end_itr && !found)
 		{
-			std::smatch match;
+			boost::smatch match;
 			std::string name = mIter->path().filename().string();
-			found = std::regex_match(name, match, mFilterExp);
+			found = boost::regex_match(name, match, mFilterExp);
 			if (found)
 			{
 				fname = name;

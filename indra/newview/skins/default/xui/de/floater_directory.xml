@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="search" title="Suche" >
+  <floater.string name="not_found" value="&apos;[TEXT]&apos; nicht gefunden" />
+  <floater.string name="no_results" value="Keine Ergebnisse" />
+  <floater.string name="result_spillover" value="Zeige mehr als [TOTAL] Ergebnisse [VISIBLE_BEGIN]/[VISIBLE_END]" />
+  <floater.string name="result_count" value="[TOTAL] Ergebnisse." />
+  <floater.string name="searching" value="Suche..." />
+  <floater.string name="all_categories" value="Alle Kategorien" />
+  <floater.string name="search_banned" value=" Einige Begriffe aus der Suchanfrage wurden aufgrund von Inhalts-Beschränkungen gemäß den Gemeinschafts-Richtlinien nicht berücksichtigt." />
+  <floater.string name="search_short" value="Suchbegriff zu kurz, daher wurde keine Suche durchgeführt" />
+  <floater.string name="search_disabled" value="Verzeichnis Suche ist in dieser Region deaktiviert." />
+  <floater.string name="search_no_date_offset" value="Suchanfrage enthielt kein Datum. Your search terms were missing the date offset." />
+  <floater.string name="search_no_catgory" value="Suchanfrage enthielt keine Kategorie. Your search terms were missing a category." />
+  <floater.string name="search_no_query" value="Suchanfrage enthielt keine Abfrage-Zeichenkette. Your search terms were missing a query string." />
+  <tab_container name="search_tabs">
+    <panel name="panel_search_people" label="Leute" />
+    <panel name="panel_search_groups" label="Gruppen" />
+    <panel name="panel_search_places" label="Orte" />
+    <panel name="panel_search_landsales" label="Land" />
+    <panel name="panel_search_events" label="Events" />
+    <panel name="panel_search_classifieds" label="Anzeigen" />
+    <panel name="panel_search_web" label="AltaVista" />
+  </tab_container>
+ <text name="results_status" value="[TOTAL] Ergebnisse" />ß
+</floater>

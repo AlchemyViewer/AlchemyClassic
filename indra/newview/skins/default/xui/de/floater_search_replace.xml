@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="search replace" title="Suche / Ersetzen">
+    <check_box name="case_text" label="Klein- oder Großschreibung" />
+    <check_box name="find_previous" label="Suche Nach Oben" />
+    <panel name="bottom_panel" label="Untere Benutzerleiste">
+        <button name="search_btn" label="Suche" />
+        <button name="replace_btn" label="Ersetze" />
+        <button name="replace_all_btn" label="Ersetze Alle" />
+    </panel> 
+    <text name="txt" value="Suche" />
+    <text name="txt2" value="Ersetze" />
+</floater>

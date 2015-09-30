@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="progress_view">
+  <floater.string name="loc_fmt" value="Teleportiere nach [REGION]..." />
+  <floater.string name="teleporting" value="Teleportiere..." />
+  <text name="location" value="[APP_NAME]" />
+  <text name="progress_text" />
+  <button name="cancel_btn" label="Abbrechen" />
+  <progress_bar name="progress_bar" tool_tip="Fortschritt" />
+</floater>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="event_info" >
+  <panel.string name="free" value="UMSONST" />
+  <panel.string name="hours" value="Stunden" />
+  <panel.string name="minutes" value="Minuten" />
+  <panel.string name="type_mature" value="Moderat" />
+  <panel.string name="type_pg" value="Allgemein" />
+  <panel.string name="reminder" value="Erinnern" />
+  <panel.string name="no_reminder" value="Erinnere mich nicht." />
+  <text name="title" value="Event Info" />
+  <scroll_container name="profile_scroll">
+    <panel name="scroll_content_panel">
+    <text name="event_location_label" value="Location:" />
+    <text_editor name="location"
+     read_only="true" value="[loading...]" />
+    <text name="content_type_label" value="Content Type:" />
+    <text_editor name="content_type" value="[content type]" />
+    <text name="time_label" value="Zeit:" />
+    <text_editor name="time" value="[time]" />
+    <text name="duration_label" value="Dauer:" />
+    <text_editor name="duration" value="[duration] Stunden" />
+    <layout_stack name="descr_stack" >
+      <layout_panel name="host_layout_panel" >
+       <text name="host_label" value="Gastgeber:" />
+      </layout_panel>
+      <layout_panel name="category_panel">
+        <text name="category_label" value="Kategorie:" />
+        <text name="category" value="[category]" />
+      </layout_panel>
+      <layout_panel name="cover_panel">
+        <text name="cover_label" value="Kosten:" />
+        <text name="cover" value="L$[cover]" />
+      </layout_panel>
+      <layout_panel name="descr_layout_panel">
+        <text name="desc_label" value="Beschreibung:" />
+        <text_editor name="desc" value="[description]" />
+      </layout_panel>
+    </layout_stack>
+  </panel>
+</scroll_container>
+<panel name="buttons">
+  <layout_stack name="layout_stack1">
+    <layout_panel name="layout_panel1">
+      <button name="teleport_btn" label="Teleport" />
+    </layout_panel>
+    <layout_panel name="show_on_map_btn_lp">
+      <button name="show_on_map_btn" label="Karte" />
+    </layout_panel>
+    <layout_panel name="remind_btn_lp">
+      <button name="remind_btn" label="Erinnern" />
+    </layout_panel>
+  </layout_stack>
+ </panel>
+</panel>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="grids" label="Grids">
+  <text name="add_grid_text" value="Neuen Grid hinzufügen:" />
+  <line_editor name="add_grid" label="Geben Sie den LoginURI ein" />
+  <button name="add_grid_commit" label="Hinzufügen" />
+  <text name="manage_grid_text" value="Grids Übersicht:" />
+  <scroll_list name="grid_list">
+    <scroll_list.columns label="Grid Name" name="grid_label" />
+    <scroll_list.columns label="Login URI" name="login_uri" />
+  </scroll_list>
+  <button label="Neu laden" name="refresh_grid" />
+  <button label="Entfernen" name="remove_grid" />
+  <button label="Debug" name="debug_grid" />
+  <check_box label="Grid Auswahl bei Anmeldung anzeigen" name="show_grid_selection_check" tool_tip="Show grid selection on login screen to login to other worlds"/>
+</panel>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel label="Interessen" name="avatar_interests_tab">
+  <text name="i_want_label" value="Ich will:" />
+  <check_box label="Bauen"  name="wanna_build" />
+  <check_box label="Erkunden" name="wanna_explore" />
+  <check_box label="Leute Treffen" name="wanna_yiff" />
+  <check_box label="Arbeiten" name="wanna_work" />
+  <check_box label="Gruppen" name="wanna_group" />
+  <check_box label="Kaufen" name="wanna_buy" />
+  <check_box label="Verkaufen" name="wanna_sell" />
+  <check_box label="Anheuern" name="wanna_hire" />
+  <text name="skills_label" value="Fähigkeiten:" />
+  <check_box label="Texturen" name="can_texture" />
+  <check_box label="Architektur" name="can_architect" />
+  <check_box label="Modellieren" name="can_model" />
+  <check_box label="Event Planung" name="can_event" />
+  <check_box label="Scripting" name="can_script" />
+  <check_box label="Custom Avatare" name="can_characters" />
+  <text name="language_label" value="Sprachen:" />
+</panel>

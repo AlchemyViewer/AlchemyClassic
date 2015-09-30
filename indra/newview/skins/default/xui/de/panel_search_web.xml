@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="panel_search_web">
+  <layout_stack name="stack1">
+    <layout_panel name="status_bar">
+      <button tool_tip="Zurück Navigieren" name="back"/>
+      <button tool_tip="Vorwärts Navigieren" name="forward" />
+      <button tool_tip="Navigation Anhalten" name="stop" />
+      <button tool_tip="Seite Neu Laden" name="reload" />
+    </layout_panel>
+  </layout_stack>
+</panel>

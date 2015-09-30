@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="panel_search_events">
+  <text name="search_title" value="Suchbegriff eingeben:" />
+  <radio_group name="events_search_mode">
+    <radio_item label="Laufend und Demnächst" name="current" value="current" />
+    <radio_item label="Nach Datum" name="date" value="Datum" />
+  </radio_group>
+  <search_editor label="Suche" name="search_bar" tool_tip="Geben Sie Ihren Suchbegriff ein" />
+  <combo_box name="events_category">
+    <combo_box.item label="Beliebige Kategorie" name="any" value="0" />
+    <combo_box.item label="" value="filter_separator" enabled="false" />
+    <combo_box.item label="Diskussion" name="discussion" value="18" />
+    <combo_box.item label="Sport" name="sports" value="19" />
+    <combo_box.item label="Live Musik" name="music" value="20" />
+    <!-- <combo_box.item label="???" name="mystery_category" value="21" /> -->
+    <combo_box.item label="Gewerblich" name="commercial" value="22" />
+    <combo_box.item label="Nachtleben/Unterhaltung" name="nightlife" value="23" />
+    <combo_box.item label="Spiele/Wettbewerbe" name="games" value="24" />
+    <combo_box.item label="Spektakel" name="pageants" value="25" />
+    <combo_box.item label="Bildung" name="education" value="26" />
+    <combo_box.item label="Kunst und Kultur" name="arts" value="27" />
+    <combo_box.item label="Wohltätigkeit/Fördergruppen" name="charity" value="28" />
+    <combo_box.item label="Diverse" name="misc" value="29" />
+  </combo_box>
+</panel>

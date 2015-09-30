@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panelname="panel_search_classifieds">
+  <text name="search_title" value="Suchbegriffe eingeben:" />
+  <search_editor label="Suche" name="search_bar" tool_tip="Geben Sie Ihren Suchbegriff ein" />
+</panel>

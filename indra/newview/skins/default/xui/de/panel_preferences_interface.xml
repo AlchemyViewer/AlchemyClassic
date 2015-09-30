@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="interface Panel" label="Interface Einstellungen">
+  <tab_container name="tab_container" >
+   <panel name="general_ui_tab" label="Allgemein">
+       <check_box label="Zeige Hinweise" tool_tip="Zeige erklärende Hinweise wenn der Mauszeiger über Objekten schwebt." name="show_hover_tips" />
+       <check_box label="Auswahlstrahl zeigt auf Bounding Box." name="AlchemyBoundingBoxBeam" />
+       <check_box label="Deaktiviere automatisches Stehen when das Aussehen bearbeitet wird." name="AlchemyIgnoreForcedStand" />
+       <check_box label="Den Bildschirm schütteln, wenn die Region neu gestartet wird." tool_tip="Wie ein Polaroid Bild schütteln." name="AlchemyRegionRestartShake" />
+       <check_box label="Öffne Profile im Web Modus." name="AlchemyUseWannabeFacebook" />
+    </panel>
+    <panel label="Inventar" name="inventory_tab">
+       <check_box label="Aktiviere &quot;Einfügen als Link&quot;" tool_tip="Aktiviere die Option, Verknüpfungen zu Ordnern und Objekten zu erstellen mit &quot;Einfügen als Link&quot;" name="inventory_linking" />
+       <check_box label="Blende leere Systemordner aus" tool_tip="Verhindert visuelle Unordnung, wenn Sie nicht die Systemorner nutzen, um Ihr Inventar zu sortieren." name="hide_empty_folders" />
+       <check_box label="Neue Inventarangebote automatisch annehmen" name="auto_accept_new_inventory" />
+       <check_box label="Alle Arten von Inventar automatisch annehmen" name="alchemy_auto_accept_new_inventory" />
+       <check_box label="Objekte unter Landgruppe rezzen." name="AlchemyRezUnderLandGroup" />
+    </panel>
+    <panel label="Mouselook" name="mouselook_tab">
+       <check_box label="Zeige Position und Avatar Gesundheit" name="AlchemyMouselookInstructions" />
+       <check_box label="Zeige Namen von Avataren, die im Fadenkreuz erscheinen" name="AlchemyMouselookIFF" />
+       <check_box label="Kamera zurücksetzen, wenn der Fokus der Anwendung geändert wird." name="AlchemyMouselookResetOnFocus" />
+       <check_box label="Zeige mich im Mouselook" name="first_person_avatar_visible" />
+       <check_box label="Realistischer Mouselook" name="AlchemyRealisticMouselook" tool_tip="Kamera folgt den Körperbewegungen und Animationen des Avatars im Mouselook." />
+   </panel>
+   <panel label="Statusleiste" name="statusbar_tab">
+      <check_box label="Zeige Sekunden in der Uhr" name="precise_clock" />
+   </panel>
+   <panel label="Sicherheit" name="security_tab">
+      <check_box label="Deaktiviere Klick, um auf Objekten zu sitzen." name="AlchemyDisableClickToSit" />
+      <text name="inworld_typing_rg_label" value="Widerrufe Objekt Berechtigungen wenn:" />
+      <radio_group name="revoke_perms_radio">
+        <radio_item label="Nie"name="None" value="0" />
+        <radio_item label="Sitzen" name="Sitting" value="1" />
+        <radio_item label="Stehen" name="Standing" value="2" />
+        <radio_item label="Beide" name="Both" value="3" />
+    </radio_group>
+   </panel>
+  </tab_container>
+</panel>

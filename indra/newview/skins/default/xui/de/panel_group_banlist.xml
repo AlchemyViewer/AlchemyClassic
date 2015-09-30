@@ -1,0 +1,19 @@
+<panel name="banlist_sub_tab" label="BANNED RESIDENTS">
+  <panel.string name="help_text" value="Einwohner, die auf der Verbannungsliste stehen, können der Gruppe nicht beitreten." />
+  <panel.string name="ban_count_template" value="Verbannte Einwohner: [COUNT]/[LIMIT]" />
+  <name_list name="ban_list">
+	<name_list.columns label="Einwohner" name="name" />
+	<name_list.columns label="Verbannt am" name="ban_date" />
+  </name_list>
+  <layout_stack name="button_row_ls">
+    <layout_panel name="btn_ban_lp">
+      <button name="ban_create" label="Verbanne Einwohner" />
+	</layout_panel>
+	<layout_panel name="delete_btn_lp">
+	  <button name="ban_delete" label="Entferne Verbannung" />
+	</layout_panel>
+	<layout_panel name="refresh_btn_lp">
+	  <button name="ban_refresh" tool_tip="Hole die Verbannungsliste zurück" />
+	</layout_panel>
+  </layout_stack>
+</panel>

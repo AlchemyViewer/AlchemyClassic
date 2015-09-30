@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="floater_generic_text" title="INFO">
+  <button name="copy_btn" label="Kopieren" />
+  <button name="close_btn" label="Schließen" />
+</floater>

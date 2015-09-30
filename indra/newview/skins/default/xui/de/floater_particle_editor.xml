@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="particle_editor_floater" title="PARTIKEL EDITOR">
+  <layout_stack name="master_stack">
+    <layout_panel name="layout_master">
+      <accordion name="accordion_master">
+        <accordion_tab name="burst_tab" title="Burst/Age">
+          <panel name="burst_panel">
+            <slider name="burst_rate" label="Häufigkeit:" />
+            <slider name="burst_count" label="Anzahl:" />
+            <slider name="burst_radius" label="Radius:" />
+			<slider name="burst_speed_max" label="Geschwindigkeit Max:" />
+            <slider name="burst_speed_min" label="Geschwindigkeit Min:" />
+            <slider name="source_max_age" label="Ursprung Max Alter:" />
+            <slider name="particle_max_age" label="Partikel Max Alter:" />
+          </panel>
+        </accordion_tab>
+        <accordion_tab name="angle_tab" title="Umfang/Winkel">
+          <panel name="angle_panel">
+            <slider name="scale_start_x" label="Umfang Start X:" />
+            <slider name="scale_start_y" label="Umfang Start Y:" />
+            <slider name="scale_end_x" label="Umfang Ende Y:" />
+            <slider name="scale_end_y" label="Umfang Ende Y:" />
+            <slider name="angle_begin" label="Winkel Anfang:" />
+            <slider name="angle_end" label="Winkel Ende:" />
+          </panel>
+        </accordion_tab>
+        <accordion_tab name="alpha_tab" title="Alpha/Leuchten">
+          <panel name="alpha_panel">
+            <slider name="start_alpha" label="Start Alpha:" />
+            <slider name="end_alpha" label="Ende Alpha:" />
+            <slider name="start_glow" label="Start Leuchten:" />
+            <slider name="end_glow" label="Ende Leuchten:" />
+          </panel>
+        </accordion_tab>
+        <accordion_tab name="omega_tab" title="Beschleunigung/Omega" />
+          <panel name="omega_panel">
+            <text name="Acceleration_Label" value="Beschleunigung:" />
+			<textname="Omega_Label" value="Omega:" />
+		  </panel>
+        </accordion_tab>
+        <accordion_tab name="color_tab" title="Farbe/Textur">
+          <panel name="color_panel">
+            <texture_picker name="texture_picker" label="Textur" />
+            <color_swatch name="start_color_selector" label="Anfang Farbe" />
+            <color_swatch name="end_color_selector"  label="Ende Farbe" />
+            <combo_box name="blend_func_src_combo">
+             	<combo_box.item label="Mischung Eins" name="blend_one" value="blend_one" />
+             	<combo_box.item label="Mischung Zwei" name="blend_zero" value="blend_zero" />
+             	<combo_box.item label="Mischung Zielfarbe" name="blend_dest_color" value="blend_dest_color" />
+             	<combo_box.item label="Mischung Ausgangsfarbe" name="blend_src_color" value="blend_src_color" />
+             	<combo_box.item label="Mischung 1 - Zielfarbe" name="blend_one_minus_dest_color" value="blend_one_minus_dest_color" />
+             	<combo_box.item label="Mischung 1 - Ausgangsfarbe" name="blend_one_minus_src_color" value="blend_one_minus_src_color" />
+             	<combo_box.item label="Mischung Anfang Alpha" name="blend_src_alpha" value="blend_src_alpha" />
+             	<combo_box.item label="Mischung 1 - Anfang Alpha" name="blend_one_minus_src_alpha" value="blend_one_minus_src_alpha" />
+            </combo_box>
+            <combo_box name="blend_func_dest_combo" />
+             	<combo_box.item label="Mischung Eins" name="blend_one" value="blend_one" />
+             	<combo_box.item label="Mischung Zwei" name="blend_zero" value="blend_zero" />
+             	<combo_box.item label="Mischung Zielfarbe" name="blend_dest_color" value="blend_dest_color" />
+             	<combo_box.item label="Mischung Ausgangsfarbe" name="blend_src_color" value="blend_src_color" />
+             	<combo_box.item label="Mischung 1 - Zielfarbe" name="blend_one_minus_dest_color" value="blend_one_minus_dest_color" />
+             	<combo_box.item label="Mischung 1 - Ursprungsfarbe" name="blend_one_minus_src_color" value="blend_one_minus_src_color" />
+             	<combo_box.item label="Mischung Ursprung Alpha" name="blend_src_alpha" value="blend_src_alpha" />
+             	<combo_box.item label="Mischung 1 - Ursprung Alpha" name="blend_one_minus_src_alpha" value="blend_one_minus_src_alpha" />
+             </combo_box>
+            </panel>
+          </accordion_tab>
+        </accordion>
+      </layout_panel>
+      <layout_panel name="checkbox_panel">
+      <text name="Pattern_Label" value="Muster:" />
+      <combo_box name="pattern_type_combo">
+        <combo_box.item label="Explodieren" name="explode" value="explode" />
+        <combo_box.item label="Winkel" name="angle" value="angle" />
+       	<combo_box.item label="Winkel Konus" name="angle_cone" value="angle_cone" />
+       	<combo_box.item label="Winkel Konus Leer" name="angle_cone_empty"value="angle_cone_empty" />
+		<combo_box.item label="Fall"name="drop"value="Fall" />
+      </combo_box>
+      <check_box name="bounce_checkbox" label="Aufprall" />
+      <check_box name="emissive_checkbox" label="Ausstrahlung" />
+      <check_box name="wind_checkbox" label="Wind" />
+      <check_box name="ribbon_checkbox" label="Schleife" />
+      <check_box name="follow_source_checkbox" label="Folge dem Ursprung" />
+      <check_box name="follow_velocity_checkbox" label="Folge der Geschwindigkeit" />
+      <check_box name="interpolate_color_checkbox" label="Interpoliere Farbe" />
+      <check_box name="interpolate_scale_checkbox" label="Interpoliere Umfang" />
+      <check_box name="target_position_checkbox" label="Zielposition" />
+      <check_box name="target_linear_checkbox" label="Ziel Linear" />
+      <button name="clear_target_button" tool_tip="Lösche Zielobjekt oder Zielavatar" />
+      <button name="pick_target_button" tool_tip="Klicken Sie hier, um das Partikel - oder Avatarziel auszuwählen." />
+      <button name="copy_button" label="Copy" tool_tip="Kopiert die Parameter des Partikelsystems als lsl script in die Zwischenablage." />
+      <button name="inject_button" label="Inject" tool_tip="Gebe dieses Partikelsystem in das ausgewählte Objekt." />
+    </layout_panel>
+  </layout_stack>
+</floater>

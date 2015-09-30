@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel label="Profil" name="Avatar Profile">
+  <panel.string
+   name="account_info_fmt">
+[ACCOUNT_TYPE]
+[PAYMENT_INFO]
+[AGE_VERIFIED]
+  </panel.string>
+  <panel.string
+   name="age_verified">
+Altersgeprüft
+  </panel.string>
+  <panel.string
+   name="rezday_fmt">
+[REZDAY] ([AGE])
+  </panel.string>
+  <panel.string
+   name="add_friend">
+Freund Hinzufügen
+  </panel.string>
+  <panel.string
+   name="remove_friend">
+Freund Entfernen
+  </panel.string>
+  <panel name="avatar_info_top">
+    <text_editor name="avatar_name" value="(Loading...)" />
+  </panel>
+  <layout_stack name="layout">
+    <layout_panel name="avatar_accordions">
+      <accordion name="avatar_accordion">
+        <accordion_tab name="avatar_secondlife_tab" title="Second Life">
+          <panel name="secondlife_tab_panel" />
+        </accordion_tab>
+        <accordion_tab name="avatar_groups_tab" title="Gruppen">
+          <panel name="groups_tab_panel" />
+        </accordion_tab>
+        <accordion_tab name="avatar_interest_tab" title="Interessen">
+          <panel name="interests_tab_panel" />
+        </accordion_tab>
+        <accordion_tab name="avatar_picks_tab" title="Picks">
+          <panel name="picks_tab_panel" />
+        </accordion_tab>
+        <accordion_tab name="avatar_firstlife_tab" title="Echtes Leben">
+          <panel name="firstlife_tab_panel" />
+        </accordion_tab>
+        <accordion_tab name="avatar_notes_tab" title="Notizen">
+          <panel name="notes_tab_panel" />
+        </accordion_tab>
+      </accordion>
+    </layout_panel>
+  </layout_stack>
+
+  <layout_stack name="button_row_ls">
+    <layout_panel name="btn_chat_lp">
+      <button name="btn_chat" label="Chat" tool_tip="Schicke eine Nachricht" />
+    </layout_panel>
+    <layout_panel name="btn_friend_lp">
+      <button name="btn_friend" label="Freund Hinzufügen" />
+      </button>
+    </layout_panel>
+    <layout_panel name="btn_block_lp">
+      <button name="btn_block" label="Blockieren" tool_tip="Blockiere dieses Avatar" />
+    </layout_panel>
+    <layout_panel name="btn_menu_lp">
+    <menu_button tool_tip="Aktionen für dieses Avatar" name="btn_menu" />
+    </layout_panel>
+  </layout_stack>
+</panel>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel label="Picks" name="panel_profile_picks">
+ <text name="picks_panel_text" value="Keine Picks" />
+ <accordion name="accordion">
+   <accordion_tab name="tab_picks" title="Picks">
+   </accordion_tab>
+   <accordion_tab name="tab_classifieds" title="Anzeigen">
+    </accordion_tab>
+  </accordion>
+  <panel name="buttons_cucks">
+    <layout_stack name="buttons_cucks_ls">
+	  <layout_panel name="info_btn_lp">
+        <button label="Info" name="info_btn" tool_tip="Zeige Pick Information" />
+	  </layout_panel>
+	  <layout_panel name="teleport_btn_lp">
+        <button label="Teleport" name="teleport_btn" tool_tip="Teleportiere in das entsprechende Gebiet" />
+	  </layout_panel>
+	  <layout_panel name="show_on_map_btn_lp">
+        <button label="Karte" name="show_on_map_btn" tool_tip="Zeige das entsprechende Gebiet auf der Weltkarte" />
+	  </layout_panel>
+	</layout_stack>
+  </panel>
+</panel>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="panel_search_people">
+  <panel.string name="SeachFilteredOnShortWordsEmpty" value="Ihre Suchbegriffe waren zu kurz. Es wurde keine Suche durchgeführt." />
+  <text name="search_title" value="Suchbegriffe eingeben:" />
+  <search_editor label="Suche" name="search_bar" tool_tip="Geben Sie Ihren Suchbegriff ein" />
+</panel>

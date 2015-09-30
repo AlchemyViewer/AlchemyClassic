@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<toggleable_menu 
+     name="menu_legacy_profile">
+  <menu_item_call
+   label="Öffne Webprofil..."
+   name="webprofile">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="webprofile"/>
+  </menu_item_call>
+  <menu_item_separator/>
+  <menu_item_call
+   label="Teilen..."
+   name="share">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="share"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_share" />
+  </menu_item_call>
+  <menu_item_call
+   label="Anrufen..."
+   name="call">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="call"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_has_telefono" />
+  </menu_item_call>
+  <menu_item_call
+   label="Teleportangebot..."
+   name="teleport">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="teleport"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_has_teleport" />
+  </menu_item_call>
+  <menu_item_call
+   label="Tekeportanfrage..."
+   name="request_teleport">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="req_teleport"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_has_teleport" />
+  </menu_item_call>
+  <menu_item_call
+   label="Weltkarte..."
+   name="map">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="map"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_has_map" />
+  </menu_item_call>
+  <menu_item_call
+   label="Bezahlen..."
+   name="pay">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="pay"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_has_pay" />
+  </menu_item_call>
+  <menu_item_call
+   label="Missbrauch melden..."
+   name="report_abuse">
+     <menu_item_call.on_click
+      function="Profile.Action"
+      parameter="report_abuse"/>
+     <menu_item_call.on_enable
+      function="Profile.Enable"
+      parameter="can_drama" />
+  </menu_item_call>
+  <menu_item_separator />
+  <menu_item_call
+   label="Kopiere Name"
+   name="Copy Name">
+     <menu_item_call.on_click
+      function="Profile.CopyData"
+      parameter="copy_name" />
+  </menu_item_call>
+  <menu_item_call
+   label="Kopiere SLURL"
+   name="Copy SLURL">
+     <menu_item_call.on_click
+      function="Profile.CopyData"
+      parameter="copy_slurl" />
+  </menu_item_call>
+  <menu_item_call
+   label="Kopiere Schlüssel"
+   name="Copy Key">
+     <menu_item_call.on_click
+      function="Profile.CopyData"
+      parameter="copy_key" />
+  </menu_item_call>
+</toggleable_menu>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater name="floater_transaction_log" title="TRANSAKTIONSPROTOKOLL" >
+  <floater.string name="total_fmt" value="Gesamt: L$[TOTAL]" />
+  <text name="total" value="Gesamt: L$0" />
+  <button name="btn_reset" label="Zurücksetzen" />
+</floater>

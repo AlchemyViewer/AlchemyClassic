@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel label="Second Life" name="avatar_secondlife_tab">
+  <panel name="avatar_info_top">
+    <text name="rezday_label" value="Geboren:" />
+    <icon tool_tip="Herzlichen Glückwunsch zum Rezztag." name="cake" />
+    <text name="online" value="Online" />
+    <text name="rezday" value="(Unbekannt)" />
+    <text name="partner_label" value="Partner:" />
+  </panel>
+  <text name="permissions_label" value="Dieses Avatar kann:" />
+  <check_box label="sehen, wenn ich online bin." name="allow_show_online" />
+  <check_box label="mich auf der Weltkarte finden" name="allow_mapping" />
+  <check_box label="meine Objekte bearbeiten, löschen oder nehmen" name="allow_object_perms" />
+  <line_editor tool_tip="Website link" name="www_edit" />
+  <check_box label="Zeige in Suche" name="allow_publish" />
+</panel>

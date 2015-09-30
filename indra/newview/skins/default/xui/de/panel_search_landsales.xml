@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel name="panel_search_landsales">
+  <text name="search_title" value="Suchbegriffe eingeben:" />
+  <check_box label="Preis &lt;" name="price_check" />
+  <check_box label="Gebiet &gt;" name="area_check" />
+  <combo_box name="land_type">
+    <combo_box.item label="Alle Kategorien" name="All" value="Alle"/>
+    <combo_box.item label="Auktion" name="Auction" value="Auktion"/>
+    <combo_box.item label="Mainland Verkäufe" name="Mainland" value="Mainland"/>
+    <combo_box.item label="Grundbesitz Verkäufe" name="Estate" value="Grundbesitz"/>
+  </combo_box>
+  <combo_box name="land_sort">
+    <combo_box.item label="Sortiere nach Namen" name="Name_item" value="Name"/>
+    <combo_box.item label="Sortiere nach Preis" name="Price_item" value="Price"/>
+    <combo_box.item label="Sortiere nach Preis pro Meter" name="PPM_item" value="PPM"/>
+    <combo_box.item label="Sortiere nach Gebiet" name="Area_item" value="Gebiet"/>
+  </combo_box>
+  <check_box label="Aufsteigend" name="ascending" />
+</panel>

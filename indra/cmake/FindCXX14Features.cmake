@@ -12,6 +12,7 @@
 #    HAVE_SINGLE_QUOTE_DIGIT_SEPERATOR
 #    HAVE_REVERSE_ITERATOR
 #    HAVE_MAKE_REVERSE_ITERATOR
+#    HAVE_OPTIONAL
 
 include(CMakePushCheckState)
 include(CheckCXXSourceCompiles)
@@ -118,6 +119,24 @@ CHECK_CXX_SOURCE_COMPILES("
       return 0;
     }
 " HAVE_MAKE_REVERSE_ITERATOR
+)
+
+CHECK_CXX_SOURCE_COMPILES("
+	#include <experimental/optional>
+	template<typename T>
+	using optional = std::experimental::optional<T>;
+
+	optional<float> square_root( float x ) {
+		return x > 0 ? std::sqrt(x) : optional<float>();
+	}
+
+	int main(void) {
+		float sq = square_root(9);
+		return sq-3;
+	}
+}
+
+" HAVE_OPTIONAL
 )
 
 cmake_pop_check_state()

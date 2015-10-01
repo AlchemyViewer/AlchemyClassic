@@ -34,6 +34,8 @@
 #include "v4color.h"
 #include "llpointer.h"
 
+#include <deque>
+
 class LLTextSegment;
 typedef LLPointer<LLTextSegment> LLTextSegmentPtr;
 

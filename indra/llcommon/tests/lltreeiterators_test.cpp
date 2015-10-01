@@ -38,7 +38,6 @@
 // external library headers
 #include <boost/bind.hpp>
 #include <boost/range/iterator_range.hpp>
-#include <boost/foreach.hpp>
 
 // associated header
 #include "../lltreeiterators.h"
@@ -1114,7 +1113,7 @@ namespace tut
         // Although we've commented out the output statement, ensure that the
         // loop construct is still valid, as promised by the getRootRange()
         // documentation.
-        BOOST_FOREACH(TreeNodePtr node, getRootRange<LLTreeIter::UP>(tnB2b))
+		for (TreeNodePtr node : getRootRange<LLTreeIter::UP>(tnB2b))
         {
 //          std::cout << node->name() << '\n';
         }
@@ -1137,9 +1136,9 @@ namespace tut
 //          std::cout << (*ri)->name() << '\n';
         }
 
-        std::string desc2("BOOST_FOREACH(EnhancedTreeNodePtr node, etnB2b->getRootRange<LLTreeIter::UP>())");
+        std::string desc2("for (EnhancedTreeNodePtr node : etnB2b->getRootRange<LLTreeIter::UP>())");
 //      std::cout << desc2 << '\n';
-        BOOST_FOREACH(EnhancedTreeNodePtr node, etnB2b->getRootRange<LLTreeIter::UP>())
+		for (EnhancedTreeNodePtr node : etnB2b->getRootRange<LLTreeIter::UP>())
         {
 //          std::cout << node->name() << '\n';
         }

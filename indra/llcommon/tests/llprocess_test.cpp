@@ -21,12 +21,9 @@
 // external library headers
 #include "llapr.h"
 #include "apr_thread_proc.h"
-#include <boost/foreach.hpp>
 #include <boost/function.hpp>
 #include <boost/algorithm/string/find_iterator.hpp>
 #include <boost/algorithm/string/finder.hpp>
-//#include <boost/lambda/lambda.hpp>
-//#include <boost/lambda/bind.hpp>
 // other Linden headers
 #include "../test/lltut.h"
 #include "../test/namedtempfile.h"
@@ -521,7 +518,7 @@ namespace tut
         catch (const failure&)
         {
             std::cout << "History:\n";
-            BOOST_FOREACH(const Item& item, history)
+			for (const Item& item : history)
             {
                 std::string what(item.what);
                 if ((! what.empty()) && what[what.length() - 1] == '\n')

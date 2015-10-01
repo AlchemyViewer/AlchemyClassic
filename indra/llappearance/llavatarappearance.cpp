@@ -37,9 +37,9 @@
 #include "llstl.h"
 #include "lltexglobalcolor.h"
 #include "llwearabledata.h"
-#include "boost/bind.hpp"
 
 using namespace LLAvatarAppearanceDefines;
+using namespace std::placeholders;
 
 //-----------------------------------------------------------------------------
 // Constants
@@ -936,7 +936,7 @@ BOOL LLAvatarAppearance::loadAvatar()
 			addVisualParam( driver_param );
 			driver_param->setParamLocation(isSelf() ? LOC_AV_SELF : LOC_AV_OTHER);
 			LLVisualParam*(LLAvatarAppearance::*avatar_function)(S32)const = &LLAvatarAppearance::getVisualParam; 
-			if( !driver_param->linkDrivenParams(boost::bind(avatar_function,(LLAvatarAppearance*)this,_1 ), false))
+			if( !driver_param->linkDrivenParams(std::bind(avatar_function,(LLAvatarAppearance*)this, _1 ), false))
 			{
 				LL_WARNS() << "could not link driven params for avatar " << getID().asString() << " param id: " << driver_param->getID() << LL_ENDL;
 				continue;

@@ -38,8 +38,6 @@
 
 #include <vector>
 
-
-#include <boost/bind.hpp>
 #include <boost/signals2.hpp>
 
 class LLVector3;
@@ -336,7 +334,7 @@ private:
 
 		// Add a listener to the controls signal...
 		mConnection = controlp->getSignal()->connect(
-			boost::bind(&LLControlCache<T>::handleValueChange, this, _2)
+			std::bind(&LLControlCache<T>::handleValueChange, this, std::placeholders::_2)
 			);
 		mType = controlp->type();
 	}

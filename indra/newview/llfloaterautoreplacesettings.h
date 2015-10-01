@@ -32,7 +32,6 @@
 #include "lllineeditor.h"
 
 #include "llviewerinventory.h"
-#include <boost/bind.hpp>
 #include "llautoreplace.h"
 
 class LLFloaterAutoReplaceSettings : public LLFloater

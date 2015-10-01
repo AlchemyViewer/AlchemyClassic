@@ -30,8 +30,6 @@
 
 #include "llfloaterpathfindinglinksets.h"
 
-#include <boost/bind.hpp>
-
 #include "llagent.h"
 #include "llbutton.h"
 #include "llcombobox.h"

@@ -38,7 +38,7 @@
 #include "lluictrlfactory.h"
 #endif
 
-#include "boost/bind.hpp"
+#include <boost/bind.hpp>
 
 static 	LLInitParam::Parser::parser_read_func_map_t sReadFuncs;
 static 	LLInitParam::Parser::parser_write_func_map_t sWriteFuncs;

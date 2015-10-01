@@ -29,7 +29,6 @@
 
 #include "llconversationview.h"
 
-#include <boost/bind.hpp>
 #include "llagentdata.h"
 #include "llconversationmodel.h"
 #include "llfloaterimsession.h"

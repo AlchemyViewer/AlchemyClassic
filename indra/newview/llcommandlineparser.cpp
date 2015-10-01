@@ -29,7 +29,6 @@
 
 #include <boost/program_options.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/bind.hpp>
 #include <boost/tokenizer.hpp>
 
 #include "llsdserialize.h"

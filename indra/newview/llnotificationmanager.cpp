@@ -34,8 +34,6 @@
 #include "llfloaterimnearbychathandler.h"
 #include "llnotifications.h"
 
-#include <boost/bind.hpp>
-
 using namespace LLNotificationsUI;
 
 //--------------------------------------------------------------------------

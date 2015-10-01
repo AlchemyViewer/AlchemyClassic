@@ -59,8 +59,6 @@
 #include "llurlaction.h"
 #include "lltooltip.h"
 
-#include <boost/bind.hpp>
-
 static LLDefaultChildRegistry::Register<LLScrollListCtrl> r("scroll_list");
 
 // local structures & classes.

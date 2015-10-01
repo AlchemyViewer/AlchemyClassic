@@ -29,8 +29,6 @@
 
 #include "llfloaterpathfindingobjects.h"
 
-#include <boost/bind.hpp>
-
 #include "llagent.h"
 #include "llavatarname.h"
 #include "llavatarnamecache.h"

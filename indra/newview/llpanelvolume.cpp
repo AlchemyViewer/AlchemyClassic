@@ -78,8 +78,6 @@
 #include "llviewercontrol.h"
 #include "llmeshrepository.h"
 
-#include <boost/bind.hpp>
-
 // "Features" Tab
 
 BOOL	LLPanelVolume::postBuild()

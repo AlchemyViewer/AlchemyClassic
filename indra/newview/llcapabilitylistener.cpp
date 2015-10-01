@@ -30,8 +30,6 @@
 #include "llviewerprecompiledheaders.h"
 // associated header
 #include "llcapabilitylistener.h"
-// external library headers
-#include <boost/bind.hpp>
 // other Linden headers
 #include "stringize.h"
 #include "llcapabilityprovider.h"

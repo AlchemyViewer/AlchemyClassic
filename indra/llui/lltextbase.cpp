@@ -42,7 +42,6 @@
 #include "llurlregistry.h"
 #include "llview.h"
 #include "llwindow.h"
-#include <boost/bind.hpp>
 
 const F32	CURSOR_FLASH_DELAY = 1.0f;  // in seconds
 const S32	CURSOR_THICKNESS = 2;

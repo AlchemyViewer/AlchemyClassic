@@ -38,6 +38,7 @@
 #include <set>
 #include <vector>
 #include <list>
+#include <deque>
 
 #define LL_MAX_VERTEX_ATTRIB_LOCATION 64
 
@@ -86,8 +87,8 @@ public:
 	};
 
 	typedef std::list<Record> record_list_t;
-	std::vector<record_list_t> mFreeList;
-	std::vector<U32> mMissCount;
+	std::deque<record_list_t> mFreeList;
+	std::deque<U32> mMissCount;
 
 };
 

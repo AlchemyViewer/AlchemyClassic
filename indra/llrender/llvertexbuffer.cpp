@@ -146,8 +146,8 @@ void LLVBOPool::deleteBuffer(U32 name)
 LLVBOPool::LLVBOPool(U32 vboUsage, U32 vboType)
 : mUsage(vboUsage), mType(vboType)
 {
+	mFreeList.resize(LL_VBO_POOL_SEED_COUNT);
 	mMissCount.resize(LL_VBO_POOL_SEED_COUNT);
-	std::fill(mMissCount.begin(), mMissCount.end(), 0);
 }
 
 volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
@@ -160,7 +160,8 @@ volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
 
 	if (mFreeList.size() <= i)
 	{
-		mFreeList.resize(i+1);
+		mFreeList.resize(i + 1);
+		mMissCount.resize(i + 1);
 	}
 
 	if (mFreeList[i].empty() || for_seed)
@@ -255,11 +256,6 @@ void LLVBOPool::release(U32 name, volatile U8* buffer, U32 size)
 void LLVBOPool::seedPool()
 {
 	U32 dummy_name = 0;
-
-	if (mFreeList.size() < LL_VBO_POOL_SEED_COUNT)
-	{
-		mFreeList.resize(LL_VBO_POOL_SEED_COUNT);
-	}
 
 	for (U32 i = 0; i < LL_VBO_POOL_SEED_COUNT; i++)
 	{

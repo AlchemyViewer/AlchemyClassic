@@ -194,19 +194,13 @@ bool LLDate::fromStream(std::istream& s)
 
 bool LLDate::fromYMDHMS(S32 year, S32 month, S32 day, S32 hour, S32 min, S32 sec)
 {
-	std::tm exp_time;
+	std::tm exp_time = {0};
 	exp_time.tm_year = year - 1900;
 	exp_time.tm_mon = month - 1;
 	exp_time.tm_mday = day;
 	exp_time.tm_hour = hour;
 	exp_time.tm_min = min;
 	exp_time.tm_sec = sec;
-
-	// zero out the unused fields
-	exp_time.tm_wday = 0;
-	exp_time.tm_yday = 0;
-	exp_time.tm_isdst = 0;
-	exp_time.tm_gmtoff = 0;
 
 	mSecondsSinceEpoch = std::mktime(&exp_time);
 	return true;

@@ -34,6 +34,7 @@ import sys
 import time
 import select
 import getopt
+import httplib
 from threading import Thread
 try:
     from cStringIO import StringIO
@@ -52,12 +53,12 @@ class TestHTTPRequestHandler(BaseHTTPRequestHandler):
     """This subclass of BaseHTTPRequestHandler is to receive and echo
     LLSD-flavored messages sent by the C++ LLHTTPClient.
 
-    Target URLs are fairly free-form and are assembled by 
+    Target URLs are fairly free-form and are assembled by
     concatinating fragments.  Currently defined fragments
     are:
     - '/reflect/'       Request headers are bounced back to caller
                         after prefixing with 'X-Reflect-'
-    - '/fail/'          Body of request can contain LLSD with 
+    - '/fail/'          Body of request can contain LLSD with
                         'reason' string and 'status' integer
                         which will become response header.
     - '/bug2295/'       206 response, no data in body:
@@ -71,7 +72,7 @@ class TestHTTPRequestHandler(BaseHTTPRequestHandler):
     -- '/bug2295/inv_cont_range/0/'  Generates HE_INVALID_CONTENT_RANGE error in llcorehttp.
     - '/503/'           Generate 503 responses with various kinds
                         of 'retry-after' headers
-    -- '/503/0/'            "Retry-After: 2"   
+    -- '/503/0/'            "Retry-After: 2"
     -- '/503/1/'            "Retry-After: Thu, 31 Dec 2043 23:59:59 GMT"
     -- '/503/2/'            "Retry-After: Fri, 31 Dec 1999 23:59:59 GMT"
     -- '/503/3/'            "Retry-After: "
@@ -272,6 +273,8 @@ class TestHTTPRequestHandler(BaseHTTPRequestHandler):
             pass
 
 class Server(ThreadingMixIn, HTTPServer):
+    # This allows the thread to be killed cleanly
+    daemon_threads = True
     # This pernicious flag is on by default in HTTPServer. But proper
     # operation of freeport() absolutely depends on it being off.
     allow_reuse_address = False
@@ -312,5 +315,8 @@ if __name__ == "__main__":
     if do_valgrind:
         args = ["valgrind", "--log-file=./valgrind.log"] + args
         path_search = True
-    sys.exit(run(server=Thread(name="httpd", target=httpd.serve_forever), use_path=path_search, *args))
-
+    rc = run(server=Thread(name="httpd", target=httpd.serve_forever), use_path=path_search, *args)
+    # HACK: fix Windows giving 1 when RC is actually 0
+    if rc > 0:
+        sys.exit(1)
+    sys.exit(0)

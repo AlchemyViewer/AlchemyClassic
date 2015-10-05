@@ -35,15 +35,12 @@
 #include "lldir.h"
 #include "lldockablefloater.h"
 #include "lldockcontrol.h"
+#include "llfloaterreg.h"
 #include "llimview.h"
 #include "lltransientfloatermgr.h"
 #include "lltoolbar.h"
 #include "lltooldraganddrop.h"
 #include "llxmlnode.h"
-
-#include "llagent.h"  // HACK for destinations guide on startup
-#include "llfloaterreg.h"  // HACK for destinations guide on startup
-#include "llviewercontrol.h"  // HACK for destinations guide on startup
 
 LLToolBarView* gToolBarView = NULL;
 

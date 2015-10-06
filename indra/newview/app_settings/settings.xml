@@ -15494,7 +15494,7 @@
   <key>FMODProfilerEnable</key>
   <map>
     <key>Comment</key>
-    <string>Enable profiler tool if using FMOD Ex</string>
+    <string>Enable profiler tool if using FMOD Studio</string>
     <key>Persist</key>
     <integer>1</integer>
     <key>Type</key>

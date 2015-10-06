@@ -1736,10 +1736,15 @@ list(APPEND viewer_SOURCE_FILES ${viewer_HEADER_FILES})
 set_source_files_properties(${viewer_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
+if (DARWIN)
+  set(viewer_RESOURCES Alchemy.xib)
+endif (DARWIN)
+
 add_executable(${VIEWER_BINARY_NAME}
     WIN32
     MACOSX_BUNDLE
     ${viewer_SOURCE_FILES}
+    ${viewer_RESOURCES}
     )
 
 if (SDL_FOUND)
@@ -2196,12 +2201,13 @@ if (DARWIN)
   set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${VIEWER_SHORT_VERSION}")
   set(MACOSX_BUNDLE_BUNDLE_VERSION "${VIEWER_SHORT_VERSION}${VIEWER_MACOSX_PHASE}${VIEWER_REVISION}")
   set(MACOSX_BUNDLE_COPYRIGHT "Copyright © 2013-2015 Alchemy Viewer Project")
-  set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "Alchemy.nib")
+  set(MACOSX_BUNDLE_NSMAIN_NIB_FILE "Alchemy")
   set(MACOSX_BUNDLE_NSPRINCIPAL_CLASS "LLNSApplication")
   
   set_target_properties(
     ${VIEWER_BINARY_NAME}
     PROPERTIES
+    RESOURCE "${viewer_RESOURCES}"
     OUTPUT_NAME "${product}"
     MACOSX_BUNDLE_INFO_PLIST
     "${CMAKE_CURRENT_SOURCE_DIR}/Info-SecondLife.plist"

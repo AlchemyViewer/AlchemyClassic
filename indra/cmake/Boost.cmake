@@ -7,6 +7,7 @@ set(Boost_FIND_REQUIRED ON)
 if (USESYSTEMLIBS)
   include(FindBoost)
 
+  set(BOOST_CHRONO_LIBRARY boost_chrono-mt)
   set(BOOST_CONTEXT_LIBRARY boost_context-mt)
   set(BOOST_COROUTINE_LIBRARY boost_coroutine-mt)
   set(BOOST_DATE_TIME_LIBRARY boost_date_time-mt)
@@ -23,6 +24,9 @@ else (USESYSTEMLIBS)
   set(BOOST_VERSION "1.59")
 
   if (WINDOWS)
+    set(BOOST_CHRONO_LIBRARY
+        optimized libboost_chrono-mt
+        debug libboost_chrono-mt-gd)
     set(BOOST_CONTEXT_LIBRARY
         optimized libboost_context-mt
         debug libboost_context-mt-gd)
@@ -54,6 +58,9 @@ else (USESYSTEMLIBS)
         optimized libboost_thread-mt
         debug libboost_thread-mt-gd)
   elseif (LINUX)
+    set(BOOST_CHRONO_LIBRARY
+        optimized boost_chrono-mt
+        debug boost_chrono-mt-d)
     set(BOOST_CONTEXT_LIBRARY
         optimized boost_context-mt
         debug boost_context-mt-d)
@@ -85,6 +92,9 @@ else (USESYSTEMLIBS)
         optimized boost_thread-mt
         debug boost_thread-mt-d)
   elseif (DARWIN)
+    set(BOOST_CHRONO_LIBRARY
+        optimized boost_chrono-mt
+        debug boost_chrono-mt-d)
     set(BOOST_CONTEXT_LIBRARY
         optimized boost_context-mt
         debug boost_context-mt-d)

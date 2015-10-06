@@ -9,6 +9,7 @@
  width="500">
   <toolbar name="test_toolbar_top"
            button_display_mode="icons_with_text"
+           button_layout_mode="fill"
            follows="left|right|top"
            height="50"
            width="500"
@@ -48,6 +49,7 @@
   </toolbar>
   <toolbar name="test_toolbar_bottom"
            button_display_mode="icons_with_text"
+           button_layout_mode="none"
            follows="left|right|bottom"
            height="50"
            width="500"

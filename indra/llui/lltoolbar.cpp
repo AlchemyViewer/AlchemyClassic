@@ -74,10 +74,17 @@ namespace LLInitParam
 		declare("right",	SIDE_RIGHT);
 		declare("top",		SIDE_TOP);
 	}
+	
+	void TypeValues<LayoutType>::declareValues()
+	{
+		declare("none",		LAYOUT_NONE);
+		declare("fill",		LAYOUT_FILL);
+	}
 }
 
 LLToolBar::Params::Params()
 :	button_display_mode("button_display_mode"),
+	button_layout_mode("button_layout_mode", LLToolBarEnums::LAYOUT_NONE),
 	commands("command"),
 	side("side", SIDE_TOP),
 	button_icon("button_icon"),
@@ -99,6 +106,7 @@ LLToolBar::LLToolBar(const LLToolBar::Params& p)
 :	LLUICtrl(p),
 	mReadOnly(p.read_only),
 	mButtonType(p.button_display_mode),
+	mLayoutType(p.button_layout_mode),
 	mSideType(p.side),
 	mWrap(p.wrap),
 	mNeedsLayout(false),
@@ -146,12 +154,15 @@ void LLToolBar::createContextMenu()
 		// Setup bindings specific to this instance for the context menu options
 
 		LLUICtrl::CommitCallbackRegistry::ScopedRegistrar commit_reg;
-		commit_reg.add("Toolbars.EnableSetting", boost::bind(&LLToolBar::onSettingEnable, this, _2));
+		commit_reg.add("Toolbars.EnableSetting", boost::bind(&LLToolBar::onButtonTypeChanged, this, _2));
+		commit_reg.add("Toolbars.ChangeLayout", boost::bind(&LLToolBar::onLayoutChanged, this, _2));
 		commit_reg.add("Toolbars.RemoveSelectedCommand", boost::bind(&LLToolBar::onRemoveSelectedCommand, this));
 
 		LLUICtrl::EnableCallbackRegistry::ScopedRegistrar enable_reg;
-		enable_reg.add("Toolbars.CheckSetting", boost::bind(&LLToolBar::isSettingChecked, this, _2));
-
+		enable_reg.add("Toolbars.CheckSetting", boost::bind(&LLToolBar::isButtonTypeChecked, this, _2));
+		enable_reg.add("Toolbars.CheckLayout", boost::bind(&LLToolBar::isLayoutChecked, this, _2));
+		enable_reg.add("Toolbars.CheckOrientation", boost::bind(&LLToolBar::checkOrientation, this, _2));
+		
 		// Create the context menu
 		llassert(LLMenuGL::sMenuContainer != NULL);
 		LLContextMenu* menu = LLUICtrlFactory::instance().createFromFile<LLContextMenu>("menu_toolbars.xml", LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
@@ -444,7 +455,7 @@ BOOL LLToolBar::handleRightMouseDown(S32 x, S32 y, MASK mask)
 	return handle_it_here;
 }
 
-BOOL LLToolBar::isSettingChecked(const LLSD& userdata)
+BOOL LLToolBar::isButtonTypeChecked(const LLSD& userdata)
 {
 	BOOL retval = FALSE;
 
@@ -470,7 +481,7 @@ BOOL LLToolBar::isSettingChecked(const LLSD& userdata)
 	return retval;
 }
 
-void LLToolBar::onSettingEnable(const LLSD& userdata)
+void LLToolBar::onButtonTypeChanged(const LLSD& userdata)
 {
 	llassert(!mReadOnly);
 
@@ -491,6 +502,57 @@ void LLToolBar::onSettingEnable(const LLSD& userdata)
 	else if (setting_name == "text_only")
 	{
 		setButtonType(BTNTYPE_TEXT_ONLY);
+	}
+}
+
+BOOL LLToolBar::isLayoutChecked(const LLSD& userdata)
+{
+	BOOL retval = FALSE;
+	
+	const std::string& layout_name = userdata.asString();
+	
+	if (layout_name == "fill")
+	{
+		retval = (mLayoutType == LAYOUT_FILL);
+	}
+	else if (layout_name == "none")
+	{
+		retval = (mLayoutType == LAYOUT_NONE);
+	}
+	
+	return retval;
+}
+
+BOOL LLToolBar::checkOrientation(const LLSD& userdata) const
+{
+	switch (getOrientation(mSideType))
+	{
+		case LLLayoutStack::HORIZONTAL:
+			return userdata.asString() == "horizontal";
+		case LLLayoutStack::VERTICAL:
+			return userdata.asString() == "vertical";
+		default:
+			return FALSE;
+	}
+}
+
+void LLToolBar::onLayoutChanged(const LLSD& userdata)
+{
+	llassert(!mReadOnly);
+	
+	const std::string& layout_name = userdata.asString();
+	
+	if (layout_name == "fill")
+	{
+		setLayoutType(LAYOUT_FILL);
+	}
+	else if (layout_name == "none")
+	{
+		setLayoutType(LAYOUT_NONE);
+	}
+	else
+	{
+		LL_WARNS("Toolbar") << "Unrecognized layout '" << layout_name << "'" << LL_ENDL;
 	}
 }
 
@@ -516,6 +578,12 @@ void LLToolBar::setButtonType(LLToolBarEnums::ButtonType button_type)
 	{
 		createButtons();
 	}
+}
+
+void LLToolBar::setLayoutType(LLToolBarEnums::LayoutType layout_type)
+{
+	mLayoutType = layout_type;
+	mNeedsLayout = true;
 }
 
 void LLToolBar::resizeButtonsInRow(std::vector<LLToolBarButton*>& buttons_in_row, S32 max_row_girth)
@@ -708,13 +776,37 @@ void LLToolBar::updateLayoutAsNeeded()
 	LLRect panel_rect = mButtonPanel->getLocalRect();
 
 	std::vector<LLToolBarButton*> buttons_in_row;
+	S32 equalized_width = 0;
 
+	switch (mLayoutType)
+	{
+		case LLToolBarEnums::LAYOUT_FILL:
+			if (mButtons.size())
+			{
+				equalized_width = (max_length - mPadBetween * (mButtons.size() + 1)) / mButtons.size();
+			}
+			break;
+		case LLToolBarEnums::LAYOUT_NONE:
+			break;
+	}
+	
 	for (LLToolBarButton* button : mButtons)
 	{
-		button->reshape(button->mWidthRange.getMin(), button->mDesiredHeight);
+		if (equalized_width)
+		{
+			button->mWidthRange.setRange(button->mWidthRange.getMin(), equalized_width);
+			button->reshape(equalized_width, button->mDesiredHeight);
+		}
+		else
+		{
+			button->reshape(button->mWidthRange.getMin(), button->mDesiredHeight);
+		}
 		button->autoResize();
 
-		S32 button_clamped_width = button->mWidthRange.clamp(button->getRect().getWidth());
+		S32 button_clamped_width = equalized_width ? equalized_width
+				: button->mWidthRange.clamp(button->getRect().getWidth());
+		
+		
 		S32 button_length = (orientation == LLLayoutStack::HORIZONTAL)
 							? button_clamped_width
 							: button->getRect().getHeight();
@@ -723,8 +815,8 @@ void LLToolBar::updateLayoutAsNeeded()
 							: button_clamped_width;
 		
 		// wrap if needed
-		if (mWrap
-			&& row_running_length + button_length > max_length	// out of room...
+		if (mWrap && mLayoutType != LAYOUT_FILL					// if we aren't trying to fill the bar
+			&& row_running_length + button_length > max_length	// ...and out of room...
 			&& cur_start != row_pad_start)						// ...and not first button in row
 		{
 			if (orientation == LLLayoutStack::VERTICAL)
@@ -769,7 +861,10 @@ void LLToolBar::updateLayoutAsNeeded()
 	
 	max_row_length = llmax(max_row_length, row_running_length - mPadBetween + row_pad_end);
 
-	resizeButtonsInRow(buttons_in_row, max_row_girth);
+	if (equalized_width == 0)
+	{
+		resizeButtonsInRow(buttons_in_row, max_row_girth);
+	}
 
 	// grow and optionally shift toolbar to accommodate buttons
 	if (orientation == LLLayoutStack::HORIZONTAL)

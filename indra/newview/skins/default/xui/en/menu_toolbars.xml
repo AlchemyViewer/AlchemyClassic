@@ -48,4 +48,25 @@
     <on_check function="Toolbars.CheckSetting"
               parameter="text_only" />
   </menu_item_check>
+  <menu_item_separator layout="topleft" />
+  <menu_item_check label="Buttons auto-layout"
+                   layout="topleft"
+                   name="autolayout">
+    <on_click function="Toolbars.ChangeLayout"
+              parameter="none" />
+    <on_check function="Toolbars.CheckLayout"
+              parameter="none" />
+	<on_visible function="Toolbars.CheckOrientation"
+			  parameter="horizontal" />
+  </menu_item_check>
+  <menu_item_check label="Buttons fill width"
+                   layout="topleft"
+                   name="filllayout">
+    <on_click function="Toolbars.ChangeLayout"
+              parameter="fill" />
+    <on_check function="Toolbars.CheckLayout"
+              parameter="fill" />
+	<on_visible function="Toolbars.CheckOrientation"
+			  parameter="horizontal" />
+  </menu_item_check>
 </context_menu>

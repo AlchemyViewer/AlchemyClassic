@@ -126,6 +126,12 @@ namespace LLToolBarEnums
 		SIDE_RIGHT,
 		SIDE_TOP,
 	};
+	
+	enum LayoutType
+	{
+		LAYOUT_NONE,
+		LAYOUT_FILL
+	};
 
 	enum EToolBarLocation
 	{
@@ -155,6 +161,12 @@ namespace LLInitParam
 
 	template<>
 	struct TypeValues<LLToolBarEnums::SideType> : public TypeValuesHelper<LLToolBarEnums::SideType>
+	{
+		static void declareValues();
+	};
+	
+	template<>
+	struct TypeValues<LLToolBarEnums::LayoutType> : public TypeValuesHelper<LLToolBarEnums::LayoutType>
 	{
 		static void declareValues();
 	};
@@ -193,12 +205,14 @@ public:
 	{
 		Mandatory<LLToolBarEnums::ButtonType>	button_display_mode;
 		Mandatory<LLToolBarEnums::SideType>		side;
+		
+		Optional<LLToolBarEnums::LayoutType>	button_layout_mode;
 
 		Optional<LLToolBarButton::Params>		button_icon,
 												button_icon_small,
 												button_icon_and_text,
 												button_text;
-
+		
 		Optional<bool>							read_only,
 												wrap;
 
@@ -255,13 +269,16 @@ public:
 	LLToolBarEnums::SideType getSideType() const { return mSideType; }
 	bool hasButtons() const { return !mButtons.empty(); }
 	bool isModified() const { return mModified; }
+	BOOL checkOrientation(const LLSD& userdata) const;
 
 	int  getRankFromPosition(S32 x, S32 y);	
 	int  getRankFromPosition(const LLCommandId& id);	
 
 	// Methods used in loading and saving toolbar settings
 	void setButtonType(LLToolBarEnums::ButtonType button_type);
-	LLToolBarEnums::ButtonType getButtonType() { return mButtonType; }
+	void setLayoutType(LLToolBarEnums::LayoutType layout_type);
+	LLToolBarEnums::ButtonType getButtonType() const { return mButtonType; }
+	LLToolBarEnums::LayoutType getLayoutType() const { return mLayoutType; }
 	command_id_list_t& getCommandsList() { return mButtonCommands; }
 	void clearCommandsList();
 
@@ -275,8 +292,10 @@ private:
 	void updateLayoutAsNeeded();
 	void createButtons();
 	void resizeButtonsInRow(std::vector<LLToolBarButton*>& buttons_in_row, S32 max_row_girth);
-	BOOL isSettingChecked(const LLSD& userdata);
-	void onSettingEnable(const LLSD& userdata);
+	BOOL isButtonTypeChecked(const LLSD& userdata);
+	void onButtonTypeChanged(const LLSD& userdata);
+	BOOL isLayoutChecked(const LLSD& userdata);
+	void onLayoutChanged(const LLSD& userdata);
 	void onRemoveSelectedCommand();
 
 private:
@@ -308,6 +327,7 @@ private:
 	command_id_map					mButtonMap;
 
 	LLToolBarEnums::ButtonType		mButtonType;
+	LLToolBarEnums::LayoutType		mLayoutType;
 	LLToolBarButton::Params			mButtonParams[LLToolBarEnums::BTNTYPE_COUNT];
 
 	// related widgets

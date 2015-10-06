@@ -27,7 +27,6 @@ set(cmake_SOURCE_FILES
     FindCARes.cmake
     FindCXX14Features.cmake
     FindCXXThreadLocal.cmake
-    FindFMODEX.cmake
     FindGLH.cmake
     FindGoogleBreakpad.cmake
     FindGooglePerfTools.cmake
@@ -38,7 +37,7 @@ set(cmake_SOURCE_FILES
     FindURIPARSER.cmake
     FindXmlRpcEpi.cmake
     FindZLIB.cmake
-    FMODEX.cmake
+    FMODSTUDIO.cmake
     FreeType.cmake
     GLEXT.cmake
     GLH.cmake

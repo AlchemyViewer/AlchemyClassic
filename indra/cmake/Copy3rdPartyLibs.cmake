@@ -82,16 +82,6 @@ if(WINDOWS)
       endif(WORD_SIZE STREQUAL 64)
     endif (FMODSTUDIO)
 
-    if (FMODEX)
-      if(WORD_SIZE STREQUAL 64)
-        list(APPEND debug_files fmodexL64.dll)
-        list(APPEND release_files fmodex64.dll)
-      else(WORD_SIZE STREQUAL 64)
-        list(APPEND debug_files fmodexL.dll)
-        list(APPEND release_files fmodex.dll)
-      endif(WORD_SIZE STREQUAL 64)
-    endif (FMODEX)
-
     #*******************************
     # Copy MS C runtime dlls, required for packaging.
     # *TODO - Adapt this to support VC9
@@ -257,11 +247,6 @@ elseif(LINUX)
     if (USE_TCMALLOC)
       list(APPEND release_files "libtcmalloc_minimal.so")
     endif (USE_TCMALLOC)
-
-    if (FMODEX)
-      list(APPEND debug_files "libfmodexL.so")
-      list(APPEND release_files "libfmodex.so")
-    endif (FMODEX)
 
     if (FMODSTUDIO)
       list(APPEND debug_files "libfmodL.so")

@@ -43,11 +43,7 @@ if (USE_TCMALLOC AND USE_TBBMALLOC)
 endif (USE_TCMALLOC AND USE_TBBMALLOC)
 
 # Audio Engines
-option(FMODEX "Build with support for the FMOD Ex audio engine" OFF)
 option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
-if (FMODEX AND FMODSTUDIO)
-  message( FATAL_ERROR "You can not enable two FMOD variants at the same time." )
-endif(FMODEX AND FMODSTUDIO)
 
 if(LIBS_CLOSED_DIR)
   file(TO_CMAKE_PATH "${LIBS_CLOSED_DIR}" LIBS_CLOSED_DIR)

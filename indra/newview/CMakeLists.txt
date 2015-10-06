@@ -10,7 +10,6 @@ include(CMakeCopyIfDifferent)
 include(DBusGlib)
 include(DragDrop)
 include(EXPAT)
-include(FMODEX)
 include(FMODSTUDIO)
 include(GLOD)
 include(GLEW)
@@ -70,10 +69,6 @@ endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 if(FMODSTUDIO)
   include_directories(${FMODSTUDIO_INCLUDE_DIR})
 endif(FMODSTUDIO)
-
-if(FMODEX)
-  include_directories(${FMODEX_INCLUDE_DIR})
-endif(FMODEX)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
@@ -1734,11 +1729,6 @@ if (FMODSTUDIO)
   set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
 endif (FMODSTUDIO)
 
-if (FMODEX)
-  set(LLSTARTUP_COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS} -DLL_FMODEX")
-  set(FMODWRAPPER_LIBRARY ${FMODEX_LIBRARY})
-endif (FMODEX)
-
 set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS}")
 
 list(APPEND viewer_SOURCE_FILES ${viewer_HEADER_FILES})
@@ -1916,22 +1906,6 @@ if (WINDOWS)
       endif (WORD_SIZE EQUAL 32)
     endif (FMODSTUDIO)
 
-    if (FMODEX)
-      if (WORD_SIZE EQUAL 32)
-        list(APPEND COPY_INPUT_DEPENDENCIES
-             ${SHARED_LIB_STAGING_DIR}/Release/fmodex.dll
-             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmodex.dll
-             ${SHARED_LIB_STAGING_DIR}/Debug/fmodexL.dll
-            )
-      elseif (WORD_SIZE EQUAL 64)
-        list(APPEND COPY_INPUT_DEPENDENCIES
-             ${SHARED_LIB_STAGING_DIR}/Release/fmodex64.dll
-             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmodex64.dll
-             ${SHARED_LIB_STAGING_DIR}/Debug/fmodexL64.dll
-            )
-      endif (WORD_SIZE EQUAL 32)
-    endif (FMODEX)
-    
     add_custom_command(
       OUTPUT  ${CMAKE_CFG_INTDIR}/copy_touched.bat
       COMMAND ${PYTHON_EXECUTABLE}

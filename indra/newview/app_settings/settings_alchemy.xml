@@ -1109,59 +1109,6 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>FMODExResampler</key>
-    <map>
-      <key>Comment</key>
-      <string>
-        0 - Linear (Good)
-        1 - Cubic (Better)
-        2 - Spline (Best)
-      </string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>U32</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
-    <key>FMODExSoundFormat</key>
-    <map>
-      <key>Comment</key>
-      <string>
-        0 - PCM16
-        1 - PCM24
-        2 - PCM32
-        3 - PCMFLOAT
-      </string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>U32</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
-    <key>FMODExUseSystemSampleRate</key>
-    <map>
-      <key>Comment</key>
-      <string>Use the audio sample rate set in the system audio settings</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
-    <key>FMODExForceStereo</key>
-    <map>
-      <key>Comment</key>
-      <string>Force Stereo Output</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
     <key>VoiceMultiInstance</key>
     <map>
       <key>Comment</key>

@@ -379,15 +379,6 @@ class WindowsManifest(ViewerManifest):
             except:
                 print "Skipping openal audio library(assuming other audio engine)"
 
-            # Get fmodex dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodexL.dll")
-                else:
-                    self.path("fmodex.dll")
-            except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
-
             # For textures
             if self.args['configuration'].lower() == 'debug':
                 self.path("openjpegd.dll")
@@ -687,16 +678,7 @@ class Windows_i686_Manifest(WindowsManifest):
                 else:
                     self.path("fmod.dll")
             except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
-
-            # Get fmodex dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodexL.dll")
-                else:
-                    self.path("fmodex.dll")
-            except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
+                print "Skipping fmodstudio audio library(assuming other audio engine)"
 
             self.end_prefix()
 
@@ -712,15 +694,6 @@ class Windows_x86_64_Manifest(WindowsManifest):
         # Get shared libs from the shared libs staging directory
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
-
-            # Get fmodex dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodexL64.dll")
-                else:
-                    self.path("fmodex64.dll")
-            except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
 
             # Get fmodstudio dll, continue if missing
             try:
@@ -852,17 +825,6 @@ class DarwinManifest(ViewerManifest):
                     self.path2basename(relpkgdir, libfile)
 
                 # dylibs that vary based on configuration
-                if self.args['configuration'].lower() == 'debug':
-                    for libfile in (
-                                "libfmodexL.dylib",
-                                ):
-                        dylibs += path_optional(os.path.join(debpkgdir, libfile), libfile)
-                else:
-                    for libfile in (
-                                "libfmodex.dylib",
-                                ):
-                        dylibs += path_optional(os.path.join(relpkgdir, libfile), libfile)
-
                 if self.args['configuration'].lower() == 'debug':
                     for libfile in (
                                 "libfmodL.dylib",
@@ -1263,11 +1225,10 @@ class Linux_i686_Manifest(LinuxManifest):
                 pass
 
             try:
-                self.path("libfmodex-*.so")
-                self.path("libfmodex.so")
+                self.path("libfmod.so*")
                 pass
             except:
-                print "Skipping libfmodex.so - not found"
+                print "Skipping libfmod.so - not found"
                 pass
 
             self.end_prefix("lib")
@@ -1372,14 +1333,6 @@ class Linux_x86_64_Manifest(LinuxManifest):
                 pass
             except:
                 print "Skipping libfmod.so - not found"
-                pass
-
-            try:
-                self.path("libfmodex-*.so")
-                self.path("libfmodex.so")
-                pass
-            except:
-                print "Skipping libfmodex.so - not found"
                 pass
 
             self.end_prefix("lib64")

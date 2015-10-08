@@ -1280,7 +1280,12 @@ namespace LLError
 		}
 		
 		// this is an attempt to let Coverity and other semantic scanners know that this function won't be returning ever.
+#if LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
 		exit(EXIT_FAILURE);
+#pragma clang diagnostic pop
+#endif
 	}
 #if LL_WINDOWS
 		#pragma optimize("", on)

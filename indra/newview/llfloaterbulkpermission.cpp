@@ -328,7 +328,7 @@ void LLFloaterBulkPermission::handleInventory(LLViewerObject* viewer_obj, LLInve
 				// it is difficult to design the best messaging. Therefore in this initial implementation
 				// we'll always try to set the requested permissions and consider all cases successful
 				// and perhaps later try to implement a smarter, friendlier solution. -MG
-				if(true
+				if(/* DISABLES CODE */ (true)
 					//gAgent.allowOperation(PERM_MODIFY, perm, GP_OBJECT_MANIPULATE) // for group and everyone masks
 					//|| something else // for next owner perms
 					)

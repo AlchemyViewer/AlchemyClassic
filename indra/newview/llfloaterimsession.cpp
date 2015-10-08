@@ -1097,8 +1097,8 @@ void LLFloaterIMSession::processAgentListUpdates(const LLSD& body)
 void LLFloaterIMSession::processSessionUpdate(const LLSD& session_update)
 {
 	// *TODO : verify following code when moderated mode will be implemented
-	if ( false && session_update.has("moderated_mode") &&
-		 session_update["moderated_mode"].has("voice") )
+	/*if (session_update.has("moderated_mode")
+		&& session_update["moderated_mode"].has("voice"))
 	{
 		BOOL voice_moderated = session_update["moderated_mode"]["voice"];
 		const std::string session_label = LLIMModel::instance().getName(mSessionID);
@@ -1116,7 +1116,7 @@ void LLFloaterIMSession::processSessionUpdate(const LLSD& session_update)
 		// *TODO : uncomment this when/if LLPanelActiveSpeakers panel will be added
 		//update the speakers dropdown too
 		//mSpeakerPanel->setVoiceModerationCtrlMode(voice_moderated);
-	}
+	}*/
 }
 
 // virtual

@@ -783,7 +783,7 @@ void LLVivoxVoiceClient::stateMachine()
 			}
 			else if(!isGatewayRunning() && gSavedSettings.getBOOL("EnableVoiceChat"))
 			{
-				if (true)           // production build, not test
+				if (/* DISABLES CODE */ (true))           // production build, not test
 				{
 					// Launch the voice daemon
 					

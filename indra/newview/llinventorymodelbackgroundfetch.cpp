@@ -972,7 +972,7 @@ void BGFolderHttpHandler::processFailure(LLCore::HttpStatus status, LLCore::Http
 	// adquately on retries but I want to keep the structure of a
 	// retry for reference.
 	LLInventoryModelBackgroundFetch *fetcher = LLInventoryModelBackgroundFetch::getInstance();
-	if (false)
+	if (/* DISABLES CODE */ (false))
 	{
 		// timed out or curl failure
 		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
@@ -1011,7 +1011,7 @@ void BGFolderHttpHandler::processFailure(const char * const reason, LLCore::Http
 	// Philosophy is that inventory folders are so essential to
 	// operation that this is a reasonable action.
 	LLInventoryModelBackgroundFetch *fetcher = LLInventoryModelBackgroundFetch::getInstance();
-	if (true)
+	if (/* DISABLES CODE */ (true))
 	{
 		for (LLSD::array_const_iterator folder_it = mRequestSD["folders"].beginArray();
 			 folder_it != mRequestSD["folders"].endArray();

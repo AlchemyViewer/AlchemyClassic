@@ -57,8 +57,8 @@ namespace LLTrace
 		struct StaticAllocationMarker { };
 
 		AccumulatorBuffer(StaticAllocationMarker m)
-		:	mStorageSize(0),
-			mStorage(NULL)
+		:	mStorage(NULL),
+			mStorageSize(0)
 		{}
 
 	public:
@@ -242,12 +242,12 @@ namespace LLTrace
 
 		EventAccumulator()
 		:	mSum(0),
-			mMin(NaN),
-			mMax(NaN),
+			mLastValue(NaN),
 			mMean(NaN),
 			mSumOfSquares(0),
-			mNumSamples(0),
-			mLastValue(NaN)
+			mMin(NaN),
+			mMax(NaN),
+			mNumSamples(0)
 		{}
 
 		void record(F64 value)
@@ -313,14 +313,14 @@ namespace LLTrace
 
 		SampleAccumulator()
 		:	mSum(0),
-			mMin(NaN),
-			mMax(NaN),
+			mLastValue(NaN),
 			mMean(NaN),
 			mSumOfSquares(0),
 			mLastSampleTimeStamp(0),
 			mTotalSamplingTime(0),
+			mMin(NaN),
+			mMax(NaN),
 			mNumSamples(0),
-			mLastValue(NaN),
 			mHasValue(false)
 		{}
 

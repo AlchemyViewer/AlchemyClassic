@@ -29,7 +29,7 @@
 #include "llrngwriter.h"
 #include "lluicolor.h"
 
-#if LL_DARWIN
+#if LL_CLANG
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdelete-incomplete"
 #include "lluictrlfactory.h"

@@ -35,17 +35,19 @@
 #define KDU_NO_THREADS
 #define KDU_NO_AVX
 #define KDU_NO_AVX2
+#if LL_CLANG
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-private-field"
+#pragma clang diagnostic ignored "-Wshorten-64-to-32"
 #include "kdu_elementary.h"
 #include "kdu_messaging.h"
 #include "kdu_params.h"
-
-// don't *really* want to rebuild KDU so turn off specific warnings for this header
-#if LL_DARWIN
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-private-field"
 #include "kdu_compressed.h"
 #pragma clang diagnostic pop
 #else
+#include "kdu_elementary.h"
+#include "kdu_messaging.h"
+#include "kdu_params.h"
 #include "kdu_compressed.h"
 #endif
 

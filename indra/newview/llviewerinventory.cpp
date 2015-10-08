@@ -2299,14 +2299,8 @@ LLUUID find_possible_item_for_regeneration(const LLViewerInventoryItem *target_i
 									items,
 									LLInventoryModel::EXCLUDE_TRASH,
 									candidate_matches);
-	for (LLViewerInventoryItem::item_array_t::const_iterator item_iter = items.begin();
-		 item_iter != items.end();
-		 ++item_iter)
-	{
-	    const LLViewerInventoryItem *item = (*item_iter);
-		if (true) return item->getUUID();
-	}
-	return LLUUID::null;
+	const LLPointer<LLViewerInventoryItem> item = items.front();
+	return item->getUUID();
 }
 
 // This currently dosen't work, because the sim does not allow us 

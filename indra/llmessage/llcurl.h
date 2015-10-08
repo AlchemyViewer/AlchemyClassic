@@ -475,7 +475,7 @@ private:
 	typedef struct _request_t
 	{
 		_request_t(U32 handle, const std::string& url, const headers_t& headers, S32 offset, S32 length, U32 pri, LLCurl::ResponderPtr responder) :
-				mHandle(handle), mUrl(url), mHeaders(headers), mOffset(offset), mLength(length), mPriority(pri), mResponder(responder), mStartTime(0.f)
+				mHandle(handle), mUrl(url), mHeaders(headers), mOffset(offset), mLength(length), mResponder(responder), mPriority(pri), mStartTime(0.f)
 				{}
 
 		U32  mHandle;

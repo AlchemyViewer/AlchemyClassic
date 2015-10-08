@@ -4850,6 +4850,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 						LLViewerTexture* tex = facep->getTexture();
 						U32 type = gPipeline.getPoolTypeFromTE(te, tex);
 
+						if (!tex || !te) continue;
 
 						if (te->getGlow())
 						{

@@ -113,129 +113,137 @@ void LLEasyMessageLogEntry::setResponseMessage(LogPayload entry)
 std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 {
 	std::ostringstream full;
-	if(mEntry->mType == LLMessageLogEntry::TEMPLATE)
+	switch (mEntry->mType)
 	{
-		LLMessageTemplate* temp = NULL;
-
-		if(mEasyMessageReader)
+		case LLMessageLogEntry::TEMPLATE:
+		{
+			LLMessageTemplate* temp = NULL;
+			
+			if(mEasyMessageReader)
 			temp = mEasyMessageReader->decodeTemplateMessage(&(mEntry->mData[0]), mEntry->mDataSize, mEntry->mFromHost);
-
-		if(temp)
-		{
-			full << (isOutgoing() ? "out " : "in ");
-			full << llformat("%s\n\n", temp->mName);
-			if(show_header)
+			
+			if(temp)
 			{
-				full << "[Header]\n";
-				full << llformat("SequenceID = %u\n", mSequenceID);
-				full << llformat("LL_ZERO_CODE_FLAG = %s\n", (mFlags & LL_ZERO_CODE_FLAG) ? "True" : "False");
-				full << llformat("LL_RELIABLE_FLAG = %s\n", (mFlags & LL_RELIABLE_FLAG) ? "True" : "False");
-				full << llformat("LL_RESENT_FLAG = %s\n", (mFlags & LL_RESENT_FLAG) ? "True" : "False");
-				full << llformat("LL_ACK_FLAG = %s\n\n", (mFlags & LL_ACK_FLAG) ? "True" : "False");
-			}
-			LLMessageTemplate::message_block_map_t::iterator blocks_end = temp->mMemberBlocks.end();
-			for (LLMessageTemplate::message_block_map_t::iterator blocks_iter = temp->mMemberBlocks.begin();
-				 blocks_iter != blocks_end; ++blocks_iter)
-			{
-				LLMessageBlock* block = (*blocks_iter);
-				const char* block_name = block->mName;
-				S32 num_blocks = mEasyMessageReader->getNumberOfBlocks(block_name);
-				for(S32 block_num = 0; block_num < num_blocks; block_num++)
+				full << (isOutgoing() ? "out " : "in ");
+				full << llformat("%s\n\n", temp->mName);
+				if(show_header)
 				{
-					full << llformat("[%s]\n", block->mName);
-					LLMessageBlock::message_variable_map_t::iterator var_end = block->mMemberVariables.end();
-					for (LLMessageBlock::message_variable_map_t::iterator var_iter = block->mMemberVariables.begin();
-						 var_iter != var_end; ++var_iter)
+					full << "[Header]\n";
+					full << llformat("SequenceID = %u\n", mSequenceID);
+					full << llformat("LL_ZERO_CODE_FLAG = %s\n", (mFlags & LL_ZERO_CODE_FLAG) ? "True" : "False");
+					full << llformat("LL_RELIABLE_FLAG = %s\n", (mFlags & LL_RELIABLE_FLAG) ? "True" : "False");
+					full << llformat("LL_RESENT_FLAG = %s\n", (mFlags & LL_RESENT_FLAG) ? "True" : "False");
+					full << llformat("LL_ACK_FLAG = %s\n\n", (mFlags & LL_ACK_FLAG) ? "True" : "False");
+				}
+				LLMessageTemplate::message_block_map_t::iterator blocks_end = temp->mMemberBlocks.end();
+				for (LLMessageTemplate::message_block_map_t::iterator blocks_iter = temp->mMemberBlocks.begin();
+					 blocks_iter != blocks_end; ++blocks_iter)
+				{
+					LLMessageBlock* block = (*blocks_iter);
+					const char* block_name = block->mName;
+					S32 num_blocks = mEasyMessageReader->getNumberOfBlocks(block_name);
+					for(S32 block_num = 0; block_num < num_blocks; block_num++)
 					{
-						LLMessageVariable* variable = (*var_iter);
-						const char* var_name = variable->getName();
-						BOOL returned_hex;
-						std::string value = mEasyMessageReader->var2Str(block_name, block_num, variable, returned_hex);
-						if(returned_hex)
+						full << llformat("[%s]\n", block->mName);
+						LLMessageBlock::message_variable_map_t::iterator var_end = block->mMemberVariables.end();
+						for (LLMessageBlock::message_variable_map_t::iterator var_iter = block->mMemberVariables.begin();
+							 var_iter != var_end; ++var_iter)
+						{
+							LLMessageVariable* variable = (*var_iter);
+							const char* var_name = variable->getName();
+							BOOL returned_hex;
+							std::string value = mEasyMessageReader->var2Str(block_name, block_num, variable, returned_hex);
+							if(returned_hex)
 							full << llformat("    %s =| ", var_name);
-						else
+							else
 							full << llformat("    %s = ", var_name);
-
-						full << value << "\n";
+							
+							full << value << "\n";
+						}
 					}
-				}
-			} // blocks_iter
-		}
-		else
-		{
-			full << (isOutgoing() ? "out" : "in") << "\n";
-			for(S32 i = 0; i < mEntry->mDataSize; i++)
-				full << llformat("%02X ", mEntry->mData[i]);
-		}
-	}
-	else if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST || LLMessageLogEntry::HTTP_RESPONSE)
-	{
-		if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST)
-			full << llformat("%s %s\n", httpMethodAsVerb(mEntry->mMethod).c_str(), mEntry->mURL.c_str());
-		if(mEntry->mType == LLMessageLogEntry::HTTP_RESPONSE)
-			full << llformat("%d\n", mEntry->mStatusCode);
-
-		if (mEntry->mHeaders.isMap())
-		{
-	        LLSD::map_const_iterator iter = mEntry->mHeaders.beginMap();
-	        LLSD::map_const_iterator end  = mEntry->mHeaders.endMap();
-
-	        for (; iter != end; ++iter)
-	        {
-	            full << iter->first << ": " << iter->second.asString() << "\n";
-	        }
-	    }
-		full << "\n";
-
-		if(mEntry->mDataSize)
-		{
-			bool can_beautify = false;
-			if(beautify)
+				} // blocks_iter
+			}
+			else
 			{
-				std::string content_type;
-				for(LLSD::map_iterator iter = mEntry->mHeaders.beginMap(); iter != mEntry->mHeaders.endMap(); ++iter)
+				full << (isOutgoing() ? "out" : "in") << "\n";
+				for(S32 i = 0; i < mEntry->mDataSize; i++)
+				full << llformat("%02X ", mEntry->mData[i]);
+			}
+			break;
+		}
+		case LLMessageLogEntry::HTTP_REQUEST:
+		case LLMessageLogEntry::HTTP_RESPONSE:
+		{
+			if(mEntry->mType == LLMessageLogEntry::HTTP_REQUEST)
+			full << llformat("%s %s\n", httpMethodAsVerb(mEntry->mMethod).c_str(), mEntry->mURL.c_str());
+			if(mEntry->mType == LLMessageLogEntry::HTTP_RESPONSE)
+			full << llformat("%d\n", mEntry->mStatusCode);
+			
+			if (mEntry->mHeaders.isMap())
+			{
+				LLSD::map_const_iterator iter = mEntry->mHeaders.beginMap();
+				LLSD::map_const_iterator end  = mEntry->mHeaders.endMap();
+				
+				for (; iter != end; ++iter)
 				{
-					if(boost::iequals(iter->first, "content-type"))
-					{
-						content_type = iter->second.asString();
-						break;
-					}
-				}
-
-				if(!content_type.empty())
-				{
-					if(content_type == "application/llsd+xml" || content_type == "application/xml")
-					{
-						// Use PugiXML instead of LLXMLNode since Expat can change the semantics of
-						// input by dropping xml decls and expanding entities, as well as DoS the client.
-						// LLSDSerialize can't be used either since it uses Expat internally.
-						pugi::xml_document doc;
-						U32 parse_opts = (pugi::parse_default | pugi::parse_comments | pugi::parse_doctype
-										  | pugi::parse_declaration | pugi::parse_pi) & ~(pugi::parse_escapes);
-						pugi::xml_parse_result res = doc.load_buffer(mEntry->mData, mEntry->mDataSize, parse_opts);
-						if(res)
-						{
-							U32 format_opts = pugi::format_default | pugi::format_no_escapes | pugi::format_no_declaration;
-							if(doc.child("llsd"))
-								format_opts |= pugi::format_pretty_llsd;
-							doc.save(full, "    ", format_opts);
-							can_beautify = true;
-						}
-						else
-						{
-							LL_WARNS("EasyMessageReader") << "PugiXML failed with: " << res.description() << LL_ENDL;
-						}
-					}
+					full << iter->first << ": " << iter->second.asString() << "\n";
 				}
 			}
-			if(!can_beautify)
+			full << "\n";
+			
+			if(mEntry->mDataSize)
+			{
+				bool can_beautify = false;
+				if(beautify)
+				{
+					std::string content_type;
+					for(LLSD::map_iterator iter = mEntry->mHeaders.beginMap(); iter != mEntry->mHeaders.endMap(); ++iter)
+					{
+						if(boost::iequals(iter->first, "content-type"))
+						{
+							content_type = iter->second.asString();
+							break;
+						}
+					}
+					
+					if(!content_type.empty())
+					{
+						if(content_type == "application/llsd+xml" || content_type == "application/xml")
+						{
+							// Use PugiXML instead of LLXMLNode since Expat can change the semantics of
+							// input by dropping xml decls and expanding entities, as well as DoS the client.
+							// LLSDSerialize can't be used either since it uses Expat internally.
+							pugi::xml_document doc;
+							U32 parse_opts = (pugi::parse_default | pugi::parse_comments | pugi::parse_doctype
+											  | pugi::parse_declaration | pugi::parse_pi) & ~(pugi::parse_escapes);
+							pugi::xml_parse_result res = doc.load_buffer(mEntry->mData, mEntry->mDataSize, parse_opts);
+							if(res)
+							{
+								U32 format_opts = pugi::format_default | pugi::format_no_escapes | pugi::format_no_declaration;
+								if(doc.child("llsd"))
+								format_opts |= pugi::format_pretty_llsd;
+								doc.save(full, "    ", format_opts);
+								can_beautify = true;
+							}
+							else
+							{
+								LL_WARNS("EasyMessageReader") << "PugiXML failed with: " << res.description() << LL_ENDL;
+							}
+						}
+					}
+				}
+				if(!can_beautify)
 				full << mEntry->mData;
+			}
+			break;
 		}
-	}
-	//unsupported message type
-	else
-	{
-		full << "FIXME";
+		// This shouldn't be able to happen.
+		case LLMessageLogEntry::NONE:
+		case LLMessageLogEntry::LOG_TYPE_NUM:
+		{
+			full << "FIXME";
+			break;
+		}
 	}
 	return full.str();
 }

@@ -105,6 +105,9 @@ private:
 
 	validate_signal_t mOkButtonValidateSignal;
 	select_callback_t mSelectionCallback;
+
+	typedef std::map<LLUUID, std::string> query_map_t;
+	static query_map_t sLegacyQueryMap;
 };
 
 #endif

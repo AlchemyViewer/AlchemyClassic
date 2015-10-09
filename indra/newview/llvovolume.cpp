@@ -4838,6 +4838,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 					if (pool)
 					{
 						const LLTextureEntry* te = facep->getTextureEntry();
+						if (!te) continue;
 
 						//remove face from old pool if it exists
 						LLDrawPool* old_pool = facep->getPool();
@@ -4848,9 +4849,9 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 						//add face to new pool
 						LLViewerTexture* tex = facep->getTexture();
-						U32 type = gPipeline.getPoolTypeFromTE(te, tex);
+						if (!tex) continue;
 
-						if (!tex || !te) continue;
+						U32 type = gPipeline.getPoolTypeFromTE(te, tex);
 
 						if (te->getGlow())
 						{

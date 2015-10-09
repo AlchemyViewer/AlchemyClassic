@@ -1239,6 +1239,13 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		}
 	}
 
+	const LLTextureEntry *tep = mVObjp->getTE(f);
+	if (!tep)
+	{
+		LL_WARNS() << "No textureentry!" << LL_ENDL;
+		return FALSE;
+	}
+
 	LLStrider<LLVector3> vert;
 	LLStrider<LLVector2> tex_coords0;
 	LLStrider<LLVector2> tex_coords1;
@@ -1270,7 +1277,8 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	bool rebuild_tangent = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_TANGENT);
 	bool rebuild_weights = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_WEIGHT4);
 
-	const LLTextureEntry *tep = mVObjp->getTE(f);
+
+
 	const U8 bump_code = tep ? tep->getBumpmap() : 0;
 
 	BOOL is_static = mDrawablep->isStatic();
@@ -1287,11 +1295,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		clearState(GLOBAL);
 	}
 
-	if (!tep)
-	{
-		LL_WARNS() << "No textureentry!" << LL_ENDL;
-		return FALSE;
-	}
 	LLColor4U color = tep->getColor();
 
 	if (rebuild_color)

@@ -2235,8 +2235,9 @@ void LLInventoryModel::buildParentChildMap()
 			// Only the two root folders should be children of null.
 			// Others should go to lost & found.
 			(cat->getParentUUID().notNull() ||
-				(cat->getPreferredType() == LLFolderType::FT_ROOT_INVENTORY
-					|| (cat->getParentUUID().isNull() && cat->getName() == "My Inventory"))))
+				((cat->getPreferredType() == LLFolderType::FT_ROOT_INVENTORY
+					// Hack for some opensim's being fucking moronic
+					|| cat->getPreferredType() == 9) && cat->getParentUUID().isNull())))
 		{
 			catsp->push_back(cat);
 		}

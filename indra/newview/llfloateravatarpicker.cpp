@@ -58,8 +58,6 @@
 //put it back as a member once the legacy path is out?
 static std::map<LLUUID, LLAvatarName> sAvatarNameMap;
 
-/* static */ LLFloaterAvatarPicker::query_map_t LLFloaterAvatarPicker::sLegacyQueryMap;
-
 LLFloaterAvatarPicker* LLFloaterAvatarPicker::show(select_callback_t callback,
 												   BOOL allow_multiple,
 												   BOOL closeOnSelect,
@@ -180,10 +178,6 @@ void LLFloaterAvatarPicker::onTabChanged()
 LLFloaterAvatarPicker::~LLFloaterAvatarPicker()
 {
 	gFocusMgr.releaseFocusIfNeeded( this );
-
-	query_map_t::iterator stray = sLegacyQueryMap.find(mQueryID);
-	if (stray != sLegacyQueryMap.end())
-		sLegacyQueryMap.erase(stray);
 }
 
 void LLFloaterAvatarPicker::onBtnFind()
@@ -527,8 +521,6 @@ void LLFloaterAvatarPicker::find()
 	}
 	else
 	{
-		sLegacyQueryMap.emplace(mQueryID, getKey().asString());
-		
 		LLMessageSystem* msg = gMessageSystem;
 		msg->newMessage("AvatarPickerRequest");
 		msg->nextBlock("AgentData");
@@ -644,19 +636,20 @@ void LLFloaterAvatarPicker::processAvatarPickerReply(LLMessageSystem* msg, void*
 	// Not for us
 	if (agent_id != gAgent.getID()) return;
 	
-	query_map_t::iterator found = sLegacyQueryMap.find(query_id);
-	if (found == sLegacyQueryMap.end())
-		return;
-	
-	const std::string foundkey = LLSD(found->second);
-	sLegacyQueryMap.erase(found);
-	LLFloaterAvatarPicker* floater = LLFloaterReg::findTypedInstance<LLFloaterAvatarPicker>("avatar_picker", foundkey);
-
-	// floater is closed or these are not results from our last request
-	if (NULL == floater || query_id != floater->mQueryID)
+	bool found = false;
+	LLFloaterAvatarPicker* floater = nullptr;
+	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("avatar_picker");
+	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();
+		 iter != inst_list.end(); ++iter)
 	{
-		return;
+		floater = dynamic_cast<LLFloaterAvatarPicker*>(*iter);
+		if (floater && floater->mQueryID == query_id)
+		{
+			found = true;
+			break;
+		}
 	}
+	if (!found) return;
 
 	LLScrollListCtrl* search_results = floater->getChild<LLScrollListCtrl>("SearchResults");
 

@@ -1994,12 +1994,17 @@ void sendRadarAlert(const LLUUID& agent, const std::string& region_str, bool ent
 	LLSD args;
 	args["AGENT"] = LLSLURL("agent", agent, "inspect").getSLURLString();
 	args["REGION"] = region_str;
+	static LLCachedControl<bool> sLogToChat(gSavedSettings, "AlchemyRadarAlertsToChat", false);
 	if (entering)
-		LLNotificationsUtil::add("RadarAlertEnter", args,
-								 LLSD().with("respond_on_mousedown", TRUE),
-								 boost::bind(&LLAvatarActions::zoomIn, agent));
+	{
+		LLNotificationsUtil::add(sLogToChat ? "RadarAlertEnterChat" : "RadarAlertEnter", args,
+			LLSD().with("respond_on_mousedown", TRUE),
+			boost::bind(&LLAvatarActions::zoomIn, agent));
+	}
 	else
-		LLNotificationsUtil::add("RadarAlertLeave", args);
+	{
+		LLNotificationsUtil::add(sLogToChat ? "RadarAlertLeaveChat" : "RadarAlertLeave", args);
+	}
 }
 
 static uuid_vec_t mVecAgents;

@@ -157,7 +157,7 @@
   <slider_bar
    top_pad="-16"
    height="20"
-   increment="6"
+   increment="64"
    initial_value="96"
    follows="left|top|right"
    layout="topleft"

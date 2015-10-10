@@ -636,13 +636,20 @@ void LLFloaterAvatarPicker::processAvatarPickerReply(LLMessageSystem* msg, void*
 	// Not for us
 	if (agent_id != gAgent.getID()) return;
 	
-	LLFloaterAvatarPicker* floater = LLFloaterReg::findTypedInstance<LLFloaterAvatarPicker>("avatar_picker");
-
-	// floater is closed or these are not results from our last request
-	if (NULL == floater || query_id != floater->mQueryID)
+	bool found = false;
+	LLFloaterAvatarPicker* floater = nullptr;
+	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("avatar_picker");
+	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();
+		 iter != inst_list.end(); ++iter)
 	{
-		return;
+		floater = dynamic_cast<LLFloaterAvatarPicker*>(*iter);
+		if (floater && floater->mQueryID == query_id)
+		{
+			found = true;
+			break;
+		}
 	}
+	if (!found) return;
 
 	LLScrollListCtrl* search_results = floater->getChild<LLScrollListCtrl>("SearchResults");
 

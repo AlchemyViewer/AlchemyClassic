@@ -48,6 +48,7 @@
 #include "llviewerregion.h"
 #include "llviewercontrol.h"
 #include "llviewermedia.h"
+#include "llviewernetwork.h"
 #include "lltabcontainer.h"
 #include "lltexteditor.h"
 
@@ -55,8 +56,6 @@ static LLPanelInjector<LLTwitterPhotoPanel> t_panel_photo("lltwitterphotopanel")
 static LLPanelInjector<LLTwitterAccountPanel> t_panel_account("lltwitteraccountpanel");
 
 const std::string DEFAULT_PHOTO_LOCATION_URL = "http://maps.secondlife.com/";
-const std::string DEFAULT_PHOTO_QUERY_PARAMETERS = "?sourceid=slshare_photo&utm_source=twitter&utm_medium=photo&utm_campaign=slshare";
-const std::string DEFAULT_STATUS_TEXT = " #SecondLife";
 
 ///////////////////////////
 //LLTwitterPhotoPanel///////
@@ -103,7 +102,7 @@ BOOL LLTwitterPhotoPanel::postBuild()
 	mThumbnailPlaceholder = getChild<LLUICtrl>("thumbnail_placeholder");
 	mStatusCounterLabel = getChild<LLUICtrl>("status_counter_label");
 	mStatusTextBox = getChild<LLUICtrl>("photo_status");
-	mStatusTextBox->setValue(DEFAULT_STATUS_TEXT);
+	mStatusTextBox->setValue(llformat("#%s", LLGridManager::getInstance()->getGridLabel().c_str()));
 	mLocationCheckbox = getChild<LLUICtrl>("add_location_cb");
 	mLocationCheckbox->setCommitCallback(boost::bind(&LLTwitterPhotoPanel::onAddLocationToggled, this));
 	mPhotoCheckbox = getChild<LLUICtrl>("add_photo_cb");
@@ -357,9 +356,6 @@ void LLTwitterPhotoPanel::sendPhoto()
 			slurl_string = DEFAULT_PHOTO_LOCATION_URL;
 		}
 
-		// Add query parameters so Google Analytics can track incoming clicks!
-		slurl_string += DEFAULT_PHOTO_QUERY_PARAMETERS;
-
 		// Add it to the status (pretty crude, but we don't have a better option with photos)
 		if (status.empty())
 			status = slurl_string;
@@ -388,7 +384,7 @@ void LLTwitterPhotoPanel::sendPhoto()
 
 void LLTwitterPhotoPanel::clearAndClose()
 {
-	mStatusTextBox->setValue(DEFAULT_STATUS_TEXT);
+	mStatusTextBox->setValue(llformat("#%s", LLGridManager::getInstance()->getGridId().c_str()));
 
 	LLFloater* floater = getParentByType<LLFloater>();
 	if (floater)

@@ -46,7 +46,7 @@
            follows="left|top"
 		   layout="topleft"
            initial_value="true"
-           label="Include SL location"
+           label="Include location"
            name="add_location_cb"
             left="10"
             height="16"

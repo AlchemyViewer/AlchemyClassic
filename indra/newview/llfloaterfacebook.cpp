@@ -61,8 +61,6 @@ static LLPanelInjector<LLFacebookFriendsPanel> t_panel_friends("llfacebookfriend
 
 const std::string DEFAULT_CHECKIN_LOCATION_URL = "http://maps.secondlife.com/";
 const std::string DEFAULT_CHECKIN_ICON_URL = "http://map.secondlife.com.s3.amazonaws.com/map_placeholder.png";
-const std::string DEFAULT_CHECKIN_QUERY_PARAMETERS = "?sourceid=slshare_checkin&utm_source=facebook&utm_medium=checkin&utm_campaign=slshare";
-const std::string DEFAULT_PHOTO_QUERY_PARAMETERS = "?sourceid=slshare_photo&utm_source=facebook&utm_medium=photo&utm_campaign=slshare";
 
 const S32 MAX_QUALITY = 100;        // Max quality value for jpeg images
 const S32 MIN_QUALITY = 0;          // Min quality value for jpeg images
@@ -816,9 +814,6 @@ void LLFacebookCheckinPanel::sendCheckin()
 	{
 		slurl_string = DEFAULT_CHECKIN_LOCATION_URL;
 	}
-
-	// Add query parameters so Google Analytics can track incoming clicks!
-	slurl_string += DEFAULT_CHECKIN_QUERY_PARAMETERS;
     
 	// Get the region name
 	std::string region_name("");

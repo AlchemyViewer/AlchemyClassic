@@ -57,7 +57,7 @@ static LLPanelInjector<LLFlickrAccountPanel> t_panel_account("llflickraccountpan
 
 const std::string DEFAULT_PHOTO_QUERY_PARAMETERS = "?sourceid=slshare_photo&utm_source=flickr&utm_medium=photo&utm_campaign=slshare";
 const std::string DEFAULT_TAG_TEXT = "secondlife ";
-const std::string FLICKR_MACHINE_TAGS_NAMESPACE = "secondlife";
+const char* FLICKR_MACHINE_TAGS_NAMESPACE = "secondlife";
 
 ///////////////////////////
 //LLFlickrPhotoPanel///////
@@ -376,15 +376,15 @@ void LLFlickrPhotoPanel::sendPhoto()
 			
 			if (!region_name.empty())
 			{
-				tags += llformat(" \"%s:region=%s\"", FLICKR_MACHINE_TAGS_NAMESPACE.c_str(), region_name.c_str());
+				tags += llformat(" \"%s:region=%s\"", FLICKR_MACHINE_TAGS_NAMESPACE, region_name.c_str());
 			}
 			if (!parcel_name.empty())
 			{
-				tags += llformat(" \"%s:parcel=%s\"", FLICKR_MACHINE_TAGS_NAMESPACE.c_str(), parcel_name.c_str());
+				tags += llformat(" \"%s:parcel=%s\"", FLICKR_MACHINE_TAGS_NAMESPACE, parcel_name.c_str());
 			}
-			tags += llformat(" \"%s:x=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE.c_str(), pos_x);
-			tags += llformat(" \"%s:y=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE.c_str(), pos_y);
-			tags += llformat(" \"%s:z=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE.c_str(), pos_z);
+			tags += llformat(" \"%s:x=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE, pos_x);
+			tags += llformat(" \"%s:y=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE, pos_y);
+			tags += llformat(" \"%s:z=%d\"", FLICKR_MACHINE_TAGS_NAMESPACE, pos_z);
 		}
 	}
 

@@ -1228,7 +1228,7 @@ void LLAppViewer::initMaxHeapSize()
 
 	//F32 max_heap_size_gb = llmin(1.6f, (F32)gSavedSettings.getF32("MaxHeapSize")) ;
 	F32Gigabytes max_heap_size_gb = (F32Gigabytes)gSavedSettings.getF32("MaxHeapSize") ;
-	BOOL enable_mem_failure_prevention = (BOOL)gSavedSettings.getBOOL("MemoryFailurePreventionEnabled") ;
+	BOOL enable_mem_failure_prevention = gSavedSettings.getBOOL("MemoryFailurePreventionEnabled") ;
 
 	LLMemory::initMaxHeapSizeGB(max_heap_size_gb, enable_mem_failure_prevention) ;
 }
@@ -1909,7 +1909,7 @@ bool LLAppViewer::cleanup()
 	// save their rects on delete.
 	gSavedSettings.saveToFile(gSavedSettings.getString("ClientSettingsFile"), TRUE);
 	
-	LLUIColorTable::instance().saveUserSettings(gSavedSettings.getBOOL("ResetUserColorsOnLogout"));
+	LLUIColorTable::instance().saveUserSettings(gSavedSettings.getBool("ResetUserColorsOnLogout"));
 
 	// PerAccountSettingsFile should be empty if no user has been logged on.
 	// *FIX:Mani This should get really saved in a "logoff" mode. 

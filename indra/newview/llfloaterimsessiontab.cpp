@@ -137,7 +137,7 @@ void LLFloaterIMSessionTab::setVisible(BOOL visible)
 		LLFloaterIMSessionTab::addToHost(mSessionID);
 		LLFloaterIMSessionTab* conversp = LLFloaterIMSessionTab::getConversation(mSessionID);
 
-		if (conversp && conversp->isNearbyChat() && gSavedPerAccountSettings.getBOOL("NearbyChatIsNotCollapsed"))
+		if (conversp && conversp->isNearbyChat() && gSavedPerAccountSettings.getBool("NearbyChatIsNotCollapsed"))
 		{
 			onCollapseToLine(this);
 		}
@@ -325,7 +325,7 @@ BOOL LLFloaterIMSessionTab::postBuild()
 	mRefreshTimer->start();
 	initBtns();
 
-	if (mIsParticipantListExpanded != (bool)gSavedSettings.getBOOL("IMShowControlPanel"))
+	if (mIsParticipantListExpanded != gSavedSettings.getBool("IMShowControlPanel"))
 	{
 		LLFloaterIMSessionTab::onSlide(this);
 	}
@@ -420,7 +420,7 @@ std::string LLFloaterIMSessionTab::appendTime()
 	std::string timeStr ="["+ LLTrans::getString("TimeHour")+"]:["
 		+LLTrans::getString("TimeMin")+"]";
 
-	if (gSavedSettings.getBOOL("AlchemyChatSeconds")) 
+	if (gSavedSettings.getBool("AlchemyChatSeconds"))
 		timeStr.append(":["+LLTrans::getString("TimeSec")+"]");
 
 	LLSD substitution;

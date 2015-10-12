@@ -249,15 +249,15 @@ BOOL	LLFloaterTools::postBuild()
 	mBtnUnlink			= getChild<LLButton>("unlink_btn");
 	
 	mAlchEditRootAxis		= getChild<LLCheckBoxCtrl>("checkbox edit root axis");
-	getChild<LLUICtrl>("checkbox edit root axis")->setValue((BOOL)gSavedSettings.getBOOL("AlchemyEditRootAxis"));
+	getChild<LLUICtrl>("checkbox edit root axis")->setValue(gSavedSettings.getBOOL("AlchemyEditRootAxis"));
 	mCheckSelectIndividual	= getChild<LLCheckBoxCtrl>("checkbox edit linked parts");	
-	getChild<LLUICtrl>("checkbox edit linked parts")->setValue((BOOL)gSavedSettings.getBOOL("EditLinkedParts"));
+	getChild<LLUICtrl>("checkbox edit linked parts")->setValue(gSavedSettings.getBOOL("EditLinkedParts"));
 	mCheckSnapToGrid		= getChild<LLCheckBoxCtrl>("checkbox snap to grid");
-	getChild<LLUICtrl>("checkbox snap to grid")->setValue((BOOL)gSavedSettings.getBOOL("SnapEnabled"));
+	getChild<LLUICtrl>("checkbox snap to grid")->setValue(gSavedSettings.getBOOL("SnapEnabled"));
 	mCheckStretchUniform	= getChild<LLCheckBoxCtrl>("checkbox uniform");
-	getChild<LLUICtrl>("checkbox uniform")->setValue((BOOL)gSavedSettings.getBOOL("ScaleUniform"));
+	getChild<LLUICtrl>("checkbox uniform")->setValue(gSavedSettings.getBOOL("ScaleUniform"));
 	mCheckStretchTexture	= getChild<LLCheckBoxCtrl>("checkbox stretch textures");
-	getChild<LLUICtrl>("checkbox stretch textures")->setValue((BOOL)gSavedSettings.getBOOL("ScaleStretchTextures"));
+	getChild<LLUICtrl>("checkbox stretch textures")->setValue(gSavedSettings.getBOOL("ScaleStretchTextures"));
 	mComboGridMode			= getChild<LLComboBox>("combobox grid mode");
 	mCheckStretchUniformLabel = getChild<LLTextBox>("checkbox uniform label");
 
@@ -277,13 +277,13 @@ BOOL	LLFloaterTools::postBuild()
 		}
 	}
 	mCheckCopySelection = getChild<LLCheckBoxCtrl>("checkbox copy selection");
-	getChild<LLUICtrl>("checkbox copy selection")->setValue((BOOL)gSavedSettings.getBOOL("CreateToolCopySelection"));
+	getChild<LLUICtrl>("checkbox copy selection")->setValue(gSavedSettings.getBOOL("CreateToolCopySelection"));
 	mCheckSticky = getChild<LLCheckBoxCtrl>("checkbox sticky");
-	getChild<LLUICtrl>("checkbox sticky")->setValue((BOOL)gSavedSettings.getBOOL("CreateToolKeepSelected"));
+	getChild<LLUICtrl>("checkbox sticky")->setValue(gSavedSettings.getBOOL("CreateToolKeepSelected"));
 	mCheckCopyCenters = getChild<LLCheckBoxCtrl>("checkbox copy centers");
-	getChild<LLUICtrl>("checkbox copy centers")->setValue((BOOL)gSavedSettings.getBOOL("CreateToolCopyCenters"));
+	getChild<LLUICtrl>("checkbox copy centers")->setValue(gSavedSettings.getBOOL("CreateToolCopyCenters"));
 	mCheckCopyRotates = getChild<LLCheckBoxCtrl>("checkbox copy rotates");
-	getChild<LLUICtrl>("checkbox copy rotates")->setValue((BOOL)gSavedSettings.getBOOL("CreateToolCopyRotates"));
+	getChild<LLUICtrl>("checkbox copy rotates")->setValue(gSavedSettings.getBOOL("CreateToolCopyRotates"));
 
 	mTreeGrassCombo			= getChild<LLComboBox>("tree_grass_combo");
 	mRadioGroupLand			= getChild<LLRadioGroup>("land_radio_group");

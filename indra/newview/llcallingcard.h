@@ -140,6 +140,7 @@ public:
 	// observers left behind.
 	void addObserver(LLFriendObserver* observer);
 	void removeObserver(LLFriendObserver* observer);
+	void idleNotifyObservers();
 	void notifyObservers();
 
 	// Observers interested in updates of a particular avatar.
@@ -199,6 +200,9 @@ protected:
     typedef std::set<LLFriendObserver*> observer_set_t;
     typedef std::map<LLUUID, observer_set_t> observer_map_t;
     observer_map_t mParticularFriendObserverMap;
+
+private:
+	BOOL mIsNotifyObservers;
 
 protected:
 	// don't you dare create or delete this object

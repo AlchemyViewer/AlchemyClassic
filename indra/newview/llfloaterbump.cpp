@@ -32,6 +32,7 @@
 
 #include "llavataractions.h"
 #include "llfloaterbump.h"
+#include "llfloaterreg.h"
 #include "llfloaterreporter.h"
 #include "llmutelist.h"
 #include "llpanelblockedlist.h"
@@ -89,11 +90,11 @@ BOOL LLFloaterBump::postBuild()
 // virtual
 void LLFloaterBump::onOpen(const LLSD& key)
 {
-	mNames.clear();
-	mList->deleteAllItems();
-
 	if (gMeanCollisionList.empty())
 	{
+		mNames.clear();
+		mList->deleteAllItems();
+
 		std::string none_detected = getString("none_detected");
 		LLSD row;
 		row["columns"][0]["value"] = none_detected;
@@ -102,12 +103,20 @@ void LLFloaterBump::onOpen(const LLSD& key)
 	}
 	else
 	{
-		for (mean_collision_list_t::iterator iter = gMeanCollisionList.begin();
-			 iter != gMeanCollisionList.end(); ++iter)
-		{
-			LLMeanCollisionData *mcd = *iter;
-			add(mList, mcd);
-		}
+		populateCollisionList();
+	}
+}
+
+void LLFloaterBump::populateCollisionList()
+{
+	mNames.clear();
+	mList->deleteAllItems();
+
+	for (mean_collision_list_t::iterator iter = gMeanCollisionList.begin();
+				 iter != gMeanCollisionList.end(); ++iter)
+	{
+		LLMeanCollisionData *mcd = *iter;
+		add(mList, mcd);
 	}
 }
 
@@ -248,4 +257,9 @@ bool LLFloaterBump::enableMute()
 void LLFloaterBump::inviteToGroup()
 {
 	LLAvatarActions::inviteToGroup(mItemUUID);
+}
+
+LLFloaterBump* LLFloaterBump::getInstance()
+{
+	return LLFloaterReg::getTypedInstance<LLFloaterBump>("bumps");
 }

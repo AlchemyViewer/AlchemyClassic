@@ -62,8 +62,8 @@ static LLPanelInjector<LLFacebookFriendsPanel> t_panel_friends("llfacebookfriend
 const std::string DEFAULT_CHECKIN_LOCATION_URL = "http://maps.secondlife.com/";
 const std::string DEFAULT_CHECKIN_ICON_URL = "http://map.secondlife.com.s3.amazonaws.com/map_placeholder.png";
 
-const S32 MAX_QUALITY = 100;        // Max quality value for jpeg images
-const S32 MIN_QUALITY = 0;          // Min quality value for jpeg images
+const S32 MAX_QUALITY = 100;         // Max quality value for jpeg images
+const S32 MIN_QUALITY = 0;           // Min quality value for jpeg images
 const S32 TARGET_DATA_SIZE = 950000; // Size of the image (compressed) we're trying to send to Facebook
 
 std::string get_map_url()

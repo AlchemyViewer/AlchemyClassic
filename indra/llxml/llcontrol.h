@@ -179,7 +179,7 @@ public:
 	
 	typedef LLInstanceTracker<LLControlGroup, std::string>::instance_iter instance_iter;
 
-	LLControlVariablePtr getControl(const std::string& name);
+	LLControlVariablePtr getControl(const std::string& name) const;
 
 	struct ApplyFunctor
 	{
@@ -201,26 +201,27 @@ public:
 	LLControlVariable* declareColor3(const std::string& name, const LLColor3 &initial_val, const std::string& comment, LLControlVariable::ePersist persist = LLControlVariable::PERSIST_NONDFT);
 	LLControlVariable* declareLLSD(const std::string& name, const LLSD &initial_val, const std::string& comment, LLControlVariable::ePersist persist = LLControlVariable::PERSIST_NONDFT);
 
-	std::string getString(const std::string& name);
-	std::string getText(const std::string& name);
-	BOOL		getBOOL(const std::string& name);
-	S32			getS32(const std::string& name);
-	F32			getF32(const std::string& name);
-	U32			getU32(const std::string& name);
+	std::string getString(const std::string& name) const;
+	std::string getText(const std::string& name) const;
+	BOOL		getBOOL(const std::string& name) const;
+	bool		getBool(const std::string& name) const;
+	S32			getS32(const std::string& name) const;
+	F32			getF32(const std::string& name) const;
+	U32			getU32(const std::string& name) const;
 	
-	LLWString	getWString(const std::string& name);
-	LLVector3	getVector3(const std::string& name);
-	LLVector3d	getVector3d(const std::string& name);
-	LLRect		getRect(const std::string& name);
-	LLSD        getLLSD(const std::string& name);
+	LLWString	getWString(const std::string& name) const;
+	LLVector3	getVector3(const std::string& name) const;
+	LLVector3d	getVector3d(const std::string& name) const;
+	LLRect		getRect(const std::string& name) const;
+	LLSD        getLLSD(const std::string& name) const;
 
 
-	LLColor4	getColor(const std::string& name);
-	LLColor4	getColor4(const std::string& name);
-	LLColor3	getColor3(const std::string& name);
+	LLColor4	getColor(const std::string& name) const;
+	LLColor4	getColor4(const std::string& name) const;
+	LLColor3	getColor3(const std::string& name) const;
 
 	// generic getter
-	template<typename T> T get(const std::string& name)
+	template<typename T> T get(const std::string& name) const
 	{
 		LLControlVariable* control = getControl(name);
 		LLSD value;
@@ -268,7 +269,7 @@ public:
 		}
 	}
 	
-	BOOL    controlExists(const std::string& name);
+	BOOL    controlExists(const std::string& name) const;
 
 	// Returns number of controls loaded, 0 if failed
 	// If require_declaration is false, will auto-declare controls it finds

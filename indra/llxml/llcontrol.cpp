@@ -325,9 +325,9 @@ LLSD LLControlVariable::getSaveValue() const
 	return mValues[0];
 }
 
-LLPointer<LLControlVariable> LLControlGroup::getControl(const std::string& name)
+LLPointer<LLControlVariable> LLControlGroup::getControl(const std::string& name) const
 {
-	ctrl_name_table_t::iterator iter = mNameTable.find(name);
+	ctrl_name_table_t::const_iterator iter = mNameTable.find(name);
 	return iter == mNameTable.end() ? LLPointer<LLControlVariable>() : iter->second;
 }
 
@@ -457,37 +457,42 @@ LLControlVariable* LLControlGroup::declareLLSD(const std::string& name, const LL
 	return declareControl(name, TYPE_LLSD, initial_val, comment, persist);
 }
 
-BOOL LLControlGroup::getBOOL(const std::string& name)
+BOOL LLControlGroup::getBOOL(const std::string& name) const
 {
 	return (BOOL)get<bool>(name);
 }
 
-S32 LLControlGroup::getS32(const std::string& name)
+bool LLControlGroup::getBool(const std::string& name) const
+{
+	return get<bool>(name);
+}
+
+S32 LLControlGroup::getS32(const std::string& name) const
 {
 	return get<S32>(name);
 }
 
-U32 LLControlGroup::getU32(const std::string& name)
+U32 LLControlGroup::getU32(const std::string& name) const
 {
 	return get<U32>(name);
 }
 
-F32 LLControlGroup::getF32(const std::string& name)
+F32 LLControlGroup::getF32(const std::string& name) const
 {
 	return get<F32>(name);
 }
 
-std::string LLControlGroup::getString(const std::string& name)
+std::string LLControlGroup::getString(const std::string& name) const
 {
 	return get<std::string>(name);
 }
 
-LLWString LLControlGroup::getWString(const std::string& name)
+LLWString LLControlGroup::getWString(const std::string& name) const
 {
 	return get<LLWString>(name);
 }
 
-std::string LLControlGroup::getText(const std::string& name)
+std::string LLControlGroup::getText(const std::string& name) const
 {
 	std::string utf8_string = getString(name);
 	LLStringUtil::replaceChar(utf8_string, '^', '\n');
@@ -495,45 +500,44 @@ std::string LLControlGroup::getText(const std::string& name)
 	return (utf8_string);
 }
 
-LLVector3 LLControlGroup::getVector3(const std::string& name)
+LLVector3 LLControlGroup::getVector3(const std::string& name) const
 {
 	return get<LLVector3>(name);
 }
 
-LLVector3d LLControlGroup::getVector3d(const std::string& name)
+LLVector3d LLControlGroup::getVector3d(const std::string& name) const
 {
 	return get<LLVector3d>(name);
 }
 
-LLRect LLControlGroup::getRect(const std::string& name)
+LLRect LLControlGroup::getRect(const std::string& name) const
 {
 	return get<LLRect>(name);
 }
 
-
-LLColor4 LLControlGroup::getColor(const std::string& name)
+LLColor4 LLControlGroup::getColor(const std::string& name) const
 {
 	return get<LLColor4>(name);
 }
 
-LLColor4 LLControlGroup::getColor4(const std::string& name)
+LLColor4 LLControlGroup::getColor4(const std::string& name) const
 {
 	return get<LLColor4>(name);
 }
 
-LLColor3 LLControlGroup::getColor3(const std::string& name)
+LLColor3 LLControlGroup::getColor3(const std::string& name) const
 {
 	return get<LLColor3>(name);
 }
 
-LLSD LLControlGroup::getLLSD(const std::string& name)
+LLSD LLControlGroup::getLLSD(const std::string& name) const
 {
 	return get<LLSD>(name);
 }
 
-BOOL LLControlGroup::controlExists(const std::string& name)
+BOOL LLControlGroup::controlExists(const std::string& name) const
 {
-	ctrl_name_table_t::iterator iter = mNameTable.find(name);
+	ctrl_name_table_t::const_iterator iter = mNameTable.find(name);
 	return iter != mNameTable.end();
 }
 

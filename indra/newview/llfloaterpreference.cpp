@@ -835,6 +835,27 @@ void LLFloaterPreference::callbackRemoveSkin(const LLSD& notification, const LLS
 	}
 }
 
+void LLFloaterPreference::callbackApplySkin(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	switch (option)
+	{
+		case 0:	// Yes
+			gSavedSettings.setBOOL("ResetUserColorsOnLogout", TRUE);
+			break;
+		case 1:	// No
+			gSavedSettings.setBOOL("ResetUserColorsOnLogout", FALSE);
+			break;
+		case 2:	// Cancel
+			gSavedSettings.setString("SkinCurrent", sSkin);
+			reloadSkinList();
+			break;
+		default:
+			LL_WARNS() << "Unhandled option! How could this be?" << LL_ENDL;
+			break;
+	}
+}
+
 void LLFloaterPreference::onApplySkin()
 {
 	LLScrollListCtrl* skin_list = findChild<LLScrollListCtrl>("skin_list");
@@ -845,7 +866,8 @@ void LLFloaterPreference::onApplySkin()
 	}
 	if (sSkin != gSavedSettings.getString("SkinCurrent"))
 	{
-		LLNotificationsUtil::add("ChangeSkin");
+		LLNotificationsUtil::add("ChangeSkin", LLSD(), LLSD(),
+								 boost::bind(&LLFloaterPreference::callbackApplySkin, this, _1, _2));
 	}
 }
 

@@ -195,6 +195,7 @@ private:
 	void onRemoveSkin();
 	void callbackRemoveSkin(const LLSD& notification, const LLSD& response);
 	void onApplySkin();
+	void callbackApplySkin(const LLSD& notification, const LLSD& response);
 	void onSelectSkin(const LLSD& data);
 	void refreshSkinInfo(const skin_t& skin);
 

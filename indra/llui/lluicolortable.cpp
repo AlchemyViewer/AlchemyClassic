@@ -220,19 +220,22 @@ bool LLUIColorTable::loadFromSettings()
 	return result;
 }
 
-void LLUIColorTable::saveUserSettings() const
+void LLUIColorTable::saveUserSettings(const bool scrub /* = false */) const
 {
 	Params params;
 
-	for(string_color_map_t::const_iterator it = mUserSetColors.begin();
-		it != mUserSetColors.end();
-		++it)
+	if (!scrub)
 	{
-		ColorEntryParams color_entry;
-		color_entry.name = it->first;
-		color_entry.color.value = it->second;
+		for(string_color_map_t::const_iterator it = mUserSetColors.begin();
+			it != mUserSetColors.end();
+			++it)
+		{
+			ColorEntryParams color_entry;
+			color_entry.name = it->first;
+			color_entry.color.value = it->second;
 
-		params.color_entries.add(color_entry);
+			params.color_entries.add(color_entry);
+		}
 	}
 
 	LLXMLNodePtr output_node = new LLXMLNode("colors", false);

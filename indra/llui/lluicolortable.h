@@ -86,7 +86,7 @@ public:
 	bool loadFromSettings();
 
 	// saves colors specified by the user to the users skin directory
-	void saveUserSettings() const;
+	void saveUserSettings(const bool scrub = false) const;
 
 private:
 	bool loadFromFilename(const std::string& filename, string_color_map_t& table);

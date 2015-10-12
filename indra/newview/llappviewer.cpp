@@ -1909,7 +1909,7 @@ bool LLAppViewer::cleanup()
 	// save their rects on delete.
 	gSavedSettings.saveToFile(gSavedSettings.getString("ClientSettingsFile"), TRUE);
 	
-	LLUIColorTable::instance().saveUserSettings();
+	LLUIColorTable::instance().saveUserSettings(gSavedSettings.getBOOL("ResetUserColorsOnLogout"));
 
 	// PerAccountSettingsFile should be empty if no user has been logged on.
 	// *FIX:Mani This should get really saved in a "logoff" mode. 

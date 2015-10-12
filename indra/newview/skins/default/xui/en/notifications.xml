@@ -1446,7 +1446,7 @@ Delete Notecard?
     <tag>confirm</tag>
     <usetemplate
      ignoretext="Confirm before I delete a notecard"
-     name="okcancelbuttons"
+     name="okcancelignore"
      notext="Cancel"
      yestext="OK"/>
   </notification>

@@ -340,7 +340,7 @@ void LLAvatarActions::showProfile(const LLUUID& id)
 {
 	if (id.notNull())
 	{
-		if (gSavedSettings.getBOOL("AlchemyUseWannabeFacebook"))
+		if (gSavedSettings.getBool("AlchemyUseWannabeFacebook"))
 			LLAvatarNameCache::get(id, boost::bind(&on_avatar_name_show_profile, _1, _2));
 		else
 			LLFloaterSidePanelContainer::showPanel("people", "panel_profile_legacy_sidetray",
@@ -1055,7 +1055,7 @@ void LLAvatarActions::viewChatHistory(const LLUUID& id)
 
 		LLAvatarNameCache::get(id, &avatar_name);
 		extended_id[LL_FCP_COMPLETE_NAME] = avatar_name.getCompleteName();
-		if (gSavedSettings.getBOOL("UseLegacyLogNames"))
+		if (gSavedSettings.getBool("UseLegacyLogNames"))
 		{
 			const std::string& username = avatar_name.getUserName();
 			extended_id[LL_FCP_ACCOUNT_NAME] = username.substr(0, username.find(" Resident"));

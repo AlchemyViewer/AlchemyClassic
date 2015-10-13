@@ -380,7 +380,7 @@ BOOL LLFloaterIMNearbyChat::handleKeyHere( KEY key, MASK mask )
 
 	if( KEY_RETURN == key && mask == MASK_CONTROL)
 	{
-		if(gSavedSettings.getBOOL("AlchemyEnableKeyboardShout"))
+		if(gSavedSettings.getBool("AlchemyEnableKeyboardShout"))
 		{
 			// shout
 			sendChat(CHAT_TYPE_SHOUT);
@@ -395,7 +395,7 @@ BOOL LLFloaterIMNearbyChat::handleKeyHere( KEY key, MASK mask )
 
 	else if (KEY_RETURN == key && mask == MASK_SHIFT)
 	{
-		if(gSavedSettings.getBOOL("AlchemyEnableKeyboardWhisper"))
+		if(gSavedSettings.getBool("AlchemyEnableKeyboardWhisper"))
 		{
 			// whisper
 			sendChat(CHAT_TYPE_WHISPER);

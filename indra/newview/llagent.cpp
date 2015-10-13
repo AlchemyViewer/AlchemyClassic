@@ -1441,7 +1441,7 @@ void LLAgent::setAFK()
 		setControlFlags(AGENT_CONTROL_AWAY | AGENT_CONTROL_STOP);
 		gAwayTimer.start();
 		
-		if (isAgentAvatarValid() && !gAgentAvatarp->isSitting() && gSavedSettings.getBOOL("AlchemySitOnAway"))
+		if (isAgentAvatarValid() && !gAgentAvatarp->isSitting() && gSavedSettings.getBool("AlchemySitOnAway"))
 			gAgent.setSitDownAway(true);
 	}
 }
@@ -3959,7 +3959,7 @@ bool LLAgent::teleportCore(bool is_local)
 		gPipeline.resetVertexBuffers();
 		LLSpatialPartition::sTeleportRequested = TRUE;
 	}
-	if (gSavedSettings.getBOOL("AlchemyPlayTeleportSound")) // <alchemy/>
+	if (gSavedSettings.getBool("AlchemyPlayTeleportSound")) // <alchemy/>
 		make_ui_sound("UISndTeleportOut");
 	
 	// MBW -- Let the voice client know a teleport has begun so it can leave the existing channel.

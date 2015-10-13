@@ -2268,7 +2268,7 @@ void LLAgentCamera::changeCameraToCustomizeAvatar()
 	}
 
 
-	if (!gSavedSettings.getBOOL("AlchemyIgnoreForcedStand"))
+	if (!gSavedSettings.getBool("AlchemyIgnoreForcedStand"))
 	{
 		gAgent.standUp(); // force stand up
 	}

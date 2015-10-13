@@ -65,10 +65,6 @@ clicking on their names.
              name="power_partial_icon" translate="false">
                 Checkbox_Off
             </panel.string>
-            <panel.string
-             name="members">
-                members
-            </panel.string>
          <filter_editor
           layout="topleft"
           top="5"

@@ -1170,17 +1170,20 @@ void LLPanelGroupMembersSubTab::handleEjectMembers()
 	if (!selection.empty())
 	{
 		LLSD args;
+		std::string notification;
 		if (selection.size() == 1)
 		{
+			notification = "EjectGroupMemberWarning";
 			const LLUUID selected_avatar = mMembersList->getValue().asUUID();
 			const std::string avatar_slurl = LLSLURL("agent", selected_avatar, "inspect").getSLURLString();
-			args["MEMBER"] = avatar_slurl;
+			args["AVATAR_NAME"] = avatar_slurl;
 		}
 		else
 		{
-			args["MEMBER"] = llformat("%d ", selection.size()).append(getString("members"));
+			notification = "EjectGroupMembersWarning";
+			args["COUNT"] = llformat("%d", selection.size());
 		}
-		LLNotificationsUtil::add("EjectGroupMemberWarning",
+		LLNotificationsUtil::add(notification,
 								 args,
 								 LLSD(),
 								 boost::bind(&LLPanelGroupMembersSubTab::handleEjectCallback, this, _1, _2));
@@ -1848,18 +1851,21 @@ void LLPanelGroupMembersSubTab::handleBanMember()
 	std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
 	if (!selection.empty())
 	{
+		std::string notification;
 		LLSD args;
 		if (selection.size() == 1)
 		{
+			notification = "BanGroupMemberWarning";
 			const LLUUID selected_avatar = mMembersList->getValue().asUUID();
 			const std::string avatar_slurl = LLSLURL("agent", selected_avatar, "inspect").getSLURLString();
-			args["MEMBER"] = avatar_slurl;
+			args["AVATAR_NAME"] = avatar_slurl;
 		}
 		else
 		{
-			args["MEMBER"] = llformat("%d ", selection.size()).append(getString("members"));
+			notification = "BanGroupMembersWarning";
+			args["COUNT"] = llformat("%d", selection.size());
 		}
-		LLNotificationsUtil::add("BanGroupMemberWarning",
+		LLNotificationsUtil::add(notification,
 								 args,
 								 LLSD(),
 								 boost::bind(&LLPanelGroupMembersSubTab::handleBanMemberCallback, this, _1, _2));

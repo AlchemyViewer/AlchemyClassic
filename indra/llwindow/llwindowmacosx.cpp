@@ -1269,10 +1269,9 @@ LLWindow::LLWindowResolution* LLWindowMacOSX::getSupportedResolutions(S32 &num_r
 						mNumSupportedResolutions++;
 					}
 				}
-				CFRelease(mode);
 			}
+			CFRelease(modes);
 		}
-		CFRelease(modes);
 	}
 
 	num_resolutions = mNumSupportedResolutions;

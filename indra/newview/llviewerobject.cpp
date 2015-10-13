@@ -704,7 +704,7 @@ bool LLViewerObject::isReturnable()
 		boxes.push_back( LLBBox(child->getPositionRegion(), child->getRotationRegion(), child->getScale() * -0.5f, child->getScale() * 0.5f).getAxisAligned());
 	}
 
-	bool result = (mRegionp && mRegionp->objectIsReturnable(getPositionRegion(), boxes)) ? 1 : 0;
+	bool result = (mRegionp && mRegionp->objectIsReturnable(getPositionRegion(), boxes));
 	
 	if ( !result )
 	{		

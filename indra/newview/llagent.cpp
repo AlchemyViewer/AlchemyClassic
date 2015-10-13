@@ -2937,7 +2937,7 @@ BOOL LLAgent::isInGroup(const LLUUID& group_id, BOOL ignore_god_mode /* FALSE */
 BOOL LLAgent::hasPowerInGroup(const LLUUID& group_id, U64 power) const
 {
 	if (isGodlikeWithoutAdminMenuFakery())
-		return true;
+		return TRUE;
 
 	// GP_NO_POWERS can also mean no power is enough to grant an ability.
 	if (GP_NO_POWERS == power) return FALSE;

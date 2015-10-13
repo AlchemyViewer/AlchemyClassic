@@ -60,6 +60,7 @@
 #include "llfeaturemanager.h"
 #include "llviewernetwork.h"
 #include "llmeshrepository.h" //for LLMeshRepository::sBytesReceived
+#include "llfloaterimnearbychathandler.h"
 #include "llsdserialize.h"
 
 namespace LLStatViewer
@@ -624,7 +625,7 @@ void send_stats()
 
 	LLViewerStats::getInstance()->addToMessage(body);
 
-	LL_INFOS("LogViewerStatsPacket") << "Sending viewer statistics: " << body << LL_ENDL;
+	LL_DEBUGS("LogViewerStatsPacket") << "Sending viewer statistics: " << body << LL_ENDL;
 	LLHTTPClient::post(url, body, new ViewerStatsResponder());
 
 	LLViewerStats::instance().getRecording().resume();

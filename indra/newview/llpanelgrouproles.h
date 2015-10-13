@@ -170,7 +170,7 @@ public:
 	void handleEjectMembers();
 	void sendEjectNotifications(const LLUUID& group_id, const uuid_vec_t& selected_members);
 	bool handleEjectCallback(const LLSD& notification, const LLSD& response);
-	void confirmEjectMembers();
+	void commitEjectMembers(uuid_vec_t& selected_members);
 
 	void onRoleCheck(const LLSD& userdata);
 	void handleRoleCheck(const LLUUID& role_id,
@@ -178,8 +178,7 @@ public:
 
 	static void onBanMember(void* user_data);
 	void handleBanMember();
-	bool handleBanCallback(const LLSD& notification, const LLSD& response);
-	void confirmBanMembers();
+	bool handleBanMemberCallback(const LLSD& notification, const LLSD& response);
 
 
 	void applyMemberChanges();

@@ -8390,10 +8390,9 @@ void LLVOAvatar::updateSoftwareSkinnedVertices(const LLMeshSkinInfo* skin, const
 			scale += wght[k];
 		}
 
-		if(scale > 0.f)
-			wght *= 1.f/scale;
-		else
-			wght = LLVector4(F32_MAX,F32_MAX,F32_MAX,F32_MAX);
+		// This is enforced  in unpackVolumeFaces()
+		llassert(scale>0.f);
+		wght *= 1.f/scale;
 
 		for (U32 k = 0; k < 4; k++)
 		{

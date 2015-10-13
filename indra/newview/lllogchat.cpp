@@ -787,7 +787,7 @@ bool LLLogChat::isAdHocTranscriptExist(std::string file_name)
 	LLLogChat::getListOfTranscriptFiles(list_of_transcriptions);
 
 	file_name = makeLogFileName(file_name);
-	BOOST_FOREACH(std::string& transcript_file_name, list_of_transcriptions)
+	for(std::string& transcript_file_name : list_of_transcriptions)
 	{
 	   	if (transcript_file_name == file_name)
 	   	{

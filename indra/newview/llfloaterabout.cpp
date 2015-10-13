@@ -548,3 +548,9 @@ void LLFloaterAboutUtil::registerFloater()
 		&LLFloaterReg::build<LLFloaterAbout>);
 
 }
+
+void LLFloaterAboutUtil::checkUpdatesAndNotify()
+{
+	LLFloaterAbout::setUpdateListener();
+}
+

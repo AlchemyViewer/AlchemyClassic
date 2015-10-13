@@ -3927,7 +3927,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 			}
 		}
 
-		if (mesg != "")
+		if (!mesg.empty())
 		{
 			LLSD msg_notify = LLSD(LLSD::emptyMap());
 			msg_notify["session_id"] = LLUUID();
@@ -3946,7 +3946,6 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 		        }
 #endif //LL_DARWIN
 		}
-
 	}
 }
 

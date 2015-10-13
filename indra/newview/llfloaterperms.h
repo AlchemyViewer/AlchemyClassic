@@ -29,7 +29,6 @@
 #define LL_LLFLOATERPERMPREFS_H
 
 #include "llfloater.h"
-#include "llhttpclient.h"
 
 class LLViewerRegion;
 
@@ -76,38 +75,6 @@ private:
 	bool mNextOwnerCopy[6];
 	bool mNextOwnerModify[6];
 	bool mNextOwnerTransfer[6];
-};
-
-class LLFloaterPermsRequester
-{
-public:
-	LLFloaterPermsRequester(const std::string url, const LLSD report, int maxRetries);
-
-	static void init(const std::string url, const LLSD report, int maxRetries);
-	static void finalize();
-	static LLFloaterPermsRequester* instance();
-
-	void start();
-	bool retry();
-
-private:
-	int mRetriesCount;
-	int mMaxRetries;
-	const std::string mUrl;
-	const LLSD mReport;
-public:
-	static LLFloaterPermsRequester* sPermsRequester;
-};
-
-class LLFloaterPermsResponder : public LLHTTPClient::Responder
-{
-public:
-	LLFloaterPermsResponder() : LLHTTPClient::Responder() {}
-private:
-	static	std::string sPreviousReason;
-
-	void httpFailure();
-	void httpSuccess();
 };
 
 #endif

@@ -4227,10 +4227,9 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 					scale += wght[k];
 				}
 
-				if (scale > 0.f)
-					wght *= 1.f/scale;
-				else
-					wght = LLVector4(F32_MAX, F32_MAX, F32_MAX, F32_MAX);
+				// This is enforced  in unpackVolumeFaces()
+				llassert(scale>0.f);
+				wght *= 1.f/scale;
 
 				for (U32 k = 0; k < 4; k++)
 				{
@@ -4238,7 +4237,8 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 
 					LLMatrix4a src;
 					// clamp k to kMaxJoints to avoid reading garbage off stack in release
-					src.setMul(mp[(idx[k] < count) ? idx[k] : 0], w);
+					S32 index = llclamp((S32) idx[k], (S32) 0, (S32) JOINT_COUNT - 1);
+					src.setMul(mp[index], w);
 					final_mat.add(src);
 				}
 

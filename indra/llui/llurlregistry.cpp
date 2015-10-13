@@ -98,7 +98,7 @@ void LLUrlRegistry::registerUrl(LLUrlEntryBase *url, bool force_front)
 		if (force_front)  // IDEVO
 			mUrlEntry.insert(mUrlEntry.begin(), url);
 		else
-		mUrlEntry.push_back(url);
+			mUrlEntry.push_back(url);
 	}
 }
 

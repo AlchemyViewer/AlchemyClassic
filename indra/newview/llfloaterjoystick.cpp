@@ -332,6 +332,14 @@ void LLFloaterJoystick::onClickOK(void *joy_panel)
 	}
 }
 
+void LLFloaterJoystick::onClose(bool app_quitting)
+{
+	if (app_quitting)
+	{
+		cancel();
+	}
+}
+
 void LLFloaterJoystick::onClickCloseBtn(bool app_quitting)
 {
 	cancel();
@@ -341,4 +349,9 @@ void LLFloaterJoystick::onClickCloseBtn(bool app_quitting)
 void LLFloaterJoystick::setSNDefaults()
 {
 	LLViewerJoystick::getInstance()->setSNDefaults();
+}
+
+void LLFloaterJoystick::setXbox360Defaults()
+{
+	LLViewerJoystick::getInstance()->setXbox360Defaults();
 }

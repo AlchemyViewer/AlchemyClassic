@@ -22,8 +22,6 @@
  * $/LicenseInfo$
  */
 
-#define FLT_MAX     3.402823466e+38
-
 ATTRIBUTE vec4 weight4;  
 
 uniform mat3x4 matrixPalette[52];
@@ -36,14 +34,10 @@ mat4 getObjectSkinnedTransform()
 	vec4 w = fract(weight4);
 	vec4 index = floor(weight4);
 	
-		 index = min(index, vec4(maxWeight));
-		 index = max(index, vec4( 0.0));
+	index = min(index, vec4(maxWeight));
+	index = max(index, vec4( 0.0));
 
-	float sum = (w.x+w.y+w.z+w.w);
-	if(sum > 0.0)
-		w*=1.0/sum;
-	else
-		w=vec4(FLT_MAX);
+	w *= 1.0/(w.x+w.y+w.z+w.w);
 	
 	int i1 = int(index.x);
 	int i2 = int(index.y);

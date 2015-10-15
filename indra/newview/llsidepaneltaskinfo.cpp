@@ -30,42 +30,36 @@
 
 #include "llsidepaneltaskinfo.h"
 
-#include "lluuid.h"
-#include "llpermissions.h"
-#include "llcategory.h"
-#include "llclickaction.h"
 #include "llfocusmgr.h"
-#include "llnotificationsutil.h"
-#include "llstring.h"
-
-#include "llviewerwindow.h"
-#include "llresmgr.h"
-#include "lltextbox.h"
-#include "llbutton.h"
-#include "llcheckboxctrl.h"
-#include "llviewerobject.h"
-#include "llselectmgr.h"
-#include "llagent.h"
-#include "llstatusbar.h"		// for getBalance()
-#include "lllineeditor.h"
-#include "llcombobox.h"
-#include "lluiconstants.h"
-#include "lldbstrings.h"
-#include "llfloatergroups.h"
-#include "llfloaterreg.h"
-#include "llavataractions.h"
-#include "llnamebox.h"
-#include "llviewercontrol.h"
-#include "llviewermenu.h"
-#include "lluictrlfactory.h"
-#include "llspinctrl.h"
-#include "roles_constants.h"
-#include "llgroupactions.h"
-#include "lltextbase.h"
-#include "llstring.h"
+#include "llpermissions.h"
 #include "lltrans.h"
 
-static const std::array<std::string, 17> sNoItemNames{{
+#include "llbutton.h"
+#include "llcheckboxctrl.h"
+#include "llcombobox.h"
+#include "lllineeditor.h"
+#include "llnamebox.h"
+#include "llspinctrl.h"
+#include "lltextbase.h"
+#include "lltextbox.h"
+
+#include "llagent.h"
+#include "llavataractions.h"
+#include "llgroupactions.h"
+#include "llfloatergroups.h"
+#include "llfloaterreg.h"
+#include "llselectmgr.h"
+#include "llstatusbar.h"		// for getBalance()
+#include "llnotificationsutil.h"
+
+#include "roles_constants.h"
+#include "llviewercontrol.h"
+#include "llviewermenu.h"
+#include "llviewernetwork.h"
+#include "llviewerobject.h"
+#include "llviewerwindow.h"
+
+static const std::array<std::string, 18> sNoItemNames{{
 	"Object Name",
 	"Object Description",
 	"button set group",
@@ -79,6 +73,7 @@ static const std::array<std::string, 17> sNoItemNames{{
 	"checkbox next owner can modify",
 	"checkbox next owner can copy",
 	"checkbox next owner can transfer",
+	"checkbox next owner can export",
 	"clickaction",
 	"search_check",
 	"perm_modify",
@@ -140,6 +135,7 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	childSetCommitCallback("checkbox next owner can modify",	&LLSidepanelTaskInfo::onCommitNextOwnerModify,this);
 	childSetCommitCallback("checkbox next owner can copy",		&LLSidepanelTaskInfo::onCommitNextOwnerCopy,this);
 	childSetCommitCallback("checkbox next owner can transfer",	&LLSidepanelTaskInfo::onCommitNextOwnerTransfer,this);
+	childSetCommitCallback("checkbox next owner can export",	&LLSidepanelTaskInfo::onCommitNextOwnerExport,this);
 	childSetCommitCallback("clickaction",						&LLSidepanelTaskInfo::onCommitClickAction,this);
 	childSetCommitCallback("search_check",						&LLSidepanelTaskInfo::onCommitIncludeInSearch,this);
 	
@@ -164,6 +160,7 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	mDACheckboxNextOwnerCanModify = getChild<LLUICtrl>("checkbox next owner can modify");
 	mDACheckboxNextOwnerCanCopy = getChild<LLUICtrl>("checkbox next owner can copy");
 	mDACheckboxNextOwnerCanTransfer = getChild<LLUICtrl>("checkbox next owner can transfer");
+	mDACheckboxNextOwnerCanExport = getChild<LLUICtrl>("checkbox next owner can export");
 	mDACheckboxForSale = getChild<LLUICtrl>("checkbox for sale");
 	mDASearchCheck = getChild<LLUICtrl>("search_check");
 	mDAComboSaleType = getChild<LLComboBox>("sale type");
@@ -244,6 +241,9 @@ void LLSidepanelTaskInfo::disableAll()
 	mDACheckboxNextOwnerCanCopy->setEnabled(FALSE);
 	mDACheckboxNextOwnerCanTransfer->setValue(FALSE);
 	mDACheckboxNextOwnerCanTransfer->setEnabled(FALSE);
+	mDACheckboxNextOwnerCanExport->setValue(FALSE);
+	mDACheckboxNextOwnerCanExport->setEnabled(FALSE);
+	mDACheckboxNextOwnerCanExport->setVisible(LLGridManager::getInstance()->isInOpenSim());
 
 	//checkbox for sale
 	mDACheckboxForSale->setValue(FALSE);
@@ -714,6 +714,7 @@ void LLSidepanelTaskInfo::refresh()
 		getChildView("checkbox next owner can modify")->setEnabled(base_mask_on & PERM_MODIFY);
 		getChildView("checkbox next owner can copy")->setEnabled(base_mask_on & PERM_COPY);
 		getChildView("checkbox next owner can transfer")->setEnabled(next_owner_mask_on & PERM_COPY);
+		getChildView("checkbox next owner can export")->setEnabled(next_owner_mask_on & PERM_EXPORT);
 	}
 	else 
 	{
@@ -724,6 +725,7 @@ void LLSidepanelTaskInfo::refresh()
 		getChildView("checkbox next owner can modify")->setEnabled(FALSE);
 		getChildView("checkbox next owner can copy")->setEnabled(FALSE);
 		getChildView("checkbox next owner can transfer")->setEnabled(FALSE);
+		getChildView("checkbox next owner can export")->setEnabled(FALSE);
 	}
 
 	if (valid_group_perms)
@@ -836,6 +838,22 @@ void LLSidepanelTaskInfo::refresh()
 		{
 			getChild<LLUICtrl>("checkbox next owner can transfer")->setValue(TRUE);
 			getChild<LLUICtrl>("checkbox next owner can transfer")->setTentative( TRUE);
+		}
+		// Export == next owner cannot export
+		if (next_owner_mask_on & PERM_EXPORT)
+		{
+			getChild<LLUICtrl>("checkbox next owner can modify")->setValue(TRUE);
+			getChild<LLUICtrl>("checkbox next owner can modify")->setTentative(	FALSE);
+		}
+		else if (next_owner_mask_off & PERM_EXPORT)
+		{
+			getChild<LLUICtrl>("checkbox next owner can export")->setValue(FALSE);
+			getChild<LLUICtrl>("checkbox next owner can export")->setTentative(	FALSE);
+		}
+		else
+		{
+			getChild<LLUICtrl>("checkbox next owner can export")->setValue(TRUE);
+			getChild<LLUICtrl>("checkbox next owner can export")->setTentative(	TRUE);
 		}
 	}
 
@@ -1021,7 +1039,13 @@ void LLSidepanelTaskInfo::onCommitNextOwnerCopy(LLUICtrl* ctrl, void* data)
 void LLSidepanelTaskInfo::onCommitNextOwnerTransfer(LLUICtrl* ctrl, void* data)
 {
 	//LL_INFOS() << "LLSidepanelTaskInfo::onCommitNextOwnerTransfer" << LL_ENDL;
-	onCommitPerm(ctrl, data, PERM_NEXT_OWNER, PERM_TRANSFER);
+	onCommitPerm(ctrl, data, PERM_EVERYONE, PERM_TRANSFER);
+}
+
+// static
+void LLSidepanelTaskInfo::onCommitNextOwnerExport(LLUICtrl* ctrl, void* data)
+{
+	onCommitPerm(ctrl, data, PERM_NEXT_OWNER, PERM_EXPORT);
 }
 
 // static
@@ -1255,6 +1279,7 @@ void LLSidepanelTaskInfo::save()
 	onCommitNextOwnerModify(getChild<LLCheckBoxCtrl>("checkbox next owner can modify"), this);
 	onCommitNextOwnerCopy(getChild<LLCheckBoxCtrl>("checkbox next owner can copy"), this);
 	onCommitNextOwnerTransfer(getChild<LLCheckBoxCtrl>("checkbox next owner can transfer"), this);
+	onCommitNextOwnerExport(getChild<LLCheckBoxCtrl>("checkbox next owner can export"), this);
 	onCommitName(getChild<LLLineEditor>("Object Name"), this);
 	onCommitDesc(getChild<LLLineEditor>("Object Description"), this);
 	onCommitSaleInfo(NULL, this);

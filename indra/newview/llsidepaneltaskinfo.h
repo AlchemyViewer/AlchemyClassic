@@ -82,6 +82,7 @@ protected:
 	static void onCommitNextOwnerModify(LLUICtrl* ctrl, void* data);
 	static void onCommitNextOwnerCopy(LLUICtrl* ctrl, void* data);
 	static void onCommitNextOwnerTransfer(LLUICtrl* ctrl, void* data);
+	static void onCommitNextOwnerExport(LLUICtrl* ctrl, void* data);
 	
 	static void onCommitName(LLUICtrl* ctrl, void* data);
 	static void onCommitDesc(LLUICtrl* ctrl, void* data);
@@ -145,6 +146,7 @@ private:
 	LLUICtrl*	mDACheckboxNextOwnerCanModify;
 	LLUICtrl*	mDACheckboxNextOwnerCanCopy;
 	LLUICtrl*	mDACheckboxNextOwnerCanTransfer;
+	LLUICtrl*	mDACheckboxNextOwnerCanExport;
 	LLUICtrl*	mDACheckboxForSale;
 	LLUICtrl*	mDASearchCheck;
 	LLComboBox*	mDAComboSaleType;

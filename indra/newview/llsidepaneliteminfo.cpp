@@ -44,10 +44,42 @@
 #include "llviewercontrol.h"
 #include "llviewerinventory.h"
 #include "llviewerobjectlist.h"
+#include "llviewernetwork.h"
 #include "llexperienceassociationresponder.h"
 #include "llexperiencecache.h"
 #include "lltrans.h"
 
+static const std::array<std::string, 21> perm_and_sale_items{{
+	"perms_inv",
+	"OwnerLabel",
+	"perm_modify",
+	"CheckOwnerModify",
+	"CheckOwnerCopy",
+	"CheckOwnerTransfer",
+	"CheckOwnerExport",
+	"GroupLabel",
+	"CheckShareWithGroup",
+	"AnyoneLabel",
+	"CheckEveryoneCopy",
+	"NextOwnerLabel",
+	"CheckNextOwnerModify",
+	"CheckNextOwnerCopy",
+	"CheckNextOwnerTransfer",
+	"CheckNextOwnerExport",
+	"CheckPurchase",
+	"SaleLabel",
+	"ComboBoxSaleType",
+	"Edit Cost",
+	"TextPrice"
+}};
+
+static const std::array<std::string, 5> debug_items{{
+	"BaseMaskDebug",
+	"OwnerMaskDebug",
+	"GroupMaskDebug",
+	"EveryoneMaskDebug",
+	"NextMaskDebug"
+}};
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Class LLItemPropertiesObserver
@@ -175,6 +207,7 @@ BOOL LLSidepanelItemInfo::postBuild()
 	getChild<LLUICtrl>("CheckNextOwnerModify")->setCommitCallback(boost::bind(&LLSidepanelItemInfo::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckNextOwnerCopy")->setCommitCallback(boost::bind(&LLSidepanelItemInfo::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckNextOwnerTransfer")->setCommitCallback(boost::bind(&LLSidepanelItemInfo::onCommitPermissions, this));
+	getChild<LLUICtrl>("CheckNextOwnerExport")->setCommitCallback(boost::bind(&LLSidepanelItemInfo::onCommitPermissions, this));
 	// Mark for sale or not, and sale info
 	getChild<LLUICtrl>("CheckPurchase")->setCommitCallback(boost::bind(&LLSidepanelItemInfo::onCommitSaleInfo, this));
 	// Change sale type, and sale info
@@ -246,11 +279,13 @@ void LLSidepanelItemInfo::refresh()
 			"CheckOwnerModify",
 			"CheckOwnerCopy",
 			"CheckOwnerTransfer",
+			"CheckOwnerExport",
 			"CheckShareWithGroup",
 			"CheckEveryoneCopy",
 			"CheckNextOwnerModify",
 			"CheckNextOwnerCopy",
 			"CheckNextOwnerTransfer",
+			"CheckNextOwnerExport",
 			"CheckPurchase",
 			"Edit Cost"
 		};
@@ -259,17 +294,10 @@ void LLSidepanelItemInfo::refresh()
 		{
 			getChildView(no_item_names[t])->setEnabled(false);
 		}
-		
-		const std::string hide_names[]={
-			"BaseMaskDebug",
-			"OwnerMaskDebug",
-			"GroupMaskDebug",
-			"EveryoneMaskDebug",
-			"NextMaskDebug"
-		};
-		for(size_t t=0; t<LL_ARRAY_SIZE(hide_names); ++t)
+
+		for(size_t t=0; t < debug_items.size(); ++t)
 		{
-			getChildView(hide_names[t])->setVisible(false);
+			getChildView(debug_items[t])->setVisible(false);
 		}
 	}
 
@@ -433,36 +461,6 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	// PERMISSIONS AND SALE ITEM HIDING //
 	//////////////////////////////////////
 	
-	const std::string perm_and_sale_items[]={
-		"perms_inv",
-		"OwnerLabel",
-		"perm_modify",
-		"CheckOwnerModify",
-		"CheckOwnerCopy",
-		"CheckOwnerTransfer",
-		"GroupLabel",
-		"CheckShareWithGroup",
-		"AnyoneLabel",
-		"CheckEveryoneCopy",
-		"NextOwnerLabel",
-		"CheckNextOwnerModify",
-		"CheckNextOwnerCopy",
-		"CheckNextOwnerTransfer",
-		"CheckPurchase",
-		"SaleLabel",
-		"ComboBoxSaleType",
-		"Edit Cost",
-		"TextPrice"
-	};
-	
-	const std::string debug_items[]={
-		"BaseMaskDebug",
-		"OwnerMaskDebug",
-		"GroupMaskDebug",
-		"EveryoneMaskDebug",
-		"NextMaskDebug"
-	};
-	
 	// Hide permissions checkboxes and labels and for sale info if in the trash
 	// or ui elements don't apply to these objects and return from function
 	if (!not_in_trash || cannot_restrict_permissions)
@@ -511,6 +509,9 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	getChild<LLUICtrl>("CheckOwnerCopy")->setValue(LLSD((BOOL)(owner_mask & PERM_COPY)));
 	getChildView("CheckOwnerTransfer")->setEnabled(FALSE);
 	getChild<LLUICtrl>("CheckOwnerTransfer")->setValue(LLSD((BOOL)(owner_mask & PERM_TRANSFER)));
+	getChildView("CheckOwnerExport")->setEnabled(FALSE);
+	getChild<LLUICtrl>("CheckOwnerExport")->setValue(LLSD((BOOL)(owner_mask & PERM_EXPORT)));
+	getChildView("CheckOwnerExport")->setVisible(LLGridManager::getInstance()->isInOpenSim());
 
 	///////////////////////
 	// DEBUG PERMISSIONS //
@@ -646,6 +647,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 		getChildView("CheckNextOwnerModify")->setEnabled((base_mask & PERM_MODIFY) && !cannot_restrict_permissions);
 		getChildView("CheckNextOwnerCopy")->setEnabled((base_mask & PERM_COPY) && !cannot_restrict_permissions);
 		getChildView("CheckNextOwnerTransfer")->setEnabled((next_owner_mask & PERM_COPY) && !cannot_restrict_permissions);
+		getChildView("CheckNextOwnerExport")->setEnabled((base_mask & PERM_EXPORT) && !cannot_restrict_permissions);
 
 		getChildView("TextPrice")->setEnabled(is_complete && is_for_sale);
 		combo_sale_type->setEnabled(is_complete && is_for_sale);
@@ -660,6 +662,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 		getChildView("CheckNextOwnerModify")->setEnabled(FALSE);
 		getChildView("CheckNextOwnerCopy")->setEnabled(FALSE);
 		getChildView("CheckNextOwnerTransfer")->setEnabled(FALSE);
+		getChildView("CheckNextOwnerExport")->setEnabled(FALSE);
 
 		getChildView("TextPrice")->setEnabled(FALSE);
 		combo_sale_type->setEnabled(FALSE);
@@ -671,6 +674,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	getChild<LLUICtrl>("CheckNextOwnerModify")->setValue(LLSD(BOOL(next_owner_mask & PERM_MODIFY)));
 	getChild<LLUICtrl>("CheckNextOwnerCopy")->setValue(LLSD(BOOL(next_owner_mask & PERM_COPY)));
 	getChild<LLUICtrl>("CheckNextOwnerTransfer")->setValue(LLSD(BOOL(next_owner_mask & PERM_TRANSFER)));
+	getChild<LLUICtrl>("CheckNextOwnerExport")->setValue(LLSD(BOOL(next_owner_mask & PERM_EXPORT)));
 
 	if (is_for_sale)
 	{
@@ -876,6 +880,12 @@ void LLSidepanelItemInfo::onCommitPermissions()
 	{
 		perm.setNextOwnerBits(gAgent.getID(), gAgent.getGroupID(),
 							CheckNextOwnerTransfer->get(), PERM_TRANSFER);
+	}
+	LLCheckBoxCtrl* CheckNextOwnerExport = getChild<LLCheckBoxCtrl>("CheckNextOwnerExport");
+	if(CheckNextOwnerExport)
+	{
+		perm.setNextOwnerBits(gAgent.getID(), gAgent.getGroupID(),
+							  CheckNextOwnerExport->get(), PERM_EXPORT);
 	}
 	if(perm != item->getPermissions()
 		&& item->isFinished())

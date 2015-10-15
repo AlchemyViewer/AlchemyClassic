@@ -176,7 +176,7 @@ void LLFloaterProperties::refresh()
 		
 		mDirty = TRUE;
 
-		const char* enableNames[]={
+		static const std::array<const char*, 18> enableNames{{
 			"LabelItemName",
 			"LabelItemDesc",
 			"LabelCreatorName",
@@ -195,21 +195,21 @@ void LLFloaterProperties::refresh()
 			"CheckPurchase",
 			"ComboBoxSaleType",
 			"Edit Cost"
-		};
-		for(size_t t=0; t<LL_ARRAY_SIZE(enableNames); ++t)
+		}};
+		for(const char* name : enableNames)
 		{
-			getChildView(enableNames[t])->setEnabled(false);
+			getChildView(name)->setEnabled(false);
 		}
-		const char* hideNames[]={
+		static const std::array<const char*,5> hideNames{{
 			"BaseMaskDebug",
 			"OwnerMaskDebug",
 			"GroupMaskDebug",
 			"EveryoneMaskDebug",
 			"NextMaskDebug"
-		};
-		for(size_t t=0; t<LL_ARRAY_SIZE(hideNames); ++t)
+		}};
+		for(const char* name : hideNames)
 		{
-			getChildView(hideNames[t])->setVisible(false);
+			getChildView(name)->setVisible(false);
 		}
 	}
 }

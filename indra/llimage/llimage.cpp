@@ -1669,13 +1669,12 @@ void LLImageRaw::compositeRowScaled4onto3( U8* in, U8* out, S32 in_pixel_len, S3
 
 //----------------------------------------------------------------------------
 
-static struct
+typedef struct
 {
 	const char* exten;
 	EImageCodec codec;
-}
-file_extensions[] =
-{
+} thingy_t;
+static std::array <thingy_t, 10> file_extensions{{
 	{ "bmp", IMG_CODEC_BMP },
 	{ "tga", IMG_CODEC_TGA },
 	{ "j2c", IMG_CODEC_J2C },
@@ -1686,22 +1685,21 @@ file_extensions[] =
 	{ "mip", IMG_CODEC_DXT },
 	{ "dxt", IMG_CODEC_DXT },
 	{ "png", IMG_CODEC_PNG }
-};
-#define NUM_FILE_EXTENSIONS LL_ARRAY_SIZE(file_extensions)
+}};
 #if 0
 static std::string find_file(std::string &name, S8 *codec)
 {
 	std::string tname;
-	for (int i=0; i<(int)(NUM_FILE_EXTENSIONS); i++)
+	for (thingy_t thingo : file_extensions)
 	{
-		tname = name + "." + std::string(file_extensions[i].exten);
+		tname = name + "." + std::string(thingo.exten);
 		llifstream ifs(tname.c_str(), llifstream::binary);
 		if (ifs.is_open())
 		{
 			ifs.close();
 			if (codec)
-				*codec = file_extensions[i].codec;
-			return std::string(file_extensions[i].exten);
+				*codec = thingo.codec;
+			return std::string(thingo.exten);
 		}
 	}
 	return std::string("");
@@ -1709,10 +1707,10 @@ static std::string find_file(std::string &name, S8 *codec)
 #endif
 EImageCodec LLImageBase::getCodecFromExtension(const std::string& exten)
 {
-	for (int i=0; i<(int)(NUM_FILE_EXTENSIONS); i++)
+	for (const thingy_t item : file_extensions)
 	{
-		if (exten == file_extensions[i].exten)
-			return file_extensions[i].codec;
+		if (exten == item.exten)
+			return item.codec;
 	}
 	return IMG_CODEC_INVALID;
 }

@@ -592,8 +592,7 @@ void LLPanelGroupGeneral::update(LLGroupChange gc)
 void LLPanelGroupGeneral::updateChanged()
 {
 	// List all the controls we want to check for changes...
-	LLUICtrl *check_list[] =
-	{
+	const std::array<LLUICtrl*, 13> check_list{{
 		mGroupNameEditor,
 		mFounderName,
 		mInsignia,
@@ -607,13 +606,13 @@ void LLPanelGroupGeneral::updateChanged()
 		mCtrlListGroup,
 		mActiveTitleLabel,
 		mComboActiveTitle
-	};
+	}};
 
 	mChanged = FALSE;
 
-	for( size_t i=0; i<LL_ARRAY_SIZE(check_list); i++ )
+	for(LLUICtrl* control : check_list)
 	{
-		if( check_list[i] && check_list[i]->isDirty() )
+		if( control != nullptr && control->isDirty() )
 		{
 			mChanged = TRUE;
 			break;
@@ -678,8 +677,7 @@ void LLPanelGroupGeneral::reset()
 void	LLPanelGroupGeneral::resetDirty()
 {
 	// List all the controls we want to check for changes...
-	LLUICtrl *check_list[] =
-	{
+	const std::array<LLUICtrl*, 13> check_list{{
 		mGroupNameEditor,
 		mFounderName,
 		mInsignia,
@@ -693,12 +691,12 @@ void	LLPanelGroupGeneral::resetDirty()
 		mCtrlListGroup,
 		mActiveTitleLabel,
 		mComboActiveTitle
-	};
+	}};
 
-	for( size_t i=0; i<LL_ARRAY_SIZE(check_list); i++ )
+	for(LLUICtrl* control : check_list)
 	{
-		if( check_list[i] )
-			check_list[i]->resetDirty() ;
+		if( control )
+			control->resetDirty() ;
 	}
 
 

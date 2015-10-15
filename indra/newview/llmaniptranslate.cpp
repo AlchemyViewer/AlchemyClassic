@@ -1643,8 +1643,7 @@ void LLManipTranslate::highlightIntersection(LLVector3 normal,
 	LLGLSLShader* shader = LLGLSLShader::sCurBoundShaderPtr;
 
 	
-	U32 types[] = { LLRenderPass::PASS_SIMPLE, LLRenderPass::PASS_ALPHA, LLRenderPass::PASS_FULLBRIGHT, LLRenderPass::PASS_SHINY };
-	U32 num_types = LL_ARRAY_SIZE(types);
+	static const std::array<U32, 4> types{{ LLRenderPass::PASS_SIMPLE, LLRenderPass::PASS_ALPHA, LLRenderPass::PASS_FULLBRIGHT, LLRenderPass::PASS_SHINY }};
 
 	GLuint stencil_mask = 0xFFFFFFFF;
 	//stencil in volumes
@@ -1698,16 +1697,16 @@ void LLManipTranslate::highlightIntersection(LLVector3 normal,
 		//stencil in volumes
 		glStencilOp(GL_INCR, GL_INCR, GL_INCR);
 		glCullFace(GL_FRONT);
-		for (U32 i = 0; i < num_types; i++)
+		for (const U32 type : types)
 		{
-			gPipeline.renderObjects(types[i], LLVertexBuffer::MAP_VERTEX, FALSE);
+			gPipeline.renderObjects(type, LLVertexBuffer::MAP_VERTEX, FALSE);
 		}
 
 		glStencilOp(GL_DECR, GL_DECR, GL_DECR);
 		glCullFace(GL_BACK);
-		for (U32 i = 0; i < num_types; i++)
+		for (const U32 type : types)
 		{
-			gPipeline.renderObjects(types[i], LLVertexBuffer::MAP_VERTEX, FALSE);
+			gPipeline.renderObjects(type, LLVertexBuffer::MAP_VERTEX, FALSE);
 		}
 		
 		if (particles)

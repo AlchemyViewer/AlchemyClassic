@@ -936,17 +936,16 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 				LLGLEnable cull_face(GL_CULL_FACE);
 				gGL.setColorMask(false, false);
 
-				static const U32 types[] = { 
-					LLRenderPass::PASS_SIMPLE, 
-					LLRenderPass::PASS_FULLBRIGHT, 
-					LLRenderPass::PASS_SHINY 
-				};
-
-				U32 num_types = LL_ARRAY_SIZE(types);
+				static const std::array<U32, 3> types{{
+					LLRenderPass::PASS_SIMPLE,
+					LLRenderPass::PASS_FULLBRIGHT,
+					LLRenderPass::PASS_SHINY
+				}};
+				
 				gOcclusionProgram.bind();
-				for (U32 i = 0; i < num_types; i++)
+				for (const U32 type : types)
 				{
-					gPipeline.renderObjects(types[i], LLVertexBuffer::MAP_VERTEX, FALSE);
+					gPipeline.renderObjects(type, LLVertexBuffer::MAP_VERTEX, FALSE);
 				}
 
 				gOcclusionProgram.unbind();

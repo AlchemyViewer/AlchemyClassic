@@ -211,13 +211,13 @@ std::string LLAvatarPropertiesProcessor::accountType(const LLAvatarData* avatar_
 	{
 		return avatar_data->caption_text;
 	}
-	const char* const ACCT_TYPE[] = {
+	static const std::array<const char*, 4> ACCT_TYPE{{
 		"AcctTypeResident",
 		"AcctTypeTrial",
 		"AcctTypeCharterMember",
 		"AcctTypeEmployee"
-	};
-	U8 caption_max = (U8)LL_ARRAY_SIZE(ACCT_TYPE)-1;
+	}};
+	U8 caption_max = (U8)ACCT_TYPE.size() - 1;
 	U8 caption_index = llclamp(avatar_data->caption_index, (U8)0, caption_max);
 	return LLTrans::getString(ACCT_TYPE[caption_index]);
 }

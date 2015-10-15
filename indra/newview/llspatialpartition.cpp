@@ -1505,7 +1505,7 @@ void pushVertsColorCoded(LLSpatialGroup* group, U32 mask)
 {
 	LLDrawInfo* params = NULL;
 
-	static const LLColor4 colors[] = {
+	static const std::array<LLColor4, 7> colors {{
 		LLColor4::green,
 		LLColor4::green1,
 		LLColor4::green2,
@@ -1513,9 +1513,7 @@ void pushVertsColorCoded(LLSpatialGroup* group, U32 mask)
 		LLColor4::green4,
 		LLColor4::green5,
 		LLColor4::green6
-	};
-		
-	static const U32 col_count = LL_ARRAY_SIZE(colors);
+	}};
 
 	U32 col = 0;
 
@@ -1529,7 +1527,7 @@ void pushVertsColorCoded(LLSpatialGroup* group, U32 mask)
 			params->mVertexBuffer->setBuffer(mask);
 			params->mVertexBuffer->drawRange(params->mParticle ? LLRender::POINTS : LLRender::TRIANGLES,
 				params->mStart, params->mEnd, params->mCount, params->mOffset);
-			col = (col+1)%col_count;
+			col = (col+1)%colors.size();
 		}
 	}
 }

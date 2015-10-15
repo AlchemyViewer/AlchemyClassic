@@ -73,6 +73,25 @@ static const std::array<std::string, 21> perm_and_sale_items{{
 	"TextPrice"
 }};
 
+static const std::array<std::string, 16> no_item_names{{
+	"LabelItemName",
+	"LabelItemDesc",
+	"LabelCreatorName",
+	"LabelOwnerName",
+	"CheckOwnerModify",
+	"CheckOwnerCopy",
+	"CheckOwnerTransfer",
+	"CheckOwnerExport",
+	"CheckShareWithGroup",
+	"CheckEveryoneCopy",
+	"CheckNextOwnerModify",
+	"CheckNextOwnerCopy",
+	"CheckNextOwnerTransfer",
+	"CheckNextOwnerExport",
+	"CheckPurchase",
+	"Edit Cost"
+}};
+
 static const std::array<std::string, 5> debug_items{{
 	"BaseMaskDebug",
 	"OwnerMaskDebug",
@@ -271,46 +290,21 @@ void LLSidepanelItemInfo::refresh()
 
 	if (!getIsEditing())
 	{
-		const std::string no_item_names[]={
-			"LabelItemName",
-			"LabelItemDesc",
-			"LabelCreatorName",
-			"LabelOwnerName",
-			"CheckOwnerModify",
-			"CheckOwnerCopy",
-			"CheckOwnerTransfer",
-			"CheckOwnerExport",
-			"CheckShareWithGroup",
-			"CheckEveryoneCopy",
-			"CheckNextOwnerModify",
-			"CheckNextOwnerCopy",
-			"CheckNextOwnerTransfer",
-			"CheckNextOwnerExport",
-			"CheckPurchase",
-			"Edit Cost"
-		};
-
-		for(size_t t=0; t<LL_ARRAY_SIZE(no_item_names); ++t)
+		for(const std::string item : no_item_names)
 		{
-			getChildView(no_item_names[t])->setEnabled(false);
+			getChildView(item)->setEnabled(false);
 		}
 
-		for(size_t t=0; t < debug_items.size(); ++t)
+		for(const std::string item : debug_items)
 		{
-			getChildView(debug_items[t])->setVisible(false);
+			getChildView(item)->setVisible(false);
 		}
 	}
 
 	if (!item)
 	{
-		const std::string no_edit_mode_names[]={
-			"BtnCreator",
-			"BtnOwner",
-		};
-		for(size_t t=0; t<LL_ARRAY_SIZE(no_edit_mode_names); ++t)
-		{
-			getChildView(no_edit_mode_names[t])->setEnabled(false);
-		}
+		getChildView("BtnCreator")->setEnabled(false);
+		getChildView("BtnOwner")->setEnabled(false);
 	}
 
 	updateVerbs();
@@ -430,14 +424,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	// ORIGIN //
 	////////////
 
-	if (object)
-	{
-		getChild<LLUICtrl>("origin")->setValue(getString("origin_inworld"));
-	}
-	else
-	{
-		getChild<LLUICtrl>("origin")->setValue(getString("origin_inventory"));
-	}
+	getChild<LLUICtrl>("origin")->setValue(getString(object ? "origin_inworld" : "origin_inventory"));
 
 	//////////////////
 	// ACQUIRE DATE //
@@ -465,22 +452,22 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	// or ui elements don't apply to these objects and return from function
 	if (!not_in_trash || cannot_restrict_permissions)
 	{
-		for(size_t t=0; t<LL_ARRAY_SIZE(perm_and_sale_items); ++t)
+		for(const std::string item : perm_and_sale_items)
 		{
-			getChildView(perm_and_sale_items[t])->setVisible(false);
+			getChildView(item)->setVisible(false);
 		}
 		
-		for(size_t t=0; t<LL_ARRAY_SIZE(debug_items); ++t)
+		for(const std::string item : debug_items)
 		{
-			getChildView(debug_items[t])->setVisible(false);
+			getChildView(item)->setVisible(false);
 		}
 		return;
 	}
 	else // Make sure perms and sale ui elements are visible
 	{
-		for(size_t t=0; t<LL_ARRAY_SIZE(perm_and_sale_items); ++t)
+		for(const std::string item : perm_and_sale_items)
 		{
-			getChildView(perm_and_sale_items[t])->setVisible(true);
+			getChildView(item)->setVisible(true);
 		}
 	}
 

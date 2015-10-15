@@ -32,6 +32,8 @@
 #include <functional>
 #include <algorithm>
 
+#include <boost/tokenizer.hpp>
+
 // library
 #include "llaudioengine.h"
 #include "lldatapacker.h"

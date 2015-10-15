@@ -26,7 +26,14 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llviewermessage.h"
-#include "boost/lexical_cast.hpp"
+
+// boost libraries
+#include <boost/algorithm/string/split.hpp> //
+#include <boost/algorithm/string/predicate.hpp> // <alchemy/>
+#include <boost/algorithm/string/replace.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/regex.hpp>
+#include <boost/tokenizer.hpp>
 
 // Linden libraries
 #include "llanimationstates.h"
@@ -118,11 +125,6 @@
 #include "llpanelplaceprofile.h"
 #include "llviewerregion.h"
 #include "llfloaterregionrestarting.h"
-
-#include <boost/algorithm/string/split.hpp> //
-#include <boost/algorithm/string/predicate.hpp> // <alchemy/>
-#include <boost/algorithm/string/replace.hpp>
-#include <boost/regex.hpp>
 
 #include "llnotificationmanager.h" //
 #include "llexperiencecache.h"

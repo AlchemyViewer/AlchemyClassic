@@ -28,8 +28,6 @@
 
 #include "linden_common.h"
 
-#include "llboost.h"
-
 #include "lltoastalertpanel.h"
 #include "llfontgl.h"
 #include "lltextbox.h"
@@ -40,7 +38,6 @@
 #include "lliconctrl.h"
 #include "llui.h"
 #include "lllineeditor.h"
-#include "lluictrlfactory.h"
 #include "llnotifications.h"
 #include "llrootview.h"
 #include "lltransientfloatermgr.h"

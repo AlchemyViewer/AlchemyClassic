@@ -31,8 +31,6 @@
 
 #include <algorithm>
 
-#include "llstl.h"
-#include "llboost.h"
 //#include "indra_constants.h"
 
 #include "llavatarnamecache.h"

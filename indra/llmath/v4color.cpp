@@ -26,7 +26,7 @@
 
 #include "linden_common.h"
 
-#include "llboost.h"
+#include <boost/tokenizer.hpp>
 
 #include "v4color.h"
 #include "v4coloru.h"
@@ -388,8 +388,8 @@ BOOL LLColor4::parseColor(const std::string& buf, LLColor4* color)
 		return FALSE;
 	}
 
-	boost_tokenizer tokens(buf, boost::char_separator<char>(", "));
-	boost_tokenizer::iterator token_iter = tokens.begin();
+	boost::tokenizer<boost::char_separator<char> > tokens(buf, boost::char_separator<char>(", "));
+	boost::tokenizer<boost::char_separator<char>>::iterator token_iter = tokens.begin();
 	if (token_iter == tokens.end())
 	{
 		return FALSE;

@@ -27,6 +27,8 @@
 #include "llviewerprecompiledheaders.h"
 #include "llexternaleditor.h"
 
+#include <boost/tokenizer.hpp>
+
 #include "lltrans.h"
 #include "llui.h"
 #include "llprocess.h"

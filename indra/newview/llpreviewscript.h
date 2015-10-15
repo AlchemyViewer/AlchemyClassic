@@ -28,12 +28,8 @@
 #define LL_LLPREVIEWSCRIPT_H
 
 #include "llpreview.h"
-#include "lltabcontainer.h"
 #include "llinventory.h"
-#include "llcombobox.h"
-#include "lliconctrl.h"
 #include "llframetimer.h"
-#include "llfloatergotoline.h"
 
 class LLLiveLSLFile;
 class LLMessageSystem;
@@ -41,11 +37,11 @@ class LLTextEditor;
 class LLScriptEditor;
 class LLButton;
 class LLCheckBoxCtrl;
+class LLComboBox;
 class LLScrollListCtrl;
 class LLViewerObject;
 struct 	LLEntryAndEdCore;
 class LLMenuBarGL;
-//class LLFloaterScriptSearch; // <alchemy/>
 class LLKeywordToken;
 class LLVFS;
 class LLViewerInventoryItem;

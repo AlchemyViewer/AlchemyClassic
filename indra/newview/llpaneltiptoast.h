@@ -24,11 +24,10 @@
  * $/LicenseInfo$
  */
 
-
-#include "lltoastpanel.h"
-
 #ifndef LL_PANELTOASTTIP_H
 #define LL_PANELTOASTTIP_H
+
+#include "lltoastpanel.h"
 
 /**
  * Base class for tip toast panels.

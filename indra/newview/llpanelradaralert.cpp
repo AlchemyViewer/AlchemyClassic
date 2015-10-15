@@ -29,6 +29,7 @@
 
 #include "llnotifications.h"
 #include "llpanelradaralert.h"
+#include "lltextbox.h"
 #include "llviewercontrol.h" // for gSavedSettings
 
 LLPanelRadarAlert::LLPanelRadarAlert(const LLNotificationPtr& notification) :

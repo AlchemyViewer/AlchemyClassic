@@ -27,8 +27,6 @@
 #ifndef LL_LLVIEWERJOYSTICK_H
 #define LL_LLVIEWERJOYSTICK_H
 
-#include "stdtypes.h"
-
 #if LIB_NDOF
 #include "ndofdev_external.h"
 #else

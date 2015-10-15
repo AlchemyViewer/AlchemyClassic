@@ -28,7 +28,8 @@
 #define LL_UPLOADDIALOG_H
 
 #include "llpanel.h"
-#include "lltextbox.h"
+
+class LLTextBox;
 			
 class LLUploadDialog : public LLPanel
 {

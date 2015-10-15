@@ -27,8 +27,6 @@
 #ifndef LLURLHISTORY_H
 #define LLURLHISTORY_H
 
-#include "llstring.h"
-
 class LLSD;
 
 class LLURLHistory

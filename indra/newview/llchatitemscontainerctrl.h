@@ -30,7 +30,6 @@
 #include "llchat.h"
 #include "llchatmsgbox.h"
 #include "llpanel.h"
-#include "llscrollbar.h"
 #include "llviewerchat.h"
 #include "lltoastpanel.h"
 

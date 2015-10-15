@@ -33,7 +33,6 @@
 
 #include "llfloater.h"
 #include "llpanel.h"
-#include <vector>
 
 class LLAvatarName;
 class LLButton;

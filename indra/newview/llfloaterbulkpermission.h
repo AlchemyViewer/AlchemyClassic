@@ -34,7 +34,8 @@
 #include "lluuid.h"
 
 #include "llfloater.h"
-#include "llscrolllistctrl.h"
+
+class LLScrollListCtrl;
 
 class LLFloaterBulkPermission : public LLFloater, public LLVOInventoryListener
 {

@@ -34,6 +34,7 @@
 // Viewer includes
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llflatlistview.h"
 #include "lljoystickbutton.h"
 #include "llviewercontrol.h"
 #include "llviewercamera.h"

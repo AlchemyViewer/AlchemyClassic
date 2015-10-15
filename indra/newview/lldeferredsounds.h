@@ -27,8 +27,6 @@
 #ifndef LL_LLDEFERREDSOUNDS_H
 #define LL_LLDEFERREDSOUNDS_H
 
-#include "llsingleton.h"
-
 struct SoundData;
 
 class LLDeferredSounds : public LLSingleton<LLDeferredSounds>

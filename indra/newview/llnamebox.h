@@ -30,7 +30,6 @@
 #include <set>
 
 #include "llview.h"
-#include "llstring.h"
 #include "llfontgl.h"
 #include "lltextbox.h"
 

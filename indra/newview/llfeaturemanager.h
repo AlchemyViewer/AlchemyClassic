@@ -27,11 +27,6 @@
 #ifndef LL_LLFEATUREMANAGER_H
 #define LL_LLFEATUREMANAGER_H
 
-#include "stdtypes.h"
-
-#include "llsingleton.h"
-#include "llstring.h"
-
 typedef enum EGPUClass
 {
 	GPU_CLASS_UNKNOWN = -1,

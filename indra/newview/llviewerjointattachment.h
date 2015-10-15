@@ -31,7 +31,6 @@
 // Header Files
 //-----------------------------------------------------------------------------
 #include "llviewerjoint.h"
-#include "llstring.h"
 #include "lluuid.h"
 
 class LLDrawable;

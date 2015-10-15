@@ -27,7 +27,6 @@
 #ifndef LL_LLSCENE_MONITOR_H
 #define LL_LLSCENE_MONITOR_H
 
-#include "llsingleton.h"
 #include "llmath.h"
 #include "llfloater.h"
 #include "llcharacter.h"

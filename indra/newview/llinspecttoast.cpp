@@ -32,6 +32,7 @@
 #include "llscreenchannel.h"
 #include "llchannelmanager.h"
 #include "lltransientfloatermgr.h"
+#include "llviewercontrol.h"
 
 using namespace LLNotificationsUI;
 

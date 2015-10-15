@@ -28,7 +28,6 @@
 #define LL_LLROOTVIEW_H
 
 #include "llview.h"
-#include "lluictrlfactory.h"
 #include "lltooltip.h"
 
 class LLRootViewRegistry : public LLChildRegistry<LLRootViewRegistry>

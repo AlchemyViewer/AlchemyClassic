@@ -64,6 +64,7 @@
 #include "lltrans.h"
 #include "llviewercontrol.h"
 #include "llviewerobjectlist.h"
+#include "llviewermenu.h"		// for handle_zoom_to_object
 #include "llviewermessage.h"	// for handle_lure
 #include "llviewerregion.h"
 #include "lltrans.h"

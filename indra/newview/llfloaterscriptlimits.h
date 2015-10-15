@@ -28,7 +28,6 @@
 #ifndef LL_LLFLOATERSCRIPTLIMITS_H
 #define LL_LLFLOATERSCRIPTLIMITS_H
 
-#include <vector>
 #include "llfloater.h"
 #include "llhost.h"
 #include "llpanel.h"

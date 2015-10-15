@@ -31,9 +31,6 @@
 
 #include <llsd.h>
 
-#include "llsingleton.h"
-#include "llstring.h"
-
 
 LLSD getMarketplaceStringSubstitutions();
 

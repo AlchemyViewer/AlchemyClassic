@@ -29,7 +29,6 @@
 
 #include "llfloater.h"
 #include "lluuid.h"
-#include "llstring.h"
 #include "llavatarappearancedefines.h"
 
 class LLTextureCtrl;

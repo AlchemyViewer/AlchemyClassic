@@ -36,6 +36,8 @@
 #include "llnotifications.h"
 #include "llinstantmessage.h"
 #include "lltooltip.h"
+#include "lltextbox.h"
+#include "llavatariconctrl.h"
 
 #include "llviewerchat.h"
 

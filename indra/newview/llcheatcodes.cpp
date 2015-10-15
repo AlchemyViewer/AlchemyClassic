@@ -36,6 +36,7 @@
 #include "llfloaterreg.h"
 #include "llstatusbar.h"
 #include "lltrans.h"
+#include "llviewermenu.h"
 
 class LLXyzzyHandler : public LLCommandHandler
 {

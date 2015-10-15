@@ -33,6 +33,7 @@
 #include "llpanelmediasettingspermissions.h"
 #include "llviewercontrol.h"
 #include "llbutton.h"
+#include "lltabcontainer.h"
 #include "llselectmgr.h"
 #include "llsdutil.h"
 

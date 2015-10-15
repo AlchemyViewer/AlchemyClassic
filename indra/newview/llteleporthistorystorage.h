@@ -27,9 +27,6 @@
 #ifndef LL_LLTELEPORTHISTORYSTORAGE_H
 #define LL_LLTELEPORTHISTORYSTORAGE_H
 
-#include <vector>
-
-#include "llsingleton.h"
 #include "lldate.h"
 #include "v3dmath.h"
 

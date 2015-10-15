@@ -28,7 +28,6 @@
 #define LL_LLFLOATERREGIONRESTARTING_H
 
 #include "llfloater.h"
-#include "lltextbox.h"
 #include "lleventtimer.h"
 
 class LLFloaterRegionRestarting : public LLFloater,  public LLEventTimer

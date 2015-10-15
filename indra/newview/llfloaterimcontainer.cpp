@@ -55,6 +55,7 @@
 #include "llworld.h"
 #include "llsdserialize.h"
 #include "llviewerobjectlist.h"
+#include "llviewermenu.h"
 
 #include "llfloaterreporter.h"
 

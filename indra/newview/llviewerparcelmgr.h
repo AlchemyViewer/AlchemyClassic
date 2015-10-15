@@ -29,7 +29,6 @@
 
 #include "v3dmath.h"
 #include "llframetimer.h"
-#include "llsingleton.h"
 #include "llparcelselection.h"
 #include "llui.h"
 

@@ -29,12 +29,12 @@
 
 #include "llcallingcard.h"
 #include "llfloater.h"
-#include "lltextbox.h"
 #include "llviewertexture.h"
 
 class LLIconCtrl;
 class LLCheckBoxCtrl;
 class LLSnapshotLivePreview;
+class LLTextBox;
 class LLAvatarList;
 class LLFloaterBigPreview;
 

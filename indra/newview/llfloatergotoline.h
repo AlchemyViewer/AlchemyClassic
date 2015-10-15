@@ -29,10 +29,9 @@
 #define LL_LLFLOATERGOTOLINE_H
 
 #include "llfloater.h"
-#include "lllineeditor.h"
-#include "llpreviewscript.h"
 
 class LLScriptEdCore;
+class LLLineEditor;
 
 class LLFloaterGotoLine : public LLFloater
 {

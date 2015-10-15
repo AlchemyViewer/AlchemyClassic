@@ -59,7 +59,7 @@
 #include "llurlaction.h"
 #include "llviewercontrol.h"
 #include "llviewerobjectlist.h"
-#include "llmutelist.h"
+#include "llviewermenu.h"
 
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 

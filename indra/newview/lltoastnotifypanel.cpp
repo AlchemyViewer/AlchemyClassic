@@ -37,6 +37,7 @@
 #include "llnotifications.h"
 #include "lluiconstants.h"
 #include "llrect.h"
+#include "lltextbase.h"
 #include "lltrans.h"
 #include "llnotificationsutil.h"
 #include "llviewermessage.h"
@@ -308,11 +309,11 @@ void LLToastNotifyPanel::init( LLRect rect, bool show_images )
     // add a caution textbox at the top of a caution notification
     if (mIsCaution && !mIsTip)
     {
-        mTextBox = getChild<LLTextBox>("caution_text_box");
+        mTextBox = getChild<LLTextBase>("caution_text_box");
     }
     else
     {
-        mTextBox = getChild<LLTextEditor>("text_editor_box"); 
+        mTextBox = getChild<LLTextBase>("text_editor_box");
     }
 
     mTextBox->setMaxTextLength(MAX_LENGTH);

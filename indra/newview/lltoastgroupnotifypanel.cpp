@@ -35,6 +35,7 @@
 #include "llinventoryfunctions.h"
 #include "llinventoryicon.h"
 #include "llnotifications.h"
+#include "lltextbox.h"
 #include "llviewertexteditor.h"
 
 #include "llavatarnamecache.h"

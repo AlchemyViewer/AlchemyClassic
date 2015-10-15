@@ -29,7 +29,6 @@
 
 #include "llpathfindingmanager.h"
 #include "llpathfindingnavmesh.h"
-#include "llsingleton.h"
 
 class LLPathfindingNavMeshStatus;
 

@@ -28,7 +28,6 @@
 #ifndef LL_LLTWITTERCONNECT_H
 #define LL_LLTWITTERCONNECT_H
 
-#include "llsingleton.h"
 #include "llimage.h"
 
 class LLEventPump;

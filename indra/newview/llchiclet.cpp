@@ -33,8 +33,8 @@
 #include "llfloaterreg.h"
 #include "lllocalcliprect.h"
 #include "llscriptfloater.h"
-#include "llsingleton.h"
 #include "llsyswellwindow.h"
+#include "llviewermenu.h"
 
 static LLDefaultChildRegistry::Register<LLChicletPanel> t1("chiclet_panel");
 static LLDefaultChildRegistry::Register<LLNotificationChiclet> t2("chiclet_notification");

@@ -28,9 +28,9 @@
 #define LL_LLSYSWELLITEM_H
 
 #include "llpanel.h"
-#include "lltextbox.h"
-#include "llbutton.h"
-#include "lliconctrl.h"
+
+class LLButton;
+class LLTextBox;
 
 class LLSysWellItem : public LLPanel
 {
@@ -47,7 +47,7 @@ public:
 	virtual	~LLSysWellItem();
 
 	// title
-	void setTitle( std::string title );
+	void setTitle( const std::string& title );
 
 	// get item's ID
 	LLUUID getID() { return mID; }

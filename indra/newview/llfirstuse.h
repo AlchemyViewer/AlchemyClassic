@@ -27,9 +27,6 @@
 #ifndef LL_LLFIRSTUSE_H
 #define LL_LLFIRSTUSE_H
 
-#include <vector>
-#include "llstring.h"
-
 /*
 1.  On first use of 'sit here', explain how to get up and rotate view. 
 

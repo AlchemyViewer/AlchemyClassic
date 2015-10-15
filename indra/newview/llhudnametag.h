@@ -38,7 +38,6 @@
 //#include "llframetimer.h"
 #include "llfontgl.h"
 #include <set>
-#include <vector>
 
 class LLDrawable;
 class LLHUDNameTag;

@@ -29,11 +29,10 @@
 
 
 #include "lltoastpanel.h"
-#include "lltextbox.h"
-#include "llbutton.h"
-#include "llavatariconctrl.h"
 
+class LLAvatarIconCtrl;
 class LLGroupIconCtrl;
+class LLTextBox;
 
 class LLToastIMPanel: public LLToastPanel 
 {

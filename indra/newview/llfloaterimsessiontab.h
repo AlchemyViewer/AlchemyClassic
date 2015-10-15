@@ -36,7 +36,6 @@
 #include "llimview.h"
 #include "llconversationmodel.h"
 #include "llconversationview.h"
-#include "lltexteditor.h"
 
 class LLPanelChatControlPanel;
 class LLChatEntry;

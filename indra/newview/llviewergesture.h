@@ -29,7 +29,6 @@
 
 #include "llanimationstates.h"
 #include "lluuid.h"
-#include "llstring.h"
 #include "llgesture.h"
 
 class LLMessageSystem;

@@ -30,7 +30,6 @@
 #include <boost/unordered_map.hpp>
 
 // common includes
-#include "llstring.h"
 #include "lltrace.h"
 
 // project includes

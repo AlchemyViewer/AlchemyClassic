@@ -28,8 +28,6 @@
 #ifndef LL_LLATTACHMENTSMGR_H
 #define LL_LLATTACHMENTSMGR_H
 
-#include "llsingleton.h"
-
 class LLViewerInventoryItem;
 
 //--------------------------------------------------------------------------------

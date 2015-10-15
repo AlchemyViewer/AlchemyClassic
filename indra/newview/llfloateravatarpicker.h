@@ -29,8 +29,6 @@
 
 #include "llfloater.h"
 
-#include <vector>
-
 class LLAvatarName;
 class LLScrollListCtrl;
 

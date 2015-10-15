@@ -28,8 +28,9 @@
 #define LL_LLTOASTPANEL_H
 
 #include "llpanel.h"
-#include "lltextbox.h"
 #include "llnotificationptr.h"
+
+class LLTextBase;
 
 /**
  * Base class for all panels that can be added to the toast.

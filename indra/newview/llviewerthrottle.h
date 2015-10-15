@@ -27,9 +27,6 @@
 #ifndef LL_LLVIEWERTHROTTLE_H
 #define LL_LLVIEWERTHROTTLE_H
 
-#include <vector>
-
-#include "llstring.h"
 #include "llframetimer.h"
 #include "llthrottle.h"
 

@@ -27,9 +27,9 @@
 #ifndef LLFLOATERDEBUGSETTINGS_H
 #define LLFLOATERDEBUGSETTINGS_H
 
-#include "llcontrol.h"
 #include "llfloater.h"
 
+class LLControlVariable;
 class LLColorSwatchCtrl;
 class LLComboBox;
 class LLSpinCtrl;

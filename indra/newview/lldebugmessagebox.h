@@ -30,11 +30,10 @@
 
 #include "llfloater.h"
 #include "v3math.h"
-#include "lltextbox.h"
-#include "llstring.h"
 #include "llframetimer.h"
 
 class LLSliderCtrl;
+class LLTextBox;
 
 //----------------------------------------------------------------------------
 // LLDebugVarMessageBox

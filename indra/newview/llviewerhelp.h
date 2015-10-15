@@ -33,7 +33,6 @@
 // the Help UI floater and how help topics are converted into URLs.
 
 #include "llhelp.h" // our abstract base
-#include "llsingleton.h"
 
 class LLUICtrl;
 

@@ -22,8 +22,6 @@
 #ifndef LLAUTOREPLACE_H
 #define LLAUTOREPLACE_H
 
-#include "lllineeditor.h"
-
 class LLAutoReplace;
 
 /** The configuration data for the LLAutoReplace object

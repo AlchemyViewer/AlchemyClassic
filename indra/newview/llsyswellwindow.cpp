@@ -35,6 +35,7 @@
 #include "llscriptfloater.h"
 #include "llspeakers.h"
 #include "lltoastpanel.h"
+#include "llviewercontrol.h"
 
 //---------------------------------------------------------------------------------
 LLSysWellWindow::LLSysWellWindow(const LLSD& key) : LLTransientDockableFloater(NULL, true,  key),

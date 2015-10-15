@@ -28,12 +28,12 @@
 #define LL_LLFLOATERTWITTER_H
 
 #include "llfloater.h"
-#include "lltextbox.h"
 #include "llviewertexture.h"
 
 class LLIconCtrl;
 class LLCheckBoxCtrl;
 class LLSnapshotLivePreview;
+class LLTextBox;
 class LLFloaterBigPreview;
 
 class LLTwitterPhotoPanel : public LLPanel

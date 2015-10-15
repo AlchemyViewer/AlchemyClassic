@@ -30,9 +30,9 @@
 #include "llfloater.h"
 #include "lliconctrl.h"
 #include "lltextbox.h"
-#include "llflatlistview.h"
-#include "llbutton.h"
 
+class LLButton;
+class LLFlatListView;
 class LLJoystickCameraRotate;
 class LLJoystickCameraTrack;
 class LLFloaterReg;

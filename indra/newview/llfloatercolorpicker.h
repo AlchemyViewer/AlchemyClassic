@@ -27,12 +27,9 @@
 #ifndef LL_LLFLOATERCOLORPICKER_H
 #define LL_LLFLOATERCOLORPICKER_H
 
-#include <vector>
-
 #include "llfloater.h"
 #include "llpointer.h"
 #include "llcolorswatch.h"
-#include "llspinctrl.h"
 
 class LLButton;
 class LLLineEditor;

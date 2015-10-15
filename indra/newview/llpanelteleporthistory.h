@@ -30,7 +30,6 @@
 
 #include "llpanelplacestab.h"
 #include "llteleporthistory.h"
-#include "llmenugl.h"
 
 class LLTeleportHistoryStorage;
 class LLAccordionCtrl;

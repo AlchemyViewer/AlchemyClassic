@@ -29,9 +29,9 @@
 #define LL_LLFLOATERBUMP_H
 
 #include "llfloater.h"
-#include "llmenugl.h"
 
 class LLMeanCollisionData;
+class LLMenuGL;
 class LLScrollListCtrl;
 
 class LLFloaterBump 

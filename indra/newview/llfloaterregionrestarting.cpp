@@ -30,6 +30,7 @@
 
 #include "llfloaterreg.h"
 #include "lluictrl.h"
+#include "lltextbox.h"
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llviewercontrol.h"

@@ -29,7 +29,6 @@
 
 #include "llerror.h"
 #include "llnotificationstorage.h"
-#include "llsingleton.h"
 
 class LLSD;
 

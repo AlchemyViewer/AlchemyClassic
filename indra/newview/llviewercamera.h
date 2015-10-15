@@ -28,7 +28,6 @@
 #define LL_LLVIEWERCAMERA_H
 
 #include "llcamera.h"
-#include "llsingleton.h"
 #include "lltimer.h"
 #include "m4math.h"
 #include "llcoord.h"

@@ -33,9 +33,6 @@
 #include "lleventtimer.h"
 #include "llnotificationptr.h"
 
-#include "llviewercontrol.h"
-#include "lltexteditor.h"
-
 #define MOUSE_LEAVE false
 #define MOUSE_ENTER true
 

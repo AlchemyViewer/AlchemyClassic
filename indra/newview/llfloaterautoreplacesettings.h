@@ -28,11 +28,12 @@
 
 #include "llfloater.h"
 #include "llmediactrl.h"
-#include "llscrolllistctrl.h"
-#include "lllineeditor.h"
 
 #include "llviewerinventory.h"
 #include "llautoreplace.h"
+
+class LLLineEditor;
+class LLScrollListCtrl;
 
 class LLFloaterAutoReplaceSettings : public LLFloater
 {

@@ -28,8 +28,6 @@
 #ifndef LL_LLPANELVOLUMEPULLDOWN_H
 #define LL_LLPANELVOLUMEPULLDOWN_H
 
-#include "linden_common.h"
-
 #include "llpanel.h"
 
 class LLFrameTimer;

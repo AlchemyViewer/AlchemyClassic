@@ -39,8 +39,8 @@
 #include "llnotificationstorage.h"
 #include "llscriptfloater.h"
 #include "llsd.h"
-#include "llsingleton.h"
 #include "lluuid.h"
+#include "llviewercontrol.h"
 
 static const F32 DND_TIMER = 3.0;
 const char * LLDoNotDisturbNotificationStorage::toastName = "IMToast";

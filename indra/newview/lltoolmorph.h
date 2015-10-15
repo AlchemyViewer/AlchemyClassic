@@ -32,10 +32,10 @@
 #include "v2math.h"
 #include "lldynamictexture.h"
 #include "llundo.h"
-#include "lltextbox.h"
 #include "llstrider.h"
 #include "llviewervisualparam.h"
 #include "llframetimer.h"
+#include "lluiimage.h"
 #include "llviewertexture.h"
 
 class LLViewerJointMesh;

@@ -31,7 +31,6 @@
 
 #include "llview.h"
 #include "v4color.h"
-#include "llstring.h"
 #include "llfontgl.h"
 #include "lllineeditor.h"
 

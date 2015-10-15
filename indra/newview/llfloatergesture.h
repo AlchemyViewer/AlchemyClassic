@@ -30,7 +30,6 @@
 
 #ifndef LL_LLFLOATERGESTURE_H
 #define LL_LLFLOATERGESTURE_H
-#include <vector> 
 
 #include "llfloater.h"
 #include "llinventoryobserver.h"

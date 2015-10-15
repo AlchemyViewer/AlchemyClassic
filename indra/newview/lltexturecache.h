@@ -28,8 +28,6 @@
 #define LL_LLTEXTURECACHE_H
 
 #include "lldir.h"
-#include "llstl.h"
-#include "llstring.h"
 #include "lluuid.h"
 
 #include "llworkerthread.h"

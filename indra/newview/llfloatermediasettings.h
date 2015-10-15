@@ -28,11 +28,11 @@
 #define LL_LLFLOATERMEDIASETTINGS_H
 
 #include "llfloater.h"
-#include "lltabcontainer.h"
 
 class LLPanelMediaSettingsGeneral;
 class LLPanelMediaSettingsSecurity;
 class LLPanelMediaSettingsPermissions;
+class LLTabContainer;
 
 class LLFloaterMediaSettings : 
 	public LLFloater

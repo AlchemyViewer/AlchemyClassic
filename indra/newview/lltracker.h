@@ -34,7 +34,6 @@
 #define LL_LLTRACKER_H
 
 #include "llpointer.h"
-#include "llsingleton.h"
 #include "llstring.h"
 #include "lluuid.h"
 #include "v3dmath.h"

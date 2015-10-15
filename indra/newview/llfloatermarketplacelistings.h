@@ -33,11 +33,11 @@
 #include "llinventorypanel.h"
 #include "llnotificationptr.h"
 #include "llmodaldialog.h"
-#include "lltexteditor.h"
 
 class LLInventoryCategoriesObserver;
 class LLInventoryCategoryAddedObserver;
 class LLTextBox;
+class LLTextEditor;
 class LLView;
 class LLFilterEditor;
 

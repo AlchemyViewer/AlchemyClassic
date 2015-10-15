@@ -29,7 +29,6 @@
 
 #include "llfloaternamedesc.h"
 #include "lldynamictexture.h"
-#include "llpointer.h"
 #include "llquaternion.h"
 
 class LLComboBox;

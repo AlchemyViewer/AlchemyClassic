@@ -33,7 +33,6 @@
 #include "llviewertexture.h"
 #include "llui.h"
 #include <list>
-#include <set>
 #include "lluiimage.h"
 
 const U32 LL_IMAGE_REZ_LOSSLESS_CUTOFF = 128;

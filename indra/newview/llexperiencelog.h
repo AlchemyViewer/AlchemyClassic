@@ -29,8 +29,6 @@
 #ifndef LL_LLEXPERIENCELOG_H
 #define LL_LLEXPERIENCELOG_H
 
-#include "llsingleton.h"
-
 class LLExperienceLog : public LLSingleton<LLExperienceLog>
 {
 public:

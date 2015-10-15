@@ -27,7 +27,6 @@
 #ifndef LL_LLSEARCHHISTORY_H
 #define LL_LLSEARCHHISTORY_H
 
-#include "llsingleton.h"
 #include "llui.h"
 
 /**

@@ -27,9 +27,6 @@
 #ifndef LL_LLVIEWERASSETSTATUS_H
 #define	LL_LLVIEWERASSETSTATUS_H
 
-
-#include "linden_common.h"
-
 #include "llpointer.h"
 #include "llrefcount.h"
 #include "llviewerassettype.h"

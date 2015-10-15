@@ -29,7 +29,6 @@
 
 // libs
 #include "llpanel.h"
-#include "llsingleton.h"
 
 // newview
 #include "llinventoryitemslist.h"

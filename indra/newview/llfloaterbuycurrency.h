@@ -27,8 +27,6 @@
 #ifndef LL_LLFLOATERBUYCURRENCY_H
 #define LL_LLFLOATERBUYCURRENCY_H
 
-#include "stdtypes.h"
-
 class LLFloater;
 
 class LLFloaterBuyCurrency

@@ -28,7 +28,6 @@
 #define LL_LLTRANSIENTFLOATERMGR_H
 
 #include "llui.h"
-#include "llsingleton.h"
 #include "llfloater.h"
 
 class LLTransientFloater;

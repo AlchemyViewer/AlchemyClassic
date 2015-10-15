@@ -27,11 +27,6 @@
 #ifndef LLSLURL_H
 #define LLSLURL_H
 
-#include "llstring.h"
-
-
-// represents a location in a grid
-
 class LLSLURL
 {
 public:

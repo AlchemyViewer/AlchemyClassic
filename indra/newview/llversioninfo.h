@@ -28,8 +28,6 @@
 #ifndef LL_LLVERSIONINFO_H
 #define LL_LLVERSIONINFO_H
 
-#include "stdtypes.h"
-
 ///
 /// This API provides version information for the viewer.  This
 /// includes access to the major, minor, patch, and build integer

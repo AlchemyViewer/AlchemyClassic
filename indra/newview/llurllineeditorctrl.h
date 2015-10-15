@@ -27,10 +27,7 @@
 #ifndef LLURLLINEEDITOR_H_
 #define LLURLLINEEDITOR_H_
 
-#include "linden_common.h"
-
 #include "lllineeditor.h"
-#include "lluictrl.h"
 
 // LLURLLineEditor class performing escaping of an URL while copying or cutting the target text
 class LLURLLineEditor: public LLLineEditor {

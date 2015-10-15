@@ -29,7 +29,6 @@
 
 #include "llfloater.h"
 #include "llresizehandle.h"
-#include "llstring.h"
 
 class LLLineEditor;
 class LLButton;

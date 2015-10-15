@@ -30,8 +30,6 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "llsingleton.h"
-
 class fetchKeywordsFileResponder;
 
 class LLSyntaxIdLSL : public LLSingleton<LLSyntaxIdLSL>

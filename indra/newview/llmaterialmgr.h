@@ -29,7 +29,6 @@
 
 #include "llmaterial.h"
 #include "llmaterialid.h"
-#include "llsingleton.h"
 
 class LLViewerRegion;
 

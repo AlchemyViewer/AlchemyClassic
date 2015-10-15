@@ -23,12 +23,12 @@
  * $/LicenseInfo$
  */
 
+#ifndef LLTOASTSCRIPTQUESTION_H_
+#define LLTOASTSCRIPTQUESTION_H_
+
 #include "llviewerprecompiledheaders.h"
 
 #include "lltoastpanel.h"
-
-#ifndef LLTOASTSCRIPTQUESTION_H_
-#define LLTOASTSCRIPTQUESTION_H_
 
 class LLToastScriptQuestion : public LLToastPanel
 {

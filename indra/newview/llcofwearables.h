@@ -28,7 +28,6 @@
 #define LL_LLCOFWEARABLES_H
 
 // llui
-#include "llflatlistview.h"
 #include "llpanel.h"
 
 #include "llappearancemgr.h"
@@ -36,6 +35,7 @@
 
 class LLAccordionCtrl;
 class LLAccordionCtrlTab;
+class LLFlatListView;
 class LLListContextMenu;
 class LLPanelClothingListItem;
 class LLPanelBodyPartsListItem;

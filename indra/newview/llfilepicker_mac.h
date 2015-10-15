@@ -35,7 +35,6 @@
 
 #if LL_DARWIN
 
-#include <string>
 #include <vector>
 
 //void modelessPicker();

@@ -28,8 +28,6 @@
 #ifndef LL_LLURLWHITELIST_H
 #define LL_LLURLWHITELIST_H
 
-#include <list>
-
 class LLUrlWhiteList
 {
 	public:

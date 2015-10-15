@@ -29,8 +29,6 @@
 
 class LLMessageSystem;
 
-#include "llsingleton.h"
-
 /**
  * Contains region info, notifies interested parties of its changes.
  */

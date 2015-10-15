@@ -30,11 +30,7 @@
 #include "llpanel.h"
 #include "llfontgl.h"
 #include "llnotificationptr.h"
-#include "llbutton.h"
 #include "lltoastpanel.h"
-#include "lliconctrl.h"
-#include "lltexteditor.h"
-#include "lltextbox.h"
 
 class LLNotificationForm;
 

@@ -28,13 +28,11 @@
 #define LL_LLFLOATERIMNEARBYCHAT_H
 
 #include "llfloaterimsessiontab.h"
-#include "llcombobox.h"
 #include "llgesturemgr.h"
 #include "llchat.h"
 #include "llvoiceclient.h"
 #include "lloutputmonitorctrl.h"
 #include "llspeakers.h"
-#include "llscrollbar.h"
 #include "llviewerchat.h"
 #include "llpanel.h"
 

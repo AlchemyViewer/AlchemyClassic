@@ -37,7 +37,6 @@
 #include "v3math.h"
 #include "v3dmath.h"
 #include "lldrawpool.h"		// TODO: eliminate, unused below
-#include <list>
 
 class LLViewerCamera;
 class LLFontGL;

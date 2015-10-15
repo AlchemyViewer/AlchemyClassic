@@ -27,8 +27,6 @@
 #ifndef LL_LLLOCATIONHISTORY_H
 #define LL_LLLOCATIONHISTORY_H
 
-#include "llsingleton.h" // for LLSingleton
-
 class LLSD;
 /**
  * This enum is responsible for identifying of history item.

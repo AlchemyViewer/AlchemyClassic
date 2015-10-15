@@ -27,8 +27,6 @@
 #ifndef LL_LLAGENTACCESS_H
 #define LL_LLAGENTACCESS_H
 
-#include "stdtypes.h"
-
 // forward declaration so that we don't have to include the whole class
 class LLControlGroup;
 

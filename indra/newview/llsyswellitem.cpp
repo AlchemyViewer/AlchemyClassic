@@ -29,8 +29,9 @@
 
 #include "llsyswellitem.h"
 
-#include "llwindow.h"
 #include "v4color.h"
+#include "llbutton.h"
+#include "lltextbox.h"
 #include "lluicolortable.h"
 
 //---------------------------------------------------------------------------------
@@ -55,7 +56,7 @@ LLSysWellItem::~LLSysWellItem()
 }
 
 //---------------------------------------------------------------------------------
-void LLSysWellItem::setTitle( std::string title )
+void LLSysWellItem::setTitle( const std::string& title )
 {
 	mTitle->setValue(title);
 }

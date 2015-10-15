@@ -28,10 +28,11 @@
 #ifndef LLPANELLANDMEDIA_H
 #define LLPANELLANDMEDIA_H
 
-#include "lllineeditor.h"
 #include "llpanel.h"
 #include "llparcelselection.h"
 #include "lluifwd.h"	// widget pointer types
+
+class LLLineEditor;
 
 class LLPanelLandMedia
 :	public LLPanel

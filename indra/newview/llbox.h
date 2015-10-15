@@ -27,8 +27,6 @@
 #ifndef LL_LLBOX_H
 #define LL_LLBOX_H
 
-#include "stdtypes.h"
-
 class LLBox
 {
 protected:

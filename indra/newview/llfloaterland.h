@@ -28,9 +28,6 @@
 #ifndef LL_LLFLOATERLAND_H
 #define LL_LLFLOATERLAND_H
 
-#include <set>
-#include <vector>
-
 #include "llfloater.h"
 #include "llpointer.h"	// LLPointer<>
 //#include "llviewertexturelist.h"

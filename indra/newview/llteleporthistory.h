@@ -27,8 +27,6 @@
 #ifndef LL_LLTELEPORTHISTORY_H
 #define LL_LLTELEPORTHISTORY_H
 
-#include "llsingleton.h" // for LLSingleton
-
 #include "llteleporthistorystorage.h"
 
 

@@ -28,8 +28,8 @@
 #define LL_LLCONVERSATIONMODEL_H
 
 #include "llavatarname.h"
-#include "../llui/llfolderviewitem.h"
-#include "../llui/llfolderviewmodel.h"
+#include "llfolderviewitem.h"
+#include "llfolderviewmodel.h"
 #include "llviewerfoldertype.h"
 
 // Implementation of conversations list

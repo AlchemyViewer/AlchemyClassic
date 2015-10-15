@@ -29,6 +29,7 @@
 
 #include "llpanelgenerictip.h"
 #include "llnotifications.h"
+#include "lltextbox.h"
 #include "llviewercontrol.h" // for gSavedSettings
 
 

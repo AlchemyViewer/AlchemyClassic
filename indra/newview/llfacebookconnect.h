@@ -28,7 +28,6 @@
 #ifndef LL_LLFACEBOOKCONNECT_H
 #define LL_LLFACEBOOKCONNECT_H
 
-#include "llsingleton.h"
 #include "llimage.h"
 
 class LLEventPump;

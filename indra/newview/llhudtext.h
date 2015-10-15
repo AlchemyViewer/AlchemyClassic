@@ -36,7 +36,6 @@
 #include "llrect.h"
 #include "llfontgl.h"
 #include <set>
-#include <vector>
 
 // Renders a 2D text billboard floating at the location specified.
 class LLDrawable;

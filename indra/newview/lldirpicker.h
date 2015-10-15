@@ -31,17 +31,12 @@
 #ifndef LL_LLDIRPICKER_H
 #define LL_LLDIRPICKER_H
 
-#include "stdtypes.h"
-
 #if LL_DARWIN
 
 // AssertMacros.h does bad things.
 #undef verify
 #undef check
 #undef require
-
-#include <vector>
-#include "llstring.h"
 
 #endif
 

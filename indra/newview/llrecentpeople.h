@@ -28,7 +28,6 @@
 #define LL_LLRECENTPEOPLE_H
 
 #include "llevent.h"
-#include "llsingleton.h"
 #include "lluuid.h"
 
 class LLDate;

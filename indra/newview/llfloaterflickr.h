@@ -28,12 +28,12 @@
 #define LL_LLFLOATERFLICKR_H
 
 #include "llfloater.h"
-#include "lltextbox.h"
 #include "llviewertexture.h"
 
 class LLIconCtrl;
 class LLCheckBoxCtrl;
 class LLSnapshotLivePreview;
+class LLTextBox;
 class LLFloaterBigPreview;
 
 class LLFlickrPhotoPanel : public LLPanel

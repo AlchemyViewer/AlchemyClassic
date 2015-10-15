@@ -31,7 +31,6 @@
 
 #include "llhttpclient.h"
 #include "llhandle.h"
-#include "llsingleton.h"
 
 class LLMessageSystem;
 class LLRemoteParcelInfoObserver;

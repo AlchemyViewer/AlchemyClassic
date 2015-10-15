@@ -46,6 +46,7 @@
 #include "llviewerstats.h"
 #include "llselectmgr.h"
 #include "llcheckboxctrl.h"
+#include "llscrolllistctrl.h"
 
 #include "roles_constants.h" // for GP_OBJECT_MANIPULATE
 

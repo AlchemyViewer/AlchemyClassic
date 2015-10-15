@@ -27,7 +27,6 @@
 #ifndef LL_OUTFITOBSERVER_H
 #define LL_OUTFITOBSERVER_H
 
-#include "llsingleton.h"
 #include "llmd5.h"
 
 /**

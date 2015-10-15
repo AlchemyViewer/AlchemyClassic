@@ -28,7 +28,6 @@
 #ifndef LL_LLFLOATERREGIONINFO_H
 #define LL_LLFLOATERREGIONINFO_H
 
-#include <vector>
 #include "llassettype.h"
 #include "llfloater.h"
 #include "llhost.h"

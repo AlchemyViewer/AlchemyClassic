@@ -30,7 +30,6 @@
 
 #include "llstyle.h"
 #include "lluuid.h"
-#include "llsingleton.h"
 
 // Lightweight class for holding and managing mappings between UUIDs and links.
 // Used (for example) to create clickable name links off of IM chat.

@@ -27,8 +27,6 @@
 #ifndef LL_LLIMAGEFILTERSMANAGER_H
 #define LL_LLIMAGEFILTERSMANAGER_H
 
-#include "llsingleton.h"
-
 //============================================================================
 // LLImageFiltersManager class
 

@@ -43,7 +43,6 @@
 #include "llpaneleditwearable.h"
 #include "llpaneloutfitsinventory.h"
 #include "lltextbox.h"
-#include "lluictrlfactory.h"
 #include "llviewercontrol.h"
 #include "llviewerregion.h"
 #include "llvoavatarself.h"

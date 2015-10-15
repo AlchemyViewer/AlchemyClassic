@@ -34,7 +34,6 @@
 #include "llgl.h"
 #include "llfontgl.h"
 
-#include "lluictrlfactory.h"
 #include "lltracerecording.h"
 #include "llcriticaldamp.h"
 #include "lltooltip.h"

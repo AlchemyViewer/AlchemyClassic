@@ -68,7 +68,6 @@
 #include "llworldmap.h"
 #include "llworldmapmessage.h"
 #include "llworldmapview.h"
-#include "lluictrlfactory.h"
 #include "llappviewer.h"
 #include "llmapimagetype.h"
 #include "llweb.h"

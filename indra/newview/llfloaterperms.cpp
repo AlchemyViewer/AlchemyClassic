@@ -33,7 +33,6 @@
 #include "llnotificationsutil.h"
 #include "llpermissions.h"
 #include "llsdserialize.h"
-#include "lluictrlfactory.h"
 #include "llviewercontrol.h"
 #include "llviewerregion.h"
 #include "llviewerwindow.h"

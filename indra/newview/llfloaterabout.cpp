@@ -38,7 +38,6 @@
 #include "llnotificationsutil.h"
 #include "llslurl.h"
 #include "llvoiceclient.h"
-#include "lluictrlfactory.h"
 #include "llupdaterservice.h"
 #include "llviewertexteditor.h"
 #include "llviewercontrol.h"

@@ -32,7 +32,6 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llfloaterbuildoptions.h"
-#include "lluictrlfactory.h"
 
 #include "llcombobox.h"
 #include "llselectmgr.h"

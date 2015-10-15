@@ -36,8 +36,6 @@
 #include "llstatusbar.h"
 #include "lltextbox.h"
 #include "llviewchildren.h"
-#include "llviewerwindow.h"
-#include "lluictrlfactory.h"
 #include "llweb.h"
 #include "llwindow.h"
 #include "llappviewer.h"

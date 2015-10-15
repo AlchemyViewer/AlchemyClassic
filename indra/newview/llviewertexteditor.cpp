@@ -55,7 +55,6 @@
 #include "lltooldraganddrop.h"
 #include "lltooltip.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llviewerassettype.h"
 #include "llviewercontrol.h"
 #include "llviewerinventory.h"

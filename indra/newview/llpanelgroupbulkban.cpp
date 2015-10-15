@@ -46,8 +46,6 @@
 #include "lltextbox.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
-#include "lluictrlfactory.h"
-#include "llviewerwindow.h"
 
 LLPanelGroupBulkBan::LLPanelGroupBulkBan(const LLUUID& group_id) : LLPanelGroupBulk(group_id)
 {

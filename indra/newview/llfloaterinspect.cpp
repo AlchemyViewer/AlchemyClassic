@@ -41,9 +41,6 @@
 #include "lltrans.h"
 #include "llviewercontrol.h"
 #include "llviewerobject.h"
-#include "lluictrlfactory.h"
-
-//LLFloaterInspect* LLFloaterInspect::sInstance = NULL;
 
 LLFloaterInspect::LLFloaterInspect(const LLSD& key)
   : LLFloater(key),

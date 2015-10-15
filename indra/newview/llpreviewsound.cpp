@@ -35,7 +35,6 @@
 #include "llresmgr.h"
 #include "llviewercontrol.h"
 #include "llviewermessage.h"  // send_guid_sound_trigger
-#include "lluictrlfactory.h"
 
 extern LLAudioEngine* gAudiop;
 extern LLAgent gAgent;

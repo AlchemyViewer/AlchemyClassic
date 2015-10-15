@@ -39,7 +39,6 @@
 #include "llfiltereditor.h"
 #include "lltabcontainer.h"
 #include "lltoggleablemenu.h"
-#include "lluictrlfactory.h"
 
 #include "llpanelpeople.h"
 

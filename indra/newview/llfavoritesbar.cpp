@@ -33,7 +33,6 @@
 #include "lllandmarkactions.h"
 #include "lltoolbarview.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llmenugl.h"
 #include "lltooltip.h"
 

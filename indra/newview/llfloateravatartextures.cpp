@@ -34,7 +34,6 @@
 #include "llagentwearables.h"
 #include "llviewerwearable.h"
 #include "lltexturectrl.h"
-#include "lluictrlfactory.h"
 #include "llviewerobjectlist.h"
 #include "llvoavatarself.h"
 #include "lllocaltextureobject.h"

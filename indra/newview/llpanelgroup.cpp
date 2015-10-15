@@ -28,13 +28,16 @@
 #include "llpanelgroup.h"
 
 // Library includes
+#include "llaccordionctrltab.h"
+#include "llaccordionctrl.h"
 #include "llbutton.h"
-#include "llfloatersidepanelcontainer.h"
 #include "lltabcontainer.h"
 #include "lltextbox.h"
-#include "lluictrlfactory.h"
+#include "lltrans.h"
 
 // Viewer includes
+#include "llagent.h" 
+#include "llfloatersidepanelcontainer.h"
 #include "llviewermessage.h"
 #include "llviewerwindow.h"
 #include "llappviewer.h"
@@ -43,18 +46,12 @@
 #include "llfloater.h"
 #include "llgroupactions.h"
 
-#include "llagent.h" 
-
 #include "llsidetraypanelcontainer.h"
 
 #include "llpanelgroupnotices.h"
 #include "llpanelgroupgeneral.h"
 #include "llpanelgrouproles.h"
 
-#include "llaccordionctrltab.h"
-#include "llaccordionctrl.h"
-
-#include "lltrans.h"
 
 static LLPanelInjector<LLPanelGroup> t_panel_group("panel_group_info_sidetray");
 

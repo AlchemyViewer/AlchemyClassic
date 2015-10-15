@@ -58,7 +58,6 @@
 #include "llviewercontrol.h"		// gSavedSettings
 #include "llappviewer.h"		// app_abort_quit()
 #include "lllineeditor.h"
-#include "lluictrlfactory.h"
 
 ///----------------------------------------------------------------------------
 /// Class LLPreviewNotecard

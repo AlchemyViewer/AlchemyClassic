@@ -40,7 +40,6 @@
 #include "lltracker.h"
 #include "llviewercamera.h"
 #include "llui.h"
-#include "lluictrlfactory.h"
 
 LLHUDView *gHUDView = NULL;
 

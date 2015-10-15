@@ -49,7 +49,6 @@
 #include "llstatusbar.h"
 #include "llviewercontrol.h"	// gSavedSettings
 #include "llviewertexturelist.h"
-#include "lluictrlfactory.h"
 #include "llvfile.h"
 #include "llvfs.h"
 #include "llviewerinventory.h"

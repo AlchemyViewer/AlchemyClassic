@@ -50,7 +50,6 @@
 #include "lltrans.h"
 #include "lltransactiontypes.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 
 #include "llstatusbar.h"
 #include "llfloaterworldmap.h"

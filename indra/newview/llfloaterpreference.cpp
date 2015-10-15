@@ -109,7 +109,6 @@
 #include "llwindow.h"
 #include "llworld.h"
 #include "pipeline.h"
-#include "lluictrlfactory.h"
 #include "llviewermedia.h"
 #include "llpluginclassmedia.h"
 #include "llteleporthistorystorage.h"

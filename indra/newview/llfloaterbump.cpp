@@ -38,7 +38,6 @@
 #include "llpanelblockedlist.h"
 #include "llscrolllistctrl.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llviewermessage.h"
 #include "llviewermenu.h"
 #include "llviewerobjectlist.h"

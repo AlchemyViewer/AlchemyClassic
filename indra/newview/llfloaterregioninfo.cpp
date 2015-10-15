@@ -78,7 +78,6 @@
 #include "lltexturectrl.h"
 #include "lltrans.h"
 #include "llviewercontrol.h"
-#include "lluictrlfactory.h"
 #include "llviewerinventory.h"
 #include "llviewertexture.h"
 #include "llviewertexturelist.h"

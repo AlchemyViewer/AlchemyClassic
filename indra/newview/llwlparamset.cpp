@@ -31,7 +31,6 @@
 
 #include "llwlparammanager.h"
 #include "llglslshader.h"
-#include "lluictrlfactory.h"
 #include "llsliderctrl.h"
 #include "pipeline.h"
 

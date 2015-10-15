@@ -42,7 +42,6 @@
 #include "llstring.h"
 #include "lltextutil.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llfloaterimsessiontab.h"
 #include "llagent.h"
 #include "llagentui.h"

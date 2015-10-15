@@ -45,8 +45,6 @@
 #include "lltextbox.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
-#include "lluictrlfactory.h"
-#include "llviewerwindow.h"
 
 
 //////////////////////////////////////////////////////////////////////////

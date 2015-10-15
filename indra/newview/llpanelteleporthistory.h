@@ -28,8 +28,6 @@
 #ifndef LL_LLPANELTELEPORTHISTORY_H
 #define LL_LLPANELTELEPORTHISTORY_H
 
-#include "lluictrlfactory.h"
-
 #include "llpanelplacestab.h"
 #include "llteleporthistory.h"
 #include "llmenugl.h"

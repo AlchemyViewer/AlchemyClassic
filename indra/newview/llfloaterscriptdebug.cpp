@@ -29,7 +29,6 @@
 #include "llfloaterscriptdebug.h"
 
 #include "llfloaterreg.h"
-#include "lluictrlfactory.h"
 #include "llfontgl.h"
 #include "llrect.h"
 #include "llerror.h"

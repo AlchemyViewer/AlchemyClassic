@@ -26,7 +26,6 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "lluictrlfactory.h"
 #include "lltextbox.h"
 #include "lllineeditor.h"
 #include "llresmgr.h" // for LLLocale

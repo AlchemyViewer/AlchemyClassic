@@ -36,7 +36,6 @@
 #include "lltrace.h"
 
 // project includes
-#include "lluictrlfactory.h"
 #include "llviewercontrol.h"
 #include "llappviewer.h"
 #include "llviewerjoystick.h"

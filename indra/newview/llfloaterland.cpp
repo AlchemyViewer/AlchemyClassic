@@ -63,7 +63,6 @@
 #include "lltextbox.h"
 #include "lltexturectrl.h"
 #include "lluiconstants.h"
-#include "lluictrlfactory.h"
 #include "llviewertexturelist.h"		// LLUIImageList
 #include "llviewermessage.h"
 #include "llviewerparcelmgr.h"

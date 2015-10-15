@@ -35,8 +35,6 @@
 #include "llkeyframemotion.h"
 #include "llfilepicker.h"
 #include "lllineeditor.h"
-#include "lluictrlfactory.h"
-#include "lluictrlfactory.h"
 
 extern LLAgent gAgent;
 

@@ -88,7 +88,6 @@
 #include "llvograss.h"
 #include "llvotree.h"
 #include "llvovolume.h"
-#include "lluictrlfactory.h"
 #include "llmeshrepository.h"
 
 #include "qtoolalign.h" // <alchemy/>

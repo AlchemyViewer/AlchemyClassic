@@ -28,7 +28,6 @@
 #include "llviewerprecompiledheaders.h"
 #include "llfloaterbeacons.h"
 #include "llviewercontrol.h"
-#include "lluictrlfactory.h"
 #include "llcheckboxctrl.h"
 #include "pipeline.h"
 

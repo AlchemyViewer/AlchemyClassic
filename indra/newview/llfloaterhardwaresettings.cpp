@@ -42,7 +42,6 @@
 
 // Linden library includes
 #include "llradiogroup.h"
-#include "lluictrlfactory.h"
 #include "llwindow.h"
 #include "llsliderctrl.h"
 

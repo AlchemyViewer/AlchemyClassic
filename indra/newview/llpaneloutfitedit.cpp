@@ -64,7 +64,6 @@
 #include "lltextbox.h"
 #include "lltoggleablemenu.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llsdutil.h"
 #include "llsidepanelappearance.h"
 #include "lltoggleablemenu.h"

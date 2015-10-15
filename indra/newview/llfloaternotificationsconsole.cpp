@@ -27,7 +27,6 @@
 #include "llviewerprecompiledheaders.h"
 #include "llfloaternotificationsconsole.h"
 #include "llnotifications.h"
-#include "lluictrlfactory.h"
 #include "llbutton.h"
 #include "llscrolllistctrl.h"
 #include "llscrolllistitem.h"

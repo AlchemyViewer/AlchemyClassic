@@ -50,8 +50,6 @@
 #include "llscrolllistctrl.h"
 #include "llviewerobject.h"
 #include "llviewerregion.h"
-#include "lluictrlfactory.h"
-#include "llviewerwindow.h"
 
 LLFloaterBuyContents::LLFloaterBuyContents(const LLSD& key)
 :	LLFloater(key)

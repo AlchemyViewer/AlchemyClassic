@@ -35,7 +35,6 @@
 #include "llviewerregion.h"
 #include "llviewermedia.h"
 #include "llviewerparcelmedia.h"
-#include "lluictrlfactory.h"
 
 // library includes
 #include "llcheckboxctrl.h"

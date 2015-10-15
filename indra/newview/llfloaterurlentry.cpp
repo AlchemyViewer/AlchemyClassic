@@ -37,7 +37,6 @@
 #include "llmimetypes.h"
 #include "llnotificationsutil.h"
 #include "llurlhistory.h"
-#include "lluictrlfactory.h"
 #include "llwindow.h"
 #include "llviewerwindow.h"
 

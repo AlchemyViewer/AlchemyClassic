@@ -58,8 +58,6 @@
 #include "llviewerwindow.h"
 #include "llgroupactions.h"
 
-#include "lluictrlfactory.h"
-
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Class LLPropertiesObserver

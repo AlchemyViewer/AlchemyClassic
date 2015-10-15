@@ -62,7 +62,6 @@
 #include "llviewermenufile.h"	// upload_new_resource()
 #include "llvoavatar.h"
 #include "pipeline.h"
-#include "lluictrlfactory.h"
 #include "lltrans.h"
 
 const S32 PREVIEW_BORDER_WIDTH = 2;

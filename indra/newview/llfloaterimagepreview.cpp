@@ -49,7 +49,6 @@
 #include "llviewerobjectlist.h"
 #include "llvoavatar.h"
 #include "pipeline.h"
-#include "lluictrlfactory.h"
 #include "llviewershadermgr.h"
 #include "llviewertexturelist.h"
 #include "llstring.h"

@@ -30,7 +30,6 @@
 #include "llsd.h"
 
 #include "llwaterparammanager.h"
-#include "lluictrlfactory.h"
 #include "llsliderctrl.h"
 #include "llviewertexturelist.h"
 #include "llviewercontrol.h"

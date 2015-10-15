@@ -58,7 +58,6 @@
 #include "llviewermenu.h"			// for handle_preferences()
 #include "llviewernetwork.h"
 #include "llviewerwindow.h"			// to link into child list
-#include "lluictrlfactory.h"
 #include "llhttpclient.h"
 #include "llweb.h"
 #include "llmediactrl.h"

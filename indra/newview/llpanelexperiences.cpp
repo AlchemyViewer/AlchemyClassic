@@ -29,7 +29,6 @@
 
 
 #include "llpanelprofile.h"
-#include "lluictrlfactory.h"
 #include "llexperiencecache.h"
 #include "llagent.h"
 

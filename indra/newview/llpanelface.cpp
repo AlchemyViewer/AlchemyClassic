@@ -64,7 +64,6 @@
 #include "llviewerregion.h"
 #include "llviewerstats.h"
 #include "llvovolume.h"
-#include "lluictrlfactory.h"
 #include "llpluginclassmedia.h"
 #include "llviewertexturelist.h"// Update sel manager as to which channel we're editing so it can reflect the correct overlay UI
 

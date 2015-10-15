@@ -17,7 +17,6 @@
 
 #include "llviewerprecompiledheaders.h"
 #include "llfloatermessagebuilder.h"
-#include "lluictrlfactory.h"
 #include "llmessagetemplate.h"
 #include "llagent.h"
 #include "llviewerregion.h" // getHandle

@@ -27,7 +27,6 @@
 #include "llviewerprecompiledheaders.h"
 #include "llfloatersettingsdebug.h"
 #include "llfloater.h"
-#include "lluictrlfactory.h"
 #include "llcombobox.h"
 #include "llspinctrl.h"
 #include "llcolorswatch.h"

@@ -50,7 +50,6 @@
 #include "llbutton.h"
 #include "llselectmgr.h"
 #include "lltransactiontypes.h"
-#include "lluictrlfactory.h"
 
 ///----------------------------------------------------------------------------
 /// Local function declarations, constants, enums, and typedefs

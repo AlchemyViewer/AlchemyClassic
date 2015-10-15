@@ -28,7 +28,6 @@
 
 // libs
 #include "llmenugl.h"
-#include "lluictrlfactory.h"
 
 #include "llpanelpeoplemenus.h"
 

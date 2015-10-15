@@ -32,7 +32,6 @@
 #include "llagent.h"
 #include "lleconomy.h"
 #include "llsdparam.h"
-#include "lluictrlfactory.h"
 #include "roles_constants.h"
 
 // UI elements

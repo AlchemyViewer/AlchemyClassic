@@ -44,7 +44,6 @@
 #include "llbutton.h"
 #include "lldir.h"
 #include "llviewerstats.h"
-#include "lluictrlfactory.h"
 #include "llselectmgr.h"
 #include "llcheckboxctrl.h"
 

@@ -51,8 +51,6 @@
 #include "llviewerinventory.h"
 #include "llviewertexture.h"
 #include "llviewertexturelist.h"
-#include "lluictrlfactory.h"
-#include "llviewerwindow.h"
 #include "lllineeditor.h"
 
 const S32 CLIENT_RECT_VPAD = 4;

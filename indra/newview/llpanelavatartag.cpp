@@ -28,7 +28,6 @@
 
 #include "llpanelavatartag.h"
 
-#include "lluictrlfactory.h"
 #include "llavatariconctrl.h"
 #include "lltextbox.h"
 

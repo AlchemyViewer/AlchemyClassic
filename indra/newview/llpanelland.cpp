@@ -42,8 +42,6 @@
 #include "llviewerwindow.h"
 #include "roles_constants.h"
 
-#include "lluictrlfactory.h"
-
 LLPanelLandSelectObserver* LLPanelLandInfo::sObserver = NULL;
 LLPanelLandInfo* LLPanelLandInfo::sInstance = NULL;
 

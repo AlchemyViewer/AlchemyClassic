@@ -29,7 +29,6 @@
 #include "llagentdata.h"
 #include "llcommandhandler.h"
 #include "llfloater.h"
-#include "lluictrlfactory.h"
 #include "llagent.h"
 #include "llpanel.h"
 #include "llbutton.h"

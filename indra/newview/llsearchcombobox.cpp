@@ -29,7 +29,6 @@
 
 #include "llkeyboard.h"
 #include "lltrans.h"  // for LLTrans::getString()
-#include "lluictrlfactory.h"
 
 static LLDefaultChildRegistry::Register<LLSearchComboBox> r1("search_combo_box");
 

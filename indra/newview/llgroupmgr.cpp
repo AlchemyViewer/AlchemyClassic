@@ -33,7 +33,6 @@
 
 #include "llgroupmgr.h"
 
-#include <vector>
 #include <algorithm>
 
 #include "llappviewer.h"
@@ -49,9 +48,9 @@
 #include "llpanelgroup.h"
 #include "llgroupactions.h"
 #include "llnotificationsutil.h"
-#include "lluictrlfactory.h"
 #include "lltrans.h"
 #include "llviewerregion.h"
+
 #include <boost/regex.hpp>
 #include <boost/format.hpp>
 #include <boost/lexical_cast.hpp>

@@ -44,7 +44,6 @@
 #include "llselectmgr.h"
 #include "llscrolllistctrl.h"
 #include "llviewerobject.h"
-#include "lluictrlfactory.h"
 #include "llviewerwindow.h"
 #include "lltrans.h"
 

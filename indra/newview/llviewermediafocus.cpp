@@ -38,7 +38,6 @@
 #include "llviewercamera.h"
 #include "llviewermedia.h"
 #include "llhudview.h"
-#include "lluictrlfactory.h"
 #include "lldrawable.h"
 #include "llparcel.h"
 #include "llviewerparcelmgr.h"

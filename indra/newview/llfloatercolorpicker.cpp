@@ -45,7 +45,6 @@
 #include "lllineeditor.h"
 #include "v4coloru.h"
 #include "llbutton.h"
-#include "lluictrlfactory.h"
 #include "llgl.h"
 #include "llpointer.h"
 #include "llimage.h"

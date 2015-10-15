@@ -37,7 +37,6 @@
 #include "llfloaterimcontainer.h"
 #include "llfloaterreg.h"
 #include "llgroupiconctrl.h"
-#include "lluictrlfactory.h"
 #include "lltoolbarview.h"
 
 //

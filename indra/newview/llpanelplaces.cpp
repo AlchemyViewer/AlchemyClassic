@@ -45,7 +45,6 @@
 #include "lltabcontainer.h"
 #include "lltexteditor.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 
 #include "llwindow.h"
 

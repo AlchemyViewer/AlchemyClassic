@@ -46,7 +46,6 @@
 #include "lltracker.h"
 #include "lltrans.h"
 #include "llviewercontrol.h"
-#include "lluictrlfactory.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
 #include "llviewerwindow.h"

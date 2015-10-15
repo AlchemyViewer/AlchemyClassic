@@ -34,8 +34,6 @@
 #include "llmediaentry.h"
 #include "llrender.h"
 #include "lldrawable.h"
-#include "llviewerwindow.h"
-#include "lluictrlfactory.h"
 #include "llbutton.h"
 #include "llface.h"
 #include "llcombobox.h"

@@ -33,11 +33,9 @@
 #include "llcheckboxctrl.h"
 #include "llnotificationsutil.h"
 #include "llspinctrl.h"
-#include "lluictrlfactory.h"
 
 // project includes
 #include "llagent.h"
-#include "llviewerwindow.h"
 #include "llviewermedia.h"
 #include "llsdutil.h"
 #include "llselectmgr.h"

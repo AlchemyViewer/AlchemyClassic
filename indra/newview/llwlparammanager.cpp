@@ -36,7 +36,6 @@
 #include "llsliderctrl.h"
 #include "llspinctrl.h"
 #include "llcheckboxctrl.h"
-#include "lluictrlfactory.h"
 #include "llviewercamera.h"
 #include "llcombobox.h"
 #include "lllineeditor.h"

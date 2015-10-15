@@ -71,7 +71,6 @@
 #include "llnotificationsutil.h"
 
 #include "lldrawpool.h"
-#include "lluictrlfactory.h"
 
 // For mesh physics
 #include "llagent.h"

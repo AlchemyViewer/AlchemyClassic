@@ -32,7 +32,6 @@
 #include "llpanelmediasettingssecurity.h"
 #include "llpanelmediasettingspermissions.h"
 #include "llviewercontrol.h"
-#include "lluictrlfactory.h"
 #include "llbutton.h"
 #include "llselectmgr.h"
 #include "llsdutil.h"

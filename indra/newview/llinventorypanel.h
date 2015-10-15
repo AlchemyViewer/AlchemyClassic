@@ -36,7 +36,6 @@
 #include "llinventoryfilter.h"
 #include "llinventorymodel.h"
 #include "llscrollcontainer.h"
-#include "lluictrlfactory.h"
 #include <set>
 
 class LLInvFVBridge;

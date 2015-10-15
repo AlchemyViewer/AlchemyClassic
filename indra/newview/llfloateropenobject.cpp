@@ -47,8 +47,6 @@
 #include "llselectmgr.h"
 #include "lluiconstants.h"
 #include "llviewerobject.h"
-#include "lluictrlfactory.h"
-#include "llviewerwindow.h"
 
 
 LLFloaterOpenObject::LLFloaterOpenObject(const LLSD& key)

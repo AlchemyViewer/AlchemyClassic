@@ -28,7 +28,6 @@
 
 #include "llfloaterlagmeter.h"
 
-#include "lluictrlfactory.h"
 #include "llviewerstats.h"
 #include "llviewertexture.h"
 #include "llviewercontrol.h"

@@ -75,7 +75,6 @@
 #include "lldir.h"
 #include "llselectmgr.h"
 #include "llversioninfo.h"
-#include "lluictrlfactory.h"
 #include "llviewernetwork.h"
 
 #include "llassetuploadresponders.h"

@@ -41,7 +41,6 @@
 #include "lltoolmgr.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
-#include "lluictrlfactory.h"
 
 LLFloaterTelehub::LLFloaterTelehub(const LLSD& key)
 :	LLFloater(key),

@@ -66,7 +66,6 @@
 #include "llworld.h"
 #include "pipeline.h"
 #include "llviewercontrol.h"
-#include "lluictrlfactory.h"
 //#include "llfirstuse.h"
 
 #include "lldrawpool.h"

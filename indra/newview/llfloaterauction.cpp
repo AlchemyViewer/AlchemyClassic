@@ -49,7 +49,6 @@
 #include "llviewertexturelist.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
-#include "lluictrlfactory.h"
 #include "llviewerwindow.h"
 #include "llviewerdisplay.h"
 #include "llviewercontrol.h"

@@ -63,7 +63,6 @@
 #include "llvoavatar.h"
 #include "llvoavatarself.h"
 #include "pipeline.h"
-#include "lluictrlfactory.h"
 #include "llviewercontrol.h"
 #include "llviewermenu.h"
 #include "llviewermenufile.h"

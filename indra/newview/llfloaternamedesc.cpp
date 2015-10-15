@@ -42,8 +42,6 @@
 #include "llfloaterperms.h"
 #include "llviewercontrol.h"
 #include "llviewermenufile.h"	// upload_new_resource()
-#include "lluictrlfactory.h"
-#include "llstring.h"
 #include "lleconomy.h"
 #include "llpermissions.h"
 

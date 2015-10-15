@@ -43,7 +43,6 @@
 #include "llscrolllistctrl.h"
 #include "llstartup.h"
 #include "lltextbox.h"
-#include "lluictrlfactory.h"
 #include "lltrans.h"
 
 using namespace LLOldEvents;

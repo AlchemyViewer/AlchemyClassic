@@ -36,9 +36,6 @@
 #include "llvoiceclient.h"
 #include "llvoicechannel.h"
 
-// Library includes (after viewer)
-#include "lluictrlfactory.h"
-
 
 static LLPanelInjector<LLPanelVoiceDeviceSettings> t_panel_group_general("panel_voice_device_settings");
 static const std::string DEFAULT_DEVICE("Default");

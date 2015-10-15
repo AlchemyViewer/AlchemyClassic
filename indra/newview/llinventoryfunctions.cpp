@@ -78,12 +78,10 @@
 #include "lltabcontainer.h"
 #include "lltooldraganddrop.h"
 #include "lltrans.h"
-#include "lluictrlfactory.h"
 #include "llviewermessage.h"
 #include "llviewerfoldertype.h"
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
-#include "llviewerwindow.h"
 #include "llvoavatarself.h"
 #include "llwearablelist.h"
 

@@ -66,7 +66,6 @@
 #include "llviewermenu.h"	// for gMenuBarView
 #include "llviewerparcelmgr.h"
 #include "llviewerthrottle.h"
-#include "lluictrlfactory.h"
 
 #include "lltoolmgr.h"
 #include "llfocusmgr.h"

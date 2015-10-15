@@ -59,7 +59,6 @@
 #include "llnamebox.h"
 #include "llviewercontrol.h"
 #include "llviewernetwork.h"
-#include "lluictrlfactory.h"
 #include "llspinctrl.h"
 #include "roles_constants.h"
 #include "llgroupactions.h"

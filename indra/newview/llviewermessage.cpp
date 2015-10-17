@@ -4470,6 +4470,14 @@ void process_agent_movement_complete(LLMessageSystem* msg, void**)
 		return;
 	}
 
+	if (!gLastVersionChannel.empty() && gSavedSettings.getBool("ShowSimulatorVersionChange"))
+	{
+		LLSD args;
+		args["OLD_VERSION"] = gLastVersionChannel;
+		args["NEW_VERSION"] = version_channel;
+		LLNotificationsUtil::add("ServerVersionChanged", args);
+	}
+
 	gLastVersionChannel = version_channel;
 }
 

@@ -11039,6 +11039,15 @@ Cannot create large prims that intersect other players.  Please re-try when othe
   </notification>
 
   <notification
+   icon="notifytip.tga"
+   name="ServerVersionChanged"
+   type="notifytip">
+The region you have entered is running a different simulator version.
+Current simulator: [NEW_VERSION]
+Previous simulator: [OLD_VERSION]
+  </notification>
+
+  <notification
    icon="alertmodal.tga"
    name="InvalidGrid"
    type="alertmodal">

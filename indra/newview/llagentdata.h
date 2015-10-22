@@ -30,6 +30,5 @@
 
 extern LLUUID gAgentID;
 extern LLUUID gAgentSessionID;
-extern std::string gAgentUsername;
 
 #endif

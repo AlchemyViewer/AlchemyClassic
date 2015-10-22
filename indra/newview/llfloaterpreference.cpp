@@ -51,7 +51,6 @@
 //#include "llfirstuse.h"
 #include "llfloaterreg.h"
 #include "llfloaterabout.h"
-#include "llfavoritesbar.h"
 #include "llfloaterhardwaresettings.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llfloaterimsession.h"
@@ -2286,7 +2285,9 @@ BOOL LLPanelPreference::postBuild()
 	}
 	if (hasChild("favorites_on_login_check", TRUE))
 	{
-		getChild<LLCheckBoxCtrl>("favorites_on_login_check")->setCommitCallback(boost::bind(&handleFavoritesOnLoginChanged, _1, _2));
+		getChild<LLCheckBoxCtrl>("favorites_on_login_check")->setCommitCallback(boost::bind(&showFavoritesOnLoginWarning, _1, _2));
+		bool show_favorites_at_login = LLPanelLogin::getShowFavorites();
+		getChild<LLCheckBoxCtrl>("favorites_on_login_check")->setValue(show_favorites_at_login);
 	}
 
 	//////////////////////PanelAdvanced ///////////////////
@@ -2369,15 +2370,11 @@ void LLPanelPreference::showFriendsOnlyWarning(LLUICtrl* checkbox, const LLSD& v
 	}
 }
 
-void LLPanelPreference::handleFavoritesOnLoginChanged(LLUICtrl* checkbox, const LLSD& value)
+void LLPanelPreference::showFavoritesOnLoginWarning(LLUICtrl* checkbox, const LLSD& value)
 {
-	if (checkbox)
+	if (checkbox && checkbox->getValue())
 	{
-		LLFavoritesOrderStorage::instance().showFavoritesOnLoginChanged(checkbox->getValue().asBoolean());
-		if(checkbox->getValue())
-		{
-			LLNotificationsUtil::add("FavoritesOnLogin");
-		}
+		LLNotificationsUtil::add("FavoritesOnLogin");
 	}
 }
 

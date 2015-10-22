@@ -250,7 +250,7 @@ private:
 	//for "Only friends and groups can call or IM me"
 	static void showFriendsOnlyWarning(LLUICtrl*, const LLSD&);
 	//for "Show my Favorite Landmarks at Login"
-	static void handleFavoritesOnLoginChanged(LLUICtrl* checkbox, const LLSD& value);
+	static void showFavoritesOnLoginWarning(LLUICtrl* checkbox, const LLSD& value);
 
 	typedef std::map<std::string, LLColor4> string_color_map_t;
 	string_color_map_t mSavedColors;

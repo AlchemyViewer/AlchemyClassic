@@ -1570,7 +1570,7 @@ U64 LLPanelGroupMembersSubTab::getAgentPowersBasedOnRoleChanges(const LLUUID& ag
 		uuid_vec_t roles_to_be_removed;
 
 		for (role_change_data_map_t::iterator role = role_change_datap->begin();
-			 role != role_change_datap->end(); ++ role)
+			 role != role_change_datap->end(); ++role)
 		{
 			if ( role->second == RMC_ADD )
 			{
@@ -2440,7 +2440,7 @@ void LLPanelGroupRolesSubTab::handleActionCheck(LLUICtrl* ctrl, bool force)
 		//////////////////////////////////////////////////////////////////////////
 		// Get role data for both GP_ROLE_REMOVE_MEMBER and GP_MEMBER_EJECT
 		// Add description and role name to LLSD
-		// Pop up dialog saying "Yo, you also granted these other abilities when you did this!"
+		// Pop up dialog saying "You also granted these other abilities when you did this"
 		if ( gdatap->getRoleData(role_id, rd) )
 		{
 			args["ACTION_NAME"] = rap->mDescription;
@@ -2448,10 +2448,9 @@ void LLPanelGroupRolesSubTab::handleActionCheck(LLUICtrl* ctrl, bool force)
 			mHasModal = TRUE;
 			
 			std::vector<LLScrollListItem*> all_data = mAllowedActionsList->getAllData();
-			std::vector<LLScrollListItem*>::iterator ad_it = all_data.begin();
-			std::vector<LLScrollListItem*>::iterator ad_end = all_data.end();
 			LLRoleAction* adp;
-			for( ; ad_it != ad_end; ++ad_it)
+			for(std::vector<LLScrollListItem*>::iterator ad_it = all_data.begin();
+				ad_it != all_data.end(); ++ad_it)
 			{
 				adp = (LLRoleAction*)(*ad_it)->getUserdata();
 				if(adp->mPowerBit == GP_MEMBER_EJECT)
@@ -2492,7 +2491,7 @@ void LLPanelGroupRolesSubTab::handleActionCheck(LLUICtrl* ctrl, bool force)
 		}
 
 		mAllowedActionsList->deleteAllItems();
-		buildActionsList(	mAllowedActionsList,
+		buildActionsList(mAllowedActionsList,
 			current_role_powers,
 			current_role_powers,				
 			boost::bind(&LLPanelGroupRolesSubTab::handleActionCheck, this, _1, false),

@@ -2286,8 +2286,6 @@ BOOL LLPanelPreference::postBuild()
 	if (hasChild("favorites_on_login_check", TRUE))
 	{
 		getChild<LLCheckBoxCtrl>("favorites_on_login_check")->setCommitCallback(boost::bind(&showFavoritesOnLoginWarning, _1, _2));
-		bool show_favorites_at_login = LLPanelLogin::getShowFavorites();
-		getChild<LLCheckBoxCtrl>("favorites_on_login_check")->setValue(show_favorites_at_login);
 	}
 
 	//////////////////////PanelAdvanced ///////////////////

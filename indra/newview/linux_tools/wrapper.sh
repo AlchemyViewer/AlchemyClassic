@@ -34,11 +34,6 @@
 ##   LL_GL_BLACKLIST which solves your problems.
 #export LL_GL_BLACKLIST=abcdefghijklmno
 
-## - Some ATI/Radeon users report random X server crashes when the mouse
-##   cursor changes shape.  If you suspect that you are a victim of this
-##   driver bug, try enabling this option and report whether it helps:
-#export LL_ATI_MOUSE_CURSOR_BUG=x
-
 if [ "`uname -m`" = "x86_64" ]; then
     echo '64-bit Linux detected.'
 fi
@@ -73,13 +68,6 @@ export SDL_VIDEO_X11_DGAMOUSE=0
 if [ "$GTK_IM_MODULE" = "scim" ]; then
     export GTK_IM_MODULE=xim
 fi
-
-## - Automatically work around the ATI mouse cursor crash bug:
-## (this workaround is disabled as most fglrx users do not see the bug)
-#if lsmod | grep fglrx &>/dev/null ; then
-#	export LL_ATI_MOUSE_CURSOR_BUG=x
-#fi
-
 
 ## Nothing worth editing below this line.
 ##-------------------------------------------------------------------

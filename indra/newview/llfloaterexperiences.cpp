@@ -48,7 +48,7 @@ class LLExperienceListResponder : public LLHTTPClient::Responder
 {
 public:
     typedef std::map<std::string, std::string> NameMap;
-	typedef boost::function<void(LLPanelExperiences*, const LLSD&)> Callback;
+	typedef std::function<void(LLPanelExperiences*, const LLSD&)> Callback;
 	LLExperienceListResponder(const LLHandle<LLFloaterExperiences>& parent, NameMap& nameMap, const std::string& errorMessage="ErrorMessage"):mParent(parent),mErrorMessage(errorMessage)
 	{
 		mNameMap.swap(nameMap);
@@ -76,7 +76,7 @@ public:
                 {
                     const LLSD& ids = getContent()[it->first];
                     tab->setExperienceList(ids);
-					if(!mCallback.empty())
+					if(mCallback)
 					{
 						mCallback(tab, getContent());
 					}

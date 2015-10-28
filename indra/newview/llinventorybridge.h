@@ -229,7 +229,7 @@ public:
 				 const LLUUID& uuid) :
 		LLInvFVBridge(inventory, root, uuid) {}
 
-	typedef boost::function<void(std::string& slurl)> slurl_callback_t;
+	typedef std::function<void(std::string& slurl)> slurl_callback_t;
 
 	virtual void performAction(LLInventoryModel* model, std::string action);
 	virtual void selectItem();

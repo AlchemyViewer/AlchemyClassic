@@ -94,8 +94,8 @@ void LLPopupView::draw()
 	LLPanel::draw();
 }
 
-BOOL LLPopupView::handleMouseEvent(boost::function<BOOL(LLView*, S32, S32)> func, 
-								   boost::function<bool(LLView*)> predicate, 
+BOOL LLPopupView::handleMouseEvent(std::function<BOOL(LLView*, S32, S32)> func, 
+								   std::function<bool(LLView*)> predicate, 
 								   S32 x, S32 y,
 								   bool close_popups)
 {

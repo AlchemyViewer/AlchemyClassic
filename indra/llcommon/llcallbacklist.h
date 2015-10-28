@@ -28,7 +28,6 @@
 #define LL_LLCALLBACKLIST_H
 
 #include "llstl.h"
-#include <boost/function.hpp>
 #include <list>
 
 class LLCallbackList
@@ -59,8 +58,8 @@ protected:
 	callback_list_t	mCallbackList;
 };
 
-typedef boost::function<void ()> nullary_func_t;
-typedef boost::function<bool ()> bool_func_t;
+typedef std::function<void ()> nullary_func_t;
+typedef std::function<bool ()> bool_func_t;
 
 // Call a given callable once in idle loop.
 void doOnIdleOneTime(nullary_func_t callable);

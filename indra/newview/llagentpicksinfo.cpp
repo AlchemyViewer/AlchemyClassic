@@ -52,7 +52,7 @@ public:
 		LLAvatarPropertiesProcessor::getInstance()->sendAvatarPicksRequest(gAgent.getID());
 	}
 
-	typedef boost::function<void(LLAvatarPicks*)> server_respond_callback_t;
+	typedef std::function<void(LLAvatarPicks*)> server_respond_callback_t;
 
 	void setServerRespondCallback(const server_respond_callback_t& cb)
 	{

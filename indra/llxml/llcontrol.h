@@ -394,7 +394,7 @@ public:
 	}
 
 	operator const T&() const { return mCachedControlPtr->getValue(); }
-	operator boost::function<const T&()> () const { return boost::function<const T&()>(*this); }
+	operator std::function<const T&()> () const { return std::function<const T&()>(*this); }
 	const T& operator()() { return mCachedControlPtr->getValue(); }
 
 private:

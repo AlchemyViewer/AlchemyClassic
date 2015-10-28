@@ -36,7 +36,6 @@
 #include "llpermissionsflags.h"
 #include "v3dmath.h"
 
-#include <boost/function.hpp>
 #include <boost/signals2.hpp>
 
 extern const BOOL 	ANIMATE;
@@ -237,7 +236,7 @@ public:
 	void changeParcels(); // called by LLViewerParcelMgr when we cross a parcel boundary
 	
 	// Register a boost callback to be called when the agent changes parcels
-	typedef boost::function<void()> parcel_changed_callback_t;
+	typedef std::function<void()> parcel_changed_callback_t;
 	boost::signals2::connection     addParcelChangedCallback(parcel_changed_callback_t);
 
 private:
@@ -734,7 +733,7 @@ public:
 	void			requestEnterGodMode();
 	void			requestLeaveGodMode();
 
-	typedef boost::function<void (U8)>         god_level_change_callback_t;
+	typedef std::function<void (U8)>         god_level_change_callback_t;
 	typedef boost::signals2::signal<void (U8)> god_level_change_signal_t;
 	typedef boost::signals2::connection        god_level_change_slot_t;
 

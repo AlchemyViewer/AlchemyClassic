@@ -66,7 +66,7 @@
 class LLMaterialsResponder : public LLHTTPClient::Responder
 {
 public:
-	typedef boost::function<void (bool, const LLSD&)> CallbackFunction;
+	typedef std::function<void (bool, const LLSD&)> CallbackFunction;
 
 	LLMaterialsResponder(const std::string& pMethod, const std::string& pCapabilityURL, CallbackFunction pCallback);
 	virtual ~LLMaterialsResponder();

@@ -54,7 +54,7 @@
 class LLAvalineUpdater : public LLVoiceClientParticipantObserver
 {
 public:
-	typedef boost::function<void(const LLUUID& speaker_id)> process_avaline_callback_t;
+	typedef std::function<void(const LLUUID& speaker_id)> process_avaline_callback_t;
 
 	LLAvalineUpdater(process_avaline_callback_t found_cb, process_avaline_callback_t removed_cb)
 		: mAvalineFoundCallback(found_cb)

@@ -3641,7 +3641,7 @@ void LLPanelRegionExperiences::processResponse( const LLSD& content )
 class LLRegionExperienceResponder : public LLHTTPClient::Responder
 {
 public:
-	typedef boost::function<void (const LLSD&)> callback_t;
+	typedef std::function<void (const LLSD&)> callback_t;
 
 	callback_t mCallback;
 

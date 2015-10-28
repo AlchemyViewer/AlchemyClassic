@@ -49,7 +49,7 @@ public:
 		kNavMeshRequestError
 	} ENavMeshRequestStatus;
 
-	typedef boost::function<void (ENavMeshRequestStatus, const LLPathfindingNavMeshStatus &, const LLSD::Binary &)>         navmesh_callback_t;
+	typedef std::function<void (ENavMeshRequestStatus, const LLPathfindingNavMeshStatus &, const LLSD::Binary &)>         navmesh_callback_t;
 	typedef boost::signals2::signal<void (ENavMeshRequestStatus, const LLPathfindingNavMeshStatus &, const LLSD::Binary &)> navmesh_signal_t;
 	typedef boost::signals2::connection                                                                                     navmesh_slot_t;
 

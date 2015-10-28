@@ -57,7 +57,7 @@ public:
 		kNavMeshZoneComplete
 	} ENavMeshZoneStatus;
 
-	typedef boost::function<void (ENavMeshZoneRequestStatus)>         navmesh_zone_callback_t;
+	typedef std::function<void (ENavMeshZoneRequestStatus)>         navmesh_zone_callback_t;
 	typedef boost::signals2::signal<void (ENavMeshZoneRequestStatus)> navmesh_zone_signal_t;
 	typedef boost::signals2::connection                               navmesh_zone_slot_t;
 
@@ -76,7 +76,7 @@ public:
 protected:
 
 private:
-	typedef boost::function<void (void)> navmesh_location_callback_t;
+	typedef std::function<void (void)> navmesh_location_callback_t;
 	class NavMeshLocation
 	{
 	public:

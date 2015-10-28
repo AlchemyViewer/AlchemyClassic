@@ -32,7 +32,6 @@
 #include "llrefcount.h"
 #include "llrefcount.h"
 #include "llrect.h"
-#include <boost/function.hpp>
 #include <boost/signals2.hpp>
 #include "llinitparam.h"
 #include "lltexture.h"

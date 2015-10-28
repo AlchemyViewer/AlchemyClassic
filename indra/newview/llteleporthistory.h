@@ -72,7 +72,7 @@ class LLTeleportHistory: public LLSingleton<LLTeleportHistory>
 public:
 	
 	typedef std::vector<LLTeleportHistoryItem>	slurl_list_t;
-	typedef boost::function<void()>				history_callback_t;
+	typedef std::function<void()>				history_callback_t;
 	typedef boost::signals2::signal<void()>		history_signal_t;
 	
 	LLTeleportHistory();

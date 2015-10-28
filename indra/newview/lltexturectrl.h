@@ -42,8 +42,8 @@ class LLInventoryItem;
 class LLViewerFetchedTexture;
 
 // used for setting drag & drop callbacks.
-typedef boost::function<BOOL (LLUICtrl*, LLInventoryItem*)> drag_n_drop_callback;
-typedef boost::function<void (LLInventoryItem*)> texture_selected_callback;
+typedef std::function<BOOL (LLUICtrl*, LLInventoryItem*)> drag_n_drop_callback;
+typedef std::function<void (LLInventoryItem*)> texture_selected_callback;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////

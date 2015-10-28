@@ -32,7 +32,6 @@
 #include "llevents.h"
 #include "stdtypes.h"
 #include "lltimer.h"
-#include <boost/function.hpp>
 
 /**
  * Generic base class
@@ -86,7 +85,7 @@ public:
     LLEventTimeoutBase(LLEventPump& source);
 
     /// Callable, can be constructed with boost::bind()
-    typedef boost::function<void()> Action;
+    typedef std::function<void()> Action;
 
     /**
      * Start countdown timer for the specified number of @a seconds. Forward

@@ -38,7 +38,7 @@ class LLSD;
 class LLAppViewerListener: public LLEventAPI
 {
 public:
-    typedef boost::function<LLAppViewer*(void)> LLAppViewerGetter;
+    typedef std::function<LLAppViewer*(void)> LLAppViewerGetter;
     /// Bind the LLAppViewer instance to use (e.g. LLAppViewer::instance()).
     LLAppViewerListener(const LLAppViewerGetter& getter);
 

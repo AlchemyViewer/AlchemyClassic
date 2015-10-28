@@ -1136,7 +1136,7 @@ public:
 		// So defer moving the item to trash until viewer gets idle (in a moment).
 		// Use removeObject() rather than removeItem() because at this level,
 		// the object could be either an item or a folder.
-		LLAppViewer::instance()->addOnIdleCallback(boost::bind(&LLInventoryModel::removeObject, &gInventory, mObjectID));
+		LLAppViewer::instance()->addOnIdleCallback(std::bind(&LLInventoryModel::removeObject, &gInventory, mObjectID));
 		gInventory.removeObserver(this);
 		delete this;
 	}

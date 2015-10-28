@@ -31,7 +31,6 @@
 #include "llerror.h"
 #include "llpointer.h"
 #include "llrefcount.h"
-#include "boost/function.hpp"
 #include <string>
 
 class LLSD;
@@ -93,7 +92,7 @@ namespace LLError
 		Control functions.
 	*/
 
-	typedef boost::function<void(const std::string&)> FatalFunction;
+	typedef std::function<void(const std::string&)> FatalFunction;
 	LL_COMMON_API void crashAndLoop(const std::string& message);
 		// Default fatal function: access null pointer and loops forever
 

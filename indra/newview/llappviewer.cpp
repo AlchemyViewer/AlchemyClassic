@@ -4314,7 +4314,7 @@ bool LLAppViewer::initCache()
 	}
 }
 
-void LLAppViewer::addOnIdleCallback(const boost::function<void()>& cb)
+void LLAppViewer::addOnIdleCallback(const std::function<void()>& cb)
 {
 	LLDeferredTaskList::instance().addTask(cb);
 }

@@ -281,14 +281,14 @@ void LLParamSDParserUtilities::readSDValues(read_sd_cb_t cb, const LLSD& sd, LLI
 	}
 	else if (sd.isUndefined())
 	{
-		if (!cb.empty())
+		if (cb)
 		{
 			cb(NO_VALUE_MARKER, stack);
 		}
 	}
 	else
 	{
-		if (!cb.empty())
+		if (cb)
 		{
 			cb(sd, stack);
 		}

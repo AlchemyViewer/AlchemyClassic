@@ -29,8 +29,8 @@
 
 #include "lleventdispatcher.h"
 #include <boost/scoped_ptr.hpp>
-#include <boost/function.hpp>
 #include "llsecapi.h"
+
 class LLLogin;
 class LLEventStream;
 class LLNotificationsInterface;
@@ -73,7 +73,7 @@ public:
 	void setNotificationsInterface(LLNotificationsInterface* ni) { mNotifications = ni; }
 	LLNotificationsInterface& getNotificationsInterface() const { return *mNotifications; }
 
-	typedef boost::function<void()> UpdaterLauncherCallback;
+	typedef std::function<void()> UpdaterLauncherCallback;
 	void setUpdaterLauncher(const UpdaterLauncherCallback& ulc) { mUpdaterLauncher = ulc; }
 
 	void setUpdaterService(LLUpdaterService * updaterService) { mUpdaterService = updaterService; }

@@ -36,7 +36,7 @@
 class AISCommand: public LLHTTPClient::Responder
 {
 public:
-	typedef boost::function<void()> command_func_type;
+	typedef std::function<void()> command_func_type;
 
 	AISCommand(LLPointer<LLInventoryCallback> callback);
 

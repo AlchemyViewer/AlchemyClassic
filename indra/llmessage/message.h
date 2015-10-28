@@ -298,8 +298,8 @@ public:
 		return setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
 	}
 
-	boost::signals2::connection	addHandlerFuncFast(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot);
-	boost::signals2::connection	addHandlerFunc(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot)
+	boost::signals2::connection	addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot);
+	boost::signals2::connection	addHandlerFunc(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
 	{
 		return addHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_slot);
 	}

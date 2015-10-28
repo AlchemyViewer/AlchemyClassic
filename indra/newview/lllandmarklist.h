@@ -38,7 +38,7 @@ class LLInventoryItem;
 class LLLandmarkList
 {
 public:
-	typedef boost::function<void(LLLandmark*)> loaded_callback_t;
+	typedef std::function<void(LLLandmark*)> loaded_callback_t;
 
 	LLLandmarkList() {}
 	~LLLandmarkList();

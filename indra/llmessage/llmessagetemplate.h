@@ -367,7 +367,7 @@ public:
 			return boost::signals2::connection();
 	}
 
-	boost::signals2::connection addHandlerFunc(boost::function<void (LLMessageSystem *msgsystem)> handler_slot)
+	boost::signals2::connection addHandlerFunc(std::function<void (LLMessageSystem *msgsystem)> handler_slot)
 	{
 		return mMessageSignal->connect(handler_slot);
 	}

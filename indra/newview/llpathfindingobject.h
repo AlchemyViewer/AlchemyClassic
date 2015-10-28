@@ -56,7 +56,7 @@ public:
 	inline BOOL               isGroupOwned() const   {return mIsGroupOwned;};
 	inline const LLVector3&   getLocation() const    {return mLocation;};
 
-	typedef boost::function<void (const LLPathfindingObject *)>         name_callback_t;
+	typedef std::function<void (const LLPathfindingObject *)>         name_callback_t;
 	typedef boost::signals2::signal<void (const LLPathfindingObject *)> name_signal_t;
 	typedef boost::signals2::connection                                 name_connection_t;
 

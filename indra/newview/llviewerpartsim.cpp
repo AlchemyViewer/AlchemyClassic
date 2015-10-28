@@ -301,7 +301,7 @@ void LLViewerPartGroup::updateParticles(const F32 lastdt)
 		}
 
 		// Do a custom callback if we have one...
-		if (!part->mVPCallback.empty())
+		if (part->mVPCallback)
 		{
 			part->mVPCallback(*part, dt);
 		}

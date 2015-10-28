@@ -59,7 +59,7 @@ public:
 	LLPathfindingPathTool();
 	virtual ~LLPathfindingPathTool();
 
-	typedef boost::function<void (void)>         path_event_callback_t;
+	typedef std::function<void (void)>         path_event_callback_t;
 	typedef boost::signals2::signal<void (void)> path_event_signal_t;
 	typedef boost::signals2::connection          path_event_slot_t;
 

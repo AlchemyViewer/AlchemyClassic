@@ -47,7 +47,6 @@
 #include <boost/optional/optional.hpp>
 #include <boost/visit_each.hpp>
 #include <boost/ref.hpp>            // reference_wrapper
-#include <boost/function.hpp>
 #include <boost/static_assert.hpp>
 #include "llsd.h"
 #include "llsingleton.h"
@@ -263,7 +262,7 @@ namespace LLEventDetail
     /// Any callable capable of connecting an LLEventListener to an
     /// LLStandardSignal to produce an LLBoundListener can be mapped to this
     /// signature.
-    typedef boost::function<LLBoundListener(const LLEventListener&)> ConnectFunc;
+    typedef std::function<LLBoundListener(const LLEventListener&)> ConnectFunc;
 
     /// overload of visit_and_connect() when we have a string identifier available
     template <typename LISTENER>

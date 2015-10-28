@@ -183,7 +183,7 @@ private:
 	namelist_complete_signal_t mNameListCompleteSignal;
 	
 public:
-	boost::signals2::connection setOnNameListCompleteCallback(boost::function<void(bool)> onNameListCompleteCallback) 
+	boost::signals2::connection setOnNameListCompleteCallback(std::function<void(bool)> onNameListCompleteCallback) 
 	{ 
 		return mNameListCompleteSignal.connect(onNameListCompleteCallback); 
 	}

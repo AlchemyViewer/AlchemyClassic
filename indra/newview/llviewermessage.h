@@ -208,7 +208,7 @@ void set_dad_inbox_object(const LLUUID& object_id);
 class LLViewerMessage : public  LLSingleton<LLViewerMessage>
 {
 public:
-	typedef boost::function<void()> teleport_started_callback_t;
+	typedef std::function<void()> teleport_started_callback_t;
 	typedef boost::signals2::signal<void()> teleport_started_signal_t;
 	boost::signals2::connection setTeleportStartedCallback(teleport_started_callback_t cb);
 
@@ -254,7 +254,7 @@ private:
 
 	void initRespondFunctionMap();
 
-	typedef boost::function<bool (const LLSD&, const LLSD&)> respond_function_t;
+	typedef std::function<bool (const LLSD&, const LLSD&)> respond_function_t;
 	typedef std::map<std::string, respond_function_t> respond_function_map_t;
 
 	respond_function_map_t mRespondFunctions;

@@ -35,7 +35,7 @@ class LLPostCard
 	LOG_CLASS(LLPostCard);
 
 public:
-	typedef boost::function<void(bool ok)> result_callback_t;
+	typedef std::function<void(bool ok)> result_callback_t;
 
 	static void send(LLPointer<LLImageFormatted> image, const LLSD& postcard_data);
 	static void setPostResultCallback(result_callback_t cb) { mResultCallback = cb; }

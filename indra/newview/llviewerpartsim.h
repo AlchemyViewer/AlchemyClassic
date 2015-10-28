@@ -48,7 +48,7 @@ class LLVOPartGroup;
 class LLViewerPart : public LLPartData
 {
 public:
-	typedef boost::function<void(LLViewerPart&, const F32)>	vp_callback_t;
+	typedef std::function<void(LLViewerPart&, const F32)>	vp_callback_t;
 	~LLViewerPart();
 public:
 	LLViewerPart();

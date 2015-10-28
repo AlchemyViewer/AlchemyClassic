@@ -35,7 +35,7 @@
 class ExperienceAssociationResponder : public LLHTTPClient::Responder
 {
 public:
-    typedef boost::function<void(const LLSD& experience)> callback_t;
+    typedef std::function<void(const LLSD& experience)> callback_t;
 
     ExperienceAssociationResponder(callback_t callback);
 

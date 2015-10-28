@@ -3003,7 +3003,7 @@ boost::signals2::connection LLMessageSystem::setHandlerFuncFast(const char *name
 	return boost::signals2::connection();//dummy connection. we should never get here.
 }
 
-boost::signals2::connection LLMessageSystem::addHandlerFuncFast(const char *name, boost::function<void (LLMessageSystem *msgsystem)> handler_slot)
+boost::signals2::connection LLMessageSystem::addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
 {
 	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
 	if(msgtemplate)

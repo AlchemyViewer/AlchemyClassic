@@ -81,7 +81,7 @@ public:
 	void add(LLWatchdogEntry* e);
 	void remove(LLWatchdogEntry* e);
 
-	typedef boost::function<void (void)> killer_event_callback;
+	typedef std::function<void (void)> killer_event_callback;
 
 	void init(killer_event_callback func = NULL);
 	void run();

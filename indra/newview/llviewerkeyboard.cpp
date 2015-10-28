@@ -55,7 +55,7 @@ const S32 NUDGE_FRAMES = 2;
 const F32 ORBIT_NUDGE_RATE = 0.05f;  // fraction of normal speed
 
 struct LLKeyboardActionRegistry 
-:	public LLRegistrySingleton<std::string, boost::function<void (EKeystate keystate)>, LLKeyboardActionRegistry>
+:	public LLRegistrySingleton<std::string, std::function<void (EKeystate keystate)>, LLKeyboardActionRegistry>
 {
 };
 
@@ -750,7 +750,7 @@ BOOL LLViewerKeyboard::handleKey(KEY translated_key,  MASK translated_mask, BOOL
 BOOL LLViewerKeyboard::bindKey(const S32 mode, const KEY key, const MASK mask, const std::string& function_name)
 {
 	S32 index;
-	typedef boost::function<void(EKeystate)> function_t;
+	typedef std::function<void(EKeystate)> function_t;
 	function_t function = NULL;
 	std::string name;
 

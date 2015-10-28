@@ -26,7 +26,6 @@
 #ifndef LL_UPDATERSERVICE_H
 #define LL_UPDATERSERVICE_H
 
-#include <boost/function.hpp>
 #include "llhasheduniqueid.h"
 
 class LLUpdaterServiceImpl;
@@ -87,7 +86,7 @@ public:
 	bool isChecking();
 	eUpdaterState getState();
 
-	typedef boost::function<void (void)> app_exit_callback_t;
+	typedef std::function<void (void)> app_exit_callback_t;
 	template <typename F>
 	void setAppExitCallback(F const &callable) 
 	{ 

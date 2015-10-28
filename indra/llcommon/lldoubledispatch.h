@@ -30,7 +30,6 @@
 #define LL_LLDOUBLEDISPATCH_H
 
 #include <list>
-#include <boost/function.hpp>
 #include <boost/bind.hpp>
 
 /**

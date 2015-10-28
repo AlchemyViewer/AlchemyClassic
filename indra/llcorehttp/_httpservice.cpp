@@ -26,8 +26,6 @@
 
 #include "_httpservice.h"
 
-#include <boost/bind.hpp>
-
 #include "_httpoperation.h"
 #include "_httprequestqueue.h"
 #include "_httppolicy.h"
@@ -199,7 +197,7 @@ void HttpService::startThread()
 	mPolicy->start();
 	mTransport->start(mLastPolicy + 1);
 
-	mThread = new LLCoreInt::HttpThread(boost::bind(&HttpService::threadRun, this, _1));
+	mThread = new LLCoreInt::HttpThread(std::bind(&HttpService::threadRun, this, std::placeholders::_1));
 	sState = RUNNING;
 }
 

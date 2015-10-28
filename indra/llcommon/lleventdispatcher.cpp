@@ -449,7 +449,7 @@ struct LLEventDispatcher::ParamsDispatchEntry: public LLEventDispatcher::Dispatc
     virtual void call(const std::string& desc, const LLSD& event) const
     {
         LLSDArgsSource src(desc, event);
-        mInvoker(boost::bind(&LLSDArgsSource::next, boost::ref(src)));
+        mInvoker(std::bind(&LLSDArgsSource::next, std::ref(src)));
     }
 };
 

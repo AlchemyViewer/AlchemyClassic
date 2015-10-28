@@ -58,7 +58,6 @@ static const int& nil(nil_);
 
 #include <string>
 #include <boost/function.hpp>
-#include <boost/bind.hpp>
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/utility/enable_if.hpp>
 #include <boost/function_types/is_nonmember_callable_builtin.hpp>
@@ -424,7 +423,7 @@ struct LLEventDispatcher::invoker
         // Instead of grabbing the first item from argsrc and making an
         // LLSDParam of it, call getter() and pass that as the instance param.
         invoker<Function, next_iter_type, To>::apply
-        ( func, argsrc, boost::fusion::push_back(boost::fusion::nil(), boost::ref(getter())));
+        ( func, argsrc, boost::fusion::push_back(boost::fusion::nil(), std::ref(getter())));
     }
 };
 

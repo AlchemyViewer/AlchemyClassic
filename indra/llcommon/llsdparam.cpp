@@ -30,7 +30,6 @@
 // Project includes
 #include "llsdparam.h"
 #include "llsdutil.h"
-#include "boost/bind.hpp"
 
 static 	LLInitParam::Parser::parser_read_func_map_t sReadFuncs;
 static 	LLInitParam::Parser::parser_write_func_map_t sWriteFuncs;
@@ -46,8 +45,6 @@ LLParamSDParser::LLParamSDParser()
 : Parser(sReadFuncs, sWriteFuncs, sInspectFuncs),
   mCurReadSD(NULL), mWriteRootSD(NULL)
 {
-	using boost::bind;
-
 	if (sReadFuncs.empty())
 	{
 		registerParserFuncs<LLInitParam::Flag>(readFlag, &LLParamSDParser::writeFlag);
@@ -96,11 +93,12 @@ void LLParamSDParser::submit(LLInitParam::BaseBlock& block, const LLSD& sd, LLIn
 
 void LLParamSDParser::readSD(const LLSD& sd, LLInitParam::BaseBlock& block, bool silent)
 {
+	using namespace std::placeholders;
 	mCurReadSD = NULL;
 	mNameStack.clear();
 	setParseSilently(silent);
 
-	LLParamSDParserUtilities::readSDValues(boost::bind(&LLParamSDParser::submit, this, boost::ref(block), _1, _2), sd, mNameStack);
+	LLParamSDParserUtilities::readSDValues(std::bind(&LLParamSDParser::submit, this, std::ref(block), _1, _2), sd, mNameStack);
 	//readSDValues(sd, block);
 }
 
@@ -334,11 +332,12 @@ namespace LLInitParam
 
 	bool ParamValue<LLSD, NOT_BLOCK>::serializeBlock(Parser& p, Parser::name_stack_t& name_stack_range, const predicate_rule_t predicate_rule, const BaseBlock* diff_block) const
 	{
+		using namespace std::placeholders;
 		// attempt to write LLSD out directly
 		if (!p.writeValue<LLSD>(mValue, name_stack_range))
 		{
 			// otherwise read from LLSD value and serialize out to parser (which could be LLSD, XUI, etc)
-			LLParamSDParserUtilities::readSDValues(boost::bind(&serializeElement, boost::ref(p), _1, _2), mValue, name_stack_range);
+			LLParamSDParserUtilities::readSDValues(std::bind(&serializeElement, std::ref(p), _1, _2), mValue, name_stack_range);
 		}
 		return true;
 	}

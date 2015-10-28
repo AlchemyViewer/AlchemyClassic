@@ -31,7 +31,6 @@
 
 #include "glh/glh_linear.h"
 #include "llmatrix4a.h"
-#include <boost/bind.hpp>
 
 std::list<LLModelLoader*> LLModelLoader::sActiveLoaderList;
 
@@ -251,7 +250,7 @@ LLModelLoader::~LLModelLoader()
 void LLModelLoader::run()
 {
 	doLoadModel();
-	doOnIdleOneTime(boost::bind(&LLModelLoader::loadModelCallback,this));
+	doOnIdleOneTime(std::bind(&LLModelLoader::loadModelCallback,this));
 }
 
 bool LLModelLoader::doLoadModel()

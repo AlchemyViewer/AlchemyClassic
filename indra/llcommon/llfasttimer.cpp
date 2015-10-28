@@ -37,7 +37,6 @@
 #include "lltracerecording.h"
 #include "lltracethreadrecorder.h"
 
-#include <boost/bind.hpp>
 #include <queue>
 
 
@@ -53,6 +52,8 @@
 #else 
 #error "architecture not supported"
 #endif
+
+using namespace std::placeholders;
 
 namespace LLTrace
 {
@@ -76,8 +77,8 @@ static std::queue<LLSD> sLogQueue;
 block_timer_tree_df_iterator_t begin_block_timer_tree_df(BlockTimerStatHandle& id) 
 { 
 	return block_timer_tree_df_iterator_t(&id, 
-		boost::bind(boost::mem_fn(&BlockTimerStatHandle::beginChildren), _1), 
-		boost::bind(boost::mem_fn(&BlockTimerStatHandle::endChildren), _1));
+		std::bind(std::mem_fn(&BlockTimerStatHandle::beginChildren), _1),
+		std::bind(std::mem_fn(&BlockTimerStatHandle::endChildren), _1));
 }
 
 block_timer_tree_df_iterator_t end_block_timer_tree_df() 
@@ -88,8 +89,8 @@ block_timer_tree_df_iterator_t end_block_timer_tree_df()
 block_timer_tree_df_post_iterator_t begin_block_timer_tree_df_post(BlockTimerStatHandle& id) 
 { 
 	return block_timer_tree_df_post_iterator_t(&id, 
-							boost::bind(boost::mem_fn(&BlockTimerStatHandle::beginChildren), _1), 
-							boost::bind(boost::mem_fn(&BlockTimerStatHandle::endChildren), _1));
+							std::bind(std::mem_fn(&BlockTimerStatHandle::beginChildren), _1),
+							std::bind(std::mem_fn(&BlockTimerStatHandle::endChildren), _1));
 }
 
 block_timer_tree_df_post_iterator_t end_block_timer_tree_df_post() 
@@ -100,8 +101,8 @@ block_timer_tree_df_post_iterator_t end_block_timer_tree_df_post()
 block_timer_tree_bf_iterator_t begin_block_timer_tree_bf(BlockTimerStatHandle& id)
 { 
 	return block_timer_tree_bf_iterator_t(&id, 
-		boost::bind(boost::mem_fn(&BlockTimerStatHandle::beginChildren), _1), 
-		boost::bind(boost::mem_fn(&BlockTimerStatHandle::endChildren), _1));
+		std::bind(std::mem_fn(&BlockTimerStatHandle::beginChildren), _1), 
+		std::bind(std::mem_fn(&BlockTimerStatHandle::endChildren), _1));
 }
 
 block_timer_tree_bf_iterator_t end_block_timer_tree_bf()
@@ -112,8 +113,8 @@ block_timer_tree_bf_iterator_t end_block_timer_tree_bf()
 block_timer_tree_df_iterator_t begin_timer_tree(BlockTimerStatHandle& id) 
 	{
 	return block_timer_tree_df_iterator_t(&id, 
-		boost::bind(boost::mem_fn(&BlockTimerStatHandle::beginChildren), _1), 
-							boost::bind(boost::mem_fn(&BlockTimerStatHandle::endChildren), _1));
+		std::bind(std::mem_fn(&BlockTimerStatHandle::beginChildren), _1),
+				  std::bind(std::mem_fn(&BlockTimerStatHandle::endChildren), _1));
 	}
 
 block_timer_tree_df_iterator_t end_timer_tree() 

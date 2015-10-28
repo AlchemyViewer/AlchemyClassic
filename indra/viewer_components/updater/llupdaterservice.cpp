@@ -560,7 +560,7 @@ void LLUpdaterServiceImpl::restartTimer(unsigned int seconds)
 	mTimer.start();
 	mTimer.setTimerExpirySec((F32)seconds);
 	LLEventPumps::instance().obtain("mainloop").listen(
-		sListenerName, boost::bind(&LLUpdaterServiceImpl::onMainLoop, this, _1));
+		sListenerName, std::bind(&LLUpdaterServiceImpl::onMainLoop, this, std::placeholders::_1));
 }
 
 void LLUpdaterServiceImpl::setState(LLUpdaterService::eUpdaterState state)

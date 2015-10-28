@@ -35,7 +35,6 @@
 #include "apr_signal.h"
 #include "llevents.h"
 
-#include <boost/bind.hpp>
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/buffers_iterator.hpp>
 #include <iostream>
@@ -82,7 +81,7 @@ public:
 		{
 			LL_DEBUGS("LLProcess") << "listening on \"mainloop\"" << LL_ENDL;
 			mConnection = LLEventPumps::instance().obtain("mainloop")
-				.listen("LLProcessListener", boost::bind(&LLProcessListener::tick, this, _1));
+				.listen("LLProcessListener", std::bind(&LLProcessListener::tick, this, std::placeholders::_1));
 		}
 	}
 
@@ -149,7 +148,7 @@ public:
 	{
 		mConnection = LLEventPumps::instance().obtain("mainloop")
 			.listen(LLEventPump::inventName("WritePipe"),
-					boost::bind(&WritePipeImpl::tick, this, _1));
+					std::bind(&WritePipeImpl::tick, this, std::placeholders::_1));
 
 #if ! LL_WINDOWS
 		// We can't count on every child process reading everything we try to
@@ -267,7 +266,7 @@ public:
 	{
 		mConnection = LLEventPumps::instance().obtain("mainloop")
 			.listen(LLEventPump::inventName("ReadPipe"),
-					boost::bind(&ReadPipeImpl::tick, this, _1));
+					std::bind(&ReadPipeImpl::tick, this, std::placeholders::_1));
 	}
 
 	// Much of the implementation is simply connecting the abstract virtual

@@ -1,7 +1,4 @@
 # -*- cmake -*-
-
-project(win_crash_logger)
-
 include(00-Common)
 include(LLCommon)
 include(LLCrashLogger)

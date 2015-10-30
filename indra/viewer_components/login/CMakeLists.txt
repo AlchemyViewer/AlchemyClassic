@@ -1,7 +1,4 @@
 # -*- cmake -*-
-
-project(login)
-
 include(00-Common)
 if(LL_TESTS)
   include(LLAddBuildTest)

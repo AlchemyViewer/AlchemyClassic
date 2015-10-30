@@ -1,7 +1,4 @@
 # -*- cmake -*-
-
-project(media_plugin_quicktime)
-
 include(00-Common)
 include(LLCommon)
 include(LLImage)

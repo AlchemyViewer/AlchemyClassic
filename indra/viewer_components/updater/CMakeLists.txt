@@ -1,7 +1,4 @@
 # -*- cmake -*-
-
-project(updater_service)
-
 include(00-Common)
 if(LL_TESTS)
   include(LLAddBuildTest)

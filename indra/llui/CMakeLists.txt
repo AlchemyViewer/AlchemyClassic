@@ -1,7 +1,4 @@
 # -*- cmake -*-
-
-project(llui)
-
 include(00-Common)
 include(LLCommon)
 include(LLImage)

@@ -3493,7 +3493,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	// We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
 	static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
 	if (sOSXNotifications
-		&& !chat.mMuted
+		&& !chat.mMuted && !gAgent.isDoNotDisturb()
 		&& (dialog != IM_CONSOLE_AND_CHAT_HISTORY &&
 			dialog != IM_TYPING_START &&
 			dialog != IM_TYPING_STOP))
@@ -3940,7 +3940,8 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 #if LL_DARWIN
 		        // We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
 		        static LLCachedControl<bool> sOSXNotificationsNearby(gSavedSettings, "OSXNotificationCenterNearby", false);
-		        if (sOSXNotificationsNearby && !chat.mMuted)
+		        if (sOSXNotificationsNearby
+					&& !chat.mMuted && !gAgent.isDoNotDisturb())
 		        {
 		            LLOSXNotificationCenter::sendNotification(chat.mFromName,
 															  chat.mText,

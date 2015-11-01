@@ -1,8 +1,8 @@
 /*
- * @file llnotificationcenter.h
- * @brief Mac OSX Notification Center support
+ * @file lldesktopnotificationsnope.cpp
+ * @brief Nil support for desktop notifications
  *
- * Copyright (c) 2014, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2015, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -28,20 +28,10 @@
  *
  */
 
-#ifndef LL_NOTIFICATIONCENTER_H
-#define LL_NOTIFICATIONCENTER_H
+#include "llviewerprecompiledheaders.h"
+#include "lldesktopnotificationsnope.h"
 
-#ifndef LL_DARWIN
-#error "This file should only be included when building for mac!"
-#else
-
-#include <string>
-
-class LLOSXNotificationCenter
+void LLDesktopNotificationsNope::sendNotification(const std::string& title, const std::string& body, bool play_sound)
 {
-public:
-	static void sendNotification(const std::string& title, const std::string& body, bool play_sound);
-};
-
-#endif // LL_DARWIN
-#endif // LL_NOTIFICATIONCENTER_H
+	/* noop */
+}

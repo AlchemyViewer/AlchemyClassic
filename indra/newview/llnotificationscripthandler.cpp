@@ -38,10 +38,7 @@
 #include "llfacebookconnect.h"
 #include "llavatarname.h"
 #include "llavatarnamecache.h"
-
-#if LL_DARWIN
-#include "llosxnotificationcenter.h"
-#endif
+#include "lldesktopnotifications.h"
 
 using namespace LLNotificationsUI;
 
@@ -94,13 +91,11 @@ void LLScriptHandler::addToastWithNotification(const LLNotificationPtr& notifica
 		channel->addToast(p);
 	}
 
-#if LL_DARWIN
-		static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
-		if (sOSXNotifications)
-			LLOSXNotificationCenter::sendNotification(notification->getName(),
-													  notification->getMessage(),
-													  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
-#endif
+	static LLCachedControl<bool> sDesktopNotifications(gSavedSettings, "DesktopNotifications", false);
+	if (sDesktopNotifications)
+		gDesktopNotificationsp->sendNotification(notification->getName(),
+											 	 notification->getMessage(),
+												 gSavedSettings.getBOOL("DesktopNotificationsAudioAlert"));
 }
 
 //--------------------------------------------------------------------------

@@ -63,6 +63,7 @@
 #include "llagentcamera.h"
 #include "llcallingcard.h"
 #include "llbuycurrencyhtml.h"
+#include "lldesktopnotifications.h"
 #include "llfirstuse.h"
 #include "llfloaterbump.h"
 #include "llfloaterbuyland.h"
@@ -128,10 +129,6 @@
 
 #include "llnotificationmanager.h" //
 #include "llexperiencecache.h"
-
-#if LL_DARWIN
-#include "llosxnotificationcenter.h"
-#endif
 
 extern void on_new_message(const LLSD& msg);
 
@@ -3489,20 +3486,17 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		}
 	}
 	
-#if LL_DARWIN
 	// We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
-	static LLCachedControl<bool> sOSXNotifications(gSavedSettings, "OSXNotificationCenter", false);
-	if (sOSXNotifications
+	static LLCachedControl<bool> sDesktopNotifications(gSavedSettings, "DesktopNotifications", false);
+	if (sDesktopNotifications
 		&& !chat.mMuted && !gAgent.isDoNotDisturb()
 		&& (dialog != IM_CONSOLE_AND_CHAT_HISTORY &&
 			dialog != IM_TYPING_START &&
 			dialog != IM_TYPING_STOP))
 	{
-		LLOSXNotificationCenter::sendNotification(chat.mFromName,
-												  message,
-												  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
+		gDesktopNotificationsp->sendNotification(chat.mFromName, message,
+												 gSavedSettings.getBOOL("DesktopNotificationsAudioAlert"));
 	}
-#endif //LL_DARWIN
 }
 
 void send_do_not_disturb_message(LLMessageSystem* msg, const LLUUID& from_id, const LLUUID& session_id)
@@ -3937,17 +3931,14 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 			msg_notify["source_type"] = chat.mSourceType;
 			on_new_message(msg_notify);
 
-#if LL_DARWIN
-		        // We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
-		        static LLCachedControl<bool> sOSXNotificationsNearby(gSavedSettings, "OSXNotificationCenterNearby", false);
-		        if (sOSXNotificationsNearby
-					&& !chat.mMuted && !gAgent.isDoNotDisturb())
-		        {
-		            LLOSXNotificationCenter::sendNotification(chat.mFromName,
-															  chat.mText,
-															  gSavedSettings.getBOOL("OSXNotificationCenterAudioAlert"));
-		        }
-#endif //LL_DARWIN
+			// We handle this here and not in the notify method because of LL/Cocoa BOOL conflict
+			static LLCachedControl<bool> sDesktopNotifications(gSavedSettings, "DesktopNotificationsNearby", false);
+			if (sDesktopNotifications
+				&& !chat.mMuted && !gAgent.isDoNotDisturb())
+			{
+				gDesktopNotificationsp->sendNotification(chat.mFromName, chat.mText,
+										 				 gSavedSettings.getBOOL("DesktopNotificationsAudioAlert"));
+			}
 		}
 	}
 }

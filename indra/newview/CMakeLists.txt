@@ -1798,12 +1798,6 @@ if (WINDOWS)
       ${SHARED_LIB_STAGING_DIR}/Release/openjpeg.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/openjpeg.dll
       ${SHARED_LIB_STAGING_DIR}/Debug/openjpegd.dll
-      ${SHARED_LIB_STAGING_DIR}/Release/msvcr120.dll
-      ${SHARED_LIB_STAGING_DIR}/Release/msvcp120.dll
-      ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/msvcr120.dll
-      ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/msvcp120.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/msvcr120d.dll
-      ${SHARED_LIB_STAGING_DIR}/Debug/msvcp120d.dll
       ${SHARED_LIB_STAGING_DIR}/Release/libhunspell.dll
       ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/libhunspell.dll
       ${SHARED_LIB_STAGING_DIR}/Debug/libhunspell.dll

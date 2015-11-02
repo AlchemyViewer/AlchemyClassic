@@ -36,6 +36,7 @@
 #include "llspeakers.h"
 #include "lltoastpanel.h"
 #include "lltoastnotifypanel.h"
+#include "llviewercontrol.h"
 
 //---------------------------------------------------------------------------------
 LLFloaterNotificationsTabbed::LLFloaterNotificationsTabbed(const LLSD& key) : LLTransientDockableFloater(NULL, true,  key),

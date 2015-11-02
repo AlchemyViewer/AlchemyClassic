@@ -32,8 +32,10 @@
 #include "llfloaterimcontainer.h"
 #include "llfloaterreg.h"
 #include "lllocalcliprect.h"
+#include "llmenugl.h"
 #include "llscriptfloater.h"
 #include "llsyswellwindow.h"
+#include "llviewermenu.h"
 #include "llfloaternotificationstabbed.h"
 
 static LLDefaultChildRegistry::Register<LLChicletPanel> t1("chiclet_panel");

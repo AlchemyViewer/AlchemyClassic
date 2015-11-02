@@ -1556,7 +1556,7 @@ BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EV
 		}
 	}
 
-	SetWindowLongPtr(mWindowHandle, GWLP_USERDATA, (ULONG_PTR)this); // <alchemy/>
+	SetWindowLongPtr(mWindowHandle, GWLP_USERDATA, (LONG_PTR)this); // <alchemy/>
 
 	// register this window as handling drag/drop events from the OS
 	DragAcceptFiles( mWindowHandle, TRUE );

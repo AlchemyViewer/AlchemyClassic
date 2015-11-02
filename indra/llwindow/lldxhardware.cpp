@@ -206,7 +206,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
         return E_FAIL;
 }
 
-void get_wstring(IDxDiagContainer* containerp, WCHAR* wszPropName, WCHAR* wszPropValue, int outputSize)
+void get_wstring(IDxDiagContainer* containerp, const WCHAR* wszPropName, WCHAR* wszPropValue, int outputSize)
 {
 	HRESULT hr;
 	VARIANT var;
@@ -237,7 +237,7 @@ void get_wstring(IDxDiagContainer* containerp, WCHAR* wszPropName, WCHAR* wszPro
 	VariantClear( &var );
 }
 
-std::string get_string(IDxDiagContainer *containerp, WCHAR *wszPropName)
+std::string get_string(IDxDiagContainer *containerp, const WCHAR *wszPropName)
 {
     WCHAR wszPropValue[256];
 	get_wstring(containerp, wszPropName, wszPropValue, 256);

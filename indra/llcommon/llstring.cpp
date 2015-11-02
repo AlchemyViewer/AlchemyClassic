@@ -266,7 +266,6 @@ LLWString utf16str_to_wstring(const llutf16string &utf16str, S32 len)
 	return wout;
 }
 
-
 LLWString utf16str_to_wstring(const llutf16string &utf16str)
 {
 	const S32 len = (S32)utf16str.length();

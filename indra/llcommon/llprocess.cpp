@@ -736,6 +736,11 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 		{
 			mPipes.replace(i, new ReadPipeImpl(desc, pipe, FILESLOT(i)));
 		}
+		// Removed temporaily for Xcode 7 build tests: error was:
+		// "error: expression with side effects will be evaluated despite 
+		// being used as an operand to 'typeid' [-Werror,-Wpotentially-evaluated-expression]""
+		//LL_DEBUGS("LLProcess") << "Instantiating " << typeid(mPipes[i]).name()
+		//					   << "('" << desc << "')" << LL_ENDL;
 	}
 }
 

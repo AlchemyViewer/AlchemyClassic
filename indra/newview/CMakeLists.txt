@@ -1418,6 +1418,9 @@ set_source_files_properties(
 if (DARWIN)
   LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsmacosx.mm)
   LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsmacosx.h)
+elseif (LINUX)
+  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsnotify.cpp)
+  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsnotify.h)
 else ()
 # For platforms not implemented
   LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsnope.cpp)

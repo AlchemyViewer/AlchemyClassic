@@ -1,8 +1,8 @@
 /*
- * @file lldesktopnotifications.cpp
- * @brief Desktop notifications global
+ * @file lldesktopnotificationsnotify.h
+ * @brief libnotify support
  *
- * Copyright (c) 2015, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2015, Luminous Luminos <luminous@alchemyviewer.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -28,18 +28,28 @@
  *
  */
 
-#include "llviewerprecompiledheaders.h"
+#ifndef LL_DESKTOPNOTIFICATIONS_NOTIFY_H
+#define LL_DESKTOPNOTIFICATIONS_NOTIFY_H
+
 #include "lldesktopnotifications.h"
+#include <string>
 
-#if LL_DARWIN
-#import "lldesktopnotificationsmacosx.h"
-LLDesktopNotificationsMacOSX gDesktopNotifications;
-#elif LL_LINUX
-#include "lldesktopnotificationsnotify.h"
-LLDesktopNotificationsNotify gDesktopNotifications;
-#else // Unimplemented platforms
-#include "lldesktopnotifiationsnope.h"
-LLDesktopNotificationsNope gDesktopNotifications;
-#endif
+class LLDesktopNotificationsNotify : public LLDesktopNotifications
+{
+    typedef void  (*notify_init_t)(const char*);
+    typedef void* (*notify_notification_new_t)(const char*, const char*,
+					       const char*);
+    typedef void  (*notify_notification_show_t)(void*, void**);
+    
+public:
+    LLDesktopNotificationsNotify();
+    ~LLDesktopNotificationsNotify();
+    void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
+private:
+    void* handle;
+    notify_init_t notify_init;
+    notify_notification_new_t notify_notification_new;
+    notify_notification_show_t notify_notification_show;
+};
 
-LLDesktopNotifications* gDesktopNotificationsp = (LLDesktopNotifications *)&gDesktopNotifications;
+#endif // LL_DESKTOPNOTIFICATIONS_NOTIFY_H

@@ -1,8 +1,8 @@
 /*
- * @file lldesktopnotifications.cpp
- * @brief Desktop notifications global
+ * @file lldesktopnotificationsnotify.cpp
+ * @brief libnotify support
  *
- * Copyright (c) 2015, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2015, Luminous Luminos <luminous@alchemyviewer.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -27,19 +27,42 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
-
 #include "llviewerprecompiledheaders.h"
-#include "lldesktopnotifications.h"
 
-#if LL_DARWIN
-#import "lldesktopnotificationsmacosx.h"
-LLDesktopNotificationsMacOSX gDesktopNotifications;
-#elif LL_LINUX
 #include "lldesktopnotificationsnotify.h"
-LLDesktopNotificationsNotify gDesktopNotifications;
-#else // Unimplemented platforms
-#include "lldesktopnotifiationsnope.h"
-LLDesktopNotificationsNope gDesktopNotifications;
-#endif
+#include "llfocusmgr.h"
 
-LLDesktopNotifications* gDesktopNotificationsp = (LLDesktopNotifications *)&gDesktopNotifications;
+#include <dlfcn.h>
+#include <glib-object.h>
+
+LLDesktopNotificationsNotify::LLDesktopNotificationsNotify()
+    :handle(NULL),
+     notify_init(NULL),
+     notify_notification_new(NULL),
+     notify_notification_show(NULL)
+{
+    if ((handle = dlopen("libnotify.so.4", RTLD_LAZY)))
+    {
+	notify_init = (notify_init_t) dlsym(handle, "notify_init");
+	notify_notification_new = (notify_notification_new_t) dlsym(handle, "notify_notification_new");
+	notify_notification_show = (notify_notification_show_t) dlsym(handle, "notify_notification_show");
+	notify_init("Alchemy Viewer");
+    }
+}
+
+LLDesktopNotificationsNotify::~LLDesktopNotificationsNotify()
+{
+    dlclose(handle);
+    handle = NULL;
+}
+
+void LLDesktopNotificationsNotify::sendNotification(const std::string& title, const std::string& body, bool play_sound)
+{
+    if (handle && !gFocusMgr.getAppHasFocus())
+    {
+	std::string icon_path = gDirUtilp->getCurPath() + "/alchemy_icon.png";
+	void* notification = notify_notification_new(title.c_str(), body.c_str(), icon_path.c_str());
+	notify_notification_show(notification, NULL);
+	g_object_unref(G_OBJECT(notification));
+    }
+}

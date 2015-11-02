@@ -184,6 +184,7 @@ set(viewer_SOURCE_FILES
     lldebugview.cpp
     lldeferredsounds.cpp
     lldelayedgestureerror.cpp
+    lldesktopnotifications.cpp
     lldirpicker.cpp
     lldndbutton.cpp
     lldonotdisturbnotificationstorage.cpp
@@ -835,6 +836,7 @@ set(viewer_HEADER_FILES
     lldebugview.h
     lldeferredsounds.h
     lldelayedgestureerror.h
+    lldesktopnotifications.h
     lldirpicker.h
     lldndbutton.h
     lldonotdisturbnotificationstorage.h
@@ -1417,6 +1419,18 @@ set_source_files_properties(
    )
 
 if (DARWIN)
+  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsmacosx.mm)
+  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsmacosx.h)
+elseif (LINUX)
+  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsnotify.cpp)
+  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsnotify.h)
+else ()
+# For platforms not implemented
+  LIST(APPEND viewer_SOURCE_FILES lldesktopnotificationsnope.cpp)
+  LIST(APPEND viewer_HEADER_FILES lldesktopnotificationsnope.h)
+endif ()
+
+if (DARWIN)
   LIST(APPEND viewer_SOURCE_FILES llappviewermacosx.cpp)
   LIST(APPEND viewer_SOURCE_FILES llappviewermacosx-objc.mm)
   LIST(APPEND viewer_HEADER_FILES llappviewermacosx-objc.h)
@@ -1425,10 +1439,6 @@ if (DARWIN)
 
   # This should be compiled with the viewer.
   LIST(APPEND viewer_SOURCE_FILES llappdelegate-objc.mm)
-  
-  #OSX 10.8 Notification Center
-  LIST(APPEND viewer_SOURCE_FILES llosxnotificationcenter.mm)
-  LIST(APPEND viewer_HEADER_FILES llosxnotificationcenter.h)
 
   find_library(AGL_LIBRARY AGL)
   find_library(APPKIT_LIBRARY AppKit)

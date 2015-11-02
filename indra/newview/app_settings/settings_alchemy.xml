@@ -972,10 +972,10 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>OSXNotificationCenter</key>
+    <key>DesktopNotifications</key>
     <map>
       <key>Comment</key>
-      <string>OSX Notification Center alerts</string>
+      <string>Desktop notification alerts</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -983,10 +983,10 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>OSXNotificationCenterNearby</key>
+    <key>DesktopNotificationsNearby</key>
     <map>
       <key>Comment</key>
-      <string>OSX Notification Center alerts for nearby chat</string>
+      <string>Desktop notification alerts for nearby chat</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -994,7 +994,7 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>OSXNotificationCenterAudioAlert</key>
+    <key>DesktopNotificationsAudioAlert</key>
       <map>
       <key>Comment</key>
       <string>Enable for Notification Center to play a sound with the alert</string>

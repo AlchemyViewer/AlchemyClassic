@@ -401,6 +401,7 @@ bool LLPanelProfileLegacy::isActionEnabled(const LLSD& userdata)
 
 void LLPanelProfileLegacy::onCommitAvatarProperties()
 {
+	if (getAvatarId() != gAgentID) return;
 	LLAvatarData data = LLAvatarData();
 	
 	data.avatar_id = gAgentID;
@@ -416,6 +417,7 @@ void LLPanelProfileLegacy::onCommitAvatarProperties()
 
 void LLPanelProfileLegacy::onCommitInterest()
 {
+	if (getAvatarId() != gAgentID) return;
 	LLAvatarInterests data = LLAvatarInterests();
 	
 	data.want_to_mask = 0x0;

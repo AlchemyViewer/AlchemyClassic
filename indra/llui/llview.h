@@ -50,7 +50,6 @@
 
 #include <list>
 #include <boost/function.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/unordered_map.hpp> // <alchemy/>
 
 class LLSD;
@@ -629,7 +628,7 @@ public:
 	//     LLView::TemporaryDrilldownFunc scoped_func(myfunctor);
 	//     // ... test with myfunctor ...
 	// } // exiting block restores original LLView::sDrilldown
-	class TemporaryDrilldownFunc: public boost::noncopyable
+	class TemporaryDrilldownFunc
 	{
 	public:
 		TemporaryDrilldownFunc(const DrilldownFunc& func):
@@ -642,6 +641,9 @@ public:
 		{
 			sDrilldown = mOldDrilldown;
 		}
+		
+		TemporaryDrilldownFunc(const TemporaryDrilldownFunc&) = delete;
+		TemporaryDrilldownFunc& operator=(const TemporaryDrilldownFunc&) = delete;
 
 	private:
 		DrilldownFunc mOldDrilldown;

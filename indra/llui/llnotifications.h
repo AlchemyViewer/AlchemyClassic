@@ -285,8 +285,7 @@ typedef std::shared_ptr<LLNotificationVisibilityRule> LLNotificationVisibilityRu
  * a smart pointer from a notification, we'll always get the same
  * shared pointer.
  */
-class LLNotification  : 
-	boost::noncopyable,
+class LLNotification  :
 	public std::enable_shared_from_this<LLNotification>
 {
 LOG_CLASS(LLNotification);
@@ -411,6 +410,9 @@ private:
 
 public:
 	LLNotification(const LLSDParamAdapter<Params>& p);
+	
+	LLNotification(const LLNotification&) = delete;
+	LLNotification& operator=(const LLNotification&) = delete;
 
 	void setResponseFunctor(std::string const &responseFunctorName);
 
@@ -805,10 +807,9 @@ typedef boost::intrusive_ptr<LLNotificationChannel> LLNotificationChannelPtr;
 // manages a list of notifications
 // Note that if this is ever copied around, we might find ourselves with multiple copies
 // of a queue with notifications being added to different nonequivalent copies. So we 
-// make it inherit from boost::noncopyable, and then create a map of LLPointer to manage it.
+// make it noncopyable, and then create a map of LLPointer to manage it.
 //
-class LLNotificationChannel : 
-	boost::noncopyable, 
+class LLNotificationChannel :
 	public LLNotificationChannelBase,
 	public LLInstanceTracker<LLNotificationChannel, std::string>
 {
@@ -830,6 +831,9 @@ public:
 
 	virtual ~LLNotificationChannel() {}
 	typedef LLNotificationSet::iterator Iterator;
+	
+	LLNotificationChannel(const LLNotificationChannel&) = delete;
+	LLNotificationChannel& operator=(const LLNotificationChannel&) = delete;
     
 	std::string getName() const { return mName; }
 	typedef std::vector<std::string>::const_iterator parents_iter;

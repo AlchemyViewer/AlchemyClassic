@@ -53,7 +53,6 @@
 
 #include <boost/regex.hpp>
 #include <boost/format.hpp>
-#include <boost/lexical_cast.hpp>
 
 
 const U32 MAX_CACHED_GROUPS = 20;
@@ -924,9 +923,9 @@ static void formatDateString(std::string &date_string)
 	if (regex_match(date_string.c_str(), result, expression))
 	{
 		// convert matches to integers so that we can pad them with zeroes on Linux
-		S32 year	= boost::lexical_cast<S32>(result[3]);
-		S32 month	= boost::lexical_cast<S32>(result[1]);
-		S32 day		= boost::lexical_cast<S32>(result[2]);
+		S32 year	= std::stoi(result[3]);
+		S32 month	= std::stoi(result[1]);
+		S32 day		= std::stoi(result[2]);
 
 		// ISO 8601 date format
 		date_string = (boost::format("%1%/%2%/%3%") % year % month % day).str();

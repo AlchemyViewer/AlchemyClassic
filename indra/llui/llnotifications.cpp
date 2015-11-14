@@ -44,7 +44,6 @@
 #include "llsdutil.h"
 
 #include <algorithm>
-#include <boost/regex.hpp>
 
 
 const std::string NOTIFICATION_PERSIST_VERSION = "0.93";

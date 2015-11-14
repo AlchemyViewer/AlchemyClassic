@@ -52,7 +52,7 @@
 #include "llviewerparcelmgr.h"
 #include "llviewernetwork.h"
 #include "llviewerregion.h"
-#include <regex>
+#include <boost/regex.hpp>
 
 static LLPanelInjector<LLFlickrPhotoPanel> t_panel_photo("llflickrphotopanel");
 static LLPanelInjector<LLFlickrAccountPanel> t_panel_account("llflickraccountpanel");
@@ -341,9 +341,9 @@ void LLFlickrPhotoPanel::sendPhoto()
 		std::string parcel_name = LLViewerParcelMgr::getInstance()->getAgentParcelName();
 		if (!parcel_name.empty())
 		{
-			std::regex pattern = std::regex("\\S\\.[a-zA-Z]{2,}");
-			std::match_results<std::string::const_iterator> matches;
-			if(!std::regex_search(parcel_name, matches, pattern))
+			static const boost::regex pattern = boost::regex("\\S\\.[a-zA-Z]{2,}");
+			boost::match_results<std::string::const_iterator> matches;
+			if(!boost::regex_search(parcel_name, matches, pattern))
 			{
 				photo_link_text += " at " + parcel_name;
 			}

@@ -1813,7 +1813,7 @@ void create_new_item(const std::string& name,
 	LLViewerAssetType::generateDescriptionFor(asset_type, desc);
 	next_owner_perm = (next_owner_perm) ? next_owner_perm : PERM_MOVE | PERM_TRANSFER;
 
-	LLPointer<LLInventoryCallback> cb = NULL;
+	LLPointer<LLInventoryCallback> cb = nullptr;
 
 	switch (inv_type)
 	{

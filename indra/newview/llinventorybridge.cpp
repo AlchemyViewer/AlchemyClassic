@@ -2746,7 +2746,7 @@ BOOL LLFolderBridge::dragCategoryIntoFolder(LLInventoryCategory* inv_cat,
                     if (version_folder_id.notNull())
                     {
                         LLViewerInventoryCategory* cat = gInventory.getCategory(version_folder_id);
-                        if (!validate_marketplacelistings(cat,NULL))
+                        if (!validate_marketplacelistings(cat, nullptr))
                         {
                             LLMarketplaceData::instance().activateListing(version_folder_id,false);
                         }
@@ -4525,7 +4525,7 @@ void LLFolderBridge::dropToOutfit(LLInventoryItem* inv_item, BOOL move_is_into_c
 	}
 	else
 	{
-		LLPointer<LLInventoryCallback> cb = NULL;
+		LLPointer<LLInventoryCallback> cb = nullptr;
 		link_inventory_object(mUUID, LLConstPointer<LLInventoryObject>(inv_item), cb);
 	}
 }
@@ -4798,7 +4798,7 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
                 if (version_folder_id.notNull())
                 {
                     LLViewerInventoryCategory* cat = gInventory.getCategory(version_folder_id);
-                    if (!validate_marketplacelistings(cat,NULL))
+                    if (!validate_marketplacelistings(cat, nullptr))
                     {
                         LLMarketplaceData::instance().activateListing(version_folder_id,false);
                     }

@@ -450,7 +450,7 @@ private:
 class LLTrackPhaseWrapper : public LLInventoryCallback
 {
 public:
-	LLTrackPhaseWrapper(const std::string& phase_name, LLPointer<LLInventoryCallback> cb = NULL):
+	LLTrackPhaseWrapper(const std::string& phase_name, LLPointer<LLInventoryCallback> cb = nullptr):
 		mTrackingPhase(phase_name),
 		mCB(cb)
 	{
@@ -4217,7 +4217,7 @@ void wear_multiple(const uuid_vec_t& ids, bool replace)
     S32 other_count = 0;
     add_wearable_type_counts(ids, clothing_count, bodypart_count, object_count, other_count);
 
-    LLPointer<LLInventoryCallback> cb = NULL;
+    LLPointer<LLInventoryCallback> cb = nullptr;
     if (clothing_count > 0 || bodypart_count > 0)
     {
         cb = new LLUpdateAppearanceOnDestroy;

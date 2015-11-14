@@ -28,6 +28,8 @@
 
 #include "llhasheduniqueid.h"
 
+#include <functional>
+
 class LLUpdaterServiceImpl;
 
 class LLUpdaterService

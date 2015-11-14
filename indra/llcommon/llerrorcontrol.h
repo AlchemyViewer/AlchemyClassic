@@ -32,6 +32,7 @@
 #include "llpointer.h"
 #include "llrefcount.h"
 #include <string>
+#include <functional>
 
 class LLSD;
 

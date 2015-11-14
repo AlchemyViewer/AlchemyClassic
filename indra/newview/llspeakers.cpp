@@ -191,7 +191,7 @@ BOOL LLSpeakerActionTimer::tick()
 
 void LLSpeakerActionTimer::unset()
 {
-	mActionCallback = 0;
+	mActionCallback = nullptr;
 }
 
 LLSpeakersDelayActionsStorage::LLSpeakersDelayActionsStorage(LLSpeakerActionTimer::action_callback_t action_cb, F32 action_delay)

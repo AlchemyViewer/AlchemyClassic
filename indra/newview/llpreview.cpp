@@ -407,7 +407,7 @@ void LLPreview::onBtnCopyToInv(void* userdata)
 		}
 		else
 		{
-			LLPointer<LLInventoryCallback> cb = NULL;
+			LLPointer<LLInventoryCallback> cb = nullptr;
 			copy_inventory_item(
 				gAgent.getID(),
 				item->getPermissions().getOwner(),

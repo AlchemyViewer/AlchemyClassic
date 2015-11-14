@@ -38,7 +38,7 @@ LLDesktopNotificationsMacOSX gDesktopNotifications;
 #include "lldesktopnotificationsnotify.h"
 LLDesktopNotificationsNotify gDesktopNotifications;
 #else // Unimplemented platforms
-#include "lldesktopnotifiationsnope.h"
+#include "lldesktopnotificationsnope.h"
 LLDesktopNotificationsNope gDesktopNotifications;
 #endif
 

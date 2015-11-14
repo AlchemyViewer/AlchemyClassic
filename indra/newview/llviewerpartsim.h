@@ -53,7 +53,7 @@ public:
 public:
 	LLViewerPart();
 
-	void init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, vp_callback_t cb = 0);
+	void init(LLPointer<LLViewerPartSource> sourcep, LLViewerTexture *imagep, vp_callback_t cb = nullptr);
 
 
 	U32					mPartID;					// Particle ID used primarily for moving between groups

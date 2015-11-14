@@ -35,7 +35,7 @@
 #include "llviewervisualparam.h"
 #include "llxmltree.h"
 
-#include <boost/unordered_map.hpp> // <alchemy/>
+#include <boost/container/flat_map.hpp> // <alchemy/>
 
 class LLTexLayerSet;
 class LLTexGlobalColor;
@@ -136,7 +136,7 @@ public:
 	LLVector3			mHeadOffset; // current head position
 	LLAvatarJoint		*mRoot;
 
-	typedef boost::unordered_map<std::string, LLJoint*> joint_map_t; // <alchemy/> - Hashmap
+	typedef boost::container::flat_map<std::string, LLJoint*> joint_map_t; // <alchemy/> - flat_map
 	joint_map_t			mJointMap;
 	
 	void		computeBodySize();

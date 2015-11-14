@@ -306,8 +306,8 @@ F64 LLWLAnimator::getLocalTime()
 	strftime(buffer, 9, "%H:%M:%S", timeinfo);
 	std::string timeStr(buffer);
 
-	F64 tod = (std::stod(timeStr.substr(0,2).c_str())) / 24.f +
-			  (std::stod(timeStr.substr(3,2).c_str())) / 1440.f +
-			  (std::stod(timeStr.substr(6,2).c_str())) / 86400.f;
+	F64 tod = (std::stod(timeStr.substr(0,2))) / 24.f +
+			  (std::stod(timeStr.substr(3,2))) / 1440.f +
+			  (std::stod(timeStr.substr(6,2))) / 86400.f;
 	return tod;
 }

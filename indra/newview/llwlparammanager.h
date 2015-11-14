@@ -146,7 +146,7 @@ public:
 		if (len > 0)
 		{
 			name = stringVal.substr(0, len - 1);
-			scope = (EScope) atoi(stringVal.substr(len - 1, len).c_str());
+			scope = static_cast<EScope>(std::stoi(stringVal.substr(len - 1, len)));
 		}
 	}
 

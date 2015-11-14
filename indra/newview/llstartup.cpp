@@ -3550,9 +3550,21 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 		std::string max_agent_groups(response.has("max_groups")
 									 ? response["max_groups"]
 									 : response["max-agent-groups"]);
-		gMaxAgentGroups = atoi(max_agent_groups.c_str());
-		LL_INFOS("LLStartup") << "gMaxAgentGroups read from login.cgi: "
-							  << gMaxAgentGroups << LL_ENDL;
+		try
+		{
+			gMaxAgentGroups = std::stoi(max_agent_groups);
+			LL_INFOS("LLStartup") << "gMaxAgentGroups read from login.cgi: " << gMaxAgentGroups << LL_ENDL;
+		}
+		catch (const std::invalid_argument&)
+		{
+			gMaxAgentGroups = DEFAULT_MAX_AGENT_GROUPS;
+			LL_WARNS("LLStartup") << "max-agent-groups '" << max_agent_groups << "' is not a valid integer. Using default" << LL_ENDL;
+		}
+		catch (const std::out_of_range&)
+		{
+			gMaxAgentGroups = DEFAULT_MAX_AGENT_GROUPS;
+			LL_WARNS("LLStartup") << "max-agent-groups '" << max_agent_groups << "' is out of range. Using default" << LL_ENDL;
+		}
 	}
 	else
 	{

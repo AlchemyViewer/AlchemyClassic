@@ -96,8 +96,8 @@ BOOL LLNotificationListItem::postBuild()
     std::string expanded_height_str = getString("item_expanded_height");
     std::string condensed_height_str = getString("item_condensed_height");
 
-    mExpandedHeight = (S32)atoi(expanded_height_str.c_str());
-    mCondensedHeight = (S32)atoi(condensed_height_str.c_str());
+	mExpandedHeight = std::stoi(expanded_height_str);
+	mCondensedHeight = std::stoi(condensed_height_str);
     
     setExpanded(FALSE);
 
@@ -301,7 +301,7 @@ BOOL LLGroupInviteNotificationListItem::postBuild()
     mInfoBtn->setClickedCallback(boost::bind(&LLGroupInviteNotificationListItem::onClickInfoBtn,this));
 
     std::string expanded_height_resize_str = getString("expanded_height_resize_for_attachment");
-    mExpandedHeightResize = (S32)atoi(expanded_height_resize_str.c_str());
+	mExpandedHeightResize = std::stoi(expanded_height_resize_str);
 
     return rv;
 }
@@ -426,7 +426,7 @@ BOOL LLGroupNoticeNotificationListItem::postBuild()
             &LLGroupNoticeNotificationListItem::onClickAttachment, this));
 
         std::string expanded_height_resize_str = getString("expanded_height_resize_for_attachment");
-        mExpandedHeightResize = (S32)atoi(expanded_height_resize_str.c_str());
+		mExpandedHeightResize = std::stoi(expanded_height_resize_str);
 
         mAttachmentPanel->setVisible(TRUE);
     }

@@ -1300,11 +1300,11 @@ void LLInventoryItem::unpackBinaryBucket(U8* bin_bucket, S32 bin_bucket_size)
 	setUUID(item_id);
 
 	LLAssetType::EType type;
-	type = (LLAssetType::EType)(atoi((*(iter++)).c_str()));
+	type = static_cast<LLAssetType::EType>(std::stoi((*(iter++))));
 	setType( type );
 	
 	LLInventoryType::EType inv_type;
-	inv_type = (LLInventoryType::EType)(atoi((*(iter++)).c_str()));
+	inv_type = static_cast<LLInventoryType::EType>(std::stoi((*(iter++))));
 	setInventoryType( inv_type );
 
 	std::string name((*(iter++)).c_str());
@@ -1332,8 +1332,8 @@ void LLInventoryItem::unpackBinaryBucket(U8* bin_bucket, S32 bin_bucket_size)
 	setDescription(desc);
 	
 	LLSaleInfo::EForSale sale_type;
-	sale_type = (LLSaleInfo::EForSale)(atoi((*(iter++)).c_str()));
-	S32 price = atoi((*(iter++)).c_str());
+	sale_type = static_cast<LLSaleInfo::EForSale>(std::stoi((*(iter++))));
+	S32 price = std::stoi(*(iter++));
 	LLSaleInfo sale_info(sale_type, price);
 	setSaleInfo(sale_info);
 	

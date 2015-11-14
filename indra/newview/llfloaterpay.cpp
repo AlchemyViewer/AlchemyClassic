@@ -487,11 +487,11 @@ void LLFloaterPay::give(S32 amount)
 {
 	if(mCallback)
 	{
-		// if the amount is 0, that menas that we should use the
+		// if the amount is 0, that means that we should use the
 		// text field.
 		if(amount == 0)
 		{
-			amount = atoi(getChild<LLUICtrl>("amount")->getValue().asString().c_str());
+			amount = std::stoi(getChild<LLUICtrl>("amount")->getValue().asString());
 		}
 		sLastAmount = amount;
 

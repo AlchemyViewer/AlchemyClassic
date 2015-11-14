@@ -139,12 +139,12 @@ void LLNameValue::init(const char *name, const char *data, const char *type, con
 	else if (!strcmp(mStringType, "F32"))
 	{
 		mType = NVT_F32;
-		mNameValueReference.f32 = new F32((F32)atof(data));
+		mNameValueReference.f32 = new F32(std::stof(data));
 	}
 	else if (!strcmp(mStringType, "S32"))
 	{
 		mType = NVT_S32;
-		mNameValueReference.s32 = new S32(atoi(data));
+		mNameValueReference.s32 = new S32(std::stoi(data));
 	}
 	else if (!strcmp(mStringType, "U64"))
 	{

@@ -35,6 +35,7 @@
 #include "llsdserialize.h"
 
 #include <boost/tokenizer.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace LLAvatarNameCache
 {
@@ -783,23 +784,18 @@ bool max_age_from_cache_control(const std::string& cache_control, S32 *max_age)
 			if (subtoken_it == subtokens.end()) return false;
 			subtoken = *subtoken_it;
 
-			// Must be a valid integer
-			// *NOTE: atoi() returns 0 for invalid values, so we have to
-			// check the string first.
-			// *TODO: Do servers ever send "0000" for zero?  We don't handle it
 			LLStringUtil::trim(subtoken);
-			if (subtoken == "0")
+
+			try
 			{
-				*max_age = 0;
-				return true;
-			}
-			S32 val = atoi( subtoken.c_str() );
-			if (val > 0 && val < S32_MAX)
-			{
+				S32 val = boost::lexical_cast<S32>(subtoken);
 				*max_age = val;
 				return true;
 			}
-			return false;
+			catch (const boost::bad_lexical_cast&)
+			{
+				LL_WARNS("AvNameCache") << "Could not convert '" << subtoken << "' to integer" << LL_ENDL;
+			}
 		}
 	}
 	return false;

@@ -739,8 +739,8 @@ LLUUID upload_new_resource(
                                          {	 	
                                                  if (! strcmp("type", label))	 	
                                                  {	 	
-                                                         asset_type = (LLAssetType::EType)(atoi(value));	 	
-                                                 }	 	
+													 asset_type = static_cast<LLAssetType::EType>(std::stoi(value));
+                                                 }
                                          }	 	
                                          else	 	
                                          {	 	

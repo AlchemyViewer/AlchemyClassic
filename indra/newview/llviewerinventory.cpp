@@ -2166,14 +2166,7 @@ BOOL LLViewerInventoryItem::extractSortFieldAndDisplayName(const std::string& na
 	{
 		if (sortField)
 		{
-			/*
-			 * The conversion from string to S32 is made this way instead of old plain
-			 * atoi() to ensure portability. If on some other platform S32 will not be
-			 * defined to be signed int, this conversion will still work because of
-			 * operators overloading, but atoi() may fail.
-			 */
-			stringstream ss(name.substr(0, separatorPos));
-			ss >> *sortField;
+			*sortField = std::stoi(name.substr(0, separatorPos));
 		}
 
 		if (displayName)

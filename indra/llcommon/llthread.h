@@ -30,9 +30,11 @@
 #include "llapp.h"
 #include "llapr.h"
 #include "apr_thread_cond.h"
-#include "boost/intrusive_ptr.hpp"
 #include "llmutex.h"
 #include "llrefcount.h"
+
+#include <boost/thread.hpp>
+#include <boost/intrusive_ptr.hpp>
 
 LL_COMMON_API void assert_main_thread();
 
@@ -98,15 +100,15 @@ private:
 	BOOL				mPaused;
 	
 	// static function passed to APR thread creation routine
-	static void *APR_THREAD_FUNC staticRun(struct apr_thread_t *apr_threadp, void *datap);
+	void runWrapper();
 
 protected:
 	std::string			mName;
 	class LLCondition*	mRunCondition;
 	LLMutex*			mDataLock;
 
-	apr_thread_t		*mAPRThreadp;
 	apr_pool_t			*mAPRPoolp;
+	boost::thread       mThread;
 	BOOL				mIsLocalPool;
 	EThreadStatus		mStatus;
 	uintptr_t			mID;

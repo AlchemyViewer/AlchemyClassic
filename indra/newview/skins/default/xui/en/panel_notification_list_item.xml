@@ -43,7 +43,7 @@
   <panel top="0" left="0" width="331" height="196" bevel_style="none" layout="topleft" follows="left|top|right|bottom" name="panel_total_view">
     <layout_stack top="0" left="0" width="331" height="196" orientation="vertical" follows="left|top|right|bottom" name="item_vertical_stack">
       <layout_panel top="0" left="0" height="30" follows="left|top|right|bottom" layout="topleft" name="layout_panel_condensed_view" visible="false" background_opaque="false" background_visible="true" bg_alpha_color="SysWellItemUnselected">
-        <panel border="true" top="0" left="5" height="30" bevel_style="none" layout="topleft" follows="left|top|right|bottom" name="panel_condensed_view">
+        <panel border="true" top="0" left="5" height="29" bevel_style="none" layout="topleft" follows="left|top|right|bottom" name="panel_condensed_view">
           <layout_stack top="0" left="0" width="325" height="50" orientation="horizontal" follows="left|top|right|bottom" name="horizontal_stack">
             <layout_panel width="30" height="39" orientation="horizontal" follows="left|top|right|bottom" name="layout_panel_right">
               <group_icon left="5" top="6" width="25" height="25" mouse_opaque="true" name="group_icon" tool_tip="Group" default_icon_name="Generic_Group" visible="true"/>
@@ -81,7 +81,7 @@
         </panel>
       </layout_panel>
       <layout_panel top="0" left="0" height="196" follows="left|top|right|bottom" layout="topleft" name="layout_panel_expanded_view" visible="true" background_opaque="false" background_visible="true" bg_alpha_color="SysWellItemUnselected">
-        <panel border="true" top="0" left="5" height="196" bevel_style="none" follows="left|top|right|bottom" layout="topleft" name="panel_expanded_view">
+        <panel border="true" top="0" left="5" height="195" bevel_style="none" follows="left|top|right|bottom" layout="topleft" name="panel_expanded_view">
           <layout_stack top="0" left="0" width="325" height="196" orientation="horizontal" follows="left|top|right|bottom" name="horizontal_stack">
             <layout_panel width="30" height="170" orientation="horizontal" follows="left|top|bottom" name="layout_panel_right_exp">
               <group_icon left="5" top="6" width="25" height="25" mouse_opaque="true" name="group_icon_exp" tool_tip="Group" default_icon_name="Generic_Group" visible="true"/>

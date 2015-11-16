@@ -648,11 +648,15 @@ static size_t headerCallback(void* data, size_t size, size_t nmemb, void* user)
 		std::string status(pos1, pos2);
 		std::string reason(pos2, pos3);
 
-		S32 status_code = atoi(status.c_str());
-		if (status_code > 0)
+		try
 		{
+			S32 status_code = std::stoi(status);
 			complete->httpStatus(status_code, reason);
 			return header_len;
+		}
+		catch (const std::invalid_argument&)
+		{
+			LL_WARNS() << "Status code not an integer: " << status << LL_ENDL;
 		}
 	}
 

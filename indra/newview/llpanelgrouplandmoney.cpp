@@ -314,7 +314,7 @@ bool LLPanelGroupLandMoney::impl::applyContribution()
 	}
 
 	// get new contribution and compare to available
-	S32 new_contribution = atoi(mYourContributionEditorp->getText().c_str());
+	S32 new_contribution = std::stoi(mYourContributionEditorp->getText());
 
 	if( new_contribution != your_contribution &&
 		new_contribution >= 0 && 
@@ -389,7 +389,7 @@ void LLPanelGroupLandMoney::impl::contributionCommitCallback(LLUICtrl* ctrl,
 		int your_contribution = 0;
 		int new_contribution = 0;
 
-		new_contribution= atoi(editorp->getText().c_str());
+		new_contribution= std::stoi(editorp->getText());
 		your_contribution = self->getStoredContribution();
 
 		//reset their junk data to be "good" data to us

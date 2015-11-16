@@ -113,7 +113,7 @@ public:
      * 
      * @return pointer to loaded landmark from gLandmarkList or NULL if landmark does not exist or wasn't loaded.
      */
-    static LLLandmark* getLandmark(const LLUUID& landmarkInventoryItemID, LLLandmarkList::loaded_callback_t cb = NULL);
+    static LLLandmark* getLandmark(const LLUUID& landmarkInventoryItemID, LLLandmarkList::loaded_callback_t cb = nullptr);
 
     /**
      * @brief  Performs standard action of copying of SLURL from landmark to user's clipboard.

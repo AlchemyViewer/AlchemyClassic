@@ -460,7 +460,6 @@ namespace LLError
 		mFileLevelMap(),
 		mTagLevelMap(),
 		mUniqueLogMessages(),
-		mCrashFunction(NULL),
 		mTimeFunction(NULL),
 		mRecorders(),
 		mFileRecorder(),

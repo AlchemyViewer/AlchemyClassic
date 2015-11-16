@@ -659,15 +659,10 @@ void LLFloaterPathfindingLinksets::doApplyEdit()
 	if ((selectedObjects != NULL) && !selectedObjects->isEmpty())
 	{
 		LLPathfindingLinkset::ELinksetUse linksetUse = getEditLinksetUse();
-		const std::string &aString = mEditA->getText();
-		const std::string &bString = mEditB->getText();
-		const std::string &cString = mEditC->getText();
-		const std::string &dString = mEditD->getText();
-		S32 aValue = static_cast<S32>(atoi(aString.c_str()));
-		S32 bValue = static_cast<S32>(atoi(bString.c_str()));
-		S32 cValue = static_cast<S32>(atoi(cString.c_str()));
-		S32 dValue = static_cast<S32>(atoi(dString.c_str()));
-
+		S32 aValue = std::stoi(mEditA->getText());
+		S32 bValue = std::stoi(mEditB->getText());
+		S32 cValue = std::stoi(mEditC->getText());
+		S32 dValue = std::stoi(mEditD->getText());
 
 		requestSetLinksets(selectedObjects, linksetUse, aValue, bValue, cValue, dValue);
 	}

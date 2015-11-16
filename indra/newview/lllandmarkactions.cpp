@@ -374,7 +374,7 @@ bool LLLandmarkActions::getLandmarkGlobalPos(const LLUUID& landmarkInventoryItem
 
 	const LLUUID& asset_id = item->getAssetUUID();
 
-	LLLandmark* landmark = gLandmarkList.getAsset(asset_id, NULL);
+	LLLandmark* landmark = gLandmarkList.getAsset(asset_id);
 	if (NULL == landmark)
 		return false;
 

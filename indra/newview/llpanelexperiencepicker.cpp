@@ -150,7 +150,8 @@ void LLPanelExperiencePicker::onBtnFind()
 	mCurrentPage=1;
 	boost::cmatch what;
 	std::string text = getChild<LLUICtrl>(TEXT_EDIT)->getValue().asString();
-	const boost::regex expression("secondlife:///app/experience/[\\da-f-]+/profile");
+	// *TODO: this should be part of LLUrlEntry
+	static const boost::regex expression("secondlife:///app/experience/[\\da-f-]+/profile");
 	if (boost::regex_match(text.c_str(), what, expression))
 	{
 		LLURI uri(text);

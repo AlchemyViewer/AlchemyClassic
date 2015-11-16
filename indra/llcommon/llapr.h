@@ -33,7 +33,6 @@
 #include <sys/param.h>  // Need PATH_MAX in APR headers...
 #endif
 
-#include <boost/noncopyable.hpp>
 #include "llwin32headerslean.h"
 #include "apr_thread_proc.h"
 #include "apr_getopt.h"
@@ -146,9 +145,8 @@ private:
 //      2, a global pool.
 //
 
-class LL_COMMON_API LLAPRFile : boost::noncopyable
+class LL_COMMON_API LLAPRFile
 {
-	// make this non copyable since a copy closes the file
 private:
 	apr_file_t* mFile ;
 	LLVolatileAPRPool *mCurrentFilePoolp ; //currently in use apr_pool, could be one of them: sAPRFilePoolp, or a temp pool. 
@@ -157,6 +155,9 @@ public:
 	LLAPRFile() ;
 	LLAPRFile(const std::string& filename, apr_int32_t flags, LLVolatileAPRPool* pool = NULL);
 	~LLAPRFile() ;
+	
+	LLAPRFile(const LLAPRFile&) = delete;
+	LLAPRFile& operator=(const LLAPRFile&) = delete;
 	
 	apr_status_t open(const std::string& filename, apr_int32_t flags, LLVolatileAPRPool* pool = NULL, S32* sizep = NULL);
 	apr_status_t open(const std::string& filename, apr_int32_t flags, BOOL use_global_pool); //use gAPRPoolp.

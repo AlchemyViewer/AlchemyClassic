@@ -47,8 +47,8 @@ bool extractWindowSizeFromString(const std::string& instr, U32 *width, U32 *heig
 	const boost::regex expression("([0-9]+)[^0-9]+([0-9]+)");
 	if (boost::regex_match(instr.c_str(), what, expression))
 	{
-		*width = atoi(what[1].first);
-		*height = atoi(what[2].first);
+		*width = std::stoi(what[1].first);
+		*height = std::stoi(what[2].first);
 		return true;
 	}
 	

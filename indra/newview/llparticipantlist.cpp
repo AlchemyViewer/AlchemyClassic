@@ -179,8 +179,7 @@ private:
 
 LLParticipantList::LLParticipantList(LLSpeakerMgr* data_source, LLFolderViewModelInterface& root_view_model) :
 	LLConversationItemSession(data_source->getSessionID(), root_view_model),
-	mSpeakerMgr(data_source),
-	mValidateSpeakerCallback(NULL)
+	mSpeakerMgr(data_source)
 {
 
 	mAvalineUpdater = new LLAvalineUpdater(boost::bind(&LLParticipantList::onAvalineCallerFound, this, _1),

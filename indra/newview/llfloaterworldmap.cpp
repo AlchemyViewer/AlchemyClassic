@@ -1441,7 +1441,7 @@ void LLFloaterWorldMap::teleport()
 												gMessageSystem,
 												gAgent.getRegionHost(),
 												region_id,
-												NULL);
+												nullptr);
 			}
 		}
 	}
@@ -1514,7 +1514,7 @@ void LLFloaterWorldMap::teleportToLandmark()
 												gMessageSystem,
 												gAgent.getRegionHost(),
 												region_id,
-												NULL);
+												nullptr);
 			}
 		}
 	}

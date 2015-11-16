@@ -1738,11 +1738,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4809473744a7b3b3e77b4a9cbf1fd9ee</string>
+              <string>4eb915a41922f8d0e266eaac2c8c112b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///opt/buildlibs/kdu-7.6-darwin-201505091918.tar.bz2</string>
+              <string>file:///opt/buildlibs/kdu-7.7.1-darwin-201511111801.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1764,16 +1764,32 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6d80d35524e1c0c32d3385014d02d48c</string>
+              <string>1624c944c4bc6d54d9fc56d0114e9f23</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/hg/repo/3p-kdu-private/rev/256978/arch/CYGWIN/installer/kdu-7.0.0-windows-20120515.tar.bz2</string>
+              <string>file:///c:/Developer/buildlibs/kdu-7.7.1-windows-201511121444.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>acdfad4f58f646b09e1bd710075de62f</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>file:///c:/Developer/buildlibs/kdu-7.7.1-windows64-201511121444.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>version</key>
-        <string>7.6</string>
+        <string>7.7.1</string>
       </map>
       <key>libhunspell</key>
       <map>

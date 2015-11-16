@@ -31,7 +31,6 @@
 #include <boost/algorithm/string/split.hpp> //
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 #include <boost/algorithm/string/replace.hpp>
-#include <boost/lexical_cast.hpp>
 #include <boost/regex.hpp>
 #include <boost/tokenizer.hpp>
 
@@ -2194,16 +2193,23 @@ static bool parse_lure_bucket(const std::string& bucket,
 	S32 gx,gy,rx,ry,rz,lx,ly,lz;
 	try
 	{
-		gx = boost::lexical_cast<S32>((*(iter)).c_str());
-		gy = boost::lexical_cast<S32>((*(++iter)).c_str());
-		rx = boost::lexical_cast<S32>((*(++iter)).c_str());
-		ry = boost::lexical_cast<S32>((*(++iter)).c_str());
-		rz = boost::lexical_cast<S32>((*(++iter)).c_str());
-		lx = boost::lexical_cast<S32>((*(++iter)).c_str());
-		ly = boost::lexical_cast<S32>((*(++iter)).c_str());
-		lz = boost::lexical_cast<S32>((*(++iter)).c_str());
+		gx = std::stoi(*(iter));
+		gy = std::stoi(*(++iter));
+		rx = std::stoi(*(++iter));
+		ry = std::stoi(*(++iter));
+		rz = std::stoi(*(++iter));
+		lx = std::stoi(*(++iter));
+		ly = std::stoi(*(++iter));
+		lz = std::stoi(*(++iter));
 	}
-	catch( boost::bad_lexical_cast& )
+	catch( const std::invalid_argument& )
+	{
+		LL_WARNS("parse_lure_bucket")
+			<< "Couldn't parse lure bucket."
+			<< LL_ENDL;
+		return false;
+	}
+	catch( const std::out_of_range& )
 	{
 		LL_WARNS("parse_lure_bucket")
 			<< "Couldn't parse lure bucket."

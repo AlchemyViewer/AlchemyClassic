@@ -1669,7 +1669,7 @@ void LLPanelLandObjects::onCommitList(LLUICtrl* ctrl, void* data)
 		cell = item->getColumn(2);
 		self->mSelectedName = cell->getValue().asString();
 		cell = item->getColumn(3);
-		self->mSelectedCount = atoi(cell->getValue().asString().c_str());
+		self->mSelectedCount = std::stoi(cell->getValue().asString());
 
 		// Set the selection, and enable the return button.
 		self->mSelectedOwners.clear();
@@ -1809,7 +1809,7 @@ void LLPanelLandObjects::onCommitClean()
 	LLParcel* parcel = mParcel->getParcel();
 	if (parcel)
 	{
-		S32 return_time = atoi(mCleanOtherObjectsTime->getText().c_str());
+		S32 return_time = std::stoi(mCleanOtherObjectsTime->getText());
 		// Only send return time if it has changed
 		if (return_time != mOtherTime)
 		{

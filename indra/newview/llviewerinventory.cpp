@@ -1813,7 +1813,7 @@ void create_new_item(const std::string& name,
 	LLViewerAssetType::generateDescriptionFor(asset_type, desc);
 	next_owner_perm = (next_owner_perm) ? next_owner_perm : PERM_MOVE | PERM_TRANSFER;
 
-	LLPointer<LLInventoryCallback> cb = NULL;
+	LLPointer<LLInventoryCallback> cb = nullptr;
 
 	switch (inv_type)
 	{
@@ -2166,14 +2166,7 @@ BOOL LLViewerInventoryItem::extractSortFieldAndDisplayName(const std::string& na
 	{
 		if (sortField)
 		{
-			/*
-			 * The conversion from string to S32 is made this way instead of old plain
-			 * atoi() to ensure portability. If on some other platform S32 will not be
-			 * defined to be signed int, this conversion will still work because of
-			 * operators overloading, but atoi() may fail.
-			 */
-			stringstream ss(name.substr(0, separatorPos));
-			ss >> *sortField;
+			*sortField = std::stoi(name.substr(0, separatorPos));
 		}
 
 		if (displayName)

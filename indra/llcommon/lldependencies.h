@@ -36,6 +36,7 @@
 #include <map>
 #include <stdexcept>
 #include <iosfwd>
+#include <functional>
 #include <boost/iterator/transform_iterator.hpp>
 #include <boost/iterator/indirect_iterator.hpp>
 #include <boost/range/iterator_range.hpp>

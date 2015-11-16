@@ -42,7 +42,6 @@
 
 // AISCommand - base class for retry-able HTTP requests using the AISv3 cap.
 AISCommand::AISCommand(LLPointer<LLInventoryCallback> callback):
-	mCommandFunc(NULL),
 	mCallback(callback)
 {
 	mRetryPolicy = new LLAdaptiveRetryPolicy(1.0, 32.0, 2.0, 10);

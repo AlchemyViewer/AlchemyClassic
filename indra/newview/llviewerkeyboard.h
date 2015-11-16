@@ -36,7 +36,7 @@ const S32 MAX_KEY_BINDINGS = 128; // was 60
 class LLNamedFunction
 {
 public:
-	LLNamedFunction() : mFunction(NULL) { };
+	LLNamedFunction() { };
 	~LLNamedFunction() { };
 
 	std::string	mName;

@@ -80,9 +80,9 @@ public:
 	{
 		if (strings.size() != 4) return false;
 		LLUUID classified_id(strings[0]);
-		S32 teleport_clicks = atoi(strings[1].c_str());
-		S32 map_clicks = atoi(strings[2].c_str());
-		S32 profile_clicks = atoi(strings[3].c_str());
+		S32 teleport_clicks = std::stoi(strings[1]);
+		S32 map_clicks = std::stoi(strings[2]);
+		S32 profile_clicks = std::stoi(strings[3]);
 
 		LLPanelClassifiedInfo::setClickThrough(
 			classified_id, teleport_clicks, map_clicks, profile_clicks, false);

@@ -33,7 +33,6 @@
 #include "apr_thread_proc.h"
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/optional.hpp>
-#include <boost/noncopyable.hpp>
 #include <iosfwd>                   // std::ostream
 #include <stdexcept>
 
@@ -68,7 +67,7 @@ typedef std::shared_ptr<LLProcess> LLProcessPtr;
  * indra/llcommon/tests/llprocess_test.cpp for an example of waiting for
  * child-process termination in a standalone test context.
  */
-class LL_COMMON_API LLProcess: public boost::noncopyable
+class LL_COMMON_API LLProcess
 {
 	LOG_CLASS(LLProcess);
 public:
@@ -235,6 +234,9 @@ public:
 	 */
 	static LLProcessPtr create(const LLSDOrParams& params);
 	virtual ~LLProcess();
+	
+	LLProcess(const LLProcess&) = delete;
+	LLProcess& operator=(const LLProcess&) = delete;
 
 	/// Is child process still running?
 	bool isRunning() const;

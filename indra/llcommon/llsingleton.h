@@ -28,7 +28,6 @@
 #include "llerror.h"	// *TODO: eliminate this
 
 #include <typeinfo>
-#include <boost/noncopyable.hpp>
 
 // LLSingleton implements the getInstance() method part of the Singleton
 // pattern. It can't make the derived class constructors protected, though, so
@@ -55,7 +54,7 @@
 // As currently written, it is not thread-safe.
 
 template <typename DERIVED_TYPE>
-class LLSingleton : private boost::noncopyable
+class LLSingleton
 {
 	
 private:
@@ -103,6 +102,11 @@ public:
 		sData.mInstance = NULL;
 		sData.mInitState = DELETED;
 	}
+	
+	LLSingleton() {}
+	
+	LLSingleton(const LLSingleton&) = delete;
+	LLSingleton& operator=(const LLSingleton&) = delete;
 
 	/**
 	 * @brief Immediately delete the singleton.

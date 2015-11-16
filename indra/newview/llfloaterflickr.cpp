@@ -341,7 +341,7 @@ void LLFlickrPhotoPanel::sendPhoto()
 		std::string parcel_name = LLViewerParcelMgr::getInstance()->getAgentParcelName();
 		if (!parcel_name.empty())
 		{
-			boost::regex pattern = boost::regex("\\S\\.[a-zA-Z]{2,}");
+			static const boost::regex pattern = boost::regex("\\S\\.[a-zA-Z]{2,}");
 			boost::match_results<std::string::const_iterator> matches;
 			if(!boost::regex_search(parcel_name, matches, pattern))
 			{

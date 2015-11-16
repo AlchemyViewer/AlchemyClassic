@@ -100,7 +100,7 @@ void LLGlobalEconomy::processEconomyData(LLMessageSystem *msg, LLGlobalEconomy* 
 	const char* fakeprice_str = getenv("LL_FAKE_UPLOAD_PRICE");
 	if (fakeprice_str)
 	{
-		S32 fakeprice = (S32)atoi(fakeprice_str);
+		S32 fakeprice = std::stoi(fakeprice_str);
 		LL_WARNS() << "LL_FAKE_UPLOAD_PRICE: Faking upload price as L$" << fakeprice << LL_ENDL;
 		econ_data->setPriceUpload(fakeprice);
 	}

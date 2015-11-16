@@ -555,7 +555,7 @@ U16 LLURI::hostPort() const
 			return 21;		
 		return 0;
 	}
-	return atoi(port.c_str());
+	return static_cast<U16>(std::stoi(port));
 }	
 
 std::string LLURI::path() const

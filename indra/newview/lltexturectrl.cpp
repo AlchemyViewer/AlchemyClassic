@@ -1090,8 +1090,6 @@ static LLDefaultChildRegistry::Register<LLTextureCtrl> r("texture_picker");
 
 LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 :	LLUICtrl(p),
-	mDragCallback(NULL),
-	mDropCallback(NULL),
 	mOnCancelCallback(NULL),
 	mOnCloseCallback(NULL),
 	mOnSelectCallback(NULL),

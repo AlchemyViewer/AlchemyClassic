@@ -33,10 +33,10 @@
 #include "llfloaterreg.h"
 #include "lllocalcliprect.h"
 #include "llmenugl.h"
+#include "llnotificationwellwindow.h"
 #include "llscriptfloater.h"
 #include "llsyswellwindow.h"
 #include "llviewermenu.h"
-#include "llfloaternotificationstabbed.h"
 
 static LLDefaultChildRegistry::Register<LLChicletPanel> t1("chiclet_panel");
 static LLDefaultChildRegistry::Register<LLNotificationChiclet> t2("chiclet_notification");
@@ -167,7 +167,7 @@ LLNotificationChiclet::LLNotificationChiclet(const Params& p)
 	mNotificationChannel.reset(new ChicletNotificationChannel(this));
 	// ensure that notification well window exists, to synchronously
 	// handle toast add/delete events.
-	LLFloaterNotificationsTabbed::getInstance()->setSysWellChiclet(this);
+	LLNotificationWellWindow::getInstance()->setSysWellChiclet(this);
 }
 
 void LLNotificationChiclet::onMenuItemClicked(const LLSD& user_data)
@@ -175,7 +175,7 @@ void LLNotificationChiclet::onMenuItemClicked(const LLSD& user_data)
 	std::string action = user_data.asString();
 	if("close all" == action)
 	{
-		LLFloaterNotificationsTabbed::getInstance()->closeAll();
+		LLNotificationWellWindow::getInstance()->closeAll();
 		LLIMWellWindow::getInstance()->closeAll();
 	}
 }
@@ -226,8 +226,7 @@ bool LLNotificationChiclet::ChicletNotificationChannel::filterNotification( LLNo
 	bool displayNotification;
 	if (   (notification->getName() == "ScriptDialog") // special case for scripts
 		// if there is no toast window for the notification, filter it
-		//|| (!LLNotificationWellWindow::getInstance()->findItemByID(notification->getID()))
-        || (!LLFloaterNotificationsTabbed::getInstance()->findItemByID(notification->getID(), notification->getName()))
+        || (!LLNotificationWellWindow::getInstance()->findItemByID(notification->getID()))
 		)
 	{
 		displayNotification = false;

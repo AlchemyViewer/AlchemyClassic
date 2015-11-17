@@ -439,7 +439,6 @@ set(viewer_SOURCE_FILES
     llnotificationscripthandler.cpp
     llnotificationstorage.cpp
     llnotificationtiphandler.cpp
-    llnotificationwellwindow.cpp
     lloutfitobserver.cpp
     lloutfitslist.cpp
     lloutputmonitorctrl.cpp
@@ -1084,7 +1083,6 @@ set(viewer_HEADER_FILES
     llnotificationlistview.h
     llnotificationmanager.h
     llnotificationstorage.h
-    llnotificationwellwindow.h
     lloutfitobserver.h
     lloutfitslist.h
     lloutputmonitorctrl.h

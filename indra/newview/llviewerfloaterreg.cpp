@@ -94,6 +94,7 @@
 #include "llfloatermodelpreview.h"
 #include "llfloaternamedesc.h"
 #include "llfloaternotificationsconsole.h"
+#include "llfloaternotificationstabbed.h"
 #include "llfloaterobjectweights.h"
 #include "llfloateropenobject.h"
 #include "llfloateroutbox.h"
@@ -152,7 +153,6 @@
 #include "llinspectremoteobject.h"
 #include "llinspecttoast.h"
 #include "llmoveview.h"
-#include "llnotificationwellwindow.h"
 #include "llfloaterimnearbychat.h"
 #include "llpanelblockedlist.h"
 #include "llpanelclassified.h"
@@ -163,6 +163,7 @@
 #include "llpreviewsound.h"
 #include "llpreviewtexture.h"
 #include "llscriptfloater.h"
+#include "llsyswellwindow.h"
 
 // *NOTE: Please add files in alphabetical order to keep merges easy.
 
@@ -282,7 +283,7 @@ void LLViewerFloaterReg::registerFloaters()
 
 	LLFloaterReg::add("notifications_console", "floater_notifications_console.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterNotificationConsole>);
 	
-	LLFloaterReg::add("notification_well_window", "floater_sys_well.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLNotificationWellWindow>);
+	LLFloaterReg::add("notification_well_window", "floater_notifications_tabbed.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterNotificationsTabbed>);
 
 	LLFloaterReg::add("object_weights", "floater_object_weights.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterObjectWeights>);
 	LLFloaterReg::add("openobject", "floater_openobject.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterOpenObject>);

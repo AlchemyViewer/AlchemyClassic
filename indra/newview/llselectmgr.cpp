@@ -92,6 +92,7 @@
 #include "llviewerstats.h"
 #include "llvoavatarself.h"
 #include "llvovolume.h"
+#include "llworld.h"
 #include "pipeline.h"
 #include "llviewershadermgr.h"
 #include "llpanelface.h"
@@ -576,11 +577,12 @@ bool LLSelectMgr::linkObjects()
 	}
 
 	S32 object_count = LLSelectMgr::getInstance()->getSelection()->getObjectCount();
-	if (object_count > MAX_CHILDREN_PER_TASK + 1)
+	S32 max_objects = LLWorld::getInstance()->getRegionMaxLinkObjects();
+	if (object_count > max_objects + 1)
 	{
 		LLSD args;
 		args["COUNT"] = llformat("%d", object_count);
-		int max = MAX_CHILDREN_PER_TASK+1;
+		int max = max_objects + 1;
 		args["MAX"] = llformat("%d", max);
 		LLNotificationsUtil::add("UnableToLinkObjects", args);
 		return true;

@@ -68,6 +68,9 @@ U32			gAgentPauseSerialNum = 0;
 //
 const S32 WORLD_PATCH_SIZE = 16;
 
+const S32 SL_MAX_LINK_OBJECTS = 255;
+const S32 OS_MAX_LINK_OBJECTS = 8191;	// Magic and arbitrary
+
 extern LLColor4U MAX_WATER_COLOR;
 
 U32 LLWorld::mWidth = 256;
@@ -803,6 +806,7 @@ void LLWorld::refreshLimits()
 		mRegionMaxPrimScaleNoMesh = OS_DEFAULT_MAX_PRIM_SCALE; // no restrictions here
 		mRegionMaxHollowSize = OS_OBJECT_MAX_HOLLOW_SIZE;
 		mRegionMinHoleSize = OS_OBJECT_MIN_HOLE_SIZE;
+		mRegionMaxLinkObjects = OS_MAX_LINK_OBJECTS;
 	}
 	else
 	{
@@ -812,6 +816,7 @@ void LLWorld::refreshLimits()
 		mRegionMaxPrimScaleNoMesh = SL_DEFAULT_MAX_PRIM_SCALE_NO_MESH;
 		mRegionMaxHollowSize = SL_OBJECT_MAX_HOLLOW_SIZE;
 		mRegionMinHoleSize = SL_OBJECT_MIN_HOLE_SIZE;
+		mRegionMaxLinkObjects = SL_MAX_LINK_OBJECTS;
 	}
 }
 

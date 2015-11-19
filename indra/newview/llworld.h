@@ -134,6 +134,7 @@ public:
 	F32						getRegionMaxPrimScaleNoMesh() const	{ return mRegionMaxPrimScaleNoMesh; }
 	F32						getRegionMaxHollowSize() const	{ return mRegionMaxHollowSize; }
 	F32						getRegionMinHoleSize() const	{ return mRegionMinHoleSize; }
+	S32						getRegionMaxLinkObjects() const	{ return mRegionMaxLinkObjects; }
 
 	void					updateRegions(F32 max_update_time);
 	void					updateVisibilities();
@@ -219,6 +220,7 @@ private:
 	F32 mRegionMaxPrimScaleNoMesh;
 	F32 mRegionMaxHollowSize;
 	F32 mRegionMinHoleSize;
+	S32 mRegionMaxLinkObjects;
 	bool mRefreshLimits;
 
 	F32 mLandFarClip;					// Far clip distance for land.

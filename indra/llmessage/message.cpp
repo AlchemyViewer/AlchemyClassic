@@ -2989,32 +2989,30 @@ void LLMessageSystem::addTemplate(LLMessageTemplate *templatep)
 	mMessageNumbers[templatep->mMessageNumber] = templatep;
 }
 
-boost::signals2::connection LLMessageSystem::setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
+void LLMessageSystem::setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
 {
 	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
 	if (msgtemplate)
 	{
-		return msgtemplate->setHandlerFunc(handler_func, user_data);
+		msgtemplate->setHandlerFunc(handler_func, user_data);
 	}
 	else
 	{
 		LL_ERRS("Messaging") << name << " is not a known message name!" << LL_ENDL;
 	}
-	return boost::signals2::connection();//dummy connection. we should never get here.
 }
 
-boost::signals2::connection LLMessageSystem::addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
+void LLMessageSystem::addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
 {
 	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
 	if(msgtemplate)
 	{
-		return msgtemplate->addHandlerFunc(handler_slot);
+		msgtemplate->addHandlerFunc(handler_slot);
 	}
 	else
 	{
 		LL_ERRS("Messaging") << name << " is not a known message name!" << LL_ENDL;
 	}
-	return boost::signals2::connection();//dummy connection. we should never get here.
 }
 
 bool LLMessageSystem::callHandler(const char *name,

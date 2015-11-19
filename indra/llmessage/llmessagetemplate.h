@@ -31,10 +31,6 @@
 #include "llstl.h"
 #include "llindexedvector.h"
 
-#include <boost/signals2.hpp>
-
-using namespace boost::signals2::keywords;
-
 class LLMsgVarData
 {
 public:
@@ -272,7 +268,7 @@ class LLMessageTemplate
 {
 public:
 	LLMessageTemplate(const char *name, U32 message_number, EMsgFrequency freq)
-		: 
+		:
 		//mMemberBlocks(),
 		mName(NULL),
 		mFrequency(freq),
@@ -280,7 +276,7 @@ public:
 		mEncoding(ME_ZEROCODED),
 		mDeprecation(MD_NOTDEPRECATED),
 		mMessageNumber(message_number),
-		mTotalSize(0), 
+		mTotalSize(0),
 		mReceiveCount(0),
 		mReceiveBytes(0),
 		mReceiveInvalid(0),
@@ -289,9 +285,8 @@ public:
 		mTotalDecodeTime(0.f),
 		mMaxDecodeTimePerMsg(0.f),
 		mBanFromTrusted(false),
-		mBanFromUntrusted(false),
-		mMessageSignal(new message_signal_t())
-	{ 
+		mBanFromUntrusted(false)
+	{
 		mName = LLMessageStringTable::getInstance()->getString(name);
 	}
 
@@ -309,10 +304,10 @@ public:
 				<< "has already been used as a block name!" << LL_ENDL;
 		}
 		*member_blockp = blockp;
-		if (  (mTotalSize != -1)
-			&&(blockp->mTotalSize != -1)
-			&&(  (blockp->mType == MBT_SINGLE)
-			   ||(blockp->mType == MBT_MULTIPLE)))
+		if ((mTotalSize != -1)
+			&& (blockp->mTotalSize != -1)
+			&& ((blockp->mType == MBT_SINGLE)
+				|| (blockp->mType == MBT_MULTIPLE)))
 		{
 			mTotalSize += blockp->mNumber*blockp->mTotalSize;
 		}
@@ -357,37 +352,24 @@ public:
 	{
 		return mDeprecation;
 	}
-	
-	boost::signals2::connection setHandlerFunc(void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
+
+	void setHandlerFunc(void(*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
 	{
-		disconnectAllSlots();
-		if(handler_func)
-			return addHandlerFunc(boost::bind(handler_func,_1,user_data));
-		else //keep behavior of NULL handler_func clear callbacks
-			return boost::signals2::connection();
+		mMessageCallbacks.clear();
+		if (handler_func)
+			addHandlerFunc(std::bind(handler_func, std::placeholders::_1, user_data));
 	}
 
-	boost::signals2::connection addHandlerFunc(std::function<void (LLMessageSystem *msgsystem)> handler_slot)
+	void addHandlerFunc(std::function<void(LLMessageSystem *msgsystem)> callback)
 	{
-		return mMessageSignal->connect(handler_slot);
-	}
-
-	void disconnectAllSlots()
-	{
-		//if mMessageSignal is not empty clear it out.
-		if(!mMessageSignal->empty())
-			mMessageSignal->disconnect_all_slots();
+		mMessageCallbacks.emplace_back(callback);
 	}
 
 	BOOL callHandlerFunc(LLMessageSystem *msgsystem) const
 	{
-		if (!mMessageSignal->empty())
-		{
-			//fire and forget
-			(*mMessageSignal)(msgsystem);
-			return TRUE;
-		}
-		return FALSE;
+		for (auto& cb : mMessageCallbacks)
+			cb(msgsystem);
+		return (BOOL)!mMessageCallbacks.empty();
 	}
 
 	bool isUdpBanned() const
@@ -407,7 +389,7 @@ public:
 	const LLMessageBlock* getBlock(char* name) const
 	{
 		message_block_map_t::const_iterator iter = mMemberBlocks.find(name);
-		return iter != mMemberBlocks.end()? *iter : NULL;
+		return iter != mMemberBlocks.end() ? *iter : NULL;
 	}
 
 public:
@@ -433,7 +415,8 @@ public:
 
 private:
 	// message handler function (this is set by each application)
-	typedef boost::signals2::signal_type<void (LLMessageSystem*), mutex_type<boost::signals2::dummy_mutex> >::type message_signal_t;
-	std::shared_ptr< message_signal_t >	mMessageSignal;};
+	typedef std::vector<std::function<void(LLMessageSystem *msgsystem)>> callback_list_t;
+	callback_list_t mMessageCallbacks;
+};
 
 #endif // LL_LLMESSAGETEMPLATE_H

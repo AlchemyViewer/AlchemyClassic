@@ -292,16 +292,16 @@ public:
 
 
 	// methods for building, sending, receiving, and handling messages
-	boost::signals2::connection	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
-	boost::signals2::connection	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
+	void setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
+	void setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
 	{
-		return setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
+		setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
 	}
 
-	boost::signals2::connection	addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot);
-	boost::signals2::connection	addHandlerFunc(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
+	void addHandlerFuncFast(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot);
+	void addHandlerFunc(const char *name, std::function<void (LLMessageSystem *msgsystem)> handler_slot)
 	{
-		return addHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_slot);
+		addHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_slot);
 	}
 
 	// Set a callback function for a message system exception.

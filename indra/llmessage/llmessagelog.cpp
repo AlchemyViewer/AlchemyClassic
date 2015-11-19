@@ -98,7 +98,7 @@ void LLMessageLog::setCallback(LogCallback callback)
 {	
 	if (callback != NULL)
 	{
-		for (auto m : sRingBuffer)
+		for (auto& m : sRingBuffer)
 		{
 			callback(m);
 		}
@@ -112,9 +112,9 @@ void LLMessageLog::log(LLHost from_host, LLHost to_host, U8* data, S32 data_size
 
 	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size));
 
-	sRingBuffer.push_back(payload);
-
 	if(sCallback) sCallback(payload);
+
+	sRingBuffer.push_back(std::move(payload));
 }
 
 void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, const LLChannelDescriptors& channels,
@@ -122,10 +122,9 @@ void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, co
 {
 	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
 	                                         headers, request_id, method));
-
-	sRingBuffer.push_back(payload);
-
 	if (sCallback) sCallback(payload);
+
+	sRingBuffer.push_back(std::move(payload));
 }
 
 void LLMessageLog::logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
@@ -133,8 +132,7 @@ void LLMessageLog::logHTTPResponse(U32 status_code, const LLChannelDescriptors& 
 {
 	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
 	                                         headers, request_id, HTTP_INVALID, status_code));
-
-	sRingBuffer.push_back(payload);
-
 	if (sCallback) sCallback(payload);
+
+	sRingBuffer.push_back(std::move(payload));
 }

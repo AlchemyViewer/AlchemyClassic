@@ -65,62 +65,12 @@ void LLMessageLogFilter::set(const std::string& filter)
 			if(negative)
 			{
 				token = token.substr(1);
-				mNegativeNames.push_back(token);
+				mNegativeNames.insert(token);
 			}
 			else
-				mPositiveNames.push_back(token);
+				mPositiveNames.insert(token);
 		}
 	}
-}
-
-////////////////////////////////
-// LLMessageLogFilterApply
-////////////////////////////////
-
-LLMessageLogFilterApply::LLMessageLogFilterApply(LLFloaterMessageLog* parent)
-:	LLEventTimer(0.1f)
-,	mFinished(FALSE)
-,	mProgress(0)
-,	mParent(parent)
-{
-	mIter = mParent->sMessageLogEntries.begin();
-}
-
-void LLMessageLogFilterApply::cancel()
-{
-	mFinished = TRUE;
-}
-
-BOOL LLMessageLogFilterApply::tick()
-{
-	//we shouldn't even exist anymore, bail out
-	if(mFinished)
-		return TRUE;
-
-	LLMutexLock lock(LLFloaterMessageLog::sMessageListMutex);
-
-	for(S32 i = 0; i < 256; i++)
-	{
-		if(mIter == mParent->sMessageLogEntries.end())
-		{
-			mFinished = TRUE;
-
-			if(mParent->mMessageLogFilterApply == this)
-			{
-				mParent->stopApplyingFilter();
-			}
-
-			return TRUE;
-		}
-
-		mParent->conditionalLog(*mIter);
-
-		++mIter;
-		++mProgress;
-	}
-
-	mParent->updateFilterStatus();
-	return FALSE;
 }
 
 LLFloaterMessageLog::LLMessageLogNetMan::LLMessageLogNetMan(LLFloaterMessageLog* parent)
@@ -140,7 +90,7 @@ BOOL LLFloaterMessageLog::LLMessageLogNetMan::tick()
 ////////////////////////////////
 
 std::list<LLNetListItem*> LLFloaterMessageLog::sNetListItems;
-LogPayloadList LLFloaterMessageLog::sMessageLogEntries;
+LogPayloadList LLFloaterMessageLog::sMessageLogEntries = LogPayloadList(4096);
 LLMutex* LLFloaterMessageLog::sNetListMutex = NULL;
 LLMutex* LLFloaterMessageLog::sMessageListMutex = NULL;
 LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = NULL;
@@ -148,7 +98,6 @@ LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = NULL;
 LLFloaterMessageLog::LLFloaterMessageLog(const LLSD& key)
 :	LLFloater(key)
 ,	mInfoPaneMode(IPANE_NET)
-,	mMessageLogFilterApply(NULL)
 ,	mMessagelogScrollListCtrl(NULL)
 ,	mMessagesLogged(0)
 ,	mBeautifyMessages(false)
@@ -162,6 +111,8 @@ LLFloaterMessageLog::LLFloaterMessageLog(const LLSD& key)
 		sMessageListMutex = new LLMutex();
 	if(!sIncompleteHTTPConvoMutex)
 		sIncompleteHTTPConvoMutex = new LLMutex();
+
+	mFloaterMessageLogItems.reserve(4096);
 }
 
 LLFloaterMessageLog::~LLFloaterMessageLog()
@@ -233,13 +184,6 @@ void LLFloaterMessageLog::clearFloaterMessageItems(bool dying)
 	sIncompleteHTTPConvoMutex->lock();
 	mIncompleteHTTPConvos.clear();
 	sIncompleteHTTPConvoMutex->unlock();
-
-	FloaterMessageList::iterator iter = mFloaterMessageLogItems.begin();
-	FloaterMessageList::const_iterator end = mFloaterMessageLogItems.end();
-	for (;iter != end; ++iter)
-    {
-       delete *iter;
-    }
 
 	mFloaterMessageLogItems.clear();
 }
@@ -464,10 +408,6 @@ void LLFloaterMessageLog::onLog(LogPayload& entry)
 	{
 		sMessageListMutex->lock();
 
-		while(!floaterp->mMessageLogFilterApply && sMessageLogEntries.size() > 4096)
-		{
-			sMessageLogEntries.pop_front();
-		}
 		++floaterp->mMessagesLogged;
 		sMessageLogEntries.push_back(entry);
 
@@ -483,11 +423,13 @@ void LLFloaterMessageLog::onLog(LogPayload& entry)
 
 void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 {
-	if(!mMessageLogFilterApply)
+	if(!mMessageLogFilter.empty())
 		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages of %d",
 																  mFloaterMessageLogItems.size(), mMessagesLogged));
+	else
+		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages", mMessagesLogged));
 
-	FloaterMessageItem item = new LLEasyMessageLogEntry(entry, mEasyMessageReader);
+	FloaterMessageItem item = std::make_shared<FloaterMessageItem::element_type>(entry, mEasyMessageReader);
 
 	bool have_positive = false;
 
@@ -506,7 +448,6 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 		{
 			if(std::find(mMessageLogFilter.mNegativeNames.begin(), mMessageLogFilter.mNegativeNames.end(), find_name) != mMessageLogFilter.mNegativeNames.end())
 			{
-				delete item;
 				return;
 			}
 		}
@@ -518,13 +459,10 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	//we had a positive filter but no positive matches
 	if(!mMessageLogFilter.mPositiveNames.empty() && !have_positive)
 	{
-		delete item;
 		return;
 	}
 
-	sMessageListMutex->lock();
 	mFloaterMessageLogItems.push_back(item); // moved from beginning...
-	sMessageListMutex->unlock();
 
 	if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
 	{
@@ -647,7 +585,7 @@ void LLFloaterMessageLog::showSelectedMessage()
 	const LLScrollListItem* selected_itemp = mMessagelogScrollListCtrl->getFirstSelected();
 	if (!selected_itemp) return;
 	const LLUUID& id = selected_itemp->getUUID();
-	for (LLEasyMessageLogEntry* entryp : mFloaterMessageLogItems)
+	for (FloaterMessageItem entryp : mFloaterMessageLogItems)
 	{
 		if(entryp->mID == id)
 		{
@@ -749,39 +687,36 @@ void LLFloaterMessageLog::startApplyingFilter(const std::string& filter, BOOL fo
 		stopApplyingFilter();
 		mMessageLogFilter = new_filter;
 
-		mMessagesLogged = sMessageLogEntries.size();
 		clearFloaterMessageItems();
 
-		getChild<LLScrollListCtrl>("message_log")->setVisible(false);
-		mMessageLogFilterApply = new LLMessageLogFilterApply(this);
+		sMessageListMutex->lock();
+		mMessagesLogged = sMessageLogEntries.size();
+		for (auto& entry : sMessageLogEntries)
+			conditionalLog(entry);
+		sMessageListMutex->unlock();
 	}
 }
 																  
 void LLFloaterMessageLog::stopApplyingFilter(bool quitting)
 {
-	if(mMessageLogFilterApply)
+	if(!mMessageLogFilter.empty())
 	{
-		mMessageLogFilterApply->cancel();
-
 		if(!quitting)
 		{
-			getChild<LLScrollListCtrl>("message_log")->setVisible(true);
 			getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages from %d", mFloaterMessageLogItems.size(), mMessagesLogged));
 		}
 	}
-
-	mMessageLogFilterApply = NULL;
 }
 																  
 void LLFloaterMessageLog::updateFilterStatus()
 {
-	if (!mMessageLogFilterApply) return;
+	if (!mMessageLogFilter.empty()) return;
 
-	const S32 progress = mMessageLogFilterApply->getProgress();
-	const size_t packets = sMessageLogEntries.size();
-	const size_t matches = mFloaterMessageLogItems.size();
-	const std::string& text = llformat("Filtering ( %d / %d ), %d matches ...", progress, packets, matches);
-	getChild<LLTextBase>("log_status_text")->setText(text);
+	//const S32 progress = mMessageLogFilterApply->getProgress();
+	//const size_t packets = sMessageLogEntries.size();
+	//const size_t matches = mFloaterMessageLogItems.size();
+	//const std::string& text = llformat("Filtering ( %d / %d ), %d matches ...", progress, packets, matches);
+	//getChild<LLTextBase>("log_status_text")->setText(text);
 }
 
 void LLFloaterMessageLog::onCommitFilter()
@@ -812,7 +747,7 @@ void LLFloaterMessageLog::onClickSendToMessageBuilder()
 	if (!selected_itemp) return;
 
 	const LLUUID& id = selected_itemp->getUUID();
-	for(LLEasyMessageLogEntry* entry : mFloaterMessageLogItems)
+	for(FloaterMessageItem entry : mFloaterMessageLogItems)
 	{
 		if(entry->mID == id)
 		{

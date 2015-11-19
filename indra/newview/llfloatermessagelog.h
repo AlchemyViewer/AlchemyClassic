@@ -19,7 +19,9 @@
 #include "llmessagelog.h"
 #include "lleventtimer.h"
 
-#include <boost/unordered_map.hpp>
+#include <boost/container/flat_map.hpp>
+#include <boost/container/flat_set.hpp>
+#include <boost/circular_buffer.hpp>
 
 #ifndef LL_LLFLOATERMESSAGELOG_H
 #define LL_LLFLOATERMESSAGELOG_H
@@ -31,10 +33,10 @@ class LLEasyMessageReader;
 class LLEasyMessageLogEntry;
 class LLFloaterMessageLog;
 
-typedef std::list<LogPayload> LogPayloadList;
-typedef LLEasyMessageLogEntry* FloaterMessageItem;
-typedef std::list<LLEasyMessageLogEntry*> FloaterMessageList;
-typedef boost::unordered_map<U64, FloaterMessageItem> HTTPConvoMap;
+typedef boost::circular_buffer<LogPayload> LogPayloadList;
+typedef std::shared_ptr<LLEasyMessageLogEntry> FloaterMessageItem;
+typedef std::vector<FloaterMessageItem> FloaterMessageList;
+typedef boost::container::flat_map<U64, FloaterMessageItem> HTTPConvoMap;
 
 class LLMessageLogFilter
 {
@@ -43,33 +45,17 @@ public:
 	~LLMessageLogFilter() {}
 	LLMessageLogFilter(const std::string& filter);
 	void set(const std::string& filter);
+	bool empty() { return mPositiveNames.empty() && mNegativeNames.empty(); }
 
 	std::string asString() {return mAsString;}
 
 	//these should probably be unordered_sets
-	std::list<std::string> mPositiveNames;
-	std::list<std::string> mNegativeNames;
+	boost::container::flat_set<std::string> mPositiveNames;
+	boost::container::flat_set<std::string> mNegativeNames;
 
 protected:
 	std::string mAsString;
 };
-
-class LLMessageLogFilterApply : public LLEventTimer
-{
-
-public:
-	LLMessageLogFilterApply(LLFloaterMessageLog* parent);
-	void cancel();
-	S32 getProgress() { return mProgress; }
-	
-private:
-	BOOL tick();
-	S32 mProgress;
-	BOOL mFinished;
-	LLFloaterMessageLog* mParent;
-	LogPayloadList::iterator mIter;
-};
-
 
 class LLFloaterMessageLog : public LLFloater
 {
@@ -130,7 +116,6 @@ protected:
 	void updateFilterStatus();
 
 	LLMessageLogFilter mMessageLogFilter;
-	LLMessageLogFilterApply* mMessageLogFilterApply;
 
 	EInfoPaneMode mInfoPaneMode;
 

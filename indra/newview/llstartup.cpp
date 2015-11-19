@@ -68,7 +68,6 @@
 #include "llmessageconfig.h"
 #include "llmoveview.h"
 #include "llfloaterimcontainer.h"
-#include "llfloaterimnearbychat.h"
 #include "llfloaterperms.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"

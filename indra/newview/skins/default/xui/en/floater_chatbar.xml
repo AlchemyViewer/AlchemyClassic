@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater
+ positioning="specified"
+ left="5"
+ bottom="-1"
+ follows="left|bottom"
+ legacy_header_height="20"
+ height="20"
+ can_minimize="false"
+ can_resize="true"
+ can_resize_height="false"
+ layout="topleft"
+ min_width="12"
+ min_height="20"
+ name="chatbar"
+ chrome="false"
+ title=""
+ width="372">
+   <line_editor
+    border_style="line"
+    border_thickness="1"
+    follows="left|bottom|right"
+    height="19"
+    layout="topleft"
+    top="0"
+    left="0"
+    name="Chat Editor"
+    width="370" />
+</floater>

@@ -27,11 +27,13 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "llappviewer.h"
+#include "llchatbar.h"
 #include "llfloaterreg.h"
 #include "llviewerkeyboard.h"
 #include "llmath.h"
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llfloaterimcontainer.h"
 #include "llfloaterimnearbychat.h"
 #include "llviewercontrol.h"
 #include "llfocusmgr.h"
@@ -589,7 +591,16 @@ void start_chat( EKeystate s )
     }
     
 	// start chat
-	LLFloaterIMNearbyChat::startChat(NULL);
+	static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+	if (sChatInWindow
+		&& (LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->isChatVisible())
+	{
+		LLFloaterIMNearbyChat::startChat(NULL);
+	}
+	else
+	{
+		LLChatBar::startChat(NULL);
+	}
 }
 
 void start_gesture( EKeystate s )
@@ -598,16 +609,32 @@ void start_gesture( EKeystate s )
 	if (KEYSTATE_UP == s &&
 		! (focus_ctrlp && focus_ctrlp->acceptsTextInput()))
 	{
- 		if ((LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->getCurrentChat().empty())
- 		{
- 			// No existing chat in chat editor, insert '/'
- 			LLFloaterIMNearbyChat::startChat("/");
- 		}
- 		else
- 		{
- 			// Don't overwrite existing text in chat editor
- 			LLFloaterIMNearbyChat::startChat(NULL);
- 		}
+		static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+		if (sChatInWindow
+			&& (LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->isChatVisible())
+		{
+			if ((LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->getCurrentChat().empty())
+			{
+				// No existing chat in chat editor, insert '/'
+				LLFloaterIMNearbyChat::startChat("/");
+			}
+			else
+			{
+				// Don't overwrite existing text in chat editor
+				LLFloaterIMNearbyChat::startChat(NULL);
+			}
+		}
+		else
+		{
+			if ((LLFloaterReg::getTypedInstance<LLChatBar>("chatbar"))->getCurrentChat().empty())
+			{
+				LLChatBar::startChat("/");
+			}
+			else
+			{
+				LLChatBar::startChat(NULL);
+			}
+		}
 	}
 }
 

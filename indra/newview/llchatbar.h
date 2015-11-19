@@ -27,9 +27,9 @@
 #ifndef LL_LLCHATBAR_H
 #define LL_LLCHATBAR_H
 
-#include "llpanel.h"
 #include "llframetimer.h"
 #include "llchat.h"
+#include "lltransientdockablefloater.h"
 
 class LLLineEditor;
 class LLMessageSystem;
@@ -41,17 +41,17 @@ class LLComboBox;
 
 
 class LLChatBar
-:	public LLPanel
+:	public LLTransientDockableFloater
 {
 public:
 	// constructor for inline chat-bars (e.g. hosted in chat history window)
-	LLChatBar();
-	~LLChatBar();
-	virtual BOOL postBuild();
+	LLChatBar(const LLSD& key);
+	
+	BOOL		postBuild() override;
+	BOOL		handleKeyHere(KEY key, MASK mask) override;
+	void		onFocusLost() override;
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
-
-	void		refresh();
+	void		refresh() override;
 	void		refreshGestures();
 
 	// Move cursor into chat input field.
@@ -90,6 +90,8 @@ public:
 	static void stopChat();
 
 protected:
+	~LLChatBar();
+	
 	void sendChat(EChatType type);
 	void updateChat();
 
@@ -106,7 +108,5 @@ protected:
 
 	LLChatBarGestureObserver* mObserver;
 };
-
-extern LLChatBar *gChatBar;
 
 #endif

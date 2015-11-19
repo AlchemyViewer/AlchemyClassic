@@ -77,6 +77,16 @@
     <check_box
      follows="left|top"
      height="16"
+     label="Open Conversations when initiating nearby chat"
+     tool_tip="This will open Nearby Chat in the Conversations window rather than using the chat bar"
+     left_delta="0"
+     top_pad="6"
+     name="NearbyChatInConversations"
+     width="275"
+     control_name="NearbyChatInConversations"/>
+    <check_box
+     follows="left|top"
+     height="16"
      label="Automatically close chat bar when pressing Enter"
      tool_tip="Will only close the torn off (detached) chat bar and window, not the CHUI floater."
      left_delta="0"

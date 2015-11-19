@@ -893,6 +893,17 @@
       <key>Value</key>
       <real>128.0</real>
     </map>
+    <key>CloseChatBarOnReturn</key>
+    <map>
+      <key>Comment</key>
+      <string>Close chat after hitting return</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
     <key>FindLandSort</key>
     <map>
       <key>Comment</key>
@@ -949,6 +960,17 @@
       <string>U32</string>
       <key>Value</key>
       <integer>2</integer>
+    </map>
+    <key>NearbyChatInConversations</key>
+      <map>
+      <key>Comment</key>
+      <string>Activate nearby chat in Conversations floater</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
     </map>
     <key>OpenSimSearchURL</key>
     <map>

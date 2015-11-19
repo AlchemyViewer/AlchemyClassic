@@ -28,39 +28,19 @@
 
 #include "llchatbar.h"
 
-#include "llfontgl.h"
-#include "llrect.h"
-#include "llerror.h"
-#include "llparcel.h"
-#include "llstring.h"
-#include "message.h"
+#include "llcombobox.h"
 #include "llfocusmgr.h"
 #include "llfloaterreg.h"
-
-#include "llagent.h"
-#include "llbutton.h"
-#include "llcombobox.h"
-#include "llcommandhandler.h"	// secondlife:///app/chat/ support
-#include "llviewercontrol.h"
-#include "llgesturemgr.h"
-#include "llkeyboard.h"
 #include "lllineeditor.h"
-#include "llstatusbar.h"
-#include "lltextbox.h"
-#include "lluiconstants.h"
-#include "llviewergesture.h"			// for triggering gestures
-#include "llviewermenu.h"		// for deleting object with DEL key
-#include "llviewerstats.h"
-#include "llviewerwindow.h"
-#include "llframetimer.h"
-#include "llresmgr.h"
-#include "llworld.h"
-#include "llinventorymodel.h"
-#include "llmultigesture.h"
-#include "llui.h"
-#include "llviewermenu.h"
+#include "message.h"
 
 #include "alchatcommand.h"
+#include "llagent.h"
+#include "llgesturemgr.h"
+#include "llviewergesture.h"			// for triggering gestures
+#include "llviewermenu.h"		// for deleting object with DEL key
+#include "llmultigesture.h"
+#include "llviewercontrol.h"
 
 //
 // Globals
@@ -83,6 +63,26 @@ extern void send_chat_from_viewer(const std::string& utf8_out_text, EChatType ty
 //
 // Functions
 //
+
+void applyMUPose(std::string& text)
+{
+	if (text.at(0) == ':'
+		&& text.length() > 3)
+	{
+		if (text.find(":'") == 0)
+		{
+			text.replace(0, 1, "/me");
+		}
+		// Account for emotes and smilies
+		else if (!isdigit(text.at(1))
+				 && !ispunct(text.at(1))
+				 && !isspace(text.at(1)))
+		{
+			text.replace(0, 1, "/me ");
+		}
+	}
+}
+
 
 LLChatBar::LLChatBar(const LLSD& key)
 :	LLTransientDockableFloater(nullptr, false, key),
@@ -317,6 +317,7 @@ void LLChatBar::sendChat( EChatType type )
 			std::string utf8_revised_text;
 			if (0 == channel)
 			{
+				applyMUPose(utf8text);
 				// discard returned "found" boolean
 				LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text);
 			}
@@ -466,7 +467,7 @@ void LLChatBar::sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL 
 	}
 
 	// Don't animate for chats people can't hear (chat to scripts)
-	if (animate && (channel == 0))
+	if (animate && (channel == 0) && gSavedSettings.getBOOL("AlchemyAnimateShoutWhisper"))
 	{
 		if (type == CHAT_TYPE_WHISPER)
 		{
@@ -588,5 +589,4 @@ LLWString LLChatBar::stripChannelNumber(const LLWString &mesg, S32* channel)
 		return mesg;
 	}
 }
-
 

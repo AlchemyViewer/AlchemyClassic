@@ -27,9 +27,6 @@
 #ifndef LL_LLRAND_H
 #define LL_LLRAND_H
 
-#include <boost/random/lagged_fibonacci.hpp>
-#include <boost/random/mersenne_twister.hpp>
-
 /**
  * Use the boost random number generators if you want a stateful
  * random numbers. If you want more random numbers, use the
@@ -86,42 +83,4 @@ F64 LL_COMMON_API ll_drand();
  */
 F64 LL_COMMON_API ll_drand(F64 val);
 
-/**
- * @brief typedefs for good boost lagged fibonacci.
- * @see boost::lagged_fibonacci
- *
- * These generators will quickly generate doubles. Note the memory
- * requirements, because they are somewhat high. I chose the smallest
- * one, and one comparable in speed but higher periodicity without
- * outrageous memory requirements.
- * To use:
- *  LLRandLagFib607 foo((U32)time(NULL));
- *  double bar = foo();
- */
-
-typedef boost::lagged_fibonacci607 LLRandLagFib607;
-/**< 
- * lengh of cycle: 2^32,000
- * memory: 607*sizeof(double) (about 5K)
- */
-
-typedef boost::lagged_fibonacci2281 LLRandLagFib2281;
-/**< 
- * lengh of cycle: 2^120,000
- * memory: 2281*sizeof(double) (about 17K)
- */
-
-/**
- * @breif typedefs for a good boost mersenne twister implementation.
- * @see boost::mersenne_twister
- *
- * This fairly quickly generates U32 values
- * To use:
- *  LLRandMT19937 foo((U32)time(NULL));
- *  U32 bar = foo();
- *
- * lengh of cycle: 2^19,937-1
- * memory: about 2496 bytes
- */
-typedef boost::mt11213b LLRandMT19937;
 #endif

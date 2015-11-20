@@ -29,6 +29,7 @@
 #include "llrand.h"
 
 #include <random>
+#include <boost/thread/tss.hpp>
 
 /**
  * Through analysis, we have decided that we want to take values which
@@ -58,47 +59,45 @@
  * rand*g=g, which is not the desired result. As above, we clamp to 0
  * to restore uniform distribution.
  */
-LL_THREAD_LOCAL std::ranlux48 __generator;
-LL_THREAD_LOCAL bool __generator_init = false;
-inline std::ranlux48& _generator()
+static boost::thread_specific_ptr<std::ranlux48> __generator;
+inline std::ranlux48* _generator()
 {
-	if (!__generator_init)
+	if (!__generator.get())
 	{
 		std::random_device seeder;
-		__generator.seed(seeder());
-		__generator_init = true;
+		__generator.reset(new std::ranlux48(seeder()));
 	}
-	return __generator;
+	return __generator.get();
 }
 
 S32 ll_rand()
 {
-	return (S32)(_generator())();
+	return (S32)(*_generator())();
 }
 
 S32 ll_rand(S32 val)
 {
-	return std::uniform_int_distribution<S32>(0, val)((_generator()));
+	return std::uniform_int_distribution<S32>(0, val)((*_generator()));
 }
 
 F32 ll_frand()
 {
 	// see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63176
 	// and https://llvm.org/bugs/show_bug.cgi?id=18767
-	return (F32)std::generate_canonical<F64, 10>((_generator()));
+	return (F32)std::generate_canonical<F64, 10>((*_generator()));
 }
 
 F32 ll_frand(F32 val)
 {
-	return std::uniform_real_distribution<F64>(0, val)((_generator()));
+	return std::uniform_real_distribution<F64>(0, val)((*_generator()));
 }
 
 F64 ll_drand()
 {
-	return std::generate_canonical<F64, 10>((_generator()));
+	return std::generate_canonical<F64, 10>((*_generator()));
 }
 
 F64 ll_drand(F64 val)
 {
-	return std::uniform_real_distribution<F64>(0, val)((_generator()));
+	return std::uniform_real_distribution<F64>(0, val)((*_generator()));
 }

@@ -42,6 +42,8 @@
 #include "llvector4a.h"
 #include <queue>
 
+#include <boost/container/flat_map.hpp>
+
 #define SG_STATE_INHERIT_MASK (OCCLUDED)
 #define SG_INITIAL_STATE_MASK (DIRTY | GEOM_DIRTY)
 
@@ -224,10 +226,10 @@ public:
 	typedef std::vector<LLPointer<LLSpatialGroup> > sg_vector_t;
 	typedef std::vector<LLPointer<LLSpatialBridge> > bridge_list_t;
 	typedef std::vector<LLPointer<LLDrawInfo> > drawmap_elem_t; 
-	typedef std::map<U32, drawmap_elem_t > draw_map_t;	
+	typedef boost::container::flat_map<U32, drawmap_elem_t > draw_map_t;	
 	typedef std::vector<LLPointer<LLVertexBuffer> > buffer_list_t;
-	typedef std::map<LLFace*, buffer_list_t> buffer_texture_map_t;
-	typedef std::map<U32, buffer_texture_map_t> buffer_map_t;
+	typedef boost::container::flat_map<LLFace*, buffer_list_t> buffer_texture_map_t;
+	typedef boost::container::flat_map<U32, buffer_texture_map_t> buffer_map_t;
 
 	struct CompareDistanceGreater
 	{

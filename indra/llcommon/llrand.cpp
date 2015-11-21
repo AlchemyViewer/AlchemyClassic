@@ -72,13 +72,25 @@ inline std::ranlux48* _generator()
 
 S32 ll_rand()
 {
-	return (S32)(*_generator())();
+	return ll_rand(S32_MAX);
 }
 
 S32 ll_rand(S32 val)
 {
+	if (val == 0) return 0;
+
 	// The clamping rules are described above.
-	return (S32)(*_generator())() % val;
+	S32 rv;
+	if (val > 0)
+	{
+		rv = std::uniform_int_distribution<S32>(0, val)(*_generator());
+	}
+	else
+	{
+		rv = std::uniform_int_distribution<S32>(val, 0)(*_generator());
+	}
+	if (rv == val) return 0;
+	return rv;
 }
 
 F32 ll_frand()

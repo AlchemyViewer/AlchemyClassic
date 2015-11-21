@@ -36,8 +36,8 @@
 S32 LLJoint::sNumUpdates = 0;
 S32 LLJoint::sNumTouches = 0;
 
-template <class T> 
-bool attachment_map_iter_compare_key(const T& a, const T& b)
+template <class T>
+constexpr bool attachment_map_iter_compare_key(const T& a, const T& b)
 {
 	return a.first < b.first;
 }

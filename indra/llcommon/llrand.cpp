@@ -77,7 +77,8 @@ S32 ll_rand()
 
 S32 ll_rand(S32 val)
 {
-	return std::uniform_int_distribution<S32>(0, val)((*_generator()));
+	// The clamping rules are described above.
+	return (S32)(*_generator())() % val;
 }
 
 F32 ll_frand()
@@ -89,7 +90,16 @@ F32 ll_frand()
 
 F32 ll_frand(F32 val)
 {
-	return std::uniform_real_distribution<F64>(0, val)((*_generator()));
+	F32 rv = ll_frand() * val;
+	if (val > 0.0f)
+	{
+		if (rv >= val) return 0.0f;
+	}
+	else
+	{
+		if (rv <= val) return 0.0f;
+	}
+	return rv;
 }
 
 F64 ll_drand()
@@ -99,5 +109,14 @@ F64 ll_drand()
 
 F64 ll_drand(F64 val)
 {
-	return std::uniform_real_distribution<F64>(0, val)((*_generator()));
+	F64 rv = ll_drand() * val;
+	if (val > 0.0)
+	{
+		if (rv >= val) return 0.0;
+	}
+	else
+	{
+		if (rv <= val) return 0.0;
+	}
+	return rv;
 }

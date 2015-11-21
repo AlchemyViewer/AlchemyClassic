@@ -36,8 +36,10 @@
 class LLDesktopNotificationsNope : public LLDesktopNotifications
 {
 public:
-	LLDesktopNotificationsNope() {}
 	void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
+    bool isImplemented() override { return false; }
+
+    LLDesktopNotificationsNope() {}
 };
 
 #endif // LL_DESKTOPNOTIFICATIONS_NOPE_H

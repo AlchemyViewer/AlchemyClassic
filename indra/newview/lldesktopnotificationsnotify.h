@@ -45,6 +45,7 @@ public:
     LLDesktopNotificationsNotify();
     ~LLDesktopNotificationsNotify();
     void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
+    bool isImplemented() override { return true; }
 private:
     void* handle;
     notify_init_t notify_init;

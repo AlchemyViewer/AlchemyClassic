@@ -37,6 +37,7 @@ class LLDesktopNotifications
 {	
 public:
 	virtual void sendNotification(const std::string& title, const std::string& body, bool play_sound) = 0;
+	virtual bool isImplemented() = 0;
 	
 	LLDesktopNotifications() {}
 	

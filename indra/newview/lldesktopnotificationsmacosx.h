@@ -41,8 +41,10 @@
 class LLDesktopNotificationsMacOSX : public LLDesktopNotifications
 {
 public:
-	LLDesktopNotificationsMacOSX() {}
 	void sendNotification(const std::string& title, const std::string& body, bool play_sound) override;
+	bool isImplemented() override { return true; }
+	
+	LLDesktopNotificationsMacOSX() {}
 };
 
 #endif // LL_DARWIN

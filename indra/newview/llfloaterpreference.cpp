@@ -42,6 +42,7 @@
 #include "llcolorswatch.h"
 #include "llcombobox.h"
 #include "llcommandhandler.h"
+#include "lldesktopnotifications.h"
 #include "lldiriterator.h"
 #include "lldirpicker.h"
 #include "lleventtimer.h"
@@ -515,10 +516,12 @@ BOOL LLFloaterPreference::postBuild()
 	
 	loadUserSkins();
 	
+	getChild<LLPanel>("panel_notify")->setVisible(gDesktopNotificationsp->isImplemented() ? TRUE : FALSE);
+	
 #ifdef LL_DARWIN
-	getChild<LLPanel>("ohehsex")->setVisible(TRUE);
+	getChild<LLView>("OSXBadgeNotifications")->setVisible(TRUE);
 #else // !LL_DARWIN
-	getChild<LLPanel>("ohehsex")->setVisible(FALSE);
+	getChild<LLView>("OSXBadgeNotifications")->setVisible(FALSE);
 #endif // LL_DARWIN
 
 	return TRUE;

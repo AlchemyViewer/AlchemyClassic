@@ -217,7 +217,7 @@ bool ALChatCommand::parseCommand(std::string data)
 			if (!(input >> dice_sides))
 				dice_sides = 6;
 			LLSD args;
-			args["RESULT"] = ((ll_rand() % dice_sides) + 1);
+			args["RESULT"] = (ll_rand(dice_sides) + 1);
 			LLNotificationsUtil::add("ChatCommandDiceRoll", args);
 			return true;
 		}

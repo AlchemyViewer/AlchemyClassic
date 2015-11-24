@@ -85,7 +85,7 @@ void applyMUPose(std::string& text)
 
 
 LLChatBar::LLChatBar(const LLSD& key)
-:	LLTransientDockableFloater(nullptr, false, key),
+:	LLFloater(key),
 	mInputEditor(NULL),
 	mGestureLabelTimer(),
 	mLastSpecialChatChannel(0),
@@ -350,7 +350,6 @@ void LLChatBar::sendChat( EChatType type )
 		stopChat();
 	}
 }
-
 
 //-----------------------------------------------------------------------
 // Static functions

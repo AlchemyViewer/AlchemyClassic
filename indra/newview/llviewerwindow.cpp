@@ -2723,7 +2723,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 				LLFloaterReg::toggleInstanceOrBringToFront(name);
 			}
 			
-			LLChatEntry* chat_editor = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat")->getChatBox();
+			LLChatEntry* chat_editor = nearby_chat->getChatBox();
 			if (chat_editor)
 			{
 				// passing NULL here, character will be added later when it is handled by character handler.
@@ -2733,11 +2733,11 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 		}
 		else
 		{
-			LLFloaterReg::toggleInstanceOrBringToFront("chatbar");
-			if ((LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->getCurrentChat().empty())
-				LLChatBar::startChat(LLKeyboard::stringFromKey(key).c_str() );
-			else
-				LLChatBar::startChat(NULL);
+			LLChatBar* chat_bar = LLFloaterReg::findTypedInstance<LLChatBar>("charbar");
+			if (!chat_bar)
+				LLFloaterReg::toggleInstanceOrBringToFront("chatbar");
+			
+			LLChatBar::startChat(NULL);
 			return TRUE;
 		}
 	}

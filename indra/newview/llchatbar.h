@@ -29,7 +29,7 @@
 
 #include "llframetimer.h"
 #include "llchat.h"
-#include "lltransientdockablefloater.h"
+#include "llfloater.h"
 
 class LLLineEditor;
 class LLMessageSystem;
@@ -41,7 +41,7 @@ class LLComboBox;
 
 
 class LLChatBar
-:	public LLTransientDockableFloater
+:	public LLFloater
 {
 public:
 	// constructor for inline chat-bars (e.g. hosted in chat history window)

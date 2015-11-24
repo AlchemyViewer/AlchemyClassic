@@ -2733,7 +2733,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 		}
 		else
 		{
-			LLChatBar* chat_bar = LLFloaterReg::findTypedInstance<LLChatBar>("charbar");
+			LLChatBar* chat_bar = LLFloaterReg::findTypedInstance<LLChatBar>("chatbar");
 			if (!chat_bar)
 				LLFloaterReg::toggleInstanceOrBringToFront("chatbar");
 			

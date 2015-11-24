@@ -178,7 +178,7 @@ bool LLDate::fromString(const std::string& iso8601_date)
 		time_duration time_since_epoch = (pt - ptime(boost::gregorian::date(1970,1,1)));
 		mSecondsSinceEpoch = time_since_epoch.total_seconds();
 	}
-	catch (const boost::bad_lexical_cast&)
+	catch (const std::exception&)
 	{
 		return false;
 	}

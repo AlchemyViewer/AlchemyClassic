@@ -1833,6 +1833,13 @@ LLTextureCache::handle_t LLTextureCache::writeToCache(const LLUUID& id, U32 prio
 		purgeTextures(false);
 		mDoPurge = false;
 	}
+	
+	if (rawimage.isNull() || !rawimage->getData())
+	{
+		delete responder;
+		return LLWorkerThread::nullHandle();
+	}
+	
 	LLMutexLock lock(&mWorkersMutex);
 	LLTextureCacheWorker* worker = new LLTextureCacheRemoteWorker(this, priority, id,
 																  data, datasize, 0,

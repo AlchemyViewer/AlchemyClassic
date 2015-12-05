@@ -21,7 +21,12 @@
 #include "llworld.h"
 #include "llsdserialize.h"
 
-#include <pugixml.hpp>
+#undef XMLCALL //HACK: need to find the expat.h include
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/HTMLparser.h>
+#include <libxml/HTMLtree.h>
+#include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 
 //I doubt any of this is thread safe!
@@ -208,26 +213,48 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 					
 					if(!content_type.empty())
 					{
-						if(content_type == "application/llsd+xml" || content_type == "application/xml")
+						std::string parsed_content_type = content_type.substr(0, content_type.find_first_of(";"));
+						boost::algorithm::trim(parsed_content_type); // trim excess data
+						boost::algorithm::to_lower(parsed_content_type); // convert to lowercase
+						if(parsed_content_type == "application/llsd+xml" || parsed_content_type == "application/xml")
 						{
-							// Use PugiXML instead of LLXMLNode since Expat can change the semantics of
-							// input by dropping xml decls and expanding entities, as well as DoS the client.
-							// LLSDSerialize can't be used either since it uses Expat internally.
-							pugi::xml_document doc;
-							U32 parse_opts = (pugi::parse_default | pugi::parse_comments | pugi::parse_doctype
-											  | pugi::parse_declaration | pugi::parse_pi) & ~(pugi::parse_escapes);
-							pugi::xml_parse_result res = doc.load_buffer(mEntry->mData, mEntry->mDataSize, parse_opts);
-							if(res)
+							// Use libxml2 instead of expat for safety.
+							const int parse_opts = XML_PARSE_NONET | XML_PARSE_NOCDATA | XML_PARSE_NOXINCNODE | XML_PARSE_NOBLANKS;
+							xmlDocPtr doc = xmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.xml", NULL, parse_opts);
+							if(doc)
 							{
-								U32 format_opts = pugi::format_default | pugi::format_no_escapes | pugi::format_no_declaration;
-								if(doc.child("llsd"))
-								format_opts |= pugi::format_pretty_llsd;
-								doc.save(full, "    ", format_opts);
+								xmlChar *xmlbuffer = nullptr;
+								int buffersize = 0;
+								xmlDocDumpFormatMemory(doc, &xmlbuffer, &buffersize, 1);
+								full << std::string((const char*)xmlbuffer, buffersize);
+								
+								xmlFree(xmlbuffer);
+								xmlFreeDoc(doc);
 								can_beautify = true;
 							}
 							else
 							{
-								LL_WARNS("EasyMessageReader") << "PugiXML failed with: " << res.description() << LL_ENDL;
+								LL_DEBUGS("EasyMessageReader") << "libxml2 failed to parse xml" << LL_ENDL;
+							}
+						}
+						else if (parsed_content_type == "text/html")
+						{
+							const int parse_opts = HTML_PARSE_NONET | HTML_PARSE_NOERROR | HTML_PARSE_NOIMPLIED | HTML_PARSE_NOBLANKS;
+							htmlDocPtr doc = htmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.html", NULL, parse_opts);
+							if (doc)
+							{
+								xmlChar * htmlbuffer = nullptr;
+								int buffersize = 0;
+								htmlDocDumpMemoryFormat(doc, &htmlbuffer, &buffersize, 1);
+								full << std::string((const char*)htmlbuffer, buffersize);
+
+								xmlFree(htmlbuffer);
+								xmlFreeDoc(doc);
+								can_beautify = true;
+							}
+							else 
+							{
+								LL_DEBUGS("EasyMessageReader") << "libxml2 failed to parse html" << LL_ENDL;
 							}
 						}
 					}

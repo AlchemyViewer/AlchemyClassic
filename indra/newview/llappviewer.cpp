@@ -128,6 +128,8 @@
 // Third party library includes
 #include <boost/algorithm/string.hpp>
 
+#undef XMLCALL //HACK: need to find the expat.h include
+#include <libxml/parser.h> // needed for init and cleanup
 
 #if LL_WINDOWS
 #	include <share.h> // For _SH_DENYWR in processMarkerFiles
@@ -1294,6 +1296,9 @@ bool LLAppViewer::mainLoop()
 		//-------------------------------------------
 		// Run main loop until time to quit
 		//-------------------------------------------
+
+		// initalize libxml2
+		xmlInitParser();
 		
 		// Create IO Pump to use for HTTP Requests.
 		gServicePump = new LLPumpIO(gAPRPoolp);
@@ -1627,6 +1632,9 @@ bool LLAppViewer::mainLoop()
 		delete gServicePump;
 		
 		destroyMainloopTimeout();
+
+		// clean up libxml2 parser
+		xmlCleanupParser();
 		
 		LL_INFOS() << "Exiting main_loop" << LL_ENDL;
 	}

@@ -936,7 +936,7 @@ void LLGridManager::updateIsInProductionGrid()
 	{
 		if (MAIN_GRID_LOGIN_URI == uri)
 		{
-			LL_DEBUGS("GridManager")<< "Setting grid platform to SLMAIN" << LL_ENDL;
+			LL_DEBUGS("GridManager") << "Setting grid platform to SLMAIN" << LL_ENDL;
 			mPlatform = SLMAIN;
 			return;
 		}
@@ -948,7 +948,7 @@ void LLGridManager::updateIsInProductionGrid()
 		LLURI login_uri = LLURI(uri);
 		if (login_uri.authority().find("lindenlab.com") != std::string::npos) // Any old lab domain will do
 		{
-			LL_DEBUGS("GridManager")<< "Setting grid platform to SLBETA" << LL_ENDL;
+			LL_DEBUGS("GridManager") << "Setting grid platform to SLBETA" << LL_ENDL;
 			mPlatform = SLBETA;
 			return;
 		}
@@ -956,8 +956,14 @@ void LLGridManager::updateIsInProductionGrid()
 	
 	if (getPlatformString() == "OpenSim")
 	{
-		LL_DEBUGS("GridManager")<< "Setting grid platform to OPENSIM" << LL_ENDL;
+		LL_DEBUGS("GridManager") << "Setting grid platform to OPENSIM" << LL_ENDL;
 		mPlatform = OPENSIM;
+		return;
+	}
+	if (getPlatformString() == "Halcyon")
+	{
+		LL_DEBUGS("GridManager") << "Setting grid platform to HALCYON" << LL_ENDL;
+		mPlatform = HALCYON;
 		return;
 	}
 	
@@ -973,7 +979,17 @@ bool LLGridManager::isInSecondlife() const
 
 bool LLGridManager::isInOpenSim() const
 {
+	return (mPlatform == OPENSIM || mPlatform == HALCYON);
+}
+
+bool LLGridManager::isInOpenSimulator() const
+{
 	return mPlatform == OPENSIM;
+}
+
+bool LLGridManager::isInHalcyon() const
+{
+	return mPlatform == HALCYON;
 }
 
 bool LLGridManager::isInSLMain() const

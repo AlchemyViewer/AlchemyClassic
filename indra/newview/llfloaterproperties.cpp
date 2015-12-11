@@ -142,7 +142,7 @@ BOOL LLFloaterProperties::postBuild()
 	getChild<LLUICtrl>("CheckNextOwnerCopy")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckNextOwnerTransfer")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
 	getChild<LLUICtrl>("CheckOwnerExport")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitPermissions, this));
-	getChild<LLUICtrl>("CheckOwnerExport")->setVisible(LLGridManager::getInstance()->isInOpenSim());
+	getChild<LLUICtrl>("CheckOwnerExport")->setVisible(!LLGridManager::getInstance()->isInSecondlife());
 	// Mark for sale or not, and sale info
 	getChild<LLUICtrl>("CheckPurchase")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitSaleInfo, this));
 	getChild<LLUICtrl>("ComboBoxSaleType")->setCommitCallback(boost::bind(&LLFloaterProperties::onCommitSaleType, this));

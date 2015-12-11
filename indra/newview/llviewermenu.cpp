@@ -3450,6 +3450,10 @@ class LLEnableGrid : public view_listener_t
 		{
 			return LLGridManager::getInstance()->isInOpenSim();
 		}
+		else if (grid_type == "halcyon")
+		{
+			return LLGridManager::getInstance()->isInHalcyon();
+		}
 		else
 		{
 			LL_WARNS("ViewerMenu") << "Unhandled or bad on_visible gridcheck parameter!" << LL_ENDL;

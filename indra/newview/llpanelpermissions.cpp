@@ -234,7 +234,7 @@ void LLPanelPermissions::disableAll()
 	getChild<LLUICtrl>("checkbox allow everyone copy")->setValue(FALSE);
 	getChildView("checkbox allow everyone copy")->setEnabled(FALSE);
 
-	getChild<LLUICtrl>("checkbox allow export")->setVisible(LLGridManager::getInstance()->isInOpenSim());
+	getChild<LLUICtrl>("checkbox allow export")->setVisible(!LLGridManager::getInstance()->isInSecondlife());
 	getChild<LLUICtrl>("checkbox allow export")->setValue(FALSE);
 	getChildView("checkbox allow export")->setEnabled(FALSE);
 	

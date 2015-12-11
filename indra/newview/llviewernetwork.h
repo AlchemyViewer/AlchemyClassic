@@ -206,7 +206,8 @@ class LLGridManager : public LLSingleton<LLGridManager>
 		NOPLATFORM = 0,
 		SLMAIN,
 		SLBETA,
-		OPENSIM
+		OPENSIM,
+		HALCYON
 	}EGridPlatform;
 
 	/* ================================================================
@@ -236,8 +237,14 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Is the selected grid Second Life?
 	bool isInSecondlife() const;
 	
-	/// Is the selected grid OpenSimulator?
+	/// Is the selected grid OpenSim or OpenSim-derived?
 	bool isInOpenSim() const;
+	
+	/// Is the selected grid OpenSimulator?
+	bool isInOpenSimulator() const;
+	
+	/// Is the selected grid Halcyon?
+	bool isInHalcyon() const;
 	
 	/// Is the selected grid agni?
 	bool isInSLMain() const;

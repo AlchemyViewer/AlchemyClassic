@@ -498,7 +498,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	getChild<LLUICtrl>("CheckOwnerTransfer")->setValue(LLSD((BOOL)(owner_mask & PERM_TRANSFER)));
 	getChildView("CheckOwnerExport")->setEnabled(FALSE);
 	getChild<LLUICtrl>("CheckOwnerExport")->setValue(LLSD((BOOL)(owner_mask & PERM_EXPORT)));
-	getChildView("CheckOwnerExport")->setVisible(LLGridManager::getInstance()->isInOpenSim());
+	getChildView("CheckOwnerExport")->setVisible(!LLGridManager::getInstance()->isInSecondlife());
 
 	///////////////////////
 	// DEBUG PERMISSIONS //

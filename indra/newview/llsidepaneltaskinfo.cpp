@@ -243,7 +243,7 @@ void LLSidepanelTaskInfo::disableAll()
 	mDACheckboxNextOwnerCanTransfer->setEnabled(FALSE);
 	mDACheckboxNextOwnerCanExport->setValue(FALSE);
 	mDACheckboxNextOwnerCanExport->setEnabled(FALSE);
-	mDACheckboxNextOwnerCanExport->setVisible(LLGridManager::getInstance()->isInOpenSim());
+	mDACheckboxNextOwnerCanExport->setVisible(!LLGridManager::getInstance()->isInSecondlife());
 
 	//checkbox for sale
 	mDACheckboxForSale->setValue(FALSE);

@@ -77,23 +77,23 @@ namespace tut
 	template<> template<>
 	void date_test_object_t::test<1>()
 	{
-		bool result;
 		LLDate date(VALID_DATE);
-		std::string expected_string = VALID_DATE;
-		ensure_equals("Valid Date failed" , date.asString(), expected_string);
+		std::string  expected_string;
+		bool result;
+		expected_string = VALID_DATE;
+		ensure_equals("Valid Date failed" , expected_string, date.asString());
 
 		result = date.fromString(VALID_DATE_LEAP);
 		expected_string = VALID_DATE_LEAP; 	
-		ensure_equals("VALID_DATE_LEAP failed" , date.asString(), expected_string);
+		ensure_equals("VALID_DATE_LEAP failed" , expected_string, date.asString());
 
 		result = date.fromString(VALID_DATE_HOUR_BOUNDARY);
 		expected_string = VALID_DATE_HOUR_BOUNDARY; 	
-		ensure_equals("VALID_DATE_HOUR_BOUNDARY failed" , date.asString(), expected_string);
+		ensure_equals("VALID_DATE_HOUR_BOUNDARY failed" , expected_string, date.asString());
 
 		result = date.fromString(VALID_DATE_FRACTIONAL_SECS);
 		expected_string = VALID_DATE_FRACTIONAL_SECS;
-		// *TODO: Fix microsecond precision?
-		//ensure_equals("VALID_DATE_FRACTIONAL_SECS failed" , date.asString(), expected_string);
+		ensure_equals("VALID_DATE_FRACTIONAL_SECS failed" , expected_string, date.asString());
 
 		result = date.fromString(INVALID_DATE_MISSING_YEAR);
 		ensure_equals("INVALID_DATE_MISSING_YEAR should have failed" , result, false);
@@ -107,7 +107,7 @@ namespace tut
 		result = date.fromString(INVALID_DATE_MISSING_T);
 		ensure_equals("INVALID_DATE_MISSING_T should have failed" , result, false);
 
-		/*result = date.fromString(INVALID_DATE_MISSING_HOUR);
+		result = date.fromString(INVALID_DATE_MISSING_HOUR);
 		ensure_equals("INVALID_DATE_MISSING_HOUR should have failed" , result, false);
 
 		result = date.fromString(INVALID_DATE_MISSING_MIN);
@@ -117,7 +117,7 @@ namespace tut
 		ensure_equals("INVALID_DATE_MISSING_SEC should have failed" , result, false);
 
 		result = date.fromString(INVALID_DATE_MISSING_Z);
-		ensure_equals("INVALID_DATE_MISSING_Z should have failed" , result, false);*/
+		ensure_equals("INVALID_DATE_MISSING_Z should have failed" , result, false);
 
 		result = date.fromString(INVALID_DATE_EMPTY);
 		ensure_equals("INVALID_DATE_EMPTY should have failed" , result, false);
@@ -194,7 +194,7 @@ namespace tut
 		std::ostringstream stream;
 		stream << date;
 		std::string expected_str = VALID_DATE;
-		ensure_equals("ostringstream failed", stream.str(), expected_str);
+		ensure_equals("ostringstream failed", expected_str, stream.str());
 	}
 
 	template<> template<>

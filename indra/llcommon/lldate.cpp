@@ -29,7 +29,7 @@
 #include "linden_common.h"
 #include "lldate.h"
 
-#include <boost/date_time/posix_time/posix_time.hpp>
+#include "apr_time.h"
 
 #include <time.h>
 #include <locale.h>
@@ -42,9 +42,12 @@
 #include "llstring.h"
 #include "llfasttimer.h"
 
-using namespace boost::posix_time;
-
 static const F64 DATE_EPOCH = 0.0;
+
+static const F64 LL_APR_USEC_PER_SEC = 1000000.0;
+	// should be APR_USEC_PER_SEC, but that relies on INT64_C which
+	// isn't defined in glib under our build set up for some reason
+
 
 LLDate::LLDate() : mSecondsSinceEpoch(DATE_EPOCH)
 {}
@@ -61,7 +64,8 @@ LLDate::LLDate(const std::string& iso8601_date)
 {
 	if(!fromString(iso8601_date))
 	{
-		LL_WARNS() << "date " << iso8601_date << " failed to parse; ZEROING IT OUT" << LL_ENDL;
+		LL_WARNS() << "date " << iso8601_date << " failed to parse; "
+			<< "ZEROING IT OUT" << LL_ENDL;
 		mSecondsSinceEpoch = DATE_EPOCH;
 	}
 }
@@ -80,12 +84,12 @@ std::string LLDate::asString() const
 //        is one of the standards used and the prefered format
 std::string LLDate::asRFC1123() const
 {
-	return toHTTPDateString(std::string("%A, %d %b %Y %H:%M:%S GMT"));
+	return toHTTPDateString (std::string ("%A, %d %b %Y %H:%M:%S GMT"));
 }
 
 LLTrace::BlockTimerStatHandle FT_DATE_FORMAT("Date Format");
 
-std::string LLDate::toHTTPDateString(std::string fmt) const
+std::string LLDate::toHTTPDateString (std::string fmt) const
 {
 	LL_RECORD_BLOCK_TIME(FT_DATE_FORMAT);
 	
@@ -122,20 +126,31 @@ void LLDate::toStream(std::ostream& s) const
 {
 	std::ios::fmtflags f( s.flags() );
 
-	ptime time = from_time_t(mSecondsSinceEpoch);
+	apr_time_t time = (apr_time_t)(mSecondsSinceEpoch * LL_APR_USEC_PER_SEC);
+	
+	apr_time_exp_t exp_time;
+	if (apr_time_exp_gmt(&exp_time, time) != APR_SUCCESS)
+	{
+		s << "1970-01-01T00:00:00Z";
+		return;
+	}
 	
 	s << std::dec << std::setfill('0');
+#if( LL_WINDOWS || __GNUC__ > 2)
 	s << std::right;
-	s		 << std::setw(4) << (time.date().year())
-	  << '-' << std::setw(2) << (time.date().month().as_number())
-	  << '-' << std::setw(2) << (time.date().day())
-	  << 'T' << std::setw(2) << (time.time_of_day().hours())
-	  << ':' << std::setw(2) << (time.time_of_day().minutes())
-	  << ':' << std::setw(2) << (time.time_of_day().seconds());
-	if (time.time_of_day().fractional_seconds() > 0)
+#else
+	s.setf(ios::right);
+#endif
+	s		 << std::setw(4) << (exp_time.tm_year + 1900)
+	  << '-' << std::setw(2) << (exp_time.tm_mon + 1)
+	  << '-' << std::setw(2) << (exp_time.tm_mday)
+	  << 'T' << std::setw(2) << (exp_time.tm_hour)
+	  << ':' << std::setw(2) << (exp_time.tm_min)
+	  << ':' << std::setw(2) << (exp_time.tm_sec);
+	if (exp_time.tm_usec > 0)
 	{
 		s << '.' << std::setw(2)
-		<< time.time_of_day().fractional_seconds();
+		  << (int)(exp_time.tm_usec / (LL_APR_USEC_PER_SEC / 100));
 	}
 	s << 'Z'
 	  << std::setfill(' ');
@@ -145,60 +160,126 @@ void LLDate::toStream(std::ostream& s) const
 
 bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *sec) const
 {
-	ptime result = from_time_t(mSecondsSinceEpoch);
+	apr_time_t time = (apr_time_t)(mSecondsSinceEpoch * LL_APR_USEC_PER_SEC);
+	
+	apr_time_exp_t exp_time;
+	if (apr_time_exp_gmt(&exp_time, time) != APR_SUCCESS)
+	{
+		return false;
+	}
 
 	if (year)
-		*year = result.date().year();
+		*year = exp_time.tm_year + 1900;
 
 	if (month)
-		*month = result.date().month().as_number();
+		*month = exp_time.tm_mon + 1;
 
 	if (day)
-		*day = result.date().day();
+		*day = exp_time.tm_mday;
 
 	if (hour)
-		*hour = result.time_of_day().hours();
+		*hour = exp_time.tm_hour;
 
 	if (min)
-		*min = result.time_of_day().minutes();
+		*min = exp_time.tm_min;
 
 	if (sec)
-		*sec = result.time_of_day().seconds();
+		*sec = exp_time.tm_sec;
 
 	return true;
 }
 
 bool LLDate::fromString(const std::string& iso8601_date)
 {
-	try
-	{
-		std::string date(iso8601_date);
-		if (date.back() == 'Z') date.pop_back(); //HACK ALERT! parse_delimited_time can't f with tz, so just strip Z. lol
-		ptime pt = boost::date_time::parse_delimited_time<ptime>(date, 'T');
-		time_duration time_since_epoch = (pt - ptime(boost::gregorian::date(1970,1,1)));
-		mSecondsSinceEpoch = time_since_epoch.total_seconds();
-	}
-	catch (const boost::bad_lexical_cast)
-	{
-		return false;
-	}
-	catch (const std::exception&)
-	{
-		return false;
-	}
-	return true;
+	std::istringstream stream(iso8601_date);
+	return fromStream(stream);
 }
 
 bool LLDate::fromStream(std::istream& s)
 {
-	std::istreambuf_iterator<char> eos;
-	std::string str(std::istreambuf_iterator<char>(s), eos);
-	return fromString(str);
+	struct apr_time_exp_t exp_time;
+	apr_int32_t tm_part;
+	int c;
+	
+	s >> tm_part;
+	exp_time.tm_year = tm_part - 1900;
+	c = s.get(); // skip the hypen
+	if (c != '-') { return false; }
+	s >> tm_part;
+	exp_time.tm_mon = tm_part - 1;
+	c = s.get(); // skip the hypen
+	if (c != '-') { return false; }
+	s >> tm_part;
+	exp_time.tm_mday = tm_part;
+	
+	c = s.get(); // skip the T
+	if (c != 'T') { return false; }
+	
+	s >> tm_part;
+	exp_time.tm_hour = tm_part;
+	c = s.get(); // skip the :
+	if (c != ':') { return false; }
+	s >> tm_part;
+	exp_time.tm_min = tm_part;
+	c = s.get(); // skip the :
+	if (c != ':') { return false; }
+	s >> tm_part;
+	exp_time.tm_sec = tm_part;
+
+	// zero out the unused fields
+	exp_time.tm_usec = 0;
+	exp_time.tm_wday = 0;
+	exp_time.tm_yday = 0;
+	exp_time.tm_isdst = 0;
+	exp_time.tm_gmtoff = 0;
+
+	// generate a time_t from that
+	apr_time_t time;
+	if (apr_time_exp_gmt_get(&time, &exp_time) != APR_SUCCESS)
+	{
+		return false;
+	}
+	
+	F64 seconds_since_epoch = time / LL_APR_USEC_PER_SEC;
+
+	// check for fractional
+	c = s.peek();
+	if(c == '.')
+	{
+		F64 fractional = 0.0;
+		s >> fractional;
+		seconds_since_epoch += fractional;
+	}
+
+	c = s.peek(); // check for offset
+	if (c == '+' || c == '-')
+	{
+		S32 offset_sign = (c == '+') ? 1 : -1;
+		S32 offset_hours = 0;
+		S32 offset_minutes = 0;
+		S32 offset_in_seconds = 0;
+
+		s >> offset_hours;
+
+		c = s.get(); // skip the colon a get the minutes if there are any
+		if (c == ':')
+		{		
+			s >> offset_minutes;
+		}
+		
+		offset_in_seconds =  (offset_hours * 60 + offset_sign * offset_minutes) * 60;
+		seconds_since_epoch -= offset_in_seconds;
+	}
+	else if (c != 'Z') { return false; } // skip the Z
+
+	mSecondsSinceEpoch = seconds_since_epoch;
+	return true;
 }
 
 bool LLDate::fromYMDHMS(S32 year, S32 month, S32 day, S32 hour, S32 min, S32 sec)
 {
-	std::tm exp_time = {0};
+	struct apr_time_exp_t exp_time;
+	
 	exp_time.tm_year = year - 1900;
 	exp_time.tm_mon = month - 1;
 	exp_time.tm_mday = day;
@@ -206,7 +287,22 @@ bool LLDate::fromYMDHMS(S32 year, S32 month, S32 day, S32 hour, S32 min, S32 sec
 	exp_time.tm_min = min;
 	exp_time.tm_sec = sec;
 
-	mSecondsSinceEpoch = std::mktime(&exp_time);
+	// zero out the unused fields
+	exp_time.tm_usec = 0;
+	exp_time.tm_wday = 0;
+	exp_time.tm_yday = 0;
+	exp_time.tm_isdst = 0;
+	exp_time.tm_gmtoff = 0;
+
+	// generate a time_t from that
+	apr_time_t time;
+	if (apr_time_exp_gmt_get(&time, &exp_time) != APR_SUCCESS)
+	{
+		return false;
+	}
+	
+	mSecondsSinceEpoch = time / LL_APR_USEC_PER_SEC;
+
 	return true;
 }
 

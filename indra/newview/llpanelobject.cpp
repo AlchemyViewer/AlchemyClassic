@@ -58,6 +58,7 @@
 #include "lltoolcomp.h"
 #include "lltoolmgr.h"
 #include "llui.h"
+#include "llviewernetwork.h"
 #include "llviewerobject.h"
 #include "llviewerregion.h"
 #include "llviewerwindow.h"
@@ -302,6 +303,8 @@ LLPanelObject::LLPanelObject()
 	mSculptTextureRevert(LLUUID::null),
 	mSculptTypeRevert(0),
 	mSizeChanged(FALSE),
+	mRegionMaxHeight(256.f),
+	mRegionMaxDepth(0.f),
 	mUpdateLimits(true)
 {
 	mCommitCallbackRegistrar.add("Build.Copy", boost::bind(&LLPanelObject::onClickBtnCopyData, this, _2));
@@ -406,12 +409,14 @@ void LLPanelObject::getState( )
 	mBtnPosCopy->setEnabled(enable_move);
 	mBtnPosPaste->setEnabled(enable_move && mCopiedObjectData.has("position"));
 
-	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -REGION_WIDTH_METERS);
-	mCtrlPosX->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
-	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -REGION_WIDTH_METERS);
-	mCtrlPosY->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_WIDTH_METERS);
-	mCtrlPosZ->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : 0.f);
-	mCtrlPosZ->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : REGION_HEIGHT_METERS);
+	LLViewerRegion* regionp = objectp->getRegion();
+	F32 width = regionp != nullptr ? regionp->getWidth() : REGION_WIDTH_METERS;
+	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -width);
+	mCtrlPosX->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : width);
+	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -width);
+	mCtrlPosY->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : width);
+	mCtrlPosZ->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : mRegionMaxDepth);
+	mCtrlPosZ->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : mRegionMaxHeight);
 
 	if (enable_scale)
 	{
@@ -1865,6 +1870,7 @@ void LLPanelObject::refreshLimits()
 	mUpdateLimits = false;
 
 	mRegionMaxHeight = LLWorld::getInstance()->getRegionMaxHeight();
+	mRegionMaxDepth = LLGridManager::getInstance()->isInOpenSimulator() ? 256.f : 0.f; // OpenSim is derp
 	mCtrlPosZ->setMaxValue(mRegionMaxHeight);
 	mMinScale = LLWorld::getInstance()->getRegionMinPrimScale();
 	mMaxScale = LLWorld::getInstance()->getRegionMaxPrimScale();

@@ -180,6 +180,7 @@ protected:
 	U8              mSculptTypeRevert;      // so we can revert the sculpt type on cancel
 	
 	F32				mRegionMaxHeight;
+	F32				mRegionMaxDepth;
 	F32				mMinScale;
 	F32				mMaxScale;
 	F32				mMaxHollowSize;

@@ -766,6 +766,10 @@ void LLFloaterPreference::onAddSkin()
 				{
 					const std::string& name = root.get("name", "Unknown").asString();
 					std::string pathname = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
+					if (!gDirUtilp->fileExists(pathname))
+					{
+						LLFile::mkdir(pathname);
+					}
 					pathname = gDirUtilp->add(pathname, name);
 					if (!LLFile::isdir(pathname) && (LLFile::mkdir(pathname) != 0))
 					{

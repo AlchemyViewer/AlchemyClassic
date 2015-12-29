@@ -1878,6 +1878,8 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		std::string user_data_path_cookies = gDirUtilp->getOSUserAppDir();
 		user_data_path_cookies += gDirUtilp->getDirDelimiter();
 
+		std::string user_data_path_logs = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+
 		// Fix for EXT-5960 - make browser profile specific to user (cache, cookies etc.)
 		// If the linden username returned is blank, that can only mean we are
 		// at the login page displaying login Web page or Web browser test via Develop menu.
@@ -1905,7 +1907,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		{
 			media_source = new LLPluginClassMedia(owner);
 			media_source->setSize(default_width, default_height);
-			media_source->setUserDataPath(user_data_path_cache, user_data_path_cookies);
+			media_source->setUserDataPath(user_data_path_cache, user_data_path_cookies, user_data_path_logs);
 			media_source->setLanguageCode(LLUI::getLanguage());
 
 			// collect 'cookies enabled' setting from prefs and send to embedded browser

@@ -27,6 +27,11 @@
 */
 
 #include "linden_common.h"
+
+#if LL_WINDOWS
+#pragma warning (disable : 4265)
+#endif
+
 #include "indra_constants.h" // for indra keyboard codes
 
 #include "llgl.h"
@@ -36,9 +41,8 @@
 #include "llpluginmessageclasses.h"
 #include "media_plugin_base.h"
 
-#include "boost/function.hpp"
-#include "boost/bind.hpp"
-#include "llCEFLib.h"
+#include <functional>
+#include "llceflib.h"
 #include "volume_catcher.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +99,7 @@ private:
 	bool mCanPaste;
 	std::string mCachePath;
 	std::string mCookiePath;
+	std::string mLogFile;
 	LLCEFLib* mLLCEFLib;
 
     VolumeCatcher mVolumeCatcher;
@@ -109,7 +114,7 @@ MediaPluginBase(host_send_func, host_user_data)
 	mHeight = 0;
 	mDepth = 4;
 	mPixels = 0;
-	mEnableMediaPluginDebugging = true;
+	mEnableMediaPluginDebugging = false;
 	mHostLanguage = "en";
 	mCookiesEnabled = true;
 	mPluginsEnabled = false;
@@ -123,6 +128,7 @@ MediaPluginBase(host_send_func, host_user_data)
 	mCanPaste = false;
 	mCachePath = "";
 	mCookiePath = "";
+	mLogFile = "";
 	mLLCEFLib = new LLCEFLib();
 }
 
@@ -349,6 +355,18 @@ void MediaPluginCEF::authResponse(LLPluginMessage &message)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+std::string generate_cef_locale(std::string in)
+{
+	if (in == "en")
+		in = "en-US";
+	else if (in == "pt")
+		in = "pt-BR";
+	else if (in == "zh")
+		in = "zh-CN";
+
+	return in;
+}
+
 void MediaPluginCEF::receiveMessage(const char* message_string)
 {
 	//  std::cerr << "MediaPluginCEF::receiveMessage: received message: \"" << message_string << "\"" << std::endl;
@@ -428,19 +446,19 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			if (message_name == "init")
 			{
 				// event callbacks from LLCefLib
-				mLLCEFLib->setOnPageChangedCallback(boost::bind(&MediaPluginCEF::onPageChangedCallback, this, _1, _2, _3, _4, _5, _6));
-				mLLCEFLib->setOnCustomSchemeURLCallback(boost::bind(&MediaPluginCEF::onCustomSchemeURLCallback, this, _1));
-				mLLCEFLib->setOnConsoleMessageCallback(boost::bind(&MediaPluginCEF::onConsoleMessageCallback, this, _1, _2, _3));
-				mLLCEFLib->setOnStatusMessageCallback(boost::bind(&MediaPluginCEF::onStatusMessageCallback, this, _1));
-				mLLCEFLib->setOnTitleChangeCallback(boost::bind(&MediaPluginCEF::onTitleChangeCallback, this, _1));
-				mLLCEFLib->setOnLoadStartCallback(boost::bind(&MediaPluginCEF::onLoadStartCallback, this));
-				mLLCEFLib->setOnLoadEndCallback(boost::bind(&MediaPluginCEF::onLoadEndCallback, this, _1));
-				mLLCEFLib->setOnAddressChangeCallback(boost::bind(&MediaPluginCEF::onAddressChangeCallback, this, _1));
-				mLLCEFLib->setOnNavigateURLCallback(boost::bind(&MediaPluginCEF::onNavigateURLCallback, this, _1, _2));
-				mLLCEFLib->setOnHTTPAuthCallback(boost::bind(&MediaPluginCEF::onHTTPAuthCallback, this, _1, _2, _3, _4));
-				mLLCEFLib->setOnFileDownloadCallback(boost::bind(&MediaPluginCEF::onFileDownloadCallback, this, _1));
-				mLLCEFLib->setOnCursorChangedCallback(boost::bind(&MediaPluginCEF::onCursorChangedCallback, this, _1, _2));
-				mLLCEFLib->setOnRequestExitCallback(boost::bind(&MediaPluginCEF::onRequestExitCallback, this));
+				mLLCEFLib->setOnPageChangedCallback(std::bind(&MediaPluginCEF::onPageChangedCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5, std::placeholders::_6));
+				mLLCEFLib->setOnCustomSchemeURLCallback(std::bind(&MediaPluginCEF::onCustomSchemeURLCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnConsoleMessageCallback(std::bind(&MediaPluginCEF::onConsoleMessageCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+				mLLCEFLib->setOnStatusMessageCallback(std::bind(&MediaPluginCEF::onStatusMessageCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnTitleChangeCallback(std::bind(&MediaPluginCEF::onTitleChangeCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnLoadStartCallback(std::bind(&MediaPluginCEF::onLoadStartCallback, this));
+				mLLCEFLib->setOnLoadEndCallback(std::bind(&MediaPluginCEF::onLoadEndCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnAddressChangeCallback(std::bind(&MediaPluginCEF::onAddressChangeCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnNavigateURLCallback(std::bind(&MediaPluginCEF::onNavigateURLCallback, this, std::placeholders::_1, std::placeholders::_2));
+				mLLCEFLib->setOnHTTPAuthCallback(std::bind(&MediaPluginCEF::onHTTPAuthCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+				mLLCEFLib->setOnFileDownloadCallback(std::bind(&MediaPluginCEF::onFileDownloadCallback, this, std::placeholders::_1));
+				mLLCEFLib->setOnCursorChangedCallback(std::bind(&MediaPluginCEF::onCursorChangedCallback, this, std::placeholders::_1, std::placeholders::_2));
+				mLLCEFLib->setOnRequestExitCallback(std::bind(&MediaPluginCEF::onRequestExitCallback, this));
 
 				LLCEFLib::LLCEFLibSettings settings;
 				settings.initial_width = 1024;
@@ -451,8 +469,11 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				settings.cookie_store_path = mCookiePath;
 				settings.cache_enabled = true;
 				settings.cache_path = mCachePath;
+				settings.locale = generate_cef_locale(mHostLanguage);
 				settings.accept_language_list = mHostLanguage;
 				settings.user_agent_substring = mLLCEFLib->makeCompatibleUserAgentString(mUserAgentSubtring);
+				settings.debug_output = mEnableMediaPluginDebugging;
+				settings.log_file = mLogFile;
 
 				bool result = mLLCEFLib->init(settings);
 				if (!result)
@@ -476,8 +497,10 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			{
 				std::string user_data_path_cache = message_in.getValue("cache_path");
 				std::string user_data_path_cookies = message_in.getValue("cookies_path");
+				std::string user_data_path_logs = message_in.getValue("logs_path");
 				mCachePath = user_data_path_cache + "cef_cache";
 				mCookiePath = user_data_path_cookies + "cef_cookies";
+				mLogFile = user_data_path_logs + "cef.log";
 			}
 			else if (message_name == "size_change")
 			{

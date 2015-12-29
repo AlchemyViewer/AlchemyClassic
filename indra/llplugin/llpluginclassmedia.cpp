@@ -828,11 +828,12 @@ void LLPluginClassMedia::paste()
 	sendMessage(message);
 }
 
-void LLPluginClassMedia::setUserDataPath(const std::string &user_data_path_cache, const std::string &user_data_path_cookies)
+void LLPluginClassMedia::setUserDataPath(const std::string &user_data_path_cache, const std::string &user_data_path_cookies, const std::string &user_data_path_logs)
 {
 	LLPluginMessage message(LLPLUGIN_MESSAGE_CLASS_MEDIA, "set_user_data_path");
 	message.setValue("cache_path", user_data_path_cache);
 	message.setValue("cookies_path", user_data_path_cookies);
+	message.setValue("logs_path", user_data_path_logs);
 	sendMessage(message);
 }
 

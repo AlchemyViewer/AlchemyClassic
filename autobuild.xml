@@ -2217,6 +2217,38 @@
         <key>version</key>
         <string>0.0.1</string>
       </map>
+      <key>llceflib</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2014-2015, Linden Research, Inc.</string>
+        <key>description</key>
+        <string>LLCefLib implements a headless web browser, rendering modern web content to a memory buffer and providing an API for injecting mouse and keyboard events. It uses the Chromium Embedded Framework (https://bitbucket.org/chromiumembedded/cef)</string>
+        <key>license</key>
+        <string>LGPL</string>
+        <key>license_file</key>
+        <string>LICENSES/llceflib.txt</string>
+        <key>name</key>
+        <string>llceflib</string>
+        <key>platforms</key>
+        <map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>94b34b83754fe5663decb394779a4f29</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/llceflib-3.2526.1364.gf6bf57b-windows64-201512231438.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>3.2526.1364.gf6bf57b</string>
+      </map>
       <key>llphysicsextensions_source</key>
       <map>
         <key>copyright</key>

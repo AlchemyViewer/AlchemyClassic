@@ -65,14 +65,6 @@ endif (LL_TESTS)
 if (ENABLE_MEDIA_PLUGINS)
 # viewer media plugins
 add_subdirectory(${LIBS_OPEN_PREFIX}media_plugins)
-
-  # llplugin testbed code (is this the right way to include it?)
-  if (LL_TESTS)
-    if(WINDOWS OR DARWIN)
-      #add_subdirectory(${VIEWER_PREFIX}test_apps/llplugintest)
-      #add_subdirectory(${VIEWER_PREFIX}test_apps/llfbconnecttest)
-    endif(WINDOWS OR DARWIN)
-  endif (LL_TESTS)
 endif (ENABLE_MEDIA_PLUGINS)
 
 if (LINUX)

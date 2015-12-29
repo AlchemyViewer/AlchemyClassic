@@ -131,6 +131,8 @@ if (LINUX)
       -pthread
       )
 
+  add_definitions(-DEXTERNAL_TOS)
+
   CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
   CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
   CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)

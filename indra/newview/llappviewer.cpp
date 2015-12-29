@@ -124,9 +124,13 @@
 #include "llleap.h"
 #include "stringize.h"
 #include "llcoros.h"
+#if !LL_LINUX
+#include "cef/llceflib.h"
+#endif
 
 // Third party library includes
 #include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 
 #undef XMLCALL //HACK: need to find the expat.h include
 #include <libxml/parser.h> // needed for init and cleanup
@@ -1725,6 +1729,9 @@ bool LLAppViewer::cleanup()
 	// to ensure shutdown order
 	LLMortician::setZealous(TRUE);
 
+    // Give any remaining SLPlugin instances a chance to exit cleanly.
+    LLPluginProcessParent::shutdown();
+
 	LLVoiceClient::getInstance()->terminate();
 	
 	disconnectViewer();
@@ -2777,11 +2784,11 @@ bool LLAppViewer::initConfiguration()
 	//
 	gWindowTitle = LLTrans::getString("APP_NAME");
 #if LL_DEBUG
-	gWindowTitle += std::string(" [DEBUG]")
+    gWindowTitle += std::string(" [DEBUG]");
 #endif
 	if (!gArgs.empty())
 	{
-		gWindowTitle += std::string(" ") + gArgs;
+	gWindowTitle += std::string(" ") + gArgs;
 	}
 	LLStringUtil::truncate(gWindowTitle, 255);
 

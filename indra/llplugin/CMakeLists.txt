@@ -17,7 +17,6 @@ include_directories(
     ${LLRENDER_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
     ${LLWINDOW_INCLUDE_DIRS}
-    ${LLQTWEBKIT_INCLUDE_DIR}
     )
 include_directories(SYSTEM
     ${LLCOMMON_SYSTEM_INCLUDE_DIRS}

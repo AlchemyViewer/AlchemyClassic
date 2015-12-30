@@ -56,7 +56,7 @@ macro(ll_stage_sharedlib DSO_TARGET)
           ${SHARED_LIB_STAGING_DIR_CONFIG}/${DSO_FILE}
           COMMENT "Copying llcommon to the staging folder."
         )
-    endif(NOT WINDOWS)
+  endif(NOT WINDOWS)
 
   if (DARWIN)
     set_target_properties(${DSO_TARGET} PROPERTIES

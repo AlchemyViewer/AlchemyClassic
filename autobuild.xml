@@ -2236,11 +2236,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e6c8cc782c3a6d5ad8475431692d02d8</string>
+              <string>312206148405b8f051d8940d1dbf24b9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2526.1364.gf6bf57b-darwin-201512301141.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2526.1364.gf6bf57b-darwin-201512301420.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

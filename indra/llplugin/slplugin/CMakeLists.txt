@@ -1,3 +1,5 @@
+project(SLPlugin)
+
 include(00-Common)
 include(LLCommon)
 include(LLPlugin)

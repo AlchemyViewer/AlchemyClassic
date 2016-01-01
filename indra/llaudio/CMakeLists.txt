@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llaudio)
+
 include(00-Common)
 include(LLAudio)
 include(FMODSTUDIO)

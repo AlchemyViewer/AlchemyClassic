@@ -7,6 +7,9 @@
 #
 # Unfortunately, the affected code is a rat's nest of #ifdefs, so it's
 # easier to play compilation tricks than to actually fix the problem.
+
+project(llwindow)
+
 include(00-Common)
 include(DragDrop)
 include(LLCommon)

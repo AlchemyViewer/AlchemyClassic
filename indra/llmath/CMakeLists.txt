@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llmath)
+
 include(00-Common)
 include(LLCommon)
 

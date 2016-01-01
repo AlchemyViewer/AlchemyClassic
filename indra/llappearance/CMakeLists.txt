@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llappearance)
+
 include(00-Common)
 include(LLCommon)
 include(LLCharacter)

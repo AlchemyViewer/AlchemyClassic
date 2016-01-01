@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llvfs)
+
 include(00-Common)
 include(LLCommon)
 include(UnixInstall)

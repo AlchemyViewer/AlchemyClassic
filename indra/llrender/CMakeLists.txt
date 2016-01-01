@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llrender)
+
 include(00-Common)
 include(OpenGL)
 include(GLEW)

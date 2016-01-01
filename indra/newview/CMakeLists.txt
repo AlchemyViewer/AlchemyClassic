@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(viewer)
+
 include(00-Common)
 include(Boost)
 include(BuildPackagesInfo)

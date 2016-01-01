@@ -2,6 +2,8 @@
 
 include(00-Common)
 
+project(cmake)
+
 set(cmake_SOURCE_FILES
     CMakeLists.txt
 

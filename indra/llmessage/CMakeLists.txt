@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llmessage)
+
 include(00-Common)
 include(LLAddBuildTest)
 include(LLCommon)

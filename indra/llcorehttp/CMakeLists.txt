@@ -1,4 +1,7 @@
 # -*- cmake -*-
+
+project(llcorehttp)
+
 include(00-Common)
 include(CURL)
 include(CARes)

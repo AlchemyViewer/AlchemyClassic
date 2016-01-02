@@ -60,6 +60,16 @@ private:
 
 extern void send_chat_from_viewer(const std::string& utf8_out_text, EChatType type, S32 channel);
 
+struct LLChatTypeTrigger {
+	std::string name;
+	EChatType type;
+};
+
+static LLChatTypeTrigger sChatTypeTriggers[] = {
+	{ "/whisper"	, CHAT_TYPE_WHISPER},
+	{ "/shout"	, CHAT_TYPE_SHOUT}
+};
+
 //
 // Functions
 //
@@ -303,7 +313,9 @@ void LLChatBar::sendChat( EChatType type )
 {
 	if (mInputEditor)
 	{
-		LLWString text = mInputEditor->getConvertedText();
+		LLWString text = mInputEditor->getWText();
+		LLWStringUtil::trim(text);
+		LLWStringUtil::replaceChar(text,182,'\n'); // Convert paragraph symbols back into newlines.
 		if (!text.empty())
 		{
 			// store sent line in history, duplicates will get filtered
@@ -319,7 +331,10 @@ void LLChatBar::sendChat( EChatType type )
 			{
 				applyMUPose(utf8text);
 				// discard returned "found" boolean
-				LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text);
+				if(!LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text))
+				{
+					utf8_revised_text = utf8text;
+				}
 			}
 			else
 			{
@@ -327,6 +342,8 @@ void LLChatBar::sendChat( EChatType type )
 			}
 
 			utf8_revised_text = utf8str_trim(utf8_revised_text);
+			
+			type = processChatTypeTriggers(type, utf8_revised_text);
 
 			if (!utf8_revised_text.empty())
 			{
@@ -337,9 +354,9 @@ void LLChatBar::sendChat( EChatType type )
 				}
 			}
 		}
+		
+		mInputEditor->setText(LLStringUtil::null);
 	}
-
-	getChild<LLUICtrl>("Chat Editor")->setValue(LLStringUtil::null);
 
 	gAgent.stopTyping();
 
@@ -349,6 +366,38 @@ void LLChatBar::sendChat( EChatType type )
 	{
 		stopChat();
 	}
+}
+
+EChatType LLChatBar::processChatTypeTriggers(EChatType type, std::string &str)
+{
+	U32 length = str.length();
+	S32 cnt = sizeof(sChatTypeTriggers) / sizeof(*sChatTypeTriggers);
+	
+	for (S32 n = 0; n < cnt; n++)
+	{
+		if (length >= sChatTypeTriggers[n].name.length())
+		{
+			std::string trigger = str.substr(0, sChatTypeTriggers[n].name.length());
+			
+			if (!LLStringUtil::compareInsensitive(trigger, sChatTypeTriggers[n].name))
+			{
+				U32 trigger_length = sChatTypeTriggers[n].name.length();
+				
+				// It's to remove space after trigger name
+				if (length > trigger_length && str[trigger_length] == ' ')
+					trigger_length++;
+				
+				str = str.substr(trigger_length, length);
+				
+				if (CHAT_TYPE_NORMAL == type)
+					return sChatTypeTriggers[n].type;
+				else
+					break;
+			}
+		}
+	}
+	
+	return type;
 }
 
 //-----------------------------------------------------------------------

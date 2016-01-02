@@ -2,8 +2,6 @@
 
 include(00-Common)
 
-project(cmake)
-
 set(cmake_SOURCE_FILES
     CMakeLists.txt
 
@@ -45,7 +43,6 @@ set(cmake_SOURCE_FILES
     GLOD.cmake
     GLEW.cmake
     GStreamer010Plugin.cmake
-    GetPrerequisites_2_8.cmake
     Glui.cmake
     Glut.cmake
     GoogleBreakpad.cmake

@@ -422,11 +422,8 @@ const S32 MAX_CONSOLE_LINES = 500;
 
 static bool create_console()
 {
-	int h_con_handle;
-	HANDLE l_std_handle;
 
 	CONSOLE_SCREEN_BUFFER_INFO coninfo;
-	FILE *fp;
 
 	// allocate a console for this app
 	const bool isConsoleAllocated = AllocConsole();
@@ -436,47 +433,14 @@ static bool create_console()
 	coninfo.dwSize.Y = MAX_CONSOLE_LINES;
 	SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), coninfo.dwSize);
 
-	// redirect unbuffered STDOUT to the console
-	l_std_handle = GetStdHandle(STD_OUTPUT_HANDLE);
-	h_con_handle = _open_osfhandle((intptr_t) l_std_handle, _O_TEXT);
-	if (h_con_handle == -1)
-	{
-		LL_WARNS() << "create_console() failed to open stdout handle" << LL_ENDL;
-	}
-	else
-	{
-		fp = _fdopen( h_con_handle, "w" );
-		*stdout = *fp;
-		setvbuf( stdout, NULL, _IONBF, 0 );
-	}
+	// Redirect the CRT standard input, output, and error handles to the console
+	freopen("CONIN$", "r", stdin);
+	freopen("CONOUT$", "w", stdout);
+	freopen("CONOUT$", "w", stderr);
 
-	// redirect unbuffered STDIN to the console
-	l_std_handle = GetStdHandle(STD_INPUT_HANDLE);
-	h_con_handle = _open_osfhandle((intptr_t) l_std_handle, _O_TEXT);
-	if (h_con_handle == -1)
-	{
-		LL_WARNS() << "create_console() failed to open stdin handle" << LL_ENDL;
-	}
-	else
-	{
-		fp = _fdopen( h_con_handle, "r" );
-		*stdin = *fp;
-		setvbuf( stdin, NULL, _IONBF, 0 );
-	}
-
-	// redirect unbuffered STDERR to the console
-	l_std_handle = GetStdHandle(STD_ERROR_HANDLE);
-	h_con_handle = _open_osfhandle((intptr_t) l_std_handle, _O_TEXT);
-	if (h_con_handle == -1)
-	{
-		LL_WARNS() << "create_console() failed to open stderr handle" << LL_ENDL;
-	}
-	else
-	{
-		fp = _fdopen( h_con_handle, "w" );
-		*stderr = *fp;
-		setvbuf( stderr, NULL, _IONBF, 0 );
-	}
+	setvbuf( stdin, NULL, _IONBF, 0 );
+	setvbuf( stdout, NULL, _IONBF, 0 );
+	setvbuf( stderr, NULL, _IONBF, 0 );
 
     return isConsoleAllocated;
 }

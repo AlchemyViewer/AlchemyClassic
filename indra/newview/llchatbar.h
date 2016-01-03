@@ -28,7 +28,7 @@
 #define LL_LLCHATBAR_H
 
 #include "llframetimer.h"
-#include "llchat.h"
+#include "llchatutilities.h"
 #include "llfloater.h"
 
 class LLLineEditor;
@@ -67,11 +67,6 @@ public:
 	// gesture combo box might not be a direct child
 	void		setGestureCombo(LLComboBox* combo);
 
-	// Send a chat (after stripping /20foo channel chats).
-	// "Animate" means the nodding animation for regular text.
-	void		sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate);
-	void		sendChatFromViewer(const std::string &utf8text, EChatType type, BOOL animate);
-
 	// callbacks
 	void onClickSay(LLUICtrl* ctrl);
 
@@ -90,18 +85,10 @@ protected:
 	
 	void sendChat(EChatType type);
 	void updateChat();
-	
-	// If input of the form "/20foo" or "/20 foo", returns "foo" and channel 20.
-	// Otherwise returns input and channel 0.
-	LLWString stripChannelNumber(const LLWString &mesg, S32* channel);
-	EChatType processChatTypeTriggers(EChatType type, std::string &str);
 
 	LLLineEditor*	mInputEditor;
 
 	LLFrameTimer	mGestureLabelTimer;
-
-	// Which non-zero channel did we last chat on?
-	S32				mLastSpecialChatChannel;
 
 	BOOL			mIsBuilt;
 	LLComboBox*		mGestureCombo;

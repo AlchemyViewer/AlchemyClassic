@@ -43,7 +43,7 @@ public:
 private:
     void sendChat(LLSD const & chat_data) const;
 
-	LLFloaterIMNearbyChat & mChatbar;
+	//LLFloaterIMNearbyChat & mChatbar;
 };
 
 #endif // LL_LLFLOATERIMNEARBYCHATLISTENER_H

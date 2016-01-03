@@ -160,6 +160,7 @@ set(viewer_SOURCE_FILES
     llchathistory.cpp
     llchatitemscontainerctrl.cpp
     llchatmsgbox.cpp
+    llchatutilities.cpp
     llcheatcodes.cpp
     llchiclet.cpp
     llchicletbar.cpp
@@ -812,6 +813,7 @@ set(viewer_HEADER_FILES
     llchathistory.h
     llchatitemscontainerctrl.h
     llchatmsgbox.h
+    llchatutilities.h
     llchiclet.h
     llchicletbar.h
     llclassifiedinfo.h

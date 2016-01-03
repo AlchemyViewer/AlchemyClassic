@@ -32,7 +32,6 @@
 #include "llfocusmgr.h"
 #include "llfloaterreg.h"
 #include "lllineeditor.h"
-#include "message.h"
 
 #include "alchatcommand.h"
 #include "llagent.h"
@@ -42,10 +41,7 @@
 #include "llmultigesture.h"
 #include "llviewercontrol.h"
 
-//
-// Globals
-//
-const F32 AGENT_TYPING_TIMEOUT = 5.f;	// seconds
+using namespace LLChatUtilities;
 
 class LLChatBarGestureObserver : public LLGestureManagerObserver
 {
@@ -57,48 +53,14 @@ private:
 	LLChatBar* mChatBar;
 };
 
-
-extern void send_chat_from_viewer(const std::string& utf8_out_text, EChatType type, S32 channel);
-
-struct LLChatTypeTrigger {
-	std::string name;
-	EChatType type;
-};
-
-static LLChatTypeTrigger sChatTypeTriggers[] = {
-	{ "/whisper"	, CHAT_TYPE_WHISPER},
-	{ "/shout"	, CHAT_TYPE_SHOUT}
-};
-
 //
 // Functions
 //
-
-void applyMUPose(std::string& text)
-{
-	if (text.at(0) == ':'
-		&& text.length() > 3)
-	{
-		if (text.find(":'") == 0)
-		{
-			text.replace(0, 1, "/me");
-		}
-		// Account for emotes and smilies
-		else if (!isdigit(text.at(1))
-				 && !ispunct(text.at(1))
-				 && !isspace(text.at(1)))
-		{
-			text.replace(0, 1, "/me ");
-		}
-	}
-}
-
 
 LLChatBar::LLChatBar(const LLSD& key)
 :	LLFloater(key),
 	mInputEditor(NULL),
 	mGestureLabelTimer(),
-	mLastSpecialChatChannel(0),
 	mIsBuilt(FALSE),
 	mGestureCombo(NULL),
 	mObserver(NULL)
@@ -368,38 +330,6 @@ void LLChatBar::sendChat( EChatType type )
 	}
 }
 
-EChatType LLChatBar::processChatTypeTriggers(EChatType type, std::string &str)
-{
-	U32 length = str.length();
-	S32 cnt = sizeof(sChatTypeTriggers) / sizeof(*sChatTypeTriggers);
-	
-	for (S32 n = 0; n < cnt; n++)
-	{
-		if (length >= sChatTypeTriggers[n].name.length())
-		{
-			std::string trigger = str.substr(0, sChatTypeTriggers[n].name.length());
-			
-			if (!LLStringUtil::compareInsensitive(trigger, sChatTypeTriggers[n].name))
-			{
-				U32 trigger_length = sChatTypeTriggers[n].name.length();
-				
-				// It's to remove space after trigger name
-				if (length > trigger_length && str[trigger_length] == ' ')
-					trigger_length++;
-				
-				str = str.substr(trigger_length, length);
-				
-				if (CHAT_TYPE_NORMAL == type)
-					return sChatTypeTriggers[n].type;
-				else
-					break;
-			}
-		}
-	}
-	
-	return type;
-}
-
 //-----------------------------------------------------------------------
 // Static functions
 //-----------------------------------------------------------------------
@@ -495,60 +425,6 @@ void LLChatBar::onInputEditorGainFocus()
 
 }
 
-void LLChatBar::sendChatFromViewer(const std::string &utf8text, EChatType type, BOOL animate)
-{
-	sendChatFromViewer(utf8str_to_wstring(utf8text), type, animate);
-}
-
-void LLChatBar::sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate)
-{
-	// Look for "/20 foo" channel chats.
-	S32 channel = gSavedSettings.getS32("AlchemyNearbyChatChannel");
-	LLWString out_text = stripChannelNumber(wtext, &channel);
-	std::string utf8_out_text = wstring_to_utf8str(out_text);
-	std::string utf8_text = wstring_to_utf8str(wtext);
-
-	utf8_text = utf8str_trim(utf8_text);
-	if (!utf8_text.empty())
-	{
-		utf8_text = utf8str_truncate(utf8_text, MAX_STRING - 1);
-	}
-
-	// Don't animate for chats people can't hear (chat to scripts)
-	if (animate && (channel == 0) && gSavedSettings.getBOOL("AlchemyAnimateShoutWhisper"))
-	{
-		if (type == CHAT_TYPE_WHISPER)
-		{
-			LL_DEBUGS() << "You whisper " << utf8_text << LL_ENDL;
-			gAgent.sendAnimationRequest(ANIM_AGENT_WHISPER, ANIM_REQUEST_START);
-		}
-		else if (type == CHAT_TYPE_NORMAL)
-		{
-			LL_DEBUGS() << "You say " << utf8_text << LL_ENDL;
-			gAgent.sendAnimationRequest(ANIM_AGENT_TALK, ANIM_REQUEST_START);
-		}
-		else if (type == CHAT_TYPE_SHOUT)
-		{
-			LL_DEBUGS() << "You shout " << utf8_text << LL_ENDL;
-			gAgent.sendAnimationRequest(ANIM_AGENT_SHOUT, ANIM_REQUEST_START);
-		}
-		else
-		{
-			LL_INFOS() << "send_chat_from_viewer() - invalid volume" << LL_ENDL;
-			return;
-		}
-	}
-	else
-	{
-		if (type != CHAT_TYPE_START && type != CHAT_TYPE_STOP)
-		{
-			LL_DEBUGS() << "Channel chat: " << utf8_text << LL_ENDL;
-		}
-	}
-
-	send_chat_from_viewer(utf8_out_text, type, channel);
-}
-
 void LLChatBar::onCommitGesture(LLUICtrl* ctrl)
 {
 	LLCtrlListInterface* gestures = mGestureCombo ? mGestureCombo->getListInterface() : NULL;
@@ -579,62 +455,6 @@ void LLChatBar::onCommitGesture(LLUICtrl* ctrl)
 	{
 		// free focus back to chat bar
 		mGestureCombo->setFocus(FALSE);
-	}
-}
-
-// If input of the form "/20foo" or "/20 foo", returns "foo" and channel 20.
-// Otherwise returns input and channel 0.
-LLWString LLChatBar::stripChannelNumber(const LLWString &mesg, S32* channel)
-{
-	if (mesg[0] == '/'
-		&& mesg[1] == '/')
-	{
-		// This is a "repeat channel send"
-		*channel = mLastSpecialChatChannel;
-		return mesg.substr(2, mesg.length() - 2);
-	}
-	else if (mesg[0] == '/'
-			 && mesg[1]
-			 && (LLStringOps::isDigit(mesg[1])
-				 || mesg[1] == '-' ))
-
-	{
-		// This a special "/20" speak on a channel
-		S32 pos = 0;
-		if(mesg[1] == '-')
-			pos++;
-
-		// Copy the channel number into a string
-		LLWString channel_string;
-		llwchar c;
-		do
-		{
-			c = mesg[pos+1];
-			channel_string.push_back(c);
-			pos++;
-		}
-		while(c && pos < 64 && LLStringOps::isDigit(c));
-		
-		// Move the pointer forward to the first non-whitespace char
-		// Check isspace before looping, so we can handle "/33foo"
-		// as well as "/33 foo"
-		while(c && iswspace(c))
-		{
-			c = mesg[pos+1];
-			pos++;
-		}
-		
-		mLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), NULL, 10);
-		if(mesg[1] == '-')
-			mLastSpecialChatChannel = -mLastSpecialChatChannel;
-		*channel = mLastSpecialChatChannel;
-		return mesg.substr(pos, mesg.length() - pos);
-	}
-	else
-	{
-		// This is normal chat.
-		*channel = 0;
-		return mesg;
 	}
 }
 

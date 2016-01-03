@@ -41,7 +41,7 @@
 #include "llviewermessage.h" // send_guid_sound_trigger
 #include "llviewernetwork.h"
 #include "llagent.h"
-#include "llfloaterimnearbychat.h"
+#include "llchatutilities.h"
 
 #include "alchatcommand.h"
 
@@ -135,8 +135,7 @@ void LLViewerGesture::doTrigger( BOOL send_chat )
 		{
 			// Don't play nodding animation, since that might not blend
 			// with the gesture animation.
-			(LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->
-					sendChatFromViewer(mOutputString, CHAT_TYPE_NORMAL, FALSE);
+			LLChatUtilities::sendChatFromViewer(mOutputString, CHAT_TYPE_NORMAL, FALSE);
 		}
 	}
 }

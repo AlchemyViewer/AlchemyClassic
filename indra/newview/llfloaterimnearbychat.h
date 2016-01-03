@@ -75,16 +75,12 @@ public:
 	static void startChat(const char* line);
 	static void stopChat();
 
-	static void sendChatFromViewer(const std::string &utf8text, EChatType type, BOOL animate);
-	static void sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate);
-
 	static bool isWordsName(const std::string& name);
 
 	void showHistory();
 	void changeChannelLabel(S32 channel);
 
 protected:
-	static BOOL matchChatTypeTrigger(const std::string& in_str, std::string* out_str);
 	void onChatBoxKeystroke();
 	void onChatBoxFocusLost();
 	void onChatBoxFocusReceived();
@@ -95,9 +91,6 @@ protected:
 
 	/*virtual*/ void onTearOffClicked();
 	/*virtual*/ void onClickCloseBtn(bool app_qutting = false);
-
-	static LLWString stripChannelNumber(const LLWString &mesg, S32* channel);
-	EChatType processChatTypeTriggers(EChatType type, std::string &str);
 
 	void displaySpeakingIndicator();
 

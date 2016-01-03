@@ -393,14 +393,14 @@ class WindowsManifest(ViewerManifest):
                 self.path("msvcp*.dll")
 
             # Vivox runtimes
-            self.path("SLVoice.exe")
-            self.path("vivoxsdk.dll")
-            self.path("ortp.dll")
-            self.path("libsndfile-1.dll")
-            self.path("zlib1.dll")
-            self.path("vivoxplatform.dll")
-            self.path("vivoxoal.dll")
-            self.path("ca-bundle.crt")
+            if self.prefix(src="", dst="voice"):
+                self.path("SLVoice.exe")
+                self.path("libsndfile-1.dll")
+                self.path("ortp.dll")
+                self.path("vivoxoal.dll")
+                self.path("vivoxsdk.dll")
+                self.path("ca-bundle.crt")
+                self.end_prefix()
 
             # Security
             self.path("ssleay32.dll")
@@ -431,7 +431,6 @@ class WindowsManifest(ViewerManifest):
 
             self.end_prefix()
 
-        self.path(src="licenses-win32.txt", dst="licenses.txt")
         self.path("featuretable.txt")
 
         # Media plugins - QuickTime
@@ -772,7 +771,6 @@ class DarwinManifest(ViewerManifest):
                     self.path("*.tif")
                     self.end_prefix("cursors_mac")
 
-                self.path("licenses-mac.txt", dst="licenses.txt")
                 self.path("featuretable_mac.txt")
 
                 icon_path = self.icon_path()
@@ -1107,7 +1105,6 @@ class LinuxManifest(ViewerManifest):
         relpkgdir = os.path.join(pkgdir, "lib", "release")
         debpkgdir = os.path.join(pkgdir, "lib", "debug")
 
-        self.path("licenses-linux.txt","licenses.txt")
         if self.prefix("linux_tools", dst=""):
             self.path("client-readme.txt","README-linux.txt")
             self.path("client-readme-voice.txt","README-linux-voice.txt")

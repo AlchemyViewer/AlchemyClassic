@@ -7,6 +7,7 @@
 include(CMakeCopyIfDifferent)
 include(Linking)
 include(Variables)
+include(LLCommon)
 
 ###################################################################
 # set up platform specific lists of files that need to be copied
@@ -23,10 +24,8 @@ if(WINDOWS)
         SLVoice.exe
         ca-bundle.crt
         libsndfile-1.dll
-        vivoxplatform.dll
         vivoxsdk.dll
         ortp.dll
-        zlib1.dll
         vivoxoal.dll
         )
 
@@ -36,9 +35,6 @@ if(WINDOWS)
     set(debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
     set(debug_files
         openjpegd.dll
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
         ssleay32.dll
         libeay32.dll
         glod.dll    
@@ -48,14 +44,24 @@ if(WINDOWS)
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
     set(release_files
         openjpeg.dll
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
         ssleay32.dll
         libeay32.dll
         glod.dll
         libhunspell.dll
         )
+
+    if (LLCOMMON_LINK_SHARED)
+      list(APPEND debug_files 
+        libapr-1.dll
+        libaprutil-1.dll
+        libapriconv-1.dll
+        )
+      list(APPEND release_files 
+        libapr-1.dll
+        libaprutil-1.dll
+        libapriconv-1.dll
+        )
+    endif (LLCOMMON_LINK_SHARED)
 
     if(USE_TCMALLOC)
       list(APPEND debug_files libtcmalloc_minimal-debug.dll)

@@ -794,6 +794,8 @@ void LLVivoxVoiceClient::stateMachine()
 					std::string exe_path = gDirUtilp->getExecutableDir();
 					exe_path += gDirUtilp->getDirDelimiter();
 #if LL_WINDOWS
+					exe_path += "voice";
+					exe_path += gDirUtilp->getDirDelimiter();
 					exe_path += "SLVoice.exe";
 #elif LL_DARWIN
 					exe_path += "../Resources/SLVoice";

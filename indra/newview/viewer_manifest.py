@@ -182,9 +182,7 @@ class ViewerManifest(LLManifest):
                 self.path("*.tga")
                 self.end_prefix("local_assets")
 
-            # Files in the newview/ directory
-            self.path("gpu_table.txt")
-            # The summary.json file gets left in the build directory by newview/CMakeLists.txt.
+             # The summary.json file gets left in the build directory by newview/CMakeLists.txt.
             if not self.path2basename(os.pardir, "summary.json"):
                 print "No summary.json file"
 

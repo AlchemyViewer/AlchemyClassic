@@ -1450,7 +1450,6 @@ if (DARWIN)
   # Add resource files to the project.
   set(viewer_RESOURCE_FILES
     alchemy.icns
-    gpu_table.txt
     Info-Alchemy.plist
     Alchemy.xib
     # CMake doesn't seem to support Xcode language variants well just yet

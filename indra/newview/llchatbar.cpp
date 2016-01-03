@@ -153,7 +153,7 @@ void LLChatBar::refresh()
 		mGestureLabelTimer.stop();
 	}
 
-	if ((gAgent.getTypingTime() > AGENT_TYPING_TIMEOUT) && (gAgent.getRenderState() & AGENT_STATE_TYPING))
+	if ((gAgent.getTypingTime() > LLAgent::TYPING_TIMEOUT_SECS) && (gAgent.getRenderState() & AGENT_STATE_TYPING))
 	{
 		gAgent.stopTyping();
 	}

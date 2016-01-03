@@ -31,7 +31,6 @@
 
 namespace LLChatUtilities
 {
-	const F32 AGENT_TYPING_TIMEOUT = 5.f; // in seconds
 	static std::unordered_map<std::string, EChatType> sChatTypeTriggers;
 	
 	// Send a chat (after stripping /20foo channel chats).

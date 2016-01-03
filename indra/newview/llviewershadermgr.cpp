@@ -165,8 +165,6 @@ LLGLSLShader			gWLCloudProgram;
 // Effects Shaders
 LLGLSLShader			gGlowProgram;
 LLGLSLShader			gGlowExtractProgram;
-LLGLSLShader			gPostColorFilterProgram;
-LLGLSLShader			gPostNightVisionProgram;
 
 // Deferred rendering shaders
 LLGLSLShader			gDeferredImpostorProgram;
@@ -799,9 +797,6 @@ void LLViewerShaderMgr::unloadShaders()
 	gWLSkyProgram.unload();
 	gWLCloudProgram.unload();
 
-	gPostColorFilterProgram.unload();
-	gPostNightVisionProgram.unload();
-
 	gDeferredDiffuseProgram.unload();
 	gDeferredDiffuseAlphaMaskProgram.unload();
 	gDeferredNonIndexedDiffuseAlphaMaskProgram.unload();
@@ -1076,8 +1071,6 @@ BOOL LLViewerShaderMgr::loadShadersEffects()
 	{
 		gGlowProgram.unload();
 		gGlowExtractProgram.unload();
-		gPostColorFilterProgram.unload();	
-		gPostNightVisionProgram.unload();
 		return TRUE;
 	}
 

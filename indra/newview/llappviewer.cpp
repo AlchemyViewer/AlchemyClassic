@@ -168,7 +168,6 @@
 #include "lltracker.h"
 #include "llviewerparcelmgr.h"
 #include "llworldmapview.h"
-#include "llpostprocess.h"
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 
@@ -1873,8 +1872,6 @@ bool LLAppViewer::cleanup()
 
 	LLAvatarAppearance::cleanupClass();
 	
-	LLPostProcess::cleanupClass();
-
 	// *FIX: This is handled in LLAppViewerWin32::cleanup().
 	// I'm keeping the comment to remember its order in cleanup,
 	// in case of unforseen dependency.

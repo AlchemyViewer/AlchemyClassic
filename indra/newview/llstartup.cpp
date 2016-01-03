@@ -184,7 +184,6 @@
 #include "llnamelistctrl.h"
 #include "llnamebox.h"
 #include "llnameeditor.h"
-#include "llpostprocess.h"
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 #include "llagentlanguage.h"
@@ -1263,10 +1262,6 @@ bool idle_startup()
 		display_startup();
 
 		LLDrawable::initClass();
-		display_startup();
-
-		// init the shader managers
-		LLPostProcess::initClass();
 		display_startup();
 
 		LLAvatarAppearance::initClass();

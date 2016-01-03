@@ -78,7 +78,6 @@
 #include "lldrawpoolbump.h"
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
-#include "llpostprocess.h"
 #include "llscenemonitor.h"
 
 extern LLPointer<LLViewerTexture> gStartTexture;

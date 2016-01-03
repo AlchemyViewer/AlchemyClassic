@@ -308,7 +308,6 @@ set(viewer_SOURCE_FILES
     llfloaterparticleeditor.cpp
     llfloaterpay.cpp
     llfloaterperms.cpp
-    llfloaterpostprocess.cpp
     llfloaterpreference.cpp
     llfloaterprogressview.cpp
     llfloaterproperties.cpp
@@ -957,7 +956,6 @@ set(viewer_HEADER_FILES
     llfloaterpathfindingobjects.h
     llfloaterpay.h
     llfloaterperms.h
-    llfloaterpostprocess.h
     llfloaterpreference.h
     llfloaterprogressview.h
     llfloaterproperties.h

@@ -264,11 +264,6 @@ extern LLGLSLShader			gImpostorProgram;
 extern LLGLSLShader			gWLSkyProgram;
 extern LLGLSLShader			gWLCloudProgram;
 
-// Post Process Shaders
-extern LLGLSLShader			gPostColorFilterProgram;
-extern LLGLSLShader			gPostNightVisionProgram;
-
-
 // Deferred rendering shaders
 extern LLGLSLShader			gDeferredImpostorProgram;
 extern LLGLSLShader			gDeferredWaterProgram;

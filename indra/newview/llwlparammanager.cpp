@@ -52,7 +52,6 @@
 #include "lldaycyclemanager.h"
 #include "llenvmanager.h"
 #include "llwlparamset.h"
-#include "llpostprocess.h"
 
 #include "llviewershadermgr.h"
 #include "llglslshader.h"

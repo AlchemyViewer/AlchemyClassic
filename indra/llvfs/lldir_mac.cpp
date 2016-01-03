@@ -184,7 +184,7 @@ bool LLDir_Mac::fileExists(const std::string &filename) const
 std::string LLDir_Mac::getLLPluginLauncher()
 {
 	return gDirUtilp->getAppRODataDir() + gDirUtilp->getDirDelimiter() +
-	"SLPlugin.app/Contents/MacOS/SLPlugin";
+	"AlchemyPlugin.app/Contents/MacOS/AlchemyPlugin";
 }
 
 /*virtual*/

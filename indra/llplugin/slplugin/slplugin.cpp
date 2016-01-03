@@ -48,20 +48,6 @@
 	#include <signal.h>
 #endif
 
-/*
-	On Mac OS, since we call WaitNextEvent, this process will show up in the dock unless we set the LSBackgroundOnly or LSUIElement flag in the Info.plist.
-
-	Normally non-bundled binaries don't have an info.plist file, but it's possible to embed one in the binary by adding this to the linker flags:
-
-	-sectcreate __TEXT __info_plist /path/to/slplugin_info.plist
-
-	which means adding this to the gcc flags:
-
-	-Wl,-sectcreate,__TEXT,__info_plist,/path/to/slplugin_info.plist
-	
-	Now that SLPlugin is a bundled app on the Mac, this is no longer necessary (it can just use a regular Info.plist file), but I'm leaving this comment in for posterity.
-*/
-
 #if LL_DARWIN || LL_LINUX
 // Signal handlers to make crashes not show an OS dialog...
 static void crash_handler(int sig)
@@ -182,7 +168,7 @@ int main(int argc, char **argv)
 #if LL_WINDOWS
 	if( strlen( lpCmdLine ) == 0 )
 	{
-		LL_ERRS("slplugin") << "usage: " << "SLPlugin" << " launcher_port" << LL_ENDL;
+		LL_ERRS("slplugin") << "usage: " << "AlchemyPlugin" << " launcher_port" << LL_ENDL;
 	};
 
 	U32 port = 0;

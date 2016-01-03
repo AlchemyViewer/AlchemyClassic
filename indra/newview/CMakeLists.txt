@@ -1831,7 +1831,7 @@ if (WINDOWS)
       ${ARCH_PREBUILT_DIRS_RELEASE}/ssleay32.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/libeay32.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/ssleay32.dll
-      SLPlugin
+      AlchemyPlugin
       media_plugin_cef
       windows-crash-logger
       )
@@ -1914,9 +1914,9 @@ if (WINDOWS)
     endif (EXISTS ${CMAKE_SOURCE_DIR}/copy_win_scripts)
 
     add_dependencies(${VIEWER_BINARY_NAME}
-      SLPlugin
-   windows-crash-logger
-    )
+      AlchemyPlugin
+      windows-crash-logger
+      )
 
     add_custom_command(
       TARGET ${VIEWER_BINARY_NAME} POST_BUILD
@@ -2096,7 +2096,7 @@ if (LINUX)
   set(COPY_INPUT_DEPENDENCIES
     ${VIEWER_BINARY_NAME}
     linux-crash-logger
-    SLPlugin
+    AlchemyPlugin
     media_plugin_gstreamer010
     llcommon
     )
@@ -2210,9 +2210,9 @@ if (DARWIN)
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
     )
   if (WORD_SIZE EQUAL 32)
-      add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_quicktime media_plugin_cef mac-crash-logger)
+      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_quicktime media_plugin_cef mac-crash-logger)
   elseif (WORD_SIZE EQUAL 64)
-     add_dependencies(${VIEWER_BINARY_NAME} SLPlugin media_plugin_cef mac-crash-logger)
+     add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_cef mac-crash-logger)
   endif (WORD_SIZE EQUAL 32)
 
   if (ENABLE_SIGNING)
@@ -2258,8 +2258,8 @@ if (PACKAGE)
   if (WINDOWS)
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-symbols-windows.tar.bz2")
-    # slplugin.exe failing symbols dump - need to debug, might have to do with updated version of google breakpad
-    # set(VIEWER_EXE_GLOBS "${VIEWER_BINARY_NAME}${CMAKE_EXECUTABLE_SUFFIX} slplugin.exe")
+    # AlchemyPlugin.exe failing symbols dump - need to debug, might have to do with updated version of google breakpad
+    # set(VIEWER_EXE_GLOBS "${VIEWER_BINARY_NAME}${CMAKE_EXECUTABLE_SUFFIX} AlchemyPlugin.exe")
     set(VIEWER_EXE_GLOBS "${VIEWER_BINARY_NAME}${CMAKE_EXECUTABLE_SUFFIX}")
     set(VIEWER_LIB_GLOB "*${CMAKE_SHARED_MODULE_SUFFIX}")
     set(VIEWER_COPY_MANIFEST copy_w_viewer_manifest)
@@ -2272,13 +2272,13 @@ if (PACKAGE)
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/media_plugins/gstreamer010/${CMAKE_CFG_INTDIR}")
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/media_plugins/quicktime/${CMAKE_CFG_INTDIR}")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-symbols-darwin.tar.bz2")
-    set(VIEWER_EXE_GLOBS "'Alchemy' SLPlugin mac-crash-logger")
+    set(VIEWER_EXE_GLOBS "'Alchemy' AlchemyPlugin mac-crash-logger")
     set(VIEWER_LIB_GLOB "*.dylib")
   endif (DARWIN)
   if (LINUX)
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_CURRENT_BINARY_DIR}/packaged")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-symbols-linux.tar.bz2")
-    set(VIEWER_EXE_GLOBS "do-not-directly-run-alchemy-bin SLPlugin")
+    set(VIEWER_EXE_GLOBS "do-not-directly-run-alchemy-bin AlchemyPlugin")
     set(VIEWER_LIB_GLOB "*${CMAKE_SHARED_MODULE_SUFFIX}*")
     set(VIEWER_COPY_MANIFEST copy_l_viewer_manifest)
   endif (LINUX)

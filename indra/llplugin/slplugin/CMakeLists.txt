@@ -1,4 +1,4 @@
-project(SLPlugin)
+project(AlchemyPlugin)
 
 include(00-Common)
 include(LLCommon)
@@ -22,58 +22,58 @@ if (DARWIN)
 endif (DARWIN)
 
 
-### SLPlugin
+### AlchemyPlugin
 
-set(SLPlugin_SOURCE_FILES
+set(AlchemyPlugin_SOURCE_FILES
     slplugin.cpp
     )
 
 if (DARWIN)
-  list(APPEND SLPlugin_SOURCE_FILES
+  list(APPEND AlchemyPlugin_SOURCE_FILES
     slplugin-objc.mm
   )
-  list(APPEND SLPlugin_HEADER_FILES
+  list(APPEND AlchemyPlugin_HEADER_FILES
     slplugin-objc.h
   )
 endif (DARWIN)
 
-set_source_files_properties(${SLPlugin_HEADER_FILES}
+set_source_files_properties(${AlchemyPlugin_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
-if (SLPlugin_HEADER_FILES)
-  list(APPEND SLPlugin_SOURCE_FILES ${SLPlugin_HEADER_FILES})
-endif (SLPlugin_HEADER_FILES)
+if (AlchemyPlugin_HEADER_FILES)
+  list(APPEND AlchemyPlugin_SOURCE_FILES ${AlchemyPlugin_HEADER_FILES})
+endif (AlchemyPlugin_HEADER_FILES)
 
-add_executable(SLPlugin
+add_executable(AlchemyPlugin
     WIN32
     MACOSX_BUNDLE
-    ${SLPlugin_SOURCE_FILES}
+    ${AlchemyPlugin_SOURCE_FILES}
 )
 
 if (WINDOWS)
-set_target_properties(SLPlugin
+set_target_properties(AlchemyPlugin
   PROPERTIES
   LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
   LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
   )
   
   add_custom_command(
-    TARGET SLPlugin POST_BUILD
+    TARGET AlchemyPlugin POST_BUILD
     COMMAND "mt.exe"
     ARGS
     -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
-    -inputresource:\"$<TARGET_FILE:SLPlugin>\"\;\#1 
-    -outputresource:\"$<TARGET_FILE:SLPlugin>\"\;\#1
-    COMMENT "Adding compatibility manifest to SLPlugin..." 
+    -inputresource:\"$<TARGET_FILE:AlchemyPlugin>\"\;\#1 
+    -outputresource:\"$<TARGET_FILE:AlchemyPlugin>\"\;\#1
+    COMMENT "Adding compatibility manifest to AlchemyPlugin..." 
     )
 else ()
-set_target_properties(SLPlugin
+set_target_properties(AlchemyPlugin
   PROPERTIES
   MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/slplugin_info.plist
   )
 endif ()
 
-target_link_libraries(SLPlugin
+target_link_libraries(AlchemyPlugin
   ${LLPLUGIN_LIBRARIES}
   ${LLMESSAGE_LIBRARIES}
   ${LLCOMMON_LIBRARIES}
@@ -81,24 +81,24 @@ target_link_libraries(SLPlugin
   ${PTHREAD_LIBRARY}
 )
 
-add_dependencies(SLPlugin
+add_dependencies(AlchemyPlugin
   ${LLPLUGIN_LIBRARIES}
   ${LLMESSAGE_LIBRARIES}
   ${LLCOMMON_LIBRARIES}
 )
 
 if (DARWIN)
-  target_link_libraries(SLPlugin ${COCOA_LIBRARY})
+  target_link_libraries(AlchemyPlugin ${COCOA_LIBRARY})
   # Make sure the app bundle has a Resources directory (it will get populated by viewer-manifest.py later)
   add_custom_command(
-    TARGET SLPlugin POST_BUILD
+    TARGET AlchemyPlugin POST_BUILD
     COMMAND mkdir
     ARGS
       -p
-      ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/SLPlugin.app/Contents/Resources
+      ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/AlchemyPlugin.app/Contents/Resources
   )
 endif (DARWIN)
 
 if (LL_TESTS)
-  ll_deploy_sharedlibs_command(SLPlugin)
+  ll_deploy_sharedlibs_command(AlchemyPlugin)
 endif (LL_TESTS)

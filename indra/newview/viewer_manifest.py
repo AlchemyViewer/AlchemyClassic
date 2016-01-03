@@ -347,7 +347,7 @@ class WindowsManifest(ViewerManifest):
         # Plugin host application
         self.path2basename(os.path.join(os.pardir,
                                         'llplugin', 'slplugin', self.args['configuration']),
-                           "slplugin.exe")
+                           "AlchemyPlugin.exe")
 
         self.path2basename("../viewer_components/updater/scripts/windows", "update_install.bat")
         # Get shared libs from the shared libs staging directory
@@ -615,7 +615,7 @@ class WindowsManifest(ViewerManifest):
         if 'signature' in self.args and 'VIEWER_SIGNING_PWD' in os.environ:
             try:
                 self.sign(self.args['configuration']+"\\"+self.final_exe())
-                self.sign(self.args['configuration']+"\\SLPlugin.exe")
+                self.sign(self.args['configuration']+"\\AlchemyPlugin.exe")
                 self.sign(self.args['configuration']+"\\SLVoice.exe")
             except:
                 print "Couldn't sign binaries. Tried to sign %s" % self.args['configuration'] + "\\" + self.final_exe()
@@ -873,7 +873,7 @@ class DarwinManifest(ViewerManifest):
                 # our apps
                 for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
                                          # plugin launcher
-                                         (os.path.join("llplugin", "slplugin"), "SLPlugin.app"),
+                                         (os.path.join("llplugin", "slplugin"), "AlchemyPlugin.app"),
                                          ):
                     self.path2basename(os.path.join(os.pardir,
                                                     app_bld_dir, self.args['configuration']),
@@ -891,8 +891,8 @@ class DarwinManifest(ViewerManifest):
                         except OSError as err:
                             print "Can't symlink %s -> %s: %s" % (src, dst, err)
 
-                # LLCefLib helper apps go inside SLPlugin.app
-                if self.prefix(src="", dst="SLPlugin.app/Contents/Frameworks"):
+                # LLCefLib helper apps go inside AlchemyPlugin.app
+                if self.prefix(src="", dst="AlchemyPlugin.app/Contents/Frameworks"):
                     for helperappfile in ('LLCefLib Helper.app',
                                           'LLCefLib Helper EH.app'):
                         self.path2basename(relpkgdir, helperappfile)
@@ -901,7 +901,7 @@ class DarwinManifest(ViewerManifest):
 
                     self.end_prefix()
 
-                # SLPlugin plugins
+                # AlchemyPlugin plugins
                 if self.prefix(src="", dst="llplugin"):
                     self.path2basename("../media_plugins/quicktime/" + self.args['configuration'],
                                        "media_plugin_quicktime.dylib")
@@ -927,7 +927,7 @@ class DarwinManifest(ViewerManifest):
                 # Real Framework folder:
                 #   Second Life.app/Contents/Frameworks/Chromium Embedded Framework.framework/
                 # Location of symlink and why it'ds relavie 
-                #   Second Life.app/Contents/Resources/SLPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+                #   Second Life.app/Contents/Resources/AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
                 frameworkpath = os.path.join(os.pardir, os.pardir, os.pardir, os.pardir, "Frameworks", "Chromium Embedded Framework.framework")
                 try:
                     symlinkf(frameworkpath, pluginframeworkpath)
@@ -1129,7 +1129,7 @@ class LinuxManifest(ViewerManifest):
         if self.prefix(src="", dst="bin"):
             self.path("alchemy-bin","do-not-directly-run-alchemy-bin")
             self.path("../linux_crash_logger/linux-crash-logger","linux-crash-logger.bin")
-            self.path2basename("../llplugin/slplugin", "SLPlugin")
+            self.path2basename("../llplugin/slplugin", "AlchemyPlugin")
             self.path2basename("../viewer_components/updater/scripts/linux", "update_install")
             self.end_prefix("bin")
 

@@ -4877,50 +4877,6 @@ void LLPipeline::renderDebug()
 		LLPathingLib *llPathingLibInstance = LLPathingLib::getInstance();
 		if ( llPathingLibInstance != NULL ) 
 		{
-			//character floater renderables
-			
-			LLHandle<LLFloaterPathfindingCharacters> pathfindingCharacterHandle = LLFloaterPathfindingCharacters::getInstanceHandle();
-			if ( !pathfindingCharacterHandle.isDead() )
-			{
-				LLFloaterPathfindingCharacters *pathfindingCharacter = pathfindingCharacterHandle.get();
-
-				if ( pathfindingCharacter->getVisible() || gAgentCamera.cameraMouselook() )			
-				{	
-					if (LLGLSLShader::sNoFixedFunction)
-					{					
-						gPathfindingProgram.bind();			
-						gPathfindingProgram.uniform1f(sTint, 1.f);
-						gPathfindingProgram.uniform1f(sAmbiance, 1.f);
-						gPathfindingProgram.uniform1f(sAlphaScale, 1.f);
-					}
-
-					//Requried character physics capsule render parameters
-					LLUUID id;					
-					LLVector3 pos;
-					LLQuaternion rot;
-				
-					if ( pathfindingCharacter->isPhysicsCapsuleEnabled( id, pos, rot ) )
-					{
-						if (LLGLSLShader::sNoFixedFunction)
-						{					
-							//remove blending artifacts
-							gGL.setColorMask(false, false);
-							llPathingLibInstance->renderSimpleShapeCapsuleID( gGL, id, pos, rot );				
-							gGL.setColorMask(true, false);
-							LLGLEnable blend(GL_BLEND);
-							gPathfindingProgram.uniform1f(sAlphaScale, 0.90f);
-							llPathingLibInstance->renderSimpleShapeCapsuleID( gGL, id, pos, rot );
-							gPathfindingProgram.bind();
-						}
-						else
-						{
-							llPathingLibInstance->renderSimpleShapeCapsuleID( gGL, id, pos, rot );
-						}
-					}
-				}
-			}
-			
-
 			//pathing console renderables
 			LLHandle<LLFloaterPathfindingConsole> pathfindingConsoleHandle = LLFloaterPathfindingConsole::getInstanceHandle();
 			if (!pathfindingConsoleHandle.isDead())

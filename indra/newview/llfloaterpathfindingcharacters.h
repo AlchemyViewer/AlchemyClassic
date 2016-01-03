@@ -44,11 +44,6 @@ class LLFloaterPathfindingCharacters : public LLFloaterPathfindingObjects
 public:
 	virtual void                                    onClose(bool pIsAppQuitting);
 
-	BOOL                                            isShowPhysicsCapsule() const;
-	void                                            setShowPhysicsCapsule(BOOL pIsShowPhysicsCapsule);
-
-	BOOL                                            isPhysicsCapsuleEnabled(LLUUID& id, LLVector3& pos, LLQuaternion& rot) const;
-
 	static void                                     openCharactersWithSelectedObjects();
 	static LLHandle<LLFloaterPathfindingCharacters> getInstanceHandle();
 
@@ -74,19 +69,7 @@ protected:
 	virtual LLPathfindingObjectListPtr getEmptyObjectList() const;
 
 private:
-	void onShowPhysicsCapsuleClicked();
-
 	LLSD buildCharacterScrollListItemData(const LLPathfindingCharacter *pCharacterPtr) const;
-
-	void updateStateOnDisplayControls();
-	void showSelectedCharacterCapsules();
-
-	void showCapsule() const;
-	void hideCapsule() const;
-
-	bool getCapsuleRenderData(LLVector3& pPosition, LLQuaternion& rot) const;
-
-	LLCheckBoxCtrl                                   *mShowPhysicsCapsuleCheckBox;
 
 	LLUUID                                           mSelectedCharacterId;
 

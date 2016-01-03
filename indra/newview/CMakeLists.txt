@@ -1394,7 +1394,6 @@ set(viewer_HEADER_FILES
     llworldmipmap.h
     llxmlrpclistener.h
     llxmlrpctransaction.h
-    macmain.h
     noise.h
     pipeline.h
     qtoolalign.h
@@ -1461,7 +1460,7 @@ if (DARWIN)
   set(viewer_RESOURCE_FILES
     alchemy.icns
     gpu_table.txt
-    Info-SecondLife.plist
+    Info-Alchemy.plist
     Alchemy.xib
     # CMake doesn't seem to support Xcode language variants well just yet
     English.lproj/InfoPlist.strings
@@ -2181,11 +2180,11 @@ if (DARWIN)
     RESOURCE "${viewer_RESOURCE_FILES}"
     OUTPUT_NAME "${product}"
     MACOSX_BUNDLE_INFO_PLIST
-    "${CMAKE_CURRENT_SOURCE_DIR}/Info-SecondLife.plist"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Info-Alchemy.plist"
     )
 
   configure_file(
-     "${CMAKE_CURRENT_SOURCE_DIR}/Info-SecondLife.plist"
+     "${CMAKE_CURRENT_SOURCE_DIR}/Info-Alchemy.plist"
      "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app/Contents/Info.plist"
     )
 

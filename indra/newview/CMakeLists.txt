@@ -303,7 +303,6 @@ set(viewer_SOURCE_FILES
     llfloateropenobject.cpp
     llfloateroutbox.cpp
     llfloaterpathfindingcharacters.cpp
-    llfloaterpathfindingconsole.cpp
     llfloaterpathfindinglinksets.cpp
     llfloaterpathfindingobjects.cpp
     llfloaterparticleeditor.cpp
@@ -535,10 +534,8 @@ set(viewer_SOURCE_FILES
     llpathfindingmanager.cpp
     llpathfindingnavmesh.cpp
     llpathfindingnavmeshstatus.cpp
-    llpathfindingnavmeshzone.cpp
     llpathfindingobject.cpp
     llpathfindingobjectlist.cpp
-    llpathfindingpathtool.cpp
     llpersistentnotificationstorage.cpp
     llphysicsmotion.cpp
     llphysicsshapebuilderutil.cpp
@@ -956,7 +953,6 @@ set(viewer_HEADER_FILES
     llfloateroutbox.h
     llfloaterparticleeditor.h
     llfloaterpathfindingcharacters.h
-    llfloaterpathfindingconsole.h
     llfloaterpathfindinglinksets.h
     llfloaterpathfindingobjects.h
     llfloaterpay.h
@@ -1176,10 +1172,8 @@ set(viewer_HEADER_FILES
     llpathfindingmanager.h
     llpathfindingnavmesh.h
     llpathfindingnavmeshstatus.h
-    llpathfindingnavmeshzone.h
     llpathfindingobject.h
     llpathfindingobjectlist.h
-    llpathfindingpathtool.h
     llpersistentnotificationstorage.h
     llphysicsmotion.h
     llphysicsshapebuilderutil.h

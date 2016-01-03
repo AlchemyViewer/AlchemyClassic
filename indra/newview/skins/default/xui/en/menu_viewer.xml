@@ -1182,15 +1182,6 @@
               function="Tools.EnablePathfinding" />
         </menu_item_call>
         <menu_item_call
-            label="View / test..."
-            name="pathfinding_console_menu_item">
-          <menu_item_call.on_click
-              function="Floater.ToggleOrBringToFront"
-              parameter="pathfinding_console" />
-          <menu_item_call.on_enable
-              function="Tools.EnablePathfindingView" />
-        </menu_item_call>
-        <menu_item_call
             label="Rebake region"
             name="pathfinding_rebake_navmesh_item">
           <menu_item_call.on_click

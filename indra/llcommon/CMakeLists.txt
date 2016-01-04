@@ -124,7 +124,6 @@ set(llcommon_SOURCE_FILES
 set(llcommon_HEADER_FILES
     CMakeLists.txt
 
-    ctype_workaround.h
     fix_macros.h
     indra_constants.h
     is_approx_equal_fraction.h

@@ -27,12 +27,9 @@
 #define LL_CHATUTILITIES_H
 
 #include "llchat.h"
-#include <unordered_map>
 
 namespace LLChatUtilities
 {
-	static std::unordered_map<std::string, EChatType> sChatTypeTriggers;
-	
 	// Send a chat (after stripping /20foo channel chats).
 	// "Animate" means the nodding animation for regular text.
 	void		sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate);

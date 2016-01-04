@@ -235,14 +235,16 @@ set(llcommon_HEADER_FILES
     lluri.h
     lluriparser.h
     lluuid.h
-    llwin32headers.h
-    llwin32headerslean.h
     llworkerthread.h
     stdtypes.h
     stringize.h
     timer.h
     u64.h
     )
+
+if (WINDOWS)
+  list(APPEND llcommon_HEADER_FILES llwin32headers.h llwin32headerslean.h)
+endif (WINDOWS)
 
 if (DARWIN)
   list(APPEND llcommon_HEADER_FILES llsys_objc.h)

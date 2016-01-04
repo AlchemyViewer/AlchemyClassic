@@ -80,6 +80,22 @@ const S32 ALPHAMODE_MASK = 2;		// Alpha masking mode
 const S32 BUMPY_TEXTURE = 18;		// use supplied normal map
 const S32 SHINY_TEXTURE = 4;		// use supplied specular map
 
+template<class T, typename std::enable_if<std::is_integral<T>::value>::type* = nullptr>
+T normalize(const T value, const T start, const T end)
+{
+	const T width = end - start;
+	const T offset_val = value - start;
+	return (offset_val - ((offset_val / width) * width)) + start;
+}
+
+template<class T, typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr>
+T normalize(const T value, const T start, const T end)
+{
+	const T width = end - start;
+	const T offset_val = value - start;
+	return (offset_val - (llfloor(offset_val / width) * width)) + start;
+}
+
 //
 // "Use texture" label for normal/specular type comboboxes
 // Filled in at initialization from translated strings
@@ -1811,9 +1827,9 @@ void LLPanelFace::alignMaterialProperties()
 	
 	F32 tex_scale_u = getCurrentTextureScaleU();
 	F32 tex_scale_v = getCurrentTextureScaleV();
-	F32 tex_offset_u = getCurrentTextureOffsetU();
-	F32 tex_offset_v = getCurrentTextureOffsetV();
-	F32 tex_rot = getCurrentTextureRot();
+	F32 tex_offset_u = normalize(getCurrentTextureOffsetU(), 0.f, 1.f);
+	F32 tex_offset_v = normalize(getCurrentTextureOffsetV(), 0.f, 1.f);
+	F32 tex_rot = normalize(getCurrentTextureRot(), 0.f, 360.f);
 	
 	bool identical_planar_texgen = isIdenticalPlanarTexgen();
 	

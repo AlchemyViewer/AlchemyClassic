@@ -96,11 +96,7 @@ protected:
 	void onBackBtnClick();
 	void onBtnJoin();
 	void onBtnCancel();
-
-	static void onBtnApply(void*);
-	static void onBtnRefresh(void*);
-	static void onBtnGroupCallClicked(void*);
-	static void onBtnGroupChatClicked(void*);
+	void onBtnApply();
 
 	void reposButton(const std::string& name);
 	void reposButtons();

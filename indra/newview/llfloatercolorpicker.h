@@ -112,8 +112,8 @@ class LLFloaterColorPicker
 
 	protected:
 		// callbacks
-		static void onClickCancel ( void* data );
-		static void onClickSelect ( void* data );
+			   void onClickCancel();
+			   void onClickSelect();
 			   void onClickPipette ( );
 		static void onTextCommit ( LLUICtrl* ctrl, void* data );
 			   void onImmediateCheck ();

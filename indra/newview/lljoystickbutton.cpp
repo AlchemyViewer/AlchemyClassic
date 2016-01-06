@@ -80,7 +80,7 @@ LLJoystick::LLJoystick(const LLJoystick::Params& p)
 	mHeldDownTimer(),
 	mInitialQuadrant(p.quadrant)
 {
-	setHeldDownCallback(&LLJoystick::onBtnHeldDown, this);
+	setHeldDownCallback(boost::bind(&LLJoystick::onBtnHeldDown, this));
 }
 
 

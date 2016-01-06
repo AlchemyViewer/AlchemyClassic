@@ -114,7 +114,7 @@ void LLPanelGroupBulkImpl::callbackClickCancel(void* userdata)
 		(*(selfp->mCloseCallback))(selfp->mCloseCallbackUserData);
 }
 
-void LLPanelGroupBulkImpl::callbackSelect(LLUICtrl* ctrl, void* userdata)
+void LLPanelGroupBulkImpl::callbackSelect(void* userdata)
 {
 	LLPanelGroupBulkImpl* selfp = (LLPanelGroupBulkImpl*)userdata;
 	if (selfp) 

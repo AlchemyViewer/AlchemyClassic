@@ -843,7 +843,7 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 	LLButton* button = parent->getChild<LLButton>("member_invite", recurse);
 	if ( button )
 	{
-		button->setClickedCallback(onInviteMember, this);
+		button->setCommitCallback(boost::bind(&LLPanelGroupMembersSubTab::onInviteMember, this));
 		button->setEnabled(gAgent.hasPowerInGroup(mGroupID, GP_MEMBER_INVITE));
 	}
 	
@@ -857,14 +857,14 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 	mEjectBtn = parent->getChild<LLButton>("member_eject", recurse);
 	if ( mEjectBtn )
 	{
-		mEjectBtn->setClickedCallback(onEjectMembers, this);
+		mEjectBtn->setClickedCallback(boost::bind(&LLPanelGroupMembersSubTab::onEjectMembers, this));
 		mEjectBtn->setEnabled(FALSE);
 	}
 
 	mBanBtn = parent->getChild<LLButton>("member_ban", recurse);
 	if(mBanBtn)
 	{
-		mBanBtn->setClickedCallback(onBanMember, this);
+		mBanBtn->setClickedCallback(boost::bind(&LLPanelGroupMembersSubTab::onBanMember, this));
 		mBanBtn->setEnabled(FALSE);
 	}
 
@@ -1996,7 +1996,7 @@ BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 		parent->getChild<LLButton>("role_create", recurse);
 	if ( mCreateRoleButton )
 	{
-		mCreateRoleButton->setClickedCallback(onCreateRole, this);
+		mCreateRoleButton->setCommitCallback(boost::bind(&LLPanelGroupRolesSubTab::onCreateRole, this));
 		mCreateRoleButton->setEnabled(FALSE);
 	}
 	
@@ -2004,7 +2004,7 @@ BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 		parent->getChild<LLButton>("role_delete", recurse);
 	if ( mDeleteRoleButton )
 	{
-		mDeleteRoleButton->setClickedCallback(onDeleteRole, this);
+		mDeleteRoleButton->setClickedCallback(boost::bind(&LLPanelGroupRolesSubTab::onDeleteRole, this));
 		mDeleteRoleButton->setEnabled(FALSE);
 	}
 

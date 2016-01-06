@@ -57,8 +57,7 @@ void LLViewChildren::enable(const std::string& id, bool enabled)
 	mParent.getChildView(id)->setEnabled(enabled);
 }
 
-void LLViewChildren::setText(
-	const std::string& id, const std::string& text, bool visible)
+void LLViewChildren::setText(const std::string& id, const std::string& text, bool visible)
 {
 	LLTextBox* child = mParent.getChild<LLTextBox>(id);
 	if (child)
@@ -89,10 +88,7 @@ void LLViewChildren::setAction(const std::string& id,
 	void(*function)(void*), void* value)
 {
 	LLButton* button = mParent.getChild<LLButton>(id);
-	if (button)
-	{
-		button->setClickedCallback(function, value);
-	}
+	button->setClickedCallback(function, value);
 }
 
 

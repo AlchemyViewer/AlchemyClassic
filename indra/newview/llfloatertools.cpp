@@ -1308,7 +1308,7 @@ void LLFloaterTools::getMediaState()
 	
 	
 	// check if all faces have media(or, all dont have media)
-	LLFloaterMediaSettings::getInstance()->mIdenticalHasMediaInfo = selected_objects->getSelectedTEValue( &func, bool_has_media );
+	LLFloaterMediaSettings::getInstance()->setIdenticalHasMediaInfo(selected_objects->getSelectedTEValue( &func, bool_has_media ));
 	
 	const LLMediaEntry default_media_data;
 	
@@ -1330,7 +1330,7 @@ void LLFloaterTools::getMediaState()
     } func_media_data(default_media_data);
 
 	LLMediaEntry media_data_get;
-    LLFloaterMediaSettings::getInstance()->mMultipleMedia = !(selected_objects->getSelectedTEValue( &func_media_data, media_data_get ));
+    LLFloaterMediaSettings::getInstance()->setMultipleMedia(!(selected_objects->getSelectedTEValue( &func_media_data, media_data_get )));
 	
 	std::string multi_media_info_str = LLTrans::getString("Multiple Media");
 	std::string media_title = "";
@@ -1340,12 +1340,12 @@ void LLFloaterTools::getMediaState()
 	
 	getChildView("Add_Media")->setEnabled(editable);
 	// IF all the faces have media (or all dont have media)
-	if ( LLFloaterMediaSettings::getInstance()->mIdenticalHasMediaInfo )
+	if ( LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() )
 	{
 		// TODO: get media title and set it.
 		media_info->clear();
 		// if identical is set, all faces are same (whether all empty or has the same media)
-		if(!(LLFloaterMediaSettings::getInstance()->mMultipleMedia) )
+		if(!(LLFloaterMediaSettings::getInstance()->getMultipleMedia()) )
 		{
 			// Media data is valid
 			if(media_data_get!=default_media_data)
@@ -1366,7 +1366,7 @@ void LLFloaterTools::getMediaState()
 		}
 		
 		getChildView("media_tex")->setEnabled(bool_has_media && editable);
-		getChildView("edit_media")->setEnabled(bool_has_media && LLFloaterMediaSettings::getInstance()->mIdenticalHasMediaInfo && editable );
+		getChildView("edit_media")->setEnabled(bool_has_media && LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() && editable );
 		getChildView("delete_media")->setEnabled(bool_has_media && editable );
 		getChildView("add_media")->setEnabled(editable);
 			// TODO: display a list of all media on the face - use 'identical' flag
@@ -1374,9 +1374,9 @@ void LLFloaterTools::getMediaState()
 	else // not all face has media but at least one does.
 	{
 		// seleted faces have not identical value
-		LLFloaterMediaSettings::getInstance()->mMultipleValidMedia = selected_objects->isMultipleTEValue(&func_media_data, default_media_data );
+		LLFloaterMediaSettings::getInstance()->setMultipleValidMedia(selected_objects->isMultipleTEValue(&func_media_data, default_media_data));
 	
-		if(LLFloaterMediaSettings::getInstance()->mMultipleValidMedia)
+		if(LLFloaterMediaSettings::getInstance()->getMultipleValidMedia())
 		{
 			media_title = multi_media_info_str;
 			mNeedMediaTitle = false;
@@ -1396,7 +1396,7 @@ void LLFloaterTools::getMediaState()
 		}
 		
 		getChildView("media_tex")->setEnabled(TRUE);
-		getChildView("edit_media")->setEnabled(LLFloaterMediaSettings::getInstance()->mIdenticalHasMediaInfo);
+		getChildView("edit_media")->setEnabled(LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo());
 		getChildView("delete_media")->setEnabled(TRUE);
 		getChildView("add_media")->setEnabled(editable);
 	}

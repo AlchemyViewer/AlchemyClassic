@@ -203,10 +203,10 @@ void LLFloaterColorPicker::showUI ()
 BOOL LLFloaterColorPicker::postBuild()
 {
 	mCancelBtn = getChild<LLButton>( "cancel_btn" );
-    mCancelBtn->setClickedCallback ( onClickCancel, this );
+	mCancelBtn->setCommitCallback(boost::bind(&LLFloaterColorPicker::onClickCancel, this));
 
 	mSelectBtn = getChild<LLButton>( "select_btn");
-    mSelectBtn->setClickedCallback ( onClickSelect, this );
+    mSelectBtn->setCommitCallback(boost::bind(&LLFloaterColorPicker::onClickSelect, this));
 	mSelectBtn->setFocus ( TRUE );
 
 	mPipetteBtn = getChild<LLButton>("color_pipette" );
@@ -381,35 +381,19 @@ void LLFloaterColorPicker::getCurHsl ( F32& curHOut, F32& curSOut, F32& curLOut 
 
 //////////////////////////////////////////////////////////////////////////////
 // called when 'cancel' clicked
-void LLFloaterColorPicker::onClickCancel ( void* data )
+void LLFloaterColorPicker::onClickCancel()
 {
-	if (data)
-	{
-		LLFloaterColorPicker* self = ( LLFloaterColorPicker* )data;
-
-		if ( self )
-		{
-			self->cancelSelection ();
-			self->closeFloater();
-		}
-	}
+	cancelSelection();
+	closeFloater();
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // called when 'select' clicked
-void LLFloaterColorPicker::onClickSelect ( void* data )
+void LLFloaterColorPicker::onClickSelect()
 {
-	if (data)
-	{
-		LLFloaterColorPicker* self = ( LLFloaterColorPicker* )data;
-
-		if ( self )
-		{
-			// apply to selection
-			LLColorSwatchCtrl::onColorChanged ( self->getSwatch (), LLColorSwatchCtrl::COLOR_SELECT );
-			self->closeFloater();
-		}
-	}
+	// apply to selection
+	LLColorSwatchCtrl::onColorChanged(getSwatch(), LLColorSwatchCtrl::COLOR_SELECT);
+	closeFloater();
 }
 
 void LLFloaterColorPicker::onClickPipette( )

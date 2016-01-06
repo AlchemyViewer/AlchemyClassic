@@ -248,11 +248,11 @@ BOOL LLPanelGroupNotices::postBuild()
 	mNoticesList->setCommitCallback(boost::bind(&LLPanelGroupNotices::onSelectNotice, this));
 
 	mBtnNewMessage = getChild<LLButton>("create_new_notice",recurse);
-	mBtnNewMessage->setClickedCallback(onClickNewMessage, this);
+	mBtnNewMessage->setCommitCallback(boost::bind(&LLPanelGroupNotices::onClickNewMessage, this));
 	mBtnNewMessage->setEnabled(gAgent.hasPowerInGroup(mGroupID, GP_NOTICES_SEND));
 
 	mBtnGetPastNotices = getChild<LLButton>("refresh_notices",recurse);
-	mBtnGetPastNotices->setClickedCallback(onClickRefreshNotices, this);
+	mBtnGetPastNotices->setClickedCallback(boost::bind(&LLPanelGroupNotices::onClickRefreshNotices, this));
 
 	// Create
 	mCreateSubject = getChild<LLLineEditor>("create_subject",recurse);
@@ -266,10 +266,10 @@ BOOL LLPanelGroupNotices::postBuild()
 	mCreateInventoryIcon->setVisible(FALSE);
 
 	mBtnSendMessage = getChild<LLButton>("send_notice",recurse);
-	mBtnSendMessage->setClickedCallback(onClickSendMessage, this);
+	mBtnSendMessage->setClickedCallback(boost::bind(&LLPanelGroupNotices::onClickSendMessage, this));
 
 	mBtnRemoveAttachment = getChild<LLButton>("remove_attachment",recurse);
-	mBtnRemoveAttachment->setClickedCallback(onClickRemoveAttachment, this);
+	mBtnRemoveAttachment->setClickedCallback(boost::bind(&LLPanelGroupNotices::onClickRemoveAttachment, this));
 	mBtnRemoveAttachment->setEnabled(FALSE);
 
 	// View
@@ -284,7 +284,7 @@ BOOL LLPanelGroupNotices::postBuild()
 	mViewInventoryIcon->setVisible(FALSE);
 
 	mBtnOpenAttachment = getChild<LLButton>("open_attachment",recurse);
-	mBtnOpenAttachment->setClickedCallback(onClickOpenAttachment, this);
+	mBtnOpenAttachment->setClickedCallback(boost::bind(&LLPanelGroupNotices::onClickOpenAttachment, this));
 
 	mNoNoticesStr = getString("no_notices_text");
 

@@ -222,9 +222,9 @@ void LLPanelMediaSettingsGeneral::clearValues( void* userdata, bool editable)
 bool LLPanelMediaSettingsGeneral::isMultiple()
 {
 	// IF all the faces have media (or all dont have media)
-	if ( LLFloaterMediaSettings::getInstance()->mIdenticalHasMediaInfo )
+	if ( LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() )
 	{
-		if(LLFloaterMediaSettings::getInstance()->mMultipleMedia) 
+		if(LLFloaterMediaSettings::getInstance()->getMultipleMedia())
 		{
 			return true;
 		}
@@ -232,7 +232,7 @@ bool LLPanelMediaSettingsGeneral::isMultiple()
 	}
 	else
 	{
-		if(LLFloaterMediaSettings::getInstance()->mMultipleValidMedia) 
+		if(LLFloaterMediaSettings::getInstance()->getMultipleValidMedia())
 		{
 			return true;
 		}

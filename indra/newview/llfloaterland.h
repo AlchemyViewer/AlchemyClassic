@@ -139,14 +139,14 @@ public:
 	void setGroup(const LLUUID& group_id);
 	void onClickProfile();
 	void onClickSetGroup();
-	static void onClickDeed(void*);
 	static void onClickBuyLand(void* data);
-	static void onClickScriptLimits(void* data);
-	static void onClickRelease(void*);
-	static void onClickReclaim(void*);
 	static void onClickBuyPass(void* deselect_when_done);
+	void onClickDeed();
+	void onClickScriptLimits();
+	void onClickRelease();
+	void onClickReclaim();
 	static BOOL enableBuyPass(void*);
-		   void onCommitAny();
+	void onCommitAny();
 	static void finalizeCommit(void * userdata);
 	static void onForSaleChange(LLUICtrl *ctrl, void * userdata);
 	static void finalizeSetSellChange(void * userdata);
@@ -154,15 +154,15 @@ public:
 
 	static bool cbBuyPass(const LLSD& notification, const LLSD& response);
 
-	static void onClickSellLand(void* data);
-	static void onClickStopSellLand(void* data);
-	static void onClickSet(void* data);
-	static void onClickClear(void* data);
-	static void onClickShow(void* data);
+	void onClickSellLand();
+	void onClickStopSellLand();
+	void onClickSet();
+	void onClickClear();
+	void onClickShow();
 	static void callbackAvatarPick(const std::vector<std::string>& names, const uuid_vec_t& ids, void* data);
 	static void finalizeAvatarPick(void* data);
 	static void callbackHighlightTransferable(S32 option, void* userdata);
-	static void onClickStartAuction(void*);
+	void onClickStartAuction();
 	// sale change confirmed when "is for sale", "sale price", "sell to whom" fields are changed
 	static void confirmSaleChange(S32 landSize, S32 salePrice, std::string authorizedName, void(*callback)(void*), void* userdata);
 	static void callbackConfirmSaleChange(S32 option, void* userdata);
@@ -249,19 +249,19 @@ public:
 	bool callbackReturnOwnerList(const LLSD& notification, const LLSD& response);
 
 	static void clickShowCore(LLPanelLandObjects* panelp, S32 return_type, uuid_list_t* list = 0);
-	static void onClickShowOwnerObjects(void*);
-	static void onClickShowGroupObjects(void*);
-	static void onClickShowOtherObjects(void*);
+	void onClickShowOwnerObjects();
+	void onClickShowGroupObjects();
+	void onClickShowOtherObjects();
 
-	static void onClickReturnOwnerObjects(void*);
-	static void onClickReturnGroupObjects(void*);
-	static void onClickReturnOtherObjects(void*);
-	static void onClickReturnOwnerList(void*);
-	static void onClickRefresh(void*);
+	void onClickReturnOwnerObjects();
+	void onClickReturnGroupObjects();
+	void onClickReturnOtherObjects();
+	void onClickReturnOwnerList();
+	void onClickRefresh();
 
-	static void onDoubleClickOwner(void*);	
+	void onDoubleClickOwner();	
 
-	static void onCommitList(LLUICtrl* ctrl, void* data);
+	void onCommitList(LLUICtrl* ctrl);
 	static void onLostFocus(LLFocusableElement* caller, void* user_data);
 		   void onCommitClean();
 	static void processParcelObjectOwnersReply(LLMessageSystem *msg, void **);
@@ -320,8 +320,8 @@ private:
 	void refreshSearch();
 
 	void onCommitAny();
-	static void onClickSet(void* userdata);
-	static void onClickClear(void* userdata);
+	void onClickSet();
+	void onClickClear();
 
 private:
 	LLCheckBoxCtrl*	mCheckEditObjects;
@@ -363,11 +363,11 @@ public:
 	void refreshNames();
 	virtual void draw();
 
-	static void onCommitPublicAccess(LLUICtrl* ctrl, void *userdata);
-		   void onCommitAny();
-	static void onCommitGroupCheck(LLUICtrl* ctrl, void *userdata);
-	static void onClickRemoveAccess(void*);
-	static void onClickRemoveBanned(void*);
+	void onCommitPublicAccess(LLUICtrl* ctrl);
+	void onCommitAny();
+	void onCommitGroupCheck(LLUICtrl* ctrl);
+	void onClickRemoveAccess();
+	void onClickRemoveBanned();
 
 	virtual BOOL postBuild();
 	

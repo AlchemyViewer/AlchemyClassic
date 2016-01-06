@@ -33,12 +33,8 @@
 #include "llview.h"
 
 // declarations
-class LLButton;
-class LLStatusPanel;
 class LLFastTimerView;
 class LLConsole;
-class LLTextureView;
-class LLFloaterStats;
 
 class LLDebugView : public LLView
 {

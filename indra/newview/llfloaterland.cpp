@@ -279,7 +279,12 @@ LLFloaterLand::LLFloaterLand(const LLSD& seed)
 }
 
 BOOL LLFloaterLand::postBuild()
-{	
+{
+	if (!mParcelMsgSignalSlot.connected())
+	{
+		mParcelMsgSignalSlot = LLViewerParcelMgr::getInstance()->addParcelMsgCallback(
+			boost::bind(&LLFloaterLand::selectiveRefresh, this));
+	}
 	setVisibleCallback(boost::bind(&LLFloaterLand::onVisibilityChanged, this, _2));
 	
 	LLTabContainer* tab = getChild<LLTabContainer>("landtab");
@@ -298,6 +303,9 @@ BOOL LLFloaterLand::postBuild()
 // virtual
 LLFloaterLand::~LLFloaterLand()
 {
+	if (mParcelMsgSignalSlot.connected())
+		mParcelMsgSignalSlot.disconnect();
+	
 	LLViewerParcelMgr::getInstance()->removeObserver( sObserver );
 	delete sObserver;
 	sObserver = NULL;
@@ -313,6 +321,13 @@ void LLFloaterLand::refresh()
 	mPanelAccess->refresh();
 	mPanelCovenant->refresh();
 	mPanelExperiences->refresh();
+}
+
+// public
+void LLFloaterLand::selectiveRefresh()
+{
+	mPanelAccess->refresh();
+	mPanelGeneral->refresh();
 }
 
 // static

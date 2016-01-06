@@ -30,7 +30,6 @@
 
 #include "llfloater.h"
 #include "llpointer.h"	// LLPointer<>
-//#include "llviewertexturelist.h"
 #include "llsafehandle.h"
 
 typedef std::set<LLUUID, lluuid_less> uuid_list_t;
@@ -87,10 +86,13 @@ private:
 	virtual ~LLFloaterLand();
 		
 	void onVisibilityChanged(const LLSD& visible);
+	
+	boost::signals2::connection mParcelMsgSignalSlot;
 
 protected:
 
 	/*virtual*/ void refresh();
+	void selectiveRefresh();
 
 	static void* createPanelLandGeneral(void* data);
 	static void* createPanelLandCovenant(void* data);

@@ -128,6 +128,10 @@ public:
 	void addObserver(LLParcelObserver* observer);
 	void removeObserver(LLParcelObserver* observer);
 	void notifyObservers();
+	
+	typedef boost::signals2::signal<void()> parcel_msg_signal_t;
+	boost::signals2::connection addParcelMsgCallback(const parcel_msg_signal_t::slot_type& cb)
+		{ return mParcelMsgSignal.connect(cb); }
 
 	void setSelectionVisible(BOOL visible) { mRenderSelection = visible; }
 
@@ -332,6 +336,8 @@ private:
 	LLVector3d					mHoverEastNorth;
 
 	std::vector<LLParcelObserver*> mObservers;
+	
+	parcel_msg_signal_t mParcelMsgSignal;
 
 	BOOL						mTeleportInProgress;
 	LLVector3d					mTeleportInProgressPosition;

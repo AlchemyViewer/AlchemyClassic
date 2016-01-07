@@ -124,7 +124,6 @@ set(llcommon_SOURCE_FILES
 set(llcommon_HEADER_FILES
     CMakeLists.txt
 
-    ctype_workaround.h
     fix_macros.h
     indra_constants.h
     is_approx_equal_fraction.h
@@ -236,14 +235,16 @@ set(llcommon_HEADER_FILES
     lluri.h
     lluriparser.h
     lluuid.h
-    llwin32headers.h
-    llwin32headerslean.h
     llworkerthread.h
     stdtypes.h
     stringize.h
     timer.h
     u64.h
     )
+
+if (WINDOWS)
+  list(APPEND llcommon_HEADER_FILES llwin32headers.h llwin32headerslean.h)
+endif (WINDOWS)
 
 if (DARWIN)
   list(APPEND llcommon_HEADER_FILES llsys_objc.h)

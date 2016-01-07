@@ -45,7 +45,7 @@ public:
 
 private:
 	bool update(const LLSD& payload);
-	static void toggleClick(void* user_data);
+	void toggleClick();
 	static void onClickNotification(void* user_data);
 	LLNotificationChannelPtr mChannelPtr;
 };
@@ -75,7 +75,7 @@ BOOL LLNotificationChannelPanel::postBuild()
 {
 	LLButton* header_button = getChild<LLButton>("header");
 	header_button->setLabel(mChannelPtr->getName());
-	header_button->setClickedCallback(toggleClick, this);
+	header_button->setCommitCallback(boost::bind(&LLNotificationChannelPanel::toggleClick, this));
 
 	mChannelPtr->connectChanged(boost::bind(&LLNotificationChannelPanel::update, this, _1));
 
@@ -85,23 +85,19 @@ BOOL LLNotificationChannelPanel::postBuild()
 	return TRUE;
 }
 
-//static
-void LLNotificationChannelPanel::toggleClick(void *user_data)
+void LLNotificationChannelPanel::toggleClick()
 {
-	LLNotificationChannelPanel* self = (LLNotificationChannelPanel*)user_data;
-	if (!self) return;
+	LLButton* header_button = getChild<LLButton>("header");
 	
-	LLButton* header_button = self->getChild<LLButton>("header");
-	
-	LLLayoutStack* stack = dynamic_cast<LLLayoutStack*>(self->getParent());
+	LLLayoutStack* stack = dynamic_cast<LLLayoutStack*>(getParent());
 	if (stack)
 	{
-		stack->collapsePanel(self, header_button->getToggleState());
+		stack->collapsePanel(this, header_button->getToggleState());
 	}
 
 	// turn off tab stop for collapsed panel
-	self->getChild<LLScrollListCtrl>("notifications_list")->setTabStop(!header_button->getToggleState());
-	self->getChild<LLScrollListCtrl>("notifications_list")->setVisible(!header_button->getToggleState());
+	getChild<LLScrollListCtrl>("notifications_list")->setTabStop(!header_button->getToggleState());
+	getChild<LLScrollListCtrl>("notifications_list")->setVisible(!header_button->getToggleState());
 }
 
 /*static*/

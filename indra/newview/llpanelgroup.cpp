@@ -147,21 +147,21 @@ BOOL LLPanelGroup::postBuild()
 	LLButton* button;
 
 	button = getChild<LLButton>("btn_apply");
-	button->setClickedCallback(onBtnApply, this);
+	button->setCommitCallback(boost::bind(&LLPanelGroup::onBtnApply, this));
 	button->setVisible(true);
 	button->setEnabled(false);
 
 	button = getChild<LLButton>("btn_call");
-	button->setClickedCallback(onBtnGroupCallClicked, this);
+	button->setCommitCallback(boost::bind(&LLPanelGroup::callGroup, this));
 
 	button = getChild<LLButton>("btn_chat");
-	button->setClickedCallback(onBtnGroupChatClicked, this);
+	button->setCommitCallback(boost::bind(&LLPanelGroup::chatGroup, this));
 
 	button = getChild<LLButton>("btn_cancel");
 	button->setVisible(false);	button->setEnabled(true);
 
 	button = getChild<LLButton>("btn_refresh");
-	button->setClickedCallback(onBtnRefresh, this);
+	button->setCommitCallback(boost::bind(&LLPanelGroup::refreshData, this));
 
 	getChild<LLButton>("btn_create")->setVisible(false);
 
@@ -268,30 +268,12 @@ void LLPanelGroup::onBtnCreate()
 	}
 }
 
-void LLPanelGroup::onBtnRefresh(void* user_data)
+void LLPanelGroup::onBtnApply()
 {
-	LLPanelGroup* self = static_cast<LLPanelGroup*>(user_data);
-	self->refreshData();
+	apply();
+	refreshData();
 }
 
-void LLPanelGroup::onBtnApply(void* user_data)
-{
-	LLPanelGroup* self = static_cast<LLPanelGroup*>(user_data);
-	self->apply();
-	self->refreshData();
-}
-
-void LLPanelGroup::onBtnGroupCallClicked(void* user_data)
-{
-	LLPanelGroup* self = static_cast<LLPanelGroup*>(user_data);
-	self->callGroup();
-}
-
-void LLPanelGroup::onBtnGroupChatClicked(void* user_data)
-{
-	LLPanelGroup* self = static_cast<LLPanelGroup*>(user_data);
-	self->chatGroup();
-}
 
 void LLPanelGroup::onBtnJoin()
 {

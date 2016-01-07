@@ -38,7 +38,7 @@
 // legacy callback glue
 extern void send_chat_from_viewer(const std::string& utf8_out_text, EChatType type, S32 channel);
 
-/* static */ std::unordered_map<std::string, EChatType> sChatTypeTriggers = {
+const std::map<std::string, EChatType> sChatTypeTriggers = {
 	{LLStringExplicit("/whisper"), CHAT_TYPE_WHISPER},
 	{LLStringExplicit("/shout"), CHAT_TYPE_SHOUT}
 };
@@ -115,7 +115,7 @@ EChatType LLChatUtilities::processChatTypeTriggers(EChatType type, std::string &
 			
 			if (!LLStringUtil::compareInsensitive(trigger, ti.first))
 			{
-				U32 trigger_length = ti.first.length();
+				size_t trigger_length = ti.first.length();
 				
 				// It's to remove space after trigger name
 				if (length > trigger_length && str[trigger_length] == ' ')

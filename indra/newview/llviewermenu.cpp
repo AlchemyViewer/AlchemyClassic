@@ -74,6 +74,7 @@
 #include "llfloaterpathfindingcharacters.h"
 #include "llfloaterpathfindinglinksets.h"
 #include "llfloaterpay.h"
+#include "llfloaterregioninfo.h"
 #include "llfloaterreporter.h"
 #include "llfloatersearch.h"
 #include "llfloaterscriptdebug.h"
@@ -4122,10 +4123,16 @@ void set_god_level(U8 god_level)
 	show_debug_menus();
 
 	// changing god-level can invalidate search results
-	LLFloaterSearch *search = dynamic_cast<LLFloaterSearch*>(LLFloaterReg::getInstance("search"));
+	LLFloaterSearch *search = dynamic_cast<LLFloaterSearch*>(LLFloaterReg::findInstance("search"));
 	if (search)
 	{
 		search->godLevelChanged(god_level);
+	}
+	
+	LLFloaterRegionInfo *region_info = dynamic_cast<LLFloaterRegionInfo*>(LLFloaterReg::findInstance("region_info"));
+	if (region_info && region_info->getVisible())
+	{
+		region_info->refresh();
 	}
 }
 

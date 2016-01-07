@@ -717,7 +717,7 @@ BOOL LLPanelGroupLandMoney::postBuild()
 	
 	if ( mImplementationp->mMapButtonp )
 	{
-		mImplementationp->mMapButtonp->setClickedCallback(LLPanelGroupLandMoney::impl::mapCallback, mImplementationp);
+		mImplementationp->mMapButtonp->setCommitCallback(boost::bind(LLPanelGroupLandMoney::impl::mapCallback, mImplementationp));
 	}
 
 	if ( mImplementationp->mGroupOverLimitTextp )
@@ -927,12 +927,12 @@ LLGroupMoneyTabEventHandler::LLGroupMoneyTabEventHandler(LLButton* earlier_butto
 
 	if ( earlier_buttonp )
 	{
-		earlier_buttonp->setClickedCallback(clickEarlierCallback, this);
+		earlier_buttonp->setCommitCallback(boost::bind(&LLGroupMoneyTabEventHandler::clickEarlierCallback, this));
 	}
 
 	if ( later_buttonp )
 	{
-		later_buttonp->setClickedCallback(clickLaterCallback, this);
+		later_buttonp->setCommitCallback(boost::bind(&LLGroupMoneyTabEventHandler::clickLaterCallback, this));
 	}
 
 	mImplementationp->updateButtons();
@@ -1552,7 +1552,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 	
 	if ( mImplementationp->mMapButtonp )
 	{
-		mImplementationp->mMapButtonp->setClickedCallback(LLPanelGroupLandMoney::impl::mapCallback, mImplementationp);
+		mImplementationp->mMapButtonp->setCommitCallback(boost::bind(&LLPanelGroupLandMoney::impl::mapCallback, mImplementationp));
 	}
 
 	if ( mImplementationp->mGroupOverLimitTextp )

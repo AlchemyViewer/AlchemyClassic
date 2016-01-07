@@ -34,7 +34,6 @@
 #include <type_traits>
 #include "llpointer.h"
 #include "llrefcount.h"             // LLRefCount
-#include <boost/utility/enable_if.hpp>
 
 /**
  * LLPtrTo<TARGET>::type is either of two things:
@@ -46,7 +45,7 @@
  * This way, a class template can use LLPtrTo<TARGET>::type to select an
  * appropriate pointer type to store.
  */
-template <class T, class ENABLE=void>
+template <class T, class ENABLE = void>
 struct LLPtrTo
 {
     typedef T* type;
@@ -54,14 +53,14 @@ struct LLPtrTo
 
 /// specialize for subclasses of LLRefCount
 template <class T>
-struct LLPtrTo<T, typename boost::enable_if< std::is_base_of<LLRefCount, T> >::type>
+struct LLPtrTo<T, typename std::enable_if< std::is_base_of<LLRefCount, T>::value>::type>
 {
     typedef LLPointer<T> type;
 };
 
 /// specialize for subclasses of LLThreadSafeRefCount
 template <class T>
-struct LLPtrTo<T, typename boost::enable_if< std::is_base_of<LLThreadSafeRefCount, T> >::type>
+struct LLPtrTo<T, typename std::enable_if< std::is_base_of<LLThreadSafeRefCount, T>::value>::type>
 {
     typedef LLPointer<T> type;
 };

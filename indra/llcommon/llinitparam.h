@@ -493,7 +493,7 @@ namespace LLInitParam
 
 		virtual ~Parser();
 
-		template <typename T> bool readValue(T& param, typename boost::disable_if<std::is_enum<T> >::type* dummy = 0)
+		template <typename T> bool readValue(T& param, typename std::enable_if<!std::is_enum<T>::value>::type* dummy = 0)
 		{
 			parser_read_func_map_t::iterator found_it = mParserReadFuncs->find(&typeid(T));
 			if (found_it != mParserReadFuncs->end())
@@ -504,7 +504,7 @@ namespace LLInitParam
 			return false;
 		}
 
-		template <typename T> bool readValue(T& param, typename boost::enable_if<std::is_enum<T> >::type* dummy = 0)
+		template <typename T> bool readValue(T& param, typename std::enable_if<std::is_enum<T>::value>::type* dummy = nullptr)
 		{
 			parser_read_func_map_t::iterator found_it = mParserReadFuncs->find(&typeid(T));
 			if (found_it != mParserReadFuncs->end())

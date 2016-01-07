@@ -63,7 +63,7 @@ BOOL LLPanelGroupBulkBan::postBuild()
 	if ( mImplementation->mBulkAgentList )
 	{
 		mImplementation->mBulkAgentList->setCommitOnSelectionChange(TRUE);
-		mImplementation->mBulkAgentList->setCommitCallback(LLPanelGroupBulkImpl::callbackSelect, mImplementation);
+		mImplementation->mBulkAgentList->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackSelect, this));
 	}
 
 	LLButton* button = getChild<LLButton>("add_button", recurse);
@@ -71,14 +71,14 @@ BOOL LLPanelGroupBulkBan::postBuild()
 	{
 		// default to opening avatarpicker automatically
 		// (*impl::callbackClickAdd)((void*)this);
-		button->setClickedCallback(LLPanelGroupBulkImpl::callbackClickAdd, this);
+		button->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackClickAdd, this));
 	}
 
 	mImplementation->mRemoveButton = 
 		getChild<LLButton>("remove_button", recurse);
 	if ( mImplementation->mRemoveButton )
 	{
-		mImplementation->mRemoveButton->setClickedCallback(LLPanelGroupBulkImpl::callbackClickRemove, mImplementation);
+		mImplementation->mRemoveButton->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackClickRemove, mImplementation));
 		mImplementation->mRemoveButton->setEnabled(FALSE);
 	}
 
@@ -86,14 +86,14 @@ BOOL LLPanelGroupBulkBan::postBuild()
 		getChild<LLButton>("ban_button", recurse);
 	if ( mImplementation->mOKButton )
 	{
-		mImplementation->mOKButton->setClickedCallback(LLPanelGroupBulkBan::callbackClickSubmit, this);
+		mImplementation->mOKButton->setCommitCallback(boost::bind(&LLPanelGroupBulkBan::callbackClickSubmit, this));
 		mImplementation->mOKButton->setEnabled(FALSE);
 	}
 
 	button = getChild<LLButton>("cancel_button", recurse);
 	if ( button )
 	{
-		button->setClickedCallback(LLPanelGroupBulkImpl::callbackClickCancel, mImplementation);
+		button->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackClickCancel, mImplementation));
 	}
 
 	mImplementation->mTooManySelected = getString("ban_selection_too_large");

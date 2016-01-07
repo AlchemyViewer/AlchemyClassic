@@ -1866,7 +1866,7 @@ void LLViewerParcelMgr::processParcelAccessListReply(LLMessageSystem *msg, void 
 		parcel->unpackAccessEntries(msg, &(parcel->mRenterList) );
 	}*/
 
-	LLViewerParcelMgr::getInstance()->notifyObservers();
+	LLViewerParcelMgr::getInstance()->mParcelMsgSignal();
 }
 
 
@@ -1888,7 +1888,7 @@ void LLViewerParcelMgr::processParcelDwellReply(LLMessageSystem* msg, void**)
 	if (local_id == LLViewerParcelMgr::getInstance()->mCurrentParcel->getLocalID())
 	{
 		LLViewerParcelMgr::getInstance()->mSelectedDwell = dwell;
-		LLViewerParcelMgr::getInstance()->notifyObservers();
+		LLViewerParcelMgr::getInstance()->mParcelMsgSignal();
 	}
 }
 

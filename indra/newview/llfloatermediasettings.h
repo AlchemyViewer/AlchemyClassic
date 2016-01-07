@@ -56,9 +56,12 @@ public:
 
 	virtual void	draw();
 
-	bool mIdenticalHasMediaInfo;
-	bool mMultipleMedia;
-	bool mMultipleValidMedia;
+	bool getIdenticalHasMediaInfo() const { return mIdenticalHasMediaInfo; }
+	bool getMultipleMedia() const { return mMultipleMedia; }
+	bool getMultipleValidMedia() const { return mMultipleValidMedia; }
+	void setIdenticalHasMediaInfo(bool m) { mIdenticalHasMediaInfo = m; }
+	void setMultipleMedia(bool m) { mMultipleMedia = m; }
+	void setMultipleValidMedia(bool m) { mMultipleValidMedia = m; }
 	
 protected:
 	LLButton *mOKBtn;
@@ -70,9 +73,9 @@ protected:
 	LLPanelMediaSettingsSecurity* mPanelMediaSettingsSecurity;
 	LLPanelMediaSettingsPermissions* mPanelMediaSettingsPermissions;
 
-	static void onBtnOK(void*);
-	static void onBtnCancel(void*);
-	static void onBtnApply(void*);
+	void onBtnOK();
+	void onBtnCancel();
+	void onBtnApply();
 	static void onTabChanged(void* user_data, bool from_click);
 	void commitFields();
 
@@ -83,6 +86,10 @@ private:
 	bool haveValuesChanged() const;
 	
 	LLSD mInitialValues;
+	
+	bool mIdenticalHasMediaInfo;
+	bool mMultipleMedia;
+	bool mMultipleValidMedia;
 };
 
 #endif  // LL_LLFLOATERMEDIASETTINGS_H

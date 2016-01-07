@@ -49,7 +49,6 @@
 #include <boost/circular_buffer.hpp>
 #include <boost/regex.hpp>
 #include <boost/lexical_cast.hpp>
-#include <boost/utility/enable_if.hpp>
 
 using namespace llsd;
 
@@ -631,7 +630,7 @@ public:
 	// Store every integer type as LLSD::Integer.
 	template <class T>
 	void add(const LLSD::String& name, const T& value,
-			 typename boost::enable_if<std::is_integral<T> >::type* = 0)
+			 typename std::enable_if<std::is_integral<T>::value>::type* = nullptr)
 	{
 		mStats[name] = LLSD::Integer(value);
 	}
@@ -639,7 +638,7 @@ public:
 	// Store every floating-point type as LLSD::Real.
 	template <class T>
 	void add(const LLSD::String& name, const T& value,
-			 typename boost::enable_if<std::is_floating_point<T> >::type* = 0)
+			 typename std::enable_if<std::is_floating_point<T>::value>::type* = nullptr)
 	{
 		mStats[name] = LLSD::Real(value);
 	}

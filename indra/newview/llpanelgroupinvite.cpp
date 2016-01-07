@@ -645,14 +645,14 @@ BOOL LLPanelGroupInvite::postBuild()
 	{
 		// default to opening avatarpicker automatically
 		// (*impl::callbackClickAdd)((void*)this);
-		button->setClickedCallback(impl::callbackClickAdd, this);
+		button->setCommitCallback(boost::bind(impl::callbackClickAdd, this));
 	}
 
 	mImplementation->mRemoveButton = 
 			getChild<LLButton>("remove_button", recurse);
 	if ( mImplementation->mRemoveButton )
 	{
-		mImplementation->mRemoveButton->setClickedCallback(impl::callbackClickRemove, mImplementation);
+		mImplementation->mRemoveButton->setCommitCallback(boost::bind(impl::callbackClickRemove, mImplementation));
 		mImplementation->mRemoveButton->setEnabled(FALSE);
 	}
 
@@ -660,14 +660,14 @@ BOOL LLPanelGroupInvite::postBuild()
 		getChild<LLButton>("invite_button", recurse);
 	if ( mImplementation->mOKButton )
  	{
-		mImplementation->mOKButton->setClickedCallback(impl::callbackClickOK, mImplementation);
+		mImplementation->mOKButton->setCommitCallback(boost::bind(impl::callbackClickOK, mImplementation));
 		mImplementation->mOKButton->setEnabled(FALSE);
  	}
 
 	button = getChild<LLButton>("cancel_button", recurse);
 	if ( button )
 	{
-		button->setClickedCallback(impl::callbackClickCancel, mImplementation);
+		button->setCommitCallback(boost::bind(impl::callbackClickCancel, mImplementation));
 	}
 
 	mImplementation->mOwnerWarning = getString("confirm_invite_owner_str");

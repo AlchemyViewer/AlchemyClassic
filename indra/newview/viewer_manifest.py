@@ -161,19 +161,6 @@ class ViewerManifest(LLManifest):
                 self.path("*/*.ini")
                 self.path("*/*.json")
 
-                # Local HTML files (e.g. loading screen)
-                # The claim is that we never use local html files any
-                # longer. But rather than commenting out this block, let's
-                # rename every html subdirectory as html.old. That way, if
-                # we're wrong, a user actually does have the relevant
-                # files; s/he just needs to rename every html.old
-                # directory back to html to recover them.
-                if self.prefix(src="*/html", dst="*/html.old"):
-                    self.path("*.png")
-                    self.path("*/*/*.html")
-                    self.path("*/*/*.gif")
-                    self.end_prefix("*/html")
-
                 self.end_prefix("skins")
 
             # local_assets dir (for pre-cached textures)

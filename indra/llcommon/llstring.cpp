@@ -644,8 +644,7 @@ std::string ll_convert_wide_to_string(const wchar_t* in, unsigned int code_page)
 			0);
 		// We will need two more bytes for the double NULL ending
 		// created in WideCharToMultiByte().
-		char* pout = new char [len_out + 2];
-		memset(pout, 0, len_out + 2);
+		char* pout = new char [len_out + 2] = {0};
 		if(pout)
 		{
 			WideCharToMultiByte(
@@ -676,9 +675,8 @@ wchar_t* ll_convert_string_to_wide(const std::string& in, unsigned int code_page
 
 	// reserve place to NULL terminator
 	int output_str_len = in.length();
-	wchar_t* w_out = new wchar_t[output_str_len + 1];
+	wchar_t* w_out = new wchar_t[output_str_len + 1] = {0};
 
-	memset(w_out, 0, output_str_len + 1);
 	int real_output_str_len = MultiByteToWideChar (code_page, 0, in.c_str(), in.length(), w_out, output_str_len);
 
 	//looks like MultiByteToWideChar didn't add null terminator to converted string, see EXT-4858.

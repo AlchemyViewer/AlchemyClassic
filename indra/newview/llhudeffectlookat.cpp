@@ -272,8 +272,7 @@ void LLHUDEffectLookAt::packData(LLMessageSystem *mesgsys)
 	LLHUDEffect::packData(mesgsys);
 
 	// Pack the type-specific data.  Uses a fun packed binary format.  Whee!
-	U8 packed_data[PKT_SIZE];
-	memset(packed_data, 0, PKT_SIZE);
+	U8 packed_data[PKT_SIZE] = {0};
 
 	if (mSourceObject)
 	{

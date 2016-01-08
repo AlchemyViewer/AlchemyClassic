@@ -69,8 +69,7 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 	if(symbolsLoaded)
 	{
 		// create the frames to hold the addresses
-		void* frames[MAX_STACK_DEPTH];
-		memset(frames, 0, sizeof(void*)*MAX_STACK_DEPTH);
+		void* frames[MAX_STACK_DEPTH] = {0};
 		S32 depth = 0;
 
 		// get the addresses

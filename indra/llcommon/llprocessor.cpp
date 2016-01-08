@@ -471,8 +471,7 @@ private:
 		unsigned int ids = (unsigned int)cpu_info[0];
 		setConfig(eMaxID, (S32)ids);
 
-		char cpu_vendor[0x20];
-		memset(cpu_vendor, 0, sizeof(cpu_vendor));
+		char cpu_vendor[0x20] = {0};
 		*((int*)cpu_vendor) = cpu_info[1];
 		*((int*)(cpu_vendor+4)) = cpu_info[3];
 		*((int*)(cpu_vendor+8)) = cpu_info[2];
@@ -538,8 +537,7 @@ private:
 		unsigned int ext_ids = cpu_info[0];
 		setConfig(eMaxExtID, 0);
 
-		char cpu_brand_string[0x40];
-		memset(cpu_brand_string, 0, sizeof(cpu_brand_string));
+		char cpu_brand_string[0x40] = {0};
 
 		// Get the information associated with each extended ID.
 		for(unsigned int i=0x80000000; i<=ext_ids; ++i)
@@ -620,16 +618,14 @@ private:
 	{
 		size_t len = 0;
 
-		char cpu_brand_string[0x40];
+		char cpu_brand_string[0x40] = {0};
 		len = sizeof(cpu_brand_string);
-		memset(cpu_brand_string, 0, len);
 		sysctlbyname("machdep.cpu.brand_string", (void*)cpu_brand_string, &len, NULL, 0);
 		cpu_brand_string[0x3f] = 0;
 		setInfo(eBrandName, cpu_brand_string);
 		
-		char cpu_vendor[0x20];
+		char cpu_vendor[0x20] = {0};
 		len = sizeof(cpu_vendor);
-		memset(cpu_vendor, 0, len);
 		sysctlbyname("machdep.cpu.vendor", (void*)cpu_vendor, &len, NULL, 0);
 		cpu_vendor[0x1f] = 0;
 		setInfo(eVendor, cpu_vendor);
@@ -717,8 +713,7 @@ private:
 		LLFILE* cpuinfo_fp = LLFile::fopen(CPUINFO_FILE, "rb");
 		if(cpuinfo_fp)
 		{
-			char line[MAX_STRING];
-			memset(line, 0, MAX_STRING);
+			char line[MAX_STRING] = {0};
 			while(fgets(line, MAX_STRING, cpuinfo_fp))
 			{
 				// /proc/cpuinfo on Linux looks like:
@@ -816,8 +811,7 @@ private:
 		LLFILE* cpuinfo = LLFile::fopen(CPUINFO_FILE, "rb");
 		if(cpuinfo)
 		{
-			char line[MAX_STRING];
-			memset(line, 0, MAX_STRING);
+			char line[MAX_STRING] = {0};
 			while(fgets(line, MAX_STRING, cpuinfo))
 			{
 				line[strlen(line)-1] = ' ';

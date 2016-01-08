@@ -162,8 +162,7 @@ void LLViewerJointMesh::uploadJointMatrices()
 	// upload matrices
 	if (hardware_skinning)
 	{
-		GLfloat mat[45*4];
-		memset(mat, 0, sizeof(GLfloat)*45*4);
+		GLfloat mat[45*4] = {0};
 
 		for (joint_num = 0; joint_num < reference_mesh->mJointRenderData.size(); joint_num++)
 		{

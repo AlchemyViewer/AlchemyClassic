@@ -82,8 +82,7 @@ void LLHUDEffectSpiral::packData(LLMessageSystem *mesgsys)
 	}
 	LLHUDEffect::packData(mesgsys);
 
-	U8 packed_data[56];
-	memset(packed_data, 0, 56);
+	U8 packed_data[56] = {0};
 
 	if (mSourceObject)
 	{

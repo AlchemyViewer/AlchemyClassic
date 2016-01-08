@@ -1736,8 +1736,7 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 	U32 length = w * h;
 	U32 alphatotal = 0;
 	
-	U32 sample[16];
-	memset(sample, 0, sizeof(U32)*16);
+	U32 sample[16] = {0};
 
 	// generate histogram of quantized alpha.
 	// also add-in the histogram of a 2x2 box-sampled version.  The idea is

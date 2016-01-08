@@ -163,7 +163,7 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	}
 	
 	opj_dparameters_t parameters;	/* decompression parameters */
-	opj_event_mgr_t event_mgr;		/* event manager */
+	opj_event_mgr_t event_mgr = {0};		/* event manager */
 	opj_image_t *image = NULL;
 
 	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
@@ -171,7 +171,6 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 
 
 	/* configure the event callbacks (not required) */
-	memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
 	event_mgr.error_handler = error_callback;
 	event_mgr.warning_handler = warning_callback;
 	event_mgr.info_handler = info_callback;
@@ -312,14 +311,13 @@ BOOL LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 {
 	const S32 MAX_COMPS = 5;
 	opj_cparameters_t parameters;	/* compression parameters */
-	opj_event_mgr_t event_mgr;		/* event manager */
+	opj_event_mgr_t event_mgr = {0};		/* event manager */
 
 
 	/* 
 	configure the event callbacks (not required)
 	setting of each callback is optional 
 	*/
-	memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
 	event_mgr.error_handler = error_callback;
 	event_mgr.warning_handler = warning_callback;
 	event_mgr.info_handler = info_callback;
@@ -530,7 +528,7 @@ BOOL LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 	// Do it the old and slow way, decode the image with openjpeg
 
 	opj_dparameters_t parameters;	/* decompression parameters */
-	opj_event_mgr_t event_mgr;		/* event manager */
+	opj_event_mgr_t event_mgr = {0};		/* event manager */
 	opj_image_t *image = NULL;
 
 	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
@@ -538,7 +536,6 @@ BOOL LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 
 
 	/* configure the event callbacks (not required) */
-	memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
 	event_mgr.error_handler = error_callback;
 	event_mgr.warning_handler = warning_callback;
 	event_mgr.info_handler = info_callback;

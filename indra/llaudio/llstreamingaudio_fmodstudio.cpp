@@ -131,8 +131,7 @@ LLStreamingAudio_FMODSTUDIO::LLStreamingAudio_FMODSTUDIO(FMOD::System *system) :
 
 	Check_FMOD_Error(system->createChannelGroup("stream", &mStreamGroup), "FMOD::System::createChannelGroup");
 
-	FMOD_DSP_DESCRIPTION dspdesc;
-	memset(&dspdesc, 0, sizeof(FMOD_DSP_DESCRIPTION));	//Zero out everything
+	FMOD_DSP_DESCRIPTION dspdesc = {0};
 	dspdesc.pluginsdkversion = FMOD_PLUGIN_SDK_VERSION;
 	strncpy(dspdesc.name, "Waveform", sizeof(dspdesc.name));
 	dspdesc.numoutputbuffers = 1;
@@ -632,8 +631,7 @@ FMOD_RESULT LLAudioStreamManagerFMODSTUDIO::getOpenState(FMOD_OPENSTATE& state, 
 void LLStreamingAudio_FMODSTUDIO::setBufferSizes(U32 streambuffertime, U32 decodebuffertime)
 {
 	Check_FMOD_Error(mSystem->setStreamBufferSize(streambuffertime / 1000 * 128 * 128, FMOD_TIMEUNIT_RAWBYTES), "FMOD::System::setStreamBufferSize");
-	FMOD_ADVANCEDSETTINGS settings;
-	memset(&settings,0,sizeof(settings));
+	FMOD_ADVANCEDSETTINGS settings = {0};
 	settings.cbSize=sizeof(settings);
 	settings.defaultDecodeBufferSize = decodebuffertime;//ms
 	Check_FMOD_Error(mSystem->setAdvancedSettings(&settings), "FMOD::System::setAdvancedSettings");

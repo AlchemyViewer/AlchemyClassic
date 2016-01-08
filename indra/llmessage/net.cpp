@@ -540,7 +540,6 @@ static int recvfrom_destip( int socket, void *buf, int len, struct sockaddr *fro
 	iov[0].iov_base = buf;
 	iov[0].iov_len = len;
 
-	memset(&msg, 0, sizeof msg);
 	msg.msg_name = from;
 	msg.msg_namelen = *fromlen;
 	msg.msg_iov = iov;

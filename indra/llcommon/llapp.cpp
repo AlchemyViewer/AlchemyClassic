@@ -423,8 +423,7 @@ void LLApp::setupErrorHandling(bool second_instance)
 	mib[2] = KERN_PROC_PID;
 	mib[3] = getpid();
 	
-	struct kinfo_proc info;
-	memset(&info, 0, sizeof(info));
+	struct kinfo_proc info = {0};
 	
 	size_t size = sizeof(info);
 	int result = sysctl(mib, sizeof(mib) / sizeof(*mib), &info, &size, NULL, 0);

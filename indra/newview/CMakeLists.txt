@@ -1398,8 +1398,8 @@ source_group("CMake Rules" FILES ViewerInstall.cmake)
 # the summary.json file is created for the benefit of the TeamCity builds, where
 #   it is used to provide descriptive information to the build results page
 add_custom_target(generate_viewer_version ALL
-                  COMMAND printf '${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}' > ${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
-                  COMMAND printf '{"Type":"viewer","Version":"${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}"}' > ${CMAKE_BINARY_DIR}/summary.json
+                  COMMAND cmake -E echo ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION} > ${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
+                  COMMAND cmake -E echo {"Type":"viewer","Version":"${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}"} > ${CMAKE_BINARY_DIR}/summary.json
                   COMMENT "Generating viewer_version.txt for manifest processing"
                   )
 
@@ -1619,18 +1619,6 @@ if (WINDOWS)
         Vfw32
         winspool
         )
-
-    find_library(INTEL_MEMOPS_LIBRARY
-                 NAMES ll_intel_memops
-                 PATHS
-                 optimized ${ARCH_PREBUILT_DIRS_RELEASE}
-                 debug ${ARCH_PREBUILT_DIRS_DEBUG}
-                 )
-    mark_as_advanced(INTEL_MEMOPS_LIBRARY)
-
-    if (INTEL_MEMOPS_LIBRARY)
-      list(APPEND viewer_LIBRARIES ${INTEL_MEMOPS_LIBRARY})
-    endif (INTEL_MEMOPS_LIBRARY)
 endif (WINDOWS)
 
 # Add the xui files. This is handy for searching for xui elements

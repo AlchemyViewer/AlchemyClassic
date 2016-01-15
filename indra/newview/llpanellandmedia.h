@@ -49,6 +49,7 @@ public:
 private:
 	void populateMIMECombo();
 	void onCommitAny();
+	void onCommitMusicUrl();
 	static void onCommitType(LLUICtrl* ctrl, void *userdata);
 	static void onSetBtn(void* userdata);
 	static void onResetBtn(void* userdata);
@@ -70,7 +71,7 @@ private:
 	LLCheckBoxCtrl* mCheckParcelEnableVoice;
 	LLCheckBoxCtrl* mCheckEstateDisabledVoice;
 	LLCheckBoxCtrl* mCheckParcelVoiceLocal;
-	LLLineEditor*	mMusicURLEdit;
+	LLComboBox*		mMusicURLEdit;
 	LLCheckBoxCtrl* mCheckAVSoundAny;
 	LLCheckBoxCtrl* mCheckAVSoundGroup;
 

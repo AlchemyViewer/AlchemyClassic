@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>edc61be793271f0cfdd59fa0a9e926fe</string>
+              <string>5e6a0930ca5c9e3c26970ac8589a538c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.59.0-darwin-201511222219.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/boost-1.59.0-darwin-201601091139.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>eca5b205d2a4e96a360cb30651d1f83d</string>
+              <string>d6e279fb5ce9093c89819803be5562db</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201511222232.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/colladadom-2.3-darwin-201601091204.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

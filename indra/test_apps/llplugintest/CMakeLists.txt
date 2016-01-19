@@ -14,7 +14,6 @@ include(LLMessage)
 include(LLRender)
 include(LLWindow)
 include(Glut)
-include(Glui)
 
 include_directories(
     ${LLPLUGIN_INCLUDE_DIRS}

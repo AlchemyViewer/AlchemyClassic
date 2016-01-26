@@ -91,7 +91,7 @@ std::string LLDate::toHTTPDateString(std::string fmt) const
 {
 	LL_RECORD_BLOCK_TIME(FT_DATE_FORMAT);
 	
-	time_t locSeconds = (time_t) mSecondsSinceEpoch;
+	std::time_t locSeconds = (std::time_t) mSecondsSinceEpoch;
 	std::tm * gmt = gmtime (&locSeconds);
 	return toHTTPDateString(gmt, fmt);
 }
@@ -110,8 +110,9 @@ std::string LLDate::toHTTPDateString(tm * gmt, std::string fmt)
 
 	// use strftime() as it appears to be faster than std::time_put
 	char buffer[128];
-	strftime(buffer, 128, fmt.c_str(), gmt);
+	std::strftime(buffer, 128, fmt.c_str(), gmt);
 	std::string res(buffer);
+	
 #if LL_WINDOWS
 	// Convert from locale-dependant charset to UTF-8 (EXT-8524).
 	res = ll_convert_string_to_utf8_string(res);
@@ -124,7 +125,7 @@ void LLDate::toStream(std::ostream& s) const
 	std::ios::fmtflags f( s.flags() );
 
 	std::tm exp_time = {0};
-	time_t time = static_cast<time_t>(mSecondsSinceEpoch);
+	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
 	if (!gmtime_s(&time, &exp_time))
@@ -157,7 +158,7 @@ void LLDate::toStream(std::ostream& s) const
 bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *sec) const
 {
 	std::tm exp_time = {0};
-	time_t time = static_cast<time_t>(mSecondsSinceEpoch);
+	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
 	gmtime_s(&time, &exp_time);

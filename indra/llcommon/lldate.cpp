@@ -128,7 +128,7 @@ void LLDate::toStream(std::ostream& s) const
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
-	if (!gmtime_s(&time, &exp_time))
+	if (!gmtime_s(&exp_time, &time))
 #else
 	if (!gmtime_r(&time, &exp_time))
 #endif
@@ -161,7 +161,7 @@ bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *se
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
-	gmtime_s(&time, &exp_time);
+	gmtime_s(&exp_time, &time);
 #else
 	gmtime_r(&time, &exp_time);
 #endif

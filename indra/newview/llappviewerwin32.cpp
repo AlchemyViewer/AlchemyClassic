@@ -67,8 +67,6 @@
 #include "llwindebug.h"
 #endif
 
-#include "stringize.h"
-
 #include <exception>
 namespace
 {
@@ -651,18 +649,17 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	{
 		logdir = logdir.substr(0,end+1);
 	}
-	//std::string arg_str = "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + stringize(LLApp::getPid());
-	//_spawnl(_P_NOWAIT, exe_path.c_str(), arg_str.c_str(), NULL);
-	std::string arg_str =  "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + stringize(LLApp::getPid()); 
+
+	std::string arg_str =  "\"" + exe_path + "\" -dumpdir \"" + logdir + "\" -procname \"" + appname + "\" -pid " + std::to_string(LLApp::getPid());
 
 	STARTUPINFO startInfo={sizeof(startInfo)};
 	PROCESS_INFORMATION processInfo;
 
 	std::wstring exe_wstr;
-	exe_wstr=wstringize(exe_path);
+	exe_wstr.assign(exe_path.begin(), exe_path.end());
 
 	std::wstring arg_wstr;
-	arg_wstr=wstringize(arg_str);
+	arg_wstr.assign(arg_str.begin(), arg_str.end());
 
 	LL_INFOS("CrashReport") << "Creating crash reporter process " << exe_path << " with params: " << arg_str << LL_ENDL;
     if(CreateProcess(exe_wstr.c_str(),     

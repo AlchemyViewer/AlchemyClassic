@@ -28,6 +28,7 @@
 #include <libxml/HTMLtree.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/format.hpp>
 
 //I doubt any of this is thread safe!
 LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader)
@@ -130,7 +131,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 			if(temp)
 			{
 				full << (isOutgoing() ? "out " : "in ");
-				full << llformat("%s\n\n", temp->mName);
+				full << (boost::format("%s\n\n") % temp->mName);
 				if(show_header)
 				{
 					full << "[Header]\n";

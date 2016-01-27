@@ -357,9 +357,9 @@ void LLApp::setupErrorHandling(bool second_instance)
 			LL_WARNS() << "adding breakpad exception handler" << LL_ENDL;
 
 			std::wstring wpipe_name;
-			wpipe_name =  mCrashReportPipeStr + wstringize(getPid());
+			wpipe_name =  mCrashReportPipeStr + std::to_wstring(getPid());
 
-			const std::wstring wdump_path(wstringize(mDumpPath));
+			const std::wstring wdump_path(std::to_wstring(mDumpPath));
 
 			int retries = 30;
 			for (; retries > 0; --retries)

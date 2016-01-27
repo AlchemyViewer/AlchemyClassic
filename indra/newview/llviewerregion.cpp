@@ -75,7 +75,6 @@
 #include "llvocache.h"
 #include "llworld.h"
 #include "llspatialpartition.h"
-#include "stringize.h"
 #include "llviewercontrol.h"
 #include "llsdserialize.h"
 #include "llfloaterperms.h"
@@ -84,6 +83,8 @@
 #include "llviewernetwork.h"
 #include "llviewerwindow.h"
 #include "llprogressview.h"
+
+#include <boost/lexical_cast.hpp>
 
 #ifdef LL_WINDOWS
 	#pragma warning(disable:4355)
@@ -3258,7 +3259,7 @@ void LLViewerRegion::showReleaseNotes()
 
 std::string LLViewerRegion::getDescription() const
 {
-    return stringize(*this);
+	return boost::lexical_cast<std::string>(*this);
 }
 
 bool LLViewerRegion::meshUploadEnabled() const

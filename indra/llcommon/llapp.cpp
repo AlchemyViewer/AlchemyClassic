@@ -54,7 +54,6 @@
 #if LL_WINDOWS
 #pragma warning (pop)
 #endif
-#include "stringize.h"
 
 //
 // Signal handling

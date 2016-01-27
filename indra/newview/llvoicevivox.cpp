@@ -64,8 +64,6 @@
 #include "llviewernetwork.h"
 #include "llnotificationsutil.h"
 
-#include "stringize.h"
-
 // for base64 decoding
 #include "apr_base64.h"
 
@@ -5697,7 +5695,7 @@ void LLVivoxVoiceClient::addVoiceFont(const S32 font_index,
 	}
 	else
 	{
-		font_id.generate(STRINGIZE(font_type << ":" << name));
+		font_id.generate(llformat("%d:%s", font_type, name.c_str()));
 	}
 
 	voiceFontEntry *font = NULL;

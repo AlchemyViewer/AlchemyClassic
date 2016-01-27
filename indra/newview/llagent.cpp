@@ -95,7 +95,6 @@
 #include "llwindow.h"
 #include "llworld.h"
 #include "llworldmap.h"
-#include "stringize.h"
 
 using namespace LLAvatarAppearanceDefines;
 

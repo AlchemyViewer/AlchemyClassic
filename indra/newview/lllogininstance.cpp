@@ -30,7 +30,6 @@
 
 // llcommon
 #include "llevents.h"
-#include "stringize.h"
 
 // llmessage (!)
 #include "llfiltersd2xmlrpc.h" // for xml_escape_string()
@@ -938,13 +937,13 @@ std::string construct_start_string()
 		{
 			// a startup URL was specified
 			LLVector3 position = start_slurl.getPosition();
-			std::string unescaped_start = 
-			STRINGIZE(  "uri:" 
-					  << start_slurl.getRegion() << "&" 
-						<< position[VX] << "&" 
-						<< position[VY] << "&" 
-						<< position[VZ]);
-			start = xml_escape_string(unescaped_start);
+			std::ostringstream unescaped_start;
+			unescaped_start << "uri:"
+							<< start_slurl.getRegion() << "&"
+							<< position[VX] << "&"
+							<< position[VY] << "&"
+							<< position[VZ];
+			start = xml_escape_string(unescaped_start.str());
 			break;
 		}
 		case LLSLURL::HOME_LOCATION:

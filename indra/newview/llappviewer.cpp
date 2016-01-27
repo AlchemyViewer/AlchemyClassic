@@ -2895,7 +2895,8 @@ void LLAppViewer::initStrings()
 		{
 			// key was passed without brackets. That means that 'nobrackets'
 			// is correct but 'brackets' is not.
-			brackets = STRINGIZE('[' << brackets << ']');
+			brackets.insert(brackets.begin(), '[');
+			brackets.insert(brackets.end(), ']');
 		}
 		else
 		{

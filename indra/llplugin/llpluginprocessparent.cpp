@@ -35,6 +35,7 @@
 #include "stringize.h"
 
 #include "llapr.h"
+#include <boost/lexical_cast.hpp>
 
 //virtual 
 LLPluginProcessParentOwner::~LLPluginProcessParentOwner()
@@ -460,7 +461,7 @@ void LLPluginProcessParent::idle(void)
 				    // Launch the plugin process.
 				
 				    // Only argument to the launcher is the port number we're listening on
-				    mProcessParams.args.add(stringize(mBoundPort));
+					mProcessParams.args.add(boost::lexical_cast<std::string>(mBoundPort));
 				    if (! (mProcess = LLProcess::create(mProcessParams)))
 				    {
 					    errorState();

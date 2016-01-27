@@ -31,7 +31,6 @@
 // associated header
 #include "llcapabilitylistener.h"
 // other Linden headers
-#include "stringize.h"
 #include "llcapabilityprovider.h"
 #include "message.h"
 

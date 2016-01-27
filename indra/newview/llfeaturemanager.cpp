@@ -50,7 +50,6 @@
 #include "llweb.h"
 #include "llviewershadermgr.h"
 #include "llstring.h"
-#include "stringize.h"
 
 #if LL_WINDOWS
 #include "lldxhardware.h"
@@ -208,8 +207,7 @@ std::string LLFeatureManager::getNameForGraphicsLevel(U32 level) const
 	{
 		return sGraphicsLevelNames[level];
 	}
-	return STRINGIZE("Invalid graphics level " << level << ", valid are 0 .. "
-					 << getMaxGraphicsLevel());
+	return llformat("Invalid graphics level %u, valid are 0 .. %u", level, getMaxGraphicsLevel());
 }
 
 S32 LLFeatureManager::getGraphicsLevelForName(const std::string& name) const

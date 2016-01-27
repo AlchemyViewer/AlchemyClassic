@@ -534,7 +534,7 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 	}
 	else
 	{
-		edit_cost->setValue(llformat("%d",0));
+		edit_cost->setValue("0");
 		combo_sale_type->setValue(LLSaleInfo::FS_COPY);
 	}
 }

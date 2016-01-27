@@ -1200,6 +1200,8 @@ void LLPanelLandObjects::onDoubleClickOwner()
 	}
 }
 
+const LLStringExplicit zero_str("0");
+
 // public
 void LLPanelLandObjects::refresh()
 {
@@ -1221,15 +1223,15 @@ void LLPanelLandObjects::refresh()
 
 	if (!parcel)
 	{
-		mSWTotalObjects->setTextArg("[COUNT]", llformat("%d", 0));
-		mSWTotalObjects->setTextArg("[TOTAL]", llformat("%d", 0));
-		mSWTotalObjects->setTextArg("[AVAILABLE]", llformat("%d", 0));
-		mObjectContribution->setTextArg("[COUNT]", llformat("%d", 0));
-		mTotalObjects->setTextArg("[COUNT]", llformat("%d", 0));
-		mOwnerObjects->setTextArg("[COUNT]", llformat("%d", 0));
-		mGroupObjects->setTextArg("[COUNT]", llformat("%d", 0));
-		mOtherObjects->setTextArg("[COUNT]", llformat("%d", 0));
-		mSelectedObjects->setTextArg("[COUNT]", llformat("%d", 0));
+		mSWTotalObjects->setTextArg("[COUNT]", zero_str);
+		mSWTotalObjects->setTextArg("[TOTAL]", zero_str);
+		mSWTotalObjects->setTextArg("[AVAILABLE]", zero_str);
+		mObjectContribution->setTextArg("[COUNT]", zero_str);
+		mTotalObjects->setTextArg("[COUNT]", zero_str);
+		mOwnerObjects->setTextArg("[COUNT]", zero_str);
+		mGroupObjects->setTextArg("[COUNT]", zero_str);
+		mOtherObjects->setTextArg("[COUNT]", zero_str);
+		mSelectedObjects->setTextArg("[COUNT]", zero_str);
 	}
 	else
 	{
@@ -2528,10 +2530,10 @@ void LLPanelLandAccess::refresh()
 		getChild<LLUICtrl>("PassCheck")->setValue(FALSE);
 		getChild<LLUICtrl>("PriceSpin")->setValue((F32)PARCEL_PASS_PRICE_DEFAULT);
 		getChild<LLUICtrl>("HoursSpin")->setValue(PARCEL_PASS_HOURS_DEFAULT );
-		getChild<LLUICtrl>("AccessList")->setToolTipArg(LLStringExplicit("[LISTED]"), llformat("%d",0));
-		getChild<LLUICtrl>("AccessList")->setToolTipArg(LLStringExplicit("[MAX]"), llformat("%d",0));
-		getChild<LLUICtrl>("BannedList")->setToolTipArg(LLStringExplicit("[LISTED]"), llformat("%d",0));
-		getChild<LLUICtrl>("BannedList")->setToolTipArg(LLStringExplicit("[MAX]"), llformat("%d",0));
+		getChild<LLUICtrl>("AccessList")->setToolTipArg(LLStringExplicit("[LISTED]"), zero_str);
+		getChild<LLUICtrl>("AccessList")->setToolTipArg(LLStringExplicit("[MAX]"), zero_str);
+		getChild<LLUICtrl>("BannedList")->setToolTipArg(LLStringExplicit("[LISTED]"), zero_str);
+		getChild<LLUICtrl>("BannedList")->setToolTipArg(LLStringExplicit("[MAX]"), zero_str);
 	}	
 }
 

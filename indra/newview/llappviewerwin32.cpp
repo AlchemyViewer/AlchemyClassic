@@ -655,11 +655,9 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	STARTUPINFO startInfo={sizeof(startInfo)};
 	PROCESS_INFORMATION processInfo;
 
-	std::wstring exe_wstr;
-	exe_wstr.assign(exe_path.begin(), exe_path.end());
+	std::wstring exe_wstr = utf8str_to_utf16str(exe_path);
 
-	std::wstring arg_wstr;
-	arg_wstr.assign(arg_str.begin(), arg_str.end());
+	std::wstring arg_wstr = utf8str_to_utf16str(arg_str);
 
 	LL_INFOS("CrashReport") << "Creating crash reporter process " << exe_path << " with params: " << arg_str << LL_ENDL;
     if(CreateProcess(exe_wstr.c_str(),     

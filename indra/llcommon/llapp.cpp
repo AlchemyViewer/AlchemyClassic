@@ -359,7 +359,7 @@ void LLApp::setupErrorHandling(bool second_instance)
 			std::wstring wpipe_name;
 			wpipe_name =  mCrashReportPipeStr + std::to_wstring(getPid());
 
-			const std::wstring wdump_path(std::to_wstring(mDumpPath));
+			const std::wstring wdump_path(utf8str_to_utf16str(mDumpPath));
 
 			int retries = 30;
 			for (; retries > 0; --retries)

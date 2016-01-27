@@ -27,6 +27,10 @@
 #ifndef LL_CALCPARSER_H
 #define LL_CALCPARSER_H
 
+#if LL_WINDOWS
+#pragma warning (push)
+#pragma warning (disable : 4348) // compiler thinks might use uninitialized var, but no
+#endif
 #include <boost/spirit/version.hpp>
 #if !defined(SPIRIT_VERSION) || SPIRIT_VERSION < 0x2010
 #error "At least Spirit version 2.1 required"
@@ -231,4 +235,7 @@ bool parse(Iterator &iter,
  
 } // end namespace expression
 
+#if LL_WINDOWS
+#pragma warning (pop)
+#endif
 #endif // LL_CALCPARSER_H

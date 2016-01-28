@@ -90,6 +90,10 @@ void LLSDSerialize::serialize(const LLSD& sd, std::ostream& str, ELLSD_Serialize
 	}
 }
 
+#if LL_WINDOWS
+#pragma warning(disable :4996)
+#endif
+
 // static
 bool LLSDSerialize::deserialize(LLSD& sd, std::istream& str, S32 max_bytes)
 {

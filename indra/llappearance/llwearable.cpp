@@ -35,7 +35,6 @@
 #include "llwearable.h"
 
 using namespace LLAvatarAppearanceDefines;
-using namespace std::placeholders;
 
 // static
 S32 LLWearable::sCurrentDefinitionVersion = 1;
@@ -169,9 +168,9 @@ void LLWearable::createVisualParams(LLAvatarAppearance *avatarp)
 		// need this line to disambiguate between versions of LLCharacter::getVisualParam()
 		LLVisualParam*(LLAvatarAppearance::*param_function)(S32)const = &LLAvatarAppearance::getVisualParam; 
 		param->resetDrivenParams();
-		if (!param->linkDrivenParams(std::bind(wearable_function,(LLWearable*)this, _1), false))
+		if (!param->linkDrivenParams(std::bind(wearable_function,(LLWearable*)this, std::placeholders::_1), false))
 		{
-			if (!param->linkDrivenParams(std::bind(param_function,avatarp, _1 ), true))
+			if (!param->linkDrivenParams(std::bind(param_function,avatarp, std::placeholders::_1 ), true))
 			{
 				LL_WARNS() << "could not link driven params for wearable " << getName() << " id: " << param->getID() << LL_ENDL;
 				continue;

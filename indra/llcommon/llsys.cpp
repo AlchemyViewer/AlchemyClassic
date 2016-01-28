@@ -91,6 +91,8 @@ static const F32 MEM_INFO_WINDOW = 10*60;
 
 #if LL_WINDOWS
 
+#pragma warning(disable : 4996)
+
 #ifndef _WIN32_WINNT_WIN10
 #define _WIN32_WINNT_WIN10 0x0A00
 #endif

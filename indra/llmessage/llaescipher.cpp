@@ -85,7 +85,7 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 						   src_len))
 	{
 		LL_WARNS("Crypto") << "EVP_EncryptUpdate failure" << LL_ENDL;
-		goto ERROR;
+		goto AES_ERROR;
 	}
 	
 	// There may be some final data left to encrypt if the input is
@@ -93,14 +93,14 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	if (!EVP_EncryptFinal_ex(&context, (unsigned char*)(dst + output_len), &temp_len))
 	{
 		LL_WARNS("Crypto") << "EVP_EncryptFinal failure" << LL_ENDL;
-		goto ERROR;
+		goto AES_ERROR;
 	}
 	output_len += temp_len;
 	
 	EVP_CIPHER_CTX_cleanup(&context);
 	return output_len;
 	
-ERROR:
+AES_ERROR:
 	EVP_CIPHER_CTX_cleanup(&context);
 	return 0;
 }
@@ -129,12 +129,12 @@ U32 LLAESCipher::decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	if (!EVP_DecryptUpdate(&context, dst, &out_len, src, src_len))
 	{
 		LL_WARNS("AES") << "EVP_DecryptUpdate failure" << LL_ENDL;
-		goto ERROR;
+		goto AES_ERROR;
 	}
 	if (!EVP_DecryptFinal_ex(&context, dst + out_len, &tmp_len))
 	{
 		LL_WARNS("AES") << "EVP_DecryptFinal failure" << LL_ENDL;
-		goto ERROR;
+		goto AES_ERROR;
 	}
 	
 	out_len += tmp_len;
@@ -142,7 +142,7 @@ U32 LLAESCipher::decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	EVP_CIPHER_CTX_cleanup(&context);
 	return out_len;
 	
-ERROR:
+AES_ERROR:
 	EVP_CIPHER_CTX_cleanup(&context);
 	return 0;
 }

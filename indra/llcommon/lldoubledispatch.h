@@ -150,13 +150,12 @@ public:
     template<typename Type1, typename Type2, class Functor>
     void add(const Type<Type1>& t1, const Type<Type2>& t2, Functor func, bool symmetrical=false)
     {
-		using namespace std::placeholders;
         insert(t1, t2, func);
         if (symmetrical)
         {
             // Use boost::bind() to construct a param-swapping thunk. Don't
             // forget to reverse the parameters too.
-            insert(t2, t1, std::bind(func, _2, _1));
+            insert(t2, t1, std::bind(func, std::placeholders::_2, std::placeholders::_1));
         }
     }
 
@@ -177,7 +176,6 @@ public:
     template <typename Type1, typename Type2, class Functor>
     void add(const Type1& prototype1, const Type2& prototype2, Functor func, bool symmetrical=false)
     {
-		using namespace std::placeholders;
         // Because we expect our caller to pass leaf param types, we can just
         // perform an ordinary search to find the first matching iterator. If
         // we find an existing Entry that matches both params, either the
@@ -192,7 +190,7 @@ public:
         insert(Type<Type1>(), Type<Type2>(), func, insertion);
         if (symmetrical)
         {
-            insert(Type<Type2>(), Type<Type1>(), std::bind(func, _2, _1), insertion);
+            insert(Type<Type2>(), Type<Type1>(), std::bind(func, std::placeholders::_2, std::placeholders::_1), insertion);
         }
     }
 
@@ -270,7 +268,7 @@ private:
     typename DispatchTable::iterator find(const ParamBaseType& param1, const ParamBaseType& param2)
     {
         return std::find_if(mDispatch.begin(), mDispatch.end(),
-                            std::bind(&EntryBase::matches, _1,
+                            std::bind(&EntryBase::matches, std::placeholders::_1,
 									  std::ref(param1), std::ref(param2)));
     }
 

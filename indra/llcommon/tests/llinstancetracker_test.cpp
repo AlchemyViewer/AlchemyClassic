@@ -190,55 +190,7 @@ namespace tut
     }
 
     template<> template<>
-    void object::test<6>()
-    {
-#if defined(LL_CPP11)
-		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
-#endif
-        set_test_name("delete Keyed with outstanding key_iter");
-        std::string what;
-        Keyed* keyed = new Keyed("delete Keyed with outstanding key_it");
-        {
-            WrapLLErrs wrapper;
-            Keyed::key_iter i(Keyed::beginKeys());
-            try
-            {
-                delete keyed;
-            }
-            catch (const WrapLLErrs::FatalException& e)
-            {
-                what = e.what();
-            }
-        }
-        ensure(! what.empty());
-    }
-
-    template<> template<>
-    void object::test<7>()
-    {
-#if defined(LL_CPP11)
-		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
-#endif
-        set_test_name("delete Unkeyed with outstanding instance_iter");
-        std::string what;
-        Unkeyed* unkeyed = new Unkeyed;
-        {
-            WrapLLErrs wrapper;
-            Unkeyed::instance_iter i(Unkeyed::beginInstances());
-            try
-            {
-                delete unkeyed;
-            }
-            catch (const WrapLLErrs::FatalException& e)
-            {
-                what = e.what();
-            }
-        }
-        ensure(! what.empty());
-    }
-
-    template<> template<>
-    void object::test<8>()
+    void object::test<5>()
     {
         set_test_name("exception in subclass ctor");
         typedef std::set<Unkeyed*> InstanceSet;

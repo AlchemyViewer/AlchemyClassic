@@ -41,7 +41,6 @@
 #include <algorithm>
 // std headers
 #include <typeinfo>
-#include <cmath>
 #include <cctype>
 // external library headers
 #include <boost/range/iterator_range.hpp>

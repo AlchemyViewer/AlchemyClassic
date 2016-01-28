@@ -28,8 +28,6 @@
 
 #include "llapp.h"
 
-#include <cstdlib>
-
 #ifdef LL_DARWIN
 #include <sys/types.h>
 #include <unistd.h>

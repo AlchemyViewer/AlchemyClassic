@@ -32,7 +32,6 @@
 #if !LL_WINDOWS
 #include <stdint.h>
 #endif
-#include <cmath>
 
 #include "llerror.h"
 

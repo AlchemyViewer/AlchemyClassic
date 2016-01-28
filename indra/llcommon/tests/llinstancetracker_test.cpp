@@ -190,30 +190,6 @@ namespace tut
     }
 
     template<> template<>
-    void object::test<5>()
-    {
-#if defined(LL_CPP11)
-		skip("Skip on c++11 for now. Exceptions in destructors are unsafe by default.");
-#endif
-        set_test_name("delete Keyed with outstanding instance_iter");
-        std::string what;
-        Keyed* keyed = new Keyed("delete Keyed with outstanding instance_iter");
-        {
-            WrapLLErrs wrapper;
-            Keyed::instance_iter i(Keyed::beginInstances());
-            try
-            {
-                delete keyed;
-            }
-            catch (const WrapLLErrs::FatalException& e)
-            {
-                what = e.what();
-            }
-        }
-        ensure(! what.empty());
-    }
-
-    template<> template<>
     void object::test<6>()
     {
 #if defined(LL_CPP11)

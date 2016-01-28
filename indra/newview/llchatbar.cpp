@@ -32,7 +32,6 @@
 #include "llfocusmgr.h"
 #include "llfloaterreg.h"
 #include "lllineeditor.h"
-#include "llmenubutton.h"
 
 #include "alchatcommand.h"
 #include "llagent.h"
@@ -60,12 +59,14 @@ private:
 
 LLChatBar::LLChatBar(const LLSD& key)
 :	LLFloater(key),
-	mInputEditor(NULL),
+	mInputEditor(nullptr),
 	mGestureLabelTimer(),
 	mIsBuilt(FALSE),
-	mGestureCombo(NULL),
+	mGestureCombo(nullptr),
 	mObserver(NULL)
 {
+	mCommitCallbackRegistrar.add("Chatbar.Shout", boost::bind(&LLChatBar::sendChat, this, CHAT_TYPE_SHOUT));
+	mCommitCallbackRegistrar.add("Chatbar.Whisper", boost::bind(&LLChatBar::sendChat, this, CHAT_TYPE_WHISPER));
 	//setIsChrome(TRUE);
 }
 
@@ -77,6 +78,10 @@ LLChatBar::~LLChatBar()
 	mObserver = NULL;
 	// LLView destructor cleans up children
 }
+
+//-----------------------------------------------------------------------
+// Overrides
+//-----------------------------------------------------------------------
 
 BOOL LLChatBar::postBuild()
 {
@@ -104,9 +109,10 @@ BOOL LLChatBar::postBuild()
 	return TRUE;
 }
 
-//-----------------------------------------------------------------------
-// Overrides
-//-----------------------------------------------------------------------
+void LLChatBar::onOpen(const LLSD& key)
+{
+	mInputEditor->setFocus(TRUE);
+}
 
 // virtual
 BOOL LLChatBar::handleKeyHere( KEY key, MASK mask )
@@ -115,10 +121,15 @@ BOOL LLChatBar::handleKeyHere( KEY key, MASK mask )
 
 	if( KEY_RETURN == key )
 	{
-		if (mask == MASK_CONTROL)
+		if (mask == MASK_CONTROL && gSavedSettings.getBool("AlchemyEnableKeyboardShout"))
 		{
 			// shout
 			sendChat(CHAT_TYPE_SHOUT);
+			handled = TRUE;
+		}
+		else if (mask == MASK_SHIFT && gSavedSettings.getBool("AlchemyEnableKeyboardWhisper"))
+		{
+			sendChat(CHAT_TYPE_WHISPER);
 			handled = TRUE;
 		}
 		else if (mask == MASK_NONE)
@@ -342,6 +353,7 @@ void LLChatBar::startChat(const char* line)
 	LLChatBar* bar = LLFloaterReg::getTypedInstance<LLChatBar>("chatbar");
 	bar->setVisible(TRUE);
 	bar->setFocus(TRUE);
+	bar->mInputEditor->setFocus(TRUE);
 	
 	if (line)
 	{

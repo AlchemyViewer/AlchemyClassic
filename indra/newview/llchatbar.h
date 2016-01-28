@@ -48,6 +48,7 @@ public:
 	LLChatBar(const LLSD& key);
 	
 	BOOL		postBuild() override;
+	void		onOpen(const LLSD& key) override;
 	BOOL		handleKeyHere(KEY key, MASK mask) override;
 	void		onFocusLost() override;
 

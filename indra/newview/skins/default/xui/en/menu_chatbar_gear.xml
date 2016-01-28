@@ -5,7 +5,7 @@
  name="menu_chatbar_gear"
  visible="false">
   <menu_item_check
-   label="Use chat bar"
+   label="Do not use chat bar"
    name="NearbyChatInConversations">
     <menu_item_check.on_check
      control="NearbyChatInConversations" />
@@ -31,4 +31,19 @@
      function="ToggleControl"
      parameter="LetterKeysFocusChatBar" />
   </menu_item_check>
+  <menu_item_separator />
+  <menu_item_call
+   label="Shout (Control)"
+   layout="topleft"
+   name="shout">
+    <menu_item_call.on_click
+     function="Chatbar.Shout" />
+  </menu_item_call>
+  <menu_item_call
+   label="Whisper (Shift)"
+   layout="topleft"
+   name="whisper">
+    <menu_item_call.on_click
+     function="Chatbar.Whisper" />
+  </menu_item_call>
 </toggleable_menu>

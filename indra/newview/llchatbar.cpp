@@ -32,6 +32,7 @@
 #include "llfocusmgr.h"
 #include "llfloaterreg.h"
 #include "lllineeditor.h"
+#include "llmenubutton.h"
 
 #include "alchatcommand.h"
 #include "llagent.h"
@@ -96,6 +97,7 @@ BOOL LLChatBar::postBuild()
 
 	mInputEditor->setMaxTextLength(DB_CHAT_MSG_STR_LEN);
 	mInputEditor->setEnableLineHistory(TRUE);
+	
 
 	mIsBuilt = TRUE;
 

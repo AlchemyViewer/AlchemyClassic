@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<toggleable_menu
+ layout="topleft"
+ mouse_opaque="false"
+ name="menu_chatbar_gear"
+ visible="false">
+  <menu_item_check
+   label="Use chat bar"
+   name="NearbyChatInConversations">
+    <menu_item_check.on_check
+     control="NearbyChatInConversations" />
+    <menu_item_check.on_click
+     function="ToggleControl"
+     parameter="NearbyChatInConversations" />
+  </menu_item_check>
+  <menu_item_check
+   label="Close chat bar on return"
+   name="CloseChatBarOnReturn">
+    <menu_item_check.on_check
+     control="CloseChatBarOnReturn" />
+    <menu_item_check.on_click
+     function="ToggleControl"
+     parameter="CloseChatBarOnReturn" />
+  </menu_item_check>
+  <menu_item_check
+   label="Letter keys open chat"
+   name="LetterKeysFocusChatBar">
+    <menu_item_check.on_check
+     control="LetterKeysFocusChatBar" />
+    <menu_item_check.on_click
+     function="ToggleControl"
+     parameter="LetterKeysFocusChatBar" />
+  </menu_item_check>
+</toggleable_menu>

@@ -522,7 +522,7 @@ namespace tut
                                sv(list_of
                                   (PYTHON)
                                   (script.getName())
-                                  (stringize(size)))),
+                                  (std::to_string(size)))),
                 180);               // try a longer timeout
         result.ensure();
     }

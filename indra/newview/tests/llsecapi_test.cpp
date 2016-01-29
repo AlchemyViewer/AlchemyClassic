@@ -44,7 +44,7 @@ LLControlVariable* LLControlGroup::declareString(const std::string& name,
                                    const std::string& comment,
                                    LLControlVariable::ePersist persist) {return NULL;}
 void LLControlGroup::setString(const std::string& name, const std::string& val){}
-std::string LLControlGroup::getString(const std::string& name)
+std::string LLControlGroup::getString(const std::string& name) const
 {
 	return "";
 }

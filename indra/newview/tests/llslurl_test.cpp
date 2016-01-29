@@ -61,7 +61,7 @@ std::string gCmdLineGridChoice;
 std::string gCmdLineHelperURI;
 std::string gLoginPage;
 std::string gCurrentGrid;
-std::string LLControlGroup::getString(const std::string& name)
+std::string LLControlGroup::getString(const std::string& name) const
 {
 	if (name == "CmdLineGridChoice")
 		return gCmdLineGridChoice;
@@ -74,7 +74,7 @@ std::string LLControlGroup::getString(const std::string& name)
 	return "";
 }
 
-LLSD LLControlGroup::getLLSD(const std::string& name)
+LLSD LLControlGroup::getLLSD(const std::string& name) const
 {
 	if (name == "CmdLineLoginURI")
 	{
@@ -86,9 +86,9 @@ LLSD LLControlGroup::getLLSD(const std::string& name)
 	return LLSD();
 }
 
-LLPointer<LLControlVariable> LLControlGroup::getControl(const std::string& name)
+LLPointer<LLControlVariable> LLControlGroup::getControl(const std::string& name) const
 {
-	ctrl_name_table_t::iterator iter = mNameTable.find(name);
+	ctrl_name_table_t::const_iterator iter = mNameTable.find(name);
 	return iter == mNameTable.end() ? LLPointer<LLControlVariable>() : iter->second;
 }
 

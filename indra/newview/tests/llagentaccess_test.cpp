@@ -60,7 +60,7 @@ void LLControlGroup::setU32(const std::string& name, U32 val)
 	test_preferred_maturity = val;
 }
 
-U32 LLControlGroup::getU32(const std::string& name)
+U32 LLControlGroup::getU32(const std::string& name) const
 {
 	return test_preferred_maturity;
 }

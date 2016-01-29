@@ -181,16 +181,16 @@ LLControlGroup::LLControlGroup(const std::string& name) :
 	LLInstanceTracker<LLControlGroup, std::string>(name){}
 LLControlGroup::~LLControlGroup() {}
 void LLControlGroup::setBOOL(const std::string& name, BOOL val) {}
-BOOL LLControlGroup::getBOOL(const std::string& name) { return FALSE; }
-F32 LLControlGroup::getF32(const std::string& name) { return 0.0f; }
+BOOL LLControlGroup::getBOOL(const std::string& name) const { return FALSE; }
+F32 LLControlGroup::getF32(const std::string& name) const { return 0.0f; }
 U32 LLControlGroup::saveToFile(const std::string& filename, BOOL nondefault_only) { return 1; }
 void LLControlGroup::setString(const std::string& name, const std::string& val) {}
-std::string LLControlGroup::getString(const std::string& name) { return "test_string"; }
+std::string LLControlGroup::getString(const std::string& name) const { return "test_string"; }
 LLControlVariable* LLControlGroup::declareBOOL(const std::string& name, BOOL initial_val, const std::string& comment, LLControlVariable::ePersist persist) { return NULL; }
 LLControlVariable* LLControlGroup::declareString(const std::string& name, const std::string &initial_val, const std::string& comment, LLControlVariable::ePersist persist) { return NULL; }
 
 #include "lluicolortable.h"
-void LLUIColorTable::saveUserSettings(void)const {}
+void LLUIColorTable::saveUserSettings(const bool scrub) const {}
 
 //-----------------------------------------------------------------------------
 #include "../llversioninfo.h"

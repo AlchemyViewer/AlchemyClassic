@@ -298,7 +298,7 @@ std::string LLUI::getLanguage() { return "en"; }
 std::string LLTrans::getString(const std::string &xml_desc, const LLStringUtil::format_map_t& args) { return "dummy"; }
 
 LLControlGroup::LLControlGroup(const std::string& name) : LLInstanceTracker<LLControlGroup, std::string>(name) {}
-std::string LLControlGroup::getString(const std::string& name) { return "dummy"; }
+std::string LLControlGroup::getString(const std::string& name) const { return "dummy"; }
 LLControlGroup::~LLControlGroup() {}
 
 LLCurl::Responder::Responder() {}

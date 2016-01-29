@@ -65,6 +65,7 @@ if (WINDOWS)
       psapi
       winmm
       netapi32
+      ole32
       wldap32
       gdi32
       user32

@@ -72,7 +72,7 @@ class LoginListener: public LLEventTrackable
 public:
 	LoginListener(const std::string& name) : 
 		mName(name),
-        mDebug(stringize(*this))
+        mDebug(llformat("%p", this))
 	{}
 
 	bool call(const LLSD& event)
@@ -112,7 +112,7 @@ public:
 		mName(name),
 		mImmediateResponse(i),
 		mMultipleURIResponse(m),
-        mDebug(stringize(*this))
+        mDebug(llformat("%p", this))
 	{}
 
 	bool handle_event(const LLSD& event)
@@ -167,7 +167,7 @@ public:
 		mName(name),
 		mImmediateResponse(i),
 		mResponse(response),
-        mDebug(stringize(*this))
+        mDebug(llformat("%p", this))
 	{
 		if(mResponse.isUndefined())
 		{

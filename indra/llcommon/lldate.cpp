@@ -128,7 +128,7 @@ void LLDate::toStream(std::ostream& s) const
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
-	if (!gmtime_s(&exp_time, &time))
+	if (gmtime_s(&exp_time, &time) != 0)
 #else
 	if (!gmtime_r(&time, &exp_time))
 #endif
@@ -196,6 +196,42 @@ bool LLDate::fromString(const std::string& iso8601_date)
 bool LLDate::fromStream(std::istream& s)
 {
 	std::tm time = {0};
+	int c;
+#ifdef LL_WINDOWS // Windows has broken std::get_time() woohoo!
+	int32_t tm_part;
+	s >> tm_part;
+	time.tm_yday = tm_part - 1900;
+	c = s.get(); // skip the hypen
+	if (c != '-') { return false; }
+	s >> tm_part;
+	time.tm_mon = tm_part - 1;
+	c = s.get(); // skip the hypen
+	if (c != '-') { return false; }
+	s >> tm_part;
+	time.tm_mday = tm_part;
+	
+	c = s.get(); // skip the T
+	if (c != 'T') { return false; }
+	
+	s >> tm_part;
+	time.tm_hour = tm_part;
+	c = s.get(); // skip the :
+	if (c != ':') { return false; }
+	s >> tm_part;
+	time.tm_min = tm_part;
+	c = s.get(); // skip the :
+	if (c != ':') { return false; }
+	s >> tm_part;
+	time.tm_sec = tm_part;
+	
+	c = s.peek();
+	if(c == '.')
+	{
+		F64 fractional = 0.0;
+		s >> fractional;
+	}
+
+#else
 	std::string this_locale = LLStringUtil::getLocale();
 	if (this_locale != sPrevLocale)
 	{
@@ -210,9 +246,9 @@ bool LLDate::fromStream(std::istream& s)
 	{
 		return false;
 	}
+#endif
 	std::time_t tm = timegm(&time);
 	F64 seconds_since_epoch = static_cast<F64>(tm);
-	int c;
 	c = s.peek(); // check for offset
 	if (c == '+' || c == '-')
 	{

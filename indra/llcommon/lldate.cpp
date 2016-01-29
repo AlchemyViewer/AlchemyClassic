@@ -93,6 +93,8 @@ std::string LLDate::toHTTPDateString(std::string fmt) const
 	
 	std::time_t locSeconds = (std::time_t) mSecondsSinceEpoch;
 	std::tm * gmt = gmtime (&locSeconds);
+	if (!gmt)
+		return LLStringUtil::null;
 	return toHTTPDateString(gmt, fmt);
 }
 
@@ -110,7 +112,8 @@ std::string LLDate::toHTTPDateString(tm * gmt, std::string fmt)
 
 	// use strftime() as it appears to be faster than std::time_put
 	char buffer[128];
-	std::strftime(buffer, 128, fmt.c_str(), gmt);
+	if (std::strftime(buffer, 128, fmt.c_str(), gmt) == 0)
+		return LLStringUtil::null;
 	std::string res(buffer);
 	
 #if LL_WINDOWS
@@ -161,10 +164,19 @@ bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *se
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
-	gmtime_s(&exp_time, &time);
+	if (gmtime_s(&exp_time, &time) != 0)
 #else
-	gmtime_r(&time, &exp_time);
+	if (!gmtime_r(&time, &exp_time))
 #endif
+	{
+		*year = 1970;
+		*month = 01;
+		*day = 01;
+		*hour = 00;
+		*min = 00;
+		*sec = 00;
+		return false;
+	}
 
 	if (year)
 		*year = exp_time.tm_year + 1900;
@@ -197,10 +209,10 @@ bool LLDate::fromStream(std::istream& s)
 {
 	std::tm time = {0};
 	int c;
-#ifdef LL_WINDOWS // Windows has broken std::get_time() woohoo!
+#ifdef LL_WINDOWS // Windows has broken std::get_time()
 	int32_t tm_part;
 	s >> tm_part;
-	time.tm_yday = tm_part - 1900;
+	time.tm_year = tm_part - 1900;
 	c = s.get(); // skip the hypen
 	if (c != '-') { return false; }
 	s >> tm_part;
@@ -248,6 +260,9 @@ bool LLDate::fromStream(std::istream& s)
 	}
 #endif
 	std::time_t tm = timegm(&time);
+	if (tm == -1)
+		return false;
+
 	F64 seconds_since_epoch = static_cast<F64>(tm);
 	c = s.peek(); // check for offset
 	if (c == '+' || c == '-')
@@ -285,6 +300,9 @@ bool LLDate::fromYMDHMS(S32 year, S32 month, S32 day, S32 hour, S32 min, S32 sec
 	exp_time.tm_sec = sec;
 	
 	std::time_t tm = timegm(&exp_time);
+	if (tm == -1)
+		return false;
+
 	mSecondsSinceEpoch = static_cast<F64>(tm);
 
 	return true;

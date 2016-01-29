@@ -789,8 +789,11 @@ bool max_age_from_cache_control(const std::string& cache_control, S32 *max_age)
 			try
 			{
 				S32 val = boost::lexical_cast<S32>(subtoken);
-				*max_age = val;
-				return true;
+				if (val >= 0 && val < S32_MAX)
+				{
+					*max_age = val;
+					return true;
+				}
 			}
 			catch (const boost::bad_lexical_cast&)
 			{

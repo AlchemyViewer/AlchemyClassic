@@ -44,6 +44,7 @@
 #  define timegm _mkgmtime
 #endif
 
+#define EPOCH_STR "1970-01-01T00:00:00Z"
 static const F64 DATE_EPOCH = 0.0;
 static std::string sPrevLocale = "";
 
@@ -94,7 +95,10 @@ std::string LLDate::toHTTPDateString(std::string fmt) const
 	std::time_t locSeconds = (std::time_t) mSecondsSinceEpoch;
 	std::tm * gmt = gmtime (&locSeconds);
 	if (!gmt)
-		return LLStringUtil::null;
+	{
+		LL_WARNS() << "The impossible has happened!" << LL_ENDL;
+		return LLStringExplicit(EPOCH_STR);
+	}
 	return toHTTPDateString(gmt, fmt);
 }
 
@@ -113,7 +117,7 @@ std::string LLDate::toHTTPDateString(tm * gmt, std::string fmt)
 	// use strftime() as it appears to be faster than std::time_put
 	char buffer[128];
 	if (std::strftime(buffer, 128, fmt.c_str(), gmt) == 0)
-		return LLStringUtil::null;
+		return LLStringExplicit(EPOCH_STR);
 	std::string res(buffer);
 	
 #if LL_WINDOWS
@@ -136,7 +140,7 @@ void LLDate::toStream(std::ostream& s) const
 	if (!gmtime_r(&time, &exp_time))
 #endif
 	{
-		s << "1970-01-01T00:00:00Z";
+		s << EPOCH_STR;
 		return;
 	}
 	
@@ -209,7 +213,7 @@ bool LLDate::fromStream(std::istream& s)
 {
 	std::tm time = {0};
 	int c;
-#ifdef LL_WINDOWS // Windows has broken std::get_time()
+#ifdef LL_WINDOWS // Windows has broken std::get_time() Time for things to get ugly!
 	int32_t tm_part;
 	s >> tm_part;
 	time.tm_year = tm_part - 1900;

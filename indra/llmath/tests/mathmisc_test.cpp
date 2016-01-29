@@ -325,6 +325,10 @@ namespace tut
 		}
 	}
 
+#if LL_WINDOWS
+#pragma warning(push)
+#pragma warning(disable : 4702)
+#endif // LL_WINDOWS
 	template<> template<>
 	void sphere_object::test<2>()
 	{
@@ -436,6 +440,9 @@ namespace tut
 			}
 		}
 	}
+#if LL_WINDOWS
+#pragma warning(pop)
+#endif // LL_WINDOWS
 }
 
 namespace tut

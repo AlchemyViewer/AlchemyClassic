@@ -147,6 +147,10 @@ namespace tut
 	}
 
 
+#if LL_WINDOWS
+#pragma warning(push)
+#pragma warning(disable : 4702)
+#endif // LL_WINDOWS
 //	getHostName()  and setHostByName
 	template<> template<>
 	void host_object::test<9>()
@@ -192,6 +196,9 @@ namespace tut
 			throw;
 		}
 	}
+#if LL_WINDOWS
+#pragma warning(pop)
+#endif // LL_WINDOWS
 
 //	setHostByName for dotted IP
 	template<> template<>

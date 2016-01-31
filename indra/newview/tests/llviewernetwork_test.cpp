@@ -197,9 +197,9 @@ namespace tut
 		ensure_equals("id for agni",
 					  std::string("Agni"),
 					  LLGridManager::getInstance()->getGridId("util.agni.lindenlab.com"));
-		ensure_equals("update url base for Agni", // relies on agni being the default
-					  std::string("https://update.secondlife.com/update"),
-					  LLGridManager::getInstance()->getUpdateServiceURL());
+		//ensure_equals("update url base for Agni", // relies on agni being the default
+		//			  std::string("https://update.secondlife.com/update"),
+		//			  LLGridManager::getInstance()->getUpdateServiceURL());
 		ensure_equals("label for agni",
 					  LLGridManager::getInstance()->getGridLabel("util.agni.lindenlab.com"),
 					  std::string("Second Life"));
@@ -271,9 +271,9 @@ namespace tut
 		ensure_equals("id for agni",
 					  LLGridManager::getInstance()->getGridId("util.agni.lindenlab.com"),
 					  std::string("Agni"));
-		ensure_equals("update url base for Agni", // relies on agni being the default
-					  std::string("https://update.secondlife.com/update"),
-					  LLGridManager::getInstance()->getUpdateServiceURL());
+		//ensure_equals("update url base for Agni", // relies on agni being the default
+		//			  std::string("https://update.secondlife.com/update"),
+		//			  LLGridManager::getInstance()->getUpdateServiceURL());
 		ensure_equals("label for agni",
 					  LLGridManager::getInstance()->getGridLabel("util.agni.lindenlab.com"),
 					  std::string("Second Life"));
@@ -402,9 +402,9 @@ namespace tut
 		ensure_equals("getLoginPage",
 					  LLGridManager::getInstance()->getLoginPage(),
 					  std::string("http://viewer-login.agni.lindenlab.com/"));
-		ensure_equals("update url base for Agni", // relies on agni being the default
-					  std::string("https://update.secondlife.com/update"),
-					  LLGridManager::getInstance()->getUpdateServiceURL());
+		//ensure_equals("update url base for Agni", // relies on agni being the default
+		//			  std::string("https://update.secondlife.com/update"),
+		//			  LLGridManager::getInstance()->getUpdateServiceURL());
 		ensure("Is Agni Second Life", LLGridManager::getInstance()->isInSecondlife());
 		ensure("Agni is NOT OpenSim", !LLGridManager::getInstance()->isInOpenSim());
 		std::vector<std::string> uris;

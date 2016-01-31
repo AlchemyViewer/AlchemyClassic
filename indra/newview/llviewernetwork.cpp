@@ -93,6 +93,8 @@ const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
 const char* DEFAULT_SLURL_BASE = "http://%s/region/";
 const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
 
+const std::string ALCHEMY_UPDATE_SERVICE = "https://app.alchemyviewer.org/update";
+
 //
 const std::string GRIDS_USER_FILE = "grids_user.xml";
 
@@ -898,16 +900,9 @@ std::string LLGridManager::getUpdateServiceURL() const
 			<< "Update URL base overridden from command line: " << update_url_base
 			<< LL_ENDL;
 	}
-	else if ( mGridList[mGrid].has(GRID_UPDATE_SERVICE_URL) )
-	{
-		update_url_base = mGridList[mGrid][GRID_UPDATE_SERVICE_URL].asString();
-	}
 	else
 	{
-		LL_WARNS("UpdaterService","GridManager")
-			<< "The grid property '" << GRID_UPDATE_SERVICE_URL
-			<< "' is not defined for the grid '" << mGrid << "'"
-			<< LL_ENDL;
+		update_url_base = ALCHEMY_UPDATE_SERVICE;
 	}
 			
 	return update_url_base;

@@ -194,6 +194,7 @@ elseif(DARWIN)
         libfreetype.6.dylib
         libGLOD.dylib
         libndofdev.dylib
+        libopenjpeg.5.dylib
        )
 
     if (OPENAL)

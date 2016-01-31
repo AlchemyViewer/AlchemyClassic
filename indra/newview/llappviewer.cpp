@@ -290,6 +290,25 @@ S32 gLastExecDuration = -1; // (<0 indicates unknown)
 #endif
 const char* gPlatform = LL_PLATFORM_KEY;
 
+#if LL_WINDOWS  
+#  if defined(_WIN64)
+#    define LL_PLATFORM_KEY_UPDATE "win64"
+#  else
+#    define LL_PLATFORM_KEY_UPDATE "win"
+#  endif
+#elif LL_DARWIN
+#  define LL_PLATFORM_KEY_UPDATE "mac"
+#elif LL_LINUX
+#  if defined(__amd64__) || defined(__x86_64__)
+#    define LL_PLATFORM_KEY_UPDATE "lnx64"
+#  else
+#    define LL_PLATFORM_KEY_UPDATE "lnx"
+#  endif
+#else
+#   error "Unknown Platform"
+#endif
+const char* gPlatformUpdater = LL_PLATFORM_KEY_UPDATE;
+
 LLSD gDebugInfo;
 
 U32	gFrameCount = 0;
@@ -3114,7 +3133,7 @@ void LLAppViewer::initUpdater()
 	mUpdater->setAppExitCallback(boost::bind(&LLAppViewer::forceQuit, this));
 	mUpdater->initialize(channel, 
 						 version,
-						 gPlatform,
+						 gPlatformUpdater,
 						 getOSInfo().getOSVersionString(),
 						 unique_id,
 						 willing_to_test
@@ -5527,7 +5546,7 @@ void LLAppViewer::handleLoginComplete()
 void LLAppViewer::launchUpdater()
 {
 		LLSD query_map = LLSD::emptyMap();
-	query_map["os"] = gPlatform;
+	query_map["os"] = gPlatformUpdater;
 
 	// *TODO change userserver to be grid on both viewer and sim, since
 	// userserver no longer exists.

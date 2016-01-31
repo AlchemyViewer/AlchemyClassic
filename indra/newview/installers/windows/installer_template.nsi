@@ -420,10 +420,8 @@ Section "Viewer"
   Call CheckNetworkConnection		; ping secondlife.com
 
   SetOutPath "$INSTDIR"  
-  ;Remove old shader files first so fallbacks will work.
-  RMDir /r "$INSTDIR\app_settings\shaders\*"
-  ;Remove old alchemy skin files first so fallbacks will work
-  RMDir /r "$INSTDIR\skins\alchemy\xui\*"
+  ;Remove all old files first to prevent incorrect installation
+  RMDir /r "$INSTDIR\*"
   
   ;This placeholder is replaced by the complete list of all the files in the installer, by viewer_manifest.py
   %%INSTALL_FILES%%

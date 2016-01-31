@@ -183,6 +183,7 @@
   ;because this will make your installer start faster.
   
   !insertmacro MUI_RESERVEFILE_LANGDLL
+  ReserveFile "${NSISDIR}\Plugins\liteFirewallW.dll"
   ReserveFile "${NSISDIR}\Plugins\NSISdl.dll"
   ReserveFile "${NSISDIR}\Plugins\nsDialogs.dll"
   ReserveFile "${NSISDIR}\Plugins\StartMenu.dll"
@@ -501,6 +502,14 @@ Section "Viewer"
   ;; to avoid parameter injection attacks.
   WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
   
+  ;Create firewall rules
+  liteFirewallW::AddRule "$INSTDIR\$INSTEXE" "${APPNAME}"
+  Pop $0
+  liteFirewallW::AddRule "$INSTDIR\AlchemyPlugin.exe" "${APPNAME} Plugin"
+  Pop $0
+  liteFirewallW::AddRule "$INSTDIR\voice\SLVoice.exe" "${APPNAME} Voice"
+  Pop $0
+  
   ;Create uninstaller
   SetOutPath "$INSTDIR"  
   WriteUninstaller "$INSTDIR\uninst.exe"
@@ -574,6 +583,14 @@ Section "Uninstall"
   
   !insertmacro MUI_STARTMENU_GETFOLDER Application $STARTMENUFOLDER
   RMDir /r "$SMPROGRAMS\$STARTMENUFOLDER"
+  
+  ;Remove firewall rules
+  liteFirewallW::RemoveRule "$INSTDIR\$INSTEXE" "${APPNAME}"
+  Pop $0
+  liteFirewallW::RemoveRule "$INSTDIR\AlchemyPlugin.exe" "${APPNAME} Plugin"
+  Pop $0
+  liteFirewallW::RemoveRule "$INSTDIR\voice\SLVoice.exe" "${APPNAME} Voice"
+  Pop $0
   
   ;This placeholder is replaced by the complete list of all the files in the installer, by viewer_manifest.py
   %%DELETE_FILES%%

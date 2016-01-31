@@ -3991,7 +3991,6 @@ Please try again later.
  name="UpdateViewerUpToDate"
  type="alertmodal">
 Your viewer is up to date!
-If you can't wait to try out the latest features and fixes, check out the Alternate Viewers page. http://wiki.secondlife.com/wiki/Linden_Lab_Official:Alternate_Viewers.
     <tag>confirm</tag>
     <usetemplate
      name="okbutton"

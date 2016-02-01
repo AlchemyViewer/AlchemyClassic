@@ -64,6 +64,8 @@
 #include "llsdutil_math.h"
 #include "lleventapi.h"
 
+#include <cef/llceflib.h>
+
 #if LL_WINDOWS
 #include "lldxhardware.h"
 #endif
@@ -342,7 +344,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
-	info["QT_WEBKIT_VERSION"] = "4.8.7 (version number hard-coded)";
+	info["LLCEFLIB_VERSION"] = LLCEFLIB_VERSION;
 
 	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
 	if (packets_in > 0)

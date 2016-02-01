@@ -39,8 +39,7 @@ namespace {
 	{
 		std::string scriptFile = gDirUtilp->getBaseFileName(path);
 		std::string newPath = gDirUtilp->getExpandedFilename(LL_PATH_TEMP, scriptFile);
-		apr_status_t status = apr_file_copy(path.c_str(), newPath.c_str(), APR_FILE_SOURCE_PERMS, gAPRPoolp);
-		if(status != APR_SUCCESS) throw RelocateError();
+		if(!LLFile::copy(path, newPath)) throw RelocateError();
 		
 		return newPath;
 	}

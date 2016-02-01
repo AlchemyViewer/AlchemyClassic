@@ -339,8 +339,8 @@ void LLInventoryModelBackgroundFetch::setAllFoldersFetched()
 	}
 	mFolderFetchActive = false;
 	mBackgroundFetchActive = false;
-	gIdleCallbacks.deleteFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, this);
-	LL_INFOS(LOG_INV) << "Inventory background fetch completed" << LL_ENDL;
+	gIdleCallbacks.deleteFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+	LL_INFOS_ONCE(LOG_INV) << "Inventory background fetch completed" << LL_ENDL;
 }
 
 void LLInventoryModelBackgroundFetch::backgroundFetchCB(void *)

@@ -44,6 +44,8 @@ enum LLInstallScriptMode {
 int ll_install_update(
 					  std::string const & script, // Script to execute.
 					  std::string const & updatePath, // Path to update file.
+					  std::string const & updateChannel, // New channel
+					  std::string const & viewerChannel, // Old channel
 					  bool required, // Is the update required.
 					  LLInstallScriptMode mode=LL_COPY_INSTALL_SCRIPT_TO_TEMP); // Run in place or copy to temp?
 

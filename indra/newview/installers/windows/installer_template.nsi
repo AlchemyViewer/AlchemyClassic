@@ -44,6 +44,9 @@
   Var INSTEXE
   Var INSTSHORTCUT
   Var AUTOSTART
+  Var UPDATE
+  Var OLDCHANNEL
+  Var OLDINSTALL
   Var COMMANDLINE         ; command line passed to this installer, set in .onInit
   Var SHORTCUT_LANG_PARAM ; "--set InstallLanguage de", passes language to viewer
   Var SKIP_DIALOGS        ; set from command line in  .onInit. autoinstall 
@@ -401,6 +404,27 @@ Function CheckNetworkConnection
   Return
 FunctionEnd
 
+Function runUpdateUninstall
+  StrCmp $UPDATE "true" 0 fail_return ; If false jump to failure
+  StrCmp ${APPNAMEONEWORD} $OLDCHANNEL fail_return 0 ; If channel matches current channel skip uninstall
+
+  Push $0
+!ifdef WIN64_BIN_BUILD
+  SetRegView 64
+!endif
+  ReadRegStr $0 HKLM "SOFTWARE\${VENDORSTR}\$OLDCHANNEL" ""
+  IfErrors fail_read_reg 0 ; If error jump to failure
+
+  StrCpy $OLDINSTALL $0
+
+  ExecWait '"$OLDINSTALL\uninst.exe" /S'
+
+fail_read_reg:
+  Pop $0
+fail_return:
+  Return
+FunctionEnd
+
 ;--------------------------------
 ;Installer Sections
 
@@ -418,6 +442,15 @@ Section "Viewer"
   Call CheckIfAlreadyCurrent
   Call CloseSecondLife			    ; Make sure we're not running
   Call CheckNetworkConnection		; ping secondlife.com
+  Call runUpdateUninstall
+
+  ;Remove old firewall rules
+  liteFirewallW::RemoveRule "$INSTDIR\$INSTEXE" "${APPNAME}"
+  Pop $0
+  liteFirewallW::RemoveRule "$INSTDIR\AlchemyPlugin.exe" "${APPNAME} Plugin"
+  Pop $0
+  liteFirewallW::RemoveRule "$INSTDIR\voice\SLVoice.exe" "${APPNAME} Voice"
+  Pop $0
 
   SetOutPath "$INSTDIR"  
   ;Remove all old files first to prevent incorrect installation
@@ -543,6 +576,14 @@ Function .onInit
   ${GetOptions} $COMMANDLINE "/AUTOSTART" $0
   IfErrors +2 0 ; If error jump past setting AUTOSTART
   StrCpy $AUTOSTART "true"
+
+  ${GetOptions} $COMMANDLINE "/UPDATE" $0
+  IfErrors +2 0 ; If error jump past setting AUTOSTART
+  StrCpy $UPDATE "true"
+
+  ${GetOptions} $COMMANDLINE "/OLDCHANNEL" $0
+  IfErrors +2 0 ; If error jump past setting AUTOSTART
+  StrCpy $OLDCHANNEL $0
 
   ${GetOptions} $COMMANDLINE "/LANGID=" $0   ; /LANGID=1033 implies US English
   ; If no language (error), then proceed

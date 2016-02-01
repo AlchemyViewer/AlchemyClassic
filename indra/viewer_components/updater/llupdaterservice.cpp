@@ -377,6 +377,8 @@ bool LLUpdaterServiceImpl::checkForInstall(bool launchInstaller)
 
 				int result = ll_install_update(install_script_path(),
 											   path,
+											   update_info["update_channel"].asString(),
+											   mChannel,
 											   update_info["required"].asBoolean(),
 											   install_script_mode());	
 

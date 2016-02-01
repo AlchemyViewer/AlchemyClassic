@@ -48,6 +48,8 @@ namespace {
 
 int ll_install_update(std::string const & script,
 					  std::string const & updatePath,
+					  std::string const & updateChannel,
+					  std::string const & viewerChannel,
 					  bool required,
 					  LLInstallScriptMode mode)
 {
@@ -76,6 +78,16 @@ int ll_install_update(std::string const & script,
 	params.args.add(updatePath);
 	params.args.add(ll_install_failed_marker_path());
 	params.args.add(std::to_string(required));
+#if LL_WINDOWS
+	if (updateChannel != viewerChannel)
+	{
+		params.args.add("/UPDATE");
+		params.args.add("/OLDCHANNEL");
+		std::string viewer_channel = viewerChannel;
+		viewer_channel.erase(std::remove_if(viewer_channel.begin(), viewer_channel.end(), isspace), viewer_channel.end());
+		params.args.add(viewer_channel);
+	}
+#endif
 	params.autokill = false;
 	return LLProcess::create(params)? 0 : -1;
 }

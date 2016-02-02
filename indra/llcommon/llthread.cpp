@@ -190,7 +190,12 @@ void LLThread::shutdown()
 		// Put a stake in its heart.
 		delete mRecorder;
 
-		mThread.interrupt();
+		boost::thread::native_handle_type thread(mThread.native_handle());
+#if LL_WINDOWS
+		TerminateThread(thread, 0);
+#else
+		pthread_cancel(thread);
+#endif
 		return;
 	}
 

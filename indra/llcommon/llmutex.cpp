@@ -36,7 +36,7 @@ void LLMutex::lock()	// blocks
 void LLMutex::unlock()
 {
 	LLMutexImpl::unlock();
-	mLockingThread = NO_THREAD;
+	mLockingThread = boost::thread::id();
 }
 
 // Returns true if lock was obtained successfully.

@@ -34,6 +34,7 @@
 #if AL_BOOST_MUTEX
 #include "fix_macros.h"
 #define BOOST_SYSTEM_NO_DEPRECATED
+#include <boost/thread/thread.hpp>
 #include <boost/thread/recursive_mutex.hpp>
 #include <boost/thread/condition_variable.hpp>
 typedef boost::recursive_mutex LLMutexImpl;
@@ -50,12 +51,7 @@ typedef std::condition_variable_any LLConditionImpl;
 class LL_COMMON_API LLMutex : public LLMutexImpl
 {
 public:
-	typedef enum
-	{
-		NO_THREAD = 0xFFFFFFFF
-	} e_locking_thread;
-
-	LLMutex() : LLMutexImpl(), mLockingThread(NO_THREAD) {}
+	LLMutex() : LLMutexImpl(), mLockingThread() {}
 	~LLMutex() {}
 
 	void lock();	// blocks
@@ -72,7 +68,7 @@ public:
 	bool isSelfLocked() const;
 
 private:
-	mutable uintptr_t mLockingThread;
+	mutable boost::thread::id mLockingThread;
 };
 
 // Actually a condition/mutex pair (since each condition needs to be associated with a mutex).

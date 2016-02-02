@@ -1830,9 +1830,9 @@ void LLCurl::ssl_locking_callback(int mode, int type, const char *file, int line
 }
 
 //static
-unsigned long LLCurl::ssl_thread_id(void)
+void LLCurl::ssl_thread_id(CRYPTO_THREADID* thread_id)
 {
-	return static_cast<unsigned long>(LLThread::currentID());
+	CRYPTO_THREADID_set_numeric(thread_id, boost::hash<boost::thread::id>()(LLThread::currentID()));
 }
 #endif
 
@@ -1854,7 +1854,7 @@ void LLCurl::initClass(F32 curl_reuest_timeout, S32 max_number_handles, bool mul
 	{
 		sSSLMutex.push_back(new LLMutex());
 	}
-	CRYPTO_set_id_callback(&LLCurl::ssl_thread_id);
+	CRYPTO_THREADID_set_callback(&LLCurl::ssl_thread_id);
 	CRYPTO_set_locking_callback(&LLCurl::ssl_locking_callback);
 #endif
 

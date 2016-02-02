@@ -34,6 +34,7 @@
 #include <sstream>
 
 #include <boost/intrusive_ptr.hpp>
+#include <openssl/crypto.h>
 #include <curl/curl.h> // TODO: remove dependency
 
 #include "llbuffer.h"
@@ -211,7 +212,7 @@ public:
 
 	// OpenSSL callbacks
 	static void ssl_locking_callback(int mode, int type, const char *file, int line);
-	static unsigned long ssl_thread_id(void);
+	static void ssl_thread_id(CRYPTO_THREADID* thread_id);
 
 	static LLCurlThread* getCurlThread() { return sCurlThread ;}
 

@@ -90,24 +90,15 @@ void set_thread_name( DWORD dwThreadID, const char* threadName)
 // 
 //----------------------------------------------------------------------------
 
-uintptr_t LL_THREAD_LOCAL sThreadID = 0;
-
-uintptr_t LLThread::sIDIter = 0;
-
 
 LL_COMMON_API void assert_main_thread()
 {
-	static uintptr_t s_thread_id = LLThread::currentID();
+	static boost::thread::id s_thread_id = LLThread::currentID();
 	if (LLThread::currentID() != s_thread_id)
 	{
-		LL_WARNS() << "Illegal execution from thread id " << (S32) LLThread::currentID()
-			<< " outside main thread " << (S32) s_thread_id << LL_ENDL;
+		LL_WARNS() << "Illegal execution from thread id " << LLThread::currentID()
+			<< " outside main thread " << s_thread_id << LL_ENDL;
 	}
-}
-
-void LLThread::registerThreadID()
-{
-	sThreadID = ++sIDIter;
 }
 
 void LLThread::runWrapper()
@@ -118,8 +109,6 @@ void LLThread::runWrapper()
 
 	// for now, hard code all LLThreads to report to single master thread recorder, which is known to be running on main thread
 	mRecorder = new LLTrace::ThreadRecorder(*LLTrace::get_master_thread_recorder());
-
-	sThreadID = mID;
 
 	// Run the user supplied function
 	run();
@@ -140,8 +129,6 @@ LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 	mStatus(STOPPED),
 	mRecorder(NULL)
 {
-	mID = ++sIDIter;
-
 	// Thread creation probably CAN be paranoid about APR being initialized, if necessary
 	if (poolp)
 	{
@@ -303,9 +290,9 @@ void LLThread::setQuitting()
 }
 
 // static
-uintptr_t LLThread::currentID()
+boost::thread::id LLThread::currentID()
 {
-	return sThreadID;
+	return boost::this_thread::get_id();
 }
 
 // static

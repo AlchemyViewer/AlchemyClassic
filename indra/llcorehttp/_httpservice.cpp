@@ -284,8 +284,6 @@ void HttpService::shutdown()
 void HttpService::threadRun(LLCoreInt::HttpThread * thread)
 {
 	boost::this_thread::disable_interruption di;
-
-	LLThread::registerThreadID();
 	
 	ELoopSpeed loop(REQUEST_SLEEP);
 	while (! mExitRequested)

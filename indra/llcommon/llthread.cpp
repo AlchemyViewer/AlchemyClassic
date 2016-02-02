@@ -228,7 +228,15 @@ void LLThread::start()
 	// Set thread state to running
 	mStatus = RUNNING;
 
-	mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
+	try
+	{
+		mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
+	}
+	catch (boost::thread_resource_error err)
+	{
+		mStatus = STOPPED;
+		LL_WARNS() << "Failed to start thread: \"" << mName << "\" due to error: " << err.what() << LL_ENDL;
+	}
 }
 
 //============================================================================

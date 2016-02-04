@@ -593,7 +593,7 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 	{
 		mGridListChangedSignal();
 		saveGridList();
-		if (!grid[GRID_TEMPORARY].asBoolean())
+		if (grid.has(GRID_TEMPORARY) && !grid[GRID_TEMPORARY].asBoolean())
 		{
 			LLNotificationsUtil::add("AddGridSuccess",
 									 LLSD().with("GRID", grid[GRID_ID_VALUE].asString()));

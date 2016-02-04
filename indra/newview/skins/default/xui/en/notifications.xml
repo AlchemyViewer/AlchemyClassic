@@ -11091,7 +11091,6 @@ Previous simulator: [OLD_VERSION]
     <tag>opensim</tag>
     Failed to remove [GRID] from the list.
   </notification>
-
   <notification
    icon="alertmodal.tga"
    name="CantAddGrid"
@@ -11100,6 +11099,18 @@ Previous simulator: [OLD_VERSION]
     <tag>opensim</tag>
 Could not get grid info for [GRID].
 Error: [STATUS] [REASON]
+  </notification>
+  <notification
+   icon="alertmodal.tga"
+   name="AddGridSuccess"
+   type="alertmodal">
+    <form name="form">
+      <ignore name="ignore"
+       text="A grid was added to the grid list"/>
+    </form>
+    <tag>fail</tag>
+    <tag>opensim</tag>
+[GRID] has been added to your grid list.
   </notification>
 
   <notification

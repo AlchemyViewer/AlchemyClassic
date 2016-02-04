@@ -208,7 +208,13 @@ class LLGridManager : public LLSingleton<LLGridManager>
 		SLBETA,
 		OPENSIM,
 		HALCYON
-	}EGridPlatform;
+	} EGridPlatform;
+	
+	typedef enum e_add_grid {
+		ADD_MANUAL = 0,
+		ADD_HYPERGRID,
+		ADD_LINK
+	} EAddGridType;
 
 	/* ================================================================
 	 * @name Selecting the current grid
@@ -258,7 +264,7 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	 */
 	
 	/// Add a grid by fetching its gridInfo
-	void addRemoteGrid(const std::string& login_uri, const bool manual);
+	void addRemoteGrid(const std::string& login_uri, const EAddGridType type);
 	
 	/// Remove a grid from the grid list by key
 	bool removeGrid(const std::string& gridkey);

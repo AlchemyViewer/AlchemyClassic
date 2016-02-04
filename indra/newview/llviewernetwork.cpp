@@ -101,12 +101,12 @@ const std::string GRIDS_USER_FILE = "grids_user.xml";
 class LLGridInfoRequestResponder : public LLHTTPClient::Responder
 {
 private:
-	LLGridManager *mParent;
+	std::function<void(LLSD&, LLXMLNodePtr)> mCallbackFunc;
 	LLSD mData;
 	
 public:
-	LLGridInfoRequestResponder(LLGridManager* parent, LLSD& data)
-	: mParent(parent), mData(data) {}
+	LLGridInfoRequestResponder(const std::function<void(LLSD&, LLXMLNodePtr)> callback_func, LLSD& data)
+	: mCallbackFunc(callback_func), mData(data) {}
 	
 	void completedRaw(const LLChannelDescriptors& channels, const LLIOPipe::buffer_ptr_t& buffer) override
 	{
@@ -116,7 +116,7 @@ public:
 			LLPointer<LLXMLNode> xmlnode;
 			if(LLXMLNode::parseStream(istr, xmlnode, NULL))
 			{
-				mParent->gridInfoResponderCallback(mData, xmlnode);
+				mCallbackFunc(mData, xmlnode);
 			}
 			else
 			{
@@ -469,7 +469,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 	addGrid(grid);
 }
 
-void LLGridManager::addRemoteGrid(const std::string& login_uri, const bool manual)
+void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridType type)
 {
 	LL_DEBUGS("GridManager") << "Adding '" << login_uri << "' to grid manager." << LL_ENDL;
 	if (login_uri.empty()) return;
@@ -503,11 +503,12 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const bool manua
 	}
 	LLSD data;
 	data[GRID_VALUE] = LLURI(grid).authority();
-	if (!manual)
+	if (type == ADD_HYPERGRID)
 		data[GRID_TEMPORARY] = true;
 	
 	LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
-					  new LLGridInfoRequestResponder(this, data));
+					  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
+							this, std::placeholders::_1, std::placeholders::_2), data));
 }
 
 void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node)
@@ -639,12 +640,12 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 void LLGridManager::setGridChoice(const std::string& grid)
 {
 	// Set the grid choice based on a string.
-	LL_DEBUGS("GridManager")<<"requested "<<grid<<LL_ENDL;
+	LL_DEBUGS("GridManager") << "requested " << grid << LL_ENDL;
  	std::string grid_name = getGrid(grid); // resolved either the name or the id to the name
 
 	if(!grid_name.empty())
 	{
-		LL_INFOS("GridManager")<<"setting "<<grid_name<<LL_ENDL;
+		LL_INFOS("GridManager") << "setting " << grid_name << LL_ENDL;
 		mGrid = grid_name;
 		gSavedSettings.setString("CurrentGrid", grid_name);
 		LLTrans::setDefaultArg("CURRENT_GRID", getGridLabel());
@@ -655,7 +656,8 @@ void LLGridManager::setGridChoice(const std::string& grid)
 	else
 	{
 		// the grid was not in the list of grids.
-		LL_WARNS("GridManager")<<"unknown grid "<<grid<<LL_ENDL;
+		LL_WARNS("GridManager") << "unknown grid " << grid << LL_ENDL;
+		
 	}
 }
 

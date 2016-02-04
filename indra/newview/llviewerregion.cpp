@@ -2153,7 +2153,7 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 		{
 			const std::string& grid_url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
 			if (LLGridManager::getInstance()->getGrid(LLURI(grid_url).authority()).empty())
-				LLGridManager::getInstance()->addRemoteGrid(grid_url, false);
+				LLGridManager::getInstance()->addRemoteGrid(grid_url, LLGridManager::ADD_HYPERGRID);
 		}
 	}
 	setSimulatorFeaturesReceived(true);

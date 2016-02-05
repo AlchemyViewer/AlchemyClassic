@@ -60,7 +60,7 @@ const char * LLUriParser::scheme() const
 	return mScheme.c_str();
 }
 
-void LLUriParser::sheme(const std::string& s)
+void LLUriParser::scheme(const std::string& s)
 {
 	mTmpScheme = !s.size();
 	mScheme = s;

@@ -226,8 +226,8 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	 * -# The main grid (Agni)
 	 */
 
-	/// Select a given grid as the current grid.  
-	void setGridChoice(const std::string& grid);
+	/// Select a given grid as the current grid.
+	void setGridChoice(const std::string& grid, const bool only_select = true);
 
 	/// Returns the name of the currently selected grid 
 	std::string getGrid() const { return mGrid; }

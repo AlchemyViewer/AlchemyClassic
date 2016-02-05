@@ -1014,4 +1014,5 @@ void LLPanelLogin::refreshGridList()
 	server_choice_combo->addSeparator(ADD_TOP);
 	server_choice_combo->add(LLGridManager::getInstance()->getGridLabel(), current_grid, ADD_TOP);
 	server_choice_combo->selectFirstItem();
+	updateServer();
 }

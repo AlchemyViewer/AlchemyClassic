@@ -118,6 +118,7 @@ set(viewer_SOURCE_FILES
     alpanelquicksettingspulldown.cpp
     groupchatlistener.cpp
     llaccountingcostmanager.cpp
+    lladdgridhandler.cpp
     llagent.cpp
     llagentaccess.cpp
     llagentcamera.cpp
@@ -766,6 +767,7 @@ set(viewer_HEADER_FILES
     groupchatlistener.h
     llaccountingcost.h
     llaccountingcostmanager.h
+    lladdgridhandler.h
     llagent.h
     llagentaccess.h
     llagentcamera.h

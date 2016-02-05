@@ -503,12 +503,19 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 	}
 	LLSD data;
 	data[GRID_VALUE] = LLURI(grid).authority();
-	if (type == ADD_HYPERGRID)
-		data[GRID_TEMPORARY] = true;
-	
-	LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
-					  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
-							this, std::placeholders::_1, std::placeholders::_2), data));
+
+	switch (type)
+	{
+		case ADD_HYPERGRID:
+			data[GRID_TEMPORARY] = true;
+			// yep, fallthru.
+		case ADD_LINK:
+		case ADD_MANUAL:
+			LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
+							  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
+									this, std::placeholders::_1, std::placeholders::_2), data));
+			break;
+	}
 }
 
 void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node)
@@ -591,13 +598,14 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 	
 	if (addGrid(grid))
 	{
-		mGridListChangedSignal();
-		saveGridList();
-		if (grid.has(GRID_TEMPORARY) && !grid[GRID_TEMPORARY].asBoolean())
+		if (!grid.has(GRID_TEMPORARY) || grid[GRID_TEMPORARY].asBoolean())
 		{
 			LLNotificationsUtil::add("AddGridSuccess",
-									 LLSD().with("GRID", grid[GRID_ID_VALUE].asString()));
+									 LLSD().with("GRID", grid[GRID_LABEL_VALUE].asString()));
+			setGridChoice(grid[GRID_VALUE].asString());
 		}
+		mGridListChangedSignal();
+		saveGridList();
 	}
 }
 
@@ -642,7 +650,7 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 	return result;
 }
 
-void LLGridManager::setGridChoice(const std::string& grid)
+void LLGridManager::setGridChoice(const std::string& grid, const bool only_select /* = true */)
 {
 	// Set the grid choice based on a string.
 	LL_DEBUGS("GridManager") << "requested " << grid << LL_ENDL;
@@ -658,12 +666,18 @@ void LLGridManager::setGridChoice(const std::string& grid)
 		
 		updateIsInProductionGrid();
 	}
-	else
+	else if (!only_select)
 	{
 		// the grid was not in the list of grids.
-		LL_WARNS("GridManager") << "unknown grid " << grid << LL_ENDL;
+		LL_WARNS("GridManager") << "fetching grid info " << grid << LL_ENDL;
 		
+		addRemoteGrid(grid, ADD_LINK);
 	}
+	else
+	{
+		LL_WARNS("GridManager") << "unknown grid " << grid << LL_ENDL;
+	}
+	mGridListChangedSignal();
 }
 
 std::string LLGridManager::getGrid(const std::string& grid) const

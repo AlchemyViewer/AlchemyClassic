@@ -61,10 +61,9 @@ bool LLLoginHandler::parseDirectLogin(std::string url)
 
 void LLLoginHandler::parse(const LLSD& queryMap)
 {
-	
 	if (queryMap.has("grid"))
 	{
-	  LLGridManager::getInstance()->setGridChoice(queryMap["grid"].asString());
+	  LLGridManager::getInstance()->setGridChoice(queryMap["grid"].asString(), false);
 	}
 	
 	

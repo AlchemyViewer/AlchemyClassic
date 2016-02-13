@@ -2744,11 +2744,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bd4cabb5e2f5bafae36bb6d3bdc6fd77</string>
+              <string>64e75a7e4d5f42406fc36c2a663b6537</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openjpeg-1.5.1-windows-201601261431.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openjpeg-1.5.1-windows-201601150944.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2758,11 +2758,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>05399a1e934319ec32681f136f5aac1f</string>
+              <string>68e21f69a90bbf55abbd86882f0a2761</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/openjpeg-1.5.1-windows64-201601261429.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/openjpeg-1.5.1-windows64-201601160311.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

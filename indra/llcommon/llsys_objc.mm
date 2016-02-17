@@ -40,7 +40,7 @@ static int intAtStringIndex(NSArray *array, int index)
     return [(NSString *)[array objectAtIndex:index] integerValue];
 }
 
-bool LLGetDarwinOperatingSystemInfo(int &major, int &minor, int &patch)
+bool LLSysDarwin::getOperatingSystemInfo(int &major, int &minor, int &patch)
 {
 	// Mavericks gains a nifty little method for getting OS version, prior to that
 	// we have to (ugh) parse systemversion.plist. :O
@@ -67,6 +67,13 @@ bool LLGetDarwinOperatingSystemInfo(int &major, int &minor, int &patch)
 		}
 	}
 	return true;
+}
+
+const char* LLSysDarwin::getPreferredLanguage()
+{
+	NSString* lang = [[NSLocale preferredLanguages] objectAtIndex:0];
+	const char* ret = [lang cStringUsingEncoding:NSASCIIStringEncoding];
+	return ret;
 }
 
 #endif // !LL_DARWIN

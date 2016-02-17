@@ -34,7 +34,13 @@
 #  error "This file should only be included when building on mac!"
 #else
 
-bool LLGetDarwinOperatingSystemInfo(int &major, int &minor, int &patch);
+namespace LLSysDarwin
+{
+
+bool getOperatingSystemInfo(int &major, int &minor, int &patch);
+const char* getPreferredLanguage();
+	
+}
 
 #endif // !LL_DARWIN
 #endif // LL_SYS_OBJC_H

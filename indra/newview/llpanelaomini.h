@@ -1,8 +1,8 @@
 /*
- * @file llsys_objc.h
- * @brief Some objective-c crap for llcommon
+ * @file llpanelaomini.h
+ * @brief Animation overrides mini control panel
  *
- * (C) 2014 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
+ * Copyright (c) 2016, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -25,22 +25,36 @@
  * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ *
  */
 
-#ifndef LL_SYS_OBJC_H
-#define LL_SYS_OBJC_H
+#ifndef LL_PANELAOMINI_H
+#define LL_PANELAOMINI_H
 
-#ifndef LL_DARWIN
-#  error "This file should only be included when building on mac!"
-#else
+#include "llpanel.h"
 
-namespace LLSysDarwin
+class LLComboBox;
+//class LLUICtrl;
+
+class LLPanelAOMini : public LLPanel
 {
-
-bool getOperatingSystemInfo(int &major, int &minor, int &patch);
-const char* getPreferredLanguage();
+public:
+	LLPanelAOMini();
 	
-}
+	BOOL postBuild() override;
+	
+protected:
+	~LLPanelAOMini() {}
+	
+private:
+	void onSelectSet(const LLSD& userdata);
+	void onClickSit(const LLSD& userdata);
+	void onClickNext();
+	void onClickPrevious();
+	void openAOFloater();
+	
+	LLComboBox* mSetList;
+	
+};
 
-#endif // !LL_DARWIN
-#endif // LL_SYS_OBJC_H
+#endif // LL_PANELAOMINI_H

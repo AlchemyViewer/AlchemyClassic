@@ -275,7 +275,7 @@ LLOSInfo::LLOSInfo() :
 		
 		S32 major_version, minor_version, bugfix_version = 0;
 
-		if (LLGetDarwinOperatingSystemInfo(major_version, minor_version, bugfix_version))
+		if (LLSysDarwin::getOperatingSystemInfo(major_version, minor_version, bugfix_version))
 		{
 			mMajorVer = major_version;
 			mMinorVer = minor_version;

@@ -1,8 +1,8 @@
 /*
- * @file llsys_objc.h
- * @brief Some objective-c crap for llcommon
+ * @file llpanelaopulldown.h
+ * @brief Animation overrides flyout
  *
- * (C) 2014 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
+ * Copyright (c) 2014, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -25,22 +25,29 @@
  * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ *
  */
 
-#ifndef LL_SYS_OBJC_H
-#define LL_SYS_OBJC_H
+#ifndef LL_PANELAOFLYOUT_H
+#define LL_PANELAOFLYOUT_H
 
-#ifndef LL_DARWIN
-#  error "This file should only be included when building on mac!"
-#else
+#include "llpanel.h"
 
-namespace LLSysDarwin
+class LLFrameTimer;
+
+class LLPanelAOPulldown : public LLPanel
 {
-
-bool getOperatingSystemInfo(int &major, int &minor, int &patch);
-const char* getPreferredLanguage();
+public:
+	LLPanelAOPulldown();
+	void draw() override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	void onTopLost() override;
+	void onVisibilityChange(BOOL new_visibility) override;
 	
-}
+private:
+	LLFrameTimer mHoverTimer;
+};
 
-#endif // !LL_DARWIN
-#endif // LL_SYS_OBJC_H
+
+#endif // LL_PANELAOFLYOUT_H

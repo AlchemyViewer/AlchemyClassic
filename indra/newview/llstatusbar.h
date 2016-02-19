@@ -42,6 +42,7 @@ class LLUUID;
 class LLFrameTimer;
 class LLStatGraph;
 class ALPanelQuickSettingsPulldown;
+class LLPanelAOPulldown;
 class LLPanelVolumePulldown;
 class LLPanelNearByMedia;
 
@@ -91,6 +92,7 @@ private:
 	void onVolumeChanged(const LLSD& newvalue);
 
 	void onMouseEnterQuickSettings();
+	void onMouseEnterAO();
 	void onMouseEnterVolume();
 	void onMouseEnterNearbyMedia();
 	void onClickScreen(S32 x, S32 y);
@@ -107,6 +109,7 @@ private:
 
 	LLView		*mBtnStats;
 	LLButton	*mBtnQuickSettings;
+	LLButton	*mBtnAO;
 	LLButton	*mBtnVolume;
 	LLTextBox	*mBoxBalance;
 	LLUICtrl	*mPanelFlycam;
@@ -122,6 +125,7 @@ private:
 	LLFrameTimer*	mBalanceTimer;
 	LLFrameTimer*	mHealthTimer;
 	ALPanelQuickSettingsPulldown* mPanelQuickSettingsPulldown;
+	LLPanelAOPulldown* mPanelAOPulldown;
 	LLPanelVolumePulldown* mPanelVolumePulldown;
 	LLPanelNearByMedia*	mPanelNearByMedia;
 };

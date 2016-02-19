@@ -132,6 +132,8 @@ set(viewer_SOURCE_FILES
     llagentwearablesfetch.cpp
     llaisapi.cpp
     llanimstatelabels.cpp
+    llaoengine.cpp
+    llaoset.cpp
     llappcorehttp.cpp
     llappearancemgr.cpp
     llappviewer.cpp
@@ -229,6 +231,7 @@ set(viewer_SOURCE_FILES
     llflexibleobject.cpp
     llflickrconnect.cpp
     llfloaterabout.cpp
+    llfloaterao.cpp
     llfloaterauction.cpp
     llfloaterautoreplacesettings.cpp
     llfloateravatar.cpp
@@ -444,6 +447,8 @@ set(viewer_SOURCE_FILES
     lloutfitobserver.cpp
     lloutfitslist.cpp
     lloutputmonitorctrl.cpp
+    llpanelaomini.cpp
+    llpanelaopulldown.cpp
     llpanelappearancetab.cpp
     llpanelavatar.cpp
     llpanelavatartag.cpp
@@ -781,6 +786,8 @@ set(viewer_HEADER_FILES
     llagentwearablesfetch.h
     llaisapi.h
     llanimstatelabels.h
+    llaoengine.h
+    llaoset.h
     llappcorehttp.h
     llappearance.h
     llappearancemgr.h
@@ -878,6 +885,7 @@ set(viewer_HEADER_FILES
     llflexibleobject.h
     llflickrconnect.h
     llfloaterabout.h
+    llfloaterao.h
     llfloaterauction.h
     llfloaterautoreplacesettings.h
     llfloateravatar.h
@@ -1086,6 +1094,8 @@ set(viewer_HEADER_FILES
     lloutfitobserver.h
     lloutfitslist.h
     lloutputmonitorctrl.h
+    llpanelaomini.h
+    llpanelaopulldown.h
     llpanelappearancetab.h
     llpanelavatar.h
     llpanelavatartag.h

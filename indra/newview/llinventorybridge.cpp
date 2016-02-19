@@ -3374,7 +3374,9 @@ LLFolderType::EType LLFolderBridge::getPreferredType() const
 	if(cat)
 	{
 		const std::string cat_name(cat->getName());
-		if (cat_name == "#Firestorm" || cat_name == "#Phoenix"
+		if (cat_name == ROOT_AO_FOLDER)
+			preferred_type = LLFolderType::FT_ANIM_OVERRIDES;
+		else if (cat_name == "#Firestorm" || cat_name == "#Phoenix"
 				 || cat_name == "#DV3" || cat_name == "#Kokua")
 			preferred_type = LLFolderType::FT_TOXIC;
 		else

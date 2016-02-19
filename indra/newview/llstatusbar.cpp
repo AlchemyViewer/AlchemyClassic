@@ -37,6 +37,7 @@
 #include "llviewercontrol.h"
 #include "llfloaterbuycurrency.h"
 #include "llbuycurrencyhtml.h"
+#include "llpanelaopulldown.h"
 #include "llpanelnearbymedia.h"
 #include "alpanelquicksettingspulldown.h"
 #include "llpanelvolumepulldown.h"
@@ -82,9 +83,6 @@
 #include "llstring.h"
 #include "message.h"
 
-// system includes
-#include <iomanip>
-
 
 //
 // Globals
@@ -102,17 +100,19 @@ const LLColor4 SIM_FULL_COLOR(1.f, 0.f, 0.f, 1.f);
 const F32 ICON_TIMER_EXPIRY		= 3.f; // How long the balance and health icons should flash after a change.
 
 static void onClickVolume(void*);
+static void onClickAOBtn(void*);
 
 LLStatusBar::LLStatusBar(const LLRect& rect)
 :	LLPanel(),
-	mTextTime(NULL),
-	mTextFPS(NULL),
-	mSGBandwidth(NULL),
-	mSGPacketLoss(NULL),
-	mBtnStats(NULL),
-	mBtnQuickSettings(NULL),
-	mBtnVolume(NULL),
-	mBoxBalance(NULL),
+	mTextTime(nullptr),
+	mTextFPS(nullptr),
+	mSGBandwidth(nullptr),
+	mSGPacketLoss(nullptr),
+	mBtnStats(nullptr),
+	mBtnQuickSettings(nullptr),
+	mBtnAO(nullptr),
+	mBtnVolume(nullptr),
+	mBoxBalance(nullptr),
 	mPanelFlycam(nullptr),
 	mBalance(0),
 	mHealth(100),
@@ -178,6 +178,10 @@ BOOL LLStatusBar::postBuild()
 
 	mBtnQuickSettings = getChild<LLButton>("quick_settings_btn");
 	mBtnQuickSettings->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterQuickSettings, this));
+	
+	mBtnAO = getChild<LLButton>("ao_btn");
+	mBtnAO->setClickedCallback(onClickAOBtn, this);
+	mBtnAO->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterAO, this));
 
 	mBtnVolume = getChild<LLButton>( "volume_btn" );
 	mBtnVolume->setClickedCallback( onClickVolume, this );
@@ -238,6 +242,11 @@ BOOL LLStatusBar::postBuild()
 	addChild(mPanelQuickSettingsPulldown);
 	mPanelQuickSettingsPulldown->setFollows(FOLLOWS_TOP | FOLLOWS_RIGHT);
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
+	
+	mPanelAOPulldown = new LLPanelAOPulldown();
+	addChild(mPanelAOPulldown);
+	mPanelAOPulldown->setFollows(FOLLOWS_TOP | FOLLOWS_RIGHT);
+	mPanelAOPulldown->setVisible(FALSE);
 
 	mPanelVolumePulldown = new LLPanelVolumePulldown();
 	addChild(mPanelVolumePulldown);
@@ -345,6 +354,7 @@ void LLStatusBar::setVisibleForMouselook(bool visible)
 	mBoxBalance->setVisible(visible);
 	getChild<LLUICtrl>("buyL")->setVisible(visible);
 	mBtnQuickSettings->setVisible(visible);
+	mBtnAO->setVisible(visible);
 	mBtnVolume->setVisible(visible);
 	mMediaToggle->setVisible(visible);
 	mTextFPS->setVisible(visible);
@@ -514,7 +524,31 @@ void LLStatusBar::onMouseEnterQuickSettings()
 
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
+	mPanelAOPulldown->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(TRUE);
+}
+
+void LLStatusBar::onMouseEnterAO()
+{
+	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
+	LLRect qs_rect = mPanelAOPulldown->getRect();
+	LLRect qs_btn_rect = mBtnAO->getRect();
+	qs_rect.setLeftTopAndSize(qs_btn_rect.mLeft -
+							  (qs_rect.getWidth() - qs_btn_rect.getWidth()) / 2,
+							  qs_btn_rect.mBottom,
+							  qs_rect.getWidth(),
+							  qs_rect.getHeight());
+	// force onscreen
+	qs_rect.translate(popup_holder->getRect().getWidth() - qs_rect.mRight, 0);
+	
+	mPanelAOPulldown->setShape(qs_rect);
+	LLUI::clearPopups();
+	LLUI::addPopup(mPanelAOPulldown);
+	
+	mPanelNearByMedia->setVisible(FALSE);
+	mPanelVolumePulldown->setVisible(FALSE);
+	mPanelQuickSettingsPulldown->setVisible(FALSE);
+	mPanelAOPulldown->setVisible(TRUE);
 }
 
 void LLStatusBar::onMouseEnterVolume()
@@ -537,6 +571,7 @@ void LLStatusBar::onMouseEnterVolume()
 	LLUI::addPopup(mPanelVolumePulldown);
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
+	mPanelAOPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(TRUE);
 }
 
@@ -561,15 +596,13 @@ void LLStatusBar::onMouseEnterNearbyMedia()
 
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
+	mPanelAOPulldown->setVisible(FALSE);
 	mPanelNearByMedia->setVisible(TRUE);
 }
 
-// static
-void onClickQuickSettings(void* data)
+void onClickAOBtn(void* data)
 {
-	// toggle the master mute setting
-	bool mute_audio = LLAppViewer::instance()->getMasterSystemAudioMute();
-	LLAppViewer::instance()->setMasterSystemAudioMute(!mute_audio);
+	gSavedPerAccountSettings.set("UseAO", !gSavedPerAccountSettings.getBOOL("UseAO"));
 }
 
 // static

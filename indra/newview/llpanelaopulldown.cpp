@@ -1,8 +1,8 @@
 /*
- * @file llsys_objc.h
- * @brief Some objective-c crap for llcommon
+ * @file llpanelaopulldown.cpp
+ * @brief Animation overrides flyout
  *
- * (C) 2014 Cinder Roxley @ Second Life <cinder@alchemyviewer.org>
+ * Copyright (c) 2014, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -25,22 +25,58 @@
  * FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
+ *
  */
 
-#ifndef LL_SYS_OBJC_H
-#define LL_SYS_OBJC_H
+#include "llviewerprecompiledheaders.h"
+#include "llpanelaopulldown.h"
 
-#ifndef LL_DARWIN
-#  error "This file should only be included when building on mac!"
-#else
+#include "llframetimer.h"
 
-namespace LLSysDarwin
+const F32 AUTO_CLOSE_FADE_START_TIME_SEC = 4.f;
+const F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
+
+
+LLPanelAOPulldown::LLPanelAOPulldown()
 {
-
-bool getOperatingSystemInfo(int &major, int &minor, int &patch);
-const char* getPreferredLanguage();
-	
+	mHoverTimer.stop();
+	buildFromFile("panel_ao_pulldown.xml");
 }
 
-#endif // !LL_DARWIN
-#endif // LL_SYS_OBJC_H
+void LLPanelAOPulldown::draw()
+{
+	F32 alpha = mHoverTimer.getStarted()
+	? clamp_rescale(mHoverTimer.getElapsedTimeF32(), AUTO_CLOSE_FADE_START_TIME_SEC,
+					AUTO_CLOSE_TOTAL_TIME_SEC, 1.f, 0.f)
+	: 1.0f;
+	LLViewDrawContext context(alpha);
+	
+	if (alpha == 0.f)
+	{
+		setVisible(FALSE);
+	}
+	
+	LLPanel::draw();
+}
+
+void LLPanelAOPulldown::onMouseEnter(S32 x, S32 y, MASK mask)
+{
+	mHoverTimer.stop();
+	LLPanel::onMouseEnter(x, y, mask);
+}
+
+void LLPanelAOPulldown::onMouseLeave(S32 x, S32 y, MASK mask)
+{
+	mHoverTimer.start();
+	LLPanel::onMouseLeave(x, y, mask);
+}
+
+void LLPanelAOPulldown::onTopLost()
+{
+	setVisible(FALSE);
+}
+
+void LLPanelAOPulldown::onVisibilityChange(BOOL new_visibility)
+{
+	new_visibility ? mHoverTimer.start() : mHoverTimer.stop();
+}

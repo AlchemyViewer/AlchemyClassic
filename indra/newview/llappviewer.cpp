@@ -41,6 +41,7 @@
 #include "llagentlanguage.h"
 #include "llagentui.h"
 #include "llagentwearables.h"
+#include "llaoengine.h"
 #include "llfloaterimcontainer.h"
 #include "llwindow.h"
 #include "llviewerstats.h"
@@ -1229,6 +1230,7 @@ bool LLAppViewer::init()
 	}
 
 	LLAgentLanguage::init();
+	setOnLoginCompletedCallback(boost::bind(&LLAOEngine::onLoginComplete));
 
 	return true;
 }

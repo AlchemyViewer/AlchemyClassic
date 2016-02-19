@@ -42,6 +42,7 @@
 #include "llagentcamera.h"
 #include "llagentwearables.h"
 #include "llanimationstates.h"
+#include "llaoengine.h"
 #include "llavatarnamecache.h"
 #include "llavatarpropertiesprocessor.h"
 #include "llexperiencecache.h"
@@ -5115,19 +5116,31 @@ LLUUID LLVOAvatar::remapMotionID(const LLUUID& id)
 BOOL LLVOAvatar::startMotion(const LLUUID& id, F32 time_offset)
 {
 	LL_DEBUGS() << "motion requested " << id.asString() << " " << gAnimLibrary.animationName(id) << LL_ENDL;
-
-	LLUUID remap_id = remapMotionID(id);
-
+	
+	LLUUID remap_id;
+	if(isSelf())
+	{
+		remap_id = LLAOEngine::getInstance()->overRide(id, true);
+		if(remap_id.isNull())
+			remap_id = remapMotionID(id);
+		else
+			gAgent.sendAnimationRequest(remap_id, ANIM_REQUEST_START);
+	}
+	else
+	{
+		remap_id = remapMotionID(id);
+	}
+	
 	if (remap_id != id)
 	{
 		LL_DEBUGS() << "motion resultant " << remap_id.asString() << " " << gAnimLibrary.animationName(remap_id) << LL_ENDL;
 	}
-
+	
 	if (isSelf() && remap_id == ANIM_AGENT_AWAY)
 	{
 		gAgent.setAFK();
 	}
-
+	
 	return LLCharacter::startMotion(remap_id, time_offset);
 }
 
@@ -5137,19 +5150,31 @@ BOOL LLVOAvatar::startMotion(const LLUUID& id, F32 time_offset)
 BOOL LLVOAvatar::stopMotion(const LLUUID& id, BOOL stop_immediate)
 {
 	LL_DEBUGS() << "motion requested " << id.asString() << " " << gAnimLibrary.animationName(id) << LL_ENDL;
-
-	LLUUID remap_id = remapMotionID(id);
+	
+	LLUUID remap_id;
+	if(isSelf())
+	{
+		remap_id = LLAOEngine::getInstance()->overRide(id, false);
+		if(remap_id.isNull())
+			remap_id = remapMotionID(id);
+		else
+			gAgent.sendAnimationRequest(remap_id, ANIM_REQUEST_STOP);
+	}
+	else
+	{
+		remap_id = remapMotionID(id);
+	}
 	
 	if (remap_id != id)
 	{
 		LL_DEBUGS() << "motion resultant " << remap_id.asString() << " " << gAnimLibrary.animationName(remap_id) << LL_ENDL;
 	}
-
+	
 	if (isSelf())
 	{
 		gAgent.onAnimStop(remap_id);
 	}
-
+	
 	return LLCharacter::stopMotion(remap_id, stop_immediate);
 }
 

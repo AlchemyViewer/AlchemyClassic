@@ -1521,7 +1521,7 @@ void LLAOEngine::tick()
 {
 	if (!isAgentAvatarValid()) return;
 
-	const LLUUID categoryID = gInventory.findCategoryByName(ROOT_AO_FOLDER);
+	const LLUUID categoryID = gInventory.findDescendentCategoryIDByName(gInventory.getRootFolderID(), ROOT_AO_FOLDER);
 
 	if (categoryID.isNull())
 	{

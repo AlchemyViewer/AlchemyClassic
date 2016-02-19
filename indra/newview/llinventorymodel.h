@@ -275,7 +275,8 @@ public:
 												bool create_folder = true);
 	
 	// Returns the uuid of the category if found, LLUUID::null is not
-	const LLUUID findCategoryByName(const std::string& name);
+	const LLUUID findDescendentCategoryIDByName(const LLUUID& parent_id,
+												const std::string& name);
 	
 	// Get whatever special folder this object is a child of, if any.
 	const LLViewerInventoryCategory *getFirstNondefaultParent(const LLUUID& obj_id) const;

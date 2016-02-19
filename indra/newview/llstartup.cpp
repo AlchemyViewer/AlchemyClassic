@@ -2613,7 +2613,7 @@ void LLStartUp::loadInitialOutfit( const std::string& outfit_folder_name,
 
 	// try to find the outfit - if not there, create some default
 	// wearables.
-	LLUUID cat_id = findDescendentCategoryIDByName(
+	LLUUID cat_id = gInventory.findDescendentCategoryIDByName(
 		gInventory.getLibraryRootFolderID(),
 		outfit_folder_name);
 	if (cat_id.isNull())

@@ -133,32 +133,6 @@ public:
 
 LLAppearanceHandler gAppearanceHandler;
 
-
-LLUUID findDescendentCategoryIDByName(const LLUUID& parent_id, const std::string& name)
-{
-	LLInventoryModel::cat_array_t cat_array;
-	LLInventoryModel::item_array_t item_array;
-	LLNameCategoryCollector has_name(name);
-	gInventory.collectDescendentsIf(parent_id,
-									cat_array,
-									item_array,
-									LLInventoryModel::EXCLUDE_TRASH,
-									has_name);
-	if (0 == cat_array.size())
-		return LLUUID();
-	else
-	{
-		LLViewerInventoryCategory *cat = cat_array.at(0);
-		if (cat)
-			return cat->getUUID();
-		else
-		{
-			LL_WARNS() << "null cat" << LL_ENDL;
-			return LLUUID();
-		}
-	}
-}
-
 // We want this to be much lower (e.g. 15.0 is usually fine), bumping
 // up for now until we can diagnose some cases of very slow response
 // to requests.
@@ -3029,7 +3003,7 @@ void LLAppearanceMgr::copyLibraryGestures()
 			cb = new LLBoostFuncInventoryCallback(activate_gesture_cb);
 		}
 
-		LLUUID cat_id = findDescendentCategoryIDByName(lib_gesture_cat_id,folder_name);
+		LLUUID cat_id = gInventory.findDescendentCategoryIDByName(lib_gesture_cat_id,folder_name);
 		if (cat_id.isNull())
 		{
 			LL_WARNS() << self_av_string() << "failed to find gesture folder for " << folder_name << LL_ENDL;
@@ -4241,7 +4215,7 @@ public:
 		if (folder_uuid.isNull() && query_map.has("folder_name"))
 		{
 			std::string outfit_folder_name = query_map["folder_name"];
-			folder_uuid = findDescendentCategoryIDByName(
+			folder_uuid = gInventory.findDescendentCategoryIDByName(
 				gInventory.getLibraryRootFolderID(),
 				outfit_folder_name);	
 		}

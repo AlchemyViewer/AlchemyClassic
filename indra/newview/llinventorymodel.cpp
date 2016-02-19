@@ -524,26 +524,29 @@ const LLUUID LLInventoryModel::findLibraryCategoryUUIDForType(LLFolderType::ETyp
 	return findCategoryUUIDForTypeInRoot(preferred_type, create_folder, gInventory.getLibraryRootFolderID());
 }
 
-const LLUUID LLInventoryModel::findCategoryByName(const std::string& name)
+const LLUUID LLInventoryModel::findDescendentCategoryIDByName(const LLUUID& parent_id, const std::string& name)
 {
-	LLUUID root_id = gInventory.getRootFolderID();
-	if(root_id.notNull())
+	LLInventoryModel::cat_array_t cat_array;
+	LLInventoryModel::item_array_t item_array;
+	LLNameCategoryCollector has_name(name);
+	gInventory.collectDescendentsIf(parent_id,
+									cat_array,
+									item_array,
+									LLInventoryModel::EXCLUDE_TRASH,
+									has_name);
+	if (0 == cat_array.size())
+		return LLUUID::null;
+	else
 	{
-		cat_array_t* cats = NULL;
-		cats = get_ptr_in_map(mParentChildCategoryTree, root_id);
-		if(cats)
+		LLViewerInventoryCategory *cat = cat_array.at(0);
+		if (cat)
+			return cat->getUUID();
+		else
 		{
-			S32 count = cats->size();
-			for(S32 i = 0; i < count; ++i)
-			{
-				if(name == cats->at(i)->getName())
-				{
-					return cats->at(i)->getUUID();
-				}
-			}
+			LL_WARNS() << "null cat" << LL_ENDL;
+			return LLUUID::null;
 		}
 	}
-	return LLUUID::null;
 }
 
 class LLCreateInventoryCategoryResponder : public LLHTTPClient::Responder

@@ -324,8 +324,6 @@ public:
 	/* virtual */ void fire(const LLUUID& item_id) {}
 };
 
-LLUUID findDescendentCategoryIDByName(const LLUUID& parent_id,const std::string& name);
-
 // Invoke a given callable after category contents are fully fetched.
 void callAfterCategoryFetch(const LLUUID& cat_id, nullary_func_t cb);
 

@@ -29,3 +29,5 @@
 
 const U8 TASK_INVENTORY_ITEM_KEY = 0;
 const U8 TASK_INVENTORY_ASSET_KEY = 1;
+
+const std::string ROOT_AO_FOLDER = LLStringExplicit("Animation Overrides");

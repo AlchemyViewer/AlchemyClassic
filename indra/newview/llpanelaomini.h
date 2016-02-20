@@ -44,7 +44,7 @@ public:
 	BOOL postBuild() override;
 	
 protected:
-	~LLPanelAOMini() {}
+	~LLPanelAOMini();
 	
 private:
 	void onSelectSet(const LLSD& userdata);
@@ -52,9 +52,13 @@ private:
 	void onClickNext();
 	void onClickPrevious();
 	void openAOFloater();
+	void updateSetList();
+	void onSetChanged(const std::string& set_name);
 	
 	LLComboBox* mSetList;
 	
+	boost::signals2::connection mReloadCallback;
+	boost::signals2::connection mSetChangedCallback;
 };
 
 #endif // LL_PANELAOMINI_H

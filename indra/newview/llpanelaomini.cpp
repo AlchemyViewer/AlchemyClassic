@@ -40,7 +40,6 @@ static LLPanelInjector<LLPanelAOMini> t_ao_mini("ao_mini");
 
 LLPanelAOMini::LLPanelAOMini()
 {
-	mCommitCallbackRegistrar.add("AO.SelectSet", boost::bind(&LLPanelAOMini::onSelectSet, this, _2));
 	mCommitCallbackRegistrar.add("AO.SitOverride", boost::bind(&LLPanelAOMini::onClickSit, this, _2));
 	mCommitCallbackRegistrar.add("AO.NextAnim", boost::bind(&LLPanelAOMini::onClickNext, this));
 	mCommitCallbackRegistrar.add("AO.PrevAnim", boost::bind(&LLPanelAOMini::onClickPrevious, this));
@@ -50,14 +49,28 @@ LLPanelAOMini::LLPanelAOMini()
 	//mEnableCallbackRegistrar.add("AO.EnableState", boost::bind());
 }
 
+LLPanelAOMini::~LLPanelAOMini()
+{
+	if (mReloadCallback.connected())
+		mReloadCallback.disconnect();
+	if (mSetChangedCallback.connected())
+		mSetChangedCallback.disconnect();
+}
+
 BOOL LLPanelAOMini::postBuild()
 {
 	mSetList = getChild<LLComboBox>("set_list");
+	mSetList->setCommitCallback(boost::bind(&LLPanelAOMini::onSelectSet, this, _2));
+	mReloadCallback = LLAOEngine::instance().setReloadCallback(boost::bind(&LLPanelAOMini::updateSetList, this));
+	mSetChangedCallback = LLAOEngine::instance().setSetChangedCallback(boost::bind(&LLPanelAOMini::onSetChanged, this, _1));
 	
 	return TRUE;
 }
 
-#if THIS_NEEDS_TO_GO_SOMEWHERE
+/////////////////////////////////////
+// Callback receivers
+
+void LLPanelAOMini::updateSetList()
 {
 	std::vector<LLAOSet*> list = LLAOEngine::getInstance()->getSetList();
 	if (list.empty())
@@ -69,23 +82,31 @@ BOOL LLPanelAOMini::postBuild()
 	{
 		mSetList->add(set->getName(), &set, ADD_BOTTOM, true);
 	}
-	LLAOSet* selected_set = LLFloaterAO::getInstance()->getSelectedSet();
-	mSetList->selectByValue(LLSD(selected_set->getName()));
-	
+	const std::string& current_set = LLAOEngine::instance().getCurrentSetName();
+	mSetList->selectByValue(LLSD(current_set));
 }
-#endif
+
+void LLPanelAOMini::onSetChanged(const std::string& set_name)
+{
+	mSetList->selectByValue(LLSD(set_name));
+}
 
 ////////////////////////////////////
 // Control actions
 
 void LLPanelAOMini::onSelectSet(const LLSD& userdata)
 {
-	
+	LLAOSet* selected_set = LLAOEngine::instance().getSetByName(userdata.asString());
+	if (selected_set)
+	{
+		LLAOEngine::instance().selectSet(selected_set);
+	}
 }
 
 void LLPanelAOMini::onClickSit(const LLSD& userdata)
 {
-	LLAOSet* selected_set = LLFloaterAO::getInstance()->getSelectedSet();
+	const std::string& current_set = LLAOEngine::instance().getCurrentSetName();
+	LLAOSet* selected_set = LLAOEngine::instance().getSetByName(current_set);
 	if (selected_set)
 	{
 		LLAOEngine::instance().setOverrideSits(selected_set, userdata.asBoolean());

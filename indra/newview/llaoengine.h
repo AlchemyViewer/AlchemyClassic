@@ -156,6 +156,12 @@ public:
 	{
 		return mAnimationChangedSignal.connect(cb);
 	};
+	
+	typedef boost::signals2::signal<void (const std::string&)> set_changed_signal_t;
+	boost::signals2::connection setSetChangedCallback(const set_changed_signal_t::slot_type& cb)
+	{
+		return mSetChangedSignal.connect(cb);
+	}
 
 protected:
 	void init();
@@ -187,6 +193,7 @@ protected:
 
 	updated_signal_t mUpdatedSignal;
 	animation_changed_signal_t mAnimationChangedSignal;
+	set_changed_signal_t mSetChangedSignal;
 
 	LLAOTimerCollection mTimerCollection;
 	LLAOSitCancelTimer mSitCancelTimer;

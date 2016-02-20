@@ -48,7 +48,7 @@ class LLFloaterAO : public LLTransientDockableFloater, public LLEventTimer
 	
 private:
 	LLFloaterAO(const LLSD& key);
-	~LLFloaterAO() {}
+	~LLFloaterAO();
 	
 public:
 	BOOL postBuild() override;
@@ -137,6 +137,9 @@ private:
 	
 	bool mCanDragAndDrop;
 	bool mImportRunning;
+	
+	boost::signals2::connection mReloadCallback;
+	boost::signals2::connection mAnimationChangedCallback;
 };
 
 #endif // LL_FLOATERAO_H

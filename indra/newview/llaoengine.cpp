@@ -1271,6 +1271,7 @@ void LLAOEngine::selectSet(LLAOSet* set)
 	}
 
 	mCurrentSet = set;
+	mSetChangedSignal(mCurrentSet->getName());
 
 	if (mEnabled)
 	{

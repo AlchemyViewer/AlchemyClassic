@@ -40,7 +40,7 @@
      height="20"
      follows="right|top"
      layout="topleft">
-      <combo_box.commit_callback
+      <button.commit_callback
        function="AO.ActivateSet" />
     </button>
     <icon

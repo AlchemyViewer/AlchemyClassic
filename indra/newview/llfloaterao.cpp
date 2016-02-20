@@ -74,6 +74,14 @@ LLFloaterAO::LLFloaterAO(const LLSD& key) : LLTransientDockableFloater(nullptr, 
 	//mEnableCallbackRegistrar.add("AO.EnableState", boost::bind());
 }
 
+LLFloaterAO::~LLFloaterAO()
+{
+	if (mReloadCallback.connected())
+		mReloadCallback.disconnect();
+	if (mAnimationChangedCallback.connected())
+		mAnimationChangedCallback.disconnect();
+}
+
 void LLFloaterAO::reloading(const bool reload)
 {
 	if (reload)
@@ -151,7 +159,7 @@ void LLFloaterAO::updateList()
 		currentSetName = LLAOEngine::instance().getCurrentSetName();
 	}
 	
-	mSetList=LLAOEngine::instance().getSetList();
+	mSetList = LLAOEngine::instance().getSetList();
 	mSetSelector->removeall();
 	mSetSelector->clear();
 	
@@ -216,8 +224,8 @@ BOOL LLFloaterAO::postBuild()
 	
 	updateSmart();
 	
-	LLAOEngine::instance().setReloadCallback(boost::bind(&LLFloaterAO::updateList, this));
-	LLAOEngine::instance().setAnimationChangedCallback(boost::bind(&LLFloaterAO::onAnimationChanged, this, _1));
+	mReloadCallback = LLAOEngine::instance().setReloadCallback(boost::bind(&LLFloaterAO::updateList, this));
+	mAnimationChangedCallback = LLAOEngine::instance().setAnimationChangedCallback(boost::bind(&LLFloaterAO::onAnimationChanged, this, _1));
 	
 	onChangeAnimationSelection();
 	mMainInterfacePanel->setVisible(TRUE);

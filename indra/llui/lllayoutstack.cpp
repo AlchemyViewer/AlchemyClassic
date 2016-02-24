@@ -375,8 +375,7 @@ void LLLayoutStack::updateLayout()
 							: getRect().getHeight();
 
 	// first, assign minimum dimensions
-	LLLayoutPanel* panelp = NULL;
-	for (auto & panelp : mPanels)
+	for (LLLayoutPanel* panelp : mPanels)
 	{
 		if (panelp->mAutoResize)
 		{
@@ -389,7 +388,8 @@ void LLLayoutStack::updateLayout()
 	llassert(total_visible_fraction < 1.05f);
 
 	// don't need spacing after last panel
-	space_to_distribute += panelp ? ll_round((F32)mPanelSpacing * panelp->getVisibleAmount()) : 0;
+	LLLayoutPanel* last_panelp = !mPanels.empty() ? *mPanels.rbegin() : nullptr;
+	space_to_distribute += last_panelp ? ll_round((F32)mPanelSpacing * last_panelp->getVisibleAmount()) : 0;
 
 	S32 remaining_space = space_to_distribute;
 	F32 fraction_distributed = 0.f;

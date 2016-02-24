@@ -15490,7 +15490,7 @@
     <string>Boolean</string>
     <key>Value</key>
     <integer>0</integer>
-    </map>
+  </map>
   <key>FMODDecodeBufferSize</key>
   <map>
     <key>Comment</key>
@@ -15501,7 +15501,18 @@
     <string>U32</string>
     <key>Value</key>
     <integer>1000</integer>
-    </map>
+  </map>
+  <key>FMODResampleMethod</key>
+  <map>
+    <key>Comment</key>
+    <string>Sets the method used for internal resampler 0(Linear), 1(Cubic), 2(Spline)</string>
+    <key>Persist</key>
+    <integer>1</integer>
+    <key>Type</key>
+    <string>U32</string>
+    <key>Value</key>
+    <integer>0</integer>
+  </map>
   <key>FMODStreamBufferSize</key>
   <map>
     <key>Comment</key>

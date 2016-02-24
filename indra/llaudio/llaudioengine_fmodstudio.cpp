@@ -47,13 +47,14 @@ FMOD_RESULT F_CALLBACK windDSPCallback(FMOD_DSP_STATE *dsp_state, float *inbuffe
 
 FMOD::ChannelGroup *LLAudioEngine_FMODSTUDIO::mChannelGroups[LLAudioEngine::AUDIO_TYPE_COUNT] = {0};
 
-LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(bool enable_profiler)
+LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(bool enable_profiler, U32 resample_method)
 	: mInited(false)
 	, mWindGen(NULL)
 	, mWindDSPDesc(NULL)
 	, mWindDSP(NULL)
 	, mSystem(NULL)
 	, mEnableProfiler(enable_profiler)
+	, mResampleMethod(resample_method)
 {
 }
 
@@ -95,6 +96,25 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	// In this case, all sounds, PLUS wind and stream will be software.
 	result = mSystem->setSoftwareChannels(num_channels + 2);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
+
+	FMOD_ADVANCEDSETTINGS adv_settings = { 0 };
+	adv_settings.cbSize = sizeof(FMOD_ADVANCEDSETTINGS);
+	switch (mResampleMethod)
+	{
+	default:
+	case RESAMPLE_LINEAR:
+		adv_settings.resamplerMethod = FMOD_DSP_RESAMPLER_LINEAR;
+		break;
+	case RESAMPLE_CUBIC:
+		adv_settings.resamplerMethod = FMOD_DSP_RESAMPLER_CUBIC;
+		break;
+	case RESAMPLE_SPLINE:
+		adv_settings.resamplerMethod = FMOD_DSP_RESAMPLER_SPLINE;
+		break;
+	}
+
+	result = mSystem->setAdvancedSettings(&adv_settings);
+	Check_FMOD_Error(result, "FMOD::System::setAdvancedSettings");
 
 	U32 fmod_flags = FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED | FMOD_INIT_THREAD_UNSAFE;
 	if(mEnableProfiler)

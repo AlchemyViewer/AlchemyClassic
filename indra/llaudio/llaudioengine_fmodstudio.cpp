@@ -321,14 +321,14 @@ bool LLAudioEngine_FMODSTUDIO::initWind()
 		return false;
 
 	int frequency = 44100;
-	if (!Check_FMOD_Error(mSystem->getSoftwareFormat(&frequency, NULL, NULL), "FMOD::System::getSoftwareFormat"))
+	FMOD_SPEAKERMODE mode;
+	if (!Check_FMOD_Error(mSystem->getSoftwareFormat(&frequency, &mode, NULL), "FMOD::System::getSoftwareFormat"))
 	{
 		mWindGen = new LLWindGen<MIXBUFFERFORMAT>((U32)frequency);
-		FMOD_SPEAKERMODE mode;
+
 		if (!Check_FMOD_Error(mWindDSP->setUserData((void*)mWindGen), "FMOD::DSP::setUserData") &&
-			!Check_FMOD_Error(mSystem->playDSP(mWindDSP, NULL, false, 0), "FMOD::System::playDSP") &&
-			!Check_FMOD_Error(mSystem->getSoftwareFormat(NULL, &mode, NULL), "FMOD::System::getSoftwareFormat") &&
-			!Check_FMOD_Error(mWindDSP->setChannelFormat(FMOD_CHANNELMASK_STEREO, 2, mode), "FMOD::DSP::setChannelFormat"))
+			!Check_FMOD_Error(mWindDSP->setChannelFormat(FMOD_CHANNELMASK_STEREO, 2, mode), "FMOD::DSP::setChannelFormat") &&
+			!Check_FMOD_Error(mSystem->playDSP(mWindDSP, NULL, false, 0), "FMOD::System::playDSP"))
 			return true;	//Success
 	}
 
@@ -375,7 +375,7 @@ void LLAudioEngine_FMODSTUDIO::updateWind(LLVector3 wind_vec, F32 camera_height_
 		// need to convert this to the conventional orientation DS3D and OpenAL use
 		// where +X = right, +Y = up, +Z = backwards
 
-		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], wind_vec.mV[0]);
+		wind_vec.setVec(-wind_vec.mV[1], wind_vec.mV[2], -wind_vec.mV[0]);
 
 		// cerr << "Wind update" << endl;
 

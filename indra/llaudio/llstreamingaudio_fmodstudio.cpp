@@ -379,6 +379,7 @@ void LLStreamingAudio_FMODSTUDIO::update()
 					}
 				}
 			}
+			static bool was_starved = false;
 			if(starving)
 			{
 				bool paused = false;
@@ -389,9 +390,11 @@ void LLStreamingAudio_FMODSTUDIO::update()
 					LL_INFOS() << "  (progress="<<progress<<")" << LL_ENDL;
 					Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(true), "FMOD::Channel::setPaused");
 				}
+				was_starved = true;
 			}
-			else if(progress > 80)
+			else if(progress > 80 && was_starved)
 			{
+				was_starved = false;
 				Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(false), "FMOD::Channel::setPaused");
 			}
 		}

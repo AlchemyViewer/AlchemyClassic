@@ -97,9 +97,9 @@ void LLListener_FMODSTUDIO::setRolloffFactor(F32 factor)
 	//In short: Changing the position ticks a dirtyflag inside fmod studio, which makes it not skip 3D processing next update call.
 	if(mRolloffFactor != factor)
 	{
-		LLVector3 pos = mVelocity - LLVector3(0.f,0.f,.1f);
-		mSystem->set3DListenerAttributes(0, (FMOD_VECTOR*)pos.mV, NULL, NULL, NULL);
-		mSystem->set3DListenerAttributes(0, (FMOD_VECTOR*)mVelocity.mV, NULL, NULL, NULL);
+		LLVector3 tmp_pos = mPosition - LLVector3(0.f,0.f,.1f);
+		mSystem->set3DListenerAttributes(0, (FMOD_VECTOR*) tmp_pos.mV, NULL, NULL, NULL);
+		mSystem->set3DListenerAttributes(0, (FMOD_VECTOR*) mPosition.mV, NULL, NULL, NULL);
 	}
 	mRolloffFactor = factor;
 	mSystem->set3DSettings(mDopplerFactor, 1.f, mRolloffFactor);

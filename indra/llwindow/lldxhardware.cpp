@@ -449,7 +449,13 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
 	BOOL ok = FALSE;
     HRESULT       hr;
 
-    CoInitialize(NULL);
+    hr = CoInitialize(NULL);
+	if (FAILED(hr))
+	{
+		LL_WARNS() << "COM initialization failure!" << LL_ENDL;
+		gWriteDebug("COM initialization failure!\n");
+		return ok;
+	}
 
     IDxDiagProvider *dx_diag_providerp = NULL;
     IDxDiagContainer *dx_diag_rootp = NULL;
@@ -500,8 +506,6 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
 		{
             goto LCleanup;
 		}
-
-		HRESULT hr;
 
 		// Get display driver information
 		LL_DEBUGS("AppInit") << "dx_diag_rootp->GetChildContainer" << LL_ENDL;
@@ -709,7 +713,13 @@ LLSD LLDXHardware::getDisplayInfo()
 	LLTimer hw_timer;
     HRESULT       hr;
 	LLSD ret;
-    CoInitialize(NULL);
+    hr = CoInitialize(NULL);
+	if (FAILED(hr))
+	{
+		LL_WARNS() << "COM initialization failure!" << LL_ENDL;
+		gWriteDebug("COM initialization failure!\n");
+		return ret;
+	}
 
     IDxDiagProvider *dx_diag_providerp = NULL;
     IDxDiagContainer *dx_diag_rootp = NULL;
@@ -759,8 +769,6 @@ LLSD LLDXHardware::getDisplayInfo()
 		{
             goto LCleanup;
 		}
-
-		HRESULT hr;
 
 		// Get display driver information
 		LL_INFOS() << "dx_diag_rootp->GetChildContainer" << LL_ENDL;

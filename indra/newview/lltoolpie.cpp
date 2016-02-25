@@ -673,20 +673,19 @@ BOOL LLToolPie::handleMouseUp(S32 x, S32 y, MASK mask)
                                              FALSE /* ignore transparent */,
                                              FALSE /* ignore particles */);
 
-        if (!mPick.mPosGlobal.isExactlyZero()			// valid coordinates for pick
-            && (mPick.mPickType == LLPickInfo::PICK_LAND	// we clicked on land
-                || mPick.mObjectID.notNull()))				// or on an object
+		LLViewerObject* objp = mPick.getObject();
+		bool is_in_world = mPick.mObjectID.notNull() && objp && !objp->isHUDAttachment(); // We clicked on a non-hud object
+		bool is_land = mPick.mPickType == LLPickInfo::PICK_LAND; // or on land
+		bool pos_non_zero = !mPick.mPosGlobal.isExactlyZero(); // valid coordinates for pick
+		if (pos_non_zero && (is_land || is_in_world))
         {
-            // handle special cases of steering picks
-            LLViewerObject* avatar_object = mPick.getObject();
-
             // get pointer to avatar
-            while (avatar_object && !avatar_object->isAvatar())
+            while (objp && !objp->isAvatar())
             {
-                avatar_object = (LLViewerObject*)avatar_object->getParent();
+				objp = (LLViewerObject*) objp->getParent();
             }
 
-            if (avatar_object && ((LLVOAvatar*)avatar_object)->isSelf())
+            if (objp && ((LLVOAvatar*) objp)->isSelf())
             {
                 const F64 SELF_CLICK_WALK_DISTANCE = 3.0;
                 // pretend we picked some point a bit in front of avatar

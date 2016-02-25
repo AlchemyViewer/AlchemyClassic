@@ -744,31 +744,22 @@ BOOL LLToolPie::handleDoubleClick(S32 x, S32 y, MASK mask)
         return TRUE;
     }
 
-	if (gSavedSettings.getBOOL("DoubleClickAutoPilot"))
-	{
-        // We may be doing double click to walk, but we don't want to use a target on
-        // a transparent object because the user thought they were clicking on
-        // whatever they were seeing through it, so recompute what was clicked on
-        // ignoring transparent objects
-        LLPickInfo savedPick = mPick;
-        mPick = gViewerWindow->pickImmediate(savedPick.mMousePt.mX, savedPick.mMousePt.mY,
-                                             FALSE /* ignore transparent */,
-                                             FALSE /* ignore particles */);
+	bool dbl_click_autoplt = gSavedSettings.getBOOL("DoubleClickAutoPilot");
+	bool dbl_click_teleport = gSavedSettings.getBOOL("DoubleClickTeleport");
 
-		if ((mPick.mPickType == LLPickInfo::PICK_LAND && !mPick.mPosGlobal.isExactlyZero()) ||
-			(mPick.mObjectID.notNull()  && !mPick.mPosGlobal.isExactlyZero()))
-		{
-			walkToClickedLocation();
-			return TRUE;
-		}
-        else
-        {
-            // restore the original pick for any other purpose
-            mPick = savedPick;
-        }
-	}
-	else if (gSavedSettings.getBOOL("DoubleClickTeleport"))
+	if (dbl_click_autoplt || dbl_click_teleport)
 	{
+		// Save the original pick
+		LLPickInfo savedPick = mPick;
+
+		// We may be doing double click to walk or a double click teleport, but 
+		// we don't want to use a target on a transparent object because the user 
+		// thought they were clicking on whatever they were seeing through it, so 
+		// recompute what was clicked on ignoring transparent objects
+		mPick = gViewerWindow->pickImmediate(savedPick.mMousePt.mX, savedPick.mMousePt.mY,
+			FALSE /* ignore transparent */,
+			FALSE /* ignore particles */);
+
 		LLViewerObject* objp = mPick.getObject();
 		LLViewerObject* parentp = objp ? objp->getRootEdit() : NULL;
 
@@ -776,15 +767,43 @@ BOOL LLToolPie::handleDoubleClick(S32 x, S32 y, MASK mask)
 		bool is_land = mPick.mPickType == LLPickInfo::PICK_LAND;
 		bool pos_non_zero = !mPick.mPosGlobal.isExactlyZero();
 		bool has_touch_handler = (objp && objp->flagHandleTouch()) || (parentp && parentp->flagHandleTouch());
-		bool has_click_action = final_click_action(objp);
-
-		if (pos_non_zero && (is_land || (is_in_world && !has_touch_handler && !has_click_action)))
+		bool no_click_action = final_click_action(objp) == CLICK_ACTION_NONE;
+		if (pos_non_zero && (is_land || (is_in_world && !has_touch_handler && no_click_action)))
 		{
-			LLVector3d pos = mPick.mPosGlobal;
-			pos.mdV[VZ] += gAgentAvatarp->getPelvisToFoot();
-			gAgent.teleportViaLocationLookAt(pos);
-			return TRUE;
+			if (dbl_click_autoplt 
+				&& !gAgent.getFlying()							// don't auto-navigate while flying until that works
+				&& isAgentAvatarValid()
+				&& !gAgentAvatarp->isSitting()
+				)
+			{
+				// get pointer to avatar
+				while (objp && !objp->isAvatar())
+				{
+					objp = (LLViewerObject*) objp->getParent();
+				}
+
+				if (objp && ((LLVOAvatar*) objp)->isSelf())
+				{
+					const F64 SELF_CLICK_WALK_DISTANCE = 3.0;
+					// pretend we picked some point a bit in front of avatar
+					mPick.mPosGlobal = gAgent.getPositionGlobal() + LLVector3d(LLViewerCamera::instance().getAtAxis()) * SELF_CLICK_WALK_DISTANCE;
+				}
+				gAgentCamera.setFocusOnAvatar(TRUE, TRUE);
+				walkToClickedLocation();
+				LLFirstUse::notMoving(false);
+				return TRUE;
+			}
+			else if (dbl_click_teleport)
+			{
+				LLVector3d pos = mPick.mPosGlobal;
+				pos.mdV[VZ] += gAgentAvatarp->getPelvisToFoot();
+				gAgent.teleportViaLocationLookAt(pos);
+				return TRUE;
+			}
 		}
+
+		// restore the original pick for any other purpose
+		mPick = savedPick;
 	}
 
 	return FALSE;

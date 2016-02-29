@@ -2788,6 +2788,8 @@ This feature is currently in Beta. Please add your name to this [http://goo.gl/f
 	<!-- Environment settings -->
 	<string name="LocalSettings">Local Settings</string>
 	<string name="RegionSettings">Region Settings</string>
+	<string name="Local">Local</string>
+	<string name="Region">Region</string>
 
 	<!-- panel classified -->
 	<string name="ClassifiedClicksTxt">Clicks: [TELEPORT] teleport, [MAP] map, [PROFILE] profile</string>
@@ -4084,6 +4086,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Debug_Label">Debug Settings</string>
   <string name="Command_Destinations_Label">Destinations</string>
   <string name="Command_Env_Settings_Label">Windlight</string>
+  <string name="Command_Env_Tools_Label">Env Tools</string>
   <string name="Command_Facebook_Label">Facebook</string>
   <string name="Command_Flickr_Label">Flickr</string>
   <string name="Command_Gestures_Label">Gestures</string>
@@ -4124,6 +4127,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Debug_Tooltip">Debug settings for advanced users</string>
   <string name="Command_Destinations_Tooltip">Destinations of interest</string>
   <string name="Command_Env_Settings_Tooltip">Choose between Windlight Presets</string>
+  <string name="Command_Env_Tools_Tooltip">Environmental settings</string>
   <string name="Command_Facebook_Tooltip">Post to Facebook</string>
   <string name="Command_Flickr_Tooltip">Upload to Flickr</string>
   <string name="Command_Gestures_Tooltip">Gestures for your avatar</string>

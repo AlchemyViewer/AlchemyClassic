@@ -281,6 +281,9 @@ public:
 
 	/// @return true if the preset comes out of the box
 	bool isSystemPreset(const std::string& preset_name) const;
+	
+	/// @return true if preset exists
+	bool presetExists(const std::string& name) const;
 
 	/// @return user and system preset names as a single list
 	void getPresetNames(preset_name_list_t& region, preset_name_list_t& user, preset_name_list_t& sys) const;

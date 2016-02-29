@@ -613,6 +613,18 @@ bool LLWLParamManager::isSystemPreset(const std::string& preset_name) const
 	return gDirUtilp->fileExists(getSysDir() + escapeString(preset_name) + ".xml");
 }
 
+bool LLWLParamManager::presetExists(const std::string& name) const
+{
+	for (const auto& preset : mParamList)
+	{
+		if (LLStringUtil::compareInsensitive(preset.first.name, name))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void LLWLParamManager::getPresetNames(preset_name_list_t& region, preset_name_list_t& user, preset_name_list_t& sys) const
 {
 	region.clear();

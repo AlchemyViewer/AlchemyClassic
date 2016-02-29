@@ -34,7 +34,6 @@
 #include "llgroupmgr.h"
 #include "llpanelavatar.h"
 
-class LLAccordianCtrlTab;
 class LLAvatarName;
 class LLClassifiedItem;
 class LLFlatListView;

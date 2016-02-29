@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater
+ height="448"
+ layout="topleft"
+ name="environment_tools"
+ save_rect="true"
+ title="ENVIRONMENT TOOLS"
+ width="250">
+  <layout_stack
+   follows="all"
+   animate="true"
+   top="0"
+   height="442"
+   left="0"
+   width="250"
+   layout="topleft"
+   orientation="vertical"
+   show_drag_handle="false">
+    <layout_panel
+     follows="all"
+     auto_resize="true"
+     user_resize="false"
+     layout="topleft"
+     left="0"
+     right="-1"
+     min_height="20"
+     height="300" >
+      <panel
+       top="0"
+       left="4"
+       name="environment_tools"
+       class="environment_tools"
+       filename="panel_environment_tools.xml"
+       layout="topleft"
+       follows="all" />
+	</layout_panel>
+    <layout_panel
+     follows="all"
+     auto_resize="false"
+     user_resize="false"
+     layout="topleft"
+     left="0"
+     right="-1"
+     min_height="20"
+     height="20"
+     name="btn_panel" >
+      <panel
+       top="0"
+       bottom="20"
+       left="2"
+       right="240"
+       border="false"
+       name="buttons">
+        <layout_stack
+         follows="all"
+         animate="false"
+         top="0"
+         height="20"
+         left="5"
+         width="240"
+         layout="topleft"
+         orientation="horizontal"
+         show_drag_handle="false">
+          <layout_panel
+           follows="all"
+           auto_resize="true"
+           user_resize="false"
+           layout="topleft"
+           left="1"
+           width="20"
+           min_height="20"
+           height="20" >
+           <button
+            follows="all"
+            label=""
+            image_overlay_alignment="center"
+            image_overlay="Command_Snapshot_Icon"
+            name="quick_snap_btn"
+			tool_tip="Save a quick snapshot to disk"
+            left="0"
+            top="0"
+            height="20">
+             <commit_callback
+              function="File.TakeSnapshotToDisk" />
+           </button>
+           </layout_panel>
+          <!--<layout_panel
+           follows="all"
+           auto_resize="true"
+           user_resize="false"
+           layout="topleft"
+           left="1"
+           width="20"
+           min_height="20"
+           height="20" >
+           <button
+            follows="all"
+            label=""
+            image_overlay_alignment="center"
+            name="hideui_btn"
+            left="0"
+            top="0"
+            height="20">
+             <commit_callback
+              function="View.ToggleUI" />
+           </button>
+           </layout_panel>-->
+        </layout_stack>
+      </panel>
+    </layout_panel>
+  </layout_stack>
+</floater>

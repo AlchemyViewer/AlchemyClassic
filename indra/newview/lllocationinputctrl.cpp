@@ -50,6 +50,7 @@
 #include "llinventoryobserver.h"
 #include "lllandmarkactions.h"
 #include "lllandmarklist.h"
+#include "lllightshare.h"
 #include "llpathfindingmanager.h"
 #include "llpathfindingnavmesh.h"
 #include "llpathfindingnavmeshstatus.h"
@@ -200,7 +201,8 @@ LLLocationInputCtrl::Params::Params()
 	see_avatars_icon("see_avatars_icon"),
 	maturity_help_topic("maturity_help_topic"),
 	pathfinding_dirty_icon("pathfinding_dirty_icon"),
-	pathfinding_disabled_icon("pathfinding_disabled_icon")
+	pathfinding_disabled_icon("pathfinding_disabled_icon"),
+	lightshare_icon("lightshare_icon")
 {
 }
 
@@ -213,6 +215,7 @@ LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 	mForSaleBtn(NULL),
 	mInfoBtn(NULL),
 	mRegionCrossingSlot(),
+	mLightshareChangedSlot(),
 	mNavMeshSlot(),
 	mIsNavMeshDirty(false),
 	mLandmarkImageOn(NULL),
@@ -363,6 +366,13 @@ LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 	mParcelIcon[PATHFINDING_DISABLED_ICON] = LLUICtrlFactory::create<LLIconCtrl>(pathfinding_disabled_icon);
 	mParcelIcon[PATHFINDING_DISABLED_ICON]->setMouseDownCallback(boost::bind(&LLLocationInputCtrl::onParcelIconClick, this, PATHFINDING_DISABLED_ICON));
 	addChild(mParcelIcon[PATHFINDING_DISABLED_ICON]);
+	
+	LLIconCtrl::Params lightshare_icon = p.lightshare_icon;
+	lightshare_icon.tool_tip = LLStringExplicit("Lightshare");
+	lightshare_icon.mouse_opaque = true;
+	mParcelIcon[LIGHTSHARE_ICON] = LLUICtrlFactory::create<LLIconCtrl>(lightshare_icon);
+	mParcelIcon[LIGHTSHARE_ICON]->setMouseDownCallback(boost::bind(&LLLocationInputCtrl::onParcelIconClick, this, LIGHTSHARE_ICON));
+	addChild(mParcelIcon[LIGHTSHARE_ICON]);
 
 	LLTextBox::Params damage_text = p.damage_text;
 	damage_text.tool_tip = LLTrans::getString("LocationCtrlDamageTooltip");
@@ -420,6 +430,9 @@ LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 
 	mRegionCrossingSlot = gAgent.addRegionChangedCallback(boost::bind(&LLLocationInputCtrl::onRegionBoundaryCrossed, this));
 	createNavMeshStatusListenerForCurrentRegion();
+	
+	mLightshareChangedSlot = LLLightshare::instance().addLightshareChangedCallback(
+														boost::bind(&LLLocationInputCtrl::refresh, this));
 
 	mRemoveLandmarkObserver	= new LLRemoveLandmarkObserver(this);
 	mAddLandmarkObserver	= new LLAddLandmarkObserver(this);
@@ -451,6 +464,7 @@ LLLocationInputCtrl::~LLLocationInputCtrl()
 	mParcelPropertiesControlConnection.disconnect();
 	mParcelMgrConnection.disconnect();
 	mLocationHistoryConnection.disconnect();
+	mLightshareChangedSlot.disconnect();
 }
 
 void LLLocationInputCtrl::setEnabled(BOOL enabled)
@@ -875,6 +889,7 @@ void LLLocationInputCtrl::refreshParcelIcons()
 		mParcelIcon[DAMAGE_ICON]->setVisible(  allow_damage );
 		mParcelIcon[PATHFINDING_DIRTY_ICON]->setVisible(mIsNavMeshDirty);
 		mParcelIcon[PATHFINDING_DISABLED_ICON]->setVisible(!mIsNavMeshDirty && !pathfinding_dynamic_enabled);
+		mParcelIcon[LIGHTSHARE_ICON]->setVisible(LLLightshare::instance().getState());
 
 		mDamageText->setVisible(allow_damage);
 		mParcelIcon[SEE_AVATARS_ICON]->setVisible( !see_avs );
@@ -1242,6 +1257,9 @@ void LLLocationInputCtrl::onParcelIconClick(EParcelIcon icon)
 		break;
 	case SEE_AVATARS_ICON:
 		LLNotificationsUtil::add("SeeAvatars");
+		break;
+	case LIGHTSHARE_ICON:
+		LLLightshare::instance().processLightshareRefresh();
 		break;
 	case ICON_COUNT:
 		break;

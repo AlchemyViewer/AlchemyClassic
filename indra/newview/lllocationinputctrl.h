@@ -82,7 +82,8 @@ public:
 											damage_icon,
 											see_avatars_icon,
 											pathfinding_dirty_icon,
-											pathfinding_disabled_icon;
+											pathfinding_disabled_icon,
+											lightshare_icon;
 		Optional<LLTextBox::Params>			damage_text;
 		Params();
 	};
@@ -108,6 +109,7 @@ public:
 
 	LLLineEditor*			getTextEntry() const { return mTextEntry; }
 	void					handleLoginComplete();
+	void					refresh();
 
 private:
 
@@ -122,7 +124,8 @@ private:
 		SEE_AVATARS_ICON,         // 6
 		PATHFINDING_DIRTY_ICON,   // 7
 		PATHFINDING_DISABLED_ICON,// 8
-		ICON_COUNT			      // 9 total
+		LIGHTSHARE_ICON,          // 9
+		ICON_COUNT			      // 10 total
 	};
 
 	friend class LLUICtrlFactory;
@@ -135,7 +138,6 @@ private:
 	 * depending on whether current parcel has been landmarked.
 	 */
 	void					enableAddLandmarkButton(bool val);
-	void					refresh();
 	void					refreshLocation();
 	void					refreshParcelIcons();
 	// Refresh the value in the health percentage text field
@@ -190,6 +192,7 @@ private:
 	boost::signals2::connection	mParcelMgrConnection;
 	boost::signals2::connection	mLocationHistoryConnection;
 	boost::signals2::connection	mRegionCrossingSlot;
+	boost::signals2::connection mLightshareChangedSlot;
 	LLPathfindingNavMesh::navmesh_slot_t mNavMeshSlot;
 	bool mIsNavMeshDirty;
 	LLUIImage* mLandmarkImageOn;

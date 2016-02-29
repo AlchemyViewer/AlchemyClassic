@@ -402,6 +402,7 @@ set(viewer_SOURCE_FILES
     lljoystickbutton.cpp
     lllandmarkactions.cpp
     lllandmarklist.cpp
+    lllightshare.cpp
     lllistbrowser.cpp
     lllistcontextmenu.cpp
     lllistview.cpp
@@ -1056,6 +1057,7 @@ set(viewer_HEADER_FILES
     lllandmarkactions.h
     lllandmarklist.h
     lllightconstants.h
+    lllightshare.h
     lllistbrowser.h
     lllistcontextmenu.h
     lllistview.h

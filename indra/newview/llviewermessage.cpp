@@ -81,6 +81,7 @@
 #include "llinventoryobserver.h"
 #include "llinventorypanel.h"
 #include "llfloaterimnearbychat.h"
+#include "lllightshare.h"
 #include "llmarketplacefunctions.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"
@@ -4204,6 +4205,8 @@ void process_teleport_finish(LLMessageSystem* msg, void**)
 	}
 	LLViewerRegion* regionp =  LLWorld::getInstance()->addRegion(region_handle, sim_host);
 
+	LLLightshare::getInstance()->processLightshareRefresh();
+	
 /*
 	// send camera update to new region
 	gAgentCamera.updateCamera();

@@ -34,6 +34,7 @@
 #include "message.h"
 
 #include "llagent.h"
+#include "lllightshare.h"
 
 
 LLDispatcher gGenericDispatcher;
@@ -74,6 +75,14 @@ void send_generic_message(const std::string& method,
 
 void process_generic_message(LLMessageSystem* msg, void**)
 {
+	// Check for lightshare messages
+	std::string method;
+	msg->getStringFast(_PREHASH_MethodData, _PREHASH_Method, method);
+	if (method == LLStringExplicit("Windlight"))
+		LLLightshare::instance().processLightshareMessage(msg);
+	else if (method == LLStringExplicit("WindlightRefresh"))
+		LLLightshare::instance().processLightshareRefresh();
+	
 	LLUUID agent_id;
 	msg->getUUID("AgentData", "AgentID", agent_id);
 	if (agent_id != gAgent.getID())

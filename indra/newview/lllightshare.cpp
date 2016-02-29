@@ -21,45 +21,68 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lllightshare.h"
+#include "llviewergenericmessage.h"
 #include "llviewermessage.h"
 #include "llwaterparammanager.h"
 #include "llwlparammanager.h"
 #include "llenvmanager.h"
-#include "llviewercontrol.h"
-#include "llstatusbar.h"
+#include "lldispatcher.h"
+
+const std::string WINDLIGHT_MSG = LLStringExplicit("Windlight");
+const std::string WINDLIGHT_REFRRSH_MSG = LLStringExplicit("WindlightRefresh");
+
+class LLDispatchLightshare : public LLDispatchHandler
+{
+public:
+	virtual bool operator()(const LLDispatcher* dispatcher,
+							const std::string& key,
+							const LLUUID& invoice,
+							const sparam_t& strings)
+	{
+		if (key == WINDLIGHT_REFRRSH_MSG)
+		{
+			LLLightshare::getInstance()->processLightshareRefresh();
+		}
+		else if (key == WINDLIGHT_MSG)
+		{
+			if (strings.empty() && strings.size() > 1)
+			{
+				LL_INFOS("Lightshare") << "Invalid lightshare message region region! Discarding." << LL_ENDL;
+			}
+			LLLightshare::getInstance()->processLightshareParams(strings[0]);
+		}
+		else
+		{
+			llassert(key);
+			return false;
+		}
+		return true;
+	}
+};
+
+static LLDispatchLightshare sDispatchLightshare;
 
 LLLightshare::LLLightshare()
 :	mState(false)
 {
+	if(!gGenericDispatcher.isHandlerPresent(WINDLIGHT_MSG))
+	{
+		gGenericDispatcher.addHandler(WINDLIGHT_MSG, &sDispatchLightshare);
+	}
+	if(!gGenericDispatcher.isHandlerPresent(WINDLIGHT_REFRRSH_MSG))
+	{
+		gGenericDispatcher.addHandler(WINDLIGHT_REFRRSH_MSG, &sDispatchLightshare);
+	}
 }
 
-void LLLightshare::processLightshareMessage(LLMessageSystem* msg)
+void LLLightshare::processLightshareParams(const std::string& params)
 {
-	if (!msg) return;
-	
-	std::string method;
-	msg->getStringFast(_PREHASH_MethodData, _PREHASH_Method, method);
-	
-	if (method != "Windlight") return;
-	
-	S32 size = msg->getSizeFast(_PREHASH_ParamList, 0, _PREHASH_Parameter);
-	if (size < 0 || 250 < size) return;
-	
-	S32 count = msg->getNumberOfBlocksFast(_PREHASH_ParamList);
-	for (S32 i = 0; i < count; ++i)
-	{
-		size = msg->getSizeFast(_PREHASH_ParamList, i, _PREHASH_Parameter);
-		if (size >= 0)
-		{
-			char buffer[250];
-			msg->getBinaryDataFast(_PREHASH_ParamList, _PREHASH_Parameter, buffer, size, i, 249);
-			LightsharePacket* ls_packet = (LightsharePacket*)buffer; // <-- not byte-order safe!
+	LightsharePacket* ls_packet = (LightsharePacket*)params.c_str(); // <-- not byte-order safe!
 			
-			LL_INFOS() << "Received Lightshare message from the region, processing it." << LL_ENDL;
-			processWater(ls_packet);
-			processSky(ls_packet);
-		}
-	}
+	LL_DEBUGS("Lightshare") << "Received Lightshare message from the region, processing it." << LL_ENDL;
+	processWater(ls_packet);
+	processSky(ls_packet);
+	
 	setState(true);
 }
 
@@ -75,7 +98,6 @@ void LLLightshare::setState(const bool state)
 	mLightShareChangedSignal();
 }
 
-// static
 void LLLightshare::processSky(LightsharePacket* ls_packet)
 {
 	LLWLParamManager* wlparammgr = LLWLParamManager::getInstance();
@@ -114,7 +136,6 @@ void LLLightshare::processSky(LightsharePacket* ls_packet)
 	wlparammgr->propagateParameters();
 }
 
-// static
 void LLLightshare::processWater(LightsharePacket* ls_packet)
 {
 	LLWaterParamManager* wwparammgr = LLWaterParamManager::getInstance();

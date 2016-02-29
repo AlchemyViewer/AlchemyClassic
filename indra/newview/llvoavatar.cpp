@@ -3111,11 +3111,12 @@ LLColor4 LLVOAvatar::getNameTagColor(bool is_friend)
 void LLVOAvatar::idleUpdateBelowWater()
 {
 	F32 avatar_height = (F32)(getPositionGlobal().mdV[VZ]);
+	F32 water_height = getRegion()->getWaterHeight();
 
-	F32 water_height;
-	water_height = getRegion()->getWaterHeight();
-
-	mBelowWater =  avatar_height < water_height;
+	bool was_below_water = mBelowWater;
+	mBelowWater = avatar_height < water_height;
+	if (mBelowWater != was_below_water)
+		LLAOEngine::instance().checkBelowWater(mBelowWater);
 }
 
 void LLVOAvatar::slamPosition()

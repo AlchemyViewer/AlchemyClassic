@@ -28,6 +28,7 @@
 
 #include "lltextbox.h"
 #include "lllineeditor.h"
+#include "llpanel.h"
 #include "llresmgr.h" // for LLLocale
 #include "lltrans.h"
 #include "llviewercontrol.h"
@@ -43,7 +44,7 @@
 #include "llviewchildren.h"
 #include "llxmlrpctransaction.h"
 #include "llviewernetwork.h"
-#include "llpanel.h"
+#include "llviewerregion.h"
 
 // boost includes
 #include <boost/lexical_cast.hpp>
@@ -284,7 +285,9 @@ void LLCurrencyUIManager::Impl::startTransaction(TransactionType type,
 	static std::string transactionURI;
 	if (transactionURI.empty())
 	{
-		transactionURI = LLGridManager::getInstance()->getHelperURI() + "currency.php";
+		LLViewerRegion* region = gAgent.getRegion();
+		transactionURI = (region != nullptr) ? region->getBuyCurrencyServerURL()
+						 : LLGridManager::getInstance()->getHelperURI() + "currency.php";
 	}
 
 	delete mTransaction;

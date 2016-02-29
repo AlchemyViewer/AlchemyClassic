@@ -12,7 +12,7 @@
                 add_landmark_image_disabled="Favorite_Star_Off"
                 add_landmark_image_hover="Favorite_Star_Over"
                 add_landmark_image_selected="Favorite_Star_Press"
-		add_landmark_hpad="12"
+                add_landmark_hpad="12"
                 icon_hpad="2"
                 allow_text_entry="true"
                 list_position="below"
@@ -146,6 +146,14 @@
     top="21"
     follows="right|top"
     image_name="Parcel_SeeAVsOff_Light"
+    />
+  <lightshare_icon
+    name="lightshare_icon"
+    width="22"
+    height="18"
+    top="21"
+    follows="right|top"
+    image_name="Lightshare"
     />
   <combo_button
 		name="Location History"

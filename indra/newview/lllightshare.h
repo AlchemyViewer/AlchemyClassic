@@ -122,17 +122,20 @@ struct LightsharePacket
 class LLLightshare : public LLSingleton<LLLightshare>
 {
 	friend class LLSingleton<LLLightshare>;
+	friend class LLDispatchLightshare;
 	
 public:
 	LLLightshare();
 	~LLLightshare() {}
-	void processLightshareMessage(LLMessageSystem* msg);
 	void processLightshareRefresh();
 	bool getState() const { return mState; };
 	
+protected:
+	void processLightshareParams(const std::string& params);
+	
 private:
-	static void processWater(LightsharePacket* ls_packet);
-	static void processSky(LightsharePacket* ls_packet);
+	void processWater(LightsharePacket* ls_packet);
+	void processSky(LightsharePacket* ls_packet);
 	void setState(const bool state);
 
 	bool mState;

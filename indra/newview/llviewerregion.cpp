@@ -2148,12 +2148,21 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 	if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		setGodnames();
-		if (mSimulatorFeatures.has("OpenSimExtras")
-			&& mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
+		if (mSimulatorFeatures.has("OpenSimExtras"))
 		{
-			const std::string& grid_url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
-			if (LLGridManager::getInstance()->getGrid(LLURI(grid_url).authority()).empty())
-				LLGridManager::getInstance()->addRemoteGrid(grid_url, LLGridManager::ADD_HYPERGRID);
+			if (mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
+			{
+				const std::string& grid_url = mSimulatorFeatures["OpenSimExtras"]["GridURL"].asString();
+				if (LLGridManager::getInstance()->getGrid(LLURI(grid_url).authority()).empty())
+					LLGridManager::getInstance()->addRemoteGrid(grid_url, LLGridManager::ADD_HYPERGRID);
+			}
+			if (mSimulatorFeatures["OpenSimExtras"].has("currency"))
+			{
+				// *TODO: This
+				//const std::string& cur_symbol = mSimulatorFeatures["OpenSimExtras"]["currency"].asString();
+				//if (LLCurrencyWrapper::getCurrency() != cur_symbol)
+				//	LLCurrencyWrapper::setCurrency(cur_symbol);
+			}
 		}
 	}
 	setSimulatorFeaturesReceived(true);
@@ -3425,6 +3434,18 @@ std::string LLViewerRegion::getSearchServerURL() const
 	else
 	{
 		url = gSavedSettings.getString(LLGridManager::getInstance()->isInOpenSim() ? "OpenSimSearchURL" : "SearchURL");
+	}
+	return url;
+}
+
+std::string LLViewerRegion::getBuyCurrencyServerURL() const
+{
+	std::string url = LLGridManager::getInstance()->getHelperURI() + "currency.php";
+	// If we have the feature, override grid default.
+	if (mSimulatorFeatures.has("OpenSimExtras")
+		&& mSimulatorFeatures["OpenSimExtras"].has("currency-base-uri"))
+	{
+		url = mSimulatorFeatures["OpenSimExtras"]["currency-base-uri"].asString();
 	}
 	return url;
 }

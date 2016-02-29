@@ -408,6 +408,8 @@ public:
 	std::string getMapServerURL() const;
 	/// Hypergrid search server url
 	std::string getSearchServerURL() const;
+	/// Buy currency server url
+	std::string getBuyCurrencyServerURL() const;
 	/// Grid login/gateway authority (0.8.1)
 	std::string getHGGrid() const;
 	/// Grid name (0.8.1)

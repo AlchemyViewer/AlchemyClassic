@@ -47,7 +47,8 @@ public:
 		{
 			if (strings.empty() && strings.size() > 1)
 			{
-				LL_INFOS("Lightshare") << "Invalid lightshare message region region! Discarding." << LL_ENDL;
+				LL_INFOS("Lightshare") << "Invalid lightshare message! Discarding." << LL_ENDL;
+				return false;
 			}
 			LLLightshare::getInstance()->processLightshareParams(strings[0]);
 		}

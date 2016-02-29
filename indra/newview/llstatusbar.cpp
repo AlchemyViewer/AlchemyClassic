@@ -182,6 +182,7 @@ BOOL LLStatusBar::postBuild()
 	mBtnAO = getChild<LLButton>("ao_btn");
 	mBtnAO->setClickedCallback(onClickAOBtn, this);
 	mBtnAO->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterAO, this));
+	mBtnAO->setToggleState(gSavedPerAccountSettings.getBOOL("UseAO")); // shunt it into correct state - ALCH-368
 
 	mBtnVolume = getChild<LLButton>( "volume_btn" );
 	mBtnVolume->setClickedCallback( onClickVolume, this );

@@ -21,6 +21,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lllightshare.h"
+#include "llviewercontrol.h"
 #include "llviewergenericmessage.h"
 #include "llviewermessage.h"
 #include "llwaterparammanager.h"
@@ -78,6 +79,7 @@ LLLightshare::LLLightshare()
 
 void LLLightshare::processLightshareParams(const std::string& params)
 {
+	if (!gSavedSettings.getBool("UseEnvironmentFromRegion")) return;
 	LightsharePacket* ls_packet = (LightsharePacket*)params.c_str(); // <-- not byte-order safe!
 			
 	LL_DEBUGS("Lightshare") << "Received Lightshare message from the region, processing it." << LL_ENDL;

@@ -874,7 +874,7 @@
       <key>freetype</key>
       <map>
         <key>copyright</key>
-        <string>Copyright 2006-2015 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
+        <string>Copyright 2006-2016 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
         <key>description</key>
         <string>Font rendering library</string>
         <key>license</key>
@@ -930,11 +930,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>980d01acc3f88ed345dc20fc3e0ba6c0</string>
+              <string>e5be5197f12f9ca8078ba9ce4f1bce10</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/freetype-2.6.2-windows-201601151045.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/freetype-2.6.3-windows-201603011805.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -944,18 +944,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>80d268872b1e9209b8932390caacd550</string>
+              <string>e8c0acbe631d7a4cb1a2890b90e5bc8c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/freetype-2.6.2-windows64-201512130440.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/freetype-2.6.3-windows64-201603011807.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.6.2</string>
+        <string>2.6.3</string>
       </map>
       <key>glew</key>
       <map>

@@ -1964,7 +1964,7 @@
       <key>libpng</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 2004, 2006-2014 Glenn Randers-Pehrson</string>
+        <string>Copyright (c) 2004, 2006-2016 Glenn Randers-Pehrson</string>
         <key>description</key>
         <string>PNG Reference library</string>
         <key>license</key>
@@ -2020,11 +2020,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>28c4370ae17b7881a8604ff0ed6c204b</string>
+              <string>5e7b3ea13fec60f6c9a8965a390cfbd5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libpng-1.6.19-windows-201601151047.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/libpng-1.6.21-windows-201603011800.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2034,18 +2034,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a6646a596c1f015831c337605bb907e5</string>
+              <string>b2f166e496fc19958777c92ffd032331</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/libpng-1.6.19-windows64-201512122034.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/libpng-1.6.21-windows64-201603011809.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.19</string>
+        <string>1.6.21</string>
       </map>
       <key>libxml2</key>
       <map>

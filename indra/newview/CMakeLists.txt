@@ -1701,6 +1701,15 @@ set_source_files_properties(${viewer_APPSETTINGS_FILES}
 
 list(APPEND viewer_SOURCE_FILES ${viewer_APPSETTINGS_FILES})
 
+file(GLOB_RECURSE viewer_SHADER_FILES app_settings/shaders/*)
+
+source_group("Shaders" FILES ${viewer_SHADER_FILES})
+
+set_source_files_properties(${viewer_SHADER_FILES}
+                            PROPERTIES HEADER_FILE_ONLY TRUE)
+
+list(APPEND viewer_SOURCE_FILES ${viewer_SHADER_FILES})
+
 set(viewer_CHARACTER_FILES
     character/attentions.xml
     character/attentionsN.xml

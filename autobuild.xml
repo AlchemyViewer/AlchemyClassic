@@ -392,7 +392,7 @@
       <key>curl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1996 - 2015, Daniel Stenberg, (daniel@haxx.se).</string>
+        <string>Copyright (c) 1996 - 2016, Daniel Stenberg, (daniel@haxx.se).</string>
         <key>description</key>
         <string>Library for transferring data specified with URL syntax</string>
         <key>license</key>
@@ -448,11 +448,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>edeb99f22363e6c7dde1ade2d2810246</string>
+              <string>4b04377a8abb3d00e183679401c7bc25</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/curl-7.47.0-windows-201601291530.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/curl-7.47.1-windows-201603020257.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -462,11 +462,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c822bf688eaaa9524d821c8a9d72e1d7</string>
+              <string>3a6cfae6a0bf91b27c1f3cba66919b2e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/curl-7.47.0-windows64-201601291527.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/curl-7.47.1-windows64-201603020253.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -256,7 +256,7 @@ bool LLDate::fromStream(std::istream& s)
 	}
 	
 	// Isn't stdlib nice?
-	s.imbue(std::locale(sPrevLocale));
+	s.imbue(std::locale(sPrevLocale.c_str()));
 	s >> std::get_time(&time, "%Y-%m-%dT%H:%M:%S");
 	if (s.fail())
 	{

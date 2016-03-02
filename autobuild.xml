@@ -2774,7 +2774,7 @@
       <key>openssl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1998-2011 The OpenSSL Project.  All rights reserved; Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)</string>
+        <string>Copyright (c) 1998-2016 The OpenSSL Project.  All rights reserved; Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)</string>
         <key>description</key>
         <string>Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) Library</string>
         <key>license</key>
@@ -2830,11 +2830,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>835a1e2a994acd82a51d99e382de1549</string>
+              <string>91b9fa570258f627a9265452d9e65231</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openssl-1.0.2f-windows-201601291508.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/openssl-1.0.2g-windows-201603011823.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2844,11 +2844,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5aae87070da31ed959585ca641ba3ad9</string>
+              <string>ec86d96ffcbdc10e715e27b4b0bbda43</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/openssl-1.0.2f-windows64-201601291450.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/openssl-1.0.2g-windows64-201603011842.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

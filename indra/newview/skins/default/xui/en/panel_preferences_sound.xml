@@ -340,7 +340,7 @@
      height="20"
      layout="topleft"
      left="29"
-     name="play_sound_helper"
+     name="sound_quality_helper"
      width="100"
      top_pad="5">
       Sound Quality:

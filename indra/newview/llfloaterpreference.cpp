@@ -91,6 +91,7 @@
 
 // project includes
 
+#include "llaudioengine.h"
 #include "llbutton.h"
 #include "llflexibleobject.h"
 #include "lllineeditor.h"
@@ -341,6 +342,7 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	mGotPersonalInfo(false),
 	mOriginalIMViaEmail(false),
 	mLanguageChanged(false),
+	mSoundQualityChanged(false),
 	mAvatarDataInitialized(false),
 	mClickActionDirty(false)
 {
@@ -492,6 +494,8 @@ BOOL LLFloaterPreference::postBuild()
 	getChild<LLUICtrl>("log_path_string")->setEnabled(FALSE); // make it read-only but selectable
 
 	getChild<LLComboBox>("language_combobox")->setCommitCallback(boost::bind(&LLFloaterPreference::onLanguageChange, this));
+
+	getChild<LLComboBox>("sound_quality_combo")->setCommitCallback(boost::bind(&LLFloaterPreference::onSoundQualityChange, this));
 
 	getChild<LLComboBox>("FriendIMOptions")->setCommitCallback(boost::bind(&LLFloaterPreference::onNotificationsChange, this,"FriendIMOptions"));
 	getChild<LLComboBox>("NonFriendIMOptions")->setCommitCallback(boost::bind(&LLFloaterPreference::onNotificationsChange, this,"NonFriendIMOptions"));
@@ -1124,6 +1128,9 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 	// Forget previous language changes.
 	mLanguageChanged = false;
 
+	// Forget previous sound quality changes.
+	mSoundQualityChanged = false;
+
 	// Display selected maturity icons.
 	onChangeMaturity();
 	
@@ -1568,7 +1575,12 @@ void LLFloaterPreference::refreshEnabledState()
 	enabled = enabled && LLFeatureManager::getInstance()->isFeatureAvailable("RenderShadowDetail");
 
 	ctrl_shadow->setEnabled(enabled);
-	
+
+	// No sound quality if we're not using fmod
+	if (gAudiop->getDriverName(false) == "FMOD Studio")
+	{
+		getChild<LLComboBox>("sound_quality_combo")->setEnabled(TRUE);
+	}
 
 	// now turn off any features that are unavailable
 	disableUnavailableSettings();
@@ -1725,6 +1737,11 @@ void LLFloaterPreference::disableUnavailableSettings()
 	{
 		ctrl_avatar_impostors->setEnabled(FALSE);
 		ctrl_avatar_impostors->setValue(FALSE);
+	}
+
+	if (gAudiop->getDriverName(false) != "FMOD Studio")
+	{
+		getChild<LLComboBox>("sound_quality_combo")->setEnabled(FALSE);
 	}
 }
 
@@ -2075,6 +2092,18 @@ void LLFloaterPreference::onClickActionChange()
 void LLFloaterPreference::onClickPermsDefault()
 {
 	LLFloaterReg::showInstance("perms_default");
+}
+
+// Called when user changes sound quality via the combobox.
+void LLFloaterPreference::onSoundQualityChange()
+{
+	// Let the user know that the change will only take effect after restart.
+	// Do it only once so that we're not too irritating.
+	if (!mSoundQualityChanged)
+	{
+		LLNotificationsUtil::add("ChangeSoundQuality");
+		mSoundQualityChanged = true;
+	}
 }
 
 void LLFloaterPreference::onDeleteTranscripts()

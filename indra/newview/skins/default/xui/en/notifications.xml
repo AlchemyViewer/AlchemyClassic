@@ -11364,4 +11364,12 @@ The LSL script to create this particle system has been copied to your clipboard.
     type="notify">
     [NAME] has given you permission to find their location on the map.
   </notification>
+  
+    <notification
+   icon="alertmodal.tga"
+   name="ChangeSoundQuality"
+   type="alertmodal">
+Changing sound quality will take effect after you restart [APP_NAME].
+  </notification>
+  
 </notifications>

@@ -133,8 +133,6 @@ public:
 
 	void onClickSetCache();
 	void onClickResetCache();
-	void onClickSkin(LLUICtrl* ctrl,const LLSD& userdata);
-	void onSelectSkin();
 	void onClickSetKey();
 	void setKey(KEY key);
 	void onClickSetMiddleMouse();
@@ -157,10 +155,6 @@ public:
 	void updateSliderText(LLSliderCtrl* ctrl, LLTextBox* text_box);
 	void refreshUI();
 
-	void onCommitParcelMediaAutoPlayEnable();
-	void onCommitMediaEnabled();
-	void onCommitMusicEnabled();
-	void applyResolution();
 	void onChangeMaturity();
 	void onClickBlockList();
 	void onClickProxySettings();
@@ -176,6 +170,7 @@ public:
 	void selectPanel(const LLSD& name);
 
 private:
+	void onSoundQualityChange();
 
 	void onDeleteTranscripts();
 	void onDeleteTranscriptsResponse(const LLSD& notification, const LLSD& response);
@@ -205,6 +200,7 @@ private:
 	bool mGotPersonalInfo;
 	bool mOriginalIMViaEmail;
 	bool mLanguageChanged;
+	bool mSoundQualityChanged;
 	bool mAvatarDataInitialized;
 	std::string mPriorInstantMessageLogPath;
 	

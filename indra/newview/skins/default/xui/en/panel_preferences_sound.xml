@@ -333,6 +333,40 @@
 		name="enable_voice_check"
 		width="110"/>
 	<!-- -->
+    <text
+     type="string"
+     length="1"
+     follows="left|top"
+     height="20"
+     layout="topleft"
+     left="29"
+     name="play_sound_helper"
+     width="100"
+     top_pad="5">
+      Sound Quality:
+    </text>
+    <combo_box
+     top_delta="-1"
+     left_pad="5"
+     control_name="FMODResampleMethod"
+     follows="left|top"
+     height="20"
+     layout="topleft"
+     name="sound_quality_combo"
+     width="120">
+        <combo_box.item
+         label="Low"
+         name="Low Quality"
+         value="0" />
+        <combo_box.item
+         label="Medium"
+         name="Medium Quality"
+         value="1" />
+        <combo_box.item
+         label="High"
+         name="High Quality"
+         value="2" />
+    </combo_box>
 	<check_box
         name="ShowStreamInfo"
         control_name="ShowStreamInfo"
@@ -340,7 +374,7 @@
         height="15"
         tool_tip="Show audio stream metadata"
         label="Show audio stream notifications"
-        top_pad="1"
+        top_pad="2"
         left="25"/>
 	<check_box
 		name="media_auto_play_btn"

@@ -190,6 +190,10 @@ LLWString LLChatUtilities::stripChannelNumber(const LLWString &mesg, S32* channe
 
 void LLChatUtilities::applyMUPose(std::string& text)
 {
+	static LLCachedControl<bool> useMUPose(gSavedSettings, "AlchemyChatMUPose", false);
+	if (!useMUPose)
+		return;
+
 	if (text.at(0) == ':'
 		&& text.length() > 3)
 	{

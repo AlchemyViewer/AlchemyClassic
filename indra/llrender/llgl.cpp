@@ -231,7 +231,7 @@ void LLGLManager::initWGL()
 	GLenum err = wglewInit();
 	if (GLEW_OK != err)
 	{
-		LL_ERRS("RenderInit") << "GLEW WGL Extension init failure." << LL_ENDL;
+		LL_WARNS("RenderInit") << "GLEW WGL Extension init failure." << LL_ENDL;
 	}
 
 	if (!WGLEW_ARB_pixel_format)
@@ -276,7 +276,8 @@ bool LLGLManager::initGL()
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
-		LL_ERRS("RenderInit") << "GLEW Extension init failure." << LL_ENDL;
+		LL_WARNS("RenderInit") << "GLEW Extension init failure." << LL_ENDL;
+		return false;
 	}
 	stop_glerror();
 #endif

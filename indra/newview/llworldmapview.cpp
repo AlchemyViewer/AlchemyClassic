@@ -464,9 +464,24 @@ void LLWorldMapView::draw()
 				mesg = llformat( "%s (%s) (%s)", info->getName().c_str(), sStringsMap["offline"].c_str(), info->getShortAccessString().c_str());
 			}
 			// <alchemy>
-			else if (mapShowAgentCount && info->getAgentCount())
+			else if (mapShowAgentCount)
 			{
-				mesg = llformat( "%s (%d) (%s)", info->getName().c_str(), info->getAgentCount(), info->getShortAccessString().c_str());
+				// Not very elegant, but it works.
+				S32 agent_count = info->getAgentCount();
+				LLViewerRegion *region = gAgent.getRegion();
+				if (region->getHandle() == handle)
+				{
+					++agent_count; // Bump by 1 if we're here
+				}
+				// This prevents showing '(0)'
+				if (agent_count)
+				{
+					mesg = llformat( "%s (%d) (%s)", info->getName().c_str(), agent_count, info->getShortAccessString().c_str());
+				}
+				else
+				{
+					mesg = llformat("%s (%s)", info->getName().c_str(), info->getShortAccessString().c_str());
+				}
 			}
 			// </alchemy>
 			else

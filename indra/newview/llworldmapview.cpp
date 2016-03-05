@@ -467,7 +467,7 @@ void LLWorldMapView::draw()
 			{
 				S32 agent_count = info->getAgentCount();
 				LLViewerRegion *region = gAgent.getRegion();
-				if (region->getHandle() == handle)
+				if (region && (region->getHandle() == handle))
 				{
 					++agent_count; // Bump by 1 if we're here
 				}
@@ -480,14 +480,12 @@ void LLWorldMapView::draw()
 			{
 				mesg = llformat( "%s (%s)", info->getName().c_str(), info->getShortAccessString().c_str());
 			}
-			if (!mesg.empty())
-			{
-				font->renderUTF8(
-					mesg, 0,
-					llfloor(left + 3), llfloor(bottom + 2),
-					LLColor4::white,
-					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::DROP_SHADOW);
-			}
+
+			font->renderUTF8(
+				mesg, 0,
+				llfloor(left + 3), llfloor(bottom + 2),
+				LLColor4::white,
+				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::DROP_SHADOW);
 		}
 	}
 

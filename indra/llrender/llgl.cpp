@@ -102,7 +102,10 @@ void APIENTRY gl_debug_callback(GLenum source,
 #endif
 
 void parse_glsl_version(S32& major, S32& minor);
+
+#if GL_VERSION_3_0
 std::string parse_gl_ext_to_str(F32 glversion);
+#endif // GL_VERSION_3_0
 
 void ll_init_fail_log(std::string filename)
 {
@@ -531,7 +534,7 @@ void LLGLManager::getGLInfo(LLSD& info)
 		info["GLInfo"]["GLVersion"] = std::string((const char *)glGetString(GL_VERSION));
 	}
 
-#if !LL_MESA_HEADLESS
+#if defined(GL_VERSION_3_0) && !LL_MESA_HEADLESS
 	std::string all_exts = parse_gl_ext_to_str(mGLVersion);
 	boost::char_separator<char> sep(" ");
 	boost::tokenizer<boost::char_separator<char> > tok(all_exts, sep);
@@ -559,7 +562,7 @@ std::string LLGLManager::getGLInfoString()
 		info_str += std::string("GL_VERSION     ") + ll_safe_string((const char *)glGetString(GL_VERSION)) + std::string("\n");
 	}
 
-#if !LL_MESA_HEADLESS 
+#if defined(GL_VERSION_3_0) && !LL_MESA_HEADLESS
 	std::string all_exts = parse_gl_ext_to_str(mGLVersion);
 	LLStringUtil::replaceChar(all_exts, ' ', '\n');
 	info_str += std::string("GL_EXTENSIONS:\n") + all_exts + std::string("\n");
@@ -583,7 +586,7 @@ void LLGLManager::printGLInfoString()
 		LL_INFOS("RenderInit") << "GL_VERSION:    " << ((const char *)glGetString(GL_VERSION)) << LL_ENDL;
 	}
 
-#if !LL_MESA_HEADLESS
+#if defined(GL_VERSION_3_0) && !LL_MESA_HEADLESS
 	std::string all_exts = parse_gl_ext_to_str(mGLVersion);
 	LLStringUtil::replaceChar(all_exts, ' ', '\n');
 	LL_DEBUGS("RenderInit") << "GL_EXTENSIONS:\n" << all_exts << LL_ENDL;
@@ -1777,6 +1780,7 @@ void parse_glsl_version(S32& major, S32& minor)
 	LLStringUtil::convertToS32(minor_str, minor);
 }
 
+#if GL_VERSION_3_0
 std::string parse_gl_ext_to_str(F32 glversion)
 {
 	std::string ret;
@@ -1799,6 +1803,7 @@ std::string parse_gl_ext_to_str(F32 glversion)
 	}
 	return ret;
 }
+#endif // GL_VERSION_3_0
 
 LLGLUserClipPlane::LLGLUserClipPlane(const LLPlane& p, const glh::matrix4f& modelview, const glh::matrix4f& projection, bool apply)
 {

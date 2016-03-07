@@ -722,11 +722,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b8de0e7146e671c6cf1171f86a7b46a1</string>
+              <string>6548495a886b385c238167f4d5e6182d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.07.05-windows-201601151004.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.08.00-windows-201603070824.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -736,18 +736,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8b80c508ebb6cd923d3448ba6f48fe3c</string>
+              <string>b80d49fd91e407fc8ab8afb3fcb4b138</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.07.05-windows64-201601160255.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.00-windows64-201603070822.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.07.05</string>
+        <string>1.08.00</string>
       </map>
       <key>fontconfig</key>
       <map>

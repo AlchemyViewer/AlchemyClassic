@@ -90,12 +90,7 @@ static const F32 MEM_INFO_THROTTLE = 20;
 static const F32 MEM_INFO_WINDOW = 10*60;
 
 #if LL_WINDOWS
-
 #pragma warning(disable : 4996)
-
-#ifndef _WIN32_WINNT_WIN10
-#define _WIN32_WINNT_WIN10 0x0A00
-#endif
 #endif // LL_WINDOWS
 
 // Wrap boost::regex_match() with a function that doesn't throw.
@@ -137,7 +132,7 @@ LLOSInfo::LLOSInfo() :
 #if LL_WINDOWS
 	bool is_server = IsWindowsServer();
 	std::string service_pack;
-	if (IsWindowsVersionOrGreater(HIBYTE(_WIN32_WINNT_WIN10), LOBYTE(_WIN32_WINNT_WIN10), 0))
+	if (IsWindows10OrGreater())
 	{
 		if (is_server)
 		{

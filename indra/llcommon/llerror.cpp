@@ -964,15 +964,14 @@ namespace {
 	bool checkLevelMap(const LevelMap& map, const std::string& key,
 						LLError::ELevel& level)
 	{
-		bool stop_checking;
 		LevelMap::const_iterator i = map.find(key);
 		if (i == map.end())
 		{
-			return stop_checking = false;
+			return false;
 		}
 		
-			level = i->second;
-		return stop_checking = true;
+		level = i->second;
+		return true;
 	}
 	
 	bool checkLevelMap(	const LevelMap& map, 

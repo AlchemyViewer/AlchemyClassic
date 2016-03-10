@@ -372,41 +372,6 @@ S32 LLViewerShaderMgr::getVertexShaderLevel(S32 type)
 
 //============================================================================
 // Shader Management
-void cleanup_shader_src()
-{
-	if (!LLShaderMgr::instance()->mProgramObjects.empty())
-	{	
-		for (auto iter = LLShaderMgr::instance()->mProgramObjects.cbegin(),
-			iter_end = LLShaderMgr::instance()->mProgramObjects.cend(); iter != iter_end; iter++)
-		{
-			GLuint program = iter->second;
-			GLuint shaders[1024] = {};
-			GLsizei count = -1;
-			glGetAttachedShaders(program, 1024, &count, shaders);
-			if (count > 0)
-			{
-				for (GLsizei i = 0; i < count; ++i)
-				{
-					if (glIsShader(shaders[i]))
-					{
-						glDetachShader(program, shaders[i]);
-					}
-				}
-			}
-		}
-		LLShaderMgr::instance()->mProgramObjects.clear();
-	}
-	if (!LLShaderMgr::instance()->mShaderObjects.empty())
-	{
-		for (auto iter = LLShaderMgr::instance()->mShaderObjects.cbegin(),
-			iter_end = LLShaderMgr::instance()->mShaderObjects.cend(); iter != iter_end; ++iter)
-		{
-			if (iter->second.mHandle && glIsShader(iter->second.mHandle))
-				glDeleteShader(iter->second.mHandle);
-		}
-		LLShaderMgr::instance()->mShaderObjects.clear();
-	}
-}
 
 void LLViewerShaderMgr::setShaders()
 {
@@ -443,8 +408,7 @@ void LLViewerShaderMgr::setShaders()
 	LLShaderMgr::instance()->mDefinitions["NUM_TEX_UNITS"] = llformat("%d", gGLManager.mNumTextureImageUnits);
 	
 	// Make sure the compiled shader map is cleared before we recompile shaders.
-	LLShaderMgr::instance()->mProgramObjects.clear();
-	LLShaderMgr::instance()->mShaderObjects.clear();
+	LLShaderMgr::instance()->cleanupShaderSources();
 	
 	initAttribsAndUniforms();
 	gPipeline.releaseGLBuffers();
@@ -638,8 +602,8 @@ void LLViewerShaderMgr::setShaders()
 				if (gSavedSettings.getBOOL("WindLightUseAtmosShaders"))
 				{ //disable windlight and try again
 					gSavedSettings.setBOOL("WindLightUseAtmosShaders", FALSE);
+					unloadShaders();
 					reentrance = false;
-					cleanup_shader_src();
 					setShaders();
 					return;
 				}
@@ -647,8 +611,8 @@ void LLViewerShaderMgr::setShaders()
 				if (gSavedSettings.getBOOL("VertexShaderEnable"))
 				{ //disable shaders outright and try again
 					gSavedSettings.setBOOL("VertexShaderEnable", FALSE);
+					unloadShaders();
 					reentrance = false;
-					cleanup_shader_src();
 					setShaders();
 					return;
 				}
@@ -657,13 +621,12 @@ void LLViewerShaderMgr::setShaders()
 			if (loaded && !loadShadersDeferred())
 			{ //everything else succeeded but deferred failed, disable deferred and try again
 				gSavedSettings.setBOOL("RenderDeferred", FALSE);
+				unloadShaders();
 				reentrance = false;
-				cleanup_shader_src();
 				setShaders();
 				return;
 			}
-
-			cleanup_shader_src();
+			LLShaderMgr::instance()->cleanupShaderSources();
 		}
 		else
 		{

@@ -982,7 +982,49 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	return ret;
 }
 
-BOOL LLShaderMgr::linkProgramObject(GLuint obj, BOOL suppress_errors) 
+void LLShaderMgr::cleanupShaderSources()
+{
+	if (!mProgramObjects.empty())
+	{
+		for (auto iter = mProgramObjects.cbegin(),
+			iter_end = mProgramObjects.cend(); iter != iter_end; ++iter)
+		{
+			GLuint program = iter->second;
+			if (program > 0 && glIsProgram(program))
+			{
+				GLuint shaders[1024] = {};
+				GLsizei count = -1;
+				glGetAttachedShaders(program, 1024, &count, shaders);
+				if (count > 0)
+				{
+					for (GLsizei i = 0; i < count; ++i)
+					{
+						if (glIsShader(shaders[i]))
+						{
+							glDetachShader(program, shaders[i]);
+						}
+					}
+				}
+			}
+			mProgramObjects.clear();
+		}
+		if (!mShaderObjects.empty())
+		{
+			for (auto iter = mShaderObjects.cbegin(),
+				iter_end = mShaderObjects.cend(); iter != iter_end; ++iter)
+			{
+				GLuint shader = iter->second.mHandle;
+				if (shader > 0 && glIsShader(shader))
+				{
+					glDeleteShader(shader);
+				}
+			}
+			mShaderObjects.clear();
+		}
+	}
+}
+
+BOOL LLShaderMgr::linkProgram(GLuint program, BOOL suppress_errors) 
 {
 	//check for errors
 	glLinkProgram(obj);

@@ -384,6 +384,7 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
     //purge the old program
     if (mProgramObject)
         glDeleteProgram(mProgramObject);
+
     // Create program
     mProgramObject = glCreateProgram();
     
@@ -477,14 +478,14 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
         unbind();
     }
 
-	if (LLShaderMgr::instance()->mProgramObjects.find(mName) == LLShaderMgr::instance()->mProgramObjects.end())
-	{
-		LLShaderMgr::instance()->mProgramObjects[mName] = mProgramObject;
-	}
-	else
-	{
-		LL_WARNS("ShaderLoading") << "Attempting to create shader program with duplicate name: " << mName << LL_ENDL;
-	}
+    if (LLShaderMgr::instance()->mProgramObjects.find(mName) == LLShaderMgr::instance()->mProgramObjects.end())
+    {
+        LLShaderMgr::instance()->mProgramObjects.emplace(mName, mProgramObject);
+    }
+    else
+    {
+        LL_WARNS("ShaderLoading") << "Attempting to create shader program with duplicate name: " << mName << LL_ENDL;
+    }
 
     return success;
 }
@@ -827,7 +828,7 @@ BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 
 BOOL LLGLSLShader::link(BOOL suppress_errors)
 {
-    BOOL success = LLShaderMgr::instance()->linkProgramObject(mProgramObject, suppress_errors);
+    BOOL success = LLShaderMgr::instance()->linkProgram(mProgramObject, suppress_errors);
 
     if (!suppress_errors)
     {

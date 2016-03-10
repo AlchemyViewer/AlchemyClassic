@@ -508,6 +508,7 @@ static std::string get_shader_log(GLuint ret)
 	}
 	return res;
 }
+
 static std::string get_program_log(GLuint ret)
 {
 	std::string res;
@@ -588,7 +589,7 @@ void LLShaderMgr::dumpProgramLog(GLuint ret, BOOL warns, const std::string& file
 			LL_INFOS("ShaderLoading") << log << LL_ENDL;
 		}
 	}
- }
+}
 
 GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_level, GLenum type, boost::unordered_map<std::string, std::string>* defines, S32 texture_index_channels)
 {
@@ -746,7 +747,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 		for (boost::unordered_map<std::string,std::string>::iterator iter = defines->begin(); iter != defines->end(); ++iter)
 		{
 			std::string define = "#define " + iter->first + " " + iter->second + "\n";
-			text[count++] = (GLchar *) strdup(define.c_str());
+			text[count++] = (GLchar*) strdup(define.c_str());
 		}
 	}
 
@@ -852,7 +853,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	//copy file into memory
 	while( fgets((char *)buff, 1024, file) != NULL && count < LL_ARRAY_SIZE(text) ) 
 	{
-		text[count++] = (GLchar *)strdup((char *)buff); 
+		text[count++] = (GLchar*)strdup((char *)buff); 
 	}
 	fclose(file);
 
@@ -863,7 +864,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 		error = glGetError();
 		if (error != GL_NO_ERROR)
 		{
-			LL_WARNS("ShaderLoading") << "GL ERROR in glCreateShaderObjectARB: " << error << LL_ENDL;
+			LL_WARNS("ShaderLoading") << "GL ERROR in glCreateShader: " << error << LL_ENDL;
 			glDeleteShader(ret); //no longer need handle
 			ret=0;
 		}
@@ -879,7 +880,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			error = glGetError();
 			if (error != GL_NO_ERROR)
 			{
-				LL_WARNS("ShaderLoading") << "GL ERROR in glShaderSourceARB: " << error << LL_ENDL;
+				LL_WARNS("ShaderLoading") << "GL ERROR in glShaderSource: " << error << LL_ENDL;
 				glDeleteShader(ret); //no longer need handle
 				ret=0;
 			}
@@ -896,7 +897,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			error = glGetError();
 			if (error != GL_NO_ERROR)
 			{
-				LL_WARNS("ShaderLoading") << "GL ERROR in glCompileShaderARB: " << error << LL_ENDL;
+				LL_WARNS("ShaderLoading") << "GL ERROR in glCompileShader: " << error << LL_ENDL;
 				glDeleteShader(ret); //no longer need handle
 				ret=0;
 			}
@@ -1027,9 +1028,9 @@ void LLShaderMgr::cleanupShaderSources()
 BOOL LLShaderMgr::linkProgram(GLuint program, BOOL suppress_errors) 
 {
 	//check for errors
-	glLinkProgram(obj);
+	glLinkProgram(program);
 	GLint success = GL_TRUE;
-	glGetProgramiv(obj, GL_LINK_STATUS, &success);
+	glGetProgramiv(program, GL_LINK_STATUS, &success);
 	if (!suppress_errors && success == GL_FALSE) 
 	{
 		//an error occured, print log
@@ -1045,7 +1046,7 @@ BOOL LLShaderMgr::linkProgram(GLuint program, BOOL suppress_errors)
 		// per Apple's suggestion
 		LLGLSLShader::sNoFixedFunction = false;
 		
-		glUseProgram(obj);
+		glUseProgram(program);
 
 		gGL.begin(LLRender::TRIANGLES);
 		gGL.vertex3f(0.0f, 0.0f, 0.0f);
@@ -1073,7 +1074,7 @@ BOOL LLShaderMgr::linkProgram(GLuint program, BOOL suppress_errors)
 	}
 
 #else
-	std::string log = get_program_log(obj);
+	std::string log = get_program_log(program);
 	LLStringUtil::toLower(log);
 	if (log.find("software") != std::string::npos)
 	{
@@ -1085,20 +1086,20 @@ BOOL LLShaderMgr::linkProgram(GLuint program, BOOL suppress_errors)
 	return success;
 }
 
-BOOL LLShaderMgr::validateProgramObject(GLuint obj)
+BOOL LLShaderMgr::validateProgramObject(GLuint program)
 {
 	//check program validity against current GL
-	glValidateProgram(obj);
+	glValidateProgram(program);
 	GLint success = GL_TRUE;
-	glGetProgramiv(obj, GL_VALIDATE_STATUS, &success);
+	glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
 	if (success == GL_FALSE)
 	{
 		LL_WARNS("ShaderLoading") << "GLSL program not valid: " << LL_ENDL;
-		dumpProgramLog(obj);
+		dumpProgramLog(program);
 	}
 	else
 	{
-		dumpProgramLog(obj, FALSE);
+		dumpProgramLog(program, FALSE);
 	}
 
 	return success;

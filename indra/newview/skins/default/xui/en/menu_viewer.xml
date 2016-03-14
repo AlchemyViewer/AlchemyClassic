@@ -1474,17 +1474,17 @@
 		<menu_item_separator/>
         <menu_item_call
              label="[APP_NAME] Website"
-             name="Alchemy Issue Tracker">
+             name="Alchemy Website">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
                  parameter="http://www.alchemyviewer.org"/>
         </menu_item_call>  
         <menu_item_call
-             label="[APP_NAME] BitBucket"
-             name="Alchemy Issue Tracker">
+             label="[APP_NAME] Repository"
+             name="Alchemy Repository">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="http://code.alchemyviewer.org"/>
+                 parameter="https://bitbucket.org/alchemyviewer/"/>
         </menu_item_call>  
         <menu_item_call
              label="[APP_NAME] Issue Tracker"

@@ -1870,7 +1870,7 @@ void LLPanelObject::refreshLimits()
 	mUpdateLimits = false;
 
 	mRegionMaxHeight = LLWorld::getInstance()->getRegionMaxHeight();
-	mRegionMaxDepth = LLGridManager::getInstance()->isInOpenSimulator() ? 256.f : 0.f; // OpenSim is derp
+	mRegionMaxDepth = LLGridManager::getInstance()->isInOpenSimulator() ? -256.f : 0.f; // OpenSim is derp
 	mCtrlPosZ->setMaxValue(mRegionMaxHeight);
 	mMinScale = LLWorld::getInstance()->getRegionMinPrimScale();
 	mMaxScale = LLWorld::getInstance()->getRegionMaxPrimScale();

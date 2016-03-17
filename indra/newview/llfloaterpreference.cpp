@@ -1577,7 +1577,7 @@ void LLFloaterPreference::refreshEnabledState()
 	ctrl_shadow->setEnabled(enabled);
 
 	// No sound quality if we're not using fmod
-	if (gAudiop->getDriverName(false) == "FMOD Studio")
+	if (gAudiop && gAudiop->getDriverName(false) == "FMOD Studio")
 	{
 		getChild<LLComboBox>("sound_quality_combo")->setEnabled(TRUE);
 	}

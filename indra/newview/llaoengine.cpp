@@ -211,9 +211,9 @@ void LLAOEngine::checkBelowWater(const bool under)
 	// only restart underwater/above water motion if the overridden motion is the one currently playing
 	if (mLastMotion != mLastOverriddenMotion) return;
 
-	gAgent.sendAnimationRequest(overRide(mLastOverriddenMotion, false), ANIM_REQUEST_STOP);
+	gAgent.sendAnimationRequest(override(mLastOverriddenMotion, false), ANIM_REQUEST_STOP);
 	mUnderWater = under;
-	gAgent.sendAnimationRequest(overRide(mLastOverriddenMotion, true), ANIM_REQUEST_START);
+	gAgent.sendAnimationRequest(override(mLastOverriddenMotion, true), ANIM_REQUEST_START);
 }
 
 void LLAOEngine::enable(const bool enable)
@@ -240,7 +240,7 @@ void LLAOEngine::enable(const bool enable)
 				gAgent.sendAnimationRequest(mLastOverriddenMotion, ANIM_REQUEST_STOP);
 			}
 
-			LLUUID animation = overRide(mLastMotion, true);
+			LLUUID animation = override(mLastMotion, true);
 			if (animation.isNull()) return;
 
 			if (mLastMotion == ANIM_AGENT_STAND)
@@ -324,11 +324,11 @@ void LLAOEngine::setStateCycleTimer(const LLAOSet::AOState* state)
 	}
 }
 
-const LLUUID LLAOEngine::overRide(const LLUUID& pMotion, const bool start)
+const LLUUID LLAOEngine::override(const LLUUID& pMotion, const bool start)
 {
 	LL_DEBUGS("AOEngine") << "override(" << pMotion << "," << start << ")" << LL_ENDL;
 
-	LLUUID animation;
+	LLUUID animation = LLUUID::null;
 
 	LLUUID motion = pMotion;
 
@@ -1276,7 +1276,7 @@ void LLAOEngine::selectSet(LLAOSet* set)
 	if (mEnabled)
 	{
 		LL_DEBUGS("AOEngine") << "enabling with motion " << gAnimLibrary.animationName(mLastMotion) << LL_ENDL;
-		gAgent.sendAnimationRequest(overRide(mLastMotion, TRUE), ANIM_REQUEST_START);
+		gAgent.sendAnimationRequest(override(mLastMotion, TRUE), ANIM_REQUEST_START);
 	}
 }
 
@@ -1426,7 +1426,7 @@ void LLAOEngine::inMouselook(const bool in_mouselook)
 	else
 	{
 		stopAllStandVariants();
-		gAgent.sendAnimationRequest(overRide(ANIM_AGENT_STAND, TRUE), ANIM_REQUEST_START);
+		gAgent.sendAnimationRequest(override(ANIM_AGENT_STAND, TRUE), ANIM_REQUEST_START);
 	}
 }
 
@@ -1457,7 +1457,7 @@ void LLAOEngine::setOverrideSits(LLAOSet* set, const bool yes)
 	if (yes)
 	{
 		stopAllSitVariants();
-		gAgent.sendAnimationRequest(overRide(ANIM_AGENT_SIT, TRUE), ANIM_REQUEST_START);
+		gAgent.sendAnimationRequest(override(ANIM_AGENT_SIT, TRUE), ANIM_REQUEST_START);
 	}
 	else
 	{

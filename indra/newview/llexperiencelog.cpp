@@ -229,10 +229,25 @@ LLExperienceLog::~LLExperienceLog()
 
 void LLExperienceLog::eraseExpired()
 {
-	while(mEvents.size() > mMaxDays && mMaxDays > 0)
+	std::for_each(mEvents.beginMap(), mEvents.endMap(), [this](const auto& event_pair)
 	{
-		mEvents.erase(mEvents.beginMap()->first);
-	}
+		const std::string& date = event_pair.first;
+		if (isExpired(date))
+		{
+			mEvents.erase(date);
+		}
+	});
+}
+
+bool LLExperienceLog::isExpired(const std::string& date)
+{
+	S32 month, day, year = 0;
+	S32 matched = sscanf(date.c_str(), "%d-%d-%d", &year, &month, &day);
+	if (matched != 3) return false;
+	LLDate event_date;
+	event_date.fromYMDHMS(year, month, day);
+
+	return event_date.secondsSinceEpoch() <= (LLDate::now().secondsSinceEpoch() - F64(getMaxDays() * 86400U));
 }
 
 const LLSD& LLExperienceLog::getEvents() const
@@ -248,10 +263,6 @@ void LLExperienceLog::clear()
 void LLExperienceLog::setMaxDays( U32 val )
 {
 	mMaxDays = val;
-	if(mMaxDays > 0)
-	{
-		eraseExpired();
-	}
 }
 
 LLExperienceLog::callback_connection_t LLExperienceLog::addUpdateSignal( const callback_slot_t& cb )

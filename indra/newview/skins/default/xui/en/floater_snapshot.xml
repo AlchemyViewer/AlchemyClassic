@@ -9,6 +9,7 @@
  layout="topleft"
  name="Snapshot"
  single_instance="true"
+ reuse_instance="false"
  help_topic="snapshot"
  save_rect="true"
  save_visibility="false"

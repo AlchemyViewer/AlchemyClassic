@@ -65,10 +65,8 @@ public:
 	static const LLVector3d& getPosTakenGlobal();
 	static void setAgentEmail(const std::string& email);
 
-	static const LLRect& getThumbnailPlaceholderRect() { return sThumbnailPlaceholder->getRect(); }
-
 private:
-	static LLUICtrl* sThumbnailPlaceholder;
+	LLUICtrl* mThumbnailPlaceholder;
 	LLUICtrl *mRefreshBtn, *mRefreshLabel;
 	LLUICtrl *mSucceessLblPanel, *mFailureLblPanel;
 

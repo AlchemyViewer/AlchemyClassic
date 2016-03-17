@@ -52,7 +52,6 @@
 ///----------------------------------------------------------------------------
 /// Local function declarations, constants, enums, and typedefs
 ///----------------------------------------------------------------------------
-LLUICtrl* LLFloaterSnapshot::sThumbnailPlaceholder = NULL;
 LLSnapshotFloaterView* gSnapshotFloaterView = NULL;
 
 const F32 AUTO_SNAPSHOT_TIME_DELAY = 1.f;
@@ -1043,6 +1042,7 @@ void LLFloaterSnapshot::Impl::onSendingPostcardFinished(bool status)
 // Default constructor
 LLFloaterSnapshot::LLFloaterSnapshot(const LLSD& key)
 	: LLFloater(key),
+	  mThumbnailPlaceholder(NULL),
 	  mRefreshBtn(NULL),
 	  mRefreshLabel(NULL),
 	  mSucceessLblPanel(NULL),
@@ -1107,7 +1107,7 @@ BOOL LLFloaterSnapshot::postBuild()
 	LLWebProfile::setImageUploadResultCallback(boost::bind(&LLFloaterSnapshot::Impl::onSnapshotUploadFinished, _1));
 	LLPostCard::setPostResultCallback(boost::bind(&LLFloaterSnapshot::Impl::onSendingPostcardFinished, _1));
 
-	sThumbnailPlaceholder = getChild<LLUICtrl>("thumbnail_placeholder");
+	mThumbnailPlaceholder = getChild<LLUICtrl>("thumbnail_placeholder");
 
 	// create preview window
 	LLRect full_screen_rect = getRootView()->getRect();
@@ -1138,7 +1138,7 @@ BOOL LLFloaterSnapshot::postBuild()
 	impl.updateLayout(this);
 	
 
-	previewp->setThumbnailPlaceholderRect(getThumbnailPlaceholderRect());
+	previewp->setThumbnailPlaceholderRect(mThumbnailPlaceholder->getRect());
 
 	return TRUE;
 }
@@ -1155,12 +1155,12 @@ void LLFloaterSnapshot::draw()
 
 	LLFloater::draw();
 
-	if (previewp && !isMinimized() && sThumbnailPlaceholder->getVisible())
+	if (previewp && !isMinimized() && mThumbnailPlaceholder->getVisible())
 	{		
 		if(previewp->getThumbnailImage())
 		{
 			bool working = impl.getStatus() == Impl::STATUS_WORKING;
-			const LLRect& thumbnail_rect = getThumbnailPlaceholderRect();
+			const LLRect& thumbnail_rect = mThumbnailPlaceholder->getRect();
 			const S32 thumbnail_w = previewp->getThumbnailWidth();
 			const S32 thumbnail_h = previewp->getThumbnailHeight();
 
@@ -1184,7 +1184,7 @@ void LLFloaterSnapshot::draw()
 
 			gGL.pushUIMatrix();
 			LLUI::translate((F32) thumbnail_rect.mLeft, (F32) thumbnail_rect.mBottom);
-			sThumbnailPlaceholder->draw();
+			mThumbnailPlaceholder->draw();
 			gGL.popUIMatrix();
 		}
 	}

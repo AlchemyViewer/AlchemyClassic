@@ -29,6 +29,8 @@
 #ifndef LL_LLEXPERIENCELOG_H
 #define LL_LLEXPERIENCELOG_H
 
+#include "llsingleton.h"
+
 class LLExperienceLog : public LLSingleton<LLExperienceLog>
 {
 public:
@@ -57,6 +59,7 @@ public:
 	static void notify(LLSD& message);
 	static std::string getFilename();
 	static std::string getPermissionString(const LLSD& message, const std::string& base);
+	bool isExpired(const std::string& date);
 protected:
 	LLExperienceLog();
 	void handleExperienceMessage(LLSD& message);

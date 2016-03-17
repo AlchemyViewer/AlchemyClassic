@@ -1253,7 +1253,10 @@ class LLAdvancedToggleWireframe : public view_listener_t
 	{
 		gUseWireframe = !(gUseWireframe);
 		gWindowResized = TRUE;
+
 		LLPipeline::updateRenderDeferred();
+		gPipeline.releaseGLBuffers();
+		gPipeline.createGLBuffers();
 		gPipeline.resetVertexBuffers();
 		return true;
 	}

@@ -119,6 +119,11 @@ void LLPanelExperienceLog::refresh()
 		do
 		{
 			--day;
+			const std::string& date = day->first;
+			if (LLExperienceLog::instance().isExpired(date))
+			{
+				continue;
+			}
 			const LLSD& dayArray = day->second;
 			int size = dayArray.size();
 			if(itemsToSkip > size)
@@ -237,12 +242,8 @@ void LLPanelExperienceLog::notifyChanged()
 void LLPanelExperienceLog::logSizeChanged()
 {
 	int value = (int)(getChild<LLSpinCtrl>("logsizespinner")->get());
-	bool dirty = value > 0 && value < LLExperienceLog::instance().getMaxDays();
 	LLExperienceLog::instance().setMaxDays(value);
-	if(dirty)
-	{
-		refresh();
-	}
+	refresh();
 }
 
 void LLPanelExperienceLog::onSelectionChanged()

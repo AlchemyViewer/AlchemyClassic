@@ -434,6 +434,7 @@ public:
 	void removeInventoryListener(LLVOInventoryListener* listener);
 	BOOL isInventoryPending() { return mInventoryPending; }
 	void clearInventoryListeners();
+	bool hasInventoryListeners();
 	void requestInventory();
 	void fetchInventoryFromServer();
 	static void processTaskInv(LLMessageSystem* msg, void** user_data);

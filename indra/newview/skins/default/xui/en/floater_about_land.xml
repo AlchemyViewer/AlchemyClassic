@@ -1752,22 +1752,13 @@ Only large parcels can be listed in search.
                 pixels
             </text>
             <panel
-             follows="all"
-             label="SOUND"
-             layout="topleft"
-             left="0"
-             top="190"
-             bottom="-1"
-             help_topic="land_audio_tab"
-             name="land_audio_panel">
-            <panel
+             height="0"
              bevel_style="none"
              border="true"
-             top="35"
-             bottom="35"
-             follows="left|bottom|right"
-             left="22"
-             right="-22"/>
+             top_pad="7"
+             follows="left|top|right"
+             left="9"
+             right="-9"/>
             <text
              type="string"
              length="1"
@@ -1775,7 +1766,7 @@ Only large parcels can be listed in search.
              height="16"
              layout="topleft"
              left="10"
-             top="18"
+             top_pad="7"
              name="MusicURL:"
              width="364">
                 Music URL:
@@ -1880,7 +1871,6 @@ Only large parcels can be listed in search.
              left="110"
              name="parcel_enable_voice_channel_local"
              width="300" />
-        </panel>
         </panel>
         <panel
          border="true"

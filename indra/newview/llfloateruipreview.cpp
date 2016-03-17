@@ -1047,7 +1047,6 @@ void LLFloaterUIPreview::onClickBrowseForEditor()
 		{
 			popupAndPrintWarning(LLStringExplicit("Unable to get bundle info dictionary from application bundle"));
 		}
-		CFRelease(bundleInfoDict);
 	}
 	else
 	{

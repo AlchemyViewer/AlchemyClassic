@@ -51,6 +51,8 @@ LLPanelExperienceListEditor::LLPanelExperienceListEditor()
 	,mRemove(NULL)
 	,mReadonly(false)
 	,mMaxExperienceIDs(0)
+	,mAddedCallback()
+	,mRemovedCallback()
 {
 }
 

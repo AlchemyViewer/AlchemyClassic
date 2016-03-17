@@ -5121,7 +5121,7 @@ BOOL LLVOAvatar::startMotion(const LLUUID& id, F32 time_offset)
 	LLUUID remap_id;
 	if(isSelf())
 	{
-		remap_id = LLAOEngine::getInstance()->overRide(id, true);
+		remap_id = LLAOEngine::getInstance()->override(id, true);
 		if(remap_id.isNull())
 			remap_id = remapMotionID(id);
 		else
@@ -5155,7 +5155,7 @@ BOOL LLVOAvatar::stopMotion(const LLUUID& id, BOOL stop_immediate)
 	LLUUID remap_id;
 	if(isSelf())
 	{
-		remap_id = LLAOEngine::getInstance()->overRide(id, false);
+		remap_id = LLAOEngine::getInstance()->override(id, false);
 		if(remap_id.isNull())
 			remap_id = remapMotionID(id);
 		else

@@ -95,7 +95,7 @@ public:
 	} eCycleMode;
 
 	void enable(const bool enable);
-	const LLUUID overRide(const LLUUID& motion, const bool start);
+	const LLUUID override(const LLUUID& motion, const bool start);
 	void tick();
 	void update();
 	void reload(const bool reload);

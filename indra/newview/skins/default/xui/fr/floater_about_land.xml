@@ -411,8 +411,6 @@ texture :
 				Options :
 			</text>
 			<check_box label="En boucle" name="media_loop" tool_tip="Jouer le média en boucle. Lorsque le média aura fini de jouer, il recommencera."/>
-		</panel>
-		<panel label="SON" name="land_audio_panel">
 			<text bottom_delta="-28" name="MusicURL:">
 				URL de la 
 musique :

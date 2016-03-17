@@ -406,8 +406,6 @@
 				オプション：
 			</text>
 			<check_box label="ループ" name="media_loop" tool_tip="メディアをループ再生します。  メディアの再生が終わったら、最初から再生し直します。"/>
-		</panel>
-		<panel label="サウンド" name="land_audio_panel">
 			<text name="MusicURL:">
 				音楽 URL：
 			</text>

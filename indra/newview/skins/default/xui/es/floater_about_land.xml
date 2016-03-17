@@ -407,8 +407,6 @@ la textura:
 los media:
 			</text>
 			<check_box label="Media en bucle" name="media_loop" tool_tip="Ejecuta el media en bucle: cuando acaba su ejecución, vuelve a empezar."/>
-		</panel>
-		<panel label="SONIDO" name="land_audio_panel">
 			<text name="MusicURL:">
 				URL de música:
 			</text>

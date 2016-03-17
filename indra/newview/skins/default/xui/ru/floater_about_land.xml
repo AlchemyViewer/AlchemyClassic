@@ -402,8 +402,6 @@
 				Опции:
 			</text>
 			<check_box label="Цикл" name="media_loop" tool_tip="Проигрывать медиа в цикле.  По завершении проигрывания медиа оно запустится с начала."/>
-		</panel>
-		<panel label="ЗВУК" name="land_audio_panel">
 			<text name="MusicURL:">
 				URL музыки:
 			</text>

@@ -417,8 +417,6 @@ Kun større parceller kan vises i søgning.
 				Medie valg:
 			</text>
 			<check_box label="Gentag afspil" name="media_loop" tool_tip="Gentager automatisk medie, når det er færdigt med at spille starter det automatisk forfra."/>
-		</panel>
-		<panel label="LYD" name="land_audio_panel">
 			<check_box label="Tillad stemmer" name="parcel_enable_voice_channel"/>
 			<check_box label="Tillad stemmer (håndteret af estate)" name="parcel_enable_voice_channel_is_estate_disabled"/>
 			<check_box label="Begræns stemme chat til denne parcel" name="parcel_enable_voice_channel_local"/>

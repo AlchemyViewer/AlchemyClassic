@@ -402,8 +402,6 @@ Sadece büyük parseller aramada görünür.
 				Seçenklr.:
 			</text>
 			<check_box label="Döngü" name="media_loop" tool_tip="Ortamı döngüsel olarak oynat.  Ortamın oynatılması bittiğinde baştan tekrar başlayacaktır."/>
-		</panel>
-		<panel label="SES" name="land_audio_panel">
 			<text name="MusicURL:">
 				Müzik URL&apos;si:
 			</text>

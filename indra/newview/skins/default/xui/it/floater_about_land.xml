@@ -412,8 +412,6 @@ Texture:
 Media:
 			</text>
 			<check_box label="Fai ripetere il video" left="265" name="media_loop" tool_tip="Fai ripetere il video continuamente. Quando il video è finito, reinizierà dal principio."/>
-		</panel>
-		<panel label="SUONO" name="land_audio_panel">
 			<text name="MusicURL:">
 				URL musica:
 			</text>

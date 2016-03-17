@@ -407,8 +407,6 @@ Textura:
 Mídia:
 			</text>
 			<check_box label="Repetir mídia" name="media_loop" tool_tip="Executar a mídia repetidamente. Quando a mídia chegar ao fim, ela recomeça."/>
-		</panel>
-		<panel label="SOM" name="land_audio_panel">
 			<text name="MusicURL:">
 				URL de música:
 			</text>

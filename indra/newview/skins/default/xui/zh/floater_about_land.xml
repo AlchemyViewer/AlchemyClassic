@@ -402,8 +402,6 @@
 				選項：
 			</text>
 			<check_box label="連續" name="media_loop" tool_tip="連續播放媒體。  媒體播放結束後，會從頭繼續播放。"/>
-		</panel>
-		<panel label="聲音" name="land_audio_panel">
 			<text name="MusicURL:">
 				音樂 URL：
 			</text>

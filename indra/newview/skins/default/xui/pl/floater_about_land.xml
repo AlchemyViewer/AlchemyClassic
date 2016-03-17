@@ -421,8 +421,6 @@ Teksturę:
 Mediów:
 			</text>
 			<check_box label="Powtórka Odtwarzania" name="media_loop" tool_tip="Odtwarzaj media z powtórką. Po wyświetleniu materialu, rozpocznie się odtwarzanie od początku."/>
-		</panel>
-		<panel label="DŹWIĘK" name="land_audio_panel">
 			<check_box label="Rozmowy dozwolone" name="parcel_enable_voice_channel"/>
 			<check_box label="Rozmowy dozwolone (ustawione przez Majątek)" name="parcel_enable_voice_channel_is_estate_disabled"/>
 			<check_box label="Ogranicz komunikację głosową w tej Posiadłości." name="parcel_enable_voice_channel_local"/>

@@ -1009,19 +1009,19 @@ void LLShaderMgr::cleanupShaderSources()
 			}
 			mProgramObjects.clear();
 		}
-		if (!mShaderObjects.empty())
+	}
+	if (!mShaderObjects.empty())
+	{
+		for (auto iter = mShaderObjects.cbegin(),
+			iter_end = mShaderObjects.cend(); iter != iter_end; ++iter)
 		{
-			for (auto iter = mShaderObjects.cbegin(),
-				iter_end = mShaderObjects.cend(); iter != iter_end; ++iter)
+			GLuint shader = iter->second.mHandle;
+			if (shader > 0 && glIsShader(shader))
 			{
-				GLuint shader = iter->second.mHandle;
-				if (shader > 0 && glIsShader(shader))
-				{
-					glDeleteShader(shader);
-				}
+				glDeleteShader(shader);
 			}
-			mShaderObjects.clear();
 		}
+		mShaderObjects.clear();
 	}
 }
 

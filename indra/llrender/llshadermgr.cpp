@@ -1007,8 +1007,10 @@ void LLShaderMgr::cleanupShaderSources()
 					}
 				}
 			}
-			mProgramObjects.clear();
 		}
+
+		// Clear the linked program list as its no longer needed
+		mProgramObjects.clear();
 	}
 	if (!mShaderObjects.empty())
 	{
@@ -1021,6 +1023,8 @@ void LLShaderMgr::cleanupShaderSources()
 				glDeleteShader(shader);
 			}
 		}
+
+		// Clear the compiled shader list as its no longer needed
 		mShaderObjects.clear();
 	}
 }

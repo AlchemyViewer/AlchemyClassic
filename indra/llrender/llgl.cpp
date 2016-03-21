@@ -703,8 +703,8 @@ void LLGLManager::initExtensions()
     mHasSync = extensions.find("GL_ARB_sync") != extensions.end();
     mHasMapBufferRange = extensions.find("GL_ARB_map_buffer_range") != extensions.end();
     mHasFlushBufferRange = extensions.find("GL_APPLE_flush_buffer_range") != extensions.end();
-    mHasDepthClamp = FALSE; // extensions.find("GL_ARB_depth_clamp") != extensions.end()
-                    // || extensions.find("GL_NV_depth_clamp") != extensions.end();
+    mHasDepthClamp = extensions.find("GL_ARB_depth_clamp") != extensions.end()
+                     || extensions.find("GL_NV_depth_clamp") != extensions.end();
     // mask out FBO support when packed_depth_stencil isn't there 'cause we need it for LLRenderTarget -Brad
     #ifdef GL_ARB_framebuffer_object
     mHasFramebufferObject = extensions.find("GL_ARB_framebuffer_object") != extensions.end();
@@ -766,7 +766,7 @@ void LLGLManager::initExtensions()
 	mHasSync = GLEW_ARB_sync;
 	mHasMapBufferRange = GLEW_ARB_map_buffer_range;
 	mHasFlushBufferRange = GLEW_APPLE_flush_buffer_range;
-	mHasDepthClamp = FALSE; // GLEW_ARB_depth_clamp || GLEW_NV_depth_clamp;
+	mHasDepthClamp = GLEW_ARB_depth_clamp || GLEW_NV_depth_clamp;
 	// mask out FBO support when packed_depth_stencil isn't there 'cause we need it for LLRenderTarget -Brad
 #ifdef GL_ARB_framebuffer_object
 	mHasFramebufferObject = GLEW_ARB_framebuffer_object;

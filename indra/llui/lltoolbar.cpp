@@ -410,7 +410,7 @@ bool LLToolBar::flashCommand(const LLCommandId& commandId, bool flash, bool forc
 		if (it != mButtonMap.end())
 		{
 			command_button = it->second;
-			command_button->setFlashing((BOOL)(flash),(BOOL)(force_flashing));
+			command_button->setFlashing(flash, force_flashing);
 		}
 	}
 

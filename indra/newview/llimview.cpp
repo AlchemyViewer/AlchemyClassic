@@ -333,16 +333,16 @@ void notify_of_message(const LLSD& msg, bool is_dnd_msg)
 		&& !is_dnd_msg) //prevent flashing FUI button because the conversation floater will have already opened
 	{
 		if(!LLMuteList::getInstance()->isMuted(participant_id))
-    {
+        {
 			if(!gAgent.isDoNotDisturb())
-    	{
+            {
 				gToolBarView->flashCommand(LLCommandId("chat"), true, im_box->isMinimized());
-    	}
+            }
 			else
 			{
 				store_dnd_message = true;
 			}
-    }
+        }
 	}
 
     // 4. Toast
@@ -364,10 +364,10 @@ void notify_of_message(const LLSD& msg, bool is_dnd_msg)
 				}
 				else
 				{
-            LLAvatarNameCache::get(participant_id, boost::bind(&on_avatar_name_cache_toast, _1, _2, msg));
+                    LLAvatarNameCache::get(participant_id, boost::bind(&on_avatar_name_cache_toast, _1, _2, msg));
+                }
+            }
         }
-    }
-}
 	}
 	if (store_dnd_message)
 	{

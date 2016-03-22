@@ -2760,7 +2760,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 	if ( gSavedSettings.getS32("LetterKeysFocusChatBar") && !gAgentCamera.cameraMouselook() && 
 		!keyboard_focus && key < 0x80 && (mask == MASK_NONE || mask == MASK_SHIFT) )
 	{
-		static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+        static LLCachedControl<U32> sChatInWindow(gSavedSettings, "NearbyChatInput", 0);
 		if (sChatInWindow)
 		{
 			// Initialize nearby chat if it's missing

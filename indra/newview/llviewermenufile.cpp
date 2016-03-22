@@ -31,9 +31,11 @@
 // project includes
 #include "llagent.h"
 #include "llagentcamera.h"
+#include "llbvhloader.h"
 #include "llfilepicker.h"
 #include "llfloaterreg.h"
 #include "llbuycurrencyhtml.h"
+#include "lldatapacker.h"
 #include "llfloatermap.h"
 #include "llfloatermodelpreview.h"
 #include "llfloatersnapshot.h"
@@ -814,13 +816,57 @@ LLUUID upload_new_resource(
 	}
 	else if (exten == "bvh")
 	{
-		error_message = llformat("We do not currently support bulk upload of animation files\n");
-		upload_error(error_message, "DoNotSupportBulkAnimationUpload", filename, args);
-		return LLUUID();
+        asset_type = LLAssetType::AT_ANIMATION;
+        S32 file_size;
+        LLAPRFile infile;
+        infile.open(filename, LL_APR_RB, NULL, &file_size);
+        if (!infile.getFileHandle())
+        {
+            LL_WARNS() << "Can't open BVH file:" << filename << LL_ENDL;
+        }
+        else
+        {
+            char* file_buffer = new char[file_size + 1];
+            ELoadStatus load_status = E_ST_OK;
+            S32 line_number = 0;
+            LLBVHLoader* loaderp = new LLBVHLoader(file_buffer, load_status, line_number);
+            
+            if(load_status == E_ST_NO_XLT_FILE)
+            {
+                LL_WARNS() << "NOTE: No translation table found." << LL_ENDL;
+            }
+            else
+            {
+                LL_WARNS() << "ERROR: [line: " << line_number << "] " << BVHSTATUS[load_status] << LL_ENDL;
+            }
+            // create data buffer for keyframe initialization
+            S32 buffer_size = loaderp->getOutputSize();
+            U8* buffer = new U8[buffer_size];
+            LLDataPackerBinaryBuffer dp(buffer, buffer_size);
+            
+            // pass animation data through memory buffer
+            loaderp->serialize(dp);
+            LLAPRFile apr_file(filename, LL_APR_WB);
+            apr_file.write(buffer, buffer_size);
+            apr_file.close();
+            delete[] file_buffer;
+            delete[] buffer;
+        }
+        infile.close();
 	}
 	else if (exten == "anim")
 	{
 		asset_type = LLAssetType::AT_ANIMATION;
+		filename = src_filename;
+	}
+	else if (exten == "ogg")
+	{
+		asset_type = LLAssetType::AT_SOUND;
+		filename = src_filename;
+	}
+	else if(exten == "j2k" || exten == "jp2" || exten == "j2c")
+	{
+		asset_type = LLAssetType::AT_TEXTURE;
 		filename = src_filename;
 	}
 	else

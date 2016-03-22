@@ -77,42 +77,6 @@ const F32 MAX_CAMERA_ZOOM = 10.f;
 
 const F32 BASE_ANIM_TIME_OFFSET = 5.f;
 
-std::string STATUS[] =
-{
-	"E_ST_OK",
-	"E_ST_EOF",
-	"E_ST_NO_CONSTRAINT",
-	"E_ST_NO_FILE",
-	"E_ST_NO_HIER",
-	"E_ST_NO_JOINT",
-	"E_ST_NO_NAME",
-	"E_ST_NO_OFFSET",
-	"E_ST_NO_CHANNELS",
-	"E_ST_NO_ROTATION",
-	"E_ST_NO_AXIS",
-	"E_ST_NO_MOTION",
-	"E_ST_NO_FRAMES",
-	"E_ST_NO_FRAME_TIME",
-	"E_ST_NO_POS",
-	"E_ST_NO_ROT",
-	"E_ST_NO_XLT_FILE",
-	"E_ST_NO_XLT_HEADER",
-	"E_ST_NO_XLT_NAME",
-	"E_ST_NO_XLT_IGNORE",
-	"E_ST_NO_XLT_RELATIVE",
-	"E_ST_NO_XLT_OUTNAME",
-	"E_ST_NO_XLT_MATRIX",
-	"E_ST_NO_XLT_MERGECHILD",
-	"E_ST_NO_XLT_MERGEPARENT",
-	"E_ST_NO_XLT_PRIORITY",
-	"E_ST_NO_XLT_LOOP",
-	"E_ST_NO_XLT_EASEIN",
-	"E_ST_NO_XLT_EASEOUT",
-	"E_ST_NO_XLT_HAND",
-	"E_ST_NO_XLT_EMOTE",
-"E_ST_BAD_ROOT"
-};
-
 //-----------------------------------------------------------------------------
 // LLFloaterBvhPreview()
 //-----------------------------------------------------------------------------
@@ -242,7 +206,7 @@ BOOL LLFloaterBvhPreview::postBuild()
 				ELoadStatus load_status = E_ST_OK;
 				S32 line_number = 0; 
 				loaderp = new LLBVHLoader(file_buffer, load_status, line_number);
-				std::string status = getString(STATUS[load_status]);
+				std::string status = getString(BVHSTATUS[load_status]);
 				
 				if(load_status == E_ST_NO_XLT_FILE)
 				{
@@ -344,7 +308,7 @@ BOOL LLFloaterBvhPreview::postBuild()
 			else
 			{
 				LLUIString out_str = getString("failed_file_read");
-				out_str.setArg("[STATUS]", getString(STATUS[loaderp->getStatus()])); 
+				out_str.setArg("[STATUS]", getString(BVHSTATUS[loaderp->getStatus()]));
 				getChild<LLUICtrl>("bad_animation_text")->setValue(out_str.getString());
 			}
 		}

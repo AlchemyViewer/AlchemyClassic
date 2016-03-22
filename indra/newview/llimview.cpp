@@ -319,29 +319,34 @@ void notify_of_message(const LLSD& msg, bool is_dnd_msg)
 				}
 				else
 				{
-    		im_box->flashConversationItemWidget(session_id, true);
-    	}
-    }
+                    im_box->flashConversationItemWidget(session_id, true);
+                }
+            }
 		}
 	}
 
     // 3. Flash FUI button
-    if (("toast" == user_preferences || "flash" == user_preferences) &&
-    		(CLOSED == conversations_floater_status
-		|| NOT_ON_TOP == conversations_floater_status)
-		&& !is_session_focused
+    if (("toast" == user_preferences || "flash" == user_preferences)
+        && (CLOSED == conversations_floater_status
+            || NOT_ON_TOP == conversations_floater_status)
+        && !is_session_focused
 		&& !is_dnd_msg) //prevent flashing FUI button because the conversation floater will have already opened
 	{
-		if(!LLMuteList::getInstance()->isMuted(participant_id))
+        // Prevent flashing for nearby chat when chat bar is active
+        if (gSavedSettings.getU32("NearbyChatInput") != 0
+            || (participant_id.notNull() && session_id.notNull()))
         {
-			if(!gAgent.isDoNotDisturb())
+            if(!LLMuteList::getInstance()->isMuted(participant_id))
             {
-				gToolBarView->flashCommand(LLCommandId("chat"), true, im_box->isMinimized());
+                if(!gAgent.isDoNotDisturb())
+                {
+                    gToolBarView->flashCommand(LLCommandId("chat"), true, im_box->isMinimized());
+                }
+                else
+                {
+                    store_dnd_message = true;
+                }
             }
-			else
-			{
-				store_dnd_message = true;
-			}
         }
 	}
 

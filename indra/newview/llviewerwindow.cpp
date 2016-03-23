@@ -3369,13 +3369,14 @@ void LLViewerWindow::updateUI()
 
 void LLViewerWindow::updateLayout()
 {
+    static LLCachedControl<bool> sFreezeTime(gSavedSettings, "FreezeTime", false);
 	LLTool* tool = LLToolMgr::getInstance()->getCurrentTool();
 	if (gFloaterTools != NULL
 		&& tool != NULL
 		&& tool != gToolNull  
 		&& tool != LLToolCompInspect::getInstance() 
 		&& tool != LLToolDragAndDrop::getInstance() 
-		&& !gSavedSettings.getBOOL("FreezeTime"))
+		&& !sFreezeTime())
 	{ 
 		// Suppress the toolbox view if our source tool was the pie tool,
 		// and we've overridden to something else.

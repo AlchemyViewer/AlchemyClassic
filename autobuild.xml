@@ -448,11 +448,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4b04377a8abb3d00e183679401c7bc25</string>
+              <string>f20491b59795d311cf8d730556cd141e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/curl-7.47.1-windows-201603020257.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/curl-7.48.0-windows-201603231720.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -462,18 +462,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a6cfae6a0bf91b27c1f3cba66919b2e</string>
+              <string>86feef4905c2e46a9cbdc7a1df23d83f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/curl-7.47.1-windows64-201603020253.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/curl-7.48.0-windows64-201603231658.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.47.1</string>
+        <string>7.48.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

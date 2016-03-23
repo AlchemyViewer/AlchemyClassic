@@ -110,13 +110,6 @@ public:
 private:
 	ECameraMode		mCameraMode;					// Target mode after transition animation is done
 	ECameraMode		mLastCameraMode;
-    
-    //--------------------------------------------------------------------
-    // Cached Controls
-    //--------------------------------------------------------------------
-    LLCachedControl<bool> mDisableCameraConstraints;
-    LLCachedControl<bool> mDisableMinZoomDistance;
-    LLCachedControl<bool> mFreezeTime;
 
 	//--------------------------------------------------------------------
 	// Preset

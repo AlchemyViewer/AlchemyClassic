@@ -5261,7 +5261,8 @@ void LLAppViewer::idleNetwork()
 		}
 
 		// Handle per-frame message system processing.
-		gMessageSystem->processAcks(gSavedSettings.getF32("AckCollectTime"));
+        static LLCachedControl<F32> sAckCollectTime(gSavedSettings, "AckCollectTime", 0.1f);
+		gMessageSystem->processAcks(sAckCollectTime);
 
 #ifdef TIME_THROTTLE_MESSAGES
 		if (total_time >= CheckMessagesMaxTime)

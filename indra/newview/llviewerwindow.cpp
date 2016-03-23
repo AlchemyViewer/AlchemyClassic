@@ -2760,7 +2760,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 	if ( gSavedSettings.getS32("LetterKeysFocusChatBar") && !gAgentCamera.cameraMouselook() && 
 		!keyboard_focus && key < 0x80 && (mask == MASK_NONE || mask == MASK_SHIFT) )
 	{
-		static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+        static LLCachedControl<U32> sChatInWindow(gSavedSettings, "NearbyChatInput", 0);
 		if (sChatInWindow)
 		{
 			// Initialize nearby chat if it's missing
@@ -3369,13 +3369,14 @@ void LLViewerWindow::updateUI()
 
 void LLViewerWindow::updateLayout()
 {
+    static LLCachedControl<bool> sFreezeTime(gSavedSettings, "FreezeTime", false);
 	LLTool* tool = LLToolMgr::getInstance()->getCurrentTool();
 	if (gFloaterTools != NULL
 		&& tool != NULL
 		&& tool != gToolNull  
 		&& tool != LLToolCompInspect::getInstance() 
 		&& tool != LLToolDragAndDrop::getInstance() 
-		&& !gSavedSettings.getBOOL("FreezeTime"))
+		&& !sFreezeTime())
 	{ 
 		// Suppress the toolbox view if our source tool was the pie tool,
 		// and we've overridden to something else.

@@ -5,15 +5,6 @@
  name="menu_chatbar_gear"
  visible="false">
   <menu_item_check
-   label="Do not use chat bar"
-   name="NearbyChatInConversations">
-    <menu_item_check.on_check
-     control="NearbyChatInConversations" />
-    <menu_item_check.on_click
-     function="ToggleControl"
-     parameter="NearbyChatInConversations" />
-  </menu_item_check>
-  <menu_item_check
    label="Close chat bar on return"
    name="CloseChatBarOnReturn">
     <menu_item_check.on_check

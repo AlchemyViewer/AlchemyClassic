@@ -591,7 +591,7 @@ void start_chat( EKeystate s )
     }
     
 	// start chat
-	static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+	static LLCachedControl<U32> sChatInWindow(gSavedSettings, "NearbyChatInput", 0);
 	if (sChatInWindow
 		|| (LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->isChatVisible())
 	{
@@ -609,7 +609,7 @@ void start_gesture( EKeystate s )
 	if (KEYSTATE_UP == s &&
 		! (focus_ctrlp && focus_ctrlp->acceptsTextInput()))
 	{
-		static LLCachedControl<bool> sChatInWindow(gSavedSettings, "NearbyChatInConversations", false);
+		static LLCachedControl<U32> sChatInWindow(gSavedSettings, "NearbyChatInput", 0);
 		if (sChatInWindow
 			|| (LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->isChatVisible())
 		{

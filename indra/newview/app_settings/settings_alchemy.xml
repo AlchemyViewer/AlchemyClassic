@@ -972,16 +972,16 @@
       <key>Value</key>
       <integer>2</integer>
     </map>
-    <key>NearbyChatInConversations</key>
+    <key>NearbyChatInput</key>
       <map>
       <key>Comment</key>
-      <string>Activate nearby chat in Conversations floater</string>
+      <string>Nearby chat input 0 - Chatbar, 1 - Conversations</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
-      <string>Boolean</string>
+      <string>U32</string>
       <key>Value</key>
-      <integer>1</integer>
+      <integer>0</integer>
     </map>
     <key>OpenSimSearchURL</key>
     <map>

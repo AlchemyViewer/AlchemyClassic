@@ -156,7 +156,7 @@ LLAgentCamera::LLAgentCamera() :
 	mFocusObjectOffset(),
 	mFocusDotRadius( 0.1f ),			// meters
 	mTrackFocusObject(TRUE),
-
+    
 	mAtKey(0), // Either 1, 0, or -1... indicates that movement-key is pressed
 	mWalkKey(0), // like AtKey, but causes less forward thrust
 	mLeftKey(0),
@@ -306,8 +306,8 @@ void LLAgentCamera::resetView(BOOL reset_camera, BOOL change_camera)
 		gMenuHolder->hideMenus();
 	}
 
-	static LLCachedControl<bool> freeze_time(gSavedSettings, "FreezeTime");
-	if (change_camera && !freeze_time)
+    static LLCachedControl<bool> sFreezeTime(gSavedSettings, "FreezeTime");
+	if (change_camera && !sFreezeTime)
 	{
 		changeCameraToDefault();
 		
@@ -334,8 +334,7 @@ void LLAgentCamera::resetView(BOOL reset_camera, BOOL change_camera)
 		gViewerWindow->showCursor();
 	}
 
-
-	if (reset_camera && !freeze_time)
+	if (reset_camera && !sFreezeTime)
 	{
 		if (!gViewerWindow->getLeftMouseDown() && cameraThirdPerson())
 		{
@@ -557,10 +556,10 @@ LLVector3 LLAgentCamera::calcFocusOffset(LLViewerObject *object, LLVector3 origi
 BOOL LLAgentCamera::calcCameraMinDistance(F32 &obj_min_distance)
 {
 	BOOL soft_limit = FALSE; // is the bounding box to be treated literally (volumes) or as an approximation (avatars)
-	static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
+    static LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
 	if (!mFocusObject || mFocusObject->isDead() || 
 		mFocusObject->isMesh() ||
-		disable_cam_constraints)
+		sDisableCameraConstraints)
 	{
 		obj_min_distance = 0.f;
 		return TRUE;
@@ -896,8 +895,9 @@ void LLAgentCamera::cameraZoomIn(const F32 fraction)
 	F32 current_distance = (F32)camera_offset_unit.normalize();
 	F32 new_distance = current_distance * fraction;
 
-	static LLCachedControl<bool> disable_min_zoom(gSavedSettings, "AlchemyDisableMinZoomDist");
-	if (!disable_min_zoom)
+    static LLCachedControl<bool> sDisableMinZoomDistance(gSavedSettings, "AlchemyDisableMinZoomDist");
+    static LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
+	if (!sDisableMinZoomDistance)
 	{
 		// Don't move through focus point
 		if (mFocusObject)
@@ -917,10 +917,9 @@ void LLAgentCamera::cameraZoomIn(const F32 fraction)
 		new_distance = llmax(new_distance, min_zoom);
 	}
 
-	static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 	// Don't zoom too far back
 	const F32 DIST_FUDGE = 16.f; // meters
-	F32 max_distance = disable_cam_constraints ? INT_MAX : llmin(mDrawDistance - DIST_FUDGE, 
+	F32 max_distance = sDisableCameraConstraints ? INT_MAX : llmin(mDrawDistance - DIST_FUDGE,
 							 LLWorld::getInstance()->getRegionWidthInMeters() - DIST_FUDGE );
 
 	if (new_distance > max_distance)
@@ -951,11 +950,13 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 {
 	if (mFocusOnAvatar && mCameraMode == CAMERA_MODE_THIRD_PERSON)
 	{
-		F32 camera_offset_dist = llmax(0.001f, getCameraOffsetInitial().magVec() * gSavedSettings.getF32("CameraOffsetScale"));
+        static LLCachedControl<F32> sCameraOffsetScale(gSavedSettings, "CameraOffsetScale");
+        static LLCachedControl<bool> sFreezeTime(gSavedSettings, "FreezeTime");
+		F32 camera_offset_dist = llmax(0.001f, getCameraOffsetInitial().magVec() * sCameraOffsetScale());
 		
 		mCameraZoomFraction = (mTargetCameraDistance - meters) / camera_offset_dist;
 
-		if (!gSavedSettings.getBOOL("FreezeTime") && mCameraZoomFraction < MIN_ZOOM_FRACTION && meters > 0.f)
+		if (!sFreezeTime() && mCameraZoomFraction < MIN_ZOOM_FRACTION && meters > 0.f)
 		{
 			// No need to animate, camera is already there.
 			changeCameraToMouselook(FALSE);
@@ -969,8 +970,8 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 		F32 current_distance = (F32)camera_offset_unit.normalize();
 		F32 new_distance = current_distance - meters;
 
-		static LLCachedControl<bool> disable_min_zoom(gSavedSettings, "AlchemyDisableMinZoomDist");
-		if (!disable_min_zoom)
+        static LLCachedControl<bool> sDisableMinZoomDistance(gSavedSettings, "AlchemyDisableMinZoomDist");
+		if (!sDisableMinZoomDistance)
 		{
 			F32 min_zoom = LAND_MIN_ZOOM;
 		
@@ -990,7 +991,6 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 			new_distance = llmax(new_distance, min_zoom);
 		}
 
-		static LLCachedControl<bool> disable_cam_constraints(gSavedSettings, "DisableCameraConstraints");
 		// Don't zoom too far back
 		const F32 DIST_FUDGE = 16.f; // meters
 		F32 max_distance = llmin(mDrawDistance - DIST_FUDGE, 
@@ -999,7 +999,8 @@ void LLAgentCamera::cameraOrbitIn(const F32 meters)
 		if (new_distance > max_distance)
 		{
 			// Unless camera is unlocked
-			if (!disable_cam_constraints)
+            static LLCachedControl<bool> sDisableCameraConstraints(gSavedSettings, "DisableCameraConstraints");
+			if (!sDisableCameraConstraints)
 			{
 				return;
 			}

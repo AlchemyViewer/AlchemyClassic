@@ -1017,38 +1017,6 @@
         <key>version</key>
         <string>1.13.0</string>
       </map>
-      <key>glext</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 2013-2014 The Khronos Group Inc.</string>
-        <key>description</key>
-        <string>glext headers define function prototypes and constants for OpenGL extensions</string>
-        <key>license</key>
-        <string>MIT</string>
-        <key>license_file</key>
-        <string>LICENSES/glext.txt</string>
-        <key>name</key>
-        <string>glext</string>
-        <key>platforms</key>
-        <map>
-          <key>common</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>c00da9333b1bd0f9cc121ebc365fe360</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/common/lib/glext-20150325-common-201504222056.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>common</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>20150325</string>
-      </map>
       <key>glh-linear</key>
       <map>
         <key>copyright</key>

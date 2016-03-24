@@ -30,16 +30,10 @@
 #if LL_MESA
 //----------------------------------------------------------------------------
 // MESA headers
-// quotes so we get libraries/.../GL/ version
-#define GL_GLEXT_PROTOTYPES 1
-#include "GL/gl.h"
-#include "GL/glext.h"
-#include "GL/glu.h"
 
-// The __APPLE__ kludge is to make glh_extensions.h not symbol-clash horribly
-# define __APPLE__
-# include "GL/glh_extensions.h"
-# undef __APPLE__
+#define GLEW_STATIC 1
+#include <GL/glew.h>
+#include <GL/glxew.h>
 
 #elif LL_LINUX
 //----------------------------------------------------------------------------

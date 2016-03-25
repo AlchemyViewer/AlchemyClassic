@@ -213,7 +213,7 @@ bool LLDate::fromStream(std::istream& s)
 {
 	std::tm time = {0};
 	int c;
-#ifdef LL_WINDOWS // Windows has broken std::get_time() Time for things to get ugly!
+#if LL_WINDOWS || LL_LINUX // GCC 4.8 lacks this Windows has broken std::get_time() Time for things to get ugly!
 	int32_t tm_part;
 	s >> tm_part;
 	time.tm_year = tm_part - 1900;

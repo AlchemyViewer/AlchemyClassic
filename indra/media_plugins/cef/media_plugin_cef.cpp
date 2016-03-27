@@ -646,7 +646,7 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
                 keyEvent(key_event, key, LLCEFLib::KM_MODIFIER_NONE, native_key_data);
               
 #endif
-#elif LL_WINDOWS
+#else
 				std::string event = message_in.getValue("event");
 				S32 key = message_in.getValueS32("key");
 				std::string modifiers = message_in.getValue("modifiers");
@@ -783,6 +783,13 @@ void MediaPluginCEF::deserializeKeyboardData(LLSD native_key_data, uint32_t& nat
 		native_scan_code = (uint32_t)(native_key_data["scan_code"].asInteger());
 		native_virtual_key = (uint32_t)(native_key_data["virtual_key"].asInteger());
 		// TODO: I don't think we need to do anything with native modifiers here -- please verify
+#elif LL_LINUX
+		native_scan_code = (uint32_t)(native_key_data["sdl_sym"].asInteger());
+		native_virtual_key = (uint32_t)(native_key_data["virtual_key"].asInteger());
+		native_modifiers = (uint32_t)(native_key_data["cef_modifiers"].asInteger());
+
+		if( native_scan_code == '\n' )
+			native_scan_code = '\r';
 #endif
 	};
 };
@@ -817,8 +824,15 @@ void MediaPluginCEF::keyEvent(LLCEFLib::EKeyEvent key_event, int key, LLCEFLib::
 	U64 lparam = ll_U32_from_sd(native_key_data["l_param"]);
     
 	mLLCEFLib->nativeKeyboardEvent(msg, wparam, lparam);
+#elif LL_LINUX
+	uint32_t native_scan_code = 0;
+	uint32_t native_virtual_key = 0;
+	uint32_t native_modifiers = 0;
+	deserializeKeyboardData(native_key_data, native_scan_code, native_virtual_key, native_modifiers);
+
+	mLLCEFLib->nativeKeyboardEvent(key_event, native_scan_code, native_virtual_key, native_modifiers);
 #endif
-};
+}
 
 void MediaPluginCEF::unicodeInput(const std::string &utf8str, LLCEFLib::EKeyboardModifier modifiers, LLSD native_key_data = LLSD::emptyMap())
 {
@@ -840,6 +854,14 @@ void MediaPluginCEF::unicodeInput(const std::string &utf8str, LLCEFLib::EKeyboar
 	U32 wparam = ll_U32_from_sd(native_key_data["w_param"]);
 	U64 lparam = ll_U32_from_sd(native_key_data["l_param"]);
 	mLLCEFLib->nativeKeyboardEvent(msg, wparam, lparam);
+#elif LL_LINUX
+	uint32_t native_scan_code = 0;
+	uint32_t native_virtual_key = 0;
+	uint32_t native_modifiers = 0;
+	deserializeKeyboardData(native_key_data, native_scan_code, native_virtual_key, native_modifiers);
+	
+	mLLCEFLib->nativeKeyboardEvent(LLCEFLib::KE_KEY_DOWN, native_scan_code, native_virtual_key, native_modifiers);
+	mLLCEFLib->nativeKeyboardEvent(LLCEFLib::KE_KEY_UP, native_scan_code, native_virtual_key, native_modifiers);
 #endif
 };
 

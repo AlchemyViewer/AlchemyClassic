@@ -210,6 +210,7 @@ private:
 	U32 mKeyScanCode;
         U32 mKeyVirtualKey;
 	SDLMod mKeyModifiers;
+	U32 mKeySym;
 };
 
 

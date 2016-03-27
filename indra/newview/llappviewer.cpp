@@ -341,7 +341,7 @@ BOOL				gDisconnected = FALSE;
 // used to restore texture state after a mode switch
 LLFrameTimer	gRestoreGLTimer;
 BOOL			gRestoreGL = FALSE;
-BOOL				gUseWireframe = FALSE;
+BOOL			gUseWireframe = FALSE;
 
 // VFS globals - see llappviewer.h
 LLVFS* gStaticVFS = NULL;

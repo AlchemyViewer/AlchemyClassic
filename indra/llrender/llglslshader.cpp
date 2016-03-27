@@ -728,47 +728,47 @@ GLint LLGLSLShader::mapUniformTextureChannel(GLint location, GLenum type)
 
 BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 {
-    BOOL res = TRUE;
-    
-    mTotalUniformSize = 0;
-    mActiveTextureChannels = 0;
-    mUniform.clear();
-    mUniformMap.clear();
-    mUniformNameMap.clear();
-    mTexture.clear();
-    mValue.clear();
-    //initialize arrays
-    U32 numUniforms = (uniforms == NULL) ? 0 : uniforms->size();
-    mUniform.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
-    mTexture.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
-    
-    bind();
+	BOOL res = TRUE;
 
-    //get the number of active uniforms
-    GLint activeCount;
-    glGetProgramiv(mProgramObject, GL_ACTIVE_UNIFORMS, &activeCount);
+	mTotalUniformSize = 0;
+	mActiveTextureChannels = 0;
+	mUniform.clear();
+	mUniformMap.clear();
+	mUniformNameMap.clear();
+	mTexture.clear();
+	mValue.clear();
+	//initialize arrays
+	U32 numUniforms = (uniforms == NULL) ? 0 : uniforms->size();
+	mUniform.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
+	mTexture.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
+
+	bind();
+
+	//get the number of active uniforms
+	GLint activeCount;
+	glGetProgramiv(mProgramObject, GL_ACTIVE_UNIFORMS, &activeCount);
 
 	//........................................................................................................................................
 	//........................................................................................
 
 	/*
 	EXPLANATION:
-	This is part of code is temporary because as the final result the mapUniform() should be rewrited. 
-	But it's a huge a volume of work which is need to be a more carefully performed for avoid possible 
+	This is part of code is temporary because as the final result the mapUniform() should be rewrited.
+	But it's a huge a volume of work which is need to be a more carefully performed for avoid possible
 	regression's (i.e. it should be formalized a separate ticket in JIRA).
 
 	RESON:
-	The reason of this code is that SL engine is very sensitive to fact that "diffuseMap" should be appear 
-	first as uniform parameter which is should get 0-"texture channel" index (see mapUniformTextureChannel() and mActiveTextureChannels) 
+	The reason of this code is that SL engine is very sensitive to fact that "diffuseMap" should be appear
+	first as uniform parameter which is should get 0-"texture channel" index (see mapUniformTextureChannel() and mActiveTextureChannels)
 	it influence to which is texture matrix will be updated during rendering.
 
 	But, order of indexe's of uniform variables is not defined and GLSL compiler can change it as want
 	, even if the "diffuseMap" will be appear and use first in shader code.
 
 	As example where this situation appear see: "Deferred Material Shader 28/29/30/31"
-	And tickets: MAINT-4165, MAINT-4839
+	And tickets: MAINT-4165, MAINT-4839, MAINT-3568
 	*/
-	
+
 
 	S32 diffuseMap = glGetUniformLocation(mProgramObject, "diffuseMap");
 	S32 bumpMap = glGetUniformLocation(mProgramObject, "bumpMap");
@@ -781,7 +781,7 @@ BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 		GLenum type;
 		GLsizei length;
 		GLint size = -1;
-		char name[1024];        
+		char name[1024];
 
 		diffuseMap = bumpMap = environmentMap = -1;
 
@@ -842,22 +842,23 @@ BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
 	}
 
 	//........................................................................................
-	
-    for (S32 i = 0; i < activeCount; i++)
-    {
+
+	for (S32 i = 0; i < activeCount; i++)
+	{
 		//........................................................................................
-		if(skip_index.end() != skip_index.find(i)) continue;
+		if (skip_index.end() != skip_index.find(i)) continue;
 		//........................................................................................
-		
-        mapUniform(i, uniforms);
-    }
+
+		mapUniform(i, uniforms);
+	}
 	//........................................................................................................................................
 
-    unbind();
+	unbind();
 
-    LL_DEBUGS("ShaderLoading") << "Total Uniform Size: " << mTotalUniformSize << LL_ENDL;
-    return res;
+	LL_DEBUGS("ShaderLoading") << "Total Uniform Size: " << mTotalUniformSize << LL_ENDL;
+	return res;
 }
+
 
 BOOL LLGLSLShader::link(BOOL suppress_errors)
 {

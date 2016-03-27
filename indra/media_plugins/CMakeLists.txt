@@ -6,9 +6,7 @@ if (LINUX)
     add_subdirectory(gstreamer010)
 endif (LINUX)
 
-if(CEFPLUGIN)
-    add_subdirectory(cef)
-endif(CEFPLUGIN)
+add_subdirectory(cef)
 
 if (WINDOWS OR DARWIN)
     if(NOT WORD_SIZE EQUAL 64)

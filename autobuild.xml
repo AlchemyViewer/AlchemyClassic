@@ -2159,6 +2159,20 @@
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>47ea815f03f52b8acc96fa33663eddbd</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/llceflib-3.2623.1395.g3034273-linux64-201603261622.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>

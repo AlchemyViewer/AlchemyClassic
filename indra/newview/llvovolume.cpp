@@ -4428,7 +4428,6 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
 	S32 idx = draw_vec.size()-1;
 
 	BOOL fullbright = (type == LLRenderPass::PASS_FULLBRIGHT) ||
-		(type == LLRenderPass::PASS_INVISIBLE) ||
 		(type == LLRenderPass::PASS_FULLBRIGHT_ALPHA_MASK) ||
 		(type == LLRenderPass::PASS_ALPHA && facep->isState(LLFace::FULLBRIGHT)) ||
 		(facep->getTextureEntry()->getFullbright());
@@ -5920,12 +5919,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 				&& te->getShiny() 
 				&& can_be_shiny)
 			{ //shiny
-				if (tex->getPrimaryFormat() == GL_ALPHA)
-				{ //invisiprim+shiny
-					registerFace(group, facep, LLRenderPass::PASS_INVISI_SHINY);
-					registerFace(group, facep, LLRenderPass::PASS_INVISIBLE);
-				}
-				else if (LLPipeline::sRenderDeferred && !hud_group)
+				if (LLPipeline::sRenderDeferred && !hud_group)
 				{ //deferred rendering
 					if (te->getFullbright())
 					{ //register in post deferred fullbright shiny pass
@@ -5956,11 +5950,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 			}
 			else
 			{ //not alpha and not shiny
-				if (!is_alpha && tex->getPrimaryFormat() == GL_ALPHA)
-				{ //invisiprim
-					registerFace(group, facep, LLRenderPass::PASS_INVISIBLE);
-				}
-				else if (fullbright || bake_sunlight)
+				if (fullbright || bake_sunlight)
 				{ //fullbright
 					if (mat && mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
 					{
@@ -5968,7 +5958,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 					}
 					else
 					{
-					registerFace(group, facep, LLRenderPass::PASS_FULLBRIGHT);
+						registerFace(group, facep, LLRenderPass::PASS_FULLBRIGHT);
 					}
 					if (LLPipeline::sRenderDeferred && !hud_group && LLPipeline::sRenderBump && use_legacy_bump)
 					{ //if this is the deferred render and a bump map is present, register in post deferred bump

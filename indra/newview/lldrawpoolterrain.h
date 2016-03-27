@@ -70,9 +70,7 @@ public:
 	/*virtual*/ LLViewerTexture *getDebugTexture();
 	/*virtual*/ LLColor3 getDebugColor() const; // For AGP debug display
 
-	LLPointer<LLViewerTexture> mAlphaRampImagep;
 	LLPointer<LLViewerTexture> m2DAlphaRampImagep;
-	LLPointer<LLViewerTexture> mAlphaNoiseImagep;
 
 	static S32 sDetailMode;
 	static F32 sDetailScale; // meters per texture

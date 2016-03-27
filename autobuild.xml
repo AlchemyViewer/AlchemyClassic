@@ -106,11 +106,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a0674f9dfce2b15bc90bf86ef2b01196</string>
+              <string>76186b09770cab66dba6586cb1d2123f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/apr_suite-1.5.2-windows-201601151037.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/apr_suite-1.5.2-windows-201603261507.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -120,11 +120,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>31c5f5b399da00037edd5b094ac6b97b</string>
+              <string>586739a99e1366cd9e270dc7c9a4e519</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/apr_suite-1.5.2-windows64-201512102110.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/apr_suite-1.5.2-windows64-201603261452.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -634,11 +634,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>97786c456086c2aeb7554c755361df81</string>
+              <string>454170939e4d1ba07060b73d6f81b9fc</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/expat-2.1.0-windows-201601150958.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/expat-2.1.1-windows-201603261409.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -648,11 +648,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7a08c54a3a869068f40a6ad4ea2716bb</string>
+              <string>0cf6f4529ade22b7ae78da5d6303ed87</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/expat-2.1.0-windows64-201512092314.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/expat-2.1.1-windows64-201603261406.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3194,11 +3194,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>727dd03de835cb4b0ab201101f3025da</string>
+              <string>1afa5a6bdbc5689e14120628dc0fc124</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/xmlrpc_epi-0.54.2-windows64-201512102119.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/xmlrpc_epi-0.54.2-windows64-201603261459.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

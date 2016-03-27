@@ -6,8 +6,11 @@ if (LINUX)
     add_subdirectory(gstreamer010)
 endif (LINUX)
 
-if (WINDOWS OR DARWIN)
+if(CEFPLUGIN)
     add_subdirectory(cef)
+endif(CEFPLUGIN)
+
+if (WINDOWS OR DARWIN)
     if(NOT WORD_SIZE EQUAL 64)
         add_subdirectory(quicktime)
     endif(NOT WORD_SIZE EQUAL 64)

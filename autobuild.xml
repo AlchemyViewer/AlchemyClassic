@@ -594,11 +594,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2c30e4b6accd88c9b3c56f737897dd38</string>
+              <string>fc3e46e4737b326b0ca926534ddce9f3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/expat-2.1.0-darwin-201511222059.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/expat-2.1.1-darwin-201603271445.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3140,11 +3140,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>387c195513ad8146246b0d1a5faa73b5</string>
+              <string>408e34531c6a8ac20ccc8c917435071f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/xmlrpc_epi-0.54.2-darwin-201511222104.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/xmlrpc_epi-0.54.2-darwin-201603271451.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

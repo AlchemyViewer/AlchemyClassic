@@ -175,6 +175,14 @@ LLWorldMapView::LLWorldMapView()
 	mMouseDownPanY( 0 ),
 	mMouseDownX( 0 ),
 	mMouseDownY( 0 ),
+	mTextBoxEast(nullptr),
+	mTextBoxNorth(nullptr),
+	mTextBoxWest(nullptr),
+	mTextBoxSouth(nullptr),
+	mTextBoxSouthEast(nullptr),
+	mTextBoxNorthEast(nullptr),
+	mTextBoxNorthWest(nullptr),
+	mTextBoxSouthWest(nullptr),
 	mSelectIDStart(0)
 {
 	//LL_INFOS("World Map") << "Creating the Map -> LLWorldMapView::LLWorldMapView()" << LL_ENDL;

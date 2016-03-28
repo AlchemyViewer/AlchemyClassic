@@ -183,6 +183,7 @@ void LLConversationLogFriendObserver::changed(U32 mask)
 /************************************************************************/
 
 LLConversationLog::LLConversationLog() :
+	mFriendObserver(nullptr),
 	mAvatarNameCacheConnection(),
 	mLoggingEnabled(false)
 {

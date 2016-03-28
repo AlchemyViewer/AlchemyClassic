@@ -44,6 +44,7 @@
 
 LLBlockedListItem::LLBlockedListItem(const LLMute* item)
 :	LLPanel(),
+	mTitleCtrl(nullptr),
 	mItemID(item->mID),
 	mItemName(item->mName),
 	mMuteType(item->mType)

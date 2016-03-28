@@ -44,9 +44,9 @@ class LLFloaterIMNearbyChatToastPanel : public LLPanel
 {
 protected:
         LLFloaterIMNearbyChatToastPanel()
-		: 
-	mIsDirty(false),
-	mSourceType(CHAT_SOURCE_OBJECT)
+		:	mSourceType(CHAT_SOURCE_OBJECT),
+			mMsgText(nullptr),
+			mIsDirty(false)
 	{};
 public:
 	~LLFloaterIMNearbyChatToastPanel(){}

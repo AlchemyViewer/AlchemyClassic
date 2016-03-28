@@ -265,7 +265,7 @@ public:
 
 protected:
 
-	LLFavoriteLandmarkMenuItem(const LLMenuItemCallGL::Params& p) : LLMenuItemCallGL(p) {}
+	LLFavoriteLandmarkMenuItem(const LLMenuItemCallGL::Params& p) : LLMenuItemCallGL(p), fb(nullptr) {}
 	friend class LLUICtrlFactory;
 
 private:

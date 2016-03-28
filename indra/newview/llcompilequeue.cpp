@@ -89,6 +89,8 @@ struct LLScriptQueueData
 // Default constructor
 LLFloaterScriptQueue::LLFloaterScriptQueue(const LLSD& key) :
 	LLFloater(key),
+	mMessages(nullptr),
+	mCloseBtn(nullptr),
 	mDone(false),
 	mMono(false)
 {

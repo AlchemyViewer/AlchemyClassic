@@ -82,10 +82,11 @@ private:
 		TimerBar()
 		:	mTotalTime(0),
 			mSelfTime(0),
-			mStartFraction(0.f),
-			mEndFraction(1.f),
+			mTimeBlock(nullptr),
 			mFirstChild(false),
-			mLastChild(false)
+			mLastChild(false),
+			mStartFraction(0.f),
+			mEndFraction(1.f)
 		{}
 		F32Seconds			mTotalTime,
 							mSelfTime,
@@ -94,8 +95,7 @@ private:
 							mSelfStart,
 							mSelfEnd;
 		LLTrace::BlockTimerStatHandle* mTimeBlock;
-		bool				mVisible,
-							mFirstChild,
+		bool				mFirstChild,
 							mLastChild;
 		F32					mStartFraction,
 							mEndFraction;

@@ -966,13 +966,19 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 			while (i != models.end())
 			{
 				LLModel* mdl = *i;
+                if (!mdl)
+                {
+                    setLoadState(ERROR_MODEL);
+                    return false;
+                }
+                
 				if(mdl->getStatus() != LLModel::NO_ERRORS)
 				{
 					setLoadState(ERROR_MODEL + mdl->getStatus()) ;
 					return false; //abort
 				}
 
-				if (mdl && validate_model(mdl))
+				if (validate_model(mdl))
 				{
 					mModelList.push_back(mdl);
 					mModelsMap[mesh].push_back(mdl);

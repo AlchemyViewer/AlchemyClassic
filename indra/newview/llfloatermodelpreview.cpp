@@ -2610,12 +2610,7 @@ void LLModelPreview::updateStatusMessages()
         for (U32 i = 0; i < LLModel::NUM_LODS-1; i++)
 		{
             LLModel* lod_model = instance.mLOD[i];
-            if (!lod_model)
-            {
-                setLoadState( LLModelLoader::ERROR_MATERIALS );
-                mFMP->childDisable( "calculate_btn" );
-            }
-
+            
             int refFaceCnt = 0;
             int modelFaceCnt = 0;
 
@@ -2669,6 +2664,11 @@ void LLModelPreview::updateStatusMessages()
 				verts[i].push_back(cur_verts);
 				submeshes[i].push_back(cur_submeshes);
 			}
+            else // !lod_model
+            {
+                setLoadState( LLModelLoader::ERROR_MATERIALS );
+                mFMP->childDisable( "calculate_btn" );
+            }
 		}
     }
 

@@ -94,7 +94,6 @@ public:
 	static void onClickNewSnapshot(void* data);
 	static void onClickAutoSnap(LLUICtrl *ctrl, void* data);
 	static void onClickFilter(LLUICtrl *ctrl, void* data);
-	//static void onClickAdvanceSnap(LLUICtrl *ctrl, void* data);
 	static void onClickUICheck(LLUICtrl *ctrl, void* data);
 	static void onClickHUDCheck(LLUICtrl *ctrl, void* data);
 	static void applyKeepAspectCheck(LLFloaterSnapshot* view, BOOL checked);
@@ -661,14 +660,11 @@ void LLFloaterSnapshot::Impl::applyKeepAspectCheck(LLFloaterSnapshot* view, BOOL
 // static
 void LLFloaterSnapshot::Impl::onCommitFreezeFrame(LLUICtrl* ctrl, void* data)
 {
-	LLCheckBoxCtrl* check_box = (LLCheckBoxCtrl*)ctrl;
-	LLFloaterSnapshot *view = (LLFloaterSnapshot *)data;
-	LLSnapshotLivePreview* previewp = getPreviewView(view);
-		
-	if (!view || !check_box || !previewp)
-	{
-		return;
-	}
+	LLCheckBoxCtrl* check_box = static_cast<LLCheckBoxCtrl*>(ctrl);
+	LLFloaterSnapshot *view = static_cast<LLFloaterSnapshot*>(data);
+    if (!view || !check_box) return;
+    LLSnapshotLivePreview* previewp = getPreviewView(view);
+    if (!previewp) return;
 
 	gSavedSettings.setBOOL("UseFreezeFrame", check_box->get());
 

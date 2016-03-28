@@ -968,7 +968,7 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 				LLModel* mdl = *i;
                 if (!mdl)
                 {
-                    setLoadState(ERROR_MODEL + ERROR_PARSING);
+                    setLoadState(ERROR_PARSING);
                     return false;
                 }
                 

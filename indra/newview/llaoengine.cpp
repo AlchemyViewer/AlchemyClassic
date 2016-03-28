@@ -1617,6 +1617,7 @@ void LLAOEngine::onNotecardLoadComplete(LLVFS* vfs, const LLUUID& assetUUID, LLA
 	}
 	else
 	{
+		LLAOEngine::instance().parseNotecard(nullptr);
 		delete [] buffer;
 	}
 }

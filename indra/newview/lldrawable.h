@@ -52,7 +52,7 @@ class LLVOVolume;
 class LLViewerTexture;
 
 // Can have multiple silhouettes for each object
-const U32 SILHOUETTE_HIGHLIGHT = 0;
+constexpr U32 SILHOUETTE_HIGHLIGHT = 0;
 
 // All data for new renderer goes into this class.
 LL_ALIGN_PREFIX(16)

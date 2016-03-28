@@ -36,7 +36,7 @@
 
 class LLViewerObject;
 
-const U32 NUM_TRAIL_POINTS = 40;
+constexpr U32 NUM_TRAIL_POINTS = 40;
 
 
 class LLHUDEffectSpiral : public LLHUDEffect

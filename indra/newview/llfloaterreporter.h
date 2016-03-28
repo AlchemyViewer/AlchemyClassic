@@ -44,9 +44,9 @@ class LLMeanCollisionData;
 struct LLResourceData;
 
 // these flags are used to label info requests to the server
-//const U32 BUG_REPORT_REQUEST 		= 0x01 << 0; // DEPRECATED
-const U32 COMPLAINT_REPORT_REQUEST 	= 0x01 << 1;
-const U32 OBJECT_PAY_REQUEST		= 0x01 << 2;
+//constexpr U32 BUG_REPORT_REQUEST 		= 0x01 << 0; // DEPRECATED
+constexpr U32 COMPLAINT_REPORT_REQUEST 	= 0x01 << 1;
+constexpr U32 OBJECT_PAY_REQUEST		= 0x01 << 2;
 
 
 // ************************************************************

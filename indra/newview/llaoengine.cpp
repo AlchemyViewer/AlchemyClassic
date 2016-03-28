@@ -48,16 +48,17 @@
 const F32 INVENTORY_POLLING_INTERVAL = 5.0f;
 
 LLAOEngine::LLAOEngine() : LLSingleton<LLAOEngine>()
-,	mCurrentSet(nullptr)
-,	mDefaultSet(nullptr)
-,	mEnabled(false)
-,	mInMouselook(false)
-,	mUnderWater(false)
-,	mImportSet(nullptr)
-,	mImportCategory(LLUUID::null)
-,	mAOFolder(LLUUID::null)
-,	mLastMotion(ANIM_AGENT_STAND)
-,	mLastOverriddenMotion(ANIM_AGENT_STAND)
+, mEnabled(false)
+, mInMouselook(false)
+, mUnderWater(false)
+, mAOFolder(LLUUID::null)
+, mLastMotion(ANIM_AGENT_STAND)
+, mLastOverriddenMotion(ANIM_AGENT_STAND)
+, mCurrentSet(nullptr)
+, mDefaultSet(nullptr)
+, mImportSet(nullptr)
+, mImportCategory(LLUUID::null)
+, mImportRetryCount(0)
 {
 	gSavedPerAccountSettings.getControl("UseAO")->getCommitSignal()->connect(boost::bind(&LLAOEngine::onToggleAOControl, this));
 
@@ -543,17 +544,21 @@ void LLAOEngine::checkSitCancel()
 
 	if (foreignAnimations(seat))
 	{
-		LLUUID animation = mCurrentSet->getStateByRemapID(ANIM_AGENT_SIT)->mCurrentAnimationID;
-		if (animation.notNull())
+		LLAOSet::AOState* aoState = mCurrentSet->getStateByRemapID(ANIM_AGENT_SIT);
+		if (aoState)
 		{
-			LL_DEBUGS("AOEngine") << "Stopping sit animation due to foreign animations running" << LL_ENDL;
-			gAgent.sendAnimationRequest(animation, ANIM_REQUEST_STOP);
-			// remove cycle point cover-up
-			gAgent.sendAnimationRequest(ANIM_AGENT_SIT_GENERIC, ANIM_REQUEST_STOP);
-			gAgentAvatarp->LLCharacter::stopMotion(animation);
-			mSitCancelTimer.stop();
-			// stop cycle tiemr
-			mCurrentSet->stopTimer();
+			LLUUID animation = aoState->mCurrentAnimationID;
+			if (animation.notNull())
+			{
+				LL_DEBUGS("AOEngine") << "Stopping sit animation due to foreign animations running" << LL_ENDL;
+				gAgent.sendAnimationRequest(animation, ANIM_REQUEST_STOP);
+				// remove cycle point cover-up
+				gAgent.sendAnimationRequest(ANIM_AGENT_SIT_GENERIC, ANIM_REQUEST_STOP);
+				gAgentAvatarp->LLCharacter::stopMotion(animation);
+				mSitCancelTimer.stop();
+				// stop cycle tiemr
+				mCurrentSet->stopTimer();
+			}
 		}
 	}
 }
@@ -886,6 +891,9 @@ bool LLAOEngine::removeSet(LLAOSet* set)
 
 bool LLAOEngine::removeAnimation(const LLAOSet* set, LLAOSet::AOState* state, S32 index)
 {
+	// Protect against negative index
+	if (index <= -1) return false;
+
 	size_t numOfAnimations = state->mAnimations.size();
 	if (!numOfAnimations) return false;
 
@@ -1602,9 +1610,15 @@ void LLAOEngine::onNotecardLoadComplete(LLVFS* vfs, const LLUUID& assetUUID, LLA
 
 	S32 notecardSize = vfs->getSize(assetUUID, type);
 	char* buffer = new char[notecardSize];
-	vfs->getData(assetUUID, type, reinterpret_cast<U8*>(buffer), 0, notecardSize);
-
-	LLAOEngine::instance().parseNotecard(buffer);
+	S32 ret = vfs->getData(assetUUID, type, reinterpret_cast<U8*>(buffer), 0, notecardSize);
+	if (ret > 0)
+	{
+		LLAOEngine::instance().parseNotecard(buffer);
+	}
+	else
+	{
+		delete [] buffer;
+	}
 }
 
 void LLAOEngine::parseNotecard(const char* buffer)
@@ -1624,7 +1638,7 @@ void LLAOEngine::parseNotecard(const char* buffer)
 	}
 
 	std::string text(buffer);
-	delete buffer;
+	delete [] buffer;
 
 	std::vector<std::string> lines;
 	LLStringUtil::getTokens(text, lines, "\n");

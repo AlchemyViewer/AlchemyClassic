@@ -40,13 +40,35 @@
 #include "llviewerinventory.h"
 
 LLFloaterAO::LLFloaterAO(const LLSD& key) : LLTransientDockableFloater(nullptr, true, key)
-,	LLEventTimer(10.f)
-,	mSetList()
-,	mSelectedSet()
-,	mSelectedState()
-,	mCanDragAndDrop(false)
-,	mImportRunning(false)
-,	mCurrentBoldItem(nullptr)
+, LLEventTimer(10.f)
+, mSetList()
+, mSelectedSet(nullptr)
+, mSelectedState(nullptr)
+, mReloadCoverPanel(nullptr)
+, mMainInterfacePanel(nullptr)
+, mSetSelector(nullptr)
+, mActivateSetButton(nullptr)
+, mAddButton(nullptr)
+, mRemoveButton(nullptr)
+, mDefaultCheckBox(nullptr)
+, mOverrideSitsCheckBox(nullptr)
+, mSmartCheckBox(nullptr)
+, mDisableMouselookCheckBox(nullptr)
+, mStateSelector(nullptr)
+, mAnimationList(nullptr)
+, mCurrentBoldItem(nullptr)
+, mMoveUpButton(nullptr)
+, mMoveDownButton(nullptr)
+, mTrashButton(nullptr)
+, mCycleCheckBox(nullptr)
+, mRandomizeCheckBox(nullptr)
+, mCycleTimeTextLabel(nullptr)
+, mCycleTimeSpinner(nullptr)
+, mReloadButton(nullptr)
+, mPreviousButton(nullptr)
+, mNextButton(nullptr)
+, mCanDragAndDrop(false)
+, mImportRunning(false)
 {
 	mEventTimer.stop();
 	
@@ -579,11 +601,11 @@ void LLFloaterAO::onClickTrash()
 	if (!mSelectedState) return;
 	
 	std::vector<LLScrollListItem*> list = mAnimationList->getAllSelected();
-	if (!list.size()) return;
-	
-	for (S32 index = list.size() - 1; index != -1; --index)
+	if (list.empty()) return;
+
+	for (auto iter = list.crbegin(), iter_end = list.crend(); iter != iter_end; ++iter)
 	{
-		LLAOEngine::instance().removeAnimation(mSelectedSet, mSelectedState, mAnimationList->getItemIndex(list[index]));
+		LLAOEngine::instance().removeAnimation(mSelectedSet, mSelectedState, mAnimationList->getItemIndex(*iter));
 	}
 	
 	mAnimationList->deleteSelectedItems();

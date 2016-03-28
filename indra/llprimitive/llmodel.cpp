@@ -1148,7 +1148,7 @@ bool LLModel::loadModel(std::istream& is)
         "physics_mesh",
     }};
 
-	S32 lod = llclamp((S32) mDetail, 0, (S32)lod_name.size());
+	S32 lod = llclamp((S32) mDetail, 0, (S32)lod_name.size() - 1);
 
 	if (header[lod_name[lod]]["offset"].asInteger() == -1 || 
 		header[lod_name[lod]]["size"].asInteger() == 0 )

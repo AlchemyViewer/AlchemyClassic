@@ -458,8 +458,7 @@ void LLAttachmentsMgr::checkInvalidCOFLinks()
                 bool is_wearing_attachment = isAgentAvatarValid() && gAgentAvatarp->isWearingAttachment(item_id);
                 if (is_wearing_attachment && is_flagged_questionable)
                 {
-                    LL_DEBUGS("Avatar") << "ATT was flagged questionable but is now " 
-                                        << (is_wearing_attachment ? "attached " : "") 
+                    LL_DEBUGS("Avatar") << "ATT was flagged questionable but is now attached "
                                         <<"removing flag after "
                                         << timer.getElapsedTimeF32() << " item "
                                         << inv_item->getName() << " id " << item_id << LL_ENDL;

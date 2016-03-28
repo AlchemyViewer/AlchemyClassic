@@ -70,20 +70,9 @@ void LLFloaterMessageRewriter::refreshRuleList()
 //	direction_column["color"] = gColors.getColor("DefaultListText").getValue();
 		
 	LLScrollListItem* scroll_itemp = scrollp->addElement(element);
-	BOOL rule_enabled = true;
 	
-	if(rule_enabled)
-	{
-		LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(0);
-		icon->setValue("account_id_green.tga");
-//		icon->setClickCallback(NULL, NULL);
-	}
-	else
-	{
-		LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(0);
-		icon->setValue("account_id_green.tga");
-//		icon->setClickCallback(NULL, NULL);
-	}
+    LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(0);
+    icon->setValue("account_id_green.tga");
 	
 	if(selected_id.notNull()) scrollp->selectByID(selected_id);
 	if(scroll_pos < scrollp->getItemCount()) scrollp->setScrollPos(scroll_pos);

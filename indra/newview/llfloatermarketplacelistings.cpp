@@ -540,7 +540,8 @@ void LLFloaterMarketplaceListings::updateView()
     }
 
     // Update the bottom initializing status and progress dial if we are initializing or if we're a merchant and still loading
-    if ((mkt_status <= MarketplaceStatusCodes::MARKET_PLACE_INITIALIZING) || (is_merchant && (data_fetched <= MarketplaceFetchCodes::MARKET_FETCH_LOADING)) )
+    if (mkt_status <= MarketplaceStatusCodes::MARKET_PLACE_INITIALIZING
+        || (is_merchant && data_fetched <= MarketplaceFetchCodes::MARKET_FETCH_LOADING))
     {
         // Just show the loading indicator in that case and fetch the data (fetch will be skipped if it's already loading)
         mInventoryInitializationInProgress->setVisible(true);
@@ -583,13 +584,6 @@ void LLFloaterMarketplaceListings::updateView()
             text = LLTrans::getString("InventoryMarketplaceListingsNoItems", subs);
             title = LLTrans::getString("InventoryMarketplaceListingsNoItemsTitle");
             tooltip = LLTrans::getString("InventoryMarketplaceListingsNoItemsTooltip");
-        }
-        else if (mkt_status <= MarketplaceStatusCodes::MARKET_PLACE_INITIALIZING)
-        {
-            // "Initializing!" message strings
-            text = LLTrans::getString("InventoryOutboxInitializing", subs);
-            title = LLTrans::getString("InventoryOutboxInitializingTitle");
-            tooltip = LLTrans::getString("InventoryOutboxInitializingTooltip");
         }
         else if (mkt_status == MarketplaceStatusCodes::MARKET_PLACE_NOT_MERCHANT)
         {

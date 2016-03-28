@@ -1114,18 +1114,6 @@ bool can_move_to_marketplace(LLInventoryItem* inv_item, std::string& tooltip_msg
         return false;
     }
 	
-    // A category is always considered as passing...
-    if (linked_category != NULL)
-	{
-        return true;
-	}
-    
-    // Take the linked item if necessary
-    if (linked_item != NULL)
-	{
-		inv_item = linked_item;
-	}
-	
     // Check that the agent has transfer permission on the item: this is required as a resident cannot
     // put on sale items she cannot transfer. Proceed with move if we have permission.
 	bool allow_transfer = inv_item->getPermissions().allowOperationBy(PERM_TRANSFER, gAgent.getID());

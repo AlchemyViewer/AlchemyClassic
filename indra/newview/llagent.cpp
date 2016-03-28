@@ -4211,9 +4211,9 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 	LLFloaterProgressView* pProgFloater =
 		LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 	LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(handle);
-	if(regionp && info)
+	if(info)
 	{
-		pProgFloater->setRegion(info ? info->getName() : LLStringUtil::null);
+		pProgFloater->setRegion(info->getName());
 		LLVector3d region_origin = info->getGlobalOrigin();
 		LLVector3 pos_local(
 			(F32)(pos_global.mdV[VX] - region_origin.mdV[VX]),
@@ -4221,8 +4221,7 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 			(F32)(pos_global.mdV[VZ]));
 		teleportRequest(info->getHandle(), pos_local);
 	}
-	else if(regionp && 
-		teleportCore(regionp->getHandle() == to_region_handle_global((F32)pos_global.mdV[VX], (F32)pos_global.mdV[VY])))
+	else if(teleportCore(regionp->getHandle() == to_region_handle_global((F32)pos_global.mdV[VX], (F32)pos_global.mdV[VY])))
 	{
 		pProgFloater->setRegion();
 		LL_WARNS() << "Using deprecated teleportlocationrequest." << LL_ENDL; 

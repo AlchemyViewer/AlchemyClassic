@@ -2614,13 +2614,7 @@ void LLModelPreview::updateStatusMessages()
             int refFaceCnt = 0;
             int modelFaceCnt = 0;
 
-            if (!lod_model->matchMaterialOrder(model_high_lod, refFaceCnt, modelFaceCnt ) )
-			{
-                setLoadState( LLModelLoader::ERROR_MATERIALS );
-				mFMP->childDisable( "calculate_btn" );
-			}
-
-            if (lod_model)
+            if (lod_model && lod_model->matchMaterialOrder(model_high_lod, refFaceCnt, modelFaceCnt ))
 			{
 					//for each model in the lod
 				S32 cur_tris = 0;

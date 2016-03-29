@@ -290,7 +290,7 @@ LLFloaterBuyLandUI::LLFloaterBuyLandUI(const LLSD& key)
 	mBought(false),
 	mAgentCommittedTier(0),
 	mAgentCashBalance(0),
-	mAgentHasNeverOwnedLand(false),
+	mAgentHasNeverOwnedLand(true),
 	mParcelValid(false),
 	mParcelIsForSale(false),
 	mParcelIsGroupLand(false),

@@ -297,11 +297,22 @@ void LLFloaterMessageLog::refreshNetList()
 	scrollp->clearRows();
 	for (LLNetListItem* itemp : sNetListItems)
 	{
+		std::string text_suffix;
+		bool has_live_circuit = false;
+		if (itemp->mCircuitData)
+		{
+			has_live_circuit = itemp->mCircuitData->isAlive();
+			if (itemp->mCircuitData->getHost() == gAgent.getRegionHost())
+			{
+				text_suffix = " (main)";
+			}
+		}
+
 		LLSD element;
 		element["id"] = itemp->mID;
 		LLSD& text_column = element["columns"][0];
 		text_column["column"] = "text";
-		text_column["value"] = itemp->mName + (itemp->mCircuitData->getHost() == gAgent.getRegionHost() ? " (main)" : LLStringUtil::null);
+		text_column["value"] = itemp->mName + text_suffix;
 		for(S32 i = 0; i < 2; ++i)
 		{
 			LLSD& icon_column = element["columns"][i + 1];
@@ -310,7 +321,6 @@ void LLFloaterMessageLog::refreshNetList()
 			icon_column["value"] = "";
 		}
 		LLScrollListItem* scroll_itemp = scrollp->addElement(element);
-		BOOL has_live_circuit = itemp->mCircuitData && itemp->mCircuitData->isAlive();
 		if(has_live_circuit)
 		{
 			LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(1);

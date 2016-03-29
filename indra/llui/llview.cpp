@@ -332,7 +332,7 @@ void LLView::removeChild(LLView* child)
 		llassert(child->mInDraw == false);
 		mChildList.remove( child );
 		// <alchemy>
-		for(boost::unordered_map<const std::string, LLView*>::iterator it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
+		for(boost::container::flat_map<std::string, LLView*>::iterator it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
 		{
 			if(it->second == child)
 			{
@@ -1556,7 +1556,7 @@ LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 			return childp;
 		}
 	}*/
-	boost::unordered_map<const std::string, LLView*>::const_iterator it = mChildHashMap.find(name);
+	boost::container::flat_map<std::string, LLView*>::const_iterator it = mChildHashMap.find(name);
 	if(it != mChildHashMap.end())
 	{
 		return it->second;

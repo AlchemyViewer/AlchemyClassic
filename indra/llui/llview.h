@@ -50,7 +50,7 @@
 
 #include <list>
 #include <boost/function.hpp>
-#include <boost/unordered_map.hpp> // <alchemy/>
+#include <boost/container/flat_map.hpp> //<alchemy/>
 
 class LLSD;
 
@@ -416,7 +416,7 @@ public:
 	const child_list_t*	getChildList() const { return &mChildList; }
 	child_list_const_iter_t	beginChild() const { return mChildList.begin(); }
 	child_list_const_iter_t	endChild() const { return mChildList.end(); }
-	boost::unordered_map<const std::string, LLView*> mChildHashMap; // <alchemy/>
+	boost::container::flat_map<std::string, LLView*> mChildHashMap; // <alchemy/>
 
 	// LLMouseHandler functions
 	//  Default behavior is to pass events to children

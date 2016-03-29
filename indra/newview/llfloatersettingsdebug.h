@@ -33,6 +33,7 @@ class LLControlVariable;
 class LLColorSwatchCtrl;
 class LLComboBox;
 class LLSpinCtrl;
+class LLTextEditor;
 class LLUICtrl;
 
 class LLFloaterSettingsDebug 
@@ -67,7 +68,7 @@ private:
 	LLUICtrl* mValText;
 	
 protected:
-	class LLTextEditor* mComment;
+	LLTextEditor* mComment;
 };
 
 #endif //LLFLOATERDEBUGSETTINGS_H

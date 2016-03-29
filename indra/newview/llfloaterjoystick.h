@@ -91,7 +91,7 @@ private:
 	LLCheckBoxCtrl	*mCheckFlycamEnabled;
 
 	// stats view 
-	LLStatBar* mAxisStatsBar[6];
+	std::array<LLStatBar*, 6> mAxisStatsBar;
 };
 
 #endif

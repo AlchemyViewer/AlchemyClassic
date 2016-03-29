@@ -102,13 +102,11 @@ private:
 protected:
 	std::vector<LLGiveMoneyInfo*> mCallbackData;
 	money_callback mCallback;
-	LLTextBox* mObjectNameText;
 	LLUUID mTargetUUID;
 	BOOL mTargetIsGroup;
-	BOOL mHaveName;
 
-	LLButton* mQuickPayButton[MAX_PAY_BUTTONS];
-	LLGiveMoneyInfo* mQuickPayInfo[MAX_PAY_BUTTONS];
+	std::array<LLButton*, MAX_PAY_BUTTONS> mQuickPayButton;
+	std::array<LLGiveMoneyInfo*, MAX_PAY_BUTTONS> mQuickPayInfo;
 
 	LLSafeHandle<LLObjectSelection> mObjectSelection;
 	
@@ -123,10 +121,10 @@ LLFloaterPay::LLFloaterPay(const LLSD& key)
 	: LLFloater(key),
 	  mCallbackData(),
 	  mCallback(NULL),
-	  mObjectNameText(NULL),
 	  mTargetUUID(key.asUUID()),
 	  mTargetIsGroup(FALSE),
-	  mHaveName(FALSE)
+	  mQuickPayButton({ nullptr,nullptr,nullptr,nullptr }),
+	  mQuickPayInfo({ nullptr,nullptr,nullptr,nullptr })
 {
 }
 

@@ -44,6 +44,7 @@ LLFloaterSettingsDebug::LLFloaterSettingsDebug(const LLSD& key)
 ,	mValColor(nullptr)
 ,	mValBool(nullptr)
 ,	mValText(nullptr)
+,	mComment(nullptr)
 {
 	mCommitCallbackRegistrar.add("SettingSelect",	boost::bind(&LLFloaterSettingsDebug::onSettingSelect, this,_1));
 	mCommitCallbackRegistrar.add("CommitSettings",	boost::bind(&LLFloaterSettingsDebug::onCommitSettings, this));

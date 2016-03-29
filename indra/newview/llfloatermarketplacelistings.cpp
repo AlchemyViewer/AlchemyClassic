@@ -52,9 +52,11 @@
 static LLPanelInjector<LLPanelMarketplaceListings> t_panel_status("llpanelmarketplacelistings");
 
 LLPanelMarketplaceListings::LLPanelMarketplaceListings()
-: mRootFolder(NULL)
-, mSortOrder(LLInventoryFilter::SO_FOLDERS_BY_NAME)
+: mRootFolder(nullptr)
+, mAuditBtn(nullptr)
+, mFilterEditor(nullptr)
 , mFilterListingFoldersOnly(false)
+, mSortOrder(LLInventoryFilter::SO_FOLDERS_BY_NAME)
 {
 	mCommitCallbackRegistrar.add("Marketplace.ViewSort.Action",  boost::bind(&LLPanelMarketplaceListings::onViewSortMenuItemClicked,  this, _2));
 	mEnableCallbackRegistrar.add("Marketplace.ViewSort.CheckItem",	boost::bind(&LLPanelMarketplaceListings::onViewSortMenuItemCheck,	this, _2));

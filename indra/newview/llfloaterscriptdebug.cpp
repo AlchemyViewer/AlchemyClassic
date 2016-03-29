@@ -141,7 +141,8 @@ void LLFloaterScriptDebug::addScriptLine(const std::string &utf8mesg, const std:
 //
 
 LLFloaterScriptDebugOutput::LLFloaterScriptDebugOutput(const LLSD& object_id)
-  : LLFloater(LLSD(object_id)),
+  : LLFloater(object_id),
+	mHistoryEditor(nullptr),
 	mObjectID(object_id.asUUID())
 {
 	// enabled autocous blocks controling focus via  LLFloaterReg::showInstance

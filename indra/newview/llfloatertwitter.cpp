@@ -62,17 +62,19 @@ const std::string DEFAULT_PHOTO_LOCATION_URL = "http://maps.secondlife.com/";
 ///////////////////////////
 
 LLTwitterPhotoPanel::LLTwitterPhotoPanel() :
-mResolutionComboBox(NULL),
+mResolutionComboBox(nullptr),
+mFilterComboBox(nullptr),
 mRefreshBtn(NULL),
-mBtnPreview(NULL),
 mWorkingLabel(NULL),
 mThumbnailPlaceholder(NULL),
 mStatusCounterLabel(NULL),
 mStatusTextBox(NULL),
 mLocationCheckbox(NULL),
 mPhotoCheckbox(NULL),
-mBigPreviewFloater(NULL),
-mPostButton(NULL)
+mPostButton(NULL),
+mCancelButton(nullptr),
+mBtnPreview(NULL),
+mBigPreviewFloater(NULL)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendPhoto", boost::bind(&LLTwitterPhotoPanel::onSend, this));
 	mCommitCallbackRegistrar.add("SocialSharing.RefreshPhoto", boost::bind(&LLTwitterPhotoPanel::onClickNewSnapshot, this));

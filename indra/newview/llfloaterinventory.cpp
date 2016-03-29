@@ -43,6 +43,7 @@
 
 LLFloaterInventory::LLFloaterInventory(const LLSD& key)
 	: LLFloater(key)
+	, mPanelMainInventory(nullptr)
 {
 	LLTransientFloaterMgr::getInstance()->addControlView(this);
 }

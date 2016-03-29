@@ -44,6 +44,7 @@
 
 LLFloaterInspect::LLFloaterInspect(const LLSD& key)
   : LLFloater(key),
+	mObjectList(nullptr),
 	mDirty(FALSE),
 	mOwnerNameCacheConnection(),
 	mCreatorNameCacheConnection()

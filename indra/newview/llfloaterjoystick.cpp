@@ -59,6 +59,9 @@ static LLTrace::SampleStatHandle<>* sJoystickAxes[6] =
 
 LLFloaterJoystick::LLFloaterJoystick(const LLSD& data)
 	: LLFloater(data)
+	, mCheckJoystickEnabled(nullptr)
+	, mCheckFlycamEnabled(nullptr)
+	, mAxisStatsBar({ nullptr,nullptr,nullptr,nullptr,nullptr,nullptr })
 {
 	initFromSettings();
 }

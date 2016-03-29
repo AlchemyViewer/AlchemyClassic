@@ -64,11 +64,20 @@
 //
 LLFloaterIMContainer::LLFloaterIMContainer(const LLSD& seed, const Params& params /*= getDefaultParams()*/)
 :	LLMultiFloater(seed, params),
-	mExpandCollapseBtn(NULL),
-	mConversationsRoot(NULL),
+	mExpandCollapseBtn(nullptr),
+	mStubCollapseBtn(nullptr),
+	mSpeakBtn(nullptr),
+	mStubPanel(nullptr),
+	mStubTextBox(nullptr),
+	mMessagesPane(nullptr),
+	mConversationsPane(nullptr),
+	mConversationsStack(nullptr),
+	mConversationsListPanel(nullptr),
+	mConversationsRoot(nullptr),
 	mConversationsEventStream("ConversationsEvents"),
 	mInitialized(false),
-	mIsFirstLaunch(true)
+	mIsFirstLaunch(true),
+	mIsFirstOpen(true)
 {
     mEnableCallbackRegistrar.add("IMFloaterContainer.Check", boost::bind(&LLFloaterIMContainer::isActionChecked, this, _2));
 	mCommitCallbackRegistrar.add("IMFloaterContainer.Action", boost::bind(&LLFloaterIMContainer::onCustomAction,  this, _2));

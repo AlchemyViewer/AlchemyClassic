@@ -97,7 +97,6 @@ protected:
 	// Which non-zero channel did we last chat on?
 	static S32 sLastSpecialChatChannel;
 
-	LLOutputMonitorCtrl*	mOutputMonitor;
 	LLLocalSpeakerMgr*		mSpeakerMgr;
 
 	S32 mExpandedHeight;

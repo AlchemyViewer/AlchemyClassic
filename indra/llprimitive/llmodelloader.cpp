@@ -449,7 +449,11 @@ bool LLModelLoader::isAlive(LLModelLoader* loader)
 	std::list<LLModelLoader*>::iterator iter = sActiveLoaderList.begin() ;
 	for(; iter != sActiveLoaderList.end() && (*iter) != loader; ++iter) ;
 	
-	return *iter == loader ;
+	if (iter != sActiveLoaderList.end()) {
+		return *iter == loader;
+	}
+
+	return false;
 }
 
 void LLModelLoader::loadModelCallback()

@@ -459,6 +459,7 @@ std::string LLEasyMessageReader::var2Str(const char* block_name, S32 block_num, 
 	case MVT_IP_PORT:
 		mTemplateMessageReader.getIPPort(block_name, var_name, valueU16, block_num);
 		stream << valueU16;
+		break;
 	case MVT_VARIABLE:
 	case MVT_FIXED:
 	default:

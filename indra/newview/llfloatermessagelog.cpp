@@ -193,6 +193,7 @@ void LLFloaterMessageLog::clearMessageLogEntries()
 	LLMutexLock lock(sMessageListMutex);
 
 	sMessageLogEntries.clear();
+	mMessagesLogged = 0;
 }
 
 void LLFloaterMessageLog::updateGlobalNetList(bool starting)
@@ -731,7 +732,6 @@ void LLFloaterMessageLog::onClickClearLog()
 	setInfoPaneMode(IPANE_NET);
 	clearMessageLogEntries();
 	clearFloaterMessageItems();
-	mMessagesLogged = 0;
 }
 
 void LLFloaterMessageLog::onClickFilterMenu(const LLSD& user_data)

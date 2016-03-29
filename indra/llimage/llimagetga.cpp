@@ -1161,7 +1161,7 @@ bool LLImageTGA::loadFile( const std::string& path )
 		return false;
 	}
 
-	S32 file_size = 0;
+	size_t file_size = 0;
 	if (!fseek(file, 0, SEEK_END))
 	{
 		file_size = ftell(file);

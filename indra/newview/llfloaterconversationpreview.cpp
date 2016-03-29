@@ -39,7 +39,8 @@ const std::string LL_FCP_ACCOUNT_NAME("user_name");
 
 LLFloaterConversationPreview::LLFloaterConversationPreview(const LLSD& session_id)
 :	LLFloater(session_id),
-	mChatHistory(NULL),
+	mPageSpinner(nullptr),
+	mChatHistory(nullptr),
 	mSessionID(session_id.asUUID()),
 	mCurrentPage(0),
 	mPageSize(gSavedSettings.getS32("ConversationHistoryPageSize")),
@@ -47,7 +48,7 @@ LLFloaterConversationPreview::LLFloaterConversationPreview(const LLSD& session_i
 	mCompleteName(session_id[LL_FCP_COMPLETE_NAME]),
 	mMutex(),
 	mShowHistory(false),
-	mMessages(NULL),
+	mMessages(nullptr),
 	mHistoryThreadsBusy(false),
 	mOpened(false)
 {

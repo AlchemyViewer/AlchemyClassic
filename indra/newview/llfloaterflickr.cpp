@@ -64,18 +64,20 @@ const char* FLICKR_MACHINE_TAGS_NAMESPACE = "secondlife";
 ///////////////////////////
 
 LLFlickrPhotoPanel::LLFlickrPhotoPanel() :
-mResolutionComboBox(NULL),
-mRefreshBtn(NULL),
-mBtnPreview(NULL),
-mWorkingLabel(NULL),
-mThumbnailPlaceholder(NULL),
-mTitleTextBox(NULL),
-mDescriptionTextBox(NULL),
-mLocationCheckbox(NULL),
-mTagsTextBox(NULL),
-mRatingComboBox(NULL),
-mBigPreviewFloater(NULL),
-mPostButton(NULL)
+mResolutionComboBox(nullptr),
+mFilterComboBox(nullptr),
+mRefreshBtn(nullptr),
+mCancelButton(nullptr),
+mBtnPreview(nullptr),
+mWorkingLabel(nullptr),
+mThumbnailPlaceholder(nullptr),
+mTitleTextBox(nullptr),
+mDescriptionTextBox(nullptr),
+mLocationCheckbox(nullptr),
+mTagsTextBox(nullptr),
+mRatingComboBox(nullptr),
+mBigPreviewFloater(nullptr),
+mPostButton(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendPhoto", boost::bind(&LLFlickrPhotoPanel::onSend, this));
 	mCommitCallbackRegistrar.add("SocialSharing.RefreshPhoto", boost::bind(&LLFlickrPhotoPanel::onClickNewSnapshot, this));

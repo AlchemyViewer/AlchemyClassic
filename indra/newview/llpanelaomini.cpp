@@ -38,7 +38,9 @@
 
 static LLPanelInjector<LLPanelAOMini> t_ao_mini("ao_mini");
 
-LLPanelAOMini::LLPanelAOMini()
+LLPanelAOMini::LLPanelAOMini() 
+	: LLPanel()
+	, mSetList(nullptr)
 {
 	mCommitCallbackRegistrar.add("AO.SitOverride", boost::bind(&LLPanelAOMini::onClickSit, this, _2));
 	mCommitCallbackRegistrar.add("AO.NextAnim", boost::bind(&LLPanelAOMini::onClickNext, this));

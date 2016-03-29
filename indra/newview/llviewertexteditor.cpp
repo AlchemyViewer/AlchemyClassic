@@ -660,6 +660,7 @@ struct LLNotecardCopyInfo
 //
 LLViewerTextEditor::LLViewerTextEditor(const LLViewerTextEditor::Params& p)
 :	LLTextEditor(p),
+	mDragSegment(nullptr),
 	mDragItemChar(0),
 	mDragItemSaved(FALSE),
 	mInventoryCallback(new LLEmbeddedNotecardOpener)

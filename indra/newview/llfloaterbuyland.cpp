@@ -147,7 +147,8 @@ private:
 	{
 		TransactionPreflight,
 		TransactionCurrency,
-		TransactionBuy
+		TransactionBuy,
+		TransactionNone
 	};
 	LLXMLRPCTransaction* mTransaction;
 	TransactionType		 mTransactionType;
@@ -278,13 +279,38 @@ LLFloater* LLFloaterBuyLand::buildFloater(const LLSD& key)
 #pragma warning(disable : 4355)
 #endif 
 LLFloaterBuyLandUI::LLFloaterBuyLandUI(const LLSD& key)
-:	LLFloater(LLSD()),
+	: LLFloater(LLSD()),
 	mParcelSelectionObserver(this),
+	mRegion(nullptr),
 	mParcel(0),
+	mIsClaim(false),
+	mIsForGroup(false),
+	mCanBuy(false),
+	mCannotBuyIsError(false),
 	mBought(false),
-	mParcelValid(false), mSiteValid(false),
-	mChildren(*this), mCurrency(*this), mTransaction(0),
-	mParcelBuyInfo(0)
+	mAgentCommittedTier(0),
+	mAgentCashBalance(0),
+	mAgentHasNeverOwnedLand(false),
+	mParcelValid(false),
+	mParcelIsForSale(false),
+	mParcelIsGroupLand(false),
+	mParcelGroupContribution(0),
+	mParcelPrice(0),
+	mParcelActualArea(0),
+	mParcelBillableArea(0),
+	mParcelSupportedObjects(0),
+	mParcelSoldWithObjects(false),
+	mUserPlanChoice(0),
+	mSiteValid(false),
+	mSiteMembershipUpgrade(false),
+	mSiteLandUseUpgrade(false),
+	mPreflightAskBillableArea(0),
+	mPreflightAskCurrencyBuy(0),
+	mChildren(*this),
+	mCurrency(*this),
+	mTransaction(nullptr),
+	mParcelBuyInfo(nullptr),
+	mTransactionType(TransactionNone)
 {
 	LLViewerParcelMgr::getInstance()->addObserver(&mParcelSelectionObserver);
 	

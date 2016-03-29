@@ -52,8 +52,22 @@
 
 
 LLFloaterBulkPermission::LLFloaterBulkPermission(const LLSD& seed) 
-:	LLFloater(seed),
-	mDone(FALSE)
+	: LLFloater(seed),
+	mDone(FALSE),
+	mBulkChangeIncludeAnimations(false),
+	mBulkChangeIncludeBodyParts(false),
+	mBulkChangeIncludeClothing(false),
+	mBulkChangeIncludeGestures(false),
+	mBulkChangeIncludeNotecards(false),
+	mBulkChangeIncludeObjects(false),
+	mBulkChangeIncludeScripts(false),
+	mBulkChangeIncludeSounds(false),
+	mBulkChangeIncludeTextures(false),
+	mBulkChangeShareWithGroup(false),
+	mBulkChangeEveryoneCopy(false),
+	mBulkChangeNextOwnerModify(false),
+	mBulkChangeNextOwnerCopy(false),
+	mBulkChangeNextOwnerTransfer(false)
 {
 	mID.generate();
 	mCommitCallbackRegistrar.add("BulkPermission.Ok",		boost::bind(&LLFloaterBulkPermission::onOkBtn, this));

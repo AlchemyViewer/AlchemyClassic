@@ -348,9 +348,12 @@ void LLFloaterCamera::onClose(bool app_quitting)
 
 LLFloaterCamera::LLFloaterCamera(const LLSD& val)
 :	LLFloater(val),
+	mRotate(nullptr),
+	mZoom(nullptr),
+	mTrack(nullptr),
 	mClosed(FALSE),
-	mCurrMode(CAMERA_CTRL_MODE_PAN),
 	mPrevMode(CAMERA_CTRL_MODE_PAN),
+	mCurrMode(CAMERA_CTRL_MODE_PAN),
 	mBtnCollapse(nullptr)
 {
 	LLHints::registerHintTarget("view_popup", getHandle());

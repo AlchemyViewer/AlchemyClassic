@@ -322,14 +322,16 @@ void LLFacebookStatusPanel::clearAndClose()
 ///////////////////////////
 
 LLFacebookPhotoPanel::LLFacebookPhotoPanel() :
-mResolutionComboBox(NULL),
-mRefreshBtn(NULL),
-mBtnPreview(NULL),
-mWorkingLabel(NULL),
-mThumbnailPlaceholder(NULL),
-mCaptionTextBox(NULL),
-mPostButton(NULL),
-mBigPreviewFloater(NULL),
+mResolutionComboBox(nullptr),
+mFilterComboBox(nullptr),
+mRefreshBtn(nullptr),
+mCancelButton(nullptr),
+mBtnPreview(nullptr),
+mWorkingLabel(nullptr),
+mThumbnailPlaceholder(nullptr),
+mCaptionTextBox(nullptr),
+mPostButton(nullptr),
+mBigPreviewFloater(nullptr),
 mQuality(MAX_QUALITY)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendPhoto", boost::bind(&LLFacebookPhotoPanel::onSend, this));
@@ -708,6 +710,13 @@ LLUICtrl* LLFacebookPhotoPanel::getRefreshBtn()
 
 LLFacebookCheckinPanel::LLFacebookCheckinPanel() :
     mMapUrl(""),
+	mPostButton(nullptr),
+	mCancelButton(nullptr),
+	mMessageTextEditor(nullptr),
+	mMapLoadingIndicator(nullptr),
+	mMapPlaceholder(nullptr),
+	mMapDefault(nullptr),
+	mMapCheckBox(nullptr),
     mReloadingMapTexture(false)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendCheckin", boost::bind(&LLFacebookCheckinPanel::onSend, this));

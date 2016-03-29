@@ -61,15 +61,17 @@ static const std::array<std::string, 6> sSearchPanels{ {"panel_search_people", "
 static const std::array<std::string, 5> sDetailPanels{ {"detail_avatar", "detail_group", "detail_place", "detail_classified", "detail_event"} };
 
 LLFloaterDirectory::LLFloaterDirectory(const Params& key)
-:	LLFloater(key)
-,	mQueryID(LLUUID())
-,	mResultStart(0)
-,	mNumResultsReceived(0)
-,	mResultList(nullptr)
-,	mTabContainer(nullptr)
-,	mPanelWeb(nullptr)
-,	mCurrentQuery()
-,	mCurrentResultType(SE_UNDEFINED)
+	: LLFloater(key)
+	, mCurrentResultType(SE_UNDEFINED)
+	, mCurrentQuery()
+	, mResultStart(0)
+	, mNumResultsReceived(0)
+	, mQueryID()
+	, mTabContainer(nullptr)
+	, mDetailPeople(nullptr)
+	, mPanelWeb(nullptr)
+	, mResultList(nullptr)
+	, mResultsStatus(nullptr)
 {
 }
 

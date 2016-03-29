@@ -3255,6 +3255,7 @@ LLMeshRepository::LLMeshRepository()
 : mMeshMutex(NULL),
   mMeshThreadCount(0),
   mThread(NULL),
+  mDecompThread(nullptr),
   mGetMeshVersion(2)
 {
 

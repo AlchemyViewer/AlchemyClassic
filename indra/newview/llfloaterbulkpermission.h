@@ -85,10 +85,6 @@ private:
 	void doCheckUncheckAll(BOOL check);
 
 private:
-	// UI
-	LLScrollListCtrl* mMessages;
-	LLButton* mCloseBtn;
-
 	// Object Queue
 	std::vector<LLUUID> mObjectIDs;
 	LLUUID mCurrentObjectID;
@@ -110,8 +106,6 @@ private:
 	bool mBulkChangeNextOwnerTransfer;
 
 	LLUUID mID;
-
-	const char* mStartString;
 };
 
 #endif

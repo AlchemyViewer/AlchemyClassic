@@ -81,11 +81,13 @@ const F32 BASE_ANIM_TIME_OFFSET = 5.f;
 // LLFloaterBvhPreview()
 //-----------------------------------------------------------------------------
 LLFloaterBvhPreview::LLFloaterBvhPreview(const std::string& filename) : 
-	LLFloaterNameDesc(filename)
+	LLFloaterNameDesc(filename),
+	mLastMouseX(0),
+	mLastMouseY(0),
+	mPlayButton(nullptr),
+	mPauseButton(nullptr),
+	mStopButton(nullptr)
 {
-	mLastMouseX = 0;
-	mLastMouseY = 0;
-
 	mIDList["Standing"] = ANIM_AGENT_STAND;
 	mIDList["Walking"] = ANIM_AGENT_FEMALE_WALK;
 	mIDList["Sitting"] = ANIM_AGENT_SIT_FEMALE;

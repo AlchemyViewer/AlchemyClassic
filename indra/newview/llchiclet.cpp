@@ -641,7 +641,7 @@ void LLChicletPanel::removeChiclet(const LLUUID& im_session_id)
 	{
 		LLIMChiclet* chiclet = dynamic_cast<LLIMChiclet*>(*it);
 
-		if(chiclet->getSessionId() == im_session_id)
+		if(chiclet && chiclet->getSessionId() == im_session_id)
 		{
 			removeChiclet(it);
 			return;

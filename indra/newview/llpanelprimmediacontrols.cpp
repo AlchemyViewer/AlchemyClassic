@@ -314,10 +314,11 @@ void LLPanelPrimMediaControls::updateShape()
 	{
 		bool mini_controls = false;
 		LLMediaEntry *media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
-		if (media_data && NULL != dynamic_cast<LLVOVolume*>(objectp))
+        LLVOVolume *vol = dynamic_cast<LLVOVolume*>(objectp);
+		if (media_data && vol)
 		{
 			// Don't show the media controls if we do not have permissions
-			enabled = dynamic_cast<LLVOVolume*>(objectp)->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL);
+			enabled = vol->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL);
 			mini_controls = (LLMediaEntry::MINI == media_data->getControls());
 		}
 		const bool is_hud = objectp->isHUDAttachment();

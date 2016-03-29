@@ -1252,18 +1252,20 @@ LLInventoryPanel* LLInventoryPanel::getActiveInventoryPanel(BOOL auto_open)
 	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); ++iter)
 	{
 		LLFloaterSidePanelContainer* inventory_floater = dynamic_cast<LLFloaterSidePanelContainer*>(*iter);
-		inventory_panel = inventory_floater->findChild<LLSidepanelInventory>("main_panel");
-
-		if (inventory_floater && inventory_panel && inventory_floater->getVisible())
-		{
-			S32 z_order = gFloaterView->getZOrder(inventory_floater);
-			if (z_order < z_min)
-			{
-				res = inventory_panel->getActivePanel();
-				z_min = z_order;
-				active_inv_floaterp = inventory_floater;
-			}
-		}
+		if (inventory_floater)
+        {
+            inventory_panel = inventory_floater->findChild<LLSidepanelInventory>("main_panel");
+            if (inventory_panel && inventory_floater->getVisible())
+            {
+                S32 z_order = gFloaterView->getZOrder(inventory_floater);
+                if (z_order < z_min)
+                {
+                    res = inventory_panel->getActivePanel();
+                    z_min = z_order;
+                    active_inv_floaterp = inventory_floater;
+                }
+            }
+        }
 	}
 
 	if (res)

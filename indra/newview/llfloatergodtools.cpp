@@ -114,6 +114,8 @@ void LLFloaterGodTools::refreshAll()
 
 LLFloaterGodTools::LLFloaterGodTools(const LLSD& key)
 :	LLFloater(key),
+	mPanelRegionTools(nullptr),
+	mPanelObjectTools(nullptr),
 	mCurrentHost(LLHost::invalid),
 	mUpdateTimer()
 {

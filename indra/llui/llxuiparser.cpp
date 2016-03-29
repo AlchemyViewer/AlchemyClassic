@@ -1353,9 +1353,9 @@ struct ScopedFile
 	{
 		if (!isOpen()) return 0;
 
-		S32 cur_pos = ftell(mFile);
+		size_t cur_pos = ftell(mFile);
 		fseek(mFile, 0L, SEEK_END);
-		S32 file_size = ftell(mFile);
+		size_t file_size = ftell(mFile);
 		fseek(mFile, cur_pos, SEEK_SET);
 		return file_size - cur_pos;
 	}

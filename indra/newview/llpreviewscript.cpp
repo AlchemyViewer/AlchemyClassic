@@ -618,20 +618,27 @@ bool LLScriptEdCore::loadScriptText(const std::string& filename)
 
 	// read in the whole file
 	fseek(file, 0L, SEEK_END);
-	size_t file_length = (size_t) ftell(file);
+	long file_length = ftell(file);
 	fseek(file, 0L, SEEK_SET);
-	char* buffer = new char[file_length+1];
-	size_t nread = fread(buffer, 1, file_length, file);
-	if (nread < file_length)
-	{
-		LL_WARNS() << "Short read" << LL_ENDL;
-	}
-	buffer[nread] = '\0';
-	fclose(file);
-
-	mEditor->setText(LLStringExplicit(buffer));
-	delete[] buffer;
-
+    if (file_length > 0)
+    {
+        char* buffer = new char[file_length+1];
+        size_t nread = fread(buffer, 1, file_length, file);
+        if (nread < file_length)
+        {
+            LL_WARNS() << "Short read" << LL_ENDL;
+        }
+        buffer[nread] = '\0';
+        fclose(file);
+        
+        mEditor->setText(LLStringExplicit(buffer));
+        delete[] buffer;
+    }
+    else
+    {
+        LL_WARNS() << "Error opening " << filename << LL_ENDL;
+        return false;
+    }
 	return true;
 }
 

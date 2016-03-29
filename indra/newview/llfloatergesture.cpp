@@ -117,6 +117,7 @@ public:
 //---------------------------------------------------------------------------
 LLFloaterGesture::LLFloaterGesture(const LLSD& key)
 	: LLFloater(key)
+	, mGestureList(nullptr)
 {
 	mObserver = new LLFloaterGestureObserver(this);
 	LLGestureMgr::instance().addObserver(mObserver);

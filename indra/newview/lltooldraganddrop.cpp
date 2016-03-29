@@ -1233,7 +1233,7 @@ void LLToolDragAndDrop::dropTextureOneFace(LLViewerObject* hit_obj,
 			break;
 		}
 	}
-	else
+	else if (hit_obj)
 	{
 		hit_obj->setTEImage(hit_face, image);
 	}

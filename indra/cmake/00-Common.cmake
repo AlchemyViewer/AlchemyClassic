@@ -246,11 +246,13 @@ else (USESYSTEMLIBS)
   set(${ARCH}_linux_INCLUDES
       ELFIO
       atk-1.0
+      cairo
       gdk-pixbuf-2.0
       glib-2.0
       gstreamer-0.10
       gtk-2.0
       pango-1.0
+      pixman-1
       )
 endif (USESYSTEMLIBS)
 

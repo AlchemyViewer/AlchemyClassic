@@ -59,8 +59,6 @@ else (USESYSTEMLIBS)
 
   include_directories (
       ${LIBS_PREBUILT_DIR}/include
-      ${LIBS_PREBUILT_DIR}/include/cairo
-      ${LIBS_PREBUILT_DIR}/include/pixman-1
       )
   foreach(include ${${LL_ARCH}_INCLUDES})
       include_directories(${LIBS_PREBUILT_DIR}/include/${include})

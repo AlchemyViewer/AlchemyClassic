@@ -16,7 +16,7 @@
      default_image_name="Generic_Person_Large"
      fallback_image="Generic_Person_Large"
      follows="left|top"
-     height="120"
+     height="143"
      label=""
      layout="topleft"
      left="5"

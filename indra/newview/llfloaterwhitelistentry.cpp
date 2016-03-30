@@ -37,8 +37,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-LLFloaterWhiteListEntry::LLFloaterWhiteListEntry( const LLSD& key ) :
-	LLFloater(key)
+LLFloaterWhiteListEntry::LLFloaterWhiteListEntry( const LLSD& key ) 
+	: LLFloater(key)
+	, mWhiteListEdit(nullptr)
 {
 }
 

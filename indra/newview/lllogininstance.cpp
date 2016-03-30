@@ -263,9 +263,9 @@ void MandatoryUpdateMachine::setCurrentState(State * newStatePointer)
 
 
 MandatoryUpdateMachine::CheckingForUpdate::CheckingForUpdate(MandatoryUpdateMachine & machine):
-	mMachine(machine)
+	mMachine(machine),
+	mProgressView(nullptr)
 {
-	; // No op.
 }
 
 

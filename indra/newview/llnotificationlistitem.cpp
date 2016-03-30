@@ -42,12 +42,17 @@
 
 LLNotificationListItem::LLNotificationListItem(const Params& p) : LLPanel(p),
     mParams(p),
-    mTitleBox(NULL),
-    mExpandBtn(NULL),
-    mCondenseBtn(NULL),
-    mCloseBtn(NULL),
-    mCondensedViewPanel(NULL),
-    mExpandedViewPanel(NULL),
+    mTitleBox(nullptr),
+    mTitleBoxExp(nullptr),
+    mNoticeTextExp(nullptr),
+    mTimeBox(nullptr),
+    mTimeBoxExp(nullptr),
+    mExpandBtn(nullptr),
+    mCondenseBtn(nullptr),
+    mCloseBtn(nullptr),
+    mCloseBtnExp(nullptr),
+    mCondensedViewPanel(nullptr),
+    mExpandedViewPanel(nullptr),
     mCondensedHeight(0),
     mExpandedHeight(0),
     mExpandedHeightResize(0),
@@ -265,13 +270,21 @@ std::set<std::string> LLTransactionNotificationListItem::getTypes()
 }
 
 LLGroupNotificationListItem::LLGroupNotificationListItem(const Params& p)
-    : LLNotificationListItem(p),
-    mSenderOrFeeBox(NULL)
+    : LLNotificationListItem(p)
+    , mGroupIcon(nullptr)
+    , mGroupIconExp(nullptr)
+    , mSenderOrFeeBox(nullptr) 
+    , mSenderOrFeeBoxExp(nullptr)
+    , mGroupNameBoxExp(nullptr)
 {
 }
 
 LLGroupInviteNotificationListItem::LLGroupInviteNotificationListItem(const Params& p)
     : LLGroupNotificationListItem(p)
+    , mInviteButtonPanel(nullptr)
+    , mJoinBtn(nullptr)
+    , mDeclineBtn(nullptr)
+    , mInfoBtn(nullptr)
 {
     buildFromFile("panel_notification_list_item.xml");
 }
@@ -617,7 +630,8 @@ BOOL LLTransactionNotificationListItem::postBuild()
 
 LLSystemNotificationListItem::LLSystemNotificationListItem(const Params& p)
     : LLNotificationListItem(p),
-    mSystemNotificationIcon(NULL),
+    mSystemNotificationIcon(nullptr),
+    mSystemNotificationIconExp(nullptr),
     mIsCaution(false)
 {
     buildFromFile("panel_notification_list_item.xml");

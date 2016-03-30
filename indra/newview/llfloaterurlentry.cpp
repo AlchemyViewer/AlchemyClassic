@@ -74,10 +74,11 @@ private:
 };
 
 //-----------------------------------------------------------------------------
-// LLFloaterURLEntry()
+// LLFloaterURLEntry() 
 //-----------------------------------------------------------------------------
 LLFloaterURLEntry::LLFloaterURLEntry(LLHandle<LLPanel> parent)
 	: LLFloater(LLSD()),
+	  mMediaURLEdit(nullptr),
 	  mPanelLandMediaHandle(parent)
 {
 	buildFromFile("floater_url_entry.xml");

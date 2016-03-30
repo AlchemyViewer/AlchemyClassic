@@ -68,6 +68,8 @@ LLFloaterMove::LLFloaterMove(const LLSD& key)
 :	LLFloater(key),
 	mForwardButton(NULL),
 	mBackwardButton(NULL),
+	mSlideLeftButton(nullptr),
+	mSlideRightButton(nullptr),
 	mTurnLeftButton(NULL), 
 	mTurnRightButton(NULL),
 	mMoveUpButton(NULL),

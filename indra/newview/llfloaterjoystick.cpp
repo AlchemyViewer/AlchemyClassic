@@ -61,7 +61,7 @@ LLFloaterJoystick::LLFloaterJoystick(const LLSD& data)
 	: LLFloater(data)
 	, mCheckJoystickEnabled(nullptr)
 	, mCheckFlycamEnabled(nullptr)
-	, mAxisStatsBar({ nullptr,nullptr,nullptr,nullptr,nullptr,nullptr })
+	, mAxisStatsBar({ {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr} })
 {
 	initFromSettings();
 }

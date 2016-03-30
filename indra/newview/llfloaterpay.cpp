@@ -123,8 +123,8 @@ LLFloaterPay::LLFloaterPay(const LLSD& key)
 	  mCallback(NULL),
 	  mTargetUUID(key.asUUID()),
 	  mTargetIsGroup(FALSE),
-	  mQuickPayButton({ nullptr,nullptr,nullptr,nullptr }),
-	  mQuickPayInfo({ nullptr,nullptr,nullptr,nullptr })
+	  mQuickPayButton({ {nullptr,nullptr,nullptr,nullptr} }),
+	  mQuickPayInfo({ {nullptr,nullptr,nullptr,nullptr} })
 {
 }
 

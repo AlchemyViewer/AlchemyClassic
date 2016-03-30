@@ -388,22 +388,30 @@ void LLCOFDragAndDropObserver::done()
 ///////////////////////////////////////////////////////////////////////////////
 
 LLPanelOutfitEdit::LLPanelOutfitEdit()
-:	LLPanel(), 
-	mSearchFilter(NULL),
-	mCOFWearables(NULL),
-	mInventoryItemsPanel(NULL),
-	mGearMenu(NULL),
-	mAddWearablesGearMenu(NULL),
-	mCOFDragAndDropObserver(NULL),
+	: LLPanel(),
+	mCurrentOutfitName(nullptr),
+	mStatus(nullptr),
+	mInventoryItemsPanel(nullptr),
+	mSearchFilter(nullptr),
+	mEditWearableBtn(nullptr),
+	mFolderViewBtn(nullptr),
+	mListViewBtn(nullptr),
+	mPlusBtn(nullptr),
+	mAddWearablesPanel(nullptr),
+	mFolderViewFilterCmbBox(nullptr),
+	mListViewFilterCmbBox(nullptr),
+	mWearableListManager(nullptr),
+	mWearableItemsList(nullptr),
+	mWearablesListViewPanel(nullptr),
+	mWearableListViewItemsComparator(nullptr),
+	mCOFDragAndDropObserver(nullptr),
+	mCOFWearables(nullptr),
+	mGearMenu(nullptr),
+	mAddWearablesGearMenu(nullptr),
 	mInitialized(false),
-	mAddWearablesPanel(NULL),
-	mFolderViewFilterCmbBox(NULL),
-	mListViewFilterCmbBox(NULL),
-	mWearableListManager(NULL),
-	mWearableListViewItemsComparator(NULL),
-	mPlusBtn(NULL),
-	mWearablesGearMenuBtn(NULL),
-	mGearMenuBtn(NULL)
+	mSaveComboBtn(),
+	mWearablesGearMenuBtn(nullptr),
+	mGearMenuBtn(nullptr)
 {
 	mSavedFolderState = new LLSaveFolderState();
 	mSavedFolderState->setApply(FALSE);

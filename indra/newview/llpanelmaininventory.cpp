@@ -105,11 +105,17 @@ private:
 
 LLPanelMainInventory::LLPanelMainInventory(const LLPanel::Params& p)
 	: LLPanel(p),
-	  mActivePanel(NULL),
-	  mSavedFolderState(NULL),
+	  mFilterEditor(nullptr),
+	  mFilterTabs(nullptr),
+	  mActivePanel(nullptr),
+	  mResortActivePanel(true),
+	  mSavedFolderState(nullptr),
 	  mFilterText(""),
-	  mMenuGearDefault(NULL),
-	  mMenuAdd(NULL),
+	  mItemCount(0),
+	  mTrashButton(nullptr),
+	  mMenuGearDefault(nullptr),
+	  mMenuAdd(nullptr),
+	  mGearMenuButton(nullptr),
 	  mNeedUploadCost(true)
 {
 	// Menu Callbacks (non contex menus)

@@ -38,7 +38,7 @@ class LLPanelTipToast : public LLToastPanel
 {
 	LOG_CLASS(LLPanelTipToast);
 public:
-	LLPanelTipToast(const LLNotificationPtr& notification): LLToastPanel(notification) {}
+	LLPanelTipToast(const LLNotificationPtr& notification) : LLToastPanel(notification), mMessageText(nullptr) {}
 	virtual BOOL postBuild();
 private:
 	void onMessageTextClick();

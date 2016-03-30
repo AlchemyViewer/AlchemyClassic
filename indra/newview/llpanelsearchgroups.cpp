@@ -43,7 +43,8 @@
 static LLPanelInjector<LLPanelSearchGroups> t_panel_search_groups("panel_search_groups");
 
 LLPanelSearchGroups::LLPanelSearchGroups()
-:	LLPanelSearch()
+	: LLPanelSearch()
+	, mSearchEditor(nullptr)
 {
 	mCommitCallbackRegistrar.add("Search.query", boost::bind(&LLPanelSearchGroups::onCommitSearch, this, _1));
 }

@@ -48,7 +48,9 @@
 static LLPanelInjector<LLPanelSearchClassifieds> t_panel_search_classifieds("panel_search_classifieds");
 
 LLPanelSearchClassifieds::LLPanelSearchClassifieds()
-:	LLPanelSearch()
+	: LLPanelSearch()
+	, mSearchEditor(nullptr)
+	, mClassifiedsCategory(nullptr)
 {
 	mCommitCallbackRegistrar.add("Search.query", boost::bind(&LLPanelSearchClassifieds::onCommitSearch, this, _1));
 }

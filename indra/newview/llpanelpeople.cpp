@@ -511,6 +511,7 @@ LLPanelPeople::LLPanelPeople()
 		mTabContainer(NULL),
 		mOnlineFriendList(NULL),
 		mAllFriendList(NULL),
+		mSuggestedFriends(nullptr),
 		mNearbyList(NULL),
 		mRecentList(NULL),
 		mGroupList(NULL),

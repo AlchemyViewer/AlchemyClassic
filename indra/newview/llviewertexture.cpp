@@ -34,6 +34,7 @@
 #include "llgl.h"
 #include "llglheaders.h"
 #include "llhost.h"
+#include "lliconctrl.h" // DEFAULT_ICON_SIZE
 #include "llimage.h"
 #include "llimagebmp.h"
 #include "llimagej2c.h"
@@ -1193,6 +1194,16 @@ void LLViewerFetchedTexture::loadFromFastCache()
 		}
 		else
 		{
+            if (mBoostLevel == LLViewerTexture::AVATAR_ICON)
+            {
+                S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
+                S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
+                if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
+                {
+                    mRawImage->scale(expected_width, expected_height);
+                }
+            }
+
 			mRequestedDiscardLevel = mDesiredDiscardLevel + 1;
 			mIsRawImageValid = TRUE;			
 			addToCreateTexture();
@@ -1645,7 +1656,9 @@ F32 LLViewerFetchedTexture::calcDecodePriority()
 		// Don't decode anything we don't need
 		priority = -4.0f;
 	}
-	else if ((mBoostLevel == LLGLTexture::BOOST_UI || mBoostLevel == LLGLTexture::BOOST_ICON) && !have_all_data)
+	else if ((mBoostLevel == LLGLTexture::BOOST_UI ||
+              mBoostLevel == LLGLTexture::BOOST_ICON ||
+              mBoostLevel == LLGLTexture::AVATAR_ICON) && !have_all_data)
 	{
 		priority = 1.f;
 	}
@@ -1983,6 +1996,16 @@ bool LLViewerFetchedTexture::updateFetch()
 					mIsRawImageValid = TRUE;			
 					addToCreateTexture();
 				}
+                
+                if (mBoostLevel == LLViewerTexture::AVATAR_ICON)
+                {
+                    S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
+                    S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
+                    if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
+                    {
+                        mRawImage->scale(expected_width, expected_height);
+                    }
+                }
 
 				return TRUE;
 			}
@@ -2820,7 +2843,24 @@ void LLViewerFetchedTexture::setCachedRawImage(S32 discard_level, LLImageRaw* im
 {
 	if(imageraw != mRawImage.get())
 	{
-		mCachedRawImage = imageraw;
+        if (mBoostLevel == LLGLTexture::AVATAR_ICON)
+        {
+            S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
+            S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
+            if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
+            {
+                mCachedRawImage = new LLImageRaw(expected_width, expected_height, imageraw->getComponents());
+                mCachedRawImage->copyScaled(imageraw);
+            }
+            else
+            {
+                mCachedRawImage = imageraw;
+            }
+        }
+        else
+        {
+            mCachedRawImage = imageraw;
+        }
 		mCachedRawDiscardLevel = discard_level;
 		mCachedRawImageReady = TRUE;
 	}
@@ -2904,13 +2944,33 @@ void LLViewerFetchedTexture::checkCachedRawSculptImage()
 
 void LLViewerFetchedTexture::saveRawImage() 
 {
-	if(mRawImage.isNull() || mRawImage == mSavedRawImage || (mSavedRawDiscardLevel >= 0 && mSavedRawDiscardLevel <= mRawDiscardLevel))
+	if(mRawImage.isNull()
+       || mRawImage == mSavedRawImage
+       || (mSavedRawDiscardLevel >= 0 && mSavedRawDiscardLevel <= mRawDiscardLevel))
 	{
 		return;
 	}
 
 	mSavedRawDiscardLevel = mRawDiscardLevel;
-	mSavedRawImage = new LLImageRaw(mRawImage->getData(), mRawImage->getWidth(), mRawImage->getHeight(), mRawImage->getComponents());
+	
+    if (mBoostLevel == LLGLTexture::AVATAR_ICON)
+    {
+        S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
+        S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
+        if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
+        {
+            mSavedRawImage = new LLImageRaw(expected_width, expected_height, mRawImage->getComponents());
+            mSavedRawImage->copyScaled(mRawImage);
+        }
+        else
+        {
+            mSavedRawImage = new LLImageRaw(mRawImage->getData(), mRawImage->getWidth(), mRawImage->getHeight(), mRawImage->getComponents());
+        }
+    }
+    else
+    {
+        mSavedRawImage = new LLImageRaw(mRawImage->getData(), mRawImage->getWidth(), mRawImage->getHeight(), mRawImage->getComponents());
+    }
 
 	if(mForceToSaveRawImage && mSavedRawDiscardLevel <= mDesiredSavedRawDiscardLevel)
 	{

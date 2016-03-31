@@ -127,13 +127,11 @@
          layout="topleft"
          name="alchemy" />
         <panel
-         class="panel_preference_grid"
          filename="panel_preferences_grids.xml"
          label="Grids"
          layout="topleft"
          name="grids" />
         <panel
-         class="panel_preference_skins"
          filename="panel_preferences_skins.xml"
          label="Skinning"
          layout="topleft"

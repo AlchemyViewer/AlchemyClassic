@@ -69,7 +69,7 @@ void LLChatUtilities::sendChatFromViewer(const LLWString &wtext, EChatType type,
 	}
 	
 	// Don't animate for chats people can't hear (chat to scripts)
-	if (animate && (channel == 0) && gSavedSettings.getBOOL("AlchemyAnimateShoutWhisper"))
+	if (animate && (channel == 0))
 	{
 		if (type == CHAT_TYPE_WHISPER)
 		{

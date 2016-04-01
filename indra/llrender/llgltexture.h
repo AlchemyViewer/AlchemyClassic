@@ -72,10 +72,8 @@ public:
 
 		//other texture Categories
 		LOCAL = BOOST_MAX_LEVEL,
-		AVATAR_SCRATCH_TEX,
 		DYNAMIC_TEX,
 		MEDIA,
-		ATLAS,
 		OTHER,
 		MAX_GL_IMAGE_CATEGORY
 	};

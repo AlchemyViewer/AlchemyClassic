@@ -30,7 +30,7 @@
 
 // libs
 #include "llbutton.h"
-#include "llgroupiconctrl.h"
+#include "lliconctrl.h"
 #include "llmenugl.h"
 #include "lltextbox.h"
 #include "lltextutil.h"
@@ -333,7 +333,7 @@ LLGroupListItem::~LLGroupListItem()
 //virtual
 BOOL  LLGroupListItem::postBuild()
 {
-	mGroupIcon = getChild<LLGroupIconCtrl>("group_icon");
+	mGroupIcon = getChild<LLIconCtrl>("group_icon");
 	mGroupNameBox = getChild<LLTextBox>("group_name");
 
 	mInfoBtn = getChild<LLButton>("info_btn");

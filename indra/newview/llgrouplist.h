@@ -84,7 +84,7 @@ private:
 };
 
 class LLButton;
-class LLGroupIconCtrl;
+class LLIconCtrl;
 class LLTextBox;
 
 class LLGroupListItem : public LLPanel
@@ -114,7 +114,7 @@ private:
 
 	LLTextBox*	mGroupNameBox;
 	LLUUID		mGroupID;
-	LLGroupIconCtrl* mGroupIcon;
+	LLIconCtrl* mGroupIcon;
 	LLButton*	mInfoBtn;
 
 	std::string	mGroupName;

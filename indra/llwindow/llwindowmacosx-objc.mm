@@ -166,6 +166,11 @@ void showNSCursor()
 	[NSCursor unhide];
 }
 
+bool isCGCursorVisible()
+{
+    return CGCursorIsVisible();
+}
+
 void hideNSCursorTillMove(bool hide)
 {
 	[NSCursor setHiddenUntilMouseMoves:hide];

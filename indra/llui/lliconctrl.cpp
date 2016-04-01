@@ -31,10 +31,8 @@
 // Linden library includes 
 
 // Project includes
-#include "llcontrol.h"
 #include "llui.h"
 #include "lluictrlfactory.h"
-#include "lluiimage.h"
 
 static LLDefaultChildRegistry::Register<LLIconCtrl> r("icon");
 

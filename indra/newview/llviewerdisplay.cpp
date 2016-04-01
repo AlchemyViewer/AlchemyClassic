@@ -965,11 +965,8 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 
 			//store this frame's modelview matrix for use
 			//when rendering next frame's occlusion queries
-			for (U32 i = 0; i < 16; i++)
-			{
-				gGLLastModelView[i] = gGLModelView[i];
-				gGLLastProjection[i] = gGLProjection[i];
-			}
+			memcpy(gGLLastModelView, gGLModelView, sizeof(F32) * 16);
+			memcpy(gGLLastProjection, gGLProjection, sizeof(F32) * 16);
 			stop_glerror();
 		}
 

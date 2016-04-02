@@ -1506,6 +1506,13 @@ if (WINDOWS)
          llwindebug.h
          )
 
+  if (NVAPI)
+    set(APPVWRW32_COMPILE_FLAGS "${APPVWRW32_COMPILE_FLAGS} -DUSE_NVAPI=1")
+  else (NVAPI)
+    set(APPVWRW32_COMPILE_FLAGS "${APPVWRW32_COMPILE_FLAGS} -UUSE_NVAPI")
+  endif (NVAPI)
+  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_FLAGS "${APPVWRW32_COMPILE_FLAGS}")
+
     # precompiled header configuration
     # llviewerprecompiledheaders.cpp generates
     # the .pch file.

@@ -45,6 +45,9 @@ endif (USE_TCMALLOC AND USE_TBBMALLOC)
 # Audio Engines
 option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
+# Proprietary Library Features
+option(NVAPI "Use nvapi driver interface library" OFF)
+
 if(LIBS_CLOSED_DIR)
   file(TO_CMAKE_PATH "${LIBS_CLOSED_DIR}" LIBS_CLOSED_DIR)
 else(LIBS_CLOSED_DIR)

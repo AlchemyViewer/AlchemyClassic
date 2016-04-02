@@ -1,7 +1,6 @@
 # -*- cmake -*-
 include(Prebuilt)
-
-option(NVAPI "Use NVAPI." ON)
+include(Variables)
 
 if (NVAPI)
   if (WINDOWS)

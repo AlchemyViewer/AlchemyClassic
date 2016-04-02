@@ -9,7 +9,6 @@
   left="0"
   width="331"
   height="202"
-  can_resize="true"
   layout="topleft"
   follows="left|top|right|bottom" >
   <!-- background_opaque="false" -->

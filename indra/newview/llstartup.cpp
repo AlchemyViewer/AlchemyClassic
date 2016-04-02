@@ -3281,6 +3281,7 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 			gDisplayName += text;
 		}
 	}
+
 	if(gDisplayName.empty())
 	{
 		gDisplayName.assign(gUserCredential->asString());

@@ -1817,7 +1817,7 @@ bool LLAppViewer::cleanup()
 	if (gAudiop)
 	{
 		// shut down the audio subsystem
-		gAudiop->shutdown();
+        gAudiop->shutdown();
 
 		delete gAudiop;
 		gAudiop = NULL;
@@ -2212,8 +2212,8 @@ void errorCallback(const std::string &error_string)
 		}
 #endif
 
-		//Set the ErrorActivated global so we know to create a marker file
-		gLLErrorActivated = true;
+	//Set the ErrorActivated global so we know to create a marker file
+	gLLErrorActivated = true;
 	
 		LLError::crashAndLoop(error_string);
 	}
@@ -4530,6 +4530,7 @@ void LLAppViewer::saveNameCache()
         }
 	}
 }
+
 
 void LLAppViewer::saveExperienceCache()
 {

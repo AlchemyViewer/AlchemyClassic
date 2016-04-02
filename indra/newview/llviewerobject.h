@@ -266,6 +266,7 @@ public:
 	virtual BOOL lineSegmentIntersect(const LLVector4a& start, const LLVector4a& end,
 									  S32 face = -1,                          // which face to check, -1 = ALL_SIDES
 									  BOOL pick_transparent = FALSE,
+									  BOOL pick_rigged = FALSE,
 									  S32* face_hit = NULL,                   // which face was hit
 									  LLVector4a* intersection = NULL,         // return the intersection point
 									  LLVector2* tex_coord = NULL,            // return the texture coordinates of the intersection point
@@ -401,6 +402,8 @@ public:
 	void setCanSelect(BOOL canSelect);
 
 	void setDebugText(const std::string &utf8text);
+	void initHudText();
+	void restoreHudText();
 	void setIcon(LLViewerTexture* icon_image);
 	void clearIcon();
 
@@ -436,7 +439,6 @@ public:
 	void clearInventoryListeners();
 	bool hasInventoryListeners();
 	void requestInventory();
-	void fetchInventoryFromServer();
 	static void processTaskInv(LLMessageSystem* msg, void** user_data);
 	void removeInventory(const LLUUID& item_id);
 
@@ -592,6 +594,9 @@ private:
 
 	static void initObjectDataMap();
 
+	// forms task inventory request if none are pending
+	void fetchInventoryFromServer();
+
 public:
 	//
 	// Viewer-side only types - use the LL_PCODE_APP mask.
@@ -668,6 +673,9 @@ public:
 	// TODO: Make all this stuff private.  JC
 	LLPointer<LLHUDText> mText;
 	LLPointer<class LLHUDIcon> mIcon;
+
+	std::string mHudText;
+	LLColor4 mHudTextColor;
 
 	static			BOOL		sUseSharedDrawables;
 

@@ -761,7 +761,7 @@ void LLGroupMgrGroupData::banMemberById(const LLUUID& participant_uuid)
 		mPendingBanRequest = true;
 		mPendingBanMemberID = participant_uuid;
 
-		if (!mMemberDataComplete)
+		if (!mMemberDataComplete || mMembers.empty())
 		{
 			LLGroupMgr::getInstance()->sendCapGroupMembersRequest(mID);
 		}

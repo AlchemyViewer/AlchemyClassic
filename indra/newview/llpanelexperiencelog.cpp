@@ -54,7 +54,6 @@ LLPanelExperienceLog::LLPanelExperienceLog(  )
 	buildFromFile("panel_experience_log.xml");
 }
 
-
 BOOL LLPanelExperienceLog::postBuild( void )
 {
 	LLExperienceLog* log = LLExperienceLog::getInstance();

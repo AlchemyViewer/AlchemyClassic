@@ -3876,7 +3876,7 @@ LLVector3 LLVOVolume::volumeDirectionToAgent(const LLVector3& dir) const
 }
 
 
-BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a& end, S32 face, BOOL pick_transparent, S32 *face_hitp,
+BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a& end, S32 face, BOOL pick_transparent, BOOL pick_rigged, S32 *face_hitp,
 									  LLVector4a* intersection,LLVector2* tex_coord, LLVector4a* normal, LLVector4a* tangent)
 	
 {
@@ -3895,14 +3895,14 @@ BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 
 	if (mDrawable->isState(LLDrawable::RIGGED))
 	{
-		if (LLFloater::isVisible(gFloaterTools) || LLFloaterReg::instanceVisible("inspect")) // <alchemy/>
+		if ((pick_rigged) || ((getAvatar()->isSelf()) && (LLFloater::isVisible(gFloaterTools))))
 		{
-			updateRiggedVolume();
+			updateRiggedVolume(true);
 			volume = mRiggedVolume;
 			transform = false;
 		}
 		else
-		{ //cannot pick rigged attachments when not in build mode
+		{ //cannot pick rigged attachments on other avatars or when not in build mode
 			return FALSE;
 		}
 	}
@@ -4076,8 +4076,8 @@ BOOL LLVOVolume::lineSegmentIntersect(const LLVector4a& start, const LLVector4a&
 
 bool LLVOVolume::treatAsRigged()
 {
-	return (LLFloater::isVisible(gFloaterTools) || LLFloaterReg::instanceVisible("inspect")) && // <alchemy/>
-			isAttachment() && 
+	return isSelected() &&
+			isAttachment() &&
 			mDrawable.notNull() &&
 			mDrawable->isState(LLDrawable::RIGGED);
 }
@@ -4096,12 +4096,12 @@ void LLVOVolume::clearRiggedVolume()
 	}
 }
 
-void LLVOVolume::updateRiggedVolume()
+void LLVOVolume::updateRiggedVolume(bool force_update)
 {
 	//Update mRiggedVolume to match current animation frame of avatar. 
 	//Also update position/size in octree.  
 
-	if (!treatAsRigged())
+	if ((!force_update) && (!treatAsRigged()))
 	{
 		clearRiggedVolume();
 		
@@ -4201,25 +4201,25 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 		LLMatrix4a bind_shape_matrix;
 		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
 
-		LLVector4a* pos = dst_face.mPositions;
+			LLVector4a* pos = dst_face.mPositions;
 
 		if( pos && dst_face.mExtents )
 		{
 			LL_RECORD_BLOCK_TIME(FTM_SKIN_RIGGED);
 
-			for (U32 j = 0; j < dst_face.mNumVertices; ++j)
-			{
-				LLMatrix4a final_mat;
-				final_mat.clear();
-
-				S32 idx[4];
-
-				LLVector4 wght;
-
-				F32 scale = 0.f;
-				for (U32 k = 0; k < 4; k++)
+				for (U32 j = 0; j < dst_face.mNumVertices; ++j)
 				{
-					F32 w = weight[j][k];
+					LLMatrix4a final_mat;
+					final_mat.clear();
+
+					S32 idx[4];
+
+					LLVector4 wght;
+
+					F32 scale = 0.f;
+					for (U32 k = 0; k < 4; k++)
+					{
+						F32 w = weight[j][k];
 
 					const F32 w_floor = floorf(w);
 					idx[k] = (S32) w_floor;
@@ -4231,9 +4231,9 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				llassert(scale>0.f);
 				wght *= 1.f/scale;
 
-				for (U32 k = 0; k < 4; k++)
-				{
-					F32 w = wght[k];
+					for (U32 k = 0; k < 4; k++)
+					{
+						F32 w = wght[k];
 
 					LLMatrix4a src;
 					// clamp k to kMaxJoints to avoid reading garbage off stack in release
@@ -4242,30 +4242,30 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 					final_mat.add(src);
 				}
 
+				
+					LLVector4a& v = vol_face.mPositions[j];
+					LLVector4a t;
+					LLVector4a dst;
+					bind_shape_matrix.affineTransform(v, t);
+					final_mat.affineTransform(t, dst);
+					pos[j] = dst;
+				}
 
-				LLVector4a& v = vol_face.mPositions[j];
-				LLVector4a t;
-				LLVector4a dst;
-				bind_shape_matrix.affineTransform(v, t);
-				final_mat.affineTransform(t, dst);
-				pos[j] = dst;
-			}
+				//update bounding box
+				LLVector4a& min = dst_face.mExtents[0];
+				LLVector4a& max = dst_face.mExtents[1];
 
-			//update bounding box
-			LLVector4a& min = dst_face.mExtents[0];
-			LLVector4a& max = dst_face.mExtents[1];
+				min = pos[0];
+				max = pos[1];
 
-			min = pos[0];
-			max = pos[1];
+				for (U32 j = 1; j < dst_face.mNumVertices; ++j)
+				{
+					min.setMin(min, pos[j]);
+					max.setMax(max, pos[j]);
+				}
 
-			for (U32 j = 1; j < dst_face.mNumVertices; ++j)
-			{
-				min.setMin(min, pos[j]);
-				max.setMax(max, pos[j]);
-			}
-
-			dst_face.mCenter->setAdd(dst_face.mExtents[0], dst_face.mExtents[1]);
-			dst_face.mCenter->mul(0.5f);
+				dst_face.mCenter->setAdd(dst_face.mExtents[0], dst_face.mExtents[1]);
+				dst_face.mCenter->mul(0.5f);
 
 			{
 				LL_RECORD_BLOCK_TIME(FTM_RIGGED_OCTREE);
@@ -4275,7 +4275,7 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				LLVector4a size;
 				size.setSub(dst_face.mExtents[1], dst_face.mExtents[0]);
 				size.splat(size.getLength3().getF32()*0.5f);
-
+			
 				dst_face.createOctree(1.f);
 			}
 		}
@@ -4863,6 +4863,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 						if (!tex) continue;
 
 						U32 type = gPipeline.getPoolTypeFromTE(te, tex);
+
 
 						if (te->getGlow())
 						{
@@ -5958,7 +5959,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 					}
 					else
 					{
-						registerFace(group, facep, LLRenderPass::PASS_FULLBRIGHT);
+					registerFace(group, facep, LLRenderPass::PASS_FULLBRIGHT);
 					}
 					if (LLPipeline::sRenderDeferred && !hud_group && LLPipeline::sRenderBump && use_legacy_bump)
 					{ //if this is the deferred render and a bump map is present, register in post deferred bump

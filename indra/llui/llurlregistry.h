@@ -95,6 +95,7 @@ private:
 	LLUrlEntryBase* mLLUrlEntryInvalidSLURL;
 	LLUrlEntryBase* mUrlEntryHTTPLabel;
 	LLUrlEntryBase* mUrlEntrySLLabel;
+	LLUrlEntryBase* mUrlEntryNoLink;
 };
 
 #endif

@@ -34,7 +34,7 @@
 class LLTextureInfo
 {
 public:
-	LLTextureInfo();
+	LLTextureInfo(bool postponeStartRecoreder = true);
 	~LLTextureInfo();
 
 	void setUpLogging(bool writeToViewerLog, bool sendToSim, U32Bytes textureLogThreshold);
@@ -52,6 +52,8 @@ public:
 	void resetTextureStatistics();
 	U32 getTextureInfoMapSize();
 	LLSD getAverages();
+	void startRecording();
+	void stopRecording();
 
 private:
 	void addRequest(const LLUUID& id);

@@ -671,6 +671,7 @@ BOOL LLToolPie::handleMouseUp(S32 x, S32 y, MASK mask)
         LLPickInfo savedPick = mPick;
         mPick = gViewerWindow->pickImmediate(savedPick.mMousePt.mX, savedPick.mMousePt.mY,
                                              FALSE /* ignore transparent */,
+                                             FALSE /* ignore rigged */,
                                              FALSE /* ignore particles */);
 
 		LLViewerObject* objp = mPick.getObject();
@@ -682,7 +683,7 @@ BOOL LLToolPie::handleMouseUp(S32 x, S32 y, MASK mask)
             // get pointer to avatar
             while (objp && !objp->isAvatar())
             {
-				objp = (LLViewerObject*) objp->getParent();
+                objp = (LLViewerObject*) objp->getParent();
             }
 
             if (objp && ((LLVOAvatar*) objp)->isSelf())
@@ -757,6 +758,7 @@ BOOL LLToolPie::handleDoubleClick(S32 x, S32 y, MASK mask)
 		// recompute what was clicked on ignoring transparent objects
 		mPick = gViewerWindow->pickImmediate(savedPick.mMousePt.mX, savedPick.mMousePt.mY,
 			FALSE /* ignore transparent */,
+			FALSE /* ignore rigged */,
 			FALSE /* ignore particles */);
 
 		LLViewerObject* objp = mPick.getObject();

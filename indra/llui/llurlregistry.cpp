@@ -41,8 +41,7 @@ LLUrlRegistry::LLUrlRegistry()
 	mUrlEntry.reserve(23); // <alchemy/>
 
 	// Urls are matched in the order that they were registered
-	mUrlEntryNoLink = new LLUrlEntryNoLink();
-	registerUrl(mUrlEntryNoLink);
+	registerUrl(new LLUrlEntryNoLink());
 	mUrlEntryIcon = new LLUrlEntryIcon();
 	registerUrl(mUrlEntryIcon);
 	mLLUrlEntryInvalidSLURL = new LLUrlEntryInvalidSLURL();
@@ -99,7 +98,7 @@ void LLUrlRegistry::registerUrl(LLUrlEntryBase *url, bool force_front)
 		if (force_front)  // IDEVO
 			mUrlEntry.insert(mUrlEntry.begin(), url);
 		else
-		mUrlEntry.push_back(url);
+			mUrlEntry.push_back(url);
 	}
 }
 
@@ -241,40 +240,12 @@ bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LL
 	// did we find a match? if so, return its details in the match object
 	if (match_entry)
 	{
-
 		// Skip if link is an email with an empty username (starting with @). See MAINT-5371.
 		if (match_start > 0 && text.substr(match_start - 1, 1) == "@")
 			return false;
 
 		// fill in the LLUrlMatch object and return it
 		std::string url = text.substr(match_start, match_end - match_start + 1);
-
-		LLUrlEntryBase *stripped_entry = NULL;
-		if((match_entry != mUrlEntryNoLink) && (match_entry != mUrlEntryHTTPLabel) && (match_entry !=mUrlEntrySLLabel)
-		        && LLStringUtil::containsNonprintable(url))
-		{
-			LLStringUtil::stripNonprintable(url);
-
-			std::vector<LLUrlEntryBase *>::iterator iter;
-			for (iter = mUrlEntry.begin(); iter != mUrlEntry.end(); ++iter)
-			{
-				LLUrlEntryBase *url_entry = *iter;
-				U32 start = 0, end = 0;
-				if (matchRegex(url.c_str(), url_entry->getPattern(), start, end))
-				{
-					if (mLLUrlEntryInvalidSLURL == *iter)
-					{
-						if(url_entry && url_entry->isSLURLvalid(url))
-						{
-							continue;
-						}
-					}
-					stripped_entry = url_entry;
-					break;
-				}
-			}
-		}
-
 
 		if (match_entry == mUrlEntryTrusted)
 		{

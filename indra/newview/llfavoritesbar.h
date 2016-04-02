@@ -204,20 +204,8 @@ public:
 	 * @see cleanup()
 	 */
 	static void destroyClass();
-	static std::string getStoredFavoritesFilename();
-	static std::string getSavedOrderFileName();
-
-	BOOL saveFavoritesRecord(bool pref_changed = false);
-	void showFavoritesOnLoginChanged(BOOL show);
-
-	LLInventoryModel::item_array_t mPrevFavorites;
-
 
 	const static S32 NO_INDEX;
-	static bool mSaveOnExit;
-	bool mUpdateRequired;
-	std::map<LLUUID,std::string> mFavoriteNames;
-
 private:
 	friend class LLSingleton<LLFavoritesOrderStorage>;
 	LLFavoritesOrderStorage() : mIsDirty(false) { load(); }

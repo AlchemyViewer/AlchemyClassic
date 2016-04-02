@@ -3180,11 +3180,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b41376a689fb4c9e9846d838283fdc5d</string>
+              <string>7a619778a2ea5c3113549529dd4f7288</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/xmlrpc_epi-0.54.2-windows-201601151034.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/xmlrpc_epi-0.54.2-windows-201603261505.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>

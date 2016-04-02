@@ -31,6 +31,7 @@
 #include "llviewercontrol.h"
 #include "llbufferstream.h"
 #include "llhttpclient.h"
+#include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"
 #include "llsecapi.h"
@@ -652,6 +653,9 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 
 void LLGridManager::setGridChoice(const std::string& grid, const bool only_select /* = true */)
 {
+    // Don't allow grid choice the grid once we're already logged in.
+    if (LLLoginInstance::getInstance()->authSuccess()) return;
+    
 	// Set the grid choice based on a string.
 	LL_DEBUGS("GridManager") << "requested " << grid << LL_ENDL;
  	std::string grid_name = getGrid(grid); // resolved either the name or the id to the name

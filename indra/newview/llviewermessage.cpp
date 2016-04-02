@@ -4921,6 +4921,7 @@ void process_kill_object(LLMessageSystem *mesgsys, void **user_data)
         // which is using the object, release the mouse capture correctly when the object dies.
         // See LLToolGrab::handleHoverActive() and LLToolGrab::handleHoverNonPhysical().
 		LLSelectMgr::getInstance()->removeObjectFromSelections(id);
+		dialog_refresh_all();
 	}
 }
 

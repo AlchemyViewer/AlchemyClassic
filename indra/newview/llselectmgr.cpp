@@ -6530,22 +6530,27 @@ void dialog_refresh_all()
 	// *TODO: Eliminate all calls into outside classes below, make those
 	// objects register with the update signal.
 
-	gFloaterTools->dirty();
+	if (gFloaterTools->getVisible())
+	{
+		gFloaterTools->dirty();
+	}
 
-	gMenuObject->needsArrange();
-
+	if (gMenuAttachmentSelf->getVisible())
+	{
+		gMenuObject->needsArrange();
+	}
 	if( gMenuAttachmentSelf->getVisible() )
 	{
-		gMenuAttachmentSelf->arrange();
+		gMenuAttachmentSelf->needsArrange();
 	}
 	if( gMenuAttachmentOther->getVisible() )
 	{
-		gMenuAttachmentOther->arrange();
+		gMenuAttachmentOther->needsArrange();
 	}
 
 	LLFloaterProperties::dirtyAll();
 
-	LLFloaterInspect* inspect_instance = LLFloaterReg::getTypedInstance<LLFloaterInspect>("inspect");
+	LLFloaterInspect* inspect_instance = LLFloaterReg::findTypedInstance<LLFloaterInspect>("inspect");
 	if(inspect_instance)
 	{
 		inspect_instance->dirty();

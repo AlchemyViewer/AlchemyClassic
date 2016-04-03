@@ -550,7 +550,7 @@
          name="Take Snapshot"
          shortcut="control|shift|S">
             <menu_item_call.on_click
-             function="Floater.Show"
+             function="Floater.Toggle"
              parameter="snapshot" />
         </menu_item_call>
         <menu_item_separator/>

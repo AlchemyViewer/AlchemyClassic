@@ -50,24 +50,6 @@
 #include "llviewerregion.h"
 #include "llfloaterregioninfo.h"
 
-//LLFloaterTopObjects* LLFloaterTopObjects::sInstance = NULL;
-
-// Globals
-// const U32 TIME_STR_LENGTH = 30;
-/*
-// static
-void LLFloaterTopObjects::show()
-{
-	if (sInstance)
-	{
-		sInstance->setVisibleAndFrontmost();
-		return;
-	}
-
-	sInstance = new LLFloaterTopObjects();
-	sInstance->center();
-}
-*/
 LLFloaterTopObjects::LLFloaterTopObjects(const LLSD& key)
 :	LLFloater(key),
 	mInitialized(FALSE),
@@ -122,7 +104,7 @@ void LLFloaterTopObjects::handle_land_reply(LLMessageSystem* msg, void** data)
 	    instance->handleReply(msg, data);
 	    //HACK: for some reason sometimes top scripts originally comes back
 	    //with no results even though they're there
-	    if (!instance->mObjectListIDs.size() && !instance->mInitialized)
+	    if (instance->mObjectListIDs.empty() && !instance->mInitialized)
 	    {
 	        instance->onRefresh();
 	        instance->mInitialized = TRUE;
@@ -130,13 +112,12 @@ void LLFloaterTopObjects::handle_land_reply(LLMessageSystem* msg, void** data)
 	}
 	else
 	{
-	    LLFloaterRegionInfo* region_info_floater = LLFloaterReg::findTypedInstance<LLFloaterRegionInfo>("region_info");
-	    if(region_info_floater)
-	    {
-	        region_info_floater->enableTopButtons();
-	    }
+		LLFloaterRegionInfo* region_info_floater = LLFloaterReg::findTypedInstance<LLFloaterRegionInfo>("region_info");
+		if (region_info_floater)
+		{
+			region_info_floater->enableTopButtons();
+		}
 	}
-
 }
 
 void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)

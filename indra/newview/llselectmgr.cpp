@@ -3205,6 +3205,11 @@ void LLSelectMgr::getFirst(LLSelectGetFirstTest* test)
 	}
 }
 
+boost::signals2::connection LLSelectMgr::addSelectionUpdateCallback(const update_signal_t::slot_type& cb)
+{
+	return mUpdateSignal.connect(cb);
+}
+
 //-----------------------------------------------------------------------------
 // selectGetCreator()
 // Creator information only applies to roots unless editing linked parts.
@@ -6530,31 +6535,18 @@ void dialog_refresh_all()
 	// *TODO: Eliminate all calls into outside classes below, make those
 	// objects register with the update signal.
 
-	if (gFloaterTools->getVisible())
-	{
-		gFloaterTools->dirty();
-	}
+	gMenuObject->needsArrange();
 
 	if (gMenuAttachmentSelf->getVisible())
 	{
-		gMenuObject->needsArrange();
-	}
-	if( gMenuAttachmentSelf->getVisible() )
-	{
 		gMenuAttachmentSelf->needsArrange();
 	}
-	if( gMenuAttachmentOther->getVisible() )
+	if (gMenuAttachmentOther->getVisible())
 	{
 		gMenuAttachmentOther->needsArrange();
 	}
 
 	LLFloaterProperties::dirtyAll();
-
-	LLFloaterInspect* inspect_instance = LLFloaterReg::findTypedInstance<LLFloaterInspect>("inspect");
-	if(inspect_instance)
-	{
-		inspect_instance->dirty();
-	}
 
 	LLSidepanelTaskInfo *panel_task_info = LLSidepanelTaskInfo::getActivePanel();
 	if (panel_task_info)

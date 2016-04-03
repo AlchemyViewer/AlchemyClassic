@@ -176,8 +176,8 @@ BOOL LLInspectObject::postBuild(void)
 		boost::bind(&LLInspectObject::onClickMoreInfo, this));
 
 	// Watch for updates to selection properties off the network
-	LLSelectMgr::getInstance()->mUpdateSignal.connect(
-		boost::bind(&LLInspectObject::update, this) );
+	LLSelectMgr::getInstance()->addSelectionUpdateCallback(
+		boost::bind(&LLInspectObject::update, this));
 
 	return TRUE;
 }

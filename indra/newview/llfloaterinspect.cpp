@@ -98,7 +98,16 @@ void LLFloaterInspect::onOpen(const LLSD& key)
 	LLSelectMgr::getInstance()->setForceSelection(forcesel);	// restore previouis value
 	mObjectSelection = LLSelectMgr::getInstance()->getSelection();
 	refresh();
+
+	if (!mSelectionChangedConnection.connected())
+		mSelectionChangedConnection = LLSelectMgr::instance().addSelectionUpdateCallback(boost::bind(&LLFloaterInspect::dirty, this));
 }
+
+void LLFloaterInspect::onClose(bool app_quitting)
+{
+	mSelectionChangedConnection.disconnect();
+}
+
 void LLFloaterInspect::onClickCreatorProfile()
 {
 	if(mObjectList->getAllSelected().size() == 0)

@@ -44,6 +44,7 @@ public:
 
 //	static void show(void* ignored = NULL);
 	void onOpen(const LLSD& key);
+	/*virtual*/ void onClose(bool app_quitting);
 	virtual BOOL postBuild();
 	void dirty();
 	LLUUID getSelectedUUID();
@@ -69,6 +70,7 @@ private:
 	virtual ~LLFloaterInspect(void);
 
 	LLSafeHandle<LLObjectSelection> mObjectSelection;
+	boost::signals2::scoped_connection mSelectionChangedConnection;
 	boost::signals2::connection mOwnerNameCacheConnection;
 	boost::signals2::connection mCreatorNameCacheConnection;
 };

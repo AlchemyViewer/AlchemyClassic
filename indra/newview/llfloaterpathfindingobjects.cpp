@@ -72,7 +72,7 @@ void LLFloaterPathfindingObjects::onOpen(const LLSD &pKey)
 
 	if (!mSelectionUpdateSlot.connected())
 	{
-		mSelectionUpdateSlot = LLSelectMgr::getInstance()->mUpdateSignal.connect(boost::bind(&LLFloaterPathfindingObjects::onInWorldSelectionListChanged, this));
+		mSelectionUpdateSlot = LLSelectMgr::getInstance()->addSelectionUpdateCallback(boost::bind(&LLFloaterPathfindingObjects::onInWorldSelectionListChanged, this));
 	}
 
 	if (!mRegionBoundaryCrossingSlot.connected())

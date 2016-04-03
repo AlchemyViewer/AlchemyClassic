@@ -31,6 +31,7 @@
 #include "llviewercontrol.h"
 #include "llbufferstream.h"
 #include "llhttpclient.h"
+#include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"
 #include "llsecapi.h"
@@ -598,7 +599,7 @@ void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node
 	
 	if (addGrid(grid))
 	{
-		if (!grid.has(GRID_TEMPORARY) || grid[GRID_TEMPORARY].asBoolean())
+		if (!(grid.has(GRID_TEMPORARY) && grid[GRID_TEMPORARY].asBoolean()))
 		{
 			LLNotificationsUtil::add("AddGridSuccess",
 									 LLSD().with("GRID", grid[GRID_LABEL_VALUE].asString()));
@@ -652,6 +653,9 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 
 void LLGridManager::setGridChoice(const std::string& grid, const bool only_select /* = true */)
 {
+    // Don't allow grid choice the grid once we're already logged in.
+    if (LLLoginInstance::getInstance()->authSuccess()) return;
+    
 	// Set the grid choice based on a string.
 	LL_DEBUGS("GridManager") << "requested " << grid << LL_ENDL;
  	std::string grid_name = getGrid(grid); // resolved either the name or the id to the name

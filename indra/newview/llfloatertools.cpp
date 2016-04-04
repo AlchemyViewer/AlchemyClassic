@@ -413,6 +413,9 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 
 	mLandImpactsObserver = new LLLandImpactsObserver();
 	LLViewerParcelMgr::getInstance()->addObserver(mLandImpactsObserver);
+
+	if (!mSelectionChangedConnection.connected())
+		mSelectionChangedConnection = LLSelectMgr::instance().addSelectionUpdateCallback(boost::bind(&LLFloaterTools::dirty, this));
 }
 
 LLFloaterTools::~LLFloaterTools()
@@ -863,9 +866,6 @@ BOOL LLFloaterTools::canClose()
 // virtual
 void LLFloaterTools::onOpen(const LLSD& key)
 {
-	if (!mSelectionChangedConnection.connected())
-		mSelectionChangedConnection = LLSelectMgr::instance().addSelectionUpdateCallback(boost::bind(&LLFloaterTools::dirty, this));
-
 	mParcelSelection = LLViewerParcelMgr::getInstance()->getFloatingParcelSelection();
 	mObjectSelection = LLSelectMgr::getInstance()->getEditSelection();
 	
@@ -924,8 +924,6 @@ void LLFloaterTools::onClose(bool app_quitting)
 		sPreviousFocusOnAvatar = false;
 		gAgentCamera.setAllowChangeToFollow(TRUE);
 	}
-
-	mSelectionChangedConnection.disconnect();
 }
 
 void click_popup_info(void*)

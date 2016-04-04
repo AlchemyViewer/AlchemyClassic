@@ -52,6 +52,9 @@ LLFloaterInspect::LLFloaterInspect(const LLSD& key)
 	mCommitCallbackRegistrar.add("Inspect.OwnerProfile",	boost::bind(&LLFloaterInspect::onClickOwnerProfile, this));
 	mCommitCallbackRegistrar.add("Inspect.CreatorProfile",	boost::bind(&LLFloaterInspect::onClickCreatorProfile, this));
 	mCommitCallbackRegistrar.add("Inspect.SelectObject",	boost::bind(&LLFloaterInspect::onSelectObject, this));
+
+	if (!mSelectionChangedConnection.connected())
+		mSelectionChangedConnection = LLSelectMgr::instance().addSelectionUpdateCallback(boost::bind(&LLFloaterInspect::dirty, this));
 }
 
 BOOL LLFloaterInspect::postBuild()
@@ -68,6 +71,7 @@ BOOL LLFloaterInspect::postBuild()
 
 LLFloaterInspect::~LLFloaterInspect(void)
 {
+	mSelectionChangedConnection.disconnect();
 	if (mOwnerNameCacheConnection.connected())
 	{
 		mOwnerNameCacheConnection.disconnect();
@@ -98,14 +102,6 @@ void LLFloaterInspect::onOpen(const LLSD& key)
 	LLSelectMgr::getInstance()->setForceSelection(forcesel);	// restore previouis value
 	mObjectSelection = LLSelectMgr::getInstance()->getSelection();
 	refresh();
-
-	if (!mSelectionChangedConnection.connected())
-		mSelectionChangedConnection = LLSelectMgr::instance().addSelectionUpdateCallback(boost::bind(&LLFloaterInspect::dirty, this));
-}
-
-void LLFloaterInspect::onClose(bool app_quitting)
-{
-	mSelectionChangedConnection.disconnect();
 }
 
 void LLFloaterInspect::onClickCreatorProfile()

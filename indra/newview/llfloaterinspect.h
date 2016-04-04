@@ -44,7 +44,6 @@ public:
 
 //	static void show(void* ignored = NULL);
 	void onOpen(const LLSD& key);
-	/*virtual*/ void onClose(bool app_quitting);
 	virtual BOOL postBuild();
 	void dirty();
 	LLUUID getSelectedUUID();

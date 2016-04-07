@@ -46,9 +46,6 @@
 #include "llviewernetwork.h"
 #include "llviewerregion.h"
 
-// boost includes
-#include <boost/lexical_cast.hpp>
-
 
 const F64 CURRENCY_ESTIMATE_FREQUENCY = 2.0;
 	// how long of a pause in typing a currency buy amount before an
@@ -424,7 +421,8 @@ void LLCurrencyUIManager::Impl::currencyKey(S32 value)
 void LLCurrencyUIManager::Impl::onCurrencyKey(
 		LLLineEditor* caller, void* data)
 {
-	S32 value = boost::lexical_cast<S32>(caller->getText());
+    const std::string& input = caller->getText();
+    S32 value = (!input.empty()) ? std::stoi(input) : 0;
 	LLCurrencyUIManager::Impl* self = (LLCurrencyUIManager::Impl*)data;
 	self->currencyKey(value);
 }

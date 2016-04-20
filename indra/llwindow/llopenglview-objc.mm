@@ -27,6 +27,7 @@
 #import "llopenglview-objc.h"
 #import "llwindowmacosx-objc.h"
 #import "llappdelegate-objc.h"
+#import <Carbon/Carbon.h> // for keycodes
 
 #pragma mark local functions
 
@@ -479,13 +480,13 @@ attributedStringInfo getSegments(NSAttributedString *str)
     NSInteger mask = 0;
     switch([theEvent keyCode])
     {        
-        case 56:
+        case kVK_Shift:
             mask = NSShiftKeyMask;
             break;
-        case 58:
+        case kVK_Option:
             mask = NSAlternateKeyMask;
             break;
-        case 59:
+        case kVK_Control:
             mask = NSControlKeyMask;
             break;
         default:

@@ -49,28 +49,18 @@
 
 @end
 
-void extractKeyDataFromEvent(NSEvent *theEvent, NativeKeyEventData * eventData, const bool flagsModified = false)
+void extractKeyDataFromEvent (NSEvent *theEvent, NativeKeyEventData * eventData)
 {
     eventData->mKeyEvent = NativeKeyEventData::KEYUNKNOWN;
     eventData->mEventType = [theEvent type];
     eventData->mEventModifiers = [theEvent modifierFlags];
     eventData->mEventKeyCode = [theEvent keyCode];
-    // *FIXME: Bastard hack - this whole thing needs executed and burnt until it's nothing
-    // but charred ash to be swept into the wind
-    if (flagsModified)
-    {
-        eventData->mEventChars = 0;
-        eventData->mEventUnmodChars = 0;
-        eventData->mEventRepeat = false;
-    }
-    else
-    {
-        NSString *strEventChars = [theEvent characters];
-        eventData->mEventChars =  (strEventChars.length) ? [strEventChars characterAtIndex:0] : 0;
-        NSString *strEventUChars = [theEvent charactersIgnoringModifiers];
-        eventData->mEventUnmodChars = (strEventUChars.length) ? [strEventUChars characterAtIndex:0] : 0;
-        eventData->mEventRepeat = [theEvent isARepeat];
-    }
+    NSString *strEventChars = [theEvent characters];
+    eventData->mEventChars = (strEventChars.length) ? [strEventChars characterAtIndex:0] : 0;
+    NSString *strEventUChars = [theEvent charactersIgnoringModifiers];
+    eventData->mEventUnmodChars = (strEventUChars.length) ? [strEventUChars characterAtIndex:0] : 0;
+    eventData->mEventRepeat = [theEvent isARepeat];
+
 }
 
 
@@ -478,7 +468,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 {
     NativeKeyEventData eventData;
     
-    extractKeyDataFromEvent( theEvent, &eventData, true );
+    extractKeyDataFromEvent( theEvent, &eventData );
  
 	mModifiers = [theEvent modifierFlags];
 	callModifier([theEvent modifierFlags]);

@@ -99,7 +99,7 @@
       <line_editor
           follows="left|bottom"
           height="22"
-          max_length_bytes="32"
+          max_length_chars="64"
           name="password_edit"
           is_password="true" 
           select_on_focus="true"

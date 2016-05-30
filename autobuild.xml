@@ -680,11 +680,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a2badcf46277f7547bab0963fe262696</string>
+              <string>1b84655208ee169b66b045eeb8022ba6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.08.01-darwin-201604080928.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.08.04-darwin-201605291151.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

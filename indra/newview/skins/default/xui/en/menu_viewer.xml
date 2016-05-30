@@ -768,7 +768,7 @@
 	     name="Environment Editor"
 	     tear_off="true">
 
-	     	<menu_item_call
+	     	<menu_item_check
 	     	 label="Environment Tools..."
 	     	 name="Environment Tools">
               <menu_item_check.on_check
@@ -777,7 +777,7 @@
               <menu_item_check.on_click
                function="Floater.Toggle"
                parameter="env_tools" />
-	     	</menu_item_call>
+	     	</menu_item_check>
 	     	<menu_item_call
 	     	 label="Environment Settings..."
 	     	 name="Environment Settings">

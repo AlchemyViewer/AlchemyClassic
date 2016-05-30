@@ -680,11 +680,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ef91e9966ffd6303a8805146c046c659</string>
+              <string>a2badcf46277f7547bab0963fe262696</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.08.00-darwin-201603070723.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.08.01-darwin-201604080928.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -722,11 +722,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6548495a886b385c238167f4d5e6182d</string>
+              <string>4b307f5f2a8536b27a090301b0200805</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.08.00-windows-201603070824.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.08.01-windows-201604091408.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -736,18 +736,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b80d49fd91e407fc8ab8afb3fcb4b138</string>
+              <string>b5cbef5e8df0573a2568dffc33548852</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.00-windows64-201603070822.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.01-windows64-201604091406.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.08.00</string>
+        <string>1.08.01</string>
       </map>
       <key>fontconfig</key>
       <map>

@@ -3094,11 +3094,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>960953da9ab7c335a0f4f97e9bf8341c</string>
+              <string>a38ec464042e1d5e67231d9bcd181ae2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/vcredist-14.0.23506.0-windows-201601191536.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc14/vcredist-14.0.23918.0-windows-201606250656.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3108,18 +3108,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>918588215463f36836eeefd9d3891868</string>
+              <string>0d688527ab7d08f6b7c7a5f73175e4f8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/vcredist-14.0.23506.0-windows64-201601191536.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc14/vcredist-14.0.23918.0-windows64-201606250656.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>14.0.23506.0</string>
+        <string>14.0.23918.0</string>
       </map>
       <key>xmlrpc-epi</key>
       <map>

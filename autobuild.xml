@@ -708,11 +708,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>47f5754929fed18fd5ffff8cda2d84e2</string>
+              <string>be09dc1f144c936790236b94190815b4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/fmodstudio-1.08.00-linux64-201603232053.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.08.04-linux64-201605301500.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

@@ -415,6 +415,10 @@ void LLSidepanelTaskInfo::refresh()
 		mDACreatorName->setValue(creator_name);
 		mCreatorID = creator_id;
 	}
+	if(mDACreatorName->getValue().asString() == LLStringUtil::null)
+	{
+	    mDACreatorName->setValue(creator_name);
+	}
 	mDACreatorName->setEnabled(TRUE);
 
 	// Update owner text field
@@ -450,6 +454,11 @@ void LLSidepanelTaskInfo::refresh()
 		mDAOwnerName->setValue(owner_name);
 		mOwnerID = owner_id;
 	}
+	if(mDAOwnerName->getValue().asString() == LLStringUtil::null)
+	{
+	    mDAOwnerName->setValue(owner_name);
+	}
+
 	getChildView("Owner Name")->setEnabled(TRUE);
 
 	// update group text field

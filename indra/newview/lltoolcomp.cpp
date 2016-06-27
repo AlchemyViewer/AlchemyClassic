@@ -711,45 +711,6 @@ LLToolCompGun::~LLToolCompGun()
 	mNull = NULL;
 }
 
-BOOL LLToolCompGun::handleMouseDown(S32 x, S32 y, MASK mask)
-{ 
-	// if the left button is grabbed, don't put up the pie menu
-	if (gAgent.leftButtonGrabbed())
-	{
-		gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_DOWN);
-		return FALSE;
-	}
-
-	// On mousedown, start grabbing
-	gGrabTransientTool = this;
-	LLToolMgr::getInstance()->getCurrentToolset()->selectTool( (LLTool*) mGrab );
-
-	return LLToolGrab::getInstance()->handleMouseDown(x, y, mask);
-}
-
-BOOL LLToolCompGun::handleMouseUp(S32 x, S32 y, MASK mask)
-{
-	gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_UP);
-	setCurrentTool((LLTool*) mGun);
-	return TRUE;
-}
-
-BOOL LLToolCompGun::handleDoubleClick(S32 x, S32 y, MASK mask)
-{
-	// if the left button is grabbed, don't put up the pie menu
-	if (gAgent.leftButtonGrabbed())
-	{
-		gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_DOWN);
-		return FALSE;
-	}
-
-	// On mousedown, start grabbing
-	gGrabTransientTool = this;
-	LLToolMgr::getInstance()->getCurrentToolset()->selectTool( (LLTool*) mGrab );
-
-	return LLToolGrab::getInstance()->handleDoubleClick(x, y, mask);
-}
-
 BOOL LLToolCompGun::handleHover(S32 x, S32 y, MASK mask)
 {
 	// *NOTE: This hack is here to make mouselook kick in again after
@@ -785,6 +746,43 @@ BOOL LLToolCompGun::handleHover(S32 x, S32 y, MASK mask)
 	return TRUE; 
 }
 
+
+BOOL LLToolCompGun::handleMouseDown(S32 x, S32 y, MASK mask)
+{ 
+    // if the left button is blocked, don't put up the pie menu
+    if (gAgent.leftButtonBlocked())
+    {
+        // in case of "grabbed" control flag will be set later
+        gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_DOWN);
+        return FALSE;
+    }
+
+	// On mousedown, start grabbing
+	gGrabTransientTool = this;
+	LLToolMgr::getInstance()->getCurrentToolset()->selectTool( (LLTool*) mGrab );
+
+	return LLToolGrab::getInstance()->handleMouseDown(x, y, mask);
+}
+
+
+BOOL LLToolCompGun::handleDoubleClick(S32 x, S32 y, MASK mask)
+{
+    // if the left button is blocked, don't put up the pie menu
+    if (gAgent.leftButtonBlocked())
+    {
+        // in case of "grabbed" control flag will be set later
+        gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_DOWN);
+        return FALSE;
+    }
+
+	// On mousedown, start grabbing
+	gGrabTransientTool = this;
+	LLToolMgr::getInstance()->getCurrentToolset()->selectTool( (LLTool*) mGrab );
+
+	return LLToolGrab::getInstance()->handleDoubleClick(x, y, mask);
+}
+
+
 BOOL LLToolCompGun::handleRightMouseDown(S32 x, S32 y, MASK mask)
 {
 	mRightMouseDown = true;
@@ -811,6 +809,13 @@ BOOL LLToolCompGun::handleRightMouseUp(S32 x, S32 y, MASK mask)
 	mTargetFOV = mOriginalFOV;
 	mTimerFOV.start();
 
+	return TRUE;
+}
+
+BOOL LLToolCompGun::handleMouseUp(S32 x, S32 y, MASK mask)
+{
+	gAgent.setControlFlags(AGENT_CONTROL_ML_LBUTTON_UP);
+	setCurrentTool((LLTool*) mGun);
 	return TRUE;
 }
 

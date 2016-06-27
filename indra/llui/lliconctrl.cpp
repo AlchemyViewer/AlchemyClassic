@@ -53,8 +53,8 @@ LLIconCtrl::LLIconCtrl(const LLIconCtrl::Params& p)
 	mPriority(0),
 	mMinWidth(p.min_width),
 	mMinHeight(p.min_height),
-    mMaxWidth(0),
-    mMaxHeight(0)
+	mMaxWidth(0),
+	mMaxHeight(0)
 {
 	if (mImagep.notNull())
 	{
@@ -104,18 +104,18 @@ void LLIconCtrl::setValue(const LLSD& value )
 		&& mMinWidth 
 		&& mMinHeight)
 	{
-        S32 draw_width = llmax(mMinWidth, mImagep->getWidth());
-        S32 draw_height = llmax(mMinHeight, mImagep->getHeight());
+        S32 desired_draw_width = llmax(mMinWidth, mImagep->getWidth());
+        S32 desired_draw_height = llmax(mMinHeight, mImagep->getHeight());
         if (mMaxWidth)
         {
-            draw_width = llmin(draw_width, mMaxWidth);
+            desired_draw_width = llmin(desired_draw_width, mMaxWidth);
         }
         if (mMaxHeight)
         {
-            draw_height = llmin(draw_height, mMaxHeight);
+            desired_draw_height = llmin(desired_draw_height, mMaxHeight);
         }
         
-        mImagep->getImage()->setKnownDrawSize(draw_width, draw_height);
+        mImagep->getImage()->setKnownDrawSize(desired_draw_width, desired_draw_height);
 	}
 }
 

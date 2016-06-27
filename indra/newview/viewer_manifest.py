@@ -28,6 +28,7 @@ $/LicenseInfo$
 """
 import sys
 import os.path
+import shutil
 import errno
 import re
 import tarfile
@@ -357,7 +358,7 @@ class WindowsManifest(ViewerManifest):
                 print err.message
                 print "Skipping GLOD library (assumming linked statically)"
 
-            # Get openal dll, continue if missing
+            # Get fmodex dll, continue if missing
             try:
                 self.path("alut.dll")
                 self.path("OpenAL32.dll")
@@ -883,7 +884,7 @@ class DarwinManifest(ViewerManifest):
 
                     self.end_prefix()
 
-                # AlchemyPlugin plugins
+                # SLPlugin plugins
                 if self.prefix(src="", dst="llplugin"):
                     self.path2basename("../media_plugins/quicktime/" + self.args['configuration'],
                                        "media_plugin_quicktime.dylib")
@@ -1059,7 +1060,7 @@ class DarwinManifest(ViewerManifest):
 
 
         finally:
-            # Unmount the image even if exceptions from any of the above
+            # Unmount the image even if exceptions from any of the above 
             self.run_command('hdiutil detach -force %r' % devfile)
 
         print "Converting temp disk image to final disk image"
@@ -1434,12 +1435,33 @@ def symlinkf(src, dst):
         # file, but that strategy doesn't work so well if we don't have
         # permissions to remove it. Check to see if it's already the
         # symlink we want, which is the usual reason for EEXIST.
-        if not (os.path.islink(dst) and os.readlink(dst) == src):
-            # Here either dst isn't a symlink or it's the wrong symlink.
-            # Remove and recreate. Caller will just have to deal with any
-            # exceptions at this stage.
+        elif os.path.islink(dst):
+            if os.readlink(dst) == src:
+                # the requested link already exists
+                pass
+            else:
+                # dst is the wrong symlink; attempt to remove and recreate it
+                os.remove(dst)
+                os.symlink(src, dst)
+        elif os.path.isdir(dst):
+            print "Requested symlink (%s) exists but is a directory; replacing" % dst
+            shutil.rmtree(dst)
+            os.symlink(src, dst)
+        elif os.path.exists(dst):
+            print "Requested symlink (%s) exists but is a file; replacing" % dst
             os.remove(dst)
             os.symlink(src, dst)
+        else:
+            # see if the problem is that the parent directory does not exist
+            # and try to explain what is missing
+            (parent, tail) = os.path.split(dst)
+            while not os.path.exists(parent):
+                (parent, tail) = os.path.split(parent)
+            if tail:
+                raise Exception("Requested symlink (%s) cannot be created because %s does not exist"
+                                % os.path.join(parent, tail))
+            else:
+                raise
 
 if __name__ == "__main__":
     main()

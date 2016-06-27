@@ -51,10 +51,12 @@ LLGroupIconCtrl::LLGroupIconCtrl(const LLGroupIconCtrl::Params& p)
 {
 	mPriority = LLViewerFetchedTexture::AVATAR_ICON;
 
+    // don't request larger image then necessary to save gl memory,
+    // but ensure that quality is sufficient
     LLRect rect = p.rect;
-    mMaxHeight = llmax(p.min_height(), rect.getHeight());
-    mMaxWidth = llmax(p.min_width(), rect.getWidth());
-    
+    mMaxHeight = llmax((S32)p.min_height, rect.getHeight());
+    mMaxWidth = llmax((S32)p.min_width, rect.getWidth());
+
 	if (p.group_id.isProvided())
 	{
 		LLSD value(p.group_id);

@@ -653,11 +653,12 @@ void LLFavoritesBarCtrl::changed(U32 mask)
 		LLInventoryModel::cat_array_t cats;
 		LLIsType is_type(LLAssetType::AT_LANDMARK);
 		gInventory.collectDescendentsIf(mFavoriteFolderId, cats, items, LLInventoryModel::EXCLUDE_TRASH, is_type);
-		
+
 		for (LLInventoryModel::item_array_t::iterator i = items.begin(); i != items.end(); ++i)
 		{
 			LLFavoritesOrderStorage::instance().getSLURL((*i)->getAssetUUID());
 		}
+
 		updateButtons();
 	}
 }
@@ -746,7 +747,7 @@ void LLFavoritesBarCtrl::updateButtons()
 			const LLViewerInventoryItem *item = mItems[first_changed_item_index].get();
 			if (item)
 			{
-				// an child's order  and mItems  should be same   
+			    // an child's order  and mItems  should be same
 				if (button->getLandmarkId() != item->getUUID() // sort order has been changed
 					|| button->getLabelSelected() != item->getName() // favorite's name has been changed
 					|| button->getRect().mRight < rightest_point) // favbar's width has been changed
@@ -844,6 +845,7 @@ void LLFavoritesBarCtrl::updateButtons()
 	{
 		mUpdateDropDownItems = false;
 	}
+
 }
 
 LLButton* LLFavoritesBarCtrl::createButton(const LLPointer<LLViewerInventoryItem> item, const LLButton::Params& button_params, S32 x_offset)
@@ -912,9 +914,11 @@ BOOL LLFavoritesBarCtrl::postBuild()
 
 BOOL LLFavoritesBarCtrl::collectFavoriteItems(LLInventoryModel::item_array_t &items)
 {
+
 	if (mFavoriteFolderId.isNull())
 		return FALSE;
 	
+
 	LLInventoryModel::cat_array_t cats;
 
 	LLIsType is_type(LLAssetType::AT_LANDMARK);
@@ -1505,7 +1509,6 @@ void LLFavoritesOrderStorage::load()
 {
 	// load per-resident sorting information
 	std::string filename = getSavedOrderFileName();
-
 	LLSD settings_llsd;
 	llifstream file;
 	file.open(filename.c_str());
@@ -1656,12 +1659,12 @@ void LLFavoritesOrderStorage::onLandmarkLoaded(const LLUUID& asset_id, LLLandmar
 		landmark->getGlobalPos(pos_global);
 	}
 
-	if (!pos_global.isExactlyZero())
-	{
-        LL_DEBUGS("FavoritesBar") << "requesting slurl for landmark " << asset_id << LL_ENDL;
-		LLLandmarkActions::getSLURLfromPosGlobal(pos_global,
+        if (!pos_global.isExactlyZero())
+        {
+        	LL_DEBUGS("FavoritesBar") << "requesting slurl for landmark " << asset_id << LL_ENDL;
+        	LLLandmarkActions::getSLURLfromPosGlobal(pos_global,
 			boost::bind(&LLFavoritesOrderStorage::storeFavoriteSLURL, this, asset_id, _1));
-	}
+        }
     }
 }
 
@@ -1720,7 +1723,7 @@ void LLFavoritesOrderStorage::cleanup()
 
 	sort_index_map_t  aTempMap;
 	//copy unremoved values from mSortIndexes to aTempMap
-	std::remove_copy_if(mSortIndexes.begin(), mSortIndexes.end(), 
+	std::remove_copy_if(mSortIndexes.begin(), mSortIndexes.end(),
 		inserter(aTempMap, aTempMap.begin()),
 		is_not_in_fav);
 
@@ -1752,8 +1755,8 @@ void LLFavoritesOrderStorage::saveOrder()
 
 void LLFavoritesOrderStorage::saveItemsOrder( const LLInventoryModel::item_array_t& items )
 {
-	int sortField = 0;
 
+	int sortField = 0;
 	// current order is saved by setting incremental values (1, 2, 3, ...) for the sort field
 	for (LLInventoryModel::item_array_t::const_iterator i = items.begin(); i != items.end(); ++i)
 	{

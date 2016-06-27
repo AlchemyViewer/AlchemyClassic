@@ -102,7 +102,7 @@ BOOL LLToolPie::handleAnyMouseClick(S32 x, S32 y, MASK mask, EClickType clicktyp
 
 BOOL LLToolPie::handleMouseDown(S32 x, S32 y, MASK mask)
 {
-	mMouseOutsideSlop = FALSE;
+    mMouseOutsideSlop = FALSE;
 	mMouseDownX = x;
 	mMouseDownY = y;
 

@@ -162,14 +162,14 @@ BOOL LLStatusBar::postBuild()
 {
 	gMenuBarView->setRightMouseDownCallback(boost::bind(&show_navbar_context_menu, _1, _2, _3));
 
-	mTextTime = getChild<LLTextBox>("TimeText");
+	mTextTime = getChild<LLTextBox>("TimeText" );
 	
 	mTextFPS = getChild<LLTextBox>("FPSText");
 
 	getChild<LLUICtrl>("buyL")->setCommitCallback(
 		boost::bind(&LLStatusBar::onClickBuyCurrency, this));
 
-	//getChild<LLUICtrl>("goShop")->setCommitCallback(boost::bind(&LLWeb::loadURLExternal, gSavedSettings.getString("MarketplaceURL")));
+    //getChild<LLUICtrl>("goShop")->setCommitCallback(boost::bind(&LLWeb::loadURL, gSavedSettings.getString("MarketplaceURL"), LLStringUtil::null, LLStringUtil::null));
 
 	mBoxBalance = getChild<LLTextBox>("balance");
 	mBoxBalance->setClickedCallback( &LLStatusBar::onClickBalance, this );
@@ -559,13 +559,14 @@ void LLStatusBar::onMouseEnterVolume()
 	LLButton* volbtn =  getChild<LLButton>( "volume_btn" );
 	LLRect vol_btn_rect = volbtn->getRect();
 	volume_pulldown_rect.setLeftTopAndSize(vol_btn_rect.mLeft -
-										   (volume_pulldown_rect.getWidth() - vol_btn_rect.getWidth()),
-										   vol_btn_rect.mBottom,
-										   volume_pulldown_rect.getWidth(),
-										   volume_pulldown_rect.getHeight());
+	     (volume_pulldown_rect.getWidth() - vol_btn_rect.getWidth()),
+			       vol_btn_rect.mBottom,
+			       volume_pulldown_rect.getWidth(),
+			       volume_pulldown_rect.getHeight());
 
 	volume_pulldown_rect.translate(popup_holder->getRect().getWidth() - volume_pulldown_rect.mRight, 0);
 	mPanelVolumePulldown->setShape(volume_pulldown_rect);
+
 
 	// show the master volume pull-down
 	LLUI::clearPopups();

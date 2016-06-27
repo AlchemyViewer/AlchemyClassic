@@ -180,12 +180,14 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 	mUseDefaultImage(gSavedSettings, "AlchemyUseDefaultAvatarIcon", false)
 {
 	mPriority = LLViewerFetchedTexture::AVATAR_ICON;
-	
-	LLRect rect = p.rect;
-    mMaxHeight = llmax(p.min_height(), rect.getHeight());
-    mMaxWidth = llmax(p.min_width(), rect.getWidth());
-	
-	if (p.avatar_id.isProvided() && !mUseDefaultImage)
+
+    // don't request larger image then necessary to save gl memory,
+    // but ensure that quality is sufficient
+    LLRect rect = p.rect;
+    mMaxHeight = llmax((S32)p.min_height, rect.getHeight());
+    mMaxWidth = llmax((S32)p.min_width, rect.getWidth());
+
+	if (p.avatar_id.isProvided())
 	{
 		LLSD value(p.avatar_id);
 		setValue(value);

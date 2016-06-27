@@ -528,6 +528,10 @@ BOOL LLFloaterPreference::postBuild()
 	getChild<LLView>("OSXBadgeNotifications")->setVisible(FALSE);
 #endif // LL_DARWIN
 
+	LLSliderCtrl* fov_slider = getChild<LLSliderCtrl>("camera_fov");
+	fov_slider->setMinValue(LLViewerCamera::getInstance()->getMinView());
+	fov_slider->setMaxValue(LLViewerCamera::getInstance()->getMaxView());
+
 	return TRUE;
 }
 

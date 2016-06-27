@@ -101,6 +101,11 @@ class LLFloaterColorPicker
 		void setMouseDownInSwatch (BOOL mouse_down_in_swatch);
 		BOOL getMouseDownInSwatch () { return mMouseDownInSwatch; }
 
+		void setRevertOnCancel (BOOL revertOnCancel) { mRevertOnCancel = revertOnCancel; };
+		BOOL getRevertOnCancel () { return mRevertOnCancel; }
+
+		BOOL isColorChanged ();
+
 		// called when text entries (RGB/HSL etc.) are changed by user
 		void onTextEntryChanged ( LLUICtrl* ctrl );
 
@@ -140,6 +145,8 @@ class LLFloaterColorPicker
 		BOOL mMouseDownInLumRegion;
 		BOOL mMouseDownInHueRegion;
 		BOOL mMouseDownInSwatch;
+
+		BOOL mRevertOnCancel;
 
 		const S32 mRGBViewerImageLeft;
 		const S32 mRGBViewerImageTop;

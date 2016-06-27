@@ -394,7 +394,7 @@ LLGroupNoticeNotificationListItem::LLGroupNoticeNotificationListItem(const Param
     buildFromFile("panel_notification_list_item.xml");
 }
 
-LLGroupNoticeNotificationListItem::~LLGroupNoticeNotificationListItem()
+LLGroupNotificationListItem::~LLGroupNotificationListItem()
 {
 	LLGroupMgr::getInstance()->removeObserver(this);
 }
@@ -552,7 +552,6 @@ void LLGroupNoticeNotificationListItem::close()
         mInventoryOffer->forceResponse(IOR_DECLINE);
         mInventoryOffer = NULL;
     }
-    LLGroupMgr::getInstance()->removeObserver(this);
 }
 
 void LLGroupNoticeNotificationListItem::onClickAttachment()

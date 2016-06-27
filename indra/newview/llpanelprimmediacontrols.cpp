@@ -312,6 +312,7 @@ void LLPanelPrimMediaControls::updateShape()
 
 	if (objectp)
 	{
+		bool hasPermsControl = true;
 		bool mini_controls = false;
 		LLMediaEntry *media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
         LLVOVolume *vol = dynamic_cast<LLVOVolume*>(objectp);
@@ -319,6 +320,7 @@ void LLPanelPrimMediaControls::updateShape()
 		{
 			// Don't show the media controls if we do not have permissions
 			enabled = vol->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL);
+			hasPermsControl = vol->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL);
 			mini_controls = (LLMediaEntry::MINI == media_data->getControls());
 		}
 		const bool is_hud = objectp->isHUDAttachment();
@@ -561,7 +563,32 @@ void LLPanelPrimMediaControls::updateShape()
 			}
 		}
 		
-		setVisible(enabled);
+		// MAINT-1392 If this is a HUD always set it visible, but hide each control if user has no perms.
+		// When setting it invisible it won't receive any mouse messages anymore
+
+		if( !is_hud )
+			setVisible(enabled);
+		else
+		{
+			if( !hasPermsControl )
+			{
+				mBackCtrl->setVisible(false);
+				mFwdCtrl->setVisible(false);
+				mReloadCtrl->setVisible(false);
+				mStopCtrl->setVisible(false);
+				mHomeCtrl->setVisible(false);
+				mZoomCtrl->setVisible(false);
+				mUnzoomCtrl->setVisible(false);
+				mOpenCtrl->setVisible(false);
+				mMediaAddressCtrl->setVisible(false);
+				mMediaPlaySliderPanel->setVisible(false);
+				mVolumeCtrl->setVisible(false);
+				mMediaProgressPanel->setVisible(false);
+				mVolumeSliderCtrl->setVisible(false);
+			}
+
+			setVisible(true);
+		}
 		
 		//
 		// Calculate position and shape of the controls
@@ -768,8 +795,16 @@ void LLPanelPrimMediaControls::draw()
 	controls_bg_area.mRight -= mRightBookend->getRect().getWidth() - space - 2;
 		
 	// draw control background UI image
-	mBackgroundImage->draw( controls_bg_area, UI_VERTEX_COLOR % alpha);
 	
+	LLViewerObject* objectp = getTargetObject();
+	LLMediaEntry *media_data(0);
+
+	if( objectp )
+		media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
+
+	if( !dynamic_cast<LLVOVolume*>(objectp) || !media_data || dynamic_cast<LLVOVolume*>(objectp)->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL) )
+		mBackgroundImage->draw( controls_bg_area, UI_VERTEX_COLOR % alpha);
+
 	// draw volume slider background UI image
 	if (mVolumeSliderCtrl->getVisible())
 	{

@@ -185,6 +185,7 @@ void LLFloaterColorPicker::showUI ()
 	openFloater(getKey());
 	setVisible ( TRUE );
 	setFocus ( TRUE );
+	setRevertOnCancel(FALSE);
 
 	// HACK: if system color picker is required - close the SL one we made and use default system dialog
 	if ( gSavedSettings.getBOOL ( "UseDefaultColorPicker" ) )
@@ -396,7 +397,10 @@ void LLFloaterColorPicker::getCurHsl ( F32& curHOut, F32& curSOut, F32& curLOut 
 // called when 'cancel' clicked
 void LLFloaterColorPicker::onClickCancel()
 {
-	cancelSelection();
+	if(getRevertOnCancel())
+	{
+		self->cancelSelection ();
+	}
 	closeFloater();
 }
 
@@ -441,7 +445,7 @@ void LLFloaterColorPicker::onImmediateCheck()
 {
 	gSavedSettings.setBOOL("ApplyColorImmediately", mApplyImmediateCheck->get());
 
-	if (mApplyImmediateCheck->get())
+	if (mApplyImmediateCheck->get() && isColorChanged())
 	{
 		LLColorSwatchCtrl::onColorChanged ( getSwatch(), LLColorSwatchCtrl::COLOR_CHANGE );
 	}
@@ -463,6 +467,11 @@ F32 LLFloaterColorPicker::getSwatchTransparency()
 {
 	// If the floater is focused, don't apply its alpha to the color swatch (STORM-676).
 	return getTransparencyType() == TT_ACTIVE ? 1.f : LLFloater::getCurrentTransparency();
+}
+
+BOOL LLFloaterColorPicker::isColorChanged()
+{
+    return ((getOrigR() != getCurR()) || (getOrigG() != getCurG()) || (getOrigB() != getCurB()));
 }
 
 //////////////////////////////////////////////////////////////////////////////

@@ -101,7 +101,7 @@ void LLPanelGroupExperiences::activate()
 	}
 
 	// search for experiences owned by the current group
-	std::string url = gAgent.getRegion()->getCapability("GroupExperiences"); 
+	std::string url = (gAgent.getRegion()) ? gAgent.getRegion()->getCapability("GroupExperiences") : LLStringUtil::null;
 	if (!url.empty())
 	{
 		url += "?" + getGroupID().asString();

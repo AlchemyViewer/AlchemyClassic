@@ -108,6 +108,7 @@ S32 LLViewerTexture::sMaxSculptRez = 128; //max sculpt image size
 const S32 MAX_CACHED_RAW_IMAGE_AREA = 64 * 64;
 const S32 MAX_CACHED_RAW_SCULPT_IMAGE_AREA = LLViewerTexture::sMaxSculptRez * LLViewerTexture::sMaxSculptRez;
 const S32 MAX_CACHED_RAW_TERRAIN_IMAGE_AREA = 128 * 128;
+const S32 DEFAULT_ICON_DIMENTIONS = 32;
 S32 LLViewerTexture::sMinLargeImageSize = 65536; //256 * 256.
 S32 LLViewerTexture::sMaxSmallImageSize = MAX_CACHED_RAW_IMAGE_AREA;
 BOOL LLViewerTexture::sFreezeImageScalingDown = FALSE;
@@ -141,7 +142,7 @@ LLLoadedCallbackEntry::LLLoadedCallbackEntry(loaded_callback_func cb,
 {
 	if(mSourceCallbackList)
 	{
-		mSourceCallbackList->insert(target->getID());
+        mSourceCallbackList->insert(LLTextureKey(target->getID(), (ETexListType)target->getTextureListType()));
 	}
 }
 
@@ -153,7 +154,7 @@ void LLLoadedCallbackEntry::removeTexture(LLViewerFetchedTexture* tex)
 {
 	if(mSourceCallbackList)
 	{
-		mSourceCallbackList->erase(tex->getID());
+		mSourceCallbackList->erase(LLTextureKey(tex->getID(), (ETexListType)tex->getTextureListType()));
 	}
 }
 
@@ -180,24 +181,39 @@ LLViewerMediaTexture* LLViewerTextureManager::createMediaTexture(const LLUUID &m
 {
 	return new LLViewerMediaTexture(media_id, usemipmaps, gl_image);		
 }
- 
-LLViewerTexture*  LLViewerTextureManager::findTexture(const LLUUID& id) 
+
+void LLViewerTextureManager::findFetchedTextures(const LLUUID& id, std::vector<LLViewerFetchedTexture*> &output)
 {
-	LLViewerTexture* tex;
-	//search fetched texture list
-	tex = gTextureList.findImage(id);
-	
-	//search media texture list
-	if(!tex)
-	{
-		tex = LLViewerTextureManager::findMediaTexture(id);
-	}
-	return tex;
+    return gTextureList.findTexturesByID(id, output);
 }
 
-LLViewerFetchedTexture*  LLViewerTextureManager::findFetchedTexture(const LLUUID& id) 
+void  LLViewerTextureManager::findTextures(const LLUUID& id, std::vector<LLViewerTexture*> &output)
 {
-	return gTextureList.findImage(id);
+    std::vector<LLViewerFetchedTexture*> fetched_output;
+    gTextureList.findTexturesByID(id, fetched_output);
+    std::vector<LLViewerFetchedTexture*>::iterator iter = fetched_output.begin();
+    while (iter != fetched_output.end())
+    {
+        output.push_back(*iter);
+        iter++;
+    }
+
+    //search media texture list
+    if (output.empty())
+    {
+        LLViewerTexture* tex;
+        tex = LLViewerTextureManager::findMediaTexture(id);
+        if (tex)
+        {
+            output.push_back(tex);
+        }
+    }
+
+}
+
+LLViewerFetchedTexture* LLViewerTextureManager::findFetchedTexture(const LLUUID& id, S32 tex_type)
+{
+    return gTextureList.findImage(id, (ETexListType)tex_type);
 }
 
 LLViewerMediaTexture* LLViewerTextureManager::findMediaTexture(const LLUUID &media_id)
@@ -1200,6 +1216,7 @@ void LLViewerFetchedTexture::loadFromFastCache()
                 S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
                 if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
                 {
+                    // scale oversized icon, no need to give more work to gl
                     mRawImage->scale(expected_width, expected_height);
                 }
             }
@@ -1565,6 +1582,17 @@ void LLViewerFetchedTexture::processTextureStats()
 		{
 			mDesiredDiscardLevel = 0;
 		}
+        else if (mDontDiscard && mBoostLevel == LLGLTexture::BOOST_ICON)
+        {
+            if (mFullWidth > MAX_IMAGE_SIZE_DEFAULT || mFullHeight > MAX_IMAGE_SIZE_DEFAULT)
+            {
+                mDesiredDiscardLevel = 1; // MAX_IMAGE_SIZE_DEFAULT = 1024 and max size ever is 2048
+            }
+            else
+            {
+                mDesiredDiscardLevel = 0;
+            }
+        }
 		else if(!mFullWidth || !mFullHeight)
 		{
 			mDesiredDiscardLevel = 	llmin(getMaxDiscardLevel(), (S32)mLoadedCallbackDesiredDiscardLevel);
@@ -2003,6 +2031,7 @@ bool LLViewerFetchedTexture::updateFetch()
                     S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
                     if (mRawImage->getWidth() > expected_width || mRawImage->getHeight() > expected_height)
                     {
+                        // scale oversized icon, no need to give more work to gl
                         mRawImage->scale(expected_width, expected_height);
                     }
                 }
@@ -2741,7 +2770,7 @@ LLImageRaw* LLViewerFetchedTexture::reloadRawImage(S8 discard_level)
 
 	if(mSavedRawDiscardLevel >= 0 && mSavedRawDiscardLevel <= discard_level)
 	{
-		if(mSavedRawDiscardLevel != discard_level)
+		if (mSavedRawDiscardLevel != discard_level && mBoostLevel != BOOST_ICON)
 		{
 			mRawImage = new LLImageRaw(getWidth(discard_level), getHeight(discard_level), getComponents());
 			mRawImage->copy(getSavedRawImage());
@@ -2842,7 +2871,7 @@ void LLViewerFetchedTexture::switchToCachedImage()
 void LLViewerFetchedTexture::setCachedRawImage(S32 discard_level, LLImageRaw* imageraw) 
 {
 	if(imageraw != mRawImage.get())
-	{
+    {
         if (mBoostLevel == LLGLTexture::AVATAR_ICON)
         {
             S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
@@ -2944,9 +2973,7 @@ void LLViewerFetchedTexture::checkCachedRawSculptImage()
 
 void LLViewerFetchedTexture::saveRawImage() 
 {
-	if(mRawImage.isNull()
-       || mRawImage == mSavedRawImage
-       || (mSavedRawDiscardLevel >= 0 && mSavedRawDiscardLevel <= mRawDiscardLevel))
+	if(mRawImage.isNull() || mRawImage == mSavedRawImage || (mSavedRawDiscardLevel >= 0 && mSavedRawDiscardLevel <= mRawDiscardLevel))
 	{
 		return;
 	}
@@ -3370,7 +3397,7 @@ LLViewerMediaTexture::LLViewerMediaTexture(const LLUUID& id, BOOL usemipmaps, LL
 
 	setCategory(LLGLTexture::MEDIA);
 	
-	LLViewerTexture* tex = gTextureList.findImage(mID);
+	LLViewerTexture* tex = gTextureList.findImage(mID, TEX_LIST_DISCARD);
 	if(tex) //this media is a parcel media for tex.
 	{
 		tex->setParcelMedia(this);
@@ -3380,7 +3407,7 @@ LLViewerMediaTexture::LLViewerMediaTexture(const LLUUID& id, BOOL usemipmaps, LL
 //virtual 
 LLViewerMediaTexture::~LLViewerMediaTexture() 
 {	
-	LLViewerTexture* tex = gTextureList.findImage(mID);
+	LLViewerTexture* tex = gTextureList.findImage(mID, TEX_LIST_DISCARD);
 	if(tex) //this media is a parcel media for tex.
 	{
 		tex->setParcelMedia(NULL);
@@ -3435,7 +3462,7 @@ BOOL LLViewerMediaTexture::findFaces()
 
 	BOOL ret = TRUE;
 	
-	LLViewerTexture* tex = gTextureList.findImage(mID);
+	LLViewerTexture* tex = gTextureList.findImage(mID, TEX_LIST_DISCARD);
 	if(tex) //this media is a parcel media for tex.
 	{
 		for (U32 ch = 0; ch < LLRender::NUM_TEXTURE_CHANNELS; ++ch)
@@ -3544,7 +3571,7 @@ void LLViewerMediaTexture::addFace(U32 ch, LLFace* facep)
 	const LLTextureEntry* te = facep->getTextureEntry();
 	if(te && te->getID().notNull())
 	{
-		LLViewerTexture* tex = gTextureList.findImage(te->getID());
+		LLViewerTexture* tex = gTextureList.findImage(te->getID(), TEX_LIST_DISCARD);
 		if(tex)
 		{
 			mTextureList.push_back(tex);//increase the reference number by one for tex to avoid deleting it.
@@ -3573,7 +3600,7 @@ void LLViewerMediaTexture::removeFace(U32 ch, LLFace* facep)
 	const LLTextureEntry* te = facep->getTextureEntry();
 	if(te && te->getID().notNull())
 	{
-		LLViewerTexture* tex = gTextureList.findImage(te->getID());
+		LLViewerTexture* tex = gTextureList.findImage(te->getID(), TEX_LIST_DISCARD);
 		if(tex)
 		{
 			for(std::list< LLPointer<LLViewerTexture> >::iterator iter = mTextureList.begin();
@@ -3682,10 +3709,10 @@ void LLViewerMediaTexture::switchTexture(U32 ch, LLFace* facep)
 			const LLTextureEntry* te = facep->getTextureEntry();
 			if(te)
 			{
-				LLViewerTexture* tex = te->getID().notNull() ? gTextureList.findImage(te->getID()) : NULL;
+				LLViewerTexture* tex = te->getID().notNull() ? gTextureList.findImage(te->getID(), TEX_LIST_DISCARD) : NULL;
 				if(!tex && te->getID() != mID)//try parcel media.
 				{
-					tex = gTextureList.findImage(mID);
+					tex = gTextureList.findImage(mID, TEX_LIST_DISCARD);
 				}
 				if(!tex)
 				{

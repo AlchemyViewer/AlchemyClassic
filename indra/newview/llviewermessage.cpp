@@ -2203,20 +2203,14 @@ static bool parse_lure_bucket(const std::string& bucket,
 		ly = std::stoi(*(++iter));
 		lz = std::stoi(*(++iter));
 	}
-	catch( const std::invalid_argument& )
+	catch (...)
 	{
 		LL_WARNS("parse_lure_bucket")
 			<< "Couldn't parse lure bucket."
 			<< LL_ENDL;
 		return false;
 	}
-	catch( const std::out_of_range& )
-	{
-		LL_WARNS("parse_lure_bucket")
-			<< "Couldn't parse lure bucket."
-			<< LL_ENDL;
-		return false;
-	}
+
 	// Grab region access
 	region_access = SIM_ACCESS_MIN;
 	if (++iter != tokens.end())

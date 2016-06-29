@@ -399,7 +399,7 @@ void LLFloaterColorPicker::onClickCancel()
 {
 	if(getRevertOnCancel())
 	{
-		self->cancelSelection ();
+		cancelSelection();
 	}
 	closeFloater();
 }

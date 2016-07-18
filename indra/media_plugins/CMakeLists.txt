@@ -14,4 +14,4 @@ if (WINDOWS OR DARWIN)
     endif(NOT WORD_SIZE EQUAL 64)
 endif (WINDOWS OR DARWIN)
 
-add_subdirectory(example)
+#add_subdirectory(example)

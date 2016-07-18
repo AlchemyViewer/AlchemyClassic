@@ -1003,7 +1003,6 @@ set(viewer_HEADER_FILES
     llgroupmgr.h
     llhasheduniqueid.h
     llhints.h
-    llhomelocationresponder.h
     llhttpretrypolicy.h
     llhudeffect.h
     llhudeffectbeam.h

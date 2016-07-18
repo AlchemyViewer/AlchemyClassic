@@ -276,11 +276,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>90a37cec15019bff53a165b90f0180a7</string>
+              <string>add110cc9ed39761ff5b58d83d1074a4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/colladadom-2.3-windows-201601152346.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/colladadom-2.3-windows-201604091641.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -290,11 +290,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>46e48bcb7643c4819bf6f35f518a0db7</string>
+              <string>df025d1f8b9860194cc09c3fb04b1a5e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/colladadom-2.3-windows64-201601160353.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/colladadom-2.3-windows64-201604091741.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

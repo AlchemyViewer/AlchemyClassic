@@ -2057,7 +2057,7 @@
       <key>Type</key>
       <string>S32</string>
       <key>Value</key>
-      <integer>262144</integer>
+      <integer>512000</integer>
     </map>
     <key>CrashOnStartup</key>
     <map>

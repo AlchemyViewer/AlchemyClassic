@@ -653,7 +653,7 @@ void LLCrashLogger::term_curl()
 unsigned long LLCrashLogger::ssl_thread_id_callback(void)
 {
 #if LL_WINDOWS
-    return (unsigned long)GetCurrentThread();
+    return (unsigned long)(intptr_t)GetCurrentThread();
 #else
     return (unsigned long)pthread_self();
 #endif

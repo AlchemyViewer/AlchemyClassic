@@ -19,9 +19,9 @@
 #define LL_LLMESSAGELOG_H
 
 #include "linden_common.h"
+#include "llhttpconstants.h"
 #include "llhost.h"
 #include "lliopipe.h"
-#include "llurlrequest.h"
 #include <queue>
 #include <string.h>
 

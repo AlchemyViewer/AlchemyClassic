@@ -16,6 +16,7 @@
  */
 
 #include "llmessagelog.h"
+#include "llbuffer.h"
 #include <boost/circular_buffer.hpp>
 
 static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);

@@ -35,8 +35,8 @@
 #include "llsd.h"
 #include "llsdjson.h"
 #include "llsdserialize.h"
-#include "reader.h" // JSON
-#include "writer.h" // JSON
+#include "jsoncpp/reader.h" // JSON
+#include "jsoncpp/writer.h" // JSON
 #include "llvfile.h"
 
 #include "message.h" // for getting the port

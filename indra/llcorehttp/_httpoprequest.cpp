@@ -421,7 +421,7 @@ void HttpOpRequest::setupCommon(HttpRequest::policy_t policy_id,
 	{
 		mReqHeaders = headers;
 	}
-	if (options && ! mReqOptions)
+	if (options && !mReqOptions)
 	{
 		mReqOptions = options;
 		if (options->getWantHeaders())

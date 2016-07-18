@@ -30,6 +30,8 @@
 #define LL_LLPLUGINCOOKIESTORE_H
 
 #include "lldate.h"
+#include <map>
+#include <string>
 #include <iostream>
 
 class LLPluginCookieStore

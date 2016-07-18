@@ -244,7 +244,7 @@ void HttpLibcurl::addOp(const HttpOpRequest::ptr_t &op)
 
 // Implements the transport part of any cancel operation.
 // See if the handle is an active operation and if so,
-// use the more complicated transport-based cancelation
+// use the more complicated transport-based cancellation
 // method to kill the request.
 bool HttpLibcurl::cancel(HttpHandle handle)
 {

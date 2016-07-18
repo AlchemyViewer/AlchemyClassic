@@ -105,6 +105,8 @@ public:
 	virtual void updateSettings()=0; // call after loading settings and whenever they change
 	
 	virtual bool isVoiceWorking() const = 0; // connected to a voice server and voice channel
+    
+    virtual void setHidden(bool hidden)=0;  //  Hides the user from voice.
 
 	virtual const LLVoiceVersionInfo& getVersion()=0;
 	

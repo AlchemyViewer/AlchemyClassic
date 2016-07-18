@@ -37,6 +37,7 @@
 #include "llfloaterreg.h"
 #include "llhints.h"
 #include "llviewercontrol.h"
+#include "llviewerdisplayname.h"
 
 // Linden libraries
 #include "llavatarnamecache.h"		// IDEVO

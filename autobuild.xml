@@ -950,11 +950,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fed9e6e9de1ea8210b0519f54df81bef</string>
+              <string>44c596c659d32a86972ac9c6f206cb68</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/common/lib/glh_linear-0.0.0-common-201412301528.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/glh-linear_3p-glh-linear/rev/303446/arch/Linux/installer/glh_linear-0.0.0-common-303446.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>

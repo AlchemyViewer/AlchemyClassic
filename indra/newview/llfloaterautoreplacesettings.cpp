@@ -35,7 +35,6 @@
 #include "llcolorswatch.h"
 #include "llcombobox.h"
 #include "llview.h"
-#include "llhttpclient.h"
 #include "llbufferstream.h"
 #include "llcheckboxctrl.h"
 #include "llviewercontrol.h"

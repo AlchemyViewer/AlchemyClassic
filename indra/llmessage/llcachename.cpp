@@ -257,7 +257,7 @@ LLCacheName::~LLCacheName()
 }
 
 LLCacheName::Impl::Impl(LLMessageSystem* msg)
-	: mMsg(msg), mUpstreamHost(LLHost::invalid)
+	: mMsg(msg), mUpstreamHost(LLHost())
 {
 	mMsg->setHandlerFuncFast(
 		_PREHASH_UUIDNameRequest, handleUUIDNameRequest, (void**)this);

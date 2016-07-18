@@ -116,7 +116,7 @@ LLFloaterGodTools::LLFloaterGodTools(const LLSD& key)
 :	LLFloater(key),
 	mPanelRegionTools(nullptr),
 	mPanelObjectTools(nullptr),
-	mCurrentHost(LLHost::invalid),
+	mCurrentHost(LLHost()),
 	mUpdateTimer()
 {
 	mFactoryMap["grid"] = LLCallbackMap(createPanelGrid, this);
@@ -181,7 +181,7 @@ void LLFloaterGodTools::updatePopup(LLCoordGL center, MASK mask)
 // virtual
 void LLFloaterGodTools::draw()
 {
-	if (mCurrentHost == LLHost::invalid)
+	if (mCurrentHost == LLHost())
 	{
 		if (mUpdateTimer.getElapsedTimeF32() > SECONDS_BETWEEN_UPDATE_REQUESTS)
 		{
@@ -326,7 +326,7 @@ void LLFloaterGodTools::sendRegionInfoRequest()
 {
 	if (mPanelRegionTools) mPanelRegionTools->clearAllWidgets();
 	if (mPanelObjectTools) mPanelObjectTools->clearAllWidgets();
-	mCurrentHost = LLHost::invalid;
+	mCurrentHost = LLHost();
 	mUpdateTimer.reset();
 
 	LLMessageSystem* msg = gMessageSystem;

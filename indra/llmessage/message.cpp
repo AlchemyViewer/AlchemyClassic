@@ -50,9 +50,7 @@
 #include "lldir.h"
 #include "llerror.h"
 #include "llfasttimer.h"
-#include "llhttpclient.h"
 #include "llhttpnodeadapter.h"
-#include "llhttpsender.h"
 #include "llmd5.h"
 #include "llmessagebuilder.h"
 #include "llmessageconfig.h"
@@ -77,6 +75,7 @@
 #include "v3math.h"
 #include "v4math.h"
 #include "lltransfertargetvfile.h"
+#include "llcorehttputil.h"
 #include "llrand.h"
 #include "llmessagelog.h"
 
@@ -98,45 +97,6 @@ public:
 	apr_socket_t *mAPRSocketp;
 	apr_pollfd_t mPollFD;
 };
-
-namespace
-{
-	class LLFnPtrResponder : public LLHTTPClient::Responder
-	{
-		LOG_CLASS(LLFnPtrResponder);
-	public:
-		LLFnPtrResponder(void (*callback)(void **,S32), void **callbackData, const std::string& name) :
-			mCallback(callback),
-			mCallbackData(callbackData),
-			mMessageName(name)
-		{
-		}
-
-	protected:
-		virtual void httpFailure()
-		{
-			// don't spam when agent communication disconnected already
-			if (HTTP_GONE != getStatus())
-			{
-				LL_WARNS("Messaging") << "error for message " << mMessageName
-									  << " " << dumpResponse() << LL_ENDL;
-			}
-			// TODO: Map status in to useful error code.
-			if(NULL != mCallback) mCallback(mCallbackData, LL_ERR_TCP_TIMEOUT);
-		}
-		
-		virtual void httpSuccess()
-		{
-			if(NULL != mCallback) mCallback(mCallbackData, LL_ERR_NOERR);
-		}
-
-	private:
-
-		void (*mCallback)(void **,S32);    
-		void **mCallbackData;
-		std::string mMessageName;
-	};
-}
 
 class LLMessageHandlerBridge : public LLHTTPNode
 {
@@ -1149,29 +1109,6 @@ S32 LLMessageSystem::flushReliable(const LLHost &host)
 	return send_bytes;
 }
 
-LLHTTPClient::ResponderPtr LLMessageSystem::createResponder(const std::string& name)
-{
-	if(mSendReliable)
-	{
-		return new LLFnPtrResponder(
-			mReliablePacketParams.mCallback,
-			mReliablePacketParams.mCallbackData,
-			name);
-	}
-	else
-	{
-		// These messages aren't really unreliable, they just weren't
-		// explicitly sent as reliable, so they don't have a callback
-//		LL_WARNS("Messaging") << "LLMessageSystem::sendMessage: Sending unreliable "
-//				<< mMessageBuilder->getMessageName() << " message via HTTP"
-//				<< LL_ENDL;
-		return new LLFnPtrResponder(
-			NULL,
-			NULL,
-			name);
-	}
-}
-
 // This can be called from signal handlers,
 // so should should not use LL_INFOS().
 S32 LLMessageSystem::sendMessage(const LLHost &host)
@@ -1236,13 +1173,17 @@ S32 LLMessageSystem::sendMessage(const LLHost &host)
 	if(mMessageBuilder == mLLSDMessageBuilder)
 	{
 		LLSD message = mLLSDMessageBuilder->getMessage();
-		
-		const LLHTTPSender& sender = LLHTTPSender::getSender(host);
-		sender.send(
-			host,
-			mLLSDMessageBuilder->getMessageName(),
-			message,
-			createResponder(mLLSDMessageBuilder->getMessageName()));
+
+        UntrustedCallback_t cb = NULL;
+        if ((mSendReliable) && (mReliablePacketParams.mCallback))
+        {
+            cb = boost::bind(mReliablePacketParams.mCallback, mReliablePacketParams.mCallbackData, _1);
+        }
+
+        LLCoros::instance().launch("LLMessageSystem::sendUntrustedSimulatorMessageCoro",
+            boost::bind(&LLMessageSystem::sendUntrustedSimulatorMessageCoro, this, 
+            host.getUntrustedSimulatorCap(), 
+            mLLSDMessageBuilder->getMessageName(), message, cb));
 
 		mSendReliable = FALSE;
 		mReliablePacketParams.clear();
@@ -1430,9 +1371,16 @@ S32 LLMessageSystem::sendMessage(
 		return 0;
 	}
 
-	const LLHTTPSender& sender = LLHTTPSender::getSender(host);
-	sender.send(host, name, message, createResponder(name));
-	return 1;
+    UntrustedCallback_t cb = NULL;
+    if ((mSendReliable) && (mReliablePacketParams.mCallback))
+    {
+        cb = boost::bind(mReliablePacketParams.mCallback, mReliablePacketParams.mCallbackData, _1);
+    }
+
+    LLCoros::instance().launch("LLMessageSystem::sendUntrustedSimulatorMessageCoro",
+            boost::bind(&LLMessageSystem::sendUntrustedSimulatorMessageCoro, this,
+            host.getUntrustedSimulatorCap(), name, message, cb));
+    return 1;
 }
 
 void LLMessageSystem::logTrustedMsgFromUntrustedCircuit( const LLHost& host )
@@ -1745,7 +1693,7 @@ LLHost LLMessageSystem::findHost(const U32 circuit_code)
 	}
 	else
 	{
-		return LLHost::invalid;
+		return LLHost();
 	}
 }
 
@@ -2989,6 +2937,7 @@ void LLMessageSystem::addTemplate(LLMessageTemplate *templatep)
 	mMessageNumbers[templatep->mMessageNumber] = templatep;
 }
 
+
 void LLMessageSystem::setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data)
 {
 	LLMessageTemplate* msgtemplate = get_ptr_in_map(mMessageTemplates, name);
@@ -4082,7 +4031,6 @@ void LLMessageSystem::banUdpMessage(const std::string& name)
 		LL_WARNS() << "Attempted to ban an unknown message: " << name << "." << LL_ENDL;
 	}
 }
-
 const LLHost& LLMessageSystem::getSender() const
 {
 	return mLastSender;
@@ -4092,6 +4040,36 @@ LLCircuit* LLMessageSystem::getCircuit()
 {
 	return &mCircuitInfo;
 }
+
+void LLMessageSystem::sendUntrustedSimulatorMessageCoro(std::string url, std::string message, LLSD body, UntrustedCallback_t callback)
+{
+    LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
+    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
+        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("groupMembersRequest", httpPolicy));
+    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+
+
+    if (url.empty())
+    {
+        LL_WARNS() << "sendUntrustedSimulatorMessageCoro called with empty capability!" << LL_ENDL;
+        return;
+    }
+
+    LL_INFOS() << "sendUntrustedSimulatorMessageCoro: message " << message << " to cap " << url << LL_ENDL;
+    LLSD postData;
+    postData["message"] = message;
+    postData["body"] = body;
+
+    LLSD result = httpAdapter->postAndSuspend(httpRequest, url, postData, httpOpts);
+
+    LLSD httpResults = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS];
+    LLCore::HttpStatus status = LLCoreHttpUtil::HttpCoroutineAdapter::getStatusFromLLSD(httpResults);
+
+    if ((callback) && (!callback.empty()))
+        callback((status) ? LL_ERR_NOERR : LL_ERR_TCP_TIMEOUT);
+}
+
 
 LLHTTPRegistration<LLHTTPNodeAdapter<LLTrustedMessageService> >
 	gHTTPRegistrationTrustedMessageWildcard("/trusted-message/<message-name>");

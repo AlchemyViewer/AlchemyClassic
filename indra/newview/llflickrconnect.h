@@ -29,6 +29,8 @@
 #define LL_LLFLICKRCONNECT_H
 
 #include "llimage.h"
+#include "llcoros.h"
+#include "lleventcoro.h"
 
 class LLEventPump;
 
@@ -92,6 +94,15 @@ private:
 	static boost::scoped_ptr<LLEventPump> sStateWatcher;
 	static boost::scoped_ptr<LLEventPump> sInfoWatcher;
 	static boost::scoped_ptr<LLEventPump> sContentWatcher;
+
+    bool testShareStatus(LLSD &result);
+    void flickrConnectCoro(std::string requestToken, std::string oauthVerifier);
+    void flickrShareCoro(LLSD share);
+    void flickrShareImageCoro(LLPointer<LLImageFormatted> image, std::string title, std::string description, std::string tags, int safetyLevel);
+    void flickrDisconnectCoro();
+    void flickrConnectedCoro(bool autoConnect);
+    void flickrInfoCoro();
+
 };
 
 #endif // LL_LLFLICKRCONNECT_H

@@ -49,7 +49,6 @@
 // Linden library includes
 #include "llaudioengine.h"
 #include "llbutton.h"
-#include "llcurl.h"
 #include "llglheaders.h"
 #include "llfloater.h"
 #include "llfloaterreg.h"
@@ -63,6 +62,7 @@
 #include "stringize.h"
 #include "llsdutil_math.h"
 #include "lleventapi.h"
+#include "llcorehttputil.h"
 
 #ifndef LL_LINUX
 #include <cef/llceflib.h>
@@ -111,6 +111,9 @@ private:
 
 	// listener name for update checks
 	static const std::string sCheckUpdateListenerName;
+	
+    static void startFetchServerReleaseNotes();
+    static void handleServerReleaseNotes(LLSD results);
 };
 
 ///----------------------------------------------------------------------------
@@ -183,14 +186,9 @@ BOOL LLFloaterAbout::postBuild()
 	LLViewerRegion* regionp = gAgent.getRegion();
 	if (regionp)
 	{
-		support_widget->setText(LLTrans::getString("RetrievingData"), LLStyle::Params().color(about_color));
-		// We cannot display the URL returned by the ServerReleaseNotes capability
-		// because opening it in an external browser will trigger a warning about untrusted
-		// SSL certificate.
-		// So we query the URL ourselves, expecting to find
-		// an URL suitable for external browsers in the "Location:" HTTP header.
-		std::string cap_url = regionp->getCapability("ServerReleaseNotes");
-		LLHTTPClient::get(cap_url, new LLServerReleaseNotesURLFetcher);
+		// start fetching server release notes URL
+		setSupportText(LLTrans::getString("RetrievingData"));
+        startFetchServerReleaseNotes();
 	}
 	else // not logged in
 	{
@@ -370,6 +368,50 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 	}
 
 	return info;
+}
+
+/*static*/
+void LLFloaterAbout::startFetchServerReleaseNotes()
+{
+    LLViewerRegion* region = gAgent.getRegion();
+    if (!region) return;
+
+    // We cannot display the URL returned by the ServerReleaseNotes capability
+    // because opening it in an external browser will trigger a warning about untrusted
+    // SSL certificate.
+    // So we query the URL ourselves, expecting to find
+    // an URL suitable for external browsers in the "Location:" HTTP header.
+    std::string cap_url = region->getCapability("ServerReleaseNotes");
+
+    LLCoreHttpUtil::HttpCoroutineAdapter::callbackHttpGet(cap_url,
+        &LLFloaterAbout::handleServerReleaseNotes, &LLFloaterAbout::handleServerReleaseNotes);
+
+}
+
+/*static*/
+void LLFloaterAbout::handleServerReleaseNotes(LLSD results)
+{
+//     LLFloaterAbout* floater_about = LLFloaterReg::getTypedInstance<LLFloaterAbout>("sl_about");
+//     if (floater_about)
+//     {
+        LLSD http_headers;
+        if (results.has(LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS))
+        {
+            LLSD http_results = results[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS];
+            http_headers = http_results[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS_HEADERS];
+        }
+        else
+        {
+            http_headers = results[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS_HEADERS];
+        }
+        
+        std::string location = http_headers[HTTP_IN_HEADER_LOCATION].asString();
+        if (location.empty())
+        {
+            location = LLTrans::getString("ErrorFetchingServerReleaseNotesURL");
+        }
+        LLAppViewer::instance()->setServerReleaseNotesURL(location);
+//    }
 }
 
 class LLFloaterAboutListener: public LLEventAPI

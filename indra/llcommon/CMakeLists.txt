@@ -9,6 +9,7 @@ include(Linking)
 include(Boost)
 include(OpenSSL)
 include(LLSharedLibs)
+include(JsonCpp)
 include(GoogleBreakpad)
 include(GooglePerfTools)
 include(Copy3rdPartyLibs)
@@ -19,6 +20,7 @@ include_directories(
     ${EXPAT_INCLUDE_DIRS}
     ${LLCOMMON_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     ${URIPARSER_INCLUDE_DIRS}
@@ -94,6 +96,7 @@ set(llcommon_SOURCE_FILES
     llrefcount.cpp
     llrun.cpp
     llsd.cpp
+    llsdjson.cpp
     llsdparam.cpp
     llsdserialize.cpp
     llsdserialize_xml.cpp
@@ -205,6 +208,7 @@ set(llcommon_HEADER_FILES
     llrefcount.h
     llsafehandle.h
     llsd.h
+    llsdjson.h
     llsdparam.h
     llsdserialize.h
     llsdserialize_xml.h
@@ -292,12 +296,14 @@ target_link_libraries(
     ${EXPAT_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${CRYPTO_LIBRARIES}
+    ${JSONCPP_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${WINDOWS_LIBRARIES}
+    ${BOOST_COROUTINE_LIBRARY}
+    ${BOOST_CONTEXT_LIBRARY}
     ${BOOST_PROGRAM_OPTIONS_LIBRARY}
     ${BOOST_REGEX_LIBRARY}
     ${BOOST_CHRONO_LIBRARY}
-    ${BOOST_CONTEXT_LIBRARY}
     ${BOOST_THREAD_LIBRARY}
     ${BOOST_SYSTEM_LIBRARY}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
@@ -315,7 +321,15 @@ if (LL_TESTS)
   LL_ADD_PROJECT_UNIT_TESTS(llcommon "${llcommon_TEST_SOURCE_FILES}")
 
   #set(TEST_DEBUG on)
-  set(test_libs llcommon ${LLCOMMON_LIBRARIES} ${WINDOWS_LIBRARIES} ${OPENSSL_LIBRARIES} ${CRYPTO_LIBRARIES})
+  set(test_libs llcommon 
+      ${LLCOMMON_LIBRARIES} 
+      ${WINDOWS_LIBRARIES} 
+      ${BOOST_COROUTINE_LIBRARY} 
+      ${BOOST_CONTEXT_LIBRARY} 
+      ${BOOST_THREAD_LIBRARY} 
+      ${BOOST_SYSTEM_LIBRARY}
+      ${OPENSSL_LIBRARIES}
+      ${CRYPTO_LIBRARIES})
   LL_ADD_INTEGRATION_TEST(commonmisc "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(bitpack "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llbase64 "" "${test_libs}")
@@ -337,7 +351,7 @@ if (LL_TESTS)
   LL_ADD_INTEGRATION_TEST(llunits "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(stringize "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(lleventdispatcher "" "${test_libs}")
-  LL_ADD_INTEGRATION_TEST(lleventcoro "" "${test_libs};${BOOST_CONTEXT_LIBRARY};${BOOST_COROUTINE_LIBRARY};${BOOST_DATE_TIME_LIBRARY};${BOOST_THREAD_LIBRARY};${BOOST_SYSTEM_LIBRARY}")
+  LL_ADD_INTEGRATION_TEST(lleventcoro "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llprocess "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llleap "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llstreamqueue "" "${test_libs}")

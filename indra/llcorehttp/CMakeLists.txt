@@ -4,7 +4,6 @@ project(llcorehttp)
 
 include(00-Common)
 include(CURL)
-include(CARes)
 include(OpenSSL)
 include(ZLIB)
 include(LLCoreHttp)
@@ -31,6 +30,7 @@ set(llcorehttp_SOURCE_FILES
     bufferarray.cpp
     bufferstream.cpp
     httpcommon.cpp
+    llhttpconstants.cpp
     httpheaders.cpp
     httpoptions.cpp
     httprequest.cpp
@@ -56,6 +56,7 @@ set(llcorehttp_HEADER_FILES
     bufferarray.h
     bufferstream.h
     httpcommon.h
+    llhttpconstants.h
     httphandler.h
     httpheaders.h
     httpoptions.h
@@ -89,7 +90,6 @@ add_library (llcorehttp ${llcorehttp_SOURCE_FILES})
 target_link_libraries(
   llcorehttp
   ${CURL_LIBRARIES}
-  ${CARES_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
   ${BOOST_THREAD_LIBRARY}
@@ -129,7 +129,6 @@ if (LL_TESTS)
       ${LLMESSAGE_LIBRARIES}
       ${LLCOMMON_LIBRARIES}
       ${CURL_LIBRARIES}
-      ${CARES_LIBRARIES}
       ${OPENSSL_LIBRARIES}
       ${CRYPTO_LIBRARIES}
       ${BOOST_THREAD_LIBRARY}
@@ -137,9 +136,13 @@ if (LL_TESTS)
       ${BOOST_SYSTEM_LIBRARY}
       )
 
+  # If http_proxy is in the current environment (e.g. to fetch s3-proxy
+  # autobuild packages), suppress it for this integration test: it screws up
+  # the tests.
   LL_ADD_INTEGRATION_TEST(llcorehttp
                           "${llcorehttp_TEST_SOURCE_FILES}"
                           "${test_libs}"
+                          "-Dhttp_proxy"
                           ${PYTHON_EXECUTABLE}
                           "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_llcorehttp_peer.py"
                           )
@@ -194,7 +197,6 @@ endif (DARWIN)
       ${LLMESSAGE_LIBRARIES}
       ${LLCOMMON_LIBRARIES}
       ${CURL_LIBRARIES}
-      ${CARES_LIBRARIES}
       ${OPENSSL_LIBRARIES}
       ${CRYPTO_LIBRARIES}
       ${BOOST_THREAD_LIBRARY}

@@ -40,7 +40,6 @@
 #include "llcheckboxctrl.h"
 #include "llcommandhandler.h"		// for secondlife:///app/login/
 #include "llcombobox.h"
-#include "llcurl.h"
 #include "llviewercontrol.h"
 #include "llfloaterpreference.h"
 #include "llfocusmgr.h"
@@ -58,7 +57,6 @@
 #include "llviewermenu.h"			// for handle_preferences()
 #include "llviewernetwork.h"
 #include "llviewerwindow.h"			// to link into child list
-#include "llhttpclient.h"
 #include "llweb.h"
 #include "llmediactrl.h"
 #include "llrootview.h"
@@ -423,17 +421,10 @@ void LLPanelLogin::show(const LLRect &rect,
 						void (*callback)(S32 option, void* user_data),
 						void* callback_data)
 {
-	// instance management
-	if (LLPanelLogin::sInstance)
-	{
-		LL_WARNS("AppInit") << "Duplicate instance of login view deleted" << LL_ENDL;
-		// Don't leave bad pointer in gFocusMgr
-		gFocusMgr.setDefaultKeyboardFocus(NULL);
-
-		delete LLPanelLogin::sInstance;
-	}
-
-	new LLPanelLogin(rect, callback, callback_data);
+    if (!LLPanelLogin::sInstance)
+    {
+        new LLPanelLogin(rect, callback, callback_data);
+    }
 
 	if( !gFocusMgr.getKeyboardFocus() )
 	{

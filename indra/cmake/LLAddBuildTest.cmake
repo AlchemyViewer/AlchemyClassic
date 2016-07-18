@@ -32,6 +32,7 @@ MACRO(LL_ADD_PROJECT_UNIT_TESTS project sources)
     ${APRUTIL_LIBRARIES}
     ${APR_LIBRARIES}
     llcommon
+    llcorehttp
     )
   IF(NOT "${project}" STREQUAL "llmath")
     # add llmath as a dep unless the tested module *is* llmath!
@@ -45,6 +46,9 @@ MACRO(LL_ADD_PROJECT_UNIT_TESTS project sources)
     ${LIBS_OPEN_DIR}/test
     )
   SET(alltest_LIBRARIES
+    ${BOOST_COROUTINE_LIBRARY}
+    ${BOOST_CONTEXT_LIBRARY}
+    ${BOOST_SYSTEM_LIBRARY}
     ${PTHREAD_LIBRARY}
     ${WINDOWS_LIBRARIES}
     )
@@ -186,6 +190,9 @@ FUNCTION(LL_ADD_INTEGRATION_TEST
 
   SET(libraries
     ${library_dependencies}
+    ${BOOST_COROUTINE_LIBRARY}
+    ${BOOST_CONTEXT_LIBRARY}
+    ${BOOST_SYSTEM_LIBRARY}
     ${PTHREAD_LIBRARY}
     )
 

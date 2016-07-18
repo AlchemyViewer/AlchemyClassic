@@ -39,7 +39,6 @@
 #include "llweb.h"
 #include "llcapabilityprovider.h"
 #include "m4math.h"					// LLMatrix4
-#include "llhttpclient.h"
 #include "llframetimer.h"
 #include "lleasymessagesender.h"
 
@@ -63,7 +62,6 @@ class LLVOCache;
 class LLVOCacheEntry;
 class LLSpatialPartition;
 class LLEventPump;
-class LLCapabilityListener;
 class LLDataPacker;
 class LLDataPackerBinaryBuffer;
 class LLHost;
@@ -254,13 +252,14 @@ public:
 
 	// Get/set named capability URLs for this region.
 	void setSeedCapability(const std::string& url);
-	void failedSeedCapability();
 	S32 getNumSeedCapRetries();
 	void setCapability(const std::string& name, const std::string& url);
 	void setCapabilityDebug(const std::string& name, const std::string& url);
 	bool isCapabilityAvailable(const std::string& name) const;
 	// implements LLCapabilityProvider
     virtual std::string getCapability(const std::string& name) const;
+    std::string getCapabilityDebug(const std::string& name) const;
+
 
 	virtual std::set<std::string> getCapURLNames(const std::string& cap_url);
 	virtual bool isCapURLMapped(const std::string& cap_url);
@@ -273,10 +272,6 @@ public:
 
 	static bool isSpecialCapabilityName(const std::string &name);
 	void logActiveCapabilities() const;
-
-    /// Get LLEventPump on which we listen for capability requests
-    /// (https://wiki.lindenlab.com/wiki/Viewer:Messaging/Messaging_Notes#Capabilities)
-    LLEventPump& getCapAPI() const;
 
     /// implements LLCapabilityProvider
 	/*virtual*/ const LLHost& getHost() const;

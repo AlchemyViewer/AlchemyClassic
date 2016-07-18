@@ -33,9 +33,10 @@
 #include "llnotificationsutil.h"
 #include "llpermissions.h"
 #include "llsdserialize.h"
-#include "llviewercontrol.h"
-#include "llviewerregion.h"
-#include "llviewerwindow.h"
+#include "llvoavatar.h"
+#include "llcorehttputil.h"
+#include "lleventfilter.h"
+#include "lleventcoro.h"
 
 // String equivalents of enum Categories - initialization order must match enum order!
 const std::array<std::string, 6> LLFloaterPermsDefault::sCategoryNames {{
@@ -46,30 +47,6 @@ const std::array<std::string, 6> LLFloaterPermsDefault::sCategoryNames {{
 	"Gestures",
 	"Wearables"
 }};
-
-// Oh hi! I'm a caps responder. I'm here because thing
-class LLFloaterPermsResponder : public LLHTTPClient::Responder
-{
-public:
-	LLFloaterPermsResponder() : LLHTTPClient::Responder() {}
-	
-private:
-	void httpFailure()
-	{
-		const std::string& reason = getReason();
-		//LLNotificationsUtil::add("DefaultObjectPermissions", LLSD().with("REASON", reason));
-		// This happens often enough to be irritating... Let's just drop it into the log.
-		LL_WARNS("ObjectPermissions") << "There was a problem saving the default object permissions: " << reason << LL_ENDL;
-	}
-	
-	void httpSuccess()
-	{
-		// Since we have had a successful POST call be sure to display the next error message
-		// even if it is the same as a previous one.
-		LL_INFOS("ObjectPermissionsFloater") << "Default permissions successfully sent to simulator" << LL_ENDL;
-	}
-};
-
 
 LLFloaterPerms::LLFloaterPerms(const LLSD& key)
 :	LLFloater(key)
@@ -166,41 +143,100 @@ void LLFloaterPermsDefault::onCommitCopy(const LLSD& user_data)
 	xfer->setEnabled(copyable);
 }
 
-//static
-void LLFloaterPermsDefault::setCapsReceivedCallback(LLViewerRegion* regionp)
-{
-	LLFloaterPermsDefault* floater = dynamic_cast<LLFloaterPermsDefault*>(LLFloaterReg::getInstance("perms_default"));
-	regionp->setCapabilitiesReceivedCallback(boost::bind(&LLFloaterPermsDefault::updateCap, floater));
-}
+const int MAX_HTTP_RETRIES = 5;
+const float RETRY_TIMEOUT = 5.0;
 
-void LLFloaterPermsDefault::updateCap()
+void LLFloaterPermsDefault::sendInitialPerms()
 {
-	const std::string& object_url = gAgent.getRegion()->getCapability("AgentPreferences");
+	if(!mCapSent)
+	{
+		updateCap();
+		setCapSent(true);
+	}
+}
+    
+//static
+void LLFloaterPermsRequester::finalize()
+{
+	std::string object_url = gAgent.getRegion()->getCapability("AgentPreferences");
 
 	if(!object_url.empty())
 	{
-		LLSD report = LLSD::emptyMap();
-		report["default_object_perm_masks"]["Group"] =
-			(LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[0]);
-		report["default_object_perm_masks"]["Everyone"] =
-			(LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[0]);
-		report["default_object_perm_masks"]["NextOwner"] =
-			(LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[0]);
-
-        {
-            LL_DEBUGS("ObjectPermissionsFloater") << "Sending default permissions to '"
-                                                  << object_url << "'\n";
-            std::ostringstream sent_perms_log;
-            LLSDSerialize::toPrettyXML(report, sent_perms_log);
-            LL_CONT << sent_perms_log.str() << LL_ENDL;
-        }
-    
-		LLHTTPClient::post(object_url, report, new LLFloaterPermsResponder());
+        LLCoros::instance().launch("LLFloaterPermsDefault::updateCapCoro",
+            boost::bind(&LLFloaterPermsDefault::updateCapCoro, object_url));
 	}
     else
     {
         LL_DEBUGS("ObjectPermissionsFloater") << "AgentPreferences cap not available." << LL_ENDL;
     }
+}
+
+/*static*/
+void LLFloaterPermsDefault::updateCapCoro(std::string url)
+{
+    int retryCount = 0;
+    std::string previousReason;
+    LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
+    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
+        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("genericPostCoro", httpPolicy));
+    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+
+    LLSD postData = LLSD::emptyMap();
+    postData["default_object_perm_masks"]["Group"] =
+        (LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[CAT_OBJECTS]);
+    postData["default_object_perm_masks"]["Everyone"] =
+        (LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[CAT_OBJECTS]);
+    postData["default_object_perm_masks"]["NextOwner"] =
+        (LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[CAT_OBJECTS]);
+
+    {
+        LL_DEBUGS("ObjectPermissionsFloater") << "Sending default permissions to '"
+            << url << "'\n";
+        std::ostringstream sent_perms_log;
+        LLSDSerialize::toPrettyXML(postData, sent_perms_log);
+        LL_CONT << sent_perms_log.str() << LL_ENDL;
+    }
+
+    while (true)
+    {
+        ++retryCount;
+        LLSD result = httpAdapter->postAndSuspend(httpRequest, url, postData);
+
+        LLSD httpResults = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS];
+        LLCore::HttpStatus status = LLCoreHttpUtil::HttpCoroutineAdapter::getStatusFromLLSD(httpResults);
+
+        if (!status)
+        {
+            const std::string& reason = status.toString();
+            // Do not display the same error more than once in a row
+            if (reason != previousReason)
+            {
+                previousReason = reason;
+                LLSD args;
+                args["REASON"] = reason;
+                LLNotificationsUtil::add("DefaultObjectPermissions", args);
+            }
+
+            llcoro::suspendUntilTimeout(RETRY_TIMEOUT);
+            if (retryCount < MAX_HTTP_RETRIES)
+                continue;
+
+            LL_WARNS("ObjectPermissionsFloater") << "Unable to send default permissions.  Giving up for now." << LL_ENDL;
+            return;
+        }
+        break;
+    }
+
+    // Since we have had a successful POST call be sure to display the next error message
+    // even if it is the same as a previous one.
+    previousReason.clear();
+    LLFloaterPermsDefault::setCapSent(true);
+    LL_INFOS("ObjectPermissionsFloater") << "Default permissions successfully sent to simulator" << LL_ENDL;
+}
+
+void LLFloaterPermsDefault::setCapSent(bool cap_sent)
+{
+	mCapSent = cap_sent;
 }
 
 void LLFloaterPermsDefault::ok()

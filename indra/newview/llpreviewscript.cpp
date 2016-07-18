@@ -28,11 +28,7 @@
 
 #include "llpreviewscript.h"
 
-// library includes
-#include "lldir.h"
-#include "llkeyboard.h"
-
-// llui
+#include "llassetstorage.h"
 #include "llbutton.h"
 #include "llcheckboxctrl.h"
 #include "llcombobox.h"
@@ -81,6 +77,17 @@
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
 #include "llviewerstats.h"
+#include "llviewerwindow.h"
+#include "lluictrlfactory.h"
+#include "llmediactrl.h"
+#include "lluictrlfactory.h"
+#include "lltrans.h"
+#include "llviewercontrol.h"
+#include "llappviewer.h"
+#include "llfloatergotoline.h"
+#include "llexperiencecache.h"
+#include "llfloaterexperienceprofile.h"
+#include "llviewerassetupload.h"
 
 const std::string HELLO_LSL =
 	"default\n"
@@ -109,26 +116,6 @@ static bool have_script_upload_cap(LLUUID& object_id)
 	LLViewerObject* object = gObjectList.findObject(object_id);
 	return object && (! object->getRegion()->getCapability("UpdateScriptTask").empty());
 }
-
-
-class ExperienceResponder : public LLHTTPClient::Responder
-{
-public:
-	ExperienceResponder(const LLHandle<LLLiveLSLEditor>& parent):mParent(parent)
-	{
-	}
-
-	LLHandle<LLLiveLSLEditor> mParent;
-
-	/*virtual*/ void httpSuccess()
-	{
-		LLLiveLSLEditor* parent = mParent.get();
-		if(!parent)
-			return;
-
-		parent->setExperienceIds(getContent()["experience_ids"]);		
-	}
-};
 
 /// ---------------------------------------------------------------------------
 /// LLLiveLSLFile
@@ -1349,7 +1336,7 @@ void LLLiveLSLEditor::buildExperienceList()
 			position = ADD_TOP;
 		}
 		
-		const LLSD& experience = LLExperienceCache::get(id);
+        const LLSD& experience = LLExperienceCache::instance().get(id);
 		if(experience.isUndefined())
 		{
 			mExperiences->add(getString("loading"), id, position);
@@ -1368,7 +1355,7 @@ void LLLiveLSLEditor::buildExperienceList()
 
 	if(!foundAssociated )
 	{
-		const LLSD& experience = LLExperienceCache::get(associated);
+        const LLSD& experience = LLExperienceCache::instance().get(associated);
 		if(experience.isDefined())
 		{
 			std::string experience_name_string = experience[LLExperienceCache::NAME].asString();
@@ -1389,7 +1376,7 @@ void LLLiveLSLEditor::buildExperienceList()
 	if(last.notNull())
 	{
 		mExperiences->setEnabled(FALSE);
-		LLExperienceCache::get(last, boost::bind(&LLLiveLSLEditor::buildExperienceList, this));  
+        LLExperienceCache::instance().get(last, boost::bind(&LLLiveLSLEditor::buildExperienceList, this));
 	}
 	else
 	{
@@ -1421,11 +1408,23 @@ void LLLiveLSLEditor::requestExperiences()
 		std::string lookup_url=region->getCapability("GetCreatorExperiences"); 
 		if(!lookup_url.empty())
 		{
-			LLHTTPClient::get(lookup_url, new ExperienceResponder(getDerivedHandle<LLLiveLSLEditor>()));
+            LLCoreHttpUtil::HttpCoroutineAdapter::completionCallback_t success =
+                boost::bind(&LLLiveLSLEditor::receiveExperienceIds, _1, getDerivedHandle<LLLiveLSLEditor>());
+
+            LLCoreHttpUtil::HttpCoroutineAdapter::callbackHttpGet(lookup_url, success);
 		}
 	}
 }
 
+/*static*/ 
+void LLLiveLSLEditor::receiveExperienceIds(LLSD result, LLHandle<LLLiveLSLEditor> hparent)
+{
+    LLLiveLSLEditor* parent = hparent.get();
+    if (!parent)
+        return;
+
+    parent->setExperienceIds(result["experience_ids"]);
+}
 
 
 /// ---------------------------------------------------------------------------
@@ -1588,7 +1587,7 @@ void LLPreviewLSL::loadAsset()
 		if (gAgent.isGodlike() || (is_copyable && (is_modifiable || is_library)))
 		{
 			LLUUID* new_uuid = new LLUUID(mItemUUID);
-			gAssetStorage->getInvItemAsset(LLHost::invalid,
+			gAssetStorage->getInvItemAsset(LLHost(),
 										gAgent.getID(),
 										gAgent.getSessionID(),
 										item->getPermissions().getOwner(),
@@ -1661,59 +1660,160 @@ void LLPreviewLSL::onSave(void* userdata, BOOL close_after_save)
 	self->saveIfNeeded();
 }
 
+/*static*/
+void LLPreviewLSL::finishedLSLUpload(LLUUID itemId, LLSD response)
+{
+    // Find our window and close it if requested.
+    LLPreviewLSL* preview = LLFloaterReg::findTypedInstance<LLPreviewLSL>("preview_script", LLSD(itemId));
+    if (preview)
+    {
+        // Bytecode save completed
+        if (response["compiled"])
+        {
+            preview->callbackLSLCompileSucceeded();
+        }
+        else
+        {
+            preview->callbackLSLCompileFailed(response["errors"]);
+        }
+    }
+}
+
 // Save needs to compile the text in the buffer. If the compile
 // succeeds, then save both assets out to the database. If the compile
 // fails, go ahead and save the text anyway.
 void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
 {
-	// LL_INFOS() << "LLPreviewLSL::saveIfNeeded()" << LL_ENDL;
-	if(!mScriptEd->hasChanged())
-	{
-		return;
-	}
+    if (!mScriptEd->hasChanged())
+    {
+        return;
+    }
 
-	mPendingUploads = 0;
-	mScriptEd->mErrorList->deleteAllItems();
-	mScriptEd->mEditor->makePristine();
+    mPendingUploads = 0;
+    mScriptEd->mErrorList->deleteAllItems();
+    mScriptEd->mEditor->makePristine();
 
-	// save off asset into file
-	LLTransactionID tid;
-	tid.generate();
+    if (sync)
+    {
+        mScriptEd->sync();
+    }
+
+    const LLInventoryItem *inv_item = getItem();
+    // save it out to asset server
+    std::string url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
+    if(inv_item)
+    {
+        getWindow()->incBusyCount();
+        mPendingUploads++;
+        if (!url.empty())
+        {
+            std::string buffer(mScriptEd->mEditor->getText());
+            LLBufferedAssetUploadInfo::invnUploadFinish_f proc = boost::bind(&LLPreviewLSL::finishedLSLUpload, _1, _4);
+
+            LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mItemUUID, buffer, proc));
+
+            LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
+        }
+        else if (gAssetStorage)
+        {
+            // save off asset into file
+            LLTransactionID tid;
+            tid.generate();
+            LLAssetID asset_id = tid.makeAssetID(gAgent.getSecureSessionID());
+            std::string filepath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE, asset_id.asString());
+            std::string filename = filepath + ".lsl";
+
+            mScriptEd->writeToFile(filename);
+
+            uploadAssetLegacy(filename, mItemUUID, tid);
+        }
+    }
+}
+
+void LLPreviewLSL::uploadAssetLegacy(const std::string& filename,
+									  const LLUUID& item_id,
+									  const LLTransactionID& tid)
+{
+	LLLineEditor* descEditor = getChild<LLLineEditor>("desc");
+	LLScriptSaveInfo* info = new LLScriptSaveInfo(item_id,
+								descEditor->getText(),
+								tid);
+	gAssetStorage->storeAssetData(filename,	tid,
+								  LLAssetType::AT_LSL_TEXT,
+								  &LLPreviewLSL::onSaveComplete,
+								  info);
+
 	LLAssetID asset_id = tid.makeAssetID(gAgent.getSecureSessionID());
 	std::string filepath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,asset_id.asString());
-	std::string filename = filepath + ".lsl";
+	std::string dst_filename = llformat("%s.lso", filepath.c_str());
+	std::string err_filename = llformat("%s.out", filepath.c_str());
 
-	mScriptEd->writeToFile(filename);
-
-	if (sync)
+	const BOOL compile_to_mono = FALSE;
+	if(!lscript_compile(filename.c_str(),
+						dst_filename.c_str(),
+						err_filename.c_str(),
+						compile_to_mono,
+						asset_id.asString().c_str(),
+						gAgent.isGodlike()))
 	{
-		mScriptEd->sync();
-	}
+		LL_INFOS() << "Compile failed!" << LL_ENDL;
+		//char command[256];
+		//sprintf(command, "type %s\n", err_filename.c_str());
+		//system(command);
 
-	const LLInventoryItem *inv_item = getItem();
-	// save it out to asset server
-	std::string url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
-	if(inv_item)
-	{
-		getWindow()->incBusyCount();
-		mPendingUploads++;
-		if (!url.empty())
+		// load the error file into the error scrolllist
+		LLFILE* fp = LLFile::fopen(err_filename, "r");
+		if(fp)
 		{
-			uploadAssetViaCaps(url, filename, mItemUUID);
+			char buffer[MAX_STRING];		/*Flawfinder: ignore*/
+			std::string line;
+			while(!feof(fp)) 
+			{
+				if (fgets(buffer, MAX_STRING, fp) == NULL)
+				{
+					buffer[0] = '\0';
+				}
+				if(feof(fp))
+				{
+					break;
+				}
+				else
+				{
+					line.assign(buffer);
+					LLStringUtil::stripNonprintable(line);
+
+					LLSD row;
+					row["columns"][0]["value"] = line;
+					row["columns"][0]["font"] = "OCRA";
+					mScriptEd->mErrorList->addElement(row);
+				}
+			}
+			fclose(fp);
+			mScriptEd->selectFirstError();
 		}
 	}
+	else
+	{
+		LL_INFOS() << "Compile worked!" << LL_ENDL;
+		if(gAssetStorage)
+		{
+			getWindow()->incBusyCount();
+			mPendingUploads++;
+			LLUUID* this_uuid = new LLUUID(mItemUUID);
+			gAssetStorage->storeAssetData(dst_filename,
+										  tid,
+										  LLAssetType::AT_LSL_BYTECODE,
+										  &LLPreviewLSL::onSaveBytecodeComplete,
+										  (void**)this_uuid);
+		}
+	}
+
+	// get rid of any temp files left lying around
+	LLFile::remove(filename);
+	LLFile::remove(err_filename);
+	LLFile::remove(dst_filename);
 }
 
-void LLPreviewLSL::uploadAssetViaCaps(const std::string& url,
-									  const std::string& filename,
-									  const LLUUID& item_id)
-{
-	LL_INFOS() << "Update Agent Inventory via capability" << LL_ENDL;
-	LLSD body;
-	body["item_id"] = item_id;
-	body["target"] = gSavedSettings.getBOOL("AlchemyInventoryScriptsMono") ? "mono" : "lsl2";
-	LLHTTPClient::post(url, body, new LLUpdateAgentInventoryResponder(body, filename, LLAssetType::AT_LSL_TEXT));
-}
 
 // static
 void LLPreviewLSL::onSaveComplete(const LLUUID& asset_uuid, void* user_data, S32 status, LLExtStat ext_status) // StoreAssetData callback (fixed)
@@ -1982,8 +2082,9 @@ void LLLiveLSLEditor::loadAsset()
 
 			if(item)
 			{
-				ExperienceAssociationResponder::fetchAssociatedExperience(item->getParentUUID(), item->getUUID(), boost::bind(&LLLiveLSLEditor::setAssociatedExperience, getDerivedHandle<LLLiveLSLEditor>(), _1));
-				
+                LLExperienceCache::instance().fetchAssociatedExperience(item->getParentUUID(), item->getUUID(),
+                        boost::bind(&LLLiveLSLEditor::setAssociatedExperience, getDerivedHandle<LLLiveLSLEditor>(), _1));
+
 				bool isGodlike = gAgent.isGodlike();
 				bool copyManipulate = gAgent.allowOperation(PERM_COPY, item->getPermissions(), GP_OBJECT_MANIPULATE);
 				mIsModifiable = gAgent.allowOperation(PERM_MODIFY, item->getPermissions(), GP_OBJECT_MANIPULATE);
@@ -2271,6 +2372,33 @@ LLLiveLSLSaveData::LLLiveLSLSaveData(const LLUUID& id,
 	mItem = new LLViewerInventoryItem(item);
 }
 
+
+/*static*/
+void LLLiveLSLEditor::finishLSLUpload(LLUUID itemId, LLUUID taskId, LLUUID newAssetId, LLSD response, bool isRunning)
+{
+    LLSD floater_key;
+    floater_key["taskid"] = taskId;
+    floater_key["itemid"] = itemId;
+
+    LLLiveLSLEditor* preview = LLFloaterReg::findTypedInstance<LLLiveLSLEditor>("preview_scriptedit", floater_key);
+    if (preview)
+    {
+        preview->mItem->setAssetUUID(newAssetId);
+
+        // Bytecode save completed
+        if (response["compiled"])
+        {
+            preview->callbackLSLCompileSucceeded(taskId, itemId, isRunning);
+        }
+        else
+        {
+            preview->callbackLSLCompileFailed(response["errors"]);
+        }
+    }
+
+}
+
+
 // virtual
 void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 {
@@ -2281,7 +2409,7 @@ void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 		return;
 	}
 
-	if(mItem.isNull() || !mItem->isFinished())
+    if (mItem.isNull() || !mItem->isFinished())
 	{
 		// $NOTE: While the error message may not be exactly correct,
 		// it's pretty close.
@@ -2289,75 +2417,168 @@ void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 		return;
 	}
 
-	// get the latest info about it. We used to be losing the script
-	// name on save, because the viewer object version of the item,
-	// and the editor version would get out of synch. Here's a good
-	// place to synch them back up.
-	LLInventoryItem* inv_item = dynamic_cast<LLInventoryItem*>(object->getInventoryObject(mItemUUID));
-	if(inv_item)
-	{
-		mItem->copyItem(inv_item);
-	}
+    // get the latest info about it. We used to be losing the script
+    // name on save, because the viewer object version of the item,
+    // and the editor version would get out of synch. Here's a good
+    // place to synch them back up.
+    LLInventoryItem* inv_item = dynamic_cast<LLInventoryItem*>(object->getInventoryObject(mItemUUID));
+    if (inv_item)
+    {
+        mItem->copyItem(inv_item);
+    }
 
-	// Don't need to save if we're pristine
-	if(!mScriptEd->hasChanged())
-	{
-		return;
-	}
+    // Don't need to save if we're pristine
+    if(!mScriptEd->hasChanged())
+    {
+        return;
+    }
 
-	mPendingUploads = 0;
+    mPendingUploads = 0;
 
-	// save the script
-	mScriptEd->enableSave(FALSE);
-	mScriptEd->mEditor->makePristine();
-	mScriptEd->mErrorList->deleteAllItems();
+    // save the script
+    mScriptEd->enableSave(FALSE);
+    mScriptEd->mEditor->makePristine();
+    mScriptEd->mErrorList->deleteAllItems();
+    mScriptEd->mEditor->makePristine();
 
-	// set up the save on the local machine.
-	mScriptEd->mEditor->makePristine();
-	LLTransactionID tid;
-	tid.generate();
-	LLAssetID asset_id = tid.makeAssetID(gAgent.getSecureSessionID());
-	std::string filepath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,asset_id.asString());
-	std::string filename = llformat("%s.lsl", filepath.c_str());
+    if (sync)
+    {
+        mScriptEd->sync();
+    }
+    bool isRunning = getChild<LLCheckBoxCtrl>("running")->get();
+    getWindow()->incBusyCount();
+    mPendingUploads++;
 
-	mItem->setAssetUUID(asset_id);
-	mItem->setTransactionID(tid);
+    std::string url = object->getRegion()->getCapability("UpdateScriptTask");
 
-	mScriptEd->writeToFile(filename);
+    if (!url.empty())
+    {
+        std::string buffer(mScriptEd->mEditor->getText());
+        LLBufferedAssetUploadInfo::taskUploadFinish_f proc = boost::bind(&LLLiveLSLEditor::finishLSLUpload, _1, _2, _3, _4, isRunning);
 
-	if (sync)
-	{
-		mScriptEd->sync();
-	}
-	
-	// save it out to asset server
-	std::string url = object->getRegion()->getCapability("UpdateScriptTask");
-	getWindow()->incBusyCount();
-	mPendingUploads++;
-	BOOL is_running = getChild<LLCheckBoxCtrl>( "running")->get();
+        LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mObjectUUID, mItemUUID, 
+                monoChecked() ? LLScriptAssetUpload::MONO : LLScriptAssetUpload::LSL2, 
+                isRunning, mScriptEd->getAssociatedExperience(), buffer, proc));
+
+        LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
+    }
+    else if (gAssetStorage)
+    {
+        // set up the save on the local machine.
+        LLTransactionID tid;
+        tid.generate();
+        LLAssetID asset_id = tid.makeAssetID(gAgent.getSecureSessionID());
+        std::string filepath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE, asset_id.asString());
+        std::string filename = llformat("%s.lsl", filepath.c_str());
+
+        mItem->setAssetUUID(asset_id);
+        mItem->setTransactionID(tid);
+
+        mScriptEd->writeToFile(filename);
+
 	mIsSaving = TRUE;
-	if (!url.empty())
-	{
-		uploadAssetViaCaps(url, filename, mObjectUUID, mItemUUID, is_running, mScriptEd->getAssociatedExperience());
-	}
+        uploadAssetLegacy(filename, object, tid, isRunning);
+    }
+
 }
 
-void LLLiveLSLEditor::uploadAssetViaCaps(const std::string& url,
-										 const std::string& filename,
-										 const LLUUID& task_id,
-										 const LLUUID& item_id,
-										 BOOL is_running,
-										 const LLUUID& experience_public_id )
+void LLLiveLSLEditor::uploadAssetLegacy(const std::string& filename,
+										LLViewerObject* object,
+										const LLTransactionID& tid,
+										BOOL is_running)
 {
-	LL_INFOS() << "Update Task Inventory via capability " << url << LL_ENDL;
-	LLSD body;
-	body["task_id"] = task_id;
-	body["item_id"] = item_id;
-	body["is_script_running"] = is_running;
-	body["target"] = monoChecked() ? "mono" : "lsl2";
-	body["experience"] = experience_public_id;
-	LLHTTPClient::post(url, body,
-		new LLUpdateTaskInventoryResponder(body, filename, LLAssetType::AT_LSL_TEXT));
+	LLLiveLSLSaveData* data = new LLLiveLSLSaveData(mObjectUUID,
+													mItem,
+													is_running);
+	gAssetStorage->storeAssetData(filename, tid,
+								  LLAssetType::AT_LSL_TEXT,
+								  &onSaveTextComplete,
+								  (void*)data,
+								  FALSE);
+
+	LLAssetID asset_id = tid.makeAssetID(gAgent.getSecureSessionID());
+	std::string filepath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,asset_id.asString());
+	std::string dst_filename = llformat("%s.lso", filepath.c_str());
+	std::string err_filename = llformat("%s.out", filepath.c_str());
+
+	LLFILE *fp;
+	const BOOL compile_to_mono = FALSE;
+	if(!lscript_compile(filename.c_str(),
+						dst_filename.c_str(),
+						err_filename.c_str(),
+						compile_to_mono,
+						asset_id.asString().c_str(),
+						gAgent.isGodlike()))
+	{
+		// load the error file into the error scrolllist
+		LL_INFOS() << "Compile failed!" << LL_ENDL;
+		if(NULL != (fp = LLFile::fopen(err_filename, "r")))
+		{
+			char buffer[MAX_STRING];		/*Flawfinder: ignore*/
+			std::string line;
+			while(!feof(fp)) 
+			{
+				
+				if (fgets(buffer, MAX_STRING, fp) == NULL)
+				{
+					buffer[0] = '\0';
+				}
+				if(feof(fp))
+				{
+					break;
+				}
+				else
+				{
+					line.assign(buffer);
+					LLStringUtil::stripNonprintable(line);
+				
+					LLSD row;
+					row["columns"][0]["value"] = line;
+					row["columns"][0]["font"] = "OCRA";
+					mScriptEd->mErrorList->addElement(row);
+				}
+			}
+			fclose(fp);
+			mScriptEd->selectFirstError();
+			// don't set the asset id, because we want to save the
+			// script, even though the compile failed.
+			//mItem->setAssetUUID(LLUUID::null);
+			object->saveScript(mItem, FALSE, false);
+			dialog_refresh_all();
+		}
+	}
+	else
+	{
+		LL_INFOS() << "Compile worked!" << LL_ENDL;
+		mScriptEd->mErrorList->setCommentText(LLTrans::getString("CompileSuccessfulSaving"));
+		if(gAssetStorage)
+		{
+			LL_INFOS() << "LLLiveLSLEditor::saveAsset "
+					<< mItem->getAssetUUID() << LL_ENDL;
+			getWindow()->incBusyCount();
+			mPendingUploads++;
+			LLLiveLSLSaveData* data = NULL;
+			data = new LLLiveLSLSaveData(mObjectUUID,
+										 mItem,
+										 is_running);
+			gAssetStorage->storeAssetData(dst_filename,
+										  tid,
+										  LLAssetType::AT_LSL_BYTECODE,
+										  &LLLiveLSLEditor::onSaveBytecodeComplete,
+										  (void*)data);
+			dialog_refresh_all();
+		}
+	}
+
+	// get rid of any temp files left lying around
+	LLFile::remove(filename);
+	LLFile::remove(err_filename);
+	LLFile::remove(dst_filename);
+
+	// If we successfully saved it, then we should be able to check/uncheck the running box!
+	LLCheckBoxCtrl* runningCheckbox = getChild<LLCheckBoxCtrl>( "running");
+	runningCheckbox->setLabel(getString("script_running"));
+	runningCheckbox->setEnabled(TRUE);
 }
 
 void LLLiveLSLEditor::onSaveTextComplete(const LLUUID& asset_uuid, void* user_data, S32 status, LLExtStat ext_status) // StoreAssetData callback (fixed)

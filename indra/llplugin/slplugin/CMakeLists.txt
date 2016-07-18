@@ -81,12 +81,6 @@ target_link_libraries(AlchemyPlugin
   ${PTHREAD_LIBRARY}
 )
 
-add_dependencies(AlchemyPlugin
-  ${LLPLUGIN_LIBRARIES}
-  ${LLMESSAGE_LIBRARIES}
-  ${LLCOMMON_LIBRARIES}
-)
-
 if (DARWIN)
   target_link_libraries(AlchemyPlugin ${COCOA_LIBRARY})
   # Make sure the app bundle has a Resources directory (it will get populated by viewer-manifest.py later)

@@ -99,7 +99,6 @@
 #include "llfloaternotificationstabbed.h"
 #include "llfloaterobjectweights.h"
 #include "llfloateropenobject.h"
-#include "llfloateroutbox.h"
 #include "llfloaterparticleeditor.h"
 #include "llfloaterpathfindingcharacters.h"
 #include "llfloaterpathfindinglinksets.h"
@@ -260,7 +259,6 @@ void LLViewerFloaterReg::registerFloaters()
 	LLInspectRemoteObjectUtil::registerFloater();
 	LLFloaterVoiceVolumeUtil::registerFloater();
 	LLNotificationsUI::registerFloater();
-	LLFloaterDisplayNameUtil::registerFloater();
 	
 	LLFloaterReg::add("land_holdings", "floater_land_holdings.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterLandHoldings>);
 	
@@ -289,7 +287,6 @@ void LLViewerFloaterReg::registerFloaters()
 
 	LLFloaterReg::add("object_weights", "floater_object_weights.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterObjectWeights>);
 	LLFloaterReg::add("openobject", "floater_openobject.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterOpenObject>);
-	LLFloaterReg::add("outbox", "floater_merchant_outbox.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterOutbox>);
 	LLFloaterReg::add("outgoing_call", "floater_outgoing_call.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLOutgoingCallDialog>);
 	LLFloaterPayUtil::registerFloater();
 

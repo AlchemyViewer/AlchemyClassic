@@ -274,7 +274,7 @@ void LLViewerTextureList::shutdown()
 		if (!image->hasGLTexture() ||
 			!image->getUseDiscard() ||
 			image->needsAux() ||
-			image->getTargetHost() != LLHost::invalid ||
+			!image->getTargetHost().isInvalid() ||
 			!image->getUrl().empty()
 			)
 		{

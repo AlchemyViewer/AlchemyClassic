@@ -46,7 +46,6 @@
 #include "lltimer.h"
 #include "llpacketring.h"
 #include "llhost.h"
-#include "llcurl.h"
 #include "llhttpnode.h"
 //#include "llpacketack.h"
 #include "llsingleton.h"
@@ -56,6 +55,7 @@
 #include "llmessagesenderinterface.h"
 
 #include "llstoredmessage.h"
+#include "boost/function.hpp"
 
 #include <boost/signals2/connection.hpp>
 
@@ -491,7 +491,6 @@ public:
 		void (*callback)(void **,S32), 
 		void ** callback_data);
 
-	LLCurl::ResponderPtr createResponder(const std::string& name);
 	S32		sendMessage(const LLHost &host);
 	S32		sendMessage(const U32 circuit);
 private:
@@ -743,6 +742,9 @@ public:
 	void receivedMessageFromTrustedSender();
 	
 private:
+    typedef boost::function<void(S32)>  UntrustedCallback_t;
+    void sendUntrustedSimulatorMessageCoro(std::string url, std::string message, LLSD body, UntrustedCallback_t callback);
+
 
 	bool mLastMessageFromTrustedMessageService;
 	

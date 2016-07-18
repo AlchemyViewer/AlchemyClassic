@@ -383,10 +383,10 @@ class WindowsManifest(ViewerManifest):
             # Vivox runtimes
             if self.prefix(src="", dst="voice"):
                 self.path("SLVoice.exe")
-                self.path("libsndfile-1.dll")
-                self.path("ortp.dll")
-                self.path("vivoxoal.dll")
                 self.path("vivoxsdk.dll")
+                self.path("ortp.dll")
+                self.path("libsndfile-1.dll")
+                self.path("vivoxoal.dll")
                 self.path("ca-bundle.crt")
                 self.end_prefix()
 

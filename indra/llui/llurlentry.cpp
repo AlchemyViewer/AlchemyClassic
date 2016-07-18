@@ -915,7 +915,7 @@ std::string LLUrlEntryObjectIM::getLocation(const std::string &url) const
 // LLUrlEntryParcel statics.
 LLUUID	LLUrlEntryParcel::sAgentID(LLUUID::null);
 LLUUID	LLUrlEntryParcel::sSessionID(LLUUID::null);
-LLHost	LLUrlEntryParcel::sRegionHost(LLHost::invalid);
+LLHost	LLUrlEntryParcel::sRegionHost;
 bool	LLUrlEntryParcel::sDisconnected(false);
 std::set<LLUrlEntryParcel*> LLUrlEntryParcel::sParcelInfoObservers;
 
@@ -964,7 +964,7 @@ std::string LLUrlEntryParcel::getLabel(const std::string &url, const LLUrlLabelC
 
 void LLUrlEntryParcel::sendParcelInfoRequest(const LLUUID& parcel_id)
 {
-	if (sRegionHost == LLHost::invalid || sDisconnected) return;
+	if (sRegionHost.isInvalid() || sDisconnected) return;
 
 	LLMessageSystem *msg = gMessageSystem;
 	msg->newMessage("ParcelInfoRequest");
@@ -1422,7 +1422,7 @@ std::string LLUrlEntryExperienceProfile::getLabel( const std::string &url, const
         return LLTrans::getString("ExperienceNameNull");
     }
 
-    const LLSD& experience_details = LLExperienceCache::get(experience_id);
+    const LLSD& experience_details = LLExperienceCache::instance().get(experience_id);
     if(!experience_details.isUndefined())
     {
 		std::string experience_name_string = experience_details[LLExperienceCache::NAME].asString();
@@ -1430,7 +1430,7 @@ std::string LLUrlEntryExperienceProfile::getLabel( const std::string &url, const
     }
 
     addObserver(experience_id_string, url, cb);
-    LLExperienceCache::get(experience_id, boost::bind(&LLUrlEntryExperienceProfile::onExperienceDetails, this, _1));
+    LLExperienceCache::instance().get(experience_id, boost::bind(&LLUrlEntryExperienceProfile::onExperienceDetails, this, _1));
     return LLTrans::getString("LoadingData");
 
 }

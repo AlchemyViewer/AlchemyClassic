@@ -29,8 +29,8 @@
 #define LL_LLFLOATERPERMPREFS_H
 
 #include "llfloater.h"
-
-class LLViewerRegion;
+#include "lleventcoro.h"
+#include "llcoros.h"
 
 class LLFloaterPerms : public LLFloater
 {
@@ -68,6 +68,7 @@ private:
 	void reload();
 
 	static const std::array<std::string, 6> sCategoryNames;
+    static void updateCapCoro(std::string url);
 
 	// cached values only for implementing cancel.
 	bool mShareWithGroup[6];

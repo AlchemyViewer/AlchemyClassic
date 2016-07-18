@@ -27,12 +27,13 @@
 #ifndef LL_PROXY_H
 #define LL_PROXY_H
 
-#include "llcurl.h"
 #include "llhost.h"
 #include "lliosocket.h"
 #include "llmemory.h"
 #include "llsingleton.h"
 #include "llthread.h"
+#include <curl/curl.h>
+#include <string>
 
 // SOCKS error codes returned from the StartProxy method
 #define SOCKS_OK 0
@@ -251,9 +252,6 @@ public:
 	// Apply the current proxy settings to a curl request. Doesn't do anything if mHTTPProxyEnabled is false.
 	// Safe to call from any thread.
 	void applyProxySettings(CURL* handle);
-	void applyProxySettings(LLCurl::Easy* handle);
-	void applyProxySettings(LLCurlEasyRequest* handle);
-
 	// Start a connection to the SOCKS 5 proxy. Call from main thread only.
 	S32 startSOCKSProxy(LLHost host);
 

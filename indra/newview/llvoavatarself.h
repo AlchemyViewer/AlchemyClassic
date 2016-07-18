@@ -30,6 +30,9 @@
 
 #include "llviewertexture.h"
 #include "llvoavatar.h"
+#include <map>
+#include "lleventcoro.h"
+#include "llcoros.h"
 
 struct LocalTextureData;
 class LLInventoryCallback;
@@ -405,6 +408,9 @@ private:
 	F32 					mDebugBakedTextureTimes[LLAvatarAppearanceDefines::BAKED_NUM_INDICES][2]; // time to start upload and finish upload of each baked texture
 	void					debugTimingLocalTexLoaded(BOOL success, LLViewerFetchedTexture *src_vi, LLImageRaw* src, LLImageRaw* aux_src, S32 discard_level, BOOL final, void* userdata);
 
+    void                    appearanceChangeMetricsCoro(std::string url);
+    bool                    mInitialMetric;
+    S32                     mMetricSequence;
 /**                    Diagnostics
  **                                                                            **
  *******************************************************************************/

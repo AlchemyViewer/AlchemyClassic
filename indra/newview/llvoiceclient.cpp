@@ -258,6 +258,18 @@ bool LLVoiceClient::deviceSettingsAvailable()
 	}
 }
 
+bool LLVoiceClient::deviceSettingsUpdated()
+{
+	if (mVoiceModule)
+	{
+		return mVoiceModule->deviceSettingsUpdated();
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void LLVoiceClient::refreshDeviceLists(bool clearCurrentList)
 {
 	if (mVoiceModule) mVoiceModule->refreshDeviceLists(clearCurrentList);
@@ -355,6 +367,7 @@ BOOL LLVoiceClient::isSessionCallBackPossible(const LLUUID& id)
 	}	
 }
 
+/* obsolete
 BOOL LLVoiceClient::sendTextMessage(const LLUUID& participant_id, const std::string& message)
 {
 	if (mVoiceModule) 
@@ -366,12 +379,13 @@ BOOL LLVoiceClient::sendTextMessage(const LLUUID& participant_id, const std::str
 		return FALSE;
 	}	
 }
+*/
 
 void LLVoiceClient::endUserIMSession(const LLUUID& participant_id)
 {
 	if (mVoiceModule) 
 	{
-		mVoiceModule->endUserIMSession(participant_id);
+		// mVoiceModule->endUserIMSession(participant_id);  // A SLim leftover
 	}
 }
 
@@ -637,9 +651,8 @@ void LLVoiceClient::keyDown(KEY key, MASK mask)
 	
 	if(!mPTTIsMiddleMouse && LLAgent::isActionAllowed("speak"))
 	{
-		bool down = (mPTTKey != KEY_NONE)
-		&& gKeyboard->getKeyDown(mPTTKey);
-		inputUserControlState(down);
+		bool down = (mPTTKey != KEY_NONE) && gKeyboard->getKeyDown(mPTTKey);
+		if (down) { inputUserControlState(down); }
 	}
 	
 }
@@ -647,9 +660,8 @@ void LLVoiceClient::keyUp(KEY key, MASK mask)
 {
 	if(!mPTTIsMiddleMouse)
 	{
-		bool down = (mPTTKey != KEY_NONE)
-		&& gKeyboard->getKeyDown(mPTTKey);
-		inputUserControlState(down);
+		bool down = (mPTTKey != KEY_NONE) && gKeyboard->getKeyDown(mPTTKey);
+		if (down) { inputUserControlState(down); }
 	}
 }
 void LLVoiceClient::middleMouseState(bool down)

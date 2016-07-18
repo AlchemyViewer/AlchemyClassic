@@ -37,6 +37,8 @@
 #include "llcorehttputil.h"
 #include "lleventfilter.h"
 #include "lleventcoro.h"
+#include "llviewercontrol.h"
+#include "llviewerregion.h"
 
 // String equivalents of enum Categories - initialization order must match enum order!
 const std::array<std::string, 6> LLFloaterPermsDefault::sCategoryNames {{

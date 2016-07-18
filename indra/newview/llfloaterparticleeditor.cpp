@@ -25,7 +25,6 @@
 
 #include "llagent.h"
 #include "llappviewer.h"
-#include "llassetuploadresponders.h"
 #include "llcheckboxctrl.h"
 #include "llclipboard.h"
 #include "llcolorswatch.h"

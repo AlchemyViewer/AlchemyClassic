@@ -4577,10 +4577,6 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
             LLViewerInventoryCategory * dest_folder = getCategory();
             accept = can_move_item_to_marketplace(master_folder, dest_folder, inv_item, tooltip_msg, LLToolDragAndDrop::instance().getCargoCount() - LLToolDragAndDrop::instance().getCargoIndex());
 		}
-		else if (move_is_into_inbox)
-		{
-			accept = FALSE;
-		}
 
         // Check that the folder can accept this item based on folder/item type compatibility (e.g. stock folder compatibility)
         if (user_confirm && accept)
@@ -4753,10 +4749,6 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
 			accept = FALSE;
 		}
-		else if (move_is_into_inbox)
-		{
-			accept = FALSE;
-		}
 		
 		// Check whether the item being dragged from in world
 		// passes the filter of the destination panel.
@@ -4795,10 +4787,7 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
 			accept = FALSE;
 		}
-		else if (move_is_into_inbox)
-		{
-			accept = FALSE;
-		}
+
 		// Don't allow to move a single item to Favorites or Landmarks
 		// if it is not a landmark or a link to a landmark.
 		else if (move_is_into_favorites || move_is_into_landmarks)
@@ -4837,10 +4826,6 @@ BOOL LLFolderBridge::dragItemIntoFolder(LLInventoryItem* inv_item,
 			if (move_is_into_marketplacelistings)
 			{
 				tooltip_msg = LLTrans::getString("TooltipOutboxNotInInventory");
-				accept = FALSE;
-			}
-			else if (move_is_into_inbox)
-			{
 				accept = FALSE;
 			}
 			else if (move_is_into_current_outfit || move_is_into_outfit)

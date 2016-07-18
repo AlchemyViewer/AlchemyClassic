@@ -26,7 +26,6 @@
 #include "llfloater.h"
 #include "llpartdata.h"
 #include "llviewerinventory.h"
-#include "llassetuploadresponders.h"
 
 class LLButton;
 class LLCheckBoxCtrl;

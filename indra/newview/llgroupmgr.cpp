@@ -50,6 +50,7 @@
 #include "lltrans.h"
 #include "llviewerregion.h"
 
+#include <boost/format.hpp>
 #include <boost/regex.hpp>
 #include "llcorehttputil.h"
 

@@ -30,7 +30,6 @@
 #include "llviewernetwork.h"
 #include "llviewercontrol.h"
 #include "llbufferstream.h"
-#include "llhttpclient.h"
 #include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"

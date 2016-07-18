@@ -371,7 +371,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		}
 	}
 
-	LLHTTPClient::builderRequest(http_method, target, body, body_len, header_map);
+	//LLHTTPClient::builderRequest(http_method, target, body, body_len, header_map);
 	return true;
 }
 

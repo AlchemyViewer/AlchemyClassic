@@ -1573,7 +1573,7 @@ bool LLAOEngine::importNotecard(const LLInventoryItem* item)
 			mImportSet->setName(item->getName());
 
 			LLUUID* newUUID = new LLUUID(item->getAssetUUID());
-			const LLHost sourceSim = LLHost::invalid;
+			const LLHost sourceSim = LLHost();
 
 			gAssetStorage->getInvItemAsset(
 				sourceSim,

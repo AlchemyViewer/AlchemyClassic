@@ -777,6 +777,7 @@ private:
 	
 	bool		mMuteMic;
 	bool		mMuteMicDirty;
+    bool        mHidden;       //Set to true during teleport to hide the agent's position.
 			
 	// Set to true when the friends list is known to have changed.
 	bool		mFriendsListDirty;
@@ -895,7 +896,6 @@ private:
 	bool mCaptureBufferRecording;	// A voice sample is being captured.
 	bool mCaptureBufferRecorded;	// A voice sample is captured in the buffer ready to play.
 	bool mCaptureBufferPlaying;		// A voice sample is being played.
-	bool mShutdownComplete;
 
 	LLTimer mCaptureTimer;
 	LLUUID  mPreviewVoiceFont;

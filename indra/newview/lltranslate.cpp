@@ -36,9 +36,9 @@
 #include "llversioninfo.h"
 #include "llviewercontrol.h"
 #include "llcoros.h"
-#include "reader.h"
 #include "llcorehttputil.h"
 
+#include <jsoncpp/reader.h>
 
 /**
 * Handler of an HTTP machine translation service.

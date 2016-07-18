@@ -32,6 +32,8 @@
 #include "lleventcoro.h"
 #include "llcoros.h"
 
+class LLViewerRegion;
+
 class LLFloaterPerms : public LLFloater
 {
 	friend class LLFloaterReg;

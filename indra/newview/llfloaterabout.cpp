@@ -116,41 +116,6 @@ private:
     static void handleServerReleaseNotes(LLSD results);
 };
 
-///----------------------------------------------------------------------------
-/// Class LLServerReleaseNotesURLFetcher
-///----------------------------------------------------------------------------
-class LLServerReleaseNotesURLFetcher : public LLHTTPClient::Responder
-{
-	LOG_CLASS(LLServerReleaseNotesURLFetcher);
-private:
-	/* virtual */ void httpCompleted()
-	{
-		LL_DEBUGS("ServerReleaseNotes") << dumpResponse()
-			<< " [headers:" << getResponseHeaders() << "]" << LL_ENDL;
-
-		LLFloaterAbout* floater_about = LLFloaterReg::findTypedInstance<LLFloaterAbout>("sl_about");
-		if (floater_about)
-		{
-			std::string location = getResponseHeader(HTTP_IN_HEADER_LOCATION);
-			if (location.empty())
-			{
-				location = LLTrans::getString("ErrorFetchingServerReleaseNotesURL");
-			}
-			floater_about->setSupportText(location);
-		}
-	}
-
-	/*virtual*/ void httpFailure()
-	{
-		LLFloaterAbout* floater_about = LLFloaterReg::findTypedInstance<LLFloaterAbout>("sl_about");
-		if (floater_about)
-		{
-			floater_about->setSupportText(LLTrans::getString("ErrorFetchingServerReleaseNotesURL"));
-		}
-	}
-};
-
-
 // Default constructor
 LLFloaterAbout::LLFloaterAbout(const LLSD& key) 
 :	LLFloater(key)
@@ -327,7 +292,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 #endif
 
 	info["OPENGL_VERSION"] = (const char*) (glGetString(GL_VERSION));
-	info["LIBCURL_VERSION"] = LLCurl::getVersionString();
+	info["LIBCURL_VERSION"] = LLCore::LLHttp::getCURLVersion();
 	info["J2C_VERSION"] = LLImageJ2C::getEngineInfo();
 	info["FONT_VERSION"] = LLFontFreetype::getVersionString();
 	bool want_fullname = true;
@@ -391,9 +356,9 @@ void LLFloaterAbout::startFetchServerReleaseNotes()
 /*static*/
 void LLFloaterAbout::handleServerReleaseNotes(LLSD results)
 {
-//     LLFloaterAbout* floater_about = LLFloaterReg::getTypedInstance<LLFloaterAbout>("sl_about");
-//     if (floater_about)
-//     {
+     LLFloaterAbout* floater_about = LLFloaterReg::findTypedInstance<LLFloaterAbout>("sl_about");
+     if (floater_about)
+     {
         LLSD http_headers;
         if (results.has(LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS))
         {
@@ -410,8 +375,8 @@ void LLFloaterAbout::handleServerReleaseNotes(LLSD results)
         {
             location = LLTrans::getString("ErrorFetchingServerReleaseNotesURL");
         }
-        LLAppViewer::instance()->setServerReleaseNotesURL(location);
-//    }
+		floater_about->setSupportText(location);
+    }
 }
 
 class LLFloaterAboutListener: public LLEventAPI

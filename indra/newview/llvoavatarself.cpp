@@ -48,6 +48,7 @@
 #include "llviewercamera.h"
 #include "llviewercontrol.h"
 #include "llviewermenu.h"
+#include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
 #include "llviewerstats.h"
 #include "llviewerregion.h"

@@ -46,6 +46,7 @@
 #include "llviewerobjectlist.h"
 #include "llexperiencecache.h"
 #include "lltrans.h"
+#include "llviewernetwork.h"
 
 static const std::array<std::string, 21> perm_and_sale_items{{
 	"perms_inv",

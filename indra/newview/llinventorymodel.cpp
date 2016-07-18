@@ -517,6 +517,31 @@ const LLUUID LLInventoryModel::findLibraryCategoryUUIDForType(LLFolderType::ETyp
 	return findCategoryUUIDForTypeInRoot(preferred_type, create_folder, gInventory.getLibraryRootFolderID());
 }
 
+const LLUUID LLInventoryModel::findDescendentCategoryIDByName(const LLUUID& parent_id, const std::string& name)
+{
+	LLInventoryModel::cat_array_t cat_array;
+	LLInventoryModel::item_array_t item_array;
+	LLNameCategoryCollector has_name(name);
+	gInventory.collectDescendentsIf(parent_id,
+									cat_array,
+									item_array,
+									LLInventoryModel::EXCLUDE_TRASH,
+									has_name);
+	if (0 == cat_array.size())
+		return LLUUID::null;
+	else
+	{
+		LLViewerInventoryCategory *cat = cat_array.at(0);
+		if (cat)
+			return cat->getUUID();
+		else
+		{
+			LL_WARNS() << "null cat" << LL_ENDL;
+			return LLUUID::null;
+		}
+	}
+}
+
 // Convenience function to create a new category. You could call
 // updateCategory() with a newly generated UUID category, but this
 // version will take care of details like what the name should be

@@ -62,8 +62,9 @@ public:
 	void onClickOK();
 	void onClickCancel();
 	void onCommitCopy(const LLSD& user_data);
-	void updateCap();
-	static void setCapsReceivedCallback(LLViewerRegion* regionp);
+	static void sendInitialPerms();
+	static void updateCap();
+	static void setCapSent(bool cap_sent);
 
 private:
 	LLFloaterPermsDefault(const LLSD& seed);

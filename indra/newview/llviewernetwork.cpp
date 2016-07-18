@@ -98,48 +98,48 @@ const std::string ALCHEMY_UPDATE_SERVICE = "https://app.alchemyviewer.org/update
 //
 const std::string GRIDS_USER_FILE = "grids_user.xml";
 
-class LLGridInfoRequestResponder : public LLHTTPClient::Responder
-{
-private:
-	std::function<void(LLSD&, LLXMLNodePtr)> mCallbackFunc;
-	LLSD mData;
-	
-public:
-	LLGridInfoRequestResponder(const std::function<void(LLSD&, LLXMLNodePtr)> callback_func, LLSD& data)
-	: mCallbackFunc(callback_func), mData(data) {}
-	
-	void completedRaw(const LLChannelDescriptors& channels, const LLIOPipe::buffer_ptr_t& buffer) override
-	{
-		if (getStatus() == HTTP_OK)
-		{
-			LLBufferStream istr(channels, buffer.get());
-			LLPointer<LLXMLNode> xmlnode;
-			if(LLXMLNode::parseStream(istr, xmlnode, NULL))
-			{
-				mCallbackFunc(mData, xmlnode);
-			}
-			else
-			{
-				LLSD args;
-				args["GRID"] = mData[GRID_VALUE];
-				LLNotificationsUtil::add("MalformedGridInfo", args);
-			}
-		}
-		else
-		{
-			httpFailure();
-		}
-	}
-	
-	void httpFailure() override
-	{
-		LLSD args;
-		args["GRID"] = mData[GRID_VALUE];
-		args["STATUS"] = getStatus();
-		args["REASON"] = getReason();
-		LLNotificationsUtil::add("CantAddGrid", args);
-	}
-};
+//class LLGridInfoRequestResponder : public LLHTTPClient::Responder
+//{
+//private:
+//	std::function<void(LLSD&, LLXMLNodePtr)> mCallbackFunc;
+//	LLSD mData;
+//	
+//public:
+//	LLGridInfoRequestResponder(const std::function<void(LLSD&, LLXMLNodePtr)> callback_func, LLSD& data)
+//	: mCallbackFunc(callback_func), mData(data) {}
+//	
+//	void completedRaw(const LLChannelDescriptors& channels, const LLIOPipe::buffer_ptr_t& buffer) override
+//	{
+//		if (getStatus() == HTTP_OK)
+//		{
+//			LLBufferStream istr(channels, buffer.get());
+//			LLPointer<LLXMLNode> xmlnode;
+//			if(LLXMLNode::parseStream(istr, xmlnode, NULL))
+//			{
+//				mCallbackFunc(mData, xmlnode);
+//			}
+//			else
+//			{
+//				LLSD args;
+//				args["GRID"] = mData[GRID_VALUE];
+//				LLNotificationsUtil::add("MalformedGridInfo", args);
+//			}
+//		}
+//		else
+//		{
+//			httpFailure();
+//		}
+//	}
+//	
+//	void httpFailure() override
+//	{
+//		LLSD args;
+//		args["GRID"] = mData[GRID_VALUE];
+//		args["STATUS"] = getStatus();
+//		args["REASON"] = getReason();
+//		LLNotificationsUtil::add("CantAddGrid", args);
+//	}
+//};
 
 LLGridManager::LLGridManager()
 :	mPlatform(NOPLATFORM)
@@ -511,9 +511,9 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 			// yep, fallthru.
 		case ADD_LINK:
 		case ADD_MANUAL:
-			LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
-							  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
-									this, std::placeholders::_1, std::placeholders::_2), data));
+			//LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
+			//				  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
+			//						this, std::placeholders::_1, std::placeholders::_2), data));
 			break;
 	}
 }

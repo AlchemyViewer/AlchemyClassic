@@ -140,20 +140,20 @@ private:
 		
 		LLFloaterParticleEditor* mEditor;
 	};
-	
-	class LLParticleScriptUploadResponder : public LLUpdateAgentInventoryResponder
-	{
-	public:
-		LLParticleScriptUploadResponder(const LLSD& post_data,
-										const std::string& file_name,
-										LLAssetType::EType asset_type,
-										LLFloaterParticleEditor* editor);
-		
-	protected:
-		void uploadComplete(const LLSD& content);
-		
-		LLFloaterParticleEditor* mEditor;
-	};
+
+	//class LLParticleScriptUploadResponder : public LLUpdateAgentInventoryResponder
+	//{
+	//public:
+	//	LLParticleScriptUploadResponder(const LLSD& post_data,
+	//									const std::string& file_name,
+	//									LLAssetType::EType asset_type,
+	//									LLFloaterParticleEditor* editor);
+	//	
+	//protected:
+	//	void uploadComplete(const LLSD& content);
+	//	
+	//	LLFloaterParticleEditor* mEditor;
+	//};
 };
 
 #endif // LL_FLOATERPARTICLEEDITOR_H

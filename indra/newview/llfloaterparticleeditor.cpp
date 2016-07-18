@@ -31,7 +31,6 @@
 #include "llcombobox.h"
 #include "lldir.h"
 #include "llfoldertype.h"
-#include "llhttpclient.h"
 #include "llinventorymodel.h"
 #include "llinventorytype.h"
 #include "llnotificationsutil.h"
@@ -573,7 +572,7 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 		body["is_script_running"] = true;
 
 		// responder will alert us when the job is done
-		LLHTTPClient::post(url, body, new LLParticleScriptUploadResponder(body, temp_file_path, LLAssetType::AT_LSL_TEXT, this));
+		//LLHTTPClient::post(url, body, new LLParticleScriptUploadResponder(body, temp_file_path, LLAssetType::AT_LSL_TEXT, this));
 
 		//mMainPanel->setEnabled(FALSE);
 		setCanClose(FALSE);
@@ -622,20 +621,20 @@ void LLFloaterParticleEditor::LLParticleScriptCreationCallback::fire(const LLUUI
 
 // ---------------------------------- Responders ----------------------------------
 
-LLFloaterParticleEditor::LLParticleScriptUploadResponder::
-LLParticleScriptUploadResponder(const LLSD& post_data,
-				const std::string& file_name,
-				LLAssetType::EType asset_type,
-				LLFloaterParticleEditor* editor)
-	: LLUpdateAgentInventoryResponder(post_data, file_name, asset_type)
-	, mEditor(editor)
-{}
-
-void LLFloaterParticleEditor::LLParticleScriptUploadResponder::uploadComplete(const LLSD& content)
-{
-	LLUpdateAgentInventoryResponder::uploadComplete(content);
-	if (!gDisconnected && !LLAppViewer::instance()->quitRequested() && mEditor)
-	{
-		mEditor->scriptInjectReturned(content);
-	}
-}
+//LLFloaterParticleEditor::LLParticleScriptUploadResponder::
+//LLParticleScriptUploadResponder(const LLSD& post_data,
+//				const std::string& file_name,
+//				LLAssetType::EType asset_type,
+//				LLFloaterParticleEditor* editor)
+//	: LLUpdateAgentInventoryResponder(post_data, file_name, asset_type)
+//	, mEditor(editor)
+//{}
+//
+//void LLFloaterParticleEditor::LLParticleScriptUploadResponder::uploadComplete(const LLSD& content)
+//{
+//	LLUpdateAgentInventoryResponder::uploadComplete(content);
+//	if (!gDisconnected && !LLAppViewer::instance()->quitRequested() && mEditor)
+//	{
+//		mEditor->scriptInjectReturned(content);
+//	}
+//}

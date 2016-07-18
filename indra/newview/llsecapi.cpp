@@ -30,7 +30,6 @@
 #include "llsecapi.h"
 
 #include "llsechandler_basic.h"
-#include "llhttpclient.h"
 
 #include <openssl/evp.h>
 #include <openssl/err.h>

@@ -29,7 +29,6 @@
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llagentwearables.h"
-#include "llassetuploadresponders.h"
 #include "llfloatersidepanelcontainer.h"
 #include "lllocaltextureobject.h"
 #include "llnotificationsutil.h"

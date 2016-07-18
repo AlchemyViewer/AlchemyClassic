@@ -92,6 +92,8 @@ U32 LLFloaterPerms::getNextOwnerPerms(const std::string& prefix)
 }
 
 
+static bool mCapSent = false;
+
 LLFloaterPermsDefault::LLFloaterPermsDefault(const LLSD& key)
 :	LLFloater(key)
 {
@@ -156,9 +158,8 @@ void LLFloaterPermsDefault::sendInitialPerms()
 		setCapSent(true);
 	}
 }
-    
-//static
-void LLFloaterPermsRequester::finalize()
+
+void LLFloaterPermsDefault::updateCap()
 {
 	std::string object_url = gAgent.getRegion()->getCapability("AgentPreferences");
 
@@ -185,11 +186,11 @@ void LLFloaterPermsDefault::updateCapCoro(std::string url)
 
     LLSD postData = LLSD::emptyMap();
     postData["default_object_perm_masks"]["Group"] =
-        (LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[CAT_OBJECTS]);
+        (LLSD::Integer)LLFloaterPerms::getGroupPerms(sCategoryNames[0]);
     postData["default_object_perm_masks"]["Everyone"] =
-        (LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[CAT_OBJECTS]);
+        (LLSD::Integer)LLFloaterPerms::getEveryonePerms(sCategoryNames[0]);
     postData["default_object_perm_masks"]["NextOwner"] =
-        (LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[CAT_OBJECTS]);
+        (LLSD::Integer)LLFloaterPerms::getNextOwnerPerms(sCategoryNames[0]);
 
     {
         LL_DEBUGS("ObjectPermissionsFloater") << "Sending default permissions to '"

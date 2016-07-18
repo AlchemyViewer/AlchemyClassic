@@ -1259,7 +1259,7 @@ bool idle_startup()
 		LLViewerRegion *regionp = LLWorld::getInstance()->getRegionFromHandle(gFirstSimHandle);
 		LL_INFOS("AppInit") << "Adding initial simulator " << regionp->getOriginGlobal() << LL_ENDL;
 		
-		LLFloaterPermsDefault::setCapsReceivedCallback(regionp);
+		//LLFloaterPermsDefault::setCapsReceivedCallback(regionp);
 		
 		LL_DEBUGS("CrossingCaps") << "Calling setSeedCapability from init_idle(). Seed cap == "
 		<< gFirstSimSeedCap << LL_ENDL;

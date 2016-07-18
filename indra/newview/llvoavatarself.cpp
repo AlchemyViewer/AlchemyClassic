@@ -2490,38 +2490,38 @@ void LLVOAvatarSelf::sendViewerAppearanceChangeMetrics()
 	}
 }
 
-class CheckAgentAppearanceServiceResponder: public LLHTTPClient::Responder
-{
-public:
-	CheckAgentAppearanceServiceResponder() {}
-	
-	virtual ~CheckAgentAppearanceServiceResponder()	{}
-
-	/* virtual */ void httpSuccess()
-	{
-		LL_DEBUGS("Avatar") << "OK" << LL_ENDL;
-	}
-
-	// Error
-	/*virtual*/ void httpFailure()
-	{
-		if (isAgentAvatarValid())
-		{
-			LL_DEBUGS("Avatar") << "failed, will rebake "
-					<< dumpResponse() << LL_ENDL;
-			forceAppearanceUpdate();
-		}
-	}	
-
-	static void forceAppearanceUpdate()
-	{
-		// Trying to rebake immediately after crossing region boundary
-		// seems to be failure prone; adding a delay factor. Yes, this
-		// fix is ad-hoc and not guaranteed to work in all cases.
-		doAfterInterval(boost::bind(&LLVOAvatarSelf::forceBakeAllTextures,
-									gAgentAvatarp.get(), true), 5.0);
-	}
-};
+//class CheckAgentAppearanceServiceResponder: public LLHTTPClient::Responder
+//{
+//public:
+//	CheckAgentAppearanceServiceResponder() {}
+//	
+//	virtual ~CheckAgentAppearanceServiceResponder()	{}
+//
+//	/* virtual */ void httpSuccess()
+//	{
+//		LL_DEBUGS("Avatar") << "OK" << LL_ENDL;
+//	}
+//
+//	// Error
+//	/*virtual*/ void httpFailure()
+//	{
+//		if (isAgentAvatarValid())
+//		{
+//			LL_DEBUGS("Avatar") << "failed, will rebake "
+//					<< dumpResponse() << LL_ENDL;
+//			forceAppearanceUpdate();
+//		}
+//	}	
+//
+//	static void forceAppearanceUpdate()
+//	{
+//		// Trying to rebake immediately after crossing region boundary
+//		// seems to be failure prone; adding a delay factor. Yes, this
+//		// fix is ad-hoc and not guaranteed to work in all cases.
+//		doAfterInterval(boost::bind(&LLVOAvatarSelf::forceBakeAllTextures,
+//									gAgentAvatarp.get(), true), 5.0);
+//	}
+//};
 
 void LLVOAvatarSelf::checkForUnsupportedServerBakeAppearance()
 {
@@ -2535,12 +2535,12 @@ void LLVOAvatarSelf::checkForUnsupportedServerBakeAppearance()
 	// if baked image service is unknown, need to refresh.
 	if (LLAppearanceMgr::instance().getAppearanceServiceURL().empty())
 	{
-		CheckAgentAppearanceServiceResponder::forceAppearanceUpdate();
+		//CheckAgentAppearanceServiceResponder::forceAppearanceUpdate();
 	}
 	// query baked image service to check status.
 	std::string image_url = gAgentAvatarp->getImageURL(TEX_HEAD_BAKED,
 													   getTE(TEX_HEAD_BAKED)->getID());
-	LLHTTPClient::head(image_url, new CheckAgentAppearanceServiceResponder);
+	//LLHTTPClient::head(image_url, new CheckAgentAppearanceServiceResponder);
 }
 
 const LLUUID& LLVOAvatarSelf::grabBakedTexture(EBakedTextureIndex baked_index) const

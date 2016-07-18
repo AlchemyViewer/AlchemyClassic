@@ -58,7 +58,7 @@ namespace {
     {
         std::string domain = "secondlife.com";
 
-        if (!LLGridManager::getInstance()->isInProductionGrid())
+        if (LLGridManager::getInstance()->isInSLBeta())
         {
             const std::string& grid_id = LLGridManager::getInstance()->getGridId();
             const std::string& grid_id_lower = utf8str_tolower(grid_id);

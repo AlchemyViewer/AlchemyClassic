@@ -27,8 +27,6 @@
 #ifndef LLVIEWERDISPLAYNAME_H
 #define LLVIEWERDISPLAYNAME_H
 
-#include <boost/signals2.hpp>
-
 class LLSD;
 class LLUUID;
 
@@ -41,11 +39,6 @@ namespace LLViewerDisplayName
 	
 	typedef boost::signals2::signal<void (void)> name_changed_signal_t;
 	typedef name_changed_signal_t::slot_type name_changed_slot_t;
-
-	// Sends an update to the server to change a display name
-	// and call back when done.  May not succeed due to service
-	// unavailable or name not available.
-	void set(const std::string& display_name, const set_name_slot_t& slot); 
 	
 	boost::signals2::connection addNameChangedCallback(const name_changed_signal_t::slot_type& cb);
 }

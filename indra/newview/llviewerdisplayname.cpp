@@ -35,7 +35,6 @@
 
 // library includes
 #include "llavatarnamecache.h"
-#include "llhttpclient.h"
 #include "llhttpnode.h"
 #include "llnotificationsutil.h"
 #include "llui.h"					// getLanguage()
@@ -54,66 +53,6 @@ namespace LLViewerDisplayName
 	}
 
 	void doNothing() { }
-}
-
-class LLSetDisplayNameResponder : public LLHTTPClient::Responder
-{
-	LOG_CLASS(LLSetDisplayNameResponder);
-private:
-	// only care about errors
-	/*virtual*/ void httpFailure()
-	{
-		LL_WARNS() << dumpResponse() << LL_ENDL;
-		LLViewerDisplayName::sSetDisplayNameSignal(false, "", LLSD());
-		LLViewerDisplayName::sSetDisplayNameSignal.disconnect_all_slots();
-	}
-};
-
-void LLViewerDisplayName::set(const std::string& display_name, const set_name_slot_t& slot)
-{
-	// TODO: simple validation here
-
-	LLViewerRegion* region = gAgent.getRegion();
-	llassert(region);
-	std::string cap_url = region->getCapability("SetDisplayName");
-	if (cap_url.empty())
-	{
-		// this server does not support display names, report error
-		slot(false, "unsupported", LLSD());
-		return;
-	}
-
-	// People API can return localized error messages.  Indicate our
-	// language preference via header.
-	LLSD headers;
-	headers[HTTP_OUT_HEADER_ACCEPT_LANGUAGE] = LLUI::getLanguage();
-
-	// People API requires both the old and new value to change a variable.
-	// Our display name will be in cache before the viewer's UI is available
-	// to request a change, so we can use direct lookup without callback.
-	LLAvatarName av_name;
-	if (!LLAvatarNameCache::get( gAgent.getID(), &av_name))
-	{
-		slot(false, "name unavailable", LLSD());
-		return;
-	}
-
-	// People API expects array of [ "old value", "new value" ]
-	LLSD change_array = LLSD::emptyArray();
-	change_array.append(av_name.getDisplayName());
-	change_array.append(display_name);
-	
-	LL_INFOS() << "Set name POST to " << cap_url << LL_ENDL;
-
-	// Record our caller for when the server sends back a reply
-	sSetDisplayNameSignal.connect(slot);
-	
-	// POST the requested change.  The sim will not send a response back to
-	// this request directly, rather it will send a separate message after it
-	// communicates with the back-end.
-	LLSD body;
-	body["display_name"] = change_array;
-	LLHTTPClient::post(cap_url, body, new LLSetDisplayNameResponder, headers);
 }
 
 class LLSetDisplayNameReply : public LLHTTPNode

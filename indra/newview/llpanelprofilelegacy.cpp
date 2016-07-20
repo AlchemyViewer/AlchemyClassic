@@ -449,8 +449,8 @@ void LLPanelProfileLegacy::onDoubleClickName()
 {
 	if (getAvatarId() == gAgentID)
 	{
-		//LLFloaterReg::showInstance("display_name");
-		//mNameChangedConnection = LLViewerDisplayName::addNameChangedCallback(boost::bind(&LLPanelProfileLegacy::onNameChanged, this));
+		LLFloaterReg::showInstance("display_name");
+		mNameChangedConnection = LLViewerDisplayName::addNameChangedCallback(boost::bind(&LLPanelProfileLegacy::onNameChanged, this));
 	}
 }
 

@@ -2064,11 +2064,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9551150830531abc405888066437e2c2</string>
+              <string>bebc6bd58b0b6dadd710cad1f38ef186</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2526.1364.gf6bf57b-darwin-201601160847.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2526.1364.gf6bf57b-darwin-201607201032.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2117,7 +2117,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>3.2526.1373.gb660893</string>
+        <string>3.2526.1364.gf6bf57b</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

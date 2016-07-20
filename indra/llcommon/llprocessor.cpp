@@ -29,8 +29,6 @@
 
 #include "llerror.h"
 
-//#include <memory>
-
 #if LL_WINDOWS
 #	include "llwin32headerslean.h"
 #	define _interlockedbittestandset _renamed_interlockedbittestandset

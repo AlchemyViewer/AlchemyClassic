@@ -18,7 +18,6 @@
 #include <algorithm>
 // std headers
 // external library headers
-#include <boost/bind.hpp>
 #include <boost/scoped_ptr.hpp>
 #include <boost/tokenizer.hpp>
 // other Linden headers

@@ -38,8 +38,6 @@
 
 #include <fstream>
 #include <boost/tokenizer.hpp>
-#include <boost/bind.hpp>
-//#include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/classic_core.hpp>
 
 #include "lluicolor.h"

@@ -33,7 +33,6 @@
 // STL headers
 // std headers
 // external library headers
-#include <boost/bind.hpp>
 // other Linden headers
 #include "llevents.h"
 #include "llerror.h"

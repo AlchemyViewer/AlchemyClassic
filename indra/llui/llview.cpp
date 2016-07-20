@@ -32,7 +32,6 @@
 
 #include <sstream>
 #include <boost/tokenizer.hpp>
-#include <boost/bind.hpp>
 
 #include "llrender.h"
 #include "llevent.h"

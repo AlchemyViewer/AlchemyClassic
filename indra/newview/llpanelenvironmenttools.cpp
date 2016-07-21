@@ -511,7 +511,7 @@ void LLPanelEnvironmentTools::onDayCycleSelected(const LLSD& userdata)
 		if (!day_data.size())
 		{
 			LL_WARNS() << "Empty region day cycle" << LL_ENDL;
-			llassert(!day_data.empty());
+            llassert(day_data.size());
 		}
 	}
 	
@@ -644,7 +644,7 @@ void LLPanelEnvironmentTools::onGlowMoved(LLUICtrl* ctrl, void* userdata)
 	else if (sldr_ctrl->getName() == LLStringExplicit("WLGlowB"))
 		color_ctrl->b = -sldr_ctrl->getValueF32() * 5; // NEGATIVE (-) B and scaled by 5
 	else
-		llassert(slider);
+        llassert(sldr_ctrl);
 	
 	color_ctrl->update(LLWLParamManager::getInstance()->mCurParams);
 	LLWLParamManager::getInstance()->propagateParameters();

@@ -55,7 +55,7 @@ public:
 		}
 		else
 		{
-			llassert(key);
+			llassert(!key.empty());
 			return false;
 		}
 		return true;

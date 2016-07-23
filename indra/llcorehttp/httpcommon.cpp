@@ -141,7 +141,7 @@ std::string HttpStatus::toString() const
 	
 	if (*this)
 	{
-		return std::string("");
+        return LLStringUtil::null;
 	}
 	switch (getType())
 	{
@@ -190,7 +190,7 @@ std::string HttpStatus::toString() const
 		}
 		break;
 	}
-	return std::string("Unknown error");
+	return LLStringExplicit("Unknown error");
 }
 
 

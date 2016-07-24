@@ -29,7 +29,6 @@
 #include "linden_common.h"
 
 #include "llpluginmessagepipe.h"
-#include "llbufferstream.h"
 
 #include "llapr.h"
 

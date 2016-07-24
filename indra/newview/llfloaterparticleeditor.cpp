@@ -37,7 +37,6 @@
 #include "llpermissions.h"
 #include "llpreviewscript.h"
 #include "llsd.h"
-#include "llsdutil.h"
 #include "lltexturectrl.h"
 #include "lltoolmgr.h"
 #include "lltoolobjpicker.h"

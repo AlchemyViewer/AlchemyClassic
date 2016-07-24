@@ -29,7 +29,6 @@
 #include "llwebprofile.h"
 
 // libs
-#include "llbufferstream.h"
 #include "llimagepng.h"
 #include "llplugincookiestore.h"
 
@@ -42,7 +41,7 @@
 #include "llcorehttputil.h"
 
 // third-party
-#include "jsoncpp/reader.h" // JSON
+#include <jsoncpp/reader.h> // JSON
 
 /*
  * Workflow:

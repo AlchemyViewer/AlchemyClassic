@@ -34,7 +34,6 @@
 
 #include "llagent.h"
 #include "llappviewer.h"
-#include "llbufferstream.h"
 #include "llcallbacklist.h"
 #include "lldatapacker.h"
 #include "lldeadmantimer.h"

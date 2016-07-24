@@ -36,7 +36,6 @@
 #include "llgl.h"
 
 #include "llappviewer.h"
-#include "llbufferstream.h"
 #include "llnotificationsutil.h"
 #include "llviewercontrol.h"
 #include "llworld.h"

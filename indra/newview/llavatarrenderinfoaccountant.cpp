@@ -368,7 +368,6 @@ void LLAvatarRenderInfoAccountant::expireRenderInfoReportTimer(const LLUUID& reg
 // static 
 bool LLAvatarRenderInfoAccountant::logRenderInfo()
 {
-    return true;
-// 	static LLCachedControl<bool> render_mute_logging_enabled(gSavedSettings, "RenderAutoMuteLogging", false);
-// 	return render_mute_logging_enabled;
+ 	static LLCachedControl<bool> render_mute_logging_enabled(gSavedSettings, "RenderAutoMuteLogging", false);
+ 	return render_mute_logging_enabled;
 }

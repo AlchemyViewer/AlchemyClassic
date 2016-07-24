@@ -343,19 +343,6 @@ void callMouseMoved(float *pos, MASK mask)
 	outCoords.mX += deltas[0];
 	outCoords.mY += deltas[1];
 	gWindowImplementation->getCallbacks()->handleMouseMove(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
-	//gWindowImplementation->getCallbacks()->handleScrollWheel(gWindowImplementation, 0);
-}
-
-void callMouseDragged(float *pos, MASK mask)
-{
-    LLCoordGL		outCoords;
-    outCoords.mX = ll_round(pos[0]);
-    outCoords.mY = ll_round(pos[1]);
-    double deltas[2];
-    gWindowImplementation->getMouseDeltas(deltas);
-    outCoords.mX += deltas[0];
-    outCoords.mY += deltas[1];
-    gWindowImplementation->getCallbacks()->handleMouseDragged(gWindowImplementation, outCoords, gKeyboard->currentMask(TRUE));
 }
 
 void callScrollMoved(float delta)

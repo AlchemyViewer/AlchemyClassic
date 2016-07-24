@@ -134,7 +134,6 @@ void callLeftMouseUp(float *pos, unsigned int mask);
 void callDoubleClick(float *pos, unsigned int mask);
 void callResize(unsigned int width, unsigned int height);
 void callMouseMoved(float *pos, unsigned int mask);
-void callMouseDragged(float *pos, unsigned int mask);
 void callScrollMoved(float delta);
 void callMouseExit();
 void callWindowFocus();

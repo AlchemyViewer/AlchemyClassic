@@ -11324,13 +11324,6 @@ Could not find the newly created script for this particle system.
   </notification>
 
   <notification
-   icon="alertmodal.tga"
-   name="ParticleScriptCreateTempFileFailed"
-   type="alertmodal">
-Could not create temporary file for script upload.
-  </notification>
-
-  <notification
    icon="notify.tga"
    name="ParticleScriptInjected"
    type="notify">
@@ -11339,7 +11332,7 @@ Particle script was injected successfully.
 
   <notification
    icon="alertmodal.tga"
-   name="ParticleScriptCapsFailed"
+   name="ParticleScriptFailed"
    type="alertmodal">
 Failed to inject script into object.
   </notification>

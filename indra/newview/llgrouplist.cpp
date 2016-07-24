@@ -396,7 +396,7 @@ void LLGroupListItem::setGroupIconID(const LLUUID& group_icon_id)
 {
 	if (group_icon_id.notNull())
 	{
-        mGroupIcon->LLIconCtrl::setValue(group_icon_id);
+		mGroupIcon->setIconId(group_icon_id);
 	}
 }
 

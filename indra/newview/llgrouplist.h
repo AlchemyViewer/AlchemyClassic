@@ -112,10 +112,10 @@ private:
 	void onInfoBtnClick();
 	void onProfileBtnClick();
 
-    LLGroupIconCtrl* mGroupIcon;
-    LLTextBox*	mGroupNameBox;
-    LLButton*	mInfoBtn;
-    LLUUID		mGroupID;
+	LLTextBox*	mGroupNameBox;
+	LLUUID		mGroupID;
+	LLGroupIconCtrl* mGroupIcon;
+	LLButton*	mInfoBtn;
 
 	std::string	mGroupName;
 	LLStyle::Params mGroupNameStyle;

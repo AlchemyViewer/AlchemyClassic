@@ -337,6 +337,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
         callRightMouseUp(mMousePos, [theEvent modifierFlags]);
         mSimulatedRightClick = false;
     } else {
+        NSPoint mPoint = [theEvent locationInWindow];
+        mMousePos[0] = mPoint.x;
+        mMousePos[1] = mPoint.y;
         callLeftMouseUp(mMousePos, [theEvent modifierFlags]);
     }
 }
@@ -392,7 +395,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
 	NSPoint mPoint = [self convertPointToBacking:[theEvent locationInWindow]];
 	mMousePos[0] = mPoint.x;
 	mMousePos[1] = mPoint.y;
-	callMouseMoved(mMousePos, 0);
+	callMouseDragged(mMousePos, 0);
 }
 
 - (void) otherMouseDown:(NSEvent *)theEvent

@@ -194,7 +194,7 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 	}
 	else
 	{
-		LLIconCtrl::setValue(mDefaultIconName);
+		LLIconCtrl::setValue(mDefaultIconName, LLViewerFetchedTexture::BOOST_UI);
 	}
 }
 
@@ -241,7 +241,7 @@ void LLAvatarIconCtrl::setValue(const LLSD& value)
 				// *TODO: Consider getting avatar icon/badge directly from 
 				// People API, rather than sending AvatarPropertyRequest
 				// messages.  People API already hits the user table.
-				LLIconCtrl::setValue(mDefaultIconName);
+				LLIconCtrl::setValue(mDefaultIconName, LLViewerFetchedTexture::BOOST_UI);
 				app->addObserver(mAvatarId, this);
 				app->sendAvatarPropertiesRequest(mAvatarId);
 			}
@@ -282,7 +282,7 @@ bool LLAvatarIconCtrl::updateFromCache()
 	}
 	else
 	{
-		LLIconCtrl::setValue(mDefaultIconName);
+		LLIconCtrl::setValue(mDefaultIconName, LLViewerFetchedTexture::BOOST_UI);
         return false;
 	}
 

@@ -67,7 +67,9 @@ LLToastGroupNotifyPanel::LLToastGroupNotifyPanel(const LLNotificationPtr& notifi
 
 	//group icon
 	LLGroupIconCtrl* pGroupIcon = getChild<LLGroupIconCtrl>("group_icon", TRUE);
-	pGroupIcon->LLIconCtrl::setValue(groupData.mInsigniaID);
+
+	// We should already have this data preloaded, so no sense in setting icon through setValue(group_id)
+	pGroupIcon->setIconId(groupData.mInsigniaID);
 
 	//header title
 	std::string from_name = payload["sender_name"].asString();

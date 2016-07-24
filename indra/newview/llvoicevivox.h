@@ -745,8 +745,7 @@ private:
 	bool inSpatialChannel(void);
 	std::string getAudioSessionURI();
 	std::string getAudioSessionHandle();
-			
-    void setHidden(bool hidden); //virtual
+    
 	void sendPositionAndVolumeUpdate(void);
 	
     void sendCaptureAndRenderDevices();
@@ -777,7 +776,6 @@ private:
 	
 	bool		mMuteMic;
 	bool		mMuteMicDirty;
-    bool        mHidden;       //Set to true during teleport to hide the agent's position.
 			
 	// Set to true when the friends list is known to have changed.
 	bool		mFriendsListDirty;

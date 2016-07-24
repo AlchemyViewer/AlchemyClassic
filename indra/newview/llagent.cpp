@@ -4024,10 +4024,6 @@ bool LLAgent::hasPendingTeleportRequest()
 void LLAgent::startTeleportRequest()
 {
     LL_INFOS("Telport") << "Agent handling start teleport request." << LL_ENDL;
-    if(LLVoiceClient::instanceExists())
-    {
-        LLVoiceClient::getInstance()->setHidden(TRUE);
-    }
 	if (hasPendingTeleportRequest())
 	{
         mTeleportCanceled.reset();
@@ -4083,11 +4079,6 @@ void LLAgent::handleTeleportFinished()
 void LLAgent::handleTeleportFailed()
 {
     LL_WARNS("Teleport") << "Agent handling teleport failure!" << LL_ENDL;
-    if(LLVoiceClient::instanceExists())
-    {
-        LLVoiceClient::getInstance()->setHidden(FALSE);
-    }
-
     setTeleportState(LLAgent::TELEPORT_NONE);
     // Unlock the UI if the progress bar has been shown.
 //     gViewerWindow->setShowProgress(FALSE);

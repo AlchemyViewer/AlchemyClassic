@@ -2473,14 +2473,6 @@ static void oldSDKTransform (LLVector3 &left, LLVector3 &up, LLVector3 &at, LLVe
 #endif
 }
 
-void LLVivoxVoiceClient::setHidden(bool hidden)
-{
-    mHidden = hidden;
-    
-    sendPositionAndVolumeUpdate();
-    return;
-}
-
 void LLVivoxVoiceClient::sendPositionAndVolumeUpdate(void)
 {	
 	std::ostringstream stream;

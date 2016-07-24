@@ -389,7 +389,7 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
     llassert_always(!mShaderFiles.empty());
     BOOL success = TRUE;
 
-    //purge the old program
+    // Purge the old program just in case
     if (mProgramObject)
         glDeleteProgram(mProgramObject);
 

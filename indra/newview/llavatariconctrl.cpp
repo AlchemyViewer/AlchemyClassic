@@ -179,7 +179,7 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 	mSymbolPos(p.symbol_pos),
 	mUseDefaultImage(gSavedSettings, "AlchemyUseDefaultAvatarIcon", false)
 {
-	mPriority = LLViewerFetchedTexture::AVATAR_ICON;
+	mPriority = LLViewerFetchedTexture::BOOST_ICON;
 
     // don't request larger image then necessary to save gl memory,
     // but ensure that quality is sufficient

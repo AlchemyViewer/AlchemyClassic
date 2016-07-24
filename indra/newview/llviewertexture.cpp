@@ -1210,7 +1210,7 @@ void LLViewerFetchedTexture::loadFromFastCache()
 		}
 		else
 		{
-            if (mBoostLevel == LLViewerTexture::AVATAR_ICON)
+            if (mBoostLevel == LLGLTexture::BOOST_ICON)
             {
                 S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
                 S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
@@ -1684,9 +1684,7 @@ F32 LLViewerFetchedTexture::calcDecodePriority()
 		// Don't decode anything we don't need
 		priority = -4.0f;
 	}
-	else if ((mBoostLevel == LLGLTexture::BOOST_UI ||
-              mBoostLevel == LLGLTexture::BOOST_ICON ||
-              mBoostLevel == LLGLTexture::AVATAR_ICON) && !have_all_data)
+	else if ((mBoostLevel == LLGLTexture::BOOST_UI || mBoostLevel == LLGLTexture::BOOST_ICON) && !have_all_data)
 	{
 		priority = 1.f;
 	}
@@ -2024,8 +2022,8 @@ bool LLViewerFetchedTexture::updateFetch()
 					mIsRawImageValid = TRUE;			
 					addToCreateTexture();
 				}
-                
-                if (mBoostLevel == LLViewerTexture::AVATAR_ICON)
+
+                if (mBoostLevel == LLGLTexture::BOOST_ICON)
                 {
                     S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
                     S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
@@ -2872,7 +2870,7 @@ void LLViewerFetchedTexture::setCachedRawImage(S32 discard_level, LLImageRaw* im
 {
 	if(imageraw != mRawImage.get())
     {
-        if (mBoostLevel == LLGLTexture::AVATAR_ICON)
+        if (mBoostLevel == LLGLTexture::BOOST_ICON)
         {
             S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
             S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;
@@ -2979,8 +2977,8 @@ void LLViewerFetchedTexture::saveRawImage()
 	}
 
 	mSavedRawDiscardLevel = mRawDiscardLevel;
-	
-    if (mBoostLevel == LLGLTexture::AVATAR_ICON)
+
+    if (mBoostLevel == LLGLTexture::BOOST_ICON)
     {
         S32 expected_width = mKnownDrawWidth > 0 ? mKnownDrawWidth : DEFAULT_ICON_SIZE;
         S32 expected_height = mKnownDrawHeight > 0 ? mKnownDrawHeight : DEFAULT_ICON_SIZE;

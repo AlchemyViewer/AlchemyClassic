@@ -63,12 +63,11 @@ public:
 		BOOST_SUPER_HIGH    , //textures higher than this need to be downloaded at the required resolution without delay.
 		BOOST_HUD			,
 		BOOST_ICON			,
-		AVATAR_ICON			,
 		BOOST_UI			,
 		BOOST_PREVIEW		,
 		BOOST_MAP			,
 		BOOST_MAP_VISIBLE	,		
-		BOOST_MAX_LEVEL		,
+		BOOST_MAX_LEVEL,
 
 		//other texture Categories
 		LOCAL = BOOST_MAX_LEVEL,

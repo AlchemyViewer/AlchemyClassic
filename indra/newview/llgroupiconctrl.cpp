@@ -49,7 +49,7 @@ LLGroupIconCtrl::LLGroupIconCtrl(const LLGroupIconCtrl::Params& p)
 	mDrawTooltip(p.draw_tooltip),
 	mDefaultIconName(p.default_icon_name)
 {
-	mPriority = LLViewerFetchedTexture::AVATAR_ICON;
+	mPriority = LLViewerFetchedTexture::BOOST_ICON;
 
     // don't request larger image then necessary to save gl memory,
     // but ensure that quality is sufficient

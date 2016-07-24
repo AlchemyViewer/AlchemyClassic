@@ -811,11 +811,12 @@ LLSD HttpCoroutineAdapter::postJsonAndSuspend(LLCore::HttpRequest::ptr_t request
     {
         LLCore::BufferArrayStream outs(rawbody.get());
         Json::Value root = LlsdToJson(body);
-        Json::FastWriter writer;
+		Json::StreamWriterBuilder writer;
+		std::string value = Json::writeString(writer, root);
 
-        LL_WARNS("Http::post") << "JSON Generates: \"" << writer.write(root) << "\"" << LL_ENDL;
+        LL_WARNS("Http::post") << "JSON Generates: \"" << value << "\"" << LL_ENDL;
 
-        outs << writer.write(root);
+        outs << value;
     }
 
     return postAndSuspend_(request, url, rawbody, options, headers, httpHandler);
@@ -870,10 +871,11 @@ LLSD HttpCoroutineAdapter::putJsonAndSuspend(LLCore::HttpRequest::ptr_t request,
     {
         LLCore::BufferArrayStream outs(rawbody.get());
         Json::Value root = LlsdToJson(body);
-        Json::FastWriter writer;
+		Json::StreamWriterBuilder writer;
+		std::string value = Json::writeString(writer, root);
 
-        LL_WARNS("Http::put") << "JSON Generates: \"" << writer.write(root) << "\"" << LL_ENDL;
-        outs << writer.write(root);
+        LL_WARNS("Http::put") << "JSON Generates: \"" << value << "\"" << LL_ENDL;
+        outs << value;
     }
 
     return putAndSuspend_(request, url, rawbody, options, headers, httpHandler);

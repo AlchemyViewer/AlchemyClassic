@@ -33,8 +33,6 @@
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
-#include <map>
-
 
 
 std::map<std::string, LLPointer<LLSecAPIHandler> > gHandlerMap;

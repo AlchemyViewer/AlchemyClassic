@@ -459,40 +459,43 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 		// default to http
 		grid.insert(0, "http://");
 	}
-	LLSD data;
-	data[GRID_VALUE] = LLURI(grid).authority();
 
+    bool hypergrid = false;
 	switch (type)
 	{
 		case ADD_HYPERGRID:
-			data[GRID_TEMPORARY] = true;
-			// yep, fallthru.
+            hypergrid = true;
+            // yep, fallthru.
 		case ADD_LINK:
 		case ADD_MANUAL:
             LLCoros::instance().launch("LLGridManager::addRemoteGrid",
-                boost::bind(&LLGridManager::gridInfoResponderCallback, this,
-                            llformat("%s/get_grid_info", grid.c_str()), data));
+                std::bind(&LLGridManager::gridInfoResponderCoro, this, grid, hypergrid));
 
 			break;
 	}
 }
 
-void LLGridManager::gridInfoResponderCallback(const std::string& url, LLSD& grid)
+void LLGridManager::gridInfoResponderCoro(const std::string url, bool hypergrid)
 {
     using namespace LLCoreHttpUtil;
+    
+    LLSD grid;
+    grid[GRID_VALUE] = LLURI(url).authority();
+    if (hypergrid)
+        grid[GRID_TEMPORARY] = true;
     
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
     HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("GridInfoRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
     
-    LLSD result = httpAdapter->getRawAndSuspend(httpRequest, url);
+    LLSD result = httpAdapter->getRawAndSuspend(httpRequest, llformat("%s/get_grid_info", url.c_str()));
     
     LLCore::HttpStatus status = HttpCoroutineAdapter::getStatusFromLLSD(result[HttpCoroutineAdapter::HTTP_RESULTS]);
     
     if (!status)
     {
         LLSD args;
-        args["GRID"] = grid[GRID_VALUE].asString();
+        args["GRID"] = url;
         args["STATUS"] = status.toString();
         args["REASON"] = status.getMessage();
         LLNotificationsUtil::add("CantAddGrid", args);
@@ -505,8 +508,8 @@ void LLGridManager::gridInfoResponderCallback(const std::string& url, LLSD& grid
     // is LLXMLNode::parseBuffer() const safe? iunno! today is not the day to find out, so we make a copy.
     std::string goof_troop(raw_results.begin(), raw_results.end());
 	LLPointer<LLXMLNode> xmlnode;
-	if(!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&goof_troop[0]),
-                               goof_troop.size(), xmlnode, NULL))
+	if (!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&goof_troop[0]),
+                                goof_troop.size(), xmlnode, NULL))
 	{
         LLNotificationsUtil::add("MalformedGridInfo", LLSD().with("GRID", grid[GRID_VALUE]));
         return;

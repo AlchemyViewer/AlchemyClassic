@@ -404,9 +404,9 @@ void set_underclothes_menu_options()
 void set_merchant_SLM_menu()
 {
     // All other cases (new merchant, not merchant, migrated merchant): show the new Marketplace Listings menu and enable the tool
-    gMenuHolder->getChild<LLView>("MarketplaceListings")->setVisible(TRUE);
+    gMenuHolder->getChild<LLView>("MarketplaceListings")->setVisible((BOOL)LLGridManager::getInstance()->isInSecondlife());
     LLCommand* command = LLCommandManager::instance().getCommand("marketplacelistings");
-	gToolBarView->enableCommand(command->id(), true);
+    gToolBarView->enableCommand(command->id(), LLGridManager::getInstance()->isInSecondlife());
 }
 
 void check_merchant_status()
@@ -423,8 +423,11 @@ void check_merchant_status()
         LLCommand* command = LLCommandManager::instance().getCommand("marketplacelistings");
 		gToolBarView->enableCommand(command->id(), false);
         
-        // Launch an SLM test connection to get the merchant status
-        LLMarketplaceData::instance().initializeSLM(boost::bind(&set_merchant_SLM_menu));
+        if (!gAgent.getRegionCapability("DirectDelivery").empty())
+        {
+            // Launch an SLM test connection to get the merchant status
+            LLMarketplaceData::instance().initializeSLM(boost::bind(&set_merchant_SLM_menu));
+        }
     }
 }
 

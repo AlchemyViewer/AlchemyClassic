@@ -351,7 +351,7 @@ void callMouseDragged(float *pos, MASK mask)
     LLCoordGL		outCoords;
     outCoords.mX = ll_round(pos[0]);
     outCoords.mY = ll_round(pos[1]);
-    float deltas[2];
+    double deltas[2];
     gWindowImplementation->getMouseDeltas(deltas);
     outCoords.mX += deltas[0];
     outCoords.mY += deltas[1];

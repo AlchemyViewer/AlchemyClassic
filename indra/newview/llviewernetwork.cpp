@@ -29,7 +29,7 @@
 
 #include "llviewernetwork.h"
 #include "llviewercontrol.h"
-#include "llbufferstream.h"
+#include "llcorehttputil.h"
 #include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"
@@ -97,49 +97,6 @@ const std::string ALCHEMY_UPDATE_SERVICE = "https://app.alchemyviewer.org/update
 
 //
 const std::string GRIDS_USER_FILE = "grids_user.xml";
-
-//class LLGridInfoRequestResponder : public LLHTTPClient::Responder
-//{
-//private:
-//	std::function<void(LLSD&, LLXMLNodePtr)> mCallbackFunc;
-//	LLSD mData;
-//	
-//public:
-//	LLGridInfoRequestResponder(const std::function<void(LLSD&, LLXMLNodePtr)> callback_func, LLSD& data)
-//	: mCallbackFunc(callback_func), mData(data) {}
-//	
-//	void completedRaw(const LLChannelDescriptors& channels, const LLIOPipe::buffer_ptr_t& buffer) override
-//	{
-//		if (getStatus() == HTTP_OK)
-//		{
-//			LLBufferStream istr(channels, buffer.get());
-//			LLPointer<LLXMLNode> xmlnode;
-//			if(LLXMLNode::parseStream(istr, xmlnode, NULL))
-//			{
-//				mCallbackFunc(mData, xmlnode);
-//			}
-//			else
-//			{
-//				LLSD args;
-//				args["GRID"] = mData[GRID_VALUE];
-//				LLNotificationsUtil::add("MalformedGridInfo", args);
-//			}
-//		}
-//		else
-//		{
-//			httpFailure();
-//		}
-//	}
-//	
-//	void httpFailure() override
-//	{
-//		LLSD args;
-//		args["GRID"] = mData[GRID_VALUE];
-//		args["STATUS"] = getStatus();
-//		args["REASON"] = getReason();
-//		LLNotificationsUtil::add("CantAddGrid", args);
-//	}
-//};
 
 LLGridManager::LLGridManager()
 :	mPlatform(NOPLATFORM)
@@ -501,26 +458,63 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 		// default to http
 		grid.insert(0, "http://");
 	}
-	LLSD data;
-	data[GRID_VALUE] = LLURI(grid).authority();
 
+    bool hypergrid = false;
 	switch (type)
 	{
 		case ADD_HYPERGRID:
-			data[GRID_TEMPORARY] = true;
-			// yep, fallthru.
+            hypergrid = true;
+            // yep, fallthru.
 		case ADD_LINK:
 		case ADD_MANUAL:
-			//LLHTTPClient::get(llformat("%s/get_grid_info", grid.c_str()),
-			//				  new LLGridInfoRequestResponder(std::bind(&LLGridManager::gridInfoResponderCallback,
-			//						this, std::placeholders::_1, std::placeholders::_2), data));
+            LLCoros::instance().launch("LLGridManager::addRemoteGrid",
+                std::bind(&LLGridManager::gridInfoResponderCoro, this, grid, hypergrid));
+
 			break;
 	}
 }
 
-void LLGridManager::gridInfoResponderCallback(LLSD& grid, LLXMLNodePtr root_node)
+void LLGridManager::gridInfoResponderCoro(const std::string url, bool hypergrid)
 {
-	for (LLXMLNode* node = root_node->getFirstChild(); node != nullptr; node = node->getNextSibling())
+    using namespace LLCoreHttpUtil;
+    
+    LLSD grid;
+    grid[GRID_VALUE] = LLURI(url).authority();
+    if (hypergrid)
+        grid[GRID_TEMPORARY] = true;
+    
+    LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
+    HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("GridInfoRequest", httpPolicy));
+    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    
+    LLSD result = httpAdapter->getRawAndSuspend(httpRequest, llformat("%s/get_grid_info", url.c_str()));
+    
+    LLCore::HttpStatus status = HttpCoroutineAdapter::getStatusFromLLSD(result[HttpCoroutineAdapter::HTTP_RESULTS]);
+    
+    if (!status)
+    {
+        LLSD args;
+        args["GRID"] = url;
+        args["STATUS"] = status.toString();
+        args["REASON"] = status.getMessage();
+        LLNotificationsUtil::add("CantAddGrid", args);
+        
+        return;
+    }
+    
+    // *TODO: need to write a special adapter for the weird ass gridinfo pseudo-xml format
+    const LLSD::Binary &raw_results = result[HttpCoroutineAdapter::HTTP_RESULTS_RAW].asBinary();
+    // is LLXMLNode::parseBuffer() const safe? iunno! today is not the day to find out, so we make a copy.
+    std::string goof_troop(raw_results.begin(), raw_results.end());
+	LLPointer<LLXMLNode> xmlnode;
+	if (!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&goof_troop[0]),
+                                goof_troop.size(), xmlnode, NULL))
+	{
+        LLNotificationsUtil::add("MalformedGridInfo", LLSD().with("GRID", grid[GRID_VALUE]));
+        return;
+    }
+    
+	for (LLXMLNode* node = xmlnode->getFirstChild(); node != nullptr; node = node->getNextSibling())
 	{
 		if (node->hasName("login"))
 		{

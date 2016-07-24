@@ -40,6 +40,7 @@
 #include "lltexturectrl.h"
 #include "lltoolmgr.h"
 #include "lltoolobjpicker.h"
+#include "llviewerassetupload.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
 #include "llviewerpartsim.h"
@@ -550,57 +551,21 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 	if (!url.empty())
 	{
 		const std::string& script = createScript();
-
-		const std::string& temp_file_path(gDirUtilp->getExpandedFilename(LL_PATH_CACHE, "particle_script.lsltxt"));
-
-		std::ofstream temp_file;
-
-		temp_file.open(temp_file_path.c_str());
-		if (!temp_file.is_open())
-		{
-			LLNotificationsUtil::add("ParticleScriptCreateTempFileFailed");
-			return;
-		}
-
-		temp_file << script.c_str();
-		temp_file.close();
-
-		LLSD body;
-		body["task_id"] = mObject->getID();	// probably has no effect
-		body["item_id"] = inventoryItemID;
-		body["target"] = "mono";
-		body["is_script_running"] = true;
-
-		// responder will alert us when the job is done
-		//LLHTTPClient::post(url, body, new LLParticleScriptUploadResponder(body, temp_file_path, LLAssetType::AT_LSL_TEXT, this));
+        
+        LLBufferedAssetUploadInfo::taskUploadFinish_f proc =
+            boost::bind(&LLFloaterParticleEditor::finishUpload, _1, _2, _3, _4, true, mObject->getID());
+        LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mObject->getID(), inventoryItemID,
+                                                LLScriptAssetUpload::MONO, true, LLUUID::null, script, proc));
+        LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
 
 		//mMainPanel->setEnabled(FALSE);
-		setCanClose(FALSE);
+		//setCanClose(FALSE);
 	}
 	else
 	{
-		LLNotificationsUtil::add("ParticleScriptCapsFailed");
+		LLNotificationsUtil::add("ParticleScriptFailed");
 		return;
 	}
-}
-
-void LLFloaterParticleEditor::scriptInjectReturned(const LLSD& content)
-{
-	setCanClose(TRUE);
-
-	// play it safe, because some time may have passed
-	LLViewerObject* object = gObjectList.findObject(mObject->getID());
-	if (!object)
-	{
-		LL_DEBUGS("ParticleEditor") << "Can't find " << mObject->getID().asString() << " anymore!" << LL_ENDL;
-		//mMainPanel->setEnabled(TRUE);
-		return;
-	}
-
-	mObject->saveScript(mParticleScriptInventoryItem, TRUE, FALSE);
-	LLNotificationsUtil::add("ParticleScriptInjected");
-
-	delete this;
 }
 
 // ---------------------------------- Callbacks ----------------------------------
@@ -619,22 +584,19 @@ void LLFloaterParticleEditor::LLParticleScriptCreationCallback::fire(const LLUUI
 	}
 }
 
-// ---------------------------------- Responders ----------------------------------
-
-//LLFloaterParticleEditor::LLParticleScriptUploadResponder::
-//LLParticleScriptUploadResponder(const LLSD& post_data,
-//				const std::string& file_name,
-//				LLAssetType::EType asset_type,
-//				LLFloaterParticleEditor* editor)
-//	: LLUpdateAgentInventoryResponder(post_data, file_name, asset_type)
-//	, mEditor(editor)
-//{}
-//
-//void LLFloaterParticleEditor::LLParticleScriptUploadResponder::uploadComplete(const LLSD& content)
-//{
-//	LLUpdateAgentInventoryResponder::uploadComplete(content);
-//	if (!gDisconnected && !LLAppViewer::instance()->quitRequested() && mEditor)
-//	{
-//		mEditor->scriptInjectReturned(content);
-//	}
-//}
+/* static */
+void LLFloaterParticleEditor::finishUpload(LLUUID itemId, LLUUID taskId, LLUUID newAssetId,
+                                           LLSD response, bool isRunning, LLUUID objectId)
+{
+    // make sure there's still an object rezzed
+    LLViewerObject* object = gObjectList.findObject(objectId);
+    if (!object)
+    {
+        LL_DEBUGS("ParticleEditor") << "Can't find " << objectId.asString() << " anymore." << LL_ENDL;
+        return;
+    }
+    auto* script = gInventory.getItem(itemId);
+    object->saveScript(script, TRUE, FALSE);
+    
+    LLNotificationsUtil::add("ParticleScriptInjected");
+}

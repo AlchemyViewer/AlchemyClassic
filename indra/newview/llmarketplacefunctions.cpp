@@ -29,7 +29,6 @@
 #include "llmarketplacefunctions.h"
 
 #include "llagent.h"
-#include "llbufferstream.h"
 #include "llinventoryfunctions.h"
 #include "llinventoryobserver.h"
 #include "llnotificationsutil.h"

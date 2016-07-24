@@ -28,9 +28,6 @@
 
 #include "lltranslate.h"
 
-#include <curl/curl.h>
-
-#include "llbufferstream.h"
 #include "lltrans.h"
 #include "llui.h"
 #include "llversioninfo.h"

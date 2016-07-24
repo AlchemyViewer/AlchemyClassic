@@ -35,7 +35,6 @@
 #include "llsd.h"
 #include "llcorehttputil.h"
 #include <boost/signals2.hpp>
-#include <boost/function.hpp>
 
 class LLSD;
 class LLUUID;

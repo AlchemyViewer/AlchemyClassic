@@ -64,7 +64,6 @@ private:
 	static void onTargetPicked(void* userdata);
 
 	void callbackReturned(const LLUUID& inv_item);
-	void scriptInjectReturned(const LLSD& content);
 
 	std::string lslVector(F32 x, F32 y, F32 z);
 	std::string lslColor(const LLColor4& color);
@@ -129,6 +128,8 @@ private:
 	LLColorSwatchCtrl* mStartColorSelector;
 	LLColorSwatchCtrl* mEndColorSelector;
 	
+    static void finishUpload(LLUUID itemId, LLUUID taskId, LLUUID newAssetId, LLSD response, bool isRunning, LLUUID objectId);
+    
 	class LLParticleScriptCreationCallback : public LLInventoryCallback
 	{
 	public:
@@ -140,20 +141,6 @@ private:
 		
 		LLFloaterParticleEditor* mEditor;
 	};
-
-	//class LLParticleScriptUploadResponder : public LLUpdateAgentInventoryResponder
-	//{
-	//public:
-	//	LLParticleScriptUploadResponder(const LLSD& post_data,
-	//									const std::string& file_name,
-	//									LLAssetType::EType asset_type,
-	//									LLFloaterParticleEditor* editor);
-	//	
-	//protected:
-	//	void uploadComplete(const LLSD& content);
-	//	
-	//	LLFloaterParticleEditor* mEditor;
-	//};
 };
 
 #endif // LL_FLOATERPARTICLEEDITOR_H

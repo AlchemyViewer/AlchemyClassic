@@ -36,8 +36,6 @@
 
 #include "lllogin.h"
 
-#include <boost/bind.hpp>
-
 #include "llcoros.h"
 #include "llevents.h"
 #include "lleventfilter.h"
@@ -122,7 +120,7 @@ void LLLogin::Impl::connect(const std::string& uri, const LLSD& login_params)
     // its first wait; at that point, return here.
     std::string coroname = 
         LLCoros::instance().launch("LLLogin::Impl::login_",
-                                   boost::bind(&Impl::loginCoro, this, uri, login_params));
+                                   std::bind(&Impl::loginCoro, this, uri, login_params));
     LL_DEBUGS("LLLogin") << " connected with  uri '" << uri << "', login_params " << login_params << LL_ENDL;	
 }
 

@@ -27,9 +27,6 @@
 #ifndef LL_LLTRANSLATE_H
 #define LL_LLTRANSLATE_H
 
-#include "llbufferstream.h"
-#include <boost/function.hpp>
-
 namespace Json
 {
     class Value;

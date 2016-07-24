@@ -59,9 +59,7 @@ protected:
  * form accessors for each of the properties of the selected grid.
  **/
 class LLGridManager : public LLSingleton<LLGridManager>
-{
-  friend class LLGridInfoRequestResponder;
-	
+{	
   public:
 	/* ================================================================
 	 * @name Initialization and Configuration
@@ -274,7 +272,7 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	
 protected:
 
-	void gridInfoResponderCallback(LLSD& data, LLXMLNodePtr root_node);
+    void gridInfoResponderCoro(const std::string url, bool hypergrid);
 	
 private:
 	

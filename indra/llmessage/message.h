@@ -55,7 +55,6 @@
 #include "llmessagesenderinterface.h"
 
 #include "llstoredmessage.h"
-#include "boost/function.hpp"
 
 #include <boost/signals2/connection.hpp>
 
@@ -742,7 +741,7 @@ public:
 	void receivedMessageFromTrustedSender();
 	
 private:
-    typedef boost::function<void(S32)>  UntrustedCallback_t;
+    typedef std::function<void(S32)>  UntrustedCallback_t;
     void sendUntrustedSimulatorMessageCoro(std::string url, std::string message, LLSD body, UntrustedCallback_t callback);
 
 

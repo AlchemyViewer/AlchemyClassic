@@ -26,8 +26,6 @@
 #ifndef LL_LLLOGIN_H
 #define LL_LLLOGIN_H
 
-#include <boost/scoped_ptr.hpp>
-
 class LLSD;
 class LLEventPump;
 
@@ -104,15 +102,6 @@ public:
 
 
 	Dependencies:
-	pump: LLAres 
-	LLLogin makes a request for a SRV record from the uri provided by the connect method.
-	The following event pump should exist to service that request.
-	pump name: LLAres
-	request = {
-		op : "rewriteURI"
-		uri : string
-		reply : string
-
 	pump: LLXMLRPCListener
 	The request merely passes the credentials LLSD along, with one additional 
 	member, 'reply', which is the string name of the event pump to reply on. 
@@ -121,7 +110,7 @@ public:
 
 private:
 	class Impl;
-	boost::scoped_ptr<Impl> mImpl;
+    std::unique_ptr<Impl> mImpl;
 };
 
 #endif // LL_LLLOGIN_H

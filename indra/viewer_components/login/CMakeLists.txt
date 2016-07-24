@@ -9,7 +9,6 @@ endif(LL_TESTS)
 include(LLCommon)
 include(LLMath)
 include(LLXML)
-include(Boost)
 include(LLCoreHttp)
 include(LLMessage)
 
@@ -49,11 +48,6 @@ target_link_libraries(lllogin
     ${LLCOMMON_LIBRARIES}
     ${LLMATH_LIBRARIES}
     ${LLXML_LIBRARIES}
-    ${BOOST_THREAD_LIBRARY}
-    ${BOOST_COROUTINE_LIBRARY}
-    ${BOOST_CONTEXT_LIBRARY}
-    ${BOOST_THREAD_LIBRARY}
-    ${BOOST_SYSTEM_LIBRARY}
     )
 
 if(LL_TESTS)

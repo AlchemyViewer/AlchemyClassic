@@ -4072,7 +4072,7 @@ void LLAgent::handleTeleportFinished()
     // Init SLM Marketplace connection so we know which UI should be used for the user as a merchant
     // Note: Eventually, all merchant will be migrated to the new SLM system and there will be no reason to show the old UI at all.
     // Note: Some regions will not support the SLM cap for a while so we need to do that check for each teleport.
-    // *TODO : Suppress that line from here once the whole grid migrated to SLM and move it to idle_startup() (llstartup.cpp)
+    // ALCHEMY NOTE: This needs to remain a check at each teleport for OpenSim.
     check_merchant_status();
 }
 

@@ -30,8 +30,10 @@
 #if LL_WINDOWS
 #include "llwin32headerslean.h"
 #include <stdlib.h>                 // Windows errno
+#include <io.h>
 #else
 #include <errno.h>
+#include <sys/file.h>
 #endif
 
 #include "linden_common.h"
@@ -40,7 +42,6 @@
 #include "llerror.h"
 #include "stringize.h"
 
-using namespace std;
 
 static std::string empty;
 
@@ -55,8 +56,6 @@ std::string strerr(int errn)
 	strerror_s(buffer, errn);       // infers sizeof(buffer) -- love it!
 	return buffer;
 }
-
-typedef std::basic_ios<char,std::char_traits < char > > _Myios;
 
 #else
 // On Posix we want to call strerror_r(), but alarmingly, there are two
@@ -369,38 +368,38 @@ LLFILE *	LLFile::_Fiopen(const std::string& filename,
 	0};
 	static const int valid[] =
 	{	// valid combinations of open flags
-		ios_base::in,
-		ios_base::out,
-		ios_base::out | ios_base::trunc,
-		ios_base::out | ios_base::app,
-		ios_base::in | ios_base::binary,
-		ios_base::out | ios_base::binary,
-		ios_base::out | ios_base::trunc | ios_base::binary,
-		ios_base::out | ios_base::app | ios_base::binary,
-		ios_base::in | ios_base::out,
-		ios_base::in | ios_base::out | ios_base::trunc,
-		ios_base::in | ios_base::out | ios_base::app,
-		ios_base::in | ios_base::out | ios_base::binary,
-		ios_base::in | ios_base::out | ios_base::trunc
-			| ios_base::binary,
-		ios_base::in | ios_base::out | ios_base::app
-			| ios_base::binary,
+		std::ios_base::in,
+		std::ios_base::out,
+		std::ios_base::out | std::ios_base::trunc,
+		std::ios_base::out | std::ios_base::app,
+		std::ios_base::in  | std::ios_base::binary,
+		std::ios_base::out | std::ios_base::binary,
+		std::ios_base::out | std::ios_base::trunc | std::ios_base::binary,
+		std::ios_base::out | std::ios_base::app | std::ios_base::binary,
+		std::ios_base::in  | std::ios_base::out,
+		std::ios_base::in  | std::ios_base::out | std::ios_base::trunc,
+		std::ios_base::in  | std::ios_base::out | std::ios_base::app,
+		std::ios_base::in  | std::ios_base::out | std::ios_base::binary,
+		std::ios_base::in  | std::ios_base::out | std::ios_base::trunc
+			| std::ios_base::binary,
+		std::ios_base::in | std::ios_base::out | std::ios_base::app
+			| std::ios_base::binary,
 	0};
 
 	LLFILE *fp = 0;
 	int n;
-	ios_base::openmode atendflag = mode & ios_base::ate;
-	ios_base::openmode norepflag = mode & ios_base::_Noreplace;
+	std::ios_base::openmode atendflag = mode & std::ios_base::ate;
+	std::ios_base::openmode norepflag = mode & std::ios_base::_Noreplace;
 
-	if (mode & ios_base::_Nocreate)
-		mode |= ios_base::in;	// file must exist
-	mode &= ~(ios_base::ate | ios_base::_Nocreate | ios_base::_Noreplace);
+	if (mode & std::ios_base::_Nocreate)
+		mode |= std::ios_base::in;	// file must exist
+	mode &= ~(std::ios_base::ate | std::ios_base::_Nocreate | std::ios_base::_Noreplace);
 	for (n = 0; valid[n] != 0 && valid[n] != mode; ++n)
 		;	// look for a valid mode
 
 	if (valid[n] == 0)
 		return (0);	// no valid mode
-	else if (norepflag && mode & (ios_base::out || ios_base::app)
+	else if (norepflag && mode & (std::ios_base::out || std::ios_base::app)
 		&& (fp = LLFile::fopen(filename, "r")) != 0)	/* Flawfinder: ignore */
 		{	// file must not exist, close and fail
 		fclose(fp);
@@ -420,75 +419,4 @@ LLFILE *	LLFile::_Fiopen(const std::string& filename,
 }
 
 #endif /* LL_WINDOWS */
-
-
-#if LL_WINDOWS
-/************** input file stream ********************************/
-
-llifstream::llifstream() : std::ifstream()
-{
-}
-
-// explicit
-llifstream::llifstream(const std::string& _Filename, ios_base::openmode _Mode) :
-	std::ifstream(utf8str_to_utf16str(_Filename),
-				 _Mode | ios_base::in)
-{
-}
-
-// explicit
-llifstream::llifstream(const char* _Filename, ios_base::openmode _Mode) :
-	std::ifstream(utf8str_to_utf16str(_Filename).c_str(),
-				 _Mode | ios_base::in)
-
-{
-}
-
-void llifstream::open(const std::string& _Filename, ios_base::openmode _Mode)
-{
-	std::ifstream::open(utf8str_to_utf16str(_Filename),
-		_Mode | ios_base::in);
-}
-
-void llifstream::open(const char* _Filename, ios_base::openmode _Mode)
-{
-	std::ifstream::open(utf8str_to_utf16str(_Filename).c_str(),
-		_Mode | ios_base::in);
-}
-
-
-/************** output file stream ********************************/
-
-
-llofstream::llofstream() : std::ofstream()
-{
-}
-
-// explicit
-llofstream::llofstream(const std::string& _Filename, ios_base::openmode _Mode) :
-	std::ofstream(utf8str_to_utf16str(_Filename),
-				  _Mode | ios_base::out)
-{
-}
-
-// explicit
-llofstream::llofstream(const char* _Filename, ios_base::openmode _Mode) :
-	std::ofstream(utf8str_to_utf16str(_Filename).c_str(),
-				  _Mode | ios_base::out)
-{
-}
-
-void llofstream::open(const std::string& _Filename, ios_base::openmode _Mode)
-{
-	std::ofstream::open(utf8str_to_utf16str(_Filename),
-		_Mode | ios_base::out);
-}
-
-void llofstream::open(const char* _Filename, ios_base::openmode _Mode)
-{
-	std::ofstream::open(utf8str_to_utf16str(_Filename).c_str(),
-		_Mode | ios_base::out);
-}
-
-#endif  // LL_WINDOWS
 

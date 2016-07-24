@@ -140,7 +140,7 @@
 #include "llwindow.h"
 #include "llpathfindingmanager.h"
 #include "llstartup.h"
-#include "boost/unordered_map.hpp"
+#include <boost/unordered_map.hpp>
 
 // <alchemy> - Includes
 #include "llclipboard.h"

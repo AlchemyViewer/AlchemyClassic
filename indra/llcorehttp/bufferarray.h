@@ -30,7 +30,7 @@
 
 #include <cstdlib>
 #include <vector>
-#include "boost/intrusive_ptr.hpp"
+#include <boost/intrusive_ptr.hpp>
 
 #include "_refcounted.h"
 

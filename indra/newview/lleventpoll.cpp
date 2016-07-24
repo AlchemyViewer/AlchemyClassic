@@ -40,7 +40,7 @@
 #include "llcorehttputil.h"
 #include "lleventfilter.h"
 
-#include "boost/make_shared.hpp"
+#include <boost/make_shared.hpp>
 
 namespace LLEventPolling
 {

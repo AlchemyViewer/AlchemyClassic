@@ -48,7 +48,7 @@
 #include "llappviewer.h"
 #include "lltrans.h"
 
-#include "boost/move/unique_ptr.hpp"
+#include <boost/move/unique_ptr.hpp>
 
 namespace boost
 {

@@ -30,17 +30,16 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
+#include <jsoncpp/reader.h> // JSON
+#include <jsoncpp/writer.h> // JSON
 #include "llcorehttputil.h"
 #include "llhttpconstants.h"
 #include "llsd.h"
 #include "llsdjson.h"
 #include "llsdserialize.h"
-#include "jsoncpp/reader.h" // JSON
-#include "jsoncpp/writer.h" // JSON
 #include "llvfile.h"
 
 #include "message.h" // for getting the port
-
 
 using namespace LLCore;
 

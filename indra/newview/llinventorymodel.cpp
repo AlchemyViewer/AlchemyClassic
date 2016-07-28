@@ -4021,7 +4021,11 @@ BOOL decompress_file(const char* src_filename, const char* dst_filename)
 	const S32 DECOMPRESS_BUFFER_SIZE = 32000;
 
 	// open the files
+#if LL_WINDOWS
+	src = gzopen_w(utf8str_to_utf16str(src_filename).c_str(), "rb");
+#else
 	src = gzopen(src_filename, "rb");
+#endif
 	if(!src) goto err_decompress;
 	dst = LLFile::fopen(dst_filename, "wb");
 	if(!dst) goto err_decompress;

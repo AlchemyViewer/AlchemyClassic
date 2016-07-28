@@ -726,11 +726,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>884b447d45f2f2a034faeafb4951b760</string>
+              <string>e57afc160759a85fdc2e609b41250cec</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/common/lib/fonts-1.0-common-201507240727.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/fonts-1.0-common-201607280610.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>

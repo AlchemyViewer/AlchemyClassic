@@ -153,7 +153,7 @@ int warnif(const std::string& desc, const std::string& filename, int rc, int acc
 				}
 				else
 				{
-					std::ifstream inf(tf);
+					llifstream inf(tf);
 					std::string line;
 					while (std::getline(inf, line))
 					{

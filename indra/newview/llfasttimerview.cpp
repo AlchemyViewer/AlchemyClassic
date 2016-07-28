@@ -475,7 +475,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 
 	{ //read base log into memory
 		S32 i = 0;
-		std::ifstream is(base.c_str());
+		llifstream is(base.c_str());
 		while (!is.eof() && LLSDParser::PARSE_FAILURE != LLSDSerialize::fromXML(cur, is))
 		{
 			base_data[i++] = cur;
@@ -488,7 +488,7 @@ void LLFastTimerView::exportCharts(const std::string& base, const std::string& t
 
 	{ //read current log into memory
 		S32 i = 0;
-		std::ifstream is(target.c_str());
+		llifstream is(target.c_str());
 		while (!is.eof() && LLSDParser::PARSE_FAILURE != LLSDSerialize::fromXML(cur, is))
 		{
 			cur_data[i++] = cur;
@@ -833,8 +833,8 @@ LLSD LLFastTimerView::analyzePerformanceLogDefault(std::istream& is)
 void LLFastTimerView::doAnalysisDefault(std::string baseline, std::string target, std::string output)
 {
 	// Open baseline and current target, exit if one is inexistent
-	std::ifstream base_is(baseline.c_str());
-	std::ifstream target_is(target.c_str());
+	llifstream base_is(baseline.c_str());
+	llifstream target_is(target.c_str());
 	if (!base_is.is_open() || !target_is.is_open())
 	{
 		LL_WARNS() << "'-analyzeperformance' error : baseline or current target file inexistent" << LL_ENDL;
@@ -852,7 +852,7 @@ void LLFastTimerView::doAnalysisDefault(std::string baseline, std::string target
 	target_is.close();
 
 	//output comparison
-	std::ofstream os(output.c_str());
+	llofstream os(output.c_str());
 
 	LLSD::Real session_time = current["SessionTime"].asReal();
 	os <<

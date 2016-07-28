@@ -151,7 +151,7 @@ std::string getStartupStateFromLog(std::string& sllog)
 bool LLCrashLogger::readDebugFromXML(LLSD& dest, const std::string& filename )
 {
     std::string db_file_name = gDirUtilp->getExpandedFilename(LL_PATH_DUMP,filename);
-    std::ifstream debug_log_file(db_file_name.c_str());
+    llifstream debug_log_file(db_file_name.c_str());
     
 	// Look for it in the debug_info.log file
 	if (debug_log_file.is_open())
@@ -177,7 +177,7 @@ bool LLCrashLogger::readMinidump(std::string minidump_path)
 {
 	size_t length=0;
 
-	std::ifstream minidump_stream(minidump_path.c_str(), std::ios_base::in | std::ios_base::binary);
+	llifstream minidump_stream(minidump_path.c_str(), std::ios_base::in | std::ios_base::binary);
 	if(minidump_stream.is_open())
 	{
 		minidump_stream.seekg(0, std::ios::end);
@@ -277,7 +277,7 @@ void LLCrashLogger::gatherFiles()
 
 	for(std::map<std::string, std::string>::iterator itr = mFileMap.begin(); itr != mFileMap.end(); ++itr)
 	{
-		std::ifstream f((*itr).second.c_str());
+		llifstream f((*itr).second.c_str());
 		if(!f.is_open())
 		{
 			LL_INFOS("CRASHREPORT") << "Can't find file " << (*itr).second << LL_ENDL;
@@ -324,7 +324,7 @@ void LLCrashLogger::gatherFiles()
             if ( ( iter->length() > 30 ) && (iter->rfind(".dmp") == (iter->length()-4) ) )
             {
                 std::string fullname = pathname + *iter;
-                std::ifstream fdat( fullname.c_str(), std::ifstream::binary);
+                llifstream fdat( fullname.c_str(), std::ios_base::binary);
                 if (fdat)
                 {
                     char buf[5];
@@ -451,7 +451,7 @@ bool LLCrashLogger::sendCrashLog(std::string dump_dir)
     
 	updateApplication("Sending reports...");
 
-	std::ofstream out_file(report_file.c_str());
+	llofstream out_file(report_file.c_str());
 	LLSDSerialize::toPrettyXML(post_data, out_file);
 	out_file.close();
     

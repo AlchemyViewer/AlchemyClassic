@@ -46,7 +46,7 @@
 
 extern BOOL gDebugGL;
 extern BOOL gDebugSession;
-extern std::ofstream gFailLog;
+extern llofstream gFailLog;
 
 #define LL_GL_ERRS LL_ERRS("RenderState")
 

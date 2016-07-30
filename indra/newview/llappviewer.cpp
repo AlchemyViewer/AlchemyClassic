@@ -419,8 +419,8 @@ class LLDeferredTaskList: public LLSingleton<LLDeferredTaskList>
 static std::set<std::string> default_trans_args;
 void init_default_trans_args()
 {
+    default_trans_args.insert("CURRENT_GRID");
 	default_trans_args.insert("SECOND_LIFE"); // World
-	default_trans_args.insert("CURRENT_GRID");
 	default_trans_args.insert("GRID_ADMIN");
 	default_trans_args.insert("APP_NAME");
 	default_trans_args.insert("CAPITALIZED_APP_NAME");

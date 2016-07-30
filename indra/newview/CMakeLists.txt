@@ -250,7 +250,7 @@ set(viewer_SOURCE_FILES
     llfloaterdeleteenvpreset.cpp
     llfloaterdestinations.cpp
     llfloaterdirectory.cpp
-    #llfloaterdisplayname.cpp
+    llfloaterdisplayname.cpp
     llfloatereditdaycycle.cpp
     llfloatereditsky.cpp
     llfloatereditwater.cpp
@@ -897,7 +897,7 @@ set(viewer_HEADER_FILES
     llfloaterdeleteenvpreset.h
     llfloaterdestinations.h
     llfloaterdirectory.h
-    #llfloaterdisplayname.h
+    llfloaterdisplayname.h
     llfloatereditdaycycle.h
     llfloatereditsky.h
     llfloatereditwater.h

@@ -35,6 +35,7 @@
 
 // library includes
 #include "llavatarnamecache.h"
+#include "llcorehttputil.h"
 #include "llhttpnode.h"
 #include "llnotificationsutil.h"
 #include "llui.h"					// getLanguage()
@@ -53,6 +54,72 @@ namespace LLViewerDisplayName
 	}
 
 	void doNothing() { }
+}
+
+void setDisplayNameCoro(const LLSD change_array, const std::string url)
+{
+    using namespace LLCoreHttpUtil;
+    
+    LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
+    HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("LLViewerDisplayName::set", httpPolicy));
+    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
+    
+    // People API can return localized error messages.  Indicate our
+    // language preference via header.
+    httpHeaders->append(HTTP_OUT_HEADER_ACCEPT_LANGUAGE, LLUI::getLanguage());
+    
+    LL_INFOS() << "Set name POST to " << url << LL_ENDL;
+    
+    LLSD body;
+    body["display_name"] = change_array;
+    
+    // POST the requested change.  The sim will not send a response back to
+    // this request directly, rather it will send a separate message after it
+    // communicates with the back-end, so we will only be checking for an error.
+    LLSD result = httpAdapter->postAndSuspend(httpRequest, url, body, httpOpts, httpHeaders);
+    
+    LLSD httpResults = result[HttpCoroutineAdapter::HTTP_RESULTS];
+    LLCore::HttpStatus status = HttpCoroutineAdapter::getStatusFromLLSD(httpResults);
+    if (!status)
+    {
+        LLViewerDisplayName::sSetDisplayNameSignal(false, LLStringUtil::null, LLSD());
+        LLViewerDisplayName::sSetDisplayNameSignal.disconnect_all_slots();
+    }
+}
+
+void LLViewerDisplayName::set(const std::string& display_name, const set_name_slot_t& slot)
+{
+	LLViewerRegion* region = gAgent.getRegion();
+	llassert(region);
+	std::string cap_url = region->getCapability("SetDisplayName");
+	if (cap_url.empty())
+	{
+		// this server does not support display names, report error
+		slot(false, "unsupported", LLSD());
+		return;
+	}
+
+	// People API requires both the old and new value to change a variable.
+	// Our display name will be in cache before the viewer's UI is available
+	// to request a change, so we can use direct lookup without callback.
+	LLAvatarName av_name;
+	if (!LLAvatarNameCache::get(gAgent.getID(), &av_name))
+	{
+		slot(false, "name unavailable", LLSD());
+		return;
+	}
+    
+    // People API expects array of [ "old value", "new value" ]
+    LLSD change_array = LLSD::emptyArray();
+    change_array.append(av_name.getDisplayName());
+    change_array.append(display_name);
+    
+    // Record our caller for when the server sends back a reply
+    sSetDisplayNameSignal.connect(slot);
+    
+    setDisplayNameCoro(change_array, cap_url);
 }
 
 class LLSetDisplayNameReply : public LLHTTPNode

@@ -43,7 +43,7 @@ namespace LLViewerDisplayName
 	// Sends an update to the server to change a display name
 	// and call back when done.  May not succeed due to service
 	// unavailable or name not available.
-	void set(const std::string display_name, const set_name_slot_t slot);
+	void set(const std::string& display_name, const set_name_slot_t& slot);
 	
 	boost::signals2::connection addNameChangedCallback(const name_changed_signal_t::slot_type& cb);
 }

@@ -1244,34 +1244,33 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 						{
 							extractTranslation( pTranslateA, workingTransform );
 						}
+						else if ( pTranslateB )
+						{
+							extractTranslation( pTranslateB, workingTransform );
+						}
 						else
-							if ( pTranslateB )
+						{
+							//Translation via child from element
+							daeElement* pTranslateElement = getChildFromElement( pJoint, "translate" );
+							if ( pTranslateElement && pTranslateElement->typeID() != domTranslate::ID() )
 							{
-								extractTranslation( pTranslateB, workingTransform );
+								LL_WARNS()<< "The found element is not a translate node" <<LL_ENDL;
+								missingSkeletonOrScene = true;
 							}
 							else
-							{
-								//Translation via child from element
-								daeElement* pTranslateElement = getChildFromElement( pJoint, "translate" );
-								if ( pTranslateElement && pTranslateElement->typeID() != domTranslate::ID() )
+								if ( pTranslateElement )
 								{
-									LL_WARNS()<< "The found element is not a translate node" <<LL_ENDL;
-									missingSkeletonOrScene = true;
+									extractTranslationViaElement( pTranslateElement, workingTransform );
 								}
 								else
-									if ( pTranslateElement )
-									{
-										extractTranslationViaElement( pTranslateElement, workingTransform );
-									}
-									else
-									{
-										extractTranslationViaSID( pJoint, workingTransform );
-									}
+								{
+									extractTranslationViaSID( pJoint, workingTransform );
+								}
 
-							}
+						}
 
-							//Store the joint transform w/respect to it's name.
-							mJointList[(*jointIt).second.c_str()] = workingTransform;
+						//Store the joint transform w/respect to it's name.
+						mJointList[(*jointIt).second.c_str()] = workingTransform;
 					}
 				}
 

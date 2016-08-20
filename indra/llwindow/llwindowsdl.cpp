@@ -370,7 +370,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	//bool			glneedsinit = false;
 
 	LL_INFOS() << "createContext, fullscreen=" << fullscreen <<
-	    " size=" << width << "x" << height << LL_ENDL;
+		" size=" << width << "x" << height << LL_ENDL;
 
 	// captures don't survive contexts
 	mGrabbyKeyFlags = 0;
@@ -436,14 +436,14 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE,  8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE,8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, (bits <= 16) ? 16 : 24);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, (bits <= 16) ? 16 : 24);
 	// We need stencil support for a few (minor) things.
 	if (!getenv("LL_GL_NO_STENCIL"))
 		SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, (bits <= 16) ? 1 : 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, (bits <= 16) ? 1 : 8);
 
-    // *FIX: try to toggle vsync here?
+	// *FIX: try to toggle vsync here?
 
 	mFullscreen = fullscreen;
 
@@ -457,7 +457,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 		SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, mFSAASamples);
 	}
 
-    	mSDLFlags = sdlflags;
+		mSDLFlags = sdlflags;
 
 	if (mFullscreen)
 	{
@@ -550,9 +550,9 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	if(!mFullscreen && (mWindow == NULL))
 	{
 		if (width == 0)
-		    width = 1024;
+			width = 1024;
 		if (height == 0)
-		    width = 768;
+			width = 768;
 
 		LL_INFOS() << "createContext: creating window " << width << "x" << height << "x" << bits << LL_ENDL;
 		mWindow = SDL_SetVideoMode(width, height, bits, sdlflags);
@@ -608,9 +608,9 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 	glGetIntegerv(GL_STENCIL_BITS, &stencilBits);
 
 	LL_INFOS() << "GL buffer:" << LL_ENDL;
-        LL_INFOS() << "  Red Bits " << S32(redBits) << LL_ENDL;
-        LL_INFOS() << "  Green Bits " << S32(greenBits) << LL_ENDL;
-        LL_INFOS() << "  Blue Bits " << S32(blueBits) << LL_ENDL;
+		LL_INFOS() << "  Red Bits " << S32(redBits) << LL_ENDL;
+		LL_INFOS() << "  Green Bits " << S32(greenBits) << LL_ENDL;
+		LL_INFOS() << "  Blue Bits " << S32(blueBits) << LL_ENDL;
 	LL_INFOS()	<< "  Alpha Bits " << S32(alphaBits) << LL_ENDL;
 	LL_INFOS()	<< "  Depth Bits " << S32(depthBits) << LL_ENDL;
 	LL_INFOS()	<< "  Stencil Bits " << S32(stencilBits) << LL_ENDL;
@@ -664,8 +664,8 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 	// We need to do this here, once video is init'd
 	if (-1 == SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY,
-				      SDL_DEFAULT_REPEAT_INTERVAL))
-	    LL_WARNS() << "Couldn't enable key-repeat: " << SDL_GetError() <<LL_ENDL;
+					  SDL_DEFAULT_REPEAT_INTERVAL))
+		LL_WARNS() << "Couldn't enable key-repeat: " << SDL_GetError() <<LL_ENDL;
 
 	// Don't need to get the current gamma, since there's a call that restores it to the system defaults.
 	return TRUE;
@@ -733,24 +733,24 @@ LLWindowSDL::~LLWindowSDL()
 
 void LLWindowSDL::show()
 {
-    // *FIX: What to do with SDL?
+	// *FIX: What to do with SDL?
 }
 
 void LLWindowSDL::hide()
 {
-    // *FIX: What to do with SDL?
+	// *FIX: What to do with SDL?
 }
 
 //virtual
 void LLWindowSDL::minimize()
 {
-    // *FIX: What to do with SDL?
+	// *FIX: What to do with SDL?
 }
 
 //virtual
 void LLWindowSDL::restore()
 {
-    // *FIX: What to do with SDL?
+	// *FIX: What to do with SDL?
 }
 
 
@@ -780,7 +780,7 @@ BOOL LLWindowSDL::getVisible()
 {
 	BOOL result = FALSE;
 
-    // *FIX: This isn't really right...
+	// *FIX: This isn't really right...
 	// Then what is?
 	if (mWindow)
 	{
@@ -826,41 +826,41 @@ BOOL LLWindowSDL::getFullscreen()
 
 BOOL LLWindowSDL::getPosition(LLCoordScreen *position)
 {
-    // *FIX: can anything be done with this?
+	// *FIX: can anything be done with this?
 	position->mX = 0;
 	position->mY = 0;
-    return TRUE;
+	return TRUE;
 }
 
 BOOL LLWindowSDL::getSize(LLCoordScreen *size)
 {
-    if (mWindow)
-    {
-        size->mX = mWindow->w;
-        size->mY = mWindow->h;
+	if (mWindow)
+	{
+		size->mX = mWindow->w;
+		size->mY = mWindow->h;
 	return (TRUE);
-    }
+	}
 
-    return (FALSE);
+	return (FALSE);
 }
 
 BOOL LLWindowSDL::getSize(LLCoordWindow *size)
 {
-    if (mWindow)
-    {
-        size->mX = mWindow->w;
-        size->mY = mWindow->h;
+	if (mWindow)
+	{
+		size->mX = mWindow->w;
+		size->mY = mWindow->h;
 	return (TRUE);
-    }
+	}
 
-    return (FALSE);
+	return (FALSE);
 }
 
 BOOL LLWindowSDL::setPosition(const LLCoordScreen position)
 {
 	if(mWindow)
 	{
-        // *FIX: (?)
+		// *FIX: (?)
 		//MacMoveWindow(mWindow, position.mX, position.mY, false);
 	}
 
@@ -950,7 +950,7 @@ BOOL LLWindowSDL::isCursorHidden()
 // Constrains the mouse to the window.
 void LLWindowSDL::setMouseClipping( BOOL b )
 {
-    //SDL_WM_GrabInput(b ? SDL_GRAB_ON : SDL_GRAB_OFF);
+	//SDL_WM_GrabInput(b ? SDL_GRAB_ON : SDL_GRAB_OFF);
 }
 
 // virtual
@@ -998,8 +998,8 @@ BOOL LLWindowSDL::getCursorPosition(LLCoordWindow *position)
 	LLCoordScreen screen_pos;
 
 	//GetMouse(&cursor_point);
-    int x, y;
-    SDL_GetMouseState(&x, &y);
+	int x, y;
+	SDL_GetMouseState(&x, &y);
 
 	screen_pos.mX = x;
 	screen_pos.mY = y;
@@ -1297,36 +1297,36 @@ LLWindow::LLWindowResolution* LLWindowSDL::getSupportedResolutions(S32 &num_reso
 		mSupportedResolutions = new LLWindowResolution[MAX_NUM_RESOLUTIONS];
 		mNumSupportedResolutions = 0;
 
-        SDL_Rect **modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
-        if ( (modes != NULL) && (modes != ((SDL_Rect **) -1)) )
-        {
-            int count = 0;
-            while (*modes && count<MAX_NUM_RESOLUTIONS)  // they're sorted biggest to smallest, so find end...
-            {
-                modes++;
-                count++;
-            }
+		SDL_Rect **modes = SDL_ListModes(NULL, SDL_OPENGL | SDL_FULLSCREEN);
+		if ( (modes != NULL) && (modes != ((SDL_Rect **) -1)) )
+		{
+			int count = 0;
+			while (*modes && count<MAX_NUM_RESOLUTIONS)  // they're sorted biggest to smallest, so find end...
+			{
+				modes++;
+				count++;
+			}
 
-            while (count--)
-            {
-                modes--;
-                SDL_Rect *r = *modes;
-                int w = r->w;
-                int h = r->h;
-                if ((w >= 800) && (h >= 600))
-                {
-                    // make sure we don't add the same resolution multiple times!
-                    if ( (mNumSupportedResolutions == 0) ||
-                         ((mSupportedResolutions[mNumSupportedResolutions-1].mWidth != w) &&
-                          (mSupportedResolutions[mNumSupportedResolutions-1].mHeight != h)) )
-                    {
-                        mSupportedResolutions[mNumSupportedResolutions].mWidth = w;
-                        mSupportedResolutions[mNumSupportedResolutions].mHeight = h;
-                        mNumSupportedResolutions++;
-                    }
-                }
-            }
-        }
+			while (count--)
+			{
+				modes--;
+				SDL_Rect *r = *modes;
+				int w = r->w;
+				int h = r->h;
+				if ((w >= 800) && (h >= 600))
+				{
+					// make sure we don't add the same resolution multiple times!
+					if ( (mNumSupportedResolutions == 0) ||
+						 ((mSupportedResolutions[mNumSupportedResolutions-1].mWidth != w) &&
+						  (mSupportedResolutions[mNumSupportedResolutions-1].mHeight != h)) )
+					{
+						mSupportedResolutions[mNumSupportedResolutions].mWidth = w;
+						mSupportedResolutions[mNumSupportedResolutions].mHeight = h;
+						mNumSupportedResolutions++;
+					}
+				}
+			}
+		}
 	}
 
 	num_resolutions = mNumSupportedResolutions;
@@ -1335,8 +1335,8 @@ LLWindow::LLWindowResolution* LLWindowSDL::getSupportedResolutions(S32 &num_reso
 
 BOOL LLWindowSDL::convertCoords(LLCoordGL from, LLCoordWindow *to)
 {
-    if (!to)
-        return FALSE;
+	if (!to)
+		return FALSE;
 
 	to->mX = from.mX;
 	to->mY = mWindow->h - from.mY - 1;
@@ -1346,8 +1346,8 @@ BOOL LLWindowSDL::convertCoords(LLCoordGL from, LLCoordWindow *to)
 
 BOOL LLWindowSDL::convertCoords(LLCoordWindow from, LLCoordGL* to)
 {
-    if (!to)
-        return FALSE;
+	if (!to)
+		return FALSE;
 
 	to->mX = from.mX;
 	to->mY = mWindow->h - from.mY - 1;
@@ -1357,24 +1357,24 @@ BOOL LLWindowSDL::convertCoords(LLCoordWindow from, LLCoordGL* to)
 
 BOOL LLWindowSDL::convertCoords(LLCoordScreen from, LLCoordWindow* to)
 {
-    if (!to)
+	if (!to)
 		return FALSE;
 
 	// In the fullscreen case, window and screen coordinates are the same.
 	to->mX = from.mX;
 	to->mY = from.mY;
-    return (TRUE);
+	return (TRUE);
 }
 
 BOOL LLWindowSDL::convertCoords(LLCoordWindow from, LLCoordScreen *to)
 {
-    if (!to)
+	if (!to)
 		return FALSE;
 
 	// In the fullscreen case, window and screen coordinates are the same.
 	to->mX = from.mX;
 	to->mY = from.mY;
-    return (TRUE);
+	return (TRUE);
 }
 
 BOOL LLWindowSDL::convertCoords(LLCoordScreen from, LLCoordGL *to)
@@ -1446,9 +1446,9 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 				//LL_INFOS() << "X11 POINTER GRABBY" << LL_ENDL;
 				//newmode = SDL_WM_GrabInput(wantmode);
 				result = XGrabPointer(mSDL_Display, mSDL_XWindowID,
-						      True, 0, GrabModeAsync,
-						      GrabModeAsync,
-						      None, None, CurrentTime);
+							  True, 0, GrabModeAsync,
+							  GrabModeAsync,
+							  None, None, CurrentTime);
 				if (GrabSuccess == result)
 					newmode = SDL_GRAB_ON;
 				else
@@ -1576,7 +1576,7 @@ void check_vm_bloat()
 		LL_INFOS() << "VM SIZE IS NOW " << (this_vm_size/(1024*1024)) << " MB, RSS SIZE IS NOW " << (this_rss_size/(1024*1024)) << " MB" << LL_ENDL;
 
 		if (llabs(last_vm_size - this_vm_size) >
-		    significant_vm_difference)
+			significant_vm_difference)
 		{
 			if (this_vm_size > last_vm_size)
 			{
@@ -1589,7 +1589,7 @@ void check_vm_bloat()
 		}
 
 		if (llabs(last_rss_size - this_rss_size) >
-		    significant_rss_difference)
+			significant_rss_difference)
 		{
 			if (this_rss_size > last_rss_size)
 			{
@@ -1623,179 +1623,179 @@ void LLWindowSDL::processMiscNativeEvents()
 	// Pump GTK events to avoid starvation for:
 	// * DBUS servicing
 	// * Anything else which quietly hooks into the default glib/GTK loop
-    if (ll_try_gtk_init())
-    {
-	    // Yuck, Mozilla's GTK callbacks play with the locale - push/pop
-	    // the locale to protect it, as exotic/non-C locales
-	    // causes our code lots of general critical weirdness
-	    // and crashness. (SL-35450)
-	    static std::string saved_locale;
-	    saved_locale = ll_safe_string(setlocale(LC_ALL, NULL));
+	if (ll_try_gtk_init())
+	{
+		// Yuck, Mozilla's GTK callbacks play with the locale - push/pop
+		// the locale to protect it, as exotic/non-C locales
+		// causes our code lots of general critical weirdness
+		// and crashness. (SL-35450)
+		static std::string saved_locale;
+		saved_locale = ll_safe_string(setlocale(LC_ALL, NULL));
 
-	    // Pump until we've nothing left to do or passed 1/15th of a
-	    // second pumping for this frame.
-	    static LLTimer pump_timer;
-	    pump_timer.reset();
-	    pump_timer.setTimerExpirySec(1.0f / 15.0f);
-	    do {
-		     // Always do at least one non-blocking pump
-		    gtk_main_iteration_do(FALSE);
-	    } while (gtk_events_pending() &&
-		     !pump_timer.hasExpired());
+		// Pump until we've nothing left to do or passed 1/15th of a
+		// second pumping for this frame.
+		static LLTimer pump_timer;
+		pump_timer.reset();
+		pump_timer.setTimerExpirySec(1.0f / 15.0f);
+		do {
+			 // Always do at least one non-blocking pump
+			gtk_main_iteration_do(FALSE);
+		} while (gtk_events_pending() &&
+			 !pump_timer.hasExpired());
 
-	    setlocale(LC_ALL, saved_locale.c_str() );
-    }
+		setlocale(LC_ALL, saved_locale.c_str() );
+	}
 #endif // LL_GTK
 
-    // hack - doesn't belong here - but this is just for debugging
-    if (getenv("LL_DEBUG_BLOAT"))
-    {
-	    check_vm_bloat();
-    }
+	// hack - doesn't belong here - but this is just for debugging
+	if (getenv("LL_DEBUG_BLOAT"))
+	{
+		check_vm_bloat();
+	}
 }
 
 void LLWindowSDL::gatherInput()
 {
-    const Uint32 CLICK_THRESHOLD = 300;  // milliseconds
-    static int leftClick = 0;
-    static int rightClick = 0;
-    static Uint32 lastLeftDown = 0;
-    static Uint32 lastRightDown = 0;
-    SDL_Event event;
+	const Uint32 CLICK_THRESHOLD = 300;  // milliseconds
+	static int leftClick = 0;
+	static int rightClick = 0;
+	static Uint32 lastLeftDown = 0;
+	static Uint32 lastRightDown = 0;
+	SDL_Event event;
 
-    // Handle all outstanding SDL events
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-            case SDL_MOUSEMOTION:
-            {
-                LLCoordWindow winCoord(event.button.x, event.button.y);
-                LLCoordGL openGlCoord;
-                convertCoords(winCoord, &openGlCoord);
+	// Handle all outstanding SDL events
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
+			case SDL_MOUSEMOTION:
+			{
+				LLCoordWindow winCoord(event.button.x, event.button.y);
+				LLCoordGL openGlCoord;
+				convertCoords(winCoord, &openGlCoord);
 				MASK mask = gKeyboard->currentMask(TRUE);
 				mCallbacks->handleMouseMove(this, openGlCoord, mask);
-                break;
-            }
+				break;
+			}
 
-            case SDL_KEYDOWN:
-		    mKeyScanCode = event.key.keysym.scancode;
-		    mKeyVirtualKey = event.key.keysym.unicode;
-		    mKeyModifiers = event.key.keysym.mod;
-		    mKeySym = event.key.keysym.sym;
+			case SDL_KEYDOWN:
+			mKeyScanCode = event.key.keysym.scancode;
+			mKeyVirtualKey = event.key.keysym.unicode;
+			mKeyModifiers = event.key.keysym.mod;
+			mKeySym = event.key.keysym.sym;
 
-		    gKeyboard->handleKeyDown(event.key.keysym.sym, event.key.keysym.mod);
-		    // part of the fix for SL-13243
-		    if (SDLCheckGrabbyKeys(event.key.keysym.sym, TRUE) != 0)
-			    SDLReallyCaptureInput(TRUE);
+			gKeyboard->handleKeyDown(event.key.keysym.sym, event.key.keysym.mod);
+			// part of the fix for SL-13243
+			if (SDLCheckGrabbyKeys(event.key.keysym.sym, TRUE) != 0)
+				SDLReallyCaptureInput(TRUE);
 
-		    if (event.key.keysym.unicode)
-		    {
-			    handleUnicodeUTF16(event.key.keysym.unicode,
-					       gKeyboard->currentMask(FALSE));
-		    }
-                break;
+			if (event.key.keysym.unicode)
+			{
+				handleUnicodeUTF16(event.key.keysym.unicode,
+						   gKeyboard->currentMask(FALSE));
+			}
+				break;
 
-            case SDL_KEYUP:
-		    mKeyScanCode = event.key.keysym.scancode;
-		    mKeyVirtualKey = event.key.keysym.unicode;
-		    mKeyModifiers = event.key.keysym.mod;
-		    mKeySym = event.key.keysym.sym;
+			case SDL_KEYUP:
+			mKeyScanCode = event.key.keysym.scancode;
+			mKeyVirtualKey = event.key.keysym.unicode;
+			mKeyModifiers = event.key.keysym.mod;
+			mKeySym = event.key.keysym.sym;
 
-		    if (SDLCheckGrabbyKeys(event.key.keysym.sym, FALSE) == 0)
-			    SDLReallyCaptureInput(FALSE); // part of the fix for SL-13243
+			if (SDLCheckGrabbyKeys(event.key.keysym.sym, FALSE) == 0)
+				SDLReallyCaptureInput(FALSE); // part of the fix for SL-13243
 
-		    gKeyboard->handleKeyUp(event.key.keysym.sym, event.key.keysym.mod);
-		    break;
+			gKeyboard->handleKeyUp(event.key.keysym.sym, event.key.keysym.mod);
+			break;
 
-            case SDL_MOUSEBUTTONDOWN:
-            {
-                bool isDoubleClick = false;
-                LLCoordWindow winCoord(event.button.x, event.button.y);
-                LLCoordGL openGlCoord;
-                convertCoords(winCoord, &openGlCoord);
+			case SDL_MOUSEBUTTONDOWN:
+			{
+				bool isDoubleClick = false;
+				LLCoordWindow winCoord(event.button.x, event.button.y);
+				LLCoordGL openGlCoord;
+				convertCoords(winCoord, &openGlCoord);
 		MASK mask = gKeyboard->currentMask(TRUE);
 
-                if (event.button.button == SDL_BUTTON_LEFT)   // SDL doesn't manage double clicking...
-                {
-                    Uint32 now = SDL_GetTicks();
-                    if ((now - lastLeftDown) > CLICK_THRESHOLD)
-                        leftClick = 1;
-                    else
-                    {
-                        if (++leftClick >= 2)
-                        {
-                            leftClick = 0;
-			    isDoubleClick = true;
-                        }
-                    }
-                    lastLeftDown = now;
-                }
-                else if (event.button.button == SDL_BUTTON_RIGHT)
-                {
-                    Uint32 now = SDL_GetTicks();
-                    if ((now - lastRightDown) > CLICK_THRESHOLD)
-                        rightClick = 1;
-                    else
-                    {
-                        if (++rightClick >= 2)
-                        {
-                            rightClick = 0;
-    					    isDoubleClick = true;
-                        }
-                    }
-                    lastRightDown = now;
-                }
-
-                if (event.button.button == SDL_BUTTON_LEFT)  // left
-                {
-                    if (isDoubleClick)
-				        mCallbacks->handleDoubleClick(this, openGlCoord, mask);
-                    else
-    				    mCallbacks->handleMouseDown(this, openGlCoord, mask);
-                }
-
-                else if (event.button.button == SDL_BUTTON_RIGHT)  // right
-                {
-			mCallbacks->handleRightMouseDown(this, openGlCoord, mask);
-                }
-
-                else if (event.button.button == SDL_BUTTON_MIDDLE)  // middle
+				if (event.button.button == SDL_BUTTON_LEFT)   // SDL doesn't manage double clicking...
 				{
-				    mCallbacks->handleMiddleMouseDown(this, openGlCoord, mask);
+					Uint32 now = SDL_GetTicks();
+					if ((now - lastLeftDown) > CLICK_THRESHOLD)
+						leftClick = 1;
+					else
+					{
+						if (++leftClick >= 2)
+						{
+							leftClick = 0;
+				isDoubleClick = true;
+						}
+					}
+					lastLeftDown = now;
 				}
-                else if (event.button.button == 4)  // mousewheel up...thanks to X11 for making SDL consider these "buttons".
+				else if (event.button.button == SDL_BUTTON_RIGHT)
+				{
+					Uint32 now = SDL_GetTicks();
+					if ((now - lastRightDown) > CLICK_THRESHOLD)
+						rightClick = 1;
+					else
+					{
+						if (++rightClick >= 2)
+						{
+							rightClick = 0;
+							isDoubleClick = true;
+						}
+					}
+					lastRightDown = now;
+				}
+
+				if (event.button.button == SDL_BUTTON_LEFT)  // left
+				{
+					if (isDoubleClick)
+						mCallbacks->handleDoubleClick(this, openGlCoord, mask);
+					else
+						mCallbacks->handleMouseDown(this, openGlCoord, mask);
+				}
+
+				else if (event.button.button == SDL_BUTTON_RIGHT)  // right
+				{
+			mCallbacks->handleRightMouseDown(this, openGlCoord, mask);
+				}
+
+				else if (event.button.button == SDL_BUTTON_MIDDLE)  // middle
+				{
+					mCallbacks->handleMiddleMouseDown(this, openGlCoord, mask);
+				}
+				else if (event.button.button == 4)  // mousewheel up...thanks to X11 for making SDL consider these "buttons".
 					mCallbacks->handleScrollWheel(this, -1);
-                else if (event.button.button == 5)  // mousewheel down...thanks to X11 for making SDL consider these "buttons".
+				else if (event.button.button == 5)  // mousewheel down...thanks to X11 for making SDL consider these "buttons".
 					mCallbacks->handleScrollWheel(this, 1);
 
-                break;
-            }
+				break;
+			}
 
-            case SDL_MOUSEBUTTONUP:
-            {
-                LLCoordWindow winCoord(event.button.x, event.button.y);
-                LLCoordGL openGlCoord;
-                convertCoords(winCoord, &openGlCoord);
+			case SDL_MOUSEBUTTONUP:
+			{
+				LLCoordWindow winCoord(event.button.x, event.button.y);
+				LLCoordGL openGlCoord;
+				convertCoords(winCoord, &openGlCoord);
 		MASK mask = gKeyboard->currentMask(TRUE);
 
-                if (event.button.button == SDL_BUTTON_LEFT)  // left
+				if (event.button.button == SDL_BUTTON_LEFT)  // left
 			mCallbacks->handleMouseUp(this, openGlCoord, mask);
-                else if (event.button.button == SDL_BUTTON_RIGHT)  // right
+				else if (event.button.button == SDL_BUTTON_RIGHT)  // right
 			mCallbacks->handleRightMouseUp(this, openGlCoord, mask);
-                else if (event.button.button == SDL_BUTTON_MIDDLE)  // middle
+				else if (event.button.button == SDL_BUTTON_MIDDLE)  // middle
 			mCallbacks->handleMiddleMouseUp(this, openGlCoord, mask);
-                // don't handle mousewheel here...
+				// don't handle mousewheel here...
 
-                break;
-            }
+				break;
+			}
 
-            case SDL_VIDEOEXPOSE:  // VIDEOEXPOSE doesn't specify the damage, but hey, it's OpenGL...repaint the whole thing!
-			    mCallbacks->handlePaint(this, 0, 0, mWindow->w, mWindow->h);
-                break;
+			case SDL_VIDEOEXPOSE:  // VIDEOEXPOSE doesn't specify the damage, but hey, it's OpenGL...repaint the whole thing!
+				mCallbacks->handlePaint(this, 0, 0, mWindow->w, mWindow->h);
+				break;
 
-            case SDL_VIDEORESIZE:  // *FIX: handle this?
-            {
+			case SDL_VIDEORESIZE:  // *FIX: handle this?
+			{
 		LL_INFOS() << "Handling a resize event: " << event.resize.w <<
 			"x" << event.resize.h << LL_ENDL;
 
@@ -1809,20 +1809,20 @@ void LLWindowSDL::gatherInput()
 			// *FIX: More informative dialog?
 			LL_INFOS() << "Could not recreate context after resize! Quitting..." << LL_ENDL;
 			if(mCallbacks->handleCloseRequest(this))
-    			{
-    				// Get the app to initiate cleanup.
-    				mCallbacks->handleQuit(this);
-    				// The app is responsible for calling destroyWindow when done with GL
-    			}
-                break;
+				{
+					// Get the app to initiate cleanup.
+					mCallbacks->handleQuit(this);
+					// The app is responsible for calling destroyWindow when done with GL
+				}
+				break;
 		}
 
 		mCallbacks->handleResize(this, width, height);
-                break;
-            }
-            case SDL_ACTIVEEVENT:
-                if (event.active.state & SDL_APPINPUTFOCUS)
-                {
+				break;
+			}
+			case SDL_ACTIVEEVENT:
+				if (event.active.state & SDL_APPINPUTFOCUS)
+				{
 			// Note that for SDL (particularly on X11), keyboard
 			// and mouse focus are independent things.  Here we are
 			// tracking keyboard focus state changes.
@@ -1839,9 +1839,9 @@ void LLWindowSDL::gatherInput()
 				else
 					mCallbacks->handleFocusLost(this);
 			}
-                }
-                if (event.active.state & SDL_APPACTIVE)
-                {
+				}
+				if (event.active.state & SDL_APPACTIVE)
+				{
 			// Change in iconification/minimization state.
 			if ((!event.active.gain) != mIsMinimized)
 			{
@@ -1854,33 +1854,33 @@ void LLWindowSDL::gatherInput()
 			{
 				LL_INFOS() << "Ignored bogus redundant SDL deiconification state switch to " << BOOL(event.active.gain) << LL_ENDL;
 			}
-                }
-                break;
+				}
+				break;
 
-            case SDL_QUIT:
-			    if(mCallbacks->handleCloseRequest(this))
-    			{
-    				// Get the app to initiate cleanup.
-    				mCallbacks->handleQuit(this);
-    				// The app is responsible for calling destroyWindow when done with GL
-    			}
-                break;
+			case SDL_QUIT:
+				if(mCallbacks->handleCloseRequest(this))
+				{
+					// Get the app to initiate cleanup.
+					mCallbacks->handleQuit(this);
+					// The app is responsible for calling destroyWindow when done with GL
+				}
+				break;
 	default:
 		//LL_INFOS() << "Unhandled SDL event type " << event.type << LL_ENDL;
 		break;
-        }
-    }
+		}
+	}
 
 	updateCursor();
 
 #if LL_X11
-    // This is a good time to stop flashing the icon if our mFlashTimer has
-    // expired.
-    if (mFlashing && mFlashTimer.hasExpired())
-    {
-	    x11_set_urgent(FALSE);
-	    mFlashing = FALSE;
-    }
+	// This is a good time to stop flashing the icon if our mFlashTimer has
+	// expired.
+	if (mFlashing && mFlashTimer.hasExpired())
+	{
+		x11_set_urgent(FALSE);
+		mFlashing = FALSE;
+	}
 #endif // LL_X11
 }
 
@@ -1941,9 +1941,9 @@ static SDL_Cursor *makeSDLCursorFromBMP(const char *filename, int hotx, int hoty
 				}
 			}
 			sdlcursor = SDL_CreateCursor((Uint8*)cursor_data,
-						     (Uint8*)cursor_mask,
-						     cursurface->w, cursurface->h,
-						     hotx, hoty);
+							 (Uint8*)cursor_mask,
+							 cursurface->w, cursurface->h,
+							 hotx, hoty);
 			delete[] cursor_data;
 			delete[] cursor_mask;
 		} else {
@@ -2162,8 +2162,8 @@ void LLSplashScreenSDL::hideImpl()
 
 #if LL_GTK
 static void response_callback (GtkDialog *dialog,
-			       gint       arg1,
-			       gpointer   user_data)
+				   gint       arg1,
+				   gpointer   user_data)
 {
 	gint *response = (gint*)user_data;
 	*response = arg1;
@@ -2211,7 +2211,7 @@ S32 OSMessageBoxSDL(const std::string& text, const std::string& caption, U32 typ
 		// dialog with our non-GTK SDL window, which should try
 		// to keep it on top etc.
 		if (gWindowImplementation &&
-		    gWindowImplementation->mSDL_XWindowID != None)
+			gWindowImplementation->mSDL_XWindowID != None)
 		{
 			gtk_widget_realize(GTK_WIDGET(win)); // so we can get its gdkwin
 			GdkWindow *gdkwin = gdk_window_foreign_new(gWindowImplementation->mSDL_XWindowID);
@@ -2278,12 +2278,12 @@ static void color_changed_callback(GtkWidget *widget,
 
 
 /*
-        Make the raw keyboard data available - used to poke through to LLQtWebKit so
-        that Qt/Webkit has access to the virtual keycodes etc. that it needs
+		Make the raw keyboard data available - used to poke through to LLQtWebKit so
+		that Qt/Webkit has access to the virtual keycodes etc. that it needs
 */
 LLSD LLWindowSDL::getNativeKeyData()
 {
-        LLSD result = LLSD::emptyMap();
+		LLSD result = LLSD::emptyMap();
 
 	U32 modifiers = 0; // pretend-native modifiers... oh what a tangled web we weave!
 
@@ -2301,12 +2301,12 @@ LLSD LLWindowSDL::getNativeKeyData()
 	// *todo: test ALTs - I don't have a case for testing these.  Do you?
 	// *todo: NUM? - I don't care enough right now (and it's not a GDK modifier).
 
-        result["scan_code"] = (S32)mKeyScanCode;
-        result["virtual_key"] = (S32)mKeyVirtualKey;
+		result["scan_code"] = (S32)mKeyScanCode;
+		result["virtual_key"] = (S32)mKeyVirtualKey;
 	result["modifiers"] = (S32)modifiers;
 	result[ "sdl_sym" ] = (S32)mKeySym;
 
-        return result;
+		return result;
 }
 
 
@@ -2363,9 +2363,9 @@ BOOL LLWindowSDL::dialogColorPicker( F32 *r, F32 *g, F32 *b)
 		gtk_main();
 
 		if (response == GTK_RESPONSE_OK &&
-		    (orig_color.red != color.red
-		     || orig_color.green != color.green
-		     || orig_color.blue != color.blue) )
+			(orig_color.red != color.red
+			 || orig_color.green != color.green
+			 || orig_color.blue != color.blue) )
 		{
 			*r = color.red / 65535.0f;
 			*g = color.green / 65535.0f;
@@ -2585,7 +2585,7 @@ std::vector<std::string> LLWindowSDL::getDynamicFallbackFontList()
 			if (FcResultMatch == FcPatternGetString(fs->fonts[i],
 								FC_FILE, 0,
 								&filename)
-			    && filename)
+				&& filename)
 			{
 				rtns.push_back(std::string((const char*)filename));
 				if (rtns.size() >= max_font_count_cutoff)

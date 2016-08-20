@@ -189,12 +189,12 @@ bool LLMediaDataClient::isEmpty() const
 
 bool LLMediaDataClient::isInQueue(const LLMediaDataClientObject::ptr_t &object)
 {
-    PredicateMatchRequest upred(object->getID());
+	PredicateMatchRequest upred(object->getID());
 
-    if (std::find_if(mQueue.begin(), mQueue.end(), upred) != mQueue.end())
-        return true;
-    if (std::find_if(mUnQueuedRequests.begin(), mUnQueuedRequests.end(), upred) != mUnQueuedRequests.end())
-        return true;
+	if (std::find_if(mQueue.begin(), mQueue.end(), upred) != mQueue.end())
+		return true;
+	if (std::find_if(mUnQueuedRequests.begin(), mUnQueuedRequests.end(), upred) != mUnQueuedRequests.end())
+		return true;
     
 	return false;
 }
@@ -811,8 +811,8 @@ bool LLObjectMediaDataClient::isInQueue(const LLMediaDataClientObject::ptr_t &ob
 	if(LLMediaDataClient::isInQueue(object))
 		return true;
 
-    if (std::find_if(mRoundRobinQueue.begin(), mRoundRobinQueue.end(), PredicateMatchRequest(object->getID())) != mRoundRobinQueue.end())
-        return true;
+	if (std::find_if(mRoundRobinQueue.begin(), mRoundRobinQueue.end(), PredicateMatchRequest(object->getID())) != mRoundRobinQueue.end())
+		return true;
 
 	return false;
 }
@@ -822,12 +822,12 @@ void LLObjectMediaDataClient::removeFromQueue(const LLMediaDataClientObject::ptr
 	// First, call parent impl.
 	LLMediaDataClient::removeFromQueue(object);
 	
-    mark_dead_and_remove_if(mRoundRobinQueue, PredicateMatchRequest(object->getID()));
+	mark_dead_and_remove_if(mRoundRobinQueue, PredicateMatchRequest(object->getID()));
 }
 
 bool LLObjectMediaDataClient::processQueueTimer()
 {
-    if (isDoneProcessing())
+	if (isDoneProcessing())
 		return true;
 		
 	LL_DEBUGS("LLMediaDataClient") << "started, SORTED queue size is:	  " << mQueue.size() 
@@ -842,7 +842,7 @@ bool LLObjectMediaDataClient::processQueueTimer()
 	LL_DEBUGS("LLMediaDataClientQueue") << "after sort, SORTED queue is:	  " << mQueue << LL_ENDL;
 	
 	serviceQueue();
-    serviceHttp();
+	serviceHttp();
 
 	swapCurrentQueue();
 	

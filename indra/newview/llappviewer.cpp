@@ -5288,9 +5288,9 @@ void LLAppViewer::disconnectViewer()
 	}
 
 	saveNameCache();
-    LLExperienceCache *expCache = LLExperienceCache::getIfExists();
-    if (expCache)
-        expCache->cleanup();
+	LLExperienceCache *expCache = LLExperienceCache::getIfExists();
+	if (expCache)
+		expCache->cleanup();
 
 	// close inventory interface, close all windows
 	LLFloaterInventory::cleanup();

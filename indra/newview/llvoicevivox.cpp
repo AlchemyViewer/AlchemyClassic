@@ -292,13 +292,13 @@ void LLVivoxVoiceClient::init(LLPumpIO *pump)
 
 void LLVivoxVoiceClient::terminate()
 {
-    // needs to be done manually here since we will not get another pass in 
-    // coroutines... that mechanism is long since gone.
-    if (mIsLoggedIn)
-        logoutOfVivox(false);
+	// needs to be done manually here since we will not get another pass in 
+	// coroutines... that mechanism is long since gone.
+	if (mIsLoggedIn)
+		logoutOfVivox(false);
 	if(mConnected)
 	{
-        breakVoiceConnection(false);
+		breakVoiceConnection(false);
 		mConnected = false;
 	}
 	else
@@ -410,7 +410,7 @@ void LLVivoxVoiceClient::connectorCreate()
 		<< "<ClientName>V2 SDK</ClientName>"
 		<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
 		<< "<Mode>Normal</Mode>"
-        << "<ConnectorHandle>" << LLVivoxSecurity::getInstance()->connectorHandle() << "</ConnectorHandle>"
+		<< "<ConnectorHandle>" << LLVivoxSecurity::getInstance()->connectorHandle() << "</ConnectorHandle>"
 		<< "<Logging>"
 		<< "<Folder>" << logpath << "</Folder>"
 		<< "<FileNamePrefix>Connector</FileNamePrefix>"
@@ -5131,9 +5131,9 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::create
 
 LLVivoxVoiceClient::sessionState::~sessionState()
 {
-    LL_INFOS("Voice") << "Destroying session handle=" << mHandle << " SIP=" << mSIPURI << LL_ENDL;
-    if (mMyIterator != mSession.end())
-        mSession.erase(mMyIterator);
+	LL_INFOS("Voice") << "Destroying session handle=" << mHandle << " SIP=" << mSIPURI << LL_ENDL;
+	if (mMyIterator != mSession.end())
+		mSession.erase(mMyIterator);
 
 	removeAllParticipants();
 }

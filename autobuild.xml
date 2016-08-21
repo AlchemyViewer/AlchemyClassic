@@ -739,52 +739,6 @@
         <key>version</key>
         <string>1.0</string>
       </map>
-      <key>freeglut</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 1999-2000 Pawel W. Olszta. All Rights Reserved.</string>
-        <key>description</key>
-        <string>freeglut is a completely OpenSourced alternative to the OpenGL Utility Toolkit (GLUT) library.</string>
-        <key>license</key>
-        <string>freeglut</string>
-        <key>license_file</key>
-        <string>LICENSES/freeglut.txt</string>
-        <key>name</key>
-        <string>freeglut</string>
-        <key>platforms</key>
-        <map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>f98709114cedcdfdce69c9df6a4ac2f4</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/freeglut-3.0.0-windows-201601151006.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>f281e5b16b380c3e3a77aafa47ba5500</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/freeglut-3.0.0-windows64-201512130218.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>3.0.0</string>
-      </map>
       <key>freetype</key>
       <map>
         <key>copyright</key>
@@ -3902,18 +3856,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Debug</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -3945,18 +3887,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Debug</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -3987,18 +3917,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>RelWithDebInfo</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4032,18 +3950,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>RelWithDebInfo</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4075,18 +3981,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Release</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4118,18 +4012,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Release</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4207,18 +4089,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Debug</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4251,18 +4121,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Debug</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4294,18 +4152,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>RelWithDebInfo</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4340,18 +4186,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>RelWithDebInfo</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4385,18 +4219,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Release</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>
@@ -4429,18 +4251,6 @@
               </map>
               <key>configure</key>
               <map>
-                <key>arguments</key>
-                <array>
-                  <string>..\indra</string>
-                  <string>&amp;&amp;</string>
-                  <string>..\indra\tools\vstool\VSTool.exe</string>
-                  <string>--solution</string>
-                  <string>Alchemy.sln</string>
-                  <string>--config</string>
-                  <string>Release</string>
-                  <string>--startup</string>
-                  <string>alchemy-bin</string>
-                </array>
                 <key>options</key>
                 <array>
                   <string>-G</string>

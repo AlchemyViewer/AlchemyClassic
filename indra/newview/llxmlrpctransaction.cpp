@@ -48,13 +48,6 @@
 #include "llappviewer.h"
 #include "lltrans.h"
 
-#include <boost/move/unique_ptr.hpp>
-
-namespace boost
-{
-	using ::boost::movelib::unique_ptr; // move unique_ptr into the boost namespace.
-}
-
 // Static instance of LLXMLRPCListener declared here so that every time we
 // bring in this code, we instantiate a listener. If we put the static
 // instance of LLXMLRPCListener into llxmlrpclistener.cpp, the linker would

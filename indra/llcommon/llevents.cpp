@@ -43,6 +43,7 @@
 #include <typeinfo>
 #include <cctype>
 // external library headers
+#include <boost/dcoroutine/exception.hpp>
 #include <boost/range/iterator_range.hpp>
 #include <boost/lexical_cast.hpp>
 
@@ -495,7 +496,15 @@ bool LLEventStream::post(const LLSD& event)
     // Let caller know if any one listener handled the event. This is mostly
     // useful when using LLEventStream as a listener for an upstream
     // LLEventPump.
-    return (*signal)(event);
+	try
+	{
+		return (*signal)(event);
+	}
+	catch (boost::dcoroutines::abnormal_exit& e)
+	{
+		LL_WARNS() << "Event coroutine exception: " << e.what() << LL_ENDL;
+		return false;
+	}
 }
 
 /*****************************************************************************

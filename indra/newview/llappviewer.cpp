@@ -600,7 +600,7 @@ static void settings_to_globals()
 	LLVOTree::sTreeFactor				= gSavedSettings.getF32("RenderTreeLODFactor");
 	LLVOAvatar::sLODFactor				= gSavedSettings.getF32("RenderAvatarLODFactor");
 	LLVOAvatar::sPhysicsLODFactor		= gSavedSettings.getF32("RenderAvatarPhysicsLODFactor");
-	LLVOAvatar::sMaxVisible				= (U32)gSavedSettings.getS32("RenderAvatarMaxVisible");
+	LLVOAvatar::updateImpostorRendering(gSavedSettings.getU32("RenderAvatarMaxNonImpostors"));
 	LLVOAvatar::sVisibleInFirstPerson	= gSavedSettings.getBOOL("FirstPersonAvatarVisible");
 	// clamp auto-open time to some minimum usable value
 	LLFolderView::sAutoOpenTime			= llmax(0.25f, gSavedSettings.getF32("FolderAutoOpenDelay"));
@@ -625,7 +625,6 @@ static void settings_modify()
 	LLRenderTarget::sUseFBO				= gSavedSettings.getBOOL("RenderDeferred");
 	LLPipeline::sRenderBump				= gSavedSettings.getBOOL("RenderObjectBump");
 	LLPipeline::sRenderDeferred		= LLPipeline::sRenderBump && gSavedSettings.getBOOL("RenderDeferred");
-	LLVOAvatar::sUseImpostors			= gSavedSettings.getBOOL("RenderUseImpostors");
 	LLVOSurfacePatch::sLODFactor		= gSavedSettings.getF32("RenderTerrainLODFactor");
 	LLVOSurfacePatch::sLODFactor *= LLVOSurfacePatch::sLODFactor; //square lod factor to get exponential range of [1,4]
 	gDebugGL = gSavedSettings.getBOOL("RenderDebugGL") || gDebugSession;
@@ -3433,9 +3432,9 @@ void getFileList()
 
 void LLAppViewer::handleViewerCrash()
 {
-	LL_INFOS() << "Handle viewer crash entry." << LL_ENDL;
+	LL_INFOS("CRASHREPORT") << "Handle viewer crash entry." << LL_ENDL;
 
-	LL_INFOS() << "Last render pool type: " << LLPipeline::sCurRenderPoolType << LL_ENDL ;
+	LL_INFOS("CRASHREPORT") << "Last render pool type: " << LLPipeline::sCurRenderPoolType << LL_ENDL ;
 
 	LLMemory::logMemoryInfo(true) ;
 
@@ -3543,30 +3542,36 @@ void LLAppViewer::handleViewerCrash()
 #endif 
 
 	char *minidump_file = pApp->getMiniDumpFilename();
-
+    LL_DEBUGS("CRASHREPORT") << "minidump file name " << minidump_file << LL_ENDL;
 	if(minidump_file && minidump_file[0] != 0)
 	{
 		gDebugInfo["Dynamic"]["MinidumpPath"] = minidump_file;
 	}
-#ifdef LL_WINDOWS
 	else
 	{
+#ifdef LL_WINDOWS
 		getFileList();
+#else
+        LL_WARNS("CRASHREPORT") << "no minidump file?" << LL_ENDL;
+#endif        
 	}
-#endif
     gDebugInfo["Dynamic"]["CrashType"]="crash";
 	
 	if (gMessageSystem && gDirUtilp)
 	{
 		std::string filename;
 		filename = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "stats.log");
+        LL_DEBUGS("CRASHREPORT") << "recording stats " << filename << LL_ENDL;
 		llofstream file(filename.c_str(), std::ios_base::binary);
 		if(file.good())
 		{
-			LL_INFOS() << "Handle viewer crash generating stats log." << LL_ENDL;
 			gMessageSystem->summarizeLogs(file);
 			file.close();
 		}
+        else
+        {
+            LL_WARNS("CRASHREPORT") << "problem recording stats" << LL_ENDL;
+        }        
 	}
 
 	if (gMessageSystem)
@@ -4907,7 +4912,7 @@ void LLAppViewer::idle()
 	}
 
 	// Update AV render info
-	LLAvatarRenderInfoAccountant::idle();
+	LLAvatarRenderInfoAccountant::getInstance()->idle();
 
 	{
 		LL_RECORD_BLOCK_TIME(FTM_AUDIO_UPDATE);

@@ -565,29 +565,13 @@ void LLShaderMgr::dumpProgramLog(GLuint ret, BOOL warns, const std::string& file
 
 	if (log.length() > 0 || warns)
 	{
+        LL_DEBUGS("ShaderLoading") << "Shader loading ";
+        
 		if (!filename.empty())
 		{
-			if (warns)
-			{
-				LL_WARNS("ShaderLoading") << "From " << filename << ":" << LL_ENDL;
-			}
-			else
-			{
-				LL_INFOS("ShaderLoading") << "From " << filename << ":" << LL_ENDL;
-			}
-		}
-	}
-
-	if ( log.length() > 0 )
-	{
-		if (warns)
-		{
-			LL_WARNS("ShaderLoading") << log << LL_ENDL;
-		}
-		else
-		{
-			LL_INFOS("ShaderLoading") << log << LL_ENDL;
-		}
+            LL_CONT << "From " << filename << ":\n";
+        }
+        LL_CONT << log << LL_ENDL;
 	}
 }
 

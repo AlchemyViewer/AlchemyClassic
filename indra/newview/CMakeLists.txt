@@ -147,6 +147,7 @@ set(viewer_SOURCE_FILES
     llavatarlistitem.cpp
     llavatarpropertiesprocessor.cpp
     llavatarrenderinfoaccountant.cpp
+    llavatarrendernotifier.cpp
     llblockedlistitem.cpp
     llblocklist.cpp
     llbox.cpp
@@ -248,6 +249,7 @@ set(viewer_SOURCE_FILES
     llfloaterconversationlog.cpp
     llfloaterconversationpreview.cpp
     llfloaterdeleteenvpreset.cpp
+    llfloaterdeleteprefpreset.cpp
     llfloaterdestinations.cpp
     llfloaterdirectory.cpp
     llfloaterdisplayname.cpp
@@ -270,7 +272,6 @@ set(viewer_SOURCE_FILES
     llfloatergroupinvite.cpp
     llfloatergroups.cpp
     llfloaterhandler.cpp
-    llfloaterhardwaresettings.cpp
     llfloaterhelpbrowser.cpp
     llfloaterhud.cpp
     llfloaterimagepreview.cpp
@@ -285,6 +286,7 @@ set(viewer_SOURCE_FILES
     llfloaterjoystick.cpp
     llfloaterland.cpp
     llfloaterlandholdings.cpp
+    llfloaterloadprefpreset.cpp
     llfloatermarketplacelistings.cpp
     llfloatermap.cpp
     llfloatermediasettings.cpp
@@ -312,6 +314,7 @@ set(viewer_SOURCE_FILES
     llfloaterregioninfo.cpp
     llfloaterregionrestarting.cpp
     llfloaterreporter.cpp
+    llfloatersaveprefpreset.cpp
     llfloatersceneloadstats.cpp
     llfloaterscriptdebug.cpp
     llfloaterscriptedprefs.cpp
@@ -496,6 +499,7 @@ set(viewer_SOURCE_FILES
     llpanelplaceprofile.cpp
     llpanelplaces.cpp
     llpanelplacestab.cpp
+    llpanelpresetspulldown.cpp
     llpanelprimmediacontrols.cpp
     llpanelprofile.cpp
     llpanelprofilelegacy.cpp
@@ -544,6 +548,7 @@ set(viewer_SOURCE_FILES
     llplacesinventorypanel.cpp
     llpopupview.cpp
     llpostcard.cpp
+    llpresetsmanager.cpp
     llpreview.cpp
     llpreviewanim.cpp
     llpreviewgesture.cpp
@@ -795,6 +800,7 @@ set(viewer_HEADER_FILES
     llavatarlistitem.h
     llavatarpropertiesprocessor.h
     llavatarrenderinfoaccountant.h
+    llavatarrendernotifier.h
     llblockedlistitem.h
     llblocklist.h
     llbox.h
@@ -894,6 +900,7 @@ set(viewer_HEADER_FILES
     llfloatercolorpicker.h
     llfloaterconversationlog.h
     llfloaterconversationpreview.h
+    llfloaterdeleteprefpreset.h
     llfloaterdeleteenvpreset.h
     llfloaterdestinations.h
     llfloaterdirectory.h
@@ -917,7 +924,6 @@ set(viewer_HEADER_FILES
     llfloatergroupinvite.h
     llfloatergroups.h
     llfloaterhandler.h
-    llfloaterhardwaresettings.h
     llfloaterhelpbrowser.h
     llfloaterhud.h
     llfloaterimagepreview.h
@@ -932,6 +938,7 @@ set(viewer_HEADER_FILES
     llfloaterjoystick.h
     llfloaterland.h
     llfloaterlandholdings.h
+    llfloaterloadprefpreset.h
     llfloatermap.h
     llfloatermarketplacelistings.h
     llfloatermediasettings.h
@@ -959,6 +966,7 @@ set(viewer_HEADER_FILES
     llfloaterregioninfo.h
     llfloaterregionrestarting.h
     llfloaterreporter.h
+    llfloatersaveprefpreset.h
     llfloatersceneloadstats.h
     llfloaterscriptdebug.h
     llfloaterscriptedprefs.h
@@ -1137,6 +1145,7 @@ set(viewer_HEADER_FILES
     llpanelplaceprofile.h
     llpanelplaces.h
     llpanelplacestab.h
+    llpanelpresetspulldown.h
     llpanelprimmediacontrols.h
     llpanelprofile.h
     llpanelprofilelegacy.h
@@ -1180,6 +1189,7 @@ set(viewer_HEADER_FILES
     llplacesinventorypanel.h
     llpopupview.h
     llpostcard.h
+    llpresetsmanager.h
     llpreview.h
     llpreviewanim.h
     llpreviewgesture.h
@@ -1396,16 +1406,14 @@ source_group("CMake Rules" FILES ViewerInstall.cmake)
 # the viewer_version.txt file created here is for passing to viewer_manifest and autobuild
 # the summary.json file is created for the benefit of the TeamCity builds, where
 #   it is used to provide descriptive information to the build results page
-add_custom_target(generate_viewer_version ALL
-                  COMMAND ${CMAKE_COMMAND} -E echo ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION} > ${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
-                  COMMAND ${CMAKE_COMMAND} -E echo {"Type":"viewer","Version":"${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}"} > ${CMAKE_BINARY_DIR}/summary.json
-                  COMMENT "Generating viewer_version.txt for manifest processing"
-                  )
+file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt"
+           "${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}\n")
+file(WRITE "${CMAKE_BINARY_DIR}/summary.json"
+           "{\"Type\":\"viewer\",\"Version\":\"${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}\"}\n")
 
 set_source_files_properties(
    llversioninfo.cpp tests/llversioninfo_test.cpp 
    PROPERTIES
-   DEPENDS generate_viewer_version  # dummy dependency to force recompile every time
    COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}" # see BuildVersion.cmake
    )
 
@@ -1623,6 +1631,7 @@ if (WINDOWS)
         oleaut32
         shell32
         Vfw32
+        wer
         winspool
         )
 endif (WINDOWS)
@@ -1770,8 +1779,6 @@ if (WINDOWS)
         LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
         LINK_FLAGS_RELEASE "/MAP:\"alchemy-bin.MAP\""
         )
-
-    add_dependencies(${VIEWER_BINARY_NAME} generate_viewer_version)
 
     if(USE_PRECOMPILED_HEADERS)
         set_target_properties(
@@ -2093,8 +2100,6 @@ if (LINUX)
     llcommon
     )
 
-  add_dependencies(${VIEWER_BINARY_NAME} generate_viewer_version)
-
   add_custom_command(
       OUTPUT ${product}.tar.xz
       COMMAND ${PYTHON_EXECUTABLE}
@@ -2179,8 +2184,6 @@ if (DARWIN)
      "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app/Contents/Info.plist"
     )
 
-  add_dependencies(${VIEWER_BINARY_NAME} generate_viewer_version)
-
   add_custom_command(
     TARGET ${VIEWER_BINARY_NAME} POST_BUILD
     COMMAND ${PYTHON_EXECUTABLE}
@@ -2215,7 +2218,6 @@ if (DARWIN)
 
   if (PACKAGE)
       add_custom_target(llpackage ALL DEPENDS ${VIEWER_BINARY_NAME})
-      add_dependencies(llpackage generate_viewer_version)
 
       add_custom_command(
         TARGET llpackage POST_BUILD

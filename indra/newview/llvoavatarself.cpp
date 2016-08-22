@@ -426,7 +426,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				 ++iter)
 			{
 				LLViewerJointAttachment* attachment = iter->second;
-				if (attachment->getGroup() == i)
+				if (attachment && attachment->getGroup() == i)
 				{
 					LLMenuItemCallGL::Params item_params;
 						
@@ -465,7 +465,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				 ++iter)
 			{
 				LLViewerJointAttachment* attachment = iter->second;
-				if (attachment->getGroup() == i)
+				if (attachment && attachment->getGroup() == i)
 				{
 					LLMenuItemCallGL::Params item_params;
 					std::string sub_piemenu_name = attachment->getName();
@@ -498,7 +498,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 		 ++iter)
 	{
 		LLViewerJointAttachment* attachment = iter->second;
-		if (attachment->getGroup() == 8)
+		if (attachment && attachment->getGroup() == 8)
 		{
 			LLMenuItemCallGL::Params item_params;
 			std::string sub_piemenu_name = attachment->getName();
@@ -600,7 +600,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 			 ++iter)
 		{
 			LLViewerJointAttachment* attachment = iter->second;
-			if(attachment->getGroup() == group)
+			if(attachment && attachment->getGroup() == group)
 			{
 				// use multimap to provide a partial order off of the pie slice key
 				S32 pie_index = attachment->getPieSlice();
@@ -2042,7 +2042,7 @@ void LLVOAvatarSelf::dumpTotalLocalTextureByteCount()
 	LL_INFOS() << "Total Avatar LocTex GL:" << (gl_bytes/1024) << "KB" << LL_ENDL;
 }
 
-BOOL LLVOAvatarSelf::getIsCloud() const
+bool LLVOAvatarSelf::getIsCloud() const
 {
 	// Let people know why they're clouded without spamming them into oblivion.
 	bool do_warn = false;
@@ -2070,7 +2070,7 @@ BOOL LLVOAvatarSelf::getIsCloud() const
 					<< (skin_count ? "" : "SKIN ")
 					<< LL_ENDL;
 		}
-		return TRUE;
+		return true;
 	}
 
 	if (!isTextureDefined(TEX_HAIR, 0))
@@ -2079,7 +2079,7 @@ BOOL LLVOAvatarSelf::getIsCloud() const
 		{
 			LL_INFOS() << "Self is clouded because of no hair texture" << LL_ENDL;
 		}
-		return TRUE;
+		return true;
 	}
 
 	if (!mPreviousFullyLoaded)
@@ -2091,7 +2091,7 @@ BOOL LLVOAvatarSelf::getIsCloud() const
 			{
 				LL_INFOS() << "Self is clouded because lower textures not baked" << LL_ENDL;
 			}
-			return TRUE;
+			return true;
 		}
 
 		if (!isLocalTextureDataAvailable(getLayerSet(BAKED_UPPER)) &&
@@ -2101,7 +2101,7 @@ BOOL LLVOAvatarSelf::getIsCloud() const
 			{
 				LL_INFOS() << "Self is clouded because upper textures not baked" << LL_ENDL;
 			}
-			return TRUE;
+			return true;
 		}
 
 		for (U32 i = 0; i < mBakedTextureDatas.size(); i++)
@@ -2122,13 +2122,13 @@ BOOL LLVOAvatarSelf::getIsCloud() const
 					LL_INFOS() << "Self is clouded because texture at index " << i
 							<< " (texture index is " << texture_data.mTextureIndex << ") is not loaded" << LL_ENDL;
 				}
-				return TRUE;
+				return true;
 			}
 		}
 
 		LL_DEBUGS() << "Avatar de-clouded" << LL_ENDL;
 	}
-	return FALSE;
+	return false;
 }
 
 /*static*/

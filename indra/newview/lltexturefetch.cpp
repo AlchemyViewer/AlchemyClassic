@@ -663,6 +663,7 @@ private:
  * is required to distribute data and perform global actions.
  * In pseudo-UML, it looks like:
  *
+ * @verbatim
  *                       Main                 Thread1
  *                        .                      .
  *                        .                      .
@@ -705,7 +706,6 @@ private:
  *                        .                      .
  *                        .                      .
  *
- *
  * Key:
  *
  * SRE - Set Region Enqueued.  Enqueue a 'Set Region' command in
@@ -730,6 +730,7 @@ private:
  *       global pointers used to find the 'current stats'.
  * RSC - Read Stats Collector.  Extract collector data cloning it
  *       (i.e. deep copy) when necessary.
+ * @endverbatim
  *
  */
 class LLTextureFetch::TFRequest // : public LLQueuedThread::QueuedRequest

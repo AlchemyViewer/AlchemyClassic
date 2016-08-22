@@ -398,27 +398,15 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 
 void LLAppViewerWin32::disableWinErrorReporting()
 {
-	// Note: we need to use run-time dynamic linking, because load-time dynamic linking will fail
-	// on systems that don't have the library installed (all non-Windows XP systems)
-	HRESULT(WINAPI* pWerAddExcludedApplication)(PCWSTR pwzExeName, BOOL bAllUsers) = NULL;
-	HMODULE wer = LoadLibrary(TEXT("wer.dll"));
-	if (wer)
+	std::string executable_name = gDirUtilp->getExecutableFilename();
+
+	if( S_OK == WerAddExcludedApplication( utf8str_to_utf16str(executable_name).c_str(), FALSE ) )
 	{
-		pWerAddExcludedApplication = (HRESULT(WINAPI *)(PCWSTR, BOOL))GetProcAddress(wer, "WerAddExcludedApplication");
-		if (pWerAddExcludedApplication)
-		{
-			// Strip the path off the name
-			llutf16string executable_name = utf8str_to_utf16str(gDirUtilp->getExecutableFilename());
-			if (pWerAddExcludedApplication(executable_name.c_str(), FALSE) != S_OK)
-			{
-				LL_INFOS() << "WerAddExcludedApplication() failed" << LL_ENDL;
-			}
-			else
-			{
-				LL_INFOS() << "WerAddExcludedApplication() success for " << utf16str_to_utf8str(executable_name).c_str() << LL_ENDL;
-			}
-		}
-		FreeLibrary(wer);
+		LL_INFOS() << "WerAddExcludedApplication() succeeded for " << executable_name << LL_ENDL;
+	}
+	else
+	{
+		LL_INFOS() << "WerAddExcludedApplication() failed for " << executable_name << LL_ENDL;
 	}
 }
 
@@ -463,7 +451,7 @@ bool LLAppViewerWin32::init()
 {
 	// Platform specific initialization.
 	
-	// Turn off Windows XP Error Reporting
+	// Turn off Windows Error Reporting
 	// (Don't send our data to Microsoft--at least until we are Logo approved and have a way
 	// of getting the data back from them.)
 	//

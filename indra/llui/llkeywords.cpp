@@ -680,7 +680,7 @@ void LLKeywords::findSegments(std::vector<LLTextSegmentPtr>* seg_list, const LLW
 						S32 seg_start = cur - base;
 						S32 seg_end = seg_start + seg_len;
 
-						// LL_INFOS() << "Seg: [" << word.c_str() << "]" << LL_ENDL;
+						// LL_INFOS("SyntaxLSL") << "Seg: [" << word.c_str() << "]" << LL_ENDL;
 
 						insertSegments(wtext, *seg_list,cur_token, text_len, seg_start, seg_end, defaultColor, editor);
 					}

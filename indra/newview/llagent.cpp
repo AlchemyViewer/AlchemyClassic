@@ -4348,6 +4348,7 @@ void LLAgent::setTeleportState(ETeleportState state)
 	}
 }
 
+
 void LLAgent::stopCurrentAnimations()
 {
 	// This function stops all current overriding animations on this

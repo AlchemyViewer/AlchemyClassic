@@ -468,7 +468,8 @@ public:
 	static BOOL sVOCacheCullingEnabled; //vo cache culling enabled or not.
 	static S32  sLastCameraUpdated;
 
-	LLFrameTimer &	getRenderInfoRequestTimer()			{ return mRenderInfoRequestTimer;		};
+	LLFrameTimer &	getRenderInfoRequestTimer()	{ return mRenderInfoRequestTimer; };
+	LLFrameTimer &	getRenderInfoReportTimer()	{ return mRenderInfoReportTimer; };
 
 	struct CompareRegionByLastUpdate
 	{
@@ -577,6 +578,7 @@ private:
 	// the materials capability throttle
 	LLFrameTimer mMaterialsCapThrottleTimer;
 	LLFrameTimer mRenderInfoRequestTimer;
+	LLFrameTimer mRenderInfoReportTimer;
 
 	mutable tex_matrix_t mWorldMapTiles;
 	std::set<std::string> mGodNames;

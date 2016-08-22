@@ -640,17 +640,13 @@ public:
 			{
 				LLVOAvatar* avatar = av_iter->second;
 
-				avatar->calculateUpdateRenderCost();			// Make sure the numbers are up-to-date
+				avatar->calculateUpdateRenderComplexity(); // Make sure the numbers are up-to-date
 
 				trunc_name = utf8str_truncate(avatar->getFullname(), 16);
-				// <alchemy> The info doesn't really fit on the screen, so let's push it to the left a bit
-				//addText(xpos, ypos, llformat("%s : rez %d, weight %d, bytes %d area %.2f",
-				addText(xpos-85, ypos, llformat("%s : rez %d, weight %d, bytes %d area %.2f",
-				// </alchemy>
+				addText(xpos, ypos, llformat("%s : %s, complexity %d, area %.2f",
 					trunc_name.c_str(),
-					avatar->getRezzedStatus(),
+                    LLVOAvatar::rezStatusToString(avatar->getRezzedStatus()).c_str(),
 					avatar->getVisualComplexity(),
-					avatar->getAttachmentGeometryBytes(),
 					avatar->getAttachmentSurfaceArea()));
 				ypos += y_inc;
 				av_iter++;

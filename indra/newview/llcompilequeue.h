@@ -213,9 +213,9 @@ class LLFloaterDeleteQueue : public LLFloaterScriptQueue
 protected:
 	LLFloaterDeleteQueue(const LLSD& key);
 	virtual ~LLFloaterDeleteQueue();
-	
-	// This is called by inventoryChanged
-	virtual void handleInventory(LLViewerObject* viewer_obj,
-								LLInventoryObject::object_list_t* inv);
+
+	static bool deleteObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
+
+	virtual bool startQueue();
 };
 #endif // LL_LLCOMPILEQUEUE_H

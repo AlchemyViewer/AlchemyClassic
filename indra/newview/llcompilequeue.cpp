@@ -726,6 +726,51 @@ bool LLFloaterNotRunQueue::startQueue()
 }
 
 ///----------------------------------------------------------------------------
+/// Class LLFloaterDeleteQueue
+///----------------------------------------------------------------------------
+
+LLFloaterDeleteQueue::LLFloaterDeleteQueue(const LLSD& key)
+	: LLFloaterScriptQueue(key)
+{
+	setTitle(LLTrans::getString("DeleteQueueTitle"));
+	setStartString(LLTrans::getString("DeleteQueueStart"));
+}
+
+LLFloaterDeleteQueue::~LLFloaterDeleteQueue()
+{
+}
+
+bool LLFloaterDeleteQueue::deleteObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater,
+	const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump)
+{
+	LLFloaterScriptQueue *that = hfloater.get();
+	if (that)
+	{
+		std::string buffer;
+		buffer = that->getString("Deleting") + (": ") + inventory->getName();
+		that->addStringMessage(buffer);
+	}
+	const_cast<LLViewerObject*>(object.get())->removeInventory(inventory->getUUID());
+
+	return true;
+}
+
+bool LLFloaterDeleteQueue::startQueue()
+{
+	LLHandle<LLFloaterScriptQueue> hFloater(getDerivedHandle<LLFloaterScriptQueue>());
+
+	fnQueueAction_t fn = boost::bind(&LLFloaterDeleteQueue::deleteObjectScripts, hFloater, _1, _2, _3);
+	LLCoros::instance().launch("ScriptDeleteQueue", boost::bind(LLFloaterScriptQueue::objectScriptProcessingQueueCoro,
+		mStartString,
+		hFloater,
+		mObjectList,
+		fn));
+
+	return true;
+}
+
+
+///----------------------------------------------------------------------------
 /// Local function definitions
 ///----------------------------------------------------------------------------
 void ObjectInventoryFetcher::inventoryChanged(LLViewerObject* object,

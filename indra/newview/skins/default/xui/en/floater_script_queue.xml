@@ -30,8 +30,9 @@
         Not running
     </floater.string>
     <floater.string
-     name="Deleting"
-     value="Deleting: "/>
+     name="Deleting">
+        Deleting
+    </floater.string>
     <floater.string
      name="Timeout">
         Timeout: [OBJECT_NAME]

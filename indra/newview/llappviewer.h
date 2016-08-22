@@ -107,7 +107,6 @@ public:
 	                                     // return false if the error trap needed restoration.
 	virtual void initCrashReporting(bool reportFreeze = false) = 0; // What to do with crash report?
 	static void handleViewerCrash(); // Hey! The viewer crashed. Do this, soon.
-    void checkForCrash();
     
 	// Thread accessors
 	static LLTextureCache* getTextureCache() { return sTextureCache; }
@@ -132,9 +131,6 @@ public:
 
     void loadNameCache();
     void saveNameCache();
-
-	void loadExperienceCache();
-	void saveExperienceCache();
 
 	void removeMarkerFiles();
 	
@@ -239,7 +235,6 @@ private:
     void idle(); 
     void idleShutdown();
 	// update avatar SLID and display name caches
-	void idleExperienceCache();
 	void idleNameCache();
     void idleNetwork();
 

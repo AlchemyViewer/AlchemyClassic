@@ -11,7 +11,6 @@ set(cmake_SOURCE_FILES
     Boost.cmake
     BuildVersion.cmake
     CEFPlugin.cmake
-    CEFPlugin.cmake
     CMakeCopyIfDifferent.cmake
     ConfigurePkgConfig.cmake
     CURL.cmake

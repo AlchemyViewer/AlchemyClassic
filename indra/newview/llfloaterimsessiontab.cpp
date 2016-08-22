@@ -1116,6 +1116,11 @@ void LLFloaterIMSessionTab::saveCollapsedState()
 	}
 }
 
+LLView* LLFloaterIMSessionTab::getChatHistory()
+{
+	return mChatHistory;
+}
+
 // virtual
 void LLFloaterIMSessionTab::applyMUPose(std::string& text)
 {

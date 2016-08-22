@@ -155,7 +155,9 @@ public:
 
 	// load the dynamic GPU/feature table from a website
 	void fetchHTTPTables();
-	
+
+	LLSD getRecommendedSettingsMap();
+
 protected:
 	bool loadGPUClass();
 

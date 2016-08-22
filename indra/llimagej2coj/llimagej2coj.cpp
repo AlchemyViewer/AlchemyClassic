@@ -33,22 +33,16 @@
 #include "lltimer.h"
 //#include "llmemory.h"
 
-const char* fallbackEngineInfoLLImageJ2CImpl()
-{
-	static std::string version_string =
-		std::string("OpenJPEG: ") + opj_version();
-	return version_string.c_str();
-}
-
+// Factory function: see declaration in llimagej2c.cpp
 LLImageJ2CImpl* fallbackCreateLLImageJ2CImpl()
 {
 	return new LLImageJ2COJ();
 }
 
-void fallbackDestroyLLImageJ2CImpl(LLImageJ2CImpl* impl)
+std::string LLImageJ2COJ::getEngineInfo() const
 {
-	delete impl;
-	impl = NULL;
+	return std::string("OpenJPEG: " OPENJPEG_VERSION ", Runtime: ")
+		+ opj_version();
 }
 
 // Return string from message, eliminating final \n if present
@@ -106,19 +100,19 @@ LLImageJ2COJ::~LLImageJ2COJ()
 {
 }
 
-BOOL LLImageJ2COJ::initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level, int* region)
+bool LLImageJ2COJ::initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level, int* region)
 {
 	// No specific implementation for this method in the OpenJpeg case
-	return FALSE;
+	return false;
 }
 
-BOOL LLImageJ2COJ::initEncode(LLImageJ2C &base, LLImageRaw &raw_image, int blocks_size, int precincts_size, int levels)
+bool LLImageJ2COJ::initEncode(LLImageJ2C &base, LLImageRaw &raw_image, int blocks_size, int precincts_size, int levels)
 {
 	// No specific implementation for this method in the OpenJpeg case
-	return FALSE;
+	return false;
 }
 
-BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, S32 first_channel, S32 max_channel_count)
+bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, S32 first_channel, S32 max_channel_count)
 {
 	LLTimer decode_timer;
 
@@ -220,7 +214,7 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 			opj_image_destroy(image);
 		}
 		base.decodeFailed();
-		return TRUE; // done
+		return true; // done
 	}
 
 	// sometimes we get bad data out of the cache - check to see if the decode succeeded
@@ -234,7 +228,7 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 				opj_image_destroy(image);
 			}
 			base.decodeFailed();
-			return TRUE;
+			return true;
 		}
 	}
 	
@@ -246,7 +240,7 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 			opj_image_destroy(image);
 		}
 		base.decodeFailed();
-		return TRUE;
+		return true;
 	}
 
 	// Copy image data into our raw image format (instead of the separate channel format
@@ -296,18 +290,18 @@ BOOL LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 				opj_image_destroy(image);
 			}
 			base.decodeFailed();
-			return TRUE; // done
+			return true; // done
 		}
 	}
 
 	/* free image data structure */
 	opj_image_destroy(image);
 
-	return TRUE; // done
+	return true; // done
 }
 
 
-BOOL LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, const char* comment_text, F32 encode_time, BOOL reversible)
+bool LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, const char* comment_text, F32 encode_time, bool reversible)
 {
 	const S32 MAX_COMPS = 5;
 	opj_cparameters_t parameters;	/* compression parameters */
@@ -427,7 +421,7 @@ BOOL LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 	{
 		opj_cio_close(cio);
 		LL_DEBUGS("Texture") << "Failed to encode image." << LL_ENDL;
-		return FALSE;
+		return false;
 	}
 	codestream_length = cio_tell(cio);
 
@@ -446,7 +440,7 @@ BOOL LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 
 	/* free image data */
 	opj_image_destroy(image);
-	return TRUE;
+	return true;
 }
 
 inline S32 extractLong4( U8 const *aBuffer, int nOffset )
@@ -506,7 +500,7 @@ bool getMetadataFast( LLImageJ2C &aImage, S32 &aW, S32 &aH, S32 &aComps )
 	return true;
 }
 
-BOOL LLImageJ2COJ::getMetadata(LLImageJ2C &base)
+bool LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 {
 	//
 	// FIXME: We get metadata by decoding the ENTIRE image.
@@ -580,7 +574,7 @@ BOOL LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 	if(!image)
 	{
 		LL_WARNS() << "ERROR -> getMetadata: failed to decode image!" << LL_ENDL;
-		return FALSE;
+		return false;
 	}
 
 	// Copy image data into our raw image format (instead of the separate channel format
@@ -592,5 +586,5 @@ BOOL LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 
 	/* free image data structure */
 	opj_image_destroy(image);
-	return TRUE;
+	return true;
 }

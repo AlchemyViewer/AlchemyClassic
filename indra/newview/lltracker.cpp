@@ -173,7 +173,7 @@ void LLTracker::render3D()
 		F32 dist = gFloaterWorldMap->getDistanceToDestination(pos_global, 0.5f);
 		if (dist < DESTINATION_REACHED_RADIUS)
 		{
-			stopTrackingLocation();
+			stopTrackingLocation(FALSE,TRUE);
 		}
 		else
 		{
@@ -629,13 +629,13 @@ void LLTracker::stopTrackingLandmark(BOOL clear_ui)
 }
 
 
-void LLTracker::stopTrackingLocation(BOOL clear_ui)
+void LLTracker::stopTrackingLocation(BOOL clear_ui, BOOL dest_reached)
 {
 	purgeBeaconText();
 	mTrackedLocationName.assign("");
 	mIsTrackingLocation = FALSE;
 	mTrackedPositionGlobal.zeroVec();
-	gFloaterWorldMap->clearLocationSelection(clear_ui);
+	gFloaterWorldMap->clearLocationSelection(clear_ui, dest_reached);
 	mTrackingStatus = TRACKING_NOTHING;
 	mTrackingLocationType = LOCATION_NOTHING;
 }

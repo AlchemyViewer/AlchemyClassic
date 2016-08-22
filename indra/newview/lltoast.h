@@ -147,6 +147,8 @@ public:
 	//
 	virtual void hide();
 
+	/*virtual*/ void setFocus(BOOL b);
+
 	/*virtual*/ void onFocusLost();
 
 	/*virtual*/ void onFocusReceived();

@@ -1,4 +1,4 @@
-/** 
+﻿/** 
  * @File llvoavatar.cpp
  * @brief Implementation of LLVOAvatar class which is a derivation of LLViewerObject
  *
@@ -7442,7 +7442,6 @@ bool resolve_appearance_version(const LLAppearanceMessageContents& contents, S32
 //-----------------------------------------------------------------------------
 void LLVOAvatar::processAvatarAppearance(LLMessageSystem* mesgsys)
 {
-	static S32 largestSelfCOFSeen(LLViewerInventoryCategory::VERSION_UNKNOWN);
 	LL_DEBUGS("Avatar") << "starts" << LL_ENDL;
 
 	bool enable_verbose_dumps = gSavedSettings.getBOOL("DebugAvatarAppearanceMessage");
@@ -7477,52 +7476,34 @@ void LLVOAvatar::processAvatarAppearance(LLMessageSystem* mesgsys)
 		return;
 	}
 
-	S32 this_update_cof_version = contents.mCOFVersion;
-	S32 last_update_request_cof_version = mLastUpdateRequestCOFVersion;
+    S32 thisAppearanceVersion(contents.mCOFVersion);
+    if (isSelf())
+    {   // In the past this was considered to be the canonical COF version, 
+        // that is no longer the case.  The canonical version is maintained 
+        // by the AIS code and should match the COF version there. Even so,
+        // we must prevent rolling this one backwards backwards or processing 
+        // stale versions.
 
-	if (isSelf())
-	{
-		LL_DEBUGS("Avatar") << "this_update_cof_version " << this_update_cof_version
-			<< " last_update_request_cof_version " << last_update_request_cof_version
-			<< " my_cof_version " << LLAppearanceMgr::instance().getCOFVersion() << LL_ENDL;
-		if (getRegion() && (getRegion()->getCentralBakeVersion() == 0))
-		{
-			LL_WARNS() << avString() << "Received AvatarAppearance message for self in non-server-bake region" << LL_ENDL;
-		}
-		if (mFirstTEMessageReceived && (appearance_version == 0))
-		{
-			return;
-		}
+        S32 aisCOFVersion(LLAppearanceMgr::instance().getCOFVersion());
 
-		if (largestSelfCOFSeen > this_update_cof_version)
-		{
-			LL_WARNS("Avatar") << "Already processed appearance for COF version " <<
-				largestSelfCOFSeen << ", discarding appearance with COF " << this_update_cof_version << LL_ENDL;
-			return;
-		}
-		largestSelfCOFSeen = this_update_cof_version;
+        LL_DEBUGS("Avatar") << "handling self appearance message #" << thisAppearanceVersion <<
+            " (highest seen #" << mLastUpdateReceivedCOFVersion <<
+            ") (AISCOF=#" << aisCOFVersion << ")" << LL_ENDL;
 
-	}
-	else
-	{
-		LL_DEBUGS("Avatar") << "appearance message received" << LL_ENDL;
-	}
+        if (mLastUpdateReceivedCOFVersion >= thisAppearanceVersion)
+        {
+            LL_WARNS("Avatar") << "Stale appearance received #" << thisAppearanceVersion <<
+                " attempt to roll back from #" << mLastUpdateReceivedCOFVersion <<
+                "... dropping." << LL_ENDL;
+            return;
+        }
+        if (isEditingAppearance())
+        {
+            LL_DEBUGS("Avatar") << "Editing appearance.  Dropping appearance update." << LL_ENDL;
+            return;
+        }
 
-	// Check for stale update.
-	if (isSelf()
-		&& (appearance_version > 0)
-		&& (this_update_cof_version < last_update_request_cof_version))
-	{
-		LL_WARNS() << "Stale appearance update, wanted version " << last_update_request_cof_version
-			<< ", got " << this_update_cof_version << LL_ENDL;
-		return;
-	}
-
-	if (isSelf() && isEditingAppearance())
-	{
-		LL_DEBUGS("Avatar") << "ignoring appearance message while in appearance edit" << LL_ENDL;
-		return;
-	}
+    }
 
 	// SUNSHINE CLEANUP - is this case OK now?
 	S32 num_params = contents.mParamWeights.size();
@@ -7537,45 +7518,46 @@ void LLVOAvatar::processAvatarAppearance(LLMessageSystem* mesgsys)
 	}
 
 	// No backsies zone - if we get here, the message should be valid and usable, will be processed.
-	LL_INFOS("Avatar") << "Processing appearance message version " << this_update_cof_version << LL_ENDL;
-	setIsUsingServerBakes(appearance_version > 0);
+    LL_INFOS("Avatar") << "Processing appearance message version " << thisAppearanceVersion << LL_ENDL;
 
-	if (appearance_version > 0)
+    if (isSelf())
+    {
+        // Note:
+        // locally the COF is maintained via LLInventoryModel::accountForUpdate
+        // which is called from various places.  This should match the simhost's 
+        // idea of what the COF version is.  AIS however maintains its own version
+        // of the COF that should be considered canonical. 
+        mLastUpdateReceivedCOFVersion = thisAppearanceVersion;
+    }
+		
+    if (applyParsedTEMessage(contents.mTEContents) > 0 && isChanged(TEXTURE))
+    {
+        updateVisualComplexity();
+    }
+
+	// prevent the overwriting of valid baked textures with invalid baked textures
+	for (U8 baked_index = 0; baked_index < mBakedTextureDatas.size(); baked_index++)
 	{
-		// Note:
-		// RequestAgentUpdateAppearanceResponder::onRequestRequested()
-		// assumes that cof version is only updated with server-bake
-		// appearance messages.
-		mLastUpdateReceivedCOFVersion = this_update_cof_version;
-
-		if (applyParsedTEMessage(contents.mTEContents) > 0 && isChanged(TEXTURE))
+		if (!isTextureDefined(mBakedTextureDatas[baked_index].mTextureIndex) 
+			&& mBakedTextureDatas[baked_index].mLastTextureID != IMG_DEFAULT
+			&& baked_index != BAKED_SKIRT)
 		{
-			updateVisualComplexity();
+			LL_DEBUGS("Avatar") << avString() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
+			setTEImage(mBakedTextureDatas[baked_index].mTextureIndex, 
+				LLViewerTextureManager::getFetchedTexture(mBakedTextureDatas[baked_index].mLastTextureID, FTT_DEFAULT, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE));
 		}
-
-		// prevent the overwriting of valid baked textures with invalid baked textures
-		for (U8 baked_index = 0; baked_index < mBakedTextureDatas.size(); baked_index++)
+		else
 		{
-			if (!isTextureDefined(mBakedTextureDatas[baked_index].mTextureIndex)
-				&& mBakedTextureDatas[baked_index].mLastTextureID != IMG_DEFAULT
-				&& baked_index != BAKED_SKIRT)
-			{
-				LL_DEBUGS("Avatar") << avString() << "sb " << (S32) isUsingServerBakes() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
-				setTEImage(mBakedTextureDatas[baked_index].mTextureIndex,
-					LLViewerTextureManager::getFetchedTexture(mBakedTextureDatas[baked_index].mLastTextureID, FTT_DEFAULT, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE));
-			}
-			else
-			{
-				LL_DEBUGS("Avatar") << avString() << "sb " << (S32) isUsingServerBakes() << " baked_index " << (S32) baked_index << " using texture id "
-					<< getTE(mBakedTextureDatas[baked_index].mTextureIndex)->getID() << LL_ENDL;
-			}
+			LL_DEBUGS("Avatar") << avString() << " baked_index " << (S32) baked_index << " using texture id "
+								<< getTE(mBakedTextureDatas[baked_index].mTextureIndex)->getID() << LL_ENDL;
 		}
+	}
 
-		// runway - was
-		// if (!is_first_appearance_message )
-		// which means it would be called on second appearance message - probably wrong.
-		BOOL is_first_appearance_message = !mFirstAppearanceMessageReceived;
-		mFirstAppearanceMessageReceived = TRUE;
+	// runway - was
+	// if (!is_first_appearance_message )
+	// which means it would be called on second appearance message - probably wrong.
+	BOOL is_first_appearance_message = !mFirstAppearanceMessageReceived;
+	mFirstAppearanceMessageReceived = TRUE;
 
 		LL_DEBUGS("Avatar") << avString() << "processAvatarAppearance start " << mID
 			<< " first? " << is_first_appearance_message << " self? " << isSelf() << LL_ENDL;
@@ -7664,13 +7646,13 @@ void LLVOAvatar::processAvatarAppearance(LLMessageSystem* mesgsys)
 			}
 		}
 
-		if (contents.mHoverOffsetWasSet && !isSelf())
-		{
-			// Got an update for some other avatar
-			// Ignore updates for self, because we have a more authoritative value in the preferences.
-			setHoverOffset(contents.mHoverOffset);
-			LL_INFOS("Avatar") << avString() << "setting hover to " << contents.mHoverOffset[2] << LL_ENDL;
-		}
+	if (contents.mHoverOffsetWasSet && !isSelf())
+	{
+		// Got an update for some other avatar
+		// Ignore updates for self, because we have a more authoritative value in the preferences.
+		setHoverOffset(contents.mHoverOffset);
+		LL_DEBUGS("Avatar") << avString() << "setting hover to " << contents.mHoverOffset[2] << LL_ENDL;
+	}
 
 		if (!contents.mHoverOffsetWasSet && !isSelf())
 		{
@@ -8428,6 +8410,7 @@ U32 LLVOAvatar::getPartitionType() const
 //static
 void LLVOAvatar::updateImpostors()
 {
+	LLViewerCamera::sCurCameraID = LLViewerCamera::CAMERA_WORLD;
 	LLCharacter::sAllowInstancesChange = FALSE;
 
 	for (std::vector<LLCharacter*>::iterator iter = LLCharacter::sInstances.begin();

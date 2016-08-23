@@ -25,9 +25,6 @@
  */
 
 #include "llviewerprecompiledheaders.h"
-
-#include <boost/assign/list_of.hpp>
-
 #include "llpresetsmanager.h"
 
 #include "lldiriterator.h"
@@ -162,8 +159,7 @@ bool LLPresetsManager::savePreset(const std::string& subdirectory, std::string n
 	}
     else if(PRESETS_CAMERA == subdirectory)
 	{
-		name_list = boost::assign::list_of
-			("Placeholder");
+		name_list = {"Placeholder"};
 	}
     else
     {

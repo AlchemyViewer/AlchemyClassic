@@ -117,9 +117,7 @@
 
 #include "lllogininstance.h"        // to check if logged in yet
 #include "llsdserialize.h"
-#include "llpresetsmanager.h"
 #include "llviewercontrol.h"
-#include "llpresetsmanager.h"
 #include "llfeaturemanager.h"
 #include "llviewertexturelist.h"
 
@@ -1077,12 +1075,6 @@ void LLFloaterPreference::cancel()
 	{
 		advanced_proxy_settings->cancel();
 	}
-
-	if (!mSavedGraphicsPreset.empty())
-	{
-		gSavedSettings.setString("PresetGraphicActive", mSavedGraphicsPreset);
-		LLPresetsManager::getInstance()->triggerChangeSignal();
-	}
 }
 
 void LLFloaterPreference::onOpen(const LLSD& key)
@@ -1176,9 +1168,6 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 	// job
 	saveSettings();
 
-	// Make sure there is a default preference file
-	LLPresetsManager::getInstance()->createMissingDefault();
-
 	bool started = (LLStartUp::getStartupState() == STATE_STARTED);
 
 	LLButton* load_btn = findChild<LLButton>("PrefLoadButton");
@@ -1228,21 +1217,12 @@ void LLFloaterPreference::initDoNotDisturbResponse()
 
 void LLFloaterPreference::setHardwareDefaults()
 {
-	std::string preset_graphic_active = gSavedSettings.getString("PresetGraphicActive");
-	if (!preset_graphic_active.empty())
-	{
-		saveGraphicsPreset(preset_graphic_active);
-		saveSettings(); // save here to be able to return to the previous preset by Cancel
-	}
-
 	LLFeatureManager::getInstance()->applyRecommendedSettings();
 
 	// reset indirects before refresh because we may have changed what they control
 	LLAvatarComplexityControls::setIndirectControls(); 
 
 	refreshEnabledGraphics();
-	gSavedSettings.setString("PresetGraphicActive", "");
-	LLPresetsManager::getInstance()->triggerChangeSignal();
 
 	LLTabContainer* tabcontainer = getChild<LLTabContainer>("pref core");
 	child_list_t::const_iterator iter = tabcontainer->getChildList()->begin();
@@ -1254,44 +1234,6 @@ void LLFloaterPreference::setHardwareDefaults()
 		if (panel)
 		{
 			panel->setHardwareDefaults();
-		}
-	}
-}
-
-void LLFloaterPreference::getControlNames(std::vector<std::string>& names)
-{
-	LLView* view = findChild<LLView>("display");
-	LLFloater* advanced = LLFloaterReg::findTypedInstance<LLFloater>("prefs_graphics_advanced");
-	if (view && advanced)
-	{
-		std::list<LLView*> stack;
-		stack.push_back(view);
-		stack.push_back(advanced);
-		while(!stack.empty())
-		{
-			// Process view on top of the stack
-			LLView* curview = stack.front();
-			stack.pop_front();
-
-			LLUICtrl* ctrl = dynamic_cast<LLUICtrl*>(curview);
-			if (ctrl)
-			{
-				LLControlVariable* control = ctrl->getControlVariable();
-				if (control)
-				{
-					std::string control_name = control->getName();
-					if (std::find(names.begin(), names.end(), control_name) == names.end())
-					{
-						names.push_back(control_name);
-					}
-				}
-			}
-
-			for (child_list_t::const_iterator iter = curview->getChildList()->begin();
-				iter != curview->getChildList()->end(); ++iter)
-			{
-				stack.push_back(*iter);
-			}
 		}
 	}
 }
@@ -2533,11 +2475,6 @@ void LLFloaterPreference::changed()
 
 }
 
-void LLFloaterPreference::saveGraphicsPreset(std::string& preset)
-{
-	mSavedGraphicsPreset = preset;
-}
-
 //------------------------------Updater---------------------------------------
 
 static bool handleBandwidthChanged(const LLSD& newvalue)
@@ -2591,9 +2528,6 @@ LLPanelPreference::LLPanelPreference()
 {
 	mCommitCallbackRegistrar.add("Pref.setControlFalse",	boost::bind(&LLPanelPreference::setControlFalse,this, _2));
 	mCommitCallbackRegistrar.add("Pref.updateMediaAutoPlayCheckbox",	boost::bind(&LLPanelPreference::updateMediaAutoPlayCheckbox, this, _1));
-	mCommitCallbackRegistrar.add("Pref.PrefDelete",	boost::bind(&LLPanelPreference::deletePreset, this, _2));
-	mCommitCallbackRegistrar.add("Pref.PrefSave",	boost::bind(&LLPanelPreference::savePreset, this, _2));
-	mCommitCallbackRegistrar.add("Pref.PrefLoad",	boost::bind(&LLPanelPreference::loadPreset, this, _2));
 }
 
 //virtual
@@ -2796,24 +2730,6 @@ void LLPanelPreference::updateMediaAutoPlayCheckbox(LLUICtrl* ctrl)
 	}
 }
 
-void LLPanelPreference::deletePreset(const LLSD& user_data)
-{
-	std::string subdirectory = user_data.asString();
-	LLFloaterReg::showInstance("delete_pref_preset", subdirectory);
-}
-
-void LLPanelPreference::savePreset(const LLSD& user_data)
-{
-	std::string subdirectory = user_data.asString();
-	LLFloaterReg::showInstance("save_pref_preset", subdirectory);
-}
-
-void LLPanelPreference::loadPreset(const LLSD& user_data)
-{
-	std::string subdirectory = user_data.asString();
-	LLFloaterReg::showInstance("load_pref_preset", subdirectory);
-}
-
 void LLPanelPreference::setHardwareDefaults()
 {
 }
@@ -2877,71 +2793,13 @@ BOOL LLPanelPreferenceGraphics::postBuild()
 #endif
 
 	resetDirtyChilds();
-	setPresetText();
 
-	LLPresetsManager* presetsMgr = LLPresetsManager::getInstance();
-    presetsMgr->setPresetListChangeCallback(boost::bind(&LLPanelPreferenceGraphics::onPresetsListChange, this));
-    presetsMgr->createMissingDefault(); // a no-op after the first time, but that's ok
-    
 	return LLPanelPreference::postBuild();
 }
 
 void LLPanelPreferenceGraphics::draw()
 {
-	setPresetText();
 	LLPanelPreference::draw();
-}
-
-void LLPanelPreferenceGraphics::onPresetsListChange()
-{
-	resetDirtyChilds();
-	setPresetText();
-
-	LLFloaterPreference* instance = LLFloaterReg::findTypedInstance<LLFloaterPreference>("preferences");
-	if (instance && !gSavedSettings.getString("PresetGraphicActive").empty())
-	{
-		instance->saveSettings(); //make cancel work correctly after changing the preset
-	}
-}
-
-void LLPanelPreferenceGraphics::setPresetText()
-{
-	LLTextBox* preset_text = getChild<LLTextBox>("preset_text");
-
-	std::string preset_graphic_active = gSavedSettings.getString("PresetGraphicActive");
-
-	if (!preset_graphic_active.empty() && preset_graphic_active != preset_text->getText())
-	{
-		LLFloaterPreference* instance = LLFloaterReg::findTypedInstance<LLFloaterPreference>("preferences");
-		if (instance)
-		{
-			instance->saveGraphicsPreset(preset_graphic_active);
-		}
-	}
-
-	if (hasDirtyChilds() && !preset_graphic_active.empty())
-	{
-		gSavedSettings.setString("PresetGraphicActive", "");
-		preset_graphic_active.clear();
-		// This doesn't seem to cause an infinite recursion.  This trigger is needed to cause the pulldown
-		// panel to update.
-		LLPresetsManager::getInstance()->triggerChangeSignal();
-	}
-
-	if (!preset_graphic_active.empty())
-	{
-		if (preset_graphic_active == PRESETS_DEFAULT)
-		{
-			preset_graphic_active = LLTrans::getString(PRESETS_DEFAULT);
-		}
-		preset_text->setText(preset_graphic_active);
-	}
-	else
-	{
-		preset_text->setText(LLTrans::getString("none_paren_cap"));
-	}
-
-	preset_text->resetDirty();
 }
 
 bool LLPanelPreferenceGraphics::hasDirtyChilds()

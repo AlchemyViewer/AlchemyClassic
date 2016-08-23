@@ -90,7 +90,6 @@ public:
 	void saveAvatarProperties( void );
 	void selectPrivacyPanel();
 	void selectChatPanel();
-	void getControlNames(std::vector<std::string>& names);
 
 protected:	
 	void		onBtnOK(const LLSD& userdata);
@@ -110,7 +109,6 @@ protected:
 	void updateMeterText(LLUICtrl* ctrl);
 	// callback for defaults
 	void setHardwareDefaults();
-	void setRecommended();
 	// callback for when client turns on shaders
 	void onVertexShaderEnable();
 	// callback for when client turns on impostors
@@ -166,7 +164,6 @@ public:
 	void onLogChatHistorySaved();	
 	void buildPopupLists();
 	void selectPanel(const LLSD& name);
-	void saveGraphicsPreset(std::string& preset);
 
 private:
 	void onSoundQualityChange();
@@ -208,7 +205,6 @@ private:
 	std::string mDirectoryVisibility;
 	
 	LLAvatarData mAvatarProperties;
-	std::string mSavedGraphicsPreset;
 
 	typedef std::map<std::string, skin_t> skinmap_t;
 	skinmap_t mUserSkins;
@@ -239,10 +235,6 @@ public:
 	// cancel() can restore them.
 	virtual void saveSettings();
 
-	void deletePreset(const LLSD& user_data);
-	void savePreset(const LLSD& user_data);
-	void loadPreset(const LLSD& user_data);
-
 	class Updater;
 
 protected:
@@ -271,16 +263,10 @@ public:
 	void saveSettings();
 	void resetDirtyChilds();
 	void setHardwareDefaults();
-	void setPresetText();
-
-	static const std::string getPresetsPath();
 
 protected:
 	bool hasDirtyChilds();
 
-private:
-
-	void onPresetsListChange();
 	LOG_CLASS(LLPanelPreferenceGraphics);
 };
 

@@ -132,14 +132,6 @@
      width="135">
         24:00 AM PST
     </text>
-    <icon
-     follows="right|top"
-     height="16"
-     image_name="Presets_Icon"
-     left_pad="8"
-     top="2"
-     name="presets_icon"
-     width="18" />
     <button
      follows="right|top"
      height="16"

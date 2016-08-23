@@ -249,7 +249,6 @@ set(viewer_SOURCE_FILES
     llfloaterconversationlog.cpp
     llfloaterconversationpreview.cpp
     llfloaterdeleteenvpreset.cpp
-    llfloaterdeleteprefpreset.cpp
     llfloaterdestinations.cpp
     llfloaterdirectory.cpp
     llfloaterdisplayname.cpp
@@ -286,7 +285,6 @@ set(viewer_SOURCE_FILES
     llfloaterjoystick.cpp
     llfloaterland.cpp
     llfloaterlandholdings.cpp
-    llfloaterloadprefpreset.cpp
     llfloatermarketplacelistings.cpp
     llfloatermap.cpp
     llfloatermediasettings.cpp
@@ -314,7 +312,6 @@ set(viewer_SOURCE_FILES
     llfloaterregioninfo.cpp
     llfloaterregionrestarting.cpp
     llfloaterreporter.cpp
-    llfloatersaveprefpreset.cpp
     llfloatersceneloadstats.cpp
     llfloaterscriptdebug.cpp
     llfloaterscriptedprefs.cpp
@@ -499,7 +496,6 @@ set(viewer_SOURCE_FILES
     llpanelplaceprofile.cpp
     llpanelplaces.cpp
     llpanelplacestab.cpp
-    llpanelpresetspulldown.cpp
     llpanelprimmediacontrols.cpp
     llpanelprofile.cpp
     llpanelprofilelegacy.cpp
@@ -548,7 +544,6 @@ set(viewer_SOURCE_FILES
     llplacesinventorypanel.cpp
     llpopupview.cpp
     llpostcard.cpp
-    llpresetsmanager.cpp
     llpreview.cpp
     llpreviewanim.cpp
     llpreviewgesture.cpp
@@ -900,7 +895,6 @@ set(viewer_HEADER_FILES
     llfloatercolorpicker.h
     llfloaterconversationlog.h
     llfloaterconversationpreview.h
-    llfloaterdeleteprefpreset.h
     llfloaterdeleteenvpreset.h
     llfloaterdestinations.h
     llfloaterdirectory.h
@@ -938,7 +932,6 @@ set(viewer_HEADER_FILES
     llfloaterjoystick.h
     llfloaterland.h
     llfloaterlandholdings.h
-    llfloaterloadprefpreset.h
     llfloatermap.h
     llfloatermarketplacelistings.h
     llfloatermediasettings.h
@@ -966,7 +959,6 @@ set(viewer_HEADER_FILES
     llfloaterregioninfo.h
     llfloaterregionrestarting.h
     llfloaterreporter.h
-    llfloatersaveprefpreset.h
     llfloatersceneloadstats.h
     llfloaterscriptdebug.h
     llfloaterscriptedprefs.h
@@ -1145,7 +1137,6 @@ set(viewer_HEADER_FILES
     llpanelplaceprofile.h
     llpanelplaces.h
     llpanelplacestab.h
-    llpanelpresetspulldown.h
     llpanelprimmediacontrols.h
     llpanelprofile.h
     llpanelprofilelegacy.h
@@ -1189,7 +1180,6 @@ set(viewer_HEADER_FILES
     llplacesinventorypanel.h
     llpopupview.h
     llpostcard.h
-    llpresetsmanager.h
     llpreview.h
     llpreviewanim.h
     llpreviewgesture.h

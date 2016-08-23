@@ -9,35 +9,14 @@
  name="Display panel"
  top="1"
  width="517">
-
-  <text
-    follows="top|left|right"
-    height="16"
-    layout="topleft"
-    left="5"
-    top="5"
-    width="100">
-      Preset in use:
-  </text>
-
-  <text
-    follows="top|left|right"
-    height="16"
-    layout="topleft"
-    left_delta="110"
-    name="preset_text"
-    top="5"
-    width="120">
-      (None)
-  </text>
-
   <text
     type="string"
     length="1"
     follows="left|top"
     height="12"
     layout="topleft"
-    left="10"
+    left="5"
+    top="5"
     name="QualitySpeed"
     top_delta="35" 
     width="400">
@@ -299,54 +278,11 @@
   <button
     follows="top|left"
     height="23"
-    label="Save settings as a preset..."
-    layout="topleft"
-    left="10"
-    name="PrefSaveButton"
-    top="310"
-    width="200">
-    <button.commit_callback
-      function="Pref.PrefSave"
-      parameter="graphic" />
-  </button>
-
-  <button
-    follows="top|left"
-    height="23"
-    label="Load preset..."
-    layout="topleft"
-    left_pad="10"
-    name="PrefLoadButton"
-    top_delta="0"
-    width="115">
-    <button.commit_callback
-      function="Pref.PrefLoad"
-	  parameter="graphic"/>
-  </button>
-         min_val="0.125"
-
-  <button
-    follows="top|left"
-    height="23"
-    label="Delete preset..."
-    layout="topleft"
-    left_pad="10"
-    name="PrefDeleteButton"
-    top_delta="0"
-    width="115">
-    <button.commit_callback
-      function="Pref.PrefDelete"
-	  parameter="graphic"/>
-  </button>
-
-  <button
-    follows="top|left"
-    height="23"
     label="Reset to recommended settings"
     layout="topleft"
     left="10"
     name="Defaults"
-    top_delta="65"
+    top="380"
     width="210">
     <button.commit_callback
       function="Pref.HardwareDefaults" />

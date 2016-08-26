@@ -174,7 +174,11 @@ bool LLCrashLock::isWaiting()
 void LLCrashLock::releaseMaster()
 {
     //Yeeeeeeehaw
-    unlink(mMaster.c_str());
+#if LL_WINDOWS
+	_unlink(mMaster.c_str());
+#else
+	unlink(mMaster.c_str());
+#endif
 }
 
 LLSD LLCrashLock::getProcessList()

@@ -204,7 +204,11 @@ void LLPidLockFile::releaseLock()
 	}
 	else
 	{
+#if LL_WINDOWS
+		_unlink(mLockName.c_str());
+#else
 		unlink(mLockName.c_str());
+#endif
 	}
 
 	mSaving=FALSE;

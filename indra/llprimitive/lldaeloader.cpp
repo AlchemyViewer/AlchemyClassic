@@ -24,6 +24,8 @@
  * $/LicenseInfo$
  */
 
+#include "linden_common.h"
+
 #if LL_MSVC
 #pragma warning (disable : 4263)
 #pragma warning (disable : 4264)

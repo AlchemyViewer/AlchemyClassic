@@ -27,7 +27,10 @@
 //-----------------------------------------------------------------------------
 // Header Files
 //-----------------------------------------------------------------------------
-#include "llpreprocessor.h"
+#include "linden_common.h"
+
+#include "llpolyskeletaldistortion.h"
+
 #include "llerror.h"
 #include "llavatarappearance.h"
 #include "llavatarjoint.h"
@@ -35,7 +38,6 @@
 #include "llwearable.h"
 #include "llfasttimer.h"
 
-#include "llpolyskeletaldistortion.h"
 
 //-----------------------------------------------------------------------------
 // LLPolySkeletalDistortionInfo()

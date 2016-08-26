@@ -31,6 +31,8 @@
 // the HUD or a dialog box or a button.  It can also contain sub-views
 // and child widgets
 
+#include "llpreprocessor.h"
+
 #include "stdtypes.h"
 #include "llcoord.h"
 #include "llfontgl.h"

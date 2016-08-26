@@ -212,9 +212,6 @@ fail:
 private:
 	//NOTE: both friend declarations are necessary to keep both gcc and msvc happy
 	template <typename T> friend class LLChildRegistry;
-#if GCC_VERSION <= 40202
-	template <typename T> template <typename U> friend class LLChildRegistry<T>::Register;
-#endif
 
 	static void copyName(LLXMLNodePtr src, LLXMLNodePtr dest);
 

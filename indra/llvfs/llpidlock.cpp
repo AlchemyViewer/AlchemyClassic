@@ -28,6 +28,7 @@
 #include "linden_common.h"
 
 #include "llpidlock.h"
+#include "llapp.h"
 #include "lldir.h"
 #include "llsd.h"
 #include "llsdserialize.h"
@@ -59,7 +60,7 @@ class LLPidLockFile
 			mAutosave(false),
 			mSaving(false),
 			mWaiting(false),
-			mPID(getpid()),
+			mPID(LLApp::getPid()),
 			mNameTable(NULL),
 			mClean(true)
 		{
@@ -79,7 +80,7 @@ class LLPidLockFile
 		bool mSaving;
 		bool mWaiting;
 		LLFrameTimer mTimer;
-		U32  mPID;
+		S32  mPID;
 		std::string mLockName;
 		std::string mSaveName;
 		LLSD mPIDS_sd;
@@ -187,7 +188,7 @@ void LLPidLockFile::releaseLock()
 		i !=in_pids.endArray();
 		++i)
 	{
-		U32 stored_pid=(*i).asInteger();
+		S32 stored_pid=(*i).asInteger();
 
 		if (stored_pid != mPID && isProcessAlive(stored_pid))
 		{
@@ -271,5 +272,5 @@ void LLPidLock::setSaveName(std::string savename)
 
 S32 LLPidLock::getPID()
 {
-    return (S32)getpid();
+    return (S32)LLApp::getPid();
 }

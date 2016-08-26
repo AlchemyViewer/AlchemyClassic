@@ -1167,16 +1167,6 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 	// when the floater is opened.  That will make cancel do its
 	// job
 	saveSettings();
-
-	bool started = (LLStartUp::getStartupState() == STATE_STARTED);
-
-	LLButton* load_btn = findChild<LLButton>("PrefLoadButton");
-	LLButton* save_btn = findChild<LLButton>("PrefSaveButton");
-	LLButton* delete_btn = findChild<LLButton>("PrefDeleteButton");
-
-	load_btn->setEnabled(started);
-	save_btn->setEnabled(started);
-	delete_btn->setEnabled(started);
 }
 
 void LLFloaterPreference::onVertexShaderEnable()

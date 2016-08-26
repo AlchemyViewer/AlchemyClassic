@@ -28,6 +28,7 @@
 
 #include "linden_common.h"
 #include "llsdserialize.h"
+#include "llwin32headerslean.h"
 #include "llpointer.h"
 #include "llstreamtools.h" // for fullread
 #include "llbase64.h"
@@ -115,7 +116,7 @@ bool LLSDSerialize::deserialize(LLSD& sd, std::istream& str, S32 max_bytes)
 		fail_if_not_legacy = true;
 	}
 
-	if (!strncasecmp(LEGACY_NON_HEADER, hdr_buf, strlen(LEGACY_NON_HEADER))) /* Flawfinder: ignore */
+	if (!strnicmp(LEGACY_NON_HEADER, hdr_buf, strlen(LEGACY_NON_HEADER))) /* Flawfinder: ignore */
 	{
 		legacy_no_header = true;
 		inbuf = (int)str.gcount();

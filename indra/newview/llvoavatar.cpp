@@ -7469,7 +7469,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 		LL_WARNS() << "bad appearance version info, discarding" << LL_ENDL;
 		return;
 	}
-	llassert(appearance_version > 0);
+	//llassert(appearance_version > 0);
 	if (appearance_version > 1)
 	{
 		LL_WARNS() << "unsupported appearance version " << appearance_version << ", discarding appearance message" << LL_ENDL;
@@ -7489,6 +7489,11 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
         LL_DEBUGS("Avatar") << "handling self appearance message #" << thisAppearanceVersion <<
             " (highest seen #" << mLastUpdateReceivedCOFVersion <<
             ") (AISCOF=#" << aisCOFVersion << ")" << LL_ENDL;
+
+        if (mFirstTEMessageReceived && (appearance_version == 0))
+        {
+            return;
+        }
 
         if (mLastUpdateReceivedCOFVersion >= thisAppearanceVersion)
         {
@@ -7530,6 +7535,8 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
         mLastUpdateReceivedCOFVersion = thisAppearanceVersion;
     }
 		
+    setIsUsingServerBakes(appearance_version > 0);
+
     if (applyParsedTEMessage(contents.mTEContents) > 0 && isChanged(TEXTURE))
     {
         updateVisualComplexity();
@@ -7542,7 +7549,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 			&& mBakedTextureDatas[baked_index].mLastTextureID != IMG_DEFAULT
 			&& baked_index != BAKED_SKIRT)
 		{
-			LL_DEBUGS("Avatar") << avString() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
+			LL_DEBUGS("Avatar") << avString() << "sb " << (S32) isUsingServerBakes() << " baked_index " << (S32) baked_index << " using mLastTextureID " << mBakedTextureDatas[baked_index].mLastTextureID << LL_ENDL;
 			setTEImage(mBakedTextureDatas[baked_index].mTextureIndex, 
 				LLViewerTextureManager::getFetchedTexture(mBakedTextureDatas[baked_index].mLastTextureID, FTT_DEFAULT, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE));
 		}

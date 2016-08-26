@@ -25,7 +25,8 @@
  */
 
 #include "linden_common.h"
-#include "llwindowheadless.h"
+
+#include "llwindow.h"
 
 #if LL_MESA_HEADLESS
 #include "llwindowmesaheadless.h"
@@ -36,6 +37,8 @@
 #elif LL_DARWIN
 #include "llwindowmacosx.h"
 #endif
+
+#include "llwindowheadless.h"
 
 #include "llerror.h"
 #include "llkeyboard.h"

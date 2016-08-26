@@ -29,7 +29,6 @@
 
 #include "llrect.h"
 #include "llcoord.h"
-#include "llstring.h"
 #include "llcursortypes.h"
 #include "llinstancetracker.h"
 #include "llsd.h"
@@ -297,7 +296,5 @@ extern BOOL gUseMultGL;
 extern const S32 gURLProtocolWhitelistCount;
 extern const std::string gURLProtocolWhitelist[];
 //extern const std::string gURLProtocolWhitelistHandler[];
-
-void simpleEscapeString ( std::string& stringIn  );
 
 #endif // _LL_window_h_

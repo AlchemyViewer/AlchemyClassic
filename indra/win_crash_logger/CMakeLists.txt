@@ -34,6 +34,7 @@ include_directories(SYSTEM
 set(win_crash_logger_SOURCE_FILES
     win_crash_logger.cpp
     llcrashloggerwindows.cpp
+    ${CMAKE_SOURCE_DIR}/tools/manifests/compatibility.manifest
     )
 
 set(win_crash_logger_HEADER_FILES
@@ -92,23 +93,13 @@ target_link_libraries(windows-crash-logger
     wininet
     Wldap32
     )
-    
+
 if (WINDOWS)
     set_target_properties(windows-crash-logger
         PROPERTIES 
         LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
         LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
         )
-		
-    add_custom_command(
-      TARGET windows-crash-logger POST_BUILD
-      COMMAND "mt.exe"
-      ARGS
-      -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
-      -inputresource:\"$<TARGET_FILE:windows-crash-logger>\"\;\#1 
-      -outputresource:\"$<TARGET_FILE:windows-crash-logger>\"\;\#1
-      COMMENT "Adding compatibility manifest to win_crash_logger..." 
-      )
 endif (WINDOWS)
 
 if (LL_TESTS)

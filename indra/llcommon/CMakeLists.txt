@@ -274,15 +274,6 @@ if(LLCOMMON_LINK_SHARED)
   if(WINDOWS)
     # always generate llcommon.pdb, even for "Release" builds
     set_target_properties(llcommon PROPERTIES LINK_FLAGS "/DEBUG")
-    add_custom_command(
-      TARGET llcommon POST_BUILD
-      COMMAND "mt.exe"
-      ARGS
-      -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
-      -inputresource:\"$<TARGET_FILE:llcommon>\"\;\#2
-      -outputresource:\"$<TARGET_FILE:llcommon>\"\;\#2
-      COMMENT "Adding compatibility manifest to llcommon..." 
-      )
   endif(WINDOWS)
   ll_stage_sharedlib(llcommon)
 else(LLCOMMON_LINK_SHARED)

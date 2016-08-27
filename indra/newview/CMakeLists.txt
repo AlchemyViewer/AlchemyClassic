@@ -1589,16 +1589,17 @@ if (WINDOWS)
     configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/res/viewerRes.rc
                     ${CMAKE_CURRENT_BINARY_DIR}/viewerRes.rc
                     )
-    set(viewer_RESOURCE_FILES
+
+    list(APPEND viewer_RESOURCE_FILES
+        ${CMAKE_SOURCE_DIR}/tools/manifests/compatibility.manifest
         ${CMAKE_CURRENT_BINARY_DIR}/viewerRes.rc
-        ${viewer_RESOURCE_FILES}
         )
 
     set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/viewerRes.rc
       PROPERTIES COMPILE_FLAGS "-I${CMAKE_CURRENT_SOURCE_DIR}/res"
       )
 
-    SOURCE_GROUP("Resource Files" FILES ${viewer_RESOURCE_FILES})
+    source_group("Resource Files" FILES ${viewer_RESOURCE_FILES})
 
     if (NOT USESYSTEMLIBS)
         list(APPEND viewer_SOURCE_FILES ${viewer_RESOURCE_FILES})
@@ -1903,16 +1904,6 @@ if (WINDOWS)
     add_dependencies(${VIEWER_BINARY_NAME}
       AlchemyPlugin
       windows-crash-logger
-      )
-
-    add_custom_command(
-      TARGET ${VIEWER_BINARY_NAME} POST_BUILD
-      COMMAND "mt.exe"
-      ARGS
-      -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
-      -inputresource:\"$<TARGET_FILE:${VIEWER_BINARY_NAME}>\"\;\#1 
-      -outputresource:\"$<TARGET_FILE:${VIEWER_BINARY_NAME}>\"\;\#1
-      COMMENT "Adding compatibility manifest to ${VIEWER_BINARY_NAME}..." 
       )
 
     # sets the 'working directory' for debugging from visual studio.

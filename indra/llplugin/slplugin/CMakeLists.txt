@@ -44,6 +44,10 @@ if (AlchemyPlugin_HEADER_FILES)
   list(APPEND AlchemyPlugin_SOURCE_FILES ${AlchemyPlugin_HEADER_FILES})
 endif (AlchemyPlugin_HEADER_FILES)
 
+if (WINDOWS)
+  list(APPEND AlchemyPlugin_SOURCE_FILES ${CMAKE_SOURCE_DIR}/tools/manifests/compatibility.manifest)
+endif (WINDOWS)
+
 add_executable(AlchemyPlugin
     WIN32
     MACOSX_BUNDLE
@@ -51,26 +55,16 @@ add_executable(AlchemyPlugin
 )
 
 if (WINDOWS)
-set_target_properties(AlchemyPlugin
-  PROPERTIES
-  LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
-  LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
-  )
-  
-  add_custom_command(
-    TARGET AlchemyPlugin POST_BUILD
-    COMMAND "mt.exe"
-    ARGS
-    -manifest \"${CMAKE_SOURCE_DIR}\\tools\\manifests\\compatibility.manifest\" 
-    -inputresource:\"$<TARGET_FILE:AlchemyPlugin>\"\;\#1 
-    -outputresource:\"$<TARGET_FILE:AlchemyPlugin>\"\;\#1
-    COMMENT "Adding compatibility manifest to AlchemyPlugin..." 
+  set_target_properties(AlchemyPlugin
+    PROPERTIES
+    LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
+    LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
     )
 else ()
-set_target_properties(AlchemyPlugin
-  PROPERTIES
-  MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/slplugin_info.plist
-  )
+  set_target_properties(AlchemyPlugin
+    PROPERTIES
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/slplugin_info.plist
+    )
 endif ()
 
 target_link_libraries(AlchemyPlugin

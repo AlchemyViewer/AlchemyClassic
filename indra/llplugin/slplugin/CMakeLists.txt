@@ -88,5 +88,5 @@ if (DARWIN)
 endif (DARWIN)
 
 if (LL_TESTS)
-  ll_deploy_sharedlibs_command(AlchemyPlugin)
+  #ll_deploy_sharedlibs_command(AlchemyPlugin)
 endif (LL_TESTS)

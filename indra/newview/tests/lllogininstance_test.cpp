@@ -150,7 +150,7 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 	return result;
 }
 
-void LLGridManager::setGridChoice(const std::string& grid_name)
+void LLGridManager::setGridChoice(const std::string&, const bool)
 {
 }
 

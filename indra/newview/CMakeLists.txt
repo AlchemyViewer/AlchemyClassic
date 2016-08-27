@@ -2382,13 +2382,6 @@ if (LL_TESTS)
   # if(USE_PRECOMPILED_HEADERS)
   #     set(test_sources "${test_sources}" llviewerprecompiledheaders.cpp)
   # endif(USE_PRECOMPILED_HEADERS)
-  set(test_libs
-    ${LLMESSAGE_LIBRARIES}
-    ${WINDOWS_LIBRARIES}
-    ${LLVFS_LIBRARIES}
-    ${LLMATH_LIBRARIES}
-    ${LLCOMMON_LIBRARIES}
-    )
 
   if (LINUX)
     # llcommon uses `clock_gettime' which is provided by librt on linux.
@@ -2401,9 +2394,11 @@ if (LL_TESTS)
     ${WINDOWS_LIBRARIES}
     ${LLVFS_LIBRARIES}
     ${LLMATH_LIBRARIES}
-    ${LLCOMMON_LIBRARIES}
+    ${LLXML_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
+    ${LLLOGIN_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}
+    ${LLCOMMON_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${CRYPTO_LIBRARIES}
     ${LIBRT_LIBRARY}
@@ -2432,8 +2427,13 @@ if (LL_TESTS)
     "${test_libs}"
     )
 
+  set(llviewernetwork_test_sources
+      llviewernetwork.cpp
+      lllogininstance.cpp
+  )
+	
   LL_ADD_INTEGRATION_TEST(llviewernetwork
-     llviewernetwork.cpp
+    "${llviewernetwork_test_sources}"
     "${test_libs}"
     )
 

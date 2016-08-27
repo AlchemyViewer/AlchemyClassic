@@ -30,8 +30,7 @@
 #define LL_LLIOPIPE_H
 
 #include <boost/intrusive_ptr.hpp>
-#include "llwin32headerslean.h"
-#include "apr_poll.h"
+#include "llapr.h"
 
 #include "llsd.h"
 

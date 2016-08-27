@@ -26,10 +26,7 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "apr_pools.h"
-#include "apr_dso.h"
 #include "llhttpconstants.h"
-#include "llapr.h"
 #include "llmeshrepository.h"
 
 #include "llagent.h"

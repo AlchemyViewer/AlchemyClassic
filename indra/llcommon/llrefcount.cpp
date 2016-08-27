@@ -31,23 +31,15 @@
 
 #if LL_REF_COUNT_DEBUG
 #include "llthread.h"
-#include "llapr.h"
 #endif
 
-LLRefCount::LLRefCount(const LLRefCount& other)
-:	mRef(0)
-{
+LLRefCount::LLRefCount(const LLRefCount& other) :
 #if LL_REF_COUNT_DEBUG
-	if(gAPRPoolp)
-	{
-		mMutexp = new LLMutex(gAPRPoolp) ;
-	}
-	else
-	{
-		mMutexp = NULL ;
-	}
-	mCrashAtUnlock = FALSE ;
+	mMutex(),
+	mCrashAtUnlock(FALSE),
 #endif
+	mRef(0)
+{
 }
 
 LLRefCount& LLRefCount::operator=(const LLRefCount&)
@@ -57,19 +49,12 @@ LLRefCount& LLRefCount::operator=(const LLRefCount&)
 }
 
 LLRefCount::LLRefCount() :
+#if LL_REF_COUNT_DEBUG
+	mMutex(),
+	mCrashAtUnlock(FALSE),
+#endif
 	mRef(0)
 {
-#if LL_REF_COUNT_DEBUG
-	if(gAPRPoolp)
-	{
-		mMutexp = new LLMutex(gAPRPoolp) ;
-	}
-	else
-	{
-		mMutexp = NULL ;
-	}
-	mCrashAtUnlock = FALSE ;
-#endif
 }
 
 LLRefCount::~LLRefCount()
@@ -78,87 +63,60 @@ LLRefCount::~LLRefCount()
 	{
 		LL_ERRS() << "deleting non-zero reference" << LL_ENDL;
 	}
-
-#if LL_REF_COUNT_DEBUG
-	if(gAPRPoolp)
-	{
-		delete mMutexp ;
-	}
-#endif
 }
 
 #if LL_REF_COUNT_DEBUG
 void LLRefCount::ref() const
 { 
-	if(mMutexp)
+	if(mMutex.isLocked()) 
 	{
-		if(mMutexp->isLocked()) 
-		{
-			mCrashAtUnlock = TRUE ;
-			LL_ERRS() << "the mutex is locked by the thread: " << mLockedThreadID 
-				<< " Current thread: " << LLThread::currentID() << LL_ENDL ;
-		}
-
-		mMutexp->lock() ;
-		mLockedThreadID = LLThread::currentID() ;
-
-		mRef++; 
-
-		if(mCrashAtUnlock)
-		{
-			while(1); //crash here.
-		}
-		mMutexp->unlock() ;
+		mCrashAtUnlock = TRUE ;
+		LL_ERRS() << "the mutex is locked by the thread: " << mLockedThreadID 
+			<< " Current thread: " << LLThread::currentID() << LL_ENDL ;
 	}
-	else
+
+	mMutex.lock() ;
+	mLockedThreadID = LLThread::currentID() ;
+
+	mRef++; 
+
+	if(mCrashAtUnlock)
 	{
-		mRef++; 
+		while(1); //crash here.
 	}
+	mMutex.unlock() ;
 } 
 
 S32 LLRefCount::unref() const
 {
-	if(mMutexp)
+	if(mMutex.isLocked()) 
 	{
-		if(mMutexp->isLocked()) 
-		{
-			mCrashAtUnlock = TRUE ;
-			LL_ERRS() << "the mutex is locked by the thread: " << mLockedThreadID 
-				<< " Current thread: " << LLThread::currentID() << LL_ENDL ;
-		}
+		mCrashAtUnlock = TRUE ;
+		LL_ERRS() << "the mutex is locked by the thread: " << mLockedThreadID 
+			<< " Current thread: " << LLThread::currentID() << LL_ENDL ;
+	}
 
-		mMutexp->lock() ;
-		mLockedThreadID = LLThread::currentID() ;
+	mMutex.lock() ;
+	mLockedThreadID = LLThread::currentID() ;
 		
-		llassert(mRef >= 1);
-		if (0 == --mRef) 
-		{
-			if(mCrashAtUnlock)
-			{
-				while(1); //crash here.
-			}
-			mMutexp->unlock() ;
-
-			delete this; 
-			return 0;
-		}
-
+	llassert(mRef >= 1);
+	if (0 == --mRef) 
+	{
 		if(mCrashAtUnlock)
 		{
 			while(1); //crash here.
 		}
-		mMutexp->unlock() ;
-		return mRef;
+		mMutex.unlock() ;
+
+		delete this; 
+		return 0;
 	}
-	else
+
+	if(mCrashAtUnlock)
 	{
-		llassert(mRef >= 1);
-		if (0 == --mRef) 
-		{
-			delete this; 
-			return 0;
-		}
-		return mRef;
+		while(1); //crash here.
 	}
+	mMutex.unlock() ;
+	return mRef;
 }	
 #endif

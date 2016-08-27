@@ -32,7 +32,6 @@
 #include "llstring.h"
 #include "stringize.h"
 #include "llapr.h"
-#include "apr_signal.h"
 #include "llevents.h"
 
 #include <boost/asio/streambuf.hpp>

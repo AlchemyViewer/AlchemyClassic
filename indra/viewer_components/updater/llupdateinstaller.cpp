@@ -24,8 +24,6 @@
  */
 
 #include "linden_common.h"
-#include <apr_file_io.h>
-#include "llapr.h"
 #include "llprocess.h"
 #include "llupdateinstaller.h"
 #include "lldir.h" 

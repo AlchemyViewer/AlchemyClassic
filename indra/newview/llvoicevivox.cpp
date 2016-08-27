@@ -71,9 +71,6 @@
 
 #include "stringize.h"
 
-// for base64 decoding
-#include "apr_base64.h"
-
 #define USE_SESSION_GROUPS 0
 #define VX_NULL_POSITION -2147483648.0 /*The Silence*/
 

@@ -28,7 +28,6 @@
 
 #include "linden_common.h"
 #include "llapr.h"
-#include "apr_dso.h"
 #include "llthreadlocalstorage.h"
 #include "llmutex.h"
 

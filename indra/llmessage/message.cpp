@@ -41,9 +41,6 @@
 #include <sstream>
 
 #include "llapr.h"
-#include "apr_portable.h"
-#include "apr_network_io.h"
-#include "apr_poll.h"
 
 // linden library headers
 #include "indra_constants.h"

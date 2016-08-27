@@ -26,8 +26,6 @@
 #include "linden_common.h"
 #include "llapr.h"
 
-#include "apr_portable.h"
-
 #include "llthread.h"
 #include "llmutex.h"
 

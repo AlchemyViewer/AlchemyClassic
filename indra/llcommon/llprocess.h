@@ -29,8 +29,7 @@
 
 #include "llinitparam.h"
 #include "llsdparam.h"
-#include "llwin32headerslean.h"
-#include "apr_thread_proc.h"
+#include "llapr.h"
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/optional.hpp>
 #include <iosfwd>                   // std::ostream

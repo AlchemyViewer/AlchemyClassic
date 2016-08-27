@@ -27,8 +27,6 @@
 #ifndef LL_LLVFSTHREAD_H
 #define LL_LLVFSTHREAD_H
 
-#include "llapr.h"
-
 #include "llqueuedthread.h"
 
 #include "llvfs.h"

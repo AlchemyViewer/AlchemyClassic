@@ -33,10 +33,17 @@
 #include <sys/param.h>  // Need PATH_MAX in APR headers...
 #endif
 
-#include "llwin32headerslean.h"
-#include "apr_thread_proc.h"
-#include "apr_getopt.h"
-#include "apr_signal.h"
+#include "llwin32headers.h"
+#include <apr_dso.h>
+#include <apr_file_io.h>
+#include <apr_network_io.h>
+#include <apr_poll.h>
+#include <apr_pools.h>
+#include <apr_portable.h>
+#include <apr_queue.h>
+#include <apr_shm.h>
+#include <apr_signal.h>
+#include <apr_thread_proc.h>
 
 #include "llstring.h"
 

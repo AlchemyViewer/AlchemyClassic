@@ -31,7 +31,7 @@
 #include "llstring.h"
 #include "llapr.h"
 
-#include "apr_dso.h"
+#include "llapr.h"
 
 /**
  * @brief LLPluginInstanceMessageListener receives messages sent from the plugin loader shell to the plugin.

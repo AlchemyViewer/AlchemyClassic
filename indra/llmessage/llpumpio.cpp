@@ -29,8 +29,6 @@
 #include "linden_common.h"
 #include "llpumpio.h"
 
-#include "apr_poll.h"
-
 #include "llapr.h"
 #include "llfasttimer.h"
 #include "llstl.h"

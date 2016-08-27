@@ -24,8 +24,7 @@
  */
 
 #include "linden_common.h"
-#include <apr_pools.h>
-#include <apr_queue.h>
+#include "llapr.h"
 #include "llthreadsafequeue.h"
 
 

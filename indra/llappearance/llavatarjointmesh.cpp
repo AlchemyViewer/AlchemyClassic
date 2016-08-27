@@ -33,7 +33,6 @@
 
 #include "llavatarjointmesh.h"
 #include "llavatarappearance.h"
-//#include "llapr.h"
 //#include "llbox.h"
 //#include "lldrawable.h"
 //#include "lldrawpoolavatar.h"

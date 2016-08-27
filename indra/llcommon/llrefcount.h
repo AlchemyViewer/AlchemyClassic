@@ -29,7 +29,6 @@
 #include <boost/intrusive_ptr.hpp>
 #include "llatomic.h"
 #include "llmutex.h"
-#include "llapr.h"
 
 #define LL_REF_COUNT_DEBUG 0
 #if LL_REF_COUNT_DEBUG
@@ -83,7 +82,7 @@ private:
 	mutable S32	mRef; 
 
 #if LL_REF_COUNT_DEBUG
-	LLMutex*  mMutexp ;
+	mutable LLMutex  mMutex ;
 	mutable U32  mLockedThreadID ;
 	mutable BOOL mCrashAtUnlock ; 
 #endif
@@ -123,7 +122,7 @@ public:
 	void unref()
 	{
 		llassert(mRef >= 1);
-		if ((--mRef) == 0)		// See note in llapr.h on atomic decrement operator return value.  
+		if ((--mRef) == 0)		// See note at http://en.cppreference.com/w/cpp/atomic/atomic/operator_arith on atomic decrement operator return value.  
 		{	
 			// If we hit zero, the caller should be the only smart pointer owning the object and we can delete it.
 			// It is technically possible for a vanilla pointer to mess this up, or another thread to

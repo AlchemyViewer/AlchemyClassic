@@ -29,7 +29,6 @@
 
 #include "llapp.h"
 #include "llapr.h"
-#include "apr_thread_cond.h"
 #include "llmutex.h"
 #include "llrefcount.h"
 

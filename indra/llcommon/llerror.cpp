@@ -42,7 +42,6 @@
 #include <vector>
 
 #include "llapp.h"
-#include "llapr.h"
 #include "llfile.h"
 #include "lllivefile.h"
 #include "llsd.h"
@@ -50,6 +49,7 @@
 #include "llsingleton.h"
 #include "llstl.h"
 #include "lltimer.h"
+#include "llwin32headerslean.h"
 
 namespace {
 #if LL_WINDOWS
@@ -1025,9 +1025,6 @@ namespace {
 			}
 
 			ms_sleep(1);
-			//apr_thread_yield();
-				// Just yielding won't necessarily work, I had problems with
-				// this on Linux - doug 12/02/04
 		}
 
 		// We're hosed, we can't get the mutex.  Blah.

@@ -43,10 +43,13 @@
 #define LL_LLAPPVIEWER_H
 
 #include "llallocator.h"
+#include "llapp.h"
+#include "llapr.h"
 #include "llcontrol.h"
 #include "llsys.h"			// for LLOSInfo
 #include "lltimer.h"
 #include "llappcorehttp.h"
+#include "lltrace.h"
 
 class LLCommandLineParser;
 class LLFrameTimer;

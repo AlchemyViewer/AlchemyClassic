@@ -28,13 +28,12 @@
 #ifndef LL_LLERROR_H
 #define LL_LLERROR_H
 
+#include "llpreprocessor.h"
+
 #include <sstream>
 #include <typeinfo>
 
 #include "stdtypes.h"
-
-#include "llpreprocessor.h"
-#include <boost/static_assert.hpp>
 
 const int LL_ERR_NOERR = 0;
 
@@ -84,14 +83,7 @@ const int LL_ERR_NOERR = 0;
 #define llverify(func)			do {if (func) {}} while(0)
 #endif
 
-#if defined(LL_WINDOWS) || defined(LL_CPP11)
-#define LL_STATIC_ASSERT(func, msg) static_assert(func, msg)
 #define LL_BAD_TEMPLATE_INSTANTIATION(type, msg) static_assert(sizeof(type) != 0, msg)
-#else
-#define LL_STATIC_ASSERT(func, msg) BOOST_STATIC_ASSERT(func)
-#define LL_BAD_TEMPLATE_INSTANTIATION(type, msg) BOOST_STATIC_ASSERT(sizeof(type) != 0 && false);
-#endif
-
 
 /** Error Logging Facility
 

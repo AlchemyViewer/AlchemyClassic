@@ -28,6 +28,8 @@
 #ifndef LLPREPROCESSOR_H
 #define LLPREPROCESSOR_H
 
+#include "llcompilerfeatures.h"
+
 // Figure out endianness of platform
 #ifdef LL_LINUX
 #define __ENABLE_WSTRING
@@ -98,27 +100,6 @@
 
 #endif
 
-// Check for C++11 support
-#if __cplusplus >= 201100L || _MSC_VER >= 1800
-#  define LL_CPP11
-#else
-#  warning "Sorry, your compiler is only good enough to compile Firestorm."
-#endif
-
-#if defined(HAVE_ATTRIBUTE_DEPRECATED) || defined(__GNUC__)
-#  define DEPRECATED(func) func __attribute__ ((deprecated))
-#elif defined(LL_MSVC)
-#  define DEPRECATED(func) __declspec(deprecated) func
-#else
-#  warning "DEPRECATED is not supported in this compiler!"
-#  define DEPRECATED(func) func
-#endif
-
-#if LL_WINDOWS
-# define LL_THREAD_LOCAL __declspec(thread)
-#else
-# define LL_THREAD_LOCAL __thread
-#endif
 
 // Static linking with apr on windows needs to be declared.
 #if LL_WINDOWS && !LL_COMMON_LINK_SHARED
@@ -150,7 +131,7 @@
 #pragma warning( 3      :  4266 )	// 'function' : no override available for virtual member function from base 'type'; function is hidden
 #pragma warning (disable : 4180)	// qualifier applied to function type has no meaning; ignored
 #pragma warning( disable : 4800 )	// 'BOOL' : forcing value to bool 'true' or 'false' (performance warning)
-//#pragma warning( disable : 4996 )	// warning: deprecated
+#pragma warning( disable : 4996 )	// warning: deprecated
 
 // Linker optimization with "extern template" generates these warnings
 #pragma warning( disable : 4506 )   // no definition for inline function
@@ -199,7 +180,7 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
-#if defined(LL_WINDOWS) || __cplusplus >= 201103L
+#if LL_COMPILER_CXX_DECLTYPE
 #  define LL_TYPEOF(exp) decltype(exp)
 #else
 #  define LL_TYPEOF(exp) typeof(exp)

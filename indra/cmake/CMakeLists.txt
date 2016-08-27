@@ -15,6 +15,7 @@ set(cmake_SOURCE_FILES
     ConfigurePkgConfig.cmake
     CURL.cmake
     Copy3rdPartyLibs.cmake
+    CXXFeatureDetection.cmake
     DBusGlib.cmake
     DeploySharedLibs.cmake
     DragDrop.cmake
@@ -22,8 +23,6 @@ set(cmake_SOURCE_FILES
     ExamplePlugin.cmake
     FindAPR.cmake
     FindAutobuild.cmake
-    FindCXX14Features.cmake
-    FindCXXThreadLocal.cmake
     FindGLH.cmake
     FindGoogleBreakpad.cmake
     FindGooglePerfTools.cmake

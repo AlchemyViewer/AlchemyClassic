@@ -4,6 +4,7 @@
 project(llcommon)
 
 include(00-Common)
+include(CXXFeatureDetection)
 include(LLCommon)
 include(Linking)
 include(Boost)
@@ -287,6 +288,9 @@ if(LLCOMMON_LINK_SHARED)
 else(LLCOMMON_LINK_SHARED)
     add_library (llcommon ${llcommon_SOURCE_FILES})
 endif(LLCOMMON_LINK_SHARED)
+
+target_compile_features(llcommon PRIVATE cxx_nullptr cxx_range_for)
+target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
 
 target_link_libraries(
     llcommon

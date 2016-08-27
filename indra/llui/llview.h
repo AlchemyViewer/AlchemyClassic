@@ -232,12 +232,12 @@ public:
 	void		setFollows(U32 flags)			{ mReshapeFlags = flags; }
 
 	// deprecated, use setFollows() with FOLLOWS_LEFT | FOLLOWS_TOP, etc.
-	void		DEPRECATED(setFollowsNone())				{ mReshapeFlags = FOLLOWS_NONE; }
-	void		DEPRECATED(setFollowsLeft())				{ mReshapeFlags |= FOLLOWS_LEFT; }
-	void		DEPRECATED(setFollowsTop())					{ mReshapeFlags |= FOLLOWS_TOP; }
-	void		DEPRECATED(setFollowsRight())				{ mReshapeFlags |= FOLLOWS_RIGHT; }
-	void		DEPRECATED(setFollowsBottom())				{ mReshapeFlags |= FOLLOWS_BOTTOM; }
-	void		DEPRECATED(setFollowsAll())					{ mReshapeFlags |= FOLLOWS_ALL; }
+	void		LL_DEPRECATED(setFollowsNone())				{ mReshapeFlags = FOLLOWS_NONE; }
+	void		LL_DEPRECATED(setFollowsLeft())				{ mReshapeFlags |= FOLLOWS_LEFT; }
+	void		LL_DEPRECATED(setFollowsTop())					{ mReshapeFlags |= FOLLOWS_TOP; }
+	void		LL_DEPRECATED(setFollowsRight())				{ mReshapeFlags |= FOLLOWS_RIGHT; }
+	void		LL_DEPRECATED(setFollowsBottom())				{ mReshapeFlags |= FOLLOWS_BOTTOM; }
+	void		LL_DEPRECATED(setFollowsAll())					{ mReshapeFlags |= FOLLOWS_ALL; }
 
 	void        setSoundFlags(U8 flags)			{ mSoundFlags = flags; }
 	void		setName(std::string name)			{ mName = name; }

@@ -186,29 +186,17 @@ inline S32 llceil( F32 f )
 // Use this round.  Does an arithmetic round (0.5 always rounds up)
 inline S32 ll_round(const F32 val)
 {
-#ifdef LL_CPP11
 	return (S32)round(val);
-#else
-	return llfloor(val + 0.5f);
-#endif
 }
 
 inline F32 ll_round( F32 val, F32 nearest )
 {
-#ifdef LL_CPP11
 	return F32(round(val * (1.0f / nearest))) * nearest;
-#else
-	return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
-#endif
 }
 
 inline F64 ll_round( F64 val, F64 nearest )
 {
-#ifdef LL_CPP11
 	return F64(round(val * (1.0 / nearest))) * nearest;
-#else
-	return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;
-#endif
 }
 
 // these provide minimum peak error

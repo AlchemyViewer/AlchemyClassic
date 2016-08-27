@@ -3,12 +3,7 @@
 # cmake_minimum_required should appear before any
 # other commands to guarantee full compatibility
 # with the version specified
-## prior to 2.8, the add_custom_target commands used in setting the version did not work correctly
-if(WIN32)
-  cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-else()
-  cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
-endif(WIN32)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
     "The root project/makefile/solution name. Defaults to Alchemy.")
@@ -17,11 +12,14 @@ project(${ROOT_PROJECT_NAME})
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
 include(Variables)
-if (NOT MSVC AND NOT LINUX)
-  include(FindCXX14Features)
-  include(FindCXXThreadLocal)
-endif (NOT MSVC AND NOT LINUX)
 include(BuildVersion)
+
+if(WINDOWS OR DARWIN)
+  set(CMAKE_CXX_STANDARD 14)
+else()
+  set(CMAKE_CXX_STANDARD 11)
+endif()
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING

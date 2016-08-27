@@ -8,6 +8,7 @@ include(GooglePerfTools)
 
 set(LLCOMMON_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llcommon
+    ${CMAKE_BINARY_DIR}/llcommon/generated
     ${APRUTIL_INCLUDE_DIR}
     ${APR_INCLUDE_DIR}
     )

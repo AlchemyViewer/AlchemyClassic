@@ -418,7 +418,7 @@ LL_FORCE_INLINE S2 ll_convert_units(LLUnit<S1, T1> in, LLUnit<S2, T2>& out)
 {
 	S2 divisor(1);
 
-	LL_STATIC_ASSERT((LLIsSameType<T1, T2>::value 
+	static_assert((LLIsSameType<T1, T2>::value
 						|| !LLIsSameType<T1, typename T1::base_unit_t>::value 
 						|| !LLIsSameType<T2, typename T2::base_unit_t>::value), 
 						"conversion requires compatible units");

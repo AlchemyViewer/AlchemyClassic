@@ -28,52 +28,12 @@
 #ifndef LL_LLTHREADLOCALSTORAGE_H
 #define LL_LLTHREADLOCALSTORAGE_H
 
+#include "llpreprocessor.h"
+
 #include "llinstancetracker.h"
 
-class LLThreadLocalPointerBase : public LLInstanceTracker<LLThreadLocalPointerBase>
-{
-public:
-	LLThreadLocalPointerBase()
-	:	mThreadKey(NULL)
-	{
-		if (sInitialized)
-		{
-			initStorage();
-		}
-	}
-
-	LLThreadLocalPointerBase( const LLThreadLocalPointerBase& other)
-	:	mThreadKey(NULL)
-	{
-		if (sInitialized)
-		{
-			initStorage();
-		}
-	}
-
-	~LLThreadLocalPointerBase()
-	{
-		destroyStorage();
-	}
-
-	static void initAllThreadLocalStorage();
-	static void destroyAllThreadLocalStorage();
-
-protected:
-	void set(void* value);
-
-	void* get() const;
-
-	void initStorage();
-	void destroyStorage();
-
-protected:
-	struct apr_threadkey_t*	mThreadKey;
-	static bool				sInitialized;
-};
-
 template <typename T>
-class LLThreadLocalPointer : public LLThreadLocalPointerBase
+class LLThreadLocalPointer
 {
 public:
 
@@ -82,47 +42,56 @@ public:
 
 	explicit LLThreadLocalPointer(T* value)
 	{
-		set(value);
+		sThreadLocalPointer = value;
 	}
 
 
 	LLThreadLocalPointer(const LLThreadLocalPointer<T>& other)
-	:	LLThreadLocalPointerBase(other)
 	{
-		set(other.get());		
+		sThreadLocalPointer = other.get();
+	}
+
+	~LLThreadLocalPointer()
+	{
+		if (notNull())
+			delete sThreadLocalPointer;
 	}
 
 	LL_FORCE_INLINE T* get() const
 	{
-		return (T*)LLThreadLocalPointerBase::get();
+		return (T*) sThreadLocalPointer;
 	}
 
 	T* operator -> () const
 	{
-		return (T*)get();
+		return (T*) sThreadLocalPointer;
 	}
 
 	T& operator*() const
 	{
-		return *(T*)get();
+		return *(T*) sThreadLocalPointer;
 	}
 
 	LLThreadLocalPointer<T>& operator = (T* value)
 	{
-		set((void*)value);
+		sThreadLocalPointer = value;
 		return *this;
 	}
 
 	bool operator ==(const T* other) const
 	{
-		if (!sInitialized) return false;
-		return get() == other;
+		return sThreadLocalPointer == other;
 	}
 
-	bool isNull() const { return !sInitialized || get() == NULL; }
+	bool isNull() const { return sThreadLocalPointer == NULL; }
 
-	bool notNull() const { return sInitialized && get() != NULL; }
+	bool notNull() const { return sThreadLocalPointer != NULL; }
+private:
+	static LL_THREAD_LOCAL T* sThreadLocalPointer;
 };
+
+template<typename DERIVED_TYPE>
+LL_THREAD_LOCAL DERIVED_TYPE* LLThreadLocalPointer<DERIVED_TYPE>::sThreadLocalPointer = NULL;
 
 template<typename DERIVED_TYPE>
 class LLThreadLocalSingletonPointer

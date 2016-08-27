@@ -310,7 +310,7 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 
 	S32 file_size = (S32) stat.st_size;
 	
-	llifstream ifstream(filename.c_str(), std::ios_base::in | std::ios_base::binary);
+	llifstream ifstream(filename.c_str(), std::ios::in | std::ios::binary);
 	LLSD data;
 	LLSDSerialize::fromBinary(data, ifstream, file_size);
 	ifstream.close();

@@ -287,12 +287,11 @@ void LLExperienceCache::requestExperiencesCoro(LLCoreHttpUtil::HttpCoroutineAdap
         const LLSD& row = *it;
         LLUUID public_key = row[EXPERIENCE_ID].asUUID();
 
+        LL_DEBUGS("ExperienceCache") << "Received result for " << public_key
+            << " display '" << row[LLExperienceCache::NAME].asString() << "'" << LL_ENDL;
 
-				LL_DEBUGS("ExperienceCache") << "Received result for " << public_key 
-					<< " display '" << row[LLExperienceCache::NAME].asString() << "'" << LL_ENDL ;
-
-				processExperience(public_key, row);
-			}
+        processExperience(public_key, row);
+    }
 
     LLSD error_ids = result["error_ids"];
     
@@ -336,7 +335,7 @@ void LLExperienceCache::requestExperiences()
     urlBase += "id/";
 
 
-		F64 now = LLFrameTimer::getTotalSeconds();
+	F64 now = LLFrameTimer::getTotalSeconds();
 
     const U32 EXP_URL_SEND_THRESHOLD = 3000;
     const U32 PAGE_SIZE = EXP_URL_SEND_THRESHOLD / UUID_STR_LENGTH;
@@ -382,8 +381,8 @@ bool LLExperienceCache::isRequestPending(const LLUUID& public_key)
 		isPending = (it->second > expire_time);
 	}
 
-		return isPending;
-	}
+	return isPending;
+}
 
 void LLExperienceCache::setCapabilityQuery(LLExperienceCache::CapabilityQuery_t queryfn)
 {
@@ -517,11 +516,11 @@ void LLExperienceCache::get(const LLUUID& key, LLExperienceCache::ExperienceGetF
 		callback_signal_t signal;
 		signal.connect(slot);
 			
-			signal(it->second);
-			return;
-		}
+		signal(it->second);
+		return;
+	}
 
-		fetch(key);
+	fetch(key);
 
 	signal_ptr signal = signal_ptr(new callback_signal_t());
 	
@@ -887,7 +886,7 @@ void LLExperienceCache::updateExperienceCoro(LLCoreHttpUtil::HttpCoroutineAdapte
 void LLExperienceCacheImpl::mapKeys(const LLSD& legacyKeys)
 {
 	LLSD::array_const_iterator exp = legacyKeys.beginArray();
-	for(/**/ ; exp != legacyKeys.endArray() ; ++exp)
+	for (/**/; exp != legacyKeys.endArray(); ++exp)
 	{
         if (exp->has(LLExperienceCacheImpl::EXPERIENCE_ID) && exp->has(LLExperienceCacheImpl::PRIVATE_KEY))
 		{

@@ -2432,10 +2432,10 @@ if (LL_TESTS)
       lllogininstance.cpp
   )
 	
-  LL_ADD_INTEGRATION_TEST(llviewernetwork
-    "${llviewernetwork_test_sources}"
-    "${test_libs}"
-    )
+  #LL_ADD_INTEGRATION_TEST(llviewernetwork
+  #  "${llviewernetwork_test_sources}"
+  #  "${test_libs}"
+  #  )
 
   LL_ADD_INTEGRATION_TEST(llviewerassetstats
     llviewerassetstats.cpp

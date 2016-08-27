@@ -88,7 +88,6 @@ void set_thread_name( DWORD dwThreadID, const char* threadName)
 // 
 //----------------------------------------------------------------------------
 
-
 LL_COMMON_API void assert_main_thread()
 {
 	static boost::thread::id s_thread_id = LLThread::currentID();
@@ -157,6 +156,8 @@ LLThread::~LLThread()
 
 void LLThread::shutdown()
 {
+	// Warning!  If you somehow call the thread destructor from itself,
+	// the thread will die in an unclean fashion!
 	if (!isStopped())
 	{
 		// The thread isn't already stopped
@@ -176,7 +177,8 @@ void LLThread::shutdown()
 				break;
 			}
 			// Sleep for a tenth of a second
-			mThread.try_join_for(boost::chrono::microseconds(100));
+			ms_sleep(100);
+			mThread.yield();
 			counter++;
 		}
 	}
@@ -229,6 +231,7 @@ void LLThread::start()
 	try
 	{
 		mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
+		mThread.detach();
 	}
 	catch (boost::thread_resource_error err)
 	{

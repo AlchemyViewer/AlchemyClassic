@@ -11,8 +11,8 @@ include(Variables)
 # Portable compilation flags.
 set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -DLL_DEBUG=1")
 set(CMAKE_CXX_FLAGS_RELEASE
-    "-DLL_RELEASE=1 -DLL_RELEASE_FOR_DOWNLOAD=1 -DNDEBUG") 
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO 
+    "-DLL_RELEASE=1 -DLL_RELEASE_FOR_DOWNLOAD=1 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
     "-DLL_RELEASE=1 -DNDEBUG -DLL_RELEASE_WITH_DEBUG_INFO=1")
 
 # Configure crash reporting
@@ -26,7 +26,7 @@ endif()
 if(NON_RELEASE_CRASH_REPORTING)
   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -DLL_SEND_CRASH_REPORTS=1")
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DLL_SEND_CRASH_REPORTS=1")
-endif()  
+endif()
 
 # Don't bother with a MinSizeRel build.
 set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING
@@ -39,7 +39,7 @@ if (WINDOWS)
 
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} /Od /Zi /MDd /MP -D_SCL_SECURE_NO_WARNINGS=1"
       CACHE STRING "C++ compiler debug options" FORCE)
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO 
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
       "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Od /Zi /MD /MP /Ob0 -D_SECURE_STL=0"
       CACHE STRING "C++ compiler release-with-debug options" FORCE)
   set(CMAKE_CXX_FLAGS_RELEASE
@@ -65,15 +65,6 @@ if (WINDOWS)
   set(CMAKE_CXX_STANDARD_LIBRARIES "")
   set(CMAKE_C_STANDARD_LIBRARIES "")
 
-  add_definitions(
-      /DLL_WINDOWS=1
-      /DNOMINMAX
-      /DUNICODE
-      /D_UNICODE
-      /D_CRT_SECURE_NO_WARNINGS
-      /D_WINSOCK_DEPRECATED_NO_WARNINGS
-      )
-
   add_compile_options(
       /GS
       /TP
@@ -85,6 +76,15 @@ if (WINDOWS)
       /Oy-
       /fp:fast
       /Zm140
+      )
+
+  add_definitions(
+      /DLL_WINDOWS=1
+      /DNOMINMAX
+      /DUNICODE
+      /D_UNICODE
+      /D_CRT_SECURE_NO_WARNINGS
+      /D_WINSOCK_DEPRECATED_NO_WARNINGS
       )
 
   if (USE_LTO AND NOT INCREMENTAL_LINK)
@@ -116,20 +116,24 @@ endif (WINDOWS)
 if (LINUX)
   option(CONSERVE_MEMORY "Optimize for memory usage during link stage for memory-starved systems" OFF)
   set(CMAKE_SKIP_RPATH TRUE)
+
+  add_compile_options(
+    -fvisibility=hidden
+    -fexceptions
+    -fno-math-errno
+    -fno-strict-aliasing
+    -fsigned-char
+    -std=gnu++11
+    -g
+    -pthread
+    )
+
   add_definitions(
-      -DLL_LINUX=1
-      -DAPPID=secondlife
-      -DLL_IGNORE_SIGCHLD
-      -D_REENTRANT
-      -fvisibility=hidden
-      -fexceptions
-      -fno-math-errno
-      -fno-strict-aliasing
-      -fsigned-char
-      -std=gnu++11
-      -g
-      -pthread
-      )
+    -DLL_LINUX=1
+    -DAPPID=secondlife
+    -DLL_IGNORE_SIGCHLD
+    -D_REENTRANT
+    )
 
   # Explicitly disable new C++11 ABI for GCC5/libstd++
   # 1. https://llvm.org/bugs/show_bug.cgi?id=23529
@@ -141,21 +145,21 @@ if (LINUX)
   CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
 
   if (USE_LTO)
-    add_definitions(-flto=8)
-  endif (USE_LTO)  
+    add_compile_options(-flto=8)
+  endif (USE_LTO)
 
   if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     if(HAS_STRONG_STACK_PROTECTOR)
-      add_definitions(-fstack-protector-strong)
+      add_compile_options(-fstack-protector-strong)
     elseif(HAS_STACK_PROTECTOR)
-      add_definitions(-fstack-protector)
+      add_compile_options(-fstack-protector)
     endif(HAS_STRONG_STACK_PROTECTOR)
     add_definitions(-D_FORTIFY_SOURCE=2)
   endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     if (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
-      add_definitions(
+      add_compile_options(
         -msse2
         -mfpmath=sse
         -march=pentium4)
@@ -176,13 +180,13 @@ if (LINUX)
     set(CMAKE_CXX_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS_RELEASE}")
   elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Intel")
     if (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
-      add_definitions(-march=pentium4)
+      add_compile_options(-march=pentium4)
     endif (WORD_SIZE EQUAL 32 AND NOT USESYSTEMLIBS)
 
     set(CMAKE_CXX_FLAGS_DEBUG "-O0 ${CMAKE_CXX_FLAGS_DEBUG}")
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-  
+
   if (NOT USESYSTEMLIBS AND CMAKE_SIZEOF_VOID_P EQUAL 4 OR CONSERVE_MEMORY)
     # linking can be very memory-hungry, especially the final viewer link
     set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
@@ -239,7 +243,7 @@ if (USESYSTEMLIBS)
   add_definitions(-DLL_USESYSTEMLIBS=1)
 
   if (LINUX AND ${ARCH} STREQUAL "i686")
-    add_definitions(-march=pentiumpro)
+    add_compile_options(-march=pentiumpro)
   endif (LINUX AND ${ARCH} STREQUAL "i686")
 
 else (USESYSTEMLIBS)

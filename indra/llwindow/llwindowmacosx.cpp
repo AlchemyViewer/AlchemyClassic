@@ -1468,11 +1468,6 @@ void LLWindowMacOSX::updateCursor()
 	
     if(mCurrentCursor == mNextCursor)
     {
-        if(mCursorHidden && mHideCursorPermanent && isCGCursorVisible())
-        {
-            hideNSCursor();            
-            adjustCursorDecouple();
-        }
         return;
     }
 

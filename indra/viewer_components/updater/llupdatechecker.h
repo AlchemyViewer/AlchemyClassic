@@ -42,6 +42,7 @@ public:
     class Client
     {
     public:
+        
         // An error occurred while checking for an update.
         virtual void error(std::string const & message) = 0;
 

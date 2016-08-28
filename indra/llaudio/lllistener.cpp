@@ -36,9 +36,9 @@ const LLVector3 DEFAULT_UP(0.0f, 1.0f, 0.0f);
 //-----------------------------------------------------------------------
 LLListener::LLListener()
 	: mPosition(LLVector3::zero),
+      mVelocity(LLVector3::zero),
 	  mListenAt(DEFAULT_AT),
-	  mListenUp(DEFAULT_UP),
-	  mVelocity(LLVector3::zero)
+	  mListenUp(DEFAULT_UP)
 {
 }
 

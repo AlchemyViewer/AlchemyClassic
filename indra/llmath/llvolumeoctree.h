@@ -151,11 +151,15 @@ public:
 	void traverse(const LLOctreeNode<LLVolumeTriangle>* node);
 
 	virtual void visit(const LLOctreeNode<LLVolumeTriangle>* node);
+    virtual ~LLOctreeTriangleRayIntersect() {}
 };
 
 class LLVolumeOctreeValidate : public LLOctreeTraveler<LLVolumeTriangle>
 {
 	virtual void visit(const LLOctreeNode<LLVolumeTriangle>* branch);
+    
+public:
+    virtual ~LLVolumeOctreeValidate() {}
 };
 
 #endif

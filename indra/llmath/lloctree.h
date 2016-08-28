@@ -68,6 +68,7 @@ class LLOctreeTraveler
 public:
 	virtual void traverse(const LLOctreeNode<T>* node);
 	virtual void visit(const LLOctreeNode<T>* branch) = 0;
+    virtual ~LLOctreeTraveler() {}
 };
 
 template <class T>
@@ -75,6 +76,7 @@ class LLOctreeTravelerDepthFirst : public LLOctreeTraveler<T>
 {
 public:
 	virtual void traverse(const LLOctreeNode<T>* node);
+    virtual ~LLOctreeTravelerDepthFirst() {}
 };
 
 template <class T>

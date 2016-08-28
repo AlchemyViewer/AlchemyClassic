@@ -118,12 +118,12 @@ LLWindow::LLWindow(LLWindowCallbacks* callbacks, BOOL fullscreen, U32 flags)
 	  mCursorHidden(FALSE),
 	  mBusyCount(0),
 	  mIsMouseClipping(FALSE),
-	  mMinWindowWidth(0),
-	  mMinWindowHeight(0),
 	  mSwapMethod(SWAP_METHOD_UNDEFINED),
 	  mHideCursorPermanent(FALSE),
 	  mFlags(flags),
-	  mHighSurrogate(0)
+	  mHighSurrogate(0),
+      mMinWindowWidth(0),
+      mMinWindowHeight(0)
 {
 }
 

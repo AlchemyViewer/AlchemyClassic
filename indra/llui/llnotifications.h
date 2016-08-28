@@ -864,6 +864,7 @@ private:
 class LLNotificationsInterface
 {
 public:
+    virtual ~LLNotificationsInterface() {}
 	virtual LLNotificationPtr add(const std::string& name, 
 						const LLSD& substitutions, 
 						const LLSD& payload, 

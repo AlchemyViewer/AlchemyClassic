@@ -63,8 +63,8 @@ namespace LLTrace
 
 	public:
 		AccumulatorBuffer()
-			: mStorageSize(0),
-			mStorage(NULL)
+			: mStorage(NULL),
+              mStorageSize(0)
 		{
 			const AccumulatorBuffer& other = *getDefaultBuffer();
 			resize(sNextStorageSlot);
@@ -95,8 +95,8 @@ namespace LLTrace
 
 
 		AccumulatorBuffer(const AccumulatorBuffer& other)
-			: mStorageSize(0),
-			mStorage(NULL)
+			: mStorage(NULL),
+              mStorageSize(0)
 		{
 			resize(sNextStorageSlot);
 			for (S32 i = 0; i < sNextStorageSlot; i++)

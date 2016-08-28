@@ -77,7 +77,6 @@ private:
 //
 class LLUpdateDownloader::Client {
 public:
-	
 	// The download has completed successfully.
 	// data is a map containing the following items:
 	// url - source (remote) location

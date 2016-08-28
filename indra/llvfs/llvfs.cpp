@@ -224,9 +224,9 @@ const S32 LLVFSFileBlock::SERIAL_SIZE = 34;
      
 
 LLVFS::LLVFS(const std::string& index_filename, const std::string& data_filename, const BOOL read_only, const U32 presize, const BOOL remove_after_crash)
-:	mRemoveAfterCrash(remove_after_crash),
-	mDataFP(NULL),
-	mIndexFP(NULL)
+:	mDataFP(NULL),
+	mIndexFP(NULL),
+    mRemoveAfterCrash(remove_after_crash)
 {
 	mDataMutex = new LLMutex();
 

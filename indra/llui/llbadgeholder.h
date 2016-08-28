@@ -41,6 +41,8 @@ public:
 		: mAcceptsBadge(acceptsBadge)
 	{
 	}
+    
+    virtual ~LLBadgeHolder() {}
 
 	void setAcceptsBadge(bool acceptsBadge) { mAcceptsBadge = acceptsBadge; }
 	bool acceptsBadge() const { return mAcceptsBadge; }

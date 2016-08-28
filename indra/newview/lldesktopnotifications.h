@@ -40,6 +40,7 @@ public:
 	virtual bool isImplemented() = 0;
 	
 	LLDesktopNotifications() {}
+    virtual ~LLDesktopNotifications() {}
 	
 private:
 	LLDesktopNotifications(LLDesktopNotifications const&)	= delete;

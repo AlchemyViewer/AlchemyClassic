@@ -78,9 +78,9 @@ LLDir::LLDir()
 	mOSUserDir(""),
 	mOSUserAppDir(""),
 	mLindenUserDir(""),
-	mOSCacheDir(""),
 	mCAFile(""),
-	mTempDir(""),
+    mTempDir(""),
+    mOSCacheDir(""),
 	mDirDelimiter("/"), // fallback to forward slash if not overridden
 	mLanguage("en"),
 	mUserName("undefined"),

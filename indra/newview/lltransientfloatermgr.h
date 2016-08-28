@@ -72,6 +72,9 @@ private:
  */
 class LLTransientFloater
 {
+public:
+    virtual ~LLTransientFloater() {}
+    
 protected:
 	/**
 	 * Class initialization method.

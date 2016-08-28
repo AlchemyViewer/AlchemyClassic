@@ -157,7 +157,7 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	}
 	
 	opj_dparameters_t parameters;	/* decompression parameters */
-	opj_event_mgr_t event_mgr = {0};		/* event manager */
+	opj_event_mgr_t event_mgr = { };		/* event manager */
 	opj_image_t *image = NULL;
 
 	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
@@ -305,7 +305,7 @@ bool LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 {
 	const S32 MAX_COMPS = 5;
 	opj_cparameters_t parameters;	/* compression parameters */
-	opj_event_mgr_t event_mgr = {0};		/* event manager */
+	opj_event_mgr_t event_mgr = { };		/* event manager */
 
 
 	/* 
@@ -522,7 +522,7 @@ bool LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 	// Do it the old and slow way, decode the image with openjpeg
 
 	opj_dparameters_t parameters;	/* decompression parameters */
-	opj_event_mgr_t event_mgr = {0};		/* event manager */
+	opj_event_mgr_t event_mgr = { };		/* event manager */
 	opj_image_t *image = NULL;
 
 	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */

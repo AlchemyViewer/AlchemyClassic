@@ -131,7 +131,7 @@ void LLDate::toStream(std::ostream& s) const
 {
 	std::ios::fmtflags f( s.flags() );
 
-	std::tm exp_time = {0};
+	std::tm exp_time = { };
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
@@ -164,7 +164,7 @@ void LLDate::toStream(std::ostream& s) const
 
 bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *sec) const
 {
-	std::tm exp_time = {0};
+	std::tm exp_time = { };
 	std::time_t time = static_cast<std::time_t>(mSecondsSinceEpoch);
 	
 #if LL_WINDOWS
@@ -211,7 +211,7 @@ bool LLDate::fromString(const std::string& iso8601_date)
 
 bool LLDate::fromStream(std::istream& s)
 {
-	std::tm time = {0};
+	std::tm time = { };
 	int c;
 #if LL_WINDOWS || LL_LINUX // GCC 4.8 lacks this Windows has broken std::get_time() Time for things to get ugly!
 	int32_t tm_part;
@@ -294,7 +294,7 @@ bool LLDate::fromStream(std::istream& s)
 
 bool LLDate::fromYMDHMS(S32 year, S32 month, S32 day, S32 hour, S32 min, S32 sec)
 {
-	std::tm exp_time = {0};
+	std::tm exp_time = { };
 	
 	exp_time.tm_year = year - 1900;
 	exp_time.tm_mon = month - 1;

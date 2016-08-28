@@ -552,10 +552,10 @@ S32 Recording::getSampleCount( const StatType<EventAccumulator>& stat )
 ///////////////////////////////////////////////////////////////////////
 
 PeriodicRecording::PeriodicRecording( S32 num_periods, EPlayState state) 
-:	mAutoResize(num_periods == 0),
-	mCurPeriod(0),
-	mNumRecordedPeriods(0),
-	mRecordingPeriods(num_periods ? num_periods : 1)
+:	mRecordingPeriods(num_periods ? num_periods : 1),
+    mAutoResize(num_periods == 0),
+    mCurPeriod(0),
+    mNumRecordedPeriods(0)
 {
 	setPlayState(state);
 	claim_alloc(gTraceMemStat, this);

@@ -76,8 +76,8 @@ class StatType
 public:
 	typedef LLInstanceTracker<StatType<ACCUMULATOR>, std::string> instance_tracker_t;
 	StatType(const char* name, const char* description)
-	:	instance_tracker_t(name),
-		StatBase(name, description),
+	:	StatBase(name, description),
+        instance_tracker_t(name),
 		mAccumulatorIndex(AccumulatorBuffer<ACCUMULATOR>::getDefaultBuffer()->reserveSlot())
 	{}
 

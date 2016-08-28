@@ -97,7 +97,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	result = mSystem->setSoftwareChannels(num_channels + 2);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
 
-	FMOD_ADVANCEDSETTINGS adv_settings = { 0 };
+	FMOD_ADVANCEDSETTINGS adv_settings = { };
 	adv_settings.cbSize = sizeof(FMOD_ADVANCEDSETTINGS);
 	switch (mResampleMethod)
 	{
@@ -225,7 +225,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODSTUDIO::init() FMOD Studio initialized correctly" << LL_ENDL;
 
-	FMOD_ADVANCEDSETTINGS adv_settings_dump = { 0 };
+	FMOD_ADVANCEDSETTINGS adv_settings_dump = { };
 	mSystem->getAdvancedSettings(&adv_settings_dump);
 
 	LL_INFOS("AppInit") << "LLAudioEngine_FMODSTUDIO::init(): resampler=" << adv_settings.resamplerMethod << " bytes" << LL_ENDL;
@@ -657,7 +657,7 @@ bool LLAudioBufferFMODSTUDIO::loadWAV(const std::string& filename)
 	}
 
 	FMOD_MODE base_mode = FMOD_LOOP_NORMAL;
-	FMOD_CREATESOUNDEXINFO exinfo = {0};
+	FMOD_CREATESOUNDEXINFO exinfo = { };
 	exinfo.cbsize = sizeof(exinfo);
 	exinfo.suggestedsoundtype = FMOD_SOUND_TYPE_WAV;	//Hint to speed up loading.
 	// Load up the wav file into an fmod sample

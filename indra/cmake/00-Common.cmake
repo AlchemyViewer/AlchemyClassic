@@ -262,6 +262,9 @@ if (USESYSTEMLIBS)
   endif (LINUX AND ${ARCH} STREQUAL "i686")
 
 else (USESYSTEMLIBS)
+  #Define this here so it propagates on all systems to all targets
+  add_definitions(-DBOOST_THREAD_VERSION=4)
+
   set(${ARCH}_linux_INCLUDES
       ELFIO
       atk-1.0

@@ -178,7 +178,7 @@ void LLThread::shutdown()
 			}
 			// Sleep for a tenth of a second
 			ms_sleep(100);
-			mThread.yield();
+			boost::this_thread::yield();
 			counter++;
 		}
 	}

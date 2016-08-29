@@ -46,8 +46,6 @@
 #include "llfasttimer.h"
 #include "llrender2dutils.h"
 
-//#include "../tools/imdebug/imdebug.h"
-
 using namespace LLAvatarAppearanceDefines;
 
 // runway consolidate

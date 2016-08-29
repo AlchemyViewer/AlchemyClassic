@@ -37,8 +37,6 @@
 #include "llpolymesh.h"
 #include "llfasttimer.h"
 
-//#include "../tools/imdebug/imdebug.h"
-
 const F32 NORMAL_SOFTEN_FACTOR = 0.65f;
 
 //-----------------------------------------------------------------------------

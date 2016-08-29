@@ -16,6 +16,7 @@ include(LLVFS)
 include(LLXML)
 
 include_directories(
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCOREHTTP_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLINVENTORY_INCLUDE_DIRS}
@@ -28,6 +29,7 @@ include_directories(
     ${LIBS_PREBUILD_DIR}/include/hunspell
     )
 include_directories(SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 

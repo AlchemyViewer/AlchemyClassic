@@ -5,6 +5,15 @@ project(llmath)
 include(00-Common)
 include(LLCommon)
 
+include_directories(
+    ${LLCOMMON_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llmath_SOURCE_FILES
     llbbox.cpp
     llbboxlocal.cpp

@@ -18,6 +18,26 @@ include(Copy3rdPartyLibs)
 include(ZLIB)
 include(URIPARSER)
 
+include_directories(
+    ${EXPAT_INCLUDE_DIRS}
+    ${LLCOMMON_INCLUDE_DIRS}
+    ${OPENSSL_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIR}
+    ${ZLIB_INCLUDE_DIRS}
+    ${BREAKPAD_INCLUDE_DIRECTORIES}
+    ${URIPARSER_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
+# add_executable(lltreeiterators lltreeiterators.cpp)
+# 
+# target_link_libraries(lltreeiterators
+#     ${LLCOMMON_LIBRARIES})
+
 set(llcommon_SOURCE_FILES
     indra_constants.cpp
     llallocator.cpp
@@ -257,22 +277,6 @@ set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 target_compile_features(llcommon PRIVATE cxx_nullptr cxx_range_for)
 target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
-
-target_include_directories(
-    llcommon
-	PRIVATE
-	${CMAKE_CURRENT_BINARY_DIR}
-    ${EXPAT_INCLUDE_DIRS}
-    ${OPENSSL_INCLUDE_DIRS}
-    ${JSONCPP_INCLUDE_DIR}
-    ${ZLIB_INCLUDE_DIRS}
-    ${BREAKPAD_INCLUDE_DIRECTORIES}
-    ${URIPARSER_INCLUDE_DIRS}
-	PUBLIC
-    ${Boost_INCLUDE_DIRS}
-    ${APRUTIL_INCLUDE_DIR}
-    ${APR_INCLUDE_DIR}
-    )
 
 target_link_libraries(
     llcommon

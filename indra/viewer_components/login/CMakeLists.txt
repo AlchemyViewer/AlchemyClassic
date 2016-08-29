@@ -13,10 +13,12 @@ include(LLCoreHttp)
 include(LLMessage)
 
 include_directories(
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
     )
 include_directories(SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 

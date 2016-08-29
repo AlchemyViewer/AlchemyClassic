@@ -14,6 +14,7 @@ include(LLXML)
 
 include_directories(
     ${LLAUDIO_INCLUDE_DIRS}
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}

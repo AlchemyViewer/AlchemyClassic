@@ -6,6 +6,15 @@ include(00-Common)
 include(LLCommon)
 include(UnixInstall)
 
+include_directories(
+    ${LLCOMMON_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llvfs_SOURCE_FILES
     lldir.cpp
     lldiriterator.cpp

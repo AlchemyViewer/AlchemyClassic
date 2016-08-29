@@ -8,8 +8,14 @@ include(LLImage)
 include(OpenJPEG)
 
 include_directories(
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${OPENJPEG_INCLUDE_DIR}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 
 set(llimagej2coj_SOURCE_FILES
@@ -31,5 +37,4 @@ add_library (llimagej2coj ${llimagej2coj_SOURCE_FILES})
 target_link_libraries(
     llimagej2coj
     ${OPENJPEG_LIBRARIES}
-	${LLCOMMON_LIBRARIES}
     )

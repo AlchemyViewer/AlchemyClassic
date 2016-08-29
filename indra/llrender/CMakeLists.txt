@@ -18,6 +18,7 @@ include(LLVFS)
 include_directories(
     ${FREETYPE_INCLUDE_DIRS}
     ${GLEW_INCLUDE_DIR}
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLRENDER_INCLUDE_DIRS}
@@ -27,6 +28,7 @@ include_directories(
     ${LLVFS_INCLUDE_DIRS}
     )
 include_directories(SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 

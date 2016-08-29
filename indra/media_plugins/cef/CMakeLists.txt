@@ -21,6 +21,7 @@ include(CEFPlugin)
 include_directories(
     ${LLPLUGIN_INCLUDE_DIRS}
     ${MEDIA_PLUGIN_BASE_INCLUDE_DIRS}
+    ${LLCOMMON_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLRENDER_INCLUDE_DIRS}
@@ -28,6 +29,7 @@ include_directories(
     ${CEF_INCLUDE_DIR}
 )
 include_directories(SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${PULSEAUDIO_INCLUDE_DIRS}
     )
 

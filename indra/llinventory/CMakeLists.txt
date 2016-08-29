@@ -11,7 +11,6 @@ include(LLVFS)
 include(LLXML)
 
 include_directories(
-    ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
     )
@@ -60,7 +59,10 @@ list(APPEND llinventory_SOURCE_FILES ${llinventory_HEADER_FILES})
 
 add_library (llinventory ${llinventory_SOURCE_FILES})
 
-
+target_link_libraries(llinventory
+    ${LLMATH_LIBRARIES}
+    ${LLCOMMON_LIBRARIES}
+    )
 
 #add unit tests
 if (LL_TESTS)

@@ -27,6 +27,7 @@ if (SDL_FOUND)
 endif (SDL_FOUND)
 
 set(LLWINDOW_INCLUDE_DIRS
+    ${GLEXT_INCLUDE_DIR}
     ${LIBS_OPEN_DIR}/llwindow
     )
 

@@ -16,6 +16,19 @@ include(LLSharedLibs)
 include(GoogleBreakpad)
 include(Boost)
 
+include_directories(
+    ${LLCOREHTTP_INCLUDE_DIRS}
+    ${LLCRASHLOGGER_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLWINDOW_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    ${LLVFS_INCLUDE_DIRS}
+    ${BREAKPAD_INCLUDE_DIRECTORIES}
+    )
+include_directories(SYSTEM
+    ${LLXML_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(win_crash_logger_SOURCE_FILES
     win_crash_logger.cpp
     llcrashloggerwindows.cpp
@@ -41,8 +54,9 @@ set(win_crash_logger_RESOURCE_FILES
 set_source_files_properties(${win_crash_logger_RESOURCE_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
-list(APPEND win_crash_logger_RESOURCE_FILES 
+set(win_crash_logger_RESOURCE_FILES 
     win_crash_logger.rc
+    ${win_crash_logger_RESOURCE_FILES}
     )
 
 SOURCE_GROUP("Resource Files" FILES ${win_crash_logger_RESOURCE_FILES})
@@ -54,12 +68,6 @@ list(APPEND
     )
 
 add_executable(windows-crash-logger WIN32 ${win_crash_logger_SOURCE_FILES})
-
-target_include_directories(
-    windows-crash-logger
-	PRIVATE
-    ${BREAKPAD_INCLUDE_DIRECTORIES}
-    )
 
 target_link_libraries(windows-crash-logger
     ${BREAKPAD_EXCEPTION_HANDLER_LIBRARIES}

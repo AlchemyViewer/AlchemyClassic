@@ -13,6 +13,14 @@ include(Linking)
 include(PluginAPI)
 include(OpenGL)
 
+include_directories(
+    ${LLPLUGIN_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLIMAGE_INCLUDE_DIRS}
+    ${LLRENDER_INCLUDE_DIRS}
+    ${LLWINDOW_INCLUDE_DIRS}
+)
+
 ### media_plugin_base
 
 set(media_plugin_base_SOURCE_FILES
@@ -33,7 +41,6 @@ set_target_properties(media_plugin_base PROPERTIES POSITION_INDEPENDENT_CODE TRU
 
 target_link_libraries(
     media_plugin_base
-    ${LLPLUGIN_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     )
 

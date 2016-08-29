@@ -15,6 +15,22 @@ include(LLCoreHttp)
 include(LLVFS)
 include(LLXML)
 
+include_directories(
+    ${LLCOREHTTP_INCLUDE_DIRS}
+    ${LLIMAGE_INCLUDE_DIRS}
+    ${LLINVENTORY_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLMESSAGE_INCLUDE_DIRS}
+    ${LLRENDER_INCLUDE_DIRS}
+    ${LLWINDOW_INCLUDE_DIRS}
+    ${LLVFS_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    ${LIBS_PREBUILD_DIR}/include/hunspell
+    )
+include_directories(SYSTEM
+    ${LLXML_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llui_SOURCE_FILES
     llaccordionctrl.cpp
     llaccordionctrltab.cpp
@@ -250,13 +266,6 @@ set_source_files_properties(llurlentry.cpp
 list(APPEND llui_SOURCE_FILES ${llui_HEADER_FILES})
 
 add_library (llui ${llui_SOURCE_FILES})
-
-target_include_directories(
-    llui
-    PRIVATE
-    ${HUNSPELL_INCLUDE_DIR}
-    )
-
 # Libraries on which this library depends, needed for Linux builds
 # Sort by high-level to low-level
 target_link_libraries(llui

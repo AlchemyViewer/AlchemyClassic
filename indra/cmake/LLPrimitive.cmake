@@ -9,8 +9,8 @@ use_prebuilt_binary(colladadom)
 
 set(LLPRIMITIVE_INCLUDE_DIRS
     ${LIBS_OPEN_DIR}/llprimitive
+    ${LIBXML2_INCLUDES}
     )
-
 if (WINDOWS)
     set(LLPRIMITIVE_LIBRARIES
         debug llprimitive

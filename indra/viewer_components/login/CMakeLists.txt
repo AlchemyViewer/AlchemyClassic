@@ -12,6 +12,14 @@ include(LLXML)
 include(LLCoreHttp)
 include(LLMessage)
 
+include_directories(
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    )
+include_directories(SYSTEM
+    ${LLXML_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(login_SOURCE_FILES
     lllogin.cpp
     )

@@ -3,7 +3,6 @@
 project(llcorehttp)
 
 include(00-Common)
-include(Boost)
 include(CURL)
 include(OpenSSL)
 include(ZLIB)
@@ -12,6 +11,18 @@ include(LLAddBuildTest)
 include(LLMessage)
 include(LLCommon)
 include(Tut)
+
+include_directories (${CMAKE_CURRENT_SOURCE_DIR})
+
+include_directories(
+    ${LLMESSAGE_INCLUDE_DIRS}
+    ${LLCOREHTTP_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOREHTTP_SYSTEM_INCLUDE_DIRS}
+    )
 
 set(llcorehttp_SOURCE_FILES
     bufferarray.cpp
@@ -75,19 +86,8 @@ list(APPEND llcorehttp_SOURCE_FILES ${llcorehttp_HEADER_FILES})
 
 add_library (llcorehttp ${llcorehttp_SOURCE_FILES})
 
-include_directories (${CMAKE_CURRENT_SOURCE_DIR})
-
-target_include_directories(
-    llcorehttp
-	PUBLIC
-    ${Boost_INCLUDE_DIRS}
-    ${CURL_INCLUDE_DIRS}
-    ${OPENSSL_INCLUDE_DIRS}
-    )
-
 target_link_libraries(
   llcorehttp
-  ${LLMESSAGE_LIBRARIES}
   ${LLCOMMON_LIBRARIES}}
   ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}

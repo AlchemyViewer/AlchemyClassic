@@ -2,10 +2,15 @@ project(AlchemyPlugin)
 
 include(00-Common)
 include(LLCommon)
-include(LLMessage)
 include(LLPlugin)
 include(Linking)
 include(PluginAPI)
+include(LLMessage)
+
+include_directories(
+    ${LLPLUGIN_INCLUDE_DIRS}
+    ${LLMESSAGE_INCLUDE_DIRS}
+)
 
 if (DARWIN)
     include(CMakeFindFrameworks)

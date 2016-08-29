@@ -16,6 +16,22 @@ include(LLWindow)
 include(LLXML)
 include(Linking)
 
+include_directories(
+    ${LLCHARACTER_INCLUDE_DIRS}
+    ${LLIMAGE_INCLUDE_DIRS}
+    ${LLINVENTORY_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLRENDER_INCLUDE_DIRS}
+    ${LLVFS_INCLUDE_DIRS}
+    ${LLWINDOW_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    )
+
+include_directories(
+    SYSTEM
+    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llappearance_SOURCE_FILES
     llavatarappearance.cpp
     llavatarjoint.cpp

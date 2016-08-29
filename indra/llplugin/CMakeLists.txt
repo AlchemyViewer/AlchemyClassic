@@ -3,12 +3,27 @@
 project(llplugin)
 
 include(00-Common)
-include(Boost)
 include(CURL)
 include(LLCommon)
+include(LLImage)
 include(LLMath)
 include(LLMessage)
 include(LLRender)
+include(LLXML)
+include(LLWindow)
+include(Boost)
+
+include_directories(
+    ${LLIMAGE_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLMESSAGE_INCLUDE_DIRS}
+    ${LLRENDER_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    ${LLWINDOW_INCLUDE_DIRS}
+    )
+include_directories(SYSTEM
+    ${LLXML_SYSTEM_INCLUDE_DIRS}
+    )
 
 set(llplugin_SOURCE_FILES
     llpluginclassmedia.cpp
@@ -47,9 +62,6 @@ set_target_properties(llplugin PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 target_link_libraries(
     llplugin
-    ${LLRENDER_LIBRARIES}
-    ${LLMESSAGE_LIBRARIES}
-    ${LLMATH_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
 )
 

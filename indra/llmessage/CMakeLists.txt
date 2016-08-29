@@ -14,8 +14,16 @@ include(Python)
 include(Tut)
 include(Python)
 include(JsonCpp)
-include(CURL)
-include(XmlRpcEpi)
+
+include_directories (${CMAKE_CURRENT_SOURCE_DIR})
+
+include_directories(
+    ${LLCOREHTTP_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLMESSAGE_INCLUDE_DIRS}
+    ${LLVFS_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIR}
+    )
 
 set(llmessage_SOURCE_FILES
     llaescipher.cpp
@@ -193,14 +201,6 @@ set_source_files_properties(${llmessage_HEADER_FILES}
 list(APPEND llmessage_SOURCE_FILES ${llmessage_HEADER_FILES})
 
 add_library (llmessage ${llmessage_SOURCE_FILES})
-
-target_include_directories(
-    llmessage
-    PRIVATE
-    ${JSONCPP_INCLUDE_DIR}
-    PUBLIC
-    ${CURL_INCLUDE_DIRS}
-    )
 
 target_link_libraries(
   llmessage

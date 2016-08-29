@@ -9,6 +9,16 @@ include(LLMessage)
 include(LLVFS)
 include(LLXML)
 
+include_directories(
+    ${LLMATH_INCLUDE_DIRS}
+    ${LLMESSAGE_INCLUDE_DIRS}
+    ${LLVFS_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
+    )
+include_directories(SYSTEM
+    ${LLXML_SYSTEM_INCLUDE_DIRS}
+    )
+
 set(llcharacter_SOURCE_FILES
     llanimationstates.cpp
     llbvhloader.cpp

@@ -29,7 +29,10 @@
 #include "linden_common.h"
 #include "lluriparser.h"
 
-LLUriParser::LLUriParser(const std::string& u) : mTmpScheme(false), mNormalizedTmp(false), mRes(0)
+LLUriParser::LLUriParser(const std::string& u)
+:   mRes(0)
+,   mTmpScheme(false)
+,   mNormalizedTmp(false)
 {
 	mState.uri = &mUri;
 

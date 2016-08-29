@@ -521,11 +521,11 @@ namespace LLError
 		mLine(line),
 		mClassInfo(class_info), 
 		mFunction(function),
-		mCached(false), 
-		mShouldLog(false), 
-		mPrintOnce(printOnce),
 		mTags(new const char* [tag_count]),
-		mTagCount(tag_count)
+		mTagCount(tag_count),
+        mPrintOnce(printOnce),
+        mCached(false),
+        mShouldLog(false)
 	{
 		for (int i = 0; i < tag_count; i++)
 		{

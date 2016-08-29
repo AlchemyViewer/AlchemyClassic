@@ -442,10 +442,10 @@ TimeBlockAccumulator::TimeBlockAccumulator()
 :	mTotalTimeCounter(0),
 	mSelfTimeCounter(0),
 	mCalls(0),
+    mParent(NULL),
 	mLastCaller(NULL),
 	mActiveCount(0),
-	mMoveUpTree(false),
-	mParent(NULL)
+	mMoveUpTree(false)
 {}
 
 void TimeBlockAccumulator::addSamples( const TimeBlockAccumulator& other, EBufferAppendType append_type )

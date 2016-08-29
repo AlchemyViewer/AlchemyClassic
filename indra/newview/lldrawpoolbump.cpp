@@ -48,9 +48,6 @@
 #include "llspatialpartition.h"
 #include "llviewershadermgr.h"
 
-//#include "llimagebmp.h"
-//#include "../tools/imdebug/imdebug.h"
-
 // static
 LLStandardBumpmap gStandardBumpmapList[TEM_BUMPMAP_COUNT]; 
 

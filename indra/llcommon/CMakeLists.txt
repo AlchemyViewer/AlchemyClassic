@@ -6,6 +6,7 @@ project(llcommon)
 include(00-Common)
 include(CXXFeatureDetection)
 include(LLCommon)
+include(LLMath)
 include(Linking)
 include(Boost)
 include(OpenSSL)
@@ -265,15 +266,15 @@ target_compile_features(llcommon PUBLIC cxx_nullptr cxx_static_assert)
 
 target_include_directories(
     llcommon
-	PRIVATE
-	${CMAKE_CURRENT_BINARY_DIR}
+    PRIVATE
+    ${LLMATH_INCLUDE_DIRS}
     ${EXPAT_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     ${URIPARSER_INCLUDE_DIRS}
-	PUBLIC
+    PUBLIC
     ${Boost_INCLUDE_DIRS}
     ${APRUTIL_INCLUDE_DIR}
     ${APR_INCLUDE_DIR}

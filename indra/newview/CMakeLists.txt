@@ -1713,8 +1713,7 @@ file(GLOB EVENT_HOST_SCRIPT_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/../viewer_components/*.py)
 list(APPEND EVENT_HOST_SCRIPTS ${EVENT_HOST_SCRIPT_GLOB_LIST})
 
-set(PACKAGE ON CACHE BOOL
-    "Add a package target that builds an installer package.")
+option(PACKAGE "Add a package target that builds an installer package." ON)
 
 if (WINDOWS)
     set_target_properties(${VIEWER_BINARY_NAME}

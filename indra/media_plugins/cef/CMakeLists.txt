@@ -18,20 +18,6 @@ include(PulseAudio)
 
 include(CEFPlugin)
 
-include_directories(
-    ${LLPLUGIN_INCLUDE_DIRS}
-    ${MEDIA_PLUGIN_BASE_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${LLRENDER_INCLUDE_DIRS}
-    ${LLWINDOW_INCLUDE_DIRS}
-    ${CEF_INCLUDE_DIR}
-)
-include_directories(SYSTEM
-    ${PULSEAUDIO_INCLUDE_DIRS}
-    )
-
-
 ### media_plugin_cef
 
 if(NOT WORD_SIZE EQUAL 32)
@@ -49,10 +35,11 @@ set(media_plugin_cef_HEADER_FILES
     )
 
 set (media_plugin_cef_LINK_LIBRARIES
-  ${LLPLUGIN_LIBRARIES}
   ${MEDIA_PLUGIN_BASE_LIBRARIES}
-  ${CEF_PLUGIN_LIBRARIES}
+  ${LLPLUGIN_LIBRARIES}
+  ${LLRENDER_LIBRARIES}
   ${LLCOMMON_LIBRARIES}
+  ${CEF_PLUGIN_LIBRARIES}
   ${PLUGIN_API_WINDOWS_LIBRARIES})
 
 
@@ -91,6 +78,20 @@ add_library(media_plugin_cef
 #add_dependencies(media_plugin_cef
 #  ${MEDIA_PLUGIN_BASE_LIBRARIES}
 #)
+
+target_include_directories(
+    media_plugin_cef
+    PRIVATE
+    ${MEDIA_PLUGIN_BASE_INCLUDE_DIRS}
+    ${CEF_INCLUDE_DIR}
+)
+
+target_include_directories(
+    media_plugin_cef
+    SYSTEM
+    PRIVATE
+    ${PULSEAUDIO_INCLUDE_DIRS}
+    )
 
 target_link_libraries(media_plugin_cef
   ${media_plugin_cef_LINK_LIBRARIES}

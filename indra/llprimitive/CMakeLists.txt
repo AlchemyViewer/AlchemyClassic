@@ -11,21 +11,6 @@ include(LLXML)
 include(LLPhysicsExtensions)
 include(LLCharacter)
 
-include_directories(
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLXML_INCLUDE_DIRS}
-    ${LIBS_PREBUILT_DIR}/include/collada
-    ${LIBS_PREBUILT_DIR}/include/collada/1.4
-    ${LLCHARACTER_INCLUDE_DIRS}
-    )
-include_directories(SYSTEM
-    ${LLXML_SYSTEM_INCLUDE_DIRS}
-    ${LLPHYSICSEXTENSIONS_INCLUDE_DIRS}
-    ${LIBS_PREBUILT_DIR}/include/collada
-    ${LIBS_PREBUILT_DIR}/include/collada/1.4
-    )
-
 set(llprimitive_SOURCE_FILES
     lldaeloader.cpp
     llmaterialid.cpp
@@ -72,14 +57,30 @@ list(APPEND llprimitive_SOURCE_FILES ${llprimitive_HEADER_FILES})
 
 add_library (llprimitive ${llprimitive_SOURCE_FILES})
 
+target_include_directories(
+    llprimitive
+    PUBLIC
+    ${LIBS_PREBUILT_DIR}/include/collada
+    ${LIBS_PREBUILT_DIR}/include/collada/1.4
+    )
+
+target_include_directories(
+    llprimitive
+    SYSTEM
+    PUBLIC
+    ${LLPHYSICSEXTENSIONS_INCLUDE_DIRS}
+    ${LIBS_PREBUILT_DIR}/include/collada
+    ${LIBS_PREBUILT_DIR}/include/collada/1.4
+    )
+
 target_link_libraries(llprimitive
-    ${LLCOMMON_LIBRARIES}
-    ${LLMATH_LIBRARIES}
-    ${LLMESSAGE_LIBRARIES}
-    ${LLCOREHTTP_LIBRARIES}
-    ${LLXML_LIBRARIES}
     ${LLPHYSICSEXTENSIONS_LIBRARIES}
     ${LLCHARACTER_LIBRARIES}
+    ${LLCOREHTTP_LIBRARIES}
+    ${LLMESSAGE_LIBRARIES}
+    ${LLXML_LIBRARIES}
+    ${LLMATH_LIBRARIES}
+    ${LLCOMMON_LIBRARIES}
     ${BOOST_COROUTINE_LIBRARY}
     ${BOOST_CONTEXT_LIBRARY}
     )

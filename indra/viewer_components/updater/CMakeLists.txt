@@ -15,15 +15,6 @@ include(LLMessage)
 include(LLPlugin)
 include(LLVFS)
 
-include_directories(
-    ${LLCOREHTTP_INCLUDE_DIRS}
-    ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLPLUGIN_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${CURL_INCLUDE_DIRS}
-    ${CMAKE_SOURCE_DIR}/newview
-    )
-
 set(updater_service_SOURCE_FILES
     llupdaterservice.cpp
     llupdatechecker.cpp
@@ -56,12 +47,19 @@ add_library(llupdaterservice
             ${updater_service_SOURCE_FILES}
             )
 
+target_include_directories(
+    llupdaterservice
+    PRIVATE
+    ${LIBS_OPEN_DIR}/newview
+    ${CURL_INCLUDE_DIRS}
+    )
+
 target_link_libraries(llupdaterservice
-    ${LLCOMMON_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}
     ${LLPLUGIN_LIBRARIES}
     ${LLVFS_LIBRARIES}
+    ${LLCOMMON_LIBRARIES}
     )
 
 if(LL_TESTS)

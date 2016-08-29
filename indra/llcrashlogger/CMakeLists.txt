@@ -10,17 +10,6 @@ include(LLMessage)
 include(LLVFS)
 include(LLXML)
 
-include_directories(
-    ${LLCOREHTTP_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${LLXML_INCLUDE_DIRS}
-    )
-include_directories(SYSTEM
-    ${LLXML_SYSTEM_INCLUDE_DIRS}
-    )
-
 set(llcrashlogger_SOURCE_FILES
     llcrashlogger.cpp
     llcrashlock.cpp
@@ -42,5 +31,9 @@ add_library(llcrashlogger ${llcrashlogger_SOURCE_FILES})
 
 target_link_libraries(
     llcrashlogger
+    ${LLMESSAGE_LIBRARIES}
+    ${LLCOREHTTP_LIBRARIES}
+    ${LLXML_LIBRARIES}
+	${LLVFS_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     )

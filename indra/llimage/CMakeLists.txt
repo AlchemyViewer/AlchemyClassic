@@ -9,16 +9,11 @@ include(LLMath)
 include(LLVFS)
 include(LLKDU)
 include(LLImageJ2COJ)
+include(JPEG)
+include(PNG)
 include(ZLIB)
 include(LLAddBuildTest)
 include(Tut)
-
-include_directories(
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${PNG_INCLUDE_DIRS}
-    ${ZLIB_INCLUDE_DIRS}
-    )
 
 set(llimage_SOURCE_FILES
     llimagebmp.cpp
@@ -57,6 +52,14 @@ set_source_files_properties(${llimage_HEADER_FILES}
 list(APPEND llimage_SOURCE_FILES ${llimage_HEADER_FILES})
 
 add_library (llimage ${llimage_SOURCE_FILES})
+
+target_include_directories(llimage
+    PRIVATE
+    ${PNG_INCLUDE_DIRS}
+    PUBLIC
+    ${JPEG_INCLUDE_DIRS}
+    )
+
 # Libraries on which this library depends, needed for Linux builds
 # Sort by high-level to low-level
 if (USE_KDU)

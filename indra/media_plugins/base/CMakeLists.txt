@@ -13,14 +13,6 @@ include(Linking)
 include(PluginAPI)
 include(OpenGL)
 
-include_directories(
-    ${LLPLUGIN_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${LLRENDER_INCLUDE_DIRS}
-    ${LLWINDOW_INCLUDE_DIRS}
-)
-
 ### media_plugin_base
 
 if(NOT WORD_SIZE EQUAL 32)
@@ -47,6 +39,7 @@ add_library(media_plugin_base
 
 target_link_libraries(
     media_plugin_base
+    ${LLPLUGIN_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
     )
 

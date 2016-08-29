@@ -21,18 +21,6 @@ include(LLWindow)
 include(LLXML)
 include(UI)
 
-include_directories(
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLRENDER_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${LLWINDOW_INCLUDE_DIRS}
-    ${LLXML_INCLUDE_DIRS}
-    )
-include_directories(SYSTEM
-    ${LLXML_SYSTEM_INCLUDE_DIRS}
-    )
-
 set(llwindow_SOURCE_FILES
     llcursortypes.cpp
     llkeyboard.cpp

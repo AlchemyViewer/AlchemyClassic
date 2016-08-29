@@ -7,11 +7,6 @@ include(LLCommon)
 include(LLImage)
 include(OpenJPEG)
 
-include_directories(
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${OPENJPEG_INCLUDE_DIR}
-    )
-
 set(llimagej2coj_SOURCE_FILES
     llimagej2coj.cpp
     )
@@ -28,8 +23,16 @@ set_source_files_properties(${llimagej2coj_HEADER_FILES}
 list(APPEND llimagej2coj_SOURCE_FILES ${llimagej2coj_HEADER_FILES})
 
 add_library (llimagej2coj ${llimagej2coj_SOURCE_FILES})
+
+target_include_directories(
+    llimagej2coj
+    PRIVATE
+    ${OPENJPEG_INCLUDE_DIR}
+    )
+
 target_link_libraries(
     llimagej2coj
+    ${LLIMAGE_LIBRARIES}
+    ${LLCOMMON_LIBRARIES}
     ${OPENJPEG_LIBRARIES}
-	${LLCOMMON_LIBRARIES}
     )

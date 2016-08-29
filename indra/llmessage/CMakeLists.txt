@@ -14,16 +14,8 @@ include(Python)
 include(Tut)
 include(Python)
 include(JsonCpp)
-
-include_directories (${CMAKE_CURRENT_SOURCE_DIR})
-
-include_directories(
-    ${LLCOREHTTP_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${JSONCPP_INCLUDE_DIR}
-    )
+include(CURL)
+include(XmlRpcEpi)
 
 set(llmessage_SOURCE_FILES
     llaescipher.cpp
@@ -202,18 +194,26 @@ list(APPEND llmessage_SOURCE_FILES ${llmessage_HEADER_FILES})
 
 add_library (llmessage ${llmessage_SOURCE_FILES})
 
+target_include_directories(
+    llmessage
+    PRIVATE
+    ${JSONCPP_INCLUDE_DIR}
+    PUBLIC
+    ${CURL_INCLUDE_DIRS}
+    )
+
 if (LINUX)
 target_link_libraries(
   llmessage
-  ${CURL_LIBRARIES}
-  ${LLCOMMON_LIBRARIES}
+  ${LLCOREHTTP_LIBRARIES}
   ${LLVFS_LIBRARIES}
   ${LLMATH_LIBRARIES}
-  ${JSONCPP_LIBRARIES}
+  ${LLCOMMON_LIBRARIES}
+  ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
+  ${JSONCPP_LIBRARIES}
   ${XMLRPCEPI_LIBRARIES}
-  ${LLCOREHTTP_LIBRARIES}
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
   ${BOOST_SYSTEM_LIBRARY}
@@ -223,15 +223,15 @@ target_link_libraries(
 else (LINUX)
 target_link_libraries(
   llmessage
-  ${CURL_LIBRARIES}
-  ${LLCOMMON_LIBRARIES}
+  ${LLCOREHTTP_LIBRARIES}
   ${LLVFS_LIBRARIES}
   ${LLMATH_LIBRARIES}
-  ${JSONCPP_LIBRARIES}
+  ${LLCOMMON_LIBRARIES}
+  ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
+  ${JSONCPP_LIBRARIES}
   ${XMLRPCEPI_LIBRARIES}
-  ${LLCOREHTTP_LIBRARIES}
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
   ${BOOST_SYSTEM_LIBRARY}

@@ -65,49 +65,6 @@ endif (NOT HAVOK_TPV)
 endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 # </alchemy>
 
-if(FMODSTUDIO)
-  include_directories(${FMODSTUDIO_INCLUDE_DIR})
-endif(FMODSTUDIO)
-
-include_directories(
-    ${DBUSGLIB_INCLUDE_DIRS}
-    ${ZLIB_INCLUDE_DIRS}
-    ${JSONCPP_INCLUDE_DIR}
-    ${GLOD_INCLUDE_DIR}
-    ${LLAUDIO_INCLUDE_DIRS}
-    ${LLCHARACTER_INCLUDE_DIRS}
-    ${LLCOREHTTP_INCLUDE_DIRS}
-    ${LLPHYSICS_INCLUDE_DIRS}
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${LLKDU_INCLUDE_DIRS}
-    ${LLINVENTORY_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLPLUGIN_INCLUDE_DIRS}
-    ${LLPRIMITIVE_INCLUDE_DIRS}
-    ${LLRENDER_INCLUDE_DIRS}
-    ${LLUI_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${LLWINDOW_INCLUDE_DIRS}
-    ${LLXML_INCLUDE_DIRS}
-    ${LLLOGIN_INCLUDE_DIRS}
-    ${UPDATER_INCLUDE_DIRS}
-    ${LIBS_PREBUILT_DIR}/include/collada
-    ${HUNSPELL_INCLUDE_DIR}
-    ${OPENAL_LIB_INCLUDE_DIRS}
-    ${LIBS_PREBUILT_DIR}/include/collada/1.4
-    ${LLAPPEARANCE_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}
-    )
-
-include_directories(SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
-    ${LLXML_SYSTEM_INCLUDE_DIRS}
-    ${LLPHYSICSEXTENSIONS_INCLUDE_DIRS}
-    ${LIBS_PREBUILT_DIR}/include/collada
-    ${LIBS_PREBUILT_DIR}/include/collada/1.4
-    )
-
 set(viewer_SOURCE_FILES
     alavatarcolormgr.cpp
     alchatcommand.cpp
@@ -1979,6 +1936,28 @@ else (WINDOWS)
         LINK_FLAGS_RELEASE "${LINK_FLAGS_RELEASE} -Wl,--Map=${VIEWER_BINARY_NAME}.MAP"
         )
 endif (WINDOWS)
+
+target_include_directories(
+    ${VIEWER_BINARY_NAME}
+    PUBLIC
+    ${DBUSGLIB_INCLUDE_DIRS}
+    ${ZLIB_INCLUDE_DIRS}
+    ${JSONCPP_INCLUDE_DIR}
+    ${GLOD_INCLUDE_DIR}
+    ${LLKDU_INCLUDE_DIRS}
+    ${LIBS_PREBUILT_DIR}/include/collada
+    ${LIBS_PREBUILT_DIR}/include/collada/1.4
+	${LIBXML2_INCLUDES}
+    )
+
+target_include_directories(
+    ${VIEWER_BINARY_NAME}
+    SYSTEM
+    PUBLIC
+    ${LLPHYSICSEXTENSIONS_INCLUDE_DIRS}
+    ${LIBS_PREBUILT_DIR}/include/collada
+    ${LIBS_PREBUILT_DIR}/include/collada/1.4
+    )
 
 # *NOTE: - this list is very sensitive to ordering, test carefully on all
 # platforms if you change the releative order of the entries here.

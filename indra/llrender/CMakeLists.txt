@@ -15,21 +15,6 @@ include(LLWindow)
 include(LLXML)
 include(LLVFS)
 
-include_directories(
-    ${FREETYPE_INCLUDE_DIRS}
-    ${GLEW_INCLUDE_DIR}
-    ${LLIMAGE_INCLUDE_DIRS}
-    ${LLMATH_INCLUDE_DIRS}
-    ${LLRENDER_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    ${LLWINDOW_INCLUDE_DIRS}
-    ${LLXML_INCLUDE_DIRS}
-    ${LLVFS_INCLUDE_DIRS}
-    )
-include_directories(SYSTEM
-    ${LLXML_SYSTEM_INCLUDE_DIRS}
-    )
-
 set(llrender_SOURCE_FILES
     llcubemap.cpp
     llfontbitmapcache.cpp
@@ -107,11 +92,14 @@ endif (BUILD_HEADLESS)
 
 add_library (llrender ${llrender_SOURCE_FILES})
 
-if (SDL_FOUND)
-  set_property(TARGET llrender
-    PROPERTY COMPILE_DEFINITIONS LL_SDL=1
+target_include_directories(
+    llrender
+    PRIVATE
+    ${FREETYPE_INCLUDE_DIRS}
+	PUBLIC
+    ${GLEW_INCLUDE_DIR}
+    ${GLH_INCLUDE_DIR}
     )
-endif (SDL_FOUND)
 
 # Libraries on which this library depends, needed for Linux builds
 # Sort by high-level to low-level

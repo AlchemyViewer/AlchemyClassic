@@ -15,14 +15,6 @@ include(OpenGL)
 
 ### media_plugin_base
 
-if(NOT WORD_SIZE EQUAL 32)
-  if(WINDOWS)
-    #add_definitions(/FIXED:NO)
-  else(WINDOWS) # not windows therefore gcc LINUX and DARWIN
-    add_definitions(-fPIC)
-  endif(WINDOWS)
-endif(NOT WORD_SIZE EQUAL 32)
-
 set(media_plugin_base_SOURCE_FILES
     media_plugin_base.cpp
 )
@@ -36,6 +28,8 @@ set(media_plugin_base_HEADER_FILES
 add_library(media_plugin_base
     ${media_plugin_base_SOURCE_FILES}
 )
+
+set_target_properties(media_plugin_base PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 target_link_libraries(
     media_plugin_base

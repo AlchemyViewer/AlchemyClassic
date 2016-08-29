@@ -84,14 +84,6 @@ target_link_libraries(windows-crash-logger
     Wldap32
     )
 
-if (WINDOWS)
-    set_target_properties(windows-crash-logger
-        PROPERTIES 
-        LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
-        LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
-        )
-endif (WINDOWS)
-
-if (LL_TESTS)
-  #ll_deploy_sharedlibs_command(windows-crash-logger)
-endif (LL_TESTS)
+#if (LL_TESTS)
+#  ll_deploy_sharedlibs_command(windows-crash-logger)
+#endif (LL_TESTS)

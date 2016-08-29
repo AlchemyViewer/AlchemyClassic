@@ -216,9 +216,7 @@ endif (DARWIN)
     # The following come from LLAddBuildTest.cmake's INTEGRATION_TEST_xxxx target.
     set_target_properties(http_texture_load
                           PROPERTIES
-                          LINK_FLAGS "/debug /NODEFAULTLIB:LIBCMT /SUBSYSTEM:CONSOLE ${TCMALLOC_LINK_FLAGS}"
-                          LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\" "
-                          LINK_FLAGS_RELEASE ""
+                          LINK_FLAGS "/debug /SUBSYSTEM:CONSOLE ${TCMALLOC_LINK_FLAGS}"
                           )
   endif (WINDOWS)
 

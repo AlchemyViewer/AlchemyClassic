@@ -89,12 +89,6 @@ target_link_libraries(llui_libtest
     )
 
 if (WINDOWS)
-    set_target_properties(llui_libtest
-        PROPERTIES 
-        LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
-        LINK_FLAGS_DEBUG "/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMTD"
-        )
-
     # Copy over OpenJPEG.dll
     # *NOTE: On Windows with VS2005, only the first comment prints
     set(OPENJPEG_RELEASE

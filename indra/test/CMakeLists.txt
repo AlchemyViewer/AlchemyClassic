@@ -98,14 +98,6 @@ target_link_libraries(lltest
     ${GOOGLE_PERFTOOLS_LIBRARIES}
     )
 
-if (WINDOWS)
-  set_target_properties(lltest
-          PROPERTIES 
-          LINK_FLAGS "/NODEFAULTLIB:LIBCMT"
-          LINK_FLAGS_DEBUG "/NODEFAULTLIB:\"LIBCMT;LIBCMTD;MSVCRT\""
-          )
-endif (WINDOWS)
-
 set(TEST_EXE $<TARGET_FILE:lltest>)
 
 SET_TEST_PATH(DYLD_LIBRARY_PATH)

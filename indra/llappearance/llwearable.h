@@ -32,6 +32,7 @@
 #include "llsaleinfo.h"
 #include "llwearabletype.h"
 #include "llsortedvector.h"
+#include "v4color.h"
 
 class LLMD5;
 class LLVisualParam;

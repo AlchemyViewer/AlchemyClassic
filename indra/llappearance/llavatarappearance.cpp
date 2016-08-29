@@ -26,6 +26,7 @@
 
 #include "linden_common.h"
 
+#include "indra_constants.h"
 #include "llavatarappearance.h"
 #include "llavatarappearancedefines.h"
 #include "llavatarjointmesh.h"

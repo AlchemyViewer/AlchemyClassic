@@ -40,7 +40,6 @@
 #include "llquaternion.h"
 #include "llstring.h"
 #include "lluuid.h"
-#include "lldir.h"
 
 // static
 BOOL LLXMLNode::sStripEscapedStrings = TRUE;

@@ -2361,13 +2361,6 @@ if (LL_TESTS)
   #     set(test_sources "${test_sources}" llviewerprecompiledheaders.cpp)
   # endif(USE_PRECOMPILED_HEADERS)
 
-  if (LINUX)
-    # llcommon uses `clock_gettime' which is provided by librt on linux.
-    set(LIBRT_LIBRARY
-      rt
-      )
-  endif (LINUX)
-
   set(test_libs
     ${WINDOWS_LIBRARIES}
     ${LLVFS_LIBRARIES}
@@ -2379,7 +2372,7 @@ if (LL_TESTS)
     ${LLCOMMON_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${CRYPTO_LIBRARIES}
-    ${LIBRT_LIBRARY}
+    ${RT_LIBRARY}
     ${BOOST_COROUTINE_LIBRARY}
     ${BOOST_CONTEXT_LIBRARY}
   )

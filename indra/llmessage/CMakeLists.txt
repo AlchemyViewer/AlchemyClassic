@@ -202,7 +202,6 @@ target_include_directories(
     ${CURL_INCLUDE_DIRS}
     )
 
-if (LINUX)
 target_link_libraries(
   llmessage
   ${LLCOREHTTP_LIBRARIES}
@@ -217,26 +216,9 @@ target_link_libraries(
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
   ${BOOST_SYSTEM_LIBRARY}
-  rt
+  ${RT_LIBRARY}
   ${PTHREAD_LIBRARY}
   )
-else (LINUX)
-target_link_libraries(
-  llmessage
-  ${LLCOREHTTP_LIBRARIES}
-  ${LLVFS_LIBRARIES}
-  ${LLMATH_LIBRARIES}
-  ${LLCOMMON_LIBRARIES}
-  ${CURL_LIBRARIES}
-  ${OPENSSL_LIBRARIES}
-  ${CRYPTO_LIBRARIES}
-  ${JSONCPP_LIBRARIES}
-  ${XMLRPCEPI_LIBRARIES}
-  ${BOOST_COROUTINE_LIBRARY}
-  ${BOOST_CONTEXT_LIBRARY}
-  ${BOOST_SYSTEM_LIBRARY}
-  )
-endif(LINUX)
 
 # tests
 if (LL_TESTS)
@@ -250,7 +232,6 @@ if (LL_TESTS)
   
   #    set(TEST_DEBUG on)
   
-if (LINUX)
   set(test_libs
     ${WINDOWS_LIBRARIES}
     ${LLVFS_LIBRARIES}
@@ -262,23 +243,8 @@ if (LINUX)
     ${JSONCPP_LIBRARIES}
     ${BOOST_COROUTINE_LIBRARY}
     ${BOOST_CONTEXT_LIBRARY}
-    rt
-    ${GOOGLEMOCK_LIBRARIES}
+    ${RT_LIBRARY}
     )
-else (LINUX)
-  set(test_libs
-    ${WINDOWS_LIBRARIES}
-    ${LLVFS_LIBRARIES}
-    ${LLMATH_LIBRARIES}
-    ${CURL_LIBRARIES}
-    ${LLCOMMON_LIBRARIES}
-    ${LLMESSAGE_LIBRARIES}
-    ${LLCOREHTTP_LIBRARIES}
-    ${JSONCPP_LIBRARIES}
-    ${BOOST_COROUTINE_LIBRARY}
-    ${BOOST_CONTEXT_LIBRARY}
-    )
-endif(LINUX)
 
   #LL_ADD_INTEGRATION_TEST(llavatarnamecache "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llhost "" "${test_libs}")

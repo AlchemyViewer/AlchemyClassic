@@ -995,7 +995,6 @@ void log_glerror()
 		}
 		else
 		{
-			// gluErrorString returns NULL for some extensions' error codes.
 			// you'll probably have to grep for the number in glext.h.
 			LL_WARNS() << "GL Error: UNKNOWN 0x" << std::hex << error << std::dec << LL_ENDL;
 		}
@@ -1025,7 +1024,6 @@ void do_assert_glerror()
 		}
 		else
 		{
-			// gluErrorString returns NULL for some extensions' error codes.
 			// you'll probably have to grep for the number in glext.h.
 			LL_WARNS("RenderState") << "GL Error: UNKNOWN 0x" << std::hex << error << std::dec << LL_ENDL;
 

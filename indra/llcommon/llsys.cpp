@@ -266,8 +266,6 @@ LLOSInfo::LLOSInfo() :
 	// Initialize mOSStringSimple to something like:
 	// "Mac OS X 10.6.7"
 	{
-		const char * DARWIN_PRODUCT_NAME = "Mac OS X";
-		
 		S32 major_version, minor_version, bugfix_version = 0;
 
 		if (LLSysDarwin::getOperatingSystemInfo(major_version, minor_version, bugfix_version))
@@ -276,6 +274,8 @@ LLOSInfo::LLOSInfo() :
 			mMinorVer = minor_version;
 			mBuild = bugfix_version;
 
+            const char * DARWIN_PRODUCT_NAME = mMinorVer > 11 ? "macOS" : "Mac OS X";
+            
 			std::stringstream os_version_string;
 			os_version_string << DARWIN_PRODUCT_NAME << " " << mMajorVer << "." << mMinorVer << "." << mBuild;
 			

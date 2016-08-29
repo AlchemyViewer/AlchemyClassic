@@ -36,9 +36,9 @@
 LLQueuedThread::LLQueuedThread(const std::string& name, bool threaded, bool should_pause) :
 	LLThread(name),
 	mThreaded(threaded),
+    mStarted(false),
 	mIdleThread(true),
-	mNextHandle(0),
-	mStarted(false)
+    mNextHandle(0)
 {
 	if (mThreaded)
 	{

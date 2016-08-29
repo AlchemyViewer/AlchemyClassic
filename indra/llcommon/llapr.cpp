@@ -86,10 +86,10 @@ void ll_cleanup_apr()
 //LLAPRPool
 //
 LLAPRPool::LLAPRPool(apr_pool_t *parent, apr_size_t size, BOOL releasePoolFlag) 	
-	: mParent(parent),
-	mReleasePoolFlag(releasePoolFlag),
-	mMaxSize(size),
-	mPool(NULL)
+:   mPool(NULL)
+,   mParent(parent)
+,	mMaxSize(size)
+,	mReleasePoolFlag(releasePoolFlag)
 {	
 	createAPRPool() ;
 }

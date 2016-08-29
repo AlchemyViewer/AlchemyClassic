@@ -14,16 +14,10 @@ include(LLAddBuildTest)
 include(Tut)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
     ${PNG_INCLUDE_DIRS}
     ${ZLIB_INCLUDE_DIRS}
-    )
-
-include_directories(
-    SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 
 set(llimage_SOURCE_FILES

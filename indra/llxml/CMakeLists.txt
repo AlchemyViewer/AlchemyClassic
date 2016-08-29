@@ -9,14 +9,8 @@ include(LLVFS)
 include(LLXML)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
-    )
-
-include_directories(
-    SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 
 set(llxml_SOURCE_FILES

@@ -6,7 +6,7 @@
 include(WriteCompilerDetectionHeader)
 
 write_compiler_detection_header(
-  FILE "${CMAKE_CURRENT_BINARY_DIR}/generated/llcompilerfeatures.h"
+  FILE "${CMAKE_CURRENT_BINARY_DIR}/llcompilerfeatures.h"
   PREFIX LL
   COMPILERS AppleClang Clang GNU Intel MSVC
   FEATURES

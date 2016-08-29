@@ -14,7 +14,6 @@ include(LLWindow)
 include(Boost)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
@@ -23,7 +22,6 @@ include_directories(
     ${LLWINDOW_INCLUDE_DIRS}
     )
 include_directories(SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 
@@ -67,6 +65,11 @@ endif(NOT WORD_SIZE EQUAL 32)
 list(APPEND llplugin_SOURCE_FILES ${llplugin_HEADER_FILES})
 
 add_library (llplugin ${llplugin_SOURCE_FILES})
+
+target_link_libraries(
+    llplugin
+    ${LLCOMMON_LIBRARIES}
+)
 
 add_subdirectory(slplugin)
 

@@ -42,7 +42,6 @@ MACRO(LL_ADD_PROJECT_UNIT_TESTS project sources)
   ENDIF(NOT "${project}" STREQUAL "llmath")
   SET(alltest_INCLUDE_DIRS
     ${LLMATH_INCLUDE_DIRS}
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LIBS_OPEN_DIR}/test
     )
   SET(alltest_LIBRARIES

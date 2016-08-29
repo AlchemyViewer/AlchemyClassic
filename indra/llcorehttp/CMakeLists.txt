@@ -16,13 +16,11 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(
     ${LLMESSAGE_INCLUDE_DIRS}
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCOREHTTP_INCLUDE_DIRS}
     )
 
 include_directories(
     SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLCOREHTTP_SYSTEM_INCLUDE_DIRS}
     )
 
@@ -87,8 +85,10 @@ set_source_files_properties(${llcorehttp_HEADER_FILES}
 list(APPEND llcorehttp_SOURCE_FILES ${llcorehttp_HEADER_FILES})
 
 add_library (llcorehttp ${llcorehttp_SOURCE_FILES})
+
 target_link_libraries(
   llcorehttp
+  ${LLCOMMON_LIBRARIES}}
   ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}

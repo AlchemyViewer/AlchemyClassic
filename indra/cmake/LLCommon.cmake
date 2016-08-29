@@ -6,16 +6,6 @@ include(EXPAT)
 include(ZLIB)
 include(GooglePerfTools)
 
-set(LLCOMMON_INCLUDE_DIRS
-    ${LIBS_OPEN_DIR}/llcommon
-    ${CMAKE_BINARY_DIR}/llcommon/generated
-    ${APRUTIL_INCLUDE_DIR}
-    ${APR_INCLUDE_DIR}
-    )
-set(LLCOMMON_SYSTEM_INCLUDE_DIRS
-    ${Boost_INCLUDE_DIRS}
-    )
-
 if (LINUX)
     # In order to support using ld.gold on linux, we need to explicitely
     # specify all libraries that llcommon uses.

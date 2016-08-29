@@ -18,7 +18,6 @@ include(Boost)
 
 include_directories(
     ${LLCOREHTTP_INCLUDE_DIRS}
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCRASHLOGGER_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLWINDOW_INCLUDE_DIRS}
@@ -27,7 +26,6 @@ include_directories(
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     )
 include_directories(SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 

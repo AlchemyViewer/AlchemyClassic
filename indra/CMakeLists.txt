@@ -14,6 +14,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 include(Variables)
 include(BuildVersion)
 
+set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
+
 if(WINDOWS OR DARWIN)
   set(CMAKE_CXX_STANDARD 14)
 else()

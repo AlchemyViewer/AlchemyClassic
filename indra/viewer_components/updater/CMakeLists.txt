@@ -16,16 +16,12 @@ include(LLPlugin)
 include(LLVFS)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCOREHTTP_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLPLUGIN_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
     ${CURL_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/newview
-    )
-include_directories(SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 
 set(updater_service_SOURCE_FILES

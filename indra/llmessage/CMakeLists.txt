@@ -18,17 +18,11 @@ include(JsonCpp)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCOREHTTP_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
     ${JSONCPP_INCLUDE_DIR}
-    )
-
-include_directories(
-    SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     )
 
 set(llmessage_SOURCE_FILES

@@ -22,7 +22,6 @@ include(LLXML)
 include(UI)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLMATH_INCLUDE_DIRS}
     ${LLRENDER_INCLUDE_DIRS}
@@ -31,7 +30,6 @@ include_directories(
     ${LLXML_INCLUDE_DIRS}
     )
 include_directories(SYSTEM
-    ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
     ${LLXML_SYSTEM_INCLUDE_DIRS}
     )
 
@@ -50,6 +48,7 @@ set(llwindow_HEADER_FILES
     llcursortypes.h
     llkeyboard.h
     llkeyboardheadless.h
+    llwindow.h
     llwindowheadless.h
     llwindowcallbacks.h
     )
@@ -59,21 +58,23 @@ set(viewer_SOURCE_FILES
     )
 
 set(viewer_HEADER_FILES
-    llwindow.h
     llpreeditor.h
     llmousehandler.h
     )
 
+set(llwindow_LINK_LIBRARIES
+    ${LLCOMMON_LIBRARIES}
+    ${LLIMAGE_LIBRARIES}
+    ${LLMATH_LIBRARIES}
+    ${LLRENDER_LIBRARIES}
+    ${LLVFS_LIBRARIES}
+    ${LLXML_LIBRARIES}
+    )
+	
 # Libraries on which this library depends, needed for Linux builds
 # Sort by high-level to low-level
 if (LINUX)
-  set(llwindow_LINK_LIBRARIES
-      ${LLCOMMON_LIBRARIES}
-      ${LLIMAGE_LIBRARIES}
-      ${LLMATH_LIBRARIES}
-      ${LLRENDER_LIBRARIES}
-      ${LLVFS_LIBRARIES}
-      ${LLXML_LIBRARIES}
+  LIST(APPEND llwindow_LINK_LIBRARIES
       ${UI_LIBRARIES}     # for GTK
       ${SDL_LIBRARY}
       fontconfig          # For FCInit and other FC* functions.
@@ -147,6 +148,9 @@ if (WINDOWS)
 endif (WINDOWS)
 
 set_source_files_properties(${llwindow_HEADER_FILES}
+                            PROPERTIES HEADER_FILE_ONLY TRUE)
+							
+set_source_files_properties(${viewer_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
 if (BUILD_HEADLESS)

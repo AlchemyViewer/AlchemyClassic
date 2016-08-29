@@ -17,7 +17,6 @@ include(LLXML)
 include(Linking)
 
 include_directories(
-    ${LLCOMMON_INCLUDE_DIRS}
     ${LLCHARACTER_INCLUDE_DIRS}
     ${LLIMAGE_INCLUDE_DIRS}
     ${LLINVENTORY_INCLUDE_DIRS}

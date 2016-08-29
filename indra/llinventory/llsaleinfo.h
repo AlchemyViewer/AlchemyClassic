@@ -29,7 +29,6 @@
 
 #include "llpermissionsflags.h"
 #include "llsd.h"
-#include "llxmlnode.h"
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Class LLSaleInfo

@@ -14,6 +14,7 @@ include(LLCoreHttp)
 include(LLMessage)
 include(LLPlugin)
 include(LLVFS)
+include(LLXML)
 
 include_directories(
     ${LLCOMMON_INCLUDE_DIRS}
@@ -21,6 +22,7 @@ include_directories(
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLPLUGIN_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
+    ${LLXML_INCLUDE_DIRS}
     ${CURL_INCLUDE_DIRS}
     ${CMAKE_SOURCE_DIR}/newview
     )

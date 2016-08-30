@@ -3184,6 +3184,17 @@ bool LLVOAvatar::isInMuteList()
 	return muted;
 }
 
+void LLVOAvatar::forceUpdateMutedState()
+{
+	// Update cached mute and mute time now!
+	const F64 SECONDS_BETWEEN_MUTE_UPDATES = 1;
+	mCachedMuteListUpdateTime = LLFrameTimer::getTotalSeconds() + SECONDS_BETWEEN_MUTE_UPDATES;
+	mCachedInMuteList = LLMuteList::getInstance()->isMuted(getID());
+
+	// Force an update of impostor state due to special handling of different impostor modes
+	mNeedsImpostorUpdate = TRUE;
+}
+
 void LLVOAvatar::updateDebugText()
 {
 	// clear debug text

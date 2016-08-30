@@ -59,6 +59,7 @@
 #include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
+#include "llvoavatar.h"
 #include "lltrans.h"
 
 namespace 
@@ -333,6 +334,7 @@ BOOL LLMuteList::add(const LLMute& mute, U32 flags)
 				if (avatarp)
 				{
 					LLPipeline::removeMutedAVsLights(avatarp);
+					avatarp->forceUpdateMutedState();
 				}
 				//remove agent's notifications as well
 				if (localmute.mType == LLMute::AGENT)
@@ -412,6 +414,12 @@ BOOL LLMuteList::remove(const LLMute& mute, U32 flags)
 			// The entry was actually removed.  Notify the server.
 			updateRemove(localmute);
 			LL_INFOS() << "Unmuting " << localmute.mName << " id " << localmute.mID << " flags " << localmute.mFlags << LL_ENDL;
+
+			LLVOAvatar *avatarp = find_avatar(localmute.mID);
+			if (avatarp)
+			{
+				avatarp->forceUpdateMutedState();
+			}
 		}
 		else
 		{

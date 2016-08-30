@@ -3191,8 +3191,6 @@ class LLObjectMute : public view_listener_t
 		LLVOAvatar* avatar = find_avatar_from_object(object); 
 		if (avatar)
 		{
-			avatar->mNeedsImpostorUpdate = TRUE;
-
 			id = avatar->getID();
 
 			LLNameValue *firstname = avatar->getNVPair("FirstName");

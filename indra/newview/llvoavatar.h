@@ -385,7 +385,7 @@ public:
 	U32 		renderImpostor(LLColor4U color = LLColor4U(255,255,255,255), S32 diffuse_channel = 0);
 	bool		isVisuallyMuted();
 	bool 		isInMuteList();
-	void		forceUpdateVisualMuteSettings();
+	void		forceUpdateMutedState();
 
 	enum VisualMuteSettings
 	{

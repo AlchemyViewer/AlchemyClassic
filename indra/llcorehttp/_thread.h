@@ -67,6 +67,14 @@ private:
 protected:
 	virtual ~HttpThread()
 		{
+			if (!timedJoin(250))
+			{
+				// Failed to join, expect problems ahead so do a hard termination.
+				cancel();
+
+				LL_WARNS() << "Destroying HttpThread with running thread.  Expect problems."
+					<< LL_ENDL;
+			}
 			delete mThread;
 		}
 

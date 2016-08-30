@@ -8790,7 +8790,7 @@ void LLVOAvatar::calcMutedAVColor()
         new_color = LLColor4::grey3;
         change_msg = " not rendered: color is grey3";
     }
-    else if (LLMuteList::getInstance()->isMuted(av_id)) // the user blocked them
+    else if (isInMuteList()) // the user blocked them
     {
         // blocked avatars are dark grey
         new_color = LLColor4::grey4;

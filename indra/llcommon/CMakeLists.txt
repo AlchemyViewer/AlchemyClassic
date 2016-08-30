@@ -26,6 +26,7 @@ include_directories(
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     ${URIPARSER_INCLUDE_DIRS}
+    ${LLMATH_INCLUDE_DIRS}
     )
 
 include_directories(

@@ -472,9 +472,7 @@ void LLDrawPoolAvatar::renderShadow(S32 pass)
 	}
 
 	BOOL impostor = avatarp->isImpostor();
-	if (impostor 
-		&& LLVOAvatar::AV_DO_NOT_RENDER != avatarp->getVisualMuteSettings()
-		&& LLVOAvatar::AV_ALWAYS_RENDER != avatarp->getVisualMuteSettings())
+	if (impostor)
 	{
 		return;
 	}
@@ -1241,9 +1239,7 @@ void LLDrawPoolAvatar::renderAvatars(LLVOAvatar* single_avatar, S32 pass)
 
 	BOOL impostor = avatarp->isImpostor() && !single_avatar;
 
-	if (( avatarp->isInMuteList() 
-		  || impostor 
-		  || (LLVOAvatar::AV_DO_NOT_RENDER == avatarp->getVisualMuteSettings() && !avatarp->needsImpostorUpdate()) ) && pass != 0)
+	if (impostor && pass != 0)
 	{ //don't draw anything but the impostor for impostored avatars
 		return;
 	}
@@ -1260,7 +1256,7 @@ void LLDrawPoolAvatar::renderAvatars(LLVOAvatar* single_avatar, S32 pass)
 			LLVOAvatar::sNumVisibleAvatars++;
 		}
 
-		if (impostor || (LLVOAvatar::AV_DO_NOT_RENDER == avatarp->getVisualMuteSettings() && !avatarp->needsImpostorUpdate()))
+		if (impostor)
 		{
 			if (LLPipeline::sRenderDeferred && !LLPipeline::sReflectionRender && avatarp->mImpostor.isComplete()) 
 			{
@@ -1707,7 +1703,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				//order is important here LLRender::DIFFUSE_MAP should be last, becouse it change 
 				//(gGL).mCurrTextureUnitIndex
                 LLViewerTexture* specular = NULL;
-                if (LLPipeline::sImpostorRender)
+                if (LLPipeline::sImpostorRender && avatar->isVisuallyMuted())
                 {
                     specular = LLViewerTextureManager::findFetchedTexture(gBlackSquareID, TEX_LIST_STANDARD);
                     llassert(NULL != specular);

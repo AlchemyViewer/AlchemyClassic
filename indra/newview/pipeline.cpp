@@ -3068,9 +3068,7 @@ void LLPipeline::markVisible(LLDrawable *drawablep, LLCamera& camera)
 					if (vobj) // this test may not be needed, see above
 					{
 						LLVOAvatar* av = vobj->asAvatar();
-						if (av && (av->isImpostor() 
-							|| av->isInMuteList() 
-							|| (LLVOAvatar::AV_DO_NOT_RENDER == av->getVisualMuteSettings() && !av->needsImpostorUpdate()) ))
+						if (av && av->isImpostor() && !av->needsImpostorUpdate())
 						{
 							return;
 						}
@@ -5699,9 +5697,8 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 			const Light* light = &(*iter);
 			LLDrawable* drawable = light->drawable;
             const LLViewerObject *vobj = light->drawable->getVObj();
-            if(vobj && vobj->getAvatar() 
-               && (vobj->getAvatar()->isTooComplex() || vobj->getAvatar()->isInMuteList())
-               )
+			LLVOAvatar* avatarp = vobj ? vobj->getAvatar() : nullptr;
+            if(avatarp && avatarp->isVisuallyMuted())
             {
                 drawable->clearState(LLDrawable::NEARBY_LIGHT);
                 continue;
@@ -8221,7 +8218,8 @@ void LLPipeline::renderDeferredLighting()
 					}
 
 					const LLViewerObject *vobj = drawablep->getVObj();
-					if(vobj && vobj->getAvatar() && vobj->getAvatar()->isInMuteList())
+					LLVOAvatar* avatarp = vobj ? vobj->getAvatar() : nullptr;
+					if(avatarp && avatarp->isVisuallyMuted())
 					{
 						continue;
 					}
@@ -10842,14 +10840,10 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
     LL_DEBUGS_ONCE("AvatarRenderPipeline") << "Avatar " << avatar->getID()
                               << " is " << ( visually_muted ? "" : "not ") << "visually muted"
                               << LL_ENDL;
-	bool too_complex = avatar->isTooComplex();		
-    LL_DEBUGS_ONCE("AvatarRenderPipeline") << "Avatar " << avatar->getID()
-                              << " is " << ( too_complex ? "" : "not ") << "too complex"
-                              << LL_ENDL;
 
 	pushRenderTypeMask();
 	
-	if (visually_muted || too_complex)
+	if (visually_muted)
 	{
 		andRenderTypeMask(LLPipeline::RENDER_TYPE_AVATAR, END_RENDER_TYPES);
 	}
@@ -11004,7 +10998,7 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 
 	F32 old_alpha = LLDrawPoolAvatar::sMinimumAlpha;
 
-	if (visually_muted || too_complex)
+	if (visually_muted)
 	{ //disable alpha masking for muted avatars (get whole skin silhouette)
 		LLDrawPoolAvatar::sMinimumAlpha = 0.f;
 	}
@@ -11066,7 +11060,7 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 
 		LLGLDisable blend(GL_BLEND);
 
-		if (visually_muted || too_complex)
+		if (visually_muted)
 		{
 			gGL.setColorMask(true, true);
 		}
@@ -11102,8 +11096,8 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 			gGL.diffuseColor4fv( muted_color.mV );
 		}
 		else
-		{ //grey muted avatar
-            LL_DEBUGS_ONCE("AvatarRenderPipeline") << "Avatar " << avatar->getID() << " MUTED set grey" << LL_ENDL;
+		{   // pink debug avatar
+            LL_DEBUGS_ONCE("AvatarRenderPipeline") << "Avatar " << avatar->getID() << " not muted set debug color" << LL_ENDL;
 			gGL.diffuseColor4fv(LLColor4::pink.mV );
 		}
 

@@ -3315,8 +3315,7 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 	// the rest should only be done occasionally for far away avatars
 	//--------------------------------------------------------------------
 
-	bool visually_muted = isVisuallyMuted();
-	if (visible && (!isSelf() || visually_muted) && !mIsDummy && sUseImpostors && !mNeedsAnimUpdate && !sFreezeCounter)
+	if (visible && !isSelf() && !mIsDummy && sUseImpostors && !mNeedsAnimUpdate && !sFreezeCounter && getVisualMuteSettings() != AV_ALWAYS_RENDER)
 	{
 		const LLVector4a* ext = mDrawable->getSpatialExtents();
 		LLVector4a size;
@@ -3325,7 +3324,7 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 
 		
 		F32 impostor_area = 256.f*512.f*(8.125f - LLVOAvatar::sLODFactor*8.f);
-		if (visually_muted)
+		if (isVisuallyMuted())
 		{ // visually muted avatars update at 16 hz
 			mUpdatePeriod = 16;
 		}
@@ -8424,9 +8423,7 @@ void LLVOAvatar::updateImpostors()
 	{
 		LLVOAvatar* avatar = (LLVOAvatar*) *iter;
 		if (!avatar->isDead() && avatar->isVisible()
-			&& (
-                (avatar->isImpostor() || LLVOAvatar::AV_DO_NOT_RENDER == avatar->getVisualMuteSettings()) && avatar->needsImpostorUpdate())
-            )
+			&& (avatar->isImpostor() && avatar->needsImpostorUpdate()))
 		{
             avatar->calcMutedAVColor();
 			gPipeline.generateImpostor(avatar);
@@ -8438,7 +8435,7 @@ void LLVOAvatar::updateImpostors()
 
 BOOL LLVOAvatar::isImpostor()
 {
-	return sUseImpostors && (isVisuallyMuted() || (mUpdatePeriod >= IMPOSTOR_PERIOD)) ? TRUE : FALSE;
+	return sUseImpostors && (mUpdatePeriod >= IMPOSTOR_PERIOD) ? TRUE : FALSE;
 }
 
 BOOL LLVOAvatar::shouldImpostor(const U32 rank_factor) const
@@ -8775,6 +8772,10 @@ void LLVOAvatar::setVisualMuteSettings(VisualMuteSettings set)
 {
     mVisuallyMuteSetting = set;
     mNeedsImpostorUpdate = TRUE;
+    if (getVisualMuteSettings() == AV_DO_NOT_RENDER)
+    {
+        LLPipeline::removeMutedAVsLights(this);
+    }
 }
 
 

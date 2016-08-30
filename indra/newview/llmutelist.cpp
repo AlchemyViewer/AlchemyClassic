@@ -333,7 +333,6 @@ BOOL LLMuteList::add(const LLMute& mute, U32 flags)
 				LLVOAvatar *avatarp = find_avatar(localmute.mID);
 				if (avatarp)
 				{
-					LLPipeline::removeMutedAVsLights(avatarp);
 					avatarp->forceUpdateMutedState();
 				}
 				//remove agent's notifications as well

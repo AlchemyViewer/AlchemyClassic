@@ -8783,10 +8783,6 @@ void LLVOAvatar::setVisualMuteSettings(VisualMuteSettings set)
 {
     mVisuallyMuteSetting = set;
     mNeedsImpostorUpdate = TRUE;
-    if (getVisualMuteSettings() == AV_DO_NOT_RENDER)
-    {
-        LLPipeline::removeMutedAVsLights(this);
-    }
 }
 
 

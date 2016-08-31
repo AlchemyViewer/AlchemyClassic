@@ -91,7 +91,7 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 		}
 		else if (LLMuteList::instance().isMuted(id, av_name.getUserName())) // muted
 		{
-			return LLUIColorTable::instance().getColor("AvatarMutedColor", LLColor4::grey).get();
+			return LLUIColorTable::instance().getColor("AvatarMutedColor", LLColor4::grey4).get();
 		}
 		else if (LLAvatarTracker::instance().isBuddy(id)) // friend
 		{

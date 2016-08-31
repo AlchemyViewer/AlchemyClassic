@@ -1753,22 +1753,15 @@ BOOL LLToolPie::handleRightClickPick()
 			|| is_other_attachment)
 		{
 			// Find the attachment's avatar
-			while( object && object->isAttachment())
-			{
-				object = (LLViewerObject*)object->getParent();
-				llassert(object);
-			}
-
-			if (!object)
+			LLVOAvatar* avatar = object->getAvatar();
+			if (!avatar)
 			{
 				return TRUE; // unexpected, but escape
 			}
 
-			// Object is an avatar, so check for mute by id.
-			LLVOAvatar* avatar = (LLVOAvatar*)object;
 			std::string name = avatar->getFullname();
 			std::string mute_msg;
-			if (LLMuteList::getInstance()->isMuted(avatar->getID(), avatar->getFullname()))
+			if (avatar->isInMuteList())
 			{
 				mute_msg = LLTrans::getString("UnmuteAvatar");
 			}

@@ -3175,7 +3175,7 @@ bool LLVOAvatar::isInMuteList()
 	}
 	else
 	{
-		muted = LLMuteList::getInstance()->isMuted(getID());
+		muted = LLMuteList::getInstance()->isMuted(getID(), getFullname());
 
 		const F64 SECONDS_BETWEEN_MUTE_UPDATES = 1;
 		mCachedMuteListUpdateTime = now + SECONDS_BETWEEN_MUTE_UPDATES;

@@ -8792,17 +8792,17 @@ void LLVOAvatar::calcMutedAVColor()
     std::string change_msg;
     LLUUID av_id(getID());
 
-    if (getVisualMuteSettings() == AV_DO_NOT_RENDER)
-    {
-        // explicitly not-rendered avatars are light grey
-        new_color = LLColor4::grey3;
-        change_msg = " not rendered: color is grey3";
-    }
-    else if (isInMuteList()) // the user blocked them
+    if (isInMuteList()) // the user blocked them
     {
         // blocked avatars are dark grey
         new_color = LLColor4::grey4;
         change_msg = " blocked: color is grey4";
+    }
+    else if (getVisualMuteSettings() == AV_DO_NOT_RENDER)
+    {
+        // explicitly not-rendered avatars are light grey
+        new_color = LLColor4::grey3;
+        change_msg = " not rendered: color is grey3";
     }
     else if ( mMutedAVColor == LLColor4::white || mMutedAVColor == LLColor4::grey3 || mMutedAVColor == LLColor4::grey4 )
     {

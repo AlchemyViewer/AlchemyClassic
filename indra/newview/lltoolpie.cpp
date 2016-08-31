@@ -1759,7 +1759,6 @@ BOOL LLToolPie::handleRightClickPick()
 				return TRUE; // unexpected, but escape
 			}
 
-			std::string name = avatar->getFullname();
 			std::string mute_msg;
 			if (avatar->isInMuteList())
 			{

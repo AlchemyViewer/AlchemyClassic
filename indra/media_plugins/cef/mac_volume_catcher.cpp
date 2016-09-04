@@ -35,13 +35,11 @@
 
 #include "volume_catcher.h"
 
-#include <QuickTime/QuickTime.h>
+#include <Carbon/Carbon.h>
 #include <AudioUnit/AudioUnit.h>
 #include <list>
 
-#if LL_DARWIN
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
 
 struct VolumeCatcherStorage;
 
@@ -76,13 +74,13 @@ VolumeCatcherImpl *VolumeCatcherImpl::sInstance = NULL;;
 
 struct VolumeCatcherStorage
 {
-	ComponentInstance self;
-	ComponentInstance delegate;
+	AudioComponentInstance self;
+	AudioComponentInstance delegate;
 };
 
 static ComponentResult volume_catcher_component_entry(ComponentParameters *cp, Handle componentStorage);
-static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *storage, ComponentInstance self);
-static ComponentResult volume_catcher_component_close(VolumeCatcherStorage *storage, ComponentInstance self);
+static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *storage, AudioComponentInstance self);
+static ComponentResult volume_catcher_component_close(VolumeCatcherStorage *storage, AudioComponentInstance self);
 
 VolumeCatcherImpl *VolumeCatcherImpl::getInstance()
 {
@@ -99,22 +97,30 @@ VolumeCatcherImpl::VolumeCatcherImpl()
 	mVolume = 1.0;	// default to full volume
 	mPan = 0.0;		// and center pan
 		
-	ComponentDescription desc;
-	desc.componentType = kAudioUnitType_Output;
-	desc.componentSubType = kAudioUnitSubType_DefaultOutput;
-	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-	desc.componentFlags = 0;
-	desc.componentFlagsMask = 0;
+    // This sucks, but there isn't really another way right now. This code is fragile as it is.
+    // We are "in transition"
+	AudioComponentDescription aDesc;
+	aDesc.componentType = kAudioUnitType_Output;
+	aDesc.componentSubType = kAudioUnitSubType_DefaultOutput;
+	aDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
+	aDesc.componentFlags = 0;
+	aDesc.componentFlagsMask = 0;
+    
+    ComponentDescription desc;
+    desc.componentType = kAudioUnitType_Output;
+    desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+    desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+    desc.componentFlags = 0;
+    desc.componentFlagsMask = 0;
 	
 	// Find the original default output component
-	mOriginalDefaultOutput = FindNextComponent(NULL, &desc);
+	mOriginalDefaultOutput = (Component)AudioComponentFindNext(NULL, &aDesc);
 
 	// Register our own output component with the same parameters
 	mVolumeAdjuster = RegisterComponent(&desc, NewComponentRoutineUPP(volume_catcher_component_entry), 0, NULL, NULL, NULL);
 
 	// Capture the original component, so we always get found instead.
 	CaptureComponent(mOriginalDefaultOutput, mVolumeAdjuster);
-
 }
 
 static ComponentResult volume_catcher_component_entry(ComponentParameters *cp, Handle componentStorage)
@@ -125,18 +131,14 @@ static ComponentResult volume_catcher_component_entry(ComponentParameters *cp, H
 	switch(cp->what)
 	{
 		case kComponentOpenSelect:
-//			std::cerr << "kComponentOpenSelect" << std::endl;
 			result = CallComponentFunctionWithStorageProcInfo((Handle)storage, cp, (ProcPtr)volume_catcher_component_open, uppCallComponentOpenProcInfo);
 		break;
 
 		case kComponentCloseSelect:
-//			std::cerr << "kComponentCloseSelect" << std::endl;
 			result = CallComponentFunctionWithStorageProcInfo((Handle)storage, cp, (ProcPtr)volume_catcher_component_close, uppCallComponentCloseProcInfo);
-			// CallComponentFunctionWithStorageProcInfo
 		break;
 		
 		default:
-//			std::cerr << "Delegating selector: " << cp->what << " to component instance " << storage->delegate << std::endl;
 			result = DelegateComponentCall(cp, storage->delegate);
 		break;
 	}
@@ -144,7 +146,7 @@ static ComponentResult volume_catcher_component_entry(ComponentParameters *cp, H
 	return result;
 }
 
-static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *storage, ComponentInstance self)
+static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *storage, AudioComponentInstance self)
 {
 	ComponentResult result = noErr;
 	VolumeCatcherImpl *impl = VolumeCatcherImpl::getInstance();	
@@ -154,12 +156,10 @@ static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *stora
 	storage->self = self;
 	storage->delegate = NULL;
 
-	result = OpenAComponent(impl->mOriginalDefaultOutput, &(storage->delegate));
+	result = AudioComponentInstanceNew((AudioComponent)impl->mOriginalDefaultOutput, &(storage->delegate));
 	
 	if(result != noErr)
 	{
-//		std::cerr << "OpenAComponent result = " << result << ", component ref = " << storage->delegate << std::endl;
-		
 		// If we failed to open the delagate component, our open is going to fail.  Clean things up.
 		delete storage;
 	}
@@ -178,7 +178,7 @@ static ComponentResult volume_catcher_component_open(VolumeCatcherStorage *stora
 	return result;
 }
 
-static ComponentResult volume_catcher_component_close(VolumeCatcherStorage *storage, ComponentInstance self)
+static ComponentResult volume_catcher_component_close(VolumeCatcherStorage *storage, AudioComponentInstance self)
 {
 	ComponentResult result = noErr;
 	
@@ -186,7 +186,7 @@ static ComponentResult volume_catcher_component_close(VolumeCatcherStorage *stor
 	{
 		if(storage->delegate)
 		{
-			CloseComponent(storage->delegate);
+			AudioComponentInstanceDispose(storage->delegate);
 			storage->delegate = NULL;
 		}
 		
@@ -204,9 +204,9 @@ void VolumeCatcherImpl::setVolume(F32 volume)
 	impl->mVolume = volume;
 	
 	// Iterate through all known instances, setting the volume on each.
-	for(std::list<VolumeCatcherStorage*>::iterator iter = mComponentInstances.begin(); iter != mComponentInstances.end(); ++iter)
+    for (const auto instance : mComponentInstances)
 	{
-		impl->setInstanceVolume(*iter);
+		impl->setInstanceVolume(instance);
 	}
 }
 
@@ -270,6 +270,4 @@ void VolumeCatcher::pump()
 	// No periodic tasks are necessary for this implementation.
 }
 
-#if LL_DARWIN
 #pragma GCC diagnostic warning "-Wdeprecated-declarations"
-#endif

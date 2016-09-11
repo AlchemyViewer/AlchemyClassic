@@ -88,7 +88,7 @@ LLBasicCertificate::LLBasicCertificate(const std::string& pem_cert)
 
 LLBasicCertificate::LLBasicCertificate(X509* pCert) 
 {
-	if (!pCert || !pCert->cert_info)
+	if (!pCert)
 	{
 		throw LLInvalidCertificate(this);
 	}	
@@ -685,29 +685,32 @@ std::string LLBasicCertificateStore::storeId() const
 // LLBasicCertificateChain
 // This class represents a chain of certs, each cert being signed by the next cert
 // in the chain.  Certs must be properly signed by the parent
-LLBasicCertificateChain::LLBasicCertificateChain(const X509_STORE_CTX* store)
+LLBasicCertificateChain::LLBasicCertificateChain(X509_STORE_CTX* store)
 {
 
 	// we're passed in a context, which contains a cert, and a blob of untrusted
 	// certificates which compose the chain.
-	if((store == NULL) || (store->cert == NULL))
+	if((store == NULL) || (X509_STORE_CTX_get0_cert(store) == NULL))
 	{
 		LL_WARNS("SECAPI") << "An invalid store context was passed in when trying to create a certificate chain" << LL_ENDL;
 		return;
 	}
 	// grab the child cert
-	LLPointer<LLCertificate> current = new LLBasicCertificate(store->cert);
+	LLPointer<LLCertificate> current = new LLBasicCertificate(X509_STORE_CTX_get0_cert(store));
 
 	add(current);
-	if(store->untrusted != NULL)
+
+	stack_st_X509* untrusted = X509_STORE_CTX_get0_untrusted(store);
+
+	if(untrusted != NULL)
 	{
 		// if there are other certs in the chain, we build up a vector
 		// of untrusted certs so we can search for the parents of each
 		// consecutive cert.
 		LLBasicCertificateVector untrusted_certs;
-		for(int i = 0; i < sk_X509_num(store->untrusted); i++)
+		for(int i = 0; i < sk_X509_num(untrusted); i++)
 		{
-			LLPointer<LLCertificate> cert = new LLBasicCertificate(sk_X509_value(store->untrusted, i));
+			LLPointer<LLCertificate> cert = new LLBasicCertificate(sk_X509_value(untrusted, i));
 			untrusted_certs.add(cert);
 
 		}		
@@ -1067,9 +1070,14 @@ void LLBasicCertificateStore::validate(int validation_policy,
 	{
 		throw LLInvalidCertificate((*current_cert));			
 	}
-	std::string sha1_hash((const char *)cert_x509->sha1_hash, SHA_DIGEST_LENGTH);
+
+	unsigned char sha1_hash_array[SHA_DIGEST_LENGTH];
+	X509_digest(cert_x509, EVP_sha1(), sha1_hash_array, NULL);
+	std::string sha1_hash((const char *)sha1_hash_array, SHA_DIGEST_LENGTH);
+
 	X509_free( cert_x509 );
 	cert_x509 = NULL;
+	
 	t_cert_cache::iterator cache_entry = mTrustedCertCache.find(sha1_hash);
 	if(cache_entry != mTrustedCertCache.end())
 	{
@@ -1431,7 +1439,7 @@ LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(X509* openssl_cert
 }
 		
 // instantiate a chain from an X509_STORE_CTX
-LLPointer<LLCertificateChain> LLSecAPIBasicHandler::getCertificateChain(const X509_STORE_CTX* chain)
+LLPointer<LLCertificateChain> LLSecAPIBasicHandler::getCertificateChain(X509_STORE_CTX* chain)
 {
 	LLPointer<LLCertificateChain> result = new LLBasicCertificateChain(chain);
 	return result;

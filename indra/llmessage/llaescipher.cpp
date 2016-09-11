@@ -64,7 +64,6 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	
 	// OpenSSL uses "cipher contexts" to hold encryption parameters.
     EVP_CIPHER_CTX* context = EVP_CIPHER_CTX_new();
-    EVP_CIPHER_CTX_init(context);
 	
 	EVP_EncryptInit_ex(context, EVP_aes_256_ofb(), NULL, NULL, NULL);
 	EVP_CIPHER_CTX_set_key_length(context, (int)mSecretSize);

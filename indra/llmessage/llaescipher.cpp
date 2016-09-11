@@ -63,22 +63,22 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	if (src_len > dst_len) return 0;
 	
 	// OpenSSL uses "cipher contexts" to hold encryption parameters.
-    EVP_CIPHER_CTX context;
-    EVP_CIPHER_CTX_init(&context);
+    EVP_CIPHER_CTX* context = EVP_CIPHER_CTX_new();
+    EVP_CIPHER_CTX_init(context);
 	
-	EVP_EncryptInit_ex(&context, EVP_aes_256_ofb(), NULL, NULL, NULL);
-	EVP_CIPHER_CTX_set_key_length(&context, (int)mSecretSize);
+	EVP_EncryptInit_ex(context, EVP_aes_256_ofb(), NULL, NULL, NULL);
+	EVP_CIPHER_CTX_set_key_length(context, (int)mSecretSize);
 	
-	EVP_EncryptInit_ex(&context, NULL, NULL, mSecret, mInitialVector);
+	EVP_EncryptInit_ex(context, NULL, NULL, mSecret, mInitialVector);
 	
-    int blocksize = EVP_CIPHER_CTX_block_size(&context);
-    int keylen = EVP_CIPHER_CTX_key_length(&context);
-    int iv_length = EVP_CIPHER_CTX_iv_length(&context);
+    int blocksize = EVP_CIPHER_CTX_block_size(context);
+    int keylen = EVP_CIPHER_CTX_key_length(context);
+    int iv_length = EVP_CIPHER_CTX_iv_length(context);
     LL_DEBUGS("Crypto") << "Blocksize " << blocksize << " keylen " << keylen << " iv_len " << iv_length << LL_ENDL;
 	
 	int output_len = 0;
 	int temp_len = 0;
-	if (!EVP_EncryptUpdate(&context,
+	if (!EVP_EncryptUpdate(context,
 						   dst,
 						   &output_len,
 						   src,
@@ -90,18 +90,18 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	
 	// There may be some final data left to encrypt if the input is
 	// not an exact multiple of the block size.
-	if (!EVP_EncryptFinal_ex(&context, (unsigned char*)(dst + output_len), &temp_len))
+	if (!EVP_EncryptFinal_ex(context, (unsigned char*)(dst + output_len), &temp_len))
 	{
 		LL_WARNS("Crypto") << "EVP_EncryptFinal failure" << LL_ENDL;
 		goto AES_ERROR;
 	}
 	output_len += temp_len;
 	
-	EVP_CIPHER_CTX_cleanup(&context);
+	EVP_CIPHER_CTX_free(context);
 	return output_len;
 	
 AES_ERROR:
-	EVP_CIPHER_CTX_cleanup(&context);
+	EVP_CIPHER_CTX_free(context);
 	return 0;
 }
 
@@ -111,27 +111,26 @@ U32 LLAESCipher::decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	if (!src || !src_len || !dst || !dst_len) return 0;
 	if (src_len > dst_len) return 0;
 	
-	EVP_CIPHER_CTX context;
-    EVP_CIPHER_CTX_init(&context);
+	EVP_CIPHER_CTX* context = EVP_CIPHER_CTX_new();
 	
-	EVP_DecryptInit_ex(&context, EVP_aes_256_ofb(), NULL, NULL, NULL);
-	EVP_CIPHER_CTX_set_key_length(&context, (int)mSecretSize);
+	EVP_DecryptInit_ex(context, EVP_aes_256_ofb(), NULL, NULL, NULL);
+	EVP_CIPHER_CTX_set_key_length(context, (int)mSecretSize);
 	
-	EVP_DecryptInit_ex(&context, NULL, NULL, mSecret, mInitialVector);
+	EVP_DecryptInit_ex(context, NULL, NULL, mSecret, mInitialVector);
 	
-    int blocksize = EVP_CIPHER_CTX_block_size(&context);
-    int keylen = EVP_CIPHER_CTX_key_length(&context);
-    int iv_length = EVP_CIPHER_CTX_iv_length(&context);
+    int blocksize = EVP_CIPHER_CTX_block_size(context);
+    int keylen = EVP_CIPHER_CTX_key_length(context);
+    int iv_length = EVP_CIPHER_CTX_iv_length(context);
     LL_DEBUGS("AES") << "Blocksize " << blocksize << " keylen " << keylen << " iv_len " << iv_length << LL_ENDL;
 	
 	int out_len = 0;
 	int tmp_len = 0;
-	if (!EVP_DecryptUpdate(&context, dst, &out_len, src, src_len))
+	if (!EVP_DecryptUpdate(context, dst, &out_len, src, src_len))
 	{
 		LL_WARNS("AES") << "EVP_DecryptUpdate failure" << LL_ENDL;
 		goto AES_ERROR;
 	}
-	if (!EVP_DecryptFinal_ex(&context, dst + out_len, &tmp_len))
+	if (!EVP_DecryptFinal_ex(context, dst + out_len, &tmp_len))
 	{
 		LL_WARNS("AES") << "EVP_DecryptFinal failure" << LL_ENDL;
 		goto AES_ERROR;
@@ -139,11 +138,11 @@ U32 LLAESCipher::decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	
 	out_len += tmp_len;
 	
-	EVP_CIPHER_CTX_cleanup(&context);
+	EVP_CIPHER_CTX_free(context);
 	return out_len;
 	
 AES_ERROR:
-	EVP_CIPHER_CTX_cleanup(&context);
+	EVP_CIPHER_CTX_free(context);
 	return 0;
 }
 

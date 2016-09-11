@@ -37,6 +37,12 @@
 #include "llglheaders.h"
 #include "llviewerwindow.h"
 #include "llui.h"
+#include "pipeline.h"
+
+#include <glm/mat4x4.hpp>
+#include <glm/vec4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void hud_render_utf8text(const std::string &str, const LLVector3 &pos_agent,
 					 const LLFontGL &font,
@@ -99,28 +105,12 @@ void hud_render_text(const LLWString &wstr, const LLVector3 &pos_agent,
 	LLVector3 render_pos = pos_agent + (floorf(x_offset) * right_axis) + (floorf(y_offset) * up_axis);
 
 	//get the render_pos in screen space
-	
-	F64 winX, winY, winZ;
 	LLRect world_view_rect = gViewerWindow->getWorldViewRectRaw();
-	S32	viewport[4];
-	viewport[0] = world_view_rect.mLeft;
-	viewport[1] = world_view_rect.mBottom;
-	viewport[2] = world_view_rect.getWidth();
-	viewport[3] = world_view_rect.getHeight();
+	glm::ivec4 viewport(world_view_rect.mLeft, world_view_rect.mBottom, world_view_rect.getWidth(), world_view_rect.getHeight());
 
-	F64 mdlv[16];
-	F64 proj[16];
+	glm::vec3 win_coord = glm::project(glm::make_vec3(render_pos.mV), 
+		glm::make_mat4(gGLModelView), glm::make_mat4(gGLProjection), viewport);
 
-	for (U32 i = 0; i < 16; i++)
-	{
-		mdlv[i] = (F64) gGLModelView[i];
-		proj[i] = (F64) gGLProjection[i];
-	}
-
-	gluProject(render_pos.mV[0], render_pos.mV[1], render_pos.mV[2],
-				mdlv, proj, (GLint*) viewport,
-				&winX, &winY, &winZ);
-		
 	//fonts all render orthographically, set up projection``
 	gGL.matrixMode(LLRender::MM_PROJECTION);
 	gGL.pushMatrix();
@@ -131,11 +121,11 @@ void hud_render_text(const LLWString &wstr, const LLVector3 &pos_agent,
 	gl_state_for_2d(world_view_rect.getWidth(), world_view_rect.getHeight());
 	gViewerWindow->setup3DViewport();
 	
-	winX -= world_view_rect.mLeft;
-	winY -= world_view_rect.mBottom;
+	win_coord[0] -= world_view_rect.mLeft;
+	win_coord[1] -= world_view_rect.mBottom;
 	LLUI::loadIdentity();
 	gGL.loadIdentity();
-	LLUI::translate((F32) winX*1.0f/LLFontGL::sScaleX, (F32) winY*1.0f/(LLFontGL::sScaleY), -(((F32) winZ*2.f)-1.f));
+	LLUI::translate(win_coord[0]*1.0f/LLFontGL::sScaleX, win_coord[1]*1.0f/(LLFontGL::sScaleY), -((win_coord[2]*2.f)-1.f));
 	F32 right_x;
 	
 	font.render(wstr, 0, 0, 1, color, LLFontGL::LEFT, LLFontGL::BASELINE, style, shadow, wstr.length(), 1000, &right_x);

@@ -917,6 +917,38 @@
         <key>version</key>
         <string>0.0.0</string>
       </map>
+      <key>glm</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2005 - 2014 G-Truc Creation</string>
+        <key>description</key>
+        <string>A C++ mathematics library for graphics programming</string>
+        <key>license</key>
+        <string>MIT</string>
+        <key>license_file</key>
+        <string>LICENSES/glm.txt</string>
+        <key>name</key>
+        <string>glm</string>
+        <key>platforms</key>
+        <map>
+          <key>common</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>a3887ed1534f18d9b6d3991853ce27d1</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/common/lib/glm-0.9.7.6-common-201607172129.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>common</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>0.9.7.6</string>
+      </map>
       <key>glod</key>
       <map>
         <key>copyright</key>

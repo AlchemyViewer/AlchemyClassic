@@ -4,6 +4,7 @@ project(llrender)
 
 include(00-Common)
 include(OpenGL)
+include(GLM)
 include(GLEW)
 include(FreeType)
 include(LLCommon)

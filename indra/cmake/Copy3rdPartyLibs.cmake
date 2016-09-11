@@ -35,8 +35,8 @@ if(WINDOWS)
     set(debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
     set(debug_files
         openjpegd.dll
-        ssleay32.dll
-        libeay32.dll
+        libcrypto-1_1-x64.dll
+        libssl-1_1-x64.dll
         glod.dll    
         libhunspell.dll
         )
@@ -44,8 +44,8 @@ if(WINDOWS)
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
     set(release_files
         openjpeg.dll
-        ssleay32.dll
-        libeay32.dll
+        libcrypto-1_1-x64.dll
+        libssl-1_1-x64.dll
         glod.dll
         libhunspell.dll
         )

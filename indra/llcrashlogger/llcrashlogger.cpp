@@ -47,13 +47,9 @@
 #include "httpresponse.h"
 
 #include <curl/curl.h>
-#include <openssl/crypto.h>
 
 BOOL gBreak = false;
 BOOL gSent = false;
-
-int LLCrashLogger::ssl_mutex_count = 0;
-LLCoreInt::HttpMutex ** LLCrashLogger::ssl_mutex_list = NULL;
 
 #define CRASH_UPLOAD_RETRIES 3 /* seconds */
 #define CRASH_UPLOAD_TIMEOUT 180 /* seconds */
@@ -630,56 +626,10 @@ void LLCrashLogger::commonCleanup()
 void LLCrashLogger::init_curl()
 {
     curl_global_init(CURL_GLOBAL_ALL);
-
-    ssl_mutex_count = CRYPTO_num_locks();
-    if (ssl_mutex_count > 0)
-    {
-        ssl_mutex_list = new LLCoreInt::HttpMutex *[ssl_mutex_count];
-
-        for (int i(0); i < ssl_mutex_count; ++i)
-        {
-            ssl_mutex_list[i] = new LLCoreInt::HttpMutex;
-        }
-
-        CRYPTO_set_locking_callback(ssl_locking_callback);
-        CRYPTO_set_id_callback(ssl_thread_id_callback);
-    }
 }
 
 
 void LLCrashLogger::term_curl()
 {
-    CRYPTO_set_locking_callback(NULL);
-    for (int i(0); i < ssl_mutex_count; ++i)
-    {
-        delete ssl_mutex_list[i];
-    }
-    delete[] ssl_mutex_list;
-}
-
-
-unsigned long LLCrashLogger::ssl_thread_id_callback(void)
-{
-#if LL_WINDOWS
-    return (unsigned long)(intptr_t)GetCurrentThread();
-#else
-    return (unsigned long)pthread_self();
-#endif
-}
-
-
-void LLCrashLogger::ssl_locking_callback(int mode, int type, const char * /* file */, int /* line */)
-{
-    if (type >= 0 && type < ssl_mutex_count)
-    {
-        if (mode & CRYPTO_LOCK)
-        {
-            ssl_mutex_list[type]->lock();
-        }
-        else
-        {
-            ssl_mutex_list[type]->unlock();
-        }
-    }
 }
 

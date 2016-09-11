@@ -31,18 +31,11 @@
 
 #include "llsechandler_basic.h"
 
-#include <openssl/evp.h>
-#include <openssl/err.h>
-
-
 std::map<std::string, LLPointer<LLSecAPIHandler> > gHandlerMap;
 LLPointer<LLSecAPIHandler> gSecAPIHandler;
 
 void initializeSecHandler()
 {
-	ERR_load_crypto_strings();
-	OpenSSL_add_all_algorithms();
-
 	gHandlerMap[BASIC_SECHANDLER] = new LLSecAPIBasicHandler();
 	
 	

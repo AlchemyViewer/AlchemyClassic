@@ -23,13 +23,6 @@
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
-#if LL_WINDOWS
-#define SAFE_SSL 1
-#elif LL_DARWIN
-#define SAFE_SSL 1
-#else
-#define SAFE_SSL 1
-#endif
 
 #include "linden_common.h"		// Modifies curl/curl.h interfaces
 #include "httpcommon.h"
@@ -38,10 +31,6 @@
 #include <curl/curl.h>
 #include <string>
 #include <sstream>
-#if SAFE_SSL
-#include <openssl/crypto.h>
-#endif
-
 
 namespace LLCore
 {
@@ -279,9 +268,6 @@ namespace LLHttp
 {
 namespace
 {
-typedef boost::shared_ptr<LLMutex> LLMutex_ptr;
-std::vector<LLMutex_ptr> sSSLMutex;
-
 CURL *getCurlTemplateHandle()
 {
     static CURL *curlpTemplateHandle = NULL;
@@ -345,34 +331,6 @@ void deallocateEasyCurl(CURL *curlp)
     curl_easy_cleanup(curlp);
 }
 
-
-#if SAFE_SSL
-//static
-void ssl_locking_callback(int mode, int type, const char *file, int line)
-{
-    if (type >= sSSLMutex.size())
-    {
-        LL_WARNS() << "Attempt to get unknown MUTEX in SSL Lock." << LL_ENDL;
-    }
-
-    if (mode & CRYPTO_LOCK)
-    {
-        sSSLMutex[type]->lock();
-    }
-    else
-    {
-        sSSLMutex[type]->unlock();
-    }
-}
-
-//static
-unsigned long ssl_thread_id(void)
-{
-	return static_cast<unsigned long>(boost::hash<boost::thread::id>()(LLThread::currentID()));
-}
-#endif
-
-
 }
 
 void initialize()
@@ -383,28 +341,11 @@ void initialize()
     CURLcode code = curl_global_init(CURL_GLOBAL_ALL);
 
     check_curl_code(code, CURL_GLOBAL_ALL);
-
-#if SAFE_SSL
-    S32 mutex_count = CRYPTO_num_locks();
-    for (S32 i = 0; i < mutex_count; i++)
-    {
-        sSSLMutex.push_back(LLMutex_ptr(new LLMutex()));
-    }
-    CRYPTO_set_id_callback(&ssl_thread_id);
-    CRYPTO_set_locking_callback(&ssl_locking_callback);
-#endif
-
 }
 
 
 void cleanup()
 {
-#if SAFE_SSL
-    CRYPTO_set_id_callback(NULL);
-    CRYPTO_set_locking_callback(NULL);
-    sSSLMutex.clear();
-#endif
-
     curl_global_cleanup();
 }
 

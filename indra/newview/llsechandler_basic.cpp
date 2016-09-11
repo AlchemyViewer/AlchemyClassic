@@ -39,11 +39,13 @@
 #include <ios>
 #include <openssl/ossl_typ.h>
 #include <openssl/x509.h>
+#include <openssl/x509_vfy.h>
 #include <openssl/x509v3.h>
 #include <openssl/pem.h>
 #include <openssl/asn1.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
+#include <openssl/bn.h>
 #include <iostream>
 #include <iomanip>
 #include <time.h>
@@ -168,8 +170,8 @@ LLSD& LLBasicCertificate::_initLLSD()
 		mLLSDInfo[CERT_SERIAL_NUMBER] = cert_string_from_asn1_integer(sn);
 	}
 	
-	mLLSDInfo[CERT_VALID_TO] = cert_date_from_asn1_time(X509_get_notAfter(mCert));
-	mLLSDInfo[CERT_VALID_FROM] = cert_date_from_asn1_time(X509_get_notBefore(mCert));
+	mLLSDInfo[CERT_VALID_TO] = cert_date_from_asn1_time(X509_getm_notAfter(mCert));
+	mLLSDInfo[CERT_VALID_FROM] = cert_date_from_asn1_time(X509_getm_notBefore(mCert));
 	mLLSDInfo[CERT_SHA1_DIGEST] = cert_get_digest("sha1", mCert);
 	mLLSDInfo[CERT_MD5_DIGEST] = cert_get_digest("md5", mCert);
 	// add the known extensions
@@ -350,8 +352,20 @@ LLSD cert_name_from_X509_NAME(X509_NAME* name)
 		char buffer[32];
 		X509_NAME_ENTRY *entry = X509_NAME_get_entry(name, entry_index);
 		
-		std::string name_value = std::string((const char*)M_ASN1_STRING_data(X509_NAME_ENTRY_get_data(entry)), 
-											 M_ASN1_STRING_length(X509_NAME_ENTRY_get_data(entry)));
+		ASN1_STRING *tmp = X509_NAME_ENTRY_get_data(entry);
+
+		std::string name_value;
+		if (ASN1_STRING_type(tmp) != V_ASN1_UTF8STRING)
+		{
+			unsigned char* out_utf8_str;
+			int len = ASN1_STRING_to_UTF8(&out_utf8_str, tmp);
+			name_value = std::string((char*) out_utf8_str, len);
+			OPENSSL_free(out_utf8_str);
+		}
+		else
+		{
+			name_value = std::string((char*) ASN1_STRING_get0_data(tmp), ASN1_STRING_length(tmp));
+		}
 
 		ASN1_OBJECT* name_obj = X509_NAME_ENTRY_get_object(entry);		
 		OBJ_obj2txt(buffer, sizeof(buffer), name_obj, 0);
@@ -1276,9 +1290,8 @@ void LLSecAPIBasicHandler::_readProtectedData()
 		
 
 		// read in the rest of the file.
-		EVP_CIPHER_CTX ctx;
-		EVP_CIPHER_CTX_init(&ctx);
-		EVP_DecryptInit(&ctx, EVP_rc4(), salt, NULL);
+		EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+		EVP_DecryptInit(ctx, EVP_rc4(), salt, NULL);
 		// allocate memory:
 		std::string decrypted_data;	
 		
@@ -1286,14 +1299,14 @@ void LLSecAPIBasicHandler::_readProtectedData()
 			// read data as a block:
 			protected_data_stream.read((char *)buffer, BUFFER_READ_SIZE);
 			
-			EVP_DecryptUpdate(&ctx, decrypted_buffer, &decrypted_length, 
+			EVP_DecryptUpdate(ctx, decrypted_buffer, &decrypted_length, 
 							  buffer, protected_data_stream.gcount());
 			decrypted_data.append((const char *)decrypted_buffer, protected_data_stream.gcount());
 		}
 		
 		// RC4 is a stream cipher, so we don't bother to EVP_DecryptFinal, as there is
 		// no block padding.
-		EVP_CIPHER_CTX_cleanup(&ctx);
+		EVP_CIPHER_CTX_free(ctx);
 		std::istringstream parse_stream(decrypted_data);
 		if (parser->parse(parse_stream, mProtectedDataMap, 
 						  LLSDSerialize::SIZE_UNLIMITED) == LLSDParser::PARSE_FAILURE)
@@ -1332,9 +1345,8 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 	try
 	{
 		
-		EVP_CIPHER_CTX ctx;
-		EVP_CIPHER_CTX_init(&ctx);
-		EVP_EncryptInit(&ctx, EVP_rc4(), salt, NULL);
+		EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+		EVP_EncryptInit(ctx, EVP_rc4(), salt, NULL);
 		unsigned char unique_id[MAC_ADDRESS_BYTES];
         LLMachineID::getUniqueID(unique_id, sizeof(unique_id));
 		LLXORCipher cipher(unique_id, sizeof(unique_id));
@@ -1349,13 +1361,13 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 				break;
 			}
 			int encrypted_length;
-			EVP_EncryptUpdate(&ctx, encrypted_buffer, &encrypted_length, 
+			EVP_EncryptUpdate(ctx, encrypted_buffer, &encrypted_length, 
 						  buffer, formatted_data_istream.gcount());
 			protected_data_stream.write((const char *)encrypted_buffer, encrypted_length);
 		}
 		
 		// no EVP_EncrypteFinal, as this is a stream cipher
-		EVP_CIPHER_CTX_cleanup(&ctx);
+		EVP_CIPHER_CTX_free(ctx);
 
 		protected_data_stream.close();
 	}

@@ -401,8 +401,8 @@ class WindowsManifest(ViewerManifest):
                 self.end_prefix()
 
             # Security
-            self.path("ssleay32.dll")
-            self.path("libeay32.dll")
+            self.path("libcrypto-1_1-x64.dll")
+            self.path("libssl-1_1-x64.dll")
 
             # Hunspell
             self.path("libhunspell.dll")

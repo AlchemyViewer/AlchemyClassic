@@ -75,7 +75,7 @@ private:
 class LL_COMMON_API LLCondition : public LLConditionImpl, public LLMutex
 {
 public:
-	LLCondition() : LLMutex(), LLConditionImpl() {}
+	LLCondition() : LLConditionImpl(), LLMutex() {}
 	~LLCondition() {}
 
 	void wait() { LLConditionImpl::wait(*this); }

@@ -38,12 +38,14 @@
 #include "v3math.h"
 #include "v4coloru.h"
 #include "v4math.h"
-#include "llalignedarray.h"
 #include "llstrider.h"
 #include "llpointer.h"
 #include "llglheaders.h"
 #include "llmatrix4a.h"
-#include "glh/glh_linear.h"
+#include "llvector4a.h"
+#include <boost/align/aligned_allocator.hpp>
+#include <glh/glh_linear.h>
+#include <glm/mat4x4.hpp>
 
 class LLVertexBuffer;
 class LLCubeMap;
@@ -476,8 +478,8 @@ private:
 
 	F32				mMaxAnisotropy;
 
-	LLAlignedArray<LLVector4a, 64> mUIOffset;
-	LLAlignedArray<LLVector4a, 64> mUIScale;
+	std::vector<LLVector4a, boost::alignment::aligned_allocator<LLVector4a, 64> > mUIOffset;
+	std::vector<LLVector4a, boost::alignment::aligned_allocator<LLVector4a, 64> > mUIScale;
 
 };
 

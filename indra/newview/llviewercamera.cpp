@@ -65,53 +65,6 @@ LLTrace::CountStatHandle<> LLViewerCamera::sAngularVelocityStat("camera_angular_
 
 LLViewerCamera::eCameraID LLViewerCamera::sCurCameraID = LLViewerCamera::CAMERA_WORLD;
 
-//glu pick matrix implementation borrowed from Mesa3D
-glh::matrix4f gl_pick_matrix(GLfloat x, GLfloat y, GLfloat width, GLfloat height, GLint* viewport)
-{
-	GLfloat m[16];
-	GLfloat sx, sy;
-	GLfloat tx, ty;
-
-	sx = viewport[2] / width;
-	sy = viewport[3] / height;
-	tx = (viewport[2] + 2.f * (viewport[0] - x)) / width;
-	ty = (viewport[3] + 2.f * (viewport[1] - y)) / height;
-
-	#define M(row,col) m[col*4+row]
-	M(0,0) = sx; M(0,1) = 0.f; M(0,2) = 0.f; M(0,3) = tx;
-	M(1,0) = 0.f; M(1,1) = sy; M(1,2) = 0.f; M(1,3) = ty;
-	M(2,0) = 0.f; M(2,1) = 0.f; M(2,2) = 1.f; M(2,3) = 0.f;
-	M(3,0) = 0.f; M(3,1) = 0.f; M(3,2) = 0.f; M(3,3) = 1.f;
-	#undef M
-
-	return glh::matrix4f(m);
-}
-
-glh::matrix4f gl_perspective(GLfloat fovy, GLfloat aspect, GLfloat zNear, GLfloat zFar)
-{
-	GLfloat f = 1.f/tanf(DEG_TO_RAD*fovy/2.f);
-
-	return glh::matrix4f(f/aspect, 0, 0, 0,
-						 0, f, 0, 0,
-						 0, 0, (zFar+zNear)/(zNear-zFar), (2.f*zFar*zNear)/(zNear-zFar),
-						 0, 0, -1.f, 0);
-}
-
-glh::matrix4f gl_lookat(LLVector3 eye, LLVector3 center, LLVector3 up)
-{
-	LLVector3 f = center-eye;
-	f.normVec();
-	up.normVec();
-	LLVector3 s = f % up;
-	LLVector3 u = s % f;
-
-	return glh::matrix4f(s[0], s[1], s[2], 0,
-					  u[0], u[1], u[2], 0,
-					  -f[0], -f[1], -f[2], 0,
-					  0, 0, 0, 1);
-	
-}
-
 // Build time optimization, generate this once in .cpp file
 template class LLViewerCamera* LLSingleton<class LLViewerCamera>::getInstance();
 
@@ -341,13 +294,14 @@ void LLViewerCamera::setPerspective(BOOL for_selection,
 		// make a tiny little viewport
 		// anything drawn into this viewport will be "selected"
 
-		GLint viewport[4];
-		viewport[0] = gViewerWindow->getWorldViewRectRaw().mLeft;
-		viewport[1] = gViewerWindow->getWorldViewRectRaw().mBottom;
-		viewport[2] = gViewerWindow->getWorldViewRectRaw().getWidth();
-		viewport[3] = gViewerWindow->getWorldViewRectRaw().getHeight();
+		glm::ivec4 viewport(
+			gViewerWindow->getWorldViewRectRaw().mLeft,
+			gViewerWindow->getWorldViewRectRaw().mBottom,
+			gViewerWindow->getWorldViewRectRaw().getWidth(),
+			gViewerWindow->getWorldViewRectRaw().getHeight());
 		
-		proj_mat = gl_pick_matrix(x+width/2.f, y_from_bot+height/2.f, (GLfloat) width, (GLfloat) height, viewport);
+		proj_mat = glh::matrix4f((float*)glm::value_ptr(glm::pickMatrix(
+			glm::vec2(x+width/2.f, y_from_bot+height/2.f), glm::vec2((F32) width, (F32) height), viewport)));
 
 		if (limit_select_distance)
 		{
@@ -389,7 +343,7 @@ void LLViewerCamera::setPerspective(BOOL for_selection,
 
 	calcProjection(z_far); // Update the projection matrix cache
 
-	proj_mat *= gl_perspective(fov_y,aspect,z_near,z_far);
+	proj_mat *= glh::matrix4f(const_cast<float*>(glm::value_ptr(glm::perspective(glm::radians(fov_y), aspect, z_near, z_far))));
 
 	gGL.loadMatrix(proj_mat.m);
 

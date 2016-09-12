@@ -283,52 +283,6 @@ class WindowsManifest(ViewerManifest):
     def final_exe(self):
         return self.app_name_oneword()+".exe"
 
-    def test_msvcrt_and_copy_action(self, src, dst):
-        # This is used to test a dll manifest.
-        # It is used as a temporary override during the construct method
-        from test_win32_manifest import test_assembly_binding
-        if src and (os.path.exists(src) or os.path.islink(src)):
-            # ensure that destination path exists
-            self.cmakedirs(os.path.dirname(dst))
-            self.created_paths.append(dst)
-            if not os.path.isdir(src):
-                if(self.args['configuration'].lower() == 'debug'):
-                    test_assembly_binding(src, "Microsoft.VC80.DebugCRT", "8.0.50727.4053")
-                else:
-                    test_assembly_binding(src, "Microsoft.VC80.CRT", "8.0.50727.4053")
-                self.ccopy(src,dst)
-            else:
-                raise Exception("Directories are not supported by test_CRT_and_copy_action()")
-        else:
-            print "Doesn't exist:", src
-
-    def test_for_no_msvcrt_manifest_and_copy_action(self, src, dst):
-        # This is used to test that no manifest for the msvcrt exists.
-        # It is used as a temporary override during the construct method
-        from test_win32_manifest import test_assembly_binding
-        from test_win32_manifest import NoManifestException, NoMatchingAssemblyException
-        if src and (os.path.exists(src) or os.path.islink(src)):
-            # ensure that destination path exists
-            self.cmakedirs(os.path.dirname(dst))
-            self.created_paths.append(dst)
-            if not os.path.isdir(src):
-                try:
-                    if(self.args['configuration'].lower() == 'debug'):
-                        test_assembly_binding(src, "Microsoft.VC80.DebugCRT", "")
-                    else:
-                        test_assembly_binding(src, "Microsoft.VC80.CRT", "")
-                    raise Exception("Unknown condition")
-                except NoManifestException, err:
-                    pass
-                except NoMatchingAssemblyException, err:
-                    pass
-
-                self.ccopy(src,dst)
-            else:
-                raise Exception("Directories are not supported by test_CRT_and_copy_action()")
-        else:
-            print "Doesn't exist:", src
-
     def construct(self):
         super(WindowsManifest, self).construct()
 
@@ -380,15 +334,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("openjpegd.dll")
             else:
                 self.path("openjpeg.dll")
-
-            # These need to be installed as a SxS assembly, currently a 'private' assembly.
-            # See http://msdn.microsoft.com/en-us/library/ms235291(VS.80).aspx
-            if self.args['configuration'].lower() == 'debug':
-                self.path("msvcr*d.dll")
-                self.path("msvcp*d.dll")
-            else:
-                self.path("msvcr*.dll")
-                self.path("msvcp*.dll")
 
             # Vivox runtimes
             if self.prefix(src="", dst="voice"):
@@ -467,12 +412,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("widevinecdmadapter.dll")
                 self.path("wow_helper.exe")
                 self.end_prefix()
-
-        # MSVC DLLs needed for CEF and have to be in same directory as plugin
-        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', 'Release'), dst="llplugin"):
-            self.path("msvcp120.dll")
-            self.path("msvcr120.dll")
-            self.end_prefix()
 
         # CEF files common to all configurations
         if self.prefix(src=os.path.join(os.pardir, 'packages', 'resources'), dst="llplugin"):

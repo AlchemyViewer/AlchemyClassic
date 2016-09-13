@@ -39,7 +39,6 @@ set(llcharacter_SOURCE_FILES
     llmotion.cpp
     llmultigesture.cpp
     llpose.cpp
-    llstatemachine.cpp
     lltargetingmotion.cpp
     llvisualparam.cpp
     )
@@ -66,7 +65,6 @@ set(llcharacter_HEADER_FILES
     llmotioncontroller.h
     llmultigesture.h
     llpose.h
-    llstatemachine.h
     lltargetingmotion.h
     llvisualparam.h
     )

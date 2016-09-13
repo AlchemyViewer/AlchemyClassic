@@ -358,8 +358,8 @@ public:
 	void matrixMode(U32 mode);	
 	U32 getMatrixMode();
 
-	const glh::matrix4f& getModelviewMatrix();
-	const glh::matrix4f& getProjectionMatrix();
+	const glm::mat4& getModelviewMatrix();
+	const glm::mat4& getProjectionMatrix();
 
 	void syncMatrices();
 	void syncLightState();
@@ -449,7 +449,7 @@ private:
 	U32 mMatrixMode;
 	U32 mMatIdx[NUM_MATRIX_MODES];
 	U32 mMatHash[NUM_MATRIX_MODES];
-	glh::matrix4f mMatrix[NUM_MATRIX_MODES][LL_MATRIX_STACK_DEPTH];
+	glm::mat4 mMatrix[NUM_MATRIX_MODES][LL_MATRIX_STACK_DEPTH];
 	U32 mCurMatHash[NUM_MATRIX_MODES];
 	U32 mLightHash;
 	LLColor4 mAmbientLightColor;

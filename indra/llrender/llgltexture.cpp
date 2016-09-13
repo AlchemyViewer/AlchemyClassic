@@ -260,7 +260,6 @@ LLTexUnit::eTextureType LLGLTexture::getTarget(void) const
 	return mGLTexturep->getTarget() ;
 }
 
-// <alchemy> - We modded stuff here
 BOOL LLGLTexture::setSubImage(const LLImageRaw* imageraw, S32 x_pos, S32 y_pos, S32 width, S32 height, bool fast_update)
 {
 	llassert(mGLTexturep.notNull()) ;
@@ -274,7 +273,6 @@ BOOL LLGLTexture::setSubImage(const U8* datap, S32 data_width, S32 data_height, 
 
 	return mGLTexturep->setSubImage(datap, data_width, data_height, x_pos, y_pos, width, height, fast_update) ;
 }
-// </alchemy>
 
 void LLGLTexture::setGLTextureCreated (bool initialized)
 {

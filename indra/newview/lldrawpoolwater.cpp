@@ -48,6 +48,8 @@
 #include "llviewershadermgr.h"
 #include "llwaterparammanager.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 const LLUUID TRANSPARENT_WATER_TEXTURE("2bfd3884-7e27-69b9-ba3a-3e673f680004");
 const LLUUID OPAQUE_WATER_TEXTURE("43c32285-d658-1793-c123-bf86315de055");
 
@@ -692,7 +694,7 @@ void LLDrawPoolWater::shade()
 			}
 			else
 			{
-				LLGLSquashToFarClip far_clip(glh_get_current_projection());
+				LLGLSquashToFarClip far_clip(glm::make_mat4(glh_get_current_projection().m));
 				face->renderIndexed();
 			}
 		}

@@ -40,6 +40,8 @@
 #include "pipeline.h"
 #include "llviewershadermgr.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 LLDrawPoolSky::LLDrawPoolSky()
 :	LLFacePool(POOL_SKY),
 	
@@ -102,7 +104,7 @@ void LLDrawPoolSky::render(S32 pass)
 
 	LLGLDepthTest gls_depth(GL_TRUE, GL_FALSE);
 
-	LLGLSquashToFarClip far_clip(glh_get_current_projection());
+	LLGLSquashToFarClip far_clip(glm::make_mat4(glh_get_current_projection().m));
 
 	LLGLEnable fog_enable( (mVertexShaderLevel < 1 && LLViewerCamera::getInstance()->cameraUnderWater()) ? GL_FOG : 0);
 

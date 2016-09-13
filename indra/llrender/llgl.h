@@ -42,7 +42,7 @@
 #include "llinstancetracker.h"
 
 #include "llglheaders.h"
-#include "glh/glh_linear.h"
+#include <glm/mat4x4.hpp>
 
 extern BOOL gDebugGL;
 extern BOOL gDebugSession;
@@ -326,7 +326,7 @@ class LLGLUserClipPlane
 {
 public:
 	
-	LLGLUserClipPlane(const LLPlane& plane, const glh::matrix4f& modelview, const glh::matrix4f& projection, bool apply = true);
+	LLGLUserClipPlane(const LLPlane& plane, const glm::mat4& modelview, const glm::mat4& projection, bool apply = true);
 	~LLGLUserClipPlane();
 
 	void setPlane(F32 a, F32 b, F32 c, F32 d);
@@ -334,8 +334,8 @@ public:
 private:
 	bool mApply;
 
-	glh::matrix4f mProjection;
-	glh::matrix4f mModelview;
+	glm::mat4 mProjection;
+	glm::mat4 mModelview;
 };
 
 /*
@@ -349,7 +349,7 @@ private:
 class LLGLSquashToFarClip
 {
 public:
-	LLGLSquashToFarClip(glh::matrix4f projection, U32 layer = 0);
+	LLGLSquashToFarClip(glm::mat4 projection, U32 layer = 0);
 	~LLGLSquashToFarClip();
 };
 

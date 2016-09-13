@@ -41,6 +41,8 @@
 #include "llviewerregion.h"
 #include "llviewershadermgr.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 LLDrawPoolGround::LLDrawPoolGround() :
 	LLFacePool(POOL_GROUND)
 {
@@ -69,7 +71,7 @@ void LLDrawPoolGround::render(S32 pass)
 
 	LLGLDepthTest gls_depth(GL_TRUE, GL_FALSE);
 
-	LLGLSquashToFarClip far_clip(glh_get_current_projection());
+	LLGLSquashToFarClip far_clip(glm::make_mat4(glh_get_current_projection().m));
 
 	F32 water_height = gAgent.getRegion()->getWaterHeight();
 	gGL.pushMatrix();

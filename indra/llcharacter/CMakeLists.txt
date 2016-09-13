@@ -33,7 +33,6 @@ set(llcharacter_SOURCE_FILES
     lljointsolverrp3.cpp
     llkeyframefallmotion.cpp
     llkeyframemotion.cpp
-    llkeyframemotionparam.cpp
     llkeyframestandmotion.cpp
     llkeyframewalkmotion.cpp
     llmotioncontroller.cpp
@@ -49,8 +48,8 @@ set(llcharacter_HEADER_FILES
     CMakeLists.txt
 
     llanimationstates.h
-    llbvhloader.h
     llbvhconsts.h
+    llbvhloader.h
     llcharacter.h
     lleditingmotion.h
     llgesture.h
@@ -61,7 +60,6 @@ set(llcharacter_HEADER_FILES
     lljointstate.h
     llkeyframefallmotion.h
     llkeyframemotion.h
-    llkeyframemotionparam.h
     llkeyframestandmotion.h
     llkeyframewalkmotion.h
     llmotion.h

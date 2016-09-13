@@ -34,7 +34,6 @@
 #include "llmotion.h"
 #include "llpose.h"
 #include "llframetimer.h"
-#include "llstatemachine.h"
 #include "llstring.h"
 
 //-----------------------------------------------------------------------------

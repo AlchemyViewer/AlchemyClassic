@@ -885,38 +885,6 @@
         <key>version</key>
         <string>2.0.0</string>
       </map>
-      <key>glh-linear</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 2000 Cass Everitt</string>
-        <key>description</key>
-        <string>glh - is a platform-indepenedent C++ OpenGL helper library</string>
-        <key>license</key>
-        <string>BSD</string>
-        <key>license_file</key>
-        <string>LICENSES/glh-linear.txt</string>
-        <key>name</key>
-        <string>glh-linear</string>
-        <key>platforms</key>
-        <map>
-          <key>common</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>44c596c659d32a86972ac9c6f206cb68</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/glh-linear_3p-glh-linear/rev/303446/arch/Linux/installer/glh_linear-0.0.0-common-303446.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>common</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>0.0.0</string>
-      </map>
       <key>glm</key>
       <map>
         <key>copyright</key>

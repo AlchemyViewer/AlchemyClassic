@@ -285,7 +285,7 @@ public:
 	void setHighlightObject(LLDrawable* obj) { mHighlightObject = obj; }
 
 
-	void renderShadow(glh::matrix4f& view, glh::matrix4f& proj, LLCamera& camera, LLCullResult& result, BOOL use_shader, BOOL use_occlusion, U32 target_width);
+	void renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCamera& camera, LLCullResult& result, BOOL use_shader, BOOL use_occlusion, U32 target_width);
 	void renderHighlights();
 	void renderDebug();
 	void renderPhysicsDisplay();
@@ -588,9 +588,7 @@ public:
 	LLRenderTarget			mUIScreen;
 	LLRenderTarget			mDeferredScreen;
 	LLRenderTarget			mFXAABuffer;
-	LLRenderTarget			mEdgeMap;
 	LLRenderTarget			mDeferredDepth;
-	LLRenderTarget			mOcclusionDepth;
 	LLRenderTarget			mDeferredLight;
 	LLRenderTarget			mHighlight;
 	LLRenderTarget			mPhysicsDisplay;
@@ -603,24 +601,15 @@ public:
 
 	//sun shadow map
 	LLRenderTarget			mShadow[6];
-	LLRenderTarget			mShadowOcclusion[6];
 	std::vector<LLVector3>	mShadowFrustPoints[4];
 	LLVector4				mShadowError;
 	LLVector4				mShadowFOV;
 	LLVector3				mShadowFrustOrigin[4];
 	LLCamera				mShadowCamera[8];
 	LLVector3				mShadowExtents[4][2];
-	glh::matrix4f			mSunShadowMatrix[6];
-	glh::matrix4f			mShadowModelview[6];
-	glh::matrix4f			mShadowProjection[6];
-	glh::matrix4f			mGIMatrix;
-	glh::matrix4f			mGIMatrixProj;
-	glh::matrix4f			mGIModelview;
-	glh::matrix4f			mGIProjection;
-	glh::matrix4f			mGINormalMatrix;
-	glh::matrix4f			mGIInvProj;
-	LLVector2				mGIRange;
-	F32						mGILightRadius;
+	glm::mat4				mSunShadowMatrix[6];
+	glm::mat4				mShadowModelview[6];
+	glm::mat4				mShadowProjection[6];
 	
 	LLPointer<LLDrawable>				mShadowSpotLight[2];
 	F32									mSpotLightFade[2];

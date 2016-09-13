@@ -23,7 +23,6 @@ set(cmake_SOURCE_FILES
     ExamplePlugin.cmake
     FindAPR.cmake
     FindAutobuild.cmake
-    FindGLH.cmake
     FindGoogleBreakpad.cmake
     FindGooglePerfTools.cmake
     FindHUNSPELL.cmake
@@ -36,7 +35,6 @@ set(cmake_SOURCE_FILES
     FMODSTUDIO.cmake
     FreeType.cmake
     GLEXT.cmake
-    GLH.cmake
     GLM.cmake
     GLOD.cmake
     GLEW.cmake

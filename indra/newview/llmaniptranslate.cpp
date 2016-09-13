@@ -63,6 +63,9 @@
 #include "llviewershadermgr.h"
 #include "lltrans.h"
 
+#include <glm/vec4.hpp> // glm::vec4, glm::ivec4
+#include <glm/mat4x4.hpp> // glm::mat4
+#include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 const S32 NUM_AXES = 3;
@@ -1677,12 +1680,12 @@ void LLManipTranslate::highlightIntersection(LLVector3 normal,
 			normal = -normal;
 		}
 		F32 d = -(selection_center * normal);
-		glh::vec4f plane(normal.mV[0], normal.mV[1], normal.mV[2], d );
 
-		glh::matrix4f(const_cast<float*>(glm::value_ptr(gGL.getModelviewMatrix()))).inverse().mult_vec_matrix(plane);
+		glm::vec4 plane(normal.mV[0], normal.mV[1], normal.mV[2], d );
+		plane = plane * glm::inverse(gGL.getModelviewMatrix());
 
 		static LLStaticHashedString sClipPlane("clip_plane");
-		gClipProgram.uniform4fv(sClipPlane, 1, plane.v);
+		gClipProgram.uniform4fv(sClipPlane, 1, glm::value_ptr(plane));
 		
 		BOOL particles = gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_PARTICLES);
 		BOOL clouds = gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_CLOUDS);
@@ -1738,13 +1741,6 @@ void LLManipTranslate::highlightIntersection(LLVector3 normal,
 	{
 		shader->bind();
 	}
-
-	// <alchemy> - LL Merge Derp.
-	//if (shader)
-	//{
-	//	shader->bind();
-	//}
-	// </alchemy>
 
 	//draw volume/plane intersections
 	{

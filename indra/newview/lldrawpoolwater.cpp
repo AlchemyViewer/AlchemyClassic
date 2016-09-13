@@ -694,7 +694,7 @@ void LLDrawPoolWater::shade()
 			}
 			else
 			{
-				LLGLSquashToFarClip far_clip(glm::make_mat4(glh_get_current_projection().m));
+				LLGLSquashToFarClip far_clip(glm_get_current_projection());
 				face->renderIndexed();
 			}
 		}

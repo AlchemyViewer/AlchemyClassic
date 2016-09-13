@@ -752,7 +752,7 @@ void LLGLManager::initExtensions()
     mHasGpuShader5 = extensions.find("GL_ARB_gpu_shader5") != extensions.end();
 #endif
     
-#else // LL_MESA_HEADLESS //important, gGLHExts.mSysExts is uninitialized until after glh_init_extensions is called
+#else // LL_MESA_HEADLESS
 	mHasMultitexture = GLEW_ARB_multitexture;
 	mHasATIMemInfo = GLEW_ATI_meminfo;
 	mHasNVXMemInfo = GLEW_NVX_gpu_memory_info;

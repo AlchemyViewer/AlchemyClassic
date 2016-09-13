@@ -52,6 +52,11 @@
 #include "llviewercontrol.h" // for gSavedSettings
 #include "llviewertexturelist.h"
 
+#include <glm/mat3x3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 static U32 sDataMask = LLDrawPoolAvatar::VERTEX_DATA_MASK;
 static U32 sBufferUsage = GL_STREAM_DRAW_ARB;
 static U32 sShaderLevel = 0;
@@ -1479,15 +1484,8 @@ void LLDrawPoolAvatar::getRiggedGeometry(LLFace* face, LLPointer<LLVertexBuffer>
 	U16 offset = 0;
 		
 	LLMatrix4 mat_vert = skin->mBindShapeMatrix;
-	glh::matrix4f m((F32*) mat_vert.mMatrix);
-	m = m.inverse().transpose();
-		
-	F32 mat3[] = 
-	{ m.m[0], m.m[1], m.m[2],
-		m.m[4], m.m[5], m.m[6],
-		m.m[8], m.m[9], m.m[10] };
-
-	LLMatrix3 mat_normal(mat3);				
+	glm::mat3 mat3(glm::transpose(glm::inverse(glm::make_mat4((F32*) mat_vert.mMatrix))));
+	LLMatrix3 mat_normal(glm::value_ptr(mat3));				
 
 	//let getGeometryVolume know if alpha should override shiny
 	U32 type = gPipeline.getPoolTypeFromTE(face->getTextureEntry(), face->getTexture());

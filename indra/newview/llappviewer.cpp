@@ -140,8 +140,6 @@
 #   include <sys/file.h> // For processMarkerFiles
 #endif
 
-#include "llapr.h"
-
 #include "llviewerkeyboard.h"
 #include "lllfsthread.h"
 #include "llworkerthread.h"
@@ -2234,12 +2232,11 @@ void LLAppViewer::initLoggingAndGetLastDuration()
 	std::string duration_log_msg(duration_log_stream.str());
 	
 	// Create a new start marker file for comparison with log file time for the next run
-	LLAPRFile start_marker_file ;
-	start_marker_file.open(start_marker_file_name, LL_APR_WB);
-	if (start_marker_file.getFileHandle())
+	LLFILE* start_marker_file = LLFile::fopen(start_marker_file_name, "wb");
+	if (start_marker_file)
 	{
 		recordMarkerVersion(start_marker_file);
-		start_marker_file.close();
+		LLFile::close(start_marker_file);
 	}
 
 	// Rename current log file to ".old"
@@ -3520,12 +3517,12 @@ void LLAppViewer::handleViewerCrash()
 																			gLLErrorActivated
 																			? LLERROR_MARKER_FILE_NAME
 																			: ERROR_MARKER_FILE_NAME);
-		LLAPRFile crash_marker_file ;
-		crash_marker_file.open(crash_marker_file_name, LL_APR_WB);
-		if (crash_marker_file.getFileHandle())
+		LLFILE* crash_marker_file = LLFile::fopen(crash_marker_file_name, "wb");
+		if (crash_marker_file)
 		{
 			LL_INFOS("MarkerFile") << "Created crash marker file " << crash_marker_file_name << LL_ENDL;
 			recordMarkerVersion(crash_marker_file);
+			LLFile::close(crash_marker_file);
 		}
 		else
 		{
@@ -3587,7 +3584,7 @@ void LLAppViewer::handleViewerCrash()
 }
 
 // static
-void LLAppViewer::recordMarkerVersion(LLAPRFile& marker_file) 
+void LLAppViewer::recordMarkerVersion(LLFILE* marker_file) 
 {		
 	std::string marker_version(LLVersionInfo::getChannelAndVersion());
 	if ( marker_version.length() > MAX_MARKER_LENGTH )
@@ -3599,7 +3596,8 @@ void LLAppViewer::recordMarkerVersion(LLAPRFile& marker_file)
 	}
 
 	// record the viewer version in the marker file
-	marker_file.write(marker_version.data(), marker_version.length());
+	fwrite(marker_version.data(), marker_version.size(), 1, marker_file);
+	fflush(marker_file);
 }
 
 bool LLAppViewer::markerIsSameVersion(const std::string& marker_name) const
@@ -3607,16 +3605,11 @@ bool LLAppViewer::markerIsSameVersion(const std::string& marker_name) const
 	bool sameVersion = false;
 
 	std::string my_version(LLVersionInfo::getChannelAndVersion());
-	char marker_version[MAX_MARKER_LENGTH];
-	S32  marker_version_length;
-
-	LLAPRFile marker_file;
-	marker_file.open(marker_name, LL_APR_RB);
-	if (marker_file.getFileHandle())
+	llifstream marker_file(marker_name, std::ios::binary);
+	if (marker_file.is_open())
 	{
-		marker_version_length = marker_file.read(marker_version, sizeof(marker_version));
-		std::string marker_string(marker_version, marker_version_length);
-		if ( 0 == my_version.compare( 0, my_version.length(), marker_version, 0, marker_version_length ) )
+		std::string marker_string((std::istreambuf_iterator<char>(marker_file)), std::istreambuf_iterator<char>());
+		if (my_version == marker_string)
 		{
 			sameVersion = true;
 		}
@@ -3642,7 +3635,7 @@ void LLAppViewer::processMarkerFiles()
 	bool marker_is_same_version = true;
 	// first, look for the marker created at startup and deleted on a clean exit
 	mMarkerFileName = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,MARKER_FILE_NAME);
-	if (LLAPRFile::isExist(mMarkerFileName, NULL, LL_APR_RB))
+	if (LLFile::isfile(mMarkerFileName))
 	{
 		// File exists...
 		// first, read it to see if it was created by the same version (we need this later)
@@ -3650,9 +3643,8 @@ void LLAppViewer::processMarkerFiles()
 
 		// now test to see if this file is locked by a running process (try to open for write)
 		LL_DEBUGS("MarkerFile") << "Checking exec marker file for lock..." << LL_ENDL;
-		mMarkerFile.open(mMarkerFileName, LL_APR_WB);
-		apr_file_t* fMarker = mMarkerFile.getFileHandle() ; 
-		if (!fMarker)
+		mMarkerFile = LLFile::fopen(mMarkerFileName, "wb");
+		if (!mMarkerFile)
 		{
 			LL_INFOS("MarkerFile") << "Exec marker file open failed - assume it is locked." << LL_ENDL;
 			mSecondInstance = true; // lock means that instance is running.
@@ -3660,7 +3652,7 @@ void LLAppViewer::processMarkerFiles()
 		else
 		{
 			// We were able to open it, now try to lock it ourselves...
-			if (apr_file_lock(fMarker, APR_FLOCK_NONBLOCK | APR_FLOCK_EXCLUSIVE) != APR_SUCCESS)
+			if (!LLFile::lockFile(mMarkerFile, true, true))
 			{
 				LL_WARNS_ONCE("MarkerFile") << "Locking exec marker failed." << LL_ENDL;
 				mSecondInstance = true; // lost a race? be conservative
@@ -3692,13 +3684,11 @@ void LLAppViewer::processMarkerFiles()
 	else // marker did not exist... last exec (if any) did not freeze
 	{
 		// Create the marker file for this execution & lock it; it will be deleted on a clean exit
-		apr_status_t s;
-		s = mMarkerFile.open(mMarkerFileName, LL_APR_WB, TRUE);	
-
-		if (s == APR_SUCCESS && mMarkerFile.getFileHandle())
+		mMarkerFile = LLFile::fopen(mMarkerFileName, "wb");
+		if (mMarkerFile)
 		{
 			LL_DEBUGS("MarkerFile") << "Exec marker file '"<< mMarkerFileName << "' created." << LL_ENDL;
-			if (APR_SUCCESS == apr_file_lock(mMarkerFile.getFileHandle(), APR_FLOCK_NONBLOCK | APR_FLOCK_EXCLUSIVE)) 
+			if (LLFile::lockFile(mMarkerFile, true, true))
 			{
 				recordMarkerVersion(mMarkerFile);
 				LL_DEBUGS("MarkerFile") << "Exec marker file locked." << LL_ENDL;
@@ -3719,7 +3709,7 @@ void LLAppViewer::processMarkerFiles()
 	// check for any last exec event report based on whether or not it happened during logout
 	// (the logout marker is created when logout begins)
 	std::string logout_marker_file =  gDirUtilp->getExpandedFilename(LL_PATH_LOGS, LOGOUT_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(logout_marker_file, NULL, LL_APR_RB))
+	if(LLFile::isfile(logout_marker_file))
 	{
 		if (markerIsSameVersion(logout_marker_file))
 		{
@@ -3730,11 +3720,11 @@ void LLAppViewer::processMarkerFiles()
 		{
 			LL_INFOS("MarkerFile") << "Logout crash marker '"<< logout_marker_file << "' found, but versions did not match" << LL_ENDL;
 		}
-		LLAPRFile::remove(logout_marker_file);
+		LLFile::remove(logout_marker_file);
 	}
 	// further refine based on whether or not a marker created during an llerr crash is found
 	std::string llerror_marker_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, LLERROR_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(llerror_marker_file, NULL, LL_APR_RB))
+	if(LLFile::isfile(llerror_marker_file))
 	{
 		if (markerIsSameVersion(llerror_marker_file))
 		{
@@ -3753,11 +3743,11 @@ void LLAppViewer::processMarkerFiles()
 		{
 			LL_INFOS("MarkerFile") << "LLError marker '"<< llerror_marker_file << "' found, but versions did not match" << LL_ENDL;
 		}
-		LLAPRFile::remove(llerror_marker_file);
+		LLFile::remove(llerror_marker_file);
 	}
 	// and last refine based on whether or not a marker created during a non-llerr crash is found
 	std::string error_marker_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, ERROR_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(error_marker_file, NULL, LL_APR_RB))
+	if(LLFile::isfile(error_marker_file))
 	{
 		if (markerIsSameVersion(error_marker_file))
 		{
@@ -3776,7 +3766,7 @@ void LLAppViewer::processMarkerFiles()
 		{
 			LL_INFOS("MarkerFile") << "Error marker '"<< error_marker_file << "' marker found, but versions did not match" << LL_ENDL;
 		}
-		LLAPRFile::remove(error_marker_file);
+		LLFile::remove(error_marker_file);
 	}
 }
 
@@ -3784,10 +3774,10 @@ void LLAppViewer::removeMarkerFiles()
 {
 	if (!mSecondInstance)
 	{		
-		if (mMarkerFile.getFileHandle())
+		if (mMarkerFile)
 		{
-			mMarkerFile.close() ;
-			LLAPRFile::remove( mMarkerFileName );
+			LLFile::close(mMarkerFile);
+			LLFile::remove( mMarkerFileName );
 			LL_DEBUGS("MarkerFile") << "removed exec marker '"<<mMarkerFileName<<"'"<< LL_ENDL;
 		}
 		else
@@ -3795,10 +3785,10 @@ void LLAppViewer::removeMarkerFiles()
 			LL_WARNS("MarkerFile") << "marker '"<<mMarkerFileName<<"' not open"<< LL_ENDL;
  		}
 
-		if (mLogoutMarkerFile.getFileHandle())
+		if (mLogoutMarkerFile)
 		{
-			mLogoutMarkerFile.close();
-			LLAPRFile::remove( mLogoutMarkerFileName );
+			LLFile::close(mLogoutMarkerFile);
+			LLFile::remove( mLogoutMarkerFileName );
 			LL_DEBUGS("MarkerFile") << "removed logout marker '"<<mLogoutMarkerFileName<<"'"<< LL_ENDL;
 		}
 		else
@@ -5041,8 +5031,8 @@ void LLAppViewer::sendLogoutRequest()
 		{
 			mLogoutMarkerFileName = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,LOGOUT_MARKER_FILE_NAME);
 		
-			mLogoutMarkerFile.open(mLogoutMarkerFileName, LL_APR_WB);
-			if (mLogoutMarkerFile.getFileHandle())
+			mLogoutMarkerFile = LLFile::fopen(mLogoutMarkerFileName, "wb");
+			if (mLogoutMarkerFile)
 			{
 				LL_INFOS("MarkerFile") << "Created logout marker file '"<< mLogoutMarkerFileName << "' " << LL_ENDL;
 				recordMarkerVersion(mLogoutMarkerFile);

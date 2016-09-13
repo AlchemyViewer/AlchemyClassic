@@ -2047,15 +2047,15 @@ bool LLImageFormatted::load(const std::string &filename, int load_size)
 	resetLastError();
 
 	S32 file_size = 0;
-	LLAPRFile infile ;
-	infile.open(filename, LL_APR_RB, NULL, &file_size);
-	apr_file_t* apr_file = infile.getFileHandle();
-	if (!apr_file)
+	llifstream infile(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	file_size = infile.tellg();
+	infile.seekg(0, std::ios::beg);
+	if (!infile.is_open())
 	{
 		setLastError("Unable to open file for reading", filename);
 		return false;
 	}
-	if (file_size == 0)
+	if (file_size <= 0)
 	{
 		setLastError("File is empty",filename);
 		return false;
@@ -2068,9 +2068,10 @@ bool LLImageFormatted::load(const std::string &filename, int load_size)
 	}
 	bool res;
 	U8 *data = allocateData(load_size);
-	apr_size_t bytes_read = load_size;
-	apr_status_t s = apr_file_read(apr_file, data, &bytes_read); // modifies bytes_read
-	if (s != APR_SUCCESS || (S32) bytes_read != load_size)
+	infile.read((char*) data, load_size);
+	std::streamsize bytes_read = infile.gcount();
+
+	if (!infile.good() || bytes_read != load_size)
 	{
 		deleteData();
 		setLastError("Unable to read file",filename);
@@ -2088,15 +2089,14 @@ bool LLImageFormatted::save(const std::string &filename)
 {
 	resetLastError();
 
-	LLAPRFile outfile ;
-	outfile.open(filename, LL_APR_WB);
-	if (!outfile.getFileHandle())
+	llofstream outfile(filename, std::ios::out | std::ios::binary | std::ios::trunc);
+	if (!outfile.is_open())
 	{
 		setLastError("Unable to open file for writing", filename);
 		return false;
 	}
 	
-	outfile.write(getData(), 	getDataSize());
+	outfile.write((char*)getData(), 	getDataSize());
 	outfile.close() ;
 	return true;
 }

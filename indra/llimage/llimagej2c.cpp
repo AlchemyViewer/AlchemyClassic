@@ -24,7 +24,6 @@
  */
 #include "linden_common.h"
 
-#include "llapr.h"
 #include "lldir.h"
 #include "llimagej2c.h"
 #include "lltimer.h"
@@ -353,27 +352,26 @@ bool LLImageJ2C::loadAndValidate(const std::string &filename)
 	resetLastError();
 
 	S32 file_size = 0;
-	LLAPRFile infile ;
-	infile.open(filename, LL_APR_RB, NULL, &file_size);
-	apr_file_t* apr_file = infile.getFileHandle() ;
-	if (!apr_file)
+	llifstream infile(filename, std::ios::in | std::ios::binary | std::ios::ate);
+	file_size = infile.tellg();
+	infile.seekg(0, std::ios::beg);
+	if (!infile.is_open())
 	{
 		setLastError("Unable to open file for reading", filename);
 		res = false;
 	}
-	else if (file_size == 0)
+	else if (file_size <= 0)
 	{
 		setLastError("File is empty",filename);
 		res = false;
 	}
 	else
 	{
-		U8 *data = (U8*)ll_aligned_malloc_16(file_size);
-		apr_size_t bytes_read = file_size;
-		apr_status_t s = apr_file_read(apr_file, data, &bytes_read); // modifies bytes_read	
-		infile.close() ;
+		U8 *data = (U8*) ll_aligned_malloc_16(file_size);
+		infile.read((char*) data, file_size);
+		std::streamsize bytes_read = infile.gcount();
 
-		if (s != APR_SUCCESS || (S32)bytes_read != file_size)
+		if (!infile.good() || bytes_read != file_size)
 		{
 			ll_aligned_free_16(data);
 			setLastError("Unable to read entire file");

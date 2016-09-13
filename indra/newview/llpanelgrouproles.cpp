@@ -1915,12 +1915,11 @@ void LLPanelGroupMembersSubTab::onExportMembersToCSV()
 	}
 	std::string fullpath = file_picker.getFirstFile();
 	
-	LLAPRFile outfile;
-	outfile.open(fullpath, LL_APR_WB );
-	apr_file_t* file = outfile.getFileHandle();
-	if (!file) return;
+	llofstream outstream(fullpath, std::ios::out|std::ios::binary);
+	if (!outstream.is_open()) 
+		return;
 	
-	apr_file_printf(file, "Group membership record for %s", gdatap->mName.c_str());
+	outstream << llformat("Group membership record for %s", gdatap->mName.c_str());
 	
 	LLSD memberlist;
 	LLAvatarName av_name;
@@ -1929,12 +1928,12 @@ void LLPanelGroupMembersSubTab::onExportMembersToCSV()
 		 ++member_itr)
 	{
 		LLAvatarNameCache::get(member_itr->first, &av_name);
-		apr_file_printf(file, "\n%s,%s,%s",
+		outstream << llformat("\n%s,%s,%s",
 						member_itr->first.asString().c_str(),
 						av_name.getLegacyName().c_str(),
 						member_itr->second->getOnlineStatus().c_str());
 	}
-	apr_file_printf(file, "\n");
+	outstream << "\n";
 }
 
 // LLPanelGroupRolesSubTab ///////////////////////////////////////////////

@@ -30,31 +30,10 @@
 #include "v3math.h"
 #include "m3math.h"
 #include "llmath.h"
-#include "llapr.h"
 #include "llbvhconsts.h"
 
 const S32 BVH_PARSER_LINE_SIZE = 2048;
 class LLDataPacker;
-
-//------------------------------------------------------------------------
-// FileCloser
-//------------------------------------------------------------------------
-class FileCloser
-{
-public:
-	FileCloser( apr_file_t *file )
-	{
-		mFile = file;
-	}
-
-	~FileCloser()
-	{
-		apr_file_close(mFile);
-	}
-protected:
-	apr_file_t* mFile;
-};
-
 
 //------------------------------------------------------------------------
 // Key
@@ -298,7 +277,7 @@ public:
 
 protected:
 	// Consumes one line of input from file.
-	BOOL getLine(apr_file_t *fp);
+	BOOL getLine(llifstream& stream);
 
 	// parser state
 	char		mLine[BVH_PARSER_LINE_SIZE];		/* Flawfinder: ignore */

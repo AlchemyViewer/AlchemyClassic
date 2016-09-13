@@ -27,7 +27,6 @@
 #include "linden_common.h"
 #include "lllfsthread.h"
 #include "llstl.h"
-#include "llapr.h"
 
 //============================================================================
 
@@ -67,10 +66,6 @@ LLLFSThread::LLLFSThread(bool threaded) :
 	LLQueuedThread("LFS", threaded),
 	mPriorityCounter(PRIORITY_LOWBITS)
 {
-	if(!mLocalAPRFilePoolp)
-	{
-		mLocalAPRFilePoolp = new LLVolatileAPRPool() ;
-	}
 }
 
 LLLFSThread::~LLLFSThread()
@@ -182,32 +177,33 @@ bool LLLFSThread::Request::processRequest()
 	if (mOperation ==  FILE_READ)
 	{
 		llassert(mOffset >= 0);
-		LLAPRFile infile ; // auto-closes
-		infile.open(mFileName, LL_APR_RB, mThread->getLocalAPRFilePool());
-		if (!infile.getFileHandle())
+		llifstream instream(mFileName, std::ios::in | std::ios::binary);
+		if (!instream.is_open())
 		{
 			LL_WARNS() << "LLLFS: Unable to read file: " << mFileName << LL_ENDL;
 			mBytesRead = 0; // fail
 			return true;
 		}
-		S32 off;
 		if (mOffset < 0)
-			off = infile.seek(APR_END, 0);
+			instream.seekg(0, std::ios::end);
 		else
-			off = infile.seek(APR_SET, mOffset);
-		llassert_always(off >= 0);
-		mBytesRead = infile.read(mBuffer, mBytes );
+			instream.seekg(mOffset);
+		llassert_always(!instream.good());
+		instream.read((char*)mBuffer, mBytes );
+		mBytesRead = instream.good() ? instream.gcount() : 0;
 		complete = true;
 // 		LL_INFOS() << "LLLFSThread::READ:" << mFileName << " Bytes: " << mBytesRead << LL_ENDL;
 	}
 	else if (mOperation ==  FILE_WRITE)
 	{
-		apr_int32_t flags = APR_CREATE|APR_WRITE|APR_BINARY;
+		std::ios_base::openmode flags = std::ios::out | std::ios::binary;
 		if (mOffset < 0)
-			flags |= APR_APPEND;
-		LLAPRFile outfile ; // auto-closes
-		outfile.open(mFileName, flags, mThread->getLocalAPRFilePool());
-		if (!outfile.getFileHandle())
+			flags |= std::ios::app;
+		else if (LLFile::isfile(mFileName))
+			flags |= std::ios::in;
+
+		llofstream outstream(mFileName, flags);
+		if (!outstream.is_open())
 		{
 			LL_WARNS() << "LLLFS: Unable to write file: " << mFileName << LL_ENDL;
 			mBytesRead = 0; // fail
@@ -215,15 +211,17 @@ bool LLLFSThread::Request::processRequest()
 		}
 		if (mOffset >= 0)
 		{
-			S32 seek = outfile.seek(APR_SET, mOffset);
-			if (seek < 0)
+			outstream.seekp(mOffset);
+			if (!outstream.good())
 			{
 				LL_WARNS() << "LLLFS: Unable to write file (seek failed): " << mFileName << LL_ENDL;
 				mBytesRead = 0; // fail
 				return true;
 			}
 		}
-		mBytesRead = outfile.write(mBuffer, mBytes );
+		std::streampos before = outstream.tellp();
+		outstream.write((char*) mBuffer, mBytes);
+		mBytesRead = outstream.good() ? outstream.tellp() - before : 0;
 		complete = true;
 // 		LL_INFOS() << "LLLFSThread::WRITE:" << mFileName << " Bytes: " << mBytesRead << "/" << mBytes << " Offset:" << mOffset << LL_ENDL;
 	}

@@ -361,7 +361,7 @@ public:
 	static void		dumpTotalLocalTextureByteCount();
 	void			dumpLocalTextures() const;
 	static void		dumpScratchTextureByteCount();
-	void			dumpWearableInfo(LLAPRFile& outfile);
+	void			dumpWearableInfo(llofstream& outfile);
 
 	//--------------------------------------------------------------------
 	// Avatar Rez Metrics

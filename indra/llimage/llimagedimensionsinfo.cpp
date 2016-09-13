@@ -40,15 +40,16 @@ bool LLImageDimensionsInfo::load(const std::string& src_filename,U32 codec)
 	mSrcFilename = src_filename;
 
 	S32 file_size = 0;
-	apr_status_t s = mInfile.open(src_filename, LL_APR_RB, NULL, &file_size);
-
-	if (s != APR_SUCCESS)
+	mInfile.open(src_filename, std::ios::in | std::ios::binary | std::ios::ate);
+	file_size = mInfile.tellg();
+	mInfile.seekg(0, std::ios::beg);
+	if (!mInfile.is_open())
 	{
 		setLastError("Unable to open file for reading", src_filename);
 		return false;
 	}
 
-	if (file_size == 0)
+	if (file_size <= 0)
 	{
 		setLastError("File is empty",src_filename);
 		return false;
@@ -83,7 +84,7 @@ bool LLImageDimensionsInfo::getImageDimensionsBmp()
 
 	// Read BMP signature.
 	U8 signature[2];
-	mInfile.read((void*)signature, sizeof(signature)/sizeof(signature[0]));
+	mInfile.read((char*)signature, sizeof(signature)/sizeof(signature[0]));
 
 	// Make sure this is actually a BMP file.
 	// We only support Windows bitmaps (BM), according to LLImageBMP::updateData().
@@ -94,7 +95,7 @@ bool LLImageDimensionsInfo::getImageDimensionsBmp()
 	}
 
 	// Read image dimensions.
-	mInfile.seek(APR_CUR, 16);
+	mInfile.seekg(16, std::ios::cur);
 	mWidth = read_reverse_s32();
 	mHeight = read_reverse_s32();
 
@@ -113,7 +114,7 @@ bool LLImageDimensionsInfo::getImageDimensionsTga()
 	}
 
 	// *TODO: Detect non-TGA files somehow.
-	mInfile.seek(APR_CUR,TGA_FILE_HEADER_SIZE);
+	mInfile.seekg(TGA_FILE_HEADER_SIZE, std::ios::cur);
 	mWidth = read_byte() | read_byte() << 8;
 	mHeight = read_byte() | read_byte() << 8;
 
@@ -134,7 +135,7 @@ bool LLImageDimensionsInfo::getImageDimensionsPng()
 	// Read PNG signature.
 	const U8 png_magic[PNG_MAGIC_SIZE] = {0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A};
 	U8 signature[PNG_MAGIC_SIZE];
-	mInfile.read((void*)signature, PNG_MAGIC_SIZE);
+	mInfile.read((char*)signature, PNG_MAGIC_SIZE);
 
 	// Make sure it's a PNG file.
 	if (memcmp(signature, png_magic, PNG_MAGIC_SIZE) != 0)
@@ -144,7 +145,7 @@ bool LLImageDimensionsInfo::getImageDimensionsPng()
 	}
 
 	// Read image dimensions.
-	mInfile.seek(APR_CUR, 8 /* chunk length + chunk type */);
+	mInfile.seekg(8 /* chunk length + chunk type */, std::ios::cur);
 	mWidth = read_s32();
 	mHeight = read_s32();
 
@@ -217,8 +218,9 @@ bool LLImageDimensionsInfo::checkFileLength(S32 min_len)
 	// Make sure the file is not shorter than min_len bytes.
 	// so that we don't have to check value returned by each read() or seek().
 	char* buf = new char[min_len];
-	int nread = mInfile.read(buf, min_len);
+	mInfile.read(buf, min_len);
+	int nread = mInfile.gcount();
 	delete[] buf;
-	mInfile.seek(APR_SET, 0);
+	mInfile.seekg(0);
 	return nread == min_len;
 }

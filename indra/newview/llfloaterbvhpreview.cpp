@@ -34,7 +34,6 @@
 #include "lleconomy.h"
 #include "llnotificationsutil.h"
 #include "llvfile.h"
-#include "llapr.h"
 #include "llstring.h"
 
 #include "llagent.h"
@@ -186,22 +185,19 @@ BOOL LLFloaterBvhPreview::postBuild()
 		// loading a bvh file
 
 		// now load bvh file
-		S32 file_size;
-		
-		LLAPRFile infile ;
-		infile.open(mFilenameAndPath, LL_APR_RB, NULL, &file_size);
-		
-		if (!infile.getFileHandle())
+		llifstream infstream(mFilenameAndPath, std::ios::in | std::ios::binary);
+		if (!infstream.good())
 		{
 			LL_WARNS() << "Can't open BVH file:" << mFilename << LL_ENDL;	
 		}
 		else
 		{
-			char*	file_buffer;
-
-			file_buffer = new char[file_size + 1];
-
-			if (file_size == infile.read(file_buffer, file_size))
+			infstream.seekg(0, std::ios::end);
+			S32 file_size = (S32) infstream.tellg();
+			infstream.seekg(0, std::ios::beg);
+			char* file_buffer = new char[file_size + 1];
+			infstream.read(file_buffer, file_size);
+			if (file_size == infstream.gcount())
 			{
 				file_buffer[file_size] = '\0';
 				LL_INFOS() << "Loading BVH file " << mFilename << LL_ENDL;
@@ -220,7 +216,7 @@ BOOL LLFloaterBvhPreview::postBuild()
 				}
 			}
 
-			infile.close() ;
+			infstream.close();
 			delete[] file_buffer;
 		}
 	}

@@ -31,6 +31,7 @@
 #include "llthread.h"
 #include "lltrace.h"
 #include "lltracethreadrecorder.h"
+#include "llapr.h"
 
 //static
 BOOL LLCommon::sAprInitialized = FALSE;

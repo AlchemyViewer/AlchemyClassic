@@ -27,9 +27,8 @@
 #include "linden_common.h"
 
 
-#include "llthread.h"
-
 #if defined(LL_WINDOWS)
+#include "llwin32headerslean.h"
 # include <psapi.h>
 #elif defined(LL_DARWIN)
 # include <sys/types.h>
@@ -40,6 +39,8 @@
 #endif
 
 #include "llmemory.h"
+
+#include "llthread.h"
 
 #include "llsys.h"
 #include "llframetimer.h"

@@ -33,6 +33,7 @@
 #include <iphlpapi.h>
 #endif
 
+#include "llapr.h"
 #include "lldefs.h"
 #include "llerror.h"
 

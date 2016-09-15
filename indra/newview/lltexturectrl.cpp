@@ -85,6 +85,7 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
 	LLView* owner,
 	LLUUID image_asset_id,
 	LLUUID default_image_asset_id,
+	LLUUID transparent_image_asset_id,
 	LLUUID blank_image_asset_id,
 	BOOL tentative,
 	BOOL allow_no_texture,
@@ -100,6 +101,7 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
 	mOriginalImageAssetID(image_asset_id),
 	mFallbackImage(fallback_image),
 	mDefaultImageAssetID(default_image_asset_id),
+	mTransparentImageAssetID(transparent_image_asset_id),
 	mBlankImageAssetID(blank_image_asset_id),
 	mTentative(tentative),
 	mAllowNoTexture(allow_no_texture),
@@ -493,7 +495,7 @@ void LLFloaterTexturePicker::draw()
 		}
 
 		getChildView("Default")->setEnabled(mImageAssetID != mDefaultImageAssetID || mTentative);
-		getChildView("Transparent")->setEnabled(mImageAssetID != mOwner->getTransparentImageAssetID() || mOwner->getTentative()); // <alchemy/>
+		getChildView("Transparent")->setEnabled(mImageAssetID != mTransparentImageAssetID || mTentative); // <alchemy/>
 		getChildView("Blank")->setEnabled(mImageAssetID != mBlankImageAssetID || mTentative);
 		getChildView("None")->setEnabled(mAllowNoTexture && (!mImageAssetID.isNull() || mTentative));
 
@@ -647,7 +649,7 @@ void LLFloaterTexturePicker::onBtnTransparent(void* userdata)
 {
 	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
 	self->setCanApply(true, true);
-	self->setImageID( self->mOwner->getTransparentImageAssetID() );
+	self->setImageID( self->getTransparentImageAssetID() );
 	self->commitIfImmediateSet();
 }
 // </alchemy>
@@ -877,14 +879,14 @@ void LLFloaterTexturePicker::onLocalScrollCommit()
 		LLUUID inworld_id = LLLocalBitmapMgr::getWorldID(tracking_id);
 		if (mSetImageAssetIDCallback)
 		{
-			mOwner->setImageAssetID(inworld_id);
+			mSetImageAssetIDCallback(inworld_id);
 		}
 
 		if (childGetValue("apply_immediate_check").asBoolean())
 		{
 			if (mOnFloaterCommitCallback)
 			{
-				mOwner->onFloaterCommit(LLTextureCtrl::TEXTURE_CHANGE, inworld_id);
+				mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_CHANGE, inworld_id);
 			}
 		}
 	}
@@ -1191,6 +1193,7 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 			this,
 			getImageAssetID(),
 			getDefaultImageAssetID(),
+			getTransparentImageAssetID(),
 			getBlankImageAssetID(),
 			getTentative(),
 			getAllowNoTexture(),

@@ -1500,7 +1500,7 @@ void LLAppearanceMgr::removeOutfitPhoto(const LLUUID& outfit_id)
         sub_cat_array,
         outfit_item_array,
         LLInventoryModel::EXCLUDE_TRASH);
-    BOOST_FOREACH(LLViewerInventoryItem* outfit_item, outfit_item_array)
+    for(LLViewerInventoryItem* outfit_item : outfit_item_array)
     {
         LLViewerInventoryItem* linked_item = outfit_item->getLinkedItem();
         if (linked_item != NULL && linked_item->getActualType() == LLAssetType::AT_TEXTURE)
@@ -3119,7 +3119,7 @@ void update_base_outfit_after_ordering()
 								sub_cat_array,
 								outfit_item_array,
 								LLInventoryModel::EXCLUDE_TRASH);
-	BOOST_FOREACH(LLViewerInventoryItem* outfit_item, outfit_item_array)
+	for(LLViewerInventoryItem* outfit_item : outfit_item_array)
 	{
 		LLViewerInventoryItem* linked_item = outfit_item->getLinkedItem();
 		if (linked_item != NULL && linked_item->getActualType() == LLAssetType::AT_TEXTURE)

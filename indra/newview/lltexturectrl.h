@@ -256,6 +256,7 @@ public:
 		LLView* owner,
 		LLUUID image_asset_id,
 		LLUUID default_image_asset_id,
+		LLUUID transparent_image_asset_id,
 		LLUUID blank_image_asset_id,
 		BOOL tentative,
 		BOOL allow_no_texture,
@@ -308,6 +309,7 @@ public:
 	void setSetImageAssetIDCallback(const set_image_asset_id_callback& cb) { mSetImageAssetIDCallback = cb; }
 	void setOnUpdateImageStatsCallback(const set_on_update_image_stats_callback& cb) { mOnUpdateImageStatsCallback = cb; }
 	const LLUUID& getDefaultImageAssetID() { return mDefaultImageAssetID; }
+	const LLUUID& getTransparentImageAssetID() { return mDefaultImageAssetID; }
 	const LLUUID& getBlankImageAssetID() { return mBlankImageAssetID; }
 
 	static void		onBtnSetToDefault(void* userdata);
@@ -315,19 +317,21 @@ public:
 	static void		onBtnCancel(void* userdata);
 	void			onBtnPipette();
 	//static void		onBtnRevert( void* userdata );
+	static void		onBtnTransparent(void* userdata);
 	static void		onBtnBlank(void* userdata);
 	static void		onBtnNone(void* userdata);
 	static void		onBtnClear(void* userdata);
+	static void		onApplyUUID(void* userdata);
 	void			onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action);
 	static void		onShowFolders(LLUICtrl* ctrl, void* userdata);
 	static void		onApplyImmediateCheck(LLUICtrl* ctrl, void* userdata);
 	void			onTextureSelect(const LLTextureEntry& te);
 
-	static void		onModeSelect(LLUICtrl* ctrl, void *userdata);
+	void			onModeSelect();
 	static void		onBtnAdd(void* userdata);
 	static void		onBtnRemove(void* userdata);
 	static void		onBtnUpload(void* userdata);
-	static void		onLocalScrollCommit(LLUICtrl* ctrl, void* userdata);
+	void			onLocalScrollCommit();
 
 	void 			setLocalTextureEnabled(BOOL enabled);
 
@@ -338,6 +342,7 @@ protected:
 	LLUUID				mImageAssetID; // Currently selected texture
 	LLUIImagePtr		mFallbackImage; // What to show if currently selected texture is null.
 	LLUUID				mDefaultImageAssetID;
+	LLUUID				mTransparentImageAssetID;
 	LLUUID				mBlankImageAssetID;
 	BOOL				mTentative;
 	BOOL				mAllowNoTexture;

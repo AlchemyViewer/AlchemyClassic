@@ -344,8 +344,7 @@ LLOutfitGalleryItem* LLOutfitGallery::buildGalleryItem(std::string name)
     LLOutfitGalleryItem* gitem = LLUICtrlFactory::create<LLOutfitGalleryItem>(giparams);
     gitem->reshape(mItemWidth, mItemHeight);
     gitem->setVisible(true);
-    gitem->setFollowsLeft();
-    gitem->setFollowsTop();
+    gitem->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
     gitem->setOutfitName(name);
     return gitem;
 }
@@ -366,8 +365,7 @@ void LLOutfitGallery::reshapeGalleryPanel(int row_count)
     mGalleryPanel->setRect(rect);
     mGalleryPanel->reshape(mGalleryWidth, height);
     mGalleryPanel->setVisible(true);
-    mGalleryPanel->setFollowsLeft();
-    mGalleryPanel->setFollowsTop();
+	mGalleryPanel->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
 }
 
 LLPanel* LLOutfitGallery::buildItemPanel(int left)
@@ -379,8 +377,7 @@ LLPanel* LLOutfitGallery::buildItemPanel(int left)
     lpanel->setRect(rect);
     lpanel->reshape(mItemWidth + mItemHorizontalGap, mItemHeight);
     lpanel->setVisible(true);
-    lpanel->setFollowsLeft();
-    lpanel->setFollowsTop();
+    lpanel->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
     return lpanel;
 }
 
@@ -398,8 +395,7 @@ void LLOutfitGallery::moveRowPanel(LLPanel* stack, int left, int bottom)
     stack->setRect(rect);
     stack->reshape(mRowPanelWidth, mRowPanelHeight);
     stack->setVisible(true);
-    stack->setFollowsLeft();
-    stack->setFollowsTop();
+    stack->setFollows(FOLLOWS_LEFT | FOLLOWS_TOP);
 }
 
 LLOutfitGallery::~LLOutfitGallery()
@@ -1226,6 +1222,7 @@ void LLOutfitGallery::onSelectPhoto(LLUUID selected_outfit_id)
                 getPhotoAssetId(selected_outfit_id),
                 getPhotoAssetId(selected_outfit_id),
                 getPhotoAssetId(selected_outfit_id),
+				getPhotoAssetId(selected_outfit_id),
                 FALSE,
                 TRUE,
                 "SELECT PHOTO",

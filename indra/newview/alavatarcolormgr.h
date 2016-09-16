@@ -39,9 +39,6 @@ public:
 		E_FOURTH_COLOR
 	} EAvatarColors;
 
-	ALAvatarColorMgr(){}
-	~ALAvatarColorMgr(){}
-
 	void addOrUpdateCustomColor(const LLUUID& id, EAvatarColors color);
 	void clearCustomColor(const LLUUID& id);
 	const LLColor4& getColor(const LLUUID& id);

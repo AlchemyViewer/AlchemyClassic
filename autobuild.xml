@@ -650,18 +650,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>506b43fdc23e3bf7ca2fc0c482586203</string>
+              <string>065058022aceef851c870f07c172b576</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.09-windows64-201608211931.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.11-windows64-201609190810.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.08.09</string>
+        <string>1.08.11</string>
       </map>
       <key>fontconfig</key>
       <map>

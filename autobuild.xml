@@ -376,18 +376,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e23bc79fb7346197526f2d66371bf934</string>
+              <string>71f8a002fdd522ab8d03a43153468c0f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.50.2-windows64-201609101837.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.50.3-windows64-201609190757.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.50.2</string>
+        <string>7.50.3</string>
       </map>
       <key>dbus-glib</key>
       <map>

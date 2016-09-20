@@ -1466,18 +1466,19 @@ bool LLWorldMapView::checkItemHit(S32 x, S32 y, LLItemInfo& item, LLUUID* id, bo
 	if (y < item_y - BIG_DOT_RADIUS) return false;
 	if (y > item_y + BIG_DOT_RADIUS) return false;
 
+	LLFloaterWorldMap* floater_map = LLFloaterWorldMap::getInstance();
 	LLSimInfo* sim_info = LLWorldMap::getInstance()->simInfoFromHandle(item.getRegionHandle());
 	if (sim_info)
 	{
 		if (track)
 		{
-			gFloaterWorldMap->trackLocation(item.getGlobalPosition());
+			floater_map->trackLocation(item.getGlobalPosition());
 		}
 	}
 
 	if (track)
 	{
-		gFloaterWorldMap->trackGenericItem(item);
+		floater_map->trackGenericItem(item);
 	}
 
 //	item.setSelected(true);
@@ -1505,6 +1506,8 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 	*hit_type = 0; // hit nothing
 
 	LLWorldMap::getInstance()->cancelTracking();
+
+	LLFloaterWorldMap* floater_map = LLFloaterWorldMap::getInstance();
 
 	S32 level = LLWorldMipmap::scaleToLevel(sMapScale);
 	// If the zoom level is not too far out already, test hits
@@ -1536,7 +1539,7 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 						{
 							*hit_type = MAP_ITEM_PG_EVENT;
 							mItemPicked = TRUE;
-							gFloaterWorldMap->trackEvent(event);
+							floater_map->trackEvent(event);
 							return;
 						}
 						++it;
@@ -1552,7 +1555,7 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 						{
 							*hit_type = MAP_ITEM_MATURE_EVENT;
 							mItemPicked = TRUE;
-							gFloaterWorldMap->trackEvent(event);
+							floater_map->trackEvent(event);
 							return;
 						}
 						++it;
@@ -1568,7 +1571,7 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 						{
 							*hit_type = MAP_ITEM_ADULT_EVENT;
 							mItemPicked = TRUE;
-							gFloaterWorldMap->trackEvent(event);
+							floater_map->trackEvent(event);
 							return;
 						}
 						++it;
@@ -1612,7 +1615,7 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 	}
 
 	// If we get here, we haven't clicked on anything
-	gFloaterWorldMap->trackLocation(pos_global);
+	floater_map->trackLocation(pos_global);
 	mItemPicked = FALSE;
 	*id = LLUUID::null;
 	return;

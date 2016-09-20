@@ -395,7 +395,7 @@ void LLAvatarActions::showOnMap(const LLUUID& id)
 		return;
 	}
 
-	gFloaterWorldMap->trackAvatar(id, av_name.getDisplayName());
+	LLFloaterWorldMap::getInstance()->trackAvatar(id, av_name.getDisplayName());
 	LLFloaterReg::showInstance("world_map", "center");
 }
 

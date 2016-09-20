@@ -187,8 +187,6 @@ public:
 };	
 LLMapTrackAvatarHandler gMapTrackAvatar;
 
-LLFloaterWorldMap* gFloaterWorldMap = NULL;
-
 class LLMapInventoryObserver : public LLInventoryObserver
 {
 public:
@@ -203,7 +201,7 @@ void LLMapInventoryObserver::changed(U32 mask)
 	if((mask & (LLInventoryObserver::CALLING_CARD | LLInventoryObserver::ADD |
 				LLInventoryObserver::REMOVE)) != 0)
 	{
-		gFloaterWorldMap->inventoryChanged();
+		LLFloaterWorldMap::getInstance()->inventoryChanged();
 	}
 }
 
@@ -220,7 +218,7 @@ void LLMapFriendObserver::changed(U32 mask)
 	// if there's a change we're interested in.
 	if((mask & (LLFriendObserver::ADD | LLFriendObserver::REMOVE | LLFriendObserver::ONLINE | LLFriendObserver::POWERS)) != 0)
 	{
-		gFloaterWorldMap->friendsChanged();
+		LLFloaterWorldMap::getInstance()->friendsChanged();
 	}
 }
 
@@ -253,8 +251,6 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mListSearchResults(NULL),
 	mPanel(nullptr)
 {
-	gFloaterWorldMap = this;
-	
 	mFactoryMap["objects_mapview"] = LLCallbackMap(createWorldMapView, NULL);
 	
 	mCommitCallbackRegistrar.add("WMap.Coordinates",	boost::bind(&LLFloaterWorldMap::onCoordinatesCommit, this));
@@ -326,8 +322,6 @@ LLFloaterWorldMap::~LLFloaterWorldMap()
 	
 	// avatar tracker will delete this for us.
 	mFriendObserver = NULL;
-	
-	gFloaterWorldMap = NULL;
 }
 
 //static
@@ -350,8 +344,7 @@ void LLFloaterWorldMap::onOpen(const LLSD& key)
 	
 	mIsClosing = FALSE;
 	
-	LLWorldMapView* map_panel;
-	map_panel = (LLWorldMapView*)gFloaterWorldMap->mPanel;
+	LLWorldMapView* map_panel = (LLWorldMapView*)mPanel;
 	map_panel->clearLastClick();
 	
 	{
@@ -815,17 +808,17 @@ void LLFloaterWorldMap::trackURL(const std::string& region_name, S32 x_coord, S3
 	else
 	{
 		// fill in UI based on URL
-		gFloaterWorldMap->getChild<LLUICtrl>("location")->setValue(region_name);
+		getChild<LLUICtrl>("location")->setValue(region_name);
 		
 		// Save local coords to highlight position after region global
 		// position is returned.
-		gFloaterWorldMap->mCompletingRegionPos.set(
+		mCompletingRegionPos.set(
 												   (F32)x_coord, (F32)y_coord, (F32)z_coord);
 		
 		// pass sim name to combo box
-		gFloaterWorldMap->mCompletingRegionName = region_name;
+		mCompletingRegionName = region_name;
 		LLWorldMapMessage::getInstance()->sendNamedRegionRequest(region_name);
-		LLStringUtil::toLower(gFloaterWorldMap->mCompletingRegionName);
+		LLStringUtil::toLower(mCompletingRegionName);
 		LLWorldMap::getInstance()->setTrackingCommit();
 	}
 }
@@ -1035,8 +1028,7 @@ void LLFloaterWorldMap::adjustZoomSliderBounds()
 	S32 world_height_regions = MAX_VISIBLE_REGIONS;
 	
 	// Find how much space we have to display the world
-	LLWorldMapView* map_panel;
-	map_panel = (LLWorldMapView*)mPanel;
+	LLWorldMapView* map_panel = (LLWorldMapView*)mPanel;
 	LLRect view_rect = map_panel->getRect();
 	
 	// View size in pixels
@@ -1687,6 +1679,6 @@ void LLFloaterWorldMap::onChangeMaturity()
 void LLFloaterWorldMap::onFocusLost()
 {
 	gViewerWindow->showCursor();
-	LLWorldMapView* map_panel = (LLWorldMapView*)gFloaterWorldMap->mPanel;
+	LLWorldMapView* map_panel = (LLWorldMapView*)mPanel;
 	map_panel->mPanning = FALSE;
 }

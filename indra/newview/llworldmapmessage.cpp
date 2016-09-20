@@ -163,7 +163,7 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 	//LL_INFOS("World Map") << "LLWorldMap::processMapBlockReply(), num_blocks = " << num_blocks << LL_ENDL;
 
 	bool found_null_sim = false;
-
+	LLFloaterWorldMap* floater_map = LLFloaterWorldMap::getInstance();
 	for (S32 block=0; block<num_blocks; ++block)
 	{
 		U16 x_regions;
@@ -221,7 +221,7 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 				gAgent.teleportViaLocation(pos_global);
 			}
 			// Update the "real" tracker information
-			gFloaterWorldMap->trackLocation(pos_global);
+			floater_map->trackLocation(pos_global);
 		}
 
 		// Handle the SLURL callback if any
@@ -242,7 +242,7 @@ void LLWorldMapMessage::processMapBlockReply(LLMessageSystem* msg, void**)
 		}
 	}
 	// Tell the UI to update itself
-	gFloaterWorldMap->updateSims(found_null_sim);
+	floater_map->updateSims(found_null_sim);
 }
 
 // public static

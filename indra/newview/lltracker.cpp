@@ -150,7 +150,7 @@ void LLTracker::drawHUDArrow()
 void LLTracker::render3D()
 {
 	static LLCachedControl<bool> render_tracker_beacon(gSavedSettings, "RenderTrackerBeacon");
-	if (!gFloaterWorldMap || !render_tracker_beacon)
+	if (!render_tracker_beacon)
 	{
 		return;
 	}
@@ -170,7 +170,7 @@ void LLTracker::render3D()
 		LLVector3d pos_global = mTrackedPositionGlobal;
 		// (z-attenuation < 1) means compute "shorter" distance in z-axis,
 		// so cancel tracking even if avatar is a little above or below.
-		F32 dist = gFloaterWorldMap->getDistanceToDestination(pos_global, 0.5f);
+		F32 dist = LLFloaterWorldMap::getInstance()->getDistanceToDestination(pos_global, 0.5f);
 		if (dist < DESTINATION_REACHED_RADIUS)
 		{
 			stopTrackingLocation(FALSE,TRUE);
@@ -193,7 +193,7 @@ void LLTracker::render3D()
 
 		if (mHasLandmarkPosition)
 		{
-			F32 dist = gFloaterWorldMap->getDistanceToDestination(mTrackedPositionGlobal, 1.0f);
+			F32 dist = LLFloaterWorldMap::getInstance()->getDistanceToDestination(mTrackedPositionGlobal, 1.0f);
 
 			if (!mLandmarkHasBeenVisited
 				&& dist < DESTINATION_VISITED_RADIUS )
@@ -241,7 +241,7 @@ void LLTracker::render3D()
 				mBeaconText->setDoFade(FALSE);
 			}
 			
-			F32 dist = gFloaterWorldMap->getDistanceToDestination(getTrackedPositionGlobal(), 0.0f);
+			F32 dist = LLFloaterWorldMap::getInstance()->getDistanceToDestination(getTrackedPositionGlobal(), 0.0f);
 			if (dist < DESTINATION_REACHED_RADIUS)
 			{
 				stopTrackingAvatar();
@@ -609,7 +609,7 @@ void LLTracker::stopTrackingAvatar(BOOL clear_ui)
 	}
 
 	purgeBeaconText();
-	gFloaterWorldMap->clearAvatarSelection(clear_ui);
+	LLFloaterWorldMap::getInstance()->clearAvatarSelection(clear_ui);
 	mTrackingStatus = TRACKING_NOTHING;
 }
 
@@ -624,7 +624,7 @@ void LLTracker::stopTrackingLandmark(BOOL clear_ui)
 	mHasLandmarkPosition = FALSE;
 	mHasReachedLandmark = FALSE;
 	mLandmarkHasBeenVisited = TRUE;
-	gFloaterWorldMap->clearLandmarkSelection(clear_ui);
+	LLFloaterWorldMap::getInstance()->clearLandmarkSelection(clear_ui);
 	mTrackingStatus = TRACKING_NOTHING;
 }
 
@@ -635,7 +635,7 @@ void LLTracker::stopTrackingLocation(BOOL clear_ui, BOOL dest_reached)
 	mTrackedLocationName.assign("");
 	mIsTrackingLocation = FALSE;
 	mTrackedPositionGlobal.zeroVec();
-	gFloaterWorldMap->clearLocationSelection(clear_ui, dest_reached);
+	LLFloaterWorldMap::getInstance()->clearLocationSelection(clear_ui, dest_reached);
 	mTrackingStatus = TRACKING_NOTHING;
 	mTrackingLocationType = LOCATION_NOTHING;
 }
@@ -800,10 +800,11 @@ void LLTracker::cacheLandmarkPosition()
 			}
 		}
 	}
-	if ( found_landmark && gFloaterWorldMap )
+
+	if (found_landmark)
 	{
 		mHasReachedLandmark = FALSE;
-		F32 dist = gFloaterWorldMap->getDistanceToDestination(mTrackedPositionGlobal, 1.0f);
+		F32 dist = LLFloaterWorldMap::getInstance()->getDistanceToDestination(mTrackedPositionGlobal, 1.0f);
 		if ( dist < DESTINATION_UNVISITED_RADIUS )
 		{
 			mHasReachedLandmark = TRUE;

@@ -52,7 +52,6 @@ public:
 	LLFloaterWorldMap(const LLSD& key);
 	virtual ~LLFloaterWorldMap();
 
-	// Prefer this to gFloaterWorldMap
 	static LLFloaterWorldMap* getInstance();
 
 	static void *createWorldMapView(void* data);
@@ -198,8 +197,6 @@ private:
 	LLCtrlListInterface *	mListLandmarkCombo;
 	LLCtrlListInterface *	mListSearchResults;
 };
-
-extern LLFloaterWorldMap* gFloaterWorldMap;
 
 #endif
 

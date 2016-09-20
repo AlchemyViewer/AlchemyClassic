@@ -62,7 +62,6 @@
 
 static const std::string OPTIONS_BUTTON_NAME = "options_gear_btn";
 static const std::string ADD_BUTTON_NAME = "add_btn";
-static const std::string ADD_FOLDER_BUTTON_NAME = "add_folder_btn";
 static const std::string TRASH_BUTTON_NAME = "trash_btn";
 
 
@@ -619,11 +618,9 @@ void LLLandmarksPanel::initListCommandsHandlers()
 
 void LLLandmarksPanel::updateListCommands()
 {
-	bool add_folder_enabled = isActionEnabled("category");
 	bool trash_enabled = isActionEnabled("delete") && (isFolderSelected() || isLandmarkSelected());
 
 	// keep Options & Add Landmark buttons always enabled
-	mListCommands->getChildView(ADD_FOLDER_BUTTON_NAME)->setEnabled(add_folder_enabled);
 	mListCommands->getChildView(TRASH_BUTTON_NAME)->setEnabled(trash_enabled);
 }
 

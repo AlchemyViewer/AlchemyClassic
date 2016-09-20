@@ -108,7 +108,6 @@ private:
 	LLStatGraph *mSGBandwidth;
 	LLStatGraph *mSGPacketLoss;
 
-	LLView		*mBtnStats;
 	LLButton	*mBtnQuickSettings;
 	LLButton	*mBtnAO;
 	LLButton	*mBtnVolume;

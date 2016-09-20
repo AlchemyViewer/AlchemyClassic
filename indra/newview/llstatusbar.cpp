@@ -108,7 +108,6 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mTextFPS(nullptr),
 	mSGBandwidth(nullptr),
 	mSGPacketLoss(nullptr),
-	mBtnStats(nullptr),
 	mBtnQuickSettings(nullptr),
 	mBtnAO(nullptr),
 	mBtnVolume(nullptr),
@@ -174,8 +173,6 @@ BOOL LLStatusBar::postBuild()
 	mBoxBalance = getChild<LLTextBox>("balance");
 	mBoxBalance->setClickedCallback( &LLStatusBar::onClickBalance, this );
 	
-	mBtnStats = getChildView("stat_btn");
-
 	mBtnQuickSettings = getChild<LLButton>("quick_settings_btn");
 	mBtnQuickSettings->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterQuickSettings, this));
 
@@ -323,7 +320,6 @@ void LLStatusBar::refresh()
 
 	mSGBandwidth->setVisible(show_net_stats);
 	mSGPacketLoss->setVisible(show_net_stats);
-	mBtnStats->setEnabled(show_net_stats);
 	mPanelFlycam->setVisible(LLViewerJoystick::instance().getOverrideCamera());
 
 	// update the master volume button state

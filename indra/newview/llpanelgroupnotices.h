@@ -104,9 +104,6 @@ private:
 	LLPanel				*mPanelCreateNotice;
 	LLPanel				*mPanelViewNotice;
 
-	LLIconCtrl		 *mCreateInventoryIcon;
-	LLIconCtrl		 *mViewInventoryIcon;
-	
 	LLScrollListCtrl *mNoticesList;
 
 	std::string		mNoNoticesStr;

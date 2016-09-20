@@ -4131,8 +4131,7 @@ void LLAgent::doTeleportViaLandmark(const LLUUID& landmark_asset_id)
 	LLViewerRegion *regionp = getRegion();
 	if(regionp && teleportCore())
 	{
-		LLFloaterProgressView* pProgFloater =
-			static_cast<LLFloaterProgressView*>(LLFloaterReg::getInstance("progress_view"));
+		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 		pProgFloater->setRegion();
 		
 		LLMessageSystem* msg = gMessageSystem;
@@ -4156,8 +4155,7 @@ void LLAgent::doTeleportViaLure(const LLUUID& lure_id, BOOL godlike)
 	LLViewerRegion* regionp = getRegion();
 	if(regionp && teleportCore())
 	{
-		LLFloaterProgressView* pProgFloater =
-		static_cast<LLFloaterProgressView*>(LLFloaterReg::getInstance("progress_view"));
+		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
 		pProgFloater->setRegion();
 		
 		U32 teleport_flags = 0x0;

@@ -410,7 +410,7 @@ void LLFloaterMessageLog::setInfoPaneMode(EInfoPaneMode mode)
 // static
 void LLFloaterMessageLog::onLog(LogPayload& entry)
 {
-	LLFloaterMessageLog* floaterp = static_cast<LLFloaterMessageLog*>(LLFloaterReg::findInstance("message_log"));
+	LLFloaterMessageLog* floaterp = LLFloaterReg::findTypedInstance<LLFloaterMessageLog>("message_log");
 	if (!floaterp)
 	{
 		return;

@@ -195,8 +195,6 @@
    height="20"
    left="93"
    right="-68"
-   show_text="false"
-   decimal_digits="3"
    follows="left|top|right"
    layout="topleft"
    increment="0.001"

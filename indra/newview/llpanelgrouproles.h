@@ -132,7 +132,6 @@ protected:
 									BOOL is_owner_role);
 
 protected:
-	LLPanel* mHeader;
 	LLPanel* mFooter;
 
 	LLFilterEditor*	mSearchEditor;

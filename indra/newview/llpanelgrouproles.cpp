@@ -426,7 +426,6 @@ void LLPanelGroupRoles::setGroupID(const LLUUID& id)
 // LLPanelGroupSubTab ////////////////////////////////////////////////////
 LLPanelGroupSubTab::LLPanelGroupSubTab()
 :	LLPanelGroupTab(),
-	mHeader(NULL),
 	mFooter(NULL),
 	mActivated(false),
 	mHasGroupBanPower(false),
@@ -507,11 +506,6 @@ void LLPanelGroupSubTab::deactivate()
 
 void LLPanelGroupSubTab::setOthersVisible(BOOL b)
 {
-	if (mHeader)
-	{
-		mHeader->setVisible( b );
-	}
-
 	if (mFooter)
 	{
 		mFooter->setVisible( b );
@@ -813,7 +807,6 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 
 	// Look recursively from the parent to find all our widgets.
 	bool recurse = true;
-	mHeader = parent->getChild<LLPanel>("members_header", recurse);
 	mFooter = parent->getChild<LLPanel>("members_footer", recurse);
 
 	mMembersList 		= parent->getChild<LLNameListCtrl>("member_list", recurse);
@@ -1968,7 +1961,6 @@ BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 
 	// Look recursively from the parent to find all our widgets.
 	bool recurse = true;
-	mHeader = parent->getChild<LLPanel>("roles_header", recurse);
 	mFooter = parent->getChild<LLPanel>("roles_footer", recurse);
 
 
@@ -2741,7 +2733,6 @@ BOOL LLPanelGroupActionsSubTab::postBuildSubTab(LLView* root)
 
 	// Look recursively from the parent to find all our widgets.
 	bool recurse = true;
-	mHeader = parent->getChild<LLPanel>("actions_header", recurse);
 	mFooter = parent->getChild<LLPanel>("actions_footer", recurse);
 
 	mActionDescription = parent->getChild<LLTextEditor>("action_description", recurse);

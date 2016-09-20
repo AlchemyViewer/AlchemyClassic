@@ -194,8 +194,6 @@ BOOL LLStatusBar::postBuild()
 	
 	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
-	LLHints::registerHintTarget("linden_balance", getChild<LLView>("balance_bg")->getHandle());
-
 	gSavedSettings.getControl("MuteAudio")->getSignal()->connect(boost::bind(&LLStatusBar::onVolumeChanged, this, _2));
 
 	// Adding Net Stat Graph
@@ -258,8 +256,6 @@ BOOL LLStatusBar::postBuild()
 	addChild(mPanelNearByMedia);
 	mPanelNearByMedia->setFollows(FOLLOWS_TOP|FOLLOWS_RIGHT);
 	mPanelNearByMedia->setVisible(FALSE);
-
-	mScriptOut = getChildView("scriptout");
 
 	return TRUE;
 }
@@ -351,7 +347,6 @@ void LLStatusBar::refresh()
 void LLStatusBar::setVisibleForMouselook(bool visible)
 {
 	mTextTime->setVisible(visible);
-	getChild<LLUICtrl>("balance_bg")->setVisible(visible);
 	mBoxBalance->setVisible(visible);
 	getChild<LLUICtrl>("buyL")->setVisible(visible);
 	mBtnQuickSettings->setVisible(visible);
@@ -387,17 +382,6 @@ void LLStatusBar::setBalance(S32 balance)
 	string_args["[AMT]"] = llformat("%s", money_str.c_str());
 	std::string label_str = getString("buycurrencylabel", string_args);
 	mBoxBalance->setValue(label_str);
-
-	// Resize the L$ balance background to be wide enough for your balance plus the buy button
-	{
-		const S32 HPAD = 24;
-		LLRect balance_rect = mBoxBalance->getTextBoundingRect();
-		LLRect buy_rect = getChildView("buyL")->getRect();
-		LLView* balance_bg_view = getChildView("balance_bg");
-		LLRect balance_bg_rect = balance_bg_view->getRect();
-		balance_bg_rect.mLeft = balance_bg_rect.mRight - (buy_rect.getWidth() + /*shop_rect.getWidth() +*/ balance_rect.getWidth() + HPAD);
-		balance_bg_view->setShape(balance_bg_rect);
-	}
 
 	if (mBalance && (fabs((F32)(mBalance - balance)) > gSavedSettings.getF32("UISndMoneyChangeThreshold")))
 	{

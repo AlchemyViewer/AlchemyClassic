@@ -34,10 +34,6 @@
 #include "llwindowcallbacks.h"
 #include "lldragdropwin32.h"
 
-// Hack for async host by name
-#define LL_WM_HOST_RESOLVED      (WM_APP + 1)
-typedef void (*LLW32MsgCallback)(const MSG &msg);
-
 class LLWindowWin32 : public LLWindow
 {
 public:
@@ -237,7 +233,6 @@ private:
 #endif
 };
 
-extern LLW32MsgCallback gAsyncMsgCallback;
 extern LPWSTR gIconResource;
 
 static void	handleMessage( const MSG& msg );

@@ -53,20 +53,8 @@
 #include <shellapi.h>
 #include <fstream>
 #include <Imm.h>
-
-// Require DirectInput version 8
-#define DIRECTINPUT_VERSION 0x0800
-
-#include <dinput.h>
 #include <Dbt.h.>
 
-// culled from winuser.h
-#ifndef WM_MOUSEWHEEL /* Added to be compatible with later SDK's */
-const S32	WM_MOUSEWHEEL = 0x020A;
-#endif
-#ifndef WHEEL_DELTA /* Added to be compatible with later SDK's */
-const S32	WHEEL_DELTA = 120;     /* Value for rolling one detent */
-#endif
 const S32	MAX_MESSAGE_PER_UPDATE = 20;
 const S32	BITS_PER_PIXEL = 32;
 const S32	MAX_NUM_RESOLUTIONS = 32;
@@ -75,8 +63,6 @@ const F32	ICON_FLASH_TIME = 0.5f;
 extern BOOL gDebugWindowProc;
 
 LPWSTR gIconResource = IDI_APPLICATION;
-
-LLW32MsgCallback gAsyncMsgCallback = NULL;
 
 //
 // LLWindowWin32
@@ -1840,11 +1826,6 @@ void LLWindowWin32::gatherInput()
 		}
 		*/
 		mCallbacks->handlePingWatchdog(this, "Main:AsyncCallbackGatherInput");
-		// For async host by name support.  Really hacky.
-		if (gAsyncMsgCallback && (LL_WM_HOST_RESOLVED == msg.message))
-		{
-			gAsyncMsgCallback(msg);
-		}
 	}
 
 	mInputProcessingPaused = FALSE;

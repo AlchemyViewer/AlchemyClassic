@@ -1615,7 +1615,6 @@ if (WINDOWS)
         opengl32
         ${WINDOWS_LIBRARIES}
         comdlg32
-        dinput8
         dxguid
         kernel32
         odbc32

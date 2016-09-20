@@ -1032,11 +1032,11 @@ void LLPanelFace::refresh()
 			if (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR)
 			{
 				// EXP-1507 (change label based on the mapping mode)
-				getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per meter"));
+				getChild<LLSpinCtrl>("rptctrl")->setLabel(getString("string repeats per meter"));
 			}
 			else if (selected_texgen == LLTextureEntry::TEX_GEN_DEFAULT)
 			{
-				getChild<LLUICtrl>("rpt")->setValue(getString("string repeats per face"));
+				getChild<LLSpinCtrl>("rptctrl")->setLabel(getString("string repeats per face"));
 			}
 		}
 		
@@ -1226,8 +1226,7 @@ void LLPanelFace::refresh()
 		mColorSwatch->setValid(FALSE);
 
 		getChildView("color trans")->setEnabled(FALSE);
-		getChildView("rpt")->setEnabled(FALSE);
-		getChildView("tex offset")->setEnabled(FALSE);
+		getChildView("rptctrl")->setEnabled(FALSE);
 		getChildView("tex gen")->setEnabled(FALSE);
 		getChildView("label shininess")->setEnabled(FALSE);
 		getChildView("label bumpiness")->setEnabled(FALSE);
@@ -1304,7 +1303,6 @@ void LLPanelFace::updateVisibility()
 	bool show_bumpiness = (!show_media) && (material_type == MATTYPE_NORMAL) && mComboMatMedia->getEnabled();
 	bool show_shininess = (!show_media) && (material_type == MATTYPE_SPECULAR) && mComboMatMedia->getEnabled();
 	getChildView("combobox mattype")->setVisible(!show_media);
-	getChildView("rptctrl")->setVisible(true);
 	
 	// Media controls
 	getChildView("media_info")->setVisible(show_media);
@@ -1322,11 +1320,15 @@ void LLPanelFace::updateVisibility()
 	{
 		updateAlphaControls();
 	}
+	getChildView("tex gen")->setVisible(show_texture);
+	getChildView("combobox texgen")->setVisible(show_texture);
 	getChildView("TexScaleU")->setVisible(show_texture);
 	getChildView("TexScaleV")->setVisible(show_texture);
+	getChildView("rptctrl")->setVisible(show_texture);
 	getChildView("TexRot")->setVisible(show_texture);
 	getChildView("TexOffsetU")->setVisible(show_texture);
 	getChildView("TexOffsetV")->setVisible(show_texture);
+	getChildView("checkbox planar align")->setVisible(show_texture);
 	
 	// Specular map controls
 	getChildView("shinytexture control")->setVisible(show_shininess);

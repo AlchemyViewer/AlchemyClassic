@@ -258,7 +258,6 @@ BOOL	LLFloaterTools::postBuild()
 	mCheckStretchTexture	= getChild<LLCheckBoxCtrl>("checkbox stretch textures");
 	getChild<LLUICtrl>("checkbox stretch textures")->setValue(gSavedSettings.getBOOL("ScaleStretchTextures"));
 	mComboGridMode			= getChild<LLComboBox>("combobox grid mode");
-	mCheckStretchUniformLabel = getChild<LLTextBox>("checkbox uniform label");
 
 	//
 	// Create Buttons
@@ -341,7 +340,6 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 	mComboGridMode(NULL),
 	mCheckStretchUniform(NULL),
 	mCheckStretchTexture(NULL),
-	mCheckStretchUniformLabel(NULL),
 
 	mBtnRotateLeft(NULL),
 	mBtnRotateReset(NULL),
@@ -746,7 +744,6 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 	//mCheckSelectLinked	->setVisible( edit_visible );
 	if (mCheckStretchUniform) mCheckStretchUniform->setVisible( edit_visible );
 	if (mCheckStretchTexture) mCheckStretchTexture->setVisible( edit_visible );
-	if (mCheckStretchUniformLabel) mCheckStretchUniformLabel->setVisible( edit_visible );
 
 	// Create buttons
 	BOOL create_visible = (tool == LLToolCompCreate::getInstance());
@@ -1234,7 +1231,7 @@ void LLFloaterTools::getMediaState()
 		  &&first_object->permModify() 
 	      ))
 	{
-		getChildView("Add_Media")->setEnabled(FALSE);
+		getChildView("add_media")->setEnabled(FALSE);
 		media_info->clear();
 		clearMediaSettings();
 		return;
@@ -1245,7 +1242,7 @@ void LLFloaterTools::getMediaState()
 	
 	if(!has_media_capability)
 	{
-		getChildView("Add_Media")->setEnabled(FALSE);
+		getChildView("add_media")->setEnabled(FALSE);
 		LL_WARNS("LLFloaterTools: media") << "Media not enabled (no capability) in this region!" << LL_ENDL;
 		clearMediaSettings();
 		return;
@@ -1339,7 +1336,6 @@ void LLFloaterTools::getMediaState()
 	// update UI depending on whether "object" (prim or face) has media
 	// and whether or not you are allowed to edit it.
 	
-	getChildView("Add_Media")->setEnabled(editable);
 	// IF all the faces have media (or all dont have media)
 	if ( LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() )
 	{

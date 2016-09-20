@@ -215,16 +215,12 @@ void LLPanelPermissions::disableAll()
 	getChild<LLUICtrl>("Object Name")->setValue(LLStringUtil::null);
 	getChildView("Object Name")->setEnabled(FALSE);
 	getChildView("Name:")->setEnabled(FALSE);
-	getChild<LLUICtrl>("Group Name")->setValue(LLStringUtil::null);
-	getChildView("Group Name")->setEnabled(FALSE);
 	getChildView("Description:")->setEnabled(FALSE);
 	getChild<LLUICtrl>("Object Description")->setValue(LLStringUtil::null);
 	getChildView("Object Description")->setEnabled(FALSE);
 	mPosToDescBtn->setEnabled(FALSE); // <alchemy/>
 	mDescToPosBtn->setEnabled(FALSE); // <alchemy/>
 
-	getChildView("Permissions:")->setEnabled(FALSE);
-		
 	getChild<LLUICtrl>("checkbox share with group")->setValue(FALSE);
 	getChildView("checkbox share with group")->setEnabled(FALSE);
 	getChildView("button deed")->setEnabled(FALSE);
@@ -259,8 +255,6 @@ void LLPanelPermissions::disableAll()
 	combo_sale_type->setValue(LLSaleInfo::FS_COPY);
 	combo_sale_type->setEnabled(FALSE);
 		
-	getChildView("Cost")->setEnabled(FALSE);
-	getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
 	getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
 	getChildView("Edit Cost")->setEnabled(FALSE);
 		
@@ -382,8 +376,6 @@ void LLPanelPermissions::refresh()
 	getChildView("pathfinding_attributes_value")->setEnabled(TRUE);
 	getChild<LLUICtrl>("pathfinding_attributes_value")->setValue(LLTrans::getString(pfAttrName));
 
-	getChildView("Permissions:")->setEnabled(TRUE);
-	
 	// Update creator text field
 	getChildView("Creator:")->setEnabled(TRUE);
 	std::string creator_name;
@@ -410,7 +402,6 @@ void LLPanelPermissions::refresh()
 
 	// update group text field
 	getChildView("Group:")->setEnabled(TRUE);
-	getChild<LLUICtrl>("Group Name")->setValue(LLStringUtil::null);
 	LLUUID group_id;
 	BOOL groups_identical = LLSelectMgr::getInstance()->selectGetGroup(group_id);
 	if (groups_identical)
@@ -508,23 +499,12 @@ void LLPanelPermissions::refresh()
 
 	if (!owners_identical)
 	{
-		getChildView("Cost")->setEnabled(FALSE);
 		getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
 		getChildView("Edit Cost")->setEnabled(FALSE);
 	}
 	// You own these objects.
 	else if (self_owned || (group_owned && gAgent.hasPowerInGroup(group_id,GP_OBJECT_SET_SALE)))
 	{
-		// If there are multiple items for sale then set text to PRICE PER UNIT.
-		if (num_for_sale > 1)
-		{
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Per Unit"));
-		}
-		else
-		{
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
-		}
-		
 		LLSpinCtrl *edit_price = getChild<LLSpinCtrl>("Edit Cost");
 		if (!edit_price->hasFocus())
 		{
@@ -546,13 +526,11 @@ void LLPanelPermissions::refresh()
 		// The edit fields are only enabled if you can sell this object
 		// and the sale price is not mixed.
 		BOOL enable_edit = (num_for_sale && can_transfer) ? !is_for_sale_mixed : FALSE;
-		getChildView("Cost")->setEnabled(enable_edit);
 		getChildView("Edit Cost")->setEnabled(enable_edit);
 	}
 	// Someone, not you, owns these objects.
 	else if (!public_owned)
 	{
-		getChildView("Cost")->setEnabled(FALSE);
 		getChildView("Edit Cost")->setEnabled(FALSE);
 		
 		// Don't show a price if none of the items are for sale.
@@ -560,19 +538,10 @@ void LLPanelPermissions::refresh()
 			getChild<LLUICtrl>("Edit Cost")->setValue(llformat("%d",total_sale_price));
 		else
 			getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
-
-		// If multiple items are for sale, set text to TOTAL PRICE.
-		if (num_for_sale > 1)
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Total"));
-		else
-			getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
 	}
 	// This is a public object.
 	else
 	{
-		getChildView("Cost")->setEnabled(FALSE);
-		getChild<LLUICtrl>("Cost")->setValue(getString("Cost Default"));
-		
 		getChild<LLUICtrl>("Edit Cost")->setValue(LLStringUtil::null);
 		getChildView("Edit Cost")->setEnabled(FALSE);
 	}

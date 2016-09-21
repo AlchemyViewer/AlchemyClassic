@@ -190,6 +190,7 @@ void LLFlickrConnect::flickrShareImageCoro(LLPointer<LLImageFormatted> image, st
 
     httpOpts->setWantHeaders(true);
     httpOpts->setFollowRedirects(false);
+    httpOpts->setTimeout(120);
 
     std::string imageFormat;
     if (dynamic_cast<LLImagePNG*>(image.get()))

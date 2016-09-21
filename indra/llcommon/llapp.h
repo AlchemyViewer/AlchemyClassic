@@ -32,7 +32,7 @@
 #include "llrun.h"
 #include "llsd.h"
 
-#if LL_LINUX
+#if LL_LINUX || LL_DARWIN
 #include <signal.h>
 #endif
 

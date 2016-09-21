@@ -94,7 +94,7 @@ public:
 		/*virtual*/ void deleteRequest();
 		
 	private:
-		LLLFSThread* mThread;
+		//LLLFSThread* mThread;
 		operation_t mOperation;
 		
 		std::string mFileName;

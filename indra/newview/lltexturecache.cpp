@@ -1885,7 +1885,7 @@ LLPointer<LLImageRaw> LLTextureCache::readFromFastCache(const LLUUID& id, S32& d
 
 		openFastCache();
 
-		if (offset >= 0)
+		if (offset > 0)
 			mFastCacheFilep->seekg(offset);
 		else
 			mFastCacheFilep->seekg(0, std::ios::end);

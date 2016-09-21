@@ -128,7 +128,7 @@ LLLFSThread::Request::Request(LLLFSThread* thread,
 							  U8* buffer, S32 offset, S32 numbytes,
 							  Responder* responder) :
 	QueuedRequest(handle, priority, FLAG_AUTO_COMPLETE),
-	mThread(thread),
+	//mThread(thread),
 	mOperation(op),
 	mFileName(filename),
 	mBuffer(buffer),

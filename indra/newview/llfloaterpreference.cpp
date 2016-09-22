@@ -723,20 +723,23 @@ void LLFloaterPreference::loadUserSkins()
 	}
 	
 	const std::string userskindir = gDirUtilp->add(gDirUtilp->getOSUserAppDir(), "skins");
-	LLDirIterator iter(userskindir, "*");
-	found = true;
-	while (found)
+	if (LLFile::isdir(userskindir))
 	{
-		std::string dir;
-		if ((found = iter.next(dir)))
+		LLDirIterator iter(userskindir, "*");
+		found = true;
+		while (found)
 		{
-			const std::string& fullpath = gDirUtilp->add(userskindir, dir);
-			if (!LLFile::isdir(fullpath)) continue; // only directories!
-			
-			const std::string& manifestpath = gDirUtilp->add(fullpath, "manifest.json");
-			skin_t skin = manifestFromJson(manifestpath, USER_SKIN);
-			
-			mUserSkins.emplace(dir, skin);
+			std::string dir;
+			if ((found = iter.next(dir)))
+			{
+				const std::string& fullpath = gDirUtilp->add(userskindir, dir);
+				if (!LLFile::isdir(fullpath)) continue; // only directories!
+
+				const std::string& manifestpath = gDirUtilp->add(fullpath, "manifest.json");
+				skin_t skin = manifestFromJson(manifestpath, USER_SKIN);
+
+				mUserSkins.emplace(dir, skin);
+			}
 		}
 	}
 	reloadSkinList();

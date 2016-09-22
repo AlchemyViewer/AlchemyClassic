@@ -893,7 +893,7 @@ void LLTextureView::draw()
 			
 	 		if (pri > 0.0f)
 			{
-				display_image_list.insert(std::make_pair(pri, imagep));
+				display_image_list.emplace(pri, imagep);
 			}
 		}
 		

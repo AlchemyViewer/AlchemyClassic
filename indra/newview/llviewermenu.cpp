@@ -2851,7 +2851,7 @@ void al_handle_object_derender()
 			continue;
 		}
 
-		objects.push_back(selected_objectp);
+		objects.emplace_back(selected_objectp);
 	}
 
 	select_mgr->deselectAll();

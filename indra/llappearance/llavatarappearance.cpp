@@ -1110,7 +1110,7 @@ BOOL LLAvatarAppearance::loadMeshNodes()
 		}
 
 		// Multimap insert
-		mPolyMeshes.insert(std::make_pair(info->mMeshFileName, poly_mesh));
+		mPolyMeshes.emplace(info->mMeshFileName, poly_mesh);
 	
 		mesh->setMesh( poly_mesh );
 		mesh->setLOD( info->mMinPixelArea );

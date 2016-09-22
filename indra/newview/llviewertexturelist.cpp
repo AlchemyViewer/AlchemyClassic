@@ -288,7 +288,7 @@ void LLViewerTextureList::shutdown()
 		if (desired >= 0 && desired < MAX_DISCARD_LEVEL)
 		{
 			S32 pixel_area = image->getWidth(desired) * image->getHeight(desired);
-			image_area_list.insert(std::make_pair(pixel_area, image));
+			image_area_list.emplace(pixel_area, image);
 		}
 	}
 	
@@ -1734,7 +1734,7 @@ LLUIImagePtr LLUIImageList::loadUIImage(LLViewerFetchedTexture* imagep, const st
 		// Don't add downloadable content into this list
 		// all UI images are non-deletable and list does not support deletion
 		imagep->setNoDelete();
-		mUIImages.insert(std::make_pair(name, new_imagep));
+		mUIImages.emplace(name, new_imagep);
 		mUITextureList.push_back(imagep);
 	}
 

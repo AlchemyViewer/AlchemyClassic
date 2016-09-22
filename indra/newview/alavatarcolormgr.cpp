@@ -44,7 +44,7 @@ void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors co
 	}
 	else
 	{
-		mCustomColors.insert(std::make_pair(id, color_val));
+		mCustomColors.emplace(id, color_val);
 	}
 }
 

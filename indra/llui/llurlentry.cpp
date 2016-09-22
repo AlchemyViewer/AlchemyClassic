@@ -152,7 +152,7 @@ void LLUrlEntryBase::addObserver(const std::string &id,
 	if (observer.signal)
 	{
 		observer.signal->connect(cb);
-		mObservers.insert(std::pair<std::string, LLUrlEntryObserver>(id, observer));
+		mObservers.emplace(id, observer);
 	}
 }
 

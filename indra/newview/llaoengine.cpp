@@ -780,7 +780,7 @@ bool LLAOEngine::createAnimationLink(const LLAOSet* set, LLAOSet::AOState* state
 	}
 
 	LLInventoryObject::const_object_list_t obj_array;
-	obj_array.push_back(LLConstPointer<LLInventoryObject>(item));
+	obj_array.emplace_back(LLConstPointer<LLInventoryObject>(item));
 	link_inventory_array(state->mInventoryUUID,
 							obj_array,
 							LLPointer<LLInventoryCallback>(NULL));
@@ -791,12 +791,7 @@ bool LLAOEngine::createAnimationLink(const LLAOSet* set, LLAOSet::AOState* state
 bool LLAOEngine::addAnimation(const LLAOSet* set, LLAOSet::AOState* state,
 							  const LLInventoryItem* item, const bool reload)
 {
-	LLAOSet::AOAnimation anim;
-	anim.mAssetUUID = item->getAssetUUID();
-	anim.mInventoryUUID = item->getUUID();
-	anim.mName = item->getName();
-	anim.mSortOrder = state->mAnimations.size() + 1;
-	state->mAnimations.push_back(anim);
+	state->mAnimations.emplace_back(item->getName(), item->getAssetUUID(), item->getUUID(), state->mAnimations.size() + 1);
 
 	createAnimationLink(set, state, item);
 
@@ -1000,30 +995,25 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 					<< " desc " << items->at(num)->LLInventoryItem::getDescription()
 					<< " asset " << items->at(num)->getAssetUUID() << LL_ENDL;
 
-		LLAOSet::AOAnimation anim;
-		anim.mAssetUUID = items->at(num)->getAssetUUID();
 		LLViewerInventoryItem* linkedItem = items->at(num)->getLinkedItem();
 		if (!linkedItem)
 		{
 			LL_WARNS("AOEngine") << "linked item for link " << items->at(num)->LLInventoryItem::getName() << " not found (broken link). Skipping." << LL_ENDL;
 			continue;
 		}
-		anim.mName = linkedItem->LLInventoryItem::getName();
-		anim.mInventoryUUID = items->at(num)->getUUID();
 
 		S32 sortOrder;
 		if (!LLStringUtil::convertToS32(items->at(num)->LLInventoryItem::getDescription(), sortOrder))
 		{
 			sortOrder = -1;
 		}
-		anim.mSortOrder = sortOrder;
 
 		LL_DEBUGS("AOEngine") << "current sort order is " << sortOrder << LL_ENDL;
 
 		if (sortOrder == -1)
 		{
 			LL_WARNS("AOEngine") << "sort order was unknown so append to the end of the list" << LL_ENDL;
-			state->mAnimations.push_back(anim);
+			state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
 		}
 		else
 		{
@@ -1033,7 +1023,8 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 				if (state->mAnimations[index].mSortOrder > sortOrder)
 				{
 					LL_DEBUGS("AOEngine") << "inserting at index " << index << LL_ENDL;
-					state->mAnimations.insert(state->mAnimations.begin() + index, anim);
+					state->mAnimations.emplace(state->mAnimations.begin() + index, 
+						linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
 					inserted = true;
 					break;
 				}
@@ -1041,7 +1032,7 @@ void LLAOEngine::reloadStateAnimations(LLAOSet::AOState* state)
 			if (!inserted)
 			{
 				LL_DEBUGS("AOEngine") << "not inserted yet, appending to the list instead" << LL_ENDL;
-				state->mAnimations.push_back(anim);
+				state->mAnimations.emplace_back(linkedItem->LLInventoryItem::getName(), items->at(num)->getAssetUUID(), items->at(num)->getUUID(), sortOrder);
 			}
 		}
 		LL_DEBUGS("AOEngine") << "Animation count now: " << state->mAnimations.size() << LL_ENDL;
@@ -1087,7 +1078,7 @@ void LLAOEngine::update()
 			LL_DEBUGS("AOEngine") << "Adding set " << setFolderName << " to AO." << LL_ENDL;
 			newSet = new LLAOSet(currentCategory->getUUID());
 			newSet->setName(params[0]);
-			mSets.push_back(newSet);
+			mSets.emplace_back(newSet);
 		}
 		else
 		{

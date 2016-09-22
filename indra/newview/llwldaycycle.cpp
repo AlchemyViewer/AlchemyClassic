@@ -206,7 +206,7 @@ bool LLWLDayCycle::addKeyframe(F32 newTime, LLWLParamKey frame)
 	// if time not being used, add it and return true
 	if(mTimeMap.find(newTime) == mTimeMap.end()) 
 	{
-		mTimeMap.insert(std::pair<F32, LLWLParamKey>(newTime, frame));
+		mTimeMap.emplace(newTime, frame);
 		LL_DEBUGS() << "Adding key frame (" << newTime << ", " << frame.toLLSD() << ")" << LL_ENDL;
 		return true;
 	}

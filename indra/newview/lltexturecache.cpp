@@ -1445,7 +1445,7 @@ void LLTextureCache::readHeaderCache()
 				}
 				else
 				{
-					lru.insert(std::make_pair(entry.mTime, i));
+					lru.emplace(entry.mTime, i);
 					if (entry.mBodySize > 0)
 					{
 						if (entry.mBodySize > entry.mImageSize)
@@ -1624,7 +1624,7 @@ void LLTextureCache::purgeTextures(bool validate)
 			if (iter2 != mHeaderIDMap.end())
 			{
 				S32 idx = iter2->second;
-				time_idx_set.insert(std::make_pair(entries[idx].mTime, idx));
+				time_idx_set.emplace(entries[idx].mTime, idx);
 // 				LL_INFOS() << "TIME: " << entries[idx].mTime << " TEX: " << entries[idx].mID << " IDX: " << idx << " Size: " << entries[idx].mImageSize << LL_ENDL;
 			}
 			else

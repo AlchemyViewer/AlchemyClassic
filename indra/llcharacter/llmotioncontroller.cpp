@@ -87,7 +87,7 @@ BOOL LLMotionRegistry::registerMotion( const LLUUID& id, LLMotionConstructor con
 	
 	return FALSE;
 #else
-	return mMotionTable.insert(std::make_pair(id, constructor)).second;
+	return mMotionTable.emplace(id, constructor).second;
 #endif
 }
 

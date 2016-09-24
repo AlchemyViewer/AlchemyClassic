@@ -309,7 +309,7 @@ public:
 	void setSetImageAssetIDCallback(const set_image_asset_id_callback& cb) { mSetImageAssetIDCallback = cb; }
 	void setOnUpdateImageStatsCallback(const set_on_update_image_stats_callback& cb) { mOnUpdateImageStatsCallback = cb; }
 	const LLUUID& getDefaultImageAssetID() { return mDefaultImageAssetID; }
-	const LLUUID& getTransparentImageAssetID() { return mDefaultImageAssetID; }
+	const LLUUID& getTransparentImageAssetID() { return mTransparentImageAssetID; }
 	const LLUUID& getBlankImageAssetID() { return mBlankImageAssetID; }
 
 	static void		onBtnSetToDefault(void* userdata);

@@ -2008,11 +2008,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0e7613b2e038e18488452c2a9882144d</string>
+              <string>abbbc69f47a214535d3c5b4c90e059db</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/llceflib-3.2526.1373.gb660893-linux64-201603281900.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/llceflib-3.2526.1373.gb660893-linux64-201609260552.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2047,7 +2047,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>3.2526.1364.gf6bf57b</string>
+        <string>3.2526.1373.gb660893</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

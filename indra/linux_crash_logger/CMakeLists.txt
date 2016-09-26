@@ -3,7 +3,6 @@
 project(linux_crash_logger)
 
 include(00-Common)
-include(GLH)
 include(LLCoreHttp)
 include(LLCommon)
 include(LLCrashLogger)

@@ -1051,6 +1051,9 @@ namespace LLError
 			return false;
 		}
 		
+		if (!Settings::instanceExists())
+			return false;
+
 		SettingsConfigPtr s = Settings::getInstance()->getSettingsConfig();
 		
 		s->mShouldLogCallCounter++;

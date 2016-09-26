@@ -180,25 +180,6 @@ LLOSInfo::LLOSInfo() :
 			service_pack = "Service Pack 1 ";
 		}
 	}
-	else if (IsWindowsVistaOrGreater())
-	{
-		if (is_server)
-		{
-			mOSStringSimple = "Microsoft Windows Server 2008 ";
-		}
-		else
-		{
-			mOSStringSimple = "Microsoft Windows Vista ";
-		}
-		if (IsWindowsVistaSP2OrGreater())
-		{
-			service_pack = "Service Pack 2 ";
-		}
-		else if (IsWindowsVistaSP1OrGreater())
-		{
-			service_pack = "Service Pack 1 ";
-		}
-	}
 	else
 	{
 		mOSStringSimple = "Microsoft Windows (unrecognized) ";

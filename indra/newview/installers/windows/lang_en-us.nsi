@@ -17,7 +17,7 @@ LangString CheckStartupParamsMB ${LANG_ENGLISH} "Could not find the program '$IN
 
 ; check windows version
 LangString CheckWindowsVersionDP ${LANG_ENGLISH} "Checking Windows version..."
-LangString CheckWindowsVersionMB ${LANG_ENGLISH} "${APPNAME} only supports Windows Vista with Service Pack 2 and later.$\nInstallation on this Operating System is not supported. Quitting."
+LangString CheckWindowsVersionMB ${LANG_ENGLISH} "${APPNAME} only supports Windows 7 with Service Pack 1 and later.$\nInstallation on this Operating System is not supported. Quitting."
 LangString CheckWindowsServPackMB ${LANG_ENGLISH} "It is recomended to run ${APPNAME} on the latest service pack for your operating system.$\nThis will help with performance and stability of the program."
 LangString UseLatestServPackDP ${LANG_ENGLISH} "Please use Windows Update to install the latest Service Pack."
 

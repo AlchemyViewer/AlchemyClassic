@@ -74,7 +74,7 @@
   InstallDirRegKey HKLM "SOFTWARE\${VENDORSTR}\${APPNAMEONEWORD}" ""
 !endif
 
-  ;Request application privileges for Windows Vista
+  ;Request application privileges for Windows UAC
   RequestExecutionLevel admin
   
   ;Compression
@@ -222,7 +222,7 @@ Function CheckWindowsVersion
   ${EndIf}
 !endif
 
-  ${If} ${AtMostWinXP}
+  ${If} ${AtMostWinVista}
     MessageBox MB_OK $(CheckWindowsVersionMB)
     Quit
   ${EndIf}
@@ -230,20 +230,6 @@ FunctionEnd
 
 ;Check service pack compatibility and suggest upgrade
 Function CheckWindowsServPack
-  ${If} ${IsWinVista}
-  ${AndIfNot} ${IsServicePack} 2
-    MessageBox MB_OK $(CheckWindowsServPackMB)
-    DetailPrint $(UseLatestServPackDP)
-    Return
-  ${EndIf}
-
-  ${If} ${IsWin2008}
-  ${AndIfNot} ${IsServicePack} 2
-    MessageBox MB_OK $(CheckWindowsServPackMB)
-    DetailPrint $(UseLatestServPackDP)
-    Return
-  ${EndIf}
-
   ${If} ${IsWin7}
   ${AndIfNot} ${IsServicePack} 1
     MessageBox MB_OK $(CheckWindowsServPackMB)

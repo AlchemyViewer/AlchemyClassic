@@ -408,6 +408,7 @@ void LLVivoxVoiceClient::connectorCreate()
 		<< "<AccountManagementServer>" << mVoiceAccountServerURI << "</AccountManagementServer>"
 		<< "<Mode>Normal</Mode>"
 		<< "<ConnectorHandle>" << LLVivoxSecurity::getInstance()->connectorHandle() << "</ConnectorHandle>"
+		<< (gSavedSettings.getBOOL("VoiceMultiInstance") ? "<MinimumPort>30000</MinimumPort><MaximumPort>50000</MaximumPort>" : "")
 		<< "<Logging>"
 		<< "<Folder>" << logpath << "</Folder>"
 		<< "<FileNamePrefix>Connector</FileNamePrefix>"
@@ -659,6 +660,22 @@ bool LLVivoxVoiceClient::startAndLaunchDaemon()
                 params.args.add("-st");
                 params.args.add(shutdown_timeout);
             }
+
+			// If we allow multiple instances of the viewer to start the voicedaemon
+			if (gSavedSettings.getBOOL("VoiceMultiInstance"))
+			{
+				// Set TEMPORARY random voice port
+				LLControlVariable* voice_port = gSavedSettings.getControl("VivoxVoicePort");
+				if (voice_port)
+				{
+					S32 port_nr = 30000 + ll_rand(20000);
+					voice_port->setValue(LLSD(port_nr), false);
+				}
+				// Tell voice gateway to listen to a specific port
+				params.args.add("-i");
+				params.args.add(llformat("127.0.0.1:%u", gSavedSettings.getU32("VivoxVoicePort")));
+			}
+
             params.cwd = gDirUtilp->getAppRODataDir();
 
 #           ifdef VIVOX_HANDLE_ARGS

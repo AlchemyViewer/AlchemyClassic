@@ -286,7 +286,7 @@ void LLXMLNode::addChild(LLXMLNodePtr& new_child)
 			mChildren->head = new_child;
 			mChildren->tail = new_child;
 		}
-		mChildren->map.insert(std::make_pair(new_child->mName, new_child));
+		mChildren->map.emplace(new_child->mName, new_child);
 
 		if (mChildren->tail != new_child)
 		{

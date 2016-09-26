@@ -1443,7 +1443,7 @@ namespace LLInitParam
 				++it)
 			{
 				std::string key = it->getValueName();
-				name_stack.push_back(std::make_pair(std::string(), true));
+				name_stack.emplace_back(std::string(), true);
 
 				if(key.empty())
 				// not parsed via name values, write out value directly
@@ -1495,7 +1495,7 @@ namespace LLInitParam
 
 		param_value_t& add()
 		{
-			mValues.push_back(value_t());
+			mValues.emplace_back(value_t());
 			Param::setProvided();
 			return mValues.back();
 		}

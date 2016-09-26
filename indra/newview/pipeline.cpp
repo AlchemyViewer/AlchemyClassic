@@ -5648,7 +5648,7 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 			}
 
 			F32 dist = calc_light_dist(volight, cam_pos, max_dist);
-			cur_nearby_lights.insert(Light(drawable, dist, light->fade));
+			cur_nearby_lights.emplace(drawable, dist, light->fade);
 		}
 		mNearbyLights = cur_nearby_lights;
 				
@@ -5676,7 +5676,7 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 			{
 				continue;
 			}
-			new_nearby_lights.insert(Light(drawable, dist, 0.f));
+			new_nearby_lights.emplace(drawable, dist, 0.f);
 			if (new_nearby_lights.size() > (U32)MAX_LOCAL_LIGHTS)
 			{
 				new_nearby_lights.erase(--new_nearby_lights.end());
@@ -5692,7 +5692,7 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 			const Light* light = &(*iter);
 			if (mNearbyLights.size() < (U32)MAX_LOCAL_LIGHTS)
 			{
-				mNearbyLights.insert(*light);
+				mNearbyLights.emplace(*light);
 				((LLDrawable*) light->drawable)->setState(LLDrawable::NEARBY_LIGHT);
 			}
 			else
@@ -6293,7 +6293,7 @@ void LLPipeline::setLight(LLDrawable *drawablep, BOOL is_light)
 	{
 		if (is_light)
 		{
-			mLights.insert(drawablep);
+			mLights.emplace(drawablep);
 			drawablep->setState(LLDrawable::LIGHT);
 		}
 		else
@@ -8217,8 +8217,8 @@ void LLPipeline::renderDeferredLighting()
 
 						tc = llglmhelpers::perspectiveTransform(mat, tc);
 					
-						fullscreen_lights.push_back(LLVector4(tc[0], tc[1], tc[2], s));
-						light_colors.push_back(LLVector4(col.mV[0], col.mV[1], col.mV[2], volume->getLightFalloff()*0.5f));
+						fullscreen_lights.emplace_back(tc[0], tc[1], tc[2], s);
+						light_colors.emplace_back(col.mV[0], col.mV[1], col.mV[2], volume->getLightFalloff()*0.5f);
 					}
 				}
 				unbindDeferredShader(gDeferredLightProgram);
@@ -8741,8 +8741,8 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 
 						tc = llglmhelpers::perspectiveTransform(mat, tc);
 					
-						fullscreen_lights.push_back(LLVector4(tc[0], tc[1], tc[2], s));
-						light_colors.push_back(LLVector4(col.mV[0], col.mV[1], col.mV[2], volume->getLightFalloff()*0.5f));
+						fullscreen_lights.emplace_back(tc[0], tc[1], tc[2], s);
+						light_colors.emplace_back(col.mV[0], col.mV[1], col.mV[2], volume->getLightFalloff()*0.5f);
 					}
 				}
 				unbindDeferredShader(gDeferredLightProgram);
@@ -9704,19 +9704,19 @@ BOOL LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 	std::vector<LLVector3> pp;
 
 	//add corners of AABB
-	pp.push_back(LLVector3(min.mV[0], min.mV[1], min.mV[2]));
-	pp.push_back(LLVector3(max.mV[0], min.mV[1], min.mV[2]));
-	pp.push_back(LLVector3(min.mV[0], max.mV[1], min.mV[2]));
-	pp.push_back(LLVector3(max.mV[0], max.mV[1], min.mV[2]));
-	pp.push_back(LLVector3(min.mV[0], min.mV[1], max.mV[2]));
-	pp.push_back(LLVector3(max.mV[0], min.mV[1], max.mV[2]));
-	pp.push_back(LLVector3(min.mV[0], max.mV[1], max.mV[2]));
-	pp.push_back(LLVector3(max.mV[0], max.mV[1], max.mV[2]));
+	pp.emplace_back(min.mV[0], min.mV[1], min.mV[2]);
+	pp.emplace_back(max.mV[0], min.mV[1], min.mV[2]);
+	pp.emplace_back(min.mV[0], max.mV[1], min.mV[2]);
+	pp.emplace_back(max.mV[0], max.mV[1], min.mV[2]);
+	pp.emplace_back(min.mV[0], min.mV[1], max.mV[2]);
+	pp.emplace_back(max.mV[0], min.mV[1], max.mV[2]);
+	pp.emplace_back(min.mV[0], max.mV[1], max.mV[2]);
+	pp.emplace_back(max.mV[0], max.mV[1], max.mV[2]);
 
 	//add corners of camera frustum
 	for (U32 i = 0; i < LLCamera::AGENT_FRUSTRUM_NUM; i++)
 	{
-		pp.push_back(camera.mAgentFrustum[i]);
+		pp.emplace_back(camera.mAgentFrustum[i]);
 	}
 
 
@@ -9881,7 +9881,7 @@ void LLPipeline::generateHighlight(LLCamera& camera)
 	//render highlighted object as white into offscreen render target
 	if (mHighlightObject.notNull())
 	{
-		mHighlightSet.insert(HighlightItem(mHighlightObject));
+		mHighlightSet.emplace(mHighlightObject);
 	}
 	
 	if (!mHighlightSet.empty())
@@ -10243,7 +10243,7 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 			{
 				glm::vec3 p = glm::make_vec3(fp[i].mV);
 				p = llglmhelpers::perspectiveTransform(view[j], p);
-				wpf.push_back(LLVector3(glm::value_ptr(p)));
+				wpf.emplace_back(glm::value_ptr(p));
 			}
 
 			min = wpf[0];
@@ -11207,8 +11207,7 @@ void LLPipeline::clearAllRenderTypes()
 
 void LLPipeline::addDebugBlip(const LLVector3& position, const LLColor4& color)
 {
-	DebugBlip blip(position, color);
-	mDebugBlips.push_back(blip);
+	mDebugBlips.emplace_back(position, color);
 }
 
 void LLPipeline::hidePermanentObjects( std::vector<U32>& restoreList )

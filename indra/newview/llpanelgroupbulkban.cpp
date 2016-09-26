@@ -63,7 +63,7 @@ BOOL LLPanelGroupBulkBan::postBuild()
 	if ( mImplementation->mBulkAgentList )
 	{
 		mImplementation->mBulkAgentList->setCommitOnSelectionChange(TRUE);
-		mImplementation->mBulkAgentList->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackSelect, this));
+		mImplementation->mBulkAgentList->setCommitCallback(boost::bind(&LLPanelGroupBulkImpl::callbackSelect, mImplementation));
 	}
 
 	LLButton* button = getChild<LLButton>("add_button", recurse);

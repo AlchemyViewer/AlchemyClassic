@@ -34,11 +34,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5c8df43ff04799f3f675b8a0f328f184</string>
+              <string>bc252239e646840302db1b0ce598bc2b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/SDL-1.2.15-linux64-201603241005.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/SDL-1.2.15-linux64-201609250149.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -92,11 +92,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cd30af9b015c373bed5062b1642a1b3e</string>
+              <string>eb459340baa20516097bf7897b5d85d1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/apr_suite-1.5.2-linux64-201603240800.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/apr_suite-1.5.2-linux64-201609250304.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -178,11 +178,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>74a88afa7ff50462059c17321f91a359</string>
+              <string>6d60b345073073e8adedb5908bb35f66</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/boost-1.60.0-linux64-201603241316.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/boost-1.60.0-linux64-201609251526.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -262,11 +262,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c84d1be467d7198103d905f710fa31d3</string>
+              <string>5189bb4311e575c57ba2234dd3f08c81</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/colladadom-2.3-linux64-201603241731.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/colladadom-2.3-linux64-201609251916.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -348,11 +348,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>24a88e015ee9c1806e7aeb46887d38f5</string>
+              <string>85057340485c159ba61573183c0509a8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/curl-7.48.0-linux64-201603240914.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.50.3-linux64-201609250452.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -465,30 +465,6 @@
         <key>version</key>
         <string>1</string>
       </map>
-      <key>elfio</key>
-      <map>
-        <key>license</key>
-        <string>lgpl</string>
-        <key>license_file</key>
-        <string>LICENSES/elfio.txt</string>
-        <key>name</key>
-        <string>elfio</string>
-        <key>platforms</key>
-        <map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>031e6315a5c0829c9b9a2ec18aeb7ae3</string>
-              <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/3p-elfio/rev/222074/arch/Linux/installer/elfio-1.0.3-linux-20110225.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
-        </map>
-      </map>
       <key>expat</key>
       <map>
         <key>copyright</key>
@@ -534,11 +510,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3ed12f7d7b1a3bda07a3c6d8227a3bf2</string>
+              <string>ff3ecb893d879a380408db963aa0afea</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/expat-2.1.1-linux64-201603232308.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/expat-2.2.0-linux64-201609241339.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -622,11 +598,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>be09dc1f144c936790236b94190815b4</string>
+              <string>5ba05db0efc98db11557dff5cc835004</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.08.04-linux64-201605301500.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/fmodstudio-1.08.12-linux64-201609240235.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -661,7 +637,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.08.11</string>
+        <string>1.08.12</string>
       </map>
       <key>fontconfig</key>
       <map>
@@ -694,18 +670,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>25726244f5bcd05f412514b030098c3c</string>
+              <string>47fe27b1ca4ce70dafba85185562199e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/fontconfig-2.11.0-linux64-201603241804.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/fontconfig-2.12.1-linux64-201609251356.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.11.0</string>
+        <string>2.12.1</string>
       </map>
       <key>fonts</key>
       <map>
@@ -784,11 +760,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b10ba0775b9f1033daf580a2cb55789d</string>
+              <string>70573b084a880ec7f6fb7cbfa20404a6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/freetype-2.6.3-linux64-201603241755.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/freetype-2.7.0-linux64-201609250521.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -823,7 +799,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>2.6.5</string>
+        <string>2.7.0</string>
       </map>
       <key>glew</key>
       <map>
@@ -844,11 +820,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9634c6a881b979c8e7565834ab10cd36</string>
+              <string>c21f348f5d785ec52ac273b77c74a99c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/glew-1.13.0-linux64-201603232135.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/glew-2.0.0-linux64-201609241431.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -962,11 +938,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f7172928ba2201d4b9aeb2c70d7a55b9</string>
+              <string>72d9df7676a1238f6f59b308e49b4a6e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/glod-1.0pre4-linux64-201603240031.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/glod-1.0pre4-linux64-201609240327.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1048,11 +1024,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3709a51d4d5dff5ec0c4656623eaa05d</string>
+              <string>be9721099a72762ab87f98506b0d9201</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/google_breakpad-9e60a27-linux64-201603240004.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/google_breakpad-7398ce15b79da-linux64-201609260309.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1087,7 +1063,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>9e60a27</string>
+        <string>7398ce15b79da</string>
       </map>
       <key>gperftools</key>
       <map>
@@ -1204,11 +1180,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9678056c5ad714aa7ba1ba4ffcb09859</string>
+              <string>26bd44a039961c24dfd62c8a27b19f14</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/gtk_atk_pango_glib-0.0.2-linux64-201603241949.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201609260230.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1227,7 +1203,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>0.0.2</string>
+        <string>0.0.3</string>
       </map>
       <key>havok-source</key>
       <map>
@@ -1374,11 +1350,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>256812a20a66081e05578f91bab5b3e4</string>
+              <string>5e18b3b4421079d09a2759d870c06157</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/jpeglib-1.4.2-linux64-201603240711.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jpeglib-1.5.1-linux64-201609241330.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1413,7 +1389,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.5.0</string>
+        <string>1.5.1</string>
       </map>
       <key>jsoncpp</key>
       <map>
@@ -1460,11 +1436,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3ebbace19eb931d9236432ba537c3727</string>
+              <string>e6ed47c45b077a42dfc558e032ed4fa0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/jsoncpp-1.6.5-linux64-201603232323.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.7.5-linux64-201609240225.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1499,7 +1475,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.7.3</string>
+        <string>1.7.5</string>
       </map>
       <key>kdu</key>
       <map>
@@ -1618,11 +1594,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f58652f3217c1e897e9051aa19d99139</string>
+              <string>0b0473026e88bde51380f3ef5d890fbd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libhunspell-1.3.3-linux64-201603240026.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libhunspell-1.4.1-linux64-201609241544.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1692,11 +1668,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e3d59bdb4418f50365fbae7a866b4e23</string>
+              <string>b26e3c6d2a78d7fe27566bee935a835d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libidn-1.32-linux64-201603240734.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libidn-1.33-linux64-201609241616.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1784,11 +1760,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d3fd1dab78123c39391b0afb372e5cf1</string>
+              <string>70117b955d1a89e8ad97a0a010168f8c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libndofdev_open-0.8-linux64-201603241018.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libndofdev_open-0.8-linux64-201609250211.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1842,11 +1818,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>cd64cda7107b967279d5af03b0d46a8f</string>
+              <string>d9cbaf3f5a3cc819d757f321db620c56</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libpng-1.6.21-linux64-201603240933.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.25-linux64-201609250045.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1881,7 +1857,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.6.24</string>
+        <string>1.6.25</string>
       </map>
       <key>libxml2</key>
       <map>
@@ -1928,11 +1904,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>61351b10787b06045a70c905a58ca2f6</string>
+              <string>a9f4b1abb5895f2016c0dc8ba588895e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/libxml2-2.9.3-linux64-201603241216.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libxml2-2.9.4-linux64-201609250412.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2276,11 +2252,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>fd993402e608c93de90e70803177e3cd</string>
+              <string>8c022c23093dff32180598b8d1797110</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/ndPhysicsStub-0.1.2-linux64-201603232330.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/ndPhysicsStub-0.1.2-linux64-201609250322.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2406,11 +2382,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d847ea384530e0bbb3774065dbdae65c</string>
+              <string>1c6258ddd8d3794402fefcd53e7a8ca0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/ogg_vorbis-1.3.2-1.3.5-linux64-201603240037.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/ogg_vorbis-1.3.2-1.3.5-linux64-201609241255.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2494,11 +2470,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7fea13f8caab7bf9184e0790eab9c2f3</string>
+              <string>53ed6e94703e929fb7b0f51041f8347e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/openal-1.17.2-1.1.0-linux64-201603232035.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/openal-1.17.2-1.1.0-linux64-201609241409.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2580,11 +2556,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d3a8b51eb7fe4272418acc9df36b9168</string>
+              <string>2855cc01de820f3f9c1c43845aa8f308</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/openjpeg-1.5.1-linux64-201603232335.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/openjpeg-1.5.1-linux64-201609240352.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2666,11 +2642,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2a50dcb704f6af595fff44defc4b65df</string>
+              <string>4d947f25efcbe2b7902c9cee1b5505f4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/openssl-1.0.2g-linux64-201603240821.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/openssl-1.1.0a-linux64-201609250336.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2705,7 +2681,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.1.0</string>
+        <string>1.1.0a</string>
       </map>
       <key>quicktime</key>
       <map>
@@ -2902,11 +2878,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>69224d9285e5a26fc7a9aca5d3da7543</string>
+              <string>cf21d9f7ed7949d2230413e8a391fb73</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/uriparser-0.8.4-linux64-201603240044.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/uriparser-0.8.4-linux64-201609241428.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3034,11 +3010,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0465334ff0f1d57cf354867fd21ee137</string>
+              <string>f711601f801e9321481ee0116a629a32</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/xmlrpc_epi-0.54.2-linux64-201603240753.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/xmlrpc_epi-0.54.2-linux64-201609250229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -3120,11 +3096,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1eaee9888043648d5f09716b771dcb4b</string>
+              <string>9eb17b1c699c7de25f013b22c14583e3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-trusty/zlib-1.2.8-linux64-201603240746.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/zlib-1.2.8-linux64-201609240212.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

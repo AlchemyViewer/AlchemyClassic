@@ -150,11 +150,6 @@ if (LINUX)
     -D_REENTRANT
     )
 
-  # Explicitly disable new C++11 ABI for GCC5/libstd++
-  # 1. https://llvm.org/bugs/show_bug.cgi?id=23529
-  # 2. https://gcc.gnu.org/onlinedocs/libstdc++/manual/using_dual_abi.html
-  add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
-
   CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
   CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
   CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)

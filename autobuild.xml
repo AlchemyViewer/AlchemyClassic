@@ -348,11 +348,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>85057340485c159ba61573183c0509a8</string>
+              <string>01ae487a7af5e45fdd225f18b99e1351</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.50.3-linux64-201609250452.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.50.3-linux64-201609260528.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1436,11 +1436,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e6ed47c45b077a42dfc558e032ed4fa0</string>
+              <string>0765adc88947e85e3b22cfa4f19b159b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.7.5-linux64-201609240225.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.7.6-linux64-201609260525.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1475,7 +1475,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.7.5</string>
+        <string>1.7.6</string>
       </map>
       <key>kdu</key>
       <map>
@@ -2642,11 +2642,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4d947f25efcbe2b7902c9cee1b5505f4</string>
+              <string>5f0c53a92b8811b67e4a811c9c80160d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/openssl-1.1.0a-linux64-201609250336.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/openssl-1.1.0b-linux64-201609260506.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2681,7 +2681,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.1.0a</string>
+        <string>1.1.0b</string>
       </map>
       <key>quicktime</key>
       <map>

@@ -197,10 +197,9 @@ if (LINUX)
     set(CMAKE_CXX_FLAGS_RELEASE "-O2 ${CMAKE_CXX_FLAGS_RELEASE}")
   endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
 
-  if (NOT USESYSTEMLIBS AND CONSERVE_MEMORY)
-    # linking can be very memory-hungry, especially the final viewer link
-    set(CMAKE_CXX_LINK_FLAGS "-Wl,--no-keep-memory")
-  endif (NOT USESYSTEMLIBS AND CONSERVE_MEMORY)
+  # Enable these flags so we have a read only GOT and some linking opts
+  set(CMAKE_EXE_LINKER_FLAGS "-Wl,-z,relro -Wl,-z,now -Wl,--as-needed ${CMAKE_EXE_LINKER_FLAGS}")
+  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-z,relro -Wl,-z,now -Wl,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
 endif (LINUX)
 
 

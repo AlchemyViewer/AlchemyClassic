@@ -29,6 +29,16 @@ option(USESYSTEMLIBS "Use libraries from your system rather than Linden-supplied
 option(INCREMENTAL_LINK "Use incremental linking on win32 builds (enable for faster links on some machines)" OFF)
 option(USE_PRECOMPILED_HEADERS "Enable use of precompiled header directives where supported." ON)
 option(USE_LTO "Enable Whole Program Optimization and related folding and binary reduction routines" OFF)
+option(USE_ASAN "Enable address sanitizer for detection of memory issues" OFF)
+option(USE_LEAKSAN "Enable address sanitizer for detection of memory leaks" OFF)
+option(USE_UBSAN "Enable undefined behavior sanitizer" OFF)
+option(USE_THDSAN "Enable thread sanitizer for detection of thread data races and mutexing issues" OFF)
+if(USE_ASAN AND USE_LEAKSAN)
+  message(FATAL_ERROR "You may only enable either USE_ASAN or USE_LEAKSAN not both")
+elseif((USE_ASAN OR USE_LEAKSAN) AND USE_THDSAN)
+  message(FATAL_ERROR "Address and Leak sanitizers are incompatible with thread sanitizer")
+endif(USE_ASAN AND USE_LEAKSAN)
+
 option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Media Plugins

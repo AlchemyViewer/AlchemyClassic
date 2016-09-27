@@ -150,14 +150,31 @@ if (LINUX)
     -D_REENTRANT
     )
 
-  CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
-  CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
-  CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
-
   if (USE_LTO)
     add_compile_options(-flto=8)
   endif (USE_LTO)
 
+  if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    if (USE_ASAN)
+      add_compile_options(-fsanitize=address)
+    endif (USE_ASAN)
+
+    if (USE_LEAKSAN)
+      add_compile_options(-fsanitize=leak)
+    endif (USE_LEAKSAN)
+
+    if (USE_UBSAN)
+      add_compile_options(-fsanitize=undefined)
+    endif (USE_UBSAN)
+
+    if (USE_THDSAN)
+      add_compile_options(-fsanitize=thread)
+    endif (USE_THDSAN)
+  endif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+
+  CHECK_C_COMPILER_FLAG(-Og HAS_DEBUG_OPTIMIZATION)
+  CHECK_C_COMPILER_FLAG(-fstack-protector-strong HAS_STRONG_STACK_PROTECTOR)
+  CHECK_C_COMPILER_FLAG(-fstack-protector HAS_STACK_PROTECTOR)
   if (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     if(HAS_STRONG_STACK_PROTECTOR)
       add_compile_options(-fstack-protector-strong)

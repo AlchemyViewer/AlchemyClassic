@@ -269,9 +269,13 @@ static int x11_detect_VRAM_kb_fp(FILE *fp) {
 			if(boost::regex_search(line, match, pattern)) {
 				long int vram = strtol(std::string(match[2]).c_str(), NULL, 10);
 				LL_INFOS() << "Found VRAM " << vram << LL_ENDL;
+                if (line)
+                    free(line);
 				return (int)vram;
 			}
 		}
+		if (line)
+            free(line);
 	}
 	return 0; // not detected
 }

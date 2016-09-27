@@ -270,6 +270,11 @@ void LLViewerJoystick::terminate()
 #if LIB_NDOF
 
 	ndof_libcleanup();
+    if (mNdofDev)
+    {
+        free(mNdofDev);
+        mNdofDev = nullptr;
+    }
 	LL_INFOS() << "Terminated connection with NDOF device." << LL_ENDL;
 	mDriverState = JDS_UNINITIALIZED;
 #endif

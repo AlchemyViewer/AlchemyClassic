@@ -66,6 +66,13 @@ void initializeSecHandler()
 	}
 
 }
+
+void cleanupSecHandler()
+{
+	gSecAPIHandler = nullptr;
+	gHandlerMap.clear();
+}
+
 // start using a given security api handler.  If the string is empty
 // the default is used
 LLPointer<LLSecAPIHandler> getSecHandler(const std::string& handler_type)

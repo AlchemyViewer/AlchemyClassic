@@ -182,7 +182,7 @@ void display_startup()
 	LLGLState::checkTextureChannels();
 
 	if (gViewerWindow && gViewerWindow->getWindow())
-	gViewerWindow->getWindow()->swapBuffers();
+		gViewerWindow->getWindow()->swapBuffers();
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 }

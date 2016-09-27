@@ -1306,11 +1306,11 @@ class Linux_x86_64_Manifest(LinuxManifest):
             self.path("libaprutil-1.so")
             self.path("libaprutil-1.so.0")
             self.path("libaprutil-1.so.0.5.4")
-            self.path("libexpat.so.*")
+            self.path("libexpat.so*")
             self.path("libGLOD.so")
             self.path("libSDL-1.2.so.*")
             self.path("libopenjpeg.so*")
-            self.path("libhunspell-1.3.so*")
+            self.path("libhunspell-1.4.so*")
             self.path("libalut.so*")
             self.path("libopenal.so*")
             # KLUDGE: As of 2012-04-11, the 'fontconfig' package installs

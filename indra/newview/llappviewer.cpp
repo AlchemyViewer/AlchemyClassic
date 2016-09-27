@@ -686,8 +686,8 @@ std::string getRuntime()
 }
 
 LLAppViewer::LLAppViewer() 
-:	mMarkerFile(),
-	mLogoutMarkerFile(),
+:	mMarkerFile(nullptr),
+	mLogoutMarkerFile(nullptr),
 	mReportedCrash(false),
 	mNumSessions(0),
 	mPurgeCache(false),
@@ -3779,6 +3779,7 @@ void LLAppViewer::removeMarkerFiles()
 		if (mMarkerFile)
 		{
 			LLFile::close(mMarkerFile);
+			mMarkerFile = nullptr;
 			LLFile::remove( mMarkerFileName );
 			LL_DEBUGS("MarkerFile") << "removed exec marker '"<<mMarkerFileName<<"'"<< LL_ENDL;
 		}
@@ -3790,6 +3791,7 @@ void LLAppViewer::removeMarkerFiles()
 		if (mLogoutMarkerFile)
 		{
 			LLFile::close(mLogoutMarkerFile);
+			mLogoutMarkerFile = nullptr;
 			LLFile::remove( mLogoutMarkerFileName );
 			LL_DEBUGS("MarkerFile") << "removed logout marker '"<<mLogoutMarkerFileName<<"'"<< LL_ENDL;
 		}

@@ -3668,7 +3668,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Ninja""</string>
+                  <string>"Ninja"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>

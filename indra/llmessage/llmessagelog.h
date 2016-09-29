@@ -41,12 +41,12 @@ public:
 		HTTP_RESPONSE,
 		LOG_TYPE_NUM
 	};
+	LLMessageLogEntry();
 	LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size);
 	LLMessageLogEntry(EType type, const std::string& url, const LLChannelDescriptors& channels,
 	                  const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id,
 	                  EHTTPMethod method = HTTP_INVALID, U32 status_code = 0);
 	LLMessageLogEntry(const LLMessageLogEntry& entry);
-	LLMessageLogEntry();
 	~LLMessageLogEntry();
 	EType mType;
 	LLHost mFromHost;

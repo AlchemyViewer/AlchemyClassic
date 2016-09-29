@@ -84,8 +84,8 @@ LLCrashLogger::LLCrashLogger() :
 	mCrashBehavior(CRASH_BEHAVIOR_ALWAYS_SEND),
 	mCrashInPreviousExec(false),
 	mCrashSettings("CrashSettings"),
-	mSentCrashLogs(false),
-	mCrashHost("")
+	mCrashHost(""),
+	mSentCrashLogs(false)
 {
 }
 

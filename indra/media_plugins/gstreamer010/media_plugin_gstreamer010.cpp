@@ -147,6 +147,7 @@ MediaPluginGStreamer010::MediaPluginGStreamer010(
 	LLPluginInstance::sendMessageFunction host_send_func,
 	void *host_user_data ) :
 	MediaPluginBase(host_send_func, host_user_data),
+	mCommand ( COMMAND_NONE ),
 	mBusWatchID ( 0 ),
 	mCurrentRowbytes ( 4 ),
 	mTextureFormatPrimary ( GL_RGBA ),
@@ -156,8 +157,7 @@ MediaPluginGStreamer010::MediaPluginGStreamer010(
 	mPump ( NULL ),
 	mPlaybin ( NULL ),
 	mVisualizer ( NULL ),
-	mVideoSink ( NULL ),
-	mCommand ( COMMAND_NONE )
+	mVideoSink ( NULL )
 {
 	std::ostringstream str;
 	INFOMSG("MediaPluginGStreamer010 constructor - my PID=%u", U32(getpid()));

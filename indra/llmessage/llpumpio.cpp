@@ -162,14 +162,14 @@ LLPumpIO::LLPumpIO(apr_pool_t* pool) :
 	mPollset(NULL),
 	mPollsetClientID(0),
 	mNextLock(0),
+	mCurrentChain(mRunningChains.end()),
 	mPool(NULL),
 	mCurrentPool(NULL),
-	mCurrentPoolReallocCount(0),
+	mCurrentPoolReallocCount(0)
 #if LL_THREADS_PUMPIO
 	mChainsMutex(NULL),
-	mCallbackMutex(NULL),
+	mCallbackMutex(NULL)
 #endif
-	mCurrentChain(mRunningChains.end())
 {
 	mCurrentChain = mRunningChains.end();
 
@@ -1168,9 +1168,9 @@ bool LLPumpIO::handleChainError(
 
 LLPumpIO::LLChainInfo::LLChainInfo() :
 	mInit(false),
-	mLock(0),
 	mEOS(false),
-	mHasCurlRequest(false)
+	mHasCurlRequest(false),
+	mLock(0)
 {
 	mTimer.setTimerExpirySec(DEFAULT_CHAIN_EXPIRY_SECS);
 }

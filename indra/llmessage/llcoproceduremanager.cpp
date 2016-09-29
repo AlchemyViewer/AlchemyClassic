@@ -281,8 +281,8 @@ LLCoprocedurePool::LLCoprocedurePool(const std::string &poolName, size_t size):
     mPendingCoprocs(),
     mShutdown(false),
     mWakeupTrigger("CoprocedurePool" + poolName, true),
-    mCoroMapping(),
-    mHTTPPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID)
+    mHTTPPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
+    mCoroMapping()
 {
     for (size_t count = 0; count < mPoolSize; ++count)
     {

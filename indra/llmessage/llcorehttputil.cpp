@@ -675,8 +675,8 @@ const std::string HttpCoroutineAdapter::HTTP_RESULTS_RAW("raw");
 HttpCoroutineAdapter::HttpCoroutineAdapter(const std::string &name,
     LLCore::HttpRequest::policy_t policyId, LLCore::HttpRequest::priority_t priority) :
     mAdapterName(name),
-    mPolicyId(policyId),
     mPriority(priority),
+    mPolicyId(policyId),
     mYieldingHandle(LLCORE_HTTP_HANDLE_INVALID),
     mWeakRequest(),
     mWeakHandler()

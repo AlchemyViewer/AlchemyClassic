@@ -35,10 +35,10 @@
 class LLImageDimensionsInfo
 {
 public:
-	LLImageDimensionsInfo():
-		mData(NULL)
-		,mHeight(0)
-		,mWidth(0)
+	LLImageDimensionsInfo()
+	: mData(NULL)
+	, mWidth(0)
+	, mHeight(0)
 	{}
 	~LLImageDimensionsInfo()
 	{

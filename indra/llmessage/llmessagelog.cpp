@@ -21,6 +21,15 @@
 
 static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);
 
+LLMessageLogEntry::LLMessageLogEntry()
+:	mType(NONE),
+	mFromHost(LLHost()),
+	mToHost(LLHost()),
+	mDataSize(0),
+	mData(NULL)
+{
+}
+
 LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size)
 :	mType(type),
 	mFromHost(from_host),
@@ -35,26 +44,17 @@ LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_hos
 	}
 }
 
-LLMessageLogEntry::LLMessageLogEntry()
-:	mType(NONE),
-	mFromHost(LLHost()),
-	mToHost(LLHost()),
-	mDataSize(0),
-	mData(NULL)
-{
-}
-
 LLMessageLogEntry::LLMessageLogEntry(EType type, const std::string& url, const LLChannelDescriptors& channels,
                                      const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id,
                                      EHTTPMethod method, U32 status_code)
     : mType(type),
-      mURL(url),
-      mHeaders(headers),
-      mRequestID(request_id),
-      mMethod(method),
-      mStatusCode(status_code),
       mDataSize(0),
-      mData(NULL)
+      mData(nullptr),
+      mURL(url),
+      mStatusCode(status_code),
+      mMethod(method),
+      mHeaders(headers),
+      mRequestID(request_id)
 {
 	if(buffer.get())
 	{
@@ -73,15 +73,15 @@ LLMessageLogEntry::LLMessageLogEntry(EType type, const std::string& url, const L
 }
 
 LLMessageLogEntry::LLMessageLogEntry(const LLMessageLogEntry& entry)
-    : mDataSize(entry.mDataSize),
-      mType(entry.mType),
-      mToHost(entry.mToHost),
+    : mType(entry.mType),
       mFromHost(entry.mFromHost),
+      mToHost(entry.mToHost),
+      mDataSize(entry.mDataSize),
       mURL(entry.mURL),
-      mHeaders(entry.mHeaders),
-      mRequestID(entry.mRequestID),
+      mStatusCode(entry.mStatusCode),
       mMethod(entry.mMethod),
-      mStatusCode(entry.mStatusCode)
+      mHeaders(entry.mHeaders),
+      mRequestID(entry.mRequestID)
 {
 	mData = new U8[mDataSize];
 	memcpy(mData, entry.mData, mDataSize);

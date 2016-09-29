@@ -53,10 +53,10 @@ std::string LLImageJ2C::getEngineInfo()
 
 LLImageJ2C::LLImageJ2C() : 	LLImageFormatted(IMG_CODEC_J2C),
 							mMaxBytes(0),
+							mAreaUsedForDataSizeCalcs(0),
 							mRawDiscardLevel(-1),
 							mRate(DEFAULT_COMPRESSION_RATE),
-							mReversible(false),
-							mAreaUsedForDataSizeCalcs(0)
+							mReversible(false)
 {
 	mImpl.reset(fallbackCreateLLImageJ2CImpl());
 	claimMem(mImpl);

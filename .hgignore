@@ -18,7 +18,7 @@ build-vc100*
 build-vc110*
 build-vc120*
 build-vc140*
-qtcreator-build/
+build-qt*
 indra-build/
 indra/build-vc[0-9]*
 indra/CMakeFiles

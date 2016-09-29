@@ -309,11 +309,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
-#ifndef LL_LINUX
 	info["LLCEFLIB_VERSION"] = LLCEFLIB_VERSION;
-#else
-	info["LLCEFLIB_VERSION"] = "UNDEFINED";
-#endif
 
 	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
 	if (packets_in > 0)

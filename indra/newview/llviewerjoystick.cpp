@@ -272,7 +272,9 @@ void LLViewerJoystick::terminate()
 	ndof_libcleanup();
     if (mNdofDev)
     {
+#if LL_LINUX // libndofdev-open doesn't free memory, currently only on Linux
         free(mNdofDev);
+#endif
         mNdofDev = nullptr;
     }
 	LL_INFOS() << "Terminated connection with NDOF device." << LL_ENDL;

@@ -64,9 +64,7 @@
 #include "lleventapi.h"
 #include "llcorehttputil.h"
 
-#ifndef LL_LINUX
 #include <cef/llceflib.h>
-#endif
 
 #if LL_WINDOWS
 #include "lldxhardware.h"

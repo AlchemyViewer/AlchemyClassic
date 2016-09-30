@@ -42,7 +42,8 @@
 
 #if LL_GTK
 extern "C" {
-# include <gtk/gtk.h>
+#include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #if GTK_CHECK_VERSION(2, 24, 0)
 #include <gdk/gdkx.h>
 #endif
@@ -2218,7 +2219,11 @@ S32 OSMessageBoxSDL(const std::string& text, const std::string& caption, U32 typ
 			gWindowImplementation->mSDL_XWindowID != None)
 		{
 			gtk_widget_realize(GTK_WIDGET(win)); // so we can get its gdkwin
-			GdkWindow *gdkwin = gdk_window_foreign_new(gWindowImplementation->mSDL_XWindowID);
+#if GTK_CHECK_VERSION(2, 24, 0)
+            GdkWindow* gdkwin = gdk_x11_window_foreign_new_for_display(gdk_display_get_default(), static_cast<Window>(gWindowImplementation->mSDL_XWindowID));
+#else
+			GdkWindow* gdkwin = gdk_window_foreign_new(static_cast<GdkNativeWindow>(gWindowImplementation->mSDL_XWindowID));
+#endif
 			gdk_window_set_transient_for(gtk_widget_get_window(GTK_WIDGET(win)), gdkwin);
 		}
 # endif //LL_X11
@@ -2333,7 +2338,11 @@ BOOL LLWindowSDL::dialogColorPicker( F32 *r, F32 *g, F32 *b)
 		if (mSDL_XWindowID != None)
 		{
 			gtk_widget_realize(GTK_WIDGET(win)); // so we can get its gdkwin
-			GdkWindow *gdkwin = gdk_window_foreign_new(mSDL_XWindowID);
+#if GTK_CHECK_VERSION(2, 24, 0)
+            GdkWindow* gdkwin = gdk_x11_window_foreign_new_for_display(gdk_display_get_default(), static_cast<Window>(mSDL_XWindowID));
+#else
+			GdkWindow* gdkwin = gdk_window_foreign_new(static_cast<GdkNativeWindow>(mSDL_XWindowID));
+#endif
 			gdk_window_set_transient_for(gtk_widget_get_window(GTK_WIDGET(win)), gdkwin);
 		}
 # endif //LL_X11

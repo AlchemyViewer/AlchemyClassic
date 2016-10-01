@@ -370,10 +370,11 @@ void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 		script_notification_map_t::const_iterator it = findUsingObjectId(object_id);
 		if(it != mNotifications.end())
 		{
+			LLUUID old_id = it->first; // </alchemy> copy LLUUID to prevent use after free
 			LLChicletPanel * chiclet_panelp = LLChicletBar::getInstance()->getChicletPanel();
 			if (NULL != chiclet_panelp)
 			{
-				LLIMChiclet * chicletp = chiclet_panelp->findChiclet<LLIMChiclet>(it->first);
+				LLIMChiclet * chicletp = chiclet_panelp->findChiclet<LLIMChiclet>(old_id);
 				if(NULL != chicletp)
 				{
 					// Pass the new_message icon state further.
@@ -382,14 +383,13 @@ void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 				}
 			}
 
-			LLScriptFloater* floater = LLFloaterReg::findTypedInstance<LLScriptFloater>("script_floater", it->first);
+			LLScriptFloater* floater = LLFloaterReg::findTypedInstance<LLScriptFloater>("script_floater", old_id);
 			if(floater)
 			{
 				// Generate chiclet with a "new message" indicator if a docked window was opened but not in focus. See EXT-3142.
 				set_new_message |= !floater->hasFocus();
 			}
-
-			removeNotification(it->first);
+			removeNotification(old_id);
 		}
 	}
 

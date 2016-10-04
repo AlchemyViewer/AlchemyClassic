@@ -27,9 +27,9 @@
 #include "linden_common.h"
 #include "llavatarappearancedefines.h"
 
-constexpr S32 LLAvatarAppearanceDefines::SCRATCH_TEX_WIDTH = 512;
-constexpr S32 LLAvatarAppearanceDefines::SCRATCH_TEX_HEIGHT = 512;
-constexpr S32 LLAvatarAppearanceDefines::IMPOSTOR_PERIOD = 2;
+const S32 LLAvatarAppearanceDefines::SCRATCH_TEX_WIDTH = 512;
+const S32 LLAvatarAppearanceDefines::SCRATCH_TEX_HEIGHT = 512;
+const S32 LLAvatarAppearanceDefines::IMPOSTOR_PERIOD = 2;
 
 using namespace LLAvatarAppearanceDefines;
 

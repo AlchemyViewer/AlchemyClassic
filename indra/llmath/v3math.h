@@ -31,7 +31,6 @@
 #include "llmath.h"
 
 #include "llsd.h"
-
 class LLVector2;
 class LLVector4;
 class LLMatrix3;
@@ -41,7 +40,7 @@ class LLQuaternion;
 
 //  LLvector3 = |x y z w|
 
-static constexpr U32 LENGTHOFVECTOR3 = 3;
+static const U32 LENGTHOFVECTOR3 = 3;
 
 class LLVector3
 {

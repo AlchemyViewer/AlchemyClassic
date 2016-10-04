@@ -41,7 +41,7 @@ HttpStatus::type_enum_t LLCORE;
 
 HttpStatus::operator unsigned long() const
 {
-	static constexpr int shift(16);
+	static const int shift(16);
 
 	unsigned long result(((unsigned long)mDetails->mType) << shift | (unsigned long)(int)mDetails->mStatus);
 	return result;
@@ -74,7 +74,7 @@ std::string HttpStatus::toString() const
 			"Invalid HTTP status code received from server",
 			"Could not allocate required resource"
 		};
-	static constexpr int llcore_errors_count(sizeof(llcore_errors) / sizeof(llcore_errors[0]));
+	static const int llcore_errors_count(sizeof(llcore_errors) / sizeof(llcore_errors[0]));
 
 	static const struct
 	{
@@ -126,7 +126,7 @@ std::string HttpStatus::toString() const
 			{ 504, "Gateway Time-out" },
 			{ 505, "HTTP Version not supported" }
 		};
-	static constexpr int http_errors_count(sizeof(http_errors) / sizeof(http_errors[0]));
+	static const int http_errors_count(sizeof(http_errors) / sizeof(http_errors[0]));
 	
 	if (*this)
 	{

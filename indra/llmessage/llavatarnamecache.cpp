@@ -90,13 +90,13 @@ namespace LLAvatarNameCache
 	LLFrameTimer sRequestTimer;
 
     // Maximum time an unrefreshed cache entry is allowed.
-    constexpr F64 MAX_UNREFRESHED_TIME = 20.0 * 60.0;
+    const F64 MAX_UNREFRESHED_TIME = 20.0 * 60.0;
 
     // Time when unrefreshed cached names were checked last.
     static F64 sLastExpireCheck;
 
 	// Time-to-live for a temp cache entry.
-	constexpr F64 TEMP_CACHE_ENTRY_LIFETIME = 60.0;
+	const F64 TEMP_CACHE_ENTRY_LIFETIME = 60.0;
 
     LLCore::HttpRequest::ptr_t		sHttpRequest;
     LLCore::HttpHeaders::ptr_t		sHttpHeaders;

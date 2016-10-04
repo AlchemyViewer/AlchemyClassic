@@ -44,7 +44,7 @@
 // Third party library includes
 #include <boost/tokenizer.hpp>
 
-constexpr S32 BOLD_OFFSET = 1;
+const S32 BOLD_OFFSET = 1;
 
 // static class members
 F32 LLFontGL::sVertDPI = 96.f;
@@ -61,8 +61,8 @@ LLCoordGL LLFontGL::sCurOrigin;
 F32 LLFontGL::sCurDepth;
 std::vector<std::pair<LLCoordGL, F32> > LLFontGL::sOriginStack;
 
-constexpr F32 PAD_UVY = 0.5f; // half of vertical padding between glyphs in the glyph texture
-constexpr F32 DROP_SHADOW_SOFT_STRENGTH = 0.3f;
+const F32 PAD_UVY = 0.5f; // half of vertical padding between glyphs in the glyph texture
+const F32 DROP_SHADOW_SOFT_STRENGTH = 0.3f;
 
 LLFontGL::LLFontGL()
 {

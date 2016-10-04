@@ -43,11 +43,11 @@
 const std::string CONTEXT_REMOTE_HOST("remote-host");
 const std::string CONTEXT_REMOTE_PORT("remote-port");
 
-static constexpr S32 LL_DEFAULT_LISTEN_BACKLOG = 10;
-static constexpr S32 LL_SEND_BUFFER_SIZE = 40000;
-static constexpr S32 LL_RECV_BUFFER_SIZE = 40000;
-//static constexpr U16 LL_PORT_DISCOVERY_RANGE_MIN = 13000;
-//static constexpr U16 LL_PORT_DISCOVERY_RANGE_MAX = 13050;
+static const S32 LL_DEFAULT_LISTEN_BACKLOG = 10;
+static const S32 LL_SEND_BUFFER_SIZE = 40000;
+static const S32 LL_RECV_BUFFER_SIZE = 40000;
+//static const U16 LL_PORT_DISCOVERY_RANGE_MIN = 13000;
+//static const U16 LL_PORT_DISCOVERY_RANGE_MAX = 13050;
 
 //
 // local methods 
@@ -665,7 +665,7 @@ LLIODataSocket::LLIODataSocket(
 	apr_status_t status = apr_socket_bind(mSocket, sa);
 	if((start_discovery_port > 0) && is_addr_in_use(status))
 	{
-		constexpr U16 MAX_ATTEMPT_PORTS = 50;
+		const U16 MAX_ATTEMPT_PORTS = 50;
 		for(U16 attempt_port = start_discovery_port;
 			attempt_port < (start_discovery_port + MAX_ATTEMPT_PORTS);
 			++attempt_port)

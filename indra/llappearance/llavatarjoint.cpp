@@ -35,7 +35,7 @@
 #include "llglheaders.h"
 #include "llavatarappearance.h"
 
-constexpr F32 DEFAULT_AVATAR_JOINT_LOD = 0.0f;
+const F32 DEFAULT_AVATAR_JOINT_LOD = 0.0f;
 
 //-----------------------------------------------------------------------------
 // Static Data

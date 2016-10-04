@@ -51,8 +51,8 @@ static LLDefaultChildRegistry::Register<LLJoystickCameraTrack> r5("joystick_trac
 
 
 
-constexpr F32 NUDGE_TIME = 0.25f;		// in seconds
-constexpr F32 ORBIT_NUDGE_RATE = 0.05f; // fraction of normal speed
+const F32 NUDGE_TIME = 0.25f;		// in seconds
+const F32 ORBIT_NUDGE_RATE = 0.05f; // fraction of normal speed
 
 //
 // Public Methods

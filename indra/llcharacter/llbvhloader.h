@@ -32,7 +32,7 @@
 #include "llmath.h"
 #include "llbvhconsts.h"
 
-constexpr S32 BVH_PARSER_LINE_SIZE = 2048;
+const S32 BVH_PARSER_LINE_SIZE = 2048;
 class LLDataPacker;
 
 //------------------------------------------------------------------------

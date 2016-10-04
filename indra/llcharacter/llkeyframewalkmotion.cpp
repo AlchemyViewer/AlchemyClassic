@@ -38,15 +38,15 @@
 //-----------------------------------------------------------------------------
 // Macros
 //-----------------------------------------------------------------------------
-constexpr F32 MAX_WALK_PLAYBACK_SPEED = 8.f;		// max m/s for which we adjust walk cycle speed
+const F32 MAX_WALK_PLAYBACK_SPEED = 8.f;		// max m/s for which we adjust walk cycle speed
 
-constexpr F32 MIN_WALK_SPEED = 0.1f;				// minimum speed at which we use velocity for down foot detection
-constexpr F32 TIME_EPSILON = 0.001f;				// minumum frame time
-constexpr F32 MAX_TIME_DELTA = 2.f;					// max two seconds a frame for calculating interpolation
-constexpr F32 SPEED_ADJUST_MAX_SEC = 2.f;			// maximum adjustment to walk animation playback speed for a second
-constexpr F32 ANIM_SPEED_MAX = 1.5f;				// absolute upper limit on animation speed
-constexpr F32 MAX_ROLL = 0.6f;
-constexpr F32 SPEED_ADJUST_TIME_CONSTANT = 0.1f; 	// time constant for speed adjustment interpolation
+const F32 MIN_WALK_SPEED = 0.1f;				// minimum speed at which we use velocity for down foot detection
+const F32 TIME_EPSILON = 0.001f;				// minumum frame time
+const F32 MAX_TIME_DELTA = 2.f;					// max two seconds a frame for calculating interpolation
+F32 SPEED_ADJUST_MAX_SEC = 2.f;					// maximum adjustment to walk animation playback speed for a second
+F32 ANIM_SPEED_MAX = 1.5f;						// absolute upper limit on animation speed
+const F32 MAX_ROLL = 0.6f;
+const F32 SPEED_ADJUST_TIME_CONSTANT = 0.1f; 	// time constant for speed adjustment interpolation
 
 //-----------------------------------------------------------------------------
 // LLKeyframeWalkMotion()

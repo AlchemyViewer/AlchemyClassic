@@ -29,7 +29,7 @@
 #include "llframetimer.h"
 #include "lleventtimer.h"
 
-constexpr F32 DEFAULT_CONFIG_FILE_REFRESH = 5.0f;
+const F32 DEFAULT_CONFIG_FILE_REFRESH = 5.0f;
 
 
 class LLLiveFile::Impl

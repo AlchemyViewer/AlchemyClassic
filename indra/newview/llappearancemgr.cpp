@@ -68,8 +68,8 @@
 
 namespace 
 {
-    constexpr S32   BAKE_RETRY_MAX_COUNT = 5;
-    constexpr F32   BAKE_RETRY_TIMEOUT = 2.0F;
+    const S32   BAKE_RETRY_MAX_COUNT = 5;
+    const F32   BAKE_RETRY_TIMEOUT = 2.0F;
 }
 
 // *TODO$: LLInventoryCallback should be deprecated to conform to the new boost::bind/coroutine model.

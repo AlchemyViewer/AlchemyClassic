@@ -41,7 +41,7 @@ extern const S32 SCRATCH_TEX_WIDTH;
 extern const S32 SCRATCH_TEX_HEIGHT;
 extern const S32 IMPOSTOR_PERIOD;
 
-static constexpr U32 AVATAR_HOVER = 11001;
+static const U32 AVATAR_HOVER = 11001;
 
 //--------------------------------------------------------------------
 // Enums

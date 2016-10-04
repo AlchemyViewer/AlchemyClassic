@@ -124,10 +124,10 @@ void ALPanelMusicTicker::drawOscilloscope() //called via draw.
 	if(!gAudiop || !mVisualizer || !gAudiop->getStreamingAudioImpl()->supportsWaveData())
 		return;
 
-	static constexpr S32 NUM_LINE_STRIPS = 64;			//How many lines to draw. 64 is more than enough.
-	static constexpr S32 WAVE_DATA_STEP_SIZE = 4;		//Increase to provide more history at expense of cpu/memory.
+	static const S32 NUM_LINE_STRIPS = 64;			//How many lines to draw. 64 is more than enough.
+	static const S32 WAVE_DATA_STEP_SIZE = 4;		//Increase to provide more history at expense of cpu/memory.
 
-	static constexpr S32 NUM_WAVE_DATA_VALUES = NUM_LINE_STRIPS * WAVE_DATA_STEP_SIZE;	//Actual buffer size. Don't toy with this. Change above vars to tweak.
+	static const S32 NUM_WAVE_DATA_VALUES = NUM_LINE_STRIPS * WAVE_DATA_STEP_SIZE;	//Actual buffer size. Don't toy with this. Change above vars to tweak.
 	static F32 buf[NUM_WAVE_DATA_VALUES];
 
 	const LLRect& root_rect = mVisualizer->getRect();

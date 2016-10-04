@@ -27,7 +27,7 @@
 #ifndef LL_LLBVHCONSTS_H
 #define LL_LLBVHCONSTS_H
 
-constexpr F32 MAX_ANIM_DURATION = 60.f;
+const F32 MAX_ANIM_DURATION = 60.f;
 
 typedef enum e_constraint_type
 	{

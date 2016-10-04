@@ -75,9 +75,9 @@ public:
 	LLTimer mAgentGone;
 };
 
-constexpr F32 COARSE_FREQUENCY = 2.2f;
-constexpr F32 FIND_FREQUENCY = 29.7f;	// This results in a database query, so cut these back
-constexpr F32 OFFLINE_SECONDS = FIND_FREQUENCY + 8.0f;
+const F32 COARSE_FREQUENCY = 2.2f;
+const F32 FIND_FREQUENCY = 29.7f;	// This results in a database query, so cut these back
+const F32 OFFLINE_SECONDS = FIND_FREQUENCY + 8.0f;
 
 static void on_avatar_name_cache_notify(const LLUUID& agent_id,
 										const LLAvatarName& av_name,

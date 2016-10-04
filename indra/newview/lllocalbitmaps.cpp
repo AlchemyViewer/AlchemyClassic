@@ -73,12 +73,12 @@ std::list<LLLocalBitmap*>   LLLocalBitmapMgr::sBitmapList;
 LLLocalBitmapTimer          LLLocalBitmapMgr::sTimer;
 bool                        LLLocalBitmapMgr::sNeedsRebake;
 
-static constexpr F32 LL_LOCAL_TIMER_HEARTBEAT   = 3.0;
-static constexpr BOOL LL_LOCAL_USE_MIPMAPS      = true;
-static constexpr S32 LL_LOCAL_DISCARD_LEVEL     = 0;
-static constexpr bool LL_LOCAL_SLAM_FOR_DEBUG   = true;
-static constexpr bool LL_LOCAL_REPLACE_ON_DEL   = true;
-static constexpr S32 LL_LOCAL_UPDATE_RETRIES    = 5;
+static const F32 LL_LOCAL_TIMER_HEARTBEAT   = 3.0;
+static const BOOL LL_LOCAL_USE_MIPMAPS      = true;
+static const S32 LL_LOCAL_DISCARD_LEVEL     = 0;
+static const bool LL_LOCAL_SLAM_FOR_DEBUG   = true;
+static const bool LL_LOCAL_REPLACE_ON_DEL   = true;
+static const S32 LL_LOCAL_UPDATE_RETRIES    = 5;
 
 /*=======================================*/
 /*  LLLocalBitmap: unit class            */

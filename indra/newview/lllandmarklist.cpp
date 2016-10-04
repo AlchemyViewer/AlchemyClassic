@@ -73,7 +73,7 @@ LLLandmark* LLLandmarkList::getAsset(const LLUUID& asset_uuid, loaded_callback_t
 		landmark_requested_list_t::iterator iter = mRequestedList.find(asset_uuid);
 		if (iter != mRequestedList.end())
 		{
-			constexpr F32 rerequest_time = 30.f; // 30 seconds between requests
+			const F32 rerequest_time = 30.f; // 30 seconds between requests
 			if (gFrameTimeSeconds - iter->second < rerequest_time)
 			{
 				return NULL;

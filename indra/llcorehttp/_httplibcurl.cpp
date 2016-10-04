@@ -602,7 +602,7 @@ struct curl_slist * append_headers_to_slist(const HttpHeaders::ptr_t &headers, s
 	const HttpHeaders::const_iterator end(headers->end());
 	for (HttpHeaders::const_iterator it(headers->begin()); end != it; ++it)
 	{
-		static constexpr char sep[] = ": ";
+		static const char sep[] = ": ";
 		std::string header;
 		header.reserve((*it).first.size() + (*it).second.size() + sizeof(sep));
 		header.append((*it).first);

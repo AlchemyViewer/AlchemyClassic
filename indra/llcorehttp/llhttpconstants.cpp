@@ -136,22 +136,22 @@ const std::string HTTP_VERB_OPTIONS("OPTIONS");
 const std::string HTTP_VERB_PATCH("PATCH");
 const std::string HTTP_VERB_COPY("COPY");
 
-static const std::string VERBS [] = {
-    HTTP_VERB_INVALID,
-    HTTP_VERB_HEAD,
-    HTTP_VERB_GET,
-    HTTP_VERB_PUT,
-    HTTP_VERB_POST,
-    HTTP_VERB_DELETE,
-    HTTP_VERB_MOVE,
-    HTTP_VERB_OPTIONS,
-    HTTP_VERB_PATCH,
-    HTTP_VERB_COPY
-};
-
 const std::string& httpMethodAsVerb(EHTTPMethod method)
 {
-	if ((method <= HTTP_INVALID) || (method >= HTTP_METHOD_COUNT))
+	static const std::string VERBS [] =
+	{
+		HTTP_VERB_INVALID,
+		HTTP_VERB_HEAD,
+		HTTP_VERB_GET,
+		HTTP_VERB_PUT,
+		HTTP_VERB_POST,
+		HTTP_VERB_DELETE,
+		HTTP_VERB_MOVE,
+		HTTP_VERB_OPTIONS,
+		HTTP_VERB_PATCH,
+		HTTP_VERB_COPY
+	};
+	if (((S32) method <= 0) || ((S32) method >= HTTP_METHOD_COUNT))
 	{
 		return VERBS[0];
 	}
@@ -160,12 +160,25 @@ const std::string& httpMethodAsVerb(EHTTPMethod method)
 
 EHTTPMethod httpVerbAsMethod(const std::string& verb)
 {
-    for (U32 i = 0; i < HTTP_METHOD_COUNT; ++i)
+	static const std::string VERBS [] = {
+		HTTP_VERB_INVALID,
+		HTTP_VERB_HEAD,
+		HTTP_VERB_GET,
+		HTTP_VERB_PUT,
+		HTTP_VERB_POST,
+		HTTP_VERB_DELETE,
+		HTTP_VERB_MOVE,
+		HTTP_VERB_OPTIONS,
+		HTTP_VERB_PATCH,
+		HTTP_VERB_COPY
+	};
+
+	for (int i = 0; i<HTTP_METHOD_COUNT; ++i)
 	{
 		if (VERBS[i] == verb)
 			return (EHTTPMethod) i;
 	}
-    return HTTP_INVALID;
+	return HTTP_INVALID;
 }
 
 std::string get_base_cap_url(std::string url)

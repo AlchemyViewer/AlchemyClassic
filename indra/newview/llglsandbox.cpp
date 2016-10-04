@@ -65,7 +65,7 @@
 #include "llviewershadermgr.h"
 
 // Height of the yellow selection highlight posts for land
-constexpr F32 PARCEL_POST_HEIGHT = 0.666f;
+const F32 PARCEL_POST_HEIGHT = 0.666f;
 
 // Returns true if you got at least one object
 void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
@@ -241,7 +241,7 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 	gViewerWindow->setup3DRender();
 }
 
-constexpr F32 WIND_RELATIVE_ALTITUDE			= 25.f;
+const F32 WIND_RELATIVE_ALTITUDE			= 25.f;
 
 void LLWind::renderVectors()
 {
@@ -302,7 +302,7 @@ void LLViewerParcelMgr::renderRect(const LLVector3d &west_south_bottom_global,
 
 	// HACK: At edge of last region of world, we need to make sure the region
 	// resolves correctly so we can get a height value.
-	constexpr F32 FUDGE = 0.01f;
+	const F32 FUDGE = 0.01f;
 
 	F32 sw_bottom = LLWorld::getInstance()->resolveLandHeightAgent( LLVector3( west, south, 0.f ) );
 	F32 se_bottom = LLWorld::getInstance()->resolveLandHeightAgent( LLVector3( east-FUDGE, south, 0.f ) );
@@ -455,7 +455,7 @@ void LLViewerParcelMgr::renderOneSegment(F32 x1, F32 y1, F32 x2, F32 y2, F32 hei
 {
 	// HACK: At edge of last region of world, we need to make sure the region
 	// resolves correctly so we can get a height value.
-	constexpr F32 BORDER = REGION_WIDTH_METERS - 0.1f;
+	const F32 BORDER = REGION_WIDTH_METERS - 0.1f;
 
 	F32 clamped_x1 = x1;
 	F32 clamped_y1 = y1;
@@ -649,10 +649,10 @@ void LLViewerParcelMgr::renderCollisionSegments(U8* segments, BOOL use_pass, LLV
 		{
 			U8 segment_mask = segments[x + y*STRIDE];
 			U8 direction;
-			constexpr F32 MAX_ALPHA = 0.95f;
-			constexpr S32 DIST_OFFSET = 5;
-			constexpr S32 MIN_DIST_SQ = DIST_OFFSET*DIST_OFFSET;
-			constexpr S32 MAX_DIST_SQ = 169;
+			const F32 MAX_ALPHA = 0.95f;
+			const S32 DIST_OFFSET = 5;
+			const S32 MIN_DIST_SQ = DIST_OFFSET*DIST_OFFSET;
+			const S32 MAX_DIST_SQ = 169;
 
 			if (segment_mask & SOUTH_MASK)
 			{
@@ -929,13 +929,13 @@ F32 gpu_benchmark()
 	// - taking the median time for a given number of samples
 	
 	//resolution of textures/render targets
-	constexpr U32 res = 1024;
+	const U32 res = 1024;
 	
 	//number of textures
-	constexpr U32 count = 32;
+	const U32 count = 32;
 
 	//number of samples to take
-	constexpr S32 samples = 64;
+	const S32 samples = 64;
 
 	LLGLSLShader::initProfile();
 

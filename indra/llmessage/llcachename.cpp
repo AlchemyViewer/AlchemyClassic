@@ -47,7 +47,7 @@ static const std::string NAME("name");
 
 // We track name requests in flight for up to this long.
 // We won't re-request a name during this time
-constexpr U32 PENDING_TIMEOUT_SECS = 5 * 60;
+const U32 PENDING_TIMEOUT_SECS = 5 * 60;
 
 // Globals
 LLCacheName* gCacheName = NULL;

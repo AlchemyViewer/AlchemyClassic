@@ -37,8 +37,8 @@
 //-----------------------------------------------------------------------------
 #define GO_TO_KEY_POSE	1
 #define MIN_TRACK_SPEED 0.01f
-constexpr F32 ROTATION_THRESHOLD = 0.6f;
-constexpr F32 POSITION_THRESHOLD = 0.1f;
+const F32 ROTATION_THRESHOLD = 0.6f;
+const F32 POSITION_THRESHOLD = 0.1f;
 
 //-----------------------------------------------------------------------------
 // LLKeyframeStandMotion()

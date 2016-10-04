@@ -151,7 +151,7 @@ void HttpPolicy::addOp(const HttpOpRequest::ptr_t &op)
 
 void HttpPolicy::retryOp(const HttpOpRequest::ptr_t &op)
 {
-	static constexpr HttpTime retry_deltas[] =
+	static const HttpTime retry_deltas[] =
 		{
 			 250000,			// 1st retry in 0.25 S, etc...
 			 500000,
@@ -159,7 +159,7 @@ void HttpPolicy::retryOp(const HttpOpRequest::ptr_t &op)
 			2000000,
 			5000000				// ... to every 5.0 S.
 		};
-	static constexpr int delta_max(int(LL_ARRAY_SIZE(retry_deltas)) - 1);
+	static const int delta_max(int(LL_ARRAY_SIZE(retry_deltas)) - 1);
 	static const HttpStatus error_503(503);
 
 	const HttpTime now(totalTime());

@@ -40,7 +40,7 @@ class LLColor4;
 
 //  LLColor4U = | red green blue alpha |
 
-static constexpr U32 LENGTHOFCOLOR4U = 4;
+static const U32 LENGTHOFCOLOR4U = 4;
 
 
 class LLColor4U

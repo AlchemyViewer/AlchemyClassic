@@ -29,7 +29,7 @@
 
 #include "llerror.h"
 
-constexpr U32 MAX_DATA_BITS = 8;
+const U32 MAX_DATA_BITS = 8;
 
 
 class LLBitPack

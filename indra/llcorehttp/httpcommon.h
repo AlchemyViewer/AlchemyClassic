@@ -343,9 +343,9 @@ struct HttpStatus
         return *this;
     }
 	
-	static constexpr type_enum_t EXT_CURL_EASY = 0;			///< mStatus is an error from a curl_easy_*() call
-	static constexpr type_enum_t EXT_CURL_MULTI = 1;		///< mStatus is an error from a curl_multi_*() call
-	static constexpr type_enum_t LLCORE = 2;				///< mStatus is an HE_* error code
+	static const type_enum_t EXT_CURL_EASY = 0;			///< mStatus is an error from a curl_easy_*() call
+	static const type_enum_t EXT_CURL_MULTI = 1;		///< mStatus is an error from a curl_multi_*() call
+	static const type_enum_t LLCORE = 2;				///< mStatus is an HE_* error code
 														///< 100-999 directly represent HTTP status codes
 	/// Test for successful status in the code regardless
 	/// of error source (internal, libcurl).

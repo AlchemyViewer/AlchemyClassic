@@ -34,12 +34,12 @@
 #include "llfocusmgr.h"
 #include "lllocalcliprect.h"
 
-static constexpr S32 BORDER_MARGIN = 2;
-static constexpr S32 PARENT_BORDER_MARGIN = 5;
-static constexpr S32 VERTICAL_MULTIPLE = 16;
-static constexpr F32 MIN_AUTO_SCROLL_RATE = 120.f;
-static constexpr F32 MAX_AUTO_SCROLL_RATE = 500.f;
-static constexpr F32 AUTO_SCROLL_RATE_ACCEL = 120.f;
+static const S32 BORDER_MARGIN = 2;
+static const S32 PARENT_BORDER_MARGIN = 5;
+static const S32 VERTICAL_MULTIPLE = 16;
+static const F32 MIN_AUTO_SCROLL_RATE = 120.f;
+static const F32 MAX_AUTO_SCROLL_RATE = 500.f;
+static const F32 AUTO_SCROLL_RATE_ACCEL = 120.f;
 
 // LLAccordionCtrl =================================================================|
 

@@ -35,10 +35,10 @@ typedef struct _script_perm {
 	question(q), permbit(b), caution(c) {}
 } script_perm_t;
 
-constexpr U32 NUM_SCRIPT_PERMISSIONS = 16;
-constexpr S32 SCRIPT_PERMISSION_DEBIT = 0;
-constexpr S32 SCRIPT_PERMISSION_TRIGGER_ANIMATION = 3;
-constexpr S32 SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS = 14;
+const U32 NUM_SCRIPT_PERMISSIONS = 16;
+const S32 SCRIPT_PERMISSION_DEBIT = 0;
+const S32 SCRIPT_PERMISSION_TRIGGER_ANIMATION = 3;
+const S32 SCRIPT_PERMISSION_OVERRIDE_ANIMATIONS = 14;
 
 static const std::array<script_perm_t, NUM_SCRIPT_PERMISSIONS> SCRIPT_PERMISSIONS {{
 	_script_perm("ScriptTakeMoney",		(0x1 << 1),  true),

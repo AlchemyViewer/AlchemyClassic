@@ -32,7 +32,7 @@
 #include "llbuffer.h"
 #include "llthread.h"
 
-static constexpr S32 DEFAULT_OUTPUT_SEGMENT_SIZE = 1024 * 4;
+static const S32 DEFAULT_OUTPUT_SEGMENT_SIZE = 1024 * 4;
 
 /*
  * LLBufferStreamBuf

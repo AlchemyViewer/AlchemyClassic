@@ -47,7 +47,7 @@ extern LLAudioEngine *gAudiop;
 
 LLAudioDecodeMgr *gAudioDecodeMgrp = NULL;
 
-static constexpr S32 WAV_HEADER_SIZE = 44;
+static const S32 WAV_HEADER_SIZE = 44;
 
 
 //////////////////////////////////////////////////////////////////////////////

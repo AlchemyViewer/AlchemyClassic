@@ -37,7 +37,7 @@ class LLVector4;
 
 //  LLColor3 = |r g b|
 
-static constexpr U32 LENGTHOFCOLOR3 = 3;
+static const U32 LENGTHOFCOLOR3 = 3;
 
 class LLColor3
 {

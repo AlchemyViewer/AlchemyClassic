@@ -106,17 +106,17 @@ namespace LLCore
 // Maxium number of policy classes that can be defined.
 // *TODO:  Currently limited to the default class + 1, extend. 
 // (TSN: should this be more dynamically sized.  Is there a reason to hard limit the number of policies?)
-constexpr int HTTP_POLICY_CLASS_LIMIT = 32;
+const int HTTP_POLICY_CLASS_LIMIT = 32;
 
 // Debug/informational tracing.  Used both
 // as a global option and in per-request traces.
-constexpr int HTTP_TRACE_OFF = 0;
-constexpr int HTTP_TRACE_LOW = 1;
-constexpr int HTTP_TRACE_CURL_HEADERS = 2;
-constexpr int HTTP_TRACE_CURL_BODIES = 3;
+const int HTTP_TRACE_OFF = 0;
+const int HTTP_TRACE_LOW = 1;
+const int HTTP_TRACE_CURL_HEADERS = 2;
+const int HTTP_TRACE_CURL_BODIES = 3;
 
-constexpr int HTTP_TRACE_MIN = HTTP_TRACE_OFF;
-constexpr int HTTP_TRACE_MAX = HTTP_TRACE_CURL_BODIES;
+const int HTTP_TRACE_MIN = HTTP_TRACE_OFF;
+const int HTTP_TRACE_MAX = HTTP_TRACE_CURL_BODIES;
 
 // Request retry limits
 //
@@ -127,38 +127,38 @@ constexpr int HTTP_TRACE_MAX = HTTP_TRACE_CURL_BODIES;
 // We want to span a few windows to allow transport to slow
 // after onset of the throttles and then recover without a final
 // failure.  Other systems may need other constants.
-constexpr int HTTP_RETRY_COUNT_DEFAULT = 8;
-constexpr int HTTP_RETRY_COUNT_MIN = 0;
-constexpr int HTTP_RETRY_COUNT_MAX = 100;
+const int HTTP_RETRY_COUNT_DEFAULT = 8;
+const int HTTP_RETRY_COUNT_MIN = 0;
+const int HTTP_RETRY_COUNT_MAX = 100;
 
-constexpr int HTTP_REDIRECTS_DEFAULT = 10;
+const int HTTP_REDIRECTS_DEFAULT = 10;
 
 // Timeout value used for both connect and protocol exchange.
 // Retries and time-on-queue are not included and aren't
 // accounted for.
-constexpr long HTTP_REQUEST_TIMEOUT_DEFAULT = 30L;
-constexpr long HTTP_REQUEST_XFER_TIMEOUT_DEFAULT = 0L;
-constexpr long HTTP_REQUEST_TIMEOUT_MIN = 0L;
-constexpr long HTTP_REQUEST_TIMEOUT_MAX = 3600L;
+const long HTTP_REQUEST_TIMEOUT_DEFAULT = 30L;
+const long HTTP_REQUEST_XFER_TIMEOUT_DEFAULT = 0L;
+const long HTTP_REQUEST_TIMEOUT_MIN = 0L;
+const long HTTP_REQUEST_TIMEOUT_MAX = 3600L;
 
 // Limits on connection counts
-constexpr int HTTP_CONNECTION_LIMIT_DEFAULT = 8;
-constexpr int HTTP_CONNECTION_LIMIT_MIN = 1;
-constexpr int HTTP_CONNECTION_LIMIT_MAX = 256;
+const int HTTP_CONNECTION_LIMIT_DEFAULT = 8;
+const int HTTP_CONNECTION_LIMIT_MIN = 1;
+const int HTTP_CONNECTION_LIMIT_MAX = 256;
 
 // Pipelining limits
-constexpr long HTTP_PIPELINING_DEFAULT = 0L;
-constexpr long HTTP_PIPELINING_MAX = 20L;
+const long HTTP_PIPELINING_DEFAULT = 0L;
+const long HTTP_PIPELINING_MAX = 20L;
 
 // Miscellaneous defaults
-constexpr bool HTTP_USE_RETRY_AFTER_DEFAULT = true;
-constexpr long HTTP_THROTTLE_RATE_DEFAULT = 0L;
+const bool HTTP_USE_RETRY_AFTER_DEFAULT = true;
+const long HTTP_THROTTLE_RATE_DEFAULT = 0L;
 
 // Tuning parameters
 
 // Time worker thread sleeps after a pass through the
 // request, ready and active queues.
-constexpr int HTTP_SERVICE_LOOP_SLEEP_NORMAL_MS = 2;
+const int HTTP_SERVICE_LOOP_SLEEP_NORMAL_MS = 2;
 
 // Block allocation size (a tuning parameter) is found
 // in bufferarray.h.

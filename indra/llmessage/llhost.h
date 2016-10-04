@@ -32,8 +32,8 @@
 
 #include "net.h"
 
-constexpr U32 INVALID_PORT = 0;
-constexpr U32 INVALID_HOST_IP_ADDRESS = 0x0;
+const U32 INVALID_PORT = 0;
+const U32 INVALID_HOST_IP_ADDRESS = 0x0;
 
 class LLHost {
 protected:

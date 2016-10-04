@@ -36,10 +36,10 @@
 #include "llviewerregion.h"
 #include "message.h"
 
-constexpr F32 COF_LINK_BATCH_TIME = 5.0F;
-constexpr F32 MAX_ATTACHMENT_REQUEST_LIFETIME = 30.0F;
-constexpr F32 MIN_RETRY_REQUEST_TIME = 5.0F;
-constexpr F32 MAX_BAD_COF_TIME = 30.0F;
+const F32 COF_LINK_BATCH_TIME = 5.0F;
+const F32 MAX_ATTACHMENT_REQUEST_LIFETIME = 30.0F;
+const F32 MIN_RETRY_REQUEST_TIME = 5.0F;
+const F32 MAX_BAD_COF_TIME = 30.0F;
 
 LLAttachmentsMgr::LLAttachmentsMgr():
     mAttachmentRequests("attach",MIN_RETRY_REQUEST_TIME),
@@ -140,7 +140,7 @@ void LLAttachmentsMgr::requestAttachments(attachments_vec_t& attachment_requests
     // For unknown reasons, requesting many attachments at once causes
     // frequent server-side failures. Here we're limiting the number
     // of attachments requested per idle loop.
-    constexpr S32 max_objects_per_request = 5;
+    const S32 max_objects_per_request = 5;
 	S32 obj_count = llmin((S32)attachment_requests.size(),max_objects_per_request);
 	if (obj_count == 0)
 	{
@@ -148,9 +148,9 @@ void LLAttachmentsMgr::requestAttachments(attachments_vec_t& attachment_requests
 	}
 
 	// Limit number of packets to send
-	constexpr S32 MAX_PACKETS_TO_SEND = 10;
-	constexpr S32 OBJECTS_PER_PACKET = 4;
-	constexpr S32 MAX_OBJECTS_TO_SEND = MAX_PACKETS_TO_SEND * OBJECTS_PER_PACKET;
+	const S32 MAX_PACKETS_TO_SEND = 10;
+	const S32 OBJECTS_PER_PACKET = 4;
+	const S32 MAX_OBJECTS_TO_SEND = MAX_PACKETS_TO_SEND * OBJECTS_PER_PACKET;
 	if( obj_count > MAX_OBJECTS_TO_SEND )
 	{
         LL_WARNS() << "ATT Too many attachments requested: " << obj_count

@@ -80,9 +80,9 @@
 // </alchemy>
 
 // Flags for kick message
-constexpr U32 KICK_FLAGS_DEFAULT	= 0x0;
-constexpr U32 KICK_FLAGS_FREEZE		= 1 << 0;
-constexpr U32 KICK_FLAGS_UNFREEZE	= 1 << 1;
+const U32 KICK_FLAGS_DEFAULT	= 0x0;
+const U32 KICK_FLAGS_FREEZE		= 1 << 0;
+const U32 KICK_FLAGS_UNFREEZE	= 1 << 1;
 
 
 // static

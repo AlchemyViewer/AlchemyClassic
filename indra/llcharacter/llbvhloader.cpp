@@ -36,13 +36,13 @@
 #include "llquantize.h"
 #include "llstl.h"
 
-constexpr auto INCHES_TO_METERS = 0.02540005f;
+#define INCHES_TO_METERS 0.02540005f
 
-constexpr F32 POSITION_KEYFRAME_THRESHOLD_SQUARED = 0.03f * 0.03f;
-constexpr F32 ROTATION_KEYFRAME_THRESHOLD = 0.01f;
+const F32 POSITION_KEYFRAME_THRESHOLD_SQUARED = 0.03f * 0.03f;
+const F32 ROTATION_KEYFRAME_THRESHOLD = 0.01f;
 
-constexpr F32 POSITION_MOTION_THRESHOLD_SQUARED = 0.001f * 0.001f;
-constexpr F32 ROTATION_MOTION_THRESHOLD = 0.001f;
+const F32 POSITION_MOTION_THRESHOLD_SQUARED = 0.001f * 0.001f;
+const F32 ROTATION_MOTION_THRESHOLD = 0.001f;
 
 char gInFile[1024];		/* Flawfinder: ignore */
 char gOutFile[1024];		/* Flawfinder: ignore */

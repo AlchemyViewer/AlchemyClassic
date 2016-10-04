@@ -30,7 +30,7 @@
 #include "llagent.h"
 #include "llavatarpropertiesprocessor.h"
 
-constexpr S32 MAX_AVATAR_PICKS = 10;
+const S32 MAX_AVATAR_PICKS = 10;
 
 
 class LLAgentPicksInfo::LLAgentPicksObserver : public LLAvatarPropertiesObserver

@@ -84,7 +84,7 @@ void LLFontGL::destroyGL()
 
 BOOL LLFontGL::loadFace(const std::string& filename, F32 point_size, F32 vert_dpi, F32 horz_dpi, S32 components, BOOL is_fallback)
 {
-	if(mFontFreetype == reinterpret_cast<LLFontFreetype*>(NULL))
+	if(mFontFreetype.isNull())
 	{
 		mFontFreetype = new LLFontFreetype;
 	}

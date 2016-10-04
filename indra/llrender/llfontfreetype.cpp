@@ -285,11 +285,17 @@ F32 LLFontFreetype::getXKerning(llwchar char_left, llwchar char_right) const
 	LLFontGlyphInfo* right_glyph_info = getGlyphInfo(char_right);
 	U32 right_glyph = right_glyph_info ? right_glyph_info->mGlyphIndex : 0;
 
+	F32 kerning = 0.0f;
+	if (getKerningCache(left_glyph,  right_glyph, kerning))
+		return kerning;
+
 	FT_Vector  delta;
 
 	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, ft_kerning_unfitted, &delta));
 
-	return delta.x*(1.f/64.f);
+	kerning = delta.x*(1.f/64.f);
+	setKerningCache(left_glyph, right_glyph, kerning);
+	return kerning;
 }
 
 F32 LLFontFreetype::getXKerning(const LLFontGlyphInfo* left_glyph_info, const LLFontGlyphInfo* right_glyph_info) const
@@ -300,11 +306,17 @@ F32 LLFontFreetype::getXKerning(const LLFontGlyphInfo* left_glyph_info, const LL
 	U32 left_glyph = left_glyph_info ? left_glyph_info->mGlyphIndex : 0;
 	U32 right_glyph = right_glyph_info ? right_glyph_info->mGlyphIndex : 0;
 
+	F32 kerning = 0.0f;
+	if (getKerningCache(left_glyph,  right_glyph, kerning))
+		return kerning;
+
 	FT_Vector  delta;
 
 	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, ft_kerning_unfitted, &delta));
 
-	return delta.x*(1.f/64.f);
+	kerning = delta.x*(1.f/64.f);
+	setKerningCache(left_glyph, right_glyph, kerning);
+	return kerning;
 }
 
 BOOL LLFontFreetype::hasGlyph(llwchar wch) const
@@ -612,3 +624,16 @@ void LLFontFreetype::setSubImageLuminanceAlpha(U32 x, U32 y, U32 bitmap_num, U32
 	}
 }
 
+bool LLFontFreetype::getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const
+{
+	auto iter = mKerningCache.find(std::make_pair(left_glyph, right_glyph));
+	if (iter == mKerningCache.end())
+		return false;
+	kerning = iter->second;
+	return true;
+}
+
+void LLFontFreetype::setKerningCache(U32 left_glyph, U32 right_glyph, F32 kerning) const
+{
+	mKerningCache.emplace(std::make_pair(left_glyph, right_glyph), kerning);
+}

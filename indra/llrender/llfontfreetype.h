@@ -150,6 +150,11 @@ private:
 	void renderGlyph(U32 glyph_index) const;
 	void insertGlyphInfo(llwchar wch, LLFontGlyphInfo* gi) const;
 
+	bool getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const;
+	void setKerningCache(U32 left_glyph, U32 right_glyph, F32 kerning) const;
+
+	mutable boost::unordered_map<std::pair<U32, U32>, F32> mKerningCache;
+
 	std::string mName;
 
 	U8 mStyle;

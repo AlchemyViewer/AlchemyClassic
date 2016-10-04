@@ -57,7 +57,7 @@ public:
 		{
 		}
 	
-	LLViewerAssetRequest & operator=(const LLViewerAssetRequest &);	// Not defined
+	LLViewerAssetRequest & operator=(const LLViewerAssetRequest &) = delete;	// Not defined
 	// Default assignment operator valid
 	
 	// virtual

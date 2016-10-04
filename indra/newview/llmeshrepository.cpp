@@ -676,8 +676,8 @@ public:
 	virtual ~LLMeshDecompositionHandler();
 
 protected:
-	LLMeshDecompositionHandler(const LLMeshDecompositionHandler &);		// Not defined
-	void operator=(const LLMeshDecompositionHandler &);					// Not defined
+	LLMeshDecompositionHandler(const LLMeshDecompositionHandler &) = delete;		// Not defined
+	void operator=(const LLMeshDecompositionHandler &) = delete;					// Not defined
 
 public:
 	virtual void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size);
@@ -702,8 +702,8 @@ public:
 	virtual ~LLMeshPhysicsShapeHandler();
 
 protected:
-	LLMeshPhysicsShapeHandler(const LLMeshPhysicsShapeHandler &);	// Not defined
-	void operator=(const LLMeshPhysicsShapeHandler &);				// Not defined
+	LLMeshPhysicsShapeHandler(const LLMeshPhysicsShapeHandler &) = delete;	// Not defined
+	void operator=(const LLMeshPhysicsShapeHandler &) = delete;				// Not defined
 
 public:
 	virtual void processData(LLCore::BufferArray * body, S32 body_offset, U8 * data, S32 data_size);

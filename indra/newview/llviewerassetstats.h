@@ -148,7 +148,7 @@ public:
 	LLViewerAssetStats(const LLViewerAssetStats &);
 
 	// Default destructor is correct.
-	LLViewerAssetStats & operator=(const LLViewerAssetStats &);			// Not defined
+	LLViewerAssetStats & operator=(const LLViewerAssetStats &) = delete;			// Not defined
 
 	// Clear all metrics data.  This leaves the currently-active region
 	// in place but with zero'd data for all metrics.  All other regions

@@ -130,8 +130,8 @@ public:
 		}
 
 protected:
-	BGItemHttpHandler(const BGItemHttpHandler &);				// Not defined
-	void operator=(const BGItemHttpHandler &);					// Not defined
+	BGItemHttpHandler(const BGItemHttpHandler &) = delete;				// Not defined
+	void operator=(const BGItemHttpHandler &) = delete;					// Not defined
 };
 
 
@@ -163,8 +163,8 @@ public:
 		}
 	
 protected:
-	BGFolderHttpHandler(const BGFolderHttpHandler &);			// Not defined
-	void operator=(const BGFolderHttpHandler &);				// Not defined
+	BGFolderHttpHandler(const BGFolderHttpHandler &) = delete;			// Not defined
+	void operator=(const BGFolderHttpHandler &) = delete;				// Not defined
 
 public:
 	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);

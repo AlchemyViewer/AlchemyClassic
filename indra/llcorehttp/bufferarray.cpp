@@ -58,8 +58,8 @@ public:
 protected:
 	Block(size_t len);
 
-	Block(const Block &);						// Not defined
-	void operator=(const Block &);				// Not defined
+	Block(const Block &) = delete;						// Not defined
+	void operator=(const Block &) = delete;				// Not defined
 
 	// Allocate the block with the additional space for the
 	// buffered data at the end of the object.

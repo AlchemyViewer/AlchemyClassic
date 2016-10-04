@@ -66,8 +66,8 @@ public:
 
 protected:
 	
-	HttpOptions(const HttpOptions &);			// Not defined
-	void operator=(const HttpOptions &);		// Not defined
+	HttpOptions(const HttpOptions &) = delete;			// Not defined
+	void operator=(const HttpOptions &) = delete;		// Not defined
 
 public:
 

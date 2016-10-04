@@ -97,8 +97,8 @@ public:
 	//typedef LLCoreInt::IntrusivePtr<HttpHeaders> ptr_t;
 protected:
 
-	HttpHeaders(const HttpHeaders &);			// Not defined
-	void operator=(const HttpHeaders &);		// Not defined
+	HttpHeaders(const HttpHeaders &) = delete;			// Not defined
+	void operator=(const HttpHeaders &) = delete;		// Not defined
 
 public:
 	// Empty the list of headers.

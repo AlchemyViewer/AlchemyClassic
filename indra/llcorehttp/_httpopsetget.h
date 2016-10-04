@@ -60,8 +60,8 @@ public:
 	virtual ~HttpOpSetGet();							// Use release()
 
 private:
-	HttpOpSetGet(const HttpOpSetGet &);					// Not defined
-	void operator=(const HttpOpSetGet &);				// Not defined
+	HttpOpSetGet(const HttpOpSetGet &) = delete;					// Not defined
+	void operator=(const HttpOpSetGet &) = delete;				// Not defined
 
 public:
 	/// Threading:  called by application thread

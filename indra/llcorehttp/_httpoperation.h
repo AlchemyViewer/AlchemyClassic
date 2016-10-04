@@ -225,8 +225,8 @@ public:
 	virtual ~HttpOpStop();
 
 private:
-	HttpOpStop(const HttpOpStop &);					// Not defined
-	void operator=(const HttpOpStop &);				// Not defined
+	HttpOpStop(const HttpOpStop &) = delete;					// Not defined
+	void operator=(const HttpOpStop &) = delete;				// Not defined
 
 public:
 	virtual void stageFromRequest(HttpService *);
@@ -247,8 +247,8 @@ public:
 	virtual ~HttpOpNull();
 
 private:
-	HttpOpNull(const HttpOpNull &);					// Not defined
-	void operator=(const HttpOpNull &);				// Not defined
+	HttpOpNull(const HttpOpNull &) = delete;					// Not defined
+	void operator=(const HttpOpNull &) = delete;				// Not defined
 
 public:
 	virtual void stageFromRequest(HttpService *);
@@ -269,8 +269,8 @@ public:
 	virtual ~HttpOpSpin();
 
 private:
-	HttpOpSpin(const HttpOpSpin &);					// Not defined
-	void operator=(const HttpOpSpin &);				// Not defined
+	HttpOpSpin(const HttpOpSpin &) = delete;					// Not defined
+	void operator=(const HttpOpSpin &) = delete;				// Not defined
 
 public:
 	virtual void stageFromRequest(HttpService *);

@@ -45,6 +45,7 @@
 #include "llflashtimer.h"
 #include "llfloateravatarpicker.h"
 #include "llfloaterpreference.h"
+#include "llfloaterreporter.h"
 #include "llimview.h"
 #include "llnotificationsutil.h"
 #include "lltoolbarview.h"
@@ -56,8 +57,7 @@
 #include "llsdserialize.h"
 #include "llviewerobjectlist.h"
 #include "llviewermenu.h"
-
-#include "llfloaterreporter.h"
+#include "roles_constants.h"
 
 //
 // LLFloaterIMContainer

@@ -101,7 +101,7 @@ LLHeapBuffer::LLHeapBuffer() :
 	mNextFree(NULL),
 	mReclaimedBytes(0)
 {
-	const S32 DEFAULT_HEAP_BUFFER_SIZE = 16384;
+	constexpr S32 DEFAULT_HEAP_BUFFER_SIZE = 16384;
 	allocate(DEFAULT_HEAP_BUFFER_SIZE);
 }
 

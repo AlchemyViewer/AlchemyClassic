@@ -45,8 +45,8 @@
 // has a limit, sometimes configurable, of how many connections can
 // be open at a time.
 
-const F64 LLAppCoreHttp::MAX_THREAD_WAIT_TIME(10.0);
-const long LLAppCoreHttp::PIPELINING_DEPTH(5L);
+constexpr F64 LLAppCoreHttp::MAX_THREAD_WAIT_TIME(10.0);
+constexpr long LLAppCoreHttp::PIPELINING_DEPTH(5L);
 
 //  Default and dynamic values for classes
 static const struct

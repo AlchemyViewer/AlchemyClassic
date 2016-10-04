@@ -61,7 +61,7 @@
 #include "alchatcommand.h"
 
 // Longest time, in seconds, to wait for all animations to stop playing
-const F32 MAX_WAIT_ANIM_SECS = 30.f;
+constexpr F32 MAX_WAIT_ANIM_SECS = 30.f;
 
 // Lightweight constructor.
 // init() does the heavy lifting.

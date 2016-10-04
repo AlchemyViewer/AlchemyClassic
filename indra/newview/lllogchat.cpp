@@ -47,7 +47,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/date_time/local_time_adjustor.hpp>
 
-const S32 LOG_RECALL_SIZE = 2048;
+constexpr S32 LOG_RECALL_SIZE = 2048;
 
 const std::string LL_IM_TIME("time");
 const std::string LL_IM_TEXT("message");

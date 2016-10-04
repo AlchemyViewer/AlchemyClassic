@@ -38,11 +38,11 @@
 
 #include "lllistener.h"
 
-const F32 LL_WIND_UPDATE_INTERVAL = 0.1f;
-const F32 LL_WIND_UNDERWATER_CENTER_FREQ = 20.f;
+constexpr F32 LL_WIND_UPDATE_INTERVAL = 0.1f;
+constexpr F32 LL_WIND_UNDERWATER_CENTER_FREQ = 20.f;
 
-const F32 ATTACHED_OBJECT_TIMEOUT = 5.0f;
-const F32 DEFAULT_MIN_DISTANCE = 2.0f;
+constexpr F32 ATTACHED_OBJECT_TIMEOUT = 5.0f;
+constexpr F32 DEFAULT_MIN_DISTANCE = 2.0f;
 
 #define MAX_CHANNELS 30
 #define MAX_BUFFERS 40	// Some extra for preloading, maybe?

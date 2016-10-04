@@ -33,8 +33,8 @@
 #include <boost/tokenizer.hpp>
 
 // for allocating serialization buffers - these need to be updated when members change
-const S32 LLGestureList::SERIAL_HEADER_SIZE = sizeof(S32);
-const S32 LLGesture::MAX_SERIAL_SIZE = sizeof(KEY) + sizeof(MASK) + 16 + 26 + 41 + 41;
+constexpr S32 LLGestureList::SERIAL_HEADER_SIZE = sizeof(S32);
+constexpr S32 LLGesture::MAX_SERIAL_SIZE = sizeof(KEY) + sizeof(MASK) + 16 + 26 + 41 + 41;
 
 LLGesture::LLGesture()
 :	mKey(KEY_NONE),

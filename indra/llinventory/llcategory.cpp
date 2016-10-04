@@ -44,7 +44,7 @@ const LLCategory LLCategory::none;
 // CATEGORY_INDEX indexes into CATEGORY_NAME at the first occurance of
 // a child. Thus, the first child of root is "Object" which is located
 // in CATEGORY_NAME[1].
-const S32 CATEGORY_INDEX[] =
+constexpr S32 CATEGORY_INDEX[] =
 {
 	1,	// ROOT
 	6,	// object

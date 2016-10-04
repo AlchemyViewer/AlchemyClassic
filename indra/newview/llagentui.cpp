@@ -83,10 +83,10 @@ BOOL LLAgentUI::buildLocationString(std::string& str, ELocationFormat fmt,const 
 	// Round the numbers based on the velocity
 	F32 velocity_mag_sq = gAgent.getVelocity().magVecSquared();
 
-	const F32 FLY_CUTOFF = 6.f;		// meters/sec
-	const F32 FLY_CUTOFF_SQ = FLY_CUTOFF * FLY_CUTOFF;
-	const F32 WALK_CUTOFF = 1.5f;	// meters/sec
-	const F32 WALK_CUTOFF_SQ = WALK_CUTOFF * WALK_CUTOFF;
+	constexpr F32 FLY_CUTOFF = 6.f;		// meters/sec
+	constexpr F32 FLY_CUTOFF_SQ = FLY_CUTOFF * FLY_CUTOFF;
+	constexpr F32 WALK_CUTOFF = 1.5f;	// meters/sec
+	constexpr F32 WALK_CUTOFF_SQ = WALK_CUTOFF * WALK_CUTOFF;
 
 	if (velocity_mag_sq > FLY_CUTOFF_SQ)
 	{

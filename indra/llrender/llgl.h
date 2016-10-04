@@ -382,7 +382,7 @@ public:
 	virtual void updateGL() = 0;
 };
 
-const U32 FENCE_WAIT_TIME_NANOSECONDS = 1000;  //1 ms
+constexpr U32 FENCE_WAIT_TIME_NANOSECONDS = 1000;  //1 ms
 
 class LLGLFence
 {

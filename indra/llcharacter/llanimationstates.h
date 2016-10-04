@@ -39,7 +39,7 @@
 //-----------------------------------------------------------------------------
 // Agent Animation State
 //-----------------------------------------------------------------------------
-const S32 MAX_CONCURRENT_ANIMS = 16;
+constexpr S32 MAX_CONCURRENT_ANIMS = 16;
 
 extern const LLUUID ANIM_AGENT_AFRAID;
 extern const LLUUID ANIM_AGENT_AIM_BAZOOKA_R;

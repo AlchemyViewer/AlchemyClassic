@@ -45,7 +45,7 @@
 
 #include <boost/graph/graph_concepts.hpp>
 
-const F32 INVENTORY_POLLING_INTERVAL = 5.0f;
+constexpr F32 INVENTORY_POLLING_INTERVAL = 5.0f;
 
 LLAOEngine::LLAOEngine() : LLSingleton<LLAOEngine>()
 , mEnabled(false)

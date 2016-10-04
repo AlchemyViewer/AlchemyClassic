@@ -60,7 +60,7 @@ namespace LLInitParam
 
 bool LLAvatarIconIDCache::LLAvatarIconIDCacheItem::expired()
 {
-	const F64 SEC_PER_DAY_PLUS_HOUR = (24.0 + 1.0) * 60.0 * 60.0;
+	constexpr F64 SEC_PER_DAY_PLUS_HOUR = (24.0 + 1.0) * 60.0 * 60.0;
 	F64 delta = LLDate::now().secondsSinceEpoch() - cached_time.secondsSinceEpoch();
 	if (delta > SEC_PER_DAY_PLUS_HOUR)
 		return true;

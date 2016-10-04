@@ -48,8 +48,8 @@ class LLDataPacker;
 #define MIN_REQUIRED_PIXEL_AREA_KEYFRAME (40.f)
 #define MAX_CHAIN_LENGTH (4)
 
-const S32 KEYFRAME_MOTION_VERSION = 1;
-const S32 KEYFRAME_MOTION_SUBVERSION = 0;
+constexpr S32 KEYFRAME_MOTION_VERSION = 1;
+constexpr S32 KEYFRAME_MOTION_SUBVERSION = 0;
 
 //-----------------------------------------------------------------------------
 // class LLKeyframeMotion

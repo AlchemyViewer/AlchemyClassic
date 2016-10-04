@@ -29,8 +29,8 @@
 
 #include "llframetimer.h"
 
-const F32 AUTO_CLOSE_FADE_START_TIME_SEC = 4.f;
-const F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
+constexpr F32 AUTO_CLOSE_FADE_START_TIME_SEC = 4.f;
+constexpr F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
 
 ///----------------------------------------------------------------------------
 /// Class ALPanelQuickSettingsPulldown

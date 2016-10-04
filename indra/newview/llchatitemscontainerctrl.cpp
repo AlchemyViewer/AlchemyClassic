@@ -41,9 +41,9 @@
 
 #include "llslurl.h"
 
-static const S32 msg_left_offset = 10;
-static const S32 msg_right_offset = 10;
-static const S32 msg_height_pad = 5;
+static constexpr S32 msg_left_offset = 10;
+static constexpr S32 msg_right_offset = 10;
+static constexpr S32 msg_height_pad = 5;
 
 // <alchemy>
 void set_view_width(LLView* view, const LLSD& value)

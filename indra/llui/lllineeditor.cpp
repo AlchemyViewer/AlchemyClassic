@@ -61,12 +61,12 @@
 // Constants
 //
 
-const F32	CURSOR_FLASH_DELAY = 1.0f;  // in seconds
-const S32	SCROLL_INCREMENT_ADD = 0;	// make space for typing
-const S32   SCROLL_INCREMENT_DEL = 4;	// make space for baskspacing
-const F32   AUTO_SCROLL_TIME = 0.05f;
-const F32	TRIPLE_CLICK_INTERVAL = 0.3f;	// delay between double and triple click. *TODO: make this equal to the double click interval?
-const F32	SPELLCHECK_DELAY = 0.5f;	// delay between the last keypress and spell checking the word the cursor is on
+constexpr F32	CURSOR_FLASH_DELAY = 1.0f;  // in seconds
+constexpr S32	SCROLL_INCREMENT_ADD = 0;	// make space for typing
+constexpr S32   SCROLL_INCREMENT_DEL = 4;	// make space for baskspacing
+constexpr F32   AUTO_SCROLL_TIME = 0.05f;
+constexpr F32	TRIPLE_CLICK_INTERVAL = 0.3f;	// delay between double and triple click. *TODO: make this equal to the double click interval?
+constexpr F32	SPELLCHECK_DELAY = 0.5f;	// delay between the last keypress and spell checking the word the cursor is on
 
 const std::string PASSWORD_ASTERISK( "\xE2\x80\xA2" ); // U+2022 BULLET
 

@@ -39,6 +39,7 @@
 #include "llvoavatar.h"
 #include "llworld.h"
 #include "llcorehttputil.h"
+#include "roles_constants.h"
 
 extern LLControlGroup gSavedSettings;
 

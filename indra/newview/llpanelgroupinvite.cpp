@@ -42,6 +42,7 @@
 #include "lltextbox.h"
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
+#include "roles_constants.h"
 
 class LLPanelGroupInvite::impl
 {

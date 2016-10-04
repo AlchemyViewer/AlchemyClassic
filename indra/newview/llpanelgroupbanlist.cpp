@@ -34,6 +34,7 @@
 #include "llnamelistctrl.h"
 #include "llagent.h"
 #include "llfloatergroupbulkban.h"
+#include "roles_constants.h"
 
 static LLPanelInjector<LLPanelGroupBanlist> t_panel_group_banlist("panel_group_banlist");
 

@@ -37,6 +37,8 @@
 #include "llviewertexture.h"
 #include "llgltexture.h"
 
+#include <array>
+
 // map item types
 const U32 MAP_ITEM_TELEHUB = 0x01;
 const U32 MAP_ITEM_PG_EVENT = 0x02;
@@ -273,7 +275,7 @@ private:
 	// This boolean table avoids "blocks" to be requested multiple times. 
 	// Issue: Not sure this scheme is foolproof though as I've seen
 	// cases where a block is never retrieved and, because of this boolean being set, never re-requested
-	bool *			mMapBlockLoaded;		// Telling us if the block of regions has been requested or not
+	std::array<bool, MAP_BLOCK_RES*MAP_BLOCK_RES>	mMapBlockLoaded;		// Telling us if the block of regions has been requested or not
 
 	// Track location data : used while there's nothing tracked yet by LLTracker
 	bool			mIsTrackingLocation;	// True when we're tracking a point

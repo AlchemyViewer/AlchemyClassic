@@ -256,14 +256,14 @@ void LLWind::renderVectors()
 	LLVector3 origin_agent;
 	origin_agent = gAgent.getPosAgentFromGlobal(mOriginGlobal);
 	gGL.translatef(origin_agent.mV[VX], origin_agent.mV[VY], gAgent.getPositionAgent().mV[VZ] + WIND_RELATIVE_ALTITUDE);
-	for (j = 0; j < mSize; j++)
+	for (j = 0; j < WIND_SIZE; j++)
 	{
-		for (i = 0; i < mSize; i++)
+		for (i = 0; i < WIND_SIZE; i++)
 		{
-			x = mVelX[i + j*mSize] * WIND_SCALE_HACK;
-			y = mVelY[i + j*mSize] * WIND_SCALE_HACK;
+			x = mVelX[i + j*WIND_SIZE] * WIND_SCALE_HACK;
+			y = mVelY[i + j*WIND_SIZE] * WIND_SCALE_HACK;
 			gGL.pushMatrix();
-			gGL.translatef((F32)i * region_width_meters/mSize, (F32)j * region_width_meters/mSize, 0.0);
+			gGL.translatef((F32)i * region_width_meters/WIND_SIZE, (F32)j * region_width_meters/WIND_SIZE, 0.0);
 			gGL.color3f(0,1,0);
 			gGL.begin(LLRender::POINTS);
 				gGL.vertex3f(0,0,0);

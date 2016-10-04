@@ -232,7 +232,6 @@ LLWorldMap::LLWorldMap() :
 	mFirstRequest(true)
 {
 	//LL_INFOS("World Map") << "Creating the World Map -> LLWorldMap::LLWorldMap()" << LL_ENDL;
-	mMapBlockLoaded = new bool[MAP_BLOCK_RES*MAP_BLOCK_RES];
 	clearSimFlags();
 }
 
@@ -241,7 +240,6 @@ LLWorldMap::~LLWorldMap()
 {
 	//LL_INFOS("World Map") << "Destroying the World Map -> LLWorldMap::~LLWorldMap()" << LL_ENDL;
 	reset();
-	delete[] mMapBlockLoaded;
 }
 
 
@@ -300,10 +298,7 @@ void LLWorldMap::clearImageRefs()
 // Doesn't clear the already-loaded sim infos, just re-requests them
 void LLWorldMap::clearSimFlags()
 {
-	for (S32 idx=0; idx<MAP_BLOCK_RES*MAP_BLOCK_RES; ++idx)
-	{
-		mMapBlockLoaded[idx] = false;
-	}
+	mMapBlockLoaded.fill(false);
 }
 
 LLSimInfo* LLWorldMap::createSimInfoFromHandle(const U64 handle)

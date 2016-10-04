@@ -31,8 +31,6 @@
 #include "llmemory.h"
 #include "llsingleton.h"
 
-static const std::string empty_string;
-
 ///----------------------------------------------------------------------------
 /// Class LLInventoryType
 ///----------------------------------------------------------------------------
@@ -153,7 +151,7 @@ DEFAULT_ASSET_FOR_INV_TYPE[LLAssetType::AT_COUNT] =
 const std::string &LLInventoryType::lookup(EType type)
 {
 	const InventoryEntry *entry = LLInventoryDictionary::getInstance()->lookup(type);
-	if (!entry) return empty_string;
+    if (!entry) return LLStringUtil::null;
 	return entry->mName;
 }
 
@@ -169,7 +167,7 @@ LLInventoryType::EType LLInventoryType::lookup(const std::string& name)
 const std::string &LLInventoryType::lookupHumanReadable(EType type)
 {
 	const InventoryEntry *entry = LLInventoryDictionary::getInstance()->lookup(type);
-	if (!entry) return empty_string;
+	if (!entry) return LLStringUtil::null;
 	return entry->mHumanName;
 }
 

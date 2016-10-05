@@ -107,6 +107,7 @@ LLFontFreetype::LLFontFreetype()
 	mStyle(0),
 	mPointSize(0)
 {
+	mCharGlyphInfoMap.reserve(500);
 }
 
 
@@ -635,5 +636,9 @@ bool LLFontFreetype::getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerni
 
 void LLFontFreetype::setKerningCache(U32 left_glyph, U32 right_glyph, F32 kerning) const
 {
+	// reserve memory to prevent multiple allocations
+	// do this here instead of the constructor to save memory on unused fonts
+	if (mKerningCache.max_size() == 0)
+		mKerningCache.reserve(500);
 	mKerningCache.emplace(std::make_pair(left_glyph, right_glyph), kerning);
 }

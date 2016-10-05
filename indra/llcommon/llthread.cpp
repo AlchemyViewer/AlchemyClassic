@@ -105,15 +105,14 @@ void LLThread::runWrapper()
 #endif
 
 	// for now, hard code all LLThreads to report to single master thread recorder, which is known to be running on main thread
-	mRecorder = new LLTrace::ThreadRecorder(*LLTrace::get_master_thread_recorder());
+	mRecorder = std::make_unique<LLTrace::ThreadRecorder>(*LLTrace::get_master_thread_recorder());
 
 	// Run the user supplied function
 	run();
 
 	//LL_INFOS() << "LLThread::staticRun() Exiting: " << threadp->mName << LL_ENDL;
 	
-	delete mRecorder;
-	mRecorder = NULL;
+	mRecorder.reset(nullptr);
 	
 	// We're done with the run function, this thread is done executing now.
 	//NB: we are using this flag to sync across threads...we really need memory barriers here
@@ -124,10 +123,9 @@ LLThread::LLThread(const std::string& name) :
 	mPaused(FALSE),
 	mName(name),
 	mStatus(STOPPED),
-	mRecorder(NULL)
+	mRunCondition(std::make_unique<LLCondition>()),
+	mDataLock(std::make_unique<LLMutex>())
 {
-	mRunCondition = new LLCondition();
-	mDataLock = new LLMutex();
 }
 
 
@@ -170,29 +168,21 @@ void LLThread::shutdown()
 		// This thread just wouldn't stop, even though we gave it time
 		//LL_WARNS() << "LLThread::~LLThread() exiting thread before clean exit!" << LL_ENDL;
 		// Put a stake in its heart.
-		delete mRecorder;
-
 		boost::thread::native_handle_type thread(mThread.native_handle());
 #if LL_WINDOWS
 		TerminateThread(thread, 0);
 #else
 		pthread_cancel(thread);
 #endif
-		return;
 	}
-
-	delete mRunCondition;
-	mRunCondition = NULL;
-
-	delete mDataLock;
-	mDataLock = NULL;
 
 	if (mRecorder)
 	{
+		// <alchemy> this is due to thread local storage being used. Release ownership </alchemy>
 		// missed chance to properly shut down recorder (needs to be done in thread context)
 		// probably due to abnormal thread termination
 		// so just leak it and remove it from parent
-		LLTrace::get_master_thread_recorder()->removeChildRecorder(mRecorder);
+		LLTrace::get_master_thread_recorder()->removeChildRecorder(mRecorder.release());
 	}
 }
 

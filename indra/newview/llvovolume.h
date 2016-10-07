@@ -162,7 +162,7 @@ public:
 				void    faceMappingChanged()                    { mFaceMappingChanged=TRUE; };
 
 	/*virtual*/ void	onShift(const LLVector4a &shift_vector); // Called when the drawable shifts
-
+				void    overrideProfileForMesh(LLVolumeParams & vp);
 	/*virtual*/ void	parameterChanged(U16 param_type, bool local_origin);
 	/*virtual*/ void	parameterChanged(U16 param_type, LLNetworkData* data, BOOL in_use, bool local_origin);
 

@@ -76,7 +76,6 @@ namespace LLTrace
 
 		AccumulatorBufferGroup			mThreadRecordingBuffers;
 
-		BlockTimerStackRecord			mBlockTimerStackRecord;
 		active_recording_list_t			mActiveRecordings;
 
 		class BlockTimer*				mRootTimer;

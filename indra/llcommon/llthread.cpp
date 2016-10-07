@@ -163,6 +163,8 @@ void LLThread::shutdown()
 		}
 	}
 
+	mRecorder.reset();
+
 	if (!isStopped())
 	{
 		// This thread just wouldn't stop, even though we gave it time
@@ -174,15 +176,6 @@ void LLThread::shutdown()
 #else
 		pthread_cancel(thread);
 #endif
-	}
-
-	if (mRecorder)
-	{
-		// <alchemy> this is due to thread local storage being used. Release ownership </alchemy>
-		// missed chance to properly shut down recorder (needs to be done in thread context)
-		// probably due to abnormal thread termination
-		// so just leak it and remove it from parent
-		LLTrace::get_master_thread_recorder()->removeChildRecorder(mRecorder.release());
 	}
 }
 

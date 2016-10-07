@@ -220,7 +220,7 @@ private:
 
 	BlockTimer(BlockTimerStatHandle& timer);
 
-	// no-copy
+	// noop-copy see timeThisBlock
 	BlockTimer(const BlockTimer& other) {};
 
 private:

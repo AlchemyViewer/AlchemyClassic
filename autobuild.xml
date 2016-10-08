@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3b476d08ca4ee3652345c581139b6276</string>
+              <string>984ed48d238ede0984edbf9c6833bd28</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.50.3-darwin-201609212146.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.50.3-darwin-201610080157.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

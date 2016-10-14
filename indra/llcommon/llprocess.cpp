@@ -33,6 +33,7 @@
 #include "stringize.h"
 #include "llapr.h"
 #include "llevents.h"
+#include "llexception.h"
 
 #include <boost/asio/streambuf.hpp>
 #include <boost/asio/buffers_iterator.hpp>
@@ -469,9 +470,9 @@ private:
 *****************************************************************************/
 /// Need an exception to avoid constructing an invalid LLProcess object, but
 /// internal use only
-struct LLProcessError: public std::runtime_error
+struct LLProcessError: public LLException
 {
-	LLProcessError(const std::string& msg): std::runtime_error(msg) {}
+	LLProcessError(const std::string& msg): LLException(msg) {}
 };
 
 LLProcessPtr LLProcess::create(const LLSDOrParams& params)
@@ -527,8 +528,8 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 
 	if (! params.validateBlock(true))
 	{
-		throw LLProcessError(STRINGIZE("not launched: failed parameter validation\n"
-									   << LLSDNotationStreamer(params)));
+		LLTHROW(LLProcessError(STRINGIZE("not launched: failed parameter validation\n"
+										 << LLSDNotationStreamer(params))));
 	}
 
 	mPostend = params.postend;
@@ -593,10 +594,10 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 		}
 		else
 		{
-			throw LLProcessError(STRINGIZE("For " << params.executable()
-										   << ": unsupported FileParam for " << which
-										   << ": type='" << fparam.type()
-										   << "', name='" << fparam.name() << "'"));
+			LLTHROW(LLProcessError(STRINGIZE("For " << params.executable()
+											 << ": unsupported FileParam for " << which
+											 << ": type='" << fparam.type()
+											 << "', name='" << fparam.name() << "'")));
 		}
 	}
 	// By default, pass APR_NO_PIPE for unspecified slots.
@@ -675,7 +676,7 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 	if (ll_apr_warn_status(apr_proc_create(&mProcess, argv[0], &argv[0], NULL, procattr,
 										   gAPRPoolp)))
 	{
-		throw LLProcessError(STRINGIZE(params << " failed"));
+		LLTHROW(LLProcessError(STRINGIZE(params << " failed")));
 	}
 
 	// arrange to call status_callback()
@@ -1060,7 +1061,7 @@ PIPETYPE& LLProcess::getPipe(FILESLOT slot)
 	PIPETYPE* wp = getPipePtr<PIPETYPE>(error, slot);
 	if (! wp)
 	{
-		throw NoPipe(error);
+		LLTHROW(NoPipe(error));
 	}
 	return *wp;
 }

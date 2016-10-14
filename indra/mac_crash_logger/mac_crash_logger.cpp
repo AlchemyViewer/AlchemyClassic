@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     {
 		return createNSApp(argc, (const char**)argv);
     }
-	app.mainLoop();
+	app.frame();
 	app.cleanup();
 
 	LL_INFOS() << "Crash reporter finished normally." << LL_ENDL;

@@ -20,7 +20,6 @@ set(cmake_SOURCE_FILES
     DeploySharedLibs.cmake
     DragDrop.cmake
     EXPAT.cmake
-    ExamplePlugin.cmake
     FindAPR.cmake
     FindAutobuild.cmake
     FindGoogleBreakpad.cmake
@@ -91,6 +90,7 @@ set(cmake_SOURCE_FILES
     Variables.cmake
     ViewerMiscLibs.cmake
     VisualLeakDetector.cmake
+    LibVLCPlugin.cmake
     XmlRpcEpi.cmake
     ZLIB.cmake
     )

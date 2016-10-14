@@ -35,6 +35,8 @@
 #include "llfile.h"
 #include "lldir.h"
 #include "llviewercontrol.h"
+#include "llexception.h"
+#include "stringize.h"
 #include <vector>
 #include <ios>
 #include <openssl/ossl_typ.h>
@@ -75,14 +77,14 @@ LLBasicCertificate::LLBasicCertificate(const std::string& pem_cert)
 	if(pem_bio == NULL)
 	{
 		LL_WARNS("SECAPI") << "Could not allocate an openssl memory BIO." << LL_ENDL;
-		throw LLInvalidCertificate(this);
+		LLTHROW(LLInvalidCertificate(this));
 	}
 	mCert = NULL;
 	PEM_read_bio_X509(pem_bio, &mCert, 0, NULL);
 	BIO_free(pem_bio);
 	if (!mCert)
 	{
-		throw LLInvalidCertificate(this);
+		LLTHROW(LLInvalidCertificate(this));
 	}
 }
 
@@ -91,7 +93,7 @@ LLBasicCertificate::LLBasicCertificate(X509* pCert)
 {
 	if (!pCert)
 	{
-		throw LLInvalidCertificate(this);
+		LLTHROW(LLInvalidCertificate(this));
 	}	
 	mCert = X509_dup(pCert);
 }
@@ -630,7 +632,7 @@ void LLBasicCertificateStore::load_from_file(const std::string& filename)
 			}
 			catch (...)
 			{
-				LL_WARNS("SECAPI") << "Failure creating certificate from the certificate store file." << LL_ENDL;
+				LOG_UNHANDLED_EXCEPTION("creating certificate from the certificate store file");
 			}
 			X509_free(cert_x509);
 			cert_x509 = NULL;
@@ -888,22 +890,22 @@ void _validateCert(int validation_policy,
 	// check basic properties exist in the cert
 	if(!current_cert_info.has(CERT_SUBJECT_NAME) || !current_cert_info.has(CERT_SUBJECT_NAME_STRING))
 	{
-		throw LLCertException(cert, "Cert doesn't have a Subject Name");				
+		LLTHROW(LLCertException(cert, "Cert doesn't have a Subject Name"));
 	}
 	
 	if(!current_cert_info.has(CERT_ISSUER_NAME_STRING))
 	{
-		throw LLCertException(cert, "Cert doesn't have an Issuer Name");				
+		LLTHROW(LLCertException(cert, "Cert doesn't have an Issuer Name"));
 	}
 	
 	// check basic properties exist in the cert
 	if(!current_cert_info.has(CERT_VALID_FROM) || !current_cert_info.has(CERT_VALID_TO))
 	{
-		throw LLCertException(cert, "Cert doesn't have an expiration period");				
+		LLTHROW(LLCertException(cert, "Cert doesn't have an expiration period"));
 	}
 	if (!current_cert_info.has(CERT_SHA1_DIGEST))
 	{
-		throw LLCertException(cert, "No SHA1 digest");
+		LLTHROW(LLCertException(cert, "No SHA1 digest"));
 	}
 
 	if (validation_policy & VALIDATION_POLICY_TIME)
@@ -918,7 +920,7 @@ void _validateCert(int validation_policy,
 		if((validation_date < current_cert_info[CERT_VALID_FROM].asDate()) ||
 		   (validation_date > current_cert_info[CERT_VALID_TO].asDate()))
 		{
-			throw LLCertValidationExpirationException(cert, validation_date);
+			LLTHROW(LLCertValidationExpirationException(cert, validation_date));
 		}
 	}
 	if (validation_policy & VALIDATION_POLICY_SSL_KU)
@@ -929,14 +931,14 @@ void _validateCert(int validation_policy,
 			!(_LLSDArrayIncludesValue(current_cert_info[CERT_KEY_USAGE], 
 									  LLSD((std::string)CERT_KU_KEY_ENCIPHERMENT)))))
 		{
-			throw LLCertKeyUsageValidationException(cert);
+			LLTHROW(LLCertKeyUsageValidationException(cert));
 		}
 		// only validate EKU if the cert has it
 		if(current_cert_info.has(CERT_EXTENDED_KEY_USAGE) && current_cert_info[CERT_EXTENDED_KEY_USAGE].isArray() &&	   
 		   (!_LLSDArrayIncludesValue(current_cert_info[CERT_EXTENDED_KEY_USAGE], 
 									LLSD((std::string)CERT_EKU_SERVER_AUTH))))
 		{
-			throw LLCertKeyUsageValidationException(cert);			
+			LLTHROW(LLCertKeyUsageValidationException(cert));
 		}
 	}
 	if (validation_policy & VALIDATION_POLICY_CA_KU)
@@ -945,7 +947,7 @@ void _validateCert(int validation_policy,
 			(!_LLSDArrayIncludesValue(current_cert_info[CERT_KEY_USAGE], 
 									   (std::string)CERT_KU_CERT_SIGN)))
 			{
-				throw LLCertKeyUsageValidationException(cert);						
+				LLTHROW(LLCertKeyUsageValidationException(cert));
 			}
 	}
 	
@@ -957,13 +959,13 @@ void _validateCert(int validation_policy,
 		if(!current_cert_info[CERT_BASIC_CONSTRAINTS].has(CERT_BASIC_CONSTRAINTS_CA) ||
 		   !current_cert_info[CERT_BASIC_CONSTRAINTS][CERT_BASIC_CONSTRAINTS_CA])
 		{
-				throw LLCertBasicConstraintsValidationException(cert);
+				LLTHROW(LLCertBasicConstraintsValidationException(cert));
 		}
 		if (current_cert_info[CERT_BASIC_CONSTRAINTS].has(CERT_BASIC_CONSTRAINTS_PATHLEN) &&
 			((current_cert_info[CERT_BASIC_CONSTRAINTS][CERT_BASIC_CONSTRAINTS_PATHLEN].asInteger() != 0) &&
 			 (depth > current_cert_info[CERT_BASIC_CONSTRAINTS][CERT_BASIC_CONSTRAINTS_PATHLEN].asInteger())))
 		{
-			throw LLCertBasicConstraintsValidationException(cert);					
+			LLTHROW(LLCertBasicConstraintsValidationException(cert));
 		}
 	}
 }
@@ -1033,7 +1035,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 
 	if(cert_chain->size() < 1)
 	{
-		throw LLCertException(NULL, "No certs in chain");
+		LLTHROW(LLCertException(NULL, "No certs in chain"));
 	}
 	iterator current_cert = cert_chain->begin();
 	LLSD 	current_cert_info;
@@ -1048,11 +1050,11 @@ void LLBasicCertificateStore::validate(int validation_policy,
 		(*current_cert)->getLLSD(current_cert_info);
 		if(!validation_params.has(CERT_HOSTNAME))
 		{
-			throw LLCertException((*current_cert), "No hostname passed in for validation");			
+			LLTHROW(LLCertException((*current_cert), "No hostname passed in for validation"));
 		}
 		if(!current_cert_info.has(CERT_SUBJECT_NAME) || !current_cert_info[CERT_SUBJECT_NAME].has(CERT_NAME_CN))
 		{
-			throw LLInvalidCertificate((*current_cert));				
+			LLTHROW(LLInvalidCertificate((*current_cert)));
 		}
 		
 		LL_DEBUGS("SECAPI") << "Validating the hostname " << validation_params[CERT_HOSTNAME].asString() << 
@@ -1069,7 +1071,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 	X509* cert_x509 = (*current_cert)->getOpenSSLX509();
 	if(!cert_x509)
 	{
-		throw LLInvalidCertificate((*current_cert));			
+		LLTHROW(LLInvalidCertificate((*current_cert)));
 	}
 
 	unsigned char sha1_hash_array[SHA_DIGEST_LENGTH];
@@ -1095,7 +1097,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 			if((validation_date < cache_entry->second.first) ||
 			   (validation_date > cache_entry->second.second))
 			{
-				throw LLCertValidationExpirationException((*current_cert), validation_date);
+				LLTHROW(LLCertValidationExpirationException((*current_cert), validation_date));
 			}
 		}
 		// successfully found in cache
@@ -1127,7 +1129,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 			if(!_verify_signature((*current_cert),
 								  previous_cert))
 			{
-			   throw LLCertValidationInvalidSignatureException(previous_cert);
+			   LLTHROW(LLCertValidationInvalidSignatureException(previous_cert));
 			}
 		}
 		_validateCert(local_validation_policy,
@@ -1176,7 +1178,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 			if(!_verify_signature((*found_store_cert),
 								  (*current_cert)))
 			{
-				throw LLCertValidationInvalidSignatureException(*current_cert);
+				LLTHROW(LLCertValidationInvalidSignatureException(*current_cert));
 			}			
 			// successfully validated.
 			mTrustedCertCache[sha1_hash] = std::pair<LLDate, LLDate>(from_time, to_time);		
@@ -1193,7 +1195,7 @@ void LLBasicCertificateStore::validate(int validation_policy,
 	if (validation_policy & VALIDATION_POLICY_TRUSTED)
 	{
 		// we reached the end without finding a trusted cert.
-		throw LLCertValidationTrustException((*cert_chain)[cert_chain->size()-1]);
+		LLTHROW(LLCertValidationTrustException((*cert_chain)[cert_chain->size()-1]));
 
 	}
 	mTrustedCertCache[sha1_hash] = std::pair<LLDate, LLDate>(from_time, to_time);	
@@ -1319,7 +1321,7 @@ void LLSecAPIBasicHandler::_readProtectedData()
 		protected_data_stream.read((char *)salt, STORE_SALT_SIZE);
 		if (protected_data_stream.gcount() < STORE_SALT_SIZE)
 		{
-			throw LLProtectedDataException("Config file too short.");
+			LLTHROW(LLProtectedDataException("Config file too short."));
 		}
 
 		cipher.decrypt(salt, STORE_SALT_SIZE);		
@@ -1370,7 +1372,7 @@ void LLSecAPIBasicHandler::_readProtectedData()
 				LLSDSerialize::SIZE_UNLIMITED) == LLSDParser::PARSE_FAILURE)
 			{
 				// everything failed abort
-				throw LLProtectedDataException("Config file cannot be decrypted.");
+				LLTHROW(LLProtectedDataException("Config file cannot be decrypted."));
 			}
 		}
 	}
@@ -1434,7 +1436,7 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 	}
 	catch (...)
 	{
-		LL_WARNS() << "LLProtectedDataException(Error writing Protected Data Store)" << LL_ENDL;
+		LOG_UNHANDLED_EXCEPTION("LLProtectedDataException(Error writing Protected Data Store)");
 		// it's good practice to clean up any secure information on error
 		// (even though this file isn't really secure.  Perhaps in the future
 		// it may be, however.
@@ -1442,39 +1444,39 @@ void LLSecAPIBasicHandler::_writeProtectedData()
 
 		// EXP-1825 crash in LLSecAPIBasicHandler::_writeProtectedData()
 		// Decided throwing an exception here was overkill until we figure out why this happens
-		//throw LLProtectedDataException("Error writing Protected Data Store");
+		//LLTHROW(LLProtectedDataException("Error writing Protected Data Store"));
 	}
 
-    try
-    {
-        // move the temporary file to the specified file location.
-        if(((   (LLFile::isfile(mProtectedDataFilename) != 0)
-             && (LLFile::remove(mProtectedDataFilename) != 0)))
-           || (LLFile::rename(tmp_filename, mProtectedDataFilename)))
-        {
-            LL_WARNS() << "LLProtectedDataException(Could not overwrite protected data store)" << LL_ENDL;
-            LLFile::remove(tmp_filename);
+	try
+	{
+		// move the temporary file to the specified file location.
+		if(((	(LLFile::isfile(mProtectedDataFilename) != 0)
+			 && (LLFile::remove(mProtectedDataFilename) != 0)))
+		   || (LLFile::rename(tmp_filename, mProtectedDataFilename)))
+		{
+			LL_WARNS() << "LLProtectedDataException(Could not overwrite protected data store)" << LL_ENDL;
+			LLFile::remove(tmp_filename);
 
-            // EXP-1825 crash in LLSecAPIBasicHandler::_writeProtectedData()
-            // Decided throwing an exception here was overkill until we figure out why this happens
-            //throw LLProtectedDataException("Could not overwrite protected data store");
-        }
+			// EXP-1825 crash in LLSecAPIBasicHandler::_writeProtectedData()
+			// Decided throwing an exception here was overkill until we figure out why this happens
+			//LLTHROW(LLProtectedDataException("Could not overwrite protected data store"));
+		}
 	}
 	catch (...)
 	{
-		LL_WARNS() << "LLProtectedDataException(Error renaming '" << tmp_filename
-                   << "' to '" << mProtectedDataFilename << "')" << LL_ENDL;
+		LOG_UNHANDLED_EXCEPTION(STRINGIZE("renaming '" << tmp_filename << "' to '"
+										  << mProtectedDataFilename << "'"));
 		// it's good practice to clean up any secure information on error
 		// (even though this file isn't really secure.  Perhaps in the future
-		// it may be, however.
+		// it may be, however).
 		LLFile::remove(tmp_filename);
 
 		//crash in LLSecAPIBasicHandler::_writeProtectedData()
 		// Decided throwing an exception here was overkill until we figure out why this happens
-		//throw LLProtectedDataException("Error writing Protected Data Store");
+		//LLTHROW(LLProtectedDataException("Error writing Protected Data Store"));
 	}
 }
-		
+
 // instantiate a certificate from a pem string
 LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(const std::string& pem_cert)
 {

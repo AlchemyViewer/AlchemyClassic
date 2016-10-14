@@ -28,16 +28,19 @@
 #include "llupdateinstaller.h"
 #include "lldir.h" 
 #include "llsd.h"
+#include "llexception.h"
 
 namespace {
-	class RelocateError {};
-	
-	
+	struct RelocateError: public LLException
+	{
+		RelocateError(): LLException("llupdateinstaller: RelocateError") {}
+	};
+
 	std::string copy_to_temp(std::string const & path)
 	{
 		std::string scriptFile = gDirUtilp->getBaseFileName(path);
 		std::string newPath = gDirUtilp->getExpandedFilename(LL_PATH_TEMP, scriptFile);
-		if(!LLFile::copy(path, newPath)) throw RelocateError();
+		if(!LLFile::copy(path, newPath)) LLTHROW(RelocateError());
 		
 		return newPath;
 	}

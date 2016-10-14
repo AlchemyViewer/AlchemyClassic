@@ -822,7 +822,7 @@ LLView* LLView::childrenHandleHover(S32 x, S32 y, MASK mask)
 LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 {
 	if (!getVisible())
-		return NULL; // <alchemy/>
+		return NULL;
 
 	for (LLView* viewp : mChildList)
 	{
@@ -848,7 +848,7 @@ LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 		return viewp;
 
 	}
-	return NULL; // <alchemy/>
+	return NULL;
 }
 
 BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)

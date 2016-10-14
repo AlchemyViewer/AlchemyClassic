@@ -81,7 +81,7 @@ public:
 	//
 	virtual bool init();			// Override to do application initialization
 	virtual bool cleanup();			// Override to do application cleanup
-	virtual bool mainLoop(); // Override for the application main loop.  Needs to at least gracefully notice the QUITTING state and exit.
+	virtual bool frame(); // Override for application body logic
 
 	// Application control
 	void flushVFSIO(); // waits for vfs transfers to complete
@@ -269,7 +269,6 @@ private:
 	std::string mSerialNumber;
 	bool mPurgeCache;
     bool mPurgeOnExit;
-	bool mMainLoopInitialized;
 	LLViewerJoystick* joystick;
 
 	bool mSavedFinalSnapshot;

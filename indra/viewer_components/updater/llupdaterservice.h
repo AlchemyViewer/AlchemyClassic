@@ -27,6 +27,7 @@
 #define LL_UPDATERSERVICE_H
 
 #include "llhasheduniqueid.h"
+#include "llexception.h"
 
 #include <functional>
 
@@ -35,10 +36,10 @@ class LLUpdaterServiceImpl;
 class LLUpdaterService
 {
 public:
-	class UsageError: public std::runtime_error
+	class UsageError: public LLException
 	{
 	public:
-		UsageError(const std::string& msg) : std::runtime_error(msg) {}
+		UsageError(const std::string& msg) : LLException(msg) {}
 	};
 	
 	// Name of the event pump through which update events will be delivered.

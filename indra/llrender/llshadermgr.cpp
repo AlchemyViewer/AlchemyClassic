@@ -570,7 +570,7 @@ void LLShaderMgr::dumpProgramLog(GLuint ret, BOOL warns, const std::string& file
 		if (!filename.empty())
 		{
             LL_CONT << "From " << filename << ":\n";
-        }
+		}
         LL_CONT << log << LL_ENDL;
 	}
 }

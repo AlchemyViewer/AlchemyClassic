@@ -1822,6 +1822,7 @@ if (WINDOWS)
       ${ARCH_PREBUILT_DIRS_DEBUG}/ssleay32.dll
       AlchemyPlugin
       media_plugin_cef
+      media_plugin_libvlc
       windows-crash-logger
       )
 
@@ -2077,6 +2078,7 @@ if (LINUX)
     linux-crash-logger
     AlchemyPlugin
     media_plugin_gstreamer010
+    media_plugin_libvlc
     llcommon
     )
 
@@ -2185,9 +2187,9 @@ if (DARWIN)
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
     )
   if (WORD_SIZE EQUAL 32)
-      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_quicktime media_plugin_cef mac-crash-logger)
+      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_quicktime media_plugin_libvlc media_plugin_cef mac-crash-logger)
   elseif (WORD_SIZE EQUAL 64)
-     add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_cef mac-crash-logger)
+     add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_libvlc media_plugin_cef mac-crash-logger)
   endif (WORD_SIZE EQUAL 32)
 
   if (ENABLE_SIGNING)

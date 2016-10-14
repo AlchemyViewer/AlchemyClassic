@@ -292,8 +292,6 @@ block_timer_tree_bf_iterator_t end_block_timer_tree_bf();
 LL_FORCE_INLINE BlockTimer::BlockTimer(BlockTimerStatHandle& timer)
 {
 #if LL_FAST_TIMER_ON
-	mStartTime = getCPUClockCount64();
-
 	BlockTimerStackRecord* cur_timer_data = LLThreadLocalSingletonPointer<BlockTimerStackRecord>::getInstance();
 	if (!cur_timer_data)
 	{
@@ -316,6 +314,8 @@ LL_FORCE_INLINE BlockTimer::BlockTimer(BlockTimerStatHandle& timer)
 	cur_timer_data->mActiveTimer = this;
 	cur_timer_data->mTimeBlock = &timer;
 	cur_timer_data->mChildTime = 0;
+
+	mStartTime = getCPUClockCount64();
 #endif
 }
 

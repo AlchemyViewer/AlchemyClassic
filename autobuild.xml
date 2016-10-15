@@ -2036,18 +2036,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>69261df799903b647de1fc5ed9781e1a</string>
+              <string>afcda197872f00eafce47f469d204b5e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14/llceflib-3.2526.1364.gf6bf57b-windows64-201604060333.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2526.1364.gf6bf57b-windows64-201610142042.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>3.2526.1373.gb660893</string>
+        <string>3.2526.1364.gf6bf57b</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>
@@ -3001,9 +3001,23 @@
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>87865493cf21722d3d2e562044935d88</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/vlc_bin-2.2.4.201610142105-windows64-201610142105.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>version</key>
-        <string>2.2.4.317935</string>
+        <string>2.2.4.201610142105</string>
       </map>
       <key>xmlrpc-epi</key>
       <map>

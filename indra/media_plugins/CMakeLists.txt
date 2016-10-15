@@ -12,9 +12,9 @@ if (DARWIN)
 endif (DARWIN)
 
 if (WINDOWS)
-    add_subdirectory(libvlc)
+    #add_subdirectory(libvlc)
 endif (WINDOWS)
 
-add_subdirectory(cef)
+#add_subdirectory(cef)
 
 ### add_subdirectory(example)

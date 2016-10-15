@@ -33,14 +33,6 @@ include_directories(SYSTEM
 
 ### media_plugin_libvlc
 
-if(NOT WORD_SIZE EQUAL 32)
-  if(WINDOWS)
-    add_definitions(/FIXED:NO)
-  else(WINDOWS) # not windows therefore gcc LINUX and DARWIN
-    add_definitions(-fPIC)
-  endif(WINDOWS)
-endif(NOT WORD_SIZE EQUAL 32)
-
 set(media_plugin_libvlc_SOURCE_FILES
     media_plugin_libvlc.cpp
     )
@@ -58,17 +50,13 @@ target_link_libraries(media_plugin_libvlc
   ${PLUGIN_API_WINDOWS_LIBRARIES}
 )
 
-add_dependencies(media_plugin_libvlc
-  ${LLPLUGIN_LIBRARIES}
-  ${MEDIA_PLUGIN_BASE_LIBRARIES}
-  ${LLCOMMON_LIBRARIES}
-)
+set_target_properties(media_plugin_libvlc PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 if (WINDOWS)
   set_target_properties(
     media_plugin_libvlc
     PROPERTIES
-    LINK_FLAGS "/MANIFEST:NO /SAFESEH:NO /LTCG /NODEFAULTLIB:LIBCMT"
+    LINK_FLAGS "/MANIFEST:NO"
     )
 endif (WINDOWS)
 

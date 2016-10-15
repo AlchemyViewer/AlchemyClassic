@@ -123,7 +123,7 @@ LLSD LLCredential::getLoginParams()
 	catch (...)
 	{
 		// nat 2016-08-18: not clear what exceptions the above COULD throw?!
-		LOG_UNHANDLED_EXCEPTION(STRINGIZE("for '" << username << "'"));
+		LOG_UNHANDLED_EXCEPTION(std::string("for '" + username + "'"));
 		// we could have corrupt data, so simply return a null login param if so
 		LL_WARNS("AppInit") << "Invalid credential" << LL_ENDL;
 	}

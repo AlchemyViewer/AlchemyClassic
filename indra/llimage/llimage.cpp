@@ -1431,7 +1431,7 @@ bool LLImageRaw::scale( S32 new_width, S32 new_height, bool scale_image_data )
 
 		if (new_data_size > 0)
         {
-            U8 *new_data = (U8*)ll_aligned_malloc_16(LLImageBase::getPrivatePool(), new_data_size); 
+            U8 *new_data = (U8*)ll_aligned_malloc_16(new_data_size); 
             if(NULL == new_data) 
             {
                 return false; 

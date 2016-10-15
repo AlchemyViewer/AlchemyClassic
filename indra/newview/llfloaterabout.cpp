@@ -64,11 +64,21 @@
 #include "lleventapi.h"
 #include "llcorehttputil.h"
 
-#include <cef/llceflib.h>
-
 #if LL_WINDOWS
 #include "lldxhardware.h"
 #endif
+
+#if defined(__has_include)
+#if __has_include(<cef/llceflib.h>)
+#define HAS_CEF_HEADER 1
+#include <cef/llceflib.h>
+#endif
+
+#if __has_include(<vlc/libvlc_version.h>)
+#define HAS_VLC_HEADER 1
+#include <vlc/libvlc_version.h>
+#endif
+#endif // defined(__has_include)
 
 extern LLMemoryInfo gSysMemory;
 extern U32 gPacketsIn;
@@ -79,7 +89,6 @@ extern U32 gPacketsIn;
 class LLFloaterAbout 
 	: public LLFloater
 {
-	friend class LLServerReleaseNotesURLFetcher;
 	friend class LLFloaterReg;
 private:
 	LLFloaterAbout(const LLSD& key);
@@ -111,6 +120,7 @@ private:
 	static const std::string sCheckUpdateListenerName;
 	
     static void startFetchServerReleaseNotes();
+    static void fetchServerReleaseNotesCoro(const std::string& cap_url);
     static void handleServerReleaseNotes(LLSD results);
 };
 
@@ -146,8 +156,7 @@ BOOL LLFloaterAbout::postBuild()
 
 	static const LLUIColor about_color = LLUIColorTable::instance().getColor("TextFgReadOnlyColor");
 
-	LLViewerRegion* regionp = gAgent.getRegion();
-	if (regionp)
+	if (gAgent.getRegion())
 	{
 		// start fetching server release notes URL
 		setSupportText(LLTrans::getString("RetrievingData"));
@@ -228,7 +237,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 	info["CHANNEL"] = LLVersionInfo::getChannel();
 
 	// return a URL to the release notes for this viewer, such as:
-	// http://wiki.secondlife.com/wiki/Release_Notes/Second Life Beta Viewer/2.1.0.123456
+	// http://wiki.secondlife.com/wiki/Release_Notes/Second%20Life%20Beta%20Viewer/2.1.0.123456
 	std::string url = LLTrans::getString("RELEASE_NOTES_BASE_URL");
 	if (!LLStringUtil::endsWith(url, "/"))
 		url += "/";
@@ -237,7 +246,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 
 #if LL_MSVC
 	info["COMPILER"] = "MSVC";
-	info["COMPILER_VERSION"] = _MSC_FULL_VER; // <alchemy/>
+	info["COMPILER_VERSION"] = _MSC_FULL_VER;
 #elif LL_GNUC
 	info["COMPILER"] = "GCC";
 	info["COMPILER_VERSION"] = GCC_VERSION;
@@ -293,8 +302,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 	info["LIBCURL_VERSION"] = LLCore::LLHttp::getCURLVersion();
 	info["J2C_VERSION"] = LLImageJ2C::getEngineInfo();
 	info["FONT_VERSION"] = LLFontFreetype::getVersionString();
-	bool want_fullname = true;
-	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(want_fullname)) : LLSD();
+	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(true)) : LLSD();
 	if (LLVoiceClient::getInstance()->voiceEnabled())
 	{
 		LLVoiceVersionInfo version = LLVoiceClient::getInstance()->getVersion();
@@ -307,7 +315,23 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
+#if HAS_CEF_HEADER
 	info["LLCEFLIB_VERSION"] = LLCEFLIB_VERSION;
+#else
+	info["LLCEFLIB_VERSION"] = "Undefined";
+#endif
+
+#if HAS_VLC_HEADER
+	std::ostringstream ver_codec;
+	ver_codec << LIBVLC_VERSION_MAJOR;
+	ver_codec << ".";
+	ver_codec << LIBVLC_VERSION_MINOR;
+	ver_codec << ".";
+	ver_codec << LIBVLC_VERSION_REVISION;
+	info["LIBVLC_VERSION"] = ver_codec.str();
+#else
+	info["LIBVLC_VERSION"] = "Undefined";
+#endif
 
 	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
 	if (packets_in > 0)
@@ -342,9 +366,35 @@ void LLFloaterAbout::startFetchServerReleaseNotes()
     // an URL suitable for external browsers in the "Location:" HTTP header.
     std::string cap_url = region->getCapability("ServerReleaseNotes");
 
-    LLCoreHttpUtil::HttpCoroutineAdapter::callbackHttpGet(cap_url,
-        &LLFloaterAbout::handleServerReleaseNotes, &LLFloaterAbout::handleServerReleaseNotes);
+    LLCoros::instance().launch("fetchServerReleaseNotesCoro", boost::bind(&LLFloaterAbout::fetchServerReleaseNotesCoro, cap_url));
 
+}
+
+/*static*/
+void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string& cap_url)
+{
+    LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
+        httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("fetchServerReleaseNotesCoro", LLCore::HttpRequest::DEFAULT_POLICY_ID));
+    LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+
+	httpOpts->setRetries(0);
+    httpOpts->setWantHeaders(true);
+    httpOpts->setFollowRedirects(false);
+
+    LLSD result = httpAdapter->getAndSuspend(httpRequest, cap_url, httpOpts);
+
+    LLSD httpResults = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS];
+    LLCore::HttpStatus status = LLCoreHttpUtil::HttpCoroutineAdapter::getStatusFromLLSD(httpResults);
+
+    if (!status)
+    {
+        handleServerReleaseNotes(httpResults);
+    }
+    else
+    {
+        handleServerReleaseNotes(result);
+    }
 }
 
 /*static*/
@@ -369,7 +419,7 @@ void LLFloaterAbout::handleServerReleaseNotes(LLSD results)
         {
             location = LLTrans::getString("ErrorFetchingServerReleaseNotesURL");
         }
-		floater_about->setSupportText(location);
+        floater_about->setSupportText(location);
     }
 }
 

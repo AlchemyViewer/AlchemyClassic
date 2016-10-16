@@ -50,6 +50,7 @@
 
 - (void)dealloc
 {
+    [currentInputLanguage release];
     [super dealloc];
 }
 

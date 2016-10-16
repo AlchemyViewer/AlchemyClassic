@@ -68,17 +68,11 @@
 #include "lldxhardware.h"
 #endif
 
-#if defined(__has_include)
-#if __has_include(<cef/llceflib.h>)
-#define HAS_CEF_HEADER 1
 #include <cef/llceflib.h>
-#endif
 
-#if __has_include(<vlc/libvlc_version.h>)
-#define HAS_VLC_HEADER 1
+#if !LL_DARWIN
 #include <vlc/libvlc_version.h>
 #endif
-#endif // defined(__has_include)
 
 extern LLMemoryInfo gSysMemory;
 extern U32 gPacketsIn;
@@ -315,13 +309,13 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 		info["VOICE_VERSION"] = LLTrans::getString("NotConnected");
 	}
 
-#if HAS_CEF_HEADER
+#if 1
 	info["LLCEFLIB_VERSION"] = LLCEFLIB_VERSION;
 #else
 	info["LLCEFLIB_VERSION"] = "Undefined";
 #endif
 
-#if HAS_VLC_HEADER
+#if !LL_DARWIN
 	std::ostringstream ver_codec;
 	ver_codec << LIBVLC_VERSION_MAJOR;
 	ver_codec << ".";

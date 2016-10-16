@@ -788,11 +788,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98fc0c6de8c3f66ed487759f27d742ca</string>
+              <string>271e3ab814f27280515ed26510a7e720</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/freetype-2.6.5-windows64-201608212148.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/freetype-2.7.0-windows64-201610152102.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1052,11 +1052,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ff4c75d9293ec09eb2ee809fcac53833</string>
+              <string>c51a672a095b5d85f09798add202dee1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/google_breakpad-9e60a27-windows64-201608212119.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/google_breakpad-7398ce15b79da-windows64-201610152047.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1378,11 +1378,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a83e756f0ccaef9b77313c0f54cd543</string>
+              <string>d1314e4bad863d212ba2b57ea78ee02f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jpeglib-1.5.0-windows64-201608212115.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jpeglib-1.5.1-windows64-201610152035.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1464,11 +1464,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f8428c957c0cdfa0945e55bc5754a4f3</string>
+              <string>1fddd97691065b53664e6b94dcec8da5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jsoncpp-1.7.3-windows64-201608212048.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jsoncpp-1.7.6-windows64-201610152033.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1846,11 +1846,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>04dc96d702bb0ff95e047f85247936c8</string>
+              <string>983b2a84d1f219a127768665dea99be4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libpng-1.6.24-windows64-201608212145.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libpng-1.6.25-windows64-201610152042.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

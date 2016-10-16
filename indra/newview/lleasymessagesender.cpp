@@ -325,8 +325,8 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 	}
 
 	LLSD header_map;
-	U8* body = NULL;
-	size_t body_len = 0;
+    auto raw = LLCore::BufferArray::ptr_t(new LLCore::BufferArray());
+    LLCore::BufferArrayStream body(raw.get());
 
 	// TODO: This does way too many string copies. The path's not very hot
 	// but it's still gross.
@@ -341,7 +341,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		{
 			std::string header_section = str_message.substr(header_start, header_end - header_start);
 			std::vector<std::string> headers = split(header_section, "\n");
-			for(std::vector<std::string>::iterator iter=headers.begin(); iter!=headers.end(); ++iter)
+			for (auto iter = headers.begin(); iter != headers.end(); ++iter)
 			{
 				std::vector<std::string> header_tokens = split((*iter), ":");
 				if(header_tokens.size() != 2)
@@ -364,10 +364,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		size_t body_start = header_end + BODY_SEPARATOR.size();
 		if(body_start < str_message.size())
 		{
-			std::string body_str = str_message.substr(body_start);
-			body_len = body_str.size();
-			body = new U8[body_len];
-			memcpy(body, body_str.c_str(), sizeof(U8) * body_len);
+            body.write(str_message.c_str() + body_start, str_message.size());
 		}
 	}
 

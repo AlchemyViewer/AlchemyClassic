@@ -2683,38 +2683,6 @@
         <key>version</key>
         <string>1.1.0b</string>
       </map>
-      <key>quicktime</key>
-      <map>
-        <key>copyright</key>
-        <string>2010 Apple</string>
-        <key>description</key>
-        <string>QuickTime 7.3 SDK for Windows</string>
-        <key>license</key>
-        <string>unknown</string>
-        <key>license_file</key>
-        <string>LICENSES/quicktime.txt</string>
-        <key>name</key>
-        <string>quicktime</string>
-        <key>platforms</key>
-        <map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>66600ab94087d295e48e326ec8961ac5</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/quicktime-7.3-windows-201504280653.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>7.3</string>
-      </map>
       <key>slvoice</key>
       <map>
         <key>copyright</key>

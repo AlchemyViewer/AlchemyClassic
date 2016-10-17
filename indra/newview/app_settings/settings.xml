@@ -331,7 +331,7 @@
     <key>AudioLevelMedia</key>
     <map>
       <key>Comment</key>
-      <string>Audio level of Quicktime movies</string>
+      <string>Audio level of parcel Media</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
@@ -6690,17 +6690,6 @@
       <string>Disable sound and image preload.</string>
       <key>Persist</key>
       <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>0</integer>
-    </map>
-    <key>NoQuickTime</key>
-    <map>
-      <key>Comment</key>
-      <string>Disable QuickTime for a particular viewer run</string>
-      <key>Persist</key>
-      <integer>0</integer>
       <key>Type</key>
       <string>Boolean</string>
       <key>Value</key>

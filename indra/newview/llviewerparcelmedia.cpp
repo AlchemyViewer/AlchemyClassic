@@ -136,25 +136,6 @@ void LLViewerParcelMedia::update(LLParcel* parcel)
 			stop();
 		}
 	}
-	/*
-	else
-	{
-		// no audio player, do a first use dialog if there is media here
-		if (parcel)
-		{
-			std::string mediaUrl = std::string ( parcel->getMediaURL () );
-			if (!mediaUrl.empty ())
-			{
-				if (gWarningSettings.getBOOL("QuickTimeInstalled"))
-				{
-					gWarningSettings.setBOOL("QuickTimeInstalled", FALSE);
-
-					LLNotificationsUtil::add("NoQuickTime" );
-				};
-			}
-		}
-	}
-	*/
 }
 
 // static

@@ -6763,16 +6763,6 @@ Deactivated gestures with same trigger:
 
   <notification
    icon="notify.tga"
-   name="NoQuickTime"
-   persist="true"
-   type="notify">
-Apple&apos;s QuickTime software does not appear to be installed on your system.
-If you want to view streaming media on parcels that support it you should go to the [http://www.apple.com/quicktime QuickTime site] and install the QuickTime Player.
-  <tag>fail</tag>
-  </notification>
-
-  <notification
-   icon="notify.tga"
    name="NoPlugin"
    persist="true"
    type="notify">

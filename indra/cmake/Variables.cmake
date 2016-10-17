@@ -43,7 +43,6 @@ option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Media Plugins
 option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)
-option(USE_QUICKTIME_PREBUILT "Use prebuilt quicktime SDK" OFF)
 
 # Mallocs
 option(USE_TCMALLOC "Build the viewer with google tcmalloc" OFF)

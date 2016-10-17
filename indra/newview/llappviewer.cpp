@@ -276,7 +276,6 @@ F32 gSimLastTime; // Used in LLAppViewer::init and send_stats()
 F32 gSimFrames;
 
 BOOL gShowObjectUpdates = FALSE;
-BOOL gUseQuickTime = TRUE;
 
 eLastExecEvent gLastExecEvent = LAST_EXEC_NORMAL;
 S32 gLastExecDuration = -1; // (<0 indicates unknown) 

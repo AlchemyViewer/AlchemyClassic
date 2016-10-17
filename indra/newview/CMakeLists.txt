@@ -1849,12 +1849,6 @@ if (WINDOWS)
         )
     endif(USE_TBBMALLOC)
 	  
-    if (WORD_SIZE EQUAL 32)
-      list(APPEND COPY_INPUT_DEPENDENCIES
-           media_plugin_quicktime
-           )
-    endif (WORD_SIZE EQUAL 32)
-
     if (FMODSTUDIO)
       if (WORD_SIZE EQUAL 32)
         list(APPEND COPY_INPUT_DEPENDENCIES
@@ -2187,7 +2181,7 @@ if (DARWIN)
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
     )
   if (WORD_SIZE EQUAL 32)
-      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_quicktime media_plugin_libvlc media_plugin_cef mac-crash-logger)
+      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_libvlc media_plugin_cef mac-crash-logger)
   elseif (WORD_SIZE EQUAL 64)
      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_libvlc media_plugin_cef mac-crash-logger)
   endif (WORD_SIZE EQUAL 32)
@@ -2246,7 +2240,6 @@ if (PACKAGE)
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/llplugin/slplugin/${CMAKE_CFG_INTDIR}")
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/mac_crash_logger/${CMAKE_CFG_INTDIR}")
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/media_plugins/gstreamer010/${CMAKE_CFG_INTDIR}")
-    list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_BINARY_DIR}/media_plugins/quicktime/${CMAKE_CFG_INTDIR}")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-symbols-darwin.tar.bz2")
     set(VIEWER_EXE_GLOBS "'Alchemy' AlchemyPlugin mac-crash-logger")
     set(VIEWER_LIB_GLOB "*.dylib")

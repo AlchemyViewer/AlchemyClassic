@@ -188,17 +188,6 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>QuickTimeInstalled</key>
-    <map>
-      <key>Comment</key>
-      <string>Enables QuickTimeInstalled warning dialog</string>
-      <key>Persist</key>
-      <integer>1</integer>
-      <key>Type</key>
-      <string>Boolean</string>
-      <key>Value</key>
-      <integer>1</integer>
-    </map>
     <key>ReturnToOwner</key>
     <map>
       <key>Comment</key>

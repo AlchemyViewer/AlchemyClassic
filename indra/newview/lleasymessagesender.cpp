@@ -324,9 +324,9 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		target = boost::algorithm::join(split_url, "/");
 	}
 
-	LLSD header_map;
-    auto raw = LLCore::BufferArray::ptr_t(new LLCore::BufferArray());
-    LLCore::BufferArrayStream body(raw.get());
+    auto headers = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders());
+    auto body = LLCore::BufferArray::ptr_t(new LLCore::BufferArray());
+    LLCore::BufferArrayStream bas(body.get());
 
 	// TODO: This does way too many string copies. The path's not very hot
 	// but it's still gross.
@@ -339,14 +339,14 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 			header_end = str_message.size();
 		if(header_start != header_end)
 		{
-			std::string header_section = str_message.substr(header_start, header_end - header_start);
-			std::vector<std::string> headers = split(header_section, "\n");
-			for (auto iter = headers.begin(); iter != headers.end(); ++iter)
+			auto header_section = str_message.substr(header_start, header_end - header_start);
+			auto header_vec = split(header_section, "\n");
+            for (const auto& iter : header_vec)
 			{
-				std::vector<std::string> header_tokens = split((*iter), ":");
+				auto header_tokens = split(iter, ":");
 				if(header_tokens.size() != 2)
 				{
-					printError(llformat("Malformed Header: %s", iter->c_str()));
+                    printError(std::string("Malformed Header: ").append(iter));
 					return false;
 				}
 
@@ -356,7 +356,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 				if(!header_val.empty() && header_val[0] == ' ')
 					header_val = header_val.substr(1);
 
-				header_map[header_name] = header_val;
+                headers->append(header_name, header_val);
 			}
 		}
 
@@ -364,7 +364,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		size_t body_start = header_end + BODY_SEPARATOR.size();
 		if(body_start < str_message.size())
 		{
-            body.write(str_message.c_str() + body_start, str_message.size());
+            bas.write(str_message.c_str() + body_start, str_message.size());
 		}
 	}
 

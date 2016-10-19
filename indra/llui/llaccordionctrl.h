@@ -99,7 +99,7 @@ public:
 	// Call reshape after changing splitter's size
 	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
 
-	void addCollapsibleCtrl(LLView* view);
+	void addCollapsibleCtrl(LLView* view, bool arrange_now = true);
 	void removeCollapsibleCtrl(LLView* view);
 	void arrange();
 

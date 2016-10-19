@@ -84,6 +84,7 @@ public:
     virtual void updateRemovedCategory(LLUUID cat_id) = 0;
     virtual void updateChangedCategoryName(LLViewerInventoryCategory *cat, std::string name) = 0;
     virtual void sortOutfits();
+    virtual void arrange() {}
 
     void removeSelected();
     void setSelectedOutfitByUUID(const LLUUID& outfit_uuid);
@@ -269,6 +270,7 @@ private:
     /*virtual*/ void updateChangedCategoryName(LLViewerInventoryCategory *cat, std::string name);
 
     /*virtual*/ void sortOutfits();
+    /*virtual*/ void arrange();
 
     /*virtual*/ void onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid);
 

@@ -158,7 +158,7 @@ void LLOutfitsList::updateAddedCategory(LLUUID cat_id)
 
     // *TODO: LLUICtrlFactory::defaultBuilder does not use "display_children" from xml. Should be investigated.
     tab->setDisplayChildren(false);
-    mAccordion->addCollapsibleCtrl(tab);
+    mAccordion->addCollapsibleCtrl(tab, false);
 
     // Start observing the new outfit category.
     LLWearableItemsList* list = tab->getChild<LLWearableItemsList>("wearable_items_list");
@@ -245,6 +245,15 @@ void LLOutfitsList::updateRemovedCategory(LLUUID cat_id)
     		tab->die();
     	}
     }
+}
+
+//virtual
+void LLOutfitsList::arrange()
+{
+	if (mAccordion)
+	{
+		mAccordion->arrange();
+	}
 }
 
 //virtual
@@ -863,6 +872,8 @@ void LLOutfitListBase::refreshList(const LLUUID& category_id)
         const LLUUID cat_id = (*iter);
         updateRemovedCategory(cat_id);
     }
+
+    arrange();
 
     // Get changed items from inventory model and update outfit tabs
     // which might have been renamed.

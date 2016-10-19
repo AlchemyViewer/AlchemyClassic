@@ -325,7 +325,7 @@ void LLAccordionCtrl::ctrlShiftVertical(LLView* panel,S32 delta)
 
 //---------------------------------------------------------------------------------
 
-void LLAccordionCtrl::addCollapsibleCtrl(LLView* view)
+void LLAccordionCtrl::addCollapsibleCtrl(LLView* view, bool arrange_now/*= true*/)
 {
 	LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(view);
 	if(!accordion_tab)
@@ -335,7 +335,8 @@ void LLAccordionCtrl::addCollapsibleCtrl(LLView* view)
 	mAccordionTabs.push_back(accordion_tab);
 
 	accordion_tab->setDropDownStateChangedCallback( boost::bind(&LLAccordionCtrl::onCollapseCtrlCloseOpen, this, S16(mAccordionTabs.size() - 1)) );
-	arrange();	
+	if(arrange_now)
+		arrange();	
 }
 
 void LLAccordionCtrl::removeCollapsibleCtrl(LLView* view)

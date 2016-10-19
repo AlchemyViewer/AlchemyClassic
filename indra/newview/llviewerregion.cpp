@@ -854,23 +854,36 @@ std::string LLViewerRegion::regionFlagsToString(U64 flags)
 // static
 std::string LLViewerRegion::accessToString(U8 sim_access)
 {
-	switch(sim_access)
+	switch (sim_access)
 	{
 	case SIM_ACCESS_PG:
-		return LLTrans::getString("SIM_ACCESS_PG");
+	{
+		static std::string sim_access_pg = LLTrans::getString("SIM_ACCESS_PG");
+		return sim_access_pg;
+	}
 
 	case SIM_ACCESS_MATURE:
-		return LLTrans::getString("SIM_ACCESS_MATURE");
+	{
+		static std::string sim_access_mature = LLTrans::getString("SIM_ACCESS_MATURE");
+		return sim_access_mature;
+	}
 
 	case SIM_ACCESS_ADULT:
-		return LLTrans::getString("SIM_ACCESS_ADULT");
-
+	{
+		static std::string sim_access_adult = LLTrans::getString("SIM_ACCESS_ADULT");
+		return sim_access_adult;
+	}
 	case SIM_ACCESS_DOWN:
-		return LLTrans::getString("SIM_ACCESS_DOWN");
-
+	{
+		static std::string sim_access_down = LLTrans::getString("SIM_ACCESS_DOWN");
+		return sim_access_down;
+	}
 	case SIM_ACCESS_MIN:
 	default:
-		return LLTrans::getString("SIM_ACCESS_MIN");
+	{
+		static std::string sim_access_up = LLTrans::getString("SIM_ACCESS_MIN");
+		return sim_access_up;
+	}
 	}
 }
 

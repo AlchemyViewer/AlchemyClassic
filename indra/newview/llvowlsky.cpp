@@ -824,12 +824,13 @@ BOOL LLVOWLSky::updateStarGeometry(LLDrawable *drawable)
 		*(texcoordsp++) = LLVector2(0,1);
 		*(texcoordsp++) = LLVector2(0,0);
 
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
-		*(colorsp++)    = LLColor4U(mStarColors[vtx]);
+		LLColor4U star_color(mStarColors[vtx]);
+		*(colorsp++)    = star_color;
+		*(colorsp++)    = star_color;
+		*(colorsp++)    = star_color;
+		*(colorsp++)    = star_color;
+		*(colorsp++)    = star_color;
+		*(colorsp++)    = star_color;
 	}
 
 	mStarsVerts->flush();

@@ -143,9 +143,9 @@ BOOL LLAccordionCtrl::postBuild()
 	}
 
 	for(std::vector<LLUICtrl*>::reverse_iterator it = accordion_tabs.rbegin();it!=accordion_tabs.rend();++it)
-		addCollapsibleCtrl(*it);
+		addCollapsibleCtrl(*it, false);
 
-	arrange	();
+	arrange();
 
 	if(mSingleExpansion)
 	{

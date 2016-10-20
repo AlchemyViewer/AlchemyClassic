@@ -595,7 +595,7 @@ void LLView::setVisible(BOOL visible)
 void LLView::onVisibilityChange ( BOOL new_visibility )
 {
 	BOOL old_visibility;
-	BOOL log_visibility_change = LLViewerEventRecorder::instance().getLoggingStatus();
+	bool log_visibility_change = LLViewerEventRecorder::instance().getLoggingStatus();
 	for (LLView* viewp : mChildList)
 	{
 		if (!viewp)
@@ -608,10 +608,10 @@ void LLView::onVisibilityChange ( BOOL new_visibility )
 
 		if(log_visibility_change)
 		{
-		if (old_visibility!=new_visibility)
-		{
-			LLViewerEventRecorder::instance().logVisibilityChange( viewp->getPathname(), viewp->getName(), new_visibility,"widget");
-		}
+			if (old_visibility!=new_visibility)
+			{
+				LLViewerEventRecorder::instance().logVisibilityChange( viewp->getPathname(), viewp->getName(), new_visibility,"widget");
+			}
 		}
 
 		if (old_visibility)
@@ -862,9 +862,11 @@ BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)
 	{
 		// allow "scrubbing" over ui by showing next tooltip immediately
 		// if previous one was still visible
+		static LLUICachedControl<F32> tool_tip_fast_delay("ToolTipFastDelay", 0.1f);
+		static LLUICachedControl<F32> tool_tip_delay("ToolTipDelay", 0.699999988079f);
 		F32 timeout = LLToolTipMgr::instance().toolTipVisible() 
-		              ? LLUI::sSettingGroups["config"]->getF32( "ToolTipFastDelay" )
-		              : LLUI::sSettingGroups["config"]->getF32( "ToolTipDelay" );
+		              ? tool_tip_fast_delay
+		              : tool_tip_delay;
 		LLToolTipMgr::instance().show(LLToolTip::Params()
 		                              .message(tooltip)
 		                              .sticky_rect(calcScreenRect())

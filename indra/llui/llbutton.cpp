@@ -616,7 +616,7 @@ void LLButton::getOverlayImageSize(S32& overlay_width, S32& overlay_height)
 // virtual
 void LLButton::draw()
 {
-	static LLCachedControl<bool> sEnableButtonFlashing(*LLUI::sSettingGroups["config"], "EnableButtonFlashing", true);
+	static LLUICachedControl<bool> sEnableButtonFlashing("EnableButtonFlashing", true);
 	F32 alpha = mUseDrawContextAlpha ? getDrawContext().mAlpha : getCurrentTransparency();
 
 	bool pressed_by_keyboard = FALSE;

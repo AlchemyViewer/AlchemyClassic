@@ -180,7 +180,8 @@ void LLConsole::draw()
 
 	LLUIImagePtr imagep = LLUI::getUIImage("Rounded_Rect");
 
-	F32 console_opacity = llclamp(LLUI::sSettingGroups["config"]->getF32("ConsoleBackgroundOpacity"), 0.f, 1.f);
+	static LLUICachedControl<F32> console_background_opacity("ConsoleBackgroundOpacity", 0.7f);
+	F32 console_opacity = llclamp(console_background_opacity(), 0.f, 1.f);
 	LLColor4 color = LLUIColorTable::instance().getColor("ConsoleBackground");
 	color.mV[VALPHA] *= console_opacity;
 

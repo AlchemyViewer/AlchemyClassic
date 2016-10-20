@@ -49,10 +49,14 @@ protected:
     /// implementations do.
     struct StaticBase
     {
+#ifdef LL_DEBUG
         StaticBase():
             sIterationNestDepth(0)
         {}
-
+#else
+       StaticBase()
+        {}
+#endif
 		void incrementDepth();
 		void decrementDepth();
 		U32 getDepth();
@@ -95,12 +99,16 @@ public:
 		instance_iter(const typename InstanceMap::iterator& it)
 		:	mIterator(it)
 		{
+#ifdef LL_DEBUG
 			getStatic().incrementDepth();
+#endif
 		}
 
 		~instance_iter()
 		{
+#ifdef LL_DEBUG
 			getStatic().decrementDepth();
+#endif
 		}
 
 
@@ -129,18 +137,24 @@ public:
 		key_iter(typename InstanceMap::iterator it)
 		:	mIterator(it)
 		{
+#ifdef LL_DEBUG
 			getStatic().incrementDepth();
+#endif
 		}
 
 		key_iter(const key_iter& other)
 		:	mIterator(other.mIterator)
 		{
+#ifdef LL_DEBUG
 			getStatic().incrementDepth();
+#endif
 		}
 
 		~key_iter()
 		{
+#ifdef LL_DEBUG
 			getStatic().decrementDepth();
+#endif
 		}
 
 
@@ -202,7 +216,9 @@ protected:
 	virtual ~LLInstanceTracker() 
 	{ 
 		// it's unsafe to delete instances of this type while all instances are being iterated over.
+#ifdef LL_DEBUG
 		llassert_always(getStatic().getDepth() == 0);
+#endif
 		remove_();		
 	}
 	virtual void setKey(KEY key) { remove_(); add_(key); }
@@ -295,18 +311,24 @@ public:
 		instance_iter(const typename InstanceSet::iterator& it)
 		:	mIterator(it)
 		{
+#ifdef LL_DEBUG
 			getStatic().incrementDepth();
+#endif
 		}
 
 		instance_iter(const instance_iter& other)
 		:	mIterator(other.mIterator)
 		{
+#ifdef LL_DEBUG
 			getStatic().incrementDepth();
+#endif
 		}
 
 		~instance_iter()
 		{
+#ifdef LL_DEBUG
 			getStatic().decrementDepth();
+#endif
 		}
 
 	private:
@@ -339,7 +361,9 @@ protected:
 	virtual ~LLInstanceTracker()
 	{
 		// it's unsafe to delete instances of this type while all instances are being iterated over.
+#ifdef LL_DEBUG
 		llassert_always(getStatic().getDepth() == 0);
+#endif
 		getSet_().erase(static_cast<T*>(this));
 	}
 

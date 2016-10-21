@@ -958,20 +958,26 @@ void LLLocationInputCtrl::refreshMaturityButton()
 	switch(sim_access)
 	{
 	case SIM_ACCESS_PG:
+	{
 		rating_image = mIconMaturityGeneral;
-		rating_tooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
+		static std::string loc_ctrl_gen_icon_tooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
+		rating_tooltip = loc_ctrl_gen_icon_tooltip;
 		break;
-
+	}
 	case SIM_ACCESS_ADULT:
+	{
 		rating_image = mIconMaturityAdult;
-		rating_tooltip = LLTrans::getString("LocationCtrlAdultIconTooltip");
+		static std::string loc_ctrl_adult_icon_tooltip = LLTrans::getString("LocationCtrlAdultIconTooltip");
+		rating_tooltip = loc_ctrl_adult_icon_tooltip;
 		break;
-
+	}
 	case SIM_ACCESS_MATURE:
+	{
 		rating_image = mIconMaturityModerate;
-		rating_tooltip = LLTrans::getString("LocationCtrlModerateIconTooltip");
+		static std::string loc_ctrl_mod_icon_tooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
+		rating_tooltip = loc_ctrl_mod_icon_tooltip;
 		break;
-
+	}
 	default:
 		button_visible = false;
 		break;

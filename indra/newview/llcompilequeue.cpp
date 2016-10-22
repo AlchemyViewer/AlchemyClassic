@@ -718,13 +718,14 @@ LLFloaterDeleteQueue::~LLFloaterDeleteQueue()
 bool LLFloaterDeleteQueue::deleteObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater,
 	const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump)
 {
-	LLFloaterScriptQueue *that = hfloater.get();
-	if (that)
-	{
-		std::string buffer;
-		buffer = that->getString("Deleting") + (": ") + inventory->getName();
-		that->addStringMessage(buffer);
-	}
+	LLCheckedHandle<LLFloaterScriptQueue> floater(hfloater);
+	// Dereferencing floater may fail. If they do they throw LLExeceptionStaleHandle.
+	// which is caught in objectScriptProcessingQueueCoro
+
+	std::string buffer;
+	buffer = floater->getString("Deleting") + (": ") + inventory->getName();
+	floater->addStringMessage(buffer);
+
 	const_cast<LLViewerObject*>(object.get())->removeInventory(inventory->getUUID());
 
 	return true;

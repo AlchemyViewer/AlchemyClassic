@@ -8402,7 +8402,8 @@ void LLVOAvatar::updateSoftwareSkinnedVertices(const LLMeshSkinInfo* skin, const
 		{
 			F32 w = wght[k];
 			LLMatrix4a src;
-			src.setMul(mp[idx[k]], w);
+			S32 index = llclamp((S32) idx[k], (S32) 0, (S32) JOINT_COUNT - 1);
+			src.setMul(mp[index], w);
 
 			final_mat.add(src);
 		}

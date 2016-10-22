@@ -263,6 +263,17 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	S32 height = ceildivpow2(image->y1 - image->y0, f);
 	raw_image.resize(width, height, channels);
 	U8 *rawp = raw_image.getData();
+	if (!rawp)
+	{
+		if (image)
+		{
+			opj_image_destroy(image);
+			image = nullptr;
+		}
+		base.setLastError("Memory error");
+		base.decodeFailed();
+		return true; // done
+	}
 
 	// first_channel is what channel to start copying from
 	// dest is what channel to copy to.  first_channel comes from the

@@ -34,8 +34,28 @@
 LL_ALIGN_PREFIX(16)
 class LLMatrix4a
 {
-public:
+private:
 	LL_ALIGN_16(LLVector4a mMatrix[4]);
+public:
+	void* operator new(size_t size)
+	{
+		return ll_aligned_malloc_16(size);
+	}
+
+	void operator delete(void* ptr)
+	{
+		ll_aligned_free_16(ptr);
+	}
+
+	inline F32* getF32ptr()
+	{
+		return mMatrix[0].getF32ptr();
+	}
+	
+	inline const F32* getF32ptr() const
+	{
+		return mMatrix[0].getF32ptr();
+	}
 
 	inline void clear()
 	{
@@ -85,6 +105,14 @@ public:
 		mMatrix[3].setMul(m.mMatrix[3], s);
 	}
 
+	inline void setMul(const LLMatrix4a& m0, const LLMatrix4a& m1)
+	{
+		m0.rotate4(m1.mMatrix[0],mMatrix[0]);
+		m0.rotate4(m1.mMatrix[1],mMatrix[1]);
+		m0.rotate4(m1.mMatrix[2],mMatrix[2]);
+		m0.rotate4(m1.mMatrix[3],mMatrix[3]);
+	}
+
 	inline void setLerp(const LLMatrix4a& a, const LLMatrix4a& b, F32 w)
 	{
 		LLVector4a d0,d1,d2,d3;
@@ -120,6 +148,26 @@ public:
 
 		res.add(y);
 		res.add(z);
+	}
+
+	//Proper. v[VW] as v[VW]
+	inline void rotate4(const LLVector4a& v, LLVector4a& res) const
+	{
+		LLVector4a x,y,z,w;
+
+		x.splat<0>(v);
+		y.splat<1>(v);
+		z.splat<2>(v);
+		w.splat<3>(v);
+
+		x.mul(mMatrix[0]);
+		y.mul(mMatrix[1]);
+		z.mul(mMatrix[2]);
+		w.mul(mMatrix[3]);
+
+		x.add(y);
+		z.add(w);
+		res.setAdd(x,z);
 	}
 
 	inline void affineTransform(const LLVector4a& v, LLVector4a& res)

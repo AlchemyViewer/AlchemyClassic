@@ -4172,9 +4172,8 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 
 	//build matrix palette
 	LLMatrix4a mp[JOINT_COUNT];
-	LLMatrix4* mat = (LLMatrix4*) mp;
-	
-	U32 count = llmin((U32)skin->mJointNames.size(), (U32)JOINT_COUNT);
+
+	U32 count = llmin((U32)skin->mJointNames.size(), (U32) JOINT_COUNT);
 	llassert_always(count);
 	for (U32 j = 0; j < count; ++j)
 	{
@@ -4185,8 +4184,10 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 		}
 		if (joint)
 		{
-			mat[j] = skin->mInvBindMatrix[j];
-			mat[j] *= joint->getWorldMatrix();
+			mp[j].loadu(skin->mInvBindMatrix[j]);
+			LLMatrix4a world;
+			world.loadu(joint->getWorldMatrix());
+			mp[j].setMul(world, mp[j]);
 		}
 	}
 

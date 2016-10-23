@@ -2182,7 +2182,7 @@ BOOL LLVolume::generate()
 				0, 0, scale[2], 0,
 					0, 0, 0, 1 };
 			
-			LLMatrix4 rot((F32*) mPathp->mPath[s].mRot.mMatrix);
+			LLMatrix4 rot((F32*) mPathp->mPath[s].mRot.getF32ptr());
 			LLMatrix4 scale_mat(sc);
 			
 			scale_mat *= rot;

@@ -1426,7 +1426,7 @@ void LLDrawPoolAvatar::renderAvatars(LLVOAvatar* single_avatar, S32 pass)
 	{
 		LLMatrix4 rot_mat;
 		LLViewerCamera::getInstance()->getMatrixToLocal(rot_mat);
-		LLMatrix4 cfr(OGL_TO_CFR_ROTATION);
+		static const LLMatrix4 cfr(OGL_TO_CFR_ROTATION);
 		rot_mat *= cfr;
 		
 		LLVector4 wind;
@@ -1625,21 +1625,23 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 		{
 			if (sShaderLevel > 0)
 			{ //upload matrix palette to shader
-				LLMatrix4 mat[JOINT_COUNT];
+				LLMatrix4a mat[JOINT_COUNT];
 
 				U32 count = llmin((U32) skin->mJointNames.size(), (U32) JOINT_COUNT);
 
-				for (U32 i = 0; i < count; ++i)
+				for (U32 j = 0; j < count; ++j)
 				{
-					LLJoint* joint = avatar->getJoint(skin->mJointNames[i]);
+					LLJoint* joint = avatar->getJoint(skin->mJointNames[j]);
 					if(!joint)
 					{
 						joint = avatar->getJoint("mRoot");
 					}
 					if (joint)
 					{
-						mat[i] = skin->mInvBindMatrix[i];
-						mat[i] *= joint->getWorldMatrix();
+						mat[j].loadu(skin->mInvBindMatrix[j]);
+						LLMatrix4a world;
+						world.loadu(joint->getWorldMatrix());
+						mat[j].setMul(world, mat[j]);
 					}
 				}
 				
@@ -1649,7 +1651,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 				for (U32 i = 0; i < count; ++i)
 				{
-					F32* m = (F32*) mat[i].mMatrix;
+					F32* m = (F32*) mat[i].getF32ptr();
 
 					U32 idx = i*12;
 

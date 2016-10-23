@@ -392,6 +392,10 @@ void LLVivoxVoiceClient::connectorCreate()
 {
 	std::ostringstream stream;
 	std::string logpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+	if (LLStringUtil::endsWith(logpath, gDirUtilp->getDirDelimiter()))
+	{
+		logpath.pop_back();
+	}
 	std::string loglevel = "0";
 	
 	// Transition to stateConnectorStarted when the connector handle comes back.
@@ -652,6 +656,10 @@ bool LLVivoxVoiceClient::startAndLaunchDaemon()
             if (log_folder.empty())
             {
                 log_folder = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
+            }
+            if (LLStringUtil::endsWith(log_folder, gDirUtilp->getDirDelimiter()))
+            {
+                log_folder.pop_back();
             }
 
             params.args.add("-lf");

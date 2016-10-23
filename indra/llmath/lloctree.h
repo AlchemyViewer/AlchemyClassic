@@ -47,7 +47,7 @@ extern float gOctreeMinSize;
 #define LL_OCTREE_MAX_CAPACITY 128
 #endif*/
 
-#define LL_OCTREE_POOLS 0
+#define LL_OCTREE_POOLS 1
 
 template <class T> class LLOctreeNode;
 

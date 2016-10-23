@@ -553,9 +553,19 @@ BOOL LLFloaterPreference::postBuild()
 
 void LLFloaterPreference::updateDeleteTranscriptsButton()
 {
-	std::vector<std::string> list_of_transcriptions_file_names;
-	LLLogChat::getListOfTranscriptFiles(list_of_transcriptions_file_names);
-	getChild<LLButton>("delete_transcripts")->setEnabled(list_of_transcriptions_file_names.size() > 0);
+	BOOL enable = FALSE;
+
+	// get Users log directory
+	std::string dirname = gDirUtilp->getPerAccountChatLogsDir() + gDirUtilp->getDirDelimiter();
+	if (LLFile::isdir(dirname))
+	{
+		// Check if any text files.
+		LLDirIterator iter(dirname, "*.txt");
+		std::string temp;
+		enable = static_cast<BOOL>(iter.next(temp));
+	}
+
+	getChild<LLButton>("delete_transcripts")->setEnabled(enable);
 }
 
 void LLFloaterPreference::onDoNotDisturbResponseChanged()

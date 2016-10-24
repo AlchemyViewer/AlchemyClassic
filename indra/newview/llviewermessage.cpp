@@ -6638,6 +6638,16 @@ bool unknown_script_question_cb(const LLSD& notification, const LLSD& response)
 	return false;
 }
 
+void experiencePermissionBlock(LLUUID experience, LLSD result)
+{
+    LLSD permission;
+    LLSD data;
+    permission["permission"] = "Block";
+    data[experience.asString()] = permission;
+    data["experience"] = experience;
+    LLEventPumps::instance().obtain("experience_permission").post(data);
+}
+
 bool script_question_cb(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
@@ -6714,14 +6724,7 @@ bool script_question_cb(const LLSD& notification, const LLSD& response)
 			if (!region)
 			    return false;
 
-            LLExperienceCache::instance().setExperiencePermission(experience, std::string("Block"), LLExperienceCache::ExperienceGetFn_t());
-
-            LLSD permission;
-            LLSD data;
-            permission["permission"] = "Block";
-            data[experience.asString()] = permission;
-            data["experience"] = experience;
-            LLEventPumps::instance().obtain("experience_permission").post(data);
+			LLExperienceCache::instance().setExperiencePermission(experience, std::string("Block"), boost::bind(&experiencePermissionBlock, experience, _1));
 		}
 }
 	return false;

@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7093ad31f307b89b8d123e9afb8965cb</string>
+              <string>4df3a374ea6cbc807a42bc77043a8026</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.50.3-darwin-201610151559.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/curl-7.50.3-darwin-201610241125.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1654,11 +1654,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1d3a2e3254fa69a3a5fbfd36e74c9c97</string>
+              <string>bbfb4841bd8e4fd2c92765b8add9af34</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libidn-1.33-darwin-201607301347.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libidn-1.33-darwin-201610240934.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

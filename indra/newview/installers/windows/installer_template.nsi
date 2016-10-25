@@ -25,6 +25,10 @@
 ;; Author: James Cook, Don Kjer, Callum Prentice, Drake Arconis
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;--------------------------------
+;Unicode
+  Unicode true
+
+;--------------------------------
 ;Include Modern UI
 
   !include "LogicLib.nsh"
@@ -186,12 +190,12 @@
   ;because this will make your installer start faster.
   
   !insertmacro MUI_RESERVEFILE_LANGDLL
-  ReserveFile "${NSISDIR}\Plugins\NSISdl.dll"
-  ReserveFile "${NSISDIR}\Plugins\nsDialogs.dll"
-  ReserveFile "${NSISDIR}\Plugins\StartMenu.dll"
-  ReserveFile "${NSISDIR}\Plugins\StdUtils.dll"
-  ReserveFile "${NSISDIR}\Plugins\System.dll"
-  ReserveFile "${NSISDIR}\Plugins\UserInfo.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\NSISdl.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\nsDialogs.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\StartMenu.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\StdUtils.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\System.dll"
+  ReserveFile "${NSISDIR}\Plugins\x86-unicode\UserInfo.dll"
 
 ;--------------------------------
 ; Local Functions

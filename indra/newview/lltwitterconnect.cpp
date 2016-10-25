@@ -30,10 +30,7 @@
 #include "lltwitterconnect.h"
 
 #include "llagent.h"
-#include "llcallingcard.h"			// for LLAvatarTracker
-#include "llcommandhandler.h"
 #include "llnotificationsutil.h"
-#include "llurlaction.h"
 #include "llimagepng.h"
 #include "llimagejpeg.h"
 #include "lltrans.h"
@@ -43,6 +40,7 @@
 #include "llfloaterwebcontent.h"
 #include "llfloaterreg.h"
 #include "llcorehttputil.h"
+#include "bufferstream.h"
 
 boost::scoped_ptr<LLEventPump> LLTwitterConnect::sStateWatcher(new LLEventStream("TwitterConnectState"));
 boost::scoped_ptr<LLEventPump> LLTwitterConnect::sInfoWatcher(new LLEventStream("TwitterConnectInfo"));

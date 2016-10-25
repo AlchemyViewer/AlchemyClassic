@@ -25,6 +25,7 @@
 #include "llnotificationsutil.h"
 #include "llworld.h"
 #include "llviewerregion.h"
+#include "bufferstream.h"
 
 #include <boost/algorithm/string/join.hpp>
 

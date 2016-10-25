@@ -26,7 +26,6 @@
 
 #include "llcallbacklist.h"
 #include "lleventtimer.h"
-#include "llerrorlegacy.h"
 
 // Globals
 //

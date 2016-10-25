@@ -27,14 +27,10 @@
 #ifndef LL_LLPOLYSKELETALDISTORTION_H
 #define LL_LLPOLYSKELETALDISTORTION_H
 
-#include "llcommon.h"
-
 #include "llstl.h"
 
 #include "v3math.h"
 #include "v2math.h"
-#include "llquaternion.h"
-//#include "llpolymorph.h"
 #include "lljoint.h"
 #include "llviewervisualparam.h"
 

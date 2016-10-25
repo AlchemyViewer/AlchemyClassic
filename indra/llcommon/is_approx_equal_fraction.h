@@ -31,7 +31,6 @@
 #if ! defined(LL_IS_APPROX_EQUAL_FRACTION_H)
 #define LL_IS_APPROX_EQUAL_FRACTION_H
 
-#include "lldefs.h"
 #include <cmath>
 
 /**

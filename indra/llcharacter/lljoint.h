@@ -33,7 +33,6 @@
 #include <list>
 
 #include "v3math.h"
-#include "v4math.h"
 #include "m4math.h"
 #include "llquaternion.h"
 #include "xform.h"

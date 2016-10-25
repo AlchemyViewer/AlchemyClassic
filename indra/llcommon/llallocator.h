@@ -27,8 +27,6 @@
 #ifndef LL_LLALLOCATOR_H
 #define LL_LLALLOCATOR_H
 
-#include <string>
-
 #include "llallocator_heap_profile.h"
 
 class LL_COMMON_API LLAllocator {

@@ -31,7 +31,6 @@
 // associated header
 #include "lldependencies.h"
 // STL headers
-#include <map>
 #include <sstream>
 // std headers
 // external library headers

@@ -35,13 +35,11 @@
 #include "llcallbacklist.h"
 #include "lldir.h"
 #include "lldiriterator.h"
-#include "llevent.h"		// LLSimpleListener
 #include "llfilepicker.h"
 #include "llfloaterwebcontent.h"	// for handling window close requests and geometry change requests in media browser windows.
 #include "llfocusmgr.h"
 #include "llkeyboard.h"
 #include "lllogininstance.h"
-#include "llmarketplacefunctions.h"
 #include "llmediaentry.h"
 #include "llmimetypes.h"
 #include "llmutelist.h"
@@ -56,12 +54,10 @@
 #include "llversioninfo.h"
 #include "llviewermediafocus.h"
 #include "llviewercontrol.h"
-#include "llviewernetwork.h"
 #include "llviewerparcelmedia.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
 #include "llviewertexture.h"
-#include "llviewertexturelist.h"
 #include "llviewerwindow.h"
 #include "llvoavatar.h"
 #include "llvoavatarself.h"
@@ -71,8 +67,7 @@
 #include "llwindow.h"
 #include "llvieweraudio.h"
 #include "llcorehttputil.h"
-
-#include "llfloaterwebcontent.h"	// for handling window close requests and geometry change requests in media browser windows.
+#include "bufferstream.h"
 
 /*static*/ const char* LLViewerMedia::AUTO_PLAY_MEDIA_SETTING = "ParcelMediaAutoPlayEnable";
 /*static*/ const char* LLViewerMedia::SHOW_MEDIA_ON_OTHERS_SETTING = "MediaShowOnOthers";

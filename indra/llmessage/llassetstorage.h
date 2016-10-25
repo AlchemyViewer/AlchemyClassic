@@ -27,15 +27,12 @@
 
 #ifndef LL_LLASSETSTORAGE_H
 #define LL_LLASSETSTORAGE_H
-#include <string>
 
 #include "lluuid.h"
-#include "lltimer.h"
 #include "llnamevalue.h"
 #include "llhost.h"
 #include "lltransfermanager.h" // For LLTSCode enum
 #include "llassettype.h"
-#include "llstring.h"
 #include "llextendedstatus.h"
 #include "llxfer.h"
 

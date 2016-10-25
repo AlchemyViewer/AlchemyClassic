@@ -30,9 +30,6 @@
 
 #include "lluuid.h"
 
-#include "llassettype.h"
-#include "llframetimer.h"
-
 class LLVFS;
 class LLVorbisDecodeState;
 

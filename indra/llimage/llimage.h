@@ -28,7 +28,6 @@
 #define LL_LLIMAGE_H
 
 #include "lluuid.h"
-#include "llstring.h"
 #include "llpointer.h"
 #include "lltrace.h"
 

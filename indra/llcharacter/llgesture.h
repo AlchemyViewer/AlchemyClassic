@@ -28,9 +28,7 @@
 #ifndef LL_LLGESTURE_H
 #define LL_LLGESTURE_H
 
-#include "llanimationstates.h"
 #include "lluuid.h"
-#include "llstring.h"
 
 class LLGesture
 {

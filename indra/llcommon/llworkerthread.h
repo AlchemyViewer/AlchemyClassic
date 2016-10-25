@@ -27,10 +27,6 @@
 #define LL_LLWORKERTHREAD_H
 
 #include <list>
-#include <map>
-#include <queue>
-#include <set>
-#include <string>
 
 #include "llqueuedthread.h"
 #include "llatomic.h"

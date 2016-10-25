@@ -23,6 +23,7 @@
 
 // lib includes
 #include "llcalc.h"
+#include "llparcel.h"
 #include "llstring.h"
 #include "material_codes.h"
 #include "object_flags.h"
@@ -42,6 +43,7 @@
 #include "llviewercontrol.h"
 #include "llviewermessage.h"
 #include "llviewerobjectlist.h"
+#include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
 #include "llvoavatarself.h"
 #include "llvolume.h"
@@ -132,7 +134,19 @@ bool ALChatCommand::parseCommand(std::string data)
 			msg->nextBlockFast(_PREHASH_AgentData);
 			msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
 			msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
-			msg->addUUIDFast(_PREHASH_GroupID, gAgent.getGroupID());
+			static LLCachedControl<bool> AlchemyRezUnderLandGroup(gSavedSettings, "AlchemyRezUnderLandGroup");
+			LLUUID group_id = gAgent.getGroupID();
+			if (AlchemyRezUnderLandGroup)
+			{
+				LLParcel* land_parcel = LLViewerParcelMgr::getInstance()->getAgentParcel();
+				// Is the agent in the land group
+				if (gAgent.isInGroup(land_parcel->getGroupID()))
+					group_id = land_parcel->getGroupID();
+				// Is the agent in the land group (the group owns the land)
+				else if (gAgent.isInGroup(land_parcel->getOwnerID()))
+					group_id = land_parcel->getOwnerID();
+			}
+			msg->addUUIDFast(_PREHASH_GroupID, group_id);
 			msg->nextBlockFast(_PREHASH_ObjectData);
 			msg->addU8Fast(_PREHASH_PCode, LL_PCODE_VOLUME);
 			msg->addU8Fast(_PREHASH_Material, LL_MCODE_STONE);

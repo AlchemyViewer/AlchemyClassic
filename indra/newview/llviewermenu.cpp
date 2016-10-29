@@ -3505,39 +3505,6 @@ class LLAvatarReportAbuse : public view_listener_t
 //---------------------------------------------------------------------------
 // Parcel freeze, eject, etc.
 //---------------------------------------------------------------------------
-bool callback_freeze(const LLSD& notification, const LLSD& response)
-{
-	LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
-
-	if (0 == option || 1 == option)
-	{
-		U32 flags = 0x0;
-		if (1 == option)
-		{
-			// unfreeze
-			flags |= 0x1;
-		}
-
-		LLMessageSystem* msg = gMessageSystem;
-		LLViewerObject* avatar = gObjectList.findObject(avatar_id);
-
-		if (avatar)
-		{
-			msg->newMessage("FreezeUser");
-			msg->nextBlock("AgentData");
-			msg->addUUID("AgentID", gAgent.getID());
-			msg->addUUID("SessionID", gAgent.getSessionID());
-			msg->nextBlock("Data");
-			msg->addUUID("TargetID", avatar_id );
-			msg->addU32("Flags", flags );
-			msg->sendReliable( avatar->getRegion()->getHost() );
-		}
-	}
-	return false;
-}
-
-
 void handle_avatar_freeze(const LLSD& avatar_id)
 {
 		// Use avatar_id if available, otherwise default to right-click avatar
@@ -3554,26 +3521,7 @@ void handle_avatar_freeze(const LLSD& avatar_id)
 
 		if( avatar )
 		{
-			std::string fullname = avatar->getFullname();
-			LLSD payload;
-			payload["avatar_id"] = avatar->getID();
-
-			if (!fullname.empty())
-			{
-				LLSD args;
-				args["AVATAR_NAME"] = fullname;
-				LLNotificationsUtil::add("FreezeAvatarFullname",
-							args,
-							payload,
-							callback_freeze);
-			}
-			else
-			{
-				LLNotificationsUtil::add("FreezeAvatar",
-							LLSD(),
-							payload,
-							callback_freeze);
-			}
+			LLAvatarActions::freezeAvatar(avatar->getID());
 		}
 }
 
@@ -3607,60 +3555,6 @@ class LLAvatarDebug : public view_listener_t
 	}
 };
 
-bool callback_eject(const LLSD& notification, const LLSD& response)
-{
-	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
-	if (2 == option)
-	{
-		// Cancel button.
-		return false;
-	}
-	LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-	bool ban_enabled = notification["payload"]["ban_enabled"].asBoolean();
-
-	if (0 == option)
-	{
-		// Eject button
-		LLMessageSystem* msg = gMessageSystem;
-		LLViewerObject* avatar = gObjectList.findObject(avatar_id);
-
-		if (avatar)
-		{
-			U32 flags = 0x0;
-			msg->newMessage("EjectUser");
-			msg->nextBlock("AgentData");
-			msg->addUUID("AgentID", gAgent.getID() );
-			msg->addUUID("SessionID", gAgent.getSessionID() );
-			msg->nextBlock("Data");
-			msg->addUUID("TargetID", avatar_id );
-			msg->addU32("Flags", flags );
-			msg->sendReliable( avatar->getRegion()->getHost() );
-		}
-	}
-	else if (ban_enabled)
-	{
-		// This is tricky. It is similar to say if it is not an 'Eject' button,
-		// and it is also not an 'Cancle' button, and ban_enabled==ture, 
-		// it should be the 'Eject and Ban' button.
-		LLMessageSystem* msg = gMessageSystem;
-		LLViewerObject* avatar = gObjectList.findObject(avatar_id);
-
-		if (avatar)
-		{
-			U32 flags = 0x1;
-			msg->newMessage("EjectUser");
-			msg->nextBlock("AgentData");
-			msg->addUUID("AgentID", gAgent.getID() );
-			msg->addUUID("SessionID", gAgent.getSessionID() );
-			msg->nextBlock("Data");
-			msg->addUUID("TargetID", avatar_id );
-			msg->addU32("Flags", flags );
-			msg->sendReliable( avatar->getRegion()->getHost() );
-		}
-	}
-	return false;
-}
-
 void handle_avatar_eject(const LLSD& avatar_id)
 {
 		// Use avatar_id if available, otherwise default to right-click avatar
@@ -3677,53 +3571,9 @@ void handle_avatar_eject(const LLSD& avatar_id)
 
 		if( avatar )
 		{
-			LLSD payload;
-			payload["avatar_id"] = avatar->getID();
-			std::string fullname = avatar->getFullname();
-
 			const LLVector3d& pos = avatar->getPositionGlobal();
 			LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos)->getParcel();
-			
-			if (LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel,GP_LAND_MANAGE_BANNED))
-			{
-                payload["ban_enabled"] = true;
-				if (!fullname.empty())
-				{
-    				LLSD args;
-    				args["AVATAR_NAME"] = fullname;
-    				LLNotificationsUtil::add("EjectAvatarFullname",
-    							args,
-    							payload,
-    							callback_eject);
-				}
-				else
-				{
-    				LLNotificationsUtil::add("EjectAvatarFullname",
-    							LLSD(),
-    							payload,
-    							callback_eject);
-				}
-			}
-			else
-			{
-                payload["ban_enabled"] = false;
-				if (!fullname.empty())
-				{
-    				LLSD args;
-    				args["AVATAR_NAME"] = fullname;
-    				LLNotificationsUtil::add("EjectAvatarFullnameNoBan",
-    							args,
-    							payload,
-    							callback_eject);
-				}
-				else
-				{
-    				LLNotificationsUtil::add("EjectAvatarNoBan",
-    							LLSD(),
-    							payload,
-    							callback_eject);
-				}
-			}
+			LLAvatarActions::ejectAvatar(avatar->getID(), LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_MANAGE_BANNED));
 		}
 }
 

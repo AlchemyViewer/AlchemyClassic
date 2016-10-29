@@ -31,18 +31,6 @@
 // @TODO this really should be private, but is used in llslurl
 #define MAINGRID "util.agni.lindenlab.com"
 
-/// Exception thrown when a grid is not valid
-class LLInvalidGridName
-{
-public:
-	LLInvalidGridName(std::string grid) : mGrid(grid)
-	{
-	}
-	std::string name() { return mGrid; }
-protected:
-	std::string mGrid;
-};
-
 /**
  * @brief A singleton class to manage the grids available to the viewer.
  *

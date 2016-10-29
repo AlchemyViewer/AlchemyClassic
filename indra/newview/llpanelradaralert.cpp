@@ -38,7 +38,6 @@ LLPanelTipToast(notification)
 	
 	buildFromFile("panel_radar_alert_toast.xml");
 	
-	getChild<LLUICtrl>("avatar_icon")->setValue(notification->getPayload()["FROM_ID"]);
 	getChild<LLUICtrl>("message")->setValue(notification->getMessage());
 	
 	if (notification->getPayload().has("respond_on_mousedown")

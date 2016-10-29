@@ -52,8 +52,7 @@ public:
 	~LLFloaterIMSessionTab();
 
 	// reload all message with new settings of visual modes
-    static void processChatHistoryStyleUpdate();
-	static void processChatHistoryStyleUpdate(bool clean_messages);
+	static void processChatHistoryStyleUpdate(bool clean_messages = false);
 	static void reloadEmptyFloaters();
 
 	/**

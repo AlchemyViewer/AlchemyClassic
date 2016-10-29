@@ -132,8 +132,6 @@ set(llcommon_HEADER_FILES
     CMakeLists.txt
 
     fix_macros.h
-    fastdelegate.h
-    fastdelegatebind.h
     indra_constants.h
     is_approx_equal_fraction.h
     linden_common.h
@@ -220,11 +218,8 @@ set(llcommon_HEADER_FILES
     llsdserialize.h
     llsdserialize_xml.h
     llsdutil.h
-    llsignal.h
-    llsignalqueue.h
     llsimplehash.h
     llsingleton.h
-    llslot.h
     llsortedvector.h
     llstacktrace.h
     llstl.h

@@ -51,7 +51,7 @@
 
 namespace LLAvatarNameCache
 {
-    LLSignal::signal<use_displayname_slot_t> mUseDisplayNamesSignal;
+	use_display_name_signal_t mUseDisplayNamesSignal;
 
 	// Cache starts in a paused state until we can determine if the
 	// current region supports display names.
@@ -845,9 +845,9 @@ bool LLAvatarNameCache::expirationFromCacheControl(const LLSD& headers, F64 *exp
 }
 #endif
 
-void LLAvatarNameCache::addUseDisplayNamesCallback(const use_displayname_slot_t& cb)
+void LLAvatarNameCache::addUseDisplayNamesCallback(const use_display_name_signal_t::slot_type& cb) 
 { 
-	mUseDisplayNamesSignal.connect(cb);
+	mUseDisplayNamesSignal.connect(cb); 
 }
 
 

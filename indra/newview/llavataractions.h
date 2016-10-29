@@ -177,17 +177,17 @@ public:
 	/**
 	 * Kick avatar off grid
 	 */	
-	static void kick(const LLUUID& id);
+	static void godKick(const LLUUID& id);
 
 	/**
 	 * Freeze avatar
 	 */	
-	static void freeze(const LLUUID& id);
+	static void godFreeze(const LLUUID& id);
 
 	/**
 	 * Unfreeze avatar
 	 */	
-	static void unfreeze(const LLUUID& id);
+	static void godUnfreeze(const LLUUID& id);
 
 	/**
 	 * Open csr page for avatar
@@ -269,9 +269,7 @@ private:
 	static bool handlePay(const LLSD& notification, const LLSD& response, LLUUID avatar_id);
 	static bool handleFreezeAvatar(const LLSD& notification, const LLSD& response);
 	static bool handleEjectAvatar(const LLSD& notification, const LLSD& response);
-	static bool handleKick(const LLSD& notification, const LLSD& response);
-	static bool handleFreeze(const LLSD& notification, const LLSD& response);
-	static bool handleUnfreeze(const LLSD& notification, const LLSD& response);
+	static bool handleGodKick(const LLSD& notification, const LLSD& response);
 	static void callback_invite_to_group(LLUUID group_id, LLUUID id);
 
 	// Just request friendship, no dialog.

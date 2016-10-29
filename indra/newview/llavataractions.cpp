@@ -483,14 +483,6 @@ void LLAvatarActions::teleportRequest(const LLUUID& id)
 }
 
 // static
-void LLAvatarActions::kick(const LLUUID& id)
-{
-	LLSD payload;
-	payload["avatar_id"] = id;
-	LLNotifications::instance().add("KickUser", LLSD(), payload, handleKick);
-}
-
-// static
 void LLAvatarActions::freezeAvatar(const LLUUID& id)
 {
 	std::string fullname;
@@ -542,18 +534,29 @@ void LLAvatarActions::ejectAvatar(const LLUUID& id, bool ban_enabled)
 }
 
 // static
-void LLAvatarActions::freeze(const LLUUID& id)
+void LLAvatarActions::godKick(const LLUUID& id)
 {
 	LLSD payload;
+	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_DEFAULT);
 	payload["avatar_id"] = id;
-	LLNotifications::instance().add("FreezeUser", LLSD(), payload, handleFreeze);
+	LLNotifications::instance().add("KickUser", LLSD(), payload, handleGodKick);
+}
+
+// static
+void LLAvatarActions::godFreeze(const LLUUID& id)
+{
+	LLSD payload;
+	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_FREEZE);
+	payload["avatar_id"] = id;
+	LLNotifications::instance().add("FreezeUser", LLSD(), payload, handleGodKick);
 }
 // static
-void LLAvatarActions::unfreeze(const LLUUID& id)
+void LLAvatarActions::godUnfreeze(const LLUUID& id)
 {
 	LLSD payload;
+	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_UNFREEZE);
 	payload["avatar_id"] = id;
-	LLNotifications::instance().add("UnFreezeUser", LLSD(), payload, handleUnfreeze);
+	LLNotifications::instance().add("UnFreezeUser", LLSD(), payload, handleGodKick);
 }
 
 //static 
@@ -1193,27 +1196,6 @@ bool LLAvatarActions::callbackAddFriendWithMessage(const LLSD& notification, con
 }
 
 // static
-bool LLAvatarActions::handleKick(const LLSD& notification, const LLSD& response)
-{
-	S32 option = LLNotification::getSelectedOption(notification, response);
-
-	if (option == 0)
-	{
-		LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-		LLMessageSystem* msg = gMessageSystem;
-
-		msg->newMessageFast(_PREHASH_GodKickUser);
-		msg->nextBlockFast(_PREHASH_UserInfo);
-		msg->addUUIDFast(_PREHASH_GodID,		gAgent.getID() );
-		msg->addUUIDFast(_PREHASH_GodSessionID, gAgent.getSessionID());
-		msg->addUUIDFast(_PREHASH_AgentID,   avatar_id );
-		msg->addU32("KickFlags", KICK_FLAGS_DEFAULT );
-		msg->addStringFast(_PREHASH_Reason,    response["message"].asString() );
-		gAgent.sendReliableMessage();
-	}
-	return false;
-}
-
 bool LLAvatarActions::handleFreezeAvatar(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotification::getSelectedOption(notification, response);
@@ -1281,42 +1263,24 @@ bool LLAvatarActions::handleEjectAvatar(const LLSD& notification, const LLSD& re
 	return false;
 }
 
-bool LLAvatarActions::handleFreeze(const LLSD& notification, const LLSD& response)
+// static
+bool LLAvatarActions::handleGodKick(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotification::getSelectedOption(notification, response);
+
 	if (option == 0)
 	{
 		LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
+		U32 type = static_cast<U32>(notification["payload"]["type"].asInteger());
 		LLMessageSystem* msg = gMessageSystem;
 
 		msg->newMessageFast(_PREHASH_GodKickUser);
 		msg->nextBlockFast(_PREHASH_UserInfo);
-		msg->addUUIDFast(_PREHASH_GodID,		gAgent.getID() );
+		msg->addUUIDFast(_PREHASH_GodID, gAgent.getID());
 		msg->addUUIDFast(_PREHASH_GodSessionID, gAgent.getSessionID());
-		msg->addUUIDFast(_PREHASH_AgentID,   avatar_id );
-		msg->addU32("KickFlags", KICK_FLAGS_FREEZE );
-		msg->addStringFast(_PREHASH_Reason, response["message"].asString() );
-		gAgent.sendReliableMessage();
-	}
-	return false;
-}
-
-bool LLAvatarActions::handleUnfreeze(const LLSD& notification, const LLSD& response)
-{
-	S32 option = LLNotification::getSelectedOption(notification, response);
-	std::string text = response["message"].asString();
-	if (option == 0)
-	{
-		LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-		LLMessageSystem* msg = gMessageSystem;
-
-		msg->newMessageFast(_PREHASH_GodKickUser);
-		msg->nextBlockFast(_PREHASH_UserInfo);
-		msg->addUUIDFast(_PREHASH_GodID,		gAgent.getID() );
-		msg->addUUIDFast(_PREHASH_GodSessionID, gAgent.getSessionID());
-		msg->addUUIDFast(_PREHASH_AgentID,   avatar_id );
-		msg->addU32("KickFlags", KICK_FLAGS_UNFREEZE );
-		msg->addStringFast(_PREHASH_Reason,    text );
+		msg->addUUIDFast(_PREHASH_AgentID, avatar_id);
+		msg->addU32Fast(_PREHASH_KickFlags, type);
+		msg->addStringFast(_PREHASH_Reason, response["message"].asString());
 		gAgent.sendReliableMessage();
 	}
 	return false;

@@ -29,6 +29,8 @@
 #define LLAVATARNAMECACHE_H
 
 #include "llavatarname.h"	// for convenience
+#include "llsignal.h"
+
 #include <boost/signals2.hpp>
 
 class LLSD;
@@ -36,7 +38,7 @@ class LLUUID;
 
 namespace LLAvatarNameCache
 {
-	typedef boost::signals2::signal<void (void)> use_display_name_signal_t;
+    typedef LLSignal::slot<void (void)> use_displayname_slot_t;
 
 	// Until the cache is set running, immediate lookups will fail and
 	// async lookups will be queued.  This allows us to block requests
@@ -91,7 +93,7 @@ namespace LLAvatarNameCache
 	// or return default value, in seconds from epoch.
     F64 nameExpirationFromHeaders(const LLSD& headers);
 
-	void addUseDisplayNamesCallback(const use_display_name_signal_t::slot_type& cb);
+	void addUseDisplayNamesCallback(const use_displayname_slot_t& cb);
 }
 
 // Parse a cache-control header to get the max-age delta-seconds.

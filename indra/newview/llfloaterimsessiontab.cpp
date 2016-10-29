@@ -794,7 +794,13 @@ void LLFloaterIMSessionTab::showTranslationCheckbox(BOOL show)
 }
 
 // static
-void LLFloaterIMSessionTab::processChatHistoryStyleUpdate(bool clean_messages/* = false*/)
+void LLFloaterIMSessionTab::processChatHistoryStyleUpdate()
+{
+    LLFloaterIMSessionTab::processChatHistoryStyleUpdate(false);
+}
+
+// static
+void LLFloaterIMSessionTab::processChatHistoryStyleUpdate(bool clean_messages)
 {
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("impanel");
 	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin();

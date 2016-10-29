@@ -248,7 +248,8 @@ BOOL LLFloaterIMContainer::postBuild()
 
 	collapseMessagesPane(gSavedPerAccountSettings.getBOOL("ConversationsMessagePaneCollapsed"));
 	collapseConversationsPane(gSavedPerAccountSettings.getBOOL("ConversationsListPaneCollapsed"), false);
-	LLAvatarNameCache::addUseDisplayNamesCallback(boost::bind(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate, false));
+	LLAvatarNameCache::addUseDisplayNamesCallback(
+        LLAvatarNameCache::use_displayname_slot_t(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate));
 	mMicroChangedSignal = LLVoiceClient::getInstance()->MicroChangedCallback(boost::bind(&LLFloaterIMContainer::updateSpeakBtnState, this));
 
 	if (! mMessagesPane->isCollapsed() && ! mConversationsPane->isCollapsed())
@@ -278,7 +279,8 @@ BOOL LLFloaterIMContainer::postBuild()
 	// We'll take care of view updates on idle
 	gIdleCallbacks.addFunction(idle, this);
 	// When display name option change, we need to reload all participant names
-	LLAvatarNameCache::addUseDisplayNamesCallback(boost::bind(&LLFloaterIMContainer::processParticipantsStyleUpdate, this));
+	LLAvatarNameCache::addUseDisplayNamesCallback(
+        LLAvatarNameCache::use_displayname_slot_t(this, &LLFloaterIMContainer::processParticipantsStyleUpdate));
 
 	return TRUE;
 }

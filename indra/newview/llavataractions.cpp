@@ -1394,27 +1394,8 @@ void LLAvatarActions::copyData(const LLUUID& id, ECopyDataType type)
 {
 	if (id.notNull())
 	{
-		std::string tmp;
-		switch (type)
-		{
-		case E_DATA_NAME:
-		{
-			LLAvatarName av_name;
-			LLAvatarNameCache::get(id, &av_name);
-			tmp = av_name.getUserName();
-			break;
-		}
-		case E_DATA_SLURL:
-			tmp = LLSLURL("agent", id, "about").getSLURLString();
-			break;
-		case E_DATA_UUID:
-			tmp = id.asString();
-			break;
-		default:
-			break;
-		}
-		LLWString wstr = utf8str_to_wstring(tmp);
-		LLClipboard::instance().copyToClipboard(wstr, 0, wstr.length());
+		uuid_vec_t id_vec = { id };
+		copyData(id_vec, type);
 	}
 }
 

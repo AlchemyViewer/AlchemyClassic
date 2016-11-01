@@ -171,9 +171,6 @@ public:
 	 */	
 	static void inviteToGroup(const LLUUID& id);
 	
-	static void freezeAvatar(const LLUUID& id);
-
-	static void ejectAvatar(const LLUUID& id, bool ban_enabled = false);
 	/**
 	 * Kick avatar off grid
 	 */	
@@ -260,16 +257,35 @@ public:
 	static void copyData(const LLUUID& id, ECopyDataType type);
 	static void copyData(const uuid_vec_t& ids, ECopyDataType type);
 
-	static void teleportTo(const LLUUID& avatar_id);
 	static bool canTeleportTo(const LLUUID& avatar_id);
+	static void teleportTo(const LLUUID& avatar_id);
+	
+	static bool canFreezeEject(const LLUUID& avatar_id);
+	static bool canFreezeEject(const uuid_vec_t& ids);
+	static void parcelFreeze(const LLUUID& avatar_id);
+	static void parcelFreeze(const uuid_vec_t& ids);
+	static void parcelEject(const LLUUID& avatar_id);
+	static void parcelEject(const uuid_vec_t& ids);
+
+	static bool canManageAvatarsEstate(const LLUUID& avatar_id);
+	static bool canManageAvatarsEstate(const uuid_vec_t& ids);
+	static void estateTeleportHome(const LLUUID& avatar_id);
+	static void estateTeleportHome(const uuid_vec_t& ids);
+	static void estateKick(const LLUUID& avatar_id);
+	static void estateKick(const uuid_vec_t& ids);
+	static void estateBan(const LLUUID& avatar_id);
+	static void estateBan(const uuid_vec_t& ids);
 
 private:
 	static bool callbackAddFriendWithMessage(const LLSD& notification, const LLSD& response);
 	static bool handleRemove(const LLSD& notification, const LLSD& response);
 	static bool handlePay(const LLSD& notification, const LLSD& response, LLUUID avatar_id);
-	static bool handleFreezeAvatar(const LLSD& notification, const LLSD& response);
-	static bool handleEjectAvatar(const LLSD& notification, const LLSD& response);
 	static bool handleGodKick(const LLSD& notification, const LLSD& response);
+	static bool handleParcelFreeze(const LLSD& notification, const LLSD& response);
+	static bool handleParcelEject(const LLSD& notification, const LLSD& response);
+	static bool handleEstateTeleportHome(const LLSD& notification, const LLSD& response);
+	static bool handleEstateKick(const LLSD& notification, const LLSD& response);
+	static bool handleEstateBan(const LLSD& notification, const LLSD& response);
 	static void callback_invite_to_group(LLUUID group_id, LLUUID id);
 
 	// Just request friendship, no dialog.

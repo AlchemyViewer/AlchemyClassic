@@ -35,6 +35,7 @@
 #include "llagent.h"
 #include "llagentcamera.h"
 #include "llavatarnamecache.h"
+#include "llavataractions.h"
 #include "llfocusmgr.h"
 #include "llfirstuse.h"
 #include "llfloaterland.h"
@@ -1777,14 +1778,17 @@ BOOL LLToolPie::handleRightClickPick()
 				mute_msg = LLTrans::getString("MuteAvatar");
 			}
 
+			bool show_manage_menu = LLAvatarActions::canFreezeEject(avatar->getID()) || LLAvatarActions::canManageAvatarsEstate(avatar->getID());
 			if (is_other_attachment)
 			{
 				gMenuAttachmentOther->getChild<LLUICtrl>("Avatar Mute")->setValue(mute_msg);
+				gMenuAttachmentOther->setItemVisible("manage_menu", show_manage_menu);
 				gMenuAttachmentOther->show(x, y);
 			}
 			else
 			{
 				gMenuAvatarOther->getChild<LLUICtrl>("Avatar Mute")->setValue(mute_msg);
+				gMenuAvatarOther->setItemVisible("manage_menu", show_manage_menu);
 				gMenuAvatarOther->show(x, y);
 			}
 		}

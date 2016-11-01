@@ -3521,7 +3521,7 @@ void handle_avatar_freeze(const LLSD& avatar_id)
 
 		if( avatar )
 		{
-			LLAvatarActions::freezeAvatar(avatar->getID());
+			LLAvatarActions::parcelFreeze(avatar->getID());
 		}
 }
 
@@ -3571,10 +3571,68 @@ void handle_avatar_eject(const LLSD& avatar_id)
 
 		if( avatar )
 		{
-			const LLVector3d& pos = avatar->getPositionGlobal();
-			LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos)->getParcel();
-			LLAvatarActions::ejectAvatar(avatar->getID(), LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_MANAGE_BANNED));
+			LLAvatarActions::parcelEject(avatar->getID());
 		}
+}
+
+void handle_estate_tphome(const LLSD& avatar_id)
+{
+	// Use avatar_id if available, otherwise default to right-click avatar
+	LLVOAvatar* avatar = NULL;
+	if (avatar_id.asUUID().notNull())
+	{
+		avatar = find_avatar_from_object(avatar_id.asUUID());
+	}
+	else
+	{
+		avatar = find_avatar_from_object(
+			LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+	}
+
+	if (avatar)
+	{
+		LLAvatarActions::estateTeleportHome(avatar->getID());
+	}
+}
+
+void handle_estate_kick(const LLSD& avatar_id)
+{
+	// Use avatar_id if available, otherwise default to right-click avatar
+	LLVOAvatar* avatar = NULL;
+	if (avatar_id.asUUID().notNull())
+	{
+		avatar = find_avatar_from_object(avatar_id.asUUID());
+	}
+	else
+	{
+		avatar = find_avatar_from_object(
+			LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+	}
+
+	if (avatar)
+	{
+		LLAvatarActions::estateKick(avatar->getID());
+	}
+}
+
+void handle_estate_ban(const LLSD& avatar_id)
+{
+	// Use avatar_id if available, otherwise default to right-click avatar
+	LLVOAvatar* avatar = NULL;
+	if (avatar_id.asUUID().notNull())
+	{
+		avatar = find_avatar_from_object(avatar_id.asUUID());
+	}
+	else
+	{
+		avatar = find_avatar_from_object(
+			LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+	}
+
+	if (avatar)
+	{
+		LLAvatarActions::estateBan(avatar->getID());
+	}
 }
 
 bool my_profile_visible()
@@ -3615,6 +3673,35 @@ bool enable_freeze_eject(const LLSD& avatar_id)
 		new_value = LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel,GP_LAND_ADMIN);
 	}
 	return new_value;
+}
+
+bool enable_estate_management(const LLSD& avatar_id)
+{
+	// Use avatar_id if available, otherwise default to right-click avatar
+	LLVOAvatar* avatar = NULL;
+	if (avatar_id.asUUID().notNull())
+	{
+		avatar = find_avatar_from_object(avatar_id.asUUID());
+	}
+	else
+	{
+		avatar = find_avatar_from_object(
+			LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+	}
+	if (!avatar) 
+		return false;
+
+	// Gods can always manage estates
+	if (gAgent.isGodlike()) 
+		return true;
+
+	// Estate owners / managers can freeze
+	// Parcel owners can also freeze
+	auto region = avatar->getRegion();
+	if (!region)
+		return false;
+
+	return (region->getOwner() == gAgentID || region->canManageEstate());
 }
 
 bool callback_leave_group(const LLSD& notification, const LLSD& response)
@@ -9185,11 +9272,15 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLAvatarToggleMyProfile(), "Avatar.ToggleMyProfile");
 	enable.add("Avatar.IsMyProfileOpen", boost::bind(&my_profile_visible));
 	view_listener_t::addMenu(new LLAvatarCopyData(), "Avatar.CopyData");
+	commit.add("Avatar.EstateTPHome", boost::bind(&handle_estate_tphome, LLSD()));
+	commit.add("Avatar.EstateKick", boost::bind(&handle_estate_kick, LLSD()));
+	commit.add("Avatar.EstateBan", boost::bind(&handle_estate_ban, LLSD()));
 
 	commit.add("Avatar.OpenMarketplace", boost::bind(&LLWeb::loadURLExternal, gSavedSettings.getString("MarketplaceURL")));
 	
 	view_listener_t::addMenu(new LLAvatarEnableAddFriend(), "Avatar.EnableAddFriend");
 	enable.add("Avatar.EnableFreezeEject", boost::bind(&enable_freeze_eject, _2));
+	enable.add("Avatar.EnableEstateManage", boost::bind(&enable_estate_management, _2));
 
 	view_listener_t::addMenu(new ALAvatarColorize(), "Avatar.Colorize");
 

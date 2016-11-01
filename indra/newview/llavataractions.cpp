@@ -33,6 +33,7 @@
 #include "llsd.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"
+#include "llparcel.h"
 #include "roles_constants.h"    // for GP_MEMBER_INVITE
 
 #include "llagent.h"
@@ -45,6 +46,7 @@
 #include "llfloatergroupinvite.h"
 #include "llfloatergroups.h"
 #include "llfloaterreg.h"
+#include "llfloaterregioninfo.h"
 #include "llfloaterpay.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llfloaterwebcontent.h"
@@ -64,6 +66,7 @@
 #include "lltrans.h"
 #include "llviewercontrol.h"
 #include "llviewerobjectlist.h"
+#include "llviewerparcelmgr.h"
 #include "llviewermenu.h"		// for handle_zoom_to_object
 #include "llviewermessage.h"	// for handle_lure
 #include "llviewerregion.h"
@@ -483,80 +486,38 @@ void LLAvatarActions::teleportRequest(const LLUUID& id)
 }
 
 // static
-void LLAvatarActions::freezeAvatar(const LLUUID& id)
-{
-	std::string fullname;
-	gCacheName->getFullName(id, fullname);
-	LLSD payload;
-	payload["avatar_id"] = id;
-
-	if (!fullname.empty())
-	{
-		LLSD args;
-		args["AVATAR_NAME"] = fullname;
-		LLNotificationsUtil::add("FreezeAvatarFullname", args, payload, handleFreezeAvatar);
-	}
-	else
-	{
-		LLNotificationsUtil::add("FreezeAvatar", LLSD(), payload, handleFreezeAvatar);
-	}
-}
-
-// static
-void LLAvatarActions::ejectAvatar(const LLUUID& id, bool ban_enabled)
-{
-	std::string fullname;
-	gCacheName->getFullName(id, fullname);
-	LLSD payload;
-	payload["avatar_id"] = id;
-	payload["ban_enabled"] = ban_enabled;
-	LLSD args;
-	if (!fullname.empty())
-	{
-		args["AVATAR_NAME"] = fullname;
-	}
-
-	if (ban_enabled)
-	{
-			LLNotificationsUtil::add("EjectAvatarFullname", args, payload, handleEjectAvatar);
-	}
-	else
-	{
-		if (!fullname.empty())
-		{
-			LLNotificationsUtil::add("EjectAvatarFullnameNoBan", args, payload, handleEjectAvatar);
-		}
-		else
-		{
-			LLNotificationsUtil::add("EjectAvatarNoBan", LLSD(), payload, handleEjectAvatar);
-		}
-	}
-}
-
-// static
 void LLAvatarActions::godKick(const LLUUID& id)
 {
+	LLSD args;
+	args["AVATAR_NAME"] = LLSLURL("agent", id, "about").getSLURLString();
+
 	LLSD payload;
 	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_DEFAULT);
 	payload["avatar_id"] = id;
-	LLNotifications::instance().add("KickUser", LLSD(), payload, handleGodKick);
+	LLNotifications::instance().add("KickUser", args, payload, handleGodKick);
 }
 
 // static
 void LLAvatarActions::godFreeze(const LLUUID& id)
 {
+	LLSD args;
+	args["AVATAR_NAME"] = LLSLURL("agent", id, "about").getSLURLString();
+
 	LLSD payload;
 	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_FREEZE);
 	payload["avatar_id"] = id;
-	LLNotifications::instance().add("FreezeUser", LLSD(), payload, handleGodKick);
+	LLNotifications::instance().add("FreezeUser", args, payload, handleGodKick);
 }
 // static
 void LLAvatarActions::godUnfreeze(const LLUUID& id)
 {
+	LLSD args;
+	args["AVATAR_NAME"] = LLSLURL("agent", id, "about").getSLURLString();
+
 	LLSD payload;
 	payload["type"] = static_cast<LLSD::Integer>(KICK_FLAGS_UNFREEZE);
 	payload["avatar_id"] = id;
-	LLNotifications::instance().add("UnFreezeUser", LLSD(), payload, handleGodKick);
+	LLNotifications::instance().add("UnFreezeUser", args, payload, handleGodKick);
 }
 
 //static 
@@ -1195,73 +1156,7 @@ bool LLAvatarActions::callbackAddFriendWithMessage(const LLSD& notification, con
 	return false;
 }
 
-// static
-bool LLAvatarActions::handleFreezeAvatar(const LLSD& notification, const LLSD& response)
-{
-	S32 option = LLNotification::getSelectedOption(notification, response);
 
-	if (0 == option || 1 == option)
-	{
-	    U32 flags = 0x0;
-	    if (1 == option)
-	    {
-	        // unfreeze
-	        flags |= 0x1;
-	    }
-	    LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-		LLMessageSystem* msg = gMessageSystem;
-
-		msg->newMessage("FreezeUser");
-		msg->nextBlock("AgentData");
-		msg->addUUID("AgentID", gAgent.getID());
-		msg->addUUID("SessionID", gAgent.getSessionID());
-		msg->nextBlock("Data");
-		msg->addUUID("TargetID", avatar_id );
-		msg->addU32("Flags", flags );
-		gAgent.sendReliableMessage();
-	}
-	return false;
-}
-
-bool LLAvatarActions::handleEjectAvatar(const LLSD& notification, const LLSD& response)
-{
-	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
-	if (2 == option)
-	{
-		return false;
-	}
-	LLUUID avatar_id = notification["payload"]["avatar_id"].asUUID();
-	bool ban_enabled = notification["payload"]["ban_enabled"].asBoolean();
-
-	if (0 == option)
-	{
-		LLMessageSystem* msg = gMessageSystem;
-		U32 flags = 0x0;
-		msg->newMessage("EjectUser");
-		msg->nextBlock("AgentData");
-		msg->addUUID("AgentID", gAgent.getID() );
-		msg->addUUID("SessionID", gAgent.getSessionID() );
-		msg->nextBlock("Data");
-		msg->addUUID("TargetID", avatar_id );
-		msg->addU32("Flags", flags );
-		gAgent.sendReliableMessage();
-	}
-	else if (ban_enabled)
-	{
-		LLMessageSystem* msg = gMessageSystem;
-
-		U32 flags = 0x1;
-		msg->newMessage("EjectUser");
-		msg->nextBlock("AgentData");
-		msg->addUUID("AgentID", gAgent.getID() );
-		msg->addUUID("SessionID", gAgent.getSessionID() );
-		msg->nextBlock("Data");
-		msg->addUUID("TargetID", avatar_id );
-		msg->addU32("Flags", flags );
-		gAgent.sendReliableMessage();
-	}
-	return false;
-}
 
 // static
 bool LLAvatarActions::handleGodKick(const LLSD& notification, const LLSD& response)
@@ -1381,12 +1276,12 @@ void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 			switch (type)
 			{
 			case E_DATA_NAME:
-				{
-					LLAvatarName av_name;
-					LLAvatarNameCache::get(id, &av_name);
-					data_string.append(av_name.getUserName());
-					break;
-				}
+			{
+				LLAvatarName av_name;
+				LLAvatarNameCache::get(id, &av_name);
+				data_string.append(av_name.getUserName());
+				break;
+			}
 			case E_DATA_SLURL:
 				data_string.append(LLSLURL("agent", id, "about").getSLURLString());
 				break;
@@ -1406,6 +1301,26 @@ void LLAvatarActions::copyData(const uuid_vec_t& ids, ECopyDataType type)
 	}
 }
 
+// static
+bool LLAvatarActions::canTeleportTo(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return false;
+
+	LLWorld::pos_map_t positions;
+	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal());
+	auto iter = positions.find(avatar_id);
+	if (iter != positions.cend())
+	{
+		const auto& id = iter->first;
+		const auto& pos = iter->second;
+		if (id != gAgentID && !pos.isNull())
+		{
+			return true;
+		}
+	}
+	return false;
+}
 
 // static
 void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
@@ -1414,7 +1329,7 @@ void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
 		return;
 
 	LLWorld::pos_map_t positions;
-	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
+	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal());
 	auto iter = positions.find(avatar_id);
 	if (iter != positions.cend())
 	{
@@ -1427,22 +1342,558 @@ void LLAvatarActions::teleportTo(const LLUUID& avatar_id)
 	}
 }
 
-// static
-bool LLAvatarActions::canTeleportTo(const LLUUID& avatar_id)
+// static 
+bool LLAvatarActions::canFreezeEject(const LLUUID& avatar_id)
 {
 	if (avatar_id.isNull())
 		return false;
 
-	LLWorld::pos_map_t positions;
-	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), 4096.f);
-	auto iter = positions.find(avatar_id);
-	if (iter != positions.cend())
+	uuid_vec_t ids = { avatar_id };
+	return canFreezeEject(ids);
+}
+
+// static 
+bool LLAvatarActions::canFreezeEject(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return false;
+
+	if (std::find(ids.cbegin(), ids.cend(), gAgentID) != ids.cend())
+		return false;
+
+	// Gods can always freeze and eject
+	if (gAgent.isGodlike())
+		return true;
+
+	LLWorld::region_gpos_map_t idRegions;
+	LLWorld::getInstance()->getAvatars(&idRegions, gAgent.getPositionGlobal());
+
+	auto ret = false;
+
+	for (const auto& id : ids)
 	{
-		const auto& id = iter->first;
-		const auto& pos = iter->second;
-		if (id != gAgentID && !pos.isNull())
+		if (id.isNull())
+			continue;
+		auto it = idRegions.find(id);
+		if (it != idRegions.cend())
 		{
-			return true;
+			const auto& region = it->second.first;
+			const auto& pos_global = it->second.second;
+			if (region)
+			{
+				// Estate owners / managers can freeze
+				// Parcel owners can also freeze
+				const auto& local_pos = region->getPosRegionFromGlobal(pos_global);
+				LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos_global)->getParcel();
+
+				ret = region->isOwnedSelf(local_pos);
+				if (!ret || region->isOwnedGroup(local_pos))
+				{
+					ret = LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_ADMIN);
+				}
+				// We hit a false so bail out early in case of multi-select
+				if (!ret)
+				{
+					break;
+				}
+				continue;
+			}
+		}
+		ret = false;
+		break;
+	}
+	return ret;
+}
+
+// static
+void LLAvatarActions::parcelFreeze(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	uuid_vec_t ids = { avatar_id };
+	return parcelFreeze(ids);
+}
+
+// static
+void LLAvatarActions::parcelFreeze(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return;
+
+	LLSD payload;
+	payload["avatar_ids"] = LLSDArray();
+	std::string avatars;
+	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
+	{
+		const auto id = *it;
+		if (id.notNull())
+		{
+			payload["avatar_ids"].append(id);
+
+			if (!avatars.empty())
+				avatars += "\n";
+
+			avatars += LLSLURL("agent", id, "about").getSLURLString();
+		}
+	}
+
+	LLSD args;
+	args["AVATAR_NAMES"] = avatars;
+
+	LLNotificationsUtil::add((payload["avatar_ids"].size() == 1) ? "FreezeAvatarFullname" : "FreezeAvatarMultiple", args, payload, handleParcelFreeze);
+}
+
+// static
+void LLAvatarActions::parcelEject(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	uuid_vec_t ids = { avatar_id };
+	return parcelEject(ids);
+}
+
+// static
+void LLAvatarActions::parcelEject(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return;
+
+	LLWorld::pos_map_t avatar_positions;
+	LLWorld::getInstance()->getAvatars(&avatar_positions, gAgent.getPositionGlobal());
+
+	LLSD payload;
+	payload["avatar_ids"] = LLSDArray();
+	std::string avatars;
+	bool ban_enabled = false;
+	bool ban_killed = false;
+	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
+	{
+		const auto id = *it;
+		if (id.notNull())
+		{
+			payload["avatar_ids"].append(id);
+
+			if (!ban_killed)
+			{
+				const auto& pos_it = avatar_positions.find(id);
+				if (pos_it != avatar_positions.cend())
+				{
+					const auto& pos = pos_it->second;
+					LLParcel* parcel = LLViewerParcelMgr::getInstance()->selectParcelAt(pos)->getParcel();
+					if (parcel)
+					{
+						ban_enabled = LLViewerParcelMgr::getInstance()->isParcelOwnedByAgent(parcel, GP_LAND_MANAGE_BANNED);
+						if (!ban_enabled)
+						{
+							ban_killed = true;
+						}
+					}
+				}
+			}
+
+			if (!avatars.empty())
+				avatars += "\n";
+
+			avatars += LLSLURL("agent", id, "about").getSLURLString();
+		}
+	}
+	payload["ban_enabled"] = ban_enabled;
+
+	LLSD args;
+	args["AVATAR_NAMES"] = avatars;
+	std::string notification;
+	bool is_single = (payload["avatar_ids"].size() == 1);
+	if (ban_enabled)
+	{
+		notification = is_single ? "EjectAvatarFullname" : "EjectAvatarMultiple";
+	}
+	else
+	{
+		notification = is_single ? "EjectAvatarFullnameNoBan" : "EjectAvatarMultipleNoBan";
+	}
+	LLNotificationsUtil::add(notification, args, payload, handleParcelEject);
+}
+
+// static
+bool LLAvatarActions::canManageAvatarsEstate(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return false;
+
+	uuid_vec_t ids = { avatar_id };
+	return canManageAvatarsEstate(ids);
+}
+
+// static
+bool LLAvatarActions::canManageAvatarsEstate(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return false;
+
+	if (std::find(ids.cbegin(), ids.cend(), gAgentID) != ids.cend())
+		return false;
+
+	// Gods can always estate manage
+	if (gAgent.isGodlike())
+		return true;
+
+	LLWorld::region_gpos_map_t idRegions;
+	LLWorld::getInstance()->getAvatars(&idRegions, gAgent.getPositionGlobal());
+
+	auto ret = false;
+
+	for (const auto& id : ids)
+	{
+		if (id.isNull())
+			continue;
+		auto it = idRegions.find(id);
+		if (it != idRegions.cend())
+		{
+			auto region = it->second.first;
+			if (region)
+			{
+				const auto& owner = region->getOwner();
+				// Can't manage the estate owner!
+				if (owner == id)
+				{
+					ret = false;
+					break;
+				}
+				ret = (owner == gAgentID || region->canManageEstate());
+				continue;
+			}
+		}
+		ret = false;
+		break;
+	}
+	return ret;
+}
+
+// static
+void LLAvatarActions::estateTeleportHome(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	uuid_vec_t ids = { avatar_id };
+	estateTeleportHome(ids);
+}
+
+// static
+void LLAvatarActions::estateTeleportHome(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return;
+
+	LLSD payload;
+	payload["avatar_ids"] = LLSDArray();
+	std::string avatars;
+	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
+	{
+		const auto id = *it;
+		if (id.notNull())
+		{
+			payload["avatar_ids"].append(id);
+
+			if (!avatars.empty())
+				avatars += "\n";
+
+			avatars += LLSLURL("agent", id, "about").getSLURLString();
+		}
+	}
+
+	LLSD args;
+	args["AVATAR_NAMES"] = avatars;
+
+	LLNotificationsUtil::add((payload["avatar_ids"].size() == 1) ? "EstateTeleportHomeSingle" : "EstateTeleportHomeMulti", args, payload, handleEstateTeleportHome);
+}
+
+// static
+void LLAvatarActions::estateKick(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	uuid_vec_t ids = { avatar_id };
+	estateKick(ids);
+}
+
+// static
+void LLAvatarActions::estateKick(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return;
+
+	LLSD payload;
+	payload["avatar_ids"] = LLSDArray();
+	std::string avatars;
+	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
+	{
+		const auto id = *it;
+		if (id.notNull())
+		{
+			payload["avatar_ids"].append(id);
+
+			if (!avatars.empty())
+				avatars += "\n";
+
+			avatars += LLSLURL("agent", id, "about").getSLURLString();
+		}
+	}
+
+	LLSD args;
+	args["AVATAR_NAMES"] = avatars;
+
+	LLNotificationsUtil::add((payload["avatar_ids"].size() == 1) ? "EstateKickSingle" : "EstateKickMultiple", args, payload, handleEstateKick);
+}
+
+// static
+void LLAvatarActions::estateBan(const LLUUID& avatar_id)
+{
+	if (avatar_id.isNull())
+		return;
+
+	uuid_vec_t ids = { avatar_id };
+	estateBan(ids);
+}
+
+// static
+void LLAvatarActions::estateBan(const uuid_vec_t& ids)
+{
+	if (ids.empty())
+		return;
+
+	auto region = gAgent.getRegion();
+	if (!region)
+		return;
+
+	LLSD payload;
+	payload["avatar_ids"] = LLSDArray();
+	std::string avatars;
+	for (auto it = ids.cbegin(), end_it = ids.cend(); it != end_it; ++it)
+	{
+		const auto id = *it;
+		if (id.notNull())
+		{
+			payload["avatar_ids"].append(id);
+
+			if (!avatars.empty())
+				avatars += "\n";
+
+			avatars += LLSLURL("agent", id, "about").getSLURLString();
+		}
+	}
+
+	LLSD args;
+	args["AVATAR_NAMES"] = avatars;
+	std::string owner = LLSLURL("agent", region->getOwner(), "inspect").getSLURLString();
+	if (gAgent.isGodlike())
+	{
+		LLStringUtil::format_map_t owner_args;
+		owner_args["[OWNER]"] = owner;
+		args["ALL_ESTATES"] = LLTrans::getString("RegionInfoAllEstatesOwnedBy", owner_args);
+	}
+	else if (region->getOwner() == gAgent.getID())
+	{
+		args["ALL_ESTATES"] = LLTrans::getString("RegionInfoAllEstatesYouOwn");
+	}
+	else if (region->isEstateManager())
+	{
+		LLStringUtil::format_map_t owner_args;
+		owner_args["[OWNER]"] = owner.c_str();
+		args["ALL_ESTATES"] = LLTrans::getString("RegionInfoAllEstatesYouManage", owner_args);
+	}
+
+	bool single_user = (payload["avatar_ids"].size() == 1);
+	LLNotificationsUtil::add(single_user ? "EstateBanSingle" : "EstateBanMultiple", args, payload, handleEstateKick);
+}
+
+// static
+bool LLAvatarActions::handleParcelFreeze(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotification::getSelectedOption(notification, response);
+
+	if (0 == option || 1 == option)
+	{
+		U32 flags = 0x0;
+		if (1 == option)
+		{
+			// unfreeze
+			flags |= 0x1;
+		}
+		const auto& avatar_ids = notification["payload"]["avatar_ids"];
+		for (LLSD::array_const_iterator it = avatar_ids.beginArray(), it_end = avatar_ids.endArray(); it != it_end; ++it)
+		{
+			const auto& id = it->asUUID();
+			LLMessageSystem* msg = gMessageSystem;
+
+			msg->newMessage("FreezeUser");
+			msg->nextBlock("AgentData");
+			msg->addUUID("AgentID", gAgent.getID());
+			msg->addUUID("SessionID", gAgent.getSessionID());
+			msg->nextBlock("Data");
+			msg->addUUID("TargetID", id);
+			msg->addU32("Flags", flags);
+			gAgent.sendReliableMessage();
+		}
+	}
+	return false;
+}
+
+// static
+bool LLAvatarActions::handleParcelEject(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (2 == option)
+	{
+		return false;
+	}
+
+	bool ban_enabled = notification["payload"]["ban_enabled"].asBoolean();
+	const auto& avatar_ids = notification["payload"]["avatar_ids"];
+	for (LLSD::array_const_iterator it = avatar_ids.beginArray(), it_end = avatar_ids.endArray(); it != it_end; ++it)
+	{
+		const auto& id = it->asUUID();
+		U32 flags = (1 == option && ban_enabled) ? 0x1 : 0x0;
+		LLMessageSystem* msg = gMessageSystem;
+		msg->newMessage("EjectUser");
+		msg->nextBlock("AgentData");
+		msg->addUUID("AgentID", gAgent.getID());
+		msg->addUUID("SessionID", gAgent.getSessionID());
+		msg->nextBlock("Data");
+		msg->addUUID("TargetID", id);
+		msg->addU32("Flags", flags);
+		gAgent.sendReliableMessage();
+	}
+	return false;
+}
+
+// static
+bool LLAvatarActions::handleEstateTeleportHome(const LLSD & notification, const LLSD & response)
+{
+	S32 option = LLNotification::getSelectedOption(notification, response);
+
+	if (option == 0)
+	{
+		LLWorld::region_gpos_map_t idRegions;
+		LLWorld::getInstance()->getAvatars(&idRegions, gAgent.getPositionGlobal());
+		const auto& avatar_ids = notification["payload"]["avatar_ids"];
+		for (LLSD::array_const_iterator it = avatar_ids.beginArray(), it_end = avatar_ids.endArray(); it != it_end; ++it)
+		{
+			const auto& id = it->asUUID();
+			LLViewerRegion* regionp = nullptr;
+			auto idreg_it = idRegions.find(id);
+			if (idreg_it != idRegions.cend())
+			{
+				regionp = idreg_it->second.first;
+			}
+
+			if (!regionp)
+				continue;
+
+			LLMessageSystem* msg = gMessageSystem;
+			msg->newMessageFast(_PREHASH_EstateOwnerMessage);
+			msg->nextBlockFast(_PREHASH_AgentData);
+			msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+			msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+			msg->addUUIDFast(_PREHASH_TransactionID, LLUUID::null); //not used
+			msg->nextBlockFast(_PREHASH_MethodData);
+			msg->addStringFast(_PREHASH_Method, "teleporthomeuser");
+			msg->addUUIDFast(_PREHASH_Invoice, LLUUID::null);
+			msg->nextBlockFast(_PREHASH_ParamList);
+			msg->addStringFast(_PREHASH_Parameter, gAgent.getID().asString().c_str());
+			msg->nextBlockFast(_PREHASH_ParamList);
+			msg->addStringFast(_PREHASH_Parameter, id.asString().c_str());
+			msg->sendReliable(regionp->getHost());
+		}
+	}
+	return false;
+}
+
+// static
+bool LLAvatarActions::handleEstateKick(const LLSD & notification, const LLSD & response)
+{
+	S32 option = LLNotification::getSelectedOption(notification, response);
+
+	if (option == 0)
+	{
+		LLWorld::region_gpos_map_t idRegions;
+		LLWorld::getInstance()->getAvatars(&idRegions, gAgent.getPositionGlobal());
+		const auto& avatar_ids = notification["payload"]["avatar_ids"];
+		for (LLSD::array_const_iterator it = avatar_ids.beginArray(), it_end = avatar_ids.endArray(); it != it_end; ++it)
+		{
+			const auto& id = it->asUUID();
+			LLViewerRegion* regionp = nullptr;
+			auto idreg_it = idRegions.find(id);
+			if (idreg_it != idRegions.cend())
+			{
+				regionp = idreg_it->second.first;
+			}
+
+			if (!regionp)
+				continue;
+
+			LLMessageSystem* msg = gMessageSystem;
+			msg->newMessageFast(_PREHASH_EstateOwnerMessage);
+			msg->nextBlockFast(_PREHASH_AgentData);
+			msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
+			msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
+			msg->addUUIDFast(_PREHASH_TransactionID, LLUUID::null); //not used
+			msg->nextBlockFast(_PREHASH_MethodData);
+			msg->addStringFast(_PREHASH_Method, "kickestate");
+			msg->addUUIDFast(_PREHASH_Invoice, LLUUID::null);
+			msg->nextBlockFast(_PREHASH_ParamList);
+			msg->addStringFast(_PREHASH_Parameter, id.asString().c_str());
+			msg->sendReliable(regionp->getHost());
+		}
+	}
+	return false;
+}
+
+// static
+bool LLAvatarActions::handleEstateBan(const LLSD & notification, const LLSD & response)
+{
+	LLViewerRegion* region = gAgent.getRegion();
+	if (!region)
+		return false;
+
+	S32 option = LLNotification::getSelectedOption(notification, response);
+
+	if (0 == option || 1 == option)
+	{
+		const auto& avatar_ids = notification["payload"]["avatar_ids"];
+		for (LLSD::array_const_iterator it = avatar_ids.beginArray(), it_end = avatar_ids.endArray(); it != it_end; ++it)
+		{
+			const auto& id = it->asUUID();
+			if (region->getOwner() == id)
+			{
+				// Can't ban the owner!
+				continue;
+			}
+
+			U32 flags = ESTATE_ACCESS_BANNED_AGENT_ADD | ESTATE_ACCESS_ALLOWED_AGENT_REMOVE;
+
+			if (it + 1 != it_end)
+			{
+				flags |= ESTATE_ACCESS_NO_REPLY;
+			}
+
+			if (option == 1)
+			{
+				if (region->getOwner() == gAgent.getID() || gAgent.isGodlike())
+				{
+					flags |= ESTATE_ACCESS_APPLY_TO_ALL_ESTATES;
+				}
+				else if (region->isEstateManager())
+				{
+					flags |= ESTATE_ACCESS_APPLY_TO_MANAGED_ESTATES;
+				}
+			}
+
+			LLFloaterRegionInfo::nextInvoice();
+			LLPanelEstateInfo::sendEstateAccessDelta(flags, id);
 		}
 	}
 	return false;

@@ -240,7 +240,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 		{
 			return TRUE;
 		}
-		else if (mHoverBarIndex == -1)
+		else if (mHoverBarIndex < 0)
 		{
 			mHoverBarIndex = 0;
 		}

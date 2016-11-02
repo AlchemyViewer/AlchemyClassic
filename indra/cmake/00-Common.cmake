@@ -138,7 +138,7 @@ if (LINUX)
     -fno-math-errno
     -fno-strict-aliasing
     -fsigned-char
-    -std=gnu++11
+    -std=gnu++14
     -g
     -pthread
     )

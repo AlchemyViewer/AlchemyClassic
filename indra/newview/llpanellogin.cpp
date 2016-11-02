@@ -791,17 +791,8 @@ void LLPanelLogin::onClickConnect(void *)
 
 		// the grid definitions may come from a user-supplied grids.xml, so they may not be good
 		LL_DEBUGS("AppInit")<<"grid "<<combo_val.asString()<<LL_ENDL;
-		try
-		{
-			LLGridManager::getInstance()->setGridChoice(combo_val.asString());
-		}
-		catch (LLInvalidGridName ex)
-		{
-			LLSD args;
-			args["GRID"] = ex.name();
-			LLNotificationsUtil::add("InvalidGrid", args);
-			return;
-		}
+		
+        LLGridManager::getInstance()->setGridChoice(combo_val.asString());
 
 		// The start location SLURL has already been sent to LLStartUp::setStartSLURL
 
@@ -902,33 +893,22 @@ void LLPanelLogin::updateServer()
 {
 	if (sInstance)
 	{
-		try 
-		{
-			// if they've selected another grid, we should load the credentials
-			// for that grid and set them to the UI.
-			if(!sInstance->areCredentialFieldsDirty())
-			{
-				LLPointer<LLCredential> credential = gSecAPIHandler->loadCredential(LLGridManager::getInstance()->getGrid());	
-				bool remember = sInstance->getChild<LLUICtrl>("remember_check")->getValue();
-				sInstance->setFields(credential, remember);
-			}
+		// if they've selected another grid, we should load the credentials
+        // for that grid and set them to the UI.
+        if(!sInstance->areCredentialFieldsDirty())
+        {
+            LLPointer<LLCredential> credential = gSecAPIHandler->loadCredential(LLGridManager::getInstance()->getGrid());
+            bool remember = sInstance->getChild<LLUICtrl>("remember_check")->getValue();
+            sInstance->setFields(credential, remember);
+        }
 
-			// Want to vanish not only create_new_account_btn, but also the
-			// title text over it, so turn on/off the whole layout_panel element.
-			sInstance->getChild<LLLayoutPanel>("links")->setVisible(!LLGridManager::getInstance()->getCreateAccountURL().empty());
-			sInstance->getChildView("forgot_password_text")->setVisible(!LLGridManager::getInstance()->getForgotPasswordURL().empty());
+        // Want to vanish not only create_new_account_btn, but also the
+        // title text over it, so turn on/off the whole layout_panel element.
+        sInstance->getChild<LLLayoutPanel>("links")->setVisible(!LLGridManager::getInstance()->getCreateAccountURL().empty());
+        sInstance->getChildView("forgot_password_text")->setVisible(!LLGridManager::getInstance()->getForgotPasswordURL().empty());
 
-			// grid changed so show new splash screen (possibly)
-			loadLoginPage();
-		}
-		catch (LLInvalidGridName ex)
-		{
-			LL_WARNS("AppInit")<<"server '"<<ex.name()<<"' selection failed"<<LL_ENDL;
-			LLSD args;
-			args["GRID"] = ex.name();
-			LLNotificationsUtil::add("InvalidGrid", args);	
-			return;
-		}
+        // grid changed so show new splash screen (possibly)
+        loadLoginPage();
 	}
 }
 

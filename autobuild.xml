@@ -348,11 +348,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>01ae487a7af5e45fdd225f18b99e1351</string>
+              <string>95cfb697b63821afd47d59e100f48211</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.50.3-linux64-201609260528.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.51.0-linux64-201611050743.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -387,7 +387,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>7.50.3</string>
+        <string>7.51.0</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -1635,51 +1635,37 @@
         <key>version</key>
         <string>1.4.1</string>
       </map>
-      <key>libidn</key>
+      <key>libidn2</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (C) 2002-2013 Simon Josefsson</string>
+        <string>Copyright (C) 2011-2016 Simon Josefsson</string>
         <key>description</key>
-        <string>Libidn's purpose is to encode and decode internationalized domain names.</string>
+        <string>Libidn2's purpose is to encode and decode internationalized domain names.</string>
         <key>license</key>
-        <string>LGPL</string>
+        <string>GPL3</string>
         <key>license_file</key>
-        <string>LICENSES/libidn.txt</string>
+        <string>LICENSES/libidn2.txt</string>
         <key>name</key>
-        <string>libidn</string>
+        <string>libidn2</string>
         <key>platforms</key>
         <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>bbfb4841bd8e4fd2c92765b8add9af34</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libidn-1.33-darwin-201610240934.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
           <key>linux64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b26e3c6d2a78d7fe27566bee935a835d</string>
+              <string>581f5e75514fc4236d72f6e7260ad7ab</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libidn-1.33-linux64-201609241616.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libidn2-0.11-linux64-201611050724.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.33</string>
+        <string>0.11</string>
       </map>
       <key>libndofdev</key>
       <map>

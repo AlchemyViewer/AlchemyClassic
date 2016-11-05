@@ -111,8 +111,6 @@ LLContextMenu* PeopleContextMenu::createMenu()
 			(&LLAvatarActions::canFreezeEject), id));
 		enable_registrar.add("Avatar.EnableEstateManage", boost::bind(static_cast<bool(*)(const LLUUID&)>
 			(&LLAvatarActions::canManageAvatarsEstate), id));
-		enable_registrar.add("Avatar.EnableEstateManage", boost::bind(static_cast<bool(*)(const LLUUID&)>
-			(&LLAvatarActions::canManageAvatarsEstate), id));
 
 		// create the context menu from the XUI
 		menu = createFromFile("menu_people_nearby.xml");

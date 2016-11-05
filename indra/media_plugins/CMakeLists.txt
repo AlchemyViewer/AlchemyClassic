@@ -6,9 +6,9 @@ if (LINUX)
     add_subdirectory(gstreamer010)
 endif (LINUX)
 
-if (WINDOWS OR LINUX)
+if (WINDOWS)
     add_subdirectory(libvlc)
-endif (WINDOWS OR LINUX)
+endif (WINDOWS)
 
 add_subdirectory(cef)
 

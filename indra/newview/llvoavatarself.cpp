@@ -60,6 +60,7 @@
 #include "llsdutil.h"
 #include "llstartup.h"
 #include "llsdserialize.h"
+#include "llcallstack.h"
 #include "llcorehttputil.h"
 
 LLPointer<LLVOAvatarSelf> gAgentAvatarp = NULL;
@@ -184,6 +185,7 @@ bool update_avatar_rez_metrics()
 		return true;
 	
 	gAgentAvatarp->updateAvatarRezMetrics(false);
+
 	return false;
 }
 
@@ -221,7 +223,6 @@ void LLVOAvatarSelf::initInstance()
 	{
 		mDebugBakedTextureTimes[i][0] = -1.0f;
 		mDebugBakedTextureTimes[i][1] = -1.0f;
-		mInitialBakeIDs[i] = LLUUID::null;
 	}
 
 	status &= buildMenus();
@@ -344,6 +345,7 @@ BOOL LLVOAvatarSelf::buildSkeletonSelf(const LLAvatarSkeletonInfo *info)
 	F32 aspect = LLViewerCamera::getInstance()->getAspect();
 	LLVector3 scale(1.f, aspect, 1.f);
 	mScreenp->setScale(scale);
+	// SL-315
 	mScreenp->setWorldPosition(LLVector3::zero);
 	// need to update screen agressively when sidebar opens/closes, for example
 	mScreenp->mUpdateXform = TRUE;
@@ -385,6 +387,10 @@ BOOL LLVOAvatarSelf::buildMenus()
 	params.name(params.label);
 	gAttachBodyPartPieMenus[7] = LLUICtrlFactory::create<LLContextMenu> (params);
 
+	params.label(LLTrans::getString("BodyPartsEnhancedSkeleton"));
+	params.name(params.label);
+	gAttachBodyPartPieMenus[8] = LLUICtrlFactory::create<LLContextMenu>(params);
+
 	gDetachBodyPartPieMenus[0] = NULL;
 
 	params.label(LLTrans::getString("BodyPartsRightArm"));
@@ -413,7 +419,11 @@ BOOL LLVOAvatarSelf::buildMenus()
 	params.name(params.label);
 	gDetachBodyPartPieMenus[7] = LLUICtrlFactory::create<LLContextMenu> (params);
 
-	for (S32 i = 0; i < 8; i++)
+	params.label(LLTrans::getString("BodyPartsEnhancedSkeleton"));
+	params.name(params.label);
+	gDetachBodyPartPieMenus[8] = LLUICtrlFactory::create<LLContextMenu>(params);
+
+	for (S32 i = 0; i < 9; i++)
 	{
 		if (gAttachBodyPartPieMenus[i])
 		{
@@ -498,7 +508,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 		 ++iter)
 	{
 		LLViewerJointAttachment* attachment = iter->second;
-		if (attachment && attachment->getGroup() == 8)
+		if (attachment->getGroup() == 9)
 		{
 			LLMenuItemCallGL::Params item_params;
 			std::string sub_piemenu_name = attachment->getName();
@@ -584,7 +594,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 		}
 	}
 
-	for (S32 group = 0; group < 8; group++)
+	for (S32 group = 0; group < 9; group++)
 	{
 		// skip over groups that don't have sub menus
 		if (!gAttachBodyPartPieMenus[group] || !gDetachBodyPartPieMenus[group])
@@ -694,22 +704,23 @@ void LLVOAvatarSelf::idleUpdate(LLAgent &agent, const F64 &time)
 // virtual
 LLJoint *LLVOAvatarSelf::getJoint(const std::string &name)
 {
-	// <alchemy> - findJoint Opt
-	LLJoint* jointp = LLVOAvatar::getJoint(name);
+    LLJoint *jointp = NULL;
+    jointp = LLVOAvatar::getJoint(name);
 	if (!jointp && mScreenp)
 	{
 		jointp = mScreenp->findJoint(name);
+        if (jointp)
+        {
+            mJointMap[name] = jointp;
+        }
 	}
-	return jointp;
-
-	// <alchemy>
-	//if (mScreenp)
-	//{
-	//	LLJoint* jointp = mScreenp->findJoint(name);
-	//	if (jointp) return jointp;
-	//}
-	//return LLVOAvatar::getJoint(name);
+    if (jointp && jointp != mScreenp && jointp != mRoot)
+    {
+        llassert(LLVOAvatar::getJoint((S32)jointp->getJointNum())==jointp);
+    }
+    return jointp;
 }
+
 // virtual
 BOOL LLVOAvatarSelf::setVisualParamWeight(const LLVisualParam *which_param, F32 weight, BOOL upload_bake)
 {

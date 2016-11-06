@@ -67,6 +67,7 @@
 #include "llvowlsky.h"
 #include "llrender.h"
 #include "llnavigationbar.h"
+#include "llnotificationsutil.h"
 #include "llfloatertools.h"
 #include "llpaneloutfitsinventory.h"
 #include "llpanellogin.h"
@@ -134,6 +135,13 @@ static bool handleTerrainScaleChanged(const LLSD& inputvalue)
 	return true;
 }
 // </alchemy>
+
+static bool handleDebugAvatarJointsChanged(const LLSD& newvalue)
+{
+    std::string new_string = newvalue.asString();
+    LLJoint::setDebugJointNames(new_string);
+    return true;
+}
 
 static bool handleSetShaderChanged(const LLSD& newvalue)
 {
@@ -829,6 +837,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("SpellCheck")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("SpellCheckDictionary")->getSignal()->connect(boost::bind(&handleSpellCheckChanged));
 	gSavedSettings.getControl("LoginLocation")->getSignal()->connect(boost::bind(&handleLoginLocationChanged));
+    gSavedSettings.getControl("DebugAvatarJoints")->getCommitSignal()->connect(boost::bind(&handleDebugAvatarJointsChanged, _2));
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate, false));
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLViewerChat::signalChatFontChanged));
 	gSavedSettings.getControl("RenderVerticalSync")->getValidateSignal()->connect(boost::bind(validateVSync, _2));

@@ -50,6 +50,7 @@ set(llcommon_SOURCE_FILES
     llbase64.cpp
     llbitpack.cpp
     llcallbacklist.cpp
+    llcallstack.cpp
     llcommon.cpp
     llcommonutils.cpp
     llcoros.cpp
@@ -126,6 +127,7 @@ set(llcommon_SOURCE_FILES
     llworkerthread.cpp
     timing.cpp
     u64.cpp
+    StackWalker.cpp
     )
     
 set(llcommon_HEADER_FILES
@@ -147,6 +149,7 @@ set(llcommon_HEADER_FILES
     llbitpack.h
     llboost.h
     llcallbacklist.h
+    llcallstack.h
     llcommon.h
     llcommonutils.h
     llcoros.h
@@ -249,6 +252,7 @@ set(llcommon_HEADER_FILES
     stringize.h
     timer.h
     u64.h
+    StackWalker.h
     )
 
 if (WINDOWS)

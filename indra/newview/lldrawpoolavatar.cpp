@@ -27,6 +27,7 @@
 #include "llviewerprecompiledheaders.h"
 
 #include "lldrawpoolavatar.h"
+#include "llskinningutil.h"
 #include "llrender.h"
 
 #include "llvoavatar.h"
@@ -1453,7 +1454,13 @@ void LLDrawPoolAvatar::renderAvatars(LLVOAvatar* single_avatar, S32 pass)
 	}
 }
 
-void LLDrawPoolAvatar::getRiggedGeometry(LLFace* face, LLPointer<LLVertexBuffer>& buffer, U32 data_mask, const LLMeshSkinInfo* skin, LLVolume* volume, const LLVolumeFace& vol_face)
+void LLDrawPoolAvatar::getRiggedGeometry(
+    LLFace* face,
+    LLPointer<LLVertexBuffer>& buffer,
+    U32 data_mask,
+    const LLMeshSkinInfo* skin,
+    LLVolume* volume,
+    const LLVolumeFace& vol_face)
 {
 	face->setGeomIndex(0);
 	face->setIndicesIndex(0);
@@ -1462,7 +1469,8 @@ void LLDrawPoolAvatar::getRiggedGeometry(LLFace* face, LLPointer<LLVertexBuffer>
 	face->setTextureIndex(255);
 
 	if (buffer.isNull() || buffer->getTypeMask() != data_mask || !buffer->isWriteable())
-	{ //make a new buffer
+	{
+        // make a new buffer
 		if (sShaderLevel > 0)
 		{
 			buffer = new LLVertexBuffer(data_mask, GL_DYNAMIC_DRAW_ARB);
@@ -1474,7 +1482,8 @@ void LLDrawPoolAvatar::getRiggedGeometry(LLFace* face, LLPointer<LLVertexBuffer>
 		buffer->allocateBuffer(vol_face.mNumVertices, vol_face.mNumIndices, true);
 	}
 	else
-	{ //resize existing buffer
+	{
+        //resize existing buffer
 		buffer->resizeBuffer(vol_face.mNumVertices, vol_face.mNumIndices);
 	}
 
@@ -1510,20 +1519,25 @@ void LLDrawPoolAvatar::getRiggedGeometry(LLFace* face, LLPointer<LLVertexBuffer>
 	{
 		face->clearState(LLFace::TEXTURE_ANIM);
 	}
-
-
 	face->getGeometryVolume(*volume, face->getTEOffset(), mat_vert, mat_normal, offset, true);
 
 	buffer->flush();
 }
 
-void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(LLVOAvatar* avatar, LLFace* face, const LLMeshSkinInfo* skin, LLVolume* volume, const LLVolumeFace& vol_face)
+void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
+    LLVOAvatar* avatar,
+    LLFace* face,
+    const LLMeshSkinInfo* skin,
+    LLVolume* volume,
+    const LLVolumeFace& vol_face)
 {
 	LLVector4a* weight = vol_face.mWeights;
 	if (!weight)
 	{
 		return;
 	}
+    // FIXME ugly const cast
+    LLSkinningUtil::scrubInvalidJoints(avatar, const_cast<LLMeshSkinInfo*>(skin));
 
 	LLPointer<LLVertexBuffer> buffer = face->getVertexBuffer();
 	LLDrawable* drawable = face->getDrawable();
@@ -1560,8 +1574,55 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(LLVOAvatar* avatar, LLFace* 
 	}
 
 	if (sShaderLevel <= 0 && face->mLastSkinTime < avatar->getLastSkinTime())
-	{ 
-		avatar->updateSoftwareSkinnedVertices(skin, weight, vol_face, buffer);
+	{
+		//perform software vertex skinning for this face
+		LLStrider<LLVector3> position;
+		LLStrider<LLVector3> normal;
+
+		bool has_normal = buffer->hasDataType(LLVertexBuffer::TYPE_NORMAL);
+		buffer->getVertexStrider(position);
+
+		if (has_normal)
+		{
+			buffer->getNormalStrider(normal);
+		}
+
+		LLVector4a* pos = (LLVector4a*) position.get();
+
+		LLVector4a* norm = has_normal ? (LLVector4a*) normal.get() : NULL;
+		
+		//build matrix palette
+		LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
+        U32 count = LLSkinningUtil::getMeshJointCount(skin);
+        LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
+        LLSkinningUtil::checkSkinWeights(weight, buffer->getNumVerts(), skin);
+
+		LLMatrix4a bind_shape_matrix;
+		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
+
+        const U32 max_joints = LLSkinningUtil::getMaxJointCount();
+		for (U32 j = 0; j < buffer->getNumVerts(); ++j)
+		{
+			LLMatrix4a final_mat;
+            LLSkinningUtil::getPerVertexSkinMatrix(weight[j].getF32ptr(), mat, false, final_mat, max_joints);
+			
+			LLVector4a& v = vol_face.mPositions[j];
+
+			LLVector4a t;
+			LLVector4a dst;
+			bind_shape_matrix.affineTransform(v, t);
+			final_mat.affineTransform(t, dst);
+			pos[j] = dst;
+
+			if (norm)
+			{
+				LLVector4a& n = vol_face.mNormals[j];
+				bind_shape_matrix.rotate(n, t);
+				final_mat.rotate(t, dst);
+				dst.normalize3fast();
+				norm[j] = dst;
+			}
+		}
 	}
 }
 
@@ -1624,30 +1685,15 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 		if (buff)
 		{
 			if (sShaderLevel > 0)
-			{ //upload matrix palette to shader
-				LLMatrix4a mat[JOINT_COUNT];
+			{
+                // upload matrix palette to shader
+				LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
+				U32 count = LLSkinningUtil::getMeshJointCount(skin);
+                LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
 
-				U32 count = llmin((U32) skin->mJointNames.size(), (U32) JOINT_COUNT);
-
-				for (U32 j = 0; j < count; ++j)
-				{
-					LLJoint* joint = avatar->getJoint(skin->mJointNames[j]);
-					if(!joint)
-					{
-						joint = avatar->getJoint("mRoot");
-					}
-					if (joint)
-					{
-						mat[j].loadu(skin->mInvBindMatrix[j]);
-						LLMatrix4a world;
-						world.loadu(joint->getWorldMatrix());
-						mat[j].setMul(world, mat[j]);
-					}
-				}
-				
 				stop_glerror();
 
-				F32 mp[JOINT_COUNT*12];
+				F32 mp[LL_MAX_JOINTS_PER_MESH_OBJECT*12];
 
 				for (U32 i = 0; i < count; ++i)
 				{

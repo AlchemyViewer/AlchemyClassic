@@ -151,6 +151,7 @@ public:
 	BOOL	serialize(LLDataPacker& dp) const;
 	BOOL	deserialize(LLDataPacker& dp);
 	BOOL	isLoaded() { return mJointMotionList != NULL; }
+    void	dumpToFile(const std::string& name);
 
 
 	// setters for modifying a keyframe animation

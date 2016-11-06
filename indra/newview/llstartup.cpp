@@ -28,6 +28,7 @@
 
 #include "llappviewer.h"
 #include "llstartup.h"
+#include "llcallstack.h"
 
 #if LL_WINDOWS
 #	include <process.h>		// _spawnl()
@@ -196,6 +197,8 @@
 #include "llstartuplistener.h"
 #include "lltoolbarview.h"
 #include "llexperiencelog.h"
+
+#include "llstacktrace.h"
 
 #if LL_WINDOWS
 #include "lldxhardware.h"
@@ -1224,7 +1227,7 @@ bool idle_startup()
 		LLDrawable::initClass();
 		display_startup();
 
-		LLAvatarAppearance::initClass();
+        LLAvatarAppearance::initClass("avatar_lad.xml","avatar_skeleton.xml");
 		display_startup();
 
 		LLViewerObject::initVOClasses();

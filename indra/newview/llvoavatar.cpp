@@ -8979,7 +8979,7 @@ void LLVOAvatar::updateLODRiggedAttachments( void )
 }
 
 void LLVOAvatar::updateSoftwareSkinnedVertices(const LLMeshSkinInfo* skin, const LLVector4a* weight, const LLVolumeFace& vol_face, LLVertexBuffer *buffer)
-{
+{/*
 	//perform software vertex skinning for this face
 	LLStrider<LLVector3> position;
 	LLStrider<LLVector3> normal;
@@ -9069,6 +9069,7 @@ void LLVOAvatar::updateSoftwareSkinnedVertices(const LLMeshSkinInfo* skin, const
 			norm[j] = dst;
 		}
 	}
+	*/
 }
 
 U32 LLVOAvatar::getPartitionType() const

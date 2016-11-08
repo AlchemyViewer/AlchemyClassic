@@ -37,6 +37,14 @@ class LLMatrix4a
 private:
 	LL_ALIGN_16(LLVector4a mMatrix[4]);
 public:
+	enum
+	{
+		ROW_FWD = 0,
+		ROW_LEFT,
+		ROW_UP,
+		ROW_TRANS
+	};
+
 	void* operator new(size_t size)
 	{
 		return ll_aligned_malloc_16(size);
@@ -45,6 +53,32 @@ public:
 	void operator delete(void* ptr)
 	{
 		ll_aligned_free_16(ptr);
+	}
+
+	LLMatrix4a()
+	{}
+
+	LLMatrix4a(const LLMatrix4a& rhs)
+	{
+		mMatrix[0] = rhs.getRow<0>();
+		mMatrix[1] = rhs.getRow<1>();
+		mMatrix[2] = rhs.getRow<2>();
+		mMatrix[3] = rhs.getRow<3>();
+	}
+
+	LLMatrix4a(const LLMatrix4& rhs)
+	{
+		loadu(rhs);
+	}
+
+	// Do NOT add aditional operators without consulting someone with SSE experience
+	inline const LLMatrix4a& operator= (const LLMatrix4a& rhs)
+	{
+		mMatrix[0] = rhs.getRow<0>();
+		mMatrix[1] = rhs.getRow<1>();
+		mMatrix[2] = rhs.getRow<2>();
+		mMatrix[3] = rhs.getRow<3>();
+		return *this;
 	}
 
 	inline F32* getF32ptr()
@@ -65,13 +99,21 @@ public:
 		mMatrix[3].clear();
 	}
 
+	inline void setIdentity()
+	{
+		static __m128 ones = _mm_set_ps(1.f,0.f,0.f,1.f);
+		mMatrix[0] = _mm_movelh_ps(ones,_mm_setzero_ps());
+		mMatrix[1] = _mm_movehl_ps(_mm_setzero_ps(),ones);
+		mMatrix[2] = _mm_movelh_ps(_mm_setzero_ps(),ones);
+		mMatrix[3] = _mm_movehl_ps(ones,_mm_setzero_ps());
+	}
+
 	inline void loadu(const LLMatrix4& src)
 	{
-		mMatrix[0] = _mm_loadu_ps(src.mMatrix[0]);
-		mMatrix[1] = _mm_loadu_ps(src.mMatrix[1]);
-		mMatrix[2] = _mm_loadu_ps(src.mMatrix[2]);
-		mMatrix[3] = _mm_loadu_ps(src.mMatrix[3]);
-		
+		mMatrix[0].loadua(src.mMatrix[0]);
+		mMatrix[1].loadua(src.mMatrix[1]);
+		mMatrix[2].loadua(src.mMatrix[2]);
+		mMatrix[3].loadua(src.mMatrix[3]);
 	}
 
 	inline void loadu(const LLMatrix3& src)
@@ -80,6 +122,14 @@ public:
 		mMatrix[1].load3(src.mMatrix[1]);
 		mMatrix[2].load3(src.mMatrix[2]);
 		mMatrix[3].set(0,0,0,1.f);
+	}
+
+	inline void loadu(const F32* src)
+	{
+		mMatrix[0].loadua(src+0);
+		mMatrix[1].loadua(src+4);
+		mMatrix[2].loadua(src+8);
+		mMatrix[3].loadua(src+12);
 	}
 
 	inline void add(const LLMatrix4a& rhs)
@@ -95,6 +145,44 @@ public:
 		mMatrix[0] = r0;
 		mMatrix[1] = r1;
 		mMatrix[2] = r2;
+	}
+
+	template<int N>
+	inline void setRow(const LLVector4a& row)
+	{
+		mMatrix[N] = row;
+	}
+
+	template<int N>
+	inline const LLVector4a& getRow() const
+	{
+		return mMatrix[N];
+	}
+
+	template<int N>
+	inline LLVector4a& getRow()
+	{
+		return mMatrix[N];
+	}
+
+	template<int N>
+	inline void setColumn(const LLVector4a& col)
+	{
+		mMatrix[0].copyComponent<N>(col.getScalarAt<0>());
+		mMatrix[1].copyComponent<N>(col.getScalarAt<1>());
+		mMatrix[2].copyComponent<N>(col.getScalarAt<2>());
+		mMatrix[3].copyComponent<N>(col.getScalarAt<3>());
+	}
+
+	template<int N>
+	inline LLVector4a getColumn()
+	{
+		LLVector4a v;
+		v.copyComponent<0>(mMatrix[0].getScalarAt<N>());
+		v.copyComponent<1>(mMatrix[1].getScalarAt<N>());
+		v.copyComponent<2>(mMatrix[2].getScalarAt<N>());
+		v.copyComponent<3>(mMatrix[3].getScalarAt<N>());
+		return v;
 	}
 
 	inline void setMul(const LLMatrix4a& m, const F32 s)
@@ -134,20 +222,20 @@ public:
 		mMatrix[3].setAdd(a.mMatrix[3],d3);
 	}
 
-	inline void rotate(const LLVector4a& v, LLVector4a& res)
+	inline void rotate(const LLVector4a& v, LLVector4a& res) const
 	{
-		LLVector4a y,z;
+		LLVector4a x,y,z;
 
-		res = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
-		y = _mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1));
-		z = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 2, 2, 2));
-		
-		res.mul(mMatrix[0]);
+		x.splat<0>(v);
+		y.splat<1>(v);
+		z.splat<2>(v);
+
+		x.mul(mMatrix[0]);
 		y.mul(mMatrix[1]);
 		z.mul(mMatrix[2]);
 
-		res.add(y);
-		res.add(z);
+		x.add(y);
+		res.setAdd(x,z);
 	}
 
 	//Proper. v[VW] as v[VW]
@@ -170,14 +258,14 @@ public:
 		res.setAdd(x,z);
 	}
 
-	inline void affineTransformSSE(const LLVector4a& v, LLVector4a& res)
+	inline void affineTransform(const LLVector4a& v, LLVector4a& res) const
 	{
 		LLVector4a x,y,z;
 
-		x = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
-		y = _mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1));
-		z = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 2, 2, 2));
-		
+		x.splat<0>(v);
+		y.splat<1>(v);
+		z.splat<2>(v);
+
 		x.mul(mMatrix[0]);
 		y.mul(mMatrix[1]);
 		z.mul(mMatrix[2]);
@@ -186,20 +274,6 @@ public:
 		z.add(mMatrix[3]);
 		res.setAdd(x,z);
 	}
-
-    inline void affineTransformNonSSE(const LLVector4a& v, LLVector4a& res)
-    {
-        F32 x = v[0] * mMatrix[0][0] + v[1] * mMatrix[1][0] + v[2] * mMatrix[2][0] + mMatrix[3][0];
-        F32 y = v[0] * mMatrix[0][1] + v[1] * mMatrix[1][1] + v[2] * mMatrix[2][1] + mMatrix[3][1];
-        F32 z = v[0] * mMatrix[0][2] + v[1] * mMatrix[1][2] + v[2] * mMatrix[2][2] + mMatrix[3][2];
-        F32 w = 1.0f;
-        res.set(x,y,z,w);
-    }
-
-	inline void affineTransform(const LLVector4a& v, LLVector4a& res)
-    {
-        affineTransformSSE(v,res);
-    }
 } LL_ALIGN_POSTFIX(16);
 
 #endif

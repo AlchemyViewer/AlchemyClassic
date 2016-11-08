@@ -32,6 +32,7 @@
 #include "v4math.h"
 #include "m4math.h"
 #include <queue>
+#include <boost/align/aligned_allocator.hpp>
 
 class daeElement;
 class domMesh;
@@ -50,7 +51,7 @@ public:
 	LLUUID mMeshID;
 	std::vector<std::string> mJointNames;
     mutable std::vector<S32> mJointNums;
-	std::vector<LLMatrix4> mInvBindMatrix;
+	std::vector<LLMatrix4a, boost::alignment::aligned_allocator<LLMatrix4a, 64>> mInvBindMatrix;
 	std::vector<LLMatrix4> mAlternateBindMatrix;
 
 	LLMatrix4 mBindShapeMatrix;

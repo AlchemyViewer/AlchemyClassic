@@ -94,20 +94,14 @@ void LLSkinningUtil::initSkinningMatrixPalette(
 		}
         if (joint)
         {
-#define MAT_USE_SSE
-#ifdef MAT_USE_SSE
-			mat[j].loadu(skin->mInvBindMatrix[j]);
+			mat[j] = skin->mInvBindMatrix[j];
 			LLMatrix4a world;
 			world.loadu(joint->getWorldMatrix());
 			mat[j].setMul(world, mat[j]);
-#else
-            mat[j] = skin->mInvBindMatrix[j];
-            mat[j] *= joint->getWorldMatrix();
-#endif
         }
         else
         {
-            mat[j].loadu(skin->mInvBindMatrix[j]);
+            mat[j] = skin->mInvBindMatrix[j];
             // This  shouldn't  happen   -  in  mesh  upload,  skinned
             // rendering  should  be disabled  unless  all joints  are
             // valid.  In other  cases of  skinned  rendering, invalid

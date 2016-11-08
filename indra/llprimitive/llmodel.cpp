@@ -1421,7 +1421,7 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 				}
 			}
 
-			mInvBindMatrix.push_back(mat);
+			mInvBindMatrix.emplace_back(mat);
 		}
 	}
 
@@ -1449,7 +1449,7 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 				}
 			}
 			
-			mAlternateBindMatrix.push_back(mat);
+			mAlternateBindMatrix.emplace_back(mat);
 		}
 	}
 
@@ -1476,11 +1476,12 @@ LLSD LLMeshSkinInfo::asLLSD(bool include_joints, bool lock_scale_if_joint_positi
 	{
 		ret["joint_names"][i] = mJointNames[i];
 
+		const F32* invbindmat = mInvBindMatrix[i].getF32ptr();
 		for (U32 j = 0; j < 4; j++)
 		{
 			for (U32 k = 0; k < 4; k++)
 			{
-				ret["inverse_bind_matrix"][i][j*4+k] = mInvBindMatrix[i].mMatrix[j][k]; 
+				ret["inverse_bind_matrix"][i][j * 4 + k] = invbindmat[j * 4 + k];
 			}
 		}
 	}

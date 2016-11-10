@@ -6237,10 +6237,23 @@ class LLAvatarResetSkeleton: public view_listener_t
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
         {
-            avatar->resetSkeleton();
+            avatar->resetSkeleton(false);
         }
         return true;
     }
+};
+
+class LLAvatarResetSkeletonAndAnimations : public view_listener_t
+{
+	bool handleEvent(const LLSD& userdata)
+	{
+		LLVOAvatar* avatar = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
+		if (avatar)
+		{
+			avatar->resetSkeleton(true);
+		}
+		return true;
+	}
 };
 
 class LLAvatarAddContact : public view_listener_t
@@ -9283,6 +9296,7 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLAvatarReportAbuse(), "Avatar.ReportAbuse");
 	view_listener_t::addMenu(new LLAvatarToggleMyProfile(), "Avatar.ToggleMyProfile");
 	view_listener_t::addMenu(new LLAvatarResetSkeleton(), "Avatar.ResetSkeleton");
+	view_listener_t::addMenu(new LLAvatarResetSkeleton(), "Avatar.ResetSkeletonAndAnimations");
 	enable.add("Avatar.IsMyProfileOpen", boost::bind(&my_profile_visible));
 	view_listener_t::addMenu(new LLAvatarCopyData(), "Avatar.CopyData");
 	commit.add("Avatar.EstateTPHome", boost::bind(&handle_estate_tphome, LLSD()));

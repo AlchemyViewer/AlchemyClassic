@@ -1871,7 +1871,7 @@ void LLVOAvatar::resetVisualParams()
 //-----------------------------------------------------------------------------
 // resetSkeleton()
 //-----------------------------------------------------------------------------
-void LLVOAvatar::resetSkeleton()
+void LLVOAvatar::resetSkeleton(bool reset_animations)
 {
     LL_DEBUGS("Avatar") << avString() << " reset starts" << LL_ENDL;
     if (!mLastProcessedAppearance)
@@ -1935,6 +1935,12 @@ void LLVOAvatar::resetSkeleton()
     // Restore attachment pos overrides
     rebuildAttachmentOverrides();
 
+    // Animations
+    if (reset_animations)
+    {
+        resetAnimations();
+    }
+    
     LL_DEBUGS("Avatar") << avString() << " reset ends" << LL_ENDL;
 }
 

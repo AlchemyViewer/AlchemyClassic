@@ -25,10 +25,9 @@
 ATTRIBUTE vec4 weight4;  
 
 /* BENTO JOINT COUNT LIMITS
- * Note that the value in these two lines also needs to be updated to value-1 several places below.
+ * Note that the value in the next line also needs to be updated to value-1 several places below.
  */
 uniform mat3x4 matrixPalette[MAX_JOINTS_PER_MESH_OBJECT];
-uniform float maxWeight;
 
 mat4 getObjectSkinnedTransform()
 {
@@ -53,9 +52,9 @@ mat4 getObjectSkinnedTransform()
 		 mat += mat3(matrixPalette[i4])*w.w;
 
 	vec3 trans = vec3(matrixPalette[i1][0].w,matrixPalette[i1][1].w,matrixPalette[i1][2].w)*w.x;
-	trans += vec3(matrixPalette[i2][0].w,matrixPalette[i2][1].w,matrixPalette[i2][2].w)*w.y;
-	trans += vec3(matrixPalette[i3][0].w,matrixPalette[i3][1].w,matrixPalette[i3][2].w)*w.z;
-	trans += vec3(matrixPalette[i4][0].w,matrixPalette[i4][1].w,matrixPalette[i4][2].w)*w.w;
+		 trans += vec3(matrixPalette[i2][0].w,matrixPalette[i2][1].w,matrixPalette[i2][2].w)*w.y;
+		 trans += vec3(matrixPalette[i3][0].w,matrixPalette[i3][1].w,matrixPalette[i3][2].w)*w.z;
+		 trans += vec3(matrixPalette[i4][0].w,matrixPalette[i4][1].w,matrixPalette[i4][2].w)*w.w;
 
 	mat4 ret;
 

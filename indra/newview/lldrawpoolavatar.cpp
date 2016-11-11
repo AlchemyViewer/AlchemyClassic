@@ -1722,8 +1722,6 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 					FALSE,
 					(GLfloat*) mp);
 
-				LLDrawPoolAvatar::sVertexProgram->uniform1f(LLShaderMgr::AVATAR_MAX_WEIGHT, F32(count-1));
-				
 				stop_glerror();
 			}
 			else

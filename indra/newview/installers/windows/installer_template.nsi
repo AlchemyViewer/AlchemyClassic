@@ -435,7 +435,9 @@ Section "Viewer"
 
   SetOutPath "$INSTDIR"  
   ;Remove all old files first to prevent incorrect installation
-  RMDir /r "$INSTDIR\*"
+  ;RMDir /r "$INSTDIR\*"
+  RMDir /r "$INSTDIR\app_settings"
+  RMDir /r "$INSTDIR\skins"
   
   ;This placeholder is replaced by the complete list of all the files in the installer, by viewer_manifest.py
   %%INSTALL_FILES%%

@@ -2074,7 +2074,6 @@ if (LINUX)
     linux-crash-logger
     AlchemyPlugin
     media_plugin_gstreamer010
-    media_plugin_libvlc
     llcommon
     )
 

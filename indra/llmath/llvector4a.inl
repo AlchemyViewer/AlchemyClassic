@@ -154,6 +154,13 @@ inline void LLVector4a::splat(const LLVector4a& v, U32 i)
 	}
 }
 
+// Sets element N to that of src's element N
+template <int N> inline void LLVector4a::copyComponent(const LLVector4a& src)
+{
+	static const LLVector4Logical mask = _mm_load_ps((F32*)&S_V4LOGICAL_MASK_TABLE[N*4]);
+	setSelectWithMask(mask,src,mQ);
+}
+
 // Select bits from sourceIfTrue and sourceIfFalse according to bits in mask
 inline void LLVector4a::setSelectWithMask( const LLVector4Logical& mask, const LLVector4a& sourceIfTrue, const LLVector4a& sourceIfFalse )
 {

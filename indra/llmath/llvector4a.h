@@ -170,7 +170,10 @@ public:
 	
 	// Set all 4 elements to element i of v, with i NOT known at compile time
 	inline void splat(const LLVector4a& v, U32 i);
-	
+
+	// Sets element N to that of src's element N. Much cleaner than.. {LLVector4Logical mask; mask.clear(); mask.setElement<N>(); target.setSelectWithMask(mask,src,target);}
+	template <int N> inline void copyComponent(const LLVector4a& src);
+
 	// Select bits from sourceIfTrue and sourceIfFalse according to bits in mask
 	inline void setSelectWithMask( const LLVector4Logical& mask, const LLVector4a& sourceIfTrue, const LLVector4a& sourceIfFalse );
 	

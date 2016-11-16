@@ -146,14 +146,11 @@ LLWString LLChatUtilities::stripChannelNumber(const LLWString &mesg, S32* channe
 	else if (mesg[0] == '/'
 			 && mesg[1]
 			 && (LLStringOps::isDigit(mesg[1])
-				 || mesg[1] == '-' ))
-		
+				 || (mesg[1] == '-' && mesg[2] && LLStringOps::isDigit(mesg[2]))))
 	{
 		// This a special "/20" speak on a channel
 		S32 pos = 0;
-		if(mesg[1] == '-')
-			pos++;
-		
+
 		// Copy the channel number into a string
 		LLWString channel_string;
 		llwchar c;
@@ -163,7 +160,7 @@ LLWString LLChatUtilities::stripChannelNumber(const LLWString &mesg, S32* channe
 			channel_string.push_back(c);
 			pos++;
 		}
-		while(c && pos < 64 && LLStringOps::isDigit(c));
+		while(c && pos < 64 && (LLStringOps::isDigit(c) || (pos==1 && c =='-')));
 		
 		// Move the pointer forward to the first non-whitespace char
 		// Check isspace before looping, so we can handle "/33foo"
@@ -175,8 +172,6 @@ LLWString LLChatUtilities::stripChannelNumber(const LLWString &mesg, S32* channe
 		}
 		
 		sLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), NULL, 10);
-		if(mesg[1] == '-')
-			sLastSpecialChatChannel = -sLastSpecialChatChannel;
 		*channel = sLastSpecialChatChannel;
 		return mesg.substr(pos, mesg.length() - pos);
 	}

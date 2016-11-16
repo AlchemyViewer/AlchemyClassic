@@ -112,6 +112,7 @@ public:
 	void showBeacon();
 	void returnObjectsFromParcel(S32 local_id);
 	void returnObjects();
+	void checkButtonsEnabled();
 
 private:
 	void onNameCache(const LLUUID& id,

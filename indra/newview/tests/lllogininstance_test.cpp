@@ -138,6 +138,7 @@ void LLGridManager::addSystemGrid(const std::string& label,
 								  const std::string& password_url,
 								  const std::string& register_url,
 								  const std::string& update_url_base,
+								  const std::string& web_profile_url,
 								  const std::string& administrator,
 								  const std::string& platform,
 								  const std::string& login_id)

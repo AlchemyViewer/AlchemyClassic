@@ -372,7 +372,7 @@ void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string& cap_url)
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
     LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
 
-	httpOpts->setRetries(0);
+    httpOpts->setRetries(0);
     httpOpts->setWantHeaders(true);
     httpOpts->setFollowRedirects(false);
 

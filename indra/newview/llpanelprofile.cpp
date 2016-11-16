@@ -45,23 +45,11 @@ static const std::string PANEL_PICKS = "panel_picks";
 
 std::string getProfileURL(const std::string& agent_name)
 {
-	std::string url = LLStringUtil::null;
-
-	if (LLLoginInstance::getInstance()->hasResponse("profile-server-url"))
-	{
-		url = LLLoginInstance::getInstance()->getResponse("profile-server-url").asString();
-	}
-	else if (LLGridManager::getInstance()->isInSLMain())
-	{
-		url = gSavedSettings.getString("WebProfileURL");
-	}
-	else if (LLGridManager::getInstance()->isInSLBeta())
-	{
-		url = gSavedSettings.getString("WebProfileNonProductionURL");
-	}
+	std::string url = "[WEB_PROFILE_URL][AGENT_NAME]";
 	LLSD subs;
+	subs["WEB_PROFILE_URL"] = LLGridManager::getInstance()->getWebProfileURL();
 	subs["AGENT_NAME"] = agent_name;
-	url = LLWeb::expandURLSubstitutions(url,subs);
+	url = LLWeb::expandURLSubstitutions(url, subs);
 	LLStringUtil::toLower(url);
 	return url;
 }

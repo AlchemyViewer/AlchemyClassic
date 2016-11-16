@@ -4056,11 +4056,21 @@ void LLAgent::handleTeleportFinished()
 		mIsMaturityRatingChangingDuringTeleport = false;
 	}
     
-    // Init SLM Marketplace connection so we know which UI should be used for the user as a merchant
-    // Note: Eventually, all merchant will be migrated to the new SLM system and there will be no reason to show the old UI at all.
-    // Note: Some regions will not support the SLM cap for a while so we need to do that check for each teleport.
+    if (mRegionp)
+    {
+        if (mRegionp->capabilitiesReceived())
+        {
+            onCapabilitiesReceivedAfterTeleport();
+        }
+        else
+        {
+            mRegionp->setCapabilitiesReceivedCallback(boost::bind(&LLAgent::onCapabilitiesReceivedAfterTeleport));
+        }
+    }
+
+    // ALCHEMY FIXME: REVIEW FROM MERGE
     // ALCHEMY NOTE: This needs to remain a check at each teleport for OpenSim.
-    check_merchant_status();
+    //check_merchant_status();
 }
 
 void LLAgent::handleTeleportFailed()
@@ -4086,6 +4096,14 @@ void LLAgent::handleTeleportFailed()
 		mIsMaturityRatingChangingDuringTeleport = false;
 	}
 }
+
+/*static*/
+void LLAgent::onCapabilitiesReceivedAfterTeleport()
+{
+
+    check_merchant_status();
+}
+
 
 void LLAgent::teleportRequest(
 	const U64& region_handle,

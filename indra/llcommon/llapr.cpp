@@ -131,9 +131,11 @@ apr_pool_t* LLAPRPool::getAPRPool()
 bool ll_apr_warn_status(apr_status_t status)
 {
 	if(APR_SUCCESS == status) return false;
+#if !LL_LINUX
 	char buf[MAX_STRING];	/* Flawfinder: ignore */
 	apr_strerror(status, buf, sizeof(buf));
 	LL_WARNS("APR") << "APR: " << buf << LL_ENDL;
+#endif
 	return true;
 }
 

@@ -686,6 +686,8 @@ private:
 	void            handleTeleportFailed();
 	void			handleServerBakeRegionTransition(const LLUUID& region_id);
 
+    static void     onCapabilitiesReceivedAfterTeleport();
+
 	//--------------------------------------------------------------------
 	// Teleport State
 	//--------------------------------------------------------------------

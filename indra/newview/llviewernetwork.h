@@ -184,6 +184,13 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	/// Return the application URL prefix for the selected grid
 	std::string getAppSLURLBase() const { return getAppSLURLBase(mGrid); }
 
+	/// Return the url of the resident profile web site for the given grid
+	std::string getWebProfileURL(const std::string& grid);
+
+	/// Return the url of the resident profile web site for the selected grid
+	std::string getWebProfileURL() { return getWebProfileURL(mGrid); }
+
+
 	//@}
 	
 	typedef enum e_grid_platform {
@@ -280,6 +287,7 @@ private:
 					   const std::string& password_url,
 					   const std::string& register_url,
 					   const std::string& update_url_base,
+					   const std::string& web_profile_url,
 					   const std::string& administrator,
 					   const std::string& platform,
 					   const std::string& login_id = "");

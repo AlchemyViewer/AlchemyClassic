@@ -211,6 +211,8 @@ public:
 	BOOL			itemUpdatePending(const LLUUID& item_id) const;
 	U32				itemUpdatePendingCount() const;
 
+	static llvo_vec_t getTempAttachments();
+
 	//--------------------------------------------------------------------
 	// Signals
 	//--------------------------------------------------------------------

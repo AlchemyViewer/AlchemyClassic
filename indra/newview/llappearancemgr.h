@@ -229,6 +229,10 @@ public:
 	void setAppearanceServiceURL(const std::string& url) { mAppearanceServiceURL = url; }
 	std::string getAppearanceServiceURL() const;
 
+	typedef boost::function<void ()> attachments_changed_callback_t;
+	typedef boost::signals2::signal<void ()> attachments_changed_signal_t;
+	boost::signals2::connection setAttachmentsChangedCallback(attachments_changed_callback_t cb);
+
 
 
 private:
@@ -271,6 +275,8 @@ private:
 	LLTimer mInFlightTimer;
 	static bool mActive;
 
+	attachments_changed_signal_t		mAttachmentsChangeSignal;
+	
 	LLUUID mCOFImageID;
 
 	boost::scoped_ptr<LLOutfitUnLockTimer> mUnlockOutfitTimer;

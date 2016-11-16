@@ -70,6 +70,8 @@ struct LLGiveMoneyInfo
 		mFloater(floater), mAmount(amount){}
 };
 
+typedef boost::shared_ptr<LLGiveMoneyInfo> give_money_ptr;
+
 ///----------------------------------------------------------------------------
 /// Class LLFloaterPay
 ///----------------------------------------------------------------------------
@@ -94,19 +96,19 @@ public:
 private:
 	static void onCancel(void* data);
 	static void onKeystroke(LLLineEditor* editor, void* data);
-	static void onGive(void* data);
+	static void onGive(give_money_ptr info);
 	void give(S32 amount);
 	static void processPayPriceReply(LLMessageSystem* msg, void **userdata);
 	void finishPayUI(const LLUUID& target_id, BOOL is_group);
 
 protected:
-	std::vector<LLGiveMoneyInfo*> mCallbackData;
+	std::vector<give_money_ptr> mCallbackData;
 	money_callback mCallback;
 	LLUUID mTargetUUID;
 	BOOL mTargetIsGroup;
 
 	std::array<LLButton*, MAX_PAY_BUTTONS> mQuickPayButton;
-	std::array<LLGiveMoneyInfo*, MAX_PAY_BUTTONS> mQuickPayInfo;
+	std::array<give_money_ptr, MAX_PAY_BUTTONS> mQuickPayInfo;
 
 	LLSafeHandle<LLObjectSelection> mObjectSelection;
 	
@@ -131,7 +133,11 @@ LLFloaterPay::LLFloaterPay(const LLSD& key)
 // Destroys the object
 LLFloaterPay::~LLFloaterPay()
 {
-	std::for_each(mCallbackData.begin(), mCallbackData.end(), DeletePointer());
+    std::vector<give_money_ptr>::iterator iter;
+    for (iter = mCallbackData.begin(); iter != mCallbackData.end(); ++iter)
+    {
+        (*iter)->mFloater = NULL;
+    }
 	mCallbackData.clear();
 	// Name callbacks will be automatically disconnected since LLFloater is trackable
 	
@@ -143,40 +149,40 @@ BOOL LLFloaterPay::postBuild()
 {
 	S32 i = 0;
 	
-	LLGiveMoneyInfo* info = new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_0);
+	give_money_ptr info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_0));
 	mCallbackData.push_back(info);
 
-	childSetAction("fastpay 1",&LLFloaterPay::onGive,info);
+	childSetAction("fastpay 1", boost::bind(LLFloaterPay::onGive, info));
 	getChildView("fastpay 1")->setVisible(FALSE);
 
 	mQuickPayButton[i] = getChild<LLButton>("fastpay 1");
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_1);
+	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_1));
 	mCallbackData.push_back(info);
 
-	childSetAction("fastpay 5",&LLFloaterPay::onGive,info);
+	childSetAction("fastpay 5", boost::bind(LLFloaterPay::onGive, info));
 	getChildView("fastpay 5")->setVisible(FALSE);
 
 	mQuickPayButton[i] = getChild<LLButton>("fastpay 5");
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_2);
+	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_2));
 	mCallbackData.push_back(info);
 
-	childSetAction("fastpay 10",&LLFloaterPay::onGive,info);
+	childSetAction("fastpay 10", boost::bind(LLFloaterPay::onGive, info));
 	getChildView("fastpay 10")->setVisible(FALSE);
 
 	mQuickPayButton[i] = getChild<LLButton>("fastpay 10");
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_3);
+	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_3));
 	mCallbackData.push_back(info);
 
-	childSetAction("fastpay 20",&LLFloaterPay::onGive,info);
+	childSetAction("fastpay 20", boost::bind(LLFloaterPay::onGive, info));
 	getChildView("fastpay 20")->setVisible(FALSE);
 
 	mQuickPayButton[i] = getChild<LLButton>("fastpay 20");
@@ -198,10 +204,10 @@ BOOL LLFloaterPay::postBuild()
 	getChild<LLUICtrl>("amount")->setValue(last_amount);
 	getChild<LLLineEditor>("amount")->setPrevalidate(LLTextValidate::validateNonNegativeS32);
 
-	info = new LLGiveMoneyInfo(this, 0);
+	info = give_money_ptr(new LLGiveMoneyInfo(this, 0));
 	mCallbackData.push_back(info);
 
-	childSetAction("pay btn",&LLFloaterPay::onGive,info);
+	childSetAction("pay btn", boost::bind(LLFloaterPay::onGive, info));
 	setDefaultBtn("pay btn");
 	getChildView("pay btn")->setVisible(FALSE);
 	getChildView("pay btn")->setEnabled((sLastAmount > 0));
@@ -471,14 +477,18 @@ void LLFloaterPay::onKeystroke(LLLineEditor*, void* data)
 }
 
 // static
-void LLFloaterPay::onGive(void* data)
+void LLFloaterPay::onGive(give_money_ptr info)
 {
-	LLGiveMoneyInfo* info = reinterpret_cast<LLGiveMoneyInfo*>(data);
-	if(info && info->mFloater)
-	{
-		info->mFloater->give(info->mAmount);
-		info->mFloater->closeFloater();
-	}
+    if (!info.get() || !info->mFloater)
+    {
+        return;
+    }
+
+    LLFloaterPay* floater = info->mFloater;
+    S32 amount = info->mAmount;
+
+        floater->give(amount);
+        floater->closeFloater();
 }
 
 void LLFloaterPay::give(S32 amount)

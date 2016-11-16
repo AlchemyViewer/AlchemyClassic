@@ -70,7 +70,7 @@
 
 #include <cef/llceflib.h>
 
-#if !LL_DARWIN
+#if LL_WINDOWS
 #include <vlc/libvlc_version.h>
 #endif
 
@@ -315,7 +315,7 @@ LLSD LLFloaterAbout::getInfo(const std::string& server_release_notes_url)
 	info["LLCEFLIB_VERSION"] = "Undefined";
 #endif
 
-#if !LL_DARWIN
+#if LL_WINDOWS
 	std::ostringstream ver_codec;
 	ver_codec << LIBVLC_VERSION_MAJOR;
 	ver_codec << ".";

@@ -1990,11 +1990,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>afcda197872f00eafce47f469d204b5e</string>
+              <string>9fee2a8c9c864b6730b24003c99ddaf1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2526.1364.gf6bf57b-windows64-201610142042.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2526.1364.gf6bf57b-windows64-201611161015.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

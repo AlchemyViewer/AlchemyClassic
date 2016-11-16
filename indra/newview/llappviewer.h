@@ -102,6 +102,10 @@ public:
 
 	const LLOSInfo& getOSInfo() const { return mSysOSInfo; }
 
+	void setServerReleaseNotesURL(const std::string& url) { mServerReleaseNotesURL = url; }
+	LLSD getViewerInfo() const;
+	std::string getViewerInfoString() const;
+
 	// Report true if under the control of a debugger. A null-op default.
 	virtual bool beingDebugged() { return false; } 
 
@@ -260,6 +264,8 @@ private:
 	
 	LLOSInfo mSysOSInfo; 
 	bool mReportedCrash;
+
+	std::string mServerReleaseNotesURL;
 
 	// Thread objects.
 	static LLTextureCache* sTextureCache; 

@@ -165,6 +165,11 @@ void LLVoiceClient::terminate()
 {
 	if (mVoiceModule) mVoiceModule->terminate();
 	mVoiceModule = NULL;
+    
+    if (LLSpeakerVolumeStorage::instanceExists())
+    {
+        LLSpeakerVolumeStorage::deleteSingleton();
+    }
 }
 
 const LLVoiceVersionInfo LLVoiceClient::getVersion()

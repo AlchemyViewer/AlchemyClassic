@@ -4067,10 +4067,6 @@ void LLAgent::handleTeleportFinished()
             mRegionp->setCapabilitiesReceivedCallback(boost::bind(&LLAgent::onCapabilitiesReceivedAfterTeleport));
         }
     }
-
-    // ALCHEMY FIXME: REVIEW FROM MERGE
-    // ALCHEMY NOTE: This needs to remain a check at each teleport for OpenSim.
-    //check_merchant_status();
 }
 
 void LLAgent::handleTeleportFailed()

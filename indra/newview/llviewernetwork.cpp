@@ -339,7 +339,7 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 				LL_DEBUGS("GridManager") <<grid<<"\n"
 										 <<"  id:          "<<grid_data[GRID_ID_VALUE].asString()<<"\n"
 										 <<"  label:       "<<grid_data[GRID_LABEL_VALUE].asString()<<"\n"
-										 <<"  login page:  "<<grid_data[GRID_LOGIN_PAGE_VALUE].asString()<<"\n";
+										 <<"  login page:  "<<grid_data[GRID_LOGIN_PAGE_VALUE].asString()<<"\n"
 										 <<"  web profile: "<<grid_data[GRID_WEB_PROFILE_VALUE].asString()<<"\n";
 				/* still in LL_DEBUGS */ 
 				for (LLSD::array_const_iterator login_uris = grid_data[GRID_LOGIN_URI_VALUE].beginArray();

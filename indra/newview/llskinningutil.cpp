@@ -193,6 +193,6 @@ void LLSkinningUtil::getPerVertexSkinMatrix(
     // SL-366 - with weight validation/cleanup code, it should no longer be
     // possible to hit the bad scale case.
     llassert(valid_weights);
-// #endif
+#endif
 }
 

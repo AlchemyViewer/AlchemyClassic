@@ -2656,11 +2656,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>68a8fab5ad3a180487598d3a3e0d57b1</string>
+              <string>3dd9bf4185bf2df413d890ca9eeab76c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/slvoice_3p-update-slvoice/rev/298329/arch/Darwin/installer/slvoice-4.6.0017.21209.298329-darwin-298329.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/vivox_3p-slvoice/rev/302004/arch/Darwin/installer/slvoice-4.6.0017.22050.302004-darwin-302004.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2696,32 +2696,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>399afab7047e6fa62e7b2fb1768059ea</string>
+              <string>47a3316dae47cc4e7c1ea7b74ba8dd1e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/slvoice_3p-update-slvoice/rev/298329/arch/CYGWIN/installer/slvoice-4.6.0017.21209.298329-windows-298329.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/vivox_3p-slvoice/rev/302004/arch/CYGWIN/installer/slvoice-4.6.0017.22050.302004-windows-302004.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
           </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>dabbc146137c13ec2ea026aa69e1f045</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/slvoice-4.6.0017.21209.298329-windows64-298329.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
         </map>
         <key>version</key>
-        <string>4.6.0017.21209.298329</string>
+        <string>4.6.0017.22050</string>
       </map>
       <key>tut</key>
       <map>

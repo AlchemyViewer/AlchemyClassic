@@ -1552,37 +1552,61 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			LLVector3 rot_angles;
 			U16 x, y, z;
 
-			BOOL success = TRUE;
-
 			if (old_version)
 			{
-				success = dp.unpackVector3(rot_angles, "rot_angles") && rot_angles.isFinite();
+				if (!dp.unpackVector3(rot_angles, "rot_angles"))
+				{
+					LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
+				if (!rot_angles.isFinite())
+				{
+					LL_WARNS() << "non-finite angle in rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
 
 				LLQuaternion::Order ro = StringToOrder("ZYX");
 				rot_key.mRotation = mayaQ(rot_angles.mV[VX], rot_angles.mV[VY], rot_angles.mV[VZ], ro);
 			}
 			else
 			{
-				success &= dp.unpackU16(x, "rot_angle_x");
-				success &= dp.unpackU16(y, "rot_angle_y");
-				success &= dp.unpackU16(z, "rot_angle_z");
+				if (!dp.unpackU16(x, "rot_angle_x"))
+				{
+					LL_WARNS() << "can't read rot_angle_x in rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
+				if (!dp.unpackU16(y, "rot_angle_y"))
+				{
+					LL_WARNS() << "can't read rot_angle_y in rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
+				if (!dp.unpackU16(z, "rot_angle_z"))
+				{
+					LL_WARNS() << "can't read rot_angle_z in rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
 
 				LLVector3 rot_vec;
 				rot_vec.mV[VX] = U16_to_F32(x, -1.f, 1.f);
 				rot_vec.mV[VY] = U16_to_F32(y, -1.f, 1.f);
 				rot_vec.mV[VZ] = U16_to_F32(z, -1.f, 1.f);
+				if (!rot_vec.isFinite())
+				{
+					LL_WARNS() << "non-finite angle in rotation key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
 				rot_key.mRotation.unpackFromVector3(rot_vec);
 			}
 
 			if( !(rot_key.mRotation.isFinite()) )
 			{
-				LL_WARNS() << "non-finite angle in rotation key" << LL_ENDL;
-				success = FALSE;
-			}
-			
-			if (!success)
-			{
-				LL_WARNS() << "can't read rotation key (" << k << ")" << LL_ENDL;
+				LL_WARNS() << "non-finite angle in rotation key (" << k << ")" << LL_ENDL;
 				delete mJointMotionList;
 				return FALSE;
 			}
@@ -1621,7 +1645,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				if (!dp.unpackF32(pos_key.mTime, "time") ||
 				    !llfinite(pos_key.mTime))
 				{
-					LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+					LL_WARNS() << "can't read time in position key (" << k << ")" << LL_ENDL;
 					delete mJointMotionList;
 					return FALSE;
 				}
@@ -1630,7 +1654,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				if (!dp.unpackU16(time_short, "time"))
 				{
-					LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+					LL_WARNS() << "can't read time in position key (" << k << ")" << LL_ENDL;
 					delete mJointMotionList;
 					return FALSE;
 				}
@@ -1638,11 +1662,14 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 				pos_key.mTime = U16_to_F32(time_short, 0.f, mJointMotionList->mDuration);
 			}
 
-			BOOL success = TRUE;
-
 			if (old_version)
 			{
-				success = dp.unpackVector3(pos_key.mPosition, "pos");
+				if (!dp.unpackVector3(pos_key.mPosition, "pos"))
+				{
+					LL_WARNS() << "can't read pos in position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
                 
                 //MAINT-6162
                 pos_key.mPosition.mV[VX] = llclamp( pos_key.mPosition.mV[VX], -LL_MAX_PELVIS_OFFSET, LL_MAX_PELVIS_OFFSET);
@@ -1654,9 +1681,24 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			{
 				U16 x, y, z;
 
-				success &= dp.unpackU16(x, "pos_x");
-				success &= dp.unpackU16(y, "pos_y");
-				success &= dp.unpackU16(z, "pos_z");
+				if (!dp.unpackU16(x, "pos_x"))
+				{
+					LL_WARNS() << "can't read pos_x in position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
+				if (!dp.unpackU16(y, "pos_y"))
+				{
+					LL_WARNS() << "can't read pos_y in position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
+				if (!dp.unpackU16(z, "pos_z"))
+				{
+					LL_WARNS() << "can't read pos_z in position key (" << k << ")" << LL_ENDL;
+					delete mJointMotionList;
+					return FALSE;
+				}
 
 				pos_key.mPosition.mV[VX] = U16_to_F32(x, -LL_MAX_PELVIS_OFFSET, LL_MAX_PELVIS_OFFSET);
 				pos_key.mPosition.mV[VY] = U16_to_F32(y, -LL_MAX_PELVIS_OFFSET, LL_MAX_PELVIS_OFFSET);
@@ -1665,13 +1707,7 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
 			
 			if( !(pos_key.mPosition.isFinite()) )
 			{
-				LL_WARNS() << "non-finite position in key" << LL_ENDL;
-				success = FALSE;
-			}
-			
-			if (!success)
-			{
-				LL_WARNS() << "can't read position key (" << k << ")" << LL_ENDL;
+				LL_WARNS() << "non-finite position in key (" << k << ")" << LL_ENDL;
 				delete mJointMotionList;
 				return FALSE;
 			}

@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file linux_volume_catcher.cpp
  * @brief A Linux-specific, PulseAudio-specific hack to detect and volume-adjust new audio sources

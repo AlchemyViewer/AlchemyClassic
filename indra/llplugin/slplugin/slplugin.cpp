@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /**
  * @file slplugin.cpp
  * @brief Loader shell for plugins, intended to be launched by the plugin host application, which directly loads a plugin dynamic library.

@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llimagefilter.cpp
  * @brief Simple Image Filtering. See https://wiki.lindenlab.com/wiki/SL_Viewer_Image_Filters for complete documentation.

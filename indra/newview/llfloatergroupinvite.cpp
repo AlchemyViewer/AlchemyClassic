@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llfloatergroupinvite.cpp
  * @brief Floater to invite new members into a group.

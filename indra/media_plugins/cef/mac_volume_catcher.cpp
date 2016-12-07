@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file mac_volume_catcher.cpp
  * @brief A Mac OS X specific hack to control the volume level of all audio channels opened by a process.

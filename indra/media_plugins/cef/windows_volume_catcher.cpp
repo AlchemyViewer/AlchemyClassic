@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file windows_volume_catcher.cpp
  * @brief A Windows implementation of volume level control of all audio channels opened by a process.

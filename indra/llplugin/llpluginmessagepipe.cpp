@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llpluginmessagepipe.cpp
  * @brief Classes that implement connections from the plugin system to pipes/pumps.

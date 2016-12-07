@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llfloaterbump.cpp
  * @brief Floater showing recent bumps, hits with objects, pushes, etc.

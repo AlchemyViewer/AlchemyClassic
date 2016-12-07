@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file media_plugin_gstreamer010.cpp
  * @brief GStreamer-0.10 plugin for LLMedia API plugin system

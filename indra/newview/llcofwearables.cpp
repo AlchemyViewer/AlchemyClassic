@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llcofwearables.cpp
  * @brief LLCOFWearables displayes wearables from the current outfit split into three lists (attachments, clothing and body parts)

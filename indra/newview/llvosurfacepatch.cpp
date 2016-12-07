@@ -1,3 +1,5 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llvosurfacepatch.cpp
  * @brief Viewer-object derived "surface patch", which is a piece of terrain

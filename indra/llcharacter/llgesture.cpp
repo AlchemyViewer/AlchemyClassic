@@ -193,8 +193,6 @@ void LLGestureList::deleteAll()
 // and (as a minor side effect) has multiple spaces in a row replaced by single spaces.
 BOOL LLGestureList::triggerAndReviseString(const std::string &string, std::string* revised_string)
 {
-	std::string tokenized = string;
-
 	BOOL found_gestures = FALSE;
 	BOOL first_token = TRUE;
 

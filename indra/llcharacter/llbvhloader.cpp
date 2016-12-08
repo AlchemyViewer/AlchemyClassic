@@ -147,7 +147,7 @@ LLBVHLoader::LLBVHLoader(const char* buffer, ELoadStatus &loadStatus, S32 &error
     
     // Recognize all names we've been told are legal.
     std::map<std::string, std::string>::iterator iter;
-    for (iter = joint_alias_map.begin(); iter != joint_alias_map.end(); iter++)
+    for (iter = joint_alias_map.begin(); iter != joint_alias_map.end(); ++iter)
     {
         makeTranslation( iter->first , iter->second );
     }
@@ -469,7 +469,7 @@ ELoadStatus LLBVHLoader::loadTranslationTable(const char *fileName)
 	infstream.close() ;
 	return E_ST_OK;
 }
-void LLBVHLoader::makeTranslation(std::string alias_name, std::string joint_name)
+void LLBVHLoader::makeTranslation(const std::string& alias_name, const std::string& joint_name)
 {
     //Translation &newTrans = (foomap.insert(value_type(alias_name, Translation()))).first();
     Translation &newTrans = mTranslations[ alias_name ];  //Uses []'s implicit call to ctor.
@@ -483,7 +483,7 @@ void LLBVHLoader::makeTranslation(std::string alias_name, std::string joint_name
     
     newTrans.mFrameMatrix = fm;
     
-if (joint_name == "mPelvis")
+	if (joint_name == "mPelvis")
     {
         newTrans.mRelativePositionKey = TRUE;
         newTrans.mRelativeRotationKey = TRUE;
@@ -637,9 +637,9 @@ ELoadStatus LLBVHLoader::loadBVHFile(const char *buffer, char* error_text, S32 &
 		}
 		else if ( strstr(line.c_str(), "End Site") )
 		{
-			iter++; // {
-			iter++; //     OFFSET
-			iter++; // }
+			++iter; // {
+			++iter; //     OFFSET
+			++iter; // }
 			S32 depth = 0;
 			for (S32 j = (S32)parent_joints.size() - 1; j >= 0; j--)
 			{
@@ -897,7 +897,7 @@ ELoadStatus LLBVHLoader::loadBVHFile(const char *buffer, char* error_text, S32 &
 				strncpy(error_text, line.c_str(), 127);	/*Flawfinder: ignore*/
 				return E_ST_NO_POS;
             }
-            float_token_iter++;
+            ++float_token_iter;
 		}
 		LL_DEBUGS("BVH") << "Got " << floats.size() << " floats " << LL_ENDL;
 		for (U32 j=0; j<mJoints.size(); j++)
@@ -1244,7 +1244,6 @@ void LLBVHLoader::reset()
 	mInitialized = FALSE;
 
 	mEmoteName = "";
-	mLineNumber = 0;
 	mTranslations.clear();
 	mConstraints.clear();
 }
@@ -1478,7 +1477,7 @@ BOOL LLBVHLoader::serialize(LLDataPacker& dp)
 
 	for (ConstraintVector::iterator constraint_it = mConstraints.begin();
 		constraint_it != mConstraints.end();
-		constraint_it++)
+		++constraint_it)
 		{
 			U8 byte = constraint_it->mChainLength;
 			dp.packU8(byte, "chain_length");

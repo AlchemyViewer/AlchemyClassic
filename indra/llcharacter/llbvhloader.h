@@ -250,7 +250,7 @@ public:
 	ELoadStatus loadTranslationTable(const char *fileName);
 
     //Create a new joint alias
-    void makeTranslation(std::string key, std::string value);
+    void makeTranslation(const std::string& key, const std::string& value);
     
     // Loads joint aliases from XML file.
     ELoadStatus loadAliases(const char * filename);

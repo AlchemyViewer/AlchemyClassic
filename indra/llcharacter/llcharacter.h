@@ -183,11 +183,11 @@ public:
 
 	virtual S32 getCollisionVolumeID(std::string &name) { return -1; }
 
-	void setAnimationData(std::string name, void *data);
+	void setAnimationData(const std::string& name, void *data);
 	
-	void *getAnimationData(std::string name);
+	void *getAnimationData(const std::string& name);
 
-	void removeAnimationData(std::string name);
+	void removeAnimationData(const std::string& name);
 	
 	void addVisualParam(LLVisualParam *param);
 	void addSharedVisualParam(LLVisualParam *param);

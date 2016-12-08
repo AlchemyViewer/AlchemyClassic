@@ -635,13 +635,10 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                                         mMorphData.insert(clone_morph_param_cleavage(morph_data,
                                                                                      .75f,
                                                                                      "Breast_Physics_LeftRight_Driven"));
+										mMorphData.insert(clone_morph_param_duplicate(morph_data,
+																					  "Breast_Physics_InOut_Driven"));
                                 }
 
-                                if (!strcmp(morphName, "Breast_Female_Cleavage"))
-                                {
-                                        mMorphData.insert(clone_morph_param_duplicate(morph_data,
-										      "Breast_Physics_InOut_Driven"));
-                                }
                                 if (!strcmp(morphName, "Breast_Gravity"))
                                 {
                                         mMorphData.insert(clone_morph_param_duplicate(morph_data,
@@ -674,12 +671,9 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                                         mMorphData.insert(clone_morph_param_direction(morph_data,
 										      LLVector3(0,0,0.05f),
 										      "Butt_Physics_UpDown_Driven"));
-                                }
-                                if (!strcmp(morphName, "Small_Butt"))
-                                {
-                                        mMorphData.insert(clone_morph_param_direction(morph_data,
-										      LLVector3(0,0.03f,0),
-										      "Butt_Physics_LeftRight_Driven"));
+										mMorphData.insert(clone_morph_param_direction(morph_data,
+											LLVector3(0, 0.03f, 0),
+											"Butt_Physics_LeftRight_Driven"));
                                 }
                         }
 

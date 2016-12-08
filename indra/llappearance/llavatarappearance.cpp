@@ -369,8 +369,6 @@ void LLAvatarAppearance::initClass(const std::string& avatar_file_name_arg, cons
 	root->getFastAttributeS32( wearable_definition_version_string, wearable_def_version );
 	LLWearable::setCurrentDefinitionVersion( wearable_def_version );
 
-	std::string mesh_file_name;
-
 	LLXmlTreeNode* skeleton_node = root->getChildByName( "skeleton" );
 	if (!skeleton_node)
 	{

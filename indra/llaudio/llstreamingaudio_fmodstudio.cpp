@@ -657,7 +657,7 @@ bool LLStreamingAudio_FMODSTUDIO::releaseDeadStreams()
 		}
 		else
 		{
-			iter++;
+			++iter;
 		}
 	}
 

@@ -275,11 +275,15 @@ std::string LLAudioEngine_FMODSTUDIO::getDriverName(bool verbose)
 
 void LLAudioEngine_FMODSTUDIO::allocateListener(void)
 {	
-	mListenerp = (LLListener *) new LLListener_FMODSTUDIO(mSystem);
-	if (!mListenerp)
+	try
 	{
-		LL_WARNS() << "Listener creation failed" << LL_ENDL;
+		mListenerp = (LLListener *) new LLListener_FMODSTUDIO(mSystem);
 	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_WARNS() << "Listener allocation failed due to: " << e.what() << LL_ENDL;
+	}
+
 }
 
 
@@ -435,39 +439,38 @@ LLAudioChannelFMODSTUDIO::~LLAudioChannelFMODSTUDIO()
 }
 
 bool LLAudioChannelFMODSTUDIO::updateBuffer()
-{
-	if (LLAudioChannel::updateBuffer())
-	{
-		// Base class update returned true, which means that we need to actually
-		// set up the channel for a different buffer.
-
-		LLAudioBufferFMODSTUDIO *bufferp = (LLAudioBufferFMODSTUDIO *)mCurrentSourcep->getCurrentBuffer();
-
-		// Grab the FMOD sample associated with the buffer
-		FMOD::Sound *soundp = bufferp->getSound();
-		if (!soundp)
-		{
-			// This is bad, there should ALWAYS be a sound associated with a legit
-			// buffer.
-			LL_ERRS() << "No FMOD sound!" << LL_ENDL;
-			return false;
-		}
-
-
-		// Actually play the sound.  Start it off paused so we can do all the necessary
-		// setup.
-		if(!mChannelp)
-		{
-			FMOD_RESULT result = getSystem()->playSound(soundp, NULL, true, &mChannelp);
-			Check_FMOD_Error(result, "FMOD::System::playSound");
-		}
-
-		//LL_INFOS() << "Setting up channel " << std::hex << mChannelID << std::dec << LL_ENDL;
-	}
-
-	// If we have a source for the channel, we need to update its gain.
+{	
 	if (mCurrentSourcep)
 	{
+		if (LLAudioChannel::updateBuffer())
+		{
+			// Base class update returned true, which means that we need to actually
+			// set up the channel for a different buffer.
+
+			LLAudioBufferFMODSTUDIO *bufferp = (LLAudioBufferFMODSTUDIO *) mCurrentSourcep->getCurrentBuffer();
+
+			// Grab the FMOD sample associated with the buffer
+			FMOD::Sound *soundp = bufferp->getSound();
+			if (!soundp)
+			{
+				// This is bad, there should ALWAYS be a sound associated with a legit
+				// buffer.
+				LL_ERRS() << "No FMOD sound!" << LL_ENDL;
+				return false;
+			}
+
+
+			// Actually play the sound.  Start it off paused so we can do all the necessary
+			// setup.
+			if (!mChannelp)
+			{
+				FMOD_RESULT result = getSystem()->playSound(soundp, NULL, true, &mChannelp);
+				Check_FMOD_Error(result, "FMOD::System::playSound");
+			}
+
+			//LL_INFOS() << "Setting up channel " << std::hex << mChannelID << std::dec << LL_ENDL;
+		}
+
 		//FMOD_RESULT result;
 
 		mChannelp->setVolume(getSecondaryGain() * mCurrentSourcep->getGain());
@@ -478,9 +481,14 @@ bool LLAudioChannelFMODSTUDIO::updateBuffer()
 		{
 			S32 index;
 			mChannelp->getIndex(&index);
- 			LL_WARNS() << "Channel " << index << "Source ID: " << mCurrentSourcep->getID()
- 					<< " at " << mCurrentSourcep->getPositionGlobal() << LL_ENDL;		
+			LL_WARNS() << "Channel " << index << "Source ID: " << mCurrentSourcep->getID()
+					<< " at " << mCurrentSourcep->getPositionGlobal() << LL_ENDL;
 		}*/
+	}
+	else
+	{
+		LL_ERRS() << "No source buffer!" << LL_ENDL;
+		return false;
 	}
 
 	return true;

@@ -349,7 +349,7 @@ S32 encode_vorbis_file(const std::string& in_fname, const std::string& out_fname
 		  * much easier, so we do, flushing ALL pages. This ensures the actual
 		  * audio data will start on a new page
 		  */
-		 while(!eos){
+		 while(true){
 			 int result=ogg_stream_flush(&os,&og);
 			 if(result==0)break;
 			 outstream.write((char*)og.header, og.header_len);

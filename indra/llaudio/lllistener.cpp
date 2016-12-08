@@ -50,13 +50,13 @@ LLListener::~LLListener()
 }
 
 //-----------------------------------------------------------------------
-void LLListener::translate(LLVector3 offset)
+void LLListener::translate(const LLVector3& offset)
 {
 	mPosition += offset;
 }
 
 //-----------------------------------------------------------------------
-void LLListener::setPosition(LLVector3 pos)
+void LLListener::setPosition(const LLVector3& pos)
 {
 	mPosition = pos;
 }
@@ -80,20 +80,20 @@ LLVector3 LLListener::getUp(void)
 }
 
 //-----------------------------------------------------------------------
-void LLListener::setVelocity(LLVector3 vel)
+void LLListener::setVelocity(const LLVector3& vel)
 {
 	mVelocity = vel;
 }
 
 //-----------------------------------------------------------------------
-void LLListener::orient(LLVector3 up, LLVector3 at)
+void LLListener::orient(const LLVector3& up, const LLVector3& at)
 {
 	mListenUp = up;
 	mListenAt = at;
 }
 
 //-----------------------------------------------------------------------
-void LLListener::set(LLVector3 pos, LLVector3 vel, LLVector3 up, LLVector3 at)
+void LLListener::set(const LLVector3& pos, const LLVector3& vel, const LLVector3& up, const LLVector3& at)
 {
 	setPosition(pos);
 	setVelocity(vel);

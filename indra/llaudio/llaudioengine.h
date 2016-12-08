@@ -102,7 +102,7 @@ public:
 
 	// Used by the mechanics of the engine
 	//virtual void processQueue(const LLUUID &sound_guid);
-	virtual void setListener(LLVector3 pos,LLVector3 vel,LLVector3 up,LLVector3 at);
+	virtual void setListener(const LLVector3& pos, const LLVector3& vel, const LLVector3& up, const LLVector3& at);
 	virtual void updateWind(LLVector3 direction, F32 camera_height_above_water) = 0;
 	virtual void idle(F32 max_decode_time = 0.f);
 	virtual void updateChannels();
@@ -141,7 +141,7 @@ public:
 	void triggerSound(const LLUUID &sound_id, const LLUUID& owner_id, const F32 gain,
 					  const S32 type = LLAudioEngine::AUDIO_TYPE_NONE,
 					  const LLVector3d &pos_global = LLVector3d::zero);
-	void triggerSound(SoundData& soundData);
+	void triggerSound(const SoundData& soundData);
 
 	bool preloadSound(const LLUUID &id);
 
@@ -199,15 +199,15 @@ protected:
 
 
 	// listener methods
-	virtual void setListenerPos(LLVector3 vec);
-	virtual void setListenerVelocity(LLVector3 vec);
-	virtual void orientListener(LLVector3 up, LLVector3 at);
-	virtual void translateListener(LLVector3 vec);
+	virtual void setListenerPos(const LLVector3& vec);
+	virtual void setListenerVelocity(const LLVector3& vec);
+	virtual void orientListener(const LLVector3& up, const LLVector3& at);
+	virtual void translateListener(const LLVector3& vec);
 
 
-	F64 mapWindVecToGain(LLVector3 wind_vec);
-	F64 mapWindVecToPitch(LLVector3 wind_vec);
-	F64 mapWindVecToPan(LLVector3 wind_vec);
+	F64 mapWindVecToGain(const LLVector3& wind_vec);
+	F64 mapWindVecToPitch(const LLVector3& wind_vec);
+	F64 mapWindVecToPan(const LLVector3& wind_vec);
 
 protected:
 	LLListener *mListenerp;

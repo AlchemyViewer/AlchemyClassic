@@ -202,9 +202,19 @@ BOOL LLVorbisDecodeState::initDecode()
 	vfs_callbacks.tell_func = vfs_tell;
 
 	LL_DEBUGS("AudioEngine") << "Initing decode from vfile: " << mUUID << LL_ENDL;
+	try
+	{
+		mInFilep = new LLVFile(gVFS, mUUID, LLAssetType::AT_SOUND);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_WARNS("AudioEngine") << "Failed to allocate vfile for reading: "<< e.what() << LL_ENDL;
+		delete mInFilep;
+		mInFilep = NULL;
+		return FALSE;
+	}
 
-	mInFilep = new LLVFile(gVFS, mUUID, LLAssetType::AT_SOUND);
-	if (!mInFilep || !mInFilep->getSize())
+	if (!mInFilep->getSize())
 	{
 		LL_WARNS("AudioEngine") << "unable to open vorbis source vfile for reading" << LL_ENDL;
 		delete mInFilep;

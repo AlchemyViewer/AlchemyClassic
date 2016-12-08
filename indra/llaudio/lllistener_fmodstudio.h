@@ -43,16 +43,16 @@ class LLListener_FMODSTUDIO : public LLListener
 	LLListener_FMODSTUDIO(FMOD::System *system);
 	virtual ~LLListener_FMODSTUDIO();
 
-	virtual void translate(LLVector3 offset);
-	virtual void setPosition(LLVector3 pos);
-	virtual void setVelocity(LLVector3 vel);
-	virtual void orient(LLVector3 up, LLVector3 at);
-	virtual void commitDeferredChanges();
+	void translate(const LLVector3& offset) override;
+	void setPosition(const LLVector3& pos) override;
+	void setVelocity(const LLVector3& vel) override;
+	void orient(const LLVector3& up, const LLVector3& at) override;
+	void commitDeferredChanges() override;
 
-	virtual void setDopplerFactor(F32 factor);
-	virtual F32 getDopplerFactor();
-	virtual void setRolloffFactor(F32 factor);
-	virtual F32 getRolloffFactor();
+	void setDopplerFactor(F32 factor) override;
+	F32 getDopplerFactor() override;
+	void setRolloffFactor(F32 factor) override;
+	F32 getRolloffFactor() override;
  protected:
 	 FMOD::System *mSystem;
 	 F32 mDopplerFactor;

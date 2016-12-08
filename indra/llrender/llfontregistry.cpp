@@ -395,7 +395,6 @@ LLFontGL *LLFontRegistry::createFont(const LLFontDescriptor& desc)
 	// Build list of font names to look for.
 	// Files specified for this font come first, followed by those from the default descriptor.
 	string_vec_t file_names = match_desc->getFileNames();
-	string_vec_t default_file_names;
 	LLFontDescriptor default_desc("default",s_template_string,0);
 	const LLFontDescriptor *match_default_desc = getMatchingFontDesc(default_desc);
 	if (match_default_desc)

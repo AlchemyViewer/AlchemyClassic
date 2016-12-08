@@ -42,12 +42,12 @@ public:
 	
 	void checkState();
 
-	GLboolean mPrevDepthEnabled;
 	GLenum mPrevDepthFunc;
+	GLboolean mPrevDepthEnabled;
 	GLboolean mPrevWriteEnabled;
 private:
-	static GLboolean sDepthEnabled; // defaults to GL_FALSE
 	static GLenum sDepthFunc; // defaults to GL_LESS
+	static GLboolean sDepthEnabled; // defaults to GL_FALSE
 	static GLboolean sWriteEnabled; // defaults to GL_TRUE
 };
 

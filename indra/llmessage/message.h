@@ -604,7 +604,7 @@ public:
 	bool isUntrustedMessage(const std::string& name) const;
 
 	// Mark an interface ineligible for trust
-	void setUntrustedInterface( const LLHost host ) { mUntrustedInterface = host; }
+	void setUntrustedInterface( const LLHost& host ) { mUntrustedInterface = host; }
 	LLHost getUntrustedInterface() const { return mUntrustedInterface; }
 	void setBlockUntrustedInterface( bool block ) { mBlockUntrustedInterface = block; } // Throw a switch to allow, sending warnings only
 	bool getBlockUntrustedInterface() const { return mBlockUntrustedInterface; }

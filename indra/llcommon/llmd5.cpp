@@ -221,7 +221,7 @@ void LLMD5::finalize (){
   encode (mDigest, mState, 16);
 
   // Zeroize sensitive information
-  memset (mBuffer, 0, sizeof(*mBuffer));
+  memset (mBuffer, 0, sizeof(mBuffer));
 
   mFinalized=true;
 

@@ -291,7 +291,7 @@ public:
 	
 	static bool isValidIndex(const string_type& string, size_type i)
 	{
-		return !string.empty() && (0 <= i) && (i <= string.size());
+		return !string.empty() && (i <= string.size());
 	}
 
 	static bool contains(const string_type& string, T c, size_type i=0)
@@ -1163,7 +1163,7 @@ BOOL LLStringUtilBase<T>::precedesDict( const string_type& a, const string_type&
 {
 	if( a.size() && b.size() )
 	{
-		return (LLStringUtilBase<T>::compareDict(a.c_str(), b.c_str()) < 0);
+		return (LLStringUtilBase<T>::compareDict(a, b) < 0);
 	}
 	else
 	{
@@ -1409,11 +1409,16 @@ void LLStringUtilBase<T>::stripNonprintable(string_type& string)
 		return;
 	}
 	size_t src_size = string.size();
-	char* c_string = new char[src_size + 1];
-	if(c_string == NULL)
+	char* c_string = nullptr;
+	try
+	{
+		c_string = new char[src_size + 1];
+	}
+	catch (const std::bad_alloc&)
 	{
 		return;
 	}
+
 	copy(c_string, string.c_str(), src_size+1);
 	char* write_head = &c_string[0];
 	for (size_type i = 0; i < src_size; i++)

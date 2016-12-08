@@ -194,7 +194,7 @@ void LLThread::start()
 		mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
 		mThread.detach();
 	}
-	catch (boost::thread_resource_error err)
+	catch (const boost::thread_resource_error& err)
 	{
 		mStatus = STOPPED;
 		LL_WARNS() << "Failed to start thread: \"" << mName << "\" due to error: " << err.what() << LL_ENDL;

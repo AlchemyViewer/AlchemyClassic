@@ -2097,7 +2097,14 @@ std::string zip_llsd(LLSD& data)
 			}
 
 			have = CHUNK-strm.avail_out;
-			output = (U8*) realloc(output, cur_size+have);
+			U8* tmp = (U8*) realloc(output, cur_size+have);
+			if (!tmp)
+			{
+				free(output);
+				LL_WARNS() << "Failed to compress LLSD block." << LL_ENDL;
+				return std::string();
+			}
+			output = tmp;
 			memcpy(output+cur_size, out, have);
 			cur_size += have;
 		}
@@ -2175,7 +2182,15 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 
 		U32 have = CHUNK-strm.avail_out;
 
-		result = (U8*) realloc(result, cur_size + have);
+		U8* tmp = (U8*) realloc(result, cur_size + have);
+		if (!tmp)
+		{
+			inflateEnd(&strm);
+			free(result);
+			delete [] in;
+			return false;
+		}
+		result = tmp;
 		memcpy(result+cur_size, out, have);
 		cur_size += have;
 
@@ -2260,7 +2275,16 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 		}
 		U32 have = CHUNK-strm.avail_out;
 
-		result = (U8*) realloc(result, cur_size + have);
+		U8* tmp = (U8*) realloc(result, cur_size + have);
+		if (!tmp)
+		{
+			inflateEnd(&strm);
+			free(result);
+			delete [] in;
+			valid = false;
+			return NULL;
+		}
+		result = tmp;
 		memcpy(result+cur_size, out, have);
 		cur_size += have;
 

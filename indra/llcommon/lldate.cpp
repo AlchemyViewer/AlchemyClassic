@@ -175,12 +175,18 @@ bool LLDate::split(S32 *year, S32 *month, S32 *day, S32 *hour, S32 *min, S32 *se
 	if (!gmtime_r(&time, &exp_time))
 #endif
 	{
-		*year = 1970;
-		*month = 01;
-		*day = 01;
-		*hour = 00;
-		*min = 00;
-		*sec = 00;
+		if (year)
+			*year = 1970;
+		if (month)
+			*month = 01;
+		if (day)
+			*day = 01;
+		if (hour)
+			*hour = 00;
+		if (min)
+			*min = 00;
+		if (sec)
+			*sec = 00;
 		return false;
 	}
 

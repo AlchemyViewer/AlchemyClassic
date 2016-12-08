@@ -107,7 +107,7 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 			if(ret)
 			{
 				std::string file_name = line.FileName;
-				std::string::size_type index = file_name.rfind("\\");
+				std::string::size_type index = file_name.rfind('\\');
 				stack_line << file_name.substr(index + 1, file_name.size()) << ":" << line.LineNumber; 
 			}
 

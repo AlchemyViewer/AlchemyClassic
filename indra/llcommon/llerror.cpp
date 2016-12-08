@@ -1452,19 +1452,19 @@ namespace LLError
            return;
        }
 
-       if(sIndex > 0)
-       {
-           LL_INFOS() << " ************* PRINT OUT LL CALL STACKS ************* " << LL_ENDL;
-           while(sIndex > 0)
-           {                  
-			   sIndex-- ;
-               LL_INFOS() << sBuffer[sIndex] << LL_ENDL;
-           }
-           LL_INFOS() << " *************** END OF LL CALL STACKS *************** " << LL_ENDL;
-       }
-
-	   if(sBuffer != NULL)
+	   if (sBuffer != NULL)
 	   {
+		   if (sIndex > 0)
+		   {
+			   LL_INFOS() << " ************* PRINT OUT LL CALL STACKS ************* " << LL_ENDL;
+			   while (sIndex > 0)
+			   {
+				   sIndex--;
+				   LL_INFOS() << sBuffer[sIndex] << LL_ENDL;
+			   }
+			   LL_INFOS() << " *************** END OF LL CALL STACKS *************** " << LL_ENDL;
+		   }
+
 		   freeStackBuffer();
 	   }
    }

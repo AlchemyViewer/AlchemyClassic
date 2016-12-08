@@ -116,7 +116,7 @@ public:
 
 	void ref()
 	{
-		mRef++; 
+		++mRef; 
 	} 
 
 	void unref()

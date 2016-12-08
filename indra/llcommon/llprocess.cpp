@@ -1108,7 +1108,7 @@ std::string LLProcess::getline(std::istream& in)
 	std::getline(in, line);
 	// Blur the distinction between "\r\n" and plain "\n". std::getline() will
 	// have eaten the "\n", but we could still end up with a trailing "\r".
-	std::string::size_type lastpos = line.find_last_not_of("\r");
+	std::string::size_type lastpos = line.find_last_not_of('\r');
 	if (lastpos != std::string::npos)
 	{
 		// Found at least one character that's not a trailing '\r'. SKIP OVER

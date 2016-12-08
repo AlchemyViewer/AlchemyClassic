@@ -86,16 +86,16 @@ bool LLThreadSafeQueueImplementation::tryPushFront(void * element){
 
 void * LLThreadSafeQueueImplementation::popBack(void)
 {
-	void * element;
+	void * element = nullptr;
 	apr_status_t status = apr_queue_pop(mQueue, &element);
 
 	if(status == APR_EINTR) {
 		LLTHROW(LLThreadSafeQueueInterrupt());
-	} else if(status != APR_SUCCESS) {
-		LLTHROW(LLThreadSafeQueueError("pop failed"));
-	} else {
-		return element;
 	}
+	else if (status != APR_SUCCESS) {
+		LLTHROW(LLThreadSafeQueueError("pop failed"));
+	}
+	return element;
 }
 
 

@@ -260,7 +260,7 @@ LLStringTableEntry* LLStringTable::addStringEntry(const char *str)
 		if (strlist)
 		{
 			string_list_t::iterator iter;
-			for (iter = strlist->begin(); iter != strlist->end(); iter++)
+			for (iter = strlist->begin(); iter != strlist->end(); ++iter)
 			{
 				entry = *iter;
 				ret_val = entry->mString;
@@ -334,7 +334,7 @@ void LLStringTable::removeString(const char *str)
 		if (strlist)
 		{
 			string_list_t::iterator iter;
-			for (iter = strlist->begin(); iter != strlist->end(); iter++)
+			for (iter = strlist->begin(); iter != strlist->end(); ++iter)
 			{
 				entry = *iter;
 				ret_val = entry->mString;

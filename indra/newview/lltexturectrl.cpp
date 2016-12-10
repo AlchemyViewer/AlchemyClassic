@@ -1208,23 +1208,19 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 		mFloaterHandle = floaterp->getHandle();
 
 		LLFloaterTexturePicker* texture_floaterp = dynamic_cast<LLFloaterTexturePicker*>(floaterp);
-		if (texture_floaterp && mOnTextureSelectedCallback)
-		{
-			texture_floaterp->setTextureSelectedCallback(mOnTextureSelectedCallback);
-		}
-		if (texture_floaterp && mOnCloseCallback)
-		{
-			texture_floaterp->setOnFloaterCloseCallback(boost::bind(&LLTextureCtrl::onFloaterClose, this));
-		}
 		if (texture_floaterp)
 		{
+			if (mOnTextureSelectedCallback)
+			{
+				texture_floaterp->setTextureSelectedCallback(mOnTextureSelectedCallback);
+			}
+			if (mOnCloseCallback)
+			{
+				texture_floaterp->setOnFloaterCloseCallback(boost::bind(&LLTextureCtrl::onFloaterClose, this));
+			}
 			texture_floaterp->setOnFloaterCommitCallback(boost::bind(&LLTextureCtrl::onFloaterCommit, this, _1, _2));
-		}
-		if (texture_floaterp)
-		{
 			texture_floaterp->setSetImageAssetIDCallback(boost::bind(&LLTextureCtrl::setImageAssetID, this, _1));
 		}
-
 		LLFloater* root_floater = gFloaterView->getParentFloater(this);
 		if (root_floater)
 			root_floater->addDependentFloater(floaterp);

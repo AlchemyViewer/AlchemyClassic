@@ -990,10 +990,16 @@ public:
 	~OnWearableItemCreatedCB()
 	{
 		LL_INFOS() << "All items created" << LL_ENDL;
-		LLPointer<LLInventoryCallback> link_waiter = new LLUpdateAppearanceOnDestroy;
-		link_inventory_array(LLAppearanceMgr::instance().getCOF(),
-							 mItemsToLink,
-							 link_waiter);
+		try
+		{
+			LLPointer<LLInventoryCallback> link_waiter = new LLUpdateAppearanceOnDestroy;
+			link_inventory_array(LLAppearanceMgr::instance().getCOF(),
+				mItemsToLink,
+				link_waiter);
+		}
+		catch (const std::bad_alloc&)
+		{
+		}
 	}
 	void addPendingWearable(LLViewerWearable *wearable)
 	{

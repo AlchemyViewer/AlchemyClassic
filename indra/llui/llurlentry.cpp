@@ -223,12 +223,12 @@ std::string LLUrlEntryBase::urlToGreyQuery(const std::string &url) const
 }
 
 
-static std::string getStringAfterToken(const std::string str, const std::string token)
+static std::string getStringAfterToken(const std::string& str, const std::string& token)
 {
 	size_t pos = str.find(token);
 	if (pos == std::string::npos)
 	{
-		return "";
+		return std::string();
 	}
 
 	pos += token.size();

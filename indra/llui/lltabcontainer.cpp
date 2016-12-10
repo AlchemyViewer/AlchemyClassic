@@ -76,17 +76,17 @@ public:
 		mTabContainer(c),
 		mTabPanel(p),
 		mButton(b),
-		mOldState(FALSE),
 		mPlaceholderText(placeholder),
-		mPadding(0)
+		mPadding(0),
+		mOldState(FALSE)
 	{}
 
 	LLTabContainer*  mTabContainer;
 	LLPanel*		 mTabPanel;
 	LLButton*		 mButton;
-	BOOL			 mOldState;
 	LLTextBox*		 mPlaceholderText;
 	S32				 mPadding;
+	BOOL			 mOldState;
 };
 
 //----------------------------------------------------------------------------

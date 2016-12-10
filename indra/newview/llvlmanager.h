@@ -67,10 +67,10 @@ public:
 			 const S8 type, U8 *data, const S32 size);
 	~LLVLData();
 
-	S8 mType;
-	U8 *mData;
-	S32 mSize;
 	LLViewerRegion *mRegionp;
+	U8 *mData;
+	S8 mType;
+	S32 mSize;
 };
 
 extern LLVLManager gVLManager;

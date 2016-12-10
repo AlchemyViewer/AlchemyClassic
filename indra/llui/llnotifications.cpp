@@ -174,7 +174,8 @@ namespace LLNotificationFilters
 };
 
 LLNotificationForm::LLNotificationForm()
-:	mIgnore(IGNORE_NO)
+:	mIgnore(IGNORE_NO),
+	mInvertSetting(false) // ignore settings by default mean true=show, false=ignore
 {
 }
 
@@ -238,7 +239,8 @@ LLNotificationForm::LLNotificationForm(const std::string& name, const LLNotifica
 }
 
 LLNotificationForm::LLNotificationForm(const LLSD& sd)
-	: mIgnore(IGNORE_NO)
+:	mIgnore(IGNORE_NO),
+	mInvertSetting(false) // ignore settings by default mean true=show, false=ignore
 {
 	if (sd.isArray())
 	{

@@ -2335,7 +2335,7 @@ void LLTextBase::appendAndHighlightText(const std::string &new_text, S32 highlig
 	if (new_text.empty()) return; 
 
 	std::string::size_type start = 0;
-	std::string::size_type pos = new_text.find("\n",start);
+	std::string::size_type pos = new_text.find('\n',start);
 	
 	while(pos!=-1)
 	{
@@ -2346,7 +2346,7 @@ void LLTextBase::appendAndHighlightText(const std::string &new_text, S32 highlig
 		}
 		appendLineBreakSegment(style_params);
 		start = pos+1;
-		pos = new_text.find("\n",start);
+		pos = new_text.find('\n',start);
 	}
 
 	std::string str = std::string(new_text,start,new_text.length()-start);

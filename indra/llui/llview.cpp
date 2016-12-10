@@ -2236,8 +2236,8 @@ LLView*	LLView::findSnapEdge(S32& new_edge_val, const LLCoordGL& mouse_dir, ESna
 LLControlVariable *LLView::findControl(const std::string& name)
 {
 	// parse the name to locate which group it belongs to
-	std::size_t key_pos= name.find(".");
-	if(key_pos!=  std::string::npos )
+	std::size_t key_pos = name.find('.');
+	if(key_pos != std::string::npos)
 	{
 		std::string control_group_key = name.substr(0, key_pos);
 		LLControlVariable* control;

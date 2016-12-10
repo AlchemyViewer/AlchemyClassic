@@ -2901,7 +2901,8 @@ void LLXMLNode::createUnitTest(S32 max_num_children)
 				{
 					random_node_array[value] = get_rand_node(root);
 					const char *node_name = random_node_array[value]->mName->mString;
-					for (U32 pos=0; pos<strlen(node_name); ++pos)		/* Flawfinder: ignore */
+					U32 node_name_size = strlen(node_name);
+					for (U32 pos=0; pos<node_name_size; ++pos)		/* Flawfinder: ignore */
 					{
 						U32 hash_contrib = U32(node_name[pos]) << ((pos % 4) * 8);
 						noderef_checksum ^= hash_contrib;
@@ -3073,7 +3074,8 @@ BOOL LLXMLNode::performUnitTest(std::string &error_buffer)
 				for (U32 pos=0; pos<node->mLength; ++pos)
 				{
 					const char *node_name = node_array[pos]->mName->mString;
-					for (U32 pos2=0; pos2<strlen(node_name); ++pos2)		/* Flawfinder: ignore */
+					U32 node_name_size = strlen(node_name);
+					for (U32 pos2=0; pos2<node_name_size; ++pos2)		/* Flawfinder: ignore */
 					{
 						U32 hash_contrib = U32(node_name[pos2]) << ((pos2 % 4) * 8);
 						noderef_checksum ^= hash_contrib;

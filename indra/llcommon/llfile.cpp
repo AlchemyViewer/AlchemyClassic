@@ -574,7 +574,7 @@ LLFILE *	LLFile::_Fiopen(const std::string& filename,
 
 	if (valid[n] == 0)
 		return (0);	// no valid mode
-	else if (norepflag && mode & (std::ios_base::out || std::ios_base::app)
+	else if (norepflag && mode & (std::ios_base::out | std::ios_base::app)
 		&& (fp = LLFile::fopen(filename, "r")) != 0)	/* Flawfinder: ignore */
 		{	// file must not exist, close and fail
 		fclose(fp);

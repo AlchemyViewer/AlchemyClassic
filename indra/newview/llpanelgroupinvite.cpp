@@ -394,7 +394,6 @@ void LLPanelGroupInvite::impl::callbackClickOK(void* userdata)
 //static
 void LLPanelGroupInvite::impl::callbackAddUsers(const uuid_vec_t& agent_ids, void* user_data)
 {	
-	std::vector<std::string> names;
 	for (S32 i = 0; i < (S32)agent_ids.size(); i++)
 	{
 		LLAvatarName av_name;

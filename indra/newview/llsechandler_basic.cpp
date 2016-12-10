@@ -844,8 +844,7 @@ bool _cert_hostname_wildcard_match(const std::string& hostname, const std::strin
 		std::string cn_part = new_cn.substr(subcn_pos+1, std::string::npos);
 		std::string hostname_part = new_hostname.substr(subdomain_pos+1, std::string::npos);
 		
-		if(!_cert_subdomain_wildcard_match(new_hostname.substr(subdomain_pos+1, std::string::npos),
-										   cn_part))
+		if(!_cert_subdomain_wildcard_match(hostname_part, cn_part))
 		{
 			return FALSE;
 		}

@@ -220,7 +220,7 @@ void LLPathfindingManager::requestGetNavMeshForRegion(LLViewerRegion *pRegion, b
         navMeshPtr->handleNavMeshCheckVersion();
 
         U64 regionHandle = pRegion->getHandle();
-        std::string coroname = LLCoros::instance().launch("LLPathfindingManager::navMeshStatusRequestCoro",
+        LLCoros::instance().launch("LLPathfindingManager::navMeshStatusRequestCoro",
             boost::bind(&LLPathfindingManager::navMeshStatusRequestCoro, this, navMeshStatusURL, regionHandle, pIsGetStatusOnly));
 	}
 }
@@ -303,13 +303,13 @@ void LLPathfindingManager::requestSetLinksets(request_id_t pRequestId, const LLP
 
 			if (!objectPostData.isUndefined())
 			{
-                std::string coroname = LLCoros::instance().launch("LLPathfindingManager::linksetObjectsCoro",
+                LLCoros::instance().launch("LLPathfindingManager::linksetObjectsCoro",
                     boost::bind(&LLPathfindingManager::linksetObjectsCoro, this, objectLinksetsURL, linksetsResponderPtr, objectPostData));
 			}
 
 			if (!terrainPostData.isUndefined())
 			{
-                std::string coroname = LLCoros::instance().launch("LLPathfindingManager::linksetTerrainCoro",
+                LLCoros::instance().launch("LLPathfindingManager::linksetTerrainCoro",
                     boost::bind(&LLPathfindingManager::linksetTerrainCoro, this, terrainLinksetsURL, linksetsResponderPtr, terrainPostData));
 			}
 		}
@@ -342,7 +342,7 @@ void LLPathfindingManager::requestGetCharacters(request_id_t pRequestId, object_
 		{
 			pCharactersCallback(pRequestId, kRequestStarted, emptyCharacterListPtr);
 
-            std::string coroname = LLCoros::instance().launch("LLPathfindingManager::charactersCoro",
+            LLCoros::instance().launch("LLPathfindingManager::charactersCoro",
                 boost::bind(&LLPathfindingManager::charactersCoro, this, charactersURL, pRequestId, pCharactersCallback));
 		}
 	}
@@ -376,7 +376,7 @@ void LLPathfindingManager::requestGetAgentState()
 			std::string agentStateURL = getAgentStateURLForRegion(currentRegion);
 			llassert(!agentStateURL.empty());
 
-            std::string coroname = LLCoros::instance().launch("LLPathfindingManager::navAgentStateRequestCoro",
+            LLCoros::instance().launch("LLPathfindingManager::navAgentStateRequestCoro",
                 boost::bind(&LLPathfindingManager::navAgentStateRequestCoro, this, agentStateURL));
 		}
 	}
@@ -399,7 +399,7 @@ void LLPathfindingManager::requestRebakeNavMesh(rebake_navmesh_callback_t pRebak
 		std::string navMeshStatusURL = getNavMeshStatusURLForCurrentRegion();
 		llassert(!navMeshStatusURL.empty());
 
-        std::string coroname = LLCoros::instance().launch("LLPathfindingManager::navMeshRebakeCoro",
+        LLCoros::instance().launch("LLPathfindingManager::navMeshRebakeCoro",
                 boost::bind(&LLPathfindingManager::navMeshRebakeCoro, this, navMeshStatusURL, pRebakeNavMeshCallback));
 	}
 }

@@ -1154,7 +1154,6 @@ bool check_offer_throttle(const std::string& from_name, bool check_only)
 	static U32 throttle_count;
 	static bool throttle_logged;
 	LLChat chat;
-	std::string log_message;
 
 	if (!gSavedSettings.getBOOL("ShowNewInventory"))
 		return false;
@@ -2448,8 +2447,6 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 	{
 		is_owned_by_me = source->permYouOwner();
 	}
-
-	std::string separator_string(": ");
 
 	LLSD args;
 	LLSD payload;

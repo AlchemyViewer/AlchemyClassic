@@ -3033,8 +3033,6 @@ void LLMeshHeaderHandler::processData(LLCore::BufferArray * /* body */, S32 /* b
 			&& header.has("version")
 			&& header["version"].asInteger() <= MAX_MESH_VERSION)
 		{
-			std::stringstream str;
-
 			S32 lod_bytes = 0;
 
 			for (U32 i = 0; i < LLModel::LOD_PHYSICS; ++i)

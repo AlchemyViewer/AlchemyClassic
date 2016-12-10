@@ -159,8 +159,6 @@ public:
 			id_it = uuids.begin(),
 			id_end = uuids.end();
 
-		LLAvatarItemDistanceComparator::id_to_pos_map_t pos_map;
-
 		mAvatarsPositions.clear();
 
 		for (;pos_it != pos_end && id_it != id_end; ++pos_it, ++id_it )
@@ -1143,7 +1141,6 @@ void LLPanelPeople::onFilterEdit(const std::string& search_string)
 
 void LLPanelPeople::onTabSelected(const LLSD& param)
 {
-	std::string tab_name = getChild<LLPanel>(param.asString())->getName();
 	updateButtons();
 
 	showFriendsAccordionsIfNeeded();

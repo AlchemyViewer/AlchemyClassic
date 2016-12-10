@@ -1138,7 +1138,6 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 		}
 
 		// Build a list of changed elements as given by the XML
-		std::list<std::string> changed_element_names;
 		LLXmlTree xml_tree;
 		BOOL success = xml_tree.parseFile(path_in_textfield.c_str(), TRUE);
 

@@ -282,7 +282,6 @@ void LLHandlerUtil::updateVisibleIMFLoaterMesages(const LLNotificationPtr& notif
 // static
 void LLHandlerUtil::decIMMesageCounter(const LLNotificationPtr& notification)
 {
-	const std::string name = LLHandlerUtil::getSubstitutionName(notification);
 	LLUUID from_id = notification->getPayload()["from_id"];
 	LLUUID session_id = LLIMMgr::computeSessionID(IM_NOTHING_SPECIAL, from_id);
 
@@ -290,13 +289,13 @@ void LLHandlerUtil::decIMMesageCounter(const LLNotificationPtr& notification)
 
 	if (session)
 	{
-	LLSD arg;
-	arg["session_id"] = session_id;
-	session->mNumUnread--;
-	arg["num_unread"] = session->mNumUnread;
-	session->mParticipantUnreadMessageCount--;
-	arg["participant_unread"] = session->mParticipantUnreadMessageCount;
-	LLIMModel::getInstance()->mNewMsgSignal(arg);
-}
+		LLSD arg;
+		arg["session_id"] = session_id;
+		session->mNumUnread--;
+		arg["num_unread"] = session->mNumUnread;
+		session->mParticipantUnreadMessageCount--;
+		arg["participant_unread"] = session->mParticipantUnreadMessageCount;
+		LLIMModel::getInstance()->mNewMsgSignal(arg);
+	}
 }
 

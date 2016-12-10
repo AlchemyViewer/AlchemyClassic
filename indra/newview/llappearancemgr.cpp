@@ -493,9 +493,9 @@ LLUpdateAppearanceOnDestroy::LLUpdateAppearanceOnDestroy(bool enforce_item_restr
 
 void LLUpdateAppearanceOnDestroy::fire(const LLUUID& inv_item)
 {
-	LLViewerInventoryItem* item = (LLViewerInventoryItem*)gInventory.getItem(inv_item);
-	const std::string item_name = item ? item->getName() : "ITEM NOT FOUND";
 #ifndef LL_RELEASE_FOR_DOWNLOAD
+	LLViewerInventoryItem* item = (LLViewerInventoryItem*) gInventory.getItem(inv_item);
+	const std::string item_name = item ? item->getName() : "ITEM NOT FOUND";
 	LL_DEBUGS("Avatar") << self_av_string() << "callback fired [ name:" << item_name << " UUID:" << inv_item << " count:" << mFireCount << " ] " << LL_ENDL;
 #endif
 	mFireCount++;
@@ -1787,7 +1787,6 @@ bool LLAppearanceMgr::getCanRemoveOutfit(const LLUUID& outfit_cat_id)
 	LLFindNonRemovableObjects filter_non_removable;
 	LLInventoryModel::cat_array_t cats;
 	LLInventoryModel::item_array_t items;
-	LLInventoryModel::item_array_t::const_iterator it;
 	gInventory.collectDescendentsIf(outfit_cat_id, cats, items, false, filter_non_removable);
 	if (!cats.empty() || !items.empty())
 	{

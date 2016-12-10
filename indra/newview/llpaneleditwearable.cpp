@@ -1705,7 +1705,6 @@ void LLPanelEditWearable::onClickedImportBtn()
 			if (!child->hasName("param")) continue;
 			S32 id;
 			F32 value;
-			std::string wearable;
 			if (child->getFastAttributeS32(id_handle, id)
 				&& child->getFastAttributeF32(value_handle, value))
 			{

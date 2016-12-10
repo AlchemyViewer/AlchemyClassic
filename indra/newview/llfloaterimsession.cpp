@@ -837,7 +837,6 @@ void LLFloaterIMSession::updateMessages()
 
 	if (messages.size())
 	{
-		std::ostringstream message;
 		std::list<LLSD>::const_reverse_iterator iter = messages.rbegin();
 		std::list<LLSD>::const_reverse_iterator iter_end = messages.rend();
 		for (; iter != iter_end; ++iter)

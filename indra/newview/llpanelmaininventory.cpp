@@ -826,7 +826,6 @@ void LLFloaterInventoryFinder::updateElementsFromFilter()
 
 	// Get data needed for filter display
 	U32 filter_types = mFilter->getFilterObjectTypes();
-	std::string filter_string = mFilter->getFilterSubString();
 	LLInventoryFilter::EFilterLink show_links = mFilter->getFilterLinks();
 	LLInventoryFilter::EFolderShow show_folders = mFilter->getShowFolderState();
 	U32 hours = mFilter->getHoursAgo();

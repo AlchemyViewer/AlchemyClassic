@@ -368,8 +368,8 @@ bool LLAvatarTracker::isBuddyEmpowered(const LLUUID& id) const
 void LLAvatarTracker::empower(const LLUUID& id, bool grant)
 {
 	// wrapper for ease of use in some situations.
-	buddy_map_t list;
 	/*
+	buddy_map_t list;
 	list.insert(id);
 	empowerList(list, grant);
 	*/

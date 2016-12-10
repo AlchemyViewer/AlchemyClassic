@@ -1031,7 +1031,6 @@ void LLPluginClassMedia::receivePluginMessage(const LLPluginMessage &message)
 		{
 			S32 width = message.getValueS32("width");
 			S32 height = message.getValueS32("height");
-			std::string name = message.getValue("name");
 
 			// TODO: check that name matches?
 			mNaturalMediaWidth = width;
@@ -1041,10 +1040,7 @@ void LLPluginClassMedia::receivePluginMessage(const LLPluginMessage &message)
 		}
 		else if(message_name == "size_change_response")
 		{
-			std::string name = message.getValue("name");
-
 			// TODO: check that name matches?
-
 			mTextureWidth = message.getValueS32("texture_width");
 			mTextureHeight = message.getValueS32("texture_height");
 			mMediaWidth = message.getValueS32("width");

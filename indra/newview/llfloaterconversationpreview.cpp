@@ -203,7 +203,6 @@ void LLFloaterConversationPreview::showHistory()
 	}
 
 	mChatHistory->clear();
-	std::ostringstream message;
 	std::list<LLSD>::const_iterator iter = mMessages->begin();
 	std::advance(iter, mCurrentPage * mPageSize);
 

@@ -2093,11 +2093,10 @@ void LLVivoxVoiceClient::leaveAudioSession()
 
 void LLVivoxVoiceClient::sessionTerminateSendMessage(const sessionStatePtr_t &session)
 {
-	std::ostringstream stream;
-
 	sessionGroupTerminateSendMessage(session);
 	return;
 	/*
+	std::ostringstream stream;
 	LL_DEBUGS("Voice") << "Sending Session.Terminate with handle " << session->mHandle << LL_ENDL;	
 	stream
 	<< "<Request requestId=\"" << mCommandCookie++ << "\" action=\"Session.Terminate.1\">"

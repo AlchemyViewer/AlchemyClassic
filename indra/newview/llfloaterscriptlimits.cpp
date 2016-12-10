@@ -757,7 +757,6 @@ void LLPanelScriptLimitsRegionMemory::clearList()
 	mGotParcelURLsUsed = false;
 	mGotParcelURLsMax = false;
 	
-	LLStringUtil::format_map_t args_parcel_memory;
 	std::string msg_empty_string("");
 	getChild<LLUICtrl>("memory_used")->setValue(LLSD(msg_empty_string));
 	getChild<LLUICtrl>("urls_used")->setValue(LLSD(msg_empty_string));

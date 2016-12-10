@@ -3036,7 +3036,6 @@ namespace {
 	
 	bool notify_update(LLSD const & evt)
 	{
-		std::string notification_name;
 		switch (evt["type"].asInteger())
 		{
 			case LLUpdaterService::DOWNLOAD_COMPLETE:

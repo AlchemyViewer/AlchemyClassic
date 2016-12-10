@@ -151,7 +151,6 @@ void LLViewerParcelMedia::play(LLParcel* parcel)
 		return;
 
 	std::string media_url = parcel->getMediaURL();
-	std::string media_current_url = parcel->getMediaCurrentURL();
 	std::string mime_type = parcel->getMediaType();
 	LLUUID placeholder_texture_id = parcel->getMediaID();
 	U8 media_auto_scale = parcel->getMediaAutoScale();

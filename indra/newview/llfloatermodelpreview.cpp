@@ -1041,8 +1041,6 @@ void LLFloaterModelPreview::initDecompControls()
 			std::string name(param[i].mName ? param[i].mName : "");
 			std::string description(param[i].mDescription ? param[i].mDescription : "");
 
-			std::string type = "unknown";
-
 			LL_INFOS() << name << " - " << description << LL_ENDL;
 
 			if (param[i].mType == LLCDParam::LLCD_FLOAT)
@@ -1678,9 +1676,6 @@ void LLModelPreview::saveUploadData(const std::string& filename,
 {
 
 	std::set<LLPointer<LLModel> > meshes;
-	std::map<LLModel*, std::string> mesh_binary;
-
-	LLModel::hull empty_hull;
 
 	LLSD data;
 
@@ -2701,8 +2696,6 @@ void LLModelPreview::updateStatusMessages()
 					cur_tris += face.mNumIndices/3;
 					cur_verts += face.mNumVertices;
 				}
-
-                std::string instance_name = instance.mLabel;
 
                 BOOL importerDebug = gSavedSettings.getBOOL("ImporterDebug");
                 if (importerDebug)

@@ -3148,8 +3148,6 @@ void LLIMMgr::onInviteNameLookup(LLSD payload, const LLUUID& id, const std::stri
 	payload["caller_name"] = name;
 	payload["session_name"] = payload["caller_name"].asString();
 
-	std::string notify_box_type = payload["notify_box_type"].asString();
-
 	LLFloaterReg::showInstance("incoming_call", payload, FALSE);
 }
 

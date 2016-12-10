@@ -277,7 +277,6 @@ bool LLFeatureManager::loadFeatureTables()
 	std::string http_path = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, http_filename);
 
 	// use HTTP table if it exists
-	std::string path;
 	bool parse_ok = false;
 	if (gDirUtilp->fileExists(http_path))
 	{

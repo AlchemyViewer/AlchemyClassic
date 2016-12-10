@@ -59,7 +59,6 @@ void LLAutoReplace::autoreplaceCallback(S32& replacement_start, S32& replacement
 			if (have_word)
 			{
 				// word_end points to the end of a word, now find the start of the word
-				std::string word;
 				S32 word_start = word_end;
 				for (S32 back_one = word_start - 1;
 					 back_one >= 0 && LLWStringUtil::isPartOfWord(input_text[back_one]);

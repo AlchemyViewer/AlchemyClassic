@@ -191,8 +191,6 @@ void LLPanelContents::onClickNewScript(void *userdata)
 				time_corrected());
 		object->saveScript(new_item, TRUE, true);
 
-		std::string name = new_item->getName();
-
 		// *NOTE: In order to resolve SL-22177, we needed to create
 		// the script first, and then you have to click it in
 		// inventory to edit it.

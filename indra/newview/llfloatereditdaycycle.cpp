@@ -243,7 +243,7 @@ void LLFloaterEditDayCycle::refreshSkyPresetsList()
 		{
 			std::string preset_name = *it;
 			std::string item_title = preset_name + " (" + getRegionName() + ")";
-			mSkyPresetsCombo->add(preset_name, LLWLParamKey(*it, LLEnvKey::SCOPE_REGION).toStringVal());
+			mSkyPresetsCombo->add(item_title, LLWLParamKey(*it, LLEnvKey::SCOPE_REGION).toStringVal());
 		}
 
 		if (!region_presets.empty())

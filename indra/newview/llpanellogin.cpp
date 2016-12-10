@@ -167,11 +167,6 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 
 	getChild<LLPanel>("links_login_panel")->setDefaultBtn("connect_btn");
 
-	std::string channel = LLVersionInfo::getChannel();
-	std::string version = llformat("%s (%d)",
-								   LLVersionInfo::getShortVersion().c_str(),
-								   LLVersionInfo::getBuild());
-	
 	LLTextBox* forgot_password_text = getChild<LLTextBox>("forgot_password_text");
 	forgot_password_text->setClickedCallback(onClickForgotPassword, NULL);
 
@@ -596,9 +591,6 @@ BOOL LLPanelLogin::areCredentialFieldsDirty()
 	}
 	else
 	{
-		std::string username = sInstance->getChild<LLUICtrl>("username_combo")->getValue().asString();
-		LLStringUtil::trim(username);
-		std::string password = sInstance->getChild<LLUICtrl>("password_edit")->getValue().asString();
 		LLComboBox* combo = sInstance->getChild<LLComboBox>("username_combo");
 		if(combo && combo->isDirty())
 		{

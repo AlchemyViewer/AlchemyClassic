@@ -181,7 +181,7 @@ void LLChatBar::refreshGestures()
 		//store current selection so we can maintain it
 		std::string cur_gesture = mGestureCombo->getValue().asString();
 		mGestureCombo->selectFirstItem();
-		std::string label = mGestureCombo->getValue().asString();;
+
 		// clear
 		mGestureCombo->clearRows();
 

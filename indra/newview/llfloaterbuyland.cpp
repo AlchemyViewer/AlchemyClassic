@@ -1250,8 +1250,6 @@ void LLFloaterBuyLandUI::refreshUI()
 		string_args["[SELLER]"] = mParcelSellerName;
 		getChild<LLUICtrl>("purchase_action")->setValue(getString("pay_to_for_land", string_args));
 		getChildView("purchase_action")->setVisible( mParcelValid);
-		
-		std::string reasonString;
 
 		if (haveEnough)
 		{

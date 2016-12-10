@@ -168,7 +168,6 @@ void LLFloaterNameDesc::onBtnOK( )
     if (can_afford_transaction(expected_upload_cost))
     {
         void *nruserdata = NULL;
-        std::string display_name = LLStringUtil::null;
 
         LLResourceUploadInfo::ptr_t uploadInfo(new LLNewFileResourceUploadInfo(
             mFilenameAndPath,

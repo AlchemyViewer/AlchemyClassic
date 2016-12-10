@@ -151,8 +151,6 @@ void LLPanelGroupBanlist::refreshList()
 		// Baker TODO: MAINT-
 		// Check out utc_to_pacific_time()
 		
-		std::string ban_date_str = bd.mBanDate.toHTTPDateString("%Y/%m/%d");
-
 		ban_entry.columns.add().column("ban_date").value(bd.mBanDate.toHTTPDateString("%Y/%m/%d")).font.name("SANSSERIF_SMALL").style("NORMAL");
 		
 		mBanListCtrl->addNameItemRow(ban_entry);

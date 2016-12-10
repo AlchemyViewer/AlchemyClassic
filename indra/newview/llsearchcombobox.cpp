@@ -238,7 +238,6 @@ void LLSearchHistoryBuilder::buildSearchHistory()
 {
 	mFilteredSearchHistory.clear();
 
-	LLSearchHistory::search_history_list_t filtered_items;
 	LLSearchHistory::search_history_list_t* itemsp = NULL;
 	LLSearchHistory* sh = LLSearchHistory::getInstance();
 

@@ -816,7 +816,6 @@ void LLLoginInstance::updateApp(bool mandatory, const std::string& auth_msg)
 	gSavedSettings.saveToFile(gSavedSettings.getString("ClientSettingsFile"), TRUE);	
 	LLUIColorTable::instance().saveUserSettings();
 
-	std::ostringstream message;
 	std::string msg;
 	if (!auth_msg.empty())
 	{
@@ -876,7 +875,6 @@ void LLLoginInstance::updateApp(bool mandatory, const std::string& auth_msg)
 bool LLLoginInstance::updateDialogCallback(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotification::getSelectedOption(notification, response);
-	std::string update_exe_path;
 	bool mandatory = notification["payload"]["mandatory"].asBoolean();
 
 #if !LL_RELEASE_FOR_DOWNLOAD

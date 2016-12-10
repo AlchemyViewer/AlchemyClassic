@@ -476,7 +476,6 @@ void LLFloaterAuction::doSellToAnyone()
 		&& !mParcelUpdateCapUrl.empty())
 	{
 		LLSD body;
-		std::string empty;
 
 		// request new properties update from simulator
 		U32 message_flags = 0x01;

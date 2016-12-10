@@ -218,8 +218,6 @@ void LLCrashLogger::gatherFiles()
     //we can construct a file download ( a la feature table filename for example)
     //containing the new endpoint
     LLSD endpoint;
-    std::string grid;
-    std::string fqdn;
     
     bool has_logs = readFromXML( static_sd, "static_debug_info.log" );
     has_logs |= readFromXML( dynamic_sd, "dynamic_debug_info.log" );

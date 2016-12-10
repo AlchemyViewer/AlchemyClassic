@@ -84,8 +84,7 @@ bool LLEnvironmentRequest::doRequest()
 		return false;
 	}
 
-    std::string coroname =
-        LLCoros::instance().launch("LLEnvironmentRequest::environmentRequestCoro",
+    LLCoros::instance().launch("LLEnvironmentRequest::environmentRequestCoro",
         boost::bind(&LLEnvironmentRequest::environmentRequestCoro, url));
 
     LL_INFOS("WindlightCaps") << "Requesting region windlight settings via " << url << LL_ENDL;
@@ -174,8 +173,7 @@ bool LLEnvironmentApply::initiateRequest(const LLSD& content)
     LL_INFOS("WindlightCaps") << "Sending windlight settings to " << url << LL_ENDL;
     LL_DEBUGS("WindlightCaps") << "content: " << content << LL_ENDL;
 
-    std::string coroname =
-        LLCoros::instance().launch("LLEnvironmentApply::environmentApplyCoro",
+    LLCoros::instance().launch("LLEnvironmentApply::environmentApplyCoro",
         boost::bind(&LLEnvironmentApply::environmentApplyCoro, url, content));
 	return true;
 }

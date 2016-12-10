@@ -2059,7 +2059,6 @@ void LLVFS::listFiles()
 		if (length != BLOCK_LENGTH_INVALID && size > 0)
 		{
 			LLUUID id = file_spec.mFileID;
-			std::string extension = get_extension(file_spec.mFileType);
 			LL_INFOS() << " File: " << id
 					<< " Type: " << LLAssetType::getDesc(file_spec.mFileType)
 					<< " Size: " << size

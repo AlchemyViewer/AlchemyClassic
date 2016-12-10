@@ -370,10 +370,8 @@ void LLTextBase::drawSelectionBackground()
 		line_list_t::const_iterator line_iter = std::lower_bound(mLineInfoList.begin(), mLineInfoList.end(), content_display_rect.mTop, compare_bottom());
 		line_list_t::const_iterator end_iter = std::upper_bound(mLineInfoList.begin(), mLineInfoList.end(), content_display_rect.mBottom, compare_top());
 
-		bool done = false;
-
 		// Find the coordinates of the selected area
-		for (;line_iter != end_iter && !done; ++line_iter)
+		for (;line_iter != end_iter; ++line_iter)
 		{
 			// is selection visible on this line?
 			if (line_iter->mDocIndexEnd > selection_left && line_iter->mDocIndexStart < selection_right)
@@ -3285,7 +3283,6 @@ BOOL LLNormalTextSegment::handleMouseUp(S32 x, S32 y, MASK mask)
 
 BOOL LLNormalTextSegment::handleToolTip(S32 x, S32 y, MASK mask)
 {
-	std::string msg;
 	// do we have a tooltip for a loaded keyword (for script editor)?
 	if (mToken && !mToken->getToolTip().empty())
 	{

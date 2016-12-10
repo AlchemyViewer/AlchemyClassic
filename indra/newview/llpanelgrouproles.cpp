@@ -1159,8 +1159,6 @@ void LLPanelGroupMembersSubTab::onEjectMembers(void *userdata)
 
 void LLPanelGroupMembersSubTab::handleEjectMembers()
 {
-	uuid_vec_t selected_members;
-
 	std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
 	if (!selection.empty())
 	{

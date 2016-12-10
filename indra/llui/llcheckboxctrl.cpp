@@ -101,8 +101,6 @@ LLCheckBoxCtrl::LLCheckBoxCtrl(const LLCheckBoxCtrl::Params& p)
 		btn_rect.mBottom,
 		llmax(btn_rect.mRight, label_rect.mRight - btn_rect.mLeft),
 		llmax( label_rect.getHeight(), btn_rect.mTop));
-	std::string active_true_id, active_false_id;
-	std::string inactive_true_id, inactive_false_id;
 
 	LLButton::Params params = p.check_button;
 	params.rect(btn_rect);

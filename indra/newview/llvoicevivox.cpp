@@ -2123,10 +2123,10 @@ void LLVivoxVoiceClient::sessionGroupTerminateSendMessage(const sessionStatePtr_
 
 void LLVivoxVoiceClient::sessionMediaDisconnectSendMessage(const sessionStatePtr_t &session)
 {
-	std::ostringstream stream;
 	sessionGroupTerminateSendMessage(session);
 	return;
 	/*
+	std::ostringstream stream;
 	LL_DEBUGS("Voice") << "Sending Session.MediaDisconnect with handle " << session->mHandle << LL_ENDL;	
 	stream
 	<< "<Request requestId=\"" << mCommandCookie++ << "\" action=\"Session.MediaDisconnect.1\">"
@@ -6540,7 +6540,6 @@ LLIOPipe::EStatus LLVivoxProtocolParser::process_impl(
 {
 	LL_RECORD_BLOCK_TIME(FTM_VIVOX_PROCESS);
 	LLBufferStream istr(channels, buffer.get());
-	std::ostringstream ostr;
 	while (istr.good())
 	{
 		char buf[1024];

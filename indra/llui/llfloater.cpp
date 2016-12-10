@@ -2344,9 +2344,9 @@ void LLFloaterView::restoreAll()
 LLRect LLFloaterView::findNeighboringPosition( LLFloater* reference_floater, LLFloater* neighbor )
 {
 	LLRect base_rect = reference_floater->getRect();
-	LLRect::tCoordType width = neighbor->getRect().getWidth();
-	LLRect::tCoordType height = neighbor->getRect().getHeight();
 	LLRect new_rect = neighbor->getRect();
+	LLRect::tCoordType width = new_rect.getWidth();
+	LLRect::tCoordType height = new_rect.getHeight();
 
 	LLRect expanded_base_rect = base_rect;
 	expanded_base_rect.stretch(10);

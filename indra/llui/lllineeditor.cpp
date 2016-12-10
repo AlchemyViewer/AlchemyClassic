@@ -705,7 +705,6 @@ BOOL LLLineEditor::handleMouseDown(S32 x, S32 y, MASK mask)
 		|| gFocusMgr.getKeyboardFocus() == this)
 	{
 		mLastSelectionStart = -1;
-		mLastSelectionStart = -1;
 
 		if (mask & MASK_SHIFT)
 		{

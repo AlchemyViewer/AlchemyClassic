@@ -1472,7 +1472,6 @@ void LLScrollListCtrl::drawItems()
 		{
 			return;
 		}
-		item_list::iterator iter;
 		for (S32 line = first_line; line <= last_line; line++)
 		{
 			LLScrollListItem* item = mItemList[line];
@@ -2803,7 +2802,6 @@ void LLScrollListCtrl::onClickColumn(void *userdata)
 	}
 
 	// if this column is the primary sort key, reverse the direction
-	sort_column_t cur_sort_column;
 	if (!parent->mSortColumns.empty() && parent->mSortColumns.back().first == column_index)
 	{
 		ascending = !parent->mSortColumns.back().second;

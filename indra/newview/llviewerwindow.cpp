@@ -310,14 +310,6 @@ public:
 		std::string rwind_vector_text;
 		std::string audio_text;
 
-		static const std::string beacon_particle = LLTrans::getString("BeaconParticle");
-		static const std::string beacon_physical = LLTrans::getString("BeaconPhysical");
-		static const std::string beacon_scripted = LLTrans::getString("BeaconScripted");
-		static const std::string beacon_scripted_touch = LLTrans::getString("BeaconScriptedTouch");
-		static const std::string beacon_sound = LLTrans::getString("BeaconSound");
-		static const std::string beacon_media = LLTrans::getString("BeaconMedia");
-		static const std::string particle_hiding = LLTrans::getString("ParticleHiding");
-
 		// Draw the statistics in a light gray
 		// and in a thin font
 		mTextColor = LLColor4( 0.86f, 0.86f, 0.86f, 1.f );
@@ -706,9 +698,17 @@ public:
 		// only display these messages if we are actually rendering beacons at this moment
 		if (LLPipeline::getRenderBeacons(NULL) && LLFloaterReg::instanceVisible("beacons"))
 		{
+			static const std::string beacon_particle = LLTrans::getString("BeaconParticle");
+			static const std::string beacon_physical = LLTrans::getString("BeaconPhysical");
+			static const std::string beacon_scripted = LLTrans::getString("BeaconScripted");
+			static const std::string beacon_scripted_touch = LLTrans::getString("BeaconScriptedTouch");
+			static const std::string beacon_sound = LLTrans::getString("BeaconSound");
+			static const std::string beacon_media = LLTrans::getString("BeaconMedia");
+			static const std::string particle_hiding = LLTrans::getString("ParticleHiding");
+
 			if (LLPipeline::getRenderMOAPBeacons(NULL))
 			{
-				addText(xpos, ypos, "Viewing media beacons (white)");
+				addText(xpos, ypos, beacon_media);
 				ypos += y_inc;
 			}
 
@@ -720,13 +720,13 @@ public:
 
 			if (LLPipeline::getRenderParticleBeacons(NULL))
 			{
-				addText(xpos, ypos, "Viewing particle beacons (blue)");
+				addText(xpos, ypos, beacon_particle);
 				ypos += y_inc;
 			}
 
 			if (LLPipeline::getRenderSoundBeacons(NULL))
 			{
-				addText(xpos, ypos, "Viewing sound beacons (yellow)");
+				addText(xpos, ypos, beacon_sound);
 				ypos += y_inc;
 			}
 
@@ -744,7 +744,7 @@ public:
 
 			if (LLPipeline::getRenderPhysicalBeacons(NULL))
 			{
-				addText(xpos, ypos, "Viewing physical object beacons (green)");
+				addText(xpos, ypos, beacon_physical);
 				ypos += y_inc;
 			}
 		}
@@ -3246,7 +3246,6 @@ void LLViewerWindow::updateUI()
 
 		// Show a new tool tip (or update one that is already shown)
 		BOOL tool_tip_handled = FALSE;
-		std::string tool_tip_msg;
 		if( handled 
 			&& !mWindow->isCursorHidden())
 		{

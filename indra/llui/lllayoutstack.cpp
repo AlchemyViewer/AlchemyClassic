@@ -513,7 +513,6 @@ LLLayoutPanel* LLLayoutStack::findEmbeddedPanel(LLPanel* panelp) const
 {
 	if (!panelp) return NULL;
 
-	e_panel_list_t::const_iterator panel_it;
 	for (LLLayoutPanel* p : mPanels)
 	{
 		if (p == panelp)

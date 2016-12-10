@@ -2544,8 +2544,8 @@ void LLVOAvatarSelf::checkForUnsupportedServerBakeAppearance()
 		//CheckAgentAppearanceServiceResponder::forceAppearanceUpdate();
 	}
 	// query baked image service to check status.
-	std::string image_url = gAgentAvatarp->getImageURL(TEX_HEAD_BAKED,
-													   getTE(TEX_HEAD_BAKED)->getID());
+	//std::string image_url = gAgentAvatarp->getImageURL(TEX_HEAD_BAKED,
+	//												   getTE(TEX_HEAD_BAKED)->getID());
 	//LLHTTPClient::head(image_url, new CheckAgentAppearanceServiceResponder);
 }
 

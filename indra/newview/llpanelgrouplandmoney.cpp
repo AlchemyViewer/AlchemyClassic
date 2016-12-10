@@ -1273,25 +1273,25 @@ void LLGroupMoneySalesTabEventHandler::processReply(LLMessageSystem* msg,
 				switch(type)
 				{
 				case TRANS_OBJECT_SALE:
-					verb = LLTrans::getString("GroupMoneyBought").c_str();
+					verb = LLTrans::getString("GroupMoneyBought");
 					break;
 				case TRANS_GIFT:
-					verb = LLTrans::getString("GroupMoneyPaidYou").c_str();
+					verb = LLTrans::getString("GroupMoneyPaidYou");
 					break;
 				case TRANS_PAY_OBJECT:
-					verb = LLTrans::getString("GroupMoneyPaidInto").c_str();
+					verb = LLTrans::getString("GroupMoneyPaidInto");
 					break;
 				case TRANS_LAND_PASS_SALE:
-					verb = LLTrans::getString("GroupMoneyBoughtPassTo").c_str();
+					verb = LLTrans::getString("GroupMoneyBoughtPassTo");
 					break;
 				case TRANS_EVENT_FEE:
-					verb = LLTrans::getString("GroupMoneyPaidFeeForEvent").c_str();
+					verb = LLTrans::getString("GroupMoneyPaidFeeForEvent");
 					break;
 				case TRANS_EVENT_PRIZE:
-					verb = LLTrans::getString("GroupMoneyPaidPrizeForEvent").c_str();
+					verb = LLTrans::getString("GroupMoneyPaidPrizeForEvent");
 					break;
 				default:
-					verb = "";
+					verb.clear();
 					break;
 				}
 

@@ -129,7 +129,7 @@ void LLViewerEventRecorder::updateMouseEventInfo(S32 local_x, S32 local_y, S32 g
   this->global_y=global_y;
 
   // ONLY record deepest xui path for hierarchy searches - or first/only xui for floaters/panels reached via mouse captor - and llmousehandler
-  if (mName!="" &&  mName!="/" && xui=="") { 
+  if (!mName.empty() &&  mName!="/" && !xui.empty()) { 
     //	xui=std::string("/")+mName+xui; 
     //xui=mName+xui; 
     xui = mName; // TODO review confirm we never call with partial path - also cAN REMOVE CHECK FOR "" - ON OTHER HAND IT'S PRETTY HARMLESS
@@ -151,15 +151,15 @@ void LLViewerEventRecorder::logVisibilityChange(std::string xui, std::string nam
     event.insert("visibility",LLSD(false));
   }
 
-  if (event_subtype!="") {
+  if (!event_subtype.empty()) {
     event.insert("event_subtype", LLSD(event_subtype));
   }
 
-  if(name!="") {
+  if(!name.empty()) {
     event.insert("name",LLSD(name));
   }
 
-  if (xui!="") {
+  if (!xui.empty()) {
     event.insert("path",LLSD(xui));
   }
 
@@ -175,7 +175,7 @@ std::string LLViewerEventRecorder::get_xui() {
 void LLViewerEventRecorder::update_xui(std::string xui) {
   if (!mLogEvents) return; // <alchemy/>
 
-  if (xui!="" && this->xui=="" ) {
+  if (!xui.empty() && this->xui.empty()) {
     LL_DEBUGS() << "LLViewerEventRecorder::update_xui to " << xui << LL_ENDL;
     this->xui=xui;
   } else {
@@ -292,7 +292,7 @@ void LLViewerEventRecorder::logMouseEvent(std::string button_state,std::string b
 
   event.insert("event",LLSD(std::string("mouse"+ button_state)));
   event.insert("button",LLSD(button_name));
-  if (xui!="") {
+  if (!xui.empty()) {
     event.insert("path",LLSD(xui));
   }
 

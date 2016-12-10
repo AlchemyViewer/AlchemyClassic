@@ -1380,7 +1380,7 @@ BOOL LLGestureMgr::matchPrefix(const std::string& in_str, std::string* out_str)
 					rest_of_match = trigger.substr(in_str.size());
 				}
 				std::string cur_rest_of_match = trigger.substr(in_str.size());
-				buf = "";
+				buf.clear();
 				S32 i=0;
 
 				while (i<rest_of_match.length() && i<cur_rest_of_match.length())
@@ -1393,7 +1393,7 @@ BOOL LLGestureMgr::matchPrefix(const std::string& in_str, std::string* out_str)
 				    {
 				    	if(i==0)
 				    	{
-				    		rest_of_match = "";
+				    		rest_of_match.clear();
 				    	}
 				    	break;
 				    }

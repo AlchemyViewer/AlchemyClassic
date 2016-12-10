@@ -87,7 +87,7 @@ void LLEstateInfoModel::update(const strings_t& strings)
 	// NOTE: LLDispatcher extracts strings with an extra \0 at the
 	// end.  If we pass the std::string direct to the UI/renderer
 	// it draws with a weird character at the end of the string.
-	mName		= strings[0].c_str();
+	mName		= strings[0];
 	mOwnerID	= LLUUID(strings[1].c_str());
 	mID			= strtoul(strings[2].c_str(), NULL, 10);
 	mFlags		= strtoul(strings[3].c_str(), NULL, 10);

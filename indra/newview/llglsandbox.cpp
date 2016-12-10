@@ -858,7 +858,7 @@ void LLViewerObjectList::renderObjectBeacons()
 		for (std::vector<LLDebugBeacon>::iterator iter = mDebugBeacons.begin(); iter != mDebugBeacons.end(); ++iter)
 		{
 			LLDebugBeacon &debug_beacon = *iter;
-			if (debug_beacon.mString == "")
+			if (debug_beacon.mString.empty())
 			{
 				continue;
 			}

@@ -443,7 +443,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 					LLMenuItemCallGL::Params item_params;
 						
 					std::string sub_piemenu_name = attachment->getName();
-					if (LLTrans::getString(sub_piemenu_name) != "")
+					if (!LLTrans::getString(sub_piemenu_name).empty())
 					{
 						item_params.label = LLTrans::getString(sub_piemenu_name);
 					}
@@ -481,7 +481,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 				{
 					LLMenuItemCallGL::Params item_params;
 					std::string sub_piemenu_name = attachment->getName();
-					if (LLTrans::getString(sub_piemenu_name) != "")
+					if (!LLTrans::getString(sub_piemenu_name).empty())
 					{
 						item_params.label = LLTrans::getString(sub_piemenu_name);
 					}
@@ -514,7 +514,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 		{
 			LLMenuItemCallGL::Params item_params;
 			std::string sub_piemenu_name = attachment->getName();
-			if (LLTrans::getString(sub_piemenu_name) != "")
+			if (!LLTrans::getString(sub_piemenu_name).empty())
 			{
 				item_params.label = LLTrans::getString(sub_piemenu_name);
 			}
@@ -557,7 +557,7 @@ BOOL LLVOAvatarSelf::buildMenus()
 			}
 			LLMenuItemCallGL::Params item_params;
 			std::string sub_piemenu_name = attachment->getName();
-			if (LLTrans::getString(sub_piemenu_name) != "")
+			if (!LLTrans::getString(sub_piemenu_name).empty())
 			{
 				item_params.label = LLTrans::getString(sub_piemenu_name);
 			}
@@ -2296,7 +2296,6 @@ const std::string LLVOAvatarSelf::debugDumpLocalTextureDataInfo(const LLViewerTe
 					for (U32 wearable_index = 0; wearable_index < wearable_count; wearable_index++)
 					{
 						const U32 discard_level = getLocalDiscardLevel(tex_index, wearable_index);
-						std::string discard_str = llformat("%d ",discard_level);
 						text += llformat("%d ",discard_level);
 					}
 				}

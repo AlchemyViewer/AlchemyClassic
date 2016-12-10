@@ -3292,7 +3292,7 @@ bool LLVivoxVoiceClient::sessionNeedsRelog(const sessionStatePtr_t &session)
 			if(atsign != std::string::npos)
 			{
 				std::string urihost = session->mSIPURI.substr(atsign + 1);
-				if(stricmp(urihost.c_str(), mVoiceSIPURIHostName.c_str()))
+				if(stricmp(urihost.c_str(), mVoiceSIPURIHostName.c_str()) != 0)
 				{
 					// The hostname in this URI is different from what we expect.  This probably means we need to relog.
 					

@@ -1141,7 +1141,7 @@ void LLMeshRepoThread::constructUrl(LLUUID mesh_id, std::string * url, int * ver
 	if (! res_url.empty())
 	{
 		res_url += "/?mesh_id=";
-		res_url += mesh_id.asString().c_str();
+		res_url += mesh_id.asString();
 	}
 	else
 	{

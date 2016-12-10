@@ -5705,7 +5705,7 @@ void LLVOAvatar::addAttachmentOverridesForObject(LLViewerObject *vo)
 			{								
 				for ( int i=0; i<jointCnt; ++i )
 				{
-					std::string lookingForJoint = pSkinData->mJointNames[i].c_str();
+					std::string lookingForJoint = pSkinData->mJointNames[i];
 					LLJoint* pJoint = getJoint( lookingForJoint );
 					if (pJoint)
 					{   									

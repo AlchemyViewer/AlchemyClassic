@@ -688,7 +688,7 @@ void LLNotification::respond(const LLSD& response)
 	if (mTemporaryResponder)
 	{
 		LLNotificationFunctorRegistry::instance().unregisterFunctor(mResponseFunctorName);
-		mResponseFunctorName = "";
+		mResponseFunctorName.clear();
 		mTemporaryResponder = false;
 	}
 

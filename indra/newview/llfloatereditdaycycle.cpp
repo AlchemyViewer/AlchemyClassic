@@ -184,7 +184,7 @@ void LLFloaterEditDayCycle::loadTrack()
 
 	// set drop-down menu to match preset of currently-selected keyframe (one is automatically selected initially)
 	const std::string& cur_sldr = mKeysSlider->getCurSlider();
-	if (strlen(cur_sldr.c_str()) > 0)	// only do this if there is a curSldr, otherwise we put an invalid entry into the map
+	if (!cur_sldr.empty())	// only do this if there is a curSldr, otherwise we put an invalid entry into the map
 	{
 		mSkyPresetsCombo->selectByValue(mSliderToKey[cur_sldr].keyframe.toStringVal());
 	}

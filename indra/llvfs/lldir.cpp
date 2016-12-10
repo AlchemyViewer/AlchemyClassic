@@ -1009,7 +1009,7 @@ bool LLDir::setCacheDir(const std::string &path)
 	if (path.empty() )
 	{
 		// reset to default
-		mCacheDir = "";
+		mCacheDir.clear();
 		return true;
 	}
 	else

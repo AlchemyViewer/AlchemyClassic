@@ -74,7 +74,7 @@ void LLSDMessageBuilder::clearMessage()
 	mbSClear = TRUE;
 
 	mCurrentMessage = LLSD::emptyMap();
-	mCurrentMessageName = "";
+	mCurrentMessageName.clear();
 }
 
 // virtual

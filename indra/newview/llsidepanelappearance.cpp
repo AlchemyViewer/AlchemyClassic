@@ -427,7 +427,7 @@ void LLSidepanelAppearance::refreshCurrentOutfitName(const std::string& name)
 	std::string cof_status_str = getString(dirty ? "Unsaved Changes" : "Now Wearing");
 	mOutfitStatus->setText(cof_status_str);
 
-	if (name == "")
+	if (name.empty())
 	{
 		std::string outfit_name;
 		if (LLAppearanceMgr::getInstance()->getBaseOutfitName(outfit_name))

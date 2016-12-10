@@ -304,7 +304,7 @@ LLUUID LLViewerWearable::getDefaultTextureImageID(ETextureIndex index) const
 {
 	const LLAvatarAppearanceDictionary::TextureEntry *texture_dict = LLAvatarAppearanceDictionary::getInstance()->getTexture(index);
 	const std::string &default_image_name = texture_dict->mDefaultImageName;
-	if (default_image_name == "")
+	if (default_image_name.empty())
 	{
 		return IMG_DEFAULT_AVATAR;
 	}

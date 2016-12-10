@@ -810,7 +810,7 @@ void LLViewerRegion::setRegionNameAndZone	(const std::string& name_zone)
 	else
 	{
 		mName   = name_zone;
-		mZoning = "";
+		mZoning.clear();
 	}
 
 	LLStringUtil::stripNonprintable(mName);

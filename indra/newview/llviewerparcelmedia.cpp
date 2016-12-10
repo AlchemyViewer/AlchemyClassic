@@ -102,7 +102,7 @@ void LLViewerParcelMedia::update(LLParcel* parcel)
 			std::string mediaCurrentUrl = std::string( parcel->getMediaCurrentURL());
 
 			// if we have a current (link sharing) url, use it instead
-			if (mediaCurrentUrl != "" && parcel->getMediaType() == HTTP_CONTENT_TEXT_HTML)
+			if (!mediaCurrentUrl.empty() && parcel->getMediaType() == HTTP_CONTENT_TEXT_HTML)
 			{
 				mediaUrl = mediaCurrentUrl;
 			}

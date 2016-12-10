@@ -1120,7 +1120,7 @@ bool LLStringUtil::formatDatetime(std::string& replacement, std::string token,
 		}
 		else if (param == "local")
 		{
-			replacement = "";		// user knows their own timezone
+			replacement.clear();		// user knows their own timezone
 		}
 		else
 		{

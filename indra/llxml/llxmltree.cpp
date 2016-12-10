@@ -540,7 +540,7 @@ BOOL LLXmlTreeParser::parseFile(const std::string &path, LLXmlTreeNode** root, B
 const std::string& LLXmlTreeParser::tabs()
 {
 	static std::string s;
-	s = "";
+	s.clear();
 	S32 num_tabs = getDepth() - 1;
 	for( S32 i = 0; i < num_tabs; i++)
 	{

@@ -482,7 +482,7 @@ bool LLBingTranslationHandler::parseResponse(
 
 	size_t end = body.find("</string>", begin);
 
-	detected_lang = ""; // unsupported by this API
+	detected_lang.clear(); // unsupported by this API
 	translation = body.substr(begin, end-begin);
 	LLStringUtil::replaceString(translation, "&#xD;", ""); // strip CR
 	return true;

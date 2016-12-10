@@ -3219,7 +3219,7 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 	// otherwise if the response contains a first and/or last name,
 	// use those.  Otherwise use the credential identifier
 
-	gDisplayName = "";
+	gDisplayName.clear();
 	if (response.has("display_name"))
 	{
 		gDisplayName.assign(response["display_name"].asString());

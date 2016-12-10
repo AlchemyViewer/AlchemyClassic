@@ -72,7 +72,7 @@ void LLPanelPlacesTab::onRegionResponse(const LLVector3d& landmark_global_pos,
 	}
 	else
 	{
-		sl_url = "";
+		sl_url.clear();
 	}
 
 	LLView::getWindow()->copyTextToClipboard(utf8str_to_wstring(sl_url));

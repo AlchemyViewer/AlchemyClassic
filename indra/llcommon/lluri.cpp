@@ -213,7 +213,7 @@ LLURI::LLURI(const std::string& escaped_str)
 	delim_pos = escaped_str.find(':');
 	if (delim_pos == std::string::npos)
 	{
-		mScheme = "";
+		mScheme.clear();
 		mEscapedOpaque = escaped_str;
 	}
 	else
@@ -263,7 +263,7 @@ void LLURI::parseAuthorityAndPathUsingOpaque()
 			delim_pos2 == std::string::npos)
 		{
 			mEscapedAuthority = mEscapedOpaque.substr(2);
-			mEscapedPath = "";
+			mEscapedPath.clear();
 		}
 		// path exist, no query
 		else if (delim_pos2 == std::string::npos)
@@ -475,7 +475,7 @@ namespace {
 		std::string::size_type start_pos = authority.find('@');
 		if (start_pos == std::string::npos)
 		{
-			user = "";
+			user.clear();
 			start_pos = 0;
 		}
 		else
@@ -488,7 +488,7 @@ namespace {
 		if (end_pos == std::string::npos)
 		{
 			host = authority.substr(start_pos);
-			port = "";
+			port.clear();
 		}
 		else
 		{

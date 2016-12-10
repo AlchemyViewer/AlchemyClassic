@@ -52,7 +52,7 @@ void send_texture_stats_to_sim(const LLSD &texture_stats)
 	std::string texture_cap_url = gAgent.getRegion()->getCapability("TextureStats");
 	LL_INFOS() << "uploading texture stats data to simulator" << LL_ENDL;
 
-    if (texture_cap_url != "")
+    if (!texture_cap_url.empty())
     {
         LLCoreHttpUtil::HttpCoroutineAdapter::messageHttpPost(texture_cap_url, texture_stats,
             "Texture statistics posted to sim.", "Error posting texture statistics to sim");

@@ -727,7 +727,7 @@ LLIOPipe::EStatus LLHTTPResponder::process_impl(
 					if (delimiter == std::string::npos)
 					{
 						mPath = mAbsPathAndQuery;
-						mQuery = "";
+						mQuery.clear();
 					}
 					else
 					{

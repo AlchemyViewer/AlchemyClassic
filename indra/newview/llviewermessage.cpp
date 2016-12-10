@@ -3830,7 +3830,7 @@ void process_chat_from_simulator(LLMessageSystem *msg, void **user_data)
 		}
 		else
 		{
-			chat.mText = "";
+			chat.mText.clear();
 			switch(chat.mChatType)
 			{
 			case CHAT_TYPE_WHISPER:

@@ -1024,7 +1024,7 @@ void LLWorldMapView::drawTracking(const LLVector3d& pos_global, const LLColor4& 
 	text_x = llclamp(text_x, half_text_width + TEXT_PADDING, getRect().getWidth() - half_text_width - TEXT_PADDING);
 	text_y = llclamp(text_y + vert_offset, TEXT_PADDING + vert_offset, getRect().getHeight() - font->getLineHeight() - TEXT_PADDING - vert_offset);
 
-	if (label != "")
+	if (!label.empty())
 	{
 		font->renderUTF8(
 			label, 0,
@@ -1033,7 +1033,7 @@ void LLWorldMapView::drawTracking(const LLVector3d& pos_global, const LLColor4& 
 			LLColor4::white, LLFontGL::HCENTER,
 			LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::DROP_SHADOW);
 
-		if (tooltip != "")
+		if (!tooltip.empty())
 		{
 			text_y -= font->getLineHeight();
 

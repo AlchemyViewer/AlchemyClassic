@@ -623,7 +623,7 @@ bool LLXMLNode::updateNode(
 				child->getAttributeString("value", nodeName);
 			}
 
-			if ((nodeName != "") && (updateName == nodeName))
+			if ((!nodeName.empty()) && (updateName == nodeName))
 			{
 				updateNode(child, updateChild);
 				last_child = child;
@@ -919,7 +919,7 @@ void LLXMLNode::writeToOstream(std::ostream& output_stream, const std::string& i
 	if (use_type_decorations)
 	{
 		// ID
-		if (mID != "")
+		if (!mID.empty())
 		{
 			output_stream << indent << " id=\"" << mID << "\"\n";
 		}
@@ -1024,7 +1024,7 @@ void LLXMLNode::writeToOstream(std::ostream& output_stream, const std::string& i
 	// erase last \n before attaching final > or />
 	output_stream.seekp(-1, std::ios::cur);
 
-	if (mChildren.isNull() && mValue == "")
+	if (mChildren.isNull() && mValue.empty())
 	{
 		output_stream << " />\n";
 		return;
@@ -2560,7 +2560,7 @@ void LLXMLNode::setNodeRefValue(U32 length, const LLXMLNode **array)
 	std::string new_value;
 	for (U32 pos=0; pos<length; ++pos)
 	{
-		if (array[pos]->mID != "")
+		if (!array[pos]->mID.empty())
 		{
 			new_value.append(array[pos]->mID);
 		}

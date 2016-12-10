@@ -1584,8 +1584,7 @@ LLPointer<LLCredential> LLSecAPIBasicHandler::loadCredential(const std::string& 
 		std::string first_name = gSavedSettings.getString("FirstName");
 		std::string last_name = gSavedSettings.getString("LastName");
 		
-		if ((first_name != "") &&
-			(last_name != ""))
+		if (!first_name.empty() && !last_name.empty())
 		{
 			LLSD identifier = LLSD::emptyMap();
 			LLSD authenticator;

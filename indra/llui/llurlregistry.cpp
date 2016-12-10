@@ -173,13 +173,9 @@ static bool stringHasJira(const std::string &text)
 			text.find("CHOP")	 != std::string::npos ||
 			text.find("FIRE")	 != std::string::npos ||
 			text.find("MAINT")	 != std::string::npos ||
-			text.find("MATBUG")	 != std::string::npos ||
-			text.find("NORSPEC") != std::string::npos ||
 			text.find("OPEN")	 != std::string::npos ||
 			text.find("SCR")	 != std::string::npos ||
-			text.find("SH")		 != std::string::npos ||
 			text.find("STORM")	 != std::string::npos ||
-			text.find("SUN")	 != std::string::npos ||
 			text.find("SVC")	 != std::string::npos ||
 			text.find("VWR")	 != std::string::npos ||
 			text.find("WEB")	 != std::string::npos);

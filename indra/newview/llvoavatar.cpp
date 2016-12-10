@@ -2748,8 +2748,8 @@ void LLVOAvatar::idleUpdateLoadingEffect()
 			// fancy particle cloud designed by Brent
 			particle_parameters.mPartData.mMaxAge            = 4.f;
 			particle_parameters.mPartData.mStartScale.mV[VX] = 0.8f;
-			particle_parameters.mPartData.mStartScale.mV[VX] = 0.8f;
-			particle_parameters.mPartData.mStartScale.mV[VY] = 1.0f;
+			particle_parameters.mPartData.mStartScale.mV[VY] = 0.8f;
+			particle_parameters.mPartData.mStartScale.mV[VZ] = 1.0f;
 			particle_parameters.mPartData.mEndScale.mV[VX]   = 0.02f;
 			particle_parameters.mPartData.mEndScale.mV[VY]   = 0.02f;
 			particle_parameters.mPartData.mStartColor        = LLColor4(1, 1, 1, 0.5f);
@@ -6596,15 +6596,18 @@ void LLVOAvatar::rebuildRiggedAttachments( void )
 	for ( attachment_map_t::iterator iter = mAttachmentPoints.begin(); iter != mAttachmentPoints.end(); ++iter )
 	{
 		LLViewerJointAttachment* pAttachment = iter->second;
-		LLViewerJointAttachment::attachedobjs_vec_t::iterator attachmentIterEnd = pAttachment->mAttachedObjects.end();
-		
-		for ( LLViewerJointAttachment::attachedobjs_vec_t::iterator attachmentIter = pAttachment->mAttachedObjects.begin();
-			 attachmentIter != attachmentIterEnd; ++attachmentIter)
+		if (pAttachment)
 		{
-			const LLViewerObject* pAttachedObject =  *attachmentIter;
-			if ( pAttachment && pAttachedObject->mDrawable.notNull() )
+			LLViewerJointAttachment::attachedobjs_vec_t::iterator attachmentIterEnd = pAttachment->mAttachedObjects.end();
+
+			for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachmentIter = pAttachment->mAttachedObjects.begin();
+				attachmentIter != attachmentIterEnd; ++attachmentIter)
 			{
-				gPipeline.markRebuild(pAttachedObject->mDrawable);
+				const LLViewerObject* pAttachedObject = *attachmentIter;
+				if (pAttachment && pAttachedObject->mDrawable.notNull())
+				{
+					gPipeline.markRebuild(pAttachedObject->mDrawable);
+				}
 			}
 		}
 	}

@@ -1615,7 +1615,7 @@ void	LLAssetStorage::flushOldToxicAssets( BOOL force_it )
 		}
 		else
 		{
-			iter++;
+			++iter;
 		}
 	}
 }

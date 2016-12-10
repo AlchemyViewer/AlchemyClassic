@@ -463,7 +463,7 @@ void LLStatBar::draw()
 				F32 min_value = 0.f,
 					max_value = 0.f;
 
-				gGL.color4f(main_bar_color.get().mV[0], main_bar_color.get().mV[1], main_bar_color.get().mV[2], main_bar_color.get().mV[3]);
+				gGL.color4fv(main_bar_color.get().mV);
 				gGL.begin( LLRender::QUADS );
 				const S32 max_frame = llmin(num_frames, num_values);
 				U32 num_samples = 0;

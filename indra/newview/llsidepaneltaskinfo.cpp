@@ -715,7 +715,7 @@ void LLSidepanelTaskInfo::refresh()
 
 	if (has_change_sale_ability && (owner_mask_on & PERM_TRANSFER))
 	{
-		getChildView("checkbox for sale")->setEnabled(can_transfer || (!can_transfer && num_for_sale));
+		getChildView("checkbox for sale")->setEnabled(can_transfer || num_for_sale);
 		// Set the checkbox to tentative if the prices of each object selected
 		// are not the same.
 		getChild<LLUICtrl>("checkbox for sale")->setTentative( 				is_for_sale_mixed);

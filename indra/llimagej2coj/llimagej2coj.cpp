@@ -225,10 +225,7 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 		if (image->comps[i].factor != base.getRawDiscardLevel())
 		{
 			// if we didn't get the discard level we're expecting, fail
-			if (image)
-			{
-				opj_image_destroy(image);
-			}
+			opj_image_destroy(image);
 			base.decodeFailed();
 			return true;
 		}
@@ -237,10 +234,7 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	if(image->numcomps <= first_channel)
 	{
 		LL_WARNS() << "trying to decode more channels than are present in image: numcomps: " << image->numcomps << " first_channel: " << first_channel << LL_ENDL;
-		if (image)
-		{
-			opj_image_destroy(image);
-		}
+		opj_image_destroy(image);
 		base.decodeFailed();
 		return true;
 	}
@@ -267,11 +261,7 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	U8 *rawp = raw_image.getData();
 	if (!rawp)
 	{
-		if (image)
-		{
-			opj_image_destroy(image);
-			image = nullptr;
-		}
+		opj_image_destroy(image);
 		base.setLastError("Memory error");
 		base.decodeFailed();
 		return true; // done

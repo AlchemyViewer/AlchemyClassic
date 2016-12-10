@@ -500,15 +500,16 @@ void LLMultiSlider::draw()
 	// simple gl call for the triangle
 	if(mUseTriangle) {
 
-		for(mIt = mThumbRects.begin(); mIt != mThumbRects.end(); mIt++) {
-
+		for(mIt = mThumbRects.begin(); mIt != mThumbRects.end(); mIt++)
+		{
+			auto thumb_rects = mIt->second;
 			gl_triangle_2d(
-				mIt->second.mLeft - extra_triangle_width, 
-				mIt->second.mTop + extra_triangle_height,
-				mIt->second.mRight + extra_triangle_width, 
-				mIt->second.mTop + extra_triangle_height,
-				mIt->second.mLeft + mIt->second.getWidth() / 2, 
-				mIt->second.mBottom - extra_triangle_height,
+				thumb_rects.mLeft - extra_triangle_width,
+				thumb_rects.mTop + extra_triangle_height,
+				thumb_rects.mRight + extra_triangle_width,
+				thumb_rects.mTop + extra_triangle_height,
+				thumb_rects.mLeft + thumb_rects.getWidth() / 2,
+				thumb_rects.mBottom - extra_triangle_height,
 				mTriangleColor.get() % opacity, TRUE);
 		}
 	}

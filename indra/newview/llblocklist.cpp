@@ -219,7 +219,7 @@ void LLBlockList::refresh()
 	}
 
 	// handle filter functionality
-	if(have_filter || (!have_filter && !mPrevNameFilter.empty()))
+	if(have_filter || !mPrevNameFilter.empty())
 	{
 		// we should update visibility of our items if previous filter was not empty
 		std::vector < LLPanel* > allItems;

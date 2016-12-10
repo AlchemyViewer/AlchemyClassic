@@ -6791,8 +6791,6 @@ void LLVivoxProtocolParser::EndTag(const char *tag)
 			nameString = string;
 		else if (!stricmp("AudioMedia", tag))
 			audioMediaString = string;
-		else if (!stricmp("ChannelName", tag))
-			nameString = string;
 		else if (!stricmp("DisplayName", tag))
 			displayNameString = string;
 		else if (!stricmp("Device", tag))

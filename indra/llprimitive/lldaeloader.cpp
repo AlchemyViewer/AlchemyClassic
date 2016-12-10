@@ -29,6 +29,7 @@
 #include "linden_common.h"
 
 #if LL_MSVC
+#pragma warning (push)
 #pragma warning (disable : 4263)
 #pragma warning (disable : 4264)
 #endif
@@ -53,8 +54,7 @@
 #include <dom/domTranslate.h>
 #include <dom/domVisual_scene.h>
 #if LL_MSVC
-#pragma warning (default : 4263)
-#pragma warning (default : 4264)
+#pragma warning (pop)
 #endif
 
 #include <boost/lexical_cast.hpp>

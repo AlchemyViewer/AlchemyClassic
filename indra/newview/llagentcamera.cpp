@@ -799,16 +799,13 @@ void LLAgentCamera::setCameraZoomFraction(F32 fraction)
 
 		if (mFocusObject.notNull())
 		{
-			if (mFocusObject.notNull())
+			if (mFocusObject->isAvatar())
 			{
-				if (mFocusObject->isAvatar())
-				{
-					min_zoom = AVATAR_MIN_ZOOM;
-				}
-				else
-				{
-					min_zoom = OBJECT_MIN_ZOOM;
-				}
+				min_zoom = AVATAR_MIN_ZOOM;
+			}
+			else
+			{
+				min_zoom = OBJECT_MIN_ZOOM;
 			}
 		}
 

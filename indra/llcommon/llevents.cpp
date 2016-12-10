@@ -521,7 +521,7 @@ bool LLEventStream::post(const LLSD& event)
 	{
 		return (*signal)(event);
 	}
-	catch (boost::dcoroutines::abnormal_exit& e)
+	catch (const boost::dcoroutines::abnormal_exit& e)
 	{
 		LL_WARNS() << "Event coroutine exception: " << e.what() << LL_ENDL;
 		return false;

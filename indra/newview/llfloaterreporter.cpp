@@ -602,13 +602,13 @@ bool LLFloaterReporter::validateReport()
 		return false;
 	};
 
-	if ( getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty() )
+	if (getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty())
 	{
 		LLNotificationsUtil::add("HelpReportAbuseAbuserLocationEmpty");
 		return false;
 	};
 
-	if ( getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty() )
+	if (getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty())
 	{
 		LLNotificationsUtil::add("HelpReportAbuseAbuserLocationEmpty");
 		return false;

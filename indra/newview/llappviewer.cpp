@@ -1176,7 +1176,7 @@ bool LLAppViewer::init()
 	try {
 		initializeSecHandler();
 	}
-	catch (LLProtectedDataException ex)
+	catch (const LLProtectedDataException&)
 	{
 	  LLNotificationsUtil::add("CorruptedProtectedDataStore");
 	}
@@ -1572,7 +1572,7 @@ bool LLAppViewer::frame()
 	{
 		LOG_UNHANDLED_EXCEPTION("");
 	}
-	catch(std::bad_alloc)
+	catch (const std::bad_alloc&)
 	{
 		LLMemory::logMemoryInfo(TRUE) ;
 
@@ -1606,9 +1606,9 @@ bool LLAppViewer::frame()
 			{
 				saveFinalSnapshot();
 			}
-			catch(std::bad_alloc)
+			catch (const std::bad_alloc& e)
 			{
-				LL_WARNS() << "Bad memory allocation when saveFinalSnapshot() is called!" << LL_ENDL ;
+				LL_WARNS() << "Bad memory allocation when saveFinalSnapshot() is called!: " << e.what() << LL_ENDL ;
 
 				//stop memory leaking simulation
 				LLFloaterMemLeak* mem_leak_instance =

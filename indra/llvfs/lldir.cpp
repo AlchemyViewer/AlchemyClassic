@@ -207,9 +207,9 @@ U32 LLDir::deleteDirAndContents(const std::string& dir_name)
 		  }
 	   }
 	}
-	catch (boost::filesystem::filesystem_error &er)
+	catch (const boost::filesystem::filesystem_error &er)
 	{ 
-		LL_WARNS() << "Failed to delete " << dir_name << " with error " << er.code().message() << LL_ENDL;
+		LL_WARNS() << "Failed to delete " << dir_name << " with error " << er.what() << LL_ENDL;
 	} 
 	return num_deleted;
 }

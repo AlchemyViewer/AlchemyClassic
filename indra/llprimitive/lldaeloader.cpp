@@ -1114,7 +1114,7 @@ std::string LLDAELoader::preprocessDAE(std::string filename)
 			next++;
 		}
 	}
-	catch (boost::regex_error &)
+	catch (const boost::regex_error&)
 	{
 		LL_INFOS() << "Regex error" << LL_ENDL;
 	}

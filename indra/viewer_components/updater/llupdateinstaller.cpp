@@ -62,7 +62,7 @@ int ll_install_update(std::string const & script,
 			try {
 				actualScriptPath = copy_to_temp(script);
 			}
-			catch (RelocateError &) {
+			catch (const RelocateError &) {
 				return -1;
 			}
 			break;

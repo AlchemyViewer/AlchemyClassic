@@ -245,7 +245,7 @@ void LLUpdateDownloader::Implementation::download(LLURI const & uri,
 	{
 		startDownloading(uri, hash);
 	}
-	catch(DownloadError const & e)
+	catch(const DownloadError& e)
 	{
 		mClient.downloadError(e.what());
 	}
@@ -318,7 +318,7 @@ void LLUpdateDownloader::Implementation::resume(void)
 					 mDownloadData["required"].asBoolean());
 		}
 	}
-	catch(DownloadError & e)
+	catch (const DownloadError& e)
 	{
 		mClient.downloadError(e.what());
 	}
@@ -362,7 +362,7 @@ size_t LLUpdateDownloader::Implementation::onHeader(void * buffer, size_t size)
 			mDownloadData["size"] = LLSD(LLSD::Integer(size));
 			llofstream odataStream(mDownloadRecordPath.c_str());
 			LLSDSerialize::toPrettyXML(mDownloadData, odataStream);
-		} catch (std::exception const & e) {
+		} catch (const std::exception& e) {
 			LL_WARNS("UpdaterService") << "unable to read content length ("
 				<< e.what() << ")" << LL_ENDL;
 		}

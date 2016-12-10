@@ -151,7 +151,7 @@ void LLThreadSafeQueue<ElementT>::pushFront(ElementT const & element)
 	ElementT * elementCopy = new ElementT(element);
 	try {
 		mImplementation.pushFront(elementCopy);
-	} catch (LLThreadSafeQueueInterrupt) {
+	} catch (const LLThreadSafeQueueInterrupt&) {
 		delete elementCopy;
 		throw;
 	}

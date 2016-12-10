@@ -99,7 +99,7 @@ LLDirIterator::Impl::Impl(const std::string &dirname, const std::string &mask)
 	{
 		mFilterExp.assign(exp);
 	}
-	catch (boost::regex_error& e)
+	catch (const boost::regex_error& e)
 	{
 		LL_WARNS() << "\"" << exp << "\" is not a valid regular expression: "
 				<< e.what() << LL_ENDL;

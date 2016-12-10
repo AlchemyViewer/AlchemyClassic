@@ -602,7 +602,7 @@ LLSD HttpCoroJSONHandler::handleSuccess(LLCore::HttpResponse * response, LLCore:
     {
         bas >> jsonRoot;
     }
-    catch (std::runtime_error e)
+    catch (const std::runtime_error& e)
     {   // deserialization failed.  Record the reason and pass back an empty map for markup.
         status = LLCore::HttpStatus(499, std::string(e.what()));
         return result;
@@ -630,7 +630,7 @@ LLSD HttpCoroJSONHandler::parseBody(LLCore::HttpResponse *response, bool &succes
     {
         bas >> jsonRoot;
     }
-    catch (std::runtime_error e)
+    catch (const std::runtime_error&)
     {   
         success = false;
         return LLSD();

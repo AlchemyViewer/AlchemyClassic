@@ -193,7 +193,7 @@ public:
 
 	protected:
 		friend class LLUICtrlFactory;
-		LLCenterLayoutPanel(const Params& params) : LLLayoutPanel(params), mButtonPanel(NULL) {}
+		LLCenterLayoutPanel(const Params& params) : LLLayoutPanel(params), mLocationId(LLToolBarEnums::TOOLBAR_NONE), mButtonPanel(NULL) {}
 
 	private:
 		reshape_callback_t					mReshapeCallback;

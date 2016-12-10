@@ -184,7 +184,7 @@ void LLFloaterURLEntry::onBtnOK( void* userdata )
 	std::string scheme = url.scheme();
 
 	// We assume that an empty scheme is an http url, as this is how we will treat it.
-	if(scheme == "")
+	if(scheme.empty())
 	{
 		scheme = "http";
 	}

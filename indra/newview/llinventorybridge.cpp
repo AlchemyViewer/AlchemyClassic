@@ -3112,7 +3112,7 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
         {
             LLUUID version_folder_id = LLMarketplaceData::instance().getVersionFolder(mUUID);
             LLViewerInventoryCategory* cat = gInventory.getCategory(version_folder_id);
-            mMessage = "";
+            mMessage.clear();
             if (!validate_marketplacelistings(cat,boost::bind(&LLFolderBridge::gatherMessage, this, _1, _2, _3)))
             {
                 LLSD subs;
@@ -3131,7 +3131,7 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
         if (depth_nesting_in_marketplace(mUUID) == 2)
         {
 			LLInventoryCategory* category = gInventory.getCategory(mUUID);
-            mMessage = "";
+            mMessage.clear();
             if (!validate_marketplacelistings(category,boost::bind(&LLFolderBridge::gatherMessage, this, _1, _2, _3),false,2))
             {
                 LLSD subs;
@@ -3165,11 +3165,11 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
 	else if ("marketplace_create_listing" == action)
 	{
         LLViewerInventoryCategory* cat = gInventory.getCategory(mUUID);
-        mMessage = "";
+        mMessage.clear();
         bool validates = validate_marketplacelistings(cat,boost::bind(&LLFolderBridge::gatherMessage, this, _1, _2, _3),false);
         if (!validates)
         {
-            mMessage = "";
+            mMessage.clear();
             validates = validate_marketplacelistings(cat,boost::bind(&LLFolderBridge::gatherMessage, this, _1, _2, _3),true);
             if (validates)
             {

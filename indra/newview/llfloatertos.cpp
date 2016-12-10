@@ -181,7 +181,7 @@ void LLFloaterTOS::onContinue( void* userdata )
 	LLFloaterTOS* self = (LLFloaterTOS*) userdata;
 	LL_INFOS("TOS") << "User agrees with TOS." << LL_ENDL;
 
-	if(self->mReplyPumpName != "")
+	if(!self->mReplyPumpName.empty())
 	{
 		LLEventPumps::instance().obtain(self->mReplyPumpName).post(LLSD(true));
 	}
@@ -196,7 +196,7 @@ void LLFloaterTOS::onCancel( void* userdata )
 	LL_INFOS("TOS") << "User disagrees with TOS." << LL_ENDL;
 	LLNotificationsUtil::add("MustAgreeToLogIn", LLSD(), LLSD(), login_alert_done);
 
-	if(self->mReplyPumpName != "")
+	if(!self->mReplyPumpName.empty())
 	{
 		LLEventPumps::instance().obtain(self->mReplyPumpName).post(LLSD(false));
 	}

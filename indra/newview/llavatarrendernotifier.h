@@ -42,7 +42,7 @@ struct LLHUDComplexity
     void reset()
     {
         objectId = LLUUID::null;
-        objectName = "";
+        objectName.clear();
         objectsCost = 0;
         objectsCount = 0;
         texturesCost = 0;

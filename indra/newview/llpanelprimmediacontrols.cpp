@@ -432,10 +432,6 @@ void LLPanelPrimMediaControls::updateShape()
 			{
 				mMuteBtn->setToggleState(true);
 			}
-			else if (volume >= 1.0)
-			{
-				mMuteBtn->setToggleState(false);
-			}
 			else
 			{
 				mMuteBtn->setToggleState(false);

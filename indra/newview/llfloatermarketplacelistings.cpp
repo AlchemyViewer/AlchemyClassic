@@ -627,7 +627,7 @@ BOOL LLFloaterMarketplaceListings::handleDragAndDrop(S32 x, S32 y, MASK mask, BO
 		return FALSE;
 	}
 	
-    tooltip_msg = "";
+    tooltip_msg.clear();
     
     // Pass to the children
 	LLView * handled_view = childrenHandleDragAndDrop(x, y, mask, drop, cargo_type, cargo_data, accept, tooltip_msg);

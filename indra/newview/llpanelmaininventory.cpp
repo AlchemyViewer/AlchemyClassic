@@ -478,12 +478,12 @@ void LLPanelMainInventory::onClearSearch()
 		mActivePanel->getRootFolder()->applyFunctorRecursively(opener);
 		mActivePanel->getRootFolder()->scrollToShowSelection();
 	}
-	mFilterSubString = "";
+	mFilterSubString.clear();
 }
 
 void LLPanelMainInventory::onFilterEdit(const std::string& search_string )
 {
-	if (search_string == "")
+	if (search_string.empty())
 	{
 		onClearSearch();
 	}
@@ -651,7 +651,7 @@ void LLPanelMainInventory::updateItemcountText()
 	if(mItemCount != gInventory.getItemCount())
 	{
 		mItemCount = gInventory.getItemCount();
-		mItemCountString = "";
+		mItemCountString.clear();
 		LLLocale locale(LLLocale::USER_LOCALE);
 		LLResMgr::getInstance()->getIntegerString(mItemCountString, mItemCount);
 	}

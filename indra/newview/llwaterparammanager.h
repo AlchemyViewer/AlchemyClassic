@@ -47,7 +47,7 @@ struct WaterColorControl {
 	{
 		// if there's a slider name, say we have one
 		mHasSliderName = false;
-		if (mSliderName != "") {
+		if (!mSliderName.empty()) {
 			mHasSliderName = true;
 		}
 	}

@@ -466,7 +466,7 @@ void LLFloaterWorldMap::draw()
 	}
 	else
 	{
-		if (mCompletingRegionName != "")
+		if (!mCompletingRegionName.empty())
 		{
 			F64 seconds = LLTimer::getElapsedSeconds();
 			double value = fmod(seconds, 2);
@@ -987,7 +987,7 @@ void LLFloaterWorldMap::clearLocationSelection(BOOL clear_ui, BOOL dest_reached)
 		list->operateOnAll(LLCtrlListInterface::OP_DELETE);
 	}
 	LLWorldMap::getInstance()->cancelTracking();
-	mCompletingRegionName = "";
+	mCompletingRegionName.clear();
 }
 
 
@@ -1235,8 +1235,8 @@ void LLFloaterWorldMap::onLocationCommit()
 	}
 	
 	clearLocationSelection(FALSE);
-	mCompletingRegionName = "";
-	mLastRegionName = "";
+	mCompletingRegionName.clear();
+	mLastRegionName.clear();
 	
 	std::string str = getChild<LLUICtrl>("location")->getValue().asString();
 	
@@ -1541,7 +1541,7 @@ void LLFloaterWorldMap::flyToAvatar()
 
 void LLFloaterWorldMap::updateSims(bool found_null_sim)
 {
-	if (mCompletingRegionName == "")
+	if (mCompletingRegionName.empty())
 	{
 		return;
 	}
@@ -1582,7 +1582,7 @@ void LLFloaterWorldMap::updateSims(bool found_null_sim)
 	
 	if (found_null_sim)
 	{
-		mCompletingRegionName = "";
+		mCompletingRegionName.clear();
 	}
 	
 	if (num_results > 0)

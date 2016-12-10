@@ -225,7 +225,7 @@ std::string LLHandlerUtil::getSubstitutionName(const LLNotificationPtr& notifica
 		}
 		if(!gCacheName->getFullName(from_id, res))
 		{
-			res = "";
+			res.clear();
 		}
 	}
 	return res;

@@ -461,7 +461,7 @@ void LLInspectObject::updateMediaCurrentURL()
 
 		}
 	}
-	else if(mMediaEntry->getCurrentURL() != "")
+	else if(!mMediaEntry->getCurrentURL().empty())
 	{
 		args["[CurrentURL]"] = mMediaEntry->getCurrentURL();
 		media_url = LLTrans::getString("CurrentURL", args);

@@ -4519,7 +4519,7 @@ void LLFloaterModelPreview::onPermissionsReceived(const LLSD& result)
 	dump_llsd_to_file(result,"perm_received.xml");
 	std::string upload_status = result["mesh_upload_status"].asString();
 	// BAP HACK: handle "" for case that  MeshUploadFlag cap is broken.
-	mHasUploadPerm = (("" == upload_status) || ("valid" == upload_status));
+	mHasUploadPerm = ((upload_status.empty()) || ("valid" == upload_status));
 
     if (!mHasUploadPerm) 
     {

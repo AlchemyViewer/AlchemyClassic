@@ -420,7 +420,7 @@ void LLTwitterPhotoPanel::updateStatusTextLength(BOOL restore_old_status_text)
 			}
 			if (mOldStatusText.length() <= max_status_length)
 			{
-				mOldStatusText = "";
+				mOldStatusText.clear();
 			}
 		}
 		if (status_text_box->getText().length() > max_status_length)

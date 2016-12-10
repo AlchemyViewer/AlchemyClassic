@@ -348,7 +348,7 @@ void LLLandmarkActions::onRegionResponseSLURL(slurl_callback_t cb,
 	}
 	else
 	{
-		slurl = "";
+		slurl.clear();
 	}
 
 	cb(slurl);

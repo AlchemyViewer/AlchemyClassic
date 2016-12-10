@@ -410,7 +410,7 @@ void LLFloaterExperienceProfile::refreshExperience( const LLSD& experience )
     std::istringstream is(value);
     if(LLSDParser::PARSE_FAILURE != parser->parse(is, data, value.size()))
     {
-        value="";
+        value.clear();
         if(data.has(TF_MRKT))
         {
             value=data[TF_MRKT].asString();
@@ -687,7 +687,7 @@ void LLFloaterExperienceProfile::onClickLocation()
 void LLFloaterExperienceProfile::onClickClear()
 {
     LLTextBox* child = getChild<LLTextBox>(EDIT TF_SLURL);
-	mLocationSLURL = "";
+	mLocationSLURL.clear();
     child->setText(getString("empty_slurl"));
     onFieldChanged();
 }

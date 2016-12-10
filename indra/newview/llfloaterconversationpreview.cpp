@@ -68,7 +68,7 @@ BOOL LLFloaterConversationPreview::postBuild()
 	std::string name;
 	std::string file;
 
-	if (mAccountName != "")
+	if (!mAccountName.empty())
 	{
 		name = mCompleteName;
 		file = mAccountName;

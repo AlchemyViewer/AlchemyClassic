@@ -234,7 +234,7 @@ public:
 	// Default sort order is by type for sessions and by date for participants
 	static constexpr U32 SO_DEFAULT = (SO_SESSION_TYPE << 16) | (SO_DATE);
 	
-	LLConversationFilter() { mEmpty = ""; }
+	LLConversationFilter() { mEmpty.clear(); }
 	~LLConversationFilter() {}
 		
 	bool 				check(const LLFolderViewModelItem* item) { return true; }

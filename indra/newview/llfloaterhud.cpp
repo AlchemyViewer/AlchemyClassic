@@ -49,7 +49,7 @@ LLFloaterHUD::LLFloaterHUD(const LLSD& key)
 	mWebBrowser(0)
 {
 	// do not build the floater if there the url is empty
-	if (gSavedSettings.getString("TutorialURL") == "")
+	if (gSavedSettings.getString("TutorialURL").empty())
 	{
 		LLNotificationsUtil::add("TutorialNotFound");
 		return;

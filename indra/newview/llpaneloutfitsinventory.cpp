@@ -150,7 +150,7 @@ void LLPanelOutfitsInventory::onSearchEdit(const std::string& string)
 
 	mFilterSubString = string;
 
-	if (string == "")
+	if (string.empty())
 	{
 		mActivePanel->setFilterSubString(LLStringUtil::null);
 	}

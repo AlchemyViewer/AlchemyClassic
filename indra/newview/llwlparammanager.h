@@ -52,7 +52,7 @@ struct WLColorControl {
 	{
 		// if there's a slider name, say we have one
 		hasSliderName = false;
-		if (mSliderName != "") {
+		if (!mSliderName.empty()) {
 			hasSliderName = true;
 		}
 

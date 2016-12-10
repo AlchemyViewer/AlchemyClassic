@@ -1835,7 +1835,7 @@ void LLCallDialogManager::onVoiceChannelChanged(const LLUUID &session_id)
 	if(!session)
 	{		
 		sPreviousSessionlName = sCurrentSessionlName;
-		sCurrentSessionlName = ""; // Empty string results in "Nearby Voice Chat" after substitution
+		sCurrentSessionlName.clear(); // Empty string results in "Nearby Voice Chat" after substitution
 		return;
 	}
 	
@@ -3714,7 +3714,7 @@ public:
 			std::string url = gAgent.getRegion()->getCapability(
 				"ChatSessionRequest");
 
-			if ( url != "" )
+			if (!url.empty())
 			{
                 LLCoros::instance().launch("chatterBoxInvitationCoro",
                     boost::bind(&chatterBoxInvitationCoro, url,

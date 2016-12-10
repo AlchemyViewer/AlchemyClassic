@@ -284,7 +284,7 @@ void LLFloaterSellLandUI::refreshUI()
 
 	std::string price_str = getChild<LLUICtrl>("price")->getValue().asString();
 	bool valid_price = false;
-	valid_price = (price_str != "") && LLTextValidate::validateNonNegativeS32(utf8str_to_wstring(price_str));
+	valid_price = (!price_str.empty()) && LLTextValidate::validateNonNegativeS32(utf8str_to_wstring(price_str));
 
 	if (valid_price && mParcelActualArea > 0)
 	{
@@ -299,7 +299,7 @@ void LLFloaterSellLandUI::refreshUI()
 	{
 		getChildView("price_per_m")->setVisible(FALSE);
 
-		if ("" == price_str)
+		if (price_str.empty())
 		{
 			setBadge("step_price", BADGE_NOTE);
 		}

@@ -438,7 +438,7 @@ void LLAvatarListItem::onAvatarNameCache(const LLAvatarName& av_name)
 {
 	mAvatarNameCacheConnection.disconnect();
 
-	mGreyOutUsername = "";
+	mGreyOutUsername.clear();
 	std::string name_string = mShowCompleteName? av_name.getCompleteName(false) : av_name.getDisplayName();
 	if(av_name.getCompleteName() != av_name.getUserName())
 	{

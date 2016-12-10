@@ -1566,7 +1566,7 @@ BOOL LLLineEditor::handleKeyHere(KEY key, MASK mask )
 				KEY_SHIFT != key &&
 				KEY_CONTROL != key &&
 				KEY_ALT != key &&
-				KEY_CAPSLOCK )
+				KEY_CAPSLOCK != key)
 			{
 				deselect();
 			}

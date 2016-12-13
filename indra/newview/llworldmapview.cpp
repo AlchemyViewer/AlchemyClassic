@@ -977,8 +977,8 @@ LLVector3 LLWorldMapView::globalPosToView( const LLVector3d& global_pos )
 	// leave Z component in meters
 
 
-	pos_local.mV[VX] += getRect().getWidth() / 2 + sPanX;
-	pos_local.mV[VY] += getRect().getHeight() / 2 + sPanY;
+	pos_local.mV[VX] += ((F32)getRect().getWidth() / 2.f) + sPanX;
+	pos_local.mV[VY] += ((F32)getRect().getHeight() / 2.f) + sPanY;
 
 	return pos_local;
 }

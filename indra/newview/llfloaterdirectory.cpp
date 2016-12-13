@@ -1035,7 +1035,7 @@ void LLFloaterDirectory::processSearchLandReply(LLMessageSystem* msg, void**)
 			{
 				F32 ppm;
 				if (area > 0)
-					ppm = price / area;
+					ppm = (F32)price / (F32)area;
 				else
 					ppm = 0.f;
 				std::string buffer = llformat("%.1f", ppm);

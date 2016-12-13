@@ -937,7 +937,7 @@ void LLVoiceChannelP2P::setState(EState state)
 	{
 		// you only "answer" voice invites in p2p mode
 		// so provide a special purpose message here
-		if (mReceivedCall && state == STATE_RINGING)
+		if (state == STATE_RINGING)
 		{
 			//TODO: remove or redirect this call status notification
 //			LLCallInfoDialog::show("answering", mNotifyArgs);

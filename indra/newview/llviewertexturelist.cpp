@@ -1142,7 +1142,7 @@ F32 LLViewerTextureList::updateImagesFetchTextures(F32 max_time)
 			}
 			LLViewerFetchedTexture* imagep = iter2->second;
             // Skip the textures where there's really nothing to do so to give some times to others. Also skip the texture if it's already in the high prio set.
-            if (!SKIP_LOW_PRIO || (SKIP_LOW_PRIO && ((imagep->getDecodePriority() > MIN_PRIORITY_THRESHOLD) || imagep->hasFetcher())))
+            if (!SKIP_LOW_PRIO || ((imagep->getDecodePriority() > MIN_PRIORITY_THRESHOLD) || imagep->hasFetcher()))
             {
                 entries.push_back(imagep);
                 update_counter--;

@@ -1250,42 +1250,44 @@ void LLFloaterUIPreview::highlightChangedElements()
 	{
 		changed_element_paths = mDiffsMap[mLiveFile->mFileName].first;		// retrieve list of changed element paths from map
 	}
-
-	for(std::list<std::string>::iterator iter = changed_element_paths->begin(); iter != changed_element_paths->end(); ++iter)	// for every changed element path
+	if (changed_element_paths)
 	{
-		LLView* element = mDisplayedFloater;
-		if(!strncmp(iter->c_str(),".",1))	// if it's the root floater itself
+		for (std::list<std::string>::iterator iter = changed_element_paths->begin(); iter != changed_element_paths->end(); ++iter)	// for every changed element path
 		{
-			continue;
-		}
-
-		// Split element hierarchy path on period (*HACK: it's possible that the element name will have a period in it, in which case this won't work.  See https://wiki.lindenlab.com/wiki/Viewer_Localization_Tool_Documentation.)
-		typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-		boost::char_separator<char> sep(".");
-		tokenizer tokens(*iter, sep);
-		tokenizer::iterator token_iter;
-		BOOL failed = FALSE;
-		for(token_iter = tokens.begin(); token_iter != tokens.end(); ++token_iter)
-		{
-			element = element->findChild<LLView>(*token_iter,FALSE);	// try to find element: don't recur, and don't create if missing
-
-			// if we still didn't find it...
-			if(NULL == element)												
+			LLView* element = mDisplayedFloater;
+			if (!strncmp(iter->c_str(), ".", 1))	// if it's the root floater itself
 			{
-				LL_INFOS() << "Unable to find element in XuiDelta file named \"" << *iter << "\" in file \"" << mLiveFile->mFileName <<
-							"\". The element may no longer exist, the path may be incorrect, or it may not be a non-displayable element (not an LLView) such as a \"string\" type." << LL_ENDL;
-				failed = TRUE;
-				break;
+				continue;
 			}
-		}
 
-		if(!failed)
-		{
-			// Now that we have a pointer to the actual element, add it to the list of elements to be highlighted
-			std::set<LLView*>::iterator iter2 = std::find(LLView::sPreviewHighlightedElements.begin(), LLView::sPreviewHighlightedElements.end(), element);
-			if(iter2 == LLView::sPreviewHighlightedElements.end())
+			// Split element hierarchy path on period (*HACK: it's possible that the element name will have a period in it, in which case this won't work.  See https://wiki.lindenlab.com/wiki/Viewer_Localization_Tool_Documentation.)
+			typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+			boost::char_separator<char> sep(".");
+			tokenizer tokens(*iter, sep);
+			tokenizer::iterator token_iter;
+			BOOL failed = FALSE;
+			for (token_iter = tokens.begin(); token_iter != tokens.end(); ++token_iter)
 			{
-				LLView::sPreviewHighlightedElements.insert(element);
+				element = element->findChild<LLView>(*token_iter, FALSE);	// try to find element: don't recur, and don't create if missing
+
+				// if we still didn't find it...
+				if (NULL == element)
+				{
+					LL_INFOS() << "Unable to find element in XuiDelta file named \"" << *iter << "\" in file \"" << mLiveFile->mFileName <<
+						"\". The element may no longer exist, the path may be incorrect, or it may not be a non-displayable element (not an LLView) such as a \"string\" type." << LL_ENDL;
+					failed = TRUE;
+					break;
+				}
+			}
+
+			if (!failed)
+			{
+				// Now that we have a pointer to the actual element, add it to the list of elements to be highlighted
+				std::set<LLView*>::iterator iter2 = std::find(LLView::sPreviewHighlightedElements.begin(), LLView::sPreviewHighlightedElements.end(), element);
+				if (iter2 == LLView::sPreviewHighlightedElements.end())
+				{
+					LLView::sPreviewHighlightedElements.insert(element);
+				}
 			}
 		}
 	}
@@ -1296,10 +1298,13 @@ void LLFloaterUIPreview::highlightChangedElements()
 	{
 		error_list = mDiffsMap[mLiveFile->mFileName].second;
 	}
-	for(std::list<std::string>::iterator iter = error_list->begin(); iter != error_list->end(); ++iter)	// for every changed element path
+	if (error_list)
 	{
-		std::string warning = LLStringExplicit("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" + *iter + "\"";
-		popupAndPrintWarning(warning);
+		for (std::list<std::string>::iterator iter = error_list->begin(); iter != error_list->end(); ++iter)	// for every changed element path
+		{
+			std::string warning = LLStringExplicit("Error listed among differences.  Filename: \"") + mLiveFile->mFileName + "\".  Message: \"" + *iter + "\"";
+			popupAndPrintWarning(warning);
+		}
 	}
 }
 

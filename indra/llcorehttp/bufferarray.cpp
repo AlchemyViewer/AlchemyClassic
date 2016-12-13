@@ -224,8 +224,8 @@ size_t BufferArray::write(size_t pos, const void * src, size_t len)
 		do
 		{
 			Block & block(*mBlocks[block_start]);
-			size_t block_limit(block.mUsed - offset);
-			size_t block_len((std::min)(block_limit, len));
+			size_t block_offset(block.mUsed - offset);
+			size_t block_len((std::min)(block_offset, len));
 		
 			memcpy(&block.mData[offset], c_src, block_len);
 			result += block_len;

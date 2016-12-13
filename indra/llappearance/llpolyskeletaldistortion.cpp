@@ -148,7 +148,7 @@ BOOL LLPolySkeletalDistortion::setInfo(LLPolySkeletalDistortionInfo *info)
     setWeight(getDefaultWeight(), FALSE);
 
     LLPolySkeletalDistortionInfo::bone_info_list_t::iterator iter;
-    for (iter = getInfo()->mBoneInfoList.begin(); iter != getInfo()->mBoneInfoList.end(); iter++)
+    for (iter = getInfo()->mBoneInfoList.begin(); iter != getInfo()->mBoneInfoList.end(); ++iter)
     {
         LLPolySkeletalBoneInfo *bone_info = &(*iter);
         LLJoint* joint = mAvatar->getJoint(bone_info->mBoneName);
@@ -205,7 +205,7 @@ void LLPolySkeletalDistortion::apply( ESex avatar_sex )
 
     for (iter = mJointScales.begin();
          iter != mJointScales.end();
-         iter++)
+         ++iter)
     {
         joint = iter->first;
         LLVector3 newScale = joint->getScale();
@@ -226,7 +226,7 @@ void LLPolySkeletalDistortion::apply( ESex avatar_sex )
 
     for (iter = mJointOffsets.begin();
          iter != mJointOffsets.end();
-         iter++)
+         ++iter)
     {
         joint = iter->first;
         LLVector3 newPosition = joint->getPosition();

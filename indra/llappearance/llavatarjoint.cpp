@@ -232,7 +232,7 @@ void LLAvatarJoint::setMeshesToChildren()
 {
 	removeAllChildren();
 	for (avatar_joint_mesh_list_t::iterator iter = mMeshParts.begin();
-		iter != mMeshParts.end(); iter++)
+		iter != mMeshParts.end(); ++iter)
 	{
 		addChild((*iter));
 	}

@@ -390,7 +390,7 @@ protected:
 			~LLAvatarMeshInfo()
 			{
 				morph_info_list_t::iterator iter;
-				for (iter = mPolyMorphTargetInfoList.begin(); iter != mPolyMorphTargetInfoList.end(); iter++)
+				for (iter = mPolyMorphTargetInfoList.begin(); iter != mPolyMorphTargetInfoList.end(); ++iter)
 				{
 					delete iter->first;
 				}

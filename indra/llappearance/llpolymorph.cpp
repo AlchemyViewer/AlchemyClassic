@@ -362,7 +362,7 @@ BOOL LLPolyMorphTarget::setInfo(LLPolyMorphTargetInfo* info)
 
 	LLAvatarAppearance* avatarp = mMesh->getAvatar();
 	LLPolyMorphTargetInfo::volume_info_list_t::iterator iter;
-	for (iter = getInfo()->mVolumeInfoList.begin(); iter != getInfo()->mVolumeInfoList.end(); iter++)
+	for (iter = getInfo()->mVolumeInfoList.begin(); iter != getInfo()->mVolumeInfoList.end(); ++iter)
 	{
 		LLPolyVolumeMorphInfo *volume_info = &(*iter);
 		for (S32 i = 0; i < avatarp->mNumCollisionVolumes; i++)
@@ -641,7 +641,7 @@ void LLPolyMorphTarget::apply( ESex avatar_sex )
 		}
 
 		// now apply volume changes
-		for( volume_list_t::iterator iter = mVolumeMorphs.begin(); iter != mVolumeMorphs.end(); iter++ )
+		for( volume_list_t::iterator iter = mVolumeMorphs.begin(); iter != mVolumeMorphs.end(); ++iter )
 		{
 			LLPolyVolumeMorph* volume_morph = &(*iter);
 			LLVector3 scale_delta = volume_morph->mScale * delta_weight;
@@ -735,7 +735,7 @@ void	LLPolyMorphTarget::applyMask(U8 *maskTextureData, S32 width, S32 height, S3
 void LLPolyMorphTarget::applyVolumeChanges(F32 delta_weight)
 {
     // now apply volume changes
-    for( volume_list_t::iterator iter = mVolumeMorphs.begin(); iter != mVolumeMorphs.end(); iter++ )
+    for( volume_list_t::iterator iter = mVolumeMorphs.begin(); iter != mVolumeMorphs.end(); ++iter )
     {
         LLPolyVolumeMorph* volume_morph = &(*iter);
         LLVector3 scale_delta = volume_morph->mScale * delta_weight;

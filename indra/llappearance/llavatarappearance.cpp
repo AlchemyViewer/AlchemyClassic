@@ -202,8 +202,9 @@ void LLAvatarAppearance::initInstance()
 	mRoot = createAvatarJoint();
 	mRoot->setName( "mRoot" );
 
-	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().begin();
-		 iter != LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().end();
+	const auto& mesh_entries = LLAvatarAppearanceDictionary::getInstance()->getMeshEntries();
+	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = mesh_entries.begin();
+		 iter != mesh_entries.end();
 		 ++iter)
 	{
 		const EMeshIndex mesh_index = iter->first;
@@ -248,8 +249,8 @@ void LLAvatarAppearance::initInstance()
 	//-------------------------------------------------------------------------
 	// associate baked textures with meshes
 	//-------------------------------------------------------------------------
-	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().begin();
-		 iter != LLAvatarAppearanceDictionary::getInstance()->getMeshEntries().end();
+	for (LLAvatarAppearanceDictionary::MeshEntries::const_iterator iter = mesh_entries.begin();
+		 iter != mesh_entries.end();
 		 ++iter)
 	{
 		const EMeshIndex mesh_index = iter->first;
@@ -284,7 +285,7 @@ LLAvatarAppearance::~LLAvatarAppearance()
 		mBakedTextureDatas[i].mJointMeshes.clear();
 
 		for (morph_list_t::iterator iter2 = mBakedTextureDatas[i].mMaskedMorphs.begin();
-			 iter2 != mBakedTextureDatas[i].mMaskedMorphs.end(); iter2++)
+			 iter2 != mBakedTextureDatas[i].mMaskedMorphs.end(); ++iter2)
 		{
 			LLMaskedMorph* masked_morph = (*iter2);
 			delete masked_morph;

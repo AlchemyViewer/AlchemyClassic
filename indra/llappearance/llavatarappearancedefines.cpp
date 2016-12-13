@@ -142,7 +142,7 @@ LLAvatarAppearanceDictionary::~LLAvatarAppearanceDictionary()
 // map it to the baked texture.
 void LLAvatarAppearanceDictionary::createAssociations()
 {
-	for (BakedTextures::const_iterator iter = mBakedTextures.begin(); iter != mBakedTextures.end(); iter++)
+	for (BakedTextures::const_iterator iter = mBakedTextures.begin(); iter != mBakedTextures.end(); ++iter)
 	{
 		const EBakedTextureIndex baked_index = (iter->first);
 		const BakedEntry *dict = (iter->second);
@@ -151,7 +151,7 @@ void LLAvatarAppearanceDictionary::createAssociations()
 		// with this baked texture index.
 		for (texture_vec_t::const_iterator local_texture_iter = dict->mLocalTextures.begin();
 			 local_texture_iter != dict->mLocalTextures.end();
-			 local_texture_iter++)
+			 ++local_texture_iter)
 		{
 			const ETextureIndex local_texture_index = (ETextureIndex) *local_texture_iter;
 			mTextures[local_texture_index]->mIsUsedByBakedTexture = true;
@@ -224,7 +224,7 @@ ETextureIndex LLAvatarAppearanceDictionary::bakedToLocalTextureIndex(EBakedTextu
 }
 
 // static
-EBakedTextureIndex LLAvatarAppearanceDictionary::findBakedByRegionName(std::string name)
+EBakedTextureIndex LLAvatarAppearanceDictionary::findBakedByRegionName(const std::string& name)
 {
 	U8 index = 0;
 	while (index < BAKED_NUM_INDICES)
@@ -242,7 +242,7 @@ EBakedTextureIndex LLAvatarAppearanceDictionary::findBakedByRegionName(std::stri
 }
 
 // static 
-EBakedTextureIndex LLAvatarAppearanceDictionary::findBakedByImageName(std::string name)
+EBakedTextureIndex LLAvatarAppearanceDictionary::findBakedByImageName(const std::string& name)
 {
 	U8 index = 0;
 	while (index < BAKED_NUM_INDICES)

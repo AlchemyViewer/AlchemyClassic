@@ -50,9 +50,9 @@ extern llofstream gFailLog;
 
 #define LL_GL_ERRS LL_ERRS("RenderState")
 
-void ll_init_fail_log(std::string filename);
+void ll_init_fail_log(const std::string& filename);
 
-void ll_fail(std::string msg);
+void ll_fail(const std::string& msg);
 
 void ll_close_fail_log();
 

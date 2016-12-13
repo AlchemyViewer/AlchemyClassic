@@ -111,7 +111,7 @@ void LLAvatarActions::requestFriendshipDialog(const LLUUID& id, const std::strin
 	LLRecentPeople::instance().add(id);
 }
 
-static void on_avatar_name_friendship(const LLUUID& id, const LLAvatarName av_name)
+static void on_avatar_name_friendship(const LLUUID& id, const LLAvatarName& av_name)
 {
 	LLAvatarActions::requestFriendshipDialog(id, av_name.getCompleteName());
 }
@@ -772,7 +772,7 @@ namespace action_give_inventory
 	 * @param avatar_names - avatar names request to be sent.
 	 * @param avatar_uuids - avatar names request to be sent.
 	 */
-	static void give_inventory(const uuid_vec_t& avatar_uuids, const std::vector<LLAvatarName> avatar_names)
+	static void give_inventory(const uuid_vec_t& avatar_uuids, const std::vector<LLAvatarName>& avatar_names)
 	{
 		llassert(avatar_names.size() == avatar_uuids.size());
 

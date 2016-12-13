@@ -90,7 +90,7 @@ std::string LLDate::asRFC1123() const
 
 LLTrace::BlockTimerStatHandle FT_DATE_FORMAT("Date Format");
 
-std::string LLDate::toHTTPDateString(std::string fmt) const
+std::string LLDate::toHTTPDateString(const std::string& fmt) const
 {
 	LL_RECORD_BLOCK_TIME(FT_DATE_FORMAT);
 	
@@ -104,7 +104,7 @@ std::string LLDate::toHTTPDateString(std::string fmt) const
 	return toHTTPDateString(gmt, fmt);
 }
 
-std::string LLDate::toHTTPDateString(tm * gmt, std::string fmt)
+std::string LLDate::toHTTPDateString(tm * gmt, const std::string& fmt)
 {
 	LL_RECORD_BLOCK_TIME(FT_DATE_FORMAT);
 
@@ -334,6 +334,12 @@ void LLDate::secondsSinceEpoch(F64 seconds)
 {
 	// time() returns seconds, we want fractions of a second, which LLTimer provides --RN
 	return LLDate(LLTimer::getTotalSeconds());
+}
+
+LLDate& LLDate::operator =(const LLDate& other)
+{
+	mSecondsSinceEpoch = other.mSecondsSinceEpoch;
+	return *this;
 }
 
 bool LLDate::operator<(const LLDate& rhs) const

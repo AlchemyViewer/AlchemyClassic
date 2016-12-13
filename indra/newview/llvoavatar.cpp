@@ -8529,7 +8529,7 @@ std::string get_sequential_numbered_file_name(const std::string& prefix,
 	return outfilename;
 }
 
-void dump_sequential_xml(const std::string outprefix, const LLSD& content)
+void dump_sequential_xml(const std::string& outprefix, const LLSD& content)
 {
 	std::string outfilename = get_sequential_numbered_file_name(outprefix,".xml");
 	std::string fullpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,outfilename);

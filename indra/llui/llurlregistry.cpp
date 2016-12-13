@@ -104,7 +104,7 @@ void LLUrlRegistry::registerUrl(LLUrlEntryBase *url, bool force_front)
 	}
 }
 
-static bool matchRegex(const char *text, boost::regex regex, U32 &start, U32 &end)
+static bool matchRegex(const char *text, const boost::regex& regex, U32 &start, U32 &end)
 {
 	boost::cmatch result;
 	bool found;

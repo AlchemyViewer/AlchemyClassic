@@ -447,7 +447,7 @@ LLPipeline::LLPipeline() :
 	mLightFunc = 0;
 }
 
-void LLPipeline::connectRefreshCachedSettingsSafe(const std::string name)
+void LLPipeline::connectRefreshCachedSettingsSafe(const std::string& name)
 {
 	LLPointer<LLControlVariable> cntrl_ptr = gSavedSettings.getControl(name);
 	if ( cntrl_ptr.isNull() )
@@ -9489,7 +9489,7 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 	}
 }
 
-glm::mat4 shadowLook(const LLVector3 pos, const LLVector3 dir, const LLVector3 up)
+glm::mat4 shadowLook(const LLVector3& pos, const LLVector3& dir, const LLVector3& up)
 {
 	LLVector3 dirN;
 	LLVector3 upN;
@@ -11322,9 +11322,9 @@ void LLPipeline::unhideDrawable( LLDrawable *pDrawable )
 	pDrawable->clearState( LLDrawable::FORCE_INVISIBLE );
 	markRebuild( pDrawable, LLDrawable::REBUILD_ALL, TRUE );
 	//restore children
-	LLViewerObject::const_child_list_t& child_list = pDrawable->getVObj()->getChildren();
-	for ( LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-		  iter != child_list.end(); iter++)
+	const LLViewerObject::const_child_list_t& child_list = pDrawable->getVObj()->getChildren();
+	for ( LLViewerObject::child_list_t::const_iterator iter = child_list.begin(), end_iter = child_list.end();
+		  iter != end_iter; iter++)
 	{
 		LLViewerObject* child = *iter;
 		LLDrawable* drawable = child->mDrawable;					

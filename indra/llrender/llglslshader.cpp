@@ -405,7 +405,7 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
     
     //compile new source
     vector< pair<string,GLenum> >::iterator fileIter = mShaderFiles.begin();
-    for ( ; fileIter != mShaderFiles.end(); fileIter++ )
+    for ( ; fileIter != mShaderFiles.end(); ++fileIter )
     {
         GLuint shaderhandle = LLShaderMgr::instance()->loadShaderFile((*fileIter).first, mShaderLevel, (*fileIter).second, &mDefines, mFeatures.mIndexedTextureChannels);
         LL_DEBUGS("ShaderLoading") << "SHADER FILE: " << (*fileIter).first << " mShaderLevel=" << mShaderLevel << LL_ENDL;
@@ -500,9 +500,10 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
     return success;
 }
 
-BOOL LLGLSLShader::attachShader(std::string object)
+BOOL LLGLSLShader::attachShader(const std::string& object)
 {
-	for (auto it = LLShaderMgr::instance()->mShaderObjects.begin(); it != LLShaderMgr::instance()->mShaderObjects.end(); it++)
+	const auto& shader_objects = LLShaderMgr::instance()->mShaderObjects;
+	for (auto it = shader_objects.begin(); it != shader_objects.end(); it++)
 	{
 		if (it->first == object)
 		{
@@ -525,8 +526,9 @@ void LLGLSLShader::attachShader(GLuint object)
 {
     if (object != 0)
     {
-		auto it = LLShaderMgr::instance()->mShaderObjects.begin();
-		for (; it != LLShaderMgr::instance()->mShaderObjects.end(); it++)
+		const auto& shader_objects = LLShaderMgr::instance()->mShaderObjects;
+		auto it = shader_objects.begin();
+		for (; it != shader_objects.end(); it++)
 		{
 			if (it->second.mHandle == object)
 			{
@@ -534,7 +536,7 @@ void LLGLSLShader::attachShader(GLuint object)
 				break;
 			}
 		}
-		if (it == LLShaderMgr::instance()->mShaderObjects.end())
+		if (it == shader_objects.end())
 		{
 			LL_WARNS("ShaderLoading") << "Attached unknown shader!" << LL_ENDL;
 		}
@@ -558,10 +560,11 @@ void LLGLSLShader::attachShaders(GLuint* objects, S32 count)
 
 BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attributes)
 {
+	const auto& shader_mgr = LLShaderMgr::instance();
     //before linking, make sure reserved attributes always have consistent locations
-    for (U32 i = 0; i < LLShaderMgr::instance()->mReservedAttribs.size(); i++)
+    for (U32 i = 0; i < shader_mgr->mReservedAttribs.size(); i++)
     {
-        const char* name = LLShaderMgr::instance()->mReservedAttribs[i].c_str();
+        const char* name = shader_mgr->mReservedAttribs[i].c_str();
         glBindAttribLocation(mProgramObject, i, (const GLchar*) name);
     }
     
@@ -570,7 +573,7 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
 
     mAttribute.clear();
     U32 numAttributes = (attributes == NULL) ? 0 : attributes->size();
-    mAttribute.resize(LLShaderMgr::instance()->mReservedAttribs.size() + numAttributes, -1);
+    mAttribute.resize(shader_mgr->mReservedAttribs.size() + numAttributes, -1);
     
     if (res)
     { //read back channel locations
@@ -578,9 +581,9 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
         mAttributeMask = 0;
 
         //read back reserved channels first
-        for (U32 i = 0; i < LLShaderMgr::instance()->mReservedAttribs.size(); i++)
+        for (U32 i = 0; i < shader_mgr->mReservedAttribs.size(); i++)
         {
-            const char* name = LLShaderMgr::instance()->mReservedAttribs[i].c_str();
+            const char* name = shader_mgr->mReservedAttribs[i].c_str();
             S32 index = glGetAttribLocation(mProgramObject, (const GLchar*)name);
             if (index != -1)
             {
@@ -597,7 +600,7 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
                 S32 index = glGetAttribLocation(mProgramObject, (const GLchar*)name);
                 if (index != -1)
                 {
-                    mAttribute[LLShaderMgr::instance()->mReservedAttribs.size() + i] = index;
+                    mAttribute[shader_mgr->mReservedAttribs.size() + i] = index;
                     LL_DEBUGS("ShaderLoading") << "Attribute " << name << " assigned to channel " << index << LL_ENDL;
                 }
             }
@@ -685,11 +688,13 @@ void LLGLSLShader::mapUniform(GLint index, const vector<LLStaticHashedString> * 
 
         LL_DEBUGS("ShaderLoading") << "Uniform " << name << " is at location " << location << LL_ENDL;
     
+		const auto& shader_mgr = LLShaderMgr::instance();
+
         //find the index of this uniform
-        for (S32 i = 0; i < (S32) LLShaderMgr::instance()->mReservedUniforms.size(); i++)
+        for (S32 i = 0; i < (S32) shader_mgr->mReservedUniforms.size(); i++)
         {
             if ( (mUniform[i] == -1)
-                && (LLShaderMgr::instance()->mReservedUniforms[i] == name))
+                && (shader_mgr->mReservedUniforms[i] == name))
             {
                 //found it
                 mUniform[i] = location;
@@ -702,12 +707,12 @@ void LLGLSLShader::mapUniform(GLint index, const vector<LLStaticHashedString> * 
         {
             for (U32 i = 0; i < uniforms->size(); i++)
             {
-                if ( (mUniform[i+LLShaderMgr::instance()->mReservedUniforms.size()] == -1)
+                if ( (mUniform[i+ shader_mgr->mReservedUniforms.size()] == -1)
                     && ((*uniforms)[i].String() == name))
                 {
                     //found it
-                    mUniform[i+LLShaderMgr::instance()->mReservedUniforms.size()] = location;
-                    mTexture[i+LLShaderMgr::instance()->mReservedUniforms.size()] = mapUniformTextureChannel(location, type);
+                    mUniform[i+ shader_mgr->mReservedUniforms.size()] = location;
+                    mTexture[i+ shader_mgr->mReservedUniforms.size()] = mapUniformTextureChannel(location, type);
                     return;
                 }
             }
@@ -715,12 +720,12 @@ void LLGLSLShader::mapUniform(GLint index, const vector<LLStaticHashedString> * 
     }
 }
 
-void LLGLSLShader::addPermutation(std::string name, std::string value)
+void LLGLSLShader::addPermutation(const std::string& name, const std::string& value)
 {
     mDefines[name] = value;
 }
 
-void LLGLSLShader::removePermutation(std::string name)
+void LLGLSLShader::removePermutation(const std::string& name)
 {
     mDefines[name].erase();
 }

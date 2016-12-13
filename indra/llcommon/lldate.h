@@ -80,8 +80,8 @@ public:
 	std::string asRFC1123() const;
 	void toStream(std::ostream&) const;
 	bool split(S32 *year, S32 *month = NULL, S32 *day = NULL, S32 *hour = NULL, S32 *min = NULL, S32 *sec = NULL) const;
-	std::string toHTTPDateString (std::string fmt) const;
-	static std::string toHTTPDateString (tm * gmt, std::string fmt);
+	std::string toHTTPDateString (const std::string& fmt) const;
+	static std::string toHTTPDateString (tm * gmt, const std::string& fmt);
 	/** 
 	 * @brief Set the date from an ISO-8601 string.
 	 *
@@ -118,6 +118,13 @@ public:
 	 * @return The number of seconds since epoch UTC.
 	 */
     static LLDate now();
+
+	/**
+	* @brief Copies LLDate objects
+	*
+	* @param other -- the object being copied
+	*/
+	LLDate& operator =(const LLDate& other);
 
 	/** 
 	 * @brief Compare dates using operator< so we can order them using STL.

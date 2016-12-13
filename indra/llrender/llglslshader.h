@@ -96,7 +96,7 @@ public:
 						std::vector<LLStaticHashedString> * uniforms,
 						U32 varying_count = 0,
 						const char** varyings = NULL);
-	BOOL attachShader(std::string shader);
+	BOOL attachShader(const std::string& shader);
 	void attachShader(GLuint shader);
 	void attachShaders(GLuint* shader = NULL, S32 count = 0);
 	BOOL mapAttributes(const std::vector<LLStaticHashedString> * attributes);
@@ -139,8 +139,8 @@ public:
 	GLint getAttribLocation(U32 attrib);
 	GLint mapUniformTextureChannel(GLint location, GLenum type);
 	
-	void addPermutation(std::string name, std::string value);
-	void removePermutation(std::string name);
+	void addPermutation(const std::string& name, const std::string& value);
+	void removePermutation(const std::string& name);
 	
 	//enable/disable texture channel for specified uniform
 	//if given texture uniform is active in the shader, 

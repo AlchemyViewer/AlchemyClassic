@@ -43,11 +43,11 @@ public:
 	LLTeleportHistoryPersistentItem()
 	{}
 
-	LLTeleportHistoryPersistentItem(const std::string title, const LLVector3d& global_pos)
+	LLTeleportHistoryPersistentItem(const std::string& title, const LLVector3d& global_pos)
 		: mTitle(title), mGlobalPos(global_pos), mDate(LLDate::now())
 	{}
 
-	LLTeleportHistoryPersistentItem(const std::string title, const LLVector3d& global_pos, const LLDate& date)
+	LLTeleportHistoryPersistentItem(const std::string& title, const LLVector3d& global_pos, const LLDate& date)
 		: mTitle(title), mGlobalPos(global_pos), mDate(date)
 	{}
 

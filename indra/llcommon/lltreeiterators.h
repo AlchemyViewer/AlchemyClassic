@@ -499,14 +499,17 @@ private:
         // Once we've popped the last node, this becomes a no-op.
         if (mPending.empty())
             return;
+
+		auto& pending = mPending.back();
+
         // Here mPending.back() holds the node pointer we're proposing to
         // dereference next. Have we pushed that node's children yet?
-        if (mPending.back().second)
+        if (pending.second)
             return;                 // if so, it's okay to visit this node now
         // We haven't yet pushed this node's children. Do so now. Remember
         // that we did -- while the node in question is still back().
-        mPending.back().second = true;
-        addChildren(mPending.back().first);
+		pending.second = true;
+        addChildren(pending.first);
         // Now, because we've just changed mPending.back(), make that new node
         // current.
         makeCurrent();

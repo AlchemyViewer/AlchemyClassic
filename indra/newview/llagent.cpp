@@ -2797,17 +2797,19 @@ void LLAgent::processMaturityPreferenceFromServer(const LLSD &result, U8 perferr
 {
     U8 maturity = SIM_ACCESS_MIN;
 
+	const auto& access_prefs = result.get("access_prefs");
+
     llassert(result.isDefined());
     llassert(result.isMap());
     llassert(result.has("access_prefs"));
-    llassert(result.get("access_prefs").isMap());
-    llassert(result.get("access_prefs").has("max"));
-    llassert(result.get("access_prefs").get("max").isString());
+    llassert(access_prefs.isMap());
+    llassert(access_prefs.has("max"));
+    llassert(access_prefs.get("max").isString());
     if (result.isDefined() && result.isMap() && result.has("access_prefs")
-        && result.get("access_prefs").isMap() && result.get("access_prefs").has("max")
-        && result.get("access_prefs").get("max").isString())
+        && access_prefs.isMap() && access_prefs.has("max")
+        && access_prefs.get("max").isString())
     {
-        LLSD::String actualPreference = result.get("access_prefs").get("max").asString();
+        LLSD::String actualPreference = access_prefs.get("max").asString();
         LLStringUtil::trim(actualPreference);
         maturity = LLViewerRegion::shortStringToAccess(actualPreference);
     }

@@ -699,7 +699,8 @@ void LLAOEngine::updateSortOrder(LLAOSet::AOState* state)
 {
 	for (U32 index = 0; index < state->mAnimations.size(); ++index)
 	{
-		U32 sortOrder = state->mAnimations[index].mSortOrder;
+		auto& anim = state->mAnimations[index];
+		U32 sortOrder = anim.mSortOrder;
 
 		if (sortOrder != index)
 		{
@@ -709,12 +710,12 @@ void LLAOEngine::updateSortOrder(LLAOSet::AOState* state)
 			LL_DEBUGS("AOEngine")	<< "sort order is " << sortOrder << " but index is " << index
 						<< ", setting sort order description: " << numStr.str() << LL_ENDL;
 
-			state->mAnimations[index].mSortOrder = index;
+			anim.mSortOrder = index;
 
-			LLViewerInventoryItem* item = gInventory.getItem(state->mAnimations[index].mInventoryUUID);
+			LLViewerInventoryItem* item = gInventory.getItem(anim.mInventoryUUID);
 			if (!item)
 			{
-				LL_WARNS("AOEngine") << "NULL inventory item found while trying to copy " << state->mAnimations[index].mInventoryUUID << LL_ENDL;
+				LL_WARNS("AOEngine") << "NULL inventory item found while trying to copy " << anim.mInventoryUUID << LL_ENDL;
 				continue;
 			}
 			LLPointer<LLViewerInventoryItem> newItem = new LLViewerInventoryItem(item);
@@ -1673,9 +1674,10 @@ void LLAOEngine::parseNotecard(const char* buffer)
 	gInventory.getDirectDescendentsOf(mImportSet->getInventoryUUID(), dummy, items);
 	for (U32 index = 0; index < items->size(); ++index)
 	{
-		animationMap[items->at(index)->getName()] = items->at(index)->getUUID();
-		LL_DEBUGS("AOEngine")	<<	"animation " << items->at(index)->getName() <<
-						" has inventory UUID " << animationMap[items->at(index)->getName()] << LL_ENDL;
+		const auto& inv_item = items->at(index);
+		animationMap[inv_item->getName()] = inv_item->getUUID();
+		LL_DEBUGS("AOEngine")	<<	"animation " << inv_item->getName() <<
+						" has inventory UUID " << animationMap[inv_item->getName()] << LL_ENDL;
 	}
 
 	// [ State ]Anim1|Anim2|Anim3

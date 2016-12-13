@@ -164,17 +164,19 @@ private:
 	void			printNameValue(std::ostream& s);
 	
 public:
+	UNameValueReference			mNameValueReference;
+	LLStringTable				*mNVNameTable;
+
 	char						*mName;
 
 	char						*mStringType;
-	ENameValueType				mType;
 	char						*mStringClass;
-	ENameValueClass				mClass;
 	char						*mStringSendto;
+
+	ENameValueType				mType;
+	ENameValueClass				mClass;
 	ENameValueSendto			mSendto;
 
-	UNameValueReference			mNameValueReference;
-	LLStringTable				*mNVNameTable;
 };
 
 extern LLStringTable	gNVNameTable;

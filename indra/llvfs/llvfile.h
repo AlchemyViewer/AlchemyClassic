@@ -75,14 +75,12 @@ public:
 	static const S32 APPEND;
 	
 protected:
-	LLAssetType::EType mFileType;
-
+	LLVFS	*mVFS;
 	LLUUID	mFileID;
+	LLAssetType::EType mFileType;
 	S32		mPosition;
 	S32		mMode;
-	LLVFS	*mVFS;
 	F32		mPriority;
-
 	S32		mBytesRead;
 	LLVFSThread::handle_t mHandle;
 };

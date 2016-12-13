@@ -131,6 +131,10 @@ LLToolBar::LLToolBar(const LLToolBar::Params& p)
 	mButtonLeaveSignal(NULL),
 	mButtonRemoveSignal(NULL),
 	mDragAndDropTarget(false),
+	mDragRank(0),
+	mDragx(0),
+	mDragy(0),
+	mDragGirth(0),
 	mCaretIcon(NULL),
 	mCenterPanel(NULL)
 {

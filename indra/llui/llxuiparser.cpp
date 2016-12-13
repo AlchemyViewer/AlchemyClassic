@@ -1366,7 +1366,9 @@ struct ScopedFile
 };
 LLSimpleXUIParser::LLSimpleXUIParser(LLSimpleXUIParser::element_start_callback_t element_cb)
 :	Parser(sSimpleXUIReadFuncs, sSimpleXUIWriteFuncs, sSimpleXUIInspectFuncs),
+	mParser(nullptr),
 	mCurReadDepth(0),
+	mCurAttributeValueBegin(nullptr),
 	mElementCB(element_cb)
 {
 	if (sSimpleXUIReadFuncs.empty())

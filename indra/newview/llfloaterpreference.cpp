@@ -1904,7 +1904,7 @@ void LLFloaterPreference::refresh()
 		advanced->refresh();
 	}
 
-	if (gAudiop->getDriverName(false) != "FMOD Studio")
+	if (!gAudiop || gAudiop->getDriverName(false) != "FMOD Studio")
 	{
 		getChild<LLComboBox>("sound_quality_combo")->setEnabled(FALSE);
 	}

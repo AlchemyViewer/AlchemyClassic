@@ -455,7 +455,7 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 	}
 	
 	// Trim any ending slash
-	size_t slash_pos = grid.find_last_of("/");
+	size_t slash_pos = grid.find_last_of('/');
 	if (grid.length() - 1 == slash_pos)
 	{
 		grid.erase(slash_pos);

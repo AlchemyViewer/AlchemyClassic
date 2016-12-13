@@ -6603,7 +6603,7 @@ class LLPromptShowURL : public view_listener_t
 	bool handleEvent(const LLSD& userdata)
 	{
 		std::string param = userdata.asString();
-		std::string::size_type offset = param.find(",");
+		std::string::size_type offset = param.find(',');
 		if (offset != param.npos)
 		{
 			std::string alert = param.substr(0, offset);
@@ -6643,7 +6643,7 @@ class LLPromptShowFile : public view_listener_t
 	bool handleEvent(const LLSD& userdata)
 	{
 		std::string param = userdata.asString();
-		std::string::size_type offset = param.find(",");
+		std::string::size_type offset = param.find(',');
 		if (offset != param.npos)
 		{
 			std::string alert = param.substr(0, offset);

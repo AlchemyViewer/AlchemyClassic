@@ -1111,7 +1111,7 @@ namespace LLError
            return;
        }
        
-	   if(strlen(out->str().c_str()) < 128)
+	   if(out->str().size() < 128)
 	   {
 		   strcpy(message, out->str().c_str());
 	   }

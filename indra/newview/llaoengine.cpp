@@ -1328,7 +1328,7 @@ void LLAOEngine::saveSet(const LLAOSet* set)
 
 bool LLAOEngine::renameSet(LLAOSet* set, const std::string& name)
 {
-	if (name.empty() || name.find(":") != std::string::npos)
+	if (name.empty() || name.find(':') != std::string::npos)
 	{
 		return false;
 	}
@@ -1693,7 +1693,7 @@ void LLAOEngine::parseNotecard(const char* buffer)
 
 		if (line.empty() || line[0] == '#') continue;
 
-		if (line.find("[") != 0)
+		if (line.find('[') != 0)
 		{
 			LLSD args;
 			args["LINE"] = (S32)index;
@@ -1701,14 +1701,14 @@ void LLAOEngine::parseNotecard(const char* buffer)
 			continue;
 		}
 
-		if (line.find("]") == std::string::npos)
+		if (line.find(']') == std::string::npos)
 		{
 			LLSD args;
 			args["LINE"] = (S32)index;
 			LLNotificationsUtil::add("AOImportNoValidDelimiter", args);
 			continue;
 		}
-		U32 endTag = line.find("]");
+		U32 endTag = line.find(']');
 
 		std::string stateName = line.substr(1, endTag - 1);
 		LLStringUtil::trim(stateName);

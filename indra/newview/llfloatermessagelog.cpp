@@ -63,7 +63,7 @@ void LLMessageLogFilter::set(const std::string& filter)
 		{
 			LLStringUtil::toLower(token);
 
-			BOOL negative = token.find("!") == 0;
+			BOOL negative = token.find('!') == 0;
 			if(negative)
 			{
 				token = token.substr(1);

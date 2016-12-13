@@ -155,7 +155,7 @@ bool LLModelLoader::getSLMFilename(const std::string& model_filename, std::strin
 {
     slm_filename = model_filename;
 
-    std::string::size_type i = model_filename.rfind(".");
+    std::string::size_type i = model_filename.rfind('.');
     if (i != std::string::npos)
     {
         slm_filename.replace(i, model_filename.size()-1, ".slm");

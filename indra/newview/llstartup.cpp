@@ -3168,7 +3168,7 @@ void apply_udp_blacklist(const std::string& csv)
 	std::string::size_type comma = 0;
 	do 
 	{
-		comma = csv.find(",", start);
+		comma = csv.find(',', start);
 		if (comma == std::string::npos)
 		{
 			comma = csv.length();

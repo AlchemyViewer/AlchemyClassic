@@ -4598,7 +4598,7 @@ std::string LLVivoxVoiceClient::nameFromsipURI(const std::string &uri)
 
 	std::string::size_type sipOffset, atOffset;
 	sipOffset = uri.find("sip:");
-	atOffset = uri.find("@");
+	atOffset = uri.find('@');
 	if((sipOffset != std::string::npos) && (atOffset != std::string::npos))
 	{
 		result = uri.substr(sipOffset + 4, atOffset - (sipOffset + 4));

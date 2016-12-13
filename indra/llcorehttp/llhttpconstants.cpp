@@ -197,7 +197,7 @@ std::string get_base_cap_url(std::string url)
 	// Maybe OpenSim? Just cut off the query string and last /.
 	else
 	{
-		size_t query_pos = url.find_first_of("\?");
+		size_t query_pos = url.find_first_of('\?');
 
 		if(query_pos != std::string::npos)
 		{

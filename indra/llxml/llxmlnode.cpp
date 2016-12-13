@@ -3243,7 +3243,7 @@ std::string LLXMLNode::getTextContents() const
 			// mContents[m] == '"'
 			num_lines++;
 			msg += contents.substr(n,m-n) + "\n";
-			n = contents.find_first_of("\"", m+1);
+			n = contents.find_first_of('\"', m+1);
 			if (n == std::string::npos)
 			{
 				if (num_lines == 1)

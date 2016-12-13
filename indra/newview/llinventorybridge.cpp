@@ -3247,7 +3247,7 @@ void LLFolderBridge::gatherMessage(std::string& message, S32 depth, LLError::ELe
             return;
         }
         // Take the leading spaces out...
-        std::string::size_type start = message.find_first_not_of(" ");
+        std::string::size_type start = message.find_first_not_of(' ');
         // Append the message
         mMessage += message.substr(start, message.length() - start);
     }

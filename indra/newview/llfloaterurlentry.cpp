@@ -247,7 +247,7 @@ void LLFloaterURLEntry::getMediaTypeCoro(std::string url, LLHandle<LLFloater> pa
     if (resultHeaders.has(HTTP_IN_HEADER_CONTENT_TYPE))
     {
         const std::string& mediaType = resultHeaders[HTTP_IN_HEADER_CONTENT_TYPE];
-        std::string::size_type idx1 = mediaType.find_first_of(";");
+        std::string::size_type idx1 = mediaType.find_first_of(';');
         std::string mimeType = mediaType.substr(0, idx1);
         if (!mimeType.empty())
         {

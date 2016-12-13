@@ -669,7 +669,7 @@ void LLViewerObject::setNameValueList(const std::string& name_value_list)
 	std::string::size_type start = 0;
 	while (start < length)
 	{
-		std::string::size_type end = name_value_list.find_first_of("\n", start);
+		std::string::size_type end = name_value_list.find_first_of('\n', start);
 		if (end == std::string::npos) end = length;
 		if (end > start)
 		{

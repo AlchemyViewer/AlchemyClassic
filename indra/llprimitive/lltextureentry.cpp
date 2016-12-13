@@ -643,7 +643,7 @@ U32 LLTextureEntry::getVersionFromMediaVersionString(const std::string &version_
         size_t found = version_string.find(MEDIA_VERSION_STRING_PREFIX);
         if (found != std::string::npos) 
         {
-            found = version_string.find_first_of("/", found);
+            found = version_string.find_first_of('/', found);
             std::string v = version_string.substr(MEDIA_VERSION_STRING_PREFIX.length(), found);
             version = strtoul(v.c_str(),NULL,10);
         }
@@ -660,7 +660,7 @@ LLUUID LLTextureEntry::getAgentIDFromMediaVersionString(const std::string &versi
         size_t found = version_string.find(MEDIA_VERSION_STRING_PREFIX);
         if (found != std::string::npos) 
         {
-            found = version_string.find_first_of("/", found);
+            found = version_string.find_first_of('/', found);
             if (found != std::string::npos) 
             {
                 std::string v = version_string.substr(found + 1);

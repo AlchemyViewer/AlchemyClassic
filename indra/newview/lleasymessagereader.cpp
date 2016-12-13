@@ -216,7 +216,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 					
 					if(!content_type.empty())
 					{
-						std::string parsed_content_type = content_type.substr(0, content_type.find_first_of(";"));
+						std::string parsed_content_type = content_type.substr(0, content_type.find_first_of(';'));
 						boost::algorithm::trim(parsed_content_type); // trim excess data
 						boost::algorithm::to_lower(parsed_content_type); // convert to lowercase
 						if(parsed_content_type == "application/llsd+xml" || parsed_content_type == "application/xml")

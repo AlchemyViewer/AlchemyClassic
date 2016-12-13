@@ -1206,11 +1206,11 @@ LLSD LLViewerMedia::getHeaders()
  // static
 bool LLViewerMedia::parseRawCookie(const std::string raw_cookie, std::string& name, std::string& value, std::string& path, bool& httponly, bool& secure)
 {
-	std::size_t name_pos = raw_cookie.find_first_of("=");
+	std::size_t name_pos = raw_cookie.find_first_of('=');
 	if (name_pos != std::string::npos)
 	{
 		name = raw_cookie.substr(0, name_pos);
-		std::size_t value_pos = raw_cookie.find_first_of(";", name_pos);
+		std::size_t value_pos = raw_cookie.find_first_of(';', name_pos);
 		if (value_pos != std::string::npos)
 		{
 			value = raw_cookie.substr(name_pos + 1, value_pos - name_pos - 1);
@@ -1360,7 +1360,7 @@ void LLViewerMedia::getOpenIDCookieCoro(std::string url)
     LLViewerMedia::getCookieStore()->setCookiesFromHost(cookie, hostAuth);
 
     // Set cookie for snapshot publishing.
-    std::string authCookie = cookie.substr(0, cookie.find(";")); // strip path
+    std::string authCookie = cookie.substr(0, cookie.find(';')); // strip path
     LLWebProfile::setAuthCookie(authCookie);
 
 }
@@ -2715,7 +2715,7 @@ void LLViewerMediaImpl::mimeDiscoveryCoro(std::string url)
 
         const std::string& mediaType = resultHeaders[HTTP_IN_HEADER_CONTENT_TYPE].asStringRef();
 
-        std::string::size_type idx1 = mediaType.find_first_of(";");
+        std::string::size_type idx1 = mediaType.find_first_of(';');
         std::string mimeType = mediaType.substr(0, idx1);
 
         // We now no longer need to check the error code returned from the probe.

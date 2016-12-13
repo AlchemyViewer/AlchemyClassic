@@ -1484,11 +1484,11 @@ BOOL LLViewerFetchedTexture::createTexture(S32 usename/*= 0*/)
 		size_t length = comment.length();
 		while (position < length)
 		{
-			std::size_t equals_position = comment.find("=", position);
+			std::size_t equals_position = comment.find('=', position);
 			if (equals_position != std::string::npos)
 			{
 				S8 type = comment.at(equals_position - 1);
-				position = comment.find("&", position);
+				position = comment.find('&', position);
 				if (position != std::string::npos)
 				{
 					mComment[type] = comment.substr(equals_position + 1, position - (equals_position + 1));

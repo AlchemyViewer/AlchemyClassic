@@ -470,7 +470,7 @@ bool LLBingTranslationHandler::parseResponse(
 	}
 
 	// Sample response: <string xmlns="http://schemas.microsoft.com/2003/10/Serialization/">Hola</string>
-	size_t begin = body.find(">");
+	size_t begin = body.find('>');
 	if (begin == std::string::npos || begin >= (body.size() - 1))
 	{
 		begin = 0;

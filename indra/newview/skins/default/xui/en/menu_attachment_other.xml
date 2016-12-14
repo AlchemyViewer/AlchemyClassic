@@ -32,7 +32,7 @@
          function="Avatar.EnableAddFriend" />
     </menu_item_call>
     <menu_item_call
-     label="IM"
+     label="Send IM..."
      name="Send IM...">
         <menu_item_call.on_click
          function="Avatar.SendIM" />
@@ -51,13 +51,18 @@
       <menu_item_call.on_click
          function="Avatar.InviteToGroup" />
       </menu_item_call>
+
+     <menu_item_separator />
+
+    <menu
+     label="Appearance"
+     name="Appearance Menu">
     <menu_item_call
      label="Refresh"
      name="Refresh">
       <menu_item_call.on_click
        function="Object.RefreshTex" />
     </menu_item_call>
-   <menu_item_separator />
 
      <menu_item_call label="Reset Skeleton"
        layout="topleft"
@@ -72,29 +77,8 @@
        <menu_item_call.on_click
         function="Avatar.ResetSkeletonAndAnimations" />
      </menu_item_call>
+    </menu>
 
-   <menu_item_separator />
-    <menu_item_call
-     label="Derender"
-     name="Derender">
-        <menu_item_call.on_click 
-         function="Alchemy.Derender" />
-    </menu_item_call>
-    <menu_item_call
-     enabled="false"
-     label="Block"
-     name="Avatar Mute">
-        <menu_item_call.on_click
-         function="Avatar.Mute" />
-        <menu_item_call.on_enable
-         function="Avatar.EnableMute" />
-    </menu_item_call>
-    <menu_item_call
-     label="Report Abuse"
-     name="abuse">
-        <menu_item_call.on_click
-         function="Avatar.ReportAbuse" />
-    </menu_item_call>
         <menu_item_call
          label="Debug Textures"
          name="Debug...">
@@ -138,7 +122,11 @@
    </menu_item_call>
 
    <menu_item_separator />
-    
+
+    <menu
+     label="Visibility"
+     name="Visibility">
+
       <menu_item_check
         name="RenderNormally"
         label="Render Normally">
@@ -169,12 +157,21 @@
 	      function="Avatar.SetImpostorMode"
 	      parameter="2" />
       </menu_item_check>
+    </menu>
 
-  <menu_item_separator
-       layout="topleft" name="Impostor seperator"/>
   <menu
    label="Manage"
    name="manage_menu">
+  <menu_item_call
+     enabled="false"
+     label="Block Particle Owner"
+     name="Mute Particle">
+    <menu_item_call.on_click
+     function="Particle.Mute" />
+    <menu_item_call.on_enable
+     function="EnableMuteParticle" />
+  </menu_item_call>
+   <menu_item_separator />
     <menu_item_call
         label="Freeze"
         name="freeze">
@@ -214,6 +211,24 @@
        function="Avatar.EstateBan" />
       <menu_item_call.on_visible
        function="Avatar.EnableEstateManage"/>
+    </menu_item_call>
+
+    <menu_item_seperator />
+
+    <menu_item_call
+     enabled="false"
+     label="Block"
+     name="Avatar Mute">
+      <menu_item_call.on_click
+       function="Avatar.Mute" />
+      <menu_item_call.on_enable
+       function="Avatar.EnableMute" />
+    </menu_item_call>
+    <menu_item_call
+     label="Report Abuse"
+     name="abuse">
+      <menu_item_call.on_click
+       function="Avatar.ReportAbuse" />
     </menu_item_call>
   </menu>
   <menu

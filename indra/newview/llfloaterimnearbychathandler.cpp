@@ -556,31 +556,11 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 	// Send event on to LLEventStream
 	sChatWatcher->post(chat);
 
-	bool chat_overlaps = false;
-	if(nearby_chat->getChatHistory())
-	{
-		LLRect chat_rect = nearby_chat->getChatHistory()->calcScreenRect();
-		for (std::list<LLView*>::const_iterator child_iter = gFloaterView->getChildList()->begin();
-			 child_iter != gFloaterView->getChildList()->end(); ++child_iter)
-		{
-				LLView *view = *child_iter;
-			const LLRect& rect = view->getRect();
-			if(view->isInVisibleChain() && (rect.overlaps(chat_rect)))
-			{
-				if(!nearby_chat->getChatHistory()->hasAncestor(view))
-				{
-					chat_overlaps = true;
-				}
-				break;
-			}
-		}
-	}
-	
 	static LLCachedControl<U32> nearby_chat_out(gSavedSettings, "AlchemyNearbyChatOutput");
 	if ((chat_msg.mSourceType == CHAT_SOURCE_AGENT
 		&& (nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_NONE))
 		|| (mChannel.isDead() || !mChannel.get()->getShowToasts())
-		|| (chat_overlaps || nearby_chat->isChatVisible()))
+		|| nearby_chat->isChatVisible())
 		// no need to toast if bubble chat is enabled or nearby chat toasts are disabled
 		// or if in Do Not Disturb mode
 		// or if conversation is visible and selected and not collapsed

@@ -58,12 +58,12 @@ namespace LLViewerDisplayName
 	void doNothing() { }
 }
 
-void setDisplayNameCoro(const LLSD change_array, const std::string url)
+void LLViewerDisplayName::setDisplayNameCoro(const std::string url, const LLSD change_array)
 {
     using namespace LLCoreHttpUtil;
     
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
-    HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("LLViewerDisplayName::set", httpPolicy));
+    HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("setDisplayNameCoro", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
     LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
     LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
@@ -71,8 +71,6 @@ void setDisplayNameCoro(const LLSD change_array, const std::string url)
     // People API can return localized error messages.  Indicate our
     // language preference via header.
     httpHeaders->append(HTTP_OUT_HEADER_ACCEPT_LANGUAGE, LLUI::getLanguage());
-    
-    LL_INFOS() << "Set name POST to " << url << LL_ENDL;
     
     LLSD body;
     body["display_name"] = change_array;
@@ -121,7 +119,7 @@ void LLViewerDisplayName::set(const std::string& display_name, const set_name_sl
     // Record our caller for when the server sends back a reply
     sSetDisplayNameSignal.connect(slot);
     
-    setDisplayNameCoro(change_array, cap_url);
+	LLCoros::instance().launch("setDisplayNameCoro", boost::bind(&LLViewerDisplayName::setDisplayNameCoro, cap_url, change_array));
 }
 
 class LLSetDisplayNameReply : public LLHTTPNode

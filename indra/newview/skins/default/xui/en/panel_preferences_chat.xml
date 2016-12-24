@@ -403,72 +403,79 @@
   <panel
       label="Notifications"
       border="false"
-      height="500"
+      height="380"
       layout="topleft"
       name="im_notification_settings"
-      top_pad="0"
+      top="0"
       left="13"
       width="517">
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="12"
         name="friend_ims"
         width="145"
-        top_pad="142">
+        top_pad="15">
       Friend IMs:
     </text>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="12"
         name="non_friend_ims"
         width="145"
-        top_pad="15">
+        top_pad="16">
       Non-friend IMs:
     </text>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="13"
         name="conference_ims"
         width="145"
-        top_pad="15">
+        top_pad="16">
       Conference IMs:
     </text>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="12"
         name="object_ims"
         width="145"
-        top_pad="15">
+        top_pad="16">
       Objects IMs:
     </text>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="13"
         name="group_chat"
         width="145"
-        top_pad="15">
+        top_pad="16">
       Group chat:
     </text>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="12"
         name="nearby_chat"
         width="145"
-        top_pad="15">
+        top_pad="16">
       Nearby chat:
     </text>
     <combo_box
         control_name="NotificationFriendIMOptions"
         height="23"
         layout="topleft"
+        follows="left|top"
         left="160"
-        top="15"
+        top="12"
         name="FriendIMOptions"
         width="223">
       <item
@@ -493,7 +500,7 @@
         control_name="NotificationNonFriendIMOptions"
         height="23"
         layout="topleft"
-        left="160"
+        follows="left|top"
         top_pad="5"
         name="NonFriendIMOptions"
         width="223">
@@ -518,6 +525,7 @@
         control_name="NotificationConferenceIMOptions"
         height="23"
         layout="topleft"
+        follows="left|top"
         left="160"
         top_pad="5"
         name="ConferenceIMOptions"
@@ -543,6 +551,7 @@
         control_name="NotificationObjectIMOptions"
         height="23"
         layout="topleft"
+        follows="left|top"
         left="160"
         top_pad="5"
         name="ObjectIMOptions"
@@ -568,6 +577,7 @@
         control_name="NotificationGroupChatOptions"
         height="23"
         layout="topleft"
+        follows="left|top"
         left="160"
         top_pad="5"
         name="GroupChatOptions"
@@ -594,6 +604,7 @@
         control_name="NotificationNearbyChatOptions"
         height="23"
         layout="topleft"
+        follows="left|top"
         left="160"
         top_pad="5"
         name="NearbyChatOptions"
@@ -617,11 +628,12 @@
     </combo_box>
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         height="13"
         name="notifications_alert"
         width="500"
-        top_pad="140"
+        top_pad="10"
         visible="true"
         text_color="DrYellow">
       To temporarily stop all notifications, use Communicate &gt; Do Not Disturb.
@@ -629,6 +641,7 @@
 
     <text
         layout="topleft"
+        follows="left|top"
         left="10"
         name="play_sound"
         width="75"
@@ -642,7 +655,7 @@
         label="Nearby Chat"
         layout="topleft"
         left="25"
-        top="240"
+        top="230"
         name="play_sound_nearby_chat_im"
         width="70" />
     <check_box
@@ -650,6 +663,7 @@
         height="16"
         label="New IM/Conversation"
         layout="topleft"
+        follows="left|top"
         left_delta="0"
         top_pad="5"
         name="play_sound_new_im"
@@ -679,7 +693,7 @@
         layout="topleft"
         name="play_sound_group_chat_im"
         left_pad="70"
-        top="240"
+        top="230"
         width="80" />
      <check_box
         control_name="PlaySoundFriendIM"
@@ -703,7 +717,7 @@
         label="Every Conference IM"
         layout="topleft"
         left_pad="70"
-        top="240"
+        top="230"
         name="play_sound_conference_im"
         width="80" />
     <check_box
@@ -726,10 +740,11 @@
         width="150" />
     <panel
      name="panel_notify"
-     top="444"
+     top="285"
      left="13"
      right="-13"
      height="40">
+
       <check_box
        control_name="DesktopNotifications"
        height="16"

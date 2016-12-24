@@ -399,13 +399,13 @@ void LLNetMap::draw()
 		LLWorld::getInstance()->getAvatars(&positions, gAgentCamera.getCameraPositionGlobal());
 
 		// Draw avatars
-		for (auto iter = positions.cbegin(), iter_end = positions.cend(); iter != iter_end; ++iter)
+		for (const auto& pos_pair : positions)
 		{
-			const auto& uuid = iter->first;
+			const auto& uuid = pos_pair.first;
 			// Skip self, we'll draw it later
 			if (uuid == gAgent.getID()) continue;
 
-			const auto& position = iter->second;
+			const auto& position = pos_pair.second;
 			pos_map = globalPosToView(position);
 
 			color = ALAvatarColorMgr::instance().getColor(uuid);

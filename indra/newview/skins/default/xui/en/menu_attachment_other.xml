@@ -213,7 +213,7 @@
        function="Avatar.EnableEstateManage"/>
     </menu_item_call>
 
-    <menu_item_seperator />
+    <menu_item_separator />
 
     <menu_item_call
      enabled="false"

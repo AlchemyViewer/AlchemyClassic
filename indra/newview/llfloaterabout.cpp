@@ -109,7 +109,7 @@ private:
 	static const std::string sCheckUpdateListenerName;
 	
     static void startFetchServerReleaseNotes();
-    static void fetchServerReleaseNotesCoro(const std::string& cap_url);
+    static void fetchServerReleaseNotesCoro(const std::string url);
     static void handleServerReleaseNotes(LLSD results);
 };
 
@@ -230,7 +230,7 @@ void LLFloaterAbout::startFetchServerReleaseNotes()
 }
 
 /*static*/
-void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string& cap_url)
+void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string url)
 {
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("fetchServerReleaseNotesCoro", LLCore::HttpRequest::DEFAULT_POLICY_ID));
@@ -241,7 +241,7 @@ void LLFloaterAbout::fetchServerReleaseNotesCoro(const std::string& cap_url)
     httpOpts->setWantHeaders(true);
     httpOpts->setFollowRedirects(false);
 
-    LLSD result = httpAdapter->getAndSuspend(httpRequest, cap_url, httpOpts);
+    LLSD result = httpAdapter->getAndSuspend(httpRequest, url, httpOpts);
 
     LLSD httpResults = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS];
     LLCore::HttpStatus status = LLCoreHttpUtil::HttpCoroutineAdapter::getStatusFromLLSD(httpResults);

@@ -376,18 +376,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>175c96763ef7db36044f88439a5c2c7e</string>
+              <string>ca48dcf9383139bed1c58615a82a9eef</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.51.0-windows64-201611051152.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.52.1-windows64-201612261218.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.51.0</string>
+        <string>7.52.1</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -2624,18 +2624,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dbb7dedf3eedf92b6afc8888d6e2483f</string>
+              <string>694b16d64459ea6bbd82132c8934f9d1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openssl-1.1.0b-windows64-201610151417.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openssl-1.1.0c-windows64-201612261141.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.0b</string>
+        <string>1.1.0c</string>
       </map>
       <key>slvoice</key>
       <map>

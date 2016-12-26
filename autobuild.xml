@@ -1990,18 +1990,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9fee2a8c9c864b6730b24003c99ddaf1</string>
+              <string>f3b0392fbf2aa187ae184967beebfd6e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2526.1364.gf6bf57b-windows64-201611161015.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2840.1518.gffd843c-windows64-201612261243.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>3.2526.1364.gf6bf57b</string>
+        <string>3.2840.1518.gffd843c</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

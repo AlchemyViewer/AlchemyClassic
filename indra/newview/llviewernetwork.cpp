@@ -84,7 +84,7 @@ const std::string GRID_SLURL_BASE = "slurl_base";
 /// slurl base for grid slapp links
 const std::string GRID_APP_SLURL_BASE = "app_slurl_base";
 
-const std::string DEFAULT_LOGIN_PAGE = "http://viewer-login.agni.lindenlab.com/";
+const std::string DEFAULT_LOGIN_PAGE = "http://login.alchemyviewer.org/";
 
 const std::string MAIN_GRID_LOGIN_URI = "https://login.agni.lindenlab.com/cgi-bin/login.cgi";
 

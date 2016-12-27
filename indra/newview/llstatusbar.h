@@ -98,8 +98,12 @@ private:
 	void onMouseEnterNearbyMedia();
 	void onClickScreen(S32 x, S32 y);
 
+	static void onClickAOBtn(void* data);
+	static void onClickVolume(void* data);
 	static void onClickMediaToggle(void* data);
 	static void onClickBalance(void* data);
+
+	void onAOStateChanged();
 
 private:
 	LLTextBox	*mTextTime;

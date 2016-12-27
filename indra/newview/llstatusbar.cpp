@@ -179,12 +179,12 @@ BOOL LLStatusBar::postBuild()
 	mBtnQuickSettings->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterQuickSettings, this));
 
 	mBtnAO = getChild<LLButton>("ao_btn");
-	mBtnAO->setClickedCallback(onClickAOBtn, this);
+	mBtnAO->setClickedCallback(&LLStatusBar::onClickAOBtn, this);
 	mBtnAO->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterAO, this));
 	mBtnAO->setToggleState(gSavedPerAccountSettings.getBOOL("UseAO")); // shunt it into correct state - ALCH-368
 
 	mBtnVolume = getChild<LLButton>( "volume_btn" );
-	mBtnVolume->setClickedCallback( onClickVolume, this );
+	mBtnVolume->setClickedCallback(&LLStatusBar::onClickVolume, this );
 	mBtnVolume->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterVolume, this));
 
 	mMediaToggle = getChild<LLButton>("media_toggle_btn");
@@ -194,6 +194,7 @@ BOOL LLStatusBar::postBuild()
 	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
 	gSavedSettings.getControl("MuteAudio")->getSignal()->connect(boost::bind(&LLStatusBar::onVolumeChanged, this, _2));
+	gSavedPerAccountSettings.getControl("UseAO")->getCommitSignal()->connect(boost::bind(&LLStatusBar::onAOStateChanged, this));
 
 	// Adding Net Stat Graph
 	S32 x = getRect().getWidth() - 2;
@@ -584,13 +585,13 @@ void LLStatusBar::onMouseEnterNearbyMedia()
 	mPanelNearByMedia->setVisible(TRUE);
 }
 
-void onClickAOBtn(void* data)
+void LLStatusBar::onClickAOBtn(void* data)
 {
 	gSavedPerAccountSettings.set("UseAO", !gSavedPerAccountSettings.getBOOL("UseAO"));
 }
 
 // static
-void onClickVolume(void* data)
+void LLStatusBar::onClickVolume(void* data)
 {
 	// toggle the master mute setting
 	bool mute_audio = LLAppViewer::instance()->getMasterSystemAudioMute();
@@ -612,6 +613,11 @@ void LLStatusBar::onClickMediaToggle(void* data)
 	// "Selected" means it was showing the "play" icon (so media was playing), and now it shows "pause", so turn off media
 	bool enable = ! status_bar->mMediaToggle->getValue();
 	LLViewerMedia::setAllMediaEnabled(enable);
+}
+
+void LLStatusBar::onAOStateChanged()
+{
+	mBtnAO->setToggleState(gSavedPerAccountSettings.getBOOL("UseAO"));
 }
 
 BOOL can_afford_transaction(S32 cost)

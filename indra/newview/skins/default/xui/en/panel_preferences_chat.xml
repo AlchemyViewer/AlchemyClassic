@@ -925,7 +925,7 @@
         control_name="AlchemyChatCommandEnable"/>
       <!--dd-->
       <text
-        top_pad="10"
+        top_pad="5"
         left="8"
         follows="left|top"
         height="18"
@@ -1059,9 +1059,28 @@
           control_name="AlchemyChatCommandHoverHeight"
           enabled_control="AlchemyChatCommandEnable"
           width="220"/>
+        <!--AO-->
+        <text
+          top_pad="5"
+          follows="left|top"
+          height="18"
+          name="ao_txt"
+          width="220">
+          Animation Override
+        </text>
+        <line_editor
+          top_pad="0"
+          follows="left|top"
+          height="20"
+          max_length_chars="256"
+          text_pad_left="5"
+          name="AlchemyChatCommandAnimationOverride"
+          control_name="AlchemyChatCommandAnimationOverride"
+          enabled_control="AlchemyChatCommandEnable"
+          width="220"/>
         <!--home-->
         <text
-          top="41"
+          top="35"
           follows="left|top"
           left_pad="30"
           height="18"

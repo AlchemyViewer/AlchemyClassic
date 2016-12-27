@@ -280,8 +280,8 @@
         text_color="White"
         height="17"
         left="10"
-        bottom="70"
-        width="45">
+        bottom="73"
+        width="55">
         Save:
     </text>
 
@@ -289,10 +289,11 @@
         enabled="false"
         control_name="KeepConversationLogTranscripts"
         height="23"
-        layout="bottomleft"
+        layout="topleft"
+		follows="left|bottom"
         name="chat_font_size"
-        left="87"
-        bottom_delta="0"
+        left_pad="20"
+		bottom_delta="3"
         width="165">
         <item
             label="Log and transcripts"
@@ -310,6 +311,7 @@
         height="23"
         label="Clear log..."
         layout="topleft"
+		follows="left|bottom"
         left_pad="5"
         bottom_delta="0"
         name="clear_log"

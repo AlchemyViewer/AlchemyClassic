@@ -31,7 +31,7 @@
    left_delta="50"
    name="Maximum bandwidth"
    mouse_opaque="false"
-   top_pad="10"
+   top_pad="8"
    width="200">
     Maximum bandwidth
   </text>
@@ -59,7 +59,7 @@
    left_pad="6"
    mouse_opaque="false"
    name="text_box2"
-   top_delta="1"
+   top_delta="0"
    width="200">
     kbps
   </text>
@@ -70,7 +70,7 @@
    layout="topleft"
    left="77"
    name="connection_port_enabled"
-   top_pad="10"
+   top_pad="14"
    width="256">
     <check_box.commit_callback
      function="Notification.Show"
@@ -85,15 +85,24 @@
    increment="1"
    initial_value="13000"
    label="Port number:"
-   label_width="105"
+   label_width="80"
    layout="topleft"
    left_delta="160"
    max_val="13050"
    min_val="13000"
    name="connection_port"
-   top_delta="3"
-   width="170" />
-
+   top_delta="-2"
+   width="150" />
+  <check_box
+   control_name="HttpPipelining"
+   height="16"
+   label="Pipeline HTTP Requests"
+   layout="topleft"
+   left="77"
+   name="connection_port_enabled"
+   top_pad="-2"
+   width="256"
+   tool_tip="Enable the pipelining of HTTP requests for faster mesh and texture fetch. (MAY CAUSE INSTABILITY AND CRASHING)" />
   <text
          type="string"
          length="1"
@@ -242,7 +251,7 @@
      height="23"
      layout="topleft"
      left_delta="50"
-     top_pad="5"
+     top_pad="10"
      name="updater_service_combobox"
      width="300">
         <combo_box.item
@@ -271,7 +280,7 @@
     mouse_opaque="true"
     name="update_willing_to_test"
     width="400"           
-    top_pad="5"/>
+    top_pad="6"/>
   <check_box
     top_delta="4"
     enabled="true"
@@ -306,7 +315,7 @@
     layout="topleft"
     left_delta="50"
     name="set_proxy"
-    top_pad="5"
+    top_pad="10"
     >
 		<button.commit_callback
 		  function="Pref.Proxy" />

@@ -35,10 +35,10 @@
    label="Enter a LoginURI"
    width="320" />
   <button
+   layout="topleft"
    follows="left|top"
    height="19"
    label="Add"
-   layout="topleft"
    left_pad="2"
    name="add_grid_commit"
    top_delta="0"
@@ -49,9 +49,9 @@
   <text
    type="string"
    length="1"
+   layout="topleft"
    follows="left|top"
    height="12"
-   layout="topleft"
    left="30"
    name="manage_grid_text"
    top_pad="4"
@@ -59,8 +59,9 @@
    Manage grids:
   </text>
   <scroll_list
-   height="225"
    layout="topleft"
+   follows="left|top"
+   height="225"
    left="50"
    name="grid_list"
    draw_heading="true"
@@ -79,10 +80,10 @@
   </scroll_list>
   <button
    enabled="false"
+   layout="topleft"
    follows="left|top"
    height="19"
    label="Refresh"
-   layout="topleft"
    left_pad="5"
    name="refresh_grid"
    top_delta="5"
@@ -92,10 +93,10 @@
   </button>
   <button
    enabled="false"
+   layout="topleft"
    follows="left|top"
    height="19"
    label="Remove"
-   layout="topleft"
    left_delta="0"
    name="remove_grid"
    top_pad="5"
@@ -105,10 +106,10 @@
   </button>
   <button
    enabled="false"
+   layout="topleft"
    follows="left|top"
    height="19"
    label="Debug"
-   layout="topleft"
    left_delta="0"
    name="debug_grid"
    top_pad="5"
@@ -119,9 +120,9 @@
   <check_box
    control_name="ForceShowGrid"
    height="20"
+   layout="topleft"
    follows="left|top"
    label="Show Grid Selection at Login"
-   layout="topleft"
    left="30"
    name="show_grid_selection_check"
    tool_tip="Show grid selection on login screen to login to other worlds"

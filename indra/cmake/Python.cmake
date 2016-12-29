@@ -44,9 +44,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     NAMES python python25 python24 python23
     NO_DEFAULT_PATH # Avoid searching non-standard locations first
     PATHS
+    /usr/local/bin
     /bin
     /usr/bin
-    /usr/local/bin
     ${PATH_LIST}
     )
 

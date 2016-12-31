@@ -221,6 +221,7 @@ void LLPluginClassMedia::idle(void)
 
 			mTextureSharedMemorySize = newsize;
 			mTextureSharedMemoryName = mPlugin->addSharedMemory(mTextureSharedMemorySize);
+#if 0
 			if(!mTextureSharedMemoryName.empty())
 			{
 				void *addr = mPlugin->getSharedMemoryAddress(mTextureSharedMemoryName);
@@ -232,6 +233,7 @@ void LLPluginClassMedia::idle(void)
 				// so it may not be worthwhile.
 				// mDirtyRect.setOriginAndSize(0, 0, mRequestedMediaWidth, mRequestedMediaHeight);
 			}
+#endif
 		}
 
 		// This is our local indicator that a change is in progress.
@@ -356,12 +358,13 @@ void LLPluginClassMedia::setSizeInternal(void)
 		mRequestedMediaWidth = nextPowerOf2(mRequestedMediaWidth);
 		mRequestedMediaHeight = nextPowerOf2(mRequestedMediaHeight);
 	}
-
+#if 0
 	if(mRequestedMediaWidth > 2048)
 		mRequestedMediaWidth = 2048;
 
 	if(mRequestedMediaHeight > 2048)
 		mRequestedMediaHeight = 2048;
+#endif
 }
 
 void LLPluginClassMedia::setAutoScale(bool auto_scale)

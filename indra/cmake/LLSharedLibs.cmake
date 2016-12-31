@@ -60,7 +60,7 @@ macro(ll_stage_sharedlib DSO_TARGET)
 
   if (DARWIN)
     set_target_properties(${DSO_TARGET} PROPERTIES
-      BUILD_WITH_INSTALL_RPATH 1
+      BUILD_WITH_INSTALL_RPATH TRUE
       INSTALL_NAME_DIR "@executable_path/../Resources"
       )
   endif(DARWIN)

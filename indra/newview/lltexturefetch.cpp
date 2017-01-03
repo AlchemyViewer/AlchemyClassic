@@ -51,6 +51,7 @@
 #include "llsdparam.h"
 #include "llsdutil.h"
 #include "llstartup.h"
+#include "llviewernetwork.h"
 
 #include "httprequest.h"
 #include "httphandler.h"
@@ -1337,7 +1338,7 @@ bool LLTextureFetchWorker::doWork(S32 param)
 		static LLCachedControl<bool> use_http(gSavedSettings, "ImagePipelineUseHTTP", true);
 
 // 		if (mHost.isInvalid()) get_url = false;
-		if ( use_http && mCanUseHTTP && mUrl.empty())//get http url.
+		if ( (use_http || LLGridManager::instance().isInSecondlife()) && mCanUseHTTP && mUrl.empty())//get http url.
 		{
 			LLViewerRegion* region = NULL;
 			if (mHost.isInvalid())

@@ -90,7 +90,21 @@ HttpService::~HttpService()
 		
 		if (mThread)
 		{
-			if (! mThread->timedJoin(250))
+			bool joined = false;
+			S32 counter = 0;
+			const S32 MAX_WAIT = 600;
+			while (counter < MAX_WAIT)
+			{
+				// Try to join for a tenth of a second
+				if (mThread->timedJoin(100))
+				{
+					joined = true;
+					break;
+				}
+				counter++;
+			}
+
+			if (!joined)
 			{
 				// Failed to join, expect problems ahead so do a hard termination.
 				mThread->cancel();

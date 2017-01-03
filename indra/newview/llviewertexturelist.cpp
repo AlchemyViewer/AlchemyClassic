@@ -181,14 +181,14 @@ void LLViewerTextureList::doPreloadImages()
 	}
 	// Invisiprim alpha replacement
 	image = LLViewerTextureManager::getFetchedTextureFromFile("transparent.j2c", FTT_LOCAL_FILE, MIPMAP_YES, LLViewerFetchedTexture::BOOST_UI, LLViewerTexture::FETCHED_TEXTURE,
-		0, 0, LLUUID("e97cf410-8e61-7005-ec06-629eba4cd1fb"));
+		0, 0, IMG_ALPHA_GRAD);
 	if (image)
 	{
 		image->setAddressMode(LLTexUnit::TAM_WRAP);
 		mImagePreloads.insert(image);
 	}
 	image = LLViewerTextureManager::getFetchedTextureFromFile("transparent.j2c", FTT_LOCAL_FILE, MIPMAP_YES, LLViewerFetchedTexture::BOOST_UI, LLViewerTexture::FETCHED_TEXTURE,
-		0, 0, LLUUID("38b86f85-2575-52a9-a531-23108d8da837"));
+		0, 0, IMG_ALPHA_GRAD_2D);
 	if (image)
 	{
 		image->setAddressMode(LLTexUnit::TAM_WRAP);

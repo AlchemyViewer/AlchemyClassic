@@ -185,11 +185,11 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
                         SAFE_RELEASE( pVideoControllers[iController] );
                     }
                 }
+                SAFE_RELEASE( pEnumVideoControllers );
             }
 
             if( pClassName )
                 SysFreeString( pClassName );
-            SAFE_RELEASE( pEnumVideoControllers );
         }
 
         if( pNamespace )
@@ -755,7 +755,7 @@ LLSD LLDXHardware::getDisplayInfo()
 
         dx_diag_init_params.dwSize                  = sizeof(DXDIAG_INIT_PARAMS);
         dx_diag_init_params.dwDxDiagHeaderVersion   = DXDIAG_DX9_SDK_VERSION;
-        dx_diag_init_params.bAllowWHQLChecks        = TRUE;
+        dx_diag_init_params.bAllowWHQLChecks        = FALSE;
         dx_diag_init_params.pReserved               = NULL;
 
 		LL_INFOS() << "dx_diag_providerp->Initialize" << LL_ENDL;

@@ -42,8 +42,7 @@
 #include "llworld.h"
 #include "llcorehttputil.h"
 #include "roles_constants.h"
-
-extern LLControlGroup gSavedSettings;
+#include "llviewercontrol.h"
 
 const LLColor4 INACTIVE_COLOR(0.3f, 0.3f, 0.3f, 0.5f);
 const LLColor4 ACTIVE_COLOR(0.5f, 0.5f, 0.5f, 1.f);

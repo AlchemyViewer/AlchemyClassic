@@ -34,8 +34,6 @@
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 
-extern LLControlGroup gSavedSettings;
-
 F64 LLWLAnimator::INTERP_TOTAL_SECONDS = 3.f;
 
 LLWLAnimator::LLWLAnimator() : mStartTime(0.f), mDayRate(1.f), mDayTime(0.f),

@@ -56,8 +56,6 @@
 #include "llviewercamera.h"
 #include "lleventtimer.h"
 
-extern LLControlGroup gSavedSettings;
-
 // we use this in various places instead of NULL
 static LLPointer<LLTool> sNullTool(new LLTool(std::string("null"), NULL)); 
 

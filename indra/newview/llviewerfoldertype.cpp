@@ -32,9 +32,7 @@
 #include "lldictionary.h"
 #include "llmemory.h"
 #include "llvisualparam.h"
-#include "llcontrol.h"
-
-extern LLControlGroup gSavedSettings;
+#include "llviewercontrol.h"
 
 static const std::string empty_string;
 

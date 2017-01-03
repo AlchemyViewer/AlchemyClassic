@@ -38,8 +38,6 @@
 #include "llwindow.h"
 #include "llxmlnode.h"
 
-extern LLControlGroup gSavedSettings;
-
 using std::string;
 using std::map;
 

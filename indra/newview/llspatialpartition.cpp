@@ -3175,6 +3175,8 @@ public:
 			return;
 		}
 
+		LLGLDisable stencil(GL_STENCIL_TEST);
+
 		group->rebuildGeom();
 		group->rebuildMesh();
 

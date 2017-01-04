@@ -220,7 +220,10 @@ class LLMenuItemSeparatorGL : public LLMenuItemGL
 public:
 	struct Params : public LLInitParam::Block<Params, LLMenuItemGL::Params>
 	{
-		Params();
+		Optional<EnableCallbackParam > on_visible;
+		Params()
+			: on_visible("on_visible")
+		{}
 	};
 	LLMenuItemSeparatorGL(const LLMenuItemSeparatorGL::Params& p = LLMenuItemSeparatorGL::Params());
 
@@ -230,6 +233,12 @@ public:
 	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
 
 	/*virtual*/ U32 getNominalHeight( void ) const;
+	void updateVisible(void);
+	void initFromParams(const Params& p);
+	// called to rebuild the draw label
+	/*virtual*/ void buildDrawLabel(void);
+private:
+	enable_signal_t mVisibleSignal;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

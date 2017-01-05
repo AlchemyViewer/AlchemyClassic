@@ -3325,8 +3325,8 @@ void LLViewerObject::setPixelAreaAndAngle(LLAgent &agent)
 		return;
 	}
 	
-	LLVector3 viewer_pos_agent = gAgentCamera.getCameraPositionAgent();
-	LLVector3 pos_agent = getRenderPosition();
+	const LLVector3& viewer_pos_agent = gAgentCamera.getCameraPositionAgent();
+	const LLVector3& pos_agent = getRenderPosition();
 
 	F32 dx = viewer_pos_agent.mV[VX] - pos_agent.mV[VX];
 	F32 dy = viewer_pos_agent.mV[VY] - pos_agent.mV[VY];

@@ -3030,7 +3030,7 @@ void LLMeshHeaderHandler::processData(LLCore::BufferArray * /* body */, S32 /* b
 
 		if (header_bytes > 0
 			&& !header.has("404")
-			&& header.has("version")
+			//&& header.has("version") // OPENSIM RUDENESS BAD FORMAT AHHHH
 			&& header["version"].asInteger() <= MAX_MESH_VERSION)
 		{
 			S32 lod_bytes = 0;

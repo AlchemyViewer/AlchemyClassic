@@ -8176,13 +8176,14 @@ void LLPipeline::renderDeferredLighting()
 					}
 
 					sVisibleLightCount++;
-										
-					if (camera->getOrigin().mV[0] > c[0] + s + 0.2f ||
-						camera->getOrigin().mV[0] < c[0] - s - 0.2f ||
-						camera->getOrigin().mV[1] > c[1] + s + 0.2f ||
-						camera->getOrigin().mV[1] < c[1] - s - 0.2f ||
-						camera->getOrigin().mV[2] > c[2] + s + 0.2f ||
-						camera->getOrigin().mV[2] < c[2] - s - 0.2f)
+									
+					const auto& camera_origin = camera->getOrigin();
+					if (camera_origin.mV[0] > c[0] + s + 0.2f ||
+						camera_origin.mV[0] < c[0] - s - 0.2f ||
+						camera_origin.mV[1] > c[1] + s + 0.2f ||
+						camera_origin.mV[1] < c[1] - s - 0.2f ||
+						camera_origin.mV[2] > c[2] + s + 0.2f ||
+						camera_origin.mV[2] < c[2] - s - 0.2f)
 					{ //draw box if camera is outside box
 						if (render_local)
 						{
@@ -8700,13 +8701,14 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 					}
 
 					sVisibleLightCount++;
-										
-					if (camera->getOrigin().mV[0] > c[0] + s + 0.2f ||
-						camera->getOrigin().mV[0] < c[0] - s - 0.2f ||
-						camera->getOrigin().mV[1] > c[1] + s + 0.2f ||
-						camera->getOrigin().mV[1] < c[1] - s - 0.2f ||
-						camera->getOrigin().mV[2] > c[2] + s + 0.2f ||
-						camera->getOrigin().mV[2] < c[2] - s - 0.2f)
+									
+					const auto& camera_origin = camera->getOrigin();
+					if (camera_origin.mV[0] > c[0] + s + 0.2f ||
+						camera_origin.mV[0] < c[0] - s - 0.2f ||
+						camera_origin.mV[1] > c[1] + s + 0.2f ||
+						camera_origin.mV[1] < c[1] - s - 0.2f ||
+						camera_origin.mV[2] > c[2] + s + 0.2f ||
+						camera_origin.mV[2] < c[2] - s - 0.2f)
 					{ //draw box if camera is outside box
 						if (render_local)
 						{

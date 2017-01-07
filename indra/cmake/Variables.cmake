@@ -43,6 +43,10 @@ option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Media Plugins
 option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)
+option(LIBVLCPLUGIN "Turn off building support for libvlc plugin" ON)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(LIBVLCPLUGIN OFF)
+endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux" OR ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Mallocs
 option(USE_TCMALLOC "Build the viewer with google tcmalloc" OFF)

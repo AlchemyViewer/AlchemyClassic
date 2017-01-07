@@ -1,15 +1,13 @@
 # -*- cmake -*-
 include(Linking)
 include(Prebuilt)
+include(Variables)
 
+if (LIBVLCPLUGIN)
 if (USESYSTEMLIBS)
-    set(LIBVLCPLUGIN OFF CACHE BOOL
-        "LIBVLCPLUGIN support for the llplugin/llmedia test apps.")
 else (USESYSTEMLIBS)
     use_prebuilt_binary(vlc-bin)
-    set(LIBVLCPLUGIN ON CACHE BOOL
-        "LIBVLCPLUGIN support for the llplugin/llmedia test apps.")
-        set(VLC_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/vlc)
+    set(VLC_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/vlc)
 endif (USESYSTEMLIBS)
 
 if (WINDOWS)
@@ -25,3 +23,4 @@ elseif (LINUX)
         ${LIBS_PREBUILT_DIR}/lib/libvlccore.a
     )
 endif (WINDOWS)
+endif (LIBVLCPLUGIN)

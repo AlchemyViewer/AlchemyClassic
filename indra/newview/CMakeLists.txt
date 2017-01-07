@@ -1741,6 +1741,12 @@ endif (FMODSTUDIO)
 
 set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS}")
 
+if (LIBVLCPLUGIN)
+    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_FLAGS "-DVLCPLUGIN=1")
+else (LIBVLCPLUGIN)
+    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_FLAGS "-DVLCPLUGIN=0")
+endif (LIBVLCPLUGIN)
+
 list(APPEND viewer_SOURCE_FILES ${viewer_HEADER_FILES})
 
 set_source_files_properties(${viewer_HEADER_FILES}
@@ -1824,9 +1830,14 @@ if (WINDOWS)
       ${ARCH_PREBUILT_DIRS_DEBUG}/ssleay32.dll
       AlchemyPlugin
       media_plugin_cef
-      media_plugin_libvlc
       windows-crash-logger
       )
+
+    if(LIBVLCPLUGIN)
+      list(APPEND COPY_INPUT_DEPENDENCIES
+	    media_plugin_libvlc
+	    )
+    endif(LIBVLCPLUGIN)
 
 	if(USE_TCMALLOC)
       # Configure a var for tcmalloc location, if used.

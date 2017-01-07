@@ -128,7 +128,7 @@
 #include "llcoros.h"
 #include "llexception.h"
 #include "cef/llceflib.h"
-#if LL_WINDOWS
+#if VLCPLUGIN
 #include "vlc/libvlc_version.h"
 #endif // LL_WINDOWS
 
@@ -3375,7 +3375,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["LLCEFLIB_VERSION"] = "Undefined";
 #endif
 
-#if LL_WINDOWS
+#if VLCPLUGIN
 	std::ostringstream ver_codec;
 	ver_codec << LIBVLC_VERSION_MAJOR;
 	ver_codec << ".";

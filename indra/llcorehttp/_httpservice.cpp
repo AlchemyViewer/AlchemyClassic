@@ -101,6 +101,7 @@ HttpService::~HttpService()
 					joined = true;
 					break;
 				}
+				mThread->yield();
 				counter++;
 			}
 

@@ -98,8 +98,7 @@ std::string LLDate::toHTTPDateString(const std::string& fmt) const
 	std::tm * gmt = gmtime (&locSeconds);
 	if (!gmt)
 	{
-		LL_WARNS() << "The impossible has happened!" << LL_ENDL;
-		return LLStringExplicit(EPOCH_STR);
+		return LLStringUtil::null;
 	}
 	return toHTTPDateString(gmt, fmt);
 }
@@ -117,11 +116,13 @@ std::string LLDate::toHTTPDateString(tm * gmt, const std::string& fmt)
 	}
 
 	// use strftime() as it appears to be faster than std::time_put
-	char buffer[128];
-	if (std::strftime(buffer, 128, fmt.c_str(), gmt) == 0)
-		return LLStringExplicit(EPOCH_STR);
+	char buffer[128] = {};
+	if (std::strftime(buffer, sizeof(buffer), fmt.c_str(), gmt) == 0)
+	{
+		return LLStringUtil::null;
+	}
+
 	std::string res(buffer);
-	
 #if LL_WINDOWS
 	// Convert from locale-dependant charset to UTF-8 (EXT-8524).
 	res = ll_convert_string_to_utf8_string(res);

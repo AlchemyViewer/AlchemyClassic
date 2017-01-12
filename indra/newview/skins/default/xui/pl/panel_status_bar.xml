@@ -9,6 +9,9 @@
 	<panel.string name="time">
 		[hour, datetime, slt]:[min, datetime, slt] [timezone,datetime, slt]
 	</panel.string>
+	<panel.string name="timePrecise">
+		[hour, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [timezone,datetime, slt]
+	</panel.string>
 	<panel.string name="buycurrencylabel">
 		[AMT] L$
 	</panel.string>

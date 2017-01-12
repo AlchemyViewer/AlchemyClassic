@@ -2,7 +2,8 @@
 <panel name="status">
 	<panel.string name="packet_loss_tooltip">Потери пакетов</panel.string>
 	<panel.string name="bandwidth_tooltip">Ширина канала</panel.string>
-	<panel.string name="time">[hour, datetime, slt]:[min, datetime, slt] [timezone,datetime, slt]</panel.string>
+	<panel.string name="time">[hour, datetime, slt]:[min, datetime, slt] [timezone, datetime, slt]</panel.string>
+	<panel.string name="timePrecise">[hour, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [timezone,datetime, slt]</panel.string>
 	<panel.string name="timeTooltip">[weekday, datetime, slt], [day, datetime, slt] [month, datetime, slt] [year, datetime, slt]</panel.string>
 	<panel.string name="buycurrencylabel">L$ [AMT]</panel.string>
 	<panel left="-471" name="balance_bg" width="240">

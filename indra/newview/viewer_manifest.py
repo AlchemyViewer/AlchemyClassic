@@ -389,6 +389,7 @@ class WindowsManifest(ViewerManifest):
         # CEF runtime files - debug
         if self.args['configuration'].lower() == 'debug':
             if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'debug'), dst="llplugin"):
+                self.path("chrome_elf.dll")
                 self.path("d3dcompiler_47.dll")
                 self.path("libcef.dll")
                 self.path("libEGL.dll")
@@ -397,11 +398,11 @@ class WindowsManifest(ViewerManifest):
                 self.path("natives_blob.bin")
                 self.path("snapshot_blob.bin")
                 self.path("widevinecdmadapter.dll")
-                self.path("wow_helper.exe")
                 self.end_prefix()
         else:
         # CEF runtime files - not debug (release, relwithdebinfo etc.)
             if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release'), dst="llplugin"):
+                self.path("chrome_elf.dll")
                 self.path("d3dcompiler_47.dll")
                 self.path("libcef.dll")
                 self.path("libEGL.dll")
@@ -410,7 +411,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("natives_blob.bin")
                 self.path("snapshot_blob.bin")
                 self.path("widevinecdmadapter.dll")
-                self.path("wow_helper.exe")
                 self.end_prefix()
 
         # CEF files common to all configurations

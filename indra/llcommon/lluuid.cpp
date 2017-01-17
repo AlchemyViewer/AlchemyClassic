@@ -466,42 +466,72 @@ typedef struct _ASTAT_
 // static
 S32	LLUUID::getNodeID(unsigned char	*node_id)
 {
-	ASTAT Adapter;
-	NCB Ncb;
-	UCHAR uRetCode;
-	LANA_ENUM   lenum;
-	int      i;
-	int retval = 0;
+	S32 retval = 0;
 
-	memset( &Ncb, 0, sizeof(Ncb) );
-	Ncb.ncb_command = NCBENUM;
-	Ncb.ncb_buffer = (UCHAR *)&lenum;
-	Ncb.ncb_length = sizeof(lenum);
-	uRetCode = Netbios( &Ncb );
+	PIP_ADAPTER_ADDRESSES pAddresses = nullptr;
+	ULONG outBufLen = 0U;
+	DWORD dwRetVal = 0U;
 
-	for(i=0; i < lenum.length ;i++)
-	{
-		memset( &Ncb, 0, sizeof(Ncb) );
-		Ncb.ncb_command = NCBRESET;
-		Ncb.ncb_lana_num = lenum.lana[i];
+	ULONG family = AF_INET;
+	ULONG flags = GAA_FLAG_INCLUDE_PREFIX | GAA_FLAG_INCLUDE_GATEWAYS;
 
-		uRetCode = Netbios( &Ncb );
+	GetAdaptersAddresses(
+		AF_INET,
+		flags,
+		NULL,
+		NULL,
+		&outBufLen);
 
-		memset( &Ncb, 0, sizeof (Ncb) );
-		Ncb.ncb_command = NCBASTAT;
-		Ncb.ncb_lana_num = lenum.lana[i];
+	constexpr U32 MAX_TRIES = 3U;
+	U32 iteration = 0U;
+	do {
 
-		strcpy( (char *)Ncb.ncb_callname,  "*              " );		/* Flawfinder: ignore */
-		Ncb.ncb_buffer = (unsigned char *)&Adapter;
-		Ncb.ncb_length = sizeof(Adapter);
-
-		uRetCode = Netbios( &Ncb );
-		if ( uRetCode == 0 )
-		{
-			memcpy(node_id,Adapter.adapt.adapter_address,6);		/* Flawfinder: ignore */
-			retval = 1;
+		pAddresses = reinterpret_cast<PIP_ADAPTER_ADDRESSES>(malloc(outBufLen));
+		if (pAddresses == nullptr) {
+			return 0;
 		}
+
+		dwRetVal =
+			GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
+
+		if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
+			free(pAddresses);
+			pAddresses = nullptr;
+		}
+		else {
+			break;
+		}
+
+		++iteration;
+
+	} while ((dwRetVal == ERROR_BUFFER_OVERFLOW) && (iteration < MAX_TRIES));
+
+	if (dwRetVal == NO_ERROR)
+	{
+		PIP_ADAPTER_ADDRESSES pCurrAddresses = pAddresses;
+		PIP_ADAPTER_GATEWAY_ADDRESS pFirstGateway = nullptr;
+		do {
+			pFirstGateway = pCurrAddresses->FirstGatewayAddress;
+			if (pFirstGateway)
+			{
+				if ((pCurrAddresses->IfType == IF_TYPE_ETHERNET_CSMACD || pCurrAddresses->IfType == IF_TYPE_IEEE80211) && pCurrAddresses->ConnectionType == NET_IF_CONNECTION_DEDICATED
+					&& pCurrAddresses->OperStatus == IfOperStatusUp)
+				{
+					if (pCurrAddresses->PhysicalAddressLength == 6) 
+					{
+							memcpy(node_id, pCurrAddresses->PhysicalAddress, 6);
+							retval = 1;
+							break;
+					}
+				}
+			}
+			pCurrAddresses = pCurrAddresses->Next;
+		} while (pCurrAddresses);                    // Terminate if last adapter
 	}
+
+	free(pAddresses);
+	pAddresses = nullptr;
+
 	return retval;
 }
 

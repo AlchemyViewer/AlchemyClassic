@@ -95,9 +95,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
 #endif
         if( SUCCEEDED( hr ) && pIWbemServices != 0 )
         {
-            HINSTANCE hinstOle32 = nullptr;
-
-            hinstOle32 = LoadLibraryW( L"ole32.dll" );
+            HINSTANCE hinstOle32 = hinstOle32 = LoadLibraryW( L"ole32.dll" );
             if( hinstOle32 )
             {
                 PfnCoSetProxyBlanket pfnCoSetProxyBlanket = nullptr;
@@ -464,7 +462,7 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
 	IDxDiagContainer *devices_containerp = NULL;
 	// IDxDiagContainer *system_device_containerp= NULL;
 	IDxDiagContainer *device_containerp = NULL;
-	IDxDiagContainer *file_containerp = NULL;
+	//IDxDiagContainer *file_containerp = NULL;
 	IDxDiagContainer *driver_containerp = NULL;
 
     // CoCreate a IDxDiagProvider*
@@ -698,7 +696,7 @@ LCleanup:
 		gWriteDebug("DX9 probe failed\n");
 	}
 
-	SAFE_RELEASE(file_containerp);
+	//SAFE_RELEASE(file_containerp);
 	SAFE_RELEASE(driver_containerp);
 	SAFE_RELEASE(device_containerp);
 	SAFE_RELEASE(devices_containerp);
@@ -736,7 +734,7 @@ LLSD LLDXHardware::getDisplayInfo()
                           NULL,
                           CLSCTX_INPROC_SERVER,
                           IID_IDxDiagProvider,
-                          (LPVOID*) &dx_diag_providerp);
+                          reinterpret_cast<void**>(&dx_diag_providerp));
 
 	if (FAILED(hr))
 	{

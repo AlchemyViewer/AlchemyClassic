@@ -88,7 +88,7 @@ HttpService::~HttpService()
 			mRequestQueue->stopQueue();
 		}
 		
-		if (mThread)
+		if (mThread && mThread->joinable())
 		{
 			bool joined = false;
 			S32 counter = 0;
@@ -101,6 +101,7 @@ HttpService::~HttpService()
 					joined = true;
 					break;
 				}
+				mThread->yield();
 				counter++;
 			}
 

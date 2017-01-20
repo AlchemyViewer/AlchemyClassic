@@ -150,34 +150,60 @@ void LLThread::shutdown()
 		// Now wait a bit for the thread to exit
 		// It's unclear whether I should even bother doing this - this destructor
 		// should never get called unless we're already stopped, really...
-		S32 counter = 0;
-		const S32 MAX_WAIT = 600;
-		while (counter < MAX_WAIT)
+		U32 count = 0;
+		constexpr U32 MAX_WAIT = 600;
+		for (; count < MAX_WAIT; count++)
 		{
 			if (isStopped())
 			{
 				break;
 			}
-			// Sleep for a tenth of a second
-			ms_sleep(100);
-			boost::this_thread::yield();
-			counter++;
+			yield();
+		}
+
+		if (count >= MAX_WAIT)
+		{
+			LL_WARNS() << "Failed to stop thread: \"" << mName << "\" with status: " << mStatus << " and id: " << mThread.get_id() << LL_ENDL;
 		}
 	}
 
 	mRecorder.reset();
-
-	if (!isStopped())
+	
+	if (mThread.joinable())
 	{
-		// This thread just wouldn't stop, even though we gave it time
-		//LL_WARNS() << "LLThread::~LLThread() exiting thread before clean exit!" << LL_ENDL;
-		// Put a stake in its heart.
-		boost::thread::native_handle_type thread(mThread.native_handle());
+		try
+		{
+			bool joined = false;
+			constexpr U32 MAX_WAIT = 100;
+			for(U32 count = 0; count < MAX_WAIT; count++)
+			{
+				// Try to join for a tenth of a second
+				if (mThread.try_join_for(boost::chrono::milliseconds(100)))
+				{
+					LL_INFOS() << "Successfully joined thread: \"" << mName << "\"" << LL_ENDL;
+					joined = true;
+					break;
+				}
+				yield();
+			}
+
+			if (!joined)
+			{
+				// This thread just wouldn't join, even though we gave it time
+				LL_WARNS() << "Forcefully terminating thread: \"" << mName << "\" with id: " << mThread.get_id() << " before clean exit!" << LL_ENDL;
+				// Put a stake in its heart.
+				boost::thread::native_handle_type thread(mThread.native_handle());
 #if LL_WINDOWS
-		TerminateThread(thread, 0);
+				TerminateThread(thread, 0);
 #else
-		pthread_cancel(thread);
+				pthread_cancel(thread);
 #endif
+			}
+		}
+		catch (const boost::thread_interrupted&)
+		{
+			LL_WARNS() << "Failed to join thread: \"" << mName << "\" with id: " << mThread.get_id() << " and interrupted exception" << LL_ENDL;
+		}
 	}
 }
 
@@ -192,7 +218,6 @@ void LLThread::start()
 	try
 	{
 		mThread = boost::thread(std::bind(&LLThread::runWrapper, this));
-		mThread.detach();
 	}
 	catch (const boost::thread_resource_error& err)
 	{
@@ -299,7 +324,7 @@ void LLThread::wakeLocked()
 //----------------------------------------------------------------------------
 
 //static
-LLMutex* LLThreadSafeRefCount::sMutex = 0;
+LLMutex* LLThreadSafeRefCount::sMutex = nullptr;
 
 //static
 void LLThreadSafeRefCount::initThreadSafeRefCount()

@@ -1619,14 +1619,10 @@ if (WINDOWS)
         comdlg32
         dxguid
         kernel32
-        odbc32
-        odbccp32
         ole32
         oleaut32
         shell32
-        Vfw32
         wer
-        winspool
         )
 endif (WINDOWS)
 

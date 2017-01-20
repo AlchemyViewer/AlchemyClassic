@@ -326,7 +326,7 @@ void LLExperienceCache::requestExperiences()
     std::string urlBase = mCapability("GetExperienceInfo");
     if (urlBase.empty())
     {
-        LL_WARNS("ExperienceCache") << "No Experience capability." << LL_ENDL;
+        LL_DEBUGS("ExperienceCache") << "No Experience capability." << LL_ENDL;
         return;
     }
 

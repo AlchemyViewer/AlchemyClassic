@@ -2,8 +2,9 @@
 <panel name="status">
 	<panel.string name="packet_loss_tooltip">Paket Kaybı</panel.string>
 	<panel.string name="bandwidth_tooltip">Bant genişliği</panel.string>
-	<panel.string name="time">[hour12, datetime, slt]:[min, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]</panel.string>
-	<panel.string name="timeTooltip">[weekday, datetime, slt], [day, datetime, slt] [month, datetime, slt] [year, datetime, slt]</panel.string>
+	<panel.string name="time">[hour, datetime, slt]:[min, datetime, slt] [timezone, datetime, slt]</panel.string>
+	<panel.string name="timePrecise">[hour, datetime, slt]:[min, datetime, slt]:[second, datetime, slt] [timezone,datetime, slt]</panel.string>
+	<panel.string name="timeTooltip">[day, datetime, slt] [month, datetime, slt] [year, datetime, slt] [weekday, datetime, slt]</panel.string>
 	<panel.string name="buycurrencylabel">L$ [AMT]</panel.string>
 	<panel left="-446" name="balance_bg" width="215">
 		<text name="balance" tool_tip="L$ bakiyenizi yenilemek için buraya tıklayın" value="L$??"/>

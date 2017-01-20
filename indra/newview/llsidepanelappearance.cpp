@@ -412,6 +412,7 @@ void LLSidepanelAppearance::toggleWearableEditPanel(BOOL visible, LLViewerWearab
 	{
 		// Save changes if closing.
 		mEditWearable->saveChanges();
+		mEditWearable->setWearable(NULL);
 		LLAppearanceMgr::getInstance()->updateIsDirty();
 		if (!disable_camera_switch)   // if we're just switching between outfit and wearable editing, don't end customization.
 		{

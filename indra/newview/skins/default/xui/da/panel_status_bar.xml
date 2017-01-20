@@ -13,10 +13,13 @@
 		Båndbredde
 	</panel.string>
 	<panel.string name="time">
-		[hour12, datetime, slt]:[min, datetime, slt] [ampm, datetime, slt] [timezone,datetime, slt]
+		[hour, datetime, slt].[min, datetime, slt] [timezone,datetime, slt]
+	</panel.string>
+	<panel.string name="timePrecise">
+		[hour, datetime, slt].[min, datetime, slt].[second, datetime, slt] [timezone,datetime, slt]
 	</panel.string>
 	<panel.string name="timeTooltip">
-		[weekday, datetime, slt], [day, datetime, slt] [month, datetime, slt] [year, datetime, slt]
+		[weekday, datetime, slt] [day, datetime, slt]. [month, datetime, slt] [year, datetime, slt]
 	</panel.string>
 	<panel.string name="buycurrencylabel">
 		L$ [AMT]

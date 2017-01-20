@@ -612,11 +612,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>019738ae224d1a9ab52db149550c13cd</string>
+              <string>c1b0bfa26321d368d4a5ad65de5b3169</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.08.13-windows-201610151514.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.08.15-windows-201701121229.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -626,18 +626,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f1ad9d99a60e347474ca7d40a62faa4b</string>
+              <string>d73d356b47c87360bd1064f8d51dfe46</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.13-windows64-201610151512.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.15-windows64-201701121228.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.08.13</string>
+        <string>1.08.15</string>
       </map>
       <key>fontconfig</key>
       <map>
@@ -1976,11 +1976,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7b74b58538a3e223fdb98d2f7bc97473</string>
+              <string>90a4b819719696dcecc8cad751b9f1e8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14/llceflib-3.2526.1364.gf6bf57b-windows-201604051552.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc14_3/llceflib-3.2883.1545.gd685d27-windows-201701152133.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1990,18 +1990,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f3b0392fbf2aa187ae184967beebfd6e</string>
+              <string>04bf94567258e1e6d323caedac2abfc7</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2840.1518.gffd843c-windows64-201612261243.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2883.1545.gd685d27-windows64-201701152113.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>3.2840.1518.gffd843c</string>
+        <string>3.2883.1545.gd685d27</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

@@ -2772,6 +2772,10 @@ bool LLAppViewer::initConfiguration()
 	// Set the name of the window
 	//
 	gWindowTitle = LLTrans::getString("APP_NAME");
+	if (LLVersionInfo::getViewerMaturity() != LLVersionInfo::RELEASE_VIEWER)
+	{
+		gWindowTitle = LLVersionInfo::getChannelAndVersion();
+	}
 #if LL_DEBUG
 	gWindowTitle += std::string(" [DEBUG]");
 #endif
@@ -3343,14 +3347,6 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["OS_VERSION"] = LLAppViewer::instance()->getOSInfo().getOSString();
 	info["GRAPHICS_CARD_VENDOR"] = (const char*) (glGetString(GL_VENDOR));
 	info["GRAPHICS_CARD"] = (const char*) (glGetString(GL_RENDERER));
-
-#if LL_WINDOWS
-	LLSD driver_info = gDXHardware.getDisplayInfo();
-	if (driver_info.has("DriverVersion"))
-	{
-		info["GRAPHICS_DRIVER_VERSION"] = driver_info["DriverVersion"];
-	}
-#endif
 
 	info["OPENGL_VERSION"] = (const char*) (glGetString(GL_VERSION));
 	info["LIBCURL_VERSION"] = LLCore::LLHttp::getCURLVersion();

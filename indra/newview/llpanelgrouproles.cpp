@@ -838,7 +838,7 @@ BOOL LLPanelGroupMembersSubTab::postBuildSubTab(LLView* root)
 	LLButton* button = parent->getChild<LLButton>("member_invite", recurse);
 	if ( button )
 	{
-		button->setCommitCallback(boost::bind(&LLPanelGroupMembersSubTab::onInviteMember, this));
+		button->setClickedCallback(boost::bind(&LLPanelGroupMembersSubTab::onInviteMember, this));
 		button->setEnabled(gAgent.hasPowerInGroup(mGroupID, GP_MEMBER_INVITE));
 	}
 	
@@ -1876,9 +1876,10 @@ bool LLPanelGroupMembersSubTab::handleBanMemberCallback(const LLSD& notification
 			LL_WARNS("Groups") << "Unable to get group data for group " << mGroupID << LL_ENDL;
 			return false;
 		}
-		uuid_vec_t ban_ids;
+
 		std::vector<LLScrollListItem*> selection = mMembersList->getAllSelected();
 		if (selection.empty()) return false;
+		uuid_vec_t ban_ids;
 		for(std::vector<LLScrollListItem*>::iterator itor = selection.begin();
 			itor != selection.end(); ++itor)
 		{
@@ -1891,6 +1892,7 @@ bool LLPanelGroupMembersSubTab::handleBanMemberCallback(const LLSD& notification
 
 		LLGroupMgr::getInstance()->sendGroupBanRequest(LLGroupMgr::REQUEST_POST, mGroupID, LLGroupMgr::BAN_CREATE, ban_ids);
 		commitEjectMembers(ban_ids);
+		return true;
 	}
 	return false;
 }
@@ -1987,7 +1989,7 @@ BOOL LLPanelGroupRolesSubTab::postBuildSubTab(LLView* root)
 		parent->getChild<LLButton>("role_create", recurse);
 	if ( mCreateRoleButton )
 	{
-		mCreateRoleButton->setCommitCallback(boost::bind(&LLPanelGroupRolesSubTab::onCreateRole, this));
+		mCreateRoleButton->setClickedCallback(boost::bind(&LLPanelGroupRolesSubTab::onCreateRole, this));
 		mCreateRoleButton->setEnabled(FALSE);
 	}
 	

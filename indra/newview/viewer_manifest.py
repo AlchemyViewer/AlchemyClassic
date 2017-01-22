@@ -776,7 +776,7 @@ class DarwinManifest(ViewerManifest):
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
                                 "libjpeg.8.0.2.dylib",
-                                "libopenjpeg.5.dylib",
+                                "libopenjpeg.dylib",
                                 "libturbojpeg.0.0.0.dylib",
                                 "libopenal.dylib",
                                 "libalut.dylib",

@@ -98,7 +98,7 @@ HttpStatus HttpPolicyGlobal::set(HttpRequest::EPolicyOption opt, const std::stri
 		break;
 
 	case HttpRequest::PO_HTTP_PROXY:
-		mCAFile = value;
+		mHttpProxy = value;
 		break;
 
 	default:

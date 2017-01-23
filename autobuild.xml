@@ -2538,11 +2538,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5b8c5adc20b72409e7c9e8cd56e07352</string>
+              <string>1264d217c8acdeb3bfdd32724585a7e9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openjpeg-1.5.1-windows64-201608212109.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openjpeg-1.5.1-windows64-201701220828.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

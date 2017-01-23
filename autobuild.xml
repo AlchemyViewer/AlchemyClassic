@@ -1464,11 +1464,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1fddd97691065b53664e6b94dcec8da5</string>
+              <string>d6300f5e51416776609cefcfb5d5ad62</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jsoncpp-1.7.6-windows64-201610152033.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/jsoncpp-1.8.0-windows64-201701211422.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1622,18 +1622,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3a2cfa680ea39564a522223673fdad7b</string>
+              <string>bb9bc38717aeeb4207c5fe80c1bdf71e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libhunspell-1.4.1-windows64-201608212045.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libhunspell-1.6.0-windows64-201701211426.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.4.1</string>
+        <string>1.6.0</string>
       </map>
       <key>libndofdev</key>
       <map>

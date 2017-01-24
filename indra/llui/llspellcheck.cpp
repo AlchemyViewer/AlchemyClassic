@@ -68,7 +68,7 @@ LLSpellChecker::~LLSpellChecker()
 
 bool LLSpellChecker::checkSpelling(const std::string& word) const
 {
-	if ( (!mHunspell) || (word.length() < 3) || (0 != mHunspell->spell(word.c_str())) )
+	if ( (!mHunspell) || (word.length() < 3) || (0 != mHunspell->spell(word)) )
 	{
 		return true;
 	}
@@ -89,15 +89,7 @@ S32 LLSpellChecker::getSuggestions(const std::string& word, std::vector<std::str
 		return 0;
 	}
 
-	char** suggestion_list; int suggestion_cnt = 0;
-	if ( (suggestion_cnt = mHunspell->suggest(&suggestion_list, word.c_str())) != 0 )
-	{
-		for (int suggestion_index = 0; suggestion_index < suggestion_cnt; suggestion_index++)
-		{
-			suggestions.push_back(suggestion_list[suggestion_index]);
-		}
-		mHunspell->free_list(&suggestion_list, suggestion_cnt);	
-	}
+	suggestions = mHunspell->suggest(word);
 	return suggestions.size();
 }
 
@@ -200,7 +192,7 @@ void LLSpellChecker::addToCustomDictionary(const std::string& word)
 {
 	if (mHunspell)
 	{
-		mHunspell->add(word.c_str());
+		mHunspell->add(word);
 	}
 	addToDictFile(getDictionaryUserPath() + DICT_FILE_CUSTOM, word);
 	sSettingsChangeSignal();

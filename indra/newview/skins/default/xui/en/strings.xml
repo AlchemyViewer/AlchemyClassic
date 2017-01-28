@@ -4173,7 +4173,7 @@ Try enclosing path to the editor with double quotes.
   <string name="Command_Snapshot_Label">Snapshot</string>
   <string name="Command_Speak_Label">Speak</string>
   <string name="Command_Twitter_Label">Twitter</string>
-  <string name="Command_View_Label">Camera Controls</string>
+  <string name="Command_View_Label">Camera</string>
   <string name="Command_Voice_Label">Voice Settings</string>
   <string name="Command_Webbrowser_Label">Web Browser</string>
 

@@ -969,14 +969,8 @@ bool LLVivoxVoiceClient::loginToVivox()
                     errs << mVoiceAccountServerURI << "\n:UDP: 3478, 3479, 5060, 5062, 12000-17000";
                     args["HOSTID"] = errs.str();
                     mTerminateDaemon = true;
-                    if (LLGridManager::getInstance()->isSystemGrid())
-                    {
-                        LLNotificationsUtil::add("NoVoiceConnect", args);
-                    }
-                    else
-                    {
-                        LLNotificationsUtil::add("NoVoiceConnect-GIAB", args);
-                    }
+                    LLNotificationsUtil::add("NoVoiceConnect", args);
+
 
                     mIsLoggingIn = false;
                     return false;
@@ -2837,14 +2831,7 @@ void LLVivoxVoiceClient::connectorCreateResponse(int statusCode, std::string &st
 		errs << mVoiceAccountServerURI << "\n:UDP: 3478, 3479, 5060, 5062, 12000-17000";
 		args["HOSTID"] = errs.str();
 		mTerminateDaemon = true;
-		if (LLGridManager::getInstance()->isSystemGrid())
-		{
-			LLNotificationsUtil::add("NoVoiceConnect", args);	
-		}
-		else
-		{
-			LLNotificationsUtil::add("NoVoiceConnect-GIAB", args);	
-		}
+        LLNotificationsUtil::add("NoVoiceConnect", args);
 
         result["connector"] = LLSD::Boolean(false);
 	}

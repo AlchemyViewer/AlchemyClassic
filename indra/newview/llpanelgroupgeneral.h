@@ -99,6 +99,7 @@ private:
 	LLTextBox       *mActiveTitleLabel;
 	LLComboBox		*mComboActiveTitle;
 	LLComboBox		*mComboMature;
+    LLCheckBoxCtrl  *mCtrlReceiveGroupChat;
 };
 
 #endif

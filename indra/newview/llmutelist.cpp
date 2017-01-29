@@ -235,7 +235,7 @@ BOOL LLMuteList::add(const LLMute& mute, U32 flags)
 {
 	// Can't mute text from Lindens
 	if ((mute.mType == LLMute::AGENT)
-		&& isLinden(mute.mName) && (flags & LLMute::flagTextChat || flags == 0))
+		&& isLinden(mute.mName) && flags == 0)
 	{
         LL_WARNS() << "Trying to mute a Linden; ignored" << LL_ENDL;
 		LLNotifications::instance().add("MuteLinden", LLSD(), LLSD());
@@ -282,71 +282,69 @@ BOOL LLMuteList::add(const LLMute& mute, U32 flags)
 			return FALSE;
 		}
 	}
+
+	// Need a local (non-const) copy to set up flags properly.
+	LLMute localmute = mute;
+		
+	// If an entry for the same entity is already in the list, remove it, saving flags as necessary.
+	mute_set_t::iterator it = mMutes.find(localmute);
+	if (it != mMutes.end())
+	{
+		// This mute is already in the list.  Save the existing entry's flags if that's warranted.
+		localmute.mFlags = it->mFlags;
+			
+		mMutes.erase(it);
+		// Don't need to call notifyObservers() here, since it will happen after the entry has been re-added below.
+	}
 	else
 	{
-		// Need a local (non-const) copy to set up flags properly.
-		LLMute localmute = mute;
-		
-		// If an entry for the same entity is already in the list, remove it, saving flags as necessary.
-		mute_set_t::iterator it = mMutes.find(localmute);
-		if (it != mMutes.end())
-		{
-			// This mute is already in the list.  Save the existing entry's flags if that's warranted.
-			localmute.mFlags = it->mFlags;
-			
-			mMutes.erase(it);
-			// Don't need to call notifyObservers() here, since it will happen after the entry has been re-added below.
-		}
-		else
-		{
-			// There was no entry in the list previously.  Fake things up by making it look like the previous entry had all properties unmuted.
-			localmute.mFlags = LLMute::flagAll;
-		}
+		// There was no entry in the list previously.  Fake things up by making it look like the previous entry had all properties unmuted.
+		localmute.mFlags = LLMute::flagAll;
+	}
 
-		if(flags)
-		{
-			// The user passed some combination of flags.  Make sure those flag bits are turned off (i.e. those properties will be muted).
-			localmute.mFlags &= (~flags);
-		}
-		else
-		{
-			// The user passed 0.  Make sure all flag bits are turned off (i.e. all properties will be muted).
-			localmute.mFlags = 0;
-		}
+	if(flags)
+	{
+		// The user passed some combination of flags.  Make sure those flag bits are turned off (i.e. those properties will be muted).
+		localmute.mFlags &= (~flags);
+	}
+	else
+	{
+		// The user passed 0.  Make sure all flag bits are turned off (i.e. all properties will be muted).
+		localmute.mFlags = 0;
+	}
 		
-		// (re)add the mute entry.
-		{			
-			std::pair<mute_set_t::iterator, bool> result = mMutes.insert(localmute);
-			if (result.second)
+	// (re)add the mute entry.
+	{
+		auto result = mMutes.insert(localmute);
+		if (result.second)
+		{
+			LL_INFOS() << "Muting " << localmute.mName << " id " << localmute.mID << " flags " << localmute.mFlags << LL_ENDL;
+			updateAdd(localmute);
+			notifyObservers();
+			notifyObserversDetailed(localmute);
+			if(!(localmute.mFlags & LLMute::flagParticles))
 			{
-				LL_INFOS() << "Muting " << localmute.mName << " id " << localmute.mID << " flags " << localmute.mFlags << LL_ENDL;
-				updateAdd(localmute);
-				notifyObservers();
-				notifyObserversDetailed(localmute);
-				if(!(localmute.mFlags & LLMute::flagParticles))
+				//Kill all particle systems owned by muted task
+				if(localmute.mType == LLMute::AGENT || localmute.mType == LLMute::OBJECT)
 				{
-					//Kill all particle systems owned by muted task
-					if(localmute.mType == LLMute::AGENT || localmute.mType == LLMute::OBJECT)
-					{
-						LLViewerPartSim::getInstance()->clearParticlesByOwnerID(localmute.mID);
-					}
+					LLViewerPartSim::getInstance()->clearParticlesByOwnerID(localmute.mID);
 				}
-				//mute local lights that are attached to the avatar
-				LLVOAvatar *avatarp = find_avatar(localmute.mID);
-				if (avatarp)
-				{
-					avatarp->forceUpdateMutedState();
-				}
-				//remove agent's notifications as well
-				if (localmute.mType == LLMute::AGENT)
-				{
-					LLNotifications::instance().cancelByOwner(localmute.mID);
-				}
-				return TRUE;
 			}
+			//mute local lights that are attached to the avatar
+			LLVOAvatar *avatarp = find_avatar(localmute.mID);
+			if (avatarp)
+			{
+				avatarp->forceUpdateMutedState();
+			}
+			//remove agent's notifications as well
+			if (localmute.mType == LLMute::AGENT)
+			{
+				LLNotifications::instance().cancelByOwner(localmute.mID);
+			}
+			return TRUE;
 		}
 	}
-	
+
 	// If we were going to return success, we'd have done it by now.
 	return FALSE;
 }
@@ -719,6 +717,25 @@ void LLMuteList::cache(const LLUUID& agent_id)
 		filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,agent_id_string) + ".cached_mute";
 		saveToFile(filename);
 	}
+}
+
+//-----------------------------------------------------------------------------
+// Group muting
+//-----------------------------------------------------------------------------
+
+BOOL LLMuteList::addGroup(const LLUUID& group_id)
+{
+    return add(LLMute(LLUUID::null, std::string("Group:" + group_id.asString()), LLMute::BY_NAME));
+}
+
+BOOL LLMuteList::removeGroup(const LLUUID& group_id)
+{
+	return remove(LLMute(LLUUID::null, std::string("Group:" + group_id.asString()), LLMute::BY_NAME));
+}
+
+BOOL LLMuteList::isGroupMuted(const LLUUID& group_id)
+{
+    return isMuted(LLUUID::null, std::string("Group:" + group_id.asString()));
 }
 
 //-----------------------------------------------------------------------------

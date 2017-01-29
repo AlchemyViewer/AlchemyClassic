@@ -34,9 +34,6 @@
 #include "llavataractions.h"
 #include "llfloaterconversationlog.h"
 #include "llfloaterreg.h"
-#include "llfontgl.h"
-#include "llgl.h"
-#include "llrect.h"
 #include "llerror.h"
 #include "llbutton.h"
 #include "llsdutil_math.h"
@@ -71,7 +68,6 @@
 #include "message.h"
 #include "llviewerregion.h"
 #include "llcorehttputil.h"
-
 
 const static std::string ADHOC_NAME_SUFFIX(" Conference");
 
@@ -530,11 +526,10 @@ LLIMModel::LLIMSession::LLIMSession(const LLUUID& session_id, const std::string&
 :	mSessionID(session_id),
 	mName(name),
 	mType(type),
-	mHasOfflineMessage(has_offline_msg),
-	mParticipantUnreadMessageCount(0),
-	mNumUnread(0),
 	mOtherParticipantID(other_participant_id),
 	mInitialTargetIDs(ids),
+	mParticipantUnreadMessageCount(0),
+	mNumUnread(0),
 	mVoiceChannel(NULL),
 	mSpeakers(NULL),
 	mSessionInitialized(false),
@@ -543,6 +538,7 @@ LLIMModel::LLIMSession::LLIMSession(const LLUUID& session_id, const std::string&
 	mOtherParticipantIsAvatar(true),
 	mStartCallOnInitialize(false),
 	mStartedAsIMCall(voice),
+	mHasOfflineMessage(has_offline_msg),
 	mIsDNDsend(false),
 	mAvatarNameCacheConnection()
 {
@@ -2743,7 +2739,8 @@ void LLIMMgr::addMessage(
 
 		// Logically it would make more sense to reject the session sooner, in another area of the
 		// code, but the session has to be established inside the server before it can be left.
-		if (LLMuteList::getInstance()->isMuted(other_participant_id) && !from_linden)
+		if ((LLMuteList::getInstance()->isMuted(other_participant_id) && !from_linden)
+            || LLMuteList::getInstance()->isGroupMuted(new_session_id))
 		{
 			LL_WARNS() << "Leaving IM session from initiating muted resident " << from << LL_ENDL;
 			if (!gIMMgr->leaveSession(new_session_id))

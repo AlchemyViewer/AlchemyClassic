@@ -26,6 +26,10 @@
  * @endcond
  */
 
+#ifndef MEDIA_PLUGIN_BASE_H
+#define MEDIA_PLUGIN_BASE_H
+#pragma once
+
 #include "linden_common.h"
 
 #include "llplugininstance.h"
@@ -125,5 +129,7 @@ int init_media_plugin(
 	void *host_user_data, 
 	LLPluginInstance::sendMessageFunction *plugin_send_func, 
 	void **plugin_user_data);
+
+#endif
 
 

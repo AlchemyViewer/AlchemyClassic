@@ -1628,11 +1628,6 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	resetSnapshotLoc();
 
 	U32 vsync_mode = gSavedSettings.getU32("RenderVerticalSync");
-	if (vsync_mode == 2 && !gGLManager.mHasAdaptiveVSync)
-	{
-		vsync_mode = 0; //Disable vsync if adaptive is desired yet isn't supported.
-		gSavedSettings.setU32("RenderVerticalSync", 0);
-	}
 
 	/*
 	LLWindowCallbacks* callbacks,

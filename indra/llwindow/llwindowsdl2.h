@@ -194,6 +194,10 @@ public:
 	/*virtual*/ void showImpl();
 	/*virtual*/ void updateImpl(const std::string& mesg);
 	/*virtual*/ void hideImpl();
+private:
+#if LL_WINDOWS
+		HWND mWindow;
+#endif
 };
 
 S32 OSMessageBoxSDL2(const std::string& text, const std::string& caption, U32 type);

@@ -52,7 +52,7 @@
 //
 // Globals
 //
-LLSplashScreen *gSplashScreenp = NULL;
+LLSplashScreen *gSplashScreenp = nullptr;
 BOOL gDebugClicks = FALSE;
 BOOL gDebugWindowProc = FALSE;
 #ifdef LL_DARWIN
@@ -117,7 +117,7 @@ LLWindow::LLWindow(LLWindowCallbacks* callbacks, BOOL fullscreen, U32 flags)
 	  mFullscreenHeight(0),
 	  mFullscreenBits(0),
 	  mFullscreenRefresh(0),
-	  mSupportedResolutions(NULL),
+	  mSupportedResolutions(nullptr),
 	  mNumSupportedResolutions(0),
 	  mCurrentCursor(UI_CURSOR_ARROW),
 	  mNextCursor(UI_CURSOR_ARROW),
@@ -337,8 +337,10 @@ bool LLSplashScreen::isVisible()
 // static
 LLSplashScreen *LLSplashScreen::create()
 {
-#if LL_MESA_HEADLESS || LL_SDL || LL_SDL2 // !!! *FIX: (?)
+#if LL_MESA_HEADLESS || LL_SDL // !!! *FIX: (?)
 	return 0;
+#elif LL_SDL2
+	return new LLSplashScreenSDL2;
 #elif LL_WINDOWS
 	return new LLSplashScreenWin32;
 #elif LL_DARWIN
@@ -354,11 +356,7 @@ void LLSplashScreen::show()
 {
 	if (!gSplashScreenp)
 	{
-#if LL_WINDOWS && !LL_MESA_HEADLESS && !LL_SDL && !LL_SDL2
-		gSplashScreenp = new LLSplashScreenWin32;
-#elif LL_DARWIN
-		gSplashScreenp = new LLSplashScreenMacOSX;
-#endif
+		gSplashScreenp = LLSplashScreen::create();
 		if (gSplashScreenp)
 		{
 			gSplashScreenp->showImpl();
@@ -384,7 +382,7 @@ void LLSplashScreen::hide()
 		gSplashScreenp->hideImpl();
 	}
 	delete gSplashScreenp;
-	gSplashScreenp = NULL;
+	gSplashScreenp = nullptr;
 }
 
 //
@@ -441,7 +439,7 @@ LLWindow* LLWindowManager::createWindow(
 	{
 		delete new_window;
 		LL_WARNS() << "LLWindowManager::create() : Error creating window." << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	sWindowList.insert(new_window);
 	return new_window;

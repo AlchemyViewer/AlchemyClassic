@@ -59,7 +59,7 @@ const S32 MAX_NUM_RESOLUTIONS = 200;
 //
 
 // Stash a pointer to the window implementation for use in static functions
-static LLWindowSDL2 *gWindowImplementation = NULL;
+static LLWindowSDL2 *gWindowImplementation = nullptr;
 
 LLWindowSDL2::LLWindowSDL2(LLWindowCallbacks* callbacks,
 	const std::string& title, const std::string& name, S32 x, S32 y, S32 width,
@@ -233,7 +233,7 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 				S32 resolutionCount = 0;
 				LLWindowResolution *resolutionList = getSupportedResolutions(resolutionCount);
 
-				if (resolutionList != NULL)
+				if (resolutionList != nullptr)
 				{
 					F32 closestAspect = 0;
 					U32 closestHeight = 0;
@@ -1307,7 +1307,7 @@ void LLWindowSDL2::gatherInput()
 			case SDL_WINDOWEVENT_SHOWN:
 				if (mFullscreen)
 				{
-					SDL_RaiseWindow(mWindow);
+					bringToFront();
 				}
 				mCallbacks->handleActivate(this, true);
 				break;
@@ -1447,7 +1447,7 @@ void LLWindowSDL2::updateCursor()
 		}
 		mCurrentCursor = mNextCursor;
 	}
-	SDL_SetCursor(NULL);
+	SDL_SetCursor(nullptr);
 }
 
 void LLWindowSDL2::initCursors()
@@ -1596,10 +1596,7 @@ void LLWindowSDL2::hideCursorUntilMouseMove()
 
 
 
-//
-// LLSplashScreenSDL - I don't think we'll bother to implement this; it's
-// fairly obsolete at this point.
-//
+// Implemented per-platform via #if
 LLSplashScreenSDL2::LLSplashScreenSDL2()
 {
 }
@@ -1610,14 +1607,52 @@ LLSplashScreenSDL2::~LLSplashScreenSDL2()
 
 void LLSplashScreenSDL2::showImpl()
 {
+#if LL_WINDOWS
+	// This appears to work.  ???
+	HINSTANCE hinst = GetModuleHandle(NULL);
+
+	mWindow = CreateDialog(hinst,
+		TEXT("SPLASHSCREEN"),
+		NULL,	// no parent
+		(DLGPROC) DefWindowProc);
+	ShowWindow(mWindow, SW_SHOW);
+#endif
 }
 
 void LLSplashScreenSDL2::updateImpl(const std::string& mesg)
 {
+#if LL_WINDOWS
+	if (!mWindow) return;
+
+	int output_str_len = MultiByteToWideChar(CP_UTF8, 0, mesg.c_str(), mesg.length(), NULL, 0);
+	if (output_str_len>1024)
+		return;
+
+	WCHAR w_mesg[1025];//big enought to keep null terminatos
+
+	MultiByteToWideChar(CP_UTF8, 0, mesg.c_str(), mesg.length(), w_mesg, output_str_len);
+
+	//looks like MultiByteToWideChar didn't add null terminator to converted string, see EXT-4858
+	w_mesg[output_str_len] = 0;
+
+	SendDlgItemMessage(mWindow,
+		666,		// HACK: text id
+		WM_SETTEXT,
+		FALSE,
+		(LPARAM) w_mesg);
+#endif
 }
 
 void LLSplashScreenSDL2::hideImpl()
 {
+#if LL_WINDOWS
+	if (mWindow)
+	{
+		DestroyWindow(mWindow);
+		mWindow = nullptr;
+	}
+	gWindowImplementation->bringToFront();
+#endif
 }
 
 S32 OSMessageBoxSDL2(const std::string& text, const std::string& caption, U32 type)

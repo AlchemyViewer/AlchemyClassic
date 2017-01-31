@@ -235,8 +235,6 @@ private:
 #endif
 };
 
-extern LPWSTR gIconResource;
-
 static void	handleMessage( const MSG& msg );
 
 S32 OSMessageBoxWin32(const std::string& text, const std::string& caption, U32 type);

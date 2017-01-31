@@ -34,12 +34,12 @@
 #endif
 #include "llwin32headers.h"
 
-#include "llwindowwin32.h" // *FIX: for setting gIconResource.
+#include "llwindow.h" // *FIX: for setting gIconResource.
 
 #include "llappviewerwin32.h"
 
 #include "llgl.h"
-#include "res/resource.h" // *FIX: for setting gIconResource.
+//#include "res/resource.h" // *FIX: for setting gIconResource.
 
 #include <fcntl.h>		//_O_APPEND
 #include <io.h>			//_open_osfhandle()
@@ -251,9 +251,6 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 #endif
 #endif
 	
-	// *FIX: global
-	gIconResource = MAKEINTRESOURCE(IDI_LL_ICON);
-
 	LLAppViewerWin32* viewer_app_ptr = new LLAppViewerWin32(lpCmdLine);
 	
 	gOldTerminateHandler = std::set_terminate(exceptionTerminateHandler);

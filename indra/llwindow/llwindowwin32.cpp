@@ -57,6 +57,10 @@
 #include <Imm.h>
 #include <Dbt.h.>
 
+#if LL_WINDOWS
+#include "../newview/res/resource.h"
+#endif
+
 const S32	MAX_MESSAGE_PER_UPDATE = 20;
 const S32	BITS_PER_PIXEL = 32;
 const S32	MAX_NUM_RESOLUTIONS = 32;
@@ -67,8 +71,6 @@ const F32	ICON_FLASH_TIME = 0.5f;
 #endif
 
 extern BOOL gDebugWindowProc;
-
-LPWSTR gIconResource = IDI_APPLICATION;
 
 #ifndef DPI_ENUMS_DECLARED
 
@@ -405,7 +407,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	LoadLibrary(TEXT("opengl32.dll"));
 
 	mFSAASamples = fsaa_samples;
-	mIconResource = gIconResource;
+	mIconResource = MAKEINTRESOURCE(IDI_LL_ICON);
 	mOverrideAspectRatio = 0.f;
 	mNativeAspectRatio = 0.f;
 	mMousePositionModified = FALSE;

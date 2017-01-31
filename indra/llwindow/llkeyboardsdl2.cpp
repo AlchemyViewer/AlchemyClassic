@@ -1,39 +1,41 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-/** 
- * @file llkeyboardsdl.cpp
+/**
+ * @file llkeyboardsdl2.cpp
  * @brief Handler for assignable key bindings
  *
  * $LicenseInfo:firstyear=2001&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2010, Linden Research, Inc.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation;
  * version 2.1 of the License only.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
 
-#if LL_SDL
+#if LL_SDL2
 
 #include "linden_common.h"
-#include "llkeyboardsdl.h"
+#include "llkeyboardsdl2.h"
 #include "llwindowcallbacks.h"
-#include "SDL/SDL.h"
 
-LLKeyboardSDL::LLKeyboardSDL()
+#ifndef SDL_MAIN_HANDLED
+#define SDL_MAIN_HANDLED 1
+#endif
+#include "SDL2/SDL.h"
+
+LLKeyboardSDL2::LLKeyboardSDL2()
 {
 	// Set up key mapping for SDL - eventually can read this from a file?
 	// Anything not in the key map gets dropped
@@ -42,7 +44,7 @@ LLKeyboardSDL::LLKeyboardSDL()
 	// Virtual key mappings from SDL_keysym.h ...
 
 	// SDL maps the letter keys to the ASCII you'd expect, but it's lowercase...
-	U32 cur_char;
+	U16 cur_char;
 	for (cur_char = 'A'; cur_char <= 'Z'; cur_char++)
 	{
 		mTranslateKeyMap[cur_char] = cur_char;
@@ -113,9 +115,9 @@ LLKeyboardSDL::LLKeyboardSDL()
 	mTranslateKeyMap[SDLK_F10] = KEY_F10;
 	mTranslateKeyMap[SDLK_F11] = KEY_F11;
 	mTranslateKeyMap[SDLK_F12] = KEY_F12;
-	mTranslateKeyMap[SDLK_PLUS]   = '=';
-	mTranslateKeyMap[SDLK_COMMA]  = ',';
-	mTranslateKeyMap[SDLK_MINUS]  = '-';
+	mTranslateKeyMap[SDLK_PLUS] = '=';
+	mTranslateKeyMap[SDLK_COMMA] = ',';
+	mTranslateKeyMap[SDLK_MINUS] = '-';
 	mTranslateKeyMap[SDLK_PERIOD] = '.';
 	mTranslateKeyMap[SDLK_BACKQUOTE] = '`';
 	mTranslateKeyMap[SDLK_SLASH] = KEY_DIVIDE;
@@ -132,69 +134,67 @@ LLKeyboardSDL::LLKeyboardSDL()
 		mInvTranslateKeyMap[iter->second] = iter->first;
 	}
 
-	// numpad map
-	mTranslateNumpadMap[SDLK_KP0] = KEY_PAD_INS;
-	mTranslateNumpadMap[SDLK_KP1] = KEY_PAD_END;
-	mTranslateNumpadMap[SDLK_KP2] = KEY_PAD_DOWN;
-	mTranslateNumpadMap[SDLK_KP3] = KEY_PAD_PGDN;
-	mTranslateNumpadMap[SDLK_KP4] = KEY_PAD_LEFT;
-	mTranslateNumpadMap[SDLK_KP5] = KEY_PAD_CENTER;
-	mTranslateNumpadMap[SDLK_KP6] = KEY_PAD_RIGHT;
-	mTranslateNumpadMap[SDLK_KP7] = KEY_PAD_HOME;
-	mTranslateNumpadMap[SDLK_KP8] = KEY_PAD_UP;
-	mTranslateNumpadMap[SDLK_KP9] = KEY_PAD_PGUP;
+	//// numpad map
+	mTranslateNumpadMap[SDLK_KP_0] = KEY_PAD_INS;
+	mTranslateNumpadMap[SDLK_KP_1] = KEY_PAD_END;
+	mTranslateNumpadMap[SDLK_KP_2] = KEY_PAD_DOWN;
+	mTranslateNumpadMap[SDLK_KP_3] = KEY_PAD_PGDN;
+	mTranslateNumpadMap[SDLK_KP_4] = KEY_PAD_LEFT;
+	mTranslateNumpadMap[SDLK_KP_5] = KEY_PAD_CENTER;
+	mTranslateNumpadMap[SDLK_KP_6] = KEY_PAD_RIGHT;
+	mTranslateNumpadMap[SDLK_KP_7] = KEY_PAD_HOME;
+	mTranslateNumpadMap[SDLK_KP_8] = KEY_PAD_UP;
+	mTranslateNumpadMap[SDLK_KP_9] = KEY_PAD_PGUP;
 	mTranslateNumpadMap[SDLK_KP_PERIOD] = KEY_PAD_DEL;
 
 	// build inverse numpad map
-	for (iter = mTranslateNumpadMap.begin();
-	     iter != mTranslateNumpadMap.end();
-	     iter++)
+	for (iter = mTranslateNumpadMap.begin(); iter != mTranslateNumpadMap.end(); iter++)
 	{
 		mInvTranslateNumpadMap[iter->second] = iter->first;
 	}
 }
 
-void LLKeyboardSDL::resetMaskKeys()
+void LLKeyboardSDL2::resetMaskKeys()
 {
-	SDLMod mask = SDL_GetModState();
+	SDL_Keymod mask = SDL_GetModState();
 
 	// MBW -- XXX -- This mirrors the operation of the Windows version of resetMaskKeys().
 	//    It looks a bit suspicious, as it won't correct for keys that have been released.
 	//    Is this the way it's supposed to work?
 
-	if(mask & KMOD_SHIFT)
+	if (mask & KMOD_SHIFT)
 	{
 		mKeyLevel[KEY_SHIFT] = TRUE;
 	}
 
-	if(mask & KMOD_CTRL)
+	if (mask & KMOD_CTRL)
 	{
 		mKeyLevel[KEY_CONTROL] = TRUE;
 	}
 
-	if(mask & KMOD_ALT)
+	if (mask & KMOD_ALT)
 	{
 		mKeyLevel[KEY_ALT] = TRUE;
 	}
 }
 
 
-MASK LLKeyboardSDL::updateModifiers(const U32 mask)
+MASK LLKeyboardSDL2::updateModifiers(const U32 mask)
 {
 	// translate the mask
 	MASK out_mask = MASK_NONE;
 
-	if(mask & KMOD_SHIFT)
+	if (mask & KMOD_SHIFT)
 	{
 		out_mask |= MASK_SHIFT;
 	}
 
-	if(mask & KMOD_CTRL)
+	if (mask & KMOD_CTRL)
 	{
 		out_mask |= MASK_CONTROL;
 	}
 
-	if(mask & KMOD_ALT)
+	if (mask & KMOD_ALT)
 	{
 		out_mask |= MASK_ALT;
 	}
@@ -213,33 +213,33 @@ static U32 adjustNativekeyFromUnhandledMask(const U32 key, const U32 mask)
 		switch (key)
 		{
 		case SDLK_KP_PERIOD: rtn = SDLK_DELETE; break;
-		case SDLK_KP0: rtn = SDLK_INSERT; break;
-		case SDLK_KP1: rtn = SDLK_END; break;
-		case SDLK_KP2: rtn = SDLK_DOWN; break;
-		case SDLK_KP3: rtn = SDLK_PAGEDOWN; break;
-		case SDLK_KP4: rtn = SDLK_LEFT; break;
-		case SDLK_KP6: rtn = SDLK_RIGHT; break;
-		case SDLK_KP7: rtn = SDLK_HOME; break;
-		case SDLK_KP8: rtn = SDLK_UP; break;
-		case SDLK_KP9: rtn = SDLK_PAGEUP; break;
+		case SDLK_KP_0: rtn = SDLK_INSERT; break;
+		case SDLK_KP_1: rtn = SDLK_END; break;
+		case SDLK_KP_2: rtn = SDLK_DOWN; break;
+		case SDLK_KP_3: rtn = SDLK_PAGEDOWN; break;
+		case SDLK_KP_4: rtn = SDLK_LEFT; break;
+		case SDLK_KP_6: rtn = SDLK_RIGHT; break;
+		case SDLK_KP_7: rtn = SDLK_HOME; break;
+		case SDLK_KP_8: rtn = SDLK_UP; break;
+		case SDLK_KP_9: rtn = SDLK_PAGEUP; break;
 		}
 	}
 	return rtn;
 }
 
 
-BOOL LLKeyboardSDL::handleKeyDown(const U32 key, const U32 mask)
+BOOL LLKeyboardSDL2::handleKeyDown(const U32 key, MASK mask)
 {
-	U32     adjusted_nativekey;
-	KEY	translated_key = 0;
-	U32	translated_mask = MASK_NONE;
-	BOOL	handled = FALSE;
+	U32 adjusted_nativekey;
+	KEY translated_key = 0;
+	MASK translated_mask = MASK_NONE;
+	BOOL handled = FALSE;
 
 	adjusted_nativekey = adjustNativekeyFromUnhandledMask(key, mask);
 
 	translated_mask = updateModifiers(mask);
-	
-	if(translateNumpadKey(adjusted_nativekey, &translated_key))
+
+	if (translateNumpadKey(adjusted_nativekey, &translated_key))
 	{
 		handled = handleTranslatedKeyDown(translated_key, translated_mask);
 	}
@@ -248,18 +248,18 @@ BOOL LLKeyboardSDL::handleKeyDown(const U32 key, const U32 mask)
 }
 
 
-BOOL LLKeyboardSDL::handleKeyUp(const U32 key, const U32 mask)
+BOOL LLKeyboardSDL2::handleKeyUp(const U32 key, MASK mask)
 {
-	U32     adjusted_nativekey;
+	U32 adjusted_nativekey;
 	KEY	translated_key = 0;
-	U32	translated_mask = MASK_NONE;
-	BOOL	handled = FALSE;
+	MASK translated_mask = MASK_NONE;
+	BOOL handled = FALSE;
 
 	adjusted_nativekey = adjustNativekeyFromUnhandledMask(key, mask);
 
 	translated_mask = updateModifiers(mask);
 
-	if(translateNumpadKey(adjusted_nativekey, &translated_key))
+	if (translateNumpadKey(adjusted_nativekey, &translated_key))
 	{
 		handled = handleTranslatedKeyUp(translated_key, translated_mask);
 	}
@@ -267,25 +267,25 @@ BOOL LLKeyboardSDL::handleKeyUp(const U32 key, const U32 mask)
 	return handled;
 }
 
-MASK LLKeyboardSDL::currentMask(BOOL for_mouse_event)
+MASK LLKeyboardSDL2::currentMask(BOOL for_mouse_event)
 {
 	MASK result = MASK_NONE;
-	SDLMod mask = SDL_GetModState();
+	SDL_Keymod mask = SDL_GetModState();
 
 	if (mask & KMOD_SHIFT)			result |= MASK_SHIFT;
 	if (mask & KMOD_CTRL)			result |= MASK_CONTROL;
 	if (mask & KMOD_ALT)			result |= MASK_ALT;
 
-	// For keyboard events, consider Meta keys equivalent to Control
+	//// For keyboard events, consider Meta keys equivalent to Control
 	if (!for_mouse_event)
 	{
-		if (mask & KMOD_META) result |= MASK_CONTROL;
+		if (mask & KMOD_GUI) result |= MASK_CONTROL;
 	}
 
 	return result;
 }
 
-void LLKeyboardSDL::scanKeyboard()
+void LLKeyboardSDL2::scanKeyboard()
 {
 	for (S32 key = 0; key < KEY_COUNT; key++)
 	{
@@ -311,13 +311,13 @@ void LLKeyboardSDL::scanKeyboard()
 	}
 }
 
- 
-BOOL LLKeyboardSDL::translateNumpadKey( const U32 os_key, KEY *translated_key)
+
+BOOL LLKeyboardSDL2::translateNumpadKey(const U32 os_key, KEY *translated_key)
 {
-	return translateKey(os_key, translated_key);	
+	return translateKey(os_key, translated_key);
 }
 
-U32 LLKeyboardSDL::inverseTranslateNumpadKey(const KEY translated_key)
+U32 LLKeyboardSDL2::inverseTranslateNumpadKey(const KEY translated_key)
 {
 	return inverseTranslateKey(translated_key);
 }

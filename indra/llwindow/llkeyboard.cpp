@@ -181,13 +181,11 @@ void LLKeyboard::resetKeys()
 }
 
 
-BOOL LLKeyboard::translateKey(const U16 os_key, KEY *out_key)
+BOOL LLKeyboard::translateKey(const U32 os_key, KEY *out_key)
 {
-	std::map<U16, KEY>::iterator iter;
-
 	// Only translate keys in the map, ignore all other keys for now
-	iter = mTranslateKeyMap.find(os_key);
-	if (iter == mTranslateKeyMap.end())
+	std::map<U32, KEY>::const_iterator iter = mTranslateKeyMap.find(os_key);
+	if (iter == mTranslateKeyMap.cend())
 	{
 		//LL_WARNS() << "Unknown virtual key " << os_key << LL_ENDL;
 		*out_key = 0;
@@ -201,11 +199,10 @@ BOOL LLKeyboard::translateKey(const U16 os_key, KEY *out_key)
 }
 
 
-U16 LLKeyboard::inverseTranslateKey(const KEY translated_key)
+U32 LLKeyboard::inverseTranslateKey(const KEY translated_key)
 {
-	std::map<KEY, U16>::iterator iter;
-	iter = mInvTranslateKeyMap.find(translated_key);
-	if (iter == mInvTranslateKeyMap.end())
+	std::map<KEY, U32>::iterator iter = mInvTranslateKeyMap.find(translated_key);
+	if (iter == mInvTranslateKeyMap.cend())
 	{
 		return 0;
 	}

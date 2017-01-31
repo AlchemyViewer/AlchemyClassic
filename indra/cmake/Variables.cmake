@@ -58,6 +58,9 @@ endif (USE_TCMALLOC AND USE_TBBMALLOC)
 # Audio Engines
 option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
+# Window implementation
+option(LLWINDOW_SDL2 "Use SDL2 for window and input handling" OFF)
+
 # Proprietary Library Features
 option(NVAPI "Use nvapi driver interface library" OFF)
 

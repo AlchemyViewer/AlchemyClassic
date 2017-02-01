@@ -1365,68 +1365,17 @@ static SDL_Cursor *makeSDLCursorFromBMP(const char *filename, int hotx, int hoty
 	bmpsurface = Load_BMP_Resource(filename);
 	if (bmpsurface && bmpsurface->w % 8 == 0)
 	{
-		SDL_Surface *cursurface;
-		LL_INFOS() << "Loaded cursor file " << filename << " "
-			<< bmpsurface->w << "x" << bmpsurface->h << LL_ENDL;
-		cursurface = SDL_CreateRGBSurface(SDL_SWSURFACE,
-			bmpsurface->w,
-			bmpsurface->h,
-			32,
-			SDL_SwapLE32(0xFFU),
-			SDL_SwapLE32(0xFF00U),
-			SDL_SwapLE32(0xFF0000U),
-			SDL_SwapLE32(0xFF000000U));
-		SDL_FillRect(cursurface, nullptr, SDL_SwapLE32(0x00000000U));
-
-		// Blit the cursor pixel data onto a 32-bit RGBA surface so we
-		// only have to cope with processing one type of pixel format.
-		if (0 == SDL_BlitSurface(bmpsurface, nullptr,
-			cursurface, nullptr))
+		
+		sdlcursor = SDL_CreateColorCursor(bmpsurface, hotx, hoty);
+		if (!sdlcursor)
 		{
-			// n.b. we already checked that width is a multiple of 8.
-			const int bitmap_bytes = (cursurface->w * cursurface->h) / 8;
-			unsigned char *cursor_data = new unsigned char[bitmap_bytes];
-			unsigned char *cursor_mask = new unsigned char[bitmap_bytes];
-			memset(cursor_data, 0, bitmap_bytes);
-			memset(cursor_mask, 0, bitmap_bytes);
-			int i, j;
-			// Walk the RGBA cursor pixel data, extracting both data and
-			// mask to build SDL-friendly cursor bitmaps from.  The mask
-			// is inferred by color-keying against 200,200,200
-			for (i = 0; i < cursurface->h; ++i) {
-				for (j = 0; j < cursurface->w; ++j) {
-					U8 *pixelp =
-						((U8*) cursurface->pixels)
-						+ cursurface->pitch * i
-						+ j*cursurface->format->BytesPerPixel;
-					U8 srcred = pixelp[0];
-					U8 srcgreen = pixelp[1];
-					U8 srcblue = pixelp[2];
-					BOOL mask_bit = (srcred != 200)
-						|| (srcgreen != 200)
-						|| (srcblue != 200);
-					BOOL data_bit = mask_bit && (srcgreen <= 80);//not 0x80
-					unsigned char bit_offset = (cursurface->w / 8) * i
-						+ j / 8;
-					cursor_data[bit_offset] |= (data_bit) << (7 - (j & 7));
-					cursor_mask[bit_offset] |= (mask_bit) << (7 - (j & 7));
-				}
-			}
-			sdlcursor = SDL_CreateCursor((Uint8*) cursor_data,
-				(Uint8*) cursor_mask,
-				cursurface->w, cursurface->h,
-				hotx, hoty);
-			delete [] cursor_data;
-			delete [] cursor_mask;
+			LL_WARNS() << "Failed to create cursor: " << filename << " SDL Error: " << SDL_GetError() << LL_ENDL;
 		}
-		else {
-			LL_WARNS() << "CURSOR BLIT FAILURE, cursurface: " << cursurface << LL_ENDL;
-		}
-		SDL_FreeSurface(cursurface);
 		SDL_FreeSurface(bmpsurface);
 	}
-	else {
-		LL_WARNS() << "CURSOR LOAD FAILURE " << filename << LL_ENDL;
+	else 
+	{
+		LL_WARNS() << "Failed to load bmp: " << filename << " SDL Error: " << SDL_GetError() << LL_ENDL;
 	}
 
 	return sdlcursor;

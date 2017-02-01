@@ -58,7 +58,7 @@ public:
 	/*virtual*/ BOOL setPosition(LLCoordScreen position);
 	/*virtual*/ BOOL setSizeImpl(LLCoordScreen size);
 	/*virtual*/ BOOL setSizeImpl(LLCoordWindow size);
-	/*virtual*/ BOOL switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp = NULL);
+	/*virtual*/ BOOL switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp = NULL) override;
 	/*virtual*/ BOOL setCursorPosition(LLCoordWindow position);
 	/*virtual*/ BOOL getCursorPosition(LLCoordWindow *position);
 	/*virtual*/ void showCursor();
@@ -124,7 +124,7 @@ public:
 protected:
 	LLWindowSDL2(LLWindowCallbacks* callbacks,
 		const std::string& title, const std::string& name, int x, int y, int width, int height, U32 flags,
-		BOOL fullscreen, BOOL clearBg, EVSyncSetting vsync_setting, BOOL use_gl,
+		U32 window_mode, BOOL clearBg, U32 vsync_setting, BOOL use_gl,
 		BOOL ignore_pixel_depth, U32 fsaa_samples);
 	~LLWindowSDL2();
 
@@ -142,7 +142,7 @@ protected:
 	//
 
 	// create or re-create the GL context/window.  Called from the constructor and switchContext().
-	BOOL createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, EVSyncSetting vsync_setting);
+	BOOL createContext(int x, int y, int width, int height, int bits, U32 window_mode, U32 vsync_setting);
 	void destroyContext();
 	void setupFailure(const std::string& text, const std::string& caption, U32 type);
 	U32 SDLCheckGrabbyKeys(SDL_Keycode keysym, BOOL gain);
@@ -179,6 +179,11 @@ private:
 	U32 mKeyScanCode;
 	U32 mKeyVirtualKey;
 	SDL_Keycode mKeyModifiers;
+#if LL_WINDOWS
+	U32				mRawMsg;
+	U32				mRawWParam;
+	U32				mRawLParam;
+#endif
 };
 
 

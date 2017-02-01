@@ -3161,7 +3161,7 @@ bool LLAppViewer::initWindow()
 		.height(gSavedSettings.getU32("WindowHeight"))
 		.min_width(gSavedSettings.getU32("MinWindowWidth"))
 		.min_height(gSavedSettings.getU32("MinWindowHeight"))
-		.fullscreen(gSavedSettings.getBOOL("FullScreen"))
+		.window_mode(gSavedSettings.getU32("WindowMode"))
 		.ignore_pixel_depth(ignorePixelDepth)
 		.first_run(mIsFirstRun);
 

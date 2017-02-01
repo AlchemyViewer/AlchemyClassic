@@ -40,6 +40,7 @@
 #include "llstring.h"
 #include "lldir.h"
 #include "llfindlocale.h"
+#include "llsdutil.h"
 
 #include "SDL2/SDL_messagebox.h"
 #include "SDL2/SDL_syswm.h"
@@ -64,10 +65,10 @@ static LLWindowSDL2 *gWindowImplementation = nullptr;
 LLWindowSDL2::LLWindowSDL2(LLWindowCallbacks* callbacks,
 	const std::string& title, const std::string& name, S32 x, S32 y, S32 width,
 	S32 height, U32 flags,
-	BOOL fullscreen, BOOL clearBg,
-	EVSyncSetting vsync_setting, BOOL use_gl,
+	U32 window_mode, BOOL clearBg,
+	U32 vsync_setting, BOOL use_gl,
 	BOOL ignore_pixel_depth, U32 fsaa_samples)
-	: LLWindow(callbacks, fullscreen, flags),
+	: LLWindow(callbacks, window_mode, flags),
 	mGamma(1.0f)
 {
 	SDL_SetMainReady();
@@ -91,7 +92,6 @@ LLWindowSDL2::LLWindowSDL2(LLWindowCallbacks* callbacks,
 	mGrabbyKeyFlags = 0;
 	mReallyCapturedCount = 0;
 	mFSAASamples = fsaa_samples;
-	mFullscreen = FALSE;
 
 	// Assume 4:3 aspect ratio until we know better
 	mOriginalAspectRatio = 1024.0 / 768.0;
@@ -104,7 +104,7 @@ LLWindowSDL2::LLWindowSDL2(LLWindowCallbacks* callbacks,
 		mWindowTitle = title;
 
 	// Create the GL context and set it up for windowed or fullscreen, as appropriate.
-	if (createContext(x, y, width, height, 32, fullscreen, vsync_setting))
+	if (createContext(x, y, width, height, 32, window_mode, vsync_setting))
 	{
 		gGLManager.initGL();
 
@@ -147,14 +147,16 @@ static SDL_Surface *Load_BMP_Resource(const char *basename)
 	return SDL_LoadBMP(path.c_str());
 }
 
-BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, EVSyncSetting vsync_setting)
+BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, U32 window_mode, U32 vsync_setting)
 {
-	LL_INFOS() << "createContext, fullscreen=" << fullscreen <<
+	LL_INFOS() << "createContext, fullscreen=" << window_mode <<
 		" size=" << width << "x" << height << LL_ENDL;
 
 	// captures don't survive contexts
 	mGrabbyKeyFlags = 0;
 	mReallyCapturedCount = 0;
+
+	mWindowMode = window_mode;
 
 #if LL_WINDOWS
 	char* name_char = const_cast<char*>(mWindowName.c_str());
@@ -218,100 +220,118 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 		}
 	}
 
-	if (fullscreen)
-	{
-		if (SDL_SetWindowFullscreen(mWindow, SDL_WINDOW_FULLSCREEN) == 0)
+	if (getFullscreen())
+	{ 
+		Uint32 window_mode_flag = 0;
+		if (window_mode == E_WINDOW_WINDOWED_FULLSCREEN)
+		{
+			window_mode_flag = SDL_WINDOW_FULLSCREEN_DESKTOP;
+		}
+		else if (window_mode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
+		{
+			window_mode_flag = SDL_WINDOW_FULLSCREEN;
+		}
+		int ret = SDL_SetWindowFullscreen(mWindow, window_mode_flag);
+		if (ret == 0)
 		{
 			SDL_SetWindowResizable(mWindow, SDL_FALSE);
-			LL_INFOS() << "Setting up fullscreen " << width << "x" << height << LL_ENDL;
-
-			// If the requested width or height is 0, find the best default for the monitor.
-			if ((width == 0) || (height == 0))
+			SDL_SetWindowPosition(mWindow, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+			if (window_mode == E_WINDOW_WINDOWED_FULLSCREEN)
 			{
-				// Scan through the list of modes, looking for one which has:
-				//		height between 700 and 800
-				//		aspect ratio closest to the user's original mode
-				S32 resolutionCount = 0;
-				LLWindowResolution *resolutionList = getSupportedResolutions(resolutionCount);
+				mWindowMode = E_WINDOW_WINDOWED_FULLSCREEN;
+			}
+			else if (window_mode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
+			{
+				LL_INFOS() << "Setting up fullscreen " << width << "x" << height << LL_ENDL;
 
-				if (resolutionList != nullptr)
+				// If the requested width or height is 0, find the best default for the monitor.
+				if ((width == 0) || (height == 0))
 				{
-					F32 closestAspect = 0;
-					U32 closestHeight = 0;
-					U32 closestWidth = 0;
-					int i;
+					// Scan through the list of modes, looking for one which has:
+					//		height between 700 and 800
+					//		aspect ratio closest to the user's original mode
+					S32 resolutionCount = 0;
+					LLWindowResolution *resolutionList = getSupportedResolutions(resolutionCount);
 
-					LL_INFOS() << "Searching for a display mode, original aspect is " << mOriginalAspectRatio << LL_ENDL;
-
-					for (i = 0; i < resolutionCount; i++)
+					if (resolutionList != nullptr)
 					{
-						F32 aspect = (F32) resolutionList[i].mWidth / (F32) resolutionList[i].mHeight;
+						F32 closestAspect = 0;
+						U32 closestHeight = 0;
+						U32 closestWidth = 0;
+						int i;
 
-						LL_INFOS() << "Display mode width " << resolutionList[i].mWidth << " height " << resolutionList[i].mHeight << " aspect " << aspect << LL_ENDL;
+						LL_INFOS() << "Searching for a display mode, original aspect is " << mOriginalAspectRatio << LL_ENDL;
 
-						if ((resolutionList[i].mHeight >= 700) && (resolutionList[i].mHeight <= 800) &&
-							(fabs(aspect - mOriginalAspectRatio) < fabs(closestAspect - mOriginalAspectRatio)))
+						for (i = 0; i < resolutionCount; i++)
 						{
-							LL_INFOS() << " (new closest mode) " << LL_ENDL;
+							F32 aspect = (F32) resolutionList[i].mWidth / (F32) resolutionList[i].mHeight;
 
-							// This is the closest mode we've seen yet.
-							closestWidth = resolutionList[i].mWidth;
-							closestHeight = resolutionList[i].mHeight;
-							closestAspect = aspect;
+							LL_INFOS() << "Display mode width " << resolutionList[i].mWidth << " height " << resolutionList[i].mHeight << " aspect " << aspect << LL_ENDL;
+
+							if ((resolutionList[i].mHeight >= 700) && (resolutionList[i].mHeight <= 800) &&
+								(fabs(aspect - mOriginalAspectRatio) < fabs(closestAspect - mOriginalAspectRatio)))
+							{
+								LL_INFOS() << " (new closest mode) " << LL_ENDL;
+
+								// This is the closest mode we've seen yet.
+								closestWidth = resolutionList[i].mWidth;
+								closestHeight = resolutionList[i].mHeight;
+								closestAspect = aspect;
+							}
 						}
+
+						width = closestWidth;
+						height = closestHeight;
 					}
-
-					width = closestWidth;
-					height = closestHeight;
 				}
-			}
 
-			if ((width == 0) || (height == 0))
-			{
-				// Mode search failed for some reason.  Use the old-school default.
-				width = 1024;
-				height = 768;
-			}
-			SDL_DisplayMode target_mode;
-			SDL_zero(target_mode);
-			target_mode.w = width;
-			target_mode.h = height;
+				if ((width == 0) || (height == 0))
+				{
+					// Mode search failed for some reason.  Use the old-school default.
+					width = 1024;
+					height = 768;
+				}
+				SDL_DisplayMode target_mode;
+				SDL_zero(target_mode);
+				target_mode.w = width;
+				target_mode.h = height;
 
-			SDL_DisplayMode closest_mode;
-			SDL_zero(closest_mode);
-			SDL_GetClosestDisplayMode(SDL_GetWindowDisplayIndex(mWindow), &target_mode, &closest_mode);
-			if (SDL_SetWindowDisplayMode(mWindow, &closest_mode) == 0)
-			{
-				SDL_DisplayMode mode;
-				SDL_GetWindowDisplayMode(mWindow, &mode);
-				mFullscreen = TRUE;
-				mFullscreenWidth = mode.w;
-				mFullscreenHeight = mode.h;
-				mFullscreenBits = SDL_BITSPERPIXEL(mode.format);
-				mFullscreenRefresh = mode.refresh_rate;
+				SDL_DisplayMode closest_mode;
+				SDL_zero(closest_mode);
+				SDL_GetClosestDisplayMode(SDL_GetWindowDisplayIndex(mWindow), &target_mode, &closest_mode);
+				if (SDL_SetWindowDisplayMode(mWindow, &closest_mode) == 0)
+				{
+					SDL_DisplayMode mode;
+					SDL_GetWindowDisplayMode(mWindow, &mode);
+					mWindowMode = E_WINDOW_FULLSCREEN_EXCLUSIVE;
+					mFullscreenWidth = mode.w;
+					mFullscreenHeight = mode.h;
+					mFullscreenBits = SDL_BITSPERPIXEL(mode.format);
+					mFullscreenRefresh = mode.refresh_rate;
 
-				mOverrideAspectRatio = (float)mode.w / (float)mode.h;
+					mOverrideAspectRatio = (float) mode.w / (float) mode.h;
 
-				LL_INFOS() << "Running at " << mFullscreenWidth
-					<< "x" << mFullscreenHeight
-					<< "x" << mFullscreenBits
-					<< " @ " << mFullscreenRefresh
-					<< LL_ENDL;
-			}
-			else
-			{
-				LL_WARNS() << "Failed to set display mode for fullscreen. SDL: " << SDL_GetError() << LL_ENDL;
-				// No fullscreen support
-				mFullscreen = FALSE;
-				mFullscreenWidth = -1;
-				mFullscreenHeight = -1;
-				mFullscreenBits = -1;
-				mFullscreenRefresh = -1;
+					LL_INFOS() << "Running at " << mFullscreenWidth
+						<< "x" << mFullscreenHeight
+						<< "x" << mFullscreenBits
+						<< " @ " << mFullscreenRefresh
+						<< LL_ENDL;
+				}
+				else
+				{
+					LL_WARNS() << "Failed to set display mode for fullscreen. SDL: " << SDL_GetError() << LL_ENDL;
+					// No fullscreen support
+					mWindowMode = E_WINDOW_WINDOWED;
+					mFullscreenWidth = -1;
+					mFullscreenHeight = -1;
+					mFullscreenBits = -1;
+					mFullscreenRefresh = -1;
 
-				std::string error = llformat("Unable to run fullscreen at %d x %d.\nRunning in window.", width, height);
-				OSMessageBox(error, "Error", OSMB_OK);
-				SDL_SetWindowFullscreen(mWindow, 0);
-				SDL_SetWindowResizable(mWindow, SDL_TRUE);
+					std::string error = llformat("Unable to run fullscreen at %d x %d.\nRunning in window.", width, height);
+					OSMessageBox(error, "Error", OSMB_OK);
+					SDL_SetWindowFullscreen(mWindow, 0);
+					SDL_SetWindowResizable(mWindow, SDL_TRUE);
+				}
 			}
 		}
 		else
@@ -327,8 +347,6 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
 	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, (bits <= 16) ? 1 : 8);
-
-	mFullscreen = fullscreen;
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
@@ -484,17 +502,17 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 }
 
 // changing fullscreen resolution, or switching between windowed and fullscreen mode.
-BOOL LLWindowSDL2::switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp)
+BOOL LLWindowSDL2::switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp)
 {
 	const BOOL needsRebuild = TRUE;  // Just nuke the context and start over.
 	BOOL result = true;
 
-	LL_INFOS() << "switchContext, fullscreen=" << fullscreen << LL_ENDL;
+	LL_INFOS() << "switchContext, fullscreen=" << window_mode << LL_ENDL;
 	stop_glerror();
 	if (needsRebuild)
 	{
 		destroyContext();
-		result = createContext(0, 0, size.mX, size.mY, 32, fullscreen, vsync_setting);
+		result = createContext(0, 0, size.mX, size.mY, 32, window_mode, vsync_setting);
 		if (result)
 		{
 			gGLManager.initGL();
@@ -662,7 +680,7 @@ BOOL LLWindowSDL2::maximize()
 
 BOOL LLWindowSDL2::getFullscreen()
 {
-	return mFullscreen;
+	return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE || mWindowMode == E_WINDOW_WINDOWED_FULLSCREEN;
 }
 
 BOOL LLWindowSDL2::getPosition(LLCoordScreen *position)
@@ -715,7 +733,7 @@ BOOL LLWindowSDL2::setSizeImpl(const LLCoordScreen size)
 		S32 width = llmax(size.mX, (S32) mMinWindowWidth);
 		S32 height = llmax(size.mY, (S32) mMinWindowHeight);
 
-		if (getFullscreen())
+		if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 		{
 			SDL_DisplayMode target_mode;
 			SDL_zero(target_mode);
@@ -759,7 +777,7 @@ BOOL LLWindowSDL2::setSizeImpl(const LLCoordWindow size)
 		S32 width = llmax(size.mX, (S32) mMinWindowWidth);
 		S32 height = llmax(size.mY, (S32) mMinWindowHeight);
 
-		if (getFullscreen())
+		if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 		{
 			SDL_DisplayMode target_mode;
 			SDL_zero(target_mode);
@@ -1701,33 +1719,29 @@ S32 OSMessageBoxSDL2(const std::string& text, const std::string& caption, U32 ty
 	return rtn;
 }
 
-/*
-Make the raw keyboard data available - used to poke through to LLQtWebKit so
-that Qt/Webkit has access to the virtual keycodes etc. that it needs
-*/
 LLSD LLWindowSDL2::getNativeKeyData()
 {
 	LLSD result = LLSD::emptyMap();
 
-	//U32 modifiers = 0; // pretend-native modifiers... oh what a tangled web we weave!
+	U32 modifiers = 0; // pretend-native modifiers... oh what a tangled web we weave!
 
-	//				   // we go through so many levels of device abstraction that I can't really guess
-	//				   // what a plugin under GDK under Qt under SL under SDL under X11 considers
-	//				   // a 'native' modifier mask.  this has been sort of reverse-engineered... they *appear*
-	//				   // to match GDK consts, but that may be co-incidence.
-	//modifiers |= (mKeyModifiers & KMOD_LSHIFT) ? 0x0001 : 0;
-	//modifiers |= (mKeyModifiers & KMOD_RSHIFT) ? 0x0001 : 0;// munge these into the same shift
-	//modifiers |= (mKeyModifiers & KMOD_CAPS) ? 0x0002 : 0;
-	//modifiers |= (mKeyModifiers & KMOD_LCTRL) ? 0x0004 : 0;
-	//modifiers |= (mKeyModifiers & KMOD_RCTRL) ? 0x0004 : 0;// munge these into the same ctrl
-	//modifiers |= (mKeyModifiers & KMOD_LALT) ? 0x0008 : 0;// untested
-	//modifiers |= (mKeyModifiers & KMOD_RALT) ? 0x0008 : 0;// untested
-	//													  // *todo: test ALTs - I don't have a case for testing these.  Do you?
-	//													  // *todo: NUM? - I don't care enough right now (and it's not a GDK modifier).
+					   // we go through so many levels of device abstraction that I can't really guess
+					   // what a plugin under GDK under Qt under SL under SDL under X11 considers
+					   // a 'native' modifier mask.  this has been sort of reverse-engineered... they *appear*
+					   // to match GDK consts, but that may be co-incidence.
+	modifiers |= (mKeyModifiers & KMOD_LSHIFT) ? 0x0001 : 0;
+	modifiers |= (mKeyModifiers & KMOD_RSHIFT) ? 0x0001 : 0;// munge these into the same shift
+	modifiers |= (mKeyModifiers & KMOD_CAPS) ? 0x0002 : 0;
+	modifiers |= (mKeyModifiers & KMOD_LCTRL) ? 0x0004 : 0;
+	modifiers |= (mKeyModifiers & KMOD_RCTRL) ? 0x0004 : 0;// munge these into the same ctrl
+	modifiers |= (mKeyModifiers & KMOD_LALT) ? 0x0008 : 0;// untested
+	modifiers |= (mKeyModifiers & KMOD_RALT) ? 0x0008 : 0;// untested
+														  // *todo: test ALTs - I don't have a case for testing these.  Do you?
+														  // *todo: NUM? - I don't care enough right now (and it's not a GDK modifier).
 
-	//result["scan_code"] = (S32) mKeyScanCode;
-	//result["virtual_key"] = (S32) mKeyVirtualKey;
-	//result["modifiers"] = (S32) modifiers;
+	result["scan_code"] = (S32) mKeyScanCode;
+	result["virtual_key"] = (S32) mKeyVirtualKey;
+	result["modifiers"] = (S32) modifiers;
 
 	return result;
 }

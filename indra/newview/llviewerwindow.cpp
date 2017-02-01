@@ -849,7 +849,7 @@ LLViewerWindow::Params::Params()
 	height("height"),
 	min_width("min_width"),
 	min_height("min_height"),
-	fullscreen("fullscreen", false),
+	window_mode("window_mode", 0),
 	ignore_pixel_depth("ignore_pixel_depth", false)
 {}
 
@@ -1619,7 +1619,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	LLNotifications::instance().setIgnoreAllNotifications(ignore);
 	if (ignore)
 	{
-	LL_INFOS() << "NOTE: ALL NOTIFICATIONS THAT OCCUR WILL GET ADDED TO IGNORE LIST FOR LATER RUNS." << LL_ENDL;
+		LL_INFOS() << "NOTE: ALL NOTIFICATIONS THAT OCCUR WILL GET ADDED TO IGNORE LIST FOR LATER RUNS." << LL_ENDL;
 	}
 
 	// Default to application directory.
@@ -1628,7 +1628,6 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	resetSnapshotLoc();
 
 	U32 vsync_mode = gSavedSettings.getU32("RenderVerticalSync");
-
 	/*
 	LLWindowCallbacks* callbacks,
 	const std::string& title, const std::string& name, S32 x, S32 y, S32 width, S32 height, U32 flags,
@@ -1641,9 +1640,9 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	// create window
 	mWindow = LLWindowManager::createWindow(this,
 		p.title, p.name, p.x, p.y, p.width, p.height, 0,
-		p.fullscreen, 
+		p.window_mode,
 		gHeadlessClient,
-		(EVSyncSetting)vsync_mode,
+		vsync_mode,
 		!gHeadlessClient,
 		p.ignore_pixel_depth,
 		gSavedSettings.getBOOL("RenderDeferred") ? 0 : gSavedSettings.getU32("RenderFSAASamples")); //don't use window level anti-aliasing if FBOs are enabled
@@ -1683,7 +1682,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	LLCoordScreen scr;
     mWindow->getSize(&scr);
 
-    if(p.fullscreen && ( scr.mX!=p.width || scr.mY!=p.height))
+    if((p.window_mode == LLWindow::E_WINDOW_FULLSCREEN_EXCLUSIVE) && ( scr.mX!=p.width || scr.mY!=p.height))
     {
 		LL_WARNS() << "Fullscreen has forced us in to a different resolution now using "<<scr.mX<<" x "<<scr.mY<<LL_ENDL;
 		gSavedSettings.setS32("FullScreenWidth",scr.mX);

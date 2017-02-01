@@ -37,13 +37,6 @@ class LLSplashScreen;
 class LLPreeditor;
 class LLWindowCallbacks;
 
-enum EVSyncSetting
-{
-	E_VSYNC_DISABLED = 0,
-	E_VSYNC_NORMAL,
-	E_VSYNC_ADAPTIVE
-};
-
 // Refer to llwindow_test in test/common/llwindow for usage example
 
 class LLWindow : public LLInstanceTracker<LLWindow>
@@ -54,6 +47,19 @@ public:
 	{
 		S32 mWidth;
 		S32 mHeight;
+	};
+	enum EWindowMode
+	{
+		E_WINDOW_WINDOWED = 0,
+		E_WINDOW_WINDOWED_FULLSCREEN,
+		E_WINDOW_FULLSCREEN_EXCLUSIVE
+
+	};
+	enum EVSyncSetting
+	{
+		E_VSYNC_DISABLED = 0,
+		E_VSYNC_NORMAL,
+		E_VSYNC_ADAPTIVE
 	};
 	enum ESwapMethod
 	{
@@ -75,7 +81,7 @@ public:
 	virtual BOOL maximize() = 0;
 	virtual void minimize() = 0;
 	virtual void restore() = 0;
-	BOOL getFullscreen()	{ return mFullscreen; };
+	BOOL getFullscreen()	{ return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE || mWindowMode == E_WINDOW_WINDOWED_FULLSCREEN; };
 	virtual BOOL getPosition(LLCoordScreen *position) = 0;
 	virtual BOOL getSize(LLCoordScreen *size) = 0;
 	virtual BOOL getSize(LLCoordWindow *size) = 0;
@@ -83,7 +89,7 @@ public:
 	BOOL setSize(LLCoordScreen size);
 	BOOL setSize(LLCoordWindow size);
 	virtual void setMinSize(U32 min_width, U32 min_height, bool enforce_immediately = true);
-	virtual BOOL switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp = NULL) = 0;
+	virtual BOOL switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp = NULL) = 0;
 	virtual BOOL setCursorPosition(LLCoordWindow position) = 0;
 	virtual BOOL getCursorPosition(LLCoordWindow *position) = 0;
 	virtual void showCursor() = 0;
@@ -179,7 +185,7 @@ public:
 	// Get system UI size based on DPI (for 96 DPI UI size should be 1.0)
 	virtual F32 getSystemUISize() { return 1.0; }
 protected:
-	LLWindow(LLWindowCallbacks* callbacks, BOOL fullscreen, U32 flags);
+	LLWindow(LLWindowCallbacks* callbacks, U32 window_mode, U32 flags);
 	virtual ~LLWindow();
 	// Defaults to true
 	virtual BOOL isValid();
@@ -193,7 +199,7 @@ protected:
 	LLWindowCallbacks*	mCallbacks;
 
 	BOOL		mPostQuit;		// should this window post a quit message when destroyed?
-	BOOL		mFullscreen;
+	U32			mWindowMode;
 	S32			mFullscreenWidth;
 	S32			mFullscreenHeight;
 	S32			mFullscreenBits;
@@ -276,9 +282,9 @@ public:
 		LLWindowCallbacks* callbacks,
 		const std::string& title, const std::string& name, S32 x, S32 y, S32 width, S32 height,
 		U32 flags = 0,
-		BOOL fullscreen = FALSE,
+		U32 window_mode = LLWindow::E_WINDOW_WINDOWED,
 		BOOL clearBg = FALSE,
-		EVSyncSetting vsync_setting = E_VSYNC_DISABLED,
+		U32 vsync_setting = LLWindow::E_VSYNC_DISABLED,
 		BOOL use_gl = TRUE,
 		BOOL ignore_pixel_depth = FALSE,
 		U32 fsaa_samples = 0);

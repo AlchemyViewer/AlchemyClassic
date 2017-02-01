@@ -1208,5 +1208,16 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>WindowMode</key>
+    <map>
+      <key>Comment</key>
+      <string>0 - windowed, 1 - exclusive fullscreen, 2 - borderless window fullscreen</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>U32</string>
+      <key>Value</key>
+      <string>0</string>
+    </map>
   </map>
 </llsd>

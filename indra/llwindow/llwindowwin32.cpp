@@ -396,11 +396,11 @@ LLWinImm::~LLWinImm()
 LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 							 const std::string& title, const std::string& name, S32 x, S32 y, S32 width,
 							 S32 height, U32 flags, 
-							 BOOL fullscreen, BOOL clearBg,
-							 EVSyncSetting vsync_setting, BOOL use_gl,
+							 U32 window_mode, BOOL clearBg,
+							 U32 vsync_setting, BOOL use_gl,
 							 BOOL ignore_pixel_depth,
 							 U32 fsaa_samples)
-	: LLWindow(callbacks, fullscreen, flags)
+	: LLWindow(callbacks, window_mode, flags)
 {
 	
 	//MAINT-516 -- force a load of opengl32.dll just in case windows went sideways 
@@ -558,7 +558,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	// use a display mode with our desired size and depth, with a refresh
 	// rate as close at possible to the users' default
 	//-----------------------------------------------------------------------
-	if (mFullscreen)
+	if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
 		BOOL success = FALSE;
 		DWORD closest_refresh = 0;
@@ -622,7 +622,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 		// If it failed, we don't want to run fullscreen
 		if (success)
 		{
-			mFullscreen = TRUE;
+			mWindowMode = E_WINDOW_FULLSCREEN_EXCLUSIVE;
 			mFullscreenWidth   = dev_mode.dmPelsWidth;
 			mFullscreenHeight  = dev_mode.dmPelsHeight;
 			mFullscreenBits    = dev_mode.dmBitsPerPel;
@@ -636,7 +636,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 		}
 		else
 		{
-			mFullscreen = FALSE;
+			mWindowMode = E_WINDOW_WINDOWED;
 			mFullscreenWidth   = -1;
 			mFullscreenHeight  = -1;
 			mFullscreenBits    = -1;
@@ -668,7 +668,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	LLCoordScreen windowPos(x,y);
 	LLCoordScreen windowSize(window_rect.right - window_rect.left,
 							 window_rect.bottom - window_rect.top);
-	if (!switchContext(mFullscreen, windowSize, vsync_setting, &windowPos))
+	if (!switchContext(mWindowMode, windowSize, vsync_setting, &windowPos))
 	{
 		return;
 	}
@@ -745,7 +745,7 @@ void LLWindowWin32::close()
 	showCursor();
 
 	// Go back to screen mode written in the registry.
-	if (mFullscreen)
+	if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
 		resetDisplayResolution();
 	}
@@ -837,7 +837,7 @@ BOOL LLWindowWin32::maximize()
 
 BOOL LLWindowWin32::getFullscreen()
 {
-	return mFullscreen;
+	return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE;
 }
 
 BOOL LLWindowWin32::getPosition(LLCoordScreen *position)
@@ -936,7 +936,7 @@ BOOL LLWindowWin32::setSizeImpl(const LLCoordWindow size)
 }
 
 // changing fullscreen resolution
-BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp)
+BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp)
 {
 	GLuint	pixel_format;
 	DEVMODE dev_mode;
@@ -982,9 +982,9 @@ BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EV
 		mhRC = NULL;
 	}
 
-	if (fullscreen)
+	if (window_mode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
-		mFullscreen = TRUE;
+		mWindowMode = E_WINDOW_FULLSCREEN_EXCLUSIVE;
 		BOOL success = FALSE;
 		DWORD closest_refresh = 0;
 
@@ -1026,7 +1026,7 @@ BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EV
 
 		if (success)
 		{
-			mFullscreen = TRUE;
+			mWindowMode = E_WINDOW_FULLSCREEN_EXCLUSIVE;
 			mFullscreenWidth   = dev_mode.dmPelsWidth;
 			mFullscreenHeight  = dev_mode.dmPelsHeight;
 			mFullscreenBits    = dev_mode.dmBitsPerPel;
@@ -1052,7 +1052,7 @@ BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EV
 		// If it failed, we don't want to run fullscreen
 		else
 		{
-			mFullscreen = FALSE;
+			mWindowMode = E_WINDOW_WINDOWED;
 			mFullscreenWidth   = -1;
 			mFullscreenHeight  = -1;
 			mFullscreenBits    = -1;
@@ -1064,7 +1064,7 @@ BOOL LLWindowWin32::switchContext(BOOL fullscreen, const LLCoordScreen &size, EV
 	}
 	else
 	{
-		mFullscreen = FALSE;
+		mWindowMode = E_WINDOW_WINDOWED;
 		window_rect.left = (long) (posp ? posp->mX : 0);
 		window_rect.right = (long) width + window_rect.left;			// Windows GDI rects don't include rightmost pixel
 		window_rect.top = (long) (posp ? posp->mY : 0);
@@ -1994,11 +1994,11 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 					LL_INFOS("Window") << "WINDOWPROC ActivateApp "
 						<< " activating " << S32(activating)
 						<< " minimized " << S32(minimized)
-						<< " fullscreen " << S32(window_imp->mFullscreen)
+						<< " exclusive fullscreen " << S32(window_imp->mWindowMode)
 						<< LL_ENDL;
 				}
 
-				if (window_imp->mFullscreen)
+				if (window_imp->mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 				{
 					// When we run fullscreen, restoring or minimizing the app needs 
 					// to switch the screen resolution
@@ -3104,7 +3104,7 @@ BOOL LLWindowWin32::setDisplayResolution(S32 width, S32 height, S32 bits, S32 re
 // protected
 BOOL LLWindowWin32::setFullscreenResolution()
 {
-	if (mFullscreen)
+	if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
 		return setDisplayResolution( mFullscreenWidth, mFullscreenHeight, mFullscreenBits, mFullscreenRefresh);
 	}

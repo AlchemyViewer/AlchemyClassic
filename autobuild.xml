@@ -66,11 +66,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b5e57a10aa1d60a3ec94c0e9c760aa5e</string>
+              <string>7361ddfec2c4161d9339aacb5c09c907</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/SDL2-2.0.5-windows64-201701301631.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/SDL2-2.0.5-windows64-201701311913.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

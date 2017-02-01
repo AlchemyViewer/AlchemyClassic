@@ -41,7 +41,7 @@ public:
 	/*virtual*/ MASK	currentMask(BOOL for_mouse_event) override;
 	/*virtual*/ void	scanKeyboard() override;
 #ifdef LL_DARWIN
-	/*virtual*/ void	handleModifier(MASK mask);
+	/*virtual*/ void	handleModifier(MASK mask) override;
 #endif
 };
 

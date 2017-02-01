@@ -275,15 +275,17 @@ BOOL LLFilePicker::getOpenFile(ELoadFilter filter, bool blocking)
 	mOFN.nFilterIndex = 1;
 
 	setupFilter(filter);
-	
+
+	reset();
+
 	if (blocking)
 	{
 		// Modal, so pause agent
 		send_agent_pause();
 	}
 
-	reset();
-	
+	gViewerWindow->getWindow()->beforeDialog();
+
 	// NOTA BENE: hitting the file dialog triggers a window focus event, destroying the selection manager!!
 	success = GetOpenFileName(&mOFN);
 	if (success)
@@ -291,6 +293,8 @@ BOOL LLFilePicker::getOpenFile(ELoadFilter filter, bool blocking)
 		std::string filename = utf16str_to_utf8str(llutf16string(mFilesW));
 		mFiles.push_back(filename);
 	}
+
+	gViewerWindow->getWindow()->afterDialog();
 
 	if (blocking)
 	{
@@ -332,6 +336,7 @@ BOOL LLFilePicker::getMultipleOpenFiles(ELoadFilter filter)
 	
 	// Modal, so pause agent
 	send_agent_pause();
+	gViewerWindow->getWindow()->beforeDialog();
 	// NOTA BENE: hitting the file dialog triggers a window focus event, destroying the selection manager!!
 	success = GetOpenFileName(&mOFN); // pauses until ok or cancel.
 	if( success )
@@ -364,6 +369,7 @@ BOOL LLFilePicker::getMultipleOpenFiles(ELoadFilter filter)
 			}
 		}
 	}
+	gViewerWindow->getWindow()->afterDialog();
 	send_agent_resume();
 
 	// Account for the fact that the app has been stalled.
@@ -576,6 +582,7 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 	// Modal, so pause agent
 	send_agent_pause();
 	{
+		gViewerWindow->getWindow()->beforeDialog();
 		// NOTA BENE: hitting the file dialog triggers a window focus event, destroying the selection manager!!
 		success = GetSaveFileName(&mOFN);
 		if (success)
@@ -583,6 +590,7 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 			std::string filename = utf16str_to_utf8str(llutf16string(mFilesW));
 			mFiles.push_back(filename);
 		}
+		gViewerWindow->getWindow()->afterDialog();
 		gKeyboard->resetKeys();
 	}
 	send_agent_resume();

@@ -974,10 +974,19 @@ F32 LLWindowSDL2::getPixelAspectRatio()
 // dialogs are still usable in fullscreen.
 void LLWindowSDL2::beforeDialog()
 {
+	if (getFullscreen())
+	{
+		SDL_MinimizeWindow(mWindow);
+	}
 }
 
 void LLWindowSDL2::afterDialog()
 {
+	if (getFullscreen())
+	{
+		SDL_RestoreWindow(mWindow);
+		SDL_RaiseWindow(mWindow);
+	}
 	SDL_GL_MakeCurrent(mWindow, mGLContext);
 }
 

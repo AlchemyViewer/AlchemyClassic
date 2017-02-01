@@ -1004,21 +1004,6 @@ BOOL LLWindowSDL2::copyTextToClipboard(const LLWString &text)
 	return SDL_SetClipboardText(utf8.c_str()) == 0; // success == 0
 }
 
-BOOL LLWindowSDL2::isPrimaryTextAvailable()
-{
-	return isClipboardTextAvailable();
-}
-
-BOOL LLWindowSDL2::pasteTextFromPrimary(LLWString &text)
-{
-	return pasteTextFromClipboard(text);
-}
-
-BOOL LLWindowSDL2::copyTextToPrimary(const LLWString &text)
-{
-	return copyTextToClipboard(text);
-}
-
 LLWindow::LLWindowResolution* LLWindowSDL2::getSupportedResolutions(S32 &num_resolutions)
 {
 	if (!mSupportedResolutions)

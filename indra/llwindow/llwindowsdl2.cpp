@@ -91,6 +91,7 @@ LLWindowSDL2::LLWindowSDL2(LLWindowCallbacks* callbacks,
 	mGrabbyKeyFlags = 0;
 	mReallyCapturedCount = 0;
 	mFSAASamples = fsaa_samples;
+	mFullscreen = FALSE;
 
 	// Assume 4:3 aspect ratio until we know better
 	mOriginalAspectRatio = 1024.0 / 768.0;
@@ -209,7 +210,6 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 
 		LL_INFOS() << "Creating window " << width << "x" << height << "x" << bits << LL_ENDL;
 		mWindow = SDL_CreateWindow(mWindowTitle.c_str(), x, y, width, height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-		mFullscreen = TRUE;
 		if (mWindow == nullptr)
 		{
 			LL_WARNS() << "Window creation failure. SDL: " << SDL_GetError() << LL_ENDL;
@@ -217,7 +217,8 @@ BOOL LLWindowSDL2::createContext(int x, int y, int width, int height, int bits, 
 			return FALSE;
 		}
 	}
-	if (mFullscreen)
+
+	if (fullscreen)
 	{
 		if (SDL_SetWindowFullscreen(mWindow, SDL_WINDOW_FULLSCREEN) == 0)
 		{
@@ -1305,7 +1306,7 @@ void LLWindowSDL2::gatherInput()
 			}
 			// Restore
 			case SDL_WINDOWEVENT_SHOWN:
-				if (mFullscreen)
+				if (getFullscreen())
 				{
 					bringToFront();
 				}

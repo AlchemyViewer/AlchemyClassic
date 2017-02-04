@@ -18,7 +18,8 @@ class QToolAlign
 :	public LLTool, public LLSingleton<QToolAlign>
 {
 	LLSINGLETON(QToolAlign);
-	~QToolAlign() override {}
+	~QToolAlign() {}
+    
 public:
 	virtual void	handleSelect();
 	virtual void	handleDeselect();

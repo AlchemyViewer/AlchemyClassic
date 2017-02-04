@@ -395,7 +395,7 @@ const char* const VIEWER_WINDOW_CLASSNAME = "Alchemy";
  */
 class LLDeferredTaskList: public LLSingleton<LLDeferredTaskList>
 {
-	LLSINGLETON_EMPTY_CTOR(LLDeferredTaskList);
+	LLSINGLETON(LLDeferredTaskList);
 	LOG_CLASS(LLDeferredTaskList);
 
 	friend class LLAppViewer;
@@ -417,6 +417,10 @@ class LLDeferredTaskList: public LLSingleton<LLDeferredTaskList>
 
 	signal_t mSignal;
 };
+
+inline
+LLDeferredTaskList::LLDeferredTaskList() : mSignal()
+{}
 
 //----------------------------------------------------------------------------
 

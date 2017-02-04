@@ -6,6 +6,7 @@
 #ifndef Q_QTOOLALIGN_H
 #define Q_QTOOLALIGN_H
 
+#include "llsingleton.h"
 #include "lltool.h"
 #include "llbbox.h"
 
@@ -16,10 +17,9 @@ class LLToolSelectRect;
 class QToolAlign
 :	public LLTool, public LLSingleton<QToolAlign>
 {
+	LLSINGLETON(QToolAlign);
+	~QToolAlign() override {}
 public:
-	QToolAlign();
-	virtual ~QToolAlign();
-
 	virtual void	handleSelect();
 	virtual void	handleDeselect();
 	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);

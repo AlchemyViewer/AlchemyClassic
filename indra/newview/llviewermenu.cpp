@@ -524,7 +524,7 @@ void init_menus()
 
 	// Assume L$10 for now, the server will tell us the real cost at login
 	// *TODO:Also fix cost in llfolderview.cpp for Inventory menus
-	S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+	S32 cost = LLGlobalEconomy::getInstance()->getPriceUpload();
 	std::string upload_cost;
 	if (LLGridManager::getInstance()->isInSecondlife())
 		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));

@@ -27,6 +27,7 @@
 #ifndef LL_LLCALLINGCARD_H
 #define LL_LLCALLINGCARD_H
 
+#include "llsingleton.h"
 #include "lluserrelations.h"
 #include "lluuid.h"
 #include "v3dmath.h"
@@ -77,7 +78,8 @@ public:
 
 class LLAvatarTracker : public LLSingleton<LLAvatarTracker>
 {
-	friend class LLSingleton<LLAvatarTracker>;
+	LLSINGLETON(LLAvatarTracker);
+	~LLAvatarTracker();
 public:
 	void track(const LLUUID& avatar_id, const std::string& name);
 	void untrack(const LLUUID& avatar_id);
@@ -203,11 +205,6 @@ protected:
 
 private:
 	BOOL mIsNotifyObservers;
-
-protected:
-	// don't you dare create or delete this object
-	LLAvatarTracker();
-	~LLAvatarTracker();
 };
 
 // collect set of LLUUIDs we're a proxy for

@@ -39,10 +39,6 @@ QToolAlign::QToolAlign()
 {
 }
 
-QToolAlign::~QToolAlign()
-{
-}
-
 BOOL QToolAlign::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	if (mHighlightedAxis != -1)

@@ -313,7 +313,7 @@ bool LLPanelGroupGeneral::apply(std::string& mesg)
 			}
 
 			LLNotificationsUtil::add("CreateGroupCost",
-									 LLSD().with("COST", std::to_string(LLGlobalEconomy::Singleton::getInstance()->getPriceGroupCreate())),
+									 LLSD().with("COST", std::to_string(LLGlobalEconomy::getInstance()->getPriceGroupCreate())),
 									 LLSD(), boost::bind(&LLPanelGroupGeneral::createGroupCallback, this, _1, _2));
 
 			return false;

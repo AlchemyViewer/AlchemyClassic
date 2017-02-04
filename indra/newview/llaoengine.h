@@ -33,6 +33,7 @@
 #include "lleventtimer.h"
 
 #include "llextendedstatus.h"
+#include "llsingleton.h"
 
 class LLAOTimerCollection : public LLEventTimer
 {
@@ -80,10 +81,7 @@ class LLVFS;
 
 class LLAOEngine : public LLSingleton<LLAOEngine>
 {
-	friend class LLSingleton<LLAOEngine>;
-
-private:
-	LLAOEngine();
+	LLSINGLETON(LLAOEngine);
 	~LLAOEngine();
 
 public:

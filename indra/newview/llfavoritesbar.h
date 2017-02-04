@@ -267,7 +267,7 @@ private:
 
 inline
 LLFavoritesOrderStorage::LLFavoritesOrderStorage() :
-	mIsDirty(false), mUpdateRequired(false)
+	mIsDirty(false)
 { load(); }
 
 #endif // LL_LLFAVORITESBARCTRL_H

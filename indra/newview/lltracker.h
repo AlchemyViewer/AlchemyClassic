@@ -45,7 +45,8 @@ class LLHUDText;
 
 class LLTracker : public LLSingleton<LLTracker>
 {
-	friend class LLSingleton<LLTracker>;
+	LLSINGLETON(LLTracker);
+	~LLTracker();
 public:
 	enum ETrackingStatus
 	{
@@ -94,10 +95,8 @@ public:
 	
 	const std::string& getLabel() { return mLabel; }
 	const std::string& getToolTip() { return mToolTip; }
-protected:
-	LLTracker();
-	~LLTracker();
 
+protected:
 	F32 pulseFunc(F32 t, F32 z, bool tracking_avatar, bool direction_down);
 	void drawShockwave(F32 center_z, F32 t, S32 steps, LLColor4 color);
 	void drawBeacon(LLVector3 pos_agent, bool direction_down, LLColor4 fogged_color, F32 dist);

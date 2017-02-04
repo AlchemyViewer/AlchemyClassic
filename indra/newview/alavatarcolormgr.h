@@ -28,8 +28,9 @@ class LLUUID;
 
 class ALAvatarColorMgr : public LLSingleton < ALAvatarColorMgr >
 {
-private:
-	friend class LLSingleton < ALAvatarColorMgr > ;
+	LLSINGLETON_EMPTY_CTOR(ALAvatarColorMgr);
+	~ALAvatarColorMgr() {};
+
 public:
 	typedef enum e_custom_colors
 	{

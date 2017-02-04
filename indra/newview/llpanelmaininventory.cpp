@@ -225,7 +225,7 @@ BOOL LLPanelMainInventory::postBuild()
 	initListCommandsHandlers();
 
 	// *TODO:Get the cost info from the server
-	S32 cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+	S32 cost = LLGlobalEconomy::getInstance()->getPriceUpload();
 	std::string upload_cost;
 	if (LLGridManager::getInstance()->isInSecondlife())
 		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
@@ -1417,9 +1417,9 @@ void LLPanelMainInventory::setUploadCostIfNeeded()
 			S32 upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload();
 			std::string cost_str;
 			if (LLGridManager::getInstance()->isInSecondlife())
-				cost_str = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
+				cost_str = upload_cost > 0 ? llformat("L$%d", upload_cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
 			else
-				cost_str = cost > 0 ? llformat("L$%d", cost) : LLTrans::getString("Free");
+				cost_str = upload_cost > 0 ? llformat("L$%d", upload_cost) : LLTrans::getString("Free");
 
 			upload_menu->getChild<LLView>("Upload Image")->setLabelArg("[COST]", cost_str);
 			upload_menu->getChild<LLView>("Upload Sound")->setLabelArg("[COST]", cost_str);

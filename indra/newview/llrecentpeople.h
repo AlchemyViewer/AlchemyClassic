@@ -45,13 +45,11 @@ class LLDate;
  */
 class LLRecentPeople: public LLSingleton<LLRecentPeople>, public LLOldEvents::LLSimpleListener
 {
-	LLSINGLETON_EMPTY_CTOR(LLRecentPeople);
+	LLSINGLETON(LLRecentPeople);
+	~LLRecentPeople();
 	LOG_CLASS(LLRecentPeople);
 public:
 	typedef boost::signals2::signal<void ()> signal_t;
-	
-	LLRecentPeople();
-	~LLRecentPeople();
 	
 	/**
 	 * Add specified avatar to the list if it's not there already.

@@ -21,6 +21,8 @@
 #ifndef LL_LIGHTSHARE_H
 #define LL_LIGHTSHARE_H
 
+#include "llsingleton.h"
+
 struct LSColor3
 {
 	LSColor3() {};
@@ -121,12 +123,10 @@ struct LightsharePacket
 
 class LLLightshare : public LLSingleton<LLLightshare>
 {
-	friend class LLSingleton<LLLightshare>;
 	friend class LLDispatchLightshare;
-	
-public:
-	LLLightshare();
+	LLSINGLETON(LLLightshare);
 	~LLLightshare() {}
+public:
 	void processLightshareRefresh();
 	bool getState() const { return mState; };
 	

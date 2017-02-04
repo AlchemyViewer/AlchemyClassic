@@ -6539,7 +6539,7 @@ void process_economy_data(LLMessageSystem *msg, void** /*user_data*/)
 {
 	LLGlobalEconomy::processEconomyData(msg, LLGlobalEconomy::getInstance());
 
-	S32 upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload();
+	S32 cost = LLGlobalEconomy::getInstance()->getPriceUpload();
 	std::string upload_cost;
 	if (LLGridManager::getInstance()->isInSecondlife())
 		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));

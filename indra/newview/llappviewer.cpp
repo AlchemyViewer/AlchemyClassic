@@ -1866,7 +1866,10 @@ bool LLAppViewer::cleanup()
 
 	SUBSYSTEM_CLEANUP(LLAvatarAppearance);
 
-	LLTracker::cleanupInstance();
+	if (LLTracker::instanceExists())
+	{
+		LLTracker::deleteSingleton();
+	}
 
 	// *FIX: This is handled in LLAppViewerWin32::cleanup().
 	// I'm keeping the comment to remember its order in cleanup,

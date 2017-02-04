@@ -42,6 +42,9 @@ class LinksetsResponder;
 
 class LLPathfindingManager : public LLSingleton<LLPathfindingManager>
 {
+	LLSINGLETON(LLPathfindingManager);
+	virtual ~LLPathfindingManager();
+
 	friend class LLNavMeshSimStateChangeNode;
 	friend class NavMeshStatusResponder;
 	friend class LLAgentStateChangeNode;
@@ -53,9 +56,6 @@ public:
 		kRequestNotEnabled,
 		kRequestError
 	} ERequestStatus;
-
-	LLPathfindingManager();
-	virtual ~LLPathfindingManager();
 
 	void initSystem();
 	void quitSystem();

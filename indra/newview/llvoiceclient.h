@@ -297,11 +297,11 @@ public:
 
 class LLVoiceClient: public LLSingleton<LLVoiceClient>
 {
+	LLSINGLETON(LLVoiceClient);
 	LOG_CLASS(LLVoiceClient);
-public:
-	LLVoiceClient();	
 	~LLVoiceClient();
 
+public:
 	typedef boost::signals2::signal<void(void)> micro_changed_signal_t;
 	micro_changed_signal_t mMicroChangedSignal;
 
@@ -482,6 +482,8 @@ protected:
  **/
 class LLSpeakerVolumeStorage : public LLSingleton<LLSpeakerVolumeStorage>
 {
+	LLSINGLETON(LLSpeakerVolumeStorage);
+	~LLSpeakerVolumeStorage();
 	LOG_CLASS(LLSpeakerVolumeStorage);
 public:
 
@@ -510,10 +512,6 @@ public:
 	void removeSpeakerVolume(const LLUUID& speaker_id);
 
 private:
-	friend class LLSingleton<LLSpeakerVolumeStorage>;
-	LLSpeakerVolumeStorage();
-	~LLSpeakerVolumeStorage();
-
 	const static std::string SETTINGS_FILE_NAME;
 
 	void load();

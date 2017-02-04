@@ -71,8 +71,7 @@ BOOL LLDoNotDisturbNotificationStorageTimer::tick()
 }
 
 LLDoNotDisturbNotificationStorage::LLDoNotDisturbNotificationStorage()
-	: LLSingleton<LLDoNotDisturbNotificationStorage>()
-	, LLNotificationStorage("")
+	: LLNotificationStorage("")
     , mDirty(false)
 {
     nameToPayloadParameterMap[toastName] = "SESSION_ID";

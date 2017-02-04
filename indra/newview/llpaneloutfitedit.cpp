@@ -53,7 +53,6 @@
 #include "llbutton.h"
 #include "llcombobox.h"
 #include "llfiltereditor.h"
-#include "llfloaterinventory.h"
 #include "llinventorybridge.h"
 #include "llinventorymodel.h"
 #include "llinventorymodelbackgroundfetch.h"
@@ -788,6 +787,10 @@ void LLPanelOutfitEdit::onVisibilityChanged(const LLSD &in_visible_chain)
 	if (in_visible_chain.asBoolean())
 	{
 		update();
+	}
+	else
+	{
+		mWearableListManager->holdProgress(); //list population restarts with visibility
 	}
 }
 

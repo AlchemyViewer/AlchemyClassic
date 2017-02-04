@@ -71,15 +71,14 @@ public:
 
 class LLViewerParcelMgr : public LLSingleton<LLViewerParcelMgr>
 {
+	LLSINGLETON(LLViewerParcelMgr);
+	~LLViewerParcelMgr();
 
 public:
 	typedef std::function<void (const LLVector3d&, const bool& local)> teleport_finished_callback_t;
 	typedef boost::signals2::signal<void (const LLVector3d&, const bool&)> teleport_finished_signal_t;
 	typedef std::function<void()> teleport_failed_callback_t;
 	typedef boost::signals2::signal<void()> teleport_failed_signal_t;
-
-	LLViewerParcelMgr();
-	~LLViewerParcelMgr();
 
 	void init(F32 region_size);
 	static void cleanupGlobals();

@@ -33,7 +33,7 @@
 #include "v3math.h"
 
 
-LLGlobalEconomy::LLGlobalEconomy()
+LLBaseEconomy::LLBaseEconomy()
 :	mObjectCount( -1 ),
 	mObjectCapacity( -1 ),
 	mPriceObjectClaim( -1 ),
@@ -47,15 +47,15 @@ LLGlobalEconomy::LLGlobalEconomy()
 	mPriceGroupCreate( -1 )
 { }
 
-LLGlobalEconomy::~LLGlobalEconomy()
+LLBaseEconomy::~LLBaseEconomy()
 { }
 
-void LLGlobalEconomy::addObserver(LLEconomyObserver* observer)
+void LLBaseEconomy::addObserver(LLEconomyObserver* observer)
 {
 	mObservers.push_back(observer);
 }
 
-void LLGlobalEconomy::removeObserver(LLEconomyObserver* observer)
+void LLBaseEconomy::removeObserver(LLEconomyObserver* observer)
 {
 	std::list<LLEconomyObserver*>::iterator it =
 		std::find(mObservers.begin(), mObservers.end(), observer);
@@ -65,7 +65,7 @@ void LLGlobalEconomy::removeObserver(LLEconomyObserver* observer)
 	}
 }
 
-void LLGlobalEconomy::notifyObservers()
+void LLBaseEconomy::notifyObservers()
 {
 	for (std::list<LLEconomyObserver*>::iterator it = mObservers.begin();
 		it != mObservers.end();
@@ -76,7 +76,7 @@ void LLGlobalEconomy::notifyObservers()
 }
 
 // static
-void LLGlobalEconomy::processEconomyData(LLMessageSystem *msg, LLGlobalEconomy* econ_data)
+void LLBaseEconomy::processEconomyData(LLMessageSystem *msg, LLBaseEconomy* econ_data)
 {
 	S32 i;
 	F32 f;
@@ -119,7 +119,7 @@ void LLGlobalEconomy::processEconomyData(LLMessageSystem *msg, LLGlobalEconomy* 
 	econ_data->notifyObservers();
 }
 
-S32	LLGlobalEconomy::calculateTeleportCost(F32 distance) const
+S32	LLBaseEconomy::calculateTeleportCost(F32 distance) const
 {
 	S32 min_cost = getTeleportMinPrice();
 	F32 exponent = getTeleportPriceExponent();
@@ -137,13 +137,13 @@ S32	LLGlobalEconomy::calculateTeleportCost(F32 distance) const
 	return cost;
 }
 
-S32	LLGlobalEconomy::calculateLightRent(const LLVector3& object_size) const
+S32	LLBaseEconomy::calculateLightRent(const LLVector3& object_size) const
 {
 	F32 intensity_mod = llmax(object_size.magVec(), 1.f);
 	return (S32)(intensity_mod * getPriceRentLight());
 }
 
-void LLGlobalEconomy::print()
+void LLBaseEconomy::print()
 {
 	LL_INFOS() << "Global Economy Settings: " << LL_ENDL;
 	LL_INFOS() << "Object Capacity: " << mObjectCapacity << LL_ENDL;
@@ -161,8 +161,7 @@ void LLGlobalEconomy::print()
 }
 
 LLRegionEconomy::LLRegionEconomy()
-:	LLGlobalEconomy(),
-	mPriceObjectRent( -1.f ),
+:	mPriceObjectRent( -1.f ),
 	mPriceObjectScaleFactor( -1.f ),
 	mEnergyEfficiency( -1.f ),
 	mBasePriceParcelClaimDefault(-1),
@@ -189,7 +188,7 @@ void LLRegionEconomy::processEconomyData(LLMessageSystem *msg, void** user_data)
 
 	LLRegionEconomy *this_ptr = (LLRegionEconomy*)user_data;
 
-	LLGlobalEconomy::processEconomyData(msg, this_ptr);
+	LLBaseEconomy::processEconomyData(msg, this_ptr);
 
 	msg->getS32Fast(_PREHASH_Info, _PREHASH_PriceParcelClaim, i);
 	this_ptr->setBasePriceParcelClaimDefault(i);
@@ -254,7 +253,7 @@ S32 LLRegionEconomy::getPriceParcelRent() const
 
 void LLRegionEconomy::print()
 {
-	this->LLGlobalEconomy::print();
+	this->LLBaseEconomy::print();
 
 	LL_INFOS() << "Region Economy Settings: " << LL_ENDL;
 	LL_INFOS() << "Land (square meters): " << mAreaTotal << LL_ENDL;

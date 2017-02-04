@@ -192,6 +192,13 @@ inline F64 ll_round( F64 val, F64 nearest )
 	return F64(round(val * (1.0 / nearest))) * nearest;
 }
 
+
+inline F64 ll_round(const F64 val)
+{
+	return round(val);
+}
+
+
 // these provide minimum peak error
 //
 // avg  error = -0.013049 
@@ -207,8 +214,8 @@ constexpr F32 FAST_MAG_BETA = 0.397824734759f;
 // peak error = -32.6 dB
 // RMS  error = -25.7 dB
 //
-//constexpr F32 FAST_MAG_ALPHA = 0.948059448969f;
-//constexpr F32 FAST_MAG_BETA = 0.392699081699f;
+//const F32 FAST_MAG_ALPHA = 0.948059448969f;
+//const F32 FAST_MAG_BETA = 0.392699081699f;
 
 inline F32 fastMagnitude(F32 a, F32 b)
 { 

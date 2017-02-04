@@ -1486,7 +1486,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 	if (wglCreateContextAttribsARB)
 	{ //attempt to create a specific versioned context
 		S32 attribs[] = 
-		{ //start at 4.5
+		{ //start at 4.2
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
 			WGL_CONTEXT_MINOR_VERSION_ARB, 5,
 			WGL_CONTEXT_PROFILE_MASK_ARB,  LLRender::sGLCoreProfile ? WGL_CONTEXT_CORE_PROFILE_BIT_ARB : WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -2634,19 +2634,21 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 		case WM_DPICHANGED:
 			{
 				LPRECT lprc_new_scale;
-				F32 new_scale = (float) LOWORD(w_param) / (float) USER_DEFAULT_SCREEN_DPI;
+				F32 new_scale = F32(LOWORD(w_param)) / F32(USER_DEFAULT_SCREEN_DPI);
 				lprc_new_scale = (LPRECT)l_param;
 				S32 new_width = lprc_new_scale->right - lprc_new_scale->left;
 				S32 new_height = lprc_new_scale->bottom - lprc_new_scale->top;
-				window_imp->mCallbacks->handleDPIChanged(window_imp, new_scale, new_width, new_height);
-				SetWindowPos(h_wnd,
-					HWND_TOP,
-					lprc_new_scale->left,
-					lprc_new_scale->top,
-					new_width,
-					new_height,
-					SWP_NOZORDER | SWP_NOACTIVATE);
-					return 0;
+				if (window_imp->mCallbacks->handleDPIChanged(window_imp, new_scale, new_width, new_height))
+				{
+					SetWindowPos(h_wnd,
+						HWND_TOP,
+						lprc_new_scale->left,
+						lprc_new_scale->top,
+						new_width,
+						new_height,
+						SWP_NOZORDER | SWP_NOACTIVATE);
+				}
+				return 0;
 			}
 
 		case WM_SETFOCUS:
@@ -3997,7 +3999,7 @@ F32 LLWindowWin32::getSystemUISize()
 				hr = pGDFM(hMonitor, MDT_EFFECTIVE_DPI, &dpix, &dpiy);
 				if (hr == S_OK)
 				{
-					scale_value = (float) dpix / (float) USER_DEFAULT_SCREEN_DPI;
+					scale_value = F32(dpix) / F32(USER_DEFAULT_SCREEN_DPI);
 				}
 				else
 				{
@@ -4016,7 +4018,7 @@ F32 LLWindowWin32::getSystemUISize()
 	else
 	{
 		LL_WARNS() << "Could not load shcore.dll library (included by <ShellScalingAPI.h> from Win 8.1 SDK). Using legacy DPI awareness API of Win XP/7" << LL_ENDL;
-		scale_value = (float) GetDeviceCaps(hdc, LOGPIXELSX) / (float) USER_DEFAULT_SCREEN_DPI;
+		scale_value = F32(GetDeviceCaps(hdc, LOGPIXELSX)) / F32(USER_DEFAULT_SCREEN_DPI);
 	}
 
 	ReleaseDC(hWnd, hdc);

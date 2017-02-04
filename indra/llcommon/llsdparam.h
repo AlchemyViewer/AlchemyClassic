@@ -65,6 +65,7 @@ public:
 	}
 
 	/*virtual*/ std::string getCurrentElementName();
+	/*virtual*/ std::string getCurrentFileName(){ return LLStringUtil::null; }
 
 private:
 	void writeSDImpl(LLSD& sd, 

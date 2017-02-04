@@ -40,6 +40,9 @@ namespace LLNotificationsUI
  */
 class LLChannelManager : public LLSingleton<LLChannelManager>
 {
+	LLSINGLETON(LLChannelManager);
+	virtual ~LLChannelManager();
+
 public:
 
 
@@ -61,9 +64,6 @@ public:
 			return (id == id_op);
 		}
 	};
-
-	LLChannelManager();	
-	virtual ~LLChannelManager();
 
 	// On LoginCompleted - show StartUp toast
 	void onLoginCompleted();

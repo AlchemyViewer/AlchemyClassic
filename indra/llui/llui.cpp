@@ -59,6 +59,7 @@
 #include "llflyoutbutton.h"
 #include "llsearcheditor.h"
 #include "lltoolbar.h"
+#include "llcleanup.h"
 
 // for XUIParse
 #include "llquaternion.h"
@@ -207,7 +208,7 @@ void LLUI::initClass(const settings_map_t& settings,
 
 void LLUI::cleanupClass()
 {
-	LLRender2D::cleanupClass();
+	SUBSYSTEM_CLEANUP(LLRender2D);
 }
 
 void LLUI::setPopupFuncs(const add_popup_t& add_popup, const remove_popup_t& remove_popup,  const clear_popups_t& clear_popups)

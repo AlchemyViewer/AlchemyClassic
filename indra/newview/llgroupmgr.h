@@ -349,6 +349,8 @@ struct LLRoleActionSet
 
 class LLGroupMgr : public LLSingleton<LLGroupMgr>
 {
+	LLSINGLETON(LLGroupMgr);
+	~LLGroupMgr();
 	LOG_CLASS(LLGroupMgr);
 	
 public:
@@ -370,8 +372,6 @@ public:
 
 
 public:
-	LLGroupMgr();
-	~LLGroupMgr();
 
 	void addObserver(LLGroupMgrObserver* observer);
 	void addObserver(const LLUUID& group_id, LLParticularGroupObserver* observer);

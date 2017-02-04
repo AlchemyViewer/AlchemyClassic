@@ -44,10 +44,10 @@ class LLSD;
 
 class LLPersistentNotificationStorage : public LLSingleton<LLPersistentNotificationStorage>, public LLNotificationStorage
 {
+	LLSINGLETON(LLPersistentNotificationStorage);
+	~LLPersistentNotificationStorage();
 	LOG_CLASS(LLPersistentNotificationStorage);
 public:
-	LLPersistentNotificationStorage();
-	~LLPersistentNotificationStorage();
 
 	void saveNotifications();
 	void loadNotifications();

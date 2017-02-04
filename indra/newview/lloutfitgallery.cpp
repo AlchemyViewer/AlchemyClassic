@@ -108,7 +108,8 @@ BOOL LLOutfitGallery::postBuild()
 {
     BOOL rv = LLOutfitListBase::postBuild();
     mScrollPanel = getChild<LLScrollContainer>("gallery_scroll_panel");
-    mGalleryPanel = getChild<LLPanel>("gallery_panel");
+    LLPanel::Params params = LLPanel::getDefaultParams(); // Don't parse XML when creating dummy LLPanel
+    mGalleryPanel = LLUICtrlFactory::create<LLPanel>(params);
     mMessageTextBox = getChild<LLTextBox>("no_outfits_txt");
     mOutfitGalleryMenu = new LLOutfitGalleryContextMenu(this);
     return rv;
@@ -1123,7 +1124,7 @@ void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
                 return;
             }
 
-            S32 expected_upload_cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload(); // kinda hack - assumes that unsubclassed LLFloaterNameDesc is only used for uploading chargeable assets, which it is right now (it's only used unsubclassed for the sound upload dialog, and THAT should be a subclass).
+            S32 expected_upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload(); // kinda hack - assumes that unsubclassed LLFloaterNameDesc is only used for uploading chargeable assets, which it is right now (it's only used unsubclassed for the sound upload dialog, and THAT should be a subclass).
             void *nruserdata = NULL;
             nruserdata = (void *)&outfit_id;
 
@@ -1191,7 +1192,7 @@ void LLOutfitGallery::onTexturePickerCommit(LLTextureCtrl::ETexturePickOp op, LL
         }
         else
         {
-            image_item_id = floaterp->findItemID(floaterp->getAssetID(), FALSE);
+            image_item_id = floaterp->findItemID(floaterp->getAssetID(), FALSE, TRUE);
             if (image_item_id.isNull())
             {
                 LL_WARNS() << "id or image_item_id is NULL!" << LL_ENDL;

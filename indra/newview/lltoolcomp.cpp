@@ -687,7 +687,7 @@ LLToolCompGun::LLToolCompGun()
 	, mTimerFOV()
 {
 	mGun = new LLToolGun(this);
-	mGrab = new LLToolGrab(this);
+	mGrab = new LLToolGrabBase(this);
 	mNull = sNullTool;
 
 	setCurrentTool(mGun);

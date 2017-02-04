@@ -31,6 +31,7 @@
 
 class LLExperienceLog : public LLSingleton<LLExperienceLog>
 {
+	LLSINGLETON(LLExperienceLog);
 public:
 	typedef boost::signals2::signal<void(LLSD&)> 
 		callback_signal_t;
@@ -59,7 +60,6 @@ public:
 	static std::string getPermissionString(const LLSD& message, const std::string& base);
 	bool isExpired(const std::string& date);
 protected:
-	LLExperienceLog();
 	void handleExperienceMessage(LLSD& message);
 
 
@@ -75,7 +75,6 @@ protected:
 	bool mNotifyNewEvent;
 
 	friend class LLExperienceLogDispatchHandler;
-	friend class LLSingleton<LLExperienceLog>;
 };
 
 

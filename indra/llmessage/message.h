@@ -57,6 +57,7 @@
 #include "llstoredmessage.h"
 
 #include <boost/signals2/connection.hpp>
+#include "llpounceable.h"
 
 const U32 MESSAGE_MAX_STRINGS_LENGTH = 64;
 const U32 MESSAGE_NUMBER_OF_HASH_BUCKETS = 8192;
@@ -65,10 +66,10 @@ const S32 MESSAGE_MAX_PER_FRAME = 400;
 
 class LLMessageStringTable : public LLSingleton<LLMessageStringTable>
 {
-public:
-	LLMessageStringTable();
+	LLSINGLETON(LLMessageStringTable);
 	~LLMessageStringTable();
 
+public:
 	char *getString(const char *str);
 
 	U32	 mUsed;
@@ -291,8 +292,8 @@ public:
 
 
 	// methods for building, sending, receiving, and handling messages
-	void setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
-	void setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
+	void	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
+	void	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
 	{
 		setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
 	}
@@ -836,7 +837,7 @@ private:
 
 
 // external hook into messaging system
-extern LLMessageSystem	*gMessageSystem;
+extern LLPounceable<LLMessageSystem*, LLPounceableStatic> gMessageSystem;
 
 // Must specific overall system version, which is used to determine
 // if a patch is available in the message template checksum verification.

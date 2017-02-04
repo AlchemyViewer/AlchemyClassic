@@ -54,6 +54,7 @@
 #if LL_WINDOWS
 #pragma warning (pop)
 #endif
+#include "llcleanup.h"
 
 //
 // Signal handling
@@ -183,7 +184,7 @@ LLApp::~LLApp()
 	
 	if(mExceptionHandler != 0) delete mExceptionHandler;
 
-	LLCommon::cleanupClass();
+	SUBSYSTEM_CLEANUP(LLCommon);
 }
 
 // static

@@ -137,7 +137,7 @@ BOOL LLPanelSnapshotInventory::postBuild()
 // virtual
 void LLPanelSnapshotInventory::onOpen(const LLSD& key)
 {
-	getChild<LLUICtrl>("hint_lbl")->setTextArg("[UPLOAD_COST]", llformat("%d", LLGlobalEconomy::Singleton::getInstance()->getPriceUpload()));
+	getChild<LLUICtrl>("hint_lbl")->setTextArg("[UPLOAD_COST]", llformat("%d", LLGlobalEconomy::getInstance()->getPriceUpload()));
 	LLPanelSnapshot::onOpen(key);
 }
 
@@ -157,7 +157,7 @@ void LLPanelSnapshotInventory::onResolutionCommit(LLUICtrl* ctrl)
 
 void LLPanelSnapshotInventoryBase::onSend()
 {
-    S32 expected_upload_cost = LLGlobalEconomy::Singleton::getInstance()->getPriceUpload();
+    S32 expected_upload_cost = LLGlobalEconomy::getInstance()->getPriceUpload();
     if (can_afford_transaction(expected_upload_cost))
     {
         if (mSnapshotFloater)
@@ -193,7 +193,7 @@ BOOL LLPanelOutfitSnapshotInventory::postBuild()
 // virtual
 void LLPanelOutfitSnapshotInventory::onOpen(const LLSD& key)
 {
-    getChild<LLUICtrl>("hint_lbl")->setTextArg("[UPLOAD_COST]", llformat("%d", LLGlobalEconomy::Singleton::getInstance()->getPriceUpload()));
+    getChild<LLUICtrl>("hint_lbl")->setTextArg("[UPLOAD_COST]", llformat("%d", LLGlobalEconomy::getInstance()->getPriceUpload()));
     LLPanelSnapshot::onOpen(key);
 }
 

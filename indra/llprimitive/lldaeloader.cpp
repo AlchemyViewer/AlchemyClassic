@@ -861,6 +861,8 @@ struct ModelSort
 
 bool LLDAELoader::OpenFile(const std::string& filename)
 {
+	setLoadState( READING_FILE );
+
 	//no suitable slm exists, load from the .dae file
 	//replace illegal # in path as collada's escapser is broken
 	std::string tmp_file = filename;

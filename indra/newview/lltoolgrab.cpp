@@ -71,7 +71,7 @@ extern BOOL gDebugClicks;
 //
 // Methods
 //
-LLToolGrab::LLToolGrab( LLToolComposite* composite )
+LLToolGrabBase::LLToolGrabBase( LLToolComposite* composite )
 :	LLTool( std::string("Grab"), composite ),
 	mMode( GRAB_INACTIVE ),
 	mVerticalDragging( FALSE ),
@@ -90,12 +90,12 @@ LLToolGrab::LLToolGrab( LLToolComposite* composite )
 	mHideBuildHighlight(FALSE)
 { }
 
-LLToolGrab::~LLToolGrab()
+LLToolGrabBase::~LLToolGrabBase()
 { }
 
 
 // virtual
-void LLToolGrab::handleSelect()
+void LLToolGrabBase::handleSelect()
 {
 	if(gFloaterTools)
 	{
@@ -108,7 +108,7 @@ void LLToolGrab::handleSelect()
 	gGrabBtnSpin = FALSE;
 }
 
-void LLToolGrab::handleDeselect()
+void LLToolGrabBase::handleDeselect()
 {
 	if( hasMouseCapture() )
 	{
@@ -125,7 +125,7 @@ void LLToolGrab::handleDeselect()
 
 }
 
-BOOL LLToolGrab::handleDoubleClick(S32 x, S32 y, MASK mask)
+BOOL LLToolGrabBase::handleDoubleClick(S32 x, S32 y, MASK mask)
 {
 	if (gDebugClicks)
 	{
@@ -135,7 +135,7 @@ BOOL LLToolGrab::handleDoubleClick(S32 x, S32 y, MASK mask)
 	return FALSE;
 }
 
-BOOL LLToolGrab::handleMouseDown(S32 x, S32 y, MASK mask)
+BOOL LLToolGrabBase::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	if (gDebugClicks)
 	{
@@ -154,7 +154,7 @@ BOOL LLToolGrab::handleMouseDown(S32 x, S32 y, MASK mask)
 	return TRUE;
 }
 
-void LLToolGrab::pickCallback(const LLPickInfo& pick_info)
+void LLToolGrabBase::pickCallback(const LLPickInfo& pick_info)
 {
 	LLToolGrab::getInstance()->mGrabPick = pick_info;
 	LLViewerObject	*objectp = pick_info.getObject();
@@ -184,7 +184,7 @@ void LLToolGrab::pickCallback(const LLPickInfo& pick_info)
 	}
 }
 
-BOOL LLToolGrab::handleObjectHit(const LLPickInfo& info)
+BOOL LLToolGrabBase::handleObjectHit(const LLPickInfo& info)
 {
 	mGrabPick = info;
 	LLViewerObject* objectp = mGrabPick.getObject();
@@ -317,7 +317,7 @@ BOOL LLToolGrab::handleObjectHit(const LLPickInfo& info)
 }
 
 
-void LLToolGrab::startSpin()
+void LLToolGrabBase::startSpin()
 {
 	LLViewerObject* objectp = mGrabPick.getObject();
 	if (!objectp)
@@ -341,7 +341,7 @@ void LLToolGrab::startSpin()
 }
 
 
-void LLToolGrab::stopSpin()
+void LLToolGrabBase::stopSpin()
 {
 	mSpinGrabbing = FALSE;
 
@@ -375,7 +375,7 @@ void LLToolGrab::stopSpin()
 }
 
 
-void LLToolGrab::startGrab()
+void LLToolGrabBase::startGrab()
 {
 	// Compute grab_offset in the OBJECT's root's coordinate frame
 	// (sometimes root == object)
@@ -424,7 +424,7 @@ void LLToolGrab::startGrab()
 }
 
 
-BOOL LLToolGrab::handleHover(S32 x, S32 y, MASK mask)
+BOOL LLToolGrabBase::handleHover(S32 x, S32 y, MASK mask)
 {
 	if (!gViewerWindow->getLeftMouseDown())
 	{
@@ -468,7 +468,7 @@ const F32 GRAB_SENSITIVITY_Y = 0.0075f;
 
 		
 // Dragging.
-void LLToolGrab::handleHoverActive(S32 x, S32 y, MASK mask)
+void LLToolGrabBase::handleHoverActive(S32 x, S32 y, MASK mask)
 {
 	LLViewerObject* objectp = mGrabPick.getObject();
 	if (!objectp || !hasMouseCapture() ) return;
@@ -726,7 +726,7 @@ void LLToolGrab::handleHoverActive(S32 x, S32 y, MASK mask)
 }
  
 
-void LLToolGrab::handleHoverNonPhysical(S32 x, S32 y, MASK mask)
+void LLToolGrabBase::handleHoverNonPhysical(S32 x, S32 y, MASK mask)
 {
 	LLViewerObject* objectp = mGrabPick.getObject();
 	if (!objectp || !hasMouseCapture() ) return;
@@ -883,7 +883,7 @@ void LLToolGrab::handleHoverNonPhysical(S32 x, S32 y, MASK mask)
  
 
 // Not dragging.  Just showing affordances
-void LLToolGrab::handleHoverInactive(S32 x, S32 y, MASK mask)
+void LLToolGrabBase::handleHoverInactive(S32 x, S32 y, MASK mask)
 {
 	// JC - TODO - change cursor based on gGrabBtnVertical, gGrabBtnSpin
 	LL_DEBUGS("UserInput") << "hover handled by LLToolGrab (inactive-not over editable object)" << LL_ENDL;		
@@ -891,7 +891,7 @@ void LLToolGrab::handleHoverInactive(S32 x, S32 y, MASK mask)
 }
 
 // User is trying to do something that's not allowed.
-void LLToolGrab::handleHoverFailed(S32 x, S32 y, MASK mask)
+void LLToolGrabBase::handleHoverFailed(S32 x, S32 y, MASK mask)
 {
 	if( GRAB_NOOBJECT == mMode )
 	{
@@ -932,7 +932,7 @@ void LLToolGrab::handleHoverFailed(S32 x, S32 y, MASK mask)
 
 
 
-BOOL LLToolGrab::handleMouseUp(S32 x, S32 y, MASK mask)
+BOOL LLToolGrabBase::handleMouseUp(S32 x, S32 y, MASK mask)
 {
 	// call the base class to propogate info to sim
 	LLTool::handleMouseUp(x, y, mask);
@@ -964,7 +964,7 @@ BOOL LLToolGrab::handleMouseUp(S32 x, S32 y, MASK mask)
 	return TRUE;
 } 
 
-void LLToolGrab::stopEditing()
+void LLToolGrabBase::stopEditing()
 {
 	if( hasMouseCapture() )
 	{
@@ -972,7 +972,7 @@ void LLToolGrab::stopEditing()
 	}
 }
 
-void LLToolGrab::onMouseCaptureLost()
+void LLToolGrabBase::onMouseCaptureLost()
 {
 	LLViewerObject* objectp = mGrabPick.getObject();
 	if (!objectp)
@@ -1029,7 +1029,7 @@ void LLToolGrab::onMouseCaptureLost()
 }
 
 
-void LLToolGrab::stopGrab()
+void LLToolGrabBase::stopGrab()
 {
 	LLViewerObject* objectp = mGrabPick.getObject();
 	if (!objectp)
@@ -1070,29 +1070,29 @@ void LLToolGrab::stopGrab()
 }
 
 
-void LLToolGrab::draw()
+void LLToolGrabBase::draw()
 { }
 
-void LLToolGrab::render()
+void LLToolGrabBase::render()
 { }
 
-BOOL LLToolGrab::isEditing()
+BOOL LLToolGrabBase::isEditing()
 {
 	return (mGrabPick.getObject().notNull());
 }
 
-LLViewerObject* LLToolGrab::getEditingObject()
+LLViewerObject* LLToolGrabBase::getEditingObject()
 {
 	return mGrabPick.getObject();
 }
 
 
-LLVector3d LLToolGrab::getEditingPointGlobal()
+LLVector3d LLToolGrabBase::getEditingPointGlobal()
 {
 	return getGrabPointGlobal();
 }
 
-LLVector3d LLToolGrab::getGrabPointGlobal()
+LLVector3d LLToolGrabBase::getGrabPointGlobal()
 {
 	switch(mMode)
 	{

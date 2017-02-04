@@ -53,8 +53,7 @@ struct FolderEntry : public LLDictionaryEntry
 class LLFolderDictionary : public LLSingleton<LLFolderDictionary>,
 						   public LLDictionary<LLFolderType::EType, FolderEntry>
 {
-public:
-	LLFolderDictionary();
+	LLSINGLETON(LLFolderDictionary);
 protected:
 	virtual LLFolderType::EType notFound() const
 	{

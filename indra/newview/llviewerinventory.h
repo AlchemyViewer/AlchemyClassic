@@ -30,7 +30,7 @@
 #include "llinventory.h"
 #include "llframetimer.h"
 #include "llwearable.h"
-#include "llui.h" //for LLDestroyClass
+#include "llinitdestroyclass.h" //for LLDestroyClass
 
 class LLInventoryPanel;
 class LLFolderView;

@@ -399,7 +399,9 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 				if ((params.mVertexBuffer->getTypeMask() & mask) != mask)
 				{ //FIXME!
-					LL_WARNS_ONCE() << "Missing required components, skipping render batch." << LL_ENDL;
+					LL_WARNS_ONCE() << "Missing required components, expected mask: " << mask
+									<< " present: " << (params.mVertexBuffer->getTypeMask() & mask)
+									<< ". Skipping render batch." << LL_ENDL;
 					continue;
 				}
 
@@ -591,7 +593,6 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 					draw_glow_for_this_partition &&
 					(!is_particle_or_hud_particle || params.mHasGlow) &&
 					params.mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_EMISSIVE))
-	
 				{
 					// install glow-accumulating blend mode
 					gGL.blendFunc(LLRender::BF_ZERO, LLRender::BF_ONE, // don't touch color

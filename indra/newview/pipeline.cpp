@@ -113,6 +113,7 @@
 #include "llpanelface.h"
 #include "llscenemonitor.h"
 #include "llprogressview.h"
+#include "llcleanup.h"
 
 #include "llglmhelpers.h"
 
@@ -6897,7 +6898,7 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 	}
 	LLVOPartGroup::destroyGL();
 
-	LLVertexBuffer::cleanupClass();
+	SUBSYSTEM_CLEANUP(LLVertexBuffer);
 
 	if (LLVertexBuffer::sGLCount > 0)
 	{
@@ -8933,7 +8934,7 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 		
 		gDeferredPostGammaCorrectProgram.uniform2f(LLShaderMgr::DEFERRED_SCREEN_RES, target->getWidth(), target->getHeight());
 		
-		static LLCachedControl<F32> gamma(gSavedSettings, "RenderDeferredDisplayGamma", 2.2f);
+		F32 gamma = gSavedSettings.getF32("RenderDeferredDisplayGamma");
 
 		gDeferredPostGammaCorrectProgram.uniform1f(LLShaderMgr::DISPLAY_GAMMA, (gamma > 0.1f) ? 1.0f / gamma : (1.0f/2.2f));
 		

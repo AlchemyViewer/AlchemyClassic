@@ -41,7 +41,6 @@
 #include "lltextbox.h"
 
 #include "llinventorybridge.h"
-#include "llfloaterinventory.h"
 #include "llinventorymodel.h"
 #include "llinventorypanel.h"
 #include "llpanelobjectinventory.h"

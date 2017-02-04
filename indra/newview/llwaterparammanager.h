@@ -212,6 +212,8 @@ struct WaterExpFloatControl
 /// WindLight parameter manager class - what controls all the wind light shaders
 class LLWaterParamManager : public LLSingleton<LLWaterParamManager>
 {
+	LLSINGLETON(LLWaterParamManager);
+	~LLWaterParamManager();
 	LOG_CLASS(LLWaterParamManager);
 public:
 	typedef std::list<std::string> preset_name_list_t;
@@ -315,11 +317,7 @@ public:
 	F32 mDensitySliderValue;
 
 private:
-	friend class LLSingleton<LLWaterParamManager>;
 	/*virtual*/ void initSingleton();
-	LLWaterParamManager();
-	~LLWaterParamManager();
-
 	void loadAllPresets();
 	void loadPresetsFromDir(const std::string& dir);
 	bool loadPreset(const std::string& path);

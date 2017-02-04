@@ -34,6 +34,7 @@
 #include "llinventoryobserver.h"
 #include "llinventorymodel.h"
 #include "llviewerinventory.h"
+#include "llinitdestroyclass.h"
 
 class LLMenuItemCallGL;
 class LLToggleableMenu;
@@ -171,6 +172,8 @@ private:
 class LLFavoritesOrderStorage : public LLSingleton<LLFavoritesOrderStorage>
 	, public LLDestroyClass<LLFavoritesOrderStorage>
 {
+	LLSINGLETON(LLFavoritesOrderStorage);
+	~LLFavoritesOrderStorage() { save(); }
 	LOG_CLASS(LLFavoritesOrderStorage);
 public:
 	/**
@@ -207,10 +210,6 @@ public:
 
 	const static S32 NO_INDEX;
 private:
-	friend class LLSingleton<LLFavoritesOrderStorage>;
-	LLFavoritesOrderStorage() : mIsDirty(false) { load(); }
-	~LLFavoritesOrderStorage() { save(); }
-    
 	/**
 	 * Removes sort indexes for items which are not in Favorites bar for now.
 	 */
@@ -265,4 +264,10 @@ private:
 	};
 
 };
+
+inline
+LLFavoritesOrderStorage::LLFavoritesOrderStorage() :
+	mIsDirty(false), mUpdateRequired(false)
+{ load(); }
+
 #endif // LL_LLFAVORITESBARCTRL_H

@@ -42,7 +42,7 @@ class LLUUID;
 
 class LLExperienceCache: public LLSingleton < LLExperienceCache >
 {
-    friend class LLSingleton < LLExperienceCache > ;
+    LLSINGLETON(LLExperienceCache);
 
 public:
     typedef boost::function<std::string(const std::string &)> CapabilityQuery_t;
@@ -102,7 +102,6 @@ public:
     static const int PROPERTY_SUSPENDED;	// 1 << 7
 
 private:
-    LLExperienceCache();
     virtual ~LLExperienceCache();
 
     virtual void initSingleton();

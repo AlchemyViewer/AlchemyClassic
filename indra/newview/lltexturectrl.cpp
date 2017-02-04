@@ -45,7 +45,6 @@
 #include "llinventorymodelbackgroundfetch.h"
 #include "llinventoryobserver.h"
 #include "llinventorypanel.h"
-#include "llfloaterinventory.h"
 #include "lllineeditor.h"
 #include "llui.h"
 #include "llviewerinventory.h"
@@ -574,7 +573,7 @@ void LLFloaterTexturePicker::draw()
 	}
 }
 
-const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL copyable_only)
+const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL copyable_only, BOOL ignore_library)
 {
 	LLViewerInventoryCategory::cat_array_t cats;
 	LLViewerInventoryItem::item_array_t items;
@@ -594,7 +593,10 @@ const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL co
 			LLPermissions item_permissions = itemp->getPermissions();
 			if (item_permissions.allowCopyBy(gAgent.getID(), gAgent.getGroupID()))
 			{
-				return itemp->getUUID();
+				if(!ignore_library || !gInventory.isObjectDescendentOf(itemp->getUUID(),gInventory.getLibraryRootFolderID()))
+				{
+					return itemp->getUUID();
+				}
 			}
 		}
 		// otherwise just return first instance, unless copyable requested
@@ -604,7 +606,10 @@ const LLUUID& LLFloaterTexturePicker::findItemID(const LLUUID& asset_id, BOOL co
 		}
 		else
 		{
-			return items[0]->getUUID();
+			if(!ignore_library || !gInventory.isObjectDescendentOf(items[0]->getUUID(),gInventory.getLibraryRootFolderID()))
+			{
+				return items[0]->getUUID();
+			}
 		}
 	}
 

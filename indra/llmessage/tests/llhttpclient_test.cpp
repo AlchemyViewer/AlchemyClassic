@@ -44,6 +44,7 @@
 
 #include "lliosocket.h"
 #include "stringize.h"
+#include "llcleanup.h"
 
 namespace tut
 {
@@ -68,7 +69,7 @@ namespace tut
 		~HTTPClientTestData()
 		{
 			delete mClientPump;
-			LLProxy::cleanupClass();
+			SUBSYSTEM_CLEANUP(LLProxy);
 			apr_pool_destroy(mPool);
 		}
 

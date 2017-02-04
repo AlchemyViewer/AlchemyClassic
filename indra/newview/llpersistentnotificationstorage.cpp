@@ -41,9 +41,8 @@
 #include "llviewernetwork.h"
 #include <boost/smart_ptr.hpp>
 
-LLPersistentNotificationStorage::LLPersistentNotificationStorage()
-	: LLSingleton<LLPersistentNotificationStorage>()
-	, LLNotificationStorage("")
+LLPersistentNotificationStorage::LLPersistentNotificationStorage():
+	  LLNotificationStorage("")
 	, mLoaded(false)
 {
 }

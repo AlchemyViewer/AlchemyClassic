@@ -67,6 +67,8 @@ public:
  */
 class LLTeleportHistory: public LLSingleton<LLTeleportHistory>
 {
+	LLSINGLETON(LLTeleportHistory);
+	~LLTeleportHistory();
 	LOG_CLASS(LLTeleportHistory);
 
 public:
@@ -75,9 +77,6 @@ public:
 	typedef std::function<void()>				history_callback_t;
 	typedef boost::signals2::signal<void()>		history_signal_t;
 	
-	LLTeleportHistory();
-	~LLTeleportHistory();
-
 	/**
 	 * Go back in the history.
 	 */

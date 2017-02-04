@@ -97,19 +97,10 @@ protected:
 
 class LLFeatureManager : public LLFeatureList, public LLSingleton<LLFeatureManager>
 {
-public:
-	LLFeatureManager()
-	:	LLFeatureList("default"),
-
-		mInited(FALSE),
-		mTableVersion(0),
-		mSafe(FALSE),
-		mGPUClass(GPU_CLASS_UNKNOWN),
-		mExpectedGLVersion(0.f)		
-	{
-	}
+	LLSINGLETON(LLFeatureManager);
 	~LLFeatureManager() {cleanupFeatureTables();}
 
+public:
 	// initialize this by loading feature table and gpu table
 	void init();
 
@@ -178,5 +169,16 @@ protected:
 	std::string	mGPUString;
 };
 
+inline
+LLFeatureManager::LLFeatureManager()
+:	LLFeatureList("default"),
+
+	mInited(FALSE),
+	mTableVersion(0),
+	mSafe(FALSE),
+	mGPUClass(GPU_CLASS_UNKNOWN),
+	mExpectedGLVersion(0.f)
+{
+}
 
 #endif // LL_LLFEATUREMANAGER_H

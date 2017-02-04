@@ -40,8 +40,7 @@
 #include "llpathfindingnavmeshstatus.h"
 #include "llviewerregion.h"
 
-LLMenuOptionPathfindingRebakeNavmesh::LLMenuOptionPathfindingRebakeNavmesh() 
-	: LLSingleton<LLMenuOptionPathfindingRebakeNavmesh>(),
+LLMenuOptionPathfindingRebakeNavmesh::LLMenuOptionPathfindingRebakeNavmesh() :
 	mIsInitialized(false),
 	mCanRebakeRegion(false),
 	mRebakeNavMeshMode(kRebakeNavMesh_Default),

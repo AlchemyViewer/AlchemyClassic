@@ -34,6 +34,7 @@ class LLMessageSystem;
  */
 class LLRegionInfoModel : public LLSingleton<LLRegionInfoModel>
 {
+	LLSINGLETON(LLRegionInfoModel);
 	LOG_CLASS(LLRegionInfoModel);
 
 public:
@@ -71,10 +72,8 @@ public:
 	std::string	mSimType;
 
 protected:
-	friend class LLSingleton<LLRegionInfoModel>;
 	friend class LLViewerRegion;
 
-	LLRegionInfoModel();
 
 	/**
 	 * Refresh model with data from the incoming server message.

@@ -39,6 +39,7 @@
 #include "llcachename.h"
 #include "llcheckboxctrl.h"
 #include "llfontgl.h"
+#include "llimagebmp.h"
 #include "llimagej2c.h"
 #include "llinventory.h"
 #include "llnotificationsutil.h"
@@ -77,6 +78,7 @@
 #include "lldir.h"
 #include "llselectmgr.h"
 #include "llversioninfo.h"
+#include "llviewercontrol.h"
 #include "llviewernetwork.h"
 
 #include "llagentui.h"
@@ -87,6 +89,7 @@
 #include "llcorehttputil.h"
 #include "llviewerassetupload.h"
 
+const std::string SCREEN_PREV_FILENAME = "screen_report_last.bmp";
 
 //=========================================================================
 //-----------------------------------------------------------------------------
@@ -181,11 +184,6 @@ BOOL LLFloaterReporter::postBuild()
 		pos -= regionp->getOriginGlobal();
 	}
 	setPosBox(pos);
-
-	// Take a screenshot, but don't draw this floater.
-	setVisible(FALSE);
-	takeScreenshot();
-	setVisible(TRUE);
 
 	// Default text to be blank
 	getChild<LLUICtrl>("object_name")->setValue(LLStringUtil::null);
@@ -513,50 +511,59 @@ void LLFloaterReporter::showFromMenu(EReportType report_type)
 		LL_WARNS() << "Unknown LLViewerReporter type : " << report_type << LL_ENDL;
 		return;
 	}
-	
-	LLFloaterReporter* f = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter", LLSD());
-	if (f)
+	LLFloaterReporter* reporter_floater = LLFloaterReg::findTypedInstance<LLFloaterReporter>("reporter");
+	if(reporter_floater && reporter_floater->isInVisibleChain())
 	{
-		f->setReportType(report_type);
+		gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", FALSE);
+	}
+	reporter_floater = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter", LLSD());
+	if (reporter_floater)
+	{
+		reporter_floater->setReportType(report_type);
 	}
 }
 
 // static
 void LLFloaterReporter::show(const LLUUID& object_id, const std::string& avatar_name, const LLUUID& experience_id)
 {
-	LLFloaterReporter* f = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter");
-
+	LLFloaterReporter* reporter_floater = LLFloaterReg::findTypedInstance<LLFloaterReporter>("reporter");
+	if(reporter_floater && reporter_floater->isInVisibleChain())
+	{
+		gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", FALSE);
+	}
+	reporter_floater = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter");
 	if (avatar_name.empty())
 	{
 		// Request info for this object
-		f->getObjectInfo(object_id);
+		reporter_floater->getObjectInfo(object_id);
 	}
 	else
 	{
-		f->setFromAvatarID(object_id);
+		reporter_floater->setFromAvatarID(object_id);
 	}
 	if(experience_id.notNull())
 	{
-		f->getExperienceInfo(experience_id);
+		reporter_floater->getExperienceInfo(experience_id);
 	}
 
 	// Need to deselect on close
-	f->mDeselectOnClose = TRUE;
-
-	f->openFloater();
+	reporter_floater->mDeselectOnClose = TRUE;
 }
 
 
 
 void LLFloaterReporter::showFromExperience( const LLUUID& experience_id )
 {
-	LLFloaterReporter* f = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter");
-	f->getExperienceInfo(experience_id);
+	LLFloaterReporter* reporter_floater = LLFloaterReg::findTypedInstance<LLFloaterReporter>("reporter");
+	if(reporter_floater && reporter_floater->isInVisibleChain())
+	{
+		gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", FALSE);
+	}
+	reporter_floater = LLFloaterReg::showTypedInstance<LLFloaterReporter>("reporter");
+	reporter_floater->getExperienceInfo(experience_id);
 
 	// Need to deselect on close
-	f->mDeselectOnClose = TRUE;
-
-	f->openFloater();
+	reporter_floater->mDeselectOnClose = TRUE;
 }
 
 
@@ -602,13 +609,13 @@ bool LLFloaterReporter::validateReport()
 		return false;
 	};
 
-	if (getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty())
+	if ( getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty() )
 	{
 		LLNotificationsUtil::add("HelpReportAbuseAbuserLocationEmpty");
 		return false;
 	};
 
-	if (getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty())
+	if ( getChild<LLUICtrl>("abuse_location_edit")->getValue().asString().empty() )
 	{
 		LLNotificationsUtil::add("HelpReportAbuseAbuserLocationEmpty");
 		return false;
@@ -767,18 +774,24 @@ void LLFloaterReporter::sendReportViaCaps(std::string url, std::string sshot_url
 	}
 }
 
-void LLFloaterReporter::takeScreenshot()
+void LLFloaterReporter::takeScreenshot(bool use_prev_screenshot)
 {
-	const S32 IMAGE_WIDTH = 1024;
-	const S32 IMAGE_HEIGHT = 768;
-
-	LLPointer<LLImageRaw> raw = new LLImageRaw;
-	if( !gViewerWindow->rawSnapshot(raw, IMAGE_WIDTH, IMAGE_HEIGHT, TRUE, FALSE, TRUE, FALSE))
+	gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", TRUE);
+	if(!use_prev_screenshot)
 	{
-		LL_WARNS() << "Unable to take screenshot" << LL_ENDL;
-		return;
+		std::string screenshot_filename(gDirUtilp->getLindenUserDir() + gDirUtilp->getDirDelimiter() + SCREEN_PREV_FILENAME);
+		LLPointer<LLImageBMP> bmp_image = new LLImageBMP;
+		if(bmp_image->encode(mImageRaw, 0.0f))
+		{
+			bmp_image->save(screenshot_filename);
+		}
 	}
-	LLPointer<LLImageJ2C> upload_data = LLViewerTextureList::convertToUploadFile(raw);
+	else
+	{
+		mImageRaw = mPrevImageRaw;
+	}
+
+	LLPointer<LLImageJ2C> upload_data = LLViewerTextureList::convertToUploadFile(mImageRaw);
 
 	// create a resource data
 	mResourceDatap->mInventoryType = LLInventoryType::IT_NONE;
@@ -810,7 +823,7 @@ void LLFloaterReporter::takeScreenshot()
 	// store in the image list so it doesn't try to fetch from the server
 	LLPointer<LLViewerFetchedTexture> image_in_list = 
 		LLViewerTextureManager::getFetchedTexture(mResourceDatap->mAssetInfo.mUuid);
-	image_in_list->createGLTexture(0, raw, 0, TRUE, LLGLTexture::OTHER);
+	image_in_list->createGLTexture(0, mImageRaw, 0, TRUE, LLGLTexture::OTHER);
 	
 	// the texture picker then uses that texture
 	LLTextureCtrl* texture = getChild<LLTextureCtrl>("screenshot");
@@ -820,7 +833,46 @@ void LLFloaterReporter::takeScreenshot()
 		texture->setDefaultImageAssetID(mResourceDatap->mAssetInfo.mUuid);
 		texture->setCaption(getString("Screenshot"));
 	}
+}
 
+void LLFloaterReporter::onOpen(const LLSD& key)
+{
+	mImageRaw = new LLImageRaw;
+	const S32 IMAGE_WIDTH = 1024;
+	const S32 IMAGE_HEIGHT = 768;
+
+	// Take a screenshot, but don't draw this floater.
+	setVisible(FALSE);
+	if( !gViewerWindow->rawSnapshot(mImageRaw, IMAGE_WIDTH, IMAGE_HEIGHT, TRUE, FALSE, TRUE, FALSE))
+	{
+		LL_WARNS() << "Unable to take screenshot" << LL_ENDL;
+		setVisible(TRUE);
+		return;
+	}
+	setVisible(TRUE);
+
+	if(gSavedPerAccountSettings.getBOOL("PreviousScreenshotForReport"))
+	{
+		std::string screenshot_filename(gDirUtilp->getLindenUserDir() + gDirUtilp->getDirDelimiter() + SCREEN_PREV_FILENAME);
+		mPrevImageRaw = new LLImageRaw;
+		LLPointer<LLImageBMP> start_image_bmp = new LLImageBMP;
+		if(start_image_bmp->load(screenshot_filename))
+		{
+			if (start_image_bmp->decode(mPrevImageRaw, 0.0f))
+			{
+				LLNotificationsUtil::add("LoadPreviousReportScreenshot", LLSD(), LLSD(), boost::bind(&LLFloaterReporter::onLoadScreenshotDialog,this, _1, _2));
+				return;
+			}
+		}
+	}
+
+	takeScreenshot();
+}
+
+void LLFloaterReporter::onLoadScreenshotDialog(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	takeScreenshot(option == 0);
 }
 
 void LLFloaterReporter::uploadImage()
@@ -882,6 +934,11 @@ void LLFloaterReporter::setPosBox(const LLVector3d &pos)
 		mPosition.mV[VY],
 		mPosition.mV[VZ]);
 	getChild<LLUICtrl>("pos_field")->setValue(pos_string);
+}
+
+void LLFloaterReporter::onClose(bool app_quitting)
+{
+	gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", app_quitting);
 }
 
 

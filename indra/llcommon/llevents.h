@@ -218,7 +218,7 @@ class LLEventPump;
  */
 class LL_COMMON_API LLEventPumps: public LLSingleton<LLEventPumps>
 {
-    friend class LLSingleton<LLEventPumps>;
+    LLSINGLETON(LLEventPumps);
 public:
     /**
      * Find or create an LLEventPump instance with a specific name. We return
@@ -261,7 +261,6 @@ private:
     void unregister(const LLEventPump&);
 
 private:
-    LLEventPumps();
     ~LLEventPumps();
 
 testable:

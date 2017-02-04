@@ -82,6 +82,11 @@ void LLFloaterSidePanelContainer::closeFloater(bool app_quitting)
 	}
 	
 	LLFloater::closeFloater(app_quitting);
+
+	if (getInstanceName() == "inventory" && !getKey().isUndefined())
+	{
+		destroy();
+	}
 }
 
 LLPanel* LLFloaterSidePanelContainer::openChildPanel(const std::string& panel_name, const LLSD& params)

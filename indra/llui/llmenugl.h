@@ -355,7 +355,9 @@ private:
 
 // child widget registry
 struct MenuRegistry : public LLChildRegistry<MenuRegistry>
-{};
+{
+	LLSINGLETON_EMPTY_CTOR(MenuRegistry);
+};
 
 
 class LLMenuGL 

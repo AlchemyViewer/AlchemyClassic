@@ -42,6 +42,7 @@ class LLEventPump;
  */
 class LLTwitterConnect : public LLSingleton<LLTwitterConnect>
 {
+	LLSINGLETON(LLTwitterConnect);
 	LOG_CLASS(LLTwitterConnect);
 public:
     enum EConnectionState
@@ -80,10 +81,7 @@ public:
     void openTwitterWeb(std::string url);
 
 private:
-	friend class LLSingleton<LLTwitterConnect>;
 
-	LLTwitterConnect();
-	~LLTwitterConnect() {};
  	std::string getTwitterConnectURL(const std::string& route = "", bool include_read_from_master = false);
 
     EConnectionState mConnectionState;

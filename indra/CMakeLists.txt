@@ -86,6 +86,11 @@ add_dependencies(viewer alchemy-bin)
 
 add_subdirectory(${VIEWER_PREFIX}doxygen EXCLUDE_FROM_ALL)
 
+if (WINDOWS)
+  set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    PROPERTY VS_STARTUP_PROJECT alchemy-bin)
+endif (WINDOWS)
+
 if (LL_TESTS)
   # Define after the custom targets are created so
   # individual apps can add themselves as dependencies

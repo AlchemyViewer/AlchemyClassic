@@ -1413,8 +1413,8 @@ void update_inventory_item(
 		if (updates.has("asset_id"))
 		{
 			updates.erase("asset_id");
-        		if (update_item->getTransactionID().notNull())
-        		{
+			if (update_item->getTransactionID().notNull())
+			{
 				updates["hash_id"] = update_item->getTransactionID();
 			}
 		}

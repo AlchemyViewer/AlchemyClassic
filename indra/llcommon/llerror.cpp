@@ -186,7 +186,7 @@ namespace {
 			ANSI_NO
 		}					mUseANSI;
 
-		void colorANSI(const std::string color)
+		void colorANSI(const std::string& color)
 		{
 			// ANSI color code escape sequence
 			fprintf(stderr, "\033[%sm", color.c_str() );

@@ -802,7 +802,7 @@ void LLPanelLogin::onClickConnect(void *)
 		{
 		    LLNotificationsUtil::add("MustEnterPasswordToLogIn");
 		}
-		else if (password.length > 16 && LLGridManager::getInstance()->isInSecondlife())
+		else if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
 		{
 			LLNotificationsUtil::add("SecondLifePasswordTooLong");
 			password.erase(password.begin()+16, password.end());

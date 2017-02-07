@@ -517,8 +517,6 @@ S32 LLProfile::getNumNGonPoints(const LLProfileParams& params, S32 sides, F32 of
 		t += t_step;
 	}
 
-	t_fraction = (end - (t - t_step))*sides;
-
 	// Find the fraction that we need to add to the end point.
 	t_fraction = (end - (t - t_step))*sides;
 	if (t_fraction > 0.0001f)
@@ -612,8 +610,6 @@ void LLProfile::genNGon(const LLProfileParams& params, S32 sides, F32 offset, F3
 		t += t_step;
 		ang += ang_step;
 	}
-
-	t_fraction = (end - (t - t_step))*sides;
 
 	// pt1 is the first point on the fractional face
 	// pt2 is the end point on the fractional face

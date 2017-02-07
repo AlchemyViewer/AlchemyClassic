@@ -849,7 +849,7 @@ std::string LLStringOps::getDatetimeCode (std::string key)
 	}
 	else
 	{
-		return std::string("");
+		return std::string();
 	}
 }
 

@@ -193,17 +193,17 @@ void LLPrimitive::clearTextureList()
 // static
 LLPrimitive *LLPrimitive::createPrimitive(LLPCode p_code)
 {
-	LLPrimitive *retval = new LLPrimitive();
-	
-	if (retval)
+	LLPrimitive *retval = nullptr;
+	try
 	{
-		retval->init_primitive(p_code);
+		retval = new LLPrimitive();
 	}
-	else
+	catch (const std::bad_alloc& e)
 	{
-		LL_ERRS() << "primitive allocation failed" << LL_ENDL;
+		LL_ERRS() << "Primitive allocation failed with exception: " << e.what() << LL_ENDL;
 	}
 
+	retval->init_primitive(p_code);
 	return retval;
 }
 

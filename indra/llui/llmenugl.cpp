@@ -293,15 +293,20 @@ BOOL LLMenuItemGL::addToAcceleratorList(std::list <LLKeyBinding*> *listp)
 			}
 		}
 		if (!accelerator)
-		{				
-			accelerator = new LLKeyBinding;
-			if (accelerator)
+		{			
+			try
 			{
+				accelerator = new LLKeyBinding;
 				accelerator->mKey = mAcceleratorKey;
 				accelerator->mMask = (mAcceleratorMask & MASK_NORMALKEYS);
-// 				accelerator->mName = mLabel;
+				// 				accelerator->mName = mLabel;
+				listp->push_back(accelerator);//addData(accelerator);
 			}
-			listp->push_back(accelerator);//addData(accelerator);
+			catch (const std::bad_alloc& e)
+			{
+				LL_WARNS() << "Failed to allocate memory for keybinding with exception: " << e.what() << LL_ENDL;
+				return FALSE;
+			}
 		}
 	}
 	return TRUE;

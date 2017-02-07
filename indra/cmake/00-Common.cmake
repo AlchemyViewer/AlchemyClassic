@@ -96,6 +96,7 @@ if (WINDOWS)
       /Zc:wchar_t
       /Zc:forScope
       /Zc:rvalueCast
+      /Zc:throwingNew
       /nologo
       /Oy-
       /fp:fast

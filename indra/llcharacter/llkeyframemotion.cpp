@@ -568,8 +568,21 @@ LLMotion::LLMotionInitStatus LLKeyframeMotion::onInitialize(LLCharacter *charact
 	}
 
 	BOOL success = FALSE;
-	LLVFile* anim_file = new LLVFile(sVFS, mID, LLAssetType::AT_ANIMATION);
-	if (!anim_file || !anim_file->getSize())
+	LLVFile* anim_file = nullptr;
+	try
+	{
+		anim_file = new LLVFile(sVFS, mID, LLAssetType::AT_ANIMATION);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_WARNS() << "Failed to allocate VFS file for animations with exception: " << e.what() << LL_ENDL;
+
+		// request asset over network on next call to load
+		mAssetStatus = ASSET_NEEDS_FETCH;
+
+		return STATUS_HOLD;
+	}
+	if (!anim_file->getSize())
 	{
 		delete anim_file;
 		anim_file = NULL;

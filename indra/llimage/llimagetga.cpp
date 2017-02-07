@@ -264,10 +264,13 @@ bool LLImageTGA::updateData()
 		// only allocate memory for one if _we_ intend to use it.
 		if ( (1 == mImageType) || (9 == mImageType)  )
 		{
-			mColorMap = new U8[ color_map_bytes ];  
-			if (!mColorMap)
+			try
 			{
-				LL_ERRS() << "Out of Memory in bool LLImageTGA::updateData()" << LL_ENDL;
+				mColorMap = new U8[color_map_bytes];
+			}
+			catch (const std::bad_alloc& e)
+			{
+				LL_ERRS() << "Failed to allocate memory with exception: " << e.what() << LL_ENDL;
 				return false;
 			}
 			memcpy( mColorMap, getData() + mDataOffset, color_map_bytes );	/* Flawfinder: ignore */

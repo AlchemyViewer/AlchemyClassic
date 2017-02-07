@@ -206,12 +206,15 @@ bool LLHeapBuffer::containsSegment(const LLSegment& segment) const
 
 void LLHeapBuffer::allocate(S32 size)
 {
-	mReclaimedBytes = 0;	
-	mBuffer = new U8[size];
-	if(mBuffer)
+	mReclaimedBytes = 0;
+	try
 	{
+		mBuffer = new U8[size];
 		mSize = size;
 		mNextFree = mBuffer;
+	}
+	catch (...)
+	{
 	}
 }
 

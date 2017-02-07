@@ -347,8 +347,15 @@ BOOL LLMaterialTable::add(U8 mcode, const std::string& name, const LLUUID &uuid)
 {
 	LLMaterialInfo *infop;
 
-	infop = new LLMaterialInfo(mcode,name,uuid);
-	if (!infop) return FALSE;
+	try
+	{
+		infop = new LLMaterialInfo(mcode, name, uuid);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_WARNS() << "Failed to allocate material info with exception: " << e.what() << LL_ENDL;
+		return FALSE;
+	}
 
 	// Add at the end so the order in menus matches the order in this
 	// file.  JNC 11.30.01

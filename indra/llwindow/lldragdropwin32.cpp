@@ -314,9 +314,17 @@ LLDragDropWin32::~LLDragDropWin32()
 bool LLDragDropWin32::init( HWND hWnd )
 {
 	if ( NOERROR != OleInitialize( NULL ) )
-		return FALSE; 
+		return false; 
 
-	mDropTarget = new LLDragDropWin32Target( hWnd );
+	try
+	{
+		mDropTarget = new LLDragDropWin32Target(hWnd);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_WARNS() << "Failed to allocate drag drop target with exception: " << e.what() << LL_ENDL;
+		return false;
+	}
 	if ( mDropTarget )
 	{
 		HRESULT result = CoLockObjectExternal( mDropTarget, TRUE, FALSE );

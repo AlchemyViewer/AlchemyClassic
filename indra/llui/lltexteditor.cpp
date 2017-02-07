@@ -2647,10 +2647,14 @@ BOOL LLTextEditor::importBuffer(const char* buffer, S32 length )
 
 	BOOL success = TRUE;
 
-	char* text = new char[ text_len + 1];
-	if (text == NULL)
+	char* text = nullptr;
+	try
 	{
-		LL_ERRS() << "Memory allocation failure." << LL_ENDL;			
+		text = new char[text_len + 1];
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_ERRS() << "Memory allocation failure with exception: " << e.what() << LL_ENDL;			
 		return FALSE;
 	}
 	instream.get(text, text_len + 1, '\0');

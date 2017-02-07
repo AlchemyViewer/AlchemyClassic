@@ -388,19 +388,22 @@ bool LLCrashLoggerWindows::initCrashServer()
 	std::wstring wdump_path(utf8str_to_utf16str(dump_path) );
 		
 	//Pipe naming conventions:  http://msdn.microsoft.com/en-us/library/aa365783%28v=vs.85%29.aspx
-	mCrashHandler = new CrashGenerationServer( wpipe_name,
-		NULL, 
- 		&LLCrashLoggerWindows::OnClientConnected, this,
-		/*NULL, NULL,    */ &LLCrashLoggerWindows::OnClientDumpRequest, this,
- 		&LLCrashLoggerWindows::OnClientExited, this,
- 		NULL, NULL,
- 		true, &wdump_path);
-	
- 	if (!mCrashHandler) {
+	try
+	{
+		mCrashHandler = new CrashGenerationServer(wpipe_name,
+			NULL,
+			&LLCrashLoggerWindows::OnClientConnected, this,
+			/*NULL, NULL,    */ &LLCrashLoggerWindows::OnClientDumpRequest, this,
+			&LLCrashLoggerWindows::OnClientExited, this,
+			NULL, NULL,
+			true, &wdump_path);
+	}
+	catch (const std::bad_alloc& e)
+	{
 		//Failed to start the crash server.
- 		LL_WARNS() << "Failed to init crash server." << LL_ENDL;
-		return false; 
- 	}
+		LL_WARNS() << "Failed to allocate crash server with exception: " << e.what() << LL_ENDL;
+		return false;
+	}
 
 	// Start servicing clients.
     if (!mCrashHandler->Start()) {

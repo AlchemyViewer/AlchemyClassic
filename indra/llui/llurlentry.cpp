@@ -150,11 +150,14 @@ void LLUrlEntryBase::addObserver(const std::string &id,
 	// add a callback to be notified when we have a label for the uuid
 	LLUrlEntryObserver observer;
 	observer.url = url;
-	observer.signal = new LLUrlLabelSignal();
-	if (observer.signal)
+	try
 	{
+		observer.signal = new LLUrlLabelSignal();
 		observer.signal->connect(cb);
 		mObservers.emplace(id, observer);
+	}
+	catch (...)
+	{
 	}
 }
 

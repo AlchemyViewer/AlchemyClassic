@@ -372,12 +372,17 @@ boolean LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )
   
   // Double the buffer size;
   S32 new_buffer_size = self->mOutputBufferSize * 2;
-  U8* new_buffer = new U8[ new_buffer_size ];
-  if (!new_buffer)
+  U8* new_buffer = nullptr;
+  try
   {
-  	LL_ERRS() << "Out of memory in LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )" << LL_ENDL;
-  	return false;
+	  new_buffer = new U8[new_buffer_size];
   }
+  catch (const std::bad_alloc& e)
+  {
+	  LL_ERRS() << "Failed to allocate buffer with exception: " << e.what() << LL_ENDL;
+	  return false;
+  }
+
   memcpy( new_buffer, self->mOutputBuffer, self->mOutputBufferSize );	/* Flawfinder: ignore */
   delete[] self->mOutputBuffer;
   self->mOutputBuffer = new_buffer;

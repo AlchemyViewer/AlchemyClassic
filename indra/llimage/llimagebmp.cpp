@@ -320,10 +320,13 @@ bool LLImageBMP::updateData()
 
 	if( 0 != mColorPaletteColors )
 	{
-		mColorPalette = new U8[color_palette_size];
-		if (!mColorPalette)
+		try
 		{
-			LL_ERRS() << "Out of memory in LLImageBMP::updateData()" << LL_ENDL;
+			mColorPalette = new U8[color_palette_size];
+		}
+		catch (const std::bad_alloc& e)
+		{
+			LL_WARNS() << "Failed to allocate bmp color date with exception: " << e.what() << LL_ENDL;
 			return false;
 		}
 		memcpy( mColorPalette, mdata + FILE_HEADER_SIZE + BITMAP_HEADER_SIZE + extension_size, color_palette_size );	/* Flawfinder: ignore */

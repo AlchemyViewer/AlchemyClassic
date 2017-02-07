@@ -48,8 +48,7 @@
 
 bool LLCrashLock::isProcessAlive(U32 pid, const std::string& pname)
 {
-	std::wstring wpname;
-	wpname = std::wstring(pname.begin(), pname.end());
+	std::wstring wpname = utf8str_to_utf16str(pname);
 
 	HANDLE snapshot;
 	PROCESSENTRY32 pe32;
@@ -68,7 +67,7 @@ bool LLCrashLock::isProcessAlive(U32 pid, const std::string& pname)
 		{
 			do {
 				std::wstring wexecname = pe32.szExeFile; 
-				if (!wpname.compare(pe32.szExeFile))
+				if (!wpname.compare(wexecname))
 				{
 					if (pid == (U32)pe32.th32ProcessID)
 					{

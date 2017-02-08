@@ -119,8 +119,8 @@ class LLVector3
 		BOOL isNull() const;			// Returns TRUE if vector has a _very_small_ length
 		BOOL isExactlyZero() const		{ return !mV[VX] && !mV[VY] && !mV[VZ]; }
 
-		F32 operator[](int idx) const { return mV[idx]; }
-		F32 &operator[](int idx) { return mV[idx]; }
+		F32 operator[](size_t idx) const { return mV[idx]; }
+		F32 &operator[](size_t idx) { return mV[idx]; }
 	
 		friend LLVector3 operator+(const LLVector3 &a, const LLVector3 &b);	// Return vector a + b
 		friend LLVector3 operator-(const LLVector3 &a, const LLVector3 &b);	// Return vector a minus b

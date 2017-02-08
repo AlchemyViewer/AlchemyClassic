@@ -73,7 +73,7 @@ void LLSmoothInterpolation::updateInterpolants()
 {
 	sTimeDelta = sInternalTimer.getElapsedTimeAndResetF32();
 
-	for (S32 i = 0; i < sInterpolants.size(); i++)
+	for (size_t i = 0; i < sInterpolants.size(); i++)
 	{
 		Interpolant& interp = sInterpolants[i];
 		interp.mInterpolant = calcInterpolant(interp.mTimeScale);

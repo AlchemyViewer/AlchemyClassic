@@ -84,8 +84,8 @@ class LLVector2
 		BOOL isNull();			// Returns TRUE if vector has a _very_small_ length
 		BOOL isExactlyZero() const		{ return !mV[VX] && !mV[VY]; }
 
-		F32 operator[](int idx) const { return mV[idx]; }
-		F32 &operator[](int idx) { return mV[idx]; }
+		F32 operator[](size_t idx) const { return mV[idx]; }
+		F32 &operator[](size_t idx) { return mV[idx]; }
 	
 		friend bool operator<(const LLVector2 &a, const LLVector2 &b);	// For sorting. x is "more significant" than y
 		friend LLVector2 operator+(const LLVector2 &a, const LLVector2 &b);	// Return vector a + b

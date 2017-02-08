@@ -103,8 +103,8 @@ class LLVector3d
 
 		const LLVector3d&	operator=(const LLVector4 &a);
 
-		F64 operator[](int idx) const { return mdV[idx]; }
-		F64 &operator[](int idx) { return mdV[idx]; }
+		F64 operator[](size_t idx) const { return mdV[idx]; }
+		F64 &operator[](size_t idx) { return mdV[idx]; }
 
 		friend LLVector3d operator+(const LLVector3d& a, const LLVector3d& b);	// Return vector a + b
 		friend LLVector3d operator-(const LLVector3d& a, const LLVector3d& b);	// Return vector a minus b

@@ -119,7 +119,7 @@ std::string LLUrlEntryBase::getLabelFromWikiLink(const std::string &url) const
 {
 	// return the label part from [http://www.example.org Label]
 	const char *text = url.c_str();
-	S32 start = 0;
+	size_t start = 0;
 	while (! isspace(text[start]))
 	{
 		start++;
@@ -135,7 +135,7 @@ std::string LLUrlEntryBase::getUrlFromWikiLink(const std::string &string) const
 {
 	// return the url part from [http://www.example.org Label]
 	const char *text = string.c_str();
-	S32 end = 0;
+	size_t end = 0;
 	while (! isspace(text[end]))
 	{
 		end++;

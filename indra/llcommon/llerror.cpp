@@ -1305,7 +1305,7 @@ namespace LLError
 		const size_t BUF_SIZE = 64;
 		char time_str[BUF_SIZE];	/* Flawfinder: ignore */
 		
-		int chars = strftime(time_str, BUF_SIZE, 
+		size_t chars = strftime(time_str, BUF_SIZE, 
 								  "%Y-%m-%dT%H:%M:%SZ",
 								  gmtime(&now));
 

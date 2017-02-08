@@ -72,7 +72,7 @@ const F32* const LLVector4a::getF32ptr() const
 
 // Read-only access a single float in this vector. Do not use in proximity to any function call that manipulates
 // the data at the whole vector level or you will incur a substantial penalty. Consider using the splat functions instead
-inline F32 LLVector4a::operator[](const S32 idx) const
+inline F32 LLVector4a::operator[](const size_t idx) const
 {
 	return ((F32*)&mQ)[idx];
 }	

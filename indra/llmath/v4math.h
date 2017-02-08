@@ -101,8 +101,8 @@ class LLVector4
 
 		const LLVector4&	scaleVec(const LLVector4& vec);	// Scales component-wise by vec
 
-		F32 operator[](int idx) const { return mV[idx]; }
-		F32 &operator[](int idx) { return mV[idx]; }
+		F32 operator[](size_t idx) const { return mV[idx]; }
+		F32 &operator[](size_t idx) { return mV[idx]; }
 	
 		friend std::ostream&	 operator<<(std::ostream& s, const LLVector4 &a);		// Print a
 		friend LLVector4 operator+(const LLVector4 &a, const LLVector4 &b);	// Return vector a + b

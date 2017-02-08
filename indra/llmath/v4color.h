@@ -103,8 +103,8 @@ class LLColor4
 
 		BOOL		isOpaque() { return mV[VALPHA] == 1.f; }
 
-		F32 operator[](int idx) const { return mV[idx]; }
-		F32 &operator[](int idx) { return mV[idx]; }
+		F32 operator[](size_t idx) const { return mV[idx]; }
+		F32 &operator[](size_t idx) { return mV[idx]; }
 	
 	    const LLColor4& operator=(const LLColor3 &a);	// Assigns vec3 to vec4 and returns vec4
 		

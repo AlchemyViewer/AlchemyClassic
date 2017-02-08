@@ -89,13 +89,13 @@ bool LLClipboard::addToClipboard(const LLUUID& src, const LLAssetType::EType typ
 bool LLClipboard::pasteFromClipboard(std::vector<LLUUID>& inv_objects) const
 {
 	bool res = false;
-	S32 count = mObjects.size();
+	size_t count = mObjects.size();
 	inv_objects.reserve(inv_objects.size() + count);
 	if (count > 0)
 	{
 		res = true;
 		inv_objects.clear();
-		for (S32 i = 0; i < count; i++)
+		for (size_t i = 0; i < count; i++)
 		{
 			inv_objects.push_back(mObjects[i]);
 		}

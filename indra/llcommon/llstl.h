@@ -279,9 +279,9 @@ inline bool vector_replace_with_last(T& invec, typename T::value_type const& val
 
 // Append N elements to the vector and return a pointer to the first new element.
 template <typename T>
-inline T* vector_append(std::vector<T>& invec, S32 N)
+inline T* vector_append(std::vector<T>& invec, size_t N)
 {
-	U32 sz = invec.size();
+	size_t sz = invec.size();
 	invec.resize(sz+N);
 	return &(invec[sz]);
 }

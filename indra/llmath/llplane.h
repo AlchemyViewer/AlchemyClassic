@@ -78,7 +78,7 @@ public:
 	
 	// Read-only access a single float in this vector. Do not use in proximity to any function call that manipulates
 	// the data at the whole vector level or you will incur a substantial penalty. Consider using the splat functions instead	
-	inline F32 operator[](const S32 idx) const { return mV[idx]; }
+	inline F32 operator[](const size_t idx) const { return mV[idx]; }
 	
 	// preferable when index is known at compile time
 	template <int N> LL_FORCE_INLINE void getAt(LLSimdScalar& v) const { v = mV.getScalarAt<N>(); } 

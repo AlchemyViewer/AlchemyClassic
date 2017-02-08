@@ -113,8 +113,8 @@ LLSD LLMetricPerformanceTesterBasic::analyzeMetricPerformanceLog(std::istream& i
 			{
 				ret[label]["Name"] = iter->second["Name"] ;
 				
-				S32 num_of_metrics = tester->getNumberOfMetrics() ;
-				for(S32 index = 0 ; index < num_of_metrics ; index++)
+				size_t num_of_metrics = tester->getNumberOfMetrics() ;
+				for(size_t index = 0 ; index < num_of_metrics ; index++)
 				{
 					ret[label][ tester->getMetricName(index) ] = iter->second[ tester->getMetricName(index) ] ;
 				}

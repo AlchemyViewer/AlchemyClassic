@@ -145,7 +145,7 @@ public:
 	
 	// Read-only access a single float in this vector. Do not use in proximity to any function call that manipulates
 	// the data at the whole vector level or you will incur a substantial penalty. Consider using the splat functions instead
-	inline F32 operator[](const S32 idx) const;
+	inline F32 operator[](const size_t idx) const;
 
 	// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
 	inline LLSimdScalar getScalarAt(const S32 idx) const;

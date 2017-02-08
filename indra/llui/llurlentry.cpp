@@ -189,7 +189,7 @@ bool LLUrlEntryBase::isLinkDisabled() const
 	return globally_disabled;
 }
 
-bool LLUrlEntryBase::isWikiLinkCorrect(std::string url)
+bool LLUrlEntryBase::isWikiLinkCorrect(const std::string& url)
 {
 	LLWString label = utf8str_to_wstring(getLabelFromWikiLink(url));
 	label.erase(std::remove(label.begin(), label.end(), L'\u200B'), label.end());

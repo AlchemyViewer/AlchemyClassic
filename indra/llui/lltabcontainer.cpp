@@ -1625,7 +1625,7 @@ void LLTabContainer::setTabPanelFlashing(LLPanel* child, BOOL state )
 	}
 }
 
-void LLTabContainer::setTabImage(LLPanel* child, std::string image_name, const LLColor4& color)
+void LLTabContainer::setTabImage(LLPanel* child, const std::string& image_name, const LLColor4& color)
 {
 	LLTabTuple* tuple = getTabByPanel(child);
 	if( tuple )

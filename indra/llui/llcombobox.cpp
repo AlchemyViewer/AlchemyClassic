@@ -999,7 +999,7 @@ void LLComboBox::setFocus(BOOL b)
 	}
 }
 
-void LLComboBox::prearrangeList(std::string filter)
+void LLComboBox::prearrangeList(const std::string& filter)
 {
 	if (mPrearrangeCallback)
 	{

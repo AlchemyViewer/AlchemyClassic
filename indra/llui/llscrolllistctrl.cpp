@@ -1850,7 +1850,7 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 	return FALSE;
 }
 
-void LLScrollListCtrl::showProfile(std::string id, bool is_group)
+void LLScrollListCtrl::showProfile(const std::string& id, bool is_group)
 {
 	// show the resident's profile or the group profile
 	std::string sltype = is_group ? "group" : "agent";
@@ -1858,21 +1858,21 @@ void LLScrollListCtrl::showProfile(std::string id, bool is_group)
 	LLUrlAction::showProfile(slurl);
 }
 
-void LLScrollListCtrl::sendIM(std::string id)
+void LLScrollListCtrl::sendIM(const std::string& id)
 {
 	// send im to the resident
 	std::string slurl = "secondlife:///app/agent/" + id + "/about";
 	LLUrlAction::sendIM(slurl);
 }
 
-void LLScrollListCtrl::addFriend(std::string id)
+void LLScrollListCtrl::addFriend(const std::string& id)
 {
 	// add resident to friends list
 	std::string slurl = "secondlife:///app/agent/" + id + "/about";
 	LLUrlAction::addFriend(slurl);
 }
 
-void LLScrollListCtrl::showNameDetails(std::string id, bool is_group)
+void LLScrollListCtrl::showNameDetails(const std::string& id, bool is_group)
 {
 	// open the resident's details or the group details
 	std::string sltype = is_group ? "group" : "agent";
@@ -1880,7 +1880,7 @@ void LLScrollListCtrl::showNameDetails(std::string id, bool is_group)
 	LLUrlAction::clickAction(slurl, true);
 }
 
-void LLScrollListCtrl::copyNameToClipboard(std::string id, bool is_group)
+void LLScrollListCtrl::copyNameToClipboard(const std::string& id, bool is_group)
 {
 	// copy the name of the avatar or group to the clipboard
 	std::string name;
@@ -1897,7 +1897,7 @@ void LLScrollListCtrl::copyNameToClipboard(std::string id, bool is_group)
 	LLUrlAction::copyURLToClipboard(name);
 }
 
-void LLScrollListCtrl::copySLURLToClipboard(std::string id, bool is_group)
+void LLScrollListCtrl::copySLURLToClipboard(const std::string& id, bool is_group)
 {
 	// copy a SLURL for the avatar or group to the clipboard
 	std::string sltype = is_group ? "group" : "agent";

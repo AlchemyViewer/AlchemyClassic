@@ -115,7 +115,7 @@ public:
 	void setTitle(const std::string& title, const std::string& hl = LLStringUtil::null);
 
 	// Set text font style in LLAccordionCtrlTabHeader
-	void setTitleFontStyle(std::string style);
+	void setTitleFontStyle(const std::string& style);
 
 	// Set text color in LLAccordionCtrlTabHeader
 	void setTitleColor(LLUIColor color);

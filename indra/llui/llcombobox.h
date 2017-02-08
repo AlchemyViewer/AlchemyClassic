@@ -97,7 +97,7 @@ protected:
 	friend class LLUICtrlFactory;
 	LLComboBox(const Params&);
 	void	initFromParams(const Params&);
-	void	prearrangeList(std::string filter = "");
+	void	prearrangeList(const std::string& filter = LLStringUtil::null);
 
 public:
 	// LLView interface

@@ -215,7 +215,7 @@ public:
 	//call onOpen to let panel know when it's about to be shown or activated
 	virtual void	onOpen(const LLSD& key) {}
 
-	void setXMLFilename(std::string filename) { mXMLFilename = filename; };
+	void setXMLFilename(const std::string& filename) { mXMLFilename = filename; };
 	std::string getXMLFilename() { return mXMLFilename; };
 	
 	boost::signals2::connection setVisibleCallback( const commit_signal_t::slot_type& cb );

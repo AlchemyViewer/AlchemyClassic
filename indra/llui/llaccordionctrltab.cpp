@@ -530,7 +530,7 @@ void LLAccordionCtrlTab::setTitle(const std::string& title, const std::string& h
 	}
 }
 
-void LLAccordionCtrlTab::setTitleFontStyle(std::string style)
+void LLAccordionCtrlTab::setTitleFontStyle(const std::string& style)
 {
 	if (mHeader)
 	{

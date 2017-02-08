@@ -434,12 +434,12 @@ private:
 	void			commitIfChanged();
 	BOOL			setSort(S32 column, BOOL ascending);
 
-	static void		showProfile(std::string id, bool is_group);
-	static void		sendIM(std::string id);
-	static void		addFriend(std::string id);
-	static void		showNameDetails(std::string id, bool is_group);
-	static void		copyNameToClipboard(std::string id, bool is_group);
-	static void		copySLURLToClipboard(std::string id, bool is_group);
+	static void		showProfile(const std::string& id, bool is_group);
+	static void		sendIM(const std::string& id);
+	static void		addFriend(const std::string& id);
+	static void		showNameDetails(const std::string& id, bool is_group);
+	static void		copyNameToClipboard(const std::string& id, bool is_group);
+	static void		copySLURLToClipboard(const std::string& id, bool is_group);
 
 	S32				mLineHeight;	// the max height of a single line
 	S32				mScrollLines;	// how many lines we've scrolled down

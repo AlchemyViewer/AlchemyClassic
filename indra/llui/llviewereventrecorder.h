@@ -48,19 +48,19 @@ class LLViewerEventRecorder : public LLSingleton<LLViewerEventRecorder>
   ~LLViewerEventRecorder();
 
  public:
-  void updateMouseEventInfo(S32 local_x,S32 local_y, S32 global_x, S32 global_y,  std::string mName);
+  void updateMouseEventInfo(S32 local_x, S32 local_y, S32 global_x, S32 global_y, const std::string& name);
   void setMouseLocalCoords(S32 x,S32 y);
   void setMouseGlobalCoords(S32 x,S32 y);
 
-  void logMouseEvent(std::string button_state, std::string button_name );
+  void logMouseEvent(const std::string& button_state, const std::string& button_name );
   void logKeyEvent(KEY key, MASK mask);
   void logKeyUnicodeEvent(llwchar uni_char);
 
-  void logVisibilityChange(std::string xui, std::string name, BOOL visibility, std::string event_subtype);
+  void logVisibilityChange(const std::string& xui, const std::string& name, BOOL visibility, const std::string& event_subtype);
 
   void clear_xui();
   std::string get_xui();
-  void update_xui(std::string xui);
+  void update_xui(const std::string& xui);
 
   bool getLoggingStatus() { return mLogEvents; } // <alchemy/>
   void setEventLoggingOn();
@@ -88,7 +88,7 @@ class LLViewerEventRecorder : public LLSingleton<LLViewerEventRecorder>
   S32 local_y;
 
   // XUI path of UI element
-  std::string xui;
+  std::string mXui;
 
   // Actually write the event out to llsd log file
   void recordEvent(LLSD event);

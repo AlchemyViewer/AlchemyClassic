@@ -197,7 +197,7 @@ public:
 
 	BOOL        getTabPanelFlashing(LLPanel* child);
 	void		setTabPanelFlashing(LLPanel* child, BOOL state);
-	void 		setTabImage(LLPanel* child, std::string img_name, const LLColor4& color = LLColor4::white);
+	void 		setTabImage(LLPanel* child, const std::string& img_name, const LLColor4& color = LLColor4::white);
 	void 		setTabImage(LLPanel* child, const LLUUID& img_id, const LLColor4& color = LLColor4::white);
 	void		setTabImage(LLPanel* child, LLIconCtrl* icon);
 	void		setTitle( const std::string& title );

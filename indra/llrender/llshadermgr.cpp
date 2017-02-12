@@ -43,12 +43,6 @@
 #define UNIFORM_ERRS LL_ERRS("Shader")
 #endif
 
-// Lots of STL stuff in here, using namespace std to keep things more readable
-using std::vector;
-using std::pair;
-using std::make_pair;
-using std::string;
-
 LLShaderMgr * LLShaderMgr::sInstance = NULL;
 
 LLShaderMgr::LLShaderMgr()

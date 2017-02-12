@@ -58,8 +58,6 @@ LLDir_Mac gDirUtil;
 LLDir_Linux gDirUtil;
 #endif
 
-using namespace std::placeholders;
-
 LLDir *gDirUtilp = (LLDir *)&gDirUtil;
 
 /// Values for findSkinnedFilenames(subdir) parameter
@@ -795,7 +793,7 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 	if (constraint != CURRENT_SKIN) // meaning ALL_SKINS
 	{
 		walkSearchSkinDirs(subdir, subsubdirs, filename,
-						   std::bind(push_back, std::ref(results), _2));
+						   std::bind(push_back, std::ref(results), std::placeholders::_2));
 	}
 	else                            // CURRENT_SKIN
 	{
@@ -819,7 +817,7 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 		// walkSearchSkinDirs(), update the map entry for its subsubdir.
 		StringMap path_for;
 		walkSearchSkinDirs(subdir, subsubdirs, filename,
-						   std::bind(store_in_map, std::ref(path_for), _1, _2));
+						   std::bind(store_in_map, std::ref(path_for), std::placeholders::_1, std::placeholders::_2));
 		// Now that we have a path for each of the default language and the
 		// current language, copy them -- in proper order -- into results.
 		// Don't drive this by walking the map itself: it matters that we

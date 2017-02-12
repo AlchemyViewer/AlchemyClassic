@@ -38,9 +38,6 @@
 #include "llwindow.h"
 #include "llxmlnode.h"
 
-using std::string;
-using std::map;
-
 bool font_desc_init_from_xml(LLXMLNodePtr node, LLFontDescriptor& desc);
 bool init_from_xml(LLFontRegistry* registry, LLXMLNodePtr node);
 
@@ -99,7 +96,7 @@ bool LLFontDescriptor::isTemplate() const
 bool removeSubString(std::string& str, const std::string& substr)
 {
 	size_t pos = str.find(substr);
-	if (pos != string::npos)
+	if (pos != std::string::npos)
 	{
 		str.erase(pos, substr.size());
 		return true;
@@ -111,7 +108,7 @@ bool removeSubString(std::string& str, const std::string& substr)
 bool findSubString(std::string& str, const std::string& substr)
 {
 	size_t pos = str.find(substr);
-	if (pos != string::npos)
+	if (pos != std::string::npos)
 	{
 		return true;
 	}

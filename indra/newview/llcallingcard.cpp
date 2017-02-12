@@ -236,8 +236,6 @@ const LLUUID& LLAvatarTracker::getAvatarID()
 
 S32 LLAvatarTracker::addBuddyList(const LLAvatarTracker::buddy_map_t& buds)
 {
-	using namespace std;
-
 	U32 new_buddy_count = 0;
 	std::string full_name;
 	LLUUID agent_id;

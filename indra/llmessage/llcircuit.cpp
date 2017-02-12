@@ -1146,18 +1146,16 @@ void LLCircuit::sendAcks(F32 collect_time)
 std::ostream& operator<<(std::ostream& s, LLCircuitData& circuit)
 {
 	F32 age = circuit.mExistenceTimer.getElapsedTimeF32();
-
-	using namespace std;
 	s << "Circuit " << circuit.mHost << " "
 		<< circuit.mRemoteID << " "
 		<< (circuit.mbAlive ? "Alive" : "Not Alive") << " "
 		<< (circuit.mbAllowTimeout ? "Timeout Allowed" : "Timeout Not Allowed")
-		<< endl;
+		<< std::endl;
 
 	s << " Packets Lost: " << circuit.mPacketsLost
 		<< " Measured Ping: " << circuit.mPingDelay
 		<< " Averaged Ping: " << circuit.mPingDelayAveraged
-		<< endl;
+		<< std::endl;
 
 	s << "Global In/Out " << S32(age) << " sec"
 		<< " KBytes: " << circuit.mBytesIn.valueInUnits<LLUnits::Kilobytes>() << "/" << circuit.mBytesOut.valueInUnits<LLUnits::Kilobytes>()
@@ -1166,7 +1164,7 @@ std::ostream& operator<<(std::ostream& s, LLCircuitData& circuit)
 		<< "/"
 		<< S32(circuit.mBytesOut.valueInUnits<LLUnits::Kilobits>() / circuit.mExistenceTimer.getElapsedTimeF32().value())
 		<< " Packets: " << circuit.mPacketsIn << "/" << circuit.mPacketsOut
-		<< endl;
+		<< std::endl;
 
 	s << "Recent In/Out   " << circuit.mLastPeriodLength
 		<< " KBytes: "
@@ -1181,7 +1179,7 @@ std::ostream& operator<<(std::ostream& s, LLCircuitData& circuit)
 		<< S32(circuit.mPeakBPSIn / 1024.f)
 		<< "/"
 		<< S32(circuit.mPeakBPSOut / 1024.f)
-		<< endl;
+		<< std::endl;
 
 	return s;
 }

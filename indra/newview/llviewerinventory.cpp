@@ -2211,15 +2211,12 @@ U32 LLViewerInventoryItem::getCRC32() const
 static char getSeparator() { return '@'; }
 BOOL LLViewerInventoryItem::extractSortFieldAndDisplayName(const std::string& name, S32* sortField, std::string* displayName)
 {
-	using std::string;
-	using std::stringstream;
-
 	const char separator = getSeparator();
-	const string::size_type separatorPos = name.find(separator, 0);
+	const std::string::size_type separatorPos = name.find(separator, 0);
 
 	BOOL result = FALSE;
 
-	if (separatorPos < string::npos)
+	if (separatorPos < std::string::npos)
 	{
 		if (sortField)
 		{
@@ -2228,7 +2225,7 @@ BOOL LLViewerInventoryItem::extractSortFieldAndDisplayName(const std::string& na
 
 		if (displayName)
 		{
-			*displayName = name.substr(separatorPos + 1, string::npos);
+			*displayName = name.substr(separatorPos + 1, std::string::npos);
 		}
 
 		result = TRUE;

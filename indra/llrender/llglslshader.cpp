@@ -45,12 +45,6 @@
 #define UNIFORM_ERRS LL_ERRS("Shader")
 #endif
 
-// Lots of STL stuff in here, using namespace std to keep things more readable
-using std::vector;
-using std::pair;
-using std::make_pair;
-using std::string;
-
 GLuint LLGLSLShader::sCurBoundShader = 0;
 LLGLSLShader* LLGLSLShader::sCurBoundShaderPtr = NULL;
 S32 LLGLSLShader::sIndexedTextureChannels = 0;
@@ -404,7 +398,7 @@ BOOL LLGLSLShader::createShader(std::vector<LLStaticHashedString> * attributes,
 #endif
     
     //compile new source
-    vector< pair<string,GLenum> >::iterator fileIter = mShaderFiles.begin();
+    std::vector< std::pair<std::string,GLenum> >::iterator fileIter = mShaderFiles.begin();
     for ( ; fileIter != mShaderFiles.end(); ++fileIter )
     {
         GLuint shaderhandle = LLShaderMgr::instance()->loadShaderFile((*fileIter).first, mShaderLevel, (*fileIter).second, &mDefines, mFeatures.mIndexedTextureChannels);
@@ -612,7 +606,7 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
     return FALSE;
 }
 
-void LLGLSLShader::mapUniform(GLint index, const vector<LLStaticHashedString> * uniforms)
+void LLGLSLShader::mapUniform(GLint index, const std::vector<LLStaticHashedString> * uniforms)
 {
     if (index == -1)
     {
@@ -741,7 +735,7 @@ GLint LLGLSLShader::mapUniformTextureChannel(GLint location, GLenum type)
     return -1;
 }
 
-BOOL LLGLSLShader::mapUniforms(const vector<LLStaticHashedString> * uniforms)
+BOOL LLGLSLShader::mapUniforms(const std::vector<LLStaticHashedString> * uniforms)
 {
 	BOOL res = TRUE;
 

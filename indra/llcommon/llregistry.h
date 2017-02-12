@@ -37,8 +37,7 @@ struct LLRegistryDefaultComparator
 {
 	bool operator()(const T& lhs, const T& rhs) const
 	{
-		using std::less;
-		return less<T>()(lhs, rhs);
+		return std::less<T>()(lhs, rhs);
 	}
 };
 

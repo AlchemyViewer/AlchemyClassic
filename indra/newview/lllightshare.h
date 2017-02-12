@@ -23,6 +23,9 @@
 
 #include "llsingleton.h"
 
+#pragma pack(push)
+#pragma pack(1)
+
 struct LSColor3
 {
 	LSColor3() {};
@@ -120,6 +123,8 @@ struct LightsharePacket
 	char cloudScrollYLock;
 	char drawClassicClouds;
 };
+
+#pragma pack(pop)
 
 class LLLightshare : public LLSingleton<LLLightshare>
 {

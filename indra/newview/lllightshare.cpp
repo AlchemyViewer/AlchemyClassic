@@ -31,8 +31,9 @@
 #include "llenvmanager.h"
 #include "lldispatcher.h"
 
-const std::string WINDLIGHT_MSG = LLStringExplicit("Windlight");
-const std::string WINDLIGHT_REFRRSH_MSG = LLStringExplicit("WindlightRefresh");
+const std::string WINDLIGHT_MSG = "Windlight";
+const std::string WINDLIGHT_REFRESH_MSG = "WindlightRefresh";
+const std::string LIGHTSHARE_WL_KEY = "LightshareCurrentRegion";
 
 class LLDispatchLightshare : public LLDispatchHandler
 {
@@ -42,7 +43,7 @@ public:
 							const LLUUID& invoice,
 							const sparam_t& strings)
 	{
-		if (key == WINDLIGHT_REFRRSH_MSG)
+		if (key == WINDLIGHT_REFRESH_MSG)
 		{
 			LLLightshare::getInstance()->processLightshareRefresh();
 		}
@@ -73,15 +74,15 @@ LLLightshare::LLLightshare()
 	{
 		gGenericDispatcher.addHandler(WINDLIGHT_MSG, &sDispatchLightshare);
 	}
-	if(!gGenericDispatcher.isHandlerPresent(WINDLIGHT_REFRRSH_MSG))
+	if(!gGenericDispatcher.isHandlerPresent(WINDLIGHT_REFRESH_MSG))
 	{
-		gGenericDispatcher.addHandler(WINDLIGHT_REFRRSH_MSG, &sDispatchLightshare);
+		gGenericDispatcher.addHandler(WINDLIGHT_REFRESH_MSG, &sDispatchLightshare);
 	}
 }
 
 void LLLightshare::processLightshareParams(const std::string& params)
 {
-	if (!gSavedSettings.getBool("UseEnvironmentFromRegion")) return;
+	if (!LLEnvManagerNew::instance().getUseRegionSettings()) return;
 	LightsharePacket* ls_packet = (LightsharePacket*)params.c_str(); // <-- not byte-order safe!
 			
 	LL_DEBUGS("Lightshare") << "Received Lightshare message from the region, processing it." << LL_ENDL;
@@ -107,7 +108,7 @@ void LLLightshare::processSky(LightsharePacket* ls_packet)
 {
 	LLWLParamManager* wlparammgr = LLWLParamManager::getInstance();
 	wlparammgr->mAnimator.deactivate();
-	LLWLParamSet & param_set = wlparammgr->mCurParams;
+	LLWLParamSet& param_set = wlparammgr->mCurParams;
 	
 	param_set.setSunAngle(F_TWO_PI * ls_packet->sunMoonPosiiton);
 	param_set.setEastAngle(F_TWO_PI * ls_packet->eastAngle);
@@ -134,7 +135,7 @@ void LLLightshare::processSky(LightsharePacket* ls_packet)
 	param_set.setStarBrightness(ls_packet->starBrightness);
 	
 	LLWLParamKey ls_key;
-	ls_key.name = "LightshareCurrentRegion";
+	ls_key.name = LIGHTSHARE_WL_KEY;
 	ls_key.scope = LLEnvKey::SCOPE_LOCAL;
 	wlparammgr->setParamSet(ls_key, param_set);
 	
@@ -144,7 +145,7 @@ void LLLightshare::processSky(LightsharePacket* ls_packet)
 void LLLightshare::processWater(LightsharePacket* ls_packet)
 {
 	LLWaterParamManager* wwparammgr = LLWaterParamManager::getInstance();
-	LLWaterParamSet & param_set = wwparammgr->mCurParams;
+	LLWaterParamSet& param_set = wwparammgr->mCurParams;
 	
 	param_set.set("waterFogColor", ls_packet->waterColor.red / 256.f, ls_packet->waterColor.green / 256.f, ls_packet->waterColor.blue / 256.f);
 	param_set.set("waterFogDensity", pow(2.0f, ls_packet->waterFogDensityExponent));
@@ -181,7 +182,7 @@ void LLLightshare::processWater(LightsharePacket* ls_packet)
 	normalMapTexture.set(out);
 	
 	wwparammgr->setNormalMapID(normalMapTexture);
-	wwparammgr->setParamSet("LightshareCurrentRegion", param_set);
+	wwparammgr->setParamSet(LIGHTSHARE_WL_KEY, param_set);
 	wwparammgr->setNormalMapID(normalMapTexture);
 	
 	wwparammgr->propagateParameters();

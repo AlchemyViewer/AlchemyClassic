@@ -1980,11 +1980,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>43fc743eb397190ef670c4d0b69cc24c</string>
+              <string>3cb80c11957a08806a5cd08ed4081919</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/darwin/lib/llceflib-3.2840.1518.gffd843c-darwin-201612300041.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/darwin/lib/llceflib-3.2924.1566.ga6a3da2-darwin-201702102110.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2033,7 +2033,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>3.2924.1561.g06fde99</string>
+        <string>3.2924.1566.ga6a3da2</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

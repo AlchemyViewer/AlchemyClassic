@@ -2022,11 +2022,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a9414fe46c3ac736ec8339318dc68822</string>
+              <string>079e81ae63d9d1e66e2337c5703337cb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2924.1561.g06fde99-windows64-201702071414.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/llceflib-3.2924.1566.ga6a3da2-windows64-201702112051.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

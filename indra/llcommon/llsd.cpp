@@ -153,11 +153,11 @@ public:
 	// containing Impl objects. This helper forwards through LLSD.
 	void calcStats(const LLSD& llsd, S32 type_counts[], S32 share_counts[]) const
 	{
-		safe(llsd.impl).calcStats(type_counts, share_counts);
+		safe(reinterpret_cast<const Impl*>(llsd.impl)).calcStats(type_counts, share_counts);
 	}
 
-	static const Impl& getImpl(const LLSD& llsd)	{ return safe(llsd.impl); }
-	static Impl& getImpl(LLSD& llsd)				{ return safe(llsd.impl); }
+	static const Impl& getImpl(const LLSD& llsd)	{ return safe(reinterpret_cast<const Impl*>(llsd.impl)); }
+	static Impl& getImpl(LLSD& llsd)				{ return safe(reinterpret_cast<Impl*>(llsd.impl)); }
 
 	static const LLSD& undef();
 	

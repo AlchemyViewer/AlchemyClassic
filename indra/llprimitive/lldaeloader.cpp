@@ -921,12 +921,12 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 	
 	//Verify some basic properties of the dae
 	//1. Basic validity check on controller 
-	U32 controllerCount = (int) db->getElementCount( NULL, "controller" );
+	daeUInt controllerCount = db->getElementCount( NULL, "controller" );
 	bool result = false;
-	for ( int i=0; i<controllerCount; ++i )
+	for (daeUInt i = 0; i < controllerCount; ++i)
 	{
 		domController* pController = NULL;
-		db->getElement( (daeElement**) &pController, i , NULL, "controller" );
+		db->getElement( (daeElement**) &pController, (daeInt) i , NULL, "controller" );
 		result = verifyController( pController );
 		if (!result)
 		{
@@ -1169,12 +1169,12 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 
 
 		//Some collada setup for accessing the skeleton
-        U32 skeleton_count = dae->getDatabase()->getElementCount( NULL, "skeleton" );
+        daeUInt skeleton_count = dae->getDatabase()->getElementCount( NULL, "skeleton" );
         std::vector<domInstance_controller::domSkeleton*> skeletons;
-        for (S32 i=0; i<skeleton_count; i++)
+        for (daeUInt i = 0; i < skeleton_count; i++)
         {
             daeElement* pElement = 0;
-            dae->getDatabase()->getElement( &pElement, i, 0, "skeleton" );
+            dae->getDatabase()->getElement( &pElement, (daeInt) i, 0, "skeleton" );
 
             //Try to get at the skeletal instance controller
             domInstance_controller::domSkeleton* pSkeleton = daeSafeCast<domInstance_controller::domSkeleton>( pElement );
@@ -1191,7 +1191,7 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 		bool missingSkeletonOrScene = false;
 
 		//If no skeleton, do a breadth-first search to get at specific joints
-		if ( skeletons.size() == 0 )
+		if (skeletons.empty())
 		{
 			daeElement* pScene = root->getDescendant("visual_scene");
 			if ( !pScene )

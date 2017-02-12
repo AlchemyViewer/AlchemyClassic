@@ -322,23 +322,6 @@ std::string LLAppViewerMacOSX::generateSerialNumber()
 	return serial_md5;
 }
 
-static AudioDeviceID get_default_audio_output_device(void)
-{
-	AudioDeviceID device = 0;
-	UInt32 size = sizeof(device);
-	AudioObjectPropertyAddress device_address = { kAudioHardwarePropertyDefaultOutputDevice,
-												  kAudioObjectPropertyScopeGlobal,
-												  kAudioObjectPropertyElementMaster };
-
-	OSStatus err = AudioObjectGetPropertyData(kAudioObjectSystemObject, &device_address, 0, NULL, &size, &device);
-	if(err != noErr)
-	{
-		LL_DEBUGS("SystemMute") << "Couldn't get default audio output device (0x" << std::hex << err << ")" << LL_ENDL;
-	}
-
-	return device;
-}
-
 void handleUrl(const char* url_utf8)
 {
     if (url_utf8 && gViewerAppPtr)

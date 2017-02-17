@@ -95,7 +95,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
 #endif
         if( SUCCEEDED( hr ) && pIWbemServices != 0 )
         {
-            HINSTANCE hinstOle32 = hinstOle32 = LoadLibraryW( L"ole32.dll" );
+            HINSTANCE hinstOle32 = LoadLibraryW( L"ole32.dll" );
             if( hinstOle32 )
             {
                 PfnCoSetProxyBlanket pfnCoSetProxyBlanket = nullptr;

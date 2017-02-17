@@ -404,7 +404,7 @@ void LLPanelGroup::setGroupID(const LLUUID& group_id)
 		if(tab_land->getDisplayChildren())
 			tab_land->changeOpenClose(tab_land->getDisplayChildren());
 		if(tab_experiences->getDisplayChildren())
-			tab_experiences->changeOpenClose(tab_land->getDisplayChildren());
+			tab_experiences->changeOpenClose(tab_experiences->getDisplayChildren());
 
 		tab_roles->setVisible(false);
 		tab_banlist->setVisible(false);
@@ -435,7 +435,7 @@ void LLPanelGroup::setGroupID(const LLUUID& group_id)
 			if(tab_land->getDisplayChildren())
 				tab_land->changeOpenClose(tab_land->getDisplayChildren());
 			if(tab_experiences->getDisplayChildren())
-				tab_experiences->changeOpenClose(tab_land->getDisplayChildren());
+				tab_experiences->changeOpenClose(tab_experiences->getDisplayChildren());
 		}
 
 		LLGroupData agent_gdatap;

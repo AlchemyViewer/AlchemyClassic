@@ -718,7 +718,7 @@ NOTE the other tuning knobs are now in the shader function inputs!
 #endif
 /*--------------------------------------------------------------------------*/
 #if (FXAA_GLSL_400 == 1)
-    // Requires "#version 130" or better
+    // Requires "#version 400" or better
     #define FxaaTexTop(t, p) textureLod(t, p, 0.0)
     #define FxaaTexOff(t, p, o, r) textureLodOffset(t, p, 0.0, o)
     #define FxaaTexAlpha4(t, p) textureGather(t, p, 3)

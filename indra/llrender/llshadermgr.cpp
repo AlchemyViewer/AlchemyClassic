@@ -670,14 +670,24 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	{  
 		if (major_version < 4)
 		{
-			//set version to 1.30
-			text[count++] = strdup("#version 130\n");
-			text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
-			text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
-			if (minor_version == 50 && gGLManager.mHasGpuShader5)
+			if (minor_version <= 39)
+			{
+				//set version to 1.30
+				text[count++] = strdup("#version 130\n");
+				text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
+				text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
+			}
+			else if(minor_version <= 59)
+			{
+				//set version to 1.50
+				text[count++] = strdup("#version 150\n");
+			}
+
+			if (gGLManager.mHasGpuShader5)
 			{
 				text[count++] = strdup("#extension GL_ARB_gpu_shader5 : enable\n");
 			}
+
 			//some implementations of GLSL 1.30 require integer precision be explicitly declared
 			text[count++] = strdup("precision mediump int;\n");
 			text[count++] = strdup("precision highp float;\n");
@@ -685,10 +695,35 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			text[count++] = strdup("#define FXAA_GLSL_130 1\n");
 		}
 		else
-		{ //set version to 400
-			text[count++] = strdup("#version 400\n");
-			text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
-			text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
+		{
+			if (minor_version <= 9)
+			{
+				text[count++] = strdup("#version 400\n");
+			}
+			else if (minor_version <= 19)
+			{
+				text[count++] = strdup("#version 410\n");
+			}
+			else if (minor_version <= 29)
+			{
+				text[count++] = strdup("#version 420\n");
+			}
+			else if (minor_version <= 39)
+			{
+				text[count++] = strdup("#version 430\n");
+			}
+			else if (minor_version <= 49)
+			{
+				text[count++] = strdup("#version 440\n");
+			}
+			else if (minor_version <= 59)
+			{
+				text[count++] = strdup("#version 450\n");
+			}
+			else
+			{
+				text[count++] = strdup("#version 400\n");
+			}
 
 			text[count++] = strdup("#define FXAA_GLSL_400 1\n");
 		}

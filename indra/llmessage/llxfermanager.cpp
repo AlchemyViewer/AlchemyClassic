@@ -376,27 +376,29 @@ BOOL LLXferManager::isLastPacket(S32 packet_num)
 
 U64 LLXferManager::registerXfer(const void *datap, const S32 length)
 {
-	LLXfer *xferp;
+	LLXfer *xferp = nullptr;
 	U64 xfer_id = getNextID();
 
-	xferp = (LLXfer *) new LLXfer_Mem();
-	if (xferp)
+	try
 	{
-		xferp->mNext = mSendList;
-		mSendList = xferp;
-
-		xfer_id = ((LLXfer_Mem *)xferp)->registerXfer(xfer_id, datap,length);
-
-		if (!xfer_id)
-		{
-			removeXfer(xferp,&mSendList);
-		}
+		xferp = (LLXfer *) new LLXfer_Mem();
 	}
-	else
+	catch (const std::bad_alloc& e)
 	{
-		LL_ERRS() << "Xfer allocation error" << LL_ENDL;
+		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
 		xfer_id = 0;
-	}	
+		return(xfer_id);
+	}
+
+	xferp->mNext = mSendList;
+	mSendList = xferp;
+
+	xfer_id = ((LLXfer_Mem *) xferp)->registerXfer(xfer_id, datap, length);
+
+	if (!xfer_id)
+	{
+		removeXfer(xferp, &mSendList);
+	}
 
     return(xfer_id);
 }
@@ -413,7 +415,7 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 								BOOL is_priority,
 								BOOL use_big_packets)
 {
-	LLXfer *xferp;
+	LLXfer *xferp = nullptr;
 
 	for (xferp = mReceiveList; xferp ; xferp = xferp->mNext)
 	{
@@ -433,36 +435,39 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 	U64 xfer_id = 0;
 
 	S32 chunk_size = use_big_packets ? LL_XFER_LARGE_PAYLOAD : -1;
-	xferp = (LLXfer *) new LLXfer_File(chunk_size);
-	if (xferp)
+	try
 	{
-		addToList(xferp, mReceiveList, is_priority);
+		xferp = (LLXfer *) new LLXfer_File(chunk_size);
+	}
+	catch (const std::bad_alloc& e)
+	{
+		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
+		return 0;
+	}
 
-		// Remove any file by the same name that happens to be lying
-		// around.
-		// Note: according to AaronB, this is here to deal with locks on files that were
-		// in transit during a crash,
-		if( delete_remote_on_completion
-			&& (remote_filename.substr(remote_filename.length()-4) == ".tmp")
-			&& gDirUtilp->fileExists(local_filename))
-		{
-			LLFile::remove(local_filename, ENOENT);
-		}
-		xfer_id = getNextID();
-		((LLXfer_File *)xferp)->initializeRequest(
-			xfer_id,
-			local_filename,
-			remote_filename,
-			remote_path,
-			remote_host,
-			delete_remote_on_completion,
-			callback,user_data);
-		startPendingDownloads();
-	}
-	else
+	addToList(xferp, mReceiveList, is_priority);
+
+	// Remove any file by the same name that happens to be lying
+	// around.
+	// Note: according to AaronB, this is here to deal with locks on files that were
+	// in transit during a crash,
+	if (delete_remote_on_completion
+		&& (remote_filename.substr(remote_filename.length() - 4) == ".tmp")
+		&& gDirUtilp->fileExists(local_filename))
 	{
-		LL_ERRS() << "Xfer allocation error" << LL_ENDL;
+		LLFile::remove(local_filename, ENOENT);
 	}
+	xfer_id = getNextID();
+	((LLXfer_File *) xferp)->initializeRequest(
+		xfer_id,
+		local_filename,
+		remote_filename,
+		remote_path,
+		remote_host,
+		delete_remote_on_completion,
+		callback, user_data);
+	startPendingDownloads();
+
 	return xfer_id;
 }
 
@@ -474,24 +479,26 @@ void LLXferManager::requestFile(const std::string& remote_filename,
 								void** user_data,
 								BOOL is_priority)
 {
-	LLXfer *xferp;
+	LLXfer *xferp = nullptr;
 
-	xferp = (LLXfer *) new LLXfer_Mem();
-	if (xferp)
+	try
 	{
-		addToList(xferp, mReceiveList, is_priority);
-		((LLXfer_Mem *)xferp)->initializeRequest(getNextID(),
-												 remote_filename, 
-												 remote_path,
-												 remote_host,
-												 delete_remote_on_completion,
-												 callback, user_data);
-		startPendingDownloads();
+		xferp = (LLXfer *) new LLXfer_Mem();
 	}
-	else
+	catch (const std::bad_alloc& e)
 	{
-		LL_ERRS() << "Xfer allocation error" << LL_ENDL;
+		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
+		return;
 	}
+
+	addToList(xferp, mReceiveList, is_priority);
+	((LLXfer_Mem *) xferp)->initializeRequest(getNextID(),
+		remote_filename,
+		remote_path,
+		remote_host,
+		delete_remote_on_completion,
+		callback, user_data);
+	startPendingDownloads();
 }
 
 void LLXferManager::requestVFile(const LLUUID& local_id,
@@ -502,7 +509,7 @@ void LLXferManager::requestVFile(const LLUUID& local_id,
 								 void** user_data,
 								 BOOL is_priority)
 {
-	LLXfer *xferp;
+	LLXfer *xferp = nullptr;
 
 	for (xferp = mReceiveList; xferp ; xferp = xferp->mNext)
 	{
@@ -519,25 +526,26 @@ void LLXferManager::requestVFile(const LLUUID& local_id,
 		}
 	}
 
-	xferp = (LLXfer *) new LLXfer_VFile();
-	if (xferp)
+	try
 	{
-		addToList(xferp, mReceiveList, is_priority);
-		((LLXfer_VFile *)xferp)->initializeRequest(getNextID(),
-			vfs,
-			local_id,
-			remote_id,
-			type,
-			remote_host,
-			callback,
-			user_data);
-		startPendingDownloads();
+		xferp = (LLXfer *) new LLXfer_VFile();
 	}
-	else
+	catch (const std::bad_alloc& e)
 	{
-		LL_ERRS() << "Xfer allocation error" << LL_ENDL;
+		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
+		return;
 	}
 
+	addToList(xferp, mReceiveList, is_priority);
+	((LLXfer_VFile *) xferp)->initializeRequest(getNextID(),
+		vfs,
+		local_id,
+		remote_id,
+		type,
+		remote_host,
+		callback,
+		user_data);
+		startPendingDownloads();
 }
 
 /*
@@ -824,7 +832,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	mesgsys->getS16Fast(_PREHASH_XferID, _PREHASH_VFileType, type_s16);
 	type = (LLAssetType::EType)type_s16;
 
-	LLXfer *xferp;
+	LLXfer *xferp = nullptr;
 
 	if (uuid != LLUUID::null)
 	{
@@ -843,17 +851,19 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			return;
 		}
 
-		xferp = (LLXfer *)new LLXfer_VFile(mVFS, uuid, type);
-		if (xferp)
+		try
 		{
-			xferp->mNext = mSendList;
-			mSendList = xferp;	
-			result = xferp->startSend(id,mesgsys->getSender());
+			xferp = (LLXfer *)new LLXfer_VFile(mVFS, uuid, type);
 		}
-		else
+		catch (const std::bad_alloc& e)
 		{
-			LL_ERRS() << "Xfer allcoation error" << LL_ENDL;
+			LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
+			return;
 		}
+
+		xferp->mNext = mSendList;
+		mSendList = xferp;	
+		result = xferp->startSend(id,mesgsys->getSender());
 	}
 	else if (!local_filename.empty())
 	{
@@ -910,18 +920,19 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		mesgsys->getBOOL("XferID", "DeleteOnCompletion", delete_local_on_completion);
 
 		// -1 chunk_size causes it to use the default
-		xferp = (LLXfer *)new LLXfer_File(expanded_filename, delete_local_on_completion, b_use_big_packets ? LL_XFER_LARGE_PAYLOAD : -1);
-		
-		if (xferp)
+		try
 		{
-			xferp->mNext = mSendList;
-			mSendList = xferp;	
-			result = xferp->startSend(id,mesgsys->getSender());
+			xferp = (LLXfer *)new LLXfer_File(expanded_filename, delete_local_on_completion, b_use_big_packets ? LL_XFER_LARGE_PAYLOAD : -1);
 		}
-		else
+		catch (const std::bad_alloc& e)
 		{
-			LL_ERRS() << "Xfer allcoation error" << LL_ENDL;
+			LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
+			return;
 		}
+
+		xferp->mNext = mSendList;
+		mSendList = xferp;	
+		result = xferp->startSend(id,mesgsys->getSender());
 	}
 	else
 	{

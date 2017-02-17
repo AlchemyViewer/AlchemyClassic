@@ -492,12 +492,12 @@ U32 LLVOVolume::processUpdateMessage(LLMessageSystem *mesgsys,
 		{
 			// If the media changed at all, request new media data
 			LL_DEBUGS("MediaOnAPrim") << "Media update: " << getID() << ": retval=" << retval << " Media URL: " <<
-                ((mMedia) ?  mMedia->mMediaURL : std::string("")) << LL_ENDL;
+                ((mMedia) ?  mMedia->mMediaURL : std::string()) << LL_ENDL;
 			requestMediaDataUpdate(retval & MEDIA_FLAGS_CHANGED);
 		}
         else {
             LL_INFOS("MediaOnAPrim") << "Ignoring media update for: " << getID() << " Media URL: " <<
-                ((mMedia) ?  mMedia->mMediaURL : std::string("")) << LL_ENDL;
+                ((mMedia) ?  mMedia->mMediaURL : std::string()) << LL_ENDL;
         }
 	}
 	// ...and clean up any media impls

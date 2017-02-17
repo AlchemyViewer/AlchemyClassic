@@ -446,7 +446,7 @@ BOOL LLFloaterUIPreview::postBuild()
 	mLanguageSelection = main_panel_tmp->getChild<LLComboBox>("language_select_combo");
 	mLanguageSelection->setCommitCallback(boost::bind(&LLFloaterUIPreview::onLanguageComboSelect, this, mLanguageSelection));
 	mLanguageSelection_2 = main_panel_tmp->getChild<LLComboBox>("language_select_combo_2");
-	mLanguageSelection_2->setCommitCallback(boost::bind(&LLFloaterUIPreview::onLanguageComboSelect, this, mLanguageSelection));
+	mLanguageSelection_2->setCommitCallback(boost::bind(&LLFloaterUIPreview::onLanguageComboSelect, this, mLanguageSelection_2));
 	LLPanel* editor_panel_tmp = main_panel_tmp->getChild<LLPanel>("editor_panel");
 	mDisplayFloaterBtn = main_panel_tmp->getChild<LLButton>("display_floater");
 	mDisplayFloaterBtn->setClickedCallback(boost::bind(&LLFloaterUIPreview::onClickDisplayFloater, this, PRIMARY_FLOATER));
@@ -560,7 +560,7 @@ void LLFloaterUIPreview::onLanguageComboSelect(LLUICtrl* ctrl)
 	{
 		if(mDisplayedFloater_2)
 		{
-			onClickCloseDisplayedFloater(PRIMARY_FLOATER);
+			onClickCloseDisplayedFloater(SECONDARY_FLOATER);
 			displayFloater(TRUE,2);	// *TODO: make take an arg
 		}
 	}

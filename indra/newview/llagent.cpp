@@ -4516,9 +4516,11 @@ void LLAgent::dumpSentAppearance(const std::string& dump_prefix)
 {
 	std::string outfilename = get_sequential_numbered_file_name(dump_prefix,".xml");
 
+	LLAPRFile outfile;
 	std::string fullpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,outfilename);
-	llofstream outstream(fullpath, std::ios::out | std::ios::binary | std::ios::trunc);
-	if (!outstream.is_open())
+	outfile.open(fullpath, LL_APR_WB );
+	apr_file_t* file = outfile.getFileHandle();
+	if (!file)
 	{
 		return;
 	}
@@ -4531,7 +4533,7 @@ void LLAgent::dumpSentAppearance(const std::string& dump_prefix)
 	if (appearance_version_param)
 	{
 		F32 value = appearance_version_param->getWeight();
-		dump_visual_param(outstream, appearance_version_param, value);
+		dump_visual_param(file, appearance_version_param, value);
 	}
 	for (LLAvatarAppearanceDictionary::Textures::const_iterator iter = LLAvatarAppearanceDictionary::getInstance()->getTextures().begin();
 		 iter != LLAvatarAppearanceDictionary::getInstance()->getTextures().end();
@@ -4543,7 +4545,7 @@ void LLAgent::dumpSentAppearance(const std::string& dump_prefix)
 		{
 			LLTextureEntry* entry = gAgentAvatarp->getTE((U8) index);
 			const LLUUID& uuid = entry->getID();
-			outstream << llformat("\t\t<texture te=\"%i\" uuid=\"%s\"/>\n", index, uuid.asString().c_str());
+			apr_file_printf( file, "\t\t<texture te=\"%i\" uuid=\"%s\"/>\n", index, uuid.asString().c_str());
 		}
 	}
 }

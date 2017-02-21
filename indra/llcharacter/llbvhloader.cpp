@@ -39,6 +39,7 @@
 #include "llquantize.h"
 #include "llstl.h"
 #include "llsdserialize.h"
+#include "llapr.h"
 
 #define INCHES_TO_METERS 0.02540005f
 
@@ -195,8 +196,10 @@ ELoadStatus LLBVHLoader::loadTranslationTable(const char *fileName)
 	//--------------------------------------------------------------------
 	std::string path = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS,fileName);
 
-	llifstream infstream(path);
-	if (!infstream.is_open())
+	LLAPRFile infile ;
+	infile.open(path, LL_APR_R);
+	apr_file_t *fp = infile.getFileHandle();
+	if (!fp)
 		return E_ST_NO_XLT_FILE;
 
 	LL_INFOS("BVH") << "NOTE: Loading translation table: " << fileName << LL_ENDL;
@@ -208,7 +211,7 @@ ELoadStatus LLBVHLoader::loadTranslationTable(const char *fileName)
 	//--------------------------------------------------------------------
 	// load header
 	//--------------------------------------------------------------------
-	if ( ! getLine(infstream) )
+	if ( ! getLine(fp) )
 		return E_ST_EOF;
 	if ( strncmp(mLine, "Translations 1.0", 16) )
 		return E_ST_NO_XLT_HEADER;
@@ -217,7 +220,7 @@ ELoadStatus LLBVHLoader::loadTranslationTable(const char *fileName)
 	// load data one line at a time
 	//--------------------------------------------------------------------
 	BOOL loadingGlobals = FALSE;
-	while ( getLine(infstream) )
+	while ( getLine(fp) )
 	{
 		//----------------------------------------------------------------
 		// check the 1st token on the line to determine if it's empty or a comment
@@ -1251,9 +1254,13 @@ void LLBVHLoader::reset()
 //------------------------------------------------------------------------
 // LLBVHLoader::getLine()
 //------------------------------------------------------------------------
-BOOL LLBVHLoader::getLine(llifstream& stream)
+BOOL LLBVHLoader::getLine(apr_file_t* fp)
 {
-	if (stream.getline(mLine, BVH_PARSER_LINE_SIZE))
+	if (apr_file_eof(fp) == APR_EOF)
+	{
+		return FALSE;
+	}
+	if ( apr_file_gets(mLine, BVH_PARSER_LINE_SIZE, fp) == APR_SUCCESS)
 	{
 		mLineNumber++;
 		return TRUE;

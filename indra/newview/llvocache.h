@@ -31,6 +31,7 @@
 #include "lldatapacker.h"
 #include "lldir.h"
 #include "llvieweroctree.h"
+#include "llapr.h"
 
 //---------------------------------------------------------------------------
 // Cache entries
@@ -82,7 +83,7 @@ protected:
 	~LLVOCacheEntry();
 public:
 	LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &dp);
-	LLVOCacheEntry(llifstream& infile);
+	LLVOCacheEntry(LLAPRFile* apr_file);
 	LLVOCacheEntry();	
 
 	void updateEntry(U32 crc, LLDataPackerBinaryBuffer &dp);
@@ -105,7 +106,7 @@ public:
 	F32 getSceneContribution() const             { return mSceneContrib;}
 
 	void dump() const;
-	BOOL writeToFile(llofstream& outfile) const;
+	BOOL writeToFile(LLAPRFile* apr_file) const;
 	LLDataPackerBinaryBuffer *getDP();
 	void recordHit();
 	void recordDupe() { mDupeCount++; }
@@ -288,6 +289,7 @@ private:
 	U32                  mNumEntries;
 	std::string          mHeaderFileName ;
 	std::string          mObjectCacheDirName;
+	LLVolatileAPRPool*   mLocalAPRFilePoolp ; 	
 	header_entry_queue_t mHeaderEntryQueue;
 	handle_entry_map_t   mHandleEntryMap;	
 };

@@ -142,13 +142,16 @@ protected:
 	std::string getTextureFileName(const LLUUID& id);
 	void addCompleted(Responder* responder, bool success);
 	
+protected:
+	//void setFileAPRPool(apr_pool_t* pool) { mFileAPRPool = pool ; }
+
 private:
 	void setDirNames(ELLPath location);
 	void readHeaderCache();
 	void clearCorruptedCache();
 	void purgeAllTextures(bool purge_directories);
 	void purgeTextures(bool validate);
-	llfstream* openHeaderEntriesFile(bool readonly, S32 offset, bool seek_read = false);
+	LLAPRFile* openHeaderEntriesFile(bool readonly, S32 offset);
 	void closeHeaderEntriesFile();
 	void readEntriesHeader();
 	void writeEntriesHeader();
@@ -178,7 +181,8 @@ private:
 	LLMutex mHeaderMutex;
 	LLMutex mListMutex;
 	LLMutex mFastCacheMutex;
-	llfstream* mHeaderFilep;
+	LLAPRFile* mHeaderAPRFile;
+	LLVolatileAPRPool* mFastCachePoolp;
 	
 	typedef std::map<handle_t, LLTextureCacheWorker*> handle_map_t;
 	handle_map_t mReaders;
@@ -202,7 +206,7 @@ private:
 	typedef std::map<LLUUID, S32> id_map_t;
 	id_map_t mHeaderIDMap;
 
-	llfstream*	 mFastCacheFilep;
+	LLAPRFile*   mFastCachep;
 	LLFrameTimer mFastCacheTimer;
 	U8*          mFastCachePadBuffer;
 

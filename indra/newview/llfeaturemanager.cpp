@@ -517,9 +517,9 @@ void LLFeatureManager::fetchFeatureTableCoro(std::string tableName)
         if (size > 0)
         {
             // write to file
-            llofstream ofstream(path, std::ios::out | std::ios::binary | std::ios::trunc);
-            ofstream.write((char*) raw.data(), size);
-            ofstream.close();
+            LLAPRFile out(path, LL_APR_WB);
+            out.write(raw.data(), size);
+            out.close();
         }
     }
 }

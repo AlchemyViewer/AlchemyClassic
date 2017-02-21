@@ -74,7 +74,6 @@ public:
 	static	int		remove(const std::string& filename, int supress_error = 0);
 	static	int		rename(const std::string& filename,const std::string&	newname);
 	static  bool	copy(const std::string from, const std::string to);
-	static  int		size(const std::string& filename);
 
 	static	int		stat(const std::string&	filename,llstat*	file_status);
 	static	bool	isdir(const std::string&	filename);
@@ -83,12 +82,6 @@ public:
 			std::ios::openmode mode);
 
 	static  const char * tmpdir();
-
-	static bool lockFile(LLFILE* filep, bool exclusive, bool non_blocking);
-
-	// file function wrappers
-	static S32 readEx(const std::string& filename, void *buf, S32 offset, S32 nbytes);
-	static S32 writeEx(const std::string& filename, void *buf, S32 offset, S32 nbytes);
 };
 
 #if LL_WINDOWS

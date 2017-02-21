@@ -26,6 +26,7 @@
  */
 
 #include "linden_common.h"
+#include "llapr.h"
 
 #include "llthread.h"
 #include "llmutex.h"
@@ -34,9 +35,8 @@
 #include "lltrace.h"
 #include "lltracethreadrecorder.h"
 
-#include "llwin32headerslean.h"
-
 #include <chrono>
+
 
 #ifdef LL_WINDOWS
 const DWORD MS_VC_EXCEPTION=0x406D1388;
@@ -61,7 +61,7 @@ void set_thread_name( DWORD dwThreadID, const char* threadName)
 
 	__try
 	{
-		::RaiseException( MS_VC_EXCEPTION, 0, sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
+		::RaiseException( MS_VC_EXCEPTION, 0, sizeof(info)/sizeof(DWORD), (ULONG_PTR*)&info );
 	}
 	__except(EXCEPTION_CONTINUE_EXECUTION)
 	{
@@ -121,19 +121,37 @@ void LLThread::runWrapper()
 	mStatus = STOPPED;
 }
 
-LLThread::LLThread(const std::string& name) :
+LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 	mPaused(FALSE),
 	mName(name),
 	mStatus(STOPPED),
 	mRunCondition(std::make_unique<LLCondition>()),
 	mDataLock(std::make_unique<LLMutex>())
 {
+	// Thread creation probably CAN be paranoid about APR being initialized, if necessary
+	if (poolp)
+	{
+		mIsLocalPool = FALSE;
+		mAPRPoolp = poolp;
+	}
+	else
+	{
+		mIsLocalPool = TRUE;
+		apr_pool_create(&mAPRPoolp, NULL); // Create a subpool for this thread
+	}
+	mLocalAPRFilePoolp = NULL;
 }
 
 
 LLThread::~LLThread()
 {
 	shutdown();
+
+	if (mLocalAPRFilePoolp)
+	{
+		delete mLocalAPRFilePoolp;
+		mLocalAPRFilePoolp = NULL;
+	}
 }
 
 void LLThread::shutdown()
@@ -204,6 +222,12 @@ void LLThread::shutdown()
 		{
 			LL_WARNS() << "Failed to join thread: \"" << mName << "\" with id: " << mThread.get_id() << " and interrupted exception" << LL_ENDL;
 		}
+	}
+
+	if (mIsLocalPool && mAPRPoolp)
+	{
+		apr_pool_destroy(mAPRPoolp);
+		mAPRPoolp = 0;
 	}
 }
 

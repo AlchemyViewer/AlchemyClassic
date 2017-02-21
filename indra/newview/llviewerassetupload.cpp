@@ -446,23 +446,18 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 
     // copy this file into the vfs for upload
     S32 file_size;
-    llifstream instream(filename, std::ios::in | std::ios::binary);
-    if (instream.is_open())
+    LLAPRFile infile;
+    infile.open(filename, LL_APR_RB, NULL, &file_size);
+    if (infile.getFileHandle())
     {
         LLVFile file(gVFS, getAssetId(), assetType, LLVFile::WRITE);
-
-        instream.seekg(0, instream.end);
-        file_size = (U32) instream.tellg();
-        instream.seekg(0, instream.beg);
 
         file.setMaxSize(file_size);
 
         const S32 buf_size = 65536;
         U8 copy_buf[buf_size];
-        while (!instream.eof())
+        while ((file_size = infile.read(copy_buf, buf_size)))
         {
-            instream.read((char*) copy_buf, buf_size);
-            file_size = instream.gcount();
             file.write(copy_buf, file_size);
         }
     }

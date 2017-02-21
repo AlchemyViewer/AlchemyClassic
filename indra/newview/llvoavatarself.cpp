@@ -3196,15 +3196,16 @@ void LLVOAvatarSelf::dumpScratchTextureByteCount()
 	LL_INFOS() << "Scratch Texture GL: " << (sScratchTexBytes/1024) << "KB" << LL_ENDL;
 }
 
-void LLVOAvatarSelf::dumpWearableInfo(llofstream& outfile)
+void LLVOAvatarSelf::dumpWearableInfo(LLAPRFile& outfile)
 {
-	if (!outfile.good())
+	apr_file_t* file = outfile.getFileHandle();
+	if (!file)
 	{
 		return;
 	}
 
 	
-	outfile << "\n<wearable_info>\n";
+	apr_file_printf( file, "\n<wearable_info>\n" );
 
 	LLWearableData *wd = getWearableData();
 	for (S32 type = 0; type < LLWearableType::WT_COUNT; type++)
@@ -3213,7 +3214,7 @@ void LLVOAvatarSelf::dumpWearableInfo(llofstream& outfile)
 		for (U32 j=0; j< wd->getWearableCount((LLWearableType::EType)type); j++)
 		{
 			LLViewerWearable *wearable = gAgentWearables.getViewerWearable((LLWearableType::EType)type,j);
-			outfile << llformat("\n\t    <wearable type=\"%s\" name=\"%s\"/>\n",
+			apr_file_printf( file, "\n\t    <wearable type=\"%s\" name=\"%s\"/>\n",
 							 type_name.c_str(), wearable->getName().c_str() );
 			LLWearable::visual_param_vec_t v_params;
 			wearable->getVisualParams(v_params);
@@ -3221,9 +3222,9 @@ void LLVOAvatarSelf::dumpWearableInfo(llofstream& outfile)
 				 it != v_params.end(); ++it)
 			{
 				LLVisualParam *param = *it;
-				dump_visual_param(outfile, param, param->getWeight());
+				dump_visual_param(file, param, param->getWeight());
 			}
 		}
 	}
-	outfile << "\n</wearable_info>\n";
+	apr_file_printf( file, "\n</wearable_info>\n" );
 }

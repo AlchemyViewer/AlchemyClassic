@@ -680,7 +680,14 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			else if(minor_version <= 59)
 			{
 				//set version to 1.50
-				text[count++] = strdup("#version 150\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 150 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 150 compatibility\n");
+				}
 			}
 
 			if (gGLManager.mHasGpuShader5)
@@ -698,31 +705,80 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 		{
 			if (minor_version <= 9)
 			{
-				text[count++] = strdup("#version 400\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 400 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 400 compatibility\n");
+				}
 			}
 			else if (minor_version <= 19)
 			{
-				text[count++] = strdup("#version 410\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 410 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 410 compatibility\n");
+				}
 			}
 			else if (minor_version <= 29)
 			{
-				text[count++] = strdup("#version 420\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 420 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 420 compatibility\n");
+				}
 			}
 			else if (minor_version <= 39)
 			{
-				text[count++] = strdup("#version 430\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 430 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 430 compatibility\n");
+				}
 			}
 			else if (minor_version <= 49)
 			{
-				text[count++] = strdup("#version 440\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 440 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 440 compatibility\n");
+				}
 			}
 			else if (minor_version <= 59)
 			{
-				text[count++] = strdup("#version 450\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 450 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 450 compatibility\n");
+				}
 			}
 			else
 			{
-				text[count++] = strdup("#version 400\n");
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 400 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 400 compatibility\n");
+				}
 			}
 
 			text[count++] = strdup("#define FXAA_GLSL_400 1\n");

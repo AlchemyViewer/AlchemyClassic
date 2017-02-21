@@ -1224,7 +1224,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 
 	gGLManager.initWGL();
 	
-	if (wglChoosePixelFormatARB)
+	if (WGLEW_ARB_pixel_format)
 	{
 		// OK, at this point, use the ARB wglChoosePixelFormatsARB function to see if we
 		// can get exactly what we want.
@@ -1483,10 +1483,10 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 	}
 
 	mhRC = 0;
-	if (wglCreateContextAttribsARB)
+	if (WGLEW_ARB_create_context)
 	{ //attempt to create a specific versioned context
 		S32 attribs[] = 
-		{ //start at 4.2
+		{ //start at 4.5
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
 			WGL_CONTEXT_MINOR_VERSION_ARB, 5,
 			WGL_CONTEXT_PROFILE_MASK_ARB,  LLRender::sGLCoreProfile ? WGL_CONTEXT_CORE_PROFILE_BIT_ARB : WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
@@ -1501,8 +1501,9 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 
 			if (!mhRC)
 			{
-				if (attribs[3] > 0)
-				{ //decrement minor version
+				if (attribs[3] > 0 && attribs[1] != 2)
+				{ 
+					//decrement minor version
 					attribs[3]--;
 				}
 				else if (attribs[1] > 3)
@@ -1510,8 +1511,13 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 					attribs[1]--;
 					attribs[3] = 3;
 				}
+				else if (attribs[1] > 2)
+				{ //decrement major version and start minor version over at 1
+					attribs[1]--;
+					attribs[3] = 1;
+				}
 				else
-				{ //we reached 3.0 and still failed, bail out
+				{ //we reached 2.1 and still failed, bail out
 					done = true;
 				}
 			}
@@ -1550,7 +1556,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		return FALSE;
 	}
 
-	if (wglSwapIntervalEXT)
+	if (WGLEW_EXT_swap_control)
 	{
 		switch (vsync_setting)
 		{

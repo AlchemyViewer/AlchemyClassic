@@ -698,8 +698,8 @@ std::string getRuntime()
 }
 
 LLAppViewer::LLAppViewer() 
-:	mMarkerFile(nullptr),
-	mLogoutMarkerFile(nullptr),
+:	mMarkerFile(),
+	mLogoutMarkerFile(),
 	mReportedCrash(false),
 	mNumSessions(0),
 	mPurgeCache(false),

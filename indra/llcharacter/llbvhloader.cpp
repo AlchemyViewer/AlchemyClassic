@@ -469,7 +469,7 @@ ELoadStatus LLBVHLoader::loadTranslationTable(const char *fileName)
 		}
 	}
 
-	infstream.close() ;
+	infile.close() ;
 	return E_ST_OK;
 }
 void LLBVHLoader::makeTranslation(const std::string& alias_name, const std::string& joint_name)

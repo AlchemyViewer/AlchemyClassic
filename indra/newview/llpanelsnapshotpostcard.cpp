@@ -59,7 +59,6 @@ public:
 	LLPanelSnapshotPostcard();
 	/*virtual*/ BOOL postBuild();
 	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ S32	notify(const LLSD& info);
 
 private:
 	/*virtual*/ std::string getWidthSpinnerName() const		{ return "postcard_snapshot_width"; }
@@ -81,7 +80,6 @@ private:
 	void onSend();
 
 	bool mHasFirstMsgFocus;
-	std::string mAgentEmail;
 };
 
 static LLPanelInjector<LLPanelSnapshotPostcard> panel_class("llpanelsnapshotpostcard");
@@ -110,34 +108,7 @@ BOOL LLPanelSnapshotPostcard::postBuild()
 // virtual
 void LLPanelSnapshotPostcard::onOpen(const LLSD& key)
 {
-	// pick up the user's up-to-date email address
-	if (mAgentEmail.empty())
-	{
-		gAgent.sendAgentUserInfoRequest();
-
-		std::string name_string;
-		LLAgentUI::buildFullname(name_string);
-		getChild<LLUICtrl>("name_form")->setValue(LLSD(name_string));
-	}
-
 	LLPanelSnapshot::onOpen(key);
-}
-
-// virtual
-S32 LLPanelSnapshotPostcard::notify(const LLSD& info)
-{
-	if (!info.has("agent-email"))
-	{
-		llassert(info.has("agent-email"));
-		return 0;
-	}
-
-	if (mAgentEmail.empty())
-	{
-		mAgentEmail = info["agent-email"].asString();
-	}
-
-	return 1;
 }
 
 // virtual
@@ -192,7 +163,6 @@ void LLPanelSnapshotPostcard::sendPostcard()
     if (!url.empty())
     {
         LLResourceUploadInfo::ptr_t uploadInfo(new LLPostcardUploadInfo(
-            mAgentEmail,
             getChild<LLUICtrl>("name_form")->getValue().asString(),
             getChild<LLUICtrl>("to_form")->getValue().asString(),
             getChild<LLUICtrl>("subject_form")->getValue().asString(),
@@ -252,12 +222,6 @@ void LLPanelSnapshotPostcard::onSend()
 	if (to.empty() || !boost::regex_match(to, email_format))
 	{
 		LLNotificationsUtil::add("PromptRecipientEmail");
-		return;
-	}
-
-	if (mAgentEmail.empty() || !boost::regex_match(mAgentEmail, email_format))
-	{
-		LLNotificationsUtil::add("PromptSelfEmail");
 		return;
 	}
 

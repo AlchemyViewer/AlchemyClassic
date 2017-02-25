@@ -185,8 +185,6 @@ void LLThread::shutdown()
 		}
 	}
 
-	mRecorder.reset();
-	
 	if (mThread.joinable())
 	{
 		try
@@ -223,6 +221,8 @@ void LLThread::shutdown()
 			LL_WARNS() << "Failed to join thread: \"" << mName << "\" with id: " << mThread.get_id() << " and interrupted exception" << LL_ENDL;
 		}
 	}
+
+	mRecorder.reset();
 
 	if (mIsLocalPool && mAPRPoolp)
 	{

@@ -602,11 +602,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6ffe4e46ba1b688c3ff2fe42a1b8e9d3</string>
+              <string>6df9362ef7df7d967f596ecc04702d52</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/fmodstudio-1.08.11-darwin-201609212215.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/darwin/lib/fmodstudio-1.09.01-darwin-201702250050.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

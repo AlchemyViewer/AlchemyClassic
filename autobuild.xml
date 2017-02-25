@@ -408,18 +408,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2f1a554c0b1ef162db83abd50c9745e1</string>
+              <string>2b187eafe4e2e8ecf2229008cb9f5860</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.52.1-windows64-201701272134.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.53.1-windows64-201702242256.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.52.1</string>
+        <string>7.53.1</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -586,7 +586,7 @@
       <key>fmodstudio</key>
       <map>
         <key>copyright</key>
-        <string>FMOD Studio, copyright (c) Firelight Technologies Pty, Ltd., 2012-2016.</string>
+        <string>FMOD Studio, copyright (c) Firelight Technologies Pty, Ltd., 2012-2017.</string>
         <key>description</key>
         <string>FMOD Studio audio system library</string>
         <key>license</key>
@@ -658,18 +658,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d73d356b47c87360bd1064f8d51dfe46</string>
+              <string>69a78a426b20dfc93ee06ab7238ab4ec</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.08.15-windows64-201701121228.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.09.01-windows64-201702242305.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.08.15</string>
+        <string>1.09.01</string>
       </map>
       <key>fontconfig</key>
       <map>
@@ -2656,18 +2656,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>43a2f83d87617989962b1054794ba4cc</string>
+              <string>96fbbb53ae8099d98402a48d9d6fa551</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openssl-1.1.0d-windows64-201701271831.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openssl-1.1.0e-windows64-201702202011.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.0d</string>
+        <string>1.1.0e</string>
       </map>
       <key>slvoice</key>
       <map>

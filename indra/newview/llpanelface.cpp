@@ -576,8 +576,8 @@ void LLPanelFace::sendTextureInfo()
 	}
 }
 
-void LLPanelFace::updateUI(bool force_set_values /*false*/)
-{ //set state of UI to match state of texture entry(ies)  (calls setEnabled, setValue, etc, but NOT setVisible)
+void LLPanelFace::refresh()
+{
 	LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getFirstObject();
 	
 	if (objectp && objectp->getPCode() == LL_PCODE_VOLUME && objectp->permModify())
@@ -794,81 +794,75 @@ void LLPanelFace::updateUI(bool force_set_values /*false*/)
 		// planar align
 		bool align_planar = false;
 		bool identical_planar_aligned = false;
+		
+		LLCheckBoxCtrl*	cb_planar_align = getChild<LLCheckBoxCtrl>("checkbox planar align");
+		align_planar = (cb_planar_align && cb_planar_align->get());
+		
+		bool enabled = (editable && isIdenticalPlanarTexgen());
+		childSetValue("checkbox planar align", align_planar && enabled);
+		childSetEnabled("checkbox planar align", enabled);
+		
+		if (align_planar && enabled)
 		{
-			LLCheckBoxCtrl*	cb_planar_align = getChild<LLCheckBoxCtrl>("checkbox planar align");
-			align_planar = (cb_planar_align && cb_planar_align->get());
-
-			bool enabled = (editable && isIdenticalPlanarTexgen());
-			childSetValue("checkbox planar align", align_planar && enabled);
-			childSetEnabled("checkbox planar align", enabled);
-
-			if (align_planar && enabled)
-			{
-				LLFace* last_face = NULL;
-				bool identical_face = false;
-				LLSelectedTE::getFace(last_face, identical_face);
-
-				LLPanelFaceGetIsAlignedTEFunctor get_is_aligend_func(last_face);
-				// this will determine if the texture param controls are tentative:
-				identical_planar_aligned = LLSelectMgr::getInstance()->getSelection()->applyToTEs(&get_is_aligend_func);
-			}
+			LLFace* last_face = NULL;
+			bool identical_face = false;
+			LLSelectedTE::getFace(last_face, identical_face);
+			
+			LLPanelFaceGetIsAlignedTEFunctor get_is_aligend_func(last_face);
+			// this will determine if the texture param controls are tentative:
+			identical_planar_aligned = LLSelectMgr::getInstance()->getSelection()->applyToTEs(&get_is_aligend_func);
 		}
 		
 		// Needs to be public and before tex scale settings below to properly reflect
 		// behavior when in planar vs default texgen modes in the
 		// NORSPEC-84 et al
-		//
 		LLTextureEntry::e_texgen selected_texgen = LLTextureEntry::TEX_GEN_DEFAULT;
 		bool identical_texgen = true;
 		bool identical_planar_texgen = false;
-
-		{	
-			LLSelectedTE::getTexGen(selected_texgen, identical_texgen);
-			identical_planar_texgen = (identical_texgen && (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR));
-		}
-
+		
+		LLSelectedTE::getTexGen(selected_texgen, identical_texgen);
+		identical_planar_texgen = (identical_texgen && (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR));
+		
 		// Texture scale
-		{
-			bool identical_diff_scale_s = false;
-			bool identical_spec_scale_s = false;
-			bool identical_norm_scale_s = false;
-
-			identical = align_planar ? identical_planar_aligned : identical;
-
-			F32 diff_scale_s = 1.f;			
-			F32 spec_scale_s = 1.f;
-			F32 norm_scale_s = 1.f;
-
-			LLSelectedTE::getScaleS(						diff_scale_s, identical_diff_scale_s);			
-			LLSelectedTEMaterial::getSpecularRepeatX( spec_scale_s, identical_spec_scale_s);
-			LLSelectedTEMaterial::getNormalRepeatX(	norm_scale_s, identical_norm_scale_s);
-
-			diff_scale_s = editable ? diff_scale_s : 1.0f;
-			diff_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-			
-			norm_scale_s = editable ? norm_scale_s : 1.0f;
-			norm_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-
-			spec_scale_s = editable ? spec_scale_s : 1.0f;
-			spec_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
-
-			getChild<LLUICtrl>("TexScaleU")->setValue(diff_scale_s);
-			getChild<LLUICtrl>("shinyScaleU")->setValue(spec_scale_s);
-			getChild<LLUICtrl>("bumpyScaleU")->setValue(norm_scale_s);
-
-			getChildView("TexScaleU")->setEnabled(editable);
-			getChildView("shinyScaleU")->setEnabled(editable && specmap_id.notNull() && !sAlignMaterials);
-			getChildView("bumpyScaleU")->setEnabled(editable && normmap_id.notNull() && !sAlignMaterials);
-
-			BOOL diff_scale_tentative = !(identical && identical_diff_scale_s);
-			BOOL norm_scale_tentative = !(identical && identical_norm_scale_s);
-			BOOL spec_scale_tentative = !(identical && identical_spec_scale_s);
-
-			getChild<LLUICtrl>("TexScaleU")->setTentative(  LLSD(diff_scale_tentative));			
-			getChild<LLUICtrl>("shinyScaleU")->setTentative(LLSD(spec_scale_tentative));			
-			getChild<LLUICtrl>("bumpyScaleU")->setTentative(LLSD(norm_scale_tentative));
-		}
-
+		bool identical_diff_scale_s = false;
+		bool identical_spec_scale_s = false;
+		bool identical_norm_scale_s = false;
+		
+		identical = align_planar ? identical_planar_aligned : identical;
+		
+		F32 diff_scale_s = 1.f;
+		F32 spec_scale_s = 1.f;
+		F32 norm_scale_s = 1.f;
+		
+		LLSelectedTE::getScaleS(diff_scale_s, identical_diff_scale_s);
+		LLSelectedTEMaterial::getSpecularRepeatX(spec_scale_s, identical_spec_scale_s);
+		LLSelectedTEMaterial::getNormalRepeatX(norm_scale_s, identical_norm_scale_s);
+		
+		diff_scale_s = editable ? diff_scale_s : 1.0f;
+		diff_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		norm_scale_s = editable ? norm_scale_s : 1.0f;
+		norm_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		spec_scale_s = editable ? spec_scale_s : 1.0f;
+		spec_scale_s *= identical_planar_texgen ? 2.0f : 1.0f;
+		
+		getChild<LLUICtrl>("TexScaleU")->setValue(diff_scale_s);
+		getChild<LLUICtrl>("shinyScaleU")->setValue(spec_scale_s);
+		getChild<LLUICtrl>("bumpyScaleU")->setValue(norm_scale_s);
+		
+		getChildView("TexScaleU")->setEnabled(editable);
+		getChildView("shinyScaleU")->setEnabled(editable && specmap_id.notNull() && !sAlignMaterials);
+		getChildView("bumpyScaleU")->setEnabled(editable && normmap_id.notNull() && !sAlignMaterials);
+		
+		BOOL diff_scale_tentative = !(identical && identical_diff_scale_s);
+		BOOL norm_scale_tentative = !(identical && identical_norm_scale_s);
+		BOOL spec_scale_tentative = !(identical && identical_spec_scale_s);
+		
+		getChild<LLUICtrl>("TexScaleU")->setTentative( LLSD(diff_scale_tentative));
+		getChild<LLUICtrl>("shinyScaleU")->setTentative(LLSD(spec_scale_tentative));
+		getChild<LLUICtrl>("bumpyScaleU")->setTentative(LLSD(norm_scale_tentative));
+		
 		{
 			bool identical_diff_scale_t = false;
 			bool identical_spec_scale_t = false;
@@ -898,15 +892,8 @@ void LLPanelFace::updateUI(bool force_set_values /*false*/)
 			getChildView("TexScaleV")->setEnabled(editable);
 			getChildView("shinyScaleV")->setEnabled(editable && specmap_id.notNull() && !sAlignMaterials);
 			getChildView("bumpyScaleV")->setEnabled(editable && normmap_id.notNull() && !sAlignMaterials);
-
-			if (force_set_values)
-			{
-				getChild<LLSpinCtrl>("TexScaleV")->forceSetValue(diff_scale_t);
-			}
-			else
-			{
-				getChild<LLSpinCtrl>("TexScaleV")->setValue(diff_scale_t);
-			}
+			
+			getChild<LLUICtrl>("TexScaleV")->setValue(diff_scale_t);
 			getChild<LLUICtrl>("shinyScaleV")->setValue(norm_scale_t);
 			getChild<LLUICtrl>("bumpyScaleV")->setValue(spec_scale_t);
 			
@@ -1102,23 +1089,12 @@ void LLPanelFace::updateUI(bool force_set_values /*false*/)
 					identical_repeats = identical_norm_repeats;
 					repeats = repeats_norm;
 					break;
-				}
-
-				BOOL repeats_tentative = !identical_repeats;
-
-				getChildView("rptctrl")->setEnabled(identical_planar_texgen ? FALSE : enabled);
-				LLSpinCtrl* rpt_ctrl = getChild<LLSpinCtrl>("rptctrl");
-				if (force_set_values)
-				{
-					//onCommit, previosly edited element updates related ones
-					rpt_ctrl->forceSetValue(editable ? repeats : 1.0f);
-				}
-				else
-				{
-					rpt_ctrl->setValue(editable ? repeats : 1.0f);
-				}
-				rpt_ctrl->setTentative(LLSD(repeats_tentative));
 			}
+			
+			BOOL repeats_tentative = !identical_repeats;
+			getChildView("rptctrl")->setEnabled(identical_planar_texgen ? FALSE : enabled);
+			getChild<LLUICtrl>("rptctrl")->setValue(editable ? repeats : 1.0f);
+			getChild<LLUICtrl>("rptctrl")->setTentative(LLSD(repeats_tentative));
 		}
 
 		// Materials
@@ -1718,13 +1694,6 @@ void LLPanelFace::onCommitMaterialMaskCutoff(LLUICtrl* ctrl, void* userdata)
 	LLSelectedTEMaterial::setAlphaMaskCutoff(self,self->getCurrentAlphaMaskCutoff());
 }
 
-// static
-void LLPanelFace::onCommitTextureInfo( LLUICtrl* ctrl, void* userdata )
-{
-	LLPanelFace* self = (LLPanelFace*) userdata;
-	self->sendTextureInfo();
-}
-
 // Commit the number of repeats per meter
 void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 {
@@ -1780,8 +1749,6 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 			llassert(false);
 			break;
 	}
-	// vertical scale and repeats per meter depends on each other, so force set on changes
-	self->updateUI(true);
 }
 
 struct LLPanelFaceSetMediaFunctor : public LLSelectedTEFunctor
@@ -2035,7 +2002,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxSpecularRepeats(F32& repeats, bool
 				mat->getSpecularRepeat(repeats_s, repeats_t);
 				repeats_s /= object->getScale().mV[s_axis];
 				repeats_t /= object->getScale().mV[t_axis];
-			}					
+			}
 			return llmax(repeats_s, repeats_t);
 		}
 
@@ -2059,7 +2026,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxNormalRepeats(F32& repeats, bool& 
 				mat->getNormalRepeat(repeats_s, repeats_t);
 				repeats_s /= object->getScale().mV[s_axis];
 				repeats_t /= object->getScale().mV[t_axis];
-			}					
+			}
 			return llmax(repeats_s, repeats_t);
 		}
 

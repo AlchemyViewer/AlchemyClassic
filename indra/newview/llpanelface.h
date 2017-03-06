@@ -143,6 +143,12 @@ protected:
 	void 	onSelectColor();
 	void 	onSelectShinyColor(LLUICtrl* ctrl);
 
+	// Make UI reflect state of currently selected material (refresh)
+	// and UI mode (e.g. editing normal map v diffuse map)
+	//
+	// @param force_set_values forces spinners to set value even if they are focused
+	void updateUI(bool force_set_values = false);
+
 	// Convenience func to determine if all faces in selection have
 	// identical planar texgen settings during edits
 	// 

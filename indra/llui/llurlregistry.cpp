@@ -59,6 +59,7 @@ LLUrlRegistry::LLUrlRegistry()
 	mUrlEntryHTTPLabel = new LLUrlEntryHTTPLabel();
 	registerUrl(mUrlEntryHTTPLabel);
 	registerUrl(new LLUrlEntryAgentCompleteName());
+	registerUrl(new LLUrlEntryAgentLegacyName());
 	registerUrl(new LLUrlEntryAgentDisplayName());
 	registerUrl(new LLUrlEntryAgentUserName());
 	// LLUrlEntryAgent*Name must appear before LLUrlEntryAgent since 

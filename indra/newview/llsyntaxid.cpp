@@ -52,6 +52,7 @@ LLSyntaxIdLSL::LLSyntaxIdLSL()
 ,	mCapabilityURL(std::string())
 ,	mFilePath(LL_PATH_APP_SETTINGS)
 ,	mSyntaxId(LLUUID())
+,	mInitialized(false)
 {
 	loadDefaultKeywordsIntoLLSD();
 	mRegionChangedCallback = gAgent.addRegionChangedCallback(boost::bind(&LLSyntaxIdLSL::handleRegionChanged, this));
@@ -181,6 +182,7 @@ void LLSyntaxIdLSL::cacheFile(const std::string &fileSpec, const LLSD& content_r
 //-----------------------------------------------------------------------------
 void LLSyntaxIdLSL::initialize()
 {
+	if(mInitialized) return;
 	if (mSyntaxId.isNull())
 	{
 		loadDefaultKeywordsIntoLLSD();
@@ -215,6 +217,7 @@ void LLSyntaxIdLSL::initialize()
 		LL_DEBUGS("SyntaxLSL") << "LSLSyntaxId capability URL is empty." << LL_ENDL;
 		loadDefaultKeywordsIntoLLSD();
 	}
+	mInitialized = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -305,6 +308,7 @@ void LLSyntaxIdLSL::handleRegionChanged()
 	{
 		buildFullFileSpec();
 		fetchKeywordsFile(mFullFileSpec);
+		mInitialized = false;
 	}
 }
 

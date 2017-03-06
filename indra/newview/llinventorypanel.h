@@ -200,6 +200,7 @@ public:
 	void doToSelected(const LLSD& userdata);
 	void doCreate(const LLSD& userdata);
 	bool beginIMSession();
+	void fileUploadLocation(const LLSD& userdata);
 	bool attachObject(const LLSD& userdata);
 	static void idle(void* user_data);
 

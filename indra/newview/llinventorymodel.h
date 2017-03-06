@@ -282,6 +282,9 @@ public:
 	//    will search in the user's library folder instead of "My Inventory"
 	const LLUUID findLibraryCategoryUUIDForType(LLFolderType::EType preferred_type, 
 												bool create_folder = true);
+	// Returns user specified category for uploads, returns default id if there are no
+	// user specified one or it does not exist, creates default category if it is missing.
+	const LLUUID findUserDefinedCategoryUUIDForType(LLFolderType::EType preferred_type);
 	
 	// Returns the uuid of the category if found, LLUUID::null is not
 	const LLUUID findDescendentCategoryIDByName(const LLUUID& parent_id,

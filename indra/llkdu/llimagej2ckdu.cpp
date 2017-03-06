@@ -93,6 +93,7 @@ std::ostream& operator<<(std::ostream& out, const kdu_dims& dims)
 				  "[" << dims.size.x << "x" << dims.size.y << "]";
 }
 
+
 class kdc_flow_control {
 	
 public:

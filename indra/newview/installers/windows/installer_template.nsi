@@ -443,10 +443,19 @@ Section "Viewer"
   %%INSTALL_FILES%%
   
 !ifdef WIN64_BIN_BUILD
+  ReadRegStr $1 HKLM "SOFTWARE\Microsoft\VisualStudio\14.0\VC\VCRedist\x64" "Installed"
+!else
+  ReadRegStr $1 HKLM "SOFTWARE\Microsoft\VisualStudio\14.0\VC\VCRedist\x86" "Installed"
+!endif
+  StrCmp $1 1 vc_installed
+
+!ifdef WIN64_BIN_BUILD
   ExecWait '"$INSTDIR\redist\vc_redist.x64.exe" /passive /norestart'
 !else
   ExecWait '"$INSTDIR\redist\vc_redist.x86.exe" /passive /norestart'
 !endif
+
+vc_installed:
   
   ;Pass the installer's language to the client to use as a default
   StrCpy $SHORTCUT_LANG_PARAM "--set InstallLanguage $(LanguageCode)"

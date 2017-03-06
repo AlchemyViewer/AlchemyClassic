@@ -4572,7 +4572,7 @@ void LLPipeline::renderGeomPostDeferred(LLCamera& camera, bool do_occlusion)
 						break;
 					}
 										
-					p->renderPostDeferred(i);
+					if (!p->getSkipRenderFlag()) { p->renderPostDeferred(i); }
 				}
 				poolp->endPostDeferredPass(i);
 				LLVertexBuffer::unbind();
@@ -4650,12 +4650,15 @@ void LLPipeline::renderGeomShadow(LLCamera& camera)
 						break;
 					}
 										
-					p->renderShadow(i);
+					if (!p->getSkipRenderFlag()) { p->renderShadow(i); }
 				}
 				poolp->endShadowPass(i);
 				LLVertexBuffer::unbind();
 
-				LLGLState::checkStates();
+				if (gDebugGL || gDebugPipeline)
+				{
+					LLGLState::checkStates();
+				}
 			}
 		}
 		else
@@ -4802,6 +4805,11 @@ void LLPipeline::renderDebug()
 		gGL.end();
 		gGL.flush();
 		glPointSize(1.f);
+
+		if (LLGLSLShader::sNoFixedFunction)
+		{
+			gUIProgram.unbind();
+		}
 	}
 
 
@@ -4854,6 +4862,7 @@ void LLPipeline::renderDebug()
 			
 			drawBox(bounds[0], size);
 		}
+		gDebugProgram.unbind();
 	}
 
 	visible_selected_groups.clear();
@@ -7332,7 +7341,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 		
 				gGL.end();
 
-				unbindDeferredShader(*shader);
+				unbindDeferredShader(*shader, &mFinalScreen);
 				mDeferredLight.flush();
 			}
 
@@ -7369,10 +7378,10 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 
 				if (channel > -1)
 				{
-					gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT); // scale fairly pleasantly
+					gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
 				}
 
-				unbindDeferredShader(*shader);
+				unbindDeferredShader(*shader, &mDeferredLight);
 				mFinalScreen.flush();
 				gGL.setColorMask(true, true);
 			}
@@ -7426,7 +7435,12 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 		
 				gGL.end();
 
-				unbindDeferredShader(*shader);
+				if (channel > -1)
+				{
+					gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
+				}
+
+				unbindDeferredShader(*shader, &mFinalScreen);
 
 				if (multisample)
 				{
@@ -7474,7 +7488,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 				gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
 			}
 
-			unbindDeferredShader(*shader);
+			unbindDeferredShader(*shader, &mFinalScreen);
 
 			if (multisample)
 			{
@@ -7515,7 +7529,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 				gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
 			}
 
-			unbindDeferredShader(*shader);
+			unbindDeferredShader(*shader, &render_target);
 			
 			mFXAABuffer.flush();
 
@@ -7549,6 +7563,12 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 			gGL.end();
 
 			gGL.flush();
+
+			if (channel > -1)
+			{
+				gGL.getTexUnit(channel)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
+			}
+
 			shader->unbind();
 		}
 	}
@@ -8040,7 +8060,7 @@ void LLPipeline::renderDeferredLighting()
 				stop_glerror();
 			}
 			mDeferredLight.flush();
-			unbindDeferredShader(gDeferredBlurLightProgram);
+			unbindDeferredShader(gDeferredBlurLightProgram, &mScreen, &mScreen);
 		}
 
 		stop_glerror();
@@ -8324,7 +8344,7 @@ void LLPipeline::renderDeferredLighting()
 						gDeferredMultiLightProgram[idx].uniform1f(LLShaderMgr::MULTI_LIGHT_FAR_Z, far_z);
 						far_z = 0.f;
 						count = 0; 
-      mDeferredVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
+						mDeferredVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
 						mDeferredVB->drawArrays(LLRender::TRIANGLES, 0, 3);
 						unbindDeferredShader(gDeferredMultiLightProgram[idx]);
 					}
@@ -8402,8 +8422,7 @@ void LLPipeline::renderDeferredLighting()
 		// Apply gamma correction to the frame here.
 		gDeferredPostGammaCorrectProgram.bind();
 		//mDeferredVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
-		S32 channel = 0;
-		channel = gDeferredPostGammaCorrectProgram.enableTexture(LLShaderMgr::DEFERRED_DIFFUSE, mScreen.getUsage());
+		S32 channel = gDeferredPostGammaCorrectProgram.enableTexture(LLShaderMgr::DEFERRED_DIFFUSE, mScreen.getUsage());
 		if (channel > -1)
 		{
 			mScreen.bindTexture(0,channel);
@@ -9137,14 +9156,17 @@ void LLPipeline::setupSpotLight(LLGLSLShader& shader, LLDrawable* drawablep)
 		
 }
 
-void LLPipeline::unbindDeferredShader(LLGLSLShader &shader)
+void LLPipeline::unbindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source, LLRenderTarget* light_source)
 {
+	diffuse_source = diffuse_source ? diffuse_source : &mDeferredScreen;
+	light_source = light_source ? light_source : &mDeferredLight;
+
 	stop_glerror();
 	shader.disableTexture(LLShaderMgr::DEFERRED_NORMAL, mDeferredScreen.getUsage());
-	shader.disableTexture(LLShaderMgr::DEFERRED_DIFFUSE, mDeferredScreen.getUsage());
+	shader.disableTexture(LLShaderMgr::DEFERRED_DIFFUSE, diffuse_source->getUsage());
 	shader.disableTexture(LLShaderMgr::DEFERRED_SPECULAR, mDeferredScreen.getUsage());
-	shader.disableTexture(LLShaderMgr::DEFERRED_DEPTH, mDeferredScreen.getUsage());
-	shader.disableTexture(LLShaderMgr::DEFERRED_LIGHT, mDeferredLight.getUsage());
+	shader.disableTexture(LLShaderMgr::DEFERRED_DEPTH, mDeferredDepth.getUsage());
+	shader.disableTexture(LLShaderMgr::DEFERRED_LIGHT, light_source->getUsage());
 	shader.disableTexture(LLShaderMgr::DIFFUSE_MAP);
 	shader.disableTexture(LLShaderMgr::DEFERRED_BLOOM);
 
@@ -9625,6 +9647,10 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 		{
 			gOcclusionProgram.unbind();
 		}
+		else
+		{
+			gDeferredShadowProgram.unbind();
+		}
 	}
 	
 	if (use_shader)
@@ -9652,6 +9678,7 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 		renderMaskedObjects(LLRenderPass::PASS_FULLBRIGHT_ALPHA_MASK, mask, TRUE, TRUE);
 		gDeferredShadowAlphaMaskProgram.setMinimumAlpha(0.598f);
 		renderObjects(LLRenderPass::PASS_ALPHA, mask, TRUE, TRUE);
+		gDeferredShadowAlphaMaskProgram.unbind();
 
 		mask = mask & ~LLVertexBuffer::MAP_TEXTURE_INDEX;
 
@@ -9663,6 +9690,7 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 		
 		gDeferredTreeShadowProgram.setMinimumAlpha(0.598f);
 		renderObjects(LLRenderPass::PASS_GRASS, LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_TEXCOORD0, TRUE);
+		gDeferredTreeShadowProgram.unbind();
 	}
 
 	//glCullFace(GL_BACK);

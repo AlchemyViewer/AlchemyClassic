@@ -506,12 +506,12 @@ struct LLPanelFaceGetIsAlignedTEFunctor : public LLSelectedTEFunctor
 		{
 			return false;
 		}
-		
+
 		if (facep->getViewerObject()->getVolume()->getNumVolumeFaces() <= te)
 		{ //volume face does not exist, can't be aligned
 			return false;
 		}
-		
+
 		if (facep == mCenterFace)
 		{
 			return true;
@@ -566,7 +566,7 @@ void LLPanelFace::sendTextureInfo()
 		LLPanelFaceSetTEFunctor setfunc(this);
 		LLSelectMgr::getInstance()->getSelection()->applyToTEs(&setfunc);
 	}
-	
+
 	LLPanelFaceSendFunctor sendfunc;
 	LLSelectMgr::getInstance()->getSelection()->applyToObjects(&sendfunc);
 	
@@ -1216,8 +1216,7 @@ void LLPanelFace::updateUI(bool force_set_values /*false*/)
 				updateBumpyControls(!material->getNormalID().isNull(), true);
 			}
 		}
-		
-		
+
 		// Set variable values for numeric expressions
 		LLCalc* calcp = LLCalc::getInstance();
 		calcp->setVar(LLCalc::TEX_U_SCALE, childGetValue("TexScaleU").asReal());
@@ -1251,7 +1250,7 @@ void LLPanelFace::updateUI(bool force_set_values /*false*/)
 		//getChildView("media info set")->setEnabled(FALSE);
 		
 		updateVisibility();
-		
+
 		// Set variable values for numeric expressions
 		LLCalc* calcp = LLCalc::getInstance();
 		calcp->clearVar(LLCalc::TEX_U_SCALE);
@@ -1365,7 +1364,7 @@ void LLPanelFace::updateVisibility()
 	getChildView("shinyRot")->setVisible(show_shininess);
 	getChildView("shinyOffsetU")->setVisible(show_shininess);
 	getChildView("shinyOffsetV")->setVisible(show_shininess);
-	
+
 	// Normal map controls
 	if (show_bumpiness)
 	{
@@ -1394,7 +1393,7 @@ void LLPanelFace::updateShinyControls(bool is_setting_texture, bool mess_with_sh
 	LLUUID shiny_texture_ID = mShinyTextureCtrl->getImageAssetID();
 	LL_DEBUGS("Materials") << "Shiny texture selected: " << shiny_texture_ID << LL_ENDL;
 	LLComboBox* comboShiny = getChild<LLComboBox>("combobox shininess");
-	
+
 	if (mess_with_shiny_combobox)
 	{
 		if (!shiny_texture_ID.isNull() && is_setting_texture)
@@ -1526,14 +1525,14 @@ void LLPanelFace::onSelectTexture()
 {
 	LLSelectMgr::getInstance()->saveSelectedObjectTextures();
 	sendTexture();
-	
+
 	LLGLenum image_format;
 	bool identical_image_format = false;
 	LLSelectedTE::getImageFormat(image_format, identical_image_format);
-	
+
 	LLCtrlSelectionInterface* combobox_alphamode =
 	childGetSelectionInterface("combobox alphamode");
-	
+
 	U32 alpha_mode = LLMaterial::DIFFUSE_ALPHA_MODE_NONE;
 	if (combobox_alphamode)
 	{
@@ -1548,7 +1547,7 @@ void LLPanelFace::onSelectTexture()
 			case GL_RGB:
 				break;
 		}
-		
+
 		combobox_alphamode->selectNthItem(alpha_mode);
 	}
 	LLSelectedTEMaterial::setDiffuseAlphaMode(this, getCurrentDiffuseAlphaMode());
@@ -1739,7 +1738,7 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 	
 	bool identical_scale_s = false;
 	bool identical_scale_t = false;
-	
+
 	LLSelectedTE::getObjectScaleS(obj_scale_s, identical_scale_s);
 	LLSelectedTE::getObjectScaleS(obj_scale_t, identical_scale_t);
  
@@ -1749,8 +1748,8 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 		{
 			LLSelectMgr::getInstance()->selectionTexScaleAutofit( repeats_per_meter );
 		}
-			break;
-			
+		break;
+
 		case MATTYPE_NORMAL:
 		{
 			LLUICtrl* bumpy_scale_u = getChild<LLUICtrl>("bumpyScaleU");
@@ -1758,12 +1757,12 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 			
 			bumpy_scale_u->setValue(obj_scale_s * repeats_per_meter);
 			bumpy_scale_v->setValue(obj_scale_t * repeats_per_meter);
-			
+
 			LLSelectedTEMaterial::setNormalRepeatX(this, obj_scale_s * repeats_per_meter);
 			LLSelectedTEMaterial::setNormalRepeatY(this, obj_scale_t * repeats_per_meter);
 		}
-			break;
-			
+		break;
+
 		case MATTYPE_SPECULAR:
 		{
 			LLUICtrl* shiny_scale_u = getChild<LLUICtrl>("shinyScaleU");
@@ -1771,12 +1770,12 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 			
 			shiny_scale_u->setValue(obj_scale_s * repeats_per_meter);
 			shiny_scale_v->setValue(obj_scale_t * repeats_per_meter);
-			
+
 			LLSelectedTEMaterial::setSpecularRepeatX(this, obj_scale_s * repeats_per_meter);
 			LLSelectedTEMaterial::setSpecularRepeatY(this, obj_scale_t * repeats_per_meter);
 		}
-			break;
-			
+		break;
+
 		default:
 			llassert(false);
 			break;
@@ -1815,7 +1814,7 @@ struct LLPanelFaceSetMediaFunctor : public LLSelectedTEFunctor
 				S32 texture_height = media->getTextureHeight();
 				F32 scale_s = (F32)media_width / (F32)texture_width;
 				F32 scale_t = (F32)media_height / (F32)texture_height;
-				
+
 				// set scale and adjust offset
 				object->setTEScaleS( te, scale_s );
 				object->setTEScaleT( te, scale_t );	// don't need to flip Y anymore since QT does this for us now.
@@ -1831,7 +1830,7 @@ void LLPanelFace::onClickAutoFix()
 {
 	LLPanelFaceSetMediaFunctor setfunc;
 	LLSelectMgr::getInstance()->getSelection()->applyToTEs(&setfunc);
-	
+
 	LLPanelFaceSendFunctor sendfunc;
 	LLSelectMgr::getInstance()->getSelection()->applyToObjects(&sendfunc);
 }
@@ -1947,7 +1946,7 @@ bool LLPanelFace::isIdenticalPlanarTexgen()
 }
 
 void LLPanelFace::LLSelectedTE::getFace(LLFace*& face_to_return, bool& identical_face)
-{
+{		
 	struct LLSelectedTEGetFace : public LLSelectedTEGetFunctor<LLFace *>
 	{
 		LLFace* get(LLViewerObject* object, S32 te)
@@ -2036,7 +2035,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxSpecularRepeats(F32& repeats, bool
 				mat->getSpecularRepeat(repeats_s, repeats_t);
 				repeats_s /= object->getScale().mV[s_axis];
 				repeats_t /= object->getScale().mV[t_axis];
-			}
+			}					
 			return llmax(repeats_s, repeats_t);
 		}
 
@@ -2060,7 +2059,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxNormalRepeats(F32& repeats, bool& 
 				mat->getNormalRepeat(repeats_s, repeats_t);
 				repeats_s /= object->getScale().mV[s_axis];
 				repeats_t /= object->getScale().mV[t_axis];
-			}
+			}					
 			return llmax(repeats_s, repeats_t);
 		}
 
@@ -2075,11 +2074,11 @@ void LLPanelFace::LLSelectedTEMaterial::getCurrentDiffuseAlphaMode(U8& diffuse_a
 		LLSelectedTEGetDiffuseAlphaMode() : _isAlpha(false) {}
 		LLSelectedTEGetDiffuseAlphaMode(bool diffuse_texture_has_alpha) : _isAlpha(diffuse_texture_has_alpha) {}
 		virtual ~LLSelectedTEGetDiffuseAlphaMode() {}
-		
+
 		U8 get(LLViewerObject* object, S32 face)
 		{
 			U8 diffuse_mode = _isAlpha ? LLMaterial::DIFFUSE_ALPHA_MODE_BLEND : LLMaterial::DIFFUSE_ALPHA_MODE_NONE;
-			
+
 			LLTextureEntry* tep = object->getTE(face);
 			if (tep)
 			{
@@ -2108,7 +2107,7 @@ void LLPanelFace::LLSelectedTE::getObjectScaleS(F32& scale_s, bool& identical)
 			LLPrimitive::getTESTAxes(face, &s_axis, &t_axis);
 			return object->getScale().mV[s_axis];
 		}
-		
+
 	} scale_s_func;
 	identical = LLSelectMgr::getInstance()->getSelection()->getSelectedTEValue( &scale_s_func, scale_s );
 }
@@ -2124,7 +2123,7 @@ void LLPanelFace::LLSelectedTE::getObjectScaleT(F32& scale_t, bool& identical)
 			LLPrimitive::getTESTAxes(face, &s_axis, &t_axis);
 			return object->getScale().mV[t_axis];
 		}
-		
+
 	} scale_t_func;
 	identical = LLSelectMgr::getInstance()->getSelection()->getSelectedTEValue( &scale_t_func, scale_t );
 }
@@ -2142,7 +2141,7 @@ void LLPanelFace::LLSelectedTE::getMaxDiffuseRepeats(F32& repeats, bool& identic
 			F32 repeats_t = object->getTE(face)->mScaleT / object->getScale().mV[t_axis];
 			return llmax(repeats_s, repeats_t);
 		}
-		
+
 	} max_diff_repeats_func;
 	identical = LLSelectMgr::getInstance()->getSelection()->getSelectedTEValue( &max_diff_repeats_func, repeats );
 }

@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>565ad09ebd6975b485d2e13062bd688e</string>
+              <string>152401fad82db978bc2104f838ed9e74</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/boost-1.60.0-windows64-201701232147.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/boost-1.60.0-windows64-201703080950.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>912fa37da1d6c91e2ce8112c5c5cf039</string>
+              <string>5098c4c1a0d7f7c151fb1386d7bcb5a1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/colladadom-2.3-windows64-201701232158.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/colladadom-2.3-windows64-201703081030.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2b187eafe4e2e8ecf2229008cb9f5860</string>
+              <string>d06f3cf343167eaf95dd873e477193f1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/curl-7.53.1-windows64-201702242256.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.53.1-windows64-201703080914.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -820,11 +820,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d76b0489e9886e632453b5ed89d2cc81</string>
+              <string>aca6b94729e49b3dd891c9e68104fd78</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/freetype-2.7.1-windows64-201701232117.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.7.1-windows64-201703081058.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1832,11 +1832,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3e1eaf284c2e58ecb48f7d4a42aa0c0d</string>
+              <string>9d689b881821f44c7ba12e96d49901e4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libpng-1.6.28-windows64-201701232112.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.28-windows64-201703081050.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1918,11 +1918,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7eae3e3603e95222c2c748261851c390</string>
+              <string>409b28b6a8690264054815dbc316f897</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/libxml2-2.9.4-windows64-201701232135.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/libxml2-2.9.4-windows64-201703081014.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2656,11 +2656,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>96fbbb53ae8099d98402a48d9d6fa551</string>
+              <string>af622046731599edcb81bf9d90b8e820</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/openssl-1.1.0e-windows64-201702202011.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0e-windows64-201703080851.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2892,18 +2892,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5fa437821f9190c9267426fcf4a97a54</string>
+              <string>6a9bb2dcb6ae8506463df8c9dee30b92</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/vcredist-14.0.24215.1-windows64-201610030725.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/vcredist-14.10.25008.0-windows64-201703081113.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>14.0.24215.1</string>
+        <string>14.10.25008.0</string>
       </map>
       <key>vlc-bin</key>
       <map>
@@ -3118,11 +3118,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>26ebfb3a9d4b3978d41e030da6f555ec</string>
+              <string>4a66976f82f1757a9d9d20b4c5cbbbcc</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc14_3/zlib-1.2.11-windows64-201701211113.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/zlib-1.2.11-windows64-201703080732.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3804,7 +3804,7 @@
         <key>windows</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc140</string>
+          <string>build-vc141</string>
           <key>configurations</key>
           <map>
             <key>Debug</key>
@@ -3828,7 +3828,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                 </array>
               </map>
@@ -3859,7 +3859,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -3889,7 +3889,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                 </array>
               </map>
@@ -3922,7 +3922,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -3953,7 +3953,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                 </array>
               </map>
@@ -3984,7 +3984,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14"</string>
+                  <string>"Visual Studio 15"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -4000,7 +4000,7 @@
         <key>windows64</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc140-x86_64</string>
+          <string>build-vc141-x86_64</string>
           <key>configurations</key>
           <map>
             <key>Coverity</key>
@@ -4030,7 +4030,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUSE_KDU:BOOL=OFF</string>
@@ -4061,7 +4061,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
@@ -4093,7 +4093,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -4124,7 +4124,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
@@ -4158,7 +4158,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
@@ -4191,7 +4191,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
@@ -4223,7 +4223,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>"Visual Studio 14 Win64"</string>
+                  <string>"Visual Studio 15 Win64"</string>
                   <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>

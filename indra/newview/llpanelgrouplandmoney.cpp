@@ -31,7 +31,6 @@
 #include "llpanelgrouplandmoney.h"
 
 #include "lluiconstants.h"
-#include "roles_constants.h"
 
 #include "llparcel.h"
 #include "llqueryflags.h"
@@ -51,7 +50,6 @@
 #include "lltexteditor.h"
 #include "lltrans.h"
 #include "lltransactiontypes.h"
-#include "lltrans.h"
 
 #include "llstatusbar.h"
 #include "llfloaterworldmap.h"
@@ -197,8 +195,8 @@ public:
 	void requestGroupLandInfo();
 
 	S32 getStoredContribution();
-	void setYourContributionTextField(int contrib);
-	void setYourMaxContributionTextBox(int max);
+	void setYourContributionTextField(S32 contrib);
+	void setYourMaxContributionTextBox(S32 max);
 
 	virtual void onMapButton();
 	virtual bool applyContribution();
@@ -304,11 +302,8 @@ void LLPanelGroupLandMoney::impl::onMapButton()
 bool LLPanelGroupLandMoney::impl::applyContribution()
 {
 	// calculate max donation, which is sum of available and current.
-	S32 your_contribution = 0;
-	S32 sqm_avail;
-
-	your_contribution = getStoredContribution();
-	sqm_avail = your_contribution;
+	S32 your_contribution = getStoredContribution();
+	S32 sqm_avail = your_contribution;
 	
 	if(gStatusBar)
 	{
@@ -356,9 +351,9 @@ S32 LLPanelGroupLandMoney::impl::getStoredContribution()
 }
 
 // Fills in the text field with the contribution, contrib
-void LLPanelGroupLandMoney::impl::setYourContributionTextField(int contrib)
+void LLPanelGroupLandMoney::impl::setYourContributionTextField(S32 contrib)
 {
-	std::string buffer = llformat("%d", contrib);
+	std::string buffer = std::to_string(contrib);
 
 	if ( mYourContributionEditorp )
 	{
@@ -366,9 +361,9 @@ void LLPanelGroupLandMoney::impl::setYourContributionTextField(int contrib)
 	}
 }
 
-void LLPanelGroupLandMoney::impl::setYourMaxContributionTextBox(int max)
+void LLPanelGroupLandMoney::impl::setYourMaxContributionTextBox(S32 max)
 {
-	mPanel.getChild<LLUICtrl>("your_contribution_max_value")->setTextArg("[AMOUNT]", llformat("%d", max));
+	mPanel.getChild<LLUICtrl>("your_contribution_max_value")->setTextArg("[AMOUNT]", std::to_string(max));
 }
 
 //static
@@ -383,16 +378,13 @@ void LLPanelGroupLandMoney::impl::contributionCommitCallback(LLUICtrl* ctrl,
 															 void* userdata)
 {
 	LLPanelGroupLandMoney* tabp    = (LLPanelGroupLandMoney*) userdata;
-	LLLineEditor*          editorp = (LLLineEditor*) ctrl;
 
-	if ( tabp && editorp )
+	if ( tabp && ctrl )
 	{
 		impl* self = tabp->mImplementationp;
-		int your_contribution = 0;
-		int new_contribution = 0;
 
-		new_contribution= std::stoi(editorp->getText());
-		your_contribution = self->getStoredContribution();
+		S32 new_contribution = ctrl->getValue().asInteger();
+		S32 your_contribution = self->getStoredContribution();
 
 		//reset their junk data to be "good" data to us
 		self->setYourContributionTextField(new_contribution);

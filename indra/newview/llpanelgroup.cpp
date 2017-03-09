@@ -509,13 +509,20 @@ bool LLPanelGroup::apply(LLPanelGroupTab* tab)
 
 bool LLPanelGroup::apply()
 {
-	return apply(findChild<LLPanelGroupTab>("group_general_tab_panel")) 
-		&& apply(findChild<LLPanelGroupTab>("group_roles_tab_panel"))
-		&& apply(findChild<LLPanelGroupTab>("panel_banlist_tab_panel"))
-		&& apply(findChild<LLPanelGroupTab>("group_notices_tab_panel"))
-		&& apply(findChild<LLPanelGroupTab>("group_land_tab_panel"))
-		&& apply(findChild<LLPanelGroupTab>("group_experiences_tab_panel"))
-		;
+	bool applied = false;
+	applied = apply(findChild<LLPanelGroupTab>("group_general_tab_panel"));
+	LL_DEBUGS() << "Applied changes to group_general_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	applied = apply(findChild<LLPanelGroupTab>("group_roles_tab_panel"));
+	LL_DEBUGS() << "Applied changes to group_roles_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	applied = apply(findChild<LLPanelGroupTab>("panel_banlist_tab_panel"));
+	LL_DEBUGS() << "Applied changes to panel_banlist_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	applied = apply(findChild<LLPanelGroupTab>("group_notices_tab_panel"));
+	LL_DEBUGS() << "Applied changes to group_notices_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	applied = apply(findChild<LLPanelGroupTab>("group_land_tab_panel"));
+	LL_DEBUGS() << "Applied changes to group_land_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	applied = apply(findChild<LLPanelGroupTab>("group_experiences_tab_panel"));
+	LL_DEBUGS() << "Applied changes to group_experiences_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
+	return applied;
 }
 
 

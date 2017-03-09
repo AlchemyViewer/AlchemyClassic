@@ -183,14 +183,14 @@ background_visible="true"
              title="Land/Assets"
              fit_panel="false">
                  <panel
-					 border="false"
-                     class="panel_group_land_money"
-                     filename="panel_group_land_money.xml"
-                     follows="left|top|right"
-                     layout="topleft"
-                     left="0"
-                     name="group_land_tab_panel"
-                     top="0" />
+					          border="false"
+                    class="panel_group_land_money"
+                    filename="panel_group_land_money.xml"
+                    follows="left|top|right"
+                    layout="topleft"
+                    left="0"
+                    name="group_land_tab_panel"
+                    top="0" />
          </accordion_tab>
          <accordion_tab
              expanded="false"

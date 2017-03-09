@@ -35,8 +35,6 @@ if(WINDOWS)
     set(debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
     set(debug_files
         openjpegd.dll
-        libcrypto-1_1-x64.dll
-        libssl-1_1-x64.dll
         glod.dll    
         libhunspell.dll
         )
@@ -44,12 +42,30 @@ if(WINDOWS)
     set(release_src_dir "${ARCH_PREBUILT_DIRS_RELEASE}")
     set(release_files
         openjpeg.dll
-        libcrypto-1_1-x64.dll
-        libssl-1_1-x64.dll
         glod.dll
         libhunspell.dll
         )
 
+    if(WORD_SIZE STREQUAL 64)
+      list(APPEND debug_files
+           libcrypto-1_1-x64.dll
+           libssl-1_1-x64.dll
+           )
+      list(APPEND release_files
+           libcrypto-1_1-x64.dll
+           libssl-1_1-x64.dll
+           )
+    else(WORD_SIZE STREQUAL 64)
+      list(APPEND debug_files
+           libcrypto-1_1.dll
+           libssl-1_1.dll
+           )
+      list(APPEND release_files
+           libcrypto-1_1.dll
+           libssl-1_1.dll
+           )
+    endif(WORD_SIZE STREQUAL 64)
+		
     if (LLCOMMON_LINK_SHARED)
       list(APPEND debug_files 
         libapr-1.dll

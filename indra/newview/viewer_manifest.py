@@ -345,10 +345,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("ca-bundle.crt")
                 self.end_prefix()
 
-            # Security
-            self.path("libcrypto-1_1-x64.dll")
-            self.path("libssl-1_1-x64.dll")
-
             # Hunspell
             self.path("libhunspell.dll")
 
@@ -643,6 +639,10 @@ class Windows_i686_Manifest(WindowsManifest):
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
 
+            # Security
+            self.path("libcrypto-1_1.dll")
+            self.path("libssl-1_1.dll")
+
             # Get fmod studio dll, continue if missing
             try:
                 if self.args['configuration'].lower() == 'debug':
@@ -666,6 +666,10 @@ class Windows_x86_64_Manifest(WindowsManifest):
         # Get shared libs from the shared libs staging directory
         if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
+
+            # Security
+            self.path("libcrypto-1_1-x64.dll")
+            self.path("libssl-1_1-x64.dll")
 
             # Get fmodstudio dll, continue if missing
             try:

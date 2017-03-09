@@ -13,6 +13,7 @@ include(Linking)
 include(PluginAPI)
 include(MediaPluginBase)
 include(OpenGL)
+include(Variables)
 
 include(LibVLCPlugin)
 
@@ -53,11 +54,19 @@ target_link_libraries(media_plugin_libvlc
 set_target_properties(media_plugin_libvlc PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 if (WINDOWS)
-  set_target_properties(
-    media_plugin_libvlc
-    PROPERTIES
-    LINK_FLAGS "/MANIFEST:NO"
-    )
+  if (WORD_SIZE EQUAL 32)
+    set_target_properties(
+      media_plugin_libvlc
+      PROPERTIES
+      LINK_FLAGS "/MANIFEST:NO /SAFESEH:NO"
+      )
+  else (WORD_SIZE EQUAL 32)
+    set_target_properties(
+      media_plugin_libvlc
+      PROPERTIES
+      LINK_FLAGS "/MANIFEST:NO"
+      )
+  endif (WORD_SIZE EQUAL 32)
 endif (WINDOWS)
 
 if (DARWIN)

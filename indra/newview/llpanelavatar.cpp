@@ -32,23 +32,11 @@
 #include "llagent.h"
 #include "llavataractions.h"
 #include "llcallingcard.h"
-#include "llcombobox.h"
-#include "lldateutil.h"			// ageFromDate()
-#include "llimview.h"
-#include "llmenubutton.h"
-#include "llnotificationsutil.h"
-#include "llslurl.h"
-#include "lltexteditor.h"
-#include "lltexturectrl.h"
-#include "lltoggleablemenu.h"
+
 #include "lltooldraganddrop.h"
 #include "llscrollcontainer.h"
 #include "llavatariconctrl.h"
-#include "llfloaterreg.h"
-#include "llnotificationsutil.h"
-#include "llvoiceclient.h"
 #include "lltextbox.h"
-#include "lltrans.h"
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Class LLDropTarget
@@ -108,7 +96,7 @@ void LLPanelProfileTab::onOpen(const LLSD& key)
 	updateButtons();
 }
 
-void LLPanelProfileTab::scrollToTop()
+void LLPanelProfileTab::scrollToTop() const
 {
 	LLScrollContainer* scrollContainer = findChild<LLScrollContainer>("profile_scroll");
 	if (scrollContainer)

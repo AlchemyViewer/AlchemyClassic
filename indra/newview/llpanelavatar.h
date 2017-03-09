@@ -94,7 +94,7 @@ protected:
 	/**
 	 * Scrolls panel to top when viewing avatar info for first time.
 	 */
-	void scrollToTop();
+	void scrollToTop() const;
 
 	virtual void onMapButtonClick();
 

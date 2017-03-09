@@ -5633,7 +5633,7 @@ void LLVivoxVoiceClient::notifyFriendObservers()
 		)
 	{
 		LLFriendObserver* observer = *it;
-		it++;
+		++it;
 		// The only friend-related thing we notify on is online/offline transitions.
 		observer->changed(LLFriendObserver::ONLINE);
 	}

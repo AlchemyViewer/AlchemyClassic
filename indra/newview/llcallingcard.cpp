@@ -91,7 +91,7 @@ static void on_avatar_name_cache_notify(const LLUUID& agent_id,
 ///----------------------------------------------------------------------------
 
 LLAvatarTracker::LLAvatarTracker() :
-	mTrackingData(NULL),
+	mTrackingData(nullptr),
 	mTrackedAgentValid(false),
 	mModifyMask(0x0),
 	mIsNotifyObservers(FALSE)
@@ -210,31 +210,17 @@ void LLAvatarTracker::getDegreesAndDist(F32& rot,
 	rot = F32(RAD_TO_DEG * atan2(to_vec.mdV[VY], to_vec.mdV[VX]));
 }
 
-const std::string& LLAvatarTracker::getName()
+const std::string& LLAvatarTracker::getName() const
 {
-	if(mTrackingData)
-	{
-		return mTrackingData->mName;
-	}
-	else
-	{
-		return LLStringUtil::null;
-	}
+	return mTrackingData ? mTrackingData->mName : LLStringUtil::null;
 }
 
-const LLUUID& LLAvatarTracker::getAvatarID()
+const LLUUID& LLAvatarTracker::getAvatarID() const
 {
-	if(mTrackingData)
-	{
-		return mTrackingData->mAvatarID;
-	}
-	else
-	{
-		return LLUUID::null;
-	}
+	return mTrackingData ? mTrackingData->mAvatarID : LLUUID::null;
 }
 
-S32 LLAvatarTracker::addBuddyList(const LLAvatarTracker::buddy_map_t& buds)
+S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 {
 	U32 new_buddy_count = 0;
 	std::string full_name;
@@ -305,14 +291,14 @@ void LLAvatarTracker::terminateBuddy(const LLUUID& id)
 // get all buddy info
 const LLRelationship* LLAvatarTracker::getBuddyInfo(const LLUUID& id) const
 {
-	if(id.isNull()) return NULL;
+	if(id.isNull()) return nullptr;
 	return get_ptr_in_map(mBuddyInfo, id);
 }
 
 bool LLAvatarTracker::isBuddy(const LLUUID& id) const
 {
 	LLRelationship* info = get_ptr_in_map(mBuddyInfo, id);
-	return (info != NULL);
+	return (info != nullptr);
 }
 
 // online status
@@ -432,11 +418,11 @@ void LLAvatarTracker::deleteTrackingData()
 {
 	//make sure mTrackingData never points to freed memory
 	LLTrackingData* tmp = mTrackingData;
-	mTrackingData = NULL;
+	mTrackingData = nullptr;
 	delete tmp;
 }
 
-void LLAvatarTracker::findAgent()
+void LLAvatarTracker::findAgent() const
 {
 	if (!mTrackingData) return;
 	if (mTrackingData->mAvatarID.isNull()) return;
@@ -495,7 +481,7 @@ void LLAvatarTracker::notifyObservers()
 		(*it)->changed(mModifyMask);
 	}
 
-	for (changed_buddy_t::iterator it = mChangedBuddyIDs.begin(); it != mChangedBuddyIDs.end(); it++)
+	for (changed_buddy_t::iterator it = mChangedBuddyIDs.begin(); it != mChangedBuddyIDs.end(); ++it)
 	{
 		notifyParticularFriendObservers(*it);
 	}
@@ -535,7 +521,7 @@ void LLAvatarTracker::notifyParticularFriendObservers(const LLUUID& buddy_id)
 
     // Notify observers interested in buddy_id.
     observer_set_t& obs = obs_it->second;
-    for (observer_set_t::iterator ob_it = obs.begin(); ob_it != obs.end(); ob_it++)
+    for (observer_set_t::iterator ob_it = obs.begin(); ob_it != obs.end(); ++ob_it)
     {
         (*ob_it)->changed(mModifyMask);
     }
@@ -579,7 +565,6 @@ void LLAvatarTracker::registerCallbacks(LLMessageSystem* msg)
 void LLAvatarTracker::processAgentFound(LLMessageSystem* msg, void**)
 {
 	LLUUID id;
-
 	
 	msg->getUUIDFast(_PREHASH_AgentBlock, _PREHASH_Hunter, id);
 	msg->getUUIDFast(_PREHASH_AgentBlock, _PREHASH_Prey, id);
@@ -622,7 +607,7 @@ void LLAvatarTracker::processChange(LLMessageSystem* msg)
 	LLUUID agent_id, agent_related;
 	S32 new_rights;
 	msg->getUUIDFast(_PREHASH_AgentData, _PREHASH_AgentID, agent_id);
-	for(int i = 0; i < count; ++i)
+	for(auto i = 0; i < count; ++i)
 	{
 		msg->getUUIDFast(_PREHASH_Rights, _PREHASH_AgentRelated, agent_related, i);
 		msg->getS32Fast(_PREHASH_Rights,_PREHASH_RelatedRights, new_rights, i);
@@ -637,40 +622,22 @@ void LLAvatarTracker::processChange(LLMessageSystem* msg)
 		{
 			if(mBuddyInfo.find(agent_id) != mBuddyInfo.end())
 			{
-				if((mBuddyInfo[agent_id]->getRightsGrantedFrom() ^  new_rights) & LLRelationship::GRANT_MODIFY_OBJECTS)
+				S32 change = mBuddyInfo[agent_id]->getRightsGrantedFrom() ^ new_rights;
+				if (change)
 				{
-					LLSD args;
-					args["NAME"] = LLSLURL("agent", agent_id, "displayname").getSLURLString();
-					
-					LLSD payload;
-					payload["from_id"] = agent_id;
-					if(LLRelationship::GRANT_MODIFY_OBJECTS & new_rights)
+					LLSD args = LLSD().with("NAME", LLSLURL("agent", agent_id, "displayname").getSLURLString());
+					LLSD payload = LLSD().with("from_id", agent_id);
+					if (change & LLRelationship::GRANT_MODIFY_OBJECTS)
 					{
-						LLNotifications::instance().add("GrantedModifyRights",args, payload);
+						LLNotifications::instance().add(LLRelationship::GRANT_MODIFY_OBJECTS & new_rights
+							? "GrantedModifyRights" : "RevokedModifyRights", args, payload);
 					}
-					else
+					if (change & LLRelationship::GRANT_MAP_LOCATION)
 					{
-						LLNotifications::instance().add("RevokedModifyRights",args, payload);
+						LLNotifications::instance().add(LLRelationship::GRANT_MAP_LOCATION & new_rights
+							? "GrantedMapRights" : "RevokedMapRights", args, payload);
 					}
 				}
-				// <Alchemy>
-				if ((mBuddyInfo[agent_id]->getRightsGrantedFrom() ^ new_rights) & LLRelationship::GRANT_MAP_LOCATION)
-				{
-					LLSD args;
-					args["NAME"] = LLSLURL("agent", agent_id, "displayname").getSLURLString();
-					
-					LLSD payload;
-					payload["from_id"] = agent_id;
-					if (LLRelationship::GRANT_MAP_LOCATION & new_rights)
-					{
-						LLNotifications::instance().add("GrantedMapRights", args, payload);
-					}
-					else
-					{
-						LLNotifications::instance().add("RevokedMapRights", args, payload);
-					}
-				}
-				// </Alchemy>
 				(mBuddyInfo[agent_id])->setRightsFrom(new_rights);
 			}
 		}

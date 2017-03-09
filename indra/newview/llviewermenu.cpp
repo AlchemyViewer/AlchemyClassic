@@ -3436,6 +3436,7 @@ class LLObjectExplode : public view_listener_t
 		sel_man->selectionUpdatePhysics(TRUE);
 		sel_man->sendDelink();
 		sel_man->deselectAll();
+		return true;
 	}
 };
 

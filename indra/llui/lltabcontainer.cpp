@@ -1512,9 +1512,8 @@ BOOL LLTabContainer::setTab(S32 which)
 		setCurrentPanelIndex(which);
 
 		S32 i = 0;
-		for(tuple_list_t::iterator iter = mTabList.begin(); iter != mTabList.end(); ++iter)
+		for (auto *tuple : mTabList)
 		{
-			LLTabTuple* tuple = *iter;
 			BOOL is_selected = ( tuple == selected_tuple );
             // Although the selected tab must be complete, we may have hollow LLTabTuple tucked in the list
             if (tuple && tuple->mButton)

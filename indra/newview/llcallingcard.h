@@ -32,8 +32,6 @@
 #include "lluuid.h"
 #include "v3dmath.h"
 
-//class LLInventoryModel;
-//class LLInventoryObserver;
 class LLMessageSystem;
 class LLTrackingData;
 
@@ -83,9 +81,9 @@ class LLAvatarTracker : public LLSingleton<LLAvatarTracker>
 public:
 	void track(const LLUUID& avatar_id, const std::string& name);
 	void untrack(const LLUUID& avatar_id);
-	bool isTrackedAgentValid() { return mTrackedAgentValid; }
+	bool isTrackedAgentValid() const { return mTrackedAgentValid; }
 	void setTrackedAgentValid(bool valid) { mTrackedAgentValid = valid; }
-	void findAgent();
+	void findAgent() const;
 
 	// coarse update information
 	void setTrackedCoarseLocation(const LLVector3d& global_pos);
@@ -96,10 +94,10 @@ public:
 	LLVector3d getGlobalPos();
 
 	// Get the name passed in, returns null string if uninitialized.
-	const std::string& getName();
+	const std::string& getName() const;
 
 	// Get the avatar being tracked, returns LLUUID::null if uninitialized
-	const LLUUID& getAvatarID();
+	const LLUUID& getAvatarID() const;
 
 	// Deal with inventory
 	//void observe(LLInventoryModel* model);
@@ -160,7 +158,7 @@ public:
 	 */
 	void addChangedMask(U32 mask, const LLUUID& referent);
 
-	const std::set<LLUUID>& getChangedIDs() { return mChangedBuddyIDs; }
+	const std::set<LLUUID>& getChangedIDs() const { return mChangedBuddyIDs; }
 
 	// Apply the functor to every buddy. Do not actually modify the
 	// buddy list in the functor or bad things will happen.
@@ -188,8 +186,6 @@ protected:
 	LLTrackingData* mTrackingData;
 	bool mTrackedAgentValid;
 	U32 mModifyMask;
-	//LLInventoryModel* mInventory;
-	//LLInventoryObserver* mInventoryObserver;
 
 	buddy_map_t mBuddyInfo;
 

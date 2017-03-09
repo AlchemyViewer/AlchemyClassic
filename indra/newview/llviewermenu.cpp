@@ -3424,6 +3424,32 @@ class LLRefreshTexturesAvatar : public view_listener_t
 	}
 };
 
+class LLObjectExplode : public view_listener_t
+{
+	bool handleEvent(LLSD const& userdata)
+	{
+		auto* sel_man = LLSelectMgr::getInstance();
+		LLViewerObject *objectp = sel_man->getSelection()->getFirstRootObject();
+		if (objectp == nullptr) return false;
+
+		sel_man->selectionUpdateTemporary(TRUE);
+		sel_man->selectionUpdatePhysics(TRUE);
+		sel_man->sendDelink();
+		sel_man->deselectAll();
+	}
+};
+
+bool enable_object_explode()
+{
+	bool enable = LLSelectMgr::getInstance()->selectGetModify();
+	if (enable)
+	{
+		LLViewerObject *objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
+		enable = objectp && !objectp->isAttachment();
+	}
+	return enable;
+}
+
 class LLEnableGrid : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
@@ -9494,6 +9520,8 @@ void initialize_menus()
 	view_listener_t::addMenu(new LLRefreshTexturesAvatar(), "Avatar.RefreshTex");
 	view_listener_t::addMenu(new LLEditParticleSource(), "Object.EditParticles");
 	view_listener_t::addMenu(new LLEnableEditParticleSource(), "Object.EnableEditParticles");
+	view_listener_t::addMenu(new LLObjectExplode(), "Object.Explode");
+	enable.add("Object.EnableExplode", std::bind(&enable_object_explode));
 	view_listener_t::addMenu(new LLSpawnDebugSimFeatures(), "Advanced.DebugSimFeatures");
 	view_listener_t::addMenu(new LLSyncAnimations(), "Tools.ResyncAnimations");
 	view_listener_t::addMenu(new ALMarkViewerEffectsDead(), "Tools.AllVEDead");

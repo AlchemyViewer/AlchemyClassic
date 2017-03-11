@@ -1994,11 +1994,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3cb80c11957a08806a5cd08ed4081919</string>
+              <string>20e43c141d92a10346805f41ca15adf4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/darwin/lib/llceflib-3.2924.1566.ga6a3da2-darwin-201702102110.tar.bz2</string>
+              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2987.1591.gd3e47f5-darwin-201703111027.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

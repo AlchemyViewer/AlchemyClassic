@@ -576,7 +576,8 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	auto range = mShaderObjects.equal_range(filename);
 	for (auto it = range.first; it != range.second; ++it)
 	{
-		if (it->second.mLevel == shader_level && it->second.mType == type && it->second.mDefinitions == (defines ? *defines : boost::unordered_map<std::string, std::string>()))
+		if (it->second.mLevel == shader_level && it->second.mType == type && it->second.mIndexedChannels == texture_index_channels
+			&& it->second.mDefinitions == (defines ? *defines : boost::unordered_map<std::string, std::string>()))
 			return it->second.mHandle;
 	}
 
@@ -1039,7 +1040,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	if (ret)
 	{
 		// Add shader file to map
-		mShaderObjects.insert(make_pair(filename, CachedShaderObject(ret, try_gpu_class, type, defines)));
+		mShaderObjects.insert(make_pair(filename, CachedShaderObject(ret, try_gpu_class, type, texture_index_channels, defines)));
 		shader_level = try_gpu_class;
 	}
 	else

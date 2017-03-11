@@ -245,11 +245,12 @@ public:
 	// Map of shader names to compiled
 	struct CachedShaderObject
 	{
-		CachedShaderObject(GLuint handle, S32 level, GLenum type, boost::unordered_map<std::string, std::string> *definitions) :
-			mHandle(handle), mLevel(level), mType(type), mDefinitions(definitions ? *definitions : boost::unordered_map<std::string, std::string>()) {}
+		CachedShaderObject(GLuint handle, S32 level, GLenum type, S32 indexed_channels, boost::unordered_map<std::string, std::string> *definitions) :
+			mHandle(handle), mLevel(level), mType(type), mIndexedChannels(indexed_channels), mDefinitions(definitions ? *definitions : boost::unordered_map<std::string, std::string>()) {}
 		GLuint mHandle;
 		S32 mLevel;
 		GLenum mType;
+		S32 mIndexedChannels;
 		boost::unordered_map<std::string, std::string> mDefinitions;
 	};
 	std::multimap<std::string, CachedShaderObject> mShaderObjects;

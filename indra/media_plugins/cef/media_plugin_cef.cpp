@@ -518,7 +518,9 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				LLCEFLib::LLCEFLibSettings settings;
 				settings.initial_width = 1024;
 				settings.initial_height = 1024;
+#if !LL_LINUX
 				settings.page_zoom_factor = message_in.getValueReal("factor");
+#endif
 				settings.plugins_enabled = mPluginsEnabled;
 				settings.media_stream_enabled = false; // MAINT-6060 - WebRTC media removed until we can add granualrity/query UI
 				settings.javascript_enabled = mJavascriptEnabled;

@@ -171,10 +171,10 @@ Display* LLWindowSDL::get_SDL_Display(void)
 LLWindowSDL::LLWindowSDL(LLWindowCallbacks* callbacks,
 			 const std::string& title, S32 x, S32 y, S32 width,
 			 S32 height, U32 flags,
-			 BOOL fullscreen, BOOL clearBg,
-			 EVSyncSetting vsync_setting, BOOL use_gl,
+			 U32 window_mode, BOOL clearBg,
+			 U32 vsync_setting, BOOL use_gl,
 			 BOOL ignore_pixel_depth, U32 fsaa_samples)
-	: LLWindow(callbacks, fullscreen, flags),
+	: LLWindow(callbacks, window_mode, flags),
 	  mGamma(1.0f)
 {
 	// Initialize the keyboard
@@ -213,7 +213,7 @@ LLWindowSDL::LLWindowSDL(LLWindowCallbacks* callbacks,
 		mWindowTitle = title;
 
 	// Create the GL context and set it up for windowed or fullscreen, as appropriate.
-	if(createContext(x, y, width, height, 32, fullscreen, vsync_setting))
+	if(createContext(x, y, width, height, 32, window_mode, vsync_setting))
 	{
 		gGLManager.initGL();
 
@@ -372,11 +372,11 @@ static int x11_detect_VRAM_kb()
 }
 #endif // LL_X11
 
-BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, BOOL fullscreen, EVSyncSetting vsync_setting)
+BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, U32 window_mode, U32 vsync_setting)
 {
 	//bool			glneedsinit = false;
 
-	LL_INFOS() << "createContext, fullscreen=" << fullscreen <<
+	LL_INFOS() << "createContext, window_mode=" << window_mode <<
 		" size=" << width << "x" << height << LL_ENDL;
 
 	// captures don't survive contexts
@@ -452,7 +452,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 	// *FIX: try to toggle vsync here?
 
-	mFullscreen = fullscreen;
+	mWindowMode = window_mode;
 
 	int sdlflags = SDL_OPENGL | SDL_RESIZABLE | SDL_ANYFORMAT;
 
@@ -466,7 +466,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 		mSDLFlags = sdlflags;
 
-	if (mFullscreen)
+	if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
 		LL_INFOS() << "createContext: setting up fullscreen " << width << "x" << height << LL_ENDL;
 
@@ -527,7 +527,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 		if (mWindow)
 		{
-			mFullscreen = TRUE;
+			mWindowMode = E_WINDOW_FULLSCREEN_EXCLUSIVE;
 			mFullscreenWidth   = mWindow->w;
 			mFullscreenHeight  = mWindow->h;
 			mFullscreenBits    = mWindow->format->BitsPerPixel;
@@ -543,7 +543,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 		{
 			LL_WARNS() << "createContext: fullscreen creation failure. SDL: " << SDL_GetError() << LL_ENDL;
 			// No fullscreen support
-			mFullscreen = FALSE;
+			mWindowMode = E_WINDOW_WINDOWED;
 			mFullscreenWidth   = -1;
 			mFullscreenHeight  = -1;
 			mFullscreenBits    = -1;
@@ -554,7 +554,7 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 		}
 	}
 
-	if(!mFullscreen && (mWindow == NULL))
+	if(mWindowMode != E_WINDOW_FULLSCREEN_EXCLUSIVE && (mWindow == NULL))
 	{
 		if (width == 0)
 			width = 1024;
@@ -575,7 +575,8 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 			setupFailure("Window creation error", "Error", OSMB_OK);
 			return FALSE;
 		}
-	} else if (!mFullscreen && (mWindow != NULL))
+	} 
+	else if (mWindowMode != E_WINDOW_FULLSCREEN_EXCLUSIVE && (mWindow != NULL))
 	{
 		LL_INFOS() << "createContext: SKIPPING - !fullscreen, but +mWindow " << width << "x" << height << "x" << bits << LL_ENDL;
 	}
@@ -680,17 +681,17 @@ BOOL LLWindowSDL::createContext(int x, int y, int width, int height, int bits, B
 
 
 // changing fullscreen resolution, or switching between windowed and fullscreen mode.
-BOOL LLWindowSDL::switchContext(BOOL fullscreen, const LLCoordScreen &size, EVSyncSetting vsync_setting, const LLCoordScreen * const posp)
+BOOL LLWindowSDL::switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp)
 {
 	const BOOL needsRebuild = TRUE;  // Just nuke the context and start over.
 	BOOL result = true;
 
-	LL_INFOS() << "switchContext, fullscreen=" << fullscreen << LL_ENDL;
+	LL_INFOS() << "switchContext, window_mode=" << window_mode << LL_ENDL;
 	stop_glerror();
 	if(needsRebuild)
 	{
 		destroyContext();
-		result = createContext(0, 0, size.mX, size.mY, 0, fullscreen, vsync_setting);
+		result = createContext(0, 0, size.mX, size.mY, 0, window_mode, vsync_setting);
 		if (result)
 		{
 			gGLManager.initGL();
@@ -828,7 +829,7 @@ BOOL LLWindowSDL::maximize()
 
 BOOL LLWindowSDL::getFullscreen()
 {
-	return mFullscreen;
+	return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE || mWindowMode == E_WINDOW_WINDOWED_FULLSCREEN;
 }
 
 BOOL LLWindowSDL::getPosition(LLCoordScreen *position)
@@ -1083,7 +1084,7 @@ void LLWindowSDL::beforeDialog()
 
 	if (SDLReallyCaptureInput(FALSE)) // must ungrab input so popup works!
 	{
-		if (mFullscreen)
+		if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 		{
 			// need to temporarily go non-fullscreen; bless SDL
 			// for providing a SDL_WM_ToggleFullScreen() - though
@@ -1120,7 +1121,7 @@ void LLWindowSDL::afterDialog()
 
 	LL_INFOS() << "LLWindowSDL::afterDialog()" << LL_ENDL;
 
-	if (mFullscreen)
+	if (mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
 	{
 		// need to restore fullscreen mode after dialog - only works
 		// in X11
@@ -1136,7 +1137,7 @@ void LLWindowSDL::afterDialog()
 // set/reset the XWMHints flag for 'urgency' that usually makes the icon flash
 void LLWindowSDL::x11_set_urgent(BOOL urgent)
 {
-	if (mSDL_Display && !mFullscreen)
+	if (mSDL_Display && !getFullscreen())
 	{
 		XWMHints *wm_hints;
 
@@ -1433,7 +1434,7 @@ BOOL LLWindowSDL::SDLReallyCaptureInput(BOOL capture)
 		LL_WARNS() << "ReallyCapture count was < 0" << LL_ENDL;
 	}
 
-	if (!mFullscreen) /* only bother if we're windowed anyway */
+	if (!getFullscreen()) /* only bother if we're windowed anyway */
 	{
 #if LL_X11
 		if (mSDL_Display)
@@ -2514,7 +2515,7 @@ void LLWindowSDL::bringToFront()
 	// map position externally.
 	LL_INFOS() << "bringToFront" << LL_ENDL;
 #if LL_X11
-	if (mSDL_Display && !mFullscreen)
+	if (mSDL_Display && !getFullscreen())
 	{
 		XRaiseWindow(mSDL_Display, mSDL_XWindowID);
 		XSync(mSDL_Display, False);

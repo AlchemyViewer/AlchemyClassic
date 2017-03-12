@@ -1496,7 +1496,7 @@ if (WINDOWS)
   else (NVAPI)
     set(APPVWRW32_COMPILE_FLAGS "${APPVWRW32_COMPILE_FLAGS} -UUSE_NVAPI")
   endif (NVAPI)
-  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_FLAGS "${APPVWRW32_COMPILE_FLAGS}")
+  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_FLAGS}")
 
     # precompiled header configuration
     # llviewerprecompiledheaders.cpp generates
@@ -1735,12 +1735,12 @@ if (FMODSTUDIO)
   set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
 endif (FMODSTUDIO)
 
-set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_FLAGS "${LLSTARTUP_COMPILE_FLAGS}")
+set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_DEFINITIONS "${LLSTARTUP_COMPILE_FLAGS}")
 
 if (LIBVLCPLUGIN)
-    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_FLAGS "-DVLCPLUGIN=1")
+    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_DEFINITIONS "-DVLCPLUGIN=1")
 else (LIBVLCPLUGIN)
-    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_FLAGS "-DVLCPLUGIN=0")
+    set_source_files_properties(llappviewer.cpp PROPERTIES COMPILE_DEFINITIONS "-DVLCPLUGIN=0")
 endif (LIBVLCPLUGIN)
 
 list(APPEND viewer_SOURCE_FILES ${viewer_HEADER_FILES})

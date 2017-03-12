@@ -175,7 +175,7 @@ elseif(LINUX)
         libatk-1.0.so
         libexpat.so
         libexpat.so.1
-        libfreetype.so.6.12.6
+        libfreetype.so.6.13.0
         libfreetype.so.6
         libfreetype.so
         libGLOD.so

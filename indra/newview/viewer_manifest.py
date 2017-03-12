@@ -1254,7 +1254,7 @@ class Linux_i686_Manifest(LinuxManifest):
             self.path("libGLOD.so")
             self.path("libSDL-1.2.so.*")
             self.path("libopenjpeg.so*")
-            self.path("libhunspell-1.4.so*")
+            self.path("libhunspell-1.6.so*")
             self.path("libalut.so")
             self.path("libopenal.so", "libopenal.so.1")
             self.path("libopenal.so", "libvivoxoal.so.1") # vivox's sdk expects this soname
@@ -1328,7 +1328,7 @@ class Linux_x86_64_Manifest(LinuxManifest):
             self.path("libGLOD.so")
             self.path("libSDL-1.2.so.*")
             self.path("libopenjpeg.so*")
-            self.path("libhunspell-1.4.so*")
+            self.path("libhunspell-1.6.so*")
             self.path("libalut.so*")
             self.path("libopenal.so*")
             # KLUDGE: As of 2012-04-11, the 'fontconfig' package installs

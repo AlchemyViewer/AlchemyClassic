@@ -644,11 +644,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5ba05db0efc98db11557dff5cc835004</string>
+              <string>952270a3143ddfd9d5b19966a594d5c6</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/fmodstudio-1.08.12-linux64-201609240235.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.09.01-linux64-201703121629.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1482,11 +1482,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0765adc88947e85e3b22cfa4f19b159b</string>
+              <string>e1a74ab2fd447584a8621a215427b9e4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.7.6-linux64-201609260525.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.8.0-linux64-201703121628.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

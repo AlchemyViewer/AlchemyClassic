@@ -1492,11 +1492,11 @@ if (WINDOWS)
          )
 
   if (NVAPI)
-    list(APPEND APPVWRW32_COMPILE_FLAGS "-DUSE_NVAPI=1")
+    list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-DUSE_NVAPI=1")
   else (NVAPI)
-    list(APPEND APPVWRW32_COMPILE_FLAGS "-UUSE_NVAPI")
+    list(APPEND APPVWRW32_COMPILE_DEFINITIONS "-UUSE_NVAPI")
   endif (NVAPI)
-  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_FLAGS}")
+  set_source_files_properties(llappviewerwin32.cpp PROPERTIES COMPILE_DEFINITIONS  "${APPVWRW32_COMPILE_DEFINITIONSS}")
 
     # precompiled header configuration
     # llviewerprecompiledheaders.cpp generates

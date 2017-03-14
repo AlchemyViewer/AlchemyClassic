@@ -159,6 +159,7 @@ public:
 private:
 	std::string mNewChannel;
 	std::string mNewVersion;
+	LLTempBoundListener mMainLoopConnection;
 	
 	void restartTimer(unsigned int seconds);
 	void setState(LLUpdaterService::eUpdaterState state);
@@ -181,7 +182,8 @@ LLUpdaterServiceImpl::LLUpdaterServiceImpl() :
 LLUpdaterServiceImpl::~LLUpdaterServiceImpl()
 {
 	LL_INFOS("UpdaterService") << "shutting down updater service" << LL_ENDL;
-	LLEventPumps::instance().obtain("mainloop").stopListening(sListenerName);
+	// Destroying an LLTempBoundListener implicitly disconnects. That's its
+	// whole purpose.
 }
 
 void LLUpdaterServiceImpl::initialize(const std::string&  channel,
@@ -564,7 +566,7 @@ void LLUpdaterServiceImpl::restartTimer(unsigned int seconds)
 	seconds << " seconds" << LL_ENDL; 
 	mTimer.start();
 	mTimer.setTimerExpirySec((F32)seconds);
-	LLEventPumps::instance().obtain("mainloop").listen(
+	mMainLoopConnection = LLEventPumps::instance().obtain("mainloop").listen(
 		sListenerName, std::bind(&LLUpdaterServiceImpl::onMainLoop, this, std::placeholders::_1));
 }
 
@@ -593,7 +595,7 @@ void LLUpdaterServiceImpl::setState(LLUpdaterService::eUpdaterState state)
 void LLUpdaterServiceImpl::stopTimer()
 {
 	mTimer.stop();
-	LLEventPumps::instance().obtain("mainloop").stopListening(sListenerName);
+	mMainLoopConnection.disconnect();
 }
 
 bool LLUpdaterServiceImpl::onMainLoop(LLSD const & event)

@@ -128,8 +128,8 @@ extern F32 ANIM_SPEED_MAX;
 extern F32 ANIM_SPEED_MIN;
 extern U32 JOINT_COUNT_REQUIRED_FOR_FULLRIG;
 
-const F32 MAX_HOVER_Z = 2.0;
-const F32 MIN_HOVER_Z = -2.0;
+const F32 MAX_HOVER_Z = 2.f;
+const F32 MIN_HOVER_Z = -2.f;
 
 const F32 MIN_ATTACHMENT_COMPLEXITY = 0.f;
 const F32 MAX_ATTACHMENT_COMPLEXITY = 1.0e6f;
@@ -197,7 +197,7 @@ const F32 FOOT_GROUND_COLLISION_TOLERANCE = 0.25f;
 const F32 AVATAR_LOD_TWEAK_RANGE = 0.7f;
 const S32 MAX_BUBBLE_CHAT_LENGTH = DB_CHAT_MSG_STR_LEN;
 const S32 MAX_BUBBLE_CHAT_UTTERANCES = 12;
-const F32 CHAT_FADE_TIME = 8.0;
+const F32 CHAT_FADE_TIME = 8.f;
 const F32 BUBBLE_CHAT_TIME = CHAT_FADE_TIME * 3.f;
 const F32 NAMETAG_UPDATE_THRESHOLD = 0.3f;
 const F32 NAMETAG_VERTICAL_SCREEN_OFFSET = 25.f;
@@ -290,13 +290,13 @@ public:
 	virtual BOOL getLoop() { return TRUE; }
 
 	// motions must report their total duration
-	virtual F32 getDuration() { return 0.0; }
+	virtual F32 getDuration() { return 0.f; }
 
 	// motions must report their "ease in" duration
-	virtual F32 getEaseInDuration() { return 0.0; }
+	virtual F32 getEaseInDuration() { return 0.f; }
 
 	// motions must report their "ease out" duration.
-	virtual F32 getEaseOutDuration() { return 0.0; }
+	virtual F32 getEaseOutDuration() { return 0.f; }
 
 	// motions must report their priority
 	virtual LLJoint::JointPriority getPriority() { return LLJoint::HIGH_PRIORITY; }
@@ -397,13 +397,13 @@ public:
 	virtual BOOL getLoop() { return TRUE; }
 
 	// motions must report their total duration
-	virtual F32 getDuration() { return 0.0; }
+	virtual F32 getDuration() { return 0.f; }
 
 	// motions must report their "ease in" duration
-	virtual F32 getEaseInDuration() { return 0.0; }
+	virtual F32 getEaseInDuration() { return 0.f; }
 
 	// motions must report their "ease out" duration.
-	virtual F32 getEaseOutDuration() { return 0.0; }
+	virtual F32 getEaseOutDuration() { return 0.f; }
 
 	// motions must report their priority
 	virtual LLJoint::JointPriority getPriority() { return LLJoint::MEDIUM_PRIORITY; }
@@ -509,7 +509,7 @@ public:
 	virtual BOOL getLoop() { return TRUE; }
 
 	// motions must report their total duration
-	virtual F32 getDuration() { return 0.0; }
+	virtual F32 getDuration() { return 0.f; }
 
 	// motions must report their "ease in" duration
 	virtual F32 getEaseInDuration() { return 0.5f; }
@@ -693,7 +693,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	LL_DEBUGS("AvatarRender") << "LLVOAvatar Constructor (0x" << this << ") id:" << mID << LL_ENDL;
 
 	//VTResume();  // VTune
-	setHoverOffset(LLVector3(0.0, 0.0, 0.0));
+    setHoverOffset(LLVector3::zeroVec());
 
 	// mVoiceVisualizer is created by the hud effects manager and uses the HUD Effects pipeline
 	const BOOL needsSendToSim = false; // currently, this HUD effect doesn't need to pack and unpack data to do its job
@@ -2524,7 +2524,7 @@ void LLVOAvatar::idleUpdateMisc(bool detailed_update)
 				LLViewerObject* attached_object = (*attachment_iter);
 				BOOL visibleAttachment = visible || (attached_object && 
 													 !(attached_object->mDrawable->getSpatialBridge() &&
-													   attached_object->mDrawable->getSpatialBridge()->getRadius() < 2.0));
+													   attached_object->mDrawable->getSpatialBridge()->getRadius() < 2.f));
 				
 				if (visibleAttachment && attached_object && !attached_object->isDead() && attachment->getValid())
 				{
@@ -3443,7 +3443,7 @@ void LLVOAvatar::updateDebugText()
 		bool hover_enabled = getRegion() && getRegion()->avatarHoverHeightEnabled();
 		debug_line += hover_enabled ? " H" : " h";
 		const LLVector3& hover_offset = getHoverOffset();
-		if (hover_offset[2] != 0.0)
+		if (hover_offset[2] != 0.f)
 		{
 			debug_line += llformat(" hov_z: %.3f", hover_offset[2]);
 			debug_line += llformat(" %s", (mIsSitting ? "S" : "T"));
@@ -5924,7 +5924,7 @@ void LLVOAvatar::resetJointsOnDetach(const LLUUID& mesh_id)
 		{
 			removePelvisFixup( mesh_id );
 			// SL-315
-			pJoint->setPosition( LLVector3( 0.0f, 0.0f, 0.0f) );
+            pJoint->setPosition( LLVector3::zeroVector() );
 		}		
 	}	
 		
@@ -7029,7 +7029,7 @@ void LLVOAvatar::clearPhases()
 
 void LLVOAvatar::startPhase(const std::string& phase_name)
 {
-	F32 elapsed = 0.0;
+	F32 elapsed = 0.f;
 	bool completed = false;
 	bool found = getPhases().getPhaseValues(phase_name, elapsed, completed);
 	//LL_DEBUGS("Avatar") << avString() << " phase state " << phase_name
@@ -7048,7 +7048,7 @@ void LLVOAvatar::startPhase(const std::string& phase_name)
 
 void LLVOAvatar::stopPhase(const std::string& phase_name, bool err_check)
 {
-	F32 elapsed = 0.0;
+	F32 elapsed = 0.f;
 	bool completed = false;
 	if (getPhases().getPhaseValues(phase_name, elapsed, completed))
 	{
@@ -8262,7 +8262,7 @@ void LLVOAvatar::applyParsedAppearanceMessage(LLAppearanceMessageContents& conte
 		// If we don't get a value at all, we are presumably in a
 		// region that does not support hover height.
 		LL_WARNS() << avString() << "zeroing hover because not defined in appearance message" << LL_ENDL;
-		setHoverOffset(LLVector3(0.0, 0.0, 0.0));
+        setHoverOffset(LLVector3::zeroVector());
 	}
 
 	setCompositeUpdatesEnabled( TRUE );
@@ -8903,7 +8903,7 @@ BOOL LLVOAvatar::isUsingServerBakes() const
 	LLVisualParam* appearance_version_param = getVisualParam(11000);
 	llassert(appearance_version_param);
 	F32 wt = appearance_version_param->getWeight();
-	F32 expect_wt = mUseServerBakes ? 1.0 : 0.0;
+	F32 expect_wt = mUseServerBakes ? 1.f : 0.f;
 	if (!is_approx_equal(wt, expect_wt))
 	{
 		LL_WARNS() << "wt " << wt << " differs from expected " << expect_wt << LL_ENDL;
@@ -8917,7 +8917,7 @@ void LLVOAvatar::setIsUsingServerBakes(BOOL newval)
 	mUseServerBakes = newval;
 	LLVisualParam* appearance_version_param = getVisualParam(11000);
 	llassert(appearance_version_param);
-	appearance_version_param->setWeight(newval ? 1.0 : 0.0, false);
+	appearance_version_param->setWeight(newval ? 1.f : 0.f, false);
 }
 
 // virtual
@@ -9197,7 +9197,7 @@ void LLVOAvatar::addAttachmentArea(F32 delta_area)
 
 void LLVOAvatar::subtractAttachmentArea(F32 delta_area)
 {
-    mAttachmentSurfaceArea   = delta_area > mAttachmentSurfaceArea ? 0.0 : mAttachmentSurfaceArea - delta_area;
+    mAttachmentSurfaceArea   = delta_area > mAttachmentSurfaceArea ? 0.f : mAttachmentSurfaceArea - delta_area;
 }
 
 void LLVOAvatar::updateVisualComplexity()

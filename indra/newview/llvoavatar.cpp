@@ -693,7 +693,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	LL_DEBUGS("AvatarRender") << "LLVOAvatar Constructor (0x" << this << ") id:" << mID << LL_ENDL;
 
 	//VTResume();  // VTune
-    setHoverOffset(LLVector3::zeroVec());
+    setHoverOffset( LLVector3::zero );
 
 	// mVoiceVisualizer is created by the hud effects manager and uses the HUD Effects pipeline
 	const BOOL needsSendToSim = false; // currently, this HUD effect doesn't need to pack and unpack data to do its job
@@ -5924,7 +5924,7 @@ void LLVOAvatar::resetJointsOnDetach(const LLUUID& mesh_id)
 		{
 			removePelvisFixup( mesh_id );
 			// SL-315
-            pJoint->setPosition( LLVector3::zeroVector() );
+            pJoint->setPosition( LLVector3::zero );
 		}		
 	}	
 		
@@ -8262,7 +8262,7 @@ void LLVOAvatar::applyParsedAppearanceMessage(LLAppearanceMessageContents& conte
 		// If we don't get a value at all, we are presumably in a
 		// region that does not support hover height.
 		LL_WARNS() << avString() << "zeroing hover because not defined in appearance message" << LL_ENDL;
-        setHoverOffset(LLVector3::zeroVector());
+        setHoverOffset( LLVector3::zero );
 	}
 
 	setCompositeUpdatesEnabled( TRUE );

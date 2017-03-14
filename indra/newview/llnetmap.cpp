@@ -259,9 +259,9 @@ void LLNetMap::draw()
 			{
 				gGL.color4f(1.f, 0.5f, 0.5f, 1.f);
 			}
-
 			
 			// <alchemy>
+			bool render_land_textures = true;
 			if (use_world_map_image)
 			{
 				const LLViewerRegion::tex_matrix_t& tiles(regionp->getWorldMapTiles());
@@ -289,30 +289,36 @@ void LLNetMap::draw()
 							gGL.vertex2f(local_right, local_top);
 						gGL.end();
 						img->setBoostLevel(LLViewerTexture::BOOST_MAP_VISIBLE);
+						render_land_textures = false;
 					}
 				}
 			}
-			else
+			
+
+			if(render_land_textures)
 			{
 				// Draw using texture.
-				gGL.getTexUnit(0)->bind(regionp->getLand().getSTexture());
-				gGL.begin(LLRender::QUADS);
-				gGL.texCoord2f(0.f, 1.f);
-				gGL.vertex2f(left, top);
-				gGL.texCoord2f(0.f, 0.f);
-				gGL.vertex2f(left, bottom);
-				gGL.texCoord2f(1.f, 0.f);
-				gGL.vertex2f(right, bottom);
-				gGL.texCoord2f(1.f, 1.f);
-				gGL.vertex2f(right, top);
-				gGL.end();
+				if (LLViewerTexture* stexture = regionp->getLand().getSTexture())
+				{
+					gGL.getTexUnit(0)->bind(stexture);
+					gGL.begin(LLRender::QUADS);
+					gGL.texCoord2f(0.f, 1.f);
+					gGL.vertex2f(left, top);
+					gGL.texCoord2f(0.f, 0.f);
+					gGL.vertex2f(left, bottom);
+					gGL.texCoord2f(1.f, 0.f);
+					gGL.vertex2f(right, bottom);
+					gGL.texCoord2f(1.f, 1.f);
+					gGL.vertex2f(right, top);
+					gGL.end();
+				}
 
 				// Draw water
 				gGL.setAlphaRejectSettings(LLRender::CF_GREATER, ABOVE_WATERLINE_ALPHA / 255.f);
 				{
-					if (regionp->getLand().getWaterTexture())
+					if (LLViewerTexture* wtexture = regionp->getLand().getWaterTexture())
 					{
-						gGL.getTexUnit(0)->bind(regionp->getLand().getWaterTexture());
+						gGL.getTexUnit(0)->bind(wtexture);
 						gGL.begin(LLRender::QUADS);
 						gGL.texCoord2f(0.f, 1.f);
 						gGL.vertex2f(left, top);

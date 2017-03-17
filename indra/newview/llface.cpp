@@ -580,20 +580,7 @@ void LLFace::renderSelected(LLViewerTexture *imagep, const LLColor4& color)
 					glPolygonOffset(-1.f, -1.f);
 					gGL.multMatrix((F32*) volume->getRelativeXform().mMatrix);
 					const LLVolumeFace& vol_face = rigged->getVolumeFace(getTEOffset());
-#if ALCHEMY_NO_FIXED_FUNCTION
-					LLVertexBuffer::unbind();
-					glVertexPointer(3, GL_FLOAT, 16, vol_face.mPositions);
-					if (vol_face.mTexCoords)
-					{
-						glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-						glTexCoordPointer(2, GL_FLOAT, 8, vol_face.mTexCoords);
-					}
-					gGL.syncMatrices();
-					glDrawElements(GL_TRIANGLES, vol_face.mNumIndices, GL_UNSIGNED_SHORT, vol_face.mIndices);
-					glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-#else
 					LLVertexBuffer::drawElements(LLRender::TRIANGLES, vol_face.mNumVertices, vol_face.mPositions, vol_face.mTexCoords, vol_face.mNumIndices, vol_face.mIndices);
-#endif
 				}
 			}
 		}
@@ -1252,7 +1239,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	LLStrider<LLVector3> vert;
 	LLStrider<LLVector2> tex_coords0;
 	LLStrider<LLVector2> tex_coords1;
-	LLStrider<LLVector2> tex_coords2;
 	LLStrider<LLVector3> norm;
 	LLStrider<LLColor4U> colors;
 	LLStrider<LLVector3> tangent;
@@ -1279,7 +1265,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	bool rebuild_normal = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_NORMAL);
 	bool rebuild_tangent = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_TANGENT);
 	bool rebuild_weights = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_WEIGHT4);
-
 
 
 	const U8 bump_code = tep ? tep->getBumpmap() : 0;
@@ -1819,7 +1804,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 			LLVector4a* end = src+num_vertices;
 			//LLVector4a* end_64 = end-4;
 
-			//LL_RECORD_TIME_BLOCK(FTM_FACE_GEOM_POSITION);
+			//LL_RECORD_BLOCK_TIME(FTM_FACE_GEOM_POSITION);
 			llassert(num_vertices > 0);
 		
 			mVertexBuffer->getVertexStrider(vert, mGeomIndex, mGeomCount, map_range);
@@ -1857,7 +1842,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 			LLVector4a tmp;
 
 			{
-				//LL_RECORD_TIME_BLOCK(FTM_FACE_POSITION_STORE);
+				//LL_RECORD_BLOCK_TIME(FTM_FACE_POSITION_STORE);
 
 				/*if (num_vertices > 4)
 				{ //more than 64 bytes
@@ -1897,7 +1882,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 			}
 
 			{
-				//LL_RECORD_TIME_BLOCK(FTM_FACE_POSITION_PAD);
+				//LL_RECORD_BLOCK_TIME(FTM_FACE_POSITION_PAD);
 				while (dst < end_f32)
 				{
 					res0.store4a((F32*) dst);
@@ -1914,7 +1899,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		
 		if (rebuild_normal)
 		{
-			//LL_RECORD_TIME_BLOCK(FTM_FACE_GEOM_NORMAL);
+			//LL_RECORD_BLOCK_TIME(FTM_FACE_GEOM_NORMAL);
 			mVertexBuffer->getNormalStrider(norm, mGeomIndex, mGeomCount, map_range);
 			F32* normals = (F32*) norm.get();
 			LLVector4a* src = vf.mNormals;

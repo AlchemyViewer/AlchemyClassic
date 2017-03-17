@@ -1751,7 +1751,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 					mVertexBuffer->flush();
 				}
 
-				if (!LLPipeline::sRenderDeferred && do_bump)
+				if (!LLPipeline::sRenderDeferred && !mat && do_bump)
 				{
 					mVertexBuffer->getTexCoord1Strider(tex_coords1, mGeomIndex, mGeomCount, map_range);
 		

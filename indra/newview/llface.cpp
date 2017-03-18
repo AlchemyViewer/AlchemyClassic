@@ -974,7 +974,7 @@ LLVector2 LLFace::surfaceToTexture(LLVector2 surface_coord, const LLVector4a& po
 // by planarProjection(). This is needed to match planar texgen parameters.
 void LLFace::getPlanarProjectedParams(LLQuaternion* face_rot, LLVector3* face_pos, F32* scale) const
 {
-	const LLMatrix4& vol_mat = getWorldMatrix();
+	const LLMatrix4a& vol_mat(getWorldMatrix());
 	const LLVolumeFace& vf = getViewerObject()->getVolume()->getVolumeFace(mTEOffset);
 	const LLVector4a& normal4a = vf.mNormals[0];
 	const LLVector4a& tangent = vf.mTangents[0];
@@ -993,13 +993,14 @@ void LLFace::getPlanarProjectedParams(LLQuaternion* face_rot, LLVector3* face_po
 	F32 ang = acos(projected_binormal.mV[VY]);
 	ang = (projected_binormal.mV[VX] < 0.f) ? -ang : ang;
 
+	gGL.genRot(RAD_TO_DEG * ang, normal4a).rotate(binormal4a, binormal4a);
+	LLVector4a x_axis;
+	x_axis.setCross3(binormal4a, normal4a);
 	//VECTORIZE THIS
-	LLVector3 binormal(binormal4a.getF32ptr());
-	LLVector3 normal(normal4a.getF32ptr());
-	binormal.rotVec(ang, normal);
-	LLQuaternion local_rot( binormal % normal, binormal, normal );
-	*face_rot = local_rot * vol_mat.quaternion();
-	*face_pos = vol_mat.getTranslation();
+	LLQuaternion local_rot(LLVector3(x_axis.getF32ptr()), LLVector3(binormal4a.getF32ptr()), LLVector3(normal4a.getF32ptr()));
+	*face_rot = local_rot * LLMatrix4(vol_mat.getF32ptr()).quaternion();
+
+	face_pos->set(vol_mat.getRow<VW>().getF32ptr());
 }
 
 // Returns the necessary texture transform to align this face's TE to align_to's TE

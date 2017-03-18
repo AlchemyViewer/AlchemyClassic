@@ -4635,7 +4635,8 @@ LLVolumeFace::LLVolumeFace(const LLVolumeFace& src)
 	mIndices(NULL),
 	mWeights(NULL),
     mWeightsScrubbed(FALSE),
-	mOctree(NULL)
+	mOctree(NULL),
+	mOptimized(FALSE)
 { 
 	mExtents = (LLVector4a*) ll_aligned_malloc_16(sizeof(LLVector4a)*3);
 	mCenter = mExtents+2;

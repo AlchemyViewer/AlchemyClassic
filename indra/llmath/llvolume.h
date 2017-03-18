@@ -872,6 +872,8 @@ public:
 	void resizeVertices(S32 num_verts);
 	void allocateTangents(S32 num_verts);
 	void allocateWeights(S32 num_verts);
+	void allocateVertices(S32 num_verts, bool copy = false);
+	void allocateIndices(S32 num_indices, bool copy = false);
 	void resizeIndices(S32 num_indices);
 	void fillFromLegacyData(std::vector<LLVolumeFace::VertexData>& v, std::vector<U16>& idx);
 

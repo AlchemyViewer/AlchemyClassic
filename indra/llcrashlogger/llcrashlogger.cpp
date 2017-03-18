@@ -87,7 +87,7 @@ LLCrashLogger::LLCrashLogger() :
 	mCrashBehavior(CRASH_BEHAVIOR_ALWAYS_SEND),
 	mCrashInPreviousExec(false),
 	mCrashSettings("CrashSettings"),
-	mCrashHost(""),
+	mCrashHost("https://app.alchemyviewer.org/report/"),
 	mSentCrashLogs(false)
 {
 }
@@ -265,13 +265,13 @@ void LLCrashLogger::gatherFiles()
 	gatherPlatformSpecificFiles();
 
 
-    if ( has_logs && !mFileMap["CrashHostUrl"].empty())
-    {
-        mCrashHost = mFileMap["CrashHostUrl"];
-    }
+//    if ( has_logs && !mFileMap["CrashHostUrl"].empty())
+//    {
+//        mCrashHost = mFileMap["CrashHostUrl"];
+//    }
 
 	//default to agni, per product
-	mAltCrashHost = "http://viewercrashreport.agni.lindenlab.com/cgi-bin/viewercrashreceiver.py";
+	//mAltCrashHost = "http://viewercrashreport.agni.lindenlab.com/cgi-bin/viewercrashreceiver.py";
 
 	mCrashInfo["DebugLog"] = mDebugLog;
 	mFileMap["StatsLog"] = gDirUtilp->getExpandedFilename(LL_PATH_DUMP,"stats.log");
@@ -391,23 +391,30 @@ std::string LLCrashLogger::loadCrashURLSetting()
 		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, CRASH_SETTINGS_FILE);
 		mCrashSettings.loadFromFile(filename);
 	}
+    
+    return mCrashHost;
 
-    if (! mCrashSettings.controlExists("CrashHostUrl"))
-    {
-        return "";
-    }
-    else
-    {
-        return mCrashSettings.getString("CrashHostUrl");
-    }
+//    if (! mCrashSettings.controlExists("CrashHostUrl"))
+//    {
+//        return "";
+//    }
+//    else
+//    {
+//        return mCrashSettings.getString("CrashHostUrl");
+//    }
 }
 
 bool LLCrashLogger::runCrashLogPost(std::string host, LLSD data, std::string msg, int retries, int timeout)
 {
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
     LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
+    LLCore::HttpHeaders::ptr_t httpHeaders(new LLCore::HttpHeaders);
 
     httpOpts->setTimeout(timeout);
+    httpOpts->setSSLVerifyHost(true);
+    httpOpts->setSSLVerifyPeer(true);
+    
+    httpHeaders->append("Content-Type", HTTP_CONTENT_LLSD_XML);
 
 	for(int i = 0; i < retries; ++i)
 	{
@@ -466,8 +473,8 @@ bool LLCrashLogger::sendCrashLog(std::string dump_dir)
     
 	bool sent = false;
     
-    if(!mCrashHost.empty())
-	{
+//    if(!mCrashHost.empty())
+//	{
         LL_WARNS("CRASHREPORT") << "Sending crash data to server from CrashHostUrl '" << mCrashHost << "'" << LL_ENDL;
         
         std::string msg = "Using override crash server... ";
@@ -475,13 +482,13 @@ bool LLCrashLogger::sendCrashLog(std::string dump_dir)
         updateApplication(msg.c_str());
         
 		sent = runCrashLogPost(mCrashHost, post_data, std::string("Sending to server"), CRASH_UPLOAD_RETRIES, CRASH_UPLOAD_TIMEOUT);
-	}
+//	}
     
-	if(!sent)
-	{
-        updateApplication("Using default server...");
-		sent = runCrashLogPost(mAltCrashHost, post_data, std::string("Sending to default server"), CRASH_UPLOAD_RETRIES, CRASH_UPLOAD_TIMEOUT);
-	}
+//	if(!sent)
+//	{
+//        updateApplication("Using default server...");
+//		sent = runCrashLogPost(mAltCrashHost, post_data, std::string("Sending to default server"), CRASH_UPLOAD_RETRIES, CRASH_UPLOAD_TIMEOUT);
+//	}
     
 	mSentCrashLogs = sent;
     

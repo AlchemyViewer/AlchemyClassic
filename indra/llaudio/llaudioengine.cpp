@@ -855,7 +855,10 @@ void LLAudioEngine::triggerSound(const SoundData& soundData)
 
 void LLAudioEngine::setListenerPos(const LLVector3& aVec)
 {
-	mListenerp->setPosition(aVec);  
+	if (mListenerp)
+	{
+		mListenerp->setPosition(aVec);
+	}
 }
 
 
@@ -863,36 +866,48 @@ LLVector3 LLAudioEngine::getListenerPos()
 {
 	if (mListenerp)
 	{
-		return(mListenerp->getPosition());  
+		return mListenerp->getPosition();  
 	}
 	else
 	{
-		return(LLVector3::zero);
+		return LLVector3::zero;
 	}
 }
 
 
 void LLAudioEngine::setListenerVelocity(const LLVector3& aVec)
 {
-	mListenerp->setVelocity(aVec);  
+	if (mListenerp)
+	{
+		mListenerp->setVelocity(aVec);
+	}
 }
 
 
 void LLAudioEngine::translateListener(const LLVector3& aVec)
 {
-	mListenerp->translate(aVec);	
+	if (mListenerp)
+	{
+		mListenerp->translate(aVec);
+	}
 }
 
 
 void LLAudioEngine::orientListener(const LLVector3& up, const LLVector3& at)
 {
-	mListenerp->orient(up, at);  
+	if (mListenerp)
+	{
+		mListenerp->orient(up, at);
+	}
 }
 
 
 void LLAudioEngine::setListener(const LLVector3& pos, const LLVector3& vel, const LLVector3& up, const LLVector3& at)
 {
-	mListenerp->set(pos,vel,up,at);  
+	if (mListenerp)
+	{
+		mListenerp->set(pos, vel, up, at);
+	}
 }
 
 
@@ -942,7 +957,10 @@ F32 LLAudioEngine::getRolloffFactor()
 
 void LLAudioEngine::commitDeferredChanges()
 {
-	mListenerp->commitDeferredChanges();  
+	if (mListenerp)
+	{
+		mListenerp->commitDeferredChanges();
+	}
 }
 
 

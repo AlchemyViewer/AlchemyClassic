@@ -193,10 +193,10 @@ BOOL LLPanelMainInventory::postBuild()
 			{
 				LLSD recent_items = savedFilterState.get(
 					recent_items_panel->getFilter().getName());
-				LLInventoryFilter::Params p;
+				LLInventoryPanel::InventoryState p;
 				LLParamSDParser parser;
 				parser.readSD(recent_items, p);
-				recent_items_panel->getFilter().fromParams(p);
+				recent_items_panel->getFilter().fromParams(p.filter);
 				recent_items_panel->setSortOrder(gSavedSettings.getU32(LLInventoryPanel::RECENTITEMS_SORT_ORDER));
 			}
 		}
@@ -206,10 +206,10 @@ BOOL LLPanelMainInventory::postBuild()
 			{
 				LLSD worn_items = savedFilterState.get(
 					worn_items_panel->getFilter().getName());
-				LLInventoryFilter::Params p;
+				LLInventoryPanel::InventoryState p;
 				LLParamSDParser parser;
 				parser.readSD(worn_items, p);
-				worn_items_panel->getFilter().fromParams(p);
+				worn_items_panel->getFilter().fromParams(p.filter);
 			}
 		}
 	}

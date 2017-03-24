@@ -98,6 +98,7 @@ HttpService::~HttpService()
 				// Try to join for a tenth of a second
 				if (mThread->timedJoin(100))
 				{
+					LL_INFOS() << "Successfully joined thread: HttpThread" << LL_ENDL;
 					joined = true;
 					break;
 				}

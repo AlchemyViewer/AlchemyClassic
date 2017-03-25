@@ -45,6 +45,8 @@
 
 #include "sound_ids.h"
 
+const U32 EXTRA_SOUND_CHANNELS = 10;
+
 FMOD_RESULT F_CALLBACK windDSPCallback(FMOD_DSP_STATE *dsp_state, float *inbuffer, float *outbuffer, unsigned int length, int inchannels, int *outchannels);
 
 FMOD::ChannelGroup *LLAudioEngine_FMODSTUDIO::mChannelGroups[LLAudioEngine::AUDIO_TYPE_COUNT] = {0};
@@ -96,7 +98,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 	}
 
 	// In this case, all sounds, PLUS wind and stream will be software.
-	result = mSystem->setSoftwareChannels(num_channels + 2);
+	result = mSystem->setSoftwareChannels(num_channels + EXTRA_SOUND_CHANNELS);
 	Check_FMOD_Error(result,"FMOD::System::setSoftwareChannels");
 
 	FMOD_ADVANCEDSETTINGS adv_settings = { };
@@ -133,7 +135,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 		{
 			LL_DEBUGS("AppInit") << "Trying PulseAudio audio output..." << LL_ENDL;
 			if((result = mSystem->setOutput(FMOD_OUTPUTTYPE_PULSEAUDIO)) == FMOD_OK &&
-				(result = mSystem->init(num_channels + 2, fmod_flags, 0)) == FMOD_OK)
+				(result = mSystem->init(num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, 0)) == FMOD_OK)
 			{
 				LL_DEBUGS("AppInit") << "PulseAudio output initialized OKAY"	<< LL_ENDL;
 				audio_ok = true;
@@ -154,7 +156,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 		{
 			LL_DEBUGS("AppInit") << "Trying ALSA audio output..." << LL_ENDL;
 			if((result = mSystem->setOutput(FMOD_OUTPUTTYPE_ALSA)) == FMOD_OK &&
-			    (result = mSystem->init(num_channels + 2, fmod_flags, 0)) == FMOD_OK)
+			    (result = mSystem->init(num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, 0)) == FMOD_OK)
 			{
 				LL_DEBUGS("AppInit") << "ALSA audio output initialized OKAY" << LL_ENDL;
 				audio_ok = true;
@@ -195,7 +197,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 #else // LL_LINUX
 
 	// initialize the FMOD engine
-	result = mSystem->init( num_channels + 2, fmod_flags, 0);
+	result = mSystem->init( num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, 0);
 	if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
 	{
 		/*
@@ -207,7 +209,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 		/*
 		... and re-init.
 		*/
-		result = mSystem->init( num_channels + 2, fmod_flags, 0);
+		result = mSystem->init( num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, 0);
 	}
 	if(Check_FMOD_Error(result, "Error initializing FMOD Studio"))
 		return false;

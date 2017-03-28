@@ -238,11 +238,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bddc6dac20cadd1dcf6183f11a5db377</string>
+              <string>ae0998e5d108c77c5cea2a68ad928151</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/boost-1.60.0-windows-201703090754.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/boost-1.63.0-windows-201703281813.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -252,18 +252,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>152401fad82db978bc2104f838ed9e74</string>
+              <string>c92e5fe414a014bb9a4236f130a2ac75</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/boost-1.60.0-windows64-201703080950.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/boost-1.63.0-windows64-201703280907.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.60.0</string>
+        <string>1.63.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -322,11 +322,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d421c0d86a072629ce80fbb5c8c4912e</string>
+              <string>60bd2dbac5559141e05be6c424cf9cd0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/colladadom-2.3-windows-201703090812.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/colladadom-2.3-windows-201703281922.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -336,11 +336,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>5098c4c1a0d7f7c151fb1386d7bcb5a1</string>
+              <string>694e43857efae2ae0c2bab238562ac1b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/colladadom-2.3-windows64-201703081030.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/colladadom-2.3-windows64-201703281827.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

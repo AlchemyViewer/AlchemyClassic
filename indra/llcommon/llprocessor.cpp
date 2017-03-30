@@ -186,7 +186,7 @@ namespace
 		case 6: return "Intel Pentium Pro/2/3, Core";
 		case 7: return "Intel Itanium (IA-64)";
 		case 0xF: return "Intel Pentium 4";
-		case 0x10: return "Intel Itanium 2 (IA-64)";
+		case 0x1F: return "Intel Itanium 2 (IA-64)";
 		}
 		return "Unknown";
 	}
@@ -198,14 +198,19 @@ namespace
 		case 4: return "AMD 80486/5x86";
 		case 5: return "AMD K5/K6";
 		case 6: return "AMD K7";
-		case 0xF: return "AMD K8";
-		case 0x10: return "AMD K8L";
+		case 0x0F: return "AMD K8";
+		case 0x10: return "AMD K10";
+		case 0x11: return "AMD Turion X2 Ultra/Puma";
+		case 0x12: return "AMD Llano";
+		case 0x14: return "AMD Bobcat";
 		case 0x15: return "AMD Bulldozer";
+		case 0x16: return "AMD Jaguar";
+		case 0x17: return "AMD Zen";
 		}
    		return "Unknown";
 	}
 
-	std::string compute_CPUFamilyName(const char* cpu_vendor, int family, int ext_family) 
+	std::string compute_CPUFamilyName(const char* cpu_vendor, int family, int ext_family)
 	{
 		const char* intel_string = "GenuineIntel";
 		const char* amd_string = "AuthenticAMD";
@@ -272,7 +277,7 @@ public:
 		out << "//////////////////////////" << std::endl;
 		out << "Processor Name:   " << getCPUBrandName() << std::endl;
 		out << "Frequency:        " << getCPUFrequency() << " MHz" << std::endl;
-		out << "Vendor:			  " << getInfo(eVendor, "Unknown").asString() << std::endl;
+		out << "Vendor:           " << getInfo(eVendor, "Unknown").asString() << std::endl;
 		out << "Family:           " << getCPUFamilyName() << " (" << getInfo(eFamily, 0) << ")" << std::endl;
 		out << "Extended family:  " << getInfo(eExtendedFamily, 0) << std::endl;
 		out << "Model:            " << getInfo(eModel, 0) << std::endl;

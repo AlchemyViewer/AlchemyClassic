@@ -76,7 +76,6 @@ public:
 
 	std::string getCPUString() const;
 
-	bool hasAltivec() const;
 	bool hasSSE() const;
 	bool hasSSE2() const;
 	F64 getMHz() const;
@@ -87,7 +86,6 @@ public:
 private:
 	bool mHasSSE;
 	bool mHasSSE2;
-	bool mHasAltivec;
 	F64 mCPUMHz;
 	std::string mFamily;
 	std::string mCPUString;

@@ -40,7 +40,6 @@ public:
 	F64MegahertzImplicit getCPUFrequency() const;
 	bool hasSSE() const;
 	bool hasSSE2() const;
-	bool hasAltivec() const;
 	std::string getCPUFamilyName() const;
 	std::string getCPUBrandName() const;
 	std::string getCPUFeatureDescription() const;

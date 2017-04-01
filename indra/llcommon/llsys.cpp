@@ -545,7 +545,6 @@ LLCPUInfo::LLCPUInfo()
 	// proc.WriteInfoTextFile("procInfo.txt");
 	mHasSSE = proc.hasSSE();
 	mHasSSE2 = proc.hasSSE2();
-	mHasAltivec = proc.hasAltivec();
 	mCPUMHz = (F64)proc.getCPUFrequency();
 	mFamily = proc.getCPUFamilyName();
 	mCPUString = "Unknown";
@@ -557,11 +556,6 @@ LLCPUInfo::LLCPUInfo()
 	}
 	mCPUString = out.str();
 	LLStringUtil::trim(mCPUString);
-}
-
-bool LLCPUInfo::hasAltivec() const
-{
-	return mHasAltivec;
 }
 
 bool LLCPUInfo::hasSSE() const
@@ -593,7 +587,6 @@ void LLCPUInfo::stream(std::ostream& s) const
 	// CPU's attributes regardless of platform
 	s << "->mHasSSE:     " << (U32)mHasSSE << std::endl;
 	s << "->mHasSSE2:    " << (U32)mHasSSE2 << std::endl;
-	s << "->mHasAltivec: " << (U32)mHasAltivec << std::endl;
 	s << "->mCPUMHz:     " << mCPUMHz << std::endl;
 	s << "->mCPUString:  " << mCPUString << std::endl;
 }

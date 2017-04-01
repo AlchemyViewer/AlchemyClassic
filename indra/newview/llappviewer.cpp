@@ -3610,7 +3610,6 @@ void LLAppViewer::writeSystemInfo()
 	gDebugInfo["CPUInfo"]["CPUString"] = gSysCPU.getCPUString();
 	gDebugInfo["CPUInfo"]["CPUFamily"] = gSysCPU.getFamily();
 	gDebugInfo["CPUInfo"]["CPUMhz"] = (S32)gSysCPU.getMHz();
-	gDebugInfo["CPUInfo"]["CPUAltivec"] = gSysCPU.hasAltivec();
 	gDebugInfo["CPUInfo"]["CPUSSE"] = gSysCPU.hasSSE();
 	gDebugInfo["CPUInfo"]["CPUSSE2"] = gSysCPU.hasSSE2();
 	

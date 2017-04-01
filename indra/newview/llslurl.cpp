@@ -181,10 +181,10 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				path_array.insert(0, slurl_uri.hostName());
 		    }
 		}
-		else if((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
-			(slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) || 
-			(slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_INFO_SCHEME) ||
-			(slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME)) // deprecated legacy
+		else if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
+			 	 (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) ||
+			 	 (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_INFO_SCHEME) ||
+				 (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME)) // deprecated legacy
 		{
 		    // We're dealing with either a Standalone style slurl or slurl.com slurl
 			if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
@@ -196,6 +196,17 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 		    else
 			{
+				// Don't try to match any old http://<host>/ URL as a SLurl.
+				// SLE SLurls will have the grid hostname in the URL, so only
+				// match http URLs if the hostname matches the grid hostname
+				// (or its a slurl.com or maps.secondlife.com URL).
+				if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME ||
+					slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) &&
+					slurl_uri.hostName() != LLGridManager::getInstance()->getGrid())
+				{
+					return;
+				}
+
 				// As it's a Standalone grid/open, we will always have a hostname, as Standalone/open  style
 				// urls are properly formed, unlike the stinky maingrid style
 				mGrid = slurl_uri.hostNameAndPort();

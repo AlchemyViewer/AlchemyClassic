@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
- * @file llurlsimstring.cpp (was llsimurlstring.cpp)
+ * @file llslurl.cpp (was llsimurlstring.cpp)
  * @brief Handles "SLURL fragments" like Ahern/123/45 for
  * startup processing, login screen, prefs, etc.
  *
@@ -46,7 +46,8 @@ const char* LLSLURL::SLURL_COM		         = "slurl.com";
 
 const char* LLSLURL::WWW_SLURL_COM				 = "www.slurl.com";
 const char* LLSLURL::MAPS_SECONDLIFE_COM		 = "maps.secondlife.com";
-const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info";
+const char* LLSLURL::SLURL_X_GRID_INFO_SCHEME	 = "x-grid-info";
+const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info"; // <- deprecated!
 const char* LLSLURL::SLURL_APP_PATH              = "app";
 const char* LLSLURL::SLURL_REGION_PATH           = "region";
 const char* LLSLURL::SIM_LOCATION_HOME           = "home";
@@ -181,8 +182,9 @@ LLSLURL::LLSLURL(const std::string& slurl)
 		    }
 		}
 		else if((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
-		   (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) || 
-		   (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME))
+			(slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) || 
+			(slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_INFO_SCHEME) ||
+			(slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME)) // deprecated legacy
 		{
 		    // We're dealing with either a Standalone style slurl or slurl.com slurl
 			if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
@@ -223,7 +225,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 			else
 			{
-				// not a valid https/http/x-grid-location-info slurl, so it'll likely just be a URL
+				// not a valid https/http/x-grid-info slurl, so it'll likely just be a URL
 				return;
 			}
 		}
@@ -386,9 +388,9 @@ std::string LLSLURL::getSLURLString() const
 		{
 			std::ostringstream app_url;
 			app_url << LLGridManager::getInstance()->getAppSLURLBase() << "/" << mAppCmd;
-			for(LLSD::array_const_iterator i = mAppPath.beginArray();
+			for(auto i = mAppPath.beginArray();
 				i != mAppPath.endArray();
-				i++)
+			    ++i)
 			{
 				app_url << "/" << i->asString();
 			}

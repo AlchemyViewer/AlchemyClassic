@@ -44,8 +44,8 @@
 
 #include <boost/format.hpp> // <alchemy/>
 
-#define APP_HEADER_REGEX "((x-grid-location-info://[-\\w\\.]+(:\\d+)?/app)|(secondlife:///app))"
-#define X_GRID_OR_SECONDLIFE_HEADER_REGEX "((x-grid-location-info://[-\\w\\.]+(:\\d+)?/)|(secondlife://))"
+#define APP_HEADER_REGEX "((((x-grid-info://)|(x-grid-location-info://))[-\\w\\.]+(:\\d+)?/app)|(secondlife:///app))"
+#define X_GRID_OR_SECONDLIFE_HEADER_REGEX "((((x-grid-info://)|(x-grid-location-info://))[-\\w\\.]+(:\\d+)?/)|(secondlife://))"
 
 // Utility functions
 std::string localize_slapp_label(const std::string& url, const std::string& full_name);
@@ -507,7 +507,7 @@ LLUrlEntrySimpleSecondlifeURL::LLUrlEntrySimpleSecondlifeURL()
 //
 // LLUrlEntryAgent Describes a Second Life agent Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about
 //
 LLUrlEntryAgent::LLUrlEntryAgent() :
 	mAvatarNameCacheConnection()
@@ -691,7 +691,7 @@ std::string LLUrlEntryAgent::getIcon(const std::string &url)
 //
 // LLUrlEntryAgentName describes a Second Life agent name Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
 //
 LLUrlEntryAgentName::LLUrlEntryAgentName() :
 	mAvatarNameCacheConnection()
@@ -754,7 +754,7 @@ LLStyle::Params LLUrlEntryAgentName::getStyle() const
 //
 // LLUrlEntryAgentCompleteName describes a Second Life agent complete name Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/completename
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/completename
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/completename
 //
 LLUrlEntryAgentCompleteName::LLUrlEntryAgentCompleteName()
 {
@@ -770,7 +770,7 @@ std::string LLUrlEntryAgentCompleteName::getName(const LLAvatarName& avatar_name
 //
 // LLUrlEntryAgentLegacyName describes a Second Life agent legacy name Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/legacyname
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/legacyname
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/legacyname
 //
 LLUrlEntryAgentLegacyName::LLUrlEntryAgentLegacyName()
 {
@@ -786,7 +786,7 @@ std::string LLUrlEntryAgentLegacyName::getName(const LLAvatarName& avatar_name)
 //
 // LLUrlEntryAgentDisplayName describes a Second Life agent display name Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/displayname
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/displayname
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/displayname
 //
 LLUrlEntryAgentDisplayName::LLUrlEntryAgentDisplayName()
 {
@@ -802,7 +802,7 @@ std::string LLUrlEntryAgentDisplayName::getName(const LLAvatarName& avatar_name)
 //
 // LLUrlEntryAgentUserName describes a Second Life agent user name Url, e.g.,
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/username
-// x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/username
+// x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/username
 //
 LLUrlEntryAgentUserName::LLUrlEntryAgentUserName()
 {
@@ -819,7 +819,7 @@ std::string LLUrlEntryAgentUserName::getName(const LLAvatarName& avatar_name)
 // LLUrlEntryGroup Describes a Second Life group Url, e.g.,
 // secondlife:///app/group/00005ff3-4044-c79f-9de8-fb28ae0df991/about
 // secondlife:///app/group/00005ff3-4044-c79f-9de8-fb28ae0df991/inspect
-// x-grid-location-info://lincoln.lindenlab.com/app/group/00005ff3-4044-c79f-9de8-fb28ae0df991/inspect
+// x-grid-info://lincoln.lindenlab.com/app/group/00005ff3-4044-c79f-9de8-fb28ae0df991/inspect
 //
 LLUrlEntryGroup::LLUrlEntryGroup()
 {
@@ -899,7 +899,7 @@ LLUrlEntryInventory::LLUrlEntryInventory()
 	//*TODO: add supporting of inventory item names with whitespaces
 	//this pattern cann't parse for example 
 	//secondlife:///app/inventory/0e346d8b-4433-4d66-a6b0-fd37083abc4c/select?name=name with spaces&param2=value
-	//x-grid-location-info://lincoln.lindenlab.com/app/inventory/0e346d8b-4433-4d66-a6b0-fd37083abc4c/select?name=name with spaces&param2=value
+	//x-grid-info://lincoln.lindenlab.com/app/inventory/0e346d8b-4433-4d66-a6b0-fd37083abc4c/select?name=name with spaces&param2=value
 	mPattern = boost::regex(APP_HEADER_REGEX "/inventory/[\\da-f-]+/\\w+\\S*",
 							boost::regex::perl|boost::regex::icase);
 	mMenuName = "menu_url_inventory.xml";
@@ -950,7 +950,7 @@ std::set<LLUrlEntryParcel*> LLUrlEntryParcel::sParcelInfoObservers;
 ///
 /// LLUrlEntryParcel Describes a Second Life parcel Url, e.g.,
 /// secondlife:///app/parcel/0000060e-4b39-e00b-d0c3-d98b1934e3a8/about
-/// x-grid-location-info://lincoln.lindenlab.com/app/parcel/0000060e-4b39-e00b-d0c3-d98b1934e3a8/about
+/// x-grid-info://lincoln.lindenlab.com/app/parcel/0000060e-4b39-e00b-d0c3-d98b1934e3a8/about
 ///
 LLUrlEntryParcel::LLUrlEntryParcel()
 {
@@ -1045,7 +1045,7 @@ void LLUrlEntryParcel::processParcelInfo(const LLParcelData& parcel_data)
 //
 LLUrlEntryPlace::LLUrlEntryPlace()
 {
-	mPattern = boost::regex("((x-grid-location-info://[-\\w\\.]+(:\\d+)?/region/)|(secondlife://))\\S+/?(\\d+/\\d+/\\d+|\\d+/\\d+)/?",
+	mPattern = boost::regex("((((x-grid-info://)|(x-grid-location-info://))[-\\w\\.]+(:\\d+)?/region/)|(secondlife://))\\S+/?(\\d+/\\d+/\\d+|\\d+/\\d+)/?",
 							boost::regex::perl|boost::regex::icase);
 	mMenuName = "menu_url_slurl.xml";
 	mTooltip = LLTrans::getString("TooltipSLURL");
@@ -1153,7 +1153,7 @@ std::string LLUrlEntryRegion::getLocation(const std::string &url) const
 //
 // LLUrlEntryTeleport Describes a Second Life teleport Url, e.g.,
 // secondlife:///app/teleport/Ahern/50/50/50/
-// x-grid-location-info://lincoln.lindenlab.com/app/teleport/Ahern/50/50/50/
+// x-grid-info://lincoln.lindenlab.com/app/teleport/Ahern/50/50/50/
 //
 LLUrlEntryTeleport::LLUrlEntryTeleport()
 {

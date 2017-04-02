@@ -367,7 +367,7 @@ public:
 						LLViewerTexture* imagep = obj->getTEImage(te);
 						if (imagep && imagep != (LLViewerTexture*) LLViewerFetchedTexture::sDefaultImagep.get())
 						{
-							LLGLuint tex = imagep->getTexName();
+							//LLGLuint tex = imagep->getTexName();
 							//std::map<LLGLuint, std::list<std::pair<std::string, std::string> > >::iterator it = sTextureMaskMap.find(tex);
 							//if (it != sTextureMaskMap.end())
 							//{

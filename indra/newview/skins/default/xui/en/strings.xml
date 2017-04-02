@@ -3001,7 +3001,6 @@ If this message persists, restart your computer and try again.
 If it continues to persist, you may need to completely uninstall [APP_NAME] and reinstall it.
 	</string>
 	<string name="MBFatalError">Fatal Error</string>
-	<string name="MBRequiresAltiVec"> [APP_NAME] requires a processor with AltiVec (G4 or later).</string>
 	<string name="MBAlreadyRunning">
 		[APP_NAME] is already running.
 Check your task bar for a minimized copy of the program.

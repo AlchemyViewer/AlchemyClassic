@@ -1053,6 +1053,7 @@ LLViewerFetchedTexture::LLViewerFetchedTexture(const LLUUID& id, FTType f_type, 
 		mCanUseHTTP = false;
 	}
 	generateGLTexture();
+	mGLTexturep->setNeedsAlphaAndPickMask(TRUE);
 }
 	
 LLViewerFetchedTexture::LLViewerFetchedTexture(const LLImageRaw* raw, FTType f_type, BOOL usemipmaps)
@@ -1060,6 +1061,7 @@ LLViewerFetchedTexture::LLViewerFetchedTexture(const LLImageRaw* raw, FTType f_t
 {
 	init(TRUE);
 	mFTType = f_type;
+	mGLTexturep->setNeedsAlphaAndPickMask(TRUE);
 }
 	
 LLViewerFetchedTexture::LLViewerFetchedTexture(const std::string& url, FTType f_type, const LLUUID& id, BOOL usemipmaps)
@@ -1069,6 +1071,7 @@ LLViewerFetchedTexture::LLViewerFetchedTexture(const std::string& url, FTType f_
 	init(TRUE);
 	mFTType = f_type;
 	generateGLTexture();
+	mGLTexturep->setNeedsAlphaAndPickMask(TRUE);
 }
 
 void LLViewerFetchedTexture::init(bool firstinit)

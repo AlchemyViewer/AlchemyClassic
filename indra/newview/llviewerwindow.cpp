@@ -273,6 +273,8 @@ LLTrace::SampleStatHandle<> LLViewerWindow::sMouseVelocityStat("Mouse Velocity")
 // LLDebugText
 //
 
+//extern std::map<LLGLuint, std::list<std::pair<std::string,std::string> > > sTextureMaskMap;
+
 static LLTrace::BlockTimerStatHandle FTM_DISPLAY_DEBUG_TEXT("Display Debug Text");
 
 class LLDebugText
@@ -327,22 +329,63 @@ public:
 		if (debugShowTime)
 		{
 			{
-			const U32 y_inc2 = 15;
+				const U32 y_inc2 = 15;
 				LLFrameTimer& timer = gTextureTimer;
 				F32 time = timer.getElapsedTimeF32();
-				S32 hours = (S32)(time / (60*60));
-				S32 mins = (S32)((time - hours*(60*60)) / 60);
-				S32 secs = (S32)((time - hours*(60*60) - mins*60));
-				addText(xpos, ypos, llformat("Texture: %d:%02d:%02d", hours,mins,secs)); ypos += y_inc2;
+				S32 hours = (S32) (time / (60 * 60));
+				S32 mins = (S32) ((time - hours*(60 * 60)) / 60);
+				S32 secs = (S32) ((time - hours*(60 * 60) - mins * 60));
+				addText(xpos, ypos, llformat("Texture: %d:%02d:%02d", hours, mins, secs)); ypos += y_inc2;
 			}
-			
+
 			{
-			F32 time = gFrameTimeSeconds;
-			S32 hours = (S32)(time / (60*60));
-			S32 mins = (S32)((time - hours*(60*60)) / 60);
-			S32 secs = (S32)((time - hours*(60*60) - mins*60));
-			addText(xpos, ypos, llformat("Time: %d:%02d:%02d", hours,mins,secs)); ypos += y_inc;
+				F32 time = gFrameTimeSeconds;
+				S32 hours = (S32) (time / (60 * 60));
+				S32 mins = (S32) ((time - hours*(60 * 60)) / 60);
+				S32 secs = (S32) ((time - hours*(60 * 60) - mins * 60));
+				addText(xpos, ypos, llformat("Time: %d:%02d:%02d", hours, mins, secs)); ypos += y_inc;
+			}
 		}
+
+		static LLCachedControl<bool> analyze_target_texture(gSavedSettings, "AnalyzeTargetTexture", false);
+		if (analyze_target_texture)
+		{
+			LLSelectNode* nodep = LLSelectMgr::instance().getPrimaryHoverNode();
+			LLObjectSelectionHandle handle = LLSelectMgr::instance().getHoverObjects();
+			if (nodep || handle.notNull())
+			{
+
+				LLViewerObject* obj1 = nodep ? nodep->getObject() : NULL;
+				LLViewerObject* obj2 = handle ? handle->getPrimaryObject() : NULL;
+				LLViewerObject* obj = obj1 ? obj1 : obj2;
+				//LL_INFOS() << std::hex << obj1 << " " << obj2 << std::dec << LL_ENDL;
+				if (obj)
+				{
+					S32 te = nodep ? nodep->getLastSelectedTE() : -1;
+					if (te >= 0)
+					{
+						LLViewerTexture* imagep = obj->getTEImage(te);
+						if (imagep && imagep != (LLViewerTexture*) LLViewerFetchedTexture::sDefaultImagep.get())
+						{
+							LLGLuint tex = imagep->getTexName();
+							//std::map<LLGLuint, std::list<std::pair<std::string, std::string> > >::iterator it = sTextureMaskMap.find(tex);
+							//if (it != sTextureMaskMap.end())
+							//{
+							//	std::list<std::pair<std::string, std::string> >::reverse_iterator it2 = it->second.rbegin();
+							//	for (; it2 != it->second.rend(); ++it2)
+							//	{
+							//		addText(xpos, ypos, llformat(" %s: %s", it2->first.c_str(), it2->second.c_str())); ypos += y_inc;
+							//	}
+							//}
+							static const LLCachedControl<bool> use_rmse_auto_mask(gSavedSettings, "RenderAutoMaskAlphaUseRMSE", false);
+							static const LLCachedControl<F32> auto_mask_max_rmse(gSavedSettings, "RenderAutoMaskAlphaMaxRMSE", .09f);
+							static const LLCachedControl<F32> auto_mask_max_mid(gSavedSettings, "RenderAutoMaskAlphaMaxMid", .25f);
+							addText(xpos, ypos, llformat("Mask: %s", imagep->getIsAlphaMask(use_rmse_auto_mask ? auto_mask_max_rmse : -1.f, auto_mask_max_mid) ? "TRUE" : "FALSE")); ypos += y_inc;
+							//addText(xpos, ypos, llformat("ID: %s", imagep->getID().asString().c_str())); ypos += y_inc;
+						}
+					}
+				}
+			}
 		}
 		
 #if LL_WINDOWS

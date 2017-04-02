@@ -406,6 +406,8 @@ LLImageGL::~LLImageGL()
 	sCount--;
 }
 
+const S8 INVALID_OFFSET = -99 ;
+
 void LLImageGL::init(BOOL usemipmaps)
 {
 	// keep these members in the same order as declared in llimagehl.h
@@ -423,9 +425,12 @@ void LLImageGL::init(BOOL usemipmaps)
 	mAutoGenMips = FALSE;
 
 	mIsMask = FALSE;
-	mNeedsAlphaAndPickMask = TRUE ;
+	mMaskRMSE = 1.f ;
+	mMaskMidPercentile = 1.f;
+
+	mNeedsAlphaAndPickMask = FALSE ;
 	mAlphaStride = 0 ;
-	mAlphaOffset = 0 ;
+	mAlphaOffset = INVALID_OFFSET ;
 
 	mGLTextureCreated = FALSE ;
 	mTexName = 0;
@@ -1640,19 +1645,12 @@ BOOL LLImageGL::getBoundRecently() const
 	return (BOOL)(sLastFrameTime - mLastBindTime < MIN_TEXTURE_LIFETIME);
 }
 
-BOOL LLImageGL::getIsAlphaMask() const
-{
-	llassert_always(!sSkipAnalyzeAlpha);
-	return mIsMask;
-}
-
 void LLImageGL::setTarget(const LLGLenum target, const LLTexUnit::eTextureType bind_target)
 {
 	mTarget = target;
 	mBindTarget = bind_target;
 }
 
-const S8 INVALID_OFFSET = -99 ;
 void LLImageGL::setNeedsAlphaAndPickMask(BOOL need_mask) 
 {
 	if(mNeedsAlphaAndPickMask != need_mask)
@@ -1666,7 +1664,6 @@ void LLImageGL::setNeedsAlphaAndPickMask(BOOL need_mask)
 		else //do not need alpha mask
 		{
 			mAlphaOffset = INVALID_OFFSET ;
-			mIsMask = FALSE;
 		}
 	}
 }
@@ -1689,8 +1686,7 @@ void LLImageGL::calcAlphaChannelOffsetAndStride()
 		mAlphaStride = 2;
 		break;
 	case GL_RGB:
-		mNeedsAlphaAndPickMask = FALSE ;
-		mIsMask = FALSE;
+		setNeedsAlphaAndPickMask(FALSE);
 		return ; //no alpha channel.
 	case GL_RGBA:
 		mAlphaStride = 4;
@@ -1736,22 +1732,28 @@ void LLImageGL::calcAlphaChannelOffsetAndStride()
 	{
 		LL_WARNS() << "Cannot analyze alpha for image with format type " << std::hex << mFormatType << std::dec << LL_ENDL;
 
-		mNeedsAlphaAndPickMask = FALSE ;
-		mIsMask = FALSE;
+		setNeedsAlphaAndPickMask(FALSE);
 	}
 }
 
+//std::map<LLGLuint, std::list<std::pair<std::string,std::string> > > sTextureMaskMap;
 void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 {
-	if(sSkipAnalyzeAlpha || !mNeedsAlphaAndPickMask)
+	//if (sTextureMaskMap.find(getTexName()) != sTextureMaskMap.end())
+	//	sTextureMaskMap.erase(getTexName());
+	if(!mNeedsAlphaAndPickMask)
 	{
 		return ;
 	}
+
+	F64 sum = 0;
 
 	U32 length = w * h;
 	U32 alphatotal = 0;
 	
 	U32 sample[16] = {0};
+
+	U32 min = 0, max = 0, mids = 0;
 
 	// generate histogram of quantized alpha.
 	// also add-in the histogram of a 2x2 box-sampled version.  The idea is
@@ -1784,9 +1786,20 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 				++sample[s3/16];
 				++sample[s4/16];
 
+				min = std::min(std::min(std::min(std::min(min, s1), s2), s3), s4);
+				max = std::max(std::max(std::max(std::max(max, s1), s2), s3), s4);
+				mids += (s1 > 2 && s1 < 253) + (s2 > 2 && s2 < 253) + (s3 > 2 && s3 < 253) + (s4 > 2 && s4 < 253);
+
 				const U32 asum = (s1+s2+s3+s4);
 				alphatotal += asum;
 				sample[asum/(16*4)] += 4;
+
+				S32 avg = (s1+s2+s3+s4)/4;
+				if(avg >=128)
+				{
+					avg-=255;
+				}
+				sum+=F64(avg*avg*4)/F64(length);
 			}
 			
 			
@@ -1803,9 +1816,26 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 			alphatotal += s1;
 			++sample[s1/16];
 			current += mAlphaStride;
+
+			min = std::min(min, s1);
+			max = std::max(max, s1);
+			mids += (s1 > 2 && s1 < 253);
+
+			if(i%2==0)
+			{
+				const U32 s2 = *current;
+				min = std::min(min, s2);
+				max = std::max(max, s2);
+				mids += (s2 > 2 && s2 < 253);
+
+				S32 avg = (s1+s2)/2;
+				if(avg >=128)
+					avg-=255;
+				sum+=F64(avg*avg*2)/F64(length);
+			}
 		}
 	}
-	
+
 	// if more than 1/16th of alpha samples are mid-range, this
 	// shouldn't be treated as a 1-bit mask
 
@@ -1814,7 +1844,7 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 	// this to be an intentional effect and don't treat as a mask.
 
 	U32 midrangetotal = 0;
-	for (U32 i = 2; i < 13; i++)
+	for (U32 i = 3; i < 13; i++)
 	{
 		midrangetotal += sample[i];
 	}
@@ -1839,6 +1869,24 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 	{
 		mIsMask = TRUE;
 	}
+
+	mMaskMidPercentile = (F32) mids / (F32) (w * h);
+	mMaskRMSE = ((max - min) % 255) == 0 ? sqrt(sum) / 255.0 : FLT_MAX;
+	
+	//std::list<std::pair<std::string,std::string> > &data = sTextureMaskMap[getTexName()];
+	//data.clear();
+	//data.push_back(std::make_pair("RMSE", llformat("%f",mMaskRMSE)));
+	//data.push_back(std::make_pair(" MidPercent", llformat("%f",mMaskMidPercentile)));
+	//data.push_back(std::make_pair(" Mids", llformat("%u", mids)));
+	//data.push_back(std::make_pair(" sum", llformat("%lf",sum)));
+	//data.push_back(std::make_pair(" n", llformat("%u",h*w)));
+	//data.push_back(std::make_pair("legacymask", mIsMask ? "TRUE" : "FALSE"));
+	//data.push_back(std::make_pair(" index", llformat("%u",getTexName())));
+	//data.push_back(std::make_pair(" length", llformat("%u",length)));
+	//data.push_back(std::make_pair(" stride", llformat("%i",S32(mAlphaOffset))));
+	//data.push_back(std::make_pair(" split", llformat("%u|%u|%u",lowerhalftotal,midrangetotal,upperhalftotal)));
+	//data.push_back(std::make_pair(" alphatotal", llformat("%u",alphatotal)));
+	//data.push_back(std::make_pair(" alphatotal/48", llformat("%u",length/48)));
 }
 
 //----------------------------------------------------------------------------

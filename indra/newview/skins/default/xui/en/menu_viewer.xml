@@ -3099,6 +3099,16 @@
                  parameter="RenderAutoMaskAlphaNonDeferred" />
             </menu_item_check>
             <menu_item_check
+             label="Aggressive Automatic Alpha Masks"
+             name="Aggressive Automatic Alpha Masks">
+                <menu_item_check.on_check
+                 function="CheckControl"
+                 parameter="RenderAutoMaskAlphaUseRMSE" />
+                <menu_item_check.on_click
+                 function="ToggleControl"
+                 parameter="RenderAutoMaskAlphaUseRMSE" />
+            </menu_item_check>
+            <menu_item_check
              label="Animation Textures"
              name="Animation Textures">
                 <menu_item_check.on_check

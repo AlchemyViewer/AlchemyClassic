@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
- * @file llurlsimstring.cpp (was llsimurlstring.cpp)
+ * @file llslurl.cpp (was llsimurlstring.cpp)
  * @brief Handles "SLURL fragments" like Ahern/123/45 for
  * startup processing, login screen, prefs, etc.
  *
@@ -46,7 +46,8 @@ const char* LLSLURL::SLURL_COM		         = "slurl.com";
 
 const char* LLSLURL::WWW_SLURL_COM				 = "www.slurl.com";
 const char* LLSLURL::MAPS_SECONDLIFE_COM		 = "maps.secondlife.com";
-const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info";
+const char* LLSLURL::SLURL_X_GRID_INFO_SCHEME	 = "x-grid-info";
+const char* LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME = "x-grid-location-info"; // <- deprecated!
 const char* LLSLURL::SLURL_APP_PATH              = "app";
 const char* LLSLURL::SLURL_REGION_PATH           = "region";
 const char* LLSLURL::SIM_LOCATION_HOME           = "home";
@@ -180,9 +181,10 @@ LLSLURL::LLSLURL(const std::string& slurl)
 				path_array.insert(0, slurl_uri.hostName());
 		    }
 		}
-		else if((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
-		   (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) || 
-		   (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME))
+		else if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME) ||
+			 	 (slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) ||
+			 	 (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_INFO_SCHEME) ||
+				 (slurl_uri.scheme() == LLSLURL::SLURL_X_GRID_LOCATION_INFO_SCHEME)) // deprecated legacy
 		{
 		    // We're dealing with either a Standalone style slurl or slurl.com slurl
 			if ((slurl_uri.hostName() == LLSLURL::SLURL_COM) ||
@@ -194,6 +196,17 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 		    else
 			{
+				// Don't try to match any old http://<host>/ URL as a SLurl.
+				// SLE SLurls will have the grid hostname in the URL, so only
+				// match http URLs if the hostname matches the grid hostname
+				// (or its a slurl.com or maps.secondlife.com URL).
+				if ((slurl_uri.scheme() == LLSLURL::SLURL_HTTP_SCHEME ||
+					slurl_uri.scheme() == LLSLURL::SLURL_HTTPS_SCHEME) &&
+					slurl_uri.hostName() != LLGridManager::getInstance()->getGrid())
+				{
+					return;
+				}
+
 				// As it's a Standalone grid/open, we will always have a hostname, as Standalone/open  style
 				// urls are properly formed, unlike the stinky maingrid style
 				mGrid = slurl_uri.hostNameAndPort();
@@ -223,7 +236,7 @@ LLSLURL::LLSLURL(const std::string& slurl)
 			}
 			else
 			{
-				// not a valid https/http/x-grid-location-info slurl, so it'll likely just be a URL
+				// not a valid https/http/x-grid-info slurl, so it'll likely just be a URL
 				return;
 			}
 		}
@@ -386,9 +399,9 @@ std::string LLSLURL::getSLURLString() const
 		{
 			std::ostringstream app_url;
 			app_url << LLGridManager::getInstance()->getAppSLURLBase() << "/" << mAppCmd;
-			for(LLSD::array_const_iterator i = mAppPath.beginArray();
+			for(auto i = mAppPath.beginArray();
 				i != mAppPath.endArray();
-				i++)
+			    ++i)
 			{
 				app_url << "/" << i->asString();
 			}

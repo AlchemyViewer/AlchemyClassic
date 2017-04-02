@@ -96,8 +96,8 @@ const std::string SYSTEM_GRID_APP_SLURL_BASE = "secondlife:///app";
 const std::string MAIN_GRID_WEB_PROFILE_URL = "https://my.secondlife.com/";
 
 const char* SYSTEM_GRID_SLURL_BASE = "secondlife://%s/secondlife/";
-const char* DEFAULT_SLURL_BASE = "http://%s/region/";
-const char* DEFAULT_APP_SLURL_BASE = "x-grid-location-info://%s/app";
+const char* DEFAULT_SLURL_BASE = "x-grid-info://%s/region/";
+const char* DEFAULT_APP_SLURL_BASE = "x-grid-info://%s/app";
 
 const std::string ALCHEMY_UPDATE_SERVICE = "https://app.alchemyviewer.org/update";
 

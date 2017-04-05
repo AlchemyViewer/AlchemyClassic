@@ -1,0 +1,32 @@
+<llsd>
+    <array>
+        <array>
+            <real>0</real>
+            <string>[Xenhat] Dark Night</string>
+        </array>
+        <array>
+            <real>0.1249999552965164184570313</real>
+            <string>[Xenhat] Realistic 3:00 AM</string>
+        </array>
+        <array>
+            <real>0.2499999105930328369140625</real>
+            <string>[Xenhat] Realistic 6:00 AM</string>
+        </array>
+        <array>
+            <real>0.3749998509883880615234375</real>
+            <string>A-9AM</string>
+        </array>
+        <array>
+            <real>0.499999821186065673828125</real>
+            <string>[Xenhat] Realistic Day 4</string>
+        </array>
+        <array>
+            <real>0.749999701976776123046875</real>
+            <string>A-6PM</string>
+        </array>
+        <array>
+            <real>0.77083301544189453125</real>
+            <string>[Xenhat] Realistic Summer 6:30PM</string>
+        </array>
+    </array>
+</llsd>

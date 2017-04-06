@@ -56,7 +56,7 @@
 		<action description="Deed land and buy land for group"
 		     longdescription="Deed land and buy land for group. This is done in About Land &gt; General tab."
 		     name="land deed" value="12" />
-		<action description="Abandon landn"
+		<action description="Abandon land"
 		     longdescription="Abandon land. *WARNING* Any Member in a Role with this Ability can abandon group-owned land in About Land &gt; General tab, reverting it to grid ownership without a sale! Be sure you know what you&apos;re doing before assigning this Ability."
 		     name="land release" value="13" />
 		<action description="Set land for sale info"

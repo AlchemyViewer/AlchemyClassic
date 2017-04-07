@@ -678,6 +678,20 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 				text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
 				text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
 			}
+			else if (minor_version <= 49)
+			{
+				//set version to 1.40
+				if (LLRender::sGLCoreProfile)
+				{
+					text[count++] = strdup("#version 140 core\n");
+				}
+				else
+				{
+					text[count++] = strdup("#version 140 compatibility\n");
+				}
+				text[count++] = strdup("#extension GL_ARB_texture_rectangle : enable\n");
+				text[count++] = strdup("#extension GL_ARB_shader_texture_lod : enable\n");
+			}
 			else if(minor_version <= 59)
 			{
 				//set version to 1.50
@@ -813,7 +827,14 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 			text[count++] = strdup("#define shadow2DRect(a,b) vec2(texture(a,b))\n");
 		}
 	}
-	
+	if (type == GL_FRAGMENT_SHADER)
+	{
+		text[count++] = strdup("#define FRAGMENT_SHADER 1\n");
+	}
+	else
+	{
+		text[count++] = strdup("#define VERTEX_SHADER 1\n");
+	}
 	if (defines)
 	{
 		for (boost::unordered_map<std::string,std::string>::iterator iter = defines->begin(); iter != defines->end(); ++iter)

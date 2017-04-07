@@ -404,9 +404,6 @@ void LLViewerShaderMgr::setShaders()
 		}
 	}
 	
-	//setup preprocessor definitions
-	LLShaderMgr::instance()->mDefinitions["NUM_TEX_UNITS"] = llformat("%d", gGLManager.mNumTextureImageUnits);
-	
 	// Make sure the compiled shader map is cleared before we recompile shaders.
 	LLShaderMgr::instance()->mProgramObjects.clear();
 	LLShaderMgr::instance()->mShaderObjects.clear();

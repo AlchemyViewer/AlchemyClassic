@@ -1173,7 +1173,7 @@ void LLPipeline::releaseGLBuffers()
 	mWaterDis.release();
 	mHighlight.release();
 	
-	for (U32 i = 0; i < 3; i++)
+	for (U32 i = 0; i < 2; i++)
 	{
 		mGlow[i].release();
 	}
@@ -1256,9 +1256,16 @@ void LLPipeline::createGLBuffers()
 		const U32 glow_res = llmax(1, 
 			llmin(512, 1 << gSavedSettings.getS32("RenderGlowResolutionPow")));
 
-		for (U32 i = 0; i < 3; i++)
+		glClearColor(0,0,0,0);
+		gGL.setColorMask(true, true);
+		for (U32 i = 0; i < 2; i++)
 		{
-			mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE);
+			if(mGlow[i].allocate(512,glow_res,GL_RGBA,FALSE,FALSE))
+			{
+				mGlow[i].bindTarget();
+				mGlow[i].clear();
+				mGlow[i].flush();
+			}
 		}
 
 		allocateScreenBuffer(resX,resY);
@@ -7067,8 +7074,8 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 	{
 		{
 			LL_RECORD_BLOCK_TIME(FTM_RENDER_BLOOM_FBO);
-			mGlow[2].bindTarget();
-			mGlow[2].clear();
+			mGlow[1].bindTarget();
+			mGlow[1].clear();
 		}
 		
 		gGlowExtractProgram.bind();
@@ -7109,7 +7116,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 		
 		gGL.getTexUnit(0)->unbind(target_screen.getUsage());
 
-		mGlow[2].flush();
+		mGlow[1].flush();
 	}
 
 	tc1.setVec(0,0);
@@ -7141,14 +7148,7 @@ void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
 			mGlow[i%2].clear();
 		}
 			
-		if (i == 0)
-		{
-			gGL.getTexUnit(0)->bind(&mGlow[2]);
-		}
-		else
-		{
-			gGL.getTexUnit(0)->bind(&mGlow[(i-1)%2]);
-		}
+		gGL.getTexUnit(0)->bind(&mGlow[(i+1)%2]);
 
 		if (i%2 == 0)
 		{

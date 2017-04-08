@@ -417,6 +417,8 @@ private:
 	void connectRefreshCachedSettingsSafe(const std::string& name);
 	void hideDrawable( LLDrawable *pDrawable );
 	void unhideDrawable( LLDrawable *pDrawable );
+
+	void drawFullScreenRect(U32 data_mask);
 public:
 	enum {GPU_CLASS_MAX = 3 };
 
@@ -595,7 +597,7 @@ public:
 	LLRenderTarget			mPhysicsDisplay;
 
 	//utility buffer for rendering post effects, gets abused by renderDeferredLighting
-	LLPointer<LLVertexBuffer> mDeferredVB;
+	LLPointer<LLVertexBuffer> mAuxScreenRectVB;
 
 	//utility buffer for rendering cubes, 8 vertices are corners of a cube [-1, 1]
 	LLPointer<LLVertexBuffer> mCubeVB;

@@ -79,4 +79,8 @@ private:
 
 typedef LLSafeHandle<LLParcelSelection> LLParcelSelectionHandle;
 
+template<>
+    const LLSafeHandle<LLParcelSelection>::NullFunc
+          LLSafeHandle<LLParcelSelection>::sNullFunc = LLParcelSelection::getNullParcelSelection;
+
 #endif

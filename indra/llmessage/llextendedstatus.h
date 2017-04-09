@@ -29,7 +29,7 @@
 #define LL_LLEXTENDEDSTATUS_H
 
 
-typedef S32 LLExtStat;
+typedef long LLExtStat;
 
 
 // Status provider groups - Top bits indicate which status type it is

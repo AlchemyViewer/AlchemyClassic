@@ -4592,15 +4592,15 @@ U32 LLVOAvatar::renderImpostor(LLColor4U color, S32 diffuse_channel)
 
 	gGL.color4ubv(color.mV);
 	gGL.getTexUnit(diffuse_channel)->bind(&mImpostor);
-	gGL.begin(LLRender::QUADS);
+	gGL.begin(LLRender::TRIANGLE_STRIP);
 	gGL.texCoord2f(0,0);
 	gGL.vertex3fv((pos+left-up).mV);
 	gGL.texCoord2f(1,0);
 	gGL.vertex3fv((pos-left-up).mV);
+	gGL.texCoord2f(0, 1);
+	gGL.vertex3fv((pos + left + up).mV);
 	gGL.texCoord2f(1,1);
 	gGL.vertex3fv((pos-left+up).mV);
-	gGL.texCoord2f(0,1);
-	gGL.vertex3fv((pos+left+up).mV);
 	gGL.end();
 	gGL.flush();
 

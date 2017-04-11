@@ -10844,11 +10844,11 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 		}
 
 		{
-		gGL.begin(LLRender::QUADS);
+		gGL.begin(LLRender::TRIANGLE_STRIP);
 		gGL.vertex3f(-1, -1, clip_plane);
 		gGL.vertex3f(1, -1, clip_plane);
-		gGL.vertex3f(1, 1, clip_plane);
 		gGL.vertex3f(-1, 1, clip_plane);
+		gGL.vertex3f(1, 1, clip_plane);
 		gGL.end();
 		gGL.flush();
 		}

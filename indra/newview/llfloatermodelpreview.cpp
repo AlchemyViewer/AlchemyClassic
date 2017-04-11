@@ -704,16 +704,16 @@ void LLFloaterModelPreview::draw()
 			mPreviewRect = preview_panel->getRect();
 		}
 
-		gGL.begin( LLRender::QUADS );
+		gGL.begin(LLRender::TRIANGLE_STRIP);
 		{
 			gGL.texCoord2f(0.f, 1.f);
-			gGL.vertex2i(mPreviewRect.mLeft, mPreviewRect.mTop-1);
+			gGL.vertex2i(mPreviewRect.mLeft, mPreviewRect.mTop - 1);
 			gGL.texCoord2f(0.f, 0.f);
 			gGL.vertex2i(mPreviewRect.mLeft, mPreviewRect.mBottom);
-			gGL.texCoord2f(1.f, 0.f);
-			gGL.vertex2i(mPreviewRect.mRight-1, mPreviewRect.mBottom);
 			gGL.texCoord2f(1.f, 1.f);
-			gGL.vertex2i(mPreviewRect.mRight-1, mPreviewRect.mTop-1);
+			gGL.vertex2i(mPreviewRect.mRight - 1, mPreviewRect.mTop - 1);
+			gGL.texCoord2f(1.f, 0.f);
+			gGL.vertex2i(mPreviewRect.mRight - 1, mPreviewRect.mBottom);
 		}
 		gGL.end();
 

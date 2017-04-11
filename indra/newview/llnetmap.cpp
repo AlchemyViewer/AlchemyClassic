@@ -278,15 +278,15 @@ void LLNetMap::draw()
 					if (img && img->hasGLTexture())
 					{
 						gGL.getTexUnit(0)->bind(img);
-						gGL.begin(LLRender::QUADS);
+						gGL.begin(LLRender::TRIANGLE_STRIP);
 							gGL.texCoord2f(0.f, 1.f);
 							gGL.vertex2f(local_left, local_top);
 							gGL.texCoord2f(0.f, 0.f);
 							gGL.vertex2f(local_left, local_bottom);
-							gGL.texCoord2f(1.f, 0.f);
-							gGL.vertex2f(local_right, local_bottom);
 							gGL.texCoord2f(1.f, 1.f);
 							gGL.vertex2f(local_right, local_top);
+							gGL.texCoord2f(1.f, 0.f);
+							gGL.vertex2f(local_right, local_bottom);
 						gGL.end();
 						img->setBoostLevel(LLViewerTexture::BOOST_MAP_VISIBLE);
 						render_land_textures = false;
@@ -301,15 +301,15 @@ void LLNetMap::draw()
 				if (LLViewerTexture* stexture = regionp->getLand().getSTexture())
 				{
 					gGL.getTexUnit(0)->bind(stexture);
-					gGL.begin(LLRender::QUADS);
-					gGL.texCoord2f(0.f, 1.f);
-					gGL.vertex2f(left, top);
-					gGL.texCoord2f(0.f, 0.f);
-					gGL.vertex2f(left, bottom);
-					gGL.texCoord2f(1.f, 0.f);
-					gGL.vertex2f(right, bottom);
-					gGL.texCoord2f(1.f, 1.f);
-					gGL.vertex2f(right, top);
+					gGL.begin(LLRender::TRIANGLE_STRIP);
+						gGL.texCoord2f(0.f, 1.f);
+						gGL.vertex2f(left, top);
+						gGL.texCoord2f(0.f, 0.f);
+						gGL.vertex2f(left, bottom);
+						gGL.texCoord2f(1.f, 1.f);
+						gGL.vertex2f(right, top);
+						gGL.texCoord2f(1.f, 0.f);
+						gGL.vertex2f(right, bottom);
 					gGL.end();
 				}
 
@@ -319,15 +319,15 @@ void LLNetMap::draw()
 					if (LLViewerTexture* wtexture = regionp->getLand().getWaterTexture())
 					{
 						gGL.getTexUnit(0)->bind(wtexture);
-						gGL.begin(LLRender::QUADS);
-						gGL.texCoord2f(0.f, 1.f);
-						gGL.vertex2f(left, top);
-						gGL.texCoord2f(0.f, 0.f);
-						gGL.vertex2f(left, bottom);
-						gGL.texCoord2f(1.f, 0.f);
-						gGL.vertex2f(right, bottom);
-						gGL.texCoord2f(1.f, 1.f);
-						gGL.vertex2f(right, top);
+						gGL.begin(LLRender::TRIANGLE_STRIP);
+							gGL.texCoord2f(0.f, 1.f);
+							gGL.vertex2f(left, top);
+							gGL.texCoord2f(0.f, 0.f);
+							gGL.vertex2f(left, bottom);
+							gGL.texCoord2f(1.f, 1.f);
+							gGL.vertex2f(right, top);
+							gGL.texCoord2f(1.f, 0.f);
+							gGL.vertex2f(right, bottom);
 						gGL.end();
 					}
 				}
@@ -375,15 +375,15 @@ void LLNetMap::draw()
 		F32 image_half_width = 0.5f*mObjectMapPixels;
 		F32 image_half_height = 0.5f*mObjectMapPixels;
 
-		gGL.begin(LLRender::QUADS);
+		gGL.begin(LLRender::TRIANGLE_STRIP);
 			gGL.texCoord2f(0.f, 1.f);
 			gGL.vertex2f(map_center_agent.mV[VX] - image_half_width, image_half_height + map_center_agent.mV[VY]);
 			gGL.texCoord2f(0.f, 0.f);
 			gGL.vertex2f(map_center_agent.mV[VX] - image_half_width, map_center_agent.mV[VY] - image_half_height);
-			gGL.texCoord2f(1.f, 0.f);
-			gGL.vertex2f(image_half_width + map_center_agent.mV[VX], map_center_agent.mV[VY] - image_half_height);
 			gGL.texCoord2f(1.f, 1.f);
 			gGL.vertex2f(image_half_width + map_center_agent.mV[VX], image_half_height + map_center_agent.mV[VY]);
+			gGL.texCoord2f(1.f, 0.f);
+			gGL.vertex2f(image_half_width + map_center_agent.mV[VX], map_center_agent.mV[VY] - image_half_height);
 		gGL.end();
 
 		gGL.popMatrix();

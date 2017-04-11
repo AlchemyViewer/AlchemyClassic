@@ -278,7 +278,6 @@ public:
 		POINTS,
 		LINES,
 		LINE_STRIP,
-		QUADS,
 		LINE_LOOP,
 		NUM_MODES
 	} eGeomModes;
@@ -482,6 +481,7 @@ private:
 	std::vector<LLVector4a, boost::alignment::aligned_allocator<LLVector4a, 64> > mUIOffset;
 	std::vector<LLVector4a, boost::alignment::aligned_allocator<LLVector4a, 64> > mUIScale;
 
+	bool			mPrimitiveReset;
 };
 
 extern F32 gGLModelView[16];

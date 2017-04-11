@@ -849,7 +849,7 @@ void LLMediaCtrl::draw()
 			y_offset = (r.getHeight() - height) / 2;		
 
 			// draw the browser
-			gGL.begin( LLRender::QUADS );
+			gGL.begin( LLRender::TRIANGLE_STRIP );
 			if (! media_plugin->getTextureCoordsOpenGL())
 			{
 				// render using web browser reported width and height, instead of trying to invert GL scale
@@ -859,11 +859,11 @@ void LLMediaCtrl::draw()
 				gGL.texCoord2f( 0.f, 0.f );
 				gGL.vertex2i( x_offset, y_offset + height );
 
+				gGL.texCoord2f(max_u, max_v);
+				gGL.vertex2i(x_offset + width, y_offset);
+
 				gGL.texCoord2f( 0.f, max_v );
 				gGL.vertex2i( x_offset, y_offset );
-
-				gGL.texCoord2f( max_u, max_v );
-				gGL.vertex2i( x_offset + width, y_offset );
 			}
 			else
 			{
@@ -874,11 +874,11 @@ void LLMediaCtrl::draw()
 				gGL.texCoord2f( 0.f, max_v );
 				gGL.vertex2i( x_offset, y_offset + height );
 
+				gGL.texCoord2f(max_u, 0.f);
+				gGL.vertex2i(x_offset + width, y_offset);
+
 				gGL.texCoord2f( 0.f, 0.f );
 				gGL.vertex2i( x_offset, y_offset );
-
-				gGL.texCoord2f( max_u, 0.f );
-				gGL.vertex2i( x_offset + width, y_offset );
 			}
 			gGL.end();
 		}

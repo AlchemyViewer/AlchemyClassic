@@ -1033,7 +1033,8 @@ LLRender::LLRender()
     mMode(LLRender::TRIANGLES),
     mCurrTextureUnitIndex(0),
     mMaxAnisotropy(0.f),
-    mPrimitiveReset(false)
+	mLineWidth(1.f),
+	mPrimitiveReset(false)
 {	
 	mTexUnits.reserve(LL_NUM_TEXTURE_LAYERS);
 	for (U32 i = 0; i < LL_NUM_TEXTURE_LAYERS; i++)
@@ -1327,26 +1328,26 @@ void LLRender::syncMatrices()
 LLMatrix4a LLRender::genRot(const GLfloat& a, const LLVector4a& axis) const
 {
 	F32 r = a * DEG_TO_RAD;
-	
+
 	F32 c = cosf(r);
 	F32 s = sinf(r);
-	
+
 	F32 ic = 1.f-c;
-	
+
 	const LLVector4a add1(c,axis[VZ]*s,-axis[VY]*s);	//1,z,-y
 	const LLVector4a add2(-axis[VZ]*s,c,axis[VX]*s);	//-z,1,x
 	const LLVector4a add3(axis[VY]*s,-axis[VX]*s,c);	//y,-x,1
-	
+
 	LLVector4a axis_x;
 	axis_x.splat<0>(axis);
 	LLVector4a axis_y;
 	axis_y.splat<1>(axis);
 	LLVector4a axis_z;
 	axis_z.splat<2>(axis);
-	
+
 	LLVector4a c_axis;
 	c_axis.setMul(axis,ic);
-	
+
 	LLMatrix4a rot_mat;
 	rot_mat.getRow<0>().setMul(c_axis,axis_x);
 	rot_mat.getRow<0>().add(add1);
@@ -1355,7 +1356,7 @@ LLMatrix4a LLRender::genRot(const GLfloat& a, const LLVector4a& axis) const
 	rot_mat.getRow<2>().setMul(c_axis,axis_z);
 	rot_mat.getRow<2>().add(add3);
 	rot_mat.setRow<3>(LLVector4a(0,0,0,1));
-	
+
 	return rot_mat;
 }
 
@@ -1516,6 +1517,18 @@ void LLRender::scaleUI(F32 x, F32 y, F32 z)
 	mUIScale.back().mul(scale);
 }
 
+void LLRender::rotateUI(LLQuaternion& rot)
+{
+	if (mUIRotation.empty())
+	{
+		mUIRotation.push_back(rot);
+	}
+	else
+	{
+		mUIRotation.push_back(mUIRotation.back()*rot);
+	}
+}
+
 void LLRender::pushUIMatrix()
 {
 	if (mUIOffset.empty())
@@ -1535,6 +1548,10 @@ void LLRender::pushUIMatrix()
 	{
 		mUIScale.push_back(mUIScale.back());
 	}
+	if (!mUIRotation.empty())
+	{
+		mUIRotation.push_back(mUIRotation.back());
+	}
 }
 
 void LLRender::popUIMatrix()
@@ -1545,6 +1562,10 @@ void LLRender::popUIMatrix()
 	}
 	mUIOffset.pop_back();
 	mUIScale.pop_back();
+	if (!mUIRotation.empty())
+	{
+		mUIRotation.pop_back();
+	}
 }
 
 LLVector3 LLRender::getUITranslation()
@@ -1574,6 +1595,8 @@ void LLRender::loadUIIdentity()
 	}
 	mUIOffset.back().splat(0.f);
 	mUIScale.back().splat(1.f);
+	if (!mUIRotation.empty())
+		mUIRotation.push_back(LLQuaternion());
 }
 
 void LLRender::setColorMask(bool writeColor, bool writeAlpha)
@@ -1760,6 +1783,23 @@ void LLRender::setAmbientLightColor(const LLColor4& color)
 	}
 }
 
+void LLRender::setLineWidth(F32 line_width)
+{
+	if (LLRender::sGLCoreProfile)
+	{
+		line_width = 1.f;
+	}
+	if (mLineWidth != line_width)
+	{
+		if (mMode == LLRender::LINES || LLRender::LINE_STRIP)
+		{
+			flush();
+		}
+		mLineWidth = line_width;
+		glLineWidth(line_width);
+	}
+}
+
 bool LLRender::verifyTexUnitActive(U32 unitToVerify)
 {
 	if (mCurrTextureUnitIndex == unitToVerify)
@@ -1822,6 +1862,7 @@ void LLRender::end()
 		mPrimitiveReset = true;
 	}
 }
+
 void LLRender::flush()
 {
 	if (mCount > 0)
@@ -1966,12 +2007,32 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 
 	if (mUIOffset.empty())
 	{
-		mVerticesp[mCount] = vertex;
+		if (!mUIRotation.empty() && mUIRotation.back().isNotIdentity())
+		{
+			LLVector4 vert(vertex.getF32ptr());
+			mVerticesp[mCount].loadua((vert*mUIRotation.back()).mV);
+		}
+		else
+		{
+			mVerticesp[mCount] = vertex;
+		}
 	}
 	else
 	{
-		mVerticesp[mCount].setAdd(vertex, mUIOffset.back());
-		mVerticesp[mCount].mul(mUIScale.back());
+		if (!mUIRotation.empty() && mUIRotation.back().isNotIdentity())
+		{
+			LLVector4 vert(vertex.getF32ptr());
+			vert = vert * mUIRotation.back();
+			LLVector4a postrot_vert;
+			postrot_vert.loadua(vert.mV);
+			mVerticesp[mCount].setAdd(postrot_vert, mUIOffset.back());
+			mVerticesp[mCount].mul(mUIScale.back());
+		}
+		else
+		{
+			mVerticesp[mCount].setAdd(vertex, mUIOffset.back());
+			mVerticesp[mCount].mul(mUIScale.back());
+		}
 	}
 
 	mCount++;

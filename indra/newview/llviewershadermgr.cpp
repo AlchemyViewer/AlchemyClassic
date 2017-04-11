@@ -1859,7 +1859,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredPostGammaCorrectProgram.mName = "Deferred Gamma Correction Post Process";
 		gDeferredPostGammaCorrectProgram.mShaderFiles.clear();
 		gDeferredPostGammaCorrectProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
-		gDeferredPostGammaCorrectProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredGammaCorrect.glsl", GL_FRAGMENT_SHADER));
+		gDeferredPostGammaCorrectProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredGammaCorrectF.glsl", GL_FRAGMENT_SHADER));
 		gDeferredPostGammaCorrectProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 		success = gDeferredPostGammaCorrectProgram.createShader(NULL, NULL);
 	}

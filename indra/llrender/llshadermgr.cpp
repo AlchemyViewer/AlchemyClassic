@@ -561,7 +561,7 @@ void LLShaderMgr::dumpProgramLog(GLuint ret, BOOL warns, const std::string& file
 
 	if (log.length() > 0 || warns)
 	{
-        LL_DEBUGS("ShaderLoading") << "Shader loading ";
+        LL_WARNS("ShaderLoading") << "Shader loading ";
         
 		if (!filename.empty())
 		{
@@ -1338,6 +1338,7 @@ void LLShaderMgr::initAttribsAndUniforms()
 	mReservedUniforms.push_back("depth_cutoff");
 	mReservedUniforms.push_back("norm_cutoff");
 	mReservedUniforms.push_back("shadow_target_width");
+	mReservedUniforms.push_back("downsampled_depth_scale");
 	
 	llassert(mReservedUniforms.size() == LLShaderMgr::DEFERRED_SHADOW_TARGET_WIDTH+1);
 
@@ -1356,6 +1357,7 @@ void LLShaderMgr::initAttribsAndUniforms()
 	mReservedUniforms.push_back("dof_height");
 
 	mReservedUniforms.push_back("depthMap");
+	mReservedUniforms.push_back("depthMapDownsampled");
 	mReservedUniforms.push_back("shadowMap0");
 	mReservedUniforms.push_back("shadowMap1");
 	mReservedUniforms.push_back("shadowMap2");

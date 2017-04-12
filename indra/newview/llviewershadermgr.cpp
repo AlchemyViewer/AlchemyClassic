@@ -188,6 +188,8 @@ LLGLSLShader			gDeferredLightProgram;
 LLGLSLShader			gDeferredMultiLightProgram[16];
 LLGLSLShader			gDeferredSpotLightProgram;
 LLGLSLShader			gDeferredMultiSpotLightProgram;
+LLGLSLShader			gDeferredSSAOProgram;
+LLGLSLShader			gDeferredDownsampleDepthNearestProgram;
 LLGLSLShader			gDeferredSunProgram;
 LLGLSLShader			gDeferredBlurLightProgram;
 LLGLSLShader			gDeferredSoftenProgram;
@@ -1096,6 +1098,8 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		}
 		gDeferredSpotLightProgram.unload();
 		gDeferredMultiSpotLightProgram.unload();
+		gDeferredSSAOProgram.unload();
+		gDeferredDownsampleDepthNearestProgram.unload();
 		gDeferredSunProgram.unload();
 		gDeferredBlurLightProgram.unload();
 		gDeferredSoftenProgram.unload();
@@ -1444,6 +1448,29 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredSunProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 
 		success = gDeferredSunProgram.createShader(NULL, NULL);
+	}
+
+	if (gSavedSettings.getBOOL("RenderDeferredSSAO"))
+	 {
+		if (success)
+		{
+			gDeferredSSAOProgram.mName = "Deferred Ambient Occlusion Shader";
+			gDeferredSSAOProgram.mShaderFiles.clear();
+			gDeferredSSAOProgram.mShaderFiles.push_back(std::make_pair("deferred/sunLightV.glsl", GL_VERTEX_SHADER_ARB));
+			gDeferredSSAOProgram.mShaderFiles.push_back(std::make_pair("deferred/SSAOF.glsl", GL_FRAGMENT_SHADER_ARB));
+			gDeferredSSAOProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
+			success = gDeferredSSAOProgram.createShader(NULL, NULL);
+		}
+
+		if (success)
+		{
+			gDeferredDownsampleDepthNearestProgram.mName = "Deferred Nearest Downsample Depth Shader";
+			gDeferredDownsampleDepthNearestProgram.mShaderFiles.clear();
+			gDeferredDownsampleDepthNearestProgram.mShaderFiles.push_back(std::make_pair("deferred/sunLightV.glsl", GL_VERTEX_SHADER_ARB));
+			gDeferredDownsampleDepthNearestProgram.mShaderFiles.push_back(std::make_pair("deferred/downsampleDepthNearestF.glsl", GL_FRAGMENT_SHADER_ARB));
+			gDeferredDownsampleDepthNearestProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
+			success = gDeferredDownsampleDepthNearestProgram.createShader(NULL, NULL);
+		}
 	}
 
 	if (success)

@@ -592,6 +592,7 @@ public:
 	LLRenderTarget			mDeferredScreen;
 	LLRenderTarget			mFXAABuffer;
 	LLRenderTarget			mDeferredDepth;
+	LLRenderTarget			mDeferredDownsampledDepth;
 	LLRenderTarget			mDeferredLight;
 	LLRenderTarget			mHighlight;
 	LLRenderTarget			mPhysicsDisplay;
@@ -851,6 +852,7 @@ public:
 	static BOOL RenderUIBuffer;
 	static S32 RenderShadowDetail;
 	static BOOL RenderDeferredSSAO;
+	static F32 RenderDeferredSSAOResolutionScale;
 	static F32 RenderShadowResolutionScale;
 	static BOOL RenderLocalLights;
 	static BOOL RenderDelayCreation;
@@ -916,6 +918,7 @@ public:
 	static F32 CameraMaxCoF;
 	static F32 CameraDoFResScale;
 	static F32 RenderAutoHideSurfaceAreaLimit;
+	static BOOL RenderDeferredAlwaysSoftenShadows;
 };
 
 void render_bbox(const LLVector3 &min, const LLVector3 &max);

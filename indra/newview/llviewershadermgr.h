@@ -284,6 +284,8 @@ extern LLGLSLShader			gDeferredLightProgram;
 extern LLGLSLShader			gDeferredMultiLightProgram[LL_DEFERRED_MULTI_LIGHT_COUNT];
 extern LLGLSLShader			gDeferredSpotLightProgram;
 extern LLGLSLShader			gDeferredMultiSpotLightProgram;
+extern LLGLSLShader			gDeferredSSAOProgram;
+extern LLGLSLShader			gDeferredDownsampleDepthNearestProgram;
 extern LLGLSLShader			gDeferredSunProgram;
 extern LLGLSLShader			gDeferredBlurLightProgram;
 extern LLGLSLShader			gDeferredAvatarProgram;

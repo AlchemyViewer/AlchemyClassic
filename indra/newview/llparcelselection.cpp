@@ -36,10 +36,6 @@
 // static
 LLPointer<LLParcelSelection> LLParcelSelection::sNullSelection;
 
-template<>
-	const LLSafeHandle<LLParcelSelection>::NullFunc
-		LLSafeHandle<LLParcelSelection>::sNullFunc = LLParcelSelection::getNullParcelSelection;
-
 //
 // LLParcelSelection
 //

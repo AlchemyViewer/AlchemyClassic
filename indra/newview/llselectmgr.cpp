@@ -137,11 +137,6 @@ LLColor4 LLSelectMgr::sHighlightParentColor;
 LLColor4 LLSelectMgr::sHighlightChildColor;
 LLColor4 LLSelectMgr::sContextSilhouetteColor;
 
-static LLObjectSelection *get_null_object_selection();
-template<> 
-	const LLSafeHandle<LLObjectSelection>::NullFunc 
-		LLSafeHandle<LLObjectSelection>::sNullFunc = get_null_object_selection;
-
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // struct LLDeRezInfo
 //

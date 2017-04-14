@@ -24,20 +24,18 @@
  */
  
 
-
-
 #ifdef DEFINE_GL_FRAGCOLOR
 out vec4 frag_color;
 #else
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect diffuseRect;
-uniform sampler2DRect specularRect;
-uniform sampler2DRect depthMap;
-uniform sampler2DRect normalMap;
+uniform sampler2D diffuseRect;
+uniform sampler2D specularRect;
+uniform sampler2D depthMap;
+uniform sampler2D normalMap;
 uniform samplerCube environmentMap;
-uniform sampler2DRect lightMap;
+uniform sampler2D lightMap;
 uniform sampler2D noiseMap;
 uniform sampler2D projectionMap;
 uniform sampler2D lightFunc;
@@ -65,9 +63,9 @@ uniform float falloff;
 
 VARYING vec3 trans_center;
 VARYING vec4 vary_fragcoord;
-uniform vec2 screen_res;
 
 uniform mat4 inv_proj;
+uniform vec2 noise_scale;
 
 vec2 encode_normal(vec3 n)
 {
@@ -183,9 +181,8 @@ vec4 texture2DLodAmbient(sampler2D projectionMap, vec2 tc, float lod)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -199,7 +196,6 @@ void main()
 	vec4 frag = vary_fragcoord;
 	frag.xyz /= frag.w;
 	frag.xyz = frag.xyz*0.5+0.5;
-	frag.xy *= screen_res;
 	
 	vec3 pos = getPosition(frag.xy).xyz;
 	vec3 lv = trans_center.xyz-pos.xyz;
@@ -214,14 +210,14 @@ void main()
 	
 	if (proj_shadow_idx >= 0)
 	{
-		vec4 shd = texture2DRect(lightMap, frag.xy);
+		vec4 shd = texture2D(lightMap, frag.xy);
 		float sh[2];
 		sh[0] = shd.b;
 		sh[1] = shd.a;
 		shadow = min(sh[proj_shadow_idx]+shadow_fade, 1.0);
 	}
 	
-	vec3 norm = texture2DRect(normalMap, frag.xy).xyz;
+	vec3 norm = texture2D(normalMap, frag.xy).xyz;
 	float envIntensity = norm.z;
 	norm = decode_normal(norm.xy);
 	
@@ -252,13 +248,13 @@ void main()
 		
 	vec3 col = vec3(0,0,0);
 		
-	vec3 diff_tex = texture2DRect(diffuseRect, frag.xy).rgb;
+	vec3 diff_tex = texture2D(diffuseRect, frag.xy).rgb;
 		
-	vec4 spec = texture2DRect(specularRect, frag.xy);
+	vec4 spec = texture2D(specularRect, frag.xy);
 
+	float noise = texture2D(noiseMap, frag.xy*noise_scale).b;
 	vec3 dlit = vec3(0, 0, 0);
 
-	float noise = texture2D(noiseMap, frag.xy/128.0).b;
 	if (proj_tc.z > 0.0 &&
 		proj_tc.x < 1.0 &&
 		proj_tc.y < 1.0 &&

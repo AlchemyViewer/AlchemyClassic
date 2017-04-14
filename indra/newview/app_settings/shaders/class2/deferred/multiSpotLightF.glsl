@@ -24,20 +24,18 @@
  */
  
 
-
-
 #ifdef DEFINE_GL_FRAGCOLOR
 out vec4 frag_color;
 #else
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect diffuseRect;
-uniform sampler2DRect specularRect;
-uniform sampler2DRect depthMap;
-uniform sampler2DRect normalMap;
+uniform sampler2D diffuseRect;
+uniform sampler2D specularRect;
+uniform sampler2D depthMap;
+uniform sampler2D normalMap;
 uniform samplerCube environmentMap;
-uniform sampler2DRect lightMap;
+uniform sampler2D lightMap;
 uniform sampler2D noiseMap;
 uniform sampler2D projectionMap;
 uniform sampler2D lightFunc;
@@ -65,46 +63,10 @@ uniform vec3 color;
 uniform float falloff;
 
 VARYING vec4 vary_fragcoord;
-uniform vec2 screen_res;
 
 uniform mat4 inv_proj;
+uniform vec2 noise_scale;
 
-vec3 srgb_to_linear(vec3 cs)
-{
-	vec3 low_range = cs / vec3(12.92);
-	vec3 high_range = pow((cs+vec3(0.055))/vec3(1.055), vec3(2.4));
-	bvec3 lte = lessThanEqual(cs,vec3(0.04045));
-
-#ifdef OLD_SELECT
-	vec3 result;
-	result.r = lte.r ? low_range.r : high_range.r;
-	result.g = lte.g ? low_range.g : high_range.g;
-	result.b = lte.b ? low_range.b : high_range.b;
-    return result;
-#else
-	return mix(high_range, low_range, lte);
-#endif
-
-}
-
-vec3 linear_to_srgb(vec3 cl)
-{
-	cl = clamp(cl, vec3(0), vec3(1));
-	vec3 low_range  = cl * 12.92;
-	vec3 high_range = 1.055 * pow(cl, vec3(0.41666)) - 0.055;
-	bvec3 lt = lessThan(cl,vec3(0.0031308));
-
-#ifdef OLD_SELECT
-	vec3 result;
-	result.r = lt.r ? low_range.r : high_range.r;
-	result.g = lt.g ? low_range.g : high_range.g;
-	result.b = lt.b ? low_range.b : high_range.b;
-    return result;
-#else
-	return mix(high_range, low_range, lt);
-#endif
-
-}
 
 vec2 encode_normal(vec3 n)
 {
@@ -123,9 +85,22 @@ vec3 decode_normal (vec2 enc)
     return n;
 }
 
-vec4 correctWithGamma(vec4 col)
+vec3 srgb_to_linear(vec3 cs)
 {
-	return vec4(srgb_to_linear(col.rgb), col.a);
+	vec3 low_range = cs / vec3(12.92);
+	vec3 high_range = pow((cs+vec3(0.055))/vec3(1.055), vec3(2.4));
+	bvec3 lte = lessThanEqual(cs,vec3(0.04045));
+
+#ifdef OLD_SELECT
+	vec3 result;
+	result.r = lte.r ? low_range.r : high_range.r;
+	result.g = lte.g ? low_range.g : high_range.g;
+	result.b = lte.b ? low_range.b : high_range.b;
+    return result;
+#else
+	return mix(high_range, low_range, lte);
+#endif
+
 }
 
 vec4 texture2DLodSpecular(sampler2D projectionMap, vec2 tc, float lod)
@@ -151,7 +126,7 @@ vec4 texture2DLodSpecular(sampler2D projectionMap, vec2 tc, float lod)
 vec4 texture2DLodDiffuse(sampler2D projectionMap, vec2 tc, float lod)
 {
 	vec4 ret = texture2DLod(projectionMap, tc, lod);
-	ret = correctWithGamma(ret);
+	ret.rgb = srgb_to_linear(ret.rgb);
 
 	vec2 dist = vec2(0.5) - abs(tc-vec2(0.5));
 	
@@ -169,8 +144,8 @@ vec4 texture2DLodDiffuse(sampler2D projectionMap, vec2 tc, float lod)
 vec4 texture2DLodAmbient(sampler2D projectionMap, vec2 tc, float lod)
 {
 	vec4 ret = texture2DLod(projectionMap, tc, lod);
-	ret = correctWithGamma(ret);
-
+	ret.rgb = srgb_to_linear(ret.rgb);
+	
 	vec2 dist = tc-vec2(0.5);
 	
 	float d = dot(dist,dist);
@@ -183,9 +158,8 @@ vec4 texture2DLodAmbient(sampler2D projectionMap, vec2 tc, float lod)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -199,7 +173,6 @@ void main()
 	vec4 frag = vary_fragcoord;
 	frag.xyz /= frag.w;
 	frag.xyz = frag.xyz*0.5+0.5;
-	frag.xy *= screen_res;
 	
 	vec3 pos = getPosition(frag.xy).xyz;
 	vec3 lv = center.xyz-pos.xyz;
@@ -214,14 +187,14 @@ void main()
 	
 	if (proj_shadow_idx >= 0)
 	{
-		vec4 shd = texture2DRect(lightMap, frag.xy);
+		vec4 shd = texture2D(lightMap, frag.xy);
 		float sh[2];
 		sh[0] = shd.b;
 		sh[1] = shd.a;
 		shadow = min(sh[proj_shadow_idx]+shadow_fade, 1.0);
 	}
 	
-	vec3 norm = texture2DRect(normalMap, frag.xy).xyz;
+	vec3 norm = texture2D(normalMap, frag.xy).xyz;
 	
 	float envIntensity = norm.z;
 
@@ -242,6 +215,7 @@ void main()
 	float dist_atten = min(1.0-(dist-1.0*(1.0-fa))/fa, 1.0);
 	dist_atten *= dist_atten;
 	dist_atten *= 2.0;
+
 	if (dist_atten <= 0.0)
 	{
 		discard;
@@ -253,13 +227,10 @@ void main()
 
 	vec3 col = vec3(0,0,0);
 		
-	vec3 diff_tex = texture2DRect(diffuseRect, frag.xy).rgb;
-	
-	vec4 spec = texture2DRect(specularRect, frag.xy);
-
+	vec3 diff_tex = texture2D(diffuseRect, frag.xy).rgb;
 	vec3 dlit = vec3(0, 0, 0);
 
-	float noise = texture2D(noiseMap, frag.xy/128.0).b;
+	float noise = texture2D(noiseMap, frag.xy*noise_scale).b;
 	if (proj_tc.z > 0.0 &&
 		proj_tc.x < 1.0 &&
 		proj_tc.y < 1.0 &&
@@ -295,8 +266,9 @@ void main()
 			
 		col += amb_da*color.rgb*diff_tex.rgb*amb_plcol.rgb*amb_plcol.a;
 	}
-	
 
+	vec4 spec = texture2D(specularRect, frag.xy);
+	
 	if (spec.a > 0.0)
 	{
 		vec3 npos = -normalize(pos);

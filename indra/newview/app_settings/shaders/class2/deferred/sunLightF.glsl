@@ -33,8 +33,8 @@ out vec4 frag_color;
 
 //class 2, shadows, no SSAO
 
-uniform sampler2DRect depthMap;
-uniform sampler2DRect normalMap;
+uniform sampler2D depthMap;
+uniform sampler2D normalMap;
 uniform sampler2DShadow shadowMap0;
 uniform sampler2DShadow shadowMap1;
 uniform sampler2DShadow shadowMap2;
@@ -54,7 +54,6 @@ uniform float ssao_factor_inv;
 VARYING vec2 vary_fragcoord;
 
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
 uniform vec2 proj_shadow_res;
 uniform vec3 sun_dir;
 
@@ -84,9 +83,8 @@ vec3 decode_normal (vec2 enc)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -142,7 +140,7 @@ void main()
 	
 	vec4 pos = getPosition(pos_screen);
 	
-	vec3 norm = texture2DRect(normalMap, pos_screen).xyz;
+	vec3 norm = texture2D(normalMap, pos_screen).xyz;
 	norm = decode_normal(norm.xy); // unpack norm
 		
 	/*if (pos.z == 0.0) // do nothing for sky *FIX: REMOVE THIS IF/WHEN THE POSITION MAP IS BEING USED AS A STENCIL
@@ -153,7 +151,7 @@ void main()
 	
 	float shadow = 0.0;
 	float dp_directional_light = max(0.0, dot(norm, sun_dir.xyz));
-	
+
 	vec3 shadow_pos = pos.xyz;
 	vec3 offset = sun_dir.xyz * (1.0-dp_directional_light);
 	

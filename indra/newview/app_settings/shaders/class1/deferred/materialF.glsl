@@ -143,7 +143,6 @@ vec3 vary_AdditiveColor;
 vec3 vary_AtmosAttenuation;
 
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
 
 uniform vec4 light_position[8];
 uniform vec3 light_direction[8];
@@ -272,7 +271,6 @@ vec3 calcPointLightOrSpotLight(vec3 light_col, vec3 npos, vec3 diffuse, vec4 spe
 vec4 getPosition_d(vec2 pos_screen, float depth)
 {
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;

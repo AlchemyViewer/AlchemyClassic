@@ -418,7 +418,7 @@ private:
 	void hideDrawable( LLDrawable *pDrawable );
 	void unhideDrawable( LLDrawable *pDrawable );
 
-	void drawFullScreenRect(U32 data_mask);
+	void drawFullScreenRect();
 public:
 	enum {GPU_CLASS_MAX = 3 };
 
@@ -622,7 +622,6 @@ public:
 	LLVector4				mSunClipPlanes;
 	LLVector4				mSunOrthoClipPlanes;
 
-	LLVector2				mScreenScale;
 
 	//water reflection texture
 	LLRenderTarget				mWaterRef;
@@ -635,7 +634,6 @@ public:
 
 	//noise map
 	U32					mNoiseMap;
-	U32					mTrueNoiseMap;
 	U32					mLightFunc;
 
 	LLColor4				mSunDiffuse;

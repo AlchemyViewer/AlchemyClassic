@@ -220,18 +220,9 @@ bool LLRenderTarget::addColorAttachment(U32 color_fmt)
 		stop_glerror();
 	}
 
-	if (mUsage != LLTexUnit::TT_RECT_TEXTURE)
-	{
-		gGL.getTexUnit(0)->setTextureAddressMode(LLTexUnit::TAM_MIRROR);
-		stop_glerror();
-	}
-	else
-	{
-		// ATI doesn't support mirrored repeat for rectangular textures.
-		gGL.getTexUnit(0)->setTextureAddressMode(LLTexUnit::TAM_CLAMP);
-		stop_glerror();
-	}
-		
+	gGL.getTexUnit(0)->setTextureAddressMode(LLTexUnit::TAM_MIRROR);
+	stop_glerror();
+
 	if (mFBO)
 	{
 		stop_glerror();

@@ -2106,11 +2106,10 @@ uniform vec2 rcp_screen_res;
 uniform vec4 rcp_frame_opt;
 uniform vec4 rcp_frame_opt2;
 VARYING vec2 vary_fragcoord;
-VARYING vec2 vary_tc;
 
 void main() 
 {
-	vec4 diff =			FxaaPixelShader(vary_tc,			//pos
+	vec4 diff =			FxaaPixelShader(vary_fragcoord,			//pos
 										vec4(vary_fragcoord.xy, 0, 0), //fxaaConsolePosPos
 										diffuseMap,					//tex
 										diffuseMap,					

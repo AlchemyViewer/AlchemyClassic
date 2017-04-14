@@ -32,9 +32,9 @@ out vec4 frag_color;
 
 //class 2 -- shadows and SSAO
 
-uniform sampler2DRect diffuseRect;
-uniform sampler2DRect depthMap;
-uniform sampler2DRect normalMap;
+uniform sampler2D diffuseRect;
+uniform sampler2D depthMap;
+uniform sampler2D normalMap;
 uniform sampler2DShadow shadowMap0;
 uniform sampler2DShadow shadowMap1;
 uniform sampler2DShadow shadowMap2;
@@ -50,8 +50,9 @@ uniform vec4 shadow_clip;
 
 VARYING vec2 vary_fragcoord;
 
+uniform vec2 kern_scale;
+
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
 uniform vec2 proj_shadow_res;
 uniform vec3 sun_dir;
 
@@ -63,7 +64,6 @@ uniform float shadow_offset;
 uniform float spot_shadow_bias;
 uniform float spot_shadow_offset;
 
-uniform float		  downsampled_depth_scale;
 
 vec2 encode_normal(vec3 n)
 {
@@ -84,9 +84,8 @@ vec3 decode_normal (vec2 enc)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -141,7 +140,7 @@ void main()
 	
 	vec4 pos = getPosition(pos_screen);
 	
-	vec3 norm = texture2DRect(normalMap, pos_screen).xyz;
+	vec3 norm = texture2D(normalMap, pos_screen).xyz;
 	norm = decode_normal(norm.xy); // unpack norm
 		
 	/*if (pos.z == 0.0) // do nothing for sky *FIX: REMOVE THIS IF/WHEN THE POSITION MAP IS BEING USED AS A STENCIL
@@ -242,7 +241,7 @@ void main()
 	}
 	
 	frag_color[0] = shadow;
-	frag_color[1] = texture2DRect(diffuseRect,vary_fragcoord*downsampled_depth_scale).r;
+	frag_color[1] = texture2D(diffuseRect,vary_fragcoord.xy * kern_scale).r;
 	
 	spos = vec4(shadow_pos+norm*spot_shadow_offset, 1.0);
 	

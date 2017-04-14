@@ -65,7 +65,6 @@ static const U32 LL_NUM_LIGHT_UNITS = 8;
 static const GLenum sGLTextureType[] =
 {
 	GL_TEXTURE_2D,
-	GL_TEXTURE_RECTANGLE_ARB,
 	GL_TEXTURE_CUBE_MAP_ARB
 };
 
@@ -1917,7 +1916,6 @@ void LLRender::flush()
 		
 		//store mCount in a local variable to avoid re-entrance (drawArrays may call flush)
 		U32 count = mCount;
-
 		if (mMode == LLRender::TRIANGLES)
 		{
 			if (mCount%3 != 0)
@@ -2326,9 +2324,6 @@ void LLRender::debugTexUnits(void)
 			{
 				case LLTexUnit::TT_TEXTURE:
 					LL_CONT << "Texture 2D";
-					break;
-				case LLTexUnit::TT_RECT_TEXTURE:
-					LL_CONT << "Texture Rectangle";
 					break;
 				case LLTexUnit::TT_CUBE_MAP:
 					LL_CONT << "Cube Map";

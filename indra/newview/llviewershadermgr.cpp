@@ -81,7 +81,6 @@ LLGLSLShader	gOneTextureNoColorProgram;
 LLGLSLShader	gDebugProgram;
 LLGLSLShader	gClipProgram;
 LLGLSLShader	gDownsampleDepthProgram;
-LLGLSLShader	gDownsampleDepthRectProgram;
 LLGLSLShader	gAlphaMaskProgram;
 LLGLSLShader	gBenchmarkProgram;
 
@@ -153,7 +152,6 @@ LLGLSLShader		gHighlightSpecularProgram;
 //avatar shader handles
 LLGLSLShader		gAvatarProgram;
 LLGLSLShader		gAvatarWaterProgram;
-LLGLSLShader		gAvatarEyeballProgram;
 LLGLSLShader		gAvatarPickProgram;
 LLGLSLShader		gImpostorProgram;
 
@@ -238,7 +236,6 @@ LLViewerShaderMgr::LLViewerShaderMgr() :
 	mShaderList.push_back(&gObjectShinyProgram);
 	mShaderList.push_back(&gObjectShinyNonIndexedProgram);
 	mShaderList.push_back(&gWaterProgram);
-	mShaderList.push_back(&gAvatarEyeballProgram); 
 	mShaderList.push_back(&gObjectSimpleProgram);
 	mShaderList.push_back(&gObjectSimpleImpostorProgram);
 	mShaderList.push_back(&gObjectPreviewProgram);
@@ -677,7 +674,6 @@ void LLViewerShaderMgr::unloadShaders()
 	gDebugProgram.unload();
 	gClipProgram.unload();
 	gDownsampleDepthProgram.unload();
-	gDownsampleDepthRectProgram.unload();
 	gBenchmarkProgram.unload();
 	gAlphaMaskProgram.unload();
 	gUIProgram.unload();
@@ -754,7 +750,6 @@ void LLViewerShaderMgr::unloadShaders()
 	gGlowExtractProgram.unload();
 	gAvatarProgram.unload();
 	gAvatarWaterProgram.unload();
-	gAvatarEyeballProgram.unload();
 	gAvatarPickProgram.unload();
 	gHighlightProgram.unload();
 	gHighlightNormalProgram.unload();
@@ -1426,7 +1421,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	if (success)
 	{
 		std::string fragment;
-		std::string vertex = "deferred/sunLightV.glsl";
+		std::string vertex = "deferred/postDeferredNoTCV.glsl";
 
 		if (gSavedSettings.getBOOL("RenderDeferredSSAO"))
 		{
@@ -1456,7 +1451,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		{
 			gDeferredSSAOProgram.mName = "Deferred Ambient Occlusion Shader";
 			gDeferredSSAOProgram.mShaderFiles.clear();
-			gDeferredSSAOProgram.mShaderFiles.push_back(std::make_pair("deferred/sunLightV.glsl", GL_VERTEX_SHADER_ARB));
+			gDeferredSSAOProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER_ARB));
 			gDeferredSSAOProgram.mShaderFiles.push_back(std::make_pair("deferred/SSAOF.glsl", GL_FRAGMENT_SHADER_ARB));
 			gDeferredSSAOProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 			success = gDeferredSSAOProgram.createShader(NULL, NULL);
@@ -1466,7 +1461,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		{
 			gDeferredDownsampleDepthNearestProgram.mName = "Deferred Nearest Downsample Depth Shader";
 			gDeferredDownsampleDepthNearestProgram.mShaderFiles.clear();
-			gDeferredDownsampleDepthNearestProgram.mShaderFiles.push_back(std::make_pair("deferred/sunLightV.glsl", GL_VERTEX_SHADER_ARB));
+			gDeferredDownsampleDepthNearestProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER_ARB));
 			gDeferredDownsampleDepthNearestProgram.mShaderFiles.push_back(std::make_pair("deferred/downsampleDepthNearestF.glsl", GL_FRAGMENT_SHADER_ARB));
 			gDeferredDownsampleDepthNearestProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 			success = gDeferredDownsampleDepthNearestProgram.createShader(NULL, NULL);
@@ -1477,7 +1472,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	{
 		gDeferredBlurLightProgram.mName = "Deferred Blur Light Shader";
 		gDeferredBlurLightProgram.mShaderFiles.clear();
-		gDeferredBlurLightProgram.mShaderFiles.push_back(std::make_pair("deferred/blurLightV.glsl", GL_VERTEX_SHADER));
+		gDeferredBlurLightProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gDeferredBlurLightProgram.mShaderFiles.push_back(std::make_pair("deferred/blurLightF.glsl", GL_FRAGMENT_SHADER));
 		gDeferredBlurLightProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 
@@ -1748,7 +1743,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	{
 		gDeferredSoftenProgram.mName = "Deferred Soften Shader";
 		gDeferredSoftenProgram.mShaderFiles.clear();
-		gDeferredSoftenProgram.mShaderFiles.push_back(std::make_pair("deferred/softenLightV.glsl", GL_VERTEX_SHADER));
+		gDeferredSoftenProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gDeferredSoftenProgram.mShaderFiles.push_back(std::make_pair("deferred/softenLightF.glsl", GL_FRAGMENT_SHADER));
 		gDeferredSoftenProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
 
@@ -1764,7 +1759,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	{
 		gDeferredSoftenWaterProgram.mName = "Deferred Soften Underwater Shader";
 		gDeferredSoftenWaterProgram.mShaderFiles.clear();
-		gDeferredSoftenWaterProgram.mShaderFiles.push_back(std::make_pair("deferred/softenLightV.glsl", GL_VERTEX_SHADER));
+		gDeferredSoftenWaterProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gDeferredSoftenWaterProgram.mShaderFiles.push_back(std::make_pair("deferred/softenLightF.glsl", GL_FRAGMENT_SHADER));
 
 		gDeferredSoftenWaterProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
@@ -1895,7 +1890,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 	{
 		gFXAAProgram.mName = "FXAA Shader";
 		gFXAAProgram.mShaderFiles.clear();
-		gFXAAProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredV.glsl", GL_VERTEX_SHADER));
+		gFXAAProgram.mShaderFiles.push_back(std::make_pair("deferred/postDeferredNoTCV.glsl", GL_VERTEX_SHADER));
 		gFXAAProgram.mShaderFiles.push_back(std::make_pair("deferred/fxaaF.glsl", GL_FRAGMENT_SHADER));
 		gFXAAProgram.addPermutation("FXAA_QUALITY_PRESET", std::to_string(gSavedSettings.getU32("RenderDeferredFXAAQuality"))); // <alchemy/>
 		gFXAAProgram.mShaderLevel = mVertexShaderLevel[SHADER_DEFERRED];
@@ -2888,7 +2883,6 @@ BOOL LLViewerShaderMgr::loadShadersAvatar()
 	{
 		gAvatarProgram.unload();
 		gAvatarWaterProgram.unload();
-		gAvatarEyeballProgram.unload();
 		gAvatarPickProgram.unload();
 		return TRUE;
 	}
@@ -2947,24 +2941,6 @@ BOOL LLViewerShaderMgr::loadShadersAvatar()
 		gAvatarPickProgram.mShaderFiles.push_back(std::make_pair("avatar/pickAvatarF.glsl", GL_FRAGMENT_SHADER));
 		gAvatarPickProgram.mShaderLevel = mVertexShaderLevel[SHADER_AVATAR];
 		success = gAvatarPickProgram.createShader(NULL, NULL);
-	}
-
-	if (success)
-	{
-		gAvatarEyeballProgram.mName = "Avatar Eyeball Program";
-		gAvatarEyeballProgram.mFeatures.calculatesLighting = true;
-		gAvatarEyeballProgram.mFeatures.isSpecular = true;
-		gAvatarEyeballProgram.mFeatures.calculatesAtmospherics = true;
-		gAvatarEyeballProgram.mFeatures.hasGamma = true;
-		gAvatarEyeballProgram.mFeatures.hasAtmospherics = true;
-		gAvatarEyeballProgram.mFeatures.hasLighting = true;
-		gAvatarEyeballProgram.mFeatures.hasAlphaMask = true;
-		gAvatarEyeballProgram.mFeatures.disableTextureIndex = true;
-		gAvatarEyeballProgram.mShaderFiles.clear();
-		gAvatarEyeballProgram.mShaderFiles.push_back(std::make_pair("avatar/eyeballV.glsl", GL_VERTEX_SHADER));
-		gAvatarEyeballProgram.mShaderFiles.push_back(std::make_pair("avatar/eyeballF.glsl", GL_FRAGMENT_SHADER));
-		gAvatarEyeballProgram.mShaderLevel = mVertexShaderLevel[SHADER_AVATAR];
-		success = gAvatarEyeballProgram.createShader(NULL, NULL);
 	}
 
 	if( !success )
@@ -3217,16 +3193,6 @@ BOOL LLViewerShaderMgr::loadShadersInterface()
 		gDownsampleDepthProgram.mShaderFiles.push_back(std::make_pair("interface/downsampleDepthF.glsl", GL_FRAGMENT_SHADER));
 		gDownsampleDepthProgram.mShaderLevel = mVertexShaderLevel[SHADER_INTERFACE];
 		success = gDownsampleDepthProgram.createShader(NULL, NULL);
-	}
-
-	if (success)
-	{
-		gDownsampleDepthRectProgram.mName = "DownsampleDepthRect Shader";
-		gDownsampleDepthRectProgram.mShaderFiles.clear();
-		gDownsampleDepthRectProgram.mShaderFiles.push_back(std::make_pair("interface/downsampleDepthV.glsl", GL_VERTEX_SHADER));
-		gDownsampleDepthRectProgram.mShaderFiles.push_back(std::make_pair("interface/downsampleDepthRectF.glsl", GL_FRAGMENT_SHADER));
-		gDownsampleDepthRectProgram.mShaderLevel = mVertexShaderLevel[SHADER_INTERFACE];
-		success = gDownsampleDepthRectProgram.createShader(NULL, NULL);
 	}
 
 	if (success)

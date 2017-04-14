@@ -23,8 +23,6 @@
  * $/LicenseInfo$
  */
  
-//#extension GL_ARB_texture_rectangle : enable
-
 #ifdef DEFINE_GL_FRAGCOLOR
 out vec4 frag_color;
 #else
@@ -33,18 +31,17 @@ out vec4 frag_color;
 
 VARYING vec2 vary_fragcoord;
 
-uniform sampler2DRect depthMapDownsampled;
-uniform sampler2DRect normalMap;
+uniform sampler2D depthMapDownsampled;
+uniform sampler2D normalMap;
 uniform sampler2D noiseMap;
 
-uniform vec2 screen_res;
 uniform mat4 inv_proj;
-
-uniform float downsampled_depth_scale;
 
 uniform float ssao_radius;
 uniform float ssao_max_radius;
 uniform float ssao_factor;
+uniform vec2 kern_scale;
+uniform vec2 noise_scale;
 
 vec3 decode_normal (vec2 enc)
 {
@@ -59,9 +56,8 @@ vec3 decode_normal (vec2 enc)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMapDownsampled, pos_screen.xy*downsampled_depth_scale).r;
+	float depth = texture2D(depthMapDownsampled, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -90,7 +86,7 @@ vec2 getKern(int i)
 float calcAmbientOcclusion(vec4 pos, vec3 norm)
 {
   vec2 pos_screen = vary_fragcoord.xy;
-  vec2 noise_reflect = texture2D(noiseMap, vary_fragcoord.xy/128.0).xy;
+  vec2 noise_reflect = texture2D(noiseMap, vary_fragcoord.xy * noise_scale).xy;
 
   // We treat the first sample as the origin, which definitely doesn't obscure itself thanks to being visible for sampling in the first place.
   float points = 1.0;
@@ -98,7 +94,7 @@ float calcAmbientOcclusion(vec4 pos, vec3 norm)
 		
   // use a kernel scale that diminishes with distance.
   // a scale of less than 32 is just wasting good samples, though.
-  float scale = max(32.0, min(ssao_radius / -pos.z, ssao_max_radius));
+  vec2 scale = max(32.0, min(ssao_radius / -pos.z, ssao_max_radius)) * kern_scale;
 
   // it was found that keeping # of samples a constant was the fastest, probably due to compiler optimizations (unrolling?)
   for (int i = 0; i < 8; i++)
@@ -106,8 +102,8 @@ float calcAmbientOcclusion(vec4 pos, vec3 norm)
     vec2 samppos_screen = pos_screen + scale * reflect(getKern(i), noise_reflect);
 
     // if sample is out-of-screen then give it no weight by continuing
-    if (any(lessThan(samppos_screen.xy, vec2(0.0, 0.0))) ||
-	any(greaterThan(samppos_screen.xy, vec2(screen_res.xy)))) continue;
+    //if (any(lessThan(samppos_screen.xy, vec2(0.0, 0.0))) ||
+    //  any(greaterThan(samppos_screen.xy, vec2(screen_res.xy)))) continue;
 
     vec3 samppos_world = getPosition(samppos_screen).xyz; 
 			
@@ -144,7 +140,7 @@ void main()
 	
 	vec4 pos = getPosition(pos_screen);
 	
-	vec3 norm = texture2DRect(normalMap, pos_screen).xyz;
+	vec3 norm = texture2D(normalMap, pos_screen).xyz;
 	norm = decode_normal(norm.xy);
 
 	frag_color = vec4(calcAmbientOcclusion(pos,norm),0,0,0);

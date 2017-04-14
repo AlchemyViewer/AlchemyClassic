@@ -172,7 +172,6 @@ extern LLGLSLShader			gGlowCombineFXAAProgram;
 extern LLGLSLShader			gDebugProgram;
 extern LLGLSLShader			gClipProgram;
 extern LLGLSLShader			gDownsampleDepthProgram;
-extern LLGLSLShader			gDownsampleDepthRectProgram;
 extern LLGLSLShader			gBenchmarkProgram;
 
 //output tex0[tc0] + tex1[tc1]
@@ -256,7 +255,6 @@ extern LLGLSLShader			gHighlightSpecularProgram;
 // avatar shader handles
 extern LLGLSLShader			gAvatarProgram;
 extern LLGLSLShader			gAvatarWaterProgram;
-extern LLGLSLShader			gAvatarEyeballProgram;
 extern LLGLSLShader			gAvatarPickProgram;
 extern LLGLSLShader			gImpostorProgram;
 

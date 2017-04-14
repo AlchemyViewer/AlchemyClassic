@@ -104,7 +104,6 @@ public:
 	BOOL mHasPointParameters;
 	BOOL mHasDrawBuffers;
 	BOOL mHasDepthClamp;
-	BOOL mHasTextureRectangle;
 	BOOL mHasTransformFeedback;
 	S32 mMaxSampleMaskWords;
 	S32 mMaxColorTextureSamples;

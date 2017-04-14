@@ -32,12 +32,11 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect diffuseRect;
-uniform sampler2DRect specularRect;
-uniform sampler2DRect positionMap;
-uniform sampler2DRect normalMap;
-uniform sampler2DRect lightMap;
-uniform sampler2DRect depthMap;
+uniform sampler2D diffuseRect;
+uniform sampler2D specularRect;
+uniform sampler2D normalMap;
+uniform sampler2D lightMap;
+uniform sampler2D depthMap;
 uniform samplerCube environmentMap;
 uniform sampler2D	  lightFunc;
 
@@ -76,7 +75,6 @@ vec3 vary_AdditiveColor;
 vec3 vary_AtmosAttenuation;
 
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
 
 vec3 srgb_to_linear(vec3 cs)
 {
@@ -130,7 +128,6 @@ vec3 decode_normal (vec2 enc)
 vec4 getPosition_d(vec2 pos_screen, float depth)
 {
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -141,7 +138,7 @@ vec4 getPosition_d(vec2 pos_screen, float depth)
 
 vec4 getPosition(vec2 pos_screen)
 { //get position in screen space (world units) given window coordinate and depth map
-	float depth = texture2DRect(depthMap, pos_screen.xy).a;
+	float depth = texture2D(depthMap, pos_screen.xy).a;
 	return getPosition_d(pos_screen, depth);
 }
 
@@ -190,7 +187,6 @@ void setAtmosAttenuation(vec3 v)
 {
 	vary_AtmosAttenuation = v;
 }
-
 
 #ifdef WATER_FOG
 uniform vec4 waterPlane;
@@ -304,7 +300,7 @@ void calcAtmospherics(vec3 inPositionEye) {
 		vec3(blue_horizon * blue_weight * (sunlight*(1.-cloud_shadow) + tmpAmbient)
 	  + (haze_horizon * haze_weight) * (sunlight*(1.-cloud_shadow) * temp2.x
 		  + tmpAmbient)));
-	
+
 	//brightness of surface both sunlight and ambient
 	setSunlitColor(vec3(sunlight * .5));
 	setAmblitColor(vec3(tmpAmbient * .25));
@@ -366,7 +362,6 @@ vec3 scaleSoftClip(vec3 light)
 	return light;
 }
 
-
 vec3 fullbrightScaleSoftClip(vec3 light)
 {
 	//soft clip effect:
@@ -376,9 +371,9 @@ vec3 fullbrightScaleSoftClip(vec3 light)
 void main() 
 {
 	vec2 tc = vary_fragcoord.xy;
-	float depth = texture2DRect(depthMap, tc.xy).r;
+	float depth = texture2D(depthMap, tc.xy).r;
 	vec3 pos = getPosition_d(tc, depth).xyz;
-	vec4 norm = texture2DRect(normalMap, tc);
+	vec4 norm = texture2D(normalMap, tc);
 	float envIntensity = norm.z;
 	norm.xyz = decode_normal(norm.xy); // unpack norm
 		
@@ -388,12 +383,12 @@ void main()
           final_da = min(final_da, 1.0f);
 	      final_da = pow(final_da, 1.0/1.3);
 
-	vec4 diffuse = texture2DRect(diffuseRect, tc);
+	vec4 diffuse = texture2D(diffuseRect, tc);
 
 	//convert to gamma space
 	diffuse.rgb = linear_to_srgb(diffuse.rgb);
 
-	vec4 spec = texture2DRect(specularRect, vary_fragcoord.xy);
+	vec4 spec = texture2D(specularRect, vary_fragcoord.xy);
 	vec3 col;
 	float bloom = 0.0;
 	{

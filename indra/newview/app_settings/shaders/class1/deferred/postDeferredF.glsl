@@ -31,12 +31,12 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect diffuseRect;
+uniform sampler2D diffuseRect;
 
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
 uniform float max_cof;
 uniform float res_scale;
+uniform vec2 kern_scale;
 
 VARYING vec2 vary_fragcoord;
 
@@ -49,7 +49,7 @@ float weightByColor(vec4 s)
 
 void dofSample(inout vec4 diff, inout float w, vec2 tc)
 {
-	vec4 s = texture2DRect(diffuseRect, tc);
+	vec4 s = texture2D(diffuseRect, tc);
 
 	float sweight = weightByColor(s);
 		
@@ -63,7 +63,8 @@ void dofSample(inout vec4 diff, inout float w, vec2 tc)
 
 void main() 
 {
-  vec4 diff = texture2DRect(diffuseRect, vary_fragcoord.xy);
+  vec2 tc = vary_fragcoord.xy;
+  vec4 diff = texture2D(diffuseRect, tc);
 	
   float w = weightByColor(diff);
   diff.rgb *= w;
@@ -81,7 +82,7 @@ void main()
 	  float ang = sc+i*2*PI/its; // sc is added for rotary perturbance
 	  float samp_x = sc*sin(ang);
 	  float samp_y = sc*cos(ang);
-	  dofSample(diff, w, vary_fragcoord.xy + vec2(samp_x,samp_y));
+	  dofSample(diff, w, tc + vec2(samp_x,samp_y) * kern_scale);
 	}
       sc -= 2.0;
     }

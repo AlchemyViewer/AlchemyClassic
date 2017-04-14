@@ -31,10 +31,10 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect depthMap;
-uniform sampler2DRect diffuseRect;
-uniform sampler2DRect specularRect;
-uniform sampler2DRect normalMap;
+uniform sampler2D depthMap;
+uniform sampler2D diffuseRect;
+uniform sampler2D specularRect;
+uniform sampler2D normalMap;
 uniform samplerCube environmentMap;
 uniform sampler2D noiseMap;
 uniform sampler2D lightFunc;
@@ -49,11 +49,11 @@ uniform vec4 light[LIGHT_COUNT];
 uniform vec4 light_col[LIGHT_COUNT];
 
 VARYING vec4 vary_fragcoord;
-uniform vec2 screen_res;
 
 uniform float far_z;
 
 uniform mat4 inv_proj;
+uniform vec2 noise_scale;
 
 vec2 encode_normal(vec3 n)
 {
@@ -74,9 +74,8 @@ vec3 decode_normal (vec2 enc)
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -87,20 +86,20 @@ vec4 getPosition(vec2 pos_screen)
 
 void main() 
 {
-	vec2 frag = (vary_fragcoord.xy*0.5+0.5)*screen_res;
+	vec2 frag = (vary_fragcoord.xy*0.5+0.5);
 	vec3 pos = getPosition(frag.xy).xyz;
 	if (pos.z < far_z)
 	{
 		discard;
 	}
 	
-	vec3 norm = texture2DRect(normalMap, frag.xy).xyz;
+	vec3 norm = texture2D(normalMap, frag.xy).xyz;
 	norm = decode_normal(norm.xy); // unpack norm
 	norm = normalize(norm);
-	vec4 spec = texture2DRect(specularRect, frag.xy);
-	vec3 diff = texture2DRect(diffuseRect, frag.xy).rgb;
+	vec4 spec = texture2D(specularRect, frag.xy);
+	vec3 diff = texture2D(diffuseRect, frag.xy).rgb;
 	
-	float noise = texture2D(noiseMap, frag.xy/128.0).b;
+	float noise = texture2D(noiseMap, frag.xy*noise_scale).b;
 	vec3 out_col = vec3(0,0,0);
 	vec3 npos = normalize(-pos);
 

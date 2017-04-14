@@ -31,26 +31,34 @@ out vec4 frag_color;
 #define frag_color gl_FragColor
 #endif
 
-uniform sampler2DRect depthMap;
-uniform sampler2DRect normalMap;
-uniform sampler2DRect lightMap;
+uniform sampler2D depthMap;
+uniform sampler2D normalMap;
+uniform sampler2D lightMap;
 
 uniform float dist_factor;
 uniform float blur_size;
 uniform vec2 delta;
-uniform vec3 kern[4];
-uniform float kern_scale;
+uniform vec2 kern_scale;
 
 VARYING vec2 vary_fragcoord;
 
 uniform mat4 inv_proj;
-uniform vec2 screen_res;
+
+vec2 getKern(int i)
+{
+	vec2 kern[4];
+	
+	kern[0] = vec2(0.3989422804,0.1994711402);
+	kern[1] = vec2(0.2419707245,0.1760326634);
+	kern[2] = vec2(0.0539909665,0.1209853623);
+	kern[3] = vec2(0.0044318484,0.0647587978);
+	return kern[i];
+}
 
 vec4 getPosition(vec2 pos_screen)
 {
-	float depth = texture2DRect(depthMap, pos_screen.xy).r;
+	float depth = texture2D(depthMap, pos_screen.xy).r;
 	vec2 sc = pos_screen.xy*2.0;
-	sc /= screen_res;
 	sc -= vec2(1.0,1.0);
 	vec4 ndc = vec4(sc.x, sc.y, 2.0*depth-1.0, 1.0);
 	vec4 pos = inv_proj * ndc;
@@ -78,17 +86,17 @@ vec3 decode_normal (vec2 enc)
 
 void main() 
 {
-    vec2 tc = vary_fragcoord.xy;
-	vec3 norm = texture2DRect(normalMap, tc).xyz;
+	vec2 tc = vary_fragcoord.xy;
+	vec3 norm = texture2D(normalMap, tc).xyz;
 	norm = decode_normal(norm.xy); // unpack norm
 
 	vec3 pos = getPosition(tc).xyz;
-	vec4 ccol = texture2DRect(lightMap, tc).rgba;
-	
-	vec2 dlt = kern_scale * delta / (vec2(1.0)+norm.xy*norm.xy);
+	vec4 ccol = texture2D(lightMap, tc).rgba;
+
+	vec2 dlt = delta / (vec2(1.0)+norm.xy*norm.xy);
 	dlt /= max(-pos.z*dist_factor, 1.0);
 	
-	vec2 defined_weight = kern[0].xy; // special case the first (centre) sample's weight in the blur; we have to sample it anyway so we get it for 'free'
+	vec2 defined_weight = getKern(0).xy; // special case the first (centre) sample's weight in the blur; we have to sample it anyway so we get it for 'free'
 	vec4 col = defined_weight.xyxx * ccol;
 
 	// relax tolerance according to distance to avoid speckling artifacts, as angles and distances are a lot more abrupt within a small screen area at larger distances
@@ -96,34 +104,34 @@ void main()
 
 	for (int i = 3; i > 0; i--)
 	{
-		vec2 samptc = tc + kern[i].z*dlt;
-	    vec3 samppos = getPosition(samptc).xyz; 
-
+		vec2 samptc = (tc + i * dlt);
+		vec3 samppos = getPosition(samptc).xyz; 
 		float d = dot(norm.xyz, samppos.xyz-pos.xyz);// dist from plane
-		
+
 		if (d*d <= pointplanedist_tolerance_pow2)
 		{
-			col += texture2DRect(lightMap, samptc)*kern[i].xyxx;
-			defined_weight += kern[i].xy;
+			vec4 weight = getKern(i).xyxx;
+			col += texture2D(lightMap, samptc)*weight;
+			defined_weight += weight.xy;
 		}
 	}
 
 	for (int i = 1; i < 4; i++)
 	{
-		vec2 samptc = tc - kern[i].z*dlt;
+		vec2 samptc = (tc - i * dlt);
 	    vec3 samppos = getPosition(samptc).xyz; 
-
 		float d = dot(norm.xyz, samppos.xyz-pos.xyz);// dist from plane
-		
+
 		if (d*d <= pointplanedist_tolerance_pow2)
 		{
-			col += texture2DRect(lightMap, samptc)*kern[i].xyxx;
-			defined_weight += kern[i].xy;
+			vec4 weight = getKern(i).xyxx;
+			col += texture2D(lightMap, samptc)*weight;
+			defined_weight += weight.xy;
 		}
 	}
 
 	col /= defined_weight.xyxx;
-	//col.y *= col.y; // delinearize SSAO effect post-blur
+	//col.y *= col.y; // delinearize SSAO effect post-blur    // Singu note: Performed pre-blur as to remove blur requirement
 	
 	frag_color = col;
 }

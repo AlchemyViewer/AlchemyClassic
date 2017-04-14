@@ -184,7 +184,6 @@ LLGLManager::LLGLManager() :
 	mHasPointParameters(FALSE),
 	mHasDrawBuffers(FALSE),
 	mHasDepthClamp(FALSE),
-	mHasTextureRectangle(FALSE),
 	mHasTransformFeedback(FALSE),
 	mMaxSampleMaskWords(0),
 	mMaxColorTextureSamples(0),
@@ -680,7 +679,6 @@ void LLGLManager::initExtensions()
 	mHasOcclusionQuery = FALSE;
 	mHasPointParameters = FALSE;
 	mHasShaderObjects = FALSE;
-	mHasTextureRectangle = FALSE;
 #elif LL_DARWIN
     std::set<std::string> extensions;
     const auto extensionString = glGetString(GL_EXTENSIONS);
@@ -739,7 +737,6 @@ void LLGLManager::initExtensions()
     
     mHasDrawBuffers = extensions.find("GL_ARB_draw_buffers") != extensions.end();
     mHasBlendFuncSeparate = extensions.find("GL_EXT_blend_func_separate") != extensions.end();
-    mHasTextureRectangle = extensions.find("GL_ARB_texture_rectangle") != extensions.end();
     mHasDebugOutput = extensions.find("GL_ARB_debug_output") != extensions.end();
     mHasTransformFeedback = mGLVersion >= 4.f || extensions.find("GL_EXT_transform_feedback") != extensions.end();
 #if !LL_DARWIN
@@ -801,7 +798,6 @@ void LLGLManager::initExtensions()
 
 	mHasDrawBuffers = GLEW_ARB_draw_buffers;
 	mHasBlendFuncSeparate = GLEW_EXT_blend_func_separate;
-	mHasTextureRectangle = GLEW_ARB_texture_rectangle;
 	mHasDebugOutput = GLEW_ARB_debug_output;
 	mHasTransformFeedback = mGLVersion >= 4.f || GLEW_EXT_transform_feedback;
 #if !LL_DARWIN
@@ -883,7 +879,6 @@ void LLGLManager::initExtensions()
 		if (strchr(blacklist,'p')) mHasPointParameters = FALSE;//S
 		if (strchr(blacklist,'q')) mHasFramebufferObject = FALSE;//S
 		if (strchr(blacklist,'r')) mHasDrawBuffers = FALSE;//S
-		if (strchr(blacklist,'s')) mHasTextureRectangle = FALSE;
 		if (strchr(blacklist,'t')) mHasBlendFuncSeparate = FALSE;//S
 		if (strchr(blacklist,'u')) mHasDepthClamp = FALSE;
 		

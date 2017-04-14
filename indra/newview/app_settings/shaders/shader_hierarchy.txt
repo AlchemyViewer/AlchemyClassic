@@ -18,25 +18,6 @@ avatar/avatarF.glsl - gAvatarProgram
 				atmosLighting() - windlight/atmosphericsF.glsl
 				scaleSoftClip() - windlight/gammaF.glsl
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-avatar/eyeballV.glsl - gAvatarEyeballProgram
-	main() - avatar/eyeballV.glsl
-		calcAtmospherics() - windlight/atmosphericsV.glsl
-		calcLightingSpecular() - lighting/lightSpecularV.glsl
-			sumLightsSpecular() - lighting/sumLightsSpecularV.glsl
-				calcDirectionalLightSpecular() - lighting/lightFuncSpecularV.glsl
-				calcPointLightSpecular() - lighting/lightFuncSpecularV.glsl
-				atmosAmbient() - windlight/atmosphericsHelpersV.glsl
-				atmosAffectDirectionalLight() - windlight/atmosphericsHelpersV.glsl
-				atmosGetDiffuseSunlightColor() - windlight/atmosphericsHelpersV.glsl
-				scaleDownLight() - windlight/atmosphericsHelpersV.glsl
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-avatar/eyeballF.glsl - gAvatarEyeballProgram
-	main() - avatar/eyeballF.glsl
-		default_lighting() - lighting/lightF.glsl
-			calc_default_lighting() - lighting/lightF.glsl
-				atmosLighting() - windlight/atmosphericsF.glsl
-				scaleSoftClip() - windlight/gammaF.glsl
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 avatar/pickAvatarV.glsl - gAvatarPickProgram
 	main() - avatar/pickAvatarV.glsl
 		getSkinnedTransform() - avatarSkinV.glsl

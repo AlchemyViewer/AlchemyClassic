@@ -122,7 +122,6 @@ vary_normal  = n;
 #if HAS_NORMAL_MAP
 	vec3 t = normalize(normal_matrix * tangent.xyz);
 	vec3 b = cross(n,t)*tangent.w;
-	//vec3 t = cross(b,n) * binormal.w;
 	
 	vary_mat0 = vec3(t.x, b.x, n.x);
 	vary_mat1 = vec3(t.y, b.y, n.y);

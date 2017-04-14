@@ -2036,7 +2036,7 @@ void LLRender::vertex4a(const LLVector4a& vertex)
 	mCount++;
 	mVerticesp[mCount] = mVerticesp[mCount-1];
 	mColorsp[mCount] = mColorsp[mCount-1];
-	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];	
+	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
 
 	if (mPrimitiveReset && mCount)
 	{

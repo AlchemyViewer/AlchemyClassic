@@ -50,7 +50,6 @@ VARYING vec4 vary_fragcoord;
 VARYING vec3 trans_center;
 
 uniform mat4 inv_proj;
-uniform vec4 viewport;
 uniform vec2 noise_scale;
 
 vec2 encode_normal(vec3 n)

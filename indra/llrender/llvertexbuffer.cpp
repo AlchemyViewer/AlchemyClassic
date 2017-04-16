@@ -354,6 +354,13 @@ static std::string vb_type_name[] =
 	"TYPE_INDEX",	
 };
 
+// static
+const std::string& LLVertexBuffer::getTypeName(U8 i)
+{
+	llassert_always(i < (U8)(sizeof(vb_type_name) / sizeof(std::string)));
+	return vb_type_name[i];
+}
+
 U32 LLVertexBuffer::sGLMode[LLRender::NUM_MODES] = 
 {
 	GL_TRIANGLES,
@@ -2082,6 +2089,10 @@ bool LLVertexBuffer::getTexCoord2Strider(LLStrider<LLVector2>& strider, S32 inde
 bool LLVertexBuffer::getNormalStrider(LLStrider<LLVector3>& strider, S32 index, S32 count, bool map_range)
 {
 	return VertexBufferStrider<LLVector3,TYPE_NORMAL>::get(*this, strider, index, count, map_range);
+}
+bool LLVertexBuffer::getNormalStrider(LLStrider<LLVector4a>& strider, S32 index, S32 count, bool map_range)
+{
+	return VertexBufferStrider<LLVector4a,TYPE_NORMAL>::get(*this, strider, index, count, map_range);
 }
 bool LLVertexBuffer::getTangentStrider(LLStrider<LLVector3>& strider, S32 index, S32 count, bool map_range)
 {

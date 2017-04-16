@@ -1086,16 +1086,7 @@ void LLRender::init()
 		glBindVertexArray(ret);
 #endif
 	}
-
-
-	llassert_always(mBuffer.isNull()) ;
-	stop_glerror();
-	mBuffer = new LLVertexBuffer(immediate_mask, 0);
-	mBuffer->allocateBuffer(4096, 0, TRUE);
-	mBuffer->getVertexStrider(mVerticesp);
-	mBuffer->getTexCoord0Strider(mTexcoordsp);
-	mBuffer->getColorStrider(mColorsp);
-	stop_glerror();
+	restoreVertexBuffers();
 }
 
 void LLRender::shutdown()
@@ -1134,6 +1125,23 @@ void LLRender::refreshState(void)
 	setAlphaRejectSettings(mCurrAlphaFunc, mCurrAlphaFuncVal);
 
 	mDirty = false;
+}
+
+void LLRender::resetVertexBuffers()
+{
+	mBuffer = NULL;
+}
+
+void LLRender::restoreVertexBuffers()
+{
+	llassert_always(mBuffer.isNull());
+	stop_glerror();
+	mBuffer = new LLVertexBuffer(immediate_mask, 0);
+	mBuffer->allocateBuffer(4096, 0, TRUE);
+	mBuffer->getVertexStrider(mVerticesp);
+	mBuffer->getTexCoord0Strider(mTexcoordsp);
+	mBuffer->getColorStrider(mColorsp);
+	stop_glerror();
 }
 
 void LLRender::syncLightState()

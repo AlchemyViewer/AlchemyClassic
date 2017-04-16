@@ -5203,7 +5203,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 		fullbright_mask = fullbright_mask | LLVertexBuffer::MAP_TEXTURE_INDEX;
 	}
 
-	genDrawInfo(group, simple_mask | LLVertexBuffer::MAP_TEXTURE_INDEX, sSimpleFaces, simple_count, FALSE, batch_textures, FALSE);
+	genDrawInfo(group, simple_mask | LLVertexBuffer::MAP_TEXTURE_INDEX, sSimpleFaces, simple_count, FALSE, batch_textures);
 	genDrawInfo(group, fullbright_mask | LLVertexBuffer::MAP_TEXTURE_INDEX, sFullbrightFaces, fullbright_count, FALSE, batch_textures);
 	genDrawInfo(group, alpha_mask | LLVertexBuffer::MAP_TEXTURE_INDEX, sAlphaFaces, alpha_count, TRUE, batch_textures);
 	genDrawInfo(group, bump_mask | LLVertexBuffer::MAP_TEXTURE_INDEX, sBumpFaces, bump_count, FALSE, FALSE);
@@ -5219,9 +5219,9 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 			LLDrawable* drawablep = (LLDrawable*)(*drawable_iter)->getDrawable();
 			if(drawablep)
 			{
-			drawablep->clearState(LLDrawable::REBUILD_ALL);
+				drawablep->clearState(LLDrawable::REBUILD_ALL);
+			}
 		}
-	}
 	}
 
 	group->mLastUpdateTime = gFrameTimeSeconds;
@@ -5399,7 +5399,7 @@ static LLTrace::BlockTimerStatHandle FTM_GEN_DRAW_INFO_RESIZE_VB("Resize VB");
 
 
 
-void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace** faces, U32 face_count, BOOL distance_sort, BOOL batch_textures, BOOL no_materials)
+void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace** faces, U32 face_count, BOOL distance_sort, BOOL batch_textures)
 {
 	LL_RECORD_BLOCK_TIME(FTM_REBUILD_VOLUME_GEN_DRAW_INFO);
 
@@ -5443,14 +5443,6 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 	
 	LLSpatialGroup::buffer_map_t buffer_map;
 
-	LLViewerTexture* last_tex = NULL;
-	S32 buffer_index = 0;
-
-	if (distance_sort)
-	{
-		buffer_index = -1;
-	}
-
 	S32 texture_index_channels = 1;
 	
 	if (gGLManager.mGLSLVersionMajor > 1 || gGLManager.mGLSLVersionMinor >= 30)
@@ -5480,16 +5472,6 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 		if (distance_sort)
 		{
 			tex = NULL;
-		}
-
-		if (last_tex == tex)
-		{
-			buffer_index++;
-		}
-		else
-		{
-			last_tex = tex;
-			buffer_index = 0;
 		}
 
 		U32 index_count = facep->getIndicesCount();
@@ -5762,11 +5744,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 						}
 					}
 				}
-				else if (no_materials)
-				{
-					registerFace(group, facep, LLRenderPass::PASS_SIMPLE);
-				}
-				else if (te->getColor().mV[3] < 0.999f)
+				else if (!opaque)
 				{
 					registerFace(group, facep, LLRenderPass::PASS_ALPHA);
 				}

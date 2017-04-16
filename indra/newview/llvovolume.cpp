@@ -5060,8 +5060,8 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 						if (gPipeline.canUseWindLightShadersOnObjects()
 							&& LLPipeline::sRenderBump)
 						{
-							if (LLPipeline::sRenderDeferred && te->getMaterialParams().notNull()  && !te->getMaterialID().isNull())
-							{
+							if (LLPipeline::sRenderDeferred && te->getMaterialParams().notNull())
+ 							{
 								LLMaterial* mat = te->getMaterialParams().get();
 								if (mat->getNormalID().notNull())
 								{
@@ -5175,7 +5175,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 	//PROCESS NON-ALPHA FACES
 	U32 simple_mask = LLVertexBuffer::MAP_TEXCOORD0 | LLVertexBuffer::MAP_NORMAL | LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_COLOR;
 	U32 alpha_mask = simple_mask | 0x80000000; //hack to give alpha verts their own VBO
-	U32 bump_mask = LLVertexBuffer::MAP_TEXCOORD0 | LLVertexBuffer::MAP_TEXCOORD1 | LLVertexBuffer::MAP_NORMAL | LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_COLOR;
+	U32 bump_mask = simple_mask | LLVertexBuffer::MAP_TEXCOORD1;
 	U32 fullbright_mask = LLVertexBuffer::MAP_TEXCOORD0 | LLVertexBuffer::MAP_VERTEX | LLVertexBuffer::MAP_COLOR;
 
 	U32 norm_mask = simple_mask | LLVertexBuffer::MAP_TEXCOORD1 | LLVertexBuffer::MAP_TANGENT;
@@ -5606,6 +5606,42 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 		if (flexi && buffer_usage && buffer_usage != GL_STREAM_DRAW_ARB)
 		{
 			buffer_usage = GL_STREAM_DRAW_ARB;
+		}
+		
+		if(gDebugGL)
+		{
+			if (LLPipeline::sRenderDeferred &&
+				(*face_iter)->getTextureEntry()->getMaterialParams().get() &&
+				((*face_iter)->getPoolType() == LLDrawPool::POOL_ALPHA ||
+				(*face_iter)->getPoolType() == LLDrawPool::POOL_MATERIALS ))
+			{
+				LLMaterial* mat = (*face_iter)->getTextureEntry()->getMaterialParams().get();
+
+				U32 shader_mask;
+				if((*face_iter)->getPoolType() == LLDrawPool::POOL_ALPHA)
+					shader_mask = mat->getShaderMask(LLMaterial::DIFFUSE_ALPHA_MODE_BLEND);
+				else
+					shader_mask = mat->getShaderMask();
+
+				if(shader_mask != 1 && shader_mask != 5 && shader_mask != 9 && shader_mask != 13)
+				{
+					LLGLSLShader* shader = &(gDeferredMaterialProgram[shader_mask]);
+
+					if((mask & shader->mAttributeMask) != shader->mAttributeMask)
+					{
+						for (U32 i = 0; i < LLVertexBuffer::TYPE_MAX; ++i)
+						{
+							U32 attrib_mask = 1 << i;
+							if((shader->mAttributeMask & attrib_mask) && !(mask & attrib_mask))
+							{
+								const std::string& type_name = LLVertexBuffer::getTypeName(i);
+								LL_WARNS() << " Missing: " << type_name <<  LL_ENDL;
+							}
+						}
+						LL_ERRS() << "Face VBO missing required materials attributes." << LL_ENDL;
+					}
+				}
+			}
 		}
 
 		//create vertex buffer

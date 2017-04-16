@@ -3763,7 +3763,7 @@ void LLPipeline::postSort(LLCamera& camera)
 					}
 				}
 							
-				if (hasRenderType(LLDrawPool::POOL_ALPHA))
+				if (hasRenderType(LLPipeline::RENDER_TYPE_ALPHA))
 				{
 					sCull->pushAlphaGroup(group);
 				}
@@ -9254,15 +9254,15 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 						LLGLUserClipPlane clip_plane(plane, mat, projection);
 
 						if (LLPipeline::sRenderDeferred && materials_in_water)
-						{							
+						{
 							renderGeomDeferred(camera);
 						}
 						else
 						{
-						renderGeom(camera);
+							renderGeom(camera);
+						}
 					}
-				}	
-				}	
+				}
 
 				if (LLPipeline::sRenderDeferred && materials_in_water)
 				{

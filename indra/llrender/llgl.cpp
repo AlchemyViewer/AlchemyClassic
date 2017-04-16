@@ -96,6 +96,7 @@ void APIENTRY gl_debug_callback(GLenum source,
 	{
 		LL_WARNS() << "----- GL WARNING -------" << LL_ENDL;
 	}
+	LL_WARNS() << "Source: " << std::hex << source << std::dec << LL_ENDL;
 	LL_WARNS() << "Type: " << std::hex << type << std::dec << LL_ENDL;
 	LL_WARNS() << "ID: " << std::hex << id << std::dec << LL_ENDL;
 	LL_WARNS() << "Severity: " << std::hex << severity << std::dec << LL_ENDL;
@@ -486,6 +487,11 @@ bool LLGLManager::initGL()
 	{ //setup debug output callback
 		//glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, GL_TRUE);
 		glDebugMessageCallbackARB((GLDEBUGPROCARB) gl_debug_callback, NULL);
+		if (mIsNVIDIA)
+		{
+			GLuint annoyingspam[1] = { 131185 };
+			glDebugMessageControlARB(GL_DEBUG_SOURCE_API_ARB, GL_DEBUG_TYPE_OTHER_ARB, GL_DONT_CARE, 1, annoyingspam, GL_FALSE);
+		}
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS_ARB);
 	}
 #endif

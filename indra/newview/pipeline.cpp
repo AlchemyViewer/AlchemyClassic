@@ -364,7 +364,6 @@ BOOL	LLPipeline::sAutoMaskAlphaDeferred = TRUE;
 BOOL	LLPipeline::sAutoMaskAlphaNonDeferred = FALSE;
 BOOL	LLPipeline::sDisableShaders = FALSE;
 BOOL	LLPipeline::sRenderBump = TRUE;
-BOOL	LLPipeline::sBakeSunlight = FALSE;
 BOOL	LLPipeline::sNoAlpha = FALSE;
 BOOL	LLPipeline::sUseTriStrips = TRUE;
 BOOL	LLPipeline::sUseFarClip = TRUE;
@@ -6886,7 +6885,7 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 
 	if (LLVertexBuffer::sGLCount > 0)
 	{
-		LL_WARNS() << "VBO wipe failed -- " << LLVertexBuffer::sGLCount << " buffers remaining." << LL_ENDL;
+		LL_WARNS() << "VBO wipe failed -- " << LLVertexBuffer::sGLCount << " buffers remaining. " << LLVertexBuffer::sCount << LL_ENDL;
 	}
 
 	LLVertexBuffer::unbind();	
@@ -6900,7 +6899,6 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 	LLVertexBuffer::sPreferStreamDraw = gSavedSettings.getBOOL("RenderPreferStreamDraw");
 	LLVertexBuffer::sEnableVBOs = gSavedSettings.getBOOL("RenderVBOEnable");
 	LLVertexBuffer::sDisableVBOMapping = LLVertexBuffer::sEnableVBOs && gSavedSettings.getBOOL("RenderVBOMappingDisable") ;
-	sBakeSunlight = gSavedSettings.getBOOL("RenderBakeSunlight");
 	sNoAlpha = gSavedSettings.getBOOL("RenderNoAlpha");
 	LLPipeline::sTextureBindTest = gSavedSettings.getBOOL("RenderDebugTextureBind");
 

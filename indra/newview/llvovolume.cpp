@@ -4769,8 +4769,6 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
                           vobj->isMesh() && 
 						  gMeshRepo.getSkinInfo(vobj->getVolume()->getParams().getSculptID(), vobj);
 
-			bool bake_sunlight = LLPipeline::sBakeSunlight && drawablep->isStatic();
-
 			bool is_rigged = false;
 
             if (rigged && pAvatarVO)
@@ -5130,7 +5128,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 								}
 							}
 							else if ((te->getShiny() && LLPipeline::sRenderBump) ||
-								!(te->getFullbright() || bake_sunlight))
+								!(te->getFullbright()))
 							{ //needs normal
 								if (simple_count < MAX_FACE_COUNT)
 								{
@@ -5493,8 +5491,6 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 			last_tex = tex;
 			buffer_index = 0;
 		}
-
-		bool bake_sunlight = LLPipeline::sBakeSunlight && facep->getDrawable()->isStatic(); 
 
 		U32 index_count = facep->getIndicesCount();
 		U32 geom_count = facep->getGeomCount();
@@ -5902,7 +5898,7 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 			}
 			else
 			{ //not alpha and not shiny
-				if (fullbright || bake_sunlight)
+				if (fullbright)
 				{ //fullbright
 					if (mat && mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
 					{

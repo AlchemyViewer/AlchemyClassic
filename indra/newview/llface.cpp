@@ -1409,10 +1409,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	}
 	
 	{
-		//if it's not fullbright and has no normals, bake sunlight based on face normal
-		//bool bake_sunlight = !getTextureEntry()->getFullbright() &&
-		//  !mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_NORMAL);
-
 		if (rebuild_tcoord)
 		{
 			LL_RECORD_BLOCK_TIME(FTM_FACE_GEOM_TEXTURE);

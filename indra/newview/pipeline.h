@@ -557,7 +557,6 @@ public:
 	static BOOL				sAutoMaskAlphaNonDeferred;
 	static BOOL				sDisableShaders; // if TRUE, rendering will be done without shaders
 	static BOOL				sRenderBump;
-	static BOOL				sBakeSunlight;
 	static BOOL				sNoAlpha;
 	static BOOL				sUseTriStrips;
 	static BOOL				sUseFarClip;

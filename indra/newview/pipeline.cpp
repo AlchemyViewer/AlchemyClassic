@@ -7892,7 +7892,6 @@ void LLPipeline::renderDeferredLighting()
 			glClearColor(0,0,0,0);
 			
 			bindDeferredShader(gDeferredBlurLightProgram);
-			LLVector3 go = RenderShadowGaussian;
 			const U32 kern_length = 4;
 			F32 blur_size = RenderShadowBlurSize;
 			F32 dist_factor = RenderShadowBlurDistFactor;

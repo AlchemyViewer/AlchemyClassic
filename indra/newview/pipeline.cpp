@@ -5003,7 +5003,7 @@ void LLPipeline::renderDebug()
 			}
 
 			/*gGL.flush();
-			glLineWidth(16-i*2);
+			gGL.setLineWidth(16-i*2);
 			for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
 					iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
 			{
@@ -5021,7 +5021,7 @@ void LLPipeline::renderDebug()
 				}
 			}
 			gGL.flush();
-			glLineWidth(1.f);*/
+			gGL.setLineWidth(1.f);*/
 		}
 	}
 

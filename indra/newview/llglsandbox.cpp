@@ -792,7 +792,7 @@ void LLViewerObjectList::renderObjectBeacons()
 			if (line_width != last_line_width)
 			{
 				gGL.flush();
-				glLineWidth( (F32)line_width );
+				gGL.setLineWidth( (F32)line_width );
 				last_line_width = line_width;
 			}
 
@@ -828,7 +828,7 @@ void LLViewerObjectList::renderObjectBeacons()
 			if (line_width != last_line_width)
 			{
 				gGL.flush();
-				glLineWidth( (F32)line_width );
+				gGL.setLineWidth( (F32)line_width );
 				last_line_width = line_width;
 			}
 
@@ -848,7 +848,7 @@ void LLViewerObjectList::renderObjectBeacons()
 		}
 		
 		gGL.flush();
-		glLineWidth(1.f);
+		gGL.setLineWidth(1.f);
 
 		for (std::vector<LLDebugBeacon>::iterator iter = mDebugBeacons.begin(); iter != mDebugBeacons.end(); ++iter)
 		{

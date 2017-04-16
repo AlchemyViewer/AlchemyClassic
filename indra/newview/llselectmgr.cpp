@@ -6342,9 +6342,9 @@ void LLSelectNode::renderOneWireframe(const LLColor4& color)
 	
 	LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
 	glPolygonOffset(3.f, 3.f);
-	glLineWidth(3.f);
+	gGL.setLineWidth(3.f);
 	pushWireframe(drawable);
-	glLineWidth(1.f);
+	gGL.setLineWidth(1.f);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	gGL.popMatrix();
 

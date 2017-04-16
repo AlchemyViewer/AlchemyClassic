@@ -1770,7 +1770,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 
 				LLColor4 col = mat->getSpecularLightColor();
-				F32 spec = mat->getSpecularLightExponent()/255.f;
+				F32 spec = llmax(0.0001f, mat->getSpecularLightExponent() / 255.f);
 
 				F32 env = mat->getEnvironmentIntensity()/255.f;
 

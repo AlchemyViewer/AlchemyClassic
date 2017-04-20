@@ -255,6 +255,8 @@ public:
 	LLMatrix4*	mTextureMatrix;
 	LLDrawInfo* mDrawInfo;
 
+	bool		mShinyInAlpha;
+
 private:
 	LLPointer<LLVertexBuffer> mVertexBuffer;
 		

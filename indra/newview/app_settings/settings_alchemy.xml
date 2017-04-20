@@ -1049,6 +1049,17 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
+    <key>RenderAggressiveBatching</key>
+    <map>
+      <key>Comment</key>
+      <string>Alternate batching path that is more correct and aggressive</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>1</integer>
+    </map>
     <key>RenderAutoMaskAlphaUseRMSE</key>
     <map>
       <key>Comment</key>
@@ -1104,16 +1115,16 @@
       <key>Value</key>
       <integer>0</integer>
     </map>
-    <key>RenderDeferredSSR</key>
+    <key>RenderDeferredFullbright</key>
     <map>
       <key>Comment</key>
-      <string>Execute screen space reflection shader permutation in deferred renderer.</string>
+      <string>Render fullbright in deferred</string>
       <key>Persist</key>
       <integer>1</integer>
       <key>Type</key>
       <string>Boolean</string>
       <key>Value</key>
-      <integer>0</integer>
+      <integer>1</integer>
     </map>
     <key>RenderDeferredFXAAQuality</key>
     <map>
@@ -1128,6 +1139,17 @@
       <string>U32</string>
       <key>Value</key>
       <integer>12</integer>
+    </map>
+    <key>RenderDeferredSSR</key>
+    <map>
+      <key>Comment</key>
+      <string>Execute screen space reflection shader permutation in deferred renderer.</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
     </map>
     <key>RenderDeferredSSAOResolutionScale</key>
     <map>

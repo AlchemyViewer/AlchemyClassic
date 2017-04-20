@@ -916,9 +916,10 @@ public:
 	static F32 CameraDoFResScale;
 	static F32 RenderAutoHideSurfaceAreaLimit;
 	static BOOL RenderDeferredAlwaysSoftenShadows;
+	static BOOL RenderAggressiveBatching;
+	static BOOL RenderDeferredFullbright;
 };
 
-void render_bbox(const LLVector3 &min, const LLVector3 &max);
 void render_hud_elements();
 
 extern LLPipeline gPipeline;

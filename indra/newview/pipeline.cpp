@@ -215,6 +215,9 @@ F32 LLPipeline::CameraMaxCoF;
 F32 LLPipeline::CameraDoFResScale;
 F32 LLPipeline::RenderAutoHideSurfaceAreaLimit;
 BOOL LLPipeline::RenderDeferredAlwaysSoftenShadows;
+BOOL LLPipeline::RenderAggressiveBatching;
+BOOL LLPipeline::RenderDeferredFullbright;
+
 LLTrace::EventStatHandle<S64> LLPipeline::sStatBatchSize("renderbatchsize");
 
 const F32 BACKLIGHT_DAY_MAGNITUDE_OBJECT = 0.1f;
@@ -382,7 +385,7 @@ BOOL	LLPipeline::sRenderDeferred = FALSE;
 BOOL    LLPipeline::sMemAllocationThrottled = FALSE;
 S32		LLPipeline::sVisibleLightCount = 0;
 F32		LLPipeline::sMinRenderSize = 0.f;
-BOOL	LLPipeline::sRenderingHUDs;
+BOOL	LLPipeline::sRenderingHUDs = FALSE;
 
 // EventHost API LLPipeline listener.
 static LLPipelineListener sPipelineListener;
@@ -628,6 +631,8 @@ void LLPipeline::init()
 	connectRefreshCachedSettingsSafe("CameraDoFResScale");
 	connectRefreshCachedSettingsSafe("RenderAutoHideSurfaceAreaLimit");
 	connectRefreshCachedSettingsSafe("RenderDeferredAlwaysSoftenShadows");
+	connectRefreshCachedSettingsSafe("RenderAggressiveBatching");
+	connectRefreshCachedSettingsSafe("RenderDeferredFullbright");
 }
 
 LLPipeline::~LLPipeline()
@@ -1148,6 +1153,8 @@ void LLPipeline::refreshCachedSettings()
 	CameraDoFResScale = gSavedSettings.getF32("CameraDoFResScale");
 	RenderAutoHideSurfaceAreaLimit = gSavedSettings.getF32("RenderAutoHideSurfaceAreaLimit");
 	RenderDeferredAlwaysSoftenShadows = gSavedSettings.getBOOL("RenderDeferredAlwaysSoftenShadows");
+	RenderAggressiveBatching = gSavedSettings.getBOOL("RenderAggressiveBatching");
+	RenderDeferredFullbright = gSavedSettings.getBOOL("RenderDeferredFullbright");
 	
 	updateRenderDeferred();
 }
@@ -1660,21 +1667,69 @@ U32 LLPipeline::getPoolTypeFromTE(const LLTextureEntry* te, LLViewerTexture* ima
 		}
 	}
 	
-	if (alpha)
+	if (!RenderAggressiveBatching)
 	{
-		return LLDrawPool::POOL_ALPHA;
-	}
-	else if ((te->getBumpmap() || te->getShiny()) && (!mat || mat->getNormalID().isNull()))
-	{
-		return LLDrawPool::POOL_BUMP;
-	}
-	else if (mat && !alpha)
-	{
-		return LLDrawPool::POOL_MATERIALS;
+		if (alpha)
+		{
+			return LLDrawPool::POOL_ALPHA;
+		}
+		else if ((te->getBumpmap() || te->getShiny()) && (!mat || mat->getNormalID().isNull()))
+		{
+			return LLDrawPool::POOL_BUMP;
+		}
+		else if (mat && !alpha)
+		{
+			return LLDrawPool::POOL_MATERIALS;
+		}
+		else
+		{
+			return LLDrawPool::POOL_SIMPLE;
+		}
 	}
 	else
 	{
-		return LLDrawPool::POOL_SIMPLE;
+		//Bump goes into bump pool unless using deferred and there's a normal map that takes precedence.
+		bool legacy_bump = (!LLPipeline::sRenderDeferred || !mat || mat->getNormalID().isNull()) && LLPipeline::sRenderBump && te->getBumpmap() && te->getBumpmap() < 18;
+		if (alpha)
+		{
+			return LLDrawPool::POOL_ALPHA;
+		}
+		else if (mat && mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
+		{
+			if (!LLPipeline::sRenderDeferred || legacy_bump)
+			{
+				return te->getFullbright() ? LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK : LLDrawPool::POOL_ALPHA_MASK;
+			}
+			else if (te->getFullbright() && !mat->getEnvironmentIntensity() && !te->getShiny())
+			{
+				return LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
+			}
+			return LLDrawPool::POOL_MATERIALS;
+		}
+		else if (legacy_bump)
+		{
+			return LLDrawPool::POOL_BUMP;
+		}
+		else if (LLPipeline::sRenderDeferred && mat)
+		{
+			if (te->getFullbright() && !mat->getEnvironmentIntensity() && !te->getShiny())
+			{
+				return RenderDeferredFullbright ? LLDrawPool::POOL_FULLBRIGHT : LLDrawPool::POOL_SIMPLE;
+			}
+			return LLDrawPool::POOL_MATERIALS;
+		}
+		else if ((RenderDeferredFullbright || !LLPipeline::sRenderDeferred) && te->getFullbright())
+		{
+			return (LLPipeline::sRenderBump && te->getShiny()) ? LLDrawPool::POOL_BUMP : LLDrawPool::POOL_FULLBRIGHT;
+		}
+		else if (!LLPipeline::sRenderDeferred && LLPipeline::sRenderBump && te->getShiny())
+		{
+			return LLDrawPool::POOL_BUMP;	//Shiny goes into bump pool when not using deferred rendering.
+		}
+		else
+		{
+			return LLDrawPool::POOL_SIMPLE;
+		}
 	}
 }
 

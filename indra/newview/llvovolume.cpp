@@ -4472,9 +4472,11 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
 	U32 pool_type = facep->getPoolType();
 
 	bool cmp_bump = (type == LLRenderPass::PASS_BUMP) || (type == LLRenderPass::PASS_POST_BUMP);
-	bool cmp_mat = (!LLPipeline::RenderAggressiveBatching) || LLPipeline::sRenderDeferred &&
-		((pool_type == LLDrawPool::POOL_MATERIALS) || (pool_type == LLDrawPool::POOL_ALPHA)) ||
-		pool_type == LLDrawPool::POOL_ALPHA_MASK || pool_type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
+    bool cmp_mat = (!LLPipeline::RenderAggressiveBatching)
+                    || (LLPipeline::sRenderDeferred && ((pool_type == LLDrawPool::POOL_MATERIALS)
+                                                        || (pool_type == LLDrawPool::POOL_ALPHA)))
+                    || pool_type == LLDrawPool::POOL_ALPHA_MASK
+                    || pool_type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
 	bool cmp_shiny = (!LLPipeline::RenderAggressiveBatching) ? !!mat : (mat && cmp_mat);
 	bool cmp_fullbright = !LLPipeline::RenderAggressiveBatching || cmp_shiny || pool_type == LLDrawPool::POOL_ALPHA;
 
@@ -5676,7 +5678,7 @@ struct CompareBatchBreakerModified
 			}
 
 			bool batch_shiny = (!LLPipeline::sRenderDeferred || (LLPipeline::RenderDeferredFullbright && lhs->isState(LLFace::FULLBRIGHT))) && lhs->getPoolType() == LLDrawPool::POOL_BUMP;
-			bool batch_fullbright = LLPipeline::RenderDeferredFullbright || !LLPipeline::sRenderDeferred && lhs->getPoolType() == LLDrawPool::POOL_ALPHA;
+			bool batch_fullbright = LLPipeline::RenderDeferredFullbright || (!LLPipeline::sRenderDeferred && lhs->getPoolType() == LLDrawPool::POOL_ALPHA);
 
 			if (batch_fullbright && lhs->isState(LLFace::FULLBRIGHT) != rhs->isState(LLFace::FULLBRIGHT))
 			{

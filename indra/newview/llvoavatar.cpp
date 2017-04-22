@@ -7229,7 +7229,8 @@ BOOL LLVOAvatar::isFullyLoaded() const
 bool LLVOAvatar::isTooComplex() const
 {
 	bool too_complex;
-	bool render_friend =  (LLAvatarTracker::instance().isBuddy(getID()) && gSavedSettings.getBOOL("AlwaysRenderFriends"));
+	static LLCachedControl <bool> always_render_friends(gSavedSettings, "AlwaysRenderFriends");
+	bool render_friend =  (always_render_friends && LLAvatarTracker::instance().isBuddy(getID()));
 
 	if (isSelf() || render_friend || mVisuallyMuteSetting == AV_ALWAYS_RENDER)
 	{

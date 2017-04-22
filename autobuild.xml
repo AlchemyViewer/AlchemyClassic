@@ -352,7 +352,7 @@
       <key>curl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1996 - 2016, Daniel Stenberg,(daniel@haxx.se), and many contributors.</string>
+        <string>Copyright (c) 1996 - 2017, Daniel Stenberg,(daniel@haxx.se), and many contributors.</string>
         <key>description</key>
         <string>Library for transferring data specified with URL syntax</string>
         <key>license</key>
@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f879f40471259de8cffbe1fc7d021239</string>
+              <string>1eab2dd73403783694afc0b24ba31b2e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.53.1-windows-201703090747.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.54.0-windows-201704221151.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d06f3cf343167eaf95dd873e477193f1</string>
+              <string>c583f630988b8a05e833040f98683d12</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.53.1-windows64-201703080914.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.54.0-windows64-201704221122.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.53.1</string>
+        <string>7.54.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

@@ -1195,7 +1195,7 @@ void LLFloaterPreference::onOpen(const LLSD& key)
 	// job
 	saveSettings();
 	LLButton* exceptions_btn = findChild<LLButton>("RenderExceptionsButton");
-	exceptions_btn->setEnabled(started);
+	exceptions_btn->setEnabled(LLStartUp::getStartupState() == STATE_STARTED);
 }
 
 void LLFloaterPreference::onVertexShaderEnable()

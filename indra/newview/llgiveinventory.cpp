@@ -336,8 +336,8 @@ void LLGiveInventory::logInventoryOffer(const LLUUID& to_agent, const LLUUID &im
 		{
 			// Build a new format username or firstname_lastname for legacy names
 			// to use it for a history log filename.
-			full_name = gSavedSettings.getBOOL("UseLegacyLogNames")
-						? full_name.substr(0, full_name.find(" Resident"))
+			std::string full_name = gSavedSettings.getBOOL("UseLegacyLogNames")
+						? av_name.getUserName().substr(0, full_name.find(" Resident"))
 						: LLCacheName::buildUsername(av_name.getUserName());
 			LLUIString message = LLTrans::getString(message_name + "-im");
 			message.setArgs(args);

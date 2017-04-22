@@ -30,6 +30,8 @@
 #include "lltoastnotifypanel.h"
 #include "llnotificationptr.h"
 
+class LLTextBox;
+
 /**
  * Toast panel for scripted llTextbox notifications.
  */

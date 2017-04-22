@@ -35,6 +35,8 @@
 #include "llstyle.h"
 #include "lluiconstants.h"
 #include "llviewertexteditor.h"
+#include "llbutton.h"
+#include "lltextbox.h"
 
 const S32 LLToastScriptTextbox::DEFAULT_MESSAGE_MAX_LINE_COUNT= 14;
 

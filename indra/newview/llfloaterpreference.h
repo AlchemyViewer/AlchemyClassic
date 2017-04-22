@@ -161,6 +161,7 @@ public:
 	void onClickPermsDefault();
 	void onClickAutoReplace();
 	void onClickSpellChecker();
+	void onClickRenderExceptions();
 	void onClickAdvanced();
 	void onClickResetControlDefault(const LLSD& userdata); // <alchemy/>
 	void applyUIColor(LLUICtrl* ctrl, const LLSD& param);

@@ -1519,76 +1519,84 @@ LLVector3d LLAgentCamera::calcFocusPositionTargetGlobal()
 		mFocusTargetGlobal = gAgent.getPosGlobalFromAgent(mFollowCam.getSimulatedFocus());
 		return mFocusTargetGlobal;
 	}
-	else
+	else if (mCameraMode == CAMERA_MODE_MOUSELOOK)
 	{
-		if (mCameraMode == CAMERA_MODE_MOUSELOOK)
+		LLVector3d at_axis(1.0, 0.0, 0.0);
+		LLQuaternion agent_rot = gAgent.getFrameAgent().getQuaternion();
+		if (isAgentAvatarValid() && gAgentAvatarp->getParent())
 		{
-			LLVector3d at_axis(1.0, 0.0, 0.0);
-			LLQuaternion agent_rot = gAgent.getFrameAgent().getQuaternion();
-			if (isAgentAvatarValid() && gAgentAvatarp->getParent())
+			LLViewerObject* root_object = (LLViewerObject*)gAgentAvatarp->getRoot();
+			if (!root_object->flagCameraDecoupled())
 			{
-				LLViewerObject* root_object = static_cast<LLViewerObject*>(gAgentAvatarp->getRoot());
-				if (!root_object->flagCameraDecoupled())
-				{
-					agent_rot *= static_cast<LLViewerObject*>(gAgentAvatarp->getParent())->getRenderRotation();
-				}
+				agent_rot *= ((LLViewerObject*)(gAgentAvatarp->getParent()))->getRenderRotation();
 			}
-			at_axis = at_axis * agent_rot;
-			mFocusTargetGlobal = calcCameraPositionTargetGlobal() + at_axis;
-			return mFocusTargetGlobal;
 		}
-		if (mCameraMode == CAMERA_MODE_CUSTOMIZE_AVATAR)
+		at_axis = at_axis * agent_rot;
+		mFocusTargetGlobal = calcCameraPositionTargetGlobal() + at_axis;
+		return mFocusTargetGlobal;
+	}
+	else if (mCameraMode == CAMERA_MODE_CUSTOMIZE_AVATAR)
+	{
+		if (mFocusOnAvatar)
 		{
-			return mFocusTargetGlobal;
+			LLVector3 focus_target = isAgentAvatarValid()
+				? gAgentAvatarp->mHeadp->getWorldPosition()
+				: gAgent.getPositionAgent();
+			LLVector3d focus_target_global = gAgent.getPosGlobalFromAgent(focus_target);
+			mFocusTargetGlobal = focus_target_global;
 		}
-		if (!mFocusOnAvatar)
+		return mFocusTargetGlobal;
+	}
+	else if (!mFocusOnAvatar)
+	{
+		if (mFocusObject.notNull() && !mFocusObject->isDead() && mFocusObject->mDrawable.notNull())
 		{
-			if (mFocusObject.notNull() && !mFocusObject->isDead() && mFocusObject->mDrawable.notNull())
-			{
-				LLDrawable* drawablep = mFocusObject->mDrawable;
+			LLDrawable* drawablep = mFocusObject->mDrawable;
 			
-				if (mTrackFocusObject &&
-					drawablep && 
-					drawablep->isActive())
+			if (mTrackFocusObject &&
+				drawablep && 
+				drawablep->isActive())
+			{
+				if (!mFocusObject->isAvatar())
 				{
-					if (!mFocusObject->isAvatar())
+					if (mFocusObject->isSelected())
 					{
-						if (mFocusObject->isSelected())
+						gPipeline.updateMoveNormalAsync(drawablep);
+					}
+					else
+					{
+						if (drawablep->isState(LLDrawable::MOVE_UNDAMPED))
 						{
 							gPipeline.updateMoveNormalAsync(drawablep);
 						}
 						else
 						{
-							if (drawablep->isState(LLDrawable::MOVE_UNDAMPED))
-							{
-								gPipeline.updateMoveNormalAsync(drawablep);
-							}
-							else
-							{
-								gPipeline.updateMoveDampedAsync(drawablep);
-							}
+							gPipeline.updateMoveDampedAsync(drawablep);
 						}
 					}
 				}
-				// if not tracking object, update offset based on new object position
-				else
-				{
-					updateFocusOffset();
-				}
-				LLVector3 focus_agent = mFocusObject->getRenderPosition() + mFocusObjectOffset;
-				mFocusTargetGlobal.setVec(gAgent.getPosGlobalFromAgent(focus_agent));
 			}
-			return mFocusTargetGlobal;
+			// if not tracking object, update offset based on new object position
+			else
+			{
+				updateFocusOffset();
+			}
+			LLVector3 focus_agent = mFocusObject->getRenderPosition() + mFocusObjectOffset;
+			mFocusTargetGlobal.setVec(gAgent.getPosGlobalFromAgent(focus_agent));
 		}
-		if (mSitCameraEnabled && isAgentAvatarValid() && gAgentAvatarp->isSitting() && mSitCameraReferenceObject.notNull())
-		{
-			// sit camera
-			LLVector3 object_pos = mSitCameraReferenceObject->getRenderPosition();
-			LLQuaternion object_rot = mSitCameraReferenceObject->getRenderRotation();
+		return mFocusTargetGlobal;
+	}
+	else if (mSitCameraEnabled && isAgentAvatarValid() && gAgentAvatarp->isSitting() && mSitCameraReferenceObject.notNull())
+	{
+		// sit camera
+		LLVector3 object_pos = mSitCameraReferenceObject->getRenderPosition();
+		LLQuaternion object_rot = mSitCameraReferenceObject->getRenderRotation();
 
-			LLVector3 target_pos = object_pos + (mSitCameraFocus * object_rot);
-			return gAgent.getPosGlobalFromAgent(target_pos);
-		}
+		LLVector3 target_pos = object_pos + (mSitCameraFocus * object_rot);
+		return gAgent.getPosGlobalFromAgent(target_pos);
+	}
+	else
+	{
 		return gAgent.getPositionGlobal() + calcThirdPersonFocusOffset();
 	}
 }

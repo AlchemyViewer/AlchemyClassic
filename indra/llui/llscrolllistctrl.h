@@ -437,6 +437,7 @@ private:
 	static void		showProfile(const std::string& id, bool is_group);
 	static void		sendIM(const std::string& id);
 	static void		addFriend(const std::string& id);
+	static void		removeFriend(std::string id);
 	static void		showNameDetails(const std::string& id, bool is_group);
 	static void		copyNameToClipboard(const std::string& id, bool is_group);
 	static void		copySLURLToClipboard(const std::string& id, bool is_group);

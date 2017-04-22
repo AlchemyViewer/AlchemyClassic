@@ -38,6 +38,7 @@
 #include "llslurl.h"// <alchemy/>
 
 #include "llcachename.h"
+#include "llavatarnamecache.h"
 
 // statics
 std::set<LLNameBox*> LLNameBox::sInstances;
@@ -70,7 +71,9 @@ void LLNameBox::setNameID(const LLUUID& name_id, BOOL is_group)
 
 	if (!is_group)
 	{
-		got_name = gCacheName->getFullName(name_id, name);
+		LLAvatarName av_name;
+		got_name = LLAvatarNameCache::get(name_id, &av_name);
+		name = av_name.getUserName();
 	}
 	else
 	{

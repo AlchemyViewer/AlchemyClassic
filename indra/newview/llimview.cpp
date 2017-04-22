@@ -2824,10 +2824,16 @@ void LLIMMgr::addSystemMessage(const LLUUID& session_id, const std::string& mess
 		{
 			LLAvatarName av_name;
 			// since we select user to share item with - his name is already in cache
-			LLAvatarNameCache::get(args["user_id"], &av_name);
-			std::string session_name = gSavedSettings.getBOOL("UseLegacyLogNames")
-						   ? session_name.substr(0, session_name.find(" Resident"))
-						   : LLCacheName::buildUsername(av_name.getUserName());
+			LLAvatarNameCache::get(args["user_id"].asUUID(), &av_name);
+            std::string session_name;
+            if (gSavedSettings.getBOOL("UseLegacyLogNames"))
+            {
+                session_name = av_name.getUserName().substr(0, av_name.getUserName().find(" Resident"));
+            }
+            else
+            {
+                session_name = LLCacheName::buildUsername(av_name.getUserName());
+            }
 			LLIMModel::instance().logToFile(session_name, SYSTEM_FROM, LLUUID::null, message.getString());
 		}
 	}

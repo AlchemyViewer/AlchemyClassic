@@ -62,7 +62,7 @@
 #include "llradiogroup.h"
 #include "llresmgr.h"
 #include "llselectmgr.h"
-#include "llslider.h"
+#include "llsliderctrl.h"
 #include "llstatusbar.h"
 #include "lltabcontainer.h"
 #include "lltextbox.h"
@@ -248,6 +248,7 @@ BOOL	LLFloaterTools::postBuild()
 	mTitleMedia			= getChild<LLMediaCtrl>("title_media");
 	mBtnLink			= getChild<LLButton>("link_btn");
 	mBtnUnlink			= getChild<LLButton>("unlink_btn");
+	mZoomSlider			= getChild<LLSliderCtrl>("slider zoom");
 	
 	mAlchEditRootAxis		= getChild<LLCheckBoxCtrl>("checkbox edit root axis");
 	getChild<LLUICtrl>("checkbox edit root axis")->setValue(gSavedSettings.getBOOL("AlchemyEditRootAxis"));
@@ -277,23 +278,29 @@ BOOL	LLFloaterTools::postBuild()
 		}
 	}
 	mCheckCopySelection = getChild<LLCheckBoxCtrl>("checkbox copy selection");
-	getChild<LLUICtrl>("checkbox copy selection")->setValue(gSavedSettings.getBOOL("CreateToolCopySelection"));
+	mCheckCopySelection->setValue(gSavedSettings.getBOOL("CreateToolCopySelection"));
 	mCheckSticky = getChild<LLCheckBoxCtrl>("checkbox sticky");
-	getChild<LLUICtrl>("checkbox sticky")->setValue(gSavedSettings.getBOOL("CreateToolKeepSelected"));
+	mCheckSticky->setValue(gSavedSettings.getBOOL("CreateToolKeepSelected"));
 	mCheckCopyCenters = getChild<LLCheckBoxCtrl>("checkbox copy centers");
-	getChild<LLUICtrl>("checkbox copy centers")->setValue(gSavedSettings.getBOOL("CreateToolCopyCenters"));
+	mCheckCopyCenters->setValue(gSavedSettings.getBOOL("CreateToolCopyCenters"));
 	mCheckCopyRotates = getChild<LLCheckBoxCtrl>("checkbox copy rotates");
-	getChild<LLUICtrl>("checkbox copy rotates")->setValue(gSavedSettings.getBOOL("CreateToolCopyRotates"));
+	mCheckCopyRotates->setValue(gSavedSettings.getBOOL("CreateToolCopyRotates"));
 
 	mTreeGrassCombo			= getChild<LLComboBox>("tree_grass_combo");
 	mRadioGroupLand			= getChild<LLRadioGroup>("land_radio_group");
 	mBtnApplyToSelection	= getChild<LLButton>("button apply to selection");
-	mSliderDozerSize		= getChild<LLSlider>("slider brush size");
-	getChild<LLUICtrl>("slider brush size")->setValue(gSavedSettings.getF32("LandBrushSize"));
-	mSliderDozerForce		= getChild<LLSlider>("slider force");
+	mSliderDozerSize		= getChild<LLSliderCtrl>("slider brush size");
+	mSliderDozerSize->setValue(gSavedSettings.getF32("LandBrushSize"));
+	mSliderDozerForce		= getChild<LLSliderCtrl>("slider force");
 	// the setting stores the actual force multiplier, but the slider is logarithmic, so we convert here
-	getChild<LLUICtrl>("slider force")->setValue(log10(gSavedSettings.getF32("LandBrushForce")));
+	mSliderDozerForce->setValue(log10(gSavedSettings.getF32("LandBrushForce")));
+	mTextDozer			= getChild<LLTextBox>("Bulldozer:");
+	mTextDozerSize		= getChild<LLTextBox>("Dozer Size:");
+	mTextDozerStrength	= getChild<LLTextBox>("Strength:");
 
+	mTextRemainingCapacity = getChild<LLTextBox>("remaining_capacity");
+	mTextSelectionCount = getChild<LLTextBox>("selection_count");
+	mTextSelectionEmpty = getChild<LLTextBox>("selection_empty");
 	mCostTextBorder = getChild<LLViewBorder>("cost_text_border");
 
 	mTab = getChild<LLTabContainer>("Object Info Tabs");
@@ -334,6 +341,8 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 	mRadioGroupMove(NULL),
 	mRadioGroupEdit(NULL),
 
+	mZoomSlider(nullptr),
+
 	mCheckSelectIndividual(NULL),
 
 	mCheckSnapToGrid(NULL),
@@ -363,6 +372,9 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 	mRadioGroupLand(NULL),
 	mSliderDozerSize(NULL),
 	mSliderDozerForce(NULL),
+	mTextDozer(nullptr),
+	mTextDozerSize(nullptr),
+	mTextDozerStrength(nullptr),
 	mBtnApplyToSelection(NULL),
 
 	mTab(NULL),
@@ -373,6 +385,9 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 	mPanelFace(NULL),
 	mPanelLandInfo(NULL),
 
+	mTextRemainingCapacity(nullptr),
+	mTextSelectionCount(nullptr),
+	mTextSelectionEmpty(nullptr),
 	mCostTextBorder(NULL),
 	mTabLand(NULL),
 
@@ -470,10 +485,10 @@ void LLFloaterTools::refresh()
 	{		
 		std::string obj_count_string;
 		LLResMgr::getInstance()->getIntegerString(obj_count_string, LLSelectMgr::getInstance()->getSelection()->getRootObjectCount());
-		getChild<LLUICtrl>("selection_count")->setTextArg("[OBJ_COUNT]", obj_count_string);
+		mTextSelectionCount->setTextArg("[OBJ_COUNT]", obj_count_string);
 		std::string prim_count_string;
 		LLResMgr::getInstance()->getIntegerString(prim_count_string, LLSelectMgr::getInstance()->getSelection()->getObjectCount());
-		getChild<LLUICtrl>("selection_count")->setTextArg("[PRIM_COUNT]", prim_count_string);
+		mTextSelectionCount->setTextArg("[PRIM_COUNT]", prim_count_string);
 
 		// calculate selection rendering cost
 		if (sShowObjectCost)
@@ -502,7 +517,7 @@ void LLFloaterTools::refresh()
 			// Selection crosses parcel bounds.
 			// We don't display remaining land capacity in this case.
 			const LLStringExplicit empty_str("");
-			childSetTextArg("remaining_capacity", "[CAPACITY_STRING]", empty_str);
+			mTextRemainingCapacity->setTextArg("[CAPACITY_STRING]", empty_str);
 		}
 		else
 		{
@@ -526,12 +541,12 @@ void LLFloaterTools::refresh()
 
 		selection_info << getString("status_selectcount", selection_args);
 
-		getChild<LLTextBox>("selection_count")->setText(selection_info.str());
+		mTextSelectionCount->setText(selection_info.str());
 
 		bool have_selection = !LLSelectMgr::getInstance()->getSelection()->isEmpty();
-		childSetVisible("selection_count",  have_selection);
-		childSetVisible("remaining_capacity", have_selection);
-		childSetVisible("selection_empty", !have_selection);
+		mTextSelectionCount->setVisible(have_selection);
+		mTextRemainingCapacity->setVisible(have_selection);
+		mTextSelectionEmpty->setVisible(!have_selection);
 	}
 
 
@@ -605,11 +620,11 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 	// Focus buttons
 	BOOL focus_visible = (	tool == LLToolCamera::getInstance() );
 
-	mBtnFocus	->setToggleState( focus_visible );
+	mBtnFocus->setToggleState( focus_visible );
 
 	mRadioGroupFocus->setVisible( focus_visible );
-	getChildView("slider zoom")->setVisible( focus_visible);
-	getChildView("slider zoom")->setEnabled(gCameraBtnZoom);
+	mZoomSlider->setVisible(focus_visible);
+	mZoomSlider->setEnabled(gCameraBtnZoom);
 
 	if (!gCameraBtnOrbit &&
 		!gCameraBtnPan &&
@@ -634,12 +649,12 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 	}
 
 	// multiply by correction factor because volume sliders go [0, 0.5]
-	getChild<LLUICtrl>("slider zoom")->setValue(gAgentCamera.getCameraZoomFraction() * 0.5f);
+	mZoomSlider->setValue(gAgentCamera.getCameraZoomFraction() * 0.5f);
 
 	// Move buttons
 	BOOL move_visible = (tool == LLToolGrab::getInstance());
 
-	if (mBtnMove) mBtnMove	->setToggleState( move_visible );
+	mBtnMove	->setToggleState( move_visible );
 
 	// HACK - highlight buttons for next click
 	mRadioGroupMove->setVisible(move_visible);
@@ -681,11 +696,8 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 	mBtnLink->setEnabled(LLSelectMgr::instance().enableLinkObjects());
 	mBtnUnlink->setEnabled(LLSelectMgr::instance().enableUnlinkObjects());
 
-	if (mCheckSelectIndividual)
-	{
-		mCheckSelectIndividual->setVisible(edit_visible);
-		//mCheckSelectIndividual->set(gSavedSettings.getBOOL("EditLinkedParts"));
-	}
+	mCheckSelectIndividual->setVisible(edit_visible);
+	//mCheckSelectIndividual->set(gSavedSettings.getBOOL("EditLinkedParts"));
 
 	if ( tool == LLToolCompTranslate::getInstance() )
 	{
@@ -710,7 +722,6 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 	}
 	// </alchemy>
 
-	if (mComboGridMode) 
 	{
 		mComboGridMode->setVisible( edit_visible );
 		S32 index = mComboGridMode->getCurrentIndex();
@@ -737,21 +748,21 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 		mComboGridMode->setCurrentByIndex(index);
 	}
 	// Put grab tool centor on root prim
-	if (mAlchEditRootAxis) mAlchEditRootAxis->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
+	mAlchEditRootAxis->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
 	
 	// Snap to grid disabled for grab tool - very confusing
-	if (mCheckSnapToGrid) mCheckSnapToGrid->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
-	if (mBtnGridOptions) mBtnGridOptions->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
+	mCheckSnapToGrid->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
+	mBtnGridOptions->setVisible( edit_visible /* || tool == LLToolGrab::getInstance() */ );
 
 	//mCheckSelectLinked	->setVisible( edit_visible );
-	if (mCheckStretchUniform) mCheckStretchUniform->setVisible( edit_visible );
-	if (mCheckStretchTexture) mCheckStretchTexture->setVisible( edit_visible );
+	mCheckStretchUniform->setVisible( edit_visible );
+	mCheckStretchTexture->setVisible( edit_visible );
 
 	// Create buttons
 	BOOL create_visible = (tool == LLToolCompCreate::getInstance());
 	
 	// Tree/grass picker
-	if (mTreeGrassCombo) mTreeGrassCombo->setVisible(create_visible);
+	mTreeGrassCombo->setVisible(create_visible);
 	if (create_visible) buildTreeGrassCombo();
 
 	mBtnCreate	->setToggleState(	tool == LLToolCompCreate::getInstance() );
@@ -779,20 +790,20 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 		}
 	}
 
-	if (mCheckSticky) mCheckSticky		->setVisible( create_visible );
-	if (mCheckCopySelection) mCheckCopySelection	->setVisible( create_visible );
-	if (mCheckCopyCenters) mCheckCopyCenters	->setVisible( create_visible );
-	if (mCheckCopyRotates) mCheckCopyRotates	->setVisible( create_visible );
+	mCheckSticky->setVisible(create_visible);
+	mCheckCopySelection->setVisible(create_visible);
+	mCheckCopyCenters->setVisible(create_visible);
+	mCheckCopyRotates->setVisible(create_visible);
 
-	if (mCheckCopyCenters && mCheckCopySelection) mCheckCopyCenters->setEnabled( mCheckCopySelection->get() );
-	if (mCheckCopyRotates && mCheckCopySelection) mCheckCopyRotates->setEnabled( mCheckCopySelection->get() );
+	mCheckCopyCenters->setEnabled(mCheckCopySelection->get());
+	mCheckCopyRotates->setEnabled(mCheckCopySelection->get());
 
 	// Land buttons
 	BOOL land_visible = (tool == LLToolBrushLand::getInstance() || tool == LLToolSelectLand::getInstance() );
 
 	mCostTextBorder->setVisible(!land_visible);
 
-	if (mBtnLand)	mBtnLand	->setToggleState( land_visible );
+	mBtnLand->setToggleState( land_visible );
 
 	mRadioGroupLand->setVisible( land_visible );
 	if ( tool == LLToolSelectLand::getInstance() )
@@ -827,28 +838,22 @@ void LLFloaterTools::updatePopup(LLCoordGL center, MASK mask)
 		}
 	}
 
-	if (mBtnApplyToSelection)
-	{
-		mBtnApplyToSelection->setVisible( land_visible );
-		mBtnApplyToSelection->setEnabled( land_visible && !LLViewerParcelMgr::getInstance()->selectionEmpty() && tool != LLToolSelectLand::getInstance());
-	}
-	if (mSliderDozerSize)
-	{
-		mSliderDozerSize	->setVisible( land_visible );
-		getChildView("Bulldozer:")->setVisible( land_visible);
-		getChildView("Dozer Size:")->setVisible( land_visible);
-	}
-	if (mSliderDozerForce)
-	{
-		mSliderDozerForce	->setVisible( land_visible );
-		getChildView("Strength:")->setVisible( land_visible);
-	}
+
+	mBtnApplyToSelection->setVisible(land_visible);
+	mBtnApplyToSelection->setEnabled(land_visible && !LLViewerParcelMgr::getInstance()->selectionEmpty() && tool != LLToolSelectLand::getInstance());
+
+	mSliderDozerSize->setVisible(land_visible);
+	mTextDozer->setVisible(land_visible);
+	mTextDozerSize->setVisible(land_visible);
+
+	mSliderDozerForce->setVisible(land_visible);
+	mTextDozerStrength->setVisible(land_visible);
 
 	bool have_selection = !LLSelectMgr::getInstance()->getSelection()->isEmpty();
 
-	getChildView("selection_count")->setVisible(!land_visible && have_selection);
-	getChildView("remaining_capacity")->setVisible(!land_visible && have_selection);
-	getChildView("selection_empty")->setVisible(!land_visible && !have_selection);
+	mTextSelectionCount->setVisible(!land_visible && have_selection);
+	mTextRemainingCapacity->setVisible(!land_visible && have_selection);
+	mTextSelectionEmpty->setVisible(!land_visible && !have_selection);
 	
 	mTab->setVisible(!land_visible);
 	mPanelLandInfo->setVisible(land_visible);
@@ -1217,7 +1222,7 @@ void LLFloaterTools::updateLandImpacts()
 		remaining_capacity_str = getString("status_remaining_capacity", remaining_capacity_args);
 	}
 
-	childSetTextArg("remaining_capacity", "[CAPACITY_STRING]", remaining_capacity_str);
+	mTextRemainingCapacity->setTextArg("[CAPACITY_STRING]", remaining_capacity_str);
 
 	// Update land impacts info in the weights floater
 	LLFloaterObjectWeights* object_weights_floater = LLFloaterReg::findTypedInstance<LLFloaterObjectWeights>("object_weights");
@@ -1524,7 +1529,7 @@ void LLFloaterTools::updateMediaTitle()
 		if ( ! media_title.empty() )
 		{
 			// update the UI widget
-			LLTextBox* media_title_field = getChild<LLTextBox>("media_info");
+			LLTextBox* media_title_field = getChild<LLTextBox>("media_infomedia_info");
 			if ( media_title_field )
 			{
 				media_title_field->setText( media_title );

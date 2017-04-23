@@ -37,6 +37,7 @@ class LLUIImage;
 class LLPanelLoginListener;
 class LLSLURL;
 class LLCredential;
+class LLLayoutStack;
 
 class LLPanelLogin:	
 	public LLPanel,
@@ -111,6 +112,8 @@ private:
 	void*			mCallbackData;
 
 	BOOL            mPasswordModified;
+
+	LLLayoutStack*		mLoginWidgetStack;
 
 	static LLPanelLogin* sInstance;
 	static BOOL		sCapslockDidNotification;

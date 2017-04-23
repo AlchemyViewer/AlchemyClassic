@@ -101,7 +101,8 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	mLogoImage(),
 	mCallback(callback),
 	mCallbackData(cb_data),
-	mListener(new LLPanelLoginListener(this))
+	mListener(new LLPanelLoginListener(this)),
+	mLoginWidgetStack(nullptr)
 {
 	setBackgroundVisible(FALSE);
 	setBackgroundOpaque(TRUE);
@@ -189,6 +190,8 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	username_combo->setTextChangedCallback(boost::bind(&LLPanelLogin::addFavoritesToStartLocation, this));
 	// STEAM-14: When user presses Enter with this field in focus, initiate login
 	username_combo->setCommitCallback(boost::bind(&LLPanelLogin::onClickConnect, this));
+
+	mLoginWidgetStack = getChild<LLLayoutStack>("login_widgets");
 }
 
 void LLPanelLogin::addUsersWithFavoritesToUsername()
@@ -314,7 +317,7 @@ void LLPanelLogin::draw()
 		S32 width = getRect().getWidth();
 		S32 height = getRect().getHeight();
 
-		if (getChild<LLView>("login_widgets")->getVisible())
+		if (mLoginWidgetStack->getVisible())
 		{
 			// draw a background box in black
 			gl_rect_2d( 0, height - 264, width, 264, LLColor4::black );

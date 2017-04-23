@@ -32,13 +32,14 @@
 #include "lldockablefloater.h"
 #include "llui.h"
 
+static LLLayoutPanel* sToolbarPanel = nullptr;
+
 LLDockControl::LLDockControl(LLView* dockWidget, LLFloater* dockableFloater,
 		const LLUIImagePtr& dockTongue, DocAt dockAt, get_allowed_rect_callback_t get_allowed_rect_callback) :
 		mDockableFloater(dockableFloater),
 		mDockTongue(dockTongue),
 		mDockTongueX(0),
-		mDockTongueY(0),
-		mFloaterNonToolbarPanel(nullptr)
+		mDockTongueY(0)
 {
 	mDockAt = dockAt;
 
@@ -101,11 +102,11 @@ void LLDockControl::setDock(LLView* dockWidget)
 
 void LLDockControl::getAllowedRect(LLRect& rect)
 {
-	if (mFloaterNonToolbarPanel == nullptr)
+	if (sToolbarPanel == nullptr)
 	{
-		mFloaterNonToolbarPanel = LLUI::getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
+		sToolbarPanel = LLUI::getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
 	}
-	rect = mFloaterNonToolbarPanel->getRect();
+	rect = sToolbarPanel->getRect();
 }
 
 void LLDockControl::repositionDockable()

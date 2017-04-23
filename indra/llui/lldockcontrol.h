@@ -91,6 +91,7 @@ private:
 	LLUIImagePtr mDockTongue;
 	S32 mDockTongueX;
 	S32 mDockTongueY;
+	LLLayoutPanel* mFloaterNonToolbarPanel;
 };
 
 #endif /* LL_DOCKCONTROL_H */

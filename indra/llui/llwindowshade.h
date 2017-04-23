@@ -31,6 +31,9 @@
 #include "llnotifications.h"
 #include "lluiimage.h"
 
+class LLLayoutPanel;
+class LLTextBox;
+
 class LLWindowShade : public LLUICtrl
 {
 public:
@@ -46,6 +49,7 @@ public:
 	};
 
 	void show(LLNotificationPtr);
+	BOOL postBuild();
 	/*virtual*/ void draw();
 	void hide();
 	
@@ -73,6 +77,10 @@ private:
 	bool				mModal;
 	S32					mFormHeight;
 	LLUIColor			mTextColor;
+
+	LLLayoutPanel*		mBackgroundAreaPanel;
+	LLLayoutPanel*		mNotificationAreaPanel;
+	LLTextBox*			mNotificationTextBox;
 };
 
 #endif // LL_LLWINDOWSHADE_H

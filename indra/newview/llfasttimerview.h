@@ -33,6 +33,10 @@
 #include "lltracerecording.h"
 #include <deque>
 
+class LLComboBox;
+class LLLayoutPanel;
+class LLPanel;
+
 class LLFastTimerView : public LLFloater
 {
 public:
@@ -145,6 +149,15 @@ private:
 	LLTrace::PeriodicRecording		mRecording;
 	
 	S32 mScrollPos;
+
+	// Widgets
+	LLComboBox*						mMetricCombo;
+	LLComboBox*						mTimeScaleCombo;
+
+	LLLayoutPanel*					mBarsPanel;
+	LLLayoutPanel*					mLinesPanel;
+
+	LLPanel*						mLegendPanel;
 };
 
 #endif

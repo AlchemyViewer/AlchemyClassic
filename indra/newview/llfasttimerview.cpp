@@ -94,7 +94,12 @@ LLFastTimerView::LLFastTimerView(const LLSD& key)
 	mStatsIndex(-1),
 	mPauseHistory(false),
 	mRecording(NUM_FRAMES_HISTORY),
-	mScrollPos(0)
+	mScrollPos(0),
+	mMetricCombo(nullptr),
+	mTimeScaleCombo(nullptr),
+	mBarsPanel(nullptr),
+	mLinesPanel(nullptr),
+	mLegendPanel(nullptr)
 {
 	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 }
@@ -130,6 +135,14 @@ void LLFastTimerView::setPauseState(bool pause_state)
 
 BOOL LLFastTimerView::postBuild()
 {
+	mMetricCombo = getChild<LLComboBox>("metric_combo");
+	mTimeScaleCombo = getChild<LLComboBox>("time_scale_combo");
+
+	mBarsPanel = getChild<LLLayoutPanel>("bars_panel");
+	mLinesPanel = getChild<LLLayoutPanel>("lines_panel");
+
+	mLegendPanel = getChild<LLPanel>("legend");
+
 	LLButton& pause_btn = getChildRef<LLButton>("pause_btn");
 	
 	pause_btn.setCommitCallback(boost::bind(&LLFastTimerView::onPause, this));
@@ -394,22 +407,19 @@ void LLFastTimerView::draw()
 		mTimerBarRows.push_front(TimerBarRow());
 	}
 
-	mDisplayMode = llclamp(getChild<LLComboBox>("time_scale_combo")->getCurrentIndex(), 0, 3);
-	mDisplayType = (EDisplayType)llclamp(getChild<LLComboBox>("metric_combo")->getCurrentIndex(), 0, 2);
+	mDisplayMode = llclamp(mTimeScaleCombo->getCurrentIndex(), 0, 3);
+	mDisplayType = (EDisplayType)llclamp(mMetricCombo->getCurrentIndex(), 0, 2);
 		
 	generateUniqueColors();
 
 	LLView::drawChildren();
 	//getChild<LLLayoutStack>("timer_bars_stack")->updateLayout();
 	//getChild<LLLayoutStack>("legend_stack")->updateLayout();
-	LLView* bars_panel = getChildView("bars_panel");
-	bars_panel->localRectToOtherView(bars_panel->getLocalRect(), &mBarRect, this);
+	mBarsPanel->localRectToOtherView(mBarsPanel->getLocalRect(), &mBarRect, this);
 
-	LLView* lines_panel = getChildView("lines_panel");
-	lines_panel->localRectToOtherView(lines_panel->getLocalRect(), &mGraphRect, this);
+	mLinesPanel->localRectToOtherView(mLinesPanel->getLocalRect(), &mGraphRect, this);
 
-	LLView* legend_panel = getChildView("legend");
-	legend_panel->localRectToOtherView(legend_panel->getLocalRect(), &mLegendRect, this);
+	mLegendPanel->localRectToOtherView(mLegendPanel->getLocalRect(), &mLegendRect, this);
 
 	// Draw the window background
 			gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
@@ -1258,7 +1268,7 @@ void LLFastTimerView::drawLegend()
 				timer_label = llformat("%s (%d)",idp->getName().c_str(),calls);
 				break;
 			case DISPLAY_HZ:
-				timer_label = llformat("%.1f", ms.value() ? (1.f / ms.value()) : 0.f);
+				timer_label = llformat("%s <%.1f>", idp->getName().c_str(), ms.value() ? (1.f / ms.value()) : 0.f);
 				break;
 			}
 			dx = (TEXT_HEIGHT+4) + get_depth(idp)*8;

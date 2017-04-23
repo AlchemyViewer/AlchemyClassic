@@ -176,7 +176,7 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	mBorder(NULL),
 	mSortCallback(NULL),
 	mPopupMenu(NULL),
-	mCommentTextView(NULL),
+	mCommentText(NULL),
 	mNumDynamicWidthColumns(0),
 	mTotalStaticColumnWidth(0),
 	mTotalColumnPadding(0),
@@ -509,12 +509,12 @@ void LLScrollListCtrl::updateLayout()
 		getRect().getWidth() - 2 * mBorderThickness,
 		getRect().getHeight() - (2 * mBorderThickness ) - heading_size );
 
-	if (mCommentTextView == NULL)
+	if (mCommentText == NULL)
 	{
-		mCommentTextView = getChildView("comment_text");
+		mCommentText = getChild<LLTextBox>("comment_text");
 	}
 
-	mCommentTextView->setShape(mItemListRect);
+	mCommentText->setShape(mItemListRect);
 
 	// how many lines of content in a single "page"
 	S32 page_lines =  getLinesPerPage();
@@ -1180,7 +1180,7 @@ void LLScrollListCtrl::deselectAllItems(BOOL no_commit_on_change)
 
 void LLScrollListCtrl::setCommentText(const std::string& comment_text)
 {
-	getChild<LLTextBox>("comment_text")->setValue(comment_text);
+	mCommentText->setValue(comment_text);
 }
 
 LLScrollListItem* LLScrollListCtrl::addSeparator(EAddPosition pos)
@@ -1571,7 +1571,7 @@ void LLScrollListCtrl::draw()
 
 	updateColumns();
 
-	getChildView("comment_text")->setVisible(mItemList.empty());
+	mCommentText->setVisible(mItemList.empty());
 
 	drawItems();
 

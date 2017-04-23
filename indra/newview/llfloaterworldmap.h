@@ -45,6 +45,8 @@ class LLInventoryObserver;
 class LLItemInfo;
 class LLLineEditor;
 class LLTabContainer;
+class LLSliderCtrl;
+class LLCheckBoxCtrl;
 
 class LLFloaterWorldMap : public LLFloater
 {
@@ -196,6 +198,22 @@ private:
 	LLCtrlListInterface *	mListFriendCombo;
 	LLCtrlListInterface *	mListLandmarkCombo;
 	LLCtrlListInterface *	mListSearchResults;
+
+	LLCheckBoxCtrl*			mGeneralEventsCheck;
+	LLCheckBoxCtrl*			mMatureEventsCheck;
+	LLCheckBoxCtrl*			mAdultEventsCheck;
+	LLCheckBoxCtrl*			mLandSaleCheck;
+	LLCheckBoxCtrl*			mInfoHubCheck;
+	LLCheckBoxCtrl*			mPeopleCheck;
+	LLIconCtrl*				mFriendsIcon;
+	LLIconCtrl*				mLandmarkIcon;
+	LLIconCtrl*				mLocationIcon;
+	LLButton*				mTrackRegionButton;
+	LLButton*				mCopySlurlButton;
+	LLButton*				mShowDestinationButton;
+	LLButton*				mTeleportButton;
+	LLButton*				mTeleportHomeButton;
+	LLSliderCtrl*			mZoomSlider;
 };
 
 #endif

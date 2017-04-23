@@ -73,6 +73,10 @@
 #include "llappviewer.h"
 #include "llmapimagetype.h"
 #include "llweb.h"
+
+#include "llbutton.h"
+#include "llcheckboxctrl.h"
+#include "lliconctrl.h"
 #include "llsliderctrl.h"
 #include "message.h"
 #include "llwindow.h"			// copyTextToClipboard()
@@ -248,10 +252,24 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mSetToUserPosition(TRUE),
 	mTrackedLocation(0,0,0),
 	mTrackedStatus(LLTracker::TRACKING_NOTHING),
-	mListFriendCombo(NULL),
-	mListLandmarkCombo(NULL),
-	mListSearchResults(NULL),
-	mPanel(nullptr)
+	mPanel(nullptr),
+	mListFriendCombo(nullptr),
+	mListLandmarkCombo(nullptr),
+	mListSearchResults(nullptr),
+	mGeneralEventsCheck(nullptr),
+	mMatureEventsCheck(nullptr),
+	mAdultEventsCheck(nullptr),
+	mLandSaleCheck(nullptr),
+	mInfoHubCheck(nullptr),
+	mPeopleCheck(nullptr),
+	mLandmarkIcon(nullptr),
+	mLocationIcon(nullptr),
+	mTrackRegionButton(nullptr),
+	mCopySlurlButton(nullptr),
+	mShowDestinationButton(nullptr),
+	mTeleportButton(nullptr),
+	mTeleportHomeButton(nullptr),
+	mZoomSlider(nullptr)
 {
 	mFactoryMap["objects_mapview"] = LLCallbackMap(createWorldMapView, NULL);
 	
@@ -280,7 +298,22 @@ void* LLFloaterWorldMap::createWorldMapView(void* data)
 BOOL LLFloaterWorldMap::postBuild()
 {
 	mPanel = getChild<LLPanel>("objects_mapview");
-	
+	mGeneralEventsCheck = getChild<LLCheckBoxCtrl>("event_chk");
+	mMatureEventsCheck = getChild<LLCheckBoxCtrl>("events_mature_chk");
+	mAdultEventsCheck = getChild<LLCheckBoxCtrl>("events_adult_chk");
+	mLandSaleCheck = getChild<LLCheckBoxCtrl>("land_for_sale_chk");
+	mInfoHubCheck = getChild<LLCheckBoxCtrl>("infohub_chk");
+	mPeopleCheck = getChild<LLCheckBoxCtrl>("people_chk");
+	mFriendsIcon = getChild<LLIconCtrl>("friends_icon");
+	mLandmarkIcon = getChild<LLIconCtrl>("landmark_icon");
+	mLocationIcon = getChild<LLIconCtrl>("location_icon");
+	mTrackRegionButton = getChild<LLButton>("track_region");
+	mCopySlurlButton = getChild<LLButton>("copy_slurl");
+	mShowDestinationButton = getChild<LLButton>("Show Destination");
+	mTeleportButton = getChild<LLButton>("Teleport");
+	mTeleportHomeButton = getChild<LLButton>("Go Home");
+	mZoomSlider = getChild<LLSliderCtrl>("zoom slider");
+
 	LLComboBox *avatar_combo = getChild<LLComboBox>("friend combo");
 	avatar_combo->selectFirstItem();
 	avatar_combo->setPrearrangeCallback( boost::bind(&LLFloaterWorldMap::onAvatarComboPrearrange, this) );
@@ -301,7 +334,7 @@ BOOL LLFloaterWorldMap::postBuild()
 	mListLandmarkCombo = dynamic_cast<LLCtrlListInterface *>(landmark_combo);
 	
 	mCurZoomVal = log(LLWorldMapView::sMapScale)/log(2.f);
-	getChild<LLUICtrl>("zoom slider")->setValue(LLWorldMapView::sMapScale);
+	mZoomSlider->setValue(LLWorldMapView::sMapScale);
 	
 	setDefaultBtn(NULL);
 	
@@ -407,9 +440,9 @@ BOOL LLFloaterWorldMap::handleScrollWheel(S32 x, S32 y, S32 clicks)
 	{
 		if(mPanel->pointInView(x, y))
 		{
-			F32 slider_value = (F32)getChild<LLUICtrl>("zoom slider")->getValue().asReal();
+			F32 slider_value = (F32)mZoomSlider->getValue().asReal();
 			slider_value += ((F32)clicks * -0.3333f);
-			getChild<LLUICtrl>("zoom slider")->setValue(LLSD(slider_value));
+			mZoomSlider->setValue(LLSD(slider_value));
 			return TRUE;
 		}
 	}
@@ -437,32 +470,32 @@ void LLFloaterWorldMap::draw()
 	LLViewerRegion* regionp = gAgent.getRegion();
 	bool agent_on_prelude = (regionp && regionp->isPrelude());
 	bool enable_go_home = gAgent.isGodlike() || !agent_on_prelude;
-	getChildView("Go Home")->setEnabled(enable_go_home);
+	mTeleportHomeButton->setEnabled(enable_go_home);
 	
 	updateLocation();
 	
 	LLTracker::ETrackingStatus tracking_status = LLTracker::getInstance()->getTrackingStatus(); 
 	if (LLTracker::TRACKING_AVATAR == tracking_status)
 	{
-		getChild<LLUICtrl>("avatar_icon")->setColor( map_track_color);
+		mFriendsIcon->setColor(map_track_color);
 	}
 	else
 	{
-		getChild<LLUICtrl>("avatar_icon")->setColor( map_track_disabled_color);
+		mFriendsIcon->setColor(map_track_disabled_color);
 	}
 	
 	if (LLTracker::TRACKING_LANDMARK == tracking_status)
 	{
-		getChild<LLUICtrl>("landmark_icon")->setColor( map_track_color);
+		mLandmarkIcon->setColor(map_track_color);
 	}
 	else
 	{
-		getChild<LLUICtrl>("landmark_icon")->setColor( map_track_disabled_color);
+		mLandmarkIcon->setColor(map_track_disabled_color);
 	}
 	
 	if (LLTracker::TRACKING_LOCATION == tracking_status)
 	{
-		getChild<LLUICtrl>("location_icon")->setColor( map_track_color);
+		mLocationIcon->setColor(map_track_color);
 	}
 	else
 	{
@@ -472,11 +505,11 @@ void LLFloaterWorldMap::draw()
 			double value = fmod(seconds, 2);
 			value = 0.5 + 0.5*cos(value * F_PI);
 			LLColor4 loading_color(0.0, F32(value/2), F32(value), 1.0);
-			getChild<LLUICtrl>("location_icon")->setColor( loading_color);
+			mLocationIcon->setColor(loading_color);
 		}
 		else
 		{
-			getChild<LLUICtrl>("location_icon")->setColor( map_track_disabled_color);
+			mLocationIcon->setColor(map_track_disabled_color);
 		}
 	}
 	
@@ -486,17 +519,17 @@ void LLFloaterWorldMap::draw()
 		centerOnTarget(TRUE);
 	}
 	
-	getChildView("Teleport")->setEnabled((BOOL)tracking_status);
+	mTeleportButton->setEnabled((BOOL)tracking_status);
 	//	getChildView("Clear")->setEnabled((BOOL)tracking_status);
-	getChildView("Show Destination")->setEnabled((BOOL)tracking_status || LLWorldMap::getInstance()->isTracking());
-	getChildView("copy_slurl")->setEnabled((mSLURL.isValid()) );
-	getChild<LLButton>("track_region")->setEnabled((BOOL) tracking_status || LLWorldMap::getInstance()->isTracking());
+	mShowDestinationButton->setEnabled((BOOL)tracking_status || LLWorldMap::getInstance()->isTracking());
+	mCopySlurlButton->setEnabled((mSLURL.isValid()) );
+	mTrackRegionButton->setEnabled((BOOL) tracking_status || LLWorldMap::getInstance()->isTracking());
 	
 	setMouseOpaque(TRUE);
 	getDragHandle()->setMouseOpaque(TRUE);
 	
 	//RN: snaps to zoom value because interpolation caused jitter in the text rendering
-	if (!mZoomTimer.getStarted() && mCurZoomVal != (F32)getChild<LLUICtrl>("zoom slider")->getValue().asReal())
+	if (!mZoomTimer.getStarted() && mCurZoomVal != (F32) mZoomSlider->getValue().asReal())
 	{
 		mZoomTimer.start();
 	}
@@ -506,7 +539,7 @@ void LLFloaterWorldMap::draw()
 		interp = 1.f;
 		mZoomTimer.stop();
 	}
-	mCurZoomVal = lerp(mCurZoomVal, (F32)getChild<LLUICtrl>("zoom slider")->getValue().asReal(), interp);
+	mCurZoomVal = lerp(mCurZoomVal, (F32) mZoomSlider->getValue().asReal(), interp);
 	F32 map_scale = 256.f*pow(2.f, mCurZoomVal);
 	LLWorldMapView::setScale( map_scale );
 	
@@ -514,13 +547,13 @@ void LLFloaterWorldMap::draw()
 	// If above threshold level (i.e. low res) -> Disable all checkboxes
 	// If under threshold level (i.e. high res) -> Enable all checkboxes
 	bool enable = LLWorldMapView::showRegionInfo();
-	getChildView("people_chk")->setEnabled(enable);
-	getChildView("infohub_chk")->setEnabled(enable);
-	getChildView("telehub_chk")->setEnabled(enable);
-	getChildView("land_for_sale_chk")->setEnabled(enable);
-	getChildView("event_chk")->setEnabled(enable);
-	getChildView("events_mature_chk")->setEnabled(enable);
-	getChildView("events_adult_chk")->setEnabled(enable);
+	mPeopleCheck->setEnabled(enable);
+	mInfoHubCheck->setEnabled(enable);
+	//getChildView("telehub_chk")->setEnabled(enable);
+	mLandSaleCheck->setEnabled(enable);
+	mGeneralEventsCheck->setEnabled(enable);
+	mMatureEventsCheck->setEnabled(enable);
+	mAdultEventsCheck->setEnabled(enable);
 	
 	LLFloater::draw();
 }
@@ -1054,7 +1087,7 @@ void LLFloaterWorldMap::adjustZoomSliderBounds()
 	
 	F32 min_power = log(pixels_per_region/256.f)/log(2.f);
 	
-	getChild<LLSliderCtrl>("zoom slider")->setMinValue(min_power);
+	mZoomSlider->setMinValue(min_power);
 }
 
 
@@ -1597,7 +1630,7 @@ void LLFloaterWorldMap::updateSims(bool found_null_sim)
 		{
 			list->selectFirstItem();
 		}
-		getChild<LLUICtrl>("search_results")->setFocus(TRUE);
+		list->setFocus(TRUE);
 		onCommitSearchResult();
 	}
 	else
@@ -1661,11 +1694,11 @@ void LLFloaterWorldMap::onChangeMaturity()
 	
 	getChildView("events_mature_icon")->setVisible( can_access_mature);
 	getChildView("events_mature_label")->setVisible( can_access_mature);
-	getChildView("events_mature_chk")->setVisible( can_access_mature);
+	mMatureEventsCheck->setVisible( can_access_mature);
 	
 	getChildView("events_adult_icon")->setVisible( can_access_adult);
 	getChildView("events_adult_label")->setVisible( can_access_adult);
-	getChildView("events_adult_chk")->setVisible( can_access_adult);
+	mAdultEventsCheck->setVisible( can_access_adult);
 	
 	// disable mature / adult events.
 	if (!can_access_mature)

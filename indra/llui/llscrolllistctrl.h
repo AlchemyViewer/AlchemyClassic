@@ -494,7 +494,7 @@ private:
 	class LLViewBorder*	mBorder;
 	LLContextMenu	*mPopupMenu;
 	
-	LLView			*mCommentTextView;
+	LLTextBox			*mCommentText;
 
 	LLWString		mSearchString;
 	LLFrameTimer	mSearchTimer;

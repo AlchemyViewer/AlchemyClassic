@@ -62,7 +62,7 @@
 #include "llradiogroup.h"
 #include "llresmgr.h"
 #include "llselectmgr.h"
-#include "llsliderctrl.h"
+#include "llslider.h"
 #include "llstatusbar.h"
 #include "lltabcontainer.h"
 #include "lltextbox.h"
@@ -248,7 +248,7 @@ BOOL	LLFloaterTools::postBuild()
 	mTitleMedia			= getChild<LLMediaCtrl>("title_media");
 	mBtnLink			= getChild<LLButton>("link_btn");
 	mBtnUnlink			= getChild<LLButton>("unlink_btn");
-	mZoomSlider			= getChild<LLSliderCtrl>("slider zoom");
+	mZoomSlider			= getChild<LLSlider>("slider zoom");
 	
 	mAlchEditRootAxis		= getChild<LLCheckBoxCtrl>("checkbox edit root axis");
 	getChild<LLUICtrl>("checkbox edit root axis")->setValue(gSavedSettings.getBOOL("AlchemyEditRootAxis"));
@@ -289,9 +289,9 @@ BOOL	LLFloaterTools::postBuild()
 	mTreeGrassCombo			= getChild<LLComboBox>("tree_grass_combo");
 	mRadioGroupLand			= getChild<LLRadioGroup>("land_radio_group");
 	mBtnApplyToSelection	= getChild<LLButton>("button apply to selection");
-	mSliderDozerSize		= getChild<LLSliderCtrl>("slider brush size");
+	mSliderDozerSize		= getChild<LLSlider>("slider brush size");
 	mSliderDozerSize->setValue(gSavedSettings.getF32("LandBrushSize"));
-	mSliderDozerForce		= getChild<LLSliderCtrl>("slider force");
+	mSliderDozerForce		= getChild<LLSlider>("slider force");
 	// the setting stores the actual force multiplier, but the slider is logarithmic, so we convert here
 	mSliderDozerForce->setValue(log10(gSavedSettings.getF32("LandBrushForce")));
 	mTextDozer			= getChild<LLTextBox>("Bulldozer:");

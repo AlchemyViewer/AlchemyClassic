@@ -41,7 +41,7 @@ class LLPanelContents;
 class LLPanelFace;
 class LLPanelLandInfo;
 class LLRadioGroup;
-class LLSliderCtrl;
+class LLSlider;
 class LLTabContainer;
 class LLTextBox;
 class LLMediaCtrl;
@@ -135,7 +135,7 @@ public:
 
 	// Focus buttons
 	LLRadioGroup*	mRadioGroupFocus;
-	LLSliderCtrl*	mZoomSlider;
+	LLSlider*		mZoomSlider;
 
 	// Move buttons
 	LLRadioGroup*	mRadioGroupMove;
@@ -170,8 +170,8 @@ public:
 
 	// Land buttons
 	LLRadioGroup*	mRadioGroupLand;
-	LLSliderCtrl	*mSliderDozerSize;
-	LLSliderCtrl	*mSliderDozerForce;
+	LLSlider		*mSliderDozerSize;
+	LLSlider		*mSliderDozerForce;
 	LLTextBox*		mTextDozer;
 	LLTextBox*		mTextDozerSize;
 	LLTextBox*		mTextDozerStrength;

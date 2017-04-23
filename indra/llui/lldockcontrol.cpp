@@ -30,6 +30,7 @@
 
 #include "lldockcontrol.h"
 #include "lldockablefloater.h"
+#include "llui.h"
 
 LLDockControl::LLDockControl(LLView* dockWidget, LLFloater* dockableFloater,
 		const LLUIImagePtr& dockTongue, DocAt dockAt, get_allowed_rect_callback_t get_allowed_rect_callback) :
@@ -102,7 +103,7 @@ void LLDockControl::getAllowedRect(LLRect& rect)
 {
 	if (mFloaterNonToolbarPanel == nullptr)
 	{
-		mFloaterNonToolbarPanel = mDockableFloater->getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
+		mFloaterNonToolbarPanel = LLUI::getRootView()->getChild<LLLayoutPanel>("non_toolbar_panel");
 	}
 	rect = mFloaterNonToolbarPanel->getRect();
 }

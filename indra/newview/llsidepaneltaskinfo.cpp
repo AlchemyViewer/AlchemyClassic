@@ -91,7 +91,8 @@ LLSidepanelTaskInfo* LLSidepanelTaskInfo::sActivePanel = NULL;
 static LLPanelInjector<LLSidepanelTaskInfo> t_task_info("sidepanel_task_info");
 
 // Default constructor
-LLSidepanelTaskInfo::LLSidepanelTaskInfo()
+LLSidepanelTaskInfo::LLSidepanelTaskInfo() 
+	: mObjectRenderStatsText(nullptr)
 {
 	setMouseOpaque(FALSE);
 	LLSelectMgr::instance().mUpdateSignal.connect(boost::bind(&LLSidepanelTaskInfo::refreshAll, this));
@@ -170,13 +171,14 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	mDAEditCost = getChild<LLUICtrl>("Edit Cost");
 	mDALabelClickAction = getChildView("label click action");
 	mDAComboClickAction = getChild<LLComboBox>("clickaction");
-	mDAPathfindingAttributes = getChild<LLTextBase>("pathfinding_attributes_value");
+	mDAPathfindingAttributes = getChild<LLTextBox>("pathfinding_attributes_value");
 	mDAB = getChildView("B:");
 	mDAO = getChildView("O:");
 	mDAG = getChildView("G:");
 	mDAE = getChildView("E:");
 	mDAN = getChildView("N:");
 	mDAF = getChildView("F:");
+	mObjectRenderStatsText = getChild<LLTextBox>("object_stats");
 	
 	return TRUE;
 }
@@ -283,7 +285,7 @@ void LLSidepanelTaskInfo::disableAll()
 	mOpenBtn->setEnabled(FALSE);
 	mPayBtn->setEnabled(FALSE);
 	mBuyBtn->setEnabled(FALSE);
-	getChild<LLTextBase>("object_stats")->setValue(LLStringUtil::null);
+	mObjectRenderStatsText->setValue(LLStringUtil::null);
 }
 
 void LLSidepanelTaskInfo::refresh()
@@ -348,7 +350,7 @@ void LLSidepanelTaskInfo::refresh()
 	args["BYTES"]	= total_bytes != 0 ? llformat("%d / %d KB", visible_bytes/1024, total_bytes/1024) : LLStringUtil::null;
 	LLUIString fmt = getString("stats_fmt");
 	fmt.setArgs(args);
-	getChild<LLTextBase>("object_stats")->setText(fmt.getString());
+	mObjectRenderStatsText->setText(fmt.getString());
 	
 	S32 string_index = 0;
 	std::string MODIFY_INFO_STRINGS[] =

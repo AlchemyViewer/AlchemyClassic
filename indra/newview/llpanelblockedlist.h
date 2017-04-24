@@ -33,6 +33,9 @@
 
 class LLAvatarName;
 class LLBlockList;
+class LLButton;
+class LLMenuButton;
+class LLTextBox;
 
 class LLPanelBlockedList : public LLPanel
 {
@@ -80,6 +83,10 @@ private:
 private:
 	LLBlockList* mBlockedList;
     LLHandle<LLFloater> mPicker;
+
+	LLMenuButton*	mBlockedGearMBtn;
+	LLButton*		mUnblockBtn;
+	LLTextBox*		mBlockLimitText;
 };
 
 //-----------------------------------------------------------------------------

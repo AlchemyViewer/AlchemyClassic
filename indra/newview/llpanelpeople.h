@@ -40,6 +40,7 @@ class LLGroupList;
 class LLMenuButton;
 class LLTabContainer;
 class LLNetMap;
+class LLDragAndDropButton;
 
 class LLPanelPeople 
 	: public LLPanel
@@ -150,6 +151,24 @@ private:
 	LLAvatarList*			mRecentList;
 	LLGroupList*			mGroupList;
 	LLNetMap*				mMiniMap;
+
+	// Nearby
+	LLButton*				mNearbyGearBtn;
+	LLButton*				mNearbyAddFriendBtn;
+	LLButton*				mNearbyDelFriendBtn;
+
+	// Friends
+	LLButton*				mFriendGearBtn;
+	LLButton*				mFriendsDelFriendBtn;
+
+	// Groups
+	LLDragAndDropButton*	mGroupMinusBtn;
+	LLTextBox*				mGroupCountText;
+
+	// Recent
+	LLButton*				mRecentGearBtn;
+	LLButton*				mRecentAddFriendBtn;
+	LLButton*				mRecentDelFriendBtn;
 
 	std::vector<std::string> mSavedOriginalFilters;
 	std::vector<std::string> mSavedFilters;

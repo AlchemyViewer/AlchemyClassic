@@ -39,6 +39,7 @@ const F32 UPDATE_MEMBERS_SECONDS_PER_FRAME = 0.005f; // 5ms // <alchemy/>
 class LLPanelGroupTab;
 class LLTabContainer;
 class LLAgent;
+class LLAccordionCtrl;
 
 
 class LLPanelGroup : public LLPanel,
@@ -98,7 +99,7 @@ protected:
 	void onBtnCancel();
 	void onBtnApply();
 
-	void reposButton(const std::string& name);
+	void reposButton(LLButton* button);
 	void reposButtons();
 	
 
@@ -114,8 +115,14 @@ protected:
 
 	std::vector<LLPanelGroupTab* > mTabs;
 
-	LLButton*		mButtonJoin;
-	LLUICtrl*		mJoinText;
+	LLAccordionCtrl*	mAccordianGroup;
+	LLButton*			mButtonApply;
+	LLButton*			mButtonCall;
+	LLButton*			mButtonChat;
+	LLButton*			mButtonCreate;
+	LLButton*			mButtonJoin;
+	LLButton*			mButtonRefresh;
+	LLUICtrl*			mJoinText;
 	
 private:
 	void copyData(const LLSD& userdata);

@@ -3341,7 +3341,7 @@ void LLViewerObject::setPixelAreaAndAngle(LLAgent &agent)
 	// to try to get a min distance from face, subtract min_scale/2 from the range.
 	// This means we'll load too much detail sometimes, but that's better than not enough
 	// I don't think there's a better way to do this without calculating distance per-poly
-	F32 range = sqrt(dx*dx + dy*dy + dz*dz) - min_scale/2;
+	F32 range = sqrt(dx*dx + dy*dy + dz*dz) - min_scale/2.f;
 
 	LLViewerCamera* camera = LLViewerCamera::getInstance();
 	if (range < 0.001f || isHUDAttachment())		// range == zero

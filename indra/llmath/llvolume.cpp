@@ -37,6 +37,7 @@
 
 #include "llerror.h"
 
+#include "llatomic.h"
 #include "llvolumemgr.h"
 #include "v2math.h"
 #include "v3math.h"
@@ -2029,10 +2030,10 @@ void LLPathParams::copyParams(const LLPathParams &params)
 	setSkew(params.getSkew());
 }
 
-S32 profile_delete_lock = 1 ; 
+boost::atomics::atomic_int profile_delete_lock{0}; 
 LLProfile::~LLProfile()
 {
-	if(profile_delete_lock)
+	if(!profile_delete_lock)
 	{
 		LL_ERRS() << "LLProfile should not be deleted here!" << LL_ENDL ;
 	}
@@ -2100,9 +2101,9 @@ LLVolume::~LLVolume()
 	sNumMeshPoints -= mMesh.size();
 	delete mPathp;
 
-	profile_delete_lock = 0 ;
+	profile_delete_lock.fetch_add(1);
 	delete mProfilep;
-	profile_delete_lock = 1 ;
+	profile_delete_lock.fetch_sub(1);
 
 	mPathp = NULL;
 	mProfilep = NULL;

@@ -78,7 +78,7 @@
 			layout="topleft"
 			fit_panel="false"
 			min_height="50"
-			name="physics_belly_tab"
+			name="physics_belly_updown_tab"
 			title="Belly Bounce">
 			<scrolling_panel_list
 				follows="all"
@@ -93,7 +93,7 @@
 			layout="topleft"
 			fit_panel="false"
 			min_height="50"
-			name="physics_butt_tab"
+			name="physics_butt_updown_tab"
 			title="Butt Bounce">
 			<scrolling_panel_list
 				follows="all"

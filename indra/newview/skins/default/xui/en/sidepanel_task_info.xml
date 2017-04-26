@@ -373,7 +373,7 @@ Streaming Cost: [COST]
           height="16"
           layout="topleft"
           left="10"
-          name="GroupLabel"
+          name="GroupPermsLabel"
           top_pad="8"
           width="100">
            Group:
@@ -394,7 +394,7 @@ Streaming Cost: [COST]
           height="16"
           layout="topleft"
           left="10"
-          name="NextOwnerLabel"
+          name="NextOwnerPermsLabel"
           top_pad="8"
           width="200"
           word_wrap="true">

@@ -42,6 +42,8 @@ class LLComboBox;
 class LLNameBox;
 class LLViewerObject;
 class LLTextBox;
+class LLLineEditor;
+class LLSpinCtrl;
 
 class LLSidepanelTaskInfo : public LLSidepanelInventorySubpanel
 {
@@ -66,40 +68,34 @@ protected:
 	void refreshAll(); // ignore current keyboard focus and update all fields
 
 	// statics
-	static void onClickClaim(void*);
-	static void onClickRelease(void*);
-		   void onClickGroup();
-		   void cbGroupID(LLUUID group_id);
-	static void onClickDeedToGroup(void*);
+	void onClickGroup();
+	void cbGroupID(LLUUID group_id);
+	void onClickDeedToGroup();
 
-	static void onCommitPerm(LLUICtrl *ctrl, void *data, U8 field, U32 perm);
+	void onCommitPerm(BOOL enabled, U8 field, U32 perm);
 
-	static void onCommitGroupShare(LLUICtrl *ctrl, void *data);
+	void onCommitGroupShare(const LLSD& user_data);
 
-	static void onCommitEveryoneMove(LLUICtrl *ctrl, void *data);
-	static void onCommitEveryoneCopy(LLUICtrl *ctrl, void *data);
+	void onCommitEveryoneMove(const LLSD& user_data);
+	void onCommitEveryoneCopy(const LLSD& user_data);
 
-	static void onCommitNextOwnerModify(LLUICtrl* ctrl, void* data);
-	static void onCommitNextOwnerCopy(LLUICtrl* ctrl, void* data);
-	static void onCommitNextOwnerTransfer(LLUICtrl* ctrl, void* data);
-	static void onCommitNextOwnerExport(LLUICtrl* ctrl, void* data);
+	void onCommitNextOwnerModify(const LLSD& user_data);
+	void onCommitNextOwnerCopy(const LLSD& user_data);
+	void onCommitNextOwnerTransfer(const LLSD& user_data);
+	void onCommitNextOwnerExport(const LLSD& user_data);
 	
-	static void onCommitName(LLUICtrl* ctrl, void* data);
-	static void onCommitDesc(LLUICtrl* ctrl, void* data);
+	void onCommitName(const LLSD& user_data);
+	void onCommitDesc(const LLSD& user_data);
 
-	static void onCommitSaleInfo(LLUICtrl* ctrl, void* data);
-	static void onCommitSaleType(LLUICtrl* ctrl, void* data);	
 	void setAllSaleInfo();
 
-	static void	onCommitClickAction(LLUICtrl* ctrl, void* data);
-	static void onCommitIncludeInSearch(LLUICtrl* ctrl, void*);
+	void onCommitClickAction(const LLSD& user_data);
+	void onCommitIncludeInSearch(const LLSD& user_data);
 
-	static void	doClickAction(U8 click_action);
+	void doClickAction(U8 click_action);
 	void disableAll();
 
 private:
-	LLNameBox*		mLabelGroupName;		// group name
-
 	LLUUID			mCreatorID;
 	LLUUID			mOwnerID;
 	LLUUID			mLastOwnerID;
@@ -109,12 +105,6 @@ protected:
 	void 						onPayButtonClicked();
 	void 						onBuyButtonClicked();
 	void 						onDetailsButtonClicked();
-private:
-	LLButton*					mOpenBtn;
-	LLButton*					mPayBtn;
-	LLButton*					mBuyBtn;
-	LLButton*					mDetailsBtn;
-	LLButton*					mDeedBtn;
 
 protected:
 	LLViewerObject*				getObject();
@@ -124,44 +114,50 @@ private:
 	static LLSidepanelTaskInfo* sActivePanel;
 	
 private:
-	// Pointers cached here to speed up the "disableAll" function which gets called on idle
-	LLUICtrl*	mDAPermModify;
-	LLView*		mDACreator;
-	LLUICtrl*	mDACreatorName;
-	LLView*		mDAOwner;
-	LLUICtrl*	mDAOwnerName;
-	LLView*		mDAGroup;
-	LLUICtrl*	mDAGroupName;
-	LLView*		mDAButtonSetGroup;
-	LLUICtrl*	mDAObjectName;
-	LLView*		mDAName;
-	LLView*		mDADescription;
-	LLUICtrl*	mDAObjectDescription;
-	LLView*		mDAPermissions;
-	LLUICtrl*	mDACheckboxShareWithGroup;
-	LLView*		mDAButtonDeed;
-	LLUICtrl*	mDACheckboxAllowEveryoneMove;
-	LLUICtrl*	mDACheckboxAllowEveryoneCopy;
-	LLView*		mDANextOwnerCan;
-	LLUICtrl*	mDACheckboxNextOwnerCanModify;
-	LLUICtrl*	mDACheckboxNextOwnerCanCopy;
-	LLUICtrl*	mDACheckboxNextOwnerCanTransfer;
-	LLUICtrl*	mDACheckboxNextOwnerCanExport;
-	LLUICtrl*	mDACheckboxForSale;
-	LLUICtrl*	mDASearchCheck;
-	LLComboBox*	mDAComboSaleType;
-	LLUICtrl*	mDACost;
-	LLUICtrl*	mDAEditCost;
-	LLView*		mDALabelClickAction;
-	LLComboBox*	mDAComboClickAction;
-	LLTextBox* mDAPathfindingAttributes;
-	LLView*		mDAB;
-	LLView*		mDAO;
-	LLView*		mDAG;
-	LLView*		mDAE;
-	LLView*		mDAN;
-	LLView*		mDAF;
-	LLTextBox*	mObjectRenderStatsText;
+	// Pointers cached here to speed up ui refresh
+	LLTextBox*					mObjectNameLabel;
+	LLLineEditor*				mObjectNameEditor;
+	LLTextBox*					mObjectDescriptionLabel;
+	LLLineEditor*				mObjectDescriptionEditor;
+	LLTextBox*					mCreatorNameLabel;
+	LLTextBox*					mCreatorNameEditor;
+	LLTextBox*					mOwnerNameLabel;
+	LLTextBox*					mOwnerNameEditor;
+	LLTextBox*					mGroupNameLabel;
+	LLButton*					mGroupSetButton;
+	LLNameBox*					mGroupNameBox;		// group name
+	LLButton*					mDeedBtn;
+	LLTextBox*					mClickActionLabel;
+	LLComboBox*					mClickActionCombo;
+	LLTextBox*					mPermModifyLabel;
+	LLCheckBoxCtrl*				mAllowEveryoneCopyCheck;
+	LLCheckBoxCtrl*				mAllowEveryoneMoveCheck;
+	LLCheckBoxCtrl*				mShareWithGroupCheck;
+	LLTextBox*					mNextOwnerPermLabel;
+	LLCheckBoxCtrl*				mNextOwnerCanModifyCheck;
+	LLCheckBoxCtrl*				mNextOwnerCanCopyCheck;
+	LLCheckBoxCtrl*				mNextOwnerCanTransferCheck;
+	LLCheckBoxCtrl*				mNextOwnerCanExportCheck;
+	LLTextBox*					mObjectRenderStatsText;
+	LLCheckBoxCtrl*				mForSaleCheck;
+	LLComboBox*					mSaleTypeCombo;
+	LLSpinCtrl*					mSaleCostSpinner;
+	LLCheckBoxCtrl*				mSearchCheck;
+	LLTextBox*					mPathfindingAttributesText;
+	LLTextBox*					mAdvPermB;
+	LLTextBox*					mAdvPermO;
+	LLTextBox*					mAdvPermG;
+	LLTextBox*					mAdvPermE;
+	LLTextBox*					mAdvPermN;
+	LLTextBox*					mAdvPermF;
+
+	LLButton*					mOpenBtn;
+	LLButton*					mPayBtn;
+	LLButton*					mBuyBtn;
+	LLButton*					mDetailsBtn;
+
+
+
 };
 
 

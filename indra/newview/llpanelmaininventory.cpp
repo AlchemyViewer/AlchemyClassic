@@ -554,7 +554,7 @@ void LLPanelMainInventory::onFilterEdit(const std::string& search_string )
 void LLPanelMainInventory::onFilterSelected()
 {
 	// Find my index
-	mActivePanel = (LLInventoryPanel*)getChild<LLTabContainer>("inventory filter tabs")->getCurrentPanel();
+	mActivePanel = (LLInventoryPanel*) mFilterTabs->getCurrentPanel();
 
 	if (!mActivePanel)
 	{

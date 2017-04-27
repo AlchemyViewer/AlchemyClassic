@@ -3397,6 +3397,7 @@ LLSD LLAppViewer::getViewerInfo() const
     LLSD substitution;
     substitution["datetime"] = (S32)(gVFS ? gVFS->creationTime() : 0);
     info["VFS_TIME"] = LLTrans::getString("AboutTime", substitution);
+    info["HTTP_PIPELINE"] = gSavedSettings.getBOOL("HttpPipelining") ? "Enabled" : "Disabled";
 
 	// Libraries
 

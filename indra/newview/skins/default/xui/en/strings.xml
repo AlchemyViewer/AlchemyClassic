@@ -62,6 +62,7 @@ Render quality: [RENDER_QUALITY] / 7
 Advanced Lighting Model: [GPU_SHADERS]
 Texture memory: [TEXTURE_MEMORY]MB
 VFS (cache) creation time: [VFS_TIME]
+HTTP Pipelining: [HTTP_PIPELINE]
 	</string>
 	<string name="AboutLibs">
 libcurl Version: [LIBCURL_VERSION]

@@ -694,13 +694,15 @@ BOOL LLPanelPeople::postBuild()
 		LL_WARNS() << "People->Groups list menu not found" << LL_ENDL;
 	}
 
-	LLAccordionCtrlTab* accordion_tab = getChild<LLAccordionCtrlTab>("tab_all");
-	accordion_tab->setDropDownStateChangedCallback(
+	mAccordianTabAllFriends = getChild<LLAccordionCtrlTab>("tab_all");
+	mAccordianTabAllFriends->setDropDownStateChangedCallback(
 		boost::bind(&LLPanelPeople::onFriendsAccordionExpandedCollapsed, this, _1, _2, mAllFriendList));
 
-	accordion_tab = getChild<LLAccordionCtrlTab>("tab_online");
-	accordion_tab->setDropDownStateChangedCallback(
+	mAccordianTabOnlineFriends = getChild<LLAccordionCtrlTab>("tab_online");
+	mAccordianTabOnlineFriends->setDropDownStateChangedCallback(
 		boost::bind(&LLPanelPeople::onFriendsAccordionExpandedCollapsed, this, _1, _2, mOnlineFriendList));
+
+	mAccordianTabSuggestFriends = getChild<LLAccordionCtrlTab>("tab_suggested_friends");
 
 	// Must go after setting commit callback and initializing all pointers to children.
 	mTabContainer->selectTabByName(NEARBY_TAB_NAME);
@@ -1136,9 +1138,9 @@ void LLPanelPeople::onFilterEdit(const std::string& search_string)
 		mAllFriendList->setNameFilter(filter);
 		mSuggestedFriends->setNameFilter(filter);
 
-        setAccordionCollapsedByUser("tab_online", false);
-        setAccordionCollapsedByUser("tab_all", false);
-		setAccordionCollapsedByUser("tab_suggested_friends", false);
+        setAccordionCollapsedByUser(mAccordianTabOnlineFriends, false);
+        setAccordionCollapsedByUser(mAccordianTabAllFriends, false);
+		setAccordionCollapsedByUser(mAccordianTabSuggestFriends, false);
         showFriendsAccordionsIfNeeded();
 
 		// restore accordion tabs state _after_ all manipulations
@@ -1572,15 +1574,14 @@ bool LLPanelPeople::notifyChildren(const LLSD& info)
 	return LLPanel::notifyChildren(info);
 }
 
-void LLPanelPeople::showAccordion(const std::string name, bool show)
+void LLPanelPeople::showAccordion(LLAccordionCtrlTab* tab, bool show)
 {
-	if(name.empty())
+	if(!tab)
 	{
-		LL_WARNS() << "No name provided" << LL_ENDL;
+		LL_WARNS() << "Invalid parameter" << LL_ENDL;
 		return;
 	}
 
-	LLAccordionCtrlTab* tab = getChild<LLAccordionCtrlTab>(name);
 	tab->setVisible(show);
 	if(show)
 	{
@@ -1598,9 +1599,9 @@ void LLPanelPeople::showFriendsAccordionsIfNeeded()
 	if(FRIENDS_TAB_NAME == getActiveTabName())
 	{
 		// Expand and show accordions if needed, else - hide them
-		showAccordion("tab_online", mOnlineFriendList->filterHasMatches());
-		showAccordion("tab_all", mAllFriendList->filterHasMatches());
-		showAccordion("tab_suggested_friends", mSuggestedFriends->filterHasMatches());
+		showAccordion(mAccordianTabOnlineFriends, mOnlineFriendList->filterHasMatches());
+		showAccordion(mAccordianTabAllFriends, mAllFriendList->filterHasMatches());
+		showAccordion(mAccordianTabSuggestFriends, mSuggestedFriends->filterHasMatches());
 
 		// Rearrange accordions
 		LLAccordionCtrl* accordion = getChild<LLAccordionCtrl>("friends_accordion");
@@ -1617,11 +1618,11 @@ void LLPanelPeople::onFriendListRefreshComplete(LLUICtrl*ctrl, const LLSD& param
 {
 	if(ctrl == mOnlineFriendList)
 	{
-		showAccordion("tab_online", param.asInteger());
+		showAccordion(mAccordianTabOnlineFriends, param.asInteger());
 	}
 	else if(ctrl == mAllFriendList)
 	{
-		showAccordion("tab_all", param.asInteger());
+		showAccordion(mAccordianTabAllFriends, param.asInteger());
 	}
 }
 
@@ -1636,11 +1637,6 @@ void LLPanelPeople::setAccordionCollapsedByUser(LLUICtrl* acc_tab, bool collapse
 	LLSD param = acc_tab->getValue();
 	param[COLLAPSED_BY_USER] = collapsed;
 	acc_tab->setValue(param);
-}
-
-void LLPanelPeople::setAccordionCollapsedByUser(const std::string& name, bool collapsed)
-{
-	setAccordionCollapsedByUser(getChild<LLUICtrl>(name), collapsed);
 }
 
 bool LLPanelPeople::isAccordionCollapsedByUser(LLUICtrl* acc_tab)
@@ -1658,11 +1654,5 @@ bool LLPanelPeople::isAccordionCollapsedByUser(LLUICtrl* acc_tab)
 	}
 	return param[COLLAPSED_BY_USER].asBoolean();
 }
-
-bool LLPanelPeople::isAccordionCollapsedByUser(const std::string& name)
-{
-	return isAccordionCollapsedByUser(getChild<LLUICtrl>(name));
-}
-
 
 // EOF

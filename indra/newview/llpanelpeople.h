@@ -41,6 +41,7 @@ class LLMenuButton;
 class LLTabContainer;
 class LLNetMap;
 class LLDragAndDropButton;
+class LLAccordionCtrlTab;
 
 class LLPanelPeople 
 	: public LLPanel
@@ -130,7 +131,7 @@ private:
 
 	void					onFriendsAccordionExpandedCollapsed(LLUICtrl* ctrl, const LLSD& param, LLAvatarList* avatar_list);
 
-	void					showAccordion(const std::string name, bool show);
+	void					showAccordion(LLAccordionCtrlTab* tab, bool show);
 
 	void					showFriendsAccordionsIfNeeded();
 
@@ -139,36 +140,37 @@ private:
 	bool					onConnectedToFacebook(const LLSD& data);
 
 	void					setAccordionCollapsedByUser(LLUICtrl* acc_tab, bool collapsed);
-	void					setAccordionCollapsedByUser(const std::string& name, bool collapsed);
 	bool					isAccordionCollapsedByUser(LLUICtrl* acc_tab);
-	bool					isAccordionCollapsedByUser(const std::string& name);
 
 	LLTabContainer*			mTabContainer;
-	LLAvatarList*			mOnlineFriendList;
-	LLAvatarList*			mAllFriendList;
-	LLAvatarList*			mSuggestedFriends;
-	LLAvatarList*			mNearbyList;
-	LLAvatarList*			mRecentList;
-	LLGroupList*			mGroupList;
-	LLNetMap*				mMiniMap;
 
 	// Nearby
 	LLButton*				mNearbyGearBtn;
 	LLButton*				mNearbyAddFriendBtn;
 	LLButton*				mNearbyDelFriendBtn;
+	LLNetMap*				mMiniMap;
+	LLAvatarList*			mNearbyList;
 
 	// Friends
 	LLButton*				mFriendGearBtn;
 	LLButton*				mFriendsDelFriendBtn;
+	LLAccordionCtrlTab*		mAccordianTabOnlineFriends;
+	LLAccordionCtrlTab*		mAccordianTabAllFriends;
+	LLAccordionCtrlTab*		mAccordianTabSuggestFriends;
+	LLAvatarList*			mOnlineFriendList;
+	LLAvatarList*			mAllFriendList;
+	LLAvatarList*			mSuggestedFriends;
 
 	// Groups
 	LLDragAndDropButton*	mGroupMinusBtn;
 	LLTextBox*				mGroupCountText;
+	LLGroupList*			mGroupList;
 
 	// Recent
 	LLButton*				mRecentGearBtn;
 	LLButton*				mRecentAddFriendBtn;
 	LLButton*				mRecentDelFriendBtn;
+	LLAvatarList*			mRecentList;
 
 	std::vector<std::string> mSavedOriginalFilters;
 	std::vector<std::string> mSavedFilters;

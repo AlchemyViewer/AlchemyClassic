@@ -76,6 +76,8 @@ protected:
 	LLScrollbar (const Params & p);
 	friend class LLUICtrlFactory;
 
+	BOOL postBuild() override;
+
 public:
 	virtual ~LLScrollbar();
 
@@ -160,6 +162,9 @@ private:
 	LLUIImagePtr		mTrackImageH;
 
 	S32					mThickness;
+
+	LLButton*			mBtnScrollUp;
+	LLButton*			mBtnScrollDown;
 };
 
 

@@ -367,11 +367,10 @@ LLMenuParcelObserver::~LLMenuParcelObserver()
 void LLMenuParcelObserver::changed()
 {
 	LLParcel *parcel = LLViewerParcelMgr::getInstance()->getParcelSelection()->getParcel();
-	gMenuHolder->childSetEnabled("Land Buy Pass", LLPanelLandGeneral::enableBuyPass(NULL) && !(parcel->getOwnerID()== gAgent.getID()));
+	gMenuLand->getChild<LLMenuItemCallGL>("Land Buy Pass")->setEnabled(LLPanelLandGeneral::enableBuyPass(NULL) && !(parcel->getOwnerID()== gAgent.getID()));
 	
 	BOOL buyable = enable_buy_land(NULL);
-	gMenuHolder->childSetEnabled("Land Buy", buyable);
-	gMenuHolder->childSetEnabled("Buy Land...", buyable);
+	gMenuLand->getChild<LLMenuItemCallGL>("Land Buy")->setEnabled(buyable);
 }
 
 
@@ -2680,11 +2679,11 @@ bool enable_object_touch(LLUICtrl* ctrl)
 	LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode();
 	if (node && node->mValid && !node->mTouchName.empty())
 	{
-		gMenuHolder->childSetValue(item_name, node->mTouchName);
+		ctrl->setValue(node->mTouchName);
 	}
 	else
 	{
-		gMenuHolder->childSetValue(item_name, get_default_item_label(item_name));
+		ctrl->setValue(get_default_item_label(item_name));
 	}
 
 	return new_value;
@@ -6512,11 +6511,11 @@ bool enable_object_sit(LLUICtrl* ctrl)
 		LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode();
 		if (node && node->mValid && !node->mSitName.empty())
 		{
-			gMenuHolder->childSetValue(item_name, node->mSitName);
+			ctrl->setValue(node->mSitName);
 		}
 		else
 		{
-			gMenuHolder->childSetValue(item_name, get_default_item_label(item_name));
+			ctrl->setValue(get_default_item_label(item_name));
 		}
 	}
 	return !sitting_on_sel && is_object_sittable();

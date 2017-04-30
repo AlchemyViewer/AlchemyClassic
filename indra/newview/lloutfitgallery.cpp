@@ -653,6 +653,7 @@ static LLDefaultChildRegistry::Register<LLOutfitGalleryItem> r("outfit_gallery_i
 LLOutfitGalleryItem::LLOutfitGalleryItem(const Params& p)
     : LLPanel(p),
     mTexturep(NULL),
+	mIconPreviewOutfit(nullptr),
     mSelected(false),
     mWorn(false),
     mDefaultImage(true),
@@ -668,12 +669,12 @@ LLOutfitGalleryItem::~LLOutfitGalleryItem()
 
 BOOL LLOutfitGalleryItem::postBuild()
 {
-    setDefaultImage();
-
     mOutfitNameText = getChild<LLTextBox>("outfit_name");
     mOutfitWornText = getChild<LLTextBox>("outfit_worn_text");
     mTextBgPanel = getChild<LLPanel>("text_bg_panel");
-    setOutfitWorn(false);
+	mIconPreviewOutfit = getChild<LLIconCtrl>("preview_outfit");
+	setDefaultImage();
+	setOutfitWorn(false);
     mHidden = false;
     return TRUE;
 }
@@ -684,7 +685,7 @@ void LLOutfitGalleryItem::draw()
     
     // Draw border
     LLUIColor border_color = LLUIColorTable::instance().getColor(mSelected ? "OutfitGalleryItemSelected" : "OutfitGalleryItemUnselected", LLColor4::white);
-    LLRect border = getChildView("preview_outfit")->getRect();
+    LLRect border = mIconPreviewOutfit->getRect();
     border.mRight = border.mRight + 1;
     gl_rect_2d(border, border_color.get(), FALSE);
 
@@ -744,7 +745,7 @@ void LLOutfitGalleryItem::setImageAssetId(LLUUID image_asset_id)
 {
     mImageAssetId = image_asset_id;
     mTexturep = LLViewerTextureManager::getFetchedTexture(image_asset_id, FTT_DEFAULT, MIPMAP_YES, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE);
-    getChildView("preview_outfit")->setVisible(FALSE);
+	mIconPreviewOutfit->setVisible(FALSE);
     mDefaultImage = false;
 }
 
@@ -757,7 +758,7 @@ void LLOutfitGalleryItem::setDefaultImage()
 {
     mTexturep = NULL;
     mImageAssetId.setNull();
-    getChildView("preview_outfit")->setVisible(TRUE);
+	mIconPreviewOutfit->setVisible(TRUE);
     mDefaultImage = true;
 }
 

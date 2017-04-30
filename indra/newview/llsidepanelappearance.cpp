@@ -41,6 +41,7 @@
 #include "llfloaterreg.h"
 #include "llfloaterworldmap.h"
 #include "llfolderviewmodel.h"
+#include "llloadingindicator.h"
 #include "lloutfitobserver.h"
 #include "llpaneleditwearable.h"
 #include "llpaneloutfitsinventory.h"
@@ -73,10 +74,12 @@ private:
 
 LLSidepanelAppearance::LLSidepanelAppearance() :
 	LLPanel(),
-	mFilterSubString(LLStringUtil::null),
+	mOutfitLoadingIndicator(nullptr),
 	mFilterEditor(NULL),
 	mOutfitEdit(NULL),
+	mEditOutfitBtn(nullptr),
 	mCurrOutfitPanel(NULL),
+	mFilterSubString(LLStringUtil::null),
 	mOpened(false)
 {
 	LLOutfitObserver& outfit_observer =  LLOutfitObserver::instance();
@@ -95,13 +98,16 @@ LLSidepanelAppearance::~LLSidepanelAppearance()
 // virtual
 BOOL LLSidepanelAppearance::postBuild()
 {
+	mOutfitLoadingIndicator = getChild<LLLoadingIndicator>("wearables_loading_indicator");
+
 	mOpenOutfitBtn = getChild<LLButton>("openoutfit_btn");
 	mOpenOutfitBtn->setClickedCallback(boost::bind(&LLSidepanelAppearance::onOpenOutfitButtonClicked, this));
 
 	mEditAppearanceBtn = getChild<LLButton>("editappearance_btn");
 	mEditAppearanceBtn->setClickedCallback(boost::bind(&LLSidepanelAppearance::onEditAppearanceButtonClicked, this));
 
-	childSetAction("edit_outfit_btn", boost::bind(&LLSidepanelAppearance::showOutfitEditPanel, this));
+	mEditOutfitBtn = getChild<LLButton>("edit_outfit_btn");
+	mEditOutfitBtn->setClickedCallback(boost::bind(&LLSidepanelAppearance::showOutfitEditPanel, this));
 
 	mNewOutfitBtn = getChild<LLButton>("newlook_btn");
 	mNewOutfitBtn->setClickedCallback(boost::bind(&LLSidepanelAppearance::onNewOutfitButtonClicked, this));
@@ -531,8 +537,8 @@ void LLSidepanelAppearance::inventoryFetched()
 
 void LLSidepanelAppearance::setWearablesLoading(bool val)
 {
-	getChildView("wearables_loading_indicator")->setVisible( val);
-	getChildView("edit_outfit_btn")->setVisible( !val);
+	mOutfitLoadingIndicator->setVisible( val);
+	mEditOutfitBtn->setVisible( !val);
 
 	if (!val)
 	{

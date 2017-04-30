@@ -60,6 +60,7 @@ class LLFindNonLinksByMask;
 class LLFindWearablesOfType;
 class LLSaveOutfitComboBtn;
 class LLWearableItemTypeNameComparator;
+class LLLoadingIndicator;
 
 class LLPanelOutfitEdit : public LLPanel
 {
@@ -208,6 +209,7 @@ private:
 	selection_info_t getAddMorePanelSelectionType() const;
 	LLWearableType::EType getWearableTypeByItemUUID(const LLUUID& item_uuid) const;
 
+	LLLoadingIndicator*	mOutfitLoadingIndicator;
 	LLTextBox*			mCurrentOutfitName;
 	LLTextBox*			mStatus;
 	LLInventoryPanel*	mInventoryItemsPanel;
@@ -217,8 +219,15 @@ private:
 	LLButton*			mEditWearableBtn;
 	LLButton*			mFolderViewBtn;
 	LLButton*			mListViewBtn;
+	LLButton*			mFilterBtn;
+	LLButton*			mShowAddWearableBtn;
 	LLButton*			mPlusBtn;
+	LLButton*			mRevertBtn;
 	LLPanel*			mAddWearablesPanel;
+	LLPanel*			mAddWearablesButtonBarPanel;
+	LLPanel*			mNoAddWearablesButtonBarPanel;
+	LLPanel*			mFilterPanel;
+	LLPanel*			mOutfitNameStatusPanel;
 	
 	LLComboBox*			mFolderViewFilterCmbBox;
 	LLComboBox*			mListViewFilterCmbBox;

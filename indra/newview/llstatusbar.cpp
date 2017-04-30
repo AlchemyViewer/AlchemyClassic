@@ -107,10 +107,12 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mTextFPS(nullptr),
 	mSGBandwidth(nullptr),
 	mSGPacketLoss(nullptr),
+	mPanelPopupHolder(nullptr),
 	mBtnQuickSettings(nullptr),
 	mBtnAO(nullptr),
 	mBtnVolume(nullptr),
 	mBoxBalance(nullptr),
+	mBtnBuyL(nullptr),
 	mPanelFlycam(nullptr),
 	mBalance(0),
 	mHealth(100),
@@ -160,12 +162,14 @@ BOOL LLStatusBar::postBuild()
 {
 	gMenuBarView->setRightMouseDownCallback(boost::bind(&show_navbar_context_menu, _1, _2, _3));
 
+	mPanelPopupHolder = gViewerWindow->getRootView()->getChildView("popup_holder");
+
 	mTextTime = getChild<LLTextBox>("TimeText" );
 	
 	mTextFPS = getChild<LLTextBox>("FPSText");
 
-	getChild<LLUICtrl>("buyL")->setCommitCallback(
-		boost::bind(&LLStatusBar::onClickBuyCurrency, this));
+	mBtnBuyL = getChild<LLButton>("buyL");
+	mBtnBuyL->setCommitCallback(boost::bind(&LLStatusBar::onClickBuyCurrency, this));
 
     //getChild<LLUICtrl>("goShop")->setCommitCallback(boost::bind(&LLWeb::loadURL, gSavedSettings.getString("MarketplaceURL"), LLStringUtil::null, LLStringUtil::null));
 
@@ -344,7 +348,7 @@ void LLStatusBar::setVisibleForMouselook(bool visible)
 {
 	mTextTime->setVisible(visible);
 	mBoxBalance->setVisible(visible);
-	getChild<LLUICtrl>("buyL")->setVisible(visible);
+	mBtnBuyL->setVisible(visible);
 	mBtnQuickSettings->setVisible(visible);
 	mBtnAO->setVisible(visible);
 	mBtnVolume->setVisible(visible);
@@ -487,7 +491,6 @@ void LLStatusBar::onClickBuyCurrency()
 
 void LLStatusBar::onMouseEnterQuickSettings()
 {
-	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
 	LLRect qs_rect = mPanelQuickSettingsPulldown->getRect();
 	LLRect qs_btn_rect = mBtnQuickSettings->getRect();
 	qs_rect.setLeftTopAndSize(qs_btn_rect.mLeft -
@@ -496,7 +499,7 @@ void LLStatusBar::onMouseEnterQuickSettings()
 		qs_rect.getWidth(),
 		qs_rect.getHeight());
 	// force onscreen
-	qs_rect.translate(popup_holder->getRect().getWidth() - qs_rect.mRight, 0);
+	qs_rect.translate(mPanelPopupHolder->getRect().getWidth() - qs_rect.mRight, 0);
 
 	// show the master volume pull-down
 	mPanelQuickSettingsPulldown->setShape(qs_rect);
@@ -511,7 +514,6 @@ void LLStatusBar::onMouseEnterQuickSettings()
 
 void LLStatusBar::onMouseEnterAO()
 {
-	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
 	LLRect qs_rect = mPanelAOPulldown->getRect();
 	LLRect qs_btn_rect = mBtnAO->getRect();
 	qs_rect.setLeftTopAndSize(qs_btn_rect.mLeft -
@@ -520,7 +522,7 @@ void LLStatusBar::onMouseEnterAO()
 							  qs_rect.getWidth(),
 							  qs_rect.getHeight());
 	// force onscreen
-	qs_rect.translate(popup_holder->getRect().getWidth() - qs_rect.mRight, 0);
+	qs_rect.translate(mPanelPopupHolder->getRect().getWidth() - qs_rect.mRight, 0);
 	
 	mPanelAOPulldown->setShape(qs_rect);
 	LLUI::clearPopups();
@@ -534,9 +536,7 @@ void LLStatusBar::onMouseEnterAO()
 
 void LLStatusBar::onMouseEnterVolume()
 {
-	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
-	LLButton* volbtn =  getChild<LLButton>( "volume_btn" );
-	LLRect vol_btn_rect = volbtn->getRect();
+	LLRect vol_btn_rect = mBtnVolume->getRect();
 	LLRect volume_pulldown_rect = mPanelVolumePulldown->getRect();
 	volume_pulldown_rect.setLeftTopAndSize(vol_btn_rect.mLeft -
 	     (volume_pulldown_rect.getWidth() - vol_btn_rect.getWidth()),
@@ -544,7 +544,7 @@ void LLStatusBar::onMouseEnterVolume()
 			       volume_pulldown_rect.getWidth(),
 			       volume_pulldown_rect.getHeight());
 
-	volume_pulldown_rect.translate(popup_holder->getRect().getWidth() - volume_pulldown_rect.mRight, 0);
+	volume_pulldown_rect.translate(mPanelPopupHolder->getRect().getWidth() - volume_pulldown_rect.mRight, 0);
 	mPanelVolumePulldown->setShape(volume_pulldown_rect);
 
 
@@ -559,17 +559,15 @@ void LLStatusBar::onMouseEnterVolume()
 
 void LLStatusBar::onMouseEnterNearbyMedia()
 {
-	LLView* popup_holder = gViewerWindow->getRootView()->getChildView("popup_holder");
 	LLRect nearby_media_rect = mPanelNearByMedia->getRect();
-	LLButton* nearby_media_btn =  getChild<LLButton>( "media_toggle_btn" );
-	LLRect nearby_media_btn_rect = nearby_media_btn->getRect();
+	LLRect nearby_media_btn_rect = mMediaToggle->getRect();
 	nearby_media_rect.setLeftTopAndSize(nearby_media_btn_rect.mLeft - 
 										(nearby_media_rect.getWidth() - nearby_media_btn_rect.getWidth())/2,
 										nearby_media_btn_rect.mBottom,
 										nearby_media_rect.getWidth(),
 										nearby_media_rect.getHeight());
 	// force onscreen
-	nearby_media_rect.translate(popup_holder->getRect().getWidth() - nearby_media_rect.mRight, 0);
+	nearby_media_rect.translate(mPanelPopupHolder->getRect().getWidth() - nearby_media_rect.mRight, 0);
 	
 	// show the master volume pull-down
 	mPanelNearByMedia->setShape(nearby_media_rect);

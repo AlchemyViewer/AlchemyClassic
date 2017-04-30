@@ -2024,14 +2024,14 @@ void LLViewerWindow::initWorldUI()
 
 
 	// Status bar
-	LLPanel* status_bar_container = getRootView()->getChild<LLPanel>("status_bar_container");
-	gStatusBar = new LLStatusBar(status_bar_container->getLocalRect());
+	mStatusBarPanel = getRootView()->getChild<LLPanel>("status_bar_container")->getHandle();
+	gStatusBar = new LLStatusBar(mStatusBarPanel.get()->getLocalRect());
 	gStatusBar->setFollows(FOLLOWS_ALL);
-	gStatusBar->setShape(status_bar_container->getLocalRect());
+	gStatusBar->setShape(mStatusBarPanel.get()->getLocalRect());
 	// sync bg color with menu bar
 	gStatusBar->setBackgroundColor( gMenuBarView->getBackgroundColor().get() );
-	status_bar_container->addChildInBack(gStatusBar);
-	status_bar_container->setVisible(TRUE);
+	mStatusBarPanel.get()->addChildInBack(gStatusBar);
+	mStatusBarPanel.get()->setVisible(TRUE);
 
 	// Navigation bar
 	LLPanel* nav_bar_container = getRootView()->getChild<LLPanel>("nav_bar_container");
@@ -5389,7 +5389,7 @@ void LLViewerWindow::setUIVisibility(bool visible)
 
 	LLNavigationBar::getInstance()->setVisible(visible ? (location_bar == 2) : FALSE);
 	LLPanelTopInfoBar::getInstance()->setVisible(visible ? (location_bar == 1) : FALSE);
-	mRootView->getChildView("status_bar_container")->setVisible(visible);
+	mStatusBarPanel.get()->setVisible(visible);
 }
 
 bool LLViewerWindow::getUIVisibility()

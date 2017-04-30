@@ -74,6 +74,7 @@ LLAvatarListItem::LLAvatarListItem(bool not_from_ui_factory/* = true*/)
 	mIconPermissionEditTheirs(NULL),
 	mIconPermissionMapTheirs(NULL),
 	mIconPermissionOnlineTheirs(NULL),
+	mIconHovered(nullptr),
 	mSpeakingIndicator(NULL),
 	mInfoBtn(NULL),
 	mProfileBtn(NULL),
@@ -126,6 +127,8 @@ BOOL  LLAvatarListItem::postBuild()
 	mIconPermissionEditTheirs->setVisible(FALSE);
 	mIconPermissionOnlineTheirs->setVisible(FALSE);
 	mIconPermissionMapTheirs->setVisible(FALSE);
+
+	mIconHovered = getChild<LLIconCtrl>("hovered_icon");
 
 	mSpeakingIndicator = getChild<LLOutputMonitorCtrl>("speaking_indicator");
 	mInfoBtn = getChild<LLButton>("info_btn");
@@ -187,7 +190,7 @@ S32 LLAvatarListItem::notifyParent(const LLSD& info)
 
 void LLAvatarListItem::onMouseEnter(S32 x, S32 y, MASK mask)
 {
-	getChildView("hovered_icon")->setVisible( true);
+	mIconHovered->setVisible( true);
 	mInfoBtn->setVisible(mShowInfoBtn);
 	mProfileBtn->setVisible(mShowProfileBtn);
 
@@ -200,7 +203,7 @@ void LLAvatarListItem::onMouseEnter(S32 x, S32 y, MASK mask)
 
 void LLAvatarListItem::onMouseLeave(S32 x, S32 y, MASK mask)
 {
-	getChildView("hovered_icon")->setVisible( false);
+	mIconHovered->setVisible( false);
 	mInfoBtn->setVisible(false);
 	mProfileBtn->setVisible(false);
 

@@ -140,6 +140,8 @@ protected:
 	/// Indicator for permission to see their online status.
 	LLIconCtrl* mIconPermissionOnlineTheirs;
 
+	LLIconCtrl* mIconHovered;
+
 private:
 
 	typedef enum e_online_status {

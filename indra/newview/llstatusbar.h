@@ -112,10 +112,12 @@ private:
 	LLStatGraph *mSGBandwidth;
 	LLStatGraph *mSGPacketLoss;
 
+	LLView		*mPanelPopupHolder;
 	LLButton	*mBtnQuickSettings;
 	LLButton	*mBtnAO;
 	LLButton	*mBtnVolume;
 	LLTextBox	*mBoxBalance;
+	LLButton	*mBtnBuyL;
 	LLUICtrl	*mPanelFlycam;
 	LLButton	*mMediaToggle;
 	LLFrameTimer	mClockUpdateTimer;

@@ -157,25 +157,13 @@ struct LLDeRezInfo
 //
 
 
-static LLPointer<LLObjectSelection> sNullSelection;
-
 //
 // Functions
 //
 
 void LLSelectMgr::cleanupGlobals()
 {
-	sNullSelection = NULL;
 	LLSelectMgr::getInstance()->clearSelections();
-}
-
-LLObjectSelection *get_null_object_selection()
-{
-	if (sNullSelection.isNull())
-	{
-		sNullSelection = new LLObjectSelection;
-	}
-	return sNullSelection;
 }
 
 // Build time optimization, generate this function once here

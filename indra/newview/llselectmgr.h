@@ -230,6 +230,7 @@ protected:
 class LLObjectSelection : public LLRefCount
 {
 	friend class LLSelectMgr;
+	friend class LLSafeHandle<LLObjectSelection>;
 
 protected:
 	~LLObjectSelection();
@@ -957,10 +958,5 @@ template <typename T> bool LLObjectSelection::isMultipleTEValue(LLSelectedTEGetF
 	return !unique;
 }
 
-extern LLObjectSelection *get_null_object_selection();
-
-template<>
-    const LLSafeHandle<LLObjectSelection>::NullFunc
-          LLSafeHandle<LLObjectSelection>::sNullFunc = get_null_object_selection;
 
 #endif

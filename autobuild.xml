@@ -644,11 +644,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>952270a3143ddfd9d5b19966a594d5c6</string>
+              <string>b39a24f826b92daaadd228554b719ead</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.09.01-linux64-201703121629.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.09.04-linux64-201704301952.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

@@ -224,11 +224,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>78bb44859fdd6eaf043db566c7e3d682</string>
+              <string>714d12aaa2bb607e6cb6346042e6a28d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/boost-1.60.0-linux64-201703120634.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/boost-1.63.0-linux64-201704302002.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -308,11 +308,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4ac706e4688e9f8fcd75c09a7844f8f1</string>
+              <string>f97edcdb3fba3c549838712f0f46c53f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/colladadom-2.3-linux64-201703120842.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/colladadom-2.3-linux64-201704302011.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>

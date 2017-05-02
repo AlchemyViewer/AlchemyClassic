@@ -1770,9 +1770,12 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 
 				LLColor4 col = mat->getSpecularLightColor();
-				F32 spec = llmax(0.0001f, mat->getSpecularLightExponent() / 255.f);
+				col[0] *= (1.f / 255.f);
+				col[1] *= (1.f / 255.f);
+				col[2] *= (1.f / 255.f);
+				F32 spec = mat->getSpecularLightExponent() * (1.f / 255.f);
 
-				F32 env = mat->getEnvironmentIntensity()/255.f;
+				F32 env = mat->getEnvironmentIntensity() * (1.f / 255.f);
 
 				if (mat->getSpecularID().isNull())
 				{
@@ -1789,7 +1792,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 				if (mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
 				{
-					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff()/255.f);
+					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff() * (1.f / 255.f));
 				}
 				else
 				{

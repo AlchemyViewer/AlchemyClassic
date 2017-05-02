@@ -1752,7 +1752,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 			if (mat)
 			{
-				//order is important here LLRender::DIFFUSE_MAP should be last, becouse it change 
+				//order is important here LLRender::DIFFUSE_MAP should be last, because it changes 
 				//(gGL).mCurrTextureUnitIndex
                 LLViewerTexture* specular = NULL;
                 if (LLPipeline::sImpostorRender && avatar->isVisuallyMuted())
@@ -1761,35 +1761,42 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
                 }
                 else
                 {
-                    specular = face->getTexture(LLRender::SPECULAR_MAP);
+                    specular = face->getViewerObject()->getTESpecularMap(face->getTEOffset());
                 }
                 
 				gGL.getTexUnit(specular_channel)->bind(specular);
-				gGL.getTexUnit(normal_channel)->bind(face->getTexture(LLRender::NORMAL_MAP));
-				gGL.getTexUnit(sDiffuseChannel)->bind(face->getTexture(LLRender::DIFFUSE_MAP), false, true);
+				gGL.getTexUnit(normal_channel)->bind(face->getViewerObject()->getTENormalMap(face->getTEOffset()));
+				gGL.getTexUnit(sDiffuseChannel)->bind(face->getTexture(), false, true);
 
-
-				LLColor4 col = mat->getSpecularLightColor();
-				F32 spec = mat->getSpecularLightExponent() / 255.f;
-
-				F32 env = mat->getEnvironmentIntensity() / 255.f;
-
-				if (mat->getSpecularID().isNull())
+				static const float alpha[4] =
 				{
-					env = te->getShiny()*0.25f;
-					col.set(env,env,env,0);
-					spec = env;
+					0.00f,
+					0.25f,
+					0.5f,
+					0.75f
+				};
+				float spec = alpha[te->getShiny() & TEM_SHINY_MASK];
+				LLColor4 specColor(spec, spec, spec, spec);
+				F32 env = spec;
+
+				if (!mat->getSpecularID().isNull())
+				{
+					specColor.mV[0] = mat->getSpecularLightColor().mV[0] * (1.f / 255.f);
+					specColor.mV[1] = mat->getSpecularLightColor().mV[1] * (1.f / 255.f);
+					specColor.mV[2] = mat->getSpecularLightColor().mV[2] * (1.f / 255.f);
+					specColor.mV[3] = mat->getSpecularLightExponent() * (1.f / 255.f);
+					env = mat->getEnvironmentIntensity() * (1.f / 255.f);
 				}
-		
+
 				BOOL fullbright = te->getFullbright();
 
 				sVertexProgram->uniform1f(LLShaderMgr::EMISSIVE_BRIGHTNESS, fullbright ? 1.f : 0.f);
-				sVertexProgram->uniform4f(LLShaderMgr::SPECULAR_COLOR, col.mV[0], col.mV[1], col.mV[2], spec);
+				sVertexProgram->uniform4f(LLShaderMgr::SPECULAR_COLOR, specColor.mV[0], specColor.mV[1], specColor.mV[2], specColor.mV[3]);
 				sVertexProgram->uniform1f(LLShaderMgr::ENVIRONMENT_INTENSITY, env);
 
 				if (mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
 				{
-					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff() / 255.f);
+					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff() * (1.f / 255.f));
 				}
 				else
 				{

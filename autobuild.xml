@@ -2022,11 +2022,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8f480a1b66b0a20babbef4985c7070f9</string>
+              <string>a99741e748f43f623373a8e657f92bd1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/llceflib-3.2987.1591.gd3e47f5-windows-201703110808.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/llceflib-3.3029.1611.g44e39a8-windows-201705011141.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2036,11 +2036,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ae2743c2ef81f1470c1c80a765e94ce1</string>
+              <string>00c2aaff2ed3e76abfd8921fe4d93878</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/llceflib-3.2987.1591.gd3e47f5-windows64-201703110803.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/llceflib-3.3029.1611.g44e39a8-windows64-201704301131.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

@@ -5039,14 +5039,15 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 							else
 							{
-								if (type == LLDrawPool::POOL_FULLBRIGHT || type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)
-								{
-									pool->addRiggedFace(facep, LLDrawPoolAvatar::RIGGED_FULLBRIGHT);
-								}
-								//Annoying exception to the rule. getPoolTypeFromTE will return POOL_ALPHA_MASK for legacy bumpmaps, but there is no POOL_ALPHA_MASK in deferred.
-								else if (type == LLDrawPool::POOL_MATERIALS || (type == LLDrawPool::POOL_ALPHA_MASK && mat))
+								// Annoying exception to the rule. getPoolTypeFromTE will return POOL_ALPHA_MASK for legacy bumpmaps, but there is no POOL_ALPHA_MASK in deferred.
+								// Another exception! Rigged faces with an alpha mask need to be in the material alphamask pass.
+								if (type == LLDrawPool::POOL_MATERIALS || ((type == LLDrawPool::POOL_ALPHA_MASK || type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK) && mat))
 								{
 									pool->addRiggedFace(facep, mat->getShaderMask());
+								}
+								else if (type == LLDrawPool::POOL_FULLBRIGHT || type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)
+								{
+									pool->addRiggedFace(facep, LLDrawPoolAvatar::RIGGED_FULLBRIGHT);
 								}
 								else if (type == LLDrawPool::POOL_BUMP && te->getBumpmap())
 								{

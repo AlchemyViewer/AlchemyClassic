@@ -5135,10 +5135,15 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 						}
 						else if (force_fullbright)	//Hud is done in a forward render. Fullbright cannot be shared with simple.
 						{
-							if (type == LLDrawPool::POOL_ALPHA_MASK)
+							LLMaterial* mat = te->getMaterialParams().get();
+							if (type == LLDrawPool::POOL_ALPHA_MASK || (mat && mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK))
+							{
 								type = LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
+							}
 							else
+							{
 								type = LLDrawPool::POOL_FULLBRIGHT;
+							}
 						}
 						else if (force_simple && type != LLDrawPool::POOL_FULLBRIGHT && type != LLDrawPool::POOL_ALPHA_MASK && type != LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)
 						{

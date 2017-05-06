@@ -66,8 +66,11 @@ static LLPanelInjector<LLProgressView> r("progress_view");
 // XUI: Translate
 LLProgressView::LLProgressView() 
 :	LLPanel(),
-	mPercentDone( 0.f ),
 	mMediaCtrl( NULL ),
+	mPercentDone(0.f),
+	mProgressText(nullptr),
+	mMessageText(nullptr),
+	mCancelBtn(nullptr),
 	mMouseDownInActiveArea( false ),
 	mUpdateEvents("LLProgressView"),
 	mFadeToWorldTimer(),
@@ -95,7 +98,10 @@ BOOL LLProgressView::postBuild()
 
 	getChild<LLTextBox>("title_text")->setText(LLStringExplicit(LLAppViewer::instance()->getSecondLifeTitle()));
 
-	getChild<LLTextBox>("message_text")->setClickedCallback(onClickMessage, this);
+	mMessageText = getChild<LLTextBox>("message_text");
+	mMessageText->setClickedCallback(onClickMessage, this);
+
+	mProgressText = getChild<LLTextBox>("progress_text");
 
 	// hidden initially, until we need it
 	setVisible(FALSE);
@@ -297,7 +303,7 @@ void LLProgressView::draw()
 
 void LLProgressView::setText(const std::string& text)
 {
-	getChild<LLUICtrl>("progress_text")->setValue(text);
+	mProgressText->setValue(text);
 }
 
 void LLProgressView::setPercent(const F32 percent)
@@ -308,7 +314,7 @@ void LLProgressView::setPercent(const F32 percent)
 void LLProgressView::setMessage(const std::string& msg)
 {
 	mMessage = msg;
-	getChild<LLUICtrl>("message_text")->setValue(mMessage);
+	mMessageText->setValue(mMessage);
 }
 
 void LLProgressView::setCancelButtonVisible(BOOL b, const std::string& label)

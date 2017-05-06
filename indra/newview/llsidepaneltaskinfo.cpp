@@ -48,10 +48,12 @@
 #include "llagent.h"
 #include "llavataractions.h"
 #include "llgroupactions.h"
+#include "llinventorymodel.h"
 #include "llfloatergroups.h"
 #include "llfloaterreg.h"
 #include "llselectmgr.h"
 #include "llstatusbar.h"		// for getBalance()
+#include "llviewerinventory.h"
 #include "llnotificationsutil.h"
 
 #include "roles_constants.h"
@@ -1037,15 +1039,51 @@ void LLSidepanelTaskInfo::onCommitNextOwnerExport(const LLSD& user_data)
 
 void LLSidepanelTaskInfo::onCommitName(const LLSD& user_data)
 {
-	//LL_INFOS() << "LLSidepanelTaskInfo::onCommitName()" << LL_ENDL;
-	LLSelectMgr::getInstance()->selectionSetObjectName(user_data.asString());
+	const auto& name_string = user_data.asStringRef();
+
+	LLSelectMgr::getInstance()->selectionSetObjectName(name_string);
+	LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+	if (selection->isAttachment() && (selection->getNumNodes() == 1) && !name_string.empty())
+	{
+		LLUUID object_id = selection->getFirstObject()->getAttachmentItemID();
+		if (object_id.notNull())
+		{
+			LLViewerInventoryItem* item = gInventory.getItem(object_id);
+			if (item)
+			{
+				LLPointer<LLViewerInventoryItem> new_item = new LLViewerInventoryItem(item);
+				new_item->rename(name_string);
+				new_item->updateServer(FALSE);
+				gInventory.updateItem(new_item);
+				gInventory.notifyObservers();
+			}
+		}
+	}
 }
 
 
 void LLSidepanelTaskInfo::onCommitDesc(const LLSD& user_data)
 {
-	//LL_INFOS() << "LLSidepanelTaskInfo::onCommitDesc()" << LL_ENDL;
+	const auto& desc_string = user_data.asStringRef();
+
 	LLSelectMgr::getInstance()->selectionSetObjectDescription(user_data.asString());
+	LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
+	if (selection->isAttachment() && (selection->getNumNodes() == 1))
+	{
+		LLUUID object_id = selection->getFirstObject()->getAttachmentItemID();
+		if (object_id.notNull())
+		{
+			LLViewerInventoryItem* item = gInventory.getItem(object_id);
+			if (item)
+			{
+				LLPointer<LLViewerInventoryItem> new_item = new LLViewerInventoryItem(item);
+				new_item->setDescription(desc_string);
+				new_item->updateServer(FALSE);
+				gInventory.updateItem(new_item);
+				gInventory.notifyObservers();
+			}
+		}
+	}
 }
 
 void LLSidepanelTaskInfo::setAllSaleInfo()

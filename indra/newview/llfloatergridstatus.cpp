@@ -109,7 +109,7 @@ void LLFloaterGridStatus::getGridStatusRSSCoro()
     const LLSD::Binary &rawBody = result[LLCoreHttpUtil::HttpCoroutineAdapter::HTTP_RESULTS_RAW].asBinary();
     std::string body(rawBody.begin(), rawBody.end());
 
-    std::string fullpath = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,"grid_status_rss.xml");
+    std::string fullpath = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,"grid_status_rss.xml");
     if(!gSavedSettings.getBOOL("TestGridStatusRSSFromFile"))
     {
         llofstream custom_file_out(fullpath.c_str(), std::ios::trunc);

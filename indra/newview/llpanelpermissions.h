@@ -36,7 +36,13 @@
 // Panel for permissions of an object.
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+class LLButton;
+class LLCheckBoxCtrl;
+class LLComboBox;
+class LLLineEditor;
 class LLNameBox;
+class LLSpinCtrl;
+class LLTextBox;
 class LLViewerInventoryItem;
 
 class LLPanelPermissions : public LLPanel
@@ -50,38 +56,34 @@ public:
 	void refresh();							// refresh all labels as needed
 
 protected:
-	// statics
-	static void onClickClaim(void*);
-	static void onClickRelease(void*);
-		   void onClickGroup();
-		   void cbGroupID(LLUUID group_id);
-	static void onClickDeedToGroup(void*);
-	// <alchemy>
+	void onClickClaim();
+	void onClickRelease();
+	void onClickGroup();
+	void cbGroupID(LLUUID group_id);
+	void onClickDeedToGroup();
 	void onClickDescToPos();
 	void onClickPosToDesc();
-	// </alchemy>
 
-	static void onCommitPerm(LLUICtrl *ctrl, void *data, U8 field, U32 perm);
+	void onCommitPerm(BOOL new_state, U8 field, U32 perm);
 
-	static void onCommitGroupShare(LLUICtrl *ctrl, void *data);
+	void onCommitGroupShare(const LLSD& user_data);
 
-	static void onCommitEveryoneMove(LLUICtrl *ctrl, void *data);
-	static void onCommitEveryoneCopy(LLUICtrl *ctrl, void *data);
+	void onCommitEveryoneMove(const LLSD& user_data);
+	void onCommitEveryoneCopy(const LLSD& user_data);
 
-	static void onCommitNextOwnerModify(LLUICtrl* ctrl, void* data);
-	static void onCommitNextOwnerCopy(LLUICtrl* ctrl, void* data);
-	static void onCommitNextOwnerTransfer(LLUICtrl* ctrl, void* data);
+	void onCommitNextOwnerModify(const LLSD& user_data);
+	void onCommitNextOwnerCopy(const LLSD& user_data);
+	void onCommitNextOwnerTransfer(const LLSD& user_data);
 	
-	static void onCommitName(LLUICtrl* ctrl, void* data);
-	static void onCommitDesc(LLUICtrl* ctrl, void* data);
+	void onCommitName(const LLSD& user_data);
+	void onCommitDesc(const LLSD& user_data);
 
 	static void onCommitSaleInfo(LLUICtrl* ctrl, void* data);
-	static void onCommitSaleType(LLUICtrl* ctrl, void* data);	
 	void setAllSaleInfo();
 
-	static void	onCommitClickAction(LLUICtrl* ctrl, void*);
-	static void onCommitIncludeInSearch(LLUICtrl* ctrl, void*);
-	static void onCommitExport(LLUICtrl* ctrl, void* data);
+	void onCommitClickAction(const LLSD& user_data);
+	void onCommitIncludeInSearch(const LLSD& user_data);
+	void onCommitExport(const LLSD& user_data);
 
 	static LLViewerInventoryItem* findItem(LLUUID &object_id);
 
@@ -89,16 +91,51 @@ protected:
 	void disableAll();
 	
 private:
-	LLNameBox*		mLabelGroupName;		// group name
+	LLNameBox*		mLabelGroupName = nullptr;		// group name
 
 	LLUUID			mCreatorID;
 	LLUUID			mOwnerID;
 	LLUUID			mLastOwnerID;
 
-	// <alchemy>
-	LLButton*		mPosToDescBtn;
-	LLButton*		mDescToPosBtn;
-	// </alchemy>
+	LLButton*		mBtnSetGroup = nullptr;
+	LLButton*		mBtnDeedGroup = nullptr;
+	LLButton*		mBtnPosToDesc = nullptr;
+	LLButton*		mBtnDescToPos = nullptr;
+	LLCheckBoxCtrl* mCheckShareWithGroup = nullptr;
+	LLCheckBoxCtrl* mCheckAllowEveryoneCopy = nullptr;
+	LLCheckBoxCtrl* mCheckAllowEveryoneMove = nullptr;
+	LLCheckBoxCtrl* mCheckAllowExport = nullptr;
+	LLCheckBoxCtrl* mCheckNextOwnerModify = nullptr;
+	LLCheckBoxCtrl* mCheckNextOwnerCopy = nullptr;
+	LLCheckBoxCtrl* mCheckNextOwnerTransfer = nullptr;
+	LLCheckBoxCtrl* mCheckForSale = nullptr;
+	LLCheckBoxCtrl* mCheckShowInSearch = nullptr;
+	LLComboBox*		mComboClickAction = nullptr;
+	LLComboBox*		mComboSaleType = nullptr;
+	LLLineEditor*	mEditorObjectName = nullptr;
+	LLLineEditor*	mEditorObjectDesc = nullptr;
+	LLSpinCtrl*		mSpinnerEditCost = nullptr;
+
+	LLTextBox*		mLabelAdvPermB = nullptr;
+	LLTextBox*		mLabelAdvPermO = nullptr;
+	LLTextBox*		mLabelAdvPermG = nullptr;
+	LLTextBox*		mLabelAdvPermE = nullptr;
+	LLTextBox*		mLabelAdvPermN = nullptr;
+	LLTextBox*		mLabelAdvPermF = nullptr;
+	LLTextBox*		mLabelClickAction = nullptr;
+	LLTextBox*		mLabelCreator = nullptr;
+	LLTextBox*		mLabelCreatorName = nullptr;
+	LLTextBox*		mLabelGroup = nullptr;
+	LLTextBox*		mLabelLastOwner = nullptr;
+	LLTextBox*		mLabelLastOwnerName = nullptr;
+	LLTextBox*		mLabelNextOwnerCan = nullptr;
+	LLTextBox*		mLabelObjectName = nullptr;
+	LLTextBox*		mLabelObjectDesc = nullptr;
+	LLTextBox*		mLabelOwner = nullptr;
+	LLTextBox*		mLabelOwnerName = nullptr;
+	LLTextBox*		mLabelPathFindingAttribs = nullptr;
+	LLTextBox*		mLabelPermModify = nullptr;
+
 };
 
 

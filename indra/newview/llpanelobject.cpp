@@ -1126,15 +1126,14 @@ void LLPanelObject::getState( )
 			BOOL sculpt_mirror = sculpt_type & LL_SCULPT_FLAG_MIRROR;
 			isMesh = (sculpt_stitching == LL_SCULPT_TYPE_MESH);
 
-			LLTextureCtrl*  mTextureCtrl = getChild<LLTextureCtrl>("sculpt texture control");
-			if(mTextureCtrl)
+			if(mCtrlSculptTexture)
 			{
-				mTextureCtrl->setTentative(FALSE);
-				mTextureCtrl->setEnabled(editable && !isMesh);
+				mCtrlSculptTexture->setTentative(FALSE);
+				mCtrlSculptTexture->setEnabled(editable && !isMesh);
 				if (editable)
-					mTextureCtrl->setImageAssetID(sculpt_params->getSculptTexture());
+					mCtrlSculptTexture->setImageAssetID(sculpt_params->getSculptTexture());
 				else
-					mTextureCtrl->setImageAssetID(LLUUID::null);
+					mCtrlSculptTexture->setImageAssetID(LLUUID::null);
 			}
 
 			mComboBaseType->setEnabled(!isMesh);
@@ -1848,9 +1847,9 @@ void LLPanelObject::refresh()
 	
 	F32 max_scale = get_default_max_prim_scale(LLPickInfo::isFlora(mObject));
 
-	getChild<LLSpinCtrl>("Scale X")->setMaxValue(max_scale);
-	getChild<LLSpinCtrl>("Scale Y")->setMaxValue(max_scale);
-	getChild<LLSpinCtrl>("Scale Z")->setMaxValue(max_scale);
+	mCtrlScaleX->setMaxValue(max_scale);
+	mCtrlScaleY->setMaxValue(max_scale);
+	mCtrlScaleZ->setMaxValue(max_scale);
 }
 
 void LLPanelObject::refreshLimits()
@@ -2044,11 +2043,9 @@ void LLPanelObject::onCommitPhantom( LLUICtrl* ctrl, void* userdata )
 
 void LLPanelObject::onSelectSculpt(const LLSD& data)
 {
-    LLTextureCtrl* mTextureCtrl = getChild<LLTextureCtrl>("sculpt texture control");
-
 	if (mTextureCtrl)
 	{
-		mSculptTextureRevert = mTextureCtrl->getImageAssetID();
+		mSculptTextureRevert = mCtrlSculptTexture->getImageAssetID();
 	}
 	
 	sendSculpt();
@@ -2062,13 +2059,11 @@ void LLPanelObject::onCommitSculpt( const LLSD& data )
 
 BOOL LLPanelObject::onDropSculpt(LLInventoryItem* item)
 {
-    LLTextureCtrl* mTextureCtrl = getChild<LLTextureCtrl>("sculpt texture control");
-
-	if (mTextureCtrl)
+	if (mCtrlSculptTexture)
 	{
 		LLUUID asset = item->getAssetUUID();
 
-		mTextureCtrl->setImageAssetID(asset);
+		mCtrlSculptTexture->setImageAssetID(asset);
 		mSculptTextureRevert = asset;
 	}
 
@@ -2086,7 +2081,7 @@ void LLPanelObject::onCancelSculpt(const LLSD& data)
 	{
 		mSculptTextureRevert = LLUUID(SCULPT_DEFAULT_TEXTURE);
 	}
-	mTextureCtrl->setImageAssetID(mSculptTextureRevert);
+	mCtrlSculptTexture->setImageAssetID(mSculptTextureRevert);
 	
 	sendSculpt();
 }

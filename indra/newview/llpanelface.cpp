@@ -203,8 +203,8 @@ BOOL LLPanelFace::postBuild()
 	mShinyTextureCtrl->setDnDFilterPermMask(PERM_COPY | PERM_TRANSFER);
 	
 	mBumpyTextureCtrl = getChild<LLTextureCtrl>("bumpytexture control");
-	mBumpyTextureCtrl->setDefaultImageAssetID(LLUUID( gSavedSettings.getString( "DefaultObjectNormalTexture" )));
-	mBumpyTextureCtrl->setBlankImageAssetID(LLUUID( gSavedSettings.getString( "DefaultBlankNormalTexture" )));
+	mBumpyTextureCtrl->setDefaultImageAssetID(LLUUID(gSavedSettings.getString("DefaultObjectNormalTexture")));
+	mBumpyTextureCtrl->setBlankImageAssetID(LLUUID(gSavedSettings.getString("DefaultBlankNormalTexture")));
 	mBumpyTextureCtrl->setCommitCallback( boost::bind(&LLPanelFace::onCommitNormalTexture, this) );
 	mBumpyTextureCtrl->setOnCancelCallback( boost::bind(&LLPanelFace::onCancelNormalTexture, this) );
 	mBumpyTextureCtrl->setOnSelectCallback( boost::bind(&LLPanelFace::onSelectNormalTexture, this) );
@@ -1007,7 +1007,7 @@ void LLPanelFace::refresh()
 		getChildView("glow label")->setEnabled(editable);
 		
 		{
-			LLCtrlSelectionInterface* combobox_texgen = childGetSelectionInterface("combobox texgen");
+			LLCtrlSelectionInterface* combobox_texgen = mComboTexGen->getSelectionInterface();
 			if (combobox_texgen)
 			{
 				// Maps from enum to combobox entry index
@@ -1201,7 +1201,7 @@ void LLPanelFace::refresh()
 		calcp->setVar(LLCalc::TEX_V_OFFSET, childGetValue("TexOffsetV").asReal());
 		calcp->setVar(LLCalc::TEX_ROTATION, childGetValue("TexRot").asReal());
 		calcp->setVar(LLCalc::TEX_TRANSPARENCY, mCtrlColorTransp->getValue().asReal());
-		calcp->setVar(LLCalc::TEX_GLOW, childGetValue("glow").asReal());
+		calcp->setVar(LLCalc::TEX_GLOW, mCtrlGlow->getValue().asReal());
 	}
 	else
 	{

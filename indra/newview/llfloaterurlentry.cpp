@@ -112,16 +112,7 @@ void LLFloaterURLEntry::headerFetchComplete(S32 status, const std::string& mime_
 		panel_media->setMediaType(mime_type);
 		panel_media->setMediaURL(mMediaURLEdit->getValue().asString());
 	}
-	else
-	{
-		LLPanelFace* panel_face = dynamic_cast<LLPanelFace*>(mPanelLandMediaHandle.get());
-		if(panel_face)
-		{
-			panel_face->setMediaType(mime_type);
-			panel_face->setMediaURL(mMediaURLEdit->getValue().asString());
-		}
 
-	}
 	// Decrement the cursor
 	getWindow()->decBusyCount();
 	getChildView("loading_label")->setVisible( false);

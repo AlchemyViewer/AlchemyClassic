@@ -97,8 +97,6 @@ public:
 	virtual ~LLPanelFace();
 
 	void			refresh();
-	void			setMediaURL(const std::string& url);
-	void			setMediaType(const std::string& mime_type);
 
 	LLMaterialPtr createDefaultMaterial(LLMaterialPtr current_material)
 	{
@@ -123,7 +121,6 @@ protected:
 	void	sendFullbright(const LLSD& userdata);	// applies and sends full bright
 	void	sendBump(U32 bumpiness);				// applies and sends bump map
 	void	sendShiny(U32 shininess);				// applies and sends shininess
-	void	sendMedia();
 
 	// this function is to return TRUE if the drag should succeed.
 	static BOOL onDragTexture(LLUICtrl* ctrl, LLInventoryItem* item);
@@ -185,8 +182,8 @@ private:
 
 	// Convenience funcs to keep the visual flack to a minimum
 	//
-	LLUUID	getCurrentNormalMap();
-	LLUUID	getCurrentSpecularMap();
+	const LLUUID&	getCurrentNormalMap();
+	const LLUUID&	getCurrentSpecularMap();
 	U32		getCurrentShininess();
 	U32		getCurrentBumpiness();
 	U8		getCurrentDiffuseAlphaMode();
@@ -215,10 +212,6 @@ private:
 	// Do NOT call updateUI from within this function.
 	//
 	void updateVisibility();
-
-	// Make material(s) reflect current state of UI (apply edit)
-	//
-	void updateMaterial();
 
 	// Hey look everyone, a type-safe alternative to copy and paste! :)
 	//
@@ -370,6 +363,9 @@ private:
 	LLColorSwatchCtrl*	mColorSwatch;
 	LLColorSwatchCtrl*	mShinyColorSwatch;
 
+	LLComboBox*		mComboAlphaMode = nullptr;
+	LLComboBox*		mComboBump = nullptr;
+	LLComboBox*		mComboShiny = nullptr;
 	LLComboBox*		mComboTexGen;
 	LLComboBox*		mComboMatMedia;
 	LLComboBox*		mComboMatType;

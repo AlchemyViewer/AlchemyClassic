@@ -677,22 +677,6 @@ U32Kilobytes LLMemoryInfo::getPhysicalMemoryKB() const
 #endif
 }
 
-U32Bytes LLMemoryInfo::getPhysicalMemoryClamped() const
-{
-	// Return the total physical memory in bytes, but clamp it
-	// to no more than U32_MAX
-	
-	U32Kilobytes phys_kb = getPhysicalMemoryKB();
-	if (phys_kb >= U32Gigabytes(4))
-	{
-		return U32Bytes(U32_MAX);
-	}
-	else
-	{
-		return phys_kb;
-	}
-}
-
 //static
 void LLMemoryInfo::getAvailableMemoryKB(U32Kilobytes& avail_physical_mem_kb, U32Kilobytes& avail_virtual_mem_kb)
 {
@@ -701,10 +685,8 @@ void LLMemoryInfo::getAvailableMemoryKB(U32Kilobytes& avail_physical_mem_kb, U32
 	state.dwLength = sizeof(state);
 	GlobalMemoryStatusEx(&state);
 
-	const DWORDLONG div = 1024;
-
-	avail_physical_mem_kb = U32Kilobytes(state.ullAvailPhys/div);
-	avail_virtual_mem_kb  = U32Kilobytes(state.ullAvailVirtual/div);
+	avail_physical_mem_kb = U32Bytes(state.ullAvailPhys);
+	avail_virtual_mem_kb  = U32Bytes(state.ullAvailVirtual);
 
 #elif LL_DARWIN
 	// mStatsMap is derived from vm_stat, look for (e.g.) "kb free":

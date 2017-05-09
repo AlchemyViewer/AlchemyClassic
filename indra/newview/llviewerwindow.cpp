@@ -392,7 +392,7 @@ public:
 		static LLCachedControl<bool> debugShowMemory(gSavedSettings, "DebugShowMemory");
 		if (debugShowMemory)
 		{
-			addText(xpos, ypos, llformat("Memory: %d (KB)", LLMemory::getWorkingSetSize() / 1024)); 
+			addText(xpos, ypos, llformat("Memory: %d (KB)", LLMemory::getCurrentRSS() / 1024));
 			ypos += y_inc;
 		}
 #endif

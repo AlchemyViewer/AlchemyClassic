@@ -890,6 +890,8 @@ LLSD LLMemoryInfo::loadStatsMap()
 		page_size_kb = 4096;
 	}
 	
+	page_size_kb = page_size_kb / 1024;
+
 	//
 	// Collect the vm_stat's
 	//

@@ -562,17 +562,13 @@ void LLViewerTexture::updateClass(const F32 velocity, const F32 angular_velocity
 	sTotalTextureMemory = LLImageGL::sGlobalTextureMemory;
 	sMaxBoundTextureMemory = gTextureList.getMaxResidentTexMem();
 	sMaxTotalTextureMem = gTextureList.getMaxTotalTextureMem();
-#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
-	sMaxDesiredTextureMem = S64Megabytes(sMaxTotalTextureMem); //in Bytes, by default and when total used texture memory is small.
-#else
 	sMaxDesiredTextureMem = sMaxTotalTextureMem; //in Bytes, by default and when total used texture memory is small.
-#endif
 
 	if (sBoundTextureMemory >= sMaxBoundTextureMemory ||
 		sTotalTextureMemory >= sMaxTotalTextureMem)
 	{
 		//when texture memory overflows, lower down the threshold to release the textures more aggressively.
-		sMaxDesiredTextureMem = llmin(sMaxDesiredTextureMem * 0.75f, F32Bytes(gMaxVideoRam));
+		sMaxDesiredTextureMem = llmin(sMaxDesiredTextureMem * 0.75, F64Bytes(gMaxVideoRam));
 	
 		// If we are using more texture memory than we should,
 		// scale up the desired discard level

@@ -883,8 +883,12 @@ LLSD LLMemoryInfo::loadStatsMap()
 	stats.add("PrivateUsage KB",               pmem.PrivateUsage/div);
 
 #elif LL_DARWIN
-
-	const vm_size_t pagekb(vm_page_size / 1024);
+	vm_size_t page_size_kb;
+	if (host_page_size(mach_host_self(), &page_size_kb) != KERN_SUCCESS)
+	{
+		LL_WARNS() << "Unable to get host page size. Using default value." << LL_ENDL;
+		page_size_kb = 4096;
+	}
 	
 	//
 	// Collect the vm_stat's
@@ -900,10 +904,10 @@ LLSD LLMemoryInfo::loadStatsMap()
 		}
 		else
 		{
-			stats.add("Pages free KB",		pagekb * vmstat.free_count);
-			stats.add("Pages active KB",	pagekb * vmstat.active_count);
-			stats.add("Pages inactive KB",	pagekb * vmstat.inactive_count);
-			stats.add("Pages wired KB",		pagekb * vmstat.wire_count);
+			stats.add("Pages free KB",		page_size_kb * vmstat.free_count);
+			stats.add("Pages active KB",	page_size_kb * vmstat.active_count);
+			stats.add("Pages inactive KB",	page_size_kb * vmstat.inactive_count);
+			stats.add("Pages wired KB",		page_size_kb * vmstat.wire_count);
 
 			stats.add("Pages zero fill",		vmstat.zero_fill_count);
 			stats.add("Page reactivations",		vmstat.reactivations);

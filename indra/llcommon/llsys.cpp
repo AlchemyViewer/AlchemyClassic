@@ -834,7 +834,7 @@ LLSD LLMemoryInfo::loadStatsMap()
 
 	DWORDLONG div = 1024;
 
-	stats.add("Percent Memory use", state.dwMemoryLoad/div);
+	stats.add("Percent Memory use", state.dwMemoryLoad);
 	stats.add("Total Physical KB",  state.ullTotalPhys/div);
 	stats.add("Avail Physical KB",  state.ullAvailPhys/div);
 	stats.add("Total page KB",      state.ullTotalPageFile/div);

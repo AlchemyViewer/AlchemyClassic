@@ -1402,11 +1402,6 @@ S32Megabytes LLViewerTextureList::getMaxVideoRamSetting(bool get_recommended, fl
 
 	max_texmem = llclamp(max_texmem, getMinVideoRamSetting(), gMaxVideoRam); 
 	
-#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
-	if (get_recommended)
-		max_texmem = llmin(max_texmem, S32Megabytes(512));
-#endif
-
 	return max_texmem;
 }
 

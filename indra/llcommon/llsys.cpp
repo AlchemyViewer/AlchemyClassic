@@ -685,8 +685,8 @@ void LLMemoryInfo::getAvailableMemoryKB(U32Kilobytes& avail_physical_mem_kb, U32
 	state.dwLength = sizeof(state);
 	GlobalMemoryStatusEx(&state);
 
-	avail_physical_mem_kb = U32Bytes(state.ullAvailPhys);
-	avail_virtual_mem_kb  = U32Bytes(state.ullAvailVirtual);
+	avail_physical_mem_kb = U64Bytes(state.ullAvailPhys);
+	avail_virtual_mem_kb  = U64Bytes(state.ullAvailVirtual);
 
 #elif LL_DARWIN
 	// mStatsMap is derived from vm_stat, look for (e.g.) "kb free":

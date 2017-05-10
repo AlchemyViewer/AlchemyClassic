@@ -633,28 +633,10 @@ LLMemoryInfo::LLMemoryInfo()
 	refresh();
 }
 
-#if LL_WINDOWS
-static U32Kilobytes LLMemoryAdjustKBResult(U32Kilobytes inKB)
-{
-	// Moved this here from llfloaterabout.cpp
-
-	//! \bug
-	// For some reason, the reported amount of memory is always wrong.
-	// The original adjustment assumes it's always off by one meg, however
-	// errors of as much as 2520 KB have been observed in the value
-	// returned from the GetMemoryStatusEx function.  Here we keep the
-	// original adjustment from llfoaterabout.cpp until this can be
-	// fixed somehow.
-	inKB += U32Megabytes(1);
-
-	return inKB;
-}
-#endif
-
 U32Kilobytes LLMemoryInfo::getPhysicalMemoryKB() const
 {
 #if LL_WINDOWS
-	return LLMemoryAdjustKBResult(U32Kilobytes(mStatsMap["Total Physical KB"].asInteger()));
+	return U32Kilobytes(mStatsMap["Total Physical KB"].asInteger());
 
 #elif LL_DARWIN
 	// This might work on Linux as well.  Someone check...

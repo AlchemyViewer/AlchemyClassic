@@ -180,11 +180,7 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
-#if LL_COMPILER_CXX_DECLTYPE
-#  define LL_TYPEOF(exp) decltype(exp)
-#else
-#  define LL_TYPEOF(exp) typeof(exp)
-#endif
+#define LL_TYPEOF(expr) decltype(expr)
 
 #define LL_TO_STRING_HELPER(x) #x
 #define LL_TO_STRING(x) LL_TO_STRING_HELPER(x)

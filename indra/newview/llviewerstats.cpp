@@ -310,7 +310,7 @@ U32Bytes				gTotalWorldData,
 U32								gSimPingCount = 0;
 U32Bits				gObjectData;
 F32Milliseconds		gAvgSimPing(0.f);
-U32Bytes			gTotalTextureBytesPerBoostLevel[LLViewerTexture::MAX_GL_IMAGE_CATEGORY];// = {U32Bytes(0)};
+U32Bytes			gTotalTextureBytesPerBoostLevel[LLViewerTexture::MAX_GL_IMAGE_CATEGORY];
 
 extern U32  gVisCompared;
 extern U32  gVisTested;

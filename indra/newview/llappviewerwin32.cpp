@@ -67,10 +67,6 @@
 #include "llcommandlineparser.h"
 #include "lltrans.h"
 
-#ifndef LL_RELEASE_FOR_DOWNLOAD
-#include "llwindebug.h"
-#endif
-
 #include <exception>
 namespace
 {
@@ -455,10 +451,6 @@ bool LLAppViewerWin32::init()
 	// LL_INFOS() << "Turning off Windows error reporting." << LL_ENDL;
 	disableWinErrorReporting();
 
-#ifndef LL_RELEASE_FOR_DOWNLOAD
-	LLWinDebug::instance().init();
-#endif
-
 #if LL_WINDOWS
 #if LL_SEND_CRASH_REPORTS
 
@@ -479,10 +471,6 @@ bool LLAppViewerWin32::cleanup()
 	bool result = LLAppViewer::cleanup();
 
 	gDXHardware.cleanup();
-
-#ifndef LL_RELEASE_FOR_DOWNLOAD
-	LLWinDebug::instance().cleanup();
-#endif
 
 	if (mIsConsoleAllocated)
 	{
@@ -617,7 +605,6 @@ bool LLAppViewerWin32::initParseCommandLine(LLCommandLineParser& clp)
 bool LLAppViewerWin32::restoreErrorTrap()
 {	
 	return true;
-	//return LLWinDebug::checkExceptionHandler();
 }
 
 void LLAppViewerWin32::initCrashReporting(bool reportFreeze)

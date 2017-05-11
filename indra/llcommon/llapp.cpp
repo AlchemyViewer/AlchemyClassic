@@ -651,12 +651,6 @@ LONG WINAPI default_windows_exception_handler(struct _EXCEPTION_POINTERS *except
 	}
 
 	//
-	// Generate a minidump if we can.
-	//
-	// TODO: This needs to be ported over form the viewer-specific
-	// LLWinDebug class
-
-	//
 	// At this point, we always want to exit the app.  There's no graceful
 	// recovery for an unhandled exception.
 	// 

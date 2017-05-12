@@ -34,6 +34,7 @@
 # include <psapi.h>
 #elif defined(LL_DARWIN)
 # include <sys/types.h>
+# include <mach/mach.h>
 # include <mach/task.h>
 # include <mach/mach_init.h>
 #elif LL_LINUX

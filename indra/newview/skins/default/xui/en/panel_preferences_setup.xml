@@ -95,6 +95,8 @@
    width="150" />
   <check_box
    control_name="HttpPipelining"
+   enabled="false"
+   visible="false"
    height="16"
    label="Pipeline HTTP Requests"
    layout="topleft"

@@ -290,7 +290,7 @@ U64 LLMemory::getCurrentRSS()
 	if (fp == NULL)
 	{
 		LL_WARNS() << "couldn't open " << statPath << LL_ENDL;
-		return 0;
+		return rss;
 	}
 
 	// Eee-yew!	 See Documentation/filesystems/proc.txt in your
@@ -308,6 +308,7 @@ U64 LLMemory::getCurrentRSS()
 	}
 	
 	fclose(fp);
+	return rss;
 }
 
 #else

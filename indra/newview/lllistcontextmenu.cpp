@@ -53,6 +53,7 @@ LLListContextMenu::~LLListContextMenu()
 	if (!mMenuHandle.isDead())
 	{
 		mMenuHandle.get()->die();
+		mMenuHandle.markDead();
 	}
 }
 

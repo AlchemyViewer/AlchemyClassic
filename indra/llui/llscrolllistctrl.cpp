@@ -175,7 +175,7 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	mHighlightedItem(-1),
 	mBorder(NULL),
 	mSortCallback(NULL),
-	mPopupMenu(NULL),
+	mPopupMenuHandle(),
 	mCommentText(NULL),
 	mNumDynamicWidthColumns(0),
 	mTotalStaticColumnWidth(0),
@@ -337,6 +337,12 @@ LLScrollListCtrl::~LLScrollListCtrl()
 	mItemList.clear();
 	std::for_each(mColumns.begin(), mColumns.end(), DeletePairedPointer());
 	mColumns.clear();
+	auto menu = mPopupMenuHandle.get();
+	if (menu)
+	{
+		menu->die();
+		mPopupMenuHandle.markDead();
+	}
 }
 
 
@@ -1835,14 +1841,20 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 
 			// create the context menu from the XUI file and display it
 			std::string menu_name = is_group ? "menu_url_group.xml" : "menu_url_agent.xml";
-			delete mPopupMenu;
-			llassert(LLMenuGL::sMenuContainer != NULL);
-			mPopupMenu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
-				menu_name, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
-			if (mPopupMenu)
+			auto menu = mPopupMenuHandle.get();
+			if (menu)
 			{
-				mPopupMenu->show(x, y);
-				LLMenuGL::showPopup(this, mPopupMenu, x, y);
+				menu->die();
+				mPopupMenuHandle.markDead();
+			}
+			llassert(LLMenuGL::sMenuContainer != NULL);
+			menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
+				menu_name, LLMenuGL::sMenuContainer, LLMenuHolderGL::child_registry_t::instance());
+			if (menu)
+			{
+				mPopupMenuHandle = menu->getHandle();
+				menu->show(x, y);
+				LLMenuGL::showPopup(this, menu, x, y);
 				return TRUE;
 			}
 		}

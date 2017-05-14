@@ -421,13 +421,12 @@ void LLVOCacheEntry::updateDebugSettings()
 	static LLCachedControl<U32> high_mem_bound_MB(gSavedSettings,"SceneLoadHighMemoryBound");
 	
 	LLMemory::updateMemoryInfo(true);
-	U32 allocated_mem = LLMemory::getAllocatedMemKB().value();
-	allocated_mem /= 1024; //convert to MB.
-	if(allocated_mem < low_mem_bound_MB)
+	U32Megabytes allocated_mem = LLMemory::getAllocatedMemKB();
+	if(allocated_mem < U32Megabytes(low_mem_bound_MB))
 	{
 		return; 
 	}
-	F32 adjust_factor = llmax(0.f, (F32)(high_mem_bound_MB - allocated_mem) / (high_mem_bound_MB - low_mem_bound_MB));
+	F32 adjust_factor = llmax(0.f, (F32)((high_mem_bound_MB - allocated_mem.value()) / (high_mem_bound_MB - low_mem_bound_MB)));
 
 	sRearFarRadius = llmin(adjust_factor * sRearFarRadius, 96.f);  //[0.f, 96.f]
 	sMinFrameRange = (U32)llclamp(adjust_factor * sMinFrameRange, 10.f, 64.f);  //[10, 64]

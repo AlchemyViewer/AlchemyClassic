@@ -100,7 +100,7 @@ void LLPngWrapper::readDataCallback(png_structp png_ptr, png_bytep dest, png_siz
 	PngDataInfo *dataInfo = (PngDataInfo *) png_get_io_ptr(png_ptr);
 	if(dataInfo->mOffset + length > dataInfo->mDataSize)
 	{
-		LL_WARNS() << "Failed to write png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
+		LL_WARNS() << "Failed to read png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
 		png_error(png_ptr, "Data read error. Requested data size exceeds available data size.");
 		return;
 	}
@@ -117,7 +117,7 @@ void LLPngWrapper::writeDataCallback(png_structp png_ptr, png_bytep src, png_siz
 	PngDataInfo *dataInfo = (PngDataInfo *) png_get_io_ptr(png_ptr);
 	if (dataInfo->mOffset + length > dataInfo->mDataSize)
 	{
-		LL_WARNS() << "Failed to read png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
+		LL_WARNS() << "Failed to write png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
 		png_error(png_ptr, "Data write error. Requested data size exceeds available data size.");
 		return;
 	}

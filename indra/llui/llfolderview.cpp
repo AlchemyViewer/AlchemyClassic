@@ -1517,7 +1517,7 @@ void LLFolderView::deleteAllChildren()
 {
 	closeRenamer();
 	if (mPopupMenuHandle.get()) mPopupMenuHandle.get()->die();
-	mPopupMenuHandle = LLHandle<LLView>();
+	mPopupMenuHandle.markDead();
 	mScrollContainer = NULL;
 	mRenameItem = NULL;
 	mRenamer = NULL;

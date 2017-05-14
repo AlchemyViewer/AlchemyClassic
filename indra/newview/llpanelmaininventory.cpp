@@ -114,7 +114,6 @@ LLPanelMainInventory::LLPanelMainInventory(const LLPanel::Params& p)
 	  mFilterText(""),
 	  mItemCount(0),
 	  mTrashButton(nullptr),
-	  mMenuGearDefault(nullptr),
 	  mMenuAddHandle(),
 	  mGearMenuButton(nullptr),
 	  mNeedUploadCost(true)
@@ -307,6 +306,13 @@ LLPanelMainInventory::~LLPanelMainInventory( void )
     
 	gInventory.removeObserver(this);
 	delete mSavedFolderState;
+
+	LLMenuGL* menu = static_cast<LLMenuGL*>(mMenuAddHandle.get());
+	if (menu)
+	{
+		menu->die();
+		mMenuAddHandle.markDead();
+	}
 }
 
 void LLPanelMainInventory::startSearch()
@@ -1059,8 +1065,7 @@ void LLPanelMainInventory::initListCommandsHandlers()
 	mCommitCallbackRegistrar.add("Inventory.GearDefault.Custom.Action", boost::bind(&LLPanelMainInventory::onCustomAction, this, _2));
 	mEnableCallbackRegistrar.add("Inventory.GearDefault.Check", boost::bind(&LLPanelMainInventory::isActionChecked, this, _2));
 	mEnableCallbackRegistrar.add("Inventory.GearDefault.Enable", boost::bind(&LLPanelMainInventory::isActionEnabled, this, _2));
-	mMenuGearDefault = LLUICtrlFactory::getInstance()->createFromFile<LLToggleableMenu>("menu_inventory_gear_default.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
-	mGearMenuButton->setMenu(mMenuGearDefault);
+	mGearMenuButton->setMenu("menu_inventory_gear_default.xml");
 	LLMenuGL* menu = LLUICtrlFactory::getInstance()->createFromFile<LLMenuGL>("menu_inventory_add.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
 	mMenuAddHandle = menu->getHandle();
 

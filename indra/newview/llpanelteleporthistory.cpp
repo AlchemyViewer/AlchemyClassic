@@ -456,7 +456,6 @@ LLTeleportHistoryPanel::LLTeleportHistoryPanel()
 LLTeleportHistoryPanel::~LLTeleportHistoryPanel()
 {
 	LLTeleportHistoryFlatItemStorage::instance().purge();
-	if (mGearMenuHandle.get()) mGearMenuHandle.get()->die();
 	mTeleportHistoryChangedConnection.disconnect();
 }
 
@@ -521,13 +520,7 @@ BOOL LLTeleportHistoryPanel::postBuild()
 	mEnableCallbackRegistrar.add("TeleportHistory.GearMenu.Enable", boost::bind(&LLTeleportHistoryPanel::isActionEnabled, this, _2));
 
 	mMenuGearButton = getChild<LLMenuButton>("gear_btn");
-
-	LLToggleableMenu* gear_menu  = LLUICtrlFactory::getInstance()->createFromFile<LLToggleableMenu>("menu_teleport_history_gear.xml",  gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());;
-	if(gear_menu)
-	{
-		mGearMenuHandle  = gear_menu->getHandle();
-		mMenuGearButton->setMenu(gear_menu);
-	}
+	mMenuGearButton->setMenu("menu_teleport_history_gear.xml");
 
 	return TRUE;
 }

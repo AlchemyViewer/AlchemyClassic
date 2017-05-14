@@ -415,8 +415,6 @@ LLPanelOutfitEdit::LLPanelOutfitEdit()
 	mWearableListViewItemsComparator(nullptr),
 	mCOFDragAndDropObserver(nullptr),
 	mCOFWearables(nullptr),
-	mGearMenu(nullptr),
-	mAddWearablesGearMenu(nullptr),
 	mInitialized(false),
 	mSaveComboBtn(),
 	mWearablesGearMenuBtn(nullptr),
@@ -590,11 +588,11 @@ BOOL LLPanelOutfitEdit::postBuild()
 	mWearableItemsList->setComparator(mWearableListViewItemsComparator);
 
 	// Creating "Add Wearables" panel gear menu after initialization of mWearableItemsList and mInventoryItemsPanel.
-	mAddWearablesGearMenu = LLAddWearablesGearMenu::create(mWearableItemsList, mInventoryItemsPanel);
-	mWearablesGearMenuBtn->setMenu(mAddWearablesGearMenu);
+	LLToggleableMenu* menu = LLAddWearablesGearMenu::create(mWearableItemsList, mInventoryItemsPanel);
+	mWearablesGearMenuBtn->setMenu(menu, LLMenuButton::MP_TOP_LEFT, true);
 
-	mGearMenu = LLPanelOutfitEditGearMenu::create();
-	mGearMenuBtn->setMenu(mGearMenu);
+	menu = LLPanelOutfitEditGearMenu::create();
+	mGearMenuBtn->setMenu(menu, LLMenuButton::MP_TOP_LEFT, true);
 
 	mSaveComboBtn.reset(new LLSaveOutfitComboBtn(this));
 	return TRUE;

@@ -157,7 +157,6 @@ protected:
 	void setUploadCostIfNeeded();
 private:
 	LLDragAndDropButton*		mTrashButton;
-	LLToggleableMenu*			mMenuGearDefault;
 	LLMenuButton*				mGearMenuButton;
 	LLHandle<LLView>			mMenuAddHandle;
 

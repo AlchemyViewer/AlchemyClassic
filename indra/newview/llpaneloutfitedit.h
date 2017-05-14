@@ -243,8 +243,6 @@ private:
 	std::vector<LLFilterItem*> mListViewItemTypes;
 
 	LLCOFWearables*		mCOFWearables;
-	LLToggleableMenu*	mGearMenu;
-	LLToggleableMenu*	mAddWearablesGearMenu;
 	bool				mInitialized;
 	boost::scoped_ptr<LLSaveOutfitComboBtn> mSaveComboBtn;
 	LLMenuButton*		mWearablesGearMenuBtn;

@@ -100,6 +100,7 @@ void LLPngWrapper::readDataCallback(png_structp png_ptr, png_bytep dest, png_siz
 	PngDataInfo *dataInfo = (PngDataInfo *) png_get_io_ptr(png_ptr);
 	if(dataInfo->mOffset + length > dataInfo->mDataSize)
 	{
+		LL_WARNS() << "Failed to write png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
 		png_error(png_ptr, "Data read error. Requested data size exceeds available data size.");
 		return;
 	}
@@ -114,6 +115,12 @@ void LLPngWrapper::readDataCallback(png_structp png_ptr, png_bytep dest, png_siz
 void LLPngWrapper::writeDataCallback(png_structp png_ptr, png_bytep src, png_size_t length)
 {
 	PngDataInfo *dataInfo = (PngDataInfo *) png_get_io_ptr(png_ptr);
+	if (dataInfo->mOffset + length > dataInfo->mDataSize)
+	{
+		LL_WARNS() << "Failed to read png with length: " << length << " to buffer with offset: " << dataInfo->mOffset << " and total size: " << dataInfo->mDataSize << LL_ENDL;
+		png_error(png_ptr, "Data write error. Requested data size exceeds available data size.");
+		return;
+	}
 	U8 *dest = &dataInfo->mData[dataInfo->mOffset];
 	memcpy(dest, src, length);
 	dataInfo->mOffset += static_cast<U32>(length);
@@ -271,7 +278,7 @@ void LLPngWrapper::updateMetaData()
 
 // Method to write raw image into PNG at dest. The raw scanline begins
 // at the bottom of the image per SecondLife conventions.
-BOOL LLPngWrapper::writePng(const LLImageRaw* rawImage, U8* dest)
+BOOL LLPngWrapper::writePng(const LLImageRaw* rawImage, U8* dest, size_t destSize)
 {
 	try
 	{
@@ -312,6 +319,7 @@ BOOL LLPngWrapper::writePng(const LLImageRaw* rawImage, U8* dest)
 		PngDataInfo dataPtr;
 		dataPtr.mData = dest;
 		dataPtr.mOffset = 0;
+		dataPtr.mDataSize = destSize;
 		png_set_write_fn(mWritePngPtr, &dataPtr, &writeDataCallback, &writeFlush);
 
 		// Setup image params

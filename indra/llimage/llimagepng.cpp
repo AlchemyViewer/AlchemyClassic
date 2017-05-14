@@ -131,7 +131,7 @@ bool LLImagePNG::encode(const LLImageRaw* raw_image, F32 encode_time)
 
 	// Delegate actual encoding work to wrapper
 	LLPngWrapper pngWrapper;
-	if (! pngWrapper.writePng(raw_image, tmpWriteBuffer))
+	if (! pngWrapper.writePng(raw_image, tmpWriteBuffer, bufferSize))
 	{
 		setLastError(pngWrapper.getErrorMessage());
 		delete[] tmpWriteBuffer;

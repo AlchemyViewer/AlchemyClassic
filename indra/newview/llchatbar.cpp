@@ -41,6 +41,7 @@
 #include "llviewergesture.h"			// for triggering gestures
 #include "llviewermenu.h"		// for deleting object with DEL key
 #include "llmultigesture.h"
+#include "llviewerchat.h"
 #include "llviewercontrol.h"
 
 using namespace LLChatUtilities;
@@ -105,6 +106,7 @@ BOOL LLChatBar::postBuild()
 	mInputEditor->setMaxTextLength(DB_CHAT_MSG_STR_LEN);
 	mInputEditor->setEnableLineHistory(TRUE);
 	
+	mInputEditor->setFont(LLViewerChat::getChatFont());
 
 	mIsBuilt = TRUE;
 
@@ -371,6 +373,16 @@ void LLChatBar::stopChat()
 	bar->mInputEditor->setFocus(FALSE);
 	bar->setVisible(FALSE);
 	gAgent.stopTyping();
+}
+
+// static
+void LLChatBar::updateChatFont()
+{
+	LLChatBar* bar = LLFloaterReg::getTypedInstance<LLChatBar>("chatbar");
+	if (bar)
+	{
+		bar->mInputEditor->setFont(LLViewerChat::getChatFont());
+	}
 }
 
 // static

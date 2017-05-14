@@ -81,6 +81,8 @@ public:
 	static void startChat(const char* line);
 	static void stopChat();
 
+	static void updateChatFont();
+
 protected:
 	~LLChatBar();
 	

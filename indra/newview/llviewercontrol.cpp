@@ -81,6 +81,7 @@
 #include "lldrawpoolwlsky.h"
 #include "llwlparammanager.h"
 
+#include "llchatbar.h"
 #include "llfloaterreg.h"
 #include "llfloatercamera.h" // <alchemy/>
 #include "llfloaterimnearbychat.h"
@@ -844,6 +845,7 @@ void settings_setup_listeners()
 	gSavedSettings.getControl("LoginLocation")->getSignal()->connect(boost::bind(&handleLoginLocationChanged));
     gSavedSettings.getControl("DebugAvatarJoints")->getCommitSignal()->connect(boost::bind(&handleDebugAvatarJointsChanged, _2));
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLFloaterIMSessionTab::processChatHistoryStyleUpdate, false));
+	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLChatBar::updateChatFont));
 	gSavedSettings.getControl("ChatFontSize")->getSignal()->connect(boost::bind(&LLViewerChat::signalChatFontChanged));
 	gSavedSettings.getControl("RenderVerticalSync")->getValidateSignal()->connect(boost::bind(validateVSync, _2));
 	gSavedSettings.getControl("AlchemyNearbyChatChannel")->getValidateSignal()->connect(boost::bind(&handleChatChannelChanged, _2));

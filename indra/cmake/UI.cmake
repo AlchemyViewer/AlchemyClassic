@@ -33,6 +33,7 @@ if (USESYSTEMLIBS)
     add_definitions(${${pkg}_CFLAGS_OTHERS})
   endforeach(pkg)
 else (USESYSTEMLIBS)
+  include(FindX11)
   if (LINUX)
     use_prebuilt_binary(gtk-atk-pango-glib)
     set(UI_LIBRARIES
@@ -40,7 +41,6 @@ else (USESYSTEMLIBS)
         cairo
         gdk-x11-2.0
         gdk_pixbuf-2.0
-        Xinerama
         glib-2.0
         gio-2.0
         gmodule-2.0
@@ -52,7 +52,8 @@ else (USESYSTEMLIBS)
         pangoxft-1.0
         pixman-1
         pangocairo-1.0
-        X11
+        ${X11_Xinerama_LIB}
+        ${X11_X11_LIB}
         ${FREETYPE_LIBRARIES}
         )
   endif (LINUX)

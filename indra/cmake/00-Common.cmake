@@ -297,7 +297,6 @@ else (USESYSTEMLIBS)
   #add_definitions(-DOPENSSL_API_COMPAT=0x10100000L)
 
   set(${ARCH}_linux_INCLUDES
-      ELFIO
       atk-1.0
       cairo
       gdk-pixbuf-2.0

@@ -153,7 +153,7 @@ private:
 	bool getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const;
 	void setKerningCache(U32 left_glyph, U32 right_glyph, F32 kerning) const;
 
-	mutable boost::container::flat_map<std::pair<U32, U32>, F32> mKerningCache;
+	mutable boost::container::flat_map<U64, F32> mKerningCache;
 
 	std::string mName;
 

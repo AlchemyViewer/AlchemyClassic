@@ -626,9 +626,14 @@ void LLFontFreetype::setSubImageLuminanceAlpha(U32 x, U32 y, U32 bitmap_num, U32
 	}
 }
 
+static inline U64 kerning_cache_key(const U32 left_glyph, const U32 right_glyph)
+{
+	return (((U64)left_glyph) << 32) | right_glyph;
+}
+
 bool LLFontFreetype::getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const
 {
-	auto iter = mKerningCache.find(std::make_pair(left_glyph, right_glyph));
+	auto iter = mKerningCache.find(kerning_cache_key(left_glyph, right_glyph));
 	if (iter == mKerningCache.end())
 		return false;
 	kerning = iter->second;
@@ -641,5 +646,5 @@ void LLFontFreetype::setKerningCache(U32 left_glyph, U32 right_glyph, F32 kernin
 	// do this here instead of the constructor to save memory on unused fonts
 	if (mKerningCache.capacity() < 500)
 		mKerningCache.reserve(500);
-	mKerningCache.emplace(std::make_pair(left_glyph, right_glyph), kerning);
+	mKerningCache.emplace(kerning_cache_key(left_glyph, right_glyph), kerning);
 }

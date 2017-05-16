@@ -109,7 +109,7 @@ LLMediaCtrl::LLMediaCtrl( const Params& p) :
 	mTrusted(p.trusted_content),
 	mWindowShade(NULL),
 	mHoverTextChanged(false),
-	mContextMenu(NULL)
+	mContextMenuHandle()
 {
 	{
 		LLColor4 color = p.caret_color().get();
@@ -153,6 +153,13 @@ LLMediaCtrl::LLMediaCtrl( const Params& p) :
 
 LLMediaCtrl::~LLMediaCtrl()
 {
+	auto menu = mContextMenuHandle.get();
+	if (menu)
+	{
+		menu->die();
+		mContextMenuHandle.markDead();
+	}
+
 	if (mMediaSource)
 	{
 		mMediaSource->remObserver( this );
@@ -321,15 +328,16 @@ BOOL LLMediaCtrl::handleRightMouseDown( S32 x, S32 y, MASK mask )
 		setFocus( TRUE );
 	}
 
-	if (mContextMenu)
+	auto con_menu = mContextMenuHandle.get();
+	if (con_menu)
 	{
 		// hide/show debugging options
 		bool media_plugin_debugging_enabled = gSavedSettings.getBOOL("MediaPluginDebugging");
-		mContextMenu->setItemVisible("open_webinspector", media_plugin_debugging_enabled );
-		mContextMenu->setItemVisible("debug_separator", media_plugin_debugging_enabled );
+		con_menu->setItemVisible("open_webinspector", media_plugin_debugging_enabled );
+		con_menu->setItemVisible("debug_separator", media_plugin_debugging_enabled );
 
-		mContextMenu->show(x, y);
-		LLMenuGL::showPopup(this, mContextMenu, x, y);
+		con_menu->show(x, y);
+		LLMenuGL::showPopup(this, con_menu, x, y);
 	}
 
 	return TRUE;
@@ -399,10 +407,13 @@ BOOL LLMediaCtrl::postBuild ()
 
 	// stinson 05/05/2014 : use this as the parent of the context menu if the static menu
 	// container has yet to be created
-	LLPanel* menuParent = (LLMenuGL::sMenuContainer != NULL) ? dynamic_cast<LLPanel*>(LLMenuGL::sMenuContainer) : dynamic_cast<LLPanel*>(this);
+	LLView* menuParent = (gMenuHolder != NULL) ? dynamic_cast<LLView*>(gMenuHolder) : dynamic_cast<LLView*>(this);
 	llassert(menuParent != NULL);
-	mContextMenu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
+	auto menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
 		"menu_media_ctrl.xml", menuParent, LLViewerMenuHolderGL::child_registry_t::instance());
+	if (menu)
+		mContextMenuHandle = menu->getHandle();
+
 	setVisibleCallback(boost::bind(&LLMediaCtrl::onVisibilityChanged, this, _2));
 
 	return TRUE;
@@ -1181,11 +1192,6 @@ void LLMediaCtrl::setTrustedContent(bool trusted)
 	{
 		mMediaSource->setTrustedBrowser(trusted);
 	}
-}
-
-void LLMediaCtrl::updateContextMenuParent(LLView* pNewParent)
-{
-	mContextMenu->updateParent(pNewParent);
 }
 
 bool LLMediaCtrl::wantsKeyUpKeyDown() const

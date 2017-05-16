@@ -322,14 +322,14 @@ LLClassifiedHandler gClassifiedHandler;
 //-----------------------------------------------------------------------------
 LLPanelPicks::LLPanelPicks()
 :	LLPanelProfileTab(),
-	mPopupMenu(NULL),
+	mPopupMenuHandle(),
 	mProfilePanel(NULL),
 	mPickPanel(NULL),
 	mPicksList(NULL),
 	mClassifiedsList(NULL),
 	mPanelPickInfo(NULL),
 	mPanelPickEdit(NULL),
-	mPlusMenu(NULL),
+	mPlusMenuHandle(),
 	mPicksAccTab(NULL),
 	mClassifiedsAccTab(NULL),
 	mPanelClassifiedInfo(NULL),
@@ -343,6 +343,20 @@ LLPanelPicks::~LLPanelPicks()
 	if(getAvatarId().notNull())
 	{
 		LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(),this);
+	}
+
+	auto popup_menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
+	if (popup_menu)
+	{
+		popup_menu->die();
+		mPopupMenuHandle.markDead();
+	}
+
+	auto plus_menu = mPlusMenuHandle.get();
+	if (plus_menu)
+	{
+		plus_menu->die();
+		mPlusMenuHandle.markDead();
 	}
 }
 
@@ -537,13 +551,17 @@ BOOL LLPanelPicks::postBuild()
 	LLUICtrl::EnableCallbackRegistry::ScopedRegistrar enable_registar;
 	enable_registar.add("Pick.Enable", boost::bind(&LLPanelPicks::onEnableMenuItem, this, _2));
 
-	mPopupMenu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>("menu_picks.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
-
+	auto popup_menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>("menu_picks.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+	if (popup_menu)
+		mPopupMenuHandle = popup_menu->getHandle();
+	
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar plus_registar;
 	plus_registar.add("Picks.Plus.Action", boost::bind(&LLPanelPicks::onPlusMenuItemClicked, this, _2));
 	mEnableCallbackRegistrar.add("Picks.Plus.Enable", boost::bind(&LLPanelPicks::isActionEnabled, this, _2));
-	mPlusMenu = LLUICtrlFactory::getInstance()->createFromFile<LLToggleableMenu>("menu_picks_plus.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
-	
+	auto plus_menu = LLUICtrlFactory::getInstance()->createFromFile<LLToggleableMenu>("menu_picks_plus.xml", gMenuHolder, LLViewerMenuHolderGL::child_registry_t::instance());
+	if (plus_menu)
+		mPlusMenuHandle = plus_menu->getHandle();
+
 	return TRUE;
 }
 
@@ -625,11 +643,12 @@ void LLPanelPicks::onOpen(const LLSD& key)
 	{
 		getChildView("pick_title")->setVisible( !self);
 		getChildView("pick_title_agent")->setVisible( self);
-		if (mPopupMenu)
+		auto menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
+		if (menu)
 		{
-			mPopupMenu->setItemVisible("pick_delete", TRUE);
-			mPopupMenu->setItemVisible("pick_edit", TRUE);
-			mPopupMenu->setItemVisible("pick_separator", TRUE);
+			menu->setItemVisible("pick_delete", TRUE);
+			menu->setItemVisible("pick_edit", TRUE);
+			menu->setItemVisible("pick_separator", TRUE);
 		}
 	}
 
@@ -786,12 +805,12 @@ void LLPanelPicks::onRightMouseUpItem(LLUICtrl* item, S32 x, S32 y, MASK mask)
 {
 	updateButtons();
 
-	if (mPopupMenu)
+	auto menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
+	if (menu)
 	{
-		mPopupMenu->buildDrawLabels();
-		mPopupMenu->updateParent(LLMenuGL::sMenuContainer);
-		((LLContextMenu*)mPopupMenu)->show(x, y);
-		LLMenuGL::showPopup(item, mPopupMenu, x, y);
+		menu->buildDrawLabels();
+		((LLContextMenu*) menu)->show(x, y);
+		LLMenuGL::showPopup(item, menu, x, y);
 	}
 }
 
@@ -852,11 +871,13 @@ void LLPanelPicks::buildPickPanel()
 
 void LLPanelPicks::onClickPlusBtn()
 {
-	LLRect rect(getChildView(XML_BTN_NEW)->getRect());
-
-	mPlusMenu->updateParent(LLMenuGL::sMenuContainer);
-	mPlusMenu->setButtonRect(rect, this);
-	LLMenuGL::showPopup(this, mPlusMenu, rect.mLeft, rect.mTop);
+	auto menu = mPlusMenuHandle.get();
+	if (menu)
+	{
+		LLRect rect(getChildView(XML_BTN_NEW)->getRect());
+		menu->setButtonRect(rect, this);
+		LLMenuGL::showPopup(this, menu, rect.mLeft, rect.mTop);
+	}
 }
 
 void LLPanelPicks::createNewPick()

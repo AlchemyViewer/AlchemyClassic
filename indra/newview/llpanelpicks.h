@@ -152,7 +152,7 @@ private:
 	void createClassifiedInfoPanel();
 	void createClassifiedEditPanel(LLPanelClassifiedEdit** panel);
 
-	LLMenuGL* mPopupMenu;
+	LLHandle<LLView> mPopupMenuHandle;
 	LLPanelProfile* mProfilePanel;
 	LLPanelPickInfo* mPickPanel;
 	LLFlatListView* mPicksList;
@@ -160,7 +160,7 @@ private:
 	LLPanelPickInfo* mPanelPickInfo;
 	LLPanelClassifiedInfo* mPanelClassifiedInfo;
 	LLPanelPickEdit* mPanelPickEdit;
-	LLToggleableMenu* mPlusMenu;
+	LLHandle<LLToggleableMenu> mPlusMenuHandle;
 	LLUICtrl* mNoItemsLabel;
 
 	// <classified_id, edit_panel>

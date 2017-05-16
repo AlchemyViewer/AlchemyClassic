@@ -153,11 +153,11 @@ void LLSysWellChiclet::updateWidget(bool is_window_empty)
 // virtual
 BOOL LLSysWellChiclet::handleRightMouseDown(S32 x, S32 y, MASK mask)
 {
-	LLContextMenu* menu_avatar = static_cast<LLContextMenu*>(mContextMenuHandle.get());
+	LLContextMenu* menu_avatar = mContextMenuHandle.get();
 	if(!menu_avatar)
 	{
 		createMenu();
-		menu_avatar = static_cast<LLContextMenu*>(mContextMenuHandle.get());
+		menu_avatar = mContextMenuHandle.get();
 	}
 	if (menu_avatar)
 	{
@@ -202,7 +202,7 @@ bool LLNotificationChiclet::enableMenuItem(const LLSD& user_data)
 
 void LLNotificationChiclet::createMenu()
 {
-	if(mContextMenuHandle.get())
+	if(!mContextMenuHandle.isDead())
 	{
 		LL_WARNS() << "Menu already exists" << LL_ENDL;
 		return;
@@ -216,10 +216,9 @@ void LLNotificationChiclet::createMenu()
 	enable_registrar.add("NotificationWellChicletMenu.EnableItem",
 		boost::bind(&LLNotificationChiclet::enableMenuItem, this, _2));
 
-	llassert(LLMenuGL::sMenuContainer != NULL);
 	LLContextMenu* menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>
 		("menu_notification_well_button.xml",
-		 LLMenuGL::sMenuContainer,
+		 gMenuHolder,
 		 LLViewerMenuHolderGL::child_registry_t::instance());
 	mContextMenuHandle = menu->getHandle();
 }

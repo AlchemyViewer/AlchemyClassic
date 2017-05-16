@@ -61,8 +61,9 @@ target_link_libraries(AlchemyPlugin
   ${PLUGIN_API_WINDOWS_LIBRARIES}
   ${PTHREAD_LIBRARY}
 )
-
-if (DARWIN)
+if (WINDOWS)
+  target_link_libraries(AlchemyPlugin wer)
+elseif (DARWIN)
   target_link_libraries(AlchemyPlugin ${COCOA_LIBRARY})
 
   set_target_properties(AlchemyPlugin
@@ -78,7 +79,7 @@ if (DARWIN)
       -p
       ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/AlchemyPlugin.app/Contents/Resources
   )
-endif (DARWIN)
+endif (WINDOWS)
 
 if (LL_TESTS)
   #ll_deploy_sharedlibs_command(AlchemyPlugin)

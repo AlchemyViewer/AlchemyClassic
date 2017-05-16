@@ -62,6 +62,7 @@ static void crash_handler(int sig)
 
 #if LL_WINDOWS
 #include "llwin32headerslean.h"
+#include <Werapi.h>
 ////////////////////////////////////////////////////////////////////////////////
 //	Our exception handler - will probably just exit and the host application
 //	will miss the heartbeat and log the error in the usual fashion.
@@ -109,6 +110,26 @@ static BOOL PreventSetUnhandledExceptionFilter()
 //	Hook our exception handler and replace the system one
 void initExceptionHandler()
 {
+	TCHAR szExeFileName[MAX_PATH];
+	GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+	std::wstring exename(szExeFileName);
+	size_t path_end = exename.find_last_of('\\');
+	if (path_end != std::string::npos)
+	{
+		exename = exename.substr(path_end + 1, std::string::npos);
+
+		if (S_OK == WerAddExcludedApplication(exename.c_str(), FALSE))
+		{
+			LL_INFOS() << "WerAddExcludedApplication() succeeded for " << utf16str_to_utf8str(exename) << LL_ENDL;
+		}
+		else
+		{
+			LL_INFOS() << "WerAddExcludedApplication() failed for " << utf16str_to_utf8str(exename) << LL_ENDL;
+		}
+	}
+
+	SetErrorMode(GetErrorMode() | SEM_NOGPFAULTERRORBOX);
+
 	LPTOP_LEVEL_EXCEPTION_FILTER prev_filter;
 
 	// save old exception handler in case we need to restore it at the end

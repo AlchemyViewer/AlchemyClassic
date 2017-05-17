@@ -63,10 +63,13 @@ lang_country_variant_from_envstring(const char *str,
     int i;
     int len = end - start;
     char *s = (char*)malloc(len + 1);
-    for (i=0; i<len; ++i) {
-      s[i] = tolower(str[start + i]);
-    }
-    s[i] = '\0';
+	if (s)
+	{
+		for (i = 0; i < len; ++i) {
+			s[i] = tolower(str[start + i]);
+		}
+		s[i] = '\0';
+	}
     *lang = s;
   } else {
     *lang = NULL;
@@ -85,10 +88,13 @@ lang_country_variant_from_envstring(const char *str,
     int i;
     int len = end - start;
     char *s = (char*)malloc(len + 1);
-    for (i=0; i<len; ++i) {
-      s[i] = toupper(str[start + i]);
-    }
-    s[i] = '\0';
+	if (s)
+	{
+		for (i = 0; i < len; ++i) {
+			s[i] = toupper(str[start + i]);
+		}
+		s[i] = '\0';
+	}
     *country = s;
   } else {
     *country = NULL;
@@ -107,10 +113,13 @@ lang_country_variant_from_envstring(const char *str,
     int i;
     int len = end - start;
     char *s = (char*)malloc(len + 1);
-    for (i=0; i<len; ++i) {
-      s[i] = str[start + i];
-    }
-    s[i] = '\0';
+	if (s)
+	{
+		for (i = 0; i < len; ++i) {
+			s[i] = str[start + i];
+		}
+		s[i] = '\0';
+	}
     *variant = s;
   } else {
     *variant = NULL;
@@ -449,6 +458,8 @@ FL_Success
 FL_FindLocale(FL_Locale **locale, FL_Domain domain) {
   FL_Success success = FL_FAILED;
   FL_Locale *rtn = (FL_Locale*)malloc(sizeof(FL_Locale));
+  if (!rtn)
+	  return success;
   rtn->lang = NULL;
   rtn->country = NULL;
   rtn->variant = NULL;

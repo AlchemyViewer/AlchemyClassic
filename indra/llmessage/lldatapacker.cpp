@@ -766,7 +766,7 @@ BOOL LLDataPackerAsciiBuffer::unpackBinaryData(U8 *value, S32 &size, const char 
 	S32 i;
 	for (i = 0; i < size; i++)
 	{
-		S32 val;
+		U32 val;
 		sscanf(cur_pos,"%02x", &val);
 		value[i] = val;
 		cur_pos += 3;
@@ -836,7 +836,7 @@ BOOL LLDataPackerAsciiBuffer::unpackBinaryDataFixed(U8 *value, S32 size, const c
 	S32 i;
 	for (i = 0; i < size; i++)
 	{
-		S32 val;
+		U32 val;
 		sscanf(cur_pos,"%02x", &val);
 		value[i] = val;
 		cur_pos += 3;
@@ -1518,7 +1518,7 @@ BOOL LLDataPackerAsciiFile::unpackBinaryData(U8 *value, S32 &size, const char *n
 	S32 i;
 	for (i = 0; i < size; i++)
 	{
-		S32 val;
+		U32 val;
 		sscanf(cur_pos,"%02x", &val);
 		value[i] = val;
 		cur_pos += 3;
@@ -1570,7 +1570,7 @@ BOOL LLDataPackerAsciiFile::unpackBinaryDataFixed(U8 *value, S32 size, const cha
 	S32 i;
 	for (i = 0; i < size; i++)
 	{
-		S32 val;
+		U32 val;
 		sscanf(cur_pos,"%02x", &val);
 		value[i] = val;
 		cur_pos += 3;

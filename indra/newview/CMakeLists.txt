@@ -2416,21 +2416,21 @@ if (LL_TESTS)
     "${test_libs}"
     )
 
-  set(llslurl_test_sources
-      llslurl.cpp
-      llviewernetwork.cpp
-  )
+  #set(llslurl_test_sources
+  #    llslurl.cpp
+  #    llviewernetwork.cpp
+  #)
 
 
-  LL_ADD_INTEGRATION_TEST(llslurl
-     "${llslurl_test_sources}"
-    "${test_libs}"
-    )
+  #LL_ADD_INTEGRATION_TEST(llslurl
+  #   "${llslurl_test_sources}"
+  #  "${test_libs}"
+  #  )
 
-  set(llviewernetwork_test_sources
-      llviewernetwork.cpp
-      lllogininstance.cpp
-  )
+  #set(llviewernetwork_test_sources
+  #    llviewernetwork.cpp
+  #    lllogininstance.cpp
+  #)
 	
   #LL_ADD_INTEGRATION_TEST(llviewernetwork
   #  "${llviewernetwork_test_sources}"

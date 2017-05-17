@@ -1091,14 +1091,12 @@ void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
     LLFilePicker& picker = LLFilePicker::instance();
     if (picker.getOpenFile(LLFilePicker::FFLOAD_IMAGE))
     {
-        std::string filename = picker.getFirstFile();
-        LLLocalBitmap* unit = new LLLocalBitmap(filename);
-        if (unit->getValid())
-        {
-			delete unit;
-            std::string exten = gDirUtilp->getExtension(filename);
-            U32 codec = LLImageBase::getCodecFromExtension(exten);
+        const std::string filename = picker.getFirstFile();
+        const std::string exten = gDirUtilp->getExtension(filename);
+        const U32 codec = LLImageBase::getCodecFromExtension(exten);
 
+        if (codec != IMG_CODEC_INVALID)
+        {
             LLImageDimensionsInfo image_info;
             std::string image_load_error;
             if (!image_info.load(filename, codec))
@@ -1106,14 +1104,11 @@ void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
                 image_load_error = image_info.getLastError();
             }
 
-            S32 max_width = MAX_OUTFIT_PHOTO_WIDTH;
-            S32 max_height = MAX_OUTFIT_PHOTO_HEIGHT;
-
-            if ((image_info.getWidth() > max_width) || (image_info.getHeight() > max_height))
+            if ((image_info.getWidth() > MAX_OUTFIT_PHOTO_WIDTH) || (image_info.getHeight() > MAX_OUTFIT_PHOTO_HEIGHT))
             {
                 LLStringUtil::format_map_t args;
-                args["WIDTH"] = llformat("%d", max_width);
-                args["HEIGHT"] = llformat("%d", max_height);
+                args["WIDTH"] = llformat("%d", MAX_OUTFIT_PHOTO_WIDTH);
+                args["HEIGHT"] = llformat("%d", MAX_OUTFIT_PHOTO_HEIGHT);
 
                 image_load_error = LLTrans::getString("outfit_photo_load_dimensions_error", args);
             }

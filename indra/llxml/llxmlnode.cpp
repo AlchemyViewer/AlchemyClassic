@@ -2330,7 +2330,6 @@ void LLXMLNode::setUnsignedValue(U32 length, const U32* array, Encoding encoding
 				new_value.append(llformat("%08X", array[pos]));
 			}
 		}
-		mValue = new_value;
 	}
 	// TODO -- Handle Base32
 

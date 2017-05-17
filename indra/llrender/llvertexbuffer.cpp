@@ -638,7 +638,7 @@ void LLVertexBuffer::drawElements(U32 mode, const S32 num_vertices, const LLVect
 	U32 mask = LLVertexBuffer::MAP_VERTEX;
 
 	LLStrider<U16> index_strider;
-	LLStrider<LLVector3> vertex_strider;
+	LLStrider<LLVector4a> vertex_strider;
 	sUtilityBuffer->getIndexStrider(index_strider);
 	sUtilityBuffer->getVertexStrider(vertex_strider);
 	const S32 index_size = ((num_indices * sizeof(U16)) + 0xF) & ~0xF;

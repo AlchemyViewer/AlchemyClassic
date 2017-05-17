@@ -1510,7 +1510,7 @@ S32 LLPath::getNumPoints(const LLPathParams& params, F32 detail)
 			// Increase the detail as the revolutions and twist increase.
 			F32 twist_mag = fabs(params.getTwistBegin() - params.getTwist());
 
-			S32 sides = (S32)llfloor(llfloor((MIN_DETAIL_FACES * detail + twist_mag * 3.5f * (detail-0.5f))) * params.getRevolutions());
+			S32 sides = (S32)llfloor(llfloor(MIN_DETAIL_FACES * detail + twist_mag * 3.5f * (detail-0.5f)) * params.getRevolutions());
 
 			np = sides;
 		}
@@ -1595,7 +1595,7 @@ BOOL LLPath::generate(const LLPathParams& params, F32 detail, S32 split,
 			// Increase the detail as the revolutions and twist increase.
 			F32 twist_mag = fabs(params.getTwistBegin() - params.getTwist());
 
-			S32 sides = (S32)llfloor(llfloor((MIN_DETAIL_FACES * detail + twist_mag * 3.5f * (detail-0.5f))) * params.getRevolutions());
+			S32 sides = (S32)llfloor(llfloor(MIN_DETAIL_FACES * detail + twist_mag * 3.5f * (detail-0.5f)) * params.getRevolutions());
 
 			if (is_sculpted)
 				sides = llmax(sculpt_size, 1);

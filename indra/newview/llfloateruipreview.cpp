@@ -708,13 +708,12 @@ void LLFloaterUIPreview::refreshList()
 // Note: no deduplification (shouldn't be necessary)
 void LLFloaterUIPreview::addFloaterEntry(const std::string& path)
 {
-	LLUUID* entry_id = new LLUUID();				// create a new UUID
-	entry_id->generate(path);
-	const LLUUID& entry_id_ref = *entry_id;			// get a reference to the UUID for the LLSD block
+	LLUUID entry_id;
+	entry_id.generate(path);
 
 	// fill LLSD column entry: initialize row/col structure
 	LLSD row;
-	row["id"] = entry_id_ref;
+	row["id"] = entry_id;
 	LLSD& columns = row["columns"];
 
 	// Get name of floater:

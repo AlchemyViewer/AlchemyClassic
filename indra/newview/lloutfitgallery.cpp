@@ -1095,6 +1095,7 @@ void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
         LLLocalBitmap* unit = new LLLocalBitmap(filename);
         if (unit->getValid())
         {
+			delete unit;
             std::string exten = gDirUtilp->getExtension(filename);
             U32 codec = LLImageBase::getCodecFromExtension(exten);
 

@@ -858,7 +858,7 @@ void LLFolderView::closeAutoOpenedFolders()
 
 BOOL LLFolderView::autoOpenTest(LLFolderViewFolder* folder)
 {
-	if (folder && mAutoOpenCandidate == folder)
+	if (folder != nullptr && mAutoOpenCandidate != nullptr && mAutoOpenCandidate == folder)
 	{
 		if (mAutoOpenTimer.getStarted())
 		{

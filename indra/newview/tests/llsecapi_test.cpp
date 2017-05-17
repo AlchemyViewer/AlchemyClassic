@@ -59,7 +59,7 @@ void LLSecAPIBasicHandler::init() {}
 LLSecAPIBasicHandler::~LLSecAPIBasicHandler() {}
 LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(const std::string& pem_cert) { return NULL; }
 LLPointer<LLCertificate> LLSecAPIBasicHandler::getCertificate(X509* openssl_cert) { return NULL; }
-LLPointer<LLCertificateChain> LLSecAPIBasicHandler::getCertificateChain(const X509_STORE_CTX* chain) { return NULL; }
+LLPointer<LLCertificateChain> LLSecAPIBasicHandler::getCertificateChain(X509_STORE_CTX* chain) { return NULL; }
 LLPointer<LLCertificateStore> LLSecAPIBasicHandler::getCertificateStore(const std::string& store_id) { return NULL; }
 void LLSecAPIBasicHandler::setProtectedData(const std::string& data_type, const std::string& data_id, const LLSD& data) {}
 LLSD LLSecAPIBasicHandler::getProtectedData(const std::string& data_type, const std::string& data_id) { return LLSD(); }

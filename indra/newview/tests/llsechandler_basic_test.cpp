@@ -871,11 +871,11 @@ namespace tut
 		ensure_equals("when loading with nothing, we should result in no certs in chain", test_chain->size(), 0);
 
 		// Single cert in the chain.
-		X509_STORE_CTX *test_store = X509_STORE_CTX_new();
-		test_store->cert = mX509ChildCert;		
-		test_store->untrusted = NULL;
-		test_chain = new LLBasicCertificateChain(test_store);
-		X509_STORE_CTX_free(test_store);
+		X509_STORE_CTX *test_store_ctx = X509_STORE_CTX_new();
+		X509_STORE_CTX_set_cert(test_store_ctx, mX509ChildCert);
+		X509_STORE_CTX_set0_untrusted(test_store_ctx, sk_X509_new_null());
+		test_chain = new LLBasicCertificateChain(test_store_ctx);
+		X509_STORE_CTX_free(test_store_ctx);
 		ensure_equals("two elements in store", test_chain->size(), 1);		
 		X509* test_cert = (*test_chain)[0]->getOpenSSLX509();
 		ensure("validate first element in store is expected cert", !X509_cmp(test_cert, mX509ChildCert));
@@ -883,12 +883,12 @@ namespace tut
 		
 		// cert + CA
 		
-		test_store = X509_STORE_CTX_new();
-		test_store->cert = mX509ChildCert;
-		test_store->untrusted = sk_X509_new_null();
-		sk_X509_push(test_store->untrusted, mX509IntermediateCert);
-		test_chain = new LLBasicCertificateChain(test_store);
-		X509_STORE_CTX_free(test_store);
+		test_store_ctx = X509_STORE_CTX_new();
+		X509_STORE_CTX_set_cert(test_store_ctx, mX509ChildCert);
+		X509_STORE_CTX_set0_untrusted(test_store_ctx, sk_X509_new_null());
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509IntermediateCert);
+		test_chain = new LLBasicCertificateChain(test_store_ctx);
+		X509_STORE_CTX_free(test_store_ctx);
 		ensure_equals("two elements in store", test_chain->size(), 2);	
 		test_cert = (*test_chain)[0]->getOpenSSLX509();
 		ensure("validate first element in store is expected cert", !X509_cmp(test_cert, mX509ChildCert));
@@ -899,25 +899,25 @@ namespace tut
 
 		// cert + nonrelated
 		
-		test_store = X509_STORE_CTX_new();
-		test_store->cert = mX509ChildCert;
-		test_store->untrusted = sk_X509_new_null();
-		sk_X509_push(test_store->untrusted, mX509TestCert);
-		test_chain = new LLBasicCertificateChain(test_store);
-		X509_STORE_CTX_free(test_store);
+		test_store_ctx = X509_STORE_CTX_new();
+		X509_STORE_CTX_set_cert(test_store_ctx, mX509ChildCert);
+		X509_STORE_CTX_set0_untrusted(test_store_ctx, sk_X509_new_null());
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509TestCert);
+		test_chain = new LLBasicCertificateChain(test_store_ctx);
+		X509_STORE_CTX_free(test_store_ctx);
 		ensure_equals("two elements in store", test_chain->size(), 1);	
 		test_cert = (*test_chain)[0]->getOpenSSLX509();
 		ensure("validate first element in store is expected cert", !X509_cmp(test_cert, mX509ChildCert));
 		X509_free(test_cert);
 		
 		// cert + CA + nonrelated
-		test_store = X509_STORE_CTX_new();
-		test_store->cert = mX509ChildCert;
-		test_store->untrusted = sk_X509_new_null();
-		sk_X509_push(test_store->untrusted, mX509IntermediateCert);
-		sk_X509_push(test_store->untrusted, mX509TestCert);
-		test_chain = new LLBasicCertificateChain(test_store);
-		X509_STORE_CTX_free(test_store);
+		test_store_ctx = X509_STORE_CTX_new();
+		X509_STORE_CTX_set_cert(test_store_ctx, mX509ChildCert);
+		X509_STORE_CTX_set0_untrusted(test_store_ctx, sk_X509_new_null());
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509IntermediateCert);
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509TestCert);
+		test_chain = new LLBasicCertificateChain(test_store_ctx);
+		X509_STORE_CTX_free(test_store_ctx);
 		ensure_equals("two elements in store", test_chain->size(), 2);	
 		test_cert = (*test_chain)[0]->getOpenSSLX509();
 		ensure("validate first element in store is expected cert", !X509_cmp(test_cert, mX509ChildCert));
@@ -927,13 +927,13 @@ namespace tut
 		X509_free(test_cert);
 
 		// cert + intermediate + CA 
-		test_store = X509_STORE_CTX_new();
-		test_store->cert = mX509ChildCert;
-		test_store->untrusted = sk_X509_new_null();
-		sk_X509_push(test_store->untrusted, mX509IntermediateCert);
-		sk_X509_push(test_store->untrusted, mX509RootCert);
-		test_chain = new LLBasicCertificateChain(test_store);
-		X509_STORE_CTX_free(test_store);
+		test_store_ctx = X509_STORE_CTX_new();
+		X509_STORE_CTX_set_cert(test_store_ctx, mX509ChildCert);
+		X509_STORE_CTX_set0_untrusted(test_store_ctx, sk_X509_new_null());
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509IntermediateCert);
+		sk_X509_push(X509_STORE_CTX_get0_untrusted(test_store_ctx), mX509RootCert);
+		test_chain = new LLBasicCertificateChain(test_store_ctx);
+		X509_STORE_CTX_free(test_store_ctx);
 		ensure_equals("three elements in store", test_chain->size(), 3);	
 		test_cert = (*test_chain)[0]->getOpenSSLX509();
 		ensure("validate first element in store is expected cert", !X509_cmp(test_cert, mX509ChildCert));

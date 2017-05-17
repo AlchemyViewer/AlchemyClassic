@@ -190,7 +190,7 @@ if (LINUX)
     elseif(HAS_STACK_PROTECTOR)
       add_compile_options(-fstack-protector)
     endif(HAS_STRONG_STACK_PROTECTOR)
-    add_definitions(-D_FORTIFY_SOURCE=2)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2")
   endif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
 
   if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")

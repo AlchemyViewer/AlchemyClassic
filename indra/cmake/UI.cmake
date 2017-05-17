@@ -33,8 +33,8 @@ if (USESYSTEMLIBS)
     add_definitions(${${pkg}_CFLAGS_OTHERS})
   endforeach(pkg)
 else (USESYSTEMLIBS)
-  include(FindX11)
   if (LINUX)
+    include(FindX11)
     use_prebuilt_binary(gtk-atk-pango-glib)
     set(UI_LIBRARIES
         atk-1.0

@@ -4111,30 +4111,33 @@ void LLAgent::teleportRequest(
 	bool look_at_from_camera)
 {
 	LLViewerRegion* regionp = getRegion();
-	bool is_local = (region_handle == regionp->getHandle());
-	if(regionp && teleportCore(is_local))
+	if (regionp)
 	{
-		LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
-		LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(region_handle);
-		pProgFloater->setRegion(info ? info->getName() : LLStringUtil::null);
-		
-		LL_INFOS("") << "TeleportLocationRequest: '" << region_handle << "':"
-					 << pos_local << LL_ENDL;
-		LLMessageSystem* msg = gMessageSystem;
-		msg->newMessage("TeleportLocationRequest");
-		msg->nextBlockFast(_PREHASH_AgentData);
-		msg->addUUIDFast(_PREHASH_AgentID, getID());
-		msg->addUUIDFast(_PREHASH_SessionID, getSessionID());
-		msg->nextBlockFast(_PREHASH_Info);
-		msg->addU64("RegionHandle", region_handle);
-		msg->addVector3("Position", pos_local);
-		LLVector3 look_at(0,1,0);
-		if (look_at_from_camera)
+		bool is_local = (region_handle == regionp->getHandle());
+		if (teleportCore(is_local))
 		{
-			look_at = LLViewerCamera::getInstance()->getAtAxis();
+			LLFloaterProgressView* pProgFloater = LLFloaterReg::getTypedInstance<LLFloaterProgressView>("progress_view");
+			LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(region_handle);
+			pProgFloater->setRegion(info ? info->getName() : LLStringUtil::null);
+
+			LL_INFOS("") << "TeleportLocationRequest: '" << region_handle << "':"
+				<< pos_local << LL_ENDL;
+			LLMessageSystem* msg = gMessageSystem;
+			msg->newMessage("TeleportLocationRequest");
+			msg->nextBlockFast(_PREHASH_AgentData);
+			msg->addUUIDFast(_PREHASH_AgentID, getID());
+			msg->addUUIDFast(_PREHASH_SessionID, getSessionID());
+			msg->nextBlockFast(_PREHASH_Info);
+			msg->addU64("RegionHandle", region_handle);
+			msg->addVector3("Position", pos_local);
+			LLVector3 look_at(0, 1, 0);
+			if (look_at_from_camera)
+			{
+				look_at = LLViewerCamera::getInstance()->getAtAxis();
+			}
+			msg->addVector3("LookAt", look_at);
+			sendReliableMessage();
 		}
-		msg->addVector3("LookAt", look_at);
-		sendReliableMessage();
 	}
 }
 

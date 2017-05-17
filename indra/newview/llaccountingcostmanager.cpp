@@ -114,46 +114,48 @@ void LLAccountingCostManager::accountingCostCoro(std::string url,
         do 
         {
             observer = observerHandle.get();
+			if (observer)
+			{
+				if (!status || results.has("error"))
+				{
+					LL_WARNS() << "Error on fetched data" << LL_ENDL;
+					if (!status)
+						observer->setErrorStatus(status.getType(), status.toString());
+					else
+						observer->setErrorStatus(499, "Error on fetched data");
 
-            if (!status || results.has("error"))
-            {
-                LL_WARNS() << "Error on fetched data" << LL_ENDL;
-                if (!status)
-                    observer->setErrorStatus(status.getType(), status.toString());
-                else
-                    observer->setErrorStatus(499, "Error on fetched data");
+					break;
+				}
 
-                break;
-            }
-
-            if (!httpResults["success"].asBoolean())
-            {
-                LL_WARNS() << "Error result from LLCoreHttpUtil::HttpCoroHandler. Code "
-                    << httpResults["status"] << ": '" << httpResults["message"] << "'" << LL_ENDL;
-                if (observer)
-                {
-                    observer->setErrorStatus(httpResults["status"].asInteger(), httpResults["message"].asStringRef());
-                }
-                break;
-            }
+				if (!httpResults["success"].asBoolean())
+				{
+					LL_WARNS() << "Error result from LLCoreHttpUtil::HttpCoroHandler. Code "
+						<< httpResults["status"] << ": '" << httpResults["message"] << "'" << LL_ENDL;
+					if (observer)
+					{
+						observer->setErrorStatus(httpResults["status"].asInteger(), httpResults["message"].asStringRef());
+					}
+					break;
+				}
 
 
-            if (results.has("selected"))
-            {
-                LLSD selected = results["selected"];
+				if (results.has("selected"))
+				{
+					LLSD selected = results["selected"];
 
-                F32 physicsCost = 0.0f;
-                F32 networkCost = 0.0f;
-                F32 simulationCost = 0.0f;
+					F32 physicsCost = 0.0f;
+					F32 networkCost = 0.0f;
+					F32 simulationCost = 0.0f;
 
-                physicsCost = selected["physics"].asReal();
-                networkCost = selected["streaming"].asReal();
-                simulationCost = selected["simulation"].asReal();
+					physicsCost = selected["physics"].asReal();
+					networkCost = selected["streaming"].asReal();
+					simulationCost = selected["simulation"].asReal();
 
-                SelectionCost selectionCost( physicsCost, networkCost, simulationCost);
+					SelectionCost selectionCost(physicsCost, networkCost, simulationCost);
 
-                observer->onWeightsUpdate(selectionCost);
-            }
+					observer->onWeightsUpdate(selectionCost);
+				}
+			}
 
         } while (false);
 

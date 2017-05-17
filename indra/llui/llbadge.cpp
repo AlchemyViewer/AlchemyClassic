@@ -203,20 +203,13 @@ void renderBadgeBackground(F32 centerX, F32 centerY, F32 width, F32 height, cons
 						ll_round(x) + width,
 						ll_round(y) + height);
 	
-	// LLVector3 vertices[4];
-	// vertices[0] = LLVector3(screen_rect.mRight, screen_rect.mTop,    1.0f);
-	// vertices[1] = LLVector3(screen_rect.mLeft,  screen_rect.mTop,    1.0f);
-	// vertices[2] = LLVector3(screen_rect.mLeft,  screen_rect.mBottom, 1.0f);
-	// vertices[3] = LLVector3(screen_rect.mRight, screen_rect.mBottom, 1.0f);
-	// <alchemy> - Manual Vectorization
-	LLVector4a vertices[4];
+	LLVector4a vertices[6];
 	vertices[0].set(screen_rect.mLeft, screen_rect.mTop, 1.0f);
 	vertices[1].set(screen_rect.mLeft, screen_rect.mBottom, 1.0f);
 	vertices[2].set(screen_rect.mRight, screen_rect.mTop, 1.0f);
 	vertices[3].set(screen_rect.mRight, screen_rect.mTop, 1.0f);
 	vertices[4].set(screen_rect.mLeft, screen_rect.mBottom, 1.0f);
 	vertices[5].set(screen_rect.mRight, screen_rect.mBottom, 1.0f);
-	// </alchemy>
 	
 	gGL.begin(LLRender::TRIANGLES);
 	{

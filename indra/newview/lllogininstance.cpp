@@ -659,8 +659,6 @@ bool LLLoginInstance::handleLoginEvent(const LLSD& event)
 
 void LLLoginInstance::handleLoginFailure(const LLSD& event)
 {
-	
-
 	// Login has failed. 
 	// Figure out why and respond...
 	LLSD response = event["data"];
@@ -800,6 +798,11 @@ bool LLLoginInstance::handleTOSResponse(bool accepted, const std::string& key)
 	return true;
 }
 
+void LLLoginInstance::attemptComplete()
+{
+	mAttemptComplete = true;
+	LLGridManager::getInstance()->setLoggedIn(mLoginState == LLStringExplicit("online")); 
+}
 
 void LLLoginInstance::updateApp(bool mandatory, const std::string& auth_msg)
 {

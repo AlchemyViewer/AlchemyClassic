@@ -90,7 +90,7 @@ private:
 
 	bool handleTOSResponse(bool v, const std::string& key);
 
-	void attemptComplete() { mAttemptComplete = true; } // In the future an event?
+	void attemptComplete();
 
 	boost::scoped_ptr<LLLogin> mLoginModule;
 	LLNotificationsInterface* mNotifications;

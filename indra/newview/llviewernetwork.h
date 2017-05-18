@@ -261,6 +261,9 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	///< @returns true if successfully removed
 	
 	//@}
+
+	/// Sets login lock so grid cannot be changed once we are logged in
+	void setLoggedIn(bool logged_in) { mLoggedIn = logged_in; }
 	
 protected:
 
@@ -290,7 +293,8 @@ private:
 					   const std::string& administrator,
 					   const std::string& platform,
 					   const std::string& login_id = "");
-	
+
+	bool mLoggedIn;
 	std::string mGrid;
 	std::string mGridFile;
 	LLSD mGridList;

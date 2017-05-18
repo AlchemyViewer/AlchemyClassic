@@ -33,7 +33,6 @@
 #include "../llslurl.h"
 #include "llxmlnode.h"
 #include "llcontrol.h"
-#include "llsdserialize.h"
 #include "llnotificationsutil.h"
 
 namespace
@@ -218,26 +217,26 @@ namespace tut
 					  "http://maps.secondlife.com/secondlife/my%20region/1/2/3");
 
 		LLGridManager::getInstance()->setGridChoice("my.grid.com");
-		slurl = LLSLURL("http://my.grid.com/region/my%20region/1/2/3");
+		slurl = LLSLURL("x-grid-info://my.grid.com/region/my%20region/1/2/3");
 		ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
-					  "http://my.grid.com/region/my%20region/1/2/3");
+					  "x-grid-info://my.grid.com/region/my%20region/1/2/3");
 
-		slurl = LLSLURL("http://my.grid.com/region/my region");
+		slurl = LLSLURL("x-grid-info://my.grid.com/region/my region");
 		ensure_equals("grid slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid slurl, region + coords", slurl.getSLURLString(),
-					  "http://my.grid.com/region/my%20region/128/128/0");
+					  "x-grid-info://my.grid.com/region/my%20region/128/128/0");
 
 		LLGridManager::getInstance()->setGridChoice("foo.bar.com");
 		slurl = LLSLURL("/myregion/1/2/3");
 		ensure_equals("/: slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("/ slurl, region + coords", slurl.getSLURLString(),
-					  "http://foo.bar.com/region/myregion/1/2/3");
+					  "x-grid-info://foo.bar.com/region/myregion/1/2/3");
 
 		slurl = LLSLURL("myregion/1/2/3");
 		ensure_equals(": slurl, region + coords - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" slurl, region + coords", slurl.getSLURLString(),
-					  "http://foo.bar.com/region/myregion/1/2/3");
+					  "x-grid-info://foo.bar.com/region/myregion/1/2/3");
 
 		slurl = LLSLURL(LLSLURL::SIM_LOCATION_HOME);
 		ensure_equals("home", slurl.getType(), LLSLURL::HOME_LOCATION);
@@ -275,7 +274,7 @@ namespace tut
 		ensure_equals("grid4", slurl.getGrid(), "Aditi" );
 
 		LLGridManager::getInstance()->setGridChoice("my.grid.com");
-		slurl = LLSLURL("https://my.grid.com/app/foo/bar?12345");
+		slurl = LLSLURL("x-grid-info://my.grid.com/app/foo/bar?12345");
 		ensure_equals("app", slurl.getType(), LLSLURL::APP);
 		ensure_equals("appcmd", slurl.getAppCmd(), "foo");
 		ensure_equals("apppath", slurl.getAppPath().size(), 1);
@@ -297,12 +296,12 @@ namespace tut
 		LLSLURL slurl = LLSLURL("my.grid.com", "my region");
 		ensure_equals("grid/region - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals("grid/region", slurl.getSLURLString(),
-					  "http://my.grid.com/region/my%20region/128/128/0");
+					  "x-grid-info://my.grid.com/region/my%20region/128/128/0");
 
 		slurl = LLSLURL("my.grid.com", "my region", LLVector3(1,2,3));
 		ensure_equals("grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" grid/region/vector", slurl.getSLURLString(),
-					  "http://my.grid.com/region/my%20region/1/2/3");
+					  "x-grid-info://my.grid.com/region/my%20region/1/2/3");
 
 		LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");
 		slurl = LLSLURL("my region", LLVector3(1,2,3));
@@ -314,34 +313,8 @@ namespace tut
 		slurl = LLSLURL("my region", LLVector3(1,2,3));
 		ensure_equals("default grid/region/vector - type", slurl.getType(), LLSLURL::LOCATION);
 		ensure_equals(" default grid/region/vector", slurl.getSLURLString(),
-					  "http://my.grid.com/region/my%20region/1/2/3");
+					  "x-grid-info://my.grid.com/region/my%20region/1/2/3");
 
-	}
-	
-	// Accessors
-	template<> template<>
-	void slurlTestObject::test<3>()
-	{
-		llofstream gridfile(TEST_FILENAME);
-		gridfile << gSampleGridFile;
-		gridfile.close();
-
-		LLGridManager::getInstance()->initialize(TEST_FILENAME);
-
-		LLGridManager::getInstance()->setGridChoice("my.grid.com");
-		LLSLURL slurl = LLSLURL("https://my.grid.com/region/my%20region/1/2/3");
-		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
-		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
-		ensure_equals("grid", slurl.getGrid(), "my.grid.com");
-		ensure_equals("region", slurl.getRegion(), "my region");
-		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
-
-		slurl = LLSLURL("http://my.grid.com:8002/region/my%20region/1/2/3");
-		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
-		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
-		ensure_equals("grid", slurl.getGrid(), "my.grid.com:8002");
-		ensure_equals("region", slurl.getRegion(), "my region");
-		ensure_equals("position", slurl.getPosition(), LLVector3(1, 2, 3));
 	}
 	
 	// x-grid-location-info
@@ -355,7 +328,7 @@ namespace tut
 		LLGridManager::getInstance()->initialize(TEST_FILENAME);
 		
 		LLGridManager::getInstance()->setGridChoice("my.grid.com");
-		LLSLURL slurl = LLSLURL("x-grid-location-info://my.grid.com/app/foo/bar?12345");
+		LLSLURL slurl = LLSLURL("x-grid-info://my.grid.com/app/foo/bar?12345");
 		ensure_equals("app", slurl.getType(), LLSLURL::APP);
 		ensure_equals("appcmd", slurl.getAppCmd(), "foo");
 		ensure_equals("apppath", slurl.getAppPath().size(), 1);
@@ -363,7 +336,7 @@ namespace tut
 		ensure_equals("appquery", slurl.getAppQuery(), "12345");
 		ensure_equals("grid1", slurl.getGrid(), "my.grid.com");
 		
-		slurl = LLSLURL("x-grid-location-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
+		slurl = LLSLURL("x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about");
 		ensure_equals("app", slurl.getType(), LLSLURL::APP);
 		ensure_equals("appcmd", slurl.getAppCmd(), "agent");
 		ensure_equals("apppath", slurl.getAppPath().size(), 2);
@@ -372,7 +345,7 @@ namespace tut
 		ensure_equals("grid1", slurl.getGrid(), "lincoln.lindenlab.com");
 		
 		LLGridManager::getInstance()->setGridChoice("my.stupidgrid.com:8002");
-		slurl = LLSLURL("x-grid-location-info://my.stupidgrid.com:8002/app/foo/bar/baz?12345");
+		slurl = LLSLURL("x-grid-info://my.stupidgrid.com:8002/app/foo/bar/baz?12345");
 		ensure_equals("app", slurl.getType(), LLSLURL::APP);
 		ensure_equals("appcmd", slurl.getAppCmd(), "foo");
 		ensure_equals("apppath", slurl.getAppPath().size(), 2);
@@ -381,7 +354,7 @@ namespace tut
 		ensure_equals("appquery", slurl.getAppQuery(), "12345");
 		ensure_equals("grid1", slurl.getGrid(), "my.stupidgrid.com:8002");
 		
-		slurl = LLSLURL("x-grid-location-info://my.stupidgrid.com:8002/region/my%20region/1/2/3");
+		slurl = LLSLURL("x-grid-info://my.stupidgrid.com:8002/region/my%20region/1/2/3");
 		ensure_equals("login string", slurl.getLoginString(), "uri:my region&amp;1&amp;2&amp;3");
 		ensure_equals("location string", slurl.getLocationString(), "my region/1/2/3");
 		ensure_equals("grid", slurl.getGrid(), "my.stupidgrid.com:8002");

@@ -32,12 +32,10 @@
 #include "llviewernetwork.h"
 #include "llviewercontrol.h"
 #include "llcorehttputil.h"
-#include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llsdserialize.h"
 #include "llsecapi.h"
 #include "lltrans.h"
-#include "llweb.h"
 #include "llxmlnode.h"
 
 /// key used to store the grid, and the name attribute in the grid data
@@ -106,6 +104,7 @@ const std::string GRIDS_USER_FILE = "grids_user.xml";
 
 LLGridManager::LLGridManager()
 :	mPlatform(NOPLATFORM)
+,	mLoggedIn(false)
 {
 	// by default, we use the 'grids.xml' file in the user settings directory
 	// this file is an LLSD file containing multiple grid definitions.
@@ -616,7 +615,7 @@ void LLGridManager::saveGridList()
 	LLSD data;
 	for(LLSD::map_iterator grid_iter = mGridList.beginMap();
 		grid_iter != mGridList.endMap();
-		grid_iter++)
+	    ++grid_iter)
 	{
 		// We don't need to store system grids, they're hard coded!
 		if (grid_iter->second.has(GRID_IS_SYSTEM_GRID_VALUE)
@@ -641,7 +640,7 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 	std::map<std::string, std::string> result;
 	for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
 		grid_iter != mGridList.endMap();
-		grid_iter++)
+	    ++grid_iter)
 	{
 		// skip temp grids. since this is just for "grid label mappings for UI purposes"
 		if (grid_iter->second.has(GRID_TEMPORARY) && grid_iter->second[GRID_TEMPORARY].asBoolean())
@@ -654,9 +653,9 @@ std::map<std::string, std::string> LLGridManager::getKnownGrids() const
 
 void LLGridManager::setGridChoice(const std::string& grid, const bool only_select /* = true */)
 {
-    // Don't allow grid choice the grid once we're already logged in.
-    if (LLLoginInstance::getInstance()->authSuccess()) return;
-    
+	// Can't change grid once we are logged in
+	if (mLoggedIn) return;
+
 	// Set the grid choice based on a string.
 	LL_DEBUGS("GridManager") << "requested " << grid << LL_ENDL;
  	std::string grid_name = getGrid(grid); // resolved either the name or the id to the name
@@ -699,7 +698,7 @@ std::string LLGridManager::getGrid(const std::string& grid) const
 		// search the grid list for a grid with a matching id
 		for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
 			grid_name.empty() && grid_iter != mGridList.endMap();
-			grid_iter++)
+		    ++grid_iter)
 		{
 			if (grid_iter->second.has(GRID_ID_VALUE))
 			{
@@ -733,7 +732,7 @@ std::string LLGridManager::getGridByAttribute(const std::string& attribute, cons
 	
 	for(LLSD::map_const_iterator grid_iter = mGridList.beginMap();
 		grid_iter != mGridList.endMap();
-		grid_iter++)
+	    ++grid_iter)
 	{
 		if (grid_iter->second.has(attribute)
 			&& LLStringUtil::compareStrings(value, grid_iter->second[attribute].asString()) == 0)
@@ -802,7 +801,7 @@ void LLGridManager::getLoginURIs(const std::string& grid, std::vector<std::strin
 	{
 		for (LLSD::array_const_iterator llsd_uri = mGridList[grid_name][GRID_LOGIN_URI_VALUE].beginArray();
 			 llsd_uri != mGridList[grid_name][GRID_LOGIN_URI_VALUE].endArray();
-			 llsd_uri++)
+		     ++llsd_uri)
 		{
 			uris.push_back(llsd_uri->asString());
 		}

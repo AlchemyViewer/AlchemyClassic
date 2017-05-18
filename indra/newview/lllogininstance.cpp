@@ -643,10 +643,6 @@ bool LLLoginInstance::handleLoginEvent(const LLSD& event)
 
 	mLoginState = event["state"].asString();
 	mResponseData = event["data"];
-
-	// Kinda hacky, I know. This won't work right after disconnect, but fuck it, why are
-	// you changing the grid after disconnect? Needs expanded upon.
-	LLGridManager::getInstance()->setLoggedIn(mLoginState == LLStringExplicit("online"));
 	
 	if(event.has("transfer_rate"))
 	{
@@ -802,6 +798,11 @@ bool LLLoginInstance::handleTOSResponse(bool accepted, const std::string& key)
 	return true;
 }
 
+void LLLoginInstance::attemptComplete()
+{
+	mAttemptComplete = true;
+	LLGridManager::getInstance()->setLoggedIn(mLoginState == LLStringExplicit("online")); 
+}
 
 void LLLoginInstance::updateApp(bool mandatory, const std::string& auth_msg)
 {

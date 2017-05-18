@@ -101,7 +101,7 @@ private:
 	struct TEMaterialPairHasher
 	{
 		enum { bucket_size = 8 };
-		size_t operator()(const TEMaterialPair& key_value) const { return *((size_t*)key_value.materialID.get());  } // cheesy, but effective
+		size_t operator()(const TEMaterialPair& key_value) const { return key_value.materialID.hash();  }
 		bool   operator()(const TEMaterialPair& left, const TEMaterialPair& right) const { return left < right; }
 	};
 

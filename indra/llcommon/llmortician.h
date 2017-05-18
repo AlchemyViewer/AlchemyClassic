@@ -33,7 +33,7 @@
 class LL_COMMON_API LLMortician 
 {
 public:
-	LLMortician() { mIsDead = FALSE; }
+	LLMortician() : mIsDead(FALSE) { }
 	static void updateClass();
 	virtual ~LLMortician();
 	void die();

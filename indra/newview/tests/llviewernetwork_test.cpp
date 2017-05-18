@@ -32,6 +32,7 @@
 #include "../test/lltut.h"
 #include "llcontrol.h"
 #include "llfile.h"
+#include "lltrans.h"
 #include "llxmlnode.h"
 #include "llnotificationsutil.h"
 
@@ -41,7 +42,7 @@ namespace
 	static const char * const TEST_FILENAME("llviewernetwork_test.xml");
 }
 
-const std::string REMOTE_GRID = "http://login.yrgrid.com:8002/";
+const std::string REMOTE_GRID = "http://grid.example.com:8002/";
 
 //----------------------------------------------------------------------------
 // Mock objects for the dependencies of the code we're testing
@@ -61,6 +62,7 @@ std::string gCmdLineGridChoice;
 std::string gCmdLineHelperURI;
 std::string gLoginPage;
 std::string gCurrentGrid;
+
 std::string LLControlGroup::getString(const std::string& name) const
 {
 	if (name == "CmdLineGridChoice")
@@ -388,7 +390,7 @@ namespace tut
 
 		LLGridManager::getInstance()->initialize(TEST_FILENAME);
 
-		LLGridManager::getInstance()->setGridChoice("util.agni.lindenlab.com");
+		LLGridManager::getInstance()->setGridChoice(std::string("util.agni.lindenlab.com"));
 		ensure_equals("getGridLabel",
 					  LLGridManager::getInstance()->getGridLabel(),
 					  std::string("Second Life"));
@@ -416,7 +418,7 @@ namespace tut
 					  uris[0],
 					  std::string("https://login.agni.lindenlab.com/cgi-bin/login.cgi"));
 
-		LLGridManager::getInstance()->setGridChoice("altgrid.long.name");
+		LLGridManager::getInstance()->setGridChoice(std::string("altgrid.long.name"));
 		ensure_equals("getGridLabel",
 					  LLGridManager::getInstance()->getGridLabel(),
 					  std::string("Alternative Grid"));

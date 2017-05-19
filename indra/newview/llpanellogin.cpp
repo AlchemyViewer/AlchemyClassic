@@ -67,6 +67,8 @@
 #include "llglheaders.h"
 #include "llpanelloginlistener.h"
 
+#include <boost/algorithm/string.hpp>
+
 #if LL_WINDOWS
 #pragma warning(disable: 4355)      // 'this' used in initializer list
 #endif  // LL_WINDOWS
@@ -787,59 +789,90 @@ void LLPanelLogin::onClickConnect(void *)
 		LLSD combo_val = combo->getSelectedValue();
 
 		// the grid definitions may come from a user-supplied grids.xml, so they may not be good
-		LL_DEBUGS("AppInit")<<"grid "<<combo_val.asString()<<LL_ENDL;
-		
-        LLGridManager::getInstance()->setGridChoice(combo_val.asString());
+		LL_DEBUGS("AppInit") << "grid " << combo_val.asString() << LL_ENDL;
+
+		LLGridManager::getInstance()->setGridChoice(combo_val.asString());
 
 		// The start location SLURL has already been sent to LLStartUp::setStartSLURL
 
 		std::string username = sInstance->getChild<LLUICtrl>("username_combo")->getValue().asString();
 		std::string password = sInstance->getChild<LLUICtrl>("password_edit")->getValue().asString();
-		
-		if(username.empty())
+
+		if (username.empty())
 		{
 			// user must type in something into the username field
 			LLNotificationsUtil::add("MustHaveAccountToLogIn");
 		}
-		else if(password.empty())
+		else if (password.empty())
 		{
-		    LLNotificationsUtil::add("MustEnterPasswordToLogIn");
+			LLNotificationsUtil::add("MustEnterPasswordToLogIn");
 		}
 		else if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
 		{
 			LLNotificationsUtil::add("SecondLifePasswordTooLong");
-			password.erase(password.begin()+16, password.end());
+			password.erase(password.begin() + 16, password.end());
 		}
 		else
 		{
-			LLPointer<LLCredential> cred;
-			BOOL remember;
-			getFields(cred, remember);
-			std::string identifier_type;
-			cred->identifierType(identifier_type);
-			LLSD allowed_credential_types;
-			LLGridManager::getInstance()->getLoginIdentifierTypes(allowed_credential_types);
-			
-			// check the typed in credential type against the credential types expected by the server.
-			for(LLSD::array_iterator i = allowed_credential_types.beginArray();
-				i != allowed_credential_types.endArray();
-				i++)
+			string_vec_t login_uris;
+			LLGridManager::getInstance()->getLoginURIs(login_uris);
+			if (std::none_of(login_uris.begin(), login_uris.end(),
+				[](auto& uri) -> bool { return boost::algorithm::starts_with(uri, "https://"); }
+			))
 			{
-				
-				if(i->asString() == identifier_type)
-				{
-					// yay correct credential type
-					sInstance->mCallback(0, sInstance->mCallbackData);
-					return;
-				}
+				//LLSD payload;
+				//payload["username"] = username;
+				//payload["password"] = password;
+				LLNotificationsUtil::add("InsecureLogin",
+					LLSD().with("GRID", LLGridManager::getInstance()->getGridLabel()), LLSD(), &connectCallback);
+				return;
 			}
-			
-			// Right now, maingrid is the only thing that is picky about
-			// credential format, as it doesn't yet allow account (single username)
-			// format creds.  - Rox.  James, we wanna fix the message when we change
-			// this.
-			LLNotificationsUtil::add("InvalidCredentialFormat");			
+			connect();
 		}
+	}
+}
+
+//static 
+void LLPanelLogin::connectCallback(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	if (option != 0)  return;
+
+	connect();
+}
+
+// static
+void LLPanelLogin::connect()
+{
+	if (sInstance && sInstance->mCallback)
+	{
+		LLPointer<LLCredential> cred;
+		BOOL remember;
+		getFields(cred, remember);
+		std::string identifier_type;
+		cred->identifierType(identifier_type);
+		LLSD allowed_credential_types;
+		LLGridManager::getInstance()->getLoginIdentifierTypes(allowed_credential_types);
+
+		// check the typed in credential type against the credential types expected by the server.
+		for (LLSD::array_iterator i = allowed_credential_types.beginArray();
+			i != allowed_credential_types.endArray();
+			i++)
+		{
+
+			if (i->asString() == identifier_type)
+			{
+				// yay correct credential type
+				sInstance->mCallback(0, sInstance->mCallbackData);
+				return;
+			}
+		}
+
+		// Right now, maingrid is the only thing that is picky about
+		// credential format, as it doesn't yet allow account (single username)
+		// format creds.  - Rox.  James, we wanna fix the message when we change
+		// this.
+		LLNotificationsUtil::add("InvalidCredentialFormat");
 	}
 }
 

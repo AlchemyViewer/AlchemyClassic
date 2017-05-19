@@ -102,7 +102,9 @@ private:
 	static void onClickForgotPassword(void*);
 	static void onClickHelp(void*);
 	static void onPassKey(LLLineEditor* caller, void* user_data);
-	static void updateServerCombo();
+
+	static void connectCallback(const LLSD& notification, const LLSD& response);
+	static void connect();
 
 private:
 	LLPointer<LLUIImage> mLogoImage;

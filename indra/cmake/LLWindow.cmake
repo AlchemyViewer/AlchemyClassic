@@ -34,7 +34,6 @@ if (LLWINDOW_SDL2)
 endif (LLWINDOW_SDL2)
 
 set(LLWINDOW_INCLUDE_DIRS
-    ${GLEXT_INCLUDE_DIR}
     ${LIBS_OPEN_DIR}/llwindow
     )
 

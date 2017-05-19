@@ -34,7 +34,6 @@ set(cmake_SOURCE_FILES
     FindZLIB.cmake
     FMODSTUDIO.cmake
     FreeType.cmake
-    GLEXT.cmake
     GLM.cmake
     GLOD.cmake
     GLEW.cmake

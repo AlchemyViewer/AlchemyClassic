@@ -11735,6 +11735,23 @@ Changing sound quality will take effect after you restart [APP_NAME].
   </notification>
 
   <notification
+    icon="alertmodal.tga"
+    label="Warn on insecure login"
+    name="InsecureLogin"
+    type="alertmodal">
+[GRID] does not provide a secure connection for login.
+Login details will be sent in plaintext where they may be vulnerable to snooping.
+
+Are you sure you wish to continue?
+    <tag>confirm</tag>
+    <usetemplate
+     ignoretext="Warn me before I login using an insecure connection"
+     name="okcancelignore"
+     notext="Cancel"
+     yestext="OK"/>
+  </notification>
+  
+  <notification
    icon="alert.tga"
    label="Confirm Teleport Home"
    name="EstateTeleportHomeSingle"

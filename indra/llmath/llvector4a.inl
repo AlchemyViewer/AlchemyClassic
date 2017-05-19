@@ -439,11 +439,11 @@ inline void LLVector4a::normalize3fast_checked(LLVector4a* d)
 // Return true if this vector is normalized with respect to x,y,z up to tolerance
 inline LLBool32 LLVector4a::isNormalized3( F32 tolerance ) const
 {
-	static LL_ALIGN_16(const U32 ones[4]) = { 0x3f800000, 0x3f800000, 0x3f800000, 0x3f800000 };
+	const static LLVector4a ones(_mm_set_ps1(1.0f));
 	LLSimdScalar tol = _mm_load_ss( &tolerance );
 	tol = _mm_mul_ss( tol, tol );
 	LLVector4a lenSquared; lenSquared.setAllDot3( *this, *this );
-	lenSquared.sub( *reinterpret_cast<const LLVector4a*>(ones) );
+	lenSquared.sub(ones);
 	lenSquared.setAbs(lenSquared);
 	return _mm_comile_ss( lenSquared, tol );		
 }
@@ -451,11 +451,11 @@ inline LLBool32 LLVector4a::isNormalized3( F32 tolerance ) const
 // Return true if this vector is normalized with respect to all components up to tolerance
 inline LLBool32 LLVector4a::isNormalized4( F32 tolerance ) const
 {
-	static LL_ALIGN_16(const U32 ones[4]) = { 0x3f800000, 0x3f800000, 0x3f800000, 0x3f800000 };
+	const static LLVector4a ones(_mm_set_ps1(1.0f));
 	LLSimdScalar tol = _mm_load_ss( &tolerance );
 	tol = _mm_mul_ss( tol, tol );
 	LLVector4a lenSquared; lenSquared.setAllDot4( *this, *this );
-	lenSquared.sub( *reinterpret_cast<const LLVector4a*>(ones) );
+	lenSquared.sub(ones);
 	lenSquared.setAbs(lenSquared);
 	return _mm_comile_ss( lenSquared, tol );		
 }

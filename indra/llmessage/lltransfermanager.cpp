@@ -283,15 +283,15 @@ void LLTransferManager::processTransferInfo(LLMessageSystem *msgp, void **)
 	//LL_INFOS() << "LLTransferManager::processTransferInfo" << LL_ENDL;
 
 	LLUUID transfer_id;
-	LLTransferTargetType target_type;
+	//LLTransferTargetType target_type;
 	LLTransferChannelType channel_type;
 	LLTSCode status;
 	S32 size;
 
 	msgp->getUUID("TransferInfo", "TransferID", transfer_id);
-	S32 target_type_tmp;
-	msgp->getS32("TransferInfo", "TargetType", target_type_tmp);
-	target_type = (LLTransferTargetType) target_type_tmp;
+	//S32 target_type_tmp;
+	//msgp->getS32("TransferInfo", "TargetType", target_type_tmp);
+	//target_type = (LLTransferTargetType) target_type_tmp;
 
 	S32 channel_type_tmp;
 	msgp->getS32("TransferInfo", "ChannelType", channel_type_tmp);

@@ -43,7 +43,7 @@ class LLListener_OpenAL  : public LLListener
 	virtual void setPosition(const LLVector3& pos) override;
 	virtual void setVelocity(const LLVector3& vel) override;
 	virtual void orient(const LLVector3& up, const LLVector3& at) override;
-	virtual void commitDeferredChanges();
+	virtual void commitDeferredChanges() override;
 
 	virtual void setDopplerFactor(F32 factor) override;
 	virtual F32 getDopplerFactor() override;

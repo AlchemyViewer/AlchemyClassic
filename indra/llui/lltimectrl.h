@@ -125,7 +125,5 @@ private:
 
 	U32				mTime;				// minutes since midnight: 0 - 1439
 	U32				mSnapToMin;			// interval in minutes to snap to
-
-	BOOL			mAllowEdit;
 };
 #endif /* LLTIMECTRL_H_ */

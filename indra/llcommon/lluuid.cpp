@@ -921,7 +921,9 @@ U32 LLUUID::getRandomSeed()
    md5_seed.finalize();
    md5_seed.raw_digest(seed);
    
-   return(*(U32 *)seed);
+   U32 out;
+   memcpy(&out, seed, sizeof(out));
+   return out;
 }
 
 BOOL LLUUID::parseUUID(const std::string& buf, LLUUID* value)

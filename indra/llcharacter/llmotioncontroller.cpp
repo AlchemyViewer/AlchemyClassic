@@ -42,6 +42,7 @@
 // This is why LL_CHARACTER_MAX_ANIMATED_JOINTS needs to be a multiple of 4.
 const S32 NUM_JOINT_SIGNATURE_STRIDES = LL_CHARACTER_MAX_ANIMATED_JOINTS / 4;
 const U32 MAX_MOTION_INSTANCES = 32;
+constexpr size_t JOINT_SIGNATURE_STRIDE_SIZE = 4;
 
 //-----------------------------------------------------------------------------
 // Constants and statics
@@ -583,22 +584,25 @@ void LLMotionController::updateMotionsByType(LLMotion::LLMotionBlendType anim_ty
 		{
 			for (S32 i = 0; i < NUM_JOINT_SIGNATURE_STRIDES; i++)
 			{
-		 		U32 *current_signature = (U32*)&(mJointSignature[0][i * 4]);
-				U32 test_signature = *(U32*)&(motionp->mJointSignature[0][i * 4]);
+				const size_t current_joint_stride = i * JOINT_SIGNATURE_STRIDE_SIZE;
+		 		U32 current_signature, test_signature;
+				memcpy(&current_signature, &mJointSignature[0][current_joint_stride], sizeof(current_signature));
+				memcpy(&test_signature, &motionp->mJointSignature[0][current_joint_stride], sizeof(test_signature));
 				
-				if ((*current_signature | test_signature) > (*current_signature))
+				if ((current_signature | test_signature) > (current_signature))
 				{
-					*current_signature |= test_signature;
+					current_signature |= test_signature;
 					update_motion = TRUE;
 				}
 
-				*((U32*)&last_joint_signature[i * 4]) = *(U32*)&(mJointSignature[1][i * 4]);
-				current_signature = (U32*)&(mJointSignature[1][i * 4]);
-				test_signature = *(U32*)&(motionp->mJointSignature[1][i * 4]);
 
-				if ((*current_signature | test_signature) > (*current_signature))
+				memcpy(&last_joint_signature[current_joint_stride], &mJointSignature[1][current_joint_stride], JOINT_SIGNATURE_STRIDE_SIZE);
+				memcpy(&current_signature, &mJointSignature[1][current_joint_stride], sizeof(current_signature));
+				memcpy(&test_signature, &motionp->mJointSignature[1][current_joint_stride], sizeof(test_signature));
+
+				if ((current_signature | test_signature) > (current_signature))
 				{
-					*current_signature |= test_signature;
+					current_signature |= test_signature;
 					update_motion = TRUE;
 				}
 			}

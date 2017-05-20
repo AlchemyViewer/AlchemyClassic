@@ -199,7 +199,7 @@ public:
 
 	LLMatrix3 getMat3() const;
 
-	const LLVector3& getTranslation() const { return *(LLVector3*)&mMatrix[3][0]; }
+	LLVector3 getTranslation() const { return LLVector3(mMatrix[3]); }
 
 	///////////////////////////
 	//

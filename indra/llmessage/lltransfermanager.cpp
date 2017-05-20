@@ -213,8 +213,14 @@ void LLTransferManager::processTransferRequest(LLMessageSystem *msgp, void **)
 	F32 priority;
 
 	msgp->getUUID("TransferInfo", "TransferID", transfer_id);
-	msgp->getS32("TransferInfo", "SourceType", (S32 &)source_type);
-	msgp->getS32("TransferInfo", "ChannelType", (S32 &)channel_type);
+	S32 source_type_tmp;
+	msgp->getS32("TransferInfo", "SourceType", source_type_tmp);
+	source_type = (LLTransferSourceType) source_type_tmp;
+
+	S32 channel_type_tmp;
+	msgp->getS32("TransferInfo", "ChannelType", channel_type_tmp);
+	channel_type = (LLTransferChannelType)channel_type_tmp;
+
 	msgp->getF32("TransferInfo", "Priority", priority);
 
 	LLTransferSourceChannel *tscp = gTransferManager.getSourceChannel(msgp->getSender(), channel_type);
@@ -283,9 +289,18 @@ void LLTransferManager::processTransferInfo(LLMessageSystem *msgp, void **)
 	S32 size;
 
 	msgp->getUUID("TransferInfo", "TransferID", transfer_id);
-	msgp->getS32("TransferInfo", "TargetType", (S32 &)target_type);
-	msgp->getS32("TransferInfo", "ChannelType", (S32 &)channel_type);
-	msgp->getS32("TransferInfo", "Status", (S32 &)status);
+	S32 target_type_tmp;
+	msgp->getS32("TransferInfo", "TargetType", target_type_tmp);
+	target_type = (LLTransferTargetType) target_type_tmp;
+
+	S32 channel_type_tmp;
+	msgp->getS32("TransferInfo", "ChannelType", channel_type_tmp);
+	channel_type = (LLTransferChannelType) channel_type_tmp;
+
+	S32 status_tmp;
+	msgp->getS32("TransferInfo", "Status", status_tmp);
+	status = (LLTSCode) status_tmp;
+
 	msgp->getS32("TransferInfo", "Size", size);
 
 	//LL_INFOS() << transfer_id << ":" << target_type<< ":" << channel_type << LL_ENDL;
@@ -419,10 +434,13 @@ void LLTransferManager::processTransferPacket(LLMessageSystem *msgp, void **)
 	S32 packet_id;
 	LLTSCode status;
 	S32 size;
+	S32 tmp;
 	msgp->getUUID("TransferData", "TransferID", transfer_id);
-	msgp->getS32("TransferData", "ChannelType", (S32 &)channel_type);
+	msgp->getS32("TransferData", "ChannelType", tmp);
+	memcpy(&channel_type, &tmp, 4);
 	msgp->getS32("TransferData", "Packet", packet_id);
-	msgp->getS32("TransferData", "Status", (S32 &)status);
+	msgp->getS32("TransferData", "Status", tmp);
+	memcpy(&status, &tmp, 4);
 
 	// Find the transfer associated with this packet.
 	//LL_INFOS() << transfer_id << ":" << channel_type << LL_ENDL;
@@ -571,7 +589,9 @@ void LLTransferManager::processTransferAbort(LLMessageSystem *msgp, void **)
 	LLUUID transfer_id;
 	LLTransferChannelType channel_type;
 	msgp->getUUID("TransferInfo", "TransferID", transfer_id);
-	msgp->getS32("TransferInfo", "ChannelType", (S32 &)channel_type);
+	S32 channel_type_tmp;
+	msgp->getS32("TransferInfo", "ChannelType", channel_type_tmp);
+	channel_type = (LLTransferChannelType) channel_type_tmp;
 
 	// See if it's a target that we're trying to abort
 	// Find the transfer associated with this packet.

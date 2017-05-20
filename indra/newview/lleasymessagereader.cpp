@@ -340,7 +340,10 @@ LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data
 
 	if(data_len >= LL_MINIMUM_VALID_PACKET_SIZE)
 	{
-		sequence_id = ntohl(*((U32*)(&decodep[1])));
+		U32 net_sec_id;
+		memcpy(&net_sec_id, &decodep[1], sizeof(net_sec_id));
+		sequence_id = ntohl(net_sec_id);
+
 		mTemplateMessageReader.clearMessage();
 		if(mTemplateMessageReader.validateMessage(decodep, data_len, from_host, TRUE))
 		{

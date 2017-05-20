@@ -31,6 +31,7 @@
 
 #include <cmath>
 #include <cstdlib>
+#include <cstring>
 #include <vector>
 #include <limits>
 #include "lldefs.h"
@@ -110,19 +111,27 @@ inline bool is_approx_zero( F32 f ) { return (-F_APPROXIMATELY_ZERO < f) && (f <
 // handles negative and positive zeros
 inline bool is_zero(F32 x)
 {
-	return (*(U32*)(&x) & 0x7fffffff) == 0;
+	U32 tmp = 0;
+	memcpy(&tmp, &x, sizeof(tmp));
+	return (tmp & 0x7fffffff) == 0;
 }
 
 inline bool is_approx_equal(F32 x, F32 y)
 {
 	constexpr S32 COMPARE_MANTISSA_UP_TO_BIT = 0x02;
-	return (std::abs((S32) ((U32&)x - (U32&)y) ) < COMPARE_MANTISSA_UP_TO_BIT);
+	U32 x_tmp, y_tmp;
+	memcpy(&x_tmp, &x, sizeof(x_tmp));
+	memcpy(&y_tmp, &y, sizeof(x_tmp));
+	return (std::abs((S32) (x_tmp - y_tmp) ) < COMPARE_MANTISSA_UP_TO_BIT);
 }
 
 inline bool is_approx_equal(F64 x, F64 y)
 {
 	constexpr S64 COMPARE_MANTISSA_UP_TO_BIT = 0x02;
-	return (std::abs((S32) ((U64&)x - (U64&)y) ) < COMPARE_MANTISSA_UP_TO_BIT);
+	U64 x_tmp, y_tmp;
+	memcpy(&x_tmp, &x, sizeof(x_tmp));
+	memcpy(&y_tmp, &y, sizeof(x_tmp));
+	return (std::abs((S32) (x_tmp - y_tmp) ) < COMPARE_MANTISSA_UP_TO_BIT);
 }
 
 inline S32 llabs(const S32 a)

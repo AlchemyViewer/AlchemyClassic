@@ -343,8 +343,10 @@ U64 LLXferManager::getNextID ()
 
 	a_guid.generate();
 
-	
-	return(*((U64*)(a_guid.mData)));
+	U64 out_tmp;
+	memcpy(&out_tmp, a_guid.mData, sizeof(out_tmp));
+
+	return out_tmp;
 }
 
 ///////////////////////////////////////////////////////////

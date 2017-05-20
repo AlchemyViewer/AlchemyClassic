@@ -1691,7 +1691,7 @@ const char *LLXMLNode::parseFloat(const char *str, F64 *dest, U32 precision, Enc
 			}
 			break;
 		case 64:
-			memcpy(dest, &bytes_dest, sizeof(dest));
+			memcpy(dest, &bytes_dest, sizeof(*dest));
 			break;
 		default:
 			return NULL;

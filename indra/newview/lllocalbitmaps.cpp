@@ -118,6 +118,7 @@ LLLocalBitmap::LLLocalBitmap(std::string filename)
 	{
 		LL_WARNS() << "File of no valid extension given, local bitmap creation aborted." << "\n"
 			    << "Filename: " << mFilename << LL_ENDL;
+		mExtension = ET_IMG_UNKNOWN;
 		return; // no valid extension.
 	}
 

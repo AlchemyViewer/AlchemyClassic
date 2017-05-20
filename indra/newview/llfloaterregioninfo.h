@@ -238,7 +238,10 @@ class LLPanelRegionTerrainInfo : public LLPanelRegionInfo
 	LOG_CLASS(LLPanelRegionTerrainInfo);
 
 public:
-	LLPanelRegionTerrainInfo() : LLPanelRegionInfo() {}
+	LLPanelRegionTerrainInfo()
+		: LLPanelRegionInfo(),
+		mAskedTextureHeights(false),
+		mConfirmedTextureHeights(false) {}
 	~LLPanelRegionTerrainInfo() {}
 	
 	virtual BOOL postBuild();												// LLPanel

@@ -1280,9 +1280,6 @@ BOOL LLPanelRegionTerrainInfo::postBuild()
 	childSetAction("upload_raw_btn", onClickUploadRaw, this);
 	childSetAction("bake_terrain_btn", onClickBakeTerrain, this);
 
-	mAskedTextureHeights = false;
-	mConfirmedTextureHeights = false;
-
 	return LLPanelRegionInfo::postBuild();
 }
 

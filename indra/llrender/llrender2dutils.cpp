@@ -712,8 +712,8 @@ void gl_draw_scaled_rotated_image(S32 x, S32 y, S32 width, S32 height, F32 degre
 		gGL.pushUIMatrix();
 		gGL.translateUI((F32)x, (F32)y, 0.f);
 
-		F32 offset_x = F32(width/2);
-		F32 offset_y = F32(height/2);
+		F32 offset_x = F32(width / 2.f);
+		F32 offset_y = F32(height / 2.f);
 
 		gGL.translateUI(offset_x, offset_y, 0.f);
 

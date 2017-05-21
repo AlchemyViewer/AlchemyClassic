@@ -3374,12 +3374,12 @@ class LLRefreshTexturesObject : public view_listener_t
 				}
 			}
 			
-			for (std::pair< LLUUID, std::vector<U8> > it : faces_per_tex)
+			for (auto it : faces_per_tex)
 			{
 				destroy_texture(it.first);
 			}
 			
-			if (node->getObject()->isSculpted())
+			if (node->getObject()->isSculpted() && !node->getObject()->isMesh())
 			{
 				LLSculptParams* sculpt_params = dynamic_cast<LLSculptParams*>(node->getObject()->getParameterEntry(LLNetworkData::PARAMS_SCULPT));
 				if (sculpt_params)

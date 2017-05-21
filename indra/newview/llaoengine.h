@@ -187,7 +187,7 @@ protected:
 	void onToggleAOControl();
 	static void onNotecardLoadComplete(LLVFS* vfs, const LLUUID& assetUUID, LLAssetType::EType type,
 												void* userdata, S32 status, LLExtStat extStatus);
-	void parseNotecard(const char* buffer);
+	void parseNotecard(std::unique_ptr<char[]>&& buffer);
 
 	updated_signal_t mUpdatedSignal;
 	animation_changed_signal_t mAnimationChangedSignal;

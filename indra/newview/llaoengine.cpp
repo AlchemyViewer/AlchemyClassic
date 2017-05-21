@@ -1603,20 +1603,20 @@ void LLAOEngine::onNotecardLoadComplete(LLVFS* vfs, const LLUUID& assetUUID, LLA
 	LL_DEBUGS("AOEngine") << "Downloading import notecard complete." << LL_ENDL;
 
 	S32 notecardSize = vfs->getSize(assetUUID, type);
-	char* buffer = new char[notecardSize];
-	S32 ret = vfs->getData(assetUUID, type, reinterpret_cast<U8*>(buffer), 0, notecardSize);
+	auto buffer = std::make_unique<char[]>(notecardSize + 1);
+	buffer[notecardSize] = '\0';
+	S32 ret = vfs->getData(assetUUID, type, reinterpret_cast<U8*>(buffer.get()), 0, notecardSize);
 	if (ret > 0)
 	{
-		LLAOEngine::instance().parseNotecard(buffer);
+		LLAOEngine::instance().parseNotecard(std::move(buffer));
 	}
 	else
 	{
 		LLAOEngine::instance().parseNotecard(nullptr);
-		delete [] buffer;
 	}
 }
 
-void LLAOEngine::parseNotecard(const char* buffer)
+void LLAOEngine::parseNotecard(std::unique_ptr<char[]>&& buffer)
 {
 	LL_DEBUGS("AOEngine") << "parsing import notecard" << LL_ENDL;
 
@@ -1632,8 +1632,7 @@ void LLAOEngine::parseNotecard(const char* buffer)
 		return;
 	}
 
-	std::string text(buffer);
-	delete [] buffer;
+	std::string text(buffer.get());
 
 	std::vector<std::string> lines;
 	LLStringUtil::getTokens(text, lines, "\n");

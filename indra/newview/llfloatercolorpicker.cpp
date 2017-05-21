@@ -125,12 +125,6 @@ LLFloaterColorPicker::LLFloaterColorPicker (LLColorSwatchCtrl* swatch, BOOL show
 	// create user interface for this picker
 	createUI ();
 
-	if (!mCanApplyImmediately)
-	{
-		mApplyImmediateCheck->setEnabled(FALSE);
-		mApplyImmediateCheck->set(FALSE);
-	}
-
     mContextConeInAlpha = gSavedSettings.getF32("ContextConeInAlpha");
     mContextConeOutAlpha = gSavedSettings.getF32("ContextConeOutAlpha");
     mContextConeFadeTime = gSavedSettings.getF32("ContextConeFadeTime");

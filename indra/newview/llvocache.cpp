@@ -426,7 +426,10 @@ void LLVOCacheEntry::updateDebugSettings()
 	{
 		return; 
 	}
-	F32 adjust_factor = llmax(0.f, (F32)((high_mem_bound_MB - allocated_mem.value()) / (high_mem_bound_MB - low_mem_bound_MB)));
+	U32 divisor = high_mem_bound_MB - low_mem_bound_MB;
+	F32 adjust_factor = 0.f;
+	if (divisor != 0)
+		adjust_factor = llmax(0.f, (((F32)high_mem_bound_MB - allocated_mem.value()) / ((F32)divisor)));
 
 	sRearFarRadius = llmin(adjust_factor * sRearFarRadius, 96.f);  //[0.f, 96.f]
 	sMinFrameRange = (U32)llclamp(adjust_factor * sMinFrameRange, 10.f, 64.f);  //[10, 64]

@@ -279,6 +279,13 @@ LLMessageSystem::LLMessageSystem(const std::string& filename, U32 port,
 	mTrueReceiveSize = 0;
 
 	mReceiveTime = F32Seconds(0.f);
+
+	for (int i = 0; i < MAX_MESSAGE_COUNT_NUM; i++)
+	{
+		mMessageCountList[i].mInvalid = false;
+		mMessageCountList[i].mMessageBytes = 0;
+		mMessageCountList[i].mMessageNum = 0;
+	}
 }
 
 

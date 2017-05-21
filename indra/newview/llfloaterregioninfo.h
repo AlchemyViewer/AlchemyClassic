@@ -175,7 +175,8 @@ class LLPanelRegionGeneralInfo : public LLPanelRegionInfo
 	
 public:
 	LLPanelRegionGeneralInfo()
-		:	LLPanelRegionInfo()	{}
+		:	LLPanelRegionInfo(),
+			mObjBonusFactor(0.f) {}
 	~LLPanelRegionGeneralInfo() {}
 	
 	virtual bool refreshFromRegion(LLViewerRegion* region);
@@ -238,7 +239,10 @@ class LLPanelRegionTerrainInfo : public LLPanelRegionInfo
 	LOG_CLASS(LLPanelRegionTerrainInfo);
 
 public:
-	LLPanelRegionTerrainInfo() : LLPanelRegionInfo() {}
+	LLPanelRegionTerrainInfo()
+		: LLPanelRegionInfo(),
+		mAskedTextureHeights(false),
+		mConfirmedTextureHeights(false) {}
 	~LLPanelRegionTerrainInfo() {}
 	
 	virtual BOOL postBuild();												// LLPanel

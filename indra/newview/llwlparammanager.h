@@ -148,6 +148,11 @@ public:
 			name = stringVal.substr(0, len - 1);
 			scope = static_cast<EScope>(std::stoi(stringVal.substr(len - 1, len)));
 		}
+		else
+		{
+			LL_WARNS() << "LLWLParamKey provided with zero length name." << LL_ENDL;
+			scope = SCOPE_LOCAL;
+		}
 	}
 
 	inline std::string toStringVal() const

@@ -76,8 +76,6 @@ protected:
 	LLScrollbar (const Params & p);
 	friend class LLUICtrlFactory;
 
-	BOOL postBuild();
-
 public:
 	virtual ~LLScrollbar();
 

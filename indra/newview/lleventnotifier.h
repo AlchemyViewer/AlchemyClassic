@@ -34,19 +34,19 @@ class LLEventNotification;
 class LLMessageSystem;
 
 typedef struct event_st{
-	U32 eventId;
-	F64 eventEpoch;
+	U32 eventId = 0;
+	F64 eventEpoch = 0.0;
 	std::string eventDateStr;
 	std::string eventName;
 	std::string creator;
 	std::string category;
 	std::string desc;
-	U32 duration;
-	U32 cover;
-	U32 amount;
+	U32 duration = 0;
+	U32 cover = 0;
+	U32 amount = 0;
 	std::string simName;
 	LLVector3d globalPos;
-	U32 flags;
+	U32 flags = 0;
 	event_st(U32 id, F64 epoch, const std::string& date_str, const std::string& name)
 		: eventId(id), eventEpoch(epoch), eventDateStr(date_str), eventName(name){}
 	event_st(){}

@@ -78,6 +78,7 @@ LLScrollbar::LLScrollbar(const Params & p)
 		mDocChanged(FALSE),
 		mDragStartX( 0 ),
 		mDragStartY( 0 ),
+		mLastDelta( 0 ),
 		mHoverGlowStrength(0.15f),
 		mCurGlowStrength(0.f),
 		mTrackColor( p.track_color() ),
@@ -114,7 +115,9 @@ LLScrollbar::LLScrollbar(const Params & p)
 	up_btn.mouse_held_callback.function(boost::bind(&LLScrollbar::onLineUpBtnPressed, this, _2));
 	up_btn.tab_stop(false);
 	up_btn.follows.flags = (mOrientation == VERTICAL ? (FOLLOWS_RIGHT | FOLLOWS_TOP) : (FOLLOWS_LEFT | FOLLOWS_BOTTOM));
-	addChild(LLUICtrlFactory::create<LLButton>(up_btn));
+	
+	mBtnScrollUp = LLUICtrlFactory::create<LLButton>(up_btn);
+	addChild(mBtnScrollUp);
 
 	LLButton::Params down_btn(mOrientation == VERTICAL ? p.down_button : p.right_button);
 	down_btn.name(std::string("Line Down"));
@@ -124,20 +127,14 @@ LLScrollbar::LLScrollbar(const Params & p)
 	down_btn.mouse_held_callback.function(boost::bind(&LLScrollbar::onLineDownBtnPressed, this, _2));
 	down_btn.tab_stop(false);
 
-	addChild(LLUICtrlFactory::create<LLButton>(down_btn));
+	mBtnScrollDown = LLUICtrlFactory::create<LLButton>(down_btn);
+	addChild(mBtnScrollDown);
 }
 
 
 LLScrollbar::~LLScrollbar()
 {
 	// Children buttons killed by parent class
-}
-
-BOOL LLScrollbar::postBuild()
-{
-	mBtnScrollUp = getChild<LLButton>("Line Up");
-	mBtnScrollDown = getChild<LLButton>("Line Down");
-	return LLUICtrl::postBuild();
 }
 
 void LLScrollbar::setDocParams( S32 size, S32 pos )

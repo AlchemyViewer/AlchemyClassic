@@ -1971,7 +1971,7 @@ LLImportMaterial::~LLImportMaterial()
 {
 }
 
-LLImportMaterial::LLImportMaterial(LLSD& data)
+LLImportMaterial::LLImportMaterial(LLSD& data) : mOpaqueData(nullptr)
 {
 	mDiffuseMapFilename = data["diffuse"]["filename"].asString();
 	mDiffuseMapLabel = data["diffuse"]["label"].asString();

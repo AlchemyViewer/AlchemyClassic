@@ -318,7 +318,7 @@ public:
     
     bool operator<(const LLImportMaterial &params) const;
     
-    LLImportMaterial() : LLModelMaterialBase()
+    LLImportMaterial() : LLModelMaterialBase(), mOpaqueData(nullptr)
     {
         mDiffuseColor.set(1,1,1,1);
     }

@@ -60,6 +60,7 @@ public:
 	void removeScreenChat();
 
 	void show();
+	bool isMessagePanelVisible();
 	bool isChatVisible();
 
 	/** @param archive true - to save a message to the chat history log */

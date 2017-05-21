@@ -568,7 +568,8 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 	if ((chat_msg.mSourceType == CHAT_SOURCE_AGENT
 		&& (nearby_chat_out == E_NEARBY_OUTPUT_BUBBLE || nearby_chat_out == E_NEARBY_OUTPUT_NONE))
 		|| (mChannel.isDead() || !mChannel.get()->getShowToasts())
-		|| nearby_chat->isChatVisible())
+		|| nearby_chat->isMessagePanelVisible())
+		// AL:SE:FML
 		// no need to toast if bubble chat is enabled or nearby chat toasts are disabled
 		// or if in Do Not Disturb mode
 		// or if conversation is visible and selected and not collapsed

@@ -855,7 +855,7 @@ void LLChatHistory::clear()
 {
 	mLastFromName.clear();
 	mEditor->clear();
-	mEditor->blockUndo(); // XXX: why is chat history a text editor with an undo stack...
+	mEditor->blockUndo(); // AL:LL:WTF: why is chat history a text editor with an undo stack...
 	mLastFromID = LLUUID::null;
 }
 

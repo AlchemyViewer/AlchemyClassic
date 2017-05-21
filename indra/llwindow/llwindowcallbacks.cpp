@@ -34,7 +34,7 @@
 // LLWindowCallbacks
 //
 
-BOOL LLWindowCallbacks::handleTranslatedKeyDown(const KEY key, const MASK mask, BOOL repeated)
+BOOL LLWindowCallbacks::handleTranslatedKeyDown(KEY key, MASK mask, BOOL repeated)
 {
 	return FALSE;
 }
@@ -55,12 +55,12 @@ BOOL LLWindowCallbacks::handleUnicodeChar(llwchar uni_char, MASK mask)
 }
 
 
-BOOL LLWindowCallbacks::handleMouseDown(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleMouseDown(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
 
-BOOL LLWindowCallbacks::handleMouseUp(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleMouseUp(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
@@ -80,22 +80,22 @@ void LLWindowCallbacks::handleQuit(LLWindow *window)
 {
 }
 
-BOOL LLWindowCallbacks::handleRightMouseDown(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleRightMouseDown(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
 
-BOOL LLWindowCallbacks::handleRightMouseUp(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleRightMouseUp(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
 
-BOOL LLWindowCallbacks::handleMiddleMouseDown(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleMiddleMouseDown(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
 
-BOOL LLWindowCallbacks::handleMiddleMouseUp(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleMiddleMouseUp(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }
@@ -110,7 +110,7 @@ BOOL LLWindowCallbacks::handleActivateApp(LLWindow *window, BOOL activating)
 	return FALSE;
 }
 
-void LLWindowCallbacks::handleMouseMove(LLWindow *window, const LLCoordGL pos, MASK mask)
+void LLWindowCallbacks::handleMouseMove(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 }
 
@@ -118,7 +118,7 @@ void LLWindowCallbacks::handleScrollWheel(LLWindow *window, S32 clicks)
 {
 }
 
-void LLWindowCallbacks::handleResize(LLWindow *window, const S32 width, const S32 height)
+void LLWindowCallbacks::handleResize(LLWindow *window, S32 width, S32 height)
 {
 }
 
@@ -131,17 +131,17 @@ void LLWindowCallbacks::handleFocusLost(LLWindow *window)
 {
 }
 
-void LLWindowCallbacks::handleMenuSelect(LLWindow *window, const S32 menu_item)
+void LLWindowCallbacks::handleMenuSelect(LLWindow *window, S32 menu_item)
 {
 }
 
-BOOL LLWindowCallbacks::handlePaint(LLWindow *window, const S32 x, const S32 y, 
-									const S32 width, const S32 height)
+BOOL LLWindowCallbacks::handlePaint(LLWindow *window, S32 , S32 y, 
+									S32 width, S32 height)
 {
 	return FALSE;
 }
 
-BOOL LLWindowCallbacks::handleDoubleClick(LLWindow *window, const LLCoordGL pos, MASK mask)
+BOOL LLWindowCallbacks::handleDoubleClick(LLWindow *window, LLCoordGL pos, MASK mask)
 {
 	return FALSE;
 }

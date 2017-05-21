@@ -195,7 +195,7 @@ public:
 	/*virtual*/ LLWindowCallbacks::DragNDropResult handleDragNDrop(LLWindow *window, LLCoordGL pos, MASK mask, LLWindowCallbacks::DragNDropAction action, std::string data);
     /*virtual*/ void handleMouseMove(LLWindow *window,  LLCoordGL pos, MASK mask);
 	/*virtual*/ void handleMouseLeave(LLWindow *window);
-	/*virtual*/ void handleResize(LLWindow *window,  S32 x,  S32 y);
+	/*virtual*/ void handleResize(LLWindow *window, S32 width, S32 height);
 	/*virtual*/ void handleFocus(LLWindow *window);
 	/*virtual*/ void handleFocusLost(LLWindow *window);
 	/*virtual*/ BOOL handleActivate(LLWindow *window, BOOL activated);

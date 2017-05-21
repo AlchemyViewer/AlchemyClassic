@@ -56,7 +56,8 @@ public:
 
 	/*virtual*/ U32 processUpdateMessage(LLMessageSystem *mesgsys,
 											void **user_data,
-											U32 block_num, const EObjectUpdateType update_type,
+											U32 block_num, 
+											const EObjectUpdateType update_type,
 											LLDataPacker *dp);
 	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time);
 	

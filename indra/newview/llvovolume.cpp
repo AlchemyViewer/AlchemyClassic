@@ -302,7 +302,8 @@ void LLVOVolume::cleanupClass()
 
 U32 LLVOVolume::processUpdateMessage(LLMessageSystem *mesgsys,
 										  void **user_data,
-										  U32 block_num, EObjectUpdateType update_type,
+										  U32 block_num, 
+										  const EObjectUpdateType update_type,
 										  LLDataPacker *dp)
 {
 	LLColor4U color;

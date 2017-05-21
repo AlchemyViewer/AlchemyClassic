@@ -989,7 +989,7 @@ BOOL LLPrimitive::setVolume(const LLVolumeParams &volume_params, const S32 detai
 	return TRUE;
 }
 
-BOOL LLPrimitive::setMaterial(U8 material)
+BOOL LLPrimitive::setMaterial(const U8 material)
 {
 	if (material != mMaterial)
 	{

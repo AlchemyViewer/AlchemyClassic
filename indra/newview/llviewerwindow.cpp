@@ -1316,7 +1316,7 @@ void LLViewerWindow::handleQuit(LLWindow *window)
 	LLAppViewer::instance()->forceQuit();
 }
 
-void LLViewerWindow::handleResize(LLWindow *window,  S32 width,  S32 height)
+void LLViewerWindow::handleResize(LLWindow *window, S32 width, S32 height)
 {
 	reshape(width, height);
 	mResDirty = true;

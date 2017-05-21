@@ -864,7 +864,7 @@ BOOL LLWindowSDL::getSize(LLCoordWindow *size)
 	return (FALSE);
 }
 
-BOOL LLWindowSDL::setPosition(const LLCoordScreen position)
+BOOL LLWindowSDL::setPosition(LLCoordScreen position)
 {
 	if(mWindow)
 	{
@@ -875,7 +875,7 @@ BOOL LLWindowSDL::setPosition(const LLCoordScreen position)
 	return TRUE;
 }
 
-BOOL LLWindowSDL::setSizeImpl(const LLCoordScreen size)
+BOOL LLWindowSDL::setSizeImpl(LLCoordScreen size)
 {
 	if(mWindow)
 	{
@@ -893,7 +893,7 @@ BOOL LLWindowSDL::setSizeImpl(const LLCoordScreen size)
 	return FALSE;
 }
 
-BOOL LLWindowSDL::setSizeImpl(const LLCoordWindow size)
+BOOL LLWindowSDL::setSizeImpl(LLCoordWindow size)
 {
 	if(mWindow)
 	{
@@ -980,7 +980,7 @@ void LLWindowSDL::setMinSize(U32 min_width, U32 min_height, bool enforce_immedia
 #endif
 }
 
-BOOL LLWindowSDL::setCursorPosition(const LLCoordWindow position)
+BOOL LLWindowSDL::setCursorPosition(LLCoordWindow position)
 {
 	BOOL result = TRUE;
 	LLCoordScreen screen_pos;

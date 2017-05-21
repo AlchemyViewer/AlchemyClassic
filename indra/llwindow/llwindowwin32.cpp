@@ -888,7 +888,7 @@ BOOL LLWindowWin32::getSize(LLCoordWindow *size)
 	return TRUE;
 }
 
-BOOL LLWindowWin32::setPosition(const LLCoordScreen position)
+BOOL LLWindowWin32::setPosition(LLCoordScreen position)
 {
 	LLCoordScreen size;
 
@@ -901,7 +901,7 @@ BOOL LLWindowWin32::setPosition(const LLCoordScreen position)
 	return TRUE;
 }
 
-BOOL LLWindowWin32::setSizeImpl(const LLCoordScreen size)
+BOOL LLWindowWin32::setSizeImpl(LLCoordScreen size)
 {
 	LLCoordScreen position;
 
@@ -924,7 +924,7 @@ BOOL LLWindowWin32::setSizeImpl(const LLCoordScreen size)
 	return TRUE;
 }
 
-BOOL LLWindowWin32::setSizeImpl(const LLCoordWindow size)
+BOOL LLWindowWin32::setSizeImpl(LLCoordWindow size)
 {
 	RECT window_rect = {0, 0, size.mX, size.mY };
 	DWORD dw_ex_style = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
@@ -1631,7 +1631,7 @@ void LLWindowWin32::moveWindow( const LLCoordScreen& position, const LLCoordScre
 	MoveWindow(mWindowHandle, position.mX, position.mY, size.mX, size.mY, TRUE);
 }
 
-BOOL LLWindowWin32::setCursorPosition(const LLCoordWindow position)
+BOOL LLWindowWin32::setCursorPosition(LLCoordWindow position)
 {
 	mMousePositionModified = TRUE;
 	if (!mWindowHandle)

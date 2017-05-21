@@ -228,7 +228,7 @@ MASK LLKeyboardMacOSX::updateModifiers(const U32 mask)
 	return out_mask;
 }
 
-BOOL LLKeyboardMacOSX::handleKeyDown(const U32 key, const U32 mask)
+BOOL LLKeyboardMacOSX::handleKeyDown(const U32 key, U32 mask)
 {
 	KEY		translated_key = 0;
 	U32		translated_mask = 0;
@@ -245,7 +245,7 @@ BOOL LLKeyboardMacOSX::handleKeyDown(const U32 key, const U32 mask)
 }
 
 
-BOOL LLKeyboardMacOSX::handleKeyUp(const U32 key, const U32 mask)
+BOOL LLKeyboardMacOSX::handleKeyUp(const U32 key, U32 mask)
 {
 	KEY		translated_key = 0;
 	U32		translated_mask = 0;

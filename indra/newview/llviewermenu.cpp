@@ -3374,12 +3374,12 @@ class LLRefreshTexturesObject : public view_listener_t
 				}
 			}
 			
-			for (std::pair< LLUUID, std::vector<U8> > it : faces_per_tex)
+			for (auto it : faces_per_tex)
 			{
 				destroy_texture(it.first);
 			}
 			
-			if (node->getObject()->isSculpted())
+			if (node->getObject()->isSculpted() && !node->getObject()->isMesh())
 			{
 				LLSculptParams* sculpt_params = dynamic_cast<LLSculptParams*>(node->getObject()->getParameterEntry(LLNetworkData::PARAMS_SCULPT));
 				if (sculpt_params)
@@ -7085,7 +7085,7 @@ class LLAttachmentDetachFromPoint : public view_listener_t
 	{
 		uuid_vec_t ids_to_remove;
 		const LLViewerJointAttachment *attachment = get_if_there(gAgentAvatarp->mAttachmentPoints, user_data.asInteger(), (LLViewerJointAttachment*)NULL);
-		if (attachment->getNumObjects() > 0)
+		if (attachment && attachment->getNumObjects() > 0)
 		{
 			for (LLViewerJointAttachment::attachedobjs_vec_t::const_iterator iter = attachment->mAttachedObjects.begin();
 				 iter != attachment->mAttachedObjects.end();

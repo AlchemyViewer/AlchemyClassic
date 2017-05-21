@@ -228,7 +228,7 @@ static U32 adjustNativekeyFromUnhandledMask(const U32 key, const U32 mask)
 }
 
 
-BOOL LLKeyboardSDL::handleKeyDown(const U32 key, const U32 mask)
+BOOL LLKeyboardSDL::handleKeyDown(const U32 key, U32 mask)
 {
 	U32     adjusted_nativekey;
 	KEY	translated_key = 0;
@@ -248,7 +248,7 @@ BOOL LLKeyboardSDL::handleKeyDown(const U32 key, const U32 mask)
 }
 
 
-BOOL LLKeyboardSDL::handleKeyUp(const U32 key, const U32 mask)
+BOOL LLKeyboardSDL::handleKeyUp(const U32 key, U32 mask)
 {
 	U32     adjusted_nativekey;
 	KEY	translated_key = 0;

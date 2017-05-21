@@ -898,7 +898,7 @@ BOOL LLWindowMacOSX::getSize(LLCoordWindow *size)
 	return (err == noErr);
 }
 
-BOOL LLWindowMacOSX::setPosition(const LLCoordScreen position)
+BOOL LLWindowMacOSX::setPosition(LLCoordScreen position)
 {
 	if(mWindow)
 	{
@@ -910,7 +910,7 @@ BOOL LLWindowMacOSX::setPosition(const LLCoordScreen position)
 	return TRUE;
 }
 
-BOOL LLWindowMacOSX::setSizeImpl(const LLCoordScreen size)
+BOOL LLWindowMacOSX::setSizeImpl(LLCoordScreen size)
 {
 	if(mWindow)
 	{
@@ -923,7 +923,7 @@ BOOL LLWindowMacOSX::setSizeImpl(const LLCoordScreen size)
 	return FALSE;
 }
 
-BOOL LLWindowMacOSX::setSizeImpl(const LLCoordWindow size)
+BOOL LLWindowMacOSX::setSizeImpl(LLCoordWindow size)
 {
 	if (mWindow)
 	{
@@ -1069,7 +1069,7 @@ void LLWindowMacOSX::setMouseClipping( BOOL b )
 	adjustCursorDecouple();
 }
 
-BOOL LLWindowMacOSX::setCursorPosition(const LLCoordWindow position)
+BOOL LLWindowMacOSX::setCursorPosition(LLCoordWindow position)
 {
 	BOOL result = FALSE;
 	LLCoordScreen screen_pos;

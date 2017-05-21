@@ -764,7 +764,7 @@ bool LLViewerTexture::bindDebugImage(const S32 stage)
 	return res;
 }
 
-bool LLViewerTexture::bindDefaultImage(S32 stage) 
+bool LLViewerTexture::bindDefaultImage(const S32 stage) 
 {
 	if (stage < 0) return false;
 

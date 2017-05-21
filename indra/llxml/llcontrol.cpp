@@ -46,6 +46,9 @@
 #include "llxmltree.h"
 #include "llsdserialize.h"
 
+#include <boost/exception/diagnostic_information.hpp> 
+#include <boost/exception_ptr.hpp>
+
 #if LL_RELEASE_WITH_DEBUG_INFO || LL_DEBUG
 #define CONTROL_ERRS LL_ERRS("ControlErrors")
 #else
@@ -325,6 +328,18 @@ LLSD LLControlVariable::getSaveValue() const
 	//We assume that the second level is user preferences that should be saved
 	if(mValues.size() > 1) return mValues[1];
 	return mValues[0];
+}
+
+void LLControlVariable::firePropertyChanged(const LLSD &pPreviousValue)
+{
+	try
+	{
+		mCommitSignal(this, mValues.back(), pPreviousValue);
+	}
+	catch (boost::exception &ex)
+	{
+		LL_WARNS("LLControlVariable") << getName() << " commit signal threw exception. " << boost::diagnostic_information(ex) << LL_ENDL;
+	}
 }
 
 LLPointer<LLControlVariable> LLControlGroup::getControl(const std::string& name) const

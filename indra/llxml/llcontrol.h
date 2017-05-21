@@ -126,10 +126,7 @@ public:
 	void setComment(const std::string& comment);
 
 private:
-	void firePropertyChanged(const LLSD &pPreviousValue)
-	{
-		mCommitSignal(this, mValues.back(), pPreviousValue);
-	}
+	void firePropertyChanged(const LLSD &pPreviousValue);
 	LLSD getComparableValue(const LLSD& value);
 	bool llsd_compare(const LLSD& a, const LLSD & b);
 };

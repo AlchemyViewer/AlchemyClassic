@@ -776,7 +776,10 @@ void LLMemoryInfo::stream(std::ostream& s) const
 		if (value.isInteger())
 			s << std::setw(12) << value.asInteger();
 		else if (value.isReal())
-			s << std::fixed << std::setprecision(1) << value.asReal();
+		{
+			std::streamsize old_precision = s.precision();
+			s << std::fixed << std::setprecision(1) << value.asReal() << std::setprecision(old_precision);
+		}
 		else if (value.isDate())
 			value.asDate().toStream(s);
 		else
@@ -1160,15 +1163,13 @@ public:
                     << " seconds ";
         }
 
-	std::streamsize precision = LL_CONT.precision(); // <alchemy/>
+		std::streamsize old_precision = LL_CONT.precision();
 
-        LL_CONT << std::fixed << std::setprecision(1) << framerate << '\n'
-                << LLMemoryInfo();
+		LL_CONT << std::fixed << std::setprecision(1) << framerate << '\n'
+			<< LLMemoryInfo() << std::setprecision(old_precision) << LL_ENDL;
 
-	LL_CONT.precision(precision);
-	LL_CONT << LL_ENDL;
-        return false;
-    }
+		return false;
+	}
 
 private:
     // Storing the connection in an LLTempBoundListener ensures it will be

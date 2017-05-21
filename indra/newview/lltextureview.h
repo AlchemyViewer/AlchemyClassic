@@ -63,8 +63,6 @@ private:
 	BOOL mOrderFetch;
 	BOOL mPrintList;
 	
-	LLTextBox *mInfoTextp;
-
 	std::vector<LLTextureBar*> mTextureBars;
 	U32 mNumTextureBars;
 

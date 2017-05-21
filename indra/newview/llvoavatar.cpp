@@ -661,6 +661,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mNameAppearance(false),
 	mNameFriend(false),
 	mNameAlpha(0.f),
+	mVisibleChat(FALSE),
 	mColorLast(LLColor4::white),
 	mRenderGroupTitles(sRenderGroupTitles),
 	mNameCloud(false),
@@ -671,6 +672,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mNeedsSkin(FALSE),
 	mLastSkinTime(0.f),
 	mUpdatePeriod(1),
+	mNumInitFaces(0),
 	mVisualComplexityStale(true),
 	mVisuallyMuteSetting(AV_RENDER_NORMALLY),
 	mMutedAVColor(LLColor4::white /* used for "uninitialize" */),
@@ -678,6 +680,7 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 	mFullyLoaded(FALSE),
 	mPreviousFullyLoaded(FALSE),
 	mFullyLoadedInitialized(FALSE),
+	mFullyLoadedFrameCounter(0),
 	mVisualComplexity(VISUAL_COMPLEXITY_UNKNOWN),
 	mLoadedCallbacksPaused(FALSE),
 	mRenderUnloadedAvatar(LLCachedControl<bool>(gSavedSettings, "RenderUnloadedAvatar", false)),
@@ -726,6 +729,11 @@ LLVOAvatar::LLVOAvatar(const LLUUID& id,
 
 	mWasOnGroundLeft = FALSE;
 	mWasOnGroundRight = FALSE;
+
+	mHasGrey = FALSE;
+	mMinPixelArea = 99999999.f;
+	mMaxPixelArea = 0.f;
+	mAdjustedPixelArea = 100000000.f;
 
 	mTimeLast = 0.0f;
 	mSpeedAccum = 0.0f;
@@ -1989,17 +1997,17 @@ void LLVOAvatar::releaseMeshData()
 		if (facep)
 		{
 		facep->setSize(0, 0);
-		for(S32 i = mNumInitFaces ; i < mDrawable->getNumFaces(); i++)
+		for (S32 i = mNumInitFaces; i < mDrawable->getNumFaces(); i++)
 		{
 			facep = mDrawable->getFace(i);
-				if (facep)
-				{
-			facep->setSize(0, 0);
+			if (facep)
+			{
+				facep->setSize(0, 0);
+			}
+		}
 		}
 	}
-		}
-	}
-	
+
 	for (attachment_map_t::iterator iter = mAttachmentPoints.begin(); 
 		 iter != mAttachmentPoints.end();
 		 ++iter)

@@ -333,7 +333,7 @@ typedef BOOL (LLWindowCallbacks::*MouseMethod)(LLWindow *, LLCoordGL, MASK);
 struct Actions
 {
 	Actions(const MouseMethod& d, const MouseMethod& u): down(d), up(u), valid(true) {}
-	Actions(): valid(false) {}
+	Actions(): down(nullptr), up(nullptr), valid(false) {}
 	MouseMethod down, up;
 	bool valid;
 };

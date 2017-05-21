@@ -461,17 +461,6 @@ private:
 	BOOL 		mVisible;
 	
 	//--------------------------------------------------------------------
-	// Shadowing
-	//--------------------------------------------------------------------
-public:
-	void 		updateShadowFaces();
-	LLDrawable*	mShadow;
-private:
-	LLFace* 	mShadow0Facep;
-	LLFace* 	mShadow1Facep;
-	LLPointer<LLViewerTexture> mShadowImagep;
-
-	//--------------------------------------------------------------------
 	// Impostors
 	//--------------------------------------------------------------------
 public:

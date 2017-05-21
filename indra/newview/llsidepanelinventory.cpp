@@ -117,7 +117,9 @@ private:
 
 LLSidepanelInventory::LLSidepanelInventory()
 	: LLPanel()
+	, mInventoryPanel(nullptr)
 	, mItemPanel(NULL)
+	, mTaskPanel(nullptr)
 	, mPanelMainInventory(NULL)
 	, mInboxEnabled(false)
 	, mCategoriesObserver(NULL)

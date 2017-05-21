@@ -160,6 +160,10 @@ std::string LLMute::getDisplayType() const
 LLMuteList::LLMuteList() :
 	mIsLoaded(FALSE)
 {
+    std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,
+        llformat("%s.cached_mute", gAgent.getID().asString().c_str()));
+    loadFromFile(filename);
+    
 	gGenericDispatcher.addHandler("emptymutelist", &sDispatchEmptyMuteList);
 
 	// Register our callbacks. We may be constructed before gMessageSystem, so
@@ -694,10 +698,8 @@ BOOL LLMuteList::isMuted(const LLUUID& id, const std::string& name, U32 flags) c
 //-----------------------------------------------------------------------------
 void LLMuteList::requestFromServer(const LLUUID& agent_id)
 {
-	std::string agent_id_string;
-	std::string filename;
-	agent_id.toString(agent_id_string);
-	filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,agent_id_string) + ".cached_mute";
+    std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,
+        llformat("%s.cached_mute", agent_id.asString().c_str()));
 	LLCRC crc;
 	crc.update(filename);
 
@@ -718,12 +720,10 @@ void LLMuteList::requestFromServer(const LLUUID& agent_id)
 void LLMuteList::cache(const LLUUID& agent_id)
 {
 	// Write to disk even if empty.
-	if(mIsLoaded)
+	if (mIsLoaded)
 	{
-		std::string agent_id_string;
-		std::string filename;
-		agent_id.toString(agent_id_string);
-		filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,agent_id_string) + ".cached_mute";
+		std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,
+            llformat("%s.cached_mute", agent_id.asString().c_str()));
 		saveToFile(filename);
 	}
 }
@@ -779,11 +779,9 @@ void LLMuteList::processMuteListUpdate(LLMessageSystem* msg, void**)
 void LLMuteList::processUseCachedMuteList(LLMessageSystem* msg, void**)
 {
 	LL_INFOS() << "LLMuteList::processUseCachedMuteList()" << LL_ENDL;
-
-	std::string agent_id_string;
-	gAgent.getID().toString(agent_id_string);
-	std::string filename;
-	filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,agent_id_string) + ".cached_mute";
+    
+    std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_CACHE,
+        llformat("%s.cached_mute", gAgent.getID().asString().c_str()));
 	LLMuteList::getInstance()->loadFromFile(filename);
 }
 

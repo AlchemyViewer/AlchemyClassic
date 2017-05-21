@@ -279,13 +279,6 @@ LLMessageSystem::LLMessageSystem(const std::string& filename, U32 port,
 	mTrueReceiveSize = 0;
 
 	mReceiveTime = F32Seconds(0.f);
-
-	for (int i = 0; i < MAX_MESSAGE_COUNT_NUM; i++)
-	{
-		mMessageCountList[i].mInvalid = false;
-		mMessageCountList[i].mMessageBytes = 0;
-		mMessageCountList[i].mMessageNum = 0;
-	}
 }
 
 
@@ -1365,7 +1358,7 @@ void LLMessageSystem::logMsgFromInvalidCircuit( const LLHost& host, BOOL recv_re
 		// TODO: babbage: work out if we need these
 		// mMessageCountList[mNumMessageCounts].mMessageNum = mCurrentRMessageTemplate->mMessageNumber;
 		mMessageCountList[mNumMessageCounts].mMessageBytes = mMessageReader->getMessageSize();
-		mMessageCountList[mNumMessageCounts].mInvalid = TRUE;
+		mMessageCountList[mNumMessageCounts].mInvalid = true;
 		mNumMessageCounts++;
 	}
 }
@@ -1418,7 +1411,7 @@ void LLMessageSystem::logTrustedMsgFromUntrustedCircuit( const LLHost& host )
 		//	= mCurrentRMessageTemplate->mMessageNumber;
 		mMessageCountList[mNumMessageCounts].mMessageBytes
 			= mMessageReader->getMessageSize();
-		mMessageCountList[mNumMessageCounts].mInvalid = TRUE;
+		mMessageCountList[mNumMessageCounts].mInvalid = true;
 		mNumMessageCounts++;
 	}
 }
@@ -1434,7 +1427,7 @@ void LLMessageSystem::logValidMsg(LLCircuitData *cdp, const LLHost& host, BOOL r
 		// TODO: babbage: work out if we need these
 		//mMessageCountList[mNumMessageCounts].mMessageNum = mCurrentRMessageTemplate->mMessageNumber;
 		mMessageCountList[mNumMessageCounts].mMessageBytes = mMessageReader->getMessageSize();
-		mMessageCountList[mNumMessageCounts].mInvalid = FALSE;
+		mMessageCountList[mNumMessageCounts].mInvalid = false;
 		mNumMessageCounts++;
 	}
 

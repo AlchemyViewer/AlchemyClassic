@@ -765,12 +765,11 @@ private:
 	void		logValidMsg(LLCircuitData *cdp, const LLHost& sender, BOOL recv_reliable, BOOL recv_resent, BOOL recv_acks );
 	void		logRanOffEndOfPacket( const LLHost& sender );
 
-	class LLMessageCountInfo
+	struct LLMessageCountInfo
 	{
-	public:
-		U32 mMessageNum;
-		U32 mMessageBytes;
-		BOOL mInvalid;
+		U32 mMessageNum = 0;
+		U32 mMessageBytes = 0;
+		bool mInvalid = false;
 	};
 
 	LLMessagePollInfo						*mPollInfop;
@@ -786,7 +785,7 @@ private:
 
 	F64Seconds										mResendDumpTime; // The last time we dumped resends
 
-	LLMessageCountInfo mMessageCountList[MAX_MESSAGE_COUNT_NUM];
+	std::array<LLMessageCountInfo, MAX_MESSAGE_COUNT_NUM> mMessageCountList;
 	S32 mNumMessageCounts;
 	F32Seconds mReceiveTime;
 	F32Seconds mMaxMessageTime; // Max number of seconds for processing messages

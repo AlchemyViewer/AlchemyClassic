@@ -594,7 +594,8 @@ bool LLGroupNoticeNotificationListItem::isAttachmentOpenable(LLAssetType::EType 
 
 LLTransactionNotificationListItem::LLTransactionNotificationListItem(const Params& p)
     : LLNotificationListItem(p),
-    mAvatarIcon(NULL)
+    mAvatarIcon(NULL),
+    mAvatarIconExp(nullptr)
 {
     buildFromFile("panel_notification_list_item.xml");
 }

@@ -282,7 +282,8 @@ void LLVOTree::cleanupClass()
 
 U32 LLVOTree::processUpdateMessage(LLMessageSystem *mesgsys,
 										  void **user_data,
-										  U32 block_num, EObjectUpdateType update_type,
+										  U32 block_num, 
+										  const EObjectUpdateType update_type,
 										  LLDataPacker *dp)
 {
 	// Do base class updates...

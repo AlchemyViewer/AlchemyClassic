@@ -436,15 +436,15 @@ void LLTemplateMessageBuilder::addF64(const char *varname, F64 d)
 	addData(varname, &d, MVT_F64, sizeof(d));
 }
 
-void LLTemplateMessageBuilder::addIPAddr(const char *varname, U32 u)
+void LLTemplateMessageBuilder::addIPAddr(const char *varname, const U32 u)
 {
 	addData(varname, &u, MVT_IP_ADDR, sizeof(u));
 }
 
-void LLTemplateMessageBuilder::addIPPort(const char *varname, U16 u)
+void LLTemplateMessageBuilder::addIPPort(const char *varname, const U16 u)
 {
-	u = htons(u);
-	addData(varname, &u, MVT_IP_PORT, sizeof(u));
+	U16 tmp = htons(u);
+	addData(varname, &tmp, MVT_IP_PORT, sizeof(u));
 }
 
 void LLTemplateMessageBuilder::addBOOL(const char* varname, BOOL b)

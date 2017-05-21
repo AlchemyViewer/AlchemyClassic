@@ -160,12 +160,12 @@ void LLSDMessageBuilder::addF64(const char* varname, F64 v)
 	(*mCurrentBlock)[varname] = v;
 }
 
-void LLSDMessageBuilder::addIPAddr(const char* varname, U32 v)
+void LLSDMessageBuilder::addIPAddr(const char* varname, const U32 v)
 {
 	(*mCurrentBlock)[varname] = ll_sd_from_ipaddr(v);
 }
 
-void LLSDMessageBuilder::addIPPort(const char* varname, U16 v)
+void LLSDMessageBuilder::addIPPort(const char* varname, const U16 v)
 {
 	(*mCurrentBlock)[varname] = v;
 }

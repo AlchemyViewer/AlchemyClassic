@@ -91,7 +91,7 @@ namespace {
 		class StartingUpdaterService;
 		class WaitingForDownload;
 
-		boost::scoped_ptr<State> mState;
+		std::unique_ptr<State> mState;
 		LLLoginInstance &  mLoginInstance;
 		LLUpdaterService & mUpdaterService;
 		
@@ -248,7 +248,7 @@ void MandatoryUpdateMachine::start(void)
 void MandatoryUpdateMachine::setCurrentState(State * newStatePointer)
 {
 	{
-		boost::scoped_ptr<State> newState(newStatePointer);
+		std::unique_ptr<State> newState(newStatePointer);
 		if(mState != 0) mState->exit();
 		mState.swap(newState);
 		
@@ -345,7 +345,7 @@ void MandatoryUpdateMachine::Error::exit(void)
 
 void MandatoryUpdateMachine::Error::onButtonClicked(const LLSD &, const LLSD &)
 {
-	mMachine.setCurrentState(0);
+	mMachine.setCurrentState(nullptr);
 }
 
 

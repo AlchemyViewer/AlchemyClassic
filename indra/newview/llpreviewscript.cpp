@@ -624,7 +624,8 @@ bool LLScriptEdCore::loadScriptText(const std::string& filename)
     }
     else
     {
-        LL_WARNS() << "Error opening " << filename << LL_ENDL;
+        LL_WARNS() << "Error getting file size " << filename << LL_ENDL;
+		fclose(file);
         return false;
     }
 	return true;

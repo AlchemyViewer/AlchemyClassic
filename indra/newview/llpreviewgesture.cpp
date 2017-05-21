@@ -1099,6 +1099,8 @@ void LLPreviewGesture::saveIfNeeded()
         if (!region)
         {
             LL_WARNS() << "Not connected to a region, cannot save notecard." << LL_ENDL;
+			delete gesture;
+			gesture = NULL;
             return;
         }
         std::string agent_url = region->getCapability("UpdateGestureAgentInventory");

@@ -1915,6 +1915,7 @@ BOOL LLAvatarAppearance::LLAvatarXmlInfo::parseXmlMeshNodes(LLXmlTreeNode* root)
 				{
 					LL_WARNS() << "Unknown param type." << LL_ENDL;
 				}
+				delete info;
                 return FALSE;
 			}
 

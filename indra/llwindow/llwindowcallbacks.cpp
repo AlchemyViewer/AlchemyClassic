@@ -40,7 +40,7 @@ BOOL LLWindowCallbacks::handleTranslatedKeyDown(KEY key, MASK mask, BOOL repeate
 }
 
 
-BOOL LLWindowCallbacks::handleTranslatedKeyUp(const KEY key, const MASK mask)
+BOOL LLWindowCallbacks::handleTranslatedKeyUp(KEY key, MASK mask)
 {
 	return FALSE;
 }

@@ -401,6 +401,15 @@ LLGroupNotificationListItem::~LLGroupNotificationListItem()
 	LLGroupMgr::getInstance()->removeObserver(this);
 }
 
+LLGroupNoticeNotificationListItem::~LLGroupNoticeNotificationListItem()
+{
+	if (mInventoryOffer != NULL)
+	{
+		mInventoryOffer->forceResponse(IOR_DECLINE);
+		mInventoryOffer = NULL;
+	}
+}
+
 BOOL LLGroupNoticeNotificationListItem::postBuild()
 {
     BOOL rv = LLGroupNotificationListItem::postBuild();

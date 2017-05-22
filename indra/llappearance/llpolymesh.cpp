@@ -635,73 +635,75 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                         //-------------------------------------------------------------------------
                         // look for morph section
                         //-------------------------------------------------------------------------
-                        char morphName[64+1];
-                        morphName[sizeof(morphName)-1] = '\0'; // ensure nul-termination
-                        while(fread(morphName, sizeof(char), 64, fp) == 64)
-                        {
-                                if (!strcmp(morphName, "End Morphs"))
-                                {
-                                        // we reached the end of the morphs
-                                        break;
-                                }
-                                LLPolyMorphData* morph_data = new LLPolyMorphData(std::string(morphName));
+						constexpr size_t morph_buf_size = 64;
+						char morphName[morph_buf_size + 1] = {};
+						int read_bytes = 0;
+						while ((read_bytes = fread(morphName, sizeof(char), morph_buf_size, fp)) == 64)
+						{
+							morphName[read_bytes] = '\0'; // ensure nul-termination
+							if (!strcmp(morphName, "End Morphs"))
+							{
+								// we reached the end of the morphs
+								break;
+							}
+							LLPolyMorphData* morph_data = new LLPolyMorphData(std::string(morphName));
 
-                                BOOL result = morph_data->loadBinary(fp, this);
+							BOOL result = morph_data->loadBinary(fp, this);
 
-                                if (!result)
-                                {
-                                        delete morph_data;
-                                        continue;
-                                }
+							if (!result)
+							{
+								delete morph_data;
+								continue;
+							}
 
-                                mMorphData.insert(morph_data);
+							mMorphData.insert(morph_data);
 
-                                if (!strcmp(morphName, "Breast_Female_Cleavage"))
-                                {
-                                        mMorphData.insert(clone_morph_param_cleavage(morph_data,
-                                                                                     .75f,
-                                                                                     "Breast_Physics_LeftRight_Driven"));
-										mMorphData.insert(clone_morph_param_duplicate(morph_data,
-																					  "Breast_Physics_InOut_Driven"));
-                                }
+							if (!strcmp(morphName, "Breast_Female_Cleavage"))
+							{
+								mMorphData.insert(clone_morph_param_cleavage(morph_data,
+									.75f,
+									"Breast_Physics_LeftRight_Driven"));
+								mMorphData.insert(clone_morph_param_duplicate(morph_data,
+									"Breast_Physics_InOut_Driven"));
+							}
 
-                                if (!strcmp(morphName, "Breast_Gravity"))
-                                {
-                                        mMorphData.insert(clone_morph_param_duplicate(morph_data,
-										      "Breast_Physics_UpDown_Driven"));
-                                }
+							if (!strcmp(morphName, "Breast_Gravity"))
+							{
+								mMorphData.insert(clone_morph_param_duplicate(morph_data,
+									"Breast_Physics_UpDown_Driven"));
+							}
 
-                                if (!strcmp(morphName, "Big_Belly_Torso"))
-                                {
-                                        mMorphData.insert(clone_morph_param_direction(morph_data,
-										      LLVector3(0,0,0.05f),
-										      "Belly_Physics_Torso_UpDown_Driven"));
-                                }
+							if (!strcmp(morphName, "Big_Belly_Torso"))
+							{
+								mMorphData.insert(clone_morph_param_direction(morph_data,
+									LLVector3(0, 0, 0.05f),
+									"Belly_Physics_Torso_UpDown_Driven"));
+							}
 
-                                if (!strcmp(morphName, "Big_Belly_Legs"))
-                                {
-                                        mMorphData.insert(clone_morph_param_direction(morph_data,
-										      LLVector3(0,0,0.05f),
-										      "Belly_Physics_Legs_UpDown_Driven"));
-                                }
+							if (!strcmp(morphName, "Big_Belly_Legs"))
+							{
+								mMorphData.insert(clone_morph_param_direction(morph_data,
+									LLVector3(0, 0, 0.05f),
+									"Belly_Physics_Legs_UpDown_Driven"));
+							}
 
-                                if (!strcmp(morphName, "skirt_belly"))
-                                {
-                                        mMorphData.insert(clone_morph_param_direction(morph_data,
-										      LLVector3(0,0,0.05f),
-										      "Belly_Physics_Skirt_UpDown_Driven"));
-                                }
+							if (!strcmp(morphName, "skirt_belly"))
+							{
+								mMorphData.insert(clone_morph_param_direction(morph_data,
+									LLVector3(0, 0, 0.05f),
+									"Belly_Physics_Skirt_UpDown_Driven"));
+							}
 
-                                if (!strcmp(morphName, "Small_Butt"))
-                                {
-                                        mMorphData.insert(clone_morph_param_direction(morph_data,
-										      LLVector3(0,0,0.05f),
-										      "Butt_Physics_UpDown_Driven"));
-										mMorphData.insert(clone_morph_param_direction(morph_data,
-											LLVector3(0, 0.03f, 0),
-											"Butt_Physics_LeftRight_Driven"));
-                                }
-                        }
+							if (!strcmp(morphName, "Small_Butt"))
+							{
+								mMorphData.insert(clone_morph_param_direction(morph_data,
+									LLVector3(0, 0, 0.05f),
+									"Butt_Physics_UpDown_Driven"));
+								mMorphData.insert(clone_morph_param_direction(morph_data,
+									LLVector3(0, 0.03f, 0),
+									"Butt_Physics_LeftRight_Driven"));
+							}
+						}
 
                         S32 numRemaps;
                         if (fread(&numRemaps, sizeof(S32), 1, fp) == 1)

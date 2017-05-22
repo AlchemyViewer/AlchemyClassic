@@ -42,6 +42,7 @@
 #include "llquaternion.h"
 #include "llstring.h"
 #include "lluuid.h"
+#include "llrand.h"
 
 // static
 BOOL LLXMLNode::sStripEscapedStrings = TRUE;
@@ -2709,8 +2710,7 @@ U32 LLXMLNode::getChildCount() const
 
 U32 get_rand(U32 max_value)
 {
-	U32 random_num = rand() + ((U32)rand() << 16);
-	return (random_num % max_value);
+	return static_cast<U32>(ll_rand(max_value));
 }
 
 LLXMLNode *get_rand_node(LLXMLNode *node)

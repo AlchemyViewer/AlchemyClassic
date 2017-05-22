@@ -4477,7 +4477,7 @@ bool LLAppViewer::initCache()
 	{
 		do
 		{
-			new_salt = rand();
+			new_salt = ll_rand();
 		} while(new_salt == old_salt);
 	}
 

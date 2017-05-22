@@ -716,14 +716,14 @@ BOOL LLPolyMeshSharedData::loadMesh( const std::string& fileName )
                                                 LL_ERRS() << "can't read source vertex in vertex remap data" << LL_ENDL;
 												freeMeshData();
 												fclose(fp);
-                                                break;
+												return FALSE;
                                         }
                                         if (fread(&remapDst, sizeof(S32), 1, fp) != 1)
                                         {
                                                 LL_ERRS() << "can't read destination vertex in vertex remap data" << LL_ENDL;
 												freeMeshData();
 												fclose(fp);
-                                                break;
+												return FALSE;
                                         }
                                         llendianswizzle(&remapSrc, sizeof(S32), 1);
                                         llendianswizzle(&remapDst, sizeof(S32), 1);

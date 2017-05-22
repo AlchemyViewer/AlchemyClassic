@@ -1244,6 +1244,7 @@ bool LLImageTGA::loadFile( const std::string& path )
 	if (file_size < 0)
 	{
 		LL_WARNS() << "Couldn't determine file size " << path << LL_ENDL;
+		fclose(file);
 		return false;
 	}
 

@@ -778,7 +778,7 @@ void LLMemoryInfo::stream(std::ostream& s) const
 		else if (value.isReal())
 		{
 			std::streamsize old_precision = s.precision();
-			s << std::fixed << std::setprecision(1) << value.asReal() << std::setprecision(old_precision);
+			s << std::fixed << std::setprecision(1) << value.asReal() << std::setprecision(old_precision) << std::defaultfloat;
 		}
 		else if (value.isDate())
 			value.asDate().toStream(s);
@@ -1166,7 +1166,7 @@ public:
 		std::streamsize old_precision = LL_CONT.precision();
 
 		LL_CONT << std::fixed << std::setprecision(1) << framerate << '\n'
-			<< LLMemoryInfo() << std::setprecision(old_precision) << LL_ENDL;
+			<< LLMemoryInfo() << std::setprecision(old_precision) << std::defaultfloat << LL_ENDL;
 
 		return false;
 	}

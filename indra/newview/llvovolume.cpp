@@ -395,8 +395,15 @@ U32 LLVOVolume::processUpdateMessage(LLMessageSystem *mesgsys,
 			BOOL res = LLVolumeMessage::unpackVolumeParams(&volume_params, *dp);
 			if (!res)
 			{
-				LL_WARNS() << "Bogus volume parameters in object " << getID() << LL_ENDL;
-				LL_WARNS() << getRegion()->getOriginGlobal() << LL_ENDL;
+				std::string region_name = "unknown region";
+				if (getRegion())
+				{
+					region_name = getRegion()->getName();
+					getRegion()->addCacheMissFull(getLocalID());
+				}
+				LL_WARNS() << "Invalid volumeparam data in object '" << getID() << "' on region '" << region_name << "' at position '" << getPositionRegion() << "'" << LL_ENDL;
+				gObjectList.killObject(this);
+				return INVALID_UPDATE;
 			}
 
 			volume_params.setSculptID(sculpt_id, sculpt_type);
@@ -410,14 +417,16 @@ U32 LLVOVolume::processUpdateMessage(LLMessageSystem *mesgsys,
 			{
 				// There's something bogus in the data that we're unpacking.
 				dp->dumpBufferToLog();
-				LL_WARNS() << "Flushing cache files" << LL_ENDL;
 
-				if(LLVOCache::instanceExists() && getRegion())
+				std::string region_name = "unknown region";
+				if(getRegion())
 				{
-					LLVOCache::getInstance()->removeEntry(getRegion()->getHandle()) ;
+					region_name = getRegion()->getName();
+					getRegion()->addCacheMissFull(getLocalID());
 				}
-				
-				LL_WARNS() << "Bogus TE data in " << getID() << LL_ENDL;
+				LL_WARNS() << "Invalid TE data in object '" << getID() << "' on region '" << region_name << "' at position '" << getPositionRegion() << "'" << LL_ENDL;
+				gObjectList.killObject(this);
+				return INVALID_UPDATE;
 			}
 			else 
 			{

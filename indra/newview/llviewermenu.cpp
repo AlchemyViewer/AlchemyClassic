@@ -3126,15 +3126,6 @@ class LLObjectMute : public view_listener_t
 	}
 };
 
-
-
-
-//////////////
-// RAGNAROK //
-//////////////
-
-
-
 bool handle_go_to()
 {
 	// try simulator autopilot

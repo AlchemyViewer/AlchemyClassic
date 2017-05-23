@@ -177,7 +177,6 @@ private:
 	void toggleAllowTextChat(const LLUUID& participant_uuid);
 	void toggleMute(const LLUUID& participant_id, U32 flags);
 	void banSelectedMember(const LLUUID& participant_uuid);
-	void openNearbyChat();
 	bool isParticipantListExpanded();
 
 	LLButton* mExpandCollapseBtn;

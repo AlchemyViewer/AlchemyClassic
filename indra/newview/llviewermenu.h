@@ -37,6 +37,8 @@ class LLView;
 class LLParcelSelection;
 class LLObjectSelection;
 class LLSelectNode;
+class LLViewerObject;
+class LLVOAvatar;
 
 void initialize_edit_menu();
 void initialize_spellcheck_menu();
@@ -135,8 +137,9 @@ bool enable_pay_object();
 bool enable_buy_object();
 bool handle_go_to();
 
-// Export to XML or Collada
-void handle_export_selected( void * );
+// find avatar from object methods
+LLVOAvatar* find_avatar_from_object(LLViewerObject* object);
+LLVOAvatar* find_avatar_from_object(const LLUUID& object_id);
 
 // Convert strings to internal types
 U32 render_type_from_string(std::string render_type);

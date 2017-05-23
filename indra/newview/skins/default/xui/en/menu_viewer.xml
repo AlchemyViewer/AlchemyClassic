@@ -161,6 +161,15 @@
            function="Tools.StopAllAnimations" />
         </menu_item_call>
         <menu_item_call
+         label="Undeform Me"
+         name="Undeform Me">
+          <menu_item_call.on_click
+           function="Tools.UndeformSelf" />
+          <menu_item_call.on_visible
+           function="EnableGrid"
+           parameter="secondlife" />
+        </menu_item_call>
+        <menu_item_call
          label="Clear ViewerEffects"
          name="Clear ViewerEffects">
           <menu_item_call.on_click

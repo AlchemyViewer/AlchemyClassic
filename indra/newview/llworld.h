@@ -116,7 +116,7 @@ public:
 	// but it may eventually become more general.
 	F32 resolveStepHeightGlobal(const LLVOAvatar* avatarp, const LLVector3d &point_a, const LLVector3d &point_b,
 							LLVector3d &intersection, LLVector3 &intersection_normal,
-							LLViewerObject** viewerObjectPtr=NULL);
+							LLViewerObject** viewerObjectPtr= nullptr);
 
 	LLSurfacePatch *		resolveLandPatchGlobal(const LLVector3d &position);
 	LLVector3				resolveLandNormalGlobal(const LLVector3d &position);		// absolute frame
@@ -184,19 +184,19 @@ public:
 	// All arguments are optional. Given containers will be emptied and then filled.
 	// Not supplying origin or radius input returns data on all avatars in the known regions.
 	void getAvatars(
-		uuid_vec_t* avatar_ids = NULL,
-		std::vector<LLVector3d>* positions = NULL, 
+		uuid_vec_t* avatar_ids = nullptr,
+		std::vector<LLVector3d>* positions = nullptr, 
 		const LLVector3d& relative_to = LLVector3d(), F32 radius = FLT_MAX) const;
 	
 	typedef boost::unordered_map<LLUUID, LLVector3d> pos_map_t;
-	void getAvatars(pos_map_t* map = NULL,
+	void getAvatars(pos_map_t* map = nullptr,
 					const LLVector3d& relative_to = LLVector3d(),
 					F32 radius = FLT_MAX) const;
 
 	// Returns list of avatar ids with region pointer and global position
 	typedef std::pair<LLViewerRegion*, LLVector3d > regionp_gpos_pair_t;
 	typedef boost::unordered_map<LLUUID, regionp_gpos_pair_t > region_gpos_map_t;
-	void getAvatars(region_gpos_map_t* map = NULL,
+	void getAvatars(region_gpos_map_t* map = nullptr,
 		const LLVector3d& relative_to = LLVector3d(),
 		F32 radius = FLT_MAX) const;
 

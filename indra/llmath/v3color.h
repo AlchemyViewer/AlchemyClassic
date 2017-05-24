@@ -194,11 +194,11 @@ inline LLColor3::LLColor3(const char* color_string) // takes a string of format 
 	char tempstr[7];
 	strncpy(tempstr,color_string,6);		/* Flawfinder: ignore */
 	tempstr[6] = '\0';
-	mV[VZ] = (F32)strtol(&tempstr[4],NULL,16)/255.f;
+	mV[VZ] = (F32)strtol(&tempstr[4], nullptr,16)/255.f;
 	tempstr[4] = '\0';
-	mV[VY] = (F32)strtol(&tempstr[2],NULL,16)/255.f;
+	mV[VY] = (F32)strtol(&tempstr[2], nullptr,16)/255.f;
 	tempstr[2] = '\0';
-	mV[VX] = (F32)strtol(&tempstr[0],NULL,16)/255.f;
+	mV[VX] = (F32)strtol(&tempstr[0], nullptr,16)/255.f;
 }
 
 inline const LLColor3&	LLColor3::setToBlack(void)

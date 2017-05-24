@@ -66,17 +66,17 @@ const std::string DEFAULT_PHOTO_LOCATION_URL = "http://maps.secondlife.com/";
 LLTwitterPhotoPanel::LLTwitterPhotoPanel() :
 mResolutionComboBox(nullptr),
 mFilterComboBox(nullptr),
-mRefreshBtn(NULL),
-mWorkingLabel(NULL),
-mThumbnailPlaceholder(NULL),
-mStatusCounterLabel(NULL),
-mStatusTextBox(NULL),
-mLocationCheckbox(NULL),
-mPhotoCheckbox(NULL),
-mPostButton(NULL),
+mRefreshBtn(nullptr),
+mWorkingLabel(nullptr),
+mThumbnailPlaceholder(nullptr),
+mStatusCounterLabel(nullptr),
+mStatusTextBox(nullptr),
+mLocationCheckbox(nullptr),
+mPhotoCheckbox(nullptr),
+mPostButton(nullptr),
 mCancelButton(nullptr),
-mBtnPreview(NULL),
-mBigPreviewFloater(NULL)
+mBtnPreview(nullptr),
+mBigPreviewFloater(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendPhoto", boost::bind(&LLTwitterPhotoPanel::onSend, this));
 	mCommitCallbackRegistrar.add("SocialSharing.RefreshPhoto", boost::bind(&LLTwitterPhotoPanel::onClickNewSnapshot, this));
@@ -543,11 +543,11 @@ LLUICtrl* LLTwitterPhotoPanel::getRefreshBtn()
 ///////////////////////////
 
 LLTwitterAccountPanel::LLTwitterAccountPanel() : 
-mAccountCaptionLabel(NULL),
-mAccountNameLabel(NULL),
-mPanelButtons(NULL),
-mConnectButton(NULL),
-mDisconnectButton(NULL)
+mAccountCaptionLabel(nullptr),
+mAccountNameLabel(nullptr),
+mPanelButtons(nullptr),
+mConnectButton(nullptr),
+mDisconnectButton(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.Connect", boost::bind(&LLTwitterAccountPanel::onConnect, this));
 	mCommitCallbackRegistrar.add("SocialSharing.Disconnect", boost::bind(&LLTwitterAccountPanel::onDisconnect, this));
@@ -701,10 +701,10 @@ void LLTwitterAccountPanel::onDisconnect()
 ////////////////////////
 
 LLFloaterTwitter::LLFloaterTwitter(const LLSD& key) : LLFloater(key),
-    mTwitterPhotoPanel(NULL),
-    mStatusErrorText(NULL),
-    mStatusLoadingText(NULL),
-    mStatusLoadingIndicator(NULL)
+    mTwitterPhotoPanel(nullptr),
+    mStatusErrorText(nullptr),
+    mStatusLoadingText(nullptr),
+    mStatusLoadingIndicator(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.Cancel", boost::bind(&LLFloaterTwitter::onCancel, this));
 }

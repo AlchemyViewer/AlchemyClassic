@@ -136,9 +136,9 @@ class LLUrlEntryHTTP : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryHTTP();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getTooltip(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ std::string getTooltip(const std::string &url) const override;
 };
 
 ///
@@ -148,20 +148,20 @@ class LLUrlEntryHTTPLabel : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryHTTPLabel();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getTooltip(const std::string &string) const;
-	/*virtual*/ std::string getUrl(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getTooltip(const std::string &string) const override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
 };
 
 class LLUrlEntryInvalidSLURL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryInvalidSLURL();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getTooltip(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ std::string getTooltip(const std::string &url) const override;
 
-	bool isSLURLvalid(const std::string &url) const;
+	bool isSLURLvalid(const std::string &url) const override;
 };
 
 ///
@@ -171,8 +171,8 @@ class LLUrlEntrySLURL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySLURL();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
 
 ///
@@ -182,11 +182,11 @@ class LLUrlEntrySecondlifeURL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySecondlifeURL();
-	/*virtual*/ bool isTrusted() const { return true; }
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getQuery(const std::string &url) const;
-	/*virtual*/ std::string getTooltip(const std::string &url) const;
+	/*virtual*/ bool isTrusted() const override { return true; }
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getQuery(const std::string &url) const override;
+	/*virtual*/ std::string getTooltip(const std::string &url) const override;
 };
 
 ///
@@ -212,14 +212,14 @@ public:
 			mAvatarNameCacheConnection.disconnect();
 		}
 	}
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getIcon(const std::string &url);
-	/*virtual*/ std::string getTooltip(const std::string &string) const;
-	/*virtual*/ LLStyle::Params getStyle() const;
-	/*virtual*/ LLUUID	getID(const std::string &string) const;
-	/*virtual*/ bool underlineOnHoverOnly(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getIcon(const std::string &url) override;
+	/*virtual*/ std::string getTooltip(const std::string &string) const override;
+	/*virtual*/ LLStyle::Params getStyle() const override;
+	/*virtual*/ LLUUID	getID(const std::string &string) const override;
+	/*virtual*/ bool underlineOnHoverOnly(const std::string &string) const override;
 protected:
-	/*virtual*/ void callObservers(const std::string &id, const std::string &label, const std::string& icon);
+	/*virtual*/ void callObservers(const std::string &id, const std::string &label, const std::string& icon) override;
 private:
 	void onAvatarNameCache(const LLUUID& id, const LLAvatarName& av_name);
 	boost::signals2::connection mAvatarNameCacheConnection;
@@ -241,8 +241,8 @@ public:
 			mAvatarNameCacheConnection.disconnect();
 		}
 	}
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ LLStyle::Params getStyle() const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ LLStyle::Params getStyle() const override;
 protected:
 	// override this to pull out relevant name fields
 	virtual std::string getName(const LLAvatarName& avatar_name) = 0;
@@ -262,7 +262,7 @@ class LLUrlEntryAgentCompleteName : public LLUrlEntryAgentName
 public:
 	LLUrlEntryAgentCompleteName();
 private:
-	/*virtual*/ std::string getName(const LLAvatarName& avatar_name);
+	/*virtual*/ std::string getName(const LLAvatarName& avatar_name) override;
 };
 
 class LLUrlEntryAgentLegacyName : public LLUrlEntryAgentName
@@ -270,7 +270,7 @@ class LLUrlEntryAgentLegacyName : public LLUrlEntryAgentName
 public:
 	LLUrlEntryAgentLegacyName();
 private:
-	/*virtual*/ std::string getName(const LLAvatarName& avatar_name);
+	/*virtual*/ std::string getName(const LLAvatarName& avatar_name) override;
 };
 
 ///
@@ -283,7 +283,7 @@ class LLUrlEntryAgentDisplayName : public LLUrlEntryAgentName
 public:
 	LLUrlEntryAgentDisplayName();
 private:
-	/*virtual*/ std::string getName(const LLAvatarName& avatar_name);
+	/*virtual*/ std::string getName(const LLAvatarName& avatar_name) override;
 };
 
 ///
@@ -296,7 +296,7 @@ class LLUrlEntryAgentUserName : public LLUrlEntryAgentName
 public:
 	LLUrlEntryAgentUserName();
 private:
-	/*virtual*/ std::string getName(const LLAvatarName& avatar_name);
+	/*virtual*/ std::string getName(const LLAvatarName& avatar_name) override;
 };
 
 ///
@@ -307,7 +307,7 @@ class LLUrlEntryExperienceProfile : public LLUrlEntryBase
 {
 public:
     LLUrlEntryExperienceProfile();
-    /*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+    /*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 private:
     void onExperienceDetails(const LLSD& experience_details);
 };
@@ -321,9 +321,9 @@ class LLUrlEntryGroup : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryGroup();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ LLStyle::Params getStyle() const;
-	/*virtual*/ LLUUID	getID(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ LLStyle::Params getStyle() const override;
+	/*virtual*/ LLUUID	getID(const std::string &string) const override;
 private:
 	void onGroupNameReceived(const LLUUID& id, const std::string& name, bool is_group);
 };
@@ -336,7 +336,7 @@ class LLUrlEntryInventory : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryInventory();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 private:
 };
 
@@ -348,8 +348,8 @@ class LLUrlEntryObjectIM : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryObjectIM();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 private:
 };
 
@@ -372,7 +372,7 @@ public:
 
 	LLUrlEntryParcel();
 	~LLUrlEntryParcel();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 
 	// Sends a parcel info request to sim.
 	void sendParcelInfoRequest(const LLUUID& parcel_id);
@@ -408,8 +408,8 @@ class LLUrlEntryPlace : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryPlace();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
 
 ///
@@ -420,8 +420,8 @@ class LLUrlEntryRegion : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryRegion();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
 
 ///
@@ -432,8 +432,8 @@ class LLUrlEntryTeleport : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryTeleport();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
 
 ///
@@ -444,7 +444,7 @@ class LLUrlEntrySL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySL();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 };
 
 ///
@@ -455,10 +455,10 @@ class LLUrlEntrySLLabel : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySLLabel();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getTooltip(const std::string &string) const;
-	/*virtual*/ bool underlineOnHoverOnly(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ std::string getTooltip(const std::string &string) const override;
+	/*virtual*/ bool underlineOnHoverOnly(const std::string &string) const override;
 };
 
 ///
@@ -469,8 +469,8 @@ class LLUrlEntryWorldMap : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryWorldMap();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getLocation(const std::string &url) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
 
 ///
@@ -480,9 +480,9 @@ class LLUrlEntryNoLink : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryNoLink();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ LLStyle::Params getStyle() const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ LLStyle::Params getStyle() const override;
 };
 
 ///
@@ -492,9 +492,9 @@ class LLUrlEntryIcon : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryIcon();
-	/*virtual*/ std::string getUrl(const std::string &string) const;
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getIcon(const std::string &url);
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getIcon(const std::string &url) override;
 };
 
 ///
@@ -504,8 +504,8 @@ class LLUrlEntryEmail : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryEmail();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getUrl(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
 };
 
 // <alchemy>
@@ -516,9 +516,9 @@ class LLUrlEntryJira : public LLUrlEntryBase
 {
 public:
 	LLUrlEntryJira();
-	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
-	/*virtual*/ std::string getTooltip(const std::string &string) const;
-	/*virtual*/ std::string getUrl(const std::string &string) const;
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
+	/*virtual*/ std::string getTooltip(const std::string &string) const override;
+	/*virtual*/ std::string getUrl(const std::string &string) const override;
 	
 };
 // </alchemy>

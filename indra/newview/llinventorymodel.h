@@ -95,7 +95,7 @@ public:
 		void operator=(const FetchItemHttpHandler &) = delete;					// Not defined
 
 	public:
-		virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+		void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 	private:
 		void processData(LLSD & body, LLCore::HttpResponse * response);

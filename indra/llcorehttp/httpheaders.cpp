@@ -116,7 +116,7 @@ const std::string * HttpHeaders::find(const std::string &name) const
 			return &(*iter).second;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void HttpHeaders::remove(const char *name)

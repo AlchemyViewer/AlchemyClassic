@@ -170,11 +170,11 @@ LLMediaDataClient::LLMediaDataClient(F32 queue_timer_delay, F32 retry_timer_dela
     mMaxNumRetries(max_retries),
     mMaxSortedQueueSize(max_sorted_queue_size),
     mMaxRoundRobinQueueSize(max_round_robin_queue_size),
-    mQueueTimerIsRunning(false),
     mHttpRequest(new LLCore::HttpRequest()),
     mHttpHeaders(new LLCore::HttpHeaders()),
     mHttpOpts(new LLCore::HttpOptions()),
-    mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID)
+    mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
+    mQueueTimerIsRunning(false)
 {
     // *TODO: Look up real Policy ID
 }
@@ -424,7 +424,7 @@ BOOL LLMediaDataClient::QueueTimer::tick()
 		{
 			// This timer won't fire again.  
 			mMDC->setIsRunning(false);
-			mMDC = NULL;
+			mMDC = nullptr;
 		}
 	}
 
@@ -478,13 +478,13 @@ LLMediaDataClient::Request::Request(Type in_type,
 									LLMediaDataClientObject *obj, 
 									LLMediaDataClient *mdc,
 									S32 face)
-: mType(in_type),
-  mObject(obj),
+: mObject(obj),
+  mType(in_type),
   mNum(++sNum), 
   mRetryCount(0),
-  mMDC(mdc),
   mScore((F64)0.0),
-  mFace(face)
+  mFace(face),
+  mMDC(mdc)
 {
 	mObjectID = mObject->getID();
 }
@@ -565,12 +565,12 @@ void LLMediaDataClient::Request::updateScore()
 		   
 void LLMediaDataClient::Request::markDead() 
 { 
-	mMDC = NULL;
+	mMDC = nullptr;
 }
 
 bool LLMediaDataClient::Request::isDead() 
 { 
-	return ((mMDC == NULL) || mObject->isDead()); 
+	return ((mMDC == nullptr) || mObject->isDead()); 
 }
 
 void LLMediaDataClient::Request::startTracking() 
@@ -659,7 +659,7 @@ void LLMediaDataClient::Handler::onFailure(LLCore::HttpResponse * response, LLCo
 void LLObjectMediaDataClient::fetchMedia(LLMediaDataClientObject *object)
 {
 	// Create a get request and put it in the queue.
-	enqueue(Request::ptr_t(new RequestGet(object, this)));
+	enqueue(boost::static_pointer_cast<Request>(boost::make_shared<RequestGet>(object, this)));
 }
 
 const char *LLObjectMediaDataClient::getCapabilityName() const 
@@ -872,14 +872,14 @@ LLSD LLObjectMediaDataClient::RequestGet::getPayload() const
 
 LLCore::HttpHandler::ptr_t LLObjectMediaDataClient::RequestGet::createHandler()
 {
-    return LLCore::HttpHandler::ptr_t(new LLObjectMediaDataClient::Handler(shared_from_this()));
+    return boost::static_pointer_cast<LLCore::HttpHandler>(boost::make_shared<LLObjectMediaDataClient::Handler>(shared_from_this()));
 }
 
 
 void LLObjectMediaDataClient::updateMedia(LLMediaDataClientObject *object)
 {
 	// Create an update request and put it in the queue.
-	enqueue(Request::ptr_t(new RequestUpdate(object, this)));
+	enqueue(boost::static_pointer_cast<Request>(boost::make_shared<RequestUpdate>(object, this)));
 }
 
 LLObjectMediaDataClient::RequestUpdate::RequestUpdate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc):
@@ -909,7 +909,7 @@ LLSD LLObjectMediaDataClient::RequestUpdate::getPayload() const
 LLCore::HttpHandler::ptr_t LLObjectMediaDataClient::RequestUpdate::createHandler()
 {
 	// This just uses the base class's responder.
-    return LLCore::HttpHandler::ptr_t(new LLMediaDataClient::Handler(shared_from_this()));
+    return boost::static_pointer_cast<LLCore::HttpHandler>(boost::make_shared<LLMediaDataClient::Handler>(shared_from_this()));
 }
 
 void LLObjectMediaDataClient::Handler::onSuccess(LLCore::HttpResponse * response, const LLSD &content)
@@ -1022,7 +1022,7 @@ void LLObjectMediaNavigateClient::navigate(LLMediaDataClientObject *object, U8 t
 //	LL_INFOS("LLMediaDataClient") << "navigate() initiated: " << ll_print_sd(sd_payload) << LL_ENDL;
 	
 	// Create a get request and put it in the queue.
-	enqueue(Request::ptr_t(new RequestNavigate(object, this, texture_index, url)));
+	enqueue(boost::static_pointer_cast<Request>(boost::make_shared<RequestNavigate>(object, this, texture_index, url)));
 }
 
 LLObjectMediaNavigateClient::RequestNavigate::RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index, const std::string &url):
@@ -1043,7 +1043,7 @@ LLSD LLObjectMediaNavigateClient::RequestNavigate::getPayload() const
 
 LLCore::HttpHandler::ptr_t LLObjectMediaNavigateClient::RequestNavigate::createHandler()
 {
-    return LLCore::HttpHandler::ptr_t(new LLObjectMediaNavigateClient::Handler(shared_from_this()));
+    return boost::static_pointer_cast<LLCore::HttpHandler>(boost::make_shared<LLObjectMediaNavigateClient::Handler>(shared_from_this()));
 }
 
 void LLObjectMediaNavigateClient::Handler::onSuccess(LLCore::HttpResponse * response, const LLSD &content)

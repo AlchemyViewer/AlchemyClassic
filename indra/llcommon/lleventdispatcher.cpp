@@ -415,7 +415,7 @@ struct LLEventDispatcher::LLSDDispatchEntry: public LLEventDispatcher::DispatchE
     Callable mFunc;
     LLSD mRequired;
 
-    virtual void call(const std::string& desc, const LLSD& event) const
+	void call(const std::string& desc, const LLSD& event) const override
     {
         // Validate the syntax of the event itself.
         std::string mismatch(llsd_matches(mRequired, event));
@@ -427,7 +427,7 @@ struct LLEventDispatcher::LLSDDispatchEntry: public LLEventDispatcher::DispatchE
         mFunc(event);
     }
 
-    virtual LLSD addMetadata(LLSD meta) const
+	LLSD addMetadata(LLSD meta) const override
     {
         meta["required"] = mRequired;
         return meta;
@@ -447,7 +447,7 @@ struct LLEventDispatcher::ParamsDispatchEntry: public LLEventDispatcher::Dispatc
 
     invoker_function mInvoker;
 
-    virtual void call(const std::string& desc, const LLSD& event) const
+	void call(const std::string& desc, const LLSD& event) const override
     {
         LLSDArgsSource src(desc, event);
         mInvoker(std::bind(&LLSDArgsSource::next, std::ref(src)));
@@ -468,7 +468,7 @@ struct LLEventDispatcher::ArrayParamsDispatchEntry: public LLEventDispatcher::Pa
 
     LLSD::Integer mArity;
 
-    virtual LLSD addMetadata(LLSD meta) const
+	LLSD addMetadata(LLSD meta) const override
     {
         LLSD array(LLSD::emptyArray());
         // Resize to number of arguments required
@@ -533,14 +533,14 @@ struct LLEventDispatcher::MapParamsDispatchEntry: public LLEventDispatcher::Para
     LLSD mRequired;
     LLSD mOptional;
 
-    virtual void call(const std::string& desc, const LLSD& event) const
+	void call(const std::string& desc, const LLSD& event) const override
     {
         // Just convert from LLSD::Map to LLSD::Array using mMapper, then pass
         // to base-class call() method.
         ParamsDispatchEntry::call(desc, mMapper.map(event));
     }
 
-    virtual LLSD addMetadata(LLSD meta) const
+	LLSD addMetadata(LLSD meta) const override
     {
         meta["required"] = mRequired;
         meta["optional"] = mOptional;
@@ -554,8 +554,7 @@ void LLEventDispatcher::addArrayParamsDispatchEntry(const std::string& name,
                                                     LLSD::Integer arity)
 {
     mDispatch.insert(
-        DispatchMap::value_type(name, DispatchMap::mapped_type(
-                                    new ArrayParamsDispatchEntry(desc, invoker, arity))));
+        DispatchMap::value_type(name, std::static_pointer_cast<DispatchEntry>(std::make_shared<ArrayParamsDispatchEntry>(desc, invoker, arity))));
 }
 
 void LLEventDispatcher::addMapParamsDispatchEntry(const std::string& name,
@@ -565,8 +564,7 @@ void LLEventDispatcher::addMapParamsDispatchEntry(const std::string& name,
                                                   const LLSD& defaults)
 {
     mDispatch.insert(
-        DispatchMap::value_type(name, DispatchMap::mapped_type(
-                                    new MapParamsDispatchEntry(name, desc, invoker, params, defaults))));
+        DispatchMap::value_type(name, std::static_pointer_cast<DispatchEntry>(std::make_shared<MapParamsDispatchEntry>(name, desc, invoker, params, defaults))));
 }
 
 /// Register a callable by name
@@ -574,8 +572,7 @@ void LLEventDispatcher::add(const std::string& name, const std::string& desc,
                             const Callable& callable, const LLSD& required)
 {
     mDispatch.insert(
-        DispatchMap::value_type(name, DispatchMap::mapped_type(
-                                    new LLSDDispatchEntry(desc, callable, required))));
+        DispatchMap::value_type(name, std::static_pointer_cast<DispatchEntry>(std::make_shared<LLSDDispatchEntry>(desc, callable, required))));
 }
 
 void LLEventDispatcher::addFail(const std::string& name, const std::string& classname) const

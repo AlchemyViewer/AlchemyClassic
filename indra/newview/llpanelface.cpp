@@ -273,18 +273,18 @@ BOOL LLPanelFace::postBuild()
 LLPanelFace::LLPanelFace()
 :	LLPanel()
 // <alchemy>
-,	mTextureCtrl(NULL)
-,	mShinyTextureCtrl(NULL)
-,	mBumpyTextureCtrl(NULL)
-,	mColorSwatch(NULL)
-,	mShinyColorSwatch(NULL)
-,	mComboTexGen(NULL)
-,	mComboMatMedia(NULL)
-,	mComboMatType(NULL)
-,	mCheckFullbright(NULL)
-,	mLabelColorTransp(NULL)
-,	mCtrlColorTransp(NULL)	// transparency = 1 - alpha
-,	mCtrlGlow(NULL)
+,	mTextureCtrl(nullptr)
+,	mShinyTextureCtrl(nullptr)
+,	mBumpyTextureCtrl(nullptr)
+,	mColorSwatch(nullptr)
+,	mShinyColorSwatch(nullptr)
+,	mComboTexGen(nullptr)
+,	mComboMatMedia(nullptr)
+,	mComboMatType(nullptr)
+,	mCheckFullbright(nullptr)
+,	mLabelColorTransp(nullptr)
+,	mCtrlColorTransp(nullptr)	// transparency = 1 - alpha
+,	mCtrlGlow(nullptr)
 // </alchemy>
 ,	mIsAlpha(false)
 {
@@ -394,7 +394,8 @@ void LLPanelFace::sendGlow(const LLSD& userdata)
 struct LLPanelFaceSetTEFunctor : public LLSelectedTEFunctor
 {
 	LLPanelFaceSetTEFunctor(LLPanelFace* panel) : mPanel(panel) {}
-	virtual bool apply(LLViewerObject* object, S32 te)
+
+	bool apply(LLViewerObject* object, S32 te) override
 	{
 		BOOL valid;
 		F32 value;
@@ -466,8 +467,8 @@ struct LLPanelFaceSetAlignedTEFunctor : public LLSelectedTEFunctor
 	LLPanelFaceSetAlignedTEFunctor(LLPanelFace* panel, LLFace* center_face) :
 	mPanel(panel),
 	mCenterFace(center_face) {}
-	
-	virtual bool apply(LLViewerObject* object, S32 te)
+
+	bool apply(LLViewerObject* object, S32 te) override
 	{
 		LLFace* facep = object->mDrawable->getFace(te);
 		if (!facep)
@@ -514,8 +515,8 @@ struct LLPanelFaceGetIsAlignedTEFunctor : public LLSelectedTEFunctor
 {
 	LLPanelFaceGetIsAlignedTEFunctor(LLFace* center_face) :
 	mCenterFace(center_face) {}
-	
-	virtual bool apply(LLViewerObject* object, S32 te)
+
+	bool apply(LLViewerObject* object, S32 te) override
 	{
 		LLFace* facep = object->mDrawable->getFace(te);
 		if (!facep)
@@ -560,7 +561,7 @@ private:
 
 struct LLPanelFaceSendFunctor : public LLSelectedObjectFunctor
 {
-	virtual bool apply(LLViewerObject* object)
+	bool apply(LLViewerObject* object) override
 	{
 		object->sendTEUpdate();
 		return true;
@@ -571,7 +572,7 @@ void LLPanelFace::sendTextureInfo()
 {
 	if (childGetValue("checkbox planar align").asBoolean())
 	{
-		LLFace* last_face = NULL;
+		LLFace* last_face = nullptr;
 		bool identical_face =false;
 		LLSelectedTE::getFace(last_face, identical_face);
 		LLPanelFaceSetAlignedTEFunctor setfunc(this, last_face);
@@ -803,7 +804,7 @@ void LLPanelFace::refresh()
 		
 		if (align_planar && enabled)
 		{
-			LLFace* last_face = NULL;
+			LLFace* last_face = nullptr;
 			bool identical_face = false;
 			LLSelectedTE::getFace(last_face, identical_face);
 			
@@ -1737,7 +1738,7 @@ void LLPanelFace::onCommitRepeatsPerMeter(LLUICtrl* ctrl)
 
 struct LLPanelFaceSetMediaFunctor : public LLSelectedTEFunctor
 {
-	virtual bool apply(LLViewerObject* object, S32 te)
+	bool apply(LLViewerObject* object, S32 te) override
 	{
 		viewer_media_t pMediaImpl;
 		
@@ -1891,7 +1892,7 @@ void LLPanelFace::LLSelectedTE::getFace(LLFace*& face_to_return, bool& identical
 {		
 	struct LLSelectedTEGetFace : public LLSelectedTEGetFunctor<LLFace *>
 	{
-		LLFace* get(LLViewerObject* object, S32 te)
+		LLFace* get(LLViewerObject* object, S32 te) override
 		{
 			return (object->mDrawable) ? object->mDrawable->getFace(te): NULL;
 		}
@@ -1904,7 +1905,7 @@ void LLPanelFace::LLSelectedTE::getImageFormat(LLGLenum& image_format_to_return,
 	LLGLenum image_format = 0;
 	struct LLSelectedTEGetImageFormat : public LLSelectedTEGetFunctor<LLGLenum>
 	{
-		LLGLenum get(LLViewerObject* object, S32 te_index)
+		LLGLenum get(LLViewerObject* object, S32 te_index) override
 		{
 			LLViewerTexture* image = object->getTEImage(te_index);
 			return image ? image->getPrimaryFormat() : GL_RGB;
@@ -1918,7 +1919,7 @@ void LLPanelFace::LLSelectedTE::getTexId(LLUUID& id, bool& identical)
 {
 	struct LLSelectedTEGetTexId : public LLSelectedTEGetFunctor<LLUUID>
 	{
-		LLUUID get(LLViewerObject* object, S32 te_index)
+		LLUUID get(LLViewerObject* object, S32 te_index) override
 		{
 			LLUUID id;
 			LLViewerTexture* image = object->getTEImage(te_index);
@@ -1953,7 +1954,7 @@ void LLPanelFace::LLSelectedTEMaterial::getCurrent(LLMaterialPtr& material_ptr, 
 {
 	struct MaterialFunctor : public LLSelectedTEGetFunctor<LLMaterialPtr>
 	{
-		LLMaterialPtr get(LLViewerObject* object, S32 te_index)
+		LLMaterialPtr get(LLViewerObject* object, S32 te_index) override
 		{
 			return object->getTE(te_index)->getMaterialParams();
 		}
@@ -1965,7 +1966,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxSpecularRepeats(F32& repeats, bool
 {
 	struct LLSelectedTEGetMaxSpecRepeats : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			LLMaterial* mat = object->getTE(face)->getMaterialParams().get();
 			U32 s_axis = VX;
@@ -1989,7 +1990,7 @@ void LLPanelFace::LLSelectedTEMaterial::getMaxNormalRepeats(F32& repeats, bool& 
 {
 	struct LLSelectedTEGetMaxNormRepeats : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			LLMaterial* mat = object->getTE(face)->getMaterialParams().get();
 			U32 s_axis = VX;
@@ -2017,7 +2018,7 @@ void LLPanelFace::LLSelectedTEMaterial::getCurrentDiffuseAlphaMode(U8& diffuse_a
 		LLSelectedTEGetDiffuseAlphaMode(bool diffuse_texture_has_alpha) : _isAlpha(diffuse_texture_has_alpha) {}
 		virtual ~LLSelectedTEGetDiffuseAlphaMode() {}
 
-		U8 get(LLViewerObject* object, S32 face)
+		U8 get(LLViewerObject* object, S32 face) override
 		{
 			U8 diffuse_mode = _isAlpha ? LLMaterial::DIFFUSE_ALPHA_MODE_BLEND : LLMaterial::DIFFUSE_ALPHA_MODE_NONE;
 
@@ -2042,7 +2043,7 @@ void LLPanelFace::LLSelectedTE::getObjectScaleS(F32& scale_s, bool& identical)
 {
 	struct LLSelectedTEGetObjectScaleS : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			U32 s_axis = VX;
 			U32 t_axis = VY;
@@ -2058,7 +2059,7 @@ void LLPanelFace::LLSelectedTE::getObjectScaleT(F32& scale_t, bool& identical)
 {
 	struct LLSelectedTEGetObjectScaleS : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			U32 s_axis = VX;
 			U32 t_axis = VY;
@@ -2074,7 +2075,7 @@ void LLPanelFace::LLSelectedTE::getMaxDiffuseRepeats(F32& repeats, bool& identic
 {
 	struct LLSelectedTEGetMaxDiffuseRepeats : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			U32 s_axis = VX;
 			U32 t_axis = VY;

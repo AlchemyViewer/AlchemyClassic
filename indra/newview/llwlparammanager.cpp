@@ -67,8 +67,8 @@ LLWLParamManager::LLWLParamManager() :
 
 	/// Sun Delta Terrain tweak variables.
 	mSunDeltaYaw(180.0f),
-	mSceneLightStrength(2.0f),
 	mWLGamma(1.0f, "gamma"),
+	mSceneLightStrength(2.0f),
 
 	mBlueHorizon(0.25f, 0.25f, 1.0f, 1.0f, "blue_horizon", "WLBlueHorizon"),
 	mHazeDensity(1.0f, "haze_density"),

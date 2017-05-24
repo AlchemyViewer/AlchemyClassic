@@ -40,9 +40,9 @@ class LLNullCipher : public LLCipher
 public:
 	LLNullCipher() {}
 	virtual ~LLNullCipher() {}
-	virtual U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	virtual U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	virtual U32 requiredEncryptionSpace(U32 src_len) const;
+	U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	U32 requiredEncryptionSpace(U32 src_len) const override;
 };
 
 #endif

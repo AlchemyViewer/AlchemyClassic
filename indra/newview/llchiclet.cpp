@@ -64,11 +64,11 @@ LLSysWellChiclet::Params::Params()
 
 LLSysWellChiclet::LLSysWellChiclet(const Params& p)
 	: LLChiclet(p)
-	, mButton(NULL)
+	, mButton(nullptr)
 	, mCounter(0)
 	, mMaxDisplayedCount(p.max_displayed_count)
 	, mIsNewMessagesState(false)
-	, mFlashToLitTimer(NULL)
+	, mFlashToLitTimer(nullptr)
 	, mContextMenuHandle()
 {
 	LLButton::Params button_params = p.button;
@@ -315,11 +315,11 @@ void LLChiclet::setValue(const LLSD& value)
 
 LLIMChiclet::LLIMChiclet(const LLIMChiclet::Params& p)
 : LLChiclet(p)
+, mPopupMenu(nullptr)
 , mShowSpeaker(false)
 , mDefaultWidth(p.rect().getWidth())
-, mNewMessagesIcon(NULL)
-, mChicletButton(NULL)
-, mPopupMenu(NULL)
+, mNewMessagesIcon(nullptr)
+, mChicletButton(nullptr)
 {
 }
 
@@ -426,9 +426,9 @@ LLChicletPanel::Params::Params()
 
 LLChicletPanel::LLChicletPanel(const Params&p)
 : LLPanel(p)
-, mScrollArea(NULL)
-, mLeftScrollButton(NULL)
-, mRightScrollButton(NULL)
+, mLeftScrollButton(nullptr)
+, mRightScrollButton(nullptr)
+, mScrollArea(nullptr)
 , mChicletPadding(p.chiclet_padding)
 , mScrollingOffset(p.scrolling_offset)
 , mScrollButtonHPad(p.scroll_button_hpad)
@@ -478,7 +478,7 @@ void LLChicletPanel::objectChicletCallback(const LLSD& data)
 	for (iter = chiclets.begin(); iter != chiclets.end(); iter++)
 	{
 		LLIMChiclet* chiclet = dynamic_cast<LLIMChiclet*>(*iter);
-		if (chiclet != NULL)
+		if (chiclet != nullptr)
 		{
 			chiclet->setShowNewMessagesIcon(new_message);
 		}
@@ -1002,7 +1002,7 @@ bool LLChicletPanel::isAnyIMFloaterDoked()
 	{
 		LLFloaterIMSession* im_floater = LLFloaterReg::findTypedInstance<LLFloaterIMSession>(
 				"impanel", (*it)->getSessionId());
-		if (im_floater != NULL && im_floater->getVisible()
+		if (im_floater != nullptr && im_floater->getVisible()
 				&& !im_floater->isMinimized() && im_floater->isDocked())
 		{
 			res = true;
@@ -1056,15 +1056,15 @@ void LLChicletInvOfferIconCtrl::setValue(const LLSD& value )
 //////////////////////////////////////////////////////////////////////////
 
 LLScriptChiclet::Params::Params()
- : icon("icon")
- , chiclet_button("chiclet_button")
+ : chiclet_button("chiclet_button")
+ , icon("icon")
  , new_message_icon("new_message_icon")
 {
 }
 
 LLScriptChiclet::LLScriptChiclet(const Params&p)
  : LLIMChiclet(p)
- , mChicletIconCtrl(NULL)
+ , mChicletIconCtrl(nullptr)
 {
 	LLButton::Params button_params = p.chiclet_button;
 	mChicletButton = LLUICtrlFactory::create<LLButton>(button_params);
@@ -1124,15 +1124,15 @@ void LLScriptChiclet::createPopupMenu()
 static const std::string INVENTORY_USER_OFFER	("UserGiveItem");
 
 LLInvOfferChiclet::Params::Params()
- : icon("icon")
- , chiclet_button("chiclet_button")
+ : chiclet_button("chiclet_button")
+ , icon("icon")
  , new_message_icon("new_message_icon")
 {
 }
 
 LLInvOfferChiclet::LLInvOfferChiclet(const Params&p)
  : LLIMChiclet(p)
- , mChicletIconCtrl(NULL)
+ , mChicletIconCtrl(nullptr)
 {
 	LLButton::Params button_params = p.chiclet_button;
 	mChicletButton = LLUICtrlFactory::create<LLButton>(button_params);

@@ -39,7 +39,7 @@ class LLPlacesLandmarkBridge : public LLLandmarkBridge
 	friend class LLPlacesInventoryBridgeBuilder;
 
 public:
-	/*virtual*/ void buildContextMenu(LLMenuGL& menu, U32 flags);
+	/*virtual*/ void buildContextMenu(LLMenuGL& menu, U32 flags) override;
 
 protected:
 	LLPlacesLandmarkBridge(LLInventoryType::EType type, 
@@ -61,8 +61,8 @@ class LLPlacesFolderBridge : public LLFolderBridge
 	friend class LLPlacesInventoryBridgeBuilder;
 
 public:
-	/*virtual*/ void buildContextMenu(LLMenuGL& menu, U32 flags);
-	/*virtual*/ void performAction(LLInventoryModel* model, std::string action);
+	/*virtual*/ void buildContextMenu(LLMenuGL& menu, U32 flags) override;
+	/*virtual*/ void performAction(LLInventoryModel* model, std::string action) override;
 
 protected:
 	LLPlacesFolderBridge(LLInventoryType::EType type, 
@@ -94,7 +94,7 @@ public:
 											LLFolderViewModelInventory* view_model,
 											LLFolderView* root,
 											const LLUUID& uuid,
-											U32 flags = 0x00) const;
+											U32 flags = 0x00) const override;
 };
 
 #endif // LL_LLPLACESINVENTORYBRIDGE_H

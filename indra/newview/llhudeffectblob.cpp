@@ -48,7 +48,7 @@ LLHUDEffectBlob::~LLHUDEffectBlob()
 
 void LLHUDEffectBlob::markDead()
 {
-	mImage = NULL;
+	mImage = nullptr;
 
 	LLHUDEffect::markDead();
 }

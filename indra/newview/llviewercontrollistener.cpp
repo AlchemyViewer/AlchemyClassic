@@ -97,7 +97,7 @@ struct Info
 		groupname(request["group"]),
 		group(LLControlGroup::getInstance(groupname)),
 		key(request["key"]),
-		control(NULL)
+		control(nullptr)
 	{
 		if (! group)
 		{
@@ -197,7 +197,7 @@ struct CollectVars: public LLControlGroup::ApplyFunctor
 		mGroup(g)
 	{}
 
-	virtual void apply(const std::string& name, LLControlVariable* control)
+	void apply(const std::string& name, LLControlVariable* control) override
 	{
 		vars.append(LLSDMap
 					("name", name)

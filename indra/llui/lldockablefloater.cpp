@@ -37,7 +37,7 @@ LLHandle<LLFloater> LLDockableFloater::sInstanceHandle;
 //static
 void LLDockableFloater::init()
 {
-	this->setDocked(this->mDockControl.get() != NULL
+	this->setDocked(this->mDockControl.get() != nullptr
 			&& this->mDockControl.get()->isDockVisible());
 	this->resetInstance();
 
@@ -67,7 +67,7 @@ LLDockableFloater::LLDockableFloater(LLDockControl* dockControl, bool uniqueDock
 
 LLDockableFloater::LLDockableFloater(LLDockControl* dockControl, bool uniqueDocking,
 		bool useTongue, const LLSD& key, const Params& params) :
-	LLFloater(key, params), mDockControl(dockControl), mUseTongue(useTongue), mUniqueDocking(uniqueDocking)
+	LLFloater(key, params), mDockControl(dockControl), mUniqueDocking(uniqueDocking), mUseTongue(useTongue)
 {
 	init();
 }
@@ -79,7 +79,7 @@ LLDockableFloater::~LLDockableFloater()
 BOOL LLDockableFloater::postBuild()
 {
 	// Remember we should force docking when the floater is opened for the first time
-	if (mIsDockedStateForcedCallback != NULL && mIsDockedStateForcedCallback())
+	if (mIsDockedStateForcedCallback != nullptr && mIsDockedStateForcedCallback())
 	{
 		mForceDocking = true;
 	}
@@ -98,17 +98,17 @@ void LLDockableFloater::toggleInstance(const LLSD& sdname)
 	LLDockableFloater* instance =
 			dynamic_cast<LLDockableFloater*> (LLFloaterReg::findInstance(name));
 	// if floater closed or docked
-	if (instance == NULL || (instance && instance->isDocked()))
+	if (instance == nullptr || (instance && instance->isDocked()))
 	{
 		LLFloaterReg::toggleInstance(name, key);
 		// restore button toggle state
-		if (instance != NULL)
+		if (instance != nullptr)
 		{
 			instance->storeVisibilityControl();
 		}
 	}
 	// if floater undocked
-	else if (instance != NULL)
+	else if (instance != nullptr)
 	{
 		instance->setMinimized(FALSE);
 		if (instance->getVisible())
@@ -127,7 +127,7 @@ void LLDockableFloater::resetInstance()
 {
 	if (mUniqueDocking && sInstanceHandle.get() != this)
 	{
-		if (sInstanceHandle.get() != NULL && sInstanceHandle.get()->isDocked())
+		if (sInstanceHandle.get() != nullptr && sInstanceHandle.get()->isDocked())
 		{
 			sInstanceHandle.get()->setVisible(FALSE);
 		}
@@ -150,7 +150,7 @@ void LLDockableFloater::setVisible(BOOL visible)
 		resetInstance();
 	}
 
-	if (visible && mDockControl.get() != NULL)
+	if (visible && mDockControl.get() != nullptr)
 	{
 		mDockControl.get()->repositionDockable();
 	}
@@ -177,8 +177,8 @@ void LLDockableFloater::setMinimized(BOOL minimize)
 
 LLView * LLDockableFloater::getDockWidget()
 {
-	LLView * res = NULL;
-	if (getDockControl() != NULL) {
+	LLView * res = nullptr;
+	if (getDockControl() != nullptr) {
 		res = getDockControl()->getDock();
 	}
 
@@ -200,7 +200,7 @@ void LLDockableFloater::onDockShown()
 
 void LLDockableFloater::setDocked(bool docked, bool pop_on_undock)
 {
-	if (mDockControl.get() != NULL && mDockControl.get()->isDockVisible())
+	if (mDockControl.get() != nullptr && mDockControl.get()->isDockVisible())
 	{
 		if (docked)
 		{
@@ -224,7 +224,7 @@ void LLDockableFloater::setDocked(bool docked, bool pop_on_undock)
 
 void LLDockableFloater::draw()
 {
-	if (mDockControl.get() != NULL)
+	if (mDockControl.get() != nullptr)
 	{
 		mDockControl.get()->repositionDockable();
 		if (isDocked())

@@ -64,11 +64,11 @@ public:
 	
 	virtual ~LLAccordionCtrlTabHeader();
 
-	virtual void draw();
+	void draw() override;
 
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	std::string getTitle();
 	void	setTitle(const std::string& title, const std::string& hl);
@@ -79,14 +79,14 @@ public:
 
 	void	setSelected(bool is_selected) { mIsSelected = is_selected; }
 
-	virtual void onMouseEnter(S32 x, S32 y, MASK mask);
-	virtual void onMouseLeave(S32 x, S32 y, MASK mask);
-	virtual BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent);
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent) override;
+	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 private:
 
 	LLTextBox* mHeaderTextbox;
@@ -121,17 +121,17 @@ LLAccordionCtrlTab::LLAccordionCtrlTabHeader::Params::Params()
 LLAccordionCtrlTab::LLAccordionCtrlTabHeader::LLAccordionCtrlTabHeader(
 	const LLAccordionCtrlTabHeader::Params& p)
 : LLUICtrl(p)
-, mHeaderBGColor(p.header_bg_color())
-, mNeedsHighlight(false)
-, mIsSelected(false),
-	mImageCollapsed(p.header_collapse_img),
-	mImageCollapsedPressed(p.header_collapse_img_pressed),
-	mImageExpanded(p.header_expand_img),
+, mImageCollapsed(p.header_collapse_img)
+, mImageExpanded(p.header_expand_img)
+, mImageCollapsedPressed(p.header_collapse_img_pressed),
 	mImageExpandedPressed(p.header_expand_img_pressed),
 	mImageHeader(p.header_image),
 	mImageHeaderOver(p.header_image_over),
 	mImageHeaderPressed(p.header_image_pressed),
-	mImageHeaderFocused(p.header_image_focused)
+	mImageHeaderFocused(p.header_image_focused),
+	mHeaderBGColor(p.header_bg_color()),
+	mNeedsHighlight(false),
+	mIsSelected(false)
 {
 	LLTextBox::Params textboxParams;
 	textboxParams.name(DD_TEXTBOX_NAME);
@@ -316,19 +316,12 @@ BOOL LLAccordionCtrlTab::LLAccordionCtrlTabHeader::handleDragAndDrop(S32 x, S32 
 									   cargo_data, accept, tooltip_msg);
 }
 LLAccordionCtrlTab::Params::Params()
-	: title("title")
-	,display_children("expanded", true)
-	,header_height("header_height", HEADER_HEIGHT),
-	min_width("min_width", 0),
-	min_height("min_height", 0)
+	: display_children("expanded", true)
 	,collapsible("collapsible", true)
-	,header_bg_color("header_bg_color")
-	,dropdown_bg_color("dropdown_bg_color")
-	,header_visible("header_visible",true)
-	,padding_left("padding_left",2)
-	,padding_right("padding_right",2)
-	,padding_top("padding_top",2)
-	,padding_bottom("padding_bottom",2)
+	,title("title"),
+	header_height("header_height", HEADER_HEIGHT),
+	min_width("min_width", 0)
+	,min_height("min_height", 0)
 	,header_expand_img("header_expand_img")
 	,header_expand_img_pressed("header_expand_img_pressed")
 	,header_collapse_img("header_collapse_img")
@@ -337,29 +330,36 @@ LLAccordionCtrlTab::Params::Params()
 	,header_image_over("header_image_over")
 	,header_image_pressed("header_image_pressed")
 	,header_image_focused("header_image_focused")
+	,header_bg_color("header_bg_color")
 	,header_text_color("header_text_color")
+	,dropdown_bg_color("dropdown_bg_color")
+	,header_visible("header_visible",true)
 	,fit_panel("fit_panel",true)
 	,selection_enabled("selection_enabled", false)
+	,padding_left("padding_left",2)
+	,padding_right("padding_right",2)
+	,padding_top("padding_top",2)
+	,padding_bottom("padding_bottom",2)
 {
 	changeDefault(mouse_opaque, false);
 }
 
 LLAccordionCtrlTab::LLAccordionCtrlTab(const LLAccordionCtrlTab::Params&p)
 	: LLUICtrl(p)
+	,mExpandedHeight(0)
 	,mDisplayChildren(p.display_children)
 	,mCollapsible(p.collapsible)
-	,mExpandedHeight(0)
-	,mDropdownBGColor(p.dropdown_bg_color())
 	,mHeaderVisible(p.header_visible)
+	,mCanOpenClose(true)
+	,mFitPanel(p.fit_panel)
 	,mPaddingLeft(p.padding_left)
 	,mPaddingRight(p.padding_right)
 	,mPaddingTop(p.padding_top)
 	,mPaddingBottom(p.padding_bottom)
-	,mCanOpenClose(true)
-	,mFitPanel(p.fit_panel)
 	,mSelectionEnabled(p.selection_enabled)
-	,mContainerPanel(NULL)
-	,mScrollbar(NULL)
+	,mScrollbar(nullptr)
+	,mContainerPanel(nullptr)
+	,mDropdownBGColor(p.dropdown_bg_color())
 {
 	mStoredOpenCloseState = false;
 	mWasStateStored = false;
@@ -584,7 +584,7 @@ LLView*	LLAccordionCtrlTab::findContainerView()
 			continue;
 		return child;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void LLAccordionCtrlTab::selectOnFocusReceived()

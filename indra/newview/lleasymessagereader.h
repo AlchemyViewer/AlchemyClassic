@@ -47,8 +47,8 @@ private:
 class LLEasyMessageLogEntry
 {
 public:
-	LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader = NULL);
-	LLEasyMessageLogEntry(LLEasyMessageReader* message_reader = NULL);
+	LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader = nullptr);
+	LLEasyMessageLogEntry(LLEasyMessageReader* message_reader = nullptr);
 	~LLEasyMessageLogEntry();
 
 	LogPayload operator()() { return mEntry; };

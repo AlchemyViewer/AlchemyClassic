@@ -90,11 +90,11 @@ namespace
 class LLDispatchEmptyMuteList : public LLDispatchHandler
 {
 public:
-	virtual bool operator()(
+	bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,
 		const LLUUID& invoice,
-		const sparam_t& strings)
+		const sparam_t& strings) override
 	{
 		LLMuteList::getInstance()->setLoaded();
 		return true;
@@ -173,10 +173,10 @@ LLMuteList::LLMuteList() :
 	// that last NULL.
 	gMessageSystem.callWhenReady(boost::bind(&LLMessageSystem::setHandlerFuncFast, _1,
 											 _PREHASH_MuteListUpdate, processMuteListUpdate,
-											 static_cast<void**>(NULL)));
+											 static_cast<void**>(nullptr)));
 	gMessageSystem.callWhenReady(boost::bind(&LLMessageSystem::setHandlerFuncFast, _1,
 											 _PREHASH_UseCachedMuteList, processUseCachedMuteList,
-											 static_cast<void**>(NULL)));
+											 static_cast<void**>(nullptr)));
 }
 
 //-----------------------------------------------------------------------------
@@ -230,7 +230,7 @@ static LLVOAvatar* find_avatar(const LLUUID& id)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

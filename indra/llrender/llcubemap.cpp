@@ -494,6 +494,6 @@ void LLCubeMap::destroyGL()
 {
 	for (S32 i = 0; i < 6; i++)
 	{
-		mImages[i] = NULL;
+		mImages[i] = nullptr;
 	}
 }

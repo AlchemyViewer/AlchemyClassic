@@ -52,26 +52,26 @@ LLPolyMorphData::LLPolyMorphData(const std::string& morph_name)
 	mTotalDistortion = 0.f;
 	mAvgDistortion.clear();
 	mMaxDistortion = 0.f;
-	mVertexIndices = NULL;
-	mCoords = NULL;
-	mNormals = NULL;
-	mBinormals = NULL;
-	mTexCoords = NULL;
+	mVertexIndices = nullptr;
+	mCoords = nullptr;
+	mNormals = nullptr;
+	mBinormals = nullptr;
+	mTexCoords = nullptr;
 
-	mMesh = NULL;
+	mMesh = nullptr;
 }
 
 LLPolyMorphData::LLPolyMorphData(const LLPolyMorphData &rhs) :
 	mName(rhs.mName),
 	mNumIndices(rhs.mNumIndices),
+	mVertexIndices(nullptr),
+	mCoords(nullptr),
+	mNormals(nullptr),
+	mBinormals(nullptr),
+	mTexCoords(nullptr),
 	mTotalDistortion(rhs.mTotalDistortion),
-	mAvgDistortion(rhs.mAvgDistortion),
 	mMaxDistortion(rhs.mMaxDistortion),
-	mVertexIndices(NULL),
-	mCoords(NULL),
-	mNormals(NULL),
-	mBinormals(NULL),
-	mTexCoords(NULL)
+	mAvgDistortion(rhs.mAvgDistortion)
 {
 	const S32 numVertices = mNumIndices;
 
@@ -219,34 +219,34 @@ BOOL LLPolyMorphData::loadBinary(LLFILE *fp, LLPolyMeshSharedData *mesh)
 //-----------------------------------------------------------------------------
 void LLPolyMorphData::freeData()
 {
-	if (mCoords != NULL)
+	if (mCoords != nullptr)
 	{
 		ll_aligned_free_16(mCoords);
-		mCoords = NULL;
+		mCoords = nullptr;
 	}
 
-	if (mNormals != NULL)
+	if (mNormals != nullptr)
 	{
 		ll_aligned_free_16(mNormals);
-		mNormals = NULL;
+		mNormals = nullptr;
 	}
 
-	if (mBinormals != NULL)
+	if (mBinormals != nullptr)
 	{
 		ll_aligned_free_16(mBinormals);
-		mBinormals = NULL;
+		mBinormals = nullptr;
 	}
 
-	if (mTexCoords != NULL)
+	if (mTexCoords != nullptr)
 	{
 		delete [] mTexCoords;
-		mTexCoords = NULL;
+		mTexCoords = nullptr;
 	}
 
-	if (mVertexIndices != NULL)
+	if (mVertexIndices != nullptr)
 	{
 		delete [] mVertexIndices;
-		mVertexIndices = NULL;
+		mVertexIndices = nullptr;
 	}
 }
 
@@ -278,7 +278,7 @@ BOOL LLPolyMorphTargetInfo::parseXml(LLXmlTreeNode* node)
 
 	LLXmlTreeNode *paramNode = node->getChildByName("param_morph");
 
-        if (NULL == paramNode)
+        if (nullptr == paramNode)
         {
                 LL_WARNS() << "Failed to getChildByName(\"param_morph\")"
                         << LL_ENDL;
@@ -316,9 +316,9 @@ BOOL LLPolyMorphTargetInfo::parseXml(LLXmlTreeNode* node)
 //-----------------------------------------------------------------------------
 LLPolyMorphTarget::LLPolyMorphTarget(LLPolyMesh *poly_mesh)
 	: LLViewerVisualParam(),
-	mMorphData(NULL),
+	mMorphData(nullptr),
 	mMesh(poly_mesh),
-	mVertMask(NULL),
+	mVertMask(nullptr),
 	mLastSex(SEX_FEMALE),
 	mNumMorphMasksPending(0),
 	mVolumeMorphs()
@@ -332,7 +332,7 @@ LLPolyMorphTarget::LLPolyMorphTarget(const LLPolyMorphTarget& pOther)
 	: LLViewerVisualParam(pOther),
 	mMorphData(pOther.mMorphData),
 	mMesh(pOther.mMesh),
-	mVertMask(pOther.mVertMask == NULL ? NULL : new LLPolyVertexMask(*pOther.mVertMask)),
+	mVertMask(pOther.mVertMask == nullptr ? NULL : new LLPolyVertexMask(*pOther.mVertMask)),
 	mLastSex(pOther.mLastSex),
 	mNumMorphMasksPending(pOther.mNumMorphMasksPending),
 	mVolumeMorphs(pOther.mVolumeMorphs)
@@ -345,7 +345,7 @@ LLPolyMorphTarget::LLPolyMorphTarget(const LLPolyMorphTarget& pOther)
 LLPolyMorphTarget::~LLPolyMorphTarget()
 {
 	delete mVertMask;
-	mVertMask = NULL;
+	mVertMask = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -452,18 +452,18 @@ const LLVector4a *LLPolyMorphTarget::getFirstDistortion(U32 *index, LLPolyMesh *
 	if (mMorphData->mNumIndices)
 	{
 		resultVec = &mMorphData->mCoords[mMorphData->mCurrentIndex];
-		if (index != NULL)
+		if (index != nullptr)
 		{
 			*index = mMorphData->mVertexIndices[mMorphData->mCurrentIndex];
 		}
-		if (poly_mesh != NULL)
+		if (poly_mesh != nullptr)
 		{
 			*poly_mesh = mMesh;
 		}
 
 		return resultVec;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -478,17 +478,17 @@ const LLVector4a *LLPolyMorphTarget::getNextDistortion(U32 *index, LLPolyMesh **
 	if (mMorphData->mCurrentIndex < mMorphData->mNumIndices)
 	{
 		resultVec = &mMorphData->mCoords[mMorphData->mCurrentIndex];
-		if (index != NULL)
+		if (index != nullptr)
 		{
 			*index = mMorphData->mVertexIndices[mMorphData->mCurrentIndex];
 		}
-		if (poly_mesh != NULL)
+		if (poly_mesh != nullptr)
 		{
 			*poly_mesh = mMesh;
 		}
 		return resultVec;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -778,7 +778,7 @@ LLPolyVertexMask::LLPolyVertexMask(const LLPolyVertexMask& pOther)
 LLPolyVertexMask::~LLPolyVertexMask()
 {
 	delete [] mWeights;
-	mWeights = NULL;
+	mWeights = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -841,7 +841,7 @@ F32* LLPolyVertexMask::getMorphMaskWeights()
 {
 	if (!mWeightsGenerated)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	return mWeights;

@@ -35,8 +35,8 @@
 //I doubt any of this is thread safe!
 LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader)
 :	mEntry(entry)
+,	mResponseMsg(nullptr)
 ,	mEasyMessageReader(message_reader)
-,	mResponseMsg(NULL)
 {
 	mID.generate();
 	mSequenceID = 0;
@@ -45,7 +45,7 @@ LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageRead
 	{
 		mFlags = mEntry->mData[0];
 
-		LLMessageTemplate* temp = NULL;
+		LLMessageTemplate* temp = nullptr;
 
 		if (mEasyMessageReader)
 			temp = mEasyMessageReader->decodeTemplateMessage(
@@ -125,7 +125,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 	{
 		case LLMessageLogEntry::TEMPLATE:
 		{
-			LLMessageTemplate* temp = NULL;
+			LLMessageTemplate* temp = nullptr;
 			
 			if(mEasyMessageReader)
 			temp = mEasyMessageReader->decodeTemplateMessage(&(mEntry->mData[0]), mEntry->mDataSize, mEntry->mFromHost);
@@ -223,7 +223,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 						{
 							// Use libxml2 instead of expat for safety.
 							const int parse_opts = XML_PARSE_NONET | XML_PARSE_NOCDATA | XML_PARSE_NOXINCNODE | XML_PARSE_NOBLANKS;
-							xmlDocPtr doc = xmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.xml", NULL, parse_opts);
+							xmlDocPtr doc = xmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.xml", nullptr, parse_opts);
 							if(doc)
 							{
 								xmlChar *xmlbuffer = nullptr;
@@ -243,7 +243,7 @@ std::string LLEasyMessageLogEntry::getFull(BOOL beautify, BOOL show_header)
 						else if (parsed_content_type == "text/html")
 						{
 							const int parse_opts = HTML_PARSE_NONET | HTML_PARSE_NOERROR | HTML_PARSE_NOIMPLIED | HTML_PARSE_NOBLANKS;
-							htmlDocPtr doc = htmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.html", NULL, parse_opts);
+							htmlDocPtr doc = htmlReadMemory((char *)(mEntry->mData), mEntry->mDataSize, "noname.html", nullptr, parse_opts);
 							if (doc)
 							{
 								xmlChar * htmlbuffer = nullptr;
@@ -309,7 +309,7 @@ LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data
 	if(data_len > MAX_BUFFER_SIZE)
 	{
 		LL_ERRS("") << "Tried to decode a template message of size " << data_len << ", greater than MAX_BUFFER_SIZE!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 
 	U8* decodep = (&mRecvBuffer[0]);
@@ -330,11 +330,11 @@ LLMessageTemplate* LLEasyMessageReader::decodeTemplateMessage(U8 *data, S32 data
 			LL_WARNS("Messaging") << "Malformed packet received. Packet size "
 				<< data_len << " with invalid no. of acks " << acks
 				<< LL_ENDL;
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	LLMessageTemplate* message_template = NULL;
+	LLMessageTemplate* message_template = nullptr;
 
 	gMessageSystem->zeroCodeExpand(&decodep, &data_len);
 

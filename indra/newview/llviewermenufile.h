@@ -94,8 +94,8 @@ LLUUID upload_new_resource(
 
 void upload_new_resource(
     LLResourceUploadInfo::ptr_t &uploadInfo,
-    LLAssetStorage::LLStoreAssetCallback callback = NULL,
-    void *userdata = NULL);
+    LLAssetStorage::LLStoreAssetCallback callback = nullptr,
+    void *userdata = nullptr);
 
 
 void assign_defaults_and_show_upload_message(
@@ -128,7 +128,7 @@ public:
 
 	void getFile();
 
-	virtual void run();
+	void run() override;
 
 	virtual void notify(const std::string& filename) = 0;
 };

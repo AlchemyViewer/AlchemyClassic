@@ -34,11 +34,11 @@
 class LLMsgVarData
 {
 public:
-	LLMsgVarData() : mName(NULL), mSize(-1), mDataSize(-1), mData(NULL), mType(MVT_U8)
+	LLMsgVarData() : mName(nullptr), mSize(-1), mDataSize(-1), mData(nullptr), mType(MVT_U8)
 	{
 	}
 
-	LLMsgVarData(const char *name, EMsgVariableType type) : mSize(-1), mDataSize(-1), mData(NULL), mType(type)
+	LLMsgVarData(const char *name, EMsgVariableType type) : mSize(-1), mDataSize(-1), mData(nullptr), mType(type)
 	{
 		mName = (char *)name; 
 	}
@@ -51,7 +51,7 @@ public:
 	void deleteData() 
 	{
 		delete[] mData;
-		mData = NULL;
+		mData = nullptr;
 	}
 	
 	void addData(const void *indata, S32 size, EMsgVariableType type, S32 data_size = -1);
@@ -139,7 +139,7 @@ public:
 class LLMessageVariable
 {
 public:
-	LLMessageVariable() : mName(NULL), mType(MVT_NULL), mSize(-1)
+	LLMessageVariable() : mName(nullptr), mType(MVT_NULL), mSize(-1)
 	{
 	}
 
@@ -192,7 +192,7 @@ public:
 	void addVariable(char *name, const EMsgVariableType type, const S32 size)
 	{
 		LLMessageVariable** varp = &mMemberVariables[name];
-		if (*varp != NULL)
+		if (*varp != nullptr)
 		{
 			LL_ERRS() << name << " has already been used as a variable name!" << LL_ENDL;
 		}
@@ -270,7 +270,7 @@ public:
 	LLMessageTemplate(const char *name, U32 message_number, EMsgFrequency freq)
 		:
 		//mMemberBlocks(),
-		mName(NULL),
+		mName(nullptr),
 		mFrequency(freq),
 		mTrust(MT_NOTRUST),
 		mEncoding(ME_ZEROCODED),
@@ -298,7 +298,7 @@ public:
 	void addBlock(LLMessageBlock *blockp)
 	{
 		LLMessageBlock** member_blockp = &mMemberBlocks[blockp->mName];
-		if (*member_blockp != NULL)
+		if (*member_blockp != nullptr)
 		{
 			LL_ERRS() << "Block " << blockp->mName
 				<< "has already been used as a block name!" << LL_ENDL;

@@ -188,7 +188,7 @@ void LLFloaterAO::updateList()
 	mSetSelector->clear();
 	
 	mAnimationList->deleteAllItems();
-	mCurrentBoldItem = NULL;
+	mCurrentBoldItem = nullptr;
 	reloading(false);
 	
 	if (mSetList.empty())
@@ -372,7 +372,7 @@ LLScrollListItem* LLFloaterAO::addAnimation(const std::string& name)
 void LLFloaterAO::onSelectState()
 {
 	mAnimationList->deleteAllItems();
-	mCurrentBoldItem = NULL;
+	mCurrentBoldItem = nullptr;
 	mAnimationList->setCommentText(getString("ao_no_animations_loaded"));
 	mAnimationList->setEnabled(FALSE);
 	

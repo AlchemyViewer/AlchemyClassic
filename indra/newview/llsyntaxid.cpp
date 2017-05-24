@@ -48,10 +48,10 @@ const std::string FILENAME_DEFAULT = "keywords_lsl_default.xml";
  * @brief LLSyntaxIdLSL constructor
  */
 LLSyntaxIdLSL::LLSyntaxIdLSL()
-:	mKeywordsXml(LLSD())
-,	mCapabilityURL(std::string())
+:	mCapabilityURL(std::string())
 ,	mFilePath(LL_PATH_APP_SETTINGS)
 ,	mSyntaxId(LLUUID())
+,	mKeywordsXml(LLSD())
 ,	mInitialized(false)
 {
 	loadDefaultKeywordsIntoLLSD();

@@ -76,7 +76,7 @@ public:
 	// requests will be throttled from a non-trusted browser
 	LLObjectIMHandler() : LLCommandHandler("objectim", UNTRUSTED_THROTTLE) {}
 
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (params.size() < 1)
 		{
@@ -106,17 +106,17 @@ class LLChatHistoryHeader: public LLPanel
 public:
 	LLChatHistoryHeader()
 	:	LLPanel(),
-		mInfoCtrl(NULL),
 		mPopupMenuHandleAvatar(),
 		mPopupMenuHandleObject(),
+		mInfoCtrl(nullptr),
 		mAvatarID(),
 		mSourceType(CHAT_SOURCE_UNKNOWN),
 		mFrom(),
 		mSessionID(),
 		mMinUserNameWidth(0),
-		mUserNameFont(NULL),
-		mUserNameTextBox(NULL),
-		mTimeBoxTextBox(NULL),
+		mUserNameFont(nullptr),
+		mUserNameTextBox(nullptr),
+		mTimeBoxTextBox(nullptr),
 		mAvatarNameCacheConnection()
 	{}
 
@@ -147,7 +147,7 @@ public:
 		}
 	}
 
-	BOOL handleMouseUp(S32 x, S32 y, MASK mask)
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override
 	{
 		return LLPanel::handleMouseUp(x,y,mask);
 	}
@@ -296,7 +296,7 @@ public:
 		}
 	}
 
-	BOOL postBuild()
+	BOOL postBuild() override
 	{
 		LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
 		LLUICtrl::EnableCallbackRegistry::ScopedRegistrar registrar_enable;
@@ -346,7 +346,7 @@ public:
 		return 	child->pointInView(local_x, local_y);
 	}
 
-	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask)
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override
 	{
 		if(pointInChild("avatar_icon",x,y) || pointInChild("user_name",x,y))
 		{
@@ -517,7 +517,7 @@ public:
 		}
 	}
 
-	/*virtual*/ void draw()
+	/*virtual*/ void draw() override
 	{
 		LLTextBox* user_name = mUserNameTextBox; //getChild<LLTextBox>("user_name");
 		LLTextBox* time_box = mTimeBoxTextBox; //getChild<LLTextBox>("time_box");
@@ -733,6 +733,8 @@ private:
 
 LLChatHistory::LLChatHistory(const LLChatHistory::Params& p)
 :	LLUICtrl(p),
+	mIsLastMessageFromLog(false),
+	mNotifyAboutUnreadMsg(p.notify_unread_msg),
 	mMessageHeaderFilename(p.message_header),
 	mMessageSeparatorFilename(p.message_separator),
 	mLeftTextPad(p.left_text_pad),
@@ -742,9 +744,7 @@ LLChatHistory::LLChatHistory(const LLChatHistory::Params& p)
 	mTopSeparatorPad(p.top_separator_pad),
 	mBottomSeparatorPad(p.bottom_separator_pad),
 	mTopHeaderPad(p.top_header_pad),
-	mBottomHeaderPad(p.bottom_header_pad),
-	mIsLastMessageFromLog(false),
-	mNotifyAboutUnreadMsg(p.notify_unread_msg)
+	mBottomHeaderPad(p.bottom_header_pad)
 {
 	LLTextEditor::Params editor_params(p);
 	editor_params.rect = getLocalRect();
@@ -835,7 +835,7 @@ void LLChatHistory::initFromParams(const LLChatHistory::Params& p)
 
 LLView* LLChatHistory::getSeparator()
 {
-	LLPanel* separator = LLUICtrlFactory::getInstance()->createFromFile<LLPanel>(mMessageSeparatorFilename, NULL, LLPanel::child_registry_t::instance());
+	LLPanel* separator = LLUICtrlFactory::getInstance()->createFromFile<LLPanel>(mMessageSeparatorFilename, nullptr, LLPanel::child_registry_t::instance());
 	return separator;
 }
 
@@ -1055,7 +1055,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 	else // showing timestamp and name in the expanded mode
 	{
 		prependNewLineState = false;
-		LLView* view = NULL;
+		LLView* view = nullptr;
 		LLInlineViewSegment::Params p;
 		p.force_newline = true;
 		p.left_pad = mLeftWidgetPad;
@@ -1126,7 +1126,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 		if (create_toast)
 		{
 		LLNotificationPtr notification = LLNotificationsUtil::find(chat.mNotifId);
-		if (notification != NULL)
+		if (notification != nullptr)
 		{
 			LLIMToastNotifyPanel* notify_box = new LLIMToastNotifyPanel(
 					notification, chat.mSessionID, LLRect::null, !use_plain_text_chat_history, mEditor);

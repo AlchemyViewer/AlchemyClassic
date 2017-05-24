@@ -56,9 +56,9 @@ public:
 	LLGroupList(const Params& p);
 	virtual ~LLGroupList();
 
-	virtual void draw(); // from LLView
-	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask); // from LLView
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask); // from LLView
+	void draw() override; // from LLView
+	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override; // from LLView
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override; // from LLView
 
 	void setNameFilter(const std::string& filter);
 	void toggleIcons();
@@ -71,7 +71,7 @@ private:
 	void refresh();
 	void addNewItem(const LLUUID& id, const std::string& name, const LLUUID& icon_id,
 					const bool visible_in_profile, EAddPosition pos = ADD_BOTTOM);
-	bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata); // called on agent group list changes
+	bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override; // called on agent group list changes
 
 	bool onContextMenuItemClick(const LLSD& userdata);
 	bool onContextMenuItemEnable(const LLSD& userdata);
@@ -93,10 +93,10 @@ class LLGroupListItem : public LLPanel
 public:
 	LLGroupListItem();
 	~LLGroupListItem();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void setValue(const LLSD& value);
-	void onMouseEnter(S32 x, S32 y, MASK mask);
-	void onMouseLeave(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void setValue(const LLSD& value) override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
 
 	const LLUUID& getGroupID() const			{ return mGroupID; }
 	const std::string& getGroupName() const		{ return mGroupName; }
@@ -106,7 +106,7 @@ public:
 	void setGroupIconID(const LLUUID& group_icon_id);
 	void setGroupIconVisible(bool visible);
 
-	virtual void changed(LLGroupChange gc);
+	void changed(LLGroupChange gc) override;
 private:
 	void setActive(bool active);
 	void onInfoBtnClick();

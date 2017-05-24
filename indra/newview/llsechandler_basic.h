@@ -51,12 +51,12 @@ public:
 	LLBasicCertificate(X509* openSSLX509);
 	
 	virtual ~LLBasicCertificate();
-	
-	virtual std::string getPem() const;
-	virtual std::vector<U8> getBinary() const;
-	virtual void getLLSD(LLSD &llsd);
 
-	virtual X509* getOpenSSLX509() const;
+	std::string getPem() const override;
+	std::vector<U8> getBinary() const override;
+	void getLLSD(LLSD &llsd) override;
+
+	X509* getOpenSSLX509() const override;
 	
 	// set llsd elements for testing
 	void setLLSD(const std::string name, const LLSD& value) { mLLSDInfo[name] = value; }
@@ -92,7 +92,7 @@ public:
 		BasicIteratorImpl(std::vector<LLPointer<LLCertificate> >::iterator _iter) { mIter = _iter;}
 		virtual ~BasicIteratorImpl() {};
 		// seek forward or back.  Used by the operator++/operator-- implementations
-		virtual void seek(bool incr)
+		void seek(bool incr) override
 		{
 			if(incr)
 			{
@@ -104,19 +104,20 @@ public:
 			}
 		}
 		// create a copy of the iterator implementation class, used by the iterator copy constructor
-		virtual LLPointer<iterator_impl> clone() const
+		LLPointer<iterator_impl> clone() const override
 		{
 			return new BasicIteratorImpl(mIter);
 		}
-		
-		virtual bool equals(const LLPointer<iterator_impl>& _iter) const
+
+		bool equals(const LLPointer<iterator_impl>& _iter) const override
 		{
 			const BasicIteratorImpl *rhs_iter = dynamic_cast<const BasicIteratorImpl *>(_iter.get());
 			llassert(rhs_iter);
 			if (!rhs_iter) return 0;
 			return (mIter == rhs_iter->mIter);
 		}
-		virtual LLPointer<LLCertificate> get()
+
+		LLPointer<LLCertificate> get() override
 		{
 			return *mIter;
 		}
@@ -126,27 +127,27 @@ public:
 	};
 	
 	// numeric index of the vector
-	virtual LLPointer<LLCertificate> operator[](int _index) { return mCerts[_index];}
+	LLPointer<LLCertificate> operator[](int _index) override { return mCerts[_index];}
 	
 	// Iteration
-	virtual iterator begin() { return iterator(new BasicIteratorImpl(mCerts.begin())); }
-	
-	virtual iterator end() {  return iterator(new BasicIteratorImpl(mCerts.end())); }
+	iterator begin() override { return iterator(new BasicIteratorImpl(mCerts.begin())); }
+
+	iterator end() override {  return iterator(new BasicIteratorImpl(mCerts.end())); }
 	
 	// find a cert given params
-	virtual iterator find(const LLSD& params);
+	iterator find(const LLSD& params) override;
 	
 	// return the number of certs in the store
-	virtual int size() const { return mCerts.size(); }	
+	int size() const override { return mCerts.size(); }	
 	
 	// insert the cert to the store.  if a copy of the cert already exists in the store, it is removed first
-	virtual void  add(LLPointer<LLCertificate> cert) { insert(end(), cert); }
+	void  add(LLPointer<LLCertificate> cert) override { insert(end(), cert); }
 	
 	// insert the cert to the store.  if a copy of the cert already exists in the store, it is removed first
-	virtual void  insert(iterator _iter, LLPointer<LLCertificate> cert);	
+	void  insert(iterator _iter, LLPointer<LLCertificate> cert) override;	
 	
 	// remove a certificate from the store
-	virtual LLPointer<LLCertificate> erase(iterator _iter);
+	LLPointer<LLCertificate> erase(iterator _iter) override;
 	
 protected:
 	std::vector<LLPointer<LLCertificate> >mCerts;	
@@ -166,16 +167,16 @@ public:
 	virtual ~LLBasicCertificateStore();
 	
 	// persist the store
-	virtual void save();
+	void save() override;
 	
 	// return the store id
-	virtual std::string storeId() const;
+	std::string storeId() const override;
 	
 	// validate a certificate chain against a certificate store, using the
 	// given validation policy.
-	virtual void validate(int validation_policy,
+	void validate(int validation_policy,
 						  LLPointer<LLCertificateChain> ca_chain,
-						  const LLSD& validation_params);
+						  const LLSD& validation_params) override;
 	
 protected:
 	std::vector<LLPointer<LLCertificate> >            mCerts;
@@ -211,10 +212,10 @@ public:
 	LLSecAPIBasicCredential(const std::string& grid) : LLCredential(grid) {} 
 	virtual ~LLSecAPIBasicCredential() {}
 	// return a value representing the user id, (could be guid, name, whatever)
-	virtual std::string userID() const;	
+	std::string userID() const override;	
 	
 	// printible string identifying the credential.
-	virtual std::string asString() const;
+	std::string asString() const override;
 };
 
 // LLSecAPIBasicHandler Class
@@ -227,49 +228,49 @@ public:
 						 const std::string& legacy_password_path);
 	LLSecAPIBasicHandler();
 	
-	void init();
+	void init() override;
 	
 	virtual ~LLSecAPIBasicHandler();
 	
 	// instantiate a certificate from a pem string
-	virtual LLPointer<LLCertificate> getCertificate(const std::string& pem_cert);
+	LLPointer<LLCertificate> getCertificate(const std::string& pem_cert) override;
 	
 	
 	// instiate a certificate from an openssl X509 structure
-	virtual LLPointer<LLCertificate> getCertificate(X509* openssl_cert);
+	LLPointer<LLCertificate> getCertificate(X509* openssl_cert) override;
 	
 	// instantiate a chain from an X509_STORE_CTX
-	virtual LLPointer<LLCertificateChain> getCertificateChain(X509_STORE_CTX* chain);
+	LLPointer<LLCertificateChain> getCertificateChain(X509_STORE_CTX* chain) override;
 	
 	// instantiate a cert store given it's id.  if a persisted version
 	// exists, it'll be loaded.  If not, one will be created (but not
 	// persisted)
-	virtual LLPointer<LLCertificateStore> getCertificateStore(const std::string& store_id);
+	LLPointer<LLCertificateStore> getCertificateStore(const std::string& store_id) override;
 	
 	// persist data in a protected store
-	virtual void setProtectedData(const std::string& data_type,
+	void setProtectedData(const std::string& data_type,
 								  const std::string& data_id,
-								  const LLSD& data);
+								  const LLSD& data) override;
 	
 	// retrieve protected data
-	virtual LLSD getProtectedData(const std::string& data_type,
-								  const std::string& data_id);
+	LLSD getProtectedData(const std::string& data_type,
+								  const std::string& data_id) override;
 	
 	// delete a protected data item from the store
-	virtual void deleteProtectedData(const std::string& data_type,
-									 const std::string& data_id);
+	void deleteProtectedData(const std::string& data_type,
+									 const std::string& data_id) override;
 	
 	// credential management routines
-	
-	virtual LLPointer<LLCredential> createCredential(const std::string& grid,
-													 const LLSD& identifier, 
-													 const LLSD& authenticator);
-	
-	virtual LLPointer<LLCredential> loadCredential(const std::string& grid);
 
-	virtual void saveCredential(LLPointer<LLCredential> cred, bool save_authenticator);
-	
-	virtual void deleteCredential(LLPointer<LLCredential> cred);
+	LLPointer<LLCredential> createCredential(const std::string& grid,
+													 const LLSD& identifier, 
+													 const LLSD& authenticator) override;
+
+	LLPointer<LLCredential> loadCredential(const std::string& grid) override;
+
+	void saveCredential(LLPointer<LLCredential> cred, bool save_authenticator) override;
+
+	void deleteCredential(LLPointer<LLCredential> cred) override;
 	
 protected:
 	void _readProtectedData();

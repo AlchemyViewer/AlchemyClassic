@@ -102,7 +102,7 @@ template<class Pipe>
 class LLSimpleIOFactory : public LLChainIOFactory
 {
 public:
-	virtual bool build(LLPumpIO::chain_t& chain, LLSD context) const
+	bool build(LLPumpIO::chain_t& chain, LLSD context) const override
 	{
 		chain.push_back(LLIOPipe::ptr_t(new Pipe));
 		return true;
@@ -121,7 +121,7 @@ public:
 		mHandle(original),
 		mOriginal(original) {}
 
-	virtual bool build(LLPumpIO::chain_t& chain, LLSD context) const
+	bool build(LLPumpIO::chain_t& chain, LLSD context) const override
 	{
 		chain.push_back(LLIOPipe::ptr_t(new Pipe(*mOriginal)));
 		return true;

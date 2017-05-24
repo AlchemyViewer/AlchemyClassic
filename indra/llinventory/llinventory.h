@@ -153,7 +153,7 @@ protected:
 	// Accessors
 	//--------------------------------------------------------------------
 public:
-	virtual const LLUUID& getLinkedUUID() const;
+	const LLUUID& getLinkedUUID() const override;
 	virtual const LLPermissions& getPermissions() const;
 	virtual const LLUUID& getCreatorUUID() const;
 	virtual const LLUUID& getAssetUUID() const;
@@ -162,7 +162,7 @@ public:
 	virtual const LLSaleInfo& getSaleInfo() const;
 	virtual LLInventoryType::EType getInventoryType() const;
 	virtual U32 getFlags() const;
-	virtual time_t getCreationDate() const;
+	time_t getCreationDate() const override;
 	virtual U32 getCRC32() const; // really more of a checksum.
 	
 	//--------------------------------------------------------------------
@@ -198,16 +198,16 @@ public:
 	//--------------------------------------------------------------------
 public:
 	virtual BOOL importFile(LLFILE* fp);
-	virtual BOOL exportFile(LLFILE* fp, BOOL include_asset_key = TRUE) const;
-	virtual BOOL importLegacyStream(std::istream& input_stream);
-	virtual BOOL exportLegacyStream(std::ostream& output_stream, BOOL include_asset_key = TRUE) const;
+	BOOL exportFile(LLFILE* fp, BOOL include_asset_key = TRUE) const override;
+	BOOL importLegacyStream(std::istream& input_stream) override;
+	BOOL exportLegacyStream(std::ostream& output_stream, BOOL include_asset_key = TRUE) const override;
 
 	//--------------------------------------------------------------------
 	// Helper Functions
 	//--------------------------------------------------------------------
 public:
 	// Pack all information needed to reconstruct this item into the given binary bucket.
-	S32 packBinaryBucket(U8* bin_bucket, LLPermissions* perm_override = NULL) const;
+	S32 packBinaryBucket(U8* bin_bucket, LLPermissions* perm_override = nullptr) const;
 	void unpackBinaryBucket(U8* bin_bucket, S32 bin_bucket_size);
 	LLSD asLLSD() const;
 	void asLLSD( LLSD& sd ) const;
@@ -271,9 +271,9 @@ public:
 	//--------------------------------------------------------------------
 public:
 	virtual BOOL importFile(LLFILE* fp);
-	virtual BOOL exportFile(LLFILE* fp, BOOL include_asset_key = TRUE) const;
-	virtual BOOL importLegacyStream(std::istream& input_stream);
-	virtual BOOL exportLegacyStream(std::ostream& output_stream, BOOL include_asset_key = TRUE) const;
+	BOOL exportFile(LLFILE* fp, BOOL include_asset_key = TRUE) const override;
+	BOOL importLegacyStream(std::istream& input_stream) override;
+	BOOL exportLegacyStream(std::ostream& output_stream, BOOL include_asset_key = TRUE) const override;
 
 	//--------------------------------------------------------------------
 	// Member Variables

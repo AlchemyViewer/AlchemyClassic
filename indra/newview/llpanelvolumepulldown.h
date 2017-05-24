@@ -36,12 +36,12 @@ class LLPanelVolumePulldown : public LLPanel
 {
  public:
 	LLPanelVolumePulldown();
-	/*virtual*/ void draw();
-	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onTopLost();
-	/*virtual*/ void onVisibilityChange ( BOOL new_visibility );
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ void draw() override;
+	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void onTopLost() override;
+	/*virtual*/ void onVisibilityChange ( BOOL new_visibility ) override;
+	/*virtual*/ BOOL postBuild() override;
 	
  private:
 	void setControlFalse(const LLSD& user_data);

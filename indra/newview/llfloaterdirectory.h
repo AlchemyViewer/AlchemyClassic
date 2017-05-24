@@ -94,8 +94,8 @@ public:
 	typedef LLSDParamAdapter<_Params> Params;
 	
 	LLFloaterDirectory(const Params& key);
-	BOOL postBuild();
-	void onOpen(const LLSD& key);
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
 	
 	static void processSearchPeopleReply(LLMessageSystem* msg, void**);
 	static void processSearchGroupsReply(LLMessageSystem* msg, void**);

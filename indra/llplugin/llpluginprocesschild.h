@@ -64,10 +64,10 @@ public:
 	void sendMessageToParent(const LLPluginMessage &message);
 	
 	// Inherited from LLPluginMessagePipeOwner
-	/* virtual */ void receiveMessageRaw(const std::string &message);
+	/* virtual */ void receiveMessageRaw(const std::string &message) override;
 
 	// Inherited from LLPluginInstanceMessageListener
-	/* virtual */ void receivePluginMessage(const std::string &message);
+	/* virtual */ void receivePluginMessage(const std::string &message) override;
 	
 private:
 

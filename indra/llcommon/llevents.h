@@ -632,7 +632,7 @@ public:
     virtual ~LLEventStream() {}
 
     /// Post an event to all listeners
-    virtual bool post(const LLSD& event);
+	bool post(const LLSD& event) override;
 };
 
 /*****************************************************************************
@@ -658,12 +658,12 @@ public:
     virtual ~LLEventMailDrop() {}
     
     /// Post an event to all listeners
-    virtual bool post(const LLSD& event);
+	bool post(const LLSD& event) override;
     
 protected:
-    virtual LLBoundListener listen_impl(const std::string& name, const LLEventListener&,
+	LLBoundListener listen_impl(const std::string& name, const LLEventListener&,
                                         const NameList& after,
-                                        const NameList& before);
+                                        const NameList& before) override;
 
 private:
     typedef std::list<LLSD> EventList;
@@ -684,11 +684,11 @@ public:
     virtual ~LLEventQueue() {}
 
     /// Post an event to all listeners
-    virtual bool post(const LLSD& event);
+	bool post(const LLSD& event) override;
 
 private:
     /// flush queued events
-    virtual void flush();
+	void flush() override;
 
 private:
     typedef std::deque<LLSD> EventQueue;

@@ -56,20 +56,20 @@ protected:
 public:
 	virtual ~LLFavoritesBarCtrl();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 	// LLInventoryObserver observer trigger
-	virtual void changed(U32 mask);
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	virtual void draw();
+	void changed(U32 mask) override;
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	void draw() override;
 
 	void showDragMarker(BOOL show) { mShowDragMarker = show; }
 	void setLandingTab(LLUICtrl* tab) { mLandingTab = tab; }

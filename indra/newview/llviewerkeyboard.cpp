@@ -598,11 +598,11 @@ void start_chat( EKeystate s )
 	if (sChatInWindow
 		|| (LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat"))->isChatVisible())
 	{
-		LLFloaterIMNearbyChat::startChat(NULL);
+		LLFloaterIMNearbyChat::startChat(nullptr);
 	}
 	else
 	{
-		LLChatBar::startChat(NULL);
+		LLChatBar::startChat(nullptr);
 	}
 }
 
@@ -624,7 +624,7 @@ void start_gesture( EKeystate s )
 			else
 			{
 				// Don't overwrite existing text in chat editor
-				LLFloaterIMNearbyChat::startChat(NULL);
+				LLFloaterIMNearbyChat::startChat(nullptr);
 			}
 		}
 		else
@@ -635,7 +635,7 @@ void start_gesture( EKeystate s )
 			}
 			else
 			{
-				LLChatBar::startChat(NULL);
+				LLChatBar::startChat(nullptr);
 			}
 		}
 	}

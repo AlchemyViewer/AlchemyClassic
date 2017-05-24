@@ -50,15 +50,15 @@ void LLHTTPStandardServices::useServices()
 class LLHTTPHelloService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("says hello");
 		desc.getAPI();
 		desc.output("\"hello\"");
 		desc.source(__FILE__, __LINE__);
 	}
-    
-	virtual LLSD simpleGet() const
+
+	LLSD simpleGet() const override
 	{
 		LLSD result = "hello";
 		return result;
@@ -73,7 +73,7 @@ LLHTTPRegistration<LLHTTPHelloService>
 class LLHTTPEchoService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("echo input");
 		desc.postAPI();
@@ -81,8 +81,8 @@ public:
 		desc.output("<the input>");
 		desc.source(__FILE__, __LINE__);
 	}
-	
-	virtual LLSD simplePost(const LLSD& params) const
+
+	LLSD simplePost(const LLSD& params) const override
 	{
 		return params;
 	}
@@ -96,7 +96,7 @@ LLHTTPRegistration<LLHTTPEchoService>
 class LLAPIService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("information about the URLs this server supports");
 		desc.getAPI();
@@ -104,13 +104,13 @@ public:
 		desc.source(__FILE__, __LINE__);
 	}
 
-	virtual bool handles(const LLSD& remainder, LLSD& context) const
+	bool handles(const LLSD& remainder, LLSD& context) const override
 	{
-		return followRemainder(remainder) != NULL;
+		return followRemainder(remainder) != nullptr;
 	}
 
-    virtual void get(ResponsePtr response, const LLSD& context) const
-	{
+	void get(ResponsePtr response, const LLSD& context) const override
+    {
 		const LLSD& remainder = context[CONTEXT_REQUEST]["remainder"];
 		
 		if (remainder.size() > 0)

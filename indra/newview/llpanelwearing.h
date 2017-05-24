@@ -55,17 +55,17 @@ public:
 	LLPanelWearing();
 	virtual ~LLPanelWearing();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 
-	/*virtual*/ void onOpen(const LLSD& info);
+	/*virtual*/ void onOpen(const LLSD& info) override;
 
-	/*virtual*/ void setFilterSubString(const std::string& string);
+	/*virtual*/ void setFilterSubString(const std::string& string) override;
 
-	/*virtual*/ bool isActionEnabled(const LLSD& userdata);
+	/*virtual*/ bool isActionEnabled(const LLSD& userdata) override;
 
-	/*virtual*/ void getSelectedItemsUUIDs(uuid_vec_t& selected_uuids) const;
+	/*virtual*/ void getSelectedItemsUUIDs(uuid_vec_t& selected_uuids) const override;
 
 	/*virtual*/ void copyToClipboard();
 

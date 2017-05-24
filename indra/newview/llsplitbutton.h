@@ -70,9 +70,9 @@ public:
 	virtual ~LLSplitButton() {};
 
 	//Overridden
-	virtual void	onFocusLost();
-	virtual void	setFocus(BOOL b);
-	virtual void	setEnabled(BOOL enabled);
+	void	onFocusLost() override;
+	void	setFocus(BOOL b) override;
+	void	setEnabled(BOOL enabled) override;
 
 	//Callbacks
 	void	onArrowBtnDown();
@@ -80,7 +80,7 @@ public:
 	void	onItemSelected(LLUICtrl* ctrl);
 	void	setSelectionCallback(commit_callback_t cb) { mSelectionCallback = cb; }
 
-	virtual BOOL handleMouseUp(S32 x, S32 y, MASK mask);
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
 
 	virtual void	showButtons();
 	virtual void	hideButtons();

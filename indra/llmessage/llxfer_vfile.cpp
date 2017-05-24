@@ -44,7 +44,7 @@ const U32 LL_MAX_XFER_FILE_BUFFER = 65536;
 LLXfer_VFile::LLXfer_VFile ()
 : LLXfer(-1)
 {
-	init(NULL, LLUUID::null, LLAssetType::AT_NONE);
+	init(nullptr, LLUUID::null, LLAssetType::AT_NONE);
 }
 
 LLXfer_VFile::LLXfer_VFile (LLVFS *vfs, const LLUUID &local_id, LLAssetType::EType type)
@@ -69,7 +69,7 @@ void LLXfer_VFile::init (LLVFS *vfs, const LLUUID &local_id, LLAssetType::EType 
 	mLocalID = local_id;
 	mType = type;
 
-	mVFile = NULL;
+	mVFile = nullptr;
 
 	std::string id_string;
 	mLocalID.toString(id_string);
@@ -85,7 +85,7 @@ void LLXfer_VFile::cleanup ()
 	file.remove();
 
 	delete mVFile;
-	mVFile = NULL;
+	mVFile = nullptr;
 
 	LLXfer::cleanup();
 }
@@ -125,7 +125,7 @@ S32 LLXfer_VFile::initializeRequest(U64 xfer_id,
 	if (mBuffer)
 	{
 		delete[] mBuffer;
-		mBuffer = NULL;
+		mBuffer = nullptr;
 	}
 
 	mBuffer = new char[LL_MAX_XFER_FILE_BUFFER];
@@ -179,7 +179,7 @@ S32 LLXfer_VFile::startSend (U64 xfer_id, const LLHost &remote_host)
 	mBufferStartOffset = 0;	
 	
 	delete mVFile;
-	mVFile = NULL;
+	mVFile = nullptr;
 	if(mVFS->getExists(mLocalID, mType))
 	{
 		mVFile = new LLVFile(mVFS, mLocalID, mType, LLVFile::READ);
@@ -187,7 +187,7 @@ S32 LLXfer_VFile::startSend (U64 xfer_id, const LLHost &remote_host)
 		if (mVFile->getSize() <= 0)
 		{
 			delete mVFile;
-			mVFile = NULL;
+			mVFile = nullptr;
 
 			return LL_ERR_FILE_EMPTY;
 		}
@@ -301,7 +301,7 @@ S32 LLXfer_VFile::processEOF()
 	if (mVFile)
 	{
 		delete mVFile;
-		mVFile = NULL;
+		mVFile = nullptr;
 	}
 
 	retval = LLXfer::processEOF();

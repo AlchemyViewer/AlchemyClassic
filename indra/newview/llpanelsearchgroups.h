@@ -39,11 +39,11 @@ class LLPanelSearchGroups : public LLPanelSearch
 {
 public:
 	LLPanelSearchGroups();
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 private:
-	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl);
-	/*virtual*/ void search();
+	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl) override;
+	/*virtual*/ void search() override;
 	
 	LLSearchEditor* mSearchEditor;
 };

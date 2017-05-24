@@ -33,7 +33,7 @@
 
 //============================================================================
 
-/*static*/ LLLFSThread* LLLFSThread::sLocal = NULL;
+/*static*/ LLLFSThread* LLLFSThread::sLocal = nullptr;
 
 //============================================================================
 // Run on MAIN thread
@@ -60,7 +60,7 @@ void LLLFSThread::cleanupClass()
 		sLocal->update(0);
 	}
 	delete sLocal;
-	sLocal = 0;
+	sLocal = nullptr;
 }
 
 //----------------------------------------------------------------------------
@@ -160,7 +160,7 @@ void LLLFSThread::Request::finishRequest(bool completed)
 	if (mResponder.notNull())
 	{
 		mResponder->completed(completed ? mBytesRead : 0);
-		mResponder = NULL;
+		mResponder = nullptr;
 	}
 }
 
@@ -173,7 +173,7 @@ void LLLFSThread::Request::deleteRequest()
 	if (mResponder.notNull())
 	{
 		mResponder->completed(0);
-		mResponder = NULL;
+		mResponder = nullptr;
 	}
 	LLQueuedThread::QueuedRequest::deleteRequest();
 }

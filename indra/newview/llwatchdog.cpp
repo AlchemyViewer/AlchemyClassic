@@ -37,7 +37,7 @@ const U32 WATCHDOG_SLEEP_TIME_USEC = 1000000;
 void default_killer_callback()
 {
 #ifdef LL_WINDOWS
-	RaiseException(0,0,0,0);
+	RaiseException(0,0,0,nullptr);
 #else
 	raise(SIGQUIT);
 #endif
@@ -63,7 +63,7 @@ public:
 		mSleepMsecs = 1;
 	}
     
-	/* virtual */ void run()
+	/* virtual */ void run() override
 	{
 		while(!mStopping)
 		{
@@ -158,8 +158,8 @@ void LLWatchdogTimeout::ping(const std::string& state)
 
 // LLWatchdog
 LLWatchdog::LLWatchdog() :
-	mSuspectsAccessMutex(NULL),
-	mTimer(NULL),
+	mSuspectsAccessMutex(nullptr),
+	mTimer(nullptr),
 	mLastClockCount(0),
 	mKillerCallback(&default_killer_callback)
 {
@@ -205,13 +205,13 @@ void LLWatchdog::cleanup()
 	{
 		mTimer->stop();
 		delete mTimer;
-		mTimer = NULL;
+		mTimer = nullptr;
 	}
 
 	if(mSuspectsAccessMutex)
 	{
 		delete mSuspectsAccessMutex;
-		mSuspectsAccessMutex = NULL;
+		mSuspectsAccessMutex = nullptr;
 	}
 
 	mLastClockCount = 0;
@@ -263,7 +263,7 @@ void LLWatchdog::run()
 
 void LLWatchdog::lockThread()
 {
-	if(mSuspectsAccessMutex != NULL)
+	if(mSuspectsAccessMutex != nullptr)
 	{
 		mSuspectsAccessMutex->lock();
 	}
@@ -271,7 +271,7 @@ void LLWatchdog::lockThread()
 
 void LLWatchdog::unlockThread()
 {
-	if(mSuspectsAccessMutex != NULL)
+	if(mSuspectsAccessMutex != nullptr)
 	{
 		mSuspectsAccessMutex->unlock();
 	}

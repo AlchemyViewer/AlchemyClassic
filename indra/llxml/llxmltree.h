@@ -203,20 +203,20 @@ protected:
 	const std::string& tabs();
 
 	// Overrides from LLXmlParser
-	virtual void	startElement(const char *name, const char **attributes); 
-	virtual void	endElement(const char *name);
-	virtual void	characterData(const char *s, int len);
-	virtual void	processingInstruction(const char *target, const char *data);
-	virtual void	comment(const char *data);
-	virtual void	startCdataSection();
-	virtual void	endCdataSection();
-	virtual void	defaultData(const char *s, int len);
-	virtual void	unparsedEntityDecl(
+	void	startElement(const char *name, const char **attributes) override;
+	void	endElement(const char *name) override;
+	void	characterData(const char *s, int len) override;
+	void	processingInstruction(const char *target, const char *data) override;
+	void	comment(const char *data) override;
+	void	startCdataSection() override;
+	void	endCdataSection() override;
+	void	defaultData(const char *s, int len) override;
+	void	unparsedEntityDecl(
 		const char* entity_name,
 		const char* base,
 		const char* system_id,
 		const char* public_id,
-		const char* notation_name);
+		const char* notation_name) override;
 
 	//template method pattern
 	virtual LLXmlTreeNode* CreateXmlTreeNode(const std::string& name, LLXmlTreeNode* parent);

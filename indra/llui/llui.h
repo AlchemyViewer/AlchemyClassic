@@ -238,9 +238,9 @@ public:
 
 	static void initClass(const settings_map_t& settings,
 						  LLImageProviderInterface* image_provider,
-						  LLUIAudioCallback audio_callback = NULL,
-						  LLUIAudioCallback deferred_audio_callback = NULL,
-						  const LLVector2 *scale_factor = NULL,
+						  LLUIAudioCallback audio_callback = nullptr,
+						  LLUIAudioCallback deferred_audio_callback = nullptr,
+						  const LLVector2 *scale_factor = nullptr,
 						  const std::string& language = LLStringUtil::null);
 	static void cleanupClass();
 	static void setPopupFuncs(const add_popup_t& add_popup, const remove_popup_t&, const clear_popups_t& );

@@ -42,30 +42,30 @@ public:
 	LLDrawPoolWLSky(void);
 	/*virtual*/ ~LLDrawPoolWLSky();
 
-	/*virtual*/ BOOL isDead() { return FALSE; }
+	/*virtual*/ BOOL isDead() override { return FALSE; }
 
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 
-	/*virtual*/ LLViewerTexture *getDebugTexture();
-	/*virtual*/ void beginRenderPass( S32 pass );
-	/*virtual*/ void endRenderPass( S32 pass );
-	/*virtual*/ S32	 getNumPasses() { return 1; }
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
-	/*virtual*/ U32 getVertexDataMask() { return SKY_VERTEX_DATA_MASK; }
-	/*virtual*/ BOOL verify() const { return TRUE; }		// Verify that all data in the draw pool is correct!
-	/*virtual*/ S32 getVertexShaderLevel() const { return mVertexShaderLevel; }
+	/*virtual*/ LLViewerTexture *getDebugTexture() override;
+	/*virtual*/ void beginRenderPass( S32 pass ) override;
+	/*virtual*/ void endRenderPass( S32 pass ) override;
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
+	/*virtual*/ U32 getVertexDataMask() override { return SKY_VERTEX_DATA_MASK; }
+	/*virtual*/ BOOL verify() const override { return TRUE; }		// Verify that all data in the draw pool is correct!
+	/*virtual*/ S32 getVertexShaderLevel() const override { return mVertexShaderLevel; }
 	
 	//static LLDrawPool* createPool(const U32 type, LLViewerTexture *tex0 = NULL);
 
 	// Create an empty new instance of the pool.
-	/*virtual*/ LLDrawPoolWLSky *instancePool();  ///< covariant override
-	/*virtual*/ LLViewerTexture* getTexture();
-	/*virtual*/ BOOL isFacePool() { return FALSE; }
-	/*virtual*/ void resetDrawOrders();
+	/*virtual*/ LLDrawPoolWLSky *instancePool() override;  ///< covariant override
+	/*virtual*/ LLViewerTexture* getTexture() override;
+	/*virtual*/ BOOL isFacePool() override { return FALSE; }
+	/*virtual*/ void resetDrawOrders() override;
 
 	static void cleanupGL();
 	static void restoreGL();

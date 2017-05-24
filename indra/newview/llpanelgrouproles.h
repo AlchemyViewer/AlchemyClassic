@@ -53,8 +53,8 @@ public:
 	friend class LLPanelGroupRolesSubTab;
 	friend class LLPanelGroupActionsSubTab;
 
-	virtual BOOL postBuild();
-	virtual BOOL isVisibleByAgent(LLAgent* agentp);
+	BOOL postBuild() override;
+	BOOL isVisibleByAgent(LLAgent* agentp) override;
 
 	
 	bool handleSubTabSwitch(const LLSD& data);
@@ -70,15 +70,15 @@ public:
 	bool onModalClose(const LLSD& notification, const LLSD& response);
 
 	// Most of these messages are just passed on to the current sub-tab.
-	virtual void activate();
-	virtual void deactivate();
-	virtual bool needsApply(std::string& mesg);
-	virtual BOOL hasModal();
-	virtual bool apply(std::string& mesg);
-	virtual void cancel();
-	virtual void update(LLGroupChange gc);
+	void activate() override;
+	void deactivate() override;
+	bool needsApply(std::string& mesg) override;
+	BOOL hasModal() override;
+	bool apply(std::string& mesg) override;
+	void cancel() override;
+	void update(LLGroupChange gc) override;
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 
 protected:
 	LLPanelGroupTab*		mCurrentTab;
@@ -97,15 +97,15 @@ public:
 	LLPanelGroupSubTab();
 	virtual ~LLPanelGroupSubTab();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	// This allows sub-tabs to collect child widgets from a higher level in the view hierarchy.
 	virtual BOOL postBuildSubTab(LLView* root);
 
 	virtual void setSearchFilter( const std::string& filter );
 
-	virtual void activate();
-	virtual void deactivate();
+	void activate() override;
+	void deactivate() override;
 
 	// Helper functions
 	bool matchesActionSearchFilter(std::string action);
@@ -113,7 +113,7 @@ public:
 
 	void setFooterEnabled(BOOL enable);
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 protected:
 	void buildActionsList(LLScrollListCtrl* ctrl,
 								 U64 allowed_by_some,
@@ -155,7 +155,7 @@ public:
 	LLPanelGroupMembersSubTab();
 	virtual ~LLPanelGroupMembersSubTab();
 
-	virtual BOOL postBuildSubTab(LLView* root);
+	BOOL postBuildSubTab(LLView* root) override;
 
 	void handleMemberSelect();
 
@@ -183,17 +183,17 @@ public:
 	void applyMemberChanges();
 	bool addOwnerCB(const LLSD& notification, const LLSD& response);
 
-	virtual void activate();
-	virtual void deactivate();
-	virtual void cancel();
-	virtual bool needsApply(std::string& mesg);
-	virtual bool apply(std::string& mesg);
-	virtual void update(LLGroupChange gc);
+	void activate() override;
+	void deactivate() override;
+	void cancel() override;
+	bool needsApply(std::string& mesg) override;
+	bool apply(std::string& mesg) override;
+	void update(LLGroupChange gc) override;
 	void updateMembers();
 
-	virtual void draw();
+	void draw() override;
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 
 	void addMemberToList(LLGroupMemberData* data);
 	void onNameCache(const LLUUID& update_id, LLGroupMemberData* member, const LLAvatarName& av_name, const LLUUID& av_id);
@@ -236,15 +236,15 @@ public:
 	LLPanelGroupRolesSubTab();
 	virtual ~LLPanelGroupRolesSubTab();
 
-	virtual BOOL postBuildSubTab(LLView* root);
+	BOOL postBuildSubTab(LLView* root) override;
 
-	virtual void activate();
-	virtual void deactivate();
-	virtual bool needsApply(std::string& mesg);
-	virtual bool apply(std::string& mesg);
-	virtual void cancel();
+	void activate() override;
+	void deactivate() override;
+	bool needsApply(std::string& mesg) override;
+	bool apply(std::string& mesg) override;
+	void cancel() override;
 	bool matchesSearchFilter(std::string rolename, std::string roletitle);
-	virtual void update(LLGroupChange gc);
+	void update(LLGroupChange gc) override;
 
 	void handleRoleSelect();
 	void buildMembersList();
@@ -268,7 +268,7 @@ public:
 
 	void saveRoleChanges(bool select_saved_role);
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 
 	BOOL	mFirstOpen;
 
@@ -300,18 +300,18 @@ public:
 	LLPanelGroupActionsSubTab();
 	virtual ~LLPanelGroupActionsSubTab();
 
-	virtual BOOL postBuildSubTab(LLView* root);
+	BOOL postBuildSubTab(LLView* root) override;
 
 
-	virtual void activate();
-	virtual void deactivate();
-	virtual bool needsApply(std::string& mesg);
-	virtual bool apply(std::string& mesg);
-	virtual void update(LLGroupChange gc);
+	void activate() override;
+	void deactivate() override;
+	bool needsApply(std::string& mesg) override;
+	bool apply(std::string& mesg) override;
+	void update(LLGroupChange gc) override;
 
 	void handleActionSelect();
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 protected:
 	LLScrollListCtrl*	mActionList;
 	LLScrollListCtrl*	mActionRoles;

@@ -37,8 +37,8 @@ class LLTransferSourceParamsAsset : public LLTransferSourceParams
 public:
 	LLTransferSourceParamsAsset();
 	virtual ~LLTransferSourceParamsAsset() {}
-	/*virtual*/ void packParams(LLDataPacker &dp) const;
-	/*virtual*/ BOOL unpackParams(LLDataPacker &dp);
+	/*virtual*/ void packParams(LLDataPacker &dp) const override;
+	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 
 	void setAsset(const LLUUID &asset_id, const LLAssetType::EType asset_type);
 
@@ -59,17 +59,17 @@ public:
 	static void responderCallback(LLVFS *vfs, const LLUUID& uuid, LLAssetType::EType type,
 								  void *user_data, S32 result, LLExtStat ext_status );
 protected:
-	/*virtual*/ void initTransfer();
-	/*virtual*/ F32 updatePriority();
+	/*virtual*/ void initTransfer() override;
+	/*virtual*/ F32 updatePriority() override;
 	/*virtual*/ LLTSCode dataCallback(const S32 packet_id,
 									  const S32 max_bytes,
 									  U8 **datap,
 									  S32 &returned_bytes,
-									  BOOL &delete_returned);
-	/*virtual*/ void completionCallback(const LLTSCode status);
+									  BOOL &delete_returned) override;
+	/*virtual*/ void completionCallback(const LLTSCode status) override;
 
-	virtual void packParams(LLDataPacker& dp) const;
-	/*virtual*/ BOOL unpackParams(LLDataPacker &dp);
+	void packParams(LLDataPacker& dp) const override;
+	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 
 protected:
 	LLTransferSourceParamsAsset mParams;

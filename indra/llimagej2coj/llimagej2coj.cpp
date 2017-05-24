@@ -160,10 +160,10 @@ bool LLImageJ2COJ::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decod
 	
 	opj_dparameters_t parameters;	/* decompression parameters */
 	opj_event_mgr_t event_mgr = { };		/* event manager */
-	opj_image_t *image = NULL;
+	opj_image_t *image = nullptr;
 
-	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
-	opj_cio_t *cio = NULL;
+	opj_dinfo_t* dinfo = nullptr;	/* handle to a decompressor */
+	opj_cio_t *cio = nullptr;
 
 
 	/* configure the event callbacks (not required) */
@@ -359,7 +359,7 @@ bool LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 	//
 	OPJ_COLOR_SPACE color_space = CLRSPC_SRGB;
 	opj_image_cmptparm_t cmptparm[MAX_COMPS];
-	opj_image_t * image = NULL;
+	opj_image_t * image = nullptr;
 	S32 numcomps = raw_image.getComponents();
 	S32 width = raw_image.getWidth();
 	S32 height = raw_image.getHeight();
@@ -403,7 +403,7 @@ bool LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 	/* ---------------------------- */
 
 	int codestream_length;
-	opj_cio_t *cio = NULL;
+	opj_cio_t *cio = nullptr;
 
 	/* get a J2K compressor handle */
 	opj_cinfo_t* cinfo = opj_create_compress(CODEC_J2K);
@@ -416,10 +416,10 @@ bool LLImageJ2COJ::encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, con
 
 	/* open a byte stream for writing */
 	/* allocate memory for all tiles */
-	cio = opj_cio_open((opj_common_ptr)cinfo, NULL, 0);
+	cio = opj_cio_open((opj_common_ptr)cinfo, nullptr, 0);
 
 	/* encode the image */
-	bool bSuccess = opj_encode(cinfo, cio, image, NULL);
+	bool bSuccess = opj_encode(cinfo, cio, image, nullptr);
 	if (!bSuccess)
 	{
 		opj_cio_close(cio);
@@ -526,10 +526,10 @@ bool LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 
 	opj_dparameters_t parameters;	/* decompression parameters */
 	opj_event_mgr_t event_mgr = { };		/* event manager */
-	opj_image_t *image = NULL;
+	opj_image_t *image = nullptr;
 
-	opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
-	opj_cio_t *cio = NULL;
+	opj_dinfo_t* dinfo = nullptr;	/* handle to a decompressor */
+	opj_cio_t *cio = nullptr;
 
 
 	/* configure the event callbacks (not required) */

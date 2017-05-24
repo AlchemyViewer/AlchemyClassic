@@ -71,7 +71,7 @@ void LLHUDEffectSpiral::markDead()
 	if (mPartSourcep)
 	{
 		mPartSourcep->setDead();
-		mPartSourcep = NULL;
+		mPartSourcep = nullptr;
 	}
 	LLHUDEffect::markDead();
 }
@@ -121,11 +121,11 @@ void LLHUDEffectSpiral::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 	htonmemcpy(target_object_id.mData, packed_data + 16, MVT_LLUUID, 16);
 	htonmemcpy(mPositionGlobal.mdV, packed_data + 32, MVT_LLVector3d, 24);
 
-	LLViewerObject *objp = NULL;
+	LLViewerObject *objp = nullptr;
 
 	if (object_id.isNull())
 	{
-		setSourceObject(NULL);
+		setSourceObject(nullptr);
 	}
 	else
 	{
@@ -144,7 +144,7 @@ void LLHUDEffectSpiral::unpackData(LLMessageSystem *mesgsys, S32 blocknum)
 
 	if (target_object_id.isNull())
 	{
-		setTargetObject(NULL);
+		setTargetObject(nullptr);
 	}
 	else
 	{
@@ -196,7 +196,7 @@ void LLHUDEffectSpiral::triggerLocal()
 				{
 					LLPointer<LLViewerPartSourceBeam> psb = new LLViewerPartSourceBeam;
 					psb->setSourceObject(mSourceObject);
-					psb->setTargetObject(NULL);
+					psb->setTargetObject(nullptr);
 					psb->setColor(color);
 					psb->mLKGTargetPosGlobal = mPositionGlobal;
 					psb->setOwnerUUID(gAgent.getID());

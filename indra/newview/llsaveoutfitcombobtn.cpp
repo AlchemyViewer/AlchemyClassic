@@ -38,7 +38,7 @@ static const std::string SAVE_BTN("save_btn");
 static const std::string SAVE_FLYOUT_BTN("save_flyout_btn");
 
 LLSaveOutfitComboBtn::LLSaveOutfitComboBtn(LLPanel* parent, bool saveAsDefaultAction):
-	mParent(parent), mSaveAsDefaultAction(saveAsDefaultAction)
+	mSaveAsDefaultAction(saveAsDefaultAction), mParent(parent)
 {
 	// register action mapping before creating menu
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar save_registar;

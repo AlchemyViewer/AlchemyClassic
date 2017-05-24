@@ -244,7 +244,7 @@ protected:
 	 * @return Returns the number of LLSD objects parsed into
 	 * data. Returns PARSE_FAILURE (-1) on parse failure.
 	 */
-	virtual S32 doParse(std::istream& istr, LLSD& data) const;
+	S32 doParse(std::istream& istr, LLSD& data) const override;
 
 private:
 	/** 
@@ -317,12 +317,12 @@ protected:
 	 * @return Returns the number of LLSD objects parsed into
 	 * data. Returns PARSE_FAILURE (-1) on parse failure.
 	 */
-	virtual S32 doParse(std::istream& istr, LLSD& data) const;
+	S32 doParse(std::istream& istr, LLSD& data) const override;
 
 	/** 
 	 * @brief Virtual default function for resetting the parser
 	 */
-	virtual void doReset();
+	void doReset() override;
 
 private:
 	class Impl;
@@ -365,7 +365,7 @@ protected:
 	 * @return Returns the number of LLSD objects parsed into
 	 * data. Returns -1 on parse failure.
 	 */
-	virtual S32 doParse(std::istream& istr, LLSD& data) const;
+	S32 doParse(std::istream& istr, LLSD& data) const override;
 
 private:
 	/** 
@@ -507,7 +507,7 @@ public:
 	 * @param ostr The destination stream for the data.
 	 * @return Returns The number of LLSD objects fomatted out
 	 */
-	virtual S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const;
+	S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const override;
 
 protected:
 
@@ -555,7 +555,7 @@ public:
 	 * @param ostr The destination stream for the data.
 	 * @return Returns The number of LLSD objects fomatted out
 	 */
-	virtual S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const;
+	S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const override;
 
 protected:
 
@@ -615,7 +615,7 @@ public:
 	 * @param ostr The destination stream for the data.
 	 * @return Returns The number of LLSD objects fomatted out
 	 */
-	virtual S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const;
+	S32 format(const LLSD& data, std::ostream& ostr, U32 options = LLSDFormatter::OPTIONS_NONE) const override;
 
 protected:
 	/** 

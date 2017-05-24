@@ -147,7 +147,7 @@ namespace LLTextValidate
 		}
 		if (success)
 		{
-			S32 val = strtol(wstring_to_utf8str(trimmed).c_str(), NULL, 10);
+			S32 val = strtol(wstring_to_utf8str(trimmed).c_str(), nullptr, 10);
 			if (val <= 0)
 			{
 				success = FALSE;
@@ -181,7 +181,7 @@ namespace LLTextValidate
 		}
 		if (success)
 		{
-			S32 val = strtol(wstring_to_utf8str(trimmed).c_str(), NULL, 10);
+			S32 val = strtol(wstring_to_utf8str(trimmed).c_str(), nullptr, 10);
 			if (val < 0)
 			{
 				success = FALSE;
@@ -214,7 +214,7 @@ namespace LLTextValidate
 		}
 		if (success)
 		{
-			S32 val = strtol(wstring_to_utf8str(test_str).c_str(), NULL, 10);
+			S32 val = strtol(wstring_to_utf8str(test_str).c_str(), nullptr, 10);
 			if (val < 0)
 			{
 				success = FALSE;

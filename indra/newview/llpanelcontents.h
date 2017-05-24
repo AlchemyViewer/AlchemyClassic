@@ -43,11 +43,11 @@ class LLSpinCtrl;
 class LLPanelContents : public LLPanel
 {
 public:
-	virtual	BOOL postBuild();
+	BOOL postBuild() override;
 	LLPanelContents();
 	virtual ~LLPanelContents();
 
-	void			refresh();
+	void			refresh() override;
 	void			clearContents();
 
 

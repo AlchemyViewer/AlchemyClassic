@@ -107,8 +107,8 @@ public:
 		Alternative<S32>				column_index;
 		Alternative<std::string>		column_name;
 		NameColumn()
-		:	column_name("name_column"),
-			column_index("name_column_index", 0)
+		:	column_index("name_column_index", 0),
+			column_name("name_column")
 		{}
 	};
 
@@ -141,7 +141,7 @@ public:
 					 BOOL enabled = TRUE, const std::string& suffix = LLStringUtil::null);
 	LLScrollListItem* addNameItem(NameItem& item, EAddPosition pos = ADD_BOTTOM);
 
-	/*virtual*/ LLScrollListItem* addElement(const LLSD& element, EAddPosition pos = ADD_BOTTOM, void* userdata = NULL);
+	/*virtual*/ LLScrollListItem* addElement(const LLSD& element, EAddPosition pos = ADD_BOTTOM, void* userdata = nullptr) override;
 	LLScrollListItem* addNameItemRow(const NameItem& value, EAddPosition pos = ADD_BOTTOM, const std::string& suffix = LLStringUtil::null);
 
 	// Add a user to the list by name.  It will be added, the name
@@ -157,16 +157,16 @@ public:
 	/*virtual*/ BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask,
 									  BOOL drop, EDragAndDropType cargo_type, void *cargo_data,
 									  EAcceptance *accept,
-									  std::string& tooltip_msg);
-	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask);
+									  std::string& tooltip_msg) override;
+	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask) override;
 
 	void setAllowCallingCardDrop(BOOL b) { mAllowCallingCardDrop = b; }
 
 	void sortByName(BOOL ascending);
 
-	/*virtual*/ void updateColumns(bool force_update);
+	/*virtual*/ void updateColumns(bool force_update) override;
 
-	/*virtual*/ void mouseOverHighlightNthItem( S32 index );
+	/*virtual*/ void mouseOverHighlightNthItem( S32 index ) override;
     
 private:
 	void showInspector(const LLUUID& avatar_id, bool is_group, bool is_experience = false);

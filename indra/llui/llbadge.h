@@ -132,7 +132,7 @@ public:
 
 	bool				addToView(LLView * view);
 
-	virtual void		draw();
+	void		draw() override;
 
 	const std::string	getLabel() const { return wstring_to_utf8str(mLabel); }
 	void				setLabel( const LLStringExplicit& label);

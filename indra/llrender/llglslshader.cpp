@@ -46,7 +46,7 @@
 #endif
 
 GLuint LLGLSLShader::sCurBoundShader = 0;
-LLGLSLShader* LLGLSLShader::sCurBoundShaderPtr = NULL;
+LLGLSLShader* LLGLSLShader::sCurBoundShaderPtr = nullptr;
 S32 LLGLSLShader::sIndexedTextureChannels = 0;
 bool LLGLSLShader::sNoFixedFunction = false;
 bool LLGLSLShader::sProfileEnabled = false;
@@ -301,19 +301,19 @@ void LLGLSLShader::readProfileQuery(U32 count, U32 mode)
 
 
 LLGLSLShader::LLGLSLShader()
-    : mProgramObject(0), 
+    : mLightHash(0), 
+      mProgramObject(0),
       mAttributeMask(0),
-      mTotalUniformSize(0),
+      mTotalUniformSize(0), 
       mActiveTextureChannels(0), 
       mShaderLevel(0), 
-      mShaderGroup(SG_DEFAULT), 
+      mShaderGroup(SG_DEFAULT),
       mUniformsDirty(FALSE),
       mTimerQuery(0),
-      mLightHash(0),
+      mSamplesQuery(0),
       mTimeElapsed(0),
       mTrianglesDrawn(0),
       mSamplesDrawn(0),
-      mSamplesQuery(0),
       mDrawCalls(0),
       mTextureStateFetched(false)
 
@@ -566,7 +566,7 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
     BOOL res = link();
 
     mAttribute.clear();
-    U32 numAttributes = (attributes == NULL) ? 0 : attributes->size();
+    U32 numAttributes = (attributes == nullptr) ? 0 : attributes->size();
     mAttribute.resize(shader_mgr->mReservedAttribs.size() + numAttributes, -1);
     
     if (res)
@@ -586,7 +586,7 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
                 LL_DEBUGS("ShaderLoading") << "Attribute " << name << " assigned to channel " << index << LL_ENDL;
             }
         }
-        if (attributes != NULL)
+        if (attributes != nullptr)
         {
             for (U32 i = 0; i < numAttributes; i++)
             {
@@ -697,7 +697,7 @@ void LLGLSLShader::mapUniform(GLint index, const std::vector<LLStaticHashedStrin
             }
         }
 
-        if (uniforms != NULL)
+        if (uniforms != nullptr)
         {
             for (U32 i = 0; i < uniforms->size(); i++)
             {
@@ -747,7 +747,7 @@ BOOL LLGLSLShader::mapUniforms(const std::vector<LLStaticHashedString> * uniform
 	mTexture.clear();
 	mValue.clear();
 	//initialize arrays
-	U32 numUniforms = (uniforms == NULL) ? 0 : uniforms->size();
+	U32 numUniforms = (uniforms == nullptr) ? 0 : uniforms->size();
 	mUniform.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
 	mTexture.resize(numUniforms + LLShaderMgr::instance()->mReservedUniforms.size(), -1);
 
@@ -915,7 +915,7 @@ void LLGLSLShader::unbind()
         LLVertexBuffer::unbind();
         glUseProgram(0);
         sCurBoundShader = 0;
-        sCurBoundShaderPtr = NULL;
+        sCurBoundShaderPtr = nullptr;
         stop_glerror();
     }
 }
@@ -927,7 +927,7 @@ void LLGLSLShader::bindNoShader(void)
     {
         glUseProgram(0);
         sCurBoundShader = 0;
-        sCurBoundShaderPtr = NULL;
+        sCurBoundShaderPtr = nullptr;
     }
 }
 

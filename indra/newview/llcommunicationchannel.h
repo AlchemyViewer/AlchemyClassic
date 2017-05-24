@@ -51,8 +51,8 @@ public:
     void removeItemFromHistory(LLNotificationPtr p);
 
 protected:
-    virtual void onDelete(LLNotificationPtr p);
-	virtual void onFilterFail(LLNotificationPtr pNotificationPtr);
+	void onDelete(LLNotificationPtr p) override;
+	void onFilterFail(LLNotificationPtr pNotificationPtr) override;
 
 private:
 

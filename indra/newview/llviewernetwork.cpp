@@ -103,8 +103,8 @@ const std::string ALCHEMY_UPDATE_SERVICE = "https://app.alchemyviewer.org/update
 const std::string GRIDS_USER_FILE = "grids_user.xml";
 
 LLGridManager::LLGridManager()
-:	mPlatform(NOPLATFORM)
-,	mLoggedIn(false)
+:	mLoggedIn(false)
+,	mPlatform(NOPLATFORM)
 {
 	// by default, we use the 'grids.xml' file in the user settings directory
 	// this file is an LLSD file containing multiple grid definitions.
@@ -515,7 +515,7 @@ void LLGridManager::gridInfoResponderCoro(const std::string url, bool hypergrid)
     std::string goof_troop(raw_results.begin(), raw_results.end());
 	LLPointer<LLXMLNode> xmlnode;
 	if (!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&goof_troop[0]),
-                                goof_troop.size(), xmlnode, NULL))
+                                goof_troop.size(), xmlnode, nullptr))
 	{
         LLNotificationsUtil::add("MalformedGridInfo", LLSD().with("GRID", grid[GRID_VALUE]));
         return;

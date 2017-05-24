@@ -69,8 +69,6 @@ LLFlickrPhotoPanel::LLFlickrPhotoPanel() :
 mResolutionComboBox(nullptr),
 mFilterComboBox(nullptr),
 mRefreshBtn(nullptr),
-mCancelButton(nullptr),
-mBtnPreview(nullptr),
 mWorkingLabel(nullptr),
 mThumbnailPlaceholder(nullptr),
 mTitleTextBox(nullptr),
@@ -78,8 +76,10 @@ mDescriptionTextBox(nullptr),
 mLocationCheckbox(nullptr),
 mTagsTextBox(nullptr),
 mRatingComboBox(nullptr),
-mBigPreviewFloater(nullptr),
-mPostButton(nullptr)
+mPostButton(nullptr),
+mCancelButton(nullptr),
+mBtnPreview(nullptr),
+mBigPreviewFloater(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.SendPhoto", boost::bind(&LLFlickrPhotoPanel::onSend, this));
 	mCommitCallbackRegistrar.add("SocialSharing.RefreshPhoto", boost::bind(&LLFlickrPhotoPanel::onClickNewSnapshot, this));
@@ -520,11 +520,11 @@ LLUICtrl* LLFlickrPhotoPanel::getRefreshBtn()
 ///////////////////////////
 
 LLFlickrAccountPanel::LLFlickrAccountPanel() : 
-mAccountCaptionLabel(NULL),
-mAccountNameLabel(NULL),
-mPanelButtons(NULL),
-mConnectButton(NULL),
-mDisconnectButton(NULL)
+mAccountCaptionLabel(nullptr),
+mAccountNameLabel(nullptr),
+mPanelButtons(nullptr),
+mConnectButton(nullptr),
+mDisconnectButton(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.Connect", boost::bind(&LLFlickrAccountPanel::onConnect, this));
 	mCommitCallbackRegistrar.add("SocialSharing.Disconnect", boost::bind(&LLFlickrAccountPanel::onDisconnect, this));
@@ -678,10 +678,10 @@ void LLFlickrAccountPanel::onDisconnect()
 ////////////////////////
 
 LLFloaterFlickr::LLFloaterFlickr(const LLSD& key) : LLFloater(key),
-    mFlickrPhotoPanel(NULL),
-    mStatusErrorText(NULL),
-    mStatusLoadingText(NULL),
-    mStatusLoadingIndicator(NULL)
+    mFlickrPhotoPanel(nullptr),
+    mStatusErrorText(nullptr),
+    mStatusLoadingText(nullptr),
+    mStatusLoadingIndicator(nullptr)
 {
 	mCommitCallbackRegistrar.add("SocialSharing.Cancel", boost::bind(&LLFloaterFlickr::onCancel, this));
 }

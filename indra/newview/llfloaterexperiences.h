@@ -37,9 +37,9 @@ class LLFloaterExperiences :
 {
 public:
     LLFloaterExperiences(const LLSD& data);
-    virtual void onClose(bool app_quitting);
+	void onClose(bool app_quitting) override;
 
-    virtual void onOpen(const LLSD& key);
+	void onOpen(const LLSD& key) override;
     static LLFloaterExperiences* findInstance();
 protected:
     typedef std::map<std::string, std::string> NameMap_t;
@@ -47,7 +47,7 @@ protected:
 
     void clearFromRecent(const LLSD& ids);
     void resizeToTabs();
-	/*virtual*/ BOOL	postBuild();
+	/*virtual*/ BOOL	postBuild() override;
     void refreshContents();
     void setupRecentTabs();
     LLPanelExperiences* addTab(const std::string& name, bool select);

@@ -39,13 +39,13 @@ public:
 	LLPanelLandmarkInfo();
 	/*virtual*/ ~LLPanelLandmarkInfo();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
-	/*virtual*/ void resetLocation();
+	/*virtual*/ void resetLocation() override;
 
-	/*virtual*/ void setInfoType(EInfoType type);
+	/*virtual*/ void setInfoType(EInfoType type) override;
 
-	/*virtual*/ void processParcelInfo(const LLParcelData& parcel_data);
+	/*virtual*/ void processParcelInfo(const LLParcelData& parcel_data) override;
 
 	// Displays landmark owner, creator and creation date info.
 	void displayItemInfo(const LLInventoryItem* pItem);

@@ -336,7 +336,7 @@ void LLPanelPermissions::refresh()
 
 	//BOOL attachment_selected = LLSelectMgr::getInstance()->getSelection()->isAttachment();
 	//attachment_selected = false;
-	LLViewerObject* objectp = NULL;
+	LLViewerObject* objectp = nullptr;
 	if(nodep) objectp = nodep->getObject();
 	if(!nodep || !objectp)// || attachment_selected)
 	{
@@ -1157,7 +1157,7 @@ void LLPanelPermissions::setAllSaleInfo()
 
     struct f : public LLSelectedObjectFunctor
     {
-        virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
         {
             return object->getClickAction() == CLICK_ACTION_BUY
                 || object->getClickAction() == CLICK_ACTION_TOUCH;
@@ -1177,7 +1177,7 @@ void LLPanelPermissions::setAllSaleInfo()
 
 struct LLSelectionPayable : public LLSelectedObjectFunctor
 {
-	virtual bool apply(LLViewerObject* obj)
+	bool apply(LLViewerObject* obj) override
 	{
 		// can pay if you or your parent has money() event in script
 		LLViewerObject* parent = (LLViewerObject*)obj->getParent();
@@ -1233,5 +1233,5 @@ LLViewerInventoryItem* LLPanelPermissions::findItem(LLUUID &object_id)
 	{
 		return gInventory.getItem(object_id);
 	}
-	return NULL;
+	return nullptr;
 }

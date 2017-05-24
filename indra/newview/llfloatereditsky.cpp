@@ -65,10 +65,10 @@ static F32 time24_to_sun_pos(F32 time24)
 
 LLFloaterEditSky::LLFloaterEditSky(const LLSD &key)
 :	LLFloater(key)
-,	mSkyPresetNameEditor(NULL)
-,	mSkyPresetCombo(NULL)
-,	mMakeDefaultCheckBox(NULL)
-,	mSaveButton(NULL)
+,	mSkyPresetNameEditor(nullptr)
+,	mSkyPresetCombo(nullptr)
+,	mMakeDefaultCheckBox(nullptr)
+,	mSaveButton(nullptr)
 {
 }
 
@@ -132,7 +132,7 @@ void LLFloaterEditSky::initCallbacks(void)
 {
 	// *TODO: warn user if a region environment update comes while we're editing a region sky preset.
 
-	mSkyPresetNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditSky::onSkyPresetNameEdited, this), NULL);
+	mSkyPresetNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditSky::onSkyPresetNameEdited, this), nullptr);
 	mSkyPresetCombo->setCommitCallback(boost::bind(&LLFloaterEditSky::onSkyPresetSelected, this));
 	mSkyPresetCombo->setTextEntryCallback(boost::bind(&LLFloaterEditSky::onSkyPresetNameEdited, this));
 

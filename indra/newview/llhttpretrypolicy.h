@@ -65,16 +65,16 @@ public:
 	LLAdaptiveRetryPolicy(F32 min_delay, F32 max_delay, F32 backoff_factor, U32 max_retries, bool retry_on_4xx = false);
 
 	// virtual
-	void onSuccess();
+	void onSuccess() override;
 
-	void reset();
+	void reset() override;
 	
 	// virtual
-	void onFailure(S32 status, const LLSD& headers);
+	void onFailure(S32 status, const LLSD& headers) override;
 	// virtual
-	void onFailure(const LLCore::HttpResponse *response);
+	void onFailure(const LLCore::HttpResponse *response) override;
 	// virtual
-	bool shouldRetry(F32& seconds_to_wait) const;
+	bool shouldRetry(F32& seconds_to_wait) const override;
 
     static bool getSecondsUntilRetryAfter(const std::string& retry_after, F32& seconds_to_wait);
 

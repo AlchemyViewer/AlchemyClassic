@@ -112,9 +112,9 @@ namespace {
 	{
 	public:
 		CheckingForUpdate(MandatoryUpdateMachine & machine);
-		
-		virtual void enter(void);
-		virtual void exit(void);
+
+		void enter(void) override;
+		void exit(void) override;
 		
 	private:
 		LLTempBoundListener mConnection;
@@ -130,9 +130,9 @@ namespace {
 	{
 	public:
 		Error(MandatoryUpdateMachine & machine);
-		
-		virtual void enter(void);
-		virtual void exit(void);
+
+		void enter(void) override;
+		void exit(void) override;
 		void onButtonClicked(const LLSD &, const LLSD &);
 		
 	private:
@@ -145,9 +145,9 @@ namespace {
 	{
 	public:
 		ReadyToInstall(MandatoryUpdateMachine & machine);
-		
-		virtual void enter(void);
-		virtual void exit(void);
+
+		void enter(void) override;
+		void exit(void) override;
 		
 	private:
 		//MandatoryUpdateMachine & mMachine;
@@ -159,9 +159,9 @@ namespace {
 	{
 	public:
 		StartingUpdaterService(MandatoryUpdateMachine & machine);
-		
-		virtual void enter(void);
-		virtual void exit(void);
+
+		void enter(void) override;
+		void exit(void) override;
 		void onButtonClicked(const LLSD & uiform, const LLSD & result);
 	private:
 		MandatoryUpdateMachine & mMachine;
@@ -173,9 +173,9 @@ namespace {
 	{
 	public:
 		WaitingForDownload(MandatoryUpdateMachine & machine);
-		
-		virtual void enter(void);
-		virtual void exit(void);
+
+		void enter(void) override;
+		void exit(void) override;
 		
 	private:
 		LLTempBoundListener mConnection;
@@ -249,13 +249,13 @@ void MandatoryUpdateMachine::setCurrentState(State * newStatePointer)
 {
 	{
 		std::unique_ptr<State> newState(newStatePointer);
-		if(mState != 0) mState->exit();
+		if(mState != nullptr) mState->exit();
 		mState.swap(newState);
 		
 		// Old state will be deleted on exit from this block before the new state
 		// is entered.
 	}
-	if(mState != 0) mState->enter();
+	if(mState != nullptr) mState->enter();
 }
 
 
@@ -417,7 +417,7 @@ void MandatoryUpdateMachine::StartingUpdaterService::onButtonClicked(const LLSD 
 
 MandatoryUpdateMachine::WaitingForDownload::WaitingForDownload(MandatoryUpdateMachine & machine):
 	mMachine(machine),
-	mProgressView(0)
+	mProgressView(nullptr)
 {
 	; // No op.
 }
@@ -475,13 +475,13 @@ bool MandatoryUpdateMachine::WaitingForDownload::onEvent(LLSD const & event)
 
 LLLoginInstance::LLLoginInstance() :
 	mLoginModule(new LLLogin()),
-	mNotifications(NULL),
+	mNotifications(nullptr),
 	mLoginState("offline"),
 	mSkipOptionalUpdate(false),
 	mAttemptComplete(false),
 	mTransferRate(0.0f),
 	mDispatcher("LLLoginInstance", "change"),
-	mUpdaterService(0)
+	mUpdaterService(nullptr)
 {
 	mLoginModule->getEventPump().listen("lllogininstance", 
 		boost::bind(&LLLoginInstance::handleLoginEvent, this, _1));

@@ -43,7 +43,7 @@ class LLTextBox;
  */
 struct LLCrossParcelFunctor : public LLSelectedObjectFunctor
 {
-	/*virtual*/ bool apply(LLViewerObject* obj);
+	/*virtual*/ bool apply(LLViewerObject* obj) override;
 
 private:
 	LLBBox	mBoundingBox;
@@ -58,18 +58,18 @@ public:
 	LLFloaterObjectWeights(const LLSD& key);
 	~LLFloaterObjectWeights();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ void onWeightsUpdate(const SelectionCost& selection_cost);
-	/*virtual*/ void setErrorStatus(S32 status, const std::string& reason);
+	/*virtual*/ void onWeightsUpdate(const SelectionCost& selection_cost) override;
+	/*virtual*/ void setErrorStatus(S32 status, const std::string& reason) override;
 
 	void updateLandImpacts(const LLParcel* parcel);
-	void refresh();
+	void refresh() override;
 
 private:
-	/*virtual*/ void generateTransactionID();
+	/*virtual*/ void generateTransactionID() override;
 
 	void toggleWeightsLoadingIndicators(bool visible);
 	void toggleLandImpactsLoadingIndicators(bool visible);

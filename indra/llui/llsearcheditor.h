@@ -52,8 +52,8 @@ public:
 
 		Params()
 		:	search_button("search_button"),
-			search_button_visible("search_button_visible"),
-			clear_button("clear_button"), 
+			clear_button("clear_button"),
+			search_button_visible("search_button_visible"), 
 			clear_button_visible("clear_button_visible")
 		{}
 	};
@@ -67,19 +67,19 @@ protected:
 public:
 	virtual ~LLSearchEditor() {}
 
-	/*virtual*/ void	draw();
+	/*virtual*/ void	draw() override;
 
 	void setText(const LLStringExplicit &new_text) { mSearchEditor->setText(new_text); }
 	const std::string& getText() const		{ return mSearchEditor->getText(); }
 
 	// LLUICtrl interface
-	virtual void	setValue(const LLSD& value );
-	virtual LLSD	getValue() const;
-	virtual BOOL	setTextArg( const std::string& key, const LLStringExplicit& text );
-	virtual BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text );
+	void	setValue(const LLSD& value ) override;
+	LLSD	getValue() const override;
+	BOOL	setTextArg( const std::string& key, const LLStringExplicit& text ) override;
+	BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 	virtual void	setLabel( const LLStringExplicit &new_label );
-	virtual void	clear();
-	virtual void	setFocus( BOOL b );
+	void	clear() override;
+	void	setFocus( BOOL b ) override;
 
 	void			setKeystrokeCallback( commit_callback_t cb ) { mKeystrokeCallback = cb; }
 	void			setTextChangedCallback( commit_callback_t cb ) { mTextChangedCallback = cb; }

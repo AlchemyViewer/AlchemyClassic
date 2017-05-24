@@ -64,26 +64,26 @@ public:
 	void initIMFloater();
 
 	// LLView overrides
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void setMinimized(BOOL b);
-	/*virtual*/ void setVisible(BOOL visible);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void setMinimized(BOOL b) override;
+	/*virtual*/ void setVisible(BOOL visible) override;
 	/*virtual*/ BOOL getVisible();
-	/*virtual*/ void setFocus(BOOL focus);
+	/*virtual*/ void setFocus(BOOL focus) override;
 	// Check typing timeout timer.
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 		EDragAndDropType cargo_type,
 		void* cargo_data,
 		EAcceptance* accept,
-		std::string& tooltip_msg);
+		std::string& tooltip_msg) override;
 
 	static LLFloaterIMSession* findInstance(const LLUUID& session_id);
 	static LLFloaterIMSession* getInstance(const LLUUID& session_id);
 
 	// LLFloater overrides
-	/*virtual*/ void onClose(bool app_quitting);
-	/*virtual*/ void setDocked(bool docked, bool pop_on_undock = true);
+	/*virtual*/ void onClose(bool app_quitting) override;
+	/*virtual*/ void setDocked(bool docked, bool pop_on_undock = true) override;
 	// Make IM conversion visible and update the message history
 	static LLFloaterIMSession* show(const LLUUID& session_id);
 
@@ -94,7 +94,7 @@ public:
 	void sessionInitReplyReceived(const LLUUID& im_session_id);
 
 	// get new messages from LLIMModel
-	/*virtual*/ void updateMessages();
+	/*virtual*/ void updateMessages() override;
 	void reloadMessages(bool clean_messages = false);
 	static void onSendMsg(LLUICtrl*, void*);
 	void sendMsgFromInputEditor();
@@ -115,9 +115,9 @@ public:
 	// Implements LLVoiceClientStatusObserver::onChange() to enable the call
 	// button when voice is available
 	void onChange(EStatusType status, const std::string &channelURI,
-			bool proximal);
+			bool proximal) override;
 
-	virtual LLTransientFloaterMgr::ETransientGroup getGroup() { return LLTransientFloaterMgr::IM; }
+	LLTransientFloaterMgr::ETransientGroup getGroup() override { return LLTransientFloaterMgr::IM; }
 	virtual void onVoiceChannelStateChanged(
 			const LLVoiceChannel::EState& old_state,
 			const LLVoiceChannel::EState& new_state);
@@ -138,13 +138,13 @@ public:
 	S32 getLastChatMessageIndex() {return mLastMessageIndex;}
 private:
 
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 
-    /*virtual*/ void onTearOffClicked();
-	/*virtual*/ void onClickCloseBtn(bool app_qutting);
+    /*virtual*/ void onTearOffClicked() override;
+	/*virtual*/ void onClickCloseBtn(bool app_qutting) override;
 
 	// Update the window title and input field help text
-	/*virtual*/ void updateSessionName(const std::string& name);
+	/*virtual*/ void updateSessionName(const std::string& name) override;
 
 	bool dropPerson(LLUUID* person_id, bool drop);
 
@@ -168,7 +168,7 @@ private:
 	void addTypingIndicator(const LLIMInfo* im_info);
 
 	// Remove the "User is typing..." indicator.
-	void removeTypingIndicator(const LLIMInfo* im_info = NULL);
+	void removeTypingIndicator(const LLIMInfo* im_info = nullptr);
 
 	static void closeHiddenIMToasts();
 

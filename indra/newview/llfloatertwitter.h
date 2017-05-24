@@ -42,17 +42,17 @@ public:
 	LLTwitterPhotoPanel();
 	~LLTwitterPhotoPanel();
 
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
 
 	LLSnapshotLivePreview* getPreviewView();
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 	void onAddLocationToggled();
 	void onAddPhotoToggled();
     void onClickBigPreview();
 	void onClickNewSnapshot();
 	void onSend();
-	S32 notify(const LLSD& info);
+	S32 notify(const LLSD& info) override;
 	bool onTwitterConnectStateChange(const LLSD& data);
 
 	void sendPhoto();
@@ -92,11 +92,11 @@ class LLTwitterAccountPanel : public LLPanel
 {
 public:
 	LLTwitterAccountPanel();
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
 
 private:
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 	bool onTwitterConnectStateChange(const LLSD& data);
 	bool onTwitterConnectInfoChange();
 	void onConnect();
@@ -120,9 +120,9 @@ class LLFloaterTwitter : public LLFloater
 {
 public:
 	LLFloaterTwitter(const LLSD& key);
-	BOOL postBuild();
-	void draw();
-	void onClose(bool app_quitting);
+	BOOL postBuild() override;
+	void draw() override;
+	void onClose(bool app_quitting) override;
 	void onCancel();
 
 	void showPhotoPanel();

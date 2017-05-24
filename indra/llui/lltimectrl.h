@@ -80,8 +80,8 @@ private:
 		NONE
 	};
 
-	virtual void	onFocusLost();
-	virtual BOOL	handleKeyHere(KEY key, MASK mask);
+	void	onFocusLost() override;
+	BOOL	handleKeyHere(KEY key, MASK mask) override;
 
 	void	onUpBtn();
 	void	onDownBtn();

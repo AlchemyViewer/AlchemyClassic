@@ -80,9 +80,9 @@ public:
 	//
 	// Main application logic
 	//
-	virtual bool init();			// Override to do application initialization
-	virtual bool cleanup();			// Override to do application cleanup
-	virtual bool frame(); // Override for application body logic
+	bool init() override;			// Override to do application initialization
+	bool cleanup() override;			// Override to do application cleanup
+	bool frame() override; // Override for application body logic
 
 	// Application control
 	void flushVFSIO(); // waits for vfs transfers to complete

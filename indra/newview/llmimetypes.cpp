@@ -63,7 +63,7 @@ bool LLMIMETypes::parseMIMETypes(const std::string& xml_filename)
 	}
 
 	for (LLXMLNode* node = root->getFirstChild();
-		 node != NULL;
+		 node != nullptr;
 		 node = node->getNextSibling())
 	{
 		if (node->hasName("defaultlabel"))
@@ -84,7 +84,7 @@ bool LLMIMETypes::parseMIMETypes(const std::string& xml_filename)
 			node->getAttributeString("name", mime_type);
 			LLMIMEInfo info;
 			for (LLXMLNode* child = node->getFirstChild();
-				 child != NULL;
+				 child != nullptr;
 				 child = child->getNextSibling())
 			{
 				if (child->hasName("label"))
@@ -108,7 +108,7 @@ bool LLMIMETypes::parseMIMETypes(const std::string& xml_filename)
 			node->getAttributeString("name", set_name);
 			LLMIMEWidgetSet info;
 			for (LLXMLNode* child = node->getFirstChild();
-				child != NULL;
+				child != nullptr;
 				child = child->getNextSibling())
 			{
 				if (child->hasName("label"))

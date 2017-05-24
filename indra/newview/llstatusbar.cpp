@@ -89,7 +89,7 @@
 //
 // Globals
 //
-LLStatusBar *gStatusBar = NULL;
+LLStatusBar *gStatusBar = nullptr;
 S32 STATUS_BAR_HEIGHT = 26;
 extern S32 MENU_BAR_HEIGHT;
 
@@ -133,10 +133,10 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 LLStatusBar::~LLStatusBar()
 {
 	delete mBalanceTimer;
-	mBalanceTimer = NULL;
+	mBalanceTimer = nullptr;
 
 	delete mHealthTimer;
-	mHealthTimer = NULL;
+	mHealthTimer = nullptr;
 
 	// LLView destructor cleans up children
 }
@@ -632,7 +632,7 @@ class LLBalanceHandler : public LLCommandHandler
 public:
 	// Requires "trusted" browser/URL source
 	LLBalanceHandler() : LLCommandHandler("balance", UNTRUSTED_BLOCK) { }
-	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (tokens.size() == 1
 			&& tokens[0].asString() == "request")

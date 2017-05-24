@@ -43,7 +43,7 @@
 #include "llviewercamera.h"
 #include "llui.h"
 
-LLHUDView *gHUDView = NULL;
+LLHUDView *gHUDView = nullptr;
 
 LLHUDView::LLHUDView(const LLRect& r)
 {

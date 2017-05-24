@@ -50,12 +50,12 @@ LLDir_Win32::LLDir_Win32()
 
 	WCHAR w_str[MAX_PATH];
 
-	WCHAR* pPath = NULL;
-	if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, NULL, &pPath) == S_OK)
+	WCHAR* pPath = nullptr;
+	if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pPath) == S_OK)
 		wcscpy_s(w_str, pPath);
 
 	CoTaskMemFree(pPath);
-	pPath = NULL;
+	pPath = nullptr;
 		
 	mOSUserDir = utf16str_to_utf8str(llutf16string(w_str));
 
@@ -67,11 +67,11 @@ LLDir_Win32::LLDir_Win32()
 	//
 	// We used to store the cache in AppData\Roaming, and the installer
 	// cleans up that version on upgrade.  JC
-	if(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &pPath) == S_OK)
+	if(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, nullptr, &pPath) == S_OK)
 		wcscpy_s(w_str, pPath);
 
 	CoTaskMemFree(pPath);
-	pPath = NULL;
+	pPath = nullptr;
 
 	mOSCacheDir = utf16str_to_utf8str(llutf16string(w_str));
 
@@ -95,7 +95,7 @@ LLDir_Win32::LLDir_Win32()
 	mWorkingDir = utf16str_to_utf8str(llutf16string(w_str));
 
 	// Set the executable directory
-	S32 size = GetModuleFileName(NULL, w_str, MAX_PATH);
+	S32 size = GetModuleFileName(nullptr, w_str, MAX_PATH);
 	if (size)
 	{
 		w_str[size] = '\0';

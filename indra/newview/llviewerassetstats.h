@@ -165,9 +165,9 @@ public:
 	LLSD asLLSD(bool compact_output);
 
 protected:
-	void handleStart();
-	void handleStop();
-	void handleReset();
+	void handleStart() override;
+	void handleStop() override;
+	void handleReset() override;
 
 	typedef std::map<region_handle_t, LLTrace::Recording > PerRegionRecordingContainer;
 

@@ -43,7 +43,7 @@ class LLNotificationChannelPanel : public LLLayoutPanel
 public:
 	LLNotificationChannelPanel(const Params& p);
 	~LLNotificationChannelPanel();
-	BOOL postBuild();
+	BOOL postBuild() override;
 
 private:
 	bool update(const LLSD& payload);
@@ -69,7 +69,7 @@ LLNotificationChannelPanel::~LLNotificationChannelPanel()
 		LLScrollListItem* item = *data_itor;
 		LLNotification* notification = (LLNotification*)item->getUserdata();
 		delete notification;
-		notification = NULL;
+		notification = nullptr;
 	}
 }
 

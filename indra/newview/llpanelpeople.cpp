@@ -93,7 +93,7 @@ public:
 	virtual ~LLAvatarItemRecentComparator() {};
 
 protected:
-	virtual bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const
+	bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const override
 	{
 		LLRecentPeople& people = LLRecentPeople::instance();
 		const LLDate& date1 = people.getDate(avatar_item1->getAvatarId());
@@ -114,7 +114,7 @@ protected:
 	/**
 	 * @return true if item1 < item2, false otherwise
 	 */
-	virtual bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const
+	bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const override
 	{
 		LLAvatarTracker& at = LLAvatarTracker::instance();
 		bool online1 = at.isBuddyOnline(item1->getAvatarId());
@@ -161,7 +161,7 @@ public:
 	};
 
 protected:
-	virtual bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const
+	bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const override
 	{
 		const LLVector3d& me_pos = gAgent.getPositionGlobal();
 		const LLVector3d& item1_pos = mAvatarsPositions.find(item1->getAvatarId())->second;
@@ -181,7 +181,7 @@ public:
 	virtual ~LLAvatarItemRecentSpeakerComparator() {};
 
 protected:
-	virtual bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const
+	bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const override
 	{
 		LLPointer<LLSpeaker> lhs = LLActiveSpeakerMgr::instance().findSpeaker(item1->getAvatarId());
 		LLPointer<LLSpeaker> rhs = LLActiveSpeakerMgr::instance().findSpeaker(item2->getAvatarId());
@@ -264,7 +264,7 @@ public:
 		LLAvatarTracker::instance().removeObserver(this);
 	}
 
-	/*virtual*/ void changed(U32 mask)
+	/*virtual*/ void changed(U32 mask) override
 	{
 		(void) mask;
 		update();
@@ -275,13 +275,14 @@ class LLAvatarListUpdater : public LLPanelPeople::Updater, public LLEventTimer
 {
 public:
 	LLAvatarListUpdater(callback_t cb, F32 period)
-	:	LLEventTimer(period),
-		LLPanelPeople::Updater(cb)
+	:	LLPanelPeople::Updater(cb),
+		LLEventTimer(period)
 	{
 		mEventTimer.stop();
 	}
 
-	virtual BOOL tick() // from LLEventTimer
+	BOOL tick() override
+	// from LLEventTimer
 	{
 		return FALSE;
 	}
@@ -318,7 +319,7 @@ public:
 		LLAvatarTracker::instance().removeObserver(this);
 	}
 
-	/*virtual*/ void changed(U32 mask)
+	/*virtual*/ void changed(U32 mask) override
 	{
 		if (mIsActive)
 		{
@@ -332,7 +333,7 @@ public:
 	}
 
 
-	/*virtual*/ BOOL tick()
+	/*virtual*/ BOOL tick() override
 	{
 		if (!mIsActive) return FALSE;
 
@@ -349,7 +350,7 @@ public:
 	}
 
 	// virtual
-	void setActive(bool active)
+	void setActive(bool active) override
 	{
 		mIsActive = active;
 		if (active)
@@ -387,7 +388,7 @@ private:
 		{
 			gInventory.removeObserver(this);
 		}
-		/*virtual*/ void changed(U32 mask)
+		/*virtual*/ void changed(U32 mask) override
 		{
 			LL_DEBUGS() << "Inventory changed: " << mask << LL_ENDL;
 
@@ -431,7 +432,7 @@ private:
 		bool isDescendentOfInventoryFriends(const LLUUID& invItemID)
 		{
 			LLViewerInventoryItem * item = gInventory.getItem(invItemID);
-			if (NULL == item)
+			if (nullptr == item)
 				return false;
 
 			return LLFriendCardsManager::instance().isItemInAnyFriendsList(item);
@@ -458,7 +459,7 @@ public:
 		setActive(false);
 	}
 
-	/*virtual*/ void setActive(bool val)
+	/*virtual*/ void setActive(bool val) override
 	{
 		if (val)
 		{
@@ -473,7 +474,7 @@ public:
 		}
 	}
 
-	/*virtual*/ BOOL tick()
+	/*virtual*/ BOOL tick() override
 	{
 		update();
 		return FALSE;
@@ -501,27 +502,27 @@ public:
 LLPanelPeople::LLPanelPeople()
 	:	LLPanel(),
 		mTryToConnectToFacebook(true),
-		mTabContainer(NULL),
-		mAccordianTabOnlineFriends(nullptr),
-		mAccordianTabAllFriends(nullptr),
-		mAccordianTabSuggestFriends(nullptr),
-		mOnlineFriendList(NULL),
-		mAllFriendList(NULL),
-		mSuggestedFriends(nullptr),
-		mNearbyList(NULL),
-		mRecentList(NULL),
-		mGroupList(NULL),
-		mMiniMap(NULL),
+		mTabContainer(nullptr),
 		mNearbyGearBtn(nullptr),
 		mNearbyAddFriendBtn(nullptr),
 		mNearbyDelFriendBtn(nullptr),
+		mMiniMap(nullptr),
+		mNearbyList(nullptr),
 		mFriendGearBtn(nullptr),
 		mFriendsDelFriendBtn(nullptr),
+		mAccordianTabOnlineFriends(nullptr),
+		mAccordianTabAllFriends(nullptr),
+		mAccordianTabSuggestFriends(nullptr),
+		mOnlineFriendList(nullptr),
+		mAllFriendList(nullptr),
+		mSuggestedFriends(nullptr),
 		mGroupMinusBtn(nullptr),
 		mGroupCountText(nullptr),
+		mGroupList(nullptr),
 		mRecentGearBtn(nullptr),
 		mRecentAddFriendBtn(nullptr),
-		mRecentDelFriendBtn(nullptr)
+		mRecentDelFriendBtn(nullptr),
+		mRecentList(nullptr)
 {
 	mFriendListUpdater = new LLFriendListUpdater(boost::bind(&LLPanelPeople::updateFriendList,	this));
 	mNearbyListUpdater = new LLNearbyListUpdater(boost::bind(&LLPanelPeople::updateNearbyList,	this));
@@ -943,14 +944,14 @@ void LLPanelPeople::updateButtons()
 		if (item_selected)
 		{
 			selected_id = selected_uuids.front();
-			is_friend = LLAvatarTracker::instance().getBuddyInfo(selected_id) != NULL;
+			is_friend = LLAvatarTracker::instance().getBuddyInfo(selected_id) != nullptr;
 			is_self = gAgent.getID() == selected_id;
 		}
 		else if (multiple_selected)
 		{
 			for (uuid_vec_t::const_iterator itr = selected_uuids.begin(); itr != selected_uuids.end(); ++itr)
 			{
-				if (LLAvatarTracker::instance().getBuddyInfo(*itr) != NULL)
+				if (LLAvatarTracker::instance().getBuddyInfo(*itr) != nullptr)
 				{
 					is_friend = true;
 				}

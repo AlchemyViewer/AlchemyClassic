@@ -44,7 +44,7 @@ public:
 	LLFloaterParticleEditor(const LLSD& key);
 	/* virtual */ ~LLFloaterParticleEditor();
 
-	/* virtual */ BOOL postBuild();
+	/* virtual */ BOOL postBuild() override;
 
 	void setObject(LLViewerObject* objectp);
 
@@ -134,7 +134,7 @@ private:
 	{
 	public:
 		LLParticleScriptCreationCallback(LLFloaterParticleEditor* editor);
-		void fire(const LLUUID& inventoryItem);
+		void fire(const LLUUID& inventoryItem) override;
 		
 	protected:
 		~LLParticleScriptCreationCallback() {}

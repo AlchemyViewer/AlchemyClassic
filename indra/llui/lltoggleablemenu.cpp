@@ -36,9 +36,9 @@ static LLDefaultChildRegistry::Register<LLToggleableMenu> r("toggleable_menu");
 
 LLToggleableMenu::LLToggleableMenu(const LLToggleableMenu::Params& p)
 :	LLMenuGL(p),
+	mClosedByButtonClick(false),
 	mButtonRect(),
-	mVisibilityChangeSignal(NULL),
-	mClosedByButtonClick(false)
+	mVisibilityChangeSignal(nullptr)
 {
 }
 

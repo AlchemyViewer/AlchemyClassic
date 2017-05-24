@@ -69,12 +69,12 @@ static ScrollContainerRegistry::Register<LLPanel> r3("panel", &LLPanel::fromXML)
 
 LLScrollContainer::Params::Params()
 :	is_opaque("opaque"),
-	bg_color("color"),
+	reserve_scroll_corner("reserve_scroll_corner", false),
 	border_visible("border_visible"),
 	hide_scrollbar("hide_scrollbar"),
 	min_auto_scroll_rate("min_auto_scroll_rate", 100),
 	max_auto_scroll_rate("max_auto_scroll_rate", 1000),
-	reserve_scroll_corner("reserve_scroll_corner", false),
+	bg_color("color"),
 	size("size", -1)
 {}
 
@@ -82,16 +82,16 @@ LLScrollContainer::Params::Params()
 // Default constructor
 LLScrollContainer::LLScrollContainer(const LLScrollContainer::Params& p)
 :	LLUICtrl(p),
+	mScrolledView(nullptr),
+	mSize(p.size),
+	mIsOpaque(p.is_opaque),
+	mBackgroundColor(p.bg_color()),
+	mReserveScrollCorner(p.reserve_scroll_corner),
 	mAutoScrolling( FALSE ),
 	mAutoScrollRate( 0.f ),
-	mBackgroundColor(p.bg_color()),
-	mIsOpaque(p.is_opaque),
-	mHideScrollbar(p.hide_scrollbar),
-	mReserveScrollCorner(p.reserve_scroll_corner),
 	mMinAutoScrollRate(p.min_auto_scroll_rate),
 	mMaxAutoScrollRate(p.max_auto_scroll_rate),
-	mScrolledView(NULL),
-	mSize(p.size)
+	mHideScrollbar(p.hide_scrollbar)
 {
 	static LLUICachedControl<S32> scrollbar_size_control ("UIScrollbarSize", 0);
 	S32 scrollbar_size = (mSize == -1 ? scrollbar_size_control : mSize);
@@ -147,9 +147,9 @@ LLScrollContainer::~LLScrollContainer( void )
 	// destructor takes care of memory deallocation.
 	for( S32 i = 0; i < ORIENTATION_COUNT; i++ )
 	{
-		mScrollbar[i] = NULL;
+		mScrollbar[i] = nullptr;
 	}
-	mScrolledView = NULL;
+	mScrolledView = nullptr;
 }
 
 // internal scrollbar handlers
@@ -286,7 +286,7 @@ BOOL LLScrollContainer::handleDragAndDrop(S32 x, S32 y, MASK mask,
 	if( !handled )
 	{
 		handled = childrenHandleDragAndDrop(x, y, mask, drop, cargo_type,
-											cargo_data, accept, tooltip_msg) != NULL;
+											cargo_data, accept, tooltip_msg) != nullptr;
 	}
 
 	return TRUE;

@@ -273,8 +273,8 @@ void LLAttachmentsMgr::linkRecentlyArrivedAttachments()
 }
 
 LLAttachmentsMgr::LLItemRequestTimes::LLItemRequestTimes(const std::string& op_name, F32 timeout):
-    mOpName(op_name),
-    mTimeout(timeout)
+    mTimeout(timeout),
+    mOpName(op_name)
 {
 }
 

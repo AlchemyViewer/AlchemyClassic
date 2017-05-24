@@ -33,7 +33,7 @@
 #include <iostream>
 #include <fstream>
 
-LLUrlWhiteList* LLUrlWhiteList::sInstance = 0;
+LLUrlWhiteList* LLUrlWhiteList::sInstance = nullptr;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -66,7 +66,7 @@ void LLUrlWhiteList::initClass ()
 void LLUrlWhiteList::cleanupClass ()
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 LLUrlWhiteList* LLUrlWhiteList::getInstance ()

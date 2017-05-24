@@ -36,7 +36,7 @@
 #include "llmd5.h"
 
 LLWearableData::LLWearableData() :
-	mAvatarAppearance(NULL)
+	mAvatarAppearance(nullptr)
 {
 }
 
@@ -52,12 +52,12 @@ LLWearable* LLWearableData::getWearable(const LLWearableType::EType type, U32 in
 	wearableentry_map_t::iterator wearable_iter = mWearableDatas.find(type);
 	if (wearable_iter == mWearableDatas.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	wearableentry_vec_t& wearable_vec = wearable_iter->second;
 	if (index>=wearable_vec.size())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -98,7 +98,7 @@ void LLWearableData::pushWearable(const LLWearableType::EType type,
 								   LLWearable *wearable,
 								   bool trigger_updated /* = true */)
 {
-	if (wearable == NULL)
+	if (wearable == nullptr)
 	{
 		// no null wearables please!
 		LL_WARNS() << "Null wearable sent for type " << type << LL_ENDL;
@@ -126,7 +126,7 @@ void LLWearableData::wearableUpdated(LLWearable *wearable, BOOL removed)
 
 void LLWearableData::eraseWearable(LLWearable *wearable)
 {
-	if (wearable == NULL)
+	if (wearable == nullptr)
 	{
 		// nothing to do here. move along.
 		return;
@@ -205,7 +205,7 @@ void LLWearableData::pullCrossWearableValues(const LLWearableType::EType type)
 
 BOOL LLWearableData::getWearableIndex(const LLWearable *wearable, U32& index_found) const
 {
-	if (wearable == NULL)
+	if (wearable == nullptr)
 	{
 		return FALSE;
 	}
@@ -291,7 +291,7 @@ const LLWearable* LLWearableData::getWearable(const LLWearableType::EType type, 
 	{
 		return wearable_iter->second[index];
 	}
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -311,7 +311,7 @@ LLWearable* LLWearableData::getTopWearable(const LLWearableType::EType type)
 	{
 		return wearable_iter->second.back();
 	}
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -331,7 +331,7 @@ const LLWearable* LLWearableData::getTopWearable(const LLWearableType::EType typ
 	{
 		return wearable_iter->second.back();
 	}
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -350,7 +350,7 @@ LLWearable* LLWearableData::getBottomWearable(const LLWearableType::EType type)
 	{
 		return wearable_iter->second.front();
 	}
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -369,7 +369,7 @@ const LLWearable* LLWearableData::getBottomWearable(const LLWearableType::EType 
 	{
 		return wearable_iter->second.front();
 	}
-	return NULL;
+	return nullptr;
 #endif
 }
 

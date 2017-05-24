@@ -58,26 +58,26 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0	
 	};
 
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolWater();
 	/*virtual*/ ~LLDrawPoolWater();
 
-	/*virtual*/ LLDrawPool *instancePool();
+	/*virtual*/ LLDrawPool *instancePool() override;
 	static void restoreGL();
 	
-	/*virtual*/ S32 getNumPostDeferredPasses() { return 0; } //getNumPasses(); }
-	/*virtual*/ void beginPostDeferredPass(S32 pass);
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass) { render(pass); }
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void renderDeferred(S32 pass = 0);
+	/*virtual*/ S32 getNumPostDeferredPasses() override { return 0; } //getNumPasses(); }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override;
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override { render(pass); }
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void renderDeferred(S32 pass = 0) override;
 
-	/*virtual*/ S32 getNumPasses();
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ S32 getNumPasses() override;
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 
-	/*virtual*/ LLViewerTexture *getDebugTexture();
+	/*virtual*/ LLViewerTexture *getDebugTexture() override;
 	/*virtual*/ LLColor3 getDebugColor() const; // For AGP debug display
 
 	void renderReflection(LLFace* face);

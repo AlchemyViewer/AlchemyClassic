@@ -61,7 +61,7 @@ class LLWearingGearMenu
 {
 public:
 	LLWearingGearMenu(LLPanelWearing* panel_wearing)
-	:	mMenu(NULL), mPanelWearing(panel_wearing)
+	:	mMenu(nullptr), mPanelWearing(panel_wearing)
 	{
 		LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
 		LLUICtrl::EnableCallbackRegistry::ScopedRegistrar enable_registrar;
@@ -97,7 +97,7 @@ private:
 class LLWearingContextMenu : public LLListContextMenu
 {
 protected:
-	/* virtual */ LLContextMenu* createMenu()
+	/* virtual */ LLContextMenu* createMenu() override
 	{
 		LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
 
@@ -167,7 +167,7 @@ public:
 		:	mPanelWearing(panel_wearing)
 	{}
 protected:
-	/* virtual */ LLContextMenu* createMenu()
+	/* virtual */ LLContextMenu* createMenu() override
 	{
 		LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
 
@@ -201,9 +201,9 @@ static LLPanelInjector<LLPanelWearing> t_panel_wearing("panel_wearing");
 
 LLPanelWearing::LLPanelWearing()
 	:	LLPanelAppearanceTab()
-	,	mCOFItemsList(NULL)
-	,	mIsInitialized(false)
+	,	mCOFItemsList(nullptr)
 	,	mAttachmentsChangedConnection()
+	,	mIsInitialized(false)
 {
 	mCategoriesObserver = new LLInventoryCategoriesObserver();
 
@@ -504,7 +504,7 @@ void LLPanelWearing::onTempAttachmentsListRightClick(LLUICtrl* ctrl, S32 x, S32 
 
 bool LLPanelWearing::hasItemSelected()
 {
-	return mCOFItemsList->getSelectedItem() != NULL;
+	return mCOFItemsList->getSelectedItem() != nullptr;
 }
 
 void LLPanelWearing::getSelectedItemsUUIDs(uuid_vec_t& selected_uuids) const
@@ -546,7 +546,7 @@ void LLPanelWearing::copyToClipboard()
 		LLViewerInventoryItem* item = gInventory.getItem(uuid);
 
 		iter++;
-		if (item != NULL)
+		if (item != nullptr)
 		{
 			// Append a newline to all but the last line
 			text += iter != data.end() ? item->getName() + "\n" : item->getName();

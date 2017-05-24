@@ -199,7 +199,7 @@ struct LLSingleton_manage_master<LLSingletonBase::MasterList>
 template <typename DERIVED_TYPE>
 LLSingletonBase::LLSingletonBase(tag<DERIVED_TYPE>):
     mCleaned(false),
-    mDeleteSingleton(NULL)
+    mDeleteSingleton(nullptr)
 {
     // Make this the currently-initializing LLSingleton.
     LLSingleton_manage_master<DERIVED_TYPE>().push_initializing(this);
@@ -377,13 +377,13 @@ public:
             // should never be uninitialized at this point
             logerrs("Uninitialized singleton ",
                     demangle(typeid(DERIVED_TYPE).name()).c_str());
-            return NULL;
+            return nullptr;
 
         case CONSTRUCTING:
             logerrs("Tried to access singleton ",
                     demangle(typeid(DERIVED_TYPE).name()).c_str(),
                     " from singleton constructor!");
-            return NULL;
+            return nullptr;
 
         case INITIALIZING:
             // go ahead and flag ourselves as initialized so we can be

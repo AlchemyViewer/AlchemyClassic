@@ -60,9 +60,9 @@ public:
 
 	typedef std::deque<LLScrollingPanel*>	panel_list_t;
 
-	virtual void setValue(const LLSD& value) {};
+	void setValue(const LLSD& value) override {};
 
-	virtual void		draw();
+	void		draw() override;
 
 	void				clearPanels();
 	S32					addPanel( LLScrollingPanel* panel );

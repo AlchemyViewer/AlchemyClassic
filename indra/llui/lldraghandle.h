@@ -72,9 +72,9 @@ public:
 	virtual void	setTitle( const std::string& title ) = 0;
 	virtual std::string	getTitle() const = 0;
 
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
 
 protected:
 	LLDragHandle(const Params&);
@@ -108,10 +108,10 @@ protected:
 	LLDragHandleTop(const Params& p) : LLDragHandle(p) {}
 	friend class LLUICtrlFactory;
 public:
-	virtual void	setTitle( const std::string& title );
-	virtual std::string getTitle() const;
-	virtual void	draw();
-	virtual void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void	setTitle( const std::string& title ) override;
+	std::string getTitle() const override;
+	void	draw() override;
+	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 private:
 	void	reshapeTitleBox();
@@ -126,10 +126,10 @@ protected:
 	LLDragHandleLeft(const Params& p) : LLDragHandle(p) {}
 	friend class LLUICtrlFactory;
 public:
-	virtual void	setTitle( const std::string& title );
-	virtual std::string getTitle() const;
-	virtual void	draw();
-	virtual void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void	setTitle( const std::string& title ) override;
+	std::string getTitle() const override;
+	void	draw() override;
+	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 };
 

@@ -55,8 +55,8 @@ BOOL LLDrawPoolAlpha::sShowDebugAlpha = FALSE;
 static BOOL deferred_render = FALSE;
 
 LLDrawPoolAlpha::LLDrawPoolAlpha(U32 type) :
-		LLRenderPass(type), current_shader(NULL), target_shader(NULL),
-		simple_shader(NULL), fullbright_shader(NULL), emissive_shader(NULL),
+		LLRenderPass(type), current_shader(nullptr), target_shader(nullptr),
+		simple_shader(nullptr), fullbright_shader(nullptr), emissive_shader(nullptr),
 		mColorSFactor(LLRender::BF_UNDEF), mColorDFactor(LLRender::BF_UNDEF),
 		mAlphaSFactor(LLRender::BF_UNDEF), mAlphaDFactor(LLRender::BF_UNDEF)
 {
@@ -151,7 +151,7 @@ void LLDrawPoolAlpha::beginPostDeferredPass(S32 pass)
 	deferred_render = TRUE;
 
 	// Start out with no shaders.
-	current_shader = target_shader = NULL;
+	current_shader = target_shader = nullptr;
 
 	LLGLSLShader::bindNoShader();
 
@@ -204,7 +204,7 @@ void LLDrawPoolAlpha::beginRenderPass(S32 pass)
 	}
 
 	// Start out with no shaders.
-	current_shader = target_shader = NULL;
+	current_shader = target_shader = nullptr;
 
 	if (mVertexShaderLevel > 0)
 	{

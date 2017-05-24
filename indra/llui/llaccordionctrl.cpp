@@ -51,10 +51,10 @@ LLAccordionCtrl::LLAccordionCtrl(const Params& params):LLPanel(params)
  , mFitParent(params.fit_parent)
  , mAutoScrolling( false )
  , mAutoScrollRate( 0.f )
- , mSelectedTab( NULL )
- , mTabComparator( NULL )
- , mNoVisibleTabsHelpText(NULL)
+ , mNoVisibleTabsHelpText(nullptr)
  , mNoVisibleTabsOrigString(params.no_visible_tabs_text.initial_value().asString())
+ , mSelectedTab(nullptr )
+ , mTabComparator(nullptr )
 {
 	initNoTabsWidget(params.no_matched_tabs_text);
 
@@ -68,8 +68,8 @@ LLAccordionCtrl::LLAccordionCtrl(const Params& params):LLPanel(params)
 LLAccordionCtrl::LLAccordionCtrl() : LLPanel()
  , mAutoScrolling( false )
  , mAutoScrollRate( 0.f )
- , mSelectedTab( NULL )
- , mNoVisibleTabsHelpText(NULL)
+ , mNoVisibleTabsHelpText(nullptr)
+ , mSelectedTab(nullptr )
 {
 	initNoTabsWidget(LLTextBox::Params());
 
@@ -136,7 +136,7 @@ BOOL LLAccordionCtrl::postBuild()
 		getChildList()->end() != it; ++it)
 	{
 		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(*it);
-		if(accordion_tab == NULL)
+		if(accordion_tab == nullptr)
 			continue;
 		if(std::find(mAccordionTabs.begin(),mAccordionTabs.end(),accordion_tab) == mAccordionTabs.end())
 		{
@@ -363,7 +363,7 @@ void LLAccordionCtrl::removeCollapsibleCtrl(LLView* view)
 	// if removed is selected - reset selection
 	if (mSelectedTab == view)
 	{
-		mSelectedTab = NULL;
+		mSelectedTab = nullptr;
 	}
 }
 
@@ -583,7 +583,7 @@ BOOL LLAccordionCtrl::handleDragAndDrop		(S32 x, S32 y, MASK mask,
 	if( !handled )
 	{
 		handled = childrenHandleDragAndDrop(x, y, mask, drop, cargo_type,
-											cargo_data, accept, tooltip_msg) != NULL;
+											cargo_data, accept, tooltip_msg) != nullptr;
 	}
 	return TRUE;
 }
@@ -660,7 +660,7 @@ void	LLAccordionCtrl::onOpen		(const LLSD& key)
 	{
 		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
 		LLPanel* panel = dynamic_cast<LLPanel*>(accordion_tab->getAccordionView());
-		if(panel!=NULL)
+		if(panel!= nullptr)
 		{
 			panel->onOpen(key);
 		}
@@ -756,7 +756,7 @@ S32	LLAccordionCtrl::notifyParent(const LLSD& info)
 			if (mSelectedTab)
 			{
 				mSelectedTab->setSelected(false);
-				mSelectedTab = NULL;
+				mSelectedTab = nullptr;
 				return 1;
 			}
 			return 0;
@@ -858,7 +858,7 @@ const LLAccordionCtrlTab* LLAccordionCtrl::getExpandedTab() const
 {
 	typedef std::vector<LLAccordionCtrlTab*>::const_iterator tabs_const_iterator;
 
-	const LLAccordionCtrlTab* result = 0;
+	const LLAccordionCtrlTab* result = nullptr;
 
 	for (tabs_const_iterator i = mAccordionTabs.begin(); i != mAccordionTabs.end(); ++i)
 	{

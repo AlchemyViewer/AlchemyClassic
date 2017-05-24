@@ -40,17 +40,17 @@ class ChatSeparator : public LLTextSegment
 public:
 	ChatSeparator(S32 start, S32 end)
 	:	LLTextSegment(start, end),
-		mEditor(NULL)
+		mEditor(nullptr)
 	{}
 
-	/*virtual*/ void linkToDocument(class LLTextBase* editor)
+	/*virtual*/ void linkToDocument(class LLTextBase* editor) override
 	{
 		mEditor = editor;
 	}
 
-	/*virtual*/ void unlinkFromDocument(class LLTextBase* editor)
+	/*virtual*/ void unlinkFromDocument(class LLTextBase* editor) override
 	{
-		mEditor = NULL;
+		mEditor = nullptr;
 	}
 
 	/*virtual*/ S32 getWidth(S32 first_char, S32 num_chars) const
@@ -58,7 +58,7 @@ public:
 		return mEditor->getDocumentView()->getRect().getWidth();
 	}
 
-	/*virtual*/ F32	draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect)
+	/*virtual*/ F32	draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override
 	{
 		gl_line_2d((S32)(draw_rect.mLeft + 5), (S32)draw_rect.getCenterY(), (S32)(draw_rect.mRight - 5), (S32)draw_rect.getCenterY(), LLColor4::grey);
 		return draw_rect.getWidth();

@@ -39,8 +39,8 @@
 #include "llviewershadermgr.h"
 #include "llrender.h"
 
-static LLGLSLShader* simple_shader = NULL;
-static LLGLSLShader* fullbright_shader = NULL;
+static LLGLSLShader* simple_shader = nullptr;
+static LLGLSLShader* fullbright_shader = nullptr;
 
 static LLTrace::BlockTimerStatHandle FTM_RENDER_SIMPLE_DEFERRED("Deferred Simple");
 static LLTrace::BlockTimerStatHandle FTM_RENDER_GRASS_DEFERRED("Deferred Grass");

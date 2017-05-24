@@ -65,9 +65,9 @@ LLNotificationForm::FormElementBase::FormElementBase()
 
 LLNotificationForm::FormIgnore::FormIgnore()
 :	text("text"),
+	save_option("save_option", false),
 	control("control"),
-	invert_control("invert_control", false),
-	save_option("save_option", false)
+	invert_control("invert_control", false)
 {}
 
 LLNotificationForm::FormButton::FormButton()
@@ -83,9 +83,9 @@ LLNotificationForm::FormButton::FormButton()
 
 LLNotificationForm::FormInput::FormInput()
 :	type("type"),
-	text("text"),
-	max_length_chars("max_length_chars"),
 	width("width", 0),
+	max_length_chars("max_length_chars"),
+	text("text"),
 	value("value")
 {}
 
@@ -414,21 +414,21 @@ LLNotificationTemplate::LLNotificationTemplate(const LLNotificationTemplate::Par
 	mFooter(p.footer.value),
 	mLabel(p.label),
 	mIcon(p.icon),
-	mURL(p.url.value),
+	mUnique(p.unique.isProvided()),
+	mCombineBehavior(p.unique.combine),
 	mExpireSeconds(p.duration),
 	mExpireOption(p.expire_option),
+	mURL(p.url.value),
 	mURLOption(p.url.option),
 	mURLTarget(p.url.target),
 	mForceUrlsExternal(p.force_urls_external),
-	mUnique(p.unique.isProvided()),
-	mCombineBehavior(p.unique.combine),
-	mPriority(p.priority),
 	mPersist(p.persist),
 	mDefaultFunctor(p.functor.isProvided() ? p.functor() : p.name()),
+	mPriority(p.priority),
+	mSoundName(""),
 	mLogToChat(p.log_to_chat),
 	mLogToIM(p.log_to_im),
-	mShowToast(p.show_toast),
-    mSoundName("")
+    mShowToast(p.show_toast)
 {
 	if (p.sound.isProvided()
 		&& LLUI::sSettingGroups["config"]->controlExists(p.sound))
@@ -449,7 +449,7 @@ LLNotificationTemplate::LLNotificationTemplate(const LLNotificationTemplate::Par
 		mTags.push_back(tag.value);
 	}
 
-	mForm = LLNotificationFormPtr(new LLNotificationForm(p.name, p.form_ref.form));
+	mForm = std::make_shared<LLNotificationForm>(p.name, p.form_ref.form);
 }
 
 LLNotificationVisibilityRule::LLNotificationVisibilityRule(const LLNotificationVisibilityRule::Rule &p)
@@ -479,19 +479,19 @@ LLNotificationVisibilityRule::LLNotificationVisibilityRule(const LLNotificationV
 }
 
 LLNotification::LLNotification(const LLSDParamAdapter<Params>& p) : 
-	mTimestamp(p.time_stamp), 
-	mSubstitutions(p.substitutions),
+	mId(p.id.isProvided() ? p.id : LLUUID::generateNewID()), 
 	mPayload(p.payload),
+	mSubstitutions(p.substitutions),
+	mTimestamp(p.time_stamp),
 	mExpiresAt(p.expiry),
-	mTemporaryResponder(false),
-	mRespondedTo(false),
-	mPriority(p.priority),
 	mCancelled(false),
+	mRespondedTo(false),
 	mIgnored(false),
-	mResponderObj(NULL),
-	mId(p.id.isProvided() ? p.id : LLUUID::generateNewID()),
+	mPriority(p.priority),
+	mResponderObj(nullptr),
 	mOfferFromAgent(p.offer_from_agent),
-    mIsDND(p.is_dnd)
+	mIsDND(p.is_dnd),
+    mTemporaryResponder(false)
 {
 	if (p.functor.name.isChosen())
 	{
@@ -860,7 +860,7 @@ void LLNotification::init(const std::string& template_name, const LLSD& form_ele
 	// TODO: something like this so that a missing alert is sensible:
 	//mSubstitutions["_ARGS"] = get_all_arguments_as_text(mSubstitutions);
 
-	mForm = LLNotificationFormPtr(new LLNotificationForm(*mTemplatep->mForm));
+	mForm = std::make_shared<LLNotificationForm>(*mTemplatep->mForm);
     mForm->append(form_elements);
 
 	// apply substitution to form labels
@@ -1595,7 +1595,7 @@ bool LLNotifications::loadTemplates()
 				replaceFormText(notification.form_ref.form, "$ignoretext", notification.form_ref.form_template.ignore_text);
 			}
 		}
-		mTemplates[notification.name] = LLNotificationTemplatePtr(new LLNotificationTemplate(notification));
+		mTemplates[notification.name] = std::make_shared<LLNotificationTemplate>(notification);
 	}
 
 	LL_INFOS() << "...done" << LL_ENDL;
@@ -1624,7 +1624,7 @@ bool LLNotifications::loadVisibilityRules()
 
 	for (LLNotificationVisibilityRule::Rule& rule : params.rules)
 	{
-		mVisibilityRules.push_back(LLNotificationVisibilityRulePtr(new LLNotificationVisibilityRule(rule)));
+		mVisibilityRules.push_back(std::make_shared<LLNotificationVisibilityRule>(rule));
 	}
 
 	return true;
@@ -1675,7 +1675,7 @@ LLNotificationPtr LLNotifications::add(const LLNotification::Params& p)
 
 void LLNotifications::add(const LLNotificationPtr pNotif)
 {
-	if (pNotif == NULL) return;
+	if (pNotif == nullptr) return;
 
 	// first see if we already have it -- if so, that's a problem
 	LLNotificationSet::iterator it=mItems.find(pNotif);
@@ -1689,7 +1689,7 @@ void LLNotifications::add(const LLNotificationPtr pNotif)
 
 void LLNotifications::cancel(LLNotificationPtr pNotif)
 {
-	if (pNotif == NULL || pNotif->isCancelled()) return;
+	if (pNotif == nullptr || pNotif->isCancelled()) return;
 
 	LLNotificationSet::iterator it=mItems.find(pNotif);
 	if (it != mItems.end())
@@ -1759,12 +1759,12 @@ void LLNotifications::update(const LLNotificationPtr pNotif)
 
 LLNotificationPtr LLNotifications::find(LLUUID uuid)
 {
-	LLNotificationPtr target = LLNotificationPtr(new LLNotification(LLNotification::Params().id(uuid)));
+	LLNotificationPtr target = std::make_shared<LLNotification>(LLNotification::Params().id(uuid));
 	LLNotificationSet::iterator it=mItems.find(target);
 	if (it == mItems.end())
 	{
 		LL_DEBUGS("Notifications") << "Tried to dereference uuid '" << uuid << "' as a notification key but didn't find it." << LL_ENDL;
-		return LLNotificationPtr((LLNotification*)NULL);
+		return LLNotificationPtr((LLNotification*)nullptr);
 	}
 	else
 	{

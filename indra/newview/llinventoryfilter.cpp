@@ -53,19 +53,19 @@
 LLTrace::BlockTimerStatHandle FT_FILTER_CLIPBOARD("Filter Clipboard");
 
 LLInventoryFilter::FilterOps::FilterOps(const Params& p)
-:	mFilterObjectTypes(p.object_types),
-	mFilterCategoryTypes(p.category_types),
+:	mFilterTypes(p.types),
+	mFilterObjectTypes(p.object_types),
 	mFilterWearableTypes(p.wearable_types),
+	mFilterCategoryTypes(p.category_types),
+	mFilterWornItems(p.worn_items),
+	mFilterLinks(p.links),
+	mFilterUUID(p.uuid),
 	mMinDate(p.date_range.min_date),
 	mMaxDate(p.date_range.max_date),
 	mHoursAgo(p.hours_ago),
 	mDateSearchDirection(p.date_search_direction),
 	mShowFolderState(p.show_folder_state),
-	mPermissions(p.permissions),
-	mFilterTypes(p.types),
-	mFilterUUID(p.uuid),
-	mFilterLinks(p.links),
-	mFilterWornItems(p.worn_items)
+	mPermissions(p.permissions)
 {
 }
 
@@ -73,15 +73,15 @@ LLInventoryFilter::FilterOps::FilterOps(const Params& p)
 /// Class LLInventoryFilter
 ///----------------------------------------------------------------------------
 LLInventoryFilter::LLInventoryFilter(const Params& p)
-:	mName(p.name),
-	mFilterModified(FILTER_NONE),
-	mEmptyLookupMessage("InventoryNoMatchingItems"),
-	mFilterOps(p.filter_ops),
+:	mFilterOps(p.filter_ops),
 	mBackupFilterOps(mFilterOps),
 	mFilterSubString(p.substring),
+	mName(p.name),
 	mCurrentGeneration(0),
 	mFirstRequiredGeneration(0),
-	mFirstSuccessGeneration(0)
+	mFirstSuccessGeneration(0),
+	mFilterModified(FILTER_NONE),
+	mEmptyLookupMessage("InventoryNoMatchingItems")
 {
 	// copy mFilterOps into mDefaultFilterOps
 	markDefault();
@@ -321,8 +321,8 @@ bool LLInventoryFilter::checkAgainstFilterType(const LLFolderViewModelItemInvent
 					gInventory.fetchDescendentsOf(object_id);
 				}
 
-				LLInventoryModel::cat_array_t* cat_array = NULL;
-				LLInventoryModel::item_array_t* item_array = NULL;
+				LLInventoryModel::cat_array_t* cat_array = nullptr;
+				LLInventoryModel::item_array_t* item_array = nullptr;
 				gInventory.getDirectDescendentsOf(object_id,cat_array,item_array);
 				S32 descendents_actual = 0;
 				if(cat_array && item_array)
@@ -451,7 +451,7 @@ bool LLInventoryFilter::checkAgainstPermissions(const LLInventoryItem* item) con
 
 	LLPointer<LLViewerInventoryItem> new_item = new LLViewerInventoryItem(item);
 	PermissionMask perm = new_item->getPermissionMask();
-	new_item = NULL;
+	new_item = nullptr;
 
 	return (perm & mFilterOps.mPermissions) == mFilterOps.mPermissions;
 }

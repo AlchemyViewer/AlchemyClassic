@@ -249,7 +249,7 @@ void LLUIColorTable::saveUserSettings(const bool scrub /* = false */) const
 		const std::string& filename = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "colors.xml");
 		LLFILE *fp = LLFile::fopen(filename, "w");
 
-		if(fp != NULL)
+		if(fp != nullptr)
 		{
 			LLXMLNode::writeHeaderToFile(fp);
 			output_node->writeToFile(fp);
@@ -294,7 +294,7 @@ bool LLUIColorTable::loadFromFilename(const std::string& filename, string_color_
 {
 	LLXMLNodePtr root;
 
-	if(!LLXMLNode::parseFile(filename, root, NULL))
+	if(!LLXMLNode::parseFile(filename, root, nullptr))
 	{
 		LL_WARNS() << "Unable to parse color file " << filename << LL_ENDL;
 		return false;

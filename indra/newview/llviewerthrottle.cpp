@@ -189,7 +189,7 @@ void LLViewerThrottleGroup::dump()
 class LLBPSListener : public LLSimpleListener
 {
 public:
-	virtual bool handleEvent(LLPointer<LLEvent> event, const LLSD& userdata)
+	bool handleEvent(LLPointer<LLEvent> event, const LLSD& userdata) override
 	{
 		gViewerThrottle.setMaxBandwidth((F32) event->getValue().asReal()*1024);
 		return true;

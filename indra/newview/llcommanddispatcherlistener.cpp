@@ -66,7 +66,7 @@ void LLCommandDispatcherListener::dispatch(const LLSD& params) const
         // But for testing, allow a caller to specify untrusted.
         trusted_browser = params["trusted"].asBoolean();
     }
-    LLCommandDispatcher::dispatch(params["cmd"], params["params"], params["query"], NULL,
+    LLCommandDispatcher::dispatch(params["cmd"], params["params"], params["query"], nullptr,
                                   "clicked", trusted_browser);
 }
 

@@ -57,7 +57,7 @@ public:
         std::string subject, std::string message, LLVector3d globalPosition,
         LLPointer<LLImageFormatted> image, invnUploadFinish_f finish);
 
-    virtual LLSD generatePostBody();
+	LLSD generatePostBody() override;
 private:
     std::string mNameFrom;
     std::string mEmailTo;

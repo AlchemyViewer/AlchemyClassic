@@ -34,7 +34,7 @@ BOOL LLPanelTipToast::postBuild()
 {
 	mMessageText= findChild<LLUICtrl>("message");
 
-	if (mMessageText != NULL)
+	if (mMessageText != nullptr)
 	{
 		mMessageText->setMouseUpCallback(boost::bind(&LLPanelTipToast::onMessageTextClick,this));
 		setMouseUpCallback(boost::bind(&LLPanelTipToast::onPanelClick, this, _2, _3, _4));

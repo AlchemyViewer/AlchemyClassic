@@ -38,16 +38,16 @@ class LLToolCamera
 	virtual ~LLToolCamera();
 public:
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
 
-	virtual void	onMouseCaptureLost();
+	void	onMouseCaptureLost() override;
 
-	virtual void	handleSelect();
-	virtual void	handleDeselect();
+	void	handleSelect() override;
+	void	handleDeselect() override;
 
-	virtual LLTool*	getOverrideTool(MASK mask) { return NULL; }
+	LLTool*	getOverrideTool(MASK mask) override { return nullptr; }
 
 	static void pickCallback(const LLPickInfo& pick_info);
 	BOOL mouseSteerMode() { return mMouseSteering; }

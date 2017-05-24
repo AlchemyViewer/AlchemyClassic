@@ -99,7 +99,7 @@ LLFloaterColorPicker::LLFloaterColorPicker (LLColorSwatchCtrl* swatch, BOOL show
 	  mSwatchRegionTop		( 190 ),
 	  mSwatchRegionWidth	( 116 ),
 	  mSwatchRegionHeight	( 60 ),
-	  mSwatchView			( NULL ),
+	  mSwatchView			(nullptr ),
 	  // *TODO: Specify this in XML
 	  numPaletteColumns		( 16 ),
 	  numPaletteRows		( 2 ),
@@ -279,7 +279,7 @@ void LLFloaterColorPicker::destroyUI ()
 	{
 		this->removeChild ( mSwatchView );
 		mSwatchView->die();;
-		mSwatchView = NULL;
+		mSwatchView = nullptr;
 	}
 }
 
@@ -1039,7 +1039,7 @@ BOOL LLFloaterColorPicker::handleMouseUp ( S32 x, S32 y, MASK mask )
 
 	if (hasMouseCapture())
 	{
-		gFocusMgr.setMouseCapture(NULL);
+		gFocusMgr.setMouseCapture(nullptr);
 	}
 
 	// dispatch to base class for the rest of things

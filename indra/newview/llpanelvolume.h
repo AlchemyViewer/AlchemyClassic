@@ -48,12 +48,12 @@ public:
 	LLPanelVolume();
 	virtual ~LLPanelVolume();
 
-	virtual void	draw();
-	virtual void 	clearCtrls();
+	void	draw() override;
+	void 	clearCtrls() override;
 
-	virtual BOOL	postBuild();
+	BOOL	postBuild() override;
 
-	void refresh();
+	void refresh() override;
 
 	void sendIsLight();
 	void sendIsFlexible();

@@ -43,13 +43,13 @@ class LLCrashLoggerWindows : public LLCrashLogger
 public:
 	LLCrashLoggerWindows(void);
 	~LLCrashLoggerWindows(void);
-	static LLCrashLoggerWindows* sInstance; 
+	static LLCrashLoggerWindows* sInstance;
 
-	virtual bool init();
-	virtual bool frame();
-	virtual void updateApplication(const std::string& message = LLStringUtil::null);
-	virtual bool cleanup();
-	virtual void gatherPlatformSpecificFiles();
+	bool init() override;
+	bool frame() override;
+	void updateApplication(const std::string& message = LLStringUtil::null) override;
+	bool cleanup() override;
+	void gatherPlatformSpecificFiles() override;
 	void setHandle(HINSTANCE hInst) { mhInst = hInst; }
     int clients_connected() const {
         return mClientsConnected;

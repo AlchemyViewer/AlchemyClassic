@@ -241,9 +241,9 @@ public:
 	bool mPersist;
 
 	// LLNotificationResponderInterface implementation
-	/*virtual*/ LLSD asLLSD();
-	/*virtual*/ void fromLLSD(const LLSD& params);
-	/*virtual*/ void handleRespond(const LLSD& notification, const LLSD& response);
+	/*virtual*/ LLSD asLLSD() override;
+	/*virtual*/ void fromLLSD(const LLSD& params) override;
+	/*virtual*/ void handleRespond(const LLSD& notification, const LLSD& response) override;
 
 	void send_auto_receive_response(void);
 

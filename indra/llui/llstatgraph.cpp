@@ -44,13 +44,13 @@
 
 LLStatGraph::LLStatGraph(const Params& p)
 :	LLView(p),
+	mNewStatFloatp(p.stat.count_stat_float),
+	mPerSec(p.per_sec),
+	mValue(p.value),
 	mMin(p.min),
 	mMax(p.max),
-	mPerSec(p.per_sec),
-	mPrecision(p.precision),
-	mValue(p.value),
 	mUnits(p.units),
-	mNewStatFloatp(p.stat.count_stat_float)
+	mPrecision(p.precision)
 {
 	setToolTip(p.name());
 

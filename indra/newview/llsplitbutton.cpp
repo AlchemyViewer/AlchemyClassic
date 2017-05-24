@@ -56,9 +56,9 @@ LLSplitButton::ItemParams::ItemParams()
 
 LLSplitButton::Params::Params()
 :	arrow_position("arrow_position", LEFT),
-	items("item"),
 	arrow_button("arrow_button"),
-	items_panel("items_panel")
+	items_panel("items_panel"),
+	items("item")
 {
 }
 
@@ -125,12 +125,12 @@ void LLSplitButton::onItemSelected(LLUICtrl* ctrl)
 		mSelectionCallback(this, ctrl->getName());
 	}
 
-	gFocusMgr.setKeyboardFocus(NULL);
+	gFocusMgr.setKeyboardFocus(nullptr);
 }
 
 BOOL LLSplitButton::handleMouseUp(S32 x, S32 y, MASK mask)
 {
-	gFocusMgr.setMouseCapture(NULL);
+	gFocusMgr.setMouseCapture(nullptr);
 
 	if (mShownItem->parentPointInView(x, y))
 	{
@@ -186,9 +186,9 @@ void LLSplitButton::hideButtons()
 
 LLSplitButton::LLSplitButton(const LLSplitButton::Params& p)
 :	LLUICtrl(p),
-	mArrowBtn(NULL),
-	mShownItem(NULL),
-	mItemsPanel(NULL),
+	mItemsPanel(nullptr),
+	mArrowBtn(nullptr),
+	mShownItem(nullptr),
 	mArrowPosition(p.arrow_position)
 {
 	LLRect rc(p.rect);

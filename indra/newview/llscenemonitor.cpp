@@ -44,7 +44,7 @@
 #include "llviewerparcelmgr.h"
 #include "llviewerpartsim.h"
 
-LLSceneMonitorView* gSceneMonitorView = NULL;
+LLSceneMonitorView* gSceneMonitorView = nullptr;
 
 //
 //The procedures of monitoring when the scene finishes loading visually, 
@@ -60,16 +60,16 @@ LLSceneMonitorView* gSceneMonitorView = NULL;
 
 LLSceneMonitor::LLSceneMonitor() : 
 	mEnabled(false), 
-	mDiff(NULL),
+	mDebugViewerVisible(false),
+	mDiffState(WAITING_FOR_NEXT_DIFF),
+	mDiff(nullptr),
+	mQueryObject(0),
 	mDiffResult(0.f),
 	mDiffTolerance(0.1f),
-	mDiffState(WAITING_FOR_NEXT_DIFF),
-	mDebugViewerVisible(false),
-	mQueryObject(0),
 	mDiffPixelRatio(0.5f)
 {
-	mFrames[0] = NULL;
-	mFrames[1] = NULL;
+	mFrames[0] = nullptr;
+	mFrames[1] = nullptr;
 }
 
 LLSceneMonitor::~LLSceneMonitor()
@@ -77,7 +77,7 @@ LLSceneMonitor::~LLSceneMonitor()
 	mDiffState = VIEWER_QUITTING;
 	reset();
 
-	mDitheringTexture = NULL;
+	mDitheringTexture = nullptr;
 }
 
 void LLSceneMonitor::reset()
@@ -86,9 +86,9 @@ void LLSceneMonitor::reset()
 	delete mFrames[1];
 	delete mDiff;
 
-	mFrames[0] = NULL;
-	mFrames[1] = NULL;
-	mDiff = NULL;
+	mFrames[0] = nullptr;
+	mFrames[1] = nullptr;
+	mDiff = nullptr;
 
 	mMonitorRecording.reset();
 	mSceneLoadRecording.reset();
@@ -171,7 +171,7 @@ void LLSceneMonitor::setDebugViewerVisible(bool visible)
 
 LLRenderTarget& LLSceneMonitor::getCaptureTarget()
 {
-	LLRenderTarget* cur_target = NULL;
+	LLRenderTarget* cur_target = nullptr;
 
 	S32 width = gViewerWindow->getWorldViewWidthRaw();
 	S32 height = gViewerWindow->getWorldViewHeightRaw();
@@ -447,7 +447,7 @@ void LLSceneMonitor::calcDiffAggregate()
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	}
 
-	LLGLSLShader* cur_shader = NULL;
+	LLGLSLShader* cur_shader = nullptr;
 	
 	cur_shader = LLGLSLShader::sCurBoundShaderPtr;
 	gOneTextureFilterProgram.bind();
@@ -468,7 +468,7 @@ void LLSceneMonitor::calcDiffAggregate()
 		
 	gOneTextureFilterProgram.unbind();
 	
-	if(cur_shader != NULL)
+	if(cur_shader != nullptr)
 	{
 		cur_shader->bind();
 	}

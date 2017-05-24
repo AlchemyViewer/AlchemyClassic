@@ -36,8 +36,8 @@ class LLFloaterTextureFetchDebugger : public LLFloater
 public:
 	/// initialize all the callbacks for the menu
 
-	virtual BOOL postBuild() ;
-	virtual void draw() ;
+	BOOL postBuild() override;
+	void draw() override;
 	
 	void onChangeTexelPixelRatio();
 	

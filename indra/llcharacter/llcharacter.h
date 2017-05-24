@@ -173,13 +173,13 @@ public:
 	virtual void deactivateAllMotions();
 
 	// dumps information for debugging
-	virtual void dumpCharacter( LLJoint *joint = NULL );
+	virtual void dumpCharacter( LLJoint *joint = nullptr );
 
 	virtual F32 getPreferredPelvisHeight() { return mPreferredPelvisHeight; }
 
 	virtual LLVector3 getVolumePos(S32 joint_index, LLVector3& volume_offset) { return LLVector3::zero; }
 	
-	virtual LLJoint* findCollisionVolume(U32 volume_id) { return NULL; }
+	virtual LLJoint* findCollisionVolume(U32 volume_id) { return nullptr; }
 
 	virtual S32 getCollisionVolumeID(std::string &name) { return -1; }
 
@@ -222,7 +222,7 @@ public:
 #else
 		if (mCurIterator == mVisualParamSortedVector.end())
 #endif
-			return 0;
+			return nullptr;
 		return (mCurIterator++)->second;
 	}
 

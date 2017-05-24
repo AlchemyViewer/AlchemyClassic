@@ -39,8 +39,8 @@ class LLFloaterEnvironmentSettings : public LLFloater
 
 public:
 	LLFloaterEnvironmentSettings(const LLSD &key);
-	/*virtual*/	BOOL	postBuild();	
-	/*virtual*/ void	onOpen(const LLSD& key);
+	/*virtual*/	BOOL	postBuild() override;	
+	/*virtual*/ void	onOpen(const LLSD& key) override;
 
 private:
 	void onSwitchRegionSettings();
@@ -53,7 +53,7 @@ private:
 	void onBtnOK();
 	void onBtnCancel();
 
-	void refresh(); /// update controls with user prefs
+	void refresh() override; /// update controls with user prefs
 	void apply();
 	void cancel();
 

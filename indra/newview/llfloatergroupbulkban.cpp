@@ -37,7 +37,7 @@
 class LLFloaterGroupBulkBan::impl
 {
 public:
-	impl(const LLUUID& group_id) : mGroupID(group_id), mBulkBanPanelp(NULL) {}
+	impl(const LLUUID& group_id) : mGroupID(group_id), mBulkBanPanelp(nullptr) {}
 	~impl() {}
 
 	static void closeFloater(void* data);
@@ -110,7 +110,7 @@ void LLFloaterGroupBulkBan::showForGroup(const LLUUID& group_id, uuid_vec_t* age
 	// If we don't have a floater for this group, create one.
 	LLFloaterGroupBulkBan* fgb = get_if_there(impl::sInstances,
 		group_id,
-		(LLFloaterGroupBulkBan*)NULL);
+		(LLFloaterGroupBulkBan*)nullptr);
 	if (!fgb)
 	{
 		fgb = new LLFloaterGroupBulkBan(group_id);
@@ -125,7 +125,7 @@ void LLFloaterGroupBulkBan::showForGroup(const LLUUID& group_id, uuid_vec_t* age
 		fgb->mImpl->mBulkBanPanelp->clear();
 	}
 
-	if (agent_ids != NULL)
+	if (agent_ids != nullptr)
 	{
 		fgb->mImpl->mBulkBanPanelp->addUsers(*agent_ids);
 	}

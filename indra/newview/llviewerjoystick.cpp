@@ -139,7 +139,7 @@ void LLViewerJoystick::HotPlugRemovalCallback(NDOF_Device *dev)
 // -----------------------------------------------------------------------------
 LLViewerJoystick::LLViewerJoystick()
 :	mDriverState(JDS_UNINITIALIZED),
-	mNdofDev(NULL),
+	mNdofDev(nullptr),
 	mResetFlag(false),
 	mCameraUpdated(true),
 	mOverrideCamera(false),
@@ -176,8 +176,8 @@ void LLViewerJoystick::init(bool autoenable)
 	{
 		// Note: The HotPlug callbacks are not actually getting called on Windows
 		if (ndof_libinit(HotPlugAddCallback, 
-						 HotPlugRemovalCallback, 
-						 NULL))
+						 HotPlugRemovalCallback,
+						 nullptr))
 		{
 			mDriverState = JDS_UNINITIALIZED;
 		}
@@ -214,7 +214,7 @@ void LLViewerJoystick::init(bool autoenable)
 			mNdofDev->absolute = 1;
 
 			// init & use the first suitable NDOF device found on the USB chain
-			if (ndof_init_first(mNdofDev, NULL))
+			if (ndof_init_first(mNdofDev, nullptr))
 			{
 				mDriverState = JDS_UNINITIALIZED;
 				LL_WARNS() << "ndof_init_first FAILED" << LL_ENDL;

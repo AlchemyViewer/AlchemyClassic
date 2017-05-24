@@ -38,7 +38,7 @@ namespace LLPanelPeopleMenus
 class PeopleContextMenu : public LLListContextMenu
 {
 public:
-	/*virtual*/ LLContextMenu* createMenu();
+	/*virtual*/ LLContextMenu* createMenu() override;
 
 protected:
 	virtual void buildContextMenu(class LLMenuGL& menu, U32 flags);
@@ -56,7 +56,7 @@ private:
 class NearbyPeopleContextMenu : public PeopleContextMenu
 {
 protected:
-	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags);
+	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags) override;
 };
 
 /**
@@ -65,10 +65,10 @@ protected:
 class SuggestedFriendsContextMenu : public PeopleContextMenu
 {
 public:
-	/*virtual*/ LLContextMenu * createMenu();
+	/*virtual*/ LLContextMenu * createMenu() override;
 
 protected:
-	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags);
+	/*virtual*/ void buildContextMenu(class LLMenuGL& menu, U32 flags) override;
 };
 
 extern PeopleContextMenu gPeopleContextMenu;

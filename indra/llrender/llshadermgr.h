@@ -233,7 +233,7 @@ public:
 	void dumpShaderLog(GLuint ret, BOOL warns = TRUE, const std::string& filename = "");
 	BOOL linkProgram(GLuint program, BOOL suppress_errors = FALSE);
 	BOOL validateProgramObject(GLuint program);
-	GLuint loadShaderFile(const std::string& filename, S32 & shader_level, GLenum type, boost::unordered_map<std::string, std::string>* defines = NULL, S32 texture_index_channels = -1);
+	GLuint loadShaderFile(const std::string& filename, S32 & shader_level, GLenum type, boost::unordered_map<std::string, std::string>* defines = nullptr, S32 texture_index_channels = -1);
 	void cleanupShaderSources();
 
 	// Implemented in the application to actually point to the shader directory.

@@ -273,7 +273,7 @@ bool LLImageDXT::decode(LLImageRaw* raw_image, F32 time)
 	
 	S32 width = getWidth(), height = getHeight();
 	S32 ncomponents = getComponents();
-	U8* data = NULL;
+	U8* data = nullptr;
 	if (mDiscardLevel >= 0)
 	{
 		data = getData() + getMipOffset(mDiscardLevel);
@@ -373,7 +373,7 @@ bool LLImageDXT::encodeDXT(const LLImageRaw* raw_image, F32 time, bool explicit_
 	header->maxwidth = width;
 	header->maxheight = height;
 
-	U8* prev_mipdata = 0;
+	U8* prev_mipdata = nullptr;
 	w = width, h = height;
 	for (S32 mip=0; mip<nmips; mip++)
 	{

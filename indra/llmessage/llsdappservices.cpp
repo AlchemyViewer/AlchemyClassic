@@ -45,14 +45,14 @@ void LLSDAppServices::useServices()
 class LLHTTPConfigService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("GET an array of all the options in priority order.");
 		desc.getAPI();
 		desc.source(__FILE__, __LINE__);
 	}
-    
-	virtual LLSD simpleGet() const
+
+	LLSD simpleGet() const override
 	{
 		LLSD result;
 		LLApp* app = LLApp::instance();
@@ -70,24 +70,24 @@ LLHTTPRegistration<LLHTTPConfigService>
 class LLHTTPConfigRuntimeService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("Manipulate a map of runtime-override options.");
 		desc.getAPI();
 		desc.postAPI();
 		desc.source(__FILE__, __LINE__);
 	}
-    
-	virtual LLSD simpleGet() const
+
+	LLSD simpleGet() const override
 	{
 		return LLApp::instance()->getOptionData(
 			LLApp::PRIORITY_RUNTIME_OVERRIDE);
 	}
 
-	virtual void post(
+	void post(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLSD result = LLApp::instance()->getOptionData(
 			LLApp::PRIORITY_RUNTIME_OVERRIDE);
@@ -110,7 +110,7 @@ LLHTTPRegistration<LLHTTPConfigRuntimeService>
 class LLHTTPConfigRuntimeSingleService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("Manipulate a single runtime-override option.");
 		desc.getAPI();
@@ -118,8 +118,8 @@ public:
 		desc.delAPI();
 		desc.source(__FILE__, __LINE__);
 	}
-    
-	virtual bool validate(const std::string& name, LLSD& context) const
+
+	bool validate(const std::string& name, LLSD& context) const override
 	{
 		//LL_INFOS() << "validate: " << name << ", "
 		//	<< LLSDOStreamer<LLSDNotationFormatter>(context) << LL_ENDL;
@@ -137,9 +137,9 @@ public:
 		}
 	}
 
-	virtual void get(
+	void get(
 		LLHTTPNode::ResponsePtr response,
-		const LLSD& context) const
+		const LLSD& context) const override
 	{
 		std::string name = context[CONTEXT_REQUEST][CONTEXT_WILDCARD]["option-name"];
 		LLSD options = LLApp::instance()->getOptionData(
@@ -147,10 +147,10 @@ public:
 		response->result(options[name]);
 	}
 
-	virtual void put(
+	void put(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		std::string name = context[CONTEXT_REQUEST][CONTEXT_WILDCARD]["option-name"];
 		LLSD options = LLApp::instance()->getOptionData(
@@ -162,9 +162,9 @@ public:
 		response->result(input);
 	}
 
-	virtual void del(
+	void del(
 		LLHTTPNode::ResponsePtr response,
-		const LLSD& context) const
+		const LLSD& context) const override
 	{
 		std::string name = context[CONTEXT_REQUEST][CONTEXT_WILDCARD]["option-name"];
 		LLSD options = LLApp::instance()->getOptionData(
@@ -185,16 +185,16 @@ template<int PRIORITY>
 class LLHTTPConfigPriorityService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("Get a map of the options at this priority.");
 		desc.getAPI();
 		desc.source(__FILE__, __LINE__);
 	}
 
-	virtual void get(
+	void get(
 		LLHTTPNode::ResponsePtr response,
-		const LLSD& context) const
+		const LLSD& context) const override
 	{
 		response->result(LLApp::instance()->getOptionData(
 			(LLApp::OptionPriority)PRIORITY));
@@ -215,16 +215,16 @@ LLHTTPRegistration< LLHTTPConfigPriorityService<LLApp::PRIORITY_DEFAULT> >
 class LLHTTPLiveConfigService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("Get a map of the currently live options.");
 		desc.getAPI();
 		desc.source(__FILE__, __LINE__);
 	}
 
-	virtual void get(
+	void get(
 		LLHTTPNode::ResponsePtr response,
-		const LLSD& context) const
+		const LLSD& context) const override
 	{
 		LLSD result;
 		LLApp* app = LLApp::instance();
@@ -250,14 +250,14 @@ LLHTTPRegistration<LLHTTPLiveConfigService>
 class LLHTTPLiveConfigSingleService : public LLHTTPNode
 {
 public:
-	virtual void describe(Description& desc) const
+	void describe(Description& desc) const override
 	{
 		desc.shortInfo("Get the named live option.");
 		desc.getAPI();
 		desc.source(__FILE__, __LINE__);
 	}
 
-	virtual bool validate(const std::string& name, LLSD& context) const
+	bool validate(const std::string& name, LLSD& context) const override
 	{
 		LL_INFOS() << "LLHTTPLiveConfigSingleService::validate(" << name
 			<< ")" << LL_ENDL;
@@ -266,9 +266,9 @@ public:
 		else return false;
 	}
 
-	virtual void get(
+	void get(
 		LLHTTPNode::ResponsePtr response,
-		const LLSD& context) const
+		const LLSD& context) const override
 	{
 		std::string name = context[CONTEXT_REQUEST][CONTEXT_WILDCARD]["option-name"];
 		response->result(LLApp::instance()->getOption(name));

@@ -814,7 +814,7 @@ class LLDynamicPath : public LLPath
 public:
 	LLDynamicPath() : LLPath() { }
 	/*virtual*/ BOOL generate(const LLPathParams& params, F32 detail=1.0f, S32 split = 0,
-							  BOOL is_sculpted = FALSE, S32 sculpt_size = 0);
+							  BOOL is_sculpted = FALSE, S32 sculpt_size = 0) override;
 };
 
 // Yet another "face" class - caches volume-specific, but not instance-specific data for faces)
@@ -1020,7 +1020,7 @@ public:
 	
 	static void getLoDTriangleCounts(const LLVolumeParams& params, S32* counts);
 
-	S32 getNumTriangles(S32* vcount = NULL) const;
+	S32 getNumTriangles(S32* vcount = nullptr) const;
 
 	void generateSilhouetteVertices(std::vector<LLVector3> &vertices, 
 									std::vector<LLVector3> &normals, 
@@ -1034,10 +1034,10 @@ public:
 	//Line segment must be in volume space.
 	S32 lineSegmentIntersect(const LLVector4a& start, const LLVector4a& end,
 							 S32 face = -1,                          // which face to check, -1 = ALL_SIDES
-							 LLVector4a* intersection = NULL,         // return the intersection point
-							 LLVector2* tex_coord = NULL,            // return the texture coordinates of the intersection point
-							 LLVector4a* normal = NULL,               // return the surface normal at the intersection point
-							 LLVector4a* tangent = NULL             // return the surface tangent at the intersection point
+							 LLVector4a* intersection = nullptr,         // return the intersection point
+							 LLVector2* tex_coord = nullptr,            // return the texture coordinates of the intersection point
+							 LLVector4a* normal = nullptr,               // return the surface normal at the intersection point
+							 LLVector4a* tangent = nullptr             // return the surface tangent at the intersection point
 		);
 
 	LLFaceID generateFaceMask();

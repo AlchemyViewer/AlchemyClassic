@@ -124,9 +124,9 @@ void LLThread::runWrapper()
 LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 	mPaused(FALSE),
 	mName(name),
-	mStatus(STOPPED),
 	mRunCondition(std::make_unique<LLCondition>()),
-	mDataLock(std::make_unique<LLMutex>())
+	mDataLock(std::make_unique<LLMutex>()),
+	mStatus(STOPPED)
 {
 	// Thread creation probably CAN be paranoid about APR being initialized, if necessary
 	if (poolp)
@@ -139,7 +139,7 @@ LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :
 		mIsLocalPool = TRUE;
 		apr_pool_create(&mAPRPoolp, NULL); // Create a subpool for this thread
 	}
-	mLocalAPRFilePoolp = NULL;
+	mLocalAPRFilePoolp = nullptr;
 }
 
 
@@ -150,7 +150,7 @@ LLThread::~LLThread()
 	if (mLocalAPRFilePoolp)
 	{
 		delete mLocalAPRFilePoolp;
-		mLocalAPRFilePoolp = NULL;
+		mLocalAPRFilePoolp = nullptr;
 	}
 }
 
@@ -227,7 +227,7 @@ void LLThread::shutdown()
 	if (mIsLocalPool && mAPRPoolp)
 	{
 		apr_pool_destroy(mAPRPoolp);
-		mAPRPoolp = 0;
+		mAPRPoolp = nullptr;
 	}
 }
 
@@ -363,7 +363,7 @@ void LLThreadSafeRefCount::initThreadSafeRefCount()
 void LLThreadSafeRefCount::cleanupThreadSafeRefCount()
 {
 	delete sMutex;
-	sMutex = NULL;
+	sMutex = nullptr;
 }
 	
 

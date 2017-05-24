@@ -87,12 +87,12 @@ public:
         HOR_COPY,
         HOR_MOVE
 	};
-	
-	virtual void stageFromRequest(HttpService *);
-	virtual void stageFromReady(HttpService *);
-	virtual void stageFromActive(HttpService *);
 
-	virtual void visitNotifier(HttpRequest * request);
+	void stageFromRequest(HttpService *) override;
+	void stageFromReady(HttpService *) override;
+	void stageFromActive(HttpService *) override;
+
+	void visitNotifier(HttpRequest * request) override;
 			
 public:
 	/// Setup Methods
@@ -162,8 +162,8 @@ public:
 	// Threading:  called by worker thread
 	//
 	HttpStatus prepareRequest(HttpService * service);
-	
-	virtual HttpStatus cancel();
+
+	HttpStatus cancel() override;
 
 protected:
 	// Common setup for all the request methods.

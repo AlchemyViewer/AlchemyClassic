@@ -257,7 +257,7 @@ public:
 	void setCapabilityDebug(const std::string& name, const std::string& url);
 	bool isCapabilityAvailable(const std::string& name) const;
 	// implements LLCapabilityProvider
-    virtual std::string getCapability(const std::string& name) const;
+	std::string getCapability(const std::string& name) const override;
     std::string getCapabilityDebug(const std::string& name) const;
 
 
@@ -274,7 +274,7 @@ public:
 	void logActiveCapabilities() const;
 
     /// implements LLCapabilityProvider
-	/*virtual*/ const LLHost& getHost() const;
+	/*virtual*/ const LLHost& getHost() const override;
 	const U64 		&getHandle() const 			{ return mHandle; }
 
 	LLSurface		&getLand() const;
@@ -358,7 +358,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream &s, const LLViewerRegion &region);
     /// implements LLCapabilityProvider
-    virtual std::string getDescription() const;
+	std::string getDescription() const override;
 	std::string getHttpUrl() const { return mHttpUrl ;}
 
 	U32 getNumOfVisibleGroups() const;

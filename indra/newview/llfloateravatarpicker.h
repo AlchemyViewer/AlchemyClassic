@@ -48,12 +48,12 @@ public:
 									   BOOL closeOnSelect = FALSE,
 									   BOOL skip_agent = FALSE,
                                        const std::string& name = "",
-                                       LLView * frustumOrigin = NULL);
+                                       LLView * frustumOrigin = nullptr);
 
 	LLFloaterAvatarPicker(const LLSD& key);
 	virtual ~LLFloaterAvatarPicker();
-	
-	virtual	BOOL postBuild();
+
+	BOOL postBuild() override;
 
 	void setOkBtnEnableCb(validate_callback_t cb);
 
@@ -63,7 +63,7 @@ public:
 	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask,
 						   BOOL drop, EDragAndDropType cargo_type,
 						   void *cargo_data, EAcceptance *accept,
-						   std::string& tooltip_msg);
+						   std::string& tooltip_msg) override;
 
 	void openFriendsTab();
 	BOOL isExcludeAgentFromSearchResults() {return mExcludeAgentFromSearchResults;}
@@ -90,8 +90,8 @@ private:
 	LLScrollListCtrl* getActiveList();
 
     void drawFrustum();
-	virtual void draw();
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	void draw() override;
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 
 	LLUUID				mQueryID;
 	int				    mNumResultsReturned;

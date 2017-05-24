@@ -64,28 +64,28 @@ LLAvatarListItem::Params::Params()
 LLAvatarListItem::LLAvatarListItem(bool not_from_ui_factory/* = true*/)
 	: LLPanel(),
 	LLFriendObserver(),
-	mAvatarIcon(NULL),
-	mAvatarName(NULL),
-	mDistance(nullptr),
-	mLastInteractionTime(NULL),
-	mIconPermissionOnline(NULL),
-	mIconPermissionMap(NULL),
-	mIconPermissionEditMine(NULL),
-	mIconPermissionEditTheirs(NULL),
-	mIconPermissionMapTheirs(NULL),
-	mIconPermissionOnlineTheirs(NULL),
+	mSpeakingIndicator(nullptr),
+	mAvatarIcon(nullptr),
+	mIconPermissionOnline(nullptr),
+	mIconPermissionMap(nullptr),
+	mIconPermissionEditMine(nullptr),
+	mIconPermissionEditTheirs(nullptr),
+	mIconPermissionMapTheirs(nullptr),
+	mIconPermissionOnlineTheirs(nullptr),
 	mIconHovered(nullptr),
-	mSpeakingIndicator(NULL),
-	mInfoBtn(NULL),
-	mProfileBtn(NULL),
+	mAvatarName(nullptr),
+	mDistance(nullptr),
+	mLastInteractionTime(nullptr),
+	mInfoBtn(nullptr),
+	mProfileBtn(nullptr),
 	mOnlineStatus(E_UNKNOWN),
 	mShowInfoBtn(true),
 	mShowProfileBtn(true),
 	mShowPermissions(false),
-	mShowCompleteName(false),
 	mHovered(false),
-	mAvatarNameCacheConnection(),
-	mGreyOutUsername("")
+	mShowCompleteName(false),
+	mGreyOutUsername(""),
+	mAvatarNameCacheConnection()
 {
 	if (not_from_ui_factory)
 	{
@@ -708,7 +708,7 @@ bool LLAvatarListItem::showPermissions(bool visible)
 		mIconPermissionMapTheirs->setVisible(false);
 	}
 
-	return NULL != relation;
+	return nullptr != relation;
 }
 
 LLView* LLAvatarListItem::getItemChildView(EAvatarListItemChildIndex child_view_index)

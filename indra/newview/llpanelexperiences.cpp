@@ -47,7 +47,7 @@ static LLPanelInjector<LLPanelExperiences> register_experiences_panel("experienc
 static const LLExperienceItemComparator NAME_COMPARATOR;
 
 LLPanelExperiences::LLPanelExperiences(  )
-	: mExperiencesList(NULL)
+	: mExperiencesList(nullptr)
 {
     buildFromFile("panel_experiences.xml");
 }
@@ -73,7 +73,7 @@ BOOL LLPanelExperiences::postBuild( void )
 LLExperienceItem* LLPanelExperiences::getSelectedExperienceItem()
 {
 	LLPanel* selected_item = mExperiencesList->getSelectedItem();
-	if (!selected_item) return NULL;
+	if (!selected_item) return nullptr;
 
 	return dynamic_cast<LLExperienceItem*>(selected_item);
 }
@@ -164,7 +164,7 @@ void LLPanelExperiences::enableButton( bool enable )
 
 
 LLExperienceItem::LLExperienceItem()
-	: mName(NULL)
+	: mName(nullptr)
 {
 	buildFromFile("panel_experience_list_item.xml");
 }

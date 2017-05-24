@@ -48,13 +48,13 @@ static LLPanelInjector<LLPanelSearchWeb> t_panel_search_web("panel_search_web");
 
 LLPanelSearchWeb::LLPanelSearchWeb()
 :	LLPanel()
-,	mWebBrowser(nullptr)
 ,	mStatusBarText(nullptr)
 ,	mStatusBarProgress(nullptr)
 ,	mBtnBack(nullptr)
 ,	mBtnForward(nullptr)
 ,	mBtnReload(nullptr)
 ,	mBtnStop(nullptr)
+,	mWebBrowser(nullptr)
 {
 	mCategoryPaths = LLSD::emptyMap();
 	mCategoryPaths["all"]          = "search";

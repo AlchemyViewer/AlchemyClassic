@@ -249,7 +249,7 @@ void LLKeyboardWin32::scanKeyboard()
 {
 	S32 key;
 	MSG	msg;
-	BOOL pending_key_events = PeekMessage(&msg, NULL, WM_KEYFIRST, WM_KEYLAST, PM_NOREMOVE | PM_NOYIELD);
+	BOOL pending_key_events = PeekMessage(&msg, nullptr, WM_KEYFIRST, WM_KEYLAST, PM_NOREMOVE | PM_NOYIELD);
 	for (key = 0; key < KEY_COUNT; key++)
 	{
 		// On Windows, verify key down state. JC

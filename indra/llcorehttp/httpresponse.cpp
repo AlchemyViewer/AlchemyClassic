@@ -40,7 +40,7 @@ HttpResponse::HttpResponse()
 	  mReplyOffset(0U),
 	  mReplyLength(0U),
 	  mReplyFullLength(0U),
-	  mBufferArray(NULL),
+	  mBufferArray(nullptr),
 	  mHeaders(),
 	  mRetries(0U),
 	  m503Retries(0U),
@@ -50,7 +50,7 @@ HttpResponse::HttpResponse()
 
 HttpResponse::~HttpResponse()
 {
-	setBody(NULL);
+	setBody(nullptr);
 	//setHeaders();
 }
 

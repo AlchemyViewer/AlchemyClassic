@@ -80,11 +80,11 @@ static std::string icon_see_avs_off;
 
 LLPanelPlaceProfile::LLPanelPlaceProfile()
 :	LLPanelPlaceInfo(),
-	mNextCovenantUpdateTime(0),
-	mForSalePanel(NULL),
-	mYouAreHerePanel(NULL),
 	mSelectedParcelID(-1),
-	mAccordionCtrl(NULL)
+	mNextCovenantUpdateTime(0),
+	mForSalePanel(nullptr),
+	mYouAreHerePanel(nullptr),
+	mAccordionCtrl(nullptr)
 {}
 
 // virtual
@@ -284,7 +284,7 @@ void LLPanelPlaceProfile::setInfoType(EInfoType type)
 		break;
 	}
 
-	if (mAccordionCtrl != NULL)
+	if (mAccordionCtrl != nullptr)
 	{
 		mAccordionCtrl->expandDefaultTab();
 	}

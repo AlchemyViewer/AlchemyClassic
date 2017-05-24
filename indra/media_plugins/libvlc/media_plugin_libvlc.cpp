@@ -48,7 +48,7 @@ public:
 	MediaPluginLibVLC(LLPluginInstance::sendMessageFunction host_send_func, void *host_user_data);
 	~MediaPluginLibVLC();
 
-	/*virtual*/ void receiveMessage(const char* message_string);
+	/*virtual*/ void receiveMessage(const char* message_string) override;
 
 private:
 	bool init();
@@ -63,7 +63,8 @@ private:
 	static void unlock(void* data, void* id, void* const* raw_pixels);
 	static void display(void* data, void* id);
 
-	/*virtual*/ void setDirty(int left, int top, int right, int bottom) /* override, but that is not supported in gcc 4.6 */;
+	/*virtual*/ void setDirty(int left, int top, int right, int bottom) override
+	/* override, but that is not supported in gcc 4.6 */;
 
 	static void eventCallbacks(const libvlc_event_t* event, void* ptr);
 
@@ -100,11 +101,11 @@ MediaPluginBase(host_send_func, host_user_data)
 	mWidth = 0;
 	mHeight = 0;
 	mDepth = 4;
-	mPixels = 0;
+	mPixels = nullptr;
 
-	mLibVLC = 0;
-	mLibVLCMedia = 0;
-	mLibVLCMediaPlayer = 0;
+	mLibVLC = nullptr;
+	mLibVLCMedia = nullptr;
+	mLibVLCMediaPlayer = nullptr;
 
 	mCurVolume = 0.0;
 
@@ -133,7 +134,7 @@ void* MediaPluginLibVLC::lock(void* data, void** p_pixels)
 
 	*p_pixels = context->texture_pixels;
 
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -206,7 +207,7 @@ void MediaPluginLibVLC::setDirty(int left, int top, int right, int bottom)
 void MediaPluginLibVLC::eventCallbacks(const libvlc_event_t* event, void* ptr)
 {
 	MediaPluginLibVLC* parent = (MediaPluginLibVLC*)ptr;
-	if (parent == 0)
+	if (parent == nullptr)
 	{
 		return;
 	}
@@ -276,35 +277,35 @@ void MediaPluginLibVLC::playMedia()
 		libvlc_event_manager_t* em = libvlc_media_player_event_manager(mLibVLCMediaPlayer);
 		if (em)
 		{
-			libvlc_event_detach(em, libvlc_MediaPlayerOpening, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerPlaying, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerPaused, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerStopped, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerEndReached, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerEncounteredError, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerTimeChanged, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerPositionChanged, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerLengthChanged, eventCallbacks, NULL);
-			libvlc_event_detach(em, libvlc_MediaPlayerTitleChanged, eventCallbacks, NULL);
+			libvlc_event_detach(em, libvlc_MediaPlayerOpening, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerPlaying, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerPaused, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerStopped, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerEndReached, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerEncounteredError, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerTimeChanged, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerPositionChanged, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerLengthChanged, eventCallbacks, nullptr);
+			libvlc_event_detach(em, libvlc_MediaPlayerTitleChanged, eventCallbacks, nullptr);
 		};
 
 		libvlc_media_player_stop(mLibVLCMediaPlayer);
 		libvlc_media_player_release(mLibVLCMediaPlayer);
 
-		mLibVLCMediaPlayer = 0;
+		mLibVLCMediaPlayer = nullptr;
 	}
 
 	if (mLibVLCMedia)
 	{
 		libvlc_media_release(mLibVLCMedia);
 
-		mLibVLCMedia = 0;
+		mLibVLCMedia = nullptr;
 	}
 
 	mLibVLCMedia = libvlc_media_new_location(mLibVLC, mURL.c_str());
 	if (!mLibVLCMedia)
 	{
-		mLibVLCMediaPlayer = 0;
+		mLibVLCMediaPlayer = nullptr;
 		setStatus(STATUS_ERROR);
 		return;
 	}
@@ -478,9 +479,9 @@ void MediaPluginLibVLC::receiveMessage(const char* message_string)
 					{
 						libvlc_media_player_stop(mLibVLCMediaPlayer);
 						libvlc_media_player_release(mLibVLCMediaPlayer);
-						mLibVLCMediaPlayer = 0;
+						mLibVLCMediaPlayer = nullptr;
 
-						mPixels = NULL;
+						mPixels = nullptr;
 						mTextureSegmentName.clear();
 					}
 					mSharedSegments.erase(iter);

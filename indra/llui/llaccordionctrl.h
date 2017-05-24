@@ -84,32 +84,32 @@ public:
     LLAccordionCtrl();
     virtual ~LLAccordionCtrl();
 
-	virtual BOOL postBuild();
-	
-	virtual BOOL handleRightMouseDown	( S32 x, S32 y, MASK mask); 
-	virtual BOOL handleScrollWheel		( S32 x, S32 y, S32 clicks );
-	virtual BOOL handleKeyHere			(KEY key, MASK mask);
-	virtual BOOL handleDragAndDrop		(S32 x, S32 y, MASK mask, BOOL drop,
+	BOOL postBuild() override;
+
+	BOOL handleRightMouseDown	( S32 x, S32 y, MASK mask) override;
+	BOOL handleScrollWheel		( S32 x, S32 y, S32 clicks ) override;
+	BOOL handleKeyHere			(KEY key, MASK mask) override;
+	BOOL handleDragAndDrop		(S32 x, S32 y, MASK mask, BOOL drop,
 										 EDragAndDropType cargo_type,
 										 void* cargo_data,
 										 EAcceptance* accept,
-										 std::string& tooltip_msg);
+										 std::string& tooltip_msg) override;
 	//
 
 	// Call reshape after changing splitter's size
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 	void addCollapsibleCtrl(LLView* view, bool arrange_now = true);
 	void removeCollapsibleCtrl(LLView* view);
 	void arrange();
 
 
-	void	draw();
+	void	draw() override;
 	
 	void	onScrollPosChangeCallback(S32, LLScrollbar*);
 
-	void	onOpen		(const LLSD& key);
-	S32		notifyParent(const LLSD& info);
+	void	onOpen		(const LLSD& key) override;
+	S32		notifyParent(const LLSD& info) override;
 
 	void	reset		();
 	void	expandDefaultTab();

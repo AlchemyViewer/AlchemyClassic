@@ -60,7 +60,7 @@ S32 LLMachineID::init()
         // Step 1: --------------------------------------------------
         // Initialize COM. ------------------------------------------
 
-        hres =  CoInitializeEx(0, COINIT_MULTITHREADED); 
+        hres =  CoInitializeEx(nullptr, COINIT_MULTITHREADED); 
         if (FAILED(hres))
         {
             LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x"   << std::hex << hres << std::dec << LL_ENDL;
@@ -75,15 +75,15 @@ S32 LLMachineID::init()
         // parameter of CoInitializeSecurity ------------------------
 
         hres =  CoInitializeSecurity(
-            NULL, 
+            nullptr, 
             -1,                          // COM authentication
-            NULL,                        // Authentication services
-            NULL,                        // Reserved
+            nullptr,                        // Authentication services
+            nullptr,                        // Reserved
             RPC_C_AUTHN_LEVEL_DEFAULT,   // Default authentication 
             RPC_C_IMP_LEVEL_IMPERSONATE, // Default Impersonation  
-            NULL,                        // Authentication info
+            nullptr,                        // Authentication info
             EOAC_NONE,                   // Additional capabilities 
-            NULL                         // Reserved
+            nullptr                         // Reserved
             );
 
                           
@@ -97,11 +97,11 @@ S32 LLMachineID::init()
         // Step 3: ---------------------------------------------------
         // Obtain the initial locator to WMI -------------------------
 
-        IWbemLocator *pLoc = NULL;
+        IWbemLocator *pLoc = nullptr;
 
         hres = CoCreateInstance(
             CLSID_WbemLocator,             
-            0, 
+            nullptr, 
             CLSCTX_INPROC_SERVER, 
             IID_IWbemLocator, (LPVOID *) &pLoc);
      
@@ -115,19 +115,19 @@ S32 LLMachineID::init()
         // Step 4: -----------------------------------------------------
         // Connect to WMI through the IWbemLocator::ConnectServer method
 
-        IWbemServices *pSvc = NULL;
+        IWbemServices *pSvc = nullptr;
     	
         // Connect to the root\cimv2 namespace with
         // the current user and obtain pointer pSvc
         // to make IWbemServices calls.
         hres = pLoc->ConnectServer(
              _bstr_t(L"ROOT\\CIMV2"), // Object path of WMI namespace
-             NULL,                    // User name. NULL = current user
-             NULL,                    // User password. NULL = current
-             0,                       // Locale. NULL indicates current
+             nullptr,                    // User name. NULL = current user
+             nullptr,                    // User password. NULL = current
+             nullptr,                       // Locale. NULL indicates current
              NULL,                    // Security flags.
-             0,                       // Authority (e.g. Kerberos)
-             0,                       // Context object 
+             nullptr,                       // Authority (e.g. Kerberos)
+             nullptr,                       // Context object 
              &pSvc                    // pointer to IWbemServices proxy
              );
         
@@ -149,10 +149,10 @@ S32 LLMachineID::init()
            pSvc,                        // Indicates the proxy to set
            RPC_C_AUTHN_WINNT,           // RPC_C_AUTHN_xxx
            RPC_C_AUTHZ_NONE,            // RPC_C_AUTHZ_xxx
-           NULL,                        // Server principal name 
+           nullptr,                        // Server principal name 
            RPC_C_AUTHN_LEVEL_CALL,      // RPC_C_AUTHN_LEVEL_xxx 
            RPC_C_IMP_LEVEL_IMPERSONATE, // RPC_C_IMP_LEVEL_xxx
-           NULL,                        // client identity
+           nullptr,                        // client identity
            EOAC_NONE                    // proxy capabilities 
         );
 
@@ -169,12 +169,12 @@ S32 LLMachineID::init()
         // Use the IWbemServices pointer to make requests of WMI ----
 
         // For example, get the name of the operating system
-        IEnumWbemClassObject* pEnumerator = NULL;
+        IEnumWbemClassObject* pEnumerator = nullptr;
         hres = pSvc->ExecQuery(
             bstr_t("WQL"), 
             bstr_t("SELECT * FROM Win32_OperatingSystem"),
-            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, 
-            NULL,
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            nullptr,
             &pEnumerator);
         
         if (FAILED(hres))
@@ -189,7 +189,7 @@ S32 LLMachineID::init()
         // Step 7: -------------------------------------------------
         // Get the data from the query in step 6 -------------------
      
-        IWbemClassObject *pclsObj = NULL;
+        IWbemClassObject *pclsObj = nullptr;
         ULONG uReturn = 0;
        
         while (pEnumerator)
@@ -205,7 +205,7 @@ S32 LLMachineID::init()
             VARIANT vtProp;
 
             // Get the value of the Name property
-            hr = pclsObj->Get(L"SerialNumber", 0, &vtProp, 0, 0);
+            hr = pclsObj->Get(L"SerialNumber", 0, &vtProp, nullptr, nullptr);
             LL_INFOS("AppInit") << " Serial Number : " << vtProp.bstrVal << LL_ENDL;
             // use characters in the returned Serial Number to create a byte array of size len
             BSTR serialNumber ( vtProp.bstrVal);
@@ -224,7 +224,7 @@ S32 LLMachineID::init()
             VariantClear(&vtProp);
 
             pclsObj->Release();
-            pclsObj = NULL;
+            pclsObj = nullptr;
             break;
         }
 

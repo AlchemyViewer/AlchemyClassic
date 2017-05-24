@@ -51,7 +51,7 @@ class LLChatBarGestureObserver : public LLGestureManagerObserver
 public:
 	LLChatBarGestureObserver(LLChatBar* chat_barp) : mChatBar(chat_barp){}
 	virtual ~LLChatBarGestureObserver() {}
-	virtual void changed() { mChatBar->refreshGestures(); }
+	void changed() override { mChatBar->refreshGestures(); }
 private:
 	LLChatBar* mChatBar;
 };
@@ -66,7 +66,7 @@ LLChatBar::LLChatBar(const LLSD& key)
 	mGestureLabelTimer(),
 	mIsBuilt(FALSE),
 	mGestureCombo(nullptr),
-	mObserver(NULL)
+	mObserver(nullptr)
 {
 	mCommitCallbackRegistrar.add("Chatbar.Shout", boost::bind(&LLChatBar::sendChat, this, CHAT_TYPE_SHOUT));
 	mCommitCallbackRegistrar.add("Chatbar.Whisper", boost::bind(&LLChatBar::sendChat, this, CHAT_TYPE_WHISPER));
@@ -78,7 +78,7 @@ LLChatBar::~LLChatBar()
 {
 	LLGestureMgr::instance().removeObserver(mObserver);
 	delete mObserver;
-	mObserver = NULL;
+	mObserver = nullptr;
 	// LLView destructor cleans up children
 }
 
@@ -479,7 +479,7 @@ void LLChatBar::onCommitGesture(LLUICtrl* ctrl)
 		}
 	}
 	mGestureLabelTimer.start();
-	if (mGestureCombo != NULL)
+	if (mGestureCombo != nullptr)
 	{
 		// free focus back to chat bar
 		mGestureCombo->setFocus(FALSE);

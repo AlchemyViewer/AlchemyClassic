@@ -148,12 +148,12 @@ public:
 	void zoom( S32 );
 
 	// overrides for setters and getters
-	virtual void setPitch( F32 );
-	virtual void setDistance( F32 );
-	virtual void setPosition(const LLVector3& pos);
-	virtual void setFocus(const LLVector3& focus);
-	virtual void setPositionLocked		( bool );
-	virtual void setFocusLocked			( bool );
+	void setPitch( F32 ) override;
+	void setDistance( F32 ) override;
+	void setPosition(const LLVector3& pos) override;
+	void setFocus(const LLVector3& focus) override;
+	void setPositionLocked		( bool ) override;
+	void setFocusLocked			( bool ) override;
 
 	LLVector3	getSimulatedPosition() const;
 	LLVector3	getSimulatedFocus() const;

@@ -38,11 +38,11 @@ public:
 	virtual ~LLPanelGroupExperiences();
 
 	// LLPanelGroupTab
-	virtual void activate();
-	
-	virtual BOOL postBuild();
-	
-	virtual void setGroupID(const LLUUID& id);
+	void activate() override;
+
+	BOOL postBuild() override;
+
+	void setGroupID(const LLUUID& id) override;
 	
     void setExperienceList(const LLSD& experiences);
 

@@ -209,7 +209,7 @@ class LLCollectProxyBuddies : public LLRelationshipFunctor
 public:
 	LLCollectProxyBuddies() {}
 	virtual ~LLCollectProxyBuddies() {}
-	virtual bool operator()(const LLUUID& buddy_id, LLRelationship* buddy);
+	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::set<LLUUID> buddy_list_t;
 	buddy_list_t mProxy;
 };
@@ -220,7 +220,7 @@ class LLCollectMappableBuddies : public LLRelationshipFunctor
 public:
 	LLCollectMappableBuddies() {}
 	virtual ~LLCollectMappableBuddies() {}
-	virtual bool operator()(const LLUUID& buddy_id, LLRelationship* buddy);
+	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::map<LLUUID, std::string> buddy_map_t;
 	buddy_map_t mMappable;
 	std::string mFullName;
@@ -232,7 +232,7 @@ class LLCollectOnlineBuddies : public LLRelationshipFunctor
 public:
 	LLCollectOnlineBuddies() {}
 	virtual ~LLCollectOnlineBuddies() {}
-	virtual bool operator()(const LLUUID& buddy_id, LLRelationship* buddy);
+	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::map<LLUUID, std::string> buddy_map_t;
 	buddy_map_t mOnline;
 	std::string mFullName;
@@ -245,7 +245,7 @@ class LLCollectAllBuddies : public LLRelationshipFunctor
 public:
 	LLCollectAllBuddies() {}
 	virtual ~LLCollectAllBuddies() {}
-	virtual bool operator()(const LLUUID& buddy_id, LLRelationship* buddy);
+	bool operator()(const LLUUID& buddy_id, LLRelationship* buddy) override;
 	typedef std::map<LLUUID, std::string> buddy_map_t;
 	buddy_map_t mOnline;
 	buddy_map_t mOffline;

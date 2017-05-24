@@ -53,15 +53,15 @@ S32 LLDragHandle::sSnapMargin = 5;
 
 LLDragHandle::LLDragHandle(const LLDragHandle::Params& p)
 :	LLView(p),
+	mTitleBox(nullptr ),
 	mDragLastScreenX( 0 ),
 	mDragLastScreenY( 0 ),
 	mLastMouseScreenX( 0 ),
 	mLastMouseScreenY( 0 ),
-	mTitleBox( NULL ),
-	mMaxTitleWidth( 0 ),
-	mForeground( TRUE ),
 	mDragHighlightColor(p.drag_highlight_color()),
-	mDragShadowColor(p.drag_shadow_color())
+	mDragShadowColor(p.drag_shadow_color()),
+	mMaxTitleWidth( 0 ),
+	mForeground( TRUE )
 
 {
 	static LLUICachedControl<S32> snap_margin ("SnapMargin", 0);
@@ -119,7 +119,7 @@ void LLDragHandleTop::setTitle(const std::string& title)
 
 std::string LLDragHandleTop::getTitle() const
 {
-	return mTitleBox == NULL ? LLStringUtil::null : mTitleBox->getText();
+	return mTitleBox == nullptr ? LLStringUtil::null : mTitleBox->getText();
 }
 
 
@@ -129,7 +129,7 @@ void LLDragHandleLeft::setTitle(const std::string& )
 	{
 		removeChild(mTitleBox);
 		delete mTitleBox;
-		mTitleBox = NULL;
+		mTitleBox = nullptr;
 	}
 	/* no title on left edge */
 }
@@ -292,7 +292,7 @@ BOOL LLDragHandle::handleMouseUp(S32 x, S32 y, MASK mask)
 	if( hasMouseCapture() )
 	{
 		// Release the mouse
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 	}
 
 	// Note: don't pass on to children

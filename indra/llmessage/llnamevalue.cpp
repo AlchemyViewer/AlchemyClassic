@@ -92,8 +92,8 @@ void LLNameValue::baseInit()
 {
 	mNVNameTable = &gNVNameTable;
 
-	mName = NULL;
-	mNameValueReference.string = NULL;
+	mName = nullptr;
+	mNameValueReference.string = nullptr;
 
 	mType = NVT_NULL;
 	mStringType = NameValueTypeStrings[NVT_NULL];
@@ -299,37 +299,37 @@ LLNameValue::LLNameValue(const char *name, const char *type, const char *nvclass
 	if (!strcmp(mStringType, "STRING"))
 	{
 		mType = NVT_STRING;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 	}
 	else if (!strcmp(mStringType, "F32"))
 	{
 		mType = NVT_F32;
-		mNameValueReference.f32 = NULL;
+		mNameValueReference.f32 = nullptr;
 	}
 	else if (!strcmp(mStringType, "S32"))
 	{
 		mType = NVT_S32;
-		mNameValueReference.s32 = NULL;
+		mNameValueReference.s32 = nullptr;
 	}
 	else if (!strcmp(mStringType, "VEC3"))
 	{
 		mType = NVT_VEC3;
-		mNameValueReference.vec3 = NULL;
+		mNameValueReference.vec3 = nullptr;
 	}
 	else if (!strcmp(mStringType, "U32"))
 	{
 		mType = NVT_U32;
-		mNameValueReference.u32 = NULL;
+		mNameValueReference.u32 = nullptr;
 	}
 	else if (!strcmp(mStringType, "U64"))
 	{
 		mType = NVT_U64;
-		mNameValueReference.u64 = NULL;
+		mNameValueReference.u64 = nullptr;
 	}
 	else if(!strcmp(mStringType, (const char*)NameValueTypeStrings[NVT_ASSET]))
 	{
 		mType = NVT_ASSET;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 	}
 	else
 	{
@@ -537,41 +537,41 @@ LLNameValue::LLNameValue(const char *data)
 LLNameValue::~LLNameValue()
 {
 	mNVNameTable->removeString(mName);
-	mName = NULL;
+	mName = nullptr;
 	
 	switch(mType)
 	{
 	case NVT_STRING:
 	case NVT_ASSET:
 		delete [] mNameValueReference.string;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 		break;
 	case NVT_F32:
 		delete mNameValueReference.f32;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 		break;
 	case NVT_S32:
 		delete mNameValueReference.s32;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 		break;
 	case NVT_VEC3:
 		delete mNameValueReference.vec3;
-		mNameValueReference.string = NULL;
+		mNameValueReference.string = nullptr;
 		break;
 	case NVT_U32:
 		delete mNameValueReference.u32;
-		mNameValueReference.u32 = NULL;
+		mNameValueReference.u32 = nullptr;
 		break;
 	case NVT_U64:
 		delete mNameValueReference.u64;
-		mNameValueReference.u64 = NULL;
+		mNameValueReference.u64 = nullptr;
 		break;
 	default:
 		break;
 	}
 
 	delete[] mNameValueReference.string;
-	mNameValueReference.string = NULL;
+	mNameValueReference.string = nullptr;
 }
 
 char	*LLNameValue::getString()
@@ -583,7 +583,7 @@ char	*LLNameValue::getString()
 	else
 	{
 		LL_ERRS() << mName << " not a string!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -596,7 +596,7 @@ const char *LLNameValue::getAsset() const
 	else
 	{
 		LL_ERRS() << mName << " not an asset!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -609,7 +609,7 @@ F32		*LLNameValue::getF32()
 	else
 	{
 		LL_ERRS() << mName << " not a F32!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -622,7 +622,7 @@ S32		*LLNameValue::getS32()
 	else
 	{
 		LL_ERRS() << mName << " not a S32!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -635,7 +635,7 @@ U32		*LLNameValue::getU32()
 	else
 	{
 		LL_ERRS() << mName << " not a U32!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -648,7 +648,7 @@ U64		*LLNameValue::getU64()
 	else
 	{
 		LL_ERRS() << mName << " not a U64!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -673,7 +673,7 @@ LLVector3	*LLNameValue::getVec3()
 	else
 	{
 		LL_ERRS() << mName << " not a Vec3!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -707,7 +707,7 @@ LLNameValue &LLNameValue::operator=(const LLNameValue &a)
 			delete [] mNameValueReference.string;
 
 		mNameValueReference.string = new char [strlen(a.mNameValueReference.string) + 1];		/* Flawfinder: ignore */
-		if(mNameValueReference.string != NULL)
+		if(mNameValueReference.string != nullptr)
 		{
 			strcpy(mNameValueReference.string, a.mNameValueReference.string);		/* Flawfinder: ignore */
 		}
@@ -751,7 +751,7 @@ void LLNameValue::setString(const char *a)
 			}
 
 			mNameValueReference.string = new char [strlen(a) + 1];		/* Flawfinder: ignore */
-			if(mNameValueReference.string != NULL)
+			if(mNameValueReference.string != nullptr)
 			{
 				strcpy(mNameValueReference.string,  a);		/* Flawfinder: ignore */
 			}
@@ -788,7 +788,7 @@ void LLNameValue::setAsset(const char *a)
 				delete [] mNameValueReference.string;
 			}
 			mNameValueReference.string = new char [strlen(a) + 1];			/* Flawfinder: ignore */
-			if(mNameValueReference.string != NULL)
+			if(mNameValueReference.string != nullptr)
 			{
 				strcpy(mNameValueReference.string,  a);		/* Flawfinder: ignore */
 			}

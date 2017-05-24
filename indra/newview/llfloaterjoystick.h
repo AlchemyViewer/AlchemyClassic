@@ -38,18 +38,18 @@ class LLFloaterJoystick : public LLFloater
 
 public:
 
-	virtual BOOL postBuild();
-	virtual void refresh();
+	BOOL postBuild() override;
+	void refresh() override;
 	virtual void apply();	// Apply the changed values.
 	virtual void cancel();	// Cancel the changed values.
-	virtual void draw();
+	void draw() override;
 	static  void setSNDefaults();
 	static  void setXbox360Defaults();
 
 protected:
 
-	void onClose(bool app_quitting);
-	void onClickCloseBtn(bool app_quitting);
+	void onClose(bool app_quitting) override;
+	void onClickCloseBtn(bool app_quitting) override;
 
 private:
 

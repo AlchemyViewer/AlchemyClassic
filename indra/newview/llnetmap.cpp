@@ -80,17 +80,17 @@ const F64 COARSEUPDATE_MAX_Z = 1020.0;
 
 LLNetMap::LLNetMap (const Params & p)
 :	LLUICtrl (p),
+	mUpdateNow(false),
 	mBackgroundColor (p.bg_color()),
 	mScale( MAP_SCALE_MID ),
 	mPixelsPerMeter( MAP_SCALE_MID / REGION_WIDTH_METERS ),
 	mObjectMapTPM(0.f),
 	mObjectMapPixels(0.f),
+	mPanning(false),
 	mTargetPan(0.f, 0.f),
 	mCurPan(0.f, 0.f),
 	mStartPan(0.f, 0.f),
 	mMouseDown(0, 0),
-	mPanning(false),
-	mUpdateNow(false),
 	mObjectImageCenterGlobal( gAgentCamera.getCameraPositionGlobal() ),
 	mObjectRawImagep(),
 	mObjectImagep(),
@@ -934,7 +934,7 @@ BOOL LLNetMap::handleMouseUp( S32 x, S32 y, MASK mask )
 			mTargetPan.setZero();
 		}
 		gViewerWindow->showCursor();
-		gFocusMgr.setMouseCapture(NULL);
+		gFocusMgr.setMouseCapture(nullptr);
 		return TRUE;
 	}
 	return FALSE;

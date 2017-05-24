@@ -59,7 +59,7 @@ public:
 	virtual ~HttpOpCancel();							// Use release()
 	
 public:
-	virtual void stageFromRequest(HttpService *);
+	void stageFromRequest(HttpService *) override;
 			
 public:
 	// Request data

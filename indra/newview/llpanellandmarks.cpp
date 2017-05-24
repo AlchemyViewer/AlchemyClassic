@@ -88,8 +88,8 @@ public:
 		mExpandedFolders(0)
 	{}
 	virtual ~LLCheckFolderState() {}
-	virtual void doFolder(LLFolderViewFolder* folder);
-	virtual void doItem(LLFolderViewItem* item) {}
+	void doFolder(LLFolderViewFolder* folder) override;
+	void doItem(LLFolderViewItem* item) override {}
 	S32 getCollapsedFolders() { return mCollapsedFolders; }
 	S32 getExpandedFolders() { return mExpandedFolders; }
 
@@ -130,7 +130,7 @@ public:
 	:	mLP(lp)
 	{}
 	virtual ~LLLandmarksPanelObserver() {}
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 
 private:
 	LLLandmarksPanel* mLP;
@@ -143,14 +143,14 @@ void LLLandmarksPanelObserver::changed(U32 mask)
 
 LLLandmarksPanel::LLLandmarksPanel()
 	:	LLPanelPlacesTab()
-	,	mFavoritesInventoryPanel(NULL)
-	,	mLandmarksInventoryPanel(NULL)
+	,	mFavoritesInventoryPanel(nullptr)
+	,	mLandmarksInventoryPanel(nullptr)
 	//,	mMyInventoryPanel(NULL)
-	,	mCurrentSelectedList(NULL)
-	,	mListCommands(NULL)
-	,	mGearButton(NULL)
-	,	mGearFolderMenu(NULL)
-	,	mGearLandmarkMenu(NULL)
+	,	mGearButton(nullptr)
+	,	mGearLandmarkMenu(nullptr)
+	,	mGearFolderMenu(nullptr)
+	,	mCurrentSelectedList(nullptr)
+	,	mListCommands(nullptr)
 {
 	mInventoryObserver = new LLLandmarksPanelObserver(this);
 	gInventory.addObserver(mInventoryObserver);
@@ -195,7 +195,7 @@ void LLLandmarksPanel::onSearchEdit(const std::string& string)
 		}
 
 		LLPlacesInventoryPanel* inventory_list = dynamic_cast<LLPlacesInventoryPanel*>(tab->getAccordionView());
-		if (NULL == inventory_list) continue;
+		if (nullptr == inventory_list) continue;
 
 		filter_list(inventory_list, string);
 	}
@@ -211,7 +211,7 @@ void LLLandmarksPanel::onSearchEdit(const std::string& string)
 // virtual
 void LLLandmarksPanel::onShowOnMap()
 {
-	if (NULL == mCurrentSelectedList)
+	if (nullptr == mCurrentSelectedList)
 	{
 		LL_WARNS() << "There are no selected list. No actions are performed." << LL_ENDL;
 		return;
@@ -251,7 +251,7 @@ bool LLLandmarksPanel::isSingleItemSelected()
 {
 	bool result = false;
 
-	if (mCurrentSelectedList != NULL)
+	if (mCurrentSelectedList != nullptr)
 	{
 		LLFolderView* root_view = mCurrentSelectedList->getRootFolder();
 
@@ -395,7 +395,7 @@ LLFolderViewModelItemInventory* LLLandmarksPanel::getCurSelectedViewModelItem() 
 	{
 		return 	static_cast<LLFolderViewModelItemInventory*>(cur_item->getViewModelItem());
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -405,13 +405,13 @@ LLFolderViewItem* LLLandmarksPanel::selectItemInAccordionTab(LLPlacesInventoryPa
 															 BOOL take_keyboard_focus) const
 {
 	if (!inventory_list)
-		return NULL;
+		return nullptr;
 
 	LLFolderView* root = inventory_list->getRootFolder();
 
 	LLFolderViewItem* item = inventory_list->getItemByID(obj_id);
 	if (!item)
-		return NULL;
+		return nullptr;
 
 	LLAccordionCtrlTab* tab = getChild<LLAccordionCtrlTab>(tab_name);
 	if (!tab->isExpanded())
@@ -555,7 +555,7 @@ void LLLandmarksPanel::onAccordionExpandedCollapsed(const LLSD& param, LLPlacesI
 	{
 		inventory_list->getRootFolder()->clearSelection();
 
-		mCurrentSelectedList = NULL;
+		mCurrentSelectedList = nullptr;
 		updateVerbs();
 	}
 
@@ -695,7 +695,7 @@ void LLLandmarksPanel::onAddAction(const LLSD& userdata) const
 	{
 		if (item && mCurrentSelectedList == mLandmarksInventoryPanel)
 		{
-			LLFolderViewModelItem* folder_bridge = NULL;
+			LLFolderViewModelItem* folder_bridge = nullptr;
 
 			if (view_model->getInventoryType()
 					== LLInventoryType::IT_LANDMARK)
@@ -718,7 +718,7 @@ void LLLandmarksPanel::onAddAction(const LLSD& userdata) const
 		else
 		{
 			//in case My Landmarks tab is completely empty (thus cannot be determined as being selected)
-			menu_create_inventory_item(mLandmarksInventoryPanel, NULL,  LLSD("category"), 
+			menu_create_inventory_item(mLandmarksInventoryPanel, nullptr,  LLSD("category"), 
 				gInventory.findCategoryUUIDForType(LLFolderType::FT_LANDMARK));
 
 			if (mMyLandmarksAccordionTab)
@@ -1123,7 +1123,7 @@ void LLLandmarksPanel::onPickPanelExit( LLPanelPickEdit* pick_panel, LLView* own
 	LLRemoteParcelInfoProcessor::getInstance()->removeObserver(params["parcel_id"].asUUID(), this);
 
 	delete pick_panel;
-	pick_panel = NULL;
+	pick_panel = nullptr;
 }
 
 bool LLLandmarksPanel::handleDragAndDropToTrash(BOOL drop, EDragAndDropType cargo_type, void* cargo_data , EAcceptance* accept)
@@ -1196,7 +1196,7 @@ void LLLandmarksPanel::doProcessParcelInfo(LLLandmark* landmark,
 	landmark->getGlobalPos(landmark_global_pos);
 
 	// let's toggle pick panel into  panel places
-	LLPanel* panel_places = NULL;
+	LLPanel* panel_places = nullptr;
 	LLFloaterSidePanelContainer* floaterp = LLFloaterReg::getTypedInstance<LLFloaterSidePanelContainer>("places");
 	if (floaterp)
 	{

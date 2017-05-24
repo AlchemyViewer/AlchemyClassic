@@ -58,7 +58,7 @@ private:
 	void operator=(const HttpOpSetPriority &) = delete;				// Not defined
 
 public:
-	virtual void stageFromRequest(HttpService *);
+	void stageFromRequest(HttpService *) override;
 
 protected:
 	// Request Data

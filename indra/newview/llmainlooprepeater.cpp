@@ -38,7 +38,7 @@
 
 
 LLMainLoopRepeater::LLMainLoopRepeater(void):
-	mQueue(0)
+	mQueue(nullptr)
 {
 	; // No op.
 }
@@ -46,7 +46,7 @@ LLMainLoopRepeater::LLMainLoopRepeater(void):
 
 void LLMainLoopRepeater::start(void)
 {
-	if(mQueue != 0) return;
+	if(mQueue != nullptr) return;
 
 	mQueue = new LLThreadSafeQueue<LLSD>(gAPRPoolp, 1024);
 	mMainLoopConnection = LLEventPumps::instance().
@@ -62,7 +62,7 @@ void LLMainLoopRepeater::stop(void)
 	mRepeaterConnection.release();
 
 	delete mQueue;
-	mQueue = 0;
+	mQueue = nullptr;
 }
 
 

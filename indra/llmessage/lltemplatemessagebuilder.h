@@ -44,52 +44,52 @@ public:
 	LLTemplateMessageBuilder(const message_template_name_map_t&);
 	virtual ~LLTemplateMessageBuilder();
 
-	virtual void newMessage(const char* name);
+	void newMessage(const char* name) override;
 
-	virtual void nextBlock(const char* blockname);
-	virtual BOOL removeLastBlock(); // TODO: babbage: remove this horror...
+	void nextBlock(const char* blockname) override;
+	BOOL removeLastBlock() override; // TODO: babbage: remove this horror...
 
 	/** All add* methods expect pointers to canonical varname strings. */
-	virtual void addBinaryData(const char *varname, const void *data, 
-							   S32 size);
-	virtual void addBOOL(const char* varname, BOOL b);
-	virtual void addS8(const char* varname, S8 s);
-	virtual void addU8(const char* varname, U8 u);
-	virtual void addS16(const char* varname, S16 i);
-	virtual void addU16(const char* varname, U16 i);
-	virtual void addF32(const char* varname, F32 f);
-	virtual void addS32(const char* varname, S32 s);
-	virtual void addU32(const char* varname, U32 u);
-	virtual void addU64(const char* varname, U64 lu);
-	virtual void addF64(const char* varname, F64 d);
-	virtual void addVector3(const char* varname, const LLVector3& vec);
-	virtual void addVector4(const char* varname, const LLVector4& vec);
-	virtual void addVector3d(const char* varname, const LLVector3d& vec);
-	virtual void addQuat(const char* varname, const LLQuaternion& quat);
-	virtual void addUUID(const char* varname, const LLUUID& uuid);
-	virtual void addIPAddr(const char* varname, const U32 ip);
-	virtual void addIPPort(const char* varname, const U16 port);
-	virtual void addString(const char* varname, const char* s);
-	virtual void addString(const char* varname, const std::string& s);
+	void addBinaryData(const char *varname, const void *data, 
+							   S32 size) override;
+	void addBOOL(const char* varname, BOOL b) override;
+	void addS8(const char* varname, S8 s) override;
+	void addU8(const char* varname, U8 u) override;
+	void addS16(const char* varname, S16 i) override;
+	void addU16(const char* varname, U16 i) override;
+	void addF32(const char* varname, F32 f) override;
+	void addS32(const char* varname, S32 s) override;
+	void addU32(const char* varname, U32 u) override;
+	void addU64(const char* varname, U64 lu) override;
+	void addF64(const char* varname, F64 d) override;
+	void addVector3(const char* varname, const LLVector3& vec) override;
+	void addVector4(const char* varname, const LLVector4& vec) override;
+	void addVector3d(const char* varname, const LLVector3d& vec) override;
+	void addQuat(const char* varname, const LLQuaternion& quat) override;
+	void addUUID(const char* varname, const LLUUID& uuid) override;
+	void addIPAddr(const char* varname, const U32 ip) override;
+	void addIPPort(const char* varname, const U16 port) override;
+	void addString(const char* varname, const char* s) override;
+	void addString(const char* varname, const std::string& s) override;
 
-	virtual BOOL isMessageFull(const char* blockname) const;
-	virtual void compressMessage(U8*& buf_ptr, U32& buffer_length);
+	BOOL isMessageFull(const char* blockname) const override;
+	void compressMessage(U8*& buf_ptr, U32& buffer_length) override;
 
-	virtual BOOL isBuilt() const;
-	virtual BOOL isClear() const;
-	virtual U32 buildMessage(U8* buffer, U32 buffer_size, U8 offset_to_data);
+	BOOL isBuilt() const override;
+	BOOL isClear() const override;
+	U32 buildMessage(U8* buffer, U32 buffer_size, U8 offset_to_data) override;
         /**< Return built message size */
-	
-	virtual void clearMessage();
+
+	void clearMessage() override;
 
 	// TODO: babbage: remove this horror.
-	virtual void setBuilt(BOOL b);
+	void setBuilt(BOOL b) override;
 
-	virtual S32 getMessageSize();
-	virtual const char* getMessageName() const;
+	S32 getMessageSize() override;
+	const char* getMessageName() const override;
 
-	virtual void copyFromMessageData(const LLMsgData& data);
-	virtual void copyFromLLSD(const LLSD&);
+	void copyFromMessageData(const LLMsgData& data) override;
+	void copyFromLLSD(const LLSD&) override;
 
 	LLMsgData* getCurrentMessage() const { return mCurrentSMessageData; }
 private:

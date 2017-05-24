@@ -45,12 +45,12 @@ class LLFloaterColorPicker
 		virtual ~LLFloaterColorPicker ();
 
 		// overrides
-		virtual BOOL postBuild ();
-		virtual void draw ();
-		virtual BOOL handleMouseDown ( S32 x, S32 y, MASK mask );
-		virtual BOOL handleMouseUp ( S32 x, S32 y, MASK mask );
-		virtual BOOL handleHover ( S32 x, S32 y, MASK mask );
-		virtual void onMouseCaptureLost();
+	BOOL postBuild () override;
+	void draw () override;
+	BOOL handleMouseDown ( S32 x, S32 y, MASK mask ) override;
+	BOOL handleMouseUp ( S32 x, S32 y, MASK mask ) override;
+	BOOL handleHover ( S32 x, S32 y, MASK mask ) override;
+	void onMouseCaptureLost() override;
 		virtual F32  getSwatchTransparency();
 
 		// implicit methods

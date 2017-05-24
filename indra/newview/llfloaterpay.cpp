@@ -83,8 +83,8 @@ class LLFloaterPay : public LLFloater
 public:
 	LLFloaterPay(const LLSD& key);
 	virtual ~LLFloaterPay();
-	/*virtual*/	BOOL	postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/	BOOL	postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
 	
 	void setCallback(money_callback callback) { mCallback = callback; }
 	
@@ -124,7 +124,7 @@ const S32 FASTPAY_BUTTON_WIDTH = 80;
 LLFloaterPay::LLFloaterPay(const LLSD& key)
 	: LLFloater(key),
 	  mCallbackData(),
-	  mCallback(NULL),
+	  mCallback(nullptr),
 	  mTargetUUID(key.asUUID()),
 	  mTargetIsGroup(FALSE),
 	  mQuickPayButton({ {nullptr,nullptr,nullptr,nullptr} }),
@@ -138,20 +138,20 @@ LLFloaterPay::~LLFloaterPay()
     std::vector<give_money_ptr>::iterator iter;
     for (iter = mCallbackData.begin(); iter != mCallbackData.end(); ++iter)
     {
-        (*iter)->mFloater = NULL;
+        (*iter)->mFloater = nullptr;
     }
 	mCallbackData.clear();
 	// Name callbacks will be automatically disconnected since LLFloater is trackable
 	
 	// In case this floater is currently waiting for a reply.
-	gMessageSystem->setHandlerFuncFast(_PREHASH_PayPriceReply, 0, 0);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_PayPriceReply, nullptr, nullptr);
 }
 
 BOOL LLFloaterPay::postBuild()
 {
 	S32 i = 0;
 	
-	give_money_ptr info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_0));
+	give_money_ptr info = boost::make_shared<LLGiveMoneyInfo>(this, PAY_BUTTON_DEFAULT_0);
 	mCallbackData.push_back(info);
 
 	childSetAction("fastpay 1", boost::bind(LLFloaterPay::onGive, info));
@@ -161,7 +161,7 @@ BOOL LLFloaterPay::postBuild()
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_1));
+	info = boost::make_shared<LLGiveMoneyInfo>(this, PAY_BUTTON_DEFAULT_1);
 	mCallbackData.push_back(info);
 
 	childSetAction("fastpay 5", boost::bind(LLFloaterPay::onGive, info));
@@ -171,7 +171,7 @@ BOOL LLFloaterPay::postBuild()
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_2));
+	info = boost::make_shared<LLGiveMoneyInfo>(this, PAY_BUTTON_DEFAULT_2);
 	mCallbackData.push_back(info);
 
 	childSetAction("fastpay 10", boost::bind(LLFloaterPay::onGive, info));
@@ -181,7 +181,7 @@ BOOL LLFloaterPay::postBuild()
 	mQuickPayInfo[i] = info;
 	++i;
 
-	info = give_money_ptr(new LLGiveMoneyInfo(this, PAY_BUTTON_DEFAULT_3));
+	info = boost::make_shared<LLGiveMoneyInfo>(this, PAY_BUTTON_DEFAULT_3);
 	mCallbackData.push_back(info);
 
 	childSetAction("fastpay 20", boost::bind(LLFloaterPay::onGive, info));
@@ -206,7 +206,7 @@ BOOL LLFloaterPay::postBuild()
 	getChild<LLUICtrl>("amount")->setValue(last_amount);
 	getChild<LLLineEditor>("amount")->setPrevalidate(LLTextValidate::validateNonNegativeS32);
 
-	info = give_money_ptr(new LLGiveMoneyInfo(this, 0));
+	info = boost::make_shared<LLGiveMoneyInfo>(this, 0);
 	mCallbackData.push_back(info);
 
 	childSetAction("pay btn", boost::bind(LLFloaterPay::onGive, info));
@@ -223,7 +223,7 @@ BOOL LLFloaterPay::postBuild()
 void LLFloaterPay::onClose(bool app_quitting)
 {
 	// Deselect the objects
-	mObjectSelection = NULL;
+	mObjectSelection = nullptr;
 }
 
 // static
@@ -361,7 +361,7 @@ void LLFloaterPay::processPayPriceReply(LLMessageSystem* msg, void **userdata)
 
 		self->reshape( self->getRect().getWidth() + padding_required, self->getRect().getHeight(), FALSE );
 	}
-	msg->setHandlerFunc("PayPriceReply",NULL,NULL);
+	msg->setHandlerFunc("PayPriceReply", nullptr, nullptr);
 }
 
 // static
@@ -416,7 +416,7 @@ void LLFloaterPay::payDirectly(money_callback callback,
 		return;
 	
 	floater->setCallback(callback);
-	floater->mObjectSelection = NULL;
+	floater->mObjectSelection = nullptr;
 	
 	floater->getChildView("amount")->setVisible(TRUE);
 	floater->getChildView("pay btn")->setVisible(TRUE);
@@ -522,7 +522,7 @@ void LLFloaterPay::give(S32 amount)
 					S32 tx_type = TRANS_PAY_OBJECT;
 					if(dest_object->isAvatar()) tx_type = TRANS_GIFT;
 					mCallback(mTargetUUID, region, amount, FALSE, tx_type, object_name);
-					mObjectSelection = NULL;
+					mObjectSelection = nullptr;
 
 					// request the object owner in order to check if the owner needs to be unmuted
 					LLMessageSystem* msg = gMessageSystem;

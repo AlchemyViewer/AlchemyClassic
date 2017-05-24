@@ -63,16 +63,16 @@ public:
 	LLTeleportHistoryPanel();
 	virtual ~LLTeleportHistoryPanel();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void draw();
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void draw() override;
 
-	/*virtual*/ void onSearchEdit(const std::string& string);
-	/*virtual*/ void onShowOnMap();
-	/*virtual*/ void onShowProfile();
-	/*virtual*/ void onTeleport();
+	/*virtual*/ void onSearchEdit(const std::string& string) override;
+	/*virtual*/ void onShowOnMap() override;
+	/*virtual*/ void onShowProfile() override;
+	/*virtual*/ void onTeleport() override;
 	///*virtual*/ void onCopySLURL();
-	/*virtual*/ void updateVerbs();
-	/*virtual*/ bool isSingleItemSelected();
+	/*virtual*/ void updateVerbs() override;
+	/*virtual*/ bool isSingleItemSelected() override;
 
 private:
 
@@ -86,7 +86,7 @@ private:
 	void onClearTeleportHistory();
 	bool onClearTeleportHistoryDialog(const LLSD& notification, const LLSD& response);
 
-	void refresh();
+	void refresh() override;
 	void getNextTab(const LLDate& item_date, S32& curr_tab, LLDate& tab_date);
 	void onTeleportHistoryChange(S32 removed_index);
 	void replaceItem(S32 removed_index);

@@ -42,11 +42,11 @@ class LLPanelGroupBanlist : public LLPanelGroupTab
 public:
 	LLPanelGroupBanlist();
 	~LLPanelGroupBanlist();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void setGroupID(const LLUUID& id);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void setGroupID(const LLUUID& id) override;
 	
 private:
-	/*virtual*/ void update(LLGroupChange gc);
+	/*virtual*/ void update(LLGroupChange gc) override;
 
 	void onCommitBan();
 	void onCommitRemoveBan();

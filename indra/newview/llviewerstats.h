@@ -107,7 +107,7 @@ struct SimMeasurement : public LLTrace::SampleStatHandle<T>, public SimMeasureme
 	//	LLTrace::sample(static_cast<LLTrace::SampleStatHandle<T>& >(measurement), value);
 	//}
 
-	/*virtual*/ void sample(F64 value)
+	/*virtual*/ void sample(F64 value) override
 	{
 		LLTrace::sample(static_cast<LLTrace::SampleStatHandle<T>& >(*this), value);
 		//LLStatViewer::sample(*this, value);

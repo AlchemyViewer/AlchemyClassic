@@ -49,14 +49,14 @@ LLStyle::Params::Params()
 
 
 LLStyle::LLStyle(const LLStyle::Params& p)
-:	mVisible(p.visible),
+:	mDropShadow(p.drop_shadow),
+	mVisible(p.visible),
 	mColor(p.color),
 	mReadOnlyColor(p.readonly_color),
 	mSelectedColor(p.selected_color),
 	mFont(p.font()),
 	mLink(p.link_href),
 	mIsLink(p.is_link.isProvided() ? p.is_link : !p.link_href().empty()),
-	mDropShadow(p.drop_shadow),
 	mImagep(p.image())
 {}
 

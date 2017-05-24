@@ -196,7 +196,7 @@ public:
 	
 	virtual LLDrawable* createDrawable(LLPipeline *pipeline);
 	virtual BOOL		updateGeometry(LLDrawable *drawable);
-	virtual void		updateGL();
+	void		updateGL() override;
 	virtual void		updateFaceSize(S32 idx);
 	virtual BOOL		updateLOD();
 	virtual BOOL		setDrawableParent(LLDrawable* parentp);
@@ -267,11 +267,11 @@ public:
 									  S32 face = -1,                          // which face to check, -1 = ALL_SIDES
 									  BOOL pick_transparent = FALSE,
 									  BOOL pick_rigged = FALSE,
-									  S32* face_hit = NULL,                   // which face was hit
-									  LLVector4a* intersection = NULL,         // return the intersection point
-									  LLVector2* tex_coord = NULL,            // return the texture coordinates of the intersection point
-									  LLVector4a* normal = NULL,               // return the surface normal at the intersection point
-									  LLVector4a* tangent = NULL             // return the surface tangent at the intersection point
+									  S32* face_hit = nullptr,                   // which face was hit
+									  LLVector4a* intersection = nullptr,         // return the intersection point
+									  LLVector2* tex_coord = nullptr,            // return the texture coordinates of the intersection point
+									  LLVector4a* normal = nullptr,               // return the surface normal at the intersection point
+									  LLVector4a* tangent = nullptr             // return the surface tangent at the intersection point
 		);
 	
 	virtual BOOL lineSegmentBoundingBox(const LLVector4a& start, const LLVector4a& end);
@@ -304,39 +304,39 @@ public:
 	inline void setRotation(const F32 x, const F32 y, const F32 z, BOOL damped = FALSE);
 	inline void setRotation(const LLQuaternion& quat, BOOL damped = FALSE);
 
-	/*virtual*/	void	setNumTEs(const U8 num_tes);
-	/*virtual*/	void	setTE(const U8 te, const LLTextureEntry &texture_entry);
-	/*virtual*/ S32		setTETexture(const U8 te, const LLUUID &uuid);
+	/*virtual*/	void	setNumTEs(const U8 num_tes) override;
+	/*virtual*/	void	setTE(const U8 te, const LLTextureEntry &texture_entry) override;
+	/*virtual*/ S32		setTETexture(const U8 te, const LLUUID &uuid) override;
 	/*virtual*/ S32		setTENormalMap(const U8 te, const LLUUID &uuid);
 	/*virtual*/ S32		setTESpecularMap(const U8 te, const LLUUID &uuid);
 	S32 				setTETextureCore(const U8 te, LLViewerTexture *image);
 	S32 setTENormalMapCore(const U8 te, LLViewerTexture *image);
 	S32 setTESpecularMapCore(const U8 te, LLViewerTexture *image);
-	/*virtual*/ S32		setTEColor(const U8 te, const LLColor3 &color);
-	/*virtual*/ S32		setTEColor(const U8 te, const LLColor4 &color);
-	/*virtual*/ S32		setTEScale(const U8 te, const F32 s, const F32 t);
-	/*virtual*/ S32		setTEScaleS(const U8 te, const F32 s);
-	/*virtual*/ S32		setTEScaleT(const U8 te, const F32 t);
-	/*virtual*/ S32		setTEOffset(const U8 te, const F32 s, const F32 t);
-	/*virtual*/ S32		setTEOffsetS(const U8 te, const F32 s);
-	/*virtual*/ S32		setTEOffsetT(const U8 te, const F32 t);
-	/*virtual*/ S32		setTERotation(const U8 te, const F32 r);
-	/*virtual*/	S32		setTEBumpmap(const U8 te, const U8 bump );
-	/*virtual*/	S32		setTETexGen(const U8 te, const U8 texgen );
-	/*virtual*/	S32		setTEMediaTexGen(const U8 te, const U8 media ); // *FIXME: this confusingly acts upon a superset of setTETexGen's flags without absorbing its semantics
-	/*virtual*/	S32		setTEShiny(const U8 te, const U8 shiny );
-	/*virtual*/	S32		setTEFullbright(const U8 te, const U8 fullbright );
-	/*virtual*/	S32		setTEMediaFlags(const U8 te, const U8 media_flags );
-	/*virtual*/ S32     setTEGlow(const U8 te, const F32 glow);
-	/*virtual*/ S32     setTEMaterialID(const U8 te, const LLMaterialID& pMaterialID);
-	/*virtual*/ S32		setTEMaterialParams(const U8 te, const LLMaterialPtr pMaterialParams);
+	/*virtual*/ S32		setTEColor(const U8 te, const LLColor3 &color) override;
+	/*virtual*/ S32		setTEColor(const U8 te, const LLColor4 &color) override;
+	/*virtual*/ S32		setTEScale(const U8 te, const F32 s, const F32 t) override;
+	/*virtual*/ S32		setTEScaleS(const U8 te, const F32 s) override;
+	/*virtual*/ S32		setTEScaleT(const U8 te, const F32 t) override;
+	/*virtual*/ S32		setTEOffset(const U8 te, const F32 s, const F32 t) override;
+	/*virtual*/ S32		setTEOffsetS(const U8 te, const F32 s) override;
+	/*virtual*/ S32		setTEOffsetT(const U8 te, const F32 t) override;
+	/*virtual*/ S32		setTERotation(const U8 te, const F32 r) override;
+	/*virtual*/	S32		setTEBumpmap(const U8 te, const U8 bump ) override;
+	/*virtual*/	S32		setTETexGen(const U8 te, const U8 texgen ) override;
+	/*virtual*/	S32		setTEMediaTexGen(const U8 te, const U8 media ) override; // *FIXME: this confusingly acts upon a superset of setTETexGen's flags without absorbing its semantics
+	/*virtual*/	S32		setTEShiny(const U8 te, const U8 shiny ) override;
+	/*virtual*/	S32		setTEFullbright(const U8 te, const U8 fullbright ) override;
+	/*virtual*/	S32		setTEMediaFlags(const U8 te, const U8 media_flags ) override;
+	/*virtual*/ S32     setTEGlow(const U8 te, const F32 glow) override;
+	/*virtual*/ S32     setTEMaterialID(const U8 te, const LLMaterialID& pMaterialID) override;
+	/*virtual*/ S32		setTEMaterialParams(const U8 te, const LLMaterialPtr pMaterialParams) override;
 
 	// Used by Materials update functions to properly kick off rebuilds
 	// of VBs etc when materials updates require changes.
 	//
 	void refreshMaterials();
 
-	/*virtual*/	BOOL	setMaterial(const U8 material);
+	/*virtual*/	BOOL	setMaterial(const U8 material) override;
 	virtual		void	setTEImage(const U8 te, LLViewerTexture *imagep); // Not derived from LLPrimitive
 	virtual     void    changeTEImage(S32 index, LLViewerTexture* new_image)  ;
 	virtual     void    changeTENormalMap(S32 index, LLViewerTexture* new_image)  ;
@@ -352,8 +352,8 @@ public:
 	
 	virtual void setScale(const LLVector3 &scale, BOOL damped = FALSE);
 
-	virtual F32 getStreamingCost(S32* bytes = NULL, S32* visible_bytes = NULL, F32* unscaled_value = NULL) const;
-	virtual U32 getTriangleCount(S32* vcount = NULL) const;
+	virtual F32 getStreamingCost(S32* bytes = nullptr, S32* visible_bytes = nullptr, F32* unscaled_value = nullptr) const;
+	virtual U32 getTriangleCount(S32* vcount = nullptr) const;
 	virtual U32 getHighLODTriangleCount();
 
 	void setObjectCost(F32 cost);
@@ -382,11 +382,11 @@ public:
 	// Owner id is this object's owner
 	void setAttachedSound(const LLUUID &audio_uuid, const LLUUID& owner_id, const F32 gain, const U8 flags);
 	void adjustAudioGain(const F32 gain);
-	void clearAttachedSound()								{ mAudioSourcep = NULL; }
+	void clearAttachedSound()								{ mAudioSourcep = nullptr; }
 
 	 // Create if necessary
 	LLAudioSource *getAudioSource(const LLUUID& owner_id);
-	bool isAudioSource() {return mAudioSourcep != NULL;}
+	bool isAudioSource() {return mAudioSourcep != nullptr;}
 
 	U8 getMediaType() const;
 	void setMediaType(U8 media_type);
@@ -896,7 +896,7 @@ public:
 		: LLViewerObject(id,pcode,regionp, is_global)
 	{ }
 
-	virtual void updateDrawable(BOOL force_damped);
+	void updateDrawable(BOOL force_damped) override;
 };
 
 

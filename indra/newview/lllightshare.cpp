@@ -38,10 +38,10 @@ const std::string LIGHTSHARE_WL_KEY = "LightshareCurrentRegion";
 class LLDispatchLightshare : public LLDispatchHandler
 {
 public:
-	virtual bool operator()(const LLDispatcher* dispatcher,
+	bool operator()(const LLDispatcher* dispatcher,
 							const std::string& key,
 							const LLUUID& invoice,
-							const sparam_t& strings)
+							const sparam_t& strings) override
 	{
 		if (key == WINDLIGHT_REFRESH_MSG)
 		{

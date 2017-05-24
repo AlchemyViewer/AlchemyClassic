@@ -55,7 +55,7 @@ public:
 	LLGroupComparator() {};
 
 	/** Returns true if item1 < item2, false otherwise */
-	/*virtual*/ bool compare(const LLPanel* item1, const LLPanel* item2) const
+	/*virtual*/ bool compare(const LLPanel* item1, const LLPanel* item2) const override
 	{
 		std::string name1 = static_cast<const LLGroupListItem*>(item1)->getGroupName();
 		std::string name2 = static_cast<const LLGroupListItem*>(item2)->getGroupName();
@@ -312,10 +312,10 @@ bool LLGroupList::onContextMenuItemEnable(const LLSD& userdata)
 
 LLGroupListItem::LLGroupListItem()
 :	LLPanel(),
-mGroupIcon(NULL),
-mGroupNameBox(NULL),
-mInfoBtn(NULL),
+mGroupNameBox(nullptr),
 mGroupID(LLUUID::null),
+mGroupIcon(nullptr),
+mInfoBtn(nullptr),
 mGroupName(LLStringUtil::null)
 {
 	buildFromFile( "panel_group_list_item.xml");

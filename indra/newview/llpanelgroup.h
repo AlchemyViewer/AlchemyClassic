@@ -50,20 +50,20 @@ public:
 	LLPanelGroup();
 	virtual ~LLPanelGroup();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	void setGroupID(const LLUUID& group_id);
 
-	void draw();
+	void draw() override;
 
-	void onOpen(const LLSD& key);
+	void onOpen(const LLSD& key) override;
 
 	// Group manager observer trigger.
-	virtual void changed(LLGroupChange gc);
+	void changed(LLGroupChange gc) override;
 
 	// Implements LLVoiceClientStatusObserver::onChange() to enable the call
 	// button when voice is available
-	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal);
+	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal) override;
 
 	void showNotice(const std::string& subject,
 					const std::string& message,
@@ -78,7 +78,7 @@ public:
 	void callGroup();
 	void chatGroup();
 
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 	static void refreshCreatedGroup(const LLUUID& group_id);
 
@@ -158,7 +158,7 @@ public:
 	virtual void update(LLGroupChange gc) { }
 
 	// This just connects the help button callback.
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	virtual BOOL isVisibleByAgent(LLAgent* agentp);
 

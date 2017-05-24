@@ -54,11 +54,11 @@ LLProgressBar::Params::Params()
 
 LLProgressBar::LLProgressBar(const LLProgressBar::Params& p) 
 :	LLUICtrl(p),
+	mPercentDone(0.f),
 	mImageBar(p.image_bar),
-	mImageFill(p.image_fill),
-	mColorBackground(p.color_bg()),
 	mColorBar(p.color_bar()),
-	mPercentDone(0.f)
+	mColorBackground(p.color_bg()),
+	mImageFill(p.image_fill)
 {}
 
 LLProgressBar::~LLProgressBar()

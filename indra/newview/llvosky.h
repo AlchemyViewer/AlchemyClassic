@@ -213,8 +213,8 @@ protected:
 public:
 	LLHeavenBody(const F32 rad) :
 		mDirectionCached(LLVector3(0,0,0)),
-		mDirection(LLVector3(0,0,0)),
 		mIntensity(0.f),
+		mDirection(LLVector3(0,0,0)),
 		mDiskRadius(rad), mDraw(FALSE),
 		mHorizonVisibility(1.f), mVisibility(1.f),
 		mVisible(FALSE)
@@ -452,14 +452,14 @@ public:
 	void cleanupGL();
 	void restoreGL();
 
-	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time);
+	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time) override;
 	BOOL updateSky();
 	
 	// Graphical stuff for objects - maybe broken out into render class
 	// later?
-	/*virtual*/ void updateTextures();
-	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline);
-	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable);
+	/*virtual*/ void updateTextures() override;
+	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
+	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable) override;
 
 	void initSkyTextureDirs(const S32 side, const S32 tile);
 	void createSkyTexture(const S32 side, const S32 tile);

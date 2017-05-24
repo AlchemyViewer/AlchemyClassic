@@ -84,7 +84,7 @@ private:
 	virtual ~LLFloaterAbout();
 
 public:
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/// Obtain the data used to fill out the contents string. This is
 	/// separated so that we can programmatically access the same info.

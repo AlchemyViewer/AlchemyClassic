@@ -100,7 +100,7 @@ void LLAccountingCostManager::accountingCostCoro(std::string url,
 
         LLAccountingCostObserver* observer = observerHandle.get();
         LLUUID transactionId = observer->getTransactionID();
-        observer = NULL;
+        observer = nullptr;
 
 
 

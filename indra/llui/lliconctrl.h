@@ -67,14 +67,14 @@ public:
 	virtual ~LLIconCtrl();
 
 	// llview overrides
-	virtual void	draw();
+	void	draw() override;
 
 	// lluictrl overrides
-	virtual void	setValue(const LLSD& value );
+	void	setValue(const LLSD& value ) override;
 
 	std::string	getImageName() const;
 
-	void			setColor(const LLColor4& color) { mColor = color; }
+	void			setColor(const LLColor4& color) override { mColor = color; }
 	void			setImage(LLPointer<LLUIImage> image) { mImagep = image; }
 	const LLPointer<LLUIImage> getImage() { return mImagep; }
 	

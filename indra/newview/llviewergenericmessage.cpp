@@ -58,7 +58,7 @@ void send_generic_message(const std::string& method,
 	if(strings.empty())
 	{
 		msg->nextBlock("ParamList");
-		msg->addString("Parameter", NULL);
+		msg->addString("Parameter", nullptr);
 	}
 	else
 	{

@@ -63,13 +63,13 @@ LLColorSwatchCtrl::LLColorSwatchCtrl(const Params& p)
 :	LLUICtrl(p),
 	mValid( TRUE ),
 	mColor(p.color()),
+	mBorderColor(p.border_color()),
 	mCanApplyImmediately(p.can_apply_immediately),
-	mAlphaGradientImage(p.alpha_background_image),
 	mOnCancelCallback(p.cancel_callback()),
 	mOnSelectCallback(p.select_callback()),
-	mBorderColor(p.border_color()),
 	mLabelWidth(p.label_width),
-	mLabelHeight(p.label_height)
+	mLabelHeight(p.label_height),
+	mAlphaGradientImage(p.alpha_background_image)
 {	
 	LLTextBox::Params tp = p.caption_text;
 	// use custom label height if it is provided
@@ -176,7 +176,7 @@ BOOL LLColorSwatchCtrl::handleMouseUp(S32 x, S32 y, MASK mask)
 	if( hasMouseCapture() )
 	{
 		// Release the mouse
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 
 		// If mouseup in the widget, it's been clicked
 		if ( pointInView(x, y) )
@@ -320,7 +320,7 @@ void LLColorSwatchCtrl::closeFloaterColorPicker()
 	LLFloaterColorPicker* pickerp = (LLFloaterColorPicker*)mPickerHandle.get();
 	if (pickerp)
 	{
-		pickerp->setSwatch(NULL);
+		pickerp->setSwatch(nullptr);
 		pickerp->closeFloater();
 	}
 

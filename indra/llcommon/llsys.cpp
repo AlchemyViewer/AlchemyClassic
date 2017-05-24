@@ -193,7 +193,7 @@ LLOSInfo::LLOSInfo() :
 	PGNSI pGNSI; //pointer object
 	ZeroMemory(&si, sizeof(SYSTEM_INFO)); //zero out the memory in information
 	pGNSI = (PGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo"); //load kernel32 get function
-	if (NULL != pGNSI) //check if it has failed
+	if (nullptr != pGNSI) //check if it has failed
 		pGNSI(&si); //success
 	else
 		GetSystemInfo(&si); //if it fails get regular system info 
@@ -1199,9 +1199,9 @@ BOOL gunzip_file(const std::string& srcfile, const std::string& dstfile)
 	std::string tmpfile;
 	const S32 UNCOMPRESS_BUFFER_SIZE = 32768;
 	BOOL retval = FALSE;
-	gzFile src = NULL;
+	gzFile src = nullptr;
 	U8 buffer[UNCOMPRESS_BUFFER_SIZE];
-	LLFILE *dst = NULL;
+	LLFILE *dst = nullptr;
 	S32 bytes = 0;
 	tmpfile = dstfile + ".t";
 #if LL_WINDOWS
@@ -1223,12 +1223,12 @@ BOOL gunzip_file(const std::string& srcfile, const std::string& dstfile)
 		}
 	} while(gzeof(src) == 0);
 	fclose(dst); 
-	dst = NULL;	
+	dst = nullptr;	
 	if (LLFile::rename(tmpfile, dstfile) == -1) goto err;		/* Flawfinder: ignore */
 	retval = TRUE;
 err:
-	if (src != NULL) gzclose(src);
-	if (dst != NULL) fclose(dst);
+	if (src != nullptr) gzclose(src);
+	if (dst != nullptr) fclose(dst);
 	return retval;
 }
 
@@ -1238,8 +1238,8 @@ BOOL gzip_file(const std::string& srcfile, const std::string& dstfile)
 	std::string tmpfile;
 	BOOL retval = FALSE;
 	U8 buffer[COMPRESS_BUFFER_SIZE];
-	gzFile dst = NULL;
-	LLFILE *src = NULL;
+	gzFile dst = nullptr;
+	LLFILE *src = nullptr;
 	S32 bytes = 0;
 	tmpfile = dstfile + ".t";
 #if LL_WINDOWS
@@ -1255,7 +1255,7 @@ BOOL gzip_file(const std::string& srcfile, const std::string& dstfile)
 	{
 		if (gzwrite(dst, buffer, bytes) <= 0)
 		{
-			LL_WARNS() << "gzwrite failed: " << gzerror(dst, NULL) << LL_ENDL;
+			LL_WARNS() << "gzwrite failed: " << gzerror(dst, nullptr) << LL_ENDL;
 			goto err;
 		}
 	}
@@ -1267,7 +1267,7 @@ BOOL gzip_file(const std::string& srcfile, const std::string& dstfile)
 	}
 
 	gzclose(dst);
-	dst = NULL;
+	dst = nullptr;
 #if LL_WINDOWS
 	// Rename in windows needs the dstfile to not exist.
 	LLFile::remove(dstfile);
@@ -1275,7 +1275,7 @@ BOOL gzip_file(const std::string& srcfile, const std::string& dstfile)
 	if (LLFile::rename(tmpfile, dstfile) == -1) goto err;		/* Flawfinder: ignore */
 	retval = TRUE;
  err:
-	if (src != NULL) fclose(src);
-	if (dst != NULL) gzclose(dst);
+	if (src != nullptr) fclose(src);
+	if (dst != nullptr) gzclose(dst);
 	return retval;
 }

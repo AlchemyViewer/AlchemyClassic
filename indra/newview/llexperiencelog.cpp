@@ -41,11 +41,11 @@
 class LLExperienceLogDispatchHandler : public LLDispatchHandler
 {
 public:
-	virtual bool operator()(
+	bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,
 		const LLUUID& invoice,
-		const sparam_t& strings)
+		const sparam_t& strings) override
 	{
 		LLSD message;
 

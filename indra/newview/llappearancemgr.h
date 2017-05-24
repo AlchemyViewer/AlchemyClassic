@@ -300,7 +300,7 @@ public:
 								bool enforce_ordering = true,
 								nullary_func_t post_update_func = no_op);
 	virtual ~LLUpdateAppearanceOnDestroy();
-	/* virtual */ void fire(const LLUUID& inv_item);
+	/* virtual */ void fire(const LLUUID& inv_item) override;
 
 private:
 	U32 mFireCount;
@@ -314,7 +314,7 @@ class LLUpdateAppearanceAndEditWearableOnDestroy: public LLInventoryCallback
 public:
 	LLUpdateAppearanceAndEditWearableOnDestroy(const LLUUID& item_id);
 
-	/* virtual */ void fire(const LLUUID& item_id) {}
+	/* virtual */ void fire(const LLUUID& item_id) override {}
 
 	~LLUpdateAppearanceAndEditWearableOnDestroy();
 	
@@ -328,7 +328,7 @@ public:
 	LLRequestServerAppearanceUpdateOnDestroy() {}
 	~LLRequestServerAppearanceUpdateOnDestroy();
 
-	/* virtual */ void fire(const LLUUID& item_id) {}
+	/* virtual */ void fire(const LLUUID& item_id) override {}
 };
 
 // Invoke a given callable after category contents are fully fetched.

@@ -42,7 +42,7 @@
 #include "llviewerregion.h"
 
 S32 LLDrawPoolTree::sDiffTex = 0;
-static LLGLSLShader* shader = NULL;
+static LLGLSLShader* shader = nullptr;
 static LLTrace::BlockTimerStatHandle FTM_SHADOW_TREE("Tree Shadow");
 
 LLDrawPoolTree::LLDrawPoolTree(LLViewerTexture *texturep) :

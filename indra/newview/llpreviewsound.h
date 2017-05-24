@@ -38,7 +38,7 @@ public:
 	static void auditionSound( void* userdata );
 
 protected:
-	/* virtual */ BOOL	postBuild();
+	/* virtual */ BOOL	postBuild() override;
 };
 
 #endif  // LL_LLPREVIEWSOUND_H

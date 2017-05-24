@@ -130,9 +130,9 @@ namespace {
 		}
 		
 		bool okay() { return mFile.good(); }
-		
-		virtual void recordMessage(LLError::ELevel level,
-									const std::string& message)
+
+		void recordMessage(LLError::ELevel level,
+									const std::string& message) override
 		{
 			mFile << message << std::endl;
 		}
@@ -149,9 +149,9 @@ namespace {
 		{
 			mWantsTime = timestamp;
 		}
-		
-		virtual void recordMessage(LLError::ELevel level,
-					   const std::string& message)
+
+		void recordMessage(LLError::ELevel level,
+					   const std::string& message) override
 		{
 			if (ANSI_PROBE == mUseANSI)
 				mUseANSI = (checkANSI() ? ANSI_YES : ANSI_NO);
@@ -209,9 +209,9 @@ namespace {
 	{
 	public:
 		RecordToFixedBuffer(LLLineBuffer* buffer) : mBuffer(buffer) { }
-		
-		virtual void recordMessage(LLError::ELevel level,
-								   const std::string& message)
+
+		void recordMessage(LLError::ELevel level,
+								   const std::string& message) override
 		{
 			mBuffer->addLine(message);
 		}
@@ -227,8 +227,8 @@ namespace {
 		RecordToWinDebug()
 		{}
 
-		virtual void recordMessage(LLError::ELevel level,
-								   const std::string& message)
+		void recordMessage(LLError::ELevel level,
+								   const std::string& message) override
 		{
 			debugger_print(message);
 		}
@@ -315,8 +315,8 @@ namespace
 	
 	public:
 		static LogControlFile& fromDirectory(const std::string& dir);
-		
-		virtual bool loadFile();
+
+		bool loadFile() override;
 		
 	private:
 		LogControlFile(const std::string &filename)
@@ -471,7 +471,7 @@ namespace LLError
 		mFileLevelMap(),
 		mTagLevelMap(),
 		mUniqueLogMessages(),
-		mTimeFunction(NULL),
+		mTimeFunction(nullptr),
 		mRecorders(),
 		mFileRecorder(),
 		mFixedBufferRecorder(),
@@ -935,7 +935,7 @@ namespace
 			
 			std::ostringstream message_stream;
 
-			if (show_time && r->wantsTime() && s->mTimeFunction != NULL)
+			if (show_time && r->wantsTime() && s->mTimeFunction != nullptr)
 			{
 				message_stream << s->mTimeFunction() << " ";
 			}
@@ -1302,7 +1302,7 @@ namespace LLError
 	void crashAndLoop(const std::string& message)
 	{
 		// Now, we go kaboom!
-		int* make_me_crash = NULL;
+		int* make_me_crash = nullptr;
 
 		*make_me_crash = 0;
 
@@ -1325,7 +1325,7 @@ namespace LLError
 
 	std::string utcTime()
 	{
-		time_t now = time(NULL);
+		time_t now = time(nullptr);
 		const size_t BUF_SIZE = 64;
 		char time_str[BUF_SIZE];	/* Flawfinder: ignore */
 		
@@ -1339,7 +1339,7 @@ namespace LLError
 
 namespace LLError
 {     
-	char** LLCallStacks::sBuffer = NULL ;
+	char** LLCallStacks::sBuffer = nullptr ;
 	S32    LLCallStacks::sIndex  = 0 ;
 
 #define SINGLE_THREADED 1
@@ -1401,7 +1401,7 @@ namespace LLError
 	//static
    void LLCallStacks::allocateStackBuffer()
    {
-	   if(sBuffer == NULL)
+	   if(sBuffer == nullptr)
 	   {
 		   sBuffer = new char*[512] ;
 		   sBuffer[0] = new char[512 * 128] ;
@@ -1415,11 +1415,11 @@ namespace LLError
 
    void LLCallStacks::freeStackBuffer()
    {
-	   if(sBuffer != NULL)
+	   if(sBuffer != nullptr)
 	   {
 		   delete [] sBuffer[0] ;
 		   delete [] sBuffer ;
-		   sBuffer = NULL ;
+		   sBuffer = nullptr ;
 	   }
    }
 
@@ -1432,7 +1432,7 @@ namespace LLError
            return;
        }
 
-	   if(sBuffer == NULL)
+	   if(sBuffer == nullptr)
 	   {
 		   allocateStackBuffer();
 	   }
@@ -1467,7 +1467,7 @@ namespace LLError
            return;
        }
 
-	   if(sBuffer == NULL)
+	   if(sBuffer == nullptr)
 	   {
 		   allocateStackBuffer();
 	   }
@@ -1489,7 +1489,7 @@ namespace LLError
            return;
        }
 
-	   if (sBuffer != NULL)
+	   if (sBuffer != nullptr)
 	   {
 		   if (sIndex > 0)
 		   {

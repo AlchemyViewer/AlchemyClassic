@@ -49,7 +49,7 @@ static LLPanelInjector<LLPanelExperienceLog> register_experiences_panel("experie
 
 
 LLPanelExperienceLog::LLPanelExperienceLog(  )
-	: mEventList(NULL)
+	: mEventList(nullptr)
 	, mPageSize(25)
 	, mCurrentPage(0)
 {

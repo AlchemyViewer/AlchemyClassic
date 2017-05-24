@@ -51,17 +51,17 @@ class LLPanelSnapshotProfile
 public:
 	LLPanelSnapshotProfile();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 private:
-	/*virtual*/ std::string getWidthSpinnerName() const		{ return "profile_snapshot_width"; }
-	/*virtual*/ std::string getHeightSpinnerName() const	{ return "profile_snapshot_height"; }
-	/*virtual*/ std::string getAspectRatioCBName() const	{ return "profile_keep_aspect_check"; }
-	/*virtual*/ std::string getImageSizeComboName() const	{ return "profile_size_combo"; }
-	/*virtual*/ std::string getImageSizePanelName() const	{ return "profile_image_size_lp"; }
-	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat() const { return LLSnapshotModel::SNAPSHOT_FORMAT_PNG; }
-	/*virtual*/ void updateControls(const LLSD& info);
+	/*virtual*/ std::string getWidthSpinnerName() const override { return "profile_snapshot_width"; }
+	/*virtual*/ std::string getHeightSpinnerName() const override { return "profile_snapshot_height"; }
+	/*virtual*/ std::string getAspectRatioCBName() const override { return "profile_keep_aspect_check"; }
+	/*virtual*/ std::string getImageSizeComboName() const override { return "profile_size_combo"; }
+	/*virtual*/ std::string getImageSizePanelName() const override { return "profile_image_size_lp"; }
+	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat() const override { return LLSnapshotModel::SNAPSHOT_FORMAT_PNG; }
+	/*virtual*/ void updateControls(const LLSD& info) override;
 
 	void onSend();
 };

@@ -47,9 +47,9 @@ public:
 	LLFloaterTOS(const LLSD& data);
 	virtual ~LLFloaterTOS();
 
-	BOOL postBuild();
-	
-	virtual void draw();
+	BOOL postBuild() override;
+
+	void draw() override;
 
 	static void		updateAgree( LLUICtrl *, void* userdata );
 	static void		onContinue( void* userdata );
@@ -58,7 +58,7 @@ public:
 	void			setSiteIsAlive( bool alive );
 
 	// inherited from LLViewerMediaObserver
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 
 private:
     static void testSiteIsAliveCoro(LLHandle<LLFloater> handle, std::string url);

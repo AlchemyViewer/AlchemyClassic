@@ -43,8 +43,8 @@ void LLTransferTargetVFile::updateQueue(bool shutdown)
 LLTransferTargetParamsVFile::LLTransferTargetParamsVFile() :
 	LLTransferTargetParams(LLTTT_VFILE),
 	mAssetType(LLAssetType::AT_NONE),
-	mCompleteCallback(NULL),
-	mRequestDatap(NULL),
+	mCompleteCallback(nullptr),
+	mRequestDatap(nullptr),
 	mErrCode(0)
 {
 }
@@ -108,7 +108,7 @@ LLTransferTargetVFile::~LLTransferTargetVFile()
     {
         // TODO: Consider doing it in LLTransferTargetParamsVFile's destructor
         delete mParams.mRequestDatap;
-        mParams.mRequestDatap = NULL;
+        mParams.mRequestDatap = nullptr;
     }
 }
 
@@ -232,6 +232,6 @@ void LLTransferTargetVFile::completionCallback(const LLTSCode status)
                 LL_EXSTAT_NONE);
         }
         delete mParams.mRequestDatap;
-        mParams.mRequestDatap = NULL;
+        mParams.mRequestDatap = nullptr;
     }
 }

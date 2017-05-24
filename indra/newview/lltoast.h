@@ -49,7 +49,7 @@ public:
 	LLToastLifeTimer(LLToast* toast, F32 period);
 
 	/*virtual*/
-	BOOL tick();
+	BOOL tick() override;
 	void stop();
 	void start();
 	void restart();
@@ -107,12 +107,12 @@ public:
 
 	LLToast(const LLToast::Params& p);
 	virtual ~LLToast();
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 	// Toast handlers
-	virtual BOOL handleMouseDown(S32 x, S32 y, MASK mask);
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 
 	//Fading
 
@@ -139,19 +139,19 @@ public:
 	//
 	LLToastLifeTimer* getTimer() { return mTimer.get();}
 	//
-	virtual void draw();
+	void draw() override;
 	//
-	virtual void setVisible(BOOL show);
+	void setVisible(BOOL show) override;
 
 	/*virtual*/ void setBackgroundOpaque(BOOL b);
 	//
 	virtual void hide();
 
-	/*virtual*/ void setFocus(BOOL b);
+	/*virtual*/ void setFocus(BOOL b) override;
 
-	/*virtual*/ void onFocusLost();
+	/*virtual*/ void onFocusLost() override;
 
-	/*virtual*/ void onFocusReceived();
+	/*virtual*/ void onFocusReceived() override;
 
 	void setLifetime(S32 seconds);
 
@@ -194,7 +194,7 @@ public:
 	boost::signals2::connection setMouseEnterCallback( const commit_signal_t::slot_type& cb ) { return mToastMouseEnterSignal.connect(cb); };
 	boost::signals2::connection setMouseLeaveCallback( const commit_signal_t::slot_type& cb ) { return mToastMouseLeaveSignal.connect(cb); };
 
-	virtual S32	notifyParent(const LLSD& info);
+	S32	notifyParent(const LLSD& info) override;
 
 	LLHandle<LLToast> getHandle() const { return getDerivedHandle<LLToast>(); }
 

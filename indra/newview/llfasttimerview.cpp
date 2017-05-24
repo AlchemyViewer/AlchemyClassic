@@ -85,14 +85,14 @@ S32 get_depth(const BlockTimerStatHandle* blockp)
 
 LLFastTimerView::LLFastTimerView(const LLSD& key)
 :	LLFloater(key),
-	mHoverTimer(NULL),
-	mDisplayMode(0),
 	mDisplayType(DISPLAY_TIME),
+	mPauseHistory(false),
 	mScrollIndex(0),
-	mHoverID(NULL),
 	mHoverBarIndex(-1),
 	mStatsIndex(-1),
-	mPauseHistory(false),
+	mDisplayMode(0),
+	mHoverID(nullptr),
+	mHoverTimer(nullptr),
 	mRecording(NUM_FRAMES_HISTORY),
 	mScrollPos(0),
 	mMetricCombo(nullptr),
@@ -184,7 +184,7 @@ BlockTimerStatHandle* LLFastTimerView::getLegendID(S32 y)
 		return ft_display_idx[idx];
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 BOOL LLFastTimerView::handleDoubleClick(S32 x, S32 y, MASK mask)
@@ -226,7 +226,7 @@ BOOL LLFastTimerView::handleMouseUp(S32 x, S32 y, MASK mask)
 {
 	if (hasMouseCapture())
 	{
-		gFocusMgr.setMouseCapture(NULL);
+		gFocusMgr.setMouseCapture(nullptr);
 	}
 	return LLFloater::handleMouseUp(x, y, mask);;
 }
@@ -240,8 +240,8 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 		mScrollIndex = llclamp(	mScrollIndex, 0, (S32)mRecording.getNumRecordedPeriods());
 		return TRUE;
 	}
-	mHoverTimer = NULL;
-	mHoverID = NULL;
+	mHoverTimer = nullptr;
+	mHoverID = nullptr;
 
 	if(mPauseHistory && mBarRect.pointInRect(x, y))
 	{
@@ -262,7 +262,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 
 		TimerBarRow& row = mHoverBarIndex == 0 ? mAverageTimerRow : mTimerBarRows[mScrollIndex + mHoverBarIndex - 1];
 
-		TimerBar* hover_bar = NULL;
+		TimerBar* hover_bar = nullptr;
 		F32Seconds mouse_time_offset = ((F32)(x - mBarRect.mLeft) / (F32)mBarRect.getWidth()) * mTotalTimeDisplay;
 		for (S32 bar_index = 0, end_index = LLTrace::BlockTimerStatHandle::instance_tracker_t::instanceCount(); 
 			bar_index < end_index; 
@@ -439,7 +439,7 @@ void LLFastTimerView::draw()
 	LLView::draw();
 
 	mAllTimeMax = llmax(mAllTimeMax, mRecording.getLastRecording().getSum(FTM_FRAME));
-	mHoverID = NULL;
+	mHoverID = nullptr;
 	mHoverBarIndex = -1;
 }
 
@@ -1092,7 +1092,7 @@ void LLFastTimerView::drawLineGraph()
 		F32 alpha = 1.f;
 		bool is_hover_timer = true;
 
-		if (mHoverID != NULL &&
+		if (mHoverID != nullptr &&
 			mHoverID != idp)
 		{	//fade out non-highlighted timers
 			if (idp->getParent() != mHoverID)
@@ -1172,7 +1172,7 @@ void LLFastTimerView::drawLineGraph()
 		: llmin(cur_max/ max_time - 1.f,1.f);
 	alpha_interp = lerp(alpha_interp, alpha_target, LLSmoothInterpolation::getInterpolant(0.1f));
 
-	if (mHoverID != NULL)
+	if (mHoverID != nullptr)
 	{
 		S32 x = (mGraphRect.mRight + mGraphRect.mLeft)/2;
 		S32 y = mGraphRect.mBottom + 8;
@@ -1571,7 +1571,7 @@ S32 LLFastTimerView::updateTimerBarOffsets(LLTrace::BlockTimerStatHandle* time_b
 	//now loop through children and figure out portion of bar image covered by each bar, now that we know the
 	//sum of all children
 	F32 bar_fraction_start = 0.f;
-	TimerBar* last_child_timer_bar = NULL;
+	TimerBar* last_child_timer_bar = nullptr;
 
 	bool first_child = true;
 	for (BlockTimerStatHandle::child_iter it = time_block->beginChildren(), end_it = time_block->endChildren(); 

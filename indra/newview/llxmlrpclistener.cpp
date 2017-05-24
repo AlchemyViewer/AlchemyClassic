@@ -268,7 +268,7 @@ public:
         XMLRPC_REQUEST request = XMLRPC_RequestNew();
         XMLRPC_RequestSetMethodName(request, mMethod.c_str());
         XMLRPC_RequestSetRequestType(request, xmlrpc_request_call);
-        XMLRPC_VALUE xparams = XMLRPC_CreateVector(NULL, xmlrpc_vector_struct);
+        XMLRPC_VALUE xparams = XMLRPC_CreateVector(nullptr, xmlrpc_vector_struct);
         LLSD params(command["params"]);
         if (params.isMap())
         {
@@ -310,7 +310,7 @@ public:
         XMLRPC_RequestSetData(request, xparams);
 
         mTransaction.reset(new LLXMLRPCTransaction(mUri, request));
-		mPreviousStatus = mTransaction->status(NULL);
+		mPreviousStatus = mTransaction->status(nullptr);
 
         // Free the XMLRPC_REQUEST object and the attached data values.
         XMLRPC_RequestFree(request, 1);

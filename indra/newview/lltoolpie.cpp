@@ -173,13 +173,13 @@ BOOL LLToolPie::handleLeftClickPick()
 			}
 		}
 
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 		return LLTool::handleMouseDown(x, y, mask);
 	}
 
 	// didn't click in any UI object, so must have clicked in the world
 	LLViewerObject *object = mPick.getObject();
-	LLViewerObject *parent = NULL;
+	LLViewerObject *parent = nullptr;
 
 	if (mPick.mPickType != LLPickInfo::PICK_LAND)
 	{
@@ -220,7 +220,7 @@ BOOL LLToolPie::handleLeftClickPick()
 				{
 					handle_object_sit_or_stand();
 					// put focus in world when sitting on an object
-					gFocusMgr.setKeyboardFocus(NULL);
+					gFocusMgr.setKeyboardFocus(nullptr);
 					return TRUE;
 				} // else nothing (fall through to touch)
 			}
@@ -308,7 +308,7 @@ BOOL LLToolPie::handleLeftClickPick()
 	{
 		// don't click to walk on attempt to give focus to world
 		mBlockClickToWalk = true;
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 	}
 
 	BOOL touchable = (object && object->flagHandleTouch()) 
@@ -410,7 +410,7 @@ U8 final_click_action(LLViewerObject* obj)
 
 ECursorType LLToolPie::cursorFromObject(LLViewerObject* object)
 {
-	LLViewerObject* parent = NULL;
+	LLViewerObject* parent = nullptr;
 	if (object)
 	{
 		parent = object->getRootEdit();
@@ -469,8 +469,8 @@ ECursorType LLToolPie::cursorFromObject(LLViewerObject* object)
 
 void LLToolPie::resetSelection()
 {
-	mLeftClickSelection = NULL;
-	mClickActionObject = NULL;
+	mLeftClickSelection = nullptr;
+	mClickActionObject = nullptr;
 	mClickAction = 0;
 }
 
@@ -536,7 +536,7 @@ void LLToolPie::selectionPropertiesReceived()
 BOOL LLToolPie::handleHover(S32 x, S32 y, MASK mask)
 {
 	mHoverPick = gViewerWindow->pickImmediate(x, y, FALSE, FALSE);
-	LLViewerObject *parent = NULL;
+	LLViewerObject *parent = nullptr;
 	LLViewerObject *object = mHoverPick.getObject();
 	LLSelectMgr::getInstance()->setHoverObject(object, mHoverPick.mObjectFace);
 	if (object)
@@ -621,7 +621,7 @@ BOOL LLToolPie::handleHover(S32 x, S32 y, MASK mask)
 
 	static LLCachedControl<bool> enable_highlight(
 		gSavedSettings, "RenderHoverGlowEnable", false);
-	LLDrawable* drawable = NULL;
+	LLDrawable* drawable = nullptr;
 	if (enable_highlight && show_highlight && object)
 	{
 		drawable = object->mDrawable;
@@ -1111,7 +1111,7 @@ BOOL LLToolPie::handleTooltipObject( LLViewerObject* hover_object, std::string l
 				if (mep)
 				{
 					viewer_media_t media_impl = LLViewerMedia::getMediaImplFromTextureID(mep->getMediaID());
-					LLPluginClassMedia* media_plugin = NULL;
+					LLPluginClassMedia* media_plugin = nullptr;
 					
 					if (media_impl.notNull() && (media_impl->hasMedia()))
 					{
@@ -1284,7 +1284,7 @@ void LLToolPie::playCurrentMedia(const LLPickInfo& info)
 	
 	//TODO: Can you Use it? 
 
-	LLPluginClassMedia* media_plugin = NULL;
+	LLPluginClassMedia* media_plugin = nullptr;
 	
 	viewer_media_t media_impl = LLViewerMedia::getMediaImplFromTextureID(mep->getMediaID());
 		
@@ -1336,7 +1336,7 @@ void LLToolPie::VisitHomePage(const LLPickInfo& info)
 	
 	//TODO: Can you Use it? 
 	
-	LLPluginClassMedia* media_plugin = NULL;
+	LLPluginClassMedia* media_plugin = nullptr;
 	
 	viewer_media_t media_impl = LLViewerMedia::getMediaImplFromTextureID(mep->getMediaID());
 	
@@ -1364,7 +1364,7 @@ void LLToolPie::handleDeselect()
 		setMouseCapture( FALSE );  // Calls onMouseCaptureLost() indirectly
 	}
 	// remove temporary selection for pie menu
-	LLSelectMgr::getInstance()->setHoverObject(NULL);
+	LLSelectMgr::getInstance()->setHoverObject(nullptr);
 
 	// Menu may be still up during transfer to different tool.
 	// toolfocus and toolgrab should retain menu, they will clear it if needed
@@ -1658,7 +1658,7 @@ static void handle_click_action_open_media(LLPointer<LLViewerObject> objectp)
 	if( face < 0 || face >= objectp->getNumTEs() ) return;
 		
 	// is media playing on this face?
-	if (LLViewerMedia::getMediaImplFromTextureID(objectp->getTE(face)->getID()) != NULL)
+	if (LLViewerMedia::getMediaImplFromTextureID(objectp->getTE(face)->getID()) != nullptr)
 	{
 		handle_click_action_play();
 		return;
@@ -1806,7 +1806,7 @@ BOOL LLToolPie::handleRightClickPick()
 	// non UI object - put focus back "in world"
 	if (gFocusMgr.getKeyboardFocus())
 	{
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 	}
 
 	LLTool::handleRightMouseDown(x, y, mask);

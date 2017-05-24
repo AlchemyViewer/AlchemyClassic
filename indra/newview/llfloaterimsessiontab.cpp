@@ -49,7 +49,7 @@
 const F32 REFRESH_INTERVAL = 1.0f;
 
 LLFloaterIMSessionTab::LLFloaterIMSessionTab(const LLSD& session_id)
-:	LLTransientDockableFloater(NULL, false, session_id),
+:	LLTransientDockableFloater(nullptr, false, session_id),
 	mFloaterExtraWidth(0),
 	mIsNearbyChat(false),
 	mIsP2PChat(false),
@@ -213,7 +213,7 @@ void LLFloaterIMSessionTab::addToHost(const LLUUID& session_id)
 				// LLFloater::mHostHandle = NULL (a current host), but
 				// LLFloater::mLastHostHandle = floater_container (a "future" host)
 				conversp->setHost(floater_container);
-				conversp->setHost(NULL);
+				conversp->setHost(nullptr);
 
 				conversp->forceReshape();
 			}
@@ -321,7 +321,7 @@ BOOL LLFloaterIMSessionTab::postBuild()
     p.parent_panel = mParticipantListPanel;
     p.listener = base_item;
     p.view_model = &mConversationViewModel;
-    p.root = NULL;
+    p.root = nullptr;
     p.use_ellipses = true;
     p.options_menu = "menu_conversation.xml";
     p.name = "root";
@@ -619,7 +619,7 @@ void LLFloaterIMSessionTab::refreshConversation()
 	}
 	
 	mConversationViewModel.requestSortAll();
-	if(mConversationsRoot != NULL)
+	if(mConversationsRoot != nullptr)
 	{
 		mConversationsRoot->arrangeAll();
 		mConversationsRoot->update();
@@ -1097,7 +1097,7 @@ void LLFloaterIMSessionTab::getSelectedUUIDs(uuid_vec_t& selected_uuids)
 
 LLConversationItem* LLFloaterIMSessionTab::getCurSelectedViewModelItem()
 {
-	LLConversationItem *conversationItem = NULL;
+	LLConversationItem *conversationItem = nullptr;
 
 	if(mConversationsRoot && 
         mConversationsRoot->getCurSelectedItem() && 

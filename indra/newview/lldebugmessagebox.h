@@ -65,8 +65,8 @@ public:
 	static void show(const std::string& title, LLVector2 *var, LLVector2 max_value = LLVector2(100.f, 100.f), LLVector2 increment = LLVector2(0.1f, 0.1f));
 	static void show(const std::string& title, LLVector3 *var, LLVector3 max_value = LLVector3(100.f, 100.f, 100.f), LLVector3 increment = LLVector3(0.1f, 0.1f, 0.1f));
 	//static void show(const std::string& title, LLVector4 *var, LLVector4 max_value = LLVector4(100.f, 100.f, 100.f, 100.f), LLVector4 increment = LLVector4(0.1f, 0.1f, 0.1f, 0.1f));	
-		
-	virtual void	draw();
+
+	void	draw() override;
 
 protected:
 	EDebugVarType	mVarType;

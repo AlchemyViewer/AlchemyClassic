@@ -486,7 +486,7 @@ bool LLGLManager::initGL()
 	if (mHasDebugOutput && gDebugGL)
 	{ //setup debug output callback
 		//glDebugMessageControlARB(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_LOW_ARB, 0, NULL, GL_TRUE);
-		glDebugMessageCallbackARB((GLDEBUGPROCARB) gl_debug_callback, NULL);
+		glDebugMessageCallbackARB((GLDEBUGPROCARB) gl_debug_callback, nullptr);
 		if (mIsNVIDIA)
 		{
 			GLuint annoyingspam[1] = { 131185 };
@@ -1858,7 +1858,7 @@ LLGLUserClipPlane::~LLGLUserClipPlane()
 }
 
 LLGLDepthTest::LLGLDepthTest(GLboolean depth_enabled, GLboolean write_enabled, GLenum depth_func)
-: mPrevDepthEnabled(sDepthEnabled), mPrevDepthFunc(sDepthFunc), mPrevWriteEnabled(sWriteEnabled)
+: mPrevDepthFunc(sDepthFunc), mPrevDepthEnabled(sDepthEnabled), mPrevWriteEnabled(sWriteEnabled)
 {
 	stop_glerror();
 	
@@ -1967,7 +1967,7 @@ LLGLSquashToFarClip::~LLGLSquashToFarClip()
 LLGLSyncFence::LLGLSyncFence()
 {
 #ifdef GL_ARB_sync
-	mSync = 0;
+	mSync = nullptr;
 #endif
 }
 

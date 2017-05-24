@@ -37,12 +37,12 @@
 
 
 LLThreadSafeQueueImplementation::LLThreadSafeQueueImplementation(apr_pool_t * pool, unsigned int capacity):
-	mOwnsPool(pool == 0),
+	mOwnsPool(pool == nullptr),
 	mPool(pool),
-	mQueue(0)
+	mQueue(nullptr)
 {
 	if(mOwnsPool) {
-		apr_status_t status = apr_pool_create(&mPool, 0);
+		apr_status_t status = apr_pool_create(&mPool, nullptr);
 		if(status != APR_SUCCESS) LLTHROW(LLThreadSafeQueueError("failed to allocate pool"));
 	} else {
 		; // No op.
@@ -55,13 +55,13 @@ LLThreadSafeQueueImplementation::LLThreadSafeQueueImplementation(apr_pool_t * po
 
 LLThreadSafeQueueImplementation::~LLThreadSafeQueueImplementation()
 {
-	if(mQueue != 0) {
+	if(mQueue != nullptr) {
 		if(apr_queue_size(mQueue) != 0) LL_WARNS() << 
 			"terminating queue which still contains " << apr_queue_size(mQueue) <<
 			" elements;" << "memory will be leaked" << LL_ENDL;
 		apr_queue_term(mQueue);
 	}
-	if(mOwnsPool && (mPool != 0)) apr_pool_destroy(mPool);
+	if(mOwnsPool && (mPool != nullptr)) apr_pool_destroy(mPool);
 }
 
 

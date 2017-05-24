@@ -589,7 +589,7 @@ BOOL LLPermissions::importFile(LLFILE* fp)
 
 	while (!feof(fp))
 	{
-		if (fgets(buffer, BUFSIZE, fp) == NULL)
+		if (fgets(buffer, BUFSIZE, fp) == nullptr)
 		{
 			buffer[0] = '\0';
 		}

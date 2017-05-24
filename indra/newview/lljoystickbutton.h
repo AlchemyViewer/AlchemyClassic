@@ -62,9 +62,9 @@ public:
 	};
 	LLJoystick(const Params&);
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
 
 	virtual void	onMouseUp() {}
 	virtual void	onHeldDown() = 0;
@@ -110,7 +110,7 @@ class LLJoystickAgentTurn
 public:
 	struct Params : public LLJoystick::Params {};
 	LLJoystickAgentTurn(const Params& p) : LLJoystick(p) {}
-	virtual void	onHeldDown();
+	void	onHeldDown() override;
 };
 
 
@@ -122,8 +122,8 @@ public:
 	struct Params : public LLJoystick::Params {};
 	LLJoystickAgentSlide(const Params& p) : LLJoystick(p) {}
 
-	virtual void	onHeldDown();
-	virtual void	onMouseUp();
+	void	onHeldDown() override;
+	void	onMouseUp() override;
 };
 
 
@@ -145,14 +145,14 @@ public:
 
 	virtual void	setToggleState( BOOL left, BOOL top, BOOL right, BOOL bottom );
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual void	onHeldDown();
-	virtual void	draw();
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	void	onHeldDown() override;
+	void	draw() override;
 
 protected:
 	F32				getOrbitRate();
-	virtual void	updateSlop();
+	void	updateSlop() override;
 	void			drawRotatedImage( LLPointer<LLUIImage> image, S32 rotations );
 
 protected:
@@ -175,7 +175,7 @@ public:
 	};
 
 	LLJoystickCameraTrack(const LLJoystickCameraTrack::Params&);
-	virtual void	onHeldDown();
+	void	onHeldDown() override;
 };
 
 #endif  // LL_LLJOYSTICKBUTTON_H

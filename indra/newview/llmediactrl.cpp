@@ -72,14 +72,14 @@ LLMediaCtrl::Params::Params()
 :	start_url("start_url"),
 	border_visible("border_visible", true),
 	decouple_texture_size("decouple_texture_size", false),
+	trusted_content("trusted_content", false),
+	focus_on_click("focus_on_click", true),
 	texture_width("texture_width", 1024),
 	texture_height("texture_height", 1024),
 	caret_color("caret_color"),
 	initial_mime_type("initial_mime_type"),
-	error_page_url("error_page_url"),
 	media_id("media_id"),
-	trusted_content("trusted_content", false),
-	focus_on_click("focus_on_click", true)
+	error_page_url("error_page_url")
 {
 }
 
@@ -87,28 +87,28 @@ LLMediaCtrl::LLMediaCtrl( const Params& p) :
 	LLPanel( p ),
 	LLInstanceTracker<LLMediaCtrl, LLUUID>(LLUUID::generateNewID()),
 	mTextureDepthBytes( 4 ),
-	mBorder(NULL),
+	mBorder(nullptr),
 	mFrequentUpdates( true ),
 	mForceUpdate( false ),
-	mHomePageUrl( "" ),
+	mTrusted(p.trusted_content),
 	mAlwaysRefresh( false ),
-	mMediaSource( 0 ),
 	mTakeFocusOnClick( p.focus_on_click ),
-	mCurrentNavUrl( "" ),
 	mStretchToFill( true ),
 	mMaintainAspectRatio ( true ),
-	mDecoupleTextureSize ( false ),
-	mUpdateScrolls( false ),
-	mTextureWidth ( 1024 ),
-	mTextureHeight ( 1024 ),
-	mClearCache(false),
 	mHideLoading(p.hide_loading),
 	mHidingInitialLoad(false),
-	mHomePageMimeType(p.initial_mime_type),
-	mErrorPageURL(p.error_page_url),
-	mTrusted(p.trusted_content),
-	mWindowShade(NULL),
+	mClearCache(false),
 	mHoverTextChanged(false),
+	mDecoupleTextureSize ( false ),
+	mUpdateScrolls( false ),
+	mHomePageUrl( "" ),
+	mHomePageMimeType(p.initial_mime_type),
+	mCurrentNavUrl( "" ),
+	mErrorPageURL(p.error_page_url),
+	mMediaSource( nullptr ),
+	mTextureWidth ( 1024 ),
+	mTextureHeight ( 1024 ),
+	mWindowShade(nullptr),
 	mContextMenuHandle()
 {
 	{
@@ -163,7 +163,7 @@ LLMediaCtrl::~LLMediaCtrl()
 	if (mMediaSource)
 	{
 		mMediaSource->remObserver( this );
-		mMediaSource = NULL;
+		mMediaSource = nullptr;
 	}
 }
 
@@ -259,7 +259,7 @@ BOOL LLMediaCtrl::handleMouseUp( S32 x, S32 y, MASK mask )
 		mMediaSource->mouseUp(x, y, mask);
 	}
 	
-	gFocusMgr.setMouseCapture( NULL );
+	gFocusMgr.setMouseCapture(nullptr );
 
 	return TRUE;
 }
@@ -304,7 +304,7 @@ BOOL LLMediaCtrl::handleRightMouseUp( S32 x, S32 y, MASK mask )
 		}
 	}
 	
-	gFocusMgr.setMouseCapture( NULL );
+	gFocusMgr.setMouseCapture(nullptr );
 
 	return TRUE;
 }
@@ -389,7 +389,7 @@ void LLMediaCtrl::onFocusLost()
 		if( LLEditMenuHandler::gEditMenuHandler == mMediaSource )
 		{
 			// Clear focus for edit menu items
-			LLEditMenuHandler::gEditMenuHandler = NULL;
+			LLEditMenuHandler::gEditMenuHandler = nullptr;
 		}
 	}
 
@@ -407,7 +407,7 @@ BOOL LLMediaCtrl::postBuild ()
 
 	// stinson 05/05/2014 : use this as the parent of the context menu if the static menu
 	// container has yet to be created
-	LLView* menuParent = (gMenuHolder != NULL) ? dynamic_cast<LLView*>(gMenuHolder) : dynamic_cast<LLView*>(this);
+	LLView* menuParent = (gMenuHolder != nullptr) ? dynamic_cast<LLView*>(gMenuHolder) : dynamic_cast<LLView*>(this);
 	llassert(menuParent != NULL);
 	auto menu = LLUICtrlFactory::getInstance()->createFromFile<LLContextMenu>(
 		"menu_media_ctrl.xml", menuParent, LLViewerMenuHolderGL::child_registry_t::instance());
@@ -744,7 +744,7 @@ bool LLMediaCtrl::ensureMediaSourceExists()
 //
 void LLMediaCtrl::unloadMediaSource()
 {
-	mMediaSource = NULL;
+	mMediaSource = nullptr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -782,8 +782,8 @@ void LLMediaCtrl::draw()
 	
 	bool draw_media = false;
 	
-	LLPluginClassMedia* media_plugin = NULL;
-	LLViewerMediaTexture* media_texture = NULL;
+	LLPluginClassMedia* media_plugin = nullptr;
+	LLViewerMediaTexture* media_texture = nullptr;
 	
 	if(mMediaSource && mMediaSource->hasMedia())
 	{
@@ -1023,7 +1023,7 @@ void LLMediaCtrl::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event)
 			LL_DEBUGS("Media") << "Media event:  MEDIA_EVENT_CLICK_LINK_HREF, target is \"" << target << "\", uri is " << url << LL_ENDL;
 
 			// try as slurl first
-			if (!LLURLDispatcher::dispatch(url, "clicked", NULL, mTrusted))
+			if (!LLURLDispatcher::dispatch(url, "clicked", nullptr, mTrusted))
 			{
 				LLWeb::loadURL(url, target, std::string());
 			}

@@ -106,13 +106,13 @@ static const GLenum sGLBlendFactor[] =
 };
 
 LLTexUnit::LLTexUnit(S32 index)
-	: mCurrTexType(TT_NONE), mCurrBlendType(TB_MULT), 
-	mCurrColorOp(TBO_MULT), mCurrAlphaOp(TBO_MULT),
-	mCurrColorSrc1(TBS_TEX_COLOR), mCurrColorSrc2(TBS_PREV_COLOR),
-	mCurrAlphaSrc1(TBS_TEX_ALPHA), mCurrAlphaSrc2(TBS_PREV_ALPHA),
-	mCurrColorScale(1), mCurrAlphaScale(1), mCurrTexture(0),
-	mHasMipMaps(false),
-	mIndex(index)
+	: mIndex(index), mCurrTexture(0), 
+	mCurrTexType(TT_NONE), mCurrBlendType(TB_MULT),
+	mCurrColorOp(TBO_MULT), mCurrColorSrc1(TBS_TEX_COLOR),
+	mCurrColorSrc2(TBS_PREV_COLOR), mCurrAlphaOp(TBO_MULT),
+	mCurrAlphaSrc1(TBS_TEX_ALPHA), mCurrAlphaSrc2(TBS_PREV_ALPHA), mCurrColorScale(1),
+	mCurrAlphaScale(1),
+	mHasMipMaps(false)
 {
 	llassert_always(index < (S32)LL_NUM_TEXTURE_LAYERS);
 }
@@ -234,9 +234,9 @@ bool LLTexUnit::bind(LLTexture* texture, bool for_rendering, bool forceBind)
 	{
 		gGL.flush();
 
-		LLImageGL* gl_tex = NULL ;
+		LLImageGL* gl_tex = nullptr ;
 
-		if (texture != NULL && (gl_tex = texture->getGLTexture()))
+		if (texture != nullptr && (gl_tex = texture->getGLTexture()))
 		{
 			if (gl_tex->getTexName()) //if texture exists
 			{
@@ -346,7 +346,7 @@ bool LLTexUnit::bind(LLCubeMap* cubeMap)
 
 	gGL.flush();
 
-	if (cubeMap == NULL)
+	if (cubeMap == nullptr)
 	{
 		LL_WARNS() << "NULL LLTexUnit::bind cubemap" << LL_ENDL;
 		return false;
@@ -1031,8 +1031,8 @@ LLRender::LLRender()
     mCount(0),
     mMode(LLRender::TRIANGLES),
     mCurrTextureUnitIndex(0),
-    mMaxAnisotropy(0.f),
-	mLineWidth(1.f),
+    mLineWidth(1.f),
+	mMaxAnisotropy(0.f),
 	mPrimitiveReset(false)
 {	
 	mTexUnits.reserve(LL_NUM_TEXTURE_LAYERS);
@@ -1097,14 +1097,14 @@ void LLRender::shutdown()
 	}
 	mTexUnits.clear();
 	delete mDummyTexUnit;
-	mDummyTexUnit = NULL;
+	mDummyTexUnit = nullptr;
 
 	for (U32 i = 0; i < mLightState.size(); ++i)
 	{
 		delete mLightState[i];
 	}
 	mLightState.clear();
-	mBuffer = NULL ;
+	mBuffer = nullptr ;
 }
 
 void LLRender::refreshState(void)
@@ -1129,7 +1129,7 @@ void LLRender::refreshState(void)
 
 void LLRender::resetVertexBuffers()
 {
-	mBuffer = NULL;
+	mBuffer = nullptr;
 }
 
 void LLRender::restoreVertexBuffers()
@@ -1774,7 +1774,7 @@ LLLightState* LLRender::getLight(U32 index)
 		return mLightState[index];
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void LLRender::setAmbientLightColor(const LLColor4& color)

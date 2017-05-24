@@ -39,21 +39,22 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0 |
 							LLVertexBuffer::MAP_COLOR
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolSimple();
 	
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
 	/// We need two passes so we can handle emissive materials separately.
-	/*virtual*/ S32	 getNumPasses() { return 1; }
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 
 };
 
@@ -67,21 +68,22 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0 |
 							LLVertexBuffer::MAP_COLOR
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolGrass();
 	
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
 	/// We need two passes so we can handle emissive materials separately.
-	/*virtual*/ S32	 getNumPasses() { return 1; }
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 };
 
 class LLDrawPoolAlphaMask : public LLRenderPass
@@ -94,20 +96,21 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0 |
 							LLVertexBuffer::MAP_COLOR
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolAlphaMask();
 
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 
-	/*virtual*/ S32	 getNumPasses() { return 1; }
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 
 };
 
@@ -120,20 +123,21 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0 |
 							LLVertexBuffer::MAP_COLOR
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolFullbrightAlphaMask();
 	
-	/*virtual*/ S32 getNumPostDeferredPasses() { return 1; }
-	/*virtual*/ void beginPostDeferredPass(S32 pass);
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass);
+	/*virtual*/ S32 getNumPostDeferredPasses() override { return 1; }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override;
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override;
 
-	/*virtual*/ S32	 getNumPasses() { return 1; }
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 };
 
 
@@ -146,20 +150,21 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0 |
 							LLVertexBuffer::MAP_COLOR
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolFullbright();
 	
-	/*virtual*/ S32 getNumPostDeferredPasses() { return 1; }
-	/*virtual*/ void beginPostDeferredPass(S32 pass);
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass);
+	/*virtual*/ S32 getNumPostDeferredPasses() override { return 1; }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override;
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override;
 
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
-	/*virtual*/ S32	 getNumPasses();
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
+	/*virtual*/ S32	 getNumPasses() override;
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 
 };
 
@@ -175,19 +180,19 @@ public:
 							LLVertexBuffer::MAP_EMISSIVE
 	};
 
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
-	virtual void prerender() { }
+	void prerender() override { }
 
-	/*virtual*/ S32 getNumPostDeferredPasses() { return 1; }
-	/*virtual*/ void beginPostDeferredPass(S32 pass); 
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass);
+	/*virtual*/ S32 getNumPostDeferredPasses() override { return 1; }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override; 
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override;
 
-	/*virtual*/ S32 getNumPasses();
+	/*virtual*/ S32 getNumPasses() override;
 
-	void render(S32 pass = 0);
-	void pushBatch(LLDrawInfo& params, U32 mask, BOOL texture = TRUE, BOOL batch_textures = FALSE);
+	void render(S32 pass = 0) override;
+	void pushBatch(LLDrawInfo& params, U32 mask, BOOL texture = TRUE, BOOL batch_textures = FALSE) override;
 
 };
 

@@ -317,7 +317,7 @@ public:
 	F32 mDensitySliderValue;
 
 private:
-	/*virtual*/ void initSingleton();
+	/*virtual*/ void initSingleton() override;
 	void loadAllPresets();
 	void loadPresetsFromDir(const std::string& dir);
 	bool loadPreset(const std::string& path);

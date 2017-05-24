@@ -64,7 +64,7 @@ protected:
 public:
 	// Constructor
 	LLJointState()
-		: mJoint(NULL)
+		: mJoint(nullptr)
 		, mUsage(0)
 		, mWeight(0.f)
 		, mPriority(LLJoint::USE_MOTION_PRIORITY)
@@ -80,7 +80,7 @@ public:
 	// joint that this state is applied to
 	LLJoint* getJoint()				{ return mJoint; }
 	const LLJoint* getJoint() const	{ return mJoint; }
-	BOOL setJoint( LLJoint *joint )	{ mJoint = joint; return mJoint != NULL; }
+	BOOL setJoint( LLJoint *joint )	{ mJoint = joint; return mJoint != nullptr; }
 
 	// transform type (bitwise flags can be combined)
 	// Note that these are set automatically when various

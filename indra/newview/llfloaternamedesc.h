@@ -39,14 +39,14 @@ class LLFloaterNameDesc : public LLFloater
 public:
 	LLFloaterNameDesc(const LLSD& filename);
 	virtual ~LLFloaterNameDesc();
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 	
 	void		onBtnOK();
 	void		onBtnCancel();
 	void		doCommit();
 	
 protected:
-	virtual void		onCommit();
+	void		onCommit() override;
 
 protected:
 
@@ -58,21 +58,21 @@ class LLFloaterSoundPreview : public LLFloaterNameDesc
 {
 public:
 	LLFloaterSoundPreview(const LLSD& filename );
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 };
 
 class LLFloaterAnimPreview : public LLFloaterNameDesc
 {
 public:
 	LLFloaterAnimPreview(const LLSD& filename );
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 };
 
 class LLFloaterScriptPreview : public LLFloaterNameDesc
 {
 public:
 	LLFloaterScriptPreview(const LLSD& filename );
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 };
 
 #endif  // LL_LLFLOATERNAMEDESC_H

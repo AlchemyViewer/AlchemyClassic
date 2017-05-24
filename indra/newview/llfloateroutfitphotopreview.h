@@ -41,14 +41,14 @@ public:
 	LLFloaterOutfitPhotoPreview(const LLSD& key);
 	~LLFloaterOutfitPhotoPreview();
 
-	virtual void		draw();
+	void		draw() override;
 
-	virtual void		loadAsset();
-	virtual EAssetStatus	getAssetStatus();
-	
-	virtual void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void		loadAsset() override;
+	EAssetStatus	getAssetStatus() override;
 
-	/*virtual*/ void setObjectID(const LLUUID& object_id);
+	void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+
+	/*virtual*/ void setObjectID(const LLUUID& object_id) override;
 
 	void setOutfitID(const LLUUID& outfit_id);
 	void onOkBtn();
@@ -56,7 +56,7 @@ public:
 
 protected:
 	void				init();
-	/* virtual */ BOOL	postBuild();
+	/* virtual */ BOOL	postBuild() override;
 	
 private:
 	void				updateImageID(); // set what image is being uploaded.

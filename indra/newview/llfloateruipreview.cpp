@@ -108,14 +108,15 @@ public:
 		Params() {}
 	};
 	LLOverlapPanel(Params p = Params()) : LLPanel(p),
-		mSpacing(10),
+		mLastClickedElement(nullptr),
 		// mClickedElement(NULL),
-		mLastClickedElement(NULL)
+		mSpacing(10)
 	{
 		mOriginalWidth = getRect().getWidth();
 		mOriginalHeight = getRect().getHeight();
 	}
-	virtual void draw();
+
+	void draw() override;
 	
 	typedef std::map<LLView*, std::list<LLView*> >	OverlapMap;
 	OverlapMap mOverlapMap;						// map, of XUI element to a list of XUI elements it overlaps
@@ -136,8 +137,8 @@ public:
 	std::string getLocStr(S32 ID);							// fetches the localization string based on what is selected in the drop-down menu
 	void displayFloater(BOOL click, S32 ID);			// needs to be public so live file can call it when it finds an update
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
 
 	void refreshList();										// refresh list (empty it out and fill it up from scratch)
 	void addFloaterEntry(const std::string& path);			// add a single file's entry to the list of floaters
@@ -240,7 +241,7 @@ public:
 	BOOL mFirstFade;				// setting this avoids showing the fade reload warning on first load
 	std::string mFileName;
 protected:
-	bool loadFile();
+	bool loadFile() override;
 };
 
 // Implementation of graphical fade in/out (on timer) for when XUI files are updated
@@ -248,7 +249,7 @@ class LLFadeEventTimer : public LLEventTimer
 {
 public:
 	LLFadeEventTimer(F32 refresh, LLGUIPreviewLiveFile* parent);
-	BOOL tick();
+	BOOL tick() override;
 	LLGUIPreviewLiveFile* mParent;
 private:
 	BOOL mFadingOut;			// fades in then out; this is toggled in between
@@ -266,9 +267,9 @@ public:
 	{
 	}
 
-	virtual void draw();
-	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
-	BOOL handleToolTip(S32 x, S32 y, MASK mask);
+	void draw() override;
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleToolTip(S32 x, S32 y, MASK mask) override;
 	BOOL selectElement(LLView* parent, int x, int y, int depth);	// select element to display its overlappers
 
 	LLFloaterUIPreview* mFloaterUIPreview;
@@ -303,19 +304,19 @@ LLLocalizationResetForcer::~LLLocalizationResetForcer()
 // Live file constructor
 // Needs full path for LLLiveFile but needs just file name for this code, hence the reduntant arguments; easier than separating later
 LLGUIPreviewLiveFile::LLGUIPreviewLiveFile(std::string path, std::string name, LLFloaterUIPreview* parent)
-        : mFileName(name),
+        : LLLiveFile(path, 1.0),
 		mParent(parent),
+		mFadeTimer(nullptr),
 		mFirstFade(TRUE),
-		mFadeTimer(NULL),
-		LLLiveFile(path, 1.0)
+		mFileName(name)
 {}
 
 LLGUIPreviewLiveFile::~LLGUIPreviewLiveFile()
 {
-	mParent->mLiveFile = NULL;
+	mParent->mLiveFile = nullptr;
 	if(mFadeTimer)
 	{
-		mFadeTimer->mParent = NULL;
+		mFadeTimer->mParent = nullptr;
 		// deletes itself; see lltimer.cpp
 	}
 }
@@ -332,7 +333,7 @@ bool LLGUIPreviewLiveFile::loadFile()
 	{
 		if(mFadeTimer)
 		{
-			mFadeTimer->mParent = NULL;
+			mFadeTimer->mParent = nullptr;
 		}
 		mFadeTimer = new LLFadeEventTimer(0.05f,this);
 	}
@@ -341,9 +342,9 @@ bool LLGUIPreviewLiveFile::loadFile()
 
 // Initialize fade event timer
 LLFadeEventTimer::LLFadeEventTimer(F32 refresh, LLGUIPreviewLiveFile* parent)
-	: mParent(parent),
-	mFadingOut(TRUE),
-	LLEventTimer(refresh)
+	: LLEventTimer(refresh),
+	mParent(parent),
+	mFadingOut(TRUE)
 {
 	mOriginalColor = mParent->mParent->mDisplayedFloater->getBackgroundColor();
 }
@@ -357,7 +358,7 @@ BOOL LLFadeEventTimer::tick()
 		diff = -diff;
 	}
 
-	if(NULL == mParent)	// no more need to tick, so suicide
+	if(nullptr == mParent)	// no more need to tick, so suicide
 	{
 		return TRUE;
 	}
@@ -388,9 +389,9 @@ BOOL LLFadeEventTimer::tick()
 // Constructor
 LLFloaterUIPreview::LLFloaterUIPreview(const LLSD& key)
   : LLFloater(key),
-	mDisplayedFloater(NULL),
-	mDisplayedFloater_2(NULL),
-	mLiveFile(NULL),
+	mDisplayedFloater(nullptr),
+	mDisplayedFloater_2(nullptr),
+	mLiveFile(nullptr),
 	mOverlapPanel(nullptr),
 	// mHighlightingDiffs(FALSE),
 	mHighlightingOverlaps(FALSE),
@@ -429,7 +430,7 @@ LLFloaterUIPreview::~LLFloaterUIPreview()
 	if(mLiveFile)
 	{
 		delete mLiveFile;
-		mLiveFile = NULL;
+		mLiveFile = nullptr;
 	}
 }
 
@@ -611,9 +612,9 @@ void LLFloaterUIPreview::onClose(bool app_quitting)
 		onClickCloseDisplayedFloater(PRIMARY_FLOATER);
 		onClickCloseDisplayedFloater(SECONDARY_FLOATER);
 		delete mDisplayedFloater;
-		mDisplayedFloater = NULL;
+		mDisplayedFloater = nullptr;
 		delete mDisplayedFloater_2;
-		mDisplayedFloater_2 = NULL;
+		mDisplayedFloater_2 = nullptr;
 	}
 }
 
@@ -750,7 +751,7 @@ void LLFloaterUIPreview::addFloaterEntry(const std::string& path)
 		if(mLiveFile)
 		{
 			delete mLiveFile;
-			mLiveFile = NULL;
+			mLiveFile = nullptr;
 		}
 		return;
 	}
@@ -810,21 +811,21 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 	LLPreviewedFloater** floaterp = (ID == 1 ? &(mDisplayedFloater) : &(mDisplayedFloater_2));
 	if(ID == 1)
 	{
-		BOOL floater_already_open = mDisplayedFloater != NULL;
+		BOOL floater_already_open = mDisplayedFloater != nullptr;
 		if(floater_already_open)											// if we are already displaying a floater
 		{
 			mLastDisplayedX = mDisplayedFloater->calcScreenRect().mLeft;	// save floater's last known position to put the new one there
 			mLastDisplayedY = mDisplayedFloater->calcScreenRect().mBottom;
 			delete mDisplayedFloater;							// delete it (this closes it too)
-			mDisplayedFloater = NULL;							// and reset the pointer
+			mDisplayedFloater = nullptr;							// and reset the pointer
 		}
 	}
 	else
 	{
-		if(mDisplayedFloater_2 != NULL)
+		if(mDisplayedFloater_2 != nullptr)
 		{
 			delete mDisplayedFloater_2;
-			mDisplayedFloater_2 = NULL;
+			mDisplayedFloater_2 = nullptr;
 		}
 	}
 
@@ -916,7 +917,7 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 		if(mLiveFile)
 		{
 			delete mLiveFile;
-			mLiveFile = NULL;
+			mLiveFile = nullptr;
 		}
 		mLiveFile = new LLGUIPreviewLiveFile(std::string(full_path.c_str()),std::string(path.c_str()),this);
 		mLiveFile->checkAndReload();
@@ -936,8 +937,8 @@ void LLFloaterUIPreview::displayFloater(BOOL click, S32 ID)
 	if(ID == 1)
 	{
 		mOverlapPanel->mOverlapMap.clear();
-		LLView::sPreviewClickedElement = NULL;	// stop overlapping elements from drawing
-		mOverlapPanel->mLastClickedElement = NULL;
+		LLView::sPreviewClickedElement = nullptr;	// stop overlapping elements from drawing
+		mOverlapPanel->mLastClickedElement = nullptr;
 		findOverlapsInChildren((LLView*)mDisplayedFloater);
 
 		// highlight and enable them
@@ -1146,7 +1147,7 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 			if(!strncmp("XuiDelta",root_floater->getName().c_str(),9))
 			{
 				for (LLXmlTreeNode* child = root_floater->getFirstChild();		// get the first child first, then below get the next one; otherwise the iterator is invalid (bug or feature in XML code?)
-					 child != NULL;
+					 child != nullptr;
  					 child = root_floater->getNextChild())	// get child for next iteration
 				{
 					if(!strncmp("file",child->getName().c_str(),5))
@@ -1160,7 +1161,7 @@ void LLFloaterUIPreview::onClickToggleDiffHighlighting()
 						child->getAttributeString("message",error_message);
 						if(mDiffsMap.find(error_file) != mDiffsMap.end())
 						{
-							mDiffsMap.insert(std::make_pair(error_file,std::make_pair(StringListPtr(new StringList), StringListPtr(new StringList))));
+							mDiffsMap.insert(std::make_pair(error_file,std::make_pair(std::make_shared<StringList>(), std::make_shared<StringList>())));
 						}
 						mDiffsMap[error_file].second->push_back(error_message);
 					}
@@ -1214,7 +1215,7 @@ void LLFloaterUIPreview::scanDiffFile(LLXmlTreeNode* file_node)
 
 	// Get a list of changed elements
 	// Get the first child first, then below get the next one; otherwise the iterator is invalid (bug or feature in XML code?)
-	for (LLXmlTreeNode* child = file_node->getFirstChild(); child != NULL; child = file_node->getNextChild())
+	for (LLXmlTreeNode* child = file_node->getFirstChild(); child != nullptr; child = file_node->getNextChild())
 	{
 		if(!strncmp("delta",child->getName().c_str(),6))
 		{
@@ -1222,7 +1223,7 @@ void LLFloaterUIPreview::scanDiffFile(LLXmlTreeNode* file_node)
 			child->getAttributeString("id",id);
 			if(mDiffsMap.find(file_name) == mDiffsMap.end())
 			{
-				mDiffsMap.insert(std::make_pair(file_name,std::make_pair(StringListPtr(new StringList), StringListPtr(new StringList))));
+				mDiffsMap.insert(std::make_pair(file_name,std::make_pair(std::make_shared<StringList>(), std::make_shared<StringList>())));
 			}
 			mDiffsMap[file_name].first->push_back(std::string(id.c_str()));
 		}
@@ -1237,7 +1238,7 @@ void LLFloaterUIPreview::scanDiffFile(LLXmlTreeNode* file_node)
 
 void LLFloaterUIPreview::highlightChangedElements()
 {
-	if(NULL == mLiveFile)
+	if(nullptr == mLiveFile)
 	{
 		return;
 	}
@@ -1270,7 +1271,7 @@ void LLFloaterUIPreview::highlightChangedElements()
 				element = element->findChild<LLView>(*token_iter, FALSE);	// try to find element: don't recur, and don't create if missing
 
 				// if we still didn't find it...
-				if (NULL == element)
+				if (nullptr == element)
 				{
 					LL_INFOS() << "Unable to find element in XuiDelta file named \"" << *iter << "\" in file \"" << mLiveFile->mFileName <<
 						"\". The element may no longer exist, the path may be incorrect, or it may not be a non-displayable element (not an LLView) such as a \"string\" type." << LL_ENDL;
@@ -1332,13 +1333,13 @@ void LLFloaterUIPreview::onClickCloseDisplayedFloater(S32 caller_id)
 			mLastDisplayedX = mDisplayedFloater->calcScreenRect().mLeft;
 			mLastDisplayedY = mDisplayedFloater->calcScreenRect().mBottom;
 			delete mDisplayedFloater;
-			mDisplayedFloater = NULL;
+			mDisplayedFloater = nullptr;
 		}
 
 		if(mLiveFile)
 		{
 			delete mLiveFile;
-			mLiveFile = NULL;
+			mLiveFile = nullptr;
 		}
 
 		if(mToggleOverlapButton->getToggleState())
@@ -1347,14 +1348,14 @@ void LLFloaterUIPreview::onClickCloseDisplayedFloater(S32 caller_id)
 			onClickToggleOverlapping();
 		}
 
-		LLView::sPreviewClickedElement = NULL;	// stop overlapping elements panel from drawing
-		mOverlapPanel->mLastClickedElement = NULL;
+		LLView::sPreviewClickedElement = nullptr;	// stop overlapping elements panel from drawing
+		mOverlapPanel->mLastClickedElement = nullptr;
 	}
 	else
 	{
 		mCloseOtherButton_2->setEnabled(FALSE);
 		delete mDisplayedFloater_2;
-		mDisplayedFloater_2 = NULL;
+		mDisplayedFloater_2 = nullptr;
 	}
 
 }
@@ -1477,7 +1478,7 @@ BOOL LLPreviewedFloater::selectElement(LLView* parent, int x, int y, int depth)
 
 void LLPreviewedFloater::draw()
 {
-	if(NULL != mFloaterUIPreview)
+	if(nullptr != mFloaterUIPreview)
 	{
 		// Set and unset sDrawPreviewHighlights flag so as to avoid using two flags
 		if(mFloaterUIPreview->mHighlightingOverlaps)
@@ -1575,16 +1576,16 @@ void LLFloaterUIPreview::findOverlapsInChildren(LLView* parent)
 // *NOTE: If a list of elements which have localizable content were created, this function should return false if viewp's class is in that list.
 BOOL LLFloaterUIPreview::overlapIgnorable(LLView* viewp)
 {
-	return	NULL != dynamic_cast<LLDragHandle*>(viewp) ||
-			NULL != dynamic_cast<LLViewBorder*>(viewp) ||
-			NULL != dynamic_cast<LLResizeBar*>(viewp);
+	return nullptr != dynamic_cast<LLDragHandle*>(viewp) ||
+		nullptr != dynamic_cast<LLViewBorder*>(viewp) ||
+		nullptr != dynamic_cast<LLResizeBar*>(viewp);
 }
 
 // *HACK: these are the only two container types as of 8/08, per Richard
 // This is using dynamic casts because there is no object-oriented way to tell which elements are containers.
 BOOL LLFloaterUIPreview::containerType(LLView* viewp)
 {
-	return NULL != dynamic_cast<LLPanel*>(viewp) || NULL != dynamic_cast<LLLayoutStack*>(viewp);
+	return nullptr != dynamic_cast<LLPanel*>(viewp) || nullptr != dynamic_cast<LLLayoutStack*>(viewp);
 }
 
 // Check if two llview's rectangles overlap, with some tolerance
@@ -1611,7 +1612,7 @@ void LLOverlapPanel::draw()
 		LLUI::translate(5,getRect().getHeight()-20);	// translate to top-5,left-5
 		LLView::sDrawPreviewHighlights = FALSE;
 		LLFontGL::getFontSansSerifSmall()->renderUTF8(current_selection_text, 0, 0, 0, text_color,
-				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, NULL, FALSE);
+				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 	}
 	else
 	{
@@ -1629,7 +1630,7 @@ void LLOverlapPanel::draw()
 			std::string current_selection = std::string(current_selection_text + LLView::sPreviewClickedElement->getName() + " (no elements overlap)");
 			S32 text_width = LLFontGL::getFontSansSerifSmall()->getWidth(current_selection) + 10;
 			LLFontGL::getFontSansSerifSmall()->renderUTF8(current_selection, 0, 0, 0, text_color,
-					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, NULL, FALSE);
+					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 			// widen panel enough to fit this text
 			LLRect rect = getRect();
 			setRect(LLRect(rect.mLeft,rect.mTop,rect.getWidth() < text_width ? rect.mLeft + text_width : rect.mRight,rect.mTop));
@@ -1638,12 +1639,12 @@ void LLOverlapPanel::draw()
 
 		// recalculate required with and height; otherwise use cached
 		BOOL need_to_recalculate_bounds = FALSE;
-		if(mLastClickedElement == NULL)
+		if(mLastClickedElement == nullptr)
 		{
 			need_to_recalculate_bounds = TRUE;
 		}
 
-		if(NULL == mLastClickedElement)
+		if(nullptr == mLastClickedElement)
 		{
 			mLastClickedElement = LLView::sPreviewClickedElement;
 		}
@@ -1695,7 +1696,7 @@ void LLOverlapPanel::draw()
 		// draw currently-selected element at top of overlappers
 		LLUI::translate(0,-mSpacing);
 		LLFontGL::getFontSansSerifSmall()->renderUTF8(current_selection_text + LLView::sPreviewClickedElement->getName(), 0, 0, 0, text_color,
-				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, NULL, FALSE);
+				LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 		LLUI::translate(0,-mSpacing-LLView::sPreviewClickedElement->getRect().getHeight());	// skip spacing distance + height
 		LLView::sPreviewClickedElement->draw();
 
@@ -1710,7 +1711,7 @@ void LLOverlapPanel::draw()
 			// draw name
 			LLUI::translate(0,-mSpacing);
 			LLFontGL::getFontSansSerifSmall()->renderUTF8(overlapper_text + viewp->getName(), 0, 0, 0, text_color,
-					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, NULL, FALSE);
+					LLFontGL::LEFT, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 
 			// draw element
 			LLUI::translate(0,-mSpacing-viewp->getRect().getHeight());	// skip spacing distance + height

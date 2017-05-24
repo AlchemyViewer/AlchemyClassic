@@ -246,7 +246,7 @@ void LLPanelVolume::getState( )
 		}
 	}
 
-	LLVOVolume *volobjp = NULL;
+	LLVOVolume *volobjp = nullptr;
 	if ( objectp && (objectp->getPCode() == LL_PCODE_VOLUME))
 	{
 		volobjp = (LLVOVolume *)objectp;
@@ -257,7 +257,7 @@ void LLPanelVolume::getState( )
 		//forfeit focus
 		if (gFocusMgr.childHasKeyboardFocus(this))
 		{
-			gFocusMgr.setKeyboardFocus(NULL);
+			gFocusMgr.setKeyboardFocus(nullptr);
 		}
 
 		// Disable all text input fields
@@ -420,7 +420,7 @@ void LLPanelVolume::getState( )
 	U8 material_code = 0;
 	struct f : public LLSelectedTEGetFunctor<U8>
 	{
-		U8 get(LLViewerObject* object, S32 te)
+		U8 get(LLViewerObject* object, S32 te) override
 		{
 			return object->getMaterial();
 		}
@@ -499,7 +499,7 @@ void LLPanelVolume::getState( )
 
 	mComboPhysicsShapeType->add(getString("Convex Hull"), LLSD(2));	
 	mComboPhysicsShapeType->setValue(LLSD(objectp->getPhysicsShapeType()));
-	mComboPhysicsShapeType->setEnabled(editable && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()));
+	mComboPhysicsShapeType->setEnabled(editable && !objectp->isPermanentEnforced() && ((root_objectp == nullptr) || !root_objectp->isPermanentEnforced()));
 
 	mObject = objectp;
 	mRootObject = root_objectp;
@@ -510,12 +510,12 @@ void LLPanelVolume::refresh()
 	getState();
 	if (mObject.notNull() && mObject->isDead())
 	{
-		mObject = NULL;
+		mObject = nullptr;
 	}
 
 	if (mRootObject.notNull() && mRootObject->isDead())
 	{
-		mRootObject = NULL;
+		mRootObject = nullptr;
 	}
 
 	BOOL visible = LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_DEFERRED) > 0 ? TRUE : FALSE;

@@ -72,8 +72,8 @@ mLatestOverLimitPct(0.0f),
 mShowOverLimitAgents(false),
 mNotifyOutfitLoading(false),
 mLastCofVersion(LLViewerInventoryCategory::VERSION_UNKNOWN),
-mLastOutfitRezStatus(-1),
-mLastSkeletonSerialNum(-1)
+mLastSkeletonSerialNum(-1),
+mLastOutfitRezStatus(-1)
 {
     mPopUpDelayTimer.resetWithExpiry(OVER_LIMIT_UPDATE_DELAY);
 }
@@ -137,7 +137,7 @@ void LLAvatarRenderNotifier::displayNotification(bool show_over_limit)
         notification_name = "AgentComplexity";
 	}
 
-	if (mNotificationPtr != NULL && mNotificationPtr->getName() != notification_name)
+	if (mNotificationPtr != nullptr && mNotificationPtr->getName() != notification_name)
 	{
 		// since unique tag works only for same notification,
 		// old notification needs to be canceled manually
@@ -160,7 +160,7 @@ void LLAvatarRenderNotifier::displayNotification(bool show_over_limit)
 
 bool LLAvatarRenderNotifier::isNotificationVisible()
 {
-	return mNotificationPtr != NULL && mNotificationPtr->isActive();
+	return mNotificationPtr != nullptr && mNotificationPtr->isActive();
 }
 
 void LLAvatarRenderNotifier::updateNotificationRegion(U32 agentcount, U32 overLimit)
@@ -384,7 +384,7 @@ void LLHUDRenderNotifier::updateNotificationHUD(hud_complexity_list_t complexity
 
 bool LLHUDRenderNotifier::isNotificationVisible()
 {
-    return mHUDNotificationPtr != NULL && mHUDNotificationPtr->isActive();
+    return mHUDNotificationPtr != nullptr && mHUDNotificationPtr->isActive();
 }
 
 // private static

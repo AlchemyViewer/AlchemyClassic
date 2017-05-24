@@ -121,13 +121,13 @@ public:
 	LLTexLayerTemplate(LLTexLayerSet* const layer_set, LLAvatarAppearance* const appearance);
 	LLTexLayerTemplate(const LLTexLayerTemplate &layer);
 	/*virtual*/ ~LLTexLayerTemplate();
-	/*virtual*/ BOOL		render(S32 x, S32 y, S32 width, S32 height);
-	/*virtual*/ BOOL		setInfo(const LLTexLayerInfo *info, LLWearable* wearable); // This sets mInfo and calls initialization functions
-	/*virtual*/ BOOL		blendAlphaTexture(S32 x, S32 y, S32 width, S32 height); // Multiplies a single alpha texture against the frame buffer
-	/*virtual*/ void		gatherAlphaMasks(U8 *data, S32 originX, S32 originY, S32 width, S32 height);
-	/*virtual*/ void		setHasMorph(BOOL newval);
-	/*virtual*/ void		deleteCaches();
-	/*virtual*/ BOOL		isInvisibleAlphaMask() const;
+	/*virtual*/ BOOL		render(S32 x, S32 y, S32 width, S32 height) override;
+	/*virtual*/ BOOL		setInfo(const LLTexLayerInfo *info, LLWearable* wearable) override; // This sets mInfo and calls initialization functions
+	/*virtual*/ BOOL		blendAlphaTexture(S32 x, S32 y, S32 width, S32 height) override; // Multiplies a single alpha texture against the frame buffer
+	/*virtual*/ void		gatherAlphaMasks(U8 *data, S32 originX, S32 originY, S32 width, S32 height) override;
+	/*virtual*/ void		setHasMorph(BOOL newval) override;
+	/*virtual*/ void		deleteCaches() override;
+	/*virtual*/ BOOL		isInvisibleAlphaMask() const override;
 protected:
 	U32 					updateWearableCache() const;
 	LLTexLayer* 			getLayer(U32 i) const;
@@ -151,23 +151,23 @@ public:
 	LLTexLayer(const LLTexLayerTemplate &layer_template, LLLocalTextureObject *lto, LLWearable *wearable);
 	/*virtual*/ ~LLTexLayer();
 
-	/*virtual*/ BOOL		setInfo(const LLTexLayerInfo *info, LLWearable* wearable); // This sets mInfo and calls initialization functions
-	/*virtual*/ BOOL		render(S32 x, S32 y, S32 width, S32 height);
+	/*virtual*/ BOOL		setInfo(const LLTexLayerInfo *info, LLWearable* wearable) override; // This sets mInfo and calls initialization functions
+	/*virtual*/ BOOL		render(S32 x, S32 y, S32 width, S32 height) override;
 
-	/*virtual*/ void		deleteCaches();
+	/*virtual*/ void		deleteCaches() override;
 	const U8*				getAlphaData() const;
 
 	BOOL					findNetColor(LLColor4* color) const;
-	/*virtual*/ BOOL		blendAlphaTexture(S32 x, S32 y, S32 width, S32 height); // Multiplies a single alpha texture against the frame buffer
-	/*virtual*/ void		gatherAlphaMasks(U8 *data, S32 originX, S32 originY, S32 width, S32 height);
+	/*virtual*/ BOOL		blendAlphaTexture(S32 x, S32 y, S32 width, S32 height) override; // Multiplies a single alpha texture against the frame buffer
+	/*virtual*/ void		gatherAlphaMasks(U8 *data, S32 originX, S32 originY, S32 width, S32 height) override;
 	void					renderMorphMasks(S32 x, S32 y, S32 width, S32 height, const LLColor4 &layer_color, bool force_render);
 	void					addAlphaMask(U8 *data, S32 originX, S32 originY, S32 width, S32 height);
-	/*virtual*/ BOOL		isInvisibleAlphaMask() const;
+	/*virtual*/ BOOL		isInvisibleAlphaMask() const override;
 
 	void					setLTO(LLLocalTextureObject *lto) 	{ mLocalTextureObject = lto; }
 	LLLocalTextureObject* 	getLTO() 							{ return mLocalTextureObject; }
 
-	/*virtual*/ void		asLLSD(LLSD& sd) const;
+	/*virtual*/ void		asLLSD(LLSD& sd) const override;
 
 	static void 			calculateTexLayerColor(const param_color_list_t &param_list, LLColor4 &net_color);
 protected:

@@ -607,7 +607,7 @@ void process_places_reply(LLMessageSystem* msg, void** data)
 
 void send_sound_trigger(const LLUUID& sound_id, F32 gain)
 {
-	if (sound_id.isNull() || gAgent.getRegion() == NULL)
+	if (sound_id.isNull() || gAgent.getRegion() == nullptr)
 	{
 		// disconnected agent or zero guids don't get sent (no sound)
 		return;
@@ -745,7 +745,7 @@ bool join_group_response(const LLSD& notification, const LLSD& response)
 
 static void highlight_inventory_objects_in_panel(const std::vector<LLUUID>& items, LLInventoryPanel *inventory_panel)
 {
-	if (NULL == inventory_panel) return;
+	if (nullptr == inventory_panel) return;
 
 	for (std::vector<LLUUID>::const_iterator item_iter = items.begin();
 		item_iter != items.end();
@@ -803,7 +803,7 @@ public:
 					 const std::string& from_name) : 
 		LLInventoryFetchItemsObserver(object_id),
 		mFromName(from_name) {}
-	/*virtual*/ void startFetch()
+	/*virtual*/ void startFetch() override
 	{
 		for (uuid_vec_t::const_iterator it = mIDs.begin(); it < mIDs.end(); ++it)
 		{
@@ -815,7 +815,7 @@ public:
 		}
 		LLInventoryFetchItemsObserver::startFetch();
 	}
-	/*virtual*/ void done()
+	/*virtual*/ void done() override
 	{
 		open_inventory_offer(mComplete, mFromName);
 		gInventory.removeObserver(this);
@@ -843,7 +843,7 @@ public:
 	void setMoveIntoFolderID(const LLUUID& into_folder_uuid) {mMoveIntoFolderID = into_folder_uuid; }
 
 private:
-	/*virtual */void onAssetAdded(const LLUUID& asset_id)
+	/*virtual */void onAssetAdded(const LLUUID& asset_id) override
 	{
 		// Store active Inventory panel.
 		if (LLInventoryPanel::getActiveInventoryPanel())
@@ -870,7 +870,7 @@ private:
 	 * Selects added inventory items watched by their Asset UUIDs if selection was not changed since
 	 * all items were started to watch (dropped into a folder).
 	 */
-	void done()
+	void done() override
 	{
 		LLInventoryPanel* active_panel = dynamic_cast<LLInventoryPanel*>(mActivePanel.get());
 
@@ -890,7 +890,7 @@ private:
 	{	
 		LLInventoryPanel* active_panel = dynamic_cast<LLInventoryPanel*>(mActivePanel.get());
 
-		if (NULL == active_panel)
+		if (nullptr == active_panel)
 		{
 			return true;
 		}
@@ -937,7 +937,7 @@ private:
 	LLUUID mMoveIntoFolderID;
 };
 
-LLViewerInventoryMoveFromWorldObserver* gInventoryMoveObserver = NULL;
+LLViewerInventoryMoveFromWorldObserver* gInventoryMoveObserver = nullptr;
 
 void set_dad_inventory_item(LLInventoryItem* inv_item, const LLUUID& into_folder_uuid)
 {
@@ -969,7 +969,7 @@ public:
 	}
 
 	virtual ~LLViewerInventoryMoveObserver() {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 	
 private:
 	LLUUID mObjectID;
@@ -981,7 +981,7 @@ void LLViewerInventoryMoveObserver::changed(U32 mask)
 {
 	LLInventoryPanel* active_panel = dynamic_cast<LLInventoryPanel*>(mActivePanel.get());
 
-	if (NULL == active_panel)
+	if (nullptr == active_panel)
 	{
 		gInventory.removeObserver(this);
 		return;
@@ -1024,7 +1024,7 @@ void set_dad_inbox_object(const LLUUID& object_id)
 class LLOpenTaskOffer : public LLInventoryAddedObserver
 {
 protected:
-	/*virtual*/ void done()
+	/*virtual*/ void done() override
 	{
 		uuid_vec_t added;
 		for(uuid_set_t::const_iterator it = gInventory.getAddedIDs().begin(); it != gInventory.getAddedIDs().end(); ++it)
@@ -1065,7 +1065,7 @@ protected:
 class LLOpenTaskGroupOffer : public LLInventoryAddedObserver
 {
 protected:
-	/*virtual*/ void done()
+	/*virtual*/ void done() override
 	{
 		uuid_vec_t added;
 		for(uuid_set_t::const_iterator it = gInventory.getAddedIDs().begin(); it != gInventory.getAddedIDs().end(); ++it)
@@ -1079,17 +1079,17 @@ protected:
 };
 
 //one global instance to bind them
-LLOpenTaskOffer* gNewInventoryObserver=NULL;
+LLOpenTaskOffer* gNewInventoryObserver= nullptr;
 class LLNewInventoryHintObserver : public LLInventoryAddedObserver
 {
 protected:
-	/*virtual*/ void done()
+	/*virtual*/ void done() override
 	{
 		LLFirstUse::newInventory();
 	}
 };
 
-LLNewInventoryHintObserver* gNewInventoryHintObserver=NULL;
+LLNewInventoryHintObserver* gNewInventoryHintObserver= nullptr;
 
 void start_new_inventory_observer()
 {
@@ -1125,7 +1125,7 @@ public:
 		mFolderID(folder_id),
 		mObjectID(object_id) {}
 
-	virtual void done()
+	void done() override
 	{
 		LL_DEBUGS("Messaging") << "LLDiscardAgentOffer::done()" << LL_ENDL;
 
@@ -1388,7 +1388,7 @@ void inventory_offer_mute_callback(const LLUUID& blocked_id,
 	{
 	public:
 		OfferMatcher(const LLUUID& to_block) : blocked_id(to_block) {}
-		bool matches(const LLNotificationPtr notification) const
+		bool matches(const LLNotificationPtr notification) const override
 		{
 			if(notification->getName() == "ObjectGiveItem" 
 				|| notification->getName() == "OwnObjectGiveItem"
@@ -1418,9 +1418,9 @@ std::string LLOfferInfo::mResponderType = "offer_info";
 
 LLOfferInfo::LLOfferInfo()
  : LLNotificationResponderInterface()
+ , mIM(IM_NOTHING_SPECIAL)
  , mFromGroup(FALSE)
  , mFromObject(FALSE)
- , mIM(IM_NOTHING_SPECIAL)
  , mType(LLAssetType::AT_NONE)
  , mPersist(false)
 {
@@ -1542,10 +1542,10 @@ bool LLOfferInfo::inventory_offer_callback(const LLSD& notification, const LLSD&
 	std::string log_message;
 	S32 button = LLNotificationsUtil::getSelectedOption(notification, response);
 
-	LLInventoryObserver* opener = NULL;
-	LLViewerInventoryCategory* catp = NULL;
+	LLInventoryObserver* opener = nullptr;
+	LLViewerInventoryCategory* catp = nullptr;
 	catp = (LLViewerInventoryCategory*)gInventory.getCategory(mObjectID);
-	LLViewerInventoryItem* itemp = NULL;
+	LLViewerInventoryItem* itemp = nullptr;
 	if(!catp)
 	{
 		itemp = (LLViewerInventoryItem*)gInventory.getItem(mObjectID);
@@ -1560,7 +1560,7 @@ bool LLOfferInfo::inventory_offer_callback(const LLSD& notification, const LLSD&
 	// * we can't build two messages at once.
 	if (IOR_MUTE == button) // Block
 	{
-		if (notification_ptr != NULL)
+		if (notification_ptr != nullptr)
 		{
 			if (mFromGroup)
 			{
@@ -1625,7 +1625,7 @@ bool LLOfferInfo::inventory_offer_callback(const LLSD& notification, const LLSD&
 			break;
 		}
 
-		if (modified_form != NULL)
+		if (modified_form != nullptr)
 		{
 			modified_form->setElementEnabled("Show", false);
 		}
@@ -1645,7 +1645,7 @@ bool LLOfferInfo::inventory_offer_callback(const LLSD& notification, const LLSD&
 		break;
 
 	case IOR_MUTE:
-		if (modified_form != NULL)
+		if (modified_form != nullptr)
 		{
 			modified_form->setElementEnabled("Mute", false);
 		}
@@ -1679,7 +1679,7 @@ bool LLOfferInfo::inventory_offer_callback(const LLSD& notification, const LLSD&
 				opener = discard_agent_offer;
 			}
 
-			if (modified_form != NULL)
+			if (modified_form != nullptr)
 			{
 				modified_form->setElementEnabled("Show", false);
 				modified_form->setElementEnabled("Discard", false);
@@ -1724,7 +1724,7 @@ bool LLOfferInfo::inventory_task_offer_callback(const LLSD& notification, const 
 		LLNotificationPtr notification_ptr = LLNotifications::instance().find(notification["id"].asUUID());
 
 		llassert(notification_ptr != NULL);
-		if (notification_ptr != NULL)
+		if (notification_ptr != nullptr)
 		{
 			if (mFromGroup)
 			{
@@ -1755,7 +1755,7 @@ bool LLOfferInfo::inventory_task_offer_callback(const LLSD& notification, const 
 	msg->addU32Fast(_PREHASH_ParentEstateID, 0);
 	msg->addUUIDFast(_PREHASH_RegionID, LLUUID::null);
 	msg->addVector3Fast(_PREHASH_Position, gAgent.getPositionAgent());
-	LLInventoryObserver* opener = NULL;
+	LLInventoryObserver* opener = nullptr;
 	
 	std::string from_string; // Used in the pop-up.
 	std::string chatHistory_string;  // Used in chat history.
@@ -1898,7 +1898,7 @@ class LLPostponedOfferNotification: public LLPostponedNotification
 {
 protected:
 	/* virtual */
-	void modifyNotificationParams()
+	void modifyNotificationParams() override
 	{
 		LLSD substitutions = mParams.substitutions;
 		substitutions["NAME"] = mName;
@@ -2195,7 +2195,7 @@ class LLPostponedServerObjectNotification: public LLPostponedNotification
 {
 protected:
 	/* virtual */
-	void modifyNotificationParams()
+	void modifyNotificationParams() override
 	{
 		LLSD payload = mParams.payload;
 		mParams.payload = payload;
@@ -2349,7 +2349,7 @@ class LLPostponedIMSystemTipNotification: public LLPostponedNotification
 {
 protected:
 	/* virtual */
-	void modifyNotificationParams()
+	void modifyNotificationParams() override
 	{
 		LLSD payload = mParams.payload;
 		payload["SESSION_NAME"] = mName;
@@ -2446,7 +2446,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 		// object IMs contain sender object id in session_id (STORM-1209)
 		|| (dialog == IM_FROM_TASK && LLMuteList::getInstance()->isMuted(session_id));
 	bool is_owned_by_me = false;
-	bool is_friend = (LLAvatarTracker::instance().getBuddyInfo(from_id) == NULL) ? false : true;
+	bool is_friend = (LLAvatarTracker::instance().getBuddyInfo(from_id) == nullptr) ? false : true;
 	bool accept_im_from_only_friend = gSavedSettings.getBOOL("VoiceCallsFriendsOnly");
 	bool is_linden = chat.mSourceType != CHAT_SOURCE_OBJECT &&
 			LLMuteList::getInstance()->isLinden(name);
@@ -2775,7 +2775,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			std::string item_name = ll_safe_string((const char*) notice_bin_bucket->item_name);
 
 			// If there is inventory, give the user the inventory offer.
-			LLOfferInfo* info = NULL;
+			LLOfferInfo* info = nullptr;
 
 			if (has_inventory)
 			{
@@ -3208,7 +3208,7 @@ void process_improved_im(LLMessageSystem *msg, void **user_data)
 			{ 
 				return;
 			}
-			else if (gSavedSettings.getBOOL("VoiceCallsFriendsOnly") && (LLAvatarTracker::instance().getBuddyInfo(from_id) == NULL))
+			else if (gSavedSettings.getBOOL("VoiceCallsFriendsOnly") && (LLAvatarTracker::instance().getBuddyInfo(from_id) == nullptr))
 			{
 				return;
 			}
@@ -4067,7 +4067,8 @@ public:
 	LLFetchInWelcomeArea(const uuid_vec_t &ids) :
 		LLInventoryFetchDescendentsObserver(ids)
 	{}
-	virtual void done()
+
+	void done() override
 	{
 		LLIsType is_landmark(LLAssetType::AT_LANDMARK);
 		LLIsType is_card(LLAssetType::AT_CALLINGCARD);
@@ -4109,7 +4110,7 @@ public:
 	virtual ~LLPostTeleportNotifiers();
 
 	//function to be called at the supplied frequency
-	virtual BOOL tick();
+	BOOL tick() override;
 };
 
 LLPostTeleportNotifiers::LLPostTeleportNotifiers() : LLEventTimer( 2.0 )
@@ -4578,7 +4579,7 @@ void send_agent_update(BOOL force_send, BOOL send_reliable)
 	}
 
 	// no region to send update to
-	if(gAgent.getRegion() == NULL)
+	if(gAgent.getRegion() == nullptr)
 	{
 		return;
 	}
@@ -4893,7 +4894,7 @@ void process_kill_object(LLMessageSystem *mesgsys, void **user_data)
 
 	U32 ip = mesgsys->getSenderIP();
 	U32 port = mesgsys->getSenderPort();
-	LLViewerRegion* regionp = NULL;
+	LLViewerRegion* regionp = nullptr;
 	{
 		LLHost host(ip, port);
 		regionp = LLWorld::getInstance()->getRegion(host);
@@ -5129,7 +5130,7 @@ void process_attached_sound_gain_change(LLMessageSystem *mesgsys, void **user_da
 {
 	F32 gain = 0;
 	LLUUID object_guid;
-	LLViewerObject *objectp = NULL;
+	LLViewerObject *objectp = nullptr;
 
 	mesgsys->getUUIDFast(_PREHASH_DataBlock, _PREHASH_ObjectID, object_guid);
 
@@ -5387,7 +5388,7 @@ void process_avatar_sit_response(LLMessageSystem *mesgsys, void **user_data)
 		}
 		else
 		{
-			gAgent.startAutoPilotGlobal(gAgent.getPosGlobalFromAgent(sit_spot), "Sit", &sitRotation, near_sit_object, NULL, 0.5f);
+			gAgent.startAutoPilotGlobal(gAgent.getPosGlobalFromAgent(sit_spot), "Sit", &sitRotation, near_sit_object, nullptr, 0.5f);
 		}
 	}
 	else
@@ -6031,7 +6032,7 @@ bool handle_special_notification(std::string notificationID, LLSD& llsdBlock)
 			}
 		}
 
-		if ((maturityLevelNotification == NULL) || maturityLevelNotification->isIgnored())
+		if ((maturityLevelNotification == nullptr) || maturityLevelNotification->isIgnored())
 		{
 			// Given a simple notification if no maturityLevelNotification is set or it is ignore
 			LLNotificationsUtil::add(notificationID + notifySuffix, llsdBlock);
@@ -6157,7 +6158,7 @@ bool handle_teleport_access_blocked(LLSD& llsdBlock, const std::string & notific
 			returnValue = true;
 		}
 
-		if ((tp_failure_notification == NULL) || tp_failure_notification->isIgnored())
+		if ((tp_failure_notification == nullptr) || tp_failure_notification->isIgnored())
 		{
 			// Given a simple notification if no tp_failure_notification is set or it is ignore
 			LLNotificationsUtil::add(notificationID + notifySuffix, llsdBlock);
@@ -6367,7 +6368,7 @@ void process_alert_message(LLMessageSystem *msgsystem, void **user_data)
 bool handle_not_age_verified_alert(const std::string &pAlertName)
 {
 	LLNotificationPtr notification = LLNotificationsUtil::add(pAlertName);
-	if ((notification == NULL) || notification->isIgnored())
+	if ((notification == nullptr) || notification->isIgnored())
 	{
 		LLNotificationsUtil::add(pAlertName + "_Notify");
 	}
@@ -6773,8 +6774,8 @@ void script_question_mute(const LLUUID& task_id, const std::string& object_name)
     {
     public:
     	OfferMatcher(const LLUUID& to_block) : blocked_id(to_block) {}
-      	bool matches(const LLNotificationPtr notification) const
-        {
+      	bool matches(const LLNotificationPtr notification) const override
+	      {
             if (notification->getName() == "ScriptQuestionCaution"
                 || notification->getName() == "ScriptQuestion"
 				|| notification->getName() == "UnknownScriptQuestion")
@@ -7908,7 +7909,7 @@ void process_covenant_reply(LLMessageSystem* msg, void**)
                                     LLAssetType::AT_NOTECARD,
 									ET_Covenant,
                                     onCovenantLoadComplete,
-									NULL,
+									nullptr,
 									high_priority);
 	}
 	else

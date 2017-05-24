@@ -152,11 +152,11 @@ public:
 	LLVoiceSetKeyDialog(const LLSD& key);
 	~LLVoiceSetKeyDialog();
 	
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 	void setParent(LLFloaterPreference* parent) { mParent = parent; }
 	
-	BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 	static void onCancel(void* user_data);
 		
 private:
@@ -183,7 +183,7 @@ typedef struct skin_t
 
 LLVoiceSetKeyDialog::LLVoiceSetKeyDialog(const LLSD& key)
   : LLModalDialog(key),
-	mParent(NULL)
+	mParent(nullptr)
 {
 }
 
@@ -356,12 +356,12 @@ std::string LLFloaterPreference::sSkin = "";
 
 LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 	: LLFloater(key),
+	mClickActionDirty(false),
 	mGotPersonalInfo(false),
 	mOriginalIMViaEmail(false),
 	mLanguageChanged(false),
 	mSoundQualityChanged(false),
-	mAvatarDataInitialized(false),
-	mClickActionDirty(false)
+	mAvatarDataInitialized(false)
 {
 	LLConversationLog::instance().addObserver(this);
 
@@ -962,10 +962,10 @@ LLFloaterPreference::~LLFloaterPreference()
 
 void LLFloaterPreference::draw()
 {
-	BOOL has_first_selected = (getChildRef<LLScrollListCtrl>("disabled_popups").getFirstSelected()!=NULL);
+	BOOL has_first_selected = (getChildRef<LLScrollListCtrl>("disabled_popups").getFirstSelected()!= nullptr);
 	gSavedSettings.setBOOL("FirstSelectedDisabledPopups", has_first_selected);
 	
-	has_first_selected = (getChildRef<LLScrollListCtrl>("enabled_popups").getFirstSelected()!=NULL);
+	has_first_selected = (getChildRef<LLScrollListCtrl>("enabled_popups").getFirstSelected()!= nullptr);
 	gSavedSettings.setBOOL("FirstSelectedEnabledPopups", has_first_selected);
 	
 	LLFloater::draw();
@@ -1500,7 +1500,7 @@ void LLFloaterPreference::buildPopupLists()
 		row["columns"][0]["font"] = "SANSSERIF_SMALL";
 		row["columns"][0]["width"] = 400;
 		
-		LLScrollListItem* item = NULL;
+		LLScrollListItem* item = nullptr;
 		
 		bool show_popup = !formp->getIgnored();
 		if (!show_popup)
@@ -2201,7 +2201,7 @@ void LLFloaterPreference::refreshUI()
 
 void LLFloaterPreferenceGraphicsAdvanced::updateSliderText(LLSliderCtrl* ctrl, LLTextBox* text_box)
 {
-	if (text_box == NULL || ctrl== NULL)
+	if (text_box == nullptr || ctrl== nullptr)
 		return;
 
 	// get range and points when text should change
@@ -2531,7 +2531,7 @@ void LLFloaterPreference::selectPanel(const LLSD& name)
 {
 	LLTabContainer * tab_containerp = getChild<LLTabContainer>("pref core");
 	LLPanel * panel = tab_containerp->getPanelByName(name);
-	if (NULL != panel)
+	if (nullptr != panel)
 	{
 		tab_containerp->selectTabPanel(panel);
 	}
@@ -2588,7 +2588,7 @@ public:
 
 protected:
 
-	BOOL tick()
+	BOOL tick() override
 	{
 		mCallback(mNewValue);
 		mEventTimer.stop();
@@ -2605,7 +2605,7 @@ private:
 static LLPanelInjector<LLPanelPreference> t_places("panel_preference");
 LLPanelPreference::LLPanelPreference()
 : LLPanel(),
-  mBandWidthUpdater(NULL)
+  mBandWidthUpdater(nullptr)
 {
 	mCommitCallbackRegistrar.add("Pref.setControlFalse",	boost::bind(&LLPanelPreference::setControlFalse,this, _2));
 	mCommitCallbackRegistrar.add("Pref.updateMediaAutoPlayCheckbox",	boost::bind(&LLPanelPreference::updateMediaAutoPlayCheckbox, this, _1));
@@ -2824,7 +2824,7 @@ public:
 		mAccountIndependentSettings.push_back("AutoDisengageMic");
 	}
 
-	/*virtual*/ void saveSettings()
+	/*virtual*/ void saveSettings() override
 	{
 		LLPanelPreference::saveSettings();
 

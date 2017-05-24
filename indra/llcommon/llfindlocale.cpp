@@ -72,7 +72,7 @@ lang_country_variant_from_envstring(const char *str,
 	}
     *lang = s;
   } else {
-    *lang = NULL;
+    *lang = nullptr;
   }
 
   if (str[end] && str[end]!=':') { /* not at end of str */
@@ -97,7 +97,7 @@ lang_country_variant_from_envstring(const char *str,
 	}
     *country = s;
   } else {
-    *country = NULL;
+    *country = nullptr;
   }
 
   if (str[end] && str[end]!=':') { /* not at end of str */
@@ -122,16 +122,16 @@ lang_country_variant_from_envstring(const char *str,
 	}
     *variant = s;
   } else {
-    *variant = NULL;
+    *variant = nullptr;
   }
 }
 
 
 static int
 accumulate_locstring(const char *str, FL_Locale *l) {
-  char *lang = NULL;
-  char *country = NULL;
-  char *variant = NULL;
+  char *lang = nullptr;
+  char *country = nullptr;
+  char *variant = nullptr;
   if (str) {
     lang_country_variant_from_envstring(str, &lang, &country, &variant);
     if (lang) {
@@ -460,9 +460,9 @@ FL_FindLocale(FL_Locale **locale, FL_Domain domain) {
   FL_Locale *rtn = (FL_Locale*)malloc(sizeof(FL_Locale));
   if (!rtn)
 	  return success;
-  rtn->lang = NULL;
-  rtn->country = NULL;
-  rtn->variant = NULL;
+  rtn->lang = nullptr;
+  rtn->country = nullptr;
+  rtn->variant = nullptr;
 
 #ifdef WIN32
   /* win32 >= mswindows95 */
@@ -528,7 +528,7 @@ FL_FreeLocale(FL_Locale **locale) {
         free((void*)l->variant);
       }
       free(l);
-      *locale = NULL;
+      *locale = nullptr;
     }
   }
 }

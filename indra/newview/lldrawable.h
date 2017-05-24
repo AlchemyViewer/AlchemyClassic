@@ -62,8 +62,8 @@ class LLDrawable
 {
 public:
 	LLDrawable(const LLDrawable& rhs) 
-	:	LLTrace::MemTrackable<LLDrawable, 16>("LLDrawable"),
-		LLViewerOctreeEntryData(rhs)
+	:	LLViewerOctreeEntryData(rhs),
+		LLTrace::MemTrackable<LLDrawable, 16>("LLDrawable")
 	{
 		*this = rhs;
 	}
@@ -84,7 +84,7 @@ public:
 
 	BOOL isLight() const;
 
-	virtual void setVisible(LLCamera& camera_in, std::vector<LLDrawable*>* results = NULL, BOOL for_select = FALSE);
+	virtual void setVisible(LLCamera& camera_in, std::vector<LLDrawable*>* results = nullptr, BOOL for_select = FALSE);
 
 	LLSpatialGroup* getSpatialGroup()const          {return (LLSpatialGroup*)getGroup();}
 	LLViewerRegion* getRegion()               const { return mVObjp->getRegion(); }
@@ -118,7 +118,7 @@ public:
 	BOOL				isRoot() const				{ return !mParent || mParent->isAvatar(); }
 	BOOL				isSpatialRoot() const		{ return !mParent || mParent->isAvatar(); }
 	virtual BOOL		isSpatialBridge() const		{ return FALSE; }
-	virtual LLSpatialPartition* asPartition()		{ return NULL; }
+	virtual LLSpatialPartition* asPartition()		{ return nullptr; }
 	LLDrawable*			getParent() const			{ return mParent; }
 	
 	// must set parent through LLViewerObject::		()
@@ -168,12 +168,12 @@ public:
 	BOOL getLit() const							{ return isState(UNLIT) ? FALSE : TRUE; }
 	void setLit(BOOL lit)						{ lit ? clearState(UNLIT) : setState(UNLIT); }
 
-	bool isVisible() const;
-	bool isRecentlyVisible() const;
+	bool isVisible() const override;
+	bool isRecentlyVisible() const override;
 
 	virtual void cleanupReferences();
 
-	void setGroup(LLViewerOctreeGroup* group);
+	void setGroup(LLViewerOctreeGroup* group) override;
 	void setRadius(const F32 radius);
 	F32 getRadius() const						{ return mRadius; }
 	F32 getVisibilityRadius() const;
@@ -319,13 +319,13 @@ inline LLFace* LLDrawable::getFace(const S32 i) const
 	if ((U32) i >= mFaces.size())
 	{
 		LL_WARNS() << "Invalid face index." << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 
 	if (!mFaces[i])
 	{
 		LL_WARNS() << "Null face found." << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	
 	return mFaces[i];

@@ -144,7 +144,7 @@ public:
 	LLPhysicsDecomp();
 	~LLPhysicsDecomp();
 
-	void shutdown();
+	void shutdown() override;
 		
 	void submitRequest(Request* request);
 	static S32 llcdCallback(const char*, S32, S32);
@@ -154,7 +154,7 @@ public:
 	void doDecomposition();
 	void doDecompositionSingleHull();
 
-	virtual void run();
+	void run() override;
 	
 	void completeCurrent();
 	void notifyCompleted();
@@ -295,7 +295,7 @@ public:
 	LLMeshRepoThread();
 	~LLMeshRepoThread();
 
-	virtual void run();
+	void run() override;
 
 	void lockAndLoadMeshLOD(const LLVolumeParams& mesh_params, S32 lod);
 	void loadMeshLOD(const LLVolumeParams& mesh_params, S32 lod);
@@ -379,8 +379,8 @@ public:
 
 		DecompRequest(LLModel* mdl, LLModel* base_model, LLMeshUploadThread* thread);
 
-		S32 statusCallback(const char* status, S32 p1, S32 p2) { return 1; }
-		void completed();
+		S32 statusCallback(const char* status, S32 p1, S32 p2) override { return 1; }
+		void completed() override;
 	};
 
 	LLPointer<DecompRequest> mFinalDecomp;
@@ -417,7 +417,7 @@ public:
 	~LLMeshUploadThread();
 
 	bool finished() const { return mFinished; }
-	virtual void run();
+	void run() override;
 	void preStart();
 	void discard() ;
 	bool isDiscarded() const;
@@ -438,7 +438,7 @@ public:
 	void setUploadObserverHandle(LLHandle<LLWholeModelUploadObserver> observer_handle) { mUploadObserverHandle = observer_handle; }
 
 	// Inherited from LLCore::HttpHandler
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+	void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
         LLViewerFetchedTexture* FindViewerTexture(const LLImportMaterial& material);
 
@@ -479,8 +479,8 @@ public:
 	
 	static LLDeadmanTimer sQuiescentTimer;		// Time-to-complete-mesh-downloads after significant events
 
-	F32 getStreamingCost(LLUUID mesh_id, F32 radius, S32* bytes = NULL, S32* visible_bytes = NULL, S32 detail = -1, F32 *unscaled_value = NULL);
-	static F32 getStreamingCost(LLSD& header, F32 radius, S32* bytes = NULL, S32* visible_bytes = NULL, S32 detail = -1, F32 *unscaled_value = NULL);
+	F32 getStreamingCost(LLUUID mesh_id, F32 radius, S32* bytes = nullptr, S32* visible_bytes = nullptr, S32 detail = -1, F32 *unscaled_value = nullptr);
+	static F32 getStreamingCost(LLSD& header, F32 radius, S32* bytes = nullptr, S32* visible_bytes = nullptr, S32 detail = -1, F32 *unscaled_value = nullptr);
 
 	LLMeshRepository();
 

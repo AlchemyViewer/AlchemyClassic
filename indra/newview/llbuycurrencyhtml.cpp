@@ -45,7 +45,7 @@ public:
 	// requests will be throttled from a non-trusted browser
 	LLBuyCurrencyHTMLHandler() : LLCommandHandler( "buycurrencyhtml", UNTRUSTED_ALLOW ) {}
 
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		std::string action( "" );
 		if ( params.size() >= 1 )

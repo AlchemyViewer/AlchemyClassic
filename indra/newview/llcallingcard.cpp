@@ -664,7 +664,7 @@ void LLAvatarTracker::processNotify(LLMessageSystem* msg, bool online)
 	if(count > 0)
 	{
 		LLUUID agent_id;
-		const LLRelationship* info = NULL;
+		const LLRelationship* info = nullptr;
 		LLUUID tracking_id;
 		if(mTrackingData)
 		{

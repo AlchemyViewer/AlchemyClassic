@@ -96,7 +96,7 @@ const std::string& LLTextUtil::formatPhoneNumber(const std::string& phone_str)
 
 bool LLTextUtil::processUrlMatch(LLUrlMatch* match,LLTextBase* text_base, bool is_content_trusted)
 {
-	if (match == 0 || text_base == 0)
+	if (match == nullptr || text_base == nullptr)
 		return false;
 
 	if(match->getID() != LLUUID::null && TextHelpers::iconCallbackCreationFunction)

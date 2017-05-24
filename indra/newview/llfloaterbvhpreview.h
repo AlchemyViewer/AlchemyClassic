@@ -45,9 +45,9 @@ protected:
 public:
 	LLPreviewAnimation(S32 width, S32 height);	
 
-	/*virtual*/ S8 getType() const ;
+	/*virtual*/ S8 getType() const override;
 
-	BOOL	render();
+	BOOL	render() override;
 	void	requestUpdate();
 	void	rotate(F32 yaw_radians, F32 pitch_radians);
 	void	zoom(F32 zoom_delta);
@@ -74,15 +74,15 @@ public:
 	LLFloaterBvhPreview(const std::string& filename);
 	virtual ~LLFloaterBvhPreview();
 	
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	BOOL handleHover(S32 x, S32 y, MASK mask);
-	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks); 
-	void onMouseCaptureLost();
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks) override; 
+	void onMouseCaptureLost() override;
 
-	void refresh();
+	void refresh() override;
 
 	void onBtnPlay();
 	void onBtnPause();	
@@ -113,7 +113,7 @@ private:
 
 
 protected:
-	void			draw();
+	void			draw() override;
 	void			resetMotion();
 
 	LLPointer< LLPreviewAnimation > mAnimPreview;

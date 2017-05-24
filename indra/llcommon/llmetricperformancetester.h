@@ -181,7 +181,7 @@ public:
 	 * This will be loading the base and current sessions and compare them using the virtual 
 	 * abstract methods loadTestSession() and compareTestSessions()
 	 */
-	virtual void analyzePerformance(llofstream* os, LLSD* base, LLSD* current) ;
+	void analyzePerformance(llofstream* os, LLSD* base, LLSD* current) override;
 
 protected:
 	/**

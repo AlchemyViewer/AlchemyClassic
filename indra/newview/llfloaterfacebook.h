@@ -42,8 +42,8 @@ class LLFacebookStatusPanel : public LLPanel
 {
 public:
     LLFacebookStatusPanel();
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
     void onSend();
 	bool onFacebookConnectStateChange(const LLSD& data);
 	bool onFacebookConnectAccountStateChange(const LLSD& data);
@@ -52,7 +52,7 @@ public:
 	void clearAndClose();
 
 private:
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 	bool onFacebookConnectInfoChange();
 	void onConnect();
 	void onUseAnotherAccount();
@@ -79,15 +79,15 @@ public:
 	LLFacebookPhotoPanel();
 	~LLFacebookPhotoPanel();
 
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
 
 	LLSnapshotLivePreview* getPreviewView();
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
     void onClickBigPreview();
 	void onClickNewSnapshot();
 	void onSend();
-	S32 notify(const LLSD& info);
+	S32 notify(const LLSD& info) override;
 	bool onFacebookConnectStateChange(const LLSD& data);
 
 	void sendPhoto();
@@ -123,8 +123,8 @@ class LLFacebookCheckinPanel : public LLPanel
 {
 public:
     LLFacebookCheckinPanel();
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
     void onSend();
 	bool onFacebookConnectStateChange(const LLSD& data);
 
@@ -149,8 +149,8 @@ class LLFacebookFriendsPanel : public LLPanel, public LLFriendObserver
 public:
 	LLFacebookFriendsPanel();
 	~LLFacebookFriendsPanel();
-	BOOL postBuild();
-	virtual void changed(U32 mask);
+	BOOL postBuild() override;
+	void changed(U32 mask) override;
 
 private:
 	bool updateSuggestedFriendList();
@@ -167,9 +167,9 @@ class LLFloaterFacebook : public LLFloater
 {
 public:
 	LLFloaterFacebook(const LLSD& key);
-	BOOL postBuild();
-	void draw();
-	void onClose(bool app_quitting);
+	BOOL postBuild() override;
+	void draw() override;
+	void onClose(bool app_quitting) override;
 	void onCancel();
 	
 	void showPhotoPanel();

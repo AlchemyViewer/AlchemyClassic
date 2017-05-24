@@ -318,7 +318,7 @@ LLSD gDebugInfo;
 
 U32	gFrameCount = 0;
 U32 gForegroundFrameCount = 0; // number of frames that app window was in foreground
-LLPumpIO* gServicePump = NULL;
+LLPumpIO* gServicePump = nullptr;
 
 U64MicrosecondsImplicit gFrameTime = 0;
 F32SecondsImplicit gFrameTimeSeconds = 0.f;
@@ -348,7 +348,7 @@ BOOL			gRestoreGL = FALSE;
 BOOL			gUseWireframe = FALSE;
 
 // VFS globals - see llappviewer.h
-LLVFS* gStaticVFS = NULL;
+LLVFS* gStaticVFS = nullptr;
 
 LLMemoryInfo gSysMemory;
 U64Bytes gMemoryAllocated(0); // updated in display_stats() in llviewerdisplay.cpp
@@ -486,7 +486,7 @@ struct SettingsFiles : public LLInitParam::Block<SettingsFiles>
 
 static std::string gWindowTitle;
 
-LLAppViewer::LLUpdaterInfo *LLAppViewer::sUpdaterInfo = NULL ;
+LLAppViewer::LLUpdaterInfo *LLAppViewer::sUpdaterInfo = nullptr ;
 
 //----------------------------------------------------------------------------
 // Metrics logging control constants
@@ -653,7 +653,7 @@ public:
 		mFile = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, file_name);
 	}
 
-	void run()
+	void run() override
 	{
 		llofstream os(mFile.c_str());
 		
@@ -687,10 +687,10 @@ bool LLAppViewer::sendURLToOtherInstance(const std::string& url)
 
 // Static members.
 // The single viewer app.
-LLAppViewer* LLAppViewer::sInstance = NULL;
-LLTextureCache* LLAppViewer::sTextureCache = NULL; 
-LLImageDecodeThread* LLAppViewer::sImageDecodeThread = NULL; 
-LLTextureFetch* LLAppViewer::sTextureFetch = NULL; 
+LLAppViewer* LLAppViewer::sInstance = nullptr;
+LLTextureCache* LLAppViewer::sTextureCache = nullptr; 
+LLImageDecodeThread* LLAppViewer::sImageDecodeThread = nullptr; 
+LLTextureFetch* LLAppViewer::sTextureFetch = nullptr; 
 
 std::string getRuntime()
 {
@@ -698,30 +698,30 @@ std::string getRuntime()
 }
 
 LLAppViewer::LLAppViewer() 
-:	mMarkerFile(),
+:	mRandomizeFramerate(LLCachedControl<bool>(gSavedSettings,"Randomize Framerate", false)),
+	mPeriodicSlowFrame(LLCachedControl<bool>(gSavedSettings,"Periodic Slow Frame", false)),
+	mSecondInstance(false),
+	mMarkerFile(),
 	mLogoutMarkerFile(),
 	mReportedCrash(false),
 	mNumSessions(0),
 	mPurgeCache(false),
-	mPurgeOnExit(false),
-	mSecondInstance(false),
+	mPurgeOnExit(false),		// don't save settings on logout unless login succeeded.
 	mSavedFinalSnapshot(false),
-	mSavePerAccountSettings(false),		// don't save settings on logout unless login succeeded.
+	mSavePerAccountSettings(false),
 	mQuitRequested(false),
 	mLogoutRequestSent(false),
 	mYieldTime(-1),
 	mLastAgentControlFlags(0),
 	mLastAgentForceUpdate(0),
-	mMainloopTimeout(NULL),
+	mSettingsLocationList(nullptr),
+	mMainloopTimeout(nullptr),
+	mFastTimerLogThread(nullptr),
 	mAgentRegionLastAlive(false),
-	mRandomizeFramerate(LLCachedControl<bool>(gSavedSettings,"Randomize Framerate", false)),
-	mPeriodicSlowFrame(LLCachedControl<bool>(gSavedSettings,"Periodic Slow Frame", false)),
-	mFastTimerLogThread(NULL),
 	mUpdater(new LLUpdaterService()),
-	mSettingsLocationList(NULL),
 	mIsFirstRun(false)
 {
-	if(NULL != sInstance)
+	if(nullptr != sInstance)
 	{
 		LL_ERRS() << "Oh no! An instance of LLAppViewer already exists! LLAppViewer is sort of like a singleton." << LL_ENDL;
 	}
@@ -756,7 +756,7 @@ LLAppViewer::~LLAppViewer()
 	delete mSettingsLocationList;
 	LLViewerEventRecorder::deleteSingleton();
 
-	LLLoginInstance::instance().setUpdaterService(0);
+	LLLoginInstance::instance().setUpdaterService(nullptr);
 	
 	destroyMainloopTimeout();
     
@@ -767,7 +767,7 @@ LLAppViewer::~LLAppViewer()
 class LLUITranslationBridge : public LLTranslationBridge
 {
 public:
-	virtual std::string getString(const std::string &xml_desc)
+	std::string getString(const std::string &xml_desc) override
 	{
 		return LLTrans::getString(xml_desc);
 	}
@@ -1676,7 +1676,7 @@ void LLAppViewer::flushVFSIO()
 bool LLAppViewer::cleanup()
 {
 	//ditch LLVOAvatarSelf instance
-	gAgentAvatarp = NULL;
+	gAgentAvatarp = nullptr;
 
     LLNotifications::instance().clear();
 
@@ -1736,7 +1736,7 @@ bool LLAppViewer::cleanup()
 
 	release_start_screen(); // just in case
 
-	LLError::logToFixedBuffer(NULL);
+	LLError::logToFixedBuffer(nullptr);
 
 	LL_INFOS() << "Cleaning Up" << LL_ENDL;
 
@@ -1774,7 +1774,7 @@ bool LLAppViewer::cleanup()
 	}
 
 	delete gAssetStorage;
-	gAssetStorage = NULL;
+	gAssetStorage = nullptr;
 
 	LLPolyMesh::freeAllMeshes();
 
@@ -1794,7 +1794,7 @@ bool LLAppViewer::cleanup()
         gAudiop->shutdown();
 
 		delete gAudiop;
-		gAudiop = NULL;
+		gAudiop = nullptr;
 	}
 
 	// Note: this is where LLFeatureManager::getInstance()-> used to be deleted.
@@ -1848,7 +1848,7 @@ bool LLAppViewer::cleanup()
 		// This may generate window reshape and activation events.
 		// Therefore must do this before destroying the message system.
 		delete gViewerWindow;
-		gViewerWindow = NULL;
+		gViewerWindow = nullptr;
 		LL_INFOS() << "ViewerWindow deleted" << LL_ENDL;
 	}
 
@@ -1856,7 +1856,7 @@ bool LLAppViewer::cleanup()
 	
 	// viewer UI relies on keyboard so keep it aound until viewer UI isa gone
 	delete gKeyboard;
-	gKeyboard = NULL;
+	gKeyboard = nullptr;
 
 	// Turn off Space Navigator and similar devices
 	LLViewerJoystick::getInstance()->terminate();
@@ -2015,13 +2015,13 @@ bool LLAppViewer::cleanup()
 
 	//MUST happen AFTER LLCurl::cleanupClass
 	delete sTextureCache;
-    sTextureCache = NULL;
+    sTextureCache = nullptr;
 	delete sTextureFetch;
-    sTextureFetch = NULL;
+    sTextureFetch = nullptr;
 	delete sImageDecodeThread;
-    sImageDecodeThread = NULL;
+    sImageDecodeThread = nullptr;
 	delete mFastTimerLogThread;
-	mFastTimerLogThread = NULL;
+	mFastTimerLogThread = nullptr;
 
 	cleanupSecHandler();
 
@@ -2069,9 +2069,9 @@ bool LLAppViewer::cleanup()
 	// For safety, the LLVFS has to be deleted *after* LLVFSThread. This should be cleaned up.
 	// (LLVFS doesn't know about LLVFSThread so can't kill pending requests) -Steve
 	delete gStaticVFS;
-	gStaticVFS = NULL;
+	gStaticVFS = nullptr;
 	delete gVFS;
-	gVFS = NULL;
+	gVFS = nullptr;
 	
 	gSavedSettings.cleanup();
 	LLUIColorTable::instance().clear();
@@ -2087,7 +2087,7 @@ bool LLAppViewer::cleanup()
 		LL_INFOS() << "Launch file on quit." << LL_ENDL;
 #if LL_WINDOWS
 		// Indicate an application is starting.
-		SetCursor(LoadCursor(NULL, IDC_WAIT));
+		SetCursor(LoadCursor(nullptr, IDC_WAIT));
 #endif
 
 		// HACK: Attempt to wait until the screen res. switch is complete.
@@ -2150,7 +2150,7 @@ void watchdog_llerrs_callback(const std::string &error_string)
 	gLLErrorActivated = true;
 
 #ifdef LL_WINDOWS
-	RaiseException(0,0,0,0);
+	RaiseException(0,0,0,nullptr);
 #else
 	raise(SIGQUIT);
 #endif
@@ -2414,7 +2414,7 @@ bool LLAppViewer::initConfiguration()
 	//Load settings files list
 	std::string settings_file_list = gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, "settings_files.xml");
 	LLXMLNodePtr root;
-	BOOL success  = LLXMLNode::parseFile(settings_file_list, root, NULL);
+	BOOL success  = LLXMLNode::parseFile(settings_file_list, root, nullptr);
 	if (!success)
 	{
         LL_ERRS() << "Cannot load default configuration file " << settings_file_list << LL_ENDL;
@@ -2607,7 +2607,7 @@ bool LLAppViewer::initConfiguration()
                 const std::string& value = *(++itr);
                 std::string name_part;
                 std::string group_part;
-				LLControlVariable* control = NULL;
+				LLControlVariable* control = nullptr;
 
 				// Name can be further split into ControlGroup.Name, with the default control group being Global
 				size_t pos = name.find('.');
@@ -2968,7 +2968,7 @@ namespace {
 	void on_update_downloaded(LLSD const & data)
 	{
 		std::string notification_name;
-		void (*apply_callback)(LLSD const &, LLSD const &) = NULL;
+		void (*apply_callback)(LLSD const &, LLSD const &) = nullptr;
 
 		/* Build up the notification name...
 		 * it can be any of these, which are included here for the sake of grep:
@@ -3536,7 +3536,7 @@ std::string LLAppViewer::getViewerInfoString() const
 
 	// SLT timestamp
 	LLSD substitution;
-	substitution["datetime"] = (S32)time(NULL);//(S32)time_corrected();
+	substitution["datetime"] = (S32)time(nullptr);//(S32)time_corrected();
 	support << "\n" << LLTrans::getString("AboutTime", substitution);
 
 	return support.str();
@@ -3559,7 +3559,7 @@ void LLAppViewer::cleanupSavedSettings()
 
 	// save window position if not maximized
 	// as we don't track it in callbacks
-	if(NULL != gViewerWindow)
+	if(nullptr != gViewerWindow)
 	{
 		BOOL maximized = gViewerWindow->getWindow()->getMaximized();
 		if (!maximized)
@@ -3923,7 +3923,7 @@ void LLAppViewer::processMarkerFiles()
 	bool marker_is_same_version = true;
 	// first, look for the marker created at startup and deleted on a clean exit
 	mMarkerFileName = gDirUtilp->getExpandedFilename(LL_PATH_LOGS,MARKER_FILE_NAME);
-	if (LLAPRFile::isExist(mMarkerFileName, NULL, LL_APR_RB))
+	if (LLAPRFile::isExist(mMarkerFileName, nullptr, LL_APR_RB))
 	{
 		// File exists...
 		// first, read it to see if it was created by the same version (we need this later)
@@ -4000,7 +4000,7 @@ void LLAppViewer::processMarkerFiles()
 	// check for any last exec event report based on whether or not it happened during logout
 	// (the logout marker is created when logout begins)
 	std::string logout_marker_file =  gDirUtilp->getExpandedFilename(LL_PATH_LOGS, LOGOUT_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(logout_marker_file, NULL, LL_APR_RB))
+	if(LLAPRFile::isExist(logout_marker_file, nullptr, LL_APR_RB))
 	{
 		if (markerIsSameVersion(logout_marker_file))
 		{
@@ -4015,7 +4015,7 @@ void LLAppViewer::processMarkerFiles()
 	}
 	// further refine based on whether or not a marker created during an llerr crash is found
 	std::string llerror_marker_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, LLERROR_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(llerror_marker_file, NULL, LL_APR_RB))
+	if(LLAPRFile::isExist(llerror_marker_file, nullptr, LL_APR_RB))
 	{
 		if (markerIsSameVersion(llerror_marker_file))
 		{
@@ -4038,7 +4038,7 @@ void LLAppViewer::processMarkerFiles()
 	}
 	// and last refine based on whether or not a marker created during a non-llerr crash is found
 	std::string error_marker_file = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, ERROR_MARKER_FILE_NAME);
-	if(LLAPRFile::isExist(error_marker_file, NULL, LL_APR_RB))
+	if(LLAPRFile::isExist(error_marker_file, nullptr, LL_APR_RB))
 	{
 		if (markerIsSameVersion(error_marker_file))
 		{
@@ -4458,7 +4458,7 @@ bool LLAppViewer::initCache()
 	
 	// This has to happen BEFORE starting the vfs
 	// time_t	ltime;
-	srand(time(NULL));		// Flawfinder: ignore
+	srand(time(nullptr));		// Flawfinder: ignore
 	U32 old_salt = gSavedSettings.getU32("VFSSalt");
 	U32 new_salt;
 	std::string old_vfs_data_file;
@@ -5627,7 +5627,7 @@ void LLAppViewer::forceErrorBreakpoint()
 void LLAppViewer::forceErrorBadMemoryAccess()
 {
    	LL_WARNS() << "Forcing a deliberate bad memory access" << LL_ENDL;
-    S32* crash = NULL;
+    S32* crash = nullptr;
     *crash = 0xDEADBEEF;  
     return;
 }
@@ -5651,7 +5651,7 @@ void LLAppViewer::forceErrorSoftwareException()
 void LLAppViewer::forceErrorDriverCrash()
 {
    	LL_WARNS() << "Forcing a deliberate driver crash" << LL_ENDL;
-	glDeleteTextures(1, NULL);
+	glDeleteTextures(1, nullptr);
 }
 
 void LLAppViewer::initMainloopTimeout(const std::string& state, F32 secs)
@@ -5668,7 +5668,7 @@ void LLAppViewer::destroyMainloopTimeout()
 	if(mMainloopTimeout)
 	{
 		delete mMainloopTimeout;
-		mMainloopTimeout = NULL;
+		mMainloopTimeout = nullptr;
 	}
 }
 
@@ -5797,7 +5797,7 @@ void LLAppViewer::launchUpdater()
 	if (LLAppViewer::sUpdaterInfo->mUpdateExePath.empty())
 	{
 		delete LLAppViewer::sUpdaterInfo ;
-		LLAppViewer::sUpdaterInfo = NULL ;
+		LLAppViewer::sUpdaterInfo = nullptr ;
 
 		// We're hosed, bail
 		LL_WARNS("AppInit") << "LLDir::getTempFilename() failed" << LL_ENDL;
@@ -5818,7 +5818,7 @@ void LLAppViewer::launchUpdater()
 	if (!CopyFileW(utf8str_to_utf16str(updater_source).c_str(), utf8str_to_utf16str(LLAppViewer::sUpdaterInfo->mUpdateExePath).c_str(), FALSE))
 	{
 		delete LLAppViewer::sUpdaterInfo ;
-		LLAppViewer::sUpdaterInfo = NULL ;
+		LLAppViewer::sUpdaterInfo = nullptr ;
 
 		LL_WARNS("AppInit") << "Unable to copy the updater!" << LL_ENDL;
 
@@ -5966,7 +5966,7 @@ void LLAppViewer::metricsSend(bool enable_reporting)
 														   gAgentSessionID,
 														   gAgentID,
 														   main_stats);
-			main_stats = 0;		// Ownership transferred
+			main_stats = nullptr;		// Ownership transferred
 		}
 		else
 		{

@@ -31,12 +31,12 @@
 #include "lleditmenuhandler.h"
 
 /* static */
-LLEditMenuHandler* LLEditMenuHandler::gEditMenuHandler = NULL;
+LLEditMenuHandler* LLEditMenuHandler::gEditMenuHandler = nullptr;
 
 LLEditMenuHandler::~LLEditMenuHandler()
 {
 	if (gEditMenuHandler == this)
 	{
-		gEditMenuHandler = NULL;
+		gEditMenuHandler = nullptr;
 	}
 }

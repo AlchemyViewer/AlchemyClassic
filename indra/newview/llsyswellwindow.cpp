@@ -40,12 +40,12 @@
 #include "llviewercontrol.h"
 
 //---------------------------------------------------------------------------------
-LLSysWellWindow::LLSysWellWindow(const LLSD& key) : LLTransientDockableFloater(NULL, true,  key),
-													mChannel(NULL),
-													mMessageList(NULL),
-													mSysWellChiclet(NULL),
+LLSysWellWindow::LLSysWellWindow(const LLSD& key) : LLTransientDockableFloater(nullptr, true,  key),
 													NOTIFICATION_WELL_ANCHOR_NAME("notification_well_panel"),
 													IM_WELL_ANCHOR_NAME("im_well_panel"),
+													mChannel(nullptr),
+													mMessageList(nullptr),
+													mSysWellChiclet(nullptr),
 													mIsReshapedByUser(false)
 
 {
@@ -86,7 +86,7 @@ void LLSysWellWindow::onStartUpToastClick(S32 x, S32 y, MASK mask)
 void LLSysWellWindow::setSysWellChiclet(LLSysWellChiclet* chiclet) 
 { 
 	mSysWellChiclet = chiclet;
-	if(NULL != mSysWellChiclet)
+	if(nullptr != mSysWellChiclet)
 	{
 		mSysWellChiclet->updateWidget(isWindowEmpty());
 	}
@@ -102,7 +102,7 @@ void LLSysWellWindow::removeItemByID(const LLUUID& id)
 {
 	if(mMessageList->removeItemByValue(id))
 	{
-		if (NULL != mSysWellChiclet)
+		if (nullptr != mSysWellChiclet)
 		{
 			mSysWellChiclet->updateWidget(isWindowEmpty());
 		}
@@ -133,7 +133,7 @@ void LLSysWellWindow::initChannel()
 	LLNotificationsUI::LLScreenChannelBase* channel = LLNotificationsUI::LLChannelManager::getInstance()->findChannelByID(
 																LLUUID(gSavedSettings.getString("NotificationChannelUUID")));
 	mChannel = dynamic_cast<LLNotificationsUI::LLScreenChannel*>(channel);
-	if(NULL == mChannel)
+	if(nullptr == mChannel)
 	{
 		LL_WARNS() << "LLSysWellWindow::initChannel() - could not get a requested screen channel" << LL_ENDL;
 	}
@@ -144,7 +144,7 @@ void LLSysWellWindow::setVisible(BOOL visible)
 {
 	if (visible)
 	{
-		if (NULL == getDockControl() && getDockTongue().notNull())
+		if (nullptr == getDockControl() && getDockTongue().notNull())
 		{
 			setDockControl(new LLDockControl(
 				LLChicletBar::getInstance()->getChild<LLView>(getAnchorViewName()), this,
@@ -153,7 +153,7 @@ void LLSysWellWindow::setVisible(BOOL visible)
 	}
 
 	// do not show empty window
-	if (NULL == mMessageList || isWindowEmpty()) visible = FALSE;
+	if (nullptr == mMessageList || isWindowEmpty()) visible = FALSE;
 
 	LLTransientDockableFloater::setVisible(visible);
 
@@ -225,7 +225,7 @@ bool LLSysWellWindow::isWindowEmpty()
 
 LLIMWellWindow::ObjectRowPanel::ObjectRowPanel(const LLUUID& notification_id, bool new_message/* = false*/)
  : LLPanel()
- , mChiclet(NULL)
+ , mChiclet(nullptr)
 {
 	buildFromFile( "panel_active_object_row.xml");
 
@@ -338,11 +338,11 @@ BOOL LLIMWellWindow::postBuild()
 
 LLChiclet* LLIMWellWindow::findObjectChiclet(const LLUUID& notification_id)
 {
-	if (!mMessageList) return NULL;
+	if (!mMessageList) return nullptr;
 
-	LLChiclet* res = NULL;
+	LLChiclet* res = nullptr;
 	ObjectRowPanel* panel = mMessageList->getTypedItemByValue<ObjectRowPanel>(notification_id);
-	if (panel != NULL)
+	if (panel != nullptr)
 	{
 		res = panel->mChiclet;
 	}
@@ -355,7 +355,7 @@ LLChiclet* LLIMWellWindow::findObjectChiclet(const LLUUID& notification_id)
 
 void LLIMWellWindow::addObjectRow(const LLUUID& notification_id, bool new_message/* = false*/)
 {
-	if (mMessageList->getItemByValue(notification_id) == NULL)
+	if (mMessageList->getItemByValue(notification_id) == nullptr)
 	{
 		ObjectRowPanel* item = new ObjectRowPanel(notification_id, new_message);
 		if (!mMessageList->addItem(item, notification_id))

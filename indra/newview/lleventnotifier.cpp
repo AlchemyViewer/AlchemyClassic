@@ -45,7 +45,7 @@ public:
 	// requires trusted browser to trigger
 	LLEventHandler() : LLCommandHandler("event", UNTRUSTED_THROTTLE) { }
 	bool handle(const LLSD& params, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		if (params.size() < 2)
 		{

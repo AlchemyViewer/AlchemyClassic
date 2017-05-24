@@ -35,7 +35,7 @@ class LLViewerParcelMediaAutoPlay : LLEventTimer
 {
  public:
 	LLViewerParcelMediaAutoPlay();
-	virtual BOOL tick();
+	BOOL tick() override;
 	static void initClass();
 	static void cleanupClass();
 	static void playStarted();

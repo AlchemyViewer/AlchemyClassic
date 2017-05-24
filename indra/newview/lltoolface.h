@@ -39,11 +39,11 @@ class LLToolFace
 	virtual ~LLToolFace();
 public:
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	virtual void	handleSelect();
-	virtual void	handleDeselect();
-	virtual void	render();			// draw face highlights
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	void	handleSelect() override;
+	void	handleDeselect() override;
+	void	render() override;			// draw face highlights
 
 	static void pickCallback(const LLPickInfo& pick_info);
 };

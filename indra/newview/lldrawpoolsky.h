@@ -45,20 +45,20 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0
 	};
 
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolSky();
 
-	/*virtual*/ LLDrawPool *instancePool();
+	/*virtual*/ LLDrawPool *instancePool() override;
 
-	/*virtual*/ S32 getNumPostDeferredPasses() { return getNumPasses(); }
-	/*virtual*/ void beginPostDeferredPass(S32 pass) { beginRenderPass(pass); }
-	/*virtual*/ void endPostDeferredPass(S32 pass) { endRenderPass(pass); }
-	/*virtual*/ void renderPostDeferred(S32 pass) { render(pass); }
+	/*virtual*/ S32 getNumPostDeferredPasses() override { return getNumPasses(); }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override { beginRenderPass(pass); }
+	/*virtual*/ void endPostDeferredPass(S32 pass) override { endRenderPass(pass); }
+	/*virtual*/ void renderPostDeferred(S32 pass) override { render(pass); }
 
-	/*virtual*/ void prerender();
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void endRenderPass(S32 pass);
+	/*virtual*/ void prerender() override;
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
 	void setSkyTex(LLSkyTex* const st) { mSkyTex = st; }
 
 	void renderSkyCubeFace(U8 side);

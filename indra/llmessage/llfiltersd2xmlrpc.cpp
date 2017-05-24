@@ -606,11 +606,11 @@ LLIOPipe::EStatus LLFilterXMLRPCResponse2LLSD::process_impl(
 	// *FIX: This technique for reading data is far from optimal. We
 	// need to have some kind of istream interface into the xml
 	// parser...
-	S32 bytes = buffer->countAfter(channels.in(), NULL);
+	S32 bytes = buffer->countAfter(channels.in(), nullptr);
 	if(!bytes) return STATUS_ERROR;
 	char* buf = new char[bytes + 1];
 	buf[bytes] = '\0';
-	buffer->readAfter(channels.in(), NULL, (U8*)buf, bytes);
+	buffer->readAfter(channels.in(), nullptr, (U8*)buf, bytes);
 
 	//LL_DEBUGS() << "xmlrpc response: " << buf << LL_ENDL;
 
@@ -618,7 +618,7 @@ LLIOPipe::EStatus LLFilterXMLRPCResponse2LLSD::process_impl(
 	XMLRPC_REQUEST response = XMLRPC_REQUEST_FromXML(
 		buf,
 		bytes,
-		NULL);
+		nullptr);
 	if(!response)
 	{
 		LL_WARNS() << "XML -> SD Response unable to parse xml." << LL_ENDL;
@@ -690,11 +690,11 @@ LLIOPipe::EStatus LLFilterXMLRPCRequest2LLSD::process_impl(
 	// *FIX: This technique for reading data is far from optimal. We
 	// need to have some kind of istream interface into the xml
 	// parser...
-	S32 bytes = buffer->countAfter(channels.in(), NULL);
+	S32 bytes = buffer->countAfter(channels.in(), nullptr);
 	if(!bytes) return STATUS_ERROR;
 	char* buf = new char[bytes + 1];
 	buf[bytes] = '\0';
-	buffer->readAfter(channels.in(), NULL, (U8*)buf, bytes);
+	buffer->readAfter(channels.in(), nullptr, (U8*)buf, bytes);
 
 	//LL_DEBUGS() << "xmlrpc request: " << buf << LL_ENDL;
 	
@@ -720,7 +720,7 @@ LLIOPipe::EStatus LLFilterXMLRPCRequest2LLSD::process_impl(
 	XMLRPC_REQUEST request = XMLRPC_REQUEST_FromXML(
 		buf,
 		bytes,
-		NULL);
+		nullptr);
 	if(!request)
 	{
 		LL_WARNS() << "XML -> SD Request process parse error." << LL_ENDL;

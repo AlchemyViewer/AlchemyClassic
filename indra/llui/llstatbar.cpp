@@ -159,10 +159,10 @@ LLStatBar::Params::Params()
 	bar_min("bar_min", 0.f),
 	bar_max("bar_max", 0.f),
 	tick_spacing("tick_spacing", 0.f),
-	decimal_digits("decimal_digits", 3),
 	show_bar("show_bar", false),
 	show_history("show_history", false),
 	scale_range("scale_range", true),
+	decimal_digits("decimal_digits", 3),
 	num_frames("num_frames", 200),
 	num_frames_short("num_frames_short", 20),
 	max_height("max_height", 100),
@@ -176,29 +176,29 @@ LLStatBar::Params::Params()
 
 LLStatBar::LLStatBar(const Params& p)
 :	LLView(p),
-	mLabel(p.label),
-	mUnitLabel(p.unit_label),
 	mTargetMinBar(llmin(p.bar_min, p.bar_max)),
 	mTargetMaxBar(llmax(p.bar_max, p.bar_min)),
 	mCurMaxBar(p.bar_max),
-    mCurMinBar(0),
-	mDecimalDigits(p.decimal_digits),
+	mCurMinBar(0),
+	mTickSpacing(p.tick_spacing),
+    mDecimalDigits(p.decimal_digits),
 	mNumHistoryFrames(p.num_frames),
 	mNumShortHistoryFrames(p.num_frames_short),
 	mMaxHeight(p.max_height),
+	mOrientation(p.orientation),
+	mLastDisplayValue(0.f),
+	mStatType(STAT_NONE),
+	mLabel(p.label),
+	mUnitLabel(p.unit_label),
 	mDisplayBar(p.show_bar),
 	mDisplayHistory(p.show_history),
-	mOrientation(p.orientation),
 	mAutoScaleMax(!p.bar_max.isProvided()),
-	mAutoScaleMin(!p.bar_min.isProvided()),
-	mTickSpacing(p.tick_spacing),
-	mLastDisplayValue(0.f),
-	mStatType(STAT_NONE)
+	mAutoScaleMin(!p.bar_min.isProvided())
 {
 	mFloatingTargetMinBar = mTargetMinBar;
 	mFloatingTargetMaxBar = mTargetMaxBar;
 
-	mStat.valid = NULL;
+	mStat.valid = nullptr;
 	// tick value will be automatically calculated later
 	if (!p.tick_spacing.isProvided() && p.bar_min.isProvided() && p.bar_max.isProvided())
 	{

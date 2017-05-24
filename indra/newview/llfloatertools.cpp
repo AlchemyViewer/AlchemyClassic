@@ -95,7 +95,7 @@
 #include "qtoolalign.h" // <alchemy/>
 
 // Globals
-LLFloaterTools *gFloaterTools = NULL;
+LLFloaterTools *gFloaterTools = nullptr;
 bool LLFloaterTools::sShowObjectCost = true;
 bool LLFloaterTools::sPreviousFocusOnAvatar = false;
 
@@ -133,7 +133,7 @@ void commit_slider_zoom(LLUICtrl *ctrl);
 class LLLandImpactsObserver : public LLParcelObserver
 {
 public:
-	virtual void changed()
+	void changed() override
 	{
 		LLFloaterTools* tools_floater = LLFloaterReg::getTypedInstance<LLFloaterTools>("build");
 		if(tools_floater)
@@ -329,72 +329,72 @@ BOOL	LLFloaterTools::postBuild()
 // during LLViewerWindow's per-frame hover processing.
 LLFloaterTools::LLFloaterTools(const LLSD& key)
 :	LLFloater(key),
-	mAlchEditRootAxis(NULL),
-	mBtnFocus(NULL),
-	mBtnMove(NULL),
-	mBtnEdit(NULL),
-	mBtnCreate(NULL),
-	mBtnLand(NULL),
-	mTextStatus(NULL),
+	mAlchEditRootAxis(nullptr),
+	mBtnFocus(nullptr),
+	mBtnMove(nullptr),
+	mBtnEdit(nullptr),
+	mBtnCreate(nullptr),
+	mBtnLand(nullptr),
+	mTextStatus(nullptr),
 
-	mRadioGroupFocus(NULL),
-	mRadioGroupMove(NULL),
-	mRadioGroupEdit(NULL),
-
+	mRadioGroupFocus(nullptr),
 	mZoomSlider(nullptr),
+	mRadioGroupMove(nullptr),
 
-	mCheckSelectIndividual(NULL),
+	mRadioGroupEdit(nullptr),
 
-	mCheckSnapToGrid(NULL),
-	mBtnGridOptions(NULL),
-	mTitleMedia(NULL),
-	mComboGridMode(NULL),
-	mCheckStretchUniform(NULL),
-	mCheckStretchTexture(NULL),
+	mCheckSelectIndividual(nullptr),
 
-	mBtnRotateLeft(NULL),
-	mBtnRotateReset(NULL),
-	mBtnRotateRight(NULL),
+	mBtnLink(nullptr),
+	mBtnUnlink(nullptr),
+	mCheckSnapToGrid(nullptr),
+	mBtnGridOptions(nullptr),
+	mComboGridMode(nullptr),
+	mCheckStretchUniform(nullptr),
 
-	mBtnLink(NULL),
-	mBtnUnlink(NULL),
+	mCheckStretchTexture(nullptr),
+	mBtnRotateLeft(nullptr),
+	mBtnRotateReset(nullptr),
 
-	mBtnDelete(NULL),
-	mBtnDuplicate(NULL),
-	mBtnDuplicateInPlace(NULL),
+	mBtnRotateRight(nullptr),
+	mBtnDelete(nullptr),
 
+	mBtnDuplicate(nullptr),
+	mBtnDuplicateInPlace(nullptr),
 	mTreeGrassCombo(nullptr),
 
-	mCheckSticky(NULL),
-	mCheckCopySelection(NULL),
-	mCheckCopyCenters(NULL),
-	mCheckCopyRotates(NULL),
-	mRadioGroupLand(NULL),
-	mSliderDozerSize(NULL),
-	mSliderDozerForce(NULL),
+	mCheckSticky(nullptr),
+
+	mCheckCopySelection(nullptr),
+	mCheckCopyCenters(nullptr),
+	mCheckCopyRotates(nullptr),
+	mRadioGroupLand(nullptr),
+	mSliderDozerSize(nullptr),
+	mSliderDozerForce(nullptr),
 	mTextDozer(nullptr),
 	mTextDozerSize(nullptr),
 	mTextDozerStrength(nullptr),
-	mBtnApplyToSelection(NULL),
+	mBtnApplyToSelection(nullptr),
+	mTab(nullptr),
 
-	mTab(NULL),
-	mPanelPermissions(NULL),
-	mPanelObject(NULL),
-	mPanelVolume(NULL),
-	mPanelContents(NULL),
-	mPanelFace(NULL),
-	mPanelLandInfo(NULL),
-
+	mPanelPermissions(nullptr),
+	mPanelObject(nullptr),
+	mPanelVolume(nullptr),
+	mPanelContents(nullptr),
+	mPanelFace(nullptr),
+	mPanelLandInfo(nullptr),
 	mTextRemainingCapacity(nullptr),
+
 	mTextSelectionCount(nullptr),
 	mTextSelectionEmpty(nullptr),
-	mCostTextBorder(NULL),
-	mTabLand(NULL),
+	mCostTextBorder(nullptr),
+	mTabLand(nullptr),
+	mLandImpactsObserver(nullptr),
 
-	mLandImpactsObserver(NULL),
+	mTitleMedia(nullptr),
 
-	mDirty(TRUE),
-	mNeedMediaTitle(TRUE)
+	mNeedMediaTitle(TRUE),
+	mDirty(TRUE)
 {
 	gFloaterTools = this;
 
@@ -436,7 +436,7 @@ LLFloaterTools::LLFloaterTools(const LLSD& key)
 LLFloaterTools::~LLFloaterTools()
 {
 	// children automatically deleted
-	gFloaterTools = NULL;
+	gFloaterTools = nullptr;
 
 	LLViewerParcelMgr::getInstance()->removeObserver(mLandImpactsObserver);
 	delete mLandImpactsObserver;
@@ -905,8 +905,8 @@ void LLFloaterTools::onClose(bool app_quitting)
 
 	resetToolState();
 
-	mParcelSelection = NULL;
-	mObjectSelection = NULL;
+	mParcelSelection = nullptr;
+	mObjectSelection = nullptr;
 
 	// Switch back to basic toolset
 	LLToolMgr::getInstance()->setCurrentToolset(gBasicToolset);
@@ -1069,7 +1069,7 @@ void commit_select_component(void *data)
 	//forfeit focus
 	if (gFocusMgr.childHasKeyboardFocus(floaterp))
 	{
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 	}
 
 	BOOL select_individuals = floaterp->mCheckSelectIndividual->get();
@@ -1092,7 +1092,7 @@ void LLFloaterTools::setObjectType( LLPCode pcode )
 	LLToolPlacer::setObjectType( pcode );
 	gSavedSettings.setBOOL("CreateToolCopySelection", FALSE);
 	gFloaterTools->buildTreeGrassCombo();
-	gFocusMgr.setMouseCapture(NULL);
+	gFocusMgr.setMouseCapture(nullptr);
 }
 
 void commit_grid_mode(LLUICtrl *ctrl)
@@ -1275,7 +1275,7 @@ void LLFloaterTools::getMediaState()
 		{
 			LLSelectNode* node = *iter;
 			LLVOVolume* object = dynamic_cast<LLVOVolume*>(node->getObject());
-			if (NULL != object)
+			if (nullptr != object)
 			{
 				if (!object->permModify())
 				{
@@ -1307,7 +1307,7 @@ void LLFloaterTools::getMediaState()
 	bool bool_has_media = false;
 	struct media_functor : public LLSelectedTEGetFunctor<bool>
 	{
-		bool get(LLViewerObject* object, S32 face)
+		bool get(LLViewerObject* object, S32 face) override
 		{
 			LLTextureEntry *te = object->getTE(face);
 			if (te)
@@ -1328,7 +1328,7 @@ void LLFloaterTools::getMediaState()
 	{
 		functor_getter_media_data(const LLMediaEntry& entry): mMediaEntry(entry) {}	
 
-		LLMediaEntry get( LLViewerObject* object, S32 face )
+		LLMediaEntry get( LLViewerObject* object, S32 face ) override
 		{
 			if ( object && object->getTE(face) && object->getTE(face)->getMediaData() )
 				return *(object->getTE(face)->getMediaData());
@@ -1562,7 +1562,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_controls(const LLMediaEntry &entry) : mMediaEntry(entry) {}
 		
-        U8 get( LLViewerObject* object, S32 face )
+        U8 get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1585,7 +1585,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_first_click(const LLMediaEntry& entry): mMediaEntry(entry) {}		
 		
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1608,7 +1608,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_home_url(const LLMediaEntry& entry): mMediaEntry(entry) {}		
 		
-        std::string get( LLViewerObject* object, S32 face )
+        std::string get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1631,8 +1631,8 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_current_url(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-		std::string get( LLViewerObject* object, S32 face )
-        {
+		std::string get( LLViewerObject* object, S32 face ) override
+		{
             if ( object )
                 if ( object->getTE(face) )
                     if ( object->getTE(face)->getMediaData() )
@@ -1655,7 +1655,7 @@ void LLFloaterTools::updateMediaSettings()
 		
 		functor_getter_auto_zoom(const LLMediaEntry& entry)	: mMediaEntry(entry) {}	
 		
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1680,7 +1680,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_auto_play(const LLMediaEntry& entry)	: mMediaEntry(entry) {}	
 			
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1707,7 +1707,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_auto_scale(const LLMediaEntry& entry): mMediaEntry(entry) {}	
 
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1731,7 +1731,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_auto_loop(const LLMediaEntry& entry)	: mMediaEntry(entry) {}	
 
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1754,7 +1754,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_width_pixels(const LLMediaEntry& entry): mMediaEntry(entry) {}		
 
-        int get( LLViewerObject* object, S32 face )
+        int get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1777,8 +1777,8 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_height_pixels(const LLMediaEntry& entry)	: mMediaEntry(entry) {}
         
-		int get( LLViewerObject* object, S32 face )
-        {
+		int get( LLViewerObject* object, S32 face ) override
+		{
             if ( object )
                 if ( object->getTE(face) )
                     if ( object->getTE(face)->getMediaData() )
@@ -1800,8 +1800,8 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_enable_alt_image(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-		bool get( LLViewerObject* object, S32 face )
-        {
+		bool get( LLViewerObject* object, S32 face ) override
+		{
             if ( object )
                 if ( object->getTE(face) )
                     if ( object->getTE(face)->getMediaData() )
@@ -1823,8 +1823,8 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_owner_interact(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-		bool get( LLViewerObject* object, S32 face )
-        {
+		bool get( LLViewerObject* object, S32 face ) override
+		{
             if ( object )
                 if ( object->getTE(face) )
                     if ( object->getTE(face)->getMediaData() )
@@ -1846,7 +1846,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_owner_control(const LLMediaEntry& entry)	: mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1869,7 +1869,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_group_interact(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1892,7 +1892,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_group_control(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1915,7 +1915,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_anyone_interact(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1938,7 +1938,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_perms_anyone_control(const LLMediaEntry& entry)	: mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1961,7 +1961,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_whitelist_enable(const LLMediaEntry& entry)	: mMediaEntry(entry) {}
         
-        bool get( LLViewerObject* object, S32 face )
+        bool get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )
@@ -1984,7 +1984,7 @@ void LLFloaterTools::updateMediaSettings()
     {
 		functor_getter_whitelist_urls(const LLMediaEntry& entry): mMediaEntry(entry) {}
         
-        std::vector<std::string> get( LLViewerObject* object, S32 face )
+        std::vector<std::string> get( LLViewerObject* object, S32 face ) override
         {
             if ( object )
                 if ( object->getTE(face) )

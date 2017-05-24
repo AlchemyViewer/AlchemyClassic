@@ -67,7 +67,7 @@ std::string LLView::sMouseHandlerMessage;
 BOOL	LLView::sForceReshape = FALSE;
 std::set<LLView*> LLView::sPreviewHighlightedElements;
 BOOL LLView::sHighlightingDiffs = FALSE;
-LLView* LLView::sPreviewClickedElement = NULL;
+LLView* LLView::sPreviewClickedElement = nullptr;
 BOOL	LLView::sDrawPreviewHighlights = FALSE;
 S32		LLView::sLastLeftXML = S32_MIN;
 S32		LLView::sLastBottomXML = S32_MIN;
@@ -106,13 +106,15 @@ LLView::Params::Params()
 	enabled("enabled", true),
 	visible("visible", true),
 	mouse_opaque("mouse_opaque", true),
-	follows("follows"),
-	hover_cursor("hover_cursor", "UI_CURSOR_ARROW"),
 	use_bounding_rect("use_bounding_rect", false),
+	from_xui("from_xui", false),
+	focus_root("focus_root", false),
 	tab_group("tab_group", 0),
 	default_tab_group("default_tab_group"),
 	tool_tip("tool_tip"),
 	sound_flags("sound_flags", MOUSE_UP),
+	follows("follows"),
+	hover_cursor("hover_cursor", "UI_CURSOR_ARROW"),
 	layout("layout"),
 	rect("rect"),
 	bottom_delta("bottom_delta", S32_MAX),
@@ -120,8 +122,6 @@ LLView::Params::Params()
 	top_delta("top_delta", S32_MAX),
 	left_pad("left_pad"),
 	left_delta("left_delta", S32_MAX),
-	from_xui("from_xui", false),
-	focus_root("focus_root", false),
 	needs_translate("translate"),
 	xmlns("xmlns"),
 	xmlns_xsi("xmlns:xsi"),
@@ -134,23 +134,23 @@ LLView::Params::Params()
 
 LLView::LLView(const LLView::Params& p)
 :	LLTrace::MemTrackable<LLView>("LLView"),
-	mVisible(p.visible),
-	mInDraw(false),
-	mName(p.name),
-	mParentView(NULL),
-	mReshapeFlags(FOLLOWS_NONE),
-	mFromXUI(p.from_xui),
-	mIsFocusRoot(p.focus_root),
-	mLastVisible(FALSE),
 	mHoverCursor(getCursorFromString(p.hover_cursor)),
-	mEnabled(p.enabled),
-	mMouseOpaque(p.mouse_opaque),
-	mSoundFlags(p.sound_flags),
-	mUseBoundingRect(p.use_bounding_rect),
+	mParentView(nullptr),
+	mVisible(p.visible),
+	mName(p.name),
+	mReshapeFlags(FOLLOWS_NONE),
 	mDefaultTabGroup(p.default_tab_group),
 	mLastTabGroup(0),
+	mEnabled(p.enabled),
+	mMouseOpaque(p.mouse_opaque),
 	mToolTipMsg((LLStringExplicit)p.tool_tip()),
-	mDefaultWidgets(NULL)
+	mSoundFlags(p.sound_flags),
+	mFromXUI(p.from_xui),
+	mIsFocusRoot(p.focus_root),
+	mUseBoundingRect(p.use_bounding_rect),
+	mLastVisible(FALSE),
+	mInDraw(false),
+	mDefaultWidgets(nullptr)
 {
 	// create rect first, as this will supply initial follows flags
 	setShape(p.rect);
@@ -177,7 +177,7 @@ LLView::~LLView()
 
 	deleteAllChildren();
 
-	if (mParentView != NULL)
+	if (mParentView != nullptr)
 	{
 		mParentView->removeChild(this);
 	}
@@ -185,7 +185,7 @@ LLView::~LLView()
 	if (mDefaultWidgets)
 	{
 		delete mDefaultWidgets;
-		mDefaultWidgets = NULL;
+		mDefaultWidgets = nullptr;
 	}
 }
 
@@ -342,7 +342,7 @@ void LLView::removeChild(LLView* child)
 			}
 		}
 		// </alchemy>
-		child->mParentView = NULL;
+		child->mParentView = nullptr;
 		child_tab_order_t::iterator found = mTabOrder.find(child);
 		if(found != mTabOrder.end())
 		{
@@ -672,7 +672,7 @@ void LLView::setSnappedTo(const LLView* snap_view)
 
 BOOL LLView::handleHover(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleHover( x, y, mask ) != NULL;
+	return childrenHandleHover( x, y, mask ) != nullptr;
 }
 
 void LLView::onMouseEnter(S32 x, S32 y, MASK mask)
@@ -724,7 +724,7 @@ LLView* LLView::childrenHandleCharEvent(const std::string& desc, const METHOD& m
 			}
 		}
 	}
-    return NULL;
+    return nullptr;
 }
 
 // XDATA might be MASK, or S32 clicks
@@ -755,7 +755,7 @@ LLView* LLView::childrenHandleMouseEvent(const METHOD& method, S32 x, S32 y, XDA
 			return viewp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLView* LLView::childrenHandleToolTip(S32 x, S32 y, MASK mask)
@@ -779,7 +779,7 @@ LLView* LLView::childrenHandleToolTip(S32 x, S32 y, MASK mask)
 			return viewp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLView* LLView::childrenHandleDragAndDrop(S32 x, S32 y, MASK mask,
@@ -813,7 +813,7 @@ LLView* LLView::childrenHandleDragAndDrop(S32 x, S32 y, MASK mask,
 			return viewp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLView* LLView::childrenHandleHover(S32 x, S32 y, MASK mask)
@@ -838,13 +838,13 @@ LLView* LLView::childrenHandleHover(S32 x, S32 y, MASK mask)
 			return viewp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 {
 	if (!getVisible())
-		return NULL;
+		return nullptr;
 
 	for (LLView* viewp : mChildList)
 	{
@@ -870,7 +870,7 @@ LLView*	LLView::childFromPoint(S32 x, S32 y, bool recur)
 		return viewp;
 
 	}
-	return NULL;
+	return nullptr;
 }
 
 BOOL LLView::handleToolTip(S32 x, S32 y, MASK mask)
@@ -915,7 +915,7 @@ BOOL LLView::handleKey(KEY key, MASK mask, BOOL called_from_parent)
 		if( called_from_parent )
 		{
 			// Downward traversal
-			handled = childrenHandleKey( key, mask ) != NULL;
+			handled = childrenHandleKey( key, mask ) != nullptr;
 		}
 
 		if (!handled)
@@ -947,7 +947,7 @@ BOOL LLView::handleKeyUp(KEY key, MASK mask, BOOL called_from_parent)
 		if (called_from_parent)
 		{
 			// Downward traversal
-			handled = childrenHandleKeyUp(key, mask) != NULL;
+			handled = childrenHandleKeyUp(key, mask) != nullptr;
 		}
 
 		if (!handled)
@@ -993,7 +993,7 @@ BOOL LLView::handleUnicodeChar(llwchar uni_char, BOOL called_from_parent)
 		if( called_from_parent )
 		{
 			// Downward traversal
-			handled = childrenHandleUnicodeChar( uni_char ) != NULL;
+			handled = childrenHandleUnicodeChar( uni_char ) != nullptr;
 		}
 
 		if (!handled)
@@ -1032,7 +1032,7 @@ BOOL LLView::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 							   EAcceptance* accept,
 							   std::string& tooltip_msg)
 {
-	return childrenHandleDragAndDrop( x, y, mask, drop, cargo_type, cargo_data, accept, tooltip_msg) != NULL;
+	return childrenHandleDragAndDrop( x, y, mask, drop, cargo_type, cargo_data, accept, tooltip_msg) != nullptr;
 }
 
 void LLView::onMouseCaptureLost()
@@ -1048,44 +1048,44 @@ BOOL LLView::handleMouseUp(S32 x, S32 y, MASK mask)
 {
 	LLView* r = childrenHandleMouseUp( x, y, mask );
 
-	return (r!=NULL);
+	return (r!= nullptr);
 }
 
 BOOL LLView::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	LLView* r= childrenHandleMouseDown(x, y, mask );
 
-	return (r!=NULL);
+	return (r!= nullptr);
 }
 
 BOOL LLView::handleDoubleClick(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleDoubleClick( x, y, mask ) != NULL;
+	return childrenHandleDoubleClick( x, y, mask ) != nullptr;
 }
 
 BOOL LLView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 {
-	return childrenHandleScrollWheel( x, y, clicks ) != NULL;
+	return childrenHandleScrollWheel( x, y, clicks ) != nullptr;
 }
 
 BOOL LLView::handleRightMouseDown(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleRightMouseDown( x, y, mask ) != NULL;
+	return childrenHandleRightMouseDown( x, y, mask ) != nullptr;
 }
 
 BOOL LLView::handleRightMouseUp(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleRightMouseUp( x, y, mask ) != NULL;
+	return childrenHandleRightMouseUp( x, y, mask ) != nullptr;
 }
  
 BOOL LLView::handleMiddleMouseDown(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleMiddleMouseDown( x, y, mask ) != NULL;
+	return childrenHandleMiddleMouseDown( x, y, mask ) != nullptr;
 }
 
 BOOL LLView::handleMiddleMouseUp(S32 x, S32 y, MASK mask)
 {
-	return childrenHandleMiddleMouseUp( x, y, mask ) != NULL;
+	return childrenHandleMiddleMouseUp( x, y, mask ) != nullptr;
 }
 
 LLView* LLView::childrenHandleScrollWheel(S32 x, S32 y, S32 clicks)
@@ -1164,7 +1164,7 @@ void LLView::drawChildren()
 			child_list_reverse_iter_t child = child_iter++;
 			LLView *viewp = *child;
 			
-			if (viewp == NULL)
+			if (viewp == nullptr)
 			{
 				continue;
 			}
@@ -1284,7 +1284,7 @@ void LLView::drawDebugRect()
 
 			S32 depth = 0;
 			LLView * viewp = this;
-			while (NULL != viewp)
+			while (nullptr != viewp)
 			{
 				viewp = viewp->getParent();
 				depth++;
@@ -1296,7 +1296,7 @@ void LLView::drawDebugRect()
 										debug_rect.getWidth(), debug_rect.getHeight());
 			LLFontGL::getFontSansSerifSmall()->renderUTF8(debug_text, 0, (F32)x, (F32)y, border_color,
 												LLFontGL::HCENTER, LLFontGL::BASELINE, LLFontGL::NORMAL, LLFontGL::NO_SHADOW,
-												S32_MAX, S32_MAX, NULL, FALSE);
+												S32_MAX, S32_MAX, nullptr, FALSE);
 		}
 	}
 	LLUI::popMatrix();
@@ -1340,7 +1340,7 @@ void LLView::reshape(S32 width, S32 height, BOOL called_from_parent)
 		// move child views according to reshape flags
 		for (LLView* viewp : mChildList)
 		{
-			if (viewp != NULL)
+			if (viewp != nullptr)
 			{
 			LLRect child_rect( viewp->mRect );
 
@@ -1538,7 +1538,7 @@ BOOL LLView::childHasKeyboardFocus( const std::string& childname ) const
 {
 	LLView *focus = dynamic_cast<LLView *>(gFocusMgr.getKeyboardFocus());
 	
-	while (focus != NULL)
+	while (focus != nullptr)
 	{
 		if (focus->getName() == childname)
 		{
@@ -1555,7 +1555,7 @@ BOOL LLView::childHasKeyboardFocus( const std::string& childname ) const
 
 BOOL LLView::hasChild(const std::string& childname, BOOL recurse) const
 {
-	return findChildView(childname, recurse) != NULL;
+	return findChildView(childname, recurse) != nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1602,7 +1602,7 @@ LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 // </alchemy>
 
@@ -1699,7 +1699,7 @@ LLView* LLView::findPrevSibling(LLView* child)
 	{
 		return *(--prev_it);
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLView* LLView::findNextSibling(LLView* child)
@@ -1813,7 +1813,7 @@ void LLView::centerWithin(const LLRect& bounds)
 BOOL LLView::localPointToOtherView( S32 x, S32 y, S32 *other_x, S32 *other_y, const LLView* other_view) const
 {
 	const LLView* cur_view = this;
-	const LLView* root_view = NULL;
+	const LLView* root_view = nullptr;
 
 	while (cur_view)
 	{
@@ -1857,7 +1857,7 @@ BOOL LLView::localRectToOtherView( const LLRect& local, LLRect* other, const LLV
 {
 	LLRect cur_rect = local;
 	const LLView* cur_view = this;
-	const LLView* root_view = NULL;
+	const LLView* root_view = nullptr;
 
 	while (cur_view)
 	{
@@ -1934,7 +1934,7 @@ private:
 class SortByTabOrder : public LLQuerySorter, public LLSingleton<SortByTabOrder>
 {
 	LLSINGLETON_EMPTY_CTOR(SortByTabOrder);
-	/*virtual*/ void sort(LLView * parent, LLView::child_list_t &children) const 
+	/*virtual*/ void sort(LLView * parent, LLView::child_list_t &children) const override
 	{
 		children.sort(CompareByTabOrder(parent->getTabOrder(), parent->getDefaultTabGroup()));
 	}
@@ -1958,7 +1958,7 @@ const LLViewQuery & LLView::getTabOrderQuery()
 class LLFocusRootsFilter : public LLQueryFilter, public LLSingleton<LLFocusRootsFilter>
 {
 	LLSINGLETON_EMPTY_CTOR(LLFocusRootsFilter);
-	/*virtual*/ filterResult_t operator() (const LLView* const view, const viewList_t & children) const 
+	/*virtual*/ filterResult_t operator() (const LLView* const view, const viewList_t & children) const override
 	{
 		return filterResult_t(view->isCtrl() && view->isFocusRoot(), !view->isFocusRoot());
 	}
@@ -1996,11 +1996,11 @@ LLView* LLView::findSnapRect(LLRect& new_rect, const LLCoordGL& mouse_dir,
 							 LLView::ESnapType snap_type, S32 threshold, S32 padding)
 {
 	new_rect = mRect;
-	LLView* snap_view = NULL;
+	LLView* snap_view = nullptr;
 
 	if (!mParentView)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	S32 delta_x = 0;
@@ -2064,10 +2064,10 @@ LLView*	LLView::findSnapEdge(S32& new_edge_val, const LLCoordGL& mouse_dir, ESna
 	if (!mParentView)
 	{
 		new_edge_val = snap_pos;
-		return NULL;
+		return nullptr;
 	}
 
-	LLView* snap_view = NULL;
+	LLView* snap_view = nullptr;
 
 	// If the view is near the edge of its parent, snap it to
 	// the edge.

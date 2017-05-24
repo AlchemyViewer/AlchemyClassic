@@ -91,9 +91,9 @@ public:
 	void removeData(LLViewerOctreeEntryData* data);
 
 	LLViewerOctreeEntryData* getDrawable() const {return mData[LLDRAWABLE];}
-	bool                     hasDrawable() const {return mData[LLDRAWABLE] != NULL;}
+	bool                     hasDrawable() const {return mData[LLDRAWABLE] != nullptr;}
 	LLViewerOctreeEntryData* getVOCacheEntry() const {return mData[LLVOCACHEENTRY];}
-	bool                     hasVOCacheEntry() const {return mData[LLVOCACHEENTRY] != NULL;}
+	bool                     hasVOCacheEntry() const {return mData[LLVOCACHEENTRY] != nullptr;}
 
 	const LLVector4a* getSpatialExtents() const {return mExtents;} 
 	const LLVector4a& getPositionGroup() const  {return mPositionGroup;}	
@@ -225,12 +225,12 @@ public:
 	void clearState(U32 state)     {mState &= ~state;}	
 
 	//LISTENER FUNCTIONS
-	virtual void handleInsertion(const TreeNode* node, LLViewerOctreeEntry* obj);
-	virtual void handleRemoval(const TreeNode* node, LLViewerOctreeEntry* obj);
-	virtual void handleDestruction(const TreeNode* node);
-	virtual void handleStateChange(const TreeNode* node);
-	virtual void handleChildAddition(const OctreeNode* parent, OctreeNode* child);
-	virtual void handleChildRemoval(const OctreeNode* parent, const OctreeNode* child);
+	void handleInsertion(const TreeNode* node, LLViewerOctreeEntry* obj) override;
+	void handleRemoval(const TreeNode* node, LLViewerOctreeEntry* obj) override;
+	void handleDestruction(const TreeNode* node) override;
+	void handleStateChange(const TreeNode* node) override;
+	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
+	void handleChildRemoval(const OctreeNode* parent, const OctreeNode* child) override;
 
 	OctreeNode*          getOctreeNode() {return mOctreeNode;}
 	LLViewerOctreeGroup* getParent();
@@ -301,7 +301,7 @@ public:
 	void setOcclusionState(U32 state, S32 mode = STATE_MODE_SINGLE);
 	void clearOcclusionState(U32 state, S32 mode = STATE_MODE_SINGLE);
 	void checkOcclusion(); //read back last occlusion query (if any)
-	void doOcclusion(LLCamera* camera, const LLVector4a* shift = NULL); //issue occlusion query
+	void doOcclusion(LLCamera* camera, const LLVector4a* shift = nullptr); //issue occlusion query
 	BOOL isOcclusionState(U32 state) const	{ return mOcclusionState[LLViewerCamera::sCurCameraID] & state ? TRUE : FALSE; }
 	U32  getOcclusionState() const	{ return mOcclusionState[LLViewerCamera::sCurCameraID];}
 
@@ -309,10 +309,10 @@ public:
 	U32  getLastOcclusionIssuedTime();
 
 	//virtual 
-	void handleChildAddition(const OctreeNode* parent, OctreeNode* child);
+	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
 
 	//virtual
-	BOOL isRecentlyVisible() const;
+	BOOL isRecentlyVisible() const override;
 	LLViewerOctreePartition* getSpatialPartition()const {return mSpatialPartition;}
 	BOOL isAnyRecentlyVisible() const;
 
@@ -363,8 +363,8 @@ class LLViewerOctreeCull : public OctreeTraveler
 public:
 	LLViewerOctreeCull(LLCamera* camera)
 		: mCamera(camera), mRes(0) { }
-	
-	virtual void traverse(const OctreeNode* n);
+
+	void traverse(const OctreeNode* n) override;
 
 protected:
 	virtual bool earlyFail(LLViewerOctreeGroup* group);	
@@ -396,7 +396,7 @@ protected:
 	virtual bool checkObjects(const OctreeNode* branch, const LLViewerOctreeGroup* group);
 	virtual void preprocess(LLViewerOctreeGroup* group);
 	virtual void processGroup(LLViewerOctreeGroup* group);
-	virtual void visit(const OctreeNode* branch);
+	void visit(const OctreeNode* branch) override;
 	
 protected:
 	LLCamera *mCamera;
@@ -408,7 +408,7 @@ class LLViewerOctreeDebug : public OctreeTraveler
 {
 public:
 	virtual void processGroup(LLViewerOctreeGroup* group);
-	virtual void visit(const OctreeNode* branch);
+	void visit(const OctreeNode* branch) override;
 
 public:
 	static BOOL sInDebug;

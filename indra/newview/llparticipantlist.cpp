@@ -82,7 +82,7 @@ public:
 		mAvalineCallers.insert(avaline_caller_id);
 	}
 
-	void onParticipantsChanged()
+	void onParticipantsChanged() override
 	{
 		uuid_set_t participant_uuids;
 		LLVoiceClient::getInstance()->getParticipantList(participant_uuids);
@@ -376,7 +376,7 @@ void LLParticipantList::addAvatarIDExceptAgent(const LLUUID& avatar_id)
 
 	bool is_avatar = LLVoiceClient::getInstance()->isParticipantAvatar(avatar_id);
 
-	LLConversationItemParticipant* participant = NULL;
+	LLConversationItemParticipant* participant = nullptr;
 	
 	if (is_avatar)
 	{

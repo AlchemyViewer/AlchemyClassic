@@ -87,7 +87,7 @@ public:
 	{
 	}
 	
-	void done()
+	void done() override
 	{
 		for (cat_vec_t::iterator it = mAddedCategories.begin(); it != mAddedCategories.end(); ++it)
 		{
@@ -118,12 +118,12 @@ private:
 LLSidepanelInventory::LLSidepanelInventory()
 	: LLPanel()
 	, mInventoryPanel(nullptr)
-	, mItemPanel(NULL)
+	, mItemPanel(nullptr)
 	, mTaskPanel(nullptr)
-	, mPanelMainInventory(NULL)
+	, mPanelMainInventory(nullptr)
 	, mInboxEnabled(false)
-	, mCategoriesObserver(NULL)
-	, mInboxAddedObserver(NULL)
+	, mCategoriesObserver(nullptr)
+	, mInboxAddedObserver(nullptr)
 {
 	//buildFromFile( "panel_inventory.xml"); // Called from LLRegisterPanelClass::defaultPanelClassBuilder()
 }
@@ -288,7 +288,7 @@ void LLSidepanelInventory::observeInboxCreation()
 	// Set up observer to track inbox folder creation
 	//
 	
-	if (mInboxAddedObserver == NULL)
+	if (mInboxAddedObserver == nullptr)
 	{
 		mInboxAddedObserver = new LLInboxAddedObserver(this);
 		
@@ -303,7 +303,7 @@ void LLSidepanelInventory::observeInboxModifications(const LLUUID& inboxID)
 	// (this can happen multiple times on the initial session that creates the inbox)
 	//
 
-	if (mInventoryPanelInbox.get() != NULL)
+	if (mInventoryPanelInbox.get() != nullptr)
 	{
 		return;
 	}
@@ -318,7 +318,7 @@ void LLSidepanelInventory::observeInboxModifications(const LLUUID& inboxID)
 		return;
 	}
 
-	if (mCategoriesObserver == NULL)
+	if (mCategoriesObserver == nullptr)
 	{
 		mCategoriesObserver = new LLInventoryCategoriesObserver();
 		gInventory.addObserver(mCategoriesObserver);
@@ -698,13 +698,13 @@ LLInventoryPanel *LLSidepanelInventory::getActivePanel()
 {
 	if (!getVisible())
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (mInventoryPanel->getVisible())
 	{
 		return mPanelMainInventory->getActivePanel();
 	}
-	return NULL;
+	return nullptr;
 }
 
 BOOL LLSidepanelInventory::isMainInventoryPanelActive() const

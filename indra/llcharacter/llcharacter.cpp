@@ -98,7 +98,7 @@ LLCharacter::~LLCharacter()
 //-----------------------------------------------------------------------------
 LLJoint *LLCharacter::getJoint( const std::string &name )
 {
-	LLJoint* joint = NULL;
+	LLJoint* joint = nullptr;
 
 	LLJoint *root = getRootJoint();
 	if (root)
@@ -242,7 +242,7 @@ void LLCharacter::flushAllMotions()
 void LLCharacter::dumpCharacter( LLJoint* joint )
 {
 	// handle top level entry into recursion
-	if (joint == NULL)
+	if (joint == nullptr)
 	{
 		LL_INFOS() << "DEBUG: Dumping Character @" << this << LL_ENDL;
 		dumpCharacter( getRootJoint() );
@@ -275,7 +275,7 @@ void LLCharacter::setAnimationData(const std::string& name, void *data)
 //-----------------------------------------------------------------------------
 void* LLCharacter::getAnimationData(const std::string& name)
 {
-	return get_if_there(mAnimationData, name, (void*)NULL);
+	return get_if_there(mAnimationData, name, (void*)nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -416,7 +416,7 @@ LLVisualParam*	LLCharacter::getVisualParam(const char *param_name)
 		return name_iter->second;
 	}
 	LL_WARNS() << "LLCharacter::getVisualParam() Invalid visual parameter: " << param_name << LL_ENDL;
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -426,7 +426,7 @@ void LLCharacter::addSharedVisualParam(LLVisualParam *param)
 {
 	S32 index = param->getID();
 	visual_param_index_map_t::iterator index_iter = mVisualParamIndexMap.find(index);
-	LLVisualParam* current_param = 0;
+	LLVisualParam* current_param = nullptr;
 	if (index_iter != mVisualParamIndexMap.end())
 		current_param = index_iter->second;
 	if( current_param )

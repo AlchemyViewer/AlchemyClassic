@@ -532,7 +532,7 @@ void LLPanelRegionTools::onSaveState(void* userdata)
 		gMessageSystem->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
 		gMessageSystem->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
 		gMessageSystem->nextBlockFast(_PREHASH_DataBlock);
-		gMessageSystem->addStringFast(_PREHASH_Filename, NULL);
+		gMessageSystem->addStringFast(_PREHASH_Filename, nullptr);
 		gAgent.sendReliableMessage();
 	}
 }
@@ -1148,7 +1148,7 @@ void LLPanelObjectTools::onClickSetBySelection(void* data)
 	if (!panelp) return;
 
 	const BOOL non_root_ok = TRUE; 
-	LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode(NULL, non_root_ok);
+	LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode(nullptr, non_root_ok);
 	if (!node) return;
 
 	std::string owner_name;
@@ -1326,7 +1326,7 @@ void LLPanelRequestTools::sendRequest(const LLHost& host)
 								  host,
 								  FALSE,
 								  terrain_download_done,
-								  NULL);
+								  nullptr);
 	}
 	else
 	{

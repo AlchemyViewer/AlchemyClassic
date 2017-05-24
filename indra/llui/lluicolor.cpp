@@ -31,14 +31,14 @@
 #include "lluicolor.h"
 
 LLUIColor::LLUIColor()
-	:mColorPtr(NULL)
+	:mColorPtr(nullptr)
 {
 }
 
 
 LLUIColor::LLUIColor(const LLColor4& color)
-:	mColor(color), 
-	mColorPtr(NULL)
+:	mColorPtr(nullptr), 
+	mColor(color)
 {
 }
 
@@ -50,7 +50,7 @@ LLUIColor::LLUIColor(const LLUIColor* color)
 void LLUIColor::set(const LLColor4& color)
 {
 	mColor = color;
-	mColorPtr = NULL;
+	mColorPtr = nullptr;
 }
 
 void LLUIColor::set(const LLUIColor* color)
@@ -60,7 +60,7 @@ void LLUIColor::set(const LLUIColor* color)
 
 const LLColor4& LLUIColor::get() const
 {
-	return (mColorPtr == NULL ? mColor : mColorPtr->get());
+	return (mColorPtr == nullptr ? mColor : mColorPtr->get());
 }
 
 LLUIColor::operator const LLColor4& () const
@@ -75,7 +75,7 @@ const LLColor4& LLUIColor::operator()() const
 
 bool LLUIColor::isReference() const
 {
-	return mColorPtr != NULL;
+	return mColorPtr != nullptr;
 }
 
 namespace LLInitParam
@@ -84,6 +84,6 @@ namespace LLInitParam
 	bool ParamCompare<LLUIColor, false>::equals(const LLUIColor &a, const LLUIColor &b)
 	{
 		// do not detect value equivalence, treat pointers to colors as distinct from color values
-		return (a.mColorPtr == NULL && b.mColorPtr == NULL ? a.mColor == b.mColor : a.mColorPtr == b.mColorPtr);
+		return (a.mColorPtr == nullptr && b.mColorPtr == nullptr ? a.mColor == b.mColor : a.mColorPtr == b.mColorPtr);
 	}
 }

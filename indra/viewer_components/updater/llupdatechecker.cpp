@@ -79,8 +79,8 @@ const char * LLUpdateChecker::Implementation::sProtocolVersion = "v1.1";
 
 
 LLUpdateChecker::Implementation::Implementation(LLUpdateChecker::Client & client):
-	mClient(client),
-    mProtocol(sProtocolVersion),
+	mProtocol(sProtocolVersion),
+    mClient(client),
 	mInProgress(false),
 	mWillingToTest(false)
 {

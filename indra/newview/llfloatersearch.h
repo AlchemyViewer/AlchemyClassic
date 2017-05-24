@@ -63,9 +63,9 @@ public:
 
 	/// show the search floater with a new search
 	/// see search() for details on the key parameter.
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/ void onClose(bool app_quitting) override;
 
 	/// perform a search with the specific search term.
 	/// The key should be a map that can contain the following keys:
@@ -80,7 +80,7 @@ public:
 	void godLevelChanged(U8 godlevel);
 
 private:
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	LLSD        mCategoryPaths;
 	U8          mSearchGodLevel;

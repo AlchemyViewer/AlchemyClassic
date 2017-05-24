@@ -75,7 +75,7 @@ template <class T>
 class LLOctreeTravelerDepthFirst : public LLOctreeTraveler<T>
 {
 public:
-	virtual void traverse(const LLOctreeNode<T>* node);
+	void traverse(const LLOctreeNode<T>* node) override;
     virtual ~LLOctreeTravelerDepthFirst() {}
 };
 
@@ -241,7 +241,7 @@ public:
 
 	bool contains(F32 radius)
 	{
-		if (mParent == NULL)
+		if (mParent == nullptr)
 		{	//root node contains nothing
 			return false;
 		}
@@ -342,10 +342,10 @@ public:
 
 		return node;
 	}
-	
-	virtual bool insert(T* data)
+
+	bool insert(T* data) override
 	{
-		if (data == NULL || data->getBinIndex() != -1)
+		if (data == nullptr || data->getBinIndex() != -1)
 		{
 			OCT_ERRS << "!!! INVALID ELEMENT ADDED TO OCTREE BRANCH !!!" << LL_ENDL;
 			return false;
@@ -369,7 +369,7 @@ public:
 			else
 			{ 	
 				//find a child to give it to
-				oct_node* child = NULL;
+				oct_node* child = nullptr;
 				for (U32 i = 0; i < getChildCount(); ++i)
 				{
 					child = getChild(i);
@@ -467,7 +467,7 @@ public:
 		checkAlive();
 	}
 
-	bool remove(T* data)
+	bool remove(T* data) override
 	{
 		S32 i = data->getBinIndex();
 
@@ -499,7 +499,7 @@ public:
 		oct_node* parent = getOctParent();
 		oct_node* node = this;
 
-		while (parent != NULL)
+		while (parent != nullptr)
 		{
 			node = parent;
 			parent = node->getOctParent();
@@ -729,7 +729,7 @@ public:
 	}
 #endif
 	
-	bool balance()
+	bool balance() override
 	{	
 		if (this->getChildCount() == 1 && 
 			!(this->mChild[0]->isLeaf()) &&
@@ -763,9 +763,9 @@ public:
 	}
 
 	// LLOctreeRoot::insert
-	bool insert(T* data)
+	bool insert(T* data) override
 	{
-		if (data == NULL) 
+		if (data == nullptr) 
 		{
 			OCT_ERRS << "!!! INVALID ELEMENT ADDED TO OCTREE ROOT !!!" << LL_ENDL;
 			return false;

@@ -113,7 +113,7 @@ void LLToastPanel::snapToMessageHeight(LLTextBase* message, S32 maxLineCount)
 LLToastPanel* LLToastPanel::buidPanelFromNotification(
 		const LLNotificationPtr& notification)
 {
-	LLToastPanel* res = NULL;
+	LLToastPanel* res = nullptr;
 
 	//process tip toast panels
 	if ("notifytip" == notification->getType())

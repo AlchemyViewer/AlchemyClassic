@@ -41,7 +41,7 @@ class LLHttpSDHandler : public LLCore::HttpHandler //,
 {
 public:
 
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+	void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 	
 protected:
     LLHttpSDHandler();

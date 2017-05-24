@@ -50,10 +50,10 @@ public:
 	virtual ~LLFloaterIMNearbyChatHandler();
 
 
-	virtual void processChat(const LLChat& chat_msg, const LLSD &args);
+	void processChat(const LLChat& chat_msg, const LLSD &args) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 
 	static boost::scoped_ptr<LLEventPump> sChatWatcher;
 };

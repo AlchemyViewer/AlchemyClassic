@@ -62,9 +62,9 @@ public:
 										 	 LLDate date, const std::string &hl);
 	virtual ~LLTeleportHistoryFlatItem();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ S32 notify(const LLSD& info);
+	/*virtual*/ S32 notify(const LLSD& info) override;
 
 	S32 getIndex() { return mIndex; }
 	void setIndex(S32 index) { mIndex = index; }
@@ -76,11 +76,11 @@ public:
 	void updateTimestamp();
 	std::string getTimestamp();
 
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
-	void onMouseEnter(S32 x, S32 y, MASK mask);
-	void onMouseLeave(S32 x, S32 y, MASK mask);
-	virtual BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
 	static void showPlaceInfoPanel(S32 index);
 
@@ -135,11 +135,11 @@ private:
 LLTeleportHistoryFlatItem::LLTeleportHistoryFlatItem(S32 index, LLTeleportHistoryPanel::ContextMenu *context_menu, const std::string &region_name,
 																LLDate date, const std::string &hl)
 :	LLPanel(),
-	mIndex(index),
 	mContextMenu(context_menu),
+	mIndex(index),
 	mRegionName(region_name),
-	mDate(date),
-	mHighlight(hl)
+	mHighlight(hl),
+	mDate(date)
 {
 	buildFromFile( "panel_teleport_history_item.xml");
 }
@@ -170,9 +170,9 @@ S32 LLTeleportHistoryFlatItem::notify(const LLSD& info)
 	if(info.has("detach"))
 	{
 		delete mMouseDownSignal;
-		mMouseDownSignal = NULL;
+		mMouseDownSignal = nullptr;
 		delete mRightMouseDownSignal;
-		mRightMouseDownSignal = NULL;
+		mRightMouseDownSignal = nullptr;
 		return 1;
 	}
 	return 0;
@@ -299,11 +299,11 @@ LLTeleportHistoryFlatItemStorage::getFlatItemForPersistentItem (
 	const S32 cur_item_index,
 	const std::string &hl)
 {
-	LLTeleportHistoryFlatItem* item = NULL;
+	LLTeleportHistoryFlatItem* item = nullptr;
 	if ( cur_item_index < (S32) mItems.size() )
 	{
 		item = mItems[cur_item_index].get();
-		if (item->getParent() == NULL)
+		if (item->getParent() == nullptr)
 		{
 			item->setIndex(cur_item_index);
 			item->setRegionName(persistent_item.mTitle);
@@ -316,7 +316,7 @@ LLTeleportHistoryFlatItemStorage::getFlatItemForPersistentItem (
 		else
 		{
 			// Item already added to parent
-			item = NULL;
+			item = nullptr;
 		}
 	}
 
@@ -355,7 +355,7 @@ void LLTeleportHistoryFlatItemStorage::purge()
 		  it != it_end; ++it )
 	{
 		LLHandle <LLTeleportHistoryFlatItem> item_handle = *it;
-		if ( !item_handle.isDead() && item_handle.get()->getParent() == NULL )
+		if ( !item_handle.isDead() && item_handle.get()->getParent() == nullptr )
 		{
 			item_handle.get()->die();
 		}
@@ -448,14 +448,14 @@ void LLTeleportHistoryPanel::ContextMenu::onCopyToClipboard()
 
 LLTeleportHistoryPanel::LLTeleportHistoryPanel()
 	:	LLPanelPlacesTab(),
+		mTeleportHistory(nullptr),
+		mHistoryAccordion(nullptr),
+		mLastSelectedFlatlList(nullptr),
+		mLastSelectedItemIndex(-1),
 		mDirty(true),
 		mCurrentItem(0),
-		mTeleportHistory(NULL),
-		mHistoryAccordion(NULL),
 		mAccordionTabMenuHandle(),
-		mLastSelectedFlatlList(NULL),
-		mLastSelectedItemIndex(-1),
-		mMenuGearButton(NULL)
+		mMenuGearButton(nullptr)
 {
 	buildFromFile( "panel_teleport_history.xml");
 }
@@ -648,9 +648,9 @@ void LLTeleportHistoryPanel::updateVerbs()
 
 	LLTeleportHistoryFlatItem* itemp = dynamic_cast<LLTeleportHistoryFlatItem *> (mLastSelectedFlatlList->getSelectedItem());
 
-	mTeleportBtn->setEnabled(NULL != itemp);
-	mShowProfile->setEnabled(NULL != itemp);
-	mShowOnMapBtn->setEnabled(NULL != itemp);
+	mTeleportBtn->setEnabled(nullptr != itemp);
+	mShowProfile->setEnabled(nullptr != itemp);
+	mShowOnMapBtn->setEnabled(nullptr != itemp);
 }
 
 void LLTeleportHistoryPanel::getNextTab(const LLDate& item_date, S32& tab_idx, LLDate& tab_date)
@@ -725,7 +725,7 @@ void LLTeleportHistoryPanel::refresh()
 	// That leads to call to getNextTab to get right tab_idx in first pass
 	LLDate tab_boundary_date =  LLDate::now();
 
-	LLFlatListView* curr_flat_view = NULL;
+	LLFlatListView* curr_flat_view = nullptr;
 	std::string filter_string = sFilterSubString;
 	LLStringUtil::toUpper(filter_string);
 
@@ -838,7 +838,7 @@ void LLTeleportHistoryPanel::onTeleportHistoryChange(S32 removed_index)
 void LLTeleportHistoryPanel::replaceItem(S32 removed_index)
 {
 	// Flat list for 'Today' (mItemContainers keeps accordion tabs in reverse order)
-	LLFlatListView* fv = NULL;
+	LLFlatListView* fv = nullptr;
 	
 	if (mItemContainers.size() > 0)
 	{
@@ -1089,7 +1089,7 @@ LLFlatListView* LLTeleportHistoryPanel::getFlatListViewFromTab(LLAccordionCtrlTa
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool LLTeleportHistoryPanel::isActionEnabled(const LLSD& userdata) const

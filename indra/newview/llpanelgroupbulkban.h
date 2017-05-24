@@ -38,10 +38,10 @@ public:
 	LLPanelGroupBulkBan(const LLUUID& group_id);
 	~LLPanelGroupBulkBan() {}
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	static void callbackClickSubmit(void* userdata);
-	virtual void submit();
+	void submit() override;
 private:
 	std::string buildResidentsArgument(std::vector<LLAvatarName> avatar_names, const std::string &format);
 };

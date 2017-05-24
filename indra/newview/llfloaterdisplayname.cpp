@@ -47,11 +47,11 @@ class LLFloaterDisplayName : public LLFloater
 public:
 	LLFloaterDisplayName(const LLSD& key);
 	virtual ~LLFloaterDisplayName() { }
-	/*virtual*/	BOOL	postBuild();
+	/*virtual*/	BOOL	postBuild() override;
 	void onSave();
 	void onReset();
 	void onCancel();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 	
 private:
 	

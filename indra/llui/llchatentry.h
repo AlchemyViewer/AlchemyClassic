@@ -54,16 +54,16 @@ protected:
 
 	friend class LLUICtrlFactory;
 	LLChatEntry(const Params& p);
-    /*virtual*/ void    beforeValueChange();
-    /*virtual*/ void    onValueChange(S32 start, S32 end);
-    /*virtual*/ bool    useLabel() const;
+    /*virtual*/ void    beforeValueChange() override;
+    /*virtual*/ void    onValueChange(S32 start, S32 end) override;
+    /*virtual*/ bool    useLabel() const override;
 
 public:
 
-	virtual void	draw();
-	virtual	void	onCommit();
-    /*virtual*/ void	onFocusReceived();
-    /*virtual*/ void	onFocusLost();
+	void	draw() override;
+	void	onCommit() override;
+    /*virtual*/ void	onFocusReceived() override;
+    /*virtual*/ void	onFocusLost() override;
 
 	void enableSingleLineMode(bool single_line_mode);
 	boost::signals2::connection setTextExpandedCallback(const commit_signal_t::slot_type& cb);
@@ -84,7 +84,7 @@ private:
 	 */
 	void	updateHistory();
 
-	BOOL	handleSpecialKey(const KEY key, const MASK mask);
+	BOOL	handleSpecialKey(const KEY key, const MASK mask) override;
 
 
 	// Fired when text height expanded to mExpandLinesCount

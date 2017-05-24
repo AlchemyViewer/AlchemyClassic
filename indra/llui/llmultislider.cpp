@@ -72,21 +72,21 @@ LLMultiSlider::Params::Params()
 
 LLMultiSlider::LLMultiSlider(const LLMultiSlider::Params& p)
 :	LLF32UICtrl(p),
-	mMouseOffset( 0 ),
-	mDragStartThumbRect( 0, getRect().getHeight(), p.thumb_width, 0 ),
 	mMaxNumSliders(p.max_sliders),
 	mAllowOverlap(p.allow_overlap),
 	mDrawTrack(p.draw_track),
 	mUseTriangle(p.use_triangle),
+	mMouseOffset( 0 ),
+	mDragStartThumbRect( 0, getRect().getHeight(), p.thumb_width, 0 ),
+	mThumbWidth(p.thumb_width),
 	mTrackColor(p.track_color()),
 	mThumbOutlineColor(p.thumb_outline_color()),
 	mThumbCenterColor(p.thumb_center_color()),
 	mThumbCenterSelectedColor(p.thumb_center_selected_color()),
 	mDisabledThumbColor(p.thumb_disabled_color()),
 	mTriangleColor(p.triangle_color()),
-	mThumbWidth(p.thumb_width),
-	mMouseDownSignal(NULL),
-	mMouseUpSignal(NULL)
+	mMouseDownSignal(nullptr),
+	mMouseUpSignal(nullptr)
 {
 	mValue.emptyMap();
 	mCurSlider = LLStringUtil::null;
@@ -374,7 +374,7 @@ BOOL LLMultiSlider::handleMouseUp(S32 x, S32 y, MASK mask)
 
 	if( gFocusMgr.getMouseCapture() == this )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 
 		if (mMouseUpSignal)
 			(*mMouseUpSignal)( this, LLSD() );

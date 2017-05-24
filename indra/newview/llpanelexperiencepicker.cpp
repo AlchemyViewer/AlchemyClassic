@@ -74,7 +74,7 @@ LLPanelExperiencePicker::~LLPanelExperiencePicker()
 
 BOOL LLPanelExperiencePicker::postBuild()
 {
-	getChild<LLLineEditor>(TEXT_EDIT)->setKeystrokeCallback( boost::bind(&LLPanelExperiencePicker::editKeystroke, this, _1, _2),NULL);
+	getChild<LLLineEditor>(TEXT_EDIT)->setKeystrokeCallback( boost::bind(&LLPanelExperiencePicker::editKeystroke, this, _1, _2), nullptr);
 
 	childSetAction(BTN_FIND, boost::bind(&LLPanelExperiencePicker::onBtnFind, this));
 	getChildView(BTN_FIND)->setEnabled(TRUE);

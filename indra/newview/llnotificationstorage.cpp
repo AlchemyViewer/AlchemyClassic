@@ -67,7 +67,7 @@ LLNotificationResponderInterface * LLResponderRegistry::createResponder(const st
         return (*factoryFunc)(pParams);
     }
     
-    return NULL;
+    return nullptr;
 }
 
 LLResponderRegistry::StaticRegistrar sRegisterObjectGiveItem("ObjectGiveItem", &LLResponderRegistry::create<LLOfferInfo>);

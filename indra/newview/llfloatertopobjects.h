@@ -61,7 +61,7 @@ public:
 	
 	void clearList();
 	void updateSelectionInfo();
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	void onRefresh();
 

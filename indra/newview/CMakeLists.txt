@@ -116,6 +116,7 @@ set(viewer_SOURCE_FILES
     alfloaterregiontracker.cpp
     alpanelquicksettings.cpp
     alpanelquicksettingspulldown.cpp
+    alviewermenu.cpp
     groupchatlistener.cpp
     llaccountingcostmanager.cpp
     lladdgridhandler.cpp
@@ -762,6 +763,7 @@ set(viewer_HEADER_FILES
     CMakeLists.txt
     ViewerInstall.cmake
     alavatarcolormgr.h
+    alviewermenu.h
     alchatcommand.h
     alpanelmusicticker.h
     alfloaterregiontracker.h

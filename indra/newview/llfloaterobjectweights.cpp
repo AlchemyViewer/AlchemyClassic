@@ -68,16 +68,16 @@ bool LLCrossParcelFunctor::apply(LLViewerObject* obj)
 
 LLFloaterObjectWeights::LLFloaterObjectWeights(const LLSD& key)
 :	LLFloater(key),
-	mSelectedObjects(NULL),
-	mSelectedPrims(NULL),
-	mSelectedDownloadWeight(NULL),
-	mSelectedPhysicsWeight(NULL),
-	mSelectedServerWeight(NULL),
-	mSelectedDisplayWeight(NULL),
-	mSelectedOnLand(NULL),
-	mRezzedOnLand(NULL),
-	mRemainingCapacity(NULL),
-	mTotalCapacity(NULL)
+	mSelectedObjects(nullptr),
+	mSelectedPrims(nullptr),
+	mSelectedDownloadWeight(nullptr),
+	mSelectedPhysicsWeight(nullptr),
+	mSelectedServerWeight(nullptr),
+	mSelectedDisplayWeight(nullptr),
+	mSelectedOnLand(nullptr),
+	mRezzedOnLand(nullptr),
+	mRemainingCapacity(nullptr),
+	mTotalCapacity(nullptr)
 {
 }
 

@@ -48,9 +48,9 @@ struct ViewerFolderEntry : public LLDictionaryEntry
 		) 
 		:
 		LLDictionaryEntry(dictionary_name),
-		mNewCategoryName(new_category_name),
 		mIconNameOpen(icon_name_open),
 		mIconNameClosed(icon_name_closed),
+		mNewCategoryName(new_category_name),
 		mIsQuiet(is_quiet),
 		mHideIfEmpty(hide_if_empty)
 	{

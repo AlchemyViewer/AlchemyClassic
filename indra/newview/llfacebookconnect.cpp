@@ -94,7 +94,7 @@ class LLFacebookConnectHandler : public LLCommandHandler
 public:
 	LLFacebookConnectHandler() : LLCommandHandler("fbc", UNTRUSTED_THROTTLE) { }
     
-	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (tokens.size() >= 1)
 		{

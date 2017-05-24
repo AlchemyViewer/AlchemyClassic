@@ -42,8 +42,8 @@ constexpr U32 NUM_TRAIL_POINTS = 40;
 class LLHUDEffectSpiral : public LLHUDEffect
 {
 public:
-	/*virtual*/ void markDead();
-	/*virtual*/ void setTargetObject(LLViewerObject* objectp);
+	/*virtual*/ void markDead() override;
+	/*virtual*/ void setTargetObject(LLViewerObject* objectp) override;
 	void setVMag(F32 vmag) { mVMag = vmag; }
 	void setVOffset(F32 offset) { mVOffset = offset; }
 	void setInitialRadius(F32 radius) { mInitialRadius = radius; }
@@ -61,10 +61,10 @@ protected:
 	LLHUDEffectSpiral(const U8 type);
 	~LLHUDEffectSpiral();
 
-	/*virtual*/ void render();
-	/*virtual*/ void renderForTimer();
-	/*virtual*/ void packData(LLMessageSystem *mesgsys);
-	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum);
+	/*virtual*/ void render() override;
+	/*virtual*/ void renderForTimer() override;
+	/*virtual*/ void packData(LLMessageSystem *mesgsys) override;
+	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum) override;
 private:
 	/*
 	void setupParticle(const S32 i, const F32 start_time);

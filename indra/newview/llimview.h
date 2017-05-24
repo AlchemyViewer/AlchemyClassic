@@ -50,7 +50,7 @@ class LLSessionTimeoutTimer : public LLEventTimer
 public:
 	LLSessionTimeoutTimer(const LLUUID& session_id, F32 period) : LLEventTimer(period), mSessionId(session_id) {}
 	virtual ~LLSessionTimeoutTimer() {};
-	/* virtual */ BOOL tick();
+	/* virtual */ BOOL tick() override;
 
 private:
 	LLUUID mSessionId;
@@ -524,13 +524,13 @@ public:
 	LLCallDialog(const LLSD& payload);
 	virtual ~LLCallDialog();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	void dockToToolbarButton(const std::string& toolbarButtonName);
 	
 	// check timer state
-	/*virtual*/ void draw();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void draw() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 	
 protected:
 	// lifetime timer for a notification
@@ -569,8 +569,8 @@ public:
 		}
 	}
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	static void onAccept(void* user_data);
 	static void onReject(void* user_data);
@@ -587,7 +587,7 @@ private:
 
 	boost::signals2::connection mAvatarNameCacheConnection;
 
-	/*virtual*/ void onLifetimeExpired();
+	/*virtual*/ void onLifetimeExpired() override;
 };
 
 class LLOutgoingCallDialog : public LLCallDialog
@@ -595,7 +595,7 @@ class LLOutgoingCallDialog : public LLCallDialog
 public:
 	LLOutgoingCallDialog(const LLSD& payload);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	void show(const LLSD& key);
 
 	static void onCancel(void* user_data);

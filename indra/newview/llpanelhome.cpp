@@ -38,7 +38,7 @@ static LLPanelInjector<LLPanelHome> t_home("panel_sidetray_home");
 LLPanelHome::LLPanelHome() :
 	LLPanel(),
 	LLViewerMediaObserver(),
-	mBrowser(NULL),
+	mBrowser(nullptr),
 	mFirstView(true)
 {
 }

@@ -46,18 +46,18 @@ public:
 	LLImageJ2C();
 
 	// Base class overrides
-	/*virtual*/ std::string getExtension() { return std::string("j2c"); }
-	/*virtual*/ bool updateData();
-	/*virtual*/ bool decode(LLImageRaw *raw_imagep, F32 decode_time);
-	/*virtual*/ bool decodeChannels(LLImageRaw *raw_imagep, F32 decode_time, S32 first_channel, S32 max_channel_count);
-	/*virtual*/ bool encode(const LLImageRaw *raw_imagep, F32 encode_time);
-	/*virtual*/ S32 calcHeaderSize();
-	/*virtual*/ S32 calcDataSize(S32 discard_level = 0);
-	/*virtual*/ S32 calcDiscardLevelBytes(S32 bytes);
-	/*virtual*/ S8  getRawDiscardLevel();
+	/*virtual*/ std::string getExtension() override { return std::string("j2c"); }
+	/*virtual*/ bool updateData() override;
+	/*virtual*/ bool decode(LLImageRaw *raw_imagep, F32 decode_time) override;
+	/*virtual*/ bool decodeChannels(LLImageRaw *raw_imagep, F32 decode_time, S32 first_channel, S32 max_channel_count) override;
+	/*virtual*/ bool encode(const LLImageRaw *raw_imagep, F32 encode_time) override;
+	/*virtual*/ S32 calcHeaderSize() override;
+	/*virtual*/ S32 calcDataSize(S32 discard_level = 0) override;
+	/*virtual*/ S32 calcDiscardLevelBytes(S32 bytes) override;
+	/*virtual*/ S8  getRawDiscardLevel() override;
 	// Override these so that we don't try to set a global variable from a DLL
-	/*virtual*/ void resetLastError();
-	/*virtual*/ void setLastError(const std::string& message, const std::string& filename = std::string());
+	/*virtual*/ void resetLastError() override;
+	/*virtual*/ void setLastError(const std::string& message, const std::string& filename = std::string()) override;
 	
 	bool initDecode(LLImageRaw &raw_image, int discard_level, int* region);
 	bool initEncode(LLImageRaw &raw_image, int blocks_size, int precincts_size, int levels);
@@ -121,7 +121,7 @@ protected:
 	virtual bool decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 decode_time, S32 first_channel, S32 max_channel_count) = 0;
 	virtual bool encodeImpl(LLImageJ2C &base, const LLImageRaw &raw_image, const char* comment_text, F32 encode_time=0.0,
 							bool reversible=false) = 0;
-	virtual bool initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level = -1, int* region = NULL) = 0;
+	virtual bool initDecode(LLImageJ2C &base, LLImageRaw &raw_image, int discard_level = -1, int* region = nullptr) = 0;
 	virtual bool initEncode(LLImageJ2C &base, LLImageRaw &raw_image, int blocks_size = -1, int precincts_size = -1, int levels = 0) = 0;
 
 	virtual std::string getEngineInfo() const = 0;
@@ -148,7 +148,7 @@ class LLImageCompressionTester : public LLMetricPerformanceTesterBasic
         void updateCompressionStats(const S32 bytesIn, const S32 bytesOut) ;
     
     protected:
-        /*virtual*/ void outputTestRecord(LLSD* sd);
+        /*virtual*/ void outputTestRecord(LLSD* sd) override;
         
     private:
         //

@@ -126,7 +126,7 @@ public:
 	LLWorldMapHandler() : LLCommandHandler("worldmap", UNTRUSTED_THROTTLE ) { }
 	
 	bool handle(const LLSD& params, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnableWorldMap"))
 		{
@@ -164,7 +164,7 @@ public:
 	{ 
 	}
 	
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnableWorldMap"))
 		{
@@ -198,7 +198,7 @@ class LLMapInventoryObserver : public LLInventoryObserver
 public:
 	LLMapInventoryObserver() {}
 	virtual ~LLMapInventoryObserver() {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 };
 
 void LLMapInventoryObserver::changed(U32 mask)
@@ -216,7 +216,7 @@ class LLMapFriendObserver : public LLFriendObserver
 public:
 	LLMapFriendObserver() {}
 	virtual ~LLMapFriendObserver() {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 };
 
 void LLMapFriendObserver::changed(U32 mask)
@@ -242,9 +242,10 @@ const LLUUID LLFloaterWorldMap::sHomeID( "10000000-0000-0000-0000-000000000001" 
 
 LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 :	LLFloater(key),
-	mInventory(NULL),
-	mInventoryObserver(NULL),
-	mFriendObserver(NULL),
+	mPanel(nullptr),
+	mInventory(nullptr),
+	mInventoryObserver(nullptr),
+	mFriendObserver(nullptr),
 	mCompletingRegionName(),
 	mCompletingRegionPos(),
 	mWaitingForTracker(FALSE),
@@ -252,7 +253,6 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mSetToUserPosition(TRUE),
 	mTrackedLocation(0,0,0),
 	mTrackedStatus(LLTracker::TRACKING_NOTHING),
-	mPanel(nullptr),
 	mListFriendCombo(nullptr),
 	mListLandmarkCombo(nullptr),
 	mListSearchResults(nullptr),
@@ -271,7 +271,7 @@ LLFloaterWorldMap::LLFloaterWorldMap(const LLSD& key)
 	mTeleportHomeButton(nullptr),
 	mZoomSlider(nullptr)
 {
-	mFactoryMap["objects_mapview"] = LLCallbackMap(createWorldMapView, NULL);
+	mFactoryMap["objects_mapview"] = LLCallbackMap(createWorldMapView, nullptr);
 	
 	mCommitCallbackRegistrar.add("WMap.Coordinates",	boost::bind(&LLFloaterWorldMap::onCoordinatesCommit, this));
 	mCommitCallbackRegistrar.add("WMap.Location",		boost::bind(&LLFloaterWorldMap::onLocationCommit, this));
@@ -336,7 +336,7 @@ BOOL LLFloaterWorldMap::postBuild()
 	mCurZoomVal = log(LLWorldMapView::sMapScale)/log(2.f);
 	mZoomSlider->setValue(LLWorldMapView::sMapScale);
 	
-	setDefaultBtn(NULL);
+	setDefaultBtn(nullptr);
 	
 	mZoomTimer.stop();
 	
@@ -349,14 +349,14 @@ BOOL LLFloaterWorldMap::postBuild()
 LLFloaterWorldMap::~LLFloaterWorldMap()
 {
 	// All cleaned up by LLView destructor
-	mPanel = NULL;
+	mPanel = nullptr;
 	
 	// Inventory deletes all observers on shutdown
-	mInventory = NULL;
-	mInventoryObserver = NULL;
+	mInventory = nullptr;
+	mInventoryObserver = nullptr;
 	
 	// avatar tracker will delete this for us.
-	mFriendObserver = NULL;
+	mFriendObserver = nullptr;
 }
 
 //static
@@ -864,8 +864,8 @@ void LLFloaterWorldMap::observeInventory(LLInventoryModel* model)
 	{
 		mInventory->removeObserver(mInventoryObserver);
 		delete mInventoryObserver;
-		mInventory = NULL;
-		mInventoryObserver = NULL;
+		mInventory = nullptr;
+		mInventoryObserver = nullptr;
 	}
 	if(model)
 	{
@@ -1256,7 +1256,7 @@ void LLFloaterWorldMap::updateSearchEnabled()
 	}
 	else
 	{
-		setDefaultBtn(NULL);
+		setDefaultBtn(nullptr);
 	}
 }
 

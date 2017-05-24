@@ -64,5 +64,5 @@ void LLFloaterBuildOptions::onOpen(const LLSD& key)
 // virtual
 void LLFloaterBuildOptions::onClose(bool app_quitting)
 {
-	mObjectSelection = NULL;
+	mObjectSelection = nullptr;
 }

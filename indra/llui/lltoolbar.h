@@ -62,24 +62,24 @@ public:
 	LLToolBarButton(const Params& p);
 	~LLToolBarButton();
 
-	BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	BOOL handleHover(S32 x, S32 y, MASK mask);
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
 
-	void reshape(S32 width, S32 height, BOOL called_from_parent = true);
-	void setEnabled(BOOL enabled);
+	void reshape(S32 width, S32 height, BOOL called_from_parent = true) override;
+	void setEnabled(BOOL enabled) override;
 	void setCommandId(const LLCommandId& id) { mId = id; }
 	LLCommandId getCommandId() { return mId; }
 
 	void setStartDragCallback(tool_startdrag_callback_t cb)   { mStartDragItemCallback  = cb; }
 	void setHandleDragCallback(tool_handledrag_callback_t cb) { mHandleDragItemCallback = cb; }
 
-	void onMouseEnter(S32 x, S32 y, MASK mask);
-	void onMouseLeave(S32 x, S32 y, MASK mask);
-	void onMouseCaptureLost();
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	void onMouseCaptureLost() override;
 
-	void onCommit();
+	void onCommit() override;
 
-	virtual const std::string getToolTip() const;		
+	const std::string getToolTip() const override;		
 
 private:
 	void callIfEnabled(LLUICtrl::commit_callback_t commit, LLUICtrl* ctrl, const LLSD& param );
@@ -185,7 +185,7 @@ public:
 		typedef boost::function<void(LLToolBarEnums::EToolBarLocation tb, const LLRect& rect)> reshape_callback_t;
 
 		virtual ~LLCenterLayoutPanel() {}
-		/*virtual*/ void handleReshape(const LLRect& rect, bool by_user);
+		/*virtual*/ void handleReshape(const LLRect& rect, bool by_user) override;
 
 		void setLocationId(LLToolBarEnums::EToolBarLocation id) { mLocationId = id; }
 		void setReshapeCallback(reshape_callback_t cb) { mReshapeCallback = cb; }
@@ -193,7 +193,7 @@ public:
 
 	protected:
 		friend class LLUICtrlFactory;
-		LLCenterLayoutPanel(const Params& params) : LLLayoutPanel(params), mLocationId(LLToolBarEnums::TOOLBAR_NONE), mButtonPanel(NULL) {}
+		LLCenterLayoutPanel(const Params& params) : LLLayoutPanel(params), mLocationId(LLToolBarEnums::TOOLBAR_NONE), mButtonPanel(nullptr) {}
 
 	private:
 		reshape_callback_t					mReshapeCallback;
@@ -232,14 +232,14 @@ public:
 	};
 
 	// virtuals
-	void draw();
-	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+	void draw() override;
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 	
 	static const int RANK_NONE = -1;
 	bool addCommand(const LLCommandId& commandId, int rank = RANK_NONE);

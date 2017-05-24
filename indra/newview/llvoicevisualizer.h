@@ -84,10 +84,10 @@ class LLVoiceVisualizer : public LLHUDEffect
 		bool					getCurrentlySpeaking();									// the get for the above set
 		VoiceGesticulationLevel	getCurrentGesticulationLevel();							// based on voice amplitude, I'll give you the current "energy level" of avatar speech
 		void					lipSyncOohAah( F32& ooh, F32& aah );
-		void					render();												// inherited from HUD Effect
-		void 					packData(LLMessageSystem *mesgsys);						// inherited from HUD Effect
-		void 					unpackData(LLMessageSystem *mesgsys, S32 blocknum);		// inherited from HUD Effect
-		void					markDead();											// inherited from HUD Effect
+		void					render() override;												// inherited from HUD Effect
+		void 					packData(LLMessageSystem *mesgsys) override;						// inherited from HUD Effect
+		void 					unpackData(LLMessageSystem *mesgsys, S32 blocknum) override;		// inherited from HUD Effect
+		void					markDead() override;											// inherited from HUD Effect
 		
 		//----------------------------------------------------------------------------------------------
 		// "setMaxGesticulationAmplitude" and "setMinGesticulationAmplitude" allow for the tuning of the 

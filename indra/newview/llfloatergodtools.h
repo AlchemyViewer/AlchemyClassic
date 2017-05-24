@@ -74,9 +74,9 @@ public:
 
 	void showPanel(const std::string& panel_name);
 
-	virtual void onOpen(const LLSD& key);
+	void onOpen(const LLSD& key) override;
 
-	virtual void draw();
+	void draw() override;
 
 	// call this once per frame to handle visibility, rect location,
 	// button highlights, etc.
@@ -101,7 +101,7 @@ protected:
 
 protected:
 
-	/*virtual*/	BOOL	postBuild();
+	/*virtual*/	BOOL	postBuild() override;
 	// When the floater is going away, reset any options that need to be 
 	// cleared.
 	void resetToolState();
@@ -126,9 +126,9 @@ public:
 	LLPanelRegionTools();
 	/*virtual*/ ~LLPanelRegionTools();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 
 	static void onSaveState(void* userdata);
 	static void onChangeSimName(LLLineEditor* caller, void* userdata);
@@ -188,9 +188,9 @@ public:
 	LLPanelGridTools();
 	virtual ~LLPanelGridTools();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	void refresh();
+	void refresh() override;
 
 	static void onDragSunPhase(LLUICtrl *ctrl, void *userdata);
 	void onClickFlushMapVisibilityCaches();
@@ -212,9 +212,9 @@ public:
 	LLPanelObjectTools();
 	/*virtual*/ ~LLPanelObjectTools();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 
 	void setTargetAvatar(const LLUUID& target_id);
 	U64 computeRegionFlags(U64 initial_flags) const;
@@ -253,9 +253,9 @@ public:
 	LLPanelRequestTools();
 	/*virtual*/ ~LLPanelRequestTools();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	void refresh();
+	void refresh() override;
 
 	static void sendRequest(const std::string& request, 
 							const std::string& parameter, 

@@ -48,7 +48,7 @@ template <class Type> class LLPointer
 public:
 
 	LLPointer() : 
-		mPointer(NULL)
+		mPointer(nullptr)
 	{
 	}
 
@@ -83,11 +83,11 @@ public:
 	const Type&	operator*() const				{ return *mPointer; }
 	Type&	operator*()							{ return *mPointer; }
 
-	operator BOOL()  const						{ return (mPointer != NULL); }
-	operator bool()  const						{ return (mPointer != NULL); }
-	bool operator!() const						{ return (mPointer == NULL); }
-	bool isNull() const							{ return (mPointer == NULL); }
-	bool notNull() const						{ return (mPointer != NULL); }
+	operator BOOL()  const						{ return (mPointer != nullptr); }
+	operator bool()  const						{ return (mPointer != nullptr); }
+	bool operator!() const						{ return (mPointer == nullptr); }
+	bool isNull() const							{ return (mPointer == nullptr); }
+	bool notNull() const						{ return (mPointer != nullptr); }
 
 	operator Type*()       const				{ return mPointer; }
 	bool operator !=(Type* ptr) const           { return (mPointer != ptr); 	}
@@ -154,7 +154,7 @@ protected:
 			Type *temp = mPointer;
 			mPointer = NULL;
 			temp->unref();
-			if (mPointer != NULL)
+			if (mPointer != nullptr)
 			{
 				LL_WARNS() << "Unreference did assignment to non-NULL because of destructor" << LL_ENDL;
 				unref();
@@ -170,7 +170,7 @@ template <class Type> class LLConstPointer
 {
 public:
 	LLConstPointer() : 
-		mPointer(NULL)
+		mPointer(nullptr)
 	{
 	}
 
@@ -203,11 +203,11 @@ public:
 	const Type*	operator->() const				{ return mPointer; }
 	const Type&	operator*() const				{ return *mPointer; }
 
-	operator BOOL()  const						{ return (mPointer != NULL); }
-	operator bool()  const						{ return (mPointer != NULL); }
-	bool operator!() const						{ return (mPointer == NULL); }
-	bool isNull() const							{ return (mPointer == NULL); }
-	bool notNull() const						{ return (mPointer != NULL); }
+	operator BOOL()  const						{ return (mPointer != nullptr); }
+	operator bool()  const						{ return (mPointer != nullptr); }
+	bool operator!() const						{ return (mPointer == nullptr); }
+	bool isNull() const							{ return (mPointer == nullptr); }
+	bool notNull() const						{ return (mPointer != nullptr); }
 
 	operator const Type*()       const			{ return mPointer; }
 	bool operator !=(const Type* ptr) const     { return (mPointer != ptr); 	}
@@ -280,7 +280,7 @@ protected:
 			const Type *tempp = mPointer;
 			mPointer = NULL;
 			tempp->unref();
-			if (mPointer != NULL)
+			if (mPointer != nullptr)
 			{
 				LL_WARNS() << "Unreference did assignment to non-NULL because of destructor" << LL_ENDL;
 				unref();

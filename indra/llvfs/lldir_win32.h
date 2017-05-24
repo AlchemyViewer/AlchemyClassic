@@ -40,14 +40,14 @@ public:
 	virtual ~LLDir_Win32();
 
 	/*virtual*/ void initAppDirs(const std::string &app_name,
-		const std::string& app_read_only_data_dir);
+		const std::string& app_read_only_data_dir) override;
 
-	/*virtual*/ std::string getCurPath();
+	/*virtual*/ std::string getCurPath() override;
 	/*virtual*/ U32 countFilesInDir(const std::string &dirname, const std::string &mask);
-	/*virtual*/ bool fileExists(const std::string &filename) const;
+	/*virtual*/ bool fileExists(const std::string &filename) const override;
 
-	/*virtual*/ std::string getLLPluginLauncher();
-	/*virtual*/ std::string getLLPluginFilename(std::string base_name);
+	/*virtual*/ std::string getLLPluginLauncher() override;
+	/*virtual*/ std::string getLLPluginFilename(std::string base_name) override;
 
 private:
 	void* mDirSearch_h;

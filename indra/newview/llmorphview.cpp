@@ -47,7 +47,7 @@
 #include "llviewerwindow.h"
 #include "pipeline.h"
 
-LLMorphView *gMorphView = NULL;
+LLMorphView *gMorphView = nullptr;
 
 const F32 MORPH_NEAR_CLIP = 0.1f;
 
@@ -56,7 +56,7 @@ const F32 MORPH_NEAR_CLIP = 0.1f;
 //-----------------------------------------------------------------------------
 LLMorphView::LLMorphView(const LLMorphView::Params& p)
 : 	LLView(p),
-	mCameraTargetJoint( NULL ),
+	mCameraTargetJoint(nullptr ),
 	mCameraOffset(-0.5f, 0.05f, 0.07f ),
 	mCameraTargetOffset(0.f, 0.f, 0.05f ),
 	mOldCameraNearClip( 0.f ),

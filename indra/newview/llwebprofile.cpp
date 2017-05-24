@@ -105,10 +105,10 @@ void LLWebProfile::uploadImageCoro(LLPointer<LLImageFormatted> image, std::strin
     LLCore::HttpOptions::ptr_t httpOpts(new LLCore::HttpOptions);
     LLCore::HttpHeaders::ptr_t httpHeaders;
 
-    if (dynamic_cast<LLImagePNG*>(image.get()) == 0)
+    if (dynamic_cast<LLImagePNG*>(image.get()) == nullptr)
     {
         LL_WARNS() << "Image to upload is not a PNG" << LL_ENDL;
-        llassert(dynamic_cast<LLImagePNG*>(image.get()) != 0);
+        llassert(dynamic_cast<LLImagePNG*>(image.get()) != nullptr);
         return;
     }
 

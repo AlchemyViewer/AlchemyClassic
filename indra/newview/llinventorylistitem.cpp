@@ -59,7 +59,7 @@ LLPanelInventoryListItemBase::Params::Params()
 
 LLPanelInventoryListItemBase* LLPanelInventoryListItemBase::create(LLViewerInventoryItem* item)
 {
-	LLPanelInventoryListItemBase* list_item = NULL;
+	LLPanelInventoryListItemBase* list_item = nullptr;
 	if (item)
 	{
 		const LLPanelInventoryListItemBase::Params& params = LLUICtrlFactory::getDefaultParams<LLPanelInventoryListItemBase>();
@@ -199,7 +199,7 @@ void LLPanelInventoryListItemBase::onMouseLeave(S32 x, S32 y, MASK mask)
 const std::string& LLPanelInventoryListItemBase::getItemName() const
 {
 	LLViewerInventoryItem* inv_item = getItem();
-	if (NULL == inv_item)
+	if (nullptr == inv_item)
 	{
 		return LLStringUtil::null;
 	}
@@ -209,7 +209,7 @@ const std::string& LLPanelInventoryListItemBase::getItemName() const
 LLAssetType::EType LLPanelInventoryListItemBase::getType() const
 {
 	LLViewerInventoryItem* inv_item = getItem();
-	if (NULL == inv_item)
+	if (nullptr == inv_item)
 	{
 		return LLAssetType::AT_NONE;
 	}
@@ -219,7 +219,7 @@ LLAssetType::EType LLPanelInventoryListItemBase::getType() const
 LLWearableType::EType LLPanelInventoryListItemBase::getWearableType() const
 {
 	LLViewerInventoryItem* inv_item = getItem();
-	if (NULL == inv_item)
+	if (nullptr == inv_item)
 	{
 		return LLWearableType::WT_NONE;
 	}
@@ -229,7 +229,7 @@ LLWearableType::EType LLPanelInventoryListItemBase::getWearableType() const
 const std::string& LLPanelInventoryListItemBase::getDescription() const
 {
 	LLViewerInventoryItem* inv_item = getItem();
-	if (NULL == inv_item)
+	if (nullptr == inv_item)
 	{
 		return LLStringUtil::null;
 	}
@@ -239,7 +239,7 @@ const std::string& LLPanelInventoryListItemBase::getDescription() const
 time_t LLPanelInventoryListItemBase::getCreationDate() const
 {
 	LLViewerInventoryItem* inv_item = getItem();
-	if (NULL == inv_item)
+	if (nullptr == inv_item)
 	{
 		return 0;
 	}
@@ -283,18 +283,18 @@ S32 LLPanelInventoryListItemBase::notify(const LLSD& info)
 LLPanelInventoryListItemBase::LLPanelInventoryListItemBase(LLViewerInventoryItem* item, const LLPanelInventoryListItemBase::Params& params)
 :	LLPanel(params),
 	mInventoryItemUUID(item ? item->getUUID() : LLUUID::null),
-	mIconCtrl(NULL),
-	mTitleCtrl(NULL),
-	mWidgetSpacing(WIDGET_SPACING),
-	mLeftWidgetsWidth(0),
-	mRightWidgetsWidth(0),
-	mNeedsRefresh(false),
+	mIconCtrl(nullptr),
+	mTitleCtrl(nullptr),
+	mHoverImage(params.hover_image),
+	mSelectedImage(params.selected_image),
+	mSeparatorImage(params.separator_image),
 	mHovered(false),
 	mSelected(false),
 	mSeparatorVisible(false),
-	mHoverImage(params.hover_image),
-	mSelectedImage(params.selected_image),
-	mSeparatorImage(params.separator_image)
+	mWidgetSpacing(WIDGET_SPACING),
+	mLeftWidgetsWidth(0),
+	mRightWidgetsWidth(0),
+	mNeedsRefresh(false)
 {
 	LLIconCtrl::Params icon_params(params.item_icon);
 	applyXUILayout(icon_params, this);

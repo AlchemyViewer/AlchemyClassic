@@ -112,7 +112,7 @@ public:
 	struct LLFilterItem {
 		std::string displayName;
 		LLInventoryCollectFunctor* collector;
-		LLFilterItem() : displayName("NONE"), collector(NULL) {}
+		LLFilterItem() : displayName("NONE"), collector(nullptr) {}
 		LLFilterItem(std::string name, LLInventoryCollectFunctor* _collector) : displayName(name), collector(_collector) {}
 		~LLFilterItem() { delete collector; }
 
@@ -125,8 +125,8 @@ public:
 	LLPanelOutfitEdit();
 	/*virtual*/ ~LLPanelOutfitEdit();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	void moveWearable(bool closer_to_body);
 
@@ -182,11 +182,11 @@ public:
 
 	void resetAccordionState();
 
-	virtual BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+	BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 									  EDragAndDropType cargo_type,
 									  void* cargo_data,
 									  EAcceptance* accept,
-									  std::string& tooltip_msg);
+									  std::string& tooltip_msg) override;
 
 private:
 	void onAddMoreButtonClicked();

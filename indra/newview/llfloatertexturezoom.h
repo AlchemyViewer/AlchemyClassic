@@ -31,15 +31,15 @@ class LLFloaterTextureZoom : public LLPreview
 public:
 	LLFloaterTextureZoom(const LLSD& key);
 	
-	/* virtual */ BOOL postBuild();
-	/* virtual */ void draw();
-	/* virtual */ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/* virtual */ BOOL postBuild() override;
+	/* virtual */ void draw() override;
+	/* virtual */ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 	
-	/* virtual */ void loadAsset();
-	/* virtual */ EAssetStatus getAssetStatus();
-	/* virtual */ void setObjectID(const LLUUID& object_id);
-	/* virtual */ BOOL handleKeyHere(KEY key, MASK mask);
-	/* virtual */ void onFocusLost();
+	/* virtual */ void loadAsset() override;
+	/* virtual */ EAssetStatus getAssetStatus() override;
+	/* virtual */ void setObjectID(const LLUUID& object_id) override;
+	/* virtual */ BOOL handleKeyHere(KEY key, MASK mask) override;
+	/* virtual */ void onFocusLost() override;
 	
 private:
 	~LLFloaterTextureZoom();

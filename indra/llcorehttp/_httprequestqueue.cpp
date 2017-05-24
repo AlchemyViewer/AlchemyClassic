@@ -37,7 +37,7 @@ using namespace LLCoreInt;
 namespace LLCore
 {
 
-HttpRequestQueue * HttpRequestQueue::sInstance(NULL);
+HttpRequestQueue * HttpRequestQueue::sInstance(nullptr);
 
 
 HttpRequestQueue::HttpRequestQueue()
@@ -65,7 +65,7 @@ void HttpRequestQueue::term()
 	if (sInstance)
 	{
 		sInstance->release();
-		sInstance = NULL;
+		sInstance = nullptr;
 	}
 }
 

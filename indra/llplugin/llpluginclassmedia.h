@@ -96,7 +96,7 @@ public:
 	// until you call idle() again.
 	bool textureValid(void);
 	
-	bool getDirty(LLRect *dirty_rect = NULL);
+	bool getDirty(LLRect *dirty_rect = nullptr);
 	void resetDirty(void);
 	
 	typedef enum 
@@ -154,9 +154,9 @@ public:
 	void setDisableTimeout(bool disable) { if(mPlugin) mPlugin->setDisableTimeout(disable); };
 	
 	// Inherited from LLPluginProcessParentOwner
-	/* virtual */ void receivePluginMessage(const LLPluginMessage &message);
-	/* virtual */ void pluginLaunchFailed();
-	/* virtual */ void pluginDied();
+	/* virtual */ void receivePluginMessage(const LLPluginMessage &message) override;
+	/* virtual */ void pluginLaunchFailed() override;
+	/* virtual */ void pluginDied() override;
 	
 	
 	typedef enum 

@@ -40,10 +40,10 @@ const S32 NUM_POINTS = 5;
 class LLHUDEffectBeam : public LLHUDEffect
 {
 public:
-	/*virtual*/ void setSourceObject(LLViewerObject *objp);
+	/*virtual*/ void setSourceObject(LLViewerObject *objp) override;
 
 	// A beam can have either a target object or a target position
-	void setTargetObject(LLViewerObject *objp);
+	void setTargetObject(LLViewerObject *objp) override;
 	void setTargetPos(const LLVector3d &target_pos_global);
 
 	friend class LLHUDObject;
@@ -51,10 +51,10 @@ protected:
 	LLHUDEffectBeam(const U8 type);
 	~LLHUDEffectBeam();
 
-	/*virtual*/ void render();
-	/*virtual*/ void renderForTimer();
-	/*virtual*/ void packData(LLMessageSystem *mesgsys);
-	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum);
+	/*virtual*/ void render() override;
+	/*virtual*/ void renderForTimer() override;
+	/*virtual*/ void packData(LLMessageSystem *mesgsys) override;
+	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum) override;
 private:
 	void setupParticle(const S32 i);
 

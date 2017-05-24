@@ -71,6 +71,7 @@ void QuadrantNames::declareValues()
 
 LLJoystick::LLJoystick(const LLJoystick::Params& p)
 :	LLButton(p),
+	mInitialQuadrant(p.quadrant),
 	mInitialOffset(0, 0),
 	mLastMouse(0, 0),
 	mFirstMouse(0, 0),
@@ -79,8 +80,7 @@ LLJoystick::LLJoystick(const LLJoystick::Params& p)
 	mHorizSlopNear(0),
 	mHorizSlopFar(0),
 	mHeldDown(FALSE),
-	mHeldDownTimer(),
-	mInitialQuadrant(p.quadrant)
+	mHeldDownTimer()
 {
 	setHeldDownCallback(boost::bind(&LLJoystick::onBtnHeldDown, this));
 }

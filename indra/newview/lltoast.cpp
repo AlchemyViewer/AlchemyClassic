@@ -39,8 +39,8 @@ using namespace LLNotificationsUI;
 
 //--------------------------------------------------------------------------
 LLToastLifeTimer::LLToastLifeTimer(LLToast* toast, F32 period)
-	: mToast(toast),
-	  LLEventTimer(period)
+	: LLEventTimer(period),
+	  mToast(toast)
 {
 }
 
@@ -88,33 +88,33 @@ F32 LLToastLifeTimer::getRemainingTimeF32()
 
 //--------------------------------------------------------------------------
 LLToast::Params::Params() 
-:	can_fade("can_fade", true),
+:	lifetime_secs("lifetime_secs", gSavedSettings.getS32("NotificationToastLifeTime")),
+	fading_time_secs("fading_time_secs", gSavedSettings.getS32("ToastFadingTime")),
+	can_fade("can_fade", true),
 	can_be_stored("can_be_stored", true),
+	enable_hide_btn("enable_hide_btn", true),
 	is_modal("is_modal", false),
 	is_tip("is_tip", false),
-	enable_hide_btn("enable_hide_btn", true),
 	force_show("force_show", false),
-	force_store("force_store", false),
-	fading_time_secs("fading_time_secs", gSavedSettings.getS32("ToastFadingTime")),
-	lifetime_secs("lifetime_secs", gSavedSettings.getS32("NotificationToastLifeTime"))
+	force_store("force_store", false)
 {};
 
 LLToast::LLToast(const LLToast::Params& p) 
 :	LLModalDialog(LLSD(), p.is_modal),
+	mNotificationID(p.notif_id),
+	mSessionID(p.session_id),
+	mNotification(p.notification),  
+	mWrapperPanel(nullptr),
 	mToastLifetime(p.lifetime_secs),
 	mToastFadingTime(p.fading_time_secs),
-	mNotificationID(p.notif_id),  
-	mSessionID(p.session_id),
+	mPanel(nullptr),
+	mHideBtn(nullptr),
 	mCanFade(p.can_fade),
 	mCanBeStored(p.can_be_stored),
 	mHideBtnEnabled(p.enable_hide_btn),
-	mHideBtn(NULL),
-	mPanel(NULL),
-	mNotification(p.notification),
-	mIsHidden(false),
 	mHideBtnPressed(false),
+	mIsHidden(false),
 	mIsTip(p.is_tip),
-	mWrapperPanel(NULL),
 	mIsFading(false),
 	mIsHovered(false)
 {
@@ -611,7 +611,7 @@ void LLToast::updateClass()
 // static 
 void LLToast::cleanupToasts()
 {
-	LLToast * toastp = NULL;
+	LLToast * toastp = nullptr;
 
 	while (LLInstanceTracker<LLToast>::instanceCount() > 0)
 	{

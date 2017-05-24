@@ -65,16 +65,16 @@ protected:
 public:
 	~LLContainerView();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ bool addChild(LLView* view, S32 tab_group = 0);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ bool addChild(LLView* view, S32 tab_group = 0) override;
 	
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
 
-	/*virtual*/ void draw();
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	/*virtual*/ LLRect getRequiredRect();	// Return the height of this object, given the set options.
+	/*virtual*/ void draw() override;
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	/*virtual*/ LLRect getRequiredRect() override;	// Return the height of this object, given the set options.
 
 	void setLabel(const std::string& label);
 	void showLabel(BOOL show) { mShowLabel = show; }

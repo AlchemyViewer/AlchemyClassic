@@ -70,7 +70,7 @@ const char* LLCalc::TEX_ROTATION = "trot";
 const char* LLCalc::TEX_TRANSPARENCY = "trns";
 const char* LLCalc::TEX_GLOW = "glow";
 
-LLCalc* LLCalc::sInstance = NULL;
+LLCalc* LLCalc::sInstance = nullptr;
 
 //TODO: Make this a static global class
 LLCalc::LLCalc() : mLastErrorPos(0)
@@ -95,7 +95,7 @@ LLCalc::~LLCalc()
 void LLCalc::cleanUp()
 {
 	delete sInstance;
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 //static

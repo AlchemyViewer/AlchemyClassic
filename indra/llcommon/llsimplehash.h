@@ -37,7 +37,7 @@ protected:
 public:
 	LLSimpleHashEntry(HASH_KEY_TYPE key) :
 		mHashKey(key),
-		mNextEntry(0)
+		mNextEntry(nullptr)
 	{
 	}
 	virtual ~LLSimpleHashEntry()
@@ -101,7 +101,7 @@ public:
 	bool erase(HASH_KEY_TYPE key)
 	{
 		int index = getIndex(key);
-		LLSimpleHashEntry<HASH_KEY_TYPE>* prev = 0;
+		LLSimpleHashEntry<HASH_KEY_TYPE>* prev = nullptr;
 		LLSimpleHashEntry<HASH_KEY_TYPE>* res = mEntryTable[index];
 		while(res && (res->getHashKey() != key))
 		{
@@ -139,7 +139,7 @@ public:
 				return entry;
 			}
 		}
-		return 0;
+		return nullptr;
 	}
 	// debugging
 	LLSimpleHashEntry<HASH_KEY_TYPE>* get_element_at_index(S32 index) const

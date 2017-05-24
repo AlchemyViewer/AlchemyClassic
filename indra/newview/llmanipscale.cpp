@@ -190,8 +190,8 @@ LLManipScale::LLManipScale( LLToolComposite* composite )
 	mTickPixelSpacing1(0.f),
 	mTickPixelSpacing2(0.f),
 	mSnapGuideLength(0.f),
-	mSnapRegime(SNAP_REGIME_NONE),
-	mScaleSnappedValue(0.f)
+	mScaleSnappedValue(0.f),
+	mSnapRegime(SNAP_REGIME_NONE)
 {
 	for (S32 i = 0; i < NUM_MANIPULATORS; i++)
 	{
@@ -828,9 +828,9 @@ void LLManipScale::drag( S32 x, S32 y )
 	{
 		LLSelectNode* selectNode = *iter;
 		LLViewerObject*cur = selectNode->getObject();
-		LLViewerObject *root_object = (cur == NULL) ? NULL : cur->getRootEdit();
+		LLViewerObject *root_object = (cur == nullptr) ? NULL : cur->getRootEdit();
 		if( cur->permModify() && cur->permMove() && !cur->isPermanentEnforced() &&
-			((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+			((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 			!cur->isAvatar())
 		{
 			selectNode->mLastScale = cur->getScale();
@@ -947,9 +947,9 @@ void LLManipScale::dragCorner( S32 x, S32 y )
 	{
 		LLSelectNode* selectNode = *iter;
 		LLViewerObject* cur = selectNode->getObject();
-		LLViewerObject *root_object = (cur == NULL) ? NULL : cur->getRootEdit();
+		LLViewerObject *root_object = (cur == nullptr) ? NULL : cur->getRootEdit();
 		if(  cur->permModify() && cur->permMove() && !cur->isPermanentEnforced() &&
-			((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+			((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 			!cur->isAvatar() )
 		{
 			const LLVector3& scale = selectNode->mSavedScale;
@@ -978,9 +978,9 @@ void LLManipScale::dragCorner( S32 x, S32 y )
 	{
 		LLSelectNode* selectNode = *iter;
 		LLViewerObject* cur = selectNode->getObject();
-		LLViewerObject *root_object = (cur == NULL) ? NULL : cur->getRootEdit();
+		LLViewerObject *root_object = (cur == nullptr) ? NULL : cur->getRootEdit();
 		if( cur->permModify() && cur->permMove() && !cur->isPermanentEnforced() &&
-			((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+			((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 			!cur->isAvatar() && cur->isRootEdit() )
 		{
 			const LLVector3& scale = selectNode->mSavedScale;
@@ -1029,9 +1029,9 @@ void LLManipScale::dragCorner( S32 x, S32 y )
 	{
 		LLSelectNode* selectNode = *iter;
 		LLViewerObject*cur = selectNode->getObject();
-		LLViewerObject *root_object = (cur == NULL) ? NULL : cur->getRootEdit();
+		LLViewerObject *root_object = (cur == nullptr) ? NULL : cur->getRootEdit();
 		if( cur->permModify() && cur->permMove() && !cur->isPermanentEnforced() &&
-			((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+			((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 			!cur->isAvatar() && !cur->isRootEdit() )
 		{
 			const LLVector3& scale = selectNode->mSavedScale;
@@ -1230,9 +1230,9 @@ void LLManipScale::stretchFace( const LLVector3& drag_start_agent, const LLVecto
 	{
 		LLSelectNode* selectNode = *iter;
 		LLViewerObject*cur = selectNode->getObject();
-		LLViewerObject *root_object = (cur == NULL) ? NULL : cur->getRootEdit();
+		LLViewerObject *root_object = (cur == nullptr) ? NULL : cur->getRootEdit();
 		if( cur->permModify() && cur->permMove() && !cur->isPermanentEnforced() &&
-			((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+			((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 			!cur->isAvatar() )
 		{
 			LLBBox cur_bbox			= cur->getBoundingBoxAgent();
@@ -2102,11 +2102,11 @@ BOOL LLManipScale::canAffectSelection()
 	{
 		struct f : public LLSelectedObjectFunctor
 		{
-			virtual bool apply(LLViewerObject* objectp)
+			bool apply(LLViewerObject* objectp) override
 			{
-				LLViewerObject *root_object = (objectp == NULL) ? NULL : objectp->getRootEdit();
+				LLViewerObject *root_object = (objectp == nullptr) ? NULL : objectp->getRootEdit();
 				return objectp->permModify() && objectp->permMove() && !objectp->isPermanentEnforced() &&
-					(root_object == NULL || (!root_object->isPermanentEnforced() && !root_object->isSeat())) &&
+					(root_object == nullptr || (!root_object->isPermanentEnforced() && !root_object->isSeat())) &&
 					!objectp->isSeat();
 			}
 		} func;

@@ -137,16 +137,16 @@ LLAvatarList::LLAvatarList(const Params& p)
 , mIgnoreOnlineStatus(p.ignore_online_status)
 , mShowLastInteractionTime(p.show_last_interaction_time)
 , mShowDistance(p.show_distance)
-, mContextMenu(NULL)
-, mDirty(true) // to force initial update
-, mNeedUpdateNames(false)
-, mLITUpdateTimer(NULL)
+, mDirty(true)
+, mNeedUpdateNames(false) // to force initial update
 , mShowIcons(true)
 , mShowInfoBtn(p.show_info_btn)
 , mShowProfileBtn(p.show_profile_btn)
 , mShowSpeakingIndicator(p.show_speaking_indicator)
 , mShowPermissions(p.show_permissions_granted)
 , mShowCompleteName(false)
+, mLITUpdateTimer(nullptr)
+, mContextMenu(nullptr)
 {
 	setCommitOnSelectionChange(true);
 
@@ -504,7 +504,7 @@ BOOL LLAvatarList::handleMouseUp( S32 x, S32 y, MASK mask )
 {
 	if(hasMouseCapture())
 	{
-		gFocusMgr.setMouseCapture(NULL);
+		gFocusMgr.setMouseCapture(nullptr);
 	}
 
 	return LLFlatListViewEx::handleMouseUp(x, y, mask);

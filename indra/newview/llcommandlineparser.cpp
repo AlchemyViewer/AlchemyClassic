@@ -138,40 +138,40 @@ public:
     }
 
     // Overrides to support the value_semantic interface.
-    virtual std::string name() const 
+	std::string name() const override
     { 
         const std::string arg("arg");
         const std::string args("args");
         return (max_tokens() > 1) ? args : arg; 
     }
 
-    virtual unsigned min_tokens() const
+	unsigned min_tokens() const override
     {
         return mMinTokens;
     }
 
-    virtual unsigned max_tokens() const 
+	unsigned max_tokens() const override
     {
         return mMaxTokens;
     }
 
-    virtual bool is_composing() const 
+	bool is_composing() const override
     {
         return mIsComposing;
     }
 
 	// Needed for boost 1.42
-	virtual bool is_required() const
+	bool is_required() const override
 	{
 		return false; // All our command line options are optional.
 	}
 
-    virtual bool apply_default(boost::any& value_store) const
+	bool apply_default(boost::any& value_store) const override
     {
         return false; // No defaults.
     }
 
-    virtual void notify(const boost::any& value_store) const
+	void notify(const boost::any& value_store) const override
     {
         const LLCommandLineParser::token_vector_t* value =
             boost::any_cast<const LLCommandLineParser::token_vector_t>(&value_store);
@@ -180,15 +180,15 @@ public:
            mNotifyCallback(*value);
         }
     }
-	
-	virtual bool adjacent_tokens_only() const
+
+	bool adjacent_tokens_only() const override
 	{
 		return false;
 	}
 
 protected:
     void xparse(boost::any& value_store,
-         const std::vector<std::string>& new_tokens) const
+         const std::vector<std::string>& new_tokens) const override
     {
         if(gPastLastOption)
         {
@@ -506,7 +506,7 @@ void setControlValueCB(const LLCommandLineParser::token_vector_t& value,
     // compound types
     // ?...
 
-    if(NULL != ctrl)
+    if(nullptr != ctrl)
     {
         switch(ctrl->type())
         {

@@ -84,15 +84,15 @@ LLPanelPickInfo::LLPanelPickInfo()
  : LLPanel()
  , LLAvatarPropertiesObserver()
  , LLRemoteParcelInfoObserver()
- , mAvatarId(LLUUID::null)
- , mSnapshotCtrl(NULL)
- , mPickId(LLUUID::null)
- , mParcelId(LLUUID::null)
- , mRequestedId(LLUUID::null)
  , mScrollingPanelMinHeight(0)
  , mScrollingPanelWidth(0)
- , mScrollingPanel(NULL)
- , mScrollContainer(NULL)
+ , mScrollContainer(nullptr)
+ , mScrollingPanel(nullptr)
+ , mSnapshotCtrl(nullptr)
+ , mAvatarId(LLUUID::null)
+ , mParcelId(LLUUID::null)
+ , mPickId(LLUUID::null)
+ , mRequestedId(LLUUID::null)
 {
 }
 
@@ -442,7 +442,7 @@ BOOL LLPanelPickEdit::postBuild()
 	mSnapshotCtrl->setCommitCallback(boost::bind(&LLPanelPickEdit::onSnapshotChanged, this));
 
 	LLLineEditor* line_edit = getChild<LLLineEditor>("pick_name");
-	line_edit->setKeystrokeCallback(boost::bind(&LLPanelPickEdit::onPickChanged, this, _1), NULL);
+	line_edit->setKeystrokeCallback(boost::bind(&LLPanelPickEdit::onPickChanged, this, _1), nullptr);
 
 	LLTextEditor* text_edit = getChild<LLTextEditor>("pick_desc");
 	text_edit->setKeystrokeCallback(boost::bind(&LLPanelPickEdit::onPickChanged, this, _1));

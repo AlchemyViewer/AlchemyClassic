@@ -58,21 +58,21 @@ public:
 											void **user_data,
 											U32 block_num, 
 											const EObjectUpdateType update_type,
-											LLDataPacker *dp);
-	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time);
+											LLDataPacker *dp) override;
+	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time) override;
 	
 	// Graphical stuff for objects - maybe broken out into render class later?
 	/*virtual*/ void render(LLAgent &agent);
-	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent);
-	/*virtual*/ void updateTextures();
+	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent) override;
+	/*virtual*/ void updateTextures() override;
 
-	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline);
-	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable);
-	/*virtual*/ void		updateSpatialExtents(LLVector4a &min, LLVector4a &max);
+	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
+	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable) override;
+	/*virtual*/ void		updateSpatialExtents(LLVector4a &min, LLVector4a &max) override;
 
-	virtual U32 getPartitionType() const;
+	U32 getPartitionType() const override;
 
-	void updateRadius();
+	void updateRadius() override;
 
 	void calcNumVerts(U32& vert_count, U32& index_count, S32 trunk_LOD, S32 stop_level, U16 depth, U16 trunk_depth, F32 branches);
 
@@ -110,12 +110,12 @@ public:
 										  S32 face = -1,                        // which face to check, -1 = ALL_SIDES
 										  BOOL pick_transparent = FALSE,
 										  BOOL pick_rigged = FALSE,
-										  S32* face_hit = NULL,                 // which face was hit
-										  LLVector4a* intersection = NULL,       // return the intersection point
-										  LLVector2* tex_coord = NULL,          // return the texture coordinates of the intersection point
-										  LLVector4a* normal = NULL,             // return the surface normal at the intersection point
-										  LLVector4a* tangent = NULL           // return the surface tangent at the intersection point
-		);
+										  S32* face_hit = nullptr,                 // which face was hit
+										  LLVector4a* intersection = nullptr,       // return the intersection point
+										  LLVector2* tex_coord = nullptr,          // return the texture coordinates of the intersection point
+										  LLVector4a* normal = nullptr,             // return the surface normal at the intersection point
+										  LLVector4a* tangent = nullptr           // return the surface tangent at the intersection point
+		) override;
 
 	static S32 sMaxTreeSpecies;
 

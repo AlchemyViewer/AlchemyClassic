@@ -56,12 +56,12 @@ LLRect LLScreenChannelBase::getChannelRect()
 {
 	LL_RECORD_BLOCK_TIME(FTM_GET_CHANNEL_RECT);
 
-	if (mFloaterSnapRegion == NULL)
+	if (mFloaterSnapRegion == nullptr)
 	{
 		mFloaterSnapRegion = gViewerWindow->getRootView()->getChildView("floater_snap_region");
 	}
 	
-	if (mChicletRegion == NULL)
+	if (mChicletRegion == nullptr)
 	{
 		mChicletRegion = gViewerWindow->getRootView()->getChildView("chiclet_container");
 	}
@@ -84,17 +84,17 @@ LLRect LLScreenChannelBase::getChannelRect()
 
 LLScreenChannelBase::LLScreenChannelBase(const Params& p) 
 :	LLUICtrl(p),
-	mToastAlignment(p.toast_align),
-	mCanStoreToasts(true),
-	mHiddenToastsNum(0),
-	mHoveredToast(NULL),
 	mControlHovering(false),
-	mShowToasts(true),
-	mID(p.id),
+	mHoveredToast(nullptr),
+	mCanStoreToasts(true),
 	mDisplayToastsAlways(p.display_toasts_always),
+	mShowToasts(true),
+	mToastAlignment(p.toast_align),
 	mChannelAlignment(p.channel_align),
-	mFloaterSnapRegion(NULL),
-	mChicletRegion(NULL)
+	mHiddenToastsNum(0),
+	mID(p.id),
+	mFloaterSnapRegion(nullptr),
+	mChicletRegion(nullptr)
 {
 	mID = p.id;
 
@@ -104,12 +104,12 @@ LLScreenChannelBase::LLScreenChannelBase(const Params& p)
 
 BOOL LLScreenChannelBase::postBuild()
 {
-	if (mFloaterSnapRegion == NULL)
+	if (mFloaterSnapRegion == nullptr)
 	{
 		mFloaterSnapRegion = gViewerWindow->getRootView()->getChildView("floater_snap_region");
 	}
 	
-	if (mChicletRegion == NULL)
+	if (mChicletRegion == nullptr)
 	{
 		mChicletRegion = gViewerWindow->getRootView()->getChildView("chiclet_container");
 	}
@@ -187,7 +187,7 @@ void	LLScreenChannelBase::updateRect()
 //--------------------------------------------------------------------------
 LLScreenChannel::LLScreenChannel(const Params& p)
 :	LLScreenChannelBase(p),
-	mStartUpToastPanel(NULL)
+	mStartUpToastPanel(nullptr)
 {
 }
 
@@ -291,7 +291,7 @@ void LLScreenChannel::addToast(const LLToast::Params& p)
 		// It was assumed that the toast would take ownership of the panel pointer.
 		// But since we have decided not to display the toast, kill the panel to
 		// prevent the memory leak.
-		if (p.panel != NULL)
+		if (p.panel != nullptr)
 		{
 			p.panel()->die();
 		}
@@ -348,7 +348,7 @@ void LLScreenChannel::onToastDestroyed(LLToast* toast)
 	// if destroyed toast is hovered - reset hovered
 	if (mHoveredToast == toast)
 	{
-		mHoveredToast = NULL;
+		mHoveredToast = nullptr;
 	}
 }
 
@@ -391,7 +391,7 @@ void LLScreenChannel::deleteToast(LLToast* toast)
 	// turning hovering off manually because onMouseLeave won't happen if a toast was closed using a keyboard
 	if(mHoveredToast == toast)
 	{
-		mHoveredToast  = NULL;
+		mHoveredToast  = nullptr;
 	}
 }
 
@@ -942,10 +942,10 @@ void LLScreenChannel::onStartUpToastHide()
 //--------------------------------------------------------------------------
 void LLScreenChannel::closeStartUpToast()
 {
-	if(mStartUpToastPanel != NULL)
+	if(mStartUpToastPanel != nullptr)
 	{
 		mStartUpToastPanel->setVisible(FALSE);
-		mStartUpToastPanel = NULL;
+		mStartUpToastPanel = nullptr;
 	}
 }
 
@@ -1013,7 +1013,7 @@ void LLScreenChannel::closeHiddenToasts(const Matcher& matcher)
 	{
 		LLToast* toast = it->getToast();
 		// add to list valid toast that match to provided matcher criteria
-		if (toast != NULL && !toast->isDead() && toast->getNotification() != NULL
+		if (toast != nullptr && !toast->isDead() && toast->getNotification() != nullptr
 				&& !toast->getVisible() && matcher.matches(toast->getNotification()))
 		{
 			toasts.push_back(toast);
@@ -1098,11 +1098,11 @@ void LLScreenChannel::onToastHover(LLToast* toast, bool mouse_enter)
 			mHoveredToast = toast;
 		}
 	}
-	else if (mHoveredToast != NULL)
+	else if (mHoveredToast != nullptr)
 	{
 		if (!mHoveredToast->isHovered())
 		{
-			mHoveredToast = NULL;
+			mHoveredToast = nullptr;
 		}
 	}
 
@@ -1131,7 +1131,7 @@ LLToast* LLScreenChannel::getToastByNotificationID(LLUUID id)
 			mStoredToastList.end(), id);
 
 	if (it == mStoredToastList.end())
-		return NULL;
+		return nullptr;
 
 	return it->getToast();
 }

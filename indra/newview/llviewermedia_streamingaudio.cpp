@@ -40,7 +40,7 @@
 
 
 LLStreamingAudio_MediaPlugins::LLStreamingAudio_MediaPlugins() :
-	mMediaPlugin(NULL),
+	mMediaPlugin(nullptr),
 	mGain(1.0)
 {
 	// nothing interesting to do?
@@ -50,7 +50,7 @@ LLStreamingAudio_MediaPlugins::LLStreamingAudio_MediaPlugins() :
 LLStreamingAudio_MediaPlugins::~LLStreamingAudio_MediaPlugins()
 {
 	delete mMediaPlugin;
-	mMediaPlugin = NULL;
+	mMediaPlugin = nullptr;
 }
 
 void LLStreamingAudio_MediaPlugins::start(const std::string& url)
@@ -154,7 +154,7 @@ std::string LLStreamingAudio_MediaPlugins::getURL()
 
 LLPluginClassMedia* LLStreamingAudio_MediaPlugins::initializeMedia(const std::string& media_type)
 {
-	LLPluginClassMediaOwner* owner = NULL;
+	LLPluginClassMediaOwner* owner = nullptr;
 	S32 default_size = 1; // audio-only - be minimal, doesn't matter
 	F64 default_zoom = 1.0;
 	LLPluginClassMedia* media_source = LLViewerMediaImpl::newSourceFromMediaType(media_type, owner, default_size, default_size, default_zoom);

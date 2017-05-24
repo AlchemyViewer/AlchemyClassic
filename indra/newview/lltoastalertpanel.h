@@ -70,10 +70,10 @@ public:
 	// User's responsibility to call show() after creating these.
 	LLToastAlertPanel( LLNotificationPtr notep, bool is_modal );
 
-	virtual BOOL	handleKeyHere(KEY key, MASK mask );
+	BOOL	handleKeyHere(KEY key, MASK mask ) override;
 
-	virtual void	draw();
-	virtual void	setVisible( BOOL visible );
+	void	draw() override;
+	void	setVisible( BOOL visible ) override;
 
 	bool 			setCheckBox( const std::string&, const std::string& );	
 	void			setCaution(BOOL val = TRUE) { mCaution = val; }

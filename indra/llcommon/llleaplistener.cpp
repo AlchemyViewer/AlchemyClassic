@@ -124,7 +124,7 @@ void LLLeapListener::newpump(const LLSD& request)
     std::string name = request["name"];
     LLSD const & type = request["type"];
 
-    LLEventPump * new_pump = NULL;
+    LLEventPump * new_pump = nullptr;
     if (type.asString() == "LLEventQueue")
     {
         new_pump = new LLEventQueue(name, true); // tweak name for uniqueness

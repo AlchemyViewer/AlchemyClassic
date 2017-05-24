@@ -112,7 +112,8 @@ void LLFloaterBulkPermission::doApply()
 	{
 	public:
 		ModifiableGatherer(std::vector<LLUUID>& q) : mQueue(q) { mQueue.reserve(32); }
-		virtual bool apply(LLSelectNode* node)
+
+		bool apply(LLSelectNode* node) override
 		{
 			if( node->allowOperationOnNode(PERM_MODIFY, GP_OBJECT_MANIPULATE) )
 			{

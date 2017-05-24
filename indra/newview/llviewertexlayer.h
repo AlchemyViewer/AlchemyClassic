@@ -46,13 +46,13 @@ public:
 	LLViewerTexLayerSet(LLAvatarAppearance* const appearance);
 	virtual ~LLViewerTexLayerSet();
 
-	/*virtual*/void				requestUpdate();
+	/*virtual*/void				requestUpdate() override;
 	void						requestUpload();
 	void						cancelUpload();
 	BOOL						isLocalTextureDataAvailable() const;
 	BOOL						isLocalTextureDataFinal() const;
 	void						updateComposite();
-	/*virtual*/void				createComposite();
+	/*virtual*/void				createComposite() override;
 	void						setUpdatesEnabled(BOOL b);
 	BOOL						getUpdatesEnabled()	const 	{ return mUpdatesEnabled; }
 
@@ -80,12 +80,12 @@ public:
 	virtual ~LLViewerTexLayerSetBuffer();
 
 public:
-	/*virtual*/ S8          getType() const;
+	/*virtual*/ S8          getType() const override;
 	BOOL					isInitialized(void) const;
 	static void				dumpTotalByteCount();
 	const std::string		dumpTextureInfo() const;
-	virtual void 			restoreGLTexture();
-	virtual void 			destroyGLTexture();
+	void 			restoreGLTexture() override;
+	void 			destroyGLTexture() override;
 private:
 	LLViewerTexLayerSet*	getViewerTexLayerSet() 
 		{ return dynamic_cast<LLViewerTexLayerSet*> (mTexLayerSet); }
@@ -96,24 +96,24 @@ private:
 	//--------------------------------------------------------------------
 	// Tex Layer Render
 	//--------------------------------------------------------------------
-	virtual void			preRenderTexLayerSet();
-	virtual void			midRenderTexLayerSet(BOOL success);
-	virtual void			postRenderTexLayerSet(BOOL success);
-	virtual S32				getCompositeOriginX() const { return getOriginX(); }
-	virtual S32				getCompositeOriginY() const { return getOriginY(); }
-	virtual S32				getCompositeWidth() const { return getFullWidth(); }
-	virtual S32				getCompositeHeight() const { return getFullHeight(); }
+	void			preRenderTexLayerSet() override;
+	void			midRenderTexLayerSet(BOOL success) override;
+	void			postRenderTexLayerSet(BOOL success) override;
+	S32				getCompositeOriginX() const override { return getOriginX(); }
+	S32				getCompositeOriginY() const override { return getOriginY(); }
+	S32				getCompositeWidth() const override { return getFullWidth(); }
+	S32				getCompositeHeight() const override { return getFullHeight(); }
 
 	//--------------------------------------------------------------------
 	// Dynamic Texture Interface
 	//--------------------------------------------------------------------
 public:
-	/*virtual*/ BOOL		needsRender();
+	/*virtual*/ BOOL		needsRender() override;
 protected:
 	// Pass these along for tex layer rendering.
-	virtual void			preRender(BOOL clear_depth) { preRenderTexLayerSet(); }
-	virtual void			postRender(BOOL success) { postRenderTexLayerSet(success); }
-	virtual BOOL			render() { return renderTexLayerSet(); }
+	void			preRender(BOOL clear_depth) override { preRenderTexLayerSet(); }
+	void			postRender(BOOL success) override { postRenderTexLayerSet(success); }
+	BOOL			render() override { return renderTexLayerSet(); }
 
 
 	//--------------------------------------------------------------------

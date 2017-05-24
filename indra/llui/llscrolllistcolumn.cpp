@@ -308,17 +308,17 @@ const LLScrollListColumn::Params& LLScrollListColumn::getDefaultParams()
 
 
 LLScrollListColumn::LLScrollListColumn(const Params& p, LLScrollListCtrl* parent)
-:	mWidth(0),
+:	mName(p.name),
+	mSortingColumn(p.sort_column),
+	mLabel(p.header.label),
+	mRelWidth(p.width.relative_width),
+	mDynamicWidth(p.width.dynamic_width),
+	mMaxContentWidth(0),
 	mIndex (-1),
 	mParentCtrl(parent),
-	mName(p.name),
-	mLabel(p.header.label),
-	mHeader(NULL),
-	mMaxContentWidth(0),
-	mDynamicWidth(p.width.dynamic_width),
-	mRelWidth(p.width.relative_width),
+	mHeader(nullptr),
 	mFontAlignment(p.halign),
-	mSortingColumn(p.sort_column)
+	mWidth(0)
 {
 	if (p.sort_ascending.isProvided())
 	{

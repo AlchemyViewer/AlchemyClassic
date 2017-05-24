@@ -50,7 +50,7 @@ const LLUUID LLUUID::null;
 const LLTransactionID LLTransactionID::tnull;
 
 // static 
-LLMutex * LLUUID::mMutex = NULL;
+LLMutex * LLUUID::mMutex = nullptr;
 
 static const U8 nullUUID[UUID_BYTES] = {}; // <alchemy/>
 
@@ -478,8 +478,8 @@ S32	LLUUID::getNodeID(unsigned char	*node_id)
 	GetAdaptersAddresses(
 		AF_INET,
 		flags,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		&outBufLen);
 
 	constexpr U32 MAX_TRIES = 3U;
@@ -492,7 +492,7 @@ S32	LLUUID::getNodeID(unsigned char	*node_id)
 		}
 
 		dwRetVal =
-			GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
+			GetAdaptersAddresses(family, flags, nullptr, pAddresses, &outBufLen);
 
 		if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
 			free(pAddresses);
@@ -928,7 +928,7 @@ U32 LLUUID::getRandomSeed()
 
 BOOL LLUUID::parseUUID(const std::string& buf, LLUUID* value)
 {
-	if( buf.empty() || value == NULL)
+	if( buf.empty() || value == nullptr)
 	{
 		return FALSE;
 	}

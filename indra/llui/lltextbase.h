@@ -89,21 +89,21 @@ public:
 	virtual void				dump() const;
 
 	// LLMouseHandler interface
-	/*virtual*/ BOOL			handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleMiddleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleMiddleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleRightMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL			handleScrollWheel(S32 x, S32 y, S32 clicks);
-	/*virtual*/ BOOL			handleToolTip(S32 x, S32 y, MASK mask);
-	/*virtual*/ const std::string&	getName() const;
-	/*virtual*/ void			onMouseCaptureLost();
-	/*virtual*/ void			screenPointToLocal(S32 screen_x, S32 screen_y, S32* local_x, S32* local_y) const;
-	/*virtual*/ void			localPointToScreen(S32 local_x, S32 local_y, S32* screen_x, S32* screen_y) const;
-	/*virtual*/ BOOL			hasMouseCapture();
+	/*virtual*/ BOOL			handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleMiddleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleMiddleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleRightMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL			handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	/*virtual*/ BOOL			handleToolTip(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ const std::string&	getName() const override;
+	/*virtual*/ void			onMouseCaptureLost() override;
+	/*virtual*/ void			screenPointToLocal(S32 screen_x, S32 screen_y, S32* local_x, S32* local_y) const override;
+	/*virtual*/ void			localPointToScreen(S32 local_x, S32 local_y, S32* screen_x, S32* screen_y) const override;
+	/*virtual*/ BOOL			hasMouseCapture() override;
 
 	S32						getStart() const 					{ return mStart; }
 	void					setStart(S32 start)					{ mStart = start; }
@@ -122,25 +122,25 @@ public:
 	LLNormalTextSegment( const LLColor4& color, S32 start, S32 end, LLTextBase& editor, BOOL is_visible = TRUE);
 	virtual ~LLNormalTextSegment();
 
-	/*virtual*/ bool				getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
-	/*virtual*/ S32					getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const;
-	/*virtual*/ S32					getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const;
-	/*virtual*/ F32					draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect);
-	/*virtual*/ bool				canEdit() const { return true; }
-	/*virtual*/ const LLColor4&		getColor() const					{ return mStyle->getColor(); }
-	/*virtual*/ LLStyleConstSP		getStyle() const					{ return mStyle; }
-	/*virtual*/ void 				setStyle(LLStyleConstSP style)	{ mStyle = style; }
-	/*virtual*/ void				setToken( LLKeywordToken* token )	{ mToken = token; }
-	/*virtual*/ LLKeywordToken*		getToken() const					{ return mToken; }
+	/*virtual*/ bool				getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	/*virtual*/ S32					getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const override;
+	/*virtual*/ S32					getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
+	/*virtual*/ F32					draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
+	/*virtual*/ bool				canEdit() const override { return true; }
+	/*virtual*/ const LLColor4&		getColor() const override { return mStyle->getColor(); }
+	/*virtual*/ LLStyleConstSP		getStyle() const override { return mStyle; }
+	/*virtual*/ void 				setStyle(LLStyleConstSP style) override { mStyle = style; }
+	/*virtual*/ void				setToken( LLKeywordToken* token ) override { mToken = token; }
+	/*virtual*/ LLKeywordToken*		getToken() const override { return mToken; }
 	/*virtual*/ BOOL				getToolTip( std::string& msg ) const;
-	/*virtual*/ void				setToolTip(const std::string& tooltip);
-	/*virtual*/ void				dump() const;
+	/*virtual*/ void				setToolTip(const std::string& tooltip) override;
+	/*virtual*/ void				dump() const override;
 
-	/*virtual*/ BOOL				handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL				handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL				handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL				handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL				handleToolTip(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL				handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL				handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL				handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL				handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL				handleToolTip(S32 x, S32 y, MASK mask) override;
 
 protected:
 	F32					drawClippedSegment(S32 seg_start, S32 seg_end, S32 selection_start, S32 selection_end, LLRectf rect);
@@ -168,8 +168,8 @@ public:
 
 protected:
 
-	/*virtual*/	const LLWString&	getWText()	const;
-	/*virtual*/	const S32			getLength()	const;
+	/*virtual*/	const LLWString&	getWText()	const override;
+	/*virtual*/	const S32			getLength()	const override;
 };
 
 // Text segment that changes it's style depending of mouse pointer position ( is it inside or outside segment)
@@ -177,8 +177,8 @@ class LLOnHoverChangeableTextSegment : public LLNormalTextSegment
 {
 public:
 	LLOnHoverChangeableTextSegment( LLStyleConstSP style, LLStyleConstSP normal_style, S32 start, S32 end, LLTextBase& editor );
-	/*virtual*/ F32 draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect);
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
+	/*virtual*/ F32 draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
 protected:
 	// Style used for text when mouse pointer is over segment
 	LLStyleConstSP		mHoveredStyle;
@@ -208,13 +208,13 @@ public:
 
 	LLInlineViewSegment(const Params& p, S32 start, S32 end);
 	~LLInlineViewSegment();
-	/*virtual*/ bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
-	/*virtual*/ S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const;
-	/*virtual*/ void		updateLayout(const class LLTextBase& editor);
-	/*virtual*/ F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect);
-	/*virtual*/ bool		canEdit() const { return false; }
-	/*virtual*/ void		unlinkFromDocument(class LLTextBase* editor);
-	/*virtual*/ void		linkToDocument(class LLTextBase* editor);
+	/*virtual*/ bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	/*virtual*/ S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
+	/*virtual*/ void		updateLayout(const class LLTextBase& editor) override;
+	/*virtual*/ F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
+	/*virtual*/ bool		canEdit() const override { return false; }
+	/*virtual*/ void		unlinkFromDocument(class LLTextBase* editor) override;
+	/*virtual*/ void		linkToDocument(class LLTextBase* editor) override;
 
 private:
 	S32 mLeftPad;
@@ -232,9 +232,9 @@ public:
 	LLLineBreakTextSegment(LLStyleConstSP style,S32 pos);
 	LLLineBreakTextSegment(S32 pos);
 	~LLLineBreakTextSegment();
-	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
-	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const;
-	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect);
+	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
+	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
 
 private:
 	S32			mFontHeight;
@@ -245,12 +245,12 @@ class LLImageTextSegment : public LLTextSegment
 public:
 	LLImageTextSegment(LLStyleConstSP style,S32 pos,class LLTextBase& editor);
 	~LLImageTextSegment();
-	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
-	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 char_offset, S32 max_chars, S32 line_ind) const;
-	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect);
+	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 char_offset, S32 max_chars, S32 line_ind) const override;
+	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
 
-	/*virtual*/ BOOL	handleToolTip(S32 x, S32 y, MASK mask);
-	/*virtual*/ void	setToolTip(const std::string& tooltip);
+	/*virtual*/ BOOL	handleToolTip(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void	setToolTip(const std::string& tooltip) override;
 
 private:
 	class LLTextBase&	mEditor;
@@ -330,49 +330,49 @@ public:
 	};
 
 	// LLMouseHandler interface
-	/*virtual*/ BOOL		handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleMiddleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleMiddleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleRightMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL		handleScrollWheel(S32 x, S32 y, S32 clicks);
-	/*virtual*/ BOOL		handleToolTip(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL		handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleMiddleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleMiddleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleRightMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL		handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	/*virtual*/ BOOL		handleToolTip(S32 x, S32 y, MASK mask) override;
 
 	// LLView interface
-	/*virtual*/ void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	/*virtual*/ void		draw();
+	/*virtual*/ void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	/*virtual*/ void		draw() override;
 
 	// LLUICtrl interface
-	/*virtual*/ BOOL		acceptsTextInput() const { return !mReadOnly; }
-	/*virtual*/ void		setColor( const LLColor4& c );
+	/*virtual*/ BOOL		acceptsTextInput() const override { return !mReadOnly; }
+	/*virtual*/ void		setColor( const LLColor4& c ) override;
 	virtual     void 		setReadOnlyColor(const LLColor4 &c);
-	virtual	    void		onVisibilityChange( BOOL new_visibility );
+	void		onVisibilityChange( BOOL new_visibility ) override;
 
-	/*virtual*/ void		setValue(const LLSD& value );
-	/*virtual*/ LLTextViewModel* getViewModel() const;
+	/*virtual*/ void		setValue(const LLSD& value ) override;
+	/*virtual*/ LLTextViewModel* getViewModel() const override;
 
 	// LLEditMenuHandler interface
-	/*virtual*/ BOOL		canDeselect() const;
-	/*virtual*/ void		deselect();
+	/*virtual*/ BOOL		canDeselect() const override;
+	/*virtual*/ void		deselect() override;
 
-	virtual void	onFocusReceived();
-	virtual void	onFocusLost();
+	void	onFocusReceived() override;
+	void	onFocusLost() override;
 
 	// LLSpellCheckMenuHandler overrides
-	/*virtual*/ bool		getSpellCheck() const;
+	/*virtual*/ bool		getSpellCheck() const override;
 
-	/*virtual*/ const std::string& getSuggestion(U32 index) const;
-	/*virtual*/ U32			getSuggestionCount() const;
-	/*virtual*/ void		replaceWithSuggestion(U32 index);
+	/*virtual*/ const std::string& getSuggestion(U32 index) const override;
+	/*virtual*/ U32			getSuggestionCount() const override;
+	/*virtual*/ void		replaceWithSuggestion(U32 index) override;
 
-	/*virtual*/ void		addToDictionary();
-	/*virtual*/ bool		canAddToDictionary() const;
+	/*virtual*/ void		addToDictionary() override;
+	/*virtual*/ bool		canAddToDictionary() const override;
 
-	/*virtual*/ void		addToIgnore();
-	/*virtual*/ bool		canAddToIgnore() const;
+	/*virtual*/ void		addToIgnore() override;
+	/*virtual*/ bool		canAddToIgnore() const override;
 
 	// Spell checking helper functions
 	std::string				getMisspelledWord(U32 pos) const;
@@ -404,7 +404,7 @@ public:
 	void					appendText(const std::string &new_text, bool prepend_newline, const LLStyle::Params& input_params = LLStyle::Params());
 
 	void					setLabel(const LLStringExplicit& label);
-	virtual BOOL			setLabelArg(const std::string& key, const LLStringExplicit& text );
+	BOOL			setLabelArg(const std::string& key, const LLStringExplicit& text ) override;
 
 	const	std::string& 	getLabel()	{ return mLabel.getString(); }
 	const	LLWString&		getWlabel() { return mLabel.getWString();}
@@ -557,7 +557,7 @@ protected:
 	void							drawText();
 
 	// modify contents
-	S32								insertStringNoUndo(S32 pos, const LLWString &wstr, segment_vec_t* segments = NULL); // returns num of chars actually inserted
+	S32								insertStringNoUndo(S32 pos, const LLWString &wstr, segment_vec_t* segments = nullptr); // returns num of chars actually inserted
 	S32 							removeStringNoUndo(S32 pos, S32 length);
 	S32								overwriteCharNoUndo(S32 pos, llwchar wc);
 	void							appendAndHighlightText(const std::string &new_text, S32 highlight_part, const LLStyle::Params& stylep, bool underline_on_hover_only = false);

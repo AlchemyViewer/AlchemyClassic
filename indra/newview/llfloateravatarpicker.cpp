@@ -74,7 +74,7 @@ LLFloaterAvatarPicker* LLFloaterAvatarPicker::show(select_callback_t callback,
 	if (!floater)
 	{
 		LL_WARNS() << "Cannot instantiate avatar picker" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	
 	floater->mSelectionCallback = callback;
@@ -120,7 +120,7 @@ LLFloaterAvatarPicker::LLFloaterAvatarPicker(const LLSD& key)
 
 BOOL LLFloaterAvatarPicker::postBuild()
 {
-	getChild<LLLineEditor>("Edit")->setKeystrokeCallback( boost::bind(&LLFloaterAvatarPicker::editKeystroke, this, _1, _2),NULL);
+	getChild<LLLineEditor>("Edit")->setKeystrokeCallback( boost::bind(&LLFloaterAvatarPicker::editKeystroke, this, _1, _2), nullptr);
 
 	childSetAction("Find", boost::bind(&LLFloaterAvatarPicker::onBtnFind, this));
 	getChildView("Find")->setEnabled(FALSE);
@@ -225,7 +225,7 @@ void LLFloaterAvatarPicker::onBtnSelect()
 	if(mSelectionCallback)
 	{
 		std::string acvtive_panel_name;
-		LLScrollListCtrl* list =  NULL;
+		LLScrollListCtrl* list = nullptr;
 		LLPanel* active_panel = getChild<LLTabContainer>("ResidentChooserTabs")->getCurrentPanel();
 		if(active_panel)
 		{
@@ -546,7 +546,7 @@ void LLFloaterAvatarPicker::setAllowMultiple(BOOL allow_multiple)
 LLScrollListCtrl* LLFloaterAvatarPicker::getActiveList()
 {
 	std::string acvtive_panel_name;
-	LLScrollListCtrl* list = NULL;
+	LLScrollListCtrl* list = nullptr;
 	LLPanel* active_panel = getChild<LLTabContainer>("ResidentChooserTabs")->getCurrentPanel();
 	if(active_panel)
 	{
@@ -609,7 +609,7 @@ BOOL LLFloaterAvatarPicker::handleDragAndDrop(S32 x, S32 y, MASK mask,
 void LLFloaterAvatarPicker::openFriendsTab()
 {
 	LLTabContainer* tab_container = getChild<LLTabContainer>("ResidentChooserTabs");
-	if (tab_container == NULL)
+	if (tab_container == nullptr)
 	{
 		llassert(tab_container != NULL);
 		return;
@@ -803,7 +803,7 @@ bool LLFloaterAvatarPicker::isSelectBtnEnabled()
 	if ( ret_val )
 	{
 		std::string acvtive_panel_name;
-		LLScrollListCtrl* list =  NULL;
+		LLScrollListCtrl* list = nullptr;
 		LLPanel* active_panel = getChild<LLTabContainer>("ResidentChooserTabs")->getCurrentPanel();
 
 		if(active_panel)

@@ -47,7 +47,7 @@ public:
 	LLPanelExperiencePicker();
 	virtual ~LLPanelExperiencePicker();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
 	void addFilter(filter_function func){mFilters.push_back(func);}
 	template <class IT>

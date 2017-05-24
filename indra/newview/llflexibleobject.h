@@ -82,26 +82,26 @@ private:
 		~LLVolumeImplFlexible();
 
 		// Implements LLVolumeInterface
-		U32 getID() const { return mID; }
+		U32 getID() const override { return mID; }
 		LLVector3 getFramePosition() const;
 		LLQuaternion getFrameRotation() const;
-		LLVolumeInterfaceType getInterfaceType() const		{ return INTERFACE_FLEXIBLE; }
+		LLVolumeInterfaceType getInterfaceType() const override { return INTERFACE_FLEXIBLE; }
 		void updateRenderRes();
-		void doIdleUpdate();
-		BOOL doUpdateGeometry(LLDrawable *drawable);
-		LLVector3 getPivotPosition() const;
-		void onSetVolume(const LLVolumeParams &volume_params, const S32 detail);
-		void onSetScale(const LLVector3 &scale, BOOL damped);
-		void onParameterChanged(U16 param_type, LLNetworkData *data, BOOL in_use, bool local_origin);
-		void onShift(const LLVector4a &shift_vector);
-		bool isVolumeUnique() const { return true; }
-		bool isVolumeGlobal() const { return true; }
-		bool isActive() const { return true; }
-		const LLMatrix4& getWorldMatrix(LLXformMatrix* xform) const;
-		void updateRelativeXform(bool force_identity);
+		void doIdleUpdate() override;
+		BOOL doUpdateGeometry(LLDrawable *drawable) override;
+		LLVector3 getPivotPosition() const override;
+		void onSetVolume(const LLVolumeParams &volume_params, const S32 detail) override;
+		void onSetScale(const LLVector3 &scale, BOOL damped) override;
+		void onParameterChanged(U16 param_type, LLNetworkData *data, BOOL in_use, bool local_origin) override;
+		void onShift(const LLVector4a &shift_vector) override;
+		bool isVolumeUnique() const override { return true; }
+		bool isVolumeGlobal() const override { return true; }
+		bool isActive() const override { return true; }
+		const LLMatrix4& getWorldMatrix(LLXformMatrix* xform) const override;
+		void updateRelativeXform(bool force_identity) override;
 		void doFlexibleUpdate(); // Called to update the simulation
 		void doFlexibleRebuild(bool rebuild_volume); // Called to rebuild the geometry
-		void preRebuild();
+		void preRebuild() override;
 
 		//void				setAttributes( LLFlexibleObjectData );
 		void				setParentPositionAndRotationDirectly( LLVector3 p, LLQuaternion r );
@@ -141,7 +141,7 @@ private:
 		//--------------------------------------
 		// private methods
 		//--------------------------------------
-		void setAttributesOfAllSections	(LLVector3* inScale = NULL);
+		void setAttributesOfAllSections	(LLVector3* inScale = nullptr);
 
 		void remapSections(LLFlexibleObjectSection *source, S32 source_sections,
 										 LLFlexibleObjectSection *dest, S32 dest_sections);

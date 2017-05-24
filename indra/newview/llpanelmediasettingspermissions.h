@@ -44,8 +44,8 @@ public:
 	LLPanelMediaSettingsPermissions();
 	~LLPanelMediaSettingsPermissions();
 	
-	BOOL postBuild();
-	virtual void draw();
+	BOOL postBuild() override;
+	void draw() override;
 	
 	// XXX TODO: put these into a common parent class?
 	// Hook that the floater calls before applying changes from the panel

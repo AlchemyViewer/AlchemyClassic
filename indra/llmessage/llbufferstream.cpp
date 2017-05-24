@@ -205,7 +205,7 @@ int LLBufferStreamBuf::sync()
 	// set the put pointer so that we force an overflow on the next
 	// write.
 	U8* address = (U8*)pptr();
-	setp(NULL, NULL);
+	setp(nullptr, nullptr);
 
 	// *NOTE: I bet we could just --address if address is not NULL.
 	// Need to think about that.
@@ -253,10 +253,10 @@ streampos LLBufferStreamBuf::seekoff(
 	{
 		return -1;
 	}
-	U8* address = NULL;
+	U8* address = nullptr;
 	if(which & std::ios::in)
 	{
-		U8* base_addr = NULL;
+		U8* base_addr = nullptr;
 		switch(way)
 		{
 		case std::ios::end:
@@ -289,7 +289,7 @@ streampos LLBufferStreamBuf::seekoff(
 	}
 	if(which & std::ios::out)
 	{
-		U8* base_addr = NULL;
+		U8* base_addr = nullptr;
 		switch(way)
 		{
 		case std::ios::end:

@@ -270,7 +270,7 @@ inline LLViewerObject *LLViewerObjectList::findObject(const LLUUID &id)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -281,7 +281,7 @@ inline LLViewerObject *LLViewerObjectList::getObject(const S32 index)
 	if (objectp->isDead())
 	{
 		//LL_WARNS() << "Dead object " << objectp->mID << " in getObject" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	return objectp;
 }

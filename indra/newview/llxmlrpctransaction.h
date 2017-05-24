@@ -36,7 +36,7 @@ class LLXMLRPCValue
 	// a c++ wrapper around XMLRPC_VALUE
 {
 public:
-	LLXMLRPCValue()						: mV(NULL) { }
+	LLXMLRPCValue()						: mV(nullptr) { }
 	LLXMLRPCValue(XMLRPC_VALUE value)	: mV(value) { }
 	
 	bool isValid() const;

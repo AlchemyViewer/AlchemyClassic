@@ -45,11 +45,11 @@ public:
 	LLPlacesInventoryPanel(const Params& p);
 	~LLPlacesInventoryPanel();
 
-    LLFolderView * createFolderRoot(LLUUID root_id );
+    LLFolderView * createFolderRoot(LLUUID root_id ) override;
 	void saveFolderState();
 	void restoreFolderState();
 
-	virtual S32	notify(const LLSD& info) ;
+	S32	notify(const LLSD& info) override;
 
 private:
 	LLSaveFolderState*			mSavedFolderState;

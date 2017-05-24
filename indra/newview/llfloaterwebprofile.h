@@ -44,8 +44,8 @@ public:
 
 	LLFloaterWebProfile(const Params& key);
 
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ void handleReshape(const LLRect& new_rect, bool by_user = false);
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/ void handleReshape(const LLRect& new_rect, bool by_user = false) override;
 
 	static LLFloater* create(const LLSD& key);
 

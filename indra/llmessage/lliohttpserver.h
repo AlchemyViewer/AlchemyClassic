@@ -95,7 +95,7 @@ template<class Pipe>
 class LLChainIOFactoryForPipe : public LLChainIOFactory
 {
 public:
-	virtual bool build(LLPumpIO::chain_t& chain, LLSD context) const
+	bool build(LLPumpIO::chain_t& chain, LLSD context) const override
 	{   
 		chain.push_back(LLIOPipe::ptr_t(new Pipe));
 		return true;
@@ -106,8 +106,8 @@ template<class Factory>
 class LLHTTPNodeForFactory : public LLHTTPNode
 {
 public:
-	const LLChainIOFactory* getProtocolHandler() const
-		{ return &mProtocolHandler; }
+	const LLChainIOFactory* getProtocolHandler() const override
+	{ return &mProtocolHandler; }
 
 private:
 	Factory mProtocolHandler;

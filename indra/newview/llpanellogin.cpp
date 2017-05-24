@@ -75,7 +75,7 @@
 
 #include "llsdserialize.h"
 
-LLPanelLogin *LLPanelLogin::sInstance = NULL;
+LLPanelLogin *LLPanelLogin::sInstance = nullptr;
 BOOL LLPanelLogin::sCapslockDidNotification = FALSE;
 
 class LLLoginRefreshHandler : public LLCommandHandler
@@ -83,7 +83,7 @@ class LLLoginRefreshHandler : public LLCommandHandler
 public:
 	// don't allow from external browsers
 	LLLoginRefreshHandler() : LLCommandHandler("login_refresh", UNTRUSTED_BLOCK) { }
-	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& tokens, const LLSD& query_map, LLMediaCtrl* web) override
 	{	
 		if (LLStartUp::getStartupState() < STATE_LOGIN_CLEANUP)
 		{
@@ -101,9 +101,9 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 						 void *cb_data)
 :	LLPanel(),
 	mLogoImage(),
+	mListener(new LLPanelLoginListener(this)),
 	mCallback(callback),
 	mCallbackData(cb_data),
-	mListener(new LLPanelLoginListener(this)),
 	mLoginWidgetStack(nullptr)
 {
 	setBackgroundVisible(FALSE);
@@ -171,12 +171,12 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	getChild<LLPanel>("links_login_panel")->setDefaultBtn("connect_btn");
 
 	LLTextBox* forgot_password_text = getChild<LLTextBox>("forgot_password_text");
-	forgot_password_text->setClickedCallback(onClickForgotPassword, NULL);
+	forgot_password_text->setClickedCallback(onClickForgotPassword, nullptr);
 
-	childSetAction("create_new_account_btn", onClickNewAccount, NULL);
+	childSetAction("create_new_account_btn", onClickNewAccount, nullptr);
 
 	LLTextBox* need_help_text = getChild<LLTextBox>("login_help");
-	need_help_text->setClickedCallback(onClickHelp, NULL);
+	need_help_text->setClickedCallback(onClickHelp, nullptr);
 	
 	// get the web browser control
 	LLMediaCtrl* web_browser = getChild<LLMediaCtrl>("login_html");
@@ -295,11 +295,11 @@ LLPanelLogin::~LLPanelLogin()
 	if (mGridListChangedConnection.connected())
 		mGridListChangedConnection.disconnect();
 	
-	LLPanelLogin::sInstance = NULL;
+	LLPanelLogin::sInstance = nullptr;
 
 	// Controls having keyboard focus by default
 	// must reset it on destroy. (EXT-2748)
-	gFocusMgr.setDefaultKeyboardFocus(NULL);
+	gFocusMgr.setDefaultKeyboardFocus(nullptr);
 }
 
 // virtual
@@ -374,8 +374,8 @@ void LLPanelLogin::giveFocus()
 		BOOL have_username = !username.empty();
 		BOOL have_pass = !pass.empty();
 
-		LLLineEditor* edit = NULL;
-		LLComboBox* combo = NULL;
+		LLLineEditor* edit = nullptr;
+		LLComboBox* combo = nullptr;
 		if (have_username && !have_pass)
 		{
 			// User saved his name but not his password.  Move
@@ -702,7 +702,7 @@ void LLPanelLogin::closePanel()
 		LLPanelLogin::sInstance->getParent()->removeChild( LLPanelLogin::sInstance );
 
 		delete sInstance;
-		sInstance = NULL;
+		sInstance = nullptr;
 	}
 }
 

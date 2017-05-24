@@ -48,7 +48,7 @@ MediaPluginBase::MediaPluginBase(
 	mHostSendFunction = host_send_func;
 	mHostUserData = host_user_data;
 	mDeleteMe = false;
-	mPixels = 0;
+	mPixels = nullptr;
 	mWidth = 0;
 	mHeight = 0;
 	mTextureWidth = 0;
@@ -110,7 +110,7 @@ void MediaPluginBase::staticReceiveMessage(const char *message_string, void **us
 {
 	MediaPluginBase *self = (MediaPluginBase*)*user_data;
 
-	if(self != NULL)
+	if(self != nullptr)
 	{
 		self->receiveMessage(message_string);
 
@@ -118,7 +118,7 @@ void MediaPluginBase::staticReceiveMessage(const char *message_string, void **us
 		if(self->mDeleteMe)
 		{
 			delete self;
-			*user_data = NULL;
+			*user_data = nullptr;
 		}
 	}
 }

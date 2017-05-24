@@ -40,7 +40,7 @@ class LLFloaterTransactionLog : public LLFloater
 {
 public:
 	LLFloaterTransactionLog(const LLSD& key);
-	BOOL postBuild();
+	BOOL postBuild() override;
 	void addTransaction(const LLDate& date, const LLUUID& sender, S32 amount);
 	
 private:

@@ -142,31 +142,31 @@ LLTextBase::Params::Params()
 	text_color("text_color"),
 	text_readonly_color("text_readonly_color"),
 	text_tentative_color("text_tentative_color"),
-	bg_visible("bg_visible", false),
-	border_visible("border_visible", false),
 	bg_readonly_color("bg_readonly_color"),
 	bg_writeable_color("bg_writeable_color"),
 	bg_focus_color("bg_focus_color"),
 	text_selected_color("text_selected_color"),
 	bg_selected_color("bg_selected_color"),
-	allow_scroll("allow_scroll", true),
-	plain_text("plain_text",false),
+	bg_visible("bg_visible", false),
+	border_visible("border_visible", false),
 	track_end("track_end", false),
 	read_only("read_only", false),
 	spellcheck("spellcheck", false),
-	v_pad("v_pad", 0),
-	h_pad("h_pad", 0),
-	clip("clip", true),
-	clip_partial("clip_partial", true),
-	line_spacing("line_spacing"),
-	max_text_length("max_length", 255),
-	font_shadow("font_shadow"),
+	allow_scroll("allow_scroll", true),
+	plain_text("plain_text",false),
 	wrap("wrap"),
-	trusted_content("trusted_content", true),
 	use_ellipses("use_ellipses", false),
 	parse_urls("parse_urls", false),
 	force_urls_external("force_urls_external", false),
-	parse_highlights("parse_highlights", false)
+	parse_highlights("parse_highlights", false),
+	clip("clip", true),
+	clip_partial("clip_partial", true),
+	trusted_content("trusted_content", true),
+	v_pad("v_pad", 0),
+	h_pad("h_pad", 0),
+	line_spacing("line_spacing"),
+	max_text_length("max_length", 255),
+	font_shadow("font_shadow")
 {
 	addSynonym(track_end, "track_bottom");
 	addSynonym(wrap, "word_wrap");
@@ -176,20 +176,11 @@ LLTextBase::Params::Params()
 
 LLTextBase::LLTextBase(const LLTextBase::Params &p) 
 :	LLUICtrl(p, LLTextViewModelPtr(new LLTextViewModel)),
-	mURLClickSignal(NULL),
-	mIsFriendSignal(NULL),
-	mIsObjectBlockedSignal(NULL),
-	mMaxTextByteLength( p.max_text_length ),
+	mStyleDirty(true),
 	mFont(p.font),
 	mFontShadow(p.font_shadow),
-	mPopupMenuHandle(),
-	mReadOnly(p.read_only),
-	mSpellCheck(p.spellcheck),
-	mSpellCheckStart(-1),
-	mSpellCheckEnd(-1),
 	mCursorColor(p.cursor_color),
 	mFgColor(p.text_color),
-	mBorderVisible( p.border_visible ),
 	mReadOnlyFgColor(p.text_readonly_color),
 	mTentativeFgColor(p.text_tentative_color()),
 	mWriteableBgColor(p.bg_writeable_color),
@@ -197,33 +188,42 @@ LLTextBase::LLTextBase(const LLTextBase::Params &p)
 	mFocusBgColor(p.bg_focus_color),
 	mTextSelectedColor(p.text_selected_color),
 	mSelectedBGColor(p.bg_selected_color),
-	mReflowIndex(S32_MAX),
 	mCursorPos( 0 ),
-	mScrollNeeded(FALSE),
 	mDesiredXPixel(-1),
+	mSelectionStart( 0 ),
+	mSelectionEnd( 0 ),
+	mIsSelecting( FALSE ),
+	mSpellCheck(p.spellcheck),
+	mSpellCheckStart(-1),
+	mSpellCheckEnd(-1),
 	mHPad(p.h_pad),
 	mVPad(p.v_pad),
 	mHAlign(p.font_halign),
 	mVAlign(p.font_valign),
 	mLineSpacingMult(p.line_spacing.multiple),
 	mLineSpacingPixels(p.line_spacing.pixels),
-	mClip(p.clip),
-	mClipPartial(p.clip_partial && !p.allow_scroll),
-	mTrustedContent(p.trusted_content),
-	mTrackEnd( p.track_end ),
-	mScrollIndex(-1),
-	mSelectionStart( 0 ),
-	mSelectionEnd( 0 ),
-	mIsSelecting( FALSE ),
-	mPlainText ( p.plain_text ),
-	mWordWrap(p.wrap),
-	mUseEllipses( p.use_ellipses ),
+	mBorderVisible( p.border_visible ),
 	mParseHTML(p.parse_urls),
 	mForceUrlsExternal(p.force_urls_external),
 	mParseHighlights(p.parse_highlights),
+	mWordWrap(p.wrap),
+	mUseEllipses( p.use_ellipses ),
+	mTrackEnd( p.track_end ),
+	mReadOnly(p.read_only),
 	mBGVisible(p.bg_visible),
-	mScroller(NULL),
-	mStyleDirty(true)
+	mClip(p.clip),
+	mClipPartial(p.clip_partial && !p.allow_scroll),
+	mTrustedContent(p.trusted_content),
+	mPlainText ( p.plain_text ),
+	mMaxTextByteLength( p.max_text_length ),
+	mPopupMenuHandle(),
+	mScroller(nullptr),
+	mReflowIndex(S32_MAX),
+	mScrollNeeded(FALSE),
+	mScrollIndex(-1),
+	mURLClickSignal(nullptr),
+	mIsFriendSignal(nullptr),
+	mIsObjectBlockedSignal(nullptr)
 {
 	if(p.allow_scroll)
 	{
@@ -1227,7 +1227,7 @@ void LLTextBase::draw()
 		gl_rect_2d(text_rect, bg_color % alpha, TRUE);
 	}
 
-	bool should_clip = mClip || mScroller != NULL;
+	bool should_clip = mClip || mScroller != nullptr;
 	{ LLLocalClipRect clip(text_rect, should_clip);
  
 		// draw document view
@@ -3085,7 +3085,7 @@ const LLColor4& LLTextSegment::getColor() const { return LLColor4::white; }
 LLStyleConstSP LLTextSegment::getStyle() const {static LLStyleConstSP sp(new LLStyle()); return sp; }
 void LLTextSegment::setStyle(LLStyleConstSP style) {}
 void LLTextSegment::setToken( LLKeywordToken* token ) {}
-LLKeywordToken*	LLTextSegment::getToken() const { return NULL; }
+LLKeywordToken*	LLTextSegment::getToken() const { return nullptr; }
 void LLTextSegment::setToolTip( const std::string &msg ) {}
 void LLTextSegment::dump() const {}
 BOOL LLTextSegment::handleMouseDown(S32 x, S32 y, MASK mask) { return FALSE; }
@@ -3113,9 +3113,9 @@ BOOL LLTextSegment::hasMouseCapture() { return FALSE; }
 
 LLNormalTextSegment::LLNormalTextSegment( LLStyleConstSP style, S32 start, S32 end, LLTextBase& editor ) 
 :	LLTextSegment(start, end),
+	mEditor(editor),
 	mStyle( style ),
-	mToken(NULL),
-	mEditor(editor)
+	mToken(nullptr)
 {
 	mFontHeight = mStyle->getFont()->getLineHeight();
 
@@ -3128,8 +3128,8 @@ LLNormalTextSegment::LLNormalTextSegment( LLStyleConstSP style, S32 start, S32 e
 
 LLNormalTextSegment::LLNormalTextSegment( const LLColor4& color, S32 start, S32 end, LLTextBase& editor, BOOL is_visible) 
 :	LLTextSegment(start, end),
-	mToken(NULL),
-	mEditor(editor)
+	mEditor(editor),
+	mToken(nullptr)
 {
 	mStyle = new LLStyle(LLStyle::Params().visible(is_visible).color(color));
 
@@ -3482,12 +3482,12 @@ BOOL LLOnHoverChangeableTextSegment::handleHover(S32 x, S32 y, MASK mask)
 
 LLInlineViewSegment::LLInlineViewSegment(const Params& p, S32 start, S32 end)
 :	LLTextSegment(start, end),
-	mView(p.view),
-	mForceNewLine(p.force_newline),
 	mLeftPad(p.left_pad),
 	mRightPad(p.right_pad),
 	mTopPad(p.top_pad),
-	mBottomPad(p.bottom_pad)
+	mBottomPad(p.bottom_pad),
+	mView(p.view),
+	mForceNewLine(p.force_newline)
 {
 } 
 
@@ -3601,8 +3601,8 @@ F32	LLLineBreakTextSegment::draw(S32 start, S32 end, S32 selection_start, S32 se
 
 LLImageTextSegment::LLImageTextSegment(LLStyleConstSP style,S32 pos,class LLTextBase& editor)
 :	LLTextSegment(pos,pos+1),
-	mStyle( style ),
-	mEditor(editor)
+	mEditor(editor),
+	mStyle( style )
 {
 }
 

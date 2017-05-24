@@ -43,7 +43,7 @@
 #define UNIFORM_ERRS LL_ERRS("Shader")
 #endif
 
-LLShaderMgr * LLShaderMgr::sInstance = NULL;
+LLShaderMgr * LLShaderMgr::sInstance = nullptr;
 
 LLShaderMgr::LLShaderMgr()
 {
@@ -57,7 +57,7 @@ LLShaderMgr::~LLShaderMgr()
 // static
 LLShaderMgr * LLShaderMgr::instance()
 {
-	if(NULL == sInstance)
+	if(nullptr == sInstance)
 	{
 		LL_ERRS("Shaders") << "LLShaderMgr should already have been instantiated by the application!" << LL_ENDL;
 	}
@@ -600,7 +600,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 
 
 	//read in from file
-	LLFILE* file = NULL;
+	LLFILE* file = nullptr;
 
 	S32 try_gpu_class = shader_level;
 	S32 gpu_class;
@@ -621,7 +621,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 		}
 	}
 	
-	if (file == NULL)
+	if (file == nullptr)
 	{
 		LL_WARNS("ShaderLoading") << "GLSL Shader file not found: " << filename << LL_ENDL;
 		return 0;
@@ -944,7 +944,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	}
 
 	//copy file into memory
-	while( fgets((char *)buff, 1024, file) != NULL && count < LL_ARRAY_SIZE(text) ) 
+	while( fgets((char *)buff, 1024, file) != nullptr && count < LL_ARRAY_SIZE(text) ) 
 	{
 		text[count++] = (GLchar*)strdup((char *)buff); 
 	}
@@ -966,7 +966,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	//load source
 	if(ret)
 	{
-		glShaderSource(ret, count, (const GLchar**) text, NULL);
+		glShaderSource(ret, count, (const GLchar**) text, nullptr);
 
 		if (gDebugGL)
 		{

@@ -433,7 +433,7 @@ public:
         {
             return &found->second.node;
         }
-        return NULL;
+        return nullptr;
     }
 
     /**
@@ -601,7 +601,7 @@ public:
 	using LLDependenciesBase::describe; // unhide virtual std::string describe(bool full=true) const;
 
     /// Override base-class describe() with actual implementation
-    virtual std::ostream& describe(std::ostream& out, bool full=true) const
+	std::ostream& describe(std::ostream& out, bool full=true) const override
     {
         typename DepNodeMap::const_iterator dmi(mNodes.begin()), dmend(mNodes.end());
         if (dmi != dmend)

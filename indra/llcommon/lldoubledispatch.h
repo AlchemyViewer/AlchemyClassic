@@ -232,13 +232,13 @@ private:
     public:
         Entry(Functor func): mFunc(func) {}
         /// Is this entry appropriate for these arguments?
-        virtual bool matches(const ParamBaseType& param1, const ParamBaseType& param2) const
+	    bool matches(const ParamBaseType& param1, const ParamBaseType& param2) const override
         {
             return (dynamic_cast<const Type1*>(&param1) &&
                     dynamic_cast<const Type2*>(&param2));
         }
         /// invocation
-        virtual ReturnType operator()(ParamBaseType& param1, ParamBaseType& param2) const
+	    ReturnType operator()(ParamBaseType& param1, ParamBaseType& param2) const override
         {
             // We perform the downcast so callable can accept leaf param
             // types, instead of accepting ParamBaseType and downcasting

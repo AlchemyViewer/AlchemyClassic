@@ -148,7 +148,7 @@ public:
         U32 everyonePerms,
         S32 expectedCost);
 
-    virtual LLSD        prepareUpload();
+	LLSD        prepareUpload() override;
 
     std::string         getFileName() const { return mFileName; };
 
@@ -172,15 +172,15 @@ public:
     LLBufferedAssetUploadInfo(LLUUID itemId, LLPointer<LLImageFormatted> image, invnUploadFinish_f finish);
     LLBufferedAssetUploadInfo(LLUUID taskId, LLUUID itemId, LLAssetType::EType assetType, std::string buffer, taskUploadFinish_f finish);
 
-    virtual LLSD        prepareUpload();
-    virtual LLSD        generatePostBody();
-    virtual LLUUID      finishUpload(LLSD &result);
+	LLSD        prepareUpload() override;
+	LLSD        generatePostBody() override;
+	LLUUID      finishUpload(LLSD &result) override;
 
     LLUUID              getTaskId() const { return mTaskId; }
     const std::string & getContents() const { return mContents; }
 
-    virtual bool        showUploadDialog() const { return false; }
-    virtual bool        showInventoryPanel() const { return false; }
+	bool        showUploadDialog() const override { return false; }
+	bool        showInventoryPanel() const override { return false; }
 
 protected:
 
@@ -208,7 +208,7 @@ public:
     LLScriptAssetUpload(LLUUID taskId, LLUUID itemId, TargetType_t targetType, 
             bool isRunning, LLUUID exerienceId, std::string buffer, taskUploadFinish_f finish);
 
-    virtual LLSD        generatePostBody();
+	LLSD        generatePostBody() override;
 
     LLUUID              getExerienceId() const { return mExerienceId; }
     TargetType_t        getTargetType() const { return mTargetType; }

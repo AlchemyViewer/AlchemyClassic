@@ -162,8 +162,8 @@ public:
 #endif
 	}
 
-	virtual std::ostream& get_ostream() { return mStream; }
-	virtual size_type size() const { return mStreambuf.size(); }
+	std::ostream& get_ostream() override { return mStream; }
+	size_type size() const override { return mStreambuf.size(); }
 
 	bool tick(const LLSD&)
 	{
@@ -273,14 +273,14 @@ public:
 
 	// Much of the implementation is simply connecting the abstract virtual
 	// methods with implementation data concealed from the base class.
-	virtual std::istream& get_istream() { return mStream; }
-	virtual std::string getline() { return LLProcess::getline(mStream); }
-	virtual LLEventPump& getPump() { return mPump; }
-	virtual void setLimit(size_type limit) { mLimit = limit; }
-	virtual size_type getLimit() const { return mLimit; }
-	virtual size_type size() const { return mStreambuf.size(); }
+	std::istream& get_istream() override { return mStream; }
+	std::string getline() override { return LLProcess::getline(mStream); }
+	LLEventPump& getPump() override { return mPump; }
+	void setLimit(size_type limit) override { mLimit = limit; }
+	size_type getLimit() const override { return mLimit; }
+	size_type size() const override { return mStreambuf.size(); }
 
-	virtual std::string read(size_type len)
+	std::string read(size_type len) override
 	{
 		// Read specified number of bytes into a buffer.
 		size_type readlen((std::min)(size(), len));
@@ -297,7 +297,7 @@ public:
 		return std::string(&buffer[0], mStream.gcount());
 	}
 
-	virtual std::string peek(size_type offset=0, size_type len=npos) const
+	std::string peek(size_type offset=0, size_type len=npos) const override
 	{
 		// Constrain caller's offset and len to overlap actual buffer content.
 		std::size_t real_offset = (std::min)(mStreambuf.size(), std::size_t(offset));
@@ -308,7 +308,7 @@ public:
 						   boost::asio::buffers_begin(cbufs) + real_end);
 	}
 
-	virtual size_type find(const std::string& seek, size_type offset=0) const
+	size_type find(const std::string& seek, size_type offset=0) const override
 	{
 		// If we're passing a string of length 1, use find(char), which can
 		// use an O(n) std::find() rather than the O(n^2) std::search().
@@ -332,7 +332,7 @@ public:
 		return (found == end)? npos : (found - begin);
 	}
 
-	virtual size_type find(char seek, size_type offset=0) const
+	size_type find(char seek, size_type offset=0) const override
 	{
 		// If offset is beyond the whole buffer, can't even construct a valid
 		// iterator range; can't possibly find the char we seek.
@@ -526,7 +526,7 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 	// constructor call, these push_back() calls should require no new
 	// allocation.
 	for (size_t i = 0; i < mPipes.capacity(); ++i)
-		mPipes.push_back(0);
+		mPipes.push_back(nullptr);
 
 	if (! params.validateBlock(true))
 	{
@@ -536,7 +536,7 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 
 	mPostend = params.postend;
 
-	apr_procattr_t *procattr = NULL;
+	apr_procattr_t *procattr = nullptr;
 	chkapr(apr_procattr_create(&procattr, gAPRPoolp));
 
 	// IQA-490, CHOP-900: On Windows, ask APR to jump through hoops to
@@ -670,12 +670,12 @@ LLProcess::LLProcess(const LLSDOrParams& params):
 	}
 
 	// terminate with a null pointer
-	argv.push_back(NULL);
+	argv.push_back(nullptr);
 
 	// Launch! The NULL would be the environment block, if we were passing
 	// one. Hand-expand chkapr() macro so we can fill in the actual command
 	// string instead of the variable names.
-	if (ll_apr_warn_status(apr_proc_create(&mProcess, argv[0], &argv[0], NULL, procattr,
+	if (ll_apr_warn_status(apr_proc_create(&mProcess, argv[0], &argv[0], nullptr, procattr,
 										   gAPRPoolp)))
 	{
 		LLTHROW(LLProcessError(STRINGIZE(params << " failed")));
@@ -1036,12 +1036,12 @@ PIPETYPE* LLProcess::getPipePtr(std::string& error, FILESLOT slot)
 	if (slot >= NSLOTS)
 	{
 		error = STRINGIZE(mDesc << " has no slot " << slot);
-		return NULL;
+		return nullptr;
 	}
 	if (mPipes.is_null(slot))
 	{
 		error = STRINGIZE(mDesc << ' ' << whichfile(slot) << " not a monitored pipe");
-		return NULL;
+		return nullptr;
 	}
 	// Make sure we dynamic_cast in pointer domain so we can test, rather than
 	// accepting runtime's exception.
@@ -1049,7 +1049,7 @@ PIPETYPE* LLProcess::getPipePtr(std::string& error, FILESLOT slot)
 	if (! ppipe)
 	{
 		error = STRINGIZE(mDesc << ' ' << whichfile(slot) << " not a " << typeid(PIPETYPE).name());
-		return NULL;
+		return nullptr;
 	}
 
 	error.clear();
@@ -1149,7 +1149,7 @@ LLProcess::handle LLProcess::isRunning(handle h, const std::string& desc)
 	// This direct Windows implementation is because we have no access to the
 	// apr_proc_t struct: we expect it's been destroyed.
 	if (! h)
-		return 0;
+		return nullptr;
 
 	DWORD waitresult = WaitForSingleObject(h, 0);
 	if(waitresult == WAIT_OBJECT_0)
@@ -1169,7 +1169,7 @@ LLProcess::handle LLProcess::isRunning(handle h, const std::string& desc)
 			}
 		}
 		CloseHandle(h);
-		return 0;
+		return nullptr;
 	}
 
 	return h;
@@ -1202,14 +1202,14 @@ static std::string WindowsErrorString(const std::string& operation)
 {
 	int result = GetLastError();
 
-	LPTSTR error_str = 0;
+	LPTSTR error_str = nullptr;
 	if (FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-					   NULL,
+					   nullptr,
 					   result,
 					   0,
 					   (LPTSTR)&error_str,
 					   0,
-					   NULL)
+					   nullptr)
 		!= 0) 
 	{
 		// convert from wide-char string to multi-byte string

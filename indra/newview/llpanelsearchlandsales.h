@@ -37,11 +37,11 @@ class LLPanelSearchLandSales : public LLPanelSearch
 {
 public:
 	LLPanelSearchLandSales();
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 private:
-	/*virtual*/ void search();
-	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl);
+	/*virtual*/ void search() override;
+	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl) override;
 };
 
 #endif // LL_PANELSEARCHLANDSALES_H

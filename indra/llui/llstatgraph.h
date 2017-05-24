@@ -99,7 +99,7 @@ public:
 	void setMin(const F32 min);
 	void setMax(const F32 max);
 
-	virtual void draw();
+	void draw() override;
 
 	/*virtual*/ void setValue(const LLSD& value);
 	

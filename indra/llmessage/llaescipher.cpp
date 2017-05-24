@@ -52,10 +52,10 @@ LLAESCipher::LLAESCipher(const U8* secret, size_t secret_size, const U8* iv, siz
 LLAESCipher::~LLAESCipher()
 {
 	delete [] mSecret;
-	mSecret = NULL;
+	mSecret = nullptr;
 	
 	delete [] mInitialVector;
-	mInitialVector = NULL;
+	mInitialVector = nullptr;
 }
 
 // virtual
@@ -67,10 +67,10 @@ U32 LLAESCipher::encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	// OpenSSL uses "cipher contexts" to hold encryption parameters.
     EVP_CIPHER_CTX* context = EVP_CIPHER_CTX_new();
 	
-	EVP_EncryptInit_ex(context, EVP_aes_256_ofb(), NULL, NULL, NULL);
+	EVP_EncryptInit_ex(context, EVP_aes_256_ofb(), nullptr, nullptr, nullptr);
 	EVP_CIPHER_CTX_set_key_length(context, (int)mSecretSize);
 	
-	EVP_EncryptInit_ex(context, NULL, NULL, mSecret, mInitialVector);
+	EVP_EncryptInit_ex(context, nullptr, nullptr, mSecret, mInitialVector);
 	
     int blocksize = EVP_CIPHER_CTX_block_size(context);
     int keylen = EVP_CIPHER_CTX_key_length(context);
@@ -114,10 +114,10 @@ U32 LLAESCipher::decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len)
 	
 	EVP_CIPHER_CTX* context = EVP_CIPHER_CTX_new();
 	
-	EVP_DecryptInit_ex(context, EVP_aes_256_ofb(), NULL, NULL, NULL);
+	EVP_DecryptInit_ex(context, EVP_aes_256_ofb(), nullptr, nullptr, nullptr);
 	EVP_CIPHER_CTX_set_key_length(context, (int)mSecretSize);
 	
-	EVP_DecryptInit_ex(context, NULL, NULL, mSecret, mInitialVector);
+	EVP_DecryptInit_ex(context, nullptr, nullptr, mSecret, mInitialVector);
 	
     int blocksize = EVP_CIPHER_CTX_block_size(context);
     int keylen = EVP_CIPHER_CTX_key_length(context);

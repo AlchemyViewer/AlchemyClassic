@@ -49,8 +49,8 @@ public:
 	LLFloaterBuy(const LLSD& key);
 	~LLFloaterBuy();
 	
-	/*virtual*/	BOOL postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/	BOOL postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
 	
 	static void show(const LLSaleInfo& sale_info);
 
@@ -61,7 +61,7 @@ protected:
 	/*virtual*/ void inventoryChanged(LLViewerObject* obj,
 								 LLInventoryObject::object_list_t* inv,
 								 S32 serial_num,
-								 void* data);
+								 void* data) override;
 
 	void onClickBuy();
 	void onClickCancel();

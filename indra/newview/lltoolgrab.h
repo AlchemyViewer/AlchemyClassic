@@ -53,25 +53,25 @@ void send_ObjectDeGrab_message(LLViewerObject* object, const LLPickInfo & pick);
 class LLToolGrabBase : public LLTool
 {
 public:
-	LLToolGrabBase(LLToolComposite* composite=NULL);
+	LLToolGrabBase(LLToolComposite* composite= nullptr);
 	~LLToolGrabBase();
 
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ void	render();		// 3D elements
-	/*virtual*/ void	draw();			// 2D elements
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void	render() override;		// 3D elements
+	/*virtual*/ void	draw() override;			// 2D elements
 
-	virtual void		handleSelect();
-	virtual void		handleDeselect();
-	
-	virtual LLViewerObject*	getEditingObject();
-	virtual LLVector3d		getEditingPointGlobal();
-	virtual BOOL			isEditing();
-	virtual void			stopEditing();
-	
-	virtual void			onMouseCaptureLost();
+	void		handleSelect() override;
+	void		handleDeselect() override;
+
+	LLViewerObject*	getEditingObject() override;
+	LLVector3d		getEditingPointGlobal() override;
+	BOOL			isEditing() override;
+	void			stopEditing() override;
+
+	void			onMouseCaptureLost() override;
 
 	BOOL			hasGrabOffset()  { return TRUE; }	// HACK
 	LLVector3		getGrabOffset(S32 x, S32 y);		// HACK

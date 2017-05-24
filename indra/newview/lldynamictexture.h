@@ -70,7 +70,7 @@ public:
 					 EOrder order,			// = ORDER_MIDDLE,
 					 BOOL clamp);
 	
-	/*virtual*/ S8 getType() const ;
+	/*virtual*/ S8 getType() const override;
 
 	S32			getOriginX() const	{ return mOrigin.mX; }
 	S32			getOriginY() const	{ return mOrigin.mY; }

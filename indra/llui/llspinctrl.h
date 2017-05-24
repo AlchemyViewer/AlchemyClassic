@@ -62,17 +62,17 @@ public:
 	virtual ~LLSpinCtrl() {} // Children all cleaned up by default view destructor.
 
 	virtual void    forceSetValue(const LLSD& value ) ;
-	virtual void	setValue(const LLSD& value );
+	void	setValue(const LLSD& value ) override;
 			F32		get() const { return getValueF32(); }
 			void	set(F32 value) { setValue(value); mInitialValue = value; }
 
 	BOOL			isMouseHeldDown() const;
 
-	virtual void    setEnabled( BOOL b );
-	virtual void	setFocus( BOOL b );
-	virtual void	clear();
-	virtual BOOL	isDirty() const { return( getValueF32() != mInitialValue ); }
-	virtual void    resetDirty() { mInitialValue = getValueF32(); }
+	void    setEnabled( BOOL b ) override;
+	void	setFocus( BOOL b ) override;
+	void	clear() override;
+	BOOL	isDirty() const override { return( getValueF32() != mInitialValue ); }
+	void    resetDirty() override { mInitialValue = getValueF32(); }
 
 	virtual void	setPrecision(S32 precision);
 
@@ -81,15 +81,15 @@ public:
 	void			setDisabledLabelColor(const LLColor4& c)	{ mTextDisabledColor = c; updateLabelColor();}
 	void			setAllowEdit(BOOL allow_edit);
 
-	virtual void	onTabInto();
+	void	onTabInto() override;
 
-	virtual void	setTentative(BOOL b);			// marks value as tentative
-	virtual void	onCommit();						// mark not tentative, then commit
+	void	setTentative(BOOL b) override;			// marks value as tentative
+	void	onCommit() override;						// mark not tentative, then commit
 
 	void 			forceEditorCommit();			// for commit on external button
 
-	virtual BOOL	handleScrollWheel(S32 x,S32 y,S32 clicks);
-	virtual BOOL	handleKeyHere(KEY key, MASK mask);
+	BOOL	handleScrollWheel(S32 x,S32 y,S32 clicks) override;
+	BOOL	handleKeyHere(KEY key, MASK mask) override;
 
 	void			onEditorCommit(const LLSD& data);
 	static void		onEditorGainFocus(LLFocusableElement* caller, void *userdata);

@@ -145,7 +145,7 @@ protected:
 	
 	// Can initiate LRU-based file removal to make space.
 	// The immune file block will not be removed.
-	LLVFSBlock *findFreeBlock(S32 size, LLVFSFileBlock *immune = NULL);
+	LLVFSBlock *findFreeBlock(S32 size, LLVFSFileBlock *immune = nullptr);
 
 	// lock/unlock data mutex (mDataMutex)
 	void lockData() { mDataMutex->lock(); }

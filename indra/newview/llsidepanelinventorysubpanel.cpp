@@ -50,10 +50,10 @@
 // Default constructor
 LLSidepanelInventorySubpanel::LLSidepanelInventorySubpanel(const LLPanel::Params& p)
   : LLPanel(p),
+	mSaveBtn(nullptr),
+	mCancelBtn(nullptr),
 	mIsDirty(TRUE),
-	mIsEditing(FALSE),
-	mCancelBtn(NULL),
-	mSaveBtn(NULL)
+	mIsEditing(FALSE)
 {
 }
 

@@ -49,18 +49,18 @@ class LLPanelSnapshotLocal
 
 public:
 	LLPanelSnapshotLocal();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 private:
-	/*virtual*/ std::string getWidthSpinnerName() const		{ return "local_snapshot_width"; }
-	/*virtual*/ std::string getHeightSpinnerName() const	{ return "local_snapshot_height"; }
-	/*virtual*/ std::string getAspectRatioCBName() const	{ return "local_keep_aspect_check"; }
-	/*virtual*/ std::string getImageSizeComboName() const	{ return "local_size_combo"; }
-	/*virtual*/ std::string getImageSizePanelName() const	{ return "local_image_size_lp"; }
-	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat() const;
-	/*virtual*/ LLSnapshotModel::ESnapshotType getSnapshotType();
-	/*virtual*/ void updateControls(const LLSD& info);
+	/*virtual*/ std::string getWidthSpinnerName() const override { return "local_snapshot_width"; }
+	/*virtual*/ std::string getHeightSpinnerName() const override { return "local_snapshot_height"; }
+	/*virtual*/ std::string getAspectRatioCBName() const override { return "local_keep_aspect_check"; }
+	/*virtual*/ std::string getImageSizeComboName() const override { return "local_size_combo"; }
+	/*virtual*/ std::string getImageSizePanelName() const override { return "local_image_size_lp"; }
+	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat() const override;
+	/*virtual*/ LLSnapshotModel::ESnapshotType getSnapshotType() override;
+	/*virtual*/ void updateControls(const LLSD& info) override;
 
 	S32 mLocalFormat;
 

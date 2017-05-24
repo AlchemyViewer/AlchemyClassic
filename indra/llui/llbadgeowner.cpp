@@ -38,7 +38,7 @@
 
 LLBadgeOwner::LLBadgeOwner(LLHandle< LLView > viewHandle)
 	: mHasBadgeHolderParent(false),
-	mBadge(NULL),
+	mBadge(nullptr),
 	mBadgeOwnerView(viewHandle)
 {
 }
@@ -72,7 +72,7 @@ void LLBadgeOwner::addBadgeToParentHolder()
 	
 	if (mBadge && owner_view)
 	{
-		LLBadgeHolder * badge_holder = NULL;
+		LLBadgeHolder * badge_holder = nullptr;
 
 		// Find the appropriate holder for the badge
 		LLView * parent = owner_view->getParent();

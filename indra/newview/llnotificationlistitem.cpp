@@ -382,11 +382,11 @@ void LLGroupInviteNotificationListItem::setFee(S32 fee)
 
 LLGroupNoticeNotificationListItem::LLGroupNoticeNotificationListItem(const Params& p)
     : LLGroupNotificationListItem(p),
-    mAttachmentPanel(NULL),
-    mAttachmentTextBox(NULL),
-    mAttachmentIcon(NULL),
-    mAttachmentIconExp(NULL),
-    mInventoryOffer(NULL)
+    mAttachmentPanel(nullptr),
+    mAttachmentTextBox(nullptr),
+    mAttachmentIcon(nullptr),
+    mAttachmentIconExp(nullptr),
+    mInventoryOffer(nullptr)
 {
     if (mParams.inventory_offer.isDefined())
     {
@@ -403,10 +403,10 @@ LLGroupNotificationListItem::~LLGroupNotificationListItem()
 
 LLGroupNoticeNotificationListItem::~LLGroupNoticeNotificationListItem()
 {
-	if (mInventoryOffer != NULL)
+	if (mInventoryOffer != nullptr)
 	{
 		mInventoryOffer->forceResponse(IOR_DECLINE);
-		mInventoryOffer = NULL;
+		mInventoryOffer = nullptr;
 	}
 }
 
@@ -435,7 +435,7 @@ BOOL LLGroupNoticeNotificationListItem::postBuild()
     }
     setSender(mParams.sender);
 
-    if (mInventoryOffer != NULL)
+    if (mInventoryOffer != nullptr)
     {
         mAttachmentTextBox->setValue(mInventoryOffer->mDesc);
         mAttachmentTextBox->setVisible(TRUE);
@@ -558,16 +558,16 @@ void LLGroupNoticeNotificationListItem::close()
     // The group notice dialog may be an inventory offer.
     // If it has an inventory save button and that button is still enabled
     // Then we need to send the inventory declined message
-    if (mInventoryOffer != NULL)
+    if (mInventoryOffer != nullptr)
     {
         mInventoryOffer->forceResponse(IOR_DECLINE);
-        mInventoryOffer = NULL;
+        mInventoryOffer = nullptr;
     }
 }
 
 void LLGroupNoticeNotificationListItem::onClickAttachment()
 {
-    if (mInventoryOffer != NULL) {
+    if (mInventoryOffer != nullptr) {
         static const LLUIColor textColor = LLUIColorTable::instance().getColor(
             "GroupNotifyDimmedTextColor");
         mAttachmentTextBox->setColor(textColor);
@@ -579,7 +579,7 @@ void LLGroupNoticeNotificationListItem::onClickAttachment()
         }
 
         mInventoryOffer->forceResponse(IOR_ACCEPT);
-        mInventoryOffer = NULL;
+        mInventoryOffer = nullptr;
     }
 }
 
@@ -602,7 +602,7 @@ bool LLGroupNoticeNotificationListItem::isAttachmentOpenable(LLAssetType::EType 
 
 LLTransactionNotificationListItem::LLTransactionNotificationListItem(const Params& p)
     : LLNotificationListItem(p),
-    mAvatarIcon(NULL),
+    mAvatarIcon(nullptr),
     mAvatarIconExp(nullptr)
 {
     buildFromFile("panel_notification_list_item.xml");

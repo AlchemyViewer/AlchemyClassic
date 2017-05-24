@@ -82,7 +82,7 @@ void LLSkinningUtil::initSkinningMatrixPalette(
 {
     for (U32 j = 0; j < count; ++j)
     {
-        LLJoint *joint = NULL;
+        LLJoint *joint = nullptr;
         if (skin->mJointNums[j] == -1)
         {
             joint = avatar->getJoint(skin->mJointNames[j]);

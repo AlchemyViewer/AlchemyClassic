@@ -192,7 +192,7 @@ public:
 	}
 
 private:
-	BOOL tick()
+	BOOL tick() override
 	{
 		mCallable();
 		return TRUE;
@@ -216,7 +216,7 @@ public:
 	{
 	}
 private:
-	BOOL tick()
+	BOOL tick() override
 	{
 		return mCallable();
 	}
@@ -255,7 +255,7 @@ LLCallbackList::test()
 
 	LL_INFOS() << "Testing LLCallbackList" << LL_ENDL;
 
-	if (!list->deleteFunction(NULL))
+	if (!list->deleteFunction(nullptr))
 	{
 		LL_INFOS() << "passed 1" << LL_ENDL;
 	}

@@ -43,8 +43,8 @@ class LLPanelSnapshot: public LLPanel
 public:
 	LLPanelSnapshot();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	virtual std::string getWidthSpinnerName() const = 0;
 	virtual std::string getHeightSpinnerName() const = 0;

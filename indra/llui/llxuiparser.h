@@ -61,8 +61,8 @@ class LLXSDWriter : public LLInitParam::Parser
 public:
 	void writeXSD(const std::string& name, LLXMLNodePtr node, const LLInitParam::BaseBlock& block, const std::string& xml_namespace);
 
-	/*virtual*/ std::string getCurrentElementName() { return LLStringUtil::null; }
-	/*virtual*/ std::string getCurrentFileName() { return LLStringUtil::null; }
+	/*virtual*/ std::string getCurrentElementName() override { return LLStringUtil::null; }
+	/*virtual*/ std::string getCurrentFileName() override { return LLStringUtil::null; }
 	LLXSDWriter();
 	~LLXSDWriter();
 
@@ -99,17 +99,17 @@ public:
 	LLXUIParser();
 	typedef LLInitParam::Parser::name_stack_t name_stack_t;
 
-	/*virtual*/ std::string getCurrentElementName();
-	/*virtual*/ std::string getCurrentFileName() { return mCurFileName; }
-	/*virtual*/ void parserWarning(const std::string& message);
-	/*virtual*/ void parserError(const std::string& message);
+	/*virtual*/ std::string getCurrentElementName() override;
+	/*virtual*/ std::string getCurrentFileName() override { return mCurFileName; }
+	/*virtual*/ void parserWarning(const std::string& message) override;
+	/*virtual*/ void parserError(const std::string& message) override;
 
 	void readXUI(LLXMLNodePtr node, LLInitParam::BaseBlock& block, const std::string& filename = LLStringUtil::null, bool silent=false);
 	template<typename BLOCK>
 	void writeXUI(LLXMLNodePtr node, 
 				const BLOCK& block, 
 				const LLInitParam::predicate_rule_t rules = LLInitParam::default_parse_rules(),
-				const LLInitParam::BaseBlock* diff_block = NULL)
+				const LLInitParam::BaseBlock* diff_block = nullptr)
 	{
 		if (!diff_block 
 			&& !rules.isAmbivalent(LLInitParam::HAS_DEFAULT_VALUE))
@@ -202,10 +202,10 @@ public:
 	LLSimpleXUIParser(element_start_callback_t element_cb = nullptr);
 	virtual ~LLSimpleXUIParser();
 
-	/*virtual*/ std::string getCurrentElementName();
-	/*virtual*/ std::string getCurrentFileName() { return mCurFileName; }
-	/*virtual*/ void parserWarning(const std::string& message);
-	/*virtual*/ void parserError(const std::string& message);
+	/*virtual*/ std::string getCurrentElementName() override;
+	/*virtual*/ std::string getCurrentFileName() override { return mCurFileName; }
+	/*virtual*/ void parserWarning(const std::string& message) override;
+	/*virtual*/ void parserError(const std::string& message) override;
 
 	bool readXUI(const std::string& filename, LLInitParam::BaseBlock& block, bool silent=false);
 

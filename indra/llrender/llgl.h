@@ -405,9 +405,9 @@ public:
 	LLGLSyncFence();
 	virtual ~LLGLSyncFence();
 
-	void placeFence();
-	bool isCompleted();
-	void wait();
+	void placeFence() override;
+	bool isCompleted() override;
+	void wait() override;
 };
 
 extern LLMatrix4 gGLObliqueProjectionInverse;

@@ -41,8 +41,8 @@ LLAOSet::LLAOSet(const LLUUID& inventoryID)
 ,	mSmart(false)
 ,	mMouselookDisable(false)
 ,	mComplete(false)
-,	mDirty(false)
 ,	mCurrentMotion(LLUUID())
+,	mDirty(false)
 {
 	LL_DEBUGS("AOEngine") << "Creating new AO set: " << this << LL_ENDL;
 
@@ -148,7 +148,7 @@ LLAOSet::AOState* LLAOSet::getStateByName(const std::string& name)
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLAOSet::AOState* LLAOSet::getStateByRemapID(const LLUUID& id)
@@ -166,7 +166,7 @@ LLAOSet::AOState* LLAOSet::getStateByRemapID(const LLUUID& id)
 			return &mStates[index];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 const LLUUID& LLAOSet::getAnimationForState(AOState* state) const

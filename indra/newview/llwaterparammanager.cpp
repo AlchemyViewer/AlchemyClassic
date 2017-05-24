@@ -68,13 +68,13 @@ LLWaterParamManager::LLWaterParamManager() :
 	mFogDensity(4, "waterFogDensity", 2),
 	mUnderWaterFogMod(0.25, "underWaterFogMod"),
 	mNormalScale(2.f, 2.f, 2.f, "normScale"),
+	mWave1Dir(.5f, .5f, "wave1Dir"),
+	mWave2Dir(.5f, .5f, "wave2Dir"),
 	mFresnelScale(0.5f, "fresnelScale"),
 	mFresnelOffset(0.4f, "fresnelOffset"),
 	mScaleAbove(0.025f, "scaleAbove"),
 	mScaleBelow(0.2f, "scaleBelow"),
 	mBlurMultiplier(0.1f, "blurMultiplier"),
-	mWave1Dir(.5f, .5f, "wave1Dir"),
-	mWave2Dir(.5f, .5f, "wave2Dir"),
 	mDensitySliderValue(1.0f),
 	mWaterFogKS(1.0f)
 {

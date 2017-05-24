@@ -69,7 +69,7 @@ public:
 	HttpStatus setupSet(HttpRequest::EPolicyOption opt, HttpRequest::policy_t pclass, long value);
 	HttpStatus setupSet(HttpRequest::EPolicyOption opt, HttpRequest::policy_t pclass, const std::string & value);
 
-	virtual void stageFromRequest(HttpService *);
+	void stageFromRequest(HttpService *) override;
 
 public:
 	// Request data

@@ -46,7 +46,7 @@ static const LLPlacesInventoryBridgeBuilder PLACES_INVENTORY_BUILDER;
 
 LLPlacesInventoryPanel::LLPlacesInventoryPanel(const Params& p) : 
 	LLInventoryPanel(p),
-	mSavedFolderState(NULL)
+	mSavedFolderState(nullptr)
 
 {
 	mInvFVBridgeBuilder = &PLACES_INVENTORY_BUILDER;
@@ -75,14 +75,14 @@ LLFolderView * LLPlacesInventoryPanel::createFolderRoot(LLUUID root_id )
         LLInventoryType::IT_CATEGORY,
         this,
         &mInventoryViewModel,
-        NULL,
+        nullptr,
         root_id);
     p.view_model = &mInventoryViewModel;
     p.use_label_suffix = mParams.use_label_suffix;
     p.allow_multiselect = mAllowMultiSelect;
     p.show_empty_message = mShowEmptyMessage;
     p.show_item_link_overlays = mShowItemLinkOverlays;
-    p.root = NULL;
+    p.root = nullptr;
     p.use_ellipses = mParams.folder_view.use_ellipses;
     p.options_menu = "menu_inventory.xml";
 

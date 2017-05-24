@@ -73,11 +73,11 @@ LLPanelClassifiedInfo::panel_list_t LLPanelClassifiedInfo::sAllPanels;
 class LLDispatchClassifiedClickThrough : public LLDispatchHandler
 {
 public:
-	virtual bool operator()(
+	bool operator()(
 		const LLDispatcher* dispatcher,
 		const std::string& key,
 		const LLUUID& invoice,
-		const sparam_t& strings)
+		const sparam_t& strings) override
 	{
 		if (strings.size() != 4) return false;
 		LLUUID classified_id(strings[0]);
@@ -101,19 +101,19 @@ static LLPanelInjector<LLPanelClassifiedInfo> t_classified_info("panel_classifie
 
 LLPanelClassifiedInfo::LLPanelClassifiedInfo()
  : LLPanel()
+ , mSnapshotStreched(false)
+ , mSnapshotCtrl(nullptr)
  , mInfoLoaded(false)
- , mScrollingPanel(NULL)
- , mScrollContainer(NULL)
+ , mScrollContainer(nullptr)
+ , mScrollingPanel(nullptr)
  , mScrollingPanelMinHeight(0)
  , mScrollingPanelWidth(0)
- , mSnapshotStreched(false)
  , mTeleportClicksOld(0)
  , mMapClicksOld(0)
  , mProfileClicksOld(0)
  , mTeleportClicksNew(0)
  , mMapClicksNew(0)
  , mProfileClicksNew(0)
- , mSnapshotCtrl(NULL)
 {
 	sAllPanels.push_back(this);
 }
@@ -597,7 +597,7 @@ void LLPanelClassifiedInfo::onTeleportClick()
 void LLPanelClassifiedInfo::onExit()
 {
 	LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(), this);
-	gGenericDispatcher.addHandler("classifiedclickthrough", NULL); // deregister our handler
+	gGenericDispatcher.addHandler("classifiedclickthrough", nullptr); // deregister our handler
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -612,7 +612,7 @@ LLPanelClassifiedEdit::LLPanelClassifiedEdit()
  , mIsNew(false)
  , mIsNewWithErrors(false)
  , mCanClose(false)
- , mPublishFloater(NULL)
+ , mPublishFloater(nullptr)
 {
 }
 
@@ -641,7 +641,7 @@ BOOL LLPanelClassifiedEdit::postBuild()
 	edit_icon->setVisible(false);
 
 	LLLineEditor* line_edit = getChild<LLLineEditor>("classified_name");
-	line_edit->setKeystrokeCallback(boost::bind(&LLPanelClassifiedEdit::onChange, this), NULL);
+	line_edit->setKeystrokeCallback(boost::bind(&LLPanelClassifiedEdit::onChange, this), nullptr);
 
 	LLTextEditor* text_edit = getChild<LLTextEditor>("classified_desc");
 	text_edit->setKeystrokeCallback(boost::bind(&LLPanelClassifiedEdit::onChange, this));
@@ -657,9 +657,9 @@ BOOL LLPanelClassifiedEdit::postBuild()
 
 	combobox->setCommitCallback(boost::bind(&LLPanelClassifiedEdit::onChange, this));
 
-	childSetCommitCallback("content_type", boost::bind(&LLPanelClassifiedEdit::onChange, this), NULL);
-	childSetCommitCallback("price_for_listing", boost::bind(&LLPanelClassifiedEdit::onChange, this), NULL);
-	childSetCommitCallback("auto_renew", boost::bind(&LLPanelClassifiedEdit::onChange, this), NULL);
+	childSetCommitCallback("content_type", boost::bind(&LLPanelClassifiedEdit::onChange, this), nullptr);
+	childSetCommitCallback("price_for_listing", boost::bind(&LLPanelClassifiedEdit::onChange, this), nullptr);
+	childSetCommitCallback("auto_renew", boost::bind(&LLPanelClassifiedEdit::onChange, this), nullptr);
 
 	childSetAction("save_changes_btn", boost::bind(&LLPanelClassifiedEdit::onSaveClick, this));
 	childSetAction("set_to_curr_location_btn", boost::bind(&LLPanelClassifiedEdit::onSetLocationClick, this));

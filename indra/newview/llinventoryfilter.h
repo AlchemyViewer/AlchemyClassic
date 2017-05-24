@@ -217,56 +217,56 @@ public:
 	// +-------------------------------------------------------------------+
 	// + Execution And Results
 	// +-------------------------------------------------------------------+
-	bool				check(const LLFolderViewModelItem* listener);
+	bool				check(const LLFolderViewModelItem* listener) override;
 	bool				check(const LLInventoryItem* item);
-	bool				checkFolder(const LLFolderViewModelItem* listener) const;
+	bool				checkFolder(const LLFolderViewModelItem* listener) const override;
 	bool				checkFolder(const LLUUID& folder_id) const;
 
-	bool				showAllResults() const;
+	bool				showAllResults() const override;
 
-	std::string::size_type getStringMatchOffset(LLFolderViewModelItem* item) const;
-	std::string::size_type getFilterStringSize() const;
+	std::string::size_type getStringMatchOffset(LLFolderViewModelItem* item) const override;
+	std::string::size_type getFilterStringSize() const override;
 	// +-------------------------------------------------------------------+
 	// + Presentation
 	// +-------------------------------------------------------------------+
 	void 				setShowFolderState( EFolderShow state);
 	EFolderShow 		getShowFolderState() const;
 
-	void 				setEmptyLookupMessage(const std::string& message);
-	std::string			getEmptyLookupMessage() const;
+	void 				setEmptyLookupMessage(const std::string& message) override;
+	std::string			getEmptyLookupMessage() const override;
 
 	// +-------------------------------------------------------------------+
 	// + Status
 	// +-------------------------------------------------------------------+
-	bool 				isActive() const;
-	bool 				isModified() const;
+	bool 				isActive() const override;
+	bool 				isModified() const override;
 	bool 				isSinceLogoff() const;
-	void 				clearModified();
-	const std::string& 	getName() const { return mName; }
-	const std::string& 	getFilterText();
+	void 				clearModified() override;
+	const std::string& 	getName() const override { return mName; }
+	const std::string& 	getFilterText() override;
 	//RN: this is public to allow system to externally force a global refilter
-	void 				setModified(EFilterModified behavior = FILTER_RESTART);
+	void 				setModified(EFilterModified behavior = FILTER_RESTART) override;
 
 	// +-------------------------------------------------------------------+
 	// + Time
 	// +-------------------------------------------------------------------+
-	void 				resetTime(S32 timeout);
-    bool                isTimedOut();
+	void 				resetTime(S32 timeout) override;
+    bool                isTimedOut() override;
     
 	// +-------------------------------------------------------------------+
 	// + Default
 	// +-------------------------------------------------------------------+
-	bool 				isDefault() const;
-	bool 				isNotDefault() const;
-	void 				markDefault();
-	void 				resetDefault();
+	bool 				isDefault() const override;
+	bool 				isNotDefault() const override;
+	void 				markDefault() override;
+	void 				resetDefault() override;
 
 	// +-------------------------------------------------------------------+
 	// + Generation
 	// +-------------------------------------------------------------------+
-	S32 				getCurrentGeneration() const;
-	S32 				getFirstSuccessGeneration() const;
-	S32 				getFirstRequiredGeneration() const;
+	S32 				getCurrentGeneration() const override;
+	S32 				getFirstSuccessGeneration() const override;
+	S32 				getFirstRequiredGeneration() const override;
 
 
 	// +-------------------------------------------------------------------+

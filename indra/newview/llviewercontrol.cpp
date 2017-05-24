@@ -619,7 +619,7 @@ bool handleWindlightCloudChanged(const LLSD& new_value)
 		}
 		else
 		{
-			LLDrawPoolWLSky::sCloudNoiseRawImage = NULL;
+			LLDrawPoolWLSky::sCloudNoiseRawImage = nullptr;
 		}
 	}
 	return true;

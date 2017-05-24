@@ -43,10 +43,10 @@ class LLFloaterBuildOptions
 	:	public LLFloater
 {
 public:
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/	void onClose(bool app_quitting);
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/	void onClose(bool app_quitting) override;
 
 private:
 	friend class LLFloaterReg;

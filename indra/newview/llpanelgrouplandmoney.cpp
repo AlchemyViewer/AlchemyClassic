@@ -149,8 +149,8 @@ public:
 									   );
 	virtual ~LLGroupMoneyDetailsTabEventHandler();
 
-	virtual void requestData(LLMessageSystem* msg);
-	virtual void processReply(LLMessageSystem* msg, void** data);
+	void requestData(LLMessageSystem* msg) override;
+	void processReply(LLMessageSystem* msg, void** data) override;
 };
 
 
@@ -166,8 +166,8 @@ public:
 									 );
 	virtual ~LLGroupMoneySalesTabEventHandler();
 
-	virtual void requestData(LLMessageSystem* msg);
-	virtual void processReply(LLMessageSystem* msg, void** data);
+	void requestData(LLMessageSystem* msg) override;
+	void processReply(LLMessageSystem* msg, void** data) override;
 };
 
 class LLGroupMoneyPlanningTabEventHandler : public LLGroupMoneyTabEventHandler
@@ -180,8 +180,8 @@ public:
 										);
 	virtual ~LLGroupMoneyPlanningTabEventHandler();
 
-	virtual void requestData(LLMessageSystem* msg);
-	virtual void processReply(LLMessageSystem* msg, void** data);
+	void requestData(LLMessageSystem* msg) override;
+	void processReply(LLMessageSystem* msg, void** data) override;
 };
 
 ////////////////////////////////////////////////////////////////////////////
@@ -246,15 +246,15 @@ LLPanelGroupLandMoney::impl::impl(LLPanelGroupLandMoney& panel)
 	mNeedsSendGroupLandRequest = true;
 	mNeedsApply = false;
 
-	mYourContributionEditorp = NULL;
-	mMapButtonp = NULL;
-	mGroupParcelsp = NULL;
-	mGroupOverLimitTextp = NULL;
-	mGroupOverLimitIconp = NULL;
+	mYourContributionEditorp = nullptr;
+	mMapButtonp = nullptr;
+	mGroupParcelsp = nullptr;
+	mGroupOverLimitTextp = nullptr;
+	mGroupOverLimitIconp = nullptr;
 
-	mMoneySalesTabEHp    = NULL;
-	mMoneyPlanningTabEHp = NULL;
-	mMoneyDetailsTabEHp  = NULL;
+	mMoneySalesTabEHp    = nullptr;
+	mMoneyPlanningTabEHp = nullptr;
+	mMoneyDetailsTabEHp  = nullptr;
 }
 
 LLPanelGroupLandMoney::impl::~impl()
@@ -630,7 +630,7 @@ void LLPanelGroupLandMoney::update(LLGroupChange gc)
 		{
 			eh = get_if_there(LLGroupMoneyTabEventHandler::sTabsToHandlers,
 							  panelp,
-							  (LLGroupMoneyTabEventHandler*)NULL);
+							  (LLGroupMoneyTabEventHandler*)nullptr);
 			if ( eh ) eh->onClickTab();
 		}
 	}
@@ -1334,8 +1334,8 @@ LLGroupMoneyPlanningTabEventHandler::LLGroupMoneyPlanningTabEventHandler(LLTextE
 																		 LLTabContainer* tab_containerp,
 																		 LLPanel* panelp,
 																		 const std::string& loading_text)
-	: LLGroupMoneyTabEventHandler(NULL,
-								  NULL,
+	: LLGroupMoneyTabEventHandler(nullptr,
+								  nullptr,
 								  text_editorp,
 								  tab_containerp,
 								  panelp,
@@ -1601,7 +1601,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 	}
 	else
 	{
-		if(mImplementationp->mMoneyDetailsTabEHp == 0)
+		if(mImplementationp->mMoneyDetailsTabEHp == nullptr)
 			mImplementationp->mMoneyDetailsTabEHp = new LLGroupMoneyDetailsTabEventHandler(earlierp,laterp,textp,tabcp,panelp,loading_text);
 		mImplementationp->mMoneyDetailsTabEHp->setGroupID(mGroupID);
 	}
@@ -1616,7 +1616,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 	else
 	{
 		panelp = getChild<LLPanel>("group_money_planning_tab", true);
-		if(mImplementationp->mMoneyPlanningTabEHp == 0)
+		if(mImplementationp->mMoneyPlanningTabEHp == nullptr)
 			mImplementationp->mMoneyPlanningTabEHp = new LLGroupMoneyPlanningTabEventHandler(textp,tabcp,panelp,loading_text);
 		mImplementationp->mMoneyPlanningTabEHp->setGroupID(mGroupID);
 	}
@@ -1634,7 +1634,7 @@ void LLPanelGroupLandMoney::setGroupID(const LLUUID& id)
 		earlierp = getChild<LLButton>("earlier_sales_button", true);
 		laterp = getChild<LLButton>("later_sales_button", true);
 		panelp = getChild<LLPanel>("group_money_sales_tab", true);
-		if(mImplementationp->mMoneySalesTabEHp == NULL) 
+		if(mImplementationp->mMoneySalesTabEHp == nullptr) 
 			mImplementationp->mMoneySalesTabEHp = new LLGroupMoneySalesTabEventHandler(earlierp,laterp,textp,tabcp,panelp,loading_text);
 		mImplementationp->mMoneySalesTabEHp->setGroupID(mGroupID);
 	}

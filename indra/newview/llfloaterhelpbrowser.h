@@ -40,12 +40,12 @@ class LLFloaterHelpBrowser :
  public:
 	LLFloaterHelpBrowser(const LLSD& key);
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	// inherited from LLViewerMediaObserver
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 
 	void openMedia(const std::string& media_url);
 	

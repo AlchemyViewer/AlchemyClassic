@@ -64,13 +64,13 @@ public:
 public:
 	void noTarget();
 	void target(const std::string& name, S32 price);
-	
-	virtual BOOL postBuild();
+
+	BOOL postBuild() override;
 	
 	void updateUI();
 
-	virtual void draw();
-	virtual BOOL canClose();
+	void draw() override;
+	BOOL canClose() override;
 
 	void onClickBuy();
 	void onClickCancel();

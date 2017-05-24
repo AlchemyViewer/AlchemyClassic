@@ -47,8 +47,8 @@ public:
 	LLPanelOutfitsInventory();
 	virtual ~LLPanelOutfitsInventory();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 	
 	void onSearchEdit(const std::string& string);
 	void onSave();

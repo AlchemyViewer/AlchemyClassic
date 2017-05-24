@@ -239,7 +239,7 @@ LLFeatureList *LLFeatureManager::findMask(const std::string& name)
 		return mMaskList[name];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 BOOL LLFeatureManager::maskFeatures(const std::string& name)
@@ -326,7 +326,7 @@ bool LLFeatureManager::parseFeatureTable(std::string filename)
 
 	mTableVersion = version;
 
-	LLFeatureList *flp = NULL;
+	LLFeatureList *flp = nullptr;
 	bool parse_ok = true;
 	while (file >> name && parse_ok)
 	{
@@ -600,7 +600,7 @@ void LLFeatureManager::applyFeatures(bool skipFeatures)
 
 		// get the control setting
 		LLControlVariable* ctrl = gSavedSettings.getControl(mIt->first);
-		if(ctrl == NULL)
+		if(ctrl == nullptr)
 		{
 			LL_WARNS() << "AHHH! Control setting " << mIt->first << " does not exist!" << LL_ENDL;
 			continue;
@@ -670,7 +670,7 @@ void LLFeatureManager::applyBaseMasks()
 	mFeatures.clear();
 
 	LLFeatureList* maskp = findMask("all");
-	if(maskp == NULL)
+	if(maskp == nullptr)
 	{
 		LL_WARNS("RenderInit") << "AHH! No \"all\" in feature table!" << LL_ENDL;
 		return;
@@ -813,7 +813,7 @@ LLSD LLFeatureManager::getRecommendedSettingsMap()
 	for (feature_map_t::iterator mIt = mFeatures.begin(); mIt != mFeatures.end(); ++mIt)
 	{
 		LLControlVariable* ctrl = gSavedSettings.getControl(mIt->first);
-		if (ctrl == NULL)
+		if (ctrl == nullptr)
 		{
 			LL_WARNS() << "AHHH! Control setting " << mIt->first << " does not exist!" << LL_ENDL;
 			continue;

@@ -73,7 +73,7 @@ void LLScrollListItem::setNumColumns(S32 columns)
 
 	for (S32 col = prev_columns; col < columns; ++col)
 	{
-		mColumns[col] = NULL;
+		mColumns[col] = nullptr;
 	}
 }
 
@@ -102,7 +102,7 @@ LLScrollListCell* LLScrollListItem::getColumn(const S32 i) const
 	{
 		return mColumns[i];
 	} 
-	return NULL;
+	return nullptr;
 }
 
 std::string LLScrollListItem::getContentsCSV() const

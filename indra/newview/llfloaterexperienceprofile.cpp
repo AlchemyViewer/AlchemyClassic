@@ -95,7 +95,7 @@ public:
     LLExperienceHandler() : LLCommandHandler("experience", UNTRUSTED_THROTTLE) { }
 
     bool handle(const LLSD& params, const LLSD& query_map,
-        LLMediaCtrl* web)
+        LLMediaCtrl* web) override
     {
         if(params.size() != 2 || params[1].asString() != "profile")
             return false;
@@ -170,13 +170,13 @@ BOOL LLFloaterExperienceProfile::postBuild()
 
     getChild<LLTextEditor>(EDIT TF_DESC)->setKeystrokeCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this));
     getChild<LLUICtrl>(EDIT TF_MATURITY)->setCommitCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this));
-    getChild<LLLineEditor>(EDIT TF_MRKT)->setKeystrokeCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), NULL);
-    getChild<LLLineEditor>(EDIT TF_NAME)->setKeystrokeCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), NULL);
+    getChild<LLLineEditor>(EDIT TF_MRKT)->setKeystrokeCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), nullptr);
+    getChild<LLLineEditor>(EDIT TF_NAME)->setKeystrokeCallback(boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), nullptr);
     
-    childSetCommitCallback(EDIT BTN_ENABLE, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), NULL);
-    childSetCommitCallback(EDIT BTN_PRIVATE, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), NULL);
+    childSetCommitCallback(EDIT BTN_ENABLE, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), nullptr);
+    childSetCommitCallback(EDIT BTN_PRIVATE, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), nullptr);
 
-    childSetCommitCallback(EDIT IMG_LOGO, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), NULL);
+    childSetCommitCallback(EDIT IMG_LOGO, boost::bind(&LLFloaterExperienceProfile::onFieldChanged, this), nullptr);
 
     getChild<LLTextEditor>(EDIT TF_DESC)->setCommitOnFocusLost(TRUE);
 

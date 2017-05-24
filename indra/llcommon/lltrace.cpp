@@ -55,8 +55,8 @@ const char* StatBase::getUnitLabel() const
 }
 
 TimeBlockTreeNode::TimeBlockTreeNode() 
-:	mBlock(NULL),
-	mParent(NULL),
+:	mBlock(nullptr),
+	mParent(nullptr),
 	mCollapsed(true),
     mNeedsSorting(false)
 {}

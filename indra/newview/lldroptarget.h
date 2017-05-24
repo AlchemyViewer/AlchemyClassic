@@ -51,11 +51,11 @@ public:
 	
 	//
 	// LLView functionality
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 	void setAgentID(const LLUUID &agent_id)		{ mAgentID = agent_id; }
 protected:
 	LLUUID mAgentID;

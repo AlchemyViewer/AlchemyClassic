@@ -42,9 +42,9 @@ template class LLBadge* LLView::getChild<class LLBadge>(const std::string& name,
 
 
 LLBadge::Params::Params()
-	: image("image")
-	, border_image("border_image")
+	: border_image("border_image")
 	, border_color("border_color")
+	, image("image")
 	, image_color("image_color")
 	, label("label")
 	, label_color("label_color")
@@ -86,7 +86,6 @@ bool LLBadge::Params::equals(const Params& a) const
 
 LLBadge::LLBadge(const LLBadge::Params& p)
 	: LLUICtrl(p)
-	, mOwner(p.owner)
 	, mBorderImage(p.border_image)
 	, mBorderColor(p.border_color)
 	, mGLFont(p.font)
@@ -101,9 +100,10 @@ LLBadge::LLBadge(const LLBadge::Params& p)
 	, mLocationOffsetVCenter(BADGE_OFFSET_NOT_SPECIFIED)
 	, mLocationPercentHCenter(0.5f)
 	, mLocationPercentVCenter(0.5f)
+	, mOwner(p.owner)
 	, mPaddingHoriz(p.padding_horiz)
 	, mPaddingVert(p.padding_vert)
-	, mParentScroller(NULL)
+	, mParentScroller(nullptr)
 {
 	if (mImage.isNull())
 	{
@@ -168,7 +168,7 @@ bool LLBadge::addToView(LLView * view)
 
 		LLView * parent = mOwner.get();
 
-		while ((parent != NULL) && ((mParentScroller = dynamic_cast<LLScrollContainer *>(parent)) == NULL))
+		while ((parent != nullptr) && ((mParentScroller = dynamic_cast<LLScrollContainer *>(parent)) == nullptr))
 		{
 			parent = parent->getParent();
 		}
@@ -241,7 +241,7 @@ void LLBadge::draw()
 			S32 badge_label_begin_offset = 0;
 			S32 badge_char_length = S32_MAX;
 			S32 badge_pixel_length = S32_MAX;
-			F32 *right_position_out = NULL;
+			F32 *right_position_out = nullptr;
 			BOOL do_not_use_ellipses = false;
 
 			F32 badge_width = (2.0f * mPaddingHoriz) +
@@ -260,7 +260,7 @@ void LLBadge::draw()
 			S32 location_offset_vert = mLocationOffsetVCenter;
 
 			// If we're in a scroll container, do some math to keep us in the same place on screen if applicable
-			if (mParentScroller != NULL)
+			if (mParentScroller != nullptr)
 			{
 				LLRect visibleRect = mParentScroller->getVisibleContentRect();
 

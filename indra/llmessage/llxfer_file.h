@@ -48,7 +48,7 @@ class LLXfer_File : public LLXfer
 	virtual ~LLXfer_File();
 
 	virtual void init(const std::string& local_filename, BOOL delete_local_on_completion, S32 chunk_size);
-	virtual void cleanup();
+	void cleanup() override;
 
 	virtual S32 initializeRequest(U64 xfer_id,
 								  const std::string& local_filename,
@@ -58,23 +58,23 @@ class LLXfer_File : public LLXfer
 								  BOOL delete_remote_on_completion,
 								  void (*callback)(void**,S32,LLExtStat),
 								  void** user_data);
-	virtual S32 startDownload();
+	S32 startDownload() override;
 
-	virtual S32 processEOF();
-	
-	virtual S32 startSend (U64 xfer_id, const LLHost &remote_host);
+	S32 processEOF() override;
 
-	virtual S32 suck(S32 start_position);
-	virtual S32 flush();
+	S32 startSend (U64 xfer_id, const LLHost &remote_host) override;
+
+	S32 suck(S32 start_position) override;
+	S32 flush() override;
 
 	virtual BOOL matchesLocalFilename(const std::string& filename);
 	virtual BOOL matchesRemoteFilename(const std::string& filename, ELLPath remote_path);
 
-	virtual S32  getMaxBufferSize();
+	S32  getMaxBufferSize() override;
 
-	virtual U32 getXferTypeTag();
+	U32 getXferTypeTag() override;
 
-	virtual std::string getFileName();
+	std::string getFileName() override;
 };
 
 #endif

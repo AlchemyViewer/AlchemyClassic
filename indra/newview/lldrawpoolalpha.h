@@ -45,22 +45,23 @@ public:
 							LLVertexBuffer::MAP_COLOR |
 							LLVertexBuffer::MAP_TEXCOORD0
 	};
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+
+	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolAlpha(U32 type = LLDrawPool::POOL_ALPHA);
 	/*virtual*/ ~LLDrawPoolAlpha();
 
-	/*virtual*/ S32 getNumPostDeferredPasses();
-	/*virtual*/ void beginPostDeferredPass(S32 pass);
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass);
+	/*virtual*/ S32 getNumPostDeferredPasses() override;
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override;
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override;
 
-	/*virtual*/ void beginRenderPass(S32 pass = 0);
-	/*virtual*/ void endRenderPass( S32 pass );
-	/*virtual*/ S32	 getNumPasses() { return 1; }
+	/*virtual*/ void beginRenderPass(S32 pass = 0) override;
+	/*virtual*/ void endRenderPass( S32 pass ) override;
+	/*virtual*/ S32	 getNumPasses() override { return 1; }
 
-	virtual void render(S32 pass = 0);
-	/*virtual*/ void prerender();
+	void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
 
 	void renderGroupAlpha(LLSpatialGroup* group, U32 type, U32 mask, BOOL texture = TRUE);
 	void renderAlpha(U32 mask, S32 pass);
@@ -86,7 +87,7 @@ class LLDrawPoolAlphaPostWater : public LLDrawPoolAlpha
 {
 public:
 	LLDrawPoolAlphaPostWater();
-	virtual void render(S32 pass = 0);
+	void render(S32 pass = 0) override;
 };
 
 #endif // LL_LLDRAWPOOLALPHA_H

@@ -46,7 +46,7 @@
 // necessary for grabbing sounds from sim (implemented in viewer)	
 extern void request_sound(const LLUUID &sound_guid);
 
-LLAudioEngine* gAudiop = NULL;
+LLAudioEngine* gAudiop = nullptr;
 
 
 //
@@ -79,10 +79,10 @@ void LLAudioEngine::setDefaults()
 {
 	mMaxWindGain = 1.f;
 
-	mListenerp = NULL;
+	mListenerp = nullptr;
 
 	mMuted = false;
-	mUserData = NULL;
+	mUserData = nullptr;
 
 	mLastStatus = 0;
 
@@ -92,11 +92,11 @@ void LLAudioEngine::setDefaults()
 	S32 i;
 	for (i = 0; i < MAX_CHANNELS; i++)
 	{
-		mChannels[i] = NULL;
+		mChannels[i] = nullptr;
 	}
 	for (i = 0; i < MAX_BUFFERS; i++)
 	{
-		mBuffers[i] = NULL;
+		mBuffers[i] = nullptr;
 	}
 
 	mMasterGain = 1.f;
@@ -107,7 +107,7 @@ void LLAudioEngine::setDefaults()
 	mInternalGain = -1.f;
 	mNextWindUpdate = 0.f;
 
-	mStreamingAudioImpl = NULL;
+	mStreamingAudioImpl = nullptr;
 
 	for (U32 i = 0; i < LLAudioEngine::AUDIO_TYPE_COUNT; i++)
 		mSecondaryGain[i] = 1.0f;
@@ -136,14 +136,14 @@ void LLAudioEngine::shutdown()
 {
 	// Clean up decode manager
 	delete gAudioDecodeMgrp;
-	gAudioDecodeMgrp = NULL;
+	gAudioDecodeMgrp = nullptr;
 
 	// Clean up wind source
 	cleanupWind();
 
 	// Clean up streaming audio
 	delete mStreamingAudioImpl;
-	mStreamingAudioImpl = NULL;
+	mStreamingAudioImpl = nullptr;
 
 	// Clean up audio sources
 	source_map::iterator iter_src;
@@ -166,14 +166,14 @@ void LLAudioEngine::shutdown()
 	for (i = 0; i < MAX_CHANNELS; i++)
 	{
 		delete mChannels[i];
-		mChannels[i] = NULL;
+		mChannels[i] = nullptr;
 	}
 
 	// Clean up buffers
 	for (i = 0; i < MAX_BUFFERS; i++)
 	{
 		delete mBuffers[i];
-		mBuffers[i] = NULL;
+		mBuffers[i] = nullptr;
 	}
 }
 
@@ -269,7 +269,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 	}
 
 	F32 max_priority = -1.f;
-	LLAudioSource *max_sourcep = NULL; // Maximum priority source without a channel
+	LLAudioSource *max_sourcep = nullptr; // Maximum priority source without a channel
 	source_map::iterator iter;
 	for (iter = mAllSources.begin(); iter != mAllSources.end();)
 	{
@@ -356,7 +356,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 		{
 			// This sound isn't playing, so we just process move the queue
 			sourcep->mCurrentDatap = sourcep->mQueuedDatap;
-			sourcep->mQueuedDatap = NULL;
+			sourcep->mQueuedDatap = nullptr;
 
 			// Reset the timer so the source doesn't die.
 			sourcep->mAgeTimer.reset();
@@ -382,7 +382,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 			if (!channelp->isPlaying())
 			{
 				sourcep->mCurrentDatap = sourcep->mQueuedDatap;
-				sourcep->mQueuedDatap = NULL;
+				sourcep->mQueuedDatap = nullptr;
 
 				// Reset the timer so the source doesn't die.
 				sourcep->mAgeTimer.reset();
@@ -404,7 +404,7 @@ void LLAudioEngine::idle(F32 max_decode_time)
 				if (channelp->mLoopedThisFrame)
 				{
 					sourcep->mCurrentDatap = sourcep->mQueuedDatap;
-					sourcep->mQueuedDatap = NULL;
+					sourcep->mQueuedDatap = nullptr;
 
 					// Actually, should do a time sync so if we're a loop master/slave
 					// we don't drift away.
@@ -421,8 +421,8 @@ void LLAudioEngine::idle(F32 max_decode_time)
 	updateChannels();
 	
 	// Hack!  For now, just use a global sync master;
-	LLAudioSource *sync_masterp = NULL;
-	LLAudioChannel *master_channelp = NULL;
+	LLAudioSource *sync_masterp = nullptr;
+	LLAudioChannel *master_channelp = nullptr;
 	F32 max_sm_priority = -1.f;
 	for (iter = mAllSources.begin(); iter != mAllSources.end(); ++iter)
 	{
@@ -487,9 +487,9 @@ void LLAudioEngine::idle(F32 max_decode_time)
 			if (!mBuffers[i]->mInUse && mBuffers[i]->mLastUseTimer.getElapsedTimeF32() > 30.f)
 			{
 				//LL_INFOS() << "Flushing unused buffer!" << LL_ENDL;
-				mBuffers[i]->mAudioDatap->mBufferp = NULL;
+				mBuffers[i]->mAudioDatap->mBufferp = nullptr;
 				delete mBuffers[i];
-				mBuffers[i] = NULL;
+				mBuffers[i] = nullptr;
 			}
 		}
 	}
@@ -600,12 +600,12 @@ LLAudioBuffer * LLAudioEngine::getFreeBuffer()
 	{
 		LL_DEBUGS() << "Taking over unused buffer " << buffer_id << LL_ENDL;
 		//LL_INFOS() << "Flushing unused buffer!" << LL_ENDL;
-		mBuffers[buffer_id]->mAudioDatap->mBufferp = NULL;
+		mBuffers[buffer_id]->mAudioDatap->mBufferp = nullptr;
 		delete mBuffers[buffer_id];
 		mBuffers[buffer_id] = createBuffer();
 		return mBuffers[buffer_id];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -628,7 +628,7 @@ LLAudioChannel * LLAudioEngine::getFreeChannel(const F32 priority)
 				mChannels[i]->cleanup();
 				if (mChannels[i]->getSource())
 				{
-					mChannels[i]->getSource()->setChannel(NULL);
+					mChannels[i]->getSource()->setChannel(nullptr);
 				}
 				return mChannels[i];
 			}
@@ -638,7 +638,7 @@ LLAudioChannel * LLAudioEngine::getFreeChannel(const F32 priority)
 	// All channels used, check priorities.
 	// Find channel with lowest priority and see if we want to replace it.
 	F32 min_priority = 10000.f;
-	LLAudioChannel *min_channelp = NULL;
+	LLAudioChannel *min_channelp = nullptr;
 
 	for (i = 0; i < mNumChannels; i++)
 	{
@@ -654,12 +654,12 @@ LLAudioChannel * LLAudioEngine::getFreeChannel(const F32 priority)
 	if (min_priority > priority || !min_channelp)
 	{
 		// All playing channels have higher priority, return.
-		return NULL;
+		return nullptr;
 	}
 
 	// Flush the minimum priority channel, and return it.
 	min_channelp->cleanup();
-	min_channelp->getSource()->setChannel(NULL);
+	min_channelp->getSource()->setChannel(nullptr);
 	return min_channelp;
 }
 
@@ -672,7 +672,7 @@ void LLAudioEngine::cleanupBuffer(LLAudioBuffer *bufferp)
 		if (mBuffers[i] == bufferp)
 		{
 			delete mBuffers[i];
-			mBuffers[i] = NULL;
+			mBuffers[i] = nullptr;
 		}
 	}
 }
@@ -971,7 +971,7 @@ LLAudioSource * LLAudioEngine::findAudioSource(const LLUUID &source_id)
 
 	if (iter == mAllSources.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -1063,8 +1063,8 @@ void LLAudioEngine::startNextTransfer()
 	// Pick one in the following order:
 	LLUUID asset_id;
 	S32 i;
-	LLAudioSource *asp = NULL;
-	LLAudioData *adp = NULL;
+	LLAudioSource *asp = nullptr;
+	LLAudioData *adp = nullptr;
 	data_map::iterator data_iter;
 
 	// Check all channels for currently playing sounds.
@@ -1240,7 +1240,7 @@ void LLAudioEngine::startNextTransfer()
 		mCurrentTransfer = asset_id;
 		mCurrentTransferTimer.reset();
 		gAssetStorage->getAssetData(asset_id, LLAssetType::AT_SOUND,
-									assetCallback, NULL);
+									assetCallback, nullptr);
 	}
 	else
 	{
@@ -1311,9 +1311,9 @@ LLAudioSource::LLAudioSource(const LLUUID& id, const LLUUID& owner_id, const F32
 	mPlayedOnce(false),
 	mCorrupted(false),
 	mType(type),
-	mChannelp(NULL),
-	mCurrentDatap(NULL),
-	mQueuedDatap(NULL)
+	mChannelp(nullptr),
+	mCurrentDatap(nullptr),
+	mQueuedDatap(nullptr)
 {
 }
 
@@ -1323,8 +1323,8 @@ LLAudioSource::~LLAudioSource()
 	if (mChannelp)
 	{
 		// Stop playback of this sound
-		mChannelp->setSource(NULL);
-		mChannelp = NULL;
+		mChannelp->setSource(nullptr);
+		mChannelp = nullptr;
 	}
 }
 
@@ -1440,11 +1440,11 @@ bool LLAudioSource::play(const LLUUID &audio_uuid)
 	{
 		if (getChannel())
 		{
-			getChannel()->setSource(NULL);
-			setChannel(NULL);
+			getChannel()->setSource(nullptr);
+			setChannel(nullptr);
 			if (!isMuted())
 			{
-				mCurrentDatap = NULL;
+				mCurrentDatap = nullptr;
 			}
 		}
 		return false;
@@ -1675,7 +1675,7 @@ LLAudioBuffer * LLAudioSource::getCurrentBuffer()
 {
 	if (!mCurrentDatap)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return mCurrentDatap->getBuffer();
@@ -1690,8 +1690,8 @@ LLAudioBuffer * LLAudioSource::getCurrentBuffer()
 
 
 LLAudioChannel::LLAudioChannel() :
-	mCurrentSourcep(NULL),
-	mCurrentBufferp(NULL),
+	mCurrentSourcep(nullptr),
+	mCurrentBufferp(nullptr),
 	mLoopedThisFrame(false),
 	mWaiting(false),
 	mSecondaryGain(1.0f)
@@ -1705,9 +1705,9 @@ LLAudioChannel::~LLAudioChannel()
 	//LL_INFOS() << "Cleaning up audio channel" << LL_ENDL;
 	if (mCurrentSourcep)
 	{
-		mCurrentSourcep->setChannel(NULL);
+		mCurrentSourcep->setChannel(nullptr);
 	}
-	mCurrentBufferp = NULL;
+	mCurrentBufferp = nullptr;
 }
 
 
@@ -1720,7 +1720,7 @@ void LLAudioChannel::setSource(LLAudioSource *sourcep)
 		// Clearing the source for this channel, don't need to do anything.
 		//LL_INFOS() << "Clearing source for channel" << LL_ENDL;
 		cleanup();
-		mCurrentSourcep = NULL;
+		mCurrentSourcep = nullptr;
 		mWaiting = false;
 	}
 	else
@@ -1803,7 +1803,7 @@ bool LLAudioChannel::updateBuffer()
 
 LLAudioData::LLAudioData(const LLUUID &uuid) :
 	mID(uuid),
-	mBufferp(NULL),
+	mBufferp(nullptr),
 	mHasLocalData(false),
 	mHasDecodedData(false),
 	mHasCompletedDecode(false),
@@ -1868,7 +1868,7 @@ bool LLAudioData::load()
 	{
 		// Hrm.  Right now, let's unset the buffer, since it's empty.
 		gAudiop->cleanupBuffer(mBufferp);
-		mBufferp = NULL;
+		mBufferp = nullptr;
 
 		return false;
 	}

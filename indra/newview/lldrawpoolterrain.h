@@ -43,31 +43,31 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD3
 	};
 
-	virtual U32 getVertexDataMask();
+	U32 getVertexDataMask() override;
 	static S32 getDetailMode();
 
 	LLDrawPoolTerrain(LLViewerTexture *texturep);
 	virtual ~LLDrawPoolTerrain();
 
-	/*virtual*/ LLDrawPool *instancePool();
+	/*virtual*/ LLDrawPool *instancePool() override;
 
-	/*virtual*/ S32 getNumDeferredPasses() { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 
-	/*virtual*/ S32 getNumShadowPasses() { return 1; }
-	/*virtual*/ void beginShadowPass(S32 pass);
-	/*virtual*/ void endShadowPass(S32 pass);
-	/*virtual*/ void renderShadow(S32 pass);
+	/*virtual*/ S32 getNumShadowPasses() override { return 1; }
+	/*virtual*/ void beginShadowPass(S32 pass) override;
+	/*virtual*/ void endShadowPass(S32 pass) override;
+	/*virtual*/ void renderShadow(S32 pass) override;
 
-	/*virtual*/ void render(S32 pass = 0);
-	/*virtual*/ void prerender();
-	/*virtual*/ void beginRenderPass( S32 pass );
-	/*virtual*/ void endRenderPass( S32 pass );
-	/*virtual*/ void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures);
-	/*virtual*/ LLViewerTexture *getTexture();
-	/*virtual*/ LLViewerTexture *getDebugTexture();
+	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() override;
+	/*virtual*/ void beginRenderPass( S32 pass ) override;
+	/*virtual*/ void endRenderPass( S32 pass ) override;
+	/*virtual*/ void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures) override;
+	/*virtual*/ LLViewerTexture *getTexture() override;
+	/*virtual*/ LLViewerTexture *getDebugTexture() override;
 	/*virtual*/ LLColor3 getDebugColor() const; // For AGP debug display
 
 	LLPointer<LLViewerTexture> m2DAlphaRampImagep;

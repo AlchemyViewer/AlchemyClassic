@@ -41,11 +41,11 @@
 
 LLFloaterEnvironmentSettings::LLFloaterEnvironmentSettings(const LLSD &key)
 : 	 LLFloater(key)
-	,mRegionSettingsCheckBox(NULL) // <alchemy/>
-	,mDayCycleSettingsRadioGroup(NULL)
-	,mWaterPresetCombo(NULL)
-	,mSkyPresetCombo(NULL)
-	,mDayCyclePresetCombo(NULL)
+	,mRegionSettingsCheckBox(nullptr) // <alchemy/>
+	,mDayCycleSettingsRadioGroup(nullptr)
+	,mWaterPresetCombo(nullptr)
+	,mSkyPresetCombo(nullptr)
+	,mDayCyclePresetCombo(nullptr)
 {	
 }
 
@@ -69,9 +69,9 @@ BOOL LLFloaterEnvironmentSettings::postBuild()
 	mDayCyclePresetCombo = getChild<LLComboBox>("dayc_settings_preset_combo");
 	mDayCyclePresetCombo->setCommitCallback(boost::bind(&LLFloaterEnvironmentSettings::onSelectDayCyclePreset, this));
 
-	childSetCommitCallback("ok_btn", boost::bind(&LLFloaterEnvironmentSettings::onBtnOK, this), NULL);
+	childSetCommitCallback("ok_btn", boost::bind(&LLFloaterEnvironmentSettings::onBtnOK, this), nullptr);
 	getChild<LLUICtrl>("ok_btn")->setRightMouseDownCallback(boost::bind(&LLEnvManagerNew::dumpUserPrefs, LLEnvManagerNew::getInstance()));
-	childSetCommitCallback("cancel_btn", boost::bind(&LLFloaterEnvironmentSettings::onBtnCancel, this), NULL);
+	childSetCommitCallback("cancel_btn", boost::bind(&LLFloaterEnvironmentSettings::onBtnCancel, this), nullptr);
 	getChild<LLUICtrl>("cancel_btn")->setRightMouseDownCallback(boost::bind(&LLEnvManagerNew::dumpPresets, LLEnvManagerNew::getInstance()));
 
 	setCloseCallback(boost::bind(&LLFloaterEnvironmentSettings::cancel, this));

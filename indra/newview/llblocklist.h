@@ -54,13 +54,13 @@ public:
 	LLBlockList(const Params& p);
 	virtual ~LLBlockList();
 
-	virtual BOOL 		handleRightMouseDown(S32 x, S32 y, MASK mask);
+	BOOL 		handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 	LLToggleableMenu*	getContextMenu() const { return mContextMenu.get(); }
 	LLBlockedListItem*	getBlockedItem() const;
 
-	virtual void onChange() { }
-	virtual void onChangeDetailed(const LLMute& );
-	virtual void draw();
+	void onChange() override { }
+	void onChangeDetailed(const LLMute& ) override;
+	void draw() override;
 
 	void setNameFilter(const std::string& filter);
 	void sortByName();
@@ -115,7 +115,7 @@ public:
 	LLBlockListItemComparator() {};
 	virtual ~LLBlockListItemComparator() {};
 
-	virtual bool compare(const LLPanel* item1, const LLPanel* item2) const;
+	bool compare(const LLPanel* item1, const LLPanel* item2) const override;
 
 protected:
 
@@ -136,7 +136,7 @@ public:
 
 protected:
 
-	virtual bool doCompare(const LLBlockedListItem* blocked_item1, const LLBlockedListItem* blocked_item2) const;
+	bool doCompare(const LLBlockedListItem* blocked_item1, const LLBlockedListItem* blocked_item2) const override;
 };
 
 /*
@@ -153,7 +153,7 @@ public:
 
 protected:
 
-	virtual bool doCompare(const LLBlockedListItem* blocked_item1, const LLBlockedListItem* blocked_item2) const;
+	bool doCompare(const LLBlockedListItem* blocked_item1, const LLBlockedListItem* blocked_item2) const override;
 };
 
 #endif /* LLBLOCKLIST_H_ */

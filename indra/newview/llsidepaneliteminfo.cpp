@@ -119,7 +119,8 @@ public:
 	{
 		gInventory.removeObserver(this);
 	}
-	virtual void changed(U32 mask);
+
+	void changed(U32 mask) override;
 private:
 	LLSidepanelItemInfo* mFloater;
 };
@@ -157,7 +158,7 @@ public:
 	LLObjectInventoryObserver(LLSidepanelItemInfo* floater, LLViewerObject* object)
 		: mFloater(floater)
 	{
-		registerVOInventoryListener(object, NULL);
+		registerVOInventoryListener(object, nullptr);
 	}
 	virtual ~LLObjectInventoryObserver()
 	{
@@ -166,7 +167,7 @@ public:
 	/*virtual*/ void inventoryChanged(LLViewerObject* object,
 									  LLInventoryObject::object_list_t* inventory,
 									  S32 serial_num,
-									  void* user_data);
+									  void* user_data) override;
 private:
 	LLSidepanelItemInfo* mFloater;
 };
@@ -190,7 +191,7 @@ static LLPanelInjector<LLSidepanelItemInfo> t_item_info("sidepanel_item_info");
 LLSidepanelItemInfo::LLSidepanelItemInfo(const LLPanel::Params& p)
 	: LLSidepanelInventorySubpanel(p)
 	, mItemID(LLUUID::null)
-	, mObjectInventoryObserver(NULL)
+	, mObjectInventoryObserver(nullptr)
 {
 	mPropertiesObserver = new LLItemPropertiesObserver(this);
 }
@@ -199,7 +200,7 @@ LLSidepanelItemInfo::LLSidepanelItemInfo(const LLPanel::Params& p)
 LLSidepanelItemInfo::~LLSidepanelItemInfo()
 {
 	delete mPropertiesObserver;
-	mPropertiesObserver = NULL;
+	mPropertiesObserver = nullptr;
 
 	stopObjectInventoryObserver();
 }
@@ -338,7 +339,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 
 	// You need permission to modify the object to modify an inventory
 	// item in it.
-	LLViewerObject* object = NULL;
+	LLViewerObject* object = nullptr;
 	if(!mObjectID.isNull()) object = gObjectList.findObject(mObjectID);
 	BOOL is_obj_modify = TRUE;
 	if(object)
@@ -732,7 +733,7 @@ void LLSidepanelItemInfo::startObjectInventoryObserver()
 void LLSidepanelItemInfo::stopObjectInventoryObserver()
 {
 	delete mObjectInventoryObserver;
-	mObjectInventoryObserver = NULL;
+	mObjectInventoryObserver = nullptr;
 }
 
 void LLSidepanelItemInfo::onClickCreator()
@@ -1014,7 +1015,7 @@ void LLSidepanelItemInfo::onCommitChanges(LLPointer<LLViewerInventoryItem> item)
 
 LLViewerInventoryItem* LLSidepanelItemInfo::findItem() const
 {
-	LLViewerInventoryItem* item = NULL;
+	LLViewerInventoryItem* item = nullptr;
 	if(mObjectID.isNull())
 	{
 		// it is in agent inventory

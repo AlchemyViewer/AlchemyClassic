@@ -344,7 +344,7 @@ void LLAvatarNameCache::processName(const LLUUID& agent_id, const LLAvatarName& 
 		sSignalMap.erase(agent_id);
 
 		delete signal;
-		signal = NULL;
+		signal = nullptr;
 	}
 }
 
@@ -469,9 +469,9 @@ void LLAvatarNameCache::initClass(bool running, bool usePeopleAPI)
 	sRunning = running;
 	sUsePeopleAPI = usePeopleAPI;
 
-    sHttpRequest = LLCore::HttpRequest::ptr_t(new LLCore::HttpRequest());
-    sHttpHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders());
-    sHttpOptions = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions());
+    sHttpRequest = boost::make_shared<LLCore::HttpRequest>();
+    sHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
+    sHttpOptions = boost::make_shared<LLCore::HttpOptions>();
     sHttpPolicy = LLCore::HttpRequest::DEFAULT_POLICY_ID;
     sHttpPriority = 0;
 }

@@ -61,10 +61,6 @@ LLSlider::Params::Params()
 LLSlider::LLSlider(const LLSlider::Params& p)
 :	LLF32UICtrl(p),
 	mMouseOffset( 0 ),
-	mOrientation ((p.orientation() == "horizontal") ? HORIZONTAL : VERTICAL),
-	mTrackColor(p.track_color()),
-	mThumbOutlineColor(p.thumb_outline_color()),
-	mThumbCenterColor(p.thumb_center_color()),
 	mThumbImage(p.thumb_image),
 	mThumbImagePressed(p.thumb_image_pressed),
 	mThumbImageDisabled(p.thumb_image_disabled),
@@ -72,13 +68,17 @@ LLSlider::LLSlider(const LLSlider::Params& p)
 	mTrackImageVertical(p.track_image_vertical),
 	mTrackHighlightHorizontalImage(p.track_highlight_horizontal_image),
 	mTrackHighlightVerticalImage(p.track_highlight_vertical_image),
-	mMouseDownSignal(NULL),
-	mMouseUpSignal(NULL)
+	mOrientation ((p.orientation() == "horizontal") ? HORIZONTAL : VERTICAL),
+	mTrackColor(p.track_color()),
+	mThumbOutlineColor(p.thumb_outline_color()),
+	mThumbCenterColor(p.thumb_center_color()),
+	mMouseDownSignal(nullptr),
+	mMouseUpSignal(nullptr)
 {
     mViewModel->setValue(p.initial_value);
 	updateThumbRect();
 	mDragStartThumbRect = mThumbRect;
-	setControlName(p.control_name, NULL);
+	setControlName(p.control_name, nullptr);
 	setValue(getValueF32());
 	
 	if (p.mouse_down_callback.isProvided())
@@ -206,7 +206,7 @@ BOOL LLSlider::handleMouseUp(S32 x, S32 y, MASK mask)
 
 	if( hasMouseCapture() )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 
 		if (mMouseUpSignal)
 			(*mMouseUpSignal)( this, getValueF32() );

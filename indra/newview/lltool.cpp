@@ -72,7 +72,7 @@ BOOL LLTool::handleAnyMouseClick(S32 x, S32 y, MASK mask, LLMouseHandler::EClick
 		// This is necessary to force clicks in the world to cause edit
 		// boxes that might have keyboard focus to relinquish it, and hence
 		// cause a commit to update their value.  JC
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 	}
 	
 	return result;
@@ -168,7 +168,7 @@ void LLTool::setMouseCapture( BOOL b )
 	else
 	if( hasMouseCapture() )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 	}
 }
 
@@ -191,7 +191,7 @@ LLTool* LLTool::getOverrideTool(MASK mask)
 	// NOTE: if in flycam mode, ALT-ZOOM camera should be disabled
 	if (LLViewerJoystick::getInstance()->getOverrideCamera())
 	{
-		return NULL;
+		return nullptr;
 	}
 	{
 		if (mask & MASK_ALT)
@@ -199,5 +199,5 @@ LLTool* LLTool::getOverrideTool(MASK mask)
 			return LLToolCamera::getInstance();
 		}
 	}
-	return NULL;
+	return nullptr;
 }

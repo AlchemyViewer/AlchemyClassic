@@ -70,16 +70,16 @@ public:
 	LLInspectAvatar(const LLSD& avatar_id);
 	virtual ~LLInspectAvatar();
 
-	/*virtual*/ BOOL postBuild(void);
+	/*virtual*/ BOOL postBuild(void) override;
 	
 	// Because floater is single instance, need to re-parse data on each spawn
 	// (for example, inspector about same avatar but in different position)
-	/*virtual*/ void onOpen(const LLSD& avatar_id);
+	/*virtual*/ void onOpen(const LLSD& avatar_id) override;
 
 	// Update view based on information from avatar properties processor
 	void processAvatarData(LLAvatarData* data);
-	
-	virtual LLTransientFloaterMgr::ETransientGroup getGroup() { return LLTransientFloaterMgr::GLOBAL; }
+
+	LLTransientFloaterMgr::ETransientGroup getGroup() override { return LLTransientFloaterMgr::GLOBAL; }
 
 private:
 	// Make network requests for all the data to display in this view.
@@ -137,7 +137,7 @@ public:
 		removeObserver(mAvatarID, this);
 	}
 	
-	void processProperties(void* data, EAvatarProcessorType type)
+	void processProperties(void* data, EAvatarProcessorType type) override
 	{
 		// route the data to the inspector
 		if (data
@@ -157,7 +157,7 @@ LLInspectAvatar::LLInspectAvatar(const LLSD& sd)
 :	LLInspect( LLSD() ),	// single_instance, doesn't really need key
 	mAvatarID(),			// set in onOpen()  *Note: we used to show partner's name but we dont anymore --angela 3rd Dec* 
 	mAvatarName(),
-	mPropertiesRequest(NULL),
+	mPropertiesRequest(nullptr),
 	mAvatarNameCacheConnection()
 {
 	// can't make the properties request until the widgets are constructed
@@ -176,7 +176,7 @@ LLInspectAvatar::~LLInspectAvatar()
 	// clean up any pending requests so they don't call back into a deleted
 	// view
 	delete mPropertiesRequest;
-	mPropertiesRequest = NULL;
+	mPropertiesRequest = nullptr;
 
 	LLTransientFloaterMgr::getInstance()->removeControlView(this);
 }
@@ -292,7 +292,7 @@ void LLInspectAvatar::processAvatarData(LLAvatarData* data)
 
 	// Delete the request object as it has been satisfied
 	delete mPropertiesRequest;
-	mPropertiesRequest = NULL;
+	mPropertiesRequest = nullptr;
 }
 
 void LLInspectAvatar::updateVolumeSlider()

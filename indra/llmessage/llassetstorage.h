@@ -126,7 +126,7 @@ public:
 
     void setTimeout(F64Seconds timeout) { mTimeout = timeout; }
 
-    virtual LLBaseDownloadRequest* getCopy();
+	LLBaseDownloadRequest* getCopy() override;
 
 	void	(*mUpCallback)(const LLUUID&, void *, S32, LLExtStat);
 	void	(*mInfoCallback)(LLAssetInfo *, void *, S32);
@@ -157,7 +157,7 @@ public:
     LLInvItemRequest(const LLUUID &uuid, const LLAssetType::EType at);
     virtual ~LLInvItemRequest();
 
-    virtual LLBaseDownloadRequest* getCopy();
+	LLBaseDownloadRequest* getCopy() override;
 };
 
 class LLEstateAssetRequest : public LLBaseDownloadRequest
@@ -168,7 +168,7 @@ public:
 
     LLAssetType::EType getAType() const		{ return mType; }
 
-    virtual LLBaseDownloadRequest* getCopy();
+	LLBaseDownloadRequest* getCopy() override;
 
 protected:
 	EstateAssetType mEstateAssetType;
@@ -402,7 +402,7 @@ public:
 
 	// Temp assets are stored on sim nodes, they have agent ID and location data associated with them.
 	// This is a no-op for non-http asset systems
-	virtual void addTempAssetData(const LLUUID& asset_id, const LLUUID& agent_id, const std::string& host_name);
+	void addTempAssetData(const LLUUID& asset_id, const LLUUID& agent_id, const std::string& host_name) override;
 	virtual BOOL hasTempAssetData(const LLUUID& texture_id) const;
 	virtual std::string getTempAssetHostName(const LLUUID& texture_id) const;
 	virtual LLUUID getTempAssetAgentID(const LLUUID& texture_id) const;

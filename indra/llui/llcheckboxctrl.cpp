@@ -59,9 +59,9 @@ LLCheckBoxCtrl::Params::Params()
 
 LLCheckBoxCtrl::LLCheckBoxCtrl(const LLCheckBoxCtrl::Params& p)
 :	LLUICtrl(p),
+	mFont(p.font()),
 	mTextEnabledColor(p.label_text.text_color()),
-	mTextDisabledColor(p.label_text.text_readonly_color()),
-	mFont(p.font())
+	mTextDisabledColor(p.label_text.text_readonly_color())
 {
 	mViewModel->setValue(LLSD(p.initial_value));
 	mViewModel->resetDirty();

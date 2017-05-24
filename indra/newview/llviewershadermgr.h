@@ -45,7 +45,7 @@ public:
 	static LLViewerShaderMgr * instance();
 	static void releaseInstance();
 
-	void initAttribsAndUniforms(void);
+	void initAttribsAndUniforms(void) override;
 	void setShaders();
 	void unloadShaders();
 	S32 getVertexShaderLevel(S32 type);
@@ -122,9 +122,9 @@ public:
 	shader_iter beginShaders() const;
 	shader_iter endShaders() const;
 
-	/* virtual */ std::string getShaderDirPrefix(void);
+	/* virtual */ std::string getShaderDirPrefix(void) override;
 
-	/* virtual */ void updateShaderUniforms(LLGLSLShader * shader);
+	/* virtual */ void updateShaderUniforms(LLGLSLShader * shader) override;
 
 private:
 	

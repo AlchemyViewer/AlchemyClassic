@@ -55,7 +55,7 @@ public:
 			: mObject(object), mFunction(function)
 			{ }
 		
-		void confirmed(const std::string& password)
+		void confirmed(const std::string& password) override
 		{
 			(mObject.*mFunction)(password);
 		}

@@ -39,7 +39,7 @@ namespace LLMarketplaceInventoryNotifications
 {
 	typedef boost::signals2::signal<void (const LLSD& param)>	no_copy_payload_cb_signal_t;
 
-	static no_copy_payload_cb_signal_t*	no_copy_cb_action = NULL;
+	static no_copy_payload_cb_signal_t*	no_copy_cb_action = nullptr;
 	static bool							no_copy_notify_active = false;
 	static std::list<LLSD>				no_copy_payloads;
 
@@ -59,7 +59,7 @@ namespace LLMarketplaceInventoryNotifications
 		}
 		
 		delete no_copy_cb_action;
-		no_copy_cb_action = NULL;
+		no_copy_cb_action = nullptr;
 		
 		no_copy_notify_active = false;
 		no_copy_payloads.clear();
@@ -77,7 +77,7 @@ namespace LLMarketplaceInventoryNotifications
 		
 	void addNoCopyNotification(const LLSD& payload, const NoCopyCallbackFunction& cb)
 	{
-		if (no_copy_cb_action == NULL)
+		if (no_copy_cb_action == nullptr)
 		{
 			no_copy_cb_action = new no_copy_payload_cb_signal_t;
 			no_copy_cb_action->connect(boost::bind(cb, _1));

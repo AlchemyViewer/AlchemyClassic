@@ -46,8 +46,8 @@ public:
 	~LLInboxInventoryPanel();
 
 	// virtual
-	LLFolderViewFolder*	createFolderViewFolder(LLInvFVBridge * bridge, bool allow_drop);
-	LLFolderViewItem * createFolderViewItem(LLInvFVBridge * bridge);
+	LLFolderViewFolder*	createFolderViewFolder(LLInvFVBridge * bridge, bool allow_drop) override;
+	LLFolderViewItem * createFolderViewItem(LLInvFVBridge * bridge) override;
 };
 
 
@@ -65,11 +65,11 @@ public:
 	
 	LLInboxFolderViewFolder(const Params& p);
 	
-    void addItem(LLFolderViewItem* item);
-	void draw();
+    void addItem(LLFolderViewItem* item) override;
+	void draw() override;
 	
-	void selectItem();
-	void toggleOpen();
+	void selectItem() override;
+	void toggleOpen() override;
 
 	void computeFreshness();
 	void deFreshify();
@@ -95,12 +95,12 @@ public:
 
 	LLInboxFolderViewItem(const Params& p);
 
-	void addToFolder(LLFolderViewFolder* folder);
-	BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
+	void addToFolder(LLFolderViewFolder* folder) override;
+	BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
 
-	void draw();
+	void draw() override;
 
-	void selectItem();
+	void selectItem() override;
 
 	void computeFreshness();
 	void deFreshify();

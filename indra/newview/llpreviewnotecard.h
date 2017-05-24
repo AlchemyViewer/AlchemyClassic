@@ -52,18 +52,18 @@ public:
 	bool saveItem();
 
 	// llview
-	virtual void draw();
+	void draw() override;
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
-	virtual bool hasAccelerators() const { return true; }
+	bool hasAccelerators() const override { return true; }
 // [/SL:KB]
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
-	virtual void setEnabled( BOOL enabled );
+	BOOL handleKeyHere(KEY key, MASK mask) override;
+	void setEnabled( BOOL enabled ) override;
 
 	// llfloater
-	virtual BOOL canClose();
+	BOOL canClose() override;
 
 	// llpanel
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	// reach into the text editor, and grab the drag item
 	const LLInventoryItem* getDragItem();
@@ -82,9 +82,9 @@ public:
 
 protected:
 
-	void updateTitleButtons();
-	virtual void loadAsset();
-	bool saveIfNeeded(LLInventoryItem* copyitem = NULL);
+	void updateTitleButtons() override;
+	void loadAsset() override;
+	bool saveIfNeeded(LLInventoryItem* copyitem = nullptr);
 
 	void deleteNotecard();
 

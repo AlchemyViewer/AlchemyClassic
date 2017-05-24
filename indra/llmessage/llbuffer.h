@@ -245,7 +245,7 @@ public:
 	 * @param segment[out] The out-value from the operation
 	 * @return Returns true if a segment was found.
 	 */
-	virtual bool createSegment(S32 channel, S32 size, LLSegment& segment);
+	bool createSegment(S32 channel, S32 size, LLSegment& segment) override;
 
 	/** 
 	 * @brief reclaim a segment from this buffer. 
@@ -261,7 +261,7 @@ public:
 	 * @param segment The contiguous buffer segment to reclaim.
 	 * @return Returns true if the call was successful.
 	 */
-	virtual bool reclaimSegment(const LLSegment& segment);
+	bool reclaimSegment(const LLSegment& segment) override;
 
 	/** 
 	 * @brief Test if a segment is inside this buffer.
@@ -269,12 +269,12 @@ public:
 	 * @param segment The contiguous buffer segment to test.
 	 * @return Returns true if the segment is in the bufffer.
 	 */
-	virtual bool containsSegment(const LLSegment& segment) const;
+	bool containsSegment(const LLSegment& segment) const override;
 
 	/** 
 	 * @brief Return the current number of bytes allocated.
 	 */
-	virtual S32 capacity() const { return mSize; }
+	S32 capacity() const override { return mSize; }
 
 protected:
 	U8* mBuffer;
@@ -415,7 +415,7 @@ public:
 	 */
 	S32 count(S32 channel) const
 	{
-		return countAfter(channel, NULL);
+		return countAfter(channel, nullptr);
 	}
 
 	/** 

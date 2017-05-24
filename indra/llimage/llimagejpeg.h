@@ -50,10 +50,10 @@ protected:
 public:
 	LLImageJPEG(S32 quality = 75);
 
-	/*virtual*/ std::string getExtension() { return std::string("jpg"); }
-	/*virtual*/ bool updateData();
-	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time);
-	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time);
+	/*virtual*/ std::string getExtension() override { return std::string("jpg"); }
+	/*virtual*/ bool updateData() override;
+	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time) override;
+	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time) override;
 
 	void			setEncodeQuality( S32 q )	{ mEncodeQuality = q; } // on a scale from 1 to 100
 	S32				getEncodeQuality()			{ return mEncodeQuality; }

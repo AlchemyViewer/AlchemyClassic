@@ -73,7 +73,7 @@ LLAlignedArray<T, alignment>::~LLAlignedArray()
 template <class T, U32 alignment>
 void LLAlignedArray<T, alignment>::push_back(const T& elem)
 {
-	T* old_buf = NULL;
+	T* old_buf = nullptr;
 	if (mCapacity <= mElementCount)
 	{
 		mCapacity++;

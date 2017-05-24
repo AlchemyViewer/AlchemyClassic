@@ -125,7 +125,7 @@ class LLAssetIDMatches : public LLInventoryCollectFunctor
 public:
 	LLAssetIDMatches(const LLUUID& asset_id) : mAssetID(asset_id) {}
 	virtual ~LLAssetIDMatches() {}
-	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	
 protected:
 	LLUUID mAssetID;
@@ -142,7 +142,7 @@ class LLLinkedItemIDMatches : public LLInventoryCollectFunctor
 public:
 	LLLinkedItemIDMatches(const LLUUID& item_id) : mBaseItemID(item_id) {}
 	virtual ~LLLinkedItemIDMatches() {}
-	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	
 protected:
 	LLUUID mBaseItemID;
@@ -160,8 +160,8 @@ class LLIsType : public LLInventoryCollectFunctor
 public:
 	LLIsType(LLAssetType::EType type) : mType(type) {}
 	virtual ~LLIsType() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	LLAssetType::EType mType;
 };
@@ -177,8 +177,8 @@ class LLIsNotType : public LLInventoryCollectFunctor
 public:
 	LLIsNotType(LLAssetType::EType type) : mType(type) {}
 	virtual ~LLIsNotType() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	LLAssetType::EType mType;
 };
@@ -196,8 +196,8 @@ class LLIsOfAssetType : public LLInventoryCollectFunctor
 public:
 	LLIsOfAssetType(LLAssetType::EType type) : mType(type) {}
 	virtual ~LLIsOfAssetType() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	LLAssetType::EType mType;
 };
@@ -205,8 +205,8 @@ protected:
 class LLIsValidItemLink : public LLInventoryCollectFunctor
 {
 public:
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 };
 
 class LLIsTypeWithPermissions : public LLInventoryCollectFunctor
@@ -215,8 +215,8 @@ public:
 	LLIsTypeWithPermissions(LLAssetType::EType type, const PermissionBit perms, const LLUUID &agent_id, const LLUUID &group_id) 
 		: mType(type), mPerm(perms), mAgentID(agent_id), mGroupID(group_id) {}
 	virtual ~LLIsTypeWithPermissions() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	LLAssetType::EType mType;
 	PermissionBit mPerm;
@@ -235,8 +235,8 @@ class LLBuddyCollector : public LLInventoryCollectFunctor
 public:
 	LLBuddyCollector() {}
 	virtual ~LLBuddyCollector() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -250,8 +250,8 @@ class LLUniqueBuddyCollector : public LLInventoryCollectFunctor
 public:
 	LLUniqueBuddyCollector() {}
 	virtual ~LLUniqueBuddyCollector() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 
 protected:
 	std::set<LLUUID> mSeen;
@@ -268,8 +268,8 @@ class LLParticularBuddyCollector : public LLInventoryCollectFunctor
 public:
 	LLParticularBuddyCollector(const LLUUID& id) : mBuddyID(id) {}
 	virtual ~LLParticularBuddyCollector() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	LLUUID mBuddyID;
 };
@@ -284,8 +284,8 @@ class LLNameCategoryCollector : public LLInventoryCollectFunctor
 public:
 	LLNameCategoryCollector(const std::string& name) : mName(name) {}
 	virtual ~LLNameCategoryCollector() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 protected:
 	std::string mName;
 };
@@ -300,8 +300,8 @@ class LLFindCOFValidItems : public LLInventoryCollectFunctor
 public:
 	LLFindCOFValidItems() {}
 	virtual ~LLFindCOFValidItems() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 	
 };
 
@@ -315,7 +315,7 @@ public:
 		: mFilterMask(mask)
 	{}
 
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
 		//converting an inventory type to a bitmap filter mask
 		if(item && (mFilterMask & (1LL << item->getInventoryType())) )
@@ -342,7 +342,7 @@ public:
 		: mFilterMask(mask)
 	{}
 
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
 		if(item && !item->getIsLinkType() && (mFilterMask & (1LL << item->getInventoryType())) )
 		{
@@ -371,8 +371,8 @@ class LLFindWearables : public LLInventoryCollectFunctor
 public:
 	LLFindWearables() {}
 	virtual ~LLFindWearables() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -384,7 +384,7 @@ class LLFindWearablesEx : public LLInventoryCollectFunctor
 {
 public:
 	LLFindWearablesEx(bool is_worn, bool include_body_parts = true);
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 private:
 	bool mIncludeBodyParts;
 	bool mIsWorn;
@@ -396,7 +396,7 @@ class LLFindWearablesOfType : public LLInventoryCollectFunctor
 public:
 	LLFindWearablesOfType(LLWearableType::EType type) : mWearableType(type) {}
 	virtual ~LLFindWearablesOfType() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 	void setType(LLWearableType::EType type);
 
 private:
@@ -409,7 +409,8 @@ class LLFindActualWearablesOfType : public LLFindWearablesOfType
 public:
 	LLFindActualWearablesOfType(LLWearableType::EType type) : LLFindWearablesOfType(type) {}
 	virtual ~LLFindActualWearablesOfType() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
+
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
 		if (item && item->getIsLinkType()) return false;
 		return LLFindWearablesOfType::operator()(cat, item);
@@ -422,7 +423,8 @@ class LLIsTypeActual : public LLIsType
 public:
 	LLIsTypeActual(LLAssetType::EType type) : LLIsType(type) {}
 	virtual ~LLIsTypeActual() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
+
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
 		if (item && item->getIsLinkType()) return false;
 		return LLIsType::operator()(cat, item);
@@ -433,7 +435,7 @@ public:
 class LLFindNonRemovableObjects : public LLInventoryCollectFunctor
 {
 public:
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 };
 
 /**                    Inventory Collector Functions

@@ -61,17 +61,17 @@ const char *CHECKERBOARD_DATA_URL = "data:image/svg+xml,%3Csvg xmlns=%22http://w
 ////////////////////////////////////////////////////////////////////////////////
 //
 LLPanelMediaSettingsGeneral::LLPanelMediaSettingsGeneral() :
-	mAutoLoop( NULL ),
-	mFirstClick( NULL ),
-	mAutoZoom( NULL ),
-	mAutoPlay( NULL ),
-	mAutoScale( NULL ),
-	mWidthPixels( NULL ),
-	mHeightPixels( NULL ),
-	mHomeURL( NULL ),
-	mCurrentURL( NULL ),
-	mParent( NULL ),
-	mMediaEditable(false)
+	mParent(nullptr ),
+	mMediaEditable(false),
+	mAutoLoop(nullptr ),
+	mFirstClick(nullptr ),
+	mAutoZoom(nullptr ),
+	mAutoPlay(nullptr ),
+	mAutoScale(nullptr ),
+	mWidthPixels(nullptr ),
+	mHeightPixels(nullptr ),
+	mHomeURL(nullptr ),
+	mCurrentURL(nullptr )
 {
 	// build dialog from XML
 	buildFromFile( "panel_media_settings_general.xml");
@@ -278,7 +278,7 @@ void LLPanelMediaSettingsGeneral::initValues( void* userdata, const LLSD& _media
 		{ LLMediaEntry::HOME_URL_KEY,				self->mHomeURL,			"LLLineEditor" },
 		{ LLMediaEntry::FIRST_CLICK_INTERACT_KEY,	self->mFirstClick,		"LLCheckBoxCtrl" },
 		{ LLMediaEntry::WIDTH_PIXELS_KEY,			self->mWidthPixels,		"LLSpinCtrl" },
-		{ "", NULL , "" }
+		{ "", nullptr , "" }
 	};
 	
 	for( int i = 0; data_set[ i ].key_name.length() > 0; ++i )
@@ -357,7 +357,7 @@ void LLPanelMediaSettingsGeneral::onClose(bool app_quitting)
 void LLPanelMediaSettingsGeneral::checkHomeUrlPassesWhitelist()
 {
 	// parent floater has not constructed the security panel yet
-	if ( mParent->getPanelSecurity() == 0 ) 
+	if ( mParent->getPanelSecurity() == nullptr ) 
 		return;
 
 	std::string home_url = getHomeUrl();
@@ -444,7 +444,7 @@ bool LLPanelMediaSettingsGeneral::navigateHomeSelectedFace(bool only_if_current_
 	struct functor_navigate_media : public LLSelectedTEGetFunctor< bool>
 	{
 		functor_navigate_media(bool flag) : only_if_current_is_empty(flag) {}
-		bool get( LLViewerObject* object, S32 face )
+		bool get( LLViewerObject* object, S32 face ) override
 		{
 			if ( object && object->getTE(face) && object->permModify() )
 			{
@@ -496,7 +496,7 @@ void LLPanelMediaSettingsGeneral::updateCurrentUrl()
 	{
 		functor_getter_current_url(const LLMediaEntry& entry): mMediaEntry(entry) {}
 		
-		std::string get( LLViewerObject* object, S32 face )
+		std::string get( LLViewerObject* object, S32 face ) override
 		{
 			if ( object )
 				if ( object->getTE(face) )

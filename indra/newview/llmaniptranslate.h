@@ -53,15 +53,15 @@ public:
 	static  U32     getGridTexName() ;
 	static  void    destroyGL();
 	static	void	restoreGL();
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual void	render();
-	virtual void	handleSelect();
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	void	render() override;
+	void	handleSelect() override;
 
-	virtual void	highlightManipulators(S32 x, S32 y);
-	virtual BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask);
-	virtual BOOL	canAffectSelection();
+	void	highlightManipulators(S32 x, S32 y) override;
+	BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask) override;
+	BOOL	canAffectSelection() override;
 
 protected:
 	enum EHandleType {

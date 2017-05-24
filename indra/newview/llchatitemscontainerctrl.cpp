@@ -69,7 +69,7 @@ class LLObjectHandler : public LLCommandHandler
 public:
 	LLObjectHandler() : LLCommandHandler("object", UNTRUSTED_BLOCK) { }
 
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (params.size() < 2) return false;
 

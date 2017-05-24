@@ -50,9 +50,9 @@ const LLPanelMarketplaceInbox::Params& LLPanelMarketplaceInbox::getDefaultParams
 // protected
 LLPanelMarketplaceInbox::LLPanelMarketplaceInbox(const Params& p)
 	: LLPanel(p)
-	, mFreshCountCtrl(NULL)
-	, mInboxButton(NULL)
-	, mInventoryPanel(NULL)
+	, mFreshCountCtrl(nullptr)
+	, mInboxButton(nullptr)
+	, mInventoryPanel(nullptr)
 {
 }
 

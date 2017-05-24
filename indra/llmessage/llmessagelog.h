@@ -74,7 +74,7 @@ public:
 	static void logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
 	                            const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id);
 
-	static bool haveLogger(){return sCallback != NULL;}
+	static bool haveLogger(){return sCallback != nullptr;}
 
 private:
 	static LogCallback sCallback;

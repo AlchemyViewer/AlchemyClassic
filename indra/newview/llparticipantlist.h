@@ -54,7 +54,7 @@ public:
 	/**
 	 * Refreshes the participant list.
 	 */
-	void update();
+	void update() override;
 
 	/**
 	 * Set a callback to be called before adding a speaker. Invalid speakers will not be added.
@@ -93,35 +93,35 @@ protected:
 	{
 	public:
 		SpeakerAddListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 
 	class SpeakerRemoveListener : public BaseSpeakerListener
 	{
 	public:
 		SpeakerRemoveListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 
 	class SpeakerClearListener : public BaseSpeakerListener
 	{
 	public:
 		SpeakerClearListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 
 	class SpeakerUpdateListener : public BaseSpeakerListener
 	{
 	public:
 		SpeakerUpdateListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 	
 	class SpeakerModeratorUpdateListener : public BaseSpeakerListener
 	{
 	public:
 		SpeakerModeratorUpdateListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 		
 	class SpeakerMuteListener : public BaseSpeakerListener
@@ -129,7 +129,7 @@ protected:
 	public:
 		SpeakerMuteListener(LLParticipantList& parent) : BaseSpeakerListener(parent) {}
 
-		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+		/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	};
 
 private:

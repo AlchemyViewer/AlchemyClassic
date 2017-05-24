@@ -56,9 +56,9 @@ public:
 	bool sendCrashLogs();
 	LLSD constructPostData();
 	virtual void updateApplication(const std::string& message = LLStringUtil::null);
-	virtual bool init();
-	virtual bool frame() = 0;
-	virtual bool cleanup() = 0;
+	bool init() override;
+	bool frame() override = 0;
+	bool cleanup() override = 0;
 	void commonCleanup();
 	void setUserText(const std::string& text) { mCrashInfo["UserNotes"] = text; }
 	S32 getCrashBehavior() { return mCrashBehavior; }

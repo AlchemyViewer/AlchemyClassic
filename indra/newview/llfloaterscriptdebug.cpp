@@ -89,7 +89,7 @@ void LLFloaterScriptDebug::setVisible(BOOL visible)
 	if(visible)
 	{
 		LLFloaterScriptDebugOutput* floater_output = LLFloaterReg::findTypedInstance<LLFloaterScriptDebugOutput>("script_debug_output", LLUUID::null);
-		if (floater_output == NULL)
+		if (floater_output == nullptr)
 		{
 			floater_output = dynamic_cast<LLFloaterScriptDebugOutput*>(LLFloaterReg::showInstance("script_debug_output", LLUUID::null, FALSE));
 			if (floater_output)
@@ -118,12 +118,12 @@ LLFloater* LLFloaterScriptDebug::addOutputWindow(const LLUUID &object_id)
 {
 	LLMultiFloater* host = LLFloaterReg::showTypedInstance<LLMultiFloater>("script_debug", LLSD());
 	if (!host)
-		return NULL;
+		return nullptr;
 
 	LLFloater::setFloaterHost(host);
 	// prevent stealing focus, see EXT-8040
 	LLFloater* floaterp = LLFloaterReg::showInstance("script_debug_output", object_id, FALSE);
-	LLFloater::setFloaterHost(NULL);
+	LLFloater::setFloaterHost(nullptr);
 
 	return floaterp;
 }

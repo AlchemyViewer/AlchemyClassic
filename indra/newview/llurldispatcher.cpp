@@ -141,7 +141,7 @@ bool LLURLDispatcherImpl::dispatch(const LLSLURL& slurl,
 bool LLURLDispatcherImpl::dispatchRightClick(const LLSLURL& slurl)
 {
 	const bool right_click = true;
-	LLMediaCtrl* web = NULL;
+	LLMediaCtrl* web = nullptr;
 	const bool trusted_browser = false;
 	return dispatchCore(slurl, "clicked", right_click, web, trusted_browser);
 }
@@ -274,7 +274,7 @@ public:
 
 
 	bool handle(const LLSD& tokens, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		// construct a "normal" SLURL, resolve the region to
 		// a global position, and teleport to it
@@ -360,7 +360,7 @@ bool LLURLDispatcher::dispatchFromTextEditor(const std::string& slurl, bool trus
 	// click on it.
 	// *TODO: Make this trust model more refined.  JC
 
-	LLMediaCtrl* web = NULL;
+	LLMediaCtrl* web = nullptr;
 	return LLURLDispatcherImpl::dispatch(LLSLURL(slurl), "clicked", web, trusted_content);
 }
 

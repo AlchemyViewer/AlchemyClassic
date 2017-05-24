@@ -36,10 +36,10 @@ class LLToolSelectRect
 public:
 	LLToolSelectRect( LLToolComposite* composite );
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual void	draw();							// draw the select rectangle
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	void	draw() override;							// draw the select rectangle
 
 	void handlePick(const LLPickInfo& pick);
 

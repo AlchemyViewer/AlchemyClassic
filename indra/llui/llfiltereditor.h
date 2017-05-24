@@ -48,7 +48,7 @@ protected:
 	LLFilterEditor(const Params&);
 	friend class LLUICtrlFactory;
 
-	/*virtual*/ void handleKeystroke();
+	/*virtual*/ void handleKeystroke() override;
 };
 
 #endif  // LL_FILTEREDITOR_H

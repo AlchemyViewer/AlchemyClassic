@@ -103,8 +103,8 @@ static LLPanelInjector<LLOutfitsList> t_outfits_list("outfits_list");
 
 LLOutfitsList::LLOutfitsList()
     :   LLOutfitListBase()
-    ,   mAccordion(NULL)
-	,	mListCommands(NULL)
+    ,   mAccordion(nullptr)
+	,	mListCommands(nullptr)
 	,	mItemSelected(false)
 {
 }
@@ -242,7 +242,7 @@ void LLOutfitsList::updateRemovedCategory(LLUUID cat_id)
     	mAccordion->removeCollapsibleCtrl(tab);
 
     	// kill removed tab
-    	if (tab != NULL)
+    	if (tab != nullptr)
     	{
     		tab->die();
     	}
@@ -486,7 +486,7 @@ void LLOutfitsList::onChangeOutfitSelection(LLWearableItemsList* list, const LLU
 		mSelectedListsMap.clear();
 	}
 
-	mItemSelected = list && (list->getSelectedItem() != NULL);
+	mItemSelected = list && (list->getSelectedItem() != nullptr);
 
 	mSelectedListsMap.insert(wearables_lists_map_value_t(category_id, list));
 }
@@ -1093,7 +1093,7 @@ void LLOutfitContextMenu::renameOutfit(const LLUUID& outfit_cat_id)
 
 LLOutfitListGearMenuBase::LLOutfitListGearMenuBase(LLOutfitListBase* olist)
     :   mOutfitList(olist),
-        mMenu(NULL)
+        mMenu(nullptr)
 {
     llassert_always(mOutfitList);
 
@@ -1156,7 +1156,7 @@ LLViewerInventoryCategory* LLOutfitListGearMenuBase::getSelectedOutfit()
     const LLUUID& selected_outfit_id = getSelectedOutfitID();
     if (selected_outfit_id.isNull())
     {
-        return NULL;
+        return nullptr;
     }
 
     LLViewerInventoryCategory* cat = gInventory.getCategory(selected_outfit_id);

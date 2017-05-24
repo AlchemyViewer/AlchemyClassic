@@ -69,44 +69,44 @@ public:
 	//-------------------------------------------------------------------------
 
 	// motions must specify whether or not they loop
-	virtual BOOL getLoop() { return FALSE; }
+	BOOL getLoop() override { return FALSE; }
 
 	// motions must report their total duration
-	virtual F32 getDuration() { return EMOTE_MORPH_FADEIN_TIME + EMOTE_MORPH_IN_TIME + EMOTE_MORPH_FADEOUT_TIME; }
+	F32 getDuration() override { return EMOTE_MORPH_FADEIN_TIME + EMOTE_MORPH_IN_TIME + EMOTE_MORPH_FADEOUT_TIME; }
 
 	// motions must report their "ease in" duration
-	virtual F32 getEaseInDuration() { return EMOTE_MORPH_FADEIN_TIME; }
+	F32 getEaseInDuration() override { return EMOTE_MORPH_FADEIN_TIME; }
 
 	// motions must report their "ease out" duration.
-	virtual F32 getEaseOutDuration() { return EMOTE_MORPH_FADEOUT_TIME; }
+	F32 getEaseOutDuration() override { return EMOTE_MORPH_FADEOUT_TIME; }
 
 	// called to determine when a motion should be activated/deactivated based on avatar pixel coverage
-	virtual F32 getMinPixelArea() { return MIN_REQUIRED_PIXEL_AREA_EMOTE; }
+	F32 getMinPixelArea() override { return MIN_REQUIRED_PIXEL_AREA_EMOTE; }
 
 	// motions must report their priority
-	virtual LLJoint::JointPriority getPriority() { return LLJoint::MEDIUM_PRIORITY; }
+	LLJoint::JointPriority getPriority() override { return LLJoint::MEDIUM_PRIORITY; }
 
-	virtual LLMotionBlendType getBlendType() { return NORMAL_BLEND; }
+	LLMotionBlendType getBlendType() override { return NORMAL_BLEND; }
 
 	// run-time (post constructor) initialization,
 	// called after parameters have been set
 	// must return true to indicate success and be available for activation
-	virtual LLMotionInitStatus onInitialize(LLCharacter *character);
+	LLMotionInitStatus onInitialize(LLCharacter *character) override;
 
 	// called when a motion is activated
 	// must return TRUE to indicate success, or else
 	// it will be deactivated 
-	virtual BOOL onActivate();
+	BOOL onActivate() override;
 
 	// called per time step
 	// must return TRUE while it is active, and
 	// must return FALSE when the motion is completed.
-	virtual BOOL onUpdate(F32 time, U8* joint_mask);
+	BOOL onUpdate(F32 time, U8* joint_mask) override;
 
 	// called when a motion is deactivated
-	virtual void onDeactivate();
+	void onDeactivate() override;
 
-	virtual BOOL canDeprecate() { return FALSE; }
+	BOOL canDeprecate() override { return FALSE; }
 
 protected:
 

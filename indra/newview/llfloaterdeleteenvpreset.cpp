@@ -52,7 +52,7 @@ static bool confirmation_callback(const LLSD& notification, const LLSD& response
 
 LLFloaterDeleteEnvPreset::LLFloaterDeleteEnvPreset(const LLSD &key)
 :	LLFloater(key)
-,	mPresetCombo(NULL)
+,	mPresetCombo(nullptr)
 {
 }
 

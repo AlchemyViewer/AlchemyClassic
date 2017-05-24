@@ -77,26 +77,26 @@ public:
 	F32				getSliderValue(const std::string& name) const;
 	void			setSliderValue(const std::string& name, F32 v, BOOL from_event = FALSE);
 
-	virtual void	setValue(const LLSD& value );
-	virtual LLSD	getValue() const		{ return mMultiSlider->getValue(); }
-	virtual BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text );
+	void	setValue(const LLSD& value ) override;
+	LLSD	getValue() const override { return mMultiSlider->getValue(); }
+	BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 
 	const std::string& getCurSlider() const					{ return mMultiSlider->getCurSlider(); }
 	F32				getCurSliderValue() const				{ return mCurValue; }
 	void			setCurSlider(const std::string& name);		
 	void			setCurSliderValue(F32 val, BOOL from_event = false) { setSliderValue(mMultiSlider->getCurSlider(), val, from_event); }
 
-	virtual void	setMinValue(const LLSD& min_value)	{ setMinValue((F32)min_value.asReal()); }
-	virtual void	setMaxValue(const LLSD& max_value)	{ setMaxValue((F32)max_value.asReal());  }
+	void	setMinValue(const LLSD& min_value) override { setMinValue((F32)min_value.asReal()); }
+	void	setMaxValue(const LLSD& max_value) override { setMaxValue((F32)max_value.asReal());  }
 
 	BOOL			isMouseHeldDown();
 
-	virtual void    setEnabled( BOOL b );
-	virtual void	clear();
+	void    setEnabled( BOOL b ) override;
+	void	clear() override;
 	virtual void	setPrecision(S32 precision);
-	void			setMinValue(F32 min_value) {mMultiSlider->setMinValue(min_value);}
-	void			setMaxValue(F32 max_value) {mMultiSlider->setMaxValue(max_value);}
-	void			setIncrement(F32 increment) {mMultiSlider->setIncrement(increment);}
+	void			setMinValue(F32 min_value) override {mMultiSlider->setMinValue(min_value);}
+	void			setMaxValue(F32 max_value) override {mMultiSlider->setMaxValue(max_value);}
+	void			setIncrement(F32 increment) override {mMultiSlider->setIncrement(increment);}
 
 	/// for adding and deleting sliders
 	const std::string&	addSlider();
@@ -104,8 +104,8 @@ public:
 	void			deleteSlider(const std::string& name);
 	void			deleteCurSlider()			{ deleteSlider(mMultiSlider->getCurSlider()); }
 
-	F32				getMinValue() const { return mMultiSlider->getMinValue(); }
-	F32				getMaxValue() const { return mMultiSlider->getMaxValue(); }
+	F32				getMinValue() const override { return mMultiSlider->getMinValue(); }
+	F32				getMaxValue() const override { return mMultiSlider->getMaxValue(); }
 
 	void			setLabel(const std::string& label)				{ if (mLabelBox) mLabelBox->setText(label); }
 	void			setLabelColor(const LLColor4& c)			{ mTextEnabledColor = c; }
@@ -114,12 +114,12 @@ public:
 	boost::signals2::connection setSliderMouseDownCallback( const commit_signal_t::slot_type& cb );
 	boost::signals2::connection setSliderMouseUpCallback( const commit_signal_t::slot_type& cb );
 
-	virtual void	onTabInto();
+	void	onTabInto() override;
 
-	virtual void	setTentative(BOOL b);			// marks value as tentative
-	virtual void	onCommit();						// mark not tentative, then commit
+	void	setTentative(BOOL b) override;			// marks value as tentative
+	void	onCommit() override;						// mark not tentative, then commit
 
-	virtual void		setControlName(const std::string& control_name, LLView* context);
+	void		setControlName(const std::string& control_name, LLView* context) override;
 	
 	static void		onSliderCommit(LLUICtrl* caller, const LLSD& userdata);
 	

@@ -55,8 +55,8 @@ protected:
 		LLHUDTextSegment(const LLWString& text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
 		:	mColor(color),
 			mStyle(style),
-			mText(text),
-			mFont(font)
+			mFont(font),
+			mText(text)
 		{}
 		F32 getWidth(const LLFontGL* font);
 		const LLWString& getText() const { return mText; }
@@ -90,7 +90,7 @@ public:
 	void clearString();
 
 	// Add text a line at a time, allowing custom formatting
-	void addLine(const std::string &text_utf8, const LLColor4& color, const LLFontGL::StyleFlags style = LLFontGL::NORMAL, const LLFontGL* font = NULL);
+	void addLine(const std::string &text_utf8, const LLColor4& color, const LLFontGL::StyleFlags style = LLFontGL::NORMAL, const LLFontGL* font = nullptr);
 
 	// Sets the default font for lines with no font specified
 	void setFont(const LLFontGL* font);
@@ -109,9 +109,9 @@ public:
 	void setMass(F32 mass) { mMass = llmax(0.1f, mass); }
 	void setTextAlignment(ETextAlignment alignment) { mTextAlignment = alignment; }
 	void setVertAlignment(EVertAlignment alignment) { mVertAlignment = alignment; }
-	/*virtual*/ void markDead();
+	/*virtual*/ void markDead() override;
 	friend class LLHUDObject;
-	/*virtual*/ F32 getDistance() const { return mLastDistance; }
+	/*virtual*/ F32 getDistance() const override { return mLastDistance; }
 	BOOL getVisible() { return mVisible; }
 	BOOL getHidden() const { return mHidden; }
 	void setHidden( BOOL hide ) { mHidden = hide; }
@@ -126,7 +126,7 @@ public:
 protected:
 	LLHUDText(const U8 type);
 
-	/*virtual*/ void render();
+	/*virtual*/ void render() override;
 	void renderText();
 	static void updateAll();
 	S32 getMaxLines();

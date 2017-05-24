@@ -165,7 +165,7 @@ void LLPluginClassMedia::idle(void)
 		mPlugin->idle();
 	}
 
-	if((mMediaWidth == -1) || (!mTextureParamsReceived) || (mPlugin == NULL) || (mPlugin->isBlocked()) || (mOwner == NULL))
+	if((mMediaWidth == -1) || (!mTextureParamsReceived) || (mPlugin == nullptr) || (mPlugin->isBlocked()) || (mOwner == nullptr))
 	{
 		// Can't process a size change at this time
 	}
@@ -285,8 +285,8 @@ int LLPluginClassMedia::getTextureHeight() const
 
 unsigned char* LLPluginClassMedia::getBitsData()
 {
-	unsigned char *result = NULL;
-	if((mPlugin != NULL) && !mTextureSharedMemoryName.empty())
+	unsigned char *result = nullptr;
+	if((mPlugin != nullptr) && !mTextureSharedMemoryName.empty())
 	{
 		result = (unsigned char*)mPlugin->getSharedMemoryAddress(mTextureSharedMemoryName);
 	}
@@ -377,7 +377,7 @@ bool LLPluginClassMedia::textureValid(void)
 		mMediaHeight <= 0 ||
 		mRequestedMediaWidth != mMediaWidth ||
 		mRequestedMediaHeight != mMediaHeight ||
-		getBitsData() == NULL
+		getBitsData() == nullptr
 	)
 		return false;
 
@@ -388,7 +388,7 @@ bool LLPluginClassMedia::getDirty(LLRect *dirty_rect)
 {
 	bool result = !mDirtyRect.isEmpty();
 
-	if(dirty_rect != NULL)
+	if(dirty_rect != nullptr)
 	{
 		*dirty_rect = mDirtyRect;
 	}

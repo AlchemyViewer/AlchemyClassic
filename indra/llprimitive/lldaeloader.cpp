@@ -167,9 +167,9 @@ LLModel::EModelStatus load_face_from_dom_triangles(std::vector<LLVolumeFace>& fa
 	S32 tc_offset = -1;
 	S32 norm_offset = -1;
 
-	domSource* pos_source = NULL;
-	domSource* tc_source = NULL;
-	domSource* norm_source = NULL;
+	domSource* pos_source = nullptr;
+	domSource* tc_source = nullptr;
+	domSource* norm_source = nullptr;
 
 	S32 idx_stride = 0;
 
@@ -301,13 +301,13 @@ LLModel::EModelStatus load_face_from_dom_triangles(std::vector<LLVolumeFace>& fa
 			if (!norm_source)
 			{
 				//ll_aligned_free_16(new_face.mNormals);
-				new_face.mNormals = NULL;
+				new_face.mNormals = nullptr;
 			}
 
 			if (!tc_source)
 			{
 				//ll_aligned_free_16(new_face.mTexCoords);
-				new_face.mTexCoords = NULL;
+				new_face.mTexCoords = nullptr;
 			}
 
 			face = LLVolumeFace();
@@ -332,13 +332,13 @@ LLModel::EModelStatus load_face_from_dom_triangles(std::vector<LLVolumeFace>& fa
 		if (!norm_source)
 		{
 			//ll_aligned_free_16(new_face.mNormals);
-			new_face.mNormals = NULL;
+			new_face.mNormals = nullptr;
 		}
 
 		if (!tc_source)
 		{
 			//ll_aligned_free_16(new_face.mTexCoords);
-			new_face.mTexCoords = NULL;
+			new_face.mTexCoords = nullptr;
 		}
 	}
 
@@ -364,9 +364,9 @@ LLModel::EModelStatus load_face_from_dom_polylist(std::vector<LLVolumeFace>& fac
 	S32 tc_offset = -1;
 	S32 norm_offset = -1;
 
-	domSource* pos_source = NULL;
-	domSource* tc_source = NULL;
-	domSource* norm_source = NULL;
+	domSource* pos_source = nullptr;
+	domSource* tc_source = nullptr;
+	domSource* norm_source = nullptr;
 
 	S32 idx_stride = 0;
 
@@ -545,13 +545,13 @@ LLModel::EModelStatus load_face_from_dom_polylist(std::vector<LLVolumeFace>& fac
 				if (!norm_source)
 				{
 					//ll_aligned_free_16(new_face.mNormals);
-					new_face.mNormals = NULL;
+					new_face.mNormals = nullptr;
 				}
 
 				if (!tc_source)
 				{
 					//ll_aligned_free_16(new_face.mTexCoords);
-					new_face.mTexCoords = NULL;
+					new_face.mTexCoords = nullptr;
 				}
 
 				face = LLVolumeFace();
@@ -579,13 +579,13 @@ LLModel::EModelStatus load_face_from_dom_polylist(std::vector<LLVolumeFace>& fac
 		if (!norm_source)
 		{
 			//ll_aligned_free_16(new_face.mNormals);
-			new_face.mNormals = NULL;
+			new_face.mNormals = nullptr;
 		}
 
 		if (!tc_source)
 		{
 			//ll_aligned_free_16(new_face.mTexCoords);
-			new_face.mTexCoords = NULL;
+			new_face.mTexCoords = nullptr;
 		}
 	}
 
@@ -604,9 +604,9 @@ LLModel::EModelStatus load_face_from_dom_polygons(std::vector<LLVolumeFace>& fac
 	S32 n_offset = -1;
 	S32 t_offset = -1;
 
-	domListOfFloats* v = NULL;
-	domListOfFloats* n = NULL;
-	domListOfFloats* t = NULL;
+	domListOfFloats* v = nullptr;
+	domListOfFloats* n = nullptr;
+	domListOfFloats* t = nullptr;
 	
 	U32 stride = 0;
 	for (U32 i = 0; i < inputs.getCount(); ++i)
@@ -796,13 +796,13 @@ LLModel::EModelStatus load_face_from_dom_polygons(std::vector<LLVolumeFace>& fac
 		if (!n)
 		{
 			//ll_aligned_free_16(new_face.mNormals);
-			new_face.mNormals = NULL;
+			new_face.mNormals = nullptr;
 		}
 
 		if (!t)
 		{
 			//ll_aligned_free_16(new_face.mTexCoords);
-			new_face.mTexCoords = NULL;
+			new_face.mTexCoords = nullptr;
 		}
 	}
 
@@ -903,7 +903,7 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 	
 	daeDatabase* db = dae.getDatabase();
 	
-	daeInt count = db->getElementCount(NULL, COLLADA_TYPE_MESH);
+	daeInt count = db->getElementCount(nullptr, COLLADA_TYPE_MESH);
 	
 	daeDocument* doc = dae.getDoc(tmp_file);
 	if (!doc)
@@ -921,12 +921,12 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 	
 	//Verify some basic properties of the dae
 	//1. Basic validity check on controller 
-	daeUInt controllerCount = db->getElementCount( NULL, "controller" );
+	daeUInt controllerCount = db->getElementCount(nullptr, "controller" );
 	bool result = false;
 	for (daeUInt i = 0; i < controllerCount; ++i)
 	{
-		domController* pController = NULL;
-		db->getElement( (daeElement**) &pController, (daeInt) i , NULL, "controller" );
+		domController* pController = nullptr;
+		db->getElement( (daeElement**) &pController, (daeInt) i , nullptr, "controller" );
 		result = verifyController( pController );
 		if (!result)
 		{
@@ -979,8 +979,8 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 	U32 submodel_limit = count > 0 ? mGeneratedModelLimit/count : 0;
 	for (daeInt idx = 0; idx < count; ++idx)
 	{ //build map of domEntities to LLModel
-		domMesh* mesh = NULL;
-		db->getElement((daeElement**) &mesh, idx, NULL, COLLADA_TYPE_MESH);
+		domMesh* mesh = nullptr;
+		db->getElement((daeElement**) &mesh, idx, nullptr, COLLADA_TYPE_MESH);
 		
 		if (mesh)
 		{
@@ -1036,11 +1036,11 @@ bool LLDAELoader::OpenFile(const std::string& filename)
 		model_iter++;
 	}
 
-	count = db->getElementCount(NULL, COLLADA_TYPE_SKIN);
+	count = db->getElementCount(nullptr, COLLADA_TYPE_SKIN);
 	for (daeInt idx = 0; idx < count; ++idx)
 	{ //add skinned meshes as instances
-		domSkin* skin = NULL;
-		db->getElement((daeElement**) &skin, idx, NULL, COLLADA_TYPE_SKIN);
+		domSkin* skin = nullptr;
+		db->getElement((daeElement**) &skin, idx, nullptr, COLLADA_TYPE_SKIN);
 		
 		if (skin)
 		{
@@ -1169,16 +1169,16 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 
 
 		//Some collada setup for accessing the skeleton
-        daeUInt skeleton_count = dae->getDatabase()->getElementCount( NULL, "skeleton" );
+        daeUInt skeleton_count = dae->getDatabase()->getElementCount(nullptr, "skeleton" );
         std::vector<domInstance_controller::domSkeleton*> skeletons;
         for (daeUInt i = 0; i < skeleton_count; i++)
         {
-            daeElement* pElement = 0;
-            dae->getDatabase()->getElement( &pElement, (daeInt) i, 0, "skeleton" );
+            daeElement* pElement = nullptr;
+            dae->getDatabase()->getElement( &pElement, (daeInt) i, nullptr, "skeleton" );
 
             //Try to get at the skeletal instance controller
             domInstance_controller::domSkeleton* pSkeleton = daeSafeCast<domInstance_controller::domSkeleton>( pElement );
-			daeElement* pSkeletonRootNode = NULL;
+			daeElement* pSkeletonRootNode = nullptr;
             if (pSkeleton)
             {
                 pSkeletonRootNode = pSkeleton->getValue().getElement();
@@ -1508,7 +1508,7 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 		if (weights)
 		{
 			domInputLocalOffset_Array& inputs = weights->getInput_array();
-			domFloat_array* vertex_weights = NULL;
+			domFloat_array* vertex_weights = nullptr;
 			for (size_t i = 0; i < inputs.getCount(); ++i)
 			{
 				if (strcmp(inputs[i]->getSemantic(), COMMON_PROFILE_INPUT_WEIGHT) == 0)
@@ -1820,7 +1820,7 @@ void LLDAELoader::extractTranslationViaSID( daeElement* pElement, LLMatrix4& tra
 //-----------------------------------------------------------------------------
 void LLDAELoader::processJointNode( domNode* pNode, JointTransformMap& jointTransforms )
 {
-	if (pNode->getName() == NULL)
+	if (pNode->getName() == nullptr)
 	{
 		LL_WARNS() << "nameless node, can't process" << LL_ENDL;
 		return;
@@ -1909,7 +1909,7 @@ daeElement* LLDAELoader::getChildFromElement( daeElement* pElement, std::string 
 		return pChildOfElement;
 	}
 	LL_DEBUGS("Mesh")<< "Could not find a child [" << name << "] for the element: \"" << pElement->getAttribute("id") << "\"" << LL_ENDL;
-    return NULL;
+    return nullptr;
 }
 
 void LLDAELoader::processElement( daeElement* element, bool& badElement, DAE* dae )
@@ -2106,7 +2106,7 @@ std::map<std::string, LLImportMaterial> LLDAELoader::getMaterials(LLModel* model
 	{
 		LLImportMaterial import_material;
 
-		domInstance_material* instance_mat = NULL;
+		domInstance_material* instance_mat = nullptr;
 
 		domBind_material::domTechnique_common* technique =
 		daeSafeCast<domBind_material::domTechnique_common>(instance_geo->getDescendant(daeElement::matchType(domBind_material::domTechnique_common::ID())));
@@ -2202,7 +2202,7 @@ LLImportMaterial LLDAELoader::profileToMaterial(domProfile_COMMON* material, DAE
 			}
 			else if (texture->getTexture())
 			{
-				domImage* image = NULL;
+				domImage* image = nullptr;
 				dae->getDatabase()->getElement((daeElement**) &image, 0, texture->getTexture(), COLLADA_TYPE_IMAGE);
 				if (image)
 				{

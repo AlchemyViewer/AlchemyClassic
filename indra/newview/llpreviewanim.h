@@ -35,9 +35,9 @@ class LLPreviewAnim : public LLPreview
 public:
 
 	LLPreviewAnim(const LLSD& key);
-	/*virtual*/	BOOL postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
-	void draw();
+	/*virtual*/	BOOL postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
+	void draw() override;
 	void cleanup();
 	void play(const LLSD& param);
 	

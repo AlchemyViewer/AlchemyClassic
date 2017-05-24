@@ -40,21 +40,21 @@ public:
 	//
 	// Main application logic
 	//
-	virtual bool init(); // Override to do application initialization
-	virtual bool cleanup();
+	bool init() override; // Override to do application initialization
+	bool cleanup() override;
 
 protected:
-	virtual void initLoggingAndGetLastDuration(); // Override to clean stack_trace info.
-	virtual void initConsole(); // Initialize OS level debugging console.
-	virtual bool initHardwareTest(); // Win32 uses DX9 to test hardware.
-	virtual bool initParseCommandLine(LLCommandLineParser& clp);
+	void initLoggingAndGetLastDuration() override; // Override to clean stack_trace info.
+	void initConsole() override; // Initialize OS level debugging console.
+	bool initHardwareTest() override; // Win32 uses DX9 to test hardware.
+	bool initParseCommandLine(LLCommandLineParser& clp) override;
 
-	virtual bool restoreErrorTrap();
-	virtual void initCrashReporting(bool reportFreeze); 
+	bool restoreErrorTrap() override;
+	void initCrashReporting(bool reportFreeze) override;
 
-	virtual bool sendURLToOtherInstance(const std::string& url);
+	bool sendURLToOtherInstance(const std::string& url) override;
 
-	std::string generateSerialNumber();
+	std::string generateSerialNumber() override;
 
 	static const std::string sWindowClass;
 

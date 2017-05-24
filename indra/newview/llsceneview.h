@@ -35,11 +35,11 @@ class LLSceneView : public LLFloater
 public:
 	LLSceneView(const LLRect& rect);
 
-	virtual void draw();
+	void draw() override;
 	
 protected:
-	virtual void onClose(bool app_qutting = false);
-    virtual void onClickCloseBtn(bool app_qutting = false);
+	void onClose(bool app_qutting = false) override;
+	void onClickCloseBtn(bool app_qutting = false) override;
 
 
 };

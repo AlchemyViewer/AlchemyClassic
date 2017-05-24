@@ -129,23 +129,23 @@ public:
 	/*virtual*/ ~LLTabContainer();
 
 	// from LLView
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleHover( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleMouseUp( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask);
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleHover( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleMouseUp( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask) override;
 	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask,	BOOL drop,
 									   EDragAndDropType type, void* cargo_data,
-									   EAcceptance* accept, std::string& tooltip);
-	/*virtual*/ LLView* getChildView(const std::string& name, BOOL recurse = TRUE) const;
-	/*virtual*/ LLView* findChildView(const std::string& name, BOOL recurse = TRUE) const;
+									   EAcceptance* accept, std::string& tooltip) override;
+	/*virtual*/ LLView* getChildView(const std::string& name, BOOL recurse = TRUE) const override;
+	/*virtual*/ LLView* findChildView(const std::string& name, BOOL recurse = TRUE) const override;
 	/*virtual*/ void initFromParams(const LLPanel::Params& p);
-	/*virtual*/ bool addChild(LLView* view, S32 tab_group = 0);
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ bool addChild(LLView* view, S32 tab_group = 0) override;
+	/*virtual*/ BOOL postBuild() override;
 
 	struct TabPanelParams : public LLInitParam::Block<TabPanelParams>
 	{
@@ -159,7 +159,7 @@ public:
 		Optional<void*>				user_data;
 
 		TabPanelParams()
-		:	panel("panel", NULL),
+		:	panel("panel", nullptr),
 			label("label"),
 			select_tab("select_tab"),
 			is_placeholder("is_placeholder"),

@@ -48,7 +48,7 @@
 #include "llstl.h"
 #include "lltimer.h"
 
-void (*gWriteDebug)(const char* msg) = NULL;
+void (*gWriteDebug)(const char* msg) = nullptr;
 LLDXHardware gDXHardware;
 
 //-----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
     BSTR pNamespace = nullptr;
 
     *pdwAdapterRam = 0;
-    hrCoInitialize = CoInitialize( 0 );
+    hrCoInitialize = CoInitialize( nullptr );
 
     hr = CoCreateInstance( CLSID_WbemLocator,
                            nullptr,
@@ -88,12 +88,12 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
         // Using the locator, connect to WMI in the given namespace.
         pNamespace = SysAllocString( L"\\\\.\\root\\cimv2" );
 
-        hr = pIWbemLocator->ConnectServer( pNamespace, nullptr, nullptr, 0L,
+        hr = pIWbemLocator->ConnectServer( pNamespace, nullptr, nullptr, nullptr,
                                            0L, nullptr, nullptr, &pIWbemServices );
 #ifdef PRINTF_DEBUGGING
         if( FAILED( hr ) ) wprintf( L"WMI: pIWbemLocator->ConnectServer failed: 0x%0.8x\n", hr );
 #endif
-        if( SUCCEEDED( hr ) && pIWbemServices != 0 )
+        if( SUCCEEDED( hr ) && pIWbemServices != nullptr )
         {
             HINSTANCE hinstOle32 = LoadLibraryW( L"ole32.dll" );
             if( hinstOle32 )
@@ -101,7 +101,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
                 PfnCoSetProxyBlanket pfnCoSetProxyBlanket = nullptr;
 
                 pfnCoSetProxyBlanket = ( PfnCoSetProxyBlanket )GetProcAddress( hinstOle32, "CoSetProxyBlanket" );
-                if( pfnCoSetProxyBlanket != 0 )
+                if( pfnCoSetProxyBlanket != nullptr )
                 {
                     // Switch security level to IMPERSONATE. 
                     pfnCoSetProxyBlanket( pIWbemServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, nullptr,
@@ -124,7 +124,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
 
             if( SUCCEEDED( hr ) && pEnumVideoControllers )
             {
-                IWbemClassObject* pVideoControllers[10] = {0};
+                IWbemClassObject* pVideoControllers[10] = {nullptr};
                 DWORD uReturned = 0;
                 BSTR pPropName = nullptr;
 
@@ -156,7 +156,7 @@ HRESULT GetVideoMemoryViaWMI( WCHAR* strInputDeviceID, DWORD* pdwAdapterRam )
 #endif
                         if( SUCCEEDED( hr ) )
                         {
-                            if( wcsstr( var.bstrVal, strInputDeviceID ) != 0 )
+                            if( wcsstr( var.bstrVal, strInputDeviceID ) != nullptr )
                                 bFound = true;
                         }
                         VariantClear( &var );
@@ -377,13 +377,13 @@ LLDXDriverFile *LLDXDevice::findDriver(const std::string &driver)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 LLDXHardware::LLDXHardware()
 {
 	mVRAM = 0;
-	gWriteDebug = NULL;
+	gWriteDebug = nullptr;
 }
 
 void LLDXHardware::cleanup()
@@ -449,7 +449,7 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
 	BOOL ok = FALSE;
     HRESULT       hr;
 
-    hr = CoInitialize(NULL);
+    hr = CoInitialize(nullptr);
 	if (FAILED(hr))
 	{
 		LL_WARNS() << "COM initialization failure!" << LL_ENDL;
@@ -457,18 +457,18 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
 		return ok;
 	}
 
-    IDxDiagProvider *dx_diag_providerp = NULL;
-    IDxDiagContainer *dx_diag_rootp = NULL;
-	IDxDiagContainer *devices_containerp = NULL;
+    IDxDiagProvider *dx_diag_providerp = nullptr;
+    IDxDiagContainer *dx_diag_rootp = nullptr;
+	IDxDiagContainer *devices_containerp = nullptr;
 	// IDxDiagContainer *system_device_containerp= NULL;
-	IDxDiagContainer *device_containerp = NULL;
+	IDxDiagContainer *device_containerp = nullptr;
 	//IDxDiagContainer *file_containerp = NULL;
-	IDxDiagContainer *driver_containerp = NULL;
+	IDxDiagContainer *driver_containerp = nullptr;
 
     // CoCreate a IDxDiagProvider*
 	LL_DEBUGS("AppInit") << "CoCreateInstance IID_IDxDiagProvider" << LL_ENDL;
     hr = CoCreateInstance(CLSID_DxDiagProvider,
-                          NULL,
+                          nullptr,
                           CLSCTX_INPROC_SERVER,
                           IID_IDxDiagProvider,
                           (LPVOID*) &dx_diag_providerp);
@@ -491,7 +491,7 @@ BOOL LLDXHardware::getInfo(BOOL vram_only)
         dx_diag_init_params.dwSize                  = sizeof(DXDIAG_INIT_PARAMS);
         dx_diag_init_params.dwDxDiagHeaderVersion   = DXDIAG_DX9_SDK_VERSION;
         dx_diag_init_params.bAllowWHQLChecks        = TRUE;
-        dx_diag_init_params.pReserved               = NULL;
+        dx_diag_init_params.pReserved               = nullptr;
 
 		LL_DEBUGS("AppInit") << "dx_diag_providerp->Initialize" << LL_ENDL;
         hr = dx_diag_providerp->Initialize(&dx_diag_init_params);
@@ -713,7 +713,7 @@ LLSD LLDXHardware::getDisplayInfo()
 	LLTimer hw_timer;
     HRESULT       hr;
 	LLSD ret;
-    hr = CoInitialize(NULL);
+    hr = CoInitialize(nullptr);
 	if (FAILED(hr))
 	{
 		LL_WARNS() << "COM initialization failure!" << LL_ENDL;
@@ -721,17 +721,17 @@ LLSD LLDXHardware::getDisplayInfo()
 		return ret;
 	}
 
-    IDxDiagProvider *dx_diag_providerp = NULL;
-    IDxDiagContainer *dx_diag_rootp = NULL;
-	IDxDiagContainer *devices_containerp = NULL;
-	IDxDiagContainer *device_containerp = NULL;
-	IDxDiagContainer *file_containerp = NULL;
-	IDxDiagContainer *driver_containerp = NULL;
+    IDxDiagProvider *dx_diag_providerp = nullptr;
+    IDxDiagContainer *dx_diag_rootp = nullptr;
+	IDxDiagContainer *devices_containerp = nullptr;
+	IDxDiagContainer *device_containerp = nullptr;
+	IDxDiagContainer *file_containerp = nullptr;
+	IDxDiagContainer *driver_containerp = nullptr;
 
     // CoCreate a IDxDiagProvider*
 	LL_INFOS() << "CoCreateInstance IID_IDxDiagProvider" << LL_ENDL;
     hr = CoCreateInstance(CLSID_DxDiagProvider,
-                          NULL,
+                          nullptr,
                           CLSCTX_INPROC_SERVER,
                           IID_IDxDiagProvider,
                           reinterpret_cast<void**>(&dx_diag_providerp));
@@ -754,7 +754,7 @@ LLSD LLDXHardware::getDisplayInfo()
         dx_diag_init_params.dwSize                  = sizeof(DXDIAG_INIT_PARAMS);
         dx_diag_init_params.dwDxDiagHeaderVersion   = DXDIAG_DX9_SDK_VERSION;
         dx_diag_init_params.bAllowWHQLChecks        = FALSE;
-        dx_diag_init_params.pReserved               = NULL;
+        dx_diag_init_params.pReserved               = nullptr;
 
 		LL_INFOS() << "dx_diag_providerp->Initialize" << LL_ENDL;
         hr = dx_diag_providerp->Initialize(&dx_diag_init_params);
@@ -814,8 +814,8 @@ LLSD LLDXHardware::getDisplayInfo()
                 // get the value
                 DWORD dwType = REG_SZ;
                 DWORD dwSize = sizeof(WCHAR) * RV_SIZE;
-                if(ERROR_SUCCESS == RegQueryValueEx(hKey, TEXT("ReleaseVersion"), 
-                    NULL, &dwType, (LPBYTE)release_version, &dwSize))
+                if(ERROR_SUCCESS == RegQueryValueEx(hKey, TEXT("ReleaseVersion"),
+                    nullptr, &dwType, (LPBYTE)release_version, &dwSize))
                 {
                     // print the value
                     // windows doesn't guarantee to be null terminated

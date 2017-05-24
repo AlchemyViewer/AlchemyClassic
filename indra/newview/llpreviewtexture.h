@@ -41,16 +41,16 @@ public:
 	LLPreviewTexture(const LLSD& key);
 	~LLPreviewTexture();
 
-	virtual void		draw();
+	void		draw() override;
 
-	virtual BOOL		canSaveAs() const;
-	virtual void		saveAs();
+	BOOL		canSaveAs() const override;
+	void		saveAs() override;
 
-	virtual void		loadAsset();
-	virtual EAssetStatus	getAssetStatus();
-	
-	virtual void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	virtual void 		onFocusReceived();
+	void		loadAsset() override;
+	EAssetStatus	getAssetStatus() override;
+
+	void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	void 		onFocusReceived() override;
 	
 	static void			onFileLoadedForSave( 
 							BOOL success,
@@ -64,10 +64,10 @@ public:
 	
 	static void			onSaveAsBtn(void* data);
 
-	/*virtual*/ void setObjectID(const LLUUID& object_id);
+	/*virtual*/ void setObjectID(const LLUUID& object_id) override;
 protected:
 	void				init();
-	/* virtual */ BOOL	postBuild();
+	/* virtual */ BOOL	postBuild() override;
 	bool				setAspectRatio(const F32 width, const F32 height);
 	static void			onAspectRatioCommit(LLUICtrl*,void* userdata);
 	void				adjustAspectRatio();

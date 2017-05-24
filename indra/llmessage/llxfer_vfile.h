@@ -53,7 +53,7 @@ class LLXfer_VFile : public LLXfer
 	virtual ~LLXfer_VFile();
 
 	virtual void init(LLVFS *vfs, const LLUUID &local_id, LLAssetType::EType type);
-	virtual void cleanup();
+	void cleanup() override;
 
 	virtual S32 initializeRequest(U64 xfer_id,
 			LLVFS *vfs,
@@ -63,24 +63,24 @@ class LLXfer_VFile : public LLXfer
 			const LLHost &remote_host,
 			void (*callback)(void **,S32,LLExtStat),
 			void **user_data);
-	virtual S32 startDownload();
+	S32 startDownload() override;
 
-	virtual S32 processEOF();
-	
-	virtual S32 startSend (U64 xfer_id, const LLHost &remote_host);
+	S32 processEOF() override;
 
-	virtual S32 suck(S32 start_position);
-	virtual S32 flush();
+	S32 startSend (U64 xfer_id, const LLHost &remote_host) override;
+
+	S32 suck(S32 start_position) override;
+	S32 flush() override;
 
 	virtual BOOL matchesLocalFile(const LLUUID &id, LLAssetType::EType type);
 	virtual BOOL matchesRemoteFile(const LLUUID &id, LLAssetType::EType type);
 
-	virtual void setXferSize(S32 xfer_size);
-	virtual S32  getMaxBufferSize();
+	void setXferSize(S32 xfer_size) override;
+	S32  getMaxBufferSize() override;
 
-	virtual U32 getXferTypeTag();
+	U32 getXferTypeTag() override;
 
-	virtual std::string getFileName();
+	std::string getFileName() override;
 };
 
 #endif

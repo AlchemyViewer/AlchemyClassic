@@ -57,7 +57,7 @@
 #include "lleventtimer.h"
 
 // we use this in various places instead of NULL
-static LLPointer<LLTool> sNullTool(new LLTool(std::string("null"), NULL)); 
+static LLPointer<LLTool> sNullTool(new LLTool(std::string("null"), nullptr)); 
 
 //-----------------------------------------------------------------------
 // LLToolComposite
@@ -85,7 +85,7 @@ LLToolComposite::LLToolComposite(const std::string& name)
 	  mCur(sNullTool), 
 	  mDefault(sNullTool), 
 	  mSelected(FALSE),
-	  mMouseDown(FALSE), mManip(NULL), mSelectRect(NULL)
+	  mMouseDown(FALSE), mManip(nullptr), mSelectRect(nullptr)
 {
 }
 
@@ -145,7 +145,7 @@ LLToolCompInspect::LLToolCompInspect()
 LLToolCompInspect::~LLToolCompInspect()
 {
 	delete mSelectRect;
-	mSelectRect = NULL;
+	mSelectRect = nullptr;
 }
 
 BOOL LLToolCompInspect::handleMouseDown(S32 x, S32 y, MASK mask)
@@ -250,10 +250,10 @@ LLToolCompTranslate::LLToolCompTranslate()
 LLToolCompTranslate::~LLToolCompTranslate()
 {
 	delete mManip;
-	mManip = NULL;
+	mManip = nullptr;
 
 	delete mSelectRect;
-	mSelectRect = NULL;
+	mSelectRect = nullptr;
 }
 
 BOOL LLToolCompTranslate::handleHover(S32 x, S32 y, MASK mask)
@@ -701,14 +701,14 @@ LLToolCompGun::LLToolCompGun()
 LLToolCompGun::~LLToolCompGun()
 {
 	delete mGun;
-	mGun = NULL;
+	mGun = nullptr;
 
 	delete mGrab;
-	mGrab = NULL;
+	mGrab = nullptr;
 
 	// don't delete a static object
 	// delete mNull;
-	mNull = NULL;
+	mNull = nullptr;
 }
 
 BOOL LLToolCompGun::handleHover(S32 x, S32 y, MASK mask)

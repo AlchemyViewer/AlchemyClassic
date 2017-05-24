@@ -431,10 +431,10 @@ LLTemplateParser::message_iterator LLTemplateParser::getMessagesEnd() const
 // static
 LLMessageTemplate * LLTemplateParser::parseMessage(LLTemplateTokenizer & tokens)
 {
-	LLMessageTemplate	*templatep = NULL;
+	LLMessageTemplate	*templatep = nullptr;
 	if(!tokens.want("{"))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// name first
@@ -467,7 +467,7 @@ LLMessageTemplate * LLTemplateParser::parseMessage(LLTemplateTokenizer & tokens)
 	}
 
 	// TODO more explicit checking here pls
-	U32 message_number = strtoul(tokens.next().c_str(),NULL,0);
+	U32 message_number = strtoul(tokens.next().c_str(), nullptr,0);
 
 	switch (frequency) {
 	case MFT_HIGH:
@@ -555,11 +555,11 @@ LLMessageTemplate * LLTemplateParser::parseMessage(LLTemplateTokenizer & tokens)
 // static
 LLMessageBlock * LLTemplateParser::parseBlock(LLTemplateTokenizer & tokens)
 {
-	LLMessageBlock * blockp = NULL;
+	LLMessageBlock * blockp = nullptr;
 
 	if(!tokens.want("{"))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// name first
@@ -629,10 +629,10 @@ LLMessageBlock * LLTemplateParser::parseBlock(LLTemplateTokenizer & tokens)
 // static
 LLMessageVariable * LLTemplateParser::parseVariable(LLTemplateTokenizer & tokens)
 {
-	LLMessageVariable * varp = NULL;
+	LLMessageVariable * varp = nullptr;
 	if(!tokens.want("{"))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	std::string var_name = tokens.next();

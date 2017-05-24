@@ -86,7 +86,7 @@ LLCoros::Current::Current()
         // CoroData's constructor in fact initializes its mCoro with a
         // coroutine with that stack size, no one ever actually enters it by
         // calling mCoro().
-        sCurrent.reset(new CoroData(0,  // no prev
+        sCurrent.reset(new CoroData(nullptr,  // no prev
                                     "", // not a named coroutine
                                     no_op,  // no-op callable
                                     1024)); // stacksize moot
@@ -327,7 +327,7 @@ LLCoros::CoroData::CoroData(CoroData* prev, const std::string& name,
     mCoro(boost::bind(toplevel, _1, this, callable), stacksize),
     // don't consume events unless specifically directed
     mConsuming(false),
-    mSelf(0)
+    mSelf(nullptr)
 {
 }
 

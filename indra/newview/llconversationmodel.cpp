@@ -47,8 +47,8 @@ LLConversationItem::LLConversationItem(std::string display_name, const LLUUID& u
 	LLFolderViewModelItemCommon(root_view_model),
 	mName(display_name),
 	mUUID(uuid),
-	mNeedsRefresh(true),
 	mConvType(CONV_UNKNOWN),
+	mNeedsRefresh(true),
 	mLastActiveTime(0.0),
 	mDisplayModeratorOptions(false),
 	mDisplayGroupBanOptions(false),
@@ -60,8 +60,8 @@ LLConversationItem::LLConversationItem(const LLUUID& uuid, LLFolderViewModelInte
 	LLFolderViewModelItemCommon(root_view_model),
 	mName(""),
 	mUUID(uuid),
-	mNeedsRefresh(true),
 	mConvType(CONV_UNKNOWN),
+	mNeedsRefresh(true),
 	mLastActiveTime(0.0),
 	mDisplayModeratorOptions(false),
 	mDisplayGroupBanOptions(false),
@@ -73,8 +73,8 @@ LLConversationItem::LLConversationItem(LLFolderViewModelInterface& root_view_mod
 	LLFolderViewModelItemCommon(root_view_model),
 	mName(""),
 	mUUID(),
-	mNeedsRefresh(true),
 	mConvType(CONV_UNKNOWN),
+	mNeedsRefresh(true),
 	mLastActiveTime(0.0),
 	mDisplayModeratorOptions(false),
 	mDisplayGroupBanOptions(false),
@@ -305,7 +305,7 @@ void LLConversationItemSession::updateName(LLConversationItemParticipant* partic
 		std::string new_session_name;
 		LLAvatarActions::buildResidentsString(temp_uuids, new_session_name);
 		renameItem(new_session_name);
-		postEvent("update_session", this, NULL);
+		postEvent("update_session", this, nullptr);
 	}
 }
 
@@ -337,7 +337,7 @@ LLConversationItemParticipant* LLConversationItemSession::findParticipant(const 
 {
 	// This is *not* a general tree parsing algorithm. It assumes that a session contains only 
 	// items (LLConversationItemParticipant) that have themselve no children.
-	LLConversationItemParticipant* participant = NULL;
+	LLConversationItemParticipant* participant = nullptr;
 	child_list_t::iterator iter;
 	for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
 	{
@@ -449,7 +449,7 @@ const bool LLConversationItemSession::getTime(F64& time) const
 {
 	F64 most_recent_time = mLastActiveTime;
 	bool has_time = (most_recent_time > 0.1);
-	LLConversationItemParticipant* participant = NULL;
+	LLConversationItemParticipant* participant = nullptr;
 	child_list_t::const_iterator iter;
 	for (iter = mChildren.begin(); iter != mChildren.end(); iter++)
 	{
@@ -495,7 +495,7 @@ void LLConversationItemSession::onAvatarNameCache(const LLAvatarName& av_name)
 	}
 
 	renameItem(av_name.getDisplayName());
-	postEvent("update_session", this, NULL);
+	postEvent("update_session", this, nullptr);
 }
 
 //
@@ -555,10 +555,10 @@ void LLConversationItemParticipant::updateName(const LLAvatarName& av_name)
 	}
 	
 	renameItem(mDisplayName);
-	if (mParent != NULL)
+	if (mParent != nullptr)
 	{
 		LLConversationItemSession* parent_session = dynamic_cast<LLConversationItemSession*>(mParent);
-		if (parent_session != NULL)
+		if (parent_session != nullptr)
 		{
 			parent_session->requestSort();
 			parent_session->updateName(this);
@@ -579,7 +579,7 @@ void LLConversationItemParticipant::buildContextMenu(LLMenuGL& menu, U32 flags)
 
 LLConversationItemSession* LLConversationItemParticipant::getParentSession()
 {
-	LLConversationItemSession* parent_session = NULL;
+	LLConversationItemSession* parent_session = nullptr;
 	if (hasParent())
 	{
 		parent_session = dynamic_cast<LLConversationItemSession*>(mParent);

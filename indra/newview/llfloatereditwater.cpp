@@ -50,10 +50,10 @@
 
 LLFloaterEditWater::LLFloaterEditWater(const LLSD &key)
 :	LLFloater(key)
-,	mWaterPresetNameEditor(NULL)
-,	mWaterPresetCombo(NULL)
-,	mMakeDefaultCheckBox(NULL)
-,	mSaveButton(NULL)
+,	mWaterPresetNameEditor(nullptr)
+,	mWaterPresetCombo(nullptr)
+,	mMakeDefaultCheckBox(nullptr)
+,	mSaveButton(nullptr)
 {
 }
 
@@ -114,7 +114,7 @@ void LLFloaterEditWater::draw()
 
 void LLFloaterEditWater::initCallbacks(void)
 {
-	mWaterPresetNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditWater::onWaterPresetNameEdited, this), NULL);
+	mWaterPresetNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditWater::onWaterPresetNameEdited, this), nullptr);
 	mWaterPresetCombo->setCommitCallback(boost::bind(&LLFloaterEditWater::onWaterPresetSelected, this));
 	mWaterPresetCombo->setTextEntryCallback(boost::bind(&LLFloaterEditWater::onWaterPresetNameEdited, this));
 

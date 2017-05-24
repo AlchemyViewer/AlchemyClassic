@@ -267,14 +267,14 @@ namespace LLViewerAssetStatsFF
 // ------------------------------------------------------
 // Global data definitions
 // ------------------------------------------------------
-LLViewerAssetStats * gViewerAssetStats(0);
+LLViewerAssetStats * gViewerAssetStats(nullptr);
 
 // ------------------------------------------------------
 // LLViewerAssetStats class definition
 // ------------------------------------------------------
 LLViewerAssetStats::LLViewerAssetStats()
 :	mRegionHandle(U64(0)),
-	mCurRecording(NULL)
+	mCurRecording(nullptr)
 {
 	start();
 }
@@ -549,7 +549,7 @@ void
 cleanup()
 {
 	delete gViewerAssetStats;
-	gViewerAssetStats = 0;
+	gViewerAssetStats = nullptr;
 }
 
 

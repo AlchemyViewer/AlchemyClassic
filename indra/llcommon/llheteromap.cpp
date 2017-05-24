@@ -29,6 +29,6 @@ LLHeteroMap::~LLHeteroMap()
         // mi->second is the std::pair; mi->second.first is the void*;
         // mi->second.second points to the deleter function
         (mi->second.second)(mi->second.first);
-        mi->second.first = NULL;
+        mi->second.first = nullptr;
     }
 }

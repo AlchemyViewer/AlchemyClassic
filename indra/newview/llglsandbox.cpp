@@ -144,7 +144,7 @@ void LLToolSelectRect::handleRectangleSelection(S32 x, S32 y, MASK mask)
 	{
 		struct f : public LLSelectedObjectFunctor
 		{
-			virtual bool apply(LLViewerObject* vobjp)
+			bool apply(LLViewerObject* vobjp) override
 			{
 				LLDrawable* drawable = vobjp->mDrawable;
 				if (!drawable || vobjp->getPCode() != LL_PCODE_VOLUME || vobjp->isAttachment())
@@ -899,7 +899,7 @@ F32 gpu_benchmark()
 		gBenchmarkProgram.mShaderFiles.push_back(std::make_pair("interface/benchmarkV.glsl", GL_VERTEX_SHADER));
 		gBenchmarkProgram.mShaderFiles.push_back(std::make_pair("interface/benchmarkF.glsl", GL_FRAGMENT_SHADER));
 		gBenchmarkProgram.mShaderLevel = 1;
-		if (!gBenchmarkProgram.createShader(NULL, NULL))
+		if (!gBenchmarkProgram.createShader(nullptr, nullptr))
 		{
 			return -1.f;
 		}

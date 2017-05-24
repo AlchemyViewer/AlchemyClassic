@@ -54,8 +54,8 @@
 #include "llmetrics.h"
 #include "lltrace.h"
 
-LLAssetStorage *gAssetStorage = NULL;
-LLMetrics *LLAssetStorage::metric_recipient = NULL;
+LLAssetStorage *gAssetStorage = nullptr;
+LLMetrics *LLAssetStorage::metric_recipient = nullptr;
 
 static LLTrace::CountStatHandle<> sFailedDownloadCount("faileddownloads", "Number of times LLAssetStorage::getAssetData() has failed");
 
@@ -166,8 +166,8 @@ void LLAssetInfo::setFromNameValue( const LLNameValue& nv )
 LLBaseDownloadRequest::LLBaseDownloadRequest(const LLUUID &uuid, const LLAssetType::EType type)
 : mUUID(uuid),
 mType(type),
-mDownCallback(NULL),
-mUserData(NULL),
+mDownCallback(nullptr),
+mUserData(nullptr),
 mHost(),
 mIsTemp(FALSE),
 mIsPriority(FALSE),
@@ -197,8 +197,8 @@ LLBaseDownloadRequest* LLBaseDownloadRequest::getCopy()
 
 LLAssetRequest::LLAssetRequest(const LLUUID &uuid, const LLAssetType::EType type)
 :	LLBaseDownloadRequest(uuid, type),
-	mUpCallback( NULL ),
-	mInfoCallback( NULL ),
+	mUpCallback(nullptr ),
+	mInfoCallback(nullptr ),
 	mIsLocal(FALSE),
 	mIsUserWaiting(FALSE),
 	mTimeout(LL_ASSET_STORAGE_TIMEOUT)
@@ -338,7 +338,7 @@ LLAssetStorage::~LLAssetStorage()
 	{
 		// Warning!  This won't work if there's more than one asset storage.
 		// unregister our callbacks with the message system
-		gMessageSystem->setHandlerFuncFast(_PREHASH_AssetUploadComplete, NULL, NULL);
+		gMessageSystem->setHandlerFuncFast(_PREHASH_AssetUploadComplete, nullptr, nullptr);
 	}
 
 	// Clear the toxic asset map
@@ -1076,7 +1076,7 @@ LLAssetStorage::request_list_t* LLAssetStorage::getRequestList(LLAssetStorage::E
 		return &mPendingLocalUploads;
 	default:
 		LL_WARNS() << "Unable to find request list for request type '" << rt << "'" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1092,7 +1092,7 @@ const LLAssetStorage::request_list_t* LLAssetStorage::getRequestList(LLAssetStor
 		return &mPendingLocalUploads;
 	default:
 		LL_WARNS() << "Unable to find request list for request type '" << rt << "'" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1201,7 +1201,7 @@ const LLAssetRequest* LLAssetStorage::findRequest(const LLAssetStorage::request_
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // static
@@ -1224,7 +1224,7 @@ LLAssetRequest* LLAssetStorage::findRequest(LLAssetStorage::request_list_t* requ
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

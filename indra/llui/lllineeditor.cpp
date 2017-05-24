@@ -83,19 +83,21 @@ template class LLLineEditor* LLView::getChild<class LLLineEditor>(
 //
 
 LLLineEditor::Params::Params()
-:	max_length(""),
-    keystroke_callback("keystroke_callback"),
+:	default_text("default_text"),
+    max_length(""),
+	keystroke_callback("keystroke_callback"),
 	prevalidate_callback("prevalidate_callback"),
 	prevalidate_input_callback("prevalidate_input_callback"),
+	border(""),
 	background_image("background_image"),
 	background_image_disabled("background_image_disabled"),
 	background_image_focused("background_image_focused"),
-	bg_image_always_focused("bg_image_always_focused", false),
 	select_on_focus("select_on_focus", false),
 	revert_on_esc("revert_on_esc", true),
 	spellcheck("spellcheck", false),
 	commit_on_focus_lost("commit_on_focus_lost", true),
 	ignore_tab("ignore_tab", true),
+	bg_image_always_focused("bg_image_always_focused", false),
 	is_password("is_password", false),
 	cursor_color("cursor_color"),
 	text_color("text_color"),
@@ -103,11 +105,9 @@ LLLineEditor::Params::Params()
 	text_tentative_color("text_tentative_color"),
 	highlight_color("highlight_color"),
 	preedit_bg_color("preedit_bg_color"),
-	border(""),
-	bg_visible("bg_visible"),
 	text_pad_left("text_pad_left"),
 	text_pad_right("text_pad_right"),
-	default_text("default_text")
+	bg_visible("bg_visible")
 {
 	changeDefault(mouse_opaque, true);
 	addSynonym(select_on_focus, "select_all_on_focus_received");
@@ -118,14 +118,17 @@ LLLineEditor::Params::Params()
 
 LLLineEditor::LLLineEditor(const LLLineEditor::Params& p)
 :	LLUICtrl(p),
+	mLabel(p.label),
+	mHaveHistory(FALSE),
+	mGLFont(p.font),
 	mMaxLengthBytes(p.max_length.bytes),
 	mMaxLengthChars(p.max_length.chars),
 	mCursorPos( 0 ),
-	mScrollHPos( 0 ),
-	mTextPadLeft(p.text_pad_left),
+	mScrollHPos( 0 ),		// computed in updateTextPadding() below
+	mTextPadLeft(p.text_pad_left),		// computed in updateTextPadding() below
 	mTextPadRight(p.text_pad_right),
-	mTextLeftEdge(0),		// computed in updateTextPadding() below
-	mTextRightEdge(0),		// computed in updateTextPadding() below
+	mTextLeftEdge(0),
+	mTextRightEdge(0),
 	mCommitOnFocusLost( p.commit_on_focus_lost ),
 	mRevertOnEsc( p.revert_on_esc ),
 	mKeystrokeCallback( p.keystroke_callback() ),
@@ -136,32 +139,29 @@ LLLineEditor::LLLineEditor(const LLLineEditor::Params& p)
 	mLastSelectionY(-1),
 	mLastSelectionStart(-1),
 	mLastSelectionEnd(-1),
-	mBorderThickness( 0 ),
-	mIgnoreArrowKeys( FALSE ),
-	mIgnoreTab( p.ignore_tab ),
-	mDrawAsterixes( p.is_password ),
 	mSpellCheck( p.spellcheck ),
 	mSpellCheckStart(-1),
 	mSpellCheckEnd(-1),
-	mSelectAllonFocusReceived( p.select_on_focus ),
-	mSelectAllonCommit( TRUE ),
-	mPassDelete(FALSE),
-	mReadOnly(FALSE),
-	mBgImage( p.background_image ),
-	mBgImageDisabled( p.background_image_disabled ),
-	mBgImageFocused( p.background_image_focused ),
-	mShowImageFocused( p.bg_image_always_focused ),
-	mHaveHistory(FALSE),
-	mReplaceNewlinesWithSpaces( TRUE ),
-	mLabel(p.label),
 	mCursorColor(p.cursor_color()),
 	mFgColor(p.text_color()),
 	mReadOnlyFgColor(p.text_readonly_color()),
 	mTentativeFgColor(p.text_tentative_color()),
 	mHighlightColor(p.highlight_color()),
 	mPreeditBgColor(p.preedit_bg_color()),
-	mGLFont(p.font),
-	mContextMenuHandle()
+	mBorderThickness( 0 ),
+	mIgnoreArrowKeys( FALSE ),
+	mIgnoreTab( p.ignore_tab ),
+	mDrawAsterixes( p.is_password ),
+	mSelectAllonFocusReceived( p.select_on_focus ),
+	mSelectAllonCommit( TRUE ),
+	mPassDelete(FALSE),
+	mReadOnly(FALSE),
+	mShowImageFocused( p.bg_image_always_focused ),
+	mContextMenuHandle(),
+	mBgImage( p.background_image ),
+	mBgImageDisabled( p.background_image_disabled ),
+	mBgImageFocused( p.background_image_focused ),
+	mReplaceNewlinesWithSpaces( TRUE )
 {
 	llassert( mMaxLengthBytes > 0 );
 
@@ -217,7 +217,7 @@ LLLineEditor::~LLLineEditor()
 	{
         menu->hide();
     }
-	setContextMenu(NULL);
+	setContextMenu(nullptr);
 
 	// calls onCommit() while LLLineEditor still valid
 	gFocusMgr.releaseFocusIfNeeded( this );
@@ -252,7 +252,7 @@ void LLLineEditor::onFocusLost()
 
 	if( gEditMenuHandler == this )
 	{
-		gEditMenuHandler = NULL;
+		gEditMenuHandler = nullptr;
 	}
 
 	getWindow()->showCursorFromMouseMove();
@@ -706,7 +706,7 @@ BOOL LLLineEditor::handleDoubleClick(S32 x, S32 y, MASK mask)
 BOOL LLLineEditor::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	// Check first whether the "clear search" button wants to deal with this.
-	if(childrenHandleMouseDown(x, y, mask) != NULL) 
+	if(childrenHandleMouseDown(x, y, mask) != nullptr) 
 	{
 		return TRUE;
 	}
@@ -821,7 +821,7 @@ BOOL LLLineEditor::handleHover(S32 x, S32 y, MASK mask)
 	// Check first whether the "clear search" button wants to deal with this.
 	if(!hasMouseCapture())
 	{
-		if(childrenHandleHover(x, y, mask) != NULL) 
+		if(childrenHandleHover(x, y, mask) != nullptr) 
 		{
 			return TRUE;
 		}
@@ -886,12 +886,12 @@ BOOL LLLineEditor::handleMouseUp(S32 x, S32 y, MASK mask)
 
 	if( hasMouseCapture() )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 		handled = TRUE;
 	}
 
 	// Check first whether the "clear search" button wants to deal with this.
-	if(!handled && childrenHandleMouseUp(x, y, mask) != NULL) 
+	if(!handled && childrenHandleMouseUp(x, y, mask) != nullptr) 
 	{
 		return TRUE;
 	}
@@ -2210,7 +2210,7 @@ void LLLineEditor::setFocus( BOOL new_state )
 		// but limited paranoia is ok.
 		if( gEditMenuHandler == this )
 		{
-			gEditMenuHandler = NULL;
+			gEditMenuHandler = nullptr;
 		}
 
 		endSelection();
@@ -2225,7 +2225,7 @@ void LLLineEditor::setFocus( BOOL new_state )
 		// fine on 1.15.0.2, since all prevalidate func reject any
 		// non-ASCII characters.  I'm not sure on future versions,
 		// however.
-		getWindow()->allowLanguageTextInput(this, mPrevalidateFunc == NULL);
+		getWindow()->allowLanguageTextInput(this, mPrevalidateFunc == nullptr);
 	}
 }
 
@@ -2405,7 +2405,7 @@ void LLLineEditor::updateAllowingLanguageInput()
 		// test app, no window available
 		return;	
 	}
-	if (hasFocus() && !mReadOnly && !mDrawAsterixes && mPrevalidateFunc == NULL)
+	if (hasFocus() && !mReadOnly && !mDrawAsterixes && mPrevalidateFunc == nullptr)
 	{
 		window->allowLanguageTextInput(this, TRUE);
 	}

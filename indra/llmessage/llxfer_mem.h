@@ -50,11 +50,11 @@ class LLXfer_Mem : public LLXfer
 	virtual ~LLXfer_Mem();
 
 	virtual void init();
-	virtual void cleanup();
+	void cleanup() override;
 
-	virtual S32 startSend (U64 xfer_id, const LLHost &remote_host);
+	S32 startSend (U64 xfer_id, const LLHost &remote_host) override;
 	virtual U64 registerXfer(U64 xfer_id, const void *datap, const S32 length);
-	virtual void setXferSize (S32 data_size);
+	void setXferSize (S32 data_size) override;
 
 	virtual S32 initializeRequest(U64 xfer_id,
 								  const std::string& remote_filename,
@@ -63,11 +63,11 @@ class LLXfer_Mem : public LLXfer
 								  BOOL delete_remote_on_completion,
 								  void (*callback)(void*,S32,void**,S32,LLExtStat),
 								  void** user_data);
-	virtual S32 startDownload();
+	S32 startDownload() override;
 
-	virtual S32 processEOF();
+	S32 processEOF() override;
 
-	virtual U32 getXferTypeTag();
+	U32 getXferTypeTag() override;
 };
 
 #endif

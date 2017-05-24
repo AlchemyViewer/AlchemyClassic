@@ -73,19 +73,19 @@ namespace LLInitParam
 		mValidationFunc(validation_func),
 		mMinCount(min_count),
 		mMaxCount(max_count),
-		mUserData(NULL)
+		mUserData(nullptr)
 	{}
 
 	ParamDescriptor::ParamDescriptor()
 	:	mParamHandle(0),
-		mMergeFunc(NULL),
-		mDeserializeFunc(NULL),
-		mSerializeFunc(NULL),
-        mInspectFunc(NULL),
-		mValidationFunc(NULL),
+		mMergeFunc(nullptr),
+		mDeserializeFunc(nullptr),
+		mSerializeFunc(nullptr),
+        mInspectFunc(nullptr),
+		mValidationFunc(nullptr),
 		mMinCount(0),
 		mMaxCount(0),
-		mUserData(NULL)
+		mUserData(nullptr)
 	{}
 
 	ParamDescriptor::~ParamDescriptor()
@@ -155,7 +155,7 @@ namespace LLInitParam
 	BlockDescriptor::BlockDescriptor()
 	:	mMaxParamOffset(0),
 		mInitializationState(UNINITIALIZED),
-		mCurrentBlockPtr(NULL)
+		mCurrentBlockPtr(nullptr)
 	{}
 
 	// called by each derived class in least to most derived order

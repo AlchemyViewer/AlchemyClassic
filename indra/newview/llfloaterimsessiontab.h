@@ -76,11 +76,11 @@ public:
 	bool isNearbyChat() {return mIsNearbyChat;}
 
 	// LLFloater overrides
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void draw();
-	/*virtual*/ void setVisible(BOOL visible);
-	/*virtual*/ void setFocus(BOOL focus);
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ void setVisible(BOOL visible) override;
+	/*virtual*/ void setFocus(BOOL focus) override;
 	
 	// Handle the left hand participant list widgets
 	void addConversationViewParticipant(LLConversationItem* item);
@@ -96,7 +96,7 @@ public:
 	virtual void updateMessages() {}
 	LLConversationItem* getCurSelectedViewModelItem();
 	void forceReshape();
-	virtual BOOL handleKeyHere( KEY key, MASK mask );
+	BOOL handleKeyHere( KEY key, MASK mask ) override;
 	bool isMessagePaneExpanded(){return mMessagePaneExpanded;}
 	void setMessagePaneExpanded(bool expanded){mMessagePaneExpanded = expanded;}
 	void restoreFloater();
@@ -135,8 +135,8 @@ protected:
 	virtual void enableDisableCallBtn();
 
 	// process focus events to set a currently active session
-	/* virtual */ void onFocusLost();
-	/* virtual */ void onFocusReceived();
+	/* virtual */ void onFocusLost() override;
+	/* virtual */ void onFocusReceived() override;
 
 	// prepare chat's params and out one message to chatHistory
 	void appendMessage(const LLChat& chat, const LLSD &args = 0);
@@ -198,7 +198,7 @@ private:
     void getSelectedUUIDs(uuid_vec_t& selected_uuids);
 	
 	/// Refreshes the floater at a constant rate.
-	virtual void refresh() = 0;
+	void refresh() override = 0;
 
 	/**
 	 * Adjusts chat history height to fit vertically with input chat field

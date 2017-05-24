@@ -38,8 +38,8 @@ class LLFloaterDeleteEnvPreset : public LLFloater
 public:
 	LLFloaterDeleteEnvPreset(const LLSD &key);
 
-	/*virtual*/	BOOL	postBuild();
-	/*virtual*/ void	onOpen(const LLSD& key);
+	/*virtual*/	BOOL	postBuild() override;
+	/*virtual*/ void	onOpen(const LLSD& key) override;
 
 	void onBtnDelete();
 	void onBtnCancel();

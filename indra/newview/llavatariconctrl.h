@@ -109,10 +109,10 @@ protected:
 public:
 	virtual ~LLAvatarIconCtrl();
 
-	virtual void setValue(const LLSD& value);
+	void setValue(const LLSD& value) override;
 
 	// LLAvatarPropertiesProcessor observer trigger
-	virtual void processProperties(void* data, EAvatarProcessorType type);
+	void processProperties(void* data, EAvatarProcessorType type) override;
 
 	const LLUUID&		getAvatarId() const	{ return mAvatarId; }
 	const std::string&	getFullName() const { return mFullName; }

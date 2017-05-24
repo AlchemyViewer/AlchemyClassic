@@ -48,17 +48,17 @@ public:
 	LLProgressView();
 	virtual ~LLProgressView();
 	
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 	void drawStartTexture(F32 alpha);
 
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask);
-	/*virtual*/ void setVisible(BOOL visible);
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask) override;
+	/*virtual*/ void setVisible(BOOL visible) override;
 
 	// inherited from LLViewerMediaObserver
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 
 	void setText(const std::string& text);
 	void setPercent(const F32 percent);

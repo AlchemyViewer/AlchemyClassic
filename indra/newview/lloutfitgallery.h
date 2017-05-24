@@ -50,7 +50,7 @@ class LLUpdateGalleryOnPhotoLinked : public LLInventoryCallback
 public:
     LLUpdateGalleryOnPhotoLinked(){}
     virtual ~LLUpdateGalleryOnPhotoLinked(){}
-    /* virtual */ void fire(const LLUUID& inv_item_id);
+    /* virtual */ void fire(const LLUUID& inv_item_id) override;
 private:
 };
 
@@ -82,9 +82,9 @@ public:
     LLOutfitGallery(const LLOutfitGallery::Params& params = getDefaultParams());
     virtual ~LLOutfitGallery();
 
-    /*virtual*/ BOOL postBuild();
-    /*virtual*/ void onOpen(const LLSD& info);
-    /*virtual*/ void draw();	
+    /*virtual*/ BOOL postBuild() override;
+    /*virtual*/ void onOpen(const LLSD& info) override;
+    /*virtual*/ void draw() override;	
     
     void onSelectPhoto(LLUUID selected_outfit_id);
     void onTakeSnapshot(LLUUID selected_outfit_id);
@@ -92,17 +92,17 @@ public:
     void wearSelectedOutfit();
 
 
-    /*virtual*/ void setFilterSubString(const std::string& string);
+    /*virtual*/ void setFilterSubString(const std::string& string) override;
 
-    /*virtual*/ void getCurrentCategories(uuid_vec_t& vcur);
-    /*virtual*/ void updateAddedCategory(LLUUID cat_id);
-    /*virtual*/ void updateRemovedCategory(LLUUID cat_id);
-    /*virtual*/ void updateChangedCategoryName(LLViewerInventoryCategory *cat, std::string name);
+    /*virtual*/ void getCurrentCategories(uuid_vec_t& vcur) override;
+    /*virtual*/ void updateAddedCategory(LLUUID cat_id) override;
+    /*virtual*/ void updateRemovedCategory(LLUUID cat_id) override;
+    /*virtual*/ void updateChangedCategoryName(LLViewerInventoryCategory *cat, std::string name) override;
 
-    /*virtual*/ bool hasItemSelected();
-    /*virtual*/ bool canWearSelected();
+    /*virtual*/ bool hasItemSelected() override;
+    /*virtual*/ bool canWearSelected() override;
 
-    /*virtual*/ bool getHasExpandableFolders() { return FALSE; }
+    /*virtual*/ bool getHasExpandableFolders() override { return FALSE; }
 
     void updateMessageVisibility();
     bool hasDefaultImage(const LLUUID& outfit_cat_id);
@@ -115,14 +115,14 @@ public:
     void onBeforeOutfitSnapshotSave();
     void onAfterOutfitSnapshotSave();
 protected:
-    /*virtual*/ void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id);
-    /*virtual*/ void onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid);
-    /*virtual*/ void onOutfitRightClick(LLUICtrl* ctrl, S32 x, S32 y, const LLUUID& cat_id);
-    /*virtual*/ void onChangeOutfitSelection(LLWearableItemsList* list, const LLUUID& category_id);
+    /*virtual*/ void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id) override;
+    /*virtual*/ void onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid) override;
+    /*virtual*/ void onOutfitRightClick(LLUICtrl* ctrl, S32 x, S32 y, const LLUUID& cat_id) override;
+    /*virtual*/ void onChangeOutfitSelection(LLWearableItemsList* list, const LLUUID& category_id) override;
 
-    /*virtual*/ void onCollapseAllFolders() {}
-    /*virtual*/ void onExpandAllFolders() {}
-    /*virtual*/ LLOutfitListGearMenuBase* createGearMenu();
+    /*virtual*/ void onCollapseAllFolders() override {}
+    /*virtual*/ void onExpandAllFolders() override {}
+    /*virtual*/ LLOutfitListGearMenuBase* createGearMenu() override;
 
     void applyFilter(LLOutfitGalleryItem* item, const std::string& filter_substring);
 
@@ -209,7 +209,7 @@ public:
     : LLOutfitContextMenu(outfit_list),
     mOutfitList(outfit_list){}
 protected:
-    /* virtual */ LLContextMenu* createMenu();
+    /* virtual */ LLContextMenu* createMenu() override;
     bool onEnable(LLSD::String param);
     bool onVisible(LLSD::String param);
     void onUploadPhoto(const LLUUID& outfit_cat_id);
@@ -231,13 +231,13 @@ public:
     LLOutfitGalleryGearMenu(LLOutfitListBase* olist);
 
 protected:
-    /*virtual*/ void onUpdateItemsVisibility();
+    /*virtual*/ void onUpdateItemsVisibility() override;
 private:
-    /*virtual*/ void onUploadFoto();
-    /*virtual*/ void onSelectPhoto();
-    /*virtual*/ void onTakeSnapshot();
-    /*virtual*/ void onRemovePhoto();
-    /*virtual*/ void onChangeSortOrder();
+    /*virtual*/ void onUploadFoto() override;
+    /*virtual*/ void onSelectPhoto() override;
+    /*virtual*/ void onTakeSnapshot() override;
+    /*virtual*/ void onRemovePhoto() override;
+    /*virtual*/ void onChangeSortOrder() override;
 
     bool hasDefaultImage();
 };
@@ -251,10 +251,10 @@ public:
     LLOutfitGalleryItem(const Params& p);
     virtual ~LLOutfitGalleryItem();
 
-    /*virtual*/ BOOL postBuild();
-    /*virtual*/ void draw();
-    /*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-    /*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+    /*virtual*/ BOOL postBuild() override;
+    /*virtual*/ void draw() override;
+    /*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+    /*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
     void setDefaultImage();
     void setImageAssetId(LLUUID asset_id);

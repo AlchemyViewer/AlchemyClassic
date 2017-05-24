@@ -44,7 +44,7 @@ public:
 	/** LLInventoryObserver implementation
 	 *
 	 */
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 
 	/**
 	 * Sets new collector and applies it immediately

@@ -44,12 +44,12 @@ class LLPanelHome :
 public:
 	LLPanelHome();
 
-    /*virtual*/ BOOL postBuild();
-    /*virtual*/ void onOpen(const LLSD& key);
+    /*virtual*/ BOOL postBuild() override;
+    /*virtual*/ void onOpen(const LLSD& key) override;
 
 private:
 	// inherited from LLViewerMediaObserver
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia *self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia *self, EMediaEvent event) override;
 
     LLMediaCtrl *mBrowser;
 	bool         mFirstView;

@@ -56,7 +56,7 @@ const F32 SPEED_ADJUST_TIME_CONSTANT = 0.1f; 	// time constant for speed adjustm
 //-----------------------------------------------------------------------------
 LLKeyframeWalkMotion::LLKeyframeWalkMotion(const LLUUID &id)
 :	LLKeyframeMotion(id),
-    mCharacter(NULL),
+    mCharacter(nullptr),
     mCyclePhase(0.0f),
     mRealTimeLast(0.0f),
     mAdjTimeLast(0.0f),
@@ -139,17 +139,17 @@ BOOL LLKeyframeWalkMotion::onUpdate(F32 time, U8* joint_mask)
 //-----------------------------------------------------------------------------
 LLWalkAdjustMotion::LLWalkAdjustMotion(const LLUUID &id) :
 	LLMotion(id),
-	mCharacter(NULL),
+	mCharacter(nullptr),
+	mLeftAnkleJoint(nullptr),
+	mRightAnkleJoint(nullptr),
+	mPelvisState(new LLJointState),
+	mPelvisJoint(nullptr),
 	mLastTime(0.f),
-	mAnimSpeed(0.f),
 	mAdjustedSpeed(0.f),
+	mAnimSpeed(0.f),
 	mRelativeDir(0.f),
-	mAnkleOffset(0.f),
-	mLeftAnkleJoint(NULL),
-	mRightAnkleJoint(NULL),
-	mPelvisJoint(NULL),
 	// LLPointer<LLJointState>
-	mPelvisState(new LLJointState)
+	mAnkleOffset(0.f)
 {
 	mName = "walk_adjust";
 }
@@ -336,7 +336,7 @@ void LLWalkAdjustMotion::onDeactivate()
 //-----------------------------------------------------------------------------
 LLFlyAdjustMotion::LLFlyAdjustMotion(const LLUUID &id)
 	: LLMotion(id),
-	  mCharacter(NULL),
+	  mCharacter(nullptr),
 	  mRoll(0.f)
 {
 	mName = "fly_adjust";

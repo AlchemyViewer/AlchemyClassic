@@ -64,8 +64,8 @@ public:
     LLCrashLoggerHandler() {}
 
 protected:
-    virtual void onSuccess(LLCore::HttpResponse * response, const LLSD &content);
-    virtual void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status);
+	void onSuccess(LLCore::HttpResponse * response, const LLSD &content) override;
+	void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status) override;
 
 };
 
@@ -236,12 +236,12 @@ void LLCrashLogger::gatherFiles()
 		if(mDebugLog.has("CAFilename"))
 		{
             LLCore::HttpRequest::setStaticPolicyOption(LLCore::HttpRequest::PO_CA_FILE,
-                LLCore::HttpRequest::GLOBAL_POLICY_ID, mDebugLog["CAFilename"].asString(), NULL);
+                LLCore::HttpRequest::GLOBAL_POLICY_ID, mDebugLog["CAFilename"].asString(), nullptr);
 		}
 		else
 		{
             LLCore::HttpRequest::setStaticPolicyOption(LLCore::HttpRequest::PO_CA_FILE,
-                LLCore::HttpRequest::GLOBAL_POLICY_ID, gDirUtilp->getCAFile(), NULL);
+                LLCore::HttpRequest::GLOBAL_POLICY_ID, gDirUtilp->getCAFile(), nullptr);
 		}
 
 		LL_INFOS("CRASHREPORT") << "Using log file from debug log " << mFileMap["SecondLifeLog"] << LL_ENDL;
@@ -251,7 +251,7 @@ void LLCrashLogger::gatherFiles()
 	{
 		// Figure out the filename of the second life log
         LLCore::HttpRequest::setStaticPolicyOption(LLCore::HttpRequest::PO_CA_FILE,
-            LLCore::HttpRequest::GLOBAL_POLICY_ID, gDirUtilp->getCAFile(), NULL);
+            LLCore::HttpRequest::GLOBAL_POLICY_ID, gDirUtilp->getCAFile(), nullptr);
         
 		mFileMap["SecondLifeLog"] = gDirUtilp->getExpandedFilename(LL_PATH_DUMP,"Alchemy.log");
         mFileMap["SettingsXml"] = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,"settings.xml");
@@ -422,7 +422,7 @@ bool LLCrashLogger::runCrashLogPost(std::string host, LLSD data, std::string msg
 
         LL_INFOS("CRASHREPORT") << "POST crash data to " << host << LL_ENDL;
         LLCore::HttpHandle handle = LLCoreHttpUtil::requestPostWithLLSD(httpRequest.get(), LLCore::HttpRequest::DEFAULT_POLICY_ID, 0,
-            host, data, httpOpts, LLCore::HttpHeaders::ptr_t(), LLCore::HttpHandler::ptr_t(new LLCrashLoggerHandler));
+            host, data, httpOpts, LLCore::HttpHeaders::ptr_t(), boost::static_pointer_cast<LLCore::HttpHandler>(boost::make_shared<LLCrashLoggerHandler>()));
 
         if (handle == LLCORE_HTTP_HANDLE_INVALID)
         {

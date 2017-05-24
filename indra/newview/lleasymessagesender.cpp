@@ -327,7 +327,7 @@ bool LLEasyMessageSender::sendHTTPMessage(const LLHost& region_host, const std::
 		target = boost::algorithm::join(split_url, "/");
 	}
 
-    auto headers = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders());
+    auto headers = boost::make_shared<LLCore::HttpHeaders>();
     auto body = LLCore::BufferArray::ptr_t(new LLCore::BufferArray());
     LLCore::BufferArrayStream bas(body.get());
 
@@ -844,7 +844,7 @@ inline std::vector<std::string> LLEasyMessageSender::split(const std::string& in
 	while(result)
 	{
 		lines.push_back(result);
-		result = strtok(NULL, separator.c_str());
+		result = strtok(nullptr, separator.c_str());
 	}
 	delete[] buffer;
 	return lines;

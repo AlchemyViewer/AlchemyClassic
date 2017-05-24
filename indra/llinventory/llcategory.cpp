@@ -68,7 +68,7 @@ const char* CATEGORY_NAME[] =
 	"Sound",
 	"Landmark",
 	"Component",	// object
-	NULL
+	nullptr
 };
 
 ///----------------------------------------------------------------------------

@@ -123,7 +123,7 @@ const F32	TEXTURE_ROTATION_PACK_FACTOR = ((F32) 0x08000);
 //static 
 // LEGACY: by default we use the LLVolumeMgr::gVolumeMgr global
 // TODO -- eliminate this global from the codebase!
-LLVolumeMgr* LLPrimitive::sVolumeManager = NULL;
+LLVolumeMgr* LLPrimitive::sVolumeManager = nullptr;
 
 // static
 void LLPrimitive::setVolumeManager( LLVolumeMgr* volume_manager )
@@ -143,7 +143,7 @@ bool LLPrimitive::cleanupVolumeManager()
 	{
 		res = sVolumeManager->cleanup();
 		delete sVolumeManager;
-		sVolumeManager = NULL;
+		sVolumeManager = nullptr;
 	}
 	return res;
 }
@@ -153,13 +153,13 @@ bool LLPrimitive::cleanupVolumeManager()
 LLPrimitive::LLPrimitive()
 :	mTextureList(),
 	mNumTEs(0),
-	mMiscFlags(0),
-	mNumBumpmapTEs(0)
+	mNumBumpmapTEs(0),
+	mMiscFlags(0)
 {
 	mPrimitiveCode = 0;
 
 	mMaterial = LL_MCODE_STONE;
-	mVolumep  = NULL;
+	mVolumep  = nullptr;
 
 	mChanged  = UNCHANGED;
 
@@ -182,7 +182,7 @@ LLPrimitive::~LLPrimitive()
 	{
 		sVolumeManager->unrefVolume(mVolumep);
 	}
-	mVolumep = NULL;
+	mVolumep = nullptr;
 }
 
 void LLPrimitive::clearTextureList()

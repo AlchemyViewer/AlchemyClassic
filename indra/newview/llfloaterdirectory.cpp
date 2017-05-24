@@ -529,7 +529,7 @@ void LLFloaterDirectory::processSearchPeopleReply(LLMessageSystem* msg, void**)
 	
 	// *TODO: Get rid of this so we can have multiple search windows
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	self->setProgress(false);
 
 	LLScrollListCtrl* pResults = self->mResultList;
@@ -600,7 +600,7 @@ void LLFloaterDirectory::processSearchGroupsReply(LLMessageSystem* msg, void**)
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
 	LLScrollListCtrl* pResults = self->mResultList;
@@ -702,7 +702,7 @@ void LLFloaterDirectory::processSearchPlacesReply(LLMessageSystem* msg, void**)
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
 	LLScrollListCtrl* pResults = self->mResultList;
@@ -818,7 +818,7 @@ void LLFloaterDirectory::processSearchClassifiedsReply(LLMessageSystem* msg, voi
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
 	LLScrollListCtrl* pResults = self->mResultList;
@@ -921,7 +921,7 @@ void LLFloaterDirectory::processSearchLandReply(LLMessageSystem* msg, void**)
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
 	LLScrollListCtrl* pResults = self->mResultList;
@@ -1073,7 +1073,7 @@ void LLFloaterDirectory::processSearchEventsReply(LLMessageSystem* msg, void**)
 	LL_DEBUGS("Search") << "Received results for query id: " << query_id << LL_ENDL;
 	
 	LLFloaterDirectory* self = LLFloaterReg::findTypedInstance<LLFloaterDirectory>("search");
-	if (self == NULL || query_id != self->mQueryID) return; // not the result we're waiting for
+	if (self == nullptr || query_id != self->mQueryID) return; // not the result we're waiting for
 	
 	self->setProgress(false);
 	LLScrollListCtrl* pResults = self->mResultList;

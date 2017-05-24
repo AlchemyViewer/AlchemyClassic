@@ -54,7 +54,7 @@ public:
 	// requests will be throttled from a non-trusted browser
 	LLVoiceHandler() : LLCommandHandler("voice", UNTRUSTED_THROTTLE) {}
 
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (params[0].asString() == "effects")
 		{
@@ -114,8 +114,8 @@ std::string LLVoiceClientStatusObserver::status2string(LLVoiceClientStatusObserv
 
 LLVoiceClient::LLVoiceClient()
 	:
-	mVoiceModule(NULL),
-	m_servicePump(NULL),
+	mVoiceModule(nullptr),
+	m_servicePump(nullptr),
 	mVoiceEffectEnabled(LLCachedControl<bool>(gSavedSettings, "VoiceMorphingEnabled", true)),
 	mVoiceEffectDefault(LLCachedControl<std::string>(gSavedPerAccountSettings, "VoiceEffectDefault", "00000000-0000-0000-0000-000000000000")),
 	mPTTDirty(true),
@@ -156,7 +156,7 @@ void LLVoiceClient::userAuthorized(const std::string& user_id, const LLUUID &age
 	}
 	else
 	{
-		mVoiceModule = NULL;
+		mVoiceModule = nullptr;
 		return; 
 	}
 	mVoiceModule->init(m_servicePump);	
@@ -166,7 +166,7 @@ void LLVoiceClient::userAuthorized(const std::string& user_id, const LLUUID &age
 void LLVoiceClient::terminate()
 {
 	if (mVoiceModule) mVoiceModule->terminate();
-	mVoiceModule = NULL;
+	mVoiceModule = nullptr;
     
     if (LLSpeakerVolumeStorage::instanceExists())
     {
@@ -860,10 +860,11 @@ LLVoiceEffectInterface* LLVoiceClient::getVoiceEffectInterface() const
 class LLViewerRequiredVoiceVersion : public LLHTTPNode
 {
 	static BOOL sAlertedUser;
-	virtual void post(
+
+	void post(
 					  LLHTTPNode::ResponsePtr response,
 					  const LLSD& context,
-					  const LLSD& input) const
+					  const LLSD& input) const override
 	{
 		//You received this messsage (most likely on region cross or
 		//teleport)
@@ -890,10 +891,10 @@ class LLViewerRequiredVoiceVersion : public LLHTTPNode
 
 class LLViewerParcelVoiceInfo : public LLHTTPNode
 {
-	virtual void post(
+	void post(
 					  LLHTTPNode::ResponsePtr response,
 					  const LLSD& context,
-					  const LLSD& input) const
+					  const LLSD& input) const override
 	{
 		//the parcel you are in has changed something about its
 		//voice information

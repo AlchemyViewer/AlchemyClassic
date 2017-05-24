@@ -42,7 +42,7 @@
 LLImageJ2CImpl* fallbackCreateLLImageJ2CImpl();
 
 // Test data gathering handle
-LLImageCompressionTester* LLImageJ2C::sTesterp = NULL ;
+LLImageCompressionTester* LLImageJ2C::sTesterp = nullptr ;
 const std::string sTesterName("ImageCompressionTester");
 
 //static
@@ -77,7 +77,7 @@ LLImageJ2C::LLImageJ2C() : 	LLImageFormatted(IMG_CODEC_J2C),
 		if (!sTesterp->isValid())
 		{
 			delete sTesterp;
-			sTesterp = NULL;
+			sTesterp = nullptr;
 		}
 	}
 }
@@ -215,7 +215,7 @@ bool LLImageJ2C::decodeChannels(LLImageRaw *raw_imagep, F32 decode_time, S32 fir
 
 bool LLImageJ2C::encode(const LLImageRaw *raw_imagep, F32 encode_time)
 {
-	return encode(raw_imagep, NULL, encode_time);
+	return encode(raw_imagep, nullptr, encode_time);
 }
 
 
@@ -356,7 +356,7 @@ bool LLImageJ2C::loadAndValidate(const std::string &filename)
 
 	S32 file_size = 0;
 	LLAPRFile infile ;
-	infile.open(filename, LL_APR_RB, NULL, &file_size);
+	infile.open(filename, LL_APR_RB, nullptr, &file_size);
 	apr_file_t* apr_file = infile.getFileHandle() ;
 	if (!apr_file)
 	{
@@ -473,7 +473,7 @@ LLImageCompressionTester::LLImageCompressionTester() : LLMetricPerformanceTester
 LLImageCompressionTester::~LLImageCompressionTester()
 {
 	outputTestResults();
-	LLImageJ2C::sTesterp = NULL;
+	LLImageJ2C::sTesterp = nullptr;
 }
 
 //virtual 

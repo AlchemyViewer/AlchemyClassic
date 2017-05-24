@@ -96,7 +96,7 @@ public:
   StackWalker(
     bool verbose = true,
     int options = OptionsAll, // 'int' is by design, to combine the enum-flags
-    LPCSTR szSymPath = NULL, 
+    LPCSTR szSymPath = nullptr, 
     DWORD dwProcessId = GetCurrentProcessId(), 
     HANDLE hProcess = GetCurrentProcess()
     );
@@ -117,9 +117,9 @@ public:
   BOOL ShowCallstack(
     bool verbose,
     HANDLE hThread = GetCurrentThread(), 
-    const CONTEXT *context = NULL, 
-    PReadProcessMemoryRoutine readMemoryFunction = NULL,
-    LPVOID pUserData = NULL  // optional to identify some data in the 'readMemoryFunction'-callback
+    const CONTEXT *context = nullptr, 
+    PReadProcessMemoryRoutine readMemoryFunction = nullptr,
+    LPVOID pUserData = nullptr  // optional to identify some data in the 'readMemoryFunction'-callback
     );
 
 #if _MSC_VER >= 1300

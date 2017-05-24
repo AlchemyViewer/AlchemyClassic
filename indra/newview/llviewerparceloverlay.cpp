@@ -62,8 +62,8 @@ LLViewerParcelOverlay::LLViewerParcelOverlay(LLViewerRegion* region, F32 region_
 	mTimeSinceLastUpdate(),
 	mOverlayTextureIdx(-1),
 	mVertexCount(0),
-	mVertexArray(NULL),
-	mColorArray(NULL)
+	mVertexArray(nullptr),
+	mColorArray(nullptr)
 //	mTexCoordArray(NULL),
 {
 	// Create a texture to hold color information.
@@ -101,19 +101,19 @@ LLViewerParcelOverlay::LLViewerParcelOverlay(LLViewerRegion* region, F32 region_
 LLViewerParcelOverlay::~LLViewerParcelOverlay()
 {
 	delete[] mOwnership;
-	mOwnership = NULL;
+	mOwnership = nullptr;
 
 	delete[] mVertexArray;
-	mVertexArray = NULL;
+	mVertexArray = nullptr;
 
 	delete[] mColorArray;
-	mColorArray = NULL;
+	mColorArray = nullptr;
 
 // JC No textures.
 //	delete mTexCoordArray;
 //	mTexCoordArray = NULL;
 
-	mImageRaw = NULL;
+	mImageRaw = nullptr;
 }
 
 //---------------------------------------------------------------------------
@@ -613,9 +613,9 @@ void LLViewerParcelOverlay::updatePropertyLines()
 	{
 		// ...need new arrays
 		delete[] mVertexArray;
-		mVertexArray = NULL;
+		mVertexArray = nullptr;
 		delete[] mColorArray;
-		mColorArray = NULL;
+		mColorArray = nullptr;
 
 		mVertexCount = new_vertex_count;
 

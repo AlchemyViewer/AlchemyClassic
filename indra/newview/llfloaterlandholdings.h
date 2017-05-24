@@ -40,12 +40,12 @@ class LLFloaterLandHoldings
 public:
 	LLFloaterLandHoldings(const LLSD& key);
 	virtual ~LLFloaterLandHoldings();
-	
-	virtual BOOL postBuild();
-	virtual void onOpen(const LLSD& key);
-	virtual void draw();
 
-	void refresh();
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
+	void draw() override;
+
+	void refresh() override;
 
 	void buttonCore(S32 which);
 

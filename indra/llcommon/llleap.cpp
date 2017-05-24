@@ -444,7 +444,7 @@ LLLeap* LLLeap::create(const std::string& desc, const std::vector<std::string>& 
     }
     catch (const LLLeap::Error&)
     {
-        return NULL;
+        return nullptr;
     }
 }
 

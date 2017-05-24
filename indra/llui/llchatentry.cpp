@@ -41,12 +41,12 @@ LLChatEntry::Params::Params()
 
 LLChatEntry::LLChatEntry(const Params& p)
 :	LLTextEditor(p),
- 	mTextExpandedSignal(NULL),
+ 	mTextExpandedSignal(nullptr),
  	mHasHistory(p.has_history),
  	mIsExpandable(p.is_expandable),
+ 	mSingleLineMode(false),
  	mExpandLinesCount(p.expand_lines_count),
- 	mPrevLinesCount(0),
-	mSingleLineMode(false),
+	mPrevLinesCount(0),
 	mPrevExpandedLineCount(S32_MAX)
 {
 	// Initialize current history line iterator

@@ -35,14 +35,14 @@ namespace LLTrace
 {
 extern MemStatHandle gTraceMemStat;
 
-static ThreadRecorder* sMasterThreadRecorder = NULL;
+static ThreadRecorder* sMasterThreadRecorder = nullptr;
 
 ///////////////////////////////////////////////////////////////////////
 // ThreadRecorder
 ///////////////////////////////////////////////////////////////////////
 
 ThreadRecorder::ThreadRecorder()
-:	mParentRecorder(NULL)
+:	mParentRecorder(nullptr)
 {
 	init();
 }
@@ -57,7 +57,7 @@ void ThreadRecorder::init()
 
 	BlockTimerStackRecord* timer_stack = LLThreadLocalSingletonPointer<BlockTimerStackRecord>::getInstance();
 	timer_stack->mTimeBlock = &root_time_block;
-	timer_stack->mActiveTimer = NULL;
+	timer_stack->mActiveTimer = nullptr;
 
 	mNumTimeBlockTreeNodes = AccumulatorBuffer<TimeBlockAccumulator>::getDefaultBuffer()->size();
 
@@ -115,7 +115,7 @@ ThreadRecorder::~ThreadRecorder()
 		mActiveRecordings.clear();
 	}
 
-	set_thread_recorder(NULL);
+	set_thread_recorder(nullptr);
 	delete[] mTimeBlockTreeNodes;
 
 	if (mParentRecorder)
@@ -133,7 +133,7 @@ TimeBlockTreeNode* ThreadRecorder::getTimeBlockTreeNode( S32 index )
 		return &mTimeBlockTreeNodes[index];
 	}
 #endif
-	return NULL;
+	return nullptr;
 }
 
 AccumulatorBufferGroup* ThreadRecorder::activate( AccumulatorBufferGroup* recording)

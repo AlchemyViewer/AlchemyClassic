@@ -243,7 +243,7 @@ public:
 	// Normalize this vector with respect to the x, y, and z components only. Accurate only to 10-12 bits of precision. W component is destroyed
 	// Same as above except substitutes default vector contents if the vector is non-finite or degenerate due to zero length.
 	//
-	inline void normalize3fast_checked(LLVector4a* d = 0);
+	inline void normalize3fast_checked(LLVector4a* d = nullptr);
 
 	// Return true if this vector is normalized with respect to x,y,z up to tolerance
 	inline LLBool32 isNormalized3( F32 tolerance = 1e-3 ) const;

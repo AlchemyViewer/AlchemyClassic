@@ -50,9 +50,9 @@ public:
 				void *callback_data);
 	~LLPanelLogin();
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
-	virtual void draw();
-	virtual void setFocus( BOOL b );
+	BOOL handleKeyHere(KEY key, MASK mask) override;
+	void draw() override;
+	void setFocus( BOOL b ) override;
 
 	// Show the XUI first name, last name, and password widgets.  They are
 	// hidden on startup for reg-in-client
@@ -81,7 +81,7 @@ public:
 	static void setAlwaysRefresh(bool refresh); 
 	
 	// inherited from LLViewerMediaObserver
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 	static void updateServer();  // update the combo box, change the login page to the new server, clear the combo
 
 	/// to be called from LLStartUp::setStartSLURL

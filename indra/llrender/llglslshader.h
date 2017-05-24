@@ -95,10 +95,10 @@ public:
 	BOOL createShader(std::vector<LLStaticHashedString> * attributes,
 						std::vector<LLStaticHashedString> * uniforms,
 						U32 varying_count = 0,
-						const char** varyings = NULL);
+						const char** varyings = nullptr);
 	BOOL attachShader(const std::string& shader);
 	void attachShader(GLuint shader);
-	void attachShaders(GLuint* shader = NULL, S32 count = 0);
+	void attachShaders(GLuint* shader = nullptr, S32 count = 0);
 	BOOL mapAttributes(const std::vector<LLStaticHashedString> * attributes);
 	BOOL mapUniforms(const std::vector<LLStaticHashedString> *);
 	void mapUniform(GLint index, const std::vector<LLStaticHashedString> *);

@@ -64,7 +64,8 @@ BOOL LLFloaterSettingsDebug::postBuild()
 	{
 		LLComboBox* combo;
 		f(LLComboBox* c) : combo(c) {}
-		virtual void apply(const std::string& name, LLControlVariable* control)
+
+		void apply(const std::string& name, LLControlVariable* control) override
 		{
 			if (!control->isHiddenFromSettingsEditor())
 			{

@@ -35,8 +35,8 @@ public:
 	LLFloaterBigPreview(const LLSD& key);
     ~LLFloaterBigPreview();
     
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
 	void onCancel();
 
     void setPreview(LLView* previewp) { mPreviewHandle = previewp->getHandle(); }

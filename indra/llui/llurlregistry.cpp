@@ -193,7 +193,7 @@ bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LL
 
 	// find the first matching regex from all url entries in the registry
 	U32 match_start = 0, match_end = 0;
-	LLUrlEntryBase *match_entry = NULL;
+	LLUrlEntryBase *match_entry = nullptr;
 
 	std::vector<LLUrlEntryBase *>::iterator it;
 	for (it = mUrlEntry.begin(); it != mUrlEntry.end(); ++it)
@@ -210,7 +210,7 @@ bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LL
 		if (matchRegex(text.c_str(), url_entry->getPattern(), start, end))
 		{
 			// does this match occur in the string before any other match
-			if (start < match_start || match_entry == NULL)
+			if (start < match_start || match_entry == nullptr)
 			{
 
 				if (mLLUrlEntryInvalidSLURL == *it)

@@ -78,16 +78,16 @@ namespace
         typedef boost::shared_ptr<ObjectInventoryFetcher> ptr_t;
 
         ObjectInventoryFetcher(LLEventPump &pump, LLViewerObject* object, void* user_data) :
-            mPump(pump),
-            LLVOInventoryListener()
+            LLVOInventoryListener(),
+            mPump(pump)
         {
             registerVOInventoryListener(object, this);
         }
 
-        virtual void inventoryChanged(LLViewerObject* object,
+	    void inventoryChanged(LLViewerObject* object,
             LLInventoryObject::object_list_t* inventory,
             S32 serial_num,
-            void* user_data);
+            void* user_data) override;
 
         void fetchInventory() 
         {
@@ -126,14 +126,14 @@ public:
     LLQueuedScriptAssetUpload(LLUUID taskId, LLUUID itemId, LLUUID assetId, TargetType_t targetType,
             bool isRunning, std::string scriptName, LLUUID queueId, LLUUID exerienceId, taskUploadFinish_f finish) :
         LLScriptAssetUpload(taskId, itemId, targetType, isRunning, 
-            exerienceId, std::string(), finish),
-        mScriptName(scriptName),
-        mQueueId(queueId)
+                            exerienceId, std::string(), finish),
+        mQueueId(queueId),
+        mScriptName(scriptName)
     {
         setAssetId(assetId);
     }
 
-    virtual LLSD prepareUpload()
+	LLSD prepareUpload() override
     {
         /* *NOTE$: The parent class (LLScriptAssetUpload will attempt to save 
          * the script buffer into to the VFS.  Since the resource is already in 
@@ -784,7 +784,7 @@ void LLFloaterScriptQueue::objectScriptProcessingQueueCoro(std::string action, L
             LLInventoryObject::object_list_t inventory;
             if (obj)
             {
-                ObjectInventoryFetcher::ptr_t fetcher(new ObjectInventoryFetcher(maildrop, obj, NULL));
+                ObjectInventoryFetcher::ptr_t fetcher(new ObjectInventoryFetcher(maildrop, obj, nullptr));
 
                 fetcher->fetchInventory();
 

@@ -43,7 +43,7 @@ class LLPanelSearchWeb : public LLPanel, public LLViewerMediaObserver
 {
 public:
 	LLPanelSearchWeb();
-	BOOL postBuild();
+	BOOL postBuild() override;
 	void loadUrl(const SearchQuery& query);
 	
 private:
@@ -52,7 +52,7 @@ private:
 	void onClickForward();
 	void onClickReload();
 	void onClickStop();
-	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	/*virtual*/ void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 	
 	LLTextBox* mStatusBarText;
 	LLProgressBar* mStatusBarProgress;

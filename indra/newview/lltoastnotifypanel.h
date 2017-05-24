@@ -141,16 +141,16 @@ public:
 						const LLUUID& session_id, 
 						const LLRect& rect = LLRect::null, 
 						bool show_images = true, 
-						LLTextBase* parent_text = NULL);
+						LLTextBase* parent_text = nullptr);
 
 	void compactButtons();
 
-	virtual void updateNotification();
-	virtual void init( LLRect rect, bool show_images );
+	void updateNotification() override;
+	void init( LLRect rect, bool show_images ) override;
 
 	~LLIMToastNotifyPanel();
 
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 protected:
 	LLTextBase* mParentText;

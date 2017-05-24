@@ -82,7 +82,7 @@ protected:
 public:
 	virtual ~LLScrollContainer( void );
 
-	virtual void 	setValue(const LLSD& value) { mInnerRect.setValue(value); }
+	void 	setValue(const LLSD& value) override { mInnerRect.setValue(value); }
 
 	void			setBorderVisible( BOOL b );
 
@@ -102,18 +102,18 @@ public:
 	S32				getBorderWidth() const;
 
 	// LLView functionality
-	virtual void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	virtual BOOL	handleKeyHere(KEY key, MASK mask);
-	virtual BOOL	handleUnicodeCharHere(llwchar uni_char);
-	virtual BOOL	handleScrollWheel( S32 x, S32 y, S32 clicks );
-	virtual BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	BOOL	handleKeyHere(KEY key, MASK mask) override;
+	BOOL	handleUnicodeCharHere(llwchar uni_char) override;
+	BOOL	handleScrollWheel( S32 x, S32 y, S32 clicks ) override;
+	BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 
-	virtual void	draw();
-	virtual bool	addChild(LLView* view, S32 tab_group = 0);
+	void	draw() override;
+	bool	addChild(LLView* view, S32 tab_group = 0) override;
 	
 	bool autoScroll(S32 x, S32 y);
 

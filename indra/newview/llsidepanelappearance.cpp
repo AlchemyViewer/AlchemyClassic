@@ -62,7 +62,8 @@ public:
 		mPanel(panel)
 	{}
 	~LLCurrentlyWornFetchObserver() {}
-	virtual void done()
+
+	void done() override
 	{
 		mPanel->inventoryFetched();
 		gInventory.removeObserver(this);
@@ -75,10 +76,10 @@ private:
 LLSidepanelAppearance::LLSidepanelAppearance() :
 	LLPanel(),
 	mOutfitLoadingIndicator(nullptr),
-	mFilterEditor(NULL),
-	mOutfitEdit(NULL),
+	mFilterEditor(nullptr),
+	mOutfitEdit(nullptr),
 	mEditOutfitBtn(nullptr),
-	mCurrOutfitPanel(NULL),
+	mCurrOutfitPanel(nullptr),
 	mFilterSubString(LLStringUtil::null),
 	mOpened(false)
 {
@@ -315,7 +316,7 @@ void LLSidepanelAppearance::showOutfitEditPanel()
 	// is returning back to the mOutfitEdit panel from the mEditWearable panel.
 	// The simplest way to control this is to check the visibility state of the mEditWearable
 	// BEFORE it is changed by the call to the toggleWearableEditPanel(FALSE, NULL, TRUE).
-	if (mEditWearable != NULL && !mEditWearable->getVisible() && mOutfitEdit != NULL)
+	if (mEditWearable != nullptr && !mEditWearable->getVisible() && mOutfitEdit != nullptr)
 	{
 		mOutfitEdit->resetAccordionState();
 	}
@@ -323,14 +324,14 @@ void LLSidepanelAppearance::showOutfitEditPanel()
 	// If we're exiting the edit wearable view, and the camera was not focused on the avatar
 	// (e.g. such as if we were editing a physics param), then skip the outfits edit mode since
 	// otherwise this would trigger the camera focus mode.
-	if (mEditWearable != NULL && mEditWearable->getVisible() && !gAgentCamera.cameraCustomizeAvatar())
+	if (mEditWearable != nullptr && mEditWearable->getVisible() && !gAgentCamera.cameraCustomizeAvatar())
 	{
 		showOutfitsInventoryPanel();
 		return;
 	}
 
 	toggleMyOutfitsPanel(FALSE);
-	toggleWearableEditPanel(FALSE, NULL, TRUE); // don't switch out of edit appearance mode
+	toggleWearableEditPanel(FALSE, nullptr, TRUE); // don't switch out of edit appearance mode
 	toggleOutfitEditPanel(TRUE);
 }
 
@@ -428,7 +429,7 @@ void LLSidepanelAppearance::toggleWearableEditPanel(BOOL visible, LLViewerWearab
 	{
 		// Save changes if closing.
 		mEditWearable->saveChanges();
-		mEditWearable->setWearable(NULL);
+		mEditWearable->setWearable(nullptr);
 		LLAppearanceMgr::getInstance()->updateIsDirty();
 		if (change_state)
 		{

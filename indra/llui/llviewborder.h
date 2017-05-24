@@ -66,10 +66,10 @@ protected:
 public:
 	virtual void setValue(const LLSD& val) { setRect(LLRect(val)); }
 
-	virtual BOOL isCtrl() const { return FALSE; }
+	BOOL isCtrl() const override { return FALSE; }
 
 	// llview functionality
-	virtual void draw();
+	void draw() override;
 	
 	static BOOL getBevelFromAttribute(LLXMLNodePtr node, LLViewBorder::EBevel& bevel_style);
 

@@ -524,7 +524,7 @@ void LLExperienceCache::get(const LLUUID& key, LLExperienceCache::ExperienceGetF
 
 	fetch(key);
 
-	signal_ptr signal = signal_ptr(new callback_signal_t());
+	signal_ptr signal = boost::make_shared<callback_signal_t>();
 	
 	std::pair<signal_map_t::iterator, bool> result = mSignalMap.insert(signal_map_t::value_type(key, signal));
 	if (!result.second)

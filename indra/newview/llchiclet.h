@@ -69,17 +69,17 @@ public:
 	 * Returns width, required to display amount of notifications in text form.
 	 * Width is the only valid value.
 	 */
-	/*virtual*/ LLRect getRequiredRect();
+	/*virtual*/ LLRect getRequiredRect() override;
 
 	/**
 	 * Sets number of notifications using LLSD
 	 */
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
 	/**
 	 * Returns number of notifications wrapped in LLSD
 	 */
-	/*virtual*/ LLSD getValue() const;
+	/*virtual*/ LLSD getValue() const override;
 
 protected:
 
@@ -138,7 +138,7 @@ public:
 	/**
 	 * Sets icon, if value is LLUUID::null - default icon will be set.
 	 */
-	virtual void setValue(const LLSD& value );
+	void setValue(const LLSD& value ) override;
 
 protected:
 
@@ -199,12 +199,12 @@ public:
 	/**
 	 * Sets IM Session id using LLSD
 	 */
-	/*virtual*/ LLSD getValue() const;
+	/*virtual*/ LLSD getValue() const override;
 
 	/**
 	 * Returns IM Session id using LLSD
 	 */
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
 protected:
 
@@ -214,7 +214,7 @@ protected:
 	/**
 	 * Notifies subscribers about click on chiclet.
 	 */
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 
 	/**
 	 * Notifies subscribers about chiclet size changed event.
@@ -257,7 +257,7 @@ public:
 	/**
 	 * It is used for default setting up of chicklet:click handler, etc.  
 	 */
-	BOOL postBuild();
+	BOOL postBuild() override;
 
 	/**
 	 * Sets IM session name. This name will be displayed in chiclet tooltip.
@@ -303,7 +303,7 @@ public:
 	/**
 	 * Displays popup menu.
 	 */
-	virtual BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
 	void hidePopupMenu();
 
@@ -379,12 +379,12 @@ public:
 		Params();
 	};
 
-	/*virtual*/ void setSessionId(const LLUUID& session_id);
+	/*virtual*/ void setSessionId(const LLUUID& session_id) override;
 
 	/**
 	 * Toggle script floater
 	 */
-	/*virtual*/ void onMouseDown();
+	/*virtual*/ void onMouseDown() override;
 
 protected:
 
@@ -394,7 +394,7 @@ protected:
 	/**
 	 * Creates chiclet popup menu.
 	 */
-	virtual void createPopupMenu();
+	void createPopupMenu() override;
 
 	/**
 	 * Processes clicks on chiclet popup menu.
@@ -424,12 +424,12 @@ public:
 		Params();
 	};
 
-	/*virtual*/ void setSessionId(const LLUUID& session_id);
+	/*virtual*/ void setSessionId(const LLUUID& session_id) override;
 
 	/**
 	 * Toggle script floater
 	 */
-	/*virtual*/ void onMouseDown();
+	/*virtual*/ void onMouseDown() override;
 
 protected:
 	LLInvOfferChiclet(const Params&);
@@ -438,7 +438,7 @@ protected:
 	/**
 	 * Creates chiclet popup menu.
 	 */
-	virtual void createPopupMenu();
+	void createPopupMenu() override;
 
 	/**
 	 * Processes clicks on chiclet popup menu.
@@ -507,7 +507,7 @@ protected:
 	/**
 	 * Displays menu.
 	 */
-	virtual BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
 	virtual void createMenu() = 0;
 
@@ -545,8 +545,8 @@ protected:
 				
 		static bool filterNotification(LLNotificationPtr notify);
 		// connect counter updaters to the corresponding signals
-		/*virtual*/ void onAdd(LLNotificationPtr p) { mChiclet->setCounter(++mChiclet->mUreadSystemNotifications); }
-		/*virtual*/ void onDelete(LLNotificationPtr p) { mChiclet->setCounter(--mChiclet->mUreadSystemNotifications); }
+		/*virtual*/ void onAdd(LLNotificationPtr p) override { mChiclet->setCounter(++mChiclet->mUreadSystemNotifications); }
+		/*virtual*/ void onDelete(LLNotificationPtr p) override { mChiclet->setCounter(--mChiclet->mUreadSystemNotifications); }
 				
 		LLNotificationChiclet* const mChiclet;
 	};
@@ -568,7 +568,7 @@ protected:
 	/**
 	 * Creates menu.
 	 */
-	/*virtual*/ void createMenu();
+	/*virtual*/ void createMenu() override;
 
 	/*virtual*/ void setCounter(S32 counter);
 	S32 mUreadSystemNotifications;
@@ -659,7 +659,7 @@ public:
 	boost::signals2::connection setChicletClickedCallback(
 		const commit_callback_t& cb);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/**
 	 * Handler for the Voice Client's signal. Finds a corresponding chiclet and toggles its SpeakerControl
@@ -669,13 +669,13 @@ public:
 	/**
 	 * Reshapes controls and rearranges chiclets if needed.
 	 */
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE );
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE ) override;
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 
 	S32 getMinWidth() const { return mMinWidth; }
 
-	/*virtual*/ S32	notifyParent(const LLSD& info);
+	/*virtual*/ S32	notifyParent(const LLSD& info) override;
 
 	/**
 	 * Toggle chiclet by session id ON and toggle OFF all other chiclets.
@@ -774,7 +774,7 @@ protected:
 	/**
 	 * Callback for mouse wheel scrolled, calls scrollRight() or scrollLeft()
 	 */
-	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks);
+	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks) override;
 
 	/**
 	 * Notifies subscribers about click on chiclet.
@@ -828,13 +828,13 @@ T* LLChicletPanel::createChiclet(const LLUUID& session_id, S32 index)
 	if(!chiclet)
 	{
 		LL_WARNS() << "Could not create chiclet" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	if(!addChiclet(chiclet, index))
 	{
 		delete chiclet;
 		LL_WARNS() << "Could not add chiclet to chiclet panel" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 
 	if (!isAnyIMFloaterDoked())
@@ -858,7 +858,7 @@ T* LLChicletPanel::findChiclet(const LLUUID& im_session_id)
 {
 	if(im_session_id.isNull())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	chiclet_list_t::const_iterator it = mChicletList.begin();
@@ -879,14 +879,14 @@ T* LLChicletPanel::findChiclet(const LLUUID& im_session_id)
 			return result;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 template<class T> T* LLChicletPanel::getChiclet(S32 index)
 {
 	if(index < 0 || index >= getChicletCount())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	LLChiclet* chiclet = mChicletList[index];

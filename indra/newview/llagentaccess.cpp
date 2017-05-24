@@ -32,10 +32,10 @@
 #include "llcontrol.h"
 
 LLAgentAccess::LLAgentAccess(LLControlGroup& savedSettings) :
-	mSavedSettings(savedSettings),
 	mAccess(SIM_ACCESS_PG),
+	mGodLevel(GOD_NOT),
 	mAdminOverride(false),
-	mGodLevel(GOD_NOT)
+	mSavedSettings(savedSettings)
 {
 }
 

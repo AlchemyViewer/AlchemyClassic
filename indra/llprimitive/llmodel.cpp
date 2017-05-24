@@ -384,7 +384,7 @@ void LLModel::setVolumeFaceData(
 	else
 	{
 		//ll_aligned_free_16(face.mNormals);
-		face.mNormals = NULL;
+		face.mNormals = nullptr;
 	}
 
 	if (tc.get())
@@ -395,7 +395,7 @@ void LLModel::setVolumeFaceData(
 	else
 	{
 		//ll_aligned_free_16(face.mTexCoords);
-		face.mTexCoords = NULL;
+		face.mTexCoords = nullptr;
 	}
 
 	U32 size = (num_indices*2+0xF)&~0xF;
@@ -594,7 +594,7 @@ void LLModel::generateNormals(F32 angle_cutoff)
 		else
 		{
 			//ll_aligned_free_16(new_face.mTexCoords);
-			new_face.mTexCoords = NULL;
+			new_face.mTexCoords = nullptr;
 		}
 
 		//generate normals for new face
@@ -702,7 +702,7 @@ LLSD LLModel::writeModel(
 		mdl["physics_convex"] = decomp.asLLSD();
 		if (!decomp.mHull.empty() && !as_slm)
 		{ //convex decomposition exists, physics mesh will not be used (unless this is an slm file)
-			model[LLModel::LOD_PHYSICS] = NULL;
+			model[LLModel::LOD_PHYSICS] = nullptr;
 		}
 	}
 	else if (submodel_id)
@@ -711,7 +711,7 @@ LLSD LLModel::writeModel(
 		mdl["secondary"] = true;
         mdl["submodel_id"] = submodel_id;
 		mdl["physics_convex"] = fake_decomp.asLLSD();
-		model[LLModel::LOD_PHYSICS] = NULL;
+		model[LLModel::LOD_PHYSICS] = nullptr;
 	}
 
 	if (as_slm)
@@ -724,7 +724,7 @@ LLSD LLModel::writeModel(
 
 	for (U32 idx = 0; idx < MODEL_NAMES_LENGTH; ++idx)
 	{
-		if (model[idx] && (model[idx]->getNumVolumeFaces() > 0) && model[idx]->getVolumeFace(0).mPositions != NULL)
+		if (model[idx] && (model[idx]->getNumVolumeFaces() > 0) && model[idx]->getVolumeFace(0).mPositions != nullptr)
 		{
 			LLVector3 min_pos = LLVector3(model[idx]->getVolumeFace(0).mPositions[0].getF32ptr());
 			LLVector3 max_pos = min_pos;

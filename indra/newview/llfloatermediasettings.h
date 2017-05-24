@@ -41,8 +41,8 @@ public:
 	LLFloaterMediaSettings(const LLSD& key);
 	~LLFloaterMediaSettings();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
 
 	static LLFloaterMediaSettings* getInstance();
 	static bool instanceExists();
@@ -54,7 +54,7 @@ public:
 	const std::string getHomeUrl();	
 	//bool passesWhiteList( const std::string& test_url );
 
-	virtual void	draw();
+	void	draw() override;
 
 	bool getIdenticalHasMediaInfo() const { return mIdenticalHasMediaInfo; }
 	bool getMultipleMedia() const { return mMultipleMedia; }

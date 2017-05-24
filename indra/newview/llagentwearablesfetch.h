@@ -45,7 +45,7 @@ class LLInitialWearablesFetch : public LLInventoryFetchDescendentsObserver
 public:
 	LLInitialWearablesFetch(const LLUUID& cof_id);
 	~LLInitialWearablesFetch();
-	virtual void done();
+	void done() override;
 
 	struct InitialWearableData
 	{

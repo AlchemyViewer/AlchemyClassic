@@ -545,7 +545,7 @@ LL_COMMON_API S32 utf16str_wstring_length(const llutf16string &utf16str, S32 len
 LL_COMMON_API S32 wstring_utf16_length(const LLWString & wstr, S32 woffset, S32 wlen);
 
 // Length in wstring (i.e., llwchar count) of a part of a wstring specified by utf16 length (i.e., utf16 units.)
-LL_COMMON_API S32 wstring_wstring_length_from_utf16_length(const LLWString & wstr, S32 woffset, S32 utf16_length, BOOL *unaligned = NULL);
+LL_COMMON_API S32 wstring_wstring_length_from_utf16_length(const LLWString & wstr, S32 woffset, S32 utf16_length, BOOL *unaligned = nullptr);
 
 /**
  * @brief Properly truncate a utf8 string to a maximum byte count.
@@ -818,8 +818,9 @@ public:
 	}
 
 	/// This implementation uses the answer cached by setiter().
-	virtual bool escaped() const { return mIsEsc; }
-	virtual T next()
+	bool escaped() const override { return mIsEsc; }
+
+	T next() override
 	{
 		// If we're looking at the escape character of an escape sequence,
 		// skip that character. This is the one time we can modify 'mIter'
@@ -835,21 +836,21 @@ public:
 		return result;
 	}
 
-	virtual bool is(T ch) const
+	bool is(T ch) const override
 	{
 		// Like base-class is(), except that an escaped character matches
 		// nothing.
 		return (! done()) && (! mIsEsc) && *mIter == ch;
 	}
 
-	virtual bool oneof(const string_type& delims) const
+	bool oneof(const string_type& delims) const override
 	{
 		// Like base-class oneof(), except that an escaped character matches
 		// nothing.
 		return (! done()) && (! mIsEsc) && LLStringUtilBase<T>::contains(delims, *mIter);
 	}
 
-	virtual bool collect_until(string_type& into, const_iterator from, T delim)
+	bool collect_until(string_type& into, const_iterator from, T delim) override
 	{
 		// Deal with escapes in the characters we collect; that is, an escaped
 		// character must become just that character without the preceding

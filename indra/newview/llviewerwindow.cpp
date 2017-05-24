@@ -227,15 +227,15 @@ extern BOOL gDisplaySwapBuffers;
 extern BOOL gDepthDirty;
 extern BOOL gResizeScreenTexture;
 
-LLViewerWindow	*gViewerWindow = NULL;
+LLViewerWindow	*gViewerWindow = nullptr;
 
 LLFrameTimer	gAwayTimer;
 LLFrameTimer	gAwayTriggerTimer;
 
 BOOL			gShowOverlayTitle = FALSE;
 
-LLViewerObject*  gDebugRaycastObject = NULL;
-LLVOPartGroup* gDebugRaycastParticle = NULL;
+LLViewerObject*  gDebugRaycastObject = nullptr;
+LLVOPartGroup* gDebugRaycastParticle = nullptr;
 LLVector4a       gDebugRaycastIntersection;
 LLVector4a		gDebugRaycastParticleIntersection;
 LLVector2        gDebugRaycastTexCoord;
@@ -740,7 +740,7 @@ public:
 		}
 
 		// only display these messages if we are actually rendering beacons at this moment
-		if (LLPipeline::getRenderBeacons(NULL) && LLFloaterReg::instanceVisible("beacons"))
+		if (LLPipeline::getRenderBeacons(nullptr) && LLFloaterReg::instanceVisible("beacons"))
 		{
 			static const std::string beacon_particle = LLTrans::getString("BeaconParticle");
 			static const std::string beacon_physical = LLTrans::getString("BeaconPhysical");
@@ -750,7 +750,7 @@ public:
 			static const std::string beacon_media = LLTrans::getString("BeaconMedia");
 			static const std::string particle_hiding = LLTrans::getString("ParticleHiding");
 
-			if (LLPipeline::getRenderMOAPBeacons(NULL))
+			if (LLPipeline::getRenderMOAPBeacons(nullptr))
 			{
 				addText(xpos, ypos, beacon_media);
 				ypos += y_inc;
@@ -762,31 +762,31 @@ public:
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderParticleBeacons(NULL))
+			if (LLPipeline::getRenderParticleBeacons(nullptr))
 			{
 				addText(xpos, ypos, beacon_particle);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderSoundBeacons(NULL))
+			if (LLPipeline::getRenderSoundBeacons(nullptr))
 			{
 				addText(xpos, ypos, beacon_sound);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderScriptedBeacons(NULL))
+			if (LLPipeline::getRenderScriptedBeacons(nullptr))
 			{
 				addText(xpos, ypos, beacon_scripted);
 				ypos += y_inc;
 			}
 			else
-				if (LLPipeline::getRenderScriptedTouchBeacons(NULL))
+				if (LLPipeline::getRenderScriptedTouchBeacons(nullptr))
 				{
 					addText(xpos, ypos, beacon_scripted_touch);
 					ypos += y_inc;
 				}
 
-			if (LLPipeline::getRenderPhysicalBeacons(NULL))
+			if (LLPipeline::getRenderPhysicalBeacons(nullptr))
 			{
 				addText(xpos, ypos, beacon_physical);
 				ypos += y_inc;
@@ -814,7 +814,7 @@ public:
 		static LLCachedControl<bool> debugShowTextureInfo(gSavedSettings, "DebugShowTextureInfo");
 		if (debugShowTextureInfo)
 		{
-			LLViewerObject* objectp = NULL ;
+			LLViewerObject* objectp = nullptr ;
 			
 			LLSelectNode* nodep = LLSelectMgr::instance().getHoverNode();
 			if (nodep)
@@ -867,7 +867,7 @@ public:
 			const Line& line = *iter;
 			LLFontGL::getFontMonospace()->renderUTF8(line.text, 0, (F32)line.x, (F32)line.y, mTextColor,
 											 LLFontGL::LEFT, LLFontGL::TOP,
-											 LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, NULL, FALSE);
+											 LLFontGL::NORMAL, LLFontGL::NO_SHADOW, S32_MAX, S32_MAX, nullptr, FALSE);
 		}
 		mLineList.clear();
 	}
@@ -893,8 +893,8 @@ LLViewerWindow::Params::Params()
 	height("height"),
 	min_width("min_width"),
 	min_height("min_height"),
-	window_mode("window_mode", 0),
-	ignore_pixel_depth("ignore_pixel_depth", false)
+	ignore_pixel_depth("ignore_pixel_depth", false),
+	window_mode("window_mode", 0)
 {}
 
 
@@ -1134,7 +1134,7 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 					{
 						if (drop)
 						{
-							LLURLDispatcher::dispatch( dropped_slurl.getSLURLString(), "clicked", NULL, true );
+							LLURLDispatcher::dispatch( dropped_slurl.getSLURLString(), "clicked", nullptr, true );
 							return LLWindowCallbacks::DND_MOVE;
 						}
 						return LLWindowCallbacks::DND_COPY;
@@ -1212,13 +1212,13 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 									}
 								}
 								LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
-								mDragHoveredObject = NULL;
+								mDragHoveredObject = nullptr;
 							
 							}
 							else 
 							{
 								// Check the whitelist, if there's media (otherwise just show it)
-								if (te->getMediaData() == NULL || te->getMediaData()->checkCandidateUrl(url))
+								if (te->getMediaData() == nullptr || te->getMediaData()->checkCandidateUrl(url))
 								{
 									if ( obj != mDragHoveredObject)
 									{
@@ -1246,7 +1246,7 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 			result == LLWindowCallbacks::DND_NONE && !mDragHoveredObject.isNull())
 		{
 			LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
-			mDragHoveredObject = NULL;
+			mDragHoveredObject = nullptr;
 		}
 	}
 	
@@ -1348,7 +1348,7 @@ void LLViewerWindow::handleFocusLost(LLWindow *window)
 	gFocusMgr.setAppHasFocus(FALSE);
 	//LLModalDialog::onAppFocusLost();
 	LLToolMgr::getInstance()->onAppFocusLost();
-	gFocusMgr.setMouseCapture( NULL );
+	gFocusMgr.setMouseCapture(nullptr );
 
 	if (gMenuBarView)
 	{
@@ -1538,7 +1538,7 @@ void LLViewerWindow::handleDataCopy(LLWindow *window, S32 data_type, void *data)
 	case SLURL_MESSAGE_TYPE:
 		// received URL
 		std::string url = (const char*)data;
-		LLMediaCtrl* web = NULL;
+		LLMediaCtrl* web = nullptr;
 		const bool trusted_browser = false;
 		// don't treat slapps coming from external browsers as "clicks" as this would bypass throttling
 		if (LLURLDispatcher::dispatch(url, "", web, trusted_browser))
@@ -1630,7 +1630,7 @@ std::string LLViewerWindow::translateString(const char* tag,
 // Classes
 //
 LLViewerWindow::LLViewerWindow(const Params& p)
-:	mWindow(NULL),
+:	mWindow(nullptr),
 	mActive(true),
 	mUIVisible(true),
 	mWindowRectRaw(0, p.height, p.width, 0),
@@ -1639,16 +1639,16 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	mLeftMouseDown(FALSE),
 	mMiddleMouseDown(FALSE),
 	mRightMouseDown(FALSE),
+	mProgressView(nullptr),
 	mMouseInWindow( FALSE ),
 	mLastMask( MASK_NONE ),
-	mToolStored( NULL ),
+	mToolStored(nullptr ),
 	mHideCursorPermanent( FALSE ),
 	mCursorHidden(FALSE),
 	mIgnoreActivate( FALSE ),
 	mResDirty(false),
 	mStatesDirty(false),
 	mCurrResolutionIndex(0),
-	mProgressView(NULL),
 	mSystemUIScaleFactorChanged(false)
 {
 	// gKeyboard is still NULL, so it doesn't do LLWindowListener any good to
@@ -1700,7 +1700,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 		LLViewerShaderMgr::instance()->setShaders();
 	}
 
-	if (NULL == mWindow)
+	if (nullptr == mWindow)
 	{
 		LLSplashScreen::update(LLTrans::getString("StartupRequireDriverUpdate"));
 	
@@ -2062,7 +2062,7 @@ void LLViewerWindow::initWorldUI()
 		topinfo_bar->setVisible(FALSE);
 	}
 
-	if ( gHUDView == NULL )
+	if ( gHUDView == nullptr )
 	{
 		LLRect hud_rect = full_window;
 		hud_rect.mBottom += 50;
@@ -2137,7 +2137,7 @@ void LLViewerWindow::initWorldUI()
 void LLViewerWindow::shutdownViews()
 {
 	delete mDebugText;
-	mDebugText = NULL;
+	mDebugText = nullptr;
 	
 	LL_INFOS() << "DebugText deleted." << LL_ENDL ;
 
@@ -2171,21 +2171,21 @@ void LLViewerWindow::shutdownViews()
 	
 	// Delete all child views.
 	delete mRootView;
-	mRootView = NULL;
+	mRootView = nullptr;
 	LL_INFOS() << "RootView deleted." << LL_ENDL ;
 	
 	LLMenuOptionPathfindingRebakeNavmesh::getInstance()->quit();
 
 	// Automatically deleted as children of mRootView.  Fix the globals.
-	gStatusBar = NULL;
-	gIMMgr = NULL;
-	gToolTipView = NULL;
+	gStatusBar = nullptr;
+	gIMMgr = nullptr;
+	gToolTipView = nullptr;
 
-	gToolBarView = NULL;
-	gFloaterView = NULL;
-	gMorphView = NULL;
+	gToolBarView = nullptr;
+	gFloaterView = nullptr;
+	gMorphView = nullptr;
 
-	gHUDView = NULL;
+	gHUDView = nullptr;
 }
 
 void LLViewerWindow::shutdownGL()
@@ -2242,7 +2242,7 @@ LLViewerWindow::~LLViewerWindow()
 	destroyWindow();
 
 	delete mDebugText;
-	mDebugText = NULL;
+	mDebugText = nullptr;
 
 	if (LLViewerShaderMgr::sInitialized)
 	{
@@ -2613,7 +2613,7 @@ BOOL LLViewerWindow::handleKeyUp(KEY key, MASK mask)
         else if (key < 0x80)
 		{
 			// Not a special key, so likely (we hope) to generate a character.  Let it fall through to character handler first.
-			return (gFocusMgr.getKeyboardFocus() != NULL);
+			return (gFocusMgr.getKeyboardFocus() != nullptr);
 		}
 	}
 
@@ -2656,7 +2656,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 		else if (key < 0x80)
 		{
 			// Not a special key, so likely (we hope) to generate a character.  Let it fall through to character handler first.
-            return (keyboard_focus != NULL);
+            return (keyboard_focus != nullptr);
 		}
 	}
 
@@ -2703,7 +2703,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 	// give floaters first chance to handle TAB key
 	// so frontmost floater gets focus
 	// if nothing has focus, go to first or last UI element as appropriate
-    if (key == KEY_TAB && (mask & MASK_CONTROL || keyboard_focus == NULL))
+    if (key == KEY_TAB && (mask & MASK_CONTROL || keyboard_focus == nullptr))
 	{
 		LL_WARNS() << "LLviewerWindow::handleKey give floaters first chance at tab key " << LL_ENDL;
 		if (gMenuHolder) gMenuHolder->hideMenus();
@@ -2820,7 +2820,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 			if (chat_editor)
 			{
 				// passing NULL here, character will be added later when it is handled by character handler.
-				nearby_chat->startChat(NULL);
+				nearby_chat->startChat(nullptr);
 				return TRUE;
 			}
 		}
@@ -2830,7 +2830,7 @@ BOOL LLViewerWindow::handleKey(KEY key, MASK mask)
 			if (!chat_bar)
 				LLFloaterReg::toggleInstanceOrBringToFront("chatbar");
 			
-			LLChatBar::startChat(NULL);
+			LLChatBar::startChat(nullptr);
 			return TRUE;
 		}
 	}
@@ -2937,7 +2937,7 @@ void LLViewerWindow::handleScrollWheel(S32 clicks)
 
 	// Zoom the camera in and out behavior
 
-	if(top_ctrl == 0 
+	if(top_ctrl == nullptr 
 		&& getWorldViewRectScaled().pointInRect(mCurrentMousePoint.mX, mCurrentMousePoint.mY) 
 		&& gAgentCamera.isInitialized())
 		gAgentCamera.handleScrollWheel(clicks);
@@ -3064,7 +3064,7 @@ void LLViewerWindow::updateUI()
 	if (gPipeline.hasRenderDebugMask(LLPipeline::RENDER_DEBUG_RAYCAST))
 	{
 		gDebugRaycastFaceHit = -1;
-		gDebugRaycastObject = cursorIntersect(-1, -1, 512.f, NULL, -1, FALSE, FALSE,
+		gDebugRaycastObject = cursorIntersect(-1, -1, 512.f, nullptr, -1, FALSE, FALSE,
 											  &gDebugRaycastFaceHit,
 											  &gDebugRaycastIntersection,
 											  &gDebugRaycastTexCoord,
@@ -3073,7 +3073,7 @@ void LLViewerWindow::updateUI()
 											  &gDebugRaycastStart,
 											  &gDebugRaycastEnd);
 
-		gDebugRaycastParticle = gPipeline.lineSegmentIntersectParticle(gDebugRaycastStart, gDebugRaycastEnd, &gDebugRaycastParticleIntersection, NULL);
+		gDebugRaycastParticle = gPipeline.lineSegmentIntersectParticle(gDebugRaycastStart, gDebugRaycastEnd, &gDebugRaycastParticleIntersection, nullptr);
 	}
 
 	updateMouseDelta();
@@ -3423,8 +3423,8 @@ void LLViewerWindow::updateLayout()
 {
     static LLCachedControl<bool> sFreezeTime(gSavedSettings, "FreezeTime", false);
 	LLTool* tool = LLToolMgr::getInstance()->getCurrentTool();
-	if (gFloaterTools != NULL
-		&& tool != NULL
+	if (gFloaterTools != nullptr
+		&& tool != nullptr
 		&& tool != gToolNull  
 		&& tool != LLToolCompInspect::getInstance() 
 		&& tool != LLToolDragAndDrop::getInstance() 
@@ -3445,7 +3445,7 @@ void LLViewerWindow::updateLayout()
 				&& tool != LLToolCompGun::getInstance()					// not coming out of mouselook
 				&& !suppress_toolbox									// not override in third person
 				&& LLToolMgr::getInstance()->getCurrentToolset()->isShowFloaterTools()
-				&& (!captor || dynamic_cast<LLView*>(captor) != NULL)))						// not dragging
+				&& (!captor || dynamic_cast<LLView*>(captor) != nullptr)))						// not dragging
 		{
 			// Force floater tools to be visible (unless minimized)
 			if (!gFloaterTools->getVisible())
@@ -3521,7 +3521,7 @@ void LLViewerWindow::updateKeyboardFocus()
 {
 	if (!gPipeline.hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_UI))
 	{
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 	}
 
 	// clean up current focus
@@ -3572,7 +3572,7 @@ void LLViewerWindow::updateKeyboardFocus()
 	}
 
 	// last ditch force of edit menu to selection manager
-	if (LLEditMenuHandler::gEditMenuHandler == NULL && LLSelectMgr::getInstance()->getSelection()->getObjectCount())
+	if (LLEditMenuHandler::gEditMenuHandler == nullptr && LLSelectMgr::getInstance()->getSelection()->getObjectCount())
 	{
 		LLEditMenuHandler::gEditMenuHandler = LLSelectMgr::getInstance();
 	}
@@ -3740,7 +3740,7 @@ void LLViewerWindow::renderSelections( BOOL for_gl_pick, BOOL pick_parcel_walls,
 
 			struct f : public LLSelectedObjectFunctor
 			{
-				virtual bool apply(LLViewerObject* object)
+				bool apply(LLViewerObject* object) override
 				{
 					LLDrawable* drawable = object->mDrawable;
 					if (drawable && drawable->isLight())
@@ -3800,10 +3800,10 @@ void LLViewerWindow::renderSelections( BOOL for_gl_pick, BOOL pick_parcel_walls,
 					{
 						LLSelectNode* nodep = *iter;
 						LLViewerObject* object = nodep->getObject();
-						LLViewerObject *root_object = (object == NULL) ? NULL : object->getRootEdit();
+						LLViewerObject *root_object = (object == nullptr) ? NULL : object->getRootEdit();
 						BOOL this_object_movable = FALSE;
 						if (object && object->permMove() && !object->isPermanentEnforced() &&
-							((root_object == NULL) || !root_object->isPermanentEnforced()) &&
+							((root_object == nullptr) || !root_object->isPermanentEnforced()) &&
 							(object->permModify() || selecting_linked_set))
 						{
 							moveable_object_selected = TRUE;
@@ -3973,7 +3973,7 @@ LLPickInfo LLViewerWindow::pickImmediate(S32 x, S32 y_from_bot, BOOL pick_transp
 	
 	// shortcut queueing in mPicks and just update mLastPick in place
 	MASK	key_mask = gKeyboard->currentMask(TRUE);
-	mLastPick = LLPickInfo(LLCoordGL(x, y_from_bot), key_mask, pick_transparent, pick_rigged, pick_particle, TRUE, FALSE, NULL);
+	mLastPick = LLPickInfo(LLCoordGL(x, y_from_bot), key_mask, pick_transparent, pick_rigged, pick_particle, TRUE, FALSE, nullptr);
 	mLastPick.fetchResults();
 
 	return mLastPick;
@@ -4074,7 +4074,7 @@ LLViewerObject* LLViewerWindow::cursorIntersect(S32 mouse_x, S32 mouse_y, F32 de
 		*end = mw_end;
 	}
 
-	LLViewerObject* found = NULL;
+	LLViewerObject* found = nullptr;
 
 	if (this_object)  // check only this object
 	{
@@ -4476,7 +4476,7 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 	}
 	if(image_width * image_height > (1 << 22)) //if snapshot image is larger than 2K by 2K
 	{
-		if(!LLMemory::tryToAlloc(NULL, image_width * image_height * 3))
+		if(!LLMemory::tryToAlloc(nullptr, image_width * image_height * 3))
 		{
 			LL_WARNS() << "No enough memory to take the snapshot with size (w : h): " << image_width << " : " << image_height << LL_ENDL ;
 			return FALSE ; //there is no enough memory for taking this snapshot.
@@ -4784,7 +4784,7 @@ void LLViewerWindow::destroyWindow()
 	{
 		LLWindowManager::destroyWindow(mWindow);
 	}
-	mWindow = NULL;
+	mWindow = nullptr;
 }
 
 
@@ -5408,21 +5408,21 @@ void LLViewerWindow::setWindowTitle(const std::string& title)
 //
 LLPickInfo::LLPickInfo()
 	: mKeyMask(MASK_NONE),
-	  mPickCallback(NULL),
+	  mPickCallback(nullptr),
 	  mPickType(PICK_INVALID),
-	  mWantSurfaceInfo(FALSE),
 	  mObjectFace(-1),
+	  mHUDIcon(nullptr),
+	  mIntersection(),
 	  mUVCoords(-1.f, -1.f),
 	  mSTCoords(-1.f, -1.f),
 	  mXYCoords(-1, -1),
-	  mIntersection(),
 	  mNormal(),
 	  mTangent(),
 	  mBinormal(),
-	  mHUDIcon(NULL),
 	  mPickTransparent(FALSE),
 	  mPickRigged(FALSE),
-	  mPickParticle(FALSE)
+	  mPickParticle(FALSE),
+	  mWantSurfaceInfo(FALSE)
 {
 }
 
@@ -5438,19 +5438,19 @@ LLPickInfo::LLPickInfo(const LLCoordGL& mouse_pos,
 	  mKeyMask(keyboard_mask),
 	  mPickCallback(pick_callback),
 	  mPickType(PICK_INVALID),
-	  mWantSurfaceInfo(pick_uv_coords),
 	  mObjectFace(-1),
+	  mHUDIcon(nullptr),
 	  mUVCoords(-1.f, -1.f),
 	  mSTCoords(-1.f, -1.f),
 	  mXYCoords(-1, -1),
 	  mNormal(),
 	  mTangent(),
 	  mBinormal(),
-	  mHUDIcon(NULL),
 	  mPickTransparent(pick_transparent),
 	  mPickRigged(pick_rigged),
 	  mPickParticle(pick_particle),
-	  mPickUnselectable(pick_unselectable)
+	  mPickUnselectable(pick_unselectable),
+	  mWantSurfaceInfo(pick_uv_coords)
 {
 }
 
@@ -5480,7 +5480,7 @@ void LLPickInfo::fetchResults()
 	}
 
 	LLViewerObject* hit_object = gViewerWindow->cursorIntersect(mMousePt.mX, mMousePt.mY, 512.f,
-									NULL, -1, mPickTransparent, mPickRigged, &face_hit,
+									nullptr, -1, mPickTransparent, mPickRigged, &face_hit,
 									&intersection, &uv, &normal, &tangent, &start, &end);
 	
 	mPickPt = mMousePt;
@@ -5567,7 +5567,7 @@ void LLPickInfo::fetchResults()
 	{ //search for closest particle to click origin out to intersection point
 		S32 part_face = -1;
 
-		LLVOPartGroup* group = gPipeline.lineSegmentIntersectParticle(start, particle_end, NULL, &part_face);
+		LLVOPartGroup* group = gPipeline.lineSegmentIntersectParticle(start, particle_end, nullptr, &part_face);
 		if (group)
 		{
 			mParticleOwnerID = group->getPartOwner(part_face);

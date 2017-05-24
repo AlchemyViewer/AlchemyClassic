@@ -129,7 +129,7 @@ public:
 	/*virtual*/ void post(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLSD body = input["body"];
 
@@ -167,7 +167,7 @@ class LLDisplayNameUpdate : public LLHTTPNode
 	/*virtual*/ void post(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLSD body = input["body"];
 		LLUUID agent_id = body["agent_id"];

@@ -40,7 +40,7 @@ class LLPanelSearch : public LLPanel
 {
 public:
 	LLPanelSearch();
-	/* virtual */ BOOL postBuild() { return FALSE; }
+	/* virtual */ BOOL postBuild() override { return FALSE; }
 	void setSearchFloater(LLFloaterDirectory* floater);
 	
 protected:

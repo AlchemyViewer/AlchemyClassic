@@ -49,8 +49,8 @@ const S32 LLToastIMPanel::DEFAULT_MESSAGE_MAX_LINE_COUNT	= 6;
 
 //--------------------------------------------------------------------------
 LLToastIMPanel::LLToastIMPanel(LLToastIMPanel::Params &p) :	LLToastPanel(p.notification),
-								mAvatarIcon(NULL), mAvatarName(NULL),
-								mTime(NULL), mMessage(NULL), mGroupIcon(NULL)
+								mAvatarIcon(nullptr), mGroupIcon(nullptr),
+								mAvatarName(nullptr), mTime(nullptr), mMessage(nullptr)
 {
 	buildFromFile( "panel_instant_message.xml");
 

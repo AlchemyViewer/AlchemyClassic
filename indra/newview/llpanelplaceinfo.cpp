@@ -57,9 +57,9 @@ LLPanelPlaceInfo::LLPanelPlaceInfo()
 	mScrollingPanelMinHeight(0),
 	mScrollingPanelWidth(0),
 	mInfoType(UNKNOWN),
-	mScrollingPanel(NULL),
-	mScrollContainer(NULL),
-	mDescEditor(NULL)
+	mScrollContainer(nullptr),
+	mScrollingPanel(nullptr),
+	mDescEditor(nullptr)
 {}
 
 //virtual

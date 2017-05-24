@@ -57,26 +57,26 @@ protected:
 	friend class LLUICtrlFactory;
 	LLConversationViewSession( const Params& p );
 
-	/*virtual*/ bool isHighlightAllowed();
-	/*virtual*/ bool isHighlightActive();
-	/*virtual*/ bool isFlashing() { return mFlashStateOn; }
+	/*virtual*/ bool isHighlightAllowed() override;
+	/*virtual*/ bool isHighlightActive() override;
+	/*virtual*/ bool isFlashing() override { return mFlashStateOn; }
 
 	LLFloaterIMContainer* mContainer;
 	
 public:
 	virtual ~LLConversationViewSession();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleRightMouseDown( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleMouseUp( S32 x, S32 y, MASK mask );
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleRightMouseDown( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleMouseUp( S32 x, S32 y, MASK mask ) override;
 
-	/*virtual*/ S32 arrange(S32* width, S32* height);
+	/*virtual*/ S32 arrange(S32* width, S32* height) override;
 
-	/*virtual*/ void toggleOpen();
+	/*virtual*/ void toggleOpen() override;
 
-	/*virtual*/	bool isCollapsed() { return mCollapsedMode; }
+	/*virtual*/	bool isCollapsed() override { return mCollapsedMode; }
 
 	void toggleCollapsedMode(bool is_collapsed);
 
@@ -86,9 +86,9 @@ public:
 	void showVoiceIndicator(bool visible);
 	void showTypingIndicator(bool visible);
 
-	virtual void refresh();
+	void refresh() override;
 
-	/*virtual*/ void setFlashState(bool flash_state);
+	/*virtual*/ void setFlashState(bool flash_state) override;
 	void setHighlightState(bool hihglight_state);
 
 	LLFloater* getSessionFloater();
@@ -139,23 +139,23 @@ public:
     virtual ~LLConversationViewParticipant( void );
 
     bool hasSameValue(const LLUUID& uuid) { return (uuid == mUUID); }
-    void addToFolder(LLFolderViewFolder* folder);
+    void addToFolder(LLFolderViewFolder* folder) override;
 	void addToSession(const LLUUID& session_id);
 
-    void onMouseEnter(S32 x, S32 y, MASK mask);
-    void onMouseLeave(S32 x, S32 y, MASK mask);
+    void onMouseEnter(S32 x, S32 y, MASK mask) override;
+    void onMouseLeave(S32 x, S32 y, MASK mask) override;
 
-    /*virtual*/ S32 getLabelXPos();
-    /*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask );
+    /*virtual*/ S32 getLabelXPos() override;
+    /*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
 	void hideSpeakingIndicator();
 
 protected:
 	friend class LLUICtrlFactory;
 	LLConversationViewParticipant( const Params& p );
 	void initFromParams(const Params& params);
-	BOOL postBuild();
-    /*virtual*/ void draw();
-    /*virtual*/ S32 arrange(S32* width, S32* height);
+	BOOL postBuild() override;
+    /*virtual*/ void draw() override;
+    /*virtual*/ S32 arrange(S32* width, S32* height) override;
 	
 	void onInfoBtnClick();
 

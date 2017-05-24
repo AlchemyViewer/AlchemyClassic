@@ -54,10 +54,10 @@ public:
 	LLWatchdogTimeout();
 	virtual ~LLWatchdogTimeout();
 
-	/* virtual */ bool isAlive() const;
-	/* virtual */ void reset();
-	/* virtual */ void start() { start(""); }
-	/* virtual */ void stop();
+	/* virtual */ bool isAlive() const override;
+	/* virtual */ void reset() override;
+	/* virtual */ void start() override { start(""); }
+	/* virtual */ void stop() override;
 
 	void start(const std::string& state); 
 	void setTimeout(F32 d);

@@ -234,7 +234,7 @@ void LLAvatarRenderInfoAccountant::avatarRenderInfoReportCoro(std::string url, U
     LLSD report = LLSD::emptyMap();
     report[KEY_AGENTS] = agents;
 
-    regionp = NULL;
+    regionp = nullptr;
     LLSD result = httpAdapter->postAndSuspend(httpRequest, url, report);
 
     regionp = LLWorld::getInstance()->getRegionFromHandle(regionHandle);

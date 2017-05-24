@@ -35,12 +35,12 @@
 #include "llscripteditor.h"
 #include "llviewerwindow.h"
 
-LLFloaterGotoLine* LLFloaterGotoLine::sInstance = NULL;
+LLFloaterGotoLine* LLFloaterGotoLine::sInstance = nullptr;
 
 LLFloaterGotoLine::LLFloaterGotoLine(LLScriptEdCore* editor_core)
 :       LLFloater(LLSD()),
-        mGotoBox(NULL),
-        mEditorCore(editor_core)
+        mEditorCore(editor_core),
+        mGotoBox(nullptr)
 {
         buildFromFile("floater_goto_line.xml");
 
@@ -92,7 +92,7 @@ void LLFloaterGotoLine::show(LLScriptEdCore* editor_core)
 
 LLFloaterGotoLine::~LLFloaterGotoLine()
 {
-        sInstance = NULL;
+        sInstance = nullptr;
 }
 
 // static 

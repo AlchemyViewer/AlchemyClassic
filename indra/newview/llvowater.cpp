@@ -126,7 +126,7 @@ BOOL LLVOWater::updateGeometry(LLDrawable *drawable)
 	if (drawable->getNumFaces() < 1)
 	{
 		LLDrawPoolWater *poolp = (LLDrawPoolWater*) gPipeline.getPool(LLDrawPool::POOL_WATER);
-		drawable->addFace(poolp, NULL);
+		drawable->addFace(poolp, nullptr);
 	}
 	face = drawable->getFace(0);
 	if (!face)

@@ -399,7 +399,7 @@ void LLHUDEffectLookAt::setTargetObjectAndOffset(LLViewerObject *objp, LLVector3
 //-----------------------------------------------------------------------------
 void LLHUDEffectLookAt::setTargetPosGlobal(const LLVector3d &target_pos_global)
 {
-	mTargetObject = NULL;
+	mTargetObject = nullptr;
 	mTargetOffsetGlobal = target_pos_global;
 }
 
@@ -471,7 +471,7 @@ BOOL LLHUDEffectLookAt::setLookAt(ELookAtType target_type, LLViewerObject *objec
 //-----------------------------------------------------------------------------
 void LLHUDEffectLookAt::clearLookAtTarget()
 {
-	mTargetObject = NULL;
+	mTargetObject = nullptr;
 	mTargetOffsetGlobal.clearVec();
 	mTargetType = LOOKAT_TARGET_NONE;
 	if (mSourceObject.notNull())
@@ -490,7 +490,7 @@ void LLHUDEffectLookAt::markDead()
 		((LLVOAvatar*)(LLViewerObject*)mSourceObject)->removeAnimationData("LookAtPoint");
 	}
 
-	mSourceObject = NULL;
+	mSourceObject = nullptr;
 	clearLookAtTarget();
 	LLHUDEffect::markDead();
 }

@@ -41,7 +41,7 @@
 
 LLFloaterTextureFetchDebugger::LLFloaterTextureFetchDebugger(const LLSD& key)
 	: LLFloater(key),
-	mDebugger(NULL)
+	mDebugger(nullptr)
 {
 	setTitle("Texture Fetching Debugger Floater");
 	

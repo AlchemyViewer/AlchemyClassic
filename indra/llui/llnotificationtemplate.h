@@ -86,9 +86,9 @@ struct LLNotificationTemplate
 		Optional<LLNotification::ECombineBehavior, CombineBehaviorNames> combine;
 
 		UniquenessConstraint()
-		:	contexts("context"),
-			combine("combine", LLNotification::REPLACE_WITH_NEW),
-			dummy_val("")
+		:	dummy_val(""),
+			contexts("context"),
+			combine("combine", LLNotification::REPLACE_WITH_NEW)
 		{}
 	};
 
@@ -206,7 +206,6 @@ struct LLNotificationTemplate
 			functor("functor"),
 			icon("icon"),
 			label("label"),
-			priority("priority"),
 			sound("sound"),
 			type("type"),
 			value("value"),
@@ -215,6 +214,7 @@ struct LLNotificationTemplate
 			url("url"),
 			unique("unique"),
 			form_ref(""),
+			priority("priority"),
 			tags("tag"),
 			footer("footer")
 		{}
@@ -229,8 +229,8 @@ struct LLNotificationTemplate
 
 		Notifications()
 		:	strings("global"),
-			notifications("notification"),
-			templates("template")
+			templates("template"),
+			notifications("notification")
 		{}
 	};
 

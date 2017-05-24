@@ -55,7 +55,7 @@
 #include "lluictrlfactory.h"
 #include "llpanellogin.h"
 
-LLProgressView* LLProgressView::sInstance = NULL;
+LLProgressView* LLProgressView::sInstance = nullptr;
 
 S32 gStartImageWidth = 1;
 S32 gStartImageHeight = 1;
@@ -66,16 +66,16 @@ static LLPanelInjector<LLProgressView> r("progress_view");
 // XUI: Translate
 LLProgressView::LLProgressView() 
 :	LLPanel(),
-	mMediaCtrl( NULL ),
+	mMediaCtrl(nullptr ),
 	mPercentDone(0.f),
 	mProgressText(nullptr),
 	mMessageText(nullptr),
 	mCancelBtn(nullptr),
-	mMouseDownInActiveArea( false ),
-	mUpdateEvents("LLProgressView"),
 	mFadeToWorldTimer(),
 	mFadeFromLoginTimer(),
-	mStartupComplete(false)
+	mMouseDownInActiveArea( false ),
+	mStartupComplete(false),
+	mUpdateEvents("LLProgressView")
 {
 	mUpdateEvents.listen("self", boost::bind(&LLProgressView::handleUpdate, this, _1));
 	mFadeToWorldTimer.stop();
@@ -94,7 +94,7 @@ BOOL LLProgressView::postBuild()
 	LLViewerMedia::setOnlyAudibleMediaTextureID(mMediaCtrl->getTextureID());
 
 	mCancelBtn = getChild<LLButton>("cancel_btn");
-	mCancelBtn->setClickedCallback(  LLProgressView::onCancelButtonClicked, NULL );
+	mCancelBtn->setClickedCallback(  LLProgressView::onCancelButtonClicked, nullptr );
 
 	getChild<LLTextBox>("title_text")->setText(LLStringExplicit(LLAppViewer::instance()->getSecondLifeTitle()));
 
@@ -120,12 +120,12 @@ LLProgressView::~LLProgressView()
 
 	gFocusMgr.releaseFocusIfNeeded( this );
 
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 BOOL LLProgressView::handleHover(S32 x, S32 y, MASK mask)
 {
-	if( childrenHandleHover( x, y, mask ) == NULL )
+	if( childrenHandleHover( x, y, mask ) == nullptr )
 	{
 		gViewerWindow->setCursor(UI_CURSOR_WAIT);
 	}
@@ -291,7 +291,7 @@ void LLProgressView::draw()
 			// FIXME: this causes a crash that i haven't been able to fix
 			mMediaCtrl->unloadMediaSource();	
 
-			gStartTexture = NULL;
+			gStartTexture = nullptr;
 		}
 		return;
 	}
@@ -347,7 +347,7 @@ void LLProgressView::onCancelButtonClicked(void*)
 void LLProgressView::onClickMessage(void* data)
 {
 	LLProgressView* viewp = (LLProgressView*)data;
-	if ( viewp != NULL && ! viewp->mMessage.empty() )
+	if ( viewp != nullptr && ! viewp->mMessage.empty() )
 	{
 		std::string url_to_open( "" );
 

@@ -120,7 +120,8 @@ void LLFloaterInspect::onClickCreatorProfile()
 		{
 			LLUUID obj_id;
 			f(const LLUUID& id) : obj_id(id) {}
-			virtual bool apply(LLSelectNode* node)
+
+			bool apply(LLSelectNode* node) override
 			{
 				return (obj_id == node->getObject()->getID());
 			}
@@ -145,7 +146,8 @@ void LLFloaterInspect::onClickOwnerProfile()
 		{
 			LLUUID obj_id;
 			f(const LLUUID& id) : obj_id(id) {}
-			virtual bool apply(LLSelectNode* node)
+
+			bool apply(LLSelectNode* node) override
 			{
 				return (obj_id == node->getObject()->getID());
 			}

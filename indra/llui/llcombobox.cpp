@@ -72,15 +72,15 @@ LLComboBox::ItemParams::ItemParams()
 
 LLComboBox::Params::Params()
 :	allow_text_entry("allow_text_entry", false),
-	allow_new_values("allow_new_values", false),
 	show_text_as_tentative("show_text_as_tentative", true),
+	allow_new_values("allow_new_values", false),
 	max_chars("max_chars", 20),
 	list_position("list_position", BELOW),
-	items("item"),
 	combo_button("combo_button"),
 	combo_list("combo_list"),
 	combo_editor("combo_editor"),
-	drop_down_button("drop_down_button")
+	drop_down_button("drop_down_button"),
+	items("item")
 {
 	addSynonym(items, "combo_item");
 }
@@ -88,18 +88,18 @@ LLComboBox::Params::Params()
 
 LLComboBox::LLComboBox(const LLComboBox::Params& p)
 :	LLUICtrl(p),
-	mTextEntry(NULL),
-	mTextEntryTentative(p.show_text_as_tentative),
+	mTextEntry(nullptr),
+	mListPosition(p.list_position),
+	mLabel(p.label),
 	mHasAutocompletedText(false),
 	mAllowTextEntry(p.allow_text_entry),
 	mAllowNewValues(p.allow_new_values),
 	mMaxChars(p.max_chars),
+	mTextEntryTentative(p.show_text_as_tentative),
 	mPrearrangeCallback(p.prearrange_callback()),
 	mTextEntryCallback(p.text_entry_callback()),
 	mTextChangedCallback(p.text_changed_callback()),
-	mListPosition(p.list_position),
-	mLastSelectedIndex(-1),
-	mLabel(p.label)
+	mLastSelectedIndex(-1)
 {
 	// Text label button
 
@@ -563,7 +563,7 @@ void* LLComboBox::getCurrentUserdata()
 	{
 		return item->getUserdata();
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -861,7 +861,7 @@ void LLComboBox::setTextEntry(const LLStringExplicit& text)
 
 void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 {
-	if (mTextEntryCallback != NULL)
+	if (mTextEntryCallback != nullptr)
 	{
 		(mTextEntryCallback)(line_editor, LLSD());
 	}
@@ -881,7 +881,7 @@ void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 			mList->deselectAllItems();
 			mLastSelectedIndex = -1;
 		}
-		if (mTextChangedCallback != NULL)
+		if (mTextChangedCallback != nullptr)
 		{
 			(mTextChangedCallback)(line_editor, LLSD());
 		}
@@ -929,7 +929,7 @@ void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 		// RN: presumably text entry
 		updateSelection();
 	}
-	if (mTextChangedCallback != NULL)
+	if (mTextChangedCallback != nullptr)
 	{
 		(mTextChangedCallback)(line_editor, LLSD());
 	}

@@ -187,9 +187,9 @@ public:
 	// Construct using createFromFile (used by tools)
 	//LLImageRaw(const std::string& filename, bool j2c_lowest_mip_only = false);
 
-	/*virtual*/ void deleteData();
-	/*virtual*/ U8* allocateData(S32 size = -1);
-	/*virtual*/ U8* reallocateData(S32 size);
+	/*virtual*/ void deleteData() override;
+	/*virtual*/ U8* allocateData(S32 size = -1) override;
+	/*virtual*/ U8* reallocateData(S32 size) override;
 	
 	bool resize(U16 width, U16 height, S8 components);
 
@@ -292,12 +292,12 @@ public:
 	LLImageFormatted(S8 codec);
 
 	// LLImageBase
-	/*virtual*/ void deleteData();
-	/*virtual*/ U8* allocateData(S32 size = -1);
-	/*virtual*/ U8* reallocateData(S32 size);
+	/*virtual*/ void deleteData() override;
+	/*virtual*/ U8* allocateData(S32 size = -1) override;
+	/*virtual*/ U8* reallocateData(S32 size) override;
 	
-	/*virtual*/ void dump();
-	/*virtual*/ void sanityCheck();
+	/*virtual*/ void dump() override;
+	/*virtual*/ void sanityCheck() override;
 
 	// New methods
 	// subclasses must return a prefered file extension (lowercase without a leading dot)

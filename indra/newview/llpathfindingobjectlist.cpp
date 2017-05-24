@@ -62,7 +62,7 @@ void LLPathfindingObjectList::clear()
 
 void LLPathfindingObjectList::update(LLPathfindingObjectPtr pUpdateObjectPtr)
 {
-	if (pUpdateObjectPtr != NULL)
+	if (pUpdateObjectPtr != nullptr)
 	{
 		std::string updateObjectId = pUpdateObjectPtr->getUUID().asString();
 
@@ -80,7 +80,7 @@ void LLPathfindingObjectList::update(LLPathfindingObjectPtr pUpdateObjectPtr)
 
 void LLPathfindingObjectList::update(LLPathfindingObjectListPtr pUpdateObjectListPtr)
 {
-	if ((pUpdateObjectListPtr != NULL) && !pUpdateObjectListPtr->isEmpty())
+	if ((pUpdateObjectListPtr != nullptr) && !pUpdateObjectListPtr->isEmpty())
 	{
 		for (LLPathfindingObjectMap::const_iterator updateObjectIter = pUpdateObjectListPtr->begin();
 			updateObjectIter != pUpdateObjectListPtr->end(); ++updateObjectIter)

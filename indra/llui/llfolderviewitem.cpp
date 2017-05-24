@@ -98,11 +98,11 @@ void LLFolderViewItem::cleanupClass()
 
 // NOTE: Optimize this, we call it a *lot* when opening a large inventory
 LLFolderViewItem::Params::Params()
-:	root(),
-	listener(),
-	folder_arrow_image("folder_arrow_image"),
-	folder_indentation("folder_indentation"),
+:	folder_arrow_image("folder_arrow_image"),
 	selection_image("selection_image"),
+	root(),
+	listener(),
+	folder_indentation("folder_indentation"),
 	item_height("item_height"),
 	item_top_pad("item_top_pad"),
 	creation_date(),
@@ -122,38 +122,38 @@ LLFolderViewItem::Params::Params()
 // Default constructor
 LLFolderViewItem::LLFolderViewItem(const LLFolderViewItem::Params& p)
 :	LLView(p),
+	mLabel(p.name),
 	mLabelWidth(0),
-	mLabelWidthDirty(false),
-    mLabelPaddingRight(DEFAULT_LABEL_PADDING_RIGHT),
-	mParentFolder( NULL ),
-	mIsSelected( FALSE ),
-	mIsCurSelection( FALSE ),
-	mSelectPending(FALSE),
-	mIsItemCut(false),
-	mCutGeneration(0),
+    mLabelWidthDirty(false),
+	mLabelPaddingRight(DEFAULT_LABEL_PADDING_RIGHT),
+	mParentFolder(nullptr ),
+	mViewModelItem(p.listener),
 	mLabelStyle( LLFontGL::NORMAL ),
-	mHasVisibleChildren(FALSE),
-	mIsFolderComplete(true),
-    mLocalIndentation(p.folder_indentation),
+	mLocalIndentation(p.folder_indentation),
 	mIndentation(0),
 	mItemHeight(p.item_height),
+	mLeftPad(p.left_pad),
+	mIconPad(p.icon_pad),
+    mIconWidth(p.icon_width),
+	mTextPad(p.text_pad),
+	mTextPadRight(p.text_pad_right),
+	mArrowSize(p.arrow_size),
+	mMaxFolderItemOverlap(p.max_folder_item_overlap),
 	mControlLabelRotation(0.f),
-	mDragAndDropTarget(FALSE),
-	mLabel(p.name),
 	mRoot(p.root),
-	mViewModelItem(p.listener),
+	mHasVisibleChildren(FALSE),
+	mIsFolderComplete(true),
+	mIsCurSelection( FALSE ),
+    mDragAndDropTarget(FALSE),
 	mIsMouseOverTitle(false),
 	mAllowWear(p.allow_wear),
     mAllowDrop(p.allow_drop),
-	mFontColor(p.font_color),
-	mFontHighlightColor(p.font_highlight_color),
-    mLeftPad(p.left_pad),
-    mIconPad(p.icon_pad),
-    mIconWidth(p.icon_width),
-    mTextPad(p.text_pad),
-    mTextPadRight(p.text_pad_right),
-    mArrowSize(p.arrow_size),
-    mMaxFolderItemOverlap(p.max_folder_item_overlap)
+    mSelectPending(FALSE),
+    mIsItemCut(false),
+    mCutGeneration(0),
+    mFontColor(p.font_color),
+    mFontHighlightColor(p.font_highlight_color),
+    mIsSelected( FALSE )
 {
 	if (!sColorSetInitialized)
 	{
@@ -178,7 +178,7 @@ LLFolderViewItem::LLFolderViewItem(const LLFolderViewItem::Params& p)
 // Destroys the object
 LLFolderViewItem::~LLFolderViewItem()
 {
-	mViewModelItem = NULL;
+	mViewModelItem = nullptr;
 }
 
 BOOL LLFolderViewItem::postBuild()
@@ -216,7 +216,7 @@ LLFolderViewItem* LLFolderViewItem::getNextOpenNode(BOOL include_children)
 {
 	if (!mParentFolder)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	LLFolderViewItem* itemp = mParentFolder->getNextFromChild( this, include_children );
@@ -238,7 +238,7 @@ LLFolderViewItem* LLFolderViewItem::getPreviousOpenNode(BOOL include_children)
 {
 	if (!mParentFolder)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	LLFolderViewItem* itemp = mParentFolder->getPreviousFromChild( this, include_children );
@@ -563,13 +563,13 @@ BOOL LLFolderViewItem::handleHover( S32 x, S32 y, MASK mask )
 			&& root->startDrag())
 		{
 					// RN: when starting drag and drop, clear out last auto-open
-					root->autoOpenTest(NULL);
+					root->autoOpenTest(nullptr);
 					root->setShowSelectionContext(TRUE);
 
 					// Release keyboard focus, so that if stuff is dropped into the
 					// world, pressing the delete key won't blow away the inventory
 					// item.
-					gFocusMgr.setKeyboardFocus(NULL);
+					gFocusMgr.setKeyboardFocus(nullptr);
 
 			getWindow()->setCursor(UI_CURSOR_ARROW);
 		}
@@ -629,7 +629,7 @@ BOOL LLFolderViewItem::handleMouseUp( S32 x, S32 y, MASK mask )
 		{
 		getRoot()->setShowSelectionContext(FALSE);
 		}
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 	}
 	return TRUE;
 }
@@ -662,7 +662,7 @@ BOOL LLFolderViewItem::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 		// store this item to get it in LLFolderBridge::dragItemIntoFolder on drop event.
 		mRoot->setDraggingOverItem(this);
 		handled = mParentFolder->handleDragAndDropFromChild(mask,drop,cargo_type,cargo_data,accept,tooltip_msg);
-		mRoot->setDraggingOverItem(NULL);
+		mRoot->setDraggingOverItem(nullptr);
 	}
 	if (handled)
 	{
@@ -1275,7 +1275,7 @@ BOOL LLFolderViewFolder::changeSelection(LLFolderViewItem* selection, BOOL selec
 
 LLFolderViewFolder* LLFolderViewFolder::getCommonAncestor(LLFolderViewItem* item_a, LLFolderViewItem* item_b, bool& reverse)
 {
-	if (!item_a->getParentFolder() || !item_b->getParentFolder()) return NULL;
+	if (!item_a->getParentFolder() || !item_b->getParentFolder()) return nullptr;
 
 	std::deque<LLFolderViewFolder*> item_a_ancestors;
 
@@ -1360,12 +1360,12 @@ LLFolderViewFolder* LLFolderViewFolder::getCommonAncestor(LLFolderViewItem* item
 		item_b_ancestors.pop_front();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void LLFolderViewFolder::gatherChildRangeExclusive(LLFolderViewItem* start, LLFolderViewItem* end, bool reverse, std::vector<LLFolderViewItem*>& items)
 {
-	bool selecting = start == NULL;
+	bool selecting = start == nullptr;
 	if (reverse)
 	{
 		for (items_t::reverse_iterator it = mItems.rbegin(), end_it = mItems.rend();
@@ -1454,7 +1454,7 @@ void LLFolderViewFolder::extendSelectionTo(LLFolderViewItem* new_selection)
 	if (getRoot()->getAllowMultiSelect() == FALSE) return;
 
 	LLFolderViewItem* cur_selected_item = getRoot()->getCurSelectedItem();
-	if (cur_selected_item == NULL)
+	if (cur_selected_item == nullptr)
 	{
 		cur_selected_item = new_selection;
 	}
@@ -1471,7 +1471,7 @@ void LLFolderViewFolder::extendSelectionTo(LLFolderViewItem* new_selection)
 
 	while(cur_folder != common_ancestor)
 	{
-		cur_folder->gatherChildRangeExclusive(last_selected_item_from_cur, NULL, reverse, items_to_select_forward);
+		cur_folder->gatherChildRangeExclusive(last_selected_item_from_cur, nullptr, reverse, items_to_select_forward);
 			
 		last_selected_item_from_cur = cur_folder;
 		cur_folder = cur_folder->getParentFolder();
@@ -1483,7 +1483,7 @@ void LLFolderViewFolder::extendSelectionTo(LLFolderViewItem* new_selection)
 	cur_folder = new_selection->getParentFolder();
 	while(cur_folder != common_ancestor)
 	{
-		cur_folder->gatherChildRangeExclusive(last_selected_item_from_new, NULL, !reverse, items_to_select_reverse);
+		cur_folder->gatherChildRangeExclusive(last_selected_item_from_new, nullptr, !reverse, items_to_select_reverse);
 
 		last_selected_item_from_new = cur_folder;
 		cur_folder = cur_folder->getParentFolder();
@@ -1770,7 +1770,7 @@ BOOL LLFolderViewFolder::handleDragAndDropFromChild(MASK mask,
 	}
 
 	// drag and drop to child item, so clear pending auto-opens
-	getRoot()->autoOpenTest(NULL);
+	getRoot()->autoOpenTest(nullptr);
 
 	return TRUE;
 }
@@ -1826,7 +1826,7 @@ BOOL LLFolderViewFolder::handleDragAndDrop(S32 x, S32 y, MASK mask,
 
 	if (isOpen())
 	{
-		handled = (childrenHandleDragAndDrop(x, y, mask, drop, cargo_type, cargo_data, accept, tooltip_msg) != NULL);
+		handled = (childrenHandleDragAndDrop(x, y, mask, drop, cargo_type, cargo_data, accept, tooltip_msg) != nullptr);
 	}
 
 	if (!handled)
@@ -1880,7 +1880,7 @@ BOOL LLFolderViewFolder::handleRightMouseDown( S32 x, S32 y, MASK mask )
 
 	if( isOpen() )
 	{
-		handled = childrenHandleRightMouseDown( x, y, mask ) != NULL;
+		handled = childrenHandleRightMouseDown( x, y, mask ) != nullptr;
 	}
 	if (!handled)
 	{
@@ -1910,7 +1910,7 @@ BOOL LLFolderViewFolder::handleMouseDown( S32 x, S32 y, MASK mask )
 	BOOL handled = FALSE;
 	if( isOpen() )
 	{
-		handled = childrenHandleMouseDown(x,y,mask) != NULL;
+		handled = childrenHandleMouseDown(x,y,mask) != nullptr;
 	}
 	if( !handled )
 	{
@@ -1934,7 +1934,7 @@ BOOL LLFolderViewFolder::handleDoubleClick( S32 x, S32 y, MASK mask )
 	BOOL handled = FALSE;
 	if( isOpen() )
 	{
-		handled = childrenHandleDoubleClick( x, y, mask ) != NULL;
+		handled = childrenHandleDoubleClick( x, y, mask ) != nullptr;
 	}
 	if( !handled )
 	{
@@ -1974,9 +1974,9 @@ LLFolderViewItem* LLFolderViewFolder::getNextFromChild( LLFolderViewItem* item, 
 {
 	BOOL found_item = FALSE;
 
-	LLFolderViewItem* result = NULL;
+	LLFolderViewItem* result = nullptr;
 	// when not starting from a given item, start at beginning
-	if(item == NULL)
+	if(item == nullptr)
 	{
 		found_item = TRUE;
 	}
@@ -2001,7 +2001,7 @@ LLFolderViewItem* LLFolderViewFolder::getNextFromChild( LLFolderViewItem* item, 
 				if (include_children && (*fit)->isOpen())
 				{
 					// look for first descendant
-					return (*fit)->getNextFromChild(NULL, TRUE);
+					return (*fit)->getNextFromChild(nullptr, TRUE);
 				}
 				// otherwise advance to next folder
 				++fit;
@@ -2031,7 +2031,7 @@ LLFolderViewItem* LLFolderViewFolder::getNextFromChild( LLFolderViewItem* item, 
 		// you should never call this method with an item that isn't a child
 		// so we should always find something
 		llassert(FALSE);
-		return NULL;
+		return nullptr;
 	}
 
 	// at this point, either iit or fit point to a candidate "next" item
@@ -2079,9 +2079,9 @@ LLFolderViewItem* LLFolderViewFolder::getPreviousFromChild( LLFolderViewItem* it
 {
 	BOOL found_item = FALSE;
 
-	LLFolderViewItem* result = NULL;
+	LLFolderViewItem* result = nullptr;
 	// when not starting from a given item, start at end
-	if(item == NULL)
+	if(item == nullptr)
 	{
 		found_item = TRUE;
 	}
@@ -2129,7 +2129,7 @@ LLFolderViewItem* LLFolderViewFolder::getPreviousFromChild( LLFolderViewItem* it
 		// you should never call this method with an item that isn't a child
 		// so we should always find something
 		llassert(FALSE);
-		return NULL;
+		return nullptr;
 	}
 
 	// at this point, either iit or fit point to a candidate "next" item
@@ -2161,7 +2161,7 @@ LLFolderViewItem* LLFolderViewFolder::getPreviousFromChild( LLFolderViewItem* it
 			// try selecting child element of this folder
 			if ((*fit)->isOpen() && include_children)
 			{
-				result = (*fit)->getPreviousFromChild(NULL);
+				result = (*fit)->getPreviousFromChild(nullptr);
 			}
 			else
 			{

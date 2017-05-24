@@ -145,14 +145,14 @@ public:
 	bool checkForResume(); // Test for resumeable d/l.
 
 	// LLUpdateChecker::Client:
-	virtual void error(std::string const & message);
+	void error(std::string const & message) override;
 	
 	// A successful response was received from the viewer version manager
-	virtual void response(LLSD const & content);
+	void response(LLSD const & content) override;
 	
 	// LLUpdateDownloader::Client
-	void downloadComplete(LLSD const & data);
-	void downloadError(std::string const & message);
+	void downloadComplete(LLSD const & data) override;
+	void downloadError(std::string const & message) override;
 
 	bool onMainLoop(LLSD const & event);
 
@@ -170,9 +170,9 @@ const std::string LLUpdaterServiceImpl::sListenerName = "LLUpdaterServiceImpl";
 
 LLUpdaterServiceImpl::LLUpdaterServiceImpl() :
 	mWillingToTest(false),
+	mCheckPeriod(0),
 	mIsChecking(false),
 	mIsDownloading(false),
-	mCheckPeriod(0),
 	mUpdateChecker(*this),
 	mUpdateDownloader(*this),
 	mState(LLUpdaterService::INITIAL)
@@ -679,8 +679,8 @@ LLUpdaterService::LLUpdaterService()
 {
 	if(gUpdater.expired())
 	{
-		mImpl = 
-			std::shared_ptr<LLUpdaterServiceImpl>(new LLUpdaterServiceImpl());
+		mImpl =
+			std::make_shared<LLUpdaterServiceImpl>();
 		gUpdater = mImpl;
 	}
 	else

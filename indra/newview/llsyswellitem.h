@@ -53,9 +53,9 @@ public:
 	LLUUID getID() { return mID; }
 
 	// handlers
-	virtual BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual void onMouseEnter(S32 x, S32 y, MASK mask);
-	virtual void onMouseLeave(S32 x, S32 y, MASK mask);
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
 
 	//callbacks
 	typedef std::function<void (LLSysWellItem* item)> syswell_item_callback_t;

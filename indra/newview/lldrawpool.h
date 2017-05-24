@@ -103,7 +103,7 @@ public:
 	virtual BOOL verify() const { return TRUE; }		// Verify that all data in the draw pool is correct!
 	virtual S32 getVertexShaderLevel() const { return mVertexShaderLevel; }
 	
-	static LLDrawPool* createPool(const U32 type, LLViewerTexture *tex0 = NULL);
+	static LLDrawPool* createPool(const U32 type, LLViewerTexture *tex0 = nullptr);
 	virtual LLDrawPool *instancePool() = 0;	// Create an empty new instance of the pool.
 	virtual LLViewerTexture* getTexture() = 0;
 	virtual BOOL isFacePool() { return FALSE; }
@@ -154,11 +154,11 @@ public:
 
 	LLRenderPass(const U32 type);
 	virtual ~LLRenderPass();
-	/*virtual*/ LLDrawPool* instancePool();
-	/*virtual*/ LLViewerTexture* getDebugTexture() { return NULL; }
-	LLViewerTexture* getTexture() { return NULL; }
-	BOOL isDead() { return FALSE; }
-	void resetDrawOrders() { }
+	/*virtual*/ LLDrawPool* instancePool() override;
+	/*virtual*/ LLViewerTexture* getDebugTexture() override { return nullptr; }
+	LLViewerTexture* getTexture() override { return nullptr; }
+	BOOL isDead() override { return FALSE; }
+	void resetDrawOrders() override { }
 
 	static void applyModelMatrix(const LLDrawInfo& params);
 	virtual void pushBatches(U32 type, U32 mask, BOOL texture = TRUE, BOOL batch_textures = FALSE);
@@ -184,18 +184,18 @@ public:
 	LLFacePool(const U32 type);
 	virtual ~LLFacePool();
 	
-	BOOL isDead() { return mReferences.empty(); }
-	
-	virtual LLViewerTexture *getTexture();
+	BOOL isDead() override { return mReferences.empty(); }
+
+	LLViewerTexture *getTexture() override;
 	virtual void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures);
 
 	virtual void enqueue(LLFace *face);
 	virtual BOOL addFace(LLFace *face);
 	virtual BOOL removeFace(LLFace *face);
 
-	virtual BOOL verify() const;		// Verify that all data in the draw pool is correct!
-	
-	virtual void resetDrawOrders();
+	BOOL verify() const override;		// Verify that all data in the draw pool is correct!
+
+	void resetDrawOrders() override;
 	void resetAll();
 
 	void destroy();
@@ -207,7 +207,7 @@ public:
 
 	void printDebugInfo() const;
 	
-	BOOL isFacePool() { return TRUE; }
+	BOOL isFacePool() override { return TRUE; }
 
 	friend class LLFace;
 	friend class LLPipeline;

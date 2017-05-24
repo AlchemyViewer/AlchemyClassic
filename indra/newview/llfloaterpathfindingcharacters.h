@@ -42,7 +42,7 @@ class LLVector3;
 class LLFloaterPathfindingCharacters : public LLFloaterPathfindingObjects
 {
 public:
-	virtual void                                    onClose(bool pIsAppQuitting);
+	void                                    onClose(bool pIsAppQuitting) override;
 
 	static void                                     openCharactersWithSelectedObjects();
 	static LLHandle<LLFloaterPathfindingCharacters> getInstanceHandle();
@@ -53,20 +53,20 @@ protected:
 	LLFloaterPathfindingCharacters(const LLSD& pSeed);
 	virtual ~LLFloaterPathfindingCharacters();
 
-	virtual BOOL                       postBuild();
+	BOOL                       postBuild() override;
 
-	virtual void                       requestGetObjects();
+	void                       requestGetObjects() override;
 
-	virtual void                       buildObjectsScrollList(const LLPathfindingObjectListPtr pObjectListPtr);
+	void                       buildObjectsScrollList(const LLPathfindingObjectListPtr pObjectListPtr) override;
 
-	virtual void                       updateControlsOnScrollListChange();
+	void                       updateControlsOnScrollListChange() override;
 
-	virtual S32                        getNameColumnIndex() const;
-	virtual S32                        getOwnerNameColumnIndex() const;
-	virtual std::string                getOwnerName(const LLPathfindingObject *pObject) const;
-	virtual const LLColor4             &getBeaconColor() const;
+	S32                        getNameColumnIndex() const override;
+	S32                        getOwnerNameColumnIndex() const override;
+	std::string                getOwnerName(const LLPathfindingObject *pObject) const override;
+	const LLColor4             &getBeaconColor() const override;
 
-	virtual LLPathfindingObjectListPtr getEmptyObjectList() const;
+	LLPathfindingObjectListPtr getEmptyObjectList() const override;
 
 private:
 	LLSD buildCharacterScrollListItemData(const LLPathfindingCharacter *pCharacterPtr) const;

@@ -37,7 +37,7 @@
 // LLParcelSelection
 //
 LLParcelSelection::LLParcelSelection() :
-	mParcel(NULL),
+	mParcel(nullptr),
 	mSelectedMultipleOwners(FALSE),
 	mWholeParcelSelected(FALSE),
 	mSelectedSelfCount(0),

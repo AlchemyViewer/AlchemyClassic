@@ -84,17 +84,17 @@ LLXMLRPCValue LLXMLRPCValue::next()
 
 bool LLXMLRPCValue::isValid() const
 {
-	return mV != NULL;
+	return mV != nullptr;
 }
 
 LLXMLRPCValue LLXMLRPCValue::createArray()
 {
-	return LLXMLRPCValue(XMLRPC_CreateVector(NULL, xmlrpc_vector_array));
+	return LLXMLRPCValue(XMLRPC_CreateVector(nullptr, xmlrpc_vector_array));
 }
 
 LLXMLRPCValue LLXMLRPCValue::createStruct()
 {
-	return LLXMLRPCValue(XMLRPC_CreateVector(NULL, xmlrpc_vector_struct));
+	return LLXMLRPCValue(XMLRPC_CreateVector(nullptr, xmlrpc_vector_struct));
 }
 
 
@@ -105,22 +105,22 @@ void LLXMLRPCValue::append(LLXMLRPCValue& v)
 
 void LLXMLRPCValue::appendString(const std::string& v)
 {
-	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueString(NULL, v.c_str(), 0));
+	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueString(nullptr, v.c_str(), 0));
 }
 
 void LLXMLRPCValue::appendInt(int v)
 {
-	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueInt(NULL, v));
+	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueInt(nullptr, v));
 }
 
 void LLXMLRPCValue::appendBool(bool v)
 {
-	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueBoolean(NULL, v));
+	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueBoolean(nullptr, v));
 }
 
 void LLXMLRPCValue::appendDouble(double v)
 {
-	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueDouble(NULL, v));
+	XMLRPC_AddValueToVector(mV, XMLRPC_CreateValueDouble(nullptr, v));
 }
 
 
@@ -153,7 +153,7 @@ void LLXMLRPCValue::appendDouble(const char* id, double v)
 void LLXMLRPCValue::cleanup()
 {
 	XMLRPC_CleanupValue(mV);
-	mV = NULL;
+	mV = nullptr;
 }
 
 XMLRPC_VALUE LLXMLRPCValue::getValue() const
@@ -168,7 +168,7 @@ public:
 	Handler(LLCore::HttpRequest::ptr_t &request, LLXMLRPCTransaction::Impl *impl);
 	virtual ~Handler();
 
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+	void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 	typedef boost::shared_ptr<LLXMLRPCTransaction::Handler> ptr_t;
 
@@ -247,7 +247,7 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 			if (errordata)
 			{
 				mImpl->mErrorCert = LLPointer<LLCertificate>(errordata);
-				status.setErrorData(NULL);
+				status.setErrorData(nullptr);
 				errordata->unref();
 			}
 
@@ -270,7 +270,7 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 
 	body->read(0, bodydata, body->size());
 
-	mImpl->mResponse = XMLRPC_REQUEST_FromXML(bodydata, body->size(), 0);
+	mImpl->mResponse = XMLRPC_REQUEST_FromXML(bodydata, body->size(), nullptr);
 
 	delete[] bodydata;
 
@@ -314,7 +314,7 @@ LLXMLRPCTransaction::Impl::Impl(const std::string& uri,
 	: mHttpRequest(),
 	  mStatus(LLXMLRPCTransaction::StatusNotStarted),
 	  mURI(uri),
-	  mResponse(0)
+	  mResponse(nullptr)
 {
 	init(request, useGzip);
 }
@@ -325,7 +325,7 @@ LLXMLRPCTransaction::Impl::Impl(const std::string& uri,
 	: mHttpRequest(),
 	  mStatus(LLXMLRPCTransaction::StatusNotStarted),
 	  mURI(uri),
-	  mResponse(0)
+	  mResponse(nullptr)
 {
 	XMLRPC_REQUEST request = XMLRPC_RequestNew();
 	XMLRPC_RequestSetMethodName(request, method.c_str());
@@ -348,11 +348,11 @@ void LLXMLRPCTransaction::Impl::init(XMLRPC_REQUEST request, bool useGzip)
 
 	if (!mHttpRequest)
 	{
-		mHttpRequest = LLCore::HttpRequest::ptr_t(new LLCore::HttpRequest);
+		mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
 	}
 
 	// LLRefCounted starts with a 1 ref, so don't add a ref in the smart pointer
-	httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions()); 
+	httpOpts = boost::make_shared<LLCore::HttpOptions>(); 
 
 	httpOpts->setTimeout(40L);
 
@@ -363,7 +363,7 @@ void LLXMLRPCTransaction::Impl::init(XMLRPC_REQUEST request, bool useGzip)
 	httpOpts->setSSLVerifyHost(vefifySSLCert);
 
 	// LLRefCounted starts with a 1 ref, so don't add a ref in the smart pointer
-	httpHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders());
+	httpHeaders = boost::make_shared<LLCore::HttpHeaders>();
 
 	httpHeaders->append(HTTP_OUT_HEADER_CONTENT_TYPE, HTTP_CONTENT_TEXT_XML);
 
@@ -382,7 +382,7 @@ void LLXMLRPCTransaction::Impl::init(XMLRPC_REQUEST request, bool useGzip)
 	
 	XMLRPC_Free(requestText);
 
-	mHandler = LLXMLRPCTransaction::Handler::ptr_t(new Handler( mHttpRequest, this ));
+	mHandler = boost::make_shared<Handler>(mHttpRequest, this);
 
 	mPostH = mHttpRequest->requestPost(LLCore::HttpRequest::DEFAULT_POLICY_ID, 0, 
 		mURI, body.get(), httpOpts, httpHeaders, mHandler);

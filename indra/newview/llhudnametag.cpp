@@ -79,8 +79,8 @@ bool llhudnametag_further_away::operator()(const LLPointer<LLHUDNameTag>& lhs, c
 LLHUDNameTag::LLHUDNameTag(const U8 type)
 :	LLHUDObject(type),
 	mDoFade(TRUE),
-	mFadeDistance(8.f),
 	mFadeRange(4.f),
+	mFadeDistance(8.f),
 	mLastDistance(0.f),
 	mZCompare(TRUE),
 	mVisibleOffScreen(FALSE),

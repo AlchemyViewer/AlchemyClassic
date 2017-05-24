@@ -43,9 +43,9 @@ public:
 	LLXORCipher& operator=(const LLXORCipher& cipher);
 
 	// Cipher functions
-	/*virtual*/ U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	/*virtual*/ U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	/*virtual*/ U32 requiredEncryptionSpace(U32 src_len) const;
+	/*virtual*/ U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	/*virtual*/ U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	/*virtual*/ U32 requiredEncryptionSpace(U32 src_len) const override;
 
 	// special syntactic-sugar since xor can be performed in place.
 	BOOL encrypt(U8* buf, U32 len) { return encrypt((const U8*)buf, len, buf, len); }

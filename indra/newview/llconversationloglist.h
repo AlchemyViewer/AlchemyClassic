@@ -57,9 +57,9 @@ public:
 	LLConversationLogList(const Params& p);
 	virtual ~LLConversationLogList();
 
-	virtual void draw();
+	void draw() override;
 
-	virtual BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
 	LLToggleableMenu*	getContextMenu() const { return mContextMenu.get(); }
 
@@ -73,8 +73,8 @@ public:
 	/**
 	 * Changes from LLConversationLogObserver
 	 */
-	virtual void changed();
-	virtual void changed(const LLUUID& session_id, U32 mask);
+	void changed() override;
+	void changed(const LLUUID& session_id, U32 mask) override;
 
 private:
 
@@ -117,7 +117,7 @@ public:
 	LLConversationLogListItemComparator() {};
 	virtual ~LLConversationLogListItemComparator() {};
 
-	virtual bool compare(const LLPanel* item1, const LLPanel* item2) const;
+	bool compare(const LLPanel* item1, const LLPanel* item2) const override;
 
 protected:
 
@@ -134,7 +134,7 @@ public:
 
 protected:
 
-	virtual bool doCompare(const LLConversationLogListItem* conversation1, const LLConversationLogListItem* conversation2) const;
+	bool doCompare(const LLConversationLogListItem* conversation1, const LLConversationLogListItem* conversation2) const override;
 };
 
 class LLConversationLogListDateComparator : public LLConversationLogListItemComparator
@@ -147,7 +147,7 @@ public:
 
 protected:
 
-	virtual bool doCompare(const LLConversationLogListItem* conversation1, const LLConversationLogListItem* conversation2) const;
+	bool doCompare(const LLConversationLogListItem* conversation1, const LLConversationLogListItem* conversation2) const override;
 };
 
 #endif /* LLCONVERSATIONLOGLIST_H_ */

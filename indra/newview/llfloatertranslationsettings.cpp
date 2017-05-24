@@ -46,14 +46,14 @@
 
 LLFloaterTranslationSettings::LLFloaterTranslationSettings(const LLSD& key)
 :	LLFloater(key)
-,	mMachineTranslationCB(NULL)
-,	mLanguageCombo(NULL)
-,	mTranslationServiceRadioGroup(NULL)
-,	mBingAPIKeyEditor(NULL)
-,	mGoogleAPIKeyEditor(NULL)
-,	mBingVerifyBtn(NULL)
-,	mGoogleVerifyBtn(NULL)
-,	mOKBtn(NULL)
+,	mMachineTranslationCB(nullptr)
+,	mLanguageCombo(nullptr)
+,	mBingAPIKeyEditor(nullptr)
+,	mGoogleAPIKeyEditor(nullptr)
+,	mTranslationServiceRadioGroup(nullptr)
+,	mBingVerifyBtn(nullptr)
+,	mGoogleVerifyBtn(nullptr)
+,	mOKBtn(nullptr)
 ,	mBingKeyVerified(false)
 ,	mGoogleKeyVerified(false)
 {
@@ -79,9 +79,9 @@ BOOL LLFloaterTranslationSettings::postBuild()
 	mGoogleVerifyBtn->setClickedCallback(boost::bind(&LLFloaterTranslationSettings::onBtnGoogleVerify, this));
 
 	mBingAPIKeyEditor->setFocusReceivedCallback(boost::bind(&LLFloaterTranslationSettings::onEditorFocused, this, _1));
-	mBingAPIKeyEditor->setKeystrokeCallback(boost::bind(&LLFloaterTranslationSettings::onBingKeyEdited, this), NULL);
+	mBingAPIKeyEditor->setKeystrokeCallback(boost::bind(&LLFloaterTranslationSettings::onBingKeyEdited, this), nullptr);
 	mGoogleAPIKeyEditor->setFocusReceivedCallback(boost::bind(&LLFloaterTranslationSettings::onEditorFocused, this, _1));
-	mGoogleAPIKeyEditor->setKeystrokeCallback(boost::bind(&LLFloaterTranslationSettings::onGoogleKeyEdited, this), NULL);
+	mGoogleAPIKeyEditor->setKeystrokeCallback(boost::bind(&LLFloaterTranslationSettings::onGoogleKeyEdited, this), nullptr);
 
 	center();
 	return TRUE;

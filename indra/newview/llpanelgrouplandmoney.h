@@ -35,14 +35,14 @@ class LLPanelGroupLandMoney : public LLPanelGroupTab
 public:
 	LLPanelGroupLandMoney();
 	virtual ~LLPanelGroupLandMoney();
-	virtual BOOL postBuild();
-	virtual BOOL isVisibleByAgent(LLAgent* agentp);
+	BOOL postBuild() override;
+	BOOL isVisibleByAgent(LLAgent* agentp) override;
 
-	virtual void activate();
-	virtual bool needsApply(std::string& mesg);
-	virtual bool apply(std::string& mesg);
-	virtual void cancel();
-	virtual void update(LLGroupChange gc);
+	void activate() override;
+	bool needsApply(std::string& mesg) override;
+	bool apply(std::string& mesg) override;
+	void cancel() override;
+	void update(LLGroupChange gc) override;
 
 	static void processPlacesReply(LLMessageSystem* msg, void**);
 
@@ -53,7 +53,7 @@ public:
 	static void processGroupAccountTransactionsReply(LLMessageSystem* msg, void** data);
 	static void processGroupAccountSummaryReply(LLMessageSystem* msg, void** data);
 
-	virtual void setGroupID(const LLUUID& id);
+	void setGroupID(const LLUUID& id) override;
 
 	virtual void onLandSelectionChanged();
 	

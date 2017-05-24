@@ -44,7 +44,7 @@
 #include "lltooldraganddrop.h"
 #include "llxmlnode.h"
 
-LLToolBarView* gToolBarView = NULL;
+LLToolBarView* gToolBarView = nullptr;
 
 static LLDefaultChildRegistry::Register<LLToolBarView> r("toolbar_view");
 
@@ -69,16 +69,16 @@ LLToolBarView::ToolbarSet::ToolbarSet()
 
 LLToolBarView::LLToolBarView(const LLToolBarView::Params& p)
 :	LLUICtrl(p),
-	mDragStarted(false),
-	mShowToolbars(true),
-	mDragToolbarButton(NULL),
-	mDragItem(NULL),
 	mToolbarsLoaded(false),
-	mBottomToolbarPanel(NULL)
+	mDragStarted(false),
+	mDragToolbarButton(nullptr),
+	mDragItem(nullptr),
+	mShowToolbars(true),
+	mBottomToolbarPanel(nullptr)
 {
 	for (S32 i = 0; i < LLToolBarEnums::TOOLBAR_COUNT; i++)
 	{
-		mToolbars[i] = NULL;
+		mToolbars[i] = nullptr;
 	}
 }
 
@@ -229,7 +229,7 @@ bool LLToolBarView::loadToolbars(bool force_default)
 	}
 	
 	LLXMLNodePtr root;
-	if(!LLXMLNode::parseFile(toolbar_file, root, NULL))
+	if(!LLXMLNode::parseFile(toolbar_file, root, nullptr))
 	{
 		LL_WARNS() << "Unable to load toolbars from file: " << toolbar_file << LL_ENDL;
 		err = true;
@@ -449,7 +449,7 @@ void LLToolBarView::saveToolbars() const
 	{
 		const std::string& filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "toolbars.xml");
 		LLFILE *fp = LLFile::fopen(filename, "w");
-		if (fp != NULL)
+		if (fp != nullptr)
 		{
 			LLXMLNode::writeHeaderToFile(fp);
 			output_node->writeToFile(fp);
@@ -497,7 +497,7 @@ void LLToolBarView::onToolBarButtonAdded(LLView* button)
 			LLCallDialog* incoming = static_cast<LLCallDialog *>(incoming_floater);
 			
 			LLDockControl* dock_control = incoming->getDockControl();
-			if (dock_control->getDock() == NULL)
+			if (dock_control->getDock() == nullptr)
 			{
 				incoming->dockToToolbarButton("speak");
 			}
@@ -508,7 +508,7 @@ void LLToolBarView::onToolBarButtonAdded(LLView* button)
 			LLCallDialog* outgoing = static_cast<LLCallDialog *>(outgoing_floater);
 			
 			LLDockControl* dock_control = outgoing->getDockControl();
-			if (dock_control->getDock() == NULL)
+			if (dock_control->getDock() == nullptr)
 			{
 				outgoing->dockToToolbarButton("speak");
 			}
@@ -541,7 +541,7 @@ void LLToolBarView::onToolBarButtonRemoved(LLView* button)
 			llassert(incoming);
 
 			LLDockControl* dock_control = incoming->getDockControl();
-			dock_control->setDock(NULL);
+			dock_control->setDock(nullptr);
 		}
 		
 		if (outgoing_floater && outgoing_floater->isShown())
@@ -550,7 +550,7 @@ void LLToolBarView::onToolBarButtonRemoved(LLView* button)
 			llassert(outgoing);
 
 			LLDockControl* dock_control = outgoing->getDockControl();
-			dock_control->setDock(NULL);
+			dock_control->setDock(nullptr);
 		}
 	}
 	else if (button->getName() == "voice")
@@ -668,7 +668,7 @@ BOOL LLToolBarView::handleDropTool( void* cargo_data, S32 x, S32 y, LLToolBar* t
 			// Suppress the command from the toolbars (including the one it's dropped in, 
 			// this will handle move position).
 			S32 old_toolbar_loc = gToolBarView->hasCommand(command_id);
-			LLToolBar* old_toolbar = NULL;
+			LLToolBar* old_toolbar = nullptr;
 
 			if (old_toolbar_loc != LLToolBarEnums::TOOLBAR_NONE)
 			{
@@ -701,7 +701,7 @@ BOOL LLToolBarView::handleDropTool( void* cargo_data, S32 x, S32 y, LLToolBar* t
 		}
 	}
 
-	resetDragTool(NULL);
+	resetDragTool(nullptr);
 	return handled;
 }
 

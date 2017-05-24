@@ -44,7 +44,7 @@ public:
 	virtual ~LLScriptEditor() {};
 	
 	// LLView override
-	virtual void	draw();
+	void	draw() override;
 	
 	void	initKeywords();
 	void	loadKeywords();
@@ -58,8 +58,8 @@ protected:
 	
 private:
 	void	drawLineNumbers();
-	/* virtual */ void	updateSegments();
-	/* virtual */ void	drawSelectionBackground();
+	/* virtual */ void	updateSegments() override;
+	/* virtual */ void	drawSelectionBackground() override;
 	void	loadKeywords(const std::string& filename_keywords,
 						 const std::string& filename_colors);
 	

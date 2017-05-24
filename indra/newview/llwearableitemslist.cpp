@@ -51,8 +51,8 @@ class LLFindOutfitItems : public LLInventoryCollectFunctor
 public:
 	LLFindOutfitItems() {}
 	virtual ~LLFindOutfitItems() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 };
 
 bool LLFindOutfitItems::operator()(LLInventoryCategory* cat,
@@ -102,7 +102,7 @@ LLPanelWearableListItem::LLPanelWearableListItem(LLViewerInventoryItem* item, co
 LLPanelWearableOutfitItem* LLPanelWearableOutfitItem::create(LLViewerInventoryItem* item,
 															 bool worn_indication_enabled)
 {
-	LLPanelWearableOutfitItem* list_item = NULL;
+	LLPanelWearableOutfitItem* list_item = nullptr;
 	if (item)
 	{
 		const LLPanelInventoryListItemBase::Params& params = LLUICtrlFactory::getDefaultParams<LLPanelInventoryListItemBase>();
@@ -159,7 +159,7 @@ LLPanelClothingListItem::Params::Params()
 // static
 LLPanelClothingListItem* LLPanelClothingListItem::create(LLViewerInventoryItem* item)
 {
-	LLPanelClothingListItem* list_item = NULL;
+	LLPanelClothingListItem* list_item = nullptr;
 	if(item)
 	{
 		const LLPanelClothingListItem::Params& params = LLUICtrlFactory::getDefaultParams<LLPanelClothingListItem>();
@@ -236,15 +236,15 @@ static LLWidgetNameRegistry::StaticRegistrar sRegisterPanelBodyPartsListItem(&ty
 
 LLPanelBodyPartsListItem::Params::Params()
 :	edit_btn("edit_btn"),
-	edit_panel("edit_panel"),
 	lock_panel("lock_panel"),
+	edit_panel("edit_panel"),
 	lock_icon("lock_icon")
 {}
 
 // static
 LLPanelBodyPartsListItem* LLPanelBodyPartsListItem::create(LLViewerInventoryItem* item)
 {
-	LLPanelBodyPartsListItem* list_item = NULL;
+	LLPanelBodyPartsListItem* list_item = nullptr;
 	if(item)
 	{
 		const Params& params = LLUICtrlFactory::getDefaultParams<LLPanelBodyPartsListItem>();
@@ -311,7 +311,7 @@ LLPanelDeletableWearableListItem::Params::Params()
 // static
 LLPanelDeletableWearableListItem* LLPanelDeletableWearableListItem::create(LLViewerInventoryItem* item)
 {
-	LLPanelDeletableWearableListItem* list_item = NULL;
+	LLPanelDeletableWearableListItem* list_item = nullptr;
 	if(item)
 	{
 		const Params& params = LLUICtrlFactory::getDefaultParams<LLPanelDeletableWearableListItem>();
@@ -352,7 +352,7 @@ BOOL LLPanelDeletableWearableListItem::postBuild()
 // static
 LLPanelAttachmentListItem* LLPanelAttachmentListItem::create(LLViewerInventoryItem* item)
 {
-	LLPanelAttachmentListItem* list_item = NULL;
+	LLPanelAttachmentListItem* list_item = nullptr;
 	if(item)
 	{
 		const Params& params = LLUICtrlFactory::getDefaultParams<LLPanelDeletableWearableListItem>();
@@ -427,7 +427,7 @@ LLWearableType::EType LLPanelDummyClothingListItem::getWearableType() const
 }
 
 LLPanelDummyClothingListItem::LLPanelDummyClothingListItem(LLWearableType::EType w_type, const LLPanelDummyClothingListItem::Params& params)
-:	LLPanelWearableListItem(NULL, params), 
+:	LLPanelWearableListItem(nullptr, params), 
 	mWearableType(w_type)
 {
 	LLPanel::Params panel_params(params.add_panel);
@@ -665,7 +665,7 @@ LLPanel* LLWearableItemsList::createNewItem(LLViewerInventoryItem* item)
     {
         LL_WARNS() << "No inventory item. Couldn't create flat list item." << LL_ENDL;
         llassert(item != NULL);
-        return NULL;
+        return nullptr;
     }
 
     return LLPanelWearableOutfitItem::create(item, mWornIndicationEnabled);
@@ -778,7 +778,7 @@ void LLWearableItemsList::setSortOrder(ESortOrder sort_order, bool sort_now)
 //////////////////////////////////////////////////////////////////////////
 
 LLWearableItemsList::ContextMenu::ContextMenu()
-:	mParent(NULL)
+:	mParent(nullptr)
 {
 }
 
@@ -786,7 +786,7 @@ void LLWearableItemsList::ContextMenu::show(LLView* spawning_view, const uuid_ve
 {
 	mParent = dynamic_cast<LLWearableItemsList*>(spawning_view);
 	LLListContextMenu::show(spawning_view, uuids, x, y);
-	mParent = NULL; // to avoid dereferencing an invalid pointer
+	mParent = nullptr; // to avoid dereferencing an invalid pointer
 }
 
 // virtual

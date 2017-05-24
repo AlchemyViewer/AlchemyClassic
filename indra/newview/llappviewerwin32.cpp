@@ -70,7 +70,7 @@
 #include <exception>
 namespace
 {
-    void (*gOldTerminateHandler)() = NULL;
+    void (*gOldTerminateHandler)() = nullptr;
 }
 
 static void exceptionTerminateHandler()
@@ -79,7 +79,7 @@ static void exceptionTerminateHandler()
 	if (gOldTerminateHandler) std::set_terminate(gOldTerminateHandler);
 	// treat this like a regular viewer crash, with nice stacktrace etc.
     long *null_ptr;
-    null_ptr = 0;
+    null_ptr = nullptr;
     *null_ptr = 0xDEADBEEF; //Force an exception that will trigger breakpad.
 	//LLAppViewer::handleViewerCrash();
 	// we've probably been killed-off before now, but...
@@ -108,7 +108,7 @@ bool create_app_mutex()
 	bool result = true;
 	LPCWSTR unique_mutex_name = L"SecondLifeAppMutex";
 	HANDLE hMutex;
-	hMutex = CreateMutex(NULL, TRUE, unique_mutex_name); 
+	hMutex = CreateMutex(nullptr, TRUE, unique_mutex_name); 
 	if(GetLastError() == ERROR_ALREADY_EXISTS) 
 	{     
 		result = false;
@@ -345,7 +345,7 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 
 	}
 	delete viewer_app_ptr;
-	viewer_app_ptr = NULL;
+	viewer_app_ptr = nullptr;
 
 	//start updater
 	if(LLAppViewer::sUpdaterInfo)
@@ -353,7 +353,7 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 		_spawnl(_P_NOWAIT, LLAppViewer::sUpdaterInfo->mUpdateExePath.c_str(), LLAppViewer::sUpdaterInfo->mUpdateExePath.c_str(), LLAppViewer::sUpdaterInfo->mParams.str().c_str(), NULL);
 
 		delete LLAppViewer::sUpdaterInfo ;
-		LLAppViewer::sUpdaterInfo = NULL ;
+		LLAppViewer::sUpdaterInfo = nullptr ;
 	}
 	
 #ifdef USE_NVAPI
@@ -423,9 +423,9 @@ static bool create_console()
 	freopen("CONOUT$", "w", stdout);
 	freopen("CONOUT$", "w", stderr);
 
-	setvbuf( stdin, NULL, _IONBF, 0 );
-	setvbuf( stdout, NULL, _IONBF, 0 );
-	setvbuf( stderr, NULL, _IONBF, 0 );
+	setvbuf( stdin, nullptr, _IONBF, 0 );
+	setvbuf( stdout, nullptr, _IONBF, 0 );
+	setvbuf( stderr, nullptr, _IONBF, 0 );
 
     return isConsoleAllocated;
 }
@@ -581,7 +581,7 @@ bool LLAppViewerWin32::initParseCommandLine(LLCommandLineParser& clp)
 	}
 
 	// Find the system language.
-	FL_Locale *locale = NULL;
+	FL_Locale *locale = nullptr;
 	FL_Success success = FL_FindLocale(&locale, FL_MESSAGES);
 	if (success != 0)
 	{
@@ -640,12 +640,12 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	LL_INFOS("CrashReport") << "Creating crash reporter process " << exe_path << " with params: " << arg_str << LL_ENDL;
     if(CreateProcess(exe_wstr.c_str(),     
                      &arg_wstr[0],                 // Application arguments
-                     0,
-                     0,
+                     nullptr,
+                     nullptr,
                      FALSE,
                      CREATE_DEFAULT_ERROR_MODE,
-                     0,
-                     0,                              // Working directory
+                     nullptr,
+                     nullptr,                              // Working directory
                      &startInfo,
                      &processInfo) == FALSE)
       // Could not start application -> call 'GetLastError()'
@@ -662,9 +662,9 @@ bool LLAppViewerWin32::sendURLToOtherInstance(const std::string& url)
 	mbstowcs(window_class, sWindowClass.c_str(), 255);
 	window_class[255] = 0;
 	// Use the class instead of the window name.
-	HWND other_window = FindWindow(window_class, NULL);
+	HWND other_window = FindWindow(window_class, nullptr);
 
-	if (other_window != NULL)
+	if (other_window != nullptr)
 	{
 		LL_DEBUGS() << "Found other window with the name '" << getWindowTitle() << "'" << LL_ENDL;
 		COPYDATASTRUCT cds;
@@ -691,12 +691,12 @@ std::string LLAppViewerWin32::generateSerialNumber()
 	DWORD flags = 0;
 	BOOL success = GetVolumeInformation(
 			TEXT("C:\\"),
-			NULL,		// volume name buffer
+			nullptr,		// volume name buffer
 			0,			// volume name buffer size
 			&serial,	// volume serial
-			NULL,		// max component length
+			nullptr,		// max component length
 			&flags,		// file system flags
-			NULL,		// file system name buffer
+			nullptr,		// file system name buffer
 			0);			// file system name buffer size
 	if (success)
 	{

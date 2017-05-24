@@ -153,12 +153,12 @@ public:
 	void   			sortByColumnIndex(U32 column, BOOL ascending);
 	
 	// LLCtrlListInterface functions
-	virtual S32  getItemCount() const;
+	S32  getItemCount() const override;
 	// Adds a single column descriptor: ["name" : string, "label" : string, "width" : integer, "relwidth" : integer ]
 	virtual void addColumn(const LLScrollListColumn::Params& column, EAddPosition pos = ADD_BOTTOM);
-	virtual void addColumn(const LLSD& column, EAddPosition pos = ADD_BOTTOM);	
-	virtual void clearColumns();
-	virtual void setColumnLabel(const std::string& column, const std::string& label);
+	void addColumn(const LLSD& column, EAddPosition pos = ADD_BOTTOM) override;
+	void clearColumns() override;
+	void setColumnLabel(const std::string& column, const std::string& label) override;
 	virtual bool 	preProcessChildNode(LLXMLNodePtr child);
 	virtual LLScrollListColumn* getColumn(S32 index);
 	virtual LLScrollListColumn* getColumn(const std::string& name);
@@ -168,28 +168,28 @@ public:
 	// Adds a single element, from an array of:
 	// "columns" => [ "column" => column name, "value" => value, "type" => type, "font" => font, "font-style" => style ], "id" => uuid
 	// Creates missing columns automatically.
-	virtual LLScrollListItem* addElement(const LLSD& element, EAddPosition pos = ADD_BOTTOM, void* userdata = NULL);
+	LLScrollListItem* addElement(const LLSD& element, EAddPosition pos = ADD_BOTTOM, void* userdata = nullptr) override;
 	virtual LLScrollListItem* addRow(LLScrollListItem *new_item, const LLScrollListItem::Params& value, EAddPosition pos = ADD_BOTTOM);
 	virtual LLScrollListItem* addRow(const LLScrollListItem::Params& value, EAddPosition pos = ADD_BOTTOM);
 	// Simple add element. Takes a single array of:
 	// [ "value" => value, "font" => font, "font-style" => style ]
-	virtual void clearRows(); // clears all elements
-	virtual void sortByColumn(const std::string& name, BOOL ascending);
+	void clearRows() override; // clears all elements
+	void sortByColumn(const std::string& name, BOOL ascending) override;
 
 	// These functions take and return an array of arrays of elements, as above
-	virtual void	setValue(const LLSD& value );
-	virtual LLSD	getValue() const;
+	void	setValue(const LLSD& value ) override;
+	LLSD	getValue() const override;
 
-	LLCtrlSelectionInterface*	getSelectionInterface()	{ return (LLCtrlSelectionInterface*)this; }
-	LLCtrlListInterface*		getListInterface()		{ return (LLCtrlListInterface*)this; }
-	LLCtrlScrollInterface*		getScrollInterface()	{ return (LLCtrlScrollInterface*)this; }
+	LLCtrlSelectionInterface*	getSelectionInterface() override { return (LLCtrlSelectionInterface*)this; }
+	LLCtrlListInterface*		getListInterface() override { return (LLCtrlListInterface*)this; }
+	LLCtrlScrollInterface*		getScrollInterface() override { return (LLCtrlScrollInterface*)this; }
 
 	// DEPRECATED: Use setSelectedByValue() below.
-	BOOL			setCurrentByID( const LLUUID& id )	{ return selectByID(id); }
-	virtual LLUUID	getCurrentID() const				{ return getStringUUIDSelectedItem(); }
+	BOOL			setCurrentByID( const LLUUID& id ) override { return selectByID(id); }
+	LLUUID	getCurrentID() const override { return getStringUUIDSelectedItem(); }
 
-	BOOL			operateOnSelection(EOperation op);
-	BOOL			operateOnAll(EOperation op);
+	BOOL			operateOnSelection(EOperation op) override;
+	BOOL			operateOnAll(EOperation op) override;
 
 	// returns FALSE if unable to set the max count so low
 	BOOL 			setMaxItemCount(S32 max_count);
@@ -198,16 +198,16 @@ public:
 
 	// Match item by value.asString(), which should work for string, integer, uuid.
 	// Returns FALSE if not found.
-	BOOL			setSelectedByValue(const LLSD& value, BOOL selected);
+	BOOL			setSelectedByValue(const LLSD& value, BOOL selected) override;
 
 	BOOL			isSorted() const { return mSorted; }
 
-	virtual BOOL	isSelected(const LLSD& value) const;
+	BOOL	isSelected(const LLSD& value) const override;
 
 	BOOL			handleClick(S32 x, S32 y, MASK mask);
-	BOOL			selectFirstItem();
-	BOOL			selectNthItem( S32 index );
-	BOOL			selectItemRange( S32 first, S32 last );
+	BOOL			selectFirstItem() override;
+	BOOL			selectNthItem( S32 index ) override;
+	BOOL			selectItemRange( S32 first, S32 last ) override;
 	BOOL			selectItemAt(S32 x, S32 y, MASK mask);
 	
 	void			deleteSingleItem( S32 index );
@@ -231,7 +231,7 @@ public:
 	void			swapWithPrevious(S32 index);
 
 	void			setCanSelect(BOOL can_select)		{ mCanSelect = can_select; }
-	virtual BOOL	getCanSelect() const				{ return mCanSelect; }
+	BOOL	getCanSelect() const override { return mCanSelect; }
 
 	S32				getItemIndex( LLScrollListItem* item ) const;
 	S32				getItemIndex( const LLUUID& item_id ) const;
@@ -241,14 +241,14 @@ public:
 
 	// "Simple" interface: use this when you're creating a list that contains only unique strings, only
 	// one of which can be selected at a time.
-	virtual LLScrollListItem* addSimpleElement(const std::string& value, EAddPosition pos = ADD_BOTTOM, const LLSD& id = LLSD());
+	LLScrollListItem* addSimpleElement(const std::string& value, EAddPosition pos = ADD_BOTTOM, const LLSD& id = LLSD()) override;
 
 	BOOL			selectItemByLabel( const std::string& item, BOOL case_sensitive = TRUE, S32 column = 0 );		// FALSE if item not found
 	BOOL			selectItemByPrefix(const std::string& target, BOOL case_sensitive = TRUE);
 	BOOL			selectItemByPrefix(const LLWString& target, BOOL case_sensitive = TRUE);
 	LLScrollListItem*  getItemByLabel( const std::string& item, BOOL case_sensitive = TRUE, S32 column = 0 );
 	const std::string	getSelectedItemLabel(S32 column = 0) const;
-	LLSD			getSelectedValue();
+	LLSD			getSelectedValue() override;
 
 	// DEPRECATED: Use LLSD versions of setCommentText() and getSelectedValue().
 	// "StringUUID" interface: use this when you're creating a list that contains non-unique strings each of which
@@ -257,7 +257,7 @@ public:
 	LLUUID				getStringUUIDSelectedItem() const;
 
 	LLScrollListItem*	getFirstSelected() const;
-	virtual S32			getFirstSelectedIndex() const;
+	S32			getFirstSelectedIndex() const override;
 	std::vector<LLScrollListItem*> getAllSelected() const;
 	S32                 getNumSelected() const;
 	LLScrollListItem*	getLastSelectedItem() const { return mLastSelected; }
@@ -293,8 +293,8 @@ public:
 	S32				getMaxSelectable() { return mMaxSelectable; }
 
 
-	virtual S32		getScrollPos() const;
-	virtual void	setScrollPos( S32 pos );
+	S32		getScrollPos() const override;
+	void	setScrollPos( S32 pos ) override;
 	S32 getPageLines() { return mPageLines; }
 	S32 getSearchColumn();
 	void			setSearchColumn(S32 column) { mSearchColumn = column; }
@@ -310,30 +310,30 @@ public:
 	void setContextMenu(const ContextMenuType &menu) { mContextMenuType = menu; }
 
 	// Overridden from LLView
-	/*virtual*/ void    draw();
-	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask);
-	/*virtual*/ BOOL	handleUnicodeCharHere(llwchar uni_char);
-	/*virtual*/ BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks);
-	/*virtual*/ BOOL	handleToolTip(S32 x, S32 y, MASK mask);
-	/*virtual*/ void	setEnabled(BOOL enabled);
-	/*virtual*/ void	setFocus( BOOL b );
-	/*virtual*/ void	onFocusReceived();
-	/*virtual*/ void	onFocusLost();
-	/*virtual*/ void	onMouseLeave(S32 x, S32 y, MASK mask);
-	/*virtual*/ void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/*virtual*/ void    draw() override;
+	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask) override;
+	/*virtual*/ BOOL	handleUnicodeCharHere(llwchar uni_char) override;
+	/*virtual*/ BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	/*virtual*/ BOOL	handleToolTip(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void	setEnabled(BOOL enabled) override;
+	/*virtual*/ void	setFocus( BOOL b ) override;
+	/*virtual*/ void	onFocusReceived() override;
+	/*virtual*/ void	onFocusLost() override;
+	/*virtual*/ void	onMouseLeave(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
-	virtual BOOL	isDirty() const;
-	virtual void	resetDirty();		// Clear dirty state
+	BOOL	isDirty() const override;
+	void	resetDirty() override;		// Clear dirty state
 
 	virtual void	updateLayout();
 	virtual void	fitContents(S32 max_width, S32 max_height);
 
-	virtual LLRect	getRequiredRect();
+	LLRect	getRequiredRect() override;
 	static  BOOL    rowPreceeds(LLScrollListItem *new_row, LLScrollListItem *test_row);
 
 	LLRect			getItemListRect() { return mItemListRect; }
@@ -359,17 +359,17 @@ public:
 	void setCollapseEmptyColumns(BOOL collapse);
 
 	LLScrollListItem*	hitItem(S32 x,S32 y);
-	virtual void		scrollToShowSelected();
+	void		scrollToShowSelected() override;
 
 	// LLEditMenuHandler functions
-	virtual void	copy();
-	virtual BOOL	canCopy() const;
-	virtual void	cut();
-	virtual BOOL	canCut() const;
-	virtual void	selectAll();
-	virtual BOOL	canSelectAll() const;
-	virtual void	deselect();
-	virtual BOOL	canDeselect() const;
+	void	copy() override;
+	BOOL	canCopy() const override;
+	void	cut() override;
+	BOOL	canCut() const override;
+	void	selectAll() override;
+	BOOL	canSelectAll() const override;
+	void	deselect() override;
+	BOOL	canDeselect() const override;
 
 	void setNumDynamicColumns(S32 num) { mNumDynamicWidthColumns = num; }
 	void updateStaticColumnWidth(LLScrollListColumn* col, S32 new_width);

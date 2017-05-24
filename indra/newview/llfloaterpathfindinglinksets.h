@@ -52,20 +52,20 @@ protected:
 	LLFloaterPathfindingLinksets(const LLSD& pSeed);
 	virtual ~LLFloaterPathfindingLinksets();
 
-	virtual BOOL                       postBuild();
+	BOOL                       postBuild() override;
 
-	virtual void                       requestGetObjects();
+	void                       requestGetObjects() override;
 
-	virtual void                       buildObjectsScrollList(const LLPathfindingObjectListPtr pObjectListPtr);
+	void                       buildObjectsScrollList(const LLPathfindingObjectListPtr pObjectListPtr) override;
 
-	virtual void                       updateControlsOnScrollListChange();
+	void                       updateControlsOnScrollListChange() override;
 
-	virtual S32                        getNameColumnIndex() const;
-	virtual S32                        getOwnerNameColumnIndex() const;
-	virtual std::string                getOwnerName(const LLPathfindingObject *pObject) const;
-	virtual const LLColor4             &getBeaconColor() const;
+	S32                        getNameColumnIndex() const override;
+	S32                        getOwnerNameColumnIndex() const override;
+	std::string                getOwnerName(const LLPathfindingObject *pObject) const override;
+	const LLColor4             &getBeaconColor() const override;
 
-	virtual LLPathfindingObjectListPtr getEmptyObjectList() const;
+	LLPathfindingObjectListPtr getEmptyObjectList() const override;
 
 private:
 	void requestSetLinksets(LLPathfindingObjectListPtr pLinksetList, LLPathfindingLinkset::ELinksetUse pLinksetUse, S32 pA, S32 pB, S32 pC, S32 pD);

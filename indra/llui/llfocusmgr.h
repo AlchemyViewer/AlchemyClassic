@@ -125,7 +125,7 @@ public:
 	void			releaseFocusIfNeeded( LLView* top_view );
 	void			lockFocus();
 	void			unlockFocus();
-	BOOL			focusLocked() const { return mLockedView != NULL; }
+	BOOL			focusLocked() const { return mLockedView != nullptr; }
 
 	bool			keyboardFocusHasAccelerators() const;
 

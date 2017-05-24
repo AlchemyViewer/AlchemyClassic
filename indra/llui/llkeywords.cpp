@@ -504,7 +504,7 @@ void LLKeywords::findSegments(std::vector<LLTextSegmentPtr>* seg_list, const LLW
 			if( *cur == '\n' )
 			{
 				LLTextSegmentPtr text_segment = new LLLineBreakTextSegment(cur-base);
-				text_segment->setToken( 0 );
+				text_segment->setToken( nullptr );
 				insertSegment( *seg_list, text_segment, text_len, defaultColor, editor);
 				cur++;
 				if( !*cur || *cur == '\n' )
@@ -567,7 +567,7 @@ void LLKeywords::findSegments(std::vector<LLTextSegmentPtr>* seg_list, const LLW
 			// Check against delimiters
 			{
 				S32 seg_start = 0;
-				LLKeywordToken* cur_delimiter = NULL;
+				LLKeywordToken* cur_delimiter = nullptr;
 				for (token_list_t::iterator iter = mDelimiterTokenList.begin();
 					 iter != mDelimiterTokenList.end(); ++iter)
 				{

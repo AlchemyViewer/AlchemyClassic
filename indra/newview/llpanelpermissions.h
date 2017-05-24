@@ -51,9 +51,9 @@ public:
 	LLPanelPermissions();
 	virtual ~LLPanelPermissions();
 
-	/*virtual*/	BOOL	postBuild();
+	/*virtual*/	BOOL	postBuild() override;
 
-	void refresh();							// refresh all labels as needed
+	void refresh() override;							// refresh all labels as needed
 
 protected:
 	void onClickClaim();

@@ -99,9 +99,9 @@ public:
     void requestShutdown();
 
 	// Inherited from LLPluginMessagePipeOwner
-	/*virtual*/ void receiveMessageRaw(const std::string &message);
+	/*virtual*/ void receiveMessageRaw(const std::string &message) override;
 	/*virtual*/ void receiveMessageEarly(const LLPluginMessage &message);
-	/*virtual*/ void setMessagePipe(LLPluginMessagePipe *message_pipe) ;
+	/*virtual*/ void setMessagePipe(LLPluginMessagePipe *message_pipe) override;
 	
 	// This adds a memory segment shared with the client, generating a name for the segment.  The name generated is guaranteed to be unique on the host.
 	// The caller must call removeSharedMemory first (and wait until getSharedMemorySize returns 0 for the indicated name) before re-adding a segment with the same name.

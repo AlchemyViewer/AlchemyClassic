@@ -47,7 +47,7 @@ public:
     LLEventFilter(LLEventPump& source, const std::string& name="filter", bool tweak=true);
 
     /// Post an event to all listeners
-    virtual bool post(const LLSD& event) = 0;
+	bool post(const LLSD& event) override = 0;
 
 private:
     LLTempBoundListener mSource;
@@ -65,7 +65,7 @@ public:
     LLEventMatching(LLEventPump& source, const LLSD& pattern);
 
     /// Only pass through events matching the pattern
-    virtual bool post(const LLSD& event);
+	bool post(const LLSD& event) override;
 
 private:
     LLSD mPattern;
@@ -171,7 +171,7 @@ public:
     void eventAfter(F32 seconds, const LLSD& event);
 
     /// Pass event through, canceling the countdown timer
-    virtual bool post(const LLSD& event);
+	bool post(const LLSD& event) override;
 
     /// Cancel timer without event
     void cancel();
@@ -207,8 +207,8 @@ public:
     LLEventTimeout(LLEventPump& source);
 
 protected:
-    virtual void setCountdown(F32 seconds);
-    virtual bool countdownElapsed() const;
+	void setCountdown(F32 seconds) override;
+	bool countdownElapsed() const override;
 
 private:
     LLTimer mTimer;

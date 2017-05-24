@@ -224,7 +224,7 @@ bool LLLocalBitmap::updateSelf(EUpdateType optional_firstupdate)
 
 						// remove old_id from gimagelist
 						LLViewerFetchedTexture* image = gTextureList.findImage(old_id, TEX_LIST_STANDARD);
-						if (image != NULL)
+						if (image != nullptr)
 						{
 							gTextureList.deleteImage(image);
 							image->unref();
@@ -881,7 +881,7 @@ bool LLLocalBitmapMgr::addUnit()
 				LLNotificationsUtil::add("LocalBitmapsVerifyFail", notif_args);
 
 				delete unit;
-				unit = NULL;
+				unit = nullptr;
 			}
 
 			filename = picker.getNextFile();
@@ -944,7 +944,7 @@ void LLLocalBitmapMgr::delUnit(LLUUID tracking_id)
 			LLLocalBitmap* unit = *del_iter;
 			sBitmapList.remove(unit);
 			delete unit;
-			unit = NULL;
+			unit = nullptr;
 		}
 	}
 }

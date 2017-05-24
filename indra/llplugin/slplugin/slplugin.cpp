@@ -82,9 +82,9 @@ LONG WINAPI myWin32ExceptionHandler( struct _EXCEPTION_POINTERS* exception_infop
 static BOOL PreventSetUnhandledExceptionFilter()
 {
 	HMODULE hKernel32 = LoadLibrary(TEXT("kernel32.dll"));
-	if (hKernel32 == NULL) return FALSE;
+	if (hKernel32 == nullptr) return FALSE;
 	void *pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
-	if (pOrgEntry == NULL) return FALSE;
+	if (pOrgEntry == nullptr) return FALSE;
 
 #ifdef _M_IX86
 	// Code for x86:
@@ -111,7 +111,7 @@ static BOOL PreventSetUnhandledExceptionFilter()
 void initExceptionHandler()
 {
 	TCHAR szExeFileName[MAX_PATH];
-	GetModuleFileName(NULL, szExeFileName, MAX_PATH);
+	GetModuleFileName(nullptr, szExeFileName, MAX_PATH);
 	std::wstring exename(szExeFileName);
 	size_t path_end = exename.find_last_of('\\');
 	if (path_end != std::string::npos)
@@ -151,10 +151,10 @@ bool checkExceptionHandler()
 		ok = false;
 	}
 
-	if (prev_filter == NULL)
+	if (prev_filter == nullptr)
 	{
 		ok = FALSE;
-		if (NULL == myWin32ExceptionHandler)
+		if (nullptr == myWin32ExceptionHandler)
 		{
 			LL_WARNS("AppInit") << "Exception handler uninitialized." << LL_ENDL;
 		}

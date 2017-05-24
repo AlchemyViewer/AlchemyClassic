@@ -43,14 +43,14 @@ class LLFloaterInspect : public LLFloater
 public:
 
 //	static void show(void* ignored = NULL);
-	void onOpen(const LLSD& key);
-	virtual BOOL postBuild();
+	void onOpen(const LLSD& key) override;
+	BOOL postBuild() override;
 	void dirty();
 	LLUUID getSelectedUUID();
-	virtual void draw();
-	virtual void refresh();
+	void draw() override;
+	void refresh() override;
 //	static BOOL isVisible();
-	virtual void onFocusReceived();
+	void onFocusReceived() override;
 	void onClickCreatorProfile();
 	void onClickOwnerProfile();
 	void onSelectObject();

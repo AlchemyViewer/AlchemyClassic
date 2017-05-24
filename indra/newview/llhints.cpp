@@ -112,7 +112,7 @@ public:
 
 	LLHintPopup(const Params&);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	void onClickClose() 
 	{ 
@@ -122,7 +122,7 @@ public:
 			LLNotifications::instance().cancel(mNotification);
 		}
 	}
-	void draw();
+	void draw() override;
 	void hide() { if(!mHidden) {mHidden = true; mFadeTimer.reset();} }
 
 private:
@@ -149,7 +149,8 @@ static LLDefaultChildRegistry::Register<LLHintPopup> r("hint_popup");
 
 
 LLHintPopup::LLHintPopup(const LLHintPopup::Params& p)
-:	mNotification(p.notification),
+:	LLPanel(p),
+	mNotification(p.notification),
 	mDirection(TOP),
 	mDistance(p.distance),
 	mArrowLeft(p.left_arrow),
@@ -161,10 +162,9 @@ LLHintPopup::LLHintPopup(const LLHintPopup::Params& p)
 	mArrowUpOffset(p.up_arrow_offset),
 	mArrowRightOffset(p.right_arrow_offset),
 	mArrowDownOffset(p.down_arrow_offset),
-	mHidden(false),
 	mFadeInTime(p.fade_in_time),
 	mFadeOutTime(p.fade_out_time),
-	LLPanel(p)
+	mHidden(false)
 {
 	if (p.target_params.isProvided())
 	{

@@ -393,8 +393,8 @@ public:
     HttpCoroLLSDHandler(LLEventStream &reply);
 
 protected:
-    virtual LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status);
-    virtual LLSD parseBody(LLCore::HttpResponse *response, bool &success);
+	LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status) override;
+	LLSD parseBody(LLCore::HttpResponse *response, bool &success) override;
 };
 
 //-------------------------------------------------------------------------
@@ -500,8 +500,8 @@ class HttpCoroRawHandler : public HttpCoroHandler
 public:
     HttpCoroRawHandler(LLEventStream &reply);
 
-    virtual LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status);
-    virtual LLSD parseBody(LLCore::HttpResponse *response, bool &success);
+	LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status) override;
+	LLSD parseBody(LLCore::HttpResponse *response, bool &success) override;
 };
 
 //-------------------------------------------------------------------------
@@ -575,8 +575,8 @@ class HttpCoroJSONHandler : public HttpCoroHandler
 public:
     HttpCoroJSONHandler(LLEventStream &reply);
 
-    virtual LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status);
-    virtual LLSD parseBody(LLCore::HttpResponse *response, bool &success);
+	LLSD handleSuccess(LLCore::HttpResponse * response, LLCore::HttpStatus &status) override;
+	LLSD parseBody(LLCore::HttpResponse *response, bool &success) override;
 };
 
 //-------------------------------------------------------------------------

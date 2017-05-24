@@ -107,7 +107,7 @@ namespace LLInitParam
 	public:
 		Optional<std::string> name;
 
-		ParamValue(LLUIImage* const& image = NULL)
+		ParamValue(LLUIImage* const& image = nullptr)
 		:	super_t(image)
 		{
 			updateBlockFromValue(false);

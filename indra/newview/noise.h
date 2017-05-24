@@ -344,7 +344,7 @@ static void init(void)
 	}
 
 	// reintroduce entropy
-	srand(time(NULL));		// Flawfinder: ignore
+	srand(time(nullptr));		// Flawfinder: ignore
 }
 
 #undef B

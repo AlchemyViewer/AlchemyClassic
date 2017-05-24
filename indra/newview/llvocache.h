@@ -111,7 +111,7 @@ public:
 	void recordHit();
 	void recordDupe() { mDupeCount++; }
 	
-	/*virtual*/ void setOctreeEntry(LLViewerOctreeEntry* entry);
+	/*virtual*/ void setOctreeEntry(LLViewerOctreeEntry* entry) override;
 
 	void setParentID(U32 id);
 	U32  getParentID() const {return mParentID;}
@@ -179,7 +179,7 @@ public:
 	LLVOCacheGroup(OctreeNode* node, LLViewerOctreePartition* part) : LLOcclusionCullingGroup(node, part){}	
 
 	//virtual
-	void handleChildAddition(const OctreeNode* parent, OctreeNode* child);
+	void handleChildAddition(const OctreeNode* parent, OctreeNode* child) override;
 
 protected:
 	virtual ~LLVOCacheGroup();
@@ -192,7 +192,7 @@ public:
 
 	bool addEntry(LLViewerOctreeEntry* entry);
 	void removeEntry(LLViewerOctreeEntry* entry);
-	/*virtual*/ S32 cull(LLCamera &camera, bool do_occlusion);
+	/*virtual*/ S32 cull(LLCamera &camera, bool do_occlusion) override;
 	void addOccluders(LLViewerOctreeGroup* gp);
 	void resetOccluders();
 	void processOccluders(LLCamera* camera);

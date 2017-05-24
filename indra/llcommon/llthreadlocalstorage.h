@@ -83,15 +83,15 @@ public:
 		return sThreadLocalPointer == other;
 	}
 
-	bool isNull() const { return sThreadLocalPointer == NULL; }
+	bool isNull() const { return sThreadLocalPointer == nullptr; }
 
-	bool notNull() const { return sThreadLocalPointer != NULL; }
+	bool notNull() const { return sThreadLocalPointer != nullptr; }
 private:
 	static LL_THREAD_LOCAL T* sThreadLocalPointer;
 };
 
 template<typename DERIVED_TYPE>
-LL_THREAD_LOCAL DERIVED_TYPE* LLThreadLocalPointer<DERIVED_TYPE>::sThreadLocalPointer = NULL;
+LL_THREAD_LOCAL DERIVED_TYPE* LLThreadLocalPointer<DERIVED_TYPE>::sThreadLocalPointer = nullptr;
 
 template<typename DERIVED_TYPE>
 class LLThreadLocalSingletonPointer
@@ -112,6 +112,6 @@ private:
 };
 
 template<typename DERIVED_TYPE>
-LL_THREAD_LOCAL DERIVED_TYPE* LLThreadLocalSingletonPointer<DERIVED_TYPE>::sInstance = NULL;
+LL_THREAD_LOCAL DERIVED_TYPE* LLThreadLocalSingletonPointer<DERIVED_TYPE>::sInstance = nullptr;
 
 #endif // LL_LLTHREADLOCALSTORAGE_H

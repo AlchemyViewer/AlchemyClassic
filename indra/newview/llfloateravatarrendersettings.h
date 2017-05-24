@@ -40,9 +40,9 @@ public:
     LLFloaterAvatarRenderSettings(const LLSD& key);
     virtual ~LLFloaterAvatarRenderSettings();
 
-    /*virtual*/ BOOL postBuild();
-    /*virtual*/ void onOpen(const LLSD& key);
-    /*virtual*/ void draw();
+    /*virtual*/ BOOL postBuild() override;
+    /*virtual*/ void onOpen(const LLSD& key) override;
+    /*virtual*/ void draw() override;
 
     void onAvatarListRightClick(LLUICtrl* ctrl, S32 x, S32 y);
 

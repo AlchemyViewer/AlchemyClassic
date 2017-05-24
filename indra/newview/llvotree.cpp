@@ -99,7 +99,7 @@ LLVOTree::~LLVOTree()
 	if (mData)
 	{
 		delete[] mData;
-		mData = NULL;
+		mData = nullptr;
 	}
 }
 
@@ -494,11 +494,11 @@ BOOL LLVOTree::updateGeometry(LLDrawable *drawable)
 
 	if(mTrunkLOD >= sMAX_NUM_TREE_LOD_LEVELS) //do not display the tree.
 	{
-		mReferenceBuffer = NULL ;
+		mReferenceBuffer = nullptr ;
 		LLFace * facep = drawable->getFace(0);
 		if (facep)
 		{
-			facep->setVertexBuffer(NULL);
+			facep->setVertexBuffer(nullptr);
 		}
 		return TRUE ;
 	}

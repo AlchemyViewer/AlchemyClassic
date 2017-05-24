@@ -43,9 +43,9 @@ public:
 	LLToolPlacer();
 
 	virtual BOOL	placeObject(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual void	handleSelect();	// do stuff when your tool is selected
-	virtual void	handleDeselect();	// clean up when your tool is deselected
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	void	handleSelect() override;	// do stuff when your tool is selected
+	void	handleDeselect() override;	// clean up when your tool is deselected
 
 	static void	setObjectType( LLPCode type )		{ sObjectType = type; }
 	static LLPCode getObjectType()					{ return sObjectType; }

@@ -45,8 +45,8 @@ public:
     LLFloaterOutfitSnapshot(const LLSD& key);
     /*virtual*/ ~LLFloaterOutfitSnapshot();
 
-    /*virtual*/ BOOL postBuild();
-    /*virtual*/ void onOpen(const LLSD& key);
+    /*virtual*/ BOOL postBuild() override;
+    /*virtual*/ void onOpen(const LLSD& key) override;
 
     static void update();
 
@@ -54,7 +54,7 @@ public:
 
     static LLFloaterOutfitSnapshot* getInstance();
     static LLFloaterOutfitSnapshot* findInstance();
-    /*virtual*/ void saveTexture();
+    /*virtual*/ void saveTexture() override;
 
     const LLRect& getThumbnailPlaceholderRect() { return mThumbnailPlaceholder->getRect(); }
 
@@ -87,15 +87,15 @@ public:
 
     static void onSnapshotUploadFinished(LLFloaterSnapshotBase* floater, bool status);
 
-    /*virtual*/ LLPanelSnapshot* getActivePanel(LLFloaterSnapshotBase* floater, bool ok_if_not_found = true);
-    /*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat(LLFloaterSnapshotBase* floater);
-    /*virtual*/ std::string getSnapshotPanelPrefix();
+    /*virtual*/ LLPanelSnapshot* getActivePanel(LLFloaterSnapshotBase* floater, bool ok_if_not_found = true) override;
+    /*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat(LLFloaterSnapshotBase* floater) override;
+    /*virtual*/ std::string getSnapshotPanelPrefix() override;
 
-    /*virtual*/ void updateControls(LLFloaterSnapshotBase* floater);
+    /*virtual*/ void updateControls(LLFloaterSnapshotBase* floater) override;
 
 private:
-    /*virtual*/ LLSnapshotModel::ESnapshotLayerType getLayerType(LLFloaterSnapshotBase* floater);
-    /*virtual*/ void setFinished(bool finished, bool ok = true, const std::string& msg = LLStringUtil::null);
+    /*virtual*/ LLSnapshotModel::ESnapshotLayerType getLayerType(LLFloaterSnapshotBase* floater) override;
+    /*virtual*/ void setFinished(bool finished, bool ok = true, const std::string& msg = LLStringUtil::null) override;
 };
 
 ///----------------------------------------------------------------------------

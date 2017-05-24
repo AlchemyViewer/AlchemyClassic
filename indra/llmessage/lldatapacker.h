@@ -117,61 +117,62 @@ public:
 
 	LLDataPackerBinaryBuffer()
 	:	LLDataPacker(),
-		mBufferp(NULL),
-		mCurBufferp(NULL),
+		mBufferp(nullptr),
+		mCurBufferp(nullptr),
 		mBufferSize(0)
 	{
 	}
 
-	/*virtual*/ BOOL		packString(const std::string& value, const char *name);
-	/*virtual*/ BOOL		unpackString(std::string& value, const char *name);
+	/*virtual*/ BOOL		packString(const std::string& value, const char *name) override;
+	/*virtual*/ BOOL		unpackString(std::string& value, const char *name) override;
 
-	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name);
+	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name) override;
 
 	// Constant size binary data packing
-	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name);
+	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name) override;
 
-	/*virtual*/ BOOL		packU8(const U8 value, const char *name);
-	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name);
+	/*virtual*/ BOOL		packU8(const U8 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU16(const U16 value, const char *name);
-	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name);
+	/*virtual*/ BOOL		packU16(const U16 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU32(const U32 value, const char *name);
-	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name);
+	/*virtual*/ BOOL		packU32(const U32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packS32(const S32 value, const char *name);
-	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name);
+	/*virtual*/ BOOL		packS32(const S32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packF32(const F32 value, const char *name);
-	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name);
+	/*virtual*/ BOOL		packF32(const F32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name);
+	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name);
+	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name);
+	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name);
+	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name);
+	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name);
-	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name);
+	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name) override;
+	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name) override;
 
 				S32			getCurrentSize() const	{ return (S32)(mCurBufferp - mBufferp); }
 				S32			getBufferSize() const	{ return mBufferSize; }
 				const U8*   getBuffer() const   { return mBufferp; }    
-				void		reset()				{ mCurBufferp = mBufferp; mWriteEnabled = (mCurBufferp != NULL); }
+				void		reset() override
+				{ mCurBufferp = mBufferp; mWriteEnabled = (mCurBufferp != nullptr); }
 				void        shift(S32 offset)   { reset(); mCurBufferp += offset;}
-				void		freeBuffer()		{ delete [] mBufferp; mBufferp = mCurBufferp = NULL; mBufferSize = 0; mWriteEnabled = FALSE; }
+				void		freeBuffer()		{ delete [] mBufferp; mBufferp = mCurBufferp = nullptr; mBufferSize = 0; mWriteEnabled = FALSE; }
 				void		assignBuffer(U8 *bufferp, S32 size)
 				{
 					if(mBufferp && mBufferp != bufferp)
@@ -185,9 +186,9 @@ public:
 				}
 				const LLDataPackerBinaryBuffer&	operator=(const LLDataPackerBinaryBuffer &a);
 
-	/*virtual*/ BOOL		hasNext() const			{ return getCurrentSize() < getBufferSize(); }
+	/*virtual*/ BOOL		hasNext() const override { return getCurrentSize() < getBufferSize(); }
 
-	/*virtual*/ void dumpBufferToLog();
+	/*virtual*/ void dumpBufferToLog() override;
 protected:
 	inline BOOL verifyLength(const S32 data_size, const char *name);
 
@@ -223,56 +224,56 @@ public:
 
 	LLDataPackerAsciiBuffer()
 	{
-		mBufferp = NULL;
-		mCurBufferp = NULL;
+		mBufferp = nullptr;
+		mCurBufferp = nullptr;
 		mBufferSize = 0;
 		mPassFlags = 0;
 		mIncludeNames = FALSE;
 		mWriteEnabled = FALSE;
 	}
 
-	/*virtual*/ BOOL		packString(const std::string& value, const char *name);
-	/*virtual*/ BOOL		unpackString(std::string& value, const char *name);
+	/*virtual*/ BOOL		packString(const std::string& value, const char *name) override;
+	/*virtual*/ BOOL		unpackString(std::string& value, const char *name) override;
 
-	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name);
+	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name) override;
 
 	// Constant size binary data packing
-	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name);
+	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name) override;
 
-	/*virtual*/ BOOL		packU8(const U8 value, const char *name);
-	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name);
+	/*virtual*/ BOOL		packU8(const U8 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU16(const U16 value, const char *name);
-	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name);
+	/*virtual*/ BOOL		packU16(const U16 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU32(const U32 value, const char *name);
-	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name);
+	/*virtual*/ BOOL		packU32(const U32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packS32(const S32 value, const char *name);
-	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name);
+	/*virtual*/ BOOL		packS32(const S32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packF32(const F32 value, const char *name);
-	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name);
+	/*virtual*/ BOOL		packF32(const F32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name);
+	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name);
+	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name);
+	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name);
+	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name);
+	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name);
-	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name);
+	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name) override;
+	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name) override;
 
 	void		setIncludeNames(BOOL b)	{ mIncludeNames = b; }
 
@@ -280,9 +281,10 @@ public:
 	S32			getCurrentSize() const	{ return (S32)(mCurBufferp - mBufferp) + 1; }
 
 	S32			getBufferSize() const	{ return mBufferSize; }
-	/*virtual*/ void		reset()					{ mCurBufferp = mBufferp; mWriteEnabled = (mCurBufferp != NULL); }
+	/*virtual*/ void		reset() override
+	{ mCurBufferp = mBufferp; mWriteEnabled = (mCurBufferp != nullptr); }
 
-	/*virtual*/ BOOL		hasNext() const			{ return getCurrentSize() < getBufferSize(); }
+	/*virtual*/ BOOL		hasNext() const override { return getCurrentSize() < getBufferSize(); }
 
 	inline void	freeBuffer();
 	inline void	assignBuffer(char* bufferp, S32 size);
@@ -304,7 +306,7 @@ protected:
 inline void	LLDataPackerAsciiBuffer::freeBuffer()
 {
 	delete [] mBufferp; 
-	mBufferp = mCurBufferp = NULL; 
+	mBufferp = mCurBufferp = nullptr; 
 	mBufferSize = 0;
 	mWriteEnabled = FALSE;
 }
@@ -336,17 +338,17 @@ public:
 	: 	LLDataPacker(),
 		mIndent(indent),
 		mFP(fp),
-		mOutputStream(NULL),
-		mInputStream(NULL)
+		mOutputStream(nullptr),
+		mInputStream(nullptr)
 	{
 	}
 
 	LLDataPackerAsciiFile(std::ostream& output_stream, const S32 indent = 2)
 	: 	LLDataPacker(),
 		mIndent(indent),
-		mFP(NULL),
+		mFP(nullptr),
 		mOutputStream(&output_stream),
-		mInputStream(NULL)
+		mInputStream(nullptr)
 	{
 		mWriteEnabled = TRUE;
 	}
@@ -354,58 +356,58 @@ public:
 	LLDataPackerAsciiFile(std::istream& input_stream, const S32 indent = 2)
 	: 	LLDataPacker(),
 		mIndent(indent),
-		mFP(NULL),
-		mOutputStream(NULL),
+		mFP(nullptr),
+		mOutputStream(nullptr),
 		mInputStream(&input_stream)
 	{
 	}
 
-	/*virtual*/ BOOL		packString(const std::string& value, const char *name);
-	/*virtual*/ BOOL		unpackString(std::string& value, const char *name);
+	/*virtual*/ BOOL		packString(const std::string& value, const char *name) override;
+	/*virtual*/ BOOL		unpackString(std::string& value, const char *name) override;
 
-	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name);
+	/*virtual*/ BOOL		packBinaryData(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryData(U8 *value, S32 &size, const char *name) override;
 
-	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name);
-	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name);
+	/*virtual*/ BOOL		packBinaryDataFixed(const U8 *value, S32 size, const char *name) override;
+	/*virtual*/ BOOL		unpackBinaryDataFixed(U8 *value, S32 size, const char *name) override;
 
-	/*virtual*/ BOOL		packU8(const U8 value, const char *name);
-	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name);
+	/*virtual*/ BOOL		packU8(const U8 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU8(U8 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU16(const U16 value, const char *name);
-	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name);
+	/*virtual*/ BOOL		packU16(const U16 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU16(U16 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packU32(const U32 value, const char *name);
-	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name);
+	/*virtual*/ BOOL		packU32(const U32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackU32(U32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packS32(const S32 value, const char *name);
-	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name);
+	/*virtual*/ BOOL		packS32(const S32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackS32(S32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packF32(const F32 value, const char *name);
-	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name);
+	/*virtual*/ BOOL		packF32(const F32 value, const char *name) override;
+	/*virtual*/ BOOL		unpackF32(F32 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name);
+	/*virtual*/ BOOL		packColor4(const LLColor4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4(LLColor4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name);
-	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name);
+	/*virtual*/ BOOL		packColor4U(const LLColor4U &value, const char *name) override;
+	/*virtual*/ BOOL		unpackColor4U(LLColor4U &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name);
+	/*virtual*/ BOOL		packVector2(const LLVector2 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector2(LLVector2 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name);
+	/*virtual*/ BOOL		packVector3(const LLVector3 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector3(LLVector3 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name);
-	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name);
+	/*virtual*/ BOOL		packVector4(const LLVector4 &value, const char *name) override;
+	/*virtual*/ BOOL		unpackVector4(LLVector4 &value, const char *name) override;
 
-	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name);
-	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name);
+	/*virtual*/ BOOL		packUUID(const LLUUID &value, const char *name) override;
+	/*virtual*/ BOOL		unpackUUID(LLUUID &value, const char *name) override;
 protected:
 	void writeIndentedName(const char *name);
 	BOOL getValueStr(const char *name, char *out_value, const S32 value_len);
 	
-	/*virtual*/ BOOL		hasNext() const			{ return true; }
+	/*virtual*/ BOOL		hasNext() const override { return true; }
 
 protected:
 	S32 mIndent;

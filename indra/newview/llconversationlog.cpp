@@ -54,26 +54,26 @@ struct ConversationParams : public LLInitParam::Block<ConversationParams>
 
 LLConversation::LLConversation(const ConversationParams& params)
 :	mTime(params.time),
-	mTimestamp(params.timestamp.isProvided() ? params.timestamp : createTimestamp(params.time)),
 	mConversationType(params.conversation_type),
 	mConversationName(params.conversation_name),
 	mHistoryFileName(params.history_filename),
 	mSessionID(params.session_id),
 	mParticipantID(params.participant_id),
-	mHasOfflineIMs(params.has_offline_ims)
+	mHasOfflineIMs(params.has_offline_ims),
+	mTimestamp(params.timestamp.isProvided() ? params.timestamp : createTimestamp(params.time))
 {
 	setListenIMFloaterOpened();
 }
 
 LLConversation::LLConversation(const LLIMModel::LLIMSession& session)
 :	mTime(time_corrected()),
-	mTimestamp(createTimestamp(mTime)),
 	mConversationType(session.mSessionType),
 	mConversationName(session.mName),
 	mHistoryFileName(session.mHistoryFileName),
 	mSessionID(session.isOutgoingAdHoc() ? session.generateOutgoingAdHocHash() : session.mSessionID),
 	mParticipantID(session.mOtherParticipantID),
-	mHasOfflineIMs(session.mHasOfflineMessage)
+	mHasOfflineIMs(session.mHasOfflineMessage),
+	mTimestamp(createTimestamp(mTime))
 {
 	setListenIMFloaterOpened();
 }
@@ -169,7 +169,7 @@ class LLConversationLogFriendObserver : public LLFriendObserver
 public:
 	LLConversationLogFriendObserver() {}
 	virtual ~LLConversationLogFriendObserver() {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 };
 
 void LLConversationLogFriendObserver::changed(U32 mask)
@@ -325,7 +325,7 @@ LLConversation* LLConversationLog::findConversation(const LLIMModel::LLIMSession
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void LLConversationLog::removeConversation(const LLConversation& conversation)
@@ -354,7 +354,7 @@ const LLConversation* LLConversationLog::getConversation(const LLUUID& session_i
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void LLConversationLog::addObserver(LLConversationLogObserver* observer)

@@ -52,23 +52,23 @@ public:
 
 	LLVOWater(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp);
 
-	/*virtual*/ void markDead();
+	/*virtual*/ void markDead() override;
 
 	// Initialize data that's only inited once per class.
 	static void initClass();
 	static void cleanupClass();
 
-	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time);
-	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline);
-	/*virtual*/ BOOL        updateGeometry(LLDrawable *drawable);
-	/*virtual*/ void		updateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax);
+	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time) override;
+	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
+	/*virtual*/ BOOL        updateGeometry(LLDrawable *drawable) override;
+	/*virtual*/ void		updateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax) override;
 
-	/*virtual*/ void updateTextures();
-	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent); // generate accurate apparent angle and area
+	/*virtual*/ void updateTextures() override;
+	/*virtual*/ void setPixelAreaAndAngle(LLAgent &agent) override; // generate accurate apparent angle and area
 
-	virtual U32 getPartitionType() const;
+	U32 getPartitionType() const override;
 
-	/*virtual*/ BOOL isActive() const; // Whether this object needs to do an idleUpdate.
+	/*virtual*/ BOOL isActive() const override; // Whether this object needs to do an idleUpdate.
 
 	void setUseTexture(const BOOL use_texture);
 	void setIsEdgePatch(const BOOL edge_patch);
@@ -89,7 +89,7 @@ public:
 		mRenderType = LLPipeline::RENDER_TYPE_VOIDWATER;
 	}
 
-	/*virtual*/ U32 getPartitionType() const;
+	/*virtual*/ U32 getPartitionType() const override;
 };
 
 

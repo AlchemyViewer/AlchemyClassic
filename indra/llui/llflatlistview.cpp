@@ -42,11 +42,11 @@ const LLSD UNSELECTED_EVENT	= LLSD().with("selected", false);
 bool llsds_are_equal(const LLSD& llsd_1, const LLSD& llsd_2);
 
 LLFlatListView::Params::Params()
-:	item_pad("item_pad"),
-	allow_select("allow_select"),
+:	allow_select("allow_select"),
 	multi_select("multi_select"),
 	keep_one_selected("keep_one_selected"),
 	keep_selection_visible_on_reshape("keep_selection_visible_on_reshape",false),
+	item_pad("item_pad"),
 	no_items_text("no_items_text")
 {};
 
@@ -256,11 +256,11 @@ bool LLFlatListView::removeItemByUUID(const LLUUID& uuid, bool rearrange)
 
 LLPanel* LLFlatListView::getItemByValue(const LLSD& value) const
 {
-	if (value.isUndefined()) return NULL;
+	if (value.isUndefined()) return nullptr;
 
 	item_pair_t* pair = getItemPair(value);
 	if (pair) return pair->first;
-	return NULL;
+	return nullptr;
 }
 
 bool LLFlatListView::selectItem(LLPanel* item, bool select /*= true*/)
@@ -333,7 +333,7 @@ void LLFlatListView::getSelectedUUIDs(uuid_vec_t& selected_uuids) const
 
 LLPanel* LLFlatListView::getSelectedItem() const
 {
-	if (mSelectedItemPairs.empty()) return NULL;
+	if (mSelectedItemPairs.empty()) return nullptr;
 
 	return mSelectedItemPairs.front()->first;
 }
@@ -450,17 +450,17 @@ bool LLFlatListView::updateValue(const LLSD& old_value, const LLSD& new_value)
 
 LLFlatListView::LLFlatListView(const LLFlatListView::Params& p)
 :	LLScrollContainer(p)
-  , mItemComparator(NULL)
-  , mItemsPanel(NULL)
+  , mItemComparator(nullptr)
+  , mItemsPanel(nullptr)
   , mItemPad(p.item_pad)
   , mAllowSelection(p.allow_select)
   , mMultipleSelection(p.multi_select)
-  , mKeepOneItemSelected(p.keep_one_selected)
   , mCommitOnSelectionChange(false)
-  , mPrevNotifyParentRect(LLRect())
-  , mNoItemsCommentTextbox(NULL)
+  , mKeepOneItemSelected(p.keep_one_selected)
   , mIsConsecutiveSelection(false)
   , mKeepSelectionVisibleOnReshape(p.keep_selection_visible_on_reshape)
+  , mPrevNotifyParentRect(LLRect())
+  , mNoItemsCommentTextbox(nullptr)
 {
 	mBorderThickness = getBorderWidth();
 
@@ -790,7 +790,7 @@ LLFlatListView::item_pair_t* LLFlatListView::getItemPair(LLPanel* item) const
 		item_pair_t* item_pair = *it;
 		if (item_pair->first == item) return item_pair;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //compares two LLSD's
@@ -832,7 +832,7 @@ LLFlatListView::item_pair_t* LLFlatListView::getItemPair(const LLSD& value) cons
 		item_pair_t* item_pair = *it;
 		if (llsds_are_equal(item_pair->second, value)) return item_pair;
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool LLFlatListView::selectItemPair(item_pair_t* item_pair, bool select)
@@ -963,8 +963,8 @@ bool LLFlatListView::selectNextItemPair(bool is_up_direction, bool reset_selecti
 
 	if ( mSelectedItemPairs.size() )
 	{
-		item_pair_t* to_sel_pair = NULL;
-		item_pair_t* cur_sel_pair = NULL;
+		item_pair_t* to_sel_pair = nullptr;
+		item_pair_t* cur_sel_pair = nullptr;
 
 		// Take the last selected pair
 		cur_sel_pair = mSelectedItemPairs.back();
@@ -1205,7 +1205,7 @@ void LLFlatListView::onFocusLost()
 	// Route menu back to the default
  	if( gEditMenuHandler == this )
 	{
-		gEditMenuHandler = NULL;
+		gEditMenuHandler = nullptr;
 	}
 }
 
@@ -1269,7 +1269,7 @@ void LLFlatListView::detachItems(std::vector<LLPanel*>& detached_items)
 					 iter_end = mItemPairs.end();
 				 iter != iter_end; ++iter)
 			{
-				(*iter)->first = NULL;
+				(*iter)->first = nullptr;
 				delete *iter;
 			}
 			mItemPairs.clear();
@@ -1298,7 +1298,7 @@ void LLFlatListView::detachItems(std::vector<LLPanel*>& detached_items)
 					if (item_pair->first == pDetachedItem)
 					{
 						mItemPairs.erase(iter);
-						item_pair->first = NULL;
+						item_pair->first = nullptr;
 						delete item_pair;
 						break;
 					}

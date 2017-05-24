@@ -37,8 +37,8 @@ public:
 	LLTransferTargetParamsFile()
 		: LLTransferTargetParams(LLTTT_FILE),
 
-		mCompleteCallback(NULL),
-		mUserData(NULL)
+		mCompleteCallback(nullptr),
+		mUserData(nullptr)
 	{}
 	void setFilename(const std::string& filename)	{ mFilename = filename; }
 	void setCallback(LLTTFCompleteCallback cb, void *user_data)		{ mCompleteCallback = cb; mUserData = user_data; }
@@ -62,10 +62,10 @@ public:
 								const LLTransferSourceParams &source_params,
 								LLTTFCompleteCallback callback);
 protected:
-	virtual bool unpackParams(LLDataPacker& dp);
-	/*virtual*/ void applyParams(const LLTransferTargetParams &params);
-	/*virtual*/ LLTSCode dataCallback(const S32 packet_id, U8 *in_datap, const S32 in_size);
-	/*virtual*/ void completionCallback(const LLTSCode status);
+	bool unpackParams(LLDataPacker& dp) override;
+	/*virtual*/ void applyParams(const LLTransferTargetParams &params) override;
+	/*virtual*/ LLTSCode dataCallback(const S32 packet_id, U8 *in_datap, const S32 in_size) override;
+	/*virtual*/ void completionCallback(const LLTSCode status) override;
 
 	LLTransferTargetParamsFile mParams;
 

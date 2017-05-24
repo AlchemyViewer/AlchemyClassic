@@ -86,7 +86,7 @@ LLMetricPerformanceTesterBasic* LLMetricPerformanceTesterBasic::getTester(std::s
 	{
 		return found_it->second ;
 	}
-	return NULL ;
+	return nullptr ;
 }
 
 /*static*/ 
@@ -275,8 +275,8 @@ void LLMetricPerformanceTesterBasic::compareTestResults(llofstream* os, std::str
 
 LLMetricPerformanceTesterWithSession::LLMetricPerformanceTesterWithSession(std::string name) : 
 	LLMetricPerformanceTesterBasic(name),
-	mBaseSessionp(NULL),
-	mCurrentSessionp(NULL)
+	mBaseSessionp(nullptr),
+	mCurrentSessionp(nullptr)
 {
 }
 
@@ -285,12 +285,12 @@ LLMetricPerformanceTesterWithSession::~LLMetricPerformanceTesterWithSession()
 	if (mBaseSessionp)
 	{
 		delete mBaseSessionp ;
-		mBaseSessionp = NULL ;
+		mBaseSessionp = nullptr ;
 	}
 	if (mCurrentSessionp)
 	{
 		delete mCurrentSessionp ;
-		mCurrentSessionp = NULL ;
+		mCurrentSessionp = nullptr ;
 	}
 }
 
@@ -317,12 +317,12 @@ void LLMetricPerformanceTesterWithSession::analyzePerformance(llofstream* os, LL
 	if (mBaseSessionp)
 	{
 		delete mBaseSessionp ;
-		mBaseSessionp = NULL ;
+		mBaseSessionp = nullptr ;
 	}
 	if (mCurrentSessionp)
 	{
 		delete mCurrentSessionp ;
-		mCurrentSessionp = NULL ;
+		mCurrentSessionp = nullptr ;
 	}
 }
 

@@ -63,7 +63,7 @@ public:
 	/**
 	 * Clears panel data if viewing avatar info for first time and sends update data request.
 	 */
-	virtual void onOpen(const LLSD& key);
+	void onOpen(const LLSD& key) override;
 
 	/**
 	 * Profile tabs should close any opened panels here.

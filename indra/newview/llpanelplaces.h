@@ -57,8 +57,8 @@ public:
 	LLPanelPlaces();
 	virtual ~LLPanelPlaces();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	// Called on parcel selection change to update place information.
 	void changedParcelSelection();
@@ -79,7 +79,7 @@ public:
 
 	bool tabsCreated() { return mTabsCreated;}
 
-	/*virtual*/ S32 notifyParent(const LLSD& info);
+	/*virtual*/ S32 notifyParent(const LLSD& info) override;
 
 private:
 	void onLandmarkLoaded(LLLandmark* landmark);
@@ -102,7 +102,7 @@ private:
 	void togglePickPanel(BOOL visible);
 	void togglePlaceInfoPanel(BOOL visible);
 
-	/*virtual*/ void onVisibilityChange(BOOL new_visibility);
+	/*virtual*/ void onVisibilityChange(BOOL new_visibility) override;
 
 	void updateVerbs();
 

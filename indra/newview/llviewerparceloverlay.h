@@ -79,7 +79,7 @@ public:
 	void	setDirty();
 
 	void	idleUpdate(bool update_now = false);
-	void	updateGL();
+	void	updateGL() override;
 
 private:
 	// This is in parcel rows and columns, not grid rows and columns

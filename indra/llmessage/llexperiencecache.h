@@ -105,7 +105,7 @@ public:
 private:
     virtual ~LLExperienceCache();
 
-    virtual void initSingleton();
+	void initSingleton() override;
 
     typedef boost::function<LLSD(LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t &, LLCore::HttpRequest::ptr_t, std::string)> permissionInvoker_fn;
 

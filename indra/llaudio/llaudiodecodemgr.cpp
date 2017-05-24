@@ -47,7 +47,7 @@
 
 extern LLAudioEngine *gAudiop;
 
-LLAudioDecodeMgr *gAudioDecodeMgrp = NULL;
+LLAudioDecodeMgr *gAudioDecodeMgrp = nullptr;
 
 static const S32 WAV_HEADER_SIZE = 44;
 
@@ -63,7 +63,7 @@ public:
 	public:
 		WriteResponder(LLVorbisDecodeState* decoder) : mDecoder(decoder) {}
 		~WriteResponder() {}
-		void completed(S32 bytes)
+		void completed(S32 bytes) override
 		{
 			mDecoder->ioComplete(bytes);
 		}
@@ -172,7 +172,7 @@ LLVorbisDecodeState::LLVorbisDecodeState(const LLUUID &uuid, const std::string &
 	mValid = FALSE;
 	mBytesRead = -1;
 	mUUID = uuid;
-	mInFilep = NULL;
+	mInFilep = nullptr;
 	mCurrentSection = 0;
 #if !defined(USE_WAV_VFILE)
 	mOutFilename = out_filename;
@@ -188,7 +188,7 @@ LLVorbisDecodeState::~LLVorbisDecodeState()
 	if (!mDone)
 	{
 		delete mInFilep;
-		mInFilep = NULL;
+		mInFilep = nullptr;
 	}
 }
 
@@ -210,7 +210,7 @@ BOOL LLVorbisDecodeState::initDecode()
 	{
 		LL_WARNS("AudioEngine") << "Failed to allocate vfile for reading: "<< e.what() << LL_ENDL;
 		delete mInFilep;
-		mInFilep = NULL;
+		mInFilep = nullptr;
 		return FALSE;
 	}
 
@@ -218,11 +218,11 @@ BOOL LLVorbisDecodeState::initDecode()
 	{
 		LL_WARNS("AudioEngine") << "unable to open vorbis source vfile for reading" << LL_ENDL;
 		delete mInFilep;
-		mInFilep = NULL;
+		mInFilep = nullptr;
 		return FALSE;
 	}
 
-	S32 r = ov_open_callbacks(mInFilep, &mVF, NULL, 0, vfs_callbacks);
+	S32 r = ov_open_callbacks(mInFilep, &mVF, nullptr, 0, vfs_callbacks);
 	if(r < 0) 
 	{
 		LL_WARNS("AudioEngine") << r << " Input to vorbis decode does not appear to be an Ogg bitstream: " << mUUID << LL_ENDL;
@@ -274,7 +274,7 @@ BOOL LLVorbisDecodeState::initDecode()
 			LL_WARNS("AudioEngine") << "Bad asset encoded by: " << comment->vendor << LL_ENDL;
 		}
 		delete mInFilep;
-		mInFilep = NULL;
+		mInFilep = nullptr;
 		return FALSE;
 	}
 	
@@ -591,7 +591,7 @@ void LLAudioDecodeMgr::Impl::processQueue(const F32 num_secs)
 					adp->setHasCompletedDecode(true);
 				}
 
-				mCurrentDecodep = NULL;
+				mCurrentDecodep = nullptr;
 				done = TRUE;
 			}
 
@@ -626,7 +626,7 @@ void LLAudioDecodeMgr::Impl::processQueue(const F32 num_secs)
 						adp->setHasCompletedDecode(true);
 						LL_INFOS("AudioEngine") << "Vorbis decode failed for " << mCurrentDecodep->getUUID() << LL_ENDL;
 					}
-					mCurrentDecodep = NULL;
+					mCurrentDecodep = nullptr;
 				}
 				done = TRUE; // done for now
 			}
@@ -664,7 +664,7 @@ void LLAudioDecodeMgr::Impl::processQueue(const F32 num_secs)
 				mCurrentDecodep = new LLVorbisDecodeState(uuid, d_path);
 				if (!mCurrentDecodep->initDecode())
 				{
-					mCurrentDecodep = NULL;
+					mCurrentDecodep = nullptr;
 				}
 			}
 		}

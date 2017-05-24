@@ -209,7 +209,7 @@ void LLWindowListener::getInfo(LLSD const & evt)
 	{
 		std::string path(evt["path"]);
 		LLView * target_view = LLUI::resolvePath(LLUI::getRootView(), path);
-		if (target_view != 0)
+		if (target_view != nullptr)
 		{
 			response.setResponse(target_view->getInfo());
 		}
@@ -229,7 +229,7 @@ void LLWindowListener::getInfo(LLSD const & evt)
 void LLWindowListener::getPaths(LLSD const & request)
 {
 	Response response(LLSD(), request);
-	LLView *root(LLUI::getRootView()), *base(NULL);
+	LLView *root(LLUI::getRootView()), *base(nullptr);
 	// Capturing request["under"] as string means we conflate the case in
 	// which there is no ["under"] key with the case in which its value is the
 	// empty string. That seems to make sense to me.
@@ -268,7 +268,7 @@ void LLWindowListener::keyDown(LLSD const & evt)
 	{
 		std::string path(evt["path"]);
 		LLView * target_view = LLUI::resolvePath(LLUI::getRootView(), path);
-		if (target_view == 0) 
+		if (target_view == nullptr) 
 		{
 			response.error(STRINGIZE(evt["op"].asString() << " request "
 											"specified invalid \"path\": '" << path << "'"));
@@ -303,7 +303,7 @@ void LLWindowListener::keyUp(LLSD const & evt)
 	{
 		std::string path(evt["path"]);
 		LLView * target_view = LLUI::resolvePath(LLUI::getRootView(), path);
-		if (target_view == 0 )
+		if (target_view == nullptr )
 		{
 			response.error(STRINGIZE(evt["op"].asString() << " request "
 											"specified invalid \"path\": '" << path << "'"));
@@ -487,5 +487,5 @@ void LLWindowListener::mouseScroll(LLSD const & request)
 {
 	S32 clicks = request["clicks"].asInteger();
 
-	mWindow->handleScrollWheel(NULL, clicks);
+	mWindow->handleScrollWheel(nullptr, clicks);
 }

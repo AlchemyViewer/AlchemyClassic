@@ -55,7 +55,7 @@ public:
 	void reset(const U8* start, S32 length);
 
 protected:
-	int underflow();
+	int underflow() override;
 	//std::streamsize xsgetn(char* dest, std::streamsize n);
 };
 

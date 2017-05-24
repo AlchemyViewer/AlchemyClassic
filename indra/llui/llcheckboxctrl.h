@@ -71,23 +71,23 @@ protected:
 public:
 	// LLView interface
 
-	virtual void		setEnabled( BOOL b );
+	void		setEnabled( BOOL b ) override;
 
-	virtual void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void		reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 	// LLUICtrl interface
-	virtual void		setValue(const LLSD& value );
-	virtual LLSD		getValue() const;
+	void		setValue(const LLSD& value ) override;
+	LLSD		getValue() const override;
 			BOOL		get() { return (BOOL)getValue().asBoolean(); }
 			void		set(BOOL value) { setValue(value); }
 
-	virtual void		setTentative(BOOL b);
-	virtual BOOL		getTentative() const;
+	void		setTentative(BOOL b) override;
+	BOOL		getTentative() const override;
 
-	virtual BOOL		setLabelArg( const std::string& key, const LLStringExplicit& text );
+	BOOL		setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 
-	virtual void		clear();
-	virtual void		onCommit();
+	void		clear() override;
+	void		onCommit() override;
 
 	// LLCheckBoxCtrl interface
 	virtual BOOL		toggle()				{ return mButton->toggleState(); }		// returns new state
@@ -100,11 +100,11 @@ public:
 
 	void				setFont( const LLFontGL* font ) { mFont = font; }
 	const LLFontGL*		getFont() { return mFont; }
-	
-	virtual void		setControlName(const std::string& control_name, LLView* context);
 
-	virtual BOOL		isDirty()	const;		// Returns TRUE if the user has modified this control.
-	virtual void		resetDirty();			// Clear dirty state
+	void		setControlName(const std::string& control_name, LLView* context) override;
+
+	BOOL		isDirty()	const override;		// Returns TRUE if the user has modified this control.
+	void		resetDirty() override;			// Clear dirty state
 
 protected:
 	// note: value is stored in toggle state of button

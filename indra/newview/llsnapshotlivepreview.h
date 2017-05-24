@@ -56,8 +56,8 @@ public:
 
     void setContainer(LLView* container) { mViewContainer = container; }
 
-	/*virtual*/ void draw();
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent);
+	/*virtual*/ void draw() override;
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent) override;
 
 	void setSize(S32 w, S32 h);
 	void setWidth(S32 w) { mWidth[mCurImageIndex] = w; }
@@ -109,7 +109,7 @@ public:
 	void setThumbnailPlaceholderRect(const LLRect& rect) {mThumbnailPlaceholderRect = rect; }
 	BOOL setThumbnailImageSize() ;
 	void generateThumbnailImage(BOOL force_update = FALSE) ;
-	void resetThumbnailImage() { mThumbnailImage = NULL ; }
+	void resetThumbnailImage() { mThumbnailImage = nullptr ; }
 	void drawPreviewRect(S32 offset_x, S32 offset_y) ;
 	void prepareFreezeFrame();
     

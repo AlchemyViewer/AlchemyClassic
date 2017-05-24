@@ -25,7 +25,7 @@
 #include "lltexteditor.h"
 
 LLFloaterSearchReplace::LLFloaterSearchReplace(const LLSD& sdKey)
-	: LLFloater(sdKey), mEditor(NULL)
+	: LLFloater(sdKey), mEditor(nullptr)
 {
 }
 
@@ -43,7 +43,7 @@ void LLFloaterSearchReplace::show(LLTextEditor* pEditor)
 	pSelf->mEditor = pEditor;
 	if (pEditor)
 	{
-		LLFloater *pDependeeNew = NULL, *pDependeeOld = pSelf->getDependee();
+		LLFloater *pDependeeNew = nullptr, *pDependeeOld = pSelf->getDependee();
 		LLView* pView = pEditor->getParent();
 		while (pView)
 		{

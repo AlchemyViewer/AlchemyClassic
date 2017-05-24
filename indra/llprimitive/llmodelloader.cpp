@@ -113,13 +113,16 @@ LLModelLoader::LLModelLoader(
 	JointNameSet&		jointsFromNodes,
     JointMap&           legalJointNamesMap,
     U32					maxJointsPerMesh)
-: mJointList( jointTransformMap )
-, mJointsFromNode( jointsFromNodes )
-, LLThread("Model Loader")
+: LLThread("Model Loader")
 , mFilename(filename)
 , mLod(lod)
-, mTrySLM(false)
 , mFirstTransform(TRUE)
+, mTrySLM(false)
+, mCacheOnlyHitIfRigged(false)
+, mJointMap(legalJointNamesMap)
+, mJointList( jointTransformMap )
+, mJointsFromNode( jointsFromNodes )
+, mMaxJointsPerMesh(maxJointsPerMesh)
 , mNumOfFetchingTextures(0)
 , mLoadCallback(load_cb)
 , mJointLookupFunc(joint_lookup_func)
@@ -130,9 +133,6 @@ LLModelLoader::LLModelLoader(
 , mLegacyRigValid(true)
 , mNoNormalize(false)
 , mNoOptimize(false)
-, mCacheOnlyHitIfRigged(false)
-, mMaxJointsPerMesh(maxJointsPerMesh)
-, mJointMap(legalJointNamesMap)
 {    
 	assert_main_thread();
 	sActiveLoaderList.push_back(this) ;
@@ -293,7 +293,7 @@ bool LLModelLoader::loadFromSLM(const std::string& filename)
 					}
 					else
 					{
-						instance_list[i].mLOD[lod] = NULL;
+						instance_list[i].mLOD[lod] = nullptr;
 					}					
 					continue;
 				}

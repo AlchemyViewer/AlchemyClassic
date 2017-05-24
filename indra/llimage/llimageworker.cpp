@@ -109,9 +109,9 @@ LLImageDecodeThread::ImageRequest::ImageRequest(handle_t handle, LLImageFormatte
 
 LLImageDecodeThread::ImageRequest::~ImageRequest()
 {
-	mDecodedImageRaw = NULL;
-	mDecodedImageAux = NULL;
-	mFormattedImage = NULL;
+	mDecodedImageRaw = nullptr;
+	mDecodedImageAux = nullptr;
+	mFormattedImage = nullptr;
 }
 
 //----------------------------------------------------------------------------

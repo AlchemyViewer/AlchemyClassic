@@ -78,7 +78,7 @@ void LLUIListener::call(const LLSD& event) const
         // two parameters but discards the first. Only the second is passed to
         // handleEvent(). Therefore we feel completely safe passing NULL for
         // the first parameter.
-        (*func)(NULL, event["parameter"]);
+        (*func)(nullptr, event["parameter"]);
     }
 }
 

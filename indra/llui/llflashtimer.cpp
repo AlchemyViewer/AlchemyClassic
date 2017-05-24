@@ -36,8 +36,8 @@ LLFlashTimer::LLFlashTimer(callback_t cb, S32 count, F32 period)
 :	LLEventTimer(period),
 	mCallback(cb),
 	mCurrentTickCount(0),
-    mIsFlashingInProgress(false),
     mIsCurrentlyHighlighted(false),
+    mIsFlashingInProgress(false),
     mUnset(false)
 {
 	mEventTimer.stop();

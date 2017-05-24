@@ -75,7 +75,7 @@ private:
 
 	void initializeCurlGet(std::string const & url, bool processHeader);
 	void resumeDownloading(size_t startByte);
-	void run(void);
+	void run(void) override;
 	void startDownloading(LLURI const & uri, std::string const & hash);
 	void throwOnCurlError(CURLcode code);
 	bool validateDownload(const std::string& filePath);
@@ -195,7 +195,7 @@ LLUpdateDownloader::Implementation::Implementation(LLUpdateDownloader::Client & 
 	mClient(client),
 	mCurl(),
 	mDownloadPercent(0),
-	mHeaderList(0)
+	mHeaderList(nullptr)
 {
 	CURLcode code = curl_global_init(CURL_GLOBAL_ALL); // Just in case.
 	llverify(code == CURLE_OK); // TODO: real error handling here.
@@ -377,7 +377,7 @@ size_t LLUpdateDownloader::Implementation::onHeader(void * buffer, size_t size)
 size_t LLUpdateDownloader::Implementation::onBody(void * buffer, size_t size)
 {
 	if(mCancelled) return 0; // Forces a write error which will halt curl thread.
-	if((size == 0) || (buffer == 0)) return 0;
+	if((size == 0) || (buffer == nullptr)) return 0;
 
 	mDownloadStream.write(static_cast<const char *>(buffer), size);
 	if(mDownloadStream.bad()) {
@@ -451,7 +451,7 @@ void LLUpdateDownloader::Implementation::run(void)
 	if(mHeaderList)
 	{
 		curl_slist_free_all(mHeaderList);
-		mHeaderList = 0;
+		mHeaderList = nullptr;
 	}
 }
 
@@ -508,7 +508,7 @@ void LLUpdateDownloader::Implementation::resumeDownloading(size_t startByte)
 	boost::format rangeHeaderFormat("Range: bytes=%u-");
 	rangeHeaderFormat % startByte;
 	mHeaderList = curl_slist_append(mHeaderList, rangeHeaderFormat.str().c_str());
-	if(mHeaderList == 0)
+	if(mHeaderList == nullptr)
 	{
 		LLTHROW(DownloadError("cannot add Range header"));
 	}
@@ -548,7 +548,7 @@ void LLUpdateDownloader::Implementation::throwOnCurlError(CURLcode code)
 {
 	if(code != CURLE_OK) {
 		const char * errorString = curl_easy_strerror(code);
-		if(errorString != 0) {
+		if(errorString != nullptr) {
 			LLTHROW(DownloadError(curl_easy_strerror(code)));
 		} else {
 			LLTHROW(DownloadError("unknown curl error"));

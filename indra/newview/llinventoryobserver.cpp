@@ -260,7 +260,7 @@ void fetch_items_from_llsd(const LLSD& items_llsd)
 			msg->nextBlockFast(_PREHASH_InventoryData);
 			msg->addUUIDFast(_PREHASH_OwnerID, item_entry["owner_id"].asUUID());
 			msg->addUUIDFast(_PREHASH_ItemID, item_entry["item_id"].asUUID());
-			if (msg->isSendFull(NULL))
+			if (msg->isSendFull(nullptr))
 			{
 				start_new_message = TRUE;
 				gAgent.sendReliableMessage();
@@ -744,11 +744,11 @@ void LLInventoryCategoriesObserver::removeCategory(const LLUUID& cat_id)
 LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 	const LLUUID& cat_id, callback_t cb, S32 version, S32 num_descendents)
 	
-	: mCatID(cat_id)
-	, mCallback(cb)
+	: mCallback(cb)
 	, mVersion(version)
 	, mDescendentsCount(num_descendents)
 	, mIsNameHashInitialized(false)
+	, mCatID(cat_id)
 {
 	mItemNameHash.finalize();
 }
@@ -756,12 +756,12 @@ LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 LLInventoryCategoriesObserver::LLCategoryData::LLCategoryData(
 	const LLUUID& cat_id, callback_t cb, S32 version, S32 num_descendents, LLMD5 name_hash)
 
-	: mCatID(cat_id)
-	, mCallback(cb)
+	: mCallback(cb)
 	, mVersion(version)
 	, mDescendentsCount(num_descendents)
-	, mIsNameHashInitialized(true)
 	, mItemNameHash(name_hash)
+	, mIsNameHashInitialized(true)
+	, mCatID(cat_id)
 {
 }
 

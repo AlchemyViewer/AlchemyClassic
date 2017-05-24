@@ -61,11 +61,11 @@ public:
 		F32 param_weight, 
 		LLJoint* jointp);	
 
-	/*virtual*/ S8 getType() const ;
+	/*virtual*/ S8 getType() const override;
 
-	BOOL					needsRender();
-	void					preRender(BOOL clear_depth);
-	BOOL					render();
+	BOOL					needsRender() override;
+	void					preRender(BOOL clear_depth) override;
+	BOOL					render() override;
 	void					requestUpdate( S32 delay_frames ) {mNeedsUpdate = TRUE; mDelayFrames = delay_frames; }
 	void					setUpdateDelayFrames( S32 delay_frames ) { mDelayFrames = delay_frames; }
 	void					draw(F32 alpha);
@@ -79,7 +79,7 @@ public:
 	const LLRect&			getRect()	{ return mRect; }
 
 	// Requests updates for all instances (excluding two possible exceptions)  Grungy but efficient.
-	static void				requestHintUpdates( LLVisualParamHint* exception1 = NULL, LLVisualParamHint* exception2 = NULL );
+	static void				requestHintUpdates( LLVisualParamHint* exception1 = nullptr, LLVisualParamHint* exception2 = nullptr );
 
 protected:
 	BOOL					mNeedsUpdate;		// does this texture need to be re-rendered?
@@ -107,8 +107,8 @@ protected:
 	/*virtual */ ~LLVisualParamReset(){}
 public:
 	LLVisualParamReset();
-	/*virtual */ BOOL render();
-	/*virtual*/ S8 getType() const ;
+	/*virtual */ BOOL render() override;
+	/*virtual*/ S8 getType() const override;
 
 	static BOOL sDirty;
 };

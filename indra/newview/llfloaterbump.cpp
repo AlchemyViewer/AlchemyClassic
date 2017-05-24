@@ -51,7 +51,7 @@
 // Default constructor
 LLFloaterBump::LLFloaterBump(const LLSD& key) 
 :	LLFloater(key),
-	mList(NULL),
+	mList(nullptr),
 	mPopupMenuHandle()
 {
 	mCommitCallbackRegistrar.add("Avatar.SendIM", boost::bind(&LLFloaterBump::startIM, this));
@@ -197,7 +197,7 @@ void LLFloaterBump::onScrollListRightClicked(LLUICtrl* ctrl, S32 x, S32 y)
 
 			std::string mute_msg = (LLMuteList::getInstance()->isMuted(mItemUUID, mNames[mItemUUID])) ? "UnmuteAvatar" : "MuteAvatar";
 			menu->getChild<LLUICtrl>("Avatar Mute")->setValue(LLTrans::getString(mute_msg));
-			menu->setItemEnabled(LLStringExplicit("Zoom In"), (gObjectList.findObject(mItemUUID) != NULL));
+			menu->setItemEnabled(LLStringExplicit("Zoom In"), (gObjectList.findObject(mItemUUID) != nullptr));
 
 			menu->show(x, y);
 			LLMenuGL::showPopup(ctrl, menu, x, y);

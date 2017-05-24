@@ -53,8 +53,8 @@
 
 LLViewerAudio::LLViewerAudio() :
 	mDone(true),
-	mFadeState(FADE_IDLE),
 	mFadeTime(),
+	mFadeState(FADE_IDLE),
     mIdleListnerActive(false),
 	mForcedTeleportFade(false),
 	mWasPlaying(false)

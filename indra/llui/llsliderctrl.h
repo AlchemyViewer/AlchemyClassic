@@ -60,21 +60,21 @@ public:
 		Optional<LLTextBox::Params>		slider_label;
 
 		Params()
-		:	text_width("text_width"),
+		:	orientation("orientation", std::string ("horizontal")),
 			label_width("label_width"),
+			text_width("text_width"),
 			show_text("show_text"),
 			can_edit_text("can_edit_text"),
 			is_volume_slider("volume"),
 			decimal_digits("decimal_digits", 3),
 			text_color("text_color"),
 			text_disabled_color("text_disabled_color"),
+			mouse_down_callback("mouse_down_callback"),
+			mouse_up_callback("mouse_up_callback"),
 			slider_bar("slider_bar"),
 			value_editor("value_editor"),
 			value_text("value_text"),
-			slider_label("slider_label"),
-			mouse_down_callback("mouse_down_callback"),
-			mouse_up_callback("mouse_up_callback"),
-			orientation("orientation", std::string ("horizontal"))
+			slider_label("slider_label")
 		{}
 	};
 protected:
@@ -83,28 +83,30 @@ protected:
 public:
 	virtual ~LLSliderCtrl();
 
-	/*virtual*/ F32	getValueF32() const { return mSlider->getValueF32(); }
+	/*virtual*/ F32	getValueF32() const override { return mSlider->getValueF32(); }
 	void			setValue(F32 v, BOOL from_event = FALSE);
 
-	/*virtual*/ void	setValue(const LLSD& value)	{ setValue((F32)value.asReal(), TRUE); }
-	/*virtual*/ LLSD	getValue() const			{ return LLSD(getValueF32()); }
-	/*virtual*/ BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text );
+	/*virtual*/ void	setValue(const LLSD& value) override { setValue((F32)value.asReal(), TRUE); }
+	/*virtual*/ LLSD	getValue() const override { return LLSD(getValueF32()); }
+	/*virtual*/ BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 
 	BOOL			isMouseHeldDown() const { return mSlider->hasMouseCapture(); }
 
 	virtual void	setPrecision(S32 precision);
 
-	/*virtual*/ void    setEnabled( BOOL b );
-	/*virtual*/ void	clear();
+	/*virtual*/ void    setEnabled( BOOL b ) override;
+	/*virtual*/ void	clear() override;
 
-	/*virtual*/ void	setMinValue(const LLSD& min_value)  { setMinValue((F32)min_value.asReal()); }
-	/*virtual*/ void	setMaxValue(const LLSD& max_value)  { setMaxValue((F32)max_value.asReal()); }
-	/*virtual*/ void	setMinValue(F32 min_value)  { mSlider->setMinValue(min_value); updateText(); }
-	/*virtual*/ void	setMaxValue(F32 max_value)  { mSlider->setMaxValue(max_value); updateText(); }
-	/*virtual*/ void	setIncrement(F32 increment) { mSlider->setIncrement(increment);}
+	/*virtual*/ void	setMinValue(const LLSD& min_value) override { setMinValue((F32)min_value.asReal()); }
+	/*virtual*/ void	setMaxValue(const LLSD& max_value) override { setMaxValue((F32)max_value.asReal()); }
+	/*virtual*/ void	setMinValue(F32 min_value) override
+	{ mSlider->setMinValue(min_value); updateText(); }
+	/*virtual*/ void	setMaxValue(F32 max_value) override
+	{ mSlider->setMaxValue(max_value); updateText(); }
+	/*virtual*/ void	setIncrement(F32 increment) override { mSlider->setIncrement(increment);}
 
-	F32				getMinValue() const { return mSlider->getMinValue(); }
-	F32				getMaxValue() const { return mSlider->getMaxValue(); }
+	F32				getMinValue() const override { return mSlider->getMinValue(); }
+	F32				getMaxValue() const override { return mSlider->getMaxValue(); }
 
 	void			setLabel(const LLStringExplicit& label)		{ if (mLabelBox) mLabelBox->setText(label); }
 	void			setLabelColor(const LLColor4& c)			{ mTextEnabledColor = c; }
@@ -114,12 +116,12 @@ public:
 	boost::signals2::connection setSliderMouseUpCallback( const commit_signal_t::slot_type& cb );
 	boost::signals2::connection setSliderEditorCommitCallback( const commit_signal_t::slot_type& cb );
 
-	/*virtual*/ void	onTabInto();
+	/*virtual*/ void	onTabInto() override;
 
-	/*virtual*/ void	setTentative(BOOL b);			// marks value as tentative
-	/*virtual*/ void	onCommit();						// mark not tentative, then commit
+	/*virtual*/ void	setTentative(BOOL b) override;			// marks value as tentative
+	/*virtual*/ void	onCommit() override;						// mark not tentative, then commit
 
-	/*virtual*/ void	setControlName(const std::string& control_name, LLView* context)
+	/*virtual*/ void	setControlName(const std::string& control_name, LLView* context) override
 	{
 		LLUICtrl::setControlName(control_name, context);
 		mSlider->setControlName(control_name, context);

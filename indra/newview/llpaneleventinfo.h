@@ -38,8 +38,8 @@ class LLPanelEventInfo : public LLPanel
 {
 public:
 	LLPanelEventInfo();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 	
 private:
 	~LLPanelEventInfo();

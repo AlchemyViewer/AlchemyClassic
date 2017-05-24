@@ -45,9 +45,9 @@ public:
 
 	boost::signals2::connection setVisibilityChangeCallback( const commit_signal_t::slot_type& cb );
 
-	virtual void onVisibilityChange (BOOL curVisibilityIn);
+	void onVisibilityChange (BOOL curVisibilityIn) override;
 
-	virtual bool addChild (LLView* view, S32 tab_group = 0);
+	bool addChild (LLView* view, S32 tab_group = 0) override;
 
 	const LLRect& getButtonRect() const { return mButtonRect; }
 

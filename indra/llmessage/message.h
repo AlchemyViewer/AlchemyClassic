@@ -292,8 +292,8 @@ public:
 
 
 	// methods for building, sending, receiving, and handling messages
-	void	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL);
-	void	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = NULL)
+	void	setHandlerFuncFast(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = nullptr);
+	void	setHandlerFunc(const char *name, void (*handler_func)(LLMessageSystem *msgsystem, void **user_data), void **user_data = nullptr)
 	{
 		setHandlerFuncFast(LLMessageStringTable::getInstance()->getString(name), handler_func, user_data);
 	}
@@ -305,7 +305,7 @@ public:
 	}
 
 	// Set a callback function for a message system exception.
-	void setExceptionFunc(EMessageException exception, msg_exception_callback func, void* data = NULL);
+	void setExceptionFunc(EMessageException exception, msg_exception_callback func, void* data = nullptr);
 	// Call the specified exception func, and return TRUE if a
 	// function was found and called. Otherwise return FALSE.
 	BOOL callExceptionFunc(EMessageException exception);
@@ -314,7 +314,7 @@ public:
 	// hashed message name and the time spent in the processing handler function
 	// measured in seconds.  JC
 	typedef void (*msg_timing_callback)(const char* hashed_name, F32 time, void* data);
-	void setTimingFunc(msg_timing_callback func, void* data = NULL);
+	void setTimingFunc(msg_timing_callback func, void* data = nullptr);
 	msg_timing_callback getTimingCallback() 
 	{ 
 		return mTimingCallback; 
@@ -332,7 +332,7 @@ public:
 	bool addCircuitCode(U32 code, const LLUUID& session_id);
 
 	BOOL	poll(F32 seconds); // Number of seconds that we want to block waiting for data, returns if data was received
-	BOOL	checkMessages( S64 frame_count = 0, bool faked_message = false, U8 fake_buffer[MAX_BUFFER_SIZE] = NULL, LLHost fake_host = LLHost(), S32 fake_size = 0 );
+	BOOL	checkMessages( S64 frame_count = 0, bool faked_message = false, U8 fake_buffer[MAX_BUFFER_SIZE] = nullptr, LLHost fake_host = LLHost(), S32 fake_size = 0 );
 	void	processAcks(F32 collect_time = 0.f);
 
 	BOOL	isMessageFast(const char *msg);
@@ -371,7 +371,7 @@ public:
 public:
 	LLStoredMessagePtr getReceivedMessage() const; 
 	LLStoredMessagePtr getBuiltMessage() const;
-	S32 sendMessage(const LLHost &host, LLStoredMessagePtr message);
+	S32 sendMessage(const LLHost &host, LLStoredMessagePtr message) override;
 
 private:
 	LLSD getReceivedMessageLLSD() const;
@@ -446,8 +446,8 @@ public:
 	// you need to go to the next block type or need to start a new
 	// message. Specify the current blockname to check block counts,
 	// otherwise the method only checks against MTU.
-	BOOL isSendFull(const char* blockname = NULL);
-	BOOL isSendFullFast(const char* blockname = NULL);
+	BOOL isSendFull(const char* blockname = nullptr);
+	BOOL isSendFullFast(const char* blockname = nullptr);
 
 	BOOL removeLastBlock();
 

@@ -35,7 +35,7 @@ class LLHUDEffectBlob : public LLHUDEffect
 public:
 	friend class LLHUDObject;
 
-	void markDead();
+	void markDead() override;
 
 	void setPixelSize(S32 pixels) { mPixelSize = pixels; }
 
@@ -43,8 +43,8 @@ protected:
 	LLHUDEffectBlob(const U8 type);
 	~LLHUDEffectBlob();
 
-	/*virtual*/ void render();
-	/*virtual*/ void renderForTimer();
+	/*virtual*/ void render() override;
+	/*virtual*/ void renderForTimer() override;
 private:
 	S32				mPixelSize;
 	LLFrameTimer	mTimer;

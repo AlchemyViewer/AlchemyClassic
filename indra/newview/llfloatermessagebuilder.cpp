@@ -42,8 +42,8 @@ LLNetListItem::LLNetListItem(LLUUID id)
 	mAutoName(TRUE),
 	mName("No name"),
 	mPreviousRegionName(""),
-	mCircuitData(NULL),
-	mHandle(0)
+	mHandle(0),
+	mCircuitData(nullptr)
 {
 }
 
@@ -117,7 +117,7 @@ void LLFloaterMessageBuilder::refreshNetList()
 	// Remove net list items that are totally useless now
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end();)
 	{
-		if((*iter)->mCircuitData == NULL)
+		if((*iter)->mCircuitData == nullptr)
 			iter = sNetListItems.erase(iter);
 		else
 			++iter;

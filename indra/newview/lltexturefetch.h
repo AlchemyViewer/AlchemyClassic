@@ -62,7 +62,7 @@ public:
 	class TFRequest;
 	
     // Threads:  Tmain
-	/*virtual*/ S32 update(F32 max_time_ms);
+	/*virtual*/ S32 update(F32 max_time_ms) override;
 	
 	// called in the main thread after the TextureCacheThread shuts down.
     // Threads:  Tmain
@@ -133,7 +133,7 @@ public:
 	U32 getTotalNumHTTPRequests();
 	
     // Threads:  T*
-    S32 getPending();
+    S32 getPending() override;
 
     // Threads:  T*
 	void lockQueue() { mQueueMutex.lock(); }
@@ -244,20 +244,20 @@ protected:
 	
 	// Overrides from the LLThread tree
 	// Locks:  Ct
-	bool runCondition();
+	bool runCondition() override;
 
 private:
     // Threads:  Tmain
 	void sendRequestListToSimulators();
 	
 	// Threads:  Ttf
-	/*virtual*/ void startThread(void);
+	/*virtual*/ void startThread(void) override;
 	
 	// Threads:  Ttf
-	/*virtual*/ void endThread(void);
+	/*virtual*/ void endThread(void) override;
 	
 	// Threads:  Ttf
-	/*virtual*/ void threadedUpdate(void);
+	/*virtual*/ void threadedUpdate(void) override;
 
 	// Threads:  Ttf
 	void commonUpdate();
@@ -550,7 +550,7 @@ public:
 	
 	// Inherited from LLCore::HttpHandler
 	// Threads:  Ttf
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+	void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 	void startWork(e_debug_state state);
 	void setStopDebug() {mStopDebug = TRUE;}

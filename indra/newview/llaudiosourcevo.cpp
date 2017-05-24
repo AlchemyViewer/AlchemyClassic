@@ -48,7 +48,7 @@ LLAudioSourceVO::~LLAudioSourceVO()
 	{
 		mObjectp->clearAttachedSound();
 	}
-	mObjectp = NULL;
+	mObjectp = nullptr;
 }
 
 void LLAudioSourceVO::setGain(const F32 gain)
@@ -148,7 +148,7 @@ void LLAudioSourceVO::update()
 
 	if (mObjectp->isDead())
 	{
-		mObjectp = NULL;
+		mObjectp = nullptr;
 		return;
 	}
 

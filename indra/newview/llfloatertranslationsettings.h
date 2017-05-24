@@ -39,12 +39,12 @@ class LLFloaterTranslationSettings : public LLFloater
 {
 public:
 	LLFloaterTranslationSettings(const LLSD& key);
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	void setBingVerified(bool ok, bool alert);
 	void setGoogleVerified(bool ok, bool alert);
-	void onClose(bool app_quitting);
+	void onClose(bool app_quitting) override;
 
 private:
 	std::string getSelectedService() const;

@@ -51,7 +51,7 @@ public:
 	~LLDebugView();
 
 	void init();
-	void draw();
+	void draw() override;
 	
 	void setStatsVisible(BOOL visible);
 	

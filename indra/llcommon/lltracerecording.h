@@ -311,10 +311,10 @@ namespace LLTrace
 		friend class ThreadRecorder;
 
 		// implementation for LLStopWatchControlsMixin
-		/*virtual*/ void handleStart();
-		/*virtual*/ void handleStop();
-		/*virtual*/ void handleReset();
-		/*virtual*/ void handleSplitTo(Recording& other);
+		/*virtual*/ void handleStart() override;
+		/*virtual*/ void handleStop() override;
+		/*virtual*/ void handleReset() override;
+		/*virtual*/ void handleSplitTo(Recording& other) override;
 
 		// returns data for current thread
 		class ThreadRecorder* getThreadRecorder(); 
@@ -604,10 +604,10 @@ namespace LLTrace
 
 	private:
 		// implementation for LLStopWatchControlsMixin
-		/*virtual*/ void handleStart();
-		/*virtual*/ void handleStop();
-		/*virtual*/ void handleReset();
-		/*virtual*/ void handleSplitTo(PeriodicRecording& other);
+		/*virtual*/ void handleStart() override;
+		/*virtual*/ void handleStop() override;
+		/*virtual*/ void handleReset() override;
+		/*virtual*/ void handleSplitTo(PeriodicRecording& other) override;
 
 	private:
 		std::vector<Recording>	mRecordingPeriods;
@@ -632,10 +632,10 @@ namespace LLTrace
 
 	private:
 		// implementation for LLStopWatchControlsMixin
-		/*virtual*/ void handleStart();
-		/*virtual*/ void handleStop();
-		/*virtual*/ void handleReset();
-		/*virtual*/ void handleSplitTo(ExtendableRecording& other);
+		/*virtual*/ void handleStart() override;
+		/*virtual*/ void handleStop() override;
+		/*virtual*/ void handleReset() override;
+		/*virtual*/ void handleSplitTo(ExtendableRecording& other) override;
 
 	private:
 		Recording mAcceptedRecording;
@@ -656,10 +656,10 @@ namespace LLTrace
 
 	private:
 		// implementation for LLStopWatchControlsMixin
-		/*virtual*/ void handleStart();
-		/*virtual*/ void handleStop();
-		/*virtual*/ void handleReset();
-		/*virtual*/ void handleSplitTo(ExtendablePeriodicRecording& other);
+		/*virtual*/ void handleStart() override;
+		/*virtual*/ void handleStop() override;
+		/*virtual*/ void handleReset() override;
+		/*virtual*/ void handleSplitTo(ExtendablePeriodicRecording& other) override;
 
 	private:
 		PeriodicRecording mAcceptedRecording;

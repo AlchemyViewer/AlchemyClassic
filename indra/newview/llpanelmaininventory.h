@@ -60,19 +60,19 @@ public:
 	LLPanelMainInventory(const LLPanel::Params& p = getDefaultParams());
 	~LLPanelMainInventory();
 
-	BOOL postBuild();
+	BOOL postBuild() override;
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 
 	// Inherited functionality
 	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 									   EDragAndDropType cargo_type,
 									   void* cargo_data,
 									   EAcceptance* accept,
-									   std::string& tooltip_msg);
-	/*virtual*/ void changed(U32);
-	/*virtual*/ void draw();
-	/*virtual*/ void 	onVisibilityChange ( BOOL new_visibility );
+									   std::string& tooltip_msg) override;
+	/*virtual*/ void changed(U32) override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ void 	onVisibilityChange ( BOOL new_visibility ) override;
 
 	LLInventoryPanel* getPanel() { return mActivePanel; }
 	LLInventoryPanel* getActivePanel() { return mActivePanel; }
@@ -120,7 +120,7 @@ protected:
 	bool isSaveTextureEnabled(const LLSD& userdata);
 	void updateItemcountText();
 
-	void onFocusReceived();
+	void onFocusReceived() override;
 
 private:
 	LLFloaterInventoryFinder* getFinder();

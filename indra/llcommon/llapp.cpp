@@ -106,7 +106,7 @@ S32 LL_HEARTBEAT_SIGNAL = (SIGRTMAX >= 0) ? (SIGRTMAX-0) : SIGUSR2;
 #endif // LL_WINDOWS
 
 // the static application instance
-LLApp* LLApp::sApplication = NULL;
+LLApp* LLApp::sApplication = nullptr;
 
 // Allows the generation of core files for post mortem under gdb
 // and disables crashlogger
@@ -118,20 +118,20 @@ BOOL LLApp::sLogInSignal = FALSE;
 
 // static
 LLApp::EAppStatus LLApp::sStatus = LLApp::APP_STATUS_STOPPED; // Keeps track of application status
-LLAppErrorHandler LLApp::sErrorHandler = NULL;
+LLAppErrorHandler LLApp::sErrorHandler = nullptr;
 BOOL LLApp::sErrorThreadRunning = FALSE;
 
 
 LLApp::LLApp()
-	: mThreadErrorp(NULL),
-	  mExceptionHandler(NULL)
+	: mThreadErrorp(nullptr),
+	  mExceptionHandler(nullptr)
 {
 	commonCtor();
 }
 
 LLApp::LLApp(LLErrorThread *error_thread)
 	: mThreadErrorp(error_thread),
-	  mExceptionHandler(NULL)
+	  mExceptionHandler(nullptr)
 {
 	commonCtor();
 }
@@ -179,10 +179,10 @@ LLApp::~LLApp()
 	if (mThreadErrorp)
 	{
 		delete mThreadErrorp;
-		mThreadErrorp = NULL;
+		mThreadErrorp = nullptr;
 	}
 	
-	if(mExceptionHandler != 0) delete mExceptionHandler;
+	if(mExceptionHandler != nullptr) delete mExceptionHandler;
 
 	SUBSYSTEM_CLEANUP(LLCommon);
 }
@@ -518,7 +518,7 @@ void LLApp::setMiniDumpDir(const std::string &path)
 		mDumpPath = path;
 	}
 
-	if(mExceptionHandler == 0) return;
+	if(mExceptionHandler == nullptr) return;
 #ifdef LL_WINDOWS
 	wchar_t buffer[MAX_MINDUMP_PATH_LENGTH];
 	mbstowcs(buffer, mDumpPath.c_str(), MAX_MINDUMP_PATH_LENGTH);
@@ -540,7 +540,7 @@ void LLApp::setDebugFileNames(const std::string &path)
 
 void LLApp::writeMiniDump()
 {
-	if(mExceptionHandler == 0) return;
+	if(mExceptionHandler == nullptr) return;
 	mExceptionHandler->WriteMinidump();
 }
 
@@ -599,10 +599,10 @@ bool LLApp::isExiting()
 void LLApp::disableCrashlogger()
 {
 	// Disable Breakpad exception handler.
-	if (mExceptionHandler != 0)
+	if (mExceptionHandler != nullptr)
 	{
 		delete mExceptionHandler;
-		mExceptionHandler = 0;
+		mExceptionHandler = nullptr;
 	}
 
 	sDisableCrashlogger = TRUE;

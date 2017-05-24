@@ -67,7 +67,7 @@ LLPluginCookieStore::Cookie *LLPluginCookieStore::Cookie::createFromString(const
 	if(!result->parse(host))
 	{
 		delete result;
-		result = NULL;
+		result = nullptr;
 	}
 	
 	return result;
@@ -201,7 +201,7 @@ bool LLPluginCookieStore::Cookie::parse(const std::string &host)
 				// HACK: LLDate apparently can't PARSE an rfc1123-format date, even though it can GENERATE one.
 				//  The curl function curl_getdate can do this, but I'm hesitant to unilaterally introduce a curl dependency in LLDate.
 #if 1
-				time_t date = curl_getdate(date_string.c_str(), NULL );
+				time_t date = curl_getdate(date_string.c_str(), nullptr );
 				mDate.secondsSinceEpoch((F64)date);
 				LL_DEBUGS("CookieStoreParse") << "        expire date parsed to: " << mDate.asRFC1123() << LL_ENDL;
 #else
@@ -601,7 +601,7 @@ void LLPluginCookieStore::setOneCookie(const std::string &s, std::string::size_t
 				removeCookie(key);
 
 				delete cookie;
-				cookie = NULL;
+				cookie = nullptr;
 
 				LL_DEBUGS("CookieStoreUpdate") << "    removing" << LL_ENDL;
 			}
@@ -618,7 +618,7 @@ void LLPluginCookieStore::setOneCookie(const std::string &s, std::string::size_t
 					// The new cookie is identical to the old -- don't mark as changed.
 					// Just leave the old one in the map.
 					delete cookie;
-					cookie = NULL;
+					cookie = nullptr;
 
 					LL_DEBUGS("CookieStoreUpdate") << "    unchanged" << LL_ENDL;
 				}

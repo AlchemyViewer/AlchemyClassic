@@ -79,7 +79,7 @@ public:
 		ItemReverseComparator(const ItemComparator& comparator) : mComparator(comparator) {};
 		virtual ~ItemReverseComparator() {};
 
-		virtual bool compare(const LLPanel* item1, const LLPanel* item2) const
+		bool compare(const LLPanel* item1, const LLPanel* item2) const override
 		{
 			return mComparator.compare(item2, item1);
 		}
@@ -113,7 +113,7 @@ public:
 	};
 	
 	// disable traversal when finding widget to hand focus off to
-	/*virtual*/ BOOL canFocusChildren() const { return FALSE; }
+	/*virtual*/ BOOL canFocusChildren() const override { return FALSE; }
 
 	/**
 	 * Connects callback to signal called when Return key is pressed.
@@ -121,12 +121,12 @@ public:
 	boost::signals2::connection setReturnCallback( const commit_signal_t::slot_type& cb ) { return mOnReturnSignal.connect(cb); }
 
 	/** Overridden LLPanel's reshape, height is ignored, the list sets its height to accommodate all items */
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent  = TRUE);
+	void reshape(S32 width, S32 height, BOOL called_from_parent  = TRUE) override;
 
 	/** Returns full rect of child panel */
 	const LLRect& getItemsRect() const;
 
-	LLRect getRequiredRect() { return getItemsRect(); }
+	LLRect getRequiredRect() override { return getItemsRect(); }
 
 	/** Returns distance between items */
 	const S32 getItemsPad() { return mItemPad; }
@@ -270,7 +270,7 @@ public:
 	U32 size(const bool only_visible_items = true) const;
 
 	/** Removes all items from the list */
-	virtual void clear();
+	void clear() override;
 
 	/**
 	 * Removes all items that can be detached from the list but doesn't destroy
@@ -297,7 +297,7 @@ public:
 	void selectFirstItem	();
 	void selectLastItem		();
 
-	virtual S32	notify(const LLSD& info) ;
+	S32	notify(const LLSD& info) override;
 
 	virtual ~LLFlatListView();
 protected:
@@ -345,8 +345,8 @@ protected:
 
 	virtual bool selectNextItemPair(bool is_up_direction, bool reset_selection);
 
-	virtual BOOL canSelectAll() const;
-	virtual void selectAll();
+	BOOL canSelectAll() const override;
+	void selectAll() override;
 
 	virtual bool isSelected(item_pair_t* item_pair) const;
 
@@ -363,15 +363,15 @@ protected:
 	 */
 	void notifyParentItemsRectChanged();
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	virtual void onFocusReceived();
+	void onFocusReceived() override;
 
-	virtual void onFocusLost();
+	void onFocusLost() override;
 
-	virtual void draw();
+	void draw() override;
 
 	LLRect getLastSelectedItemRect();
 

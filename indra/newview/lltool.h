@@ -42,38 +42,39 @@ class LLTool
 :	public LLMouseHandler, public LLThreadSafeRefCount
 {
 public:
-	LLTool( const std::string& name, LLToolComposite* composite = NULL );
+	LLTool( const std::string& name, LLToolComposite* composite = nullptr );
 	virtual ~LLTool();
 
 	// Hack to support LLFocusMgr
 	virtual BOOL isView() const { return FALSE; }
 
 	// Virtual functions inherited from LLMouseHandler
-	virtual BOOL	handleAnyMouseClick(S32 x, S32 y, MASK mask, LLMouseHandler::EClickType clicktype, BOOL down);
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMiddleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMiddleMouseUp(S32 x, S32 y, MASK mask);
+	BOOL	handleAnyMouseClick(S32 x, S32 y, MASK mask, LLMouseHandler::EClickType clicktype, BOOL down) override;
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMiddleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMiddleMouseUp(S32 x, S32 y, MASK mask) override;
 
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks);
-	virtual BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleRightMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleToolTip(S32 x, S32 y, MASK mask);
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleRightMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleToolTip(S32 x, S32 y, MASK mask) override;
 
 		// Return FALSE to allow context menu to be shown.
-	virtual void	screenPointToLocal(S32 screen_x, S32 screen_y, S32* local_x, S32* local_y) const
-							{ *local_x = screen_x; *local_y = screen_y;	}
-	virtual void	localPointToScreen(S32 local_x, S32 local_y, S32* screen_x, S32* screen_y) const
-							{ *screen_x = local_x; *screen_y = local_y;	}
+	void	screenPointToLocal(S32 screen_x, S32 screen_y, S32* local_x, S32* local_y) const override
+	{ *local_x = screen_x; *local_y = screen_y;	}
 
-	virtual const std::string& getName() const	{ return mName; }
+	void	localPointToScreen(S32 local_x, S32 local_y, S32* screen_x, S32* screen_y) const override
+	{ *screen_x = local_x; *screen_y = local_y;	}
+
+	const std::string& getName() const override { return mName; }
 
 	// New virtual functions
-	virtual LLViewerObject*	getEditingObject()		{ return NULL; }
+	virtual LLViewerObject*	getEditingObject()		{ return nullptr; }
 	virtual LLVector3d		getEditingPointGlobal()	{ return LLVector3d(); }
-	virtual BOOL			isEditing()				{ return (getEditingObject() != NULL); }
+	virtual BOOL			isEditing()				{ return (getEditingObject() != nullptr); }
 	virtual void			stopEditing()			{}
 
 	virtual BOOL			clipMouseWhenDown()		{ return TRUE; }
@@ -94,8 +95,8 @@ public:
 
 	// Note: NOT virtual.  Subclasses should call this version.
 	void					setMouseCapture(BOOL b);
-	BOOL					hasMouseCapture();
-	virtual void			onMouseCaptureLost() {}  // override this one as needed.
+	BOOL					hasMouseCapture() override;
+	void			onMouseCaptureLost() override {}  // override this one as needed.
 
 protected:
 	LLToolComposite*	mComposite;  // Composite will handle mouse captures.

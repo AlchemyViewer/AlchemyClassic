@@ -45,10 +45,10 @@ public:
 	LLViewerGesture(const LLViewerGesture &gesture);
 
 	// Triggers if a key/mask matches it
-	virtual BOOL trigger(KEY key, MASK mask);
+	BOOL trigger(KEY key, MASK mask) override;
 
 	// Triggers if case-insensitive substring matches (assumes string is lowercase)
-	virtual BOOL trigger(const std::string &string);
+	BOOL trigger(const std::string &string) override;
 
 	void doTrigger( BOOL send_chat );
 
@@ -74,7 +74,7 @@ public:
 	static void xferCallback(void *data, S32 size, void** /*user_data*/, S32 status);
 
 protected:
-	LLGesture *create_gesture(U8 **buffer, S32 max_size);
+	LLGesture *create_gesture(U8 **buffer, S32 max_size) override;
 
 protected:
 	BOOL mIsLoaded;

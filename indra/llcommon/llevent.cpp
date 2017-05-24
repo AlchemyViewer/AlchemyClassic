@@ -68,7 +68,7 @@ LLObservable::~LLObservable()
 	if (mDispatcher.notNull())
 	{
 		mDispatcher->disengage(this);
-		mDispatcher = NULL;
+		mDispatcher = nullptr;
 	}
 }
 
@@ -78,7 +78,7 @@ bool LLObservable::setDispatcher(LLPointer<LLEventDispatcher> dispatcher)
 	if (mDispatcher.notNull())
 	{
 		mDispatcher->disengage(this);
-		mDispatcher = NULL;
+		mDispatcher = nullptr;
 	}
 	if (dispatcher.notNull() || dispatcher->engage(this))
 	{
@@ -157,10 +157,10 @@ class LLSimpleDispatcher : public LLEventDispatcher::Impl
 public:
 	LLSimpleDispatcher(LLEventDispatcher *parent) : mParent(parent) { }
 	virtual ~LLSimpleDispatcher();
-	virtual void addListener(LLEventListener* listener, LLSD filter, const LLSD& userdata);
-	virtual void removeListener(LLEventListener* listener);
-	virtual std::vector<LLListenerEntry> getListeners() const;
-	virtual bool fireEvent(LLPointer<LLEvent> event, LLSD filter);
+	void addListener(LLEventListener* listener, LLSD filter, const LLSD& userdata) override;
+	void removeListener(LLEventListener* listener) override;
+	std::vector<LLListenerEntry> getListeners() const override;
+	bool fireEvent(LLPointer<LLEvent> event, LLSD filter) override;
 
 protected:
 	std::vector<LLListenerEntry> mListeners;
@@ -177,7 +177,7 @@ LLSimpleDispatcher::~LLSimpleDispatcher()
 
 void LLSimpleDispatcher::addListener(LLEventListener* listener, LLSD filter, const LLSD& userdata)
 {
-	if (listener == NULL) return;
+	if (listener == nullptr) return;
 	removeListener(listener);
 	LLListenerEntry new_entry;
 	new_entry.listener = listener;
@@ -240,7 +240,7 @@ LLEventDispatcher::~LLEventDispatcher()
 	if (impl)
 	{
 		delete impl;
-		impl = NULL;
+		impl = nullptr;
 	}
 }
 

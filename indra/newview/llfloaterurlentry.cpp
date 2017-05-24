@@ -41,7 +41,7 @@
 #include "llviewerwindow.h"
 #include "llcorehttputil.h"
 
-static LLFloaterURLEntry* sInstance = NULL;
+static LLFloaterURLEntry* sInstance = nullptr;
 
 //-----------------------------------------------------------------------------
 // LLFloaterURLEntry() 
@@ -59,7 +59,7 @@ LLFloaterURLEntry::LLFloaterURLEntry(LLHandle<LLPanel> parent)
 //-----------------------------------------------------------------------------
 LLFloaterURLEntry::~LLFloaterURLEntry()
 {
-	sInstance = NULL;
+	sInstance = nullptr;
 }
 
 BOOL LLFloaterURLEntry::postBuild()
@@ -205,7 +205,7 @@ void LLFloaterURLEntry::getMediaTypeCoro(std::string url, LLHandle<LLFloater> pa
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("getMediaTypeCoro", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setHeadersOnly(true);
 

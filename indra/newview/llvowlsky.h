@@ -53,10 +53,10 @@ public:
 	void initSunDirection(LLVector3 const & sun_direction,
 		LLVector3 const & sun_angular_velocity);
 
-	/*virtual*/ void		 idleUpdate(LLAgent &agent, const F64 &time);
-	/*virtual*/ BOOL		 isActive(void) const;
-	/*virtual*/ LLDrawable * createDrawable(LLPipeline *pipeline);
-	/*virtual*/ BOOL		 updateGeometry(LLDrawable *drawable);
+	/*virtual*/ void		 idleUpdate(LLAgent &agent, const F64 &time) override;
+	/*virtual*/ BOOL		 isActive(void) const override;
+	/*virtual*/ LLDrawable * createDrawable(LLPipeline *pipeline) override;
+	/*virtual*/ BOOL		 updateGeometry(LLDrawable *drawable) override;
 
 	void drawStars(void);
 	void drawDome(void);

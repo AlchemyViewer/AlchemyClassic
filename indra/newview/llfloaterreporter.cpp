@@ -101,13 +101,13 @@ class LLARScreenShotUploader : public LLResourceUploadInfo
 public:
     LLARScreenShotUploader(LLSD report, LLUUID assetId, LLAssetType::EType assetType);
 
-    virtual LLSD        prepareUpload();
-    virtual LLSD        generatePostBody();
-    virtual S32         getEconomyUploadCost();
-    virtual LLUUID      finishUpload(LLSD &result);
+	LLSD        prepareUpload() override;
+	LLSD        generatePostBody() override;
+	S32         getEconomyUploadCost() override;
+	LLUUID      finishUpload(LLSD &result) override;
 
-    virtual bool        showInventoryPanel() const { return false; }
-    virtual std::string getDisplayName() const { return "Abuse Report"; }
+	bool        showInventoryPanel() const override { return false; }
+	std::string getDisplayName() const override { return "Abuse Report"; }
 
 private:
 
@@ -299,7 +299,7 @@ void LLFloaterReporter::getObjectInfo(const LLUUID& object_id)
 	if (LLUUID::null != mObjectID)
 	{
 		// get object info for the user's benefit
-		LLViewerObject* objectp = NULL;
+		LLViewerObject* objectp = nullptr;
 		objectp = gObjectList.findObject( mObjectID );
 		if (objectp)
 		{

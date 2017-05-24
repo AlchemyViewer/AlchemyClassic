@@ -93,17 +93,17 @@ BOOL LLFloaterMessageLog::LLMessageLogNetMan::tick()
 
 std::list<LLNetListItem*> LLFloaterMessageLog::sNetListItems;
 LogPayloadList LLFloaterMessageLog::sMessageLogEntries = LogPayloadList(4096);
-LLMutex* LLFloaterMessageLog::sNetListMutex = NULL;
-LLMutex* LLFloaterMessageLog::sMessageListMutex = NULL;
-LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = NULL;
+LLMutex* LLFloaterMessageLog::sNetListMutex = nullptr;
+LLMutex* LLFloaterMessageLog::sMessageListMutex = nullptr;
+LLMutex* LLFloaterMessageLog::sIncompleteHTTPConvoMutex = nullptr;
 
 LLFloaterMessageLog::LLFloaterMessageLog(const LLSD& key)
 :	LLFloater(key)
-,	mInfoPaneMode(IPANE_NET)
-,	mMessagelogScrollListCtrl(NULL)
-,	mMessagesLogged(0)
-,	mBeautifyMessages(false)
+,	mMessagelogScrollListCtrl(nullptr)
 ,	mMessageLogFilter(DEFAULT_FILTER)
+,	mInfoPaneMode(IPANE_NET)
+,	mBeautifyMessages(false)
+,	mMessagesLogged(0)
 ,	mEasyMessageReader(new LLEasyMessageReader())
 {
 	mCommitCallbackRegistrar.add("MessageLog.Filter.Action", boost::bind(&LLFloaterMessageLog::onClickFilterMenu, this, _2));
@@ -122,7 +122,7 @@ LLFloaterMessageLog::~LLFloaterMessageLog()
 	stopApplyingFilter();
 	clearFloaterMessageItems(true);
 	
-	LLMessageLog::setCallback(NULL);
+	LLMessageLog::setCallback(nullptr);
 
 	sNetListMutex->lock();
 	sNetListItems.clear();
@@ -133,9 +133,9 @@ LLFloaterMessageLog::~LLFloaterMessageLog()
 	delete sNetListMutex;
 	delete sMessageListMutex;
 	delete sIncompleteHTTPConvoMutex;
-	sNetListMutex = NULL;
-	sMessageListMutex = NULL;
-	sIncompleteHTTPConvoMutex = NULL;
+	sNetListMutex = nullptr;
+	sMessageListMutex = nullptr;
+	sIncompleteHTTPConvoMutex = nullptr;
 }
 
 BOOL LLFloaterMessageLog::postBuild()
@@ -171,7 +171,7 @@ void LLFloaterMessageLog::onOpen(const LLSD& key)
 
 void LLFloaterMessageLog::onClose(bool app_quiting)
 {
-	LLMessageLog::setCallback(NULL);
+	LLMessageLog::setCallback(nullptr);
 	if (!app_quiting) onClickClearLog();
 }
 
@@ -223,12 +223,12 @@ void LLFloaterMessageLog::updateGlobalNetList(bool starting)
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end(); ++iter)
 	{
 		if(std::find(circuits.begin(), circuits.end(), (*iter)->mCircuitData) == circuits.end())
-			(*iter)->mCircuitData = NULL;
+			(*iter)->mCircuitData = nullptr;
 	}
 	// Remove net list items that are totally useless now
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != sNetListItems.end();)
 	{
-		if((*iter)->mCircuitData == NULL)
+		if((*iter)->mCircuitData == nullptr)
 		{
 			delete *iter;
 			iter = sNetListItems.erase(iter);
@@ -249,7 +249,7 @@ LLNetListItem* LLFloaterMessageLog::findNetListItem(LLHost host)
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
 		if((*iter)->mCircuitData && (*iter)->mCircuitData->getHost() == host)
 			return (*iter);
-	return NULL;
+	return nullptr;
 }
 
 LLNetListItem* LLFloaterMessageLog::findNetListItem(LLUUID id)
@@ -258,7 +258,7 @@ LLNetListItem* LLFloaterMessageLog::findNetListItem(LLUUID id)
 	for(std::list<LLNetListItem*>::iterator iter = sNetListItems.begin(); iter != end; ++iter)
 		if((*iter)->mID == id)
 			return (*iter);
-	return NULL;
+	return nullptr;
 }
 
 void LLFloaterMessageLog::refreshNetList()
@@ -335,13 +335,13 @@ void LLFloaterMessageLog::refreshNetList()
 			LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(1);
 			icon->setValue("Stop_Off");
 			icon->setColor(LLColor4(1.0f,1.0f,1.0f,0.5f));
-			icon->setClickCallback(NULL, NULL);
+			icon->setClickCallback(nullptr, nullptr);
 		}
 		// Event queue isn't even supported yet... FIXME
 		LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(2);
 		icon->setValue("Stop_Off");
 		icon->setColor(LLColor4(0.1f,0.1f,0.1f,0.7f));
-		icon->setClickCallback(NULL, NULL);
+		icon->setClickCallback(nullptr, nullptr);
 	}
 	if(selected_id.notNull())
 		scrollp->selectByID(selected_id);

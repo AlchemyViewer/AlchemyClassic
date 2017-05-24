@@ -822,7 +822,7 @@ void LLTracker::purgeBeaconText()
 	if(!mBeaconText.isNull())
 	{
 		mBeaconText->markDead();
-		mBeaconText = NULL;
+		mBeaconText = nullptr;
 	}
 }
 

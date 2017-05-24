@@ -362,7 +362,7 @@ public:
             // isUndefined() seems like the best way. If you want to pass an
             // empty string, you can still pass LLSD(""). Without this special
             // case, though, no LLSD value could pass NULL.
-            return NULL;
+            return nullptr;
         }
         return _value.c_str();
     }

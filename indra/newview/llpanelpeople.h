@@ -52,12 +52,12 @@ public:
 	LLPanelPeople();
 	virtual ~LLPanelPeople();
 
-	/*virtual*/ BOOL 	postBuild();
-	/*virtual*/ void	onOpen(const LLSD& key);
-	/*virtual*/ bool	notifyChildren(const LLSD& info);
+	/*virtual*/ BOOL 	postBuild() override;
+	/*virtual*/ void	onOpen(const LLSD& key) override;
+	/*virtual*/ bool	notifyChildren(const LLSD& info) override;
 	// Implements LLVoiceClientStatusObserver::onChange() to enable call buttons
 	// when voice is available
-	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal);
+	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal) override;
 
     bool mTryToConnectToFacebook;
 

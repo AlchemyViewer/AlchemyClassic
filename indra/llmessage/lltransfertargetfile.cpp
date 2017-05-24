@@ -38,7 +38,7 @@ LLTransferTargetFile::LLTransferTargetFile(
 	const LLUUID& uuid,
 	LLTransferSourceType src_type) :
 	LLTransferTarget(LLTTT_FILE, uuid, src_type),
-	mFP(NULL)
+	mFP(nullptr)
 {
 }
 
@@ -48,7 +48,7 @@ LLTransferTargetFile::~LLTransferTargetFile()
 	{
 		LL_ERRS() << "LLTransferTargetFile::~LLTransferTargetFile - Should have been cleaned up in completion callback" << LL_ENDL;
 		fclose(mFP);
-		mFP = NULL;
+		mFP = nullptr;
 	}
 }
 
@@ -125,7 +125,7 @@ void LLTransferTargetFile::completionCallback(const LLTSCode status)
 		break;
 	}
 
-	mFP = NULL;
+	mFP = nullptr;
 	if (mParams.mCompleteCallback)
 	{
 		mParams.mCompleteCallback(status, mParams.mUserData);

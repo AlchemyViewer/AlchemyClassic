@@ -815,7 +815,7 @@ void LLFollowCamMgr::setFocusLocked( const LLUUID& source, bool locked )
 //static 
 LLFollowCamParams* LLFollowCamMgr::getParamsForID(const LLUUID& source)
 {
-	LLFollowCamParams* params = NULL;
+	LLFollowCamParams* params = nullptr;
 
 	param_map_t::iterator found_it = sParamMap.find(source);
 	if (found_it == sParamMap.end()) // didn't find it?
@@ -836,7 +836,7 @@ LLFollowCamParams* LLFollowCamMgr::getActiveFollowCamParams()
 {
 	if (sParamStack.empty())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return sParamStack.back();

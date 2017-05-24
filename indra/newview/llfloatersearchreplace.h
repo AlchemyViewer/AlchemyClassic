@@ -28,9 +28,9 @@ public:
 	LLFloaterSearchReplace(const LLSD& sdKey);
 	~LLFloaterSearchReplace();
 
-	/*virtual*/ bool hasAccelerators() const;
-	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask);
-	/*virtual*/	BOOL postBuild();
+	/*virtual*/ bool hasAccelerators() const override;
+	/*virtual*/ BOOL handleKeyHere(KEY key, MASK mask) override;
+	/*virtual*/	BOOL postBuild() override;
 
 public:
 	LLTextEditor* getEditor() { return mEditor; }

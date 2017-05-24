@@ -455,7 +455,7 @@ S32 encode_vorbis_file(const std::string& in_fname, const std::string& out_fname
 			 
 			 /* analysis */
 			/* Do the main analysis, creating a packet */
-			vorbis_analysis(&vb, NULL);
+			vorbis_analysis(&vb, nullptr);
 			vorbis_bitrate_addblock(&vb);
 
 			while(vorbis_bitrate_flushpacket(&vd, &op)) 

@@ -356,7 +356,7 @@ public:
 
 	virtual ~LLCOFDragAndDropObserver();
 
-	virtual void done();
+	void done() override;
 
 private:
 	LLInventoryModel* mModel;
@@ -365,7 +365,7 @@ private:
 inline LLCOFDragAndDropObserver::LLCOFDragAndDropObserver(LLInventoryModel* model):
 		mModel(model)
 {
-	if (model != NULL)
+	if (model != nullptr)
 	{
 		model->addObserver(this);
 	}
@@ -373,7 +373,7 @@ inline LLCOFDragAndDropObserver::LLCOFDragAndDropObserver(LLInventoryModel* mode
 
 inline LLCOFDragAndDropObserver::~LLCOFDragAndDropObserver()
 {
-	if (mModel != NULL && mModel->containsObserver(this))
+	if (mModel != nullptr && mModel->containsObserver(this))
 	{
 		mModel->removeObserver(this);
 	}
@@ -504,8 +504,8 @@ BOOL LLPanelOutfitEdit::postBuild()
 	mFilterBtn = getChild<LLButton>("filter_button");
 	mFilterBtn->setCommitCallback(boost::bind(&LLPanelOutfitEdit::showWearablesFilter, this));
 
-	childSetCommitCallback("shop_btn_1", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), NULL);
-	childSetCommitCallback("shop_btn_2", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), NULL);
+	childSetCommitCallback("shop_btn_1", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), nullptr);
+	childSetCommitCallback("shop_btn_2", boost::bind(&LLPanelOutfitEdit::onShopButtonClicked, this), nullptr);
 
 	setVisibleCallback(boost::bind(&LLPanelOutfitEdit::onVisibilityChanged, this, _2));
 
@@ -917,9 +917,9 @@ LLPanelOutfitEdit::selection_info_t LLPanelOutfitEdit::getAddMorePanelSelectionT
 {
 	selection_info_t result = std::make_pair(LLWearableType::WT_NONE, 0);
 
-	if (mAddWearablesPanel != NULL && mAddWearablesPanel->getVisible())
+	if (mAddWearablesPanel != nullptr && mAddWearablesPanel->getVisible())
 	{
-		if (mInventoryItemsPanel != NULL && mInventoryItemsPanel->getVisible())
+		if (mInventoryItemsPanel != nullptr && mInventoryItemsPanel->getVisible())
 		{
 			std::set<LLFolderViewItem*> selected_items =    mInventoryItemsPanel->getRootFolder()->getSelectionList();
 
@@ -930,7 +930,7 @@ LLPanelOutfitEdit::selection_info_t LLPanelOutfitEdit::getAddMorePanelSelectionT
 				result.first = getWearableTypeByItemUUID(static_cast<LLFolderViewModelItemInventory*>((*selected_items.begin())->getViewModelItem())->getUUID());
 			}
 		}
-		else if (mWearableItemsList != NULL && mWearableItemsList->getVisible())
+		else if (mWearableItemsList != nullptr && mWearableItemsList->getVisible())
 		{
 			std::vector<LLUUID> selected_uuids;
 			mWearableItemsList->getSelectedUUIDs(selected_uuids);
@@ -950,7 +950,7 @@ LLPanelOutfitEdit::selection_info_t LLPanelOutfitEdit::getAddMorePanelSelectionT
 LLWearableType::EType LLPanelOutfitEdit::getWearableTypeByItemUUID(const LLUUID& item_uuid) const
 {
 	LLViewerInventoryItem* item = gInventory.getLinkedItem(item_uuid);
-	return (item != NULL) ? item->getWearableType() : LLWearableType::WT_NONE;
+	return (item != nullptr) ? item->getWearableType() : LLWearableType::WT_NONE;
 }
 
 void LLPanelOutfitEdit::onRemoveFromOutfitClicked(void)
@@ -1189,7 +1189,7 @@ BOOL LLPanelOutfitEdit::handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 										  EAcceptance* accept,
 										  std::string& tooltip_msg)
 {
-	if (cargo_data == NULL)
+	if (cargo_data == nullptr)
 	{
 		LL_WARNS() << "cargo_data is NULL" << LL_ENDL;
 		return TRUE;

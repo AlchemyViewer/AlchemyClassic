@@ -47,7 +47,7 @@
 // Local globals
 //
 
-LLToolTipView *gToolTipView = NULL;
+LLToolTipView *gToolTipView = nullptr;
 
 //
 // Member functions
@@ -142,11 +142,8 @@ static LLDefaultChildRegistry::Register<LLToolTip> register_tooltip("tool_tip");
 
 
 LLToolTip::Params::Params()
-:	max_width("max_width", 200),
-	padding("padding", 4),
-	wrap("wrap", true),
+:	message("message"),
 	pos("pos"),
-	message("message"),
 	delay_time("delay_time", LLUI::sSettingGroups["config"]->getF32( "ToolTipDelay" )),
 	visible_time_over("visible_time_over", LLUI::sSettingGroups["config"]->getF32( "ToolTipVisibleTimeOver" )),
 	visible_time_near("visible_time_near", LLUI::sSettingGroups["config"]->getF32( "ToolTipVisibleTimeNear" )),
@@ -156,19 +153,22 @@ LLToolTip::Params::Params()
 	text_color("text_color"),
 	time_based_media("time_based_media", false),
 	web_based_media("web_based_media", false),
-	media_playing("media_playing", false)
+	media_playing("media_playing", false),
+	max_width("max_width", 200),
+	padding("padding", 4),
+	wrap("wrap", true)
 {
 	changeDefault(chrome, true);
 }
 
 LLToolTip::LLToolTip(const LLToolTip::Params& p)
 :	LLPanel(p),
+	mTextBox(nullptr),
+	mInfoButton(nullptr),
+	mPlayMediaButton(nullptr),
+	mHomePageButton(nullptr),
 	mHasClickCallback(p.click_callback.isProvided()),
-	mPadding(p.padding),
-	mTextBox(NULL),
-	mInfoButton(NULL),
-	mPlayMediaButton(NULL),
-	mHomePageButton(NULL)
+	mPadding(p.padding)
 {
 	LLTextBox::Params params;
 	params.name = params.initial_value().asString();
@@ -408,7 +408,7 @@ void LLToolTip::getToolTipMessage(std::string & message)
 
 LLToolTipMgr::LLToolTipMgr()
 :       mToolTipsBlocked(false),
-	mToolTip(NULL),
+	mToolTip(nullptr),
 	mNeedsToolTip(false)
 {}
 

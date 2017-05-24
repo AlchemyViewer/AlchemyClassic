@@ -63,15 +63,15 @@ const HttpService::OptionDescriptor HttpService::sOptionDesc[] =
 	{	true,		true,		false,		true,		false	},		// PO_THROTTLE_RATE
 	{   false,		false,		true,		false,		true	}		// PO_SSL_VERIFY_CALLBACK
 };
-HttpService * HttpService::sInstance(NULL);
+HttpService * HttpService::sInstance(nullptr);
 volatile HttpService::EState HttpService::sState(NOT_INITIALIZED);
 
 HttpService::HttpService()
-	: mRequestQueue(NULL),
+	: mRequestQueue(nullptr),
 	  mExitRequested(0U),
-	  mThread(NULL),
-	  mPolicy(NULL),
-	  mTransport(NULL),
+	  mThread(nullptr),
+	  mPolicy(nullptr),
+	  mTransport(nullptr),
 	  mLastPolicy(0)
 {}
 
@@ -120,19 +120,19 @@ HttpService::~HttpService()
 	if (mRequestQueue)
 	{
 		mRequestQueue->release();
-		mRequestQueue = NULL;
+		mRequestQueue = nullptr;
 	}
 
 	delete mTransport;
-	mTransport = NULL;
+	mTransport = nullptr;
 	
 	delete mPolicy;
-	mPolicy = NULL;
+	mPolicy = nullptr;
 
 	if (mThread)
 	{
 		mThread->release();
-		mThread = NULL;
+		mThread = nullptr;
 	}
 }
 	
@@ -171,7 +171,7 @@ void HttpService::term()
 		}
 
 		delete sInstance;
-		sInstance = NULL;
+		sInstance = nullptr;
 	}
 	sState = NOT_INITIALIZED;
 }

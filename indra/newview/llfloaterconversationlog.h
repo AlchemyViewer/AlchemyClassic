@@ -37,9 +37,9 @@ public:
 	LLFloaterConversationLog(const LLSD& key);
 	virtual ~LLFloaterConversationLog(){};
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	virtual void draw();
+	void draw() override;
 
 	void onFilterEdit(const std::string& search_string);
 

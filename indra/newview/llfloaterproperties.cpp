@@ -84,7 +84,8 @@ public:
 	{
 		gInventory.removeObserver(this);
 	}
-	virtual void changed(U32 mask);
+
+	void changed(U32 mask) override;
 private:
 	LLFloaterProperties* mFloater;
 };
@@ -117,7 +118,7 @@ LLFloaterProperties::LLFloaterProperties(const LLUUID& item_id)
 LLFloaterProperties::~LLFloaterProperties()
 {
 	delete mPropertiesObserver;
-	mPropertiesObserver = NULL;
+	mPropertiesObserver = nullptr;
 }
 
 // virtual
@@ -248,7 +249,7 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 
 	// You need permission to modify the object to modify an inventory
 	// item in it.
-	LLViewerObject* object = NULL;
+	LLViewerObject* object = nullptr;
 	if(!mObjectID.isNull()) object = gObjectList.findObject(mObjectID);
 	BOOL is_obj_modify = TRUE;
 	if(object)
@@ -848,7 +849,7 @@ void LLFloaterProperties::updateSaleInfo()
 
 LLInventoryItem* LLFloaterProperties::findItem() const
 {
-	LLInventoryItem* item = NULL;
+	LLInventoryItem* item = nullptr;
 	if(mObjectID.isNull())
 	{
 		// it is in agent inventory

@@ -47,14 +47,14 @@ public:
     LLViewerJoint(S32 joint_num);
 
 	// *TODO: Only used for LLVOAvatarSelf::mScreenp.  *DOES NOT INITIALIZE mResetAfterRestoreOldXform*
-	LLViewerJoint(const std::string &name, LLJoint *parent = NULL);
+	LLViewerJoint(const std::string &name, LLJoint *parent = nullptr);
 	virtual ~LLViewerJoint();
 
 	// Render character hierarchy.
 	// Traverses the entire joint hierarchy, setting up
 	// transforms and calling the drawShape().
 	// Derived classes may add text/graphic output.
-	virtual U32 render( F32 pixelArea, BOOL first_pass = TRUE, BOOL is_dummy = FALSE );	// Returns triangle count
+	U32 render( F32 pixelArea, BOOL first_pass = TRUE, BOOL is_dummy = FALSE ) override;	// Returns triangle count
 
 	// Draws the shape attached to a joint.
 	// Called by render().

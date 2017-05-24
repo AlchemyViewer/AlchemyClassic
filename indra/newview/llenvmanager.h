@@ -53,14 +53,14 @@ class LLEnvironmentSettings
 public:
 	LLEnvironmentSettings() :
 		mWLDayCycle(LLSD::emptyMap()),
-		mSkyMap(LLSD::emptyMap()),
 		mWaterParams(LLSD::emptyMap()),
+		mSkyMap(LLSD::emptyMap()),
 		mDayTime(0.f)
 	{}
 	LLEnvironmentSettings(const LLSD& dayCycle, const LLSD& skyMap, const LLSD& waterParams, F64 dayTime) :
 		mWLDayCycle(dayCycle),
-		mSkyMap(skyMap),
 		mWaterParams(waterParams),
+		mSkyMap(skyMap),
 		mDayTime(dayTime)
 	{}
 	~LLEnvironmentSettings() {}
@@ -230,7 +230,7 @@ public:
 	void onRegionSettingsApplyResponse(bool ok);
 
 private:
-	/*virtual*/ void initSingleton();
+	/*virtual*/ void initSingleton() override;
 
 	void loadUserPrefs();
 	void saveUserPrefs();

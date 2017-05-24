@@ -54,9 +54,9 @@ static const std::string COF_TAB_NAME = "cof_tab";
 static LLPanelInjector<LLPanelOutfitsInventory> t_inventory("panel_outfits_inventory");
 
 LLPanelOutfitsInventory::LLPanelOutfitsInventory() :
-	mMyOutfitsPanel(NULL),
-	mCurrentOutfitPanel(NULL),
-	mActivePanel(NULL),
+	mActivePanel(nullptr),
+	mMyOutfitsPanel(nullptr),
+	mCurrentOutfitPanel(nullptr),
 	mInitialized(false)
 {
 	gAgentWearables.addLoadedCallback(boost::bind(&LLPanelOutfitsInventory::onWearablesLoaded, this));

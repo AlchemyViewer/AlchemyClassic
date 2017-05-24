@@ -51,15 +51,15 @@
 // Used for LCD display
 extern void AddNewDebugConsoleToLCD(const LLWString &newLine);
 
-LLConsole* gConsole = NULL;  // Created and destroyed in LLViewerWindow.
+LLConsole* gConsole = nullptr;  // Created and destroyed in LLViewerWindow.
 
 const F32 FADE_DURATION = 2.f;
  
 static LLDefaultChildRegistry::Register<LLConsole> r("console");
 
 LLConsole::LLConsole(const LLConsole::Params& p) 
-:	LLUICtrl(p),
-	LLFixedBuffer(p.max_lines),
+:	LLFixedBuffer(p.max_lines),
+	LLUICtrl(p),
 	mLinePersistTime(p.persist_time), // seconds
 	mFont(p.font),
 	mConsoleWidth(0),
@@ -120,7 +120,7 @@ void LLConsole::setFontSize(S32 size_index)
 		mFont = LLFontGL::getFontSansSerifHuge();
 	}
 	// Make sure the font exists
-	if (mFont == NULL)
+	if (mFont == nullptr)
 	{
 		mFont = LLFontGL::getFontDefault();
 	}
@@ -281,7 +281,7 @@ void LLConsole::Paragraph::updateLines(F32 screen_width, const LLFontGL* font, b
 	
 	if (	mParagraphText.empty() 
 		|| mParagraphColorSegments.empty()
-		|| font == NULL)
+		|| font == nullptr)
 	{
 		return;					//Not enough info to complete.
 	}

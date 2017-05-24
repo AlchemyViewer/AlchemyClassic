@@ -41,13 +41,13 @@ protected:
 public:
 	LLVOGround(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp);
 
-	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time);
+	/*virtual*/ void idleUpdate(LLAgent &agent, const F64 &time) override;
 	
 	// Graphical stuff for objects - maybe broken out into render class
 	// later?
-	/*virtual*/ void updateTextures();
-	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline);
-	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable);
+	/*virtual*/ void updateTextures() override;
+	/*virtual*/ LLDrawable* createDrawable(LLPipeline *pipeline) override;
+	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable) override;
 
 	void cleanupGL();
 };

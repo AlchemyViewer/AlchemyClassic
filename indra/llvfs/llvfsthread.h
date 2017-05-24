@@ -80,9 +80,9 @@ public:
 			return tstring;
 		}
 		
-		/*virtual*/ bool processRequest();
-		/*virtual*/ void finishRequest(bool completed);
-		/*virtual*/ void deleteRequest();
+		/*virtual*/ bool processRequest() override;
+		/*virtual*/ void finishRequest(bool completed) override;
+		/*virtual*/ void deleteRequest() override;
 		
 	private:
 		operation_t mOperation;

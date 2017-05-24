@@ -113,7 +113,8 @@ public:
 	~LLFetchAndLinkObserver()
 	{
 	}
-	virtual void done()
+
+	void done() override
 	{
 		gInventory.removeObserver(this);
 

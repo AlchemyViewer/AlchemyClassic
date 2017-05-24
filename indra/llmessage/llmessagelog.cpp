@@ -28,7 +28,7 @@ LLMessageLogEntry::LLMessageLogEntry()
 	mFromHost(LLHost()),
 	mToHost(LLHost()),
 	mDataSize(0),
-	mData(NULL)
+	mData(nullptr)
 {
 }
 
@@ -37,7 +37,7 @@ LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_hos
 	mFromHost(from_host),
 	mToHost(to_host),
 	mDataSize(data_size),
-	mData(NULL)
+	mData(nullptr)
 {
 	if(data)
 	{
@@ -61,11 +61,11 @@ LLMessageLogEntry::LLMessageLogEntry(EType type, const std::string& url, const L
 	if(buffer.get())
 	{
 		S32 channel = type == HTTP_REQUEST ? channels.out() : channels.in();
-		mDataSize = buffer->countAfter(channel, NULL);
+		mDataSize = buffer->countAfter(channel, nullptr);
 		if (mDataSize > 0)
 		{
 			mData = new U8[mDataSize + 1];
-			buffer->readAfter(channel, NULL, mData, mDataSize);
+			buffer->readAfter(channel, nullptr, mData, mDataSize);
 
 			//make sure this is null terminated, since it's going to be used stringified
 			mData[mDataSize] = '\0';
@@ -92,14 +92,14 @@ LLMessageLogEntry::LLMessageLogEntry(const LLMessageLogEntry& entry)
 LLMessageLogEntry::~LLMessageLogEntry()
 {
 	delete[] mData;
-	mData = NULL;
+	mData = nullptr;
 }
 
-LogCallback LLMessageLog::sCallback = NULL;
+LogCallback LLMessageLog::sCallback = nullptr;
 
 void LLMessageLog::setCallback(LogCallback callback)
 {	
-	if (callback != NULL)
+	if (callback != nullptr)
 	{
 		for (auto& m : sRingBuffer)
 		{
@@ -111,9 +111,9 @@ void LLMessageLog::setCallback(LogCallback callback)
 
 void LLMessageLog::log(LLHost from_host, LLHost to_host, U8* data, S32 data_size)
 {
-	if(!data_size || data == NULL) return;
+	if(!data_size || data == nullptr) return;
 
-	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size));
+	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size);
 
 	if(sCallback) sCallback(payload);
 
@@ -123,8 +123,8 @@ void LLMessageLog::log(LLHost from_host, LLHost to_host, U8* data, S32 data_size
 void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, const LLChannelDescriptors& channels,
                                   const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
 {
-	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
-	                                         headers, request_id, method));
+	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
+	                                                         headers, request_id, method);
 	if (sCallback) sCallback(payload);
 
 	sRingBuffer.push_back(std::move(payload));
@@ -133,8 +133,8 @@ void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, co
 void LLMessageLog::logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
                                    const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
 {
-	LogPayload payload = LogPayload(new LLMessageLogEntry(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
-	                                         headers, request_id, HTTP_INVALID, status_code));
+	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
+	                                                         headers, request_id, HTTP_INVALID, status_code);
 	if (sCallback) sCallback(payload);
 
 	sRingBuffer.push_back(std::move(payload));

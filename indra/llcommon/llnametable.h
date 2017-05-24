@@ -93,7 +93,7 @@ public:
 			if (iter->second == data)
 				return iter->first;
 		}
-   		return NULL;
+   		return nullptr;
 	}		
 
 	typedef std::map<const char *, DATA> name_map_t;

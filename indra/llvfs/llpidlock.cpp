@@ -63,7 +63,7 @@ class LLPidLockFile
 			mSaving(false),
 			mWaiting(false),
 			mPID(LLApp::getPid()),
-			mNameTable(NULL),
+			mNameTable(nullptr),
 			mClean(true)
 		{
 			mLockName = gDirUtilp->getTempDir() + gDirUtilp->getDirDelimiter() + "savelock";

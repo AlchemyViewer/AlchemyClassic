@@ -48,7 +48,7 @@ public:
 
     LLSysWellWindow(const LLSD& key);
     virtual ~LLSysWellWindow();
-	BOOL postBuild();
+	BOOL postBuild() override;
 
 	// other interface functions
 	// check is window empty
@@ -59,12 +59,12 @@ public:
 	LLPanel * findItemByID(const LLUUID& id);
 
 	// Operating with outfit
-	virtual void setVisible(BOOL visible);
+	void setVisible(BOOL visible) override;
 	void adjustWindowPosition();
-	/*virtual*/ void	setDocked(bool docked, bool pop_on_undock = true);
+	/*virtual*/ void	setDocked(bool docked, bool pop_on_undock = true) override;
 	// override LLFloater's minimization according to EXT-1216
-	/*virtual*/ void	setMinimized(BOOL minimize);
-	/*virtual*/ void	handleReshape(const LLRect& rect, bool by_user);
+	/*virtual*/ void	setMinimized(BOOL minimize) override;
+	/*virtual*/ void	handleReshape(const LLRect& rect, bool by_user) override;
 
 	void onStartUpToastClick(S32 x, S32 y, MASK mask);
 
@@ -111,14 +111,14 @@ public:
 	static LLIMWellWindow* findInstance(const LLSD& key = LLSD());
 	static void initClass() { getInstance(); }
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	void addObjectRow(const LLUUID& notification_id, bool new_message = false);
 	void removeObjectRow(const LLUUID& notification_id);
 	void closeAll();
 
 protected:
-	/*virtual*/ const std::string& getAnchorViewName() { return IM_WELL_ANCHOR_NAME; }
+	/*virtual*/ const std::string& getAnchorViewName() override { return IM_WELL_ANCHOR_NAME; }
 
 private:
 	LLChiclet* findObjectChiclet(const LLUUID& notification_id);
@@ -131,10 +131,10 @@ private:
 	public:
 		ObjectRowPanel(const LLUUID& notification_id, bool new_message = false);
 		virtual ~ObjectRowPanel();
-		/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask);
-		/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
-		/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-		/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
+		/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask) override;
+		/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
+		/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+		/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
 
 	private:
 		void onClosePanel();

@@ -52,12 +52,12 @@ public:
 	/**
 	* Shows buttons when mouse is over
 	*/
-	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask);
+	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask) override;
 
 	/**
 	* Hides buttons when mouse is out
 	*/
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
+	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
 
 protected:
 
@@ -82,7 +82,7 @@ public:
 	 * Updates item name and (worn) suffix.
 	 */
 	/*virtual*/ void updateItem(const std::string& name,
-								EItemState item_state = IS_DEFAULT);
+								EItemState item_state = IS_DEFAULT) override;
 
 protected:
 	LLPanelWearableOutfitItem(LLViewerInventoryItem* item,
@@ -108,7 +108,7 @@ public:
 
 	virtual ~LLPanelDeletableWearableListItem() {};
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/**
 	 * Make button visible during mouse over event.
@@ -129,7 +129,7 @@ public:
 
 	/** Set item title. Joint name is added to the title in parenthesis */
 	/*virtual*/ void updateItem(const std::string& name,
-								EItemState item_state = IS_DEFAULT);
+								EItemState item_state = IS_DEFAULT) override;
 
 protected:
 	LLPanelAttachmentListItem(LLViewerInventoryItem* item, const Params& params) : LLPanelDeletableWearableListItem(item, params) {};
@@ -161,7 +161,7 @@ public:
 
 	virtual ~LLPanelClothingListItem();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/**
 	 * Make button visible during mouse over event.
@@ -196,7 +196,7 @@ public:
 
 	virtual ~LLPanelBodyPartsListItem();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/**
 	* Make button visible during mouse over event.
@@ -225,7 +225,7 @@ public:
 	};
 	static LLPanelDummyClothingListItem* create(LLWearableType::EType w_type);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	LLWearableType::EType getWearableType() const;
 
 protected:
@@ -250,7 +250,7 @@ public:
 	LLWearableListItemComparator() {};
 	virtual ~LLWearableListItemComparator() {};
 
-	virtual bool compare(const LLPanel* item1, const LLPanel* item2) const
+	bool compare(const LLPanel* item1, const LLPanel* item2) const override
 	{
 		const LLPanelInventoryListItemBase* wearable_item1 = dynamic_cast<const LLPanelInventoryListItemBase*>(item1);
 		const LLPanelInventoryListItemBase* wearable_item2 = dynamic_cast<const LLPanelInventoryListItemBase*>(item2);
@@ -287,7 +287,7 @@ public:
 	virtual ~LLWearableItemNameComparator() {};
 
 protected:
-	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* wearable_item1, const LLPanelInventoryListItemBase* wearable_item2) const;
+	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* wearable_item1, const LLPanelInventoryListItemBase* wearable_item2) const override;
 };
 
 /**
@@ -350,7 +350,7 @@ protected:
 	 *
 	 *  holds in mWearableOrder map as VALUES (struct LLWearableTypeOrder).
 	 */
-	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* wearable_item1, const LLPanelInventoryListItemBase* wearable_item2) const;
+	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* wearable_item1, const LLPanelInventoryListItemBase* wearable_item2) const override;
 
 private:
 
@@ -387,7 +387,7 @@ public:
 	LLWearableItemCreationDateComparator() {}
 
 protected:
-	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* item1, const LLPanelInventoryListItemBase* item2) const;
+	/*virtual*/ bool doCompare(const LLPanelInventoryListItemBase* item1, const LLPanelInventoryListItemBase* item2) const override;
 };
 
 /**
@@ -412,7 +412,7 @@ public:
 	{
 		LLSINGLETON(ContextMenu);
 	public:
-		/*virtual*/ void show(LLView* spawning_view, const uuid_vec_t& uuids, S32 x, S32 y);
+		/*virtual*/ void show(LLView* spawning_view, const uuid_vec_t& uuids, S32 x, S32 y) override;
 
 	protected:
 		enum {
@@ -423,7 +423,7 @@ public:
 			MASK_UNKNOWN		= 0x10,
 		};
 
-		/* virtual */ LLContextMenu* createMenu();
+		/* virtual */ LLContextMenu* createMenu() override;
 		void updateItemsVisibility(LLContextMenu* menu);
 		void updateItemsLabels(LLContextMenu* menu);
 		static void setMenuItemVisible(LLContextMenu* menu, const std::string& name, bool val);
@@ -453,7 +453,7 @@ public:
 
 	virtual ~LLWearableItemsList();
 
-	/*virtual*/ LLPanel* createNewItem(LLViewerInventoryItem* item);
+	/*virtual*/ LLPanel* createNewItem(LLViewerInventoryItem* item) override;
 
 	void updateList(const LLUUID& category_id);
 

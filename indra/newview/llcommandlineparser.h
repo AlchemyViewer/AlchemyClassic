@@ -56,7 +56,7 @@ public:
 	 */
 	void addOptionDesc(
 					   const std::string& option_name, 
-					   boost::function1<void, const token_vector_t&> notify_callback = 0,
+					   boost::function1<void, const token_vector_t&> notify_callback = nullptr,
 					   unsigned int num_tokens = 0,
 					   const std::string& description = LLStringUtil::null,
 					   const std::string& short_name = LLStringUtil::null,

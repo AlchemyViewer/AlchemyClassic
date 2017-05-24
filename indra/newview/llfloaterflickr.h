@@ -42,12 +42,12 @@ public:
 	LLFlickrPhotoPanel();
 	~LLFlickrPhotoPanel();
 
-	BOOL postBuild();
-	S32 notify(const LLSD& info);
-	void draw();
+	BOOL postBuild() override;
+	S32 notify(const LLSD& info) override;
+	void draw() override;
 
 	LLSnapshotLivePreview* getPreviewView();
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 	void onClickNewSnapshot();
     void onClickBigPreview();
 	void onSend();
@@ -88,11 +88,11 @@ class LLFlickrAccountPanel : public LLPanel
 {
 public:
 	LLFlickrAccountPanel();
-	BOOL postBuild();
-	void draw();
+	BOOL postBuild() override;
+	void draw() override;
 
 private:
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 	bool onFlickrConnectStateChange(const LLSD& data);
 	bool onFlickrConnectInfoChange();
 	void onConnect();
@@ -116,9 +116,9 @@ class LLFloaterFlickr : public LLFloater
 {
 public:
 	LLFloaterFlickr(const LLSD& key);
-	BOOL postBuild();
-	void draw();
-	void onClose(bool app_quitting);
+	BOOL postBuild() override;
+	void draw() override;
+	void onClose(bool app_quitting) override;
 	void onCancel();
 	
 	void showPhotoPanel();

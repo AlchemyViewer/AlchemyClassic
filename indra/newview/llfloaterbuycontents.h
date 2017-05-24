@@ -48,14 +48,14 @@ public:
 
 	LLFloaterBuyContents(const LLSD& key);
 	~LLFloaterBuyContents();
-	/*virtual*/	BOOL	postBuild();
+	/*virtual*/	BOOL	postBuild() override;
 	
 protected:
 	void requestObjectInventories();
 	/*virtual*/ void inventoryChanged(LLViewerObject* obj,
 								 LLInventoryObject::object_list_t* inv,
 								 S32 serial_num,
-								 void* data);
+								 void* data) override;
 	
 	void onClickBuy();
 	void onClickCancel();

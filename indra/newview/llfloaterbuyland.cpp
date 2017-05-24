@@ -74,7 +74,7 @@ public:
 	LLFloaterBuyLandUI(const LLSD& key);
 	virtual ~LLFloaterBuyLandUI();
 	
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/ void onClose(bool app_quitting) override;
 
 	// Left padding for maturity rating icon.
 	static const S32 ICON_PAD = 2;
@@ -84,7 +84,7 @@ private:
 	{
 	public:
 		SelectionObserver(LLFloaterBuyLandUI* floater) : mFloater(floater) {}
-		virtual void changed();
+		void changed() override;
 	private:
 		LLFloaterBuyLandUI* mFloater;
 	};
@@ -188,7 +188,7 @@ public:
 	
 	void tellUserError(const std::string& message, const std::string& uri);
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 	
 	void startBuyPreConfirm();
 	void startBuyPostConfirm(const std::string& password);
@@ -196,9 +196,9 @@ public:
 	void onClickBuy();
 	void onClickCancel();
 	 void onClickErrorWeb();
-	
-	virtual void draw();
-	virtual BOOL canClose();
+
+	void draw() override;
+	BOOL canClose() override;
 
 	void onVisibilityChanged ( const LLSD& new_visibility );
 	
@@ -284,7 +284,7 @@ LLFloaterBuyLandUI::LLFloaterBuyLandUI(const LLSD& key)
 	: LLFloater(LLSD()),
 	mParcelSelectionObserver(this),
 	mRegion(nullptr),
-	mParcel(0),
+	mParcel(nullptr),
 	mIsClaim(false),
 	mIsForGroup(false),
 	mCanBuy(false),
@@ -311,8 +311,8 @@ LLFloaterBuyLandUI::LLFloaterBuyLandUI(const LLSD& key)
 	mChildren(*this),
 	mCurrency(*this),
 	mTransaction(nullptr),
-	mParcelBuyInfo(nullptr),
-	mTransactionType(TransactionNone)
+	mTransactionType(TransactionNone),
+	mParcelBuyInfo(nullptr)
 {
 	LLViewerParcelMgr::getInstance()->addObserver(&mParcelSelectionObserver);
 	
@@ -869,7 +869,7 @@ void LLFloaterBuyLandUI::updateGroupName(const LLUUID& id,
 void LLFloaterBuyLandUI::startTransaction(TransactionType type, const LLXMLRPCValue& params)
 {
 	delete mTransaction;
-	mTransaction = NULL;
+	mTransaction = nullptr;
 
 	mTransactionType = type;
 
@@ -914,7 +914,7 @@ bool LLFloaterBuyLandUI::checkTransaction()
 		return false;
 	}
 
-	if (mTransaction->status(NULL) != LLXMLRPCTransaction::StatusComplete)
+	if (mTransaction->status(nullptr) != LLXMLRPCTransaction::StatusComplete)
 	{
 		tellUserError(mTransaction->statusMessage(), mTransaction->statusURI());
 	}
@@ -928,7 +928,7 @@ bool LLFloaterBuyLandUI::checkTransaction()
 	}
 	
 	delete mTransaction;
-	mTransaction = NULL;
+	mTransaction = nullptr;
 	
 	return true;
 }

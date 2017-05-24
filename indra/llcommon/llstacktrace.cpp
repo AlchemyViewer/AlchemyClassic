@@ -63,7 +63,7 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 	// load the symbols if they're not loaded
 	if(!symbolsLoaded && firstCall)
 	{
-		symbolsLoaded = SymInitialize(hProc, NULL, true);
+		symbolsLoaded = SymInitialize(hProc, nullptr, true);
 		firstCall = false;
 	}
 
@@ -71,11 +71,11 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 	if(symbolsLoaded)
 	{
 		// create the frames to hold the addresses
-		void* frames[MAX_STACK_DEPTH] = {0};
+		void* frames[MAX_STACK_DEPTH] = {nullptr};
 		S32 depth = 0;
 
 		// get the addresses
-		depth = RtlCaptureStackBackTrace_fn(FRAME_SKIP, MAX_STACK_DEPTH, frames, NULL);
+		depth = RtlCaptureStackBackTrace_fn(FRAME_SKIP, MAX_STACK_DEPTH, frames, nullptr);
 
 		IMAGEHLP_LINE64 line;
 		memset(&line, 0, sizeof(IMAGEHLP_LINE64));
@@ -96,7 +96,7 @@ bool ll_get_stack_trace(std::vector<std::string>& lines)
 			BOOL ret;
 
 			DWORD64 addr = (DWORD64)frames[i];
-			ret = SymGetSymFromAddr64(hProc, addr, 0, pSym);
+			ret = SymGetSymFromAddr64(hProc, addr, nullptr, pSym);
 			if(ret)
 			{
 				stack_line << pSym->Name << " ";
@@ -135,18 +135,18 @@ void ll_get_stack_trace_internal(std::vector<std::string>& lines)
 	const S32 STRING_NAME_LENGTH = 256;
 
 	HANDLE process = GetCurrentProcess();
-	SymInitialize( process, NULL, TRUE );
+	SymInitialize( process, nullptr, TRUE );
 
 	void *stack[MAX_STACK_DEPTH];
 
-	unsigned short frames = RtlCaptureStackBackTrace_fn( 0, MAX_STACK_DEPTH, stack, NULL );
+	unsigned short frames = RtlCaptureStackBackTrace_fn( 0, MAX_STACK_DEPTH, stack, nullptr );
 	SYMBOL_INFO *symbol = (SYMBOL_INFO*)calloc(sizeof(SYMBOL_INFO) + STRING_NAME_LENGTH * sizeof(char), 1);
 	symbol->MaxNameLen = STRING_NAME_LENGTH-1;
 	symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
 
 	for(unsigned int i = 0; i < frames; i++) 
 	{
-		SymFromAddr(process, (DWORD64)(stack[i]), 0, symbol);
+		SymFromAddr(process, (DWORD64)(stack[i]), nullptr, symbol);
 		lines.push_back(symbol->Name);
 	}
 

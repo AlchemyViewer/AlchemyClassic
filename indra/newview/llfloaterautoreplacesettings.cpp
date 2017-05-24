@@ -68,11 +68,11 @@
 LLFloaterAutoReplaceSettings::LLFloaterAutoReplaceSettings(const LLSD& key)
  : LLFloater(key)
  , mSelectedListName("")
- , mListNames(NULL)
- , mReplacementsList(NULL)
- , mKeyword(NULL)
+ , mListNames(nullptr)
+ , mReplacementsList(nullptr)
+ , mKeyword(nullptr)
  , mPreviousKeyword("")
- , mReplacement(NULL)
+ , mReplacement(nullptr)
 {
 }
 

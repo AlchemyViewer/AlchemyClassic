@@ -121,7 +121,7 @@ void al_handle_object_derender()
 
 class LLEnableEditParticleSource : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
 		for (LLObjectSelection::valid_root_iterator iter = selection->valid_root_begin();
@@ -139,7 +139,7 @@ class LLEnableEditParticleSource : public view_listener_t
 
 class LLEditParticleSource : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 		if (objectp)
@@ -154,7 +154,7 @@ class LLEditParticleSource : public view_listener_t
 
 class LLSpawnDebugSimFeatures : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (LLViewerRegion* regionp = gAgent.getRegion())
 		{
@@ -172,7 +172,7 @@ class LLSpawnDebugSimFeatures : public view_listener_t
 
 class LLSyncAnimations : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		for (S32 i = 0; i < gObjectList.getNumObjects(); ++i)
 		{
@@ -197,7 +197,7 @@ class LLSyncAnimations : public view_listener_t
 
 class ALMarkViewerEffectsDead : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLHUDObject::markViewerEffectsDead();
 		return true;
@@ -206,7 +206,7 @@ class ALMarkViewerEffectsDead : public view_listener_t
 
 class ALToggleLocationBar : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		const U32 val = userdata.asInteger();
 		gSavedSettings.setU32("NavigationBarStyle", val);
@@ -216,7 +216,7 @@ class ALToggleLocationBar : public view_listener_t
 
 class ALCheckLocationBar : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return userdata.asInteger() == gSavedSettings.getU32("NavigationBarStyle");
 	}
@@ -233,7 +233,7 @@ void destroy_texture(const LLUUID& id)
 
 class LLRefreshTexturesObject : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		for (LLObjectSelection::valid_iterator iter = LLSelectMgr::getInstance()->getSelection()->valid_begin();
 			iter != LLSelectMgr::getInstance()->getSelection()->valid_end();
@@ -288,7 +288,7 @@ class LLRefreshTexturesObject : public view_listener_t
 
 class LLRefreshTexturesAvatar : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
 		if (!avatar) return true;
@@ -308,7 +308,7 @@ class LLRefreshTexturesAvatar : public view_listener_t
 
 class LLObjectExplode : public view_listener_t
 {
-	bool handleEvent(LLSD const& userdata)
+	bool handleEvent(LLSD const& userdata) override
 	{
 		auto* sel_man = LLSelectMgr::getInstance();
 		LLViewerObject *objectp = sel_man->getSelection()->getFirstRootObject();
@@ -335,7 +335,7 @@ bool enable_object_explode()
 
 class LLUndeformSelf : public view_listener_t
 {
-	bool handleEvent(LLSD const& userdata)
+	bool handleEvent(LLSD const& userdata) override
 	{
 		if (!isAgentAvatarValid()) return true;
 
@@ -358,7 +358,7 @@ class LLUndeformSelf : public view_listener_t
 		msg->addUUIDFast(_PREHASH_AnimID, LLUUID("f05d765d-0e01-5f9a-bfc2-fdc054757e55"));
 		msg->addBOOLFast(_PREHASH_StartAnim, TRUE);
 		msg->nextBlockFast(_PREHASH_PhysicalAvatarEventList);
-		msg->addBinaryDataFast(_PREHASH_TypeData, NULL, 0);
+		msg->addBinaryDataFast(_PREHASH_TypeData, nullptr, 0);
 		msg->sendReliable(gAgent.getRegion()->getHost());
 		return true;
 	}
@@ -366,7 +366,7 @@ class LLUndeformSelf : public view_listener_t
 
 class LLEnableGrid : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		const std::string& grid_type = userdata.asString();
 		if (grid_type == "secondlife")
@@ -392,7 +392,7 @@ class LLEnableGrid : public view_listener_t
 bool enable_estate_management(const LLSD& avatar_id)
 {
 	// Use avatar_id if available, otherwise default to right-click avatar
-	LLVOAvatar* avatar = NULL;
+	LLVOAvatar* avatar = nullptr;
 	if (avatar_id.asUUID().notNull())
 	{
 		avatar = find_avatar_from_object(avatar_id.asUUID());
@@ -420,7 +420,7 @@ bool enable_estate_management(const LLSD& avatar_id)
 
 class LLAvatarCopyData : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
 		if (avatarp)
@@ -448,7 +448,7 @@ class LLAvatarCopyData : public view_listener_t
 
 class ALAvatarColorize : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatarp = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
 		if (avatarp)

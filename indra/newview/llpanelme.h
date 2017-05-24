@@ -42,9 +42,9 @@ public:
 
 	LLPanelMe();
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 };
 
 #endif // LL_LLPANELMEPROFILE_H

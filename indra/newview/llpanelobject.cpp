@@ -292,19 +292,19 @@ BOOL	LLPanelObject::postBuild()
 
 LLPanelObject::LLPanelObject()
 :	LLPanel(),
-	mBtnPosCopy(NULL),
-	mBtnPosPaste(NULL),
-	mBtnScaleCopy(NULL),
-	mBtnScalePaste(NULL),
-	mBtnRotCopy(NULL),
-	mBtnRotPaste(NULL),
+	mBtnPosCopy(nullptr),
+	mBtnPosPaste(nullptr),
+	mBtnScaleCopy(nullptr),
+	mBtnScalePaste(nullptr),
+	mSizeChanged(FALSE),
+	mBtnRotCopy(nullptr),
+	mBtnRotPaste(nullptr),
 	mIsPhysical(FALSE),
 	mIsTemporary(FALSE),
 	mIsPhantom(FALSE),
 	mSelectedType(MI_BOX),
 	mSculptTextureRevert(LLUUID::null),
 	mSculptTypeRevert(0),
-	mSizeChanged(FALSE),
 	mRegionMaxHeight(256.f),
 	mRegionMaxDepth(0.f),
 	mUpdateLimits(true)
@@ -344,7 +344,7 @@ void LLPanelObject::getState( )
 
 	LLCalc* calcp = LLCalc::getInstance();
 
-	LLVOVolume *volobjp = NULL;
+	LLVOVolume *volobjp = nullptr;
 	if ( objectp && (objectp->getPCode() == LL_PCODE_VOLUME))
 	{
 		volobjp = (LLVOVolume *)objectp;
@@ -355,7 +355,7 @@ void LLPanelObject::getState( )
 		//forfeit focus
 		if (gFocusMgr.childHasKeyboardFocus(this))
 		{
-			gFocusMgr.setKeyboardFocus(NULL);
+			gFocusMgr.setKeyboardFocus(nullptr);
 		}
 
 		// Disable all text input fields
@@ -367,9 +367,9 @@ void LLPanelObject::getState( )
 	bool is_attachment = objectp->isAttachment();
 
 	// can move or rotate only linked group with move permissions, or sub-object with move and modify perms
-	BOOL enable_move	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
-	BOOL enable_scale	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && objectp->permModify();
-	BOOL enable_rotate	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == NULL) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
+	BOOL enable_move	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == nullptr) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
+	BOOL enable_scale	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == nullptr) || !root_objectp->isPermanentEnforced()) && objectp->permModify();
+	BOOL enable_rotate	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == nullptr) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
 
 	S32 selected_count = LLSelectMgr::getInstance()->getSelection()->getObjectCount();
 	BOOL single_volume = (LLSelectMgr::getInstance()->selectionAllPCode( LL_PCODE_VOLUME ))
@@ -1837,12 +1837,12 @@ void LLPanelObject::refresh()
 	getState();
 	if (mObject.notNull() && mObject->isDead())
 	{
-		mObject = NULL;
+		mObject = nullptr;
 	}
 
 	if (mRootObject.notNull() && mRootObject->isDead())
 	{
-		mRootObject = NULL;
+		mRootObject = nullptr;
 	}
 	
 	F32 max_scale = get_default_max_prim_scale(LLPickInfo::isFlora(mObject));

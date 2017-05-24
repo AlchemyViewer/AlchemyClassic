@@ -47,7 +47,7 @@ LLTransientDockableFloater::~LLTransientDockableFloater()
 	LLView* dock = getDockWidget();
 	LLTransientFloaterMgr::getInstance()->removeControlView(
 			LLTransientFloaterMgr::DOCKED, this);
-	if (dock != NULL)
+	if (dock != nullptr)
 	{
 		LLTransientFloaterMgr::getInstance()->removeControlView(
 				LLTransientFloaterMgr::DOCKED, dock);
@@ -60,7 +60,7 @@ void LLTransientDockableFloater::setVisible(BOOL visible)
 	if(visible && isDocked())
 	{
 		LLTransientFloaterMgr::getInstance()->addControlView(LLTransientFloaterMgr::DOCKED, this);
-		if (dock != NULL)
+		if (dock != nullptr)
 		{
 			LLTransientFloaterMgr::getInstance()->addControlView(LLTransientFloaterMgr::DOCKED, dock);
 		}
@@ -68,7 +68,7 @@ void LLTransientDockableFloater::setVisible(BOOL visible)
 	else
 	{
 		LLTransientFloaterMgr::getInstance()->removeControlView(LLTransientFloaterMgr::DOCKED, this);
-		if (dock != NULL)
+		if (dock != nullptr)
 		{
 			LLTransientFloaterMgr::getInstance()->removeControlView(LLTransientFloaterMgr::DOCKED, dock);
 		}
@@ -83,7 +83,7 @@ void LLTransientDockableFloater::setDocked(bool docked, bool pop_on_undock)
 	if(docked)
 	{
 		LLTransientFloaterMgr::getInstance()->addControlView(LLTransientFloaterMgr::DOCKED, this);
-		if (dock != NULL)
+		if (dock != nullptr)
 		{
 			LLTransientFloaterMgr::getInstance()->addControlView(LLTransientFloaterMgr::DOCKED, dock);
 		}
@@ -91,7 +91,7 @@ void LLTransientDockableFloater::setDocked(bool docked, bool pop_on_undock)
 	else
 	{
 		LLTransientFloaterMgr::getInstance()->removeControlView(LLTransientFloaterMgr::DOCKED, this);
-		if (dock != NULL)
+		if (dock != nullptr)
 		{
 			LLTransientFloaterMgr::getInstance()->removeControlView(LLTransientFloaterMgr::DOCKED, dock);
 		}

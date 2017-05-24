@@ -70,26 +70,26 @@ public:
 		LLPointer<LLModel> mModel;
 		
 		DecompRequest(const std::string& stage, LLModel* mdl);
-		virtual S32 statusCallback(const char* status, S32 p1, S32 p2);
-		virtual void completed();
+		S32 statusCallback(const char* status, S32 p1, S32 p2) override;
+		void completed() override;
 		
 	};
 	static LLFloaterModelPreview* sInstance;
 	
 	LLFloaterModelPreview(const LLSD& key);
 	virtual ~LLFloaterModelPreview();
-	
-	virtual BOOL postBuild();
+
+	BOOL postBuild() override;
 	
 	void initModelPreview();
 
-	BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	BOOL handleHover(S32 x, S32 y, MASK mask);
-	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks); 
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleScrollWheel(S32 x, S32 y, S32 clicks) override; 
 	
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ void onClose(bool app_quitting);
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/ void onClose(bool app_quitting) override;
 
 	static void onMouseCaptureLostModelPreview(LLMouseHandler*);
 	static void setUploadAmount(S32 amount) { sUploadAmount = amount; }
@@ -103,7 +103,7 @@ public:
 
 	static void onUpload(void* data);
 	
-	void refresh();
+	void refresh() override;
 	
 	void			loadModel(S32 lod);
 	void 			loadModel(S32 lod, const std::string& file_name, bool force_disable_slm = false);
@@ -118,18 +118,18 @@ public:
 	bool isModelLoading();
 
 	// shows warning message if agent has no permissions to upload model
-	/*virtual*/ void onPermissionsReceived(const LLSD& result);
+	/*virtual*/ void onPermissionsReceived(const LLSD& result) override;
 
 	// called when error occurs during permissions request
-	/*virtual*/ void setPermissonsErrorStatus(S32 status, const std::string& reason);
+	/*virtual*/ void setPermissonsErrorStatus(S32 status, const std::string& reason) override;
 
-	/*virtual*/ void onModelPhysicsFeeReceived(const LLSD& result, std::string upload_url);
+	/*virtual*/ void onModelPhysicsFeeReceived(const LLSD& result, std::string upload_url) override;
 				void handleModelPhysicsFeeReceived();
-	/*virtual*/ void setModelPhysicsFeeErrorStatus(S32 status, const std::string& reason);
+	/*virtual*/ void setModelPhysicsFeeErrorStatus(S32 status, const std::string& reason) override;
 
-	/*virtual*/ void onModelUploadSuccess();
+	/*virtual*/ void onModelUploadSuccess() override;
 
-	/*virtual*/ void onModelUploadFailure();
+	/*virtual*/ void onModelUploadFailure() override;
 
 	bool isModelUploadAllowed();
 
@@ -166,7 +166,7 @@ protected:
 	static void onPhysicsDecomposeBack(LLUICtrl* ctrl, void* userdata);
 	static void onPhysicsSimplifyBack(LLUICtrl* ctrl, void* userdata);
 		
-	void			draw();
+	void			draw() override;
 	
 	void initDecompControls();
 	
@@ -219,7 +219,7 @@ class LLMeshFilePicker : public LLFilePickerThread
 {
 public:
 	LLMeshFilePicker(LLModelPreview* mp, S32 lod);
-	virtual void notify(const std::string& filename);
+	void notify(const std::string& filename) override;
 
 private:
 	LLModelPreview* mMP;
@@ -251,7 +251,7 @@ public:
 	void setTexture(U32 name) { mTextureName = name; }
 
 	void setPhysicsFromLOD(S32 lod);
-	BOOL render();
+	BOOL render() override;
 	void update();
 	void genBuffers(S32 lod, bool skinned);
 	void clearBuffers();
@@ -259,7 +259,7 @@ public:
 	void rotate(F32 yaw_radians, F32 pitch_radians);
 	void zoom(F32 zoom_amt);
 	void pan(F32 right, F32 up);
-	virtual BOOL needsRender() { return mNeedsUpdate; }
+	BOOL needsRender() override { return mNeedsUpdate; }
 	void setPreviewLOD(S32 lod);
 	void clearModel(S32 lod);
     void getJointAliases(JointMap& joint_map);

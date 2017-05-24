@@ -45,10 +45,10 @@ class LLFloaterEditSky : public LLFloater
 public:
 	LLFloaterEditSky(const LLSD &key);
 
-	/*virtual*/	BOOL	postBuild();
-	/*virtual*/ void	onOpen(const LLSD& key);
-	/*virtual*/ void	onClose(bool app_quitting);
-	/*virtual*/ void	draw();
+	/*virtual*/	BOOL	postBuild() override;
+	/*virtual*/ void	onOpen(const LLSD& key) override;
+	/*virtual*/ void	onClose(bool app_quitting) override;
+	/*virtual*/ void	draw() override;
 
 private:
 	void initCallbacks(void);

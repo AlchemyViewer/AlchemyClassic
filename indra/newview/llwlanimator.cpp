@@ -37,7 +37,7 @@
 F64 LLWLAnimator::INTERP_TOTAL_SECONDS = 3.f;
 
 LLWLAnimator::LLWLAnimator() : mStartTime(0.f), mDayRate(1.f), mDayTime(0.f),
-							mIsRunning(FALSE), mIsInterpolating(FALSE), mTimeType(TIME_LINDEN),
+							mTimeType(TIME_LINDEN), mIsRunning(FALSE), mIsInterpolating(FALSE),
 							mInterpStartTime(), mInterpEndTime()
 {
 	mInterpBeginWL = new LLWLParamSet();

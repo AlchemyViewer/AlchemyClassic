@@ -150,7 +150,7 @@ protected:
 		~LLMessageLogNetMan() {}
 		
 	private:
-		BOOL tick();
+		BOOL tick() override;
 		LLFloaterMessageLog* mParent;
 	};
 	

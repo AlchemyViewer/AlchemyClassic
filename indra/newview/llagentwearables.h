@@ -106,7 +106,7 @@ public:
 	// Setters
 	//--------------------------------------------------------------------
 private:
-	/*virtual*/void	wearableUpdated(LLWearable *wearable, BOOL removed);
+	/*virtual*/void	wearableUpdated(LLWearable *wearable, BOOL removed) override;
 public:
 	void			setWearableItem(LLInventoryItem* new_item, LLViewerWearable* wearable, bool do_append = false);
 	void			setWearableOutfit(const LLInventoryItem::item_array_t& items, const std::vector< LLViewerWearable* >& wearables);
@@ -163,7 +163,7 @@ public:
 
 protected:
 
-	/*virtual*/ void	invalidateBakedTextureHash(LLMD5& hash) const;
+	/*virtual*/ void	invalidateBakedTextureHash(LLMD5& hash) const override;
 	void			sendAgentWearablesUpdate();
 	void			sendAgentWearablesRequest();
 	void			queryWearableCache();
@@ -283,7 +283,7 @@ private:
 											LLViewerWearable* wearable,
 											U32 todo = CALL_NONE,
 											const std::string description = "");
-		virtual void fire(const LLUUID& inv_item);
+		void fire(const LLUUID& inv_item) override;
 	private:
 		LLWearableType::EType mType;
 		U32 mIndex;

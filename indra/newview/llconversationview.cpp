@@ -56,7 +56,7 @@ public:
 	:	conversation(conv)
 	{}
 
-	virtual void onChange(EStatusType status, const std::string &channelURI, bool proximal)
+	void onChange(EStatusType status, const std::string &channelURI, bool proximal) override
 	{
 		conversation->showVoiceIndicator(conversation
 			&& status != STATUS_JOINING
@@ -76,17 +76,17 @@ LLConversationViewSession::Params::Params() :
 LLConversationViewSession::LLConversationViewSession(const LLConversationViewSession::Params& p):
 	LLFolderViewFolder(p),
 	mContainer(p.container),
-	mItemPanel(NULL),
-	mCallIconLayoutPanel(NULL),
+	mItemPanel(nullptr),
+	mCallIconLayoutPanel(nullptr),
 	mTypingIconLayoutPanel(nullptr),
-	mSessionTitle(NULL),
-	mSpeakingIndicator(NULL),
-	mVoiceClientObserver(NULL),
-	mCollapsedMode(false),
-    mHasArrow(true),
-	mIsInActiveVoiceChannel(false),
+	mSessionTitle(nullptr),
+	mSpeakingIndicator(nullptr),
 	mFlashStateOn(false),
-	mFlashStarted(false)
+	mFlashStarted(false),
+    mCollapsedMode(false),
+	mHasArrow(true),
+	mIsInActiveVoiceChannel(false),
+	mVoiceClientObserver(nullptr)
 {
 	mFlashTimer = new LLFlashTimer();
 }
@@ -154,7 +154,7 @@ BOOL LLConversationViewSession::postBuild()
 {
 	LLFolderViewItem::postBuild();
 
-	mItemPanel = LLUICtrlFactory::getInstance()->createFromFile<LLPanel>("panel_conversation_list_item.xml", NULL, LLPanel::child_registry_t::instance());
+	mItemPanel = LLUICtrlFactory::getInstance()->createFromFile<LLPanel>("panel_conversation_list_item.xml", nullptr, LLPanel::child_registry_t::instance());
 	addChild(mItemPanel);
 
 	mCallIconLayoutPanel = mItemPanel->getChild<LLPanel>("call_icon_panel");
@@ -410,7 +410,7 @@ LLConversationViewParticipant* LLConversationViewSession::findParticipant(const 
 	// This is *not* a general tree parsing algorithm. We search only in the mItems list
 	// assuming there is no mFolders which makes sense for sessions (sessions don't contain
 	// sessions).
-	LLConversationViewParticipant* participant = NULL;
+	LLConversationViewParticipant* participant = nullptr;
 	items_t::const_iterator iter;
 	for (iter = getItemsBegin(); iter != getItemsEnd(); iter++)
 	{
@@ -455,7 +455,7 @@ void LLConversationViewSession::refresh()
 		{
 			mSpeakingIndicator->setVisible(false);
 		}
-		LLConversationViewParticipant* participant = NULL;
+		LLConversationViewParticipant* participant = nullptr;
 		items_t::const_iterator iter;
 		for (iter = getItemsBegin(); iter != getItemsEnd(); iter++)
 		{
@@ -505,9 +505,9 @@ output_monitor("output_monitor")
 
 LLConversationViewParticipant::LLConversationViewParticipant( const LLConversationViewParticipant::Params& p ):
 	LLFolderViewItem(p),
-    mAvatarIcon(NULL),
-    mInfoBtn(NULL),
-    mSpeakingIndicator(NULL),
+    mAvatarIcon(nullptr),
+    mInfoBtn(nullptr),
+    mSpeakingIndicator(nullptr),
     mUUID(p.participant_id)
 {
 }
@@ -732,7 +732,7 @@ void LLConversationViewParticipant::updateChildren()
 
 LLView* LLConversationViewParticipant::getItemChildView(EAvatarListItemChildIndex child_view_index)
 {
-    LLView* child_view = NULL;
+    LLView* child_view = nullptr;
 
     switch (child_view_index)
     {

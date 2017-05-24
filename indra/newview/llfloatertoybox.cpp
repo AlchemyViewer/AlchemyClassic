@@ -41,7 +41,7 @@
 
 LLFloaterToybox::LLFloaterToybox(const LLSD& key)
 	: LLFloater(key)
-	, mToolBar(NULL)
+	, mToolBar(nullptr)
 {
 	mCommitCallbackRegistrar.add("Toybox.RestoreDefaults", boost::bind(&LLFloaterToybox::onBtnRestoreDefaults, this));
 	mCommitCallbackRegistrar.add("Toybox.ClearAll", boost::bind(&LLFloaterToybox::onBtnClearAll, this));

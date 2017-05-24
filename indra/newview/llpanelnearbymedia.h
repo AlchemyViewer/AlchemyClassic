@@ -43,14 +43,14 @@ class LLPanelNearByMedia : public LLPanel
 {
 public:
 	
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void draw();
-	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onTopLost();
-	/*virtual*/ void onVisibilityChange ( BOOL new_visibility );
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent);
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void onTopLost() override;
+	/*virtual*/ void onVisibilityChange ( BOOL new_visibility ) override;
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent) override;
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
 
 	// this is part of the nearby media *dialog* so we can track whether
 	// the user *implicitly* wants audio on or off via their *explicit*

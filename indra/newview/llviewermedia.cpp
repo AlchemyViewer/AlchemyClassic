@@ -148,10 +148,10 @@ LLViewerMediaObserver::~LLViewerMediaObserver()
 }
 
 
-LLPluginCookieStore *LLViewerMedia::sCookieStore = NULL;
+LLPluginCookieStore *LLViewerMedia::sCookieStore = nullptr;
 LLURL LLViewerMedia::sOpenIDURL;
 std::string LLViewerMedia::sOpenIDCookie;
-LLPluginClassMedia* LLViewerMedia::sSpareBrowserMediaSource = NULL;
+LLPluginClassMedia* LLViewerMedia::sSpareBrowserMediaSource = nullptr;
 static LLViewerMedia::impl_list sViewerMediaImplList;
 static LLViewerMedia::impl_id_map sViewerMediaTextureIDMap;
 static LLTimer sMediaCreateTimer;
@@ -190,7 +190,7 @@ static void remove_media_impl(LLViewerMediaImpl* media)
 
 class LLViewerMediaMuteListObserver : public LLMuteListObserver
 {
-	/* virtual */ void onChange()  { LLViewerMedia::muteListChanged();}
+	/* virtual */ void onChange() override { LLViewerMedia::muteListChanged();}
 };
 
 static LLViewerMediaMuteListObserver sViewerMediaMuteListObserver;
@@ -210,7 +210,7 @@ viewer_media_t LLViewerMedia::newMediaImpl(
 											 U8 media_loop)
 {
 	LLViewerMediaImpl* media_impl = getMediaImplFromTextureID(texture_id);
-	if(media_impl == NULL || texture_id.isNull())
+	if(media_impl == nullptr || texture_id.isNull())
 	{
 		// Create the media impl
 		media_impl = new LLViewerMediaImpl(texture_id, media_width, media_height, media_auto_scale, media_loop);
@@ -331,7 +331,7 @@ viewer_media_t LLViewerMedia::updateMediaImpl(LLMediaEntry* media_entry, const s
 // static
 LLViewerMediaImpl* LLViewerMedia::getMediaImplFromTextureID(const LLUUID& texture_id)
 {
-	LLViewerMediaImpl* result = NULL;
+	LLViewerMediaImpl* result = nullptr;
 
 	// Look up the texture ID in the texture id->impl map.
 	impl_id_map::iterator iter = sViewerMediaTextureIDMap.find(texture_id);
@@ -465,7 +465,7 @@ bool LLViewerMedia::isInterestingEnough(const LLVOVolume *object, const F64 &obj
 {
 	bool result = false;
 
-	if (NULL == object)
+	if (nullptr == object)
 	{
 		result = false;
 	}
@@ -656,7 +656,7 @@ void LLViewerMedia::updateMedia(void *dummy_arg)
 	// Setting max_cpu to 0.0 disables CPU usage checking.
 	bool check_cpu_usage = (max_cpu != 0.0f);
 
-	LLViewerMediaImpl* lowest_interest_loadable = NULL;
+	LLViewerMediaImpl* lowest_interest_loadable = nullptr;
 
 	// Notes on tweakable params:
 	// max_instances must be set high enough to allow the various instances used in the UI (for the help browser, search, etc.) to be loaded.
@@ -1156,7 +1156,7 @@ void LLViewerMedia::setProxyConfig(bool enable, const std::string &host, int por
 // static
 LLPluginCookieStore *LLViewerMedia::getCookieStore()
 {
-	if(sCookieStore == NULL)
+	if(sCookieStore == nullptr)
 	{
 		sCookieStore = new LLPluginCookieStore;
 	}
@@ -1572,7 +1572,7 @@ void LLViewerMedia::createSpareBrowserMediaSource()
 		// The null owner will keep the browser plugin from fully initializing
 		// (specifically, it keeps LLPluginClassMedia from negotiating a size change,
 		// which keeps MediaPluginWebkit::initBrowserWindow from doing anything until we have some necessary data, like the background color)
-		sSpareBrowserMediaSource = LLViewerMediaImpl::newSourceFromMediaType(HTTP_CONTENT_TEXT_HTML, NULL, 0, 0, 1.0);
+		sSpareBrowserMediaSource = LLViewerMediaImpl::newSourceFromMediaType(HTTP_CONTENT_TEXT_HTML, nullptr, 0, 0, 1.0);
 	}
 }
 
@@ -1581,7 +1581,7 @@ void LLViewerMedia::createSpareBrowserMediaSource()
 LLPluginClassMedia* LLViewerMedia::getSpareBrowserMediaSource()
 {
 	LLPluginClassMedia* result = sSpareBrowserMediaSource;
-	sSpareBrowserMediaSource = NULL;
+	sSpareBrowserMediaSource = nullptr;
 	return result;
 };
 
@@ -1627,7 +1627,7 @@ std::string LLViewerMedia::getParcelAudioURL()
 // static
 void LLViewerMedia::initClass()
 {
-	gIdleCallbacks.addFunction(LLViewerMedia::updateMedia, NULL);
+	gIdleCallbacks.addFunction(LLViewerMedia::updateMedia, nullptr);
 	sTeleportFinishConnection = LLViewerParcelMgr::getInstance()->
 		setTeleportFinishedCallback(boost::bind(&LLViewerMedia::onTeleportFinished));
 }
@@ -1636,18 +1636,18 @@ void LLViewerMedia::initClass()
 // static
 void LLViewerMedia::cleanupClass()
 {
-	gIdleCallbacks.deleteFunction(LLViewerMedia::updateMedia, NULL);
+	gIdleCallbacks.deleteFunction(LLViewerMedia::updateMedia, nullptr);
 	sTeleportFinishConnection.disconnect();
-	if (sSpareBrowserMediaSource != NULL)
+	if (sSpareBrowserMediaSource != nullptr)
 	{
 		delete sSpareBrowserMediaSource;
-		sSpareBrowserMediaSource = NULL;
+		sSpareBrowserMediaSource = nullptr;
 	}
 
-	if (sCookieStore != NULL)
+	if (sCookieStore != nullptr)
 	{
 		delete sCookieStore;
-		sCookieStore = NULL;
+		sCookieStore = nullptr;
 	}
 }
 
@@ -1680,7 +1680,8 @@ LLViewerMediaImpl::LLViewerMediaImpl(	  const LLUUID& texture_id,
 										  U8 media_auto_scale,
 										  U8 media_loop)
 :
-	mMediaSource( NULL ),
+	mMediaSource(nullptr ),
+	mZoomFactor(1.0),
 	mMovieImageHasMips(false),
 	mMediaWidth(media_width),
 	mMediaHeight(media_height),
@@ -1715,10 +1716,9 @@ LLViewerMediaImpl::LLViewerMediaImpl(	  const LLUUID& texture_id,
 	mBackgroundColor(LLColor4::white),
 	mNavigateSuspended(false),
 	mNavigateSuspendedDeferred(false),
-	mIsUpdated(false),
 	mTrustedBrowser(false),
-	mZoomFactor(1.0),
-    mCleanBrowser(false),
+	mCleanBrowser(false),
+    mIsUpdated(false),
     mMimeProbe(),
     mCanceling(false)
 {
@@ -1788,7 +1788,7 @@ bool LLViewerMediaImpl::initializeMedia(const std::string& mime_type)
 		mMimeType = mime_type;
 	}
 
-	return (mMediaSource != NULL);
+	return (mMediaSource != nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -1832,7 +1832,7 @@ void LLViewerMediaImpl::destroyMediaSource()
 	{
 		mMediaSource->setDeleteOK(true) ;
 		delete mMediaSource;
-		mMediaSource = NULL;
+		mMediaSource = nullptr;
 	}
 }
 
@@ -1847,7 +1847,7 @@ void LLViewerMediaImpl::setMediaType(const std::string& media_type)
 LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_type, LLPluginClassMediaOwner *owner /* may be NULL */, S32 default_width, S32 default_height, F64 zoom_factor, const std::string target, bool clean_browser)
 {
 	std::string plugin_basename = LLMIMETypes::implType(media_type);
-	LLPluginClassMedia* media_source = NULL;
+	LLPluginClassMedia* media_source = nullptr;
 
 	// HACK: we always try to keep a spare running webkit plugin around to improve launch times.
 	// If a spare was already created before PluginAttachDebuggerToPlugins was set, don't use it.
@@ -1962,7 +1962,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 	        sMimeTypesFailed.push_back(media_type);
 	    }
 	}
-	return NULL;
+	return nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -2135,7 +2135,7 @@ void LLViewerMediaImpl::hideNotification()
 void LLViewerMediaImpl::play()
 {
 	// If the media source isn't there, try to initialize it and load an URL.
-	if(mMediaSource == NULL)
+	if(mMediaSource == nullptr)
 	{
 	 	if(!initializeMedia(mMimeType))
 		{
@@ -2948,7 +2948,7 @@ static LLTrace::BlockTimerStatHandle FTM_MEDIA_SET_SUBIMAGE("Set Subimage");
 void LLViewerMediaImpl::update()
 {
 	LL_RECORD_BLOCK_TIME(FTM_MEDIA_DO_UPDATE);
-	if(mMediaSource == NULL)
+	if(mMediaSource == nullptr)
 	{
 		if(mPriority == LLPluginClassMedia::PRIORITY_UNLOADED)
 		{
@@ -2993,7 +2993,7 @@ void LLViewerMediaImpl::update()
 	}
 
 
-	if(mMediaSource == NULL)
+	if(mMediaSource == nullptr)
 	{
 		return;
 	}
@@ -3005,7 +3005,7 @@ void LLViewerMediaImpl::update()
 
 	setNavigateSuspended(false);
 
-	if(mMediaSource == NULL)
+	if(mMediaSource == nullptr)
 	{
 		return;
 	}
@@ -3047,7 +3047,7 @@ void LLViewerMediaImpl::update()
 			if(width > 0 && height > 0)
 			{
 
-				U8* data = NULL;
+				U8* data = nullptr;
 				{
 					LL_RECORD_BLOCK_TIME(FTM_MEDIA_GET_DATA);
 					data = mMediaSource->getBitsData();
@@ -3090,7 +3090,7 @@ LLViewerMediaTexture* LLViewerMediaImpl::updatePlaceholderImage()
 	if(mTextureId.isNull())
 	{
 		// The code that created this instance will read from the plugin's bits.
-		return NULL;
+		return nullptr;
 	}
 
 	LLViewerMediaTexture* placeholder_image = LLViewerTextureManager::getMediaTexture( mTextureId );
@@ -3238,7 +3238,7 @@ bool LLViewerMediaImpl::isMediaPaused()
 //
 bool LLViewerMediaImpl::hasMedia() const
 {
-	return mMediaSource != NULL;
+	return mMediaSource != nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -3330,7 +3330,7 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 			LL_DEBUGS("Media") << "MEDIA_EVENT_CLICK_LINK_NOFOLLOW, uri is: " << plugin->getClickURL() << LL_ENDL;
 			std::string url = plugin->getClickURL();
 			std::string nav_type = plugin->getClickNavType();
-			LLURLDispatcher::dispatch(url, nav_type, NULL, mTrustedBrowser);
+			LLURLDispatcher::dispatch(url, nav_type, nullptr, mTrustedBrowser);
 		}
 		break;
 		case MEDIA_EVENT_CLICK_LINK_HREF:
@@ -3644,7 +3644,7 @@ void LLViewerMediaImpl::calculateInterest()
 	LL_RECORD_BLOCK_TIME(FTM_MEDIA_CALCULATE_INTEREST);
 	LLViewerMediaTexture* texture = LLViewerTextureManager::findMediaTexture( mTextureId );
 
-	if(texture != NULL)
+	if(texture != nullptr)
 	{
 		mInterest = texture->getMaxVirtualSize();
 	}
@@ -3891,7 +3891,7 @@ const std::list< LLVOVolume* >* LLViewerMediaImpl::getObjectList() const
 
 LLVOVolume *LLViewerMediaImpl::getSomeObject()
 {
-	LLVOVolume *result = NULL;
+	LLVOVolume *result = nullptr;
 
 	std::list< LLVOVolume* >::iterator iter = mObjectList.begin() ;
 	if(iter != mObjectList.end())
@@ -3997,13 +3997,13 @@ bool LLViewerMediaImpl::isObjectAttachedToAnotherAvatar(LLVOVolume *obj)
 	bool result = false;
 	LLXform *xform = obj;
 	// Walk up parent chain
-	while (NULL != xform)
+	while (nullptr != xform)
 	{
 		LLViewerObject *object = dynamic_cast<LLViewerObject*> (xform);
-		if (NULL != object)
+		if (nullptr != object)
 		{
 			LLVOAvatar *avatar = object->asAvatar();
-			if ((NULL != avatar) && (avatar != gAgentAvatarp))
+			if ((nullptr != avatar) && (avatar != gAgentAvatarp))
 			{
 				result = true;
 				break;

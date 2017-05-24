@@ -53,16 +53,16 @@ public:
 	
 	LLManipRotate( LLToolComposite* composite );
 
-	virtual BOOL	handleMouseDown( S32 x, S32 y, MASK mask );
-	virtual BOOL	handleMouseUp( S32 x, S32 y, MASK mask );
-	virtual BOOL	handleHover( S32 x, S32 y, MASK mask );
-	virtual void	render();
+	BOOL	handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	BOOL	handleMouseUp( S32 x, S32 y, MASK mask ) override;
+	BOOL	handleHover( S32 x, S32 y, MASK mask ) override;
+	void	render() override;
 
-	virtual void	handleSelect();
+	void	handleSelect() override;
 
-	virtual BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask);
-	virtual void	highlightManipulators(S32 x, S32 y);
-	virtual BOOL	canAffectSelection();
+	BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask) override;
+	void	highlightManipulators(S32 x, S32 y) override;
+	BOOL	canAffectSelection() override;
 	
 private:
 	void			updateHoverView();

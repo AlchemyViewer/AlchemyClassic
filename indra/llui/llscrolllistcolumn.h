@@ -49,11 +49,11 @@ public:
 	LLScrollColumnHeader(const Params&);
 	~LLScrollColumnHeader();
 
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
 
-	/*virtual*/ LLView*	findSnapEdge(S32& new_edge_val, const LLCoordGL& mouse_dir, ESnapEdge snap_edge, ESnapType snap_type, S32 threshold, S32 padding);
-	/*virtual*/ void handleReshape(const LLRect& new_rect, bool by_user = false);
+	/*virtual*/ LLView*	findSnapEdge(S32& new_edge_val, const LLCoordGL& mouse_dir, ESnapEdge snap_edge, ESnapType snap_type, S32 threshold, S32 padding) override;
+	/*virtual*/ void handleReshape(const LLRect& new_rect, bool by_user = false) override;
 	
 	LLScrollListColumn* getColumn() { return mColumn; }
 	void setHasResizableElement(BOOL resizable);
@@ -144,7 +144,7 @@ public:
 	static const Params& getDefaultParams();
 
 	//NOTE: this is default constructible so we can store it in a map.
-	LLScrollListColumn(const Params& p = getDefaultParams(), LLScrollListCtrl* = NULL);
+	LLScrollListColumn(const Params& p = getDefaultParams(), LLScrollListCtrl* = nullptr);
 
 	void setWidth(S32 width);
 	S32 getWidth() const { return mWidth; }

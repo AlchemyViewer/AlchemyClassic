@@ -166,10 +166,10 @@ public:
 	LLTeleportRequestViaLandmark(const LLUUID &pLandmarkId);
 	virtual ~LLTeleportRequestViaLandmark();
 
-	virtual bool canRestartTeleport();
+	bool canRestartTeleport() override;
 
-	virtual void startTeleport();
-	virtual void restartTeleport();
+	void startTeleport() override;
+	void restartTeleport() override;
 
 protected:
 	inline const LLUUID &getLandmarkId() const {return mLandmarkId;};
@@ -184,9 +184,9 @@ public:
 	LLTeleportRequestViaLure(const LLUUID &pLureId, BOOL pIsLureGodLike);
 	virtual ~LLTeleportRequestViaLure();
 
-	virtual bool canRestartTeleport();
+	bool canRestartTeleport() override;
 
-	virtual void startTeleport();
+	void startTeleport() override;
 
 protected:
 	inline BOOL isLureGodLike() const {return mIsLureGodLike;};
@@ -201,10 +201,10 @@ public:
 	LLTeleportRequestViaLocation(const LLVector3d &pPosGlobal);
 	virtual ~LLTeleportRequestViaLocation();
 
-	virtual bool canRestartTeleport();
+	bool canRestartTeleport() override;
 
-	virtual void startTeleport();
-	virtual void restartTeleport();
+	void startTeleport() override;
+	void restartTeleport() override;
 
 protected:
 	inline const LLVector3d &getPosGlobal() const {return mPosGlobal;};
@@ -220,10 +220,10 @@ public:
 	LLTeleportRequestViaLocationLookAt(const LLVector3d &pPosGlobal);
 	virtual ~LLTeleportRequestViaLocationLookAt();
 
-	virtual bool canRestartTeleport();
+	bool canRestartTeleport() override;
 
-	virtual void startTeleport();
-	virtual void restartTeleport();
+	void startTeleport() override;
+	void restartTeleport() override;
 
 protected:
 
@@ -248,7 +248,7 @@ class LLAgentFriendObserver : public LLFriendObserver
 public:
 	LLAgentFriendObserver() {}
 	virtual ~LLAgentFriendObserver() {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 };
 
 void LLAgentFriendObserver::changed(U32 mask)
@@ -290,7 +290,7 @@ bool LLAgent::isActionAllowed(const LLSD& sdname)
 	{
         bool allow_agent_voice = false;
         LLVoiceChannel* channel = LLVoiceChannel::getCurrentVoiceChannel();
-        if (channel != NULL)
+        if (channel != nullptr)
         {
             if (channel->getSessionName().empty() && channel->getSessionID().isNull())
             {
@@ -360,93 +360,93 @@ bool LLAgent::isMicrophoneOn(const LLSD& sdname)
 // LLAgent()
 //-----------------------------------------------------------------------------
 LLAgent::LLAgent() :
-	mGroupPowers(0),
-	mHideGroupTitle(FALSE),
-	mGroupID(),
-
 	mInitialized(FALSE),
+	mFirstLogin(FALSE),
 	mListener(),
 
+	mOutfitChosen(FALSE),
+	mPositionGlobal(),
+
+	mAgentOriginGlobal(),
+	mFrameAgent(),
+
+	mHaveHomePosition(FALSE),
+	mHomeRegionHandle( 0 ),
+	mRegionp(nullptr),
+
+	mDistanceTraveled(0.F),
+	mLastPositionGlobal(LLVector3d::zero),
+	mNextFidgetTime(0.f),
+	mCurrentFidget(0),
+	mCrouch(false),
+	mVoiceConnected(false),
+	mNearChatRadius(CHAT_NORMAL_RADIUS / 2.f),
+	mTypingTimer(),
 	mDoubleTapRunTimer(),
 	mDoubleTapRunMode(DOUBLETAP_NONE),
-
 	mbAlwaysRun(false),
 	mbRunning(false),
 	mbTeleportKeepsLookAt(false),
+	mIsAwaySitting(false),
+	mIsDoNotDisturb(false),
+	mControlFlags(0x00000000),
+	mbFlagsDirty(FALSE),
+	mbFlagsNeedReset(FALSE),
 
-	mAgentAccess(new LLAgentAccess(gSavedSettings)),
-	mGodLevelChangeSignal(),
-	mCanEditParcel(false),
+	mMouselookModeInSignal(nullptr),
+	mMouselookModeOutSignal(nullptr),
+
+	mCustomAnim(FALSE),
+	mViewsPushed(FALSE),
+
+	mAutoPilot(FALSE),
+	mAutoPilotFlyOnStop(FALSE),
+
+	mAutoPilotAllowFlying(TRUE),
+
+	mAutoPilotTargetGlobal(),
+	mAutoPilotStopDistance(1.f),
+	mAutoPilotUseRotation(FALSE),
+
+	mAutoPilotTargetFacing(LLVector3::zero),
+	mAutoPilotTargetDist(0.f),
+
+	mAutoPilotNoProgressFrameCount(0),
+	mAutoPilotRotationThreshold(0.f),
+	mAutoPilotFinishedCallback(nullptr),
+
+	mAutoPilotCallbackData(nullptr),
+	mMovementKeysLocked(FALSE),
 	mTeleportSourceSLURL(new LLSLURL),
 	mTeleportRequest(),
 	mTeleportFinishedSlot(),
 	mTeleportFailedSlot(),
 	mIsMaturityRatingChangingDuringTeleport(false),
 	mMaturityRatingChange(0U),
+	mTeleportState(TELEPORT_NONE),
+	mCanEditParcel(false),
+	mAgentAccess(new LLAgentAccess(gSavedSettings)),
+	mGodLevelChangeSignal(),
+	
 	mIsDoSendMaturityPreferenceToServer(false),
+
 	mMaturityPreferenceRequestId(0U),
+
 	mMaturityPreferenceResponseId(0U),
 	mMaturityPreferenceNumRetries(0U),
 	mLastKnownRequestMaturity(SIM_ACCESS_MIN),
+
 	mLastKnownResponseMaturity(SIM_ACCESS_MIN),
 	mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
-	mTeleportState(TELEPORT_NONE),
-	mRegionp(NULL),
-
-	mAgentOriginGlobal(),
-	mPositionGlobal(),
-
-	mDistanceTraveled(0.F),
-	mLastPositionGlobal(LLVector3d::zero),
-
-	mRenderState(0),
-	mTypingTimer(),
-
-	mViewsPushed(FALSE),
-
-	mCustomAnim(FALSE),
 	mShowAvatar(TRUE),
-	mFrameAgent(),
-
-	mIsAwaySitting(false),
-	mIsDoNotDisturb(false),
-
-	mControlFlags(0x00000000),
-	mbFlagsDirty(FALSE),
-	mbFlagsNeedReset(FALSE),
-
-	mAutoPilot(FALSE),
-	mAutoPilotFlyOnStop(FALSE),
-	mAutoPilotAllowFlying(TRUE),
-	mAutoPilotTargetGlobal(),
-	mAutoPilotStopDistance(1.f),
-	mAutoPilotUseRotation(FALSE),
-	mAutoPilotTargetFacing(LLVector3::zero),
-	mAutoPilotTargetDist(0.f),
-	mAutoPilotNoProgressFrameCount(0),
-	mAutoPilotRotationThreshold(0.f),
-	mAutoPilotFinishedCallback(NULL),
-	mAutoPilotCallbackData(NULL),
-	
-	mMovementKeysLocked(FALSE),
+	mAppearanceSerialNum(0),
+	mRenderState(0),
 
 	mEffectColor(new LLUIColor(LLColor4(0.f, 1.f, 1.f, 1.f))),
 
-	mHaveHomePosition(FALSE),
-	mHomeRegionHandle( 0 ),
-	mNearChatRadius(CHAT_NORMAL_RADIUS / 2.f),
-
-	mNextFidgetTime(0.f),
-	mCurrentFidget(0),
-	mCrouch(false),
-	mFirstLogin(FALSE),
-	mOutfitChosen(FALSE),
-
-	mVoiceConnected(false),
-
-	mAppearanceSerialNum(0),
-	mMouselookModeInSignal(NULL),
-	mMouselookModeOutSignal(NULL),
+	mGroupID(),
+	mHideGroupTitle(FALSE),
+	mGroupPowers(0),
 
 	mFriendObserver(nullptr)
 {
@@ -507,7 +507,7 @@ void LLAgent::init()
 //-----------------------------------------------------------------------------
 void LLAgent::cleanup()
 {
-	mRegionp = NULL;
+	mRegionp = nullptr;
 	if (mTeleportFinishedSlot.connected())
 	{
 		mTeleportFinishedSlot.disconnect();
@@ -526,16 +526,16 @@ LLAgent::~LLAgent()
 	cleanup();
 
 	delete mMouselookModeInSignal;
-	mMouselookModeInSignal = NULL;
+	mMouselookModeInSignal = nullptr;
 	delete mMouselookModeOutSignal;
-	mMouselookModeOutSignal = NULL;
+	mMouselookModeOutSignal = nullptr;
 
 	delete mAgentAccess;
-	mAgentAccess = NULL;
+	mAgentAccess = nullptr;
 	delete mEffectColor;
-	mEffectColor = NULL;
+	mEffectColor = nullptr;
 	delete mTeleportSourceSLURL;
-	mTeleportSourceSLURL = NULL;
+	mTeleportSourceSLURL = nullptr;
 }
 
 // Handle any actions that need to be performed when the main app gains focus
@@ -1584,7 +1584,7 @@ void LLAgent::startAutoPilotGlobal(
 	LLVector3d intersection;
 	LLVector3 normal;
 	LLViewerObject *hit_obj;
-	F32 heightDelta = LLWorld::getInstance()->resolveStepHeightGlobal(NULL, target_global, trace_target, intersection, normal, &hit_obj);
+	F32 heightDelta = LLWorld::getInstance()->resolveStepHeightGlobal(nullptr, target_global, trace_target, intersection, normal, &hit_obj);
 
 	if (stop_distance > 0.f)
 	{
@@ -1661,7 +1661,7 @@ void LLAgent::setAutoPilotTargetGlobal(const LLVector3d &target_global)
 		LLVector3 groundNorm;
 		LLViewerObject *obj;
 
-		LLWorld::getInstance()->resolveStepHeightGlobal(NULL, target_global, traceEndPt, targetOnGround, groundNorm, &obj);
+		LLWorld::getInstance()->resolveStepHeightGlobal(nullptr, target_global, traceEndPt, targetOnGround, groundNorm, &obj);
 		F64 target_height = llmax((F64)gAgentAvatarp->getPelvisToFoot(), target_global.mdV[VZ] - targetOnGround.mdV[VZ]);
 
 		// clamp z value of target to minimum height above ground
@@ -1687,9 +1687,9 @@ void LLAgent::startFollowPilot(const LLUUID &leader_id, BOOL allow_flying, F32 s
 
 	startAutoPilotGlobal(object->getPositionGlobal(), 
 						 std::string(),	// behavior_name
-						 NULL,			// target_rotation
-						 NULL,			// finish_callback
-						 NULL,			// callback_data
+						 nullptr,			// target_rotation
+						 nullptr,			// finish_callback
+						 nullptr,			// callback_data
 						 stop_distance,
 						 0.03f,			// rotation_threshold
 						 allow_flying);
@@ -1719,7 +1719,7 @@ void LLAgent::stopAutoPilot(BOOL user_cancel)
 		if (mAutoPilotFinishedCallback)
 		{
 			mAutoPilotFinishedCallback(!user_cancel && dist_vec(gAgent.getPositionGlobal(), mAutoPilotTargetGlobal) < mAutoPilotStopDistance, mAutoPilotCallbackData);
-			mAutoPilotFinishedCallback = NULL;
+			mAutoPilotFinishedCallback = nullptr;
 		}
 		mLeaderID = LLUUID::null;
 
@@ -2241,7 +2241,7 @@ void LLAgent::endAnimationUpdateUI()
 		gAgentCamera.clearCameraLag();
 
 		// JC - Added for always chat in third person option
-		gFocusMgr.setKeyboardFocus(NULL);
+		gFocusMgr.setKeyboardFocus(nullptr);
 
 		LLToolMgr::getInstance()->setCurrentToolset(gMouselookToolset);
 
@@ -2769,7 +2769,7 @@ void LLAgent::sendMaturityPreferenceToServer(U8 pPreferredMaturity)
 		mLastKnownRequestMaturity = pPreferredMaturity;
 
 		// If we don't have a region, report it as an error
-		if (getRegion() == NULL)
+		if (getRegion() == nullptr)
 		{
 			LL_WARNS("Agent") << "Region is not defined, can not change Maturity setting." << LL_ENDL;
 			return;
@@ -3121,7 +3121,7 @@ void LLAgent::sendAnimationRequests(const std::vector<LLUUID> &anim_ids, EAnimRe
 	}
 	
 	msg->nextBlockFast(_PREHASH_PhysicalAvatarEventList);
-	msg->addBinaryDataFast(_PREHASH_TypeData, NULL, 0);
+	msg->addBinaryDataFast(_PREHASH_TypeData, nullptr, 0);
 
 	sendReliableMessage();
 }
@@ -3144,7 +3144,7 @@ void LLAgent::sendAnimationRequest(const LLUUID &anim_id, EAnimRequest request)
 	msg->addBOOLFast(_PREHASH_StartAnim, (request == ANIM_REQUEST_START) ? TRUE : FALSE);
 
 	msg->nextBlockFast(_PREHASH_PhysicalAvatarEventList);
-	msg->addBinaryDataFast(_PREHASH_TypeData, NULL, 0);
+	msg->addBinaryDataFast(_PREHASH_TypeData, nullptr, 0);
 	sendReliableMessage();
 }
 
@@ -3168,7 +3168,7 @@ void LLAgent::sendAnimationStateReset()
 	msg->addBOOLFast(_PREHASH_StartAnim, FALSE);
 
 	msg->nextBlockFast(_PREHASH_PhysicalAvatarEventList);
-	msg->addBinaryDataFast(_PREHASH_TypeData, NULL, 0);
+	msg->addBinaryDataFast(_PREHASH_TypeData, nullptr, 0);
 	sendReliableMessage();
 }
 
@@ -3390,10 +3390,10 @@ void LLAgent::processAgentDropGroup(LLMessageSystem *msg, void **)
 
 class LLAgentDropGroupViewerNode : public LLHTTPNode
 {
-	virtual void post(
+	void post(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 
 		if (
@@ -3525,10 +3525,10 @@ void LLAgent::processAgentGroupDataUpdate(LLMessageSystem *msg, void **)
 
 class LLAgentGroupDataUpdateViewerNode : public LLHTTPNode
 {
-	virtual void post(
+	void post(
 		LLHTTPNode::ResponsePtr response,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLSD body = input["body"];
 		if(body.has("body"))
@@ -3980,7 +3980,7 @@ bool LLAgent::teleportCore(bool is_local)
 
 bool LLAgent::hasRestartableFailedTeleportRequest()
 {
-	return ((mTeleportRequest != NULL) && (mTeleportRequest->getStatus() == LLTeleportRequest::kFailed) &&
+	return ((mTeleportRequest != nullptr) && (mTeleportRequest->getStatus() == LLTeleportRequest::kFailed) &&
 		mTeleportRequest->canRestartTeleport());
 }
 
@@ -4007,7 +4007,7 @@ void LLAgent::setMaturityRatingChangeDuringTeleport(U8 pMaturityRatingChange)
 
 bool LLAgent::hasPendingTeleportRequest()
 {
-	return ((mTeleportRequest != NULL) &&
+	return ((mTeleportRequest != nullptr) &&
 		((mTeleportRequest->getStatus() == LLTeleportRequest::kPending) ||
 		(mTeleportRequest->getStatus() == LLTeleportRequest::kRestartPending)));
 }
@@ -4144,7 +4144,7 @@ void LLAgent::teleportRequest(
 // Landmark ID = LLUUID::null means teleport home
 void LLAgent::teleportViaLandmark(const LLUUID& landmark_asset_id)
 {
-	mTeleportRequest = LLTeleportRequestPtr(new LLTeleportRequestViaLandmark(landmark_asset_id));
+	mTeleportRequest = std::static_pointer_cast<LLTeleportRequest>(std::make_shared<LLTeleportRequestViaLandmark>(landmark_asset_id));
 	startTeleportRequest();
 }
 
@@ -4168,7 +4168,7 @@ void LLAgent::doTeleportViaLandmark(const LLUUID& landmark_asset_id)
 
 void LLAgent::teleportViaLure(const LLUUID& lure_id, BOOL godlike)
 {
-	mTeleportRequest = LLTeleportRequestPtr(new LLTeleportRequestViaLure(lure_id, godlike));
+	mTeleportRequest = std::static_pointer_cast<LLTeleportRequest>(std::make_shared<LLTeleportRequestViaLure>(lure_id, godlike));
 	startTeleportRequest();
 }
 
@@ -4230,7 +4230,7 @@ void LLAgent::teleportCancel()
 
 void LLAgent::restoreCanceledTeleportRequest()
 {
-    if (mTeleportCanceled != NULL)
+    if (mTeleportCanceled != nullptr)
     {
         gAgent.setTeleportState( LLAgent::TELEPORT_REQUESTED );
         mTeleportRequest = mTeleportCanceled;
@@ -4242,7 +4242,7 @@ void LLAgent::restoreCanceledTeleportRequest()
 
 void LLAgent::teleportViaLocation(const LLVector3d& pos_global)
 {
-	mTeleportRequest = LLTeleportRequestPtr(new LLTeleportRequestViaLocation(pos_global));
+	mTeleportRequest = std::static_pointer_cast<LLTeleportRequest>(std::make_shared<LLTeleportRequestViaLocation>(pos_global));
 	startTeleportRequest();
 }
 
@@ -4299,7 +4299,7 @@ void LLAgent::doTeleportViaLocation(const LLVector3d& pos_global)
 // Teleport to global position, but keep facing in the same direction 
 void LLAgent::teleportViaLocationLookAt(const LLVector3d& pos_global)
 {
-	mTeleportRequest = LLTeleportRequestPtr(new LLTeleportRequestViaLocationLookAt(pos_global));
+	mTeleportRequest = std::static_pointer_cast<LLTeleportRequest>(std::make_shared<LLTeleportRequestViaLocationLookAt>(pos_global));
 	startTeleportRequest();
 }
 
@@ -4675,7 +4675,7 @@ void LLAgent::sendAgentSetAppearance()
 		// This means the baked texture IDs on the server will be untouched.
 		// Once all textures are baked, another AvatarAppearance message will be sent to update the TEs
 		msg->nextBlockFast(_PREHASH_ObjectData);
-		gMessageSystem->addBinaryDataFast(_PREHASH_TextureEntry, NULL, 0);
+		gMessageSystem->addBinaryDataFast(_PREHASH_TextureEntry, nullptr, 0);
 	}
 
 
@@ -4744,12 +4744,12 @@ void LLAgent::parseTeleportMessages(const std::string& xml_filename)
 	}
 
 	for (LLXMLNode* message_set = root->getFirstChild();
-		 message_set != NULL;
+		 message_set != nullptr;
 		 message_set = message_set->getNextSibling())
 	{
 		if ( !message_set->hasName("message_set") ) continue;
 
-		std::map<std::string, std::string> *teleport_msg_map = NULL;
+		std::map<std::string, std::string> *teleport_msg_map = nullptr;
 		std::string message_set_name;
 
 		if ( message_set->getAttributeString("name", message_set_name) )
@@ -4770,7 +4770,7 @@ void LLAgent::parseTeleportMessages(const std::string& xml_filename)
 
 		std::string message_name;
 		for (LLXMLNode* message_node = message_set->getFirstChild();
-			 message_node != NULL;
+			 message_node != nullptr;
 			 message_node = message_node->getNextSibling())
 		{
 			if ( message_node->hasName("message") && 
@@ -4846,8 +4846,8 @@ void LLAgent::renderAutoPilotTarget()
 LLAgentQueryManager gAgentQueryManager;
 
 LLAgentQueryManager::LLAgentQueryManager() :
-	mWearablesCacheQueryID(0),
 	mNumPendingQueries(0),
+	mWearablesCacheQueryID(0),
 	mUpdateSerialNum(0)
 {
 	for (U32 i = 0; i < BAKED_NUM_INDICES; i++)

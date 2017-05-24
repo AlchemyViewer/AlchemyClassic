@@ -39,17 +39,17 @@ public:
 
 	virtual ~LLFloaterModelUploadBase(){};
 
-	virtual void setPermissonsErrorStatus(S32 status, const std::string& reason) = 0;
+	void setPermissonsErrorStatus(S32 status, const std::string& reason) override = 0;
 
-	virtual void onPermissionsReceived(const LLSD& result) = 0;
+	void onPermissionsReceived(const LLSD& result) override = 0;
 
-	virtual void onModelPhysicsFeeReceived(const LLSD& result, std::string upload_url) = 0;
+	void onModelPhysicsFeeReceived(const LLSD& result, std::string upload_url) override = 0;
 
-	virtual void setModelPhysicsFeeErrorStatus(S32 status, const std::string& reason) = 0;
+	void setModelPhysicsFeeErrorStatus(S32 status, const std::string& reason) override = 0;
 
-	virtual void onModelUploadSuccess() {};
+	void onModelUploadSuccess() override {};
 
-	virtual void onModelUploadFailure() {};
+	void onModelUploadFailure() override {};
 
 protected:
 

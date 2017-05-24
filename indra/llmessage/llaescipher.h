@@ -39,9 +39,9 @@ public:
 	LLAESCipher(const U8* secret, size_t secret_size, const U8* iv, size_t iv_size);
 	virtual ~LLAESCipher();
 	
-	/*virtual*/ U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	/*virtual*/ U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len);
-	/*virtual*/ U32 requiredEncryptionSpace(U32 src_len) const;
+	/*virtual*/ U32 encrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	/*virtual*/ U32 decrypt(const U8* src, U32 src_len, U8* dst, U32 dst_len) override;
+	/*virtual*/ U32 requiredEncryptionSpace(U32 src_len) const override;
 	
 private:
 	U8* mSecret;

@@ -57,7 +57,7 @@ protected:
 	LLHUDEffect(const U8 type);
 	~LLHUDEffect();
 
-	/*virtual*/ void render();
+	/*virtual*/ void render() override;
 
 	virtual void packData(LLMessageSystem *mesgsys);
 	virtual void unpackData(LLMessageSystem *mesgsys, S32 blocknum);

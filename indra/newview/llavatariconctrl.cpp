@@ -135,9 +135,9 @@ LLUUID*	LLAvatarIconIDCache::get		(const LLUUID& avatar_id)
 {
 	std::map<LLUUID,LLAvatarIconIDCacheItem>::iterator it = mCache.find(avatar_id);
 	if(it==mCache.end())
-		return 0;
+		return nullptr;
 	if(it->second.expired())
-		return 0;
+		return nullptr;
 	return &it->second.icon_id;
 }
 
@@ -174,11 +174,11 @@ LLAvatarIconCtrl::LLAvatarIconCtrl(const LLAvatarIconCtrl::Params& p)
 	mFullName(),
 	mDrawTooltip(p.draw_tooltip),
 	mDefaultIconName(p.default_icon_name),
-	mAvatarNameCacheConnection(),
 	mSymbolHpad(p.symbol_hpad),
 	mSymbolVpad(p.symbol_vpad),
 	mSymbolSize(p.symbol_size),
 	mSymbolPos(p.symbol_pos),
+	mAvatarNameCacheConnection(),
 	mUseDefaultImage(gSavedSettings, "AlchemyUseDefaultAvatarIcon", false)
 {
 	mPriority = LLViewerFetchedTexture::BOOST_ICON;

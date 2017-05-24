@@ -55,7 +55,7 @@ LLSD LLSpellChecker::sDictMap;
 LLSpellChecker::settings_change_signal_t LLSpellChecker::sSettingsChangeSignal;
 
 LLSpellChecker::LLSpellChecker()
-	: mHunspell(NULL)
+	: mHunspell(nullptr)
 {
 	// Load initial dictionary information
 	refreshDictionaryMap();
@@ -312,7 +312,7 @@ void LLSpellChecker::initHunspell(const std::string& dict_language)
 	if (mHunspell)
 	{
 		delete mHunspell;
-		mHunspell = NULL;
+		mHunspell = nullptr;
 		mDictLanguage.clear();
 		mDictFile.clear();
 		mIgnoreList.clear();

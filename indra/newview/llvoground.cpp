@@ -69,7 +69,7 @@ LLDrawable *LLVOGround::createDrawable(LLPipeline *pipeline)
 	mDrawable->setRenderType(LLPipeline::RENDER_TYPE_GROUND);
 	LLDrawPoolGround *poolp = (LLDrawPoolGround*) gPipeline.getPool(LLDrawPool::POOL_GROUND);
 
-	mDrawable->addFace(poolp, NULL);
+	mDrawable->addFace(poolp, nullptr);
 
 	return mDrawable;
 }
@@ -87,7 +87,7 @@ BOOL LLVOGround::updateGeometry(LLDrawable *drawable)
 	LLDrawPoolGround *poolp = (LLDrawPoolGround*) gPipeline.getPool(LLDrawPool::POOL_GROUND);
 
 	if (drawable->getNumFaces() < 1)
-		drawable->addFace(poolp, NULL);
+		drawable->addFace(poolp, nullptr);
 	face = drawable->getFace(0); 
 	if (!face)
 		return TRUE;

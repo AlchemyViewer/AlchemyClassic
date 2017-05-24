@@ -77,17 +77,17 @@ public:
 	LLAvatarListItem(bool not_from_ui_factory = true);
 	virtual ~LLAvatarListItem();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 	/**
 	 * Processes notification from speaker indicator to update children when indicator's visibility is changed.
 	 */
-    virtual void onVisibilityChange ( BOOL new_visibility ); // <alchemy/>
-	virtual S32	notifyParent(const LLSD& info);
-	virtual void onMouseLeave(S32 x, S32 y, MASK mask);
-	virtual void onMouseEnter(S32 x, S32 y, MASK mask);
-	virtual void setValue(const LLSD& value);
-	virtual void changed(U32 mask); // from LLFriendObserver
+	void onVisibilityChange ( BOOL new_visibility ) override; // <alchemy/>
+	S32	notifyParent(const LLSD& info) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void setValue(const LLSD& value) override;
+	void changed(U32 mask) override; // from LLFriendObserver
 
 	void setOnline(bool online);
 	void updateAvatarName(); // re-query the name cache
@@ -116,7 +116,7 @@ public:
 	void onInfoBtnClick();
 	void onProfileBtnClick();
 
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
 
 protected:
 	/**

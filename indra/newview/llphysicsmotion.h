@@ -66,42 +66,42 @@ public:
 	//-------------------------------------------------------------------------
 
 	// motions must specify whether or not they loop
-	virtual BOOL getLoop() { return TRUE; }
+	BOOL getLoop() override { return TRUE; }
 
 	// motions must report their total duration
-	virtual F32 getDuration() { return 0.0; }
+	F32 getDuration() override { return 0.0; }
 
 	// motions must report their "ease in" duration
-	virtual F32 getEaseInDuration() { return PHYSICS_MOTION_FADEIN_TIME; }
+	F32 getEaseInDuration() override { return PHYSICS_MOTION_FADEIN_TIME; }
 
 	// motions must report their "ease out" duration.
-	virtual F32 getEaseOutDuration() { return PHYSICS_MOTION_FADEOUT_TIME; }
+	F32 getEaseOutDuration() override { return PHYSICS_MOTION_FADEOUT_TIME; }
 
 	// called to determine when a motion should be activated/deactivated based on avatar pixel coverage
-	virtual F32 getMinPixelArea();
+	F32 getMinPixelArea() override;
 
 	// motions must report their priority
-	virtual LLJoint::JointPriority getPriority() { return LLJoint::MEDIUM_PRIORITY; }
+	LLJoint::JointPriority getPriority() override { return LLJoint::MEDIUM_PRIORITY; }
 
-	virtual LLMotionBlendType getBlendType() { return ADDITIVE_BLEND; }
+	LLMotionBlendType getBlendType() override { return ADDITIVE_BLEND; }
 
 	// run-time (post constructor) initialization,
 	// called after parameters have been set
 	// must return true to indicate success and be available for activation
-	virtual LLMotionInitStatus onInitialize(LLCharacter *character);
+	LLMotionInitStatus onInitialize(LLCharacter *character) override;
 
 	// called when a motion is activated
 	// must return TRUE to indicate success, or else
 	// it will be deactivated
-	virtual BOOL onActivate();
+	BOOL onActivate() override;
 
 	// called per time step
 	// must return TRUE while it is active, and
 	// must return FALSE when the motion is completed.
-	virtual BOOL onUpdate(F32 time, U8* joint_mask);
+	BOOL onUpdate(F32 time, U8* joint_mask) override;
 
 	// called when a motion is deactivated
-	virtual void onDeactivate();
+	void onDeactivate() override;
 
 	LLCharacter* getCharacter() { return mCharacter; }
 

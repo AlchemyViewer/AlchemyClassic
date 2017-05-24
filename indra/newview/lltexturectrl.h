@@ -111,26 +111,26 @@ public:
 
 	// LLView interface
 
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask,
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask,
 						BOOL drop, EDragAndDropType cargo_type, void *cargo_data,
 						EAcceptance *accept,
-						std::string& tooltip_msg);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleUnicodeCharHere(llwchar uni_char);
+						std::string& tooltip_msg) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL	handleUnicodeCharHere(llwchar uni_char) override;
 
-	virtual void	draw();
-	virtual void	setVisible( BOOL visible );
-	virtual void	setEnabled( BOOL enabled );
+	void	draw() override;
+	void	setVisible( BOOL visible ) override;
+	void	setEnabled( BOOL enabled ) override;
 
 	void			setValid(BOOL valid);
 
 	// LLUICtrl interface
-	virtual void	clear();
+	void	clear() override;
 
 	// Takes a UUID, wraps get/setImageAssetID
-	virtual void	setValue(const LLSD& value);
-	virtual LLSD	getValue() const;
+	void	setValue(const LLSD& value) override;
+	LLSD	getValue() const override;
 
 	// LLTextureCtrl interface
 	void			showPicker(BOOL take_focus);
@@ -274,13 +274,13 @@ public:
 	/*virtual*/ BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask,
 		BOOL drop, EDragAndDropType cargo_type, void *cargo_data,
 		EAcceptance *accept,
-		std::string& tooltip_msg);
-	/*virtual*/ void	draw();
-	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask);
+		std::string& tooltip_msg) override;
+	/*virtual*/ void	draw() override;
+	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask) override;
 
 	// LLFloater overrides
-	/*virtual*/ BOOL    postBuild();
-	/*virtual*/ void	onClose(bool app_settings);
+	/*virtual*/ BOOL    postBuild() override;
+	/*virtual*/ void	onClose(bool app_settings) override;
 
 	// New functions
 	void setImageID(const LLUUID& image_asset_id, bool set_selection = true);

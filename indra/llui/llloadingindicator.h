@@ -74,7 +74,7 @@ public:
 	virtual ~LLLoadingIndicator() {}
 
 	// llview overrides
-	virtual void draw();
+	void draw() override;
 
 	/**
 	 * Stop spinning.

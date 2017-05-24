@@ -64,8 +64,8 @@ const std::string BLOCKED_PARAM_NAME = "blocked_to_select";
 LLPanelBlockedList::LLPanelBlockedList()
 :	LLPanel()
 ,	mBlockedList(nullptr)
-,	mUnblockBtn(nullptr)
 ,	mBlockedGearMBtn(nullptr)
+,	mUnblockBtn(nullptr)
 ,	mBlockLimitText(nullptr)
 {
 	mCommitCallbackRegistrar.add("Block.Action",	boost::bind(&LLPanelBlockedList::onCustomAction,  this, _2));

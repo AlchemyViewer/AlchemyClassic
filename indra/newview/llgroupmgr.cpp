@@ -64,7 +64,7 @@ constexpr U32 MAX_CACHED_GROUPS = 20;
 // LLRoleActionSet
 //
 LLRoleActionSet::LLRoleActionSet()
-: mActionSetData(NULL)
+: mActionSetData(nullptr)
 { }
 
 LLRoleActionSet::~LLRoleActionSet()
@@ -238,14 +238,14 @@ LLGroupMgrGroupData::LLGroupMgrGroupData(const LLUUID& id) :
 	mChanged(FALSE),
 	mMemberCount(0),
 	mRoleCount(0),
+	mPendingBanRequest(false),
 	mReceivedRoleMemberPairs(0),
 	mMemberDataComplete(false),
 	mRoleDataComplete(false),
 	mRoleMemberDataComplete(false),
 	mGroupPropertiesDataComplete(false),
 	mPendingRoleMemberRequest(false),
-	mAccessTime(0.0f),
-	mPendingBanRequest(false)
+	mAccessTime(0.0f)
 {
 	mMemberVersion.generate();
 }
@@ -924,7 +924,7 @@ LLGroupMgrGroupData* LLGroupMgr::getGroupData(const LLUUID& id)
 	{
 		return gi->second;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Helper function for LLGroupMgr::processGroupMembersReply
@@ -1242,8 +1242,8 @@ void LLGroupMgr::processGroupRoleMembersReply(LLMessageSystem* msg, void** data)
 	U32 i;
 	LLUUID member_id;
 	LLUUID role_id;
-	LLGroupRoleData* rd = NULL;
-	LLGroupMemberData* md = NULL;
+	LLGroupRoleData* rd = nullptr;
+	LLGroupMemberData* md = nullptr;
 
 	LLGroupMgrGroupData::role_list_t::iterator ri;
 	LLGroupMgrGroupData::member_list_t::iterator mi;
@@ -1258,14 +1258,14 @@ void LLGroupMgr::processGroupRoleMembersReply(LLMessageSystem* msg, void** data)
 
 			if (role_id.notNull() && member_id.notNull() )
 			{
-				rd = NULL;
+				rd = nullptr;
 				ri = group_datap->mRoles.find(role_id);
 				if (ri != group_datap->mRoles.end())
 				{
 					rd = ri->second;
 				}
 
-				md = NULL;
+				md = nullptr;
 				mi = group_datap->mMembers.find(member_id);
 				if (mi != group_datap->mMembers.end())
 				{
@@ -1470,7 +1470,7 @@ void LLGroupMgr::processCreateGroupReply(LLMessageSystem* msg, void ** data)
 
 LLGroupMgrGroupData* LLGroupMgr::createGroupData(const LLUUID& id)
 {
-	LLGroupMgrGroupData* group_datap = NULL;
+	LLGroupMgrGroupData* group_datap = nullptr;
 
 	group_map_t::iterator existing_group = LLGroupMgr::getInstance()->mGroups.find(id);
 	if (existing_group == LLGroupMgr::getInstance()->mGroups.end())
@@ -1915,7 +1915,7 @@ void LLGroupMgr::sendGroupMemberEjects(const LLUUID& group_id,
 			for (LLGroupMemberData::role_list_t::iterator rit = member_data->roleBegin();
 				 rit != member_data->roleEnd(); ++rit)
 			{
-				if ((*rit).first.notNull() && (*rit).second!=0)
+				if ((*rit).first.notNull() && (*rit).second!=nullptr)
 				{
 					(*rit).second->removeMember(ejected_member_id);
 				}
@@ -2110,7 +2110,7 @@ void LLGroupMgr::groupMembersRequestCoro(std::string url, LLUUID groupId)
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("groupMembersRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
 
     mMemberRequestInFlight = true;
 
@@ -2219,7 +2219,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 	BOOL		is_owner;
 
 	// Compute this once, rather than every time.
-	U64	default_powers	= llstrtou64(defaults["default_powers"].asString().c_str(), NULL, 16);
+	U64	default_powers	= llstrtou64(defaults["default_powers"].asString().c_str(), nullptr, 16);
 
 	LLSD::map_const_iterator member_iter_start	= member_list.beginMap();
 	LLSD::map_const_iterator member_iter_end	= member_list.endMap();
@@ -2248,7 +2248,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 			title = titles[member_info["title"].asInteger()].asString();
 
 		if(member_info.has("powers"))
-			member_powers = llstrtou64(member_info["powers"].asString().c_str(), NULL, 16);
+			member_powers = llstrtou64(member_info["powers"].asString().c_str(), nullptr, 16);
 
 		if(member_info.has("donated_square_meters"))
 			contribution = member_info["donated_square_meters"];

@@ -36,10 +36,10 @@ class LLToastScriptQuestion : public LLToastPanel
 
 public:
 	LLToastScriptQuestion(const LLNotificationPtr& notification);
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 	virtual ~LLToastScriptQuestion(){};
 
-	/*virtual*/ void setFocus(BOOL b);
+	/*virtual*/ void setFocus(BOOL b) override;
 
 private:
 	void snapToMessageHeight();

@@ -45,7 +45,7 @@ const S32 LLVFile::APPEND		= 0x00000006;  // 0x00000004 & LLVFile::WRITE
 static LLTrace::BlockTimerStatHandle FTM_VFILE_WAIT("VFile Wait");
 
 //----------------------------------------------------------------------------
-LLVFSThread* LLVFile::sVFSThread = NULL;
+LLVFSThread* LLVFile::sVFSThread = nullptr;
 BOOL LLVFile::sAllocdVFSThread = FALSE;
 //----------------------------------------------------------------------------
 
@@ -135,7 +135,7 @@ U8* LLVFile::readFile(LLVFS *vfs, const LLUUID &uuid, LLAssetType::EType type, S
 	if (file_size == 0)
 	{
 		// File is empty.
-		data = NULL;
+		data = nullptr;
 	}
 	else
 	{		
@@ -145,7 +145,7 @@ U8* LLVFile::readFile(LLVFS *vfs, const LLUUID &uuid, LLAssetType::EType type, S
 		if (file.getLastBytesRead() != (S32)file_size)
 		{
 			ll_aligned_free_16(data);
-			data = NULL;
+			data = nullptr;
 			file_size = 0;
 		}
 	}
@@ -396,7 +396,7 @@ void LLVFile::initClass(LLVFSThread* vfsthread)
 {
 	if (!vfsthread)
 	{
-		if (LLVFSThread::sLocal != NULL)
+		if (LLVFSThread::sLocal != nullptr)
 		{
 			vfsthread = LLVFSThread::sLocal;
 		}
@@ -416,7 +416,7 @@ void LLVFile::cleanupClass()
 	{
 		delete sVFSThread;
 	}
-	sVFSThread = NULL;
+	sVFSThread = nullptr;
 }
 
 bool LLVFile::isLocked(EVFSLock lock)

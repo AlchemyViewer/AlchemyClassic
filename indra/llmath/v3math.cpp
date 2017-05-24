@@ -356,7 +356,7 @@ const LLVector3& operator*=(LLVector3 &a, const LLQuaternion &rot)
 // static 
 BOOL LLVector3::parseVector3(const std::string& buf, LLVector3* value)
 {
-	if( buf.empty() || value == NULL)
+	if( buf.empty() || value == nullptr)
 	{
 		return FALSE;
 	}

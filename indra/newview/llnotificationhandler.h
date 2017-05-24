@@ -94,10 +94,10 @@ public:
 	virtual ~LLNotificationHandler() {};
 
 	// base interface functions
-	virtual void onAdd(LLNotificationPtr p) { processNotification(p); }
-	virtual void onChange(LLNotificationPtr p) { processNotification(p); }
-	virtual void onLoad(LLNotificationPtr p) { processNotification(p); }
-	virtual void onDelete(LLNotificationPtr p) { if (mChannel.get()) mChannel.get()->removeToastByNotificationID(p->getID());}
+	void onAdd(LLNotificationPtr p) override { processNotification(p); }
+	void onChange(LLNotificationPtr p) override { processNotification(p); }
+	void onLoad(LLNotificationPtr p) override { processNotification(p); }
+	void onDelete(LLNotificationPtr p) override { if (mChannel.get()) mChannel.get()->removeToastByNotificationID(p->getID());}
 
 	virtual bool processNotification(const LLNotificationPtr& notify) = 0;
 };
@@ -136,10 +136,10 @@ class LLIMHandler : public LLCommunicationNotificationHandler
 public:
 	LLIMHandler();
 	virtual ~LLIMHandler();
-	bool processNotification(const LLNotificationPtr& p);
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 };
 
 /**
@@ -152,10 +152,10 @@ public:
 	LLTipHandler();
 	virtual ~LLTipHandler();
 
-	virtual bool processNotification(const LLNotificationPtr& p);
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 };
 
 /**
@@ -168,14 +168,14 @@ public:
 	LLScriptHandler();
 	virtual ~LLScriptHandler();
 
-	virtual void onDelete(LLNotificationPtr p);
-	virtual void onChange(LLNotificationPtr p);
-	virtual bool processNotification(const LLNotificationPtr& p);
+	void onDelete(LLNotificationPtr p) override;
+	void onChange(LLNotificationPtr p) override;
+	bool processNotification(const LLNotificationPtr& p) override;
 	virtual void addToastWithNotification(const LLNotificationPtr& p);
 
 protected:
-	virtual void onDeleteToast(LLToast* toast);
-	virtual void initChannel();
+	void onDeleteToast(LLToast* toast) override;
+	void initChannel() override;
 };
 
 
@@ -187,11 +187,11 @@ class LLGroupHandler : public LLCommunicationNotificationHandler
 public:
 	LLGroupHandler();
 	virtual ~LLGroupHandler();
-	
-	virtual bool processNotification(const LLNotificationPtr& p);
+
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 };
 
 /**
@@ -203,11 +203,11 @@ public:
 	LLAlertHandler(const std::string& name, const std::string& notification_type, bool is_modal);
 	virtual ~LLAlertHandler();
 
-	virtual void onChange(LLNotificationPtr p);
-	virtual bool processNotification(const LLNotificationPtr& p);
+	void onChange(LLNotificationPtr p) override;
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 
 	bool	mIsModal;
 };
@@ -219,11 +219,11 @@ public:
 	LLViewerAlertHandler(const std::string& name, const std::string& notification_type);
 	virtual ~LLViewerAlertHandler() {};
 
-	virtual void onDelete(LLNotificationPtr p) {};
-	virtual bool processNotification(const LLNotificationPtr& p);
+	void onDelete(LLNotificationPtr p) override {};
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel() {};
+	void initChannel() override {};
 };
 
 /**
@@ -236,12 +236,12 @@ public:
 	LLOfferHandler();
 	virtual ~LLOfferHandler();
 
-	virtual void onChange(LLNotificationPtr p);
-	virtual void onDelete(LLNotificationPtr notification);
-	virtual bool processNotification(const LLNotificationPtr& p);
+	void onChange(LLNotificationPtr p) override;
+	void onDelete(LLNotificationPtr notification) override;
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel();
+	void initChannel() override;
 };
 
 /**
@@ -253,13 +253,13 @@ public:
 	LLHintHandler();
 	virtual ~LLHintHandler() {}
 
-	virtual void onAdd(LLNotificationPtr p);
-	virtual void onLoad(LLNotificationPtr p);
-	virtual void onDelete(LLNotificationPtr p);
-	virtual bool processNotification(const LLNotificationPtr& p);
+	void onAdd(LLNotificationPtr p) override;
+	void onLoad(LLNotificationPtr p) override;
+	void onDelete(LLNotificationPtr p) override;
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel() {};
+	void initChannel() override {};
 };
 
 /**
@@ -271,10 +271,10 @@ public:
 	LLBrowserNotification();
 	virtual ~LLBrowserNotification() {}
 
-	virtual bool processNotification(const LLNotificationPtr& p);
+	bool processNotification(const LLNotificationPtr& p) override;
 
 protected:
-	virtual void initChannel() {};
+	void initChannel() override {};
 };
 	
 class LLHandlerUtil

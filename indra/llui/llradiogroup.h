@@ -63,10 +63,10 @@ public:
 	/*virtual*/ void initFromParams(const Params&);
 
 	virtual ~LLRadioGroup();
-	
-	virtual BOOL postBuild();
-	
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+
+	BOOL postBuild() override;
+
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 
 	void setIndexEnabled(S32 index, BOOL enabled);
 	// return the index value of the selected item
@@ -77,29 +77,29 @@ public:
 	void focusSelectedRadioBtn();
 
 	// Accept and retrieve strings of the radio group control names
-	virtual void	setValue(const LLSD& value );
-	virtual LLSD	getValue() const;
+	void	setValue(const LLSD& value ) override;
+	LLSD	getValue() const override;
 
 	// Update the control as needed.  Userdata must be a pointer to the button.
 	void onClickButton(LLUICtrl* clicked_radio);
 	
 	//========================================================================
-	LLCtrlSelectionInterface* getSelectionInterface()	{ return (LLCtrlSelectionInterface*)this; };
+	LLCtrlSelectionInterface* getSelectionInterface() override { return (LLCtrlSelectionInterface*)this; };
 
 	// LLCtrlSelectionInterface functions
-	/*virtual*/ S32		getItemCount() const  				{ return mRadioButtons.size(); }
-	/*virtual*/ BOOL	getCanSelect() const				{ return TRUE; }
-	/*virtual*/ BOOL	selectFirstItem()					{ return setSelectedIndex(0); }
-	/*virtual*/ BOOL	selectNthItem( S32 index )			{ return setSelectedIndex(index); }
-	/*virtual*/ BOOL	selectItemRange( S32 first, S32 last ) { return setSelectedIndex(first); }
-	/*virtual*/ S32		getFirstSelectedIndex() const		{ return getSelectedIndex(); }
-	/*virtual*/ BOOL	setCurrentByID( const LLUUID& id );
-	/*virtual*/ LLUUID	getCurrentID() const;				// LLUUID::null if no items in menu
-	/*virtual*/ BOOL	setSelectedByValue(const LLSD& value, BOOL selected);
-	/*virtual*/ LLSD	getSelectedValue();
-	/*virtual*/ BOOL	isSelected(const LLSD& value) const;
-	/*virtual*/ BOOL	operateOnSelection(EOperation op);
-	/*virtual*/ BOOL	operateOnAll(EOperation op);
+	/*virtual*/ S32		getItemCount() const override { return mRadioButtons.size(); }
+	/*virtual*/ BOOL	getCanSelect() const override { return TRUE; }
+	/*virtual*/ BOOL	selectFirstItem() override { return setSelectedIndex(0); }
+	/*virtual*/ BOOL	selectNthItem( S32 index ) override { return setSelectedIndex(index); }
+	/*virtual*/ BOOL	selectItemRange( S32 first, S32 last ) override { return setSelectedIndex(first); }
+	/*virtual*/ S32		getFirstSelectedIndex() const override { return getSelectedIndex(); }
+	/*virtual*/ BOOL	setCurrentByID( const LLUUID& id ) override;
+	/*virtual*/ LLUUID	getCurrentID() const override;				// LLUUID::null if no items in menu
+	/*virtual*/ BOOL	setSelectedByValue(const LLSD& value, BOOL selected) override;
+	/*virtual*/ LLSD	getSelectedValue() override;
+	/*virtual*/ BOOL	isSelected(const LLSD& value) const override;
+	/*virtual*/ BOOL	operateOnSelection(EOperation op) override;
+	/*virtual*/ BOOL	operateOnAll(EOperation op) override;
 
 private:
 	const LLFontGL*		mFont;

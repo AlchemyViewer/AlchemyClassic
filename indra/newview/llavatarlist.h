@@ -62,11 +62,11 @@ public:
 	LLAvatarList(const Params&);
 	virtual	~LLAvatarList();
 
-	virtual void draw(); // from LLView
+	void draw() override; // from LLView
 
-	virtual void clear();
+	void clear() override;
 
-	virtual void setVisible(BOOL visible);
+	void setVisible(BOOL visible) override;
 
 	void setNameFilter(const std::string& filter);
 	void setDirty(bool val = true, bool force_refresh = false);
@@ -85,10 +85,10 @@ public:
 	bool getIconsVisible() const { return mShowIcons; }
 	const std::string getIconParamName() const{return mIconParamName;}
 	std::string getAvatarName(LLAvatarName av_name);
-	virtual BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask );
-	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
+	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
 
 	// Return true if filter has at least one match.
 	bool filterHasMatches();
@@ -97,7 +97,7 @@ public:
 
 	boost::signals2::connection setItemDoubleClickCallback(const mouse_signal_t::slot_type& cb);
 
-	virtual S32 notifyParent(const LLSD& info);
+	S32 notifyParent(const LLSD& info) override;
 
 	void addAvalineItem(const LLUUID& item_id, const LLUUID& session_id, const std::string& item_name);
 	void handleDisplayNamesOptionChanged();
@@ -155,7 +155,7 @@ public:
 	LLAvatarItemComparator() {};
 	virtual ~LLAvatarItemComparator() {};
 
-	virtual bool compare(const LLPanel* item1, const LLPanel* item2) const;
+	bool compare(const LLPanel* item1, const LLPanel* item2) const override;
 
 protected:
 
@@ -177,7 +177,7 @@ public:
 	virtual ~LLAvatarItemNameComparator() {};
 
 protected:
-	virtual bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const;
+	bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const override;
 };
 
 class LLAvatarItemAgentOnTopComparator : public LLAvatarItemNameComparator
@@ -189,7 +189,7 @@ public:
 	virtual ~LLAvatarItemAgentOnTopComparator() {};
 
 protected:
-	virtual bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const;
+	bool doCompare(const LLAvatarListItem* avatar_item1, const LLAvatarListItem* avatar_item2) const override;
 };
 
 /**
@@ -207,7 +207,7 @@ public:
 	 */
 	LLAvalineListItem(bool hide_number = true);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/*virtual*/ void setName(const std::string& name);
 

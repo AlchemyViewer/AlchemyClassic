@@ -667,10 +667,10 @@ std::string ll_convert_wide_to_string(const wchar_t* in, unsigned int code_page)
 			0,
 			in,
 			len_in,
-			NULL,
+			nullptr,
 			0,
-			0,
-			0);
+			nullptr,
+			nullptr);
 		// We will need two more bytes for the double NULL ending
 		// created in WideCharToMultiByte().
 		char* pout = new char [len_out + 2];
@@ -684,8 +684,8 @@ std::string ll_convert_wide_to_string(const wchar_t* in, unsigned int code_page)
 				len_in,
 				pout,
 				len_out,
-				0,
-				0);
+				nullptr,
+				nullptr);
 			out.assign(pout);
 			delete[] pout;
 		}
@@ -758,7 +758,7 @@ void LLStringOps::setupDatetimeInfo (bool daylight)
 	time_t nowT, localT, gmtT;
 	struct tm * tmpT;
 
-	nowT = time (NULL);
+	nowT = time (nullptr);
 
 	tmpT = gmtime (&nowT);
 	gmtT = mktime (tmpT);

@@ -115,7 +115,7 @@ public:
 	static void processEconomyData(LLMessageSystem *msg, void **user_data);
 	static void processEconomyDataRequest(LLMessageSystem *msg, void **user_data);
 
-	void print();
+	void print() override;
 
 	BOOL	hasData() const;
 	F32		getPriceObjectRent() const	{ return mPriceObjectRent; }

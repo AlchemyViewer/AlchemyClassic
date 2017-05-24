@@ -97,7 +97,7 @@ LLAssetDictionary::LLAssetDictionary()
 	addEntry(LLAssetType::AT_MESH,              new AssetEntry("MESH",              "mesh",     "mesh",             false,      false,      false));
 	addEntry(LLAssetType::AT_WIDGET,            new AssetEntry("WIDGET",            "widget",   "widget",           false,      false,      false));
 	addEntry(LLAssetType::AT_PERSON,            new AssetEntry("PERSON",            "person",   "person",           false,      false,      false));
-	addEntry(LLAssetType::AT_NONE, 				new AssetEntry("NONE",				"-1",		NULL,		  		FALSE,		FALSE,		FALSE));
+	addEntry(LLAssetType::AT_NONE, 				new AssetEntry("NONE",				"-1", nullptr,		  		FALSE,		FALSE,		FALSE));
 
 };
 

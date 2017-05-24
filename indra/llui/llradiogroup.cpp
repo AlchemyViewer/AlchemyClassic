@@ -51,10 +51,10 @@ class LLRadioCtrl : public LLCheckBoxCtrl
 public:
 	typedef LLRadioGroup::ItemParams Params;
 	/*virtual*/ ~LLRadioCtrl();
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 
 	LLSD getPayload() { return mPayload; }
 

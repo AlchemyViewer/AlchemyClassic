@@ -62,7 +62,7 @@ public:
         bool								preprocess);
 	virtual ~LLDAELoader() ;
 
-	virtual bool OpenFile(const std::string& filename);
+	bool OpenFile(const std::string& filename) override;
 
 protected:
 

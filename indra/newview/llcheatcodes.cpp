@@ -45,7 +45,7 @@ class LLXyzzyHandler : public LLCommandHandler
 public:
 	LLXyzzyHandler() : LLCommandHandler("xyzzy", UNTRUSTED_THROTTLE) {}
 	
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
 		if (nearby_chat)
@@ -63,7 +63,7 @@ class LLDyeMenuHandler : public LLCommandHandler
 public:
 	LLDyeMenuHandler() : LLCommandHandler("dyemenu", UNTRUSTED_THROTTLE) {}
 	
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (params.size() != 1)
 			return false;

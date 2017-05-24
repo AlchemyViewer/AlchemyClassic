@@ -39,7 +39,7 @@ public:
 	LLStreamInfo();
 private:
 	~LLStreamInfo() {}
-	BOOL tick();
+	BOOL tick() override;
 };
 
 #endif // LL_STREAMINFO_H

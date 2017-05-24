@@ -38,14 +38,14 @@ class LLToolObjPicker : public LLTool, public LLSingleton<LLToolObjPicker>
 	LLSINGLETON(LLToolObjPicker);
 public:
 
-	virtual BOOL		handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL		handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL		handleHover(S32 x, S32 y, MASK mask);
+	BOOL		handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL		handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL		handleHover(S32 x, S32 y, MASK mask) override;
 
-	virtual void 		handleSelect();
-	virtual void 		handleDeselect();
+	void 		handleSelect() override;
+	void 		handleDeselect() override;
 
-	virtual void		onMouseCaptureLost();
+	void		onMouseCaptureLost() override;
 
 	virtual void 		setExitCallback(void (*callback)(void *), void *callback_data);
 

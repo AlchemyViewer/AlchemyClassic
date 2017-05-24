@@ -76,15 +76,15 @@ public:
 	LLManipScale( LLToolComposite* composite );
 	~LLManipScale();
 
-	virtual BOOL	handleMouseDown( S32 x, S32 y, MASK mask );
-	virtual BOOL	handleMouseUp( S32 x, S32 y, MASK mask );
-	virtual BOOL	handleHover( S32 x, S32 y, MASK mask );
-	virtual void	render();
-	virtual void	handleSelect();
+	BOOL	handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	BOOL	handleMouseUp( S32 x, S32 y, MASK mask ) override;
+	BOOL	handleHover( S32 x, S32 y, MASK mask ) override;
+	void	render() override;
+	void	handleSelect() override;
 
-	virtual BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask);
-	virtual void	highlightManipulators(S32 x, S32 y);	// decided which manipulator, if any, should be highlighted by mouse hover
-	virtual BOOL	canAffectSelection();
+	BOOL	handleMouseDownOnPart(S32 x, S32 y, MASK mask) override;
+	void	highlightManipulators(S32 x, S32 y) override;	// decided which manipulator, if any, should be highlighted by mouse hover
+	BOOL	canAffectSelection() override;
 
 	static void		setUniform( BOOL b );
 	static BOOL		getUniform();
@@ -103,7 +103,7 @@ private:
 
 	void			revert();
 
-	inline void		conditionalHighlight( U32 part, const LLColor4* highlight = NULL, const LLColor4* normal = NULL );
+	inline void		conditionalHighlight( U32 part, const LLColor4* highlight = nullptr, const LLColor4* normal = nullptr );
 
 	void			drag( S32 x, S32 y );
 	void			dragFace( S32 x, S32 y );

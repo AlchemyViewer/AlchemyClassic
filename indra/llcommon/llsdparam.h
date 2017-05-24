@@ -54,7 +54,7 @@ public:
 	void writeSD(LLSD& sd, 
 		const BLOCK& block, 
 		const LLInitParam::predicate_rule_t rules = LLInitParam::default_parse_rules(),
-		const LLInitParam::BaseBlock* diff_block = NULL)
+		const LLInitParam::BaseBlock* diff_block = nullptr)
 	{
 		if (!diff_block 
 			&& !rules.isAmbivalent(LLInitParam::HAS_DEFAULT_VALUE))
@@ -64,8 +64,8 @@ public:
 		writeSDImpl(sd, block, rules, diff_block);
 	}
 
-	/*virtual*/ std::string getCurrentElementName();
-	/*virtual*/ std::string getCurrentFileName(){ return LLStringUtil::null; }
+	/*virtual*/ std::string getCurrentElementName() override;
+	/*virtual*/ std::string getCurrentFileName() override { return LLStringUtil::null; }
 
 private:
 	void writeSDImpl(LLSD& sd, 

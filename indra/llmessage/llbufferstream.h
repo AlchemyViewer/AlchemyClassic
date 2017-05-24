@@ -61,7 +61,7 @@ protected:
 	 *
 	 * @return Returns the character at the current position or EOF.
 	 */
-	virtual int underflow();
+	int underflow() override;
 
 	/*
 	 * @brief called when we hit the end of output
@@ -69,14 +69,14 @@ protected:
 	 * @param c The character to store at the current put position
 	 * @return Returns EOF if the function failed. Any other value on success.
 	 */
-	virtual int overflow(int c);
+	int overflow(int c) override;
 
 	/*
 	 * @brief synchronize the buffer
 	 *
 	 * @return Returns 0 on success or -1 on failure.
 	 */
-	virtual int sync();
+	int sync() override;
 
 	/*
 	 * @brief Seek to an offset position in a stream.
@@ -88,10 +88,10 @@ protected:
 	 * @return Returns the new position or an invalid position on failure.
 	 */
 #if( LL_WINDOWS || __GNUC__ > 2)
-	virtual pos_type seekoff(
+	pos_type seekoff(
 		off_type off,
 		std::ios::seekdir way,
-		std::ios::openmode which);
+		std::ios::openmode which) override;
 #else
 	virtual streampos seekoff(
 		streamoff off,

@@ -44,7 +44,7 @@ LLReliablePacket::LLReliablePacket(
 	U8* buf_ptr,
 	S32 buf_len,
 	LLReliablePacketParams* params) :
-	mBuffer(NULL),
+	mBuffer(nullptr),
 	mBufferLength(0)
 {
 	if (params)
@@ -62,9 +62,9 @@ LLReliablePacket::LLReliablePacket(
 		mRetries = 0;
 		mPingBasedRetry = TRUE;
 		mTimeout = F32Seconds(0.f);
-		mCallback = NULL;
-		mCallbackData = NULL;
-		mMessageName = NULL;
+		mCallback = nullptr;
+		mCallbackData = nullptr;
+		mMessageName = nullptr;
 	}
 
 	mExpirationTime = (F64Seconds)totalTime() + mTimeout;
@@ -76,7 +76,7 @@ LLReliablePacket::LLReliablePacket(
 	if (mRetries)
 	{
 		mBuffer = new U8[buf_len];
-		if (mBuffer != NULL)
+		if (mBuffer != nullptr)
 		{
 			memcpy(mBuffer,buf_ptr,buf_len);	/*Flawfinder: ignore*/
 			mBufferLength = buf_len;

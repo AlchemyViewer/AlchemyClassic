@@ -39,10 +39,10 @@ protected:
 public:
 	LLImageBMP();
 
-	/*virtual*/ std::string getExtension() { return std::string("bmp"); }
-	/*virtual*/ bool updateData();
-	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time);
-	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time);
+	/*virtual*/ std::string getExtension() override { return std::string("bmp"); }
+	/*virtual*/ bool updateData() override;
+	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time) override;
+	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time) override;
 
 protected:
 	bool		decodeColorTable8( U8* dst, U8* src );

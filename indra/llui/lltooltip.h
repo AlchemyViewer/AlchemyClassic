@@ -44,15 +44,15 @@ public:
 		Params();
 	};
 	LLToolTipView(const LLToolTipView::Params&);
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMiddleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleScrollWheel( S32 x, S32 y, S32 clicks );
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMiddleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleScrollWheel( S32 x, S32 y, S32 clicks ) override;
 
 	void drawStickyRect();
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 };
 
 class LLToolTip : public LLPanel
@@ -93,10 +93,10 @@ public:
 
 		Params();
 	};
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask);
-	/*virtual*/ void setVisible(BOOL visible);
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ void setVisible(BOOL visible) override;
 
 	bool isFading();
 	F32 getVisibleTime();

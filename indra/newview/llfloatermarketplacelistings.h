@@ -51,13 +51,13 @@ class LLPanelMarketplaceListings : public LLPanel
 {
 public:
     LLPanelMarketplaceListings();
-	BOOL postBuild();
+	BOOL postBuild() override;
 	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 						   EDragAndDropType cargo_type,
 						   void* cargo_data,
 						   EAcceptance* accept,
-						   std::string& tooltip_msg);
-	void draw();
+						   std::string& tooltip_msg) override;
+	void draw() override;
 	LLFolderView* getRootFolder() { return mRootFolder; }
     bool allowDropOnRoot();
     
@@ -98,17 +98,17 @@ public:
 	void initializeMarketPlace();
     
 	// virtuals
-	BOOL postBuild();
+	BOOL postBuild() override;
 	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 						   EDragAndDropType cargo_type,
 						   void* cargo_data,
 						   EAcceptance* accept,
-						   std::string& tooltip_msg);
+						   std::string& tooltip_msg) override;
 	
 	void showNotification(const LLNotificationPtr& notification);
     
-	BOOL handleHover(S32 x, S32 y, MASK mask);
-	void onMouseLeave(S32 x, S32 y, MASK mask);
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
     
 protected:
 	void setRootFolder();
@@ -117,9 +117,9 @@ protected:
     
 	void setStatusString(const std::string& statusString);
 
-	void onClose(bool app_quitting);
-	void onOpen(const LLSD& key);
-	void onFocusReceived();
+	void onClose(bool app_quitting) override;
+	void onOpen(const LLSD& key) override;
+	void onFocusReceived() override;
 	void onChanged();
     
     bool isAccepted(EAcceptance accept);
@@ -150,8 +150,8 @@ class LLFloaterAssociateListing : public LLFloater
 {
 	friend class LLFloaterReg;
 public:
-	virtual BOOL postBuild();
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL postBuild() override;
+	BOOL handleKeyHere(KEY key, MASK mask) override;
     
 	static LLFloaterAssociateListing* show(const LLUUID& folder_id);
     
@@ -181,10 +181,10 @@ class LLFloaterMarketplaceValidation : public LLFloater
 public:
 	LLFloaterMarketplaceValidation(const LLSD& key);
 	virtual ~LLFloaterMarketplaceValidation();
-    
-	virtual BOOL postBuild();
-	virtual void draw();
-	virtual void onOpen(const LLSD& key);
+
+	BOOL postBuild() override;
+	void draw() override;
+	void onOpen(const LLSD& key) override;
     
     void clearMessages();
     void appendMessage(std::string& message, S32 depth, LLError::ELevel log_level);
@@ -217,8 +217,8 @@ public:
 	LLFloaterItemProperties(const LLSD& key);
 	virtual ~LLFloaterItemProperties();
     
-	BOOL postBuild();
-	virtual void onOpen(const LLSD& key);
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
     
 private:
 };

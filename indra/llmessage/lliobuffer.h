@@ -117,12 +117,12 @@ protected:
 	/** 
 	 * @brief Process the data in buffer
 	 */
-	virtual EStatus process_impl(
+	EStatus process_impl(
 		const LLChannelDescriptors& channels,
 		buffer_ptr_t& buffer,
 		bool& eos,
 		LLSD& context,
-		LLPumpIO* pump);
+		LLPumpIO* pump) override;
 	//@}
 
 protected:

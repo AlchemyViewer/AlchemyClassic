@@ -80,7 +80,7 @@ public:
 	static LLMessageConfigFile& instance();
 		// return the singleton configuration file
 
-	/* virtual */ bool loadFile();
+	/* virtual */ bool loadFile() override;
 	void loadServerDefaults(const LLSD& data);
 	void loadMaxQueuedEvents(const LLSD& data);
 	void loadMessages(const LLSD& data);

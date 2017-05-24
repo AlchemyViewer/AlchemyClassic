@@ -57,13 +57,13 @@ namespace LLTrace
 		struct StaticAllocationMarker { };
 
 		AccumulatorBuffer(StaticAllocationMarker m)
-		:	mStorage(NULL),
+		:	mStorage(nullptr),
 			mStorageSize(0)
 		{}
 
 	public:
 		AccumulatorBuffer()
-			: mStorage(NULL),
+			: mStorage(nullptr),
               mStorageSize(0)
 		{
 			const AccumulatorBuffer& other = *getDefaultBuffer();
@@ -95,7 +95,7 @@ namespace LLTrace
 
 
 		AccumulatorBuffer(const AccumulatorBuffer& other)
-			: mStorage(NULL),
+			: mStorage(nullptr),
               mStorageSize(0)
 		{
 			resize(sNextStorageSlot);
@@ -123,7 +123,7 @@ namespace LLTrace
 			}
 		}
 
-		void reset(const AccumulatorBuffer<ACCUMULATOR>* other = NULL)
+		void reset(const AccumulatorBuffer<ACCUMULATOR>* other = nullptr)
 		{
 			llassert(mStorageSize >= sNextStorageSlot);
 			for (size_t i = 0; i < sNextStorageSlot; i++)
@@ -232,7 +232,7 @@ namespace LLTrace
 	};
 
 	template<typename ACCUMULATOR> size_t AccumulatorBuffer<ACCUMULATOR>::sNextStorageSlot = 0;
-	template<typename ACCUMULATOR> AccumulatorBuffer<ACCUMULATOR>* AccumulatorBuffer<ACCUMULATOR>::sDefaultBuffer = NULL;
+	template<typename ACCUMULATOR> AccumulatorBuffer<ACCUMULATOR>* AccumulatorBuffer<ACCUMULATOR>::sDefaultBuffer = nullptr;
 
 	class EventAccumulator
 	{
@@ -587,7 +587,7 @@ namespace LLTrace
 
 		void append(const AccumulatorBufferGroup& other);
 		void merge(const AccumulatorBufferGroup& other);
-		void reset(AccumulatorBufferGroup* other = NULL);
+		void reset(AccumulatorBufferGroup* other = nullptr);
 		void sync();
 
 		AccumulatorBuffer<CountAccumulator>	 	mCounts;

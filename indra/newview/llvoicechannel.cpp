@@ -42,8 +42,8 @@
 
 LLVoiceChannel::voice_channel_map_t LLVoiceChannel::sVoiceChannelMap;
 LLVoiceChannel::voice_channel_map_uri_t LLVoiceChannel::sVoiceChannelURIMap;
-LLVoiceChannel* LLVoiceChannel::sCurrentVoiceChannel = NULL;
-LLVoiceChannel* LLVoiceChannel::sSuspendedVoiceChannel = NULL;
+LLVoiceChannel* LLVoiceChannel::sCurrentVoiceChannel = nullptr;
+LLVoiceChannel* LLVoiceChannel::sSuspendedVoiceChannel = nullptr;
 LLVoiceChannel::channel_changed_signal_t LLVoiceChannel::sCurrentVoiceChannelChangedSignal;
 
 BOOL LLVoiceChannel::sSuspended = FALSE;
@@ -57,12 +57,12 @@ const U32 DEFAULT_RETRIES_COUNT = 3;
 // LLVoiceChannel
 //
 LLVoiceChannel::LLVoiceChannel(const LLUUID& session_id, const std::string& session_name) : 
+	mCallDirection(OUTGOING_CALL), 
 	mSessionID(session_id), 
-	mState(STATE_NO_CHANNEL_INFO), 
+	mState(STATE_NO_CHANNEL_INFO),
 	mSessionName(session_name),
-	mCallDirection(OUTGOING_CALL),
-	mIgnoreNextSessionLeave(FALSE),
-	mCallEndedByAgent(false)
+	mCallEndedByAgent(false),
+	mIgnoreNextSessionLeave(FALSE)
 {
 	mNotifyArgs["VOICE_CHANNEL_NAME"] = mSessionName;
 
@@ -289,7 +289,7 @@ LLVoiceChannel* LLVoiceChannel::getChannelByID(const LLUUID& session_id)
 	voice_channel_map_t::iterator found_it = sVoiceChannelMap.find(session_id);
 	if (found_it == sVoiceChannelMap.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -303,7 +303,7 @@ LLVoiceChannel* LLVoiceChannel::getChannelByURI(std::string uri)
 	voice_channel_map_uri_t::iterator found_it = sVoiceChannelURIMap.find(uri);
 	if (found_it == sVoiceChannelURIMap.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{

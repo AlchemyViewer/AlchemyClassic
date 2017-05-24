@@ -71,15 +71,15 @@ public:
 
 	static void* create(void* data);
 
-	/*virtual*/ BOOL postBuild(void);
+	/*virtual*/ BOOL postBuild(void) override;
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ void onClosePanel();
+	/*virtual*/ void onClosePanel() override;
 
-	void processProperties(void* data, EAvatarProcessorType type);
+	void processProperties(void* data, EAvatarProcessorType type) override;
 
-	void updateData();
+	void updateData() override;
 
 	// returns the selected pick item
 	LLPickItem* getSelectedPickItem();
@@ -94,7 +94,7 @@ public:
 	void createNewClassified();
 
 protected:
-	/*virtual*/void updateButtons();
+	/*virtual*/void updateButtons() override;
 
 private:
 	void onClickDelete();
@@ -221,16 +221,16 @@ public:
 
 	const std::string& getPickDesc() { return mPickDescription; }
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type);
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
 
 	void update();
 
 	~LLPickItem();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	/** setting on/off background icon to indicate selected state */
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
 protected:
 
@@ -256,11 +256,11 @@ public:
 	
 	virtual ~LLClassifiedItem();
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type);
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
 	void fillIn(LLPanelClassifiedEdit* panel);
 

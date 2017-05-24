@@ -31,7 +31,7 @@
 #include "llinventorytype.h"
 #include "llinventorydefines.h"
 
-static LLTranslationBridge* sTrans = NULL;
+static LLTranslationBridge* sTrans = nullptr;
 
 // static
 void LLWearableType::initClass(LLTranslationBridge* trans)
@@ -54,8 +54,8 @@ struct WearableEntry : public LLDictionaryEntry
 				  BOOL allow_multiwear = TRUE) :
 		LLDictionaryEntry(name),
 		mAssetType(assetType),
-		mDefaultNewName(default_new_name),
 		mLabel(sTrans->getString(name)),
+		mDefaultNewName(default_new_name),
 		mIconName(iconName),
 		mDisableCameraSwitch(disable_camera_switch),
 		mAllowMultiwear(allow_multiwear)

@@ -42,21 +42,21 @@ LLIconCtrl::Params::Params()
 :	image("image_name"),
 	color("color"),
 	use_draw_context_alpha("use_draw_context_alpha", true),
-	scale_image("scale_image"),
 	min_width("min_width", 0),
-	min_height("min_height", 0)
+	min_height("min_height", 0),
+	scale_image("scale_image")
 {}
 
 LLIconCtrl::LLIconCtrl(const LLIconCtrl::Params& p)
 :	LLUICtrl(p),
-	mColor(p.color()),
-	mImagep(p.image),
-	mUseDrawContextAlpha(p.use_draw_context_alpha),
 	mPriority(0),
 	mMinWidth(p.min_width),
 	mMinHeight(p.min_height),
 	mMaxWidth(0),
-	mMaxHeight(0)
+	mMaxHeight(0),
+	mUseDrawContextAlpha(p.use_draw_context_alpha),
+	mColor(p.color()),
+	mImagep(p.image)
 {
 	if (mImagep.notNull())
 	{
@@ -66,7 +66,7 @@ LLIconCtrl::LLIconCtrl(const LLIconCtrl::Params& p)
 
 LLIconCtrl::~LLIconCtrl()
 {
-	mImagep = NULL;
+	mImagep = nullptr;
 }
 
 

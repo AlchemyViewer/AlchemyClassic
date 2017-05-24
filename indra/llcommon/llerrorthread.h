@@ -35,7 +35,7 @@ public:
 	LLErrorThread();
 	~LLErrorThread();
 
-	/*virtual*/ void run(void);
+	/*virtual*/ void run(void) override;
 	void setUserData(void *user_data);
 	void *getUserData() const;
 

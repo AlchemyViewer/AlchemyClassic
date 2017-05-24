@@ -219,7 +219,7 @@ U32 LLViewerJointMesh::drawShape( F32 pixelArea, BOOL first_pass, BOOL is_dummy)
 	if (!mValid || !mMesh || !mFace || !mVisible || 
 		!mFace->getVertexBuffer() ||
 		mMesh->getNumFaces() == 0 ||
-		(LLGLSLShader::sNoFixedFunction && LLGLSLShader::sCurBoundShaderPtr == NULL))
+		(LLGLSLShader::sNoFixedFunction && LLGLSLShader::sCurBoundShaderPtr == nullptr))
 	{
 		return 0;
 	}

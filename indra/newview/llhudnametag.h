@@ -56,8 +56,8 @@ protected:
 		LLHUDTextSegment(const LLWString& text, const LLFontGL::StyleFlags style, const LLColor4& color, const LLFontGL* font)
 		:	mColor(color),
 			mStyle(style),
-			mText(text),
-			mFont(font)
+			mFont(font),
+			mText(text)
 		{}
 		F32 getWidth(const LLFontGL* font);
 		const LLWString& getText() const { return mText; }
@@ -91,7 +91,7 @@ public:
 	void clearString();
 
 	// Add text a line at a time, allowing custom formatting
-	void addLine(const std::string &text_utf8, const LLColor4& color, const LLFontGL::StyleFlags style = LLFontGL::NORMAL, const LLFontGL* font = NULL);
+	void addLine(const std::string &text_utf8, const LLColor4& color, const LLFontGL::StyleFlags style = LLFontGL::NORMAL, const LLFontGL* font = nullptr);
 
 	// For bubble chat, set the part above the chat text
 	void setLabel(const std::string& label_utf8);
@@ -114,9 +114,9 @@ public:
 //	void setMass(F32 mass) { mMass = llmax(0.1f, mass); }
 	void setTextAlignment(ETextAlignment alignment) { mTextAlignment = alignment; }
 	void setVertAlignment(EVertAlignment alignment) { mVertAlignment = alignment; }
-	/*virtual*/ void markDead();
+	/*virtual*/ void markDead() override;
 	friend class LLHUDObject;
-	/*virtual*/ F32 getDistance() const { return mLastDistance; }
+	/*virtual*/ F32 getDistance() const override { return mLastDistance; }
 	S32  getLOD() { return mLOD; }
 	BOOL getVisible() { return mVisible; }
 	BOOL getHidden() const { return mHidden; }
@@ -133,7 +133,7 @@ public:
 protected:
 	LLHUDNameTag(const U8 type);
 
-	/*virtual*/ void render();
+	/*virtual*/ void render() override;
 	void renderText(BOOL for_select);
 	static void updateAll();
 	void setLOD(S32 lod);

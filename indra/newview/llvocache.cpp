@@ -62,18 +62,18 @@ BOOL check_write(LLAPRFile* apr_file, void* src, S32 n_bytes)
 //---------------------------------------------------------------------------
 
 LLVOCacheEntry::LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &dp)
-:	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
-	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
+:	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
+	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
 	mLocalID(local_id),
+	mParentID(0),
 	mCRC(crc),
 	mUpdateFlags(-1),
 	mHitCount(0),
 	mDupeCount(0),
 	mCRCChangeCount(0),
-	mState(INACTIVE),
 	mSceneContrib(0.f),
+	mState(INACTIVE),
 	mValid(TRUE),
-	mParentID(0),
 	mBSphereRadius(-1.0f)
 {
 	mBuffer = new U8[dp.getBufferSize()];
@@ -82,33 +82,33 @@ LLVOCacheEntry::LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &
 }
 
 LLVOCacheEntry::LLVOCacheEntry()
-:	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
-	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
+:	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
+	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
 	mLocalID(0),
+	mParentID(0),
 	mCRC(0),
 	mUpdateFlags(-1),
 	mHitCount(0),
 	mDupeCount(0),
 	mCRCChangeCount(0),
-	mBuffer(NULL),
-	mState(INACTIVE),
+	mBuffer(nullptr),
 	mSceneContrib(0.f),
+	mState(INACTIVE),
 	mValid(TRUE),
-	mParentID(0),
 	mBSphereRadius(-1.0f)
 {
 	mDP.assignBuffer(mBuffer, 0);
 }
 
 LLVOCacheEntry::LLVOCacheEntry(LLAPRFile* apr_file)
-:	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
-	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY), 
-	mBuffer(NULL),
-	mUpdateFlags(-1),
-	mState(INACTIVE),
-	mSceneContrib(0.f),
-	mValid(FALSE),
+:	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
+	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"), 
 	mParentID(0),
+	mUpdateFlags(-1),
+	mBuffer(nullptr),
+	mSceneContrib(0.f),
+	mState(INACTIVE),
+	mValid(FALSE),
 	mBSphereRadius(-1.0f)
 {
 	S32 size = -1;
@@ -159,7 +159,7 @@ LLVOCacheEntry::LLVOCacheEntry(LLAPRFile* apr_file)
 		else
 		{
 			delete[] mBuffer ;
-			mBuffer = NULL ;
+			mBuffer = nullptr ;
 		}
 	}
 
@@ -170,8 +170,8 @@ LLVOCacheEntry::LLVOCacheEntry(LLAPRFile* apr_file)
 		mHitCount = 0;
 		mDupeCount = 0;
 		mCRCChangeCount = 0;
-		mBuffer = NULL;
-		mEntry = NULL;
+		mBuffer = nullptr;
+		mEntry = nullptr;
 		mState = INACTIVE;
 	}
 }
@@ -288,7 +288,7 @@ void LLVOCacheEntry::addChild(LLVOCacheEntry* entry)
 	mChildrenList.insert(entry);
 
 	//update parent bbox
-	if(getEntry() != NULL && isState(INACTIVE))
+	if(getEntry() != nullptr && isState(INACTIVE))
 	{
 		updateParentBoundingInfo(entry);
 		resetVisible();
@@ -309,7 +309,7 @@ void LLVOCacheEntry::removeChild(LLVOCacheEntry* entry)
 //remove the first child, and return it.
 LLVOCacheEntry* LLVOCacheEntry::getChild()
 {
-	LLVOCacheEntry* child = NULL;
+	LLVOCacheEntry* child = nullptr;
 	vocache_entry_set_t::iterator iter = mChildrenList.begin();
 	if(iter != mChildrenList.end())
 	{
@@ -325,7 +325,7 @@ LLDataPackerBinaryBuffer *LLVOCacheEntry::getDP()
 	if (mDP.getBufferSize() == 0)
 	{
 		//LL_INFOS() << "Not getting cache entry, invalid!" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 	
 	return &mDP;
@@ -677,7 +677,7 @@ bool LLVOCachePartition::addEntry(LLViewerOctreeEntry* entry)
 	
 void LLVOCachePartition::removeEntry(LLViewerOctreeEntry* entry)
 {
-	entry->getVOCacheEntry()->setGroup(NULL);
+	entry->getVOCacheEntry()->setGroup(nullptr);
 
 	llassert(!entry->getGroup());
 }
@@ -688,8 +688,8 @@ public:
 	LLVOCacheOctreeCull(LLCamera* camera, LLViewerRegion* regionp, 
 		const LLVector3& shift, bool use_object_cache_occlusion, F32 pixel_threshold, LLVOCachePartition* part) 
 		: LLViewerOctreeCull(camera), 
-		  mRegionp(regionp),
 		  mPartition(part),
+		  mRegionp(regionp),
 		  mPixelThreshold(pixel_threshold)
 	{
 		mLocalShift = shift;
@@ -697,7 +697,7 @@ public:
 		mNearRadius = LLVOCacheEntry::sNearRadius;
 	}
 
-	virtual bool earlyFail(LLViewerOctreeGroup* base_group)
+	bool earlyFail(LLViewerOctreeGroup* base_group) override
 	{
 		if( mUseObjectCacheOcclusion &&
 			base_group->getOctreeNode()->getParent()) //never occlusion cull the root node
@@ -720,7 +720,7 @@ public:
 		return false;
 	}
 
-	virtual S32 frustumCheck(const LLViewerOctreeGroup* group)
+	S32 frustumCheck(const LLViewerOctreeGroup* group) override
 	{
 #if 0
 		S32 res = AABBInRegionFrustumGroupBounds(group);
@@ -735,7 +735,7 @@ public:
 		return res;
 	}
 
-	virtual S32 frustumCheckObjects(const LLViewerOctreeGroup* group)
+	S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
 	{
 #if 0
 		S32 res = AABBInRegionFrustumObjectBounds(group);
@@ -757,7 +757,7 @@ public:
 		return res;
 	}
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+	void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		if( !mUseObjectCacheOcclusion ||
 			!base_group->getOctreeNode()->getParent())
@@ -812,8 +812,8 @@ public:
 		mLocalShift = shift;
 		mSphereRadius = LLVOCacheEntry::sRearFarRadius;
 	}
-	
-	virtual bool earlyFail(LLViewerOctreeGroup* base_group)
+
+	bool earlyFail(LLViewerOctreeGroup* base_group) override
 	{
 		if( mUseObjectCacheOcclusion &&
 			base_group->getOctreeNode()->getParent()) //never occlusion cull the root node
@@ -829,13 +829,13 @@ public:
 		return false;
 	}
 
-	virtual S32 frustumCheck(const LLViewerOctreeGroup* group)
+	S32 frustumCheck(const LLViewerOctreeGroup* group) override
 	{			
 		const LLVector4a* exts = group->getExtents();
 		return backSphereCheck(exts[0], exts[1]);
 	}
 
-	virtual S32 frustumCheckObjects(const LLViewerOctreeGroup* group)
+	S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
 	{
 		const LLVector4a* exts = group->getObjectExtents();
 		if(backSphereCheck(exts[0], exts[1]))
@@ -847,7 +847,7 @@ public:
 		return false;
 	}
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+	void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		mRegionp->addVisibleGroup(base_group);
 		return;
@@ -1053,8 +1053,8 @@ const char* header_filename = "object.cache";
 LLVOCache::LLVOCache():
 	mInitialized(false),
 	mReadOnly(true),
-	mNumEntries(0),
-	mCacheSize(1)
+	mCacheSize(1),
+	mNumEntries(0)
 {
 	mEnabled = gSavedSettings.getBOOL("ObjectCacheEnabled");
 	mLocalAPRFilePoolp = new LLVolatileAPRPool() ;
@@ -1259,7 +1259,7 @@ void LLVOCache::readCacheHeader()
 		
 		if(success)
 		{
-			HeaderEntryInfo* entry = NULL ;
+			HeaderEntryInfo* entry = nullptr ;
 			mNumEntries = 0 ;
 			U32 num_read = 0 ;
 			while(num_read++ < MAX_NUM_OBJECT_ENTRIES)
@@ -1274,7 +1274,7 @@ void LLVOCache::readCacheHeader()
 				{
 					LL_WARNS() << "Error reading cache header entry. (entry_index=" << mNumEntries << ")" << LL_ENDL;
 					delete entry ;
-					entry = NULL ;
+					entry = nullptr ;
 					break ;
 				}
 				else if(entry->mTime == INVALID_TIME)
@@ -1285,7 +1285,7 @@ void LLVOCache::readCacheHeader()
 				entry->mIndex = mNumEntries++ ;
 				mHeaderEntryQueue.insert(entry) ;
 				mHandleEntryMap[entry->mHandle] = entry ;
-				entry = NULL ;
+				entry = nullptr ;
 			}
 			if(entry)
 			{
@@ -1488,7 +1488,7 @@ void LLVOCache::writeToCache(U64 handle, const LLUUID& id, const LLVOCacheEntry:
 
 		entry = new HeaderEntryInfo();
 		entry->mHandle = handle ;
-		entry->mTime = time(NULL) ;
+		entry->mTime = time(nullptr) ;
 		entry->mIndex = mNumEntries++;
 		mHeaderEntryQueue.insert(entry) ;
 		mHandleEntryMap[handle] = entry ;
@@ -1501,7 +1501,7 @@ void LLVOCache::writeToCache(U64 handle, const LLUUID& id, const LLVOCacheEntry:
 		//resort
 		mHeaderEntryQueue.erase(entry) ;
 		
-		entry->mTime = time(NULL) ;
+		entry->mTime = time(nullptr) ;
 		mHeaderEntryQueue.insert(entry) ;
 	}
 

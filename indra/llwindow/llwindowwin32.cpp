@@ -118,7 +118,7 @@ HGLRC SafeCreateContext(HDC hdc)
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{ 
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -127,7 +127,7 @@ BOOL LLWindowWin32::sIsClassRegistered = FALSE;
 
 BOOL	LLWindowWin32::sLanguageTextInputAllowed = TRUE;
 BOOL	LLWindowWin32::sWinIMEOpened = FALSE;
-HKL		LLWindowWin32::sWinInputLocale = 0;
+HKL		LLWindowWin32::sWinInputLocale = nullptr;
 DWORD	LLWindowWin32::sWinIMEConversionMode = IME_CMODE_NATIVE;
 DWORD	LLWindowWin32::sWinIMESentenceMode = IME_SMODE_AUTOMATIC;
 LLCoordWindow LLWindowWin32::sWinIMEWindowPosition(-1,-1);
@@ -144,7 +144,7 @@ LLCoordWindow LLWindowWin32::sWinIMEWindowPosition(-1,-1);
 class LLWinImm
 {
 public:
-	static bool		isAvailable() { return sTheInstance.mHImmDll != NULL; }
+	static bool		isAvailable() { return sTheInstance.mHImmDll != nullptr; }
 
 public:
 	// Wrappers for IMM API.
@@ -193,14 +193,14 @@ private:
 
 LLWinImm LLWinImm::sTheInstance;
 
-LLWinImm::LLWinImm() : mHImmDll(NULL)
+LLWinImm::LLWinImm() : mHImmDll(nullptr)
 {
 	// Check system metrics 
 	if ( !GetSystemMetrics( SM_IMMENABLED ) )
 		return;
 
 	mHImmDll = LoadLibraryW(TEXT("Imm32"));
-	if (mHImmDll != NULL)
+	if (mHImmDll != nullptr)
 	{
 		mImmIsIME               = (BOOL (WINAPI *)(HKL))                    GetProcAddress(mHImmDll, "ImmIsIME");
 		mImmGetDefaultIMEWnd	= (HWND (WINAPI *)(HWND))					GetProcAddress(mHImmDll, "ImmGetDefaultIMEWnd");
@@ -218,21 +218,21 @@ LLWinImm::LLWinImm() : mHImmDll(NULL)
 		mImmSetCandidateWindow  = (BOOL (WINAPI *)(HIMC, LPCANDIDATEFORM))  GetProcAddress(mHImmDll, "ImmSetCandidateWindow");
 		mImmNotifyIME			= (BOOL (WINAPI *)(HIMC, DWORD, DWORD, DWORD))	GetProcAddress(mHImmDll, "ImmNotifyIME");
 
-		if (mImmIsIME == NULL ||
-			mImmGetDefaultIMEWnd == NULL ||
-			mImmGetContext == NULL ||
-			mImmReleaseContext == NULL ||
-			mImmGetOpenStatus == NULL ||
-			mImmSetOpenStatus == NULL ||
-			mImmGetConversionStatus == NULL ||
-			mImmSetConversionStatus == NULL ||
-			mImmGetCompostitionWindow == NULL ||
-			mImmSetCompostitionWindow == NULL ||
-			mImmGetCompositionString == NULL ||
-			mImmSetCompositionString == NULL ||
-			mImmSetCompositionFont == NULL ||
-			mImmSetCandidateWindow == NULL ||
-			mImmNotifyIME == NULL)
+		if (mImmIsIME == nullptr ||
+			mImmGetDefaultIMEWnd == nullptr ||
+			mImmGetContext == nullptr ||
+			mImmReleaseContext == nullptr ||
+			mImmGetOpenStatus == nullptr ||
+			mImmSetOpenStatus == nullptr ||
+			mImmGetConversionStatus == nullptr ||
+			mImmSetConversionStatus == nullptr ||
+			mImmGetCompostitionWindow == nullptr ||
+			mImmSetCompostitionWindow == nullptr ||
+			mImmGetCompositionString == nullptr ||
+			mImmSetCompositionString == nullptr ||
+			mImmSetCompositionFont == nullptr ||
+			mImmSetCandidateWindow == nullptr ||
+			mImmNotifyIME == nullptr)
 		{
 			// If any of the above API entires are not found, we can't use IMM API.  
 			// So, turn off the IMM support.  We should log some warning message in 
@@ -242,24 +242,24 @@ LLWinImm::LLWinImm() : mHImmDll(NULL)
 			// the logging channel (LL_WARNS()), and we can't do it here...  Yes, this 
 			// is one of disadvantages to use static constraction to DLL loading. 
 			FreeLibrary(mHImmDll);
-			mHImmDll = NULL;
+			mHImmDll = nullptr;
 
 			// If we unload the library, make sure all the function pointers are cleared
-			mImmIsIME = NULL;
-			mImmGetDefaultIMEWnd = NULL;
-			mImmGetContext = NULL;
-			mImmReleaseContext = NULL;
-			mImmGetOpenStatus = NULL;
-			mImmSetOpenStatus = NULL;
-			mImmGetConversionStatus = NULL;
-			mImmSetConversionStatus = NULL;
-			mImmGetCompostitionWindow = NULL;
-			mImmSetCompostitionWindow = NULL;
-			mImmGetCompositionString = NULL;
-			mImmSetCompositionString = NULL;
-			mImmSetCompositionFont = NULL;
-			mImmSetCandidateWindow = NULL;
-			mImmNotifyIME = NULL;
+			mImmIsIME = nullptr;
+			mImmGetDefaultIMEWnd = nullptr;
+			mImmGetContext = nullptr;
+			mImmReleaseContext = nullptr;
+			mImmGetOpenStatus = nullptr;
+			mImmSetOpenStatus = nullptr;
+			mImmGetConversionStatus = nullptr;
+			mImmSetConversionStatus = nullptr;
+			mImmGetCompostitionWindow = nullptr;
+			mImmSetCompostitionWindow = nullptr;
+			mImmGetCompositionString = nullptr;
+			mImmSetCompositionString = nullptr;
+			mImmSetCompositionFont = nullptr;
+			mImmSetCandidateWindow = nullptr;
+			mImmNotifyIME = nullptr;
 		}
 	}
 }
@@ -278,7 +278,7 @@ HIMC		LLWinImm::getContext(HWND hwnd)
 {
 	if ( sTheInstance.mImmGetContext )
 		return sTheInstance.mImmGetContext(hwnd); 
-	return 0;
+	return nullptr;
 }
 
 //static 
@@ -385,10 +385,10 @@ BOOL		LLWinImm::notifyIME(HIMC himc, DWORD action, DWORD index, DWORD value)
 // ----------------------------------------------------------------------------------------
 LLWinImm::~LLWinImm()
 {
-	if (mHImmDll != NULL)
+	if (mHImmDll != nullptr)
 	{
 		FreeLibrary(mHImmDll);
-		mHImmDll = NULL;
+		mHImmDll = nullptr;
 	}
 }
 
@@ -412,12 +412,12 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	mNativeAspectRatio = 0.f;
 	mMousePositionModified = FALSE;
 	mInputProcessingPaused = FALSE;
-	mPreeditor = NULL;
+	mPreeditor = nullptr;
 	mKeyCharCode = 0;
 	mKeyScanCode = 0;
 	mKeyVirtualKey = 0;
-	mhDC = NULL;
-	mhRC = NULL;
+	mhDC = nullptr;
+	mhRC = nullptr;
 
 	// Initialize the keyboard
 	gKeyboard = new LLKeyboardWin32();
@@ -464,8 +464,8 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	SetRect( &mOldMouseClip, 0, 0, 0, 0 );
 
 	// Make an instance of our window then define the window class
-	mhInstance = GetModuleHandle(NULL);
-	mWndProc = NULL;
+	mhInstance = GetModuleHandle(nullptr);
+	mWndProc = nullptr;
 
 	mSwapMethod = SWAP_METHOD_UNDEFINED;
 
@@ -509,7 +509,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 		wc.hIcon = LoadIcon(mhInstance, mIconResource);
 
 		// We will set the cursor ourselves
-		wc.hCursor = NULL;
+		wc.hCursor = nullptr;
 
 		// background color is not used
 		if (clearBg)
@@ -518,11 +518,11 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 		}
 		else
 		{
-			wc.hbrBackground = (HBRUSH) NULL;
+			wc.hbrBackground = (HBRUSH)nullptr;
 		}
 
 		// we don't use windows menus
-		wc.lpszMenuName = NULL;
+		wc.lpszMenuName = nullptr;
 
 		wc.lpszClassName = mWindowClassName;
 
@@ -543,7 +543,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	::ZeroMemory(&dev_mode, sizeof(DEVMODE));
 	dev_mode.dmSize = sizeof(DEVMODE);
 	DWORD current_refresh;
-	if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode))
+	if (EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode))
 	{
 		current_refresh = dev_mode.dmDisplayFrequency;
 		mNativeAspectRatio = ((F32)dev_mode.dmPelsWidth) / ((F32)dev_mode.dmPelsHeight);
@@ -565,7 +565,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 
 		for (S32 mode_num = 0;; mode_num++)
 		{
-			if (!EnumDisplaySettings(NULL, mode_num, &dev_mode))
+			if (!EnumDisplaySettings(nullptr, mode_num, &dev_mode))
 			{
 				break;
 			}
@@ -588,7 +588,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 			LL_WARNS("Window") << "Couldn't find display mode " << width << " by " << height << " at " << BITS_PER_PIXEL << " bits per pixel" << LL_ENDL;
 			//success = FALSE;
 
-			if (!EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode))
+			if (!EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode))
 			{
 				success = FALSE;
 			}
@@ -617,7 +617,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 
 		// Keep a copy of the actual current device mode in case we minimize 
 		// and change the screen resolution.   JC
-		EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode);
+		EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode);
 
 		// If it failed, we don't want to run fullscreen
 		if (success)
@@ -679,7 +679,7 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 
 	// Initialize (boot strap) the Language text input management,
 	// based on the system's (or user's) default settings.
-	allowLanguageTextInput(NULL, FALSE);
+	allowLanguageTextInput(nullptr, FALSE);
 }
 
 
@@ -688,13 +688,13 @@ LLWindowWin32::~LLWindowWin32()
 	delete mDragDrop;
 
 	delete [] mWindowTitle;
-	mWindowTitle = NULL;
+	mWindowTitle = nullptr;
 
 	delete [] mSupportedResolutions;
-	mSupportedResolutions = NULL;
+	mSupportedResolutions = nullptr;
 
 	delete [] mWindowClassName;
-	mWindowClassName = NULL;
+	mWindowClassName = nullptr;
 }
 
 void LLWindowWin32::show()
@@ -757,7 +757,7 @@ void LLWindowWin32::close()
 	LL_DEBUGS("Window") << "Releasing Context" << LL_ENDL;
 	if (mhRC)
 	{
-		if (!wglMakeCurrent(NULL, NULL))
+		if (!wglMakeCurrent(nullptr, nullptr))
 		{
 			LL_WARNS("Window") << "Release of DC and RC failed" << LL_ENDL;
 		}
@@ -767,7 +767,7 @@ void LLWindowWin32::close()
 			LL_WARNS("Window") << "Release of rendering context failed" << LL_ENDL;
 		}
 
-		mhRC = NULL;
+		mhRC = nullptr;
 	}
 
 	// Restore gamma to the system values.
@@ -776,7 +776,7 @@ void LLWindowWin32::close()
 	if (mhDC && !ReleaseDC(mWindowHandle, mhDC))
 	{
 		LL_WARNS("Window") << "Release of ghDC failed" << LL_ENDL;
-		mhDC = NULL;
+		mhDC = nullptr;
 	}
 
 	LL_DEBUGS("Window") << "Destroying Window" << LL_ENDL;
@@ -795,12 +795,12 @@ void LLWindowWin32::close()
 			OSMB_OK);
 	}
 
-	mWindowHandle = NULL;
+	mWindowHandle = nullptr;
 }
 
 BOOL LLWindowWin32::isValid()
 {
-	return (mWindowHandle != NULL);
+	return (mWindowHandle != nullptr);
 }
 
 BOOL LLWindowWin32::getVisible()
@@ -846,7 +846,7 @@ BOOL LLWindowWin32::getPosition(LLCoordScreen *position)
 
 	if (!mWindowHandle ||
 		!GetWindowRect(mWindowHandle, &window_rect) ||
-		NULL == position)
+		nullptr == position)
 	{
 		return FALSE;
 	}
@@ -862,7 +862,7 @@ BOOL LLWindowWin32::getSize(LLCoordScreen *size)
 
 	if (!mWindowHandle ||
 		!GetWindowRect(mWindowHandle, &window_rect) ||
-		NULL == size)
+		nullptr == size)
 	{
 		return FALSE;
 	}
@@ -878,7 +878,7 @@ BOOL LLWindowWin32::getSize(LLCoordWindow *size)
 
 	if (!mWindowHandle ||
 		!GetClientRect(mWindowHandle, &client_rect) ||
-		NULL == size)
+		nullptr == size)
 	{
 		return FALSE;
 	}
@@ -956,7 +956,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		resetDisplayResolution();
 	}
 
-	if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode))
+	if (EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode))
 	{
 		current_refresh = dev_mode.dmDisplayFrequency;
 	}
@@ -969,7 +969,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 	//destroy gl context
 	if (mhRC)
 	{
-		if (!wglMakeCurrent(NULL, NULL))
+		if (!wglMakeCurrent(nullptr, nullptr))
 		{
 			LL_WARNS("Window") << "Release of DC and RC failed" << LL_ENDL;
 		}
@@ -979,7 +979,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 			LL_WARNS("Window") << "Release of rendering context failed" << LL_ENDL;
 		}
 
-		mhRC = NULL;
+		mhRC = nullptr;
 	}
 
 	if (window_mode == E_WINDOW_FULLSCREEN_EXCLUSIVE)
@@ -990,7 +990,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 
 		for (S32 mode_num = 0;; mode_num++)
 		{
-			if (!EnumDisplaySettings(NULL, mode_num, &dev_mode))
+			if (!EnumDisplaySettings(nullptr, mode_num, &dev_mode))
 			{
 				break;
 			}
@@ -1022,7 +1022,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 
 		// Keep a copy of the actual current device mode in case we minimize 
 		// and change the screen resolution.   JC
-		EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode);
+		EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode);
 
 		if (success)
 		{
@@ -1088,10 +1088,10 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		window_rect.top,								// y pos
 		window_rect.right - window_rect.left,			// width
 		window_rect.bottom - window_rect.top,			// height
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		mhInstance,
-		NULL);
+		nullptr);
 
 	LL_INFOS("Window") << "window is created." << LL_ENDL ;
 
@@ -1273,7 +1273,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		U32 num_formats = 0;
 
 		// First we try and get a 32 bit depth pixel format
-		BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, NULL, 256, pixel_formats, &num_formats);
+		BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, nullptr, 256, pixel_formats, &num_formats);
 		
 		while(!result && mFSAASamples > 0) 
 		{
@@ -1295,7 +1295,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 				end_attrib = 0 ;
 				attrib_list[cur_attrib++] = 0 ; //end
 			}
-			result = wglChoosePixelFormatARB(mhDC, attrib_list, NULL, 256, pixel_formats, &num_formats);
+			result = wglChoosePixelFormatARB(mhDC, attrib_list, nullptr, 256, pixel_formats, &num_formats);
 
 			if(result)
 			{
@@ -1319,7 +1319,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 				LL_INFOS("Window") << "No valid pixel format for " << mFSAASamples << "x anti-aliasing." << LL_ENDL;
 				attrib_list[end_attrib] = 0;
 
-				BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, NULL, 256, pixel_formats, &num_formats);
+				BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, nullptr, 256, pixel_formats, &num_formats);
 				if (!result)
 				{
 					close();
@@ -1333,7 +1333,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 				LL_INFOS("Window") << "No 32 bit z-buffer, trying 24 bits instead" << LL_ENDL;
 				// Try 24-bit format
 				attrib_list[1] = 24;
-				BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, NULL, 256, pixel_formats, &num_formats);
+				BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, nullptr, 256, pixel_formats, &num_formats);
 				if (!result)
 				{
 					close();
@@ -1345,7 +1345,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 				{
 					LL_WARNS("Window") << "Couldn't get 24 bit z-buffer,trying 16 bits instead!" << LL_ENDL;
 					attrib_list[1] = 16;
-					BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, NULL, 256, pixel_formats, &num_formats);
+					BOOL result = wglChoosePixelFormatARB(mhDC, attrib_list, nullptr, 256, pixel_formats, &num_formats);
 					if (!result || !num_formats)
 					{
 						close();
@@ -1380,17 +1380,17 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		
 		pixel_format = pixel_formats[cur_format];
 		
-		if (mhDC != 0)											// Does The Window Have A Device Context?
+		if (mhDC != nullptr)											// Does The Window Have A Device Context?
 		{
-			wglMakeCurrent(mhDC, 0);							// Set The Current Active Rendering Context To Zero
-			if (mhRC != 0)										// Does The Window Have A Rendering Context?
+			wglMakeCurrent(mhDC, nullptr);							// Set The Current Active Rendering Context To Zero
+			if (mhRC != nullptr)										// Does The Window Have A Rendering Context?
 			{
 				wglDeleteContext (mhRC);							// Release The Rendering Context
-				mhRC = 0;										// Zero The Rendering Context
+				mhRC = nullptr;										// Zero The Rendering Context
 
 			}
 			ReleaseDC (mWindowHandle, mhDC);						// Release The Device Context
-			mhDC = 0;											// Zero The Device Context
+			mhDC = nullptr;											// Zero The Device Context
 		}
 		DestroyWindow (mWindowHandle);									// Destroy The Window
 		
@@ -1403,10 +1403,10 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 			window_rect.top,								// y pos
 			window_rect.right - window_rect.left,			// width
 			window_rect.bottom - window_rect.top,			// height
-			NULL,
-			NULL,
+			nullptr,
+			nullptr,
 			mhInstance,
-			NULL);
+			nullptr);
 
 		LL_INFOS("Window") << "recreate window done." << LL_ENDL ;
 
@@ -1482,7 +1482,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		return FALSE;
 	}
 
-	mhRC = 0;
+	mhRC = nullptr;
 	if (WGLEW_ARB_create_context)
 	{ //attempt to create a specific versioned context
 		S32 attribs[] = 
@@ -1594,7 +1594,7 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 	mDragDrop->init( mWindowHandle );
 	
 	//register joystick timer callback
-	SetTimer( mWindowHandle, 0, 1000 / 30, NULL ); // 30 fps timer
+	SetTimer( mWindowHandle, 0, 1000 / 30, nullptr ); // 30 fps timer
 
 	// ok to post quit messages now
 	mPostQuit = TRUE;
@@ -1649,7 +1649,7 @@ BOOL LLWindowWin32::setCursorPosition(LLCoordWindow position)
 	// mouse position via handleMouseMove() above, we need to clear out
 	// any stale mouse move events.  RN/JC
 	MSG msg;
-	while (PeekMessage(&msg, NULL, WM_MOUSEMOVE, WM_MOUSEMOVE, PM_REMOVE))
+	while (PeekMessage(&msg, nullptr, WM_MOUSEMOVE, WM_MOUSEMOVE, PM_REMOVE))
 	{ }
 
 	LLCoordScreen screen_pos(position.convert());
@@ -1728,19 +1728,19 @@ HCURSOR LLWindowWin32::loadColorCursor(LPCTSTR name)
 
 void LLWindowWin32::initCursors()
 {
-	mCursor[ UI_CURSOR_ARROW ]		= LoadCursor(NULL, IDC_ARROW);
-	mCursor[ UI_CURSOR_WAIT ]		= LoadCursor(NULL, IDC_WAIT);
-	mCursor[ UI_CURSOR_HAND ]		= LoadCursor(NULL, IDC_HAND);
-	mCursor[ UI_CURSOR_IBEAM ]		= LoadCursor(NULL, IDC_IBEAM);
-	mCursor[ UI_CURSOR_CROSS ]		= LoadCursor(NULL, IDC_CROSS);
-	mCursor[ UI_CURSOR_SIZENWSE ]	= LoadCursor(NULL, IDC_SIZENWSE);
-	mCursor[ UI_CURSOR_SIZENESW ]	= LoadCursor(NULL, IDC_SIZENESW);
-	mCursor[ UI_CURSOR_SIZEWE ]		= LoadCursor(NULL, IDC_SIZEWE);  
-	mCursor[ UI_CURSOR_SIZENS ]		= LoadCursor(NULL, IDC_SIZENS);  
-	mCursor[ UI_CURSOR_NO ]			= LoadCursor(NULL, IDC_NO);
-	mCursor[ UI_CURSOR_WORKING ]	= LoadCursor(NULL, IDC_APPSTARTING); 
+	mCursor[ UI_CURSOR_ARROW ]		= LoadCursor(nullptr, IDC_ARROW);
+	mCursor[ UI_CURSOR_WAIT ]		= LoadCursor(nullptr, IDC_WAIT);
+	mCursor[ UI_CURSOR_HAND ]		= LoadCursor(nullptr, IDC_HAND);
+	mCursor[ UI_CURSOR_IBEAM ]		= LoadCursor(nullptr, IDC_IBEAM);
+	mCursor[ UI_CURSOR_CROSS ]		= LoadCursor(nullptr, IDC_CROSS);
+	mCursor[ UI_CURSOR_SIZENWSE ]	= LoadCursor(nullptr, IDC_SIZENWSE);
+	mCursor[ UI_CURSOR_SIZENESW ]	= LoadCursor(nullptr, IDC_SIZENESW);
+	mCursor[ UI_CURSOR_SIZEWE ]		= LoadCursor(nullptr, IDC_SIZEWE);  
+	mCursor[ UI_CURSOR_SIZENS ]		= LoadCursor(nullptr, IDC_SIZENS);  
+	mCursor[ UI_CURSOR_NO ]			= LoadCursor(nullptr, IDC_NO);
+	mCursor[ UI_CURSOR_WORKING ]	= LoadCursor(nullptr, IDC_APPSTARTING); 
 
-	HMODULE module = GetModuleHandle(NULL);
+	HMODULE module = GetModuleHandle(nullptr);
 	mCursor[ UI_CURSOR_TOOLGRAB ]	= LoadCursor(module, TEXT("TOOLGRAB"));
 	mCursor[ UI_CURSOR_TOOLLAND ]	= LoadCursor(module, TEXT("TOOLLAND"));
 	mCursor[ UI_CURSOR_TOOLFOCUS ]	= LoadCursor(module, TEXT("TOOLFOCUS"));
@@ -1780,7 +1780,7 @@ void LLWindowWin32::initCursors()
 	{
 		if( !mCursor[i] )
 		{
-			mCursor[i] = LoadCursor(NULL, IDC_ARROW);
+			mCursor[i] = LoadCursor(nullptr, IDC_ARROW);
 		}
 	}
 }
@@ -1834,7 +1834,7 @@ void LLWindowWin32::gatherInput()
 	MSG		msg;
 	int		msg_count = 0;
 
-	while ((msg_count < MAX_MESSAGE_PER_UPDATE) && PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+	while ((msg_count < MAX_MESSAGE_PER_UPDATE) && PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		mCallbacks->handlePingWatchdog(this, "Main:TranslateGatherInput");
 		TranslateMessage(&msg);
@@ -1896,12 +1896,12 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 	LLWindowWin32 *window_imp = (LLWindowWin32 *)GetWindowLongPtr(h_wnd, GWLP_USERDATA); // <alchemy/>
 
 
-	if (NULL != window_imp)
+	if (nullptr != window_imp)
 	{
 		window_imp->mCallbacks->handleResumeWatchdog(window_imp);
 		window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:StartWndProc");
 		// Has user provided their own window callback?
-		if (NULL != window_imp->mWndProc)
+		if (nullptr != window_imp->mWndProc)
 		{
 			if (!window_imp->mWndProc(h_wnd, u_msg, w_param, l_param))
 			{
@@ -2703,7 +2703,7 @@ BOOL LLWindowWin32::convertCoords(LLCoordGL from, LLCoordWindow *to)
 
 	if (!mWindowHandle ||
 		!GetClientRect(mWindowHandle, &client_rect) ||
-		NULL == to)
+		nullptr == to)
 	{
 		return FALSE;
 	}
@@ -2722,7 +2722,7 @@ BOOL LLWindowWin32::convertCoords(LLCoordWindow from, LLCoordGL* to)
 
 	if (!mWindowHandle ||
 		!GetClientRect(mWindowHandle, &client_rect) ||
-		NULL == to)
+		nullptr == to)
 	{
 		return FALSE;
 	}
@@ -2772,7 +2772,7 @@ BOOL LLWindowWin32::convertCoords(LLCoordScreen from, LLCoordGL *to)
 {
 	LLCoordWindow window_coord;
 
-	if (!mWindowHandle || (NULL == to))
+	if (!mWindowHandle || (nullptr == to))
 	{
 		return FALSE;
 	}
@@ -2786,7 +2786,7 @@ BOOL LLWindowWin32::convertCoords(LLCoordGL from, LLCoordScreen *to)
 {
 	LLCoordWindow window_coord;
 
-	if (!mWindowHandle || (NULL == to))
+	if (!mWindowHandle || (nullptr == to))
 	{
 		return FALSE;
 	}
@@ -2999,7 +2999,7 @@ LLWindow::LLWindowResolution* LLWindowWin32::getSupportedResolutions(S32 &num_re
 		mNumSupportedResolutions = 0;
 		for (S32 mode_num = 0; mNumSupportedResolutions < MAX_NUM_RESOLUTIONS; mode_num++)
 		{
-			if (!EnumDisplaySettings(NULL, mode_num, &dev_mode))
+			if (!EnumDisplaySettings(nullptr, mode_num, &dev_mode))
 			{
 				break;
 			}
@@ -3075,7 +3075,7 @@ BOOL LLWindowWin32::setDisplayResolution(S32 width, S32 height, S32 bits, S32 re
 	BOOL success = FALSE;
 
 	// Don't change anything if we don't have to
-	if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dev_mode))
+	if (EnumDisplaySettings(nullptr, ENUM_CURRENT_SETTINGS, &dev_mode))
 	{
 		if (dev_mode.dmPelsWidth        == width &&
 			dev_mode.dmPelsHeight       == height &&
@@ -3127,7 +3127,7 @@ BOOL LLWindowWin32::resetDisplayResolution()
 {
 	LL_DEBUGS("Window") << "resetDisplayResolution START" << LL_ENDL;
 
-	LONG cds_result = ChangeDisplaySettings(NULL, 0);
+	LONG cds_result = ChangeDisplaySettings(nullptr, 0);
 
 	BOOL success = (DISP_CHANGE_SUCCESSFUL == cds_result);
 
@@ -3151,7 +3151,7 @@ void LLWindowWin32::swapBuffers()
 // LLSplashScreenImp
 //
 LLSplashScreenWin32::LLSplashScreenWin32()
-:	mWindow(NULL)
+:	mWindow(nullptr)
 {
 }
 
@@ -3162,7 +3162,7 @@ LLSplashScreenWin32::~LLSplashScreenWin32()
 void LLSplashScreenWin32::showImpl()
 {
 	// This appears to work.  ???
-	HINSTANCE hinst = GetModuleHandle(NULL);
+	HINSTANCE hinst = GetModuleHandle(nullptr);
 
 	mWindow = CreateDialog(hinst, 
 		TEXT("SPLASHSCREEN"), 
@@ -3176,7 +3176,7 @@ void LLSplashScreenWin32::updateImpl(const std::string& mesg)
 {
 	if (!mWindow) return;
 
-	int output_str_len = MultiByteToWideChar(CP_UTF8, 0, mesg.c_str(), mesg.length(), NULL, 0);
+	int output_str_len = MultiByteToWideChar(CP_UTF8, 0, mesg.c_str(), mesg.length(), nullptr, 0);
 	if( output_str_len>1024 )
 		return;
 
@@ -3200,7 +3200,7 @@ void LLSplashScreenWin32::hideImpl()
 	if (mWindow)
 	{
 		DestroyWindow(mWindow);
-		mWindow = NULL; 
+		mWindow = nullptr; 
 	}
 }
 
@@ -3238,7 +3238,7 @@ S32 OSMessageBoxWin32(const std::string& text, const std::string& caption, U32 t
 	}
 
 	// HACK! Doesn't properly handle wide strings!
-	int retval_win = MessageBoxW(NULL, utf8str_to_utf16str(text).c_str(), utf8str_to_utf16str(caption).c_str(), uType);
+	int retval_win = MessageBoxW(nullptr, utf8str_to_utf16str(text).c_str(), utf8str_to_utf16str(caption).c_str(), uType);
 	S32 retval;
 
 	switch(retval_win)
@@ -3331,14 +3331,14 @@ BOOL LLWindowWin32::dialogColorPicker( F32 *r, F32 *g, F32 *b )
 	static COLORREF crCustColors[16];
 	cc.lStructSize = sizeof(CHOOSECOLOR);
 	cc.hwndOwner = mWindowHandle;
-	cc.hInstance = NULL;
+	cc.hInstance = nullptr;
 	cc.rgbResult = RGB ((*r * 255.f),(*g *255.f),(*b * 255.f));
 	//cc.rgbResult = RGB (0x80,0x80,0x80); 
 	cc.lpCustColors = crCustColors;
 	cc.Flags = CC_RGBINIT | CC_FULLOPEN;
 	cc.lCustData = 0;
-	cc.lpfnHook = NULL;
-	cc.lpTemplateName = NULL;
+	cc.lpfnHook = nullptr;
+	cc.lpTemplateName = nullptr;
  
 	// This call is modal, so pause agent
 	//send_agent_pause();	// this is in newview and we don't want to set up a dependency
@@ -3588,7 +3588,7 @@ void LLWindowWin32::updateLanguageTextInputArea()
 
 	LLCoordGL caret_coord;
 	LLRect preedit_bounds;
-	if (mPreeditor->getPreeditLocation(-1, &caret_coord, &preedit_bounds, NULL))
+	if (mPreeditor->getPreeditLocation(-1, &caret_coord, &preedit_bounds, nullptr))
 	{
 		mLanguageTextInputPointGL = caret_coord;
 		mLanguageTextInputAreaGL = preedit_bounds;
@@ -3646,7 +3646,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 
 	if (indexes & GCS_RESULTSTR)
 	{
-		LONG size = LLWinImm::getCompositionString(himc, GCS_RESULTSTR, NULL, 0);
+		LONG size = LLWinImm::getCompositionString(himc, GCS_RESULTSTR, nullptr, 0);
 		if (size >= 0)
 		{
 			const LPWSTR data = new WCHAR[size / sizeof(WCHAR) + 1];
@@ -3662,7 +3662,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 	
 	if (indexes & GCS_COMPSTR)
 	{
-		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPSTR, NULL, 0);
+		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPSTR, nullptr, 0);
 		if (size >= 0)
 		{
 			const LPWSTR data = new WCHAR[size / sizeof(WCHAR) + 1];
@@ -3679,7 +3679,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 
 	if ((indexes & GCS_COMPCLAUSE) && preedit_string.length() > 0)
 	{
-		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPCLAUSE, NULL, 0);
+		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPCLAUSE, nullptr, 0);
 		if (size > 0)
 		{
 			const LPDWORD data = new DWORD[size / sizeof(DWORD)];
@@ -3702,7 +3702,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 
 	if ((indexes & GCS_COMPATTR) && preedit_segment_lengths.size() > 1)
 	{
-		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPATTR, NULL, 0);
+		LONG size = LLWinImm::getCompositionString(himc, GCS_COMPATTR, nullptr, 0);
 		if (size > 0)
 		{
 			const LPBYTE data = new BYTE[size / sizeof(BYTE)];
@@ -3727,7 +3727,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 	S32 caret_position = preedit_string.length();
 	if (indexes & GCS_CURSORPOS)
 	{
-		const S32 caret_position_utf16 = LLWinImm::getCompositionString(himc, GCS_CURSORPOS, NULL, 0);
+		const S32 caret_position_utf16 = LLWinImm::getCompositionString(himc, GCS_CURSORPOS, nullptr, 0);
 		if (caret_position_utf16 >= 0 && caret_position <= preedit_string_utf16_length)
 		{
 			caret_position = wstring_wstring_length_from_utf16_length(preedit_string, 0, caret_position_utf16);
@@ -3831,7 +3831,7 @@ BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *r
 			{
 				LLCoordGL caret_coord;
 				LLRect preedit_bounds;
-				mPreeditor->getPreeditLocation(-1, &caret_coord, &preedit_bounds, NULL);
+				mPreeditor->getPreeditLocation(-1, &caret_coord, &preedit_bounds, nullptr);
 				
 				CANDIDATEFORM *const form = (CANDIDATEFORM *)l_param;
 				DWORD const dwIndex = form->dwIndex;
@@ -3893,7 +3893,7 @@ BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *r
 						// adjust the reconvert_string structure accordingly.
 						HIMC himc = LLWinImm::getContext(mWindowHandle);
 						const BOOL adjusted = LLWinImm::setCompositionString(himc,
-									SCS_QUERYRECONVERTSTRING, reconvert_string, size, NULL, 0);
+									SCS_QUERYRECONVERTSTRING, reconvert_string, size, nullptr, 0);
 						LLWinImm::releaseContext(mWindowHandle, himc);
 						if (adjusted)
 						{
@@ -3949,7 +3949,7 @@ BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *r
 void LLWindowWin32::setDPIAwareness()
 {
 	HMODULE hShcore = LoadLibrary(L"shcore.dll");
-	if (hShcore != NULL)
+	if (hShcore != nullptr)
 	{
 		SetProcessDpiAwarenessType pSPDA;
 		pSPDA = (SetProcessDpiAwarenessType)GetProcAddress(hShcore, "SetProcessDpiAwareness");
@@ -3981,13 +3981,13 @@ F32 LLWindowWin32::getSystemUISize()
 
 	HMODULE hShcore = LoadLibrary(L"shcore.dll");
 
-	if (hShcore != NULL)
+	if (hShcore != nullptr)
 	{
 		GetProcessDpiAwarenessType pGPDA;
 		pGPDA = (GetProcessDpiAwarenessType)GetProcAddress(hShcore, "GetProcessDpiAwareness");
 		GetDpiForMonitorType pGDFM;
 		pGDFM = (GetDpiForMonitorType)GetProcAddress(hShcore, "GetDpiForMonitor");
-		if (pGPDA != NULL && pGDFM != NULL)
+		if (pGPDA != nullptr && pGDFM != nullptr)
 		{
 			pGPDA(hProcess, &dpi_awareness);
 			if (dpi_awareness == PROCESS_PER_MONITOR_DPI_AWARE)

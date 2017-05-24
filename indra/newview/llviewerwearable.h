@@ -61,18 +61,18 @@ public:
 	BOOL				isDirty() const;
 	BOOL				isOldVersion() const;
 
-	/*virtual*/ void	writeToAvatar(LLAvatarAppearance *avatarp);
+	/*virtual*/ void	writeToAvatar(LLAvatarAppearance *avatarp) override;
 	void				removeFromAvatar( BOOL upload_bake )	{ LLViewerWearable::removeFromAvatar( mType, upload_bake ); }
 	static void			removeFromAvatar( LLWearableType::EType type, BOOL upload_bake ); 
 
-	/*virtual*/ EImportResult	importStream( std::istream& input_stream, LLAvatarAppearance* avatarp );
+	/*virtual*/ EImportResult	importStream( std::istream& input_stream, LLAvatarAppearance* avatarp ) override;
 	
 	void				setParamsToDefaults();
 	void				setTexturesToDefaults();
 	void				setVolatile(BOOL is_volatile) { mVolatile = is_volatile; } // TRUE when doing preview renders, some updates will be suppressed.
 	BOOL				getVolatile() { return mVolatile; }
 
-	/*virtual*/ LLUUID	getDefaultTextureImageID(LLAvatarAppearanceDefines::ETextureIndex index) const;
+	/*virtual*/ LLUUID	getDefaultTextureImageID(LLAvatarAppearanceDefines::ETextureIndex index) const override;
 
 
 	void				saveNewAsset() const;
@@ -82,18 +82,18 @@ public:
 
 	friend std::ostream& operator<<(std::ostream &s, const LLViewerWearable &w);
 
-	/*virtual*/ void	revertValues();
-	/*virtual*/ void	saveValues();
+	/*virtual*/ void	revertValues() override;
+	/*virtual*/ void	saveValues() override;
 
 	void 				revertValuesWithoutUpdate();
 
 	// Something happened that requires the wearable's label to be updated (e.g. worn/unworn).
-	/*virtual*/void		setUpdated() const;
+	/*virtual*/void		setUpdated() const override;
 
 	// the wearable was worn. make sure the name of the wearable object matches the LLViewerInventoryItem,
 	// not the wearable asset itself.
 	void				refreshName();
-	/*virtual*/void		addToBakedTextureHash(LLMD5& hash) const;
+	/*virtual*/void		addToBakedTextureHash(LLMD5& hash) const override;
 
 protected:
 	LLAssetID			mAssetID;

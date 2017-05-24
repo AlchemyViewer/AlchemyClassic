@@ -68,12 +68,12 @@ public:
 
 	void apply();
 	void cancel();
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/	void onClose(bool app_quitting);
-	/*virtual*/ void changed();
-	/*virtual*/ void changed(const LLUUID& session_id, U32 mask) {};
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/	void onClose(bool app_quitting) override;
+	/*virtual*/ void changed() override;
+	/*virtual*/ void changed(const LLUUID& session_id, U32 mask) override {};
 
 	// static data update, called from message handler
 	static void updateUserInfo(const std::string& visibility, bool im_via_email);
@@ -84,7 +84,7 @@ public:
 	// translate user's do not disturb response message according to current locale if message is default, otherwise do nothing
 	static void initDoNotDisturbResponse();
 
-	void processProperties( void* pData, EAvatarProcessorType type );
+	void processProperties( void* pData, EAvatarProcessorType type ) override;
 	void processProfileProperties(const LLAvatarData* pAvatarData );
 	void storeAvatarProperties( const LLAvatarData* pAvatarData );
 	void saveAvatarProperties( void );
@@ -144,7 +144,7 @@ public:
 	void setPersonalInfo(const std::string& visibility, bool im_via_email);
 	void refreshEnabledState();
 	void onCommitWindowedMode();
-	void refresh();	// Refresh enable/disable
+	void refresh() override;	// Refresh enable/disable
 	// if the quality radio buttons are changed
 	void onChangeQuality(const LLSD& data);
 	
@@ -223,7 +223,7 @@ class LLPanelPreference : public LLPanel
 {
 public:
 	LLPanelPreference();
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 	virtual ~LLPanelPreference();
 
@@ -262,12 +262,12 @@ private:
 class LLPanelPreferenceGraphics : public LLPanelPreference
 {
 public:
-	BOOL postBuild();
-	void draw();
-	void cancel();
-	void saveSettings();
+	BOOL postBuild() override;
+	void draw() override;
+	void cancel() override;
+	void saveSettings() override;
 	void resetDirtyChilds();
-	void setHardwareDefaults();
+	void setHardwareDefaults() override;
 
 protected:
 	bool hasDirtyChilds();
@@ -280,8 +280,8 @@ class LLFloaterPreferenceGraphicsAdvanced : public LLFloater
   public: 
 	LLFloaterPreferenceGraphicsAdvanced(const LLSD& key);
 	~LLFloaterPreferenceGraphicsAdvanced();
-	void onOpen(const LLSD& key);
-	void onClickCloseBtn(bool app_quitting);
+	void onOpen(const LLSD& key) override;
+	void onClickCloseBtn(bool app_quitting) override;
 	void disableUnavailableSettings();
 	void refreshEnabledGraphics();
 	void refreshEnabledState();
@@ -293,7 +293,7 @@ class LLFloaterPreferenceGraphicsAdvanced : public LLFloater
 	static void setIndirectControls();
 	static void setIndirectMaxNonImpostors();
 	static void setIndirectMaxArc();
-	void refresh();
+	void refresh() override;
 	// callback for when client turns on shaders
 	void onVertexShaderEnable();
 	LOG_CLASS(LLFloaterPreferenceGraphicsAdvanced);
@@ -321,13 +321,13 @@ public:
 	void cancel();
 	
 protected:
-	BOOL postBuild();
-	void onOpen(const LLSD& key);
-	void onClose(bool app_quitting);
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
+	void onClose(bool app_quitting) override;
 	void saveSettings();
 	void onBtnOk();
 	void onBtnCancel();
-	void onClickCloseBtn(bool app_quitting = false);
+	void onClickCloseBtn(bool app_quitting = false) override;
 
 	void onChangeSocksSettings();
 

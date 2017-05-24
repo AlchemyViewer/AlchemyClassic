@@ -103,7 +103,7 @@ void LLDrawPoolWater::restoreGL()
 LLDrawPool *LLDrawPoolWater::instancePool()
 {
 	LL_ERRS() << "Should never be calling instancePool on a water pool!" << LL_ENDL;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -340,7 +340,7 @@ void LLDrawPoolWater::renderOpaqueLegacyWater()
 {
 	LLVOSky *voskyp = gSky.mVOSkyp;
 
-	LLGLSLShader* shader = NULL;
+	LLGLSLShader* shader = nullptr;
 	if (LLGLSLShader::sNoFixedFunction)
 	{
 		if (LLPipeline::sUnderWaterRender)
@@ -482,7 +482,7 @@ void LLDrawPoolWater::shade()
 
 	LLVOSky *voskyp = gSky.mVOSkyp;
 
-	if(voskyp == NULL) 
+	if(voskyp == nullptr) 
 	{
 		return;
 	}

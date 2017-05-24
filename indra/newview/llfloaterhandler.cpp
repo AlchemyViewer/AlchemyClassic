@@ -35,7 +35,7 @@ LLFloaterHandler gFloaterHandler;
 
 LLFloater* get_parent_floater(LLView* view)
 {
-	LLFloater* floater = NULL;
+	LLFloater* floater = nullptr;
 	LLView* parent = view->getParent();
 	while (parent)
 	{
@@ -53,7 +53,7 @@ LLFloater* get_parent_floater(LLView* view)
 bool LLFloaterHandler::handle(const LLSD &params, const LLSD &query_map, LLMediaCtrl *web)
 {
 	if (params.size() < 2) return false;
-	LLFloater* floater = NULL;
+	LLFloater* floater = nullptr;
 	// *TODO: implement floater lookup by name
 	if (params[0].asString() == "self")
 	{

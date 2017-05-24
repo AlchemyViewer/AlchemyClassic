@@ -53,8 +53,8 @@ public:
 	void observeInboxCreation();
 	void observeInboxModifications(const LLUUID& inboxID);
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	LLInventoryPanel* getActivePanel(); // Returns an active inventory panel, if any.
 	LLInventoryPanel* getInboxPanel() const { return mInventoryPanelInbox.get(); }

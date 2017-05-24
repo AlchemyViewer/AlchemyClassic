@@ -47,8 +47,8 @@ public:
 	LLSidepanelAppearance();
 	virtual ~LLSidepanelAppearance();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);	
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;	
 
 	void refreshCurrentOutfitName(const std::string& name = "");
 
@@ -60,7 +60,7 @@ public:
 
 	void showOutfitsInventoryPanel();
 	void showOutfitEditPanel();
-	void showWearableEditPanel(LLViewerWearable *wearable = NULL, BOOL disable_camera_switch = FALSE);
+	void showWearableEditPanel(LLViewerWearable *wearable = nullptr, BOOL disable_camera_switch = FALSE);
 	void setWearablesLoading(bool val);
 	void showDefaultSubpart();
 	void updateScrollingPanelList();
@@ -76,7 +76,7 @@ private:
 
 	void toggleMyOutfitsPanel(BOOL visible);
 	void toggleOutfitEditPanel(BOOL visible, BOOL disable_camera_switch = FALSE);
-	void toggleWearableEditPanel(BOOL visible, LLViewerWearable* wearable = NULL, BOOL disable_camera_switch = FALSE);
+	void toggleWearableEditPanel(BOOL visible, LLViewerWearable* wearable = nullptr, BOOL disable_camera_switch = FALSE);
 
 	LLLoadingIndicator*		mOutfitLoadingIndicator;
 	LLFilterEditor*			mFilterEditor;

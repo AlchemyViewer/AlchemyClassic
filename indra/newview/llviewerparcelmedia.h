@@ -74,7 +74,7 @@ class LLViewerParcelMedia : public LLViewerMediaObserver
 		static void sendMediaNavigateMessage(const std::string& url);
 		
 		// inherited from LLViewerMediaObserver
-		virtual void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event);
+	void handleMediaEvent(LLPluginClassMedia* self, EMediaEvent event) override;
 
 	public:
 		static S32 sMediaParcelLocalID;

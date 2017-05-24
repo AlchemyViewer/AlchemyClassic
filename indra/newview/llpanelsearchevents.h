@@ -40,11 +40,11 @@ class LLPanelSearchEvents : public LLPanelSearch
 {
 public:
 	LLPanelSearchEvents();
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 private:
-	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl);
-	/*virtual*/ void search();
+	/*virtual*/ void onCommitSearch(LLUICtrl* ctrl) override;
+	/*virtual*/ void search() override;
 	void setDate(S32 day);
 	void addDay();
 	void minusDay();

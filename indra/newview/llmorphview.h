@@ -49,7 +49,7 @@ public:
 	void		shutdown();
 
 	// inherited methods
-	/*virtual*/ void	setVisible(BOOL visible);
+	/*virtual*/ void	setVisible(BOOL visible) override;
 
 	void		setCameraTargetJoint(LLJoint *joint)		{mCameraTargetJoint = joint;}
 	LLJoint*	getCameraTargetJoint()						{return mCameraTargetJoint;}

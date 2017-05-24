@@ -150,16 +150,16 @@ public:
 	
 public:
 	LLQueuedThread(const std::string& name, bool threaded = true, bool should_pause = false);
-	virtual ~LLQueuedThread();	
-	virtual void shutdown();
+	virtual ~LLQueuedThread();
+	void shutdown() override;
 	
 private:
 	// No copy constructor or copy assignment
 	LLQueuedThread(const LLQueuedThread&);
 	LLQueuedThread& operator=(const LLQueuedThread&);
 
-	virtual bool runCondition(void);
-	virtual void run(void);
+	bool runCondition(void) override;
+	void run(void) override;
 	virtual void startThread(void);
 	virtual void endThread(void);
 	virtual void threadedUpdate(void);

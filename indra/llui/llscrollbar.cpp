@@ -52,19 +52,19 @@ LLScrollbar::Params::Params()
 	doc_pos ("doc_pos", 0),
 	page_size ("page_size", 0),
 	step_size ("step_size", 1),
+	thickness("thickness"),
 	thumb_image_vertical("thumb_image_vertical"),
 	thumb_image_horizontal("thumb_image_horizontal"),
-	track_image_vertical("track_image_vertical"),
 	track_image_horizontal("track_image_horizontal"),
+	track_image_vertical("track_image_vertical"),
+	bg_visible("bg_visible", false),
 	track_color("track_color"),
 	thumb_color("thumb_color"),
-	thickness("thickness"),
+	bg_color("bg_color", LLColor4::black),
 	up_button("up_button"),
 	down_button("down_button"),
 	left_button("left_button"),
-	right_button("right_button"),
-	bg_visible("bg_visible", false),
-	bg_color("bg_color", LLColor4::black)
+	right_button("right_button")
 {}
 
 LLScrollbar::LLScrollbar(const Params & p)
@@ -78,18 +78,18 @@ LLScrollbar::LLScrollbar(const Params & p)
 		mDocChanged(FALSE),
 		mDragStartX( 0 ),
 		mDragStartY( 0 ),
-		mLastDelta( 0 ),
 		mHoverGlowStrength(0.15f),
 		mCurGlowStrength(0.f),
+		mLastDelta( 0 ),
 		mTrackColor( p.track_color() ),
 		mThumbColor ( p.thumb_color() ),
+		mBGColor(p.bg_color),
+		mBGVisible(p.bg_visible),
 		mThumbImageV(p.thumb_image_vertical),
 		mThumbImageH(p.thumb_image_horizontal),
 		mTrackImageV(p.track_image_vertical),
 		mTrackImageH(p.track_image_horizontal),
-		mThickness(p.thickness.isProvided() ? p.thickness : LLUI::sSettingGroups["config"]->getS32("UIScrollbarSize")),
-		mBGVisible(p.bg_visible),
-		mBGColor(p.bg_color)
+		mThickness(p.thickness.isProvided() ? p.thickness : LLUI::sSettingGroups["config"]->getS32("UIScrollbarSize"))
 {
 	updateThumbRect();
 	
@@ -246,7 +246,7 @@ void LLScrollbar::updateThumbRect()
 BOOL LLScrollbar::handleMouseDown(S32 x, S32 y, MASK mask)
 {
 	// Check children first
-	BOOL handled_by_child = LLView::childrenHandleMouseDown(x, y, mask) != NULL;
+	BOOL handled_by_child = LLView::childrenHandleMouseDown(x, y, mask) != nullptr;
 	if( !handled_by_child )
 	{
 		if( mThumbRect.pointInRect(x,y) )
@@ -391,7 +391,7 @@ BOOL LLScrollbar::handleHover(S32 x, S32 y, MASK mask)
 	}
 	else
 	{
-		handled = childrenHandleHover( x, y, mask ) != NULL;
+		handled = childrenHandleHover( x, y, mask ) != nullptr;
 	}
 
 	// Opaque
@@ -440,7 +440,7 @@ BOOL LLScrollbar::handleMouseUp(S32 x, S32 y, MASK mask)
 	BOOL handled = FALSE;
 	if( hasMouseCapture() )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 		handled = TRUE;
 	}
 	else

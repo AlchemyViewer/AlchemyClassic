@@ -49,9 +49,9 @@ public:
 	LLFloaterSidePanelContainer(const LLSD& key, const Params& params = getDefaultParams());
 	~LLFloaterSidePanelContainer();
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ void closeFloater(bool app_quitting = false);
+	/*virtual*/ void closeFloater(bool app_quitting = false) override;
 
 	void cleanup() { destroy(); }
 

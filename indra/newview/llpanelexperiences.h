@@ -41,7 +41,7 @@ class LLPanelSearchExperiences
 public:
     LLPanelSearchExperiences(){}
     static LLPanelSearchExperiences* create(const std::string& name);
-    /*virtual*/ BOOL postBuild(void);
+    /*virtual*/ BOOL postBuild(void) override;
 
     void doSearch();
 };
@@ -54,7 +54,7 @@ public:
 
     static LLPanelExperiences* create(const std::string& name);
 
-	/*virtual*/ BOOL postBuild(void);
+	/*virtual*/ BOOL postBuild(void) override;
 	/*virtual*/ void onClosePanel();
 
     void setExperienceList(const LLSD& experiences);
@@ -79,8 +79,8 @@ class LLExperienceItemComparator : public LLFlatListView::ItemComparator
 public:
 	LLExperienceItemComparator() {};
 	virtual ~LLExperienceItemComparator() {};
-	
-	virtual bool compare(const LLPanel* item1, const LLPanel* item2) const;
+
+	bool compare(const LLPanel* item1, const LLPanel* item2) const override;
 };
 
 class LLExperienceItem 

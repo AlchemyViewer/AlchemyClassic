@@ -47,8 +47,8 @@
 LLDrawPoolSky::LLDrawPoolSky()
 :	LLFacePool(POOL_SKY),
 	
-	mSkyTex(NULL),
-	mShader(NULL)
+	mSkyTex(nullptr),
+	mShader(nullptr)
 {
 }
 
@@ -98,7 +98,7 @@ void LLDrawPoolSky::render(S32 pass)
 			// able to use this call.
 			LLGLSLShader::bindNoShader();
 		}
-		mShader = NULL;
+		mShader = nullptr;
 	}
 	
 

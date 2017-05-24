@@ -69,8 +69,8 @@ class LLPanelCameraZoom
 public:
 	LLPanelCameraZoom();
 
-	/* virtual */ BOOL	postBuild();
-	/* virtual */ void	draw();
+	/* virtual */ BOOL	postBuild() override;
+	/* virtual */ void	draw() override;
 
 protected:
 	void	onZoomPlusHeldDown();
@@ -90,8 +90,8 @@ LLPanelCameraItem::Params::Params()
 :	icon_over("icon_over"),
 	icon_selected("icon_selected"),
 	picture("picture"),
-	text("text"),
 	selected_picture("selected_picture"),
+	text("text"),
 	mousedown_callback("mousedown_callback")
 {
 }
@@ -160,9 +160,9 @@ static LLPanelInjector<LLPanelCameraZoom> t_camera_zoom_panel("camera_zoom_panel
 //-------------------------------------------------------------------------------
 
 LLPanelCameraZoom::LLPanelCameraZoom()
-:	mPlusBtn( NULL ),
-	mMinusBtn( NULL ),
-	mSlider( NULL )
+:	mPlusBtn(nullptr ),
+	mMinusBtn(nullptr ),
+	mSlider(nullptr )
 {
 	mCommitCallbackRegistrar.add("Zoom.minus", boost::bind(&LLPanelCameraZoom::onZoomMinusHeldDown, this));
 	mCommitCallbackRegistrar.add("Zoom.plus", boost::bind(&LLPanelCameraZoom::onZoomPlusHeldDown, this));

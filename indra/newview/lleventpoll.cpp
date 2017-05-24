@@ -98,8 +98,8 @@ namespace Details
     {
         LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
-        mHttpRequest = LLCore::HttpRequest::ptr_t(new LLCore::HttpRequest);
-        mHttpOptions = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+        mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
+        mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
         mHttpOptions->setRetries(0);
         mHttpPolicy = app_core_http.getPolicy(LLAppCoreHttp::AP_LONG_POLL);
         mSenderIp = sender.getIPandPort();

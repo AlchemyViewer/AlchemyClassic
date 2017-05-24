@@ -100,7 +100,7 @@ public:
 	
 	// If the pool is set to NULL one will be allocated and managed by this
 	// queue.
-	LLThreadSafeQueue(apr_pool_t * pool = 0, unsigned int capacity = 1024);
+	LLThreadSafeQueue(apr_pool_t * pool = nullptr, unsigned int capacity = 1024);
 	
 	// Add an element to the front of queue (will block if the queue has
 	// reached capacity).

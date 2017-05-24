@@ -173,7 +173,7 @@ LLWString LLChatUtilities::stripChannelNumber(const LLWString &mesg, S32* channe
 			pos++;
 		}
 		
-		sLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), NULL, 10);
+		sLastSpecialChatChannel = strtol(wstring_to_utf8str(channel_string).c_str(), nullptr, 10);
 		*channel = sLastSpecialChatChannel;
 		return mesg.substr(pos, mesg.length() - pos);
 	}
@@ -252,7 +252,7 @@ public:
 	
 	// Your code here
 	bool handle(const LLSD& tokens, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		bool retval = false;
 		// Need at least 2 tokens to have a valid message.

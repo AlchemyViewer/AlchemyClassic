@@ -39,9 +39,9 @@ public:
 	LLFloaterSoundDevices(const LLSD& key);
 	~LLFloaterSoundDevices();
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void setDocked(bool docked, bool pop_on_undock = true);
-	/*virtual*/ void setFocus( BOOL b );
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void setDocked(bool docked, bool pop_on_undock = true) override;
+	/*virtual*/ void setFocus( BOOL b ) override;
 };
 
 

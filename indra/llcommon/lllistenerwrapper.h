@@ -137,7 +137,7 @@ public:
     {}
 
     /// call
-    virtual bool operator()(const LLSD& event)
+	bool operator()(const LLSD& event) override
     {
         std::cout << "Entering listener " << *super::mName << " with " << event << std::endl;
         bool handled = super::operator()(event);
@@ -179,7 +179,7 @@ public:
     {}
 
     /// call
-    virtual bool operator()(const LLSD& event)
+	bool operator()(const LLSD& event) override
     {
         LL_DEBUGS("LLLogListener") << "Entering listener " << *super::mName << " with " << event << LL_ENDL;
         bool handled = super::operator()(event);

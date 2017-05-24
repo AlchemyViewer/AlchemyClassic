@@ -125,7 +125,7 @@ public:
     // requests will be throttled from a non-trusted browser
     LLRegionHandler() : LLCommandHandler("region", UNTRUSTED_THROTTLE) {}
        
-    bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+    bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
     {
         // make sure that we at least have a region name
         int num_params = params.size();
@@ -158,17 +158,17 @@ class LLViewerRegionImpl
 {
 public:
 	LLViewerRegionImpl(LLViewerRegion * region, LLHost const & host):   
+        mLandp(nullptr),
         mHost(host),
-        mCompositionp(NULL),
-        mEventPoll(NULL),
+        mCompositionp(nullptr),
+        mVOCachePartition(nullptr),
+        mEventPoll(nullptr),
         mSeedCapMaxAttempts(MAX_CAP_REQUEST_ATTEMPTS),
         mSeedCapMaxAttemptsBeforeLogin(MAX_SEED_CAP_ATTEMPTS_BEFORE_LOGIN),
         mSeedCapAttempts(0),
         mHttpResponderID(0),
-        mLastCameraUpdate(0),
         mLastCameraOrigin(),
-        mVOCachePartition(NULL),
-        mLandp(NULL)
+        mLastCameraUpdate(0)
 	{}
 
 	void buildCapabilityNames(LLSD& capabilityNames);
@@ -239,7 +239,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
 
     LLSD result;
-    LLViewerRegion *regionp = NULL;
+    LLViewerRegion *regionp = nullptr;
 
     // This loop is used for retrying a capabilities request.
     do
@@ -280,7 +280,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
         LL_INFOS("AppInit", "Capabilities") << "Requesting seed from " << url 
             << " (attempt #" << mSeedCapAttempts + 1 << ")" << LL_ENDL;
 
-        regionp = NULL;
+        regionp = nullptr;
         result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
 
         ++mSeedCapAttempts;
@@ -352,7 +352,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
 
     LLSD result;
-    LLViewerRegion *regionp = NULL;
+    LLViewerRegion *regionp = nullptr;
 
     // This loop is used for retrying a capabilities request.
     do
@@ -376,7 +376,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
 
         LL_INFOS("AppInit", "Capabilities") << "Requesting second Seed from " << url << LL_ENDL;
 
-        regionp = NULL;
+        regionp = nullptr;
         result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
 
         LLSD httpResults = result["http_result"];
@@ -458,7 +458,7 @@ void LLViewerRegionImpl::requestSimulatorFeatureCoro(std::string url, U64 region
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("BaseCapabilitiesRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
 
-    LLViewerRegion *regionp = NULL;
+    LLViewerRegion *regionp = nullptr;
     S32 attemptNumber = 0;
     // This loop is used for retrying a capabilities request.
     do
@@ -479,7 +479,7 @@ void LLViewerRegionImpl::requestSimulatorFeatureCoro(std::string url, U64 region
             break; // this error condition is not recoverable.
         }
 
-        regionp = NULL;
+        regionp = nullptr;
         LLSD result = httpAdapter->getAndSuspend(httpRequest, url);
 
         LLSD httpResults = result["http_result"];
@@ -513,7 +513,10 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 							   const U32 grids_per_region_edge, 
 							   const U32 grids_per_patch_edge, 
 							   const F32 region_width_meters)
-:	mImpl(new LLViewerRegionImpl(this, host)),
+:	mBitsReceived(0.f),
+	mPacketsReceived(0.f),
+	mImpl(new LLViewerRegionImpl(this, host)),
+	mWidth(region_width_meters),
 	mHandle(handle),
 	mTimeDilation(1.0f),
 	mName(""),
@@ -525,6 +528,8 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mBillableFactor(1.0),
 	mMaxTasks(DEFAULT_MAX_REGION_WIDE_PRIM_COUNT),
 	mCentralBakeVersion(0),
+	mLastVisitedEntry(nullptr),
+	mInvisibilityCheckHistory(-1),
 	mClassID(0),
 	mCPURatio(0),
 	mColoName("unknown"),
@@ -533,21 +538,16 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mHttpUrl(""),
 	mCacheLoaded(FALSE),
 	mCacheDirty(FALSE),
-	mReleaseNotesRequested(FALSE),
 	mCapabilitiesReceived(false),
 	mSimulatorFeaturesReceived(false),
-	mBitsReceived(0.f),
-	mPacketsReceived(0.f),
+	mReleaseNotesRequested(FALSE),
 	mDead(FALSE),
-	mLastVisitedEntry(NULL),
-	mInvisibilityCheckHistory(-1),
-	mPaused(FALSE),
-	mWidth(region_width_meters)
+	mPaused(FALSE)
 {
 	mImpl->mOriginGlobal = from_region_handle(handle); 
 	updateRenderMatrix();
 
-	mImpl->mLandp = new LLSurface('l', NULL);
+	mImpl->mLandp = new LLSurface('l', nullptr);
 
 	// Create the composition layer for the surface
 	mImpl->mCompositionp =
@@ -589,7 +589,7 @@ void LLViewerRegion::initPartitions()
 	mImpl->mObjectPartition.push_back(new LLBridgePartition(this));	//PARTITION_BRIDGE
 	mImpl->mObjectPartition.push_back(new LLHUDParticlePartition(this));//PARTITION_HUD_PARTICLE
 	mImpl->mObjectPartition.push_back(new LLVOCachePartition(this)); //PARTITION_VO_CACHE
-	mImpl->mObjectPartition.push_back(NULL);					//PARTITION_NONE
+	mImpl->mObjectPartition.push_back(nullptr);					//PARTITION_NONE
 	mImpl->mVOCachePartition = getVOCachePartition();
 
 	setCapabilitiesReceivedCallback(boost::bind(&LLAvatarRenderInfoAccountant::scanNewRegion, _1));
@@ -646,7 +646,7 @@ LLViewerRegion::~LLViewerRegion()
 	saveObjectCache();
 
 	delete mImpl;
-	mImpl = NULL;
+	mImpl = nullptr;
 
 	for (LLPointer<LLViewerTexture> tile : mWorldMapTiles)
 		tile->setBoostLevel(LLViewerTexture::BOOST_NONE);
@@ -1036,7 +1036,7 @@ void LLViewerRegion::killCacheEntry(LLVOCacheEntry* entry, bool for_rendering)
 	else if(entry->getNumOfChildren() > 0)//remove children from cache if has any
 	{
 		LLVOCacheEntry* child = entry->getChild();
-		while(child != NULL)
+		while(child != nullptr)
 		{
 			killCacheEntry(child, for_rendering);
 			child = entry->getChild();
@@ -1095,7 +1095,7 @@ void LLViewerRegion::removeActiveCacheEntry(LLVOCacheEntry* entry, LLDrawable* d
 	}
 
 	//shift to the local regional space from agent space
-	if(drawablep != NULL && drawablep->getVObj().notNull())
+	if(drawablep != nullptr && drawablep->getVObj().notNull())
 	{
 		const LLVector3& pos = drawablep->getVObj()->getPositionRegion();
 		LLVector4a shift;
@@ -1219,9 +1219,9 @@ void LLViewerRegion::addVisibleChildCacheEntry(LLVOCacheEntry* parent, LLVOCache
 	else if(parent && parent->getNumOfChildren() > 0) //add all children
 	{
 		child = parent->getChild();
-		while(child != NULL)
+		while(child != nullptr)
 		{
-			addVisibleChildCacheEntry(NULL, child);
+			addVisibleChildCacheEntry(nullptr, child);
 			child = parent->getChild();
 		}
 	}
@@ -1395,7 +1395,7 @@ void LLViewerRegion::clearCachedVisibleObjects()
 	}
 
 	//remove all visible entries.
-	mLastVisitedEntry = NULL;
+	mLastVisitedEntry = nullptr;
 	std::vector<LLDrawable*> delete_list;
 	for(LLVOCacheEntry::vocache_entry_set_t::iterator iter = mImpl->mActiveSet.begin();
 		iter != mImpl->mActiveSet.end(); ++iter)
@@ -1588,7 +1588,7 @@ void LLViewerRegion::killInvisibleObjects(F32 max_time)
 
 	if(iter == mImpl->mActiveSet.end())
 	{
-		mLastVisitedEntry = NULL;
+		mLastVisitedEntry = nullptr;
 	}
 	else
 	{
@@ -1667,10 +1667,10 @@ LLViewerObject* LLViewerRegion::addNewObject(LLVOCacheEntry* entry)
 			mImpl->mVisibleEntries.erase(entry);
 			entry->setState(LLVOCacheEntry::INACTIVE);
 		}
-		return NULL;
+		return nullptr;
 	}
 
-	LLViewerObject* obj = NULL;
+	LLViewerObject* obj = nullptr;
 	if(!entry->getEntry()->hasDrawable()) //not added to the rendering pipeline yet
 	{
 		//add the object
@@ -1694,7 +1694,7 @@ LLViewerObject* LLViewerRegion::addNewObject(LLVOCacheEntry* entry)
 			//server should soon send update message to remove one region for this object.
 
 			LL_WARNS() << "Entry: " << entry->getLocalID() << " exists in two regions at the same time." << LL_ENDL;
-			return NULL;
+			return nullptr;
 		}
 		
 		LL_WARNS() << "Entry: " << entry->getLocalID() << " in rendering pipeline but not set to be active." << LL_ENDL;
@@ -2018,10 +2018,10 @@ BOOL LLViewerRegion::isOwnedGroup(const LLVector3& pos)
 class CoarseLocationUpdate : public LLHTTPNode
 {
 public:
-	virtual void post(
+	void post(
 		ResponsePtr responder,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLHost host(input["sender"].asString());
 		LLViewerRegion* region = LLWorld::getInstance()->getRegion(host);
@@ -2292,7 +2292,7 @@ void LLViewerRegion::findOrphans(U32 parent_id)
 		for(S32 i = 0; i < children->size(); i++)
 		{
 			//parent is visible, so is the child.
-			addVisibleChildCacheEntry(NULL, getCacheEntry((*children)[i]));
+			addVisibleChildCacheEntry(nullptr, getCacheEntry((*children)[i]));
 		}
 		children->clear();
 		mOrphanMap.erase(parent_id);
@@ -2313,7 +2313,7 @@ void LLViewerRegion::decodeBoundingInfo(LLVOCacheEntry* entry)
 
 	if(!entry->getEntry())
 	{
-		entry->setOctreeEntry(NULL);
+		entry->setOctreeEntry(nullptr);
 	}
 		
 	if(entry->getEntry()->hasDrawable()) //already in the rendering pipeline
@@ -2396,7 +2396,7 @@ void LLViewerRegion::decodeBoundingInfo(LLVOCacheEntry* entry)
 				if(isNonCacheableObjectCreated(parent_id))
 				{
 					//parent is visible, so is the child.
-					addVisibleChildCacheEntry(NULL, entry);
+					addVisibleChildCacheEntry(nullptr, entry);
 				}
 				else
 				{
@@ -2525,7 +2525,7 @@ LLVOCacheEntry* LLViewerRegion::getCacheEntryForOctree(U32 local_id)
 {
 	if(!sVOCacheCullingEnabled)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	LLVOCacheEntry* entry = getCacheEntry(local_id);
@@ -2544,7 +2544,7 @@ LLVOCacheEntry* LLViewerRegion::getCacheEntry(U32 local_id, bool valid)
 			return iter->second;
 		}
 	}
-	return NULL;
+	return nullptr;
 	}
 
 void LLViewerRegion::addCacheMiss(U32 id, LLViewerRegion::eCacheMissType miss_type)
@@ -3032,7 +3032,7 @@ void LLViewerRegion::setSeedCapability(const std::string& url)
     }
 	
 	delete mImpl->mEventPoll;
-	mImpl->mEventPoll = NULL;
+	mImpl->mEventPoll = nullptr;
 	
 	mImpl->mCapabilities.clear();
 	setCapability("Seed", url);
@@ -3079,7 +3079,7 @@ void LLViewerRegion::setCapability(const std::string& name, const std::string& u
 	if(name == "EventQueueGet")
 	{
 		delete mImpl->mEventPoll;
-		mImpl->mEventPoll = NULL;
+		mImpl->mEventPoll = nullptr;
 		mImpl->mEventPoll = new LLEventPoll(url, getHost());
 	}
 	else if(name == "UntrustedSimulatorMessage")
@@ -3240,7 +3240,7 @@ LLSpatialPartition* LLViewerRegion::getSpatialPartition(U32 type)
 	{
 		return (LLSpatialPartition*)mImpl->mObjectPartition[type];
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLVOCachePartition* LLViewerRegion::getVOCachePartition()
@@ -3249,7 +3249,7 @@ LLVOCachePartition* LLViewerRegion::getVOCachePartition()
 	{
 		return (LLVOCachePartition*)mImpl->mObjectPartition[PARTITION_VO_CACHE];
 	}
-	return NULL;
+	return nullptr;
 }
 
 // the viewer can not yet distinquish between normal- and estate-owned objects
@@ -3259,7 +3259,7 @@ const U64 ALLOW_RETURN_ENCROACHING_OBJECT = REGION_FLAGS_ALLOW_RETURN_ENCROACHIN
 
 bool LLViewerRegion::objectIsReturnable(const LLVector3& pos, const std::vector<LLBBox>& boxes) const
 {
-	return (mParcelOverlay != NULL)
+	return (mParcelOverlay != nullptr)
 		&& (mParcelOverlay->isOwnedSelf(pos)
 			|| mParcelOverlay->isOwnedGroup(pos)
 			|| (getRegionFlag(ALLOW_RETURN_ENCROACHING_OBJECT)

@@ -90,19 +90,22 @@ public:
 	{
 	}
 	virtual ~TextCmdInsert() {}
-	virtual BOOL execute( LLTextBase* editor, S32* delta )
+
+	BOOL execute( LLTextBase* editor, S32* delta ) override
 	{
 		*delta = insert(editor, getPosition(), mWString );
 		LLWStringUtil::truncate(mWString, *delta);
 		//mWString = wstring_truncate(mWString, *delta);
 		return (*delta != 0);
-	}	
-	virtual S32 undo( LLTextBase* editor )
+	}
+
+	S32 undo( LLTextBase* editor ) override
 	{
 		remove(editor, getPosition(), mWString.length() );
 		return getPosition();
 	}
-	virtual S32 redo( LLTextBase* editor )
+
+	S32 redo( LLTextBase* editor ) override
 	{
 		insert(editor, getPosition(), mWString );
 		return getPosition() + mWString.length();
@@ -120,25 +123,29 @@ public:
 		: TextCmd(pos, group_with_next, segment), mWString(1, wc), mBlockExtensions(FALSE)
 	{
 	}
-	virtual void blockExtensions()
+
+	void blockExtensions() override
 	{
 		mBlockExtensions = TRUE;
 	}
-	virtual BOOL canExtend(S32 pos) const
+
+	BOOL canExtend(S32 pos) const override
 	{
 		// cannot extend text with custom segments
 		if (!mSegments.empty()) return FALSE;
 
 		return !mBlockExtensions && (pos == getPosition() + (S32)mWString.length());
 	}
-	virtual BOOL execute( LLTextBase* editor, S32* delta )
+
+	BOOL execute( LLTextBase* editor, S32* delta ) override
 	{
 		*delta = insert(editor, getPosition(), mWString);
 		LLWStringUtil::truncate(mWString, *delta);
 		//mWString = wstring_truncate(mWString, *delta);
 		return (*delta != 0);
 	}
-	virtual BOOL extendAndExecute( LLTextBase* editor, S32 pos, llwchar wc, S32* delta )	
+
+	BOOL extendAndExecute( LLTextBase* editor, S32 pos, llwchar wc, S32* delta ) override
 	{ 
 		LLWString ws;
 		ws += wc;
@@ -150,12 +157,14 @@ public:
 		}
 		return (*delta != 0);
 	}
-	virtual S32 undo( LLTextBase* editor )
+
+	S32 undo( LLTextBase* editor ) override
 	{
 		remove(editor, getPosition(), mWString.length() );
 		return getPosition();
 	}
-	virtual S32 redo( LLTextBase* editor )
+
+	S32 redo( LLTextBase* editor ) override
 	{
 		insert(editor, getPosition(), mWString );
 		return getPosition() + mWString.length();
@@ -175,19 +184,21 @@ public:
 	TextCmdOverwriteChar( S32 pos, BOOL group_with_next, llwchar wc)
 		: TextCmd(pos, group_with_next), mChar(wc), mOldChar(0) {}
 
-	virtual BOOL execute( LLTextBase* editor, S32* delta )
+	BOOL execute( LLTextBase* editor, S32* delta ) override
 	{ 
 		mOldChar = editor->getWText()[getPosition()];
 		overwrite(editor, getPosition(), mChar);
 		*delta = 0;
 		return TRUE;
-	}	
-	virtual S32 undo( LLTextBase* editor )
+	}
+
+	S32 undo( LLTextBase* editor ) override
 	{
 		overwrite(editor, getPosition(), mOldChar);
 		return getPosition();
 	}
-	virtual S32 redo( LLTextBase* editor )
+
+	S32 redo( LLTextBase* editor ) override
 	{
 		overwrite(editor, getPosition(), mChar);
 		return getPosition()+1;
@@ -208,18 +219,21 @@ public:
 	{
 		std::swap(mSegments, segments);
 	}
-	virtual BOOL execute( LLTextBase* editor, S32* delta )
+
+	BOOL execute( LLTextBase* editor, S32* delta ) override
 	{ 
 		mWString = editor->getWText().substr(getPosition(), mLen);
 		*delta = remove(editor, getPosition(), mLen );
 		return (*delta != 0);
 	}
-	virtual S32 undo( LLTextBase* editor )
+
+	S32 undo( LLTextBase* editor ) override
 	{
 		insert(editor, getPosition(), mWString);
 		return getPosition() + mWString.length();
 	}
-	virtual S32 redo( LLTextBase* editor )
+
+	S32 redo( LLTextBase* editor ) override
 	{
 		remove(editor, getPosition(), mLen );
 		return getPosition();
@@ -236,11 +250,11 @@ LLTextEditor::Params::Params()
 	prevalidate_callback("prevalidate_callback"),
 	embedded_items("embedded_items", false),
 	ignore_tab("ignore_tab", true),
-	auto_indent("auto_indent", true),
-	default_color("default_color"),
-    commit_on_focus_lost("commit_on_focus_lost", false),
+	commit_on_focus_lost("commit_on_focus_lost", false),
 	show_context_menu("show_context_menu"),
-	enable_tooltip_paste("enable_tooltip_paste")
+    enable_tooltip_paste("enable_tooltip_paste"),
+	auto_indent("auto_indent", true),
+	default_color("default_color")
 {
 	addSynonym(prevalidate_callback, "text_type");
 }
@@ -248,22 +262,22 @@ LLTextEditor::Params::Params()
 LLTextEditor::LLTextEditor(const LLTextEditor::Params& p) :
 	LLTextBase(p),
 	mAutoreplaceCallback(),
-	mBaseDocIsPristine(TRUE),
-	mPristineCmd( NULL ),
-	mLastCmd( NULL ),
-	mDefaultColor( p.default_color() ),
-	mAutoIndent(p.auto_indent),
-	mCommitOnFocusLost( p.commit_on_focus_lost),
-	mAllowEmbeddedItems( p.embedded_items ),
 	mMouseDownX(0),
 	mMouseDownY(0),
+	mDefaultColor( p.default_color() ),
+	mAutoIndent(p.auto_indent),
+	mBaseDocIsPristine(TRUE),
+	mPristineCmd(nullptr ),
+	mLastCmd(nullptr ),
 	mTabsToNextField(p.ignore_tab),
-	mPrevalidateFunc(p.prevalidate_callback()),
-	mContextMenuHandle(),
+	mCommitOnFocusLost( p.commit_on_focus_lost),
+	mAllowEmbeddedItems( p.embedded_items ),
 	mShowContextMenu(p.show_context_menu),
 	mEnableTooltipPaste(p.enable_tooltip_paste),
 	mPassDelete(FALSE),
-	mKeepSelectionOnReturn(false)
+	mKeepSelectionOnReturn(false),
+	mPrevalidateFunc(p.prevalidate_callback()),
+	mContextMenuHandle()
 {
 	mSourceID.generate();
 
@@ -886,7 +900,7 @@ BOOL LLTextEditor::handleMouseUp(S32 x, S32 y, MASK mask)
 
 	if( hasMouseCapture()  )
 	{
-		gFocusMgr.setMouseCapture( NULL );
+		gFocusMgr.setMouseCapture(nullptr );
 		
 		handled = TRUE;
 	}
@@ -1176,7 +1190,7 @@ void LLTextEditor::addChar(llwchar wc)
 
 	setCursorPos(mCursorPos + addChar( mCursorPos, wc ));
 
-	if (!mReadOnly && mAutoreplaceCallback != NULL)
+	if (!mReadOnly && mAutoreplaceCallback != nullptr)
 	{
 		// autoreplace the text, if necessary
 		S32 replacement_start;
@@ -1985,7 +1999,7 @@ void LLTextEditor::doDelete()
 void LLTextEditor::blockUndo()
 {
 	mBaseDocIsPristine = FALSE;
-	mLastCmd = NULL;
+	mLastCmd = nullptr;
 	std::for_each(mUndoStack.begin(), mUndoStack.end(), DeletePointer());
 	mUndoStack.clear();
 }
@@ -1993,7 +2007,7 @@ void LLTextEditor::blockUndo()
 // virtual
 BOOL LLTextEditor::canUndo() const
 {
-	return !mReadOnly && mLastCmd != NULL;
+	return !mReadOnly && mLastCmd != nullptr;
 }
 
 void LLTextEditor::undo()
@@ -2013,7 +2027,7 @@ void LLTextEditor::undo()
 		if (iter != mUndoStack.end())
 			mLastCmd = *iter;
 		else
-			mLastCmd = NULL;
+			mLastCmd = nullptr;
 
 		} while( mLastCmd && mLastCmd->groupWithNext() );
 
@@ -2047,7 +2061,7 @@ void LLTextEditor::redo()
 			if (iter != mUndoStack.begin())
 				mLastCmd = *(--iter);
 			else
-				mLastCmd = NULL;
+				mLastCmd = nullptr;
 		}
 
 			if( mLastCmd )
@@ -2077,7 +2091,7 @@ void LLTextEditor::focusLostHelper()
 	// Route menu back to the default
  	if( gEditMenuHandler == this )
 	{
-		gEditMenuHandler = NULL;
+		gEditMenuHandler = nullptr;
 	}
 
 	if (mCommitOnFocusLost)
@@ -2335,7 +2349,7 @@ void LLTextEditor::setFocus( BOOL new_state )
 		// Route menu back to the default
 		if( gEditMenuHandler == this )
 		{
-			gEditMenuHandler = NULL;
+			gEditMenuHandler = nullptr;
 		}
 
 		endSelection();
@@ -2991,7 +3005,7 @@ BOOL LLTextEditor::isDirty() const
 	}
 	else
 	{
-		return ( NULL != mLastCmd );
+		return (nullptr != mLastCmd );
 	}
 }
 

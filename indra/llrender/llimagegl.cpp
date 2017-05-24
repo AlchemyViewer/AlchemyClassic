@@ -67,7 +67,7 @@ S32 LLImageGL::sCount					= 0;
 BOOL LLImageGL::sGlobalUseAnisotropic	= FALSE;
 F32 LLImageGL::sLastFrameTime			= 0.f;
 BOOL LLImageGL::sAllowReadBackRaw       = FALSE ;
-LLImageGL* LLImageGL::sDefaultGLTexture = NULL ;
+LLImageGL* LLImageGL::sDefaultGLTexture = nullptr ;
 bool LLImageGL::sCompressTextures = false;
 
 std::set<LLImageGL*> LLImageGL::sImageList;
@@ -293,7 +293,7 @@ void LLImageGL::destroyGL(BOOL save_state)
 				if(!glimage->readBackRaw(glimage->mCurrentDiscardLevel, glimage->mSaveData, false)) //necessary, keep it.
 				{
 					glimage->disclaimMem(glimage->mSaveData);
-					glimage->mSaveData = NULL ;
+					glimage->mSaveData = nullptr ;
 				}
 			}
 
@@ -322,7 +322,7 @@ void LLImageGL::restoreGL()
 				glimage->createGLTexture(glimage->mCurrentDiscardLevel, glimage->mSaveData, 0, TRUE, glimage->getCategory());
 				stop_glerror();
 			}
-			glimage->mSaveData = NULL; // deletes data
+			glimage->mSaveData = nullptr; // deletes data
 		}
 	}
 }
@@ -367,7 +367,7 @@ BOOL LLImageGL::create(LLPointer<LLImageGL>& dest, const LLImageRaw* imageraw, B
 
 LLImageGL::LLImageGL(BOOL usemipmaps)
 :	LLTrace::MemTrackable<LLImageGL>("LLImageGL"),
-	mSaveData(0)
+	mSaveData(nullptr)
 {
 	init(usemipmaps);
 	setSize(0, 0, 0);
@@ -377,7 +377,7 @@ LLImageGL::LLImageGL(BOOL usemipmaps)
 
 LLImageGL::LLImageGL(U32 width, U32 height, U8 components, BOOL usemipmaps)
 :	LLTrace::MemTrackable<LLImageGL>("LLImageGL"),
-	mSaveData(0)
+	mSaveData(nullptr)
 {
 	llassert( components <= 4 );
 	init(usemipmaps);
@@ -388,7 +388,7 @@ LLImageGL::LLImageGL(U32 width, U32 height, U8 components, BOOL usemipmaps)
 
 LLImageGL::LLImageGL(const LLImageRaw* imageraw, BOOL usemipmaps)
 :	LLTrace::MemTrackable<LLImageGL>("LLImageGL"),
-	mSaveData(0)
+	mSaveData(nullptr)
 {
 	init(usemipmaps);
 	setSize(0, 0, 0);
@@ -417,7 +417,7 @@ void LLImageGL::init(BOOL usemipmaps)
 	mTextureMemory = (S32Bytes)0;
 	mLastBindTime = 0.f;
 
-	mPickMask = NULL;
+	mPickMask = nullptr;
 	mPickMaskWidth = 0;
 	mPickMaskHeight = 0;
 	mUseMipMaps = usemipmaps;
@@ -474,7 +474,7 @@ void LLImageGL::cleanup()
 	}
 	freePickMask();
 
-	mSaveData = NULL; // deletes data
+	mSaveData = nullptr; // deletes data
 }
 
 //----------------------------------------------------------------------------
@@ -774,11 +774,11 @@ void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 				S32 w = width, h = height;
 
 
-				const U8* new_data = 0;
+				const U8* new_data = nullptr;
 				(void)new_data;
 
-				const U8* prev_mip_data = 0;
-				const U8* cur_mip_data = 0;
+				const U8* prev_mip_data = nullptr;
+				const U8* cur_mip_data = nullptr;
 #ifdef SHOW_ASSERT
 				S32 cur_mip_size = 0;
 #endif
@@ -853,7 +853,7 @@ void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 				if (prev_mip_data && prev_mip_data != data_in)
 				{
 					delete[] prev_mip_data;
-					prev_mip_data = NULL;
+					prev_mip_data = nullptr;
 				}
 			}
 		}
@@ -913,7 +913,7 @@ BOOL LLImageGL::setSubImage(const U8* datap, S32 data_width, S32 data_height, S3
 		//LL_WARNS() << "Setting subimage on image without GL texture" << LL_ENDL;
 		return FALSE;
 	}
-	if (datap == NULL)
+	if (datap == nullptr)
 	{
 		// *TODO: Re-enable warning?  Ran into thread locking issues? DK 2011-02-18
 		//LL_WARNS() << "Setting subimage on image with NULL datap" << LL_ENDL;
@@ -1911,12 +1911,12 @@ U32 LLImageGL::createPickMask(S32 pWidth, S32 pHeight)
 void LLImageGL::freePickMask()
 {
 	// pickmask validity depends on old image size, delete it
-	if (mPickMask != NULL)
+	if (mPickMask != nullptr)
 	{
 		disclaimMem((mPickMaskWidth * mPickMaskHeight + 7) / 8);
 		delete [] mPickMask;
 	}
-	mPickMask = NULL;
+	mPickMask = nullptr;
 	mPickMaskWidth = mPickMaskHeight = 0;
 }
 

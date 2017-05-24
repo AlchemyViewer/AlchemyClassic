@@ -98,14 +98,14 @@ private:
 public:
 	LLImageDXT();
 
-	/*virtual*/ std::string getExtension() { return std::string("dxt"); }
-	/*virtual*/ bool updateData();
+	/*virtual*/ std::string getExtension() override { return std::string("dxt"); }
+	/*virtual*/ bool updateData() override;
 
-	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time);
-	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time);
+	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time) override;
+	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time) override;
 
-	/*virtual*/ S32 calcHeaderSize();
-	/*virtual*/ S32 calcDataSize(S32 discard_level = 0);
+	/*virtual*/ S32 calcHeaderSize() override;
+	/*virtual*/ S32 calcDataSize(S32 discard_level = 0) override;
 
 	bool getMipData(LLPointer<LLImageRaw>& raw, S32 discard=-1);
 	

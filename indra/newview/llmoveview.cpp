@@ -68,15 +68,15 @@ const F32 NUDGE_TIME = 0.25f;		// in seconds
 // protected
 LLFloaterMove::LLFloaterMove(const LLSD& key)
 :	LLFloater(key),
-	mForwardButton(NULL),
-	mBackwardButton(NULL),
+	mForwardButton(nullptr),
+	mBackwardButton(nullptr),
 	mSlideLeftButton(nullptr),
 	mSlideRightButton(nullptr),
-	mTurnLeftButton(NULL), 
-	mTurnRightButton(NULL),
-	mMoveUpButton(NULL),
-	mMoveDownButton(NULL),
-	mModeActionsPanel(NULL),
+	mTurnLeftButton(nullptr), 
+	mTurnRightButton(nullptr),
+	mMoveUpButton(nullptr),
+	mMoveDownButton(nullptr),
+	mModeActionsPanel(nullptr),
 	mCurrentMode(MM_WALK)
 {
 }
@@ -172,7 +172,7 @@ void LLFloaterMove::setVisible(BOOL visible)
 	else
 	{
 		// Detach the Stand/Stop Flying panel.
-		LLPanelStandStopFlying::getInstance()->reparent(NULL);
+		LLPanelStandStopFlying::getInstance()->reparent(nullptr);
 	}
 
 	LLFloater::setVisible(visible);
@@ -202,7 +202,7 @@ void LLFloaterMove::setFlyingMode(BOOL fly)
 		instance->setFlyingModeImpl(fly);
 		LLVOAvatarSelf* avatar_object = gAgentAvatarp;
 		bool is_sitting = avatar_object
-			&& (avatar_object->getRegion() != NULL)
+			&& (avatar_object->getRegion() != nullptr)
 			&& (!avatar_object->isDead())
 			&& avatar_object->isSitting();
 		instance->showModeButtons(!fly && !is_sitting);
@@ -515,8 +515,8 @@ void LLFloaterMove::setModeButtonToggleState(const EMovementMode mode)
 /*                        LLPanelStandStopFlying                        */
 /************************************************************************/
 LLPanelStandStopFlying::LLPanelStandStopFlying() :
-	mStandButton(NULL),
-	mStopFlyingButton(NULL),
+	mStandButton(nullptr),
+	mStopFlyingButton(nullptr),
 	mAttached(false)
 {
 	// make sure we have the only instance of this class
@@ -626,11 +626,11 @@ void LLPanelStandStopFlying::reparent(LLFloaterMove* move_view)
 	LLPanel* parent = dynamic_cast<LLPanel*>(getParent());
 	if (!parent)
 	{
-		LL_WARNS() << "Stand/stop flying panel parent is unset, already attached?: " << mAttached << ", new parent: " << (move_view == NULL ? "NULL" : "Move Floater") << LL_ENDL;
+		LL_WARNS() << "Stand/stop flying panel parent is unset, already attached?: " << mAttached << ", new parent: " << (move_view == nullptr ? "NULL" : "Move Floater") << LL_ENDL;
 		return;
 	}
 
-	if (move_view != NULL)
+	if (move_view != nullptr)
 	{
 		llassert(move_view != parent); // sanity check
 	
@@ -734,7 +734,7 @@ void LLPanelStandStopFlying::updatePosition()
 		panel_ssf_container->setOrigin(0, y_pos);
 	}
 
-	if (gToolBarView != NULL && gToolBarView->getToolbar(LLToolBarEnums::TOOLBAR_LEFT)->hasButtons())
+	if (gToolBarView != nullptr && gToolBarView->getToolbar(LLToolBarEnums::TOOLBAR_LEFT)->hasButtons())
 	{
 		S32 x_pos = bottom_tb_center - getRect().getWidth() / 2 - left_tb_width;
 		setOrigin( x_pos, 0);

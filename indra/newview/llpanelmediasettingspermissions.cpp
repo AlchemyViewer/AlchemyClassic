@@ -48,14 +48,14 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 LLPanelMediaSettingsPermissions::LLPanelMediaSettingsPermissions() :
-	mControls( NULL ),
-    mPermsOwnerInteract( 0 ),
-    mPermsOwnerControl( 0 ),
-	mPermsGroupName( 0 ),
-    mPermsGroupInteract( 0 ),
-    mPermsGroupControl( 0 ),
-    mPermsWorldInteract( 0 ),
-    mPermsWorldControl( 0 )
+	mControls(nullptr ),
+    mPermsOwnerInteract( nullptr ),
+    mPermsOwnerControl( nullptr ),
+	mPermsGroupName( nullptr ),
+    mPermsGroupInteract( nullptr ),
+    mPermsGroupControl( nullptr ),
+    mPermsWorldInteract( nullptr ),
+    mPermsWorldControl( nullptr )
 {
     // build dialog from XML
     buildFromFile( "panel_media_settings_permissions.xml");
@@ -164,7 +164,7 @@ void LLPanelMediaSettingsPermissions::initValues( void* userdata, const LLSD& me
         { LLPanelContents::PERMS_GROUP_CONTROL_KEY,     self->mPermsGroupControl,   "LLCheckBoxCtrl" },
         { LLPanelContents::PERMS_ANYONE_INTERACT_KEY,   self->mPermsWorldInteract,  "LLCheckBoxCtrl" },
         { LLPanelContents::PERMS_ANYONE_CONTROL_KEY,    self->mPermsWorldControl,   "LLCheckBoxCtrl" },
-        { "", NULL , "" }
+        { "", nullptr , "" }
     };
 
     for( int i = 0; data_set[ i ].key_name.length() > 0; ++i )

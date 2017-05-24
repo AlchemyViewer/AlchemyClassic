@@ -41,7 +41,7 @@ public:
 	LLAOTimerCollection();
 	~LLAOTimerCollection() {}
 
-	virtual BOOL tick();
+	BOOL tick() override;
 
 	void setInventoryTimer(const bool enable);
 	void setSettingsTimer(const bool enable);
@@ -68,7 +68,7 @@ public:
 	void oneShot();
 	void stop();
 
-	virtual BOOL tick();
+	BOOL tick() override;
 
 protected:
 	S32 mTickCount;

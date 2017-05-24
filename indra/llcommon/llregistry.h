@@ -95,7 +95,7 @@ public:
 			{
 				return &(found_it->second);
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		ptr_const_value_t getValue(ref_const_key_t key) const
@@ -105,7 +105,7 @@ public:
 			{
 				return &(found_it->second);
 			}
-			return NULL;
+			return nullptr;
 		}
 
 		// if the registry is used to store pointers, and null values are valid entries
@@ -145,7 +145,7 @@ public:
 			++it)
 		{
 			ptr_value_t valuep = (*it)->getValue(key);
-			if (valuep != NULL) return valuep;
+			if (valuep != nullptr) return valuep;
 		}
 		return mDefaultRegistrar.getValue(key);
 	}
@@ -157,7 +157,7 @@ public:
 			++it)
 		{
 			ptr_value_t valuep = (*it)->getValue(key);
-			if (valuep != NULL) return valuep;
+			if (valuep != nullptr) return valuep;
 		}
 		return mDefaultRegistrar.getValue(key);
 	}
@@ -335,10 +335,10 @@ public:
 protected:
 	// DERIVED_TYPE needs to derive from LLRegistrySingleton
 	LLRegistrySingleton()
-		: mStaticScope(NULL)
+		: mStaticScope(nullptr)
 	{}
 
-	virtual void initSingleton()
+	void initSingleton() override
 	{
 		mStaticScope = new ScopedRegistrar();
 	}

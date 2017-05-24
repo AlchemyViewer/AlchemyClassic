@@ -79,21 +79,21 @@ protected:
 public:
 	virtual ~LLScrollbar();
 
-	virtual void setValue(const LLSD& value);
+	void setValue(const LLSD& value) override;
 
 	// Overrides from LLView
-	virtual BOOL	handleKeyHere(KEY key, MASK mask);
-	virtual BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleHover(S32 x, S32 y, MASK mask);
-	virtual BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks);
-	virtual BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, 
-		EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string &tooltip_msg);
+	BOOL	handleKeyHere(KEY key, MASK mask) override;
+	BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	BOOL	handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, 
+		EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string &tooltip_msg) override;
 
-	virtual void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
-	virtual void	draw();
+	void	draw() override;
 
 	// How long the "document" is.
 	void				setDocSize( S32 size );

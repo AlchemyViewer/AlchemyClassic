@@ -43,9 +43,9 @@ public:
 	LLPanelBlockedList();
 	~LLPanelBlockedList(){};
 
-	virtual BOOL postBuild();
-	virtual void draw();
-	virtual void onOpen(const LLSD& key);
+	BOOL postBuild() override;
+	void draw() override;
+	void onOpen(const LLSD& key) override;
 	
 	void selectBlocked(const LLUUID& id);
 
@@ -99,9 +99,9 @@ class LLFloaterGetBlockedObjectName : public LLFloater
 public:
 	typedef std::function<void (const std::string&)> get_object_name_callback_t;
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 
 	static LLFloaterGetBlockedObjectName* show(get_object_name_callback_t callback);
 

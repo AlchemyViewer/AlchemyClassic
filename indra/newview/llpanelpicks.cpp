@@ -75,7 +75,7 @@ public:
 	LLPickHandler() : LLCommandHandler("pick", UNTRUSTED_THROTTLE) { }
 
 	bool handle(const LLSD& params, const LLSD& query_map,
-		LLMediaCtrl* web)
+		LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnablePicks"))
 		{
@@ -145,7 +145,7 @@ public:
 		LLFloaterSidePanelContainer::showPanel("picks", params);
 	}
 	
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type)
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override
 	{
 		if (APT_PICK_INFO != type)
 		{
@@ -189,7 +189,7 @@ public:
 
 	std::string mRequestVerb;
 	
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnableClassifieds"))
 		{
@@ -289,7 +289,7 @@ public:
 		}
 	}
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type)
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override
 	{
 		if (APT_CLASSIFIED_INFO != type)
 		{
@@ -323,18 +323,18 @@ LLClassifiedHandler gClassifiedHandler;
 LLPanelPicks::LLPanelPicks()
 :	LLPanelProfileTab(),
 	mPopupMenuHandle(),
-	mProfilePanel(NULL),
-	mPickPanel(NULL),
-	mPicksList(NULL),
-	mClassifiedsList(NULL),
-	mPanelPickInfo(NULL),
-	mPanelPickEdit(NULL),
+	mProfilePanel(nullptr),
+	mPickPanel(nullptr),
+	mPicksList(nullptr),
+	mClassifiedsList(nullptr),
+	mPanelPickInfo(nullptr),
+	mPanelClassifiedInfo(nullptr),
+	mPanelPickEdit(nullptr),
 	mPlusMenuHandle(),
-	mPicksAccTab(NULL),
-	mClassifiedsAccTab(NULL),
-	mPanelClassifiedInfo(NULL),
-	mNoClassifieds(false),
-	mNoPicks(false)
+	mPicksAccTab(nullptr),
+	mClassifiedsAccTab(nullptr),
+	mNoPicks(false),
+	mNoClassifieds(false)
 {
 }
 
@@ -497,7 +497,7 @@ void LLPanelPicks::processProperties(void* data, EAvatarProcessorType type)
 LLPickItem* LLPanelPicks::getSelectedPickItem()
 {
 	LLPanel* selected_item = mPicksList->getSelectedItem();
-	if (!selected_item) return NULL;
+	if (!selected_item) return nullptr;
 
 	return dynamic_cast<LLPickItem*>(selected_item);
 }
@@ -507,7 +507,7 @@ LLClassifiedItem* LLPanelPicks::getSelectedClassifiedItem()
 	LLPanel* selected_item = mClassifiedsList->getSelectedItem();
 	if (!selected_item) 
 	{
-		return NULL;
+		return nullptr;
 	}
 	return dynamic_cast<LLClassifiedItem*>(selected_item);
 }
@@ -889,7 +889,7 @@ void LLPanelPicks::createNewPick()
 
 void LLPanelPicks::createNewClassified()
 {
-	LLPanelClassifiedEdit* panel = NULL;
+	LLPanelClassifiedEdit* panel = nullptr;
 	createClassifiedEditPanel(&panel);
 
 	getProfilePanel()->openPanel(panel, LLSD());
@@ -1166,7 +1166,7 @@ LLClassifiedItem *LLPanelPicks::findClassifiedById(const LLUUID& classified_id)
 	// HACK - find item by classified id.  Should be a better way.
 	std::vector<LLPanel*> items;
 	mClassifiedsList->getItems(items);
-	LLClassifiedItem* c_item = NULL;
+	LLClassifiedItem* c_item = nullptr;
 	for(std::vector<LLPanel*>::iterator it = items.begin(); it != items.end(); ++it)
 	{
 		LLClassifiedItem *test_item = dynamic_cast<LLClassifiedItem*>(*it);

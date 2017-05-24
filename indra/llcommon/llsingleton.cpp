@@ -282,7 +282,7 @@ LLSingletonBase::vec_t LLSingletonBase::dep_sort()
         // associated value type in our SingletonDeps, hence the 0. We don't
         // record the LLSingletons it must follow; rather, we record the ones
         // it must precede. Copy its mDepends to a KeyList to express that.
-        sdeps.add(sp, 0,
+        sdeps.add(sp, nullptr,
                   SingletonDeps::KeyList(),
                   SingletonDeps::KeyList(sp->mDepends.begin(), sp->mDepends.end()));
     }

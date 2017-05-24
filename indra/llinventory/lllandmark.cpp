@@ -158,7 +158,7 @@ LLLandmark* LLLandmark::constructFromString(const char *buffer)
 
  error:
 	LL_INFOS() << "Bad Landmark Asset: bad _DATA_ block." << LL_ENDL;
-	return NULL;
+	return nullptr;
 }
 
 

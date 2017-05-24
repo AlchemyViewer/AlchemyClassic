@@ -44,9 +44,9 @@ public:
     LLFloaterSnapshotBase(const LLSD& key);
     virtual ~LLFloaterSnapshotBase();
 
-	/*virtual*/ void draw();
-	/*virtual*/ void onClose(bool app_quitting);
-	virtual S32 notify(const LLSD& info);
+	/*virtual*/ void draw() override;
+	/*virtual*/ void onClose(bool app_quitting) override;
+	S32 notify(const LLSD& info) override;
 
 	// TODO: create a snapshot model instead
 	virtual void saveTexture() = 0;
@@ -83,12 +83,12 @@ public:
 		STATUS_FINISHED
 	} EStatus;
 
-	ImplBase(LLFloaterSnapshotBase* floater) : mAvatarPauseHandles(),
-		mLastToolset(NULL),
+	ImplBase(LLFloaterSnapshotBase* floater) : mFloater(floater),
+		mAvatarPauseHandles(),
+		mLastToolset(nullptr),
 		mAspectRatioCheckOff(false),
 		mNeedRefresh(false),
-		mStatus(STATUS_READY),
-		mFloater(floater)
+		mStatus(STATUS_READY)
 	{}
 	virtual ~ImplBase()
 	{
@@ -145,9 +145,9 @@ public:
 	LLFloaterSnapshot(const LLSD& key);
 	/*virtual*/ ~LLFloaterSnapshot();
     
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ S32 notify(const LLSD& info);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/ S32 notify(const LLSD& info) override;
 	
 	static void update();
 
@@ -155,7 +155,7 @@ public:
 
 	static LLFloaterSnapshot* getInstance();
 	static LLFloaterSnapshot* findInstance();
-	/*virtual*/ void saveTexture();
+	/*virtual*/ void saveTexture() override;
 	BOOL saveLocal();
 	static void setAgentEmail(const std::string& email);
 
@@ -189,22 +189,22 @@ public:
 	void updateSpinners(LLFloaterSnapshotBase* view, LLSnapshotLivePreview* previewp, S32& width, S32& height, BOOL is_width_changed);
 	static void onSnapshotUploadFinished(LLFloaterSnapshotBase* floater, bool status);
 
-	/*virtual*/ LLPanelSnapshot* getActivePanel(LLFloaterSnapshotBase* floater, bool ok_if_not_found = true);
-	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat(LLFloaterSnapshotBase* floater);
+	/*virtual*/ LLPanelSnapshot* getActivePanel(LLFloaterSnapshotBase* floater, bool ok_if_not_found = true) override;
+	/*virtual*/ LLSnapshotModel::ESnapshotFormat getImageFormat(LLFloaterSnapshotBase* floater) override;
 	LLSpinCtrl* getWidthSpinner(LLFloaterSnapshotBase* floater);
 	LLSpinCtrl* getHeightSpinner(LLFloaterSnapshotBase* floater);
 	void enableAspectRatioCheckbox(LLFloaterSnapshotBase* floater, BOOL enable);
 	void setAspectRatioCheckboxValue(LLFloaterSnapshotBase* floater, BOOL checked);
-	/*virtual*/ std::string getSnapshotPanelPrefix();
+	/*virtual*/ std::string getSnapshotPanelPrefix() override;
 
 	void setResolution(LLFloaterSnapshotBase* floater, const std::string& comboname);
-	/*virtual*/ void updateControls(LLFloaterSnapshotBase* floater);
+	/*virtual*/ void updateControls(LLFloaterSnapshotBase* floater) override;
 
 private:
-	/*virtual*/ LLSnapshotModel::ESnapshotLayerType getLayerType(LLFloaterSnapshotBase* floater);
+	/*virtual*/ LLSnapshotModel::ESnapshotLayerType getLayerType(LLFloaterSnapshotBase* floater) override;
 	void comboSetCustom(LLFloaterSnapshotBase *floater, const std::string& comboname);
 	void checkAspectRatio(LLFloaterSnapshotBase *view, S32 index);
-	void setFinished(bool finished, bool ok = true, const std::string& msg = LLStringUtil::null);
+	void setFinished(bool finished, bool ok = true, const std::string& msg = LLStringUtil::null) override;
 };
 
 class LLSnapshotFloaterView : public LLFloaterView
@@ -222,10 +222,10 @@ protected:
 public:
 	virtual ~LLSnapshotFloaterView();
 
-	/*virtual*/	BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent);
-	/*virtual*/	BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/	BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/	BOOL handleHover(S32 x, S32 y, MASK mask);
+	/*virtual*/	BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent) override;
+	/*virtual*/	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/	BOOL handleHover(S32 x, S32 y, MASK mask) override;
 };
 
 extern LLSnapshotFloaterView* gSnapshotFloaterView;

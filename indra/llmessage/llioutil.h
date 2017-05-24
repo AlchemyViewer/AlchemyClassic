@@ -59,7 +59,7 @@ protected:
 		buffer_ptr_t& buffer,
 		bool& eos,
 		LLSD& context,
-		LLPumpIO* pump);
+		LLPumpIO* pump) override;
 	//@}
 protected:
 };
@@ -88,7 +88,7 @@ protected:
 		buffer_ptr_t& buffer,
 		bool& eos,
 		LLSD& context,
-		LLPumpIO* pump);
+		LLPumpIO* pump) override;
 	//@}
 protected:
 	F64 mSeconds;
@@ -120,7 +120,7 @@ protected:
 		buffer_ptr_t& buffer,
 		bool& eos,
 		LLSD& context,
-		LLPumpIO* pump);
+		LLPumpIO* pump) override;
 	//@}
 
 protected:

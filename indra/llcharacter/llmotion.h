@@ -194,18 +194,22 @@ public:
 	LLTestMotion(const LLUUID &id) : LLMotion(id){}
 	~LLTestMotion() {}
 	static LLMotion *create(const LLUUID& id) { return new LLTestMotion(id); }
-	BOOL getLoop() { return FALSE; }
-	F32 getDuration() { return 0.0f; }
-	F32 getEaseInDuration() { return 0.0f; }
-	F32 getEaseOutDuration() { return 0.0f; }
-	LLJoint::JointPriority getPriority() { return LLJoint::HIGH_PRIORITY; }
-	LLMotionBlendType getBlendType() { return NORMAL_BLEND; }
-	F32 getMinPixelArea() { return 0.f; }
+	BOOL getLoop() override { return FALSE; }
+	F32 getDuration() override { return 0.0f; }
+	F32 getEaseInDuration() override { return 0.0f; }
+	F32 getEaseOutDuration() override { return 0.0f; }
+	LLJoint::JointPriority getPriority() override { return LLJoint::HIGH_PRIORITY; }
+	LLMotionBlendType getBlendType() override { return NORMAL_BLEND; }
+	F32 getMinPixelArea() override { return 0.f; }
 	
-	LLMotionInitStatus onInitialize(LLCharacter*) { LL_INFOS() << "LLTestMotion::onInitialize()" << LL_ENDL; return STATUS_SUCCESS; }
-	BOOL onActivate() { LL_INFOS() << "LLTestMotion::onActivate()" << LL_ENDL; return TRUE; }
-	BOOL onUpdate(F32 time, U8* joint_mask) { LL_INFOS() << "LLTestMotion::onUpdate(" << time << ")" << LL_ENDL; return TRUE; }
-	void onDeactivate() { LL_INFOS() << "LLTestMotion::onDeactivate()" << LL_ENDL; }
+	LLMotionInitStatus onInitialize(LLCharacter*) override
+	{ LL_INFOS() << "LLTestMotion::onInitialize()" << LL_ENDL; return STATUS_SUCCESS; }
+	BOOL onActivate() override
+	{ LL_INFOS() << "LLTestMotion::onActivate()" << LL_ENDL; return TRUE; }
+	BOOL onUpdate(F32 time, U8* joint_mask) override
+	{ LL_INFOS() << "LLTestMotion::onUpdate(" << time << ")" << LL_ENDL; return TRUE; }
+	void onDeactivate() override
+	{ LL_INFOS() << "LLTestMotion::onDeactivate()" << LL_ENDL; }
 };
 
 
@@ -220,43 +224,43 @@ public:
 	static LLMotion *create(const LLUUID &id) { return new LLNullMotion(id); }
 
 	// motions must specify whether or not they loop
-	/*virtual*/ BOOL getLoop() { return TRUE; }
+	/*virtual*/ BOOL getLoop() override { return TRUE; }
 
 	// motions must report their total duration
-	/*virtual*/ F32 getDuration() { return 1.f; }
+	/*virtual*/ F32 getDuration() override { return 1.f; }
 
 	// motions must report their "ease in" duration
-	/*virtual*/ F32 getEaseInDuration() { return 0.f; }
+	/*virtual*/ F32 getEaseInDuration() override { return 0.f; }
 
 	// motions must report their "ease out" duration.
-	/*virtual*/ F32 getEaseOutDuration() { return 0.f; }
+	/*virtual*/ F32 getEaseOutDuration() override { return 0.f; }
 
 	// motions must report their priority level
-	/*virtual*/ LLJoint::JointPriority getPriority() { return LLJoint::HIGH_PRIORITY; }
+	/*virtual*/ LLJoint::JointPriority getPriority() override { return LLJoint::HIGH_PRIORITY; }
 
 	// motions must report their blend type
-	/*virtual*/ LLMotionBlendType getBlendType() { return NORMAL_BLEND; }
+	/*virtual*/ LLMotionBlendType getBlendType() override { return NORMAL_BLEND; }
 
 	// called to determine when a motion should be activated/deactivated based on avatar pixel coverage
-	/*virtual*/ F32 getMinPixelArea() { return 0.f; }
+	/*virtual*/ F32 getMinPixelArea() override { return 0.f; }
 
 	// run-time (post constructor) initialization,
 	// called after parameters have been set
 	// must return true to indicate success and be available for activation
-	/*virtual*/ LLMotionInitStatus onInitialize(LLCharacter *character) { return STATUS_SUCCESS; }
+	/*virtual*/ LLMotionInitStatus onInitialize(LLCharacter *character) override { return STATUS_SUCCESS; }
 
 	// called when a motion is activated
 	// must return TRUE to indicate success, or else
 	// it will be deactivated
-	/*virtual*/ BOOL onActivate() { return TRUE; }
+	/*virtual*/ BOOL onActivate() override { return TRUE; }
 
 	// called per time step
 	// must return TRUE while it is active, and
 	// must return FALSE when the motion is completed.
-	/*virtual*/ BOOL onUpdate(F32 activeTime, U8* joint_mask) { return TRUE; }
+	/*virtual*/ BOOL onUpdate(F32 activeTime, U8* joint_mask) override { return TRUE; }
 
 	// called when a motion is deactivated
-	/*virtual*/ void onDeactivate() {}
+	/*virtual*/ void onDeactivate() override {}
 };
 #endif // LL_LLMOTION_H
 

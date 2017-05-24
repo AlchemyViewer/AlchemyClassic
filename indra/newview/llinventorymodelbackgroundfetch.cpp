@@ -169,7 +169,7 @@ protected:
 	void operator=(const BGFolderHttpHandler &) = delete;				// Not defined
 
 public:
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+	void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 	bool getIsRecursive(const LLUUID & cat_id) const;
 
@@ -196,16 +196,16 @@ const char * const LOG_INV("Inventory");
 ///----------------------------------------------------------------------------
 
 LLInventoryModelBackgroundFetch::LLInventoryModelBackgroundFetch():
+	mRecursiveInventoryFetchStarted(FALSE),
+	mRecursiveLibraryFetchStarted(FALSE),
+	mAllFoldersFetched(FALSE),
 	mBackgroundFetchActive(FALSE),
 	mFolderFetchActive(false),
 	mFetchCount(0),
-	mAllFoldersFetched(FALSE),
-	mRecursiveInventoryFetchStarted(FALSE),
-	mRecursiveLibraryFetchStarted(FALSE),
+	mTimelyFetchPending(FALSE),
 	mNumFetchRetries(0),
 	mMinTimeBetweenFetches(0.3f),
-	mMaxTimeBetweenFetches(10.f),
-	mTimelyFetchPending(FALSE)
+	mMaxTimeBetweenFetches(10.f)
 {}
 
 LLInventoryModelBackgroundFetch::~LLInventoryModelBackgroundFetch()
@@ -283,13 +283,13 @@ void LLInventoryModelBackgroundFetch::start(const LLUUID& id, BOOL recursive)
 			{
 				mRecursiveInventoryFetchStarted |= recursive;
 				mFetchQueue.push_back(FetchQueueInfo(gInventory.getRootFolderID(), recursive));
-				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 			}
 			if (! mRecursiveLibraryFetchStarted)
 			{
 				mRecursiveLibraryFetchStarted |= recursive;
 				mFetchQueue.push_back(FetchQueueInfo(gInventory.getLibraryRootFolderID(), recursive));
-				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 			}
 		}
 		else
@@ -298,7 +298,7 @@ void LLInventoryModelBackgroundFetch::start(const LLUUID& id, BOOL recursive)
 			if (mFetchQueue.empty() || mFetchQueue.front().mUUID != id)
 			{
 				mFetchQueue.push_front(FetchQueueInfo(id, recursive));
-				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+				gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 			}
 			if (id == gInventory.getLibraryRootFolderID())
 			{
@@ -317,7 +317,7 @@ void LLInventoryModelBackgroundFetch::start(const LLUUID& id, BOOL recursive)
 			mBackgroundFetchActive = TRUE;
 
 			mFetchQueue.push_front(FetchQueueInfo(id, false, false));
-			gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+			gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 		}
 	}
 }
@@ -327,7 +327,7 @@ void LLInventoryModelBackgroundFetch::findLostItems()
 	mBackgroundFetchActive = TRUE;
 	mFolderFetchActive = true;
     mFetchQueue.push_back(FetchQueueInfo(LLUUID::null, TRUE));
-    gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+    gIdleCallbacks.addFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 }
 
 void LLInventoryModelBackgroundFetch::setAllFoldersFetched()
@@ -341,7 +341,7 @@ void LLInventoryModelBackgroundFetch::setAllFoldersFetched()
 	}
 	mFolderFetchActive = false;
 	mBackgroundFetchActive = false;
-	gIdleCallbacks.deleteFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, NULL);
+	gIdleCallbacks.deleteFunction(&LLInventoryModelBackgroundFetch::backgroundFetchCB, nullptr);
 	LL_INFOS_ONCE(LOG_INV) << "Inventory background fetch completed" << LL_ENDL;
 }
 
@@ -628,8 +628,8 @@ void LLInventoryModelBackgroundFetch::bulkFetch()
 					// May already have this folder, but append child folders to list.
 					if (fetch_info.mRecursive)
 					{	
-						LLInventoryModel::cat_array_t * categories(NULL);
-						LLInventoryModel::item_array_t * items(NULL);
+						LLInventoryModel::cat_array_t * categories(nullptr);
+						LLInventoryModel::item_array_t * items(nullptr);
 						gInventory.getDirectDescendentsOf(cat->getUUID(), categories, items);
 						for (LLInventoryModel::cat_array_t::const_iterator it = categories->begin();
 							 it != categories->end();

@@ -45,7 +45,7 @@ LLTrace::BlockTimerStatHandle FTM_SD_PARAM_ADAPTOR("LLSD to LLInitParam conversi
 //
 LLParamSDParser::LLParamSDParser()
 : Parser(sReadFuncs, sWriteFuncs, sInspectFuncs),
-  mCurReadSD(NULL), mWriteRootSD(NULL)
+  mCurReadSD(nullptr), mWriteRootSD(nullptr)
 {
 	if (sReadFuncs.empty())
 	{
@@ -95,7 +95,7 @@ void LLParamSDParser::submit(LLInitParam::BaseBlock& block, const LLSD& sd, LLIn
 
 void LLParamSDParser::readSD(const LLSD& sd, LLInitParam::BaseBlock& block, bool silent)
 {
-	mCurReadSD = NULL;
+	mCurReadSD = nullptr;
 	mNameStack.clear();
 	setParseSilently(silent);
 

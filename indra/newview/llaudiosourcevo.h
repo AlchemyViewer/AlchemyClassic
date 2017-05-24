@@ -38,8 +38,8 @@ class LLAudioSourceVO : public LLAudioSource
 public:
 	LLAudioSourceVO(const LLUUID &sound_id, const LLUUID& owner_id, const F32 gain, LLViewerObject *objectp);
 	virtual ~LLAudioSourceVO();
-	/*virtual*/	void update();
-	/*virtual*/ void setGain(const F32 gain);
+	/*virtual*/	void update() override;
+	/*virtual*/ void setGain(const F32 gain) override;
 
 private:
 	void updateMute();

@@ -330,26 +330,26 @@ public:
 		Params()
 		:	name("name"),
 			id("id"),
+			substitutions("substitutions"),
+			form_elements("form"),
+			payload("payload"),
 			priority("priority", NOTIFICATION_PRIORITY_UNSPECIFIED),
 			time_stamp("time"),
-			payload("payload"),
-			form_elements("form"),
-			substitutions("substitutions"),
 			expiry("expiry"),
 			offer_from_agent("offer_from_agent", false),
             is_dnd("is_dnd", false)
 		{
 			time_stamp = LLDate::now();
-			responder = NULL;
+			responder = nullptr;
 		}
 
 		Params(const std::string& _name) 
 		:	name("name"),
+			substitutions("substitutions"),
+			form_elements("form"),
+			payload("payload"),
 			priority("priority", NOTIFICATION_PRIORITY_UNSPECIFIED),
 			time_stamp("time"),
-			payload("payload"),
-			form_elements("form"),
-			substitutions("substitutions"),
 			expiry("expiry"),
 			offer_from_agent("offer_from_agent", false),
             is_dnd("is_dnd", false)
@@ -357,7 +357,7 @@ public:
 			functor.name = _name;
 			name = _name;
 			time_stamp = LLDate::now();
-			responder = NULL;
+			responder = nullptr;
 		}
 	};
 
@@ -724,8 +724,8 @@ class LLNotificationChannelBase :
 	LOG_CLASS(LLNotificationChannelBase);
 public:
 	LLNotificationChannelBase(LLNotificationFilter filter) 
-	:	mFilter(filter), 
-		mItems() 
+	:	mItems(), 
+		mFilter(filter) 
 	{}
 	virtual ~LLNotificationChannelBase() {}
 	// you can also connect to a Channel, so you can be notified of
@@ -911,7 +911,7 @@ public:
 	/* virtual */ LLNotificationPtr add(const std::string& name, 
 						const LLSD& substitutions, 
 						const LLSD& payload, 
-						LLNotificationFunctorRegistry::ResponseFunctor functor);
+						LLNotificationFunctorRegistry::ResponseFunctor functor) override;
 	LLNotificationPtr add(const LLNotification::Params& p);
 
 	void add(const LLNotificationPtr pNotif);
@@ -958,7 +958,7 @@ public:
 	bool isVisibleByRules(LLNotificationPtr pNotification);
 	
 private:
-	/*virtual*/ void initSingleton();
+	/*virtual*/ void initSingleton() override;
 	
 	void loadPersistentNotifications();
 
@@ -1101,7 +1101,7 @@ private:
 		return handle_notification;
 	}
 
-	void onAdd(LLNotificationPtr p) 
+	void onAdd(LLNotificationPtr p) override
 	{
 		mHistory.push_back(p);
 	}

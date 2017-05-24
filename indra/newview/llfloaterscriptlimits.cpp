@@ -959,7 +959,7 @@ void LLPanelScriptLimitsRegionMemory::returnObjects()
 		}
 	}
 
-	onClickRefresh(NULL);
+	onClickRefresh(nullptr);
 }
 
 

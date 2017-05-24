@@ -43,6 +43,8 @@
 LLAgentPilot gAgentPilot;
 
 LLAgentPilot::LLAgentPilot() :
+	mLoop(TRUE),
+	mReplaySession(FALSE),
 	mNumRuns(-1),
 	mQuitAfterRuns(FALSE),
 	mRecording(FALSE),
@@ -50,9 +52,7 @@ LLAgentPilot::LLAgentPilot() :
 	mStarted(FALSE),
 	mPlaying(FALSE),
 	mCurrentAction(0),
-	mOverrideCamera(FALSE),
-	mLoop(TRUE),
-	mReplaySession(FALSE)
+	mOverrideCamera(FALSE)
 {
 }
 

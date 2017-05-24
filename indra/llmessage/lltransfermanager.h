@@ -436,8 +436,8 @@ class LLTransferSourceParamsInvItem: public LLTransferSourceParams
 public:
 	LLTransferSourceParamsInvItem();
 	virtual ~LLTransferSourceParamsInvItem() {}
-	/*virtual*/ void packParams(LLDataPacker &dp) const;
-	/*virtual*/ BOOL unpackParams(LLDataPacker &dp);
+	/*virtual*/ void packParams(LLDataPacker &dp) const override;
+	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 
 	void setAgentSession(const LLUUID &agent_id, const LLUUID &session_id);
 	void setInvItem(const LLUUID &owner_id, const LLUUID &task_id, const LLUUID &item_id);
@@ -468,8 +468,8 @@ class LLTransferSourceParamsEstate: public LLTransferSourceParams
 public:
 	LLTransferSourceParamsEstate();
 	virtual ~LLTransferSourceParamsEstate() {}
-	/*virtual*/ void packParams(LLDataPacker &dp) const;
-	/*virtual*/ BOOL unpackParams(LLDataPacker &dp);
+	/*virtual*/ void packParams(LLDataPacker &dp) const override;
+	/*virtual*/ BOOL unpackParams(LLDataPacker &dp) override;
 
 	void setAgentSession(const LLUUID &agent_id, const LLUUID &session_id);
 	void setEstateAssetType(const EstateAssetType etype);

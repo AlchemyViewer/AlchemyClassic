@@ -49,15 +49,15 @@ static LLDefaultChildRegistry::Register<LLMultiSliderCtrl> r("multi_slider");
 
 const U32 MAX_STRING_LENGTH = 10;
 LLMultiSliderCtrl::Params::Params()
-:	text_width("text_width"),
-	label_width("label_width"),
+:	label_width("label_width"),
+	text_width("text_width"),
 	show_text("show_text", true),
 	can_edit_text("can_edit_text", false),
+	decimal_digits("decimal_digits", 3),
 	max_sliders("max_sliders", 1),
 	allow_overlap("allow_overlap", false),
 	draw_track("draw_track", true),
 	use_triangle("use_triangle", false),
-	decimal_digits("decimal_digits", 3),
 	text_color("text_color"),
 	text_disabled_color("text_disabled_color"),
 	mouse_down_callback("mouse_down_callback"),
@@ -69,9 +69,9 @@ LLMultiSliderCtrl::Params::Params()
  
 LLMultiSliderCtrl::LLMultiSliderCtrl(const LLMultiSliderCtrl::Params& p)
 :	LLF32UICtrl(p),
-	mLabelBox( NULL ),
-	mEditor( NULL ),
-	mTextBox( NULL ),
+	mLabelBox(nullptr ),
+	mEditor(nullptr ),
+	mTextBox(nullptr ),
 	mTextEnabledColor(p.text_color()),
 	mTextDisabledColor(p.text_disabled_color())
 {

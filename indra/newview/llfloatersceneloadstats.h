@@ -36,7 +36,7 @@ private:
 	LLFloaterSceneLoadStats(const LLSD& key);
 
 public:
-	BOOL postBuild();
+	BOOL postBuild() override;
 
 };
 

@@ -170,7 +170,7 @@ bool LLMemory::isMemoryPoolLow()
 {
 	static const U32Megabytes LOW_MEMORY_POOL_THRESHOLD(64);
 	const static U32Megabytes MAX_SIZE_CHECKED_MEMORY_BLOCK(64);
-	static void* last_reserved_address = NULL ;
+	static void* last_reserved_address = nullptr ;
 
 	if(!sEnableMemoryFailurePrevention)
 	{

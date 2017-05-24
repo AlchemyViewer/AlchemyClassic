@@ -61,7 +61,7 @@ class LLGiveable : public LLInventoryCollectFunctor
 public:
 	LLGiveable() : mCountLosing(0) {}
 	virtual ~LLGiveable() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 
 	S32 countNoCopy() const { return mCountLosing; }
 protected:
@@ -98,7 +98,7 @@ class LLUncopyableItems : public LLInventoryCollectFunctor
 public:
 	LLUncopyableItems() {}
 	virtual ~LLUncopyableItems() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
 };
 
 bool LLUncopyableItems::operator()(LLInventoryCategory* cat,
@@ -357,7 +357,7 @@ bool LLGiveInventory::handleCopyProtectedItem(const LLSD& notification, const LL
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
 	LLSD itmes = notification["payload"]["items"];
-	LLInventoryItem* item = NULL;
+	LLInventoryItem* item = nullptr;
 	bool give_successful = true;
 	switch(option)
 	{
@@ -448,7 +448,7 @@ void LLGiveInventory::commitGiveInventoryItem(const LLUUID& to_agent,
 bool LLGiveInventory::handleCopyProtectedCategory(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
-	LLInventoryCategory* cat = NULL;
+	LLInventoryCategory* cat = nullptr;
 	bool give_successful = true;
 	switch(option)
 	{

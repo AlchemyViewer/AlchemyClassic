@@ -180,7 +180,7 @@ const LLInventoryItem* LLPreviewNotecard::getDragItem()
 	{
 		return editor->getDragItem();
 	}
-	return NULL;
+	return nullptr;
 }
 
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
@@ -192,7 +192,7 @@ LLTextEditor* LLPreviewNotecard::getEditor()
 
 bool LLPreviewNotecard::hasEmbeddedInventory()
 {
-	LLViewerTextEditor* editor = NULL;
+	LLViewerTextEditor* editor = nullptr;
 	editor = getChild<LLViewerTextEditor>("Notecard Editor");
 	if (!editor) return false;
 	return editor->hasEmbeddedInventory();
@@ -515,14 +515,14 @@ bool LLPreviewNotecard::saveIfNeeded(LLInventoryItem* copyitem)
 
                 if (mObjectUUID.isNull() && !agent_url.empty())
                 {
-                    uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mItemUUID, LLAssetType::AT_NOTECARD, buffer, 
-                        boost::bind(&LLPreviewNotecard::finishInventoryUpload, _1, _2, _3)));
+                    uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(boost::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_NOTECARD, buffer,
+                                                                                                                                boost::bind(&LLPreviewNotecard::finishInventoryUpload, _1, _2, _3)));
                     url = agent_url;
                 }
                 else if (!mObjectUUID.isNull() && !task_url.empty())
                 {
-                    uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mObjectUUID, mItemUUID, LLAssetType::AT_NOTECARD, buffer, 
-                        boost::bind(&LLPreviewNotecard::finishTaskUpload, _1, _3, mObjectUUID)));
+                    uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(boost::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_NOTECARD, buffer,
+                                                                                                                                boost::bind(&LLPreviewNotecard::finishTaskUpload, _1, _3, mObjectUUID)));
                     url = task_url;
                 }
 
@@ -606,7 +606,7 @@ void LLPreviewNotecard::onSaveComplete(const LLUUID& asset_uuid, void* user_data
 		else
 		{
 			LLViewerObject* object = gObjectList.findObject(info->mObjectUUID);
-			LLViewerInventoryItem* item = NULL;
+			LLViewerInventoryItem* item = nullptr;
 			if(object)
 			{
 				item = (LLViewerInventoryItem*)object->getInventoryObject(info->mItemUUID);
@@ -694,7 +694,7 @@ bool LLPreviewNotecard::handleConfirmDeleteDialog(const LLSD& notification, cons
 	{
 		// move item from agent's inventory into trash
 		LLViewerInventoryItem* item = gInventory.getItem(mItemUUID);
-		if (item != NULL)
+		if (item != nullptr)
 		{
 			const LLUUID trash_id = gInventory.findCategoryUUIDForType(LLFolderType::FT_TRASH);
 			gInventory.changeItemParent(item, trash_id, FALSE);
@@ -707,7 +707,7 @@ bool LLPreviewNotecard::handleConfirmDeleteDialog(const LLSD& notification, cons
 		if(object)
 		{
 			LLViewerInventoryItem* item = dynamic_cast<LLViewerInventoryItem*>(object->getInventoryObject(mItemUUID));
-			if (item != NULL)
+			if (item != nullptr)
 			{
 				object->removeInventory(mItemUUID);
 			}

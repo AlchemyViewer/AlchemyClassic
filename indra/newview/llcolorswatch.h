@@ -72,9 +72,9 @@ protected:
 public:
 	~LLColorSwatchCtrl ();
 
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 
-	/*virtual*/ LLSD getValue() const { return mColor.getValue(); }
+	/*virtual*/ LLSD getValue() const override { return mColor.getValue(); }
 	const LLColor4&	get()							{ return mColor; }
 	
 	void			set(const LLColor4& color, BOOL update_picker = FALSE, BOOL from_event = FALSE);
@@ -90,13 +90,13 @@ public:
 
 	void			showPicker(BOOL take_focus);
 
-	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleDoubleClick(S32 x,S32 y,MASK mask);
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleUnicodeCharHere(llwchar uni_char);
-	/*virtual*/ void	draw();
-	/*virtual*/ void	setEnabled( BOOL enabled );
+	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleDoubleClick(S32 x,S32 y,MASK mask) override;
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleUnicodeCharHere(llwchar uni_char) override;
+	/*virtual*/ void	draw() override;
+	/*virtual*/ void	setEnabled( BOOL enabled ) override;
 
 	static void		onColorChanged ( void* data, EColorPickOp pick_op = COLOR_CHANGE );
 	void			closeFloaterColorPicker();

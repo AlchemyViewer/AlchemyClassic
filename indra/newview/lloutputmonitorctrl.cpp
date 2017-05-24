@@ -66,6 +66,8 @@ LLOutputMonitorCtrl::Params::Params()
 LLOutputMonitorCtrl::LLOutputMonitorCtrl(const LLOutputMonitorCtrl::Params& p)
 :	LLView(p),
 	mPower(0),
+	mIsAgentControl(false),
+	mShowParticipantsSpeaking(false),
 	mImageMute(p.image_mute),
 	mImageOff(p.image_off),
 	mImageOn(p.image_on),
@@ -74,9 +76,7 @@ LLOutputMonitorCtrl::LLOutputMonitorCtrl(const LLOutputMonitorCtrl::Params& p)
 	mImageLevel3(p.image_level_3),
 	mAutoUpdate(p.auto_update),
 	mSpeakerId(p.speaker_id),
-	mIsAgentControl(false),
-	mIndicatorToggled(false),
-	mShowParticipantsSpeaking(false)
+	mIndicatorToggled(false)
 {
 	//static LLUIColor output_monitor_muted_color = LLUIColorTable::instance().getColor("OutputMonitorMutedColor", LLColor4::orange);
 	//static LLUIColor output_monitor_overdriven_color = LLUIColorTable::instance().getColor("OutputMonitorOverdrivenColor", LLColor4::red);

@@ -75,9 +75,9 @@ public:
 	static LLPanelLandCovenant* getCurrentPanelLandCovenant();
 	
 	LLParcel* getCurrentSelectedParcel();
-	
-	virtual void onOpen(const LLSD& key);
-	virtual BOOL postBuild();
+
+	void onOpen(const LLSD& key) override;
+	BOOL postBuild() override;
 
 private:
 	// Does its own instance management, so clients not allowed
@@ -91,7 +91,7 @@ private:
 
 protected:
 
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 	void selectiveRefresh();
 
 	static void* createPanelLandGeneral(void* data);
@@ -134,9 +134,9 @@ class LLPanelLandGeneral
 public:
 	LLPanelLandGeneral(LLSafeHandle<LLParcelSelection>& parcelp);
 	virtual ~LLPanelLandGeneral();
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 	void refreshNames();
-	virtual void draw();
+	void draw() override;
 
 	void setGroup(const LLUUID& group_id);
 	void onClickProfile();
@@ -169,7 +169,7 @@ public:
 	static void confirmSaleChange(S32 landSize, S32 salePrice, std::string authorizedName, void(*callback)(void*), void* userdata);
 	static void callbackConfirmSaleChange(S32 option, void* userdata);
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
 protected:
 	LLLineEditor*	mEditName;
@@ -235,15 +235,15 @@ class LLPanelLandObjects
 public:
 	LLPanelLandObjects(LLSafeHandle<LLParcelSelection>& parcelp);
 	virtual ~LLPanelLandObjects();
-	/*virtual*/ void refresh();
-	virtual void draw();
+	/*virtual*/ void refresh() override;
+	void draw() override;
 
 	bool callbackReturnOwnerObjects(const LLSD& notification, const LLSD& response);
 	bool callbackReturnGroupObjects(const LLSD& notification, const LLSD& response);
 	bool callbackReturnOtherObjects(const LLSD& notification, const LLSD& response);
 	bool callbackReturnOwnerList(const LLSD& notification, const LLSD& response);
 
-	static void clickShowCore(LLPanelLandObjects* panelp, S32 return_type, uuid_list_t* list = 0);
+	static void clickShowCore(LLPanelLandObjects* panelp, S32 return_type, uuid_list_t* list = nullptr);
 	void onClickShowOwnerObjects();
 	void onClickShowGroupObjects();
 	void onClickShowOtherObjects();
@@ -260,8 +260,8 @@ public:
 	static void onLostFocus(LLFocusableElement* caller, void* user_data);
 		   void onCommitClean();
 	static void processParcelObjectOwnersReply(LLMessageSystem *msg, void **);
-	
-	virtual BOOL postBuild();
+
+	BOOL postBuild() override;
 
 protected:
 
@@ -306,9 +306,9 @@ class LLPanelLandOptions
 public:
 	LLPanelLandOptions(LLSafeHandle<LLParcelSelection>& parcelp);
 	virtual ~LLPanelLandOptions();
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void draw();
-	/*virtual*/ void refresh();
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void draw() override;
+	/*virtual*/ void refresh() override;
 
 private:
 	// Refresh the "show in search" checkbox and category selector.
@@ -353,10 +353,10 @@ class LLPanelLandAccess
 public:
 	LLPanelLandAccess(LLSafeHandle<LLParcelSelection>& parcelp);
 	virtual ~LLPanelLandAccess();
-	void refresh();
+	void refresh() override;
 	void refresh_ui();
 	void refreshNames();
-	virtual void draw();
+	void draw() override;
 
 	void onCommitPublicAccess(LLUICtrl* ctrl);
 	void onCommitAny();
@@ -364,7 +364,7 @@ public:
 	void onClickRemoveAccess();
 	void onClickRemoveBanned();
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 	
 	void onClickAddAccess();
 	void onClickAddBanned();
@@ -385,8 +385,8 @@ class LLPanelLandCovenant
 public:
 	LLPanelLandCovenant(LLSafeHandle<LLParcelSelection>& parcelp);
 	virtual ~LLPanelLandCovenant();
-	virtual BOOL postBuild();
-	void refresh();
+	BOOL postBuild() override;
+	void refresh() override;
 	static void updateCovenantText(const std::string& string);
 	static void updateEstateName(const std::string& name);
 	static void updateLastModified(const std::string& text);

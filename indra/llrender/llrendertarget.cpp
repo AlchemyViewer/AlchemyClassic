@@ -32,7 +32,7 @@
 #include "llrender.h"
 #include "llgl.h"
 
-LLRenderTarget* LLRenderTarget::sBoundTarget = NULL;
+LLRenderTarget* LLRenderTarget::sBoundTarget = nullptr;
 U32 LLRenderTarget::sBytesAllocated = 0;
 
 void check_framebuffer_status()
@@ -53,13 +53,13 @@ void check_framebuffer_status()
 }
 
 bool LLRenderTarget::sUseFBO = false;
-LLRenderTarget* LLRenderTarget::sCurFBO = 0;
+LLRenderTarget* LLRenderTarget::sCurFBO = nullptr;
 
 LLRenderTarget::LLRenderTarget() :
 	mResX(0),
 	mResY(0),
 	mFBO(0),
-	mPreviousFBO(0),
+	mPreviousFBO(nullptr),
 	mDepth(0),
 	mStencil(0),
 	mUseDepth(false),
@@ -86,7 +86,7 @@ void LLRenderTarget::resize(U32 resx, U32 resy)
 	for (U32 i = 0; i < mTex.size(); ++i)
 	{ //resize color attachments
 		gGL.getTexUnit(0)->bindManual(mUsage, mTex[i]);
-		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, mInternalFormat[i], mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, NULL, false);
+		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, mInternalFormat[i], mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, nullptr, false);
 		sBytesAllocated += pix_diff*4;
 	}
 
@@ -103,7 +103,7 @@ void LLRenderTarget::resize(U32 resx, U32 resy)
 		{
 			gGL.getTexUnit(0)->bindManual(mUsage, mDepth);
 			U32 internal_type = LLTexUnit::getInternalType(mUsage);
-			LLImageGL::setManualImage(internal_type, 0, GL_DEPTH_COMPONENT24, mResX, mResY, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL, false);
+			LLImageGL::setManualImage(internal_type, 0, GL_DEPTH_COMPONENT24, mResX, mResY, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, nullptr, false);
 		}
 
 		sBytesAllocated += pix_diff*4;
@@ -196,7 +196,7 @@ bool LLRenderTarget::addColorAttachment(U32 color_fmt)
 
 	{
 		clear_glerror();
-		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, color_fmt, mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, NULL, false);
+		LLImageGL::setManualImage(LLTexUnit::getInternalType(mUsage), 0, color_fmt, mResX, mResY, GL_RGBA, GL_UNSIGNED_BYTE, nullptr, false);
 		if (glGetError() != GL_NO_ERROR)
 		{
 			LL_WARNS() << "Could not allocate color buffer for render target." << LL_ENDL;
@@ -271,7 +271,7 @@ bool LLRenderTarget::allocateDepth()
 		U32 internal_type = LLTexUnit::getInternalType(mUsage);
 		stop_glerror();
 		clear_glerror();
-		LLImageGL::setManualImage(internal_type, 0, GL_DEPTH_COMPONENT24, mResX, mResY, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL, false);
+		LLImageGL::setManualImage(internal_type, 0, GL_DEPTH_COMPONENT24, mResX, mResY, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, nullptr, false);
 		gGL.getTexUnit(0)->setTextureFilteringOption(LLTexUnit::TFO_POINT);
 	}
 
@@ -404,7 +404,7 @@ void LLRenderTarget::release()
 	
 	mResX = mResY = 0;
 
-	sBoundTarget = NULL;
+	sBoundTarget = nullptr;
 }
 
 void LLRenderTarget::bindTarget()
@@ -520,7 +520,7 @@ void LLRenderTarget::flush(bool fetch_depth)
 		if (mPreviousFBO)
 		{
 			glViewport(0, 0, mPreviousFBO->mResX, mPreviousFBO->mResY);
-			mPreviousFBO = NULL;
+			mPreviousFBO = nullptr;
 		}
 		else
 		{

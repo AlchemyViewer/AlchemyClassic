@@ -53,14 +53,14 @@ public:
 
 	LLPanelObjectInventory(const Params&);
 	virtual ~LLPanelObjectInventory();
-	
-	virtual BOOL postBuild();
+
+	BOOL postBuild() override;
 
 	LLFolderViewModelInventory& getRootViewModel() { return mInventoryViewModel; }
 
 	void doToSelected(const LLSD& userdata);
 	
-	void refresh();
+	void refresh() override;
 	const LLUUID& getTaskUUID() { return mTaskUUID;}
 	void clearInventoryTask();
 	void removeSelectedItem();
@@ -68,12 +68,12 @@ public:
 
 	LLFolderView* getRootFolder() const { return mFolders; }
 
-	virtual void draw();
-	virtual void deleteAllChildren();
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string& tooltip_msg);
+	void draw() override;
+	void deleteAllChildren() override;
+	BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string& tooltip_msg) override;
 	
-	/*virtual*/ void onFocusLost();
-	/*virtual*/ void onFocusReceived();
+	/*virtual*/ void onFocusLost() override;
+	/*virtual*/ void onFocusReceived() override;
 	
 	static void idle(void* user_data);
 
@@ -82,7 +82,7 @@ protected:
 	/*virtual*/ void inventoryChanged(LLViewerObject* object,
 								 LLInventoryObject::object_list_t* inventory,
 								 S32 serial_num,
-								 void* user_data);
+								 void* user_data) override;
 	void updateInventory();
 	void createFolderViews(LLInventoryObject* inventory_root, LLInventoryObject::object_list_t& contents);
 	void createViewsForCategory(LLInventoryObject::object_list_t* inventory,
@@ -95,7 +95,7 @@ protected:
 	void removeItemID(const LLUUID& id);
 	void clearItemIDs();
 
-	BOOL			handleKeyHere( KEY key, MASK mask );
+	BOOL			handleKeyHere( KEY key, MASK mask ) override;
 	BOOL			isSelectionRemovable();
 
 private:

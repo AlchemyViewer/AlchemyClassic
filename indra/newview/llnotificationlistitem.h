@@ -78,9 +78,9 @@ public:
     std::string& getNotificationName() { return mNotificationName; }
 
     // handlers
-    virtual BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual void onMouseEnter(S32 x, S32 y, MASK mask);
-	virtual void onMouseLeave(S32 x, S32 y, MASK mask);
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	void onMouseEnter(S32 x, S32 y, MASK mask) override;
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
 
     //callbacks
     typedef boost::function<void (LLNotificationListItem* item)> item_callback_t;
@@ -92,7 +92,7 @@ public:
     
     virtual bool showPopup() { return true; }
     void setExpanded(BOOL value);
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
     void reshapeNotification();
 
     typedef enum e_time_type
@@ -137,11 +137,11 @@ class LLGroupNotificationListItem
 {
 public:
 	virtual ~LLGroupNotificationListItem();
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
 
     void setGroupId(const LLUUID& value);
     // LLGroupMgrObserver observer trigger
-    virtual void changed(LLGroupChange gc);
+	void changed(LLGroupChange gc) override;
 
     friend class LLNotificationListItem;
 protected:
@@ -167,9 +167,9 @@ class LLGroupInviteNotificationListItem
 {
 public:
     static std::set<std::string> getTypes();
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-    /*virtual*/ bool showPopup() { return false; }
+    /*virtual*/ bool showPopup() override { return false; }
 
 private:
     friend class LLNotificationListItem;
@@ -195,9 +195,9 @@ class LLGroupNoticeNotificationListItem
 public:
 	virtual ~LLGroupNoticeNotificationListItem();
     static std::set<std::string> getTypes();
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-    /*virtual*/ bool showPopup() { return false; }
+    /*virtual*/ bool showPopup() override { return false; }
 
 private:
     friend class LLNotificationListItem;
@@ -207,7 +207,7 @@ private:
 
     void setSender(std::string sender);
     void onClickAttachment();
-    /*virtual*/ void close();
+    /*virtual*/ void close() override;
 
     static bool isAttachmentOpenable(LLAssetType::EType);
 
@@ -222,7 +222,7 @@ class LLTransactionNotificationListItem : public LLNotificationListItem
 {
 public:
     static std::set<std::string> getTypes();
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
 private:
     friend class LLNotificationListItem;
     LLTransactionNotificationListItem(const Params& p);
@@ -235,7 +235,7 @@ private:
 class LLSystemNotificationListItem : public LLNotificationListItem
 {
 public:
-    virtual BOOL postBuild();
+	BOOL postBuild() override;
 private:
     friend class LLNotificationListItem;
     LLSystemNotificationListItem(const Params& p);

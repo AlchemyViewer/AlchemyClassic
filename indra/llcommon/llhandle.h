@@ -38,7 +38,7 @@
 class LLTombStone : public LLRefCount
 {
 public:
-	LLTombStone(void* target = NULL) : mTarget(target) {}
+	LLTombStone(void* target = nullptr) : mTarget(target) {}
 
 	void setTarget(void* target) { mTarget = target; }
 	void* getTarget() const { return mTarget; }
@@ -92,7 +92,7 @@ public:
 
 	bool isDead() const 
 	{ 
-		return mTombStone->getTarget() == NULL; 
+		return mTombStone->getTarget() == nullptr; 
 	}
 
 	void markDead() 

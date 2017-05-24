@@ -49,9 +49,9 @@ public:
 	 * Contains workaround for EXT-2786: sets current selected list for landmark
 	 * panel using @c mParentLandmarksPanel which is set in @c LLLandmarksPanel::initLandmarksPanel
 	 */
-	/*virtual*/ BOOL handleRightMouseDown( S32 x, S32 y, MASK mask );
+	/*virtual*/ BOOL handleRightMouseDown( S32 x, S32 y, MASK mask ) override;
 
-	/*virtual*/ void updateMenu();
+	/*virtual*/ void updateMenu() override;
 
 	void setupMenuHandle(LLInventoryType::EType asset_type, LLHandle<LLView> menu_handle);
 

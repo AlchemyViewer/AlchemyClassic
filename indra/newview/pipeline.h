@@ -139,11 +139,11 @@ public:
 
 	/// @brief Get a draw pool from pool type (POOL_SIMPLE, POOL_MEDIA) and texture.
 	/// @return Draw pool, or NULL if not found.
-	LLDrawPool *findPool(const U32 pool_type, LLViewerTexture *tex0 = NULL);
+	LLDrawPool *findPool(const U32 pool_type, LLViewerTexture *tex0 = nullptr);
 
 	/// @brief Get a draw pool for faces of the appropriate type and texture.  Create if necessary.
 	/// @return Always returns a draw pool.
-	LLDrawPool *getPool(const U32 pool_type, LLViewerTexture *tex0 = NULL);
+	LLDrawPool *getPool(const U32 pool_type, LLViewerTexture *tex0 = nullptr);
 
 	/// @brief Figures out draw pool type from texture entry. Creates pool if necessary.
 	static LLDrawPool* getPoolFromTE(const LLTextureEntry* te, LLViewerTexture* te_image);
@@ -178,10 +178,10 @@ public:
 												BOOL pick_transparent,
 												BOOL pick_rigged,
 												S32* face_hit,                          // return the face hit
-												LLVector4a* intersection = NULL,         // return the intersection point
-												LLVector2* tex_coord = NULL,            // return the texture coordinates of the intersection point
-												LLVector4a* normal = NULL,               // return the surface normal at the intersection point
-												LLVector4a* tangent = NULL             // return the surface tangent at the intersection point  
+												LLVector4a* intersection = nullptr,         // return the intersection point
+												LLVector2* tex_coord = nullptr,            // return the texture coordinates of the intersection point
+												LLVector4a* normal = nullptr,               // return the surface normal at the intersection point
+												LLVector4a* tangent = nullptr             // return the surface tangent at the intersection point  
 		);
 
 	//get the closest particle to start between start and end, returns the LLVOPartGroup and particle index
@@ -192,10 +192,10 @@ public:
 	LLViewerObject* lineSegmentIntersectInHUD(const LLVector4a& start, const LLVector4a& end,
 											  BOOL pick_transparent,
 											  S32* face_hit,                          // return the face hit
-											  LLVector4a* intersection = NULL,         // return the intersection point
-											  LLVector2* tex_coord = NULL,            // return the texture coordinates of the intersection point
-											  LLVector4a* normal = NULL,               // return the surface normal at the intersection point
-											  LLVector4a* tangent = NULL             // return the surface tangent at the intersection point
+											  LLVector4a* intersection = nullptr,         // return the intersection point
+											  LLVector2* tex_coord = nullptr,            // return the texture coordinates of the intersection point
+											  LLVector4a* normal = nullptr,               // return the surface normal at the intersection point
+											  LLVector4a* tangent = nullptr             // return the surface tangent at the intersection point
 		);
 
 	// Something about these textures has changed.  Dirty them.
@@ -230,7 +230,7 @@ public:
 	BOOL visibleObjectsInFrustum(LLCamera& camera);
 	BOOL getVisibleExtents(LLCamera& camera, LLVector3 &min, LLVector3& max);
 	BOOL getVisiblePointCloud(LLCamera& camera, LLVector3 &min, LLVector3& max, std::vector<LLVector3>& fp, LLVector3 light_dir = LLVector3(0,0,0));
-	void updateCull(LLCamera& camera, LLCullResult& result, S32 water_clip = 0, LLPlane* plane = NULL);  //if water_clip is 0, ignore water plane, 1, cull to above plane, -1, cull to below plane
+	void updateCull(LLCamera& camera, LLCullResult& result, S32 water_clip = 0, LLPlane* plane = nullptr);  //if water_clip is 0, ignore water plane, 1, cull to above plane, -1, cull to below plane
 	void createObjects(F32 max_dtime);
 	void createObject(LLViewerObject* vobj);
 	void processPartitionQ();
@@ -271,10 +271,10 @@ public:
 	void renderGeomDeferred(LLCamera& camera);
 	void renderGeomPostDeferred(LLCamera& camera, bool do_occlusion=true);
 	void renderGeomShadow(LLCamera& camera);
-	void bindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source = NULL, LLRenderTarget* light_source = NULL);
+	void bindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source = nullptr, LLRenderTarget* light_source = nullptr);
 	void setupSpotLight(LLGLSLShader& shader, LLDrawable* drawablep);
 
-	void unbindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source = NULL, LLRenderTarget* light_source = NULL);
+	void unbindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffuse_source = nullptr, LLRenderTarget* light_source = nullptr);
 	void renderDeferredLighting();
 	void renderDeferredLightingToRT(LLRenderTarget* target);
 	

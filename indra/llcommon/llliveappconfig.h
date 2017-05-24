@@ -60,7 +60,7 @@ public:
 	~LLLiveAppConfig(); ///< Destructor
 
 protected:
-	/*virtual*/ bool loadFile();
+	/*virtual*/ bool loadFile() override;
 
 private:
 	LLApp::OptionPriority mPriority;

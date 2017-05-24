@@ -48,12 +48,12 @@ public:
 
 	static LLFloaterIMNearbyChat* buildFloater(const LLSD& key);
 
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
-	/*virtual*/ void onClose(bool app_quitting);
-	/*virtual*/ void setVisible(BOOL visible);
-	/*virtual*/ void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD());
-	/*virtual*/ void closeHostedFloater();
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
+	/*virtual*/ void onClose(bool app_quitting) override;
+	/*virtual*/ void setVisible(BOOL visible) override;
+	/*virtual*/ void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD()) override;
+	/*virtual*/ void closeHostedFloater() override;
 
 	void loadHistory();
     void reloadMessages(bool clean_messages = false);
@@ -71,7 +71,7 @@ public:
 	std::string getCurrentChat();
 	S32 getMessageArchiveLength() {return mMessageArchive.size();}
 
-	virtual BOOL handleKeyHere( KEY key, MASK mask );
+	BOOL handleKeyHere( KEY key, MASK mask ) override;
 
 	static void startChat(const char* line);
 	static void stopChat();
@@ -90,8 +90,8 @@ protected:
 	void onChatBoxCommit();
 	void onChatFontChange(LLFontGL* fontp);
 
-	/*virtual*/ void onTearOffClicked();
-	/*virtual*/ void onClickCloseBtn(bool app_qutting = false);
+	/*virtual*/ void onTearOffClicked() override;
+	/*virtual*/ void onClickCloseBtn(bool app_qutting = false) override;
 
 	void displaySpeakingIndicator();
 
@@ -103,7 +103,7 @@ protected:
 	S32 mExpandedHeight;
 
 private:
-	/*virtual*/ void refresh();
+	/*virtual*/ void refresh() override;
 
 	std::vector<LLChat> mMessageArchive;
 };

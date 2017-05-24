@@ -53,8 +53,8 @@ protected:
 public:
 	virtual F32		getValueF32() const;
 
-	virtual void	setValue(const LLSD& value ) { mViewModel->setValue(value); }
-	virtual LLSD	getValue() const		{ return LLSD(getValueF32()); }
+	void	setValue(const LLSD& value ) override { mViewModel->setValue(value); }
+	LLSD	getValue() const override { return LLSD(getValueF32()); }
 
 	virtual void	setMinValue(const LLSD& min_value)	{ setMinValue((F32)min_value.asReal()); }
 	virtual void	setMaxValue(const LLSD& max_value)	{ setMaxValue((F32)max_value.asReal()); }

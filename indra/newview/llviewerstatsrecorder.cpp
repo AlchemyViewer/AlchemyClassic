@@ -42,14 +42,14 @@
 	static const std::string STATS_FILE_NAME("/tmp/viewerstats.csv");
 #endif
 
-LLViewerStatsRecorder* LLViewerStatsRecorder::sInstance = NULL;
+LLViewerStatsRecorder* LLViewerStatsRecorder::sInstance = nullptr;
 LLViewerStatsRecorder::LLViewerStatsRecorder() :
-	mObjectCacheFile(NULL),
+	mObjectCacheFile(nullptr),
 	mTimer(),
 	mStartTime(0.0),
 	mLastSnapshotTime(0.0)
 {
-	if (NULL != sInstance)
+	if (nullptr != sInstance)
 	{
 		LL_ERRS() << "Attempted to create multiple instances of LLViewerStatsRecorder!" << LL_ENDL;
 	}
@@ -59,12 +59,12 @@ LLViewerStatsRecorder::LLViewerStatsRecorder() :
 
 LLViewerStatsRecorder::~LLViewerStatsRecorder()
 {
-	if (mObjectCacheFile != NULL)
+	if (mObjectCacheFile != nullptr)
 	{
 		// last chance snapshot
 		writeToLog(0.f);
 		LLFile::close(mObjectCacheFile);
-		mObjectCacheFile = NULL;
+		mObjectCacheFile = nullptr;
 	}
 }
 
@@ -190,7 +190,7 @@ void LLViewerStatsRecorder::writeToLog( F32 interval )
 		<< mObjectUpdateFailures << " update failures"
 		<< LL_ENDL;
 
-	if (mObjectCacheFile == NULL)
+	if (mObjectCacheFile == nullptr)
 	{
 		mStartTime = LLTimer::getTotalSeconds();
 		mObjectCacheFile = LLFile::fopen(STATS_FILE_NAME, "wb");

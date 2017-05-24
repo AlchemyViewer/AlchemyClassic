@@ -53,7 +53,7 @@
 ///----------------------------------------------------------------------------
 /// Local function declarations, constants, enums, and typedefs
 ///----------------------------------------------------------------------------
-LLOutfitSnapshotFloaterView* gOutfitSnapshotFloaterView = NULL;
+LLOutfitSnapshotFloaterView* gOutfitSnapshotFloaterView = nullptr;
 
 const S32 OUTFIT_SNAPSHOT_WIDTH = 256;
 const S32 OUTFIT_SNAPSHOT_HEIGHT = 256;
@@ -218,7 +218,7 @@ void LLFloaterOutfitSnapshot::Impl::updateResolution(void* data)
 // Default constructor
 LLFloaterOutfitSnapshot::LLFloaterOutfitSnapshot(const LLSD& key)
 : LLFloaterSnapshotBase(key),
-mOutfitGallery(NULL)
+mOutfitGallery(nullptr)
 {
     impl = new Impl(this);
 }
@@ -323,7 +323,7 @@ void LLFloaterOutfitSnapshot::onExtendFloater()
 void LLFloaterOutfitSnapshot::update()
 {
     LLFloaterOutfitSnapshot* inst = findInstance();
-    if (inst != NULL)
+    if (inst != nullptr)
     {
         inst->impl->updateLivePreview();
     }

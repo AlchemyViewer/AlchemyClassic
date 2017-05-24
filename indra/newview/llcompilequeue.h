@@ -57,7 +57,7 @@ public:
 	LLFloaterScriptQueue(const LLSD& key);
 	virtual ~LLFloaterScriptQueue();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
 	void setMono(bool mono) { mMono = mono; }
 	
@@ -132,8 +132,8 @@ public:
 protected:
 	LLFloaterCompileQueue(const LLSD& key);
 	virtual ~LLFloaterCompileQueue();
-	
-	virtual bool startQueue();
+
+	bool startQueue() override;
 
     static bool processScript(LLHandle<LLFloaterCompileQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
 
@@ -162,7 +162,7 @@ protected:
 	
     static bool resetObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
 
-    virtual bool startQueue();
+	bool startQueue() override;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,7 +180,7 @@ protected:
 
     static bool runObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
 
-    virtual bool startQueue();
+	bool startQueue() override;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -198,7 +198,7 @@ protected:
 	
     static bool stopObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
 
-    virtual bool startQueue();
+	bool startQueue() override;
 };
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -216,6 +216,6 @@ protected:
 
 	static bool deleteObjectScripts(LLHandle<LLFloaterScriptQueue> hfloater, const LLPointer<LLViewerObject> &object, LLInventoryObject* inventory, LLEventPump &pump);
 
-	virtual bool startQueue();
+	bool startQueue() override;
 };
 #endif // LL_LLCOMPILEQUEUE_H

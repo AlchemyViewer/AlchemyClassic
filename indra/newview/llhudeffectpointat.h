@@ -47,8 +47,8 @@ class LLHUDEffectPointAt : public LLHUDEffect
 public:
 	friend class LLHUDObject;
 
-	/*virtual*/ void markDead();
-	/*virtual*/ void setSourceObject(LLViewerObject* objectp);
+	/*virtual*/ void markDead() override;
+	/*virtual*/ void setSourceObject(LLViewerObject* objectp) override;
 
 	BOOL setPointAt(EPointAtType target_type, LLViewerObject *object, LLVector3 position);
 	void clearPointAtTarget();
@@ -60,15 +60,15 @@ protected:
 	LLHUDEffectPointAt(const U8 type);
 	~LLHUDEffectPointAt();
 
-	/*virtual*/ void render();
-	/*virtual*/ void packData(LLMessageSystem *mesgsys);
-	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum);
+	/*virtual*/ void render() override;
+	/*virtual*/ void packData(LLMessageSystem *mesgsys) override;
+	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum) override;
 
 	// lookat behavior has either target position or target object with offset
 	void setTargetObjectAndOffset(LLViewerObject *objp, LLVector3d offset);
 	void setTargetPosGlobal(const LLVector3d &target_pos_global);
 	bool calcTargetPosition();
-	void update();
+	void update() override;
 public:
 	static BOOL sDebugPointAt;
 private:

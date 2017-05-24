@@ -135,7 +135,7 @@ public:
 	virtual void setNoNormalize() { mNoNormalize = true; }
 	virtual void setNoOptimize() { mNoOptimize = true; }
 
-	virtual void run();
+	void run() override;
 
     static bool getSLMFilename(const std::string& model_filename, std::string& slm_filename);
 
@@ -180,7 +180,7 @@ public:
 	//-----------------------------------------------------------------------------
 	bool isNodeAJoint(const char* name)
 	{
-		return name != NULL && mJointMap.find(name) != mJointMap.end();
+		return name != nullptr && mJointMap.find(name) != mJointMap.end();
 	}
 
 protected:

@@ -57,7 +57,7 @@ public:
 	// requires trusted browser to trigger
 	LLGroupHandler() : LLCommandHandler("group", UNTRUSTED_THROTTLE) { }
 	bool handle(const LLSD& tokens, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnableGroupInfo"))
 		{
@@ -126,9 +126,9 @@ class LLFetchGroupMemberData : public LLGroupMgrObserver
 {
 public:
 	LLFetchGroupMemberData(const LLUUID& group_id) : 
+		LLGroupMgrObserver(group_id),
 		mGroupId(group_id),
-		mRequestProcessed(false),
-		LLGroupMgrObserver(group_id) 
+		mRequestProcessed(false) 
 	{
 		LL_INFOS() << "Sending new group member request for group_id: "<< group_id << LL_ENDL;
 		LLGroupMgr* mgr = LLGroupMgr::getInstance();
@@ -151,7 +151,7 @@ public:
 		LLGroupMgr::getInstance()->removeObserver(this);
 	}
 
-	void changed(LLGroupChange gc)
+	void changed(LLGroupChange gc) override
 	{
 		if (gc == GC_PROPERTIES && !mRequestProcessed)
 		{
@@ -183,13 +183,13 @@ public:
 	 LLFetchLeaveGroupData(const LLUUID& group_id)
 		 : LLFetchGroupMemberData(group_id)
 	 {}
-	 void processGroupData()
+	 void processGroupData() override
 	 {
 		 LLGroupActions::processLeaveGroupDataResponse(mGroupId);
 	 }
 };
 
-LLFetchLeaveGroupData* gFetchLeaveGroupData = NULL;
+LLFetchLeaveGroupData* gFetchLeaveGroupData = nullptr;
 
 // static
 void LLGroupActions::search()
@@ -293,10 +293,10 @@ void LLGroupActions::leave(const LLUUID& group_id)
 		LLGroupMgrGroupData* gdatap = LLGroupMgr::getInstance()->getGroupData(group_id);
 		if (!gdatap || !gdatap->isMemberDataComplete())
 		{
-			if (gFetchLeaveGroupData != NULL)
+			if (gFetchLeaveGroupData != nullptr)
 			{
 				delete gFetchLeaveGroupData;
-				gFetchLeaveGroupData = NULL;
+				gFetchLeaveGroupData = nullptr;
 			}
 			gFetchLeaveGroupData = new LLFetchLeaveGroupData(group_id);
 		}
@@ -345,7 +345,7 @@ void LLGroupActions::activate(const LLUUID& group_id)
 
 static bool isGroupUIVisible()
 {
-	static LLPanel* panel = 0;
+	static LLPanel* panel = nullptr;
 	if(!panel)
 		panel = LLFloaterSidePanelContainer::getPanel("people", "panel_group_info_sidetray");
 	if(!panel)

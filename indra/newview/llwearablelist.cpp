@@ -80,7 +80,7 @@ void LLWearableList::cleanup()
 void LLWearableList::getAsset(const LLAssetID& assetID, const std::string& wearable_name, LLAvatarAppearance* avatarp, LLAssetType::EType asset_type, void(*asset_arrived_callback)(LLViewerWearable*, void* userdata), void* userdata)
 {
 	llassert( (asset_type == LLAssetType::AT_CLOTHING) || (asset_type == LLAssetType::AT_BODYPART) );
-	LLViewerWearable* instance = get_if_there(mList, assetID, (LLViewerWearable*)NULL );
+	LLViewerWearable* instance = get_if_there(mList, assetID, (LLViewerWearable*)nullptr );
 	if( instance )
 	{
 		LL_DEBUGS("Avatar") << "wearable " << assetID << " found in LLWearableList" << LL_ENDL;
@@ -101,7 +101,7 @@ void LLWearableList::processGetAssetReply( const char* filename, const LLAssetID
 {
 	BOOL isNewWearable = FALSE;
 	LLWearableArrivedData* data = (LLWearableArrivedData*) userdata;
-	LLViewerWearable* wearable = NULL; // NULL indicates failure
+	LLViewerWearable* wearable = nullptr; // NULL indicates failure
 	LLAvatarAppearance *avatarp = data->mAvatarp;
 	
 	if( !filename )
@@ -132,7 +132,7 @@ void LLWearableList::processGetAssetReply( const char* filename, const LLAssetID
 					isNewWearable = TRUE;
 				}
 				delete wearable;
-				wearable = NULL;
+				wearable = nullptr;
 			}
 
 			if(filename)

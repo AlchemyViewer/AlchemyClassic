@@ -150,7 +150,7 @@ void LLAgentListener::requestTeleport(LLSD const & event_data) const
         params.append(event_data["x"]);
         params.append(event_data["y"]);
         params.append(event_data["z"]);
-        LLCommandDispatcher::dispatch("teleport", params, LLSD(), NULL, "clicked", true);
+        LLCommandDispatcher::dispatch("teleport", params, LLSD(), nullptr, "clicked", true);
         // *TODO - lookup other LLCommandHandlers for "agent", "classified", "event", "group", "floater", "parcel", "login", login_refresh", "balance", "chat"
         // should we just compose LLCommandHandler and LLDispatchListener?
     }
@@ -160,7 +160,7 @@ void LLAgentListener::requestTeleport(LLSD const & event_data) const
                                   LLVector3(event_data["x"].asReal(), 
                                             event_data["y"].asReal(), 
                                             event_data["z"].asReal())).getSLURLString();
-        LLURLDispatcher::dispatch(url, "clicked", NULL, false);
+        LLURLDispatcher::dispatch(url, "clicked", nullptr, false);
     }
 }
 
@@ -170,7 +170,7 @@ void LLAgentListener::requestSit(LLSD const & event_data) const
     // shamelessly ripped from llviewermenu.cpp:handle_sit_or_stand()
     // *TODO - find a permanent place to share this code properly.
 
-	LLViewerObject *object = NULL;
+	LLViewerObject *object = nullptr;
 	if (event_data.has("obj_uuid"))
 	{
 		object = gObjectList.findObject(event_data["obj_uuid"]);
@@ -208,7 +208,7 @@ void LLAgentListener::requestStand(LLSD const & event_data) const
 
 LLViewerObject * LLAgentListener::findObjectClosestTo( const LLVector3 & position ) const
 {
-	LLViewerObject *object = NULL;
+	LLViewerObject *object = nullptr;
 
 	// Find the object closest to that position
 	F32 min_distance = 10000.0f;		// Start big
@@ -235,7 +235,7 @@ LLViewerObject * LLAgentListener::findObjectClosestTo( const LLVector3 & positio
 
 void LLAgentListener::requestTouch(LLSD const & event_data) const
 {
-	LLViewerObject *object = NULL;
+	LLViewerObject *object = nullptr;
 	
 	if (event_data.has("obj_uuid"))
 	{
@@ -335,7 +335,7 @@ void LLAgentListener::getPosition(const LLSD& event_data) const
 void LLAgentListener::startAutoPilot(LLSD const & event_data)
 {
     LLQuaternion target_rotation_value;
-    LLQuaternion* target_rotation = NULL;
+    LLQuaternion* target_rotation = nullptr;
     if (event_data.has("target_rotation"))
     {
         target_rotation_value = ll_quaternion_from_sd(event_data["target_rotation"]);
@@ -367,7 +367,7 @@ void LLAgentListener::startAutoPilot(LLSD const & event_data)
     mAgent.startAutoPilotGlobal(ll_vector3d_from_sd(event_data["target_global"]),
                                 event_data["behavior_name"],
                                 target_rotation,
-                                NULL, NULL,
+                                nullptr, nullptr,
                                 stop_distance,
                                 rotation_threshold,
 								allow_flying);
@@ -480,7 +480,7 @@ void LLAgentListener::stopAutoPilot(LLSD const & event_data) const
 
 void LLAgentListener::lookAt(LLSD const & event_data) const
 {
-	LLViewerObject *object = NULL;
+	LLViewerObject *object = nullptr;
 	if (event_data.has("obj_uuid"))
 	{
 		object = gObjectList.findObject(event_data["obj_uuid"]);

@@ -51,8 +51,8 @@ public:
 	LLSidepanelTaskInfo();
 	virtual ~LLSidepanelTaskInfo();
 
-	/*virtual*/	BOOL postBuild();
-	/*virtual*/ void onVisibilityChange ( BOOL new_visibility );
+	/*virtual*/	BOOL postBuild() override;
+	/*virtual*/ void onVisibilityChange ( BOOL new_visibility ) override;
 
 	void setObjectSelection(LLObjectSelectionHandle selection);
 
@@ -61,9 +61,9 @@ public:
 
 	static LLSidepanelTaskInfo *getActivePanel();
 protected:
-	/*virtual*/ void refresh();	// refresh all labels as needed
-	/*virtual*/ void save();
-	/*virtual*/ void updateVerbs();
+	/*virtual*/ void refresh() override;	// refresh all labels as needed
+	/*virtual*/ void save() override;
+	/*virtual*/ void updateVerbs() override;
 
 	void refreshAll(); // ignore current keyboard focus and update all fields
 

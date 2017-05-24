@@ -89,7 +89,7 @@ public:
 	BOOL setSize(LLCoordScreen size);
 	BOOL setSize(LLCoordWindow size);
 	virtual void setMinSize(U32 min_width, U32 min_height, bool enforce_immediately = true);
-	virtual BOOL switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp = NULL) = 0;
+	virtual BOOL switchContext(U32 window_mode, const LLCoordScreen &size, U32 vsync_setting, const LLCoordScreen * const posp = nullptr) = 0;
 	virtual BOOL setCursorPosition(LLCoordWindow position) = 0;
 	virtual BOOL getCursorPosition(LLCoordWindow *position) = 0;
 	virtual void showCursor() = 0;

@@ -131,7 +131,7 @@ const LLVector3d&	LLVector3d::rotVec(F64 angle, F64 x, F64 y, F64 z)
 
 BOOL LLVector3d::parseVector3d(const std::string& buf, LLVector3d* value)
 {
-	if( buf.empty() || value == NULL)
+	if( buf.empty() || value == nullptr)
 	{
 		return FALSE;
 	}

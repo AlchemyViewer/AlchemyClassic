@@ -126,11 +126,11 @@ public:
 	typedef StatType<EventAccumulator> stat_t;
 	typedef EventStatHandle<T> self_t;
 
-	EventStatHandle(const char* name, const char* description = NULL)
+	EventStatHandle(const char* name, const char* description = nullptr)
 	:	stat_t(name, description)
 	{}
 
-	/*virtual*/ const char* getUnitLabel() const { return LLGetUnitLabel<T>::getUnitLabel(); }
+	/*virtual*/ const char* getUnitLabel() const override { return LLGetUnitLabel<T>::getUnitLabel(); }
 
 };
 
@@ -152,11 +152,11 @@ public:
 	typedef StatType<SampleAccumulator> stat_t;
 	typedef SampleStatHandle<T> self_t;
 
-	SampleStatHandle(const char* name, const char* description = NULL)
+	SampleStatHandle(const char* name, const char* description = nullptr)
 	:	stat_t(name, description)
 	{}
 
-	/*virtual*/ const char* getUnitLabel() const { return LLGetUnitLabel<T>::getUnitLabel(); }
+	/*virtual*/ const char* getUnitLabel() const override { return LLGetUnitLabel<T>::getUnitLabel(); }
 };
 
 template<typename T, typename VALUE_T>
@@ -177,11 +177,11 @@ public:
 	typedef StatType<CountAccumulator> stat_t;
 	typedef CountStatHandle<T> self_t;
 
-	CountStatHandle(const char* name, const char* description = NULL) 
+	CountStatHandle(const char* name, const char* description = nullptr) 
 	:	stat_t(name, description)
 	{}
 
-	/*virtual*/ const char* getUnitLabel() const { return LLGetUnitLabel<T>::getUnitLabel(); }
+	/*virtual*/ const char* getUnitLabel() const override { return LLGetUnitLabel<T>::getUnitLabel(); }
 };
 
 template<typename T, typename VALUE_T>
@@ -231,7 +231,7 @@ public:
 		setKey(name);
 	}
 
-	/*virtual*/ const char* getUnitLabel() const { return "KB"; }
+	/*virtual*/ const char* getUnitLabel() const override { return "KB"; }
 
 	StatType<MemAccumulator::AllocationFacet>& allocations() 
 	{ 

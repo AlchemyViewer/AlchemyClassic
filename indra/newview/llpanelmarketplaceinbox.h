@@ -48,11 +48,11 @@ public:
 	LLPanelMarketplaceInbox(const Params& p = getDefaultParams());
 	~LLPanelMarketplaceInbox();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
-	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string& tooltip_msg);
+	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop, EDragAndDropType cargo_type, void *cargo_data, EAcceptance *accept, std::string& tooltip_msg) override;
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 	
 	LLInventoryPanel * setupInventoryPanel();
 
@@ -65,7 +65,7 @@ private:
 
 	void onSelectionChange();
 
-	void onFocusReceived();
+	void onFocusReceived() override;
 
 private:
 	LLUICtrl *			mFreshCountCtrl;

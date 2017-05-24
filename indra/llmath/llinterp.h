@@ -88,7 +88,7 @@ template <typename Type>
 class LLInterpLinear : public LLInterp<Type>
 {
 public:
-	/*virtual*/ void start();
+	/*virtual*/ void start() override;
 	void update(const F32 time);
 	F32 getCurFrac() const;
 protected:
@@ -108,7 +108,7 @@ class LLInterpAttractor : public LLInterp<Type>
 {
 public:
 	LLInterpAttractor();
-	/*virtual*/ void start();
+	/*virtual*/ void start() override;
 	void setStartVel(const Type &vel);
 	void setForce(const F32 force);
 	void update(const F32 time);
@@ -363,7 +363,7 @@ template <class Type>
 LLInterpFunc<Type>::LLInterpFunc() : LLInterp<Type>()
 {
 	mFunc = NULL;
-	mData = NULL;
+	mData = nullptr;
 }
 
 template <class Type>

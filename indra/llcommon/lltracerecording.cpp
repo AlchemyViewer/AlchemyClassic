@@ -50,7 +50,7 @@ extern MemStatHandle gTraceMemStat;
 
 Recording::Recording(EPlayState state) 
 :	mElapsedSeconds(0),
-	mActiveBuffers(NULL)
+	mActiveBuffers(nullptr)
 {
 	claim_alloc(gTraceMemStat, this);
 	mBuffers = new AccumulatorBufferGroup();
@@ -59,7 +59,7 @@ Recording::Recording(EPlayState state)
 }
 
 Recording::Recording( const Recording& other )
-:	mActiveBuffers(NULL)
+:	mActiveBuffers(nullptr)
 {
 	claim_alloc(gTraceMemStat, this);
 	*this = other;
@@ -151,7 +151,7 @@ void Recording::handleStop()
 	// must have thread recorder running on this thread
 	llassert(LLTrace::get_thread_recorder().notNull());
 	LLTrace::get_thread_recorder()->deactivate(mBuffers.write());
-	mActiveBuffers = NULL;
+	mActiveBuffers = nullptr;
 	mBuffers.setStayUnique(false);
 #endif
 }

@@ -40,10 +40,10 @@ public:
 	LLImageTGA();
 	LLImageTGA(const std::string& file_name);
 
-	/*virtual*/ std::string getExtension() { return std::string("tga"); }
-	/*virtual*/ bool updateData();
-	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time=0.0);
-	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time=0.0);
+	/*virtual*/ std::string getExtension() override { return std::string("tga"); }
+	/*virtual*/ bool updateData() override;
+	/*virtual*/ bool decode(LLImageRaw* raw_image, F32 decode_time=0.0) override;
+	/*virtual*/ bool encode(const LLImageRaw* raw_image, F32 encode_time=0.0) override;
 
 	bool			 decodeAndProcess(LLImageRaw* raw_image, F32 domain, F32 weight);
 	

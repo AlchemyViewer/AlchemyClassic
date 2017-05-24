@@ -236,18 +236,18 @@ public:
     /*virtual*/ std::string getTranslateURL(
         const std::string &from_lang,
         const std::string &to_lang,
-        const std::string &text) const;
+        const std::string &text) const override;
     /*virtual*/ std::string getKeyVerificationURL(
-        const std::string &key) const;
+        const std::string &key) const override;
     /*virtual*/ bool parseResponse(
         int& status,
         const std::string& body,
         std::string& translation,
         std::string& detected_lang,
-        std::string& err_msg) const;
-    /*virtual*/ bool isConfigured() const;
+        std::string& err_msg) const override;
+    /*virtual*/ bool isConfigured() const override;
 
-    /*virtual*/ void verifyKey(const std::string &key, LLTranslate::KeyVerificationResult_fn fnc);
+    /*virtual*/ void verifyKey(const std::string &key, LLTranslate::KeyVerificationResult_fn fnc) override;
 
 private:
     static void parseErrorResponse(
@@ -398,18 +398,18 @@ public:
     /*virtual*/ std::string getTranslateURL(
         const std::string &from_lang,
         const std::string &to_lang,
-        const std::string &text) const;
+        const std::string &text) const override;
     /*virtual*/ std::string getKeyVerificationURL(
-        const std::string &key) const;
+        const std::string &key) const override;
     /*virtual*/ bool parseResponse(
         int& status,
         const std::string& body,
         std::string& translation,
         std::string& detected_lang,
-        std::string& err_msg) const;
-    /*virtual*/ bool isConfigured() const;
+        std::string& err_msg) const override;
+    /*virtual*/ bool isConfigured() const override;
 
-    /*virtual*/ void verifyKey(const std::string &key, LLTranslate::KeyVerificationResult_fn fnc);
+    /*virtual*/ void verifyKey(const std::string &key, LLTranslate::KeyVerificationResult_fn fnc) override;
 private:
     static std::string getAPIKey();
     static std::string getAPILanguageCode(const std::string& lang);

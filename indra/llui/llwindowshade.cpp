@@ -43,9 +43,9 @@ static LLDefaultChildRegistry::Register<LLWindowShade> r("window_shade");
 
 LLWindowShade::Params::Params()
 :	bg_image("bg_image"),
-	modal("modal", false),
 	text_color("text_color"),
 	shade_color("shade_color"),
+	modal("modal", false),
 	can_close("can_close", true)
 {
 	changeDefault(mouse_opaque, false);

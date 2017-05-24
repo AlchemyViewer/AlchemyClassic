@@ -46,15 +46,15 @@ public:
 	virtual void showProperties(void) = 0;
 	virtual BOOL isItemInTrash( void) const { return FALSE; } // TODO: make   into pure virtual.
 	virtual BOOL isUpToDate() const = 0;
-	virtual bool hasChildren() const = 0;
+	bool hasChildren() const override = 0;
 	virtual LLInventoryType::EType getInventoryType() const = 0;
 	virtual void performAction(LLInventoryModel* model, std::string action)   = 0;
 	virtual LLWearableType::EType getWearableType() const = 0;
 	virtual EInventorySortGroup getSortGroup() const = 0;
 	virtual LLInventoryObject* getInventoryObject() const = 0;
-	virtual void requestSort();
-	virtual void setPassedFilter(bool filtered, S32 filter_generation, std::string::size_type string_offset = std::string::npos, std::string::size_type string_size = 0);
-	virtual bool filter( LLFolderViewFilter& filter);
+	void requestSort() override;
+	void setPassedFilter(bool filtered, S32 filter_generation, std::string::size_type string_offset = std::string::npos, std::string::size_type string_size = 0) override;
+	bool filter( LLFolderViewFilter& filter) override;
 	virtual bool filterChildItem( LLFolderViewModelItem* item, LLFolderViewFilter& filter);
 
 	virtual BOOL startDrag(EDragAndDropType* type, LLUUID* id) const = 0;
@@ -113,10 +113,10 @@ public:
 
 	void setTaskID(const LLUUID& id) {mTaskID = id;}
 
-	void sort(LLFolderViewFolder* folder);
-	bool contentsReady();
-	bool isFolderComplete(LLFolderViewFolder* folder);
-	bool startDrag(std::vector<LLFolderViewModelItem*>& items);
+	void sort(LLFolderViewFolder* folder) override;
+	bool contentsReady() override;
+	bool isFolderComplete(LLFolderViewFolder* folder) override;
+	bool startDrag(std::vector<LLFolderViewModelItem*>& items) override;
 
 private:
 	LLUUID mTaskID;

@@ -55,7 +55,7 @@ S32 power_of_two(S32 sz, S32 upper)
 }
 
 LLPanelSnapshot::LLPanelSnapshot()
-	: mSnapshotFloater(NULL)
+	: mSnapshotFloater(nullptr)
 {}
 
 // virtual
@@ -144,7 +144,7 @@ LLSideTrayPanelContainer* LLPanelSnapshot::getParentContainer()
 	if (!parent)
 	{
 		LL_WARNS() << "Cannot find panel container" << LL_ENDL;
-		return NULL;
+		return nullptr;
 	}
 
 	return parent;

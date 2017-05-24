@@ -49,8 +49,8 @@ public:
 	};
 
 	void show(LLNotificationPtr);
-	BOOL postBuild();
-	/*virtual*/ void draw();
+	BOOL postBuild() override;
+	/*virtual*/ void draw() override;
 	void hide();
 	
 	bool isShown() const;

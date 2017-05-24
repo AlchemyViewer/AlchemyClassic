@@ -95,14 +95,14 @@ S32 compute_jpeg_quality(S32 width, S32 height)
 ///////////////////////////
 
 LLFacebookStatusPanel::LLFacebookStatusPanel() :
-    mMessageTextEditor(NULL),
-    mPostButton(NULL),
-    mCancelButton(NULL),
-    mAccountCaptionLabel(NULL),
-    mAccountNameLabel(NULL),
-    mPanelButtons(NULL),
-    mConnectButton(NULL),
-    mDisconnectButton(NULL)
+    mAccountCaptionLabel(nullptr),
+    mAccountNameLabel(nullptr),
+    mPanelButtons(nullptr),
+    mConnectButton(nullptr),
+    mDisconnectButton(nullptr),
+    mMessageTextEditor(nullptr),
+    mPostButton(nullptr),
+    mCancelButton(nullptr)
 {
     mCommitCallbackRegistrar.add("SocialSharing.Connect", boost::bind(&LLFacebookStatusPanel::onConnect, this));
     mCommitCallbackRegistrar.add("SocialSharing.Disconnect", boost::bind(&LLFacebookStatusPanel::onDisconnect, this));
@@ -327,12 +327,12 @@ LLFacebookPhotoPanel::LLFacebookPhotoPanel() :
 mResolutionComboBox(nullptr),
 mFilterComboBox(nullptr),
 mRefreshBtn(nullptr),
-mCancelButton(nullptr),
-mBtnPreview(nullptr),
 mWorkingLabel(nullptr),
 mThumbnailPlaceholder(nullptr),
 mCaptionTextBox(nullptr),
 mPostButton(nullptr),
+mCancelButton(nullptr),
+mBtnPreview(nullptr),
 mBigPreviewFloater(nullptr),
 mQuality(MAX_QUALITY)
 {
@@ -865,9 +865,9 @@ void LLFacebookCheckinPanel::clearAndClose()
 ///////////////////////////
 
 LLFacebookFriendsPanel::LLFacebookFriendsPanel() :
-    mFriendsStatusCaption(NULL),
-    mSecondLifeFriends(NULL),
-    mSuggestedFriends(NULL)
+    mFriendsStatusCaption(nullptr),
+    mSecondLifeFriends(nullptr),
+    mSuggestedFriends(nullptr)
 {
 }
 
@@ -1028,10 +1028,10 @@ bool LLFacebookFriendsPanel::onConnectedToFacebook(const LLSD& data)
 ////////////////////////
 
 LLFloaterFacebook::LLFloaterFacebook(const LLSD& key) : LLFloater(key),
-    mFacebookPhotoPanel(NULL),
-    mStatusErrorText(NULL),
-    mStatusLoadingText(NULL),
-    mStatusLoadingIndicator(NULL)
+    mFacebookPhotoPanel(nullptr),
+    mStatusErrorText(nullptr),
+    mStatusLoadingText(nullptr),
+    mStatusLoadingIndicator(nullptr)
 {
     mCommitCallbackRegistrar.add("SocialSharing.Cancel", boost::bind(&LLFloaterFacebook::onCancel, this));
 }

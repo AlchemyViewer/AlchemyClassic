@@ -39,7 +39,7 @@
 //static
 BOOL LLCommon::sAprInitialized = FALSE;
 
-static LLTrace::ThreadRecorder* sMasterThreadRecorder = NULL;
+static LLTrace::ThreadRecorder* sMasterThreadRecorder = nullptr;
 
 //static
 void LLCommon::initClass()
@@ -63,8 +63,8 @@ void LLCommon::initClass()
 void LLCommon::cleanupClass()
 {
 	delete sMasterThreadRecorder;
-	sMasterThreadRecorder = NULL;
-	LLTrace::set_master_thread_recorder(NULL);
+	sMasterThreadRecorder = nullptr;
+	LLTrace::set_master_thread_recorder(nullptr);
 	LLThreadSafeRefCount::cleanupThreadSafeRefCount();
 	SUBSYSTEM_CLEANUP(LLTimer);
 	if (sAprInitialized)

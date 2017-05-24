@@ -207,8 +207,8 @@ protected:
         Request::ptr_t getRequest() const { return mRequest; }
 
     protected:
-        virtual void onSuccess(LLCore::HttpResponse * response, const LLSD &content);
-        virtual void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status);
+	    void onSuccess(LLCore::HttpResponse * response, const LLSD &content) override;
+	    void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status) override;
 
     private:
         Request::ptr_t mRequest;
@@ -219,7 +219,7 @@ protected:
 	{
 	public:
 		RetryTimer(F32 time, Request::ptr_t);
-		virtual BOOL tick();
+		BOOL tick() override;
 	private:
 		// back-pointer
 		Request::ptr_t mRequest;
@@ -286,7 +286,7 @@ private:
 	{
 	public:
 		QueueTimer(F32 time, LLMediaDataClient *mdc);
-		virtual BOOL tick();
+		BOOL tick() override;
 	private:
 		// back-pointer
 		LLPointer<LLMediaDataClient> mMDC;
@@ -323,39 +323,39 @@ public:
 	{
 	public:
 		RequestGet(LLMediaDataClientObject *obj, LLMediaDataClient *mdc);
-		/*virtual*/ LLSD getPayload() const;
-        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler();
+		/*virtual*/ LLSD getPayload() const override;
+        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler() override;
 	};
 
 	class RequestUpdate: public Request
 	{
 	public:
 		RequestUpdate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc);
-		/*virtual*/ LLSD getPayload() const;
-        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler();
+		/*virtual*/ LLSD getPayload() const override;
+        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler() override;
 	};
 
 	// Returns true iff the queue is empty
-	virtual bool isEmpty() const;
+	bool isEmpty() const override;
 	
 	// Returns true iff the given object is in the queue
-	virtual bool isInQueue(const LLMediaDataClientObject::ptr_t &object);
+	bool isInQueue(const LLMediaDataClientObject::ptr_t &object) override;
 	    
 	// Remove the given object from the queue. Returns true iff the given object is removed.
-	virtual void removeFromQueue(const LLMediaDataClientObject::ptr_t &object);
+	void removeFromQueue(const LLMediaDataClientObject::ptr_t &object) override;
 
-	virtual bool processQueueTimer();
+	bool processQueueTimer() override;
 
-	virtual bool canServiceRequest(Request::ptr_t request);
+	bool canServiceRequest(Request::ptr_t request) override;
 
 protected:
 	// Subclasses must override to return a cap name
-	virtual const char *getCapabilityName() const;
-	
-	virtual request_queue_t *getQueue();
+	const char *getCapabilityName() const override;
+
+	request_queue_t *getQueue() override;
 
 	// Puts the request into the appropriate queue
-	virtual void enqueue(Request::ptr_t);
+	void enqueue(Request::ptr_t) override;
 		    
     class Handler: public LLMediaDataClient::Handler
     {
@@ -366,7 +366,7 @@ protected:
         {}
 
     protected:
-        virtual void onSuccess(LLCore::HttpResponse * response, const LLSD &content);
+	    void onSuccess(LLCore::HttpResponse * response, const LLSD &content) override;
     };
 
 private:
@@ -402,22 +402,22 @@ public:
     void navigate(LLMediaDataClientObject *object, U8 texture_index, const std::string &url);
 
 	// Puts the request into the appropriate queue
-    virtual void enqueue(Request::ptr_t);
+	void enqueue(Request::ptr_t) override;
 
 	class RequestNavigate: public Request
 	{
 	public:
 		RequestNavigate(LLMediaDataClientObject *obj, LLMediaDataClient *mdc, U8 texture_index, const std::string &url);
-		/*virtual*/ LLSD getPayload() const;
-        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler();
-		/*virtual*/ std::string getURL() { return mURL; }
+		/*virtual*/ LLSD getPayload() const override;
+        /*virtual*/ LLCore::HttpHandler::ptr_t createHandler() override;
+		/*virtual*/ std::string getURL() override { return mURL; }
 	private:
 		std::string mURL;
 	};
     
 protected:
 	// Subclasses must override to return a cap name
-	virtual const char *getCapabilityName() const;
+	const char *getCapabilityName() const override;
 
     class Handler : public LLMediaDataClient::Handler
     {
@@ -428,8 +428,8 @@ protected:
         {}
 
     protected:
-        virtual void onSuccess(LLCore::HttpResponse * response, const LLSD &content);
-        virtual void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status);
+	    void onSuccess(LLCore::HttpResponse * response, const LLSD &content) override;
+	    void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status) override;
 
     private:
         void mediaNavigateBounceBack();

@@ -145,7 +145,7 @@ void LLFloaterPathfindingObjects::draw()
 				const LLScrollListItem *selectedItem = *selectedItemIter;
 
 				LLViewerObject *viewerObject = gObjectList.findObject(selectedItem->getUUID());
-				if (viewerObject != NULL)
+				if (viewerObject != nullptr)
 				{
 					const std::string &objectName = selectedItem->getColumn(nameColumnIndex)->getValue().asString();
 					gObjectList.addDebugBeacon(viewerObject->getPositionAgent(), objectName, beaconColor, beaconTextColor, beaconWidth);
@@ -157,17 +157,17 @@ void LLFloaterPathfindingObjects::draw()
 
 LLFloaterPathfindingObjects::LLFloaterPathfindingObjects(const LLSD &pSeed)
 	: LLFloater(pSeed),
-	mObjectsScrollList(NULL),
-	mMessagingStatus(NULL),
-	mRefreshListButton(NULL),
-	mSelectAllButton(NULL),
-	mSelectNoneButton(NULL),
-	mShowBeaconCheckBox(NULL),
-	mTakeButton(NULL),
-	mTakeCopyButton(NULL),
-	mReturnButton(NULL),
-	mDeleteButton(NULL),
-	mTeleportButton(NULL),
+	mObjectsScrollList(nullptr),
+	mMessagingStatus(nullptr),
+	mRefreshListButton(nullptr),
+	mSelectAllButton(nullptr),
+	mSelectNoneButton(nullptr),
+	mShowBeaconCheckBox(nullptr),
+	mTakeButton(nullptr),
+	mTakeCopyButton(nullptr),
+	mReturnButton(nullptr),
+	mDeleteButton(nullptr),
+	mTeleportButton(nullptr),
 	mDefaultBeaconColor(),
 	mDefaultBeaconTextColor(),
 	mErrorTextColor(),
@@ -296,7 +296,7 @@ void LLFloaterPathfindingObjects::handleUpdateObjectList(LLPathfindingManager::r
 			setMessagingState(kMessagingSetRequestSent);
 			break;
 		case LLPathfindingManager::kRequestCompleted :
-			if (mObjectList == NULL)
+			if (mObjectList == nullptr)
 			{
 				mObjectList = pObjectList;
 			}
@@ -346,7 +346,7 @@ void LLFloaterPathfindingObjects::rebuildObjectsScrollList(bool update_if_needed
 	mObjectsScrollList->deleteAllItems();
 	mMissingNameObjectsScrollListItems.clear();
 
-	if ((mObjectList != NULL) && !mObjectList->isEmpty())
+	if ((mObjectList != nullptr) && !mObjectList->isEmpty())
 	{
 		buildObjectsScrollList(mObjectList);
 
@@ -530,7 +530,7 @@ void LLFloaterPathfindingObjects::teleportToSelectedObject()
 		llassert(mObjectList != NULL);
 		LLVector3d teleportLocation;
 		LLViewerObject *viewerObject = gObjectList.findObject(selectedItem->getUUID());
-		if (viewerObject == NULL)
+		if (viewerObject == nullptr)
 		{
 			// If we cannot find the object in the viewer list, teleport to the last reported position
 			const LLPathfindingObjectPtr objectPtr = mObjectList->find(selectedItem->getUUID().asString());
@@ -568,7 +568,7 @@ LLPathfindingObjectListPtr LLFloaterPathfindingObjects::getSelectedObjects() con
 			itemIter != selectedItems.end(); ++itemIter)
 		{
 			LLPathfindingObjectPtr objectPtr = findObject(*itemIter);
-			if (objectPtr != NULL)
+			if (objectPtr != nullptr)
 			{
 				selectedObjects->update(objectPtr);
 			}
@@ -841,7 +841,7 @@ void LLFloaterPathfindingObjects::selectScrollListItemsInWorld()
 			const LLScrollListItem *selectedItem = *selectedItemIter;
 
 			LLViewerObject *viewerObject = gObjectList.findObject(selectedItem->getUUID());
-			if (viewerObject != NULL)
+			if (viewerObject != nullptr)
 			{
 				viewerObjects.push_back(viewerObject);
 			}

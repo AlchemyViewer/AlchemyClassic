@@ -164,12 +164,12 @@ void LLVisualParamInfo::toStream(std::ostream &out)
 LLVisualParam::LLVisualParam()
 	: mCurWeight( 0.f ),
 	mLastWeight( 0.f ),
-	mNext( NULL ),
+	mNext(nullptr ),
 	mTargetWeight( 0.f ),
 	mIsAnimating( FALSE ),
 	mIsDummy(FALSE),
 	mID( -1 ),
-	mInfo( 0 ),
+	mInfo( nullptr ),
 	mParamLocation(LOC_UNKNOWN)
 {
 }
@@ -196,7 +196,7 @@ LLVisualParam::LLVisualParam(const LLVisualParam& pOther)
 LLVisualParam::~LLVisualParam()
 {
 	delete mNext;
-	mNext = NULL;
+	mNext = nullptr;
 }
 
 /*
@@ -307,7 +307,7 @@ void LLVisualParam::setNextParam( LLVisualParam *next )
 //-----------------------------------------------------------------------------
 void LLVisualParam::clearNextParam()
 {
-	mNext = NULL;
+	mNext = nullptr;
 }
 
 //-----------------------------------------------------------------------------

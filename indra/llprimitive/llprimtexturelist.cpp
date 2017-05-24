@@ -72,7 +72,7 @@ void LLPrimTextureList::clear()
 	while (itr != mEntryList.end())
 	{
 		delete (*itr);
-		(*itr) = NULL;
+		(*itr) = nullptr;
 		++itr;
 	}
 	mEntryList.clear();
@@ -175,7 +175,7 @@ LLTextureEntry* LLPrimTextureList::getTexture(const U8 index) const
 	{
 		return mEntryList[index];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //virtual 

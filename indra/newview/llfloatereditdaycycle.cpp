@@ -53,14 +53,14 @@ const F32 LLFloaterEditDayCycle::sHoursPerDay = 24.0f;
 
 LLFloaterEditDayCycle::LLFloaterEditDayCycle(const LLSD &key)
 :	LLFloater(key)
-,	mDayCycleNameEditor(NULL)
-,	mDayCyclesCombo(NULL)
-,	mTimeSlider(NULL)
-,	mKeysSlider(NULL)
-,	mSkyPresetsCombo(NULL)
-,	mTimeCtrl(NULL)
-,	mMakeDefaultCheckBox(NULL)
-,	mSaveButton(NULL)
+,	mDayCycleNameEditor(nullptr)
+,	mDayCyclesCombo(nullptr)
+,	mTimeSlider(nullptr)
+,	mKeysSlider(nullptr)
+,	mSkyPresetsCombo(nullptr)
+,	mTimeCtrl(nullptr)
+,	mMakeDefaultCheckBox(nullptr)
+,	mSaveButton(nullptr)
 {
 }
 
@@ -129,7 +129,7 @@ void LLFloaterEditDayCycle::draw()
 
 void LLFloaterEditDayCycle::initCallbacks(void)
 {
-	mDayCycleNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditDayCycle::onDayCycleNameEdited, this), NULL);
+	mDayCycleNameEditor->setKeystrokeCallback(boost::bind(&LLFloaterEditDayCycle::onDayCycleNameEdited, this), nullptr);
 	mDayCyclesCombo->setCommitCallback(boost::bind(&LLFloaterEditDayCycle::onDayCycleSelected, this));
 	mDayCyclesCombo->setTextEntryCallback(boost::bind(&LLFloaterEditDayCycle::onDayCycleNameEdited, this));
 	mTimeSlider->setCommitCallback(boost::bind(&LLFloaterEditDayCycle::onTimeSliderMoved, this));

@@ -64,11 +64,11 @@ LLSpinCtrl::Params::Params()
 
 LLSpinCtrl::LLSpinCtrl(const LLSpinCtrl::Params& p)
 :	LLF32UICtrl(p),
-	mLabelBox(NULL),
-	mbHasBeenSet( FALSE ),
 	mPrecision(p.decimal_digits),
+	mLabelBox(nullptr),
 	mTextEnabledColor(p.text_enabled_color()),
-	mTextDisabledColor(p.text_disabled_color())
+	mTextDisabledColor(p.text_disabled_color()),
+	mbHasBeenSet( FALSE )
 {
 	static LLUICachedControl<S32> spinctrl_spacing ("UISpinctrlSpacing", 0);
 	static LLUICachedControl<S32> spinctrl_btn_width ("UISpinctrlBtnWidth", 0);

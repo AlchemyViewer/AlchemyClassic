@@ -35,17 +35,17 @@ public:
 	LLPopupView(const Params& p = LLPanel::Params());
 	~LLPopupView();
 
-	/*virtual*/ void draw();
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMiddleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleMiddleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleRightMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL handleScrollWheel(S32 x, S32 y, S32 clicks);
-	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask);
+	/*virtual*/ void draw() override;
+	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMiddleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleMiddleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleRightMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	/*virtual*/ BOOL handleToolTip(S32 x, S32 y, MASK mask) override;
 
 	void addPopup(LLView* popup);
 	void removePopup(LLView* popup);

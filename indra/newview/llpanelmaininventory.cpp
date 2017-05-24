@@ -80,8 +80,8 @@ class LLFloaterInventoryFinder : public LLFloater
 {
 public:
 	LLFloaterInventoryFinder( LLPanelMainInventory* inventory_view);
-	virtual void draw();
-	/*virtual*/	BOOL	postBuild();
+	void draw() override;
+	/*virtual*/	BOOL	postBuild() override;
 	void changeFilter(LLInventoryFilter* filter);
 	void updateElementsFromFilter();
 	BOOL getCheckShowLinks();
@@ -114,8 +114,8 @@ LLPanelMainInventory::LLPanelMainInventory(const LLPanel::Params& p)
 	  mFilterText(""),
 	  mItemCount(0),
 	  mTrashButton(nullptr),
-	  mMenuAddHandle(),
 	  mGearMenuButton(nullptr),
+	  mMenuAddHandle(),
 	  mNeedUploadCost(true)
 {
 	// Menu Callbacks (non contex menus)
@@ -386,7 +386,7 @@ void LLPanelMainInventory::newWindow()
 void LLPanelMainInventory::doCreate(const LLSD& userdata)
 {
 	reset_inventory_filter();
-	menu_create_inventory_item(getPanel(), NULL, userdata);
+	menu_create_inventory_item(getPanel(), nullptr, userdata);
 }
 
 void LLPanelMainInventory::resetFilters()
@@ -453,7 +453,7 @@ BOOL LLPanelMainInventory::filtersVisible(void* user_data)
 	LLPanelMainInventory* self = (LLPanelMainInventory*)user_data;
 	if(!self) return FALSE;
 
-	return self->getFinder() != NULL;
+	return self->getFinder() != nullptr;
 }
 
 void LLPanelMainInventory::onClearSearch()
@@ -520,7 +520,7 @@ void LLPanelMainInventory::onFilterEdit(const std::string& search_string )
  //static
  BOOL LLPanelMainInventory::incrementalFind(LLFolderViewItem* first_item, const char *find_text, BOOL backward)
  {
- 	LLPanelMainInventory* active_view = NULL;
+ 	LLPanelMainInventory* active_view = nullptr;
 	
 	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
 	for (LLFloaterReg::const_instance_list_t::const_iterator iter = inst_list.begin(); iter != inst_list.end(); ++iter)

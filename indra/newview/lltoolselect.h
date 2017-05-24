@@ -39,15 +39,15 @@ class LLToolSelect : public LLTool
 public:
 	LLToolSelect( LLToolComposite* composite );
 
-	virtual BOOL		handleMouseDown(S32 x, S32 y, MASK mask);
-	virtual BOOL		handleMouseUp(S32 x, S32 y, MASK mask);
+	BOOL		handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL		handleMouseUp(S32 x, S32 y, MASK mask) override;
 
-	virtual void		stopEditing();
+	void		stopEditing() override;
 
 	static LLSafeHandle<LLObjectSelection>	handleObjectSelection(const LLPickInfo& pick, BOOL ignore_group, BOOL temp_select, BOOL select_root = FALSE);
 
-	virtual void		onMouseCaptureLost();
-	virtual void		handleDeselect();
+	void		onMouseCaptureLost() override;
+	void		handleDeselect() override;
 
 protected:
 	BOOL				mIgnoreGroup;

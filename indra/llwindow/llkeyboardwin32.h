@@ -39,11 +39,11 @@ public:
 	LLKeyboardWin32();
 	/*virtual*/ ~LLKeyboardWin32() {};
 
-	/*virtual*/ BOOL	handleKeyUp(const U32 key, MASK mask);
-	/*virtual*/ BOOL	handleKeyDown(const U32 key, MASK mask);
-	/*virtual*/ void	resetMaskKeys();
-	/*virtual*/ MASK	currentMask(BOOL for_mouse_event);
-	/*virtual*/ void	scanKeyboard();
+	/*virtual*/ BOOL	handleKeyUp(const U32 key, MASK mask) override;
+	/*virtual*/ BOOL	handleKeyDown(const U32 key, MASK mask) override;
+	/*virtual*/ void	resetMaskKeys() override;
+	/*virtual*/ MASK	currentMask(BOOL for_mouse_event) override;
+	/*virtual*/ void	scanKeyboard() override;
 	BOOL				translateExtendedKey(const U32 os_key, const MASK mask, KEY *translated_key);
 	U32					inverseTranslateExtendedKey(const KEY translated_key);
 

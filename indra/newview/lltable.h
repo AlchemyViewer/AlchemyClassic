@@ -35,7 +35,7 @@ private:
 	U32 _h;
 	U32 _size;
 public:
-	LLTable(U32 w, U32 h = 0) : _tab(0), _w(w), _h(h)
+	LLTable(U32 w, U32 h = 0) : _tab(nullptr), _w(w), _h(h)
 	{
 		if (_w < 0) _w = 0;
 		if (_h < 0) _h = 0;

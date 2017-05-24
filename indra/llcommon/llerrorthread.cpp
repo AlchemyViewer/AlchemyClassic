@@ -33,7 +33,7 @@
 
 LLErrorThread::LLErrorThread()
 	: LLThread("Error"),
-	  mUserDatap(NULL)
+	  mUserDatap(nullptr)
 {
 }
 

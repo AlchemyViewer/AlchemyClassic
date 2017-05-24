@@ -100,11 +100,11 @@ public:
 
 class LLMessageHandlerBridge : public LLHTTPNode
 {
-	virtual bool validate(const std::string& name, LLSD& context) const
-		{ return true; }
+	bool validate(const std::string& name, LLSD& context) const override
+	{ return true; }
 
-	virtual void post(LLHTTPNode::ResponsePtr response, const LLSD& context, 
-					  const LLSD& input) const;
+	void post(LLHTTPNode::ResponsePtr response, const LLSD& context, 
+					  const LLSD& input) const override;
 };
 
 //virtual 
@@ -186,11 +186,11 @@ void LLMessageSystem::init()
 
 	mMessageFileVersionNumber = 0.f;
 
-	mTimingCallback = NULL;
-	mTimingCallbackData = NULL;
+	mTimingCallback = nullptr;
+	mTimingCallbackData = nullptr;
 
-	mMessageBuilder = NULL;
-	mMessageReader = NULL;
+	mMessageBuilder = nullptr;
+	mMessageReader = nullptr;
 }
 
 // Read file and build message templates
@@ -227,11 +227,11 @@ LLMessageSystem::LLMessageSystem(const std::string& filename, U32 port,
 
 	mTemplateMessageBuilder = new LLTemplateMessageBuilder(mMessageTemplates);
 	mLLSDMessageBuilder = new LLSDMessageBuilder();
-	mMessageBuilder = NULL;
+	mMessageBuilder = nullptr;
 
 	mTemplateMessageReader = new LLTemplateMessageReader(mMessageNumbers);
 	mLLSDMessageReader = new LLSDMessageReader();
-	mMessageReader = NULL;
+	mMessageReader = nullptr;
 
 	// initialize various bits of net info
 	mSocket = 0;
@@ -253,7 +253,7 @@ LLMessageSystem::LLMessageSystem(const std::string& filename, U32 port,
 		LL_ERRS("Messaging") << "No APR pool before message system initialization!" << LL_ENDL;
 		ll_init_apr();
 	}
-	apr_socket_t *aprSocketp = NULL;
+	apr_socket_t *aprSocketp = nullptr;
 	apr_os_sock_put(&aprSocketp, (apr_os_sock_t*)&mSocket, gAPRPoolp);
 
 	mPollInfop = new LLMessagePollInfo;
@@ -263,7 +263,7 @@ LLMessageSystem::LLMessageSystem(const std::string& filename, U32 port,
 	mPollInfop->mPollFD.reqevents = APR_POLLIN;
 	mPollInfop->mPollFD.rtnevents = 0;
 	mPollInfop->mPollFD.desc.s = aprSocketp;
-	mPollInfop->mPollFD.client_data = NULL;
+	mPollInfop->mPollFD.client_data = nullptr;
 
 	F64Seconds mt_sec = getMessageTimeSeconds();
 	mResendDumpTime = mt_sec;
@@ -330,21 +330,21 @@ LLMessageSystem::~LLMessageSystem()
 	mSocket = 0;
 	
 	delete mTemplateMessageReader;
-	mTemplateMessageReader = NULL;
-	mMessageReader = NULL;
+	mTemplateMessageReader = nullptr;
+	mMessageReader = nullptr;
 
 	delete mTemplateMessageBuilder;
-	mTemplateMessageBuilder = NULL;
-	mMessageBuilder = NULL;
+	mTemplateMessageBuilder = nullptr;
+	mMessageBuilder = nullptr;
 
 	delete mLLSDMessageReader;
-	mLLSDMessageReader = NULL;
+	mLLSDMessageReader = nullptr;
 
 	delete mLLSDMessageBuilder;
-	mLLSDMessageBuilder = NULL;
+	mLLSDMessageBuilder = nullptr;
 
 	delete mPollInfop;
-	mPollInfop = NULL;
+	mPollInfop = nullptr;
 
 	mIncomingCompressedSize = 0;
 	mCurrentRecvPacketID = 0;
@@ -383,7 +383,7 @@ BOOL LLMessageSystem::poll(F32 seconds)
 bool LLMessageSystem::isTrustedSender(const LLHost& host) const
 {
 	LLCircuitData* cdp = mCircuitInfo.findCircuit(host);
-	if(NULL == cdp)
+	if(nullptr == cdp)
 	{
 		return false;
 	}
@@ -406,7 +406,7 @@ findTemplate(const LLMessageSystem::message_template_name_map_t& templates,
 			 std::string name)
 {
 	const char* namePrehash = LLMessageStringTable::getInstance()->getString(name.c_str());
-	if(NULL == namePrehash) {return templates.end();}
+	if(nullptr == namePrehash) {return templates.end();}
 	return templates.find(namePrehash);
 }
 
@@ -462,7 +462,7 @@ LLCircuitData* LLMessageSystem::findCircuit(const LLHost& host,
 			if (mbProtected)
 			{
 				// don't accept packets from unexpected sources
-				cdp = NULL;
+				cdp = nullptr;
 			}
 			else
 			{
@@ -927,7 +927,7 @@ LLStoredMessagePtr LLMessageSystem::getReceivedMessage() const
 	const std::string& name = mMessageReader->getMessageName();
 	LLSD message = wrapReceivedTemplateData();
 
-	return LLStoredMessagePtr(new LLStoredMessage(name, message));
+	return std::make_shared<LLStoredMessage>(name, message);
 }
 
 LLStoredMessagePtr LLMessageSystem::getBuiltMessage() const
@@ -935,7 +935,7 @@ LLStoredMessagePtr LLMessageSystem::getBuiltMessage() const
 	const std::string& name = mMessageBuilder->getMessageName();
 	LLSD message = wrapBuiltTemplateData();
 
-	return LLStoredMessagePtr(new LLStoredMessage(name, message));
+	return std::make_shared<LLStoredMessage>(name, message);
 }
 
 S32 LLMessageSystem::sendMessage(const LLHost &host, LLStoredMessagePtr message)
@@ -963,8 +963,8 @@ void LLMessageSystem::nextBlock(const char *blockname)
 
 BOOL LLMessageSystem::isSendFull(const char* blockname)
 {
-	char* stringTableName = NULL;
-	if(NULL != blockname)
+	char* stringTableName = nullptr;
+	if(nullptr != blockname)
 	{
 		stringTableName = LLMessageStringTable::getInstance()->getString(blockname);
 	}
@@ -986,7 +986,7 @@ BOOL LLMessageSystem::removeLastBlock()
 
 S32 LLMessageSystem::sendReliable(const LLHost &host)
 {
-	return sendReliable(host, LL_DEFAULT_RELIABLE_RETRIES, TRUE, LL_PING_BASED_TIMEOUT_DUMMY, NULL, NULL);
+	return sendReliable(host, LL_DEFAULT_RELIABLE_RETRIES, TRUE, LL_PING_BASED_TIMEOUT_DUMMY, nullptr, nullptr);
 }
 
 
@@ -2204,7 +2204,7 @@ S32 LLMessageSystem::sendError(
 	{
 		LL_WARNS("Messaging") << "Data and message were too large -- data removed."
 			<< LL_ENDL;
-		addBinaryData("Data", NULL, 0);
+		addBinaryData("Data", nullptr, 0);
 	}
 	return sendReliable(host);
 }
@@ -2505,23 +2505,23 @@ bool start_messaging_system(
 		}
 	}
 
-	gMessageSystem->setHandlerFuncFast(_PREHASH_StartPingCheck,			process_start_ping_check,		NULL);
-	gMessageSystem->setHandlerFuncFast(_PREHASH_CompletePingCheck,		process_complete_ping_check,	NULL);
-	gMessageSystem->setHandlerFuncFast(_PREHASH_OpenCircuit,			open_circuit,			NULL);
-	gMessageSystem->setHandlerFuncFast(_PREHASH_CloseCircuit,			close_circuit,			NULL);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_StartPingCheck,			process_start_ping_check, nullptr);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_CompletePingCheck,		process_complete_ping_check, nullptr);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_OpenCircuit,			open_circuit, nullptr);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_CloseCircuit,			close_circuit, nullptr);
 
 	//gMessageSystem->setHandlerFuncFast(_PREHASH_AssignCircuitCode, LLMessageSystem::processAssignCircuitCode);	   
 	gMessageSystem->setHandlerFuncFast(_PREHASH_AddCircuitCode, LLMessageSystem::processAddCircuitCode);
 	//gMessageSystem->setHandlerFuncFast(_PREHASH_AckAddCircuitCode,		ack_add_circuit_code,		NULL);
 	gMessageSystem->setHandlerFuncFast(_PREHASH_UseCircuitCode, LLMessageSystem::processUseCircuitCode, (void**)responder);
-	gMessageSystem->setHandlerFuncFast(_PREHASH_PacketAck,             process_packet_ack,	    NULL);
+	gMessageSystem->setHandlerFuncFast(_PREHASH_PacketAck,             process_packet_ack, nullptr);
 	//gMessageSystem->setHandlerFuncFast(_PREHASH_LogMessages,			process_log_messages,	NULL);
 	gMessageSystem->setHandlerFuncFast(_PREHASH_CreateTrustedCircuit,
 				       process_create_trusted_circuit,
-				       NULL);
+				       nullptr);
 	gMessageSystem->setHandlerFuncFast(_PREHASH_DenyTrustedCircuit,
 				       process_deny_trusted_circuit,
-				       NULL);
+				       nullptr);
 	gMessageSystem->setHandlerFunc("Error", LLMessageSystem::processError);
 
 	// We can hand this to the null_message_callback since it is a
@@ -2530,7 +2530,7 @@ bool start_messaging_system(
 	gMessageSystem->setHandlerFunc(
 		"RequestTrustedCircuit",
 		null_message_callback,
-		NULL);
+		nullptr);
 
 	// Initialize the transfer manager
 	gTransferManager.init();
@@ -2667,7 +2667,7 @@ void end_messaging_system(bool print_summary)
 		}
 
 		delete static_cast<LLMessageSystem*>(gMessageSystem);
-		gMessageSystem = NULL;
+		gMessageSystem = nullptr;
 	}
 }
 
@@ -3101,7 +3101,7 @@ bool LLMessageSystem::generateDigestForNumberAndUUIDs(
 
 	memset(digest, 0, MD5HEX_STR_SIZE);
 	
-	if( secret != NULL)
+	if( secret != nullptr)
 	{
 		d.update(secret, (U32)strlen((char *) secret));	/* Flawfinder: ignore */
 	}
@@ -3112,13 +3112,13 @@ bool LLMessageSystem::generateDigestForNumberAndUUIDs(
 	d.update((unsigned char *) tbuf, (U32)strlen(tbuf));	/* Flawfinder: ignore */ 
 	
 	d.update((const unsigned char *) colon, (U32)strlen(colon));	/* Flawfinder: ignore */ 
-	if( (char*) id1str != NULL)
+	if( (char*) id1str != nullptr)
 	{
 		d.update(id1str, (U32)strlen((char *) id1str));	/* Flawfinder: ignore */	 
 	}
 	d.update((const unsigned char *) colon, (U32)strlen(colon));	/* Flawfinder: ignore */ 
 	
-	if( (char*) id2str != NULL)
+	if( (char*) id2str != nullptr)
 	{
 		d.update(id2str, (U32)strlen((char *) id2str));	/* Flawfinder: ignore */	
 	}
@@ -3139,7 +3139,7 @@ bool LLMessageSystem::generateDigestForWindowAndUUIDs(char* digest, const S32 wi
 		LL_ERRS("Messaging") << "Trying to generate complex digest on a machine without a shared secret!" << LL_ENDL;
 	}
 
-	U32 now = (U32)time(NULL);
+	U32 now = (U32)time(nullptr);
 
 	now /= window;
 
@@ -3159,7 +3159,7 @@ bool LLMessageSystem::isMatchingDigestForWindowAndUUIDs(const char* digest, cons
 	}
 	
 	char our_digest[MD5HEX_STR_SIZE];	/* Flawfinder: ignore */
-	U32 now = (U32)time(NULL);
+	U32 now = (U32)time(nullptr);
 
 	now /= window;
 
@@ -3205,7 +3205,7 @@ bool LLMessageSystem::generateDigestForWindow(char* digest, const S32 window) co
 		LL_ERRS("Messaging") << "Trying to generate simple digest on a machine without a shared secret!" << LL_ENDL;
 	}
 
-	U32 now = (U32)time(NULL);
+	U32 now = (U32)time(nullptr);
 
 	now /= window;
 
@@ -3225,7 +3225,7 @@ bool LLMessageSystem::isMatchingDigestForWindow(const char* digest, S32 const wi
 	}
 	
 	char our_digest[MD5HEX_STR_SIZE];	/* Flawfinder: ignore */
-	U32 now = (S32)time(NULL);
+	U32 now = (S32)time(nullptr);
 
 	now /= window;
 
@@ -3311,9 +3311,9 @@ void LLMessageSystem::establishBidirectionalTrust(const LLHost &host, S64 frame_
 	LLTimer timeout;
 
 	timeout.setTimerExpirySec(20.0);
-	setHandlerFuncFast(_PREHASH_StartPingCheck, null_message_callback, NULL);
+	setHandlerFuncFast(_PREHASH_StartPingCheck, null_message_callback, nullptr);
 	setHandlerFuncFast(_PREHASH_CompletePingCheck, null_message_callback,
-		       NULL);
+		       nullptr);
 
 	while (! timeout.hasExpired())
 	{
@@ -3339,11 +3339,11 @@ void LLMessageSystem::establishBidirectionalTrust(const LLHost &host, S64 frame_
 	newMessage("RequestTrustedCircuit");
 	sendMessage(host);
 	reallySendDenyTrustedCircuit(host);
-	setHandlerFuncFast(_PREHASH_StartPingCheck, process_start_ping_check, NULL);
-	setHandlerFuncFast(_PREHASH_CompletePingCheck, process_complete_ping_check, NULL);
+	setHandlerFuncFast(_PREHASH_StartPingCheck, process_start_ping_check, nullptr);
+	setHandlerFuncFast(_PREHASH_CompletePingCheck, process_complete_ping_check, nullptr);
 
 	timeout.setTimerExpirySec(2.0);
-	LLCircuitData* cdp = NULL;
+	LLCircuitData* cdp = nullptr;
 	while(!timeout.hasExpired())
 	{
 		cdp = mCircuitInfo.findCircuit(host);
@@ -4052,7 +4052,7 @@ void LLMessageSystem::sendUntrustedSimulatorMessageCoro(std::string url, std::st
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("untrustedSimulatorMessage", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
 
 
     if (url.empty())

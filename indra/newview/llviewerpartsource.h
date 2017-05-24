@@ -106,9 +106,9 @@ class LLViewerPartSourceScript : public LLViewerPartSource
 {
 public:
 	LLViewerPartSourceScript(LLViewerObject *source_objp);
-	/*virtual*/ void update(const F32 dt);
+	/*virtual*/ void update(const F32 dt) override;
 
-	/*virtual*/ void setDead();
+	/*virtual*/ void setDead() override;
 
 	BOOL updateFromMesg();
 
@@ -139,9 +139,9 @@ class LLViewerPartSourceSpiral : public LLViewerPartSource
 public:
 	LLViewerPartSourceSpiral(const LLVector3 &pos);
 
-	/*virtual*/ void setDead();
+	/*virtual*/ void setDead() override;
 
-	/*virtual*/ void update(const F32 dt);
+	/*virtual*/ void update(const F32 dt) override;
 
 	void setSourceObject(LLViewerObject *objp);
 	void setColor(const LLColor4 &color);
@@ -163,9 +163,9 @@ class LLViewerPartSourceBeam : public LLViewerPartSource
 public:
 	LLViewerPartSourceBeam();
 
-	/*virtual*/ void setDead();
+	/*virtual*/ void setDead() override;
 
-	/*virtual*/ void update(const F32 dt);
+	/*virtual*/ void update(const F32 dt) override;
 
 	void setSourceObject(LLViewerObject *objp);
 	void setTargetObject(LLViewerObject *objp);
@@ -193,9 +193,9 @@ class LLViewerPartSourceChat : public LLViewerPartSource
 public:
 	LLViewerPartSourceChat(const LLVector3 &pos);
 
-	/*virtual*/ void setDead();
+	/*virtual*/ void setDead() override;
 
-	/*virtual*/ void update(const F32 dt);
+	/*virtual*/ void update(const F32 dt) override;
 
 	void setSourceObject(LLViewerObject *objp);
 	void setColor(const LLColor4 &color);

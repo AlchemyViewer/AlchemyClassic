@@ -48,11 +48,11 @@ struct PngError: public LLContinueError
 // ---------------------------------------------------------------------------
 
 LLPngWrapper::LLPngWrapper()
-	: mReadPngPtr( NULL ),
-	  mReadInfoPtr( NULL ),
-	  mWritePngPtr( NULL ),
-	  mWriteInfoPtr( NULL ),
-	  mRowPointers( NULL ),
+	: mReadPngPtr(nullptr ),
+	  mReadInfoPtr(nullptr ),
+	  mWritePngPtr(nullptr ),
+	  mWriteInfoPtr(nullptr ),
+	  mRowPointers(nullptr ),
 	  mWidth( 0 ),
 	  mHeight( 0 ),
 	  mBitDepth( 0 ),
@@ -144,8 +144,8 @@ BOOL LLPngWrapper::readPng(U8* src, S32 dataSize, LLImageRaw* rawImage, ImageInf
 	{
 		// Create and initialize the png structures
 		mReadPngPtr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-			this, &errorHandler, NULL);
-		if (mReadPngPtr == NULL)
+			this, &errorHandler, nullptr);
+		if (mReadPngPtr == nullptr)
 		{
 			LLTHROW(PngError("Problem creating png read structure"));
 		}
@@ -175,7 +175,7 @@ BOOL LLPngWrapper::readPng(U8* src, S32 dataSize, LLImageRaw* rawImage, ImageInf
 
 		// If a raw object is supplied, read the PNG image into its
 		// data space
-		if (rawImage != NULL)
+		if (rawImage != nullptr)
 		{
 			rawImage->resize(static_cast<U16>(mWidth),
 				static_cast<U16>(mHeight), mChannels);
@@ -192,11 +192,11 @@ BOOL LLPngWrapper::readPng(U8* src, S32 dataSize, LLImageRaw* rawImage, ImageInf
 			png_read_image(mReadPngPtr, mRowPointers);
 
 			// Finish up, ensures all metadata are updated
-			png_read_end(mReadPngPtr, NULL);
+			png_read_end(mReadPngPtr, nullptr);
 		}
 
 		// If an info object is supplied, copy the relevant info
-		if (infop != NULL)
+		if (infop != nullptr)
 		{
 			infop->mHeight = static_cast<U16>(mHeight);
 			infop->mWidth = static_cast<U16>(mWidth);
@@ -307,7 +307,7 @@ BOOL LLPngWrapper::writePng(const LLImageRaw* rawImage, U8* dest, size_t destSiz
 		}
 
 		mWritePngPtr = png_create_write_struct(PNG_LIBPNG_VER_STRING,
-			NULL, &errorHandler, NULL);
+			nullptr, &errorHandler, nullptr);
 		if (!mWritePngPtr)
 		{
 			LLTHROW(PngError("Problem creating png write structure"));
@@ -371,22 +371,22 @@ void LLPngWrapper::releaseResources()
 {
 	if (mReadPngPtr || mReadInfoPtr)
 	{
-		png_destroy_read_struct(&mReadPngPtr, &mReadInfoPtr, NULL);
-		mReadPngPtr = NULL;
-		mReadInfoPtr = NULL;
+		png_destroy_read_struct(&mReadPngPtr, &mReadInfoPtr, nullptr);
+		mReadPngPtr = nullptr;
+		mReadInfoPtr = nullptr;
 	}
 
 	if (mWritePngPtr || mWriteInfoPtr)
 	{
 		png_destroy_write_struct(&mWritePngPtr, &mWriteInfoPtr);
-		mWritePngPtr = NULL;
-		mWriteInfoPtr = NULL;
+		mWritePngPtr = nullptr;
+		mWriteInfoPtr = nullptr;
 	}
 
 	if (mRowPointers)
 	{
 		delete[] mRowPointers;
-		mRowPointers = NULL;
+		mRowPointers = nullptr;
 	}
 }
 

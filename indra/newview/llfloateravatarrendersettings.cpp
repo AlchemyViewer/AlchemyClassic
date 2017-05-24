@@ -46,7 +46,7 @@ public:
         :   mFloaterSettings(floater_settings)
     {}
 protected:
-    LLContextMenu* createMenu()
+    LLContextMenu* createMenu() override
     {
         LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registrar;
         LLUICtrl::EnableCallbackRegistry::ScopedRegistrar enable_registrar;
@@ -62,15 +62,15 @@ protected:
 
 class LLAvatarRenderMuteListObserver : public LLMuteListObserver
 {
-    /* virtual */ void onChange()  { LLFloaterAvatarRenderSettings::setNeedsUpdate();}
+    /* virtual */ void onChange() override { LLFloaterAvatarRenderSettings::setNeedsUpdate();}
 };
 
 static LLAvatarRenderMuteListObserver sAvatarRenderMuteListObserver;
 
 LLFloaterAvatarRenderSettings::LLFloaterAvatarRenderSettings(const LLSD& key)
 :   LLFloater(key),
-	mAvatarSettingsList(NULL),
-	mNeedsUpdate(false)
+	mNeedsUpdate(false),
+	mAvatarSettingsList(nullptr)
 {
     mContextMenu = new LLSettingsContextMenu(this);
     LLRenderMuteList::getInstance()->addObserver(&sAvatarRenderMuteListObserver);
@@ -184,7 +184,7 @@ static LLVOAvatar* find_avatar(const LLUUID& id)
     }
     else
     {
-        return NULL;
+        return nullptr;
     }
 }
 

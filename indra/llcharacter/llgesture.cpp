@@ -203,7 +203,7 @@ BOOL LLGestureList::triggerAndReviseString(const std::string &string, std::strin
 
 	for( token_iter = tokens.begin(); token_iter != tokens.end(); ++token_iter)
 	{
-		LLGesture* gesture = NULL;
+		LLGesture* gesture = nullptr;
 
 		if( !found_gestures ) // Only pay attention to the first gesture in the string.
 		{
@@ -239,7 +239,7 @@ BOOL LLGestureList::triggerAndReviseString(const std::string &string, std::strin
 					found_gestures = TRUE;
 					break;
 				}
-				gesture = NULL;
+				gesture = nullptr;
 			}
 		}
 

@@ -42,15 +42,15 @@ class LLPanelProfile : public LLPanel
 	LOG_CLASS(LLPanelProfile);
 
 public:
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
 	virtual void openPanel(LLPanel* panel, const LLSD& params);
 
 	virtual void closePanel(LLPanel* panel);
 
-	S32 notifyParent(const LLSD& info);
+	S32 notifyParent(const LLSD& info) override;
 
 protected:
 

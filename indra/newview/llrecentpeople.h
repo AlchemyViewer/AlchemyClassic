@@ -110,7 +110,7 @@ public:
 	/**
 	 * LLSimpleListener interface.
 	 */
-	/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata);
+	/*virtual*/ bool handleEvent(LLPointer<LLOldEvents::LLEvent> event, const LLSD& userdata) override;
 	
 	/**
 	 * Saves recent people to file

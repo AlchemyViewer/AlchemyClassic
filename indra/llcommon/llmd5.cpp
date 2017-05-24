@@ -121,7 +121,7 @@ void LLMD5::update (const uint1 *input, const uint4 input_length) {
   buffer_space = 64 - buffer_index;  // how much space is left in buffer
 
   // now, transform each 64-byte piece of the input, bypassing the buffer
-  if (input == NULL || input_length == 0){
+  if (input == nullptr || input_length == 0){
 	  std::cerr << "LLMD5::update:  Invalid input!" << std::endl;
 	  return;
   }

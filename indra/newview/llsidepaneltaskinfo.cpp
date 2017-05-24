@@ -88,7 +88,7 @@ static const std::array<std::string, 18> sNoItemNames{{
 /// Class llsidepaneltaskinfo
 ///----------------------------------------------------------------------------
 
-LLSidepanelTaskInfo* LLSidepanelTaskInfo::sActivePanel = NULL;
+LLSidepanelTaskInfo* LLSidepanelTaskInfo::sActivePanel = nullptr;
 
 static LLPanelInjector<LLSidepanelTaskInfo> t_task_info("sidepanel_task_info");
 
@@ -104,7 +104,7 @@ LLSidepanelTaskInfo::LLSidepanelTaskInfo()
 LLSidepanelTaskInfo::~LLSidepanelTaskInfo()
 {
 	if (sActivePanel == this)
-		sActivePanel = NULL;
+		sActivePanel = nullptr;
 }
 
 // virtual
@@ -205,9 +205,9 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	}
 	else
 	{
-		sActivePanel = NULL;
+		sActivePanel = nullptr;
 		// drop selection reference
-		mObjectSelection = NULL;
+		mObjectSelection = nullptr;
 	}
 }
 
@@ -316,7 +316,7 @@ void LLSidepanelTaskInfo::refresh()
 		root_selected = FALSE;
 	}
 
-	LLViewerObject* objectp = NULL;
+	LLViewerObject* objectp = nullptr;
 	if (nodep)
 	{
 		objectp = nodep->getObject();
@@ -1135,7 +1135,7 @@ void LLSidepanelTaskInfo::setAllSaleInfo()
 
 struct LLSelectionPayable : public LLSelectedObjectFunctor
 {
-	virtual bool apply(LLViewerObject* obj)
+	bool apply(LLViewerObject* obj) override
 	{
 		// can pay if you or your parent has money() event in script
 		LLViewerObject* parent = (LLViewerObject*)obj->getParent();
@@ -1281,7 +1281,7 @@ void LLSidepanelTaskInfo::refreshAll()
 {
 	// update UI as soon as we have an object
 	// but remove keyboard focus first so fields are free to update
-	LLFocusableElement* focus = NULL;
+	LLFocusableElement* focus = nullptr;
 	if (hasFocus())
 	{
 		focus = gFocusMgr.getKeyboardFocus();
@@ -1310,7 +1310,7 @@ LLViewerObject* LLSidepanelTaskInfo::getObject()
 {
 	if (!mObject->isDead())
 		return mObject;
-	return NULL;
+	return nullptr;
 }
 
 LLViewerObject* LLSidepanelTaskInfo::getFirstSelectedObject()
@@ -1320,7 +1320,7 @@ LLViewerObject* LLSidepanelTaskInfo::getFirstSelectedObject()
 	{
 		return node->getObject();
 	}
-	return NULL;
+	return nullptr;
 }
 
 const LLUUID& LLSidepanelTaskInfo::getSelectedUUID()

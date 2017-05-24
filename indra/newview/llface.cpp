@@ -132,7 +132,7 @@ void LLFace::init(LLDrawable* drawablep, LLViewerObject* objp)
 	mVSize = 0.f;
 	mPixelArea = 16.f;
 	mState      = GLOBAL;
-	mDrawPoolp  = NULL;
+	mDrawPoolp  = nullptr;
 	mPoolType = 0;
 	mCenterLocal = objp->getPosition();
 	mCenterAgent = drawablep->getPositionAgent();
@@ -148,7 +148,7 @@ void LLFace::init(LLDrawable* drawablep, LLViewerObject* objp)
 	for (U32 i = 0; i < LLRender::NUM_TEXTURE_CHANNELS; ++i)
 	{
 		mIndexInTex[i] = 0;
-		mTexture[i] = NULL;
+		mTexture[i] = nullptr;
 	}
 
 	mTEOffset		= -1;
@@ -159,8 +159,8 @@ void LLFace::init(LLDrawable* drawablep, LLViewerObject* objp)
 
 	mReferenceIndex = -1;
 
-	mTextureMatrix = NULL;
-	mDrawInfo = NULL;
+	mTextureMatrix = nullptr;
+	mDrawInfo = nullptr;
 
 	mFaceColor = LLColor4(1,0,0,1);
 
@@ -202,13 +202,13 @@ void LLFace::destroy()
 			mDrawPoolp->removeFace(this);
 		}
 	
-		mDrawPoolp = NULL;
+		mDrawPoolp = nullptr;
 	}
 
 	if (mTextureMatrix)
 	{
 		delete mTextureMatrix;
-		mTextureMatrix = NULL;
+		mTextureMatrix = nullptr;
 
 		if (mDrawablep.notNull())
 		{
@@ -221,10 +221,10 @@ void LLFace::destroy()
 		}
 	}
 	
-	setDrawInfo(NULL);
+	setDrawInfo(nullptr);
 		
-	mDrawablep = NULL;
-	mVObjp = NULL;
+	mDrawablep = nullptr;
+	mVObjp = nullptr;
 }
 
 
@@ -438,7 +438,7 @@ void LLFace::setSize(S32 num_vertices, S32 num_indices, bool align)
 	{
 		mGeomCount    = num_vertices;
 		mIndicesCount = num_indices;
-		mVertexBuffer = NULL;
+		mVertexBuffer = nullptr;
 	}
 
 	llassert(verify());
@@ -449,7 +449,7 @@ void LLFace::setGeomIndex(U16 idx)
 	if (mGeomIndex != idx)
 	{
 		mGeomIndex = idx; 
-		mVertexBuffer = NULL;
+		mVertexBuffer = nullptr;
 	}
 }
 
@@ -478,7 +478,7 @@ void LLFace::setIndicesIndex(S32 idx)
 	if (mIndicesIndex != idx)
 	{
 		mIndicesIndex = idx; 
-		mVertexBuffer = NULL;
+		mVertexBuffer = nullptr;
 	}
 }
 	
@@ -538,7 +538,7 @@ void LLFace::updateCenterAgent()
 
 void LLFace::renderSelected(LLViewerTexture *imagep, const LLColor4& color)
 {
-	if (mDrawablep->getSpatialGroup() == NULL)
+	if (mDrawablep->getSpatialGroup() == nullptr)
 	{
 		return;
 	}
@@ -635,14 +635,14 @@ void LLFace::setDrawInfo(LLDrawInfo* draw_info)
 	{
 		if (draw_info->mFace)
 		{
-			draw_info->mFace->setDrawInfo(NULL);
+			draw_info->mFace->setDrawInfo(nullptr);
 		}
 		draw_info->mFace = this;
 	}
 	
 	if (mDrawInfo)
 	{
-		mDrawInfo->mFace = NULL;
+		mDrawInfo->mFace = nullptr;
 	}
 
 	mDrawInfo = draw_info;
@@ -917,7 +917,7 @@ LLVector2 LLFace::surfaceToTexture(LLVector2 surface_coord, const LLVector4a& po
 	
 	const LLTextureEntry *tep = getTextureEntry();
 
-	if (tep == NULL)
+	if (tep == nullptr)
 	{
 		// can't do much without the texture entry
 		return surface_coord;
@@ -2416,7 +2416,7 @@ S32 LLFace::renderElements(const U16 *index_array) const
 
 S32 LLFace::renderIndexed()
 {
-	if(mDrawablep.isNull() || mDrawPoolp == NULL)
+	if(mDrawablep.isNull() || mDrawPoolp == nullptr)
 	{
 		return 0;
 	}
@@ -2485,7 +2485,7 @@ void LLFace::setVertexBuffer(LLVertexBuffer* buffer)
 
 void LLFace::clearVertexBuffer()
 {
-	mVertexBuffer = NULL;
+	mVertexBuffer = nullptr;
 }
 
 //static

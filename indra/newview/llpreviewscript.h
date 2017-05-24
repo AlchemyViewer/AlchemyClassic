@@ -79,8 +79,8 @@ public:
 	void			processKeywords();
 	void			processLoaded();
 
-	virtual void	draw();
-	/*virtual*/	BOOL	postBuild();
+	void	draw() override;
+	/*virtual*/	BOOL	postBuild() override;
 	BOOL			canClose();
 	void			setEnableEditing(bool enable);
 	bool			canLoadOrSaveToFile( void* userdata );
@@ -109,7 +109,7 @@ public:
 	static bool		enableSaveToFileMenu(void* userdata);
 	static bool		enableLoadFromFileMenu(void* userdata);
 
-    virtual bool	hasAccelerators() const { return true; }
+	bool	hasAccelerators() const override { return true; }
 	LLUUID 			getAssociatedExperience()const;
 	void            setAssociatedExperience( const LLUUID& experience_id );
 
@@ -126,7 +126,7 @@ private:
 
 	void selectFirstError();
 
-	virtual BOOL handleKeyHere(KEY key, MASK mask);
+	BOOL handleKeyHere(KEY key, MASK mask) override;
 	
 	void enableSave(BOOL b) {mEnableSave = b;}
 
@@ -194,19 +194,19 @@ public:
 	virtual void callbackLSLCompileSucceeded();
 	virtual void callbackLSLCompileFailed(const LLSD& compile_errors);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 // [SL:KB] - Patch: UI-FloaterSearchReplace | Checked: 2010-11-05 (Catznip-3.0.0) | Added: Catznip-2.3.0
 	LLTextEditor* getEditor();
 // [/SL:KB]
 
 protected:
-	virtual void draw();
-	virtual BOOL canClose();
+	void draw() override;
+	BOOL canClose() override;
 	void closeIfNeeded();
 
-	virtual void loadAsset();
-	/*virtual*/ void saveIfNeeded(bool sync = true);
+	void loadAsset() override;
+	/*virtual*/ void saveIfNeeded(bool sync = true) override;
 
 	static void onSearchReplace(void* userdata);
 	static void onLoad(void* userdata);
@@ -243,7 +243,7 @@ public:
 											bool is_script_running);
 	virtual void callbackLSLCompileFailed(const LLSD& compile_errors);
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	
     void setIsNew() { mIsNew = TRUE; }
 
@@ -263,13 +263,13 @@ public:
 	void addAssociatedExperience(const LLSD& experience);
 	
 private:
-	virtual BOOL canClose();
+	BOOL canClose() override;
 	void closeIfNeeded();
-	virtual void draw();
+	void draw() override;
 
-	virtual void loadAsset();
+	void loadAsset() override;
 	void loadAsset(BOOL is_new);
-	/*virtual*/ void saveIfNeeded(bool sync = true);
+	/*virtual*/ void saveIfNeeded(bool sync = true) override;
 	BOOL monoChecked() const;
 
 

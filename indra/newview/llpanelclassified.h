@@ -50,7 +50,7 @@ public:
 	LLPublishClassifiedFloater(const LLSD& key);
 	virtual ~LLPublishClassifiedFloater();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	void setPrice(S32 price);
 	S32 getPrice();
@@ -71,11 +71,11 @@ public:
 	LLPanelClassifiedInfo();
 	virtual ~LLPanelClassifiedInfo();
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type);
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
 
 	void setAvatarId(const LLUUID& avatar_id) { mAvatarId = avatar_id; }
 
@@ -140,9 +140,9 @@ public:
 
 	void setEditClassifiedCallback(const commit_callback_t& cb);
 
-	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/*virtual*/ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
-	/*virtual*/ void draw();
+	/*virtual*/ void draw() override;
 
 protected:
 
@@ -210,23 +210,23 @@ public:
 
 	virtual ~LLPanelClassifiedEdit();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	void fillIn(const LLSD& key);
 
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type);
+	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
 
-	/*virtual*/ BOOL isDirty() const;
+	/*virtual*/ BOOL isDirty() const override;
 
-	/*virtual*/ void resetDirty();
+	/*virtual*/ void resetDirty() override;
 
 	void setSaveCallback(const commit_signal_t::slot_type& cb);
 
 	void setCancelCallback(const commit_signal_t::slot_type& cb);
 
-	/*virtual*/ void resetControls();
+	/*virtual*/ void resetControls() override;
 
 	bool isNew() { return mIsNew; }
 
@@ -234,7 +234,7 @@ public:
 
 	bool canClose();
 
-	void draw();
+	void draw() override;
 
 	void stretchSnapshot();
 

@@ -37,7 +37,7 @@ class LLFloaterAvatar:
 private:
 	LLFloaterAvatar(const LLSD& key);
 	/*virtual*/	~LLFloaterAvatar();
-	/*virtual*/	BOOL postBuild();
+	/*virtual*/	BOOL postBuild() override;
 };
 
 #endif

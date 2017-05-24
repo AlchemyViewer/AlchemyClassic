@@ -42,23 +42,23 @@ public:
 	LLModalDialog( const LLSD& key, BOOL modal = true );
 	virtual		~LLModalDialog();
 	
-	/*virtual*/ BOOL 	postBuild();
+	/*virtual*/ BOOL 	postBuild() override;
 	
 	/*virtual*/ void	openFloater(const LLSD& key = LLSD());
-	/*virtual*/ void	onOpen(const LLSD& key);
+	/*virtual*/ void	onOpen(const LLSD& key) override;
 	
-	/*virtual*/ void 	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	/*virtual*/ void 	reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 	
-	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks);
-	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask);
-	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask );
+	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleScrollWheel(S32 x, S32 y, S32 clicks) override;
+	/*virtual*/ BOOL	handleDoubleClick(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleRightMouseDown(S32 x, S32 y, MASK mask) override;
+	/*virtual*/ BOOL	handleKeyHere(KEY key, MASK mask ) override;
 
-	/*virtual*/ void	setVisible(BOOL visible);
-	/*virtual*/ void	draw();
+	/*virtual*/ void	setVisible(BOOL visible) override;
+	/*virtual*/ void	draw() override;
 
 	BOOL 			isModal() const { return mModal; }
 	void			stopModal();

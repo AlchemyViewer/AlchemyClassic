@@ -133,13 +133,13 @@ public:
 	void canOpenClose(bool can_open_close) { mCanOpenClose = can_open_close;};
 	bool canOpenClose() const { return mCanOpenClose; };
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 
-	S32	notifyParent(const LLSD& info);
-	S32 notify(const LLSD& info);
-	bool notifyChildren(const LLSD& info);
+	S32	notifyParent(const LLSD& info) override;
+	S32 notify(const LLSD& info) override;
+	bool notifyChildren(const LLSD& info) override;
 
-	void draw();
+	void draw() override;
 
 	void    storeOpenCloseState		();
 	void    restoreOpenCloseState	();
@@ -152,24 +152,24 @@ protected:
 public:
 
 	// Call reshape after changing size
-	virtual void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE);
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 
 	/**
 	 * Raises notifyParent event with "child_visibility_change" = new_visibility
 	 */
-	void onVisibilityChange(BOOL new_visibility);
+	void onVisibilityChange(BOOL new_visibility) override;
 
 	// Changes expand/collapse state and triggers expand/collapse callbacks
-	virtual BOOL handleMouseDown(S32 x, S32 y, MASK mask);
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 
-	virtual BOOL handleMouseUp(S32 x, S32 y, MASK mask);
-	virtual BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent);
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL handleKey(KEY key, MASK mask, BOOL called_from_parent) override;
 
-	virtual BOOL handleToolTip(S32 x, S32 y, MASK mask);
-	virtual BOOL handleScrollWheel( S32 x, S32 y, S32 clicks );
+	BOOL handleToolTip(S32 x, S32 y, MASK mask) override;
+	BOOL handleScrollWheel( S32 x, S32 y, S32 clicks ) override;
 
 
-	virtual bool addChild(LLView* child, S32 tab_group = 0 );
+	bool addChild(LLView* child, S32 tab_group = 0 ) override;
 
 	bool isExpanded() const { return mDisplayChildren; }
 

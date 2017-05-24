@@ -83,12 +83,15 @@ const int LLPanelPrimMediaControls::kNumZoomLevels = 2;
 //
 
 LLPanelPrimMediaControls::LLPanelPrimMediaControls() : 
-	mAlpha(1.f),
-	mCurrentURL(""),
-	mPreviousURL(""),
+	mWindowShade(nullptr),
 	mPauseFadeout(false),
 	mUpdateSlider(true),
 	mClearFaceOnFade(false),
+	mHideImmediately(false),
+	mSecureURL(false),
+	mAlpha(1.f),
+	mCurrentURL(""),
+	mPreviousURL(""),
 	mCurrentRate(0.0),
 	mMovieDuration(0.0),
 	mTargetObjectID(LLUUID::null),
@@ -97,10 +100,7 @@ LLPanelPrimMediaControls::LLPanelPrimMediaControls() :
 	mTargetObjectNormal(LLVector3::zero),
 	mZoomObjectID(LLUUID::null),
 	mZoomObjectFace(0),
-	mVolumeSliderVisible(0),
-	mWindowShade(NULL),
-	mHideImmediately(false),
-    mSecureURL(false),
+    mVolumeSliderVisible(0),
 	mMediaPlaySliderCtrlMouseDownValue(0.0)
 {
 	mCommitCallbackRegistrar.add("MediaCtrl.Close",		boost::bind(&LLPanelPrimMediaControls::onClickClose, this));
@@ -288,7 +288,7 @@ LLPluginClassMedia* LLPanelPrimMediaControls::getTargetMediaPlugin()
 		return impl->getMediaPlugin();
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void LLPanelPrimMediaControls::updateShape()
@@ -302,7 +302,7 @@ void LLPanelPrimMediaControls::updateShape()
 		return;
 	}
 
-	LLPluginClassMedia* media_plugin = NULL;
+	LLPluginClassMedia* media_plugin = nullptr;
 	if(media_impl->hasMedia())
 	{
 		media_plugin = media_impl->getMediaPlugin();
@@ -359,11 +359,11 @@ void LLPanelPrimMediaControls::updateShape()
         mSecureURL = false;
 		mCurrentURL = media_impl->getCurrentMediaURL();
 		
-		mBackCtrl->setEnabled((media_impl != NULL) && media_impl->canNavigateBack() && can_navigate);
-		mFwdCtrl->setEnabled((media_impl != NULL) && media_impl->canNavigateForward() && can_navigate);
+		mBackCtrl->setEnabled((media_impl != nullptr) && media_impl->canNavigateBack() && can_navigate);
+		mFwdCtrl->setEnabled((media_impl != nullptr) && media_impl->canNavigateForward() && can_navigate);
 		mStopCtrl->setEnabled(has_focus && can_navigate);
 		mHomeCtrl->setEnabled(has_focus && can_navigate);
-		LLPluginClassMediaOwner::EMediaStatus result = ((media_impl != NULL) && media_impl->hasMedia()) ? media_plugin->getStatus() : LLPluginClassMediaOwner::MEDIA_NONE;
+		LLPluginClassMediaOwner::EMediaStatus result = ((media_impl != nullptr) && media_impl->hasMedia()) ? media_plugin->getStatus() : LLPluginClassMediaOwner::MEDIA_NONE;
 		
 		mVolumeCtrl->setVisible(has_focus);
 		mVolumeCtrl->setEnabled(has_focus);
@@ -808,7 +808,7 @@ void LLPanelPrimMediaControls::draw()
 	// draw control background UI image
 	
 	LLViewerObject* objectp = getTargetObject();
-	LLMediaEntry *media_data(0);
+	LLMediaEntry *media_data(nullptr);
 
 	if( objectp )
 		media_data = objectp->getTE(mTargetObjectFace)->getMediaData();

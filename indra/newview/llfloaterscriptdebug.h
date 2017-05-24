@@ -37,11 +37,11 @@ class LLFloaterScriptDebug : public LLMultiFloater
 public:
 	LLFloaterScriptDebug(const LLSD& key);
 	virtual ~LLFloaterScriptDebug();
-	virtual BOOL postBuild();
-	virtual void setVisible(BOOL visible);
+	BOOL postBuild() override;
+	void setVisible(BOOL visible) override;
     static void show(const LLUUID& object_id);
 
-    /*virtual*/ void closeFloater(bool app_quitting = false);
+    /*virtual*/ void closeFloater(bool app_quitting = false) override;
 	static void addScriptLine(const std::string &utf8mesg, const std::string &user_name, const LLColor4& color, const LLUUID& source_id);
 
 protected:
@@ -59,7 +59,7 @@ public:
 
 	void addLine(const std::string &utf8mesg, const std::string &user_name, const LLColor4& color);
 
-	virtual BOOL postBuild();
+	BOOL postBuild() override;
 	
 protected:
 	LLTextEditor* mHistoryEditor;

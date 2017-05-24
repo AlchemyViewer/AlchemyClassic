@@ -44,9 +44,9 @@
 #include "llfontbitmapcache.h"
 #include "llgl.h"
 
-LLFontManager *gFontManagerp = NULL;
+LLFontManager *gFontManagerp = nullptr;
 
-FT_Library gFTLibrary = NULL;
+FT_Library gFTLibrary = nullptr;
 
 //static
 void LLFontManager::initClass()
@@ -61,7 +61,7 @@ void LLFontManager::initClass()
 void LLFontManager::cleanupClass()
 {
 	delete gFontManagerp;
-	gFontManagerp = NULL;
+	gFontManagerp = nullptr;
 }
 
 LLFontManager::LLFontManager()
@@ -98,16 +98,16 @@ LLFontGlyphInfo::LLFontGlyphInfo(U32 index)
 
 LLFontFreetype::LLFontFreetype()
 :	LLTrace::MemTrackable<LLFontFreetype>("LLFontFreetype"),
-	mFontBitmapCachep(new LLFontBitmapCache),
+	mStyle(0),
+	mPointSize(0),
 	mAscender(0.f),
 	mDescender(0.f),
 	mLineHeight(0.f),
+	mFTFace(nullptr),
 	mIsFallback(FALSE),
-	mFTFace(NULL),
+	mFontBitmapCachep(new LLFontBitmapCache),
 	mRenderGlyphCount(0),
-	mAddGlyphCount(0),
-	mStyle(0),
-	mPointSize(0)
+	mAddGlyphCount(0)
 {
 	mCharGlyphInfoMap.reserve(500);
 }
@@ -118,7 +118,7 @@ LLFontFreetype::~LLFontFreetype()
 	// Clean up freetype libs.
 	if (mFTFace)
 		FT_Done_Face(mFTFace);
-	mFTFace = NULL;
+	mFTFace = nullptr;
 
 	// Delete glyph info
 	std::for_each(mCharGlyphInfoMap.begin(), mCharGlyphInfoMap.end(), DeletePairedPointer());
@@ -135,7 +135,7 @@ BOOL LLFontFreetype::loadFace(const std::string& filename, F32 point_size, F32 v
 	if (mFTFace)
 	{
 		FT_Done_Face(mFTFace);
-		mFTFace = NULL;
+		mFTFace = nullptr;
 	}
 	
 	int error;
@@ -163,7 +163,7 @@ BOOL LLFontFreetype::loadFace(const std::string& filename, F32 point_size, F32 v
 	{
 		// Clean up freetype libs.
 		FT_Done_Face(mFTFace);
-		mFTFace = NULL;
+		mFTFace = nullptr;
 		return FALSE;
 	}
 
@@ -246,7 +246,7 @@ F32 LLFontFreetype::getDescenderHeight() const
 
 F32 LLFontFreetype::getXAdvance(llwchar wch) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return 0.0;
 
 	// Return existing info only if it is current
@@ -270,7 +270,7 @@ F32 LLFontFreetype::getXAdvance(llwchar wch) const
 
 F32 LLFontFreetype::getXAdvance(const LLFontGlyphInfo* glyph) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return 0.0;
 
 	return glyph->mXAdvance;
@@ -278,7 +278,7 @@ F32 LLFontFreetype::getXAdvance(const LLFontGlyphInfo* glyph) const
 
 F32 LLFontFreetype::getXKerning(llwchar char_left, llwchar char_right) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return 0.0;
 
 	//llassert(!mIsFallback);
@@ -303,7 +303,7 @@ F32 LLFontFreetype::getXKerning(llwchar char_left, llwchar char_right) const
 
 F32 LLFontFreetype::getXKerning(const LLFontGlyphInfo* left_glyph_info, const LLFontGlyphInfo* right_glyph_info) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return 0.0;
 
 	U32 left_glyph = left_glyph_info ? left_glyph_info->mGlyphIndex : 0;
@@ -330,7 +330,7 @@ BOOL LLFontFreetype::hasGlyph(llwchar wch) const
 
 LLFontGlyphInfo* LLFontFreetype::addGlyph(llwchar wch) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return FALSE;
 
 	llassert(!mIsFallback);
@@ -358,13 +358,13 @@ LLFontGlyphInfo* LLFontFreetype::addGlyph(llwchar wch) const
 	{
 		return addGlyphFromFont(this, wch, glyph_index);
 	}
-	return NULL;
+	return nullptr;
 }
 
 LLFontGlyphInfo* LLFontFreetype::addGlyphFromFont(const LLFontFreetype *fontp, llwchar wch, U32 glyph_index) const
 {
-	if (mFTFace == NULL)
-		return NULL;
+	if (mFTFace == nullptr)
+		return nullptr;
 
 	llassert(!mIsFallback);
 	fontp->renderGlyph(glyph_index);
@@ -398,7 +398,7 @@ LLFontGlyphInfo* LLFontFreetype::addGlyphFromFont(const LLFontFreetype *fontp, l
 	{
 		U8 *buffer_data = fontp->mFTFace->glyph->bitmap.buffer;
 		S32 buffer_row_stride = fontp->mFTFace->glyph->bitmap.pitch;
-		U8 *tmp_graydata = NULL;
+		U8 *tmp_graydata = nullptr;
 
 		if (fontp->mFTFace->glyph->bitmap.pixel_mode
 		    == FT_PIXEL_MODE_MONO)
@@ -495,7 +495,7 @@ void LLFontFreetype::insertGlyphInfo(llwchar wch, LLFontGlyphInfo* gi) const
 
 void LLFontFreetype::renderGlyph(U32 glyph_index) const
 {
-	if (mFTFace == NULL)
+	if (mFTFace == nullptr)
 		return;
 
 	if (FT_Load_Glyph(mFTFace, glyph_index, FT_LOAD_RENDER) != 0)
@@ -579,7 +579,7 @@ U8 LLFontFreetype::getStyle() const
 
 std::string LLFontFreetype::getVersionString()
 {
-	if (gFTLibrary != NULL)
+	if (gFTLibrary != nullptr)
 	{
 		int major, minor, patch;
 		FT_Library_Version(gFTLibrary, &major, &minor, &patch);

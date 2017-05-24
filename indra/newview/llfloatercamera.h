@@ -75,8 +75,8 @@ public:
 	   are not in free camera mode*/
 	void fromFreeToPresets();
 
-	virtual void onOpen(const LLSD& key);
-	virtual void onClose(bool app_quitting);
+	void onOpen(const LLSD& key) override;
+	void onClose(bool app_quitting) override;
 
 	LLJoystickCameraRotate* mRotate;
 	LLPanelCameraZoom*	mZoom;
@@ -90,7 +90,7 @@ private:
 	/* return instance if it exists - created by LLFloaterReg */
 	static LLFloaterCamera* findInstance();
 
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 
 	ECameraControlMode determineMode();
 
@@ -154,9 +154,9 @@ public:
 		Optional<CommitCallbackParam> mousedown_callback;
 		Params();
 	};
-	/*virtual*/ BOOL postBuild();
+	/*virtual*/ BOOL postBuild() override;
 	/** setting on/off background icon to indicate selected state */
-	/*virtual*/ void setValue(const LLSD& value);
+	/*virtual*/ void setValue(const LLSD& value) override;
 	// sends commit signal
 	void onAnyMouseClick();
 protected:

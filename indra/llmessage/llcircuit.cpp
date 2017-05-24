@@ -73,8 +73,8 @@ LLCircuitData::LLCircuitData(const LLHost &host, TPACKETID in_id,
 	mPacketsOutID(0), 
 	mPacketsInID(in_id),
 	mHighestPacketID(in_id),
-	mTimeoutCallback(NULL),
-	mTimeoutUserData(NULL),
+	mTimeoutCallback(nullptr),
+	mTimeoutUserData(nullptr),
 	mTrusted(FALSE),
 	mbAllowTimeout(TRUE),
 	mbAlive(TRUE),
@@ -128,7 +128,7 @@ LLCircuitData::LLCircuitData(const LLHost &host, TPACKETID in_id,
 
 LLCircuitData::~LLCircuitData()
 {
-	LLReliablePacket *packetp = NULL;
+	LLReliablePacket *packetp = nullptr;
 
 	// Clean up all pending transfers.
 	gTransferManager.cleanupConnection(mHost);
@@ -431,7 +431,7 @@ S32 LLCircuitData::resendUnackedPackets(const F64Seconds now)
 
 
 LLCircuit::LLCircuit(const F32Seconds circuit_heartbeat_interval, const F32Seconds circuit_timeout) 
-:	mLastCircuit(NULL),  
+:	mLastCircuit(nullptr),  
 	mHeartbeatInterval(circuit_heartbeat_interval), 
 	mHeartbeatTimeout(circuit_timeout)
 {}
@@ -457,7 +457,7 @@ LLCircuitData *LLCircuit::addCircuitData(const LLHost &host, TPACKETID in_id)
 void LLCircuit::removeCircuitData(const LLHost &host)
 {
 	LL_INFOS() << "LLCircuit::removeCircuitData for " << host << LL_ENDL;
-	mLastCircuit = NULL;
+	mLastCircuit = nullptr;
 	circuit_data_map::iterator it = mCircuitData.find(host);
 	if(it != mCircuitData.end())
 	{
@@ -485,7 +485,7 @@ void LLCircuit::removeCircuitData(const LLHost &host)
 	// this circuit, and the setting of mLastCircuit.  We don't check
 	// if the host matches, but we don't really care because mLastCircuit
 	// is an optimization, and this happens VERY rarely.
-	mLastCircuit = NULL;
+	mLastCircuit = nullptr;
 }
 
 void LLCircuitData::setAlive(BOOL b_alive)
@@ -625,7 +625,7 @@ LLCircuitData* LLCircuit::findCircuit(const LLHost& host) const
 	circuit_data_map::const_iterator it = mCircuitData.find(host);
 	if(it == mCircuitData.end())
 	{
-		return NULL;
+		return nullptr;
 	}
 	mLastCircuit = it->second;
 	return mLastCircuit;

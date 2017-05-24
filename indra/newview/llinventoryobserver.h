@@ -82,7 +82,7 @@ public:
 	BOOL isFinished() const;
 
 	virtual void startFetch() = 0;
-	virtual void changed(U32 mask) = 0;
+	void changed(U32 mask) override = 0;
 	virtual void done() {};
 protected:
 	uuid_vec_t mComplete;
@@ -101,8 +101,8 @@ public:
 	LLInventoryFetchItemsObserver(const LLUUID& item_id = LLUUID::null); 
 	LLInventoryFetchItemsObserver(const uuid_vec_t& item_ids); 
 
-	/*virtual*/ void startFetch();
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void startFetch() override;
+	/*virtual*/ void changed(U32 mask) override;
 private:
 	LLTimer mFetchingPeriod;
 
@@ -124,8 +124,8 @@ public:
 	LLInventoryFetchDescendentsObserver(const LLUUID& cat_id = LLUUID::null);
 	LLInventoryFetchDescendentsObserver(const uuid_vec_t& cat_ids);
 
-	/*virtual*/ void startFetch();
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void startFetch() override;
+	/*virtual*/ void changed(U32 mask) override;
 protected:
 	BOOL isCategoryComplete(const LLViewerInventoryCategory* cat) const;
 };
@@ -143,7 +143,7 @@ public:
 	LLInventoryFetchComboObserver(const uuid_vec_t& folder_ids,
 								  const uuid_vec_t& item_ids);
 	~LLInventoryFetchComboObserver();
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 	void startFetch();
 
 	virtual void done() = 0;
@@ -165,7 +165,7 @@ class LLInventoryAddItemByAssetObserver : public LLInventoryObserver
 {
 public:
 	LLInventoryAddItemByAssetObserver() : mIsDirty(false) {}
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 
 	void watchAsset(const LLUUID& asset_id);
 	bool isAssetWatched(const LLUUID& asset_id);
@@ -192,7 +192,7 @@ class LLInventoryAddedObserver : public LLInventoryObserver
 {
 public:
 	LLInventoryAddedObserver() {}
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 
 protected:
 	virtual void done() = 0;
@@ -212,7 +212,7 @@ public:
 	typedef std::vector<LLViewerInventoryCategory*>	cat_vec_t;
 	
 	LLInventoryCategoryAddedObserver() : mAddedCategories() {}
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 	
 protected:
 	virtual void done() = 0;
@@ -232,7 +232,7 @@ class LLInventoryCompletionObserver : public LLInventoryObserver
 {
 public:
 	LLInventoryCompletionObserver() {}
-	/*virtual*/ void changed(U32 mask);
+	/*virtual*/ void changed(U32 mask) override;
 
 	void watchItem(const LLUUID& id);
 
@@ -256,7 +256,7 @@ public:
 	typedef std::function<void()> callback_t;
 
 	LLInventoryCategoriesObserver() {};
-	virtual void changed(U32 mask);
+	void changed(U32 mask) override;
 
 	/**
 	 * Add cat_id to the list of observed categories with a
@@ -297,11 +297,11 @@ public:
 	LLUUID mUUID;
 	
 	LLScrollOnRenameObserver(const LLUUID& uuid, LLFolderView *view):
-		mUUID(uuid),
-		mView(view)
+		mView(view),
+		mUUID(uuid)
 	{
 	}
-	/* virtual */ void changed(U32 mask);
+	/* virtual */ void changed(U32 mask) override;
 };
 
 

@@ -51,9 +51,9 @@ public:
 	LLPanelEditWearable( );
 	virtual ~LLPanelEditWearable();
 
-	/*virtual*/ BOOL 		postBuild();
-	/*virtual*/ BOOL		isDirty() const;	// LLUICtrl
-	/*virtual*/ void		draw();	
+	/*virtual*/ BOOL 		postBuild() override;
+	/*virtual*/ BOOL		isDirty() const override;	// LLUICtrl
+	/*virtual*/ void		draw() override;	
 				void		onClose();
 
 	// changes camera angle to default for selected subpart
@@ -76,7 +76,7 @@ public:
 	void				onSaveAsButtonClicked();
 	void				saveAsCallback(const LLSD& notification, const LLSD& response);
 
-	virtual void		setVisible(BOOL visible);
+	void		setVisible(BOOL visible) override;
 
 private:
 	typedef std::map<F32, LLViewerVisualParam*> value_map_t;

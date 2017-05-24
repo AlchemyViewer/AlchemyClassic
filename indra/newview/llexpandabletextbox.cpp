@@ -46,7 +46,7 @@ public:
 		mExpanderLabel(more_text)
 	{}
 
-	/*virtual*/ bool	getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const 
+	/*virtual*/ bool	getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override
 	{
 		// more label always spans width of text box
 		if (num_chars == 0)
@@ -61,11 +61,11 @@ public:
 		}
 		return true;
 	}
-	/*virtual*/ S32		getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const 
+	/*virtual*/ S32		getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const override
 	{ 
 		return start_offset;
 	}
-	/*virtual*/ S32		getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const
+	/*virtual*/ S32		getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override
 	{ 
 		// require full line to ourselves
 		if (line_offset == 0)
@@ -79,7 +79,7 @@ public:
 			return 0;
 		}
 	}
-	/*virtual*/ F32		draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect)
+	/*virtual*/ F32		draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override
 	{
 		F32 right_x;
 		mStyle->getFont()->renderUTF8(mExpanderLabel, start, 
@@ -93,11 +93,12 @@ public:
 									mEditor.getUseEllipses());
 		return right_x;
 	}
-	/*virtual*/ bool	canEdit() const { return false; }
+	/*virtual*/ bool	canEdit() const override { return false; }
 	// eat handleMouseDown event so we get the mouseup event
-	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) { return TRUE; }
-	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) { mEditor.onCommit(); return TRUE; }
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) 
+	/*virtual*/ BOOL	handleMouseDown(S32 x, S32 y, MASK mask) override { return TRUE; }
+	/*virtual*/ BOOL	handleMouseUp(S32 x, S32 y, MASK mask) override
+	{ mEditor.onCommit(); return TRUE; }
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override
 	{
 		LLUI::getWindow()->setCursor(UI_CURSOR_HAND);
 		return TRUE; 
@@ -221,11 +222,11 @@ LLExpandableTextBox::Params::Params()
 LLExpandableTextBox::LLExpandableTextBox(const Params& p)
 :	LLUICtrl(p),
 	mMaxHeight(p.max_height),
+	mExpanded(false),
 	mBGVisible(p.bg_visible),
 	mExpandedBGVisible(p.expanded_bg_visible),
 	mBGColor(p.bg_color),
-	mExpandedBGColor(p.expanded_bg_color),
-	mExpanded(false)
+	mExpandedBGColor(p.expanded_bg_color)
 {
 	LLRect rc = getLocalRect();
 

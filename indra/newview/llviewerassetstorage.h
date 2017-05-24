@@ -42,7 +42,7 @@ public:
 				   LLVFS *vfs, LLVFS *static_vfs);
 
 	using LLAssetStorage::storeAssetData;
-	virtual void storeAssetData(
+	void storeAssetData(
 		const LLTransactionID& tid,
 		LLAssetType::EType atype,
 		LLStoreAssetCallback callback,
@@ -51,9 +51,9 @@ public:
 		bool is_priority = false,
 		bool store_local = false,
 		bool user_waiting=FALSE,
-		F64Seconds timeout=LL_ASSET_STORAGE_TIMEOUT);
-	
-	virtual void storeAssetData(
+		F64Seconds timeout=LL_ASSET_STORAGE_TIMEOUT) override;
+
+	void storeAssetData(
 		const std::string& filename,
 		const LLTransactionID& tid,
 		LLAssetType::EType type,
@@ -62,7 +62,7 @@ public:
 		bool temp_file = false,
 		bool is_priority = false,
 		bool user_waiting=FALSE,
-		F64Seconds timeout=LL_ASSET_STORAGE_TIMEOUT);
+		F64Seconds timeout=LL_ASSET_STORAGE_TIMEOUT) override;
 
 protected:
 	using LLAssetStorage::_queueDataRequest;
@@ -73,7 +73,7 @@ protected:
 						   void (*callback) (LLVFS *vfs, const LLUUID&, LLAssetType::EType, void *, S32, LLExtStat),
 						   void *user_data,
 						   BOOL duplicate,
-						   BOOL is_priority);
+						   BOOL is_priority) override;
 };
 
 #endif

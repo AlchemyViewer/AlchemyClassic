@@ -34,7 +34,7 @@
 
 /*static*/ std::string LLVFSThread::sDataPath = "";
 
-/*static*/ LLVFSThread* LLVFSThread::sLocal = NULL;
+/*static*/ LLVFSThread* LLVFSThread::sLocal = nullptr;
 
 //============================================================================
 // Run on MAIN thread
@@ -61,7 +61,7 @@ void LLVFSThread::cleanupClass()
 		sLocal->update(0);
 	}
 	delete sLocal;
-	sLocal = 0;
+	sLocal = nullptr;
 }
 
 //----------------------------------------------------------------------------

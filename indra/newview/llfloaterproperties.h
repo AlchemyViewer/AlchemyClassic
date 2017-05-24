@@ -49,12 +49,12 @@ public:
 	LLFloaterProperties(const LLUUID& item_id);
 	/*virtual*/ ~LLFloaterProperties();
 	
-	/*virtual*/ BOOL postBuild();
-	/*virtual*/ void onOpen(const LLSD& key);
+	/*virtual*/ BOOL postBuild() override;
+	/*virtual*/ void onOpen(const LLSD& key) override;
 	void setObjectID(const LLUUID& object_id) { mObjectID = object_id; }
 
 	void dirty() { mDirty = TRUE; }
-	void refresh();
+	void refresh() override;
 	
 	static void dirtyAll();
 	
@@ -72,7 +72,7 @@ protected:
 	LLInventoryItem* findItem() const;
 
 	void refreshFromItem(LLInventoryItem* item);
-	virtual void draw();
+	void draw() override;
 
 protected:
 	// The item id of the inventory item in question.

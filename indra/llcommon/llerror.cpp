@@ -967,8 +967,7 @@ namespace
 	}
 }
 
-LLMutex gLogMutex;
-LLMutex gCallStacksLogMutex;
+std::unique_ptr<LLMutex> gLogMutex;
 
 namespace {
 	bool checkLevelMap(const LevelMap& map, const std::string& key,
@@ -1024,10 +1023,14 @@ namespace {
 	LogLock::LogLock()
 		: mLocked(false), mOK(false)
 	{
+		if (gLogMutex == nullptr)
+		{
+			gLogMutex = std::make_unique<LLMutex>();
+		}
 		const int MAX_RETRIES = 5;
 		for (int attempts = 0; attempts < MAX_RETRIES; ++attempts)
 		{
-			if (gLogMutex.try_lock())
+			if (gLogMutex->try_lock())
 			{
 				mLocked = true;
 				mOK = true;
@@ -1046,7 +1049,7 @@ namespace {
 	{
 		if (mLocked)
 		{
-			gLogMutex.unlock();
+			gLogMutex->unlock();
 		}
 	}
 }
@@ -1337,6 +1340,8 @@ namespace LLError
 	}
 }
 
+std::unique_ptr<LLMutex> gCallStacksLogMutex;
+
 namespace LLError
 {     
 	char** LLCallStacks::sBuffer = nullptr ;
@@ -1371,10 +1376,14 @@ namespace LLError
 	CallStacksLogLock::CallStacksLogLock()
 		: mLocked(false), mOK(false)
 	{
+		if (gCallStacksLogMutexp == nullptr)
+		{
+			gCallStacksLogMutexp = std::make_unique<LLMutex>();
+		}
 		const int MAX_RETRIES = 5;
 		for (int attempts = 0; attempts < MAX_RETRIES; ++attempts)
 		{
-			if (gCallStacksLogMutex.try_lock())
+			if (gCallStacksLogMutexp->try_lock())
 			{
 				mLocked = true;
 				mOK = true;
@@ -1393,7 +1402,7 @@ namespace LLError
 	{
 		if (mLocked)
 		{
-			gCallStacksLogMutex.unlock();
+			gCallStacksLogMutexp->unlock();
 		}
 	}
 #endif

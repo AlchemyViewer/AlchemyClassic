@@ -86,9 +86,12 @@ BOOL LLVisualParamInfo::parseXml(LLXmlTreeNode *node)
 	}
 	
 	// attribute: sex
-	std::string sex = "both";
+	std::string sex;
 	static LLStdStringHandle sex_string = LLXmlTree::addAttributeString("sex");
-	node->getFastAttributeString( sex_string, sex ); // optional
+	if (!node->getFastAttributeString(sex_string, sex)) // optional
+	{
+		sex = "both";
+	}
 	if( sex == "both" )
 	{
 		mSex = SEX_BOTH;

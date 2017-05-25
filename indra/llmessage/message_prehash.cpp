@@ -7,21 +7,21 @@
  * $LicenseInfo:firstyear=2003&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2010, Linden Research, Inc.
- * 
+  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation;
  * version 2.1 of the License only.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
@@ -98,6 +98,7 @@ char const* const _PREHASH_AppearanceHover = LLMessageStringTable::getInstance()
 char const* const _PREHASH_FrozenData = LLMessageStringTable::getInstance()->getString("FrozenData");
 char const* const _PREHASH_ChildAgentDying = LLMessageStringTable::getInstance()->getString("ChildAgentDying");
 char const* const _PREHASH_To = LLMessageStringTable::getInstance()->getString("To");
+char const* const _PREHASH_IsPremium = LLMessageStringTable::getInstance()->getString("IsPremium");
 char const* const _PREHASH_CopyInventoryFromNotecard = LLMessageStringTable::getInstance()->getString("CopyInventoryFromNotecard");
 char const* const _PREHASH_RezObjectFromNotecard = LLMessageStringTable::getInstance()->getString("RezObjectFromNotecard");
 char const* const _PREHASH_ParcelDirFeeCurrent = LLMessageStringTable::getInstance()->getString("ParcelDirFeeCurrent");
@@ -187,6 +188,8 @@ char const* const _PREHASH_LinkInventoryItem = LLMessageStringTable::getInstance
 char const* const _PREHASH_RemoveInventoryItem = LLMessageStringTable::getInstance()->getString("RemoveInventoryItem");
 char const* const _PREHASH_CreateInventoryItem = LLMessageStringTable::getInstance()->getString("CreateInventoryItem");
 char const* const _PREHASH_PathTwistBegin = LLMessageStringTable::getInstance()->getString("PathTwistBegin");
+char const* const _PREHASH_AgentInventoryHost = LLMessageStringTable::getInstance()->getString("AgentInventoryHost");
+char const* const _PREHASH_InventoryHost = LLMessageStringTable::getInstance()->getString("InventoryHost");
 char const* const _PREHASH_CRC = LLMessageStringTable::getInstance()->getString("CRC");
 char const* const _PREHASH_AttachmentPoint = LLMessageStringTable::getInstance()->getString("AttachmentPoint");
 char const* const _PREHASH_TelehubBlock = LLMessageStringTable::getInstance()->getString("TelehubBlock");
@@ -296,6 +299,8 @@ char const* const _PREHASH_NetTest = LLMessageStringTable::getInstance()->getStr
 char const* const _PREHASH_DiscardLevel = LLMessageStringTable::getInstance()->getString("DiscardLevel");
 char const* const _PREHASH_LayerID = LLMessageStringTable::getInstance()->getString("LayerID");
 char const* const _PREHASH_GrabOffset = LLMessageStringTable::getInstance()->getString("GrabOffset");
+char const* const _PREHASH_JoinGroupRequestExtended = LLMessageStringTable::getInstance()->getString("JoinGroupRequestExtended");
+char const* const _PREHASH_CreateGroupRequestExtended = LLMessageStringTable::getInstance()->getString("CreateGroupRequestExtended");
 char const* const _PREHASH_SimPort = LLMessageStringTable::getInstance()->getString("SimPort");
 char const* const _PREHASH_PricePerMeter = LLMessageStringTable::getInstance()->getString("PricePerMeter");
 char const* const _PREHASH_RegionFlags = LLMessageStringTable::getInstance()->getString("RegionFlags");
@@ -456,6 +461,8 @@ char const* const _PREHASH_ParcelID = LLMessageStringTable::getInstance()->getSt
 char const* const _PREHASH_Godlike = LLMessageStringTable::getInstance()->getString("Godlike");
 char const* const _PREHASH_TotalDebits = LLMessageStringTable::getInstance()->getString("TotalDebits");
 char const* const _PREHASH_Direction = LLMessageStringTable::getInstance()->getString("Direction");
+char const* const _PREHASH_NeedsValidation = LLMessageStringTable::getInstance()->getString("NeedsValidation");
+char const* const _PREHASH_SimFlags = LLMessageStringTable::getInstance()->getString("SimFlags");
 char const* const _PREHASH_HealthData = LLMessageStringTable::getInstance()->getString("HealthData");
 char const* const _PREHASH_LeftAxis = LLMessageStringTable::getInstance()->getString("LeftAxis");
 char const* const _PREHASH_LocationBlock = LLMessageStringTable::getInstance()->getString("LocationBlock");
@@ -788,6 +795,7 @@ char const* const _PREHASH_RayEndIsIntersection = LLMessageStringTable::getInsta
 char const* const _PREHASH_CompleteAuction = LLMessageStringTable::getInstance()->getString("CompleteAuction");
 char const* const _PREHASH_CircuitCode = LLMessageStringTable::getInstance()->getString("CircuitCode");
 char const* const _PREHASH_AgentMovementComplete = LLMessageStringTable::getInstance()->getString("AgentMovementComplete");
+char const* const _PREHASH_RegionAllowAccessOverride = LLMessageStringTable::getInstance()->getString("RegionAllowAccessOverride");
 char const* const _PREHASH_ViewerIP = LLMessageStringTable::getInstance()->getString("ViewerIP");
 char const* const _PREHASH_Header = LLMessageStringTable::getInstance()->getString("Header");
 char const* const _PREHASH_GestureFlags = LLMessageStringTable::getInstance()->getString("GestureFlags");
@@ -854,6 +862,7 @@ char const* const _PREHASH_MediaType = LLMessageStringTable::getInstance()->getS
 char const* const _PREHASH_TelehubInfo = LLMessageStringTable::getInstance()->getString("TelehubInfo");
 char const* const _PREHASH_StateSave = LLMessageStringTable::getInstance()->getString("StateSave");
 char const* const _PREHASH_RoleData = LLMessageStringTable::getInstance()->getString("RoleData");
+char const* const _PREHASH_RetrieveIMsExtended = LLMessageStringTable::getInstance()->getString("RetrieveIMsExtended");
 char const* const _PREHASH_AgentAnimation = LLMessageStringTable::getInstance()->getString("AgentAnimation");
 char const* const _PREHASH_AvatarAnimation = LLMessageStringTable::getInstance()->getString("AvatarAnimation");
 char const* const _PREHASH_LogDwellTime = LLMessageStringTable::getInstance()->getString("LogDwellTime");
@@ -963,6 +972,7 @@ char const* const _PREHASH_PayButton = LLMessageStringTable::getInstance()->getS
 char const* const _PREHASH_SelfCount = LLMessageStringTable::getInstance()->getString("SelfCount");
 char const* const _PREHASH_PacketCount = LLMessageStringTable::getInstance()->getString("PacketCount");
 char const* const _PREHASH_ParcelBuyPass = LLMessageStringTable::getInstance()->getString("ParcelBuyPass");
+char const* const _PREHASH_RegionAllowAccessBlock = LLMessageStringTable::getInstance()->getString("RegionAllowAccessBlock");
 char const* const _PREHASH_OldItemID = LLMessageStringTable::getInstance()->getString("OldItemID");
 char const* const _PREHASH_RegionPort = LLMessageStringTable::getInstance()->getString("RegionPort");
 char const* const _PREHASH_PriceEnergyUnit = LLMessageStringTable::getInstance()->getString("PriceEnergyUnit");
@@ -1204,6 +1214,7 @@ char const* const _PREHASH_ChangeInventoryItemFlags = LLMessageStringTable::getI
 char const* const _PREHASH_Force = LLMessageStringTable::getInstance()->getString("Force");
 char const* const _PREHASH_TransactionBlock = LLMessageStringTable::getInstance()->getString("TransactionBlock");
 char const* const _PREHASH_PowersMask = LLMessageStringTable::getInstance()->getString("PowersMask");
+char const* const _PREHASH_ValidationBlock = LLMessageStringTable::getInstance()->getString("ValidationBlock");
 char const* const _PREHASH_Stamp = LLMessageStringTable::getInstance()->getString("Stamp");
 char const* const _PREHASH_TotalCredits = LLMessageStringTable::getInstance()->getString("TotalCredits");
 char const* const _PREHASH_State = LLMessageStringTable::getInstance()->getString("State");
@@ -1228,6 +1239,7 @@ char const* const _PREHASH_Sound = LLMessageStringTable::getInstance()->getStrin
 char const* const _PREHASH_Cover = LLMessageStringTable::getInstance()->getString("Cover");
 char const* const _PREHASH_TotalObjectCount = LLMessageStringTable::getInstance()->getString("TotalObjectCount");
 char const* const _PREHASH_TextureEntry = LLMessageStringTable::getInstance()->getString("TextureEntry");
+char const* const _PREHASH_EstateBlock = LLMessageStringTable::getInstance()->getString("EstateBlock");
 char const* const _PREHASH_SquareMetersCommitted = LLMessageStringTable::getInstance()->getString("SquareMetersCommitted");
 char const* const _PREHASH_ChannelID = LLMessageStringTable::getInstance()->getString("ChannelID");
 char const* const _PREHASH_Dwell = LLMessageStringTable::getInstance()->getString("Dwell");
@@ -1409,6 +1421,7 @@ char const* const _PREHASH_RayTargetID = LLMessageStringTable::getInstance()->ge
 char const* const _PREHASH_ClaimPrice = LLMessageStringTable::getInstance()->getString("ClaimPrice");
 char const* const _PREHASH_ObjectProperties = LLMessageStringTable::getInstance()->getString("ObjectProperties");
 char const* const _PREHASH_ParcelProperties = LLMessageStringTable::getInstance()->getString("ParcelProperties");
+char const* const _PREHASH_GroupLimit = LLMessageStringTable::getInstance()->getString("GroupLimit");
 char const* const _PREHASH_EstateOwnerID = LLMessageStringTable::getInstance()->getString("EstateOwnerID");
 char const* const _PREHASH_LogoutRequest = LLMessageStringTable::getInstance()->getString("LogoutRequest");
 char const* const _PREHASH_AssetUploadRequest = LLMessageStringTable::getInstance()->getString("AssetUploadRequest");

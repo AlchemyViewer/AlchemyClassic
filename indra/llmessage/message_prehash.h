@@ -5,21 +5,21 @@
  * $LicenseInfo:firstyear=2003&license=viewerlgpl$
  * Second Life Viewer Source Code
  * Copyright (C) 2010, Linden Research, Inc.
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation;
  * version 2.1 of the License only.
- * 
+ *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- * 
+ *
  * Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
  * $/LicenseInfo$
  */
@@ -96,6 +96,7 @@ extern char const* const _PREHASH_AppearanceHover;
 extern char const* const _PREHASH_FrozenData;
 extern char const* const _PREHASH_ChildAgentDying;
 extern char const* const _PREHASH_To;
+extern char const* const _PREHASH_IsPremium;
 extern char const* const _PREHASH_CopyInventoryFromNotecard;
 extern char const* const _PREHASH_RezObjectFromNotecard;
 extern char const* const _PREHASH_ParcelDirFeeCurrent;
@@ -185,6 +186,8 @@ extern char const* const _PREHASH_LinkInventoryItem;
 extern char const* const _PREHASH_RemoveInventoryItem;
 extern char const* const _PREHASH_CreateInventoryItem;
 extern char const* const _PREHASH_PathTwistBegin;
+extern char const* const _PREHASH_AgentInventoryHost;
+extern char const* const _PREHASH_InventoryHost;
 extern char const* const _PREHASH_CRC;
 extern char const* const _PREHASH_AttachmentPoint;
 extern char const* const _PREHASH_TelehubBlock;
@@ -294,6 +297,8 @@ extern char const* const _PREHASH_NetTest;
 extern char const* const _PREHASH_DiscardLevel;
 extern char const* const _PREHASH_LayerID;
 extern char const* const _PREHASH_GrabOffset;
+extern char const* const _PREHASH_JoinGroupRequestExtended;
+extern char const* const _PREHASH_CreateGroupRequestExtended;
 extern char const* const _PREHASH_SimPort;
 extern char const* const _PREHASH_PricePerMeter;
 extern char const* const _PREHASH_RegionFlags;
@@ -454,6 +459,8 @@ extern char const* const _PREHASH_ParcelID;
 extern char const* const _PREHASH_Godlike;
 extern char const* const _PREHASH_TotalDebits;
 extern char const* const _PREHASH_Direction;
+extern char const* const _PREHASH_NeedsValidation;
+extern char const* const _PREHASH_SimFlags;
 extern char const* const _PREHASH_HealthData;
 extern char const* const _PREHASH_LeftAxis;
 extern char const* const _PREHASH_LocationBlock;
@@ -786,6 +793,7 @@ extern char const* const _PREHASH_RayEndIsIntersection;
 extern char const* const _PREHASH_CompleteAuction;
 extern char const* const _PREHASH_CircuitCode;
 extern char const* const _PREHASH_AgentMovementComplete;
+extern char const* const _PREHASH_RegionAllowAccessOverride;
 extern char const* const _PREHASH_ViewerIP;
 extern char const* const _PREHASH_Header;
 extern char const* const _PREHASH_GestureFlags;
@@ -852,6 +860,7 @@ extern char const* const _PREHASH_MediaType;
 extern char const* const _PREHASH_TelehubInfo;
 extern char const* const _PREHASH_StateSave;
 extern char const* const _PREHASH_RoleData;
+extern char const* const _PREHASH_RetrieveIMsExtended;
 extern char const* const _PREHASH_AgentAnimation;
 extern char const* const _PREHASH_AvatarAnimation;
 extern char const* const _PREHASH_LogDwellTime;
@@ -961,6 +970,7 @@ extern char const* const _PREHASH_PayButton;
 extern char const* const _PREHASH_SelfCount;
 extern char const* const _PREHASH_PacketCount;
 extern char const* const _PREHASH_ParcelBuyPass;
+extern char const* const _PREHASH_RegionAllowAccessBlock;
 extern char const* const _PREHASH_OldItemID;
 extern char const* const _PREHASH_RegionPort;
 extern char const* const _PREHASH_PriceEnergyUnit;
@@ -1202,6 +1212,7 @@ extern char const* const _PREHASH_ChangeInventoryItemFlags;
 extern char const* const _PREHASH_Force;
 extern char const* const _PREHASH_TransactionBlock;
 extern char const* const _PREHASH_PowersMask;
+extern char const* const _PREHASH_ValidationBlock;
 extern char const* const _PREHASH_Stamp;
 extern char const* const _PREHASH_TotalCredits;
 extern char const* const _PREHASH_State;
@@ -1226,6 +1237,7 @@ extern char const* const _PREHASH_Sound;
 extern char const* const _PREHASH_Cover;
 extern char const* const _PREHASH_TotalObjectCount;
 extern char const* const _PREHASH_TextureEntry;
+extern char const* const _PREHASH_EstateBlock;
 extern char const* const _PREHASH_SquareMetersCommitted;
 extern char const* const _PREHASH_ChannelID;
 extern char const* const _PREHASH_Dwell;
@@ -1407,6 +1419,7 @@ extern char const* const _PREHASH_RayTargetID;
 extern char const* const _PREHASH_ClaimPrice;
 extern char const* const _PREHASH_ObjectProperties;
 extern char const* const _PREHASH_ParcelProperties;
+extern char const* const _PREHASH_GroupLimit;
 extern char const* const _PREHASH_EstateOwnerID;
 extern char const* const _PREHASH_LogoutRequest;
 extern char const* const _PREHASH_AssetUploadRequest;

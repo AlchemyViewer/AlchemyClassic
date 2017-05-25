@@ -754,10 +754,7 @@ LLAppViewer::LLAppViewer()
 LLAppViewer::~LLAppViewer()
 {
 	delete mSettingsLocationList;
-	LLViewerEventRecorder::deleteSingleton();
 
-	LLLoginInstance::instance().setUpdaterService(nullptr);
-	
 	destroyMainloopTimeout();
     
 	// If we got to this destructor somehow, the app didn't hang.

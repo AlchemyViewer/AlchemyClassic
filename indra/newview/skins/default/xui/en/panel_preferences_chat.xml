@@ -142,6 +142,7 @@
      width="350"/>
 
     <panel
+     follows="all"
      height="175"
      left="300"
      top="-391"

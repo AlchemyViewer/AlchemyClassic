@@ -389,7 +389,7 @@
      height="23"
      layout="topleft"
      control_name="AFKTimeout"
-     left="30"
+     left="37"
      label="Away timeout:"
      top_pad="2"
      name="afk"

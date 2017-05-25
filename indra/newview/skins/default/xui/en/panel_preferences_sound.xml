@@ -374,7 +374,7 @@
         height="15"
         tool_tip="Show audio stream metadata"
         label="Show audio stream notifications"
-        top_pad="2"
+        top_pad="6"
         left="25"/>
 	<check_box
 		name="media_auto_play_btn"
@@ -385,7 +385,7 @@
 		height="15"
 		tool_tip="Check this to let media auto-play if it wants"
 		label="Allow Media to auto-play"
-		top_pad="1"
+		top_pad="4"
 		left="25"/>
  	<check_box
 		name="media_show_on_others_btn"
@@ -395,7 +395,7 @@
 		height="15"
 		tool_tip="Uncheck this to hide media attached to other avatars nearby"
 		label="Play media attached to other avatars"
-        top_pad="1"
+        top_pad="4"
 		left="25"
     width="230"/>
 	<check_box
@@ -407,7 +407,7 @@
      height="15"
      tool_tip="Check this to hear sounds from gestures"
      label="Play sounds from gestures"
-     top_pad="1"
+     top_pad="4"
      left="25"/>
     <text
      type="string"
@@ -487,7 +487,7 @@
 		visible="true"
 		width="18"
 		left_pad="-4"
-		top_delta="-5"/>
+		top_delta="-2"/>
 	<icon
 		follows="left|top"
 		height="18"
@@ -507,6 +507,7 @@
      left_delta="-168"
      width="360"
      height="20"
+     top_delta="-4"
      name="ear_location">
     <radio_item
      height="19"
@@ -533,7 +534,7 @@
    layout="topleft"
    left="44"
    name="enable_lip_sync"
-   top_pad="5" 
+   top_pad="8" 
    width="237"/>
  <check_box
   follows="top|left"

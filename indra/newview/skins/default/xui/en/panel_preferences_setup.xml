@@ -271,7 +271,7 @@
          value="0" />
   </combo_box>
   <check_box
-    top_delta="4"
+    top_delta="6"
     enabled="true"
     follows="left|top"
     height="14"

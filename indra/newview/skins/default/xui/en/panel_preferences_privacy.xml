@@ -137,7 +137,7 @@
      layout="topleft"
      left="30"
      name="block_list"
-     top_pad="28"
+     top_pad="10"
      width="145">
         <!--<button.commit_callback
          function="SideTray.ShowPanel"-->
@@ -181,7 +181,7 @@
       left_pad="10"
       mouse_opaque="false"
       name="cache_size_label_l"
-      top_delta="5"
+      top_delta="4"
       text_color="LtGray_50"
       width="300">
     (Locations, images, web, search history)
@@ -203,7 +203,7 @@
          top="10"
          follows="left|top"
          height="16"
-         label="Show look at targets"
+         label="Show LookAt targets"
          left="15"
          name="showlookat"
          width="270"
@@ -218,7 +218,7 @@
          left="180"
          name="lookatnames"
 		     tool_tip="Select whether to show avatar names on the LookAt crosshairs"
-         top="10"
+         top="8"
          width="50">
             Names:
         </text>
@@ -262,7 +262,7 @@
         <check_box
          control_name="AlchemyLookAtLines"
          height="16"
-         label="Show a line from look at beacon to avatar"
+         label="Show a line from LookAt beacon to avatar"
          layout="topleft"
          left="15"
          name="lineslookat"
@@ -287,7 +287,7 @@
          control_name="AlchemyLookAtHideSelf"
          height="16"
 		     initial_value="true"
-         label="Don't show me my lookat target"
+         label="Don't show me my LookAt target"
          layout="topleft"
          left="15"
          name="LookAtHideOwn"

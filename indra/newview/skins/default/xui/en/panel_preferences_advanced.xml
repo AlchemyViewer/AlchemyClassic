@@ -35,7 +35,7 @@
    label="Cache size (64 - 9984MB)"
    label_width="150"
    layout="topleft"
-   left="80"
+   left="44"
    max_val="9984"
    min_val="64"
    top_pad="10"
@@ -72,7 +72,7 @@
    follows="left|top"
    height="10"
    layout="topleft"
-   left="80"
+   left="44"
    name="Cache location"
    top_pad="5"
    width="300">
@@ -86,7 +86,7 @@
    font="SansSerif"
    height="23"
    layout="topleft"
-   left="80"
+   left="44"
    max_length_bytes="4096"
    name="cache_location"
    top_pad="5"
@@ -113,7 +113,7 @@
     left_pad="3"
     name="default_cache_location"
     top_delta="0"
-    width="100">
+    width="120">
     <button.commit_callback
      function="Pref.ResetCache" />
   </button>

@@ -24,6 +24,7 @@
   <!-- Chooser -->
   <scroll_list
    height="225"
+   follows="left|top"
    layout="topleft"
    left="40"
    name="skin_list"

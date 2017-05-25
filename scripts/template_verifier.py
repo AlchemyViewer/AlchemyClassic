@@ -229,14 +229,14 @@ http://wiki.secondlife.com/wiki/Template_verifier.py
 """)
     parser.add_option(
         '-u', '--master_url', type='string', dest='master_url',
-        default='http://bitbucket.org/lindenlab/master-message-template/raw/tip/message_template.msg',
+        default='http://bitbucket.org/alchemyviewer/master-message-template/raw/tip/message_template.msg',
         help="""The url of the master message template.""")
     parser.add_option(
         '-c', '--cache_master', action='store_true', dest='cache_master',
         default=False,  help="""Set to true to attempt use local cached copy of the master template.""")
     parser.add_option(
         '-f', '--force', action='store_true', dest='force_verification',
-        default=False, help="""Set to true to skip the sha_1 check and force template verification.""")
+        default=False, help="""Set to true to skip the sha_256 check and force template verification.""")
 
     options, args = parser.parse_args(sysargs)
 
@@ -275,13 +275,13 @@ http://wiki.secondlife.com/wiki/Template_verifier.py
 
     # retrieve the contents of the local template
     current = fetch(current_url)
-    hexdigest = hashlib.sha1(current).hexdigest()
+    hexdigest = hashlib.sha256(current).hexdigest()
     if not options.force_verification:
         # Early exist if the template hasn't changed.
-        sha_url = "%s.sha1" % current_url
+        sha_url = "%s.sha256" % current_url
         current_sha = fetch(sha_url)
         if hexdigest == current_sha:
-            print "Message template SHA_1 has not changed."
+            print "Message template SHA_256 has not changed."
             sys.exit(0)
 
     # and check for syntax
@@ -316,8 +316,8 @@ http://wiki.secondlife.com/wiki/Template_verifier.py
     if acceptable:
         explain("--- PASS ---", compat)
         if options.force_verification == False:
-            print "Updating sha1 to %s" % hexdigest
-            sha_filename = "%s.sha1" % current_filename
+            print "Updating sha256 to %s" % hexdigest
+            sha_filename = "%s.sha256" % current_filename
             sha_file = open(sha_filename, 'w')
             sha_file.write(hexdigest)
             sha_file.close()

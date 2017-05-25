@@ -98,7 +98,7 @@ class LLCLPValue : public po::value_semantic_codecvt_helper<char>
     unsigned mMinTokens;
     unsigned mMaxTokens;
     bool mIsComposing;
-    typedef boost::function1<void, const LLCommandLineParser::token_vector_t&> notify_callback_t;
+    typedef boost::function<void (const LLCommandLineParser::token_vector_t&)> notify_callback_t;
     notify_callback_t mNotifyCallback;
     bool mLastOption;
 
@@ -228,7 +228,7 @@ protected:
 // LLCommandLineParser defintions
 //----------------------------------------------------------------------------
 void LLCommandLineParser::addOptionDesc(const std::string& option_name, 
-                                        boost::function1<void, const token_vector_t&> notify_callback,
+                                        boost::function<void (const token_vector_t&)> notify_callback,
                                         unsigned int token_count,
                                         const std::string& description,
                                         const std::string& short_name,
@@ -660,7 +660,7 @@ void LLControlGroupCLP::configure(const std::string& config_filename, LLControlG
                 last_option = option_params["last_option"].asBoolean();
             }
 
-            boost::function1<void, const token_vector_t&> callback;
+            boost::function<void (const token_vector_t&)> callback;
             if (! option_params.has("map-to"))
             {
                 // If this option isn't mapped to a settings variable, is it

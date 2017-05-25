@@ -56,7 +56,7 @@ public:
 	 */
 	void addOptionDesc(
 					   const std::string& option_name, 
-					   boost::function1<void, const token_vector_t&> notify_callback = nullptr,
+					   boost::function<void (const token_vector_t&)> notify_callback = nullptr,
 					   unsigned int num_tokens = 0,
 					   const std::string& description = LLStringUtil::null,
 					   const std::string& short_name = LLStringUtil::null,
@@ -119,7 +119,7 @@ public:
 	 * The parser_func takes an input string, and should return a
 	 * name/value pair as the result.
 	 */
-	typedef boost::function1<std::pair<std::string, std::string>, const std::string&> parser_func;
+	typedef boost::function<std::pair<std::string, std::string> (const std::string&)> parser_func;
 	void setCustomParser(parser_func f) { mExtraParser = f; }
 	
 private:

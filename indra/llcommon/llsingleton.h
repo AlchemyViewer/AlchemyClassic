@@ -488,7 +488,7 @@ typename LLSingleton<T>::SingletonData LLSingleton<T>::sData;
 private:                                                                \
     /* implement LLSingleton pure virtual method whose sole purpose */  \
     /* is to remind people to use this macro */                         \
-    virtual void you_must_use_LLSINGLETON_macro() {}                    \
+    virtual void you_must_use_LLSINGLETON_macro() override {}           \
     friend class LLSingleton<DERIVED_CLASS>;                            \
     DERIVED_CLASS()
 

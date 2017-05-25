@@ -2486,7 +2486,11 @@ void dump_prehash_files()
 		}
 		fclose(fp);
 	}
+#if LL_DARWIN
+    std::exit(0);
+#else
 	std::quick_exit(0);
+#endif // LL_DARWIN
 }
 
 bool start_messaging_system(

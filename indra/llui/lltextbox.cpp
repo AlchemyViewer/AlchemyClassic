@@ -45,7 +45,7 @@ template class LLTextBox* LLView::getChild<class LLTextBox>(
 
 LLTextBox::LLTextBox(const LLTextBox::Params& p)
 :	LLTextBase(p),
-	mClickedCallback(NULL)
+	mClickedCallback()
 {}
 
 LLTextBox::~LLTextBox()
@@ -60,7 +60,7 @@ BOOL LLTextBox::handleMouseDown(S32 x, S32 y, MASK mask)
 		make_ui_sound("UISndClick");
 	}
 
-	if (!handled && mClickedCallback)
+	if (!handled && !mClickedCallback.empty())
 	{
 		handled = TRUE;
 	}

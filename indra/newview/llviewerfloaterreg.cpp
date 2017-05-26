@@ -109,6 +109,7 @@
 #include "llfloaterpay.h"
 #include "llfloaterperms.h"
 #include "llfloaterpreference.h"
+#include "llfloaterpreferenceproxy.h"
 #include "llfloaterprogressview.h"
 #include "llfloaterproperties.h"
 #include "llfloaterregiondebugconsole.h"

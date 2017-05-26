@@ -310,6 +310,7 @@ set(viewer_SOURCE_FILES
     llfloaterpay.cpp
     llfloaterperms.cpp
     llfloaterpreference.cpp
+    llfloaterpreferenceproxy.cpp
     llfloaterprogressview.cpp
     llfloaterproperties.cpp
     llfloaterregiondebugconsole.cpp
@@ -963,6 +964,7 @@ set(viewer_HEADER_FILES
     llfloaterpay.h
     llfloaterperms.h
     llfloaterpreference.h
+    llfloaterpreferenceproxy.h
     llfloaterprogressview.h
     llfloaterproperties.h
     llfloaterregiondebugconsole.h

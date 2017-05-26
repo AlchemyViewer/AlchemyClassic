@@ -270,8 +270,6 @@ public:
 	void setHardwareDefaults() override;
 
 protected:
-	bool hasDirtyChilds();
-
 	LOG_CLASS(LLPanelPreferenceGraphics);
 };
 
@@ -310,34 +308,7 @@ class LLAvatarComplexityControls
 	LOG_CLASS(LLAvatarComplexityControls);
 };
 
-class LLFloaterPreferenceProxy : public LLFloater
-{
-public: 
-	LLFloaterPreferenceProxy(const LLSD& key);
-	~LLFloaterPreferenceProxy();
 
-	/// show off our menu
-	static void show();
-	void cancel();
-	
-protected:
-	BOOL postBuild() override;
-	void onOpen(const LLSD& key) override;
-	void onClose(bool app_quitting) override;
-	void saveSettings();
-	void onBtnOk();
-	void onBtnCancel();
-	void onClickCloseBtn(bool app_quitting = false) override;
-
-	void onChangeSocksSettings();
-
-private:
-	
-	bool mSocksSettingsDirty;
-	typedef std::map<LLControlVariable*, LLSD> control_values_map_t;
-	control_values_map_t mSavedValues;
-	LOG_CLASS(LLFloaterPreferenceProxy);
-};
 
 
 #endif  // LL_LLPREFERENCEFLOATER_H

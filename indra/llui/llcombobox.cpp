@@ -861,7 +861,7 @@ void LLComboBox::setTextEntry(const LLStringExplicit& text)
 
 void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 {
-	if (mTextEntryCallback != nullptr)
+	if (!mTextEntryCallback.empty())
 	{
 		(mTextEntryCallback)(line_editor, LLSD());
 	}
@@ -881,7 +881,7 @@ void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 			mList->deselectAllItems();
 			mLastSelectedIndex = -1;
 		}
-		if (mTextChangedCallback != nullptr)
+		if (!mTextChangedCallback.empty())
 		{
 			(mTextChangedCallback)(line_editor, LLSD());
 		}
@@ -929,7 +929,7 @@ void LLComboBox::onTextEntry(LLLineEditor* line_editor)
 		// RN: presumably text entry
 		updateSelection();
 	}
-	if (mTextChangedCallback != nullptr)
+	if (!mTextChangedCallback.empty())
 	{
 		(mTextChangedCallback)(line_editor, LLSD());
 	}

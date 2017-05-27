@@ -67,6 +67,7 @@ import optparse
 import os
 import urllib
 import hashlib
+import certifi
 
 from indra.ipc import compatibility
 from indra.ipc import tokenstream
@@ -141,7 +142,7 @@ def fetch(url):
         return open(file_name).read()
     else:
         # *FIX: this doesn't throw an exception for a 404, and oddly enough the sl.com 404 page actually gets parsed successfully
-        return ''.join(urllib.urlopen(url).readlines())   
+        return ''.join(urllib.urlopen(url, cafile = certifi.where()).readlines())   
 
 def cache_master(master_url):
     """Using the url for the master, updates the local cache, and returns an url to the local cache."""
@@ -229,7 +230,7 @@ http://wiki.secondlife.com/wiki/Template_verifier.py
 """)
     parser.add_option(
         '-u', '--master_url', type='string', dest='master_url',
-        default='http://bitbucket.org/alchemyviewer/master-message-template/raw/tip/message_template.msg',
+        default='https://bitbucket.org/alchemyviewer/master-message-template/raw/tip/message_template.msg',
         help="""The url of the master message template.""")
     parser.add_option(
         '-c', '--cache_master', action='store_true', dest='cache_master',

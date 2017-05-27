@@ -970,6 +970,17 @@
       <key>Value</key>
       <string />
     </map>
+    <key>LastUsername</key>
+    <map>
+      <key>Comment</key>
+      <string>The last user logged in</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>String</string>
+      <key>Value</key>
+      <string />
+    </map>
     <key>NavigationBarStyle</key>
     <map>
       <key>Comment</key>

@@ -211,8 +211,10 @@ class LLSecAPIBasicCredential : public LLCredential
 public:
 	LLSecAPIBasicCredential(const std::string& grid) : LLCredential(grid) {} 
 	virtual ~LLSecAPIBasicCredential() {}
+
 	// return a value representing the user id, (could be guid, name, whatever)
-	std::string userID() const override;	
+	std::string userID() const override;
+	std::string username() const override;
 	
 	// printible string identifying the credential.
 	std::string asString() const override;
@@ -266,12 +268,16 @@ public:
 													 const LLSD& identifier, 
 													 const LLSD& authenticator) override;
 
-	LLPointer<LLCredential> loadCredential(const std::string& grid) override;
+	LLPointer<LLCredential> loadCredential(const std::string& grid, const std::string& user_id) override;
+	LLPointer<LLCredential> loadCredential(const std::string& grid, const LLSD& identifier) override;
 
 	void saveCredential(LLPointer<LLCredential> cred, bool save_authenticator) override;
 
+	void deleteCredential(const std::string& grid, const LLSD& identifier) override;
 	void deleteCredential(LLPointer<LLCredential> cred) override;
-	
+
+	bool getCredentialIdentifierList(const std::string& grid, std::vector<LLSD>& identifiers) override;
+
 protected:
 	void _readProtectedData();
 	void _writeProtectedData();

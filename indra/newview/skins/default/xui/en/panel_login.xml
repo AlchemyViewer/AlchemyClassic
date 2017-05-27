@@ -62,9 +62,6 @@
           width="150">
         Username:
       </text>
-      <!-- STEAM-14: Turn off commit_on_focus_lost so if user presses Enter
-           with focus in this combo_box, we can use commit action to initiate
-           login -->
       <combo_box
           allow_text_entry="true"
           follows="left|bottom"
@@ -76,11 +73,11 @@
           top_pad="0"
           name="username_combo"
           width="178">
-<!-- empirically, displayed width is 150 anyway?!? -->
+<!-- empirically, displayed width is 150 anyway?!? fight me! -->
         <combo_box.combo_button
-            visible ="false"/>
+            visible="false"/>
         <combo_box.drop_down_button
-            visible ="false"/>
+            visible="false"/>
       </combo_box>
 <!-- left="175" based on actual "username_combo" width of 150 vs. 178 -->
       <text
@@ -93,9 +90,6 @@
           width="150">
         Password:
       </text>
-      <!-- STEAM-14: Turn off commit_on_focus_lost so if user presses Enter
-           with focus in this line_editor, we can use commit action to
-           initiate login -->
       <line_editor
           follows="left|bottom"
           height="22"

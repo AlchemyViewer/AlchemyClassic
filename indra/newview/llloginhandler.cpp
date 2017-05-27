@@ -168,7 +168,8 @@ LLPointer<LLCredential> LLLoginHandler::initializeLoginInfo()
 	result = loadSavedUserLoginInfo();                                                                                   
 	if (result.isNull())                                                                                                 
 	{                                                                                                                    
-		result =  gSecAPIHandler->loadCredential(LLGridManager::getInstance()->getGrid());                       
+		result = gSecAPIHandler->loadCredential(LLGridManager::getInstance()->getGrid(),
+                                                gSavedSettings.getString("LastUsername"));
 	}                                                                                                                    
 	
 	return result;                                                                                                       
@@ -182,7 +183,6 @@ LLPointer<LLCredential> LLLoginHandler::loadSavedUserLoginInfo()
 	LLSD cmd_line_login = gSavedSettings.getLLSD("UserLoginInfo");
 	if (cmd_line_login.size() == 3) 
 	{
-	
 		LLMD5 pass((unsigned char*)cmd_line_login[2].asString().c_str());
 		char md5pass[33];               /* Flawfinder: ignore */
 		pass.hex_digest(md5pass);

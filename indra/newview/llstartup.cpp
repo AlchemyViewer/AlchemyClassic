@@ -779,7 +779,7 @@ bool idle_startup()
 			// connect dialog is already shown, so fill in the names
 			if (gUserCredential.notNull())
 			{
-				LLPanelLogin::setFields( gUserCredential, gRememberPassword);
+				LLPanelLogin::selectUser(gUserCredential, gRememberPassword);
 			}
 			LLPanelLogin::giveFocus();
 
@@ -889,7 +889,7 @@ bool idle_startup()
 		if(gUserCredential.notNull())                                                                                  
 		{  
 			userid = gUserCredential->userID();                                                                    
-			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
+//			gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
 		}
 		gSavedSettings.setBOOL("RememberPassword", gRememberPassword);                                                 
 		LL_INFOS("AppInit") << "Attempting login as: " << userid << LL_ENDL;                                           
@@ -1184,6 +1184,9 @@ bool idle_startup()
 		{
 			if(process_login_success_response(first_sim_size_x, first_sim_size_y))
 			{
+				// Only save credentials after successful login
+				gSecAPIHandler->saveCredential(gUserCredential, gRememberPassword);  
+				gSavedSettings.setString("LastUsername", gUserCredential->userID());
 				// Pass the user information to the voice chat server interface.
 				LLVoiceClient::getInstance()->userAuthorized(gUserCredential->userID(), gAgentID);
 				// create the default proximal channel

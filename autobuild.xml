@@ -2892,11 +2892,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>8bff7a7dc9e7211f685d489444bfe3b0</string>
+              <string>f193ec9e594d857d22c067c6e52622a9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/vcredist-14.10.25008.0-windows-201703090606.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows/lib-vc141/vcredist-14.10.25017.0-windows-201705270440.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2906,18 +2906,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6a9bb2dcb6ae8506463df8c9dee30b92</string>
+              <string>583982b46ad5af3762a4a6471c369fc1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/vcredist-14.10.25008.0-windows64-201703081113.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/windows64/lib-vc141/vcredist-14.10.25017.0-windows64-201705270440.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>14.10.25008.0</string>
+        <string>14.10.25017.0</string>
       </map>
       <key>vlc-bin</key>
       <map>

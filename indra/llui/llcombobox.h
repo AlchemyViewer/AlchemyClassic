@@ -163,6 +163,7 @@ public:
 	//========================================================================
 	LLCtrlSelectionInterface* getSelectionInterface() override { return (LLCtrlSelectionInterface*)this; };
 	LLCtrlListInterface* getListInterface() override { return (LLCtrlListInterface*)this; };
+	LLScrollListCtrl* getListCtrl()						{ return mList; }
 
 	// LLCtrlListInterface functions
 	// See llscrolllistctrl.h

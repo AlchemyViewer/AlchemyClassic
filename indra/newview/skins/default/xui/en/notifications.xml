@@ -187,7 +187,7 @@ No tutorial is currently available.
    icon="alertmodal.tga"
    name="BadInstallation"
    type="alertmodal">
- An error occurred while updating [APP_NAME].  Please [http://www.alchemyviewer.org download the latest version] of the viewer.
+ An error occurred while updating [APP_NAME].  Please [https://www.alchemyviewer.org download the latest version] of the viewer.
     <tag>fail</tag>
     <usetemplate
      name="okbutton"
@@ -3895,9 +3895,9 @@ Download to your Applications folder?
    icon="alertmodal.tga"
    name="FailedUpdateInstall"
    type="alertmodal">
-An error occurred installing the viewer update.
-Please download and install the latest viewer from
-http://www.alchemyviewer.org/
+    An error occurred installing the viewer update.
+    Please download and install the latest viewer from
+    https://www.alchemyviewer.org
     <usetemplate
      name="okbutton"
      yestext="OK"/>
@@ -3907,12 +3907,12 @@ http://www.alchemyviewer.org/
    icon="alertmodal.tga"
    name="FailedRequiredUpdateInstall"
    type="alertmodal">
-We were unable to install a required update. 
-You will be unable to log in until [APP_NAME] has been updated.
+    We were unable to install a required update.
+    You will be unable to log in until [APP_NAME] has been updated.
 
-Please download and install the latest viewer from
-http://www.alchemyviewer.org/
-  <tag>fail</tag>
+    Please download and install the latest viewer from
+    https://www.alchemyviewer.org
+    <tag>fail</tag>
     <usetemplate
      name="okbutton"
      yestext="Quit"/>

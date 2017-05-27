@@ -1512,7 +1512,7 @@
              name="Alchemy Website">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="http://www.alchemyviewer.org"/>
+                 parameter="https://www.alchemyviewer.org"/>
         </menu_item_call>  
         <menu_item_call
              label="[APP_NAME] Repository"

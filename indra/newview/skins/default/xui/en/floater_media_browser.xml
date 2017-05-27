@@ -13,7 +13,7 @@
  width="820">
     <floater.string
      name="home_page_url">
-        http://www.alchemyviewer.org/
+        https://www.alchemyviewer.org/
     </floater.string>
     <floater.string
      name="support_page_url">

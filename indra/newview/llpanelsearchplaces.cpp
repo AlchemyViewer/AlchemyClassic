@@ -93,9 +93,9 @@ void LLPanelSearchPlaces::search()
 	const std::string& category_string = mPlacesCategory->getSelectedValue();
 	query.category_char = category_string == "any" ? LLParcel::C_ANY : LLParcel::getCategoryFromString(category_string);
 	
-	static LLUICachedControl<bool> inc_pg("ShowPGSims", 1);
-	static LLUICachedControl<bool> inc_mature("ShowMatureSims", 0);
-	static LLUICachedControl<bool> inc_adult("ShowAdultSims", 0);
+	static LLUICachedControl<bool> inc_pg("ShowPGSims", true);
+	static LLUICachedControl<bool> inc_mature("ShowMatureSims", false);
+	static LLUICachedControl<bool> inc_adult("ShowAdultSims", false);
 	if (!(inc_pg || inc_mature || inc_adult))
 	{
 		LLNotificationsUtil::add("NoContentToSearch");

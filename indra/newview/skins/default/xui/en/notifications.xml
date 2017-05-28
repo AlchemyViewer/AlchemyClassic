@@ -11750,6 +11750,19 @@ Are you sure you wish to continue?
      notext="Cancel"
      yestext="OK"/>
   </notification>
+
+  <notification
+   icon="alertmodal.tga"
+   name="RemoveLoginCredential"
+   type="alertmodal">
+Do you want to remove '[NAME]' from the list?
+    <tag>confirm</tag>
+    <usetemplate
+     name="okcancelbuttons"
+     notext="Cancel"
+     yestext="OK"/>
+  </notification>
+
   
   <notification
    icon="alert.tga"

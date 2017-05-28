@@ -52,7 +52,6 @@
 #include "llagent.h"
 #include "llpanelsearchbase.h"
 #include "llpanelsearchweb.h"
-#include "llpanelplaces.h"
 #include "llproductinforequest.h"
 
 SearchQuery::SearchQuery()

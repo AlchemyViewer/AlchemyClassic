@@ -389,6 +389,7 @@ void LLComboBox::setLabel(const LLStringExplicit& name)
 		{
 			mTextEntry->setTentative(FALSE);
 			mLastSelectedIndex = mList->getFirstSelectedIndex();
+            mTextEntry->setCursorToEnd(); // Cancels the "select all" done by selectItemByLabel()
 		}
 		else
 		{

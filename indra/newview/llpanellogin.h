@@ -39,9 +39,9 @@ class LLSLURL;
 class LLCredential;
 class LLLayoutStack;
 
-class LLPanelLogin:	
-	public LLPanel,
-	public LLViewerMediaObserver
+class LLPanelLogin
+:	public LLPanel
+,	public LLViewerMediaObserver
 {
 	LOG_CLASS(LLPanelLogin);
 public:
@@ -62,9 +62,10 @@ public:
 		void (*callback)(S32 option, void* user_data), 
 		void* callback_data);
 
-	static void setFields(LLPointer<LLCredential> credential, BOOL remember);
-
 	static void getFields(LLPointer<LLCredential>& credential, BOOL& remember);
+
+	static LLSD getIdentifier();
+	static void selectUser(LLPointer<LLCredential> credential, BOOL remember);
 
 	static BOOL areCredentialFieldsDirty();
 	static void setLocation(const LLSLURL& slurl);
@@ -73,8 +74,6 @@ public:
 	static void updateLocationSelectorsVisibility();
 
 	static void closePanel();
-
-	void setSiteIsAlive( bool alive );
 
 	static void loadLoginPage();	
 	static void giveFocus();
@@ -91,9 +90,11 @@ private:
 	friend class LLPanelLoginListener;
 	void reshapeBrowser();
 	void addFavoritesToStartLocation();
-	void addUsersWithFavoritesToUsername();
 	void onSelectServer();
 	void onLocationSLURL();
+	void onSelectUser();
+	bool onRemoveUser(const LLSD& value);
+	void onRemoveUserResponse(const LLSD& notification, const LLSD& response);
 	void refreshGridList();
 
 	static void onClickConnect(void*);
@@ -106,7 +107,6 @@ private:
 	static void connectCallback(const LLSD& notification, const LLSD& response);
 	static void connect();
 
-private:
 	LLPointer<LLUIImage> mLogoImage;
 	boost::scoped_ptr<LLPanelLoginListener> mListener;
 

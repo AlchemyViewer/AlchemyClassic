@@ -423,6 +423,15 @@ LLURI LLURI::buildHTTP(const std::string& prefix,
 }
 
 // static
+LLURI LLURI::buildHTTP(const std::string& scheme,
+	const std::string& prefix,
+	const LLSD& path,
+	const LLSD& query)
+{
+	return buildHTTP(llformat("%s://%s", scheme.c_str(), prefix.c_str()), path, query);
+}
+
+// static
 LLURI LLURI::buildHTTP(const std::string& host,
 					   const U32& port,
 					   const LLSD& path)

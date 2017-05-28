@@ -66,6 +66,13 @@ public:
 		const std::string& prefix,
 		const LLSD& path,
 		const LLSD& query);
+
+	static LLURI buildHTTP(
+		const std::string& scheme,
+		const std::string& prefix,
+		const LLSD& path,
+		const LLSD& query);
+
 	///< prefix is either a full URL prefix of the form
 	/// "http://example.com:8080", or it can be simply a host and
 	/// optional port like "example.com" or "example.com:8080", in

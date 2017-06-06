@@ -17,7 +17,7 @@ elseif (LINUX)
   set(EXE_STAGING_DIR ${CMAKE_BINARY_DIR}/sharedlibs/bin)
 elseif (DARWIN)
   set(SHARED_LIB_STAGING_DIR ${CMAKE_BINARY_DIR}/sharedlibs)
-  set(EXE_STAGING_DIR "${CMAKE_BINARY_DIR}/sharedlibs")
+  set(EXE_STAGING_DIR ${CMAKE_BINARY_DIR}/sharedlibs)
 endif (WINDOWS)
 
 # Autobuild packages must provide 'release' versions of libraries, but may provide versions for

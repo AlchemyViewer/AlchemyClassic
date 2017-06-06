@@ -319,6 +319,8 @@ target_link_libraries(
 
 add_dependencies(llcommon stage_third_party_libs)
 
+add_subdirectory(tests)
+
 if (LL_TESTS)
   include(LLAddBuildTest)
   SET(llcommon_TEST_SOURCE_FILES
@@ -338,7 +340,6 @@ if (LL_TESTS)
       ${CRYPTO_LIBRARIES})
   LL_ADD_INTEGRATION_TEST(commonmisc "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(bitpack "" "${test_libs}")
-  LL_ADD_INTEGRATION_TEST(llbase64 "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(lldate "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(lldeadmantimer "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(lldependencies "" "${test_libs}")
@@ -347,7 +348,6 @@ if (LL_TESTS)
   LL_ADD_INTEGRATION_TEST(llinstancetracker "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llprocessor "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llprocinfo "" "${test_libs}")
-  LL_ADD_INTEGRATION_TEST(llrand "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llsdserialize "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llsingleton "" "${test_libs}")
   LL_ADD_INTEGRATION_TEST(llstring "" "${test_libs}")

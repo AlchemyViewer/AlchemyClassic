@@ -1299,6 +1299,11 @@ BOOL LLScrollListCtrl::selectItemByPrefix(const LLWString& target, BOOL case_sen
 		{
 			LLScrollListItem* item = *iter;
 
+			if (!item)
+			{
+				continue;
+			}
+
 			// Only select enabled items with matching names
 			LLScrollListCell* cellp = item->getColumn(getSearchColumn());
 			if (!cellp)
@@ -2000,7 +2005,7 @@ BOOL LLScrollListCtrl::handleClick(S32 x, S32 y, MASK mask)
 			for (item_list::iterator iter = mItemList.begin(); iter != mItemList.end(); iter++)
 			{
 				LLScrollListItem* item = *iter;
-				if (item->getSelected())
+				if (item && item->getSelected())
 				{
 					LLScrollListCell* cellp = item->getColumn(column_index);
 					cellp->setValue(item_value);

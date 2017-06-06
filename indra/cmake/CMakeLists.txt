@@ -38,7 +38,6 @@ set(cmake_SOURCE_FILES
     GLOD.cmake
     GLEW.cmake
     GStreamer010Plugin.cmake
-    GTest.cmake
     Glut.cmake
     GoogleBreakpad.cmake
     GooglePerfTools.cmake

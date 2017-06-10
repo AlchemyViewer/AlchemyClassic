@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1eab2dd73403783694afc0b24ba31b2e</string>
+              <string>7df6fdadcb74ccfac83d648cea208b8f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.54.0-windows-201704221151.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.54.0-windows-201706092254.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,11 +422,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c583f630988b8a05e833040f98683d12</string>
+              <string>ad4b2fb445b2832b8f2d45c754bb8761</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.54.0-windows64-201704221122.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.54.0-windows64-201706092301.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2656,11 +2656,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a8351a7845b3e0255706effcb211f587</string>
+              <string>c54e250d3d454772b508e543b4ac9c73</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openssl-1.1.0e-windows-201703090715.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openssl-1.1.0f-windows-201706092157.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2670,11 +2670,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>af622046731599edcb81bf9d90b8e820</string>
+              <string>e4aebb0c22d25133faec562fa3d4c254</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0e-windows64-201703080851.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0f-windows64-201706092144.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

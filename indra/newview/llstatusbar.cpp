@@ -449,9 +449,9 @@ void LLStatusBar::setHealth(S32 health)
 
 void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_percentage)
 {
-	if (muted_percentage >= 30.f)
+	if (muted_percentage >= 10.f)
 		mAvComplexity->setImage(mImgAvComplexWarn);
-	else if (muted_percentage >= 80.f)
+	else if (muted_percentage >= 75.f)
 		mAvComplexity->setImage(mImgAvComplexHeavy);
 	else
 		mAvComplexity->setImage(mImgAvComplex);

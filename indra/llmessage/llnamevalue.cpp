@@ -151,7 +151,7 @@ void LLNameValue::init(const char *name, const char *data, const char *type, con
 	else if (!strcmp(mStringType, "U64"))
 	{
 		mType = NVT_U64;
-		mNameValueReference.u64 = new U64(str_to_U64(ll_safe_string(data)));
+		mNameValueReference.u64 = new U64(std::stoull(data));
 	}
 	else if (!strcmp(mStringType, "VEC3"))
 	{
@@ -921,9 +921,7 @@ std::string LLNameValue::printData() const
 		break;
 	case NVT_U64:
 		{
-			char u64_string[U64_BUFFER_LEN];	/* Flawfinder: ignore */
-			U64_to_str(*mNameValueReference.u64, u64_string, sizeof(u64_string));
-			buffer = u64_string;
+			buffer = std::to_string(*mNameValueReference.u64);
 		}
 		break;
 	case NVT_VEC3:
@@ -954,11 +952,7 @@ std::ostream&		operator<<(std::ostream& s, const LLNameValue &a)
 		s << *(a.mNameValueReference.u32);
 		break;
 	case NVT_U64:
-		{
-			char u64_string[U64_BUFFER_LEN];	/* Flawfinder: ignore */
-			U64_to_str(*a.mNameValueReference.u64, u64_string, sizeof(u64_string));
-			s << u64_string;
-		}
+		s << (*a.mNameValueReference.u64);
 		break;
 	case NVT_VEC3:
 		s << *(a.mNameValueReference.vec3);

@@ -835,6 +835,9 @@ with the same filename but different name
   <texture name="Clipboard_Copy" file_name="icons/clipboard_copy.png" preload="false" />
   <texture name="Clipboard_Cut" file_name="icons/clipboard_cut.png" preload="false" />
   <texture name="Clipboard_Paste" file_name="icons/clipboard_paste.png" preload="false" />
+  <texture name="50_Ton_Weight" file_name="icons/Weight.png" preload="true" />
+  <texture name="50_Ton_Weight_Warn" file_name="icons/WeightWarning.png" preload="true" />
+  <texture name="50_Ton_Weight_Heavy" filename="icons/WeightWarningHeavy.png" preload="true" />
 
   <texture name="Default_Outfit_Photo" file_name="icons/Default_Outfit_Photo.png" preload="true"/>
   <texture name="Notification_Condense" file_name="icons/Icon_Notification_Condense.png" preload="true"/>

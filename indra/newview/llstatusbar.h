@@ -68,13 +68,14 @@ public:
 	static void sendMoneyBalanceRequest();
 
 	void		setHealth(S32 percent);
+	void		setAvComplexity(S32 complexity, F32 muted_percentage);
 
-	void setLandCredit(S32 credit);
-	void setLandCommitted(S32 committed);
+	void		setLandCredit(S32 credit);
+	void		setLandCommitted(S32 committed);
 
 	void		refresh() override;
-	void setVisibleForMouselook(bool visible);
-		// some elements should hide in mouselook
+	void		setVisibleForMouselook(bool visible);
+	// some elements should hide in mouselook
 
 	// ACCESSORS
 	S32			getBalance() const;
@@ -96,7 +97,6 @@ private:
 	void onMouseEnterAO();
 	void onMouseEnterVolume();
 	void onMouseEnterNearbyMedia();
-	void onClickScreen(S32 x, S32 y);
 
 	static void onClickAOBtn(void* data);
 	static void onClickVolume(void* data);
@@ -118,6 +118,7 @@ private:
 	LLButton	*mBtnVolume;
 	LLTextBox	*mBoxBalance;
 	LLButton	*mBtnBuyL;
+	LLIconCtrl	*mAvComplexity;
 	LLUICtrl	*mPanelFlycam;
 	LLButton	*mMediaToggle;
 	LLFrameTimer	mClockUpdateTimer;
@@ -133,6 +134,10 @@ private:
 	LLPanelAOPulldown* mPanelAOPulldown;
 	LLPanelVolumePulldown* mPanelVolumePulldown;
 	LLPanelNearByMedia*	mPanelNearByMedia;
+
+	LLPointer<LLUIImage> mImgAvComplex;
+	LLPointer<LLUIImage> mImgAvComplexWarn;
+	LLPointer<LLUIImage> mImgAvComplexHeavy;
 };
 
 // *HACK: Status bar owns your cached money balance. JC

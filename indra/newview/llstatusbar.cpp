@@ -113,11 +113,15 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 	mBtnVolume(nullptr),
 	mBoxBalance(nullptr),
 	mBtnBuyL(nullptr),
+	mAvComplexity(nullptr),
 	mPanelFlycam(nullptr),
 	mBalance(0),
 	mHealth(100),
 	mSquareMetersCredit(0),
 	mSquareMetersCommitted(0)
+,	mImgAvComplex(nullptr)
+,	mImgAvComplexWarn(nullptr)
+,	mImgAvComplexHeavy(nullptr)
 {
 	setRect(rect);
 	
@@ -126,6 +130,10 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 
 	mBalanceTimer = new LLFrameTimer();
 	mHealthTimer = new LLFrameTimer();
+
+	mImgAvComplex = LLUI::getUIImage("50_Ton_Weight");
+	mImgAvComplexWarn = LLUI::getUIImage("50_Ton_Weight_Warn");
+	mImgAvComplexHeavy = LLUI::getUIImage("50_Ton_Weight_Heavy");
 
 	buildFromFile("panel_status_bar.xml");
 }
@@ -192,6 +200,7 @@ BOOL LLStatusBar::postBuild()
 	mMediaToggle->setClickedCallback( &LLStatusBar::onClickMediaToggle, this );
 	mMediaToggle->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterNearbyMedia, this));
 	
+	mAvComplexity = getChild<LLIconCtrl>("av_complexity");
 	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
 	gSavedSettings.getControl("MuteAudio")->getSignal()->connect(boost::bind(&LLStatusBar::onVolumeChanged, this, _2));
@@ -385,10 +394,7 @@ void LLStatusBar::setBalance(S32 balance)
 
 	if (mBalance && (fabs((F32)(mBalance - balance)) > gSavedSettings.getF32("UISndMoneyChangeThreshold")))
 	{
-		if (mBalance > balance)
-			make_ui_sound("UISndMoneyChangeDown");
-		else
-			make_ui_sound("UISndMoneyChangeUp");
+		make_ui_sound(mBalance > balance ? "UISndMoneyChangeDown" : "UISndMoneyChangeUp");
 	}
 
 	if( balance != mBalance )
@@ -439,6 +445,18 @@ void LLStatusBar::setHealth(S32 health)
 	}
 
 	mHealth = health;
+}
+
+void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_percentage)
+{
+	if (muted_percentage >= 30.f)
+		mAvComplexity->setImage(mImgAvComplexWarn);
+	else if (muted_percentage >= 80.f)
+		mAvComplexity->setImage(mImgAvComplexHeavy);
+	else
+		mAvComplexity->setImage(mImgAvComplex);
+	mAvComplexity->setToolTipArg(LLStringExplicit("COMPLEXITY"), std::to_string(complexity));
+	mAvComplexity->setToolTipArg(LLStringExplicit("PERCENT"), std::to_string(muted_percentage));
 }
 
 S32 LLStatusBar::getBalance() const

@@ -67,16 +67,13 @@ LLFilePicker LLFilePicker::sInstance;
 #if LL_WINDOWS
 #define SOUND_FILTER L"Sounds (*.wav)\0*.wav\0"
 #define IMAGE_FILTER L"Images (*.tga; *.bmp; *.jpg; *.jpeg; *.png)\0*.tga;*.bmp;*.jpg;*.jpeg;*.png\0"
-#define ANIM_FILTER L"Animations (*.bvh; *.anim)\0*.bvh;*.anim\0"
-#define COLLADA_FILTER L"Scene (*.dae)\0*.dae\0"
-#ifdef _CORY_TESTING
-#define GEOMETRY_FILTER L"SL Geometry (*.slg)\0*.slg\0"
-#endif
+#define ANIM_FILTER L"Animations (*.bvh; *.anim; *.animatn)\0*.bvh;*.anim;*.animatn\0"
+#define COLLADA_FILTER L"Collada Scene (*.dae)\0*.dae\0"
+#define FBX_FILTER L"FBX Scene (*.fbx)\0*.fbx\0"
 #define XML_FILTER L"XML files (*.xml)\0*.xml\0"
-#define SLOBJECT_FILTER L"Objects (*.slobject)\0*.slobject\0"
 #define RAW_FILTER L"RAW files (*.raw)\0*.raw\0"
-#define MODEL_FILTER L"Model files (*.dae)\0*.dae\0"
-#define SCRIPT_FILTER L"Script files (*.lsl)\0*.lsl\0"
+#define MODEL_FILTER L"Model files (*.dae; *.fbx)\0*.dae;*.fbx\0"
+#define SCRIPT_FILTER L"Script files (*.lsl; *.lsltext)\0*;*.lsltext\0"
 #define DICTIONARY_FILTER L"Dictionary files (*.dic; *.xcu)\0*.dic;*.xcu\0"
 #define ZIP_FILTER L"ZIP files (*.zip)\0*.zip\0"
 #endif
@@ -210,18 +207,12 @@ BOOL LLFilePicker::setupFilter(ELoadFilter filter)
 		mOFN.lpstrFilter = COLLADA_FILTER \
 			L"\0";
 		break;
-#ifdef _CORY_TESTING
-	case FFLOAD_GEOMETRY:
-		mOFN.lpstrFilter = GEOMETRY_FILTER \
+	case FFLOAD_FBX:
+		mOFN.lpstrFilter = FBX_FILTER \
 			L"\0";
 		break;
-#endif
 	case FFLOAD_XML:
 		mOFN.lpstrFilter = XML_FILTER \
-			L"\0";
-		break;
-	case FFLOAD_SLOBJECT:
-		mOFN.lpstrFilter = SLOBJECT_FILTER \
 			L"\0";
 		break;
 	case FFLOAD_RAW:
@@ -395,7 +386,8 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 	if (!filename.empty())
 	{
 		llutf16string tstring = utf8str_to_utf16str(filename);
-		wcsncpy(mFilesW, tstring.c_str(), FILENAME_BUFFER_SIZE);	}	/*Flawfinder: ignore*/
+		wcsncpy(mFilesW, tstring.c_str(), FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
+	}	
 	else
 	{
 		mFilesW[0] = '\0';
@@ -408,8 +400,9 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 		mOFN.lpstrDefExt = nullptr;
 		mOFN.lpstrFilter =
 			L"All Files (*.*)\0*.*\0" \
-			L"WAV Sounds (*.wav)\0*.wav\0" \
-			L"Targa, Bitmap Images (*.tga; *.bmp)\0*.tga;*.bmp\0" \
+			SOUND_FILTER \
+			IMAGE_FILTER \
+			ANIM_FILTER \
 			L"\0";
 		break;
 	case FFSAVE_WAV:
@@ -498,18 +491,6 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 			L"XAF Anim File (*.xaf)\0*.xaf\0" \
 			L"\0";
 		break;
-#ifdef _CORY_TESTING
-	case FFSAVE_GEOMETRY:
-		if (filename.empty())
-		{
-			wcsncpy( mFilesW,L"untitled.slg", FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
-		}
-		mOFN.lpstrDefExt = L"slg";
-		mOFN.lpstrFilter =
-			L"SLG SL Geometry File (*.slg)\0*.slg\0" \
-			L"\0";
-		break;
-#endif
 	case FFSAVE_XML:
 		if (filename.empty())
 		{
@@ -535,12 +516,22 @@ BOOL LLFilePicker::getSaveFile(ESaveFilter filter, const std::string& filename)
 	case FFSAVE_COLLADA:
 		if (filename.empty())
 		{
-			wcsncpy( mFilesW,L"untitled.collada", FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
+			wcsncpy( mFilesW,L"untitled.dae", FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
 		}
 		mOFN.lpstrDefExt = L"collada";
 		mOFN.lpstrFilter =
-			L"COLLADA File (*.collada)\0*.collada\0" \
+			L"COLLADA Scene (*.dae)\0*.dae\0" \
 			L"\0";
+		break;
+	case FFSAVE_FBX:
+		if (filename.empty())
+		{
+			wcsncpy( mFilesW,L"untitled.fbx", FILENAME_BUFFER_SIZE);	/*Flawfinder: ignore*/
+		}
+		mOFN.lpstrDefExt = L"fbx";
+		mOFN.lpstrFilter =
+		L"FBX Scene (*.fbx)\0*.fbx\0" \
+		L"\0";
 		break;
 	case FFSAVE_RAW:
 		if (filename.empty())
@@ -611,12 +602,12 @@ std::vector<std::string> LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(
             allowedv.push_back("wav");
             allowedv.push_back("bvh");
             allowedv.push_back("anim");
+            allowedv.push_back("animatn");
             allowedv.push_back("dae");
             allowedv.push_back("raw");
             allowedv.push_back("lsl");
             allowedv.push_back("dic");
             allowedv.push_back("xcu");
-            allowedv.push_back("gif");
         case FFLOAD_IMAGE:
             allowedv.push_back("jpg");
             allowedv.push_back("jpeg");
@@ -625,6 +616,7 @@ std::vector<std::string> LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(
             allowedv.push_back("bmpf");
             allowedv.push_back("tpic");
             allowedv.push_back("png");
+            allowedv.push_back("gif");
             break;
         case FFLOAD_EXE:
             allowedv.push_back("app");
@@ -636,9 +628,13 @@ std::vector<std::string> LLFilePicker::navOpenFilterProc(ELoadFilter filter) //(
         case FFLOAD_ANIM:
             allowedv.push_back("bvh");
             allowedv.push_back("anim");
+            allowedv.push_back("animatn");
             break;
         case FFLOAD_COLLADA:
             allowedv.push_back("dae");
+            break;
+        case FFLOAD_FBX:
+            allowedv.push_back("fbx");
             break;
 #ifdef _CORY_TESTING
         case FFLOAD_GEOMETRY:
@@ -729,12 +725,12 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 		case FFSAVE_ANIM:
 			extension = "xaf";
 			break;
-
-#ifdef _CORY_TESTING
-		case FFSAVE_GEOMETRY:
-			extension = "slg";
+		case FFSAVE_COLLADA:
+			extension = "dae";
 			break;
-#endif
+		case FFSAVE_FBX:
+			extension = "fbx";
+			break;
 		case FFSAVE_XML:
 			extension = "xml";
 			break;
@@ -1261,6 +1257,16 @@ BOOL LLFilePicker::getSaveFile( ESaveFilter filter, const std::string& filename 
 		case FFSAVE_CSV:
 			caption += add_simple_pattern_filter_to_gtkchooser
 				(picker, "*.csv", LLTrans::getString("csv_files") + " (*.csv)");
+			break;
+		case FFSAVE_COLLADA:
+			caption += add_simple_pattern_filter_to_gtkchooser
+				(picker, "*.dae", LLTrans::getString("collada_file") + " (*.dae");
+			suggest_ext = ".dae";
+			break;
+		case FFSAVE_FBX:
+			caption += add_simple_pattern_filter_to_gtkchooser
+				(picker, "*.fbx", LLTrans::getString("fbx_file") + " (*.fbx");
+			suggest_ext = ".fbx";
 			break;
 		case FFSAVE_RAW:
 			caption += add_simple_pattern_filter_to_gtkchooser

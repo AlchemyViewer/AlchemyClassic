@@ -33,7 +33,6 @@
 // project includes
 #include "llagent.h"
 #include "llagentcamera.h"
-#include "llbvhloader.h"
 #include "llfilepicker.h"
 #include "llfloaterreg.h"
 #include "llbuycurrencyhtml.h"
@@ -186,12 +185,8 @@ void LLFilePickerThread::clearDead()
 #if LL_WINDOWS
 static std::string SOUND_EXTENSIONS = "wav";
 static std::string IMAGE_EXTENSIONS = "tga bmp jpg jpeg png";
-static std::string ANIM_EXTENSIONS =  "bvh anim";
-#ifdef _CORY_TESTING
-static std::string GEOMETRY_EXTENSIONS = "slg";
-#endif
+static std::string ANIM_EXTENSIONS =  "bvh anim animatn";
 static std::string XML_EXTENSIONS = "xml";
-static std::string SLOBJECT_EXTENSIONS = "slobject";
 #endif
 static std::string ALL_FILE_EXTENSIONS = "*.*";
 static std::string MODEL_EXTENSIONS = "dae";
@@ -207,14 +202,8 @@ std::string build_extensions_string(LLFilePicker::ELoadFilter filter)
 		return SOUND_EXTENSIONS;
 	case LLFilePicker::FFLOAD_ANIM:
 		return ANIM_EXTENSIONS;
-	case LLFilePicker::FFLOAD_SLOBJECT:
-		return SLOBJECT_EXTENSIONS;
 	case LLFilePicker::FFLOAD_MODEL:
 		return MODEL_EXTENSIONS;
-#ifdef _CORY_TESTING
-	case LLFilePicker::FFLOAD_GEOMETRY:
-		return GEOMETRY_EXTENSIONS;
-#endif
 	case LLFilePicker::FFLOAD_XML:
 	    return XML_EXTENSIONS;
     case LLFilePicker::FFLOAD_ALL:
@@ -239,8 +228,6 @@ const std::string upload_pick(void* data)
  	if( gAgentCamera.cameraMouselook() )
 	{
 		gAgentCamera.changeCameraToDefault();
-		// This doesn't seem necessary. JC
-		// display();
 	}
 
 	LLFilePicker::ELoadFilter type;
@@ -260,7 +247,6 @@ const std::string upload_pick(void* data)
 		return std::string();
 	}
 
-	
 	const std::string& filename = picker.getFirstFile();
 	std::string ext = gDirUtilp->getExtension(filename);
 
@@ -790,11 +776,7 @@ void upload_new_resource(
 		return ;
 	}
 
-//     uploadInfo->setAssetType(assetType);
-//     uploadInfo->setTransactionId(tid);
-
-
-	std::string url = gAgent.getRegion()->getCapability("NewFileAgentInventory");
+	const std::string url = gAgent.getRegion()->getCapability("NewFileAgentInventory");
 
 	if ( !url.empty() )
 	{
@@ -818,7 +800,7 @@ void upload_new_resource(
 				// insufficient funds, bail on this upload
 				LLStringUtil::format_map_t args;
 				args["NAME"] = uploadInfo->getName();
-                args["AMOUNT"] = llformat("%d", uploadInfo->getExpectedUploadCost());
+                args["AMOUNT"] = std::to_string(uploadInfo->getExpectedUploadCost());
                 LLBuyCurrencyHTML::openCurrencyFloater(LLTrans::getString("UploadingCosts", args), uploadInfo->getExpectedUploadCost());
 				return;
 			}

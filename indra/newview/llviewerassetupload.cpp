@@ -29,29 +29,32 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "linden_common.h"
-#include "llviewertexturelist.h"
+#include "llcoproceduremanager.h"
+#include "lldatapacker.h"
 #include "llimage.h"
-#include "lltrans.h"
-#include "lluuid.h"
-#include "llvorbisencode.h"
-#include "lluploaddialog.h"
-#include "llpreviewscript.h"
-#include "llnotificationsutil.h"
-#include "lleconomy.h"
-#include "llagent.h"
-#include "llfloaterreg.h"
-#include "llstatusbar.h"
-#include "llinventorypanel.h"
 #include "llsdutil.h"
-#include "llviewerassetupload.h"
+#include "lltrans.h"
+#include "llvorbisencode.h"
+
+#include "llagent.h"
 #include "llappviewer.h"
-#include "llviewerstats.h"
-#include "llvfile.h"
+#include "llbvhloader.h"
+#include "lleconomy.h"
+#include "llfloaterreg.h"
 #include "llgesturemgr.h"
+#include "llinventorypanel.h"
+#include "llnotificationsutil.h"
 #include "llpreviewnotecard.h"
 #include "llpreviewgesture.h"
-#include "llcoproceduremanager.h"
+#include "llpreviewscript.h"
+#include "llstatusbar.h"
+#include "lluploaddialog.h"
+#include "llvfile.h"
+#include "llviewerassetupload.h"
+#include "llviewermenufile.h"
+#include "llviewerstats.h"
+#include "llviewertexturelist.h"
+#include "llvoavatarself.h"
 
 void dialog_refresh_all();
 
@@ -412,13 +415,85 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
             error = true;
         }
     }
+	else if (exten == "ogg")
+	{
+		assetType = LLAssetType::AT_SOUND;
+		filename = getFileName();
+	}
     else if (exten == "bvh")
     {
-        errorMessage = llformat("We do not currently support bulk upload of animation files\n");
-        errorLabel = "DoNotSupportBulkAnimationUpload";
-        error = true;
+		assetType = LLAssetType::AT_ANIMATION;
+
+		LLBVHLoader* loaderp = nullptr;
+		LLAPRFile infile;
+		S32 file_size;
+		
+		infile.open(getFileName(), LL_APR_RB, nullptr, &file_size);
+		if (!infile.getFileHandle())
+		{
+			LL_WARNS() << "Can't open BVH file:" << getFileName() << LL_ENDL;
+		}
+		else
+		{
+			char* file_buffer = new char[file_size + 1];
+			if (infile.read(file_buffer, file_size) == file_size)
+			{
+				file_buffer[file_size] = '\0';
+				LL_INFOS() << "Loading BVH file " << getFileName() << LL_ENDL;
+				ELoadStatus load_status = E_ST_OK;
+				S32 line_number = 0;
+
+				// *HACK: Thanks Avastar for forcing this sanity crap! -_-
+				auto joint_alias_map = gAgentAvatarp->getJointAliases();
+				loaderp = new LLBVHLoader(file_buffer, load_status, line_number, joint_alias_map);
+
+				if (load_status == E_ST_NO_XLT_FILE)
+				{
+					LL_WARNS() << "NOTE: No translation table found." << LL_ENDL;
+				}
+				else
+				{
+					LL_WARNS() << "ERROR: [line: " << line_number << "] " << BVHSTATUS[load_status] << LL_ENDL;
+				}
+
+			}
+			infile.close();
+			delete[] file_buffer;	
+		}
+		if (loaderp && loaderp->isInitialized())
+		{
+			if (loaderp->getDuration() <= MAX_ANIM_DURATION)
+			{
+				U32 buffer_size = loaderp->getOutputSize();
+				U8* buffer = new U8[buffer_size];
+
+				LLDataPackerBinaryBuffer dp(buffer, buffer_size);
+
+				LL_INFOS("BVH") << "Serializing loaderp" << LL_ENDL;
+				loaderp->serialize(dp);
+				LLAPRFile apr_file(filename, LL_APR_WB);
+				apr_file.write(buffer, buffer_size);
+				apr_file.close();
+				delete[] buffer;
+			}
+			else
+			{
+				// *TODO: UI notification
+				LL_WARNS() << "Animation too long!" << LL_ENDL;
+			}
+		}
+		else
+		{
+			// *TODO: UI notification
+			LL_WARNS() << "Failed file read. Cannot upload animation!" << LL_ENDL;
+		}
+		if (loaderp != nullptr)
+		{
+			delete loaderp;
+			loaderp = nullptr;
+		}
     }
-    else if (exten == "anim")
+    else if (exten == "anim" || exten == "animatn")
     {
         assetType = LLAssetType::AT_ANIMATION;
         filename = getFileName();

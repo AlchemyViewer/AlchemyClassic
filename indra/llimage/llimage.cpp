@@ -1727,8 +1727,8 @@ typedef struct
 {
 	const char* exten;
 	EImageCodec codec;
-} thingy_t;
-static std::array <thingy_t, 10> file_extensions{{
+} exten_codec_t;
+static std::array <exten_codec_t, 10> file_extensions{{
 	{ "bmp", IMG_CODEC_BMP },
 	{ "tga", IMG_CODEC_TGA },
 	{ "j2c", IMG_CODEC_J2C },
@@ -1744,7 +1744,7 @@ static std::array <thingy_t, 10> file_extensions{{
 static std::string find_file(std::string &name, S8 *codec)
 {
 	std::string tname;
-	for (thingy_t thingo : file_extensions)
+	for (exten_codec_t thingo : file_extensions)
 	{
 		tname = name + "." + std::string(thingo.exten);
 		llifstream ifs(tname.c_str(), llifstream::binary);
@@ -1761,7 +1761,7 @@ static std::string find_file(std::string &name, S8 *codec)
 #endif
 EImageCodec LLImageBase::getCodecFromExtension(const std::string& exten)
 {
-	for (const thingy_t item : file_extensions)
+	for (const exten_codec_t item : file_extensions)
 	{
 		if (exten == item.exten)
 			return item.codec;

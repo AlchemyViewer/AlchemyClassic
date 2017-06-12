@@ -70,7 +70,7 @@ class LLAvatarRenderNotifier : public LLSingleton<LLAvatarRenderNotifier>
 	LLSINGLETON(LLAvatarRenderNotifier);
 
 public:
-    void displayNotification(bool show_over_limit);
+    void triggerNotification(bool show_over_limit);
 	bool isNotificationVisible();
 
 	void updateNotificationRegion(U32 agentcount, U32 overLimit);

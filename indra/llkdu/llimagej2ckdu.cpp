@@ -187,7 +187,7 @@ public:
 		// const kdu_uint16* to a std::ostream will display only the hex value
 		// of the pointer.
 		LL_INFOS() << "KDU " << mType << ": "
-				   << utf16str_to_utf8str(llutf16string(s)) << LL_ENDL;
+				   << utf16str_to_utf8str(llutf16string((utf16strtype*) s)) << LL_ENDL;
 	}
 
 private:
@@ -233,7 +233,7 @@ struct LLKDUMessageError : public LLKDUMessage
 		// shutdown will NOT engage the behavior described above.
 		if (end_of_message) 
 		{
-			LLTHROW(KDUError("LLKDUMessageError::flush()"));
+			//LLTHROW(KDUError("LLKDUMessageError::flush()"));
 		}
 	}
 };
@@ -567,7 +567,7 @@ bool LLImageJ2CKDU::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 deco
 					kdu_coords offset = tile_dims.pos - dims.pos;
 					int row_gap = channels*dims.size.x; // inter-row separation
 					kdu_byte *buf = buffer + offset.y*row_gap + offset.x*channels;
-					mDecodeState.reset(new LLKDUDecodeState(tile, buf, row_gap));
+					mDecodeState.reset(new LLKDUDecodeState(tile, buf, row_gap, *mCodeStreamp.get()));
 				}
 				// Do the actual processing
 				F32 remaining_time = decode_time - decode_timer.getElapsedTimeF32();

@@ -233,7 +233,7 @@ struct LLKDUMessageError : public LLKDUMessage
 		// shutdown will NOT engage the behavior described above.
 		if (end_of_message) 
 		{
-			//LLTHROW(KDUError("LLKDUMessageError::flush()"));
+			LLTHROW(KDUError("LLKDUMessageError::flush()"));
 		}
 	}
 };

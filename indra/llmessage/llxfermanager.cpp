@@ -632,7 +632,6 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 
 	if (!xferp) 
 	{
-		char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
 		LL_INFOS() << "received xfer data from " << mesgsys->getSender()
 			<< " for non-existent xfer id: "
 			<< std::to_string(id) << LL_ENDL;
@@ -818,7 +817,6 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	mesgsys->getBOOL("XferID", "UseBigPackets", b_use_big_packets);
 	
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
-	char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
 	LL_INFOS() << "xfer request id: " << std::to_string(id)
 		   << " to " << mesgsys->getSender() << LL_ENDL;
 

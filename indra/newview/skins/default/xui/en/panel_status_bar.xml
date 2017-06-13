@@ -42,8 +42,8 @@
  layout="topleft"
  orientation="horizontal"
  height="18"
- left="-408"
- width="408"
+ left="-424"
+ width="424"
  top="0"
  follows="right|top"
  name="status_ls">
@@ -198,6 +198,26 @@
      mouse_opaque="true"
      name="flycam_indicator"
      tool_tip="Flycam"
+     left="0"
+     top="1"/>
+  </layout_panel>
+  <layout_panel
+   visibility_control="ShowStatusBarComplexity"
+   auto_resize="false"
+   user_resize="false"
+   follows="top|right"
+   height="18"
+   visible="true"
+   layout="topleft"
+   name="av_complexity_lp"
+   width="18">
+    <icon
+     height="18"
+     width="18"
+     image_name="50_Ton_Weight"
+     mouse_opaque="true"
+     name="av_complexity"
+     tool_tip="Avatar Complexity: [COMPLEXITY] Unseen by: [PERCENT]%"
      left="0"
      top="1"/>
   </layout_panel>

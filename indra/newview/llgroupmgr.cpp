@@ -2219,7 +2219,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 	BOOL		is_owner;
 
 	// Compute this once, rather than every time.
-	U64	default_powers	= llstrtou64(defaults["default_powers"].asString().c_str(), nullptr, 16);
+	U64	default_powers	= std::strtoull(defaults["default_powers"].asString().c_str(), nullptr, 16);
 
 	LLSD::map_const_iterator member_iter_start	= member_list.beginMap();
 	LLSD::map_const_iterator member_iter_end	= member_list.endMap();
@@ -2248,7 +2248,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 			title = titles[member_info["title"].asInteger()].asString();
 
 		if(member_info.has("powers"))
-			member_powers = llstrtou64(member_info["powers"].asString().c_str(), nullptr, 16);
+			member_powers = std::strtoull(member_info["powers"].asString().c_str(), nullptr, 16);
 
 		if(member_info.has("donated_square_meters"))
 			contribution = member_info["donated_square_meters"];

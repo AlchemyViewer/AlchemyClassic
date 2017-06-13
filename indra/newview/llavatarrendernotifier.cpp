@@ -28,12 +28,10 @@
  * $/LicenseInfo$
  */
 
-// Pre-compiled headers
 #include "llviewerprecompiledheaders.h"
-// STL headers
-// std headers
-// external library headers
-// other Linden headers
+
+#include "llavatarrendernotifier.h"
+#include "llagentcamera.h"
 #include "llagentwearables.h"
 #include "llappearancemgr.h"
 #include "llattachmentsmgr.h"
@@ -41,16 +39,14 @@
 #include "llnotificationsutil.h"
 #include "llnotificationtemplate.h"
 #include "llslurl.h"
+#include "llstatusbar.h" // gStatusBar
 #include "lltimer.h"
 #include "llvoavatarself.h"
 #include "llviewercontrol.h"
 #include "lltrans.h"
-#include "llagentcamera.h"
-// associated header
-#include "llavatarrendernotifier.h"
 
 // when change exceeds this ration, notification is shown
-static const F32 RENDER_ALLOWED_CHANGE_PCT = 0.1;
+static const F32 RENDER_ALLOWED_CHANGE_PCT = 0.1f;
 // wait seconds before processing over limit updates after last complexity change
 static const U32 OVER_LIMIT_UPDATE_DELAY = 70;
 
@@ -87,19 +83,19 @@ std::string LLAvatarRenderNotifier::overLimitMessage()
     static const char* anyone = "av_render_anyone";
 
     std::string message;
-    if ( mLatestOverLimitPct >= 99.0 )
+    if ( mLatestOverLimitPct >= 99.f )
     {
         message = anyone;
     }
-    else if ( mLatestOverLimitPct >= 75.0 )
+    else if ( mLatestOverLimitPct >= 75.f )
     {
         message = most;
     }
-    else if ( mLatestOverLimitPct >= 50.0 )
+    else if ( mLatestOverLimitPct >= 50.f )
     {
         message = over_half;
     }
-    else if ( mLatestOverLimitPct > 10.0 )
+    else if ( mLatestOverLimitPct > 10.f )
     {
         message = not_everyone;
     }
@@ -111,8 +107,9 @@ std::string LLAvatarRenderNotifier::overLimitMessage()
     return LLTrans::getString(message);
 }
 
-void LLAvatarRenderNotifier::displayNotification(bool show_over_limit)
+void LLAvatarRenderNotifier::triggerNotification(bool show_over_limit)
 {
+	gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct);
     mAgentComplexity = mLatestAgentComplexity;
     mShowOverLimitAgents = show_over_limit;
 	static LLCachedControl<U32> expire_delay(gSavedSettings, "ShowMyComplexityChanges", 20);
@@ -163,18 +160,18 @@ bool LLAvatarRenderNotifier::isNotificationVisible()
 	return mNotificationPtr != nullptr && mNotificationPtr->isActive();
 }
 
-void LLAvatarRenderNotifier::updateNotificationRegion(U32 agentcount, U32 overLimit)
+void LLAvatarRenderNotifier::updateNotificationRegion(U32 agent_count, U32 over_limit)
 {
-	if (agentcount == 0)
+	if (agent_count == 0)
 	{
 		// Data not ready
 		return;
 	}
 
 	// save current values for later use
-	mLatestAgentsCount = agentcount > overLimit ? agentcount - 1 : agentcount; // subtract self
-	mLatestOverLimitAgents = overLimit;
-	mLatestOverLimitPct = mLatestAgentsCount != 0 ? ((F32)overLimit / (F32)mLatestAgentsCount) * 100.0 : 0;
+	mLatestAgentsCount = agent_count > over_limit ? agent_count - 1 : agent_count; // subtract self
+	mLatestOverLimitAgents = over_limit;
+	mLatestOverLimitPct = (mLatestAgentsCount == 0 ? 0 : (100.f * over_limit) / mLatestAgentsCount);
 
     if (mAgentsCount == mLatestAgentsCount
         && mOverLimitAgents == mLatestOverLimitAgents)
@@ -189,7 +186,7 @@ void LLAvatarRenderNotifier::updateNotificationRegion(U32 agentcount, U32 overLi
         )
     {
         // display in case of drop to/from zero and in case of significant (RENDER_ALLOWED_CHANGE_PCT) changes
-        displayNotification(true);
+        triggerNotification(true);
 
         // default timeout before next notification
         static LLCachedControl<U32> pop_up_delay(gSavedSettings, "ComplexityChangesPopUpDelay", 300);
@@ -258,6 +255,7 @@ void LLAvatarRenderNotifier::updateNotificationAgent(U32 agentComplexity)
         {
             // avatar or outfit not ready
             mAgentComplexity = mLatestAgentComplexity;
+			gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct);
             return;
         }
     }
@@ -265,7 +263,7 @@ void LLAvatarRenderNotifier::updateNotificationAgent(U32 agentComplexity)
     if (mAgentComplexity != mLatestAgentComplexity)
     {
         // if we have an agent complexity change, we always display it and hide 'over limit'
-        displayNotification(false);
+        triggerNotification(false);
 
         // next 'over limit' update should be displayed after delay to make sure information got updated at server side
         mPopUpDelayTimer.resetWithExpiry(OVER_LIMIT_UPDATE_DELAY);
@@ -307,12 +305,9 @@ void LLHUDRenderNotifier::updateNotificationHUD(hud_complexity_list_t complexity
     LLHUDComplexity new_total_complexity;
     LLHUDComplexity report_complexity;
 
-    hud_complexity_list_t::iterator iter = complexity.begin();
-    hud_complexity_list_t::iterator end = complexity.end();
     EWarnLevel warning_level = WARN_NONE;
-    for (; iter != end; ++iter)
+	for (auto object_complexity : complexity)
     {
-        LLHUDComplexity object_complexity = *iter;
         EWarnLevel object_level = getWarningType(object_complexity, report_complexity);
         if (object_level >= 0)
         {
@@ -408,9 +403,9 @@ LLHUDRenderNotifier::EWarnLevel LLHUDRenderNotifier::getWarningType(LLHUDComplex
         return WARN_MEMORY;
     }
     else if ((cmp_complexity.objectsCost < object_complexity.objectsCost
-        || cmp_complexity.texturesCost < object_complexity.texturesCost)
-        && max_render_cost > 0
-        && object_complexity.objectsCost + object_complexity.texturesCost > max_render_cost)
+             || cmp_complexity.texturesCost < object_complexity.texturesCost)
+            && max_render_cost > 0
+            && object_complexity.objectsCost + object_complexity.texturesCost > max_render_cost)
     {
         LL_DEBUGS("HUDdetail") << "HUD " << object_complexity.objectName << " complexity over limit,"
             << " HUD textures cost: " << object_complexity.texturesCost

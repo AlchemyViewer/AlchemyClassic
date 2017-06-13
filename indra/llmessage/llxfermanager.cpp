@@ -635,7 +635,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 		char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
 		LL_INFOS() << "received xfer data from " << mesgsys->getSender()
 			<< " for non-existent xfer id: "
-			<< U64_to_str(id, U64_BUF, sizeof(U64_BUF)) << LL_ENDL;
+			<< std::to_string(id) << LL_ENDL;
 		return;
 	}
 
@@ -819,7 +819,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
 	char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
-	LL_INFOS() << "xfer request id: " << U64_to_str(id, U64_BUF, sizeof(U64_BUF))
+	LL_INFOS() << "xfer request id: " << std::to_string(id)
 		   << " to " << mesgsys->getSender() << LL_ENDL;
 
 	mesgsys->getStringFast(_PREHASH_XferID, _PREHASH_Filename, local_filename);
@@ -940,7 +940,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	{
 		char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
 		LL_INFOS() << "starting memory transfer: "
-			<< U64_to_str(id, U64_BUF, sizeof(U64_BUF)) << " to "
+			<< std::to_string(id) << " to "
 			<< mesgsys->getSender() << LL_ENDL;
 
 		xferp = findXfer(id, mSendList);

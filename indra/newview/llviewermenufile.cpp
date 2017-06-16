@@ -85,9 +85,7 @@ class LLFileEnableUpload : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata)
 	{
-        return true;
-// 		bool new_value = gStatusBar && LLGlobalEconomy::getInstance() && (gStatusBar->getBalance() >= LLGlobalEconomy::getInstance()->getPriceUpload());
-// 		return new_value;
+ 		return gStatusBar && LLGlobalEconomy::getInstance() && (gStatusBar->getBalance() >= LLGlobalEconomy::getInstance()->getPriceUpload());
 	}
 };
 

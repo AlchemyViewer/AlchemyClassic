@@ -344,7 +344,7 @@ void* LLPluginMessage::getValuePointer(const std::string &key) const
 	{
 		std::string value = mMessage["params"][key].asString();
 		
-		result = (void*) std::strtoull(value.c_str(), nullptr, 16);
+		result = (void*) std::stoull(value, nullptr, 16);
 	}
 	
 	return result;

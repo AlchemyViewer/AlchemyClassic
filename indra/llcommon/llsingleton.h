@@ -25,13 +25,12 @@
 #ifndef LLSINGLETON_H
 #define LLSINGLETON_H
 
-#include <boost/noncopyable.hpp>
 #include <boost/unordered_set.hpp>
 #include <list>
 #include <vector>
 #include <typeinfo>
 
-class LLSingletonBase: private boost::noncopyable
+class LLSingletonBase
 {
 public:
     class MasterList;
@@ -77,6 +76,9 @@ protected:
     template <typename DERIVED_TYPE>
     LLSingletonBase(tag<DERIVED_TYPE>);
     virtual ~LLSingletonBase();
+
+    LLSingletonBase(const LLSingletonBase&) = delete;
+    LLSingletonBase& operator=(const LLSingletonBase&) = delete;
 
     // Every new LLSingleton should be added to/removed from the master list
     void add_master();

@@ -68,7 +68,7 @@ class HttpService;
 /// via queue-like interfaces that are thread compatible
 /// and those interfaces establish the access rules.
 
-class HttpOperation : private boost::noncopyable,
+class HttpOperation :
     public boost::enable_shared_from_this<HttpOperation>
 {
 public:
@@ -82,6 +82,9 @@ public:
 	/// Threading:  called by any thread.
 	virtual ~HttpOperation();							// Use release()
 
+protected:
+	HttpOperation(const HttpOperation&) = delete;
+	HttpOperation& operator=(const HttpOperation&) = delete;
 
 public:
 	/// Register a reply queue and a handler for completion notifications.

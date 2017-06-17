@@ -46,7 +46,7 @@ static std::map<std::string, U32> DefaultPoolSizes =
 #define DEFAULT_POOL_SIZE 5
 
 //=========================================================================
-class LLCoprocedurePool: private boost::noncopyable
+class LLCoprocedurePool
 {
 public:
     typedef LLCoprocedureManager::CoProcedure_t CoProcedure_t;
@@ -54,6 +54,11 @@ public:
     LLCoprocedurePool(const std::string &name, size_t size);
     virtual ~LLCoprocedurePool();
 
+protected:
+	LLCoprocedurePool(const LLCoprocedurePool&) = delete;
+	LLCoprocedurePool& operator=(const LLCoprocedurePool&) = delete;
+
+public:
     /// Places the coprocedure on the queue for processing. 
     /// 
     /// @param name Is used for debugging and should identify this coroutine.

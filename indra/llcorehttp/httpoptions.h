@@ -55,7 +55,7 @@ namespace LLCore
 /// Allocation:  Refcounted, heap only.  Caller of the constructor
 /// is given a refcount.
 ///
-class HttpOptions : private boost::noncopyable
+class HttpOptions
 {
 public:
 	HttpOptions();
@@ -67,7 +67,7 @@ public:
 protected:
 	
 	HttpOptions(const HttpOptions &) = delete;			// Not defined
-	void operator=(const HttpOptions &) = delete;		// Not defined
+	HttpOptions& operator=(const HttpOptions&) = delete;		// Not defined
 
 public:
 

@@ -30,8 +30,6 @@
 #include "llviewerprecompiledheaders.h" // must be first include
 #include "lloutfitgallery.h"
 
-#include <boost/foreach.hpp>
-
 // llcommon
 #include "llcommonutils.h"
 #include "llvfile.h"
@@ -992,7 +990,7 @@ void LLOutfitGallery::refreshOutfit(const LLUUID& category_id)
             sub_cat_array,
             outfit_item_array,
             LLInventoryModel::EXCLUDE_TRASH);
-        BOOST_FOREACH(LLViewerInventoryItem* outfit_item, outfit_item_array)
+        for (LLViewerInventoryItem* outfit_item : outfit_item_array)
         {
             LLViewerInventoryItem* linked_item = outfit_item->getLinkedItem();
             if (linked_item != NULL && linked_item->getActualType() == LLAssetType::AT_TEXTURE)
@@ -1011,7 +1009,7 @@ void LLOutfitGallery::refreshOutfit(const LLUUID& category_id)
                     updates["name"] = new_name;
                     update_inventory_item(linked_item->getUUID(), updates, NULL);
                     mOutfitRenamePending.setNull();
-                    LLFloater* inv_floater = LLFloaterReg::getInstance("inventory");
+                    LLFloater* inv_floater = LLFloaterReg::findInstance("inventory");
                     if (inv_floater)
                     {
                         inv_floater->closeFloater();
@@ -1053,7 +1051,7 @@ void LLOutfitGallery::refreshTextures(const LLUUID& category_id)
 
     //Find texture which contain pending outfit ID string in name
     LLViewerInventoryItem* photo_upload_item = NULL;
-    BOOST_FOREACH(LLViewerInventoryItem* item, item_array)
+    for (LLViewerInventoryItem* item : item_array)
     {
         std::string name = item->getName();
         if (!mOutfitLinkPending.isNull() && name == mOutfitLinkPending.asString())

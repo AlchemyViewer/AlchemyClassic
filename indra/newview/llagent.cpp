@@ -3938,7 +3938,7 @@ bool LLAgent::teleportCore(bool is_local)
 
 	// minimize the Search floater (STORM-1474)
 	{
-		LLFloater* instance = LLFloaterReg::getInstance("search");
+		LLFloater* instance = LLFloaterReg::findInstance("search");
 
 		if (instance && instance->getVisible())
 		{

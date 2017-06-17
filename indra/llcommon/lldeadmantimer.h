@@ -105,7 +105,7 @@ public:
 	
 private:
 	LLDeadmanTimer(const LLDeadmanTimer &) = delete;				// Not defined
-	void operator=(const LLDeadmanTimer &) = delete;				// Not defined
+	LLDeadmanTimer& operator=(const LLDeadmanTimer &) = delete;		// Not defined
 
 public:
 	/// Get the current time.  Zero-basis for this time

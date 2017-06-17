@@ -92,7 +92,7 @@ public:
 
 	protected:
 		FetchItemHttpHandler(const FetchItemHttpHandler &) = delete;				// Not defined
-		void operator=(const FetchItemHttpHandler &) = delete;					// Not defined
+		FetchItemHttpHandler& operator=(const FetchItemHttpHandler &) = delete;		// Not defined
 
 	public:
 		void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;

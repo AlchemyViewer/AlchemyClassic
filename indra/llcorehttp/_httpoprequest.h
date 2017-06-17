@@ -74,7 +74,7 @@ public:
 
 private:
 	HttpOpRequest(const HttpOpRequest &) = delete;				// Not defined
-	void operator=(const HttpOpRequest &) = delete;				// Not defined
+	HttpOpRequest& operator=(const HttpOpRequest &) = delete;	// Not defined
 
 public:
 	enum EMethod

@@ -57,8 +57,8 @@ protected:
 	virtual ~HttpRequestQueue();						// Use release()
 
 private:
-	HttpRequestQueue(const HttpRequestQueue &) = delete;			// Not defined
-	void operator=(const HttpRequestQueue &) = delete;			// Not defined
+	HttpRequestQueue(const HttpRequestQueue &) = delete;				// Not defined
+	HttpRequestQueue& operator=(const HttpRequestQueue &) = delete;		// Not defined
 
 public:
     typedef boost::shared_ptr<HttpOperation> opPtr_t;

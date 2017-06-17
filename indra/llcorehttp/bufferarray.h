@@ -80,8 +80,8 @@ protected:
 	virtual ~BufferArray();						// Use release()
 
 private:
-	BufferArray(const BufferArray &) = delete;			// Not defined
-	void operator=(const BufferArray &) = delete;		// Not defined
+	BufferArray(const BufferArray &) = delete;				// Not defined
+	BufferArray& operator=(const BufferArray &) = delete;	// Not defined
 
 public:
 	// Internal magic number, may be used by unit tests.

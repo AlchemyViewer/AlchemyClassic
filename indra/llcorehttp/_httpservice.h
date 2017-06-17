@@ -86,8 +86,8 @@ protected:
 	virtual ~HttpService();
 
 private:
-	HttpService(const HttpService &) = delete;			// Not defined
-	void operator=(const HttpService &) = delete;		// Not defined
+	HttpService(const HttpService &) = delete;				// Not defined
+	HttpService& operator=(const HttpService &) = delete;	// Not defined
 
 public:
 	enum EState

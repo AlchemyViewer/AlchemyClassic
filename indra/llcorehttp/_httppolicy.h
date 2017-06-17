@@ -57,7 +57,7 @@ public:
 
 private:
 	HttpPolicy(const HttpPolicy &) = delete;				// Not defined
-	void operator=(const HttpPolicy &) = delete;			// Not defined
+	HttpPolicy& operator=(const HttpPolicy &) = delete;		// Not defined
 
 public:
     typedef boost::shared_ptr<HttpOpRequest> opReqPtr_t;

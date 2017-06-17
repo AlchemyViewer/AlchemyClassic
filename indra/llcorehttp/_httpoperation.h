@@ -229,7 +229,7 @@ public:
 
 private:
 	HttpOpStop(const HttpOpStop &) = delete;					// Not defined
-	void operator=(const HttpOpStop &) = delete;				// Not defined
+	HttpOpStop& operator=(const HttpOpStop &) = delete;			// Not defined
 
 public:
 	void stageFromRequest(HttpService *) override;
@@ -251,7 +251,7 @@ public:
 
 private:
 	HttpOpNull(const HttpOpNull &) = delete;					// Not defined
-	void operator=(const HttpOpNull &) = delete;				// Not defined
+	HttpOpNull& operator=(const HttpOpNull &) = delete;			// Not defined
 
 public:
 	void stageFromRequest(HttpService *) override;
@@ -273,7 +273,7 @@ public:
 
 private:
 	HttpOpSpin(const HttpOpSpin &) = delete;					// Not defined
-	void operator=(const HttpOpSpin &) = delete;				// Not defined
+	HttpOpSpin& operator=(const HttpOpSpin &) = delete;			// Not defined
 
 public:
 	void stageFromRequest(HttpService *) override;

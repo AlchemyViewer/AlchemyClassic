@@ -54,7 +54,7 @@ private:
 	LLProcInfo() = delete;										// Not defined
 	~LLProcInfo() = delete;										// Not defined
 	LLProcInfo(const LLProcInfo &) = delete;					// Not defined
-	void operator=(const LLProcInfo &) = delete;				// Not defined
+	LLProcInfo& operator=(const LLProcInfo &) = delete;			// Not defined
 
 public:
 	/// Get accumulated system and user CPU time in

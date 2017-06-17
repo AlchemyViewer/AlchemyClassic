@@ -61,8 +61,8 @@ public:
 	virtual ~HttpLibcurl();
 
 private:
-	HttpLibcurl(const HttpLibcurl &) = delete;			// Not defined
-	void operator=(const HttpLibcurl &) = delete;		// Not defined
+	HttpLibcurl(const HttpLibcurl &) = delete;				// Not defined
+	HttpLibcurl& operator=(const HttpLibcurl &) = delete;	// Not defined
 
 public:
     typedef boost::shared_ptr<HttpOpRequest> opReqPtr_t;
@@ -180,7 +180,7 @@ protected:
 
 	private:
 		HandleCache(const HandleCache &) = delete;				// Not defined
-		void operator=(const HandleCache &) = delete;			// Not defined
+		HandleCache& operator=(const HandleCache &) = delete;	// Not defined
 
 	public:
 		/// Allocate a curl handle for caller.  May be freed using

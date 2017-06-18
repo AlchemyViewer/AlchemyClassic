@@ -39,7 +39,6 @@
 
 #include "llcombobox.h"
 #include "llfiltereditor.h"
-#include "llfirstuse.h"
 #include "llfloaterreg.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llmenubutton.h"
@@ -52,10 +51,8 @@
 
 #include "llagent.h"
 #include "llagentpicksinfo.h"
-#include "llavatarpropertiesprocessor.h"
 #include "llcommandhandler.h"
 #include "llfloaterworldmap.h"
-#include "llinventorybridge.h"
 #include "llinventoryobserver.h"
 #include "llinventorymodel.h"
 #include "lllandmarkactions.h"
@@ -91,7 +88,7 @@ public:
 	// requires trusted browser to trigger
 	LLParcelHandler() : LLCommandHandler("parcel", UNTRUSTED_THROTTLE) { }
 	bool handle(const LLSD& params, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{		
 		if (params.size() < 2)
 		{
@@ -138,7 +135,7 @@ public:
 		mPlaces(places_panel)
 	{}
 
-	/*virtual*/ void changed()
+	void changed() override
 	{
 		if (mPlaces)
 			mPlaces->changedParcelSelection();
@@ -155,7 +152,7 @@ public:
 		mPlaces(places_panel)
 	{}
 
-	/*virtual*/ void changed(U32 mask)
+	void changed(U32 mask) override
 	{
 		LLInventoryAddedObserver::changed(mask);
 
@@ -166,7 +163,7 @@ public:
 	}
 
 protected:
-	/*virtual*/ void done()
+	void done() override
 	{
 		mPlaces->showAddedLandmarkInfo(gInventory.getAddedIDs());
 	}
@@ -186,16 +183,14 @@ public:
 	~LLPlacesRemoteParcelInfoObserver()
 	{
 		// remove any in-flight observers
-		std::set<LLUUID>::iterator it;
-		for (it = mParcelIDs.begin(); it != mParcelIDs.end(); ++it)
+		for (auto const& id : mParcelIDs)
 		{
-			const LLUUID &id = *it;
 			LLRemoteParcelInfoProcessor::getInstance()->removeObserver(id, this);
 		}
 		mParcelIDs.clear();
 	}
 
-	/*virtual*/ void processParcelInfo(const LLParcelData& parcel_data)
+	void processParcelInfo(const LLParcelData& parcel_data) override
 	{
 		if (mPlaces)
 		{
@@ -207,7 +202,7 @@ public:
 		mParcelIDs.erase(parcel_data.parcel_id);
 		LLRemoteParcelInfoProcessor::getInstance()->removeObserver(parcel_data.parcel_id, this);
 	}
-	/*virtual*/ void setParcelID(const LLUUID& parcel_id)
+	void setParcelID(const LLUUID& parcel_id) override
 	{
 		if (!parcel_id.isNull())
 		{
@@ -216,7 +211,7 @@ public:
 			LLRemoteParcelInfoProcessor::getInstance()->sendParcelInfoRequest(parcel_id);
 		}
 	}
-	/*virtual*/ void setErrorStatus(S32 status, const std::string& reason)
+	void setErrorStatus(S32 status, const std::string& reason) override
 	{
 		LL_ERRS() << "Can't complete remote parcel request. Http Status: "
 			   << status << ". Reason : " << reason << LL_ENDL;
@@ -232,14 +227,14 @@ static LLPanelInjector<LLPanelPlaces> t_places("panel_places");
 
 LLPanelPlaces::LLPanelPlaces()
 	:	LLPanel(),
-		mActivePanel(NULL),
-		mFilterEditor(NULL),
-		mPlaceProfile(NULL),
-		mLandmarkInfo(NULL),
-		mPickPanel(NULL),
-		mItem(NULL),
-		mPlaceMenu(NULL),
-		mLandmarkMenu(NULL),
+		mFilterEditor(nullptr),
+		mActivePanel(nullptr),
+		mPlaceProfile(nullptr),
+		mLandmarkInfo(nullptr),
+		mPickPanel(nullptr),
+		mPlaceMenu(nullptr),
+		mLandmarkMenu(nullptr),
+		mItem(nullptr),
 		mPosGlobal(),
 		isLandmarkEditModeOn(false),
 		mTabsCreated(false)
@@ -348,7 +343,7 @@ BOOL LLPanelPlaces::postBuild()
 	mLandmarkInfo->getChild<LLButton>("back_btn")->setClickedCallback(boost::bind(&LLPanelPlaces::onBackButtonClicked, this));
 
 	LLLineEditor* title_editor = mLandmarkInfo->getChild<LLLineEditor>("title_editor");
-	title_editor->setKeystrokeCallback(boost::bind(&LLPanelPlaces::onEditButtonClicked, this), NULL);
+	title_editor->setKeystrokeCallback(boost::bind(&LLPanelPlaces::onEditButtonClicked, this), nullptr);
 
 	LLTextEditor* notes_editor = mLandmarkInfo->getChild<LLTextEditor>("notes_editor");
 	notes_editor->setKeystrokeCallback(boost::bind(&LLPanelPlaces::onEditButtonClicked, this));
@@ -395,7 +390,7 @@ void LLPanelPlaces::onOpen(const LLSD& key)
 
 			mPlaceInfoType = key_type;
 			mPosGlobal.setZero();
-			mItem = NULL;
+			mItem = nullptr;
 			togglePlaceInfoPanel(TRUE);
 
 			if (mPlaceInfoType == AGENT_INFO_TYPE)
@@ -723,7 +718,7 @@ public:
         mItem(item),
         mNewParentId(new_parent)
     {};
-    /* virtual */ void fire(const LLUUID& inv_item_id)
+    void fire(const LLUUID& inv_item_id) override
     {
         LLInventoryModel::update_list_t update;
         LLInventoryModel::LLCategoryUpdate old_folder(mItem->getParentUUID(), -1);
@@ -825,7 +820,7 @@ void LLPanelPlaces::onOverflowButtonClicked()
 
 	if ((is_agent_place_info_visible ||
 		 mPlaceInfoType == REMOTE_PLACE_INFO_TYPE ||
-		 mPlaceInfoType == TELEPORT_HISTORY_INFO_TYPE) && mPlaceMenu != NULL)
+		 mPlaceInfoType == TELEPORT_HISTORY_INFO_TYPE) && mPlaceMenu != nullptr)
 	{
 		menu = mPlaceMenu;
 
@@ -839,7 +834,7 @@ void LLPanelPlaces::onOverflowButtonClicked()
 		menu->setItemVisible("landmark", mPlaceInfoType != TELEPORT_HISTORY_INFO_TYPE);
 		menu->arrangeAndClear();
 	}
-	else if (mPlaceInfoType == LANDMARK_INFO_TYPE && mLandmarkMenu != NULL)
+	else if (mPlaceInfoType == LANDMARK_INFO_TYPE && mLandmarkMenu != nullptr)
 	{
 		menu = mLandmarkMenu;
 
@@ -870,7 +865,7 @@ void LLPanelPlaces::onProfileButtonClicked()
 	mActivePanel->onShowProfile();
 }
 
-bool LLPanelPlaces::onOverflowMenuItemEnable(const LLSD& param)
+bool LLPanelPlaces::onOverflowMenuItemEnable(const LLSD& param) const
 {
 	std::string value = param.asString();
 	if("can_create_pick" == value)
@@ -904,7 +899,7 @@ void LLPanelPlaces::onOverflowMenuItemClicked(const LLSD& param)
 	}
 	else if (item == "pick")
 	{
-		if (mPickPanel == NULL)
+		if (mPickPanel == nullptr)
 		{
 			mPickPanel = LLPanelPickEdit::create();
 			addChild(mPickPanel);
@@ -1143,11 +1138,8 @@ void LLPanelPlaces::changedGlobalPos(const LLVector3d &global_pos)
 
 void LLPanelPlaces::showAddedLandmarkInfo(const uuid_set_t& items)
 {
-	for (uuid_set_t::const_iterator item_iter = items.begin();
-		 item_iter != items.end();
-		 ++item_iter)
+	for (auto const& item_id : items)
 	{
-		const LLUUID& item_id = (*item_iter);
 		if(!highlight_offered_object(item_id))
 		{
 			continue;
@@ -1225,7 +1217,7 @@ void LLPanelPlaces::updateVerbs()
 	}
 }
 
-LLPanelPlaceInfo* LLPanelPlaces::getCurrentInfoPanel()
+LLPanelPlaceInfo* LLPanelPlaces::getCurrentInfoPanel() const
 {
 	if (mPlaceInfoType == AGENT_INFO_TYPE ||
 		mPlaceInfoType == REMOTE_PLACE_INFO_TYPE ||
@@ -1233,14 +1225,15 @@ LLPanelPlaceInfo* LLPanelPlaces::getCurrentInfoPanel()
 	{
 		return mPlaceProfile;
 	}
-	else if (mPlaceInfoType == CREATE_LANDMARK_INFO_TYPE ||
-			 mPlaceInfoType == LANDMARK_INFO_TYPE ||
-			 mPlaceInfoType == LANDMARK_TAB_INFO_TYPE)
+
+	if (mPlaceInfoType == CREATE_LANDMARK_INFO_TYPE ||
+		mPlaceInfoType == LANDMARK_INFO_TYPE ||
+		mPlaceInfoType == LANDMARK_TAB_INFO_TYPE)
 	{
 		return mLandmarkInfo;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static bool is_agent_in_selected_parcel(LLParcel* parcel)
@@ -1258,9 +1251,5 @@ static bool is_agent_in_selected_parcel(LLParcel* parcel)
 static void onSLURLBuilt(std::string& slurl)
 {
 	LLView::getWindow()->copyTextToClipboard(utf8str_to_wstring(slurl));
-		
-	LLSD args;
-	args["SLURL"] = slurl;
-
-	LLNotificationsUtil::add("CopySLURL", args);
+	LLNotificationsUtil::add("CopySLURL", LLSD().with("SLURL", slurl));
 }

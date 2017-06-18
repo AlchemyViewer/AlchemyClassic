@@ -73,13 +73,13 @@ public:
 
 	void setItem(LLInventoryItem* item);
 
-	LLInventoryItem* getItem() { return mItem; }
+	LLInventoryItem* getItem() const { return mItem; }
 
-	std::string getPlaceInfoType() { return mPlaceInfoType; }
+	std::string getPlaceInfoType() const { return mPlaceInfoType; }
 
-	bool tabsCreated() { return mTabsCreated;}
+	bool tabsCreated() const { return mTabsCreated;}
 
-	/*virtual*/ S32 notifyParent(const LLSD& info) override;
+	S32 notifyParent(const LLSD& info) override;
 
 private:
 	void onLandmarkLoaded(LLLandmark* landmark);
@@ -93,20 +93,18 @@ private:
 	void onCancelButtonClicked();
 	void onOverflowButtonClicked();
 	void onOverflowMenuItemClicked(const LLSD& param);
-	bool onOverflowMenuItemEnable(const LLSD& param);
-	void onCreateLandmarkButtonClicked(const LLUUID& folder_id);
+	bool onOverflowMenuItemEnable(const LLSD& param) const;
 	void onBackButtonClicked();
 	void onProfileButtonClicked();
 
-	void toggleMediaPanel();
 	void togglePickPanel(BOOL visible);
 	void togglePlaceInfoPanel(BOOL visible);
 
-	/*virtual*/ void onVisibilityChange(BOOL new_visibility) override;
+	void onVisibilityChange(BOOL new_visibility) override;
 
 	void updateVerbs();
 
-	LLPanelPlaceInfo* getCurrentInfoPanel();
+	LLPanelPlaceInfo* getCurrentInfoPanel() const;
 
 	LLFilterEditor*				mFilterEditor;
 	LLPanelPlacesTab*			mActivePanel;

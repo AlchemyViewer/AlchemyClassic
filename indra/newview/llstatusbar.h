@@ -44,6 +44,7 @@ class LLStatGraph;
 class ALPanelQuickSettingsPulldown;
 class LLPanelAOPulldown;
 class LLPanelVolumePulldown;
+class LLPanelAvatarComplexityPulldown;
 class LLPanelNearByMedia;
 class LLIconCtrl;
 
@@ -68,7 +69,7 @@ public:
 	static void sendMoneyBalanceRequest();
 
 	void		setHealth(S32 percent);
-	void		setAvComplexity(S32 complexity, F32 muted_percentage);
+	void		setAvComplexity(S32 complexity, F32 muted_pct);
 
 	void		setLandCredit(S32 credit);
 	void		setLandCommitted(S32 committed);
@@ -86,16 +87,16 @@ public:
 	S32 getSquareMetersCommitted() const;
 	S32 getSquareMetersLeft() const;
 
-	LLPanelNearByMedia* getNearbyMediaPanel() { return mPanelNearByMedia; }
+	LLPanelNearByMedia* getNearbyMediaPanel() const { return mPanelNearByMedia; }
 
 private:
-	
-	void onClickBuyCurrency();
+	void onClickBuyCurrency() const;
 	void onVolumeChanged(const LLSD& newvalue);
 
 	void onMouseEnterQuickSettings();
 	void onMouseEnterAO();
 	void onMouseEnterVolume();
+	void onMouseEnterAvatarComplexity();
 	void onMouseEnterNearbyMedia();
 
 	static void onClickAOBtn(void* data);
@@ -105,7 +106,6 @@ private:
 
 	void onAOStateChanged();
 
-private:
 	LLTextBox	*mTextTime;
 	LLTextBox	*mTextFPS;
 
@@ -133,6 +133,7 @@ private:
 	ALPanelQuickSettingsPulldown* mPanelQuickSettingsPulldown;
 	LLPanelAOPulldown* mPanelAOPulldown;
 	LLPanelVolumePulldown* mPanelVolumePulldown;
+	LLPanelAvatarComplexityPulldown* mPanelAvatarComplexityPulldown;
 	LLPanelNearByMedia*	mPanelNearByMedia;
 
 	LLPointer<LLUIImage> mImgAvComplex;

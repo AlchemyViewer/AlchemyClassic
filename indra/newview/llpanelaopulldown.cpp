@@ -33,52 +33,9 @@
 #include "llviewerprecompiledheaders.h"
 #include "llpanelaopulldown.h"
 
-#include "llframetimer.h"
-
-const F32 AUTO_CLOSE_FADE_START_TIME_SEC = 4.f;
-const F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
-
-
 LLPanelAOPulldown::LLPanelAOPulldown()
+	: LLPanelMenuBarPulldown()
 {
-	mHoverTimer.stop();
 	buildFromFile("panel_ao_pulldown.xml");
 }
 
-void LLPanelAOPulldown::draw()
-{
-	F32 alpha = mHoverTimer.getStarted()
-	? clamp_rescale(mHoverTimer.getElapsedTimeF32(), AUTO_CLOSE_FADE_START_TIME_SEC,
-					AUTO_CLOSE_TOTAL_TIME_SEC, 1.f, 0.f)
-	: 1.0f;
-	LLViewDrawContext context(alpha);
-	
-	if (alpha == 0.f)
-	{
-		setVisible(FALSE);
-	}
-	
-	LLPanel::draw();
-}
-
-void LLPanelAOPulldown::onMouseEnter(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.stop();
-	LLPanel::onMouseEnter(x, y, mask);
-}
-
-void LLPanelAOPulldown::onMouseLeave(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.start();
-	LLPanel::onMouseLeave(x, y, mask);
-}
-
-void LLPanelAOPulldown::onTopLost()
-{
-	setVisible(FALSE);
-}
-
-void LLPanelAOPulldown::onVisibilityChange(BOOL new_visibility)
-{
-	new_visibility ? mHoverTimer.start() : mHoverTimer.stop();
-}

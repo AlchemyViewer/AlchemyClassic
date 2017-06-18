@@ -451,6 +451,7 @@ set(viewer_SOURCE_FILES
     llpanelappearancetab.cpp
     llpanelavatar.cpp
     llpanelavatartag.cpp
+    llpanelavcomplexitypulldown.cpp
     llpanelblockedlist.cpp
     llpanelclassified.cpp
     llpanelcontents.cpp
@@ -487,6 +488,7 @@ set(viewer_SOURCE_FILES
     llpanelmediasettingsgeneral.cpp
     llpanelmediasettingspermissions.cpp
     llpanelmediasettingssecurity.cpp
+	llpanelmenubarpulldown.cpp
     llpanelnearbymedia.cpp
     llpanelobject.cpp
     llpanelobjectinventory.cpp
@@ -1098,6 +1100,7 @@ set(viewer_HEADER_FILES
     llpanelappearancetab.h
     llpanelavatar.h
     llpanelavatartag.h
+    llpanelavcomplexitypulldown.h
     llpanelblockedlist.h
     llpanelclassified.h
     llpanelcontents.h
@@ -1135,6 +1138,7 @@ set(viewer_HEADER_FILES
     llpanelmediasettingsgeneral.h
     llpanelmediasettingspermissions.h
     llpanelmediasettingssecurity.h
+	llpanelmenubarpulldown.h
     llpanelnearbymedia.h
     llpanelobject.h
     llpanelobjectinventory.h

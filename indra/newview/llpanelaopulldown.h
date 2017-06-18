@@ -2,7 +2,7 @@
  * @file llpanelaopulldown.h
  * @brief Animation overrides flyout
  *
- * Copyright (c) 2014, Cinder Roxley <cinder@sdf.org>
+ * Copyright (c) 2014-2017, Cinder Roxley <cinder@sdf.org>
  *
  * Permission is hereby granted, free of charge, to any person or organization
  * obtaining a copy of the software and accompanying documentation covered by
@@ -31,23 +31,14 @@
 #ifndef LL_PANELAOFLYOUT_H
 #define LL_PANELAOFLYOUT_H
 
-#include "llpanel.h"
+#include "llpanelmenubarpulldown.h"
 
 class LLFrameTimer;
 
-class LLPanelAOPulldown : public LLPanel
+class LLPanelAOPulldown : public LLPanelMenuBarPulldown
 {
 public:
 	LLPanelAOPulldown();
-	void draw() override;
-	void onMouseEnter(S32 x, S32 y, MASK mask) override;
-	void onMouseLeave(S32 x, S32 y, MASK mask) override;
-	void onTopLost() override;
-	void onVisibilityChange(BOOL new_visibility) override;
-	
-private:
-	LLFrameTimer mHoverTimer;
 };
-
 
 #endif // LL_PANELAOFLYOUT_H

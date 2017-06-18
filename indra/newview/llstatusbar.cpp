@@ -32,31 +32,24 @@
 
 // viewer includes
 #include "llagent.h"
-#include "llagentcamera.h"
 #include "llbutton.h"
 #include "llcommandhandler.h"
 #include "llfirstuse.h"
 #include "llviewercontrol.h"
-#include "llfloaterbuycurrency.h"
 #include "llbuycurrencyhtml.h"
 #include "llpanelaopulldown.h"
 #include "llpanelnearbymedia.h"
 #include "alpanelquicksettingspulldown.h"
 #include "llpanelvolumepulldown.h"
-#include "llfloaterregioninfo.h"
+#include "llpanelavcomplexitypulldown.h"
 #include "llfloaterscriptdebug.h"
-#include "llhints.h"
 #include "llhudicon.h"
-#include "llnavigationbar.h"
 #include "llkeyboard.h"
-#include "lllineeditor.h"
 #include "llmenugl.h"
 #include "llrootview.h"
 #include "llsd.h"
 #include "lltextbox.h"
 #include "llui.h"
-#include "llviewerparceloverlay.h"
-#include "llviewerregion.h"
 #include "llviewerstats.h"
 #include "llviewerwindow.h"
 #include "llframetimer.h"
@@ -67,21 +60,13 @@
 #include "llviewerjoystick.h"
 #include "llviewermedia.h"
 #include "llviewermenu.h"	// for gMenuBarView
-#include "llviewerparcelmgr.h"
 #include "llviewerthrottle.h"
 
-#include "lltoolmgr.h"
-#include "llfocusmgr.h"
 #include "llappviewer.h"
-#include "lltrans.h"
 
 // library includes
 #include "llfloaterreg.h"
-#include "llfontgl.h"
 #include "llrect.h"
-#include "llerror.h"
-#include "llnotificationsutil.h"
-#include "llparcel.h"
 #include "llstring.h"
 #include "message.h"
 
@@ -123,7 +108,7 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 ,	mImgAvComplexWarn(nullptr)
 ,	mImgAvComplexHeavy(nullptr)
 {
-	setRect(rect);
+	LLView::setRect(rect);
 	
 	// status bar can possible overlay menus?
 	setMouseOpaque(FALSE);
@@ -201,6 +186,8 @@ BOOL LLStatusBar::postBuild()
 	mMediaToggle->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterNearbyMedia, this));
 	
 	mAvComplexity = getChild<LLIconCtrl>("av_complexity");
+	mAvComplexity->setMouseEnterCallback(boost::bind(&LLStatusBar::onMouseEnterAvatarComplexity, this));
+
 	mPanelFlycam = getChild<LLUICtrl>("flycam_lp");
 
 	gSavedSettings.getControl("MuteAudio")->getSignal()->connect(boost::bind(&LLStatusBar::onVolumeChanged, this, _2));
@@ -262,6 +249,11 @@ BOOL LLStatusBar::postBuild()
 	mPanelVolumePulldown->setFollows(FOLLOWS_TOP|FOLLOWS_RIGHT);
 	mPanelVolumePulldown->setVisible(FALSE);
 
+	mPanelAvatarComplexityPulldown = new LLPanelAvatarComplexityPulldown();
+	addChild(mPanelAvatarComplexityPulldown);
+	mPanelAvatarComplexityPulldown->setFollows(FOLLOWS_TOP | FOLLOWS_RIGHT);
+	mPanelAvatarComplexityPulldown->setVisible(FALSE);
+
 	mPanelNearByMedia = new LLPanelNearByMedia();
 	addChild(mPanelNearByMedia);
 	mPanelNearByMedia->setFollows(FOLLOWS_TOP|FOLLOWS_RIGHT);
@@ -299,20 +291,17 @@ void LLStatusBar::refresh()
 	{
 		mClockUpdateTimer.reset();
 
-		// Get current UTC time, adjusted for the user's clock
-		// being off.
-		time_t utc_time;
-		utc_time = time_corrected();
+		time_t utc_time = time_corrected();
 
 		// <alchemy> Allow user to control whether the clock shows seconds or not.
 		static LLCachedControl<bool> want_precise_clock(gSavedSettings, "AlchemyPreciseClock", true);
 
 		// Show seconds if so desired
 		
-		std::string timeStr = getString(((bool)want_precise_clock ? "timePrecise" : "time"));
+		std::string timeStr = getString(want_precise_clock() ? "timePrecise" : "time");
 		// </alchemy>
 		LLSD substitution;
-		substitution["datetime"] = (S32) utc_time;
+		substitution["datetime"] = static_cast<S32>(utc_time);
 		LLStringUtil::format (timeStr, substitution);
 		mTextTime->setText(timeStr);
 
@@ -362,6 +351,7 @@ void LLStatusBar::setVisibleForMouselook(bool visible)
 	mBtnAO->setVisible(visible);
 	mBtnVolume->setVisible(visible);
 	mMediaToggle->setVisible(visible);
+	mAvComplexity->setVisible(visible);
 	mTextFPS->setVisible(visible);
 	mSGBandwidth->setVisible(visible);
 	mSGPacketLoss->setVisible(visible);
@@ -447,16 +437,15 @@ void LLStatusBar::setHealth(S32 health)
 	mHealth = health;
 }
 
-void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_percentage)
+void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_pct)
 {
-	if (muted_percentage >= 10.f)
+	if (muted_pct >= 10.f)
 		mAvComplexity->setImage(mImgAvComplexWarn);
-	else if (muted_percentage >= 75.f)
+	else if (muted_pct >= 75.f)
 		mAvComplexity->setImage(mImgAvComplexHeavy);
 	else
 		mAvComplexity->setImage(mImgAvComplex);
-	mAvComplexity->setToolTipArg(LLStringExplicit("COMPLEXITY"), std::to_string(complexity));
-	mAvComplexity->setToolTipArg(LLStringExplicit("PERCENT"), std::to_string(muted_percentage));
+	mPanelAvatarComplexityPulldown->setAvComplexity(complexity, muted_pct);
 }
 
 S32 LLStatusBar::getBalance() const
@@ -499,7 +488,7 @@ S32 LLStatusBar::getSquareMetersLeft() const
 	return mSquareMetersCredit - mSquareMetersCommitted;
 }
 
-void LLStatusBar::onClickBuyCurrency()
+void LLStatusBar::onClickBuyCurrency() const
 {
 	// open a currency floater - actual one open depends on 
 	// value specified in settings.xml
@@ -527,6 +516,7 @@ void LLStatusBar::onMouseEnterQuickSettings()
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
 	mPanelAOPulldown->setVisible(FALSE);
+	mPanelAvatarComplexityPulldown->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(TRUE);
 }
 
@@ -550,6 +540,7 @@ void LLStatusBar::onMouseEnterAO()
 	mPanelVolumePulldown->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelAOPulldown->setVisible(TRUE);
+	mPanelAvatarComplexityPulldown->setVisible(FALSE);
 }
 
 void LLStatusBar::onMouseEnterVolume()
@@ -572,6 +563,7 @@ void LLStatusBar::onMouseEnterVolume()
 	mPanelNearByMedia->setVisible(FALSE);
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelAOPulldown->setVisible(FALSE);
+	mPanelAvatarComplexityPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(TRUE);
 }
 
@@ -595,9 +587,34 @@ void LLStatusBar::onMouseEnterNearbyMedia()
 	mPanelQuickSettingsPulldown->setVisible(FALSE);
 	mPanelVolumePulldown->setVisible(FALSE);
 	mPanelAOPulldown->setVisible(FALSE);
+	mPanelAvatarComplexityPulldown->setVisible(FALSE);
 	mPanelNearByMedia->setVisible(TRUE);
 }
 
+void LLStatusBar::onMouseEnterAvatarComplexity()
+{
+	LLRect complexity_rect = mPanelAvatarComplexityPulldown->getRect();
+	LLRect complexity_btn_rect = mAvComplexity->getRect();
+	complexity_rect.setLeftTopAndSize(complexity_btn_rect.mLeft -
+		(complexity_rect.getWidth() - complexity_btn_rect.getWidth()) / 2,
+		complexity_btn_rect.mBottom,
+		complexity_rect.getWidth(),
+		complexity_rect.getHeight());
+	// force onscreen
+	complexity_rect.translate(mPanelPopupHolder->getRect().getWidth() - complexity_rect.mRight, 0);
+
+	mPanelAvatarComplexityPulldown->setShape(complexity_rect);
+	LLUI::clearPopups();
+	LLUI::addPopup(mPanelAvatarComplexityPulldown);
+
+	mPanelQuickSettingsPulldown->setVisible(FALSE);
+	mPanelVolumePulldown->setVisible(FALSE);
+	mPanelAOPulldown->setVisible(FALSE);
+	mPanelAvatarComplexityPulldown->setVisible(TRUE);
+	mPanelNearByMedia->setVisible(FALSE);
+}
+
+// static
 void LLStatusBar::onClickAOBtn(void* data)
 {
 	gSavedPerAccountSettings.set("UseAO", !gSavedPerAccountSettings.getBOOL("UseAO"));
@@ -622,7 +639,7 @@ void LLStatusBar::onClickBalance(void* )
 //static 
 void LLStatusBar::onClickMediaToggle(void* data)
 {
-	LLStatusBar *status_bar = (LLStatusBar*)data;
+	LLStatusBar *status_bar = static_cast<LLStatusBar*>(data);
 	// "Selected" means it was showing the "play" icon (so media was playing), and now it shows "pause", so turn off media
 	bool pause = status_bar->mMediaToggle->getValue();
 	LLViewerMedia::setAllMediaPaused(pause);

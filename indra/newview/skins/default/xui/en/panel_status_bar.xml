@@ -217,7 +217,6 @@
      image_name="50_Ton_Weight"
      mouse_opaque="true"
      name="av_complexity"
-     tool_tip="Avatar Complexity: [COMPLEXITY] Unseen by: [PERCENT]%"
      left="0"
      top="1"/>
   </layout_panel>

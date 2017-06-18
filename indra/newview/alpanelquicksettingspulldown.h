@@ -26,22 +26,14 @@
 #ifndef AL_ALPANELQUICKSETTINGSPULLDOWN_H
 #define AL_ALPANELQUICKSETTINGSPULLDOWN_H
 
-#include "llpanel.h"
+#include "llpanelmenubarpulldown.h"
 
 class LLFrameTimer;
 
-class ALPanelQuickSettingsPulldown : public LLPanel
+class ALPanelQuickSettingsPulldown : public LLPanelMenuBarPulldown
 {
 public:
 	ALPanelQuickSettingsPulldown();
-	void draw() override;
-	void onMouseEnter(S32 x, S32 y, MASK mask) override;
-	void onMouseLeave(S32 x, S32 y, MASK mask) override;
-	void onTopLost() override;
-	void onVisibilityChange(BOOL new_visibility) override;
-
-private:
-	LLFrameTimer mHoverTimer;
 };
 
 #endif // AL_ALPANELQUICKSETTINGSPULLDOWN_H

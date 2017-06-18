@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<panel
+ bg_opaque_image="Volume_Background"
+ bg_alpha_image="Volume_Background"
+ background_opaque="true"
+ background_visible="true"
+ layout="topleft"
+ width="180"
+ height="50"
+ name="weight_pulldown">
+  <text
+    name="complexity"
+    follows="left|top"
+    height="15"
+    left="8"
+    right="-8"
+    top="4"
+    layout="topleft"
+    value="Complexity: [COMPLEXITY]"/>
+  <text
+    name="visibility"
+    follows="left|top"
+    height="15"
+    left="8"
+    right="-8"
+    top_pad="4"
+    layout="topleft"
+    value="Visibility: [VISIBILITY]%"/>
+</panel>

@@ -28,30 +28,19 @@
 #ifndef LL_LLPANELVOLUMEPULLDOWN_H
 #define LL_LLPANELVOLUMEPULLDOWN_H
 
-#include "llpanel.h"
+#include "llpanelmenubarpulldown.h"
 
-class LLFrameTimer;
-
-class LLPanelVolumePulldown : public LLPanel
+class LLPanelVolumePulldown : public LLPanelMenuBarPulldown
 {
  public:
 	LLPanelVolumePulldown();
-	/*virtual*/ void draw() override;
-	/*virtual*/ void onMouseEnter(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ void onMouseLeave(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ void onTopLost() override;
-	/*virtual*/ void onVisibilityChange ( BOOL new_visibility ) override;
-	/*virtual*/ BOOL postBuild() override;
+	void draw() override;
+	BOOL postBuild() override;
 	
  private:
 	void setControlFalse(const LLSD& user_data);
 	void onAdvancedButtonClick(const LLSD& user_data);
     void onClickSetSounds(const LLSD& user_data);
-
-	LLFrameTimer mHoverTimer;
-	static const F32 sAutoCloseFadeStartTimeSec;
-	static const F32 sAutoCloseTotalTimeSec;
 };
-
 
 #endif // LL_LLPANELVOLUMEPULLDOWN_H

@@ -29,60 +29,12 @@
 
 #include "alpanelquicksettingspulldown.h"
 
-#include "llframetimer.h"
-
-const F32 AUTO_CLOSE_FADE_START_TIME_SEC = 4.f;
-const F32 AUTO_CLOSE_TOTAL_TIME_SEC = 5.f;
-
 ///----------------------------------------------------------------------------
 /// Class ALPanelQuickSettingsPulldown
 ///----------------------------------------------------------------------------
 
 // Default constructor
-ALPanelQuickSettingsPulldown::ALPanelQuickSettingsPulldown() : LLPanel()
+ALPanelQuickSettingsPulldown::ALPanelQuickSettingsPulldown() : LLPanelMenuBarPulldown()
 {
-	mHoverTimer.stop();
 	buildFromFile("panel_quick_settings_pulldown.xml");
-}
-
-//virtual
-void ALPanelQuickSettingsPulldown::draw()
-{
-	F32 alpha = mHoverTimer.getStarted()
-		? clamp_rescale(mHoverTimer.getElapsedTimeF32(), AUTO_CLOSE_FADE_START_TIME_SEC, AUTO_CLOSE_TOTAL_TIME_SEC, 1.f, 0.f)
-		: 1.0f;
-	LLViewDrawContext context(alpha);
-
-	if (alpha == 0.f)
-	{
-		setVisible(FALSE);
-	}
-
-	LLPanel::draw();
-}
-
-/*virtual*/
-void ALPanelQuickSettingsPulldown::onMouseEnter(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.stop();
-	LLPanel::onMouseEnter(x, y, mask);
-}
-
-/*virtual*/
-void ALPanelQuickSettingsPulldown::onMouseLeave(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.start();
-	LLPanel::onMouseLeave(x, y, mask);
-}
-
-/*virtual*/
-void ALPanelQuickSettingsPulldown::onTopLost()
-{
-	setVisible(FALSE);
-}
-
-/*virtual*/
-void ALPanelQuickSettingsPulldown::onVisibilityChange(BOOL new_visibility)
-{
-	new_visibility ? mHoverTimer.start() : mHoverTimer.stop();
 }

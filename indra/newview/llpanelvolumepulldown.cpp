@@ -43,9 +43,6 @@
 #include "llfloaterpreference.h"
 #include "llsliderctrl.h"
 
-/* static */ const F32 LLPanelVolumePulldown::sAutoCloseFadeStartTimeSec = 2.0f;
-/* static */ const F32 LLPanelVolumePulldown::sAutoCloseTotalTimeSec = 3.0f;
-
 ///----------------------------------------------------------------------------
 /// Class LLPanelVolumePulldown
 ///----------------------------------------------------------------------------
@@ -68,40 +65,6 @@ BOOL LLPanelVolumePulldown::postBuild()
 	volslider->setValue(gSavedSettings.getF32("AudioLevelMaster"));
 
 	return LLPanel::postBuild();
-}
-
-/*virtual*/
-void LLPanelVolumePulldown::onMouseEnter(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.stop();
-	LLPanel::onMouseEnter(x,y,mask);
-}
-
-/*virtual*/
-void LLPanelVolumePulldown::onTopLost()
-{
-	setVisible(FALSE);
-}
-
-/*virtual*/
-void LLPanelVolumePulldown::onMouseLeave(S32 x, S32 y, MASK mask)
-{
-	mHoverTimer.start();
-	LLPanel::onMouseLeave(x,y,mask);
-}
-
-/*virtual*/ 
-void LLPanelVolumePulldown::onVisibilityChange ( BOOL new_visibility )
-{
-	if (new_visibility)	
-	{
-		mHoverTimer.start(); // timer will be stopped when mouse hovers over panel
-	}
-	else
-	{
-		mHoverTimer.stop();
-
-	}
 }
 
 void LLPanelVolumePulldown::onAdvancedButtonClick(const LLSD& user_data)
@@ -145,7 +108,7 @@ void LLPanelVolumePulldown::onClickSetSounds(const LLSD& user_data)
 void LLPanelVolumePulldown::draw()
 {
 	F32 alpha = mHoverTimer.getStarted() 
-		? clamp_rescale(mHoverTimer.getElapsedTimeF32(), sAutoCloseFadeStartTimeSec, sAutoCloseTotalTimeSec, 1.f, 0.f)
+		? clamp_rescale(mHoverTimer.getElapsedTimeF32(), AUTO_CLOSE_FADE_START_TIME_SEC, AUTO_CLOSE_TOTAL_TIME_SEC, 1.f, 0.f)
 		: 1.0f;
 	LLViewDrawContext context(alpha);
 

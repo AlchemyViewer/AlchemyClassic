@@ -31,11 +31,5 @@
        filename="panel_group_info_sidetray.xml"
        label="Group Profile"
        font="SansSerifBold"/>
-      <panel
-        class="panel_profile_legacy_sidetray"
-        name="panel_profile_legacy_sidetray"
-        filename="panel_profile_legacy_sidetray.xml"
-        label="Profile"
-        font="SansSerifBold"/>
     </panel_container>
 </floater>

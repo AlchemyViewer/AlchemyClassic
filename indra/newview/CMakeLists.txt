@@ -287,6 +287,7 @@ set(viewer_SOURCE_FILES
     llfloaterjoystick.cpp
     llfloaterland.cpp
     llfloaterlandholdings.cpp
+    llfloaterlegacyprofile.cpp
     llfloatermarketplacelistings.cpp
     llfloatermap.cpp
     llfloatermediasettings.cpp
@@ -943,6 +944,7 @@ set(viewer_HEADER_FILES
     llfloaterjoystick.h
     llfloaterland.h
     llfloaterlandholdings.h
+    llfloaterlegacyprofile.h
     llfloatermap.h
     llfloatermarketplacelistings.h
     llfloatermediasettings.h

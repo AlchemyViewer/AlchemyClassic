@@ -82,6 +82,7 @@
 // <alchemy> - Includes
 #include "llclipboard.h"
 #include "llworld.h"
+#include "llfloaterlegacyprofile.h"
 // </alchemy>
 
 // Flags for kick message
@@ -347,10 +348,13 @@ void LLAvatarActions::showProfile(const LLUUID& id)
 	if (id.notNull())
 	{
 		if (gSavedSettings.getBool("AlchemyUseWannabeFacebook"))
+		{
 			LLAvatarNameCache::get(id, boost::bind(&on_avatar_name_show_profile, _1, _2));
+		}
 		else
-			LLFloaterSidePanelContainer::showPanel("people", "panel_profile_legacy_sidetray",
-												   LLSD().with("avatar_id", id));
+		{
+			LLFloaterReg::showTypedInstance<LLFloaterLegacyProfile>("legacy_profile", LLSD().with("avatar_id", id), TAKE_FOCUS_YES);
+		}
 	}
 }
 

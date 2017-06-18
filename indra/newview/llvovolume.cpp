@@ -3379,7 +3379,6 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
 	static const F32 ARC_BUMP_MULT = 1.25f; // tested based on performance
 	static const F32 ARC_FLEXI_MULT = 5; // tested based on performance
 	static const F32 ARC_SHINY_MULT = 1.6f; // tested based on performance
-	static const F32 ARC_INVISI_COST = 1.2f; // tested based on performance
 	static const F32 ARC_WEIGHTED_MESH = 1.2f; // tested based on performance
 
 	static const F32 ARC_PLANAR_COST = 1.0f; // tested based on performance to have negligible impact
@@ -3388,7 +3387,6 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
 
 	F32 shame = 0;
 
-	U32 invisi = 0;
 	U32 shiny = 0;
 	U32 glow = 0;
 	U32 alpha = 0;
@@ -3496,10 +3494,6 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
 		{
 			alpha = 1;
 		}
-		else if (img && img->getPrimaryFormat() == GL_ALPHA)
-		{
-			invisi = 1;
-		}
 		if (face->hasMedia())
 		{
 			media_faces++;
@@ -3551,11 +3545,6 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
 	if (alpha)
 	{
 		shame *= alpha * ARC_ALPHA_COST;
-	}
-
-	if(invisi)
-	{
-		shame *= invisi * ARC_INVISI_COST;
 	}
 
 	if (glow)
@@ -4307,11 +4296,6 @@ bool can_batch_texture(const LLFace* facep)
 
 		if (facep->getTextureEntry()->getMaterialParams().notNull())
 		{ //materials don't work with texture batching yet
-			return false;
-		}
-
-		if (facep->getTexture() && facep->getTexture()->getPrimaryFormat() == GL_ALPHA)
-		{ //can't batch invisiprims
 			return false;
 		}
 
@@ -5898,13 +5882,12 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 
 							facep->setTextureIndex(cur_tex);
 						}
+						tex = texture_list[0];
 					}
 					else
 					{
 						facep->setTextureIndex(0);
 					}
-
-					tex = texture_list[0];
 				}
 				else
 				{

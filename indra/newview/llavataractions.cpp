@@ -368,29 +368,30 @@ void LLAvatarActions::showWebProfile(const LLUUID& id)
 //static 
 bool LLAvatarActions::profileVisible(const LLUUID& id)
 {
-	LLSD sd;
-	sd["id"] = id;
-	LLFloater* browser = getProfileFloater(id);
-	return browser && browser->isShown();
+	LLFloater* floaterp = getProfileFloater(id);
+	return floaterp && floaterp->isShown();
 }
 
 //static
 LLFloater* LLAvatarActions::getProfileFloater(const LLUUID& id)
 {
-	LLFloaterWebContent *browser = dynamic_cast<LLFloaterWebContent*>
-		(LLFloaterReg::findInstance(get_profile_floater_name(id), LLSD().with("id", id)));
-	return browser;
+	if (gSavedSettings.getBool("AlchemyUseWannabeFacebook"))
+	{
+		return LLFloaterReg::findTypedInstance<LLFloaterWebContent>(get_profile_floater_name(id), LLSD().with("id", id));
+	}
+	else
+	{
+		return LLFloaterReg::findTypedInstance<LLFloaterLegacyProfile>("legacy_profile", LLSD().with("avatar_id", id));
+	}
 }
 
 //static 
 void LLAvatarActions::hideProfile(const LLUUID& id)
 {
-	LLSD sd;
-	sd["id"] = id;
-	LLFloater* browser = getProfileFloater(id);
-	if (browser)
+	LLFloater* floaterp = getProfileFloater(id);
+	if (floaterp)
 	{
-		browser->closeFloater();
+		floaterp->closeFloater();
 	}
 }
 

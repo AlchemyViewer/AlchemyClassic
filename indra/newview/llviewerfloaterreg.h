@@ -31,6 +31,9 @@ class LLViewerFloaterReg
 {
 public:
 	static void registerFloaters();
+
+private:
+	static void registerAlchemyFloaters();
 };
 
 

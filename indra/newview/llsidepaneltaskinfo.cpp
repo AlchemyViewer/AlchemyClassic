@@ -1181,7 +1181,7 @@ void LLSidepanelTaskInfo::doClickAction(U8 click_action)
 			LLNotificationsUtil::add("CantSetBuyObject");
 
 			// Set click action back to its old value
-			U8 click_action = 0;
+			click_action = 0;
 			LLSelectMgr::getInstance()->selectionGetClickAction(&click_action);
 			return;
 		}

@@ -64,10 +64,10 @@ void LLFloaterGroupProfile::changed(LLGroupChange gc)
 	}
 }
 
-void LLFloaterGroupProfile::createGroup()
+void LLFloaterGroupProfile::createGroup() const
 {
 	LLSD params;
 	params["group_id"] = LLUUID::null;
 	params["action"] = "create";
-	getChild<LLPanel>("panel_group_info_sidetray")->onOpen(LLSD().with("group_id", params));
+	getChild<LLPanel>("panel_group_info_sidetray")->onOpen(params);
 }

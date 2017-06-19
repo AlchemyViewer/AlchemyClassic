@@ -128,11 +128,10 @@ private:
 void LLItemPropertiesObserver::changed(U32 mask)
 {
 	const std::set<LLUUID>& mChangedItemIDs = gInventory.getChangedIDs();
-	std::set<LLUUID>::const_iterator it;
 
 	const LLUUID& item_id = mFloater->getItemID();
 
-	for (it = mChangedItemIDs.begin(); it != mChangedItemIDs.end(); it++)
+	for (std::set<LLUUID>::const_iterator it = mChangedItemIDs.begin(); it != mChangedItemIDs.end(); ++it)
 	{
 		// set dirty for 'item profile panel' only if changed item is the item for which 'item profile panel' is shown (STORM-288)
 		if (*it == item_id)
@@ -276,19 +275,16 @@ void LLSidepanelItemInfo::reset()
 
 void LLSidepanelItemInfo::refresh()
 {
-	LLViewerInventoryItem* item = findItem();
-	if(item)
+	LLViewerInventoryItem* itemp = findItem();
+	if(itemp)
 	{
-		refreshFromItem(item);
+		refreshFromItem(itemp);
 		updateVerbs();
 		return;
 	}
-	else
+	if (getIsEditing())
 	{
-		if (getIsEditing())
-		{
-			setIsEditing(FALSE);
-		}
+		setIsEditing(FALSE);
 	}
 
 	if (!getIsEditing())
@@ -304,7 +300,7 @@ void LLSidepanelItemInfo::refresh()
 		}
 	}
 
-	if (!item)
+	if (!itemp)
 	{
 		getChildView("BtnCreator")->setEnabled(false);
 		getChildView("BtnOwner")->setEnabled(false);
@@ -594,7 +590,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 
 	if (is_group_copy && is_group_modify && is_group_move)
 	{
-		getChild<LLUICtrl>("CheckShareWithGroup")->setValue(LLSD((BOOL)TRUE));
+		getChild<LLUICtrl>("CheckShareWithGroup")->setValue(LLSD(TRUE));
 
 		LLCheckBoxCtrl* ctl = getChild<LLCheckBoxCtrl>("CheckShareWithGroup");
 		if(ctl)
@@ -604,7 +600,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	}
 	else if (!is_group_copy && !is_group_modify && !is_group_move)
 	{
-		getChild<LLUICtrl>("CheckShareWithGroup")->setValue(LLSD((BOOL)FALSE));
+		getChild<LLUICtrl>("CheckShareWithGroup")->setValue(LLSD(FALSE));
 		LLCheckBoxCtrl* ctl = getChild<LLCheckBoxCtrl>("CheckShareWithGroup");
 		if(ctl)
 		{
@@ -674,8 +670,7 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 
 	if (is_for_sale)
 	{
-		S32 numerical_price;
-		numerical_price = sale_info.getSalePrice();
+		S32 numerical_price = sale_info.getSalePrice();
 		edit_cost->setValue(llformat("%d",numerical_price));
 		combo_sale_type->setValue(sale_info.getSaleType());
 	}
@@ -911,10 +906,10 @@ void LLSidepanelItemInfo::updateSaleInfo()
 	LLSaleInfo sale_info(item->getSaleInfo());
 	if(!gAgent.allowOperation(PERM_TRANSFER, item->getPermissions(), GP_OBJECT_SET_SALE))
 	{
-		getChild<LLUICtrl>("CheckPurchase")->setValue(LLSD((BOOL)FALSE));
+		getChild<LLUICtrl>("CheckPurchase")->setValue(FALSE);
 	}
 
-	if((BOOL)getChild<LLUICtrl>("CheckPurchase")->getValue())
+	if(getChild<LLUICtrl>("CheckPurchase")->getValue().asBoolean())
 	{
 		// turn on sale info
 		LLSaleInfo::EForSale sale_type = LLSaleInfo::FS_COPY;

@@ -132,6 +132,7 @@
 #include "llfloatersnapshot.h"
 #include "llfloatersounddevices.h"
 #include "llfloaterspellchecksettings.h"
+#include "llfloatertaskinfo.h"
 #include "llfloatertelehub.h"
 #include "llfloatertestinspectors.h"
 #include "llfloatertexturefetchdebugger.h"
@@ -397,6 +398,7 @@ void LLViewerFloaterReg::registerAlchemyFloaters()
 	LLFloaterReg::add("region_tracker", "floater_region_tracker.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<ALFloaterRegionTracker>);
 	LLFloaterReg::add("search", "floater_directory.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterDirectory>);
 	LLFloaterReg::add("search_replace", "floater_search_replace.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterSearchReplace>);
+	LLFloaterReg::add("task_info", "floater_task_info.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterTaskInfo>);
 	LLFloaterReg::add("zoom_texture", "floater_zoom_texture.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterTextureZoom>);
 
 	LLFloaterDisplayNameUtil::registerFloater();

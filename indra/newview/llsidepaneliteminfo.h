@@ -47,22 +47,20 @@ public:
 	LLSidepanelItemInfo(const LLPanel::Params& p = getDefaultParams());
 	virtual ~LLSidepanelItemInfo();
 	
-	/*virtual*/ BOOL postBuild() override;
-	/*virtual*/ void reset() override;
+	BOOL postBuild() override;
+	void reset() override;
 
 	void setObjectID(const LLUUID& object_id);
 	void setItemID(const LLUUID& item_id);
-	void setEditMode(BOOL edit);
 
 	const LLUUID& getObjectID() const;
 	const LLUUID& getItemID() const;
 
 protected:
-	/*virtual*/ void refresh() override;
-	/*virtual*/ void save() override;
+	void refresh() override;
+	void save() override;
 
 	LLViewerInventoryItem* findItem() const;
-	LLViewerObject*  findObject() const;
 	
 	void refreshFromItem(LLViewerInventoryItem* item);
 

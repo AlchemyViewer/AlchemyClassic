@@ -30,7 +30,7 @@
 #include "llinspectobject.h"
 
 // Viewer
-#include "llfloatersidepanelcontainer.h"
+#include "llfloatertaskinfo.h"
 #include "llinspect.h"
 #include "llmediaentry.h"
 #include "llnotificationsutil.h"	// *TODO: Eliminate, add LLNotificationsUtil wrapper
@@ -43,7 +43,6 @@
 
 // Linden libraries
 #include "llbutton.h"			// setLabel(), not virtual!
-#include "llclickaction.h"
 #include "llfloaterreg.h"
 #include "llmenubutton.h"
 #include "llresmgr.h"			// getMonetaryString
@@ -72,18 +71,18 @@ public:
 	LLInspectObject(const LLSD& object_id);
 	virtual ~LLInspectObject();
 	
-	/*virtual*/ BOOL postBuild(void);
+	BOOL postBuild(void) override;
 	
 	// Because floater is single instance, need to re-parse data on each spawn
 	// (for example, inspector about same avatar but in different position)
-	/*virtual*/ void onOpen(const LLSD& avatar_id);
+	void onOpen(const LLSD& avatar_id) override;
 	
 	// Release the selection and do other cleanup
-	/*virtual*/ void onClose(bool app_quitting);
+	void onClose(bool app_quitting) override;
 	
 	// override the inspector mouse leave so timer is only paused if 
 	// gear menu is not open
-	/* virtual */ void onMouseLeave(S32 x, S32 y, MASK mask);
+	void onMouseLeave(S32 x, S32 y, MASK mask) override;
 	
 private:
 	// Refresh displayed data with information from selection manager
@@ -111,7 +110,6 @@ private:
 	void onClickMoreInfo();
 	void onClickZoomIn();  
 	
-private:
 	LLUUID				mObjectID;
 	LLUUID				mPreviousObjectID;
 	S32					mObjectFace;
@@ -122,11 +120,11 @@ private:
 
 LLInspectObject::LLInspectObject(const LLSD& sd)
 :	LLInspect( LLSD() ),	// single_instance, doesn't really need key
-	mObjectID(NULL),			// set in onOpen()
+	mObjectID(nullptr),			// set in onOpen()
 	mObjectFace(0),
-	mObjectSelection(NULL),
-	mMediaImpl(NULL),
-	mMediaEntry(NULL)
+	mMediaImpl(nullptr),
+	mMediaEntry(nullptr),
+	mObjectSelection(nullptr)
 {
 	// can't make the properties request until the widgets are constructed
 	// as it might return immediately, so do it in postBuild.
@@ -251,7 +249,7 @@ void LLInspectObject::onOpen(const LLSD& data)
 void LLInspectObject::onClose(bool app_quitting)
 {
 	// Release selection to deselect
-	mObjectSelection = NULL;
+	mObjectSelection = nullptr;
 	mPreviousObjectID = mObjectID;
 
 	getChild<LLMenuButton>("gear_btn")->hideMenu();
@@ -329,7 +327,7 @@ void LLInspectObject::updateButtons(LLSelectNode* nodep)
 	hideButtons();
 	
 	LLViewerObject* object = nodep->getObject();
-	LLViewerObject *parent = (LLViewerObject*)object->getParent();
+	LLViewerObject *parent = static_cast<LLViewerObject*>(object->getParent());
 	bool for_copy = anyone_copy_selection(nodep);
 	bool for_sale = enable_buy_object();
 	S32 price = nodep->mSaleInfo.getSalePrice();
@@ -445,8 +443,7 @@ void LLInspectObject::updateMediaCurrentURL()
 	if(mMediaImpl.notNull() && mMediaImpl->hasMedia())
 	{
 		
-		LLPluginClassMedia* media_plugin = NULL;
-		media_plugin = mMediaImpl->getMediaPlugin();
+		LLPluginClassMedia* media_plugin = mMediaImpl->getMediaPlugin();
 		if(media_plugin)
 		{
 			if(media_plugin->pluginSupportsMediaTime())
@@ -550,7 +547,7 @@ void LLInspectObject::updateSecureBrowsing()
 	if(mMediaImpl.notNull() 
 	   && mMediaImpl->hasMedia())
 	{
-		LLPluginClassMedia* media_plugin = NULL;
+		LLPluginClassMedia* media_plugin = nullptr;
 		std::string current_url = "";
 		media_plugin = mMediaImpl->getMediaPlugin();
 		if(media_plugin)
@@ -649,9 +646,7 @@ void LLInspectObject::onClickOpen()
 
 void LLInspectObject::onClickMoreInfo()
 {
-	LLSD key;
-	key["task"] = "task";
-	LLFloaterSidePanelContainer::showPanel("inventory", key);
+	LLFloaterTaskInfo::showTask();
 	closeFloater();
 }
 

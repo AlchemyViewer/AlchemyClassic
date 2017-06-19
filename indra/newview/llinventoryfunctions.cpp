@@ -717,20 +717,8 @@ void show_item_original(const LLUUID& item_uuid)
 		return;
 	}
 
-	//sidetray inventory panel
-	LLSidepanelInventory *sidepanel_inventory =	LLFloaterSidePanelContainer::getPanel<LLSidepanelInventory>("inventory");
-
 	LLInventoryPanel* active_panel = LLInventoryPanel::getActiveInventoryPanel();
-	if (!active_panel) 
-	{
-		//this may happen when there is no floatera and other panel is active in inventory tab
 
-		if	(sidepanel_inventory)
-		{
-			sidepanel_inventory->showInventoryPanel();
-		}
-	}
-	
 	active_panel = LLInventoryPanel::getActiveInventoryPanel();
 	if (!active_panel) 
 	{

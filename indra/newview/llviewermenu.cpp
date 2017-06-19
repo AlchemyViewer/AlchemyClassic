@@ -51,7 +51,6 @@
 #include "llagent.h"
 #include "llagentaccess.h"
 #include "llagentcamera.h"
-#include "llagentui.h"
 #include "llagentwearables.h"
 #include "llagentpilot.h"
 #include "llcompilequeue.h"
@@ -60,8 +59,6 @@
 #include "lldebugview.h"
 #include "llenvmanager.h"
 #include "llfacebookconnect.h"
-#include "llfilepicker.h"
-#include "llfirstuse.h"
 #include "llfloaterabout.h"
 #include "llfloaterbuy.h"
 #include "llfloaterbuycontents.h"
@@ -76,17 +73,14 @@
 #include "llfloaterregioninfo.h"
 #include "llfloaterreporter.h"
 #include "llfloatersearch.h"
-#include "llfloaterscriptdebug.h"
-#include "llfloatersnapshot.h"
+#include "llfloatertaskinfo.h"
 #include "llfloatertools.h"
 #include "llfloaterworldmap.h"
-#include "llfloaterbuildoptions.h"
 #include "llavataractions.h"
 #include "lllandmarkactions.h"
 #include "llgroupmgr.h"
 #include "lltooltip.h"
 #include "lltoolface.h"
-#include "llhints.h"
 #include "llhudeffecttrail.h"
 #include "llhudmanager.h"
 #include "llimview.h"
@@ -122,7 +116,6 @@
 #include "llviewernetwork.h"
 #include "llviewerobjectlist.h"
 #include "llviewerparcelmgr.h"
-#include "llviewerstats.h"
 #include "llvoavatarself.h"
 #include "llvovolume.h"
 #include "llvoicevivox.h"
@@ -130,12 +123,10 @@
 #include "pipeline.h"
 #include "llviewerjoystick.h"
 #include "llwaterparammanager.h"
-#include "llwlanimator.h"
 #include "llwlparammanager.h"
 #include "llfloatercamera.h"
 #include "lluilistener.h"
 #include "llappearancemgr.h"
-#include "lltrans.h"
 #include "lleconomy.h"
 #include "lltoolgrab.h"
 #include "llwindow.h"
@@ -2768,9 +2759,7 @@ void handle_object_inspect()
 	LLViewerObject* selected_objectp = selection->getFirstRootObject();
 	if (selected_objectp)
 	{
-		LLSD key;
-		key["task"] = "task";
-		LLFloaterSidePanelContainer::showPanel("inventory", key);
+		LLFloaterTaskInfo::showTask();
 	}
 	
 	/*

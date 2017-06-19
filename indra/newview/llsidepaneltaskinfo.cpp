@@ -46,8 +46,6 @@
 #include "lltextbox.h"
 
 #include "llagent.h"
-#include "llavataractions.h"
-#include "llgroupactions.h"
 #include "llinventorymodel.h"
 #include "llfloatergroups.h"
 #include "llfloaterreg.h"
@@ -93,8 +91,9 @@ LLSidepanelTaskInfo* LLSidepanelTaskInfo::sActivePanel = nullptr;
 static LLPanelInjector<LLSidepanelTaskInfo> t_task_info("sidepanel_task_info");
 
 // Default constructor
-LLSidepanelTaskInfo::LLSidepanelTaskInfo() 
-	: mObjectRenderStatsText(nullptr)
+LLSidepanelTaskInfo::LLSidepanelTaskInfo(const LLPanel::Params& p)
+:	LLSidepanelInventorySubpanel(p)
+,	mObjectRenderStatsText(nullptr)
 {
 	setMouseOpaque(FALSE);
 	LLSelectMgr::instance().mUpdateSignal.connect(boost::bind(&LLSidepanelTaskInfo::refreshAll, this));
@@ -196,7 +195,8 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	return TRUE;
 }
 
-/*virtual*/ void LLSidepanelTaskInfo::onVisibilityChange ( BOOL visible )
+/*virtual*/ 
+void LLSidepanelTaskInfo::onVisibilityChange ( BOOL visible )
 {
 	if (visible)
 	{
@@ -982,7 +982,7 @@ static bool callback_deed_to_group(const LLSD& notification, const LLSD& respons
 	return FALSE;
 }
 
-void LLSidepanelTaskInfo::onClickDeedToGroup()
+void LLSidepanelTaskInfo::onClickDeedToGroup() const
 {
 	LLNotificationsUtil::add("DeedObjectToGroup", LLSD(), LLSD(), callback_deed_to_group);
 }

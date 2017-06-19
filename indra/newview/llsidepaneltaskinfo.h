@@ -48,11 +48,11 @@ class LLSpinCtrl;
 class LLSidepanelTaskInfo : public LLSidepanelInventorySubpanel
 {
 public:
-	LLSidepanelTaskInfo();
+	LLSidepanelTaskInfo(const LLPanel::Params& p = getDefaultParams());
 	virtual ~LLSidepanelTaskInfo();
 
-	/*virtual*/	BOOL postBuild() override;
-	/*virtual*/ void onVisibilityChange ( BOOL new_visibility ) override;
+	BOOL postBuild() override;
+	void onVisibilityChange ( BOOL new_visibility ) override;
 
 	void setObjectSelection(LLObjectSelectionHandle selection);
 
@@ -61,16 +61,16 @@ public:
 
 	static LLSidepanelTaskInfo *getActivePanel();
 protected:
-	/*virtual*/ void refresh() override;	// refresh all labels as needed
-	/*virtual*/ void save() override;
-	/*virtual*/ void updateVerbs() override;
+	void refresh() override;	// refresh all labels as needed
+	void save() override;
+	void updateVerbs() override;
 
 	void refreshAll(); // ignore current keyboard focus and update all fields
 
 	// statics
 	void onClickGroup();
 	void cbGroupID(LLUUID group_id);
-	void onClickDeedToGroup();
+	void onClickDeedToGroup() const;
 
 	void onCommitPerm(BOOL enabled, U8 field, U32 perm);
 
@@ -106,14 +106,13 @@ protected:
 	void 						onBuyButtonClicked();
 	void 						onDetailsButtonClicked();
 
-protected:
 	LLViewerObject*				getObject();
+
 private:
 	LLPointer<LLViewerObject>	mObject;
 	LLObjectSelectionHandle		mObjectSelection;
 	static LLSidepanelTaskInfo* sActivePanel;
 	
-private:
 	// Pointers cached here to speed up ui refresh
 	LLTextBox*					mObjectNameLabel;
 	LLLineEditor*				mObjectNameEditor;
@@ -155,10 +154,6 @@ private:
 	LLButton*					mPayBtn;
 	LLButton*					mBuyBtn;
 	LLButton*					mDetailsBtn;
-
-
-
 };
-
 
 #endif // LL_LLSIDEPANELTASKINFO_H

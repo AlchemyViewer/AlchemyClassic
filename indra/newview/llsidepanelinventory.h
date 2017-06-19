@@ -37,8 +37,6 @@ class LLInventoryItem;
 class LLInventoryPanel;
 class LLLayoutPanel;
 class LLPanelMainInventory;
-class LLSidepanelItemInfo;
-class LLSidepanelTaskInfo;
 
 class LLSidepanelInventory : public LLPanel
 {
@@ -56,44 +54,27 @@ public:
 	/*virtual*/ BOOL postBuild() override;
 	/*virtual*/ void onOpen(const LLSD& key) override;
 
-	LLInventoryPanel* getActivePanel(); // Returns an active inventory panel, if any.
+	LLInventoryPanel* getActivePanel() const; // Returns an active inventory panel, if any.
 	LLInventoryPanel* getInboxPanel() const { return mInventoryPanelInbox.get(); }
 
 	LLPanelMainInventory* getMainInventoryPanel() const { return mPanelMainInventory; }
 	BOOL isMainInventoryPanelActive() const;
 
 	void clearSelections(bool clearMain, bool clearInbox);
-    std::set<LLFolderViewItem*> getInboxSelectionList();
-
-	void showItemInfoPanel();
-	void showTaskInfoPanel();
-	void showInventoryPanel();
+    std::set<LLFolderViewItem*> getInboxSelectionList() const;
 
 	// checks can share selected item(s)
 	bool canShare();
-
 	void onToggleInboxBtn();
-
 	void enableInbox(bool enabled);
-	
 	void openInbox();
-	
 	bool isInboxEnabled() const { return mInboxEnabled; }
-
 	void updateVerbs();
 
 	static void cleanup();
 
 protected:
-	// Tracks highlighted (selected) item in inventory panel.
-	//LLInventoryItem *getSelectedItem();
-	//U32 getSelectedCount();
 	void onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action);
-	// "wear", "teleport", etc.
-	//void performActionOnSelection(const std::string &action);
-
-	//bool canWearSelected(); // check whether selected items can be worn
-
 	void onInboxChanged(const LLUUID& inbox_id);
 
 	//
@@ -102,29 +83,12 @@ protected:
 private:
 	LLPanel*					mInventoryPanel; // Main inventory view
 	LLHandle<LLInventoryPanel>	mInventoryPanelInbox;
-	LLSidepanelItemInfo*		mItemPanel; // Individual item view
-	LLSidepanelTaskInfo*		mTaskPanel; // Individual in-world object view
 	LLPanelMainInventory*		mPanelMainInventory;
 
 protected:
-	//void 						onInfoButtonClicked();
-	//void 						onShareButtonClicked();
-	//void 						onShopButtonClicked();
-	//void 						onWearButtonClicked();
-	//void 						onPlayButtonClicked();
-	//void 						onTeleportButtonClicked();
-	//void 						onOverflowButtonClicked();
 	void 						onBackButtonClicked();
 
 private:
-	//LLButton*					mInfoBtn;
-	//LLButton*					mShareBtn;
-	//LLButton*					mWearBtn;
-	//LLButton*					mPlayBtn;
-	//LLButton*					mTeleportBtn;
-	//LLButton*					mOverflowBtn;
-	//LLButton*					mShopBtn;
-
 	bool						mInboxEnabled;
 
 	LLInventoryCategoriesObserver* 	mCategoriesObserver;

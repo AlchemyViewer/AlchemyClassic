@@ -3420,11 +3420,8 @@ class LLAgentDropGroupViewerNode : public LLHTTPNode
 
 			//there is only one set of data in the AgentData block
 			LLSD agent_data = body["AgentData"][0];
-			LLUUID agent_id;
-			LLUUID group_id;
-
-			agent_id = agent_data["AgentID"].asUUID();
-			group_id = agent_data["GroupID"].asUUID();
+			LLUUID agent_id = agent_data["AgentID"].asUUID();
+			LLUUID group_id = agent_data["GroupID"].asUUID();
 
 			if (agent_id != gAgentID)
 			{

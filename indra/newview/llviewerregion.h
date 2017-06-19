@@ -41,6 +41,7 @@
 #include "m4math.h"					// LLMatrix4
 #include "llframetimer.h"
 #include "lleasymessagesender.h"
+#include <unordered_map>
 
 // Surface id's
 #define LAND  1
@@ -584,7 +585,7 @@ private:
 	std::set<std::string> mGodNames;
 
 	LLEasyMessageSender mMessageSender;
-	typedef boost::unordered_multimap<std::string, std::string> url_mapping_t;
+	using url_mapping_t = std::unordered_multimap<std::string, std::string>;
 	url_mapping_t mCapURLMappings;
 };
 

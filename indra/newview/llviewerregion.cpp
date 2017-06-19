@@ -3059,10 +3059,9 @@ void LLViewerRegion::setCapability(const std::string& name, const std::string& u
 	//TODO: Better represented as map of sets
 	if(mCapURLMappings.count(base_url) > 0)
 	{
-		boost::unordered_multimap<std::string, std::string>::iterator iter = mCapURLMappings.find(base_url);
-		boost::unordered_multimap<std::string, std::string>::const_iterator end = mCapURLMappings.end();
+		auto iter = mCapURLMappings.find(base_url);
 
-		while(iter != end)
+		while(iter != mCapURLMappings.cend())
 		{
 			if(iter->second == name)
 			{
@@ -3172,19 +3171,13 @@ std::set<std::string> LLViewerRegion::getCapURLNames(const std::string &cap_url)
 	std::set<std::string> url_capnames;
 	if(mCapURLMappings.count(cap_url) > 0)
 	{
-		url_mapping_t::iterator iter;
+		auto range = mCapURLMappings.equal_range(cap_url);
 
-		std::pair<url_mapping_t::iterator,
-		          url_mapping_t::iterator> range;
-
-		range = mCapURLMappings.equal_range(cap_url);
-
-		for (iter=range.first; iter != range.second; ++iter)
+		for (url_mapping_t::iterator iter = range.first; iter != range.second; ++iter)
 		{
 			url_capnames.insert(iter->second);
 		}
 	}
-
 	return url_capnames;
 }
 

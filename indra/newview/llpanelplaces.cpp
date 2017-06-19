@@ -362,7 +362,7 @@ void LLPanelPlaces::onOpen(const LLSD& key)
 	if (!mPlaceProfile || !mLandmarkInfo)
 		return;
 
-	if (key.size() != 0)
+	if (key.size() > 0)
 	{
 		isLandmarkEditModeOn = false;
 		std::string key_type = key["type"].asString();

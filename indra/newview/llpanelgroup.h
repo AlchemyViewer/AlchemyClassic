@@ -30,6 +30,7 @@
 #include "llpanel.h"
 #include "lltimer.h"
 #include "llvoiceclient.h"
+#include <unordered_map>
 
 class LLOfferInfo;
 
@@ -46,6 +47,8 @@ class LLPanelGroup : public LLPanel,
 					 public LLGroupMgrObserver,
 					 public LLVoiceClientStatusObserver
 {
+	friend class LLGroupActions;
+
 public:
 	LLPanelGroup();
 	virtual ~LLPanelGroup();
@@ -95,16 +98,16 @@ protected:
 
 	void onBtnCreate();
 	void onBackBtnClick();
-	void onBtnJoin();
+	void onBtnJoin() const;
 	void onBtnCancel();
 	void onBtnApply();
 
 	void reposButton(LLButton* button);
 	void reposButtons();
 	
+	bool apply(LLPanelGroupTab* tab);
 
-protected:
-	bool	apply(LLPanelGroupTab* tab);
+	void refreshNotices();
 
 	LLTimer mRefreshTimer;
 
@@ -127,6 +130,9 @@ protected:
 private:
 	void copyData(const LLSD& userdata);
 };
+
+using panel_multimap_t = std::unordered_multimap< LLUUID, LLPanelGroup* >;
+static panel_multimap_t sGroupPanelInstances;
 
 class LLPanelGroupTab : public LLPanel
 {

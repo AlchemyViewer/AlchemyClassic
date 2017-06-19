@@ -37,11 +37,13 @@
 #include "llcommandhandler.h"
 #include "llclipboard.h"
 #include "llfloaterreg.h"
+#include "llfloatergroupprofile.h"
 #include "llfloatersidepanelcontainer.h"
 #include "llgroupmgr.h"
 #include "llfloaterimcontainer.h"
 #include "llimview.h" // for gIMMgr
 #include "llnotificationsutil.h"
+#include "llpanelgroup.h"
 #include "llslurl.h"
 #include "llstatusbar.h"	// can_afford_transaction()
 #include "groupchatlistener.h"
@@ -169,7 +171,7 @@ public:
 		}
 	}
 
-	LLUUID getGroupId() { return mGroupId; }
+	LLUUID getGroupId() const { return mGroupId; }
 	virtual void processGroupData() = 0;
 protected:
 	LLUUID mGroupId;
@@ -343,14 +345,10 @@ void LLGroupActions::activate(const LLUUID& group_id)
 	gAgent.sendReliableMessage();
 }
 
-static bool isGroupUIVisible()
+static bool isGroupUIVisible(const LLUUID& group_id)
 {
-	static LLPanel* panel = nullptr;
-	if(!panel)
-		panel = LLFloaterSidePanelContainer::getPanel("people", "panel_group_info_sidetray");
-	if(!panel)
-		return false;
-	return panel->isInVisibleChain();
+	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD().with("group_id", group_id));
+	return LLFloater::isVisible(floaterp);
 }
 
 // static 
@@ -362,68 +360,45 @@ void LLGroupActions::inspect(const LLUUID& group_id)
 // static
 void LLGroupActions::show(const LLUUID& group_id)
 {
-	if (group_id.isNull())
-		return;
-
-	LLSD params;
-	params["group_id"] = group_id;
-	params["open_tab_name"] = "panel_group_info_sidetray";
-
-	LLFloaterSidePanelContainer::showPanel("people", "panel_group_info_sidetray", params);
+	if (group_id.isNull()) return;
+	LLFloaterReg::showTypedInstance<LLFloaterGroupProfile>("group_profile", group_id, TAKE_FOCUS_YES);
 }
 
+// static
 void LLGroupActions::refresh_notices()
 {
-	if(!isGroupUIVisible())
-		return;
-
-	LLSD params;
-	params["group_id"] = LLUUID::null;
-	params["open_tab_name"] = "panel_group_info_sidetray";
-	params["action"] = "refresh_notices";
-
-	LLFloaterSidePanelContainer::showPanel("people", "panel_group_info_sidetray", params);
+	for (auto panel : sGroupPanelInstances)
+	{
+		panel.second->refreshNotices();
+	}
 }
 
 //static 
 void LLGroupActions::refresh(const LLUUID& group_id)
 {
-	if(!isGroupUIVisible())
-		return;
-
-	LLSD params;
-	params["group_id"] = group_id;
-	params["open_tab_name"] = "panel_group_info_sidetray";
-	params["action"] = "refresh";
-
-	LLFloaterSidePanelContainer::showPanel("people", "panel_group_info_sidetray", params);
+	auto panels = sGroupPanelInstances.equal_range(group_id);
+	std::for_each(panels.first, panels.second, [](panel_multimap_t::value_type& p)
+	{
+		p.second->refreshData();
+	});
 }
 
 //static 
 void LLGroupActions::createGroup()
 {
-	LLSD params;
-	params["group_id"] = LLUUID::null;
-	params["open_tab_name"] = "panel_group_info_sidetray";
-	params["action"] = "create";
-
-	LLFloaterSidePanelContainer::showPanel("people", "panel_group_info_sidetray", params);
-
+	auto profile = LLFloaterReg::showTypedInstance<LLFloaterGroupProfile>("group_profile", LLUUID::null, TAKE_FOCUS_YES);
+	profile->createGroup();
 }
+
 //static
 void LLGroupActions::closeGroup(const LLUUID& group_id)
 {
-	if(!isGroupUIVisible())
-		return;
-
-	LLSD params;
-	params["group_id"] = group_id;
-	params["open_tab_name"] = "panel_group_info_sidetray";
-	params["action"] = "close";
-
-	LLFloaterSidePanelContainer::showPanel("people", "panel_group_info_sidetray", params);
+	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD().with("group_id", group_id));
+	if (floaterp)
+	{
+		floaterp->closeFloater();
+	}
 }
-
 
 // static
 LLUUID LLGroupActions::startIM(const LLUUID& group_id)
@@ -446,13 +421,10 @@ LLUUID LLGroupActions::startIM(const LLUUID& group_id)
 		make_ui_sound("UISndStartIM");
 		return session_id;
 	}
-	else
-	{
-		// this should never happen, as starting a group IM session
-		// relies on you belonging to the group and hence having the group data
-		make_ui_sound("UISndInvalidOp");
-		return LLUUID::null;
-	}
+	// this should never happen, as starting a group IM session
+	// relies on you belonging to the group and hence having the group data
+	make_ui_sound("UISndInvalidOp");
+	return LLUUID::null;
 }
 
 // static

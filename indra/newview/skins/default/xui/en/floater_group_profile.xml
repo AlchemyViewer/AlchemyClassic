@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<floater
+  positioning="cascading"
+  can_close="true"
+  can_resize="true"
+  height="570"
+  min_height="350"
+  min_width="260"
+  layout="topleft"
+  name="floater_group_profile"
+  save_rect="true"
+  title="GROUP"
+  width="370">
+  <panel
+    class="panel_group_info_sidetray"
+    name="panel_group_info_sidetray"
+    filename="panel_group_info_sidetray.xml"
+    label="Group Profile"
+    font="SansSerifBold"
+    follows="all"
+    layout="topleft"
+    min_height="350"
+    left="1"
+    right="-1"
+    top="0"
+    bottom="-8"/>
+</floater>

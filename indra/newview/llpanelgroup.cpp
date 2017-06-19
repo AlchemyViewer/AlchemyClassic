@@ -33,7 +33,6 @@
 #include "llaccordionctrltab.h"
 #include "llaccordionctrl.h"
 #include "llbutton.h"
-#include "lltabcontainer.h"
 #include "lltextbox.h"
 #include "lltrans.h"
 
@@ -44,8 +43,6 @@
 #include "llviewerwindow.h"
 #include "llappviewer.h"
 #include "llnotificationsutil.h"
-#include "llfloaterreg.h"
-#include "llfloater.h"
 #include "llgroupactions.h"
 
 #include "llsidetraypanelcontainer.h"
@@ -54,10 +51,7 @@
 #include "llpanelgroupgeneral.h"
 #include "llpanelgrouproles.h"
 
-
 static LLPanelInjector<LLPanelGroup> t_panel_group("panel_group_info_sidetray");
-
-
 
 LLPanelGroupTab::LLPanelGroupTab()
 	: LLPanel(),
@@ -101,9 +95,16 @@ LLPanelGroup::LLPanelGroup()
 	mCommitCallbackRegistrar.add("Group.CopyData", boost::bind(&LLPanelGroup::copyData, this, _2));
 }
 
-
 LLPanelGroup::~LLPanelGroup()
 {
+	for (auto itr = sGroupPanelInstances.cbegin(); itr != sGroupPanelInstances.cend(); ++itr)
+	{
+		if (itr->second == this)
+		{
+			sGroupPanelInstances.erase(itr);
+			break;
+		}
+	}
 	LLGroupMgr::getInstance()->removeObserver(this);
 	if(LLVoiceClient::instanceExists())
 	{
@@ -141,9 +142,7 @@ void LLPanelGroup::onOpen(const LLSD& key)
 	}
 	else if(str_action == "refresh_notices")
 	{
-		LLPanelGroupNotices* panel_notices = findChild<LLPanelGroupNotices>("group_notices_tab_panel");
-		if(panel_notices)
-			panel_notices->refreshNotices();
+		refreshNotices();
 	}
 
 }
@@ -263,7 +262,7 @@ void LLPanelGroup::onBtnApply()
 }
 
 
-void LLPanelGroup::onBtnJoin()
+void LLPanelGroup::onBtnJoin() const
 {
 	LL_DEBUGS() << "joining group: " << mID << LL_ENDL;
 	LLGroupActions::join(mID);
@@ -340,8 +339,18 @@ void LLPanelGroup::setGroupID(const LLUUID& group_id)
 
 	bool is_same_id = group_id == mID;
 	
+	for (auto itr = sGroupPanelInstances.cbegin(); itr != sGroupPanelInstances.cend(); ++itr)
+	{
+		if (itr->second == this)
+		{
+			sGroupPanelInstances.erase(itr);
+			break;
+		}
+	}
 	LLGroupMgr::getInstance()->removeObserver(this);
 	mID = group_id;
+
+	sGroupPanelInstances.emplace(std::make_pair(LLUUID(mID), &*this));
 	LLGroupMgr::getInstance()->addObserver(this);
 
 	for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)
@@ -490,6 +499,13 @@ bool LLPanelGroup::apply(LLPanelGroupTab* tab)
 		LLNotificationsUtil::add("GenericAlert", args);
 	}
 	return false;
+}
+
+void LLPanelGroup::refreshNotices()
+{
+	LLPanelGroupNotices* panel_notices = findChild<LLPanelGroupNotices>("group_notices_tab_panel");
+	if (panel_notices)
+		panel_notices->refreshNotices();
 }
 
 bool LLPanelGroup::apply()

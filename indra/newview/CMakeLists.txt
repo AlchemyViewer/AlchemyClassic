@@ -272,6 +272,7 @@ set(viewer_SOURCE_FILES
     llfloatergridstatus.cpp
     llfloatergroupbulkban.cpp
     llfloatergroupinvite.cpp
+    llfloatergroupprofile.cpp
     llfloatergroups.cpp
     llfloaterhandler.cpp
     llfloaterhelpbrowser.cpp
@@ -929,6 +930,7 @@ set(viewer_HEADER_FILES
     llfloatergridstatus.h
     llfloatergroupbulkban.h
     llfloatergroupinvite.h
+    llfloatergroupprofile.h
     llfloatergroups.h
     llfloaterhandler.h
     llfloaterhelpbrowser.h

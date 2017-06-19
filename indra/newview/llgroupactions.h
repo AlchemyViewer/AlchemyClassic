@@ -27,7 +27,6 @@
 #ifndef LL_LLGROUPACTIONS_H
 #define LL_LLGROUPACTIONS_H
 
-#include "llsd.h"
 #include "lluuid.h"
 
 /**

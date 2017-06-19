@@ -9,8 +9,9 @@
   layout="topleft"
   name="floater_task_info"
   save_rect="true"
-  title="TASK INFO"
-  width="370">
+  title="OBJECT PROPERTIES"
+  single_instance="true"
+  width="330">
   <panel
     class="sidepanel_task_info"
     filename="sidepanel_task_info.xml"

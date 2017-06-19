@@ -46,9 +46,6 @@ LLFloaterTaskInfo::~LLFloaterTaskInfo()
 void LLFloaterTaskInfo::onOpen(const LLSD& key)
 {
 	auto selection = LLSelectMgr::getInstance()->getSelection();
-	auto first_obj = selection->getFirstObject();
-	if (first_obj)
-		setTitle("");
 	LLSidepanelTaskInfo* panel = getChild<LLSidepanelTaskInfo>("sidepanel_task_panel");
 	panel->setObjectSelection(selection);
 }

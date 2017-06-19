@@ -42,7 +42,7 @@ public:
 	void onOpen(const LLSD& key) override;
 	void changed(LLGroupChange gc) override; // LLGroupMgrObserver
 
-	void createGroup();
+	void createGroup() const;
 
 private:
 	~LLFloaterGroupProfile();

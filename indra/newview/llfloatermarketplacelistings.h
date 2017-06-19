@@ -219,8 +219,6 @@ public:
     
 	BOOL postBuild() override;
 	void onOpen(const LLSD& key) override;
-    
-private:
 };
 
 #endif // LL_LLFLOATERMARKETPLACELISTINGS_H

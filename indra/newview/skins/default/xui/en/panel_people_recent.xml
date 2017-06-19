@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<panel
+  background_opaque="true"
+  background_visible="true"
+  bg_alpha_color="DkGray"
+  bg_opaque_color="DkGray"
+  follows="all"
+  height="350"
+  label="RECENT"
+  layout="topleft"
+  left="0"
+  help_topic="people_recent_tab"
+  name="recent_panel"
+  width="330"
+  top="0">
+  <panel
+    follows="left|top|right"
+    height="27"
+    label="bottom_panel"
+    layout="topleft"
+    left="0"
+    name="recent_buttons_panel"
+    right="-1"
+    top="0">
+    <filter_editor
+      follows="left|top|right"
+      height="23"
+      layout="topleft"
+      left="6"
+      label="Filter People"
+      max_length_chars="300"
+      name="recent_filter_input"
+      text_pad_left="10"
+      top="4"
+      width="177" />
+    <button
+      commit_callback.function="People.Gear"
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="OptionsMenu_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="8"
+      name="gear_btn"
+      tool_tip="Actions on selected person"
+      top="3"
+      width="31" />
+    <menu_button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="Conv_toolbar_sort"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      menu_filename="menu_people_recent_view.xml"
+      menu_position="bottomleft"
+      name="recent_view_btn"
+      tool_tip="View/sort options"
+      top_delta="0"
+      width="31" />
+    <button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="AddItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      name="add_friend_btn"
+      tool_tip="Offer friendship to a resident"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.AddFriend" />
+    </button>
+    <dnd_button
+      enabled="false"
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="TrashItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      left_pad="2"
+      layout="topleft"
+      name="friends_del_btn"
+      tool_tip="Remove selected person as a friend"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.DelFriend" />
+    </dnd_button>
+  </panel>
+  <avatar_list
+    allow_select="true"
+    follows="all"
+    height="351"
+    layout="topleft"
+    left="3"
+    multi_select="true"
+    name="avatar_list"
+    show_last_interaction_time="true"
+    right="-2"
+    top_pad="4" />
+</panel>

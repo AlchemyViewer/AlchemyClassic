@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<panel
+  background_opaque="true"
+  background_visible="true"
+  bg_alpha_color="DkGray"
+  bg_opaque_color="DkGray"
+  height="350"
+  follows="all"
+  label="FRIENDS"
+  layout="topleft"
+  left="0"
+  help_topic="people_friends_tab"
+  name="friends_panel"
+  width="330"
+  top="0">
+  <panel
+    follows="left|top|right"
+    height="27"
+    label="bottom_panel"
+    layout="topleft"
+    left="0"
+    name="friends_buttons_panel"
+    right="-1"
+    top="0">
+    <filter_editor
+      follows="left|top|right"
+      height="23"
+      layout="topleft"
+      left="6"
+      label="Filter People"
+      max_length_chars="300"
+      name="friends_filter_input"
+      text_pad_left="10"
+      top="4"
+      width="177" />
+    <button
+      commit_callback.function="People.Gear"
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="OptionsMenu_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="8"
+      name="gear_btn"
+      tool_tip="Actions on selected person"
+      top="3"
+      width="31" />
+    <menu_button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="Conv_toolbar_sort"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      menu_filename="menu_people_friends_view.xml"
+      menu_position="bottomleft"
+      name="friends_view_btn"
+      tool_tip="View/sort options"
+      top_delta="0"
+      width="31" />
+    <button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="AddItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      name="friends_add_btn"
+      tool_tip="Offer friendship to a resident"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.AddFriendWizard" />
+    </button>
+    <dnd_button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="TrashItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      left_pad="2"
+      layout="topleft"
+      name="friends_del_btn"
+      tool_tip="Remove selected person as a friend"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.DelFriend" />
+    </dnd_button>
+  </panel>
+  <accordion
+    background_visible="true"
+    bg_alpha_color="DkGray2"
+    bg_opaque_color="DkGray2"
+    follows="all"
+    height="408"
+    layout="topleft"
+    left="3"
+    name="friends_accordion"
+    right="-2"
+    top_pad="2">
+    <accordion_tab
+      layout="topleft"
+      height="172"
+      min_height="150"
+      name="tab_online"
+      title="Online">
+      <avatar_list
+        allow_select="true"
+        follows="all"
+        height="172"
+        layout="topleft"
+        left="0"
+        multi_select="true"
+        name="avatars_online"
+        show_permissions_granted="true"
+        top="0"
+        width="307" />
+    </accordion_tab>
+    <accordion_tab
+      layout="topleft"
+      height="173"
+      name="tab_all"
+      title="All">
+      <avatar_list
+        allow_select="true"
+        follows="all"
+        height="173"
+        layout="topleft"
+        left="0"
+        multi_select="true"
+        name="avatars_all"
+        show_permissions_granted="true"
+        top="0"
+        width="307" />
+    </accordion_tab>
+    <accordion_tab
+      layout="topleft"
+      height="173"
+      name="tab_suggested_friends"
+      title="People you may want to friend">
+      <avatar_list
+        ignore_online_status="true"
+        allow_select="true"
+        follows="all"
+        height="173"
+        layout="topleft"
+        left="0"
+        name="suggested_friends"
+        show_permissions_granted="true"
+        top="0"
+        width="307" />
+    </accordion_tab>
+  </accordion>
+  <text
+    follows="all"
+    height="450"
+    left="13"
+    name="no_friends_help_text"
+    right="-13"
+    top="37"
+    wrap="true" />
+</panel>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+
+<panel
+  background_opaque="true"
+  background_visible="true"
+  bg_alpha_color="DkGray"
+  bg_opaque_color="DkGray"
+  height="350"
+  follows="all"
+  label="NEARBY"
+  layout="topleft"
+  left="2"
+  help_topic="people_nearby_tab"
+  name="nearby_panel"
+  width="330"
+  top="0">
+  <panel
+    follows="left|top|right"
+    height="27"
+    label="bottom_panel"
+    layout="topleft"
+    left="2"
+    name="nearby_buttons_panel"
+    right="-1"
+    top="0">
+    <filter_editor
+      follows="left|top|right"
+      height="23"
+      layout="topleft"
+      left="1"
+      label="Filter People"
+      max_length_chars="300"
+      name="nearby_filter_input"
+      text_pad_left="10"
+      top="4"
+      width="178" />
+    <button
+      commit_callback.function="People.Gear"
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="OptionsMenu_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="7"
+      name="gear_btn"
+      tool_tip="Actions on selected person"
+      top="3"
+      width="31" />
+    <menu_button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="Conv_toolbar_sort"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      menu_filename="menu_people_nearby_view.xml"
+      menu_position="bottomleft"
+      name="nearby_view_btn"
+      tool_tip="View/sort options"
+      top_delta="0"
+      width="31" />
+    <button
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="AddItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      layout="topleft"
+      left_pad="2"
+      name="add_friend_btn"
+      tool_tip="Offer friendship to a resident"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.AddFriend" />
+    </button>
+    <dnd_button
+      enabled="false"
+      follows="right"
+      height="25"
+      image_hover_unselected="Toolbar_Middle_Over"
+      image_overlay="TrashItem_Off"
+      image_selected="Toolbar_Middle_Selected"
+      image_unselected="Toolbar_Middle_Off"
+      left_pad="2"
+      layout="topleft"
+      name="friends_del_btn"
+      tool_tip="Remove selected person as a friend"
+      top_delta="0"
+      width="31">
+      <commit_callback
+        function="People.DelFriend" />
+    </dnd_button>
+  </panel>
+  <layout_stack
+    clip="false"
+    follows="all"
+    height="410"
+    layout="topleft"
+    left="0"
+    mouse_opaque="false"
+    orientation="vertical"
+    right="-1"
+    top_pad="0">
+    <layout_panel
+      height="142"
+      layout="topleft"
+      min_dim="100"
+      mouse_opaque="false"
+      user_resize="true"
+      visibility_control="NearbyListShowMap"
+      width="313">
+      <net_map
+        bg_color="NetMapBackgroundColor"
+        follows="all"
+        height="140"
+        layout="topleft"
+        left="3"
+        mouse_opaque="false"
+        name="Net Map"
+        right="-1"
+        top="4" />
+    </layout_panel>
+    <layout_panel
+      height="213"
+      layout="topleft"
+      min_dim="100"
+      mouse_opaque="false"
+      right="-1"
+      user_resize="true">
+      <avatar_list
+        show_distance="true"
+        allow_select="true"
+        follows="all"
+        height="211"
+        ignore_online_status="true"
+        layout="topleft"
+        left="3"
+        keep_one_selected="false"
+        multi_select="true"
+        name="avatar_list"
+        right="-1"
+        top="2" />
+    </layout_panel>
+  </layout_stack>
+</panel>

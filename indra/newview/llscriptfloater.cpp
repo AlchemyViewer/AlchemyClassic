@@ -42,6 +42,7 @@
 #include "lltoastnotifypanel.h"
 #include "lltoastscripttextbox.h"
 #include "lltrans.h"
+#include "llviewerobjectlist.h"
 #include "llviewerwindow.h"
 #include "llfloaterimsession.h"
 
@@ -62,6 +63,7 @@ LLUUID notification_id_to_object_id(const LLUUID& notification_id)
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+
 
 LLScriptFloater::LLScriptFloater(const LLSD& key)
 : LLDockableFloater(nullptr, true, key)
@@ -348,6 +350,11 @@ void LLScriptFloater::hideToastsIfNeeded()
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 
+LLScriptFloaterManager::LLScriptFloaterManager()
+{
+	gSavedSettings.getControl("ScriptDialogLimitations")->getCommitSignal()->connect(boost::bind(&clearScriptNotifications));
+}
+
 void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 {
 	if(notification_id.isNull())
@@ -367,9 +374,79 @@ void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 	// LLDialog can spawn only one instance, LLLoadURL and LLGiveInventory can spawn unlimited number of instances
 	if(OBJ_SCRIPT == obj_type)
 	{
-		// If an Object spawns more-than-one floater, only the newest one is shown. 
-		// The previous is automatically closed.
-		script_notification_map_t::const_iterator it = findUsingObjectId(object_id);
+		static LLCachedControl<U32> script_dialog_limitations(gSavedSettings, "ScriptDialogLimitations", 0);
+		script_notification_map_t::const_iterator it = mNotifications.end();
+		switch (script_dialog_limitations)
+		{
+			case SCRIPT_PER_CHANNEL:
+			{
+				// If an Object spawns more-than-one floater per channel, only the newest one is shown.
+				// The previous is automatically closed.
+				LLNotificationPtr notification = LLNotifications::instance().find(notification_id);
+				if (notification)
+				{
+					it = findUsingObjectIdAndChannel(object_id, notification->getPayload()["chat_channel"].asInteger());
+				}
+				break;
+			}
+			case SCRIPT_ATTACHMENT_PER_CHANNEL:
+			{
+				LLViewerObject* objectp = gObjectList.findObject(object_id);
+				if (objectp && objectp->getAttachmentItemID().notNull()) //in user inventory
+				{
+					LLNotificationPtr notification = LLNotifications::instance().find(notification_id);
+					if (notification)
+					{
+						it = findUsingObjectIdAndChannel(object_id, notification->getPayload()["chat_channel"].asInteger());
+					}
+				}
+				else
+				{
+					it = findUsingObjectId(object_id);
+				}
+				break;
+			}
+			case SCRIPT_HUD_PER_CHANNEL:
+			{
+				LLViewerObject* objectp = gObjectList.findObject(object_id);
+				if (objectp && objectp->isHUDAttachment())
+				{
+					LLNotificationPtr notification = LLNotifications::instance().find(notification_id);
+					if (notification)
+					{
+						it = findUsingObjectIdAndChannel(object_id, notification->getPayload()["chat_channel"].asInteger());
+					}
+				}
+				else
+				{
+					it = findUsingObjectId(object_id);
+				}
+				break;
+			}
+			case SCRIPT_HUD_UNCONSTRAINED:
+			{
+				LLViewerObject* objectp = gObjectList.findObject(object_id);
+				if (objectp && objectp->isHUDAttachment())
+				{
+					// don't remove existing floaters
+					break;
+				}
+				else
+				{
+					it = findUsingObjectId(object_id);
+				}
+				break;
+			}
+			case SCRIPT_PER_OBJECT:
+			default:
+			{
+				// If an Object spawns more-than-one floater, only the newest one is shown.
+				// The previous is automatically closed.
+				it = findUsingObjectId(object_id);
+				break;
+			}
+		}
+
 		if(it != mNotifications.end())
 		{
 			LLUUID old_id = it->first; // </alchemy> copy LLUUID to prevent use after free
@@ -377,7 +454,7 @@ void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 			if (nullptr != chiclet_panelp)
 			{
 				LLIMChiclet * chicletp = chiclet_panelp->findChiclet<LLIMChiclet>(old_id);
-				if(nullptr != chicletp)
+				if (nullptr != chicletp)
 				{
 					// Pass the new_message icon state further.
 					set_new_message = chicletp->getShowNewMessagesIcon();
@@ -386,7 +463,7 @@ void LLScriptFloaterManager::onAddNotification(const LLUUID& notification_id)
 			}
 
 			LLScriptFloater* floater = LLFloaterReg::findTypedInstance<LLScriptFloater>("script_floater", old_id);
-			if(floater)
+			if (floater)
 			{
 				// Generate chiclet with a "new message" indicator if a docked window was opened but not in focus. See EXT-3142.
 				set_new_message |= !floater->hasFocus();
@@ -581,6 +658,23 @@ LLScriptFloaterManager::script_notification_map_t::const_iterator LLScriptFloate
 	return mNotifications.end();
 }
 
+LLScriptFloaterManager::script_notification_map_t::const_iterator LLScriptFloaterManager::findUsingObjectIdAndChannel(const LLUUID& object_id, S32 im_channel)
+{
+	script_notification_map_t::const_iterator it = mNotifications.begin();
+	for (; mNotifications.end() != it; ++it)
+	{
+		if (object_id == it->second)
+		{
+			LLNotificationPtr notification = LLNotifications::instance().find(it->first);
+			if (notification && (im_channel == notification->getPayload()["chat_channel"].asInteger()))
+			{
+				return it;
+			}
+		}
+	}
+	return mNotifications.end();
+}
+
 void LLScriptFloaterManager::saveFloaterPosition(const LLUUID& object_id, const FloaterPositionInfo& fpi)
 {
 	if(object_id.notNull())
@@ -611,6 +705,33 @@ void LLScriptFloaterManager::setFloaterVisible(const LLUUID& notification_id, bo
 	if(floater)
 	{
 		floater->setVisible(visible);
+	}
+}
+
+//static
+void LLScriptFloaterManager::clearScriptNotifications()
+{
+	LLScriptFloaterManager* inst = LLScriptFloaterManager::getInstance();
+	static const object_type_map TYPE_MAP = initObjectTypeMap();
+
+	script_notification_map_t::const_iterator ntf_it = inst->mNotifications.begin();
+	while (inst->mNotifications.end() != ntf_it)
+	{
+		LLUUID notification_id = ntf_it->first;
+		ntf_it++; // onRemoveNotification() erases notification
+		LLNotificationPtr notification = LLNotifications::instance().find(notification_id);
+		if (notification)
+		{
+			object_type_map::const_iterator map_it = TYPE_MAP.find(notification->getName());
+			if (map_it != TYPE_MAP.end() && map_it->second == OBJ_SCRIPT)
+			{
+				if (notification != NULL && !notification->isCancelled())
+				{
+					LLNotificationsUtil::cancel(notification);
+				}
+				inst->onRemoveNotification(notification_id);
+			}
+		}
 	}
 }
 

@@ -176,6 +176,8 @@ public:
 	virtual BOOL	isHUDAttachment() const { return FALSE; }
 	virtual BOOL	isTempAttachment() const;
 
+	virtual BOOL isHiglightedOrBeacon() const;
+
 	virtual void 	updateRadius() {};
 	virtual F32 	getVObjRadius() const; // default implemenation is mDrawable->getRadius()
 	
@@ -386,7 +388,7 @@ public:
 
 	 // Create if necessary
 	LLAudioSource *getAudioSource(const LLUUID& owner_id);
-	bool isAudioSource() {return mAudioSourcep != nullptr;}
+	bool isAudioSource() const {return mAudioSourcep != nullptr;}
 
 	U8 getMediaType() const;
 	void setMediaType(U8 media_type);

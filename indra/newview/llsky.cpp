@@ -53,6 +53,7 @@
 #include "llvosky.h"
 #include "llcubemap.h"
 #include "llviewercontrol.h"
+#include "llenvmanager.h"
 
 #include "llvowlsky.h"
 

@@ -57,8 +57,9 @@ public:
 		mEnd(end)
 	{}
 	virtual ~LLTextSegment();
+	bool						getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
 
-	virtual bool				getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const;
+	virtual bool				getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const;
 	virtual S32					getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const;
 
 	/**
@@ -122,7 +123,7 @@ public:
 	LLNormalTextSegment( const LLColor4& color, S32 start, S32 end, LLTextBase& editor, BOOL is_visible = TRUE);
 	virtual ~LLNormalTextSegment();
 
-	/*virtual*/ bool				getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	/*virtual*/ bool				getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const override;
 	/*virtual*/ S32					getOffset(S32 segment_local_x_coord, S32 start_offset, S32 num_chars, bool round) const override;
 	/*virtual*/ S32					getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
 	/*virtual*/ F32					draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
@@ -208,7 +209,7 @@ public:
 
 	LLInlineViewSegment(const Params& p, S32 start, S32 end);
 	~LLInlineViewSegment();
-	/*virtual*/ bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	/*virtual*/ bool		getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const override;
 	/*virtual*/ S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
 	/*virtual*/ void		updateLayout(const class LLTextBase& editor) override;
 	/*virtual*/ F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
@@ -232,7 +233,7 @@ public:
 	LLLineBreakTextSegment(LLStyleConstSP style,S32 pos);
 	LLLineBreakTextSegment(S32 pos);
 	~LLLineBreakTextSegment();
-	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	bool		getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const override;
 	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override;
 	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
 
@@ -245,7 +246,7 @@ class LLImageTextSegment : public LLTextSegment
 public:
 	LLImageTextSegment(LLStyleConstSP style,S32 pos,class LLTextBase& editor);
 	~LLImageTextSegment();
-	bool		getDimensions(S32 first_char, S32 num_chars, S32& width, S32& height) const override;
+	bool		getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const override;
 	S32			getNumChars(S32 num_pixels, S32 segment_offset, S32 char_offset, S32 max_chars, S32 line_ind) const override;
 	F32			draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override;
 

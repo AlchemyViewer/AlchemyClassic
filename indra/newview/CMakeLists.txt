@@ -289,6 +289,7 @@ set(viewer_SOURCE_FILES
     llfloaterland.cpp
     llfloaterlandholdings.cpp
     llfloaterlegacyprofile.cpp
+    llfloaterlinkreplace.cpp
     llfloatermarketplacelistings.cpp
     llfloatermap.cpp
     llfloatermediasettings.cpp
@@ -313,6 +314,7 @@ set(viewer_SOURCE_FILES
     llfloaterperms.cpp
     llfloaterpreference.cpp
     llfloaterpreferenceproxy.cpp
+    llfloaterpreviewtrash.cpp
     llfloaterprogressview.cpp
     llfloaterproperties.cpp
     llfloaterregiondebugconsole.cpp
@@ -948,6 +950,7 @@ set(viewer_HEADER_FILES
     llfloaterland.h
     llfloaterlandholdings.h
     llfloaterlegacyprofile.h
+    llfloaterlinkreplace.h
     llfloatermap.h
     llfloatermarketplacelistings.h
     llfloatermediasettings.h
@@ -972,6 +975,7 @@ set(viewer_HEADER_FILES
     llfloaterperms.h
     llfloaterpreference.h
     llfloaterpreferenceproxy.h
+    llfloaterpreviewtrash.h
     llfloaterprogressview.h
     llfloaterproperties.h
     llfloaterregiondebugconsole.h

@@ -36,6 +36,29 @@
 #include "lltrace.h"
 #include "llinitparam.h"
 
+namespace LLViewerAssetStatsFF
+{
+	enum EViewerAssetCategories
+	{
+		EVACTextureTempHTTPGet,			//< Texture GETs - temp/baked, HTTP
+		EVACTextureTempUDPGet,			//< Texture GETs - temp/baked, UDP
+		EVACTextureNonTempHTTPGet,		//< Texture GETs - perm, HTTP
+		EVACTextureNonTempUDPGet,		//< Texture GETs - perm, UDP
+		EVACWearableHTTPGet,			//< Wearable GETs HTTP
+		EVACWearableUDPGet,				//< Wearable GETs UDP
+		EVACSoundHTTPGet,				//< Sound GETs HTTP
+		EVACSoundUDPGet,				//< Sound GETs UDP
+		EVACGestureHTTPGet,				//< Gesture GETs HTTP
+		EVACGestureUDPGet,				//< Gesture GETs UDP
+		EVACLandmarkHTTPGet,			//< Landmark GETs HTTP
+		EVACLandmarkUDPGet,				//< Landmark GETs UDP
+		EVACOtherHTTPGet,				//< Other GETs HTTP
+		EVACOtherUDPGet,				//< Other GETs UDP
+
+		EVACCount						// Must be last
+	};
+}
+
 /**
  * @class LLViewerAssetStats
  * @brief Records performance aspects of asset access operations.
@@ -71,6 +94,7 @@
  * LLViewerAssetStatsFF is provided for conditional test-and-call
  * operations.
  */
+
 class LLViewerAssetStats : public LLStopWatchControlsMixin<LLViewerAssetStats>
 {
 public:
@@ -95,13 +119,14 @@ public:
 						resp_count;
 		Mandatory<F64>	resp_min,
 						resp_max,
-						resp_mean;
+						resp_mean,
+						resp_mean_bytes;
 	
 		AssetRequestType();
 	};
 
 	struct FPSStats : public LLInitParam::Block<FPSStats>
-			{
+    {
 		Mandatory<S32>	count;
 		Mandatory<F64>	min,
 						max,
@@ -110,15 +135,21 @@ public:
 	};
 
 	struct RegionStats : public LLInitParam::Block<RegionStats>
-				{
+    {
 		Optional<AssetRequestType>	get_texture_temp_http,
 									get_texture_temp_udp,
 									get_texture_non_temp_http,
 									get_texture_non_temp_udp,
+									get_wearable_http,
 									get_wearable_udp,
+									get_sound_http,
 									get_sound_udp,
+									get_gesture_http,
 									get_gesture_udp,
-									get_other;
+									get_landmark_http,
+									get_landmark_udp,
+									get_other_http,
+									get_other_udp;
 		Optional<FPSStats>			fps;
 		Optional<S32>				grid_x,
 									grid_y;
@@ -162,6 +193,11 @@ public:
 	// Retrieve current metrics for all visited regions (NULL region UUID/handle excluded)
     // Uses AssetStats structure seen above
 	void getStats(AssetStats& stats, bool compact_output);
+
+    // Retrieve a single asset request type (taken from a single region)
+    template <typename T>
+    void getStat(LLTrace::Recording& rec, T& req, LLViewerAssetStatsFF::EViewerAssetCategories cat, bool compact_output);
+
 	LLSD asLLSD(bool compact_output);
 
 protected:
@@ -202,19 +238,6 @@ extern LLViewerAssetStats * gViewerAssetStats;
 
 namespace LLViewerAssetStatsFF
 {
-	enum EViewerAssetCategories
-	{
-		EVACTextureTempHTTPGet,			//< Texture GETs - temp/baked, HTTP
-		EVACTextureTempUDPGet,			//< Texture GETs - temp/baked, UDP
-		EVACTextureNonTempHTTPGet,		//< Texture GETs - perm, HTTP
-		EVACTextureNonTempUDPGet,		//< Texture GETs - perm, UDP
-		EVACWearableUDPGet,				//< Wearable GETs
-		EVACSoundUDPGet,				//< Sound GETs
-		EVACGestureUDPGet,				//< Gesture GETs
-		EVACOtherGet,					//< Other GETs
-
-		EVACCount						// Must be last
-	};
 
 /**
  * @brief Allocation and deallocation of globals.
@@ -247,7 +270,7 @@ void record_enqueue(LLViewerAssetType::EType at, bool with_http, bool is_temp);
 void record_dequeue(LLViewerAssetType::EType at, bool with_http, bool is_temp);
 
 void record_response(LLViewerAssetType::EType at, bool with_http, bool is_temp,
-						  LLViewerAssetStats::duration_t duration);
+                     LLViewerAssetStats::duration_t duration, F64 bytes=0);
 
 void record_avatar_stats();
 

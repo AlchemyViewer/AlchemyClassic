@@ -201,6 +201,7 @@ public:
 	void doCreate(const LLSD& userdata);
 	bool beginIMSession();
 	void fileUploadLocation(const LLSD& userdata);
+	void purgeSelectedItems();
 	bool attachObject(const LLSD& userdata);
 	static void idle(void* user_data);
 
@@ -230,6 +231,8 @@ public:
     
     // Clean up stuff when the folder root gets deleted
     void clearFolderRoot();
+
+    void callbackPurgeSelectedItems(const LLSD& notification, const LLSD& response);
 
 protected:
 	void openStartFolderOrMyInventory(); // open the first level of inventory

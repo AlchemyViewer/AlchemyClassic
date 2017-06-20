@@ -90,6 +90,7 @@
 #include "llfloaterland.h"
 #include "llfloaterlandholdings.h"
 #include "llfloaterlegacyprofile.h"
+#include "llfloaterlinkreplace.h"
 #include "llfloatermap.h"
 #include "llfloatermarketplacelistings.h"
 #include "llfloatermediasettings.h"
@@ -112,6 +113,7 @@
 #include "llfloaterperms.h"
 #include "llfloaterpreference.h"
 #include "llfloaterpreferenceproxy.h"
+#include "llfloaterpreviewtrash.h"
 #include "llfloaterprogressview.h"
 #include "llfloaterproperties.h"
 #include "llfloaterregiondebugconsole.h"
@@ -266,6 +268,7 @@ void LLViewerFloaterReg::registerFloaters()
 	LLNotificationsUI::registerFloater();
 	
 	LLFloaterReg::add("land_holdings", "floater_land_holdings.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterLandHoldings>);
+	LLFloaterReg::add("linkreplace", "floater_linkreplace.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterLinkReplace>);
 	LLFloaterReg::add("mem_leaking", "floater_mem_leaking.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterMemLeak>);
 	if(gSavedSettings.getBOOL("TextureFetchDebuggerEnabled"))
 	{
@@ -312,6 +315,7 @@ void LLViewerFloaterReg::registerFloaters()
 	LLFloaterReg::add("preview_scriptedit", "floater_live_lsleditor.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLLiveLSLEditor>, "preview");
 	LLFloaterReg::add("preview_sound", "floater_preview_sound.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLPreviewSound>, "preview");
 	LLFloaterReg::add("preview_texture", "floater_preview_texture.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLPreviewTexture>, "preview");
+	LLFloaterReg::add("preview_trash", "floater_preview_trash.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterPreviewTrash>);
 	LLFloaterReg::add("properties", "floater_inventory_item_properties.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterProperties>);
 	LLFloaterReg::add("publish_classified", "floater_publish_classified.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLPublishClassifiedFloater>);
 	LLFloaterReg::add("script_colors", "floater_script_ed_prefs.xml", (LLFloaterBuildFunc)&LLFloaterReg::build<LLFloaterScriptEdPrefs>);

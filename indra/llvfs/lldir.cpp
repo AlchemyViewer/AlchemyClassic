@@ -794,8 +794,6 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 		}
 	}
 
-	// Build results vector.
-	std::vector<std::string> results;
 	// The process we use depends on 'constraint'.
 	if (constraint != CURRENT_SKIN) // meaning ALL_SKINS
 	{

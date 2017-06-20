@@ -989,6 +989,16 @@
              width="70">
                 Creator:
             </text>
+            <avatar_icon
+             default_icon_name="Generic_Person"
+             height="18"
+             follows="left|top"
+             layout="topleft"
+             left_pad="1"
+             name="Creator Icon"
+             visible="false"
+             top_delta="0"
+             width="18" />
             <!-- *NOTE: Intentionally wide for long names -->
             <text
              type="string"

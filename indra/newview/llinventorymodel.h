@@ -410,6 +410,7 @@ public:
 	/// removeItem() or removeCategory(), whichever is appropriate
 	void removeObject(const LLUUID& object_id);
 
+	// "TrashIsFull" when trash exceeds maximum capacity
 	void checkTrashOverflow();
 
 protected:

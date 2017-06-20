@@ -962,7 +962,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/glod-1.0pre4-darwin-201511222034.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/glod-1.0pre4-darwin-201511222034.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1048,7 +1048,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/google_breakpad-9e60a27-darwin-201511222009.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/google_breakpad-9e60a27-darwin-201511222009.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1144,7 +1144,7 @@
               <key>hash</key>
               <string>e81d9e4526ceac49f1532d6518085985</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.1-windows-20140120.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib/gperftools-2.1-windows-20140120.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1156,7 +1156,7 @@
               <key>hash</key>
               <string>da6ec7472ed69fe3231eb95432a789d9</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/gperftools-2.2-windows64-20140605.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib/gperftools-2.2-windows64-20140605.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1704,7 +1704,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/libndofdev-0.1-darwin-201504232110.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/libndofdev-0.1-darwin-201504232110.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1998,7 +1998,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/llceflib-3.2987.1591.gd3e47f5-darwin-201703111027.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/llceflib-3.2987.1591.gd3e47f5-darwin-201703111027.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2242,7 +2242,7 @@
               <key>hash</key>
               <string>a77a8daf932e6f32f1511f528762ae81</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs/downloads/ndPhysicsStub-r65-linux32.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux/lib/ndPhysicsStub-r65-linux32.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2446,7 +2446,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2810,7 +2810,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://bitbucket.org/alchemyviewer/publiclibs-darwin/downloads/uriparser-0.8.4-darwin-201511221948.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/uriparser-0.8.4-darwin-201511221948.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

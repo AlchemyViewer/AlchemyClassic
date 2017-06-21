@@ -72,7 +72,7 @@ protected:
 						   void (*callback) (LLVFS *vfs, const LLUUID&, LLAssetType::EType, void *, S32, LLExtStat),
 						   void *user_data,
 						   BOOL duplicate,
-						   BOOL is_priority);
+						   BOOL is_priority) override;
 
     void queueRequestHttp(const LLUUID& uuid,
                           LLAssetType::EType type,
@@ -91,7 +91,7 @@ protected:
 
     std::string getAssetURL(const std::string& cap_url, const LLUUID& uuid, LLAssetType::EType atype);
 
-    void logAssetStorageInfo();
+    void logAssetStorageInfo() override;
     
     std::string mViewerAssetUrl;
     S32 mAssetCoroCount;

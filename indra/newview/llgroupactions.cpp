@@ -345,11 +345,13 @@ void LLGroupActions::activate(const LLUUID& group_id)
 	gAgent.sendReliableMessage();
 }
 
+#if 0 // this isn't used!!!! <alchemy>
 static bool isGroupUIVisible(const LLUUID& group_id)
 {
 	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD().with("group_id", group_id));
 	return LLFloater::isVisible(floaterp);
 }
+#endif
 
 // static 
 void LLGroupActions::inspect(const LLUUID& group_id)

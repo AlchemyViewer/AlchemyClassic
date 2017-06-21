@@ -368,11 +368,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>124bcf47496a8acf0467bd023d84a19d</string>
+              <string>ac6c74b22518b21ce758165e932ba16d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.54.1-darwin-201706202227.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.54.1-darwin-201706202243.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1542,11 +1542,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4eb915a41922f8d0e266eaac2c8c112b</string>
+              <string>833be0254da1164eae60b3c11f47cc52</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///opt/buildlibs/kdu-7.7.1-darwin-201511111801.tar.bz2</string>
+              <string>file:///opt/buildlibs/kdu-7.9.1-darwin-201706131230.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

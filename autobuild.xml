@@ -368,11 +368,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>067c76df2b721ad765a5cb84b69eb090</string>
+              <string>124bcf47496a8acf0467bd023d84a19d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.54.0-darwin-201706121928.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.54.1-darwin-201706202227.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -616,11 +616,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>04ad0e3c8476be0a0df34e92453e6a01</string>
+              <string>7907d467c104234f02b3fe24a48912fc</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/fmodstudio-1.09.04-darwin-201704262153.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/fmodstudio-1.09.05-darwin-201706202159.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1994,11 +1994,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>20e43c141d92a10346805f41ca15adf4</string>
+              <string>8a6859bf79066fcd87b2b62cb20814df</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/llceflib-3.2987.1591.gd3e47f5-darwin-201703111027.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/llceflib-3.3071.1640.g1ebbf3c-darwin-201706202205.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -6,19 +6,6 @@
  layout="topleft"
  name="general_chat_settings"
  width="517">
-    
-  <check_box
-      control_name="ChatAutocompleteGestures"
-      height="16"
-      initial_value="true"
-      label="Auto-complete gestures in nearby chat"
-      layout="topleft"
-      top="17"
-      left="13"
-      name="auto_complete_gestures"
-      width="330">
-  </check_box>
-
   <tab_container
    layout="topleft"
    follows="all"
@@ -86,6 +73,18 @@
      name="typing_notifications_toggle"
      width="275"
      control_name="AlchemyIMHideTyping"/>
+    <check_box
+     control_name="ChatAutocompleteGestures"
+     height="16"
+     initial_value="true"
+     label="Auto-complete gestures in nearby chat"
+     follows="left|top"
+     layout="topleft"
+     left_delta="0"
+     top_pad="6"
+     name="auto_complete_gestures"
+     width="330">
+    </check_box>
     <check_box
      follows="left|top"
      height="16"
@@ -293,7 +292,7 @@
         text_color="White"
         height="17"
         left="10"
-        bottom="73"
+        bottom="68"
         width="55">
         Save:
     </text>

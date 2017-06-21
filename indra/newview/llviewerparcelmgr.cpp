@@ -1561,11 +1561,6 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
         msg->getBOOLFast(_PREHASH_RegionAllowAccessBlock, _PREHASH_RegionAllowAccessOverride, region_allow_access_override);
     }
 	
-    if (msg->getNumberOfBlocks(_PREHASH_RegionAllowAccessBlock))
-    {
-        msg->getBOOLFast(_PREHASH_RegionAllowAccessBlock, _PREHASH_RegionAllowAccessOverride, region_allow_access_override);
-    }
-
 	msg->getS32("ParcelData", "OtherCleanTime", other_clean_time );
 
 	// Actually extract the data.

@@ -723,11 +723,14 @@ std::vector<std::string> LLDir::findSkinnedFilenames(const std::string& subdir,
 					   << ((constraint == CURRENT_SKIN)? "CURRENT_SKIN" : "ALL_SKINS")
 					   << LL_ENDL;
 
+	// Build results vector.
+	std::vector<std::string> results;
+
 	// Disallow filenames that may escape subdir
 	if (filename.find("..") != std::string::npos)
 	{
 		LL_WARNS("LLDir") << "Ignoring potentially relative filename '" << filename << "'" << LL_ENDL;
-		return std::vector<std::string>();
+		return results;
 	}
 
 	// Cache the default language directory for each subdir we've encountered.

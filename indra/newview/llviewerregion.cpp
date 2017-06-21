@@ -535,6 +535,7 @@ LLViewerRegion::LLViewerRegion(const U64 &handle,
 	mColoName("unknown"),
 	mProductSKU("unknown"),
 	mProductName("unknown"),
+	mLegacyHttpUrl(""),
 	mViewerAssetUrl(""),
 	mCacheLoaded(FALSE),
 	mCacheDirty(FALSE),
@@ -2955,9 +2956,12 @@ void LLViewerRegionImpl::buildCapabilityNames(LLSD& capabilityNames)
 	capabilityNames.append("IsExperienceAdmin");
 	capabilityNames.append("IsExperienceContributor");
 	capabilityNames.append("RegionExperiences");
+	capabilityNames.append("GetMesh");
+	capabilityNames.append("GetMesh2");
 	capabilityNames.append("GetMetadata");
 	capabilityNames.append("GetObjectCost");
 	capabilityNames.append("GetObjectPhysicsData");
+	capabilityNames.append("GetTexture");
 	capabilityNames.append("GroupAPIv1");
 	capabilityNames.append("GroupMemberData");
 	capabilityNames.append("GroupProposalBallot");
@@ -3099,6 +3103,10 @@ void LLViewerRegion::setCapability(const std::string& name, const std::string& u
 		{
 			mViewerAssetUrl = url;
 		}
+		else if (name == "GetTexure")
+		{
+			mLegacyHttpUrl = url;
+		}
 	}
 }
 
@@ -3111,6 +3119,10 @@ void LLViewerRegion::setCapabilityDebug(const std::string& name, const std::stri
 		if(name == "ViewerAsset")
 		{
 			mViewerAssetUrl = url;
+		}
+		else if (name == "GetTexure")
+		{
+			mLegacyHttpUrl = url;
 		}
 	}
 }

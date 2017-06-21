@@ -1001,7 +1001,6 @@
              top_delta="0"
              translate="false"
              width="215"
-             word_wrap="true"
              use_ellipses="true">
                 TestString PleaseIgnore (please.ignore)
             </text>
@@ -1029,7 +1028,6 @@
              top_delta="0"
              translate="false"
              width="215"
-             word_wrap="true"
              use_ellipses="true">
                 TestString PleaseIgnore (please.ignore)
             </text>
@@ -1057,7 +1055,6 @@
              top_delta="0"
              translate="false"
              width="215"
-             word_wrap="true"
              use_ellipses="true">
                 TestString PleaseIgnore (please.ignore)
             </text>

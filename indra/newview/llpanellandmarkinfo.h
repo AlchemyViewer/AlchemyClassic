@@ -37,19 +37,15 @@ class LLPanelLandmarkInfo : public LLPanelPlaceInfo
 {
 public:
 	LLPanelLandmarkInfo();
-	/*virtual*/ ~LLPanelLandmarkInfo();
+	~LLPanelLandmarkInfo();
 
-	/*virtual*/ BOOL postBuild() override;
-
-	/*virtual*/ void resetLocation() override;
-
-	/*virtual*/ void setInfoType(EInfoType type) override;
-
-	/*virtual*/ void processParcelInfo(const LLParcelData& parcel_data) override;
+	BOOL postBuild() override;
+	void resetLocation() override;
+	void setInfoType(EInfoType type) override;
+	void processParcelInfo(const LLParcelData& parcel_data) override;
 
 	// Displays landmark owner, creator and creation date info.
 	void displayItemInfo(const LLInventoryItem* pItem);
-
 	void toggleLandmarkEditMode(BOOL enabled);
 
 	const std::string& getLandmarkTitle() const;

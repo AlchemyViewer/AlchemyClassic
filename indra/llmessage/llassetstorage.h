@@ -228,6 +228,10 @@ public:
 	virtual ~LLAssetStorage();
 
 	void setUpstream(const LLHost &upstream_host);
+	bool isUpstreamOK() const
+	{
+		return mUpstreamHost.isOk();
+	}
 
 	BOOL hasLocalAsset(const LLUUID &uuid, LLAssetType::EType type);
 

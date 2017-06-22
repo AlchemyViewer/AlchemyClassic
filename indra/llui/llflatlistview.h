@@ -129,7 +129,7 @@ public:
 	LLRect getRequiredRect() override { return getItemsRect(); }
 
 	/** Returns distance between items */
-	const S32 getItemsPad() { return mItemPad; }
+	const S32 getItemsPad() const { return mItemPad; }
 
 	/**
 	 * Adds and item and LLSD value associated with it to the list at specified position
@@ -166,6 +166,12 @@ public:
 	 * @return the item as LLPanel if associated with value, NULL otherwise
 	 */
 	virtual LLPanel* getItemByValue(const LLSD& value) const;
+
+	/**
+	 * Check for item by value in list
+	 * @return bool whether item exists by value or not
+	 */
+	virtual bool valueExists(const LLSD& value) const;
 
 	template<class T>
 	T* getTypedItemByValue(const LLSD& value) const
@@ -314,7 +320,7 @@ protected:
 	{
 		ComparatorAdaptor(const ItemComparator& comparator) : mComparator(comparator) {};
 
-		bool operator()(const item_pair_t* item_pair1, const item_pair_t* item_pair2)
+		bool operator()(const item_pair_t* item_pair1, const item_pair_t* item_pair2) const
 		{
 			return mComparator.compare(item_pair1->first, item_pair2->first);
 		}
@@ -483,7 +489,7 @@ public:
 	 * Sets up new filter string and filters the list.
 	 */
 	void setFilterSubString(const std::string& filter_str);
-	std::string getFilterSubString() { return mFilterSubString; }
+	std::string getFilterSubString() const { return mFilterSubString; }
 	
 	/**
 	 * Filters the list, rearranges and notifies parent about shape changes.

@@ -882,25 +882,28 @@ void LLPanelProfileLegacy::LLPanelProfileGroups::processProperties(void* data, E
 	LLAvatarGroups* avatar_groups = static_cast<LLAvatarGroups*>(data);
 	if(!avatar_groups || getAvatarId() != avatar_groups->avatar_id) return;
 	
-	for (const LLAvatarGroups::LLGroupData& data: avatar_groups->group_list)
+	for (auto const& gdata: avatar_groups->group_list)
 	{
 		LLProfileGroupItem* item = LLProfileGroupItem::create();
-		item->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfileGroups::showGroup, this, data.group_id));
-		item->init(data);
+		item->childSetAction("info_chevron", boost::bind(&LLPanelProfileGroups::showGroup, this, gdata.group_id));
+		item->init(gdata);
 		
 		LLSD item_value = LLSD();
-		item_value.insert("group_id", data.group_id);
-		item_value.insert("group_name", data.group_name);
-		item_value.insert("group_icon", data.group_insignia_id);
+		item_value.insert("group_id", gdata.group_id);
+		item_value.insert("group_name", gdata.group_name);
+		item_value.insert("group_icon", gdata.group_insignia_id);
 		item_value.insert("group_desc", LLStringUtil::null);
 		
-		mGroupsList->addItem(item, item_value);
+		if (!mGroupsList->valueExists(item_value))
+		{
+			mGroupsList->addItem(item, item_value);
+		}
 	}
 }
 
 void LLPanelProfileLegacy::LLPanelProfileGroups::showGroup(const LLUUID& id)
 {
-	LLGroupActions::show(id); //*FIXME: lol
+	LLGroupActions::show(id);
 }
 
 // LLProfileGroupItem //

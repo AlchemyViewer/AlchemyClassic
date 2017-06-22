@@ -64,7 +64,15 @@ static std::string icon_r;
 
 LLPanelLandmarkInfo::LLPanelLandmarkInfo()
 :	LLPanelPlaceInfo()
-{}
+,	mOwner(nullptr)
+,	mCreator(nullptr)
+,	mCreated(nullptr)
+,	mLandmarkTitle(nullptr)
+,	mLandmarkTitleEditor(nullptr)
+,	mNotesEditor(nullptr)
+,	mFolderCombo(nullptr)
+{
+}
 
 // virtual
 LLPanelLandmarkInfo::~LLPanelLandmarkInfo()
@@ -281,7 +289,7 @@ void LLPanelLandmarkInfo::displayItemInfo(const LLInventoryItem* pItem)
 	{
 		std::string timeStr = getString("acquired_date");
 		LLSD substitution;
-		substitution["datetime"] = (S32) time_utc;
+		substitution["datetime"] = static_cast<S32>(time_utc);
 		LLStringUtil::format (timeStr, substitution);
 		mCreated->setText(timeStr);
 	}
@@ -374,13 +382,12 @@ void LLPanelLandmarkInfo::createLandmark(const LLUUID& folder_id)
 std::string LLPanelLandmarkInfo::getFullFolderName(const LLViewerInventoryCategory* cat)
 {
 	std::string name;
-	LLUUID parent_id;
 
 	llassert(cat);
 	if (cat)
 	{
 		name = cat->getName();
-		parent_id = cat->getParentUUID();
+		LLUUID parent_id = cat->getParentUUID();
 		bool is_under_root_category = parent_id == gInventory.getRootFolderID();
 
 		// we don't want "My Inventory" to appear in the name
@@ -458,7 +465,7 @@ void LLPanelLandmarkInfo::populateFoldersList()
 	sort(folders.begin(), folders.end(), cmp_folders);
 
 	// Finally, populate the combobox.
-	for (folder_vec_t::const_iterator it = folders.begin(); it != folders.end(); it++)
+	for (folder_vec_t::const_iterator it = folders.begin(); it != folders.end(); ++it)
 		mFolderCombo->add(it->second, LLSD(it->first));
 }
 

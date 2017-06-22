@@ -29,7 +29,6 @@
 
 #include "llpanel.h"
 
-#include "v3dmath.h"
 #include "lluuid.h"
 
 #include "llremoteparcelrequest.h"

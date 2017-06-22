@@ -115,7 +115,7 @@ public:
     void onBeforeOutfitSnapshotSave();
     void onAfterOutfitSnapshotSave();
 
-    /*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask);
+    /*virtual*/ BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
 
 protected:
     /*virtual*/ void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id) override;

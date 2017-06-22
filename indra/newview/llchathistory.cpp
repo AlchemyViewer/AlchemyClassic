@@ -56,12 +56,12 @@
 #include "llviewerregion.h"
 #include "llviewertexteditor.h"
 #include "llworld.h"
-#include "lluiconstants.h"
 #include "llstring.h"
 #include "llurlaction.h"
 #include "llviewercontrol.h"
 #include "llviewerobjectlist.h"
 #include "llviewermenu.h"
+#include "llweb.h"
 
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 

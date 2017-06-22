@@ -38,6 +38,7 @@
 #include "llagent.h"
 #include "llmediactrl.h"
 #include "llviewerregion.h"
+#include "llweb.h"
 
 std::string LLFloaterDestinations::sCurrentURL = LLStringUtil::null;
 

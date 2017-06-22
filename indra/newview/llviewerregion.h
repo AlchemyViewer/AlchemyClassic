@@ -29,14 +29,10 @@
 
 // A ViewerRegion is a class that contains a bunch of objects and surfaces
 // that are in to a particular region.
-#include <boost/unordered_map.hpp>
-
 #include "llwind.h"
 #include "v3dmath.h"
-#include "llstring.h"
 #include "llregionflags.h"
 #include "lluuid.h"
-#include "llweb.h"
 #include "llcapabilityprovider.h"
 #include "m4math.h"					// LLMatrix4
 #include "llframetimer.h"
@@ -152,7 +148,7 @@ public:
 
 	// Draw lines in the dirt showing ownership. Return number of 
 	// vertices drawn.
-	S32 renderPropertyLines();
+	S32 renderPropertyLines() const;
 
 	// Call this whenever you change the height data in the region.
 	// (Automatically called by LLSurfacePatch's update routine)

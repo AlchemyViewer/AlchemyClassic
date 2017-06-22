@@ -133,6 +133,7 @@
 #include "llpathfindingmanager.h"
 #include "llstartup.h"
 #include "llcleanup.h"
+#include "llweb.h"
 
 #include <boost/unordered_map.hpp>
 

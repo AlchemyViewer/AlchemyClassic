@@ -128,6 +128,7 @@
 #include "llpanelplaceprofile.h"
 #include "llviewerregion.h"
 #include "llfloaterregionrestarting.h"
+#include "llweb.h"
 
 #include "llnotificationmanager.h" //
 #include "llexperiencecache.h"

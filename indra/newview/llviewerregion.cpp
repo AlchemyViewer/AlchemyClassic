@@ -42,7 +42,6 @@
 #include "message.h"
 //#include "vmath.h"
 #include "v3math.h"
-#include "v4math.h"
 
 #include "llagent.h"
 #include "llagentcamera.h"
@@ -50,16 +49,13 @@
 #include "llavatarrenderinfoaccountant.h"
 #include "llcallingcard.h"
 #include "llcommandhandler.h"
-#include "lldir.h"
 #include "lleventpoll.h"
 #include "llfloatergodtools.h"
-#include "llfloaterreporter.h"
 #include "llfloaterregioninfo.h"
 #include "llhttpnode.h"
 #include "lllogininstance.h"
 #include "llnotificationsutil.h"
 #include "llregioninfomodel.h"
-#include "llsdutil.h"
 #include "llslurl.h"
 #include "llstartup.h"
 #include "lltrans.h"
@@ -76,17 +72,15 @@
 #include "llspatialpartition.h"
 #include "llviewercontrol.h"
 #include "llsdserialize.h"
-#include "llfloaterperms.h"
 #include "llvieweroctree.h"
-#include "llviewerdisplay.h"
 #include "llviewernetwork.h"
 #include "llviewerwindow.h"
 #include "llprogressview.h"
 #include "llcoros.h"
-#include "lleventcoro.h"
 #include "llcorehttputil.h"
 
 #include <boost/lexical_cast.hpp>
+#include "llweb.h"
 
 #ifdef LL_WINDOWS
 	#pragma warning(disable:4355)
@@ -238,8 +232,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("BaseCapabilitiesRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
 
-    LLSD result;
-    LLViewerRegion *regionp = nullptr;
+	LLViewerRegion *regionp = nullptr;
 
     // This loop is used for retrying a capabilities request.
     do
@@ -281,7 +274,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
             << " (attempt #" << mSeedCapAttempts + 1 << ")" << LL_ENDL;
 
         regionp = nullptr;
-        result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
+        LLSD result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
 
         ++mSeedCapAttempts;
 
@@ -311,8 +304,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCoro(U64 regionHandle)
         // remove the http_result from the llsd
         result.erase("http_result");
 
-        LLSD::map_const_iterator iter;
-        for (iter = result.beginMap(); iter != result.endMap(); ++iter)
+	    for (LLSD::map_const_iterator iter = result.beginMap(); iter != result.endMap(); ++iter)
         {
             regionp->setCapability(iter->first, iter->second);
 
@@ -351,8 +343,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("BaseCapabilitiesRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
 
-    LLSD result;
-    LLViewerRegion *regionp = nullptr;
+	LLViewerRegion *regionp = nullptr;
 
     // This loop is used for retrying a capabilities request.
     do
@@ -377,7 +368,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
         LL_INFOS("AppInit", "Capabilities") << "Requesting second Seed from " << url << LL_ENDL;
 
         regionp = nullptr;
-        result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
+        LLSD result = httpAdapter->postAndSuspend(httpRequest, url, capabilityNames);
 
         LLSD httpResults = result["http_result"];
         LLCore::HttpStatus status = LLCoreHttpUtil::HttpCoroutineAdapter::getStatusFromLLSD(httpResults);
@@ -397,8 +388,7 @@ void LLViewerRegionImpl::requestBaseCapabilitiesCompleteCoro(U64 regionHandle)
         // remove the http_result from the llsd
         result.erase("http_result");
 
-        LLSD::map_const_iterator iter;
-        for (iter = result.beginMap(); iter != result.endMap(); ++iter)
+	    for (LLSD::map_const_iterator iter = result.beginMap(); iter != result.endMap(); ++iter)
         {
             regionp->setCapabilityDebug(iter->first, iter->second);
             //LL_INFOS()<<"BaseCapabilitiesCompleteTracker New Caps "<<iter->first<<" "<< iter->second<<LL_ENDL;
@@ -601,14 +591,14 @@ void LLViewerRegion::initStats()
 {
 	mImpl->mLastNetUpdate.reset();
 	mPacketsIn = 0;
-	mBitsIn = (U32Bits)0;
-	mLastBitsIn = (U32Bits)0;
+	mBitsIn = static_cast<U32Bits>(0);
+	mLastBitsIn = static_cast<U32Bits>(0);
 	mLastPacketsIn = 0;
 	mPacketsOut = 0;
 	mLastPacketsOut = 0;
 	mPacketsLost = 0;
 	mLastPacketsLost = 0;
-	mPingDelay = (U32Seconds)0;
+	mPingDelay = static_cast<U32Seconds>(0);
 	mAlive = false;					// can become false if circuit disconnects
 }
 
@@ -971,16 +961,9 @@ void LLViewerRegion::setCacheID(const LLUUID& id)
 	mImpl->mCacheID = id;
 }
 
-S32 LLViewerRegion::renderPropertyLines()
+S32 LLViewerRegion::renderPropertyLines() const
 {
-	if (mParcelOverlay)
-	{
-		return mParcelOverlay->renderPropertyLines();
-	}
-	else
-	{
-		return 0;
-	}
+	return mParcelOverlay ? mParcelOverlay->renderPropertyLines() : 0;
 }
 
 // This gets called when the height field changes.
@@ -1441,7 +1424,6 @@ void LLViewerRegion::lightIdleUpdate()
 void LLViewerRegion::idleUpdate(F32 max_update_time)
 {	
 	LLTimer update_timer;
-	F32 max_time;
 
 	mLastUpdate = LLViewerOctreeEntryData::getCurrentFrame();
 
@@ -1472,7 +1454,7 @@ void LLViewerRegion::idleUpdate(F32 max_update_time)
 	//reset all occluders
 	mImpl->mVOCachePartition->resetOccluders();	
 
-	max_time = max_update_time - update_timer.getElapsedTimeF32();	
+	F32 max_time = max_update_time - update_timer.getElapsedTimeF32();	
 
 	//kill invisible objects
 	killInvisibleObjects(max_time * 0.4f);	
@@ -1629,10 +1611,8 @@ void LLViewerRegion::killObject(LLVOCacheEntry* entry, std::vector<LLDrawable*>&
 			return;
 		}
 		LLViewerObject::const_child_list_t& child_list = v_obj->getChildren();
-		for (LLViewerObject::child_list_t::const_iterator iter = child_list.begin();
-			iter != child_list.end(); iter++)
+		for (LLViewerObject* child : child_list)
 		{
-			LLViewerObject* child = *iter;
 			if(child->mDrawable)
 			{
 				if( !child->mDrawable->getEntry()
@@ -1710,7 +1690,7 @@ LLViewerObject* LLViewerRegion::addNewObject(LLVOCacheEntry* entry)
 //update_type == EObjectUpdateType::OUT_TERSE_IMPROVED or EObjectUpdateType::OUT_FULL
 LLViewerObject* LLViewerRegion::updateCacheEntry(U32 local_id, LLViewerObject* objectp, U32 update_type)
 {
-	if(objectp && update_type != (U32)OUT_TERSE_IMPROVED)
+	if(objectp && update_type != static_cast<U32>(OUT_TERSE_IMPROVED))
 	{
 		return objectp; //no need to access cache
 	}
@@ -1727,7 +1707,7 @@ LLViewerObject* LLViewerRegion::updateCacheEntry(U32 local_id, LLViewerObject* o
 	}
 
 	//remove from cache if terse update
-	if(update_type == (U32)OUT_TERSE_IMPROVED)
+	if(update_type == static_cast<U32>(OUT_TERSE_IMPROVED))
 	{
 		killCacheEntry(entry, true);
 	}
@@ -2051,9 +2031,7 @@ public:
 			agents_it = agents.beginArray();
 		BOOL has_agent_data = input["body"].has("AgentData");
 
-		for(int i=0; 
-			locs_it != locs.endArray(); 
-			i++, locs_it++)
+		for (int i=0; locs_it != locs.endArray(); i++, ++locs_it)
 		{
 			U8 
 				x = locs_it->get("X").asInteger(),
@@ -2087,7 +2065,7 @@ public:
 			}
 			if (has_agent_data)
 			{
-				agents_it++;
+				++agents_it;
 			}
 		}
 	}
@@ -2704,10 +2682,9 @@ void LLViewerRegion::dumpCache()
 		change_bin[i] = 0;
 	}
 
-	LLVOCacheEntry *entry;
 	for(LLVOCacheEntry::vocache_entry_map_t::iterator iter = mImpl->mCacheMap.begin(); iter != mImpl->mCacheMap.end(); ++iter)
 	{
-		entry = iter->second ;
+		LLVOCacheEntry *entry = iter->second;
 
 		S32 hits = entry->getHitCount();
 		S32 changes = entry->getCRCChangeCount();
@@ -3337,8 +3314,7 @@ bool LLViewerRegion::avatarHoverHeightEnabled() const
 void log_capabilities(const CapabilityMap &capmap)
 {
 	S32 count = 0;
-	CapabilityMap::const_iterator iter;
-	for (iter = capmap.begin(); iter != capmap.end(); ++iter, ++count)
+	for (CapabilityMap::const_iterator iter = capmap.cbegin(); iter != capmap.cend(); ++iter, ++count)
 	{
 		if (!iter->second.empty())
 		{
@@ -3529,7 +3505,7 @@ void LLViewerRegion::setGodnames()
 			LLSD god_names = mSimulatorFeatures["god_names"]["full_names"];
 			for (LLSD::array_iterator itr = god_names.beginArray();
 				 itr != god_names.endArray();
-				 itr++)
+				 ++itr)
 			{
 				mGodNames.insert((*itr).asString());
 			}
@@ -3539,7 +3515,7 @@ void LLViewerRegion::setGodnames()
 			LLSD god_names = mSimulatorFeatures["god_names"]["last_names"];
 			for (LLSD::array_iterator itr = god_names.beginArray();
 				 itr != god_names.endArray();
-				 itr++)
+				 ++itr)
 			{
 				mGodNames.insert((*itr).asString());
 			}

@@ -32,8 +32,6 @@
 
 #include <algorithm>
 
-#include "indra_constants.h"
-//#include "llcachename.h"
 #include "llsingleton.h"
 #include "llstl.h"
 #include "lltimer.h"

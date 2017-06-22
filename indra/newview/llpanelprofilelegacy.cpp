@@ -165,6 +165,7 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 	for (const std::string& checkbox: sSkillsCheckboxes)
 		childSetEnabled(checkbox, is_self);
 	childSetEnabled("drop_target", !is_self);
+	getChild<LLLayoutPanel>("avatar_in_search", is_self);
 	getChild<LLDropTarget>("drop_target")->setAgentID(av_id);
 	
 	updateData();
@@ -197,10 +198,7 @@ void LLPanelProfileLegacy::updateData()
 														boost::bind(&LLPanelProfileLegacy::onAvatarNameCache, this, _1, _2));
 	const LLRelationship* relation = LLAvatarTracker::instance().getBuddyInfo(getAvatarId());
 	bool is_other = (relation && getAvatarId() != gAgentID);
-	getChild<LLView>("permissions_label")->setVisible(is_other);
-	getChild<LLView>("allow_show_online")->setVisible(is_other);
-	getChild<LLView>("allow_mapping")->setVisible(is_other);
-	getChild<LLView>("allow_object_perms")->setVisible(is_other);
+	getChild<LLLayoutPanel>("avatar_perm")->setVisible(is_other);
 	if (is_other)
 	{
 		S32 rights = relation->getRightsGrantedTo();

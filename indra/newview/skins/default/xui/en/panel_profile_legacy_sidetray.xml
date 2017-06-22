@@ -118,13 +118,13 @@ Remove Friend
          layout="topleft"
          name="avatar_secondlife_tab"
          title="Second Life"
-         fit_panel="false">
+         fit_panel="true">
           <panel
            border="false"
            filename="panel_profile_secondlife.xml"
            layout="topleft"
            left="0"
-           follows="left|top|right"
+           follows="all"
            name="secondlife_tab_panel"
            top="0" />
         </accordion_tab>

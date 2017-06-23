@@ -27,13 +27,9 @@
 #ifndef LL_LLINVENTORYMODEL_H
 #define LL_LLINVENTORYMODEL_H
 
-#include "llassettype.h"
 #include "llfoldertype.h"
-#include "llframetimer.h"
 #include "lluuid.h"
-#include "llpermissionsflags.h"
 #include "llviewerinventory.h"
-#include "llstring.h"
 #include "llmd5.h"
 #include "httpcommon.h"
 #include "httprequest.h"
@@ -239,7 +235,7 @@ public:
 	};
 	// Simpler existence test if matches don't actually need to be collected.
 	bool hasMatchingDirectDescendent(const LLUUID& cat_id,
-									 LLInventoryCollectFunctor& filter);
+									 LLInventoryCollectFunctor& filter) const;
 	void collectDescendents(const LLUUID& id,
 							cat_array_t& categories,
 							item_array_t& items,
@@ -288,7 +284,7 @@ public:
 	
 	// Returns the uuid of the category if found, LLUUID::null is not
 	const LLUUID findDescendentCategoryIDByName(const LLUUID& parent_id,
-												const std::string& name);
+												const std::string& name) const;
 	
 	// Get whatever special folder this object is a child of, if any.
 	const LLViewerInventoryCategory *getFirstNondefaultParent(const LLUUID& obj_id) const;
@@ -431,12 +427,6 @@ public:
 	// Gets an iterator on an item vector knowing only the item UUID.
 	// Returns end() of the vector if not found.
 	static LLInventoryModel::item_array_t::iterator findItemIterByUUID(LLInventoryModel::item_array_t& items, const LLUUID& id);
-
-
-	// Rearranges Landmarks inside Favorites folder.
-	// Moves source landmark before target one.
-	void rearrangeFavoriteLandmarks(const LLUUID& source_item_id, const LLUUID& target_item_id);
-	//void saveItemsOrder(const LLInventoryModel::item_array_t& items);
 
 	//--------------------------------------------------------------------
 	// Creation

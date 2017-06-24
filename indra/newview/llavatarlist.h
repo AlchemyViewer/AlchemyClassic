@@ -75,7 +75,7 @@ public:
 
 	void setContextMenu(LLListContextMenu* menu) { mContextMenu = menu; }
 	void setSessionID(const LLUUID& session_id) { mSessionID = session_id; }
-	const LLUUID& getSessionID() { return mSessionID; }
+	const LLUUID& getSessionID() const { return mSessionID; }
 
 	void toggleIcons();
 	void setSpeakingIndicatorsVisible(bool visible);
@@ -83,12 +83,12 @@ public:
 	void sortByName();
 	void setShowIcons(std::string param_name);
 	bool getIconsVisible() const { return mShowIcons; }
-	const std::string getIconParamName() const{return mIconParamName;}
+	const std::string getIconParamName() const {return mIconParamName;}
 	std::string getAvatarName(LLAvatarName av_name);
 	BOOL handleRightMouseDown(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
-	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
 
 	// Return true if filter has at least one match.
 	bool filterHasMatches();
@@ -102,7 +102,7 @@ public:
 	void addAvalineItem(const LLUUID& item_id, const LLUUID& session_id, const std::string& item_name);
 	void handleDisplayNamesOptionChanged();
 
-	void setShowCompleteName(bool show) { mShowCompleteName = show;};
+	void setShowCompleteName(bool show) { mShowCompleteName = show;}
 
 protected:
 	void refresh();
@@ -111,16 +111,15 @@ protected:
 	void computeDifference(
 		const uuid_vec_t& vnew,
 		uuid_vec_t& vadded,
-		uuid_vec_t& vremoved);
+		uuid_vec_t& vremoved) const;
 	void updateLastInteractionTimes();
 	void updateDistances();
-	void rebuildNames();
 	void onItemDoubleClicked(LLUICtrl* ctrl, S32 x, S32 y, MASK mask);
 	void updateAvatarNames();
 
 private:
 
-	bool isAvalineItemSelected();
+	bool isAvalineItemSelected() const;
 
 	bool mIgnoreOnlineStatus;
 	bool mShowLastInteractionTime;

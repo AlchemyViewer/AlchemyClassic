@@ -1524,16 +1524,11 @@ void LLAOEngine::tick()
 {
 	if (!isAgentAvatarValid()) return;
 
-	const LLUUID categoryID = gInventory.findDescendentCategoryIDByName(gInventory.getRootFolderID(), ROOT_AO_FOLDER);
+	LLUUID const& category_id = gInventory.findCategoryUUIDForNameInRoot(ROOT_AO_FOLDER, true, gInventory.getRootFolderID());
 
-	if (categoryID.isNull())
+	if (category_id.notNull())
 	{
-		LL_WARNS("AOEngine") << "no " << ROOT_AO_FOLDER << " folder yet. Creating ..." << LL_ENDL;
-		gInventory.createNewCategory(gInventory.getRootFolderID(), LLFolderType::FT_NONE, ROOT_AO_FOLDER);
-	}
-	else
-	{
-		mAOFolder = categoryID;
+		mAOFolder = category_id;
 		LL_INFOS("AOEngine") << "AO basic folder structure intact." << LL_ENDL;
 		update();
 	}

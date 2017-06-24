@@ -467,6 +467,8 @@ void LLInventoryModel::consolidateForType(const LLUUID& main_id, LLFolderType::E
 	}
 }
 
+
+
 const LLUUID LLInventoryModel::findCategoryUUIDForTypeInRoot(
 	LLFolderType::EType preferred_type,
 	bool create_folder,
@@ -503,6 +505,39 @@ const LLUUID LLInventoryModel::findCategoryUUIDForTypeInRoot(
 		if(root_id.notNull())
 		{
 			return createNewCategory(root_id, preferred_type, LLStringUtil::null);
+		}
+	}
+	return rv;
+}
+
+const LLUUID LLInventoryModel::findCategoryUUIDForNameInRoot(std::string const& folder_name, bool create_folder, LLUUID const& root_id)
+{
+	LLUUID rv = LLUUID::null;
+	if (root_id.notNull())
+	{
+		cat_array_t* cats = nullptr;
+		cats = get_ptr_in_map(mParentChildCategoryTree, root_id);
+		if (cats)
+		{
+			U32 count = cats->size();
+			for (U32 i = 0; i < count; ++i)
+			{
+				if (cats->at(i)->getName() == folder_name)
+				{
+					LLUUID const& folder_id = cats->at(i)->getUUID();
+					if (rv.isNull() || folder_id < rv)
+					{
+						rv = folder_id;
+					}
+				}
+			}
+		}
+	}
+	if (rv.isNull() && isInventoryUsable() && create_folder)
+	{
+		if (root_id.notNull())
+		{
+			return createNewCategory(root_id, LLFolderType::FT_NONE, folder_name);
 		}
 	}
 	return rv;
@@ -4270,4 +4305,3 @@ void LLInventoryModel::FetchItemHttpHandler::processFailure(const char * const r
 		<< LLCoreHttpUtil::responseToString(response) << "]" << LL_ENDL;
 	gInventory.notifyObservers();
 }
-

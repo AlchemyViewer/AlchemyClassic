@@ -1220,7 +1220,7 @@ void LLStringUtilBase<T>::trimHead(string_type& string)
 template<class T> 
 void LLStringUtilBase<T>::trimTail(string_type& string)
 {			
-	if( string.size() )
+	if(!string.empty())
 	{
 		size_type len = string.length();
 		size_type i = len;
@@ -1236,7 +1236,7 @@ void LLStringUtilBase<T>::trimTail(string_type& string)
 template<class T>
 void LLStringUtilBase<T>::trimTail(string_type& string, const string_type& tokens)
 {
-	if( string.size() )
+	if(!string.empty())
 	{
 		size_type len = string.length();
 		size_type i = len;
@@ -1255,6 +1255,9 @@ void LLStringUtilBase<T>::trimTail(string_type& string, const string_type& token
 template<class T>
 void LLStringUtilBase<T>::addCRLF(string_type& string)
 {
+	if (string.empty())
+		return;
+
 	const T LF = 10;
 	const T CR = 13;
 
@@ -1297,6 +1300,9 @@ void LLStringUtilBase<T>::addCRLF(string_type& string)
 template<class T> 
 void LLStringUtilBase<T>::removeCRLF(string_type& string)
 {
+	if (string.empty())
+		return;
+
 	const T CR = 13;
 
 	size_type cr_count = 0;
@@ -1318,6 +1324,9 @@ void LLStringUtilBase<T>::removeCRLF(string_type& string)
 template<class T> 
 void LLStringUtilBase<T>::removeWindowsCR(string_type& string)
 {
+	if (string.empty())
+		return;
+
     const T LF = 10;
     const T CR = 13;
 

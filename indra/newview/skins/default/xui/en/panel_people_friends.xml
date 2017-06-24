@@ -162,10 +162,10 @@
   </accordion>
   <text
     follows="all"
-    height="450"
+    height="408"
     left="13"
     name="no_friends_help_text"
     right="-13"
-    top="37"
+    top="2"
     wrap="true" />
 </panel>

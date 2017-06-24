@@ -173,6 +173,20 @@
        right="-4"
        name="www"
        top_pad="2" />
+      <line_editor
+        top_delta="-16"
+        follows="left|bottom|right"
+        layout="topleft"
+        height="20"
+        max_length_chars="254"
+        left="3"
+        right="-4"
+        text_pad_left="5"
+        tool_tip="Website link"
+        name="www_edit">
+        <line_editor.commit_callback
+          function="Profile.CommitProperties" />
+      </line_editor>
     </layout_panel>
     <layout_panel
       visible="true"
@@ -233,19 +247,6 @@
         <check_box.commit_callback
          function="Profile.CommitModifyObjectRights" />
       </check_box>
-      <line_editor
-       top="105"
-       follows="left|top|right"
-       height="20"
-       max_length_chars="254"
-       left="3"
-       right="-4"
-       text_pad_left="5"
-       tool_tip="Website link"
-       name="www_edit">
-        <line_editor.commit_callback
-         function="Profile.CommitProperties" />
-      </line_editor>
     </layout_panel>
     <layout_panel
       visible="false"

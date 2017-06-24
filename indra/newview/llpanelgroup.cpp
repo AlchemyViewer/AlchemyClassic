@@ -172,7 +172,11 @@ BOOL LLPanelGroup::postBuild()
 	mButtonCreate->setCommitCallback(boost::bind(&LLPanelGroup::onBtnCreate, this));
 	mButtonCreate->setVisible(false);
 
-	getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::onBackBtnClick,this));
+	LLSideTrayPanelContainer* parent = dynamic_cast<LLSideTrayPanelContainer*>(getParent());
+	if (parent)
+		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::onBackBtnClick, this));
+	else
+		getChild<LLUICtrl>("back")->setEnabled(FALSE);
 	
 	LLPanelGroupTab* panel_general = findChild<LLPanelGroupTab>("group_general_tab_panel");
 	LLPanelGroupTab* panel_roles = findChild<LLPanelGroupTab>("group_roles_tab_panel");

@@ -91,8 +91,8 @@ LLPanelProfileLegacy::LLPanelProfileLegacy()
 
 LLPanelProfileLegacy::~LLPanelProfileLegacy()
 {
-	if (LLAvatarPropertiesProcessor::instanceExists() && getAvatarId().notNull())
-		LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(), this);
+	if (LLAvatarPropertiesProcessor::instanceExists() && LLPanelProfileTab::getAvatarId().notNull())
+		LLAvatarPropertiesProcessor::getInstance()->removeObserver(LLPanelProfileTab::getAvatarId(), this);
 	if (mAvatarNameCacheConnection.connected())
 		mAvatarNameCacheConnection.disconnect();
 	if (mNameChangedConnection.connected())
@@ -102,11 +102,15 @@ LLPanelProfileLegacy::~LLPanelProfileLegacy()
 // virtual
 BOOL LLPanelProfileLegacy::postBuild()
 {
-	mPanelGroups = static_cast<LLPanelProfileLegacy::LLPanelProfileGroups*>(getChild<LLUICtrl>("groups_tab_panel"));
-	mPanelPicks = static_cast<LLPanelProfileLegacy::LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
+	mPanelGroups = static_cast<LLPanelProfileGroups*>(getChild<LLUICtrl>("groups_tab_panel"));
+	mPanelPicks = static_cast<LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelPicks->setProfilePanel(this);
 	
-	getChild<LLButton>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this));
+	LLSideTrayPanelContainer* parent = dynamic_cast<LLSideTrayPanelContainer*>(getParent());
+	if (parent)
+		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this));
+	else
+		getChild<LLUICtrl>("back")->setEnabled(FALSE);
 	getChild<LLTextEditor>("sl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
 	getChild<LLTextEditor>("fl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
 	getChild<LLTextureCtrl>("sl_profile_pic")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
@@ -664,7 +668,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::showAccordion(const std::string&
 	acc->arrange();
 }
 
-LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(const LLUUID& classified_id)
+LLClassifiedItem *LLPanelProfileLegacy::LLPanelProfilePicks::findClassifiedById(const LLUUID& classified_id) const
 {
 	// HACK - find item by classified id.  Should be a better way.
 	std::vector<LLPanel*> items;
@@ -794,7 +798,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openClassifiedInfo()
 	getProfilePanel()->openPanel(mPanelClassifiedInfo, params);
 }
 
-LLClassifiedItem* LLPanelProfileLegacy::LLPanelProfilePicks::getSelectedClassifiedItem()
+LLClassifiedItem* LLPanelProfileLegacy::LLPanelProfilePicks::getSelectedClassifiedItem() const
 {
 	LLPanel* selected_item = mClassifiedsList->getSelectedItem();
 	if (!selected_item) return nullptr;
@@ -838,7 +842,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::setProfilePanel(LLPanelProfileLe
 	mProfilePanel = profile_panel;
 }
 
-inline LLPanelProfileLegacy* LLPanelProfileLegacy::LLPanelProfilePicks::getProfilePanel()
+inline LLPanelProfileLegacy* LLPanelProfileLegacy::LLPanelProfilePicks::getProfilePanel() const
 {
 	llassert_always(mProfilePanel != nullptr);
 	return mProfilePanel;

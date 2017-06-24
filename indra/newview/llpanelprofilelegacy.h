@@ -120,7 +120,7 @@ public:
 		/* virtual */ void resetControls() override {};
 		void showAccordion(const std::string& name, bool show);
 		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
-		LLPanelProfileLegacy* getProfilePanel();
+		LLPanelProfileLegacy* getProfilePanel() const;
 		void onPanelPickClose(LLPanel* panel);
 		void updateButtons() override;
 		void onClickInfo();
@@ -129,8 +129,8 @@ public:
 		void openPickInfo();
 		void openClassifiedInfo();
 		void onPanelClassifiedClose(LLPanelClassifiedInfo* panel);
-		LLClassifiedItem* findClassifiedById(const LLUUID& classified_id);
-		LLClassifiedItem* getSelectedClassifiedItem();
+		LLClassifiedItem* findClassifiedById(const LLUUID& classified_id) const;
+		LLClassifiedItem* getSelectedClassifiedItem() const;
 		
 		LLPanelProfileLegacy* mProfilePanel;
 		LLFlatListView* mClassifiedsList;

@@ -109,8 +109,8 @@ class LLFindAgentCallingCard : public LLInventoryCollectFunctor
 public:
 	LLFindAgentCallingCard() : mIsAgentCallingCardFound(false) {}
 	virtual ~LLFindAgentCallingCard() {}
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item);
-	bool isAgentCallingCardFound() { return mIsAgentCallingCardFound; }
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override;
+	bool isAgentCallingCardFound() const { return mIsAgentCallingCardFound; }
 
 private:
 	bool mIsAgentCallingCardFound;
@@ -146,7 +146,7 @@ public:
 		mCheckFolderCallback(cb)	
 	{}
 
-	/* virtual */ void done();
+	void done() override;
 
 private:
 	callback_t		mCheckFolderCallback;
@@ -177,8 +177,7 @@ LLFriendCardsManager::~LLFriendCardsManager()
 void LLFriendCardsManager::putAvatarData(const LLUUID& avatarID)
 {
 	LL_INFOS() << "Store avatar data, avatarID: " << avatarID << LL_ENDL;
-	std::pair< avatar_uuid_set_t::iterator, bool > pr;
-	pr = mBuddyIDSet.insert(avatarID);
+	std::pair< avatar_uuid_set_t::iterator, bool > pr = mBuddyIDSet.insert(avatarID);
 	if (pr.second == false)
 	{
 		LL_WARNS() << "Trying to add avatar UUID for the stored avatar: " 
@@ -245,7 +244,7 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 			if ( item )
 			{
 				LLUUID creator_id = item->getCreatorUUID();
-				LLViewerInventoryItem* cur_item = NULL;
+				LLViewerInventoryItem* cur_item = nullptr;
 				for ( S32 i = items->size() - 1; i >= 0; --i )
 				{
 					cur_item = items->at(i);
@@ -262,7 +261,7 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 			// Else check that items have same type and name.
 			// Note: UUID's of compared items also may be not equal.
 			std::string obj_name = obj->getName();
-			LLViewerInventoryItem* cur_item = NULL;
+			LLViewerInventoryItem* cur_item = nullptr;
 			for ( S32 i = items->size() - 1; i >= 0; --i )
 			{
 				cur_item = items->at(i);
@@ -282,7 +281,7 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 		// If target obj and descendent category have same type and name
 		// then return true. Note: UUID's of compared items also may be not equal.
 		std::string obj_name = obj->getName();
-		LLViewerInventoryCategory* cur_cat = NULL;
+		LLViewerInventoryCategory* cur_cat = nullptr;
 		for ( S32 i = cats->size() - 1; i >= 0; --i )
 		{
 			cur_cat = cats->at(i);
@@ -303,9 +302,9 @@ bool LLFriendCardsManager::isObjDirectDescendentOfCategory(const LLInventoryObje
 
 bool LLFriendCardsManager::isCategoryInFriendFolder(const LLViewerInventoryCategory* cat) const
 {
-	if (NULL == cat)
+	if (cat == nullptr)
 		return false;
-	return TRUE == gInventory.isObjectDescendentOf(cat->getUUID(), findFriendFolderUUIDImpl());
+	return gInventory.isObjectDescendentOf(cat->getUUID(), findFriendFolderUUIDImpl()) == TRUE;
 }
 
 bool LLFriendCardsManager::isAnyFriendCategory(const LLUUID& catID) const
@@ -358,11 +357,10 @@ const LLUUID& LLFriendCardsManager::findFriendCardInventoryUUIDImpl(const LLUUID
 	LLUUID friendAllSubfolderUUID = findFriendAllSubfolderUUIDImpl();
 	LLInventoryModel::cat_array_t cats;
 	LLInventoryModel::item_array_t items;
-	LLInventoryModel::item_array_t::const_iterator it;
 
 	// it is not necessary to check friendAllSubfolderUUID against NULL. It will be processed by collectDescendents
 	gInventory.collectDescendents(friendAllSubfolderUUID, cats, items, LLInventoryModel::EXCLUDE_TRASH);
-	for (it = items.begin(); it != items.end(); ++it)
+	for (LLInventoryModel::item_array_t::const_iterator it = items.begin(); it != items.end(); ++it)
 	{
 		if ((*it)->getCreatorUUID() == avatarID)
 			return (*it)->getUUID();
@@ -378,7 +376,7 @@ void LLFriendCardsManager::findMatchedFriendCards(const LLUUID& avatarID, LLInve
 
 
 	LLViewerInventoryCategory* friendFolder = gInventory.getCategory(friendFolderUUID);
-	if (NULL == friendFolder)
+	if (friendFolder == nullptr)
 		return;
 
 	LLParticularBuddyCollector matchFunctor(avatarID);
@@ -462,7 +460,7 @@ void LLFriendCardsManager::ensureFriendsAllFolderExists()
 	}
 	else
 	{
-		LLUUID friends_folder_ID = findFriendFolderUUIDImpl();
+		LLUUID const& friends_folder_ID = findFriendFolderUUIDImpl();
 
 		if (!gInventory.isCategoryComplete(friends_folder_ID))
 		{
@@ -508,7 +506,7 @@ void LLFriendCardsManager::syncFriendsFolder()
 							  LLInventoryType::IT_CALLINGCARD,
 							  NOT_WEARABLE,
 							  PERM_MOVE | PERM_TRANSFER,
-							  NULL);
+							  nullptr);
 	}
 
     // All folders created and updated.
@@ -527,7 +525,7 @@ void LLFriendCardsManager::syncFriendsFolder()
 class CreateFriendCardCallback : public LLInventoryCallback
 {
 public:
-	void fire(const LLUUID& inv_item_id)
+	void fire(const LLUUID& inv_item_id) override
 	{
 		LLViewerInventoryItem* item = gInventory.getItem(inv_item_id);
 
@@ -583,8 +581,7 @@ void LLFriendCardsManager::removeFriendCardFromInventory(const LLUUID& avatarID)
 	LLInventoryModel::item_array_t items;
 	findMatchedFriendCards(avatarID, items);
 
-	LLInventoryModel::item_array_t::const_iterator it;
-	for (it = items.begin(); it != items.end(); ++ it)
+	for (LLInventoryModel::item_array_t::const_iterator it = items.begin(); it != items.end(); ++ it)
 	{
 		gInventory.removeItem((*it)->getUUID());
 	}
@@ -603,8 +600,8 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
                 // Try to add cards into inventory.
                 // If cards already exist they won't be created.
                 const std::set<LLUUID>& changed_items = at.getChangedIDs();
-                std::set<LLUUID>::const_iterator id_it = changed_items.begin();
-                std::set<LLUUID>::const_iterator id_end = changed_items.end();
+                std::set<LLUUID>::const_iterator id_it = changed_items.cbegin();
+                std::set<LLUUID>::const_iterator id_end = changed_items.cend();
                 for (; id_it != id_end; ++id_it)
                 {
                     cards_manager.addFriendCardToInventory(*id_it);
@@ -626,8 +623,8 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
 	case LLFriendObserver::REMOVE:
 		{
 			const std::set<LLUUID>& changed_items = at.getChangedIDs();
-			std::set<LLUUID>::const_iterator id_it = changed_items.begin();
-			std::set<LLUUID>::const_iterator id_end = changed_items.end();
+			std::set<LLUUID>::const_iterator id_it = changed_items.cbegin();
+			std::set<LLUUID>::const_iterator id_end = changed_items.cend();
 			for (;id_it != id_end; ++id_it)
 			{
 				LLFriendCardsManager::instance().removeFriendCardFromInventory(*id_it);

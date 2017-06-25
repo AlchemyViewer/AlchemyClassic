@@ -69,6 +69,11 @@ static const struct
 		"",
 		"other"
 	},
+	{ // AP_ASSET
+		12,		1,		16,		0,		true,
+		"AssetFetchConcurrency",
+		"asset fetch"
+	},
 	{ // AP_TEXTURE
 		8,		1,		12,		0,		true,
 		"TextureFetchConcurrency",

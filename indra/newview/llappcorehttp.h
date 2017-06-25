@@ -61,6 +61,20 @@ public:
 		/// Pipelined:       no
 		AP_DEFAULT,
 
+		/// Asset fetching policy class.  Used to
+		/// download assets via capability.
+		/// Deep queueing of requests.
+		/// Do not share.  GET requests only.
+		///
+		/// Destination:     cdn:80
+		/// Protocol:        http:
+		/// Transfer size:   KB-MB
+		/// Long poll:       no
+		/// Concurrency:     high
+		/// Request rate:    high
+		/// Pipelined:       yes
+		AP_ASSET,
+
 		/// Texture fetching policy class.  Used to
 		/// download textures via capability or SSA
 		/// baking service.  Deep queueing of requests.

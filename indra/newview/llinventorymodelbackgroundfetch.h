@@ -49,9 +49,9 @@ public:
 
 	// Start and stop background breadth-first fetching of inventory contents.
 	// This gets triggered when performing a filter-search.
-	void start(const LLUUID& cat_id = LLUUID::null, BOOL recursive = TRUE);
+	void start(const LLUUID& cat_id = LLUUID::null, bool recursive = true);
 
-	BOOL folderFetchActive() const;
+	bool folderFetchActive() const;
 	bool isEverythingFetched() const; // completing the fetch once per session should be sufficient
 
 	bool libraryFetchStarted() const;
@@ -68,8 +68,8 @@ public:
 	bool isBulkFetchProcessingComplete() const;
 	void setAllFoldersFetched();
 
-	void addRequestAtFront(const LLUUID & id, BOOL recursive, bool is_category);
-	void addRequestAtBack(const LLUUID & id, BOOL recursive, bool is_category);
+	void addRequestAtFront(const LLUUID & id, bool recursive, bool is_category);
+	void addRequestAtBack(const LLUUID & id, bool recursive, bool is_category);
 
 protected:
 	void bulkFetch();
@@ -80,23 +80,21 @@ protected:
 	bool fetchQueueContainsNoDescendentsOf(const LLUUID& cat_id) const;
 
 private:
- 	BOOL mRecursiveInventoryFetchStarted;
-	BOOL mRecursiveLibraryFetchStarted;
-	BOOL mAllFoldersFetched;
+ 	bool mRecursiveInventoryFetchStarted;
+	bool mRecursiveLibraryFetchStarted;
+	bool mAllFoldersFetched;
 
-	BOOL mBackgroundFetchActive;
+	bool mBackgroundFetchActive;
 	bool mFolderFetchActive;
 	S32 mFetchCount;
-	BOOL mTimelyFetchPending;
-	S32 mNumFetchRetries;
 
 	LLFrameTimer mFetchTimer;
 	F32 mMinTimeBetweenFetches;
-	F32 mMaxTimeBetweenFetches;
+
 
 	struct FetchQueueInfo
 	{
-		FetchQueueInfo(const LLUUID& id, BOOL recursive, bool is_category = true)
+		FetchQueueInfo(const LLUUID& id, bool recursive, bool is_category = true)
 			: mUUID(id),
 			  mIsCategory(is_category),
 			  mRecursive(recursive)
@@ -104,7 +102,7 @@ private:
 		
 		LLUUID mUUID;
 		bool mIsCategory;
-		BOOL mRecursive;
+		bool mRecursive;
 	};
 	typedef std::deque<FetchQueueInfo> fetch_queue_t;
 	fetch_queue_t mFetchQueue;

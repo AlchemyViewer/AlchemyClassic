@@ -76,7 +76,7 @@ public:
 
 	void			setColor(const LLColor4& color) override { mColor = color; }
 	void			setImage(LLPointer<LLUIImage> image) { mImagep = image; }
-	const LLPointer<LLUIImage> getImage() { return mImagep; }
+	const LLPointer<LLUIImage> getImage() const { return mImagep; }
 	
 protected:
 	S32 mPriority;

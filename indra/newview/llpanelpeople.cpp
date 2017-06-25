@@ -456,7 +456,7 @@ public:
 	LLNearbyListUpdater(callback_t cb)
 	:	LLAvatarListUpdater(cb, NEARBY_LIST_UPDATE_INTERVAL)
 	{
-		setActive(false);
+		LLNearbyListUpdater::setActive(false);
 	}
 
 	/*virtual*/ void setActive(bool val) override
@@ -479,7 +479,6 @@ public:
 		update();
 		return FALSE;
 	}
-private:
 };
 
 /**
@@ -641,7 +640,7 @@ BOOL LLPanelPeople::postBuild()
 	mNearbyList->setNoFilteredItemsMsg(getString("no_one_filtered_near"));
 	mNearbyList->setShowIcons("NearbyListShowIcons");
 	mNearbyList->setShowCompleteName(!gSavedSettings.getBOOL("NearbyListHideUsernames"));
-	mMiniMap = (LLNetMap*)getChildView("Net Map",true);
+	mMiniMap = getChild<LLNetMap>("Net Map", true);
 	mMiniMap->setToolTipMsg(gSavedSettings.getBOOL("DoubleClickTeleport") ? 
 		getString("AltMiniMapToolTipMsg") :	getString("MiniMapToolTipMsg"));
 
@@ -774,10 +773,11 @@ void LLPanelPeople::updateFriendList()
 	online_friendsp.clear();
 
 	uuid_vec_t buddies_uuids;
-	LLAvatarTracker::buddy_map_t::const_iterator buddies_iter;
 
 	// Fill the avatar list with friends UUIDs
-	for (buddies_iter = all_buddies.begin(); buddies_iter != all_buddies.end(); ++buddies_iter)
+	for (LLAvatarTracker::buddy_map_t::const_iterator buddies_iter = all_buddies.begin();
+		buddies_iter != all_buddies.end(); 
+		++buddies_iter)
 	{
 		buddies_uuids.push_back(buddies_iter->first);
 	}
@@ -933,8 +933,8 @@ void LLPanelPeople::updateButtons()
 		}
 
 		mGroupMinusBtn->setEnabled(item_selected && selected_id.notNull()); // a real group selected
-		mGroupCountText->setTextArg("[COUNT]", llformat("%d",gAgent.mGroups.size()));
-		mGroupCountText->setTextArg("[REMAINING]", llformat("%d",(gMaxAgentGroups-gAgent.mGroups.size())));
+		mGroupCountText->setTextArg("[COUNT]", std::to_string(gAgent.mGroups.size()));
+		mGroupCountText->setTextArg("[REMAINING]", std::to_string(gMaxAgentGroups-gAgent.mGroups.size()));
 	}
 	else
 	{

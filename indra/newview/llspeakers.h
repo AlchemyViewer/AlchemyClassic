@@ -236,13 +236,13 @@ public:
 					LLSpeaker::ESpeakerStatus status = LLSpeaker::STATUS_TEXT_ONLY, 
 					LLSpeaker::ESpeakerType = LLSpeaker::SPEAKER_AGENT);
 
-	BOOL isVoiceActive();
+	BOOL isVoiceActive() const;
 
 	typedef std::vector<LLPointer<LLSpeaker> > speaker_list_t;
 	void getSpeakerList(speaker_list_t* speaker_list, BOOL include_text);
 	LLVoiceChannel* getVoiceChannel() { return mVoiceChannel; }
-	const LLUUID getSessionID();
-	bool isSpeakerToBeRemoved(const LLUUID& speaker_id);
+	const LLUUID getSessionID() const;
+	bool isSpeakerToBeRemoved(const LLUUID& speaker_id) const;
 
 	/**
 	 * Removes avaline speaker.

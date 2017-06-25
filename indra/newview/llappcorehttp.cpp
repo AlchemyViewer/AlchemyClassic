@@ -75,7 +75,7 @@ static const struct
 		"asset fetch"
 	},
 	{ // AP_TEXTURE
-		8,		1,		12,		0,		true,
+		12,		1,		16,		0,		true,
 		"TextureFetchConcurrency",
 		"texture fetch"
 	},

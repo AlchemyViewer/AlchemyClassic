@@ -8,7 +8,7 @@
  name="avatar_secondlife_tab">
   <layout_stack
     follows="all"
-    animate="true"
+    animate="false"
     top="0"
     height="360"
     left="0"

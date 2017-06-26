@@ -64,17 +64,13 @@
 #include "lllocationhistory.h"
 #include "llimageworker.h"
 
-#include "llloginflags.h"
-#include "llmd5.h"
 #include "llmemorystream.h"
 #include "llmessageconfig.h"
-#include "llmoveview.h"
 #include "llfloaterimcontainer.h"
 #include "llfloaterperms.h"
 #include "llnotifications.h"
 #include "llnotificationsutil.h"
 #include "llpersistentnotificationstorage.h"
-#include "llteleporthistory.h"
 #include "llregionhandle.h"
 #include "llsd.h"
 #include "llsdserialize.h"
@@ -85,7 +81,6 @@
 #include "llviewercontrol.h"
 #include "llviewerhelp.h"
 #include "llvfs.h"
-#include "llxorcipher.h"	// saved password, MAC address
 #include "llwindow.h"
 #include "message.h"
 #include "v3math.h"
@@ -106,11 +101,7 @@
 #include "lleventnotifier.h"
 #include "llface.h"
 #include "llfeaturemanager.h"
-//#include "llfirstuse.h"
-#include "llfloaterhud.h"
 #include "llfloaterland.h"
-#include "llfloaterpreference.h"
-#include "llfloatersearch.h"
 #include "llfloatertopobjects.h"
 #include "llfloaterworldmap.h"
 #include "llgesturemgr.h"
@@ -131,7 +122,6 @@
 #include "llpanelpick.h"
 #include "llpanelgrouplandmoney.h"
 #include "llpanelgroupnotices.h"
-#include "llpreview.h"
 #include "llpreviewscript.h"
 #include "llproxy.h"
 #include "llproductinforequest.h"
@@ -150,13 +140,11 @@
 #include "llurlentry.h"
 #include "llslurl.h"
 #include "llurlhistory.h"
-#include "llurlwhitelist.h"
 #include "llvieweraudio.h"
 #include "llviewerassetstorage.h"
 #include "llviewercamera.h"
 #include "llviewerdisplay.h"
 #include "llviewergenericmessage.h"
-#include "llviewergesture.h"
 #include "llviewertexturelist.h"
 #include "llviewermedia.h"
 #include "llviewermenu.h"
@@ -176,26 +164,19 @@
 #include "llworldmapmessage.h"
 #include "llxfermanager.h"
 #include "pipeline.h"
-#include "llappviewer.h"
 #include "llfasttimerview.h"
-#include "llfloatermap.h"
 #include "llfloaterdirectory.h"
-#include "llweb.h"
 #include "llvoiceclient.h"
 #include "llnamelistctrl.h"
 #include "llnamebox.h"
 #include "llnameeditor.h"
 #include "llwlparammanager.h"
-#include "llwaterparammanager.h"
 #include "llagentlanguage.h"
-#include "llwearable.h"
-#include "llinventorybridge.h"
 #include "llappearancemgr.h"
 #include "llavatariconctrl.h"
 #include "llvoicechannel.h"
 #include "llpathfindingmanager.h"
 
-#include "lllogin.h"
 #include "llevents.h"
 #include "llstartuplistener.h"
 #include "lltoolbarview.h"
@@ -266,7 +247,6 @@ void show_first_run_dialog();
 bool first_run_dialog_callback(const LLSD& notification, const LLSD& response);
 void set_startup_status(const F32 frac, const std::string& string, const std::string& msg);
 bool login_alert_status(const LLSD& notification, const LLSD& response);
-void login_packet_failed(void**, S32 result);
 void use_circuit_callback(void**, S32 result);
 void register_viewer_callbacks(LLMessageSystem* msg);
 void asset_callback_nothing(LLVFS*, const LLUUID&, LLAssetType::EType, void*, S32);
@@ -350,13 +330,10 @@ bool idle_startup()
 	LLMortician::updateClass();
 
 	const std::string delims (" ");
-	std::string system;
-	size_t begIdx, endIdx;  // <alchemy/>
 	std::string osString = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
-
-	begIdx = osString.find_first_not_of (delims);
-	endIdx = osString.find_first_of (delims, begIdx);
-	system = osString.substr (begIdx, endIdx - begIdx);
+	size_t begIdx = osString.find_first_not_of (delims);
+	size_t endIdx = osString.find_first_of (delims, begIdx);
+	std::string system = osString.substr (begIdx, endIdx - begIdx);
 	system += "Locale";
 
 	LLStringUtil::setLocale (LLTrans::getString(system));

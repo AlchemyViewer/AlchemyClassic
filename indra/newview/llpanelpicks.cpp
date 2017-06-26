@@ -33,7 +33,6 @@
 #include "llagent.h"
 #include "llagentpicksinfo.h"
 #include "llcommandhandler.h"
-#include "lldispatcher.h"
 #include "llflatlistview.h"
 #include "llfloaterreg.h"
 #include "llfloatersidepanelcontainer.h"
@@ -42,14 +41,12 @@
 #include "lltexturectrl.h"
 #include "lltoggleablemenu.h"
 #include "lltrans.h"
-#include "llviewergenericmessage.h"	// send_generic_message
 #include "llmenugl.h"
 #include "llviewermenu.h"
 #include "llregistry.h"
 
 #include "llaccordionctrl.h"
 #include "llaccordionctrltab.h"
-#include "llfloatersidepanelcontainer.h"
 #include "llpanelavatar.h"
 #include "llpanelprofile.h"
 #include "llpanelpick.h"
@@ -74,8 +71,7 @@ public:
 	// requires trusted browser to trigger
 	LLPickHandler() : LLCommandHandler("pick", UNTRUSTED_THROTTLE) { }
 
-	bool handle(const LLSD& params, const LLSD& query_map,
-		LLMediaCtrl* web) override
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		if (!LLUI::sSettingGroups["config"]->getBOOL("EnablePicks"))
 		{
@@ -321,28 +317,29 @@ LLClassifiedHandler gClassifiedHandler;
 // LLPanelPicks
 //-----------------------------------------------------------------------------
 LLPanelPicks::LLPanelPicks()
-:	LLPanelProfileTab(),
-	mPopupMenuHandle(),
-	mProfilePanel(nullptr),
-	mPickPanel(nullptr),
-	mPicksList(nullptr),
-	mClassifiedsList(nullptr),
-	mPanelPickInfo(nullptr),
-	mPanelClassifiedInfo(nullptr),
-	mPanelPickEdit(nullptr),
-	mPlusMenuHandle(),
-	mPicksAccTab(nullptr),
-	mClassifiedsAccTab(nullptr),
-	mNoPicks(false),
-	mNoClassifieds(false)
+	: LLPanelProfileTab(),
+	  mPopupMenuHandle(),
+	  mProfilePanel(nullptr),
+	  mPickPanel(nullptr),
+	  mPicksList(nullptr),
+	  mClassifiedsList(nullptr),
+	  mPanelPickInfo(nullptr),
+	  mPanelClassifiedInfo(nullptr),
+	  mPanelPickEdit(nullptr),
+	  mPlusMenuHandle(), 
+      mNoItemsLabel(nullptr),
+	  mPicksAccTab(nullptr),
+	  mClassifiedsAccTab(nullptr),
+	  mNoPicks(false),
+	  mNoClassifieds(false)
 {
 }
 
 LLPanelPicks::~LLPanelPicks()
 {
-	if(getAvatarId().notNull())
+	if(LLPanelProfileTab::getAvatarId().notNull())
 	{
-		LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(),this);
+		LLAvatarPropertiesProcessor::getInstance()->removeObserver(LLPanelProfileTab::getAvatarId(),this);
 	}
 
 	auto popup_menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
@@ -494,7 +491,7 @@ void LLPanelPicks::processProperties(void* data, EAvatarProcessorType type)
 	}
 }
 
-LLPickItem* LLPanelPicks::getSelectedPickItem()
+LLPickItem* LLPanelPicks::getSelectedPickItem() const
 {
 	LLPanel* selected_item = mPicksList->getSelectedItem();
 	if (!selected_item) return nullptr;
@@ -502,7 +499,7 @@ LLPickItem* LLPanelPicks::getSelectedPickItem()
 	return dynamic_cast<LLPickItem*>(selected_item);
 }
 
-LLClassifiedItem* LLPanelPicks::getSelectedClassifiedItem()
+LLClassifiedItem* LLPanelPicks::getSelectedClassifiedItem() const
 {
 	LLPanel* selected_item = mClassifiedsList->getSelectedItem();
 	if (!selected_item) 
@@ -581,14 +578,7 @@ void LLPanelPicks::onPlusMenuItemClicked(const LLSD& param)
 
 bool LLPanelPicks::isActionEnabled(const LLSD& userdata) const
 {
-	std::string command_name = userdata.asString();
-
-	if (command_name == "new_pick" && LLAgentPicksInfo::getInstance()->isPickLimitReached())
-	{
-		return false;
-	}
-
-	return true;
+	return (!(userdata.asString() == LLStringExplicit("new_pick") && LLAgentPicksInfo::getInstance()->isPickLimitReached()));
 }
 
 bool LLPanelPicks::isClassifiedPublished(LLClassifiedItem* c_item)
@@ -1091,34 +1081,6 @@ void LLPanelPicks::createPickEditPanel()
 	mPanelPickEdit->setVisible(FALSE);
 }
 
-// void LLPanelPicks::openPickEditPanel(LLPickItem* pick)
-// {
-// 	if(!pick)
-// 	{
-// 		return;
-// 	}
-// }
-
-// void LLPanelPicks::openPickInfoPanel(LLPickItem* pick)
-// {
-// 	if(!mPanelPickInfo)
-// 	{
-// 		mPanelPickInfo = LLPanelPickInfo::create();
-// 		mPanelPickInfo->setExitCallback(boost::bind(&LLPanelPicks::onPanelPickClose, this, mPanelPickInfo));
-// 		mPanelPickInfo->setEditPickCallback(boost::bind(&LLPanelPicks::onPanelPickEdit, this));
-// 		mPanelPickInfo->setVisible(FALSE);
-// 	}
-// 
-// 	LLSD params;
-// 	params["pick_id"] = pick->getPickId();
-// 	params["avatar_id"] = pick->getCreatorId();
-// 	params["snapshot_id"] = pick->getSnapshotId();
-// 	params["pick_name"] = pick->getPickName();
-// 	params["pick_desc"] = pick->getPickDesc();
-// 
-// 	getProfilePanel()->openPanel(mPanelPickInfo, params);
-// }
-
 void LLPanelPicks::openPickEdit(const LLSD& params)
 {
 	createPickEditPanel();
@@ -1161,7 +1123,7 @@ void LLPanelPicks::onPanelClassifiedEdit()
 	editClassified(c_item->getClassifiedId());
 }
 
-LLClassifiedItem *LLPanelPicks::findClassifiedById(const LLUUID& classified_id)
+LLClassifiedItem *LLPanelPicks::findClassifiedById(const LLUUID& classified_id) const
 {
 	// HACK - find item by classified id.  Should be a better way.
 	std::vector<LLPanel*> items;
@@ -1236,7 +1198,7 @@ bool LLPanelPicks::onEnableMenuItem(const LLSD& user_data)
 	return true;
 }
 
-inline LLPanelProfile* LLPanelPicks::getProfilePanel()
+inline LLPanelProfile* LLPanelPicks::getProfilePanel() const
 {
 	llassert_always(NULL != mProfilePanel);
 	return mProfilePanel;
@@ -1291,17 +1253,17 @@ void LLPickItem::setPickName(const std::string& name)
 
 }
 
-const std::string& LLPickItem::getPickName()
+const std::string& LLPickItem::getPickName() const
 {
 	return mPickName;
 }
 
-const LLUUID& LLPickItem::getCreatorId()
+const LLUUID& LLPickItem::getCreatorId() const
 {
 	return mCreatorID;
 }
 
-const LLUUID& LLPickItem::getSnapshotId()
+const LLUUID& LLPickItem::getSnapshotId() const
 {
 	return mSnapshotID;
 }
@@ -1316,17 +1278,17 @@ void LLPickItem::setPickId(const LLUUID& id)
 	mPickID = id;
 }
 
-const LLUUID& LLPickItem::getPickId()
+const LLUUID& LLPickItem::getPickId() const
 {
 	return mPickID;
 }
 
-const LLVector3d& LLPickItem::getPosGlobal()
+const LLVector3d& LLPickItem::getPosGlobal() const
 {
 	return mPosGlobal;
 }
 
-const std::string LLPickItem::getDescription()
+const std::string LLPickItem::getDescription() const
 {
 	return getChild<LLUICtrl>("picture_descr")->getValue().asString();
 }
@@ -1462,7 +1424,7 @@ void LLClassifiedItem::setSnapshotId(const LLUUID& snapshot_id)
 	getChild<LLUICtrl>("picture")->setValue(snapshot_id);
 }
 
-LLUUID LLClassifiedItem::getSnapshotId()
+LLUUID LLClassifiedItem::getSnapshotId() const
 {
 	return getChild<LLUICtrl>("picture")->getValue();
 }

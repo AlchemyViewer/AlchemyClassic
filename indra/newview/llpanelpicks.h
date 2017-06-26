@@ -31,7 +31,6 @@
 #include "v3dmath.h"
 #include "lluuid.h"
 #include "llpanelavatar.h"
-#include "llregistry.h"
 
 class LLAccordionCtrlTab;
 class LLPanelProfile;
@@ -71,20 +70,16 @@ public:
 
 	static void* create(void* data);
 
-	/*virtual*/ BOOL postBuild(void) override;
-
-	/*virtual*/ void onOpen(const LLSD& key) override;
-
-	/*virtual*/ void onClosePanel() override;
-
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
+	void onClosePanel() override;
 	void processProperties(void* data, EAvatarProcessorType type) override;
-
 	void updateData() override;
 
 	// returns the selected pick item
-	LLPickItem* getSelectedPickItem();
-	LLClassifiedItem* getSelectedClassifiedItem();
-	LLClassifiedItem* findClassifiedById(const LLUUID& classified_id);
+	LLPickItem* getSelectedPickItem() const;
+	LLClassifiedItem* getSelectedClassifiedItem() const;
+	LLClassifiedItem* findClassifiedById(const LLUUID& classified_id) const;
 
 	//*NOTE top down approch when panel toggling is done only by 
 	// parent panels failed to work (picks related code was in my profile panel)
@@ -94,7 +89,7 @@ public:
 	void createNewClassified();
 
 protected:
-	/*virtual*/void updateButtons() override;
+	void updateButtons() override;
 
 private:
 	void onClickDelete();
@@ -145,7 +140,7 @@ private:
 	virtual void onDoubleClickClassifiedItem(LLUICtrl* item);
 	virtual void onRightMouseUpItem(LLUICtrl* item, S32 x, S32 y, MASK mask);
 
-	LLPanelProfile* getProfilePanel();
+	LLPanelProfile* getProfilePanel() const;
 
 	void createPickInfoPanel();
 	void createPickEditPanel();
@@ -182,58 +177,35 @@ private:
 class LLPickItem : public LLPanel, public LLAvatarPropertiesObserver
 {
 public:
-
 	LLPickItem();
+	~LLPickItem();
+	BOOL postBuild() override;
 
 	static LLPickItem* create();
-
 	void init(LLPickData* pick_data);
-
 	void setPickName(const std::string& name);
-
 	void setPickDesc(const std::string& descr);
-
 	void setPickId(const LLUUID& id);
-
 	void setCreatorId(const LLUUID& id) {mCreatorID = id;};
-
 	void setSnapshotId(const LLUUID& id) {mSnapshotID = id;};
-
-	void setNeedData(bool need){mNeedData = need;};
-
-	const LLUUID& getPickId(); 
-
-	const std::string& getPickName();
-
-	const LLUUID& getCreatorId();
-
-	const LLUUID& getSnapshotId();
-
-	const LLVector3d& getPosGlobal();
-
-	const std::string getDescription();
-
-	const std::string& getSimName() { return mSimName; }
-
-	const std::string& getUserName() { return mUserName; }
-
-	const std::string& getOriginalName() { return mOriginalName; }
-
-	const std::string& getPickDesc() { return mPickDescription; }
-
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
-
+	void setNeedData(bool need) {mNeedData = need;};
+	const LLUUID& getPickId() const; 
+	const std::string& getPickName() const;
+	const LLUUID& getCreatorId() const;
+	const LLUUID& getSnapshotId() const;
+	const LLVector3d& getPosGlobal() const;
+	const std::string getDescription() const;
+	const std::string& getSimName() const { return mSimName; }
+	const std::string& getUserName() const { return mUserName; }
+	const std::string& getOriginalName() const { return mOriginalName; }
+	const std::string& getPickDesc() const { return mPickDescription; }
+	void processProperties(void* data, EAvatarProcessorType type) override;
 	void update();
-
-	~LLPickItem();
-
-	/*virtual*/ BOOL postBuild() override;
-
+	
 	/** setting on/off background icon to indicate selected state */
-	/*virtual*/ void setValue(const LLSD& value) override;
+	void setValue(const LLSD& value) override;
 
 protected:
-
 	LLUUID mPickID;
 	LLUUID mCreatorID;
 	LLUUID mParcelID;
@@ -252,61 +224,35 @@ class LLClassifiedItem : public LLPanel, public LLAvatarPropertiesObserver
 {
 public:
 
-	LLClassifiedItem(const LLUUID& avatar_id, const LLUUID& classified_id);
-	
+	LLClassifiedItem(const LLUUID& avatar_id, const LLUUID& classified_id);	
 	virtual ~LLClassifiedItem();
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
-
-	/*virtual*/ BOOL postBuild() override;
-
-	/*virtual*/ void setValue(const LLSD& value) override;
-
+	void processProperties(void* data, EAvatarProcessorType type) override;
+	BOOL postBuild() override;
+	void setValue(const LLSD& value) override;
 	void fillIn(LLPanelClassifiedEdit* panel);
-
-	LLUUID getAvatarId() {return mAvatarId;}
-	
+	LLUUID getAvatarId() const {return mAvatarId;}
 	void setAvatarId(const LLUUID& avatar_id) {mAvatarId = avatar_id;}
-
-	LLUUID getClassifiedId() {return mClassifiedId;}
-
+	LLUUID getClassifiedId() const {return mClassifiedId;}
 	void setClassifiedId(const LLUUID& classified_id) {mClassifiedId = classified_id;}
-
 	void setPosGlobal(const LLVector3d& pos) { mPosGlobal = pos; }
-
-	const LLVector3d getPosGlobal() { return mPosGlobal; }
-
+	const LLVector3d getPosGlobal() const { return mPosGlobal; }
 	void setLocationText(const std::string location) { mLocationText = location; }
-
-	std::string getLocationText() { return mLocationText; }
-
+	std::string getLocationText() const { return mLocationText; }
 	void setClassifiedName (const std::string& name);
-
-	std::string getClassifiedName() { return getChild<LLUICtrl>("name")->getValue().asString(); }
-
+	std::string getClassifiedName() const { return getChild<LLUICtrl>("name")->getValue().asString(); }
 	void setDescription(const std::string& desc);
-
-	std::string getDescription() { return getChild<LLUICtrl>("description")->getValue().asString(); }
-
+	std::string getDescription() const { return getChild<LLUICtrl>("description")->getValue().asString(); }
 	void setSnapshotId(const LLUUID& snapshot_id);
-
-	LLUUID getSnapshotId();
-
+	LLUUID getSnapshotId() const;
 	void setCategory(U32 cat) { mCategory = cat; }
-
-	U32 getCategory() { return mCategory; }
-
+	U32 getCategory() const { return mCategory; }
 	void setContentType(U32 ct) { mContentType = ct; }
-
-	U32 getContentType() { return mContentType; }
-
+	U32 getContentType() const { return mContentType; }
 	void setAutoRenew(U32 renew) { mAutoRenew = renew; }
-
-	bool getAutoRenew() { return mAutoRenew; }
-
+	bool getAutoRenew() const { return mAutoRenew; }
 	void setPriceForListing(S32 price) { mPriceForListing = price; }
-
-	S32 getPriceForListing() { return mPriceForListing; }
+	S32 getPriceForListing() const { return mPriceForListing; }
 
 private:
 	LLUUID mAvatarId;

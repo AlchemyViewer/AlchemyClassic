@@ -75,7 +75,6 @@ static LLPanelInjector<LLPanelProfileLegacy::LLPanelProfilePicks> t_panel_picks(
 
 LLPanelProfileLegacy::LLPanelProfileLegacy()
 :	LLPanelProfileTab()
-,	mPickDetail(nullptr)
 ,	mPanelPicks(nullptr)
 ,	mPanelGroups(nullptr)
 {
@@ -140,8 +139,6 @@ void LLPanelProfileLegacy::onOpen(const LLSD& key)
 		// *TODO: Actions, if any
 		return;
 	}
-	if (mPickDetail != nullptr)
-		closePanel(mPickDetail);
 	
 	if (mNameChangedConnection.connected())
 	{
@@ -538,7 +535,6 @@ void LLPanelProfileLegacy::openPanel(LLPanel* panel, const LLSD& params)
 	panel->reshape(new_rect.getWidth(), new_rect.getHeight());
 	new_rect.setLeftTopAndSize(0, new_rect.getHeight(), new_rect.getWidth(), new_rect.getHeight());
 	panel->setRect(new_rect);
-	mPickDetail = panel;
 }
 
 void LLPanelProfileLegacy::closePanel(LLPanel* panel)
@@ -563,29 +559,28 @@ void LLPanelProfileLegacy::closePanel(LLPanel* panel)
 			LL_WARNS() << "No underlying panel to focus." << LL_ENDL;
 		}
 	}
-	mPickDetail = nullptr;
 }
 
 // LLPanelProfilePicks //
 
 LLPanelProfileLegacy::LLPanelProfilePicks::LLPanelProfilePicks()
 	: LLPanelProfileTab(),
-	mProfilePanel(nullptr),
-	mClassifiedsList(nullptr),
-	mPicksList(nullptr),
-	mPanelPickInfo(nullptr),
-	mPanelClassifiedInfo(nullptr)
+	  mProfilePanel(nullptr),
+	  mClassifiedsList(nullptr),
+	  mPicksList(nullptr), 
+	  mPanelPickEdit(nullptr),
+	  mPanelPickInfo(nullptr),
+	  mPanelClassifiedInfo(nullptr)
 {
-
 }
 
 BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
 {
 	mPicksList = getChild<LLFlatListView>("picks_list");
 	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
-	childSetAction("teleport_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickTeleport, this));
-	childSetAction("show_on_map_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickShowOnMap, this));
-	childSetAction("info_btn", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+	childSetAction("teleport_btn", boost::bind(&LLPanelProfilePicks::onClickTeleport, this));
+	childSetAction("show_on_map_btn", boost::bind(&LLPanelProfilePicks::onClickShowOnMap, this));
+	childSetAction("info_btn", boost::bind(&LLPanelProfilePicks::onClickInfo, this));
 	updateButtons();
 	return TRUE;
 }
@@ -610,6 +605,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 {
 	if (APT_PICKS == type)
 	{
+		mPicksList->clear();
 		LLAvatarPicks* avatar_picks = static_cast<LLAvatarPicks*>(data);
 		if (!avatar_picks || getAvatarId() != avatar_picks->target_id) return;
 		for (const LLAvatarPicks::pick_data_t& pick: avatar_picks->picks_list)
@@ -618,7 +614,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			const std::string pick_name = pick.second;
 			
 			LLPickItem* picture = LLPickItem::create();
-			picture->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+			picture->childSetAction("info_chevron", boost::bind(&LLPanelProfilePicks::onClickInfo, this));
 			picture->setPickName(pick_name);
 			picture->setPickId(pick_id);
 			picture->setCreatorId(getAvatarId());
@@ -632,7 +628,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			pick_value.insert(PICK_CREATOR_ID, getAvatarId());
 			
 			mPicksList->addItem(picture, pick_value);
-			picture->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
+			picture->setMouseUpCallback(boost::bind(&LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_picks", mPicksList->size());
 	}
@@ -643,7 +639,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 		for (const LLAvatarClassifieds::classified_data& c_data: c_info->classifieds_list)
 		{
 			LLClassifiedItem* c_item = new LLClassifiedItem(getAvatarId(), c_data.classified_id);
-			c_item->childSetAction("info_chevron", boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::onClickInfo, this));
+			c_item->childSetAction("info_chevron", boost::bind(&LLPanelProfilePicks::onClickInfo, this));
 			c_item->setClassifiedName(c_data.name);
 			
 			LLSD pick_value = LLSD();
@@ -654,7 +650,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::processProperties(void* data, EA
 			{
 				mClassifiedsList->addItem(c_item, pick_value);
 			}
-			c_item->setMouseUpCallback(boost::bind(&LLPanelProfileLegacy::LLPanelProfilePicks::updateButtons, this));
+			c_item->setMouseUpCallback(boost::bind(&LLPanelProfilePicks::updateButtons, this));
 		}
 		showAccordion("tab_classifieds", mClassifiedsList->size());
 	}
@@ -760,6 +756,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::openPickInfo()
 	{
 		mPanelPickInfo = LLPanelPickInfo::create();
 		mPanelPickInfo->setExitCallback(boost::bind(&LLPanelProfilePicks::onPanelPickClose, this, mPanelPickInfo));
+		mPanelPickInfo->setEditPickCallback(boost::bind(&LLPanelProfilePicks::onPanelEditPick, this));
 		mPanelPickInfo->setVisible(FALSE);
 	}
 	
@@ -836,6 +833,33 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelPickClose(LLPanel* panel)
 {
 	getProfilePanel()->closePanel(panel);
 }
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelPickEditSave(LLPanelPickEdit* panel)
+{
+	panel->sendUpdate();
+	getProfilePanel()->closePanel(panel);
+}
+
+void LLPanelProfileLegacy::LLPanelProfilePicks::onPanelEditPick()
+{
+	LLSD selected_value = mPicksList->getSelectedValue();
+	if (selected_value.isUndefined()) return;
+
+	LLPickItem* pick = dynamic_cast<LLPickItem*>(mPicksList->getSelectedItem());
+
+	LLSD params;
+	params["pick_id"] = pick->getPickId();
+	params["avatar_id"] = pick->getCreatorId();
+	params["snapshot_id"] = pick->getSnapshotId();
+	params["pick_name"] = pick->getPickName();
+	params["pick_desc"] = pick->getPickDesc();
+
+	mPanelPickEdit = LLPanelPickEdit::create();
+	mPanelPickEdit->setCancelCallback(boost::bind(&LLPanelProfilePicks::onPanelPickClose, this, mPanelPickEdit));
+	mPanelPickEdit->setSaveCallback(boost::bind(&LLPanelProfilePicks::onPanelPickEditSave, this, mPanelPickEdit));
+	getProfilePanel()->openPanel(mPanelPickEdit, params);
+}
+
 
 void LLPanelProfileLegacy::LLPanelProfilePicks::setProfilePanel(LLPanelProfileLegacy* profile_panel)
 {
@@ -935,7 +959,7 @@ LLProfileGroupItem* LLProfileGroupItem::create()
 void LLProfileGroupItem::init(const LLAvatarGroups::LLGroupData& data)
 {
 	setId(data.group_id);
-	setName(data.group_name);
+	setGroupName(data.group_name);
 	setInsignia(data.group_insignia_id);
 	LLGroupMgr::getInstance()->addObserver(this);
 	LLGroupMgr::getInstance()->sendGroupPropertiesRequest(data.group_id);
@@ -969,7 +993,7 @@ void LLProfileGroupItem::setInsignia(const LLUUID& id)
 	getChild<LLTextureCtrl>("picture")->setImageAssetID(id);
 }
 
-void LLProfileGroupItem::setName(const std::string& name)
+void LLProfileGroupItem::setGroupName(const std::string& name)
 {
 	mGroupName = name;
 	getChild<LLUICtrl>("name")->setValue(name);

@@ -54,7 +54,7 @@
 #include "lluiconstants.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
-#include "llworldmap.h"
+
 
 
 #define XML_PANEL_EDIT_PICK "panel_edit_pick.xml"
@@ -98,7 +98,7 @@ LLPanelPickInfo::LLPanelPickInfo()
 
 LLPanelPickInfo::~LLPanelPickInfo()
 {
-	LLAvatarPropertiesProcessor::getInstance()->removeObserver(getAvatarId(), this);
+	LLAvatarPropertiesProcessor::getInstance()->removeObserver(LLPanelPickInfo::getAvatarId(), this);
 
 	if (mParcelId.notNull())
 	{
@@ -355,6 +355,7 @@ LLPanelPickEdit::LLPanelPickEdit()
  , mLocationChanged(false)
  , mNeedData(true)
  , mNewPick(false)
+ , text_icon(nullptr)
 {
 }
 
@@ -488,8 +489,6 @@ BOOL LLPanelPickEdit::isDirty() const
 	}
 	return FALSE;
 }
-
-// PROTECTED AREA
 
 void LLPanelPickEdit::sendUpdate()
 {

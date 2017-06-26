@@ -148,8 +148,6 @@ protected:
 
 	void onClickBack();
 
-protected:
-
 	S32						mScrollingPanelMinHeight;
 	S32						mScrollingPanelWidth;
 	LLScrollContainer*		mScrollContainer;
@@ -176,13 +174,10 @@ public:
 	 */
 	static LLPanelPickEdit* create();
 
-	/*virtual*/ ~LLPanelPickEdit();
-
-	/*virtual*/ void onOpen(const LLSD& key) override;
-
+	~LLPanelPickEdit();
+	void onOpen(const LLSD& key) override;
 	virtual void setPickData(const LLPickData* pick_data);
-
-	/*virtual*/ BOOL postBuild() override;
+	BOOL postBuild() override;
 
 	/**
 	 * Sets "Save" button click callback
@@ -197,23 +192,23 @@ public:
 	/**
 	 * Resets panel and all cantrols to unedited state
 	 */
-	/*virtual*/ void resetDirty() override;
+	void resetDirty() override;
 
 	/**
 	 * Returns true if any of Pick properties was changed by user.
 	 */
-	/*virtual*/ BOOL isDirty() const override;
+	BOOL isDirty() const override;
 
-	/*virtual*/ void processProperties(void* data, EAvatarProcessorType type) override;
+	void processProperties(void* data, EAvatarProcessorType type) override;
+
+	/**
+	* Sends Pick properties to server.
+	*/
+	void sendUpdate();
 
 protected:
 
 	LLPanelPickEdit();
-
-	/**
-	 * Sends Pick properties to server.
-	 */
-	void sendUpdate();
 
 	/**
 	 * Called when snapshot image changes.
@@ -243,8 +238,6 @@ protected:
 	void onClickSave();
 
 	std::string getLocationNotice();
-
-protected:
 
 	bool mLocationChanged;
 	bool mNeedData;

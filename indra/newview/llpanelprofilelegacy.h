@@ -38,6 +38,7 @@ class LLAvatarName;
 class LLClassifiedItem;
 class LLFlatListView;
 class LLPanel;
+class LLPanelPickEdit;
 class LLPanelPickInfo;
 class LLPanelProfileTab;
 class LLPanelClassifiedInfo;
@@ -49,8 +50,8 @@ class LLPanelProfileLegacy : public LLPanelProfileTab
 public:
 	LLPanelProfileLegacy();
 	BOOL postBuild() override;
-	/* virtual */ void onOpen(const LLSD& key) override;
-	/* virtual */ void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	void onOpen(const LLSD& key) override;
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
 	
 protected:
 	void openPanel(LLPanel* panel, const LLSD& params);
@@ -58,9 +59,9 @@ protected:
 	
 private:
 	~LLPanelProfileLegacy();
-	/* virtual */ void updateData() override;
-	/* virtual */ void processProperties(void* data, EAvatarProcessorType type) override;
-	/* virtual */ void resetControls() override;
+	void updateData() override;
+	void processProperties(void* data, EAvatarProcessorType type) override;
+	void resetControls() override;
 	void setProgress(bool started);
 	void showAccordion(const std::string& name, bool show);
 	void onAvatarNameCache(const LLUUID& agent_id, const LLAvatarName& av_name);
@@ -103,7 +104,6 @@ private:
 		LLPanel*	mParent;
 	};
 	ChildStack		mChildStack;
-	LLPanel*		mPickDetail;
 	
 public:
 	class LLPanelProfilePicks : public LLPanelProfileTab
@@ -111,17 +111,21 @@ public:
 		friend class LLPanelProfileLegacy;
 	public:
 		LLPanelProfilePicks();
-		/* virtual */ BOOL postBuild() override;
+		BOOL postBuild() override;
+
 	protected:
-		/* virtual */ void onOpen(const LLSD& key) override;
+		void onOpen(const LLSD& key) override;
+
 	private:
-		/* virtual */ void updateData() override;
-		/* virtual */ void processProperties(void* data, EAvatarProcessorType type) override;
-		/* virtual */ void resetControls() override {};
+		void updateData() override;
+		void processProperties(void* data, EAvatarProcessorType type) override;
+		void resetControls() override {};
 		void showAccordion(const std::string& name, bool show);
 		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
 		LLPanelProfileLegacy* getProfilePanel() const;
 		void onPanelPickClose(LLPanel* panel);
+		void onPanelPickEditSave(LLPanelPickEdit* panel);
+		void onPanelEditPick();
 		void updateButtons() override;
 		void onClickInfo();
 		void onClickTeleport();
@@ -135,6 +139,7 @@ public:
 		LLPanelProfileLegacy* mProfilePanel;
 		LLFlatListView* mClassifiedsList;
 		LLFlatListView* mPicksList;
+		LLPanelPickEdit* mPanelPickEdit;
 		LLPanelPickInfo* mPanelPickInfo;
 		LLPanelClassifiedInfo* mPanelClassifiedInfo;
 	};
@@ -144,13 +149,15 @@ public:
 		friend class LLPanelProfileLegacy;
 	public:
 		LLPanelProfileGroups();
-		/* virtual */ BOOL postBuild() override;
+		BOOL postBuild() override;
+
 	protected:
-		/* virtual */ void onOpen(const LLSD& key) override;
+		void onOpen(const LLSD& key) override;
+
 	private:
-		/* virtual */ void updateData() override;
-		/* virtual */ void processProperties(void* data, EAvatarProcessorType type) override;
-		/* virtual */ void resetControls() override {};
+		void updateData() override;
+		void processProperties(void* data, EAvatarProcessorType type) override;
+		void resetControls() override {};
 		void showGroup(const LLUUID& id);
 		
 		LLTextBase* mGroupsText;
@@ -169,15 +176,17 @@ public:
 	~LLProfileGroupItem();
 	static LLProfileGroupItem* create();
 	void init(const LLAvatarGroups::LLGroupData& data);
-	/* virtual */ BOOL postBuild() override;
+	BOOL postBuild() override;
 	
 	void setValue(const LLSD& value) override;
 	void setId(const LLUUID& id);
 	void setInsignia(const LLUUID& id);
-	void setName(const std::string& name);
+	void setGroupName(const std::string& name);
 	void setCharter(const std::string& charter);
+
 protected:
-	/* virtual */ void changed(LLGroupChange gc) override;
+	void changed(LLGroupChange gc) override;
+
 private:
 	LLUUID	mInsignia;
 	std::string mGroupName;

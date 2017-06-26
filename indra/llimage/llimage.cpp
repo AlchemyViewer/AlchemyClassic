@@ -2098,11 +2098,10 @@ bool LLImageFormatted::load(const std::string &filename, int load_size)
 {
 	resetLastError();
 
-	S32 file_size = 0;
-	LLAPRFile infile ;
-	infile.open(filename, LL_APR_RB, nullptr, &file_size);
-	apr_file_t* apr_file = infile.getFileHandle();
-	if (!apr_file)
+	apr_off_t file_size = 0;
+	LLAPRFile infile;
+	apr_status_t s = infile.open(filename, LL_APR_RB, nullptr, &file_size);
+	if (s != APR_SUCCESS)
 	{
 		setLastError("Unable to open file for reading", filename);
 		return false;
@@ -2120,9 +2119,8 @@ bool LLImageFormatted::load(const std::string &filename, int load_size)
 	}
 	bool res;
 	U8 *data = allocateData(load_size);
-	apr_size_t bytes_read = load_size;
-	apr_status_t s = apr_file_read(apr_file, data, &bytes_read); // modifies bytes_read
-	if (s != APR_SUCCESS || (S32) bytes_read != load_size)
+	apr_size_t bytes_read = infile.read(data, load_size);
+	if (bytes_read == 0 ||  bytes_read != load_size)
 	{
 		deleteData();
 		setLastError("Unable to read file",filename);

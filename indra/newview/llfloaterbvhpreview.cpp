@@ -196,12 +196,12 @@ BOOL LLFloaterBvhPreview::postBuild()
 		// loading a bvh file
 
 		// now load bvh file
-		S32 file_size;
+		apr_off_t file_size;
 		
 		LLAPRFile infile ;
-		infile.open(mFilenameAndPath, LL_APR_RB, nullptr, &file_size);
+		apr_status_t s = infile.open(mFilenameAndPath, LL_APR_RB, nullptr, &file_size);
 		
-		if (!infile.getFileHandle())
+		if (s != APR_SUCCESS)
 		{
 			LL_WARNS() << "Can't open BVH file:" << mFilename << LL_ENDL;	
 		}

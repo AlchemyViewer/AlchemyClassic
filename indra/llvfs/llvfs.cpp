@@ -2081,7 +2081,7 @@ void LLVFS::dumpFiles()
 		LLVFSFileSpecifier file_spec = it->first;
 		LLVFSFileBlock *file_block = it->second;
 		S32 length = file_block->mLength;
-		S32 size = file_block->mSize;
+		apr_size_t size = (apr_size_t)file_block->mSize;
 		if (length != BLOCK_LENGTH_INVALID && size > 0)
 		{
 			LLUUID id = file_spec.mFileID;

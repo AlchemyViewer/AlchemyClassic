@@ -166,17 +166,17 @@ public:
 	LLAPRFile(const LLAPRFile&) = delete;
 	LLAPRFile& operator=(const LLAPRFile&) = delete;
 	
-	apr_status_t open(const std::string& filename, apr_int32_t flags, LLVolatileAPRPool* pool = nullptr, S32* sizep = nullptr);
+	apr_status_t open(const std::string& filename, apr_int32_t flags, LLVolatileAPRPool* pool = nullptr, apr_off_t* sizep = nullptr);
 	apr_status_t open(const std::string& filename, apr_int32_t flags, BOOL use_global_pool); //use gAPRPoolp.
 	apr_status_t close() ;
 
 	// Returns actual offset, -1 if seek fails
-	S32 seek(apr_seek_where_t where, S32 offset);
+	apr_off_t seek(apr_seek_where_t where, apr_off_t offset);
 	apr_status_t eof() { return apr_file_eof(mFile);}
 
 	// Returns bytes read/written, 0 if read/write fails:
-	S32 read(void* buf, S32 nbytes);
-	S32 write(const void* buf, S32 nbytes);
+	apr_size_t read(void* buf, apr_size_t nbytes);
+	apr_size_t write(const void* buf, apr_size_t nbytes);
 	
 	apr_file_t* getFileHandle() {return mFile;}	
 
@@ -193,19 +193,19 @@ public:
 private:
 	static apr_file_t* open(const std::string& filename, LLVolatileAPRPool* pool, apr_int32_t flags);
 	static apr_status_t close(apr_file_t* file, LLVolatileAPRPool* pool) ;
-	static S32 seek(apr_file_t* file, apr_seek_where_t where, S32 offset);
+	static apr_off_t seek(apr_file_t* file, apr_seek_where_t where, apr_off_t offset);
 public:
 	// returns false if failure:
 	static bool remove(const std::string& filename, LLVolatileAPRPool* pool = nullptr);
 	static bool rename(const std::string& filename, const std::string& newname, LLVolatileAPRPool* pool = nullptr);
 	static bool isExist(const std::string& filename, LLVolatileAPRPool* pool = nullptr, apr_int32_t flags = APR_READ);
-	static S32 size(const std::string& filename, LLVolatileAPRPool* pool = nullptr);
+	static apr_off_t size(const std::string& filename, LLVolatileAPRPool* pool = nullptr);
 	static bool makeDir(const std::string& dirname, LLVolatileAPRPool* pool = nullptr);
 	static bool removeDir(const std::string& dirname, LLVolatileAPRPool* pool = nullptr);
 
 	// Returns bytes read/written, 0 if read/write fails:
-	static S32 readEx(const std::string& filename, void *buf, S32 offset, S32 nbytes, LLVolatileAPRPool* pool = nullptr);	
-	static S32 writeEx(const std::string& filename, void *buf, S32 offset, S32 nbytes, LLVolatileAPRPool* pool = nullptr); // offset<0 means append
+	static apr_size_t readEx(const std::string& filename, void *buf, apr_off_t offset, apr_size_t nbytes, LLVolatileAPRPool* pool = nullptr);
+	static apr_size_t writeEx(const std::string& filename, void *buf, apr_off_t offset, apr_size_t nbytes, LLVolatileAPRPool* pool = nullptr); // offset<0 means append
 //*******************************************************************************************************************************
 };
 

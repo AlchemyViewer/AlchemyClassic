@@ -354,11 +354,10 @@ bool LLImageJ2C::loadAndValidate(const std::string &filename)
 	
 	resetLastError();
 
-	S32 file_size = 0;
-	LLAPRFile infile ;
-	infile.open(filename, LL_APR_RB, nullptr, &file_size);
-	apr_file_t* apr_file = infile.getFileHandle() ;
-	if (!apr_file)
+	apr_off_t file_size = 0;
+	LLAPRFile infile;
+	apr_status_t s = infile.open(filename, LL_APR_RB, nullptr, &file_size);
+	if (s != APR_SUCCESS)
 	{
 		setLastError("Unable to open file for reading", filename);
 		res = false;
@@ -371,11 +370,10 @@ bool LLImageJ2C::loadAndValidate(const std::string &filename)
 	else
 	{
 		U8 *data = (U8*)ll_aligned_malloc_16(file_size);
-		apr_size_t bytes_read = file_size;
-		apr_status_t s = apr_file_read(apr_file, data, &bytes_read); // modifies bytes_read	
-		infile.close() ;
+		apr_size_t bytes_read = infile.read(data, (apr_size_t) file_size);
+		infile.close();
 
-		if (s != APR_SUCCESS || (S32)bytes_read != file_size)
+		if ((bytes_read == 0) || (bytes_read != (apr_size_t) file_size))
 		{
 			ll_aligned_free_16(data);
 			setLastError("Unable to read entire file");

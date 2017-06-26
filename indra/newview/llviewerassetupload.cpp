@@ -428,10 +428,10 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 
 		LLBVHLoader* loaderp = nullptr;
 		LLAPRFile infile;
-		S32 file_size;
+		apr_off_t file_size;
 		
-		infile.open(getFileName(), LL_APR_RB, nullptr, &file_size);
-		if (!infile.getFileHandle())
+		apr_status_t s = infile.open(getFileName(), LL_APR_RB, nullptr, &file_size);
+		if (s != APR_SUCCESS)
 		{
 			LL_WARNS() << "Can't open BVH file:" << getFileName() << LL_ENDL;
 		}
@@ -521,10 +521,10 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
     setAssetType(assetType);
 
     // copy this file into the vfs for upload
-    S32 file_size;
+    apr_off_t file_size;
     LLAPRFile infile;
-    infile.open(filename, LL_APR_RB, NULL, &file_size);
-    if (infile.getFileHandle())
+    apr_status_t s = infile.open(filename, LL_APR_RB, NULL, &file_size);
+    if (s == APR_SUCCESS)
     {
         LLVFile file(gVFS, getAssetId(), assetType, LLVFile::WRITE);
 

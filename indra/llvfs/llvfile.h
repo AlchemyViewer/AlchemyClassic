@@ -35,6 +35,14 @@
 class LLVFile
 {
 public:
+	enum operation_t : S32
+	{
+		READ = 0x00000001,
+		WRITE = 0x00000002,
+		READ_WRITE = 0x00000003,   // LLVFile::READ & LLVFile::WRITE
+		APPEND = 0x00000006   // 0x00000004 & LLVFile::WRITE
+	};
+
 	LLVFile(LLVFS *vfs, const LLUUID &file_id, const LLAssetType::EType file_type, S32 mode = LLVFile::READ);
 	~LLVFile();
 
@@ -67,12 +75,6 @@ protected:
 	static LLVFSThread* sVFSThread;
 	static BOOL sAllocdVFSThread;
 	U32 threadPri() { return LLVFSThread::PRIORITY_NORMAL + llmin((U32)mPriority,(U32)0xfff); }
-	
-public:
-	static const S32 READ;
-	static const S32 WRITE;
-	static const S32 READ_WRITE;
-	static const S32 APPEND;
 	
 protected:
 	LLVFS	*mVFS;

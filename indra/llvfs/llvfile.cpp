@@ -37,11 +37,6 @@
 #include "llmemory.h"
 #include "llvfs.h"
 
-const S32 LLVFile::READ			= 0x00000001;
-const S32 LLVFile::WRITE		= 0x00000002;
-const S32 LLVFile::READ_WRITE	= 0x00000003;  // LLVFile::READ & LLVFile::WRITE
-const S32 LLVFile::APPEND		= 0x00000006;  // 0x00000004 & LLVFile::WRITE
-
 static LLTrace::BlockTimerStatHandle FTM_VFILE_WAIT("VFile Wait");
 
 //----------------------------------------------------------------------------

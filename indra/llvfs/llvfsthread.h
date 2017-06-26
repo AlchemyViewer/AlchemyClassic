@@ -120,8 +120,6 @@ public:
 	S32 writeImmediate(LLVFS* vfs, const LLUUID &file_id, const LLAssetType::EType file_type,
 					   U8* buffer, S32 offset, S32 numbytes);
 
-	/*virtual*/ bool processRequest(QueuedRequest* req);
-
 public:
 	static void initClass(bool local_is_threaded = TRUE); // Setup sLocal
 	static S32 updateClass(U32 ms_elapsed);

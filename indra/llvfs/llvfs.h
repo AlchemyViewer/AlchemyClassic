@@ -141,7 +141,7 @@ protected:
 	void presizeDataFile(const U32 size);
 
 	static LLFILE *openAndLock(const std::string& filename, const char* mode, BOOL read_lock);
-	static void unlockAndClose(FILE *fp);
+	static void unlockAndClose(LLFILE *fp);
 	
 	// Can initiate LRU-based file removal to make space.
 	// The immune file block will not be removed.

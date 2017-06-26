@@ -37,6 +37,7 @@
 #include <sys/file.h>
 #endif
     
+#include "llapr.h"
 #include "llstl.h"
 #include "lltimer.h"
     
@@ -2069,7 +2070,7 @@ void LLVFS::listFiles()
 	unlockData();
 }
 
-#include "llapr.h"
+
 void LLVFS::dumpFiles()
 {
 	lockData();

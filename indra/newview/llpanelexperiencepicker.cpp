@@ -262,7 +262,7 @@ void LLPanelExperiencePicker::onBtnSelect()
 		return;
 	}
 
-	if(mSelectionCallback)
+	if(mSelectionCallback != nullptr)
 	{
 		const LLScrollListCtrl* results = getChild<LLScrollListCtrl>(LIST_RESULTS);
 		uuid_vec_t experience_ids;

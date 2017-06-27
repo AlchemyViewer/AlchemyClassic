@@ -27,13 +27,13 @@
 #ifndef LLCALLBACKMAP_H
 #define LLCALLBACKMAP_H
 
-#include <boost/function.hpp>
+#include <functional>
 
 class LLCallbackMap
 {
 public:
 	// callback definition.
-	typedef boost::function<void* (void* data)> callback_t;
+	typedef std::function<void* (void* data)> callback_t;
 	
 	typedef std::map<std::string, LLCallbackMap> map_t;
 	typedef map_t::iterator map_iter_t;

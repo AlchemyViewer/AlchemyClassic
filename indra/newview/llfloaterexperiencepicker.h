@@ -38,9 +38,9 @@ class LLFloaterExperiencePicker : public LLFloater
 {
 public:
 
-	typedef boost::function<void (const uuid_vec_t&)> select_callback_t;
+	typedef std::function<void (const uuid_vec_t&)> select_callback_t;
 	// filter function for experiences, return true if the experience should be hidden.
-	typedef boost::function<bool (const LLSD&)> filter_function;
+	typedef std::function<bool (const LLSD&)> filter_function;
 	typedef std::vector<filter_function> filter_list;
 
 	static LLFloaterExperiencePicker* show( select_callback_t callback, const LLUUID& key, BOOL allow_multiple, BOOL close_on_select, filter_list filters, LLView * frustumOrigin);

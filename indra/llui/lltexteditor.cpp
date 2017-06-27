@@ -1190,7 +1190,7 @@ void LLTextEditor::addChar(llwchar wc)
 
 	setCursorPos(mCursorPos + addChar( mCursorPos, wc ));
 
-	if (!mReadOnly && !mAutoreplaceCallback.empty())
+	if (!mReadOnly && mAutoreplaceCallback != nullptr)
 	{
 		// autoreplace the text, if necessary
 		S32 replacement_start;

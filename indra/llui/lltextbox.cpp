@@ -60,7 +60,7 @@ BOOL LLTextBox::handleMouseDown(S32 x, S32 y, MASK mask)
 		make_ui_sound("UISndClick");
 	}
 
-	if (!handled && !mClickedCallback.empty())
+	if (!handled && mClickedCallback != nullptr)
 	{
 		handled = TRUE;
 	}
@@ -133,9 +133,9 @@ void LLTextBox::setText(const LLStringExplicit& text , const LLStyle::Params& in
 	LLTextBase::setText(mText.getString(), input_params );
 }
 
-void LLTextBox::setClickedCallback( boost::function<void (void*)> cb, void* userdata /*= NULL */ )
+void LLTextBox::setClickedCallback( std::function<void (void*)> cb, void* userdata /*= NULL */ )
 {
-	mClickedCallback = boost::bind(cb, userdata);
+	mClickedCallback = std::bind(cb, userdata);
 }
 
 S32 LLTextBox::getTextPixelWidth()

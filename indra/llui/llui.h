@@ -43,6 +43,7 @@
 #include "lluiimage.h"
 #include "llframetimer.h"
 #include "v2math.h"
+#include <functional>
 #include <limits>
 
 // for initparam specialization
@@ -232,9 +233,9 @@ public:
 	// Methods
 	//
 	typedef std::map<std::string, LLControlGroup*> settings_map_t;
-	typedef boost::function<void(LLView*)> add_popup_t;
-	typedef boost::function<void(LLView*)> remove_popup_t;
-	typedef boost::function<void(void)> clear_popups_t;
+	typedef std::function<void(LLView*)> add_popup_t;
+	typedef std::function<void(LLView*)> remove_popup_t;
+	typedef std::function<void(void)> clear_popups_t;
 
 	static void initClass(const settings_map_t& settings,
 						  LLImageProviderInterface* image_provider,

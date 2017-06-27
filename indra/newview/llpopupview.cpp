@@ -46,7 +46,7 @@ LLPopupView::LLPopupView(const LLPopupView::Params& p)
 : LLPanel(p)
 {
 	// register ourself as handler of UI popups
-	LLUI::setPopupFuncs(boost::bind(&LLPopupView::addPopup, this, _1), boost::bind(&LLPopupView::removePopup, this, _1), boost::bind(&LLPopupView::clearPopups, this));
+	LLUI::setPopupFuncs(std::bind(&LLPopupView::addPopup, this, std::placeholders::_1), std::bind(&LLPopupView::removePopup, this, std::placeholders::_1), std::bind(&LLPopupView::clearPopups, this));
 }
 
 LLPopupView::~LLPopupView()
@@ -140,7 +140,7 @@ BOOL LLPopupView::handleMouseEvent(std::function<BOOL(LLView*, S32, S32)> func,
 
 BOOL LLPopupView::handleMouseDown(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleMouseDown, _1, _2, _3, mask), view_visible_and_enabled, x, y, true);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleMouseDown, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, true);
 	if (!handled)
 	{
 		handled = LLPanel::handleMouseDown(x, y, mask);
@@ -150,7 +150,7 @@ BOOL LLPopupView::handleMouseDown(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleMouseUp(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleMouseUp, _1, _2, _3, mask), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleMouseUp, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleMouseUp(x, y, mask);
@@ -160,7 +160,7 @@ BOOL LLPopupView::handleMouseUp(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleMiddleMouseDown(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleMiddleMouseDown, _1, _2, _3, mask), view_visible_and_enabled, x, y, true);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleMiddleMouseDown, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, true);
 	if (!handled)
 	{
 		handled = LLPanel::handleMiddleMouseDown(x, y, mask);
@@ -170,7 +170,7 @@ BOOL LLPopupView::handleMiddleMouseDown(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleMiddleMouseUp(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleMiddleMouseUp, _1, _2, _3, mask), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleMiddleMouseUp, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleMiddleMouseUp(x, y, mask);
@@ -180,7 +180,7 @@ BOOL LLPopupView::handleMiddleMouseUp(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleRightMouseDown(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleRightMouseDown, _1, _2, _3, mask), view_visible_and_enabled, x, y, true);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleRightMouseDown, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, true);
 	if (!handled)
 	{
 		handled = LLPanel::handleRightMouseDown(x, y, mask);
@@ -190,7 +190,7 @@ BOOL LLPopupView::handleRightMouseDown(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleRightMouseUp(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleRightMouseUp, _1, _2, _3, mask), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleRightMouseUp, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleRightMouseUp(x, y, mask);
@@ -200,7 +200,7 @@ BOOL LLPopupView::handleRightMouseUp(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleDoubleClick(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleDoubleClick, _1, _2, _3, mask), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleDoubleClick, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleDoubleClick(x, y, mask);
@@ -210,7 +210,7 @@ BOOL LLPopupView::handleDoubleClick(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleHover(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleHover, _1, _2, _3, mask), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleHover, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleHover(x, y, mask);
@@ -220,7 +220,7 @@ BOOL LLPopupView::handleHover(S32 x, S32 y, MASK mask)
 
 BOOL LLPopupView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleScrollWheel, _1, _2, _3, clicks), view_visible_and_enabled, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleScrollWheel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, clicks), view_visible_and_enabled, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleScrollWheel(x, y, clicks);
@@ -230,7 +230,7 @@ BOOL LLPopupView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 
 BOOL LLPopupView::handleToolTip(S32 x, S32 y, MASK mask)
 {
-	BOOL handled = handleMouseEvent(boost::bind(&LLMouseHandler::handleToolTip, _1, _2, _3, mask), view_visible, x, y, false);
+	BOOL handled = handleMouseEvent(std::bind(&LLMouseHandler::handleToolTip, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, mask), view_visible, x, y, false);
 	if (!handled)
 	{
 		handled = LLPanel::handleToolTip(x, y, mask);

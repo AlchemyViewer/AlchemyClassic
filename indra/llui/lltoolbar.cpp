@@ -1371,7 +1371,7 @@ void LLToolBar::LLCenterLayoutPanel::handleReshape(const LLRect& rect, bool by_u
 {
 	LLLayoutPanel::handleReshape(rect, by_user);
 
-	if (!mReshapeCallback.empty())
+	if (mReshapeCallback != nullptr)
 	{
 		LLRect r;
 		localRectToOtherView(mButtonPanel->getRect(), &r, gFloaterView);

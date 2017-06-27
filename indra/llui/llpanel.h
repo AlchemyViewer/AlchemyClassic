@@ -190,7 +190,7 @@ public:
 	// Prefer getChild<LLUICtrl>("foo")->setCommitCallback(boost:bind(...)),
 	// which takes a generic slot.  Or use mCommitCallbackRegistrar.add() with
 	// a named callback and reference it in XML.
-	void childSetCommitCallback(const std::string& id, boost::function<void (LLUICtrl*,void*)> cb, void* data);	
+	void childSetCommitCallback(const std::string& id, std::function<void (LLUICtrl*,void*)> cb, void* data);	
 	void childSetColor(const std::string& id, const LLColor4& color);
 
 	LLCtrlSelectionInterface* childGetSelectionInterface(const std::string& id) const;
@@ -207,7 +207,7 @@ public:
 	BOOL childSetLabelArg(const std::string& id, const std::string& key, const LLStringExplicit& text);
 	
 	// LLButton
-	void childSetAction(const std::string& id, boost::function<void(void*)> function, void* value);
+	void childSetAction(const std::string& id, std::function<void(void*)> function, void* value);
 	void childSetAction(const std::string& id, const commit_signal_t::slot_type& function);
 
 	static LLView*	fromXML(LLXMLNodePtr node, LLView *parent, LLXMLNodePtr output_node = NULL);
@@ -261,7 +261,7 @@ extern template class LLPanel* LLView::getChild<class LLPanel>(
 	const std::string& name, BOOL recurse) const;
 #endif
 
-typedef boost::function<LLPanel* (void)> LLPanelClassCreatorFunc;
+typedef std::function<LLPanel* (void)> LLPanelClassCreatorFunc;
 
 // local static instance for registering a particular panel class
 

@@ -59,7 +59,7 @@ LLDockControl::LLDockControl(LLView* dockWidget, LLFloater* dockableFloater,
 
 	if (!(get_allowed_rect_callback))
 	{
-		mGetAllowedRectCallback = boost::bind(&LLDockControl::getAllowedRect, this, _1);
+		mGetAllowedRectCallback = std::bind(&LLDockControl::getAllowedRect, this, std::placeholders::_1);
 	}
 	else
 	{

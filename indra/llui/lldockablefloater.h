@@ -128,10 +128,10 @@ protected:
 
 	// Checks if docking should be forced.
 	// It may be useful e.g. if floater created in mouselook mode (see EXT-5609)
-	boost::function<BOOL ()> mIsDockedStateForcedCallback;
+	std::function<BOOL ()> mIsDockedStateForcedCallback;
 
 private:
-	boost::scoped_ptr<LLDockControl> mDockControl;
+	std::unique_ptr<LLDockControl> mDockControl;
 	LLUIImagePtr mDockTongue;
 	static LLHandle<LLFloater> sInstanceHandle;
 	/**

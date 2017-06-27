@@ -41,7 +41,7 @@
 class LLFloater;
 class LLUICtrl;
 
-typedef boost::function<LLFloater* (const LLSD& key)> LLFloaterBuildFunc;
+typedef std::function<LLFloater* (const LLSD& key)> LLFloaterBuildFunc;
 
 class LLFloaterReg
 {

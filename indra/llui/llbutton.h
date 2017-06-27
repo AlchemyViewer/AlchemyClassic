@@ -150,7 +150,7 @@ public:
 
 	~LLButton();
 	// For backward compatability only
-	typedef boost::function<void(void*)> button_callback_t;
+	typedef std::function<void(void*)> button_callback_t;
 
 	void			addImageAttributeToXML(LLXMLNodePtr node, const std::string& imageName,
 										const LLUUID&	imageID,const std::string&	xmlTagName) const;
@@ -219,7 +219,6 @@ public:
 	const std::string	getLabelUnselected() const { return wstring_to_utf8str(mUnselectedLabel); }
 	const std::string	getLabelSelected() const { return wstring_to_utf8str(mSelectedLabel); }
 
-	void			setImageColor(const std::string& color_control);
 	void			setImageColor(const LLColor4& c);
 	/*virtual*/ void	setColor(const LLColor4& c) override;
 
@@ -272,7 +271,6 @@ public:
 	void			setCommitOnReturn(BOOL commit) { mCommitOnReturn = commit; }
 	BOOL			getCommitOnReturn() const { return mCommitOnReturn; }
 
-	static void		onHeldDown(void *userdata);  // to be called by gIdleCallbacks
 	static void		toggleFloaterAndSetToggleState(LLUICtrl* ctrl, const LLSD& sdname);
 	static void		setFloaterToggle(LLUICtrl* ctrl, const LLSD& sdname);
 	static void		setDockableFloaterToggle(LLUICtrl* ctrl, const LLSD& sdname);

@@ -79,7 +79,7 @@ LLDockableFloater::~LLDockableFloater()
 BOOL LLDockableFloater::postBuild()
 {
 	// Remember we should force docking when the floater is opened for the first time
-	if (!mIsDockedStateForcedCallback.empty() && mIsDockedStateForcedCallback())
+	if (mIsDockedStateForcedCallback != nullptr && mIsDockedStateForcedCallback())
 	{
 		mForceDocking = true;
 	}

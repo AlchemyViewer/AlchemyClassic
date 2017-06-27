@@ -51,7 +51,7 @@
 #include "llfocusmgr.h"
 
 #include <list>
-#include <boost/function.hpp>
+#include <functional>
 #include <boost/container/flat_map.hpp> //<alchemy/>
 
 class LLSD;
@@ -615,7 +615,7 @@ private:
 	LLView& getDefaultWidgetContainer() const;
 
 	// This allows special mouse-event targeting logic for testing.
-	typedef boost::function<bool(const LLView*, S32 x, S32 y)> DrilldownFunc;
+	typedef std::function<bool(const LLView*, S32 x, S32 y)> DrilldownFunc;
 	static DrilldownFunc sDrilldown;
 
 public:

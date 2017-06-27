@@ -96,6 +96,8 @@ protected:
 	void disableAll();
 
 private:
+	void closeParentFloater();
+
 	LLUUID			mCreatorID;
 	LLUUID			mOwnerID;
 	LLUUID			mLastOwnerID;

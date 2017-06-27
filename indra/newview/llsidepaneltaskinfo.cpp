@@ -192,6 +192,14 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	mDetailsBtn = getChild<LLButton>("details_btn");
 	mDetailsBtn->setClickedCallback(boost::bind(&LLSidepanelTaskInfo::onDetailsButtonClicked, this));
 
+	
+	if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+		getChild<LLUICtrl>("back_btn")->setCommitCallback(boost::bind(&LLSidepanelTaskInfo::closeParentFloater, this));
+	//else if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
+	//	getChild<LLUICtrl>("back_btn")->setCommitCallback(boost::bind(&LLSidepanelTaskInfo::onBackBtnClick, this));
+	else
+		getChild<LLUICtrl>("back_btn")->setEnabled(FALSE);
+
 	return TRUE;
 }
 
@@ -1331,4 +1339,10 @@ const LLUUID& LLSidepanelTaskInfo::getSelectedUUID()
 		return obj->getID();
 	}
 	return LLUUID::null;
+}
+
+void LLSidepanelTaskInfo::closeParentFloater()
+{
+	LLFloater* floater = dynamic_cast<LLFloater*>(getParent());
+	if (floater) floater->closeFloater();
 }

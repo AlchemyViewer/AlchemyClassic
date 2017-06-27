@@ -109,9 +109,10 @@ BOOL LLPanelProfileLegacy::postBuild()
 	mPanelPicks = static_cast<LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelPicks->setProfilePanel(this);
 	
-	LLSideTrayPanelContainer* parent = dynamic_cast<LLSideTrayPanelContainer*>(getParent());
-	if (parent)
+	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this));
+	else if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::closeParentFloater, this));
 	else
 		getChild<LLUICtrl>("back")->setEnabled(FALSE);
 	getChild<LLTextEditor>("sl_about")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onCommitAvatarProperties, this));
@@ -502,6 +503,12 @@ bool LLPanelProfileLegacy::handleConfirmModifyRightsCallback(const LLSD& notific
 	return false;
 }
 
+void LLPanelProfileLegacy::closeParentFloater()
+{
+	LLFloater* floater = dynamic_cast<LLFloater*>(getParent());
+	if (floater) floater->closeFloater();
+}
+
 void LLPanelProfileLegacy::onCommitRights()
 {
 	if (!LLAvatarActions::isFriend(getAvatarId())) return;
@@ -600,6 +607,7 @@ LLPanelProfileLegacy::LLPanelProfilePicks::~LLPanelProfilePicks()
 BOOL LLPanelProfileLegacy::LLPanelProfilePicks::postBuild()
 {
 	mPicksList = getChild<LLFlatListView>("picks_list");
+	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
 	mClassifiedsList = getChild<LLFlatListView>("classifieds_list");
 	childSetAction("add_btn", boost::bind(&LLPanelProfilePicks::onClickPlusBtn, this));
 	childSetAction("teleport_btn", boost::bind(&LLPanelProfilePicks::onClickTeleport, this));
@@ -821,7 +829,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onClickDelete()
 	if (value.isDefined())
 	{
 		LLSD args;
-		args["PICK"] = value["pick_name"];
+		args["PICK"] = value[PICK_NAME];
 		LLNotificationsUtil::add("DeleteAvatarPick", args, LLSD(), boost::bind(&LLPanelProfilePicks::callbackDeletePick, this, _1, _2));
 		return;
 	}
@@ -829,7 +837,7 @@ void LLPanelProfileLegacy::LLPanelProfilePicks::onClickDelete()
 	if (value.isDefined())
 	{
 		LLSD args;
-		args["NAME"] = value["classified_name"];
+		args["NAME"] = value[CLASSIFIED_NAME];
 		LLNotificationsUtil::add("DeleteClassified", args, LLSD(), boost::bind(&LLPanelProfilePicks::callbackDeleteClassified, this, _1, _2));
 		return;
 	}

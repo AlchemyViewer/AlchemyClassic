@@ -129,6 +129,7 @@ protected:
 	
 private:
 	void copyData(const LLSD& userdata);
+	void closeParentFloater();
 };
 
 using panel_multimap_t = std::unordered_multimap< LLUUID, LLPanelGroup* >;

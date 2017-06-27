@@ -107,10 +107,10 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
 	mTentative(tentative),
 	mAllowNoTexture(allow_no_texture),
 	mLabel(label),
-	mTentativeLabel(NULL),
-	mResolutionLabel(NULL),
+	mTentativeLabel(nullptr),
+	mResolutionLabel(nullptr),
 	mActive( TRUE ),
-	mFilterEdit(NULL),
+	mFilterEdit(nullptr),
 	mImmediateFilterPermMask(immediate_filter_perm_mask),
 	mDnDFilterPermMask(dnd_filter_perm_mask),
 	mNonImmediateFilterPermMask(non_immediate_filter_perm_mask),
@@ -119,10 +119,10 @@ LLFloaterTexturePicker::LLFloaterTexturePicker(
 	mCanApply(true),
 	mCanPreview(true),
 	mPreviewSettingChanged(false),
-	mOnFloaterCommitCallback(NULL),
-	mOnFloaterCloseCallback(NULL),
-	mSetImageAssetIDCallback(NULL),
-	mOnUpdateImageStatsCallback(NULL)
+	mOnFloaterCommitCallback(nullptr),
+	mOnFloaterCloseCallback(nullptr),
+	mSetImageAssetIDCallback(nullptr),
+	mOnUpdateImageStatsCallback(nullptr)
 {
 	buildFromFile("floater_texture_ctrl.xml");
 	mCanApplyImmediately = can_apply_immediately;
@@ -199,7 +199,7 @@ void LLFloaterTexturePicker::updateImageStats()
 		{
 			std::string formatted_dims = llformat("%d x %d", mTexturep->getFullWidth(),mTexturep->getFullHeight());
 			mResolutionLabel->setTextArg("[DIMENSIONS]", formatted_dims);
-			if (mOnUpdateImageStatsCallback)
+			if (mOnUpdateImageStatsCallback != nullptr)
 			{
 				mOnUpdateImageStatsCallback(mTexturep);
 			}
@@ -309,7 +309,7 @@ BOOL LLFloaterTexturePicker::handleKeyHere(KEY key, MASK mask)
 
 void LLFloaterTexturePicker::onClose(bool app_quitting)
 {
-	if (mOwner && mOnFloaterCloseCallback)
+	if (mOwner && mOnFloaterCloseCallback != nullptr)
 	{
 		mOnFloaterCloseCallback();
 	}
@@ -475,7 +475,7 @@ void LLFloaterTexturePicker::draw()
 	//BOOL allow_copy = FALSE;
 	if( mOwner ) 
 	{
-		mTexturep = NULL;
+		mTexturep = nullptr;
 		if(mImageAssetID.notNull())
 		{
 			mTexturep = LLViewerTextureManager::getFetchedTexture(mImageAssetID);
@@ -616,7 +616,7 @@ PermissionMask LLFloaterTexturePicker::getFilterPermMask()
 
 void LLFloaterTexturePicker::commitIfImmediateSet()
 {
-	if (!mNoCopyTextureSelected && mOnFloaterCommitCallback && mCanApply)
+	if (!mNoCopyTextureSelected && mOnFloaterCommitCallback != nullptr && mCanApply)
 	{
 		mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_CHANGE, LLUUID::null);
 	}
@@ -624,7 +624,7 @@ void LLFloaterTexturePicker::commitIfImmediateSet()
 
 void LLFloaterTexturePicker::commitCancel()
 {
-	if (!mNoCopyTextureSelected && mOnFloaterCommitCallback && mCanApply)
+	if (!mNoCopyTextureSelected && mOnFloaterCommitCallback != nullptr && mCanApply)
 	{
 		mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_CANCEL, LLUUID::null);
 	}
@@ -688,7 +688,7 @@ void LLFloaterTexturePicker::onBtnCancel(void* userdata)
 {
 	LLFloaterTexturePicker* self = (LLFloaterTexturePicker*) userdata;
 	self->setImageID( self->mOriginalImageAssetID );
-	if (self->mOnFloaterCommitCallback)
+	if (self->mOnFloaterCommitCallback != nullptr)
 	{
 		self->mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_CANCEL, LLUUID::null);
 	}
@@ -709,7 +709,7 @@ void LLFloaterTexturePicker::onBtnSelect(void* userdata)
 			local_id = LLLocalBitmapMgr::getWorldID(temp_id);
 		}
 	}
-	if (self->mOnFloaterCommitCallback)
+	if (self->mOnFloaterCommitCallback != nullptr)
 	{
 		self->mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_SELECT, local_id);
 	}
@@ -751,7 +751,7 @@ void LLFloaterTexturePicker::onSelectionChange(const std::deque<LLFolderViewItem
 		mNoCopyTextureSelected = FALSE;
 		if (itemp)
 		{
-			if (mTextureSelectedCallback)
+			if (mTextureSelectedCallback != nullptr)
 			{
 				mTextureSelectedCallback(itemp);
 			}
@@ -876,14 +876,14 @@ void LLFloaterTexturePicker::onLocalScrollCommit()
 	{
 		LLUUID tracking_id = LLUUID(mLocalScrollCtrl->getSelectedItemLabel(LOCAL_TRACKING_ID_COLUMN));
 		LLUUID inworld_id = LLLocalBitmapMgr::getWorldID(tracking_id);
-		if (mSetImageAssetIDCallback)
+		if (mSetImageAssetIDCallback != nullptr)
 		{
 			mSetImageAssetIDCallback(inworld_id);
 		}
 
 		if (childGetValue("apply_immediate_check").asBoolean())
 		{
-			if (mOnFloaterCommitCallback)
+			if (mOnFloaterCommitCallback != nullptr)
 			{
 				mOnFloaterCommitCallback(LLTextureCtrl::TEXTURE_CHANGE, inworld_id);
 			}
@@ -1207,11 +1207,11 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 		LLFloaterTexturePicker* texture_floaterp = dynamic_cast<LLFloaterTexturePicker*>(floaterp);
 		if (texture_floaterp)
 		{
-			if (mOnTextureSelectedCallback)
+			if (mOnTextureSelectedCallback != nullptr)
 			{
 				texture_floaterp->setTextureSelectedCallback(mOnTextureSelectedCallback);
 			}
-			if (mOnCloseCallback)
+			if (mOnCloseCallback != nullptr)
 			{
 				texture_floaterp->setOnFloaterCloseCallback(boost::bind(&LLTextureCtrl::onFloaterClose, this));
 			}
@@ -1236,7 +1236,7 @@ void LLTextureCtrl::closeDependentFloater()
 	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
 	if( floaterp )
 	{
-		floaterp->setOwner(NULL);
+		floaterp->setOwner(nullptr);
 		floaterp->closeFloater();
 	}
 }
@@ -1292,11 +1292,11 @@ void LLTextureCtrl::onFloaterClose()
 
 	if (floaterp)
 	{
-		if (mOnCloseCallback)
+		if (mOnCloseCallback != nullptr)
 		{
 			mOnCloseCallback(this,LLSD());
 		}
-		floaterp->setOwner(NULL);
+		floaterp->setOwner(nullptr);
 	}
 
 	mFloaterHandle.markDead();
@@ -1333,11 +1333,11 @@ void LLTextureCtrl::onFloaterCommit(ETexturePickOp op, LLUUID id)
 			LL_DEBUGS() << "mImageAssetID: " << mImageAssetID << LL_ENDL;
 			}
 
-			if (op == TEXTURE_SELECT && mOnSelectCallback)
+			if (op == TEXTURE_SELECT && mOnSelectCallback != nullptr)
 			{
 				mOnSelectCallback( this, LLSD() );
 			}
-			else if (op == TEXTURE_CANCEL && mOnCancelCallback)
+			else if (op == TEXTURE_CANCEL && mOnCancelCallback != nullptr)
 			{
 				mOnCancelCallback( this, LLSD() );
 			}
@@ -1442,7 +1442,7 @@ void LLTextureCtrl::draw()
 
 	if (!mValid)
 	{
-		mTexturep = NULL;
+		mTexturep = nullptr;
 	}
 	else if (!mImageAssetID.isNull())
 	{
@@ -1455,7 +1455,7 @@ void LLTextureCtrl::draw()
 	}
 	else//mImageAssetID == LLUUID::null
 	{
-		mTexturep = NULL;
+		mTexturep = nullptr;
 	}
 	
 	// Border
@@ -1560,7 +1560,7 @@ BOOL LLTextureCtrl::allowDrop(LLInventoryItem* item)
 	PermissionMask filter_perm_mask = mImmediateFilterPermMask;
 	if ( (item_perm_mask & filter_perm_mask) == filter_perm_mask )
 	{
-		if(mDragCallback)
+		if(mDragCallback != nullptr)
 		{
 			return mDragCallback(this, item);
 		}
@@ -1578,7 +1578,7 @@ BOOL LLTextureCtrl::allowDrop(LLInventoryItem* item)
 BOOL LLTextureCtrl::doDrop(LLInventoryItem* item)
 {
 	// call the callback if it exists.
-	if(mDropCallback)
+	if(mDropCallback != nullptr)
 	{
 		// if it returns TRUE, we return TRUE, and therefore the
 		// commit is called above.

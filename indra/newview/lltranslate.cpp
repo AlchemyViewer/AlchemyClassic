@@ -154,7 +154,7 @@ void LLTranslationAPIHandler::verifyKeyCoro(LLTranslate::EService service, std::
     if (!status)
         bOk = false;
 
-    if (!fnc.empty())
+    if (fnc != nullptr)
         fnc(service, bOk);
 }
 
@@ -208,7 +208,7 @@ void LLTranslationAPIHandler::translateMessageCoro(LanguagePair_t fromTo, std::s
         LLStringUtil::replaceString(translation, "&amp;", "&");
         LLStringUtil::replaceString(translation, "&apos;", "'");
 
-        if (!success.empty())
+        if (success != nullptr)
             success(translation, detected_lang);
     }
     else
@@ -219,7 +219,7 @@ void LLTranslationAPIHandler::translateMessageCoro(LanguagePair_t fromTo, std::s
         }
 
         LL_WARNS() << "Translation request failed: " << err_msg << LL_ENDL;
-        if (!failure.empty())
+        if (failure != nullptr)
             failure(status, err_msg);
     }
 

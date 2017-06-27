@@ -56,9 +56,9 @@ public :
 		SERVICE_GOOGLE,
 	} EService;
 
-    typedef boost::function<void(EService, bool)> KeyVerificationResult_fn;
-    typedef boost::function<void(std::string , std::string )> TranslationSuccess_fn;
-    typedef boost::function<void(int, std::string)> TranslationFailure_fn;
+    typedef std::function<void(EService, bool)> KeyVerificationResult_fn;
+    typedef std::function<void(std::string , std::string )> TranslationSuccess_fn;
+    typedef std::function<void(int, std::string)> TranslationFailure_fn;
 
 	/**
 	 * Translate given text.

@@ -33,15 +33,17 @@
 
 #include "llgroupmgr.h"
 #include "llpanelavatar.h"
+#include "llclassifieditem.h"
 
 class LLAvatarName;
-class LLClassifiedItem;
 class LLFlatListView;
 class LLPanel;
 class LLPanelPickEdit;
 class LLPanelPickInfo;
 class LLPanelProfileTab;
 class LLPanelClassifiedInfo;
+class LLPanelClassifiedEdit;
+class LLPickItem;
 class LLTextBase;
 class LLToggleableMenu;
 
@@ -111,6 +113,7 @@ public:
 		friend class LLPanelProfileLegacy;
 	public:
 		LLPanelProfilePicks();
+		~LLPanelProfilePicks();
 		BOOL postBuild() override;
 
 	protected:
@@ -124,17 +127,38 @@ public:
 		void setProfilePanel(LLPanelProfileLegacy* profile_panel);
 		LLPanelProfileLegacy* getProfilePanel() const;
 		void onPanelPickClose(LLPanel* panel);
+		void onPanelPickSave(LLPanel* panel);
 		void onPanelPickEditSave(LLPanelPickEdit* panel);
-		void onPanelEditPick();
+		void onPanelEdit();
+		void onPanelClassifiedEdit();
+		void onPanelPickEdit();
+		void onPlusMenuItemClicked(const LLSD& param);
+		void createNewPick();
+		void createNewClassified();
+		void editClassified(const LLUUID& classified_id);
 		void updateButtons() override;
+		void onClickPlusBtn();
 		void onClickInfo();
 		void onClickTeleport();
 		void onClickShowOnMap();
+		void onClickDelete();
 		void openPickInfo();
 		void openClassifiedInfo();
+		void onPanelClassifiedSave(LLPanelClassifiedEdit* panel);
 		void onPanelClassifiedClose(LLPanelClassifiedInfo* panel);
+		void onDoubleClickClassifiedItem(LLUICtrl* item);
 		LLClassifiedItem* findClassifiedById(const LLUUID& classified_id) const;
 		LLClassifiedItem* getSelectedClassifiedItem() const;
+		LLPickItem* getSelectedPickItem() const;
+
+		void createPickEditPanel();
+		void createClassifiedEditPanel(LLPanelClassifiedEdit** panel);
+
+		bool isActionEnabled(const LLSD& userdata) const;
+		bool callbackDeletePick(const LLSD& notification, const LLSD& response);
+		bool callbackDeleteClassified(const LLSD& notification, const LLSD& response);
+		bool callbackTeleport(const LLSD& notification, const LLSD& response);
+		virtual void onRightMouseUpItem(LLUICtrl* item, S32 x, S32 y, MASK mask);
 		
 		LLPanelProfileLegacy* mProfilePanel;
 		LLFlatListView* mClassifiedsList;
@@ -142,6 +166,12 @@ public:
 		LLPanelPickEdit* mPanelPickEdit;
 		LLPanelPickInfo* mPanelPickInfo;
 		LLPanelClassifiedInfo* mPanelClassifiedInfo;
+		LLHandle<LLView> mPopupMenuHandle;
+		LLHandle<LLToggleableMenu> mPlusMenuHandle;
+
+		// This map is needed for newly created classifieds. The purpose of panel is to
+		// sit in this map and listen to LLPanelClassifiedEdit::processProperties callback.
+		panel_classified_edit_map_t mEditClassifiedPanels;
 	};
 	
 	class LLPanelProfileGroups : public LLPanelProfileTab

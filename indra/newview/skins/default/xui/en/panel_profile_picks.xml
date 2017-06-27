@@ -39,7 +39,7 @@
     min_height="150"
     name="tab_picks"
     title="Picks"
-    visible="false">
+    visible="true">
      <flat_list_view
       color="DkGray2"
       follows="all"
@@ -55,7 +55,7 @@
     height="101"
     name="tab_classifieds"
     title="Classifieds"
-    visible="false">
+    visible="true">
      <flat_list_view
       color="DkGray2"
       follows="all"

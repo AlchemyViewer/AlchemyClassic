@@ -166,6 +166,7 @@ set(viewer_SOURCE_FILES
     llchiclet.cpp
     llchicletbar.cpp
     llclassifiedinfo.cpp
+    llclassifieditem.cpp
     llcofwearables.cpp
     llcolorswatch.cpp
     llcommanddispatcherlistener.cpp
@@ -551,6 +552,7 @@ set(viewer_SOURCE_FILES
     llpersistentnotificationstorage.cpp
     llphysicsmotion.cpp
     llphysicsshapebuilderutil.cpp
+    llpickitem.cpp
     llpipelinelistener.cpp
     llplacesfolderview.cpp
     llplacesinventorybridge.cpp
@@ -827,6 +829,7 @@ set(viewer_HEADER_FILES
     llchiclet.h
     llchicletbar.h
     llclassifiedinfo.h
+    llclassifieditem.h
     llcofwearables.h
     llcolorswatch.h
     llcommanddispatcherlistener.h
@@ -1201,6 +1204,7 @@ set(viewer_HEADER_FILES
     llpersistentnotificationstorage.h
     llphysicsmotion.h
     llphysicsshapebuilderutil.h
+    llpickitem.h
     llpipelinelistener.h
     llplacesfolderview.h
     llplacesinventorybridge.h

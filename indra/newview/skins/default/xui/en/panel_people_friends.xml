@@ -161,8 +161,8 @@
     </accordion_tab>
   </accordion>
   <text
-    follows="all"
-    height="408"
+    follows="top|left|right"
+    height="350"
     left="13"
     name="no_friends_help_text"
     right="-13"

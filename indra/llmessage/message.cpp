@@ -2612,7 +2612,7 @@ void LLMessageSystem::summarizeLogs(std::ostream& str)
 	// Incoming
 	str << buffer << std::endl << "Incoming:" << std::endl;
 	tmp_str = std::to_string(mTotalBytesIn);
-	buffer = llformat( "Total bytes received:      %20ill (%5.2f kbits per second)", tmp_str.c_str(), ((F32)mTotalBytesIn * 0.008f) / run_time);
+	buffer = llformat( "Total bytes received:      %20s (%5.2f kbits per second)", tmp_str.c_str(), ((F32)mTotalBytesIn * 0.008f) / run_time);
 	str << buffer << std::endl;
 	tmp_str = std::to_string(mPacketsIn);
 	buffer = llformat( "Total packets received:    %20s (%5.2f packets per second)", tmp_str.c_str(), ((F32) mPacketsIn / run_time));

@@ -33,7 +33,6 @@
 #include "llaccordionctrltab.h"
 #include "llaccordionctrl.h"
 #include "llbutton.h"
-#include "lltextbox.h"
 #include "lltrans.h"
 
 // Viewer includes
@@ -172,9 +171,10 @@ BOOL LLPanelGroup::postBuild()
 	mButtonCreate->setCommitCallback(boost::bind(&LLPanelGroup::onBtnCreate, this));
 	mButtonCreate->setVisible(false);
 
-	LLSideTrayPanelContainer* parent = dynamic_cast<LLSideTrayPanelContainer*>(getParent());
-	if (parent)
+	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::onBackBtnClick, this));
+	else if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::closeParentFloater, this));
 	else
 		getChild<LLUICtrl>("back")->setEnabled(FALSE);
 	
@@ -643,4 +643,10 @@ void LLPanelGroup::copyData(const LLSD& userdata)
 		LLGroupActions::copyData(mID, LLGroupActions::E_DATA_UUID);
 	else
 		LL_WARNS() << "Unhandled action: " << param << LL_ENDL;
+}
+
+void LLPanelGroup::closeParentFloater()
+{
+	LLFloater* floater = dynamic_cast<LLFloater*>(getParent());
+	if (floater) floater->closeFloater();
 }

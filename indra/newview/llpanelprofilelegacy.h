@@ -79,6 +79,7 @@ private:
 	void onNameChanged();
 	bool isActionEnabled(const LLSD& userdata);
 	bool handleConfirmModifyRightsCallback(const LLSD& notification, const LLSD& response);
+	void closeParentFloater();
 	
 	boost::signals2::connection mAvatarNameCacheConnection;
 	boost::signals2::connection mNameChangedConnection;

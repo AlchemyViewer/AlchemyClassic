@@ -122,7 +122,6 @@
    left="25"
    text_pad_left="5"
    name="wanna_something"
-   parse_urls="true"
    right="-40">
     <line_editor.commit_callback
      function="Profile.CommitInterest" />
@@ -222,7 +221,6 @@
    left="25"
    text_pad_left="5"
    name="can_something"
-   parse_urls="true"
    right="-40">
     <line_editor.commit_callback
      function="Profile.CommitInterest" />
@@ -249,7 +247,6 @@
    left="25"
    text_pad_left="5"
    name="languages"
-   parse_urls="true"
    right="-40">
     <line_editor.commit_callback
      function="Profile.CommitInterest" />

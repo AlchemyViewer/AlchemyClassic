@@ -33,6 +33,7 @@
 #include "llaccordionctrltab.h"
 #include "llaccordionctrl.h"
 #include "llbutton.h"
+#include "llfloaterreg.h"
 #include "lltrans.h"
 
 // Viewer includes
@@ -51,6 +52,17 @@
 #include "llpanelgrouproles.h"
 
 static LLPanelInjector<LLPanelGroup> t_panel_group("panel_group_info_sidetray");
+
+LLPanelGroup* get_group_panel(LLUUID const& group_id)
+{
+	auto floater = LLFloaterReg::findInstance("group_profile", LLSD(group_id));
+	if (floater)
+	{
+		LLPanelGroup* panel = floater->findChild<LLPanelGroup>("panel_group_info_sidetray");
+		if (panel) return panel;
+	}
+	return nullptr;
+}
 
 LLPanelGroupTab::LLPanelGroupTab()
 	: LLPanel(),
@@ -514,8 +526,7 @@ void LLPanelGroup::refreshNotices()
 
 bool LLPanelGroup::apply()
 {
-	bool applied = false;
-	applied = apply(findChild<LLPanelGroupTab>("group_general_tab_panel"));
+	bool applied = apply(findChild<LLPanelGroupTab>("group_general_tab_panel"));
 	LL_DEBUGS() << "Applied changes to group_general_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
 	applied = apply(findChild<LLPanelGroupTab>("group_roles_tab_panel"));
 	LL_DEBUGS() << "Applied changes to group_roles_tab_panel? " << (applied ? "yes" : "no") << LL_ENDL;
@@ -608,7 +619,7 @@ void LLPanelGroup::showNotice(const std::string& subject,
 //static
 void LLPanelGroup::refreshCreatedGroup(const LLUUID& group_id)
 {
-	LLPanelGroup* panel = LLFloaterSidePanelContainer::getPanel<LLPanelGroup>("people", "panel_group_info_sidetray");
+	LLPanelGroup* panel = get_group_panel(group_id);
 	if(!panel)
 		return;
 	panel->setGroupID(group_id);
@@ -622,12 +633,8 @@ void LLPanelGroup::showNotice(const std::string& subject,
 					   const std::string& inventory_name,
 					   LLOfferInfo* inventory_offer)
 {
-	LLPanelGroup* panel = LLFloaterSidePanelContainer::getPanel<LLPanelGroup>("people", "panel_group_info_sidetray");
-	if(!panel)
-		return;
-
-	if(panel->getID() != group_id)//???? only for current group_id or switch panels? FIXME
-		return;
+	LLPanelGroup* panel = get_group_panel(group_id);
+	if(!panel || panel->getID() != group_id) return;
 	panel->showNotice(subject,message,has_inventory,inventory_name,inventory_offer);
 }
 

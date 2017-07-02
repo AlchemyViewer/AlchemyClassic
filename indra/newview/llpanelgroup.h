@@ -52,13 +52,10 @@ class LLPanelGroup : public LLPanel,
 public:
 	LLPanelGroup();
 	virtual ~LLPanelGroup();
-
 	BOOL postBuild() override;
 
 	void setGroupID(const LLUUID& group_id);
-
 	void draw() override;
-
 	void onOpen(const LLSD& key) override;
 
 	// Group manager observer trigger.
@@ -66,7 +63,7 @@ public:
 
 	// Implements LLVoiceClientStatusObserver::onChange() to enable the call
 	// button when voice is available
-	/*virtual*/ void onChange(EStatusType status, const std::string &channelURI, bool proximal) override;
+	void onChange(EStatusType status, const std::string &channelURI, bool proximal) override;
 
 	void showNotice(const std::string& subject,
 					const std::string& message,

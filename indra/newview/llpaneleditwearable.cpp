@@ -134,7 +134,7 @@ public:
                                           const std::string &desc_title,
                                           U8 num_color_swatches,  // number of 'color_swatches'
                                           U8 num_texture_pickers, // number of 'texture_pickers'
-                                          U8 num_subparts, ... ); // number of subparts followed by a list of ETextureIndex and ESubparts
+                                          int num_subparts, ... ); // number of subparts followed by a list of ETextureIndex and ESubparts
 
 
                 const LLWearableType::EType mWearableType;
@@ -252,7 +252,7 @@ LLEditWearableDictionary::WearableEntry::WearableEntry(LLWearableType::EType typ
                                           const std::string &desc_title,
                                           U8 num_color_swatches,
                                           U8 num_texture_pickers,
-                                          U8 num_subparts, ... ) :
+                                          int num_subparts, ... ) :
         LLDictionaryEntry(title),
         mWearableType(type),
         mTitle(title),

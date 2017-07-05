@@ -137,7 +137,7 @@ void LLPanelProfileLegacy::reshape(S32 width, S32 height, BOOL called_from_paren
 void LLPanelProfileLegacy::onOpen(const LLSD& key)
 {
 	if (!key.has("avatar_id")) return;
-	const LLUUID av_id(key["avatar_id"]);
+	const LLUUID av_id = key["avatar_id"].asUUID();
 	
 	if (key.has("action"))
 	{

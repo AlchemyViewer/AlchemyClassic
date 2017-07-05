@@ -71,8 +71,6 @@ public:
 	bool isInboxEnabled() const { return mInboxEnabled; }
 	void updateVerbs();
 
-	static void cleanup();
-
 protected:
 	void onSelectionChange(const std::deque<LLFolderViewItem*> &items, BOOL user_action);
 	void onInboxChanged(const LLUUID& inbox_id);

@@ -445,16 +445,3 @@ std::set<LLFolderViewItem*> LLSidepanelInventory::getInboxSelectionList() const
 	
 	return inventory_selected_uuids;
 }
-
-void LLSidepanelInventory::cleanup()
-{
-	LLFloaterReg::const_instance_list_t& inst_list = LLFloaterReg::getFloaterList("inventory");
-	for (const auto floater : inst_list)
-	{
-		auto* iv = dynamic_cast<LLFloaterSidePanelContainer*>(floater);
-		if (iv)
-		{
-			iv->cleanup();
-		}
-	}
-}

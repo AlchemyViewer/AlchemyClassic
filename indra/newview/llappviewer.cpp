@@ -5572,9 +5572,6 @@ void LLAppViewer::disconnectViewer()
 		LLExperienceCache::instance().cleanup();
 	}
 
-	// close inventory interface, close all windows
-	LLSidepanelInventory::cleanup();
-
 	gAgentWearables.cleanup();
 	gAgentCamera.cleanup();
 	// Also writes cached agent settings to gSavedSettings

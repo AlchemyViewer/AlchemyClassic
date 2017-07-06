@@ -114,11 +114,10 @@ void LLPanelSearchEvents::search()
 void LLPanelSearchEvents::setDate(S32 day)
 {
 	mDate = day;
-	struct tm* internal_time;
-	
+
 	time_t utc = time_corrected();
 	utc += day * 24 * 60 * 60;
-	internal_time = utc_to_pacific_time(utc, is_daylight_savings());
+	struct tm * internal_time = utc_to_pacific_time(utc, is_daylight_savings());
 	const std::string date = llformat("%d/%d", 1 + internal_time->tm_mon, internal_time->tm_mday);
 	childSetValue("events_date", date);
 }

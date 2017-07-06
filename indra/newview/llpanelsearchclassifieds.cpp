@@ -62,9 +62,8 @@ BOOL LLPanelSearchClassifieds::postBuild()
 	mClassifiedsCategory = getChild<LLComboBox>("classifieds_category");
 	mClassifiedsCategory->add("All categories", LLSD("any"));
 	mClassifiedsCategory->addSeparator();
-	LLClassifiedInfo::cat_map::iterator iter;
-	for (iter = LLClassifiedInfo::sCategories.begin();
-		 iter != LLClassifiedInfo::sCategories.end();
+	for (auto iter = LLClassifiedInfo::sCategories.cbegin();
+		 iter != LLClassifiedInfo::sCategories.cend();
 		 ++iter)
 	{
 		mClassifiedsCategory->add(LLTrans::getString(iter->second));
@@ -99,9 +98,9 @@ void LLPanelSearchClassifieds::search()
 	
 	query.category_int = mClassifiedsCategory->getValue().asInteger();
 	
-	static LLUICachedControl<bool> inc_pg("ShowPGClassifieds", 1);
-	static LLUICachedControl<bool> inc_mature("ShowMatureClassifieds", 0);
-	static LLUICachedControl<bool> inc_adult("ShowAdultClassifieds", 0);
+	static LLUICachedControl<bool> inc_pg("ShowPGClassifieds", true);
+	static LLUICachedControl<bool> inc_mature("ShowMatureClassifieds", false);
+	static LLUICachedControl<bool> inc_adult("ShowAdultClassifieds", false);
 	if (!(inc_pg || inc_mature || inc_adult))
 	{
 		LLNotificationsUtil::add("NoContentToSearch");

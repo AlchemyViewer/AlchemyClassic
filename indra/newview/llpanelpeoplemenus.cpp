@@ -40,14 +40,9 @@
 #include "llavataractions.h"
 #include "llcallingcard.h"			// for LLAvatarTracker
 #include "lllogchat.h"
-#include "llparcel.h"
 #include "llviewermenu.h"			// for gMenuHolder
 #include "llconversationmodel.h"
 #include "llviewerobjectlist.h"
-#include "llviewerparcelmgr.h"
-#include "llviewerregion.h"
-#include "llvoavatarself.h"
-#include "roles_constants.h"
 
 namespace LLPanelPeopleMenus
 {

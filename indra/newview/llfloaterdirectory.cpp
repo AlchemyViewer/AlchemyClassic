@@ -562,9 +562,8 @@ void LLFloaterDirectory::processSearchPeopleReply(LLMessageSystem* msg, void**)
 		{
 			LL_DEBUGS("Search") << "Got: " << first_name << " " << last_name << " AgentID: " << agent_id << LL_ENDL;
 			pResults->setEnabled(TRUE);
-			
-			std::string avatar_name;
-			avatar_name = LLCacheName::buildFullName(first_name, last_name);
+
+			std::string avatar_name = LLCacheName::buildFullName(first_name, last_name);
 			
 			LLSD element;
 			element["id"] = agent_id;
@@ -789,7 +788,7 @@ void LLFloaterDirectory::processSearchPlacesReply(LLMessageSystem* msg, void**)
 			element["columns"][1]["column"]	= "name";
 			element["columns"][1]["value"]	= name;
 			
-			std::string buffer = llformat("%.0f", (F64)dwell);
+			std::string buffer = llformat("%.0f", dwell);
 			element["columns"][2]["column"]	= "dwell";
 			element["columns"][2]["value"]	= buffer;
 			
@@ -1143,9 +1142,9 @@ void LLFloaterDirectory::processSearchEventsReply(LLMessageSystem* msg, void**)
 		//msg->getU32(	"QueryReplies",	"UnixTime",		unix_time,	i);
 		msg->getU32(	"QueryReplies",	"EventFlags",	event_flags,i);
 		
-		static LLUICachedControl<bool> inc_pg("ShowPGEvents", 1);
-		static LLUICachedControl<bool> inc_mature("ShowMatureEvents", 0);
-		static LLUICachedControl<bool> inc_adult("ShowAdultEvents", 0);
+		static LLUICachedControl<bool> inc_pg("ShowPGEvents", true);
+		static LLUICachedControl<bool> inc_mature("ShowMatureEvents", false);
+		static LLUICachedControl<bool> inc_adult("ShowAdultEvents", false);
 		
 		// Skip empty events...
 		if (owner_id.isNull())

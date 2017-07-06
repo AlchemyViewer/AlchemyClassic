@@ -36,6 +36,7 @@
 
 LLPanelSearch::LLPanelSearch()
 :	LLPanel()
+,	mFloater(nullptr)
 {
 }
 

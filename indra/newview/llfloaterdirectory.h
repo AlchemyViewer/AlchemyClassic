@@ -63,7 +63,6 @@ struct SearchQuery : public LLInitParam::Block<SearchQuery>
 
 typedef struct dir_query
 {
-public:
 	dir_query()
 		: type(SE_UNDEFINED), text(LLStringUtil::null), scope(0),
 		category_int(0), category_char(0x0), price(0), area(0), results_per_page(100) {}
@@ -87,7 +86,7 @@ class LLFloaterDirectory : public LLFloater
 	friend class LLPanelSearchPlaces;
 	
 public:
-	struct _Params : public LLInitParam::Block<_Params, LLFloater::Params>
+	struct _Params : LLInitParam::Block<_Params, LLFloater::Params>
 	{
 		Optional<SearchQuery> search;
 	};

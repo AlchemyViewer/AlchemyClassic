@@ -1845,7 +1845,22 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 			registrar.add("Url.CopyUrl", boost::bind(&LLScrollListCtrl::copySLURLToClipboard, id, is_group));
 
 			// create the context menu from the XUI file and display it
-			std::string menu_name = is_group ? "menu_url_group.xml" : "menu_url_agent.xml";
+			std::string menu_name;
+			switch(mContextMenuType)
+			{
+			case MENU_GROUP:
+				menu_name = "menu_url_group.xml";
+				break;
+			case MENU_AVATAR:
+				menu_name = "menu_url_agent.xml";
+				break;
+			case MENU_AVATAR_MINI:
+				menu_name = "menu_url_agent_mini.xml";
+				break;
+			default:
+				LL_WARNS() << "Invalid context menu type!" << LL_ENDL;
+				return LLUICtrl::handleRightMouseDown(x, y, mask);
+			}
 			auto menu = mPopupMenuHandle.get();
 			if (menu)
 			{

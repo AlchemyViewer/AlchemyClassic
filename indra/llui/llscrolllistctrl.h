@@ -306,7 +306,7 @@ public:
 	boost::signals2::connection setRemoveCallback(const commit_signal_t::slot_type& cb);
 
 	// support right-click context menus for avatar/group lists
-	enum ContextMenuType { MENU_NONE, MENU_AVATAR, MENU_GROUP };
+	enum ContextMenuType { MENU_NONE, MENU_GROUP, MENU_AVATAR, MENU_AVATAR_MINI };
 	void setContextMenu(const ContextMenuType &menu) { mContextMenuType = menu; }
 
 	// Overridden from LLView

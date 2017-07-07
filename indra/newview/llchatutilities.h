@@ -36,9 +36,6 @@
 
 namespace LLChatUtilities
 {
-	template <typename T> 
-	void processChat(T* editor, EChatType type);
-
 	// Send a chat (after stripping /20foo channel chats).
 	// "Animate" means the nodding animation for regular text.
 	void		sendChatFromViewer(const LLWString &wtext, EChatType type, BOOL animate);

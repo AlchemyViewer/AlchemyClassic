@@ -87,7 +87,7 @@ private:
     static void findCoro(std::string url, LLUUID mQueryID, std::string mName);
 	void find();
 	void setAllowMultiple(BOOL allow_multiple);
-	LLScrollListCtrl* getActiveList();
+	LLScrollListCtrl* getActiveList() const;
 
     void drawFrustum();
 	void draw() override;

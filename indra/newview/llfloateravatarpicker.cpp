@@ -49,7 +49,6 @@
 #include "llscrolllistitem.h"
 #include "llscrolllistcell.h"
 #include "lltabcontainer.h"
-#include "llfocusmgr.h"
 #include "lldraghandle.h"
 #include "message.h"
 #include "llcorehttputil.h"
@@ -201,10 +200,10 @@ static void getSelectedAvatarData(const LLScrollListCtrl* from, uuid_vec_t& avat
 		{
 			avatar_ids.push_back(item->getUUID());
 
-			std::map<LLUUID, LLAvatarName>::iterator iter = sAvatarNameMap.find(item->getUUID());
-			if (iter != sAvatarNameMap.end())
+			std::map<LLUUID, LLAvatarName>::iterator itr = sAvatarNameMap.find(item->getUUID());
+			if (itr != sAvatarNameMap.end())
 			{
-				avatar_names.push_back(iter->second);
+				avatar_names.push_back(itr->second);
 			}
 			else
 			{
@@ -352,11 +351,11 @@ void LLFloaterAvatarPicker::populateFriend()
 	LLAvatarTracker::instance().applyFunctor(collector);
 	LLCollectAllBuddies::buddy_map_t::iterator it;
 	
-	for(it = collector.mOnline.begin(); it!=collector.mOnline.end(); it++)
+	for (it = collector.mOnline.begin(); it!=collector.mOnline.end(); ++it)
 	{
 		friends_scroller->addStringUUIDItem(it->second, it->first);
 	}
-	for(it = collector.mOffline.begin(); it!=collector.mOffline.end(); it++)
+	for (it = collector.mOffline.begin(); it!=collector.mOffline.end(); ++it)
 	{
 		friends_scroller->addStringUUIDItem(it->second, it->first);
 	}
@@ -546,7 +545,7 @@ void LLFloaterAvatarPicker::setAllowMultiple(BOOL allow_multiple)
 	getChild<LLScrollListCtrl>("Friends")->setAllowMultipleSelection(allow_multiple);
 }
 
-LLScrollListCtrl* LLFloaterAvatarPicker::getActiveList()
+LLScrollListCtrl* LLFloaterAvatarPicker::getActiveList() const
 {
 	std::string acvtive_panel_name;
 	LLScrollListCtrl* list = nullptr;
@@ -686,8 +685,8 @@ void LLFloaterAvatarPicker::processAvatarPickerReply(LLMessageSystem* msg, void*
 
 				LLAvatarName av_name;
 				av_name.fromString(avatar_name);
-				const LLUUID& agent_id = avatar_id;
-				sAvatarNameMap[agent_id] = av_name;
+				const LLUUID& id = avatar_id;
+				sAvatarNameMap[id] = av_name;
 
 			}
 			LLSD element;
@@ -745,11 +744,11 @@ void LLFloaterAvatarPicker::processResponse(const LLUUID& query_id, const LLSD& 
 		{
 			LLStringUtil::format_map_t map;
 			map["[TEXT]"] = getChild<LLUICtrl>("Edit")->getValue().asString();
-			LLSD item;
-			item["id"] = LLUUID::null;
-			item["columns"][0]["column"] = "name";
-			item["columns"][0]["value"] = getString("not_found", map);
-			search_results->addElement(item);
+			LLSD element;
+			element["id"] = LLUUID::null;
+			element["columns"][0]["column"] = "name";
+			element["columns"][0]["value"] = getString("not_found", map);
+			search_results->addElement(element);
 			search_results->setEnabled(false);
 			getChildView("ok_btn")->setEnabled(false);
 		}
@@ -790,7 +789,7 @@ BOOL LLFloaterAvatarPicker::handleKeyHere(KEY key, MASK mask)
 		}
 		return TRUE;
 	}
-	else if (key == KEY_ESCAPE && mask == MASK_NONE)
+	if (key == KEY_ESCAPE && mask == MASK_NONE)
 	{
 		closeFloater();
 		return TRUE;

@@ -34,7 +34,6 @@
 // newview
 #include "llimview.h"
 #include "llevents.h"
-#include "llavatarpropertiesprocessor.h"
 #include "llgroupmgr.h"
 #include "llconversationmodel.h"
 #include "llconversationview.h"
@@ -55,20 +54,20 @@ public:
 	LLFloaterIMContainer(const LLSD& seed, const Params& params = getDefaultParams());
 	virtual ~LLFloaterIMContainer();
 	
-	/*virtual*/ BOOL postBuild() override;
-	/*virtual*/ void onOpen(const LLSD& key) override;
-	/*virtual*/ void draw() override;
-	/*virtual*/ void setMinimized(BOOL b) override;
-	/*virtual*/ void setVisible(BOOL visible) override;
-	/*virtual*/ void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD()) override;
-	/*virtual*/ void updateResizeLimits() override;
-	/*virtual*/ void handleReshape(const LLRect& rect, bool by_user) override;
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
+	void draw() override;
+	void setMinimized(BOOL b) override;
+	void setVisible(BOOL visible) override;
+	void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD()) override;
+	void updateResizeLimits() override;
+	void handleReshape(const LLRect& rect, bool by_user) override;
 
 	void onCloseFloater(LLUUID& id);
 
-	/*virtual*/ void addFloater(LLFloater* floaterp, 
-								BOOL select_added_floater, 
-								LLTabContainer::eInsertionPoint insertion_point = LLTabContainer::END) override;
+	void addFloater(LLFloater* floaterp, 
+		BOOL select_added_floater, 
+		LLTabContainer::eInsertionPoint insertion_point = LLTabContainer::END) override;
 	void returnFloaterToHost();
     void showConversation(const LLUUID& session_id);
     void selectConversation(const LLUUID& session_id);
@@ -79,33 +78,32 @@ public:
     bool selectNextorPreviousConversation(bool select_next, bool focus_selected = true);
     void expandConversation();
 
-	/*virtual*/ void tabClose() override;
+	void tabClose() override;
 	void showStub(bool visible);
 
-	static LLFloater* getCurrentVoiceFloater();
 	static LLFloaterIMContainer* findInstance();
 	static LLFloaterIMContainer* getInstance();
 
 	static void onCurrentChannelChanged(const LLUUID& session_id);
 
 	void collapseMessagesPane(bool collapse);
-	bool isMessagesPaneCollapsed();
-	bool isConversationsPaneCollapsed();
+	bool isMessagesPaneCollapsed() const;
+	bool isConversationsPaneCollapsed() const;
 	
 	// Callbacks
 	static void idle(void* user_data);
 
 	// LLIMSessionObserver observe triggers
-	/*virtual*/ void sessionAdded(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id, BOOL has_offline_msg) override;
-    /*virtual*/ void sessionActivated(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id) override;
-	/*virtual*/ void sessionVoiceOrIMStarted(const LLUUID& session_id) override;
-	/*virtual*/ void sessionRemoved(const LLUUID& session_id) override;
-	/*virtual*/ void sessionIDUpdated(const LLUUID& old_session_id, const LLUUID& new_session_id) override;
+	void sessionAdded(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id, BOOL has_offline_msg) override;
+    void sessionActivated(const LLUUID& session_id, const std::string& name, const LLUUID& other_participant_id) override;
+	void sessionVoiceOrIMStarted(const LLUUID& session_id) override;
+	void sessionRemoved(const LLUUID& session_id) override;
+	void sessionIDUpdated(const LLUUID& old_session_id, const LLUUID& new_session_id) override;
 
 	LLConversationViewModel& getRootViewModel() { return mConversationViewModel; }
-    LLUUID getSelectedSession() { return mSelectedSession; }
+    LLUUID getSelectedSession() const { return mSelectedSession; }
     void setSelectedSession(LLUUID sessionID) { mSelectedSession = sessionID; }
-	LLConversationItem* getSessionModel(const LLUUID& session_id) { return get_ptr_in_map(mConversationsItems,session_id); }
+	LLConversationItem* getSessionModel(const LLUUID& session_id) const { return get_ptr_in_map(mConversationsItems,session_id); }
 	LLConversationSort& getSortOrder() { return mConversationViewModel.getSorter(); }
 
 	// Handling of lists of participants is public so to be common with llfloatersessiontab
@@ -116,10 +114,10 @@ public:
 
 	void assignResizeLimits();
 	BOOL handleKeyHere(KEY key, MASK mask ) override;
-	/*virtual*/ void closeFloater(bool app_quitting = false) override;
+	void closeFloater(bool app_quitting = false) override;
     void closeAllConversations();
     void closeSelectedConversations(const uuid_vec_t& ids);
-	/*virtual*/ BOOL isFrontmost() override;
+	BOOL isFrontmost() override;
 
 
 private:
@@ -127,7 +125,7 @@ private:
 	avatarID_panel_map_t mSessions;
 	boost::signals2::connection mNewMessageConnection;
 
-	/*virtual*/ void computeResizeLimits(S32& new_min_width, S32& new_min_height) override {}
+	void computeResizeLimits(S32& new_min_width, S32& new_min_height) override {}
 
 	void onNewMessageReceived(const LLSD& data);
 
@@ -136,8 +134,8 @@ private:
 	void processParticipantsStyleUpdate();
 	void onSpeakButtonPressed();
 	void onSpeakButtonReleased();
-	/*virtual*/ void onClickCloseBtn(bool app_quitting = false) override;
-	/*virtual*/ void closeHostedFloater() override;
+	void onClickCloseBtn(bool app_quitting = false) override;
+	void closeHostedFloater() override;
 
 	void collapseConversationsPane(bool collapse, bool save_is_allowed=true);
 
@@ -152,7 +150,7 @@ private:
 	void setSortOrderParticipants(const LLConversationFilter::ESortOrderType order);
 	void setSortOrder(const LLConversationSort& order);
 
-    void getSelectedUUIDs(uuid_vec_t& selected_uuids, bool participant_uuids = true);
+    void getSelectedUUIDs(uuid_vec_t& selected_uuids, bool participant_uuids = true) const;
     const LLConversationItem * getCurSelectedViewModelItem();
     void getParticipantUUIDs(uuid_vec_t& selected_uuids);
     void doToSelected(const LLSD& userdata);
@@ -169,7 +167,6 @@ private:
 	bool isGroupModerator();
 	bool haveAbilityToBan();
 	bool canBanSelectedMember(const LLUUID& participant_uuid);
-	LLUUID getGroupUIIDForSelectedParticipant();
 	bool isMuted(const LLUUID& avatar_id);
 	void moderateVoice(const std::string& command, const LLUUID& userID);
 	void moderateVoiceAllParticipants(bool unmute);
@@ -208,9 +205,9 @@ public:
 	static bool isConversationLoggingAllowed();
 	void flashConversationItemWidget(const LLUUID& session_id, bool is_flashes);
 	void highlightConversationItemWidget(const LLUUID& session_id, bool is_highlighted);
-	bool isScrolledOutOfSight(LLConversationViewSession* conversation_item_widget);
+	bool isScrolledOutOfSight(LLConversationViewSession* conversation_item_widget) const;
 	boost::signals2::connection mMicroChangedSignal;
-	S32 getConversationListItemSize() { return mConversationsWidgets.size(); }
+	S32 getConversationListItemSize() const { return mConversationsWidgets.size(); }
 	typedef std::list<LLFloater*> floater_list_t;
 	void getDetachedConversationFloaters(floater_list_t& floaters);
 

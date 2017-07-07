@@ -26,16 +26,16 @@
  */
 
 #include "llviewerprecompiledheaders.h"
+#include "llchatutilities.h"
 
 #include "message.h"
 
-#include "llagent.h"
 #include "llanimationstates.h"
-#include "llchatutilities.h"
 #include "llcommandhandler.h"
 #include "llmediactrl.h"
 #include "llviewercontrol.h"
 #include "llviewerstats.h"
+
 
 // legacy callback glue
 extern void send_chat_from_viewer(const std::string& utf8_out_text, EChatType type, S32 channel);

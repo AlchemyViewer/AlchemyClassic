@@ -153,7 +153,7 @@ void LLFloaterIMSessionTab::setVisible(BOOL visible)
 			LLFloaterReg::getTypedInstance<LLFloaterIMContainer>("im_container")->setVisible(true);
 		}
 		LLFloaterIMSessionTab::addToHost(mSessionID);
-		LLFloaterIMSessionTab* conversp = LLFloaterIMSessionTab::getConversation(mSessionID);
+		LLFloaterIMSessionTab* conversp = getConversation(mSessionID);
 
 		if (conversp && conversp->isNearbyChat() && gSavedPerAccountSettings.getBool("NearbyChatIsNotCollapsed"))
 		{

@@ -38,7 +38,6 @@
 #include "alchatcommand.h"
 #include "llagent.h"
 #include "llgesturemgr.h"
-#include "llviewergesture.h"			// for triggering gestures
 #include "llviewermenu.h"		// for deleting object with DEL key
 #include "llmultigesture.h"
 #include "llviewerchat.h"
@@ -189,9 +188,8 @@ void LLChatBar::refreshGestures()
 
 		// collect list of unique gestures
 		std::map <std::string, BOOL> unique;
-		LLGestureMgr::item_map_t::const_iterator it;
 		const LLGestureMgr::item_map_t& active_gestures = LLGestureMgr::instance().getActiveGestures();
-		for (it = active_gestures.begin(); it != active_gestures.end(); ++it)
+		for (auto it = active_gestures.cbegin(); it != active_gestures.cend(); ++it)
 		{
 			LLMultiGesture* gesture = (*it).second;
 			if (gesture)
@@ -203,9 +201,7 @@ void LLChatBar::refreshGestures()
 			}
 		}
 
-		// add unique gestures
-		std::map <std::string, BOOL>::iterator it2;
-		for (it2 = unique.begin(); it2 != unique.end(); ++it2)
+		for (auto it2 = unique.begin(); it2 != unique.end(); ++it2)
 		{
 			mGestureCombo->addSimpleElement((*it2).first);
 		}
@@ -226,27 +222,6 @@ void LLChatBar::refreshGestures()
 	}
 }
 
-// Move the cursor to the correct input field.
-void LLChatBar::setKeyboardFocus(BOOL focus)
-{
-	if (focus)
-	{
-		if (mInputEditor)
-		{
-			mInputEditor->setFocus(TRUE);
-			mInputEditor->selectAll();
-		}
-	}
-	else if (gFocusMgr.childHasKeyboardFocus(this))
-	{
-		if (mInputEditor)
-		{
-			mInputEditor->deselect();
-		}
-		setFocus(FALSE);
-	}
-}
-
 
 // Ignore arrow keys in chat bar
 void LLChatBar::setIgnoreArrowKeys(BOOL b)
@@ -257,12 +232,12 @@ void LLChatBar::setIgnoreArrowKeys(BOOL b)
 	}
 }
 
-BOOL LLChatBar::inputEditorHasFocus()
+BOOL LLChatBar::inputEditorHasFocus() const
 {
 	return mInputEditor && mInputEditor->hasFocus();
 }
 
-std::string LLChatBar::getCurrentChat()
+std::string LLChatBar::getCurrentChat() const
 {
 	return mInputEditor ? mInputEditor->getText() : LLStringUtil::null;
 }
@@ -290,54 +265,7 @@ void LLChatBar::setGestureCombo(LLComboBox* combo)
 
 void LLChatBar::sendChat( EChatType type )
 {
-	if (mInputEditor)
-	{
-		LLWString text = mInputEditor->getWText();
-		LLWStringUtil::trim(text);
-		LLWStringUtil::replaceChar(text,182,'\n'); // Convert paragraph symbols back into newlines.
-		if (!text.empty())
-		{
-			// store sent line in history, duplicates will get filtered
-			if (mInputEditor) mInputEditor->updateHistory();
-			// Check if this is destined for another channel
-			S32 channel = 0;
-			stripChannelNumber(text, &channel);
-			
-			std::string utf8text = wstring_to_utf8str(text);
-			// Try to trigger a gesture, if not chat to a script.
-			std::string utf8_revised_text;
-			if (0 == channel)
-			{
-				applyMUPose(utf8text);
-				// discard returned "found" boolean
-				if(!LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text))
-				{
-					utf8_revised_text = utf8text;
-				}
-			}
-			else
-			{
-				utf8_revised_text = utf8text;
-			}
-
-			utf8_revised_text = utf8str_trim(utf8_revised_text);
-			
-			type = processChatTypeTriggers(type, utf8_revised_text);
-
-			if (!utf8_revised_text.empty())
-			{
-				if(!ALChatCommand::parseCommand(utf8_revised_text))
-				{
-					// Chat with animation
-					sendChatFromViewer(utf8_revised_text, type, gSavedSettings.getBOOL("PlayChatAnim"));
-				}
-			}
-		}
-		
-		mInputEditor->setText(LLStringUtil::null);
-	}
-
-	gAgent.stopTyping();
+	LLChatUtilities::processChat(mInputEditor, type);
 
 	// If the user wants to stop chatting on hitting return, lose focus
 	// and go out of chat mode.

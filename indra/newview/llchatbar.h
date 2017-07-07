@@ -55,23 +55,16 @@ public:
 	void		refresh() override;
 	void		refreshGestures();
 
-	// Move cursor into chat input field.
-	void		setKeyboardFocus(BOOL b);
-
 	// Ignore arrow keys for chat bar
 	void		setIgnoreArrowKeys(BOOL b);
 
-	BOOL		inputEditorHasFocus();
-	std::string	getCurrentChat();
+	BOOL		inputEditorHasFocus() const;
+	std::string	getCurrentChat() const;
 
 	// since chat bar logic is reused for chat history
 	// gesture combo box might not be a direct child
 	void		setGestureCombo(LLComboBox* combo);
 
-	// callbacks
-	void onClickSay(LLUICtrl* ctrl);
-
-	static void	onTabClick( void* userdata );
 	static void	onInputEditorKeystroke(LLLineEditor* caller, void* userdata);
 	static void	onInputEditorFocusLost();
 	static void	onInputEditorGainFocus();
@@ -87,7 +80,6 @@ protected:
 	~LLChatBar();
 	
 	void sendChat(EChatType type);
-	void updateChat();
 
 	LLLineEditor*	mInputEditor;
 

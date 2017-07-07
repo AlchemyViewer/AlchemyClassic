@@ -30,16 +30,11 @@
 #include "llfloaterimsessiontab.h"
 #include "llgesturemgr.h"
 #include "llchat.h"
-#include "llvoiceclient.h"
-#include "lloutputmonitorctrl.h"
 #include "llspeakers.h"
-#include "llviewerchat.h"
-#include "llpanel.h"
 
 class LLResizeBar;
 
-class LLFloaterIMNearbyChat
-	:	public LLFloaterIMSessionTab
+class LLFloaterIMNearbyChat : public LLFloaterIMSessionTab
 {
 public:
 	// constructor for inline chat-bars (e.g. hosted in chat history window)
@@ -48,12 +43,12 @@ public:
 
 	static LLFloaterIMNearbyChat* buildFloater(const LLSD& key);
 
-	/*virtual*/ BOOL postBuild() override;
-	/*virtual*/ void onOpen(const LLSD& key) override;
-	/*virtual*/ void onClose(bool app_quitting) override;
-	/*virtual*/ void setVisible(BOOL visible) override;
-	/*virtual*/ void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD()) override;
-	/*virtual*/ void closeHostedFloater() override;
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
+	void onClose(bool app_quitting) override;
+	void setVisible(BOOL visible) override;
+	void setVisibleAndFrontmost(BOOL take_focus=TRUE, const LLSD& key = LLSD()) override;
+	void closeHostedFloater() override;
 
 	void loadHistory();
     void reloadMessages(bool clean_messages = false);
@@ -66,10 +61,10 @@ public:
 	/** @param archive true - to save a message to the chat history log */
 	void	addMessage			(const LLChat& message,bool archive = true, const LLSD &args = LLSD());
 
-	LLChatEntry* getChatBox() { return mInputEditor; }
+	LLChatEntry* getChatBox() const { return mInputEditor; }
 
-	std::string getCurrentChat();
-	S32 getMessageArchiveLength() {return mMessageArchive.size();}
+	std::string getCurrentChat() const;
+	S32 getMessageArchiveLength() const {return mMessageArchive.size();}
 
 	BOOL handleKeyHere( KEY key, MASK mask ) override;
 
@@ -90,8 +85,8 @@ protected:
 	void onChatBoxCommit();
 	void onChatFontChange(LLFontGL* fontp);
 
-	/*virtual*/ void onTearOffClicked() override;
-	/*virtual*/ void onClickCloseBtn(bool app_qutting = false) override;
+	void onTearOffClicked() override;
+	void onClickCloseBtn(bool app_qutting = false) override;
 
 	void displaySpeakingIndicator();
 
@@ -103,7 +98,7 @@ protected:
 	S32 mExpandedHeight;
 
 private:
-	/*virtual*/ void refresh() override;
+	void refresh() override;
 
 	std::vector<LLChat> mMessageArchive;
 };

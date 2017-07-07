@@ -89,9 +89,9 @@ public:
 		static void chatFromLogFile(LLLogChat::ELogLineType type, const LLSD& msg, void* userdata);
 
 		bool isOutgoingAdHoc() const;
-		bool isAdHoc();
-		bool isP2P();
-		bool isOtherParticipantAvaline();
+		bool isAdHoc() const;
+		bool isP2P() const;
+		bool isOtherParticipantAvaline() const;
 
 		bool isP2PSessionType() const { return mSessionType == P2P_SESSION;}
 		bool isAdHocSessionType() const { return mSessionType == ADHOC_SESSION;}
@@ -399,12 +399,12 @@ public:
 	void autoStartCallOnStartup(const LLUUID& session_id);
 
 	// Calc number of all unread IMs
-	S32 getNumberOfUnreadIM();
+	S32 getNumberOfUnreadIM() const;
 
 	/**
 	 * Calculates number of unread IMs from real participants in all stored sessions
 	 */
-	S32 getNumberOfUnreadParticipantMessages();
+	S32 getNumberOfUnreadParticipantMessages() const;
 
 	// This method is used to go through all active sessions and
 	// disable all of them. This method is usally called when you are
@@ -446,11 +446,11 @@ public:
 	 **/
 	bool endCall(const LLUUID& session_id);
 
-	bool isVoiceCall(const LLUUID& session_id);
+	bool isVoiceCall(const LLUUID& session_id) const;
 
 	void updateDNDMessageStatus();
 
-	bool isDNDMessageSend(const LLUUID& session_id);
+	bool isDNDMessageSend(const LLUUID& session_id) const;
 
 	void setDNDMessageSent(const LLUUID& session_id, bool is_send);
 
@@ -554,7 +554,7 @@ protected:
 	LLSD mPayload;
 
 private:
-	LLDockControl::DocAt getDockControlPos(const std::string& toolbarButtonName);
+	LLDockControl::DocAt getDockControlPos(const std::string& toolbarButtonName) const;
 };
 
 class LLIncomingCallDialog : public LLCallDialog

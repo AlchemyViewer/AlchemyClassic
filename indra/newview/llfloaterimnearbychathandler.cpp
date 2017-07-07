@@ -42,10 +42,8 @@
 
 #include "llfloaterreg.h"//for LLFloaterReg::getTypedInstance
 #include "llviewerwindow.h"//for screen channel position
-#include "llfloaterimnearbychat.h"
 #include "llfloaterimcontainer.h"
 #include "llrootview.h"
-#include "lllayoutstack.h"
 
 //add LLFloaterIMNearbyChatHandler to LLNotificationsUI namespace
 using namespace LLNotificationsUI;
@@ -61,7 +59,7 @@ static LLFloaterIMNearbyChatToastPanel* createToastPanel()
 //LLFloaterIMNearbyChatScreenChannel
 //-----------------------------------------------------------------------------------------------	
 
-class LLFloaterIMNearbyChatScreenChannel: public LLScreenChannelBase
+class LLFloaterIMNearbyChatScreenChannel : public LLScreenChannelBase
 {
 	LOG_CLASS(LLFloaterIMNearbyChatScreenChannel);
 public:
@@ -86,14 +84,14 @@ public:
 		}
 	}
 
-	void addChat	(LLSD& chat);
-	void arrangeToasts		();
-	
-	typedef std::function<LLFloaterIMNearbyChatToastPanel* (void )> create_toast_panel_callback_t;
-	void setCreatePanelCallback(create_toast_panel_callback_t value) { m_create_toast_panel_callback_t = value;}
+	void addChat(LLSD& chat);
+	void arrangeToasts();
 
-	void onToastDestroyed	(LLToast* toast, bool app_quitting);
-	void onToastFade		(LLToast* toast);
+	typedef std::function<LLFloaterIMNearbyChatToastPanel* (void)> create_toast_panel_callback_t;
+	void setCreatePanelCallback(create_toast_panel_callback_t value) { m_create_toast_panel_callback_t = value; }
+
+	void onToastDestroyed(LLToast* toast, bool app_quitting);
+	void onToastFade(LLToast* toast);
 
 	void redrawToasts() override
 	{
@@ -104,7 +102,7 @@ public:
 	// removes all toasts from a channel
 	void		removeToastsFromChannel() override
 	{
-		for(toast_vec_t::iterator it = m_active_toasts.begin(); it != m_active_toasts.end(); ++it)
+		for (toast_vec_t::iterator it = m_active_toasts.begin(); it != m_active_toasts.end(); ++it)
 		{
 			addToToastPool(it->get());
 		}
@@ -149,7 +147,7 @@ protected:
 	create_toast_panel_callback_t m_create_toast_panel_callback_t;
 
 	bool	createPoolToast();
-	
+
 	toast_vec_t m_active_toasts;
 	toast_list_t m_toast_pool;
 
@@ -170,8 +168,8 @@ class LLFloaterIMNearbyChatToast : public LLToast
 	LOG_CLASS(LLFloaterIMNearbyChatToast);
 public:
 	LLFloaterIMNearbyChatToast(const LLToast::Params& p, LLFloaterIMNearbyChatScreenChannel* nc_channelp)
-	:	LLToast(p),
-	 	mNearbyChatScreenChannelp(nc_channelp)
+		: LLToast(p),
+		mNearbyChatScreenChannelp(nc_channelp)
 	{
 	}
 
@@ -196,13 +194,13 @@ void LLFloaterIMNearbyChatScreenChannel::deactivateToast(LLToast* toast)
 	}
 }
 
-void	LLFloaterIMNearbyChatScreenChannel::createOverflowToast(S32 bottom, F32 timer)
+void LLFloaterIMNearbyChatScreenChannel::createOverflowToast(S32 bottom, F32 timer)
 {
 	//we don't need overflow toast in nearby chat
 }
 
 void LLFloaterIMNearbyChatScreenChannel::onToastDestroyed(LLToast* toast, bool app_quitting)
-{	
+{
 	LL_DEBUGS("NearbyChat") << "Toast destroyed (app_quitting=" << app_quitting << ")" << LL_ENDL;
 
 	if (app_quitting)
@@ -221,17 +219,17 @@ void LLFloaterIMNearbyChatScreenChannel::onToastDestroyed(LLToast* toast, bool a
 }
 
 void LLFloaterIMNearbyChatScreenChannel::onToastFade(LLToast* toast)
-{	
+{
 	LL_DEBUGS("NearbyChat") << "Toast fading" << LL_ENDL;
 
 	//fade mean we put toast to toast pool
-	if(!toast)
+	if (!toast)
 		return;
 
 	deactivateToast(toast);
 
 	addToToastPool(toast);
-	
+
 	arrangeToasts();
 }
 
@@ -240,7 +238,7 @@ void LLFloaterIMNearbyChatScreenChannel::updateToastsLifetime()
 	S32 seconds = gSavedSettings.getS32("NearbyToastLifeTime");
 	toast_list_t::iterator it;
 
-	for(it = m_toast_pool.begin(); it != m_toast_pool.end(); ++it)
+	for (it = m_toast_pool.begin(); it != m_toast_pool.end(); ++it)
 	{
 		(*it).get()->setLifetime(seconds);
 	}
@@ -251,32 +249,32 @@ void LLFloaterIMNearbyChatScreenChannel::updateToastFadingTime()
 	S32 seconds = gSavedSettings.getS32("NearbyToastFadingTime");
 	toast_list_t::iterator it;
 
-	for(it = m_toast_pool.begin(); it != m_toast_pool.end(); ++it)
+	for (it = m_toast_pool.begin(); it != m_toast_pool.end(); ++it)
 	{
 		(*it).get()->setFadingTime(seconds);
 	}
 }
 
-bool	LLFloaterIMNearbyChatScreenChannel::createPoolToast()
+bool LLFloaterIMNearbyChatScreenChannel::createPoolToast()
 {
-	LLFloaterIMNearbyChatToastPanel* panel= m_create_toast_panel_callback_t();
-	if(!panel)
+	LLFloaterIMNearbyChatToastPanel* panel = m_create_toast_panel_callback_t();
+	if (!panel)
 		return false;
-	
+
 	LLToast::Params p;
 	p.panel = panel;
 	p.lifetime_secs = gSavedSettings.getS32("NearbyToastLifeTime");
 	p.fading_time_secs = gSavedSettings.getS32("NearbyToastFadingTime");
 
 	LLToast* toast = new LLFloaterIMNearbyChatToast(p, this);
-	
-	
+
+
 	toast->setOnFadeCallback(boost::bind(&LLFloaterIMNearbyChatScreenChannel::onToastFade, this, _1));
 
 	// If the toast gets somehow prematurely destroyed, deactivate it to prevent crash (STORM-1352).
 	toast->setOnToastDestroyedCallback(boost::bind(&LLFloaterIMNearbyChatScreenChannel::onToastDestroyed, this, _1, false));
 
-	LL_DEBUGS("NearbyChat") << "Creating and pooling toast" << LL_ENDL;	
+	LL_DEBUGS("NearbyChat") << "Creating and pooling toast" << LL_ENDL;
 	m_toast_pool.push_back(toast->getHandle());
 	return true;
 }
@@ -284,7 +282,7 @@ bool	LLFloaterIMNearbyChatScreenChannel::createPoolToast()
 void LLFloaterIMNearbyChatScreenChannel::addChat(LLSD& chat)
 {
 	//look in pool. if there is any message
-	if(mStopProcessing)
+	if (mStopProcessing)
 		return;
 
 	if (mFloaterSnapRegion == nullptr)
@@ -296,10 +294,10 @@ void LLFloaterIMNearbyChatScreenChannel::addChat(LLSD& chat)
 	chat["available_height"] = channel_rect.getHeight() - channel_rect.mBottom - gSavedSettings.getS32("ToastGap") - 110;;
 
 	/*
-    find last toast and check ID
+	find last toast and check ID
 	*/
 
-	if(m_active_toasts.size())
+	if (m_active_toasts.size())
 	{
 		LLUUID fromID = chat["from_id"].asUUID();		// agent id or object id
 		std::string from = chat["from"].asString();
@@ -307,41 +305,41 @@ void LLFloaterIMNearbyChatScreenChannel::addChat(LLSD& chat)
 		if (toast)
 		{
 			LLFloaterIMNearbyChatToastPanel* panel = dynamic_cast<LLFloaterIMNearbyChatToastPanel*>(toast->getPanel());
-  
-			if(panel && panel->messageID() == fromID && panel->getFromName() == from && panel->canAddText())
+
+			if (panel && panel->messageID() == fromID && panel->getFromName() == from && panel->canAddText())
 			{
 				panel->addMessage(chat);
 				toast->reshapeToPanel();
 				toast->startTimer();
-	  
+
 				arrangeToasts();
 				return;
 			}
 		}
 	}
-	
 
-	
-	if(m_toast_pool.empty())
+
+
+	if (m_toast_pool.empty())
 	{
 		//"pool" is empty - create one more panel
 		LL_DEBUGS("NearbyChat") << "Empty pool" << LL_ENDL;
-		if(!createPoolToast())//created toast will go to pool. so next call will find it
+		if (!createPoolToast())//created toast will go to pool. so next call will find it
 			return;
 		addChat(chat);
 		return;
 	}
 
 	int chat_type = chat["chat_type"].asInteger();
-	
-	if( ((EChatType)chat_type == CHAT_TYPE_DEBUG_MSG))
+
+	if (((EChatType)chat_type == CHAT_TYPE_DEBUG_MSG))
 	{
-		if(!gSavedSettings.getBool("ShowScriptErrors"))
+		if (!gSavedSettings.getBool("ShowScriptErrors"))
 			return;
-		if(gSavedSettings.getS32("ShowScriptErrorsLocation") == 1)
+		if (gSavedSettings.getS32("ShowScriptErrorsLocation") == 1)
 			return;
 	}
-		
+
 
 	//take 1st element from pool, (re)initialize it, put it in active toasts
 
@@ -352,13 +350,13 @@ void LLFloaterIMNearbyChatScreenChannel::addChat(LLSD& chat)
 
 
 	LLFloaterIMNearbyChatToastPanel* panel = dynamic_cast<LLFloaterIMNearbyChatToastPanel*>(toast->getPanel());
-	if(!panel)
+	if (!panel)
 		return;
 	panel->init(chat);
 
 	toast->reshapeToPanel();
 	toast->startTimer();
-	
+
 	m_active_toasts.push_back(toast->getHandle());
 
 	arrangeToasts();
@@ -375,14 +373,14 @@ static bool sort_toasts_predicate(LLHandle<LLToast> first, LLHandle<LLToast> sec
 
 void LLFloaterIMNearbyChatScreenChannel::arrangeToasts()
 {
-	if(mStopProcessing || isHovering())
+	if (mStopProcessing || isHovering())
 		return;
 
 	if (mFloaterSnapRegion == nullptr)
 	{
 		mFloaterSnapRegion = gViewerWindow->getRootView()->getChildView("floater_snap_region");
 	}
-	
+
 	if (!getParent())
 	{
 		// connect to floater snap region just to get resize events, we don't care about being a proper widget 
@@ -404,11 +402,11 @@ void LLFloaterIMNearbyChatScreenChannel::arrangeToasts()
 	S32		margin = gSavedSettings.getS32("ToastGap");
 
 	//sort active toasts
-	std::sort(m_active_toasts.begin(),m_active_toasts.end(),sort_toasts_predicate);
+	std::sort(m_active_toasts.begin(), m_active_toasts.end(), sort_toasts_predicate);
 
 	//calc max visible item and hide other toasts.
 
-	for(toast_vec_t::iterator it = m_active_toasts.begin(); it != m_active_toasts.end(); ++it)
+	for (toast_vec_t::iterator it = m_active_toasts.begin(); it != m_active_toasts.end(); ++it)
 	{
 		LLToast* toast = it->get();
 		if (!toast)
@@ -419,32 +417,32 @@ void LLFloaterIMNearbyChatScreenChannel::arrangeToasts()
 
 		S32 toast_top = bottom + toast->getRect().getHeight() + margin;
 
-		if(toast_top > channel_rect.getHeight())
+		if (toast_top > channel_rect.getHeight())
 		{
-			while(it!=m_active_toasts.end())
+			while (it != m_active_toasts.end())
 			{
 				addToToastPool(it->get());
-				it=m_active_toasts.erase(it);
+				it = m_active_toasts.erase(it);
 			}
 			break;
 		}
 
 		toast_rect = toast->getRect();
-		toast_rect.setLeftTopAndSize(channel_rect.mLeft , bottom + toast_rect.getHeight(), toast_rect.getWidth() ,toast_rect.getHeight());
+		toast_rect.setLeftTopAndSize(channel_rect.mLeft, bottom + toast_rect.getHeight(), toast_rect.getWidth(), toast_rect.getHeight());
 
 		toast->setRect(toast_rect);
 		bottom += toast_rect.getHeight() - toast->getTopPad() + margin;
 	}
-	
+
 	// use reverse order to provide correct z-order and avoid toast blinking
-	
-	for(toast_vec_t::reverse_iterator it = m_active_toasts.rbegin(); it != m_active_toasts.rend(); ++it)
+
+	for (toast_vec_t::reverse_iterator it = m_active_toasts.rbegin(); it != m_active_toasts.rend(); ++it)
 	{
 		LLToast* toast = it->get();
 		if (toast)
-	{
-		toast->setIsHidden(false);
-		toast->setVisible(TRUE);
+		{
+			toast->setIsHidden(false);
+			toast->setVisible(TRUE);
 		}
 	}
 
@@ -463,7 +461,7 @@ LLFloaterIMNearbyChatHandler::LLFloaterIMNearbyChatHandler()
 	LLFloaterIMNearbyChatScreenChannel::Params p;
 	p.id = LLUUID(gSavedSettings.getString("NearByChatChannelUUID"));
 	LLFloaterIMNearbyChatScreenChannel* channel = new LLFloaterIMNearbyChatScreenChannel(p);
-	
+
 	LLFloaterIMNearbyChatScreenChannel::create_toast_panel_callback_t callback = createToastPanel;
 
 	channel->setCreatePanelCallback(callback);
@@ -487,15 +485,15 @@ void LLFloaterIMNearbyChatHandler::initChannel()
 
 
 void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
-									  const LLSD &args)
+	const LLSD &args)
 {
-	if(chat_msg.mMuted == TRUE)
+	if (chat_msg.mMuted == TRUE)
 		return;
 
-	if(chat_msg.mText.empty())
+	if (chat_msg.mText.empty())
 		return;//don't process empty messages
 
-	LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
+	LLFloaterIMNearbyChat* nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
 	if (!nearby_chat)
 		return;
 
@@ -525,7 +523,7 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 	// errors in separate window.
 	if (chat_msg.mChatType == CHAT_TYPE_DEBUG_MSG)
 	{
-		if(!gSavedSettings.getBool("ShowScriptErrors"))
+		if (!gSavedSettings.getBool("ShowScriptErrors"))
 			return;
 
 		// don't process debug messages from not owned objects, see EXT-7762
@@ -534,22 +532,22 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 			return;
 		}
 
-		if (gSavedSettings.getS32("ShowScriptErrorsLocation")== 1)// show error in window //("ScriptErrorsAsChat"))
+		if (gSavedSettings.getS32("ShowScriptErrorsLocation") == 1)// show error in window //("ScriptErrorsAsChat"))
 		{
 			LLColor4 txt_color;
-			LLViewerChat::getChatColor(chat_msg,txt_color);
+			LLViewerChat::getChatColor(chat_msg, txt_color);
 			LLFloaterScriptDebug::addScriptLine(chat_msg.mText,
-												chat_msg.mFromName,
-												txt_color,
-												chat_msg.mFromID);
+				chat_msg.mFromName,
+				txt_color,
+				chat_msg.mFromID);
 			return;
 		}
 	}
 
 	nearby_chat->addMessage(chat_msg, true, args);
 
-	if(chat_msg.mSourceType == CHAT_SOURCE_AGENT 
-		&& chat_msg.mFromID.notNull() 
+	if (chat_msg.mSourceType == CHAT_SOURCE_AGENT
+		&& chat_msg.mFromID.notNull()
 		&& chat_msg.mFromID != gAgentID)
 	{
 		LLFirstUse::otherAvatarChatFirst();
@@ -606,7 +604,7 @@ void LLFloaterIMNearbyChatHandler::processChat(const LLChat& chat_msg,
 
 			chat["text_color"] = r_color_name;
 			chat["color_alpha"] = r_color_alpha;
-			chat["font_size"] = (S32) LLViewerChat::getChatFontSize();
+			chat["font_size"] = (S32)LLViewerChat::getChatFontSize();
 			chat["message"] = toast_msg;
 			channel->addChat(chat);
 		}

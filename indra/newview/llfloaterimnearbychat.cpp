@@ -28,39 +28,25 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "lliconctrl.h"
 #include "llappviewer.h"
-#include "llchatentry.h"
 #include "llfloaterreg.h"
 #include "lltrans.h"
 #include "llfloaterimcontainer.h"
 #include "llfloatersidepanelcontainer.h"
-#include "llfocusmgr.h"
 #include "lllogchat.h"
-#include "llresizebar.h"
-#include "llresizehandle.h"
-#include "lldraghandle.h"
-#include "llmenugl.h"
-#include "llviewermenu.h" // for gMenuHolder
 #include "llfloaterimnearbychathandler.h"
 #include "llchannelmanager.h"
 #include "llchathistory.h"
-#include "llstylemap.h"
 #include "llavatarnamecache.h"
-#include "llfloaterreg.h"
-#include "lltrans.h"
 
 #include "llfirstuse.h"
 #include "llfloaterimnearbychat.h"
 #include "llagent.h" // gAgent
+#include "llchatentry.h"
 #include "llchatutilities.h"
 #include "llgesturemgr.h"
-#include "llmultigesture.h"
 #include "llkeyboard.h"
-#include "llnavigationbar.h"
-#include "llwindow.h"
 #include "llviewerwindow.h"
-#include "llrootview.h"
 #include "llviewerchat.h"
 #include "lltranslate.h"
 #include "llautoreplace.h"
@@ -359,7 +345,7 @@ bool LLFloaterIMNearbyChat::isChatVisible()
 void LLFloaterIMNearbyChat::showHistory()
 {
 	openFloater();
-	LLFloaterIMContainer::getInstance()->selectConversation(LLUUID(NULL));
+	LLFloaterIMContainer::getInstance()->selectConversation(LLUUID::null);
 
 	if(!isMessagePaneExpanded())
 	{
@@ -373,7 +359,7 @@ void LLFloaterIMNearbyChat::showHistory()
 	setResizeLimits(getMinWidth(), EXPANDED_MIN_HEIGHT);
 }
 
-std::string LLFloaterIMNearbyChat::getCurrentChat()
+std::string LLFloaterIMNearbyChat::getCurrentChat() const
 {
 	return mInputEditor ? mInputEditor->getText() : LLStringUtil::null;
 }
@@ -503,11 +489,6 @@ void LLFloaterIMNearbyChat::onChatBoxKeystroke()
 			}
 
 		}
-
-		//LL_INFOS() << "GESTUREDEBUG " << trigger 
-		//	<< " len " << length
-		//	<< " outlen " << out_str.getLength()
-		//	<< LL_ENDL;
 	}
 }
 
@@ -525,53 +506,7 @@ void LLFloaterIMNearbyChat::onChatBoxFocusReceived()
 
 void LLFloaterIMNearbyChat::sendChat( EChatType type )
 {
-	if (mInputEditor)
-	{
-		LLWString text = mInputEditor->getWText();
-		LLWStringUtil::trim(text);
-		LLWStringUtil::replaceChar(text,182,'\n'); // Convert paragraph symbols back into newlines.
-		if (!text.empty())
-		{
-			// Check if this is destined for another channel
-			S32 channel = 0;
-			stripChannelNumber(text, &channel);
-			
-			std::string utf8text = wstring_to_utf8str(text);
-			// Try to trigger a gesture, if not chat to a script.
-			std::string utf8_revised_text;
-			if (0 == channel)
-			{
-				applyMUPose(utf8text);
-				
-				// discard returned "found" boolean
-				if(!LLGestureMgr::instance().triggerAndReviseString(utf8text, &utf8_revised_text))
-				{
-					utf8_revised_text = utf8text;
-				}
-			}
-			else
-			{
-				utf8_revised_text = utf8text;
-			}
-
-			utf8_revised_text = utf8str_trim(utf8_revised_text);
-
-			type = processChatTypeTriggers(type, utf8_revised_text);
-
-			if (!utf8_revised_text.empty())
-			{
-				if(!ALChatCommand::parseCommand(utf8_revised_text))
-				{
-					// Chat with animation
-					sendChatFromViewer(utf8_revised_text, type, gSavedSettings.getBOOL("PlayChatAnim"));
-				}
-			}
-		}
-
-		mInputEditor->setText(LLStringUtil::null);
-	}
-
-	gAgent.stopTyping();
+	LLChatUtilities::processChat(mInputEditor, type);
 
 	// If the user wants to stop chatting on hitting return, lose focus
 	// and go out of chat mode.

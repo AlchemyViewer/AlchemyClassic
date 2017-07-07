@@ -398,21 +398,21 @@ void LLConversationViewSession::setVisibleIfDetached(BOOL visible)
 	}
 }
 
-LLFloater* LLConversationViewSession::getSessionFloater()
+LLFloater* LLConversationViewSession::getSessionFloater() const
 {
 	LLFolderViewModelItem* item = mViewModelItem;
 	LLUUID session_uuid = dynamic_cast<LLConversationItem*>(item)->getUUID();
 	return LLFloaterIMSessionTab::getConversation(session_uuid);
 }
 
-LLConversationViewParticipant* LLConversationViewSession::findParticipant(const LLUUID& participant_id)
+LLConversationViewParticipant* LLConversationViewSession::findParticipant(const LLUUID& participant_id) const
 {
 	// This is *not* a general tree parsing algorithm. We search only in the mItems list
 	// assuming there is no mFolders which makes sense for sessions (sessions don't contain
 	// sessions).
 	LLConversationViewParticipant* participant = nullptr;
 	items_t::const_iterator iter;
-	for (iter = getItemsBegin(); iter != getItemsEnd(); iter++)
+	for (iter = getItemsBegin(); iter != getItemsEnd(); ++iter)
 	{
 		participant = dynamic_cast<LLConversationViewParticipant*>(*iter);
 		if (participant->hasSameValue(participant_id))
@@ -456,8 +456,7 @@ void LLConversationViewSession::refresh()
 			mSpeakingIndicator->setVisible(false);
 		}
 		LLConversationViewParticipant* participant = nullptr;
-		items_t::const_iterator iter;
-		for (iter = getItemsBegin(); iter != getItemsEnd(); iter++)
+		for (items_t::const_iterator iter = getItemsBegin(); iter != getItemsEnd(); ++iter)
 		{
 			participant = dynamic_cast<LLConversationViewParticipant*>(*iter);
 			if (participant)
@@ -730,7 +729,7 @@ void LLConversationViewParticipant::updateChildren()
     }
 }
 
-LLView* LLConversationViewParticipant::getItemChildView(EAvatarListItemChildIndex child_view_index)
+LLView* LLConversationViewParticipant::getItemChildView(EAvatarListItemChildIndex child_view_index) const
 {
     LLView* child_view = nullptr;
 

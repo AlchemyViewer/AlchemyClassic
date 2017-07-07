@@ -81,7 +81,7 @@ public:
 	void toggleCollapsedMode(bool is_collapsed);
 
 	void setVisibleIfDetached(BOOL visible);
-	LLConversationViewParticipant* findParticipant(const LLUUID& participant_id);
+	LLConversationViewParticipant* findParticipant(const LLUUID& participant_id) const;
 
 	void showVoiceIndicator(bool visible);
 	void showTypingIndicator(bool visible);
@@ -91,7 +91,7 @@ public:
 	/*virtual*/ void setFlashState(bool flash_state) override;
 	void setHighlightState(bool hihglight_state);
 
-	LLFloater* getSessionFloater();
+	LLFloater* getSessionFloater() const;
 
 private:
 
@@ -176,7 +176,7 @@ private:
     static S32 sChildrenWidths[ALIC_COUNT];
     static void initChildrenWidths(LLConversationViewParticipant* self);
     void updateChildren();
-    LLView* getItemChildView(EAvatarListItemChildIndex child_view_index);
+    LLView* getItemChildView(EAvatarListItemChildIndex child_view_index) const;
 	
 	boost::signals2::connection mActiveVoiceChannelConnection;
 };

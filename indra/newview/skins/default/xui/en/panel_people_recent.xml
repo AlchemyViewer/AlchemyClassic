@@ -100,7 +100,7 @@
   <avatar_list
     allow_select="true"
     follows="all"
-    height="351"
+    height="320"
     layout="topleft"
     left="3"
     multi_select="true"

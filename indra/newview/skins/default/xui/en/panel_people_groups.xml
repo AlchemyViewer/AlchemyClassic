@@ -117,7 +117,7 @@
   <group_list
     allow_select="true"
     follows="all"
-    height="388"
+    height="302"
     layout="topleft"
     left="3"
     name="group_list"

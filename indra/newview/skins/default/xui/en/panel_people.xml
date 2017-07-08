@@ -55,17 +55,17 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
 	 name="AltMiniMapToolTipMsg"
 	 value="[REGION](Double-click to teleport, shift-drag to pan)"/>
     <tab_container
-     bottom="-10"
+     bottom="-5"
      follows="all"
      layout="topleft"
-     left="3"
+     left="2"
      name="tabs"
      tab_group="1"
      tab_min_width="60"
      tab_position="top"
      top="0"
      halign="center"
-     right="-8">
+     right="-1">
         <panel
          filename="panel_people_nearby.xml" 
          background_opaque="true"
@@ -126,32 +126,20 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
          name="recent_panel"
          right="-1"
          top="0"/>
-        <panel
-         background_opaque="true"
-         background_visible="true"
-         bg_alpha_color="DkGray"
-         bg_opaque_color="DkGray"
-         follows="all"
-         height="383"
-         label="BLOCKED"
-         layout="topleft"
-         left="0"
-         help_topic="people_blocked_tab"
-         name="blocked_panel"
-         right="-1"
-         top="0">
-          <panel
-           class="panel_block_list_sidetray"
-           height="383"
-           name="panel_block_list_sidetray"
-           filename="panel_block_list_sidetray.xml"
-           follows="all"
-           label="Blocked Residents &amp; Objects"
-           layout="topleft"
-           left="0"
-           font="SansSerifBold"
-           top="0"
-           right="-1" />
-        </panel>
+      <panel
+        filename="panel_block_list_sidetray.xml"
+        class="panel_block_list_sidetray"
+        background_opaque="true"
+        background_visible="true"
+        bg_alpha_color="DkGray"
+        bg_opaque_color="DkGray"
+        height="383"
+        name="panel_block_list_sidetray"
+        follows="all"
+        label="BLOCKED"
+        layout="topleft"
+        left="0"
+        top="0"
+        right="-1" />
     </tab_container>
 </panel>

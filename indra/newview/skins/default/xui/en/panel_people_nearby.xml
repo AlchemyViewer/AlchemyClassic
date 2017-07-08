@@ -100,7 +100,7 @@
   <layout_stack
     clip="false"
     follows="all"
-    height="410"
+    height="325"
     layout="topleft"
     left="0"
     mouse_opaque="false"

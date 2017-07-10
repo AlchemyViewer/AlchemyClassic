@@ -72,12 +72,12 @@ LLFloaterIMContainer::LLFloaterIMContainer(const LLSD& seed, const Params& param
 	mMessagesPane(nullptr),
 	mConversationsPane(nullptr),
 	mConversationsStack(nullptr),
-	mConversationsListPanel(nullptr),
-	mConversationsRoot(nullptr),
-	mConversationsEventStream("ConversationsEvents"),
 	mInitialized(false),
 	mIsFirstLaunch(true),
-	mIsFirstOpen(true)
+	mIsFirstOpen(true),
+	mConversationsListPanel(nullptr),
+	mConversationsRoot(nullptr),
+	mConversationsEventStream("ConversationsEvents")
 {
 	mEnableCallbackRegistrar.add("IMFloaterContainer.Check", boost::bind(&LLFloaterIMContainer::isActionChecked, this, _2));
 	mCommitCallbackRegistrar.add("IMFloaterContainer.Action", boost::bind(&LLFloaterIMContainer::onCustomAction, this, _2));
@@ -160,6 +160,7 @@ void LLFloaterIMContainer::sessionIDUpdated(const LLUUID& old_session_id, const 
 
 void LLFloaterIMContainer::sessionRemoved(const LLUUID& session_id)
 {
+
 	removeConversationListItem(session_id);
 }
 
@@ -556,7 +557,7 @@ void LLFloaterIMContainer::draw()
 			participant_model->setModeratorOptionsVisible(isGroupModerator() && participant_model->getUUID() != gAgentID);
 			participant_model->setGroupBanVisible(haveAbilityToBan() && participant_model->getUUID() != gAgentID);
 
-			current_participant_model++;
+			++current_participant_model;
 		}
 		// Update floater's title as required by the currently selected session or use the default title
 		LLFloaterIMSession* conversation_floaterp = LLFloaterIMSession::findInstance(current_session->getUUID());
@@ -650,7 +651,7 @@ void LLFloaterIMContainer::setVisible(BOOL visible)
 	{
 		// Make sure we have the Nearby Chat present when showing the conversation container
 		nearby_chat = LLFloaterReg::findTypedInstance<LLFloaterIMNearbyChat>("nearby_chat");
-		if ((nearby_chat == nullptr) || mIsFirstOpen)
+		if (nearby_chat == nullptr || mIsFirstOpen)
 		{
 			mIsFirstOpen = false;
 			// If not found, force the creation of the nearby chat conversation panel
@@ -1067,7 +1068,7 @@ void LLFloaterIMContainer::getSelectedUUIDs(uuid_vec_t& selected_uuids, bool par
 	}
 }
 
-const LLConversationItem* LLFloaterIMContainer::getCurSelectedViewModelItem()
+const LLConversationItem* LLFloaterIMContainer::getCurSelectedViewModelItem() const
 {
 	LLConversationItem* conversation_item = nullptr;
 
@@ -1763,7 +1764,7 @@ LLConversationItem* LLFloaterIMContainer::addConversationListItem(const LLUUID& 
 			LLConversationItem* participant_model = dynamic_cast<LLConversationItem*>(*current_participant_model);
 			LLConversationViewParticipant* participant_view = createConversationViewParticipant(participant_model);
 			participant_view->addToFolder(widget);
-			current_participant_model++;
+			++current_participant_model;
 		}
 	}
 
@@ -1794,7 +1795,7 @@ LLConversationItem* LLFloaterIMContainer::addConversationListItem(const LLUUID& 
 	return item;
 }
 
-bool LLFloaterIMContainer::removeConversationListItem(const LLUUID& uuid, bool change_focus)
+bool LLFloaterIMContainer::removeConversationListItem(const LLUUID& uuid)
 {
 	// Delete the widget and the associated conversation item
 	// Note : since the mConversationsItems is also the listener to the widget, deleting 
@@ -1817,8 +1818,9 @@ bool LLFloaterIMContainer::removeConversationListItem(const LLUUID& uuid, bool c
 	mConversationsItems.erase(uuid);
 	mConversationsWidgets.erase(uuid);
 
-	// Don't let the focus fall IW, select and refocus on the first conversation in the list
-	if (change_focus)
+	// Don't let the focus fall inworld if we had focus on the convo, 
+	// select and refocus on the first conversation in the list
+	if (is_widget_selected)
 	{
 		setFocus(TRUE);
 		if (new_selection)
@@ -2114,7 +2116,7 @@ LLSpeakerMgr* LLFloaterIMContainer::getSpeakerMgrForSelectedParticipant()
 		       : LLIMModel::getInstance()->getSpeakerManager(*conversation_uuidp);
 }
 
-LLSpeaker* LLFloaterIMContainer::getSpeakerOfSelectedParticipant(LLSpeakerMgr* speaker_managerp)
+LLSpeaker* LLFloaterIMContainer::getSpeakerOfSelectedParticipant(LLSpeakerMgr* speaker_managerp) const
 {
 	if (speaker_managerp == nullptr)
 	{
@@ -2305,7 +2307,7 @@ void LLFloaterIMContainer::expandConversation()
 	}
 }
 
-bool LLFloaterIMContainer::isParticipantListExpanded()
+bool LLFloaterIMContainer::isParticipantListExpanded() const
 {
 	bool is_expanded = false;
 	if (!mConversationsPane->isCollapsed())

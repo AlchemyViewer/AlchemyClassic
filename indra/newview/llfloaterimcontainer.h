@@ -151,7 +151,7 @@ private:
 	void setSortOrder(const LLConversationSort& order);
 
     void getSelectedUUIDs(uuid_vec_t& selected_uuids, bool participant_uuids = true) const;
-    const LLConversationItem * getCurSelectedViewModelItem();
+    const LLConversationItem * getCurSelectedViewModelItem() const;
     void getParticipantUUIDs(uuid_vec_t& selected_uuids);
     void doToSelected(const LLSD& userdata);
 	bool checkContextMenuItem(const LLSD& userdata);
@@ -162,7 +162,7 @@ private:
 
 	static void confirmMuteAllCallback(const LLSD& notification, const LLSD& response);
 	bool enableModerateContextMenuItem(const std::string& userdata);
-	LLSpeaker * getSpeakerOfSelectedParticipant(LLSpeakerMgr * speaker_managerp);
+	LLSpeaker * getSpeakerOfSelectedParticipant(LLSpeakerMgr * speaker_managerp) const;
 	LLSpeakerMgr * getSpeakerMgrForSelectedParticipant();
 	bool isGroupModerator();
 	bool haveAbilityToBan();
@@ -174,7 +174,7 @@ private:
 	void toggleAllowTextChat(const LLUUID& participant_uuid);
 	void toggleMute(const LLUUID& participant_id, U32 flags);
 	void banSelectedMember(const LLUUID& participant_uuid);
-	bool isParticipantListExpanded();
+	bool isParticipantListExpanded() const;
 
 	LLButton* mExpandCollapseBtn;
 	LLButton* mStubCollapseBtn;
@@ -195,7 +195,7 @@ private:
 
 	// Conversation list implementation
 public:
-	bool removeConversationListItem(const LLUUID& uuid, bool change_focus = true);
+	bool removeConversationListItem(const LLUUID& uuid);
 	LLConversationItem* addConversationListItem(const LLUUID& uuid, bool isWidgetSelected = false);
 	void setTimeNow(const LLUUID& session_id, const LLUUID& participant_id);
 	void setNearbyDistances();

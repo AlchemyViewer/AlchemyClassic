@@ -729,8 +729,6 @@ BOOL LLPanelPeople::postBuild()
 	mOnlineFriendList->setRefreshCompleteCallback(boost::bind(&LLPanelPeople::onFriendListRefreshComplete, this, _1, _2));
 	mAllFriendList->setRefreshCompleteCallback(boost::bind(&LLPanelPeople::onFriendListRefreshComplete, this, _1, _2));
 
-	updateFriendList();
-
 	return TRUE;
 }
 

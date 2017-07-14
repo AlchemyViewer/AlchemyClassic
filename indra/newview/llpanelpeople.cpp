@@ -770,32 +770,23 @@ void LLPanelPeople::updateFriendList()
 	all_friendsp.clear();
 	online_friendsp.clear();
 
-	uuid_vec_t buddies_uuids;
-
-	// Fill the avatar list with friends UUIDs
-	for (LLAvatarTracker::buddy_map_t::const_iterator buddies_iter = all_buddies.begin();
-		buddies_iter != all_buddies.end(); 
-		++buddies_iter)
+	if (!all_buddies.empty())
 	{
-		buddies_uuids.push_back(buddies_iter->first);
-	}
+		// Fill the avatar list with friends UUIDs
+		for (const auto& buddy_pair : all_buddies)
+		{
+			const LLUUID& buddy_id = buddy_pair.first;
+			all_friendsp.push_back(buddy_id);
 
-	if (buddies_uuids.size() > 0)
-	{
-		LL_DEBUGS() << "Friends added to the list: " << buddies_uuids.size() << LL_ENDL;
-		all_friendsp = buddies_uuids;
+			if (av_tracker.isBuddyOnline(buddy_id))
+				online_friendsp.push_back(buddy_id);
+		}
+		LL_DEBUGS() << "Friends added to the list: " << all_friendsp.size() << LL_ENDL;
+		LL_DEBUGS() << "Online friends added to the list: " << online_friendsp.size() << LL_ENDL;
 	}
 	else
 	{
 		LL_DEBUGS() << "No friends found" << LL_ENDL;
-	}
-
-	LLAvatarTracker::buddy_map_t::const_iterator buddy_it = all_buddies.begin();
-	for (; buddy_it != all_buddies.end(); ++buddy_it)
-	{
-		LLUUID buddy_id = buddy_it->first;
-		if (av_tracker.isBuddyOnline(buddy_id))
-			online_friendsp.push_back(buddy_id);
 	}
 
 	/*

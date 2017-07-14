@@ -249,8 +249,8 @@ public:
 	boost::signals2::connection setDoubleClickCallback( const mouse_signal_t::slot_type& cb );
 
 	// *TODO: Deprecate; for backwards compatability only:
-	boost::signals2::connection setCommitCallback( boost::function<void (LLUICtrl*,void*)> cb, void* data);	
-	boost::signals2::connection setValidateBeforeCommit( boost::function<bool (const LLSD& data)> cb );
+	boost::signals2::connection setCommitCallback( std::function<void (LLUICtrl*,void*)> cb, void* data);	
+	boost::signals2::connection setValidateBeforeCommit( std::function<bool (const LLSD& data)> cb );
 
 	LLUICtrl* findRootMostFocusRoot();
 

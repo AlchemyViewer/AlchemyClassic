@@ -306,7 +306,7 @@ protected:
         typedef boost::shared_ptr<sessionState> ptr_t;
         typedef boost::weak_ptr<sessionState> wptr_t;
 
-        typedef boost::function<void(const ptr_t &)> sessionFunc_t;
+        typedef std::function<void(const ptr_t &)> sessionFunc_t;
 
         static ptr_t createSession();
 		~sessionState();

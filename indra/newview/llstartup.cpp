@@ -1796,6 +1796,10 @@ bool idle_startup()
 		LL_INFOS() << "Creating Inventory Views" << LL_ENDL;
 		LLFloaterReg::getInstance("inventory");
 		display_startup();
+		LL_INFOS() << "Creating People Views" << LL_ENDL;
+		LLFloaterReg::getInstance("people");
+		display_startup();
+
 		LLStartUp::setStartupState( STATE_MISC );
 		display_startup();
 		return FALSE;

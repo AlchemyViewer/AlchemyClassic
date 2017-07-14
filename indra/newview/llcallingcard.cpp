@@ -473,17 +473,15 @@ void LLAvatarTracker::notifyObservers()
 	}
 	mIsNotifyObservers = TRUE;
 
-	observer_list_t observers(mObservers);
-	observer_list_t::iterator it = observers.begin();
-	observer_list_t::iterator end = observers.end();
-	for(; it != end; ++it)
+	auto observers(mObservers);
+	for (auto friend_observer : observers)
 	{
-		(*it)->changed(mModifyMask);
+		friend_observer->changed(mModifyMask);
 	}
 
-	for (changed_buddy_t::iterator it = mChangedBuddyIDs.begin(); it != mChangedBuddyIDs.end(); ++it)
+	for (auto buddy_id : mChangedBuddyIDs)
 	{
-		notifyParticularFriendObservers(*it);
+		notifyParticularFriendObservers(buddy_id);
 	}
 
 	mModifyMask = LLFriendObserver::NONE;
@@ -557,8 +555,8 @@ void LLAvatarTracker::registerCallbacks(LLMessageSystem* msg)
 						processOfflineNotification);
 	//msg->setHandlerFuncFast(_PREHASH_GrantedProxies,
 	//					processGrantedProxies);
-	msg->setHandlerFunc("TerminateFriendship", processTerminateFriendship);
-	msg->setHandlerFunc(_PREHASH_ChangeUserRights, processChangeUserRights);
+	msg->setHandlerFuncFast(_PREHASH_TerminateFriendship, processTerminateFriendship);
+	msg->setHandlerFuncFast(_PREHASH_ChangeUserRights, processChangeUserRights);
 }
 
 // static
@@ -583,7 +581,7 @@ void LLAvatarTracker::agentFound(const LLUUID& prey,
 	if(!mTrackingData) return;
 	//if we get a valid reply from the server, that means the agent
 	//is our friend and mappable, so enable interest list based updates
-	LLAvatarTracker::instance().setTrackedAgentValid(true);
+	setTrackedAgentValid(true);
 	mTrackingData->agentFound(prey, estimated_global_pos);
 }
 
@@ -591,14 +589,14 @@ void LLAvatarTracker::agentFound(const LLUUID& prey,
 void LLAvatarTracker::processOnlineNotification(LLMessageSystem* msg, void**)
 {
 	LL_DEBUGS() << "LLAvatarTracker::processOnlineNotification()" << LL_ENDL;
-	instance().processNotify(msg, true);
+	LLAvatarTracker::instance().processNotify(msg, true);
 }
 
 // 	static
 void LLAvatarTracker::processOfflineNotification(LLMessageSystem* msg, void**)
 {
 	LL_DEBUGS() << "LLAvatarTracker::processOfflineNotification()" << LL_ENDL;
-	instance().processNotify(msg, false);
+	LLAvatarTracker::instance().processNotify(msg, false);
 }
 
 void LLAvatarTracker::processChange(LLMessageSystem* msg)
@@ -650,7 +648,7 @@ void LLAvatarTracker::processChange(LLMessageSystem* msg)
 void LLAvatarTracker::processChangeUserRights(LLMessageSystem* msg, void**)
 {
 	LL_DEBUGS() << "LLAvatarTracker::processChangeUserRights()" << LL_ENDL;
-	instance().processChange(msg);
+	LLAvatarTracker::instance().processChange(msg);
 }
 
 void LLAvatarTracker::processNotify(LLMessageSystem* msg, bool online)
@@ -691,15 +689,16 @@ void LLAvatarTracker::processNotify(LLMessageSystem* msg, bool online)
 			}
 			// *TODO: get actual inventory id
 			gInventory.addChangedMask(LLInventoryObserver::CALLING_CARD, LLUUID::null);
-		}
-		if(chat_notify)
-		{
-			// Look up the name of this agent for the notification
-			LLAvatarNameCache::get(agent_id,boost::bind(&on_avatar_name_cache_notify,_1, _2, online, payload));
+
+			if (chat_notify)
+			{
+				// Look up the name of this agent for the notification
+				LLAvatarNameCache::get(agent_id, boost::bind(&on_avatar_name_cache_notify, _1, _2, online, payload));
+			}
+			addChangedMask(LLFriendObserver::ONLINE, agent_id);
 		}
 
-		mModifyMask |= LLFriendObserver::ONLINE;
-		instance().notifyObservers();
+		notifyObservers();
 		gInventory.notifyObservers();
 	}
 }

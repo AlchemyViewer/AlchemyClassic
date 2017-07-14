@@ -1130,17 +1130,6 @@ std::string LLFontGL::getFontPathLocal()
 	return sLocalFontPath;
 }
 
-LLFontGL::LLFontGL(const LLFontGL &source)
-{
-	LL_ERRS() << "Not implemented!" << LL_ENDL;
-}
-
-LLFontGL &LLFontGL::operator=(const LLFontGL &source)
-{
-	LL_ERRS() << "Not implemented" << LL_ENDL;
-	return *this;
-}
-
 void LLFontGL::renderQuad(LLVector4a* vertex_out, LLVector2* uv_out, LLColor4U* colors_out, const LLRectf& screen_rect, const LLRectf& uv_rect, const LLColor4U& color, F32 slant_amt) const
 {
 	S32 index = 0;

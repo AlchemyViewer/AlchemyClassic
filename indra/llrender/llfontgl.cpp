@@ -38,10 +38,8 @@
 #include "llgl.h"
 #include "llimagegl.h"
 #include "llrender.h"
-#include "llstl.h"
 #include "v4color.h"
 #include "lltexture.h"
-#include "lldir.h"
 
 // Third party library includes
 #include <boost/tokenizer.hpp>
@@ -1097,26 +1095,39 @@ std::string LLFontGL::getFontPathSystem()
 	return system_path;
 }
 
+static std::string sLocalFontPath;
 
 // static 
 std::string LLFontGL::getFontPathLocal()
 {
-	std::string local_path;
+	if (!sLocalFontPath.empty()) return sLocalFontPath;
 
 	// Backup files if we can't load from system fonts directory.
 	// We could store this in an end-user writable directory to allow
 	// end users to switch fonts.
 	if (!LLFontGL::sAppDir.empty())
 	{
-		// use specified application dir to look for fonts
-		local_path = LLFontGL::sAppDir + "/fonts/";
+#if LL_WINDOWS
+		std::string::size_type indra_dir_pos = sAppDir.rfind("indra\\newview");
+		if (indra_dir_pos != std::string::npos)
+		{
+			// we're running from the bugger probably
+			std::string basedir = sAppDir.substr(0, indra_dir_pos);
+			sLocalFontPath = basedir + "build-vc141-x86_64\\packages\\fonts\\"; // fix me drake, fix me. lol
+		}
+		else
+#endif
+		{
+			// use specified application dir to look for fonts
+			sLocalFontPath = LLFontGL::sAppDir + "/fonts/";
+		}
 	}
 	else
 	{
 		// assume working directory is executable directory
-		local_path = "./fonts/";
+		sLocalFontPath = "./fonts/";
 	}
-	return local_path;
+	return sLocalFontPath;
 }
 
 LLFontGL::LLFontGL(const LLFontGL &source)

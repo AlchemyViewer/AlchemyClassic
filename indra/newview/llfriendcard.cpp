@@ -202,7 +202,7 @@ const LLUUID LLFriendCardsManager::extractAvatarID(const LLUUID& avatarID)
 	return rv;
 }
 
-bool LLFriendCardsManager::isItemInAnyFriendsList(const LLViewerInventoryItem* item)
+bool LLFriendCardsManager::isItemInAnyFriendsList(const LLViewerInventoryItem* item) const
 {
 	if (item->getType() != LLAssetType::AT_CALLINGCARD)
 		return false;
@@ -346,13 +346,13 @@ const LLUUID& LLFriendCardsManager::findFriendAllSubfolderUUIDImpl() const
 	return findChildFolderUUID(friendFolderUUID, friendAllSubfolderName);
 }
 
-const LLUUID& LLFriendCardsManager::findChildFolderUUID(const LLUUID& parentFolderUUID, const std::string& nonLocalizedName) const
+const LLUUID& LLFriendCardsManager::findChildFolderUUID(const LLUUID& parentFolderUUID, const std::string& nonLocalizedName)
 {
 	LLNameCategoryCollector matchFolderFunctor(nonLocalizedName);
 
 	return get_folder_uuid(parentFolderUUID, matchFolderFunctor);
 }
-const LLUUID& LLFriendCardsManager::findFriendCardInventoryUUIDImpl(const LLUUID& avatarID)
+const LLUUID& LLFriendCardsManager::findFriendCardInventoryUUIDImpl(const LLUUID& avatarID) const
 {
 	LLUUID friendAllSubfolderUUID = findFriendAllSubfolderUUIDImpl();
 	LLInventoryModel::cat_array_t cats;
@@ -395,7 +395,7 @@ void LLFriendCardsManager::findMatchedFriendCards(const LLUUID& avatarID, LLInve
 	}
 }
 
-void LLFriendCardsManager::fetchAndCheckFolderDescendents(const LLUUID& folder_id,  callback_t cb)
+void LLFriendCardsManager::fetchAndCheckFolderDescendents(const LLUUID& folder_id,  callback_t cb) const
 {
 	// This instance will be deleted in LLInitialFriendCardsFetch::done().
 	LLInitialFriendCardsFetch* fetch = new LLInitialFriendCardsFetch(folder_id, cb);
@@ -600,11 +600,9 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
                 // Try to add cards into inventory.
                 // If cards already exist they won't be created.
                 const std::set<LLUUID>& changed_items = at.getChangedIDs();
-                std::set<LLUUID>::const_iterator id_it = changed_items.cbegin();
-                std::set<LLUUID>::const_iterator id_end = changed_items.cend();
-                for (; id_it != id_end; ++id_it)
+				for (const auto card : changed_items)
                 {
-                    cards_manager.addFriendCardToInventory(*id_it);
+                    cards_manager.addFriendCardToInventory(card);
                 }
             }
             else
@@ -623,11 +621,9 @@ void LLFriendCardsManager::onFriendListUpdate(U32 changed_mask)
 	case LLFriendObserver::REMOVE:
 		{
 			const std::set<LLUUID>& changed_items = at.getChangedIDs();
-			std::set<LLUUID>::const_iterator id_it = changed_items.cbegin();
-			std::set<LLUUID>::const_iterator id_end = changed_items.cend();
-			for (;id_it != id_end; ++id_it)
+			for (const auto card : changed_items)
 			{
-				LLFriendCardsManager::instance().removeFriendCardFromInventory(*id_it);
+				LLFriendCardsManager::instance().removeFriendCardFromInventory(card);
 			}
 		}
 

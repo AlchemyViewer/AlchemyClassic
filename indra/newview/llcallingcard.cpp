@@ -151,7 +151,7 @@ void LLAvatarTracker::setTrackedCoarseLocation(const LLVector3d& global_pos)
 	}
 }
 
-bool LLAvatarTracker::haveTrackingInfo()
+bool LLAvatarTracker::haveTrackingInfo() const
 {
 	if(mTrackingData)
 	{
@@ -160,7 +160,7 @@ bool LLAvatarTracker::haveTrackingInfo()
 	return false;
 }
 
-LLVector3d LLAvatarTracker::getGlobalPos()
+LLVector3d LLAvatarTracker::getGlobalPos() const
 {
 	if(!mTrackedAgentValid || !mTrackingData) return LLVector3d();
 	LLVector3d global_pos;
@@ -186,7 +186,7 @@ LLVector3d LLAvatarTracker::getGlobalPos()
 
 void LLAvatarTracker::getDegreesAndDist(F32& rot,
 										F64& horiz_dist,
-										F64& vert_dist)
+										F64& vert_dist) const
 {
 	if(!mTrackingData) return;
 
@@ -236,7 +236,7 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 			LLAvatarNameCache::get(agent_id, &av_name);
 
 			addChangedMask(LLFriendObserver::ADD, agent_id);
-			LL_DEBUGS() << "Added buddy " << agent_id
+			LL_INFOS() << "Added buddy " << agent_id
 					<< ", " << (mBuddyInfo[agent_id]->isOnline() ? "Online" : "Offline")
 					<< ", TO: " << mBuddyInfo[agent_id]->getRightsGrantedTo()
 					<< ", FROM: " << mBuddyInfo[agent_id]->getRightsGrantedFrom()

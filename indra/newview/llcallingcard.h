@@ -89,9 +89,9 @@ public:
 	void setTrackedCoarseLocation(const LLVector3d& global_pos);
 
 	// dealing with the tracked agent location
-	bool haveTrackingInfo();
-	void getDegreesAndDist(F32& rot, F64& horiz_dist, F64& vert_dist);
-	LLVector3d getGlobalPos();
+	bool haveTrackingInfo() const;
+	void getDegreesAndDist(F32& rot, F64& horiz_dist, F64& vert_dist) const;
+	LLVector3d getGlobalPos() const;
 
 	// Get the name passed in, returns null string if uninitialized.
 	const std::string& getName() const;

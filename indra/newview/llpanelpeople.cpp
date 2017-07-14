@@ -319,7 +319,7 @@ public:
 		LLAvatarTracker::instance().removeObserver(this);
 	}
 
-	/*virtual*/ void changed(U32 mask) override
+	void changed(U32 mask) override
 	{
 		if (mIsActive)
 		{
@@ -333,7 +333,7 @@ public:
 	}
 
 
-	/*virtual*/ BOOL tick() override
+	BOOL tick() override
 	{
 		if (!mIsActive) return FALSE;
 
@@ -349,7 +349,6 @@ public:
 		return FALSE;
 	}
 
-	// virtual
 	void setActive(bool active) override
 	{
 		mIsActive = active;
@@ -379,7 +378,6 @@ private:
 
 		friend class LLFriendListUpdater;
 
-	private:
 		LLInventoryFriendCardObserver(LLFriendListUpdater* updater) : mUpdater(updater)
 		{
 			gInventory.addObserver(this);
@@ -388,7 +386,7 @@ private:
 		{
 			gInventory.removeObserver(this);
 		}
-		/*virtual*/ void changed(U32 mask) override
+		void changed(U32 mask) override
 		{
 			LL_DEBUGS() << "Inventory changed: " << mask << LL_ENDL;
 

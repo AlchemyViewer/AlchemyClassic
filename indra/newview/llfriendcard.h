@@ -64,7 +64,7 @@ public:
 	 *	Determines if specified Inventory Calling Card exists in any of lists 
 	 *	in the Calling Card/Friends/ folder (Default, or Custom)
 	 */
-	bool isItemInAnyFriendsList(const LLViewerInventoryItem* item);
+	bool isItemInAnyFriendsList(const LLViewerInventoryItem* item) const;
 
 	/**
 	 *	Checks if specified category is contained in the Calling Card/Friends folder and 
@@ -115,13 +115,13 @@ private:
 		return (mBuddyIDSet.end() != mBuddyIDSet.find(avatarID));
 	}
 
-	const LLUUID& findChildFolderUUID(const LLUUID& parentFolderUUID, const std::string& nonLocalizedName) const;
+	static const LLUUID& findChildFolderUUID(const LLUUID& parentFolderUUID, const std::string& nonLocalizedName);
 	const LLUUID& findFriendFolderUUIDImpl() const;
 	const LLUUID& findFriendAllSubfolderUUIDImpl() const;
-	const LLUUID& findFriendCardInventoryUUIDImpl(const LLUUID& avatarID);
+	const LLUUID& findFriendCardInventoryUUIDImpl(const LLUUID& avatarID) const;
 	void findMatchedFriendCards(const LLUUID& avatarID, LLInventoryModel::item_array_t& items) const;
 
-	void fetchAndCheckFolderDescendents(const LLUUID& folder_id, callback_t cb);
+	void fetchAndCheckFolderDescendents(const LLUUID& folder_id, callback_t cb) const;
 
 	/**
 	 *	Checks whether "Calling Cards/Friends" folder exists. If not, creates it with "All"

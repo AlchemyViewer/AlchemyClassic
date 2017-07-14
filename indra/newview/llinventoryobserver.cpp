@@ -243,7 +243,8 @@ void fetch_items_from_llsd(const LLSD& items_llsd)
 			gInventory.requestPost(true, url, body[i], handler, (i ? "Library Item" : "Inventory Item"));
 			continue;
 		}
-
+		else
+		{
 		LLMessageSystem* msg = gMessageSystem;
 		BOOL start_new_message = TRUE;
 		for (S32 j=0; j<body[i]["items"].size(); j++)
@@ -269,6 +270,7 @@ void fetch_items_from_llsd(const LLSD& items_llsd)
 		if (!start_new_message)
 		{
 			gAgent.sendReliableMessage();
+		}
 		}
 	}
 }

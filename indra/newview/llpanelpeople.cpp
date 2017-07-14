@@ -248,25 +248,43 @@ protected:
 };
 
 /**
- * Update buttons on changes in our friend relations (STORM-557).
+ * Update buttons on changes in our friend relations or voice status (STORM-557).
  */
-class LLButtonsUpdater : public LLPanelPeople::Updater, public LLFriendObserver
+class LLButtonsUpdater : public LLPanelPeople::Updater, public LLFriendObserver, public LLVoiceClientStatusObserver
 {
 public:
 	LLButtonsUpdater(callback_t cb)
 	:	LLPanelPeople::Updater(cb)
 	{
 		LLAvatarTracker::instance().addObserver(this);
+		LLVoiceClient::getInstance()->addObserver(static_cast<LLVoiceClientStatusObserver*>(this));
 	}
 
 	~LLButtonsUpdater()
 	{
 		LLAvatarTracker::instance().removeObserver(this);
+
+		if (LLVoiceClient::instanceExists())
+		{
+			LLVoiceClient::getInstance()->removeObserver(static_cast<LLVoiceClientStatusObserver*>(this));
+		}
 	}
 
-	/*virtual*/ void changed(U32 mask) override
+	void changed(U32 mask) override
 	{
 		(void) mask;
+		update();
+	}
+
+	// Implements LLVoiceClientStatusObserver::onChange() to enable call buttons
+	// when voice is available
+	void onChange(EStatusType status, const std::string &channelURI, bool proximal)
+	{
+		if (status == STATUS_JOINING || status == STATUS_LEFT_CHANNEL)
+		{
+			return;
+		}
+
 		update();
 	}
 };
@@ -553,11 +571,6 @@ LLPanelPeople::~LLPanelPeople()
 	delete mNearbyListUpdater;
 	delete mFriendListUpdater;
 	delete mRecentListUpdater;
-
-	if(LLVoiceClient::instanceExists())
-	{
-		LLVoiceClient::getInstance()->removeObserver(this);
-	}
 }
 
 void LLPanelPeople::onFriendsAccordionExpandedCollapsed(LLUICtrl* ctrl, const LLSD& param, LLAvatarList* avatar_list)
@@ -708,8 +721,6 @@ BOOL LLPanelPeople::postBuild()
 	// Must go after setting commit callback and initializing all pointers to children.
 	mTabContainer->selectTabByName(NEARBY_TAB_NAME);
 
-	LLVoiceClient::getInstance()->addObserver(this);
-	
 	updateRecentList();
 
 	// call this method in case some list is empty and buttons can be in inconsistent state
@@ -721,17 +732,6 @@ BOOL LLPanelPeople::postBuild()
 	updateFriendList();
 
 	return TRUE;
-}
-
-// virtual
-void LLPanelPeople::onChange(EStatusType status, const std::string &channelURI, bool proximal)
-{
-	if(status == STATUS_JOINING || status == STATUS_LEFT_CHANNEL)
-	{
-		return;
-	}
-	
-	updateButtons();
 }
 
 void LLPanelPeople::updateFriendListHelpText()

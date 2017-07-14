@@ -173,14 +173,14 @@ bool friendship_offer_callback(const LLSD& notification, const LLSD& response)
 	if (notification_ptr)
 	{
 		// add friend to recent people list
-		LLRecentPeople::instance().add(payload["from_id"]);
+		LLRecentPeople::instance().add(payload["from_id"].asUUID());
 
 		switch (option)
 		{
 		case 0:
 			{
 				// accept
-				LLAvatarTracker::formFriendship(payload["from_id"]);
+			LLAvatarTracker::instance().formFriendship(payload["from_id"].asUUID());
 
 				const LLUUID fid = gInventory.findCategoryUUIDForType(LLFolderType::FT_CALLINGCARD);
 
@@ -3322,7 +3322,7 @@ void process_improved_im(LLMessageSystem* msg, void** user_data)
 			// In the case of an offline IM, the formFriendship() may be extraneous
 			// as the database should already include the relationship.  But it
 			// doesn't hurt for dupes.
-			LLAvatarTracker::formFriendship(from_id);
+			LLAvatarTracker::instance().formFriendship(from_id);
 
 			std::vector<std::string> strings;
 			strings.push_back(from_id.asString());

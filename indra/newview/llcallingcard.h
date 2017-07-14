@@ -164,7 +164,7 @@ public:
 	// buddy list in the functor or bad things will happen.
 	void applyFunctor(LLRelationshipFunctor& f);
 
-	static void formFriendship(const LLUUID& friend_id);
+	void formFriendship(const LLUUID& friend_id);
 
 protected:
 	void deleteTrackingData();

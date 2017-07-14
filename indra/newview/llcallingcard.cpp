@@ -740,16 +740,15 @@ void LLAvatarTracker::formFriendship(const LLUUID& id)
 {
 	if(id.notNull())
 	{
-		LLRelationship* buddy_info = get_ptr_in_map(instance().mBuddyInfo, id);
+		LLRelationship* buddy_info = get_ptr_in_map(mBuddyInfo, id);
 		if(!buddy_info)
 		{
-			LLAvatarTracker& at = LLAvatarTracker::instance();
 			//The default for relationship establishment is to have both parties
 			//visible online to each other.
 			buddy_info = new LLRelationship(LLRelationship::GRANT_ONLINE_STATUS,LLRelationship::GRANT_ONLINE_STATUS, false);
-			at.mBuddyInfo[id] = buddy_info;
-			at.addChangedMask(LLFriendObserver::ADD, id);
-			at.notifyObservers();
+			mBuddyInfo[id] = buddy_info;
+			addChangedMask(LLFriendObserver::ADD, id);
+			notifyObservers();
 		}
 	}
 }

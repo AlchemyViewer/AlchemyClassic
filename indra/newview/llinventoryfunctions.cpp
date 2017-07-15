@@ -699,7 +699,9 @@ BOOL get_is_category_renameable(const LLInventoryModel* model, const LLUUID& id)
 
 void show_task_item_profile(const LLUUID& item_uuid, const LLUUID& object_id)
 {
-	LLFloaterSidePanelContainer::showPanel("inventory", LLSD().with("id", item_uuid).with("object", object_id));
+	// <alchemy> open the item properties for a task directly. We do not have the same side panel flow control.
+	//LLFloaterSidePanelContainer::showPanel("inventory", LLSD().with("id", item_uuid).with("object", object_id));
+	LLFloaterReg::showInstance("item_properties", LLSD().with("id", item_uuid).with("object", object_id));
 }
 
 void show_item_profile(const LLUUID& item_uuid)

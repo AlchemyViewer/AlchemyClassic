@@ -945,5 +945,9 @@ void LLFloaterItemProperties::onOpen(const LLSD& key)
     // Tell the panel which item it needs to visualize
     LLSidepanelItemInfo* panel = getChild<LLSidepanelItemInfo>("item_panel");
     panel->setItemID(key["id"].asUUID());
+	if (key.has("object"))
+	{
+		panel->setObjectID(key["object"].asUUID());
+	}
 }
 

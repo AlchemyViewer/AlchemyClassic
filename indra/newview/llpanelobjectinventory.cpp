@@ -105,7 +105,7 @@ public:
 												 LLInventoryObject* object);
 	void showProperties() override;
 	void buyItem();
-	S32 getPrice();
+	S32 getPrice() const;
 	static bool commitBuyItem(const LLSD& notification, const LLSD& response);
 
 	// LLFolderViewModelItemInventory functionality
@@ -250,17 +250,12 @@ void LLTaskInvFVBridge::buyItem()
 	}
 }
 
-S32 LLTaskInvFVBridge::getPrice()
+S32 LLTaskInvFVBridge::getPrice() const
 {
 	LLInventoryItem* item = findItem();
-	if(item)
-	{
-		return item->getSaleInfo().getSalePrice();
-	}
-	else
-	{
-		return -1;
-	}
+	return item 
+		? item->getSaleInfo().getSalePrice() 
+		: -1;
 }
 
 // static

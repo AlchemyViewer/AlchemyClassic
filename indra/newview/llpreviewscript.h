@@ -30,6 +30,7 @@
 #include "llpreview.h"
 #include "llinventory.h"
 #include "llframetimer.h"
+#include "llextendedstatus.h"
 
 class LLLiveLSLFile;
 class LLMessageSystem;
@@ -74,13 +75,11 @@ protected:
 public:
 	~LLScriptEdCore();
 	
-	void			initializeKeywords();
 	void			initMenu();
 	void			processKeywords();
-	void			processLoaded();
 
-	void	draw() override;
-	/*virtual*/	BOOL	postBuild() override;
+	void			draw() override;
+	BOOL			postBuild() override;
 	BOOL			canClose();
 	void			setEnableEditing(bool enable);
 	bool			canLoadOrSaveToFile( void* userdata );
@@ -109,7 +108,7 @@ public:
 	static bool		enableSaveToFileMenu(void* userdata);
 	static bool		enableLoadFromFileMenu(void* userdata);
 
-	bool	hasAccelerators() const override { return true; }
+	bool			hasAccelerators() const override { return true; }
 	LLUUID 			getAssociatedExperience()const;
 	void            setAssociatedExperience( const LLUUID& experience_id );
 

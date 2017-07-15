@@ -30,12 +30,10 @@
 #include "llgl.h"
 #include "v2math.h"
 #include "v3math.h"
-#include "v4math.h"
 #include "v4coloru.h"
 #include "llstrider.h"
 #include "llrender.h"
 #include "lltrace.h"
-#include <set>
 #include <vector>
 #include <list>
 #include <deque>
@@ -144,7 +142,6 @@ public:
 	static void initClass(bool use_vbo, bool no_vbo_mapping);
 	static void cleanupClass();
 	static void setupClientArrays(U32 data_mask);
-	static void pushPositions(U32 mode, const LLVector4a* pos, U32 count);
 	static void drawArrays(U32 mode, const std::vector<LLVector3>& pos, const std::vector<LLVector3>& norm);
 	static void drawElements(U32 mode, const S32 num_vertices, const LLVector4a* pos, const LLVector2* tc, S32 num_indices, const U16* indicesp);
 
@@ -255,7 +252,6 @@ public:
 	bool getTangentStrider(LLStrider<LLVector3>& strider, S32 index=0, S32 count = -1, bool map_range = false);
 	bool getTangentStrider(LLStrider<LLVector4a>& strider, S32 index=0, S32 count = -1, bool map_range = false);
 	bool getColorStrider(LLStrider<LLColor4U>& strider, S32 index=0, S32 count = -1, bool map_range = false);
-	bool getTextureIndexStrider(LLStrider<LLColor4U>& strider, S32 index=0, S32 count = -1, bool map_range = false);
 	bool getEmissiveStrider(LLStrider<LLColor4U>& strider, S32 index=0, S32 count = -1, bool map_range = false);
 	bool getWeightStrider(LLStrider<F32>& strider, S32 index=0, S32 count = -1, bool map_range = false);
 	bool getWeight4Strider(LLStrider<LLVector4a>& strider, S32 index=0, S32 count = -1, bool map_range = false);

@@ -170,7 +170,7 @@ void LLCubeMap::init(const std::vector<LLPointer<LLImageRaw> >& rawimages)
 	}
 }
 
-GLuint LLCubeMap::getGLName()
+GLuint LLCubeMap::getGLName() const
 {
 	return mImages[0]->getTexName();
 }

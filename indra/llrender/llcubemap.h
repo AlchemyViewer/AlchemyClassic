@@ -48,7 +48,7 @@ public:
 	
 	void enableTexture(S32 stage);
 	void enableTextureCoords(S32 stage);
-	S32	 getStage(void) { return mTextureStage; }
+	S32	 getStage(void) const { return mTextureStage; }
 	
 	void disable(void);
 	void disableTexture(void);
@@ -59,7 +59,7 @@ public:
 
 	void finishPaint();
 
-	GLuint getGLName();
+	GLuint getGLName() const;
 
 	LLVector3 map(U8 side, U16 v_val, U16 h_val) const;
 	BOOL project(F32& v_val, F32& h_val, BOOL& outside,

@@ -76,9 +76,9 @@ void LLAvatarList::toggleIcons()
 	// Show/hide icons for all existing items.
 	std::vector<LLPanel*> items;
 	getItems(items);
-	for( std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); it++)
+	for (auto item : items)
 	{
-		static_cast<LLAvatarListItem*>(*it)->setAvatarIconVisible(mShowIcons);
+		static_cast<LLAvatarListItem*>(item)->setAvatarIconVisible(mShowIcons);
 	}
 }
 
@@ -90,9 +90,9 @@ void LLAvatarList::setSpeakingIndicatorsVisible(bool visible)
 	// Show/hide icons for all existing items.
 	std::vector<LLPanel*> items;
 	getItems(items);
-	for( std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); it++)
+	for (auto item : items)
 	{
-		static_cast<LLAvatarListItem*>(*it)->showSpeakingIndicator(mShowSpeakingIndicator);
+		static_cast<LLAvatarListItem*>(item)->showSpeakingIndicator(mShowSpeakingIndicator);
 	}
 }
 
@@ -104,9 +104,9 @@ void LLAvatarList::showPermissions(bool visible)
 	// Enable or disable showing permissions icons for all existing items.
 	std::vector<LLPanel*> items;
 	getItems(items);
-	for(std::vector<LLPanel*>::const_iterator it = items.begin(), end_it = items.end(); it != end_it; ++it)
+	for (auto item : items)
 	{
-		static_cast<LLAvatarListItem*>(*it)->setShowPermissions(mShowPermissions);
+		static_cast<LLAvatarListItem*>(item)->setShowPermissions(mShowPermissions);
 	}
 }
 
@@ -294,9 +294,8 @@ void LLAvatarList::refresh()
 	unsigned nadded = 0;
 	const std::string waiting_str = LLTrans::getString("AvatarNameWaiting");
 
-	for (uuid_vec_t::const_iterator it=added.cbegin(); it != added.cend(); ++it)
+	for (const auto& buddy_id : added)
 	{
-		const LLUUID& buddy_id = *it;
 		LLAvatarName av_name;
 		have_names &= LLAvatarNameCache::get(buddy_id, &av_name);
 
@@ -331,9 +330,9 @@ void LLAvatarList::refresh()
 	}
 
 	// Handle removed items.
-	for (uuid_vec_t::const_iterator it = removed.cbegin(); it != removed.cend(); ++it)
+	for (const auto& item : removed)
 	{
-		removeItemByUUID(*it);
+		removeItemByUUID(item);
 		modified = true;
 	}
 
@@ -343,9 +342,9 @@ void LLAvatarList::refresh()
 		std::vector<LLSD> cur_values;
 		getValues(cur_values);
 
-		for (std::vector<LLSD>::const_iterator it = cur_values.cbegin(); it != cur_values.cend(); ++it)
+		for (const auto& value : cur_values)
 		{
-			const LLUUID& buddy_id = it->asUUID();
+			const LLUUID& buddy_id = value.asUUID();
 			LLAvatarName av_name;
 			have_names &= LLAvatarNameCache::get(buddy_id, &av_name);
 			if (!findInsensitive(getAvatarName(av_name), mNameFilter))
@@ -380,9 +379,9 @@ void LLAvatarList::refresh()
 		// Highlight items matching the filter.
 		std::vector<LLPanel*> items;
 		getItems(items);
-		for (std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); ++it)
+		for (const auto& itemp : items)
 		{
-			static_cast<LLAvatarListItem*>(*it)->setHighlight(mNameFilter);
+			static_cast<LLAvatarListItem*>(itemp)->setHighlight(mNameFilter);
 		}
 
 		// Send refresh_complete signal.
@@ -399,9 +398,9 @@ void LLAvatarList::updateAvatarNames()
 	std::vector<LLPanel*> items;
 	getItems(items);
 
-	for (std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); ++it)
+	for (const auto& itemp : items)
 	{
-		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(*it);
+		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(itemp);
 		item->setShowCompleteName(mShowCompleteName);
 		item->updateAvatarName();
 	}
@@ -413,9 +412,8 @@ bool LLAvatarList::filterHasMatches()
 {
 	uuid_vec_t values = getIDs();
 
-	for (uuid_vec_t::const_iterator it = values.cbegin(); it != values.cend(); ++it)
+	for (const auto& buddy_id : values)
 	{
-		const LLUUID& buddy_id = *it;
 		LLAvatarName av_name;
 		bool have_name = LLAvatarNameCache::get(buddy_id, &av_name);
 
@@ -543,11 +541,10 @@ bool LLAvatarList::isAvalineItemSelected() const
 {
 	std::vector<LLPanel*> selected_items;
 	getSelectedItems(selected_items);
-	std::vector<LLPanel*>::iterator it = selected_items.begin();
-	
-	for(; it != selected_items.end(); ++it)
+
+	for (const auto& selected_item : selected_items)
 	{
-		if (dynamic_cast<LLAvalineListItem*>(*it))
+		if (dynamic_cast<LLAvalineListItem*>(selected_item))
 			return true;
 	}
 
@@ -589,10 +586,10 @@ void LLAvatarList::updateLastInteractionTimes()
 	std::vector<LLPanel*> items;
 	getItems(items);
 
-	for( std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); it++)
+	for(auto itemp : items)
 	{
 		// *TODO: error handling
-		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(*it);
+		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(itemp);
 		S32 secs_since = now - (S32) LLRecentPeople::instance().getDate(item->getAvatarId()).secondsSinceEpoch();
 		if (secs_since >= 0)
 			item->setLastInteractionTime(secs_since);
@@ -604,13 +601,15 @@ void LLAvatarList::updateDistances()
 	std::vector<LLPanel*> items;
 	getItems(items);
 	
-	for(std::vector<LLPanel*>::const_iterator it = items.begin(); it != items.end(); ++it)
+	static LLCachedControl<F32> near_me_range(gSavedSettings, "NearMeRange");
+	LLWorld::pos_map_t positions;
+	LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), near_me_range);
+
+	for (auto itemp : items)
 	{
-		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(*it);
+		LLAvatarListItem* item = static_cast<LLAvatarListItem*>(itemp);
 		if (item->getAvatarId() == gAgentID) continue;
 		
-		LLWorld::pos_map_t positions;
-		LLWorld::getInstance()->getAvatars(&positions, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
 		LLWorld::pos_map_t::iterator iter = positions.find(item->getAvatarId());
 		if (iter != positions.end())
 			item->setDistance((iter->second - gAgent.getPositionGlobal()).magVec());

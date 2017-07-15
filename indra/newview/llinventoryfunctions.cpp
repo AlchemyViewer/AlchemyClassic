@@ -27,20 +27,13 @@
  */
 
 #include "llviewerprecompiledheaders.h"
-
-#include <utility> // for std::pair<>
-
 #include "llinventoryfunctions.h"
 
 // library includes
 #include "llagent.h"
 #include "llagentwearables.h"
-#include "llcallingcard.h"
 #include "llfloaterreg.h"
-#include "llinventorydefines.h"
 #include "llsdserialize.h"
-#include "llfiltereditor.h"
-#include "llspinctrl.h"
 #include "llui.h"
 #include "message.h"
 
@@ -51,40 +44,24 @@
 #include "llclipboard.h"
 #include "lldonotdisturbnotificationstorage.h"
 #include "llfloatersidepanelcontainer.h"
-#include "llfocusmgr.h"
 #include "llfolderview.h"
 #include "llgesturemgr.h"
-#include "lliconctrl.h"
 #include "llimview.h"
 #include "llinventorybridge.h"
 #include "llinventorymodel.h"
 #include "llinventorypanel.h"
-#include "lllineeditor.h"
-#include "llmarketplacenotifications.h"
 #include "llmarketplacefunctions.h"
 #include "llmenugl.h"
 #include "llnotificationsutil.h"
 #include "llpanelmaininventory.h"
-#include "llpreviewanim.h"
 #include "llpreviewgesture.h"
-#include "llpreviewnotecard.h"
-#include "llpreviewscript.h"
-#include "llpreviewsound.h"
-#include "llpreviewtexture.h"
-#include "llresmgr.h"
-#include "llscrollbar.h"
-#include "llscrollcontainer.h"
 #include "llselectmgr.h"
 #include "llsidepanelinventory.h"
-#include "lltabcontainer.h"
-#include "lltooldraganddrop.h"
 #include "lltrans.h"
 #include "llviewermessage.h"
 #include "llviewerfoldertype.h"
-#include "llviewerobjectlist.h"
 #include "llviewerregion.h"
 #include "llvoavatarself.h"
-#include "llwearablelist.h"
 
 BOOL LLInventoryState::sWearNewClothing = FALSE;
 LLUUID LLInventoryState::sWearNewClothingTransactionID;
@@ -153,7 +130,7 @@ S32 count_descendants_items(const LLUUID& cat_id)
     S32 count = item_array->size();
     
     LLInventoryModel::cat_array_t cat_array_copy = *cat_array;
-	for (LLInventoryModel::cat_array_t::iterator iter = cat_array_copy.begin(); iter != cat_array_copy.end(); iter++)
+	for (LLInventoryModel::cat_array_t::iterator iter = cat_array_copy.begin(); iter != cat_array_copy.end(); ++iter)
     {
 		LLViewerInventoryCategory* category = *iter;
         count += count_descendants_items(category->getUUID());
@@ -175,7 +152,7 @@ bool contains_nocopy_items(const LLUUID& id)
         gInventory.getDirectDescendentsOf(id,cat_array,item_array);
         
         // Check all the items: returns true upon encountering a nocopy item
-        for (LLInventoryModel::item_array_t::iterator iter = item_array->begin(); iter != item_array->end(); iter++)
+        for (LLInventoryModel::item_array_t::iterator iter = item_array->begin(); iter != item_array->end(); ++iter)
         {
             LLInventoryItem* item = *iter;
             LLViewerInventoryItem * inv_item = (LLViewerInventoryItem *) item;
@@ -186,7 +163,7 @@ bool contains_nocopy_items(const LLUUID& id)
         }
         
         // Check all the sub folders recursively
-        for (LLInventoryModel::cat_array_t::iterator iter = cat_array->begin(); iter != cat_array->end(); iter++)
+        for (LLInventoryModel::cat_array_t::iterator iter = cat_array->begin(); iter != cat_array->end(); ++iter)
         {
             LLViewerInventoryCategory* cat = *iter;
             if (contains_nocopy_items(cat->getUUID()))
@@ -580,7 +557,6 @@ BOOL get_can_item_be_worn(const LLUUID& id)
 				// Not being worn yet.
 				return TRUE;
 			}
-			break;
 		}
 		case LLAssetType::AT_BODYPART:
 		case LLAssetType::AT_CLOTHING:
@@ -594,7 +570,6 @@ BOOL get_can_item_be_worn(const LLUUID& id)
 				// Not being worn yet.
 				return TRUE;
 			}
-			break;
 		default:
 			break;
 	}
@@ -1254,7 +1229,7 @@ bool move_item_to_marketplacelistings(LLInventoryItem* inv_item, LLUUID dest_fol
 	LLViewerInventoryItem * viewer_inv_item = (LLViewerInventoryItem *) inv_item;
 	LLViewerInventoryCategory * linked_category = viewer_inv_item->getLinkedCategory();
     
-	if (linked_category != NULL)
+	if (linked_category != nullptr)
 	{
         // Move the linked folder directly
 		return move_folder_to_marketplacelistings(linked_category, dest_folder, copy);
@@ -1263,7 +1238,7 @@ bool move_item_to_marketplacelistings(LLInventoryItem* inv_item, LLUUID dest_fol
 	{
         // Grab the linked item if any
 		LLViewerInventoryItem * linked_item = viewer_inv_item->getLinkedItem();
-        viewer_inv_item = (linked_item != NULL ? linked_item : viewer_inv_item);
+        viewer_inv_item = (linked_item != nullptr ? linked_item : viewer_inv_item);
     
         // If we want to copy but the item is no copy, fail silently (this is a common case that doesn't warrant notification)
         if (copy && !viewer_inv_item->getPermissions().allowOperationBy(PERM_COPY, gAgent.getID(), gAgent.getGroupID()))
@@ -1410,13 +1385,6 @@ void dump_trace(std::string& message, S32 depth, LLError::ELevel log_level)
 // The only inventory changes that are done is to move and sort folders containing no-copy items to stock folders.
 bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_t cb, bool fix_hierarchy, S32 depth)
 {
-#if 0
-    // Used only for debug
-    if (!cb)
-    {
-        cb =  boost::bind(&dump_trace, _1, _2, _3);
-    }
-#endif
     // Folder is valid unless issue is raised
     bool result = true;
     
@@ -1691,7 +1659,7 @@ bool validate_marketplacelistings(LLInventoryCategory* cat, validation_callback_
             }
             // Scan each item and report if there's a problem
             LLInventoryModel::item_array_t item_array_copy = *item_array;
-            for (LLInventoryModel::item_array_t::iterator iter = item_array_copy.begin(); iter != item_array_copy.end(); iter++)
+            for (LLInventoryModel::item_array_t::iterator iter = item_array_copy.begin(); iter != item_array_copy.end(); ++iter)
             {
                 LLInventoryItem* item = *iter;
                 LLViewerInventoryItem * viewer_inv_item = (LLViewerInventoryItem *) item;
@@ -1772,7 +1740,6 @@ bool LLInventoryCollectFunctor::itemTransferCommonlyAllowed(const LLInventoryIte
 			break;
 		default:
 			return true;
-			break;
 	}
 	return false;
 }
@@ -2199,7 +2166,7 @@ void LLInventoryAction::doToSelected(LLInventoryModel* model, LLFolderView* root
 	if (user_confirm && (("delete" == action) || ("cut" == action) || ("rename" == action) || ("properties" == action) || ("task_properties" == action) || ("open" == action)))
     {
         std::set<LLFolderViewItem*>::iterator set_iter = selected_items.begin();
-        LLFolderViewModelItemInventory * viewModel = NULL;
+        LLFolderViewModelItemInventory * viewModel = nullptr;
         for (; set_iter != selected_items.end(); ++set_iter)
         {
             viewModel = dynamic_cast<LLFolderViewModelItemInventory *>((*set_iter)->getViewModelItem());
@@ -2314,8 +2281,8 @@ void LLInventoryAction::doToSelected(LLInventoryModel* model, LLFolderView* root
 	}
 
 
-	LLMultiPreview* multi_previewp = NULL;
-	LLMultiProperties* multi_propertiesp = NULL;
+	LLMultiPreview* multi_previewp = nullptr;
+	LLMultiProperties* multi_propertiesp = nullptr;
 
 	if (("task_open" == action  || "open" == action) && selected_items.size() > 1)
 	{
@@ -2433,7 +2400,7 @@ void LLInventoryAction::buildMarketplaceFolders(LLFolderView* root)
 
     std::set<LLFolderViewItem*> selected_items = root->getSelectionList();
     std::set<LLFolderViewItem*>::iterator set_iter = selected_items.begin();
-    LLFolderViewModelItemInventory * viewModel = NULL;
+    LLFolderViewModelItemInventory * viewModel = nullptr;
     for (; set_iter != selected_items.end(); ++set_iter)
     {
         viewModel = dynamic_cast<LLFolderViewModelItemInventory *>((*set_iter)->getViewModelItem());

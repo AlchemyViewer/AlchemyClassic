@@ -32,14 +32,11 @@
 #include <boost/unordered_map.hpp>
 #include <list>
 
-#include "llerror.h"
-#include "v4color.h"
 #include "llstring.h"
 #include "stdtypes.h"
 #include "v4math.h"
 #include "llplane.h"
 #include "llgltypes.h"
-#include "llinstancetracker.h"
 
 #include "llglheaders.h"
 #include <glm/mat4x4.hpp>

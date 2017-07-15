@@ -32,7 +32,6 @@
 #include "llpointer.h"
 #include "lluuid.h"
 #include "llinventoryobserver.h"
-#include "llextendedstatus.h"
 
 class LLInventoryItem;
 class LLLineEditor;
@@ -44,9 +43,9 @@ class LLMultiPreview : public LLMultiFloater
 public:
 	LLMultiPreview();
 
-	/*virtual*/void onOpen(const LLSD& key) override;
-	/*virtual*/void tabOpen(LLFloater* opened_floater, bool from_click) override;
-	/*virtual*/ void handleReshape(const LLRect& new_rect, bool by_user = false) override;
+	void onOpen(const LLSD& key) override;
+	void tabOpen(LLFloater* opened_floater, bool from_click) override;
+	void handleReshape(const LLRect& new_rect, bool by_user = false) override;
 
 };
 
@@ -62,11 +61,11 @@ public:
 		PREVIEW_ASSET_LOADING,
 		PREVIEW_ASSET_LOADED
 	} EAssetStatus;
-public:
+
 	LLPreview(const LLSD& key );
 	virtual ~LLPreview();
 		
-	/*virtual*/ BOOL postBuild() override;
+	BOOL postBuild() override;
 	
 	virtual void setObjectID(const LLUUID& object_id);
 	void setItem( LLInventoryItem* item );
@@ -86,17 +85,14 @@ public:
 
 	static void			onBtnCopyToInv(void* userdata);
 
-	void				addKeepDiscardButtons();
 	static void			onKeepBtn(void* data);
 	static void			onDiscardBtn(void* data);
-	/*virtual*/ void	handleReshape(const LLRect& new_rect, bool by_user = false) override;
+	void				handleReshape(const LLRect& new_rect, bool by_user = false) override;
 
 	void userResized() { mUserResized = TRUE; };
 
 	virtual void loadAsset() { mAssetStatus = PREVIEW_ASSET_LOADED; }
 	virtual EAssetStatus getAssetStatus() { return mAssetStatus;}
-
-	static LLPreview* getFirstPreviewForSource(const LLUUID& source_id);
 
 	// Why is this at the LLPreview level?  JC
 	void setNotecardInfo(const LLUUID& notecard_inv_id, const LLUUID& object_id);
@@ -112,8 +108,6 @@ public:
 protected:
 	void onCommit() override;
 
-	void addDescriptionUI();
-
 	static void onText(LLUICtrl*, void* userdata);
 	static void onRadio(LLUICtrl*, void* userdata);
 	
@@ -121,7 +115,6 @@ protected:
 	void changed(U32 mask) override;	
 	BOOL mDirty;
 	
-protected:
 	LLUUID mItemUUID;
 
 	// mObjectUUID will have a value if it is associated with a task in

@@ -30,7 +30,6 @@
 #include "v4color.h"
 #include "llpointer.h"
 #include "llrefcount.h"
-#include "llrefcount.h"
 #include "llrect.h"
 #include <boost/signals2.hpp>
 #include "llinitparam.h"

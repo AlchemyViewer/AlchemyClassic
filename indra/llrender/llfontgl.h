@@ -33,7 +33,6 @@
 #include "llimagegl.h"
 #include "llpointer.h"
 #include "llrect.h"
-#include "v2math.h"
 
 class LLColor4;
 // Key used to request a font.

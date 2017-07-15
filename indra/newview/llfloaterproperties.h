@@ -47,10 +47,10 @@ class LLFloaterProperties : public LLFloater
 {
 public:
 	LLFloaterProperties(const LLUUID& item_id);
-	/*virtual*/ ~LLFloaterProperties();
+	~LLFloaterProperties();
 	
-	/*virtual*/ BOOL postBuild() override;
-	/*virtual*/ void onOpen(const LLSD& key) override;
+	BOOL postBuild() override;
+	void onOpen(const LLSD& key) override;
 	void setObjectID(const LLUUID& object_id) { mObjectID = object_id; }
 
 	void dirty() { mDirty = TRUE; }

@@ -1591,9 +1591,9 @@ void LLFloaterWorldMap::updateSims(bool found_null_sim)
 	std::vector<std::pair <U64, LLSimInfo*> > sim_info_vec(LLWorldMap::getInstance()->getRegionMap().begin(), LLWorldMap::getInstance()->getRegionMap().end());
 	std::sort(sim_info_vec.begin(), sim_info_vec.end(), SortRegionNames());
 
-	for (std::vector<std::pair <U64, LLSimInfo*> >::const_iterator it = sim_info_vec.begin(); it != sim_info_vec.end(); ++it)
+	for (const auto& sim_info_pair : sim_info_vec)
 	{
-		LLSimInfo* info = it->second;
+		LLSimInfo* info = sim_info_pair.second;
 		std::string sim_name_lower = info->getName();
 		LLStringUtil::toLower(sim_name_lower);
 		
@@ -1655,10 +1655,9 @@ void LLFloaterWorldMap::onCommitSearchResult()
 	}
 	LLStringUtil::toLower(sim_name);
 	
-	std::map<U64, LLSimInfo*>::const_iterator it;
-	for (it = LLWorldMap::getInstance()->getRegionMap().begin(); it != LLWorldMap::getInstance()->getRegionMap().end(); ++it)
+	for (auto map_pair : LLWorldMap::getInstance()->getRegionMap())
 	{
-		LLSimInfo* info = it->second;
+		LLSimInfo* info = map_pair.second;
 		
 		if (info->isName(sim_name))
 		{

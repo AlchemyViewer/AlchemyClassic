@@ -350,11 +350,10 @@ void LLWorldMapView::draw()
 	gGL.setColorMask(true, true);
 
 	// Draw per sim overlayed information (names, mature, offline...)
-	for (LLWorldMap::sim_info_map_t::const_iterator it = LLWorldMap::getInstance()->getRegionMap().begin();
-		 it != LLWorldMap::getInstance()->getRegionMap().end(); ++it)
+	for (auto region_pair : LLWorldMap::getInstance()->getRegionMap())
 	{
-		U64 handle = it->first;
-		LLSimInfo* info = it->second;
+		U64 handle = region_pair.first;
+		LLSimInfo* info = region_pair.second;
 
 		LLVector3d origin_global = from_region_handle(handle);
 
@@ -676,6 +675,8 @@ bool LLWorldMapView::drawMipmapLevel(S32 width, S32 height, S32 level, bool load
 	pos_NE[VX] += tile_width;
 	pos_NE[VY] += tile_width;
 
+	auto& world_map_inst = LLWorldMap::instance();
+
 	// Iterate through the tiles on screen: we just need to ask for one tile every tile_width meters
 	U32 grid_x, grid_y;
 	for (F64 index_y = pos_SW[VY]; index_y < pos_NE[VY]; index_y += tile_width)
@@ -687,7 +688,7 @@ bool LLWorldMapView::drawMipmapLevel(S32 width, S32 height, S32 level, bool load
 			// Convert to the mipmap level coordinates for that point (i.e. which tile to we hit)
 			LLWorldMipmap::globalToMipmap(pos_global[VX], pos_global[VY], level, &grid_x, &grid_y);
 			// Get the tile. Note: NULL means that the image does not exist (so it's considered "complete" as far as fetching is concerned)
-			LLPointer<LLViewerFetchedTexture> simimage = LLWorldMap::getInstance()->getObjectsTile(grid_x, grid_y, level, load);
+			LLPointer<LLViewerFetchedTexture> simimage = world_map_inst.getObjectsTile(grid_x, grid_y, level, load);
 			if (simimage)
 			{
 				// Checks that the image has a valid texture
@@ -787,10 +788,9 @@ void LLWorldMapView::drawTileOutline(S32 level, F32 top, F32 left, F32 bottom, F
 
 void LLWorldMapView::drawGenericItems(const LLSimInfo::item_info_list_t& items, LLUIImagePtr image)
 {
-	LLSimInfo::item_info_list_t::const_iterator e;
-	for (e = items.begin(); e != items.end(); ++e)
+	for (auto item_info : items)
 	{
-		drawGenericItem(*e, image);
+		drawGenericItem(item_info, image);
 	}
 }
 
@@ -811,7 +811,7 @@ void LLWorldMapView::drawImage(const LLVector3d& global_pos, LLUIImagePtr image,
 void LLWorldMapView::drawImageStack(const LLVector3d& global_pos, LLUIImagePtr image, U32 count, F32 offset, const LLColor4& color)
 {
 	LLVector3 pos_map = globalPosToView( global_pos );
-	for(U32 i=0; i<count; i++)
+	for (U32 i=0; i<count; i++)
 	{
 		image->draw(ll_round(pos_map.mV[VX] - image->getWidth() /2.f),
 					ll_round(pos_map.mV[VY] - image->getHeight()/2.f + i*offset),
@@ -827,10 +827,11 @@ void LLWorldMapView::drawItems()
     BOOL show_mature = mature_enabled && gSavedSettings.getBOOL("ShowMatureEvents");
 	BOOL show_adult = adult_enabled && gSavedSettings.getBOOL("ShowAdultEvents");
 
-	for (handle_list_t::iterator iter = mVisibleRegions.begin(); iter != mVisibleRegions.end(); ++iter)
+	auto& world_map_inst = LLWorldMap::instance();
+	for (auto vis_region_handle : mVisibleRegions)
 	{
-		U64 handle = *iter;
-		LLSimInfo* info = LLWorldMap::getInstance()->simInfoFromHandle(handle);
+		U64 handle = vis_region_handle;
+		LLSimInfo* info = world_map_inst.simInfoFromHandle(handle);
 		if ((info == NULL) || (info->isDown()))
 		{
 			continue;
@@ -879,16 +880,17 @@ void LLWorldMapView::drawAgents()
 {
 	static LLUIColor map_avatar_color = LLUIColorTable::instance().getColor("MapAvatarColor", LLColor4::white);
 
-	for (handle_list_t::iterator iter = mVisibleRegions.begin(); iter != mVisibleRegions.end(); ++iter)
+	auto& world_map_inst = LLWorldMap::instance();
+	for (auto vis_region_handle : mVisibleRegions)
 	{
-		U64 handle = *iter;
-		LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromHandle(handle);
+		U64 handle = vis_region_handle;
+		LLSimInfo* siminfo = world_map_inst.simInfoFromHandle(handle);
 		if ((siminfo == NULL) || (siminfo->isDown()))
 		{
 			continue;
 		}
-		LLSimInfo::item_info_list_t::const_iterator it = siminfo->getAgentLocation().begin();
-		while (it != siminfo->getAgentLocation().end())
+		LLSimInfo::item_info_list_t::const_iterator it = siminfo->getAgentLocation().cbegin();
+		while (it != siminfo->getAgentLocation().cend())
 		{
 			// Show Individual agents (or little stacks where real agents are)
 
@@ -1507,7 +1509,8 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 
 	*hit_type = 0; // hit nothing
 
-	LLWorldMap::getInstance()->cancelTracking();
+	auto& world_map_inst = LLWorldMap::instance();
+	world_map_inst.cancelTracking();
 
 	LLFloaterWorldMap* floater_map = LLFloaterWorldMap::getInstance();
 
@@ -1522,10 +1525,10 @@ void LLWorldMapView::handleClick(S32 x, S32 y, MASK mask,
 		if (gSavedSettings.getBOOL("MapShowEvents") || show_mature || show_adult || gSavedSettings.getBOOL("MapShowLandForSale"))
 		{
 			// Iterate through the visible regions
-			for (handle_list_t::iterator iter = mVisibleRegions.begin(); iter != mVisibleRegions.end(); ++iter)
+			for (auto vis_region_handle : mVisibleRegions)
 			{
-				U64 handle = *iter;
-				LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromHandle(handle);
+				U64 handle = vis_region_handle;
+				LLSimInfo* siminfo = world_map_inst.simInfoFromHandle(handle);
 				if ((siminfo == NULL) || (siminfo->isDown()))
 				{
 					continue;

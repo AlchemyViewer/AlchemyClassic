@@ -838,8 +838,8 @@ void LLPanelPeople::updateNearbyList()
 		return;
 
 	std::vector<LLVector3d> positions;
-
-	LLWorld::getInstance()->getAvatars(&mNearbyList->getIDs(), &positions, gAgent.getPositionGlobal(), gSavedSettings.getF32("NearMeRange"));
+	static LLCachedControl<F32> near_me_range(gSavedSettings, "NearMeRange");
+	LLWorld::getInstance()->getAvatars(&mNearbyList->getIDs(), &positions, gAgent.getPositionGlobal(), near_me_range);
 	mNearbyList->setDirty();
 
 	DISTANCE_COMPARATOR.updateAvatarsPositions(positions, mNearbyList->getIDs());

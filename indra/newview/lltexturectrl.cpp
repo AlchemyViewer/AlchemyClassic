@@ -1211,7 +1211,7 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 			{
 				texture_floaterp->setTextureSelectedCallback(mOnTextureSelectedCallback);
 			}
-			if (mOnCloseCallback != nullptr)
+			if (!mOnCloseCallback.empty())
 			{
 				texture_floaterp->setOnFloaterCloseCallback(boost::bind(&LLTextureCtrl::onFloaterClose, this));
 			}
@@ -1292,7 +1292,7 @@ void LLTextureCtrl::onFloaterClose()
 
 	if (floaterp)
 	{
-		if (mOnCloseCallback != nullptr)
+		if (!mOnCloseCallback.empty())
 		{
 			mOnCloseCallback(this,LLSD());
 		}
@@ -1333,11 +1333,11 @@ void LLTextureCtrl::onFloaterCommit(ETexturePickOp op, LLUUID id)
 			LL_DEBUGS() << "mImageAssetID: " << mImageAssetID << LL_ENDL;
 			}
 
-			if (op == TEXTURE_SELECT && mOnSelectCallback != nullptr)
+			if (op == TEXTURE_SELECT && !mOnSelectCallback.empty())
 			{
 				mOnSelectCallback( this, LLSD() );
 			}
-			else if (op == TEXTURE_CANCEL && mOnCancelCallback != nullptr)
+			else if (op == TEXTURE_CANCEL && !mOnCancelCallback.empty())
 			{
 				mOnCancelCallback( this, LLSD() );
 			}

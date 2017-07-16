@@ -30,6 +30,7 @@
 #include "llassettype.h"
 #include "llpreview.h"
 #include "llmultigesture.h"
+#include "llextendedstatus.h"
 
 class LLLineEditor;
 class LLTextBox;

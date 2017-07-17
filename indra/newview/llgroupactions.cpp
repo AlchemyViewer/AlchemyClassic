@@ -348,7 +348,7 @@ void LLGroupActions::activate(const LLUUID& group_id)
 #if 0 // this isn't used!!!! <alchemy>
 static bool isGroupUIVisible(const LLUUID& group_id)
 {
-	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD().with("group_id", group_id));
+	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD(group_id));
 	return LLFloater::isVisible(floaterp);
 }
 #endif
@@ -395,7 +395,7 @@ void LLGroupActions::createGroup()
 //static
 void LLGroupActions::closeGroup(const LLUUID& group_id)
 {
-	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD().with("group_id", group_id));
+	auto* floaterp = LLFloaterReg::findInstance("group_profile", LLSD(group_id));
 	if (floaterp)
 	{
 		floaterp->closeFloater();

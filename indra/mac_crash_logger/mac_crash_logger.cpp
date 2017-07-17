@@ -29,7 +29,6 @@
 #include "linden_common.h"
 #include "llcrashloggermac.h"
 #include "indra_constants.h"
-#include "llpidlock.h"
 #include "llcrashloggermac-objc.h"
 
 #include <iostream>

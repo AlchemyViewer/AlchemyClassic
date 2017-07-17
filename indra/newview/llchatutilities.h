@@ -31,6 +31,7 @@
 #include "llagent.h"
 #include "llgesturemgr.h"
 #include "alchatcommand.h"
+#include "llviewercontrol.h"
 
 #include <type_traits>
 

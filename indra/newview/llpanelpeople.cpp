@@ -278,7 +278,7 @@ public:
 
 	// Implements LLVoiceClientStatusObserver::onChange() to enable call buttons
 	// when voice is available
-	void onChange(EStatusType status, const std::string &channelURI, bool proximal)
+	void onChange(EStatusType status, const std::string &channelURI, bool proximal) override
 	{
 		if (status == STATUS_JOINING || status == STATUS_LEFT_CHANNEL)
 		{

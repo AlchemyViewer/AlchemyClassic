@@ -997,7 +997,7 @@ void LLVOAvatarSelf::idleUpdateTractorBeam()
 	if(AlchemyBoundingBoxBeam)
 	{
 		use_single_beam = false;
-		for(LLObjectSelection::iterator iter = selection->begin(); iter != selection->end(); iter++)
+		for(LLObjectSelection::iterator iter = selection->begin(), iter_end = selection->end(); iter != iter_end; iter++)
 		{
 			LLSelectNode* node = *iter;
 			LLViewerObject* object = node->getObject();

@@ -47,9 +47,9 @@ public:
 		ll_aligned_free_16(ptr);
 	}
 
-	LLVolumeTriangle()
+	LLVolumeTriangle(): mRadius(0)
 	{
-		mBinIndex = -1;	
+		mBinIndex = -1;
 	}
 
 	LLVolumeTriangle(const LLVolumeTriangle& rhs)

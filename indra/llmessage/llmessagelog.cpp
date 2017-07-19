@@ -24,20 +24,26 @@
 static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);
 
 LLMessageLogEntry::LLMessageLogEntry()
-:	mType(NONE),
-	mFromHost(LLHost()),
-	mToHost(LLHost()),
-	mDataSize(0),
-	mData(nullptr)
+:	mType(NONE)
+,	mFromHost(LLHost())
+,	mToHost(LLHost())
+,	mDataSize(0)
+,	mData(nullptr)
+,	mStatusCode(0)
+,	mMethod()
+,	mRequestID(0)
 {
 }
 
 LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size)
-:	mType(type),
-	mFromHost(from_host),
-	mToHost(to_host),
-	mDataSize(data_size),
-	mData(nullptr)
+:	mType(type)
+,	mFromHost(from_host)
+,	mToHost(to_host)
+,	mDataSize(data_size)
+,	mData(nullptr)
+,	mStatusCode(0)
+,	mMethod()
+,	mRequestID(0)
 {
 	if(data)
 	{

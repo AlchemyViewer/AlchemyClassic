@@ -181,8 +181,10 @@ U64 BlockTimer::countsPerSecond()
 #endif
 
 BlockTimerStatHandle::BlockTimerStatHandle(const char* name, const char* description)
-:	StatType<TimeBlockAccumulator>(name, description)
-{}
+	:	StatType<TimeBlockAccumulator>(name, description)
+	,	mCollapsed(false)
+	{
+	}
 
 TimeBlockTreeNode& BlockTimerStatHandle::getTreeNode() const
 {

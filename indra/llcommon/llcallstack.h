@@ -24,6 +24,9 @@
  * $/LicenseInfo$
  */
 
+#ifndef LL_CALLSTACK_H
+#define LL_CALLSTACK_H
+
 #include <map>
 
 class LLCallStackImpl;
@@ -78,3 +81,5 @@ struct LLContextStatus
 };
 
 LL_COMMON_API std::ostream& operator<<(std::ostream& s, const LLContextStatus& context_status);
+
+#endif // LL_CALLSTACK_H

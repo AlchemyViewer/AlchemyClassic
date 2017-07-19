@@ -15,6 +15,9 @@
  * $/LicenseInfo$
  */
 
+#ifndef LL_LLFLOATERMESSAGELOG_H
+#define LL_LLFLOATERMESSAGELOG_H
+
 #include "llfloater.h"
 #include "llmessagelog.h"
 #include "lleventtimer.h"
@@ -22,9 +25,6 @@
 #include <boost/container/flat_map.hpp>
 #include <boost/container/flat_set.hpp>
 #include <boost/circular_buffer.hpp>
-
-#ifndef LL_LLFLOATERMESSAGELOG_H
-#define LL_LLFLOATERMESSAGELOG_H
 
 struct LLNetListItem;
 class LLScrollListCtrl;

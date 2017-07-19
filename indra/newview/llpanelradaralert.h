@@ -25,11 +25,10 @@
  * $/LicenseInfo$
  */
 
-
-#include "llpaneltiptoast.h"
-
 #ifndef LL_PANELRADARALERT_H
 #define LL_PANELRADARALERT_H
+
+#include "llpaneltiptoast.h"
 
 /**
  * Represents radar alert toast panel.

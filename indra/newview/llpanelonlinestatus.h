@@ -24,11 +24,10 @@
  * $/LicenseInfo$
  */
 
-
-#include "llpaneltiptoast.h"
-
 #ifndef LL_PANELONLINESTATUS_H
 #define LL_PANELONLINESTATUS_H
+
+#include "llpaneltiptoast.h"
 
 /**
  * Represents online tip toast panel.

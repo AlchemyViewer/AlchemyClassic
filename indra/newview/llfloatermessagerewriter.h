@@ -15,12 +15,11 @@
  * $/LicenseInfo$
  */
 
-#include "llfloater.h"
-#include "lltemplatemessagereader.h"
-#include "llmessageconfig.h"
-
 #ifndef LL_LLFLOATERMESSAGEREWRITER_H
 #define LL_LLFLOATERMESSAGEREWRITER_H
+
+#include "llfloater.h"
+#include "lltemplatemessagereader.h"
 
 class LLFloaterMessageRewriter : public LLFloater
 {

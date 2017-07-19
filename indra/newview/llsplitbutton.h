@@ -27,14 +27,12 @@
 // A control that displays the name of the chosen item, which when clicked
 // shows a scrolling box of choices.
 
+#ifndef LL_LLSPLITBUTTON_H
+#define LL_LLSPLITBUTTON_H
 
 #include "llbutton.h"
 #include "llpanel.h"
 #include "lluictrl.h"
-
-
-#ifndef LL_LLSPLITBUTTON_H
-#define LL_LLSPLITBUTTON_H
 
 class LLSplitButton
 	:	public LLUICtrl

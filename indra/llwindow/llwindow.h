@@ -81,7 +81,7 @@ public:
 	virtual BOOL maximize() = 0;
 	virtual void minimize() = 0;
 	virtual void restore() = 0;
-	BOOL getFullscreen()	{ return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE || mWindowMode == E_WINDOW_WINDOWED_FULLSCREEN; };
+	virtual BOOL getFullscreen()	{ return mWindowMode == E_WINDOW_FULLSCREEN_EXCLUSIVE || mWindowMode == E_WINDOW_WINDOWED_FULLSCREEN; };
 	virtual BOOL getPosition(LLCoordScreen *position) = 0;
 	virtual BOOL getSize(LLCoordScreen *size) = 0;
 	virtual BOOL getSize(LLCoordWindow *size) = 0;

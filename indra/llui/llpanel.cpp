@@ -82,10 +82,10 @@ LLPanel::Params::Params()
 	bg_alpha_image("bg_alpha_image"),
 	min_width("min_width", 100),
 	min_height("min_height", 100),
-	strings("string"),
 	filename("filename"),
 	class_name("class"),
 	help_topic("help_topic"),
+	strings("string"),
 	visible_callback("visible_callback"),
 	accepts_badge("accepts_badge")
 {
@@ -98,6 +98,11 @@ LLPanel::Params::Params()
 LLPanel::LLPanel(const LLPanel::Params& p)
 :	LLUICtrl(p),
 	LLBadgeHolder(p.accepts_badge),
+	mCommitCallbackRegistrar(false),
+	mEnableCallbackRegistrar(false),
+	mVisibleSignal(NULL),
+	mHelpTopic(p.help_topic),
+	mXMLFilename(p.filename),
 	mBgVisible(p.background_visible),
 	mBgOpaque(p.background_opaque),
 	mBgOpaqueColor(p.bg_opaque_color()),
@@ -106,14 +111,9 @@ LLPanel::LLPanel(const LLPanel::Params& p)
 	mBgAlphaImageOverlay(p.bg_alpha_image_overlay),
 	mBgOpaqueImage(p.bg_opaque_image()),
 	mBgAlphaImage(p.bg_alpha_image()),
-	mDefaultBtn(NULL),
-	mBorder(NULL),
-	mLabel(p.label),
-	mHelpTopic(p.help_topic),
-	mCommitCallbackRegistrar(false),
-	mEnableCallbackRegistrar(false),
-	mXMLFilename(p.filename),
-	mVisibleSignal(NULL)
+	mBorder(nullptr),
+	mDefaultBtn(nullptr),
+	mLabel(p.label)
 	// *NOTE: Be sure to also change LLPanel::initFromParams().  We have too
 	// many classes derived from LLPanel to retrofit them all to pass in params.
 {

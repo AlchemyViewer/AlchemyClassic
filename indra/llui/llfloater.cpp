@@ -175,9 +175,9 @@ LLFloater::Params::Params()
 	can_close("can_close", true),
 	can_drag_on_left("can_drag_on_left", false),
 	can_tear_off("can_tear_off", true),
-	save_dock_state("save_dock_state", false),
 	save_rect("save_rect", false),
 	save_visibility("save_visibility", false),
+	save_dock_state("save_dock_state", false),
 	can_dock("can_dock", false),
 	show_title("show_title", true),
 	show_help("show_help", false),
@@ -240,20 +240,21 @@ static LLWidgetNameRegistry::StaticRegistrar sRegisterFloaterParams(&typeid(LLFl
 
 LLFloater::LLFloater(const LLSD& key, const LLFloater::Params& p)
 :	LLPanel(),	// intentionally do not pass params here, see initFromParams
- 	mDragHandle(NULL),
-	mTitle(p.title),
-	mShortTitle(p.short_title),
-	mSingleInstance(p.single_instance),
-	mReuseInstance(p.reuse_instance.isProvided() ? p.reuse_instance : p.single_instance), // reuse single-instance floaters by default
+ 	mMinimizeSignal(NULL),
 	mKey(key),
+	mDragHandle(nullptr),
+	mTitle(p.title),
+	mShortTitle(p.short_title), // reuse single-instance floaters by default
+	mSingleInstance(p.single_instance),
+	mReuseInstance(p.reuse_instance.isProvided() ? p.reuse_instance : p.single_instance),
 	mCanTearOff(p.can_tear_off),
 	mCanMinimize(p.can_minimize),
 	mCanClose(p.can_close),
-	mShowHelp(p.show_help),
 	mDragOnLeft(p.can_drag_on_left),
 	mResizable(p.can_resize),
 	mResizableHeight(p.can_resize_height),
 	mResizableWidth(p.can_resize_width),
+	mShowHelp(p.show_help),
 	mPositioning(p.positioning),
 	mMinWidth(p.min_width),
 	mMinHeight(p.min_height),
@@ -262,15 +263,14 @@ LLFloater::LLFloater(const LLSD& key, const LLFloater::Params& p)
 	mMinimized(FALSE),
 	mForeground(FALSE),
 	mFirstLook(TRUE),
-	mButtonScale(1.0f),
-	mAutoFocus(TRUE), // automatically take focus when opened
+	mButtonScale(1.0f), // automatically take focus when opened
+	mAutoFocus(TRUE),
 	mCanDock(false),
 	mDocked(false),
 	mTornOff(false),
 	mHasBeenDraggedWhileMinimized(FALSE),
 	mPreviousMinimizedBottom(0),
-	mPreviousMinimizedLeft(0),
-	mMinimizeSignal(NULL)
+	mPreviousMinimizedLeft(0)
 //	mNotificationContext(NULL)
 {
 	mPosition.setFloater(*this);
@@ -2244,10 +2244,10 @@ static LLDefaultChildRegistry::Register<LLFloaterView> r("floater_view");
 LLFloaterView::LLFloaterView (const Params& p)
 :	LLUICtrl (p),
 	mFocusCycleMode(FALSE),
-	mMinimizePositionVOffset(0),
 	mSnapOffsetBottom(0),
 	mSnapOffsetRight(0),
-	mFrontChild(NULL)
+	mMinimizePositionVOffset(0),
+	mFrontChild(nullptr)
 {
 	mSnapView = getHandle();
 }

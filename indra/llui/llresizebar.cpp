@@ -38,10 +38,10 @@
 #include "llwindow.h"
 
 LLResizeBar::Params::Params()
-:	max_size("max_size", S32_MAX),
-	snapping_enabled("snapping_enabled", true),
-	resizing_view("resizing_view"),
+:	resizing_view("resizing_view"),
 	side("side"),
+	max_size("max_size", S32_MAX),
+	snapping_enabled("snapping_enabled", true),
 	allow_double_click_snapping("allow_double_click_snapping", true)
 {
 	name = "resize_bar";

@@ -251,9 +251,9 @@ struct ComplexType : public LLInitParam::Block<ComplexType, ComplexTypeContents>
 
 	ComplexType()
 	:	name("name"),
+		mixed("mixed"),
 		attribute("xs:attribute"),
-		elements("xs:element"),
-		mixed("mixed")
+		elements("xs:element")
 	{
 	}
 };
@@ -298,11 +298,11 @@ public:
 	void setNameSpace(const std::string& ns) {targetNamespace = ns; xmlns = ns;}
 
 	Schema(const std::string& ns = LLStringUtil::null)
-	:	attributeFormDefault("attributeFormDefault"),
-		elementFormDefault("elementFormDefault"),
-		xs("xmlns:xs"),
-		targetNamespace("targetNamespace"),
+	:	targetNamespace("targetNamespace"),
 		xmlns("xmlns"),
+		xs("xmlns:xs"),
+		attributeFormDefault("attributeFormDefault"),
+		elementFormDefault("elementFormDefault"),
 		root_element("xs:element")
 	{
 		attributeFormDefault = "unqualified";

@@ -233,13 +233,13 @@ public:
 		mPassedFolderFilter(true),
 		mStringMatchOffsetFilter(std::string::npos),
 		mStringFilterSize(0),
-		mFolderViewItem(NULL),
 		mLastFilterGeneration(-1),
 		mLastFolderFilterGeneration(-1),
-		mMarkedDirtyGeneration(-1),
 		mMostFilteredDescendantGeneration(-1),
-		mParent(NULL),
-		mRootViewModel(root_view_model)
+		mMarkedDirtyGeneration(-1),
+		mParent(nullptr),
+		mRootViewModel(root_view_model),
+		mFolderViewItem(nullptr)
 	{
 		mChildren.clear();
 	}

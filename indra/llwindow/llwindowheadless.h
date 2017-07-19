@@ -41,7 +41,7 @@ public:
 	/*virtual*/ BOOL maximize() override {return FALSE;};
 	/*virtual*/ void minimize() override {};
 	/*virtual*/ void restore() override {};
-	/*virtual*/ BOOL getFullscreen() {return FALSE;};
+	/*virtual*/ BOOL getFullscreen() override {return FALSE;};
 	/*virtual*/ BOOL getPosition(LLCoordScreen *position) override {return FALSE;};
 	/*virtual*/ BOOL getSize(LLCoordScreen *size) override {return FALSE;};
 	/*virtual*/ BOOL getSize(LLCoordWindow *size) override {return FALSE;};

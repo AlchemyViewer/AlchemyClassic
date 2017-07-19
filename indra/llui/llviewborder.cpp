@@ -64,15 +64,15 @@ LLViewBorder::Params::Params()
 
 LLViewBorder::LLViewBorder(const LLViewBorder::Params& p)
 :	LLView(p),
-	mTexture( NULL ),
-	mHasKeyboardFocus( FALSE ),
-	mBorderWidth(p.border_thickness),
+	mBevel(p.bevel_style),
+	mStyle(p.render_style),
 	mHighlightLight(p.highlight_light_color()),
 	mHighlightDark(p.highlight_dark_color()),
 	mShadowLight(p.shadow_light_color()),
 	mShadowDark(p.shadow_dark_color()),
-	mBevel(p.bevel_style),
-	mStyle(p.render_style)
+	mBorderWidth(p.border_thickness),
+	mTexture( nullptr ),
+	mHasKeyboardFocus( FALSE )
 {}
 
 void LLViewBorder::setColors( const LLColor4& shadow_dark, const LLColor4& highlight_light )

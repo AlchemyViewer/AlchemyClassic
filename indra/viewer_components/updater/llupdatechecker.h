@@ -42,8 +42,9 @@ public:
     class Client
     {
     public:
-        
-        // An error occurred while checking for an update.
+	    virtual ~Client() = default;
+
+	    // An error occurred while checking for an update.
         virtual void error(std::string const & message) = 0;
 
         // A successful response was received from the viewer version manager

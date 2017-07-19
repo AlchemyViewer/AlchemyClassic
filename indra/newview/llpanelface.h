@@ -76,6 +76,7 @@ class LLMaterialGetFunctor
 {
 public:
 	LLMaterialGetFunctor() {}
+	virtual ~LLMaterialGetFunctor() = default;
 	virtual DataType get(LLMaterialPtr& material) { return (material->*(MaterialGetFunc)); }
 };
 
@@ -86,6 +87,7 @@ class LLTEGetFunctor
 {
 public:
 	LLTEGetFunctor() {}
+	virtual ~LLTEGetFunctor() = default;
 	virtual DataType get(LLTextureEntry* entry) { return (entry*(TEGetFunc)); }
 };
 

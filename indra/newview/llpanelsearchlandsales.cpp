@@ -67,11 +67,11 @@ void LLPanelSearchLandSales::search()
 	query.type = SE_LANDSALES;
 	query.results_per_page = 100;
 	
-	static LLUICachedControl<bool> inc_pg("ShowPGLand", 1);
-	static LLUICachedControl<bool> inc_mature("ShowMatureLand", 0);
-	static LLUICachedControl<bool> inc_adult("ShowAdultLand", 0);
-	static LLUICachedControl<bool> limit_price("FindLandPrice", 1);
-	static LLUICachedControl<bool> limit_area("FindLandArea", 1);
+	static LLUICachedControl<bool> inc_pg("ShowPGLand", true);
+	static LLUICachedControl<bool> inc_mature("ShowMatureLand", false);
+	static LLUICachedControl<bool> inc_adult("ShowAdultLand", false);
+	static LLUICachedControl<bool> limit_price("FindLandPrice", true);
+	static LLUICachedControl<bool> limit_area("FindLandArea", true);
 	if (!(inc_pg || inc_mature || inc_adult))
 	{
 		LLNotificationsUtil::add("NoContentToSearch");

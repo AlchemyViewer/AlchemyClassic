@@ -113,7 +113,7 @@ public:
 		{
 			const BasicIteratorImpl *rhs_iter = dynamic_cast<const BasicIteratorImpl *>(_iter.get());
 			llassert(rhs_iter);
-			if (!rhs_iter) return 0;
+			if (!rhs_iter) return false;
 			return (mIter == rhs_iter->mIter);
 		}
 

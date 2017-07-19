@@ -753,7 +753,7 @@ void LLSurface::decompressDCTPatch(LLBitPack &bitpack, LLGroupHeader *gopp, BOOL
 	gopp->stride = mGridsPerEdge;
 	set_group_of_patch_header(gopp);
 
-	while (1)
+	while (true)
 	{
 		decode_patch_header(bitpack, &ph, b_large_patch);
 		if (ph.quant_wbits == END_OF_PATCHES)

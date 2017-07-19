@@ -334,7 +334,7 @@ bool LLImageDXT::encodeDXT(const LLImageRaw* raw_image, F32 time, bool explicit_
 		break;
 	  default:
 		LL_ERRS() << "LLImageDXT::encode: Unhandled channel number: " << ncomponents << LL_ENDL;
-		return 0;
+		return false;
 	}
 
 	S32 width = raw_image->getWidth();

@@ -2490,7 +2490,7 @@ void LLAgent::setStartPositionSuccess(const LLSD &result)
 
         error = false;
 
-    } while (0);
+    } while (false);
 
     if (error)
     {

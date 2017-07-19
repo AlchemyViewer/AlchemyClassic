@@ -728,7 +728,7 @@ std::string ll_convert_string_to_utf8_string(const std::string& in)
 
 long LLStringOps::sPacificTimeOffset = 0;
 long LLStringOps::sLocalTimeOffset = 0;
-bool LLStringOps::sPacificDaylightTime = 0;
+bool LLStringOps::sPacificDaylightTime = false;
 std::map<std::string, std::string> LLStringOps::datetimeToCodes;
 
 std::vector<std::string> LLStringOps::sWeekDayList;

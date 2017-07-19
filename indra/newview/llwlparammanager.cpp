@@ -273,7 +273,7 @@ void LLWLParamManager::loadPresetsFromDir(const std::string& dir)
 	LL_INFOS("AppInit", "Shaders") << "Loading sky presets from " << dir << LL_ENDL;
 
 	LLDirIterator dir_iter(dir, "*.xml");
-	while (1)
+	while (true)
 	{
 		std::string file;
 		if (!dir_iter.next(file))

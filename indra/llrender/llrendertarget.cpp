@@ -61,7 +61,7 @@ LLRenderTarget::LLRenderTarget() :
 	mFBO(0),
 	mPreviousFBO(nullptr),
 	mDepth(0),
-	mStencil(0),
+	mStencil(false),
 	mUseDepth(false),
 	mRenderDepth(false),
 	mUsage(LLTexUnit::TT_TEXTURE)

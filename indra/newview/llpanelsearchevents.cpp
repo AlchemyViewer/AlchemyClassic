@@ -85,9 +85,9 @@ void LLPanelSearchEvents::search()
 	std::string text = mSearchEditor->getText();
 	LLStringUtil::trim(text);
 	
-	static LLUICachedControl<bool> inc_pg("ShowPGEvents", 1);
-	static LLUICachedControl<bool> inc_mature("ShowMatureEvents", 0);
-	static LLUICachedControl<bool> inc_adult("ShowAdultEvents", 0);
+	static LLUICachedControl<bool> inc_pg("ShowPGEvents", true);
+	static LLUICachedControl<bool> inc_mature("ShowMatureEvents", false);
+	static LLUICachedControl<bool> inc_adult("ShowAdultEvents", false);
 	if (!(inc_pg || inc_mature || inc_adult))
 	{
 		LLNotificationsUtil::add("NoContentToSearch");

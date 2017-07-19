@@ -2841,7 +2841,7 @@ void LLTextureFetch::removeRequest(LLTextureFetchWorker* worker, bool cancel)
 
 void LLTextureFetch::deleteAllRequests()
 {
-	while(1)
+	while(true)
 	{
 		lockQueue();
 		if(mRequestMap.empty())
@@ -4306,7 +4306,7 @@ bool LLTextureFetchDebugger::processStartDebug(F32 max_time)
 	mTimer.reset();
 
 	//wait for all works to be done
-	while(1)
+	while(true)
 	{
 		S32 pending = 0;
 		pending += LLAppViewer::getTextureCache()->update(1); 

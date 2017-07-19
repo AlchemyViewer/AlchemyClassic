@@ -182,7 +182,7 @@ void LLDayCycleManager::loadPresets(const std::string& dir)
 {
 	LLDirIterator dir_iter(dir, "*.xml");
 
-	while (1)
+	while (true)
 	{
 		std::string file;
 		if (!dir_iter.next(file)) break; // no more files

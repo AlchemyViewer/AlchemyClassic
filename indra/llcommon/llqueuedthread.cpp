@@ -178,7 +178,7 @@ S32 LLQueuedThread::getPending()
 // MAIN thread
 void LLQueuedThread::waitOnPending()
 {
-	while(1)
+	while(true)
 	{
 		update(0);
 
@@ -407,7 +407,7 @@ S32 LLQueuedThread::processNextRequest()
 	// Get next request from pool
 	lockData();
 	
-	while(1)
+	while(true)
 	{
 		req = nullptr;
 		if (mRequestQueue.empty())
@@ -497,7 +497,7 @@ void LLQueuedThread::run()
 	startThread();
 	mStarted = true;
 	
-	while (1)
+	while (true)
 	{
 		// this will block on the condition until runCondition() returns true, the thread is unpaused, or the thread leaves the RUNNING state.
 		checkPause();

@@ -276,7 +276,7 @@ int LLCrashLoggerWindows::processingLoop() {
 	
 	bool result;
 
-    while (1) 
+    while (true) 
 	{
 		result = getMessageWithTimeout(&msg, millisecs);
 		if ( result ) 

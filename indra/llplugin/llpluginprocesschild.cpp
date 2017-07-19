@@ -438,7 +438,7 @@ void LLPluginProcessChild::receiveMessageRaw(const std::string &message)
 			{
 				// Hang the plugin
 				LL_WARNS("Plugin") << "Plugin hang requested." << LL_ENDL;
-				while(1)
+				while(true)
 				{
 					// wheeeeeeeee......
 				}

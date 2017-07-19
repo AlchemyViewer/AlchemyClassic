@@ -345,7 +345,7 @@ BOOL LLFilePicker::getMultipleOpenFiles(ELoadFilter filter)
 			mLocked = true;
 			WCHAR* tptrw = mFilesW;
 			std::string dirname;
-			while(1)
+			while(true)
 			{
 				if (*tptrw == 0 && *(tptrw+1) == 0) // double '\0'
 					break;

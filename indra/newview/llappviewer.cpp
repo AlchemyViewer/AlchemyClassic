@@ -1016,7 +1016,7 @@ bool LLAppViewer::init()
 		std::ostringstream msg;
 		msg << LLTrans::getString("MBUnableToAccessFile");
 		OSMessageBox(msg.str(),LLStringUtil::null,OSMB_OK);
-		return 1;
+		return true;
 	}
 	LL_INFOS("InitInfo") << "Cache initialization is done." << LL_ENDL ;
 
@@ -1067,7 +1067,7 @@ bool LLAppViewer::init()
 			LLNotifications::instance().getGlobalString("UnsupportedGLRequirements"),
 			LLStringUtil::null,
 			OSMB_OK);
-		return 0;
+		return false;
 	}
 
 	// Without SSE2 support we will crash almost immediately, warn here.
@@ -1079,7 +1079,7 @@ bool LLAppViewer::init()
 			LLNotifications::instance().getGlobalString("UnsupportedCPUSSE2"),
 			LLStringUtil::null,
 			OSMB_OK);
-		return 0;
+		return false;
 	}
 
 	// alert the user if they are using unsupported hardware
@@ -1651,7 +1651,7 @@ S32 LLAppViewer::updateTextureThreads(F32 max_time)
 
 void LLAppViewer::flushVFSIO()
 {
-	while (1)
+	while (true)
 	{
 		S32 pending = LLVFSThread::updateClass(0);
 		pending += LLLFSThread::updateClass(0);
@@ -1966,7 +1966,7 @@ bool LLAppViewer::cleanup()
 	LLTimer idleTimer;
 	idleTimer.reset();
 	const F64 max_idle_time = 5.f; // 5 seconds
-	while(1)
+	while(true)
 	{
 		S32 pending = 0;
 		pending += LLAppViewer::getTextureCache()->update(1); // unpauses the worker thread

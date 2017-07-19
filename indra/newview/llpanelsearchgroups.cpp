@@ -80,9 +80,9 @@ void LLPanelSearchGroups::search()
 	query.text = mSearchEditor->getText();
 	LLStringUtil::trim(query.text);
 	
-	static LLUICachedControl<bool> inc_pg("ShowPGGroups", 1);
-	static LLUICachedControl<bool> inc_mature("ShowMatureGroups", 0);
-	static LLUICachedControl<bool> inc_adult("ShowAdultGroups", 0);
+	static LLUICachedControl<bool> inc_pg("ShowPGGroups", true);
+	static LLUICachedControl<bool> inc_mature("ShowMatureGroups", false);
+	static LLUICachedControl<bool> inc_adult("ShowAdultGroups", false);
 	if (!(inc_pg || inc_mature || inc_adult))
 	{
 		LLNotificationsUtil::add("NoContentToSearch");

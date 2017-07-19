@@ -67,7 +67,7 @@ void LLImageFiltersManager::loadFiltersFromDir(const std::string& dir)
 	mFiltersList.clear();
 
 	LLDirIterator dir_iter(dir, "*.xml");
-	while (1)
+	while (true)
 	{
 		std::string file_name;
 		if (!dir_iter.next(file_name))

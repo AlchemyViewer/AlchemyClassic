@@ -278,7 +278,7 @@ bool LLFile::copy(const std::string from, const std::string to)
 			char buf[16384];		/* Flawfinder: ignore */ 	
 			size_t readbytes;
 			bool write_ok = true;
-			while(write_ok && (readbytes = fread(buf, 1, 16384, in))) /* Flawfinder: ignore */
+			while(write_ok && (readbytes = fread(buf, 1, 16384 * sizeof(char), in))) /* Flawfinder: ignore */
 			{
 				if (fwrite(buf, 1, readbytes, out) != readbytes)
 				{

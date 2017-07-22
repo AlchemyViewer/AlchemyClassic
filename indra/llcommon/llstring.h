@@ -204,7 +204,7 @@ public:
 	// currently in daylight savings time?
 	static bool getPacificDaylightTime(void) { return sPacificDaylightTime;}
 
-	static std::string getDatetimeCode (std::string key);
+	static std::string getDatetimeCode (const std::string& key);
 };
 
 /**

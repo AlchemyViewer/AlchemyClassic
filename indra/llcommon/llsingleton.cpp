@@ -222,7 +222,7 @@ void LLSingletonBase::capture_dependency(list_t& initializing, EInitState initSt
         if (found != initializing.end())
         {
             list_t::const_iterator it_next = found;
-            it_next++;
+            ++it_next;
 
             // Report the circularity. Requiring the coder to dig through the
             // logic to diagnose exactly how we got here is less than helpful.

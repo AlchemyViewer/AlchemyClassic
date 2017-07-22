@@ -141,9 +141,8 @@ bool LLSDSerialize::deserialize(LLSD& sd, std::istream& str, S32 max_bytes)
 		}
 		header = hdr_buf;
 
-		std::string::size_type start = std::string::npos;
+		std::string::size_type start = header.find_first_not_of("<? ");
 		std::string::size_type end = std::string::npos;
-		start = header.find_first_not_of("<? ");
 		if (start != std::string::npos)
 		{
 			end = header.find_first_of(" ?", start);

@@ -1251,7 +1251,7 @@ BOOL gzip_file(const std::string& srcfile, const std::string& dstfile)
 	src = LLFile::fopen(srcfile, "rb");		/* Flawfinder: ignore */
 	if (! src) goto err;
 
-	while ((bytes = (S32)fread(buffer, sizeof(U8), COMPRESS_BUFFER_SIZE, src)) > 0)
+	while ((bytes = (S32)fread(buffer, sizeof(U8), COMPRESS_BUFFER_SIZE * sizeof(U8), src)) > 0)
 	{
 		if (gzwrite(dst, buffer, bytes) <= 0)
 		{

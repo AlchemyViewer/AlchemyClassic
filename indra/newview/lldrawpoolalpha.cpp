@@ -108,7 +108,7 @@ void LLDrawPoolAlpha::beginPostDeferredPass(S32 pass)
 		}
 		else
 		{
-		simple_shader = &gDeferredAlphaProgram;
+			simple_shader = &gDeferredAlphaProgram;
 			fullbright_shader = &gDeferredFullbrightProgram;
 		}
 		
@@ -462,7 +462,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 						// (this way we won't rebind shaders unnecessarily).
 						if (current_shader != target_shader)
 						{
-							if(current_shader)
+							if (current_shader)
 								gPipeline.unbindDeferredShader(*current_shader);
 							gPipeline.bindDeferredShader(*target_shader);
 						}
@@ -473,16 +473,20 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 						// If we need shaders, and we're not ALREADY using the proper shader, then bind it
 						// (this way we won't rebind shaders unnecessarily).
-						if(current_shader != target_shader)
+						if (current_shader != target_shader)
 						{
-							if(current_shader)
+							if (current_shader)
 								gPipeline.unbindDeferredShader(*current_shader);
-							target_shader->bind();
+
+							if (deferred_render)
+								gPipeline.bindDeferredShader(*target_shader);
+							else
+								target_shader->bind();
 						}
 					}
 					current_shader = target_shader;
 
-					if(mat)
+					if (mat)
 					{
 						current_shader->uniform4f(LLShaderMgr::SPECULAR_COLOR, params.mSpecColor.mV[0], params.mSpecColor.mV[1], params.mSpecColor.mV[2], params.mSpecColor.mV[3]);						
 						current_shader->uniform1f(LLShaderMgr::ENVIRONMENT_INTENSITY, params.mEnvIntensity);
@@ -514,7 +518,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 				}
 
 				bool tex_setup = false;
-				if(!use_shaders || params.mTextureList.size() <= 1)
+				if (!use_shaders || params.mTextureList.size() <= 1)
 				{ //not batching textures or batch has only 1 texture -- might need a texture matrix
 					if (params.mTexture.notNull())
 					{

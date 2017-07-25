@@ -2703,58 +2703,58 @@ void LLIMMgr::addMessage(
 		LLIMModel::getInstance()->newSession(new_session_id, fixed_session_name, dialog, other_participant_id, false, is_offline_msg);
 
 		LLIMModel::LLIMSession* session = LLIMModel::instance().findIMSession(new_session_id);
-		if (!session)
+		if (session)
 		{
-			skip_message &= true;
-			LL_WARNS() << "Unable to find session for id: " << new_session_id << " or session is null, skipping message." << LL_ENDL;
+
+			skip_message &= !session->isGroupSessionType(); // Do not skip group chats...
+			if (skip_message)
+			{
+				gIMMgr->leaveSession(new_session_id);
+			}
+			// When we get a new IM, and if you are a god, display a bit
+			// of information about the source. This is to help liaisons
+			// when answering questions.
+			if (gAgent.isGodlike())
+			{
+				// *TODO:translate (low priority, god ability)
+				std::ostringstream bonus_info;
+				bonus_info << LLTrans::getString("***") + " " + LLTrans::getString("IMParentEstate") + ":" + " "
+					<< parent_estate_id
+					<< ((parent_estate_id == 1) ? "," + LLTrans::getString("IMMainland") : "")
+					<< ((parent_estate_id == 5) ? "," + LLTrans::getString("IMTeen") : "");
+
+				// once we have web-services (or something) which returns
+				// information about a region id, we can print this out
+				// and even have it link to map-teleport or something.
+				//<< "*** region_id: " << region_id << std::endl
+				//<< "*** position: " << position << std::endl;
+
+				LLIMModel::instance().addMessage(new_session_id, from, other_participant_id, bonus_info.str());
+			}
+
+			// Logically it would make more sense to reject the session sooner, in another area of the
+			// code, but the session has to be established inside the server before it can be left.
+			if ((LLMuteList::getInstance()->isMuted(other_participant_id, LLMute::flagTextChat) && !from_linden)
+				|| LLMuteList::getInstance()->isGroupMuted(new_session_id))
+			{
+				LL_WARNS() << "Leaving IM session from initiating muted resident " << from << LL_ENDL;
+				if (!gIMMgr->leaveSession(new_session_id))
+				{
+					LL_INFOS() << "Session " << new_session_id << " does not exist." << LL_ENDL;
+				}
+				return;
+			}
+
+			//Play sound for new conversations
+			if (!gAgent.isDoNotDisturb() && (gSavedSettings.getBOOL("PlaySoundNewConversation") == TRUE))
+			{
+				make_ui_sound("UISndNewIncomingIMSession");
+			}
 		}
 		else
 		{
-			skip_message &= !session->isGroupSessionType(); // Do not skip group chats...
-		}
-
-		if (skip_message)
-		{
-			gIMMgr->leaveSession(new_session_id);
-		}
-		// When we get a new IM, and if you are a god, display a bit
-		// of information about the source. This is to help liaisons
-		// when answering questions.
-		if (gAgent.isGodlike())
-		{
-			// *TODO:translate (low priority, god ability)
-			std::ostringstream bonus_info;
-			bonus_info << LLTrans::getString("***") + " " + LLTrans::getString("IMParentEstate") + ":" + " "
-				<< parent_estate_id
-				<< ((parent_estate_id == 1) ? "," + LLTrans::getString("IMMainland") : "")
-				<< ((parent_estate_id == 5) ? "," + LLTrans::getString("IMTeen") : "");
-
-			// once we have web-services (or something) which returns
-			// information about a region id, we can print this out
-			// and even have it link to map-teleport or something.
-			//<< "*** region_id: " << region_id << std::endl
-			//<< "*** position: " << position << std::endl;
-
-			LLIMModel::instance().addMessage(new_session_id, from, other_participant_id, bonus_info.str());
-		}
-
-		// Logically it would make more sense to reject the session sooner, in another area of the
-		// code, but the session has to be established inside the server before it can be left.
-		if ((LLMuteList::getInstance()->isMuted(other_participant_id, LLMute::flagTextChat) && !from_linden)
-			|| LLMuteList::getInstance()->isGroupMuted(new_session_id))
-		{
-			LL_WARNS() << "Leaving IM session from initiating muted resident " << from << LL_ENDL;
-			if (!gIMMgr->leaveSession(new_session_id))
-			{
-				LL_INFOS() << "Session " << new_session_id << " does not exist." << LL_ENDL;
-			}
-			return;
-		}
-
-		//Play sound for new conversations
-		if (!gAgent.isDoNotDisturb() && (gSavedSettings.getBOOL("PlaySoundNewConversation") == TRUE))
-		{
-			make_ui_sound("UISndNewIncomingIMSession");
+			// Failed to create a session, most likely due to empty name (name cache failed?)
+			LL_WARNS() << "Failed to create IM session " << fixed_session_name << LL_ENDL;
 		}
 	}
 

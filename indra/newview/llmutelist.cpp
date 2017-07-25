@@ -71,7 +71,7 @@ namespace
 {
 	// This method is used to return an object to mute given an object id.
 	// Its used by the LLMute constructor and LLMuteList::isMuted.
-	LLViewerObject* get_object_to_mute_from_id(LLUUID object_id)
+	LLViewerObject* get_object_to_mute_from_id(const LLUUID& object_id)
 	{
 		LLViewerObject *objectp = gObjectList.findObject(object_id);
 		if ((objectp) && (!objectp->isAvatar()))
@@ -195,7 +195,7 @@ BOOL LLMuteList::isLinden(const std::string& name) const
 	tokenizer::iterator token_iter = tokens.begin();
 	
 	if (token_iter == tokens.end()) return FALSE;
-	token_iter++;
+	++token_iter;
 	if (token_iter == tokens.end()) return FALSE;
 	std::string last_name = *token_iter;
 	

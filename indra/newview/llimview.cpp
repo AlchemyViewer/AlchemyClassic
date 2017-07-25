@@ -180,7 +180,7 @@ void notify_of_message(const LLSD& msg, bool is_dnd_msg)
 	LLFloaterIMContainer* im_box = LLFloaterReg::getTypedInstance<LLFloaterIMContainer>("im_container");
 	LLFloaterIMSessionTab* session_floater = LLFloaterIMSessionTab::getConversation(session_id);
 	bool store_dnd_message = false; // flag storage of a dnd message
-	bool is_session_focused = session_floater->isTornOff() && session_floater->hasFocus();
+	bool is_session_focused = session_floater && session_floater->isTornOff() && session_floater->hasFocus();
 	if (!LLFloater::isVisible(im_box) || im_box->isMinimized())
 	{
 		conversations_floater_status = CLOSED;
@@ -869,7 +869,7 @@ LLIMModel::LLIMSession* LLIMModel::findIMSession(const LLUUID& session_id) const
 //*TODO consider switching to using std::set instead of std::list for holding LLUUIDs across the whole code
 LLIMModel::LLIMSession* LLIMModel::findAdHocIMSession(const uuid_vec_t& ids)
 {
-	S32 num = ids.size();
+	size_t num = ids.size();
 	if (!num) return nullptr;
 
 	if (mId2SessionMap.empty()) return nullptr;
@@ -1406,8 +1406,7 @@ void LLIMModel::sendMessage(const std::string& utf8_text,
 	bool sent = false;
 	LLAgentUI::buildFullname(name);
 
-	const LLRelationship* info = nullptr;
-	info = LLAvatarTracker::instance().getBuddyInfo(other_participant_id);
+	const LLRelationship* info = LLAvatarTracker::instance().getBuddyInfo(other_participant_id);
 	
 	U8 offline = (!info || info->isOnline()) ? IM_ONLINE : IM_OFFLINE;
 	// Old call to send messages to SLim client,  no longer supported.
@@ -2050,7 +2049,7 @@ void LLCallDialog::setIcon(const LLSD& session_id, const LLSD& participant_id)
 	else
 	{
 		avatar_icon->setValue("Avaline_Icon");
-		avatar_icon->setToolTip(std::string(""));
+		avatar_icon->setToolTip(LLStringUtil::null);
 	}
 }
 
@@ -3366,12 +3365,12 @@ bool LLIMMgr::isVoiceCall(const LLUUID& session_id) const
 
 void LLIMMgr::updateDNDMessageStatus()
 {
-	if (LLIMModel::getInstance()->mId2SessionMap.empty()) return;
+	const auto& im_model = LLIMModel::instance();
+	if (im_model.mId2SessionMap.empty()) return;
 
-	std::map<LLUUID, LLIMModel::LLIMSession*>::const_iterator it = LLIMModel::getInstance()->mId2SessionMap.begin();
-	for (; it != LLIMModel::getInstance()->mId2SessionMap.end(); ++it)
+	for( const auto& session_pair : im_model.mId2SessionMap)
 	{
-		LLIMModel::LLIMSession* session = (*it).second;
+		LLIMModel::LLIMSession* session = session_pair.second;
 
 		if (session->isP2P())
 		{
@@ -3410,8 +3409,7 @@ void LLIMMgr::noteOfflineUsers(
 	const LLUUID& session_id,
 	const std::vector<LLUUID>& ids)
 {
-	S32 count = ids.size();
-	if (count == 0)
+	if (ids.empty())
 	{
 		const std::string& only_user = LLTrans::getString("only_user_message");
 		LLIMModel::getInstance()->addMessage(session_id, SYSTEM_FROM, LLUUID::null, only_user);
@@ -3421,13 +3419,13 @@ void LLIMMgr::noteOfflineUsers(
 		const LLRelationship* info = nullptr;
 		LLAvatarTracker& at = LLAvatarTracker::instance();
 		LLIMModel& im_model = LLIMModel::instance();
-		for (S32 i = 0; i < count; ++i)
+		for(const auto& id : ids)
 		{
-			info = at.getBuddyInfo(ids.at(i));
+			info = at.getBuddyInfo(id);
 			LLAvatarName av_name;
 			if (info
 				&& !info->isOnline()
-				&& LLAvatarNameCache::get(ids.at(i), &av_name))
+				&& LLAvatarNameCache::get(id, &av_name))
 			{
 				LLUIString offline = LLTrans::getString("offline_message");
 				// Use display name only because this user is your friend
@@ -3448,14 +3446,13 @@ void LLIMMgr::noteMutedUsers(const LLUUID& session_id,
 		return;
 	}
 
-	S32 count = ids.size();
-	if (count > 0)
+	if (!ids.empty())
 	{
 		LLIMModel* im_model = LLIMModel::getInstance();
 
-		for (S32 i = 0; i < count; ++i)
+		for(const auto& id : ids)
 		{
-			if (ml->isMuted(ids.at(i)))
+			if (ml->isMuted(id))
 			{
 				LLUIString muted = LLTrans::getString("muted_message");
 

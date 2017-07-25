@@ -102,7 +102,7 @@ public:
 
 	LLConversationViewModel& getRootViewModel() { return mConversationViewModel; }
     LLUUID getSelectedSession() const { return mSelectedSession; }
-    void setSelectedSession(LLUUID sessionID) { mSelectedSession = sessionID; }
+    void setSelectedSession(const LLUUID& sessionID) { mSelectedSession = sessionID; }
 	LLConversationItem* getSessionModel(const LLUUID& session_id) const { return get_ptr_in_map(mConversationsItems,session_id); }
 	LLConversationSort& getSortOrder() { return mConversationViewModel.getSorter(); }
 

@@ -504,13 +504,11 @@ void LLFloaterIMSessionTab::buildConversationViewParticipant()
 	}
 	
 	// Create the participants widgets now
-	LLFolderViewModelItemCommon::child_list_t::const_iterator current_participant_model = item->getChildrenBegin();
-	LLFolderViewModelItemCommon::child_list_t::const_iterator end_participant_model = item->getChildrenEnd();
-	while (current_participant_model != end_participant_model)
+	for (auto current_participant_model = item->getChildrenBegin(), end_participant_model = item->getChildrenEnd();
+		current_participant_model != end_participant_model; ++current_participant_model)
 	{
 		LLConversationItem* participant_model = dynamic_cast<LLConversationItem*>(*current_participant_model);
 		addConversationViewParticipant(participant_model);
-		current_participant_model++;
 	}
 }
 
@@ -598,22 +596,23 @@ void LLFloaterIMSessionTab::refreshConversation()
 		LLParticipantList* participant_list = getParticipantList();
 		if (participant_list)
 		{
-			LLFolderViewModelItemCommon::child_list_t::const_iterator current_participant_model = participant_list->getChildrenBegin();
-			LLFolderViewModelItemCommon::child_list_t::const_iterator end_participant_model = participant_list->getChildrenEnd();
 			LLIMSpeakerMgr *speaker_mgr = LLIMModel::getInstance()->getSpeakerManager(mSessionID);
-			while (current_participant_model != end_participant_model)
+			if (speaker_mgr)
 			{
-				LLConversationItemParticipant* participant_model = dynamic_cast<LLConversationItemParticipant*>(*current_participant_model);
-				if (speaker_mgr && participant_model)
+				for (auto current_participant_model = participant_list->getChildrenBegin(), end_participant_model = participant_list->getChildrenEnd();
+					current_participant_model != end_participant_model; ++current_participant_model)
 				{
-					LLSpeaker *participant_speaker = speaker_mgr->findSpeaker(participant_model->getUUID());
-					LLSpeaker *agent_speaker = speaker_mgr->findSpeaker(gAgentID);
-					if (participant_speaker && agent_speaker)
+					LLConversationItemParticipant* participant_model = dynamic_cast<LLConversationItemParticipant*>(*current_participant_model);
+					if (participant_model)
 					{
-						participant_model->setDisplayModeratorRole(agent_speaker->mIsModerator && participant_speaker->mIsModerator);
+						LLSpeaker *participant_speaker = speaker_mgr->findSpeaker(participant_model->getUUID());
+						LLSpeaker *agent_speaker = speaker_mgr->findSpeaker(gAgentID);
+						if (participant_speaker && agent_speaker)
+						{
+							participant_model->setDisplayModeratorRole(agent_speaker->mIsModerator && participant_speaker->mIsModerator);
+						}
 					}
 				}
-				current_participant_model++;
 			}
 		}
 	}

@@ -109,9 +109,9 @@ BOOL LLPanelProfileLegacy::postBuild()
 	mPanelPicks = static_cast<LLPanelProfilePicks*>(getChild<LLUICtrl>("picks_tab_panel"));
 	mPanelPicks->setProfilePanel(this);
 	
-	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
+	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()) != nullptr)
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::onBackBtnClick, this));
-	else if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+	else if (dynamic_cast<LLFloater*>(getParent()) != nullptr)
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelProfileLegacy::closeParentFloater, this));
 	else
 		getChild<LLUICtrl>("back")->setEnabled(FALSE);

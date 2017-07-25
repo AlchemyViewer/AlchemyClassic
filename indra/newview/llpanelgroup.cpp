@@ -183,9 +183,9 @@ BOOL LLPanelGroup::postBuild()
 	mButtonCreate->setCommitCallback(boost::bind(&LLPanelGroup::onBtnCreate, this));
 	mButtonCreate->setVisible(false);
 
-	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
+	if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()) != nullptr)
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::onBackBtnClick, this));
-	else if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+	else if (dynamic_cast<LLFloater*>(getParent()) != nullptr)
 		getChild<LLUICtrl>("back")->setCommitCallback(boost::bind(&LLPanelGroup::closeParentFloater, this));
 	else
 		getChild<LLUICtrl>("back")->setEnabled(FALSE);

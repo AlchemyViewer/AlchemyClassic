@@ -193,9 +193,9 @@ BOOL LLSidepanelTaskInfo::postBuild()
 	mDetailsBtn->setClickedCallback(boost::bind(&LLSidepanelTaskInfo::onDetailsButtonClicked, this));
 
 	
-	if (LLFloater* floater = dynamic_cast<LLFloater*>(getParent()))
+	if (dynamic_cast<LLFloater*>(getParent()) != nullptr)
 		getChild<LLUICtrl>("back_btn")->setCommitCallback(boost::bind(&LLSidepanelTaskInfo::closeParentFloater, this));
-	//else if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()))
+	//else if (dynamic_cast<LLSideTrayPanelContainer*>(getParent()) != nullptr)
 	//	getChild<LLUICtrl>("back_btn")->setCommitCallback(boost::bind(&LLSidepanelTaskInfo::onBackBtnClick, this));
 	else
 		getChild<LLUICtrl>("back_btn")->setEnabled(FALSE);

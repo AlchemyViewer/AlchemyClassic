@@ -25,5 +25,5 @@
     right="-8"
     top_pad="4"
     layout="topleft"
-    value="Visibility: [VISIBILITY]%"/>
+    value="Visibility: [VISIBILITY]% [AGENTS]"/>
 </panel>

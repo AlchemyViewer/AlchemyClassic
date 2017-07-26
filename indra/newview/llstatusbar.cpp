@@ -437,15 +437,15 @@ void LLStatusBar::setHealth(S32 health)
 	mHealth = health;
 }
 
-void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_pct)
+void LLStatusBar::setAvComplexity(S32 complexity, F32 muted_pct, U32 agents)
 {
-	if (muted_pct >= 10.f)
+	if (muted_pct >= 25.f)
 		mAvComplexity->setImage(mImgAvComplexWarn);
 	else if (muted_pct >= 75.f)
 		mAvComplexity->setImage(mImgAvComplexHeavy);
 	else
 		mAvComplexity->setImage(mImgAvComplex);
-	mPanelAvatarComplexityPulldown->setAvComplexity(complexity, muted_pct);
+	mPanelAvatarComplexityPulldown->setAvComplexity(complexity, muted_pct, agents);
 }
 
 S32 LLStatusBar::getBalance() const

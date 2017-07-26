@@ -658,13 +658,13 @@ BOOL LLSystemNotificationListItem::postBuild()
     if (mSystemNotificationIconExp)
         mSystemNotificationIconExp->setVisible(TRUE);
 
-	if (mIsCaution)
-	{
-		mTitleBox->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
-		mTitleBoxExp->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
-		mNoticeTextExp->setReadOnlyColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
-		mTimeBox->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
-		mTimeBoxExp->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
-	}
+    if (mIsCaution)
+    {
+        mTitleBox->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
+        mTitleBoxExp->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
+        mNoticeTextExp->setReadOnlyColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
+        mTimeBox->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
+        mTimeBoxExp->setColor(LLUIColorTable::instance().getColor("NotifyCautionBoxColor"));
+    }
     return rv;
 }

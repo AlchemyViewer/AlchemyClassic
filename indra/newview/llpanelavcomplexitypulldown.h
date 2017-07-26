@@ -40,7 +40,7 @@ class LLPanelAvatarComplexityPulldown : public LLPanelMenuBarPulldown
 public:
 	LLPanelAvatarComplexityPulldown();
 	BOOL postBuild() override;
-	void setAvComplexity(S32 complexity, F32 muted_pct);
+	void setAvComplexity(S32 complexity, F32 muted_pct, U32 agents);
 
 private:
 	LLTextBox* mComplexity;

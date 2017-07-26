@@ -2225,7 +2225,7 @@ void LLLineEditor::setFocus( BOOL new_state )
 		// fine on 1.15.0.2, since all prevalidate func reject any
 		// non-ASCII characters.  I'm not sure on future versions,
 		// however.
-		getWindow()->allowLanguageTextInput(this, mPrevalidateFunc == nullptr);
+		getWindow()->allowLanguageTextInput(this, mPrevalidateFunc.empty());
 	}
 }
 
@@ -2405,7 +2405,7 @@ void LLLineEditor::updateAllowingLanguageInput()
 		// test app, no window available
 		return;	
 	}
-	if (hasFocus() && !mReadOnly && !mDrawAsterixes && mPrevalidateFunc == nullptr)
+	if (hasFocus() && !mReadOnly && !mDrawAsterixes && mPrevalidateFunc.empty())
 	{
 		window->allowLanguageTextInput(this, TRUE);
 	}

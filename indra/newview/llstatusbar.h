@@ -69,7 +69,7 @@ public:
 	static void sendMoneyBalanceRequest();
 
 	void		setHealth(S32 percent);
-	void		setAvComplexity(S32 complexity, F32 muted_pct);
+	void		setAvComplexity(S32 complexity, F32 muted_pct, U32 agents);
 
 	void		setLandCredit(S32 credit);
 	void		setLandCommitted(S32 committed);

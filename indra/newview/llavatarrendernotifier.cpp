@@ -109,7 +109,7 @@ std::string LLAvatarRenderNotifier::overLimitMessage()
 
 void LLAvatarRenderNotifier::triggerNotification(bool show_over_limit)
 {
-	gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct);
+	gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct, mLatestOverLimitAgents);
     mAgentComplexity = mLatestAgentComplexity;
     mShowOverLimitAgents = show_over_limit;
 	static LLCachedControl<U32> expire_delay(gSavedSettings, "ShowMyComplexityChanges", 20);
@@ -255,7 +255,7 @@ void LLAvatarRenderNotifier::updateNotificationAgent(U32 agentComplexity)
         {
             // avatar or outfit not ready
             mAgentComplexity = mLatestAgentComplexity;
-			gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct);
+			gStatusBar->setAvComplexity(mLatestAgentComplexity, mLatestOverLimitPct, mLatestOverLimitAgents);
             return;
         }
     }

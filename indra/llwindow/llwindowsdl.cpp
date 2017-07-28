@@ -270,7 +270,7 @@ static int x11_detect_VRAM_kb_fp(FILE *fp) {
 			std::string sline(line, len);
 			boost::cmatch match;
 			if(boost::regex_search(line, match, pattern)) {
-				long int vram = strtol(std::string(match[2]).c_str(), NULL, 10);
+				long int vram = strtol(std::string(match[2].str()).c_str(), NULL, 10);
 				LL_INFOS() << "Found VRAM " << vram << LL_ENDL;
                 if (line)
                     free(line);
@@ -709,6 +709,11 @@ BOOL LLWindowSDL::switchContext(U32 window_mode, const LLCoordScreen &size, U32 
 
 void LLWindowSDL::destroyContext()
 {
+	if (mWindow == nullptr)
+	{
+		LL_INFOS() << "Context already destroy" << LL_ENDL;
+		return;
+	}
 	LL_INFOS() << "destroyContext begins" << LL_ENDL;
 
 #if LL_X11
@@ -776,6 +781,7 @@ void LLWindowSDL::close()
 	setMouseClipping(FALSE);
 	showCursor();
 
+	quitCursors();
 	destroyContext();
 }
 
@@ -1840,7 +1846,7 @@ void LLWindowSDL::gatherInput()
 			// which confuses the focus code [SL-24071].
 			if (event.active.gain != mHaveInputFocus)
 			{
-				mHaveInputFocus = !!event.active.gain;
+				mHaveInputFocus = event.active.gain != 0;
 
 				if (mHaveInputFocus)
 					mCallbacks->handleFocus(this);

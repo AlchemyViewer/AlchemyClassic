@@ -173,7 +173,7 @@ if (LINUX)
     endif (USE_LEAKSAN)
 
     if (USE_UBSAN)
-      add_compile_options(-fsanitize=undefined)
+      add_compile_options(-fsanitize=undefined -fno-sanitize=vptr)
       link_libraries(-lubsan)
     endif (USE_UBSAN)
 

@@ -134,7 +134,7 @@ bool LLWindowSDL::ll_try_gtk_init(void)
 		{
 			LL_WARNS() << "- GTK COMPATIBILITY WARNING: " <<
 				gtk_warning << LL_ENDL;
-			gtk_is_good = FALSE;
+			//gtk_is_good = FALSE;
 		} else {
 			LL_INFOS() << "- GTK version is good." << LL_ENDL;
 		}

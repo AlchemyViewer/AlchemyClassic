@@ -39,10 +39,10 @@
 
 void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors color_val)
 {
-	uuid_color_umap_t::iterator it = mCustomColors.find(id);
+	auto it = mCustomColors.find(id);
 	if (it != mCustomColors.cend())
 	{
-		it->second = color_val;
+		mCustomColors[id] = color_val;
 	}
 	else
 	{
@@ -69,16 +69,12 @@ const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 		{
 		case E_FIRST_COLOR:
 			return LLUIColorTable::instance().getColor("AvatarCustomColor1", LLColor4::red).get();
-			break;
 		case E_SECOND_COLOR:
 			return LLUIColorTable::instance().getColor("AvatarCustomColor2", LLColor4::green).get();
-			break;
 		case E_THIRD_COLOR:
 			return LLUIColorTable::instance().getColor("AvatarCustomColor3", LLColor4::blue).get();
-			break;
 		case E_FOURTH_COLOR:
 			return LLUIColorTable::instance().getColor("AvatarCustomColor4", LLColor4::yellow).get();
-			break;
 		default:
 			return LLColor4::white;
 		}

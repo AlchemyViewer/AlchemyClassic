@@ -99,7 +99,7 @@ void ALFloaterRegionTracker::updateHeader()
 {
 	S32 num_selected(mRegionScrollList->getNumSelected());
 	mRefreshRegionListBtn->setEnabled(mRegionMap.size() != 0);
-	mRemoveRegionBtn->setEnabled(!!num_selected);
+	mRemoveRegionBtn->setEnabled(num_selected != 0);
 	mOpenMapBtn->setEnabled(num_selected == 1);
 }
 

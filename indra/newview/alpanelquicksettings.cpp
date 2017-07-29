@@ -282,7 +282,7 @@ void ALPanelQuickSettings::onHoverSliderMoved(const LLSD& val)
 {
 	if (isAgentAvatarValid())
 	{
-		F32 value = val.asReal();
+		auto value = static_cast<F32>(val.asReal());
 		LLVector3 offset(0.0, 0.0, llclamp(value, MIN_HOVER_Z, MAX_HOVER_Z));
 		LL_INFOS("Avatar") << "setting hover from slider moved" << offset[2] << LL_ENDL;
 		gAgentAvatarp->setHoverOffset(offset, false);

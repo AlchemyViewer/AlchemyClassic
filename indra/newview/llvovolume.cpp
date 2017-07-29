@@ -3408,7 +3408,7 @@ U32 LLVOVolume::getRenderCost(texture_cost_t &textures) const
 		path_params = volume_params.getPathParams();
 		profile_params = volume_params.getProfileParams();
 
-		F32 weighted_triangles = -1.0;
+		F32 weighted_triangles = -1.0f;
 		getStreamingCost(NULL, NULL, &weighted_triangles);
 
 		if (weighted_triangles > 0.0)
@@ -4471,7 +4471,7 @@ void LLVolumeGeometryManager::registerFace(LLSpatialGroup* group, LLFace* facep,
                                                         || (pool_type == LLDrawPool::POOL_ALPHA)))
                     || pool_type == LLDrawPool::POOL_ALPHA_MASK
                     || pool_type == LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK;
-	bool cmp_shiny = (!LLPipeline::RenderAggressiveBatching) ? !!mat : (mat && cmp_mat);
+	bool cmp_shiny = (!LLPipeline::RenderAggressiveBatching) ? mat != nullptr : (mat && cmp_mat);
 	bool cmp_fullbright = !LLPipeline::RenderAggressiveBatching || cmp_shiny || pool_type == LLDrawPool::POOL_ALPHA;
 
 	U8 bump = facep->getTextureEntry()->getBumpmap();
@@ -5674,7 +5674,7 @@ struct CompareBatchBreakerModified
 			}
 			else if (batch_left != batch_right)	//Move non-batchable faces together.
 			{
-				return !(batch_left < batch_right);
+				return batch_left >= batch_right;
 			}
 
 			bool batch_shiny = (!LLPipeline::sRenderDeferred || (LLPipeline::RenderDeferredFullbright && lhs->isState(LLFace::FULLBRIGHT))) && lhs->getPoolType() == LLDrawPool::POOL_BUMP;

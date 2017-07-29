@@ -1324,7 +1324,7 @@ BOOL LLScrollListCtrl::selectItemByPrefix(const LLWString& target, BOOL case_sen
 			if (select)
 			{
 				// find offset of matching text (might have leading whitespace)
-				S32 offset = item_label.find(target_trimmed);
+				size_t offset = item_label.find(target_trimmed);
 				cellp->highlightText(offset, target_trimmed.size());
 				selectItem(item);
 				found = TRUE;

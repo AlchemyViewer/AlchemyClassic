@@ -132,7 +132,7 @@ bool LLEasyMessageSender::sendLLUDPMessage(const LLHost& region_host, const std:
 					return false;
 				}
 
-				int eqpos = line.find('=');
+				size_t eqpos = line.find('=');
 				if(eqpos == line.npos)
 				{
 					LLNotificationsUtil::add("GenericAlert", LLSD().with("MESSAGE", "Missing an equal sign"));

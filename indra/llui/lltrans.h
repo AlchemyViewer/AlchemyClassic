@@ -56,7 +56,7 @@ public:
 class LLTrans
 {
 public:
-	LLTrans();
+	LLTrans() {};
 
 	/**
 	 * @brief Parses the xml root that holds the strings. Used once on startup

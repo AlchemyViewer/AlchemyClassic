@@ -330,7 +330,7 @@ void LLView::removeChild(LLView* child)
 	if (child->mParentView == this) 
 	{
 		// if we are removing an item we are currently iterating over, that would be bad
-		llassert(child->mInDraw == false);
+		llassert(!child->mInDraw);
 		mChildList.remove( child );
 		// <alchemy>
 		for(boost::container::flat_map<std::string, LLView*>::iterator it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
@@ -1923,7 +1923,7 @@ public:
 
 		if(a_group < mDefaultTabGroup && b_group >= mDefaultTabGroup) return true;
 		if(b_group < mDefaultTabGroup && a_group >= mDefaultTabGroup) return false;
-		return a_group > b_group;  // sort correctly if they're both on the same side of the default tab groupreturn a > b; 
+		return a_group > b_group;  // sort correctly if they're both on the same side of the default tab groupreturn a > b;
 	}
 private:
 	// ok to store a reference, as this should only be allocated on stack during view query operations

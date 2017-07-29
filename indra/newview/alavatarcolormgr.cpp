@@ -42,7 +42,7 @@ void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors co
 	auto it = mCustomColors.find(id);
 	if (it != mCustomColors.cend())
 	{
-		mCustomColors[id] = color_val;
+		it->second = color_val;
 	}
 	else
 	{

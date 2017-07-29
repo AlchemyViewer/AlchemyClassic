@@ -16,6 +16,7 @@ build-darwin-*
 build-vc*
 build-qt*
 build-clion*
+clion-linux*
 indra/.idea
 indra-build/
 indra/build-vc[0-9]*

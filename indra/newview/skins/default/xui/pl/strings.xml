@@ -38,11 +38,12 @@ Karta graficzna (Graphics Card): [GRAPHICS_CARD]
 	<string name="AboutDriver">
 		Sterownik karty graficznej Windows (Driver Version): [GRAPHICS_DRIVER_VERSION]
 	</string>
+	<string name="AboutOGL">Wersja OpenGL: [OPENGL_VERSION]</string>
 	<string name="AboutLibs">
-Wersja OpenGL: [OPENGL_VERSION]
-
+Wersja libcurl: [LIBCURL_VERSION]
 Wersja dekodera J2C: [J2C_VERSION]
 Wersja sterownika dźwięku (Audio Driver): [AUDIO_DRIVER_VERSION]
+Wersja dekodera Font: [FONT_VERSION]
 Wersja LLCEFLib/CEF: [LLCEFLIB_VERSION]
 Wersja LibVLC: [LIBVLC_VERSION]
 Wersja serwera głosu (Voice Server): [VOICE_VERSION]

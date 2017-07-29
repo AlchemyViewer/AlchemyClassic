@@ -38,7 +38,7 @@
 		Ошибка инициализации графики. Обновите графический драйвер!
 	</string>
 	<string name="AboutHeader">
-		[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2].[VIEWER_VERSION_3] ([CHANNEL])
+[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2] ([VIEWER_VERSION_3]) ([BUILD_ARCH]) [BUILD_DATE] [BUILD_TIME] ([CHANNEL])
 [[VIEWER_RELEASE_NOTES_URL] [ReleaseNotes]]
 	</string>
 	<string name="BuildConfig">
@@ -77,8 +77,10 @@ SLURL: &lt;nolink&gt;[SLURL]&lt;/nolink&gt;
 Время создания VFS (кэш): [VFS_TIME]
 	</string>
 	<string name="AboutLibs">
-		Версия декодера J2C: [J2C_VERSION]
+Версия libcurl: [LIBCURL_VERSION]
+Версия декодера J2C: [J2C_VERSION]
 Версия драйвера звука: [AUDIO_DRIVER_VERSION]
+Font Decoder Version: [FONT_VERSION]
 Версия LLCEFLib/CEF: [LLCEFLIB_VERSION]
 Версия LibVLC: [LIBVLC_VERSION]
 Версия голосового сервера: [VOICE_VERSION]

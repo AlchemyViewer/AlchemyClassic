@@ -38,7 +38,7 @@
 		Grafik başlatma başarılamadı. Lütfen grafik sürücünüzü güncelleştirin!
 	</string>
 	<string name="AboutHeader">
-		[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2].[VIEWER_VERSION_3] ([CHANNEL])
+[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2] ([VIEWER_VERSION_3]) ([BUILD_ARCH]) [BUILD_DATE] [BUILD_TIME] ([CHANNEL])
 [[VIEWER_RELEASE_NOTES_URL] [ReleaseNotes]]
 	</string>
 	<string name="BuildConfig">
@@ -77,8 +77,10 @@ Doku belleği: [TEXTURE_MEMORY]MB
 VFS (önbellek) oluşturma zamanı: [VFS_TIME]
 	</string>
 	<string name="AboutLibs">
-		J2C Kod Çözücü Sürümü: [J2C_VERSION]
+libcurl Version: [LIBCURL_VERSION]	
+J2C Kod Çözücü Sürümü: [J2C_VERSION]
 Ses Sürücüsü Sürümü: [AUDIO_DRIVER_VERSION]
+Font Decoder Version: [FONT_VERSION]
 LLCEFLib/CEF Sürümü: [LLCEFLIB_VERSION]
 LibVLC Sürümü: [LIBVLC_VERSION]
 Ses Sunucusu Sürümü: [VOICE_VERSION]

@@ -1712,13 +1712,18 @@ void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
         mScriptEd->sync();
     }
 
+	if(!gAgent.getRegion())
+	{
+		return;
+	}
+
     const LLInventoryItem *inv_item = getItem();
     // save it out to asset server
-    std::string url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
     if(inv_item)
     {
         getWindow()->incBusyCount();
         mPendingUploads++;
+		std::string url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
         if (!url.empty())
         {
             std::string buffer(mScriptEd->mEditor->getText());

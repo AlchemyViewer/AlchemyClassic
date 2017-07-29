@@ -2830,9 +2830,7 @@ void LLAgent::processMaturityPreferenceFromServer(const LLSD &result, U8 perferr
 
 bool LLAgent::requestPostCapability(const std::string &capName, LLSD &postData, httpCallback_t cbSuccess, httpCallback_t cbFailure)
 {
-    std::string url;
-
-    url = getRegion()->getCapability(capName);
+    std::string url = getRegion() ? getRegion()->getCapability(capName) : LLStringUtil::null;
 
     if (url.empty())
     {
@@ -2846,9 +2844,7 @@ bool LLAgent::requestPostCapability(const std::string &capName, LLSD &postData, 
 
 bool LLAgent::requestGetCapability(const std::string &capName, httpCallback_t cbSuccess, httpCallback_t cbFailure)
 {
-    std::string url;
-
-    url = getRegion()->getCapability(capName);
+    std::string url = getRegion() ? getRegion()->getCapability(capName) : LLStringUtil::null;
 
     if (url.empty())
     {

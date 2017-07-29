@@ -207,10 +207,14 @@ public:
 	LLUrlEntryAgent();
 	~LLUrlEntryAgent()
 	{
-		if (mAvatarNameCacheConnection.connected())
+		for(const auto& conn_pair : mAvatarNameCacheConnections)
 		{
-			mAvatarNameCacheConnection.disconnect();
+			if (conn_pair.second.connected())
+			{
+				conn_pair.second.disconnect();
+			}
 		}
+		mAvatarNameCacheConnections.clear();
 	}
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 	/*virtual*/ std::string getIcon(const std::string &url) override;
@@ -222,7 +226,8 @@ protected:
 	/*virtual*/ void callObservers(const std::string &id, const std::string &label, const std::string& icon) override;
 private:
 	void onAvatarNameCache(const LLUUID& id, const LLAvatarName& av_name);
-	boost::signals2::connection mAvatarNameCacheConnection;
+	using avatar_name_cache_connection_map_t = std::multimap<LLUUID, boost::signals2::connection>;
+	avatar_name_cache_connection_map_t mAvatarNameCacheConnections;
 };
 
 ///
@@ -236,10 +241,15 @@ public:
 	LLUrlEntryAgentName();
 	~LLUrlEntryAgentName()
 	{
-		if (mAvatarNameCacheConnection.connected())
+		for (const auto& conn_pair : mAvatarNameCacheConnections)
 		{
-			mAvatarNameCacheConnection.disconnect();
+			if (conn_pair.second.connected())
+			{
+				conn_pair.second.disconnect();
+			}
 		}
+		mAvatarNameCacheConnections.clear();
+
 	}
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 	/*virtual*/ LLStyle::Params getStyle() const override;
@@ -248,7 +258,8 @@ protected:
 	virtual std::string getName(const LLAvatarName& avatar_name) = 0;
 private:
 	void onAvatarNameCache(const LLUUID& id, const LLAvatarName& av_name);
-	boost::signals2::connection mAvatarNameCacheConnection;
+	using avatar_name_cache_connection_map_t = std::multimap<LLUUID, boost::signals2::connection>;
+	avatar_name_cache_connection_map_t mAvatarNameCacheConnections;
 };
 
 

@@ -509,8 +509,7 @@ LLUrlEntrySimpleSecondlifeURL::LLUrlEntrySimpleSecondlifeURL()
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about
 // x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/about
 //
-LLUrlEntryAgent::LLUrlEntryAgent() :
-	mAvatarNameCacheConnection()
+LLUrlEntryAgent::LLUrlEntryAgent()
 {
 	mPattern = boost::regex(APP_HEADER_REGEX "/agent/[\\da-f-]+/\\w+",
 							boost::regex::perl|boost::regex::icase);
@@ -541,7 +540,15 @@ void LLUrlEntryAgent::callObservers(const std::string &id,
 void LLUrlEntryAgent::onAvatarNameCache(const LLUUID& id,
 										const LLAvatarName& av_name)
 {
-	mAvatarNameCacheConnection.disconnect();
+	auto range = mAvatarNameCacheConnections.equal_range(id);
+	for (auto it = range.first; it != range.second; ++it)
+	{
+		if (it->second.connected())
+		{
+			it->second.disconnect();
+		}
+	}
+	mAvatarNameCacheConnections.erase(range.first, range.second);
 	
  	std::string label = av_name.getCompleteName();
 
@@ -601,7 +608,7 @@ std::string LLUrlEntryAgent::getLabel(const std::string &url, const LLUrlLabelCa
 	if (!gCacheName)
 	{
 		// probably at the login screen, use short string for layout
-		return LLTrans::getString("LoadingData");
+		return LLTrans::getString("AvatarNameWaiting");
 	}
 
 	std::string agent_id_string = getIDStringFromUrl(url);
@@ -628,13 +635,10 @@ std::string LLUrlEntryAgent::getLabel(const std::string &url, const LLUrlLabelCa
 	}
 	else
 	{
-		if (mAvatarNameCacheConnection.connected())
-		{
-			mAvatarNameCacheConnection.disconnect();
-		}
-		mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgent::onAvatarNameCache, this, _1, _2));
+		auto connection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgent::onAvatarNameCache, this, _1, _2));
+		mAvatarNameCacheConnections.emplace(agent_id, connection);
 		addObserver(agent_id_string, url, cb);
-		return LLTrans::getString("LoadingData");
+		return LLTrans::getString("AvatarNameWaiting");
 	}
 }
 
@@ -693,14 +697,21 @@ std::string LLUrlEntryAgent::getIcon(const std::string &url)
 // secondlife:///app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
 // x-grid-info://lincoln.lindenlab.com/app/agent/0e346d8b-4433-4d66-a6b0-fd37083abc4c/(completename|displayname|username)
 //
-LLUrlEntryAgentName::LLUrlEntryAgentName() :
-	mAvatarNameCacheConnection()
+LLUrlEntryAgentName::LLUrlEntryAgentName()
 {}
 
 void LLUrlEntryAgentName::onAvatarNameCache(const LLUUID& id,
 										const LLAvatarName& av_name)
 {
-	mAvatarNameCacheConnection.disconnect();
+	auto range = mAvatarNameCacheConnections.equal_range(id);
+	for (auto it = range.first; it != range.second; ++it)
+	{
+		if (it->second.connected())
+		{
+			it->second.disconnect();
+		}
+	}
+	mAvatarNameCacheConnections.erase(range.first, range.second);
 
 	std::string label = getName(av_name);
 	// received the agent name from the server - tell our observers
@@ -712,7 +723,7 @@ std::string LLUrlEntryAgentName::getLabel(const std::string &url, const LLUrlLab
 	if (!gCacheName)
 	{
 		// probably at the login screen, use short string for layout
-		return LLTrans::getString("LoadingData");
+		return LLTrans::getString("AvatarNameWaiting");
 	}
 
 	std::string agent_id_string = getIDStringFromUrl(url);
@@ -735,13 +746,10 @@ std::string LLUrlEntryAgentName::getLabel(const std::string &url, const LLUrlLab
 	}
 	else
 	{
-		if (mAvatarNameCacheConnection.connected())
-		{
-			mAvatarNameCacheConnection.disconnect();
-		}
-		mAvatarNameCacheConnection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgentName::onAvatarNameCache, this, _1, _2));
+		auto connection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgentName::onAvatarNameCache, this, _1, _2));
+		mAvatarNameCacheConnections.emplace(agent_id, connection);
 		addObserver(agent_id_string, url, cb);
-		return LLTrans::getString("LoadingData");
+		return LLTrans::getString("AvatarNameWaiting");
 	}
 }
 
@@ -1401,7 +1409,7 @@ LLUrlEntryEmail::LLUrlEntryEmail()
 
 std::string LLUrlEntryEmail::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
-	int pos = url.find("mailto:");
+	size_t pos = url.find("mailto:");
 
 	if (pos == std::string::npos)
 	{

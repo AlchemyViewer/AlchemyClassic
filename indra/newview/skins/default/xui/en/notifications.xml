@@ -11484,9 +11484,9 @@ Error: [STATUS] [REASON]
   </notification>
 
   <notification
-   icon="notifytip.tga"
+   icon="notify.tga"
    name="SecondLifePasswordTooLong"
-   type="notifytip">
+   type="notify">
     Due to a bug in the Second Life signup process, your password is longer than 16 characters and had been truncated to allow logging in.
   </notification>
   

@@ -752,13 +752,13 @@ void LLPanelLogin::onClickConnect(void *)
 		{
 			LLNotificationsUtil::add("MustEnterPasswordToLogIn");
 		}
-		else if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
-		{
-			LLNotificationsUtil::add("SecondLifePasswordTooLong");
-			password.erase(password.begin() + 16, password.end());
-		}
 		else
 		{
+            if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
+            {
+                LLNotificationsUtil::add("SecondLifePasswordTooLong");
+                LLStringUtil::truncate(password, 16);
+            }
 			string_vec_t login_uris;
 			LLGridManager::getInstance()->getLoginURIs(login_uris);
 			if (std::none_of(login_uris.begin(), login_uris.end(),

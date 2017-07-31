@@ -1765,7 +1765,7 @@ void inventory_offer_handler(LLOfferInfo* info)
 		// try to find new slurl host
 		indx = msg.find(" ( http://maps.secondlife.com/secondlife/");
 	}
-	if (indx >= 0)
+    if (indx != std::string::npos)
 	{
 		LLStringUtil::truncate(msg, indx);
 	}

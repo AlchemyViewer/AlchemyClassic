@@ -4051,7 +4051,7 @@ TFReqSendMetrics::doWork(LLTextureFetch * fetcher)
 	
 	mStatsSD["truncated"] = truncate_viewer_metrics(10, mStatsSD);
 
-    if (gSavedSettings.getBOOL("QAModeMetrics"))
+    if (gSavedSettings.getBool("QAModeMetrics"))
     {
         dump_sequential_xml("metric_asset_stats",mStatsSD);
     }

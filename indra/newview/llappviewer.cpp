@@ -857,7 +857,7 @@ bool LLAppViewer::init()
     LLMachineID::init();
 	
 	{
-		if (gSavedSettings.getBOOL("QAModeMetrics"))
+		if (gSavedSettings.getBool("QAModeMetrics"))
 		{
 			app_metrics_qa_mode = true;
 			app_metrics_interval = METRICS_INTERVAL_QA;

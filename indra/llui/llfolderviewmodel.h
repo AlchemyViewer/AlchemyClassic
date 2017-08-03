@@ -215,7 +215,7 @@ public:
 	virtual void setSortVersion(S32 version) = 0;
 	virtual void setParent(LLFolderViewModelItem* parent) = 0;
 	virtual bool hasParent() = 0;
-
+	virtual LLFolderViewModelItem* getParent() const = 0;
 protected:
 
 	friend class LLFolderViewItem;
@@ -284,14 +284,10 @@ public:
 	{ 
 		// Avoid duplicates: bail out if that child is already present in the list
 		// Note: this happens when models are created before views
-		for (auto iter = mChildren.cbegin(),
-			end_iter = mChildren.cend(); iter != end_iter; ++iter)
-		{
-			if (child == *iter)
-			{
-				return;
-			}
-		}
+		
+		if(child->getParent() == this)
+			return;
+
 		mChildren.push_back(child);
 		child->setParent(this); 
 		dirtyFilter();
@@ -365,6 +361,8 @@ public:
 protected:
 	virtual void setParent(LLFolderViewModelItem* parent) { mParent = parent; }
 	virtual bool hasParent() { return mParent != NULL; }
+
+	virtual LLFolderViewModelItem* getParent() const { return mParent; }
 
 	S32							mSortVersion;
 	bool						mPassedFilter;

@@ -197,6 +197,7 @@ public:
 	/*virtual*/ BOOL handleMouseDown( S32 x, S32 y, MASK mask ) override;
 	/*virtual*/ BOOL handleDoubleClick( S32 x, S32 y, MASK mask ) override;
 	/*virtual*/ BOOL handleRightMouseDown( S32 x, S32 y, MASK mask ) override;
+	/*virtual*/ BOOL handleScrollWheel(S32 x, S32 y, S32 clicks) override;
 	/*virtual*/ BOOL handleHover( S32 x, S32 y, MASK mask ) override;
 	/*virtual*/ BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,

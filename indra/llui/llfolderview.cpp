@@ -697,13 +697,6 @@ void LLFolderView::draw()
 		}
 	}
 
-	if (mRenameItem && mRenamer && mRenamer->getVisible() && !getVisibleRect().overlaps(mRenamer->getRect()))
-	{
-		// renamer is not connected to the item we are renaming in any form so manage it manually
-		// TODO: consider stopping on any scroll action instead of when out of visible area
-		finishRenamingItem();
-	}
-
 	// skip over LLFolderViewFolder::draw since we don't want the folder icon, label, 
 	// and arrow for the root folder
 	LLView::draw();
@@ -984,12 +977,26 @@ BOOL LLFolderView::canPaste() const
 
 	if(getVisible() && getEnabled())
 	{
+		std::set<size_t> stListeners;
+
 		for (selected_items_t::const_iterator item_it = mSelectedItems.begin();
 			 item_it != mSelectedItems.end(); ++item_it)
 		{
 			// *TODO: only check folders and parent folders of items
 			const LLFolderViewItem* item = (*item_it);
 			const LLFolderViewModelItem* listener = item->getViewModelItem();
+
+			// Only run each isClipboardPasteable once for each type of listeners.
+			// isClipboardPasteable is a very expensive operation, and it will always process the whole clipboards contents.
+			// Thus running it for n objects means each object gets n times processed.
+			if (listener)
+			{
+				if (stListeners.find(typeid(*listener).hash_code()) != stListeners.cend())
+					continue;
+				else
+					stListeners.emplace(typeid(*listener).hash_code());
+			}
+
 			if(!listener || !listener->isClipboardPasteable())
 			{
 				const LLFolderViewFolder* folderp = item->getParentFolder();
@@ -1344,6 +1351,16 @@ BOOL LLFolderView::handleMouseDown( S32 x, S32 y, MASK mask )
 	LLEditMenuHandler::gEditMenuHandler = this;
 
 	return LLView::handleMouseDown( x, y, mask );
+}
+
+BOOL LLFolderView::handleScrollWheel(S32 x, S32 y, S32 clicks)
+{
+	if (mRenameItem)
+	{
+		finishRenamingItem();
+	}
+
+	return LLView::handleScrollWheel(x, y, clicks);
 }
 
 BOOL LLFolderView::search(LLFolderViewItem* first_item, const std::string &search_string, BOOL backward)

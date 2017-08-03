@@ -210,13 +210,15 @@ TimerInfo::TimerInfo()
 :	mClockFrequency(0.0),
 	mTotalTimeClockCount(0),
 	mLastTotalTimeClockCount(0)
-{}
+{
+	mClockFrequency = calc_clock_frequency();
+	mClockFrequencyInv = 1.0 / mClockFrequency;
+	mClocksToMicroseconds = mClockFrequencyInv;
+}
 
 void TimerInfo::update()
 {
-	mClockFrequency = calc_clock_frequency();
-	mClockFrequencyInv = 1.0/mClockFrequency;
-	mClocksToMicroseconds = mClockFrequencyInv;
+
 }
 
 TimerInfo& get_timer_info()

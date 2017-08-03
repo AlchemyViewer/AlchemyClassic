@@ -72,13 +72,11 @@ public:
 	//
 #if LL_FASTTIMER_USE_RDTSC
 
-#if 1
 	// shift off lower 8 bits for lower resolution but longer term timing
 	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
 	static U32 getCPUClockCount32()
 	{
-		U64 time_stamp = __rdtsc();
-		time_stamp = time_stamp >> 8U;
+		U64 time_stamp = __rdtsc() >> 8U;
 		return static_cast<U32>(time_stamp);
 	}
 
@@ -87,41 +85,6 @@ public:
 	{
 		return static_cast<U64>(__rdtsc());
 	}
-
-#else
-	// shift off lower 8 bits for lower resolution but longer term timing
-	// on 1Ghz machine, a 32-bit word will hold ~1000 seconds of timing
-	static U32 getCPUClockCount32()
-	{
-		U32 ret_val;
-		__asm
-		{
-			_emit   0x0f
-				_emit   0x31
-				shr eax,8
-				shl edx,24
-				or eax, edx
-				mov dword ptr [ret_val], eax
-		}
-		return ret_val;
-	}
-
-	// return full timer value, *not* shifted by 8 bits
-	static U64 getCPUClockCount64()
-	{
-		U64 ret_val;
-		__asm
-		{
-			_emit   0x0f
-				_emit   0x31
-				mov eax,eax
-				mov edx,edx
-				mov dword ptr [ret_val+4], edx
-				mov dword ptr [ret_val], eax
-		}
-		return ret_val;
-	}
-#endif // _WIN64
 
 #else
 	//U64 get_clock_count(); // in lltimer.cpp

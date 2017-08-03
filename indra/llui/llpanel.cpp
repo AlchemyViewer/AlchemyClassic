@@ -207,7 +207,7 @@ void LLPanel::draw()
 	{
 		F32 alpha = getCurrentTransparency();
 
-		LLRect local_rect = getLocalRect();
+		LLRect&& local_rect = getLocalRect();
 		if (mBgOpaque )
 		{
 			// opaque, in-front look

@@ -232,41 +232,42 @@ TimerInfo& get_timer_info()
 U64MicrosecondsImplicit totalTime()
 {
 	U64 current_clock_count = get_clock_count();
-	if (!get_timer_info().mTotalTimeClockCount || get_timer_info().mClocksToMicroseconds.value() == 0)
+	auto& timer_info = get_timer_info();
+	if (!timer_info.mTotalTimeClockCount || timer_info.mClocksToMicroseconds.value() == 0)
 	{
-		get_timer_info().update();
-		get_timer_info().mTotalTimeClockCount = current_clock_count;
+		timer_info.update();
+		timer_info.mTotalTimeClockCount = current_clock_count;
 
 #if LL_WINDOWS
 		// Sync us up with local time (even though we PROBABLY don't need to, this is how it was implemented)
 		// Unix platforms use gettimeofday so they are synced, although this probably isn't a good assumption to
 		// make in the future.
 
-		get_timer_info().mTotalTimeClockCount = (U64)(time(nullptr) * get_timer_info().mClockFrequency);
+		timer_info.mTotalTimeClockCount = (U64)(time(nullptr) * timer_info.mClockFrequency);
 #endif
 
 		// Update the last clock count
-		get_timer_info().mLastTotalTimeClockCount = current_clock_count;
+		timer_info.mLastTotalTimeClockCount = current_clock_count;
 	}
 	else
 	{
-		if (current_clock_count >= get_timer_info().mLastTotalTimeClockCount)
+		if (current_clock_count >= timer_info.mLastTotalTimeClockCount)
 		{
 			// No wrapping, we're all okay.
-			get_timer_info().mTotalTimeClockCount += current_clock_count - get_timer_info().mLastTotalTimeClockCount;
+			timer_info.mTotalTimeClockCount += current_clock_count - timer_info.mLastTotalTimeClockCount;
 		}
 		else
 		{
 			// We've wrapped.  Compensate correctly
-			get_timer_info().mTotalTimeClockCount += (0xFFFFFFFFFFFFFFFFULL - get_timer_info().mLastTotalTimeClockCount) + current_clock_count;
+			timer_info.mTotalTimeClockCount += (0xFFFFFFFFFFFFFFFFULL - timer_info.mLastTotalTimeClockCount) + current_clock_count;
 		}
 
 		// Update the last clock count
-		get_timer_info().mLastTotalTimeClockCount = current_clock_count;
+		timer_info.mLastTotalTimeClockCount = current_clock_count;
 	}
 
 	// Return the total clock tick count in microseconds.
-	U64Microseconds time(get_timer_info().mTotalTimeClockCount*get_timer_info().mClocksToMicroseconds);
+	U64Microseconds time(timer_info.mTotalTimeClockCount*timer_info.mClocksToMicroseconds);
 	return time;
 }
 

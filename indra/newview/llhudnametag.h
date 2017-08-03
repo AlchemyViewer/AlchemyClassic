@@ -37,6 +37,7 @@
 #include "llrect.h"
 //#include "llframetimer.h"
 #include "llfontgl.h"
+#include "lluiimage.h"
 #include <set>
 
 class LLDrawable;
@@ -170,6 +171,9 @@ private:
 	EVertAlignment	mVertAlignment;
 	S32				mLOD;
 	BOOL			mHidden;
+
+	LLUIImagePtr	mRoundedRectImage;
+	LLUIImagePtr	mRoundedRectTopImage;
 
 	static BOOL    sDisplayText ;
 	static std::set<LLPointer<LLHUDNameTag> > sTextObjects;

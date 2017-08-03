@@ -99,7 +99,8 @@ LLFastTimerView::LLFastTimerView(const LLSD& key)
 	mTimeScaleCombo(nullptr),
 	mBarsPanel(nullptr),
 	mLinesPanel(nullptr),
-	mLegendPanel(nullptr)
+	mLegendPanel(nullptr),
+	mBarImage(LLUI::getUIImage("Rounded_Square"))
 {
 	mTimerBarRows.resize(NUM_FRAMES_HISTORY);
 }
@@ -1461,12 +1462,11 @@ void LLFastTimerView::drawBars()
 
 	// Draw bars for each history entry
 	// Special: 0 = show running average
-	LLPointer<LLUIImage> bar_image = LLUI::getUIImage("Rounded_Square");
 
-	const S32 image_width = bar_image->getTextureWidth();
-	const S32 image_height = bar_image->getTextureHeight();
+	const S32 image_width = mBarImage->getTextureWidth();
+	const S32 image_height = mBarImage->getTextureHeight();
 
-	gGL.getTexUnit(0)->bind(bar_image->getImage());
+	gGL.getTexUnit(0)->bind(mBarImage->getImage());
 	{	
 		const S32 histmax = (S32)mRecording.getNumRecordedPeriods();
 

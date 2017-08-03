@@ -158,6 +158,9 @@ private:
 	LLLayoutPanel*					mLinesPanel;
 
 	LLPanel*						mLegendPanel;
+
+	// UI Resources
+	LLUIImagePtr					mBarImage;
 };
 
 #endif

@@ -1750,7 +1750,7 @@ void LLLineEditor::drawBackground()
 void LLLineEditor::draw()
 {
 	F32 alpha = getDrawContext().mAlpha;
-	S32 text_len = mText.length();
+	
 	static LLUICachedControl<S32> lineeditor_cursor_thickness ("UILineEditorCursorThickness", 0);
 	static LLUICachedControl<F32> preedit_marker_brightness ("UIPreeditMarkerBrightness", 0);
 	static LLUICachedControl<S32> preedit_marker_gap ("UIPreeditMarkerGap", 0);
@@ -1760,7 +1760,6 @@ void LLLineEditor::draw()
 	static LLUICachedControl<S32> preedit_standout_gap ("UIPreeditStandoutGap", 0);
 	static LLUICachedControl<S32> preedit_standout_position ("UIPreeditStandoutPosition", 0);
 	static LLUICachedControl<S32> preedit_standout_thickness ("UIPreeditStandoutThickness", 0);
-
 	std::string saved_text;
 	if (mDrawAsterixes)
 	{
@@ -1772,6 +1771,8 @@ void LLLineEditor::draw()
 		}
 		mText = text;
 	}
+
+	S32 text_len = mText.length();
 
 	// draw rectangle for the background
 	LLRect background( 0, getRect().getHeight(), getRect().getWidth(), 0 );

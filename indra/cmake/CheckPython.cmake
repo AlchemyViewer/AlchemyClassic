@@ -2,6 +2,7 @@
 #
 # Simply finds the Python interpreter and makes sure
 # it is the right version.
+set(Python_ADDITIONAL_VERSIONS 2.7)
 include (FindPythonInterp)
 
 if(${PYTHONINTERP_FOUND})

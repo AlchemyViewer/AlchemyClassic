@@ -1159,7 +1159,7 @@ void LLView::drawChildren()
 		LLView* rootp = LLUI::getRootView();		
 		++sDepth;
 
-		for (child_list_reverse_iter_t child_iter = mChildList.rbegin(); child_iter != mChildList.rend();)  // ++child_iter)
+		for (auto child_iter = mChildList.rbegin(), child_iter_end = mChildList.rend(); child_iter != child_iter_end;)  // ++child_iter)
 		{
 			child_list_reverse_iter_t child = child_iter++;
 			LLView *viewp = *child;
@@ -1168,15 +1168,15 @@ void LLView::drawChildren()
 			{
 				continue;
 			}
-
-			if (viewp->getVisible() && viewp->getRect().isValid())
+			const LLRect& view_rect = viewp->getRect();
+			if (viewp->getVisible() && view_rect.isValid())
 			{
 				LLRect screen_rect = viewp->calcScreenRect();
 				if ( rootp->getLocalRect().overlaps(screen_rect)  && LLUI::sDirtyRect.overlaps(screen_rect))
 				{
 					LLUI::pushMatrix();
 					{
-						LLUI::translate((F32)viewp->getRect().mLeft, (F32)viewp->getRect().mBottom);
+						LLUI::translate((F32) view_rect.mLeft, (F32) view_rect.mBottom);
 						// flag the fact we are in draw here, in case overridden draw() method attempts to remove this widget
 						viewp->mInDraw = true;
 						viewp->draw();
@@ -1501,8 +1501,8 @@ LLRect LLView::getLocalBoundingRect() const
 
 LLRect LLView::getLocalRect() const
 {
-	LLRect local_rect(0, getRect().getHeight(), getRect().getWidth(), 0);
-	return local_rect;
+	const auto& rect = getRect();
+	return LLRect(0, rect.getHeight(), rect.getWidth(), 0);
 }
 
 LLRect LLView::getLocalSnapRect() const
@@ -1648,7 +1648,7 @@ void LLView::localPointToScreen(S32 local_x, S32 local_y, S32* screen_x, S32* sc
 	const LLView* cur = this;
 	do
 	{
-		LLRect cur_rect = cur->getRect();
+		const LLRect& cur_rect = cur->getRect();
 		*screen_x += cur_rect.mLeft;
 		*screen_y += cur_rect.mBottom;
 		cur = cur->mParentView;

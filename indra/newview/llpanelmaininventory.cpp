@@ -199,18 +199,6 @@ BOOL LLPanelMainInventory::postBuild()
 				recent_items_panel->setSortOrder(gSavedSettings.getU32(LLInventoryPanel::RECENTITEMS_SORT_ORDER));
 			}
 		}
-		if(worn_items_panel)
-		{
-			if(savedFilterState.has(worn_items_panel->getFilter().getName()))
-			{
-				LLSD worn_items = savedFilterState.get(
-					worn_items_panel->getFilter().getName());
-				LLInventoryPanel::InventoryState p;
-				LLParamSDParser parser;
-				parser.readSD(worn_items, p);
-				worn_items_panel->getFilter().fromParams(p.filter);
-			}
-		}
 	}
 
 	mFilterEditor = getChild<LLFilterEditor>("inventory search editor");
@@ -276,20 +264,6 @@ LLPanelMainInventory::~LLPanelMainInventory( void )
 		{
 			LLParamSDParser().writeSD(filterState, p);
 			filterRoot[recent_panel->getName()] = filterState;
-		}
-	}
-	
-	LLInventoryPanel* worn_panel = findChild<LLInventoryPanel>("Worn Items");
-	if (worn_panel)
-	{
-		LLSD filterState;
-		LLInventoryPanel::InventoryState p;
-		worn_panel->getFilter().toParams(p.filter);
-		worn_panel->getRootViewModel().getSorter().toParams(p.sort);
-		if (p.validateBlock(false))
-		{
-			LLParamSDParser().writeSD(filterState, p);
-			filterRoot[worn_panel->getName()] = filterState;
 		}
 	}
 

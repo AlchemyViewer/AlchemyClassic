@@ -2567,7 +2567,6 @@ void LLFloaterPreference::refreshGraphics()
 	updateSliderText(getChild<LLSliderCtrl>("TerrainMeshDetail", true), getChild<LLTextBox>("TerrainMeshDetailText", true));
 	updateSliderText(getChild<LLSliderCtrl>("RenderPostProcess", true), getChild<LLTextBox>("PostProcessText", true));
 	updateSliderText(getChild<LLSliderCtrl>("SkyMeshDetail", true), getChild<LLTextBox>("SkyMeshDetailText", true));
-	updateSliderText(getChild<LLSliderCtrl>("TerrainDetail", true), getChild<LLTextBox>("TerrainDetailText", true));
 	LLAvatarComplexityControls::setIndirectControls();
 	setMaxNonImpostorsText(
 		gSavedSettings.getU32("RenderAvatarMaxNonImpostors"),
@@ -2584,7 +2583,7 @@ void LLFloaterPreference::refreshGraphics()
 void LLFloaterPreference::refreshEnabledStateGraphics()
 {
 	LLComboBox* ctrl_reflections = getChild<LLComboBox>("Reflections");
-	LLTextBox* reflections_text = getChild<LLTextBox>("ReflectionsText");
+	LLTextBox* reflections_text = getChild<LLTextBox>("reflection_label");
 
 	// Reflections
 	BOOL reflections = gSavedSettings.getBOOL("VertexShaderEnable")
@@ -2626,23 +2625,11 @@ void LLFloaterPreference::refreshEnabledStateGraphics()
 	// Vertex Shaders
 	// Global Shader Enable
 	LLCheckBoxCtrl* ctrl_shader_enable = getChild<LLCheckBoxCtrl>("BasicShaders");
-	LLSliderCtrl* terrain_detail = getChild<LLSliderCtrl>("TerrainDetail");   // can be linked with control var
-	LLTextBox* terrain_text = getChild<LLTextBox>("TerrainDetailText");
+
 
 	ctrl_shader_enable->setEnabled(LLFeatureManager::getInstance()->isFeatureAvailable("VertexShaderEnable"));
 
 	BOOL shaders = ctrl_shader_enable->get();
-	if (shaders)
-	{
-		terrain_detail->setValue(1);
-		terrain_detail->setEnabled(FALSE);
-		terrain_text->setEnabled(FALSE);
-	}
-	else
-	{
-		terrain_detail->setEnabled(TRUE);
-		terrain_text->setEnabled(TRUE);
-	}
 
 	// WindLight
 	LLCheckBoxCtrl* ctrl_wind_light = getChild<LLCheckBoxCtrl>("WindLightUseAtmosShaders");
@@ -2676,7 +2663,7 @@ void LLFloaterPreference::refreshEnabledStateGraphics()
 	LLCheckBoxCtrl* ctrl_ssao = getChild<LLCheckBoxCtrl>("UseSSAO");
 	LLCheckBoxCtrl* ctrl_dof = getChild<LLCheckBoxCtrl>("UseDoF");
 	LLComboBox* ctrl_shadow = getChild<LLComboBox>("ShadowDetail");
-	LLTextBox* shadow_text = getChild<LLTextBox>("RenderShadowDetailText");
+	LLTextBox* shadow_text = getChild<LLTextBox>("shadows_label");
 
 	// note, okay here to get from ctrl_deferred as its twin, ctrl_deferred2 will alway match it
 	enabled = enabled && LLFeatureManager::getInstance()->isFeatureAvailable("RenderDeferredSSAO") && (ctrl_deferred->get() ? TRUE : FALSE);
@@ -2734,7 +2721,7 @@ void LLFloaterPreference::refreshEnabledStateGraphics()
 void LLFloaterPreference::disableUnavailableSettings()
 {
 	LLComboBox* ctrl_reflections = getChild<LLComboBox>("Reflections");
-	LLTextBox* reflections_text = getChild<LLTextBox>("ReflectionsText");
+	LLTextBox* reflections_text = getChild<LLTextBox>("reflection_label");
 	LLCheckBoxCtrl* ctrl_avatar_vp = getChild<LLCheckBoxCtrl>("AvatarVertexProgram");
 	LLCheckBoxCtrl* ctrl_avatar_cloth = getChild<LLCheckBoxCtrl>("AvatarCloth");
 	LLCheckBoxCtrl* ctrl_shader_enable = getChild<LLCheckBoxCtrl>("BasicShaders");
@@ -2743,7 +2730,7 @@ void LLFloaterPreference::disableUnavailableSettings()
 	LLCheckBoxCtrl* ctrl_deferred = getChild<LLCheckBoxCtrl>("UseLightShaders");
 	LLCheckBoxCtrl* ctrl_deferred2 = getChild<LLCheckBoxCtrl>("UseLightShaders2");
 	LLComboBox* ctrl_shadows = getChild<LLComboBox>("ShadowDetail");
-	LLTextBox* shadows_text = getChild<LLTextBox>("RenderShadowDetailText");
+	LLTextBox* shadows_text = getChild<LLTextBox>("shadows_label");
 	LLCheckBoxCtrl* ctrl_ssao = getChild<LLCheckBoxCtrl>("UseSSAO");
 	LLCheckBoxCtrl* ctrl_dof = getChild<LLCheckBoxCtrl>("UseDoF");
 	LLSliderCtrl* sky = getChild<LLSliderCtrl>("SkyMeshDetail");

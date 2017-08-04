@@ -161,6 +161,7 @@
      border="false"
      name="chat_appearance">
     <text
+	follows="top|left"
         layout="topleft"
         left="0"
         height="12"
@@ -171,6 +172,7 @@
     </text>
     <combo_box
         control_name="ChatFontSize"
+	follows="top|left"
         height="20"
         layout="topleft"
         left_pad="32"
@@ -207,6 +209,7 @@
       </text>
     <combo_box
         control_name="NearbyChatInput"
+	follows="top|left"
         height="20"
         layout="topleft"
         left_pad="0"
@@ -237,6 +240,7 @@
         control_name="AlchemyNearbyChatOutput"
         height="20"
         layout="topleft"
+	follows="top|left"
         left_pad="0"
         name="nearby_output_combo"
         top_delta="-1"
@@ -292,7 +296,7 @@
         text_color="White"
         height="17"
         left="10"
-        bottom="68"
+        bottom="73"
         width="55">
         Save:
     </text>
@@ -836,7 +840,7 @@
      name="do_not_disturb_response"
      right="-15"
      word_wrap="true"
-     max_length_bytes="1024">
+     max_text_length="1023">
        log_in_to_change
     </text_editor>
     <text
@@ -865,7 +869,7 @@
      name="AlchemyAutoresponse"
      right="-15"
      word_wrap="true"
-     max_length_bytes="1024">
+     max_length_text="1023">
        log_in_to_change
     </text_editor>
     <text
@@ -894,7 +898,7 @@
      name="AlchemyAutoresponseNotFriend"
      right="-15"
      word_wrap="true"
-     max_length_bytes="1024">
+     max_length_text="1023">
        log_in_to_change
     </text_editor>
 

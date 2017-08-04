@@ -8823,9 +8823,9 @@ Please check your network and firewall setup.
   </notification>
 
   <notification
-   icon="alertmodal.tga"
+   icon="notify.tga"
    name="NoVoiceConnect"
-   type="alertmodal">
+   type="notify">
 We're having trouble connecting to your voice server:
 
 [HOSTID]

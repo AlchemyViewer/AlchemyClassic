@@ -236,7 +236,7 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 			LLAvatarNameCache::get(agent_id, &av_name);
 
 			addChangedMask(LLFriendObserver::ADD, agent_id);
-			LL_INFOS() << "Added buddy " << agent_id
+			LL_DEBUGS() << "Added buddy " << agent_id
 					<< ", " << (mBuddyInfo[agent_id]->isOnline() ? "Online" : "Offline")
 					<< ", TO: " << mBuddyInfo[agent_id]->getRightsGrantedTo()
 					<< ", FROM: " << mBuddyInfo[agent_id]->getRightsGrantedFrom()

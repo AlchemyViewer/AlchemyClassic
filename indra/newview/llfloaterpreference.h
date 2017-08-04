@@ -77,9 +77,6 @@ public:
 
 	// static data update, called from message handler
 	static void updateUserInfo(const std::string& visibility, bool im_via_email);
-
-	// refresh all the graphics preferences menus
-	static void refreshEnabledGraphics();
 	
 	// translate user's do not disturb response message according to current locale if message is default, otherwise do nothing
 	static void initDoNotDisturbResponse();
@@ -162,13 +159,23 @@ public:
 	void onClickAutoReplace();
 	void onClickSpellChecker();
 	void onClickRenderExceptions();
-	void onClickAdvanced();
 	void onClickResetControlDefault(const LLSD& userdata); // <alchemy/>
 	void applyUIColor(LLUICtrl* ctrl, const LLSD& param);
 	void getUIColor(LLUICtrl* ctrl, const LLSD& param);
 	void onLogChatHistorySaved();	
 	void buildPopupLists();
 	void selectPanel(const LLSD& name);
+
+	// Graphics panels
+
+	void disableUnavailableSettings();
+	// refresh all the graphics preferences menus
+	void refreshEnabledGraphics();
+	void refreshEnabledStateGraphics();
+	void updateSliderText(LLSliderCtrl* ctrl, LLTextBox* text_box);
+	void updateMaxNonImpostors();
+	void setMaxNonImpostorsText(U32 value, LLTextBox* text_box);
+	void refreshGraphics();
 
 private:
 	void onSoundQualityChange();
@@ -271,30 +278,6 @@ public:
 
 protected:
 	LOG_CLASS(LLPanelPreferenceGraphics);
-};
-
-class LLFloaterPreferenceGraphicsAdvanced : public LLFloater
-{
-  public: 
-	LLFloaterPreferenceGraphicsAdvanced(const LLSD& key);
-	~LLFloaterPreferenceGraphicsAdvanced();
-	void onOpen(const LLSD& key) override;
-	void onClickCloseBtn(bool app_quitting) override;
-	void disableUnavailableSettings();
-	void refreshEnabledGraphics();
-	void refreshEnabledState();
-	void updateSliderText(LLSliderCtrl* ctrl, LLTextBox* text_box);
-	void updateMaxNonImpostors();
-	void setMaxNonImpostorsText(U32 value, LLTextBox* text_box);
-	void updateMaxComplexity();
-	void setMaxComplexityText(U32 value, LLTextBox* text_box);
-	static void setIndirectControls();
-	static void setIndirectMaxNonImpostors();
-	static void setIndirectMaxArc();
-	void refresh() override;
-	// callback for when client turns on shaders
-	void onVertexShaderEnable();
-	LOG_CLASS(LLFloaterPreferenceGraphicsAdvanced);
 };
 
 class LLAvatarComplexityControls

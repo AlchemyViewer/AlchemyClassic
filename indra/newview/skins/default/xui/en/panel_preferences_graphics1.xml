@@ -415,7 +415,7 @@
         <text
          type="string"
          length="1"
-         top_pad="5"
+         top_pad="-1"
          follows="top|left"
          height="23"
          width="110"
@@ -427,10 +427,10 @@
         </text>
         <combo_box
          control_name="RenderShadowDetail"
-         height="22"
+         height="18"
          layout="topleft"
          left="10"
-         top_pad="-4" 
+         top_pad="-7" 
          name="ShadowDetail"
          width="150">
            <combo_box.item
@@ -450,7 +450,7 @@
         <text
          type="string"
          length="1"
-         top_pad="8"
+         top_pad="1"
          follows="top|left"
          height="12"
          width="110"
@@ -462,10 +462,10 @@
         </text>
         <combo_box
          control_name="RenderReflectionDetail"
-         height="22"
+         height="18"
          layout="topleft"
          left_delta="0"
-         top_pad ="7"
+         top_pad ="5"
          name="Reflections"
          width="150">
             <combo_box.item
@@ -489,99 +489,6 @@
              name="4"
              value="4"/>
         </combo_box>
-    
-        <slider
-        control_name="RenderAvatarPhysicsLODFactor"
-        follows="left|top"
-        height="16"
-        initial_value="100"
-    increment=".05"
-        label="  Avatar Physics:"
-        label_width="90"
-        layout="topleft"
-        left_delta="-5"
-        name="AvatarPhysicsDetail"
-        show_text="false"
-        top_pad="12"
-        width="160">
-           <slider.commit_callback
-            function="Pref.UpdateSliderText"
-            parameter="AvatarPhysicsDetailText" />
-        </slider>
-        <text
-        type="string"
-        length="1"
-        follows="left|top"
-        height="12"
-        layout="topleft"
-        left_delta="165"
-        name="AvatarPhysicsDetailText"
-        top_pad="-16"
-        width="128">
-           Low
-        </text>
-  <slider
-    visiblity_control="ShowAdvancedGraphicsSettings"
-    control_name="IndirectMaxComplexity"
-    tool_tip="Controls at what point a visually complex avatar is drawn as a JellyDoll"
-    follows="left|top"
-    height="16"
-    initial_value="101"
-    increment="1"
-    label="Max Complexity:"
-    label_width="90"
-    layout="topleft"
-    left_delta="-165"
-    min_val="1"
-    max_val="101"
-    name="IndirectMaxComplexity2"
-    show_text="false"
-    top_delta="20"
-    width="160">
-    <slider.commit_callback
-      function="Pref.UpdateIndirectMaxComplexity"
-      parameter="IndirectMaxComlexityText" />
-  </slider>
-  <text
-    visiblity_control="ShowAdvancedGraphicsSettings"
-    type="string"
-    length="1"
-    follows="left|top"
-    height="16"
-    layout="topleft"
-    top_delta="0"
-    left_delta="165"
-    text_readonly_color="LabelDisabledColor"
-    name="IndirectMaxComplexityText2"
-    width="65">
-       0
-  </text>
-  <check_box
-    visiblity_control="ShowAdvancedGraphicsSettings"
-    control_name="AlwaysRenderFriends"
-    height="16"
-    initial_value="true"
-    label="Always Render Friends"
-    follows="left|top"
-    layout="topleft"
-    left_delta="-155"
-    name="AlwaysRenderFriends2"
-    top_delta="20"
-    width="256">
-  </check_box>
-  <button
-    visiblity_control="ShowAdvancedGraphicsSettings"
-    height="23"
-    label="Exceptions..."
-    follows="left|top"
-    layout="topleft"
-    left_delta="20"
-    name="RenderExceptionsButton"
-    top_delta="19"
-    width="100">
-    <button.commit_callback
-      function="Pref.RenderExceptions"/>
-  </button>
 
         <slider
          control_name="RenderFarClip"
@@ -624,42 +531,8 @@
          left="230"
          max_val="8192"
          name="MaxParticleCount"
-         top_pad="4"
+	 top_pad="8"
          width="270" />
-        <slider
-         control_name="IndirectMaxNonImpostors"
-         decimal_digits="0"
-         follows="left|top"
-         height="16"
-         increment="1"
-         initial_value="12"
-         label="Max. non-impostors:"
-         tool_tip="How many avatar we show in full 3D. The rest will look 2D and use less resources"
-         label_width="125"
-         layout="topleft"
-         left_delta="0"
-         min_val="1"
-         max_val="66"
-         name="IndirectMaxNonImpostors"
-         top_pad="1"
-         width="230"
-		 show_text="false">
-		     <slider.commit_callback
-      function="Pref.UpdateIndirectMaxNonImpostors"
-      parameter="IndirectNonImpostorsText" />
-		 </slider>
-        <text
-         type="string"
-         length="1"
-         follows="left|top"
-         height="12"
-         layout="topleft"
-         left_delta="234"
-         name="IndirectMaxNonImpostorsText"
-         top_delta="0"
-         width="128">
-            0
-        </text>
         <slider
           control_name="RenderGlowResolutionPow"
          decimal_digits="0"
@@ -706,7 +579,7 @@
          max_val="2"
          name="ObjectMeshDetail"
          show_text="false"
-         top_pad="4"
+         top_pad="6"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -723,7 +596,7 @@
          left_delta="0"
          name="FlexibleMeshDetail"
          show_text="false"
-         top_pad="2"
+         top_pad="4"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -742,7 +615,7 @@
          left_delta="0"
          name="TreeMeshDetail"
          show_text="false"
-         top_pad="2"
+         top_pad="4"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -760,7 +633,7 @@
          left_delta="0"
          name="AvatarMeshDetail"
          show_text="false"
-         top_pad="2"
+         top_pad="4"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -776,11 +649,11 @@
          label_width="125"
          layout="topleft"
          left_delta="0"
-         max_val="2"
+         max_val="4"
          min_val="1"
          name="TerrainMeshDetail"
          show_text="false"
-         top_pad="2"
+         top_pad="4"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -802,7 +675,7 @@
          min_val="16"
          name="SkyMeshDetail"
          show_text="false"
-         top_pad="2"
+         top_pad="4"
          width="230">
             <slider.commit_callback
              function="Pref.UpdateSliderText"
@@ -816,7 +689,7 @@
          layout="topleft"
          left="464"
          name="PostProcessText"
-         top="50"
+         top="41"
          width="128">
             Low
         </text>
@@ -828,7 +701,7 @@
          layout="topleft"
          left_delta="0"
          name="ObjectMeshDetailText"
-         top_pad="24"
+         top_pad="26"
          width="43">
             Low
         </text>
@@ -840,7 +713,7 @@
          layout="topleft"
          left_delta="0"
          name="FlexibleMeshDetailText"
-         top_pad="6"
+         top_pad="8"
          width="128">
             Low
         </text>
@@ -852,7 +725,7 @@
          layout="topleft"
          left_delta="0"
          name="TreeMeshDetailText"
-         top_pad="6"
+         top_pad="8"
          width="128">
             Low
         </text>
@@ -864,7 +737,7 @@
          layout="topleft"
          left_delta="0"
          name="AvatarMeshDetailText"
-         top_pad="6"
+         top_pad="8"
          width="128">
             Low
         </text>
@@ -876,7 +749,7 @@
          layout="topleft"
          left_delta="0"
          name="TerrainMeshDetailText"
-         top_pad="6"
+         top_pad="8"
          width="128">
             Low
         </text>
@@ -889,7 +762,7 @@
          layout="topleft"
          left_delta="0"
          name="SkyMeshDetailText"
-         top_pad="6"
+         top_pad="8"
          width="128">
             Low
         </text>
@@ -899,9 +772,9 @@
          follows="left|top"
          height="12"
          layout="topleft"
-         left_delta="-230"
+         left="10"
          name="AvatarRenderingText"
-         top_pad="20"
+         top_pad="10"
          width="128">
         Avatar Rendering:
       </text>
@@ -909,9 +782,9 @@
        control_name="RenderAvatarVP"
        height="16"
        initial_value="true"
-       label="Hardware skinning"
+       label="HW skinning"
        layout="topleft"
-       left_delta="0"
+       left_delta="-2"
        name="AvatarVertexProgram"
        top_pad="7"
        width="256">
@@ -928,6 +801,133 @@
        name="AvatarCloth"
        top_pad="1"
        width="256" />
+    
+  <slider
+    visiblity_control="ShowAdvancedGraphicsSettings"
+    control_name="IndirectMaxComplexity"
+    tool_tip="Controls at what point a visually complex avatar is drawn as a JellyDoll"
+    follows="left|top"
+    height="16"
+    initial_value="101"
+    increment="1"
+    label="Complexity"
+    label_width="64"
+    layout="topleft"
+    left_delta="124"
+    min_val="1"
+    max_val="101"
+    name="IndirectMaxComplexity2"
+    show_text="false"
+    top_delta="-19"
+    width="110">
+    <slider.commit_callback
+      function="Pref.UpdateIndirectMaxComplexity"
+      parameter="IndirectMaxComlexityText" />
+  </slider>
+  <text
+    visiblity_control="ShowAdvancedGraphicsSettings"
+    type="string"
+    length="1"
+    follows="left|top"
+    height="16"
+    layout="topleft"
+    top_delta="0"
+    left_pad="4"
+    text_readonly_color="LabelDisabledColor"
+    name="IndirectMaxComplexityText2"
+    width="65">
+       No Limit
+  </text>
+  <check_box
+    visiblity_control="ShowAdvancedGraphicsSettings"
+    control_name="AlwaysRenderFriends"
+    height="16"
+    initial_value="true"
+    label="Always Render Friends"
+    follows="left|top"
+    layout="topleft"
+    left_delta="-118"
+    name="AlwaysRenderFriends2"
+    top_delta="19"
+    width="256">
+  </check_box>
+  <button
+    visiblity_control="ShowAdvancedGraphicsSettings"
+    height="23"
+    label="Exceptions..."
+    follows="left|top"
+    layout="topleft"
+    left_delta="20"
+    name="RenderExceptionsButton"
+    top_delta="19"
+    width="100">
+    <button.commit_callback
+      function="Pref.RenderExceptions"/>
+  </button>
+        <slider
+        control_name="RenderAvatarPhysicsLODFactor"
+        follows="left|top"
+        height="16"
+        initial_value="100"
+    increment=".05"
+        label="Avatar Physics:"
+        label_width="90"
+        layout="topleft"
+        left_delta="171"
+        name="AvatarPhysicsDetail"
+        show_text="false"
+        top_delta="-38"
+        width="140">
+           <slider.commit_callback
+            function="Pref.UpdateSliderText"
+            parameter="AvatarPhysicsDetailText" />
+        </slider>
+        <text
+        type="string"
+        length="1"
+        follows="left|top"
+        height="12"
+        layout="topleft"
+        left_delta="145"
+        name="AvatarPhysicsDetailText"
+        top_pad="-16"
+        width="128">
+           Low
+        </text>
+        <slider
+         control_name="IndirectMaxNonImpostors"
+         decimal_digits="0"
+         follows="left|top"
+         height="16"
+         increment="1"
+         initial_value="12"
+         label="Non-impostors:"
+         tool_tip="The maximum amount of avatars we show in full 3D. The rest will look 2D and use less resources"
+         label_width="90"
+         layout="topleft"
+         left_delta="-145"
+         min_val="1"
+         max_val="66"
+         name="IndirectMaxNonImpostors"
+         top_pad="6"
+         width="140"
+		 show_text="false">
+		     <slider.commit_callback
+      function="Pref.UpdateIndirectMaxNonImpostors"
+      parameter="IndirectNonImpostorsText" />
+		 </slider>
+        <text
+         type="string"
+         length="1"
+         follows="left|top"
+         height="12"
+         layout="topleft"
+         left_delta="145"
+         name="IndirectMaxNonImpostorsText"
+         top_delta="0"
+         width="128">
+            0
+        </text>
 
     </panel>
     <button

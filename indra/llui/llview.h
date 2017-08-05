@@ -51,6 +51,7 @@
 #include "llfocusmgr.h"
 
 #include <list>
+#include <memory>
 #include <functional>
 #include <boost/container/flat_map.hpp> //<alchemy/>
 
@@ -238,7 +239,8 @@ public:
 
 	ECursorType	getHoverCursor() { return mHoverCursor; }
 
-	virtual const std::string getToolTip() const			{ return mToolTipMsg.getString(); }
+	//virtual const std::string getToolTip() const			{ return mToolTipMsg.getString(); }
+    virtual const std::string getToolTip() const; //<alchemy>
 
 	void		sendChildToFront(LLView* child);
 	void		sendChildToBack(LLView* child);
@@ -594,7 +596,11 @@ private:
 	BOOL		mEnabled;		// Enabled means "accepts input that has an effect on the state of the application."
 								// A disabled view, for example, may still have a scrollbar that responds to mouse events.
 	BOOL		mMouseOpaque;	// Opaque views handle all mouse events that are over their rect.
-	LLUIString	mToolTipMsg;	// isNull() is true if none.
+	//LLUIString	mToolTipMsg;	// isNull() is true if none.
+    //<alchemy>
+    std::unique_ptr<char[]> mToolTipMsg;
+    std::unique_ptr<LLStringUtil::format_map_t> mTooltipArgs;
+    //</alchemy>
 
 	U8          mSoundFlags;
 	BOOL		mFromXUI;

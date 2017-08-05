@@ -32,7 +32,6 @@
 #define LLVIEW_CPP
 #include "llview.h"
 
-#include <iterator>
 #include <sstream>
 #include <boost/tokenizer.hpp>
 

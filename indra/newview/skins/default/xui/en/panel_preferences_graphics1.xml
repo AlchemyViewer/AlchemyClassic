@@ -842,12 +842,12 @@
          tool_tip="The maximum amount of avatars we show in full 3D. The rest will look 2D and use less resources"
          label_width="90"
          layout="topleft"
-         left_delta="-165"
+         left_delta="50"
          min_val="1"
          max_val="66"
          name="IndirectMaxNonImpostors"
-         top_pad="6"
-         width="160"
+         top_delta="-35"
+         width="200"
 		 show_text="false">
 		     <slider.commit_callback
       function="Pref.UpdateIndirectMaxNonImpostors"
@@ -859,7 +859,7 @@
          follows="left|top"
          height="12"
          layout="topleft"
-         left_pad="5"
+         left_pad="4"
          name="IndirectMaxNonImpostorsText"
          top_delta="0"
          width="128">
@@ -874,15 +874,15 @@
     height="16"
     initial_value="101"
     increment="1"
-    label="Max Complexity"
+    label="Max Complexity:"
     label_width="90"
     layout="topleft"
-    left_delta="50"
+    left_delta="-204"
     min_val="1"
     max_val="101"
     name="IndirectMaxComplexity2"
     show_text="false"
-    top_delta="-53"
+    top_pad="5"
     width="200">
     <slider.commit_callback
       function="Pref.UpdateIndirectMaxComplexity"
@@ -912,7 +912,7 @@
     layout="topleft"
     left_pad="-268"
     name="AlwaysRenderFriends2"
-    top_delta="19"
+    top_delta="20"
     width="256">
   </check_box>
   <button

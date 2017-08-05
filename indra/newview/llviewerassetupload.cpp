@@ -730,7 +730,7 @@ LLSD LLScriptAssetUpload::generatePostBody()
     {
         body["task_id"] = getTaskId();
         body["item_id"] = getItemId();
-        body["is_script_running"] = getIsRunning();
+        body["is_script_running"] = (BOOL)getIsRunning();
         body["target"] = (getTargetType() == MONO) ? "mono" : "lsl2";
         body["experience"] = getExerienceId();
     }

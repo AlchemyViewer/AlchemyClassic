@@ -419,6 +419,13 @@ bool idle_startup()
 			// Otherwise, we'll display a reasonable error message that IS translatable.
 			LLAppViewer::instance()->earlyExit("BadInstallation");
 		}
+
+		if (gSavedSettings.getControl("AlchemySettingsTainted"))
+		{
+			std::string test = gSavedSettings.getBOOL("AlchemySettingsTainted") != FALSE ? std::string("B") : std::string("A");
+			LL_WARNS() << "AB Test Value: " << test << LL_ENDL;
+		}
+
 		//
 		// Statistics stuff
 		//

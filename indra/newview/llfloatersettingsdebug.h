@@ -57,6 +57,8 @@ private:
 	// "all", "base", "account", "skin"
 	LLFloaterSettingsDebug(const LLSD& key);
 	virtual ~LLFloaterSettingsDebug();
+
+	bool onViewerTaintNotification(const LLSD& notification, const LLSD& response);
 	
 	LLComboBox* mComboSettings;
 	LLSpinCtrl* mValSpinner1;

@@ -34,6 +34,7 @@
 #include "llcolorswatch.h"
 #include "llviewercontrol.h"
 #include "lltexteditor.h"
+#include "llnotificationsutil.h"
 
 
 LLFloaterSettingsDebug::LLFloaterSettingsDebug(const LLSD& key) 
@@ -94,6 +95,11 @@ BOOL LLFloaterSettingsDebug::postBuild()
 	mValColor = getChild<LLColorSwatchCtrl>("val_color_swatch");
 	mValBool = getChild<LLUICtrl>("boolean_combo");
 	mValText = getChild<LLUICtrl>("val_text");
+
+	if (!gSavedSettings.getBOOL("AlchemySettingsTainted"))
+	{
+		LLNotificationsUtil::add("DebugSettingsTainted", LLSD(), LLSD(), boost::bind(&LLFloaterSettingsDebug::onViewerTaintNotification, this, _1, _2));
+	}
 	return TRUE;
 }
 
@@ -103,6 +109,27 @@ void LLFloaterSettingsDebug::draw()
 	updateControl(controlp);
 
 	LLFloater::draw();
+}
+
+bool LLFloaterSettingsDebug::onViewerTaintNotification(const LLSD& notification, const LLSD& response)
+{
+	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+	switch (option)
+	{
+	case 1:
+	{
+		// We good fam. Viewer all clean and shiny still.
+		closeFloater();
+		break;
+	}
+	case 0:
+	{
+		// Oh no! They really did it!
+		gSavedSettings.setBOOL("AlchemySettingsTainted", TRUE);
+		break;
+	}
+	}
+	return false;
 }
 
 //static 

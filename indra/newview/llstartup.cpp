@@ -420,9 +420,9 @@ bool idle_startup()
 			LLAppViewer::instance()->earlyExit("BadInstallation");
 		}
 
-		if (gSavedSettings.getControl("AlchemySettingsTainted"))
+		if (gSavedSettings.getControl("AlchemySettingsContaminated"))
 		{
-			std::string test = gSavedSettings.getBOOL("AlchemySettingsTainted") != FALSE ? std::string("B") : std::string("A");
+			std::string test = gSavedSettings.getBOOL("AlchemySettingsContaminated") != FALSE ? std::string("B") : std::string("A");
 			LL_WARNS() << "AB Test Value: " << test << LL_ENDL;
 		}
 

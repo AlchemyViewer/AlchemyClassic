@@ -3456,7 +3456,7 @@ LLSD LLAppViewer::getViewerInfo() const
 		info["SERVER_RELEASE_NOTES_URL"] = mServerReleaseNotesURL;
 	}
 
-	info["DEBUG_TEST"] = gSavedSettings.getBOOL("AlchemySettingsTainted") != FALSE ? "B" : "A";
+	info["DEBUG_TEST"] = gSavedSettings.getBOOL("AlchemySettingsContaminated") != FALSE ? "B" : "A";
 
 	return info;
 }

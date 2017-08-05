@@ -860,7 +860,7 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>AlchemySettingsTainted</key>
+    <key>AlchemySettingsContaminated</key>
     <map>
       <key>Comment</key>
       <string>Alternate batching path that is more correct and aggressive</string>

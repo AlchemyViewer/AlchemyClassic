@@ -96,9 +96,9 @@ BOOL LLFloaterSettingsDebug::postBuild()
 	mValBool = getChild<LLUICtrl>("boolean_combo");
 	mValText = getChild<LLUICtrl>("val_text");
 
-	if (!gSavedSettings.getBOOL("AlchemySettingsTainted"))
+	if (!gSavedSettings.getBOOL("AlchemySettingsContaminated"))
 	{
-		LLNotificationsUtil::add("DebugSettingsTainted", LLSD(), LLSD(), boost::bind(&LLFloaterSettingsDebug::onViewerTaintNotification, this, _1, _2));
+		LLNotificationsUtil::add("DebugSettingsContaminated", LLSD(), LLSD(), boost::bind(&LLFloaterSettingsDebug::onViewerContaminationNotification, this, _1, _2));
 	}
 	return TRUE;
 }
@@ -111,7 +111,7 @@ void LLFloaterSettingsDebug::draw()
 	LLFloater::draw();
 }
 
-bool LLFloaterSettingsDebug::onViewerTaintNotification(const LLSD& notification, const LLSD& response)
+bool LLFloaterSettingsDebug::onViewerContaminationNotification(const LLSD& notification, const LLSD& response)
 {
 	S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
 	switch (option)
@@ -125,7 +125,8 @@ bool LLFloaterSettingsDebug::onViewerTaintNotification(const LLSD& notification,
 	case 0:
 	{
 		// Oh no! They really did it!
-		gSavedSettings.setBOOL("AlchemySettingsTainted", TRUE);
+		LL_WARNS() << "DEBUG SETTINGS CONTAMINATED" << LL_ENDL;
+		gSavedSettings.setBOOL("AlchemySettingsContaminated", TRUE);
 		break;
 	}
 	}

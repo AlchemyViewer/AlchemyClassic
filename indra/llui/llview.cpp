@@ -143,7 +143,6 @@ LLView::LLView(const LLView::Params& p)
 	mLastTabGroup(0),
 	mEnabled(p.enabled),
 	mMouseOpaque(p.mouse_opaque),
-	mToolTipMsg((LLStringExplicit)p.tool_tip()),
 	mSoundFlags(p.sound_flags),
 	mFromXUI(p.from_xui),
 	mIsFocusRoot(p.focus_root),
@@ -155,6 +154,9 @@ LLView::LLView(const LLView::Params& p)
 	// create rect first, as this will supply initial follows flags
 	setShape(p.rect);
 	parseFollowsFlags(p);
+    
+    //<alchemy>
+    setToolTip(static_cast<LLStringExplicit>(p.tool_tip()));
 }
 
 LLView::~LLView()
@@ -203,18 +205,63 @@ BOOL LLView::isPanel() const
 
 void LLView::setToolTip(const LLStringExplicit& msg)
 {
-	mToolTipMsg = msg;
+    // <alchemy>
+    if (msg.size())
+    {
+        mToolTipMsg = std::make_unique<char[]>(msg.size() + 1);
+        std::strncpy(mToolTipMsg.get(), msg.c_str(), msg.size() + 1);
+    }
+    else if (mToolTipMsg)
+    {
+        // C++17 defaults to nullptr, but before it defaults to creating a new pointer
+        mToolTipMsg.reset(nullptr);
+    }
+    // </alchemy>
 }
 
 BOOL LLView::setToolTipArg(const LLStringExplicit& key, const LLStringExplicit& text)
 {
-	mToolTipMsg.setArg(key, text);
+    // <alchemy>
+    if (!mTooltipArgs)
+    {
+        mTooltipArgs = std::make_unique<LLStringUtil::format_map_t>();
+    }
+    
+    mTooltipArgs->emplace(key, text);
+    // </alchemy>
 	return TRUE;
 }
 
 void LLView::setToolTipArgs( const LLStringUtil::format_map_t& args )
 {
-	mToolTipMsg.setArgList(args);
+	// <alchemy>
+    if (!mTooltipArgs)
+    {
+        mTooltipArgs = std::make_unique<LLStringUtil::format_map_t>(args);
+    }
+    else
+    {
+        (*mTooltipArgs) = args;
+    }
+    // </alchemy>
+}
+
+// <alchemy>
+const std::string LLView::getToolTip() const
+{
+    if (!mToolTipMsg || !mToolTipMsg[0])
+        return "";
+    
+    if (mTooltipArgs)
+    {
+        LLUIString ui_str(mToolTipMsg.get(), *mTooltipArgs);
+        return ui_str.getString();
+    }
+    else
+    {
+        LLUIString ui_str(mToolTipMsg.get());
+        return ui_str.getString();
+    }
 }
 
 // virtual

@@ -151,6 +151,7 @@
                    right="-6">
                   </multi_slider>
                   <slider
+                   control_name="WLEastAngle"
                    name="WLEastAngle"
                    label="☉ East"
                    follows="left|right"
@@ -220,7 +221,7 @@
                  layout="topleft"
                  left="36"
                  name="WLSunlight"
-                 top_pad="-20"
+                 top_pad="8"
                  width="60" />
                 <color_swatch
                  can_apply_immediately="true"
@@ -244,7 +245,7 @@
                  max_val="10"
                  layout="topleft"
                  left="2"
-                 top_pad="40"
+                 top_pad="30"
                  can_edit_text="false"
                  right="-1">
                 </slider>

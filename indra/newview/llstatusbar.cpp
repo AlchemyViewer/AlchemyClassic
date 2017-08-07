@@ -204,6 +204,7 @@ BOOL LLStatusBar::postBuild()
 	sgp.follows.flags(FOLLOWS_BOTTOM | FOLLOWS_RIGHT);
 	sgp.mouse_opaque(false);
 	sgp.stat("activemessagedatareceived");
+	sgp.unit_label("Kbps");
 	sgp.decimal_digits(0);
 	mSGBandwidth = LLUICtrlFactory::create<LLStatGraph>(sgp);
 	addChild(mSGBandwidth);

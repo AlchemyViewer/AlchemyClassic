@@ -70,7 +70,7 @@ namespace LLStatViewer
 {
 
 LLTrace::CountStatHandle<>	FPS("FPS", "Frames rendered"),
-							PACKETS_IN("Packets In", "Packets received"),
+							PACKETS_IN("packetsinstat", "Packets received"),
 							PACKETS_LOST("packetsloststat", "Packets lost"),
 							PACKETS_OUT("packetsoutstat", "Packets sent"),
 							TEXTURE_PACKETS("texturepacketsstat", "Texture data packets received"),
@@ -100,7 +100,7 @@ LLTrace::CountStatHandle<LLUnit<F64, LLUnits::Kilotriangles> >
 LLTrace::EventStatHandle<LLUnit<F64, LLUnits::Kilotriangles> >
 							TRIANGLES_DRAWN_PER_FRAME("trianglesdrawnperframestat");
 
-LLTrace::CountStatHandle<F64Kilobytes >	
+LLTrace::CountStatHandle<F64Kilobits >	
 							ACTIVE_MESSAGE_DATA_RECEIVED("activemessagedatareceived", "Message system data received on all active regions"),
 							LAYERS_NETWORK_DATA_RECEIVED("layersdatareceived", "Network data received for layer data (terrain)"),
 							OBJECT_NETWORK_DATA_RECEIVED("objectdatareceived", "Network data received for objects"),
@@ -404,7 +404,7 @@ void update_statistics()
 	
 	// Reset all of these values.
 	gVLManager.resetBitCounts();
-	gObjectData = (U32Bytes)0;
+	gObjectData = U32Bits(0);
 //	gDecodedBits = 0;
 
 	// Only update texture stats periodically so that they are less noisy

@@ -854,7 +854,7 @@ void LLWorld::updateNetStats()
 		regionp->updateNetStats();
 		bits += regionp->mBitsReceived;
 		packets += llfloor( regionp->mPacketsReceived );
-		regionp->mBitsReceived = (F32Bits)0.f;
+		regionp->mBitsReceived = F32Bits(0.f);
 		regionp->mPacketsReceived = 0.f;
 	}
 

@@ -1835,7 +1835,7 @@ bool idle_startup()
 			{
 				LL_DEBUGS("AppInit") << "Fast network connection, increasing max bandwidth to " 
 					<< FASTER_RATE_BPS/1024.f 
-					<< " kbps" << LL_ENDL;
+					<< " Kbps" << LL_ENDL;
 				gViewerThrottle.setMaxBandwidth(FASTER_RATE_BPS / 1024.f);
 			}
 			else if (rate_bps > FAST_RATE_BPS
@@ -1843,7 +1843,7 @@ bool idle_startup()
 			{
 				LL_DEBUGS("AppInit") << "Fast network connection, increasing max bandwidth to " 
 					<< FAST_RATE_BPS/1024.f 
-					<< " kbps" << LL_ENDL;
+					<< " Kbps" << LL_ENDL;
 				gViewerThrottle.setMaxBandwidth(FAST_RATE_BPS / 1024.f);
 			}
 

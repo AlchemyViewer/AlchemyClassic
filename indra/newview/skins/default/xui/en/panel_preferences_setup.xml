@@ -61,7 +61,7 @@
    name="text_box2"
    top_delta="0"
    width="200">
-    kbps
+    Kbps
   </text>
   <check_box
    control_name="ConnectionPortEnabled"

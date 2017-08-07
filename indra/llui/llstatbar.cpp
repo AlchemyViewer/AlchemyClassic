@@ -314,7 +314,7 @@ void LLStatBar::draw()
 		{
 			const LLTrace::StatType<LLTrace::CountAccumulator>& count_stat = *mStat.countStatp;
 
-			unit_label    = std::string(count_stat.getUnitLabel()) + "/s";
+			unit_label    = mUnitLabel.empty() ? std::string(count_stat.getUnitLabel()) + "/s" : mUnitLabel;
 			current       = last_frame_recording.getPerSec(count_stat);
 			min           = frame_recording.getPeriodMinPerSec(count_stat, num_frames);
 			max           = frame_recording.getPeriodMaxPerSec(count_stat, num_frames);

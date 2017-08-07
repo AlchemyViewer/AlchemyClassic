@@ -206,7 +206,7 @@ BOOL LLView::isPanel() const
 void LLView::setToolTip(const LLStringExplicit& msg)
 {
     // <alchemy>
-    if (msg.size())
+    if (!msg.empty())
     {
         mToolTipMsg = std::make_unique<char[]>(msg.size() + 1);
         std::strncpy(mToolTipMsg.get(), msg.c_str(), msg.size() + 1);

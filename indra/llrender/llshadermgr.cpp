@@ -1061,7 +1061,7 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	if (ret)
 	{
 		// Add shader file to map
-		mShaderObjects.insert(make_pair(filename, CachedShaderObject(ret, try_gpu_class, type, texture_index_channels, defines)));
+		mShaderObjects.emplace(filename, CachedShaderObject(ret, try_gpu_class, type, texture_index_channels, defines));
 		shader_level = try_gpu_class;
 	}
 	else

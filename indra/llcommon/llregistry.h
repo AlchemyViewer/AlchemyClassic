@@ -59,7 +59,7 @@ public:
 
 		bool add(ref_const_key_t key, ref_const_value_t value)
 		{
-			if (mMap.insert(std::make_pair(key, value)).second == false)
+			if (mMap.emplace(key, value).second == false)
 			{
 				LL_WARNS() << "Tried to register " << key << " but it was already registered!" << LL_ENDL;
 				return false;
@@ -91,7 +91,7 @@ public:
 		ptr_value_t getValue(ref_const_key_t key)
 		{
 			typename registry_map_t::iterator found_it = mMap.find(key);
-			if (found_it != mMap.end())
+			if (found_it != mMap.cend())
 			{
 				return &(found_it->second);
 			}

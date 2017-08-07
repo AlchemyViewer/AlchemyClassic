@@ -286,7 +286,7 @@ void LLUIColorTable::setColor(const std::string& name, const LLColor4& color, st
 	}
 	else
 	{
-		table.insert(string_color_map_t::value_type(name, color));
+		table.emplace(name, color);
 	}
 }
 

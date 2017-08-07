@@ -126,6 +126,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 {
     U32 request_flags;
 	U32 total_count;
+	F64 total_script_memory = 0.0;;
 
 	msg->getU32Fast(_PREHASH_RequestData, _PREHASH_RequestFlags, request_flags);
 	msg->getU32Fast(_PREHASH_RequestData, _PREHASH_TotalObjectCount, total_count);
@@ -176,6 +177,8 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 			}
 		}
 
+		total_script_memory += script_memory;
+
 		LLSD element;
 
 		element["id"] = task_id;
@@ -185,7 +188,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 		columns[column_num]["column"] = "score";
 		columns[column_num]["value"] = llformat("%0.3f", score);
 		columns[column_num++]["font"] = "SANSSERIF";
-		
+
 		columns[column_num]["column"] = "name";
 		columns[column_num]["value"] = name_buf;
 		columns[column_num++]["font"] = "SANSSERIF";
@@ -250,6 +253,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 		LLUIString format = getString("top_scripts_text");
 		format.setArg("[COUNT]", llformat("%d", total_count));
 		format.setArg("[TIME]", llformat("%0.3f", mtotalScore));
+		format.setArg("[MEMORY]", llformat("%0.0f", (total_script_memory / 1024.f)));
 		getChild<LLUICtrl>("title_text")->setValue(LLSD(format));
 		list->setColumnLabel("URLs", getString("URLs"));
 		list->setColumnLabel("memory", getString("memory"));

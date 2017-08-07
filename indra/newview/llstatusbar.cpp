@@ -206,6 +206,7 @@ BOOL LLStatusBar::postBuild()
 	sgp.stat("activemessagedatareceived");
 	sgp.unit_label("Kbps");
 	sgp.decimal_digits(0);
+	sgp.label("UDP Data Received");
 	mSGBandwidth = LLUICtrlFactory::create<LLStatGraph>(sgp);
 	addChild(mSGBandwidth);
 	x -= SIM_STAT_WIDTH + 2;
@@ -221,6 +222,7 @@ BOOL LLStatusBar::postBuild()
 	pgp.min(0.f);
 	pgp.max(5.f);
 	pgp.decimal_digits(1);
+	pgp.label("Packet Loss");
 	LLStatGraph::Thresholds thresholds;
 	thresholds.threshold.add(LLStatGraph::ThresholdParams().value(0.1).color(LLColor4::green))
 						.add(LLStatGraph::ThresholdParams().value(0.25f).color(LLColor4::yellow))

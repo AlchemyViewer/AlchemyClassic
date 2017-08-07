@@ -194,7 +194,7 @@ void LLStatGraph::draw()
 
 	if (mUpdateTimer.getElapsedTimeF32() > 0.5f)
 	{
-		std::string tmp_str = llformat("%s %10.*f %s", mLabel.getString().c_str(), decimal_digits, mValue, unit_label.c_str());
+		std::string tmp_str = llformat("%s %0.*f %s", mLabel.getString().c_str(), decimal_digits, mValue, unit_label.c_str());
 		setToolTip(tmp_str);
 
 		mUpdateTimer.reset();

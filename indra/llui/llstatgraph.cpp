@@ -40,19 +40,30 @@
 #include "lltracethreadrecorder.h"
 //#include "llviewercontrol.h"
 
+// rate at which to update display of value that is rapidly changing
+const F32 MEAN_VALUE_UPDATE_TIME = 1.f / 4.f;
+// time between value changes that qualifies as a "rapid change"
+const F32Seconds	RAPID_CHANGE_THRESHOLD(0.2f);
+// maximum number of rapid changes in RAPID_CHANGE_WINDOW before switching over to displaying the mean 
+// instead of latest value
+const S32 MAX_RAPID_CHANGES_PER_SEC = 10;
+// period of time over which to measure rapid changes
+const F32Seconds RAPID_CHANGE_WINDOW(1.f);
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 LLStatGraph::LLStatGraph(const Params& p)
 :	LLView(p),
-	mNewStatFloatp(p.stat.count_stat_float),
-	mPerSec(p.per_sec),
+	mStatType(STAT_NONE),
 	mValue(p.value),
 	mMin(p.min),
 	mMax(p.max),
-	mUnits(p.units),
-	mPrecision(p.precision)
+	mLabel(p.label),
+	mUnitLabel(p.unit_label),
+	mDecimalDigits(p.decimal_digits)
 {
-	setToolTip(p.name());
+	setStat(p.stat);
+	setToolTip(p.label());
 
 	for(LLInitParam::ParamIterator<ThresholdParams>::const_iterator it = p.thresholds.threshold.begin(), end_it = p.thresholds.threshold.end();
 		it != end_it;
@@ -62,23 +73,120 @@ LLStatGraph::LLStatGraph(const Params& p)
 	}
 }
 
+template<typename T>
+S32 calc_num_rapid_changes_graph(LLTrace::PeriodicRecording& periodic_recording, const T& stat, const F32Seconds time_period)
+{
+	F32Seconds			elapsed_time,
+		time_since_value_changed;
+	S32					num_rapid_changes = 0;
+	const F32Seconds	RAPID_CHANGE_THRESHOLD = F32Seconds(0.3f);
+	F64					last_value = periodic_recording.getPrevRecording(1).getLastValue(stat);
+
+	for (S32 i = 2; i < periodic_recording.getNumRecordedPeriods(); i++)
+	{
+		LLTrace::Recording& recording = periodic_recording.getPrevRecording(i);
+		F64 cur_value = recording.getLastValue(stat);
+
+		if (last_value != cur_value)
+		{
+			if (time_since_value_changed < RAPID_CHANGE_THRESHOLD) num_rapid_changes++;
+			time_since_value_changed = (F32Seconds) 0;
+		}
+		last_value = cur_value;
+
+		elapsed_time += recording.getDuration();
+		if (elapsed_time > time_period) break;
+	}
+
+	return num_rapid_changes;
+}
+
 void LLStatGraph::draw()
 {
 	F32 range, frac;
 	range = mMax - mMin;
-	if (mNewStatFloatp)
-	{
-		LLTrace::Recording& recording = LLTrace::get_frame_recording().getLastRecording();
 
-		if (mPerSec)
+	std::string unit_label;
+	F32			current = 0,
+		min = 0,
+		max = 0,
+		mean = 0,
+		display_value = 0;
+	S32			num_rapid_changes = 0;
+	S32			decimal_digits = mDecimalDigits;
+
+	const S32 num_frames = 20;
+	LLTrace::PeriodicRecording& frame_recording = LLTrace::get_frame_recording();
+	LLTrace::Recording& last_frame_recording = frame_recording.getLastRecording();
+
+	switch (mStatType)
+	{
+	case STAT_COUNT:
+	{
+		const LLTrace::StatType<LLTrace::CountAccumulator>& count_stat = *mStat.countStatp;
+		static const std::string seconds("/s");
+		unit_label = mUnitLabel.empty() ? count_stat.getUnitLabel() + seconds : mUnitLabel;
+		current = last_frame_recording.getPerSec(count_stat);
+		min = frame_recording.getPeriodMinPerSec(count_stat, num_frames);
+		max = frame_recording.getPeriodMaxPerSec(count_stat, num_frames);
+		mean = frame_recording.getPeriodMeanPerSec(count_stat, num_frames);
+		display_value = mean;
+	}
+	break;
+	case STAT_EVENT:
+	{
+		const LLTrace::StatType<LLTrace::EventAccumulator>& event_stat = *mStat.eventStatp;
+
+		unit_label = mUnitLabel.empty() ? event_stat.getUnitLabel() : mUnitLabel;
+		current = last_frame_recording.getLastValue(event_stat);
+		min = frame_recording.getPeriodMin(event_stat, num_frames);
+		max = frame_recording.getPeriodMax(event_stat, num_frames);
+		mean = frame_recording.getPeriodMean(event_stat, num_frames);
+		display_value = mean;
+	}
+	break;
+	case STAT_SAMPLE:
+	{
+		const LLTrace::StatType<LLTrace::SampleAccumulator>& sample_stat = *mStat.sampleStatp;
+
+		unit_label = mUnitLabel.empty() ? sample_stat.getUnitLabel() : mUnitLabel;
+		current = last_frame_recording.getLastValue(sample_stat);
+		min = frame_recording.getPeriodMin(sample_stat, num_frames);
+		max = frame_recording.getPeriodMax(sample_stat, num_frames);
+		mean = frame_recording.getPeriodMean(sample_stat, num_frames);
+		num_rapid_changes = calc_num_rapid_changes_graph(frame_recording, sample_stat, RAPID_CHANGE_WINDOW);
+
+		if (num_rapid_changes / RAPID_CHANGE_WINDOW.value() > MAX_RAPID_CHANGES_PER_SEC)
 		{
-			mValue = recording.getPerSec(*mNewStatFloatp);
+			display_value = mean;
 		}
 		else
 		{
-			mValue = recording.getSum(*mNewStatFloatp);
+			display_value = current;
+			if (is_approx_equal((F32) (S32) display_value, display_value))
+			{
+				decimal_digits = 0;
+			}
 		}
 	}
+	break;
+	case STAT_MEM:
+	{
+		const LLTrace::StatType<LLTrace::MemAccumulator>& mem_stat = *mStat.memStatp;
+
+		unit_label = mUnitLabel.empty() ? mem_stat.getUnitLabel() : mUnitLabel;
+		current = last_frame_recording.getLastValue(mem_stat).value();
+		min = frame_recording.getPeriodMin(mem_stat, num_frames).value();
+		max = frame_recording.getPeriodMax(mem_stat, num_frames).value();
+		mean = frame_recording.getPeriodMean(mem_stat, num_frames).value();
+		display_value = current;
+	}
+	break;
+	default:
+		break;
+	}
+
+	mValue = display_value;
 
 	frac = (mValue - mMin) / range;
 	frac = llmax(0.f, frac);
@@ -86,10 +194,7 @@ void LLStatGraph::draw()
 
 	if (mUpdateTimer.getElapsedTimeF32() > 0.5f)
 	{
-		std::string format_str;
-		std::string tmp_str;
-		format_str = llformat("%%s%%.%df%%s", mPrecision);
-		tmp_str = llformat(format_str.c_str(), mLabel.c_str(), mValue, mUnits.c_str());
+		std::string tmp_str = llformat("%s %10.*f %s", mLabel.getString().c_str(), decimal_digits, mValue, unit_label.c_str());
 		setToolTip(tmp_str);
 
 		mUpdateTimer.reset();
@@ -124,5 +229,35 @@ void LLStatGraph::setMin(const F32 min)
 void LLStatGraph::setMax(const F32 max)
 {
 	mMax = max;
+}
+
+void LLStatGraph::setStat(const std::string& stat_name)
+{
+	using namespace LLTrace;
+	const StatType<CountAccumulator>*	count_stat;
+	const StatType<EventAccumulator>*	event_stat;
+	const StatType<SampleAccumulator>*	sample_stat;
+	const StatType<MemAccumulator>*		mem_stat;
+
+	if ((count_stat = StatType<CountAccumulator>::getInstance(stat_name)))
+	{
+		mStat.countStatp = count_stat;
+		mStatType = STAT_COUNT;
+	}
+	else if ((event_stat = StatType<EventAccumulator>::getInstance(stat_name)))
+	{
+		mStat.eventStatp = event_stat;
+		mStatType = STAT_EVENT;
+	}
+	else if ((sample_stat = StatType<SampleAccumulator>::getInstance(stat_name)))
+	{
+		mStat.sampleStatp = sample_stat;
+		mStatType = STAT_SAMPLE;
+	}
+	else if ((mem_stat = StatType<MemAccumulator>::getInstance(stat_name)))
+	{
+		mStat.memStatp = mem_stat;
+		mStatType = STAT_MEM;
+	}
 }
 

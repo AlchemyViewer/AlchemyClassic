@@ -55,19 +55,13 @@ public:
 		{}
 	};
 
-	struct StatParams : public LLInitParam::ChoiceBlock<StatParams>
-	{
-		Alternative<LLTrace::StatType<LLTrace::CountAccumulator>* >	count_stat_float;
-		Alternative<LLTrace::StatType<LLTrace::EventAccumulator>* >	event_stat_float;
-		Alternative<LLTrace::StatType<LLTrace::SampleAccumulator>* >	sample_stat_float;
-	};
-
 	struct Params : public LLInitParam::Block<Params, LLView::Params>
 	{
-		Mandatory<StatParams>	stat;
+		Optional<std::string>	stat;
 		Optional<std::string>	label,
-								units;
-		Optional<S32>			precision;
+								unit_label;
+
+		Optional<S32>			decimal_digits;
 		Optional<F32>			min,
 								max;
 		Optional<bool>			per_sec;
@@ -78,11 +72,10 @@ public:
 		Params()
 		:	stat("stat"),
 			label("label"),
-			units("units"),
-			precision("precision", 0),
+			unit_label("unit_label"),
+			decimal_digits("decimal_digits", 3),
 			min("min", 0.f),
 			max("max", 125.f),
-			per_sec("per_sec", true),
 			value("value", 0.f),
 			thresholds("thresholds")
 		{
@@ -101,21 +94,38 @@ public:
 
 	void draw() override;
 
-	/*virtual*/ void setValue(const LLSD& value);
-	
-private:
-	LLTrace::StatType<LLTrace::CountAccumulator>*	mNewStatFloatp;
+	void setStat(const std::string& stat_name);
 
-	BOOL mPerSec;
+	/*virtual*/ void setValue(const LLSD& value);
+
+private:
+
+	enum
+	{
+		STAT_NONE,
+		STAT_COUNT,
+		STAT_EVENT,
+		STAT_SAMPLE,
+		STAT_MEM
+	} mStatType;
+
+	union
+	{
+		void*														valid;
+		const LLTrace::StatType<LLTrace::CountAccumulator>*		countStatp;
+		const LLTrace::StatType<LLTrace::EventAccumulator>*		eventStatp;
+		const LLTrace::StatType<LLTrace::SampleAccumulator>*		sampleStatp;
+		const LLTrace::StatType<LLTrace::MemAccumulator>*		memStatp;
+	} mStat;
 
 	F32 mValue;
 
 	F32 mMin;
 	F32 mMax;
 	LLFrameTimer mUpdateTimer;
-	std::string mLabel;
-	std::string mUnits;
-	S32 mPrecision; // Num of digits of precision after dot
+	LLUIString   mLabel;
+	std::string  mUnitLabel;
+	S32          mDecimalDigits;
 
 	struct Threshold
 	{

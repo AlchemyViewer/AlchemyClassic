@@ -203,10 +203,8 @@ BOOL LLStatusBar::postBuild()
 	sgp.rect(r);
 	sgp.follows.flags(FOLLOWS_BOTTOM | FOLLOWS_RIGHT);
 	sgp.mouse_opaque(false);
-	sgp.stat.count_stat_float(&LLStatViewer::ACTIVE_MESSAGE_DATA_RECEIVED);
-	sgp.units("Kbps");
-	sgp.precision(0);
-	sgp.per_sec(true);
+	sgp.stat("activemessagedatareceived");
+	sgp.decimal_digits(0);
 	mSGBandwidth = LLUICtrlFactory::create<LLStatGraph>(sgp);
 	addChild(mSGBandwidth);
 	x -= SIM_STAT_WIDTH + 2;
@@ -218,12 +216,10 @@ BOOL LLStatusBar::postBuild()
 	pgp.rect(r);
 	pgp.follows.flags(FOLLOWS_BOTTOM | FOLLOWS_RIGHT);
 	pgp.mouse_opaque(false);
-	pgp.stat.sample_stat_float(&LLStatViewer::PACKETS_LOST_PERCENT);
-	pgp.units("%");
+	pgp.stat("packetslostpercentstat");
 	pgp.min(0.f);
 	pgp.max(5.f);
-	pgp.precision(1);
-	pgp.per_sec(false);
+	pgp.decimal_digits(1);
 	LLStatGraph::Thresholds thresholds;
 	thresholds.threshold.add(LLStatGraph::ThresholdParams().value(0.1).color(LLColor4::green))
 						.add(LLStatGraph::ThresholdParams().value(0.25f).color(LLColor4::yellow))
@@ -271,7 +267,7 @@ void LLStatusBar::refresh()
 	if (show_net_stats)
 	{
 		// Adding Net Stat Meter back in
-		F32 bwtotal = gViewerThrottle.getMaxBandwidth() / 1000.f;
+		F32 bwtotal = gViewerThrottle.getMaxBandwidth() / 1024.f;
 		mSGBandwidth->setMin(0.f);
 		mSGBandwidth->setMax(bwtotal*1.25f);
 		//mSGBandwidth->setThreshold(0, bwtotal*0.75f);

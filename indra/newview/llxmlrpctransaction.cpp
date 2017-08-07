@@ -593,7 +593,7 @@ F64 LLXMLRPCTransaction::transferRate()
 	LL_INFOS("AppInit") << "Buffer size:   " << impl.mResponseText.size() << " B" << LL_ENDL;
 	LL_DEBUGS("AppInit") << "Transfer size: " << impl.mTransferStats->mSizeDownload << " B" << LL_ENDL;
 	LL_DEBUGS("AppInit") << "Transfer time: " << impl.mTransferStats->mTotalTime << " s" << LL_ENDL;
-	LL_INFOS("AppInit") << "Transfer rate: " << rate_bits_per_sec / 1000.0 << " Kb/s" << LL_ENDL;
+	LL_INFOS("AppInit") << "Transfer rate: " << rate_bits_per_sec / 1024.0 << " Kb/s" << LL_ENDL;
 
 	return rate_bits_per_sec;
 }

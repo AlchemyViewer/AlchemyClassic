@@ -3428,12 +3428,14 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["LIBVLC_VERSION"] = "Undefined";
 #endif
 
-	S32 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
+	F64 packets_in = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_IN);
 	if (packets_in > 0)
 	{
-		info["PACKETS_LOST"] = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_LOST);
+		F64 packets_lost = LLViewerStats::instance().getRecording().getSum(LLStatViewer::PACKETS_LOST);
 		info["PACKETS_IN"] = packets_in;
-		info["PACKETS_PCT"] = 100.f*info["PACKETS_LOST"].asReal() / info["PACKETS_IN"].asReal();
+		info["PACKETS_LOST"] = packets_lost;
+
+		info["PACKETS_PCT"] = LLUnits::Ratio::fromValue(packets_lost/packets_in).value();
 	}
 
 	if (mServerReleaseNotesURL.empty())

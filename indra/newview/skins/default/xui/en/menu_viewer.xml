@@ -1576,7 +1576,12 @@
               function="EnableGrid"
               parameter="secondlife" />
         </menu_item_call>
-        <menu_item_separator />
+        <menu_item_separator
+             name="secondlife_main_separator">
+             <menu_item_separator.on_visible
+                 function="EnableGrid"
+                 parameter="secondlife" />
+        </menu_item_separator >
         <menu_item_call
              label="Second Life News"
              name="Second Life News">
@@ -1597,7 +1602,12 @@
               function="EnableGrid"
               parameter="secondlife" />
         </menu_item_call>
-        <menu_item_separator/>
+        <menu_item_separator
+             name="secondlife_social_separator">
+             <menu_item_separator.on_visible
+                 function="EnableGrid"
+                 parameter="secondlife" />
+        </menu_item_separator >
 
         <menu_item_call
              label="Report Abuse"

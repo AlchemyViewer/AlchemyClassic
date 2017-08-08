@@ -48,7 +48,12 @@
     <on_check function="Toolbars.CheckSetting"
               parameter="text_only" />
   </menu_item_check>
-  <menu_item_separator layout="topleft" />
+  <menu_item_separator
+   name="layout_separator">
+   <menu_item_separator.on_visible
+    function="Toolbars.CheckOrientation"
+    parameter="horizontal" />
+  </menu_item_separator >
   <menu_item_check label="Buttons auto-layout"
                    layout="topleft"
                    name="autolayout">

@@ -509,14 +509,14 @@ Section "Viewer"
   ;; to avoid parameter injection attacks.
   WriteRegExpandStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
 
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "(Default)" "URL:Second Life"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "(Default)" "URL:Hypergrid"
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "URL Protocol" ""
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\DefaultIcon" "" "$\"$INSTDIR\$INSTEXE$\""
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
   WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-info\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
 
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "(Default)" "URL:Second Life"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "(Default)" "URL:Hypergrid legacy"
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "URL Protocol" ""
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\DefaultIcon" "" "$\"$INSTDIR\$INSTEXE$\""
   ;; URL param must be last item passed to viewer, it ignores subsequent params

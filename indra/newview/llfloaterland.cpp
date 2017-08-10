@@ -339,6 +339,7 @@ void LLFloaterLand::selectiveRefresh()
 {
 	mPanelAccess->refresh();
 	mPanelGeneral->refresh();
+	mPanelExperiences->refresh();
 }
 
 // static

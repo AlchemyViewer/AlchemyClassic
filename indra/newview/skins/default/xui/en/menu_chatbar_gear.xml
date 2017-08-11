@@ -6,12 +6,12 @@
  visible="false">
   <menu_item_check
    label="Close chat bar on return"
-   name="CloseChatBarOnReturn">
+   name="CloseChatOnReturn">
     <menu_item_check.on_check
-     control="CloseChatBarOnReturn" />
+     control="CloseChatOnReturn" />
     <menu_item_check.on_click
      function="ToggleControl"
-     parameter="CloseChatBarOnReturn" />
+     parameter="CloseChatOnReturn" />
   </menu_item_check>
   <menu_item_check
    label="Letter keys open chat"

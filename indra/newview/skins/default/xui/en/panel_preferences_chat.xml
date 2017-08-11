@@ -88,8 +88,8 @@
     <check_box
      follows="left|top"
      height="16"
-     label="Automatically close chat bar when pressing Enter"
-     tool_tip="Will only close the torn off (detached) chat bar and window, not the CHUI floater."
+     label="Automatically close Nearby Chat when pressing Enter"
+     tool_tip="Will only close the torn off (detached) Nearby Chat window, not the Communications window or the chatbar, numbskull."
      left_delta="0"
      top_pad="6"
      name="chat_auto_close"

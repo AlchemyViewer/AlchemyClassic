@@ -106,8 +106,6 @@ void LLStatGraph::draw()
 
 	std::string unit_label;
 	F32			current = 0,
-		min = 0,
-		max = 0,
 		mean = 0,
 		display_value = 0;
 	S32			num_rapid_changes = 0;
@@ -125,8 +123,6 @@ void LLStatGraph::draw()
 		static const std::string seconds("/s");
 		unit_label = mUnitLabel.empty() ? count_stat.getUnitLabel() + seconds : mUnitLabel;
 		current = last_frame_recording.getPerSec(count_stat);
-		min = frame_recording.getPeriodMinPerSec(count_stat, num_frames);
-		max = frame_recording.getPeriodMaxPerSec(count_stat, num_frames);
 		mean = frame_recording.getPeriodMeanPerSec(count_stat, num_frames);
 		display_value = mean;
 	}
@@ -137,8 +133,6 @@ void LLStatGraph::draw()
 
 		unit_label = mUnitLabel.empty() ? event_stat.getUnitLabel() : mUnitLabel;
 		current = last_frame_recording.getLastValue(event_stat);
-		min = frame_recording.getPeriodMin(event_stat, num_frames);
-		max = frame_recording.getPeriodMax(event_stat, num_frames);
 		mean = frame_recording.getPeriodMean(event_stat, num_frames);
 		display_value = mean;
 	}
@@ -149,8 +143,6 @@ void LLStatGraph::draw()
 
 		unit_label = mUnitLabel.empty() ? sample_stat.getUnitLabel() : mUnitLabel;
 		current = last_frame_recording.getLastValue(sample_stat);
-		min = frame_recording.getPeriodMin(sample_stat, num_frames);
-		max = frame_recording.getPeriodMax(sample_stat, num_frames);
 		mean = frame_recording.getPeriodMean(sample_stat, num_frames);
 		num_rapid_changes = calc_num_rapid_changes_graph(frame_recording, sample_stat, RAPID_CHANGE_WINDOW);
 
@@ -174,8 +166,6 @@ void LLStatGraph::draw()
 
 		unit_label = mUnitLabel.empty() ? mem_stat.getUnitLabel() : mUnitLabel;
 		current = last_frame_recording.getLastValue(mem_stat).value();
-		min = frame_recording.getPeriodMin(mem_stat, num_frames).value();
-		max = frame_recording.getPeriodMax(mem_stat, num_frames).value();
 		mean = frame_recording.getPeriodMean(mem_stat, num_frames).value();
 		display_value = current;
 	}

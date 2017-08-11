@@ -269,7 +269,7 @@ void LLChatBar::sendChat( EChatType type )
 
 	// If the user wants to stop chatting on hitting return, lose focus
 	// and go out of chat mode.
-	if (gSavedSettings.getBOOL("CloseChatOnReturn"))
+	if (gSavedSettings.getBOOL("CloseChatBarOnReturn"))
 	{
 		stopChat();
 	}

@@ -1821,7 +1821,7 @@ void LLImageGL::analyzeAlpha(const void* data_in, U32 w, U32 h)
 			max = std::max(max, s1);
 			mids += (s1 > 2 && s1 < 253);
 
-			if(i%2==0)
+			if ((i + 1 != length) && (i % 2 == 0))
 			{
 				const U32 s2 = *current;
 				min = std::min(min, s2);

@@ -982,20 +982,20 @@ LLUUID::LLUUID()
 // Faster than copying from memory
  void LLUUID::setNull()
 {
-	memset(mData, 0, sizeof(mData)); // <alchemy/>
+	memset(mData, 0, sizeof(mData) * sizeof(U8)); // <alchemy/>
 }
 
 
 // Compare
  bool LLUUID::operator==(const LLUUID& rhs) const
 {
-	return !memcmp(mData, rhs.mData, sizeof(mData)); // <alchemy/>
+	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) == 0; // <alchemy/>
 }
 
 
  bool LLUUID::operator!=(const LLUUID& rhs) const
 {
-	return !!memcmp(mData, rhs.mData, sizeof(mData)); // <alchemy/>
+	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) != 0; // <alchemy/>
 }
 
 /*
@@ -1010,20 +1010,20 @@ LLUUID::LLUUID()
 
  BOOL LLUUID::notNull() const
 {
-	return !!memcmp(mData, nullUUID, sizeof(mData)); // <alchemy/>
+	return memcmp(mData, nullUUID, sizeof(mData) * sizeof(U8)) != 0; // <alchemy/>
 }
 
 // Faster than == LLUUID::null because doesn't require
 // as much memory access.
  BOOL LLUUID::isNull() const
 {
-	return !memcmp(mData, nullUUID, sizeof(mData)); // <alchemy/>
+	return memcmp(mData, nullUUID, sizeof(mData) * sizeof(U8)) == 0; // <alchemy/>
 }
 
 // Copy constructor
  LLUUID::LLUUID(const LLUUID& rhs)
 {
-	memcpy(mData, rhs.mData, sizeof(mData)); // <alchemy/>
+	memcpy(mData, rhs.mData, sizeof(mData) * sizeof(U8)); // <alchemy/>
 }
 
  LLUUID::~LLUUID()
@@ -1033,7 +1033,7 @@ LLUUID::LLUUID()
 // Assignment
  LLUUID& LLUUID::operator=(const LLUUID& rhs)
 {
-	memcpy(mData, rhs.mData, sizeof(mData)); // <alchemy/>
+	memcpy(mData, rhs.mData, sizeof(mData) * sizeof(U8)); // <alchemy/>
 	return *this;
 }
 
@@ -1064,28 +1064,12 @@ LLUUID::LLUUID()
 // IW: this will make me very sad
  bool LLUUID::operator<(const LLUUID &rhs) const
 {
-	U32 i;
-	for( i = 0; i < (UUID_BYTES - 1); i++ )
-	{
-		if( mData[i] != rhs.mData[i] )
-		{
-			return (mData[i] < rhs.mData[i]);
-		}
-	}
-	return (mData[UUID_BYTES - 1] < rhs.mData[UUID_BYTES - 1]);
+	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) < 0;
 }
 
  bool LLUUID::operator>(const LLUUID &rhs) const
 {
-	U32 i;
-	for( i = 0; i < (UUID_BYTES - 1); i++ )
-	{
-		if( mData[i] != rhs.mData[i] )
-		{
-			return (mData[i] > rhs.mData[i]);
-		}
-	}
-	return (mData[UUID_BYTES - 1] > rhs.mData[UUID_BYTES - 1]);
+	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) > 0;
 }
 
  U16 LLUUID::getCRC16() const

@@ -378,11 +378,13 @@ void LLGroupActions::refresh_notices()
 //static 
 void LLGroupActions::refresh(const LLUUID& group_id)
 {
+	auto floater = LLFloaterReg::getTypedInstance<LLFloaterGroupProfile>("group_profile", group_id);
 	auto panels = sGroupPanelInstances.equal_range(group_id);
 	std::for_each(panels.first, panels.second, [](panel_multimap_t::value_type& p)
 	{
 		p.second->refreshData();
 	});
+	floater->closeFloater();
 }
 
 //static 

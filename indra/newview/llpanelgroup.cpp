@@ -89,7 +89,7 @@ BOOL LLPanelGroupTab::postBuild()
 
 LLPanelGroup::LLPanelGroup()
 :	LLPanel(),
-	LLGroupMgrObserver( LLUUID() ),
+	LLGroupMgrObserver(),
 	mSkipRefresh(FALSE),
 	mAccordianGroup(nullptr),
 	mButtonApply(nullptr),
@@ -366,7 +366,7 @@ void LLPanelGroup::setGroupID(const LLUUID& group_id)
 	LLGroupMgr::getInstance()->removeObserver(this);
 	mID = group_id;
 
-	sGroupPanelInstances.emplace(std::make_pair(LLUUID(mID), &*this));
+	sGroupPanelInstances.emplace(std::make_pair(LLUUID(mID), static_cast<LLPanelGroup*>(this)));
 	LLGroupMgr::getInstance()->addObserver(this);
 
 	for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)

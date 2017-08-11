@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>bbd91876e0268ccadcfd63e45afa7d8b</string>
+              <string>9a2fb6ab21c277613b8a59512afaac5a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.54.1-windows-201706171050.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.55.0-windows-201708110923.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7ba60d742a98a52131dabf21acc348c2</string>
+              <string>e4e6d1162545fb439d17dae61cfc5a29</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.54.1-windows64-201706171006.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.55.0-windows64-201708110914.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.54.1</string>
+        <string>7.55.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

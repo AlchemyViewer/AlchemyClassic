@@ -47,8 +47,8 @@ namespace LLInitParam
 	Param::Param(BaseBlock* enclosing_block)
 	:	mIsProvided(false)
 	{
-		const U8* my_addr = reinterpret_cast<const U8*>(this);
-		const U8* block_addr = reinterpret_cast<const U8*>(enclosing_block);
+		const uintptr_t my_addr = reinterpret_cast<uintptr_t>(this);
+		const uintptr_t block_addr = reinterpret_cast<uintptr_t>(enclosing_block);
 		U32 enclosing_block_offset = 0x7FFFffff & (U32)(my_addr - block_addr);
 		mEnclosingBlockOffsetLow = enclosing_block_offset & 0x0000ffff;
 		mEnclosingBlockOffsetHigh = (enclosing_block_offset & 0x007f0000) >> 16;
@@ -183,8 +183,8 @@ namespace LLInitParam
 
 	param_handle_t BaseBlock::getHandleFromParam(const Param* param) const
 	{
-		const U8* param_address = reinterpret_cast<const U8*>(param);
-		const U8* baseblock_address = reinterpret_cast<const U8*>(this);
+		const uintptr_t param_address = reinterpret_cast<uintptr_t>(param);
+		const uintptr_t baseblock_address = reinterpret_cast<uintptr_t>(this);
 		return (param_address - baseblock_address);
 	}
 

@@ -865,13 +865,13 @@ namespace LLInitParam
 		{
 			if (param_handle == 0) return nullptr;
 
-			U8* baseblock_address = reinterpret_cast<U8*>(this);
+			const uintptr_t baseblock_address = reinterpret_cast<uintptr_t>(this);
 			return reinterpret_cast<Param*>(baseblock_address + param_handle);
 		}
 
 		const Param* getParamFromHandle(const param_handle_t param_handle) const
 		{
-			const U8* baseblock_address = reinterpret_cast<const U8*>(this);
+			const uintptr_t baseblock_address = reinterpret_cast<uintptr_t>(this);
 			return reinterpret_cast<const Param*>(baseblock_address + param_handle);
 		}
 
@@ -959,15 +959,13 @@ namespace LLInitParam
 		// store pointer to enclosing block as offset to reduce space and allow for quick copying
 		BaseBlock& enclosingBlock() const
 		{ 
-			const U8* my_addr = reinterpret_cast<const U8*>(this);
+			const uintptr_t my_addr = reinterpret_cast<uintptr_t>(this);
 			// get address of enclosing BLOCK class using stored offset to enclosing BaseBlock class
-			return *const_cast<BaseBlock*>
-				(reinterpret_cast<const BaseBlock*>
-					(my_addr - (ptrdiff_t)getEnclosingBlockOffset()));
+			return *(reinterpret_cast<BaseBlock*>(my_addr - getEnclosingBlockOffset()));
 		}
 
-		U32 getEnclosingBlockOffset() const
-	{
+		ptrdiff_t getEnclosingBlockOffset() const
+		{
 			return ((U32)mEnclosingBlockOffsetHigh << 16) | (U32)mEnclosingBlockOffsetLow;
 		}
 

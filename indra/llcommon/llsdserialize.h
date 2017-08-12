@@ -817,5 +817,11 @@ public:
 //dirty little zip functions -- yell at davep
 LL_COMMON_API std::string zip_llsd(LLSD& data);
 LL_COMMON_API bool unzip_llsd(LLSD& data, std::istream& is, S32 size);
+LL_COMMON_API bool unzip_llsd(LLSD& data, U8* in, S32 size);
 LL_COMMON_API U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize,std::istream& is, S32 size);
+LL_COMMON_API U8* unzip_llsdNavMesh(bool& valid, unsigned int& outsize, U8* in, S32 size);
+
+// <alchemy>
+// returns a pointer to the array or past the array if the deprecated header exists
+LL_COMMON_API char* strip_deprecated_header(char* in, U32& cur_size, U32* header_size = nullptr);
 #endif // LL_LLSDSERIALIZE_H

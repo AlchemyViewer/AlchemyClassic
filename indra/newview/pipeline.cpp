@@ -6360,9 +6360,8 @@ void LLPipeline::toggleRenderType(U32 type)
 }
 
 //static
-void LLPipeline::toggleRenderTypeControl(void* data)
+void LLPipeline::toggleRenderTypeControl(U32 type)
 {
-	U32 type = (U32)(intptr_t)data;
 	U32 bit = (1<<type);
 	if (gPipeline.hasRenderType(type))
 	{
@@ -6376,24 +6375,21 @@ void LLPipeline::toggleRenderTypeControl(void* data)
 }
 
 //static
-BOOL LLPipeline::hasRenderTypeControl(void* data)
+BOOL LLPipeline::hasRenderTypeControl(U32 type)
 {
-	U32 type = (U32)(intptr_t)data;
 	return gPipeline.hasRenderType(type);
 }
 
 // Allows UI items labeled "Hide foo" instead of "Show foo"
 //static
-BOOL LLPipeline::toggleRenderTypeControlNegated(void* data)
+BOOL LLPipeline::toggleRenderTypeControlNegated(U32 type)
 {
-	S32 type = (S32)(intptr_t)data;
 	return !gPipeline.hasRenderType(type);
 }
 
 //static
-void LLPipeline::toggleRenderDebug(void* data)
+void LLPipeline::toggleRenderDebug(U32 bit)
 {
-	U32 bit = (U32)(intptr_t)data;
 	if (gPipeline.hasRenderDebugMask(bit))
 	{
 		LL_INFOS() << "Toggling render debug mask " << std::hex << bit << " off" << std::dec << LL_ENDL;
@@ -6407,24 +6403,21 @@ void LLPipeline::toggleRenderDebug(void* data)
 
 
 //static
-BOOL LLPipeline::toggleRenderDebugControl(void* data)
+BOOL LLPipeline::toggleRenderDebugControl(U32 bit)
 {
-	U32 bit = (U32)(intptr_t)data;
 	return gPipeline.hasRenderDebugMask(bit);
 }
 
 //static
-void LLPipeline::toggleRenderDebugFeature(void* data)
+void LLPipeline::toggleRenderDebugFeature(U32 bit)
 {
-	U32 bit = (U32)(intptr_t)data;
 	gPipeline.mRenderDebugFeatureMask ^= bit;
 }
 
 
 //static
-BOOL LLPipeline::toggleRenderDebugFeatureControl(void* data)
+BOOL LLPipeline::toggleRenderDebugFeatureControl(U32 bit)
 {
-	U32 bit = (U32)(intptr_t)data;
 	return gPipeline.hasRenderDebugFeatureMask(bit);
 }
 
@@ -6463,13 +6456,13 @@ void LLPipeline::setRenderScriptedBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderScriptedBeacons(void*)
+void LLPipeline::toggleRenderScriptedBeacons()
 {
 	sRenderScriptedBeacons = !sRenderScriptedBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderScriptedBeacons(void*)
+BOOL LLPipeline::getRenderScriptedBeacons()
 {
 	return sRenderScriptedBeacons;
 }
@@ -6481,13 +6474,13 @@ void LLPipeline::setRenderScriptedTouchBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderScriptedTouchBeacons(void*)
+void LLPipeline::toggleRenderScriptedTouchBeacons()
 {
 	sRenderScriptedTouchBeacons = !sRenderScriptedTouchBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderScriptedTouchBeacons(void*)
+BOOL LLPipeline::getRenderScriptedTouchBeacons()
 {
 	return sRenderScriptedTouchBeacons;
 }
@@ -6499,13 +6492,13 @@ void LLPipeline::setRenderMOAPBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderMOAPBeacons(void*)
+void LLPipeline::toggleRenderMOAPBeacons()
 {
 	sRenderMOAPBeacons = !sRenderMOAPBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderMOAPBeacons(void*)
+BOOL LLPipeline::getRenderMOAPBeacons()
 {
 	return sRenderMOAPBeacons;
 }
@@ -6517,13 +6510,13 @@ void LLPipeline::setRenderPhysicalBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderPhysicalBeacons(void*)
+void LLPipeline::toggleRenderPhysicalBeacons()
 {
 	sRenderPhysicalBeacons = !sRenderPhysicalBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderPhysicalBeacons(void*)
+BOOL LLPipeline::getRenderPhysicalBeacons()
 {
 	return sRenderPhysicalBeacons;
 }
@@ -6535,13 +6528,13 @@ void LLPipeline::setRenderParticleBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderParticleBeacons(void*)
+void LLPipeline::toggleRenderParticleBeacons()
 {
 	sRenderParticleBeacons = !sRenderParticleBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderParticleBeacons(void*)
+BOOL LLPipeline::getRenderParticleBeacons()
 {
 	return sRenderParticleBeacons;
 }
@@ -6553,13 +6546,13 @@ void LLPipeline::setRenderSoundBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderSoundBeacons(void*)
+void LLPipeline::toggleRenderSoundBeacons()
 {
 	sRenderSoundBeacons = !sRenderSoundBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderSoundBeacons(void*)
+BOOL LLPipeline::getRenderSoundBeacons()
 {
 	return sRenderSoundBeacons;
 }
@@ -6571,13 +6564,13 @@ void LLPipeline::setRenderBeacons(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderBeacons(void*)
+void LLPipeline::toggleRenderBeacons()
 {
 	sRenderBeacons = !sRenderBeacons;
 }
 
 // static
-BOOL LLPipeline::getRenderBeacons(void*)
+BOOL LLPipeline::getRenderBeacons()
 {
 	return sRenderBeacons;
 }
@@ -6589,13 +6582,13 @@ void LLPipeline::setRenderHighlights(BOOL val)
 }
 
 // static
-void LLPipeline::toggleRenderHighlights(void*)
+void LLPipeline::toggleRenderHighlights()
 {
 	sRenderHighlight = !sRenderHighlight;
 }
 
 // static
-BOOL LLPipeline::getRenderHighlights(void*)
+BOOL LLPipeline::getRenderHighlights()
 {
 	return sRenderHighlight;
 }

@@ -67,11 +67,11 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 	std::string name = check->getName();
 	if(name == "touch_only")
 	{
-		LLPipeline::toggleRenderScriptedTouchBeacons(nullptr);
+		LLPipeline::toggleRenderScriptedTouchBeacons();
 		// Don't allow both to be ON at the same time. Toggle the other one off if both now on.
 		if (
-			LLPipeline::getRenderScriptedTouchBeacons(nullptr) &&
-			LLPipeline::getRenderScriptedBeacons(nullptr) )
+			LLPipeline::getRenderScriptedTouchBeacons() &&
+			LLPipeline::getRenderScriptedBeacons() )
 		{
 			LLPipeline::setRenderScriptedBeacons(FALSE);
 			getChild<LLCheckBoxCtrl>("scripted")->setControlValue(LLSD(FALSE));
@@ -82,11 +82,11 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 	}
 	else if(name == "scripted")
 	{
-		LLPipeline::toggleRenderScriptedBeacons(nullptr);
+		LLPipeline::toggleRenderScriptedBeacons();
 		// Don't allow both to be ON at the same time. Toggle the other one off if both now on.
 		if (
-			LLPipeline::getRenderScriptedTouchBeacons(nullptr) &&
-			LLPipeline::getRenderScriptedBeacons(nullptr) )
+			LLPipeline::getRenderScriptedTouchBeacons() &&
+			LLPipeline::getRenderScriptedBeacons() )
 		{
 			LLPipeline::setRenderScriptedTouchBeacons(FALSE);
 			getChild<LLCheckBoxCtrl>("touch_only")->setControlValue(LLSD(FALSE));
@@ -101,11 +101,11 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 	else if(name == "moapbeacon")     LLPipeline::setRenderMOAPBeacons(check->get());
 	else if(name == "highlights")
 	{
-		LLPipeline::toggleRenderHighlights(nullptr);
+		LLPipeline::toggleRenderHighlights();
 		// Don't allow both to be OFF at the same time. Toggle the other one on if both now off.
 		if (
-			!LLPipeline::getRenderBeacons(nullptr) &&
-			!LLPipeline::getRenderHighlights(nullptr) )
+			!LLPipeline::getRenderBeacons() &&
+			!LLPipeline::getRenderHighlights() )
 		{
 			LLPipeline::setRenderBeacons(TRUE);
 			getChild<LLCheckBoxCtrl>("beacons")->setControlValue(LLSD(TRUE));
@@ -116,11 +116,11 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 	}
 	else if(name == "beacons")
 	{
-		LLPipeline::toggleRenderBeacons(nullptr);
+		LLPipeline::toggleRenderBeacons();
 		// Don't allow both to be OFF at the same time. Toggle the other one on if both now off.
 		if (
-			!LLPipeline::getRenderBeacons(nullptr) &&
-			!LLPipeline::getRenderHighlights(nullptr) )
+			!LLPipeline::getRenderBeacons() &&
+			!LLPipeline::getRenderHighlights() )
 		{
 			LLPipeline::setRenderHighlights(TRUE);
 			getChild<LLCheckBoxCtrl>("highlights")->setControlValue(LLSD(TRUE));

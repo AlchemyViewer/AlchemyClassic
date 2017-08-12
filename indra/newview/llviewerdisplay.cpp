@@ -1125,7 +1125,7 @@ void render_hud_attachments()
 		bool has_ui = gPipeline.hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_UI);
 		if (has_ui)
 		{
-			gPipeline.toggleRenderDebugFeature((void*) LLPipeline::RENDER_DEBUG_FEATURE_UI);
+			gPipeline.toggleRenderDebugFeature(LLPipeline::RENDER_DEBUG_FEATURE_UI);
 		}
 
 		S32 use_occlusion = LLPipeline::sUseOcclusion;
@@ -1168,7 +1168,7 @@ void render_hud_attachments()
 
 		if (has_ui)
 		{
-			gPipeline.toggleRenderDebugFeature((void*) LLPipeline::RENDER_DEBUG_FEATURE_UI);
+			gPipeline.toggleRenderDebugFeature(LLPipeline::RENDER_DEBUG_FEATURE_UI);
 		}
 		LLPipeline::sUseOcclusion = use_occlusion;
 		LLPipeline::sRenderingHUDs = FALSE;

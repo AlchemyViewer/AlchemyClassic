@@ -349,46 +349,46 @@ public:
 	static void toggleRenderType(U32 type);
 
 	// For UI control of render features
-	static BOOL hasRenderTypeControl(void* data);
-	static void toggleRenderDebug(void* data);
-	static void toggleRenderDebugFeature(void* data);
-	static void toggleRenderTypeControl(void* data);
-	static BOOL toggleRenderTypeControlNegated(void* data);
-	static BOOL toggleRenderDebugControl(void* data);
-	static BOOL toggleRenderDebugFeatureControl(void* data);
+	static BOOL hasRenderTypeControl(U32 bit);
+	static void toggleRenderDebug(U32 bit);
+	static void toggleRenderDebugFeature(U32 bit);
+	static void toggleRenderTypeControl(U32 type);
+	static BOOL toggleRenderTypeControlNegated(U32 type);
+	static BOOL toggleRenderDebugControl(U32 bit);
+	static BOOL toggleRenderDebugFeatureControl(U32 bit);
 	static void setRenderDebugFeatureControl(U32 bit, bool value);
 
 	static void setRenderParticleBeacons(BOOL val);
-	static void toggleRenderParticleBeacons(void* data);
-	static BOOL getRenderParticleBeacons(void* data);
+	static void toggleRenderParticleBeacons();
+	static BOOL getRenderParticleBeacons();
 
 	static void setRenderSoundBeacons(BOOL val);
-	static void toggleRenderSoundBeacons(void* data);
-	static BOOL getRenderSoundBeacons(void* data);
+	static void toggleRenderSoundBeacons();
+	static BOOL getRenderSoundBeacons();
 
 	static void setRenderMOAPBeacons(BOOL val);
-	static void toggleRenderMOAPBeacons(void * data);
-	static BOOL getRenderMOAPBeacons(void * data);
+	static void toggleRenderMOAPBeacons();
+	static BOOL getRenderMOAPBeacons();
 
 	static void setRenderPhysicalBeacons(BOOL val);
-	static void toggleRenderPhysicalBeacons(void* data);
-	static BOOL getRenderPhysicalBeacons(void* data);
+	static void toggleRenderPhysicalBeacons();
+	static BOOL getRenderPhysicalBeacons();
 
 	static void setRenderScriptedBeacons(BOOL val);
-	static void toggleRenderScriptedBeacons(void* data);
-	static BOOL getRenderScriptedBeacons(void* data);
+	static void toggleRenderScriptedBeacons();
+	static BOOL getRenderScriptedBeacons();
 
 	static void setRenderScriptedTouchBeacons(BOOL val);
-	static void toggleRenderScriptedTouchBeacons(void* data);
-	static BOOL getRenderScriptedTouchBeacons(void* data);
+	static void toggleRenderScriptedTouchBeacons();
+	static BOOL getRenderScriptedTouchBeacons();
 
 	static void setRenderBeacons(BOOL val);
-	static void toggleRenderBeacons(void* data);
-	static BOOL getRenderBeacons(void* data);
+	static void toggleRenderBeacons();
+	static BOOL getRenderBeacons();
 
 	static void setRenderHighlights(BOOL val);
-	static void toggleRenderHighlights(void* data);
-	static BOOL getRenderHighlights(void* data);
+	static void toggleRenderHighlights();
+	static BOOL getRenderHighlights();
 	static void setRenderHighlightTextureChannel(LLRender::eTexIndex channel); // sets which UV setup to display in highlight overlay
 
 	static void updateRenderBump();

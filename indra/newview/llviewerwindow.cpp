@@ -702,7 +702,7 @@ public:
 		}
 
 		// only display these messages if we are actually rendering beacons at this moment
-		if (LLPipeline::getRenderBeacons(nullptr) && LLFloaterReg::instanceVisible("beacons"))
+		if (LLPipeline::getRenderBeacons() && LLFloaterReg::instanceVisible("beacons"))
 		{
 			static const std::string beacon_particle = LLTrans::getString("BeaconParticle");
 			static const std::string beacon_physical = LLTrans::getString("BeaconPhysical");
@@ -712,43 +712,43 @@ public:
 			static const std::string beacon_media = LLTrans::getString("BeaconMedia");
 			static const std::string particle_hiding = LLTrans::getString("ParticleHiding");
 
-			if (LLPipeline::getRenderMOAPBeacons(nullptr))
+			if (LLPipeline::getRenderMOAPBeacons())
 			{
 				addText(xpos, ypos, beacon_media);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::toggleRenderTypeControlNegated((void*)LLPipeline::RENDER_TYPE_PARTICLES))
+			if (LLPipeline::toggleRenderTypeControlNegated(LLPipeline::RENDER_TYPE_PARTICLES))
 			{
 				addText(xpos, ypos, particle_hiding);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderParticleBeacons(nullptr))
+			if (LLPipeline::getRenderParticleBeacons())
 			{
 				addText(xpos, ypos, beacon_particle);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderSoundBeacons(nullptr))
+			if (LLPipeline::getRenderSoundBeacons())
 			{
 				addText(xpos, ypos, beacon_sound);
 				ypos += y_inc;
 			}
 
-			if (LLPipeline::getRenderScriptedBeacons(nullptr))
+			if (LLPipeline::getRenderScriptedBeacons())
 			{
 				addText(xpos, ypos, beacon_scripted);
 				ypos += y_inc;
 			}
 			else
-				if (LLPipeline::getRenderScriptedTouchBeacons(nullptr))
+				if (LLPipeline::getRenderScriptedTouchBeacons())
 				{
 					addText(xpos, ypos, beacon_scripted_touch);
 					ypos += y_inc;
 				}
 
-			if (LLPipeline::getRenderPhysicalBeacons(nullptr))
+			if (LLPipeline::getRenderPhysicalBeacons())
 			{
 				addText(xpos, ypos, beacon_physical);
 				ypos += y_inc;
@@ -4456,7 +4456,7 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 
 	if ( prev_draw_ui != show_ui)
 	{
-		LLPipeline::toggleRenderDebugFeature((void*)LLPipeline::RENDER_DEBUG_FEATURE_UI);
+		LLPipeline::toggleRenderDebugFeature(LLPipeline::RENDER_DEBUG_FEATURE_UI);
 	}
 
 	BOOL hide_hud = !gSavedSettings.getBOOL("RenderHUDInSnapshot") && LLPipeline::sShowHUDAttachments;
@@ -4679,7 +4679,7 @@ BOOL LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
 	// POST SNAPSHOT
 	if (!gPipeline.hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_UI))
 	{
-		LLPipeline::toggleRenderDebugFeature((void*)LLPipeline::RENDER_DEBUG_FEATURE_UI);
+		LLPipeline::toggleRenderDebugFeature(LLPipeline::RENDER_DEBUG_FEATURE_UI);
 	}
 
 	if (hide_hud)

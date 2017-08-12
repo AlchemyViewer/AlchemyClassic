@@ -127,7 +127,7 @@
 #include "stringize.h"
 #include "llcoros.h"
 #include "llexception.h"
-#include "cef/llceflib.h"
+#include "cef/dullahan.h"
 #if VLCPLUGIN
 #include "vlc/libvlc_version.h"
 #endif // LL_WINDOWS
@@ -3410,9 +3410,23 @@ LLSD LLAppViewer::getViewerInfo() const
 	}
 
 #if 1
-	info["LLCEFLIB_VERSION"] = LLCEFLIB_VERSION;
+	std::ostringstream cef_ver_codec;
+	cef_ver_codec << "Dullahan: ";
+	cef_ver_codec << DULLAHAN_VERSION_MAJOR;
+	cef_ver_codec << ".";
+	cef_ver_codec << DULLAHAN_VERSION_MINOR;
+	cef_ver_codec << ".";
+	cef_ver_codec << DULLAHAN_VERSION_BUILD;
+
+	cef_ver_codec << " / CEF: ";
+	cef_ver_codec << CEF_VERSION;
+
+	cef_ver_codec << " / Chrome: ";
+	cef_ver_codec << CHROME_VERSION_MAJOR;
+
+	info["CEF_VERSION"] = cef_ver_codec.str();
 #else
-	info["LLCEFLIB_VERSION"] = "Undefined";
+	info["CEF_VERSION"] = "Undefined";
 
 #endif
 

@@ -6,7 +6,7 @@ if (USESYSTEMLIBS)
     set(CEFPLUGIN OFF CACHE BOOL
         "CEFPLUGIN support for the llplugin/llmedia test apps.")
 else (USESYSTEMLIBS)
-    use_prebuilt_binary(llceflib)
+    use_prebuilt_binary(dullahan)
     set(CEFPLUGIN ON CACHE BOOL
         "CEFPLUGIN support for the llplugin/llmedia test apps.")
         set(CEF_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/cef)
@@ -16,7 +16,7 @@ if (WINDOWS)
     set(CEF_PLUGIN_LIBRARIES
         libcef.lib
         libcef_dll_wrapper.lib
-        llceflib.lib
+        dullahan.lib
     )
 elseif (DARWIN)
     FIND_LIBRARY(APPKIT_LIBRARY AppKit)

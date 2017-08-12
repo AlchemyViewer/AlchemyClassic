@@ -42,9 +42,6 @@
 
 #include "llcorehttputil.h"
 
-// third-party
-#include <jsoncpp/reader.h> // JSON
-
 /*
  * Workflow:
  * 1. LLViewerMedia::setOpenIDCookie()

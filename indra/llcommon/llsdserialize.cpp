@@ -37,6 +37,9 @@
 
 #include <iostream>
 
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
+
 #ifdef LL_USESYSTEMLIBS
 # include <zlib.h>
 #else
@@ -2141,14 +2144,23 @@ std::string zip_llsd(LLSD& data)
 // and deserializes from that copy using LLSDSerialize
 bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 {
+	U8 *in = new U8[size];
+	is.read((char*)in, size);
+
+	auto ret = unzip_llsd(data, in, size);
+
+	delete[] in;
+
+	return ret;
+}
+
+bool unzip_llsd(LLSD& data, U8* in, S32 size)
+{
 	U8* result = NULL;
 	U32 cur_size = 0;
 	z_stream strm;
 		
 	const U32 CHUNK = 65536;
-
-	U8 *in = new U8[size];
-	is.read((char*) in, size); 
 
 	U8 out[CHUNK];
 		
@@ -2175,7 +2187,6 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 		case Z_STREAM_ERROR:
 			inflateEnd(&strm);
 			free(result);
-			delete [] in;
 			return false;
 			break;
 		}
@@ -2187,7 +2198,6 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 		{
 			inflateEnd(&strm);
 			free(result);
-			delete [] in;
 			return false;
 		}
 		result = tmp;
@@ -2197,7 +2207,6 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 	} while (ret == Z_OK);
 
 	inflateEnd(&strm);
-	delete [] in;
 
 	if (ret != Z_STREAM_END)
 	{
@@ -2207,19 +2216,11 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 
 	//result now points to the decompressed LLSD block
 	{
-		std::string res_str((char*) result, cur_size);
+		char* result_ptr = strip_deprecated_header((char*)result, cur_size);
 
-		std::string deprecated_header("<? LLSD/Binary ?>");
-
-		if (res_str.substr(0, deprecated_header.size()) == deprecated_header)
-		{
-			res_str = res_str.substr(deprecated_header.size()+1, cur_size);
-		}
-		cur_size = res_str.size();
-
-		std::istringstream istr(res_str);
+		boost::iostreams::stream<boost::iostreams::array_source> istrm(result_ptr, cur_size);
 		
-		if (!LLSDSerialize::fromBinary(data, istr, cur_size))
+		if (!LLSDSerialize::fromBinary(data, istrm, cur_size))
 		{
 			LL_WARNS() << "Failed to unzip LLSD block" << LL_ENDL;
 			free(result);
@@ -2234,16 +2235,24 @@ bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 //This unzip function will only work with a gzip header and trailer - while the contents
 //of the actual compressed data is the same for either format (gzip vs zlib ), the headers
 //and trailers are different for the formats.
-U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32 size )
+U8* unzip_llsdNavMesh(bool& valid, unsigned int& outsize, std::istream& is, S32 size)
+{
+	U8 *in = new U8[size];
+	is.read((char*)in, size);
+	auto ret = unzip_llsdNavMesh(valid, outsize, in, size);
+
+	delete[] in;
+
+	return ret;
+}
+
+U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, U8* in, S32 size )
 {
 	U8* result = NULL;
 	U32 cur_size = 0;
 	z_stream strm;
 		
 	const U32 CHUNK = 0x4000;
-
-	U8 *in = new U8[size];
-	is.read((char*) in, size); 
 
 	U8 out[CHUNK];
 		
@@ -2269,7 +2278,6 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 		case Z_STREAM_ERROR:
 			inflateEnd(&strm);
 			free(result);
-			delete [] in;
 			valid = false;
 			return NULL;
 		}
@@ -2280,7 +2288,6 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 		{
 			inflateEnd(&strm);
 			free(result);
-			delete [] in;
 			valid = false;
 			return NULL;
 		}
@@ -2291,7 +2298,6 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 	} while (ret == Z_OK);
 	
 	inflateEnd(&strm);
-	delete [] in;
 
 	if (ret != Z_STREAM_END)
 	{
@@ -2307,6 +2313,25 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, std::istream& is, S32
 	}
 
 	return result;
+}
+
+char* strip_deprecated_header(char* in, U32& cur_size, U32* header_size)
+{
+	const char* deprecated_header = "<? LLSD/Binary ?>";
+	constexpr size_t deprecated_header_size = 17;
+
+	if (cur_size > deprecated_header_size
+		&& memcmp(in, deprecated_header, deprecated_header_size) == 0)
+	{
+		in = in + deprecated_header_size;
+		cur_size = cur_size - deprecated_header_size;
+		if (header_size)
+		{
+			*header_size = deprecated_header_size + 1;
+		}
+	}
+
+	return in;
 }
 // </alchemy>
 

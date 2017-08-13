@@ -75,6 +75,9 @@
 #include "lluploaddialog.h"
 #include "llfloaterreg.h"
 
+#include <boost/iostreams/device/array.hpp>
+#include <boost/iostreams/stream.hpp>
+
 #ifndef LL_WINDOWS
 #include "netdb.h"
 #endif
@@ -1685,18 +1688,12 @@ bool LLMeshRepoThread::headerReceived(const LLVolumeParams& mesh_params, U8* dat
 	U32 header_size = 0;
 	if (data_size > 0)
 	{
-		std::string res_str((char*) data, data_size);
+		U32 dsize = data_size;
+		char* result_ptr = strip_deprecated_header((char*)data, dsize, &header_size);
 
-		std::string deprecated_header("<? LLSD/Binary ?>");
+		data_size = dsize;
 
-		if (res_str.substr(0, deprecated_header.size()) == deprecated_header)
-		{
-			res_str = res_str.substr(deprecated_header.size()+1, data_size);
-			header_size = deprecated_header.size()+1;
-		}
-		data_size = res_str.size();
-
-		std::istringstream stream(res_str);
+		boost::iostreams::stream<boost::iostreams::array_source> stream(result_ptr, data_size);
 
 		if (!LLSDSerialize::fromBinary(header, stream, data_size))
 		{
@@ -1750,8 +1747,7 @@ bool LLMeshRepoThread::lodReceived(const LLVolumeParams& mesh_params, S32 lod, U
 	}
 
 	LLPointer<LLVolume> volume = new LLVolume(mesh_params, LLVolumeLODGroup::getVolumeScaleFromDetail(lod));
-	std::string mesh_string((char*) data, data_size);
-	std::istringstream stream(mesh_string);
+	boost::iostreams::stream<boost::iostreams::array_source> stream((char*)data, data_size);
 
 	if (volume->unpackVolumeFaces(stream, data_size))
 	{
@@ -1775,11 +1771,7 @@ bool LLMeshRepoThread::skinInfoReceived(const LLUUID& mesh_id, U8* data, S32 dat
 
 	if (data_size > 0)
 	{
-		std::string res_str((char*) data, data_size);
-
-		std::istringstream stream(res_str);
-
-		if (!unzip_llsd(skin, stream, data_size))
+		if (!unzip_llsd(skin, data, data_size))
 		{
 			LL_WARNS(LOG_MESH) << "Mesh skin info parse error.  Not a valid mesh asset!  ID:  " << mesh_id
 							   << LL_ENDL;
@@ -1807,11 +1799,7 @@ bool LLMeshRepoThread::decompositionReceived(const LLUUID& mesh_id, U8* data, S3
 
 	if (data_size > 0)
 	{ 
-		std::string res_str((char*) data, data_size);
-
-		std::istringstream stream(res_str);
-
-		if (!unzip_llsd(decomp, stream, data_size))
+		if (!unzip_llsd(decomp, data, data_size))
 		{
 			LL_WARNS(LOG_MESH) << "Mesh decomposition parse error.  Not a valid mesh asset!  ID:  " << mesh_id
 							   << LL_ENDL;
@@ -1848,8 +1836,7 @@ bool LLMeshRepoThread::physicsShapeReceived(const LLUUID& mesh_id, U8* data, S32
 		volume_params.setType(LL_PCODE_PROFILE_SQUARE, LL_PCODE_PATH_LINE);
 		volume_params.setSculptID(mesh_id, LL_SCULPT_TYPE_MESH);
 		LLPointer<LLVolume> volume = new LLVolume(volume_params,0);
-		std::string mesh_string((char*) data, data_size);
-		std::istringstream stream(mesh_string);
+		boost::iostreams::stream<boost::iostreams::array_source> stream((char*)data, data_size);
 
 		if (volume->unpackVolumeFaces(stream, data_size))
 		{

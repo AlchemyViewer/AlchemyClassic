@@ -407,12 +407,10 @@ void LLMaterialMgr::onGetResponse(bool success, const LLSD& content, const LLUUI
 	llassert(content.has(MATERIALS_CAP_ZIP_FIELD));
 	llassert(content[MATERIALS_CAP_ZIP_FIELD].isBinary());
 
-	LLSD::Binary content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
-	std::string content_string(reinterpret_cast<const char*>(content_binary.data()), content_binary.size());
-	std::istringstream content_stream(content_string);
+	const LLSD::Binary &content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
 
 	LLSD response_data;
-	if (!unzip_llsd(response_data, content_stream, content_binary.size()))
+	if (!unzip_llsd(response_data, const_cast<U8*>(content_binary.data()), content_binary.size()))
 	{
 		LL_WARNS("Materials") << "Cannot unzip LLSD binary content" << LL_ENDL;
 		return;
@@ -449,12 +447,10 @@ void LLMaterialMgr::onGetAllResponse(bool success, const LLSD& content, const LL
 	llassert(content.has(MATERIALS_CAP_ZIP_FIELD));
 	llassert(content[MATERIALS_CAP_ZIP_FIELD].isBinary());
 
-	LLSD::Binary content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
-	std::string content_string(reinterpret_cast<const char*>(content_binary.data()), content_binary.size());
-	std::istringstream content_stream(content_string);
+	const LLSD::Binary &content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
 
 	LLSD response_data;
-	if (!unzip_llsd(response_data, content_stream, content_binary.size()))
+	if (!unzip_llsd(response_data, const_cast<U8*>(content_binary.data()), content_binary.size()))
 	{
 		LL_WARNS("Materials") << "Cannot unzip LLSD binary content" << LL_ENDL;
 		return;
@@ -517,12 +513,10 @@ void LLMaterialMgr::onPutResponse(bool success, const LLSD& content)
 	llassert(content.has(MATERIALS_CAP_ZIP_FIELD));
 	llassert(content[MATERIALS_CAP_ZIP_FIELD].isBinary());
 
-	LLSD::Binary content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
-	std::string content_string(reinterpret_cast<const char*>(content_binary.data()), content_binary.size());
-	std::istringstream content_stream(content_string);
+	const LLSD::Binary &content_binary = content[MATERIALS_CAP_ZIP_FIELD].asBinary();
 
 	LLSD response_data;
-	if (!unzip_llsd(response_data, content_stream, content_binary.size()))
+	if (!unzip_llsd(response_data, const_cast<U8*>(content_binary.data()), content_binary.size()))
 	{
 		LL_WARNS("Materials") << "Cannot unzip LLSD binary content" << LL_ENDL;
 		return;

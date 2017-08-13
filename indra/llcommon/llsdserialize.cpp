@@ -2144,14 +2144,10 @@ std::string zip_llsd(LLSD& data)
 // and deserializes from that copy using LLSDSerialize
 bool unzip_llsd(LLSD& data, std::istream& is, S32 size)
 {
-	U8 *in = new U8[size];
-	is.read((char*)in, size);
+	auto in = std::make_unique<U8[]>(size);
+	is.read((char*)in.get(), size);
 
-	auto ret = unzip_llsd(data, in, size);
-
-	delete[] in;
-
-	return ret;
+	return unzip_llsd(data, in.get(), size);
 }
 
 bool unzip_llsd(LLSD& data, U8* in, S32 size)
@@ -2237,13 +2233,9 @@ bool unzip_llsd(LLSD& data, U8* in, S32 size)
 //and trailers are different for the formats.
 U8* unzip_llsdNavMesh(bool& valid, unsigned int& outsize, std::istream& is, S32 size)
 {
-	U8 *in = new U8[size];
-	is.read((char*)in, size);
-	auto ret = unzip_llsdNavMesh(valid, outsize, in, size);
-
-	delete[] in;
-
-	return ret;
+	auto in = std::make_unique<U8[]>(size);
+	is.read((char*)in.get(), size);
+	return unzip_llsdNavMesh(valid, outsize, in.get(), size);
 }
 
 U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, U8* in, S32 size )

@@ -530,18 +530,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>daf3b29f3d4903496129f9d2ddfca38a</string>
+              <string>4657f3bbb3a6ff32ea6ec95f1820826d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/devel/secondlife/dullahan-3.3071.1640.g1ebbf3c-windows64-201708121653.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.800-3.3112.1656.g9ec3e42-windows64-201708131342.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>3.3071.1640.g1ebbf3c</string>
+        <string>1.1.800-3.3112.1656.g9ec3e42</string>
       </map>
       <key>expat</key>
       <map>

@@ -95,8 +95,10 @@ private:
 	bool mCanCut;
 	bool mCanCopy;
 	bool mCanPaste;
+	std::string mUserDataPath;
 	std::string mCachePath;
 	std::string mCookiePath;
+	std::string mLogPath;
 	std::string mPickedFile;
 	VolumeCatcher mVolumeCatcher;
 	F32 mCurVolume;
@@ -112,8 +114,8 @@ MediaPluginBase(host_send_func, host_user_data)
 	mHeight = 0;
 	mDepth = 4;
 	mPixels = 0;
-	mEnableMediaPluginDebugging = true;
-	mHostLanguage = "en";
+	mEnableMediaPluginDebugging = false;
+	mHostLanguage = "en-US";
 	mCookiesEnabled = true;
 	mPluginsEnabled = false;
 	mJavascriptEnabled = true;
@@ -125,8 +127,10 @@ MediaPluginBase(host_send_func, host_user_data)
 	mCanCut = false;
 	mCanCopy = false;
 	mCanPaste = false;
+	mUserDataPath = "";
 	mCachePath = "";
 	mCookiePath = "";
+	mLogPath = "";
 	mPickedFile = "";
 	mCurVolume = 0.0;
 
@@ -353,6 +357,18 @@ void MediaPluginCEF::authResponse(LLPluginMessage &message)
 	}
 }
 
+std::string generate_cef_locale(std::string in)
+{
+	if (in == "en")
+		in = "en-US";
+	else if (in == "pt")
+		in = "pt-PT";
+	else if (in == "zh")
+		in = "zh-CN";
+
+	return in;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 void MediaPluginCEF::receiveMessage(const char* message_string)
@@ -449,12 +465,13 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				mCEFLib->setOnRequestExitCallback(std::bind(&MediaPluginCEF::onRequestExitCallback, this));
 
 				dullahan::dullahan_settings settings;
-				settings.accept_language_list = mHostLanguage;
+				settings.accept_language_list = generate_cef_locale(mHostLanguage);
 				settings.background_color = 0xffffff;
 				settings.cache_enabled = true;
 				settings.cache_path = mCachePath;
 				settings.cookie_store_path = mCookiePath;
 				settings.cookies_enabled = mCookiesEnabled;
+				settings.debug_output = mEnableMediaPluginDebugging;
 				settings.disable_gpu = mDisableGPU;
 				settings.flash_enabled = mPluginsEnabled;
 				settings.flip_mouse_y = false;
@@ -465,9 +482,12 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				settings.initial_width = 1024;
 				settings.java_enabled = false;
 				settings.javascript_enabled = mJavascriptEnabled;
+				settings.locale = generate_cef_locale(mHostLanguage);
+				settings.log_file = mLogPath;
 				settings.media_stream_enabled = false; // MAINT-6060 - WebRTC media removed until we can add granualrity/query UI
 				settings.plugins_enabled = mPluginsEnabled;
 				settings.user_agent_substring = mCEFLib->makeCompatibleUserAgentString(mUserAgentSubtring);
+				settings.user_data_path = mUserDataPath;
 				settings.webgl_enabled = true;
 
 				std::vector<std::string> custom_schemes(1, "secondlife");
@@ -498,8 +518,12 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			{
 				std::string user_data_path_cache = message_in.getValue("cache_path");
 				std::string user_data_path_cookies = message_in.getValue("cookies_path");
+				std::string user_data_path_logs = message_in.getValue("logs_path");
+
+				mUserDataPath = user_data_path_cache + "cef_data";
 				mCachePath = user_data_path_cache + "cef_cache";
 				mCookiePath = user_data_path_cookies + "cef_cookies";
+				mLogPath = user_data_path_logs + "cef.log";
 			}
 			else if (message_name == "size_change")
 			{

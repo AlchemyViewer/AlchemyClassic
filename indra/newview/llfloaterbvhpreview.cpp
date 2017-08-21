@@ -207,11 +207,9 @@ BOOL LLFloaterBvhPreview::postBuild()
 		}
 		else
 		{
-			char*	file_buffer;
+			auto file_buffer = std::make_unique<char[]>(file_size + 1);
 
-			file_buffer = new char[file_size + 1];
-
-			if (file_size == infile.read(file_buffer, file_size))
+			if (file_size == infile.read(file_buffer.get(), file_size))
 			{
 				file_buffer[file_size] = '\0';
 				LL_INFOS() << "Loading BVH file " << mFilename << LL_ENDL;
@@ -220,7 +218,7 @@ BOOL LLFloaterBvhPreview::postBuild()
 
                 std::map<std::string, std::string> joint_alias_map = getJointAliases();
     
-				loaderp = new LLBVHLoader(file_buffer, load_status, line_number, joint_alias_map);
+				loaderp = new LLBVHLoader(file_buffer.get(), load_status, line_number, joint_alias_map);
 				std::string status = getString(BVHSTATUS[load_status]);
 				
 				if(load_status == E_ST_NO_XLT_FILE)
@@ -234,7 +232,6 @@ BOOL LLFloaterBvhPreview::postBuild()
 			}
 
 			infile.close() ;
-			delete[] file_buffer;
 		}
 	}
 

@@ -726,27 +726,17 @@ BOOL LLEasyMessageSender::addField(e_message_variable_type var_type, const char*
 	case MVT_VARIABLE:
 		if(!hex)
 		{
-			char* buffer = new char[input.size() + 1];
-			strncpy(buffer, input.c_str(), input.size());
-			buffer[input.size()] = '\0';
-			gMessageSystem->addBinaryData(var_name, buffer, input.size() + 1);
-			delete[] buffer;
+			//input is null terminated .size does not include the null byte
+			gMessageSystem->addBinaryData(var_name, input.c_str(), input.size() + 1);
 		}
 		else
+		{
 			gMessageSystem->addBinaryData(var_name, input.c_str(), input.size());
+		}
 		return TRUE;
 		break;
 	case MVT_FIXED:
-		if(!hex)
-		{
-			char* buffer = new char[input.size() + 1];
-			strncpy(buffer, input.c_str(), input.size());
-			buffer[input.size()] = '\0';
-			gMessageSystem->addBinaryData(var_name, buffer, input.size());
-			delete[] buffer;
-		}
-		else
-			gMessageSystem->addBinaryData(var_name, input.c_str(), input.size());
+		gMessageSystem->addBinaryData(var_name, input.c_str(), input.size());
 		return TRUE;
 		break;
 	default:
@@ -835,17 +825,16 @@ std::string LLEasyMessageSender::mvtstr(e_message_variable_type var_type)
 
 inline std::vector<std::string> LLEasyMessageSender::split(const std::string& input, const std::string& separator)
 {
-	S32 size = input.length();
-	char* buffer = new char[size + 1];
-	strncpy(buffer, input.c_str(), size);
+	const S32 size = input.length();
+	auto buffer = std::make_unique<char[]>(size + 1);
+	strncpy(buffer.get(), input.c_str(), size);
 	buffer[size] = '\0';
 	std::vector<std::string> lines;
-	char* result = strtok(buffer, separator.c_str());
+	char* result = strtok(buffer.get(), separator.c_str());
 	while(result)
 	{
 		lines.push_back(result);
 		result = strtok(nullptr, separator.c_str());
 	}
-	delete[] buffer;
 	return lines;
 }

@@ -437,8 +437,8 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 		}
 		else
 		{
-			char* file_buffer = new char[file_size + 1];
-			if (infile.read(file_buffer, file_size) == file_size)
+			auto file_buffer = std::make_unique<char[]>(file_size + 1);
+			if (infile.read(file_buffer.get(), file_size) == file_size)
 			{
 				file_buffer[file_size] = '\0';
 				LL_INFOS() << "Loading BVH file " << getFileName() << LL_ENDL;
@@ -447,7 +447,7 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 
 				// *HACK: Thanks Avastar for forcing this sanity crap! -_-
 				auto joint_alias_map = gAgentAvatarp->getJointAliases();
-				loaderp = new LLBVHLoader(file_buffer, load_status, line_number, joint_alias_map);
+				loaderp = new LLBVHLoader(file_buffer.get(), load_status, line_number, joint_alias_map);
 
 				if (load_status == E_ST_NO_XLT_FILE)
 				{
@@ -459,8 +459,7 @@ LLSD LLNewFileResourceUploadInfo::exportTempFile()
 				}
 
 			}
-			infile.close();
-			delete[] file_buffer;	
+			infile.close();	
 		}
 		if (loaderp && loaderp->isInitialized())
 		{

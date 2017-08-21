@@ -72,7 +72,7 @@ public:
 
 private:
 	// this class is not intended to be instantiated.
-	LLGiveInventory();
+    LLGiveInventory() = delete;
 
 	/**
 	 * logs "Inventory item offered" to IM

@@ -105,7 +105,7 @@ protected:
 	EMessagingState                    getMessagingState() const;
 
 private:
-	LLFloaterPathfindingObjects(const LLFloaterPathfindingObjects &pOther);
+	LLFloaterPathfindingObjects(const LLFloaterPathfindingObjects &pOther) = delete;
 
 	void                   setMessagingState(EMessagingState pMessagingState);
 

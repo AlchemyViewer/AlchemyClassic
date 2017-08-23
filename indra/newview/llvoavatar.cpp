@@ -7960,11 +7960,12 @@ bool resolve_appearance_version(const LLAppearanceMessageContents& contents, S32
 //-----------------------------------------------------------------------------
 void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 {
+	static LLCachedControl<bool> enable_verbose_dumps(gSavedSettings, "DebugAvatarAppearanceMessage", false);
+	static LLCachedControl<bool> BlockAvatarAppearanceMessages(gSavedSettings, "BlockAvatarAppearanceMessages", false);
+
 	LL_DEBUGS("Avatar") << "starts" << LL_ENDL;
-	
-	bool enable_verbose_dumps = gSavedSettings.getBOOL("DebugAvatarAppearanceMessage");
-	std::string dump_prefix = getFullname() + "_" + (isSelf() ? "s" : "o") + "_";
-	if (gSavedSettings.getBOOL("BlockAvatarAppearanceMessages"))
+
+	if (BlockAvatarAppearanceMessages)
 	{
 		LL_WARNS() << "Blocking AvatarAppearance message" << LL_ENDL;
 		return;
@@ -7976,6 +7977,7 @@ void LLVOAvatar::processAvatarAppearance( LLMessageSystem* mesgsys )
 	parseAppearanceMessage(mesgsys, *contents);
 	if (enable_verbose_dumps)
 	{
+		std::string dump_prefix = getFullname() + "_" + (isSelf() ? "s" : "o") + "_";
 		dumpAppearanceMsgParams(dump_prefix + "appearance_msg", *contents);
 	}
 

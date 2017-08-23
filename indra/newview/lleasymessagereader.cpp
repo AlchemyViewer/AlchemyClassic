@@ -369,7 +369,6 @@ std::string LLEasyMessageReader::var2Str(const char* block_name, S32 block_num, 
 	returned_hex = FALSE;
 	std::stringstream stream;
 
-	char* value;
 	U32 valueU32;
 	U16 valueU16;
 	LLVector3 valueVector3;
@@ -471,8 +470,8 @@ std::string LLEasyMessageReader::var2Str(const char* block_name, S32 block_num, 
 		S32 size = mTemplateMessageReader.getSize(block_name, block_num, var_name);
 		if(size)
 		{
-			value = new char[size + 1];
-			mTemplateMessageReader.getBinaryData(block_name, var_name, value, size, block_num);
+			auto value = std::make_unique<char[]>(size + 1);
+			mTemplateMessageReader.getBinaryData(block_name, var_name, value.get(), size, block_num);
 			value[size] = '\0';
 			S32 readable = 0;
 			S32 unreadable = 0;
@@ -507,7 +506,7 @@ std::string LLEasyMessageReader::var2Str(const char* block_name, S32 block_num, 
 						value[i] = '.';
 					value[63] = '\0';
 				}
-				stream << value;
+				stream << value.get();
 			}
 			else
 			{
@@ -519,8 +518,6 @@ std::string LLEasyMessageReader::var2Str(const char* block_name, S32 block_num, 
 				if(summary_mode && (size > 8))
 					stream << " ... ";
 			}
-
-			delete[] value;
 		}
 		break;
 	}

@@ -610,8 +610,8 @@ bool LLScriptEdCore::loadScriptText(const std::string& filename)
 	fseek(file, 0L, SEEK_SET);
     if (file_length > 0)
     {
-        char* buffer = new char[file_length+1];
-        size_t nread = fread(buffer, 1, file_length, file);
+		auto buffer = std::make_unique<char[]>(file_length + 1);
+        size_t nread = fread(buffer.get(), 1, file_length, file);
         if (nread < file_length)
         {
             LL_WARNS() << "Short read" << LL_ENDL;
@@ -619,8 +619,7 @@ bool LLScriptEdCore::loadScriptText(const std::string& filename)
         buffer[nread] = '\0';
         fclose(file);
         
-        mEditor->setText(LLStringExplicit(buffer));
-        delete[] buffer;
+        mEditor->setText(LLStringExplicit(buffer.get()));
     }
     else
     {

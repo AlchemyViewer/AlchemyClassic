@@ -1065,10 +1065,10 @@ void LLPreviewGesture::saveIfNeeded()
     LLMultiGesture* gesture = createGesture();
 
     // Serialize the gesture
-    S32 maxSize = gesture->getMaxSerialSize();
-    char* buffer = new char[maxSize];
+    const S32 maxSize = gesture->getMaxSerialSize();
+	auto buffer = std::make_unique<char[]>(maxSize);
 
-    LLDataPackerAsciiBuffer dp(buffer, maxSize);
+    LLDataPackerAsciiBuffer dp(buffer.get(), maxSize);
 
     bool ok = gesture->serialize(dp);
 
@@ -1120,13 +1120,13 @@ void LLPreviewGesture::saveIfNeeded()
                 refresh();
                 item->setComplete(true);
 
-                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mItemUUID, LLAssetType::AT_GESTURE, buffer,
+                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mItemUUID, LLAssetType::AT_GESTURE, buffer.get(),
                     boost::bind(&LLPreviewGesture::finishInventoryUpload, _1, _2)));
                 url = agent_url;
             }
             else if (!mObjectUUID.isNull() && !task_url.empty())
             {
-                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE, buffer, NULL));
+                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE, buffer.get(), NULL));
                 url = task_url;
             }
 
@@ -1149,7 +1149,7 @@ void LLPreviewGesture::saveIfNeeded()
 
             S32 size = dp.getCurrentSize();
             file.setMaxSize(size);
-            file.write((U8*)buffer, size);
+            file.write((U8*)buffer.get(), size);
 
             LLLineEditor* descEditor = getChild<LLLineEditor>("desc");
             LLSaveInfo* info = new LLSaveInfo(mItemUUID, mObjectUUID, descEditor->getText(), tid);

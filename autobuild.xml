@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9a2fb6ab21c277613b8a59512afaac5a</string>
+              <string>e461d0c41dc81a8a5ecc4c91d1602901</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.55.0-windows-201708110923.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.55.1-windows-201708212225.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e4e6d1162545fb439d17dae61cfc5a29</string>
+              <string>e8316aa5ba8055d1b211505e31ea98bb</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.55.0-windows64-201708110914.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.55.1-windows64-201708212222.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.55.0</string>
+        <string>7.55.1</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -796,7 +796,7 @@
       <key>freetype</key>
       <map>
         <key>copyright</key>
-        <string>Copyright 2006-2016 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
+        <string>Copyright 2006-2017 by David Turner, Robert Wilhelm, and Werner Lemberg.</string>
         <key>description</key>
         <string>Font rendering library</string>
         <key>license</key>
@@ -852,11 +852,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0379853b615125825a8440b9ce83c798</string>
+              <string>08fc335b0c16d821cc5b80f014e107a3</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/freetype-2.7.1-windows-201703090745.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/freetype-2.8.0-windows-201708212241.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -866,18 +866,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>aca6b94729e49b3dd891c9e68104fd78</string>
+              <string>1b235380aa2bf81858eb1e290d5189a5</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.7.1-windows64-201703081058.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.8.0-windows64-201708212234.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.7.1</string>
+        <string>2.8.0</string>
       </map>
       <key>glew</key>
       <map>
@@ -1864,11 +1864,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1be18c90e47f35ac41f39b0d2653d318</string>
+              <string>b01cf758948c80d7550e8ce654cb6afd</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libpng-1.6.28-windows-201703090736.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libpng-1.6.31-windows-201708212219.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1878,18 +1878,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9d689b881821f44c7ba12e96d49901e4</string>
+              <string>61b07fecc1b85d0a173eee99f0aa7f77</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.28-windows64-201703081050.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.31-windows64-201708212151.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.6.28</string>
+        <string>1.6.31</string>
       </map>
       <key>libxml2</key>
       <map>

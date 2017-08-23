@@ -266,13 +266,11 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 	// the contents of a buffer array are potentially noncontiguous, so we
 	// will need to copy them into an contiguous block of memory for XMLRPC.
 	LLCore::BufferArray *body = response->getBody();
-	char * bodydata = new char[body->size()];
+	auto bodydata = std::make_unique<char[]>(body->size());
 
-	body->read(0, bodydata, body->size());
+	body->read(0, bodydata.get(), body->size());
 
-	mImpl->mResponse = XMLRPC_REQUEST_FromXML(bodydata, body->size(), nullptr);
-
-	delete[] bodydata;
+	mImpl->mResponse = XMLRPC_REQUEST_FromXML(bodydata.get(), body->size(), nullptr);
 
 	bool		hasError = false;
 	bool		hasFault = false;

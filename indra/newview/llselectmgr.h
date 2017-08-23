@@ -365,10 +365,8 @@ private:
 	void deleteAllNodes();
 	void cleanupNodes();
 
-
-private:
 	list_t mList;
-	const LLObjectSelection &operator=(const LLObjectSelection &);
+	const LLObjectSelection& operator=(const LLObjectSelection&) = delete;
 
 	LLPointer<LLViewerObject> mPrimaryObject;
 	std::map<LLPointer<LLViewerObject>, LLSelectNode*> mSelectNodeMap;

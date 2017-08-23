@@ -608,21 +608,20 @@ LLIOPipe::EStatus LLFilterXMLRPCResponse2LLSD::process_impl(
 	// parser...
 	S32 bytes = buffer->countAfter(channels.in(), nullptr);
 	if(!bytes) return STATUS_ERROR;
-	char* buf = new char[bytes + 1];
+	auto buf = std::make_unique<char[]>(bytes + 1);
 	buf[bytes] = '\0';
-	buffer->readAfter(channels.in(), nullptr, (U8*)buf, bytes);
+	buffer->readAfter(channels.in(), nullptr, (U8*)buf.get(), bytes);
 
 	//LL_DEBUGS() << "xmlrpc response: " << buf << LL_ENDL;
 
 	PUMP_DEBUG;
 	XMLRPC_REQUEST response = XMLRPC_REQUEST_FromXML(
-		buf,
+		buf.get(),
 		bytes,
 		nullptr);
 	if(!response)
 	{
 		LL_WARNS() << "XML -> SD Response unable to parse xml." << LL_ENDL;
-		delete[] buf;
 		return STATUS_ERROR;
 	}
 
@@ -657,7 +656,6 @@ LLIOPipe::EStatus LLFilterXMLRPCResponse2LLSD::process_impl(
 	}
 	PUMP_DEBUG;
 	XMLRPC_RequestFree(response, 1);
-	delete[] buf;
 	PUMP_DEBUG;
 	return STATUS_DONE;
 }
@@ -692,39 +690,35 @@ LLIOPipe::EStatus LLFilterXMLRPCRequest2LLSD::process_impl(
 	// parser...
 	S32 bytes = buffer->countAfter(channels.in(), nullptr);
 	if(!bytes) return STATUS_ERROR;
-	char* buf = new char[bytes + 1];
+	auto buf = std::make_unique<char[]>(bytes + 1);
 	buf[bytes] = '\0';
-	buffer->readAfter(channels.in(), nullptr, (U8*)buf, bytes);
+	buffer->readAfter(channels.in(), nullptr, (U8*)buf.get(), bytes);
 
 	//LL_DEBUGS() << "xmlrpc request: " << buf << LL_ENDL;
 	
 	// Check the value in the buffer. XMLRPC_REQUEST_FromXML will report a error code 4 if 
 	// values that are less than 0x20 are passed to it, except
 	// 0x09: Horizontal tab; 0x0a: New Line; 0x0d: Carriage
-	U8* cur_pBuf = (U8*)buf;
-    U8 cur_char;
 	for (S32 i=0; i<bytes; i++) 
 	{
-        cur_char = *cur_pBuf;
+        const U8 cur_char = buf[i];
 		if (   cur_char < 0x20
             && 0x09 != cur_char
             && 0x0a != cur_char
             && 0x0d != cur_char )
         {
-			*cur_pBuf = '?';
+			buf[i] = '?';
         }
-		++cur_pBuf;
 	}
 
 	PUMP_DEBUG;
 	XMLRPC_REQUEST request = XMLRPC_REQUEST_FromXML(
-		buf,
+		buf.get(),
 		bytes,
 		nullptr);
 	if(!request)
 	{
 		LL_WARNS() << "XML -> SD Request process parse error." << LL_ENDL;
-		delete[] buf;
 		return STATUS_ERROR;
 	}
 
@@ -765,7 +759,6 @@ LLIOPipe::EStatus LLFilterXMLRPCRequest2LLSD::process_impl(
 	}
 	stream << LLSDRPC_REQUEST_FOOTER;
 	XMLRPC_RequestFree(request, 1);
-	delete[] buf;
 	PUMP_DEBUG;
 	return STATUS_DONE;
 }

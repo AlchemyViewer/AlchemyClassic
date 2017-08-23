@@ -1441,32 +1441,20 @@ void LLStringUtilBase<T>::stripNonprintable(string_type& string)
 	{
 		return;
 	}
-	size_t src_size = string.size();
-	char* c_string = nullptr;
-	try
-	{
-		c_string = new char[src_size + 1];
-	}
-	catch (const std::bad_alloc&)
-	{
-		return;
-	}
+	const size_t src_size = string.size();
+	auto c_string = std::make_unique<char[]>(src_size + 1);
 
-	copy(c_string, string.c_str(), src_size+1);
-	char* write_head = &c_string[0];
+	copy(c_string.get(), string.c_str(), src_size+1);
 	for (size_type i = 0; i < src_size; i++)
 	{
-		char* read_head = &string[i];
-		write_head = &c_string[j];
-		if(!(*read_head < MIN))
+		if(string[i] >= MIN)
 		{
-			*write_head = *read_head;
+			c_string[j] = string[i];
 			++j;
 		}
 	}
 	c_string[j]= '\0';
-	string = c_string;
-	delete []c_string;
+	string.assign(c_string.get());
 }
 
 // *TODO: reimplement in terms of algorithm 
@@ -1491,7 +1479,9 @@ std::basic_string<T> LLStringUtilBase<T>::quote(const string_type& str,
 	}
 
 	// For whatever reason, we must quote this string.
+	auto needed_escapes = std::count(str.begin(), str.end(), '"');
 	string_type result;
+	result.reserve(len + (needed_escapes * escape.length()));
 	result.push_back('"');
 	for (typename string_type::const_iterator ci(str.begin()), cend(str.end()); ci != cend; ++ci)
 	{

@@ -31,14 +31,14 @@ elseif (DARWIN)
 
     set(CEF_PLUGIN_LIBRARIES
         ${ARCH_PREBUILT_DIRS_RELEASE}/libcef_dll_wrapper.a
-        ${ARCH_PREBUILT_DIRS_RELEASE}/libLLCefLib.a
+        ${ARCH_PREBUILT_DIRS_RELEASE}/libdullahan.a
         ${APPKIT_LIBRARY}
         ${CEF_LIBRARY}
        )
 
 elseif (LINUX)
     set(CEF_PLUGIN_LIBRARIES
-       llceflib
+       dullahan
        cef_dll_wrapper
        cef
     )

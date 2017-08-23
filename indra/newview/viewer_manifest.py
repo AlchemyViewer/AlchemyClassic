@@ -27,6 +27,7 @@ Linden Research, Inc., 945 Battery Street, San Francisco, CA  94111  USA
 $/LicenseInfo$
 """
 import sys
+import os
 import os.path
 import shutil
 import errno
@@ -833,21 +834,41 @@ class DarwinManifest(ViewerManifest):
                         except OSError as err:
                             print "Can't symlink %s -> %s: %s" % (src, dst, err)
 
-                # LLCefLib helper apps go inside AlchemyPlugin.app
+                # Dullahan helper apps go inside AlchemyPlugin.app
                 if self.prefix(src="", dst="AlchemyPlugin.app/Contents/Frameworks"):
-                    for helperappfile in ('LLCefLib Helper.app',
-                                          'LLCefLib Helper EH.app'):
-                        self.path2basename(relpkgdir, helperappfile)
+                    helperappfile = 'DullahanHelper.app'
+                    self.path2basename(relpkgdir, helperappfile)
 
                     pluginframeworkpath = self.dst_path_of('Chromium Embedded Framework.framework');
+                    # Putting a Frameworks directory under Contents/MacOS
+                    # isn't canonical, but the path baked into Dullahan
+                    # Helper.app/Contents/MacOS/DullahanHelper is:
+                    # @executable_path/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework
+                    # (notice, not @executable_path/../Frameworks/etc.)
+                    # So we'll create a symlink (below) from there back to the
+                    # Frameworks directory nested under SLPlugin.app.
+                    helperframeworkpath = \
+                        self.dst_path_of('DullahanHelper.app/Contents/MacOS/'
+                                         'Frameworks/Chromium Embedded Framework.framework')
 
                     self.end_prefix()
+
+                    helperexecutablepath = self.dst_path_of('AlchemyPlugin.app/Contents/Frameworks/DullahanHelper.app/Contents/MacOS/DullahanHelper')
+                    self.run_command('install_name_tool -change '
+                                     '"@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" '
+                                     '"@executable_path/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % helperexecutablepath)
 
                 # SLPlugin plugins
                 if self.prefix(src="", dst="llplugin"):
                     self.path2basename("../media_plugins/cef/" + self.args['configuration'],
                                        "media_plugin_cef.dylib")
                     self.end_prefix("llplugin")
+
+                    # do this install_name_tool *after* media plugin is copied over
+                    dylibexecutablepath = self.dst_path_of('llplugin/media_plugin_cef.dylib')
+                    self.run_command('install_name_tool -change '
+                                     '"@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" '
+                                     '"@executable_path/../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % dylibexecutablepath)
 
                 self.end_prefix("Resources")
 
@@ -867,12 +888,26 @@ class DarwinManifest(ViewerManifest):
                 # Real Framework folder:
                 #   Second Life.app/Contents/Frameworks/Chromium Embedded Framework.framework/
                 # Location of symlink and why it'ds relavie 
-                #   Second Life.app/Contents/Resources/AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
-                frameworkpath = os.path.join(os.pardir, os.pardir, os.pardir, os.pardir, "Frameworks", "Chromium Embedded Framework.framework")
+                #   Alchemy.app/Contents/Resources/AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+                frameworkpath = os.path.join(os.pardir, os.pardir, os.pardir, 
+                                             os.pardir, "Frameworks",
+                                             "Chromium Embedded Framework.framework")
                 try:
-                    symlinkf(frameworkpath, pluginframeworkpath)
+                    # from AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded
+                    # Framework.framework back to
+                    # Alchemy.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                    origin, target = pluginframeworkpath, frameworkpath
+                    symlinkf(target, origin)
+                    # from AlchemyPlugin.app/Contents/Frameworks/Dullahan
+                    # Helper.app/Contents/MacOS/Frameworks/Chromium Embedded
+                    # Framework.framework back to
+                    # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                    self.cmakedirs(os.path.dirname(helperframeworkpath))
+                    origin = helperframeworkpath
+                    target = os.path.join(os.pardir, frameworkpath)
+                    symlinkf(target, origin)
                 except OSError as err:
-                    print "Can't symlink %s -> %s: %s" % (frameworkpath, pluginframeworkpath, err)
+                    print "Can't symlink %s -> %s: %s" % (origin, target, err)
                     raise
 
             self.end_prefix("Contents")

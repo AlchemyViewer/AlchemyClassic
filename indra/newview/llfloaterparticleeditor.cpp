@@ -547,6 +547,12 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 	gInventory.updateItem(mParticleScriptInventoryItem);
 	gInventory.notifyObservers();
 
+	if (!gAgent.getRegion())
+	{
+		LLNotificationsUtil::add("ParticleScriptFailed");
+		return;
+	}
+
 	//caps import 
 	const std::string& url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
 

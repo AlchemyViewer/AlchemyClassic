@@ -216,7 +216,7 @@ bool LLPluginMessagePipe::pumpOutput()
 			else if(APR_STATUS_IS_EOF(status))
 			{
 				// This is what we normally expect when a plugin exits.
-				LL_INFOS() << "Got EOF from plugin socket. " << LL_ENDL;
+				LL_DEBUGS() << "Got EOF from plugin socket. " << LL_ENDL;
 
 				if(mOwner)
 				{
@@ -330,7 +330,7 @@ bool LLPluginMessagePipe::pumpInput(F64 timeout)
 				else if(APR_STATUS_IS_EOF(status))
 				{
 					// This is what we normally expect when a plugin exits.
-					LL_INFOS("PluginSocket") << "Got EOF from plugin socket. " << LL_ENDL;
+					LL_DEBUGS("PluginSocket") << "Got EOF from plugin socket. " << LL_ENDL;
 
 					if(mOwner)
 					{

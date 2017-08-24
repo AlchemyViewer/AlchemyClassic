@@ -525,23 +525,37 @@
         <string>dullahan</string>
         <key>platforms</key>
         <map>
+          <key>windows</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>4c6884a9e45499dc8daf60a20c54a06b</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/dullahan-1.1.813-3.3112.1656.g9ec3e42-windows-201708231823.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows</string>
+          </map>
           <key>windows64</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4657f3bbb3a6ff32ea6ec95f1820826d</string>
+              <string>93033e017cefde2f7edb2073df5c6c0b</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.800-3.3112.1656.g9ec3e42-windows64-201708131342.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.813-3.3112.1656.g9ec3e42-windows64-201708231815.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.800-3.3112.1656.g9ec3e42</string>
+        <string>1.1.813-3.3112.1656.g9ec3e42</string>
       </map>
       <key>expat</key>
       <map>
@@ -2006,80 +2020,6 @@
         </map>
         <key>version</key>
         <string>0.0.1</string>
-      </map>
-      <key>llceflib</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 2014-2015, Linden Research, Inc.</string>
-        <key>description</key>
-        <string>LLCefLib implements a headless web browser, rendering modern web content to a memory buffer and providing an API for injecting mouse and keyboard events. It uses the Chromium Embedded Framework (https://bitbucket.org/chromiumembedded/cef)</string>
-        <key>license</key>
-        <string>LGPL</string>
-        <key>license_file</key>
-        <string>LICENSES/llceflib.txt</string>
-        <key>name</key>
-        <string>llceflib</string>
-        <key>platforms</key>
-        <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>8a6859bf79066fcd87b2b62cb20814df</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/llceflib-3.3071.1640.g1ebbf3c-darwin-201706202205.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>a97cab988130112a7581a534195fc921</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/llceflib-3.3071.1640.g1ebbf3c-linux64-201706220406.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>afae5ac7c6c787da6f0fcd187ad5bc99</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/llceflib-3.3071.1640.g1ebbf3c-windows-201706171122.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>cb9fdfb4661c81b414579fe1e1c41c65</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/llceflib-3.3071.1640.g1ebbf3c-windows64-201706171110.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>3.3071.1640.g1ebbf3c</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

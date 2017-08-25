@@ -43,7 +43,7 @@ LLWorkerThread::LLWorkerThread(const std::string& name, bool threaded, bool shou
 
 	if(!mLocalAPRFilePoolp)
 	{
-		mLocalAPRFilePoolp = new LLVolatileAPRPool() ;
+		mLocalAPRFilePoolp = new LLVolatileAPRPool(name) ;
 	}
 }
 

@@ -111,7 +111,7 @@ protected:
 class LL_COMMON_API LLVolatileAPRPool : public LLAPRPool
 {
 public:
-	LLVolatileAPRPool(BOOL is_local = TRUE, apr_pool_t *parent = nullptr, apr_size_t size = 0, BOOL releasePoolFlag = TRUE);
+	LLVolatileAPRPool(const std::string& name, BOOL is_local = TRUE, apr_pool_t *parent = nullptr, apr_size_t size = 0, BOOL releasePoolFlag = TRUE);
 	virtual ~LLVolatileAPRPool();
 
 	/*virtual*/ apr_pool_t* getAPRPool() override; //define this virtual function to avoid any mistakenly calling LLAPRPool::getAPRPool().
@@ -121,6 +121,8 @@ public:
 	BOOL        isFull() ;
 	
 private:
+	std::string mName;
+
 	S32 mNumActiveRef ; //number of active pointers pointing to the apr_pool.
 	S32 mNumTotalRef ;  //number of total pointers pointing to the apr_pool since last creating.  
 

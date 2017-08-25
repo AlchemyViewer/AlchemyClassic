@@ -52,7 +52,7 @@ void ll_init_apr()
 
 	if(!LLAPRFile::sAPRFilePoolp)
 	{
-		LLAPRFile::sAPRFilePoolp = new LLVolatileAPRPool(FALSE) ;
+		LLAPRFile::sAPRFilePoolp = new LLVolatileAPRPool("Global Volatile Pool", FALSE) ;
 	}
 
 	gAPRInitialized = true;
@@ -141,8 +141,9 @@ apr_pool_t* LLAPRPool::getAPRPool()
 	return mPool ; 
 }
 
-LLVolatileAPRPool::LLVolatileAPRPool(BOOL is_local, apr_pool_t *parent, apr_size_t size, BOOL releasePoolFlag) 
+LLVolatileAPRPool::LLVolatileAPRPool(const std::string& name, BOOL is_local, apr_pool_t *parent, apr_size_t size, BOOL releasePoolFlag) 
 				  : LLAPRPool(parent, size, releasePoolFlag),
+				  mName(name),
 				  mNumActiveRef(0),
 				  mNumTotalRef(0),
 				  mMutexp(nullptr)
@@ -209,7 +210,7 @@ void LLVolatileAPRPool::clearVolatileAPRPool()
 	}
 	else
 	{
-		llassert_always(mNumActiveRef > 0) ;
+		llassert_always_msg(mNumActiveRef > 0, llformat("Volatile APR Pool '%s' attempted to be cleared with %d references", mName.c_str(), mNumActiveRef));
 	}
 
 	llassert(mNumTotalRef <= (FULL_VOLATILE_APR_POOL << 2)) ;

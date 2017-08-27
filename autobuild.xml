@@ -368,11 +368,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ac6c74b22518b21ce758165e932ba16d</string>
+              <string>f05dcd1ea36d715c1cef05cb4a0c0450</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.54.1-darwin-201706202243.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/curl-7.55.1-darwin-201708222011.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -525,6 +525,20 @@
         <string>dullahan</string>
         <key>platforms</key>
         <map>
+          <key>darwin</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>c361bac077823c4305f8e24c931df233</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.813-3.3112.1656.g9ec3e42-darwin-201708271132.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -826,11 +840,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>51a96a2f1688e870fea5feff6742ee82</string>
+              <string>16647ae4392b60a1b73db3227208b3ae</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/freetype-2.7.1-darwin-201701192038.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/freetype-2.8.0-darwin-201708222020.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1838,11 +1852,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d009531c022d705fb654ef40598787b0</string>
+              <string>d5d6cdbcef49753a61a96fdecfde702c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/libpng-1.6.28-darwin-201701192023.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/libpng-1.6.31-darwin-201708221854.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

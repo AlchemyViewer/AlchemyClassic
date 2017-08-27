@@ -700,6 +700,7 @@ class DarwinManifest(ViewerManifest):
         pkgdir = os.path.join(self.args['build'], os.pardir, 'packages')
         relpkgdir = os.path.join(pkgdir, "lib", "release")
         debpkgdir = os.path.join(pkgdir, "lib", "debug")
+        relbinpkgdir = os.path.join(pkgdir, "bin", "release")
 
         if self.prefix(src="", dst="Contents"):  # everything goes in Contents
             self.path("Info.plist", dst="Info.plist")
@@ -837,7 +838,7 @@ class DarwinManifest(ViewerManifest):
                 # Dullahan helper apps go inside AlchemyPlugin.app
                 if self.prefix(src="", dst="AlchemyPlugin.app/Contents/Frameworks"):
                     helperappfile = 'DullahanHelper.app'
-                    self.path2basename(relpkgdir, helperappfile)
+                    self.path2basename(relbinpkgdir, helperappfile)
 
                     pluginframeworkpath = self.dst_path_of('Chromium Embedded Framework.framework');
                     # Putting a Frameworks directory under Contents/MacOS

@@ -31,6 +31,7 @@
 #include "lleventpoll.h"
 #include "llappviewer.h"
 #include "llagent.h"
+#include "llviewernetwork.h"
 
 #include "llsdserialize.h"
 #include "lleventtimer.h"
@@ -101,8 +102,11 @@ namespace Details
 
         mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
         mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
-        mHttpOptions->setRetries(0);
-        mHttpOptions->setTransferTimeout(60);
+        if (!LLGridManager::instance().isInSecondlife())
+        {
+            mHttpOptions->setRetries(0);
+            mHttpOptions->setTransferTimeout(60);
+        }
         mHttpPolicy = app_core_http.getPolicy(LLAppCoreHttp::AP_LONG_POLL);
         mSenderIp = sender.getIPandPort();
     }

@@ -445,7 +445,7 @@ void send_stats()
 	std::string url = gAgent.getRegion()->getCapability("ViewerStats");
 
 	if (url.empty()) {
-		LL_WARNS() << "Could not get ViewerStats capability" << LL_ENDL;
+		LL_DEBUGS() << "Could not get ViewerStats capability" << LL_ENDL;
 		return;
 	}
 	

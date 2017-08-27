@@ -4986,7 +4986,9 @@ void process_sim_stats(LLMessageSystem* msg, void** user_data)
 		F32 stat_value;
 		msg->getU32("Stat", "StatID", stat_id, i);
 		msg->getF32("Stat", "StatValue", stat_value, i);
-		if ((ESimStatID)stat_id == LL_SIM_STAT_LSLIPS || (ESimStatID)stat_id == LL_SIM_STAT_REGION_IDLE || (ESimStatID)stat_id == LL_SIM_STAT_REGION_IDLE_POSSIBLE)
+		if ((ESimStatID)stat_id == LL_SIM_STAT_LSLIPS || (ESimStatID) stat_id == LL_SIM_STAT_VIRTUAL_SIZE_KB 
+			|| (ESimStatID) stat_id == LL_SIM_STAT_RESIDENT_SIZE_KB || (ESimStatID)stat_id == LL_SIM_STAT_REGION_IDLE 
+			|| (ESimStatID)stat_id == LL_SIM_STAT_REGION_IDLE_POSSIBLE)
 			continue;
 
 		LLStatViewer::SimMeasurementSampler* measurementp = LLStatViewer::SimMeasurementSampler::getInstance((ESimStatID)stat_id);

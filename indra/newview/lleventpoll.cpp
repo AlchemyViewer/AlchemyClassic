@@ -92,6 +92,7 @@ namespace Details
         mDone(false),
         mHttpRequest(),
         mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
+        mHttpOptions(),
         mSenderIp(),
         mCounter(sNextCounter++)
 
@@ -101,6 +102,7 @@ namespace Details
         mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
         mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
         mHttpOptions->setRetries(0);
+        mHttpOptions->setTransferTimeout(60);
         mHttpPolicy = app_core_http.getPolicy(LLAppCoreHttp::AP_LONG_POLL);
         mSenderIp = sender.getIPandPort();
     }

@@ -530,11 +530,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3bdb4bfea5465d6498b52f52e7fab00d</string>
+              <string>c361bac077823c4305f8e24c931df233</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.813-3.3112.1656.g9ec3e42-darwin-201708232229.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.813-3.3112.1656.g9ec3e42-darwin-201708271132.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

@@ -526,6 +526,10 @@ bool LLFloaterCompileQueue::startQueue()
                 success, failure);
             return TRUE;
         }
+		else
+		{
+			processExperienceIdResults(LLSD(), getKey().asUUID());
+		}
     }
 
     return true;

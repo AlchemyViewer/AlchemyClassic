@@ -589,6 +589,23 @@ void LLScriptEdCore::setScriptText(const std::string& text, BOOL is_valid)
 	}
 }
 
+std::string LLScriptEdCore::getScriptText()
+{
+	if (mEditor)
+	{
+		return mEditor->getText();
+	}
+	return LLStringUtil::null;
+}
+
+void LLScriptEdCore::makeEditorPristine()
+{
+	if (mEditor)
+	{
+		mEditor->makePristine();
+	}
+}
+
 bool LLScriptEdCore::loadScriptText(const std::string& filename)
 {
 	if (filename.empty())
@@ -644,7 +661,7 @@ bool LLScriptEdCore::writeToFile(const std::string& filename)
 		return false;
 	}
 
-	std::string utf8text = mEditor->getText();
+	std::string utf8text = getScriptText();
 
 	// Special case for a completely empty script - stuff in one space so it can store properly.  See SL-46889
 	if (utf8text.size() == 0)
@@ -1248,7 +1265,7 @@ void LLScriptEdCore::onBtnSaveToFile( void* userdata )
 		if( file_picker.getSaveFile( LLFilePicker::FFSAVE_SCRIPT, self->mScriptName ) )
 		{
 			std::string filename = file_picker.getFirstFile();
-			std::string scriptText=self->mEditor->getText();
+			std::string scriptText=self->getScriptText();
 			llofstream fout(filename.c_str());
 			fout<<(scriptText);
 			fout.close();
@@ -1616,7 +1633,7 @@ void LLPreviewLSL::loadAsset()
 		else
 		{
 			mScriptEd->setScriptText(mScriptEd->getString("can_not_view"), FALSE);
-			mScriptEd->mEditor->makePristine();
+			mScriptEd->makeEditorPristine();
 			mScriptEd->mFunctions->setEnabled(FALSE);
 			mAssetStatus = PREVIEW_ASSET_LOADED;
 		}
@@ -1704,7 +1721,7 @@ void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
 
     mPendingUploads = 0;
     mScriptEd->mErrorList->deleteAllItems();
-    mScriptEd->mEditor->makePristine();
+    mScriptEd->makeEditorPristine();
 
     if (sync)
     {
@@ -1725,7 +1742,7 @@ void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
 		std::string url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
         if (!url.empty())
         {
-            std::string buffer(mScriptEd->mEditor->getText());
+            std::string buffer(mScriptEd->getScriptText());
             LLBufferedAssetUploadInfo::invnUploadFinish_f proc = boost::bind(&LLPreviewLSL::finishedLSLUpload, _1, _4);
 
             LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mItemUUID, buffer, proc));
@@ -1756,7 +1773,7 @@ void LLPreviewLSL::onLoadComplete( LLVFS *vfs, const LLUUID& asset_uuid, LLAsset
 			// put a EOS at the end
 			buffer[file_length] = 0;
 			preview->mScriptEd->setScriptText(LLStringExplicit(&buffer[0]), TRUE);
-			preview->mScriptEd->mEditor->makePristine();
+			preview->mScriptEd->makeEditorPristine();
 			LLInventoryItem* item = gInventory.getItem(*item_uuid);
 			BOOL is_modifiable = FALSE;
 			if(item
@@ -1841,7 +1858,7 @@ BOOL LLLiveLSLEditor::postBuild()
 	childSetCommitCallback("mono", &LLLiveLSLEditor::onMonoCheckboxClicked, this);
 	getChildView("mono")->setEnabled(FALSE);
 
-	mScriptEd->mEditor->makePristine();
+	mScriptEd->makeEditorPristine();
 	mScriptEd->mEditor->setFocus(TRUE);
 
 
@@ -1932,7 +1949,7 @@ void LLLiveLSLEditor::loadAsset()
 				{
 					mItem = new LLViewerInventoryItem(item);
 					mScriptEd->setScriptText(getString("not_allowed"), FALSE);
-					mScriptEd->mEditor->makePristine();
+					mScriptEd->makeEditorPristine();
 					mScriptEd->enableSave(FALSE);
 					mAssetStatus = PREVIEW_ASSET_LOADED;
 				}
@@ -1967,7 +1984,7 @@ void LLLiveLSLEditor::loadAsset()
 			if(mItem.isNull())
 			{
 				mScriptEd->setScriptText(LLStringUtil::null, FALSE);
-				mScriptEd->mEditor->makePristine();
+				mScriptEd->makeEditorPristine();
 				mAssetStatus = PREVIEW_ASSET_LOADED;
 				mIsModifiable = FALSE;
 			}
@@ -2070,7 +2087,7 @@ void LLLiveLSLEditor::loadScriptText(LLVFS *vfs, const LLUUID &uuid, LLAssetType
 	buffer[file_length] = '\0';
 
 	mScriptEd->setScriptText(LLStringExplicit(&buffer[0]), TRUE);
-	mScriptEd->mEditor->makePristine();
+	mScriptEd->makeEditorPristine();
 	mScriptEd->setScriptName(getItem()->getName());
 }
 
@@ -2258,9 +2275,9 @@ void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 
     // save the script
     mScriptEd->enableSave(FALSE);
-    mScriptEd->mEditor->makePristine();
+    mScriptEd->makeEditorPristine();
     mScriptEd->mErrorList->deleteAllItems();
-    mScriptEd->mEditor->makePristine();
+    mScriptEd->makeEditorPristine();
 
     if (sync)
     {
@@ -2274,7 +2291,7 @@ void LLLiveLSLEditor::saveIfNeeded(bool sync /*= true*/)
 
     if (!url.empty())
     {
-        std::string buffer(mScriptEd->mEditor->getText());
+		std::string buffer(mScriptEd->getScriptText());
         LLBufferedAssetUploadInfo::taskUploadFinish_f proc = boost::bind(&LLLiveLSLEditor::finishLSLUpload, _1, _2, _3, _4, isRunning);
 
         LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mObjectUUID, mItemUUID, 

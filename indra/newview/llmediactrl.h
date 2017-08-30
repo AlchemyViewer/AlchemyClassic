@@ -174,6 +174,8 @@ public:
 	bool    wantsKeyUpKeyDown() const override;
 	bool    wantsReturnKey() const override;
 
+	virtual BOOL	acceptsTextInput() const { return TRUE; }
+
 	protected:
 		void convertInputCoords(S32& x, S32& y);
 

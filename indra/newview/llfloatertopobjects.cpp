@@ -145,7 +145,6 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 		std::string name_buf;
 		std::string owner_buf;
 		std::string parcel_buf("unknown");
-		F32 mono_score = 0.f;
 		bool have_extended_data = false;
 		S32 public_urls = 0;
 		F32 script_memory = 0.f;
@@ -163,8 +162,10 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 		{
 			have_extended_data = true;
 			msg->getU32("DataExtended", "TimeStamp", time_stamp, block);
-			msg->getF32("DataExtended", "MonoScore", mono_score, block);
-			msg->getS32("DataExtended", "PublicURLs", public_urls, block);
+			if (mCurrentMode == STAT_REPORT_TOP_SCRIPTS)
+			{
+				msg->getS32("DataExtended", "PublicURLs", public_urls, block);
+			}
 
 			std::string parcel_name;
 			F32 script_size = 0.f;

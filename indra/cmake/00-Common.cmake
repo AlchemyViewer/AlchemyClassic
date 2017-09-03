@@ -282,7 +282,6 @@ if (LINUX OR DARWIN)
   endif (WORD_SIZE EQUAL 32)
 endif (LINUX OR DARWIN)
 
-
 if (USESYSTEMLIBS)
   add_definitions(-DLL_USESYSTEMLIBS=1)
 
@@ -295,7 +294,7 @@ else (USESYSTEMLIBS)
   #add_definitions(-DBOOST_THREAD_VERSION=4)
 
   #Uncomment this definition when we can build cleanly against OpenSSL 1.1
-  #add_definitions(-DOPENSSL_API_COMPAT=0x10100000L)
+  add_definitions(-DOPENSSL_API_COMPAT=0x10100000L)
 
   set(${ARCH}_linux_INCLUDES
       atk-1.0
@@ -308,5 +307,13 @@ else (USESYSTEMLIBS)
       pixman-1
       )
 endif (USESYSTEMLIBS)
+
+option(RELEASE_SHOW_ASSERTS "Enable asserts in release builds" OFF)
+
+if(RELEASE_SHOW_ASSERTS)
+  add_definitions(-DRELEASE_SHOW_ASSERT=1)
+else()
+  add_definitions(-URELEASE_SHOW_ASSERT)
+endif()
 
 endif(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)

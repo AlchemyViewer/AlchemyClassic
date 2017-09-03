@@ -527,9 +527,9 @@ void LLMaterialMgr::onPutResponse(bool success, const LLSD& content)
 		LL_DEBUGS("Materials") << "response has "<< response_data.size() << " materials" << LL_ENDL;
 		for (LLSD::array_const_iterator faceIter = response_data.beginArray(); faceIter != response_data.endArray(); ++faceIter)
 		{
-#           ifndef LL_RELEASE_FOR_DOWNLOAD
+#           if defined(SHOW_ASSERT)
 			const LLSD& face_data = *faceIter; // conditional to avoid unused variable warning
-#           endif
+
 			llassert(face_data.isMap());
 
 			llassert(face_data.has(MATERIALS_CAP_OBJECT_ID_FIELD));
@@ -542,6 +542,7 @@ void LLMaterialMgr::onPutResponse(bool success, const LLSD& content)
 
 			llassert(face_data.has(MATERIALS_CAP_MATERIAL_ID_FIELD));
 			llassert(face_data[MATERIALS_CAP_MATERIAL_ID_FIELD].isBinary());
+#           endif
 			// LLMaterialID material_id(face_data[MATERIALS_CAP_MATERIAL_ID_FIELD].asBinary());
 
 			// *TODO: do we really still need to process this?

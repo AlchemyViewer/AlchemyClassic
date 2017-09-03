@@ -380,7 +380,6 @@ BOOL LLFastTimerView::handleScrollWheel(S32 x, S32 y, S32 clicks)
 	{
 		mScrollPos += clicks;
 		mScrollPos = llclamp(mScrollPos, 0, 420); // *FIXME: magic numbers, idgaf
-		drawLegend();
 	}
 	else
 	{

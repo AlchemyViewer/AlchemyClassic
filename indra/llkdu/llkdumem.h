@@ -42,6 +42,7 @@
 #define KDU_X86_INTRINSICS
 #define KDU_NO_AVX
 #define KDU_NO_AVX2
+#include "kdu_utils.h"
 #include "kdu_image.h"
 #include "kdu_elementary.h"
 #include "kdu_messaging.h"

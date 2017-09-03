@@ -1642,18 +1642,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b147709a09e1aa4792d10cf7e928f0a9</string>
+              <string>ca3298d2f4326bbf8d412dd088b2c664</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/devel/secondlife/packages/windows64/kdu-7.9.1-windows64-201706130219.tar.bz2</string>
+              <string>file:///c:/devel/secondlife/packages/windows64/kdu-7.10.2-windows64-201709021526.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.9.1</string>
+        <string>7.10.2</string>
       </map>
       <key>libhunspell</key>
       <map>

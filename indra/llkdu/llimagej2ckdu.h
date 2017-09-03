@@ -40,12 +40,14 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"
 #pragma clang diagnostic ignored "-Wshorten-64-to-32"
+#include "kdu_utils.h"
 #include "kdu_elementary.h"
 #include "kdu_messaging.h"
 #include "kdu_params.h"
 #include "kdu_compressed.h"
 #pragma clang diagnostic pop
 #else
+#include "kdu_utils.h"
 #include "kdu_elementary.h"
 #include "kdu_messaging.h"
 #include "kdu_params.h"

@@ -36,7 +36,7 @@
 #include "fmod.hpp"
 #include "fmod_errors.h"
 
-inline bool Check_FMOD_Error(FMOD_RESULT result, const char *string)
+inline bool Check_FMOD_Stream_Error(FMOD_RESULT result, const char *string)
 {
 	if (result == FMOD_OK)
 		return false;
@@ -50,7 +50,6 @@ public:
 	LLAudioStreamManagerFMODSTUDIO(FMOD::System *system, FMOD::ChannelGroup *group, const std::string& url);
 	FMOD::Channel* startStream();
 	bool stopStream(); // Returns true if the stream was successfully stopped.
-	bool ready();
 
 	const std::string& getURL() 	{ return mInternetStreamURL; }
 
@@ -129,9 +128,9 @@ LLStreamingAudio_FMODSTUDIO::LLStreamingAudio_FMODSTUDIO(FMOD::System *system) :
 	const U32 buffer_seconds = 10;		//sec
 	const U32 estimated_bitrate = 128;	//kbit/sec
 	result = mSystem->setStreamBufferSize(estimated_bitrate * buffer_seconds * 128/*bytes/kbit*/, FMOD_TIMEUNIT_RAWBYTES);
-	Check_FMOD_Error(result, "FMOD::System::setStreamBufferSize");
+	Check_FMOD_Stream_Error(result, "FMOD::System::setStreamBufferSize");
 
-	Check_FMOD_Error(system->createChannelGroup("stream", &mStreamGroup), "FMOD::System::createChannelGroup");
+	Check_FMOD_Stream_Error(system->createChannelGroup("stream", &mStreamGroup), "FMOD::System::createChannelGroup");
 
 	FMOD_DSP_DESCRIPTION dspdesc = { };
 	dspdesc.pluginsdkversion = FMOD_PLUGIN_SDK_VERSION;
@@ -139,7 +138,7 @@ LLStreamingAudio_FMODSTUDIO::LLStreamingAudio_FMODSTUDIO(FMOD::System *system) :
 	dspdesc.numoutputbuffers = 1;
 	dspdesc.read = &waveDataCallback; //Assign callback.
 
-	Check_FMOD_Error(system->createDSP(&dspdesc, &mStreamDSP), "FMOD::System::createDSP");
+	Check_FMOD_Stream_Error(system->createDSP(&dspdesc, &mStreamDSP), "FMOD::System::createDSP");
 }
 
 LLStreamingAudio_FMODSTUDIO::~LLStreamingAudio_FMODSTUDIO()
@@ -275,9 +274,9 @@ void LLStreamingAudio_FMODSTUDIO::update()
 			setGain(getGain());
 			if (mStreamDSP)
 			{
-				Check_FMOD_Error(mFMODInternetStreamChannelp->addDSP(FMOD_CHANNELCONTROL_DSP_TAIL, mStreamDSP), "FMOD::Channel::addDSP");
+				Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->addDSP(FMOD_CHANNELCONTROL_DSP_TAIL, mStreamDSP), "FMOD::Channel::addDSP");
 			}
-			Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(false), "FMOD::Channel::setPaused");
+			Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setPaused(false), "FMOD::Channel::setPaused");
 		}
 	}
 
@@ -318,7 +317,7 @@ void LLStreamingAudio_FMODSTUDIO::update()
 						if (!LLStringUtil::compareInsensitive(name, "Sample Rate Change"))
 						{
 							LL_INFOS() << "Stream forced changing sample rate to " << *((float *)tag.data) << LL_ENDL;
-							Check_FMOD_Error(mFMODInternetStreamChannelp->setFrequency(*((float *)tag.data)), "FMOD::Channel::setFrequency");
+							Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setFrequency(*((float *)tag.data)), "FMOD::Channel::setFrequency");
 						}
 						continue;
 					default:
@@ -390,14 +389,14 @@ void LLStreamingAudio_FMODSTUDIO::update()
 					LL_INFOS() << "Stream starvation detected! Pausing stream until buffer nearly full." << LL_ENDL;
 					LL_INFOS() << "  (diskbusy="<<diskbusy<<")" << LL_ENDL;
 					LL_INFOS() << "  (progress="<<progress<<")" << LL_ENDL;
-					Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(true), "FMOD::Channel::setPaused");
+					Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setPaused(true), "FMOD::Channel::setPaused");
 				}
 				was_starved = true;
 			}
 			else if(progress > 80 && was_starved)
 			{
 				was_starved = false;
-				Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(false), "FMOD::Channel::setPaused");
+				Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setPaused(false), "FMOD::Channel::setPaused");
 			}
 		}
 	}
@@ -415,11 +414,11 @@ void LLStreamingAudio_FMODSTUDIO::stop()
 	
 	if (mFMODInternetStreamChannelp)
 	{
-		Check_FMOD_Error(mFMODInternetStreamChannelp->setPaused(true), "FMOD::Channel::setPaused");
-		Check_FMOD_Error(mFMODInternetStreamChannelp->setPriority(0), "FMOD::Channel::setPriority");
+		Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setPaused(true), "FMOD::Channel::setPaused");
+		Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setPriority(0), "FMOD::Channel::setPriority");
 		if (mStreamDSP)
 		{
-			Check_FMOD_Error(mFMODInternetStreamChannelp->removeDSP(mStreamDSP), "FMOD::Channel::removeDSP");
+			Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->removeDSP(mStreamDSP), "FMOD::Channel::removeDSP");
 		}
 		mFMODInternetStreamChannelp = nullptr;
 	}
@@ -500,7 +499,7 @@ void LLStreamingAudio_FMODSTUDIO::setGain(F32 vol)
 	{
 		vol = llclamp(vol * vol, 0.f, 1.f);	//should vol be squared here?
 
-		Check_FMOD_Error(mFMODInternetStreamChannelp->setVolume(vol), "FMOD::Channel::setVolume");
+		Check_FMOD_Stream_Error(mFMODInternetStreamChannelp->setVolume(vol), "FMOD::Channel::setVolume");
 	}
 }
 
@@ -585,7 +584,7 @@ FMOD::Channel *LLAudioStreamManagerFMODSTUDIO::startStream()
 	if(mStreamChannel)
 		return mStreamChannel;	//Already have a channel for this stream.
 
-	Check_FMOD_Error(mSystem->playSound(mInternetStream, mChannelGroup, true, &mStreamChannel), "FMOD::System::playSound");
+	Check_FMOD_Stream_Error(mSystem->playSound(mInternetStream, mChannelGroup, true, &mStreamChannel), "FMOD::System::playSound");
 	return mStreamChannel;
 }
 
@@ -629,17 +628,17 @@ FMOD_RESULT LLAudioStreamManagerFMODSTUDIO::getOpenState(FMOD_OPENSTATE& state, 
 	if (!mInternetStream)
 		return FMOD_ERR_INVALID_HANDLE;
 	FMOD_RESULT result = mInternetStream->getOpenState(&state, percentbuffered, starving, diskbusy);
-	Check_FMOD_Error(result, "FMOD::Sound::getOpenState");
+	Check_FMOD_Stream_Error(result, "FMOD::Sound::getOpenState");
 	return result;
 }
 
 void LLStreamingAudio_FMODSTUDIO::setBufferSizes(U32 streambuffertime, U32 decodebuffertime)
 {
-	Check_FMOD_Error(mSystem->setStreamBufferSize(streambuffertime / 1000 * 128 * 128, FMOD_TIMEUNIT_RAWBYTES), "FMOD::System::setStreamBufferSize");
+	Check_FMOD_Stream_Error(mSystem->setStreamBufferSize(streambuffertime / 1000 * 128 * 128, FMOD_TIMEUNIT_RAWBYTES), "FMOD::System::setStreamBufferSize");
 	FMOD_ADVANCEDSETTINGS settings = { };
 	settings.cbSize=sizeof(settings);
 	settings.defaultDecodeBufferSize = decodebuffertime;//ms
-	Check_FMOD_Error(mSystem->setAdvancedSettings(&settings), "FMOD::System::setAdvancedSettings");
+	Check_FMOD_Stream_Error(mSystem->setAdvancedSettings(&settings), "FMOD::System::setAdvancedSettings");
 }
 
 bool LLStreamingAudio_FMODSTUDIO::releaseDeadStreams()
@@ -668,11 +667,11 @@ void LLStreamingAudio_FMODSTUDIO::cleanupWaveData()
 {
 	if (mStreamGroup)
 	{
-		Check_FMOD_Error(mStreamGroup->release(), "FMOD::ChannelGroup::release");
+		Check_FMOD_Stream_Error(mStreamGroup->release(), "FMOD::ChannelGroup::release");
 		mStreamGroup = nullptr;
 	}
 	
 	if(mStreamDSP)
-		Check_FMOD_Error(mStreamDSP->release(), "FMOD::DSP::release");
+		Check_FMOD_Stream_Error(mStreamDSP->release(), "FMOD::DSP::release");
 	mStreamDSP = nullptr;
 }

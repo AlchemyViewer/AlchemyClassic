@@ -798,6 +798,14 @@ void MediaPluginCEF::unicodeInput(LLSD native_key_data = LLSD::emptyMap())
 	U32 wparam = ll_U32_from_sd(native_key_data["w_param"]);
 	U64 lparam = ll_U32_from_sd(native_key_data["l_param"]);
 	mCEFLib->nativeKeyboardEventWin(msg, wparam, lparam);
+#elif LL_LINUX
+    uint32_t	native_scan_code = (uint32_t)(native_key_data["sdl_sym"].asInteger());
+    uint32_t	native_virtual_key = (uint32_t)(native_key_data["virtual_key"].asInteger());
+    uint32_t	native_modifiers = (uint32_t)(native_key_data["cef_modifiers"].asInteger());
+    if( native_scan_code == '\n' )
+        native_scan_code = '\r';
+	mCEFLib->nativeKeyboardEventLinux(LLCEFLib::KE_KEY_DOWN, native_scan_code, native_virtual_key, native_modifiers);
+	mCEFLib->nativeKeyboardEvent(LLCEFLib::KE_KEY_UP, native_scan_code, native_virtual_key, native_modifiers);
 #endif
 };
 

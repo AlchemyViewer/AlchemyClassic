@@ -43,7 +43,6 @@
 #include "fmod_errors.h"
 #include "lldir.h"
 
-#include "indra_constants.h"
 #include "sound_ids.h"
 
 const U32 EXTRA_SOUND_CHANNELS = 10;
@@ -52,7 +51,7 @@ FMOD_RESULT F_CALLBACK windDSPCallback(FMOD_DSP_STATE *dsp_state, float *inbuffe
 
 FMOD::ChannelGroup *LLAudioEngine_FMODSTUDIO::mChannelGroups[LLAudioEngine::AUDIO_TYPE_COUNT] = {nullptr};
 
-LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(bool enable_profiler, U32 resample_method)
+LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(const std::string& app_name, bool enable_profiler, U32 resample_method)
 	: mInited(false)
 	, mWindGen(nullptr)
 	, mWindDSPDesc(nullptr)
@@ -60,6 +59,7 @@ LLAudioEngine_FMODSTUDIO::LLAudioEngine_FMODSTUDIO(bool enable_profiler, U32 res
 	, mSystem(nullptr)
 	, mEnableProfiler(enable_profiler)
 	, mResampleMethod(resample_method)
+	, mAppName(app_name)
 {
 }
 
@@ -136,7 +136,7 @@ bool LLAudioEngine_FMODSTUDIO::init(const S32 num_channels, void* userdata)
 		{
 			LL_DEBUGS("AppInit") << "Trying PulseAudio audio output..." << LL_ENDL;
 			if((result = mSystem->setOutput(FMOD_OUTPUTTYPE_PULSEAUDIO)) == FMOD_OK &&
-				(result = mSystem->init(num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, const_cast<char*>(APP_NAME.c_str()))) == FMOD_OK)
+				(result = mSystem->init(num_channels + EXTRA_SOUND_CHANNELS, fmod_flags, const_cast<char*>(mAppName.c_str()))) == FMOD_OK)
 			{
 				LL_DEBUGS("AppInit") << "PulseAudio output initialized OKAY"	<< LL_ENDL;
 				audio_ok = true;

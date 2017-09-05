@@ -1142,7 +1142,7 @@ class LinuxManifest(ViewerManifest):
         # CEF files 
         if self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="bin"):
             self.path("chrome-sandbox")
-            self.path("llceflib_host")
+            self.path("dullahan_host")
             self.path("natives_blob.bin")
             self.path("snapshot_blob.bin")
             self.end_prefix()

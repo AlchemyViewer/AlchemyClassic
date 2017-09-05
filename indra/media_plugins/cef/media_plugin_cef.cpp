@@ -804,8 +804,8 @@ void MediaPluginCEF::unicodeInput(LLSD native_key_data = LLSD::emptyMap())
     uint32_t	native_modifiers = (uint32_t)(native_key_data["cef_modifiers"].asInteger());
     if( native_scan_code == '\n' )
         native_scan_code = '\r';
-	mCEFLib->nativeKeyboardEventLinux(LLCEFLib::KE_KEY_DOWN, native_scan_code, native_virtual_key, native_modifiers);
-	mCEFLib->nativeKeyboardEvent(LLCEFLib::KE_KEY_UP, native_scan_code, native_virtual_key, native_modifiers);
+	mCEFLib->nativeKeyboardEventLinux(dullahan::KE_KEY_DOWN, native_scan_code, native_virtual_key, native_modifiers);
+	mCEFLib->nativeKeyboardEventLinux(dullahan::KE_KEY_UP, native_scan_code, native_virtual_key, native_modifiers);
 #endif
 };
 

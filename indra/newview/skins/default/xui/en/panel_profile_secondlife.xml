@@ -174,12 +174,12 @@
        name="www"
        top_pad="2" />
       <line_editor
-        top_delta="-16"
+        top_delta="-2"
         follows="left|bottom|right"
         layout="topleft"
         height="20"
         max_length_chars="254"
-        left="3"
+        left="2"
         right="-4"
         text_pad_left="5"
         tool_tip="Website link"

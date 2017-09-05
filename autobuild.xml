@@ -539,6 +539,20 @@
             <key>name</key>
             <string>darwin</string>
           </map>
+          <key>linux64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>6391d458a3b61e01ff31fe7952683f9b</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/dullahan-1.1.820-3.3112.1658.g3d5ae83-linux64-201709042000.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>linux64</string>
+          </map>
           <key>windows</key>
           <map>
             <key>archive</key>
@@ -569,7 +583,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.1.813-3.3112.1656.g9ec3e42</string>
+        <string>1.1.820-3.3112.1658.g3d5ae83</string>
       </map>
       <key>expat</key>
       <map>

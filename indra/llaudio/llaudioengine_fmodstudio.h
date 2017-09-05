@@ -53,7 +53,7 @@ public:
 		RESAMPLE_CUBIC,
 		RESAMPLE_SPLINE
 	};
-	LLAudioEngine_FMODSTUDIO(bool enable_profiler, U32 resample_method);
+	LLAudioEngine_FMODSTUDIO(const std::string& app_name, bool enable_profiler, U32 resample_method);
 	virtual ~LLAudioEngine_FMODSTUDIO();
 
 	// initialization/startup/shutdown
@@ -86,6 +86,7 @@ protected:
 	FMOD::System *mSystem;
 	bool mEnableProfiler;
 	U32 mResampleMethod;
+	std::string mAppName;
 
 public:
 	static FMOD::ChannelGroup *mChannelGroups[LLAudioEngine::AUDIO_TYPE_COUNT];

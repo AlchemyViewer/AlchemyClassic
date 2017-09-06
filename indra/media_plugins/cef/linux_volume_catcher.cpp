@@ -41,6 +41,7 @@
 
 #include "volume_catcher.h"
 
+#include <set>
 
 extern "C" {
 #include <glib.h>
@@ -219,8 +220,12 @@ void VolumeCatcherImpl::init()
 	if (!mGotSyms) return;
 
 	// better make double-sure glib itself is initialized properly.
-	if (!g_thread_supported ()) g_thread_init (NULL);
+#if !GLIB_CHECK_VERSION(2, 32, 0)
+	if (!g_thread_supported()) g_thread_init (NULL);
+#endif
+#if !GLIB_CHECK_VERSION(2, 36, 0)
 	g_type_init();
+#endif
 
 	mMainloop = llpa_glib_mainloop_new(g_main_context_default());
 	if (mMainloop)

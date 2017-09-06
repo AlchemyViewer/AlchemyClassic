@@ -15,6 +15,7 @@ include(PluginAPI)
 include(MediaPluginBase)
 include(OpenGL)
 include(PulseAudio)
+include(UI)
 
 include(CEFPlugin)
 

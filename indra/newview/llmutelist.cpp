@@ -66,6 +66,7 @@
 #include "llviewerregion.h"
 #include "llvoavatar.h"
 #include "lltrans.h"
+#include "llsdserialize.h"
 
 namespace 
 {
@@ -840,54 +841,65 @@ void LLMuteList::notifyObserversDetailed(const LLMute& mute)
 	}
 }
 
-LLRenderMuteList::LLRenderMuteList()
-{}
-
 bool LLRenderMuteList::saveToFile()
 {
-    std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "render_mute_settings.txt");
-    LLFILE* fp = LLFile::fopen(filename, "wb");
-    if (!fp)
+    std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "render_mute_settings.json");
+	llofstream outfile(filename);
+	if (!outfile.is_open())
     {
         LL_WARNS() << "Couldn't open render mute list file: " << filename << LL_ENDL;
         return false;
     }
+	LLSD visual_mute_settings;
+	for (auto it = mVisuallyMutedAgents.cbegin(), end_it = mVisuallyMutedAgents.cend(); it != end_it; ++it)
+	{
+		if (it->second.first != 0)
+		{
+			std::string id_string;
+			it->first.toString(id_string);
 
-    for (std::map<LLUUID, S32>::iterator it = sVisuallyMuteSettingsMap.begin(); it != sVisuallyMuteSettingsMap.end(); ++it)
-    {
-        if (it->second != 0)
-        {
-            std::string id_string;
-            it->first.toString(id_string);
-            fprintf(fp, "%d %s [%d]\n", (S32)it->second, id_string.c_str(), (S32)sVisuallyMuteDateMap[it->first]);
-        }
-    }
-    fclose(fp);
+			LLSD setting_data;
+			setting_data["setting"] = LLSD::Integer(it->second.first);
+			setting_data["time"] = LLSD::Integer(it->second.second);
+			visual_mute_settings.insert(id_string, setting_data);
+		}
+	}
+
+	LLSDSerialize::toPrettyNotation(visual_mute_settings, outfile);
     return true;
 }
 
 bool LLRenderMuteList::loadFromFile()
 {
-	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "render_mute_settings.txt");
-	LLFILE* fp = LLFile::fopen(filename, "rb");
-	if (!fp)
+	std::string filename = gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, "render_mute_settings.json");
+	llifstream infile(filename);
+	if (!infile.is_open())
 	{
 		LL_WARNS() << "Couldn't open render mute list file: " << filename << LL_ENDL;
 		return false;
 	}
 
-	char id_buffer[MAX_STRING];
-	char buffer[MAX_STRING];
-	while (!feof(fp) && fgets(buffer, MAX_STRING, fp))
+	LLSD visual_mute_settings = LLSD::emptyMap();
+	LLSDSerialize::fromNotation(visual_mute_settings, infile, LLSDSerialize::SIZE_UNLIMITED);
+
+	if (visual_mute_settings.isMap() && visual_mute_settings.size() > 0)
 	{
-		id_buffer[0] = '\0';
-		S32 setting = 0;
-		S32 time = 0;
-		sscanf(buffer, " %d %254s [%d]\n", &setting, id_buffer, &time);
-		sVisuallyMuteSettingsMap[LLUUID(id_buffer)] = setting;
-		sVisuallyMuteDateMap[LLUUID(id_buffer)] = (time == 0) ? (S32)time_corrected() : time;
+		for (auto it = visual_mute_settings.beginMap(); it != visual_mute_settings.endMap(); ++it)
+		{
+			LLUUID agent_id(it->first);
+			if (agent_id.isNull())
+				return false;
+
+			LLSD data = it->second;
+			if (!data.has("setting") || !data.has("time"))
+				return false;
+
+			S32 setting = data["setting"].asInteger();
+			S32 time = (data["time"].asInteger() == 0) ? (S32) time_corrected() : data["time"].asInteger();
+			mVisuallyMutedAgents.emplace(agent_id, std::make_pair(setting, (time == 0) ? (S32) time_corrected() : time));
+		}
 	}
-	fclose(fp);
+
     return true;
 }
 
@@ -895,16 +907,11 @@ void LLRenderMuteList::saveVisualMuteSetting(const LLUUID& agent_id, S32 setting
 {
     if(setting == 0)
     {
-        sVisuallyMuteSettingsMap.erase(agent_id);
-        sVisuallyMuteDateMap.erase(agent_id);
+		mVisuallyMutedAgents.erase(agent_id);
     }
     else
     {
-        sVisuallyMuteSettingsMap[agent_id] = setting;
-        if (sVisuallyMuteDateMap.find(agent_id) == sVisuallyMuteDateMap.end())
-        {
-            sVisuallyMuteDateMap[agent_id] =  (S32)time_corrected();
-        }
+		mVisuallyMutedAgents.emplace(agent_id, std::make_pair(setting, (S32) time_corrected()));
     }
     saveToFile();
     notifyObservers();
@@ -912,22 +919,22 @@ void LLRenderMuteList::saveVisualMuteSetting(const LLUUID& agent_id, S32 setting
 
 S32 LLRenderMuteList::getSavedVisualMuteSetting(const LLUUID& agent_id)
 {
-    std::map<LLUUID, S32>::iterator iter = sVisuallyMuteSettingsMap.find(agent_id);
-    if (iter != sVisuallyMuteSettingsMap.end())
-    {
-        return iter->second;
-    }
+	auto iter = mVisuallyMutedAgents.find(agent_id);
+	if (iter != mVisuallyMutedAgents.cend())
+	{
+		return iter->second.first;
+	}
 
     return 0;
 }
 
 S32 LLRenderMuteList::getVisualMuteDate(const LLUUID& agent_id)
 {
-    std::map<LLUUID, S32>::iterator iter = sVisuallyMuteDateMap.find(agent_id);
-    if (iter != sVisuallyMuteDateMap.end())
-    {
-        return iter->second;
-    }
+	auto iter = mVisuallyMutedAgents.find(agent_id);
+	if (iter != mVisuallyMutedAgents.cend())
+	{
+		return iter->second.second;
+	}
 
     return 0;
 }

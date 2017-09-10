@@ -138,20 +138,20 @@ void LLFloaterAvatarRenderSettings::updateList()
     mAvatarSettingsList->deleteAllItems();
     LLAvatarName av_name;
     LLNameListCtrl::NameItem item_params;
-    for (std::map<LLUUID, S32>::iterator iter = LLRenderMuteList::getInstance()->sVisuallyMuteSettingsMap.begin(); iter != LLRenderMuteList::getInstance()->sVisuallyMuteSettingsMap.end(); iter++)
-    {
-        item_params.value = iter->first;
-        LLAvatarNameCache::get(iter->first, &av_name);
-        if(!isHiddenRow(av_name.getCompleteName()))
-        {
-            item_params.columns.add().value(av_name.getCompleteName()).column("name");
-            std::string setting = getString(iter->second == 1 ? "av_never_render" : "av_always_render");
-            item_params.columns.add().value(setting).column("setting");
-            std::string timestamp = createTimestamp(LLRenderMuteList::getInstance()->getVisualMuteDate(iter->first));
-            item_params.columns.add().value(timestamp).column("timestamp");
-            mAvatarSettingsList->addNameItemRow(item_params);
-        }
-    }
+	for (auto iter = LLRenderMuteList::getInstance()->mVisuallyMutedAgents.cbegin(); iter != LLRenderMuteList::getInstance()->mVisuallyMutedAgents.cend(); iter++)
+	{
+		item_params.value = iter->first;
+		LLAvatarNameCache::get(iter->first, &av_name);
+		if (!isHiddenRow(av_name.getCompleteName()))
+		{
+			item_params.columns.add().value(av_name.getCompleteName()).column("name");
+			std::string setting = getString(iter->second.first == 1 ? "av_never_render" : "av_always_render");
+			item_params.columns.add().value(setting).column("setting");
+			std::string timestamp = createTimestamp(iter->second.second);
+			item_params.columns.add().value(timestamp).column("timestamp");
+			mAvatarSettingsList->addNameItemRow(item_params);
+		}
+	}
 }
 
 void LLFloaterAvatarRenderSettings::onFilterEdit(const std::string& search_string)

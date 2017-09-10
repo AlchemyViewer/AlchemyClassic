@@ -179,7 +179,7 @@ public:
 
 class LLRenderMuteList : public LLSingleton<LLRenderMuteList>
 {
-    LLSINGLETON(LLRenderMuteList);
+	LLSINGLETON_EMPTY_CTOR(LLRenderMuteList);
 public:
 	bool loadFromFile();
 	bool saveToFile();
@@ -191,8 +191,7 @@ public:
 	void addObserver(LLMuteListObserver* observer);
 	void removeObserver(LLMuteListObserver* observer);
 
-	std::map<LLUUID, S32> sVisuallyMuteSettingsMap;
-	std::map<LLUUID, S32> sVisuallyMuteDateMap;
+	std::map<LLUUID, std::pair<S32, S32> > mVisuallyMutedAgents;
 
 private:
 	void notifyObservers();

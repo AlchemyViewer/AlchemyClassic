@@ -1187,7 +1187,7 @@ static LLTrace::BlockTimerStatHandle FTM_FACE_TEX_QUICK_PLANAR("Quick Planar");
 
 BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 							   const S32 &f,
-								const LLMatrix4& mat_vert_in, const LLMatrix3& mat_norm_in,
+								const LLMatrix4a& mat_vert_in, const LLMatrix4a& mat_norm_in,
 								const U16 &index_offset,
 								bool force_rebuild)
 {
@@ -1233,13 +1233,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		}
 	}
 
-	const LLTextureEntry *tep = mVObjp->getTE(f);
-	if (!tep)
-	{
-		LL_WARNS() << "No textureentry!" << LL_ENDL;
-		return FALSE;
-	}
-
 	LLStrider<LLVector3> vert;
 	LLStrider<LLVector2> tex_coords0;
 	LLStrider<LLVector2> tex_coords1;
@@ -1270,7 +1263,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	bool rebuild_tangent = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_TANGENT);
 	bool rebuild_weights = rebuild_pos && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_WEIGHT4);
 
-
+	const LLTextureEntry *tep = mVObjp->getTE(f);
 	const U8 bump_code = tep ? tep->getBumpmap() : 0;
 	
 	if ( bump_code && rebuild_tcoord && mVertexBuffer->hasDataType(LLVertexBuffer::TYPE_TANGENT) )
@@ -1294,7 +1287,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		clearState(GLOBAL);
 	}
 
-	LLColor4U color = tep->getColor();
+	LLColor4U color = (tep ? LLColor4U(tep->getColor()) : LLColor4U::white);
 
 	if (rebuild_color)
 	{ //decide if shiny goes in alpha channel of color
@@ -1348,8 +1341,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		}
 	}
 	
-	LLMatrix4a mat_normal;
-	mat_normal.loadu(mat_norm_in);
+	const LLMatrix4a& mat_normal = mat_norm_in;
 	
 	F32 r = 0, os = 0, ot = 0, ms = 0, mt = 0, cos_ang = 0, sin_ang = 0;
 	bool do_xform = false;
@@ -1462,8 +1454,8 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 	
 			bool tex_anim = false;
 
-				LLVOVolume* vobj = (LLVOVolume*) (LLViewerObject*) mVObjp;	
-				tex_mode = vobj->mTexAnimMode;
+			LLVOVolume* vobj = (LLVOVolume*) (LLViewerObject*) mVObjp;	
+			tex_mode = vobj->mTexAnimMode;
 
 			if (vobj->mTextureAnimp)
 			{ //texture animation is in play, override specular and normal map tex coords with diffuse texcoords
@@ -1551,7 +1543,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 
 							U32 count = num_vertices/2 + num_vertices%2;
 
-							for (S32 i = 0; i < count; i++)
+							for (U32 i = 0; i < count; i++)
 							{	
 								LLVector4a res = *src++;
 								xform4a(res, trans, mask, rot0, rot1, offset, scale);
@@ -1786,8 +1778,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		
 			mVertexBuffer->getVertexStrider(vert, mGeomIndex, mGeomCount, map_range);
 			
-			LLMatrix4a mat_vert;
-			mat_vert.loadu(mat_vert_in);
+			const LLMatrix4a& mat_vert = mat_vert_in;
 
 			F32* dst = (F32*) vert.get();
 			F32* end_f32 = dst+mGeomCount*4;
@@ -1904,10 +1895,6 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 			
 			mVObjp->getVolume()->genTangents(f);
 			
-			LLVector4Logical mask;
-			mask.clear();
-			mask.setElement<3>();
-
 			LLVector4a* src = vf.mTangents;
 			LLVector4a* end = vf.mTangents+num_vertices;
 			LLVector4a* src2 = vf.mNormals;
@@ -1925,7 +1912,7 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 				}
 				mat_normal.rotate(tangent_out, tangent_out);
 				tangent_out.normalize3fast();
-				tangent_out.setSelectWithMask(mask, *src, tangent_out);
+				tangent_out.copyComponent<3>(*src);
 				tangent_out.store4a(tangents);
 				
 				src++;
@@ -1996,12 +1983,13 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 			LLVector4a src;
 
 		
-			LLColor4U glow4u = LLColor4U(0,0,0,glow);
-
-			U32 glow32 = glow4u.mAll;
+			U32 glow32 = glow |
+						 (glow << 8) |
+						 (glow << 16) |
+						 (glow << 24);
 
 			U32 vec[4];
-			vec[0] = vec[1] = vec[2] = vec[3] = glow32;
+			std::fill_n(vec,4,glow32); // for clang
 		
 			src.loadua((F32*) vec);
 

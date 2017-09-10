@@ -4195,8 +4195,7 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 		}
 
             LLSkinningUtil::checkSkinWeights(weight, dst_face.mNumVertices, skin);
-			LLMatrix4a bind_shape_matrix;
-			bind_shape_matrix.loadu(skin->mBindShapeMatrix);
+			LLMatrix4a bind_shape_matrix(skin->mBindShapeMatrix);
 
 			LLVector4a* pos = dst_face.mPositions;
 
@@ -4208,7 +4207,7 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				for (U32 j = 0; j < dst_face.mNumVertices; ++j)
 				{
 					LLMatrix4a final_mat;
-                    LLSkinningUtil::getPerVertexSkinMatrix(weight[j].getF32ptr(), mat, false, final_mat, max_joints);
+                    LLSkinningUtil::getPerVertexSkinMatrixSSE(weight[j], mat, false, final_mat, max_joints);
 				
 					LLVector4a& v = vol_face.mPositions[j];
 					LLVector4a t;
@@ -5555,8 +5554,11 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 						{
 							llassert(!face->isState(LLFace::RIGGED));
 
+							LLMatrix4a temprelxformmat(vobj->getRelativeXform());
+							LLMatrix4a temprelxformmatinv; 
+							temprelxformmatinv.loadu(vobj->getRelativeXformInvTrans());
 							if (!face->getGeometryVolume(*volume, face->getTEOffset(), 
-								vobj->getRelativeXform(), vobj->getRelativeXformInvTrans(), face->getGeomIndex()))
+								temprelxformmat, temprelxformmatinv, face->getGeomIndex()))
 							{ //something's gone wrong with the vertex buffer accounting, rebuild this group 
 								group->dirtyGeom();
 								gPipeline.markRebuild(group, TRUE);
@@ -6494,9 +6496,11 @@ void LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFac
 				U32 te_idx = facep->getTEOffset();
 
 				llassert(!facep->isState(LLFace::RIGGED));
-
+				LLMatrix4a temprelxformmat(vobj->getRelativeXform());
+				LLMatrix4a temprelxformmatinv;
+				temprelxformmatinv.loadu(vobj->getRelativeXformInvTrans());
 				if (!facep->getGeometryVolume(*volume, te_idx,
-					vobj->getRelativeXform(), vobj->getRelativeXformInvTrans(), index_offset,true))
+					temprelxformmat, temprelxformmatinv, index_offset,true))
 				{
 					LL_WARNS() << "Failed to get geometry for face!" << LL_ENDL;
 				}

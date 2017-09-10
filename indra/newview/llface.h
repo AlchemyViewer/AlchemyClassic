@@ -163,7 +163,7 @@ public:
 	bool canRenderAsMask(); // logic helper
 	BOOL getGeometryVolume(const LLVolume& volume,
 						const S32 &f,
-						const LLMatrix4& mat_vert, const LLMatrix3& mat_normal,
+						const LLMatrix4a& mat_vert, const LLMatrix4a& mat_normal,
 						const U16 &index_offset,
 						bool force_rebuild = false);
 

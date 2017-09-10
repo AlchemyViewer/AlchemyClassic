@@ -1493,11 +1493,11 @@ void LLDrawPoolAvatar::getRiggedGeometry(
 	face->setVertexBuffer(buffer);
 
 	U16 offset = 0;
-		
-	LLMatrix4 mat_vert = skin->mBindShapeMatrix;
-	glm::mat3 mat3(glm::transpose(glm::inverse(glm::make_mat4((F32*) mat_vert.mMatrix))));
-	LLMatrix3 mat_normal(glm::value_ptr(mat3));				
-
+	
+	LLMatrix4a inv_mat_trans(skin->mBindShapeMatrix);
+	inv_mat_trans.invert();
+	inv_mat_trans.transpose();
+	
 	//let getGeometryVolume know if alpha should override shiny
 	U32 type = gPipeline.getPoolTypeFromTE(face->getTextureEntry(), face->getTexture());
 
@@ -1521,7 +1521,7 @@ void LLDrawPoolAvatar::getRiggedGeometry(
 	{
 		face->clearState(LLFace::TEXTURE_ANIM);
 	}
-	face->getGeometryVolume(*volume, face->getTEOffset(), mat_vert, mat_normal, offset, true);
+	face->getGeometryVolume(*volume, face->getTEOffset(), skin->mBindShapeMatrix, inv_mat_trans, offset, true);
 
 	buffer->flush();
 }
@@ -1605,14 +1605,13 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
         LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
         LLSkinningUtil::checkSkinWeights(weights, buffer->getNumVerts(), skin);
 
-		LLMatrix4a bind_shape_matrix;
-		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
+		LLMatrix4a bind_shape_matrix = skin->mBindShapeMatrix;
 
         const U32 max_joints = LLSkinningUtil::getMaxJointCount();
 		for (U32 j = 0; j < buffer->getNumVerts(); ++j)
 		{
 			LLMatrix4a final_mat;
-            LLSkinningUtil::getPerVertexSkinMatrix(weights[j].getF32ptr(), mat, false, final_mat, max_joints);
+            LLSkinningUtil::getPerVertexSkinMatrixSSE(weights[j], mat, false, final_mat, max_joints);
 			
 			LLVector4a& v = vol_face.mPositions[j];
 
@@ -1767,7 +1766,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				gGL.getTexUnit(specular_channel)->bind(specular);
 				gGL.getTexUnit(normal_channel)->bind(face->getViewerObject()->getTENormalMap(face->getTEOffset()));
 				gGL.getTexUnit(sDiffuseChannel)->bind(face->getTexture(), false, true);
-
+				constexpr F32 SCALE = 1.f / 255.f;
 				static const float alpha[4] =
 				{
 					0.00f,
@@ -1781,11 +1780,11 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 				if (!mat->getSpecularID().isNull())
 				{
-					specColor.mV[0] = mat->getSpecularLightColor().mV[0] * (1.f / 255.f);
-					specColor.mV[1] = mat->getSpecularLightColor().mV[1] * (1.f / 255.f);
-					specColor.mV[2] = mat->getSpecularLightColor().mV[2] * (1.f / 255.f);
-					specColor.mV[3] = mat->getSpecularLightExponent() * (1.f / 255.f);
-					env = mat->getEnvironmentIntensity() * (1.f / 255.f);
+					specColor.mV[0] = mat->getSpecularLightColor().mV[0] * SCALE;
+					specColor.mV[1] = mat->getSpecularLightColor().mV[1] * SCALE;
+					specColor.mV[2] = mat->getSpecularLightColor().mV[2] * SCALE;
+					specColor.mV[3] = mat->getSpecularLightExponent() * SCALE;
+					env = mat->getEnvironmentIntensity() * SCALE;
 				}
 
 				BOOL fullbright = te->getFullbright();
@@ -1796,7 +1795,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 				if (mat->getDiffuseAlphaMode() == LLMaterial::DIFFUSE_ALPHA_MODE_MASK)
 				{
-					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff() * (1.f / 255.f));
+					sVertexProgram->setMinimumAlpha(mat->getAlphaMaskCutoff() * SCALE);
 				}
 				else
 				{

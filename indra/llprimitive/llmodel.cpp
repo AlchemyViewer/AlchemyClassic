@@ -1430,13 +1430,15 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 
 	if (skin.has("bind_shape_matrix"))
 	{
+		LLMatrix4 mat;
 		for (U32 j = 0; j < 4; j++)
 		{
 			for (U32 k = 0; k < 4; k++)
 			{
-				mBindShapeMatrix.mMatrix[j][k] = skin["bind_shape_matrix"][j*4+k].asReal();
+				mat.mMatrix[j][k] = skin["bind_shape_matrix"][j*4+k].asReal();
 			}
 		}
+		mBindShapeMatrix.loadu(mat);
 	}
 
 	if (skin.has("alt_inverse_bind_matrix"))
@@ -1489,11 +1491,12 @@ LLSD LLMeshSkinInfo::asLLSD(bool include_joints, bool lock_scale_if_joint_positi
 		}
 	}
 
+	const F32* bindshapematrix = mBindShapeMatrix.getF32ptr();
 	for (U32 i = 0; i < 4; i++)
 	{
 		for (U32 j = 0; j < 4; j++)
 		{
-			ret["bind_shape_matrix"][i*4+j] = mBindShapeMatrix.mMatrix[i][j];
+			ret["bind_shape_matrix"][i*4+j] = bindshapematrix[i * 4 + j];
 		}
 	}
 		

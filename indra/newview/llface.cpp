@@ -578,7 +578,7 @@ void LLFace::renderSelected(LLViewerTexture *imagep, const LLColor4& color)
                     // called when selecting a face during edit of a mesh object
 					LLGLEnable offset(GL_POLYGON_OFFSET_FILL);
 					glPolygonOffset(-1.f, -1.f);
-					gGL.multMatrix((F32*) volume->getRelativeXform().mMatrix);
+					gGL.multMatrix(volume->getRelativeXform().getF32ptr());
 					const LLVolumeFace& vol_face = rigged->getVolumeFace(getTEOffset());
 					LLVertexBuffer::drawElements(LLRender::TRIANGLES, vol_face.mNumVertices, vol_face.mPositions, vol_face.mTexCoords, vol_face.mNumIndices, vol_face.mIndices);
 				}
@@ -807,14 +807,13 @@ bool less_than_max_mag(const LLVector4a& vec)
 }
 
 BOOL LLFace::genVolumeBBoxes(const LLVolume &volume, S32 f,
-								const LLMatrix4& mat_vert_in, BOOL global_volume)
+								const LLMatrix4a& mat_vert_in, BOOL global_volume)
 {
 	//get bounding box
 	if (mDrawablep->isState(LLDrawable::REBUILD_VOLUME | LLDrawable::REBUILD_POSITION | LLDrawable::REBUILD_RIGGED))
 	{
 		//VECTORIZE THIS
-		LLMatrix4a mat_vert;
-		mat_vert.loadu(mat_vert_in);
+		const LLMatrix4a& mat_vert = mat_vert_in;
 
 		LLVector4a min,max;
 	

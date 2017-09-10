@@ -66,9 +66,40 @@ public:
 		mMatrix[3] = rhs.getRow<3>();
 	}
 
+	LLMatrix4a(const LLQuad& q1,const LLQuad& q2,const LLQuad& q3,const LLQuad& q4)
+	{
+		mMatrix[0] = q1;
+		mMatrix[1] = q2;
+		mMatrix[2] = q3;
+		mMatrix[3] = q4;
+	}
+
 	LLMatrix4a(const LLMatrix4& rhs)
 	{
 		loadu(rhs);
+	}
+
+	LLMatrix4a(const LLQuaternion2& quat)
+	{
+		const LLVector4a& xyzw = quat.getVector4a(); 
+		LLVector4a nyxwz = _mm_shuffle_ps(xyzw, xyzw, _MM_SHUFFLE(2,3,0,1));
+		nyxwz.negate();
+		const LLVector4a xnyynx = _mm_unpacklo_ps(xyzw,nyxwz);
+		const LLVector4a znwwnz = _mm_unpackhi_ps(xyzw,nyxwz);
+
+		LLMatrix4a mata;
+		mata.setRow<0>(_mm_shuffle_ps(xyzw, xnyynx, _MM_SHUFFLE(0,1,2,3)));
+		mata.setRow<1>(_mm_shuffle_ps(znwwnz, xyzw, _MM_SHUFFLE(1,0,2,3)));
+		mata.setRow<2>(_mm_shuffle_ps(xnyynx, xyzw, _MM_SHUFFLE(2,3,3,2)));
+		mata.setRow<3>(_mm_shuffle_ps(xnyynx, znwwnz, _MM_SHUFFLE(2,3,1,3)));
+
+		LLMatrix4a matb;
+		matb.setRow<0>(_mm_shuffle_ps(xyzw, xnyynx, _MM_SHUFFLE(3,1,2,3)));
+		matb.setRow<1>(_mm_shuffle_ps(znwwnz, xnyynx, _MM_SHUFFLE(1,0,2,3)));
+		matb.setRow<2>(_mm_shuffle_ps(xnyynx, znwwnz, _MM_SHUFFLE(3,2,3,2)));
+		matb.setRow<3>(xyzw);
+
+		setMul(matb,mata);
 	}
 
 	// Do NOT add aditional operators without consulting someone with SSE experience
@@ -509,7 +540,153 @@ public:
 		return ret;
 	}
 
-		//======================Logic====================
+	//=============Affine transformation matrix only=========================
+
+	//Multiply matrix with a pure translation matrix.
+	inline void applyTranslation_affine(const F32& x, const F32& y, const F32& z)
+	{
+		const LLVector4a xyz0(x,y,z,0);	//load
+		LLVector4a xxxx;
+		xxxx.splat<0>(xyz0);
+		LLVector4a yyyy;
+		yyyy.splat<1>(xyz0);
+		LLVector4a zzzz;
+		zzzz.splat<2>(xyz0);
+
+		LLVector4a sum1;
+		LLVector4a sum2;
+		LLVector4a sum3;
+
+		sum1.setMul(xxxx,mMatrix[0]);
+		sum2.setMul(yyyy,mMatrix[1]);
+		sum3.setMul(zzzz,mMatrix[2]);
+
+		mMatrix[3].add(sum1);
+		mMatrix[3].add(sum2);
+		mMatrix[3].add(sum3);
+	}
+
+	//Multiply matrix with a pure translation matrix.
+	inline void applyTranslation_affine(const LLVector3& trans)
+	{
+		applyTranslation_affine(trans.mV[VX],trans.mV[VY],trans.mV[VZ]);
+	}
+
+	//Multiply matrix with a pure scale matrix.
+	inline void applyScale_affine(const F32& x, const F32& y, const F32& z)
+	{
+		const LLVector4a xyz0(x,y,z,0);	//load
+		LLVector4a xxxx;
+		xxxx.splat<0>(xyz0);
+		LLVector4a yyyy;
+		yyyy.splat<1>(xyz0);
+		LLVector4a zzzz;
+		zzzz.splat<2>(xyz0);
+
+		mMatrix[0].mul(xxxx);
+		mMatrix[1].mul(yyyy);
+		mMatrix[2].mul(zzzz);
+	}
+
+	//Multiply matrix with a pure scale matrix.
+	inline void applyScale_affine(const LLVector3& scale)
+	{
+		applyScale_affine(scale.mV[VX],scale.mV[VY],scale.mV[VZ]);
+	}
+
+	//Multiply matrix with a pure scale matrix.
+	inline void applyScale_affine(const F32& s)
+	{
+		const LLVector4a scale(s);	//load
+		mMatrix[0].mul(scale);
+		mMatrix[1].mul(scale);
+		mMatrix[2].mul(scale);
+	}
+
+	//Direct addition to row3.
+	inline void translate_affine(const LLVector3& trans)
+	{
+		LLVector4a translation;
+		translation.load3(trans.mV);
+		mMatrix[3].add(translation);
+	}
+
+	//Direct assignment of row3.
+	inline void setTranslate_affine(const LLVector3& trans)
+	{
+		static const LLVector4Logical mask = _mm_load_ps((F32*)&S_V4LOGICAL_MASK_TABLE[3*4]);
+
+		LLVector4a translation;
+		translation.load3(trans.mV);
+		
+		mMatrix[3].setSelectWithMask(mask,mMatrix[3],translation);
+	}
+
+	inline void mul_affine(const LLMatrix4a& rhs)
+	{
+		LLVector4a x0,y0,z0;
+		LLVector4a x1,y1,z1;
+		LLVector4a x2,y2,z2;
+		LLVector4a x3,y3,z3;
+
+		//12 shuffles
+		x0.splat<0>(rhs.mMatrix[0]);
+		x1.splat<0>(rhs.mMatrix[1]);
+		x2.splat<0>(rhs.mMatrix[2]);
+		x3.splat<0>(rhs.mMatrix[3]);
+
+		y0.splat<1>(rhs.mMatrix[0]);
+		y1.splat<1>(rhs.mMatrix[1]);
+		y2.splat<1>(rhs.mMatrix[2]);
+		y3.splat<1>(rhs.mMatrix[3]);
+
+		z0.splat<2>(rhs.mMatrix[0]);
+		z1.splat<2>(rhs.mMatrix[1]);
+		z2.splat<2>(rhs.mMatrix[2]);
+		z3.splat<2>(rhs.mMatrix[3]);
+
+		//12 muls
+		x0.mul(mMatrix[0]);
+		x1.mul(mMatrix[0]);
+		x2.mul(mMatrix[0]);
+		x3.mul(mMatrix[0]);
+
+		y0.mul(mMatrix[1]);
+		y1.mul(mMatrix[1]);
+		y2.mul(mMatrix[1]);
+		y3.mul(mMatrix[1]);
+
+		z0.mul(mMatrix[2]);
+		z1.mul(mMatrix[2]);
+		z2.mul(mMatrix[2]);
+		z3.mul(mMatrix[2]);
+
+		//9 adds
+		x0.add(y0);
+
+		x1.add(y1);
+
+		x2.add(y2);
+
+		x3.add(y3);
+		z3.add(mMatrix[3]);
+
+		mMatrix[0].setAdd(x0,z0);
+		mMatrix[1].setAdd(x1,z1);
+		mMatrix[2].setAdd(x2,z2);
+		mMatrix[3].setAdd(x3,z3);
+	}
+
+	inline void extractRotation_affine()
+	{
+		static const LLVector4Logical mask = _mm_load_ps((F32*)&S_V4LOGICAL_MASK_TABLE[3*4]);
+		mMatrix[0].setSelectWithMask(mask,_mm_setzero_ps(),mMatrix[0]);
+		mMatrix[1].setSelectWithMask(mask,_mm_setzero_ps(),mMatrix[1]);
+		mMatrix[2].setSelectWithMask(mask,_mm_setzero_ps(),mMatrix[2]);
+		mMatrix[3].setSelectWithMask(mask,LLVector4a(1.f),_mm_setzero_ps());
+	}
+
+	//======================Logic====================
 private:
 	template<bool mins> inline void init_foos(LLMatrix4a& foos) const
 	{

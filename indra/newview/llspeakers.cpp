@@ -812,7 +812,7 @@ void LLIMSpeakerMgr::toggleAllowTextChat(const LLUUID& speaker_id)
 	LLPointer<LLSpeaker> speakerp = findSpeaker(speaker_id);
 	if (!speakerp) return;
 
-	std::string url = gAgent.getRegion()->getCapability("ChatSessionRequest");
+	std::string url = gAgent.getRegionCapability("ChatSessionRequest");
 	LLSD data;
 	data["method"] = "mute update";
 	data["session-id"] = getSessionID();

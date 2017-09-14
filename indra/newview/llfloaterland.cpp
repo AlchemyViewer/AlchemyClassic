@@ -534,7 +534,7 @@ BOOL LLPanelLandGeneral::postBuild()
 	// 99% of the time all regions will return the same caps. In case of an erroneous setting
 	// to enabled the floater will just throw an error when trying to get it's cap
 	mBtnScriptLimits = getChild<LLButton>("Scripts...");
-	std::string url = gAgent.getRegion() ? gAgent.getRegion()->getCapability("LandResources") : LLStringUtil::null;
+	std::string url = gAgent.getRegionCapability("LandResources");
 	if (!url.empty())
 	{
 		mBtnScriptLimits->setCommitCallback(boost::bind(&LLPanelLandGeneral::onClickScriptLimits, this));

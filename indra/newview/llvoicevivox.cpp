@@ -788,21 +788,19 @@ bool LLVivoxVoiceClient::startAndLaunchDaemon()
 bool LLVivoxVoiceClient::provisionVoiceAccount()
 {
     LL_INFOS("Voice") << "Provisioning voice account." << LL_ENDL;
-    while (!gAgent.getRegion())
+    while (!gAgent.getRegion() || !gAgent.getRegion()->capabilitiesReceived())
     {
         // *TODO* Set up a call back on agent that sends a message to a pump we can use to wake up.
         llcoro::suspend();
     }
 
-    LLViewerRegion *region = gAgent.getRegion();
+    std::string url = gAgent.getRegionCapability("ProvisionVoiceAccountRequest");
+	if (url.empty())
+	{
+		LL_WARNS("Voice") << "Unable to provision voice account. Capability not found." << LL_ENDL;
+		return false;
+	}
 
-    while (!region->capabilitiesReceived())
-    {
-        // *TODO* Pump a message for wake up.
-        llcoro::suspend();
-    }
-
-    std::string url = region->getCapability("ProvisionVoiceAccountRequest");
 
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t

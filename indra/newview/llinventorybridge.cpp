@@ -3647,7 +3647,6 @@ void LLFolderBridge::perform_pasteFromClipboard()
 				else if (LLClipboard::instance().isCutMode())
 				{
 					// Do a move to "paste" a "cut"
-					// move_inventory_item() is not enough, as we have to update inventory locally too
 					if (LLAssetType::AT_CATEGORY == obj->getType())
 					{
 						LLViewerInventoryCategory* vicat = (LLViewerInventoryCategory *) model->getCategory(item_id);

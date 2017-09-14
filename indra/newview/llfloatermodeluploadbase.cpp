@@ -34,6 +34,8 @@
 #include "llnotificationsutil.h"
 #include "llcorehttputil.h"
 
+static const std::string MESH_UPLOAD_FLAG_CAP("MeshUploadFlag");
+
 LLFloaterModelUploadBase::LLFloaterModelUploadBase(const LLSD& key)
 :LLFloater(key),
  mHasUploadPerm(false)
@@ -42,8 +44,7 @@ LLFloaterModelUploadBase::LLFloaterModelUploadBase(const LLSD& key)
 
 void LLFloaterModelUploadBase::requestAgentUploadPermissions()
 {
-	std::string capability = "MeshUploadFlag";
-	std::string url = gAgent.getRegion()->getCapability(capability);
+	std::string url = gAgent.getRegionCapability(MESH_UPLOAD_FLAG_CAP);
 
 	if (!url.empty())
 	{
@@ -56,7 +57,7 @@ void LLFloaterModelUploadBase::requestAgentUploadPermissions()
 	else
 	{
 		LLSD args;
-		args["CAPABILITY"] = capability;
+		args["CAPABILITY"] = MESH_UPLOAD_FLAG_CAP;
 		LLNotificationsUtil::add("RegionCapabilityRequestError", args);
 		// BAP HACK avoid being blocked by broken server side stuff
 		mHasUploadPerm = true;

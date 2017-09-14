@@ -547,33 +547,27 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 	gInventory.updateItem(mParticleScriptInventoryItem);
 	gInventory.notifyObservers();
 
-	if (!gAgent.getRegion())
-	{
-		LLNotificationsUtil::add("ParticleScriptFailed");
-		return;
-	}
-
 	//caps import 
-	const std::string& url = gAgent.getRegion()->getCapability("UpdateScriptAgent");
+	const std::string& url = gAgent.getRegionCapability("UpdateScriptAgent");
 
-	if (!url.empty())
-	{
-		const std::string& script = createScript();
-        
-        LLBufferedAssetUploadInfo::taskUploadFinish_f proc =
-            boost::bind(&LLFloaterParticleEditor::finishUpload, _1, _2, _3, _4, true, mObject->getID());
-        LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mObject->getID(), inventoryItemID,
-                                                LLScriptAssetUpload::MONO, true, LLUUID::null, script, proc));
-        LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
-
-		//mMainPanel->setEnabled(FALSE);
-		//setCanClose(FALSE);
-	}
-	else
+	if (url.empty())
 	{
 		LLNotificationsUtil::add("ParticleScriptFailed");
 		return;
 	}
+
+	
+	const std::string& script = createScript();
+
+	LLBufferedAssetUploadInfo::taskUploadFinish_f proc =
+		boost::bind(&LLFloaterParticleEditor::finishUpload, _1, _2, _3, _4, true, mObject->getID());
+	LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mObject->getID(), inventoryItemID,
+		LLScriptAssetUpload::MONO, true, LLUUID::null, script, proc));
+	LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
+
+	//mMainPanel->setEnabled(FALSE);
+	//setCanClose(FALSE);
+
 }
 
 // ---------------------------------- Callbacks ----------------------------------

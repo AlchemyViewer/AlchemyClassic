@@ -115,7 +115,7 @@ BOOL LLFloaterScriptLimits::postBuild()
 	}
 
 	// contruct the panels
-	std::string land_url = gAgent.getRegion()->getCapability("LandResources");
+	std::string land_url = gAgent.getRegionCapability("LandResources");
 	if (!land_url.empty())
 	{
 		LLPanelScriptLimitsRegionMemory* panel_memory;
@@ -125,7 +125,7 @@ BOOL LLFloaterScriptLimits::postBuild()
 		mTab->addTabPanel(panel_memory);
 	}
 	
-	std::string attachment_url = gAgent.getRegion()->getCapability("AttachmentResources");
+	std::string attachment_url = gAgent.getRegionCapability("AttachmentResources");
 	if (!attachment_url.empty())
 	{
 		LLPanelScriptLimitsAttachment* panel_attachments = new LLPanelScriptLimitsAttachment;
@@ -199,7 +199,7 @@ LLPanelScriptLimitsRegionMemory::~LLPanelScriptLimitsRegionMemory()
 BOOL LLPanelScriptLimitsRegionMemory::getLandScriptResources()
 {
 	LLSD body;
-	std::string url = gAgent.getRegion()->getCapability("LandResources");
+	std::string url = gAgent.getRegionCapability("LandResources");
 	if (!url.empty())
 	{
         LLCoros::instance().launch("LLPanelScriptLimitsRegionMemory::getLandScriptResourcesCoro",

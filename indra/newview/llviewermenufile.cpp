@@ -774,7 +774,7 @@ void upload_new_resource(
 		return ;
 	}
 
-	const std::string url = gAgent.getRegion()->getCapability("NewFileAgentInventory");
+	const std::string url = gAgent.getRegionCapability("NewFileAgentInventory");
 
 	if ( !url.empty() )
 	{

@@ -1036,7 +1036,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/glod-1.0pre4-darwin-201511222034.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/glod-1.0pre4-darwin-201511222034.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1122,7 +1122,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/google_breakpad-9e60a27-darwin-201511222009.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/google_breakpad-9e60a27-darwin-201511222009.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -1778,7 +1778,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/libndofdev-0.1-darwin-201504232110.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/libndofdev-0.1-darwin-201504232110.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2446,7 +2446,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/openal-1.16.0-1.1.0-darwin-201412160747.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -2810,7 +2810,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/downloads/uriparser-0.8.4-darwin-201511221948.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/uriparser-0.8.4-darwin-201511221948.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

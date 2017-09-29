@@ -394,11 +394,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>27b75b40be947ee8e1f8e249e982ea2e</string>
+              <string>9d5e31cbe4b3d129cb458edb3cf271d4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.54.1-linux64-201706212144.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/curl-7.55.1-linux64-201709282020.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1300,11 +1300,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>84eb79a589e0e2c7909f8a8236e26f19</string>
+              <string>894aa4a11e5465eab88945ff35c96fb0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201703120935.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201709282213.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

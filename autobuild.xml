@@ -544,11 +544,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d8dd5195816b4a2cd428b0eec2c95b6f</string>
+              <string>e893ffee34808092ba824b61ee0efc57</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/dullahan-1.1.820-3.3112.1658.g3d5ae83-linux64-201709050814.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/dullahan-1.1.820-3.3163.1670.g934eaba-linux64-201709282247.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -558,11 +558,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4c6884a9e45499dc8daf60a20c54a06b</string>
+              <string>265ed68463e547e648e94202e8a76336</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/dullahan-1.1.813-3.3112.1656.g9ec3e42-windows-201708231823.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/dullahan-1.1.820-3.3163.1670.g934eaba-windows-201709290154.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -572,18 +572,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>93033e017cefde2f7edb2073df5c6c0b</string>
+              <string>e79339683661982c9916c5f06405045e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.813-3.3112.1656.g9ec3e42-windows64-201708231815.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.820-3.3163.1670.g934eaba-windows64-201709290158.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.820-3.3112.1658.g3d5ae83</string>
+        <string>1.1.820-3.3163.1670.g934eaba</string>
       </map>
       <key>expat</key>
       <map>

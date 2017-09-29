@@ -718,11 +718,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>2dbdedc9ee29ea5b80edb88af2e9d213</string>
+              <string>54dbd41322a08a1fc333ca6d96af5502</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.09.05-linux64-201706220417.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib/fmodstudio-1.10.00-linux64-201709282320.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -732,11 +732,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>705fc9b4a642dda1b5909f5c701c84f0</string>
+              <string>b23a30967666da49346983658ed50e92</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.09.05-windows-201706171054.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.10.00-windows-201709290225.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -746,18 +746,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>181bc72cbeaee8635ed25c7339c5c489</string>
+              <string>929491dcc77adc6f4c51989329740398</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.09.05-windows64-201706171052.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.10.00-windows64-201709290224.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.09.05</string>
+        <string>1.10.00</string>
       </map>
       <key>fontconfig</key>
       <map>

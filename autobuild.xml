@@ -894,11 +894,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>08fc335b0c16d821cc5b80f014e107a3</string>
+              <string>2cffd0507c28e6f713eab534bff2ed71</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/freetype-2.8.0-windows-201708212241.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/freetype-2.8.0-windows-201709290212.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -908,11 +908,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1b235380aa2bf81858eb1e290d5189a5</string>
+              <string>12e7005a431e746b7d48ff48c25e5a17</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.8.0-windows64-201708212234.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.8.0-windows64-201709290213.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -1906,11 +1906,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b01cf758948c80d7550e8ce654cb6afd</string>
+              <string>585aa3b2e0499a10c985e5b3ac800ab4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libpng-1.6.31-windows-201708212219.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/libpng-1.6.32-windows-201709290209.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1920,11 +1920,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>61b07fecc1b85d0a173eee99f0aa7f77</string>
+              <string>5feb7ad200c9b3f551020e4d21019a28</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.31-windows64-201708212151.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.32-windows64-201709290207.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

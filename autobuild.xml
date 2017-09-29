@@ -790,11 +790,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0d26c4406afaf8c4d539003377e4ad77</string>
+              <string>cc2e5245ab87978ddb2d3f1f6bcc8b73</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/fontconfig-2.12.1-linux64-201703120854.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/fontconfig-2.12.1-linux64-201709282143.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -880,11 +880,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e7dc5efac55180b76e8adfbc0860a8cc</string>
+              <string>539aa588f0f6d60b7361321006c32bbc</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/freetype-2.7.1-linux64-201703120619.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/freetype-2.8.0-linux64-201709282140.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1892,11 +1892,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>db513f317408ef6b2679b96c6423674a</string>
+              <string>df48885214b3da36b0d5e959d0b3c08c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.28-linux64-201703120536.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.32-linux64-201709271835.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1931,7 +1931,7 @@
           </map>
         </map>
         <key>version</key>
-        <string>1.6.31</string>
+        <string>1.6.32</string>
       </map>
       <key>libxml2</key>
       <map>

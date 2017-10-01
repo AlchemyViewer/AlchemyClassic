@@ -761,6 +761,9 @@ HttpStatus HttpOpRequest::prepareRequest(HttpService * service)
 		//
 		// xfer_timeout *= cpolicy.mPipelining;
 		xfer_timeout *= 2L;
+
+		code = curl_easy_setopt(mCurlHandle, CURLOPT_PIPEWAIT, 1L);
+		check_curl_easy_code(code, CURLOPT_PIPEWAIT);
 	}
 	// *DEBUG:  Enable following override for timeout handling and "[curl:bugs] #1420" tests
     //if (cpolicy.mPipelining)

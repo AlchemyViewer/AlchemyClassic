@@ -474,7 +474,7 @@ void HttpLibcurl::policyUpdated(int policy_class)
 			// We'll try to do pipelining on this multihandle
 			code = curl_multi_setopt(multi_handle,
 									 CURLMOPT_PIPELINING,
-									 1L);
+									 CURLPIPE_HTTP1);
 			check_curl_multi_code(code, CURLMOPT_PIPELINING);
 			code = curl_multi_setopt(multi_handle,
 									 CURLMOPT_MAX_PIPELINE_LENGTH,
@@ -493,7 +493,7 @@ void HttpLibcurl::policyUpdated(int policy_class)
 		{
 			code = curl_multi_setopt(multi_handle,
 									 CURLMOPT_PIPELINING,
-									 0L);
+									 CURLPIPE_NOTHING);
 			check_curl_multi_code(code, CURLMOPT_PIPELINING);
 			code = curl_multi_setopt(multi_handle,
 									 CURLMOPT_MAX_HOST_CONNECTIONS,

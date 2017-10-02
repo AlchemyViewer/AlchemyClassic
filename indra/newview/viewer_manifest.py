@@ -36,6 +36,8 @@ import re
 import tarfile
 import time
 import random
+import subprocess
+
 viewer_dir = os.path.dirname(__file__)
 # Add indra/lib/python to our path so we don't have to muck with PYTHONPATH.
 # Put it FIRST because some of our build hosts have an ancient install of
@@ -873,23 +875,32 @@ class DarwinManifest(ViewerManifest):
 
                 self.end_prefix("Resources")
 
-                # CEF framework goes inside Second Life.app/Contents/Frameworks
+                # CEF framework goes inside Alchemy.app/Contents/Frameworks
                 if self.prefix(src="", dst="Frameworks"):
                     frameworkfile="Chromium Embedded Framework.framework"
-                    self.path2basename(relpkgdir, frameworkfile)
+                    self.path2basename(relbinpkgdir, frameworkfile)
                     self.end_prefix("Frameworks")
 
                 # This code constructs a relative path from the
                 # target framework folder back to the location of the symlink.
                 # It needs to be relative so that the symlink still works when
-                # (as is normal) the user moves the app bunlde out of the DMG
+                # (as is normal) the user moves the app bundle out of the DMG
                 # and into the /Applications folder. Note we also call 'raise'
                 # to terminate the process if we get an error since without
                 # this symlink, Second Life web media can't possibly work.
                 # Real Framework folder:
-                #   Second Life.app/Contents/Frameworks/Chromium Embedded Framework.framework/
-                # Location of symlink and why it'ds relavie 
+                #   Alchemy.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+                # Location of symlink and why it's relative 
                 #   Alchemy.app/Contents/Resources/AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+                # Real Frameworks folder, with the symlink inside the bundled SLPlugin.app (and why it's relative)
+                #   <top level>.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+                #   <top level>.app/Contents/Resources/AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework ->
+                # It might seem simpler just to create a symlink Frameworks to
+                # the parent of Chromimum Embedded Framework.framework. But
+                # that would create a symlink cycle, which breaks our
+                # packaging step. So make a symlink from Chromium Embedded
+                # Framework.framework to the directory of the same name, which
+                # is NOT an ancestor of the symlink.
                 frameworkpath = os.path.join(os.pardir, os.pardir, os.pardir, 
                                              os.pardir, "Frameworks",
                                              "Chromium Embedded Framework.framework")

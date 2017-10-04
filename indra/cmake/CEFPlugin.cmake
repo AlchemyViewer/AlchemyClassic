@@ -24,7 +24,7 @@ elseif (DARWIN)
         message(FATAL_ERROR "AppKit not found")
     endif()
 
-    FIND_LIBRARY(CEF_LIBRARY "Chromium Embedded Framework" ${ARCH_PREBUILT_DIRS_RELEASE})
+    FIND_LIBRARY(CEF_LIBRARY "Chromium Embedded Framework" ${ARCH_PREBUILT_BIN_DIRS_RELEASE})
     if (NOT CEF_LIBRARY)
         message(FATAL_ERROR "CEF not found")
     endif()

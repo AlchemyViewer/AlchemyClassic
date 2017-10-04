@@ -859,7 +859,7 @@ class DarwinManifest(ViewerManifest):
                     helperexecutablepath = self.dst_path_of('AlchemyPlugin.app/Contents/Frameworks/DullahanHelper.app/Contents/MacOS/DullahanHelper')
                     self.run_command('install_name_tool -change '
                                      '"@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" '
-                                     '"@executable_path/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % helperexecutablepath)
+                                     '"@executable_path/../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % helperexecutablepath)
 
                 # SLPlugin plugins
                 if self.prefix(src="", dst="llplugin"):

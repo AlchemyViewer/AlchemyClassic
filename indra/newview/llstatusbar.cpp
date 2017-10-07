@@ -125,6 +125,9 @@ LLStatusBar::LLStatusBar(const LLRect& rect)
 
 LLStatusBar::~LLStatusBar()
 {
+    if (mCurrencyChangedSlot.connected())
+        mCurrencyChangedSlot.disconnect();
+
 	delete mBalanceTimer;
 	mBalanceTimer = nullptr;
 
@@ -257,6 +260,10 @@ BOOL LLStatusBar::postBuild()
 	addChild(mPanelNearByMedia);
 	mPanelNearByMedia->setFollows(FOLLOWS_TOP|FOLLOWS_RIGHT);
 	mPanelNearByMedia->setVisible(FALSE);
+
+
+    mCurrencyChangedSlot = LLCurrencyWrapper::getInstance()->addCurrencyChangedCb(
+        [&] { mBtnBuyL->updateCurrencySymbols(); sendMoneyBalanceRequest(); });
 
 	return TRUE;
 }

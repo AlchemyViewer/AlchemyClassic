@@ -34,15 +34,39 @@
  */
 
 #include "llcurrencywrapper.h"
+#include <boost/algorithm/string.hpp>
 
-std::string LLCurrencyWrapper::sCurrency;
 
-std::string LLCurrencyWrapper::wrapCurrency(const std::string& to_substitute)
+void LLCurrencyWrapper::setCurrency(const std::string& currency)
 {
-	return boost::algorithm::replace_all_copy(to_substitute, "L$", sCurrency);
+    mCurrency = currency;
+    mChangedSignal();
 }
 
-void LLCurrencyWrapper::wrapCurrency(std::string& to_substitute)
+
+void LLCurrencyWrapper::setHomeCurrency(const std::string& currency)
 {
-	boost::algorithm::replace_all(to_substitute, "L$", sCurrency);
+    mHomeCurrency = currency;
+    setCurrency(currency);
 }
+
+std::string LLCurrencyWrapper::wrapCurrency(const std::string& to_substitute) const
+{
+	return boost::algorithm::replace_all_copy(to_substitute, "L$", mCurrency);
+}
+
+void LLCurrencyWrapper::wrapCurrency(std::string& to_substitute) const
+{
+	boost::algorithm::replace_all(to_substitute, "L$", mCurrency);
+}
+
+boost::signals2::connection LLCurrencyWrapper::addCurrencyChangedCb(currency_changed_callback_t cb)
+{
+    return mChangedSignal.connect(cb);
+}
+
+void LLCurrencyWrapper::removeCurrencyChangedCb(boost::signals2::connection cb)
+{
+    mChangedSignal.disconnect(cb);
+}
+

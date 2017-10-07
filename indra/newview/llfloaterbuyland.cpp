@@ -40,10 +40,7 @@
 #include "llcurrencyuimanager.h"
 #include "llfloater.h"
 #include "llfloaterreg.h"
-#include "llfloatertools.h"
-#include "llframetimer.h"
 #include "lliconctrl.h"
-#include "lllineeditor.h"
 #include "llnotificationsutil.h"
 #include "llparcel.h"
 #include "llslurl.h"
@@ -52,13 +49,11 @@
 #include "lltexturectrl.h"
 #include "lltrans.h"
 #include "llviewchildren.h"
-#include "llviewercontrol.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
 #include "llviewertexteditor.h"
 #include "llviewerwindow.h"
 #include "llweb.h"
-#include "llwindow.h"
 #include "llworld.h"
 #include "llxmlrpctransaction.h"
 #include "llviewernetwork.h"
@@ -88,8 +83,7 @@ private:
 	private:
 		LLFloaterBuyLandUI* mFloater;
 	};
-	
-private:
+
 	SelectionObserver mParcelSelectionObserver;
 	LLViewerRegion*	mRegion;
 	LLParcelSelectionHandle mParcel;
@@ -874,11 +868,7 @@ void LLFloaterBuyLandUI::startTransaction(TransactionType type, const LLXMLRPCVa
 	mTransactionType = type;
 
 	// Select a URI and method appropriate for the transaction type.
-	static std::string transaction_uri;
-	if (transaction_uri.empty())
-	{
-		transaction_uri = LLGridManager::getInstance()->getHelperURI() + "landtool.php";
-	}
+	static std::string transaction_uri = LLGridManager::getInstance()->getHelperURI() + "landtool.php";
 	
 	const char* method;
 	switch (mTransactionType)

@@ -28,6 +28,7 @@
 #define LL_LLSTATUSBAR_H
 
 #include "llpanel.h"
+#include "llcurrencywrapper.h"
 
 // "Constants" loaded from settings.xml at start time
 extern S32 STATUS_BAR_HEIGHT;
@@ -139,6 +140,8 @@ private:
 	LLPointer<LLUIImage> mImgAvComplex;
 	LLPointer<LLUIImage> mImgAvComplexWarn;
 	LLPointer<LLUIImage> mImgAvComplexHeavy;
+
+    boost::signals2::connection mCurrencyChangedSlot;
 };
 
 // *HACK: Status bar owns your cached money balance. JC

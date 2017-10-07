@@ -29,7 +29,6 @@
 
 #include "lluuid.h"
 #include "llbadgeowner.h"
-#include "llcontrol.h"
 #include "llflashtimer.h"
 #include "lluictrl.h"
 #include "v4color.h"
@@ -279,6 +278,8 @@ public:
 	void		setForcePressedState(bool b) { mForcePressedState = b; }
 	
 	void 		setAutoResize(bool auto_resize) { mAutoResize = auto_resize; }
+
+    void        updateCurrencySymbols();
 
 protected:
 	LLPointer<LLUIImage> getImageUnselected() const	{ return mImageUnselected; }

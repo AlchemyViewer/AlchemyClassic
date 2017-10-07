@@ -3575,9 +3575,9 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 	}
 	else if (LLGridManager::getInstance()->isInOpenSim())
 	{
-		currency = "$$";
+		currency = "$";
 	}
-	LLCurrencyWrapper::setCurrency(currency);
+	LLCurrencyWrapper::getInstance()->setHomeCurrency(currency);
 
 	bool success = false;
 	// JC: gesture loading done below, when we have an asset system

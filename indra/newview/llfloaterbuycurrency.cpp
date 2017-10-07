@@ -30,7 +30,7 @@
 
 #include "llfloaterbuycurrency.h"
 
-// viewer includes
+#include "llcurrencywrapper.h"
 #include "llcurrencyuimanager.h"
 #include "llfloater.h"
 #include "llfloaterreg.h"
@@ -39,8 +39,6 @@
 #include "lltextbox.h"
 #include "llviewchildren.h"
 #include "llweb.h"
-#include "llwindow.h"
-#include "llappviewer.h"
 
 static const S32 STANDARD_BUY_AMOUNT = 2000;
 static const S32 MINIMUM_BALANCE_AMOUNT = 0;
@@ -52,8 +50,6 @@ public:
 	LLFloaterBuyCurrencyUI(const LLSD& key);
 	virtual ~LLFloaterBuyCurrencyUI();
 
-
-public:
 	LLViewChildren		mChildren;
 	LLCurrencyUIManager	mManager;
 	
@@ -61,13 +57,13 @@ public:
 	std::string	mTargetName;
 	S32			mTargetPrice;
 	
-public:
 	void noTarget();
 	void target(const std::string& name, S32 price);
 
 	BOOL postBuild() override;
 	
 	void updateUI();
+    void updateCurrencySymbols();
 
 	void draw() override;
 	BOOL canClose() override;
@@ -75,6 +71,8 @@ public:
 	void onClickBuy();
 	void onClickCancel();
 	void onClickErrorWeb();
+
+    boost::signals2::connection mCurrencyChangedSlot;
 };
 
 LLFloater* LLFloaterBuyCurrency::buildFloater(const LLSD& key)
@@ -91,14 +89,18 @@ LLFloater* LLFloaterBuyCurrency::buildFloater(const LLSD& key)
 #pragma warning(disable : 4355)
 #endif 
 LLFloaterBuyCurrencyUI::LLFloaterBuyCurrencyUI(const LLSD& key)
-:	LLFloater(key),
-	mChildren(*this),
-	mManager(*this)
+:   LLFloater(key)
+,   mChildren(*this)
+,   mManager(*this)
+,   mHasTarget(false)
+,   mTargetPrice(0)
 {
 }
 
 LLFloaterBuyCurrencyUI::~LLFloaterBuyCurrencyUI()
 {
+    if (mCurrencyChangedSlot.connected())
+        mCurrencyChangedSlot.disconnect();
 }
 
 
@@ -137,6 +139,9 @@ BOOL LLFloaterBuyCurrencyUI::postBuild()
 	center();
 	
 	updateUI();
+
+    mCurrencyChangedSlot = LLCurrencyWrapper::instance().addCurrencyChangedCb(
+        std::bind(&LLFloaterBuyCurrencyUI::updateCurrencySymbols, this));
 	
 	return TRUE;
 }
@@ -235,23 +240,23 @@ void LLFloaterBuyCurrencyUI::updateUI()
 		S32 balance = gStatusBar->getBalance();
 		getChildView("balance_label")->setVisible(TRUE);
 		getChildView("balance_amount")->setVisible(TRUE);
-		getChild<LLUICtrl>("balance_amount")->setTextArg("[AMT]", llformat("%d", balance));
+		getChild<LLUICtrl>("balance_amount")->setTextArg("[AMT]", std::to_string(balance));
 		
 		S32 buying = mManager.getAmount();
 		getChildView("buying_label")->setVisible(TRUE);
 		getChildView("buying_amount")->setVisible(TRUE);
-		getChild<LLUICtrl>("buying_amount")->setTextArg("[AMT]", llformat("%d", buying));
+		getChild<LLUICtrl>("buying_amount")->setTextArg("[AMT]", std::to_string(buying));
 		
 		S32 total = balance + buying;
 		getChildView("total_label")->setVisible(TRUE);
 		getChildView("total_amount")->setVisible(TRUE);
-		getChild<LLUICtrl>("total_amount")->setTextArg("[AMT]", llformat("%d", total));
+		getChild<LLUICtrl>("total_amount")->setTextArg("[AMT]", std::to_string(total));
 
 		if (mHasTarget)
 		{
 			if (total >= mTargetPrice)
 			{
-				getChildView("purchase_warning_repurchase")->setVisible( true);
+				getChildView("purchase_warning_repurchase")->setVisible(true);
 			}
 			else
 			{
@@ -261,6 +266,16 @@ void LLFloaterBuyCurrencyUI::updateUI()
 	}
 
 	getChildView("getting_data")->setVisible( !mManager.canBuy() && !hasError);
+}
+
+void LLFloaterBuyCurrencyUI::updateCurrencySymbols()
+{
+    updateCurrencySymbol();
+    getChild<LLTextBox>("info_need_more")->updateCurrencySymbols();
+    getChild<LLTextBox>("info_buying")->updateCurrencySymbols();
+    getChild<LLTextBox>("currency_label")->updateCurrencySymbols();
+    getChild<LLTextBox>("purchase_warning_repurchase")->updateCurrencySymbols();
+    getChild<LLTextBox>("purchase_warning_notenough")->updateCurrencySymbols();
 }
 
 void LLFloaterBuyCurrencyUI::onClickBuy()

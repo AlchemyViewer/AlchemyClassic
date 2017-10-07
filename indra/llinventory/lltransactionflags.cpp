@@ -115,7 +115,7 @@ std::string build_transfer_message_to_source(
 		// them in llviewermessage.cpp to perform localization.
 		// If you need to make changes, add a new, localizable message. JC
 		// *NOTE: https://www.youtube.com/watch?v=mgpzbygnQvU CR
-		ostr << LLCurrencyWrapper::wrapCurrency("You paid L$") << amount;
+		ostr << LLCurrencyWrapper::instance().wrapCurrency("You paid L$") << amount;
 		switch(transaction_type)
 		{
 		case TRANS_GROUP_CREATE:
@@ -133,7 +133,7 @@ std::string build_transfer_message_to_source(
 	}
 	else
 	{
-		ostr << "You paid " << dest_name << LLCurrencyWrapper::wrapCurrency(" L$") << amount;
+		ostr << "You paid " << dest_name << LLCurrencyWrapper::instance().wrapCurrency(" L$") << amount;
 		append_reason(ostr, transaction_type, description);
 	}
 	ostr << ".";
@@ -164,7 +164,7 @@ std::string build_transfer_message_to_destination(
 	// *NOTE: Do not change these strings!  The viewer matches
 	// them in llviewermessage.cpp to perform localization.
 	// If you need to make changes, add a new, localizable message. JC
-	ostr << source_name << LLCurrencyWrapper::wrapCurrency(" paid you L$") << amount;
+	ostr << source_name << LLCurrencyWrapper::instance().wrapCurrency(" paid you L$") << amount;
 	append_reason(ostr, transaction_type, description);
 	ostr << ".";
 	return ostr.str();

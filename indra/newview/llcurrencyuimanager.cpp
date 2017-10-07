@@ -28,22 +28,18 @@
 
 #include "llviewerprecompiledheaders.h"
 
-#include "lltextbox.h"
+#include "llcurrencyuimanager.h"
+
 #include "lllineeditor.h"
 #include "llpanel.h"
 #include "llresmgr.h" // for LLLocale
 #include "lltrans.h"
-#include "llviewercontrol.h"
 #include "llversioninfo.h"
-
-#include "llcurrencyuimanager.h"
 
 // viewer includes
 #include "llagent.h"
 #include "llconfirmationmanager.h"
 #include "llframetimer.h"
-#include "lllineeditor.h"
-#include "llviewchildren.h"
 #include "llxmlrpctransaction.h"
 #include "llviewernetwork.h"
 #include "llviewerregion.h"
@@ -85,6 +81,7 @@ public:
 	std::string		mLocalCurrencyEstimatedCost;
 	bool			mSupportsInternationalBilling;
 	std::string		mSiteConfirm;
+    std::string     mCurrencyHelperUri;
 	
 	bool			mBought;
 	
@@ -281,19 +278,15 @@ void LLCurrencyUIManager::Impl::finishCurrencyBuy()
 void LLCurrencyUIManager::Impl::startTransaction(TransactionType type,
 		const char* method, LLXMLRPCValue params)
 {
-	static std::string transactionURI;
-	if (transactionURI.empty())
-	{
-		LLViewerRegion* region = gAgent.getRegion();
-		transactionURI = (region != nullptr) ? region->getBuyCurrencyServerURL()
-						 : LLGridManager::getInstance()->getHelperURI() + "currency.php";
-	}
+    LLViewerRegion* region = gAgent.getRegion();
+    const std::string transaction_uri = (region != nullptr) ? region->getBuyCurrencyServerURL()
+        : LLGridManager::getInstance()->getHelperURI() + "currency.php";
 
 	delete mTransaction;
 
 	mTransactionType = type;
 	mTransaction = new LLXMLRPCTransaction(
-		transactionURI,
+        transaction_uri,
 		method,
 		params,
 		false /* don't use gzip */

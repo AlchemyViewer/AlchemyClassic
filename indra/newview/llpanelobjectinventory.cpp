@@ -651,7 +651,7 @@ void LLTaskInvFVBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info << LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
+			info << LLCurrencyWrapper::instance().wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 
@@ -969,7 +969,7 @@ void LLTaskSoundBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info <<  LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
+			info <<  LLCurrencyWrapper::instance().wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 
@@ -1339,7 +1339,7 @@ void LLTaskMeshBridge::buildContextMenu(LLMenuGL& menu, U32 flags)
 		else
 		{
 			std::ostringstream info;
-			info <<  LLCurrencyWrapper::wrapCurrency(LLTrans::getString("BuyforL$")) << price;
+			info <<  LLCurrencyWrapper::instance().wrapCurrency(LLTrans::getString("BuyforL$")) << price;
 			label.assign(info.str());
 		}
 

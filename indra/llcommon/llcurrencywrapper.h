@@ -34,21 +34,33 @@
 #ifndef LL_CURRENCYWRAPPER_H
 #define LL_CURRENCYWRAPPER_H
 
+#include "llsingleton.h"
 #include <string>
-#include <boost/algorithm/string.hpp>
+#include <boost/signals2.hpp>
 
-class LLCurrencyWrapper
+class LLCurrencyWrapper : public LLSingleton<LLCurrencyWrapper>
 {
+    LLSINGLETON_EMPTY_CTOR(LLCurrencyWrapper)
+    ~LLCurrencyWrapper() {}
+
 public:
-	static void setCurrency(const std::string& currency) { sCurrency = currency; }
-	static std::string getCurrency() { return sCurrency; }
-	static std::string wrapCurrency(const std::string& to_substitute);
-	static void wrapCurrency(std::string& to_substitute);
-	
-private:
-	LLCurrencyWrapper() {}
-	~LLCurrencyWrapper() {}
-	static std::string sCurrency;
+    void setCurrency(const std::string& currency);
+    void setHomeCurrency(const std::string& currency);
+    std::string getCurrency() const { return mCurrency; }
+    std::string getHomeCurrency() const { return mHomeCurrency; }
+    std::string wrapCurrency(const std::string& to_substitute) const;
+    void wrapCurrency(std::string& to_substitute) const;
+
+    using currency_changed_signal_t = boost::signals2::signal<void()>;
+    using currency_changed_callback_t = std::function<void()>;
+
+    boost::signals2::connection addCurrencyChangedCb(currency_changed_callback_t cb);
+    void removeCurrencyChangedCb(boost::signals2::connection cb);
+
+private:	
+	std::string mCurrency;
+    std::string mHomeCurrency;
+    currency_changed_signal_t mChangedSignal;
 };
 
 #endif //LL_CURRENCYWRAPPER_H

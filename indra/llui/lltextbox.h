@@ -48,13 +48,13 @@ protected:
 public:
 	virtual ~LLTextBox();
 
-	/*virtual*/ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
-	/*virtual*/ BOOL handleHover(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
+	BOOL handleMouseUp(S32 x, S32 y, MASK mask) override;
+	BOOL handleHover(S32 x, S32 y, MASK mask) override;
 
-	/*virtual*/ void setEnabled(BOOL enabled) override;
+	void setEnabled(BOOL enabled) override;
 
-	/*virtual*/ void setText( const LLStringExplicit& text, const LLStyle::Params& input_params = LLStyle::Params() ) override;
+	void setText( const LLStringExplicit& text, const LLStyle::Params& input_params = LLStyle::Params() ) override;
 	
 	void			setRightAlign()							{ mHAlign = LLFontGL::RIGHT; }
 	void			setHAlign( LLFontGL::HAlign align )		{ mHAlign = align; }
@@ -65,8 +65,10 @@ public:
 	S32				getTextPixelWidth();
 	S32				getTextPixelHeight();
 
-	/*virtual*/ LLSD	getValue() const override;
-	/*virtual*/ BOOL	setTextArg( const std::string& key, const LLStringExplicit& text ) override;
+	LLSD	getValue() const override;
+	BOOL	setTextArg( const std::string& key, const LLStringExplicit& text ) override;
+
+    void updateCurrencySymbols();
 
 protected:
 	void            onUrlLabelUpdated(const std::string &url, const std::string &label);

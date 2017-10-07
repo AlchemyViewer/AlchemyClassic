@@ -5475,7 +5475,7 @@ void process_money_balance_reply(LLMessageSystem* msg, void**)
 	msg->getS32("MoneyData", "SquareMetersCredit", credit);
 	msg->getS32("MoneyData", "SquareMetersCommitted", committed);
 	msg->getStringFast(_PREHASH_MoneyData, _PREHASH_Description, desc);
-	LL_INFOS("Messaging") << LLCurrencyWrapper::wrapCurrency("L$, credit, committed: ") << balance << " " << credit << " "
+	LL_INFOS("Messaging") << LLCurrencyWrapper::instance().wrapCurrency("L$, credit, committed: ") << balance << " " << credit << " "
 		<< committed << LL_ENDL;
 
 	if (gStatusBar)
@@ -6392,7 +6392,7 @@ void process_economy_data(LLMessageSystem* msg, void** /*user_data*/)
 		upload_cost = cost > 0 ? llformat("L$%d", cost) : llformat("L$%d", gSavedSettings.getU32("DefaultUploadCost"));
 	else
 		upload_cost = cost > 0 ? llformat("L$%d", cost) : LLTrans::getString("Free");
-	LL_INFOS_ONCE("Messaging") << LLCurrencyWrapper::wrapCurrency("EconomyData message arrived; upload cost is L$") << upload_cost << LL_ENDL;
+	LL_INFOS_ONCE("Messaging") << LLCurrencyWrapper::instance().wrapCurrency("EconomyData message arrived; upload cost is L$") << upload_cost << LL_ENDL;
 	gMenuHolder->getChild<LLUICtrl>("Upload Image")->setLabelArg("[COST]", upload_cost);
 	gMenuHolder->getChild<LLUICtrl>("Upload Sound")->setLabelArg("[COST]", upload_cost);
 	gMenuHolder->getChild<LLUICtrl>("Upload Animation")->setLabelArg("[COST]", upload_cost);

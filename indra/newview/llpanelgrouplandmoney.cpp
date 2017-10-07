@@ -838,8 +838,8 @@ void LLPanelGroupLandMoney::processPlacesReply(LLMessageSystem* msg, void**)
 	group_id_map_t::iterator found_it = sGroupIDs.find(group_id);
 	if(found_it == sGroupIDs.end())
 	{
-		LL_INFOS() << LLCurrencyWrapper::wrapCurrency("Group Panel Land L$ ") << group_id << " no longer in existence."
-				<< LL_ENDL;
+		LL_INFOS() << LLCurrencyWrapper::instance().wrapCurrency("Group Panel Land L$ ") 
+	        << group_id << " no longer in existence." << LL_ENDL;
 		return;
 	}
 
@@ -1130,7 +1130,7 @@ void LLPanelGroupLandMoney::processGroupAccountDetailsReply(LLMessageSystem* msg
 	msg->getUUIDFast(_PREHASH_AgentData, _PREHASH_AgentID, agent_id );
 	if (gAgent.getID() != agent_id)
 	{
-		LL_WARNS() << LLCurrencyWrapper::wrapCurrency("Got group L$ history reply for another agent!") << LL_ENDL;
+		LL_WARNS() << LLCurrencyWrapper::instance().wrapCurrency("Got group L$ history reply for another agent!") << LL_ENDL;
 		return;
 	}
 
@@ -1307,16 +1307,14 @@ void LLPanelGroupLandMoney::processGroupAccountTransactionsReply(LLMessageSystem
 	msg->getUUIDFast(_PREHASH_AgentData, _PREHASH_AgentID, agent_id );
 	if (gAgent.getID() != agent_id)
 	{
-		LL_WARNS() << LLCurrencyWrapper::wrapCurrency("Got group L$ history reply for another agent!") << LL_ENDL;
+		LL_WARNS() << LLCurrencyWrapper::instance().wrapCurrency("Got group L$ history reply for another agent!") << LL_ENDL;
 		return;
 	}
 
 	LLUUID request_id;
 	msg->getUUIDFast(_PREHASH_MoneyData, _PREHASH_RequestID, request_id );
 
-	LLGroupMoneyTabEventHandler* self;
-
-	self = get_ptr_in_map(LLGroupMoneyTabEventHandler::sInstanceIDs, request_id);
+	LLGroupMoneyTabEventHandler* self = get_ptr_in_map(LLGroupMoneyTabEventHandler::sInstanceIDs, request_id);
 	if (!self)
 	{
 		LL_WARNS() << "GroupAccountTransactions recieved for non-existent group panel." << LL_ENDL;

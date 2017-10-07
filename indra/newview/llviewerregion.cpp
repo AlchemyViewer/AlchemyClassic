@@ -81,6 +81,7 @@
 
 #include <boost/lexical_cast.hpp>
 #include "llweb.h"
+#include "llcurrencywrapper.h"
 
 #ifdef LL_WINDOWS
 	#pragma warning(disable:4355)
@@ -2240,6 +2241,7 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 	if (LLGridManager::getInstance()->isInOpenSim())
 	{
 		setGodnames();
+        std::string cur_symbol = LLCurrencyWrapper::instance().getHomeCurrency();
 		if (mSimulatorFeatures.has("OpenSimExtras"))
 		{
 			if (mSimulatorFeatures["OpenSimExtras"].has("GridURL"))
@@ -2250,12 +2252,13 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 			}
 			if (mSimulatorFeatures["OpenSimExtras"].has("currency"))
 			{
-				// *TODO: This
-				//const std::string& cur_symbol = mSimulatorFeatures["OpenSimExtras"]["currency"].asString();
-				//if (LLCurrencyWrapper::getCurrency() != cur_symbol)
-				//	LLCurrencyWrapper::setCurrency(cur_symbol);
+				cur_symbol = mSimulatorFeatures["OpenSimExtras"]["currency"].asString();
 			}
 		}
+        if (LLCurrencyWrapper::instance().getCurrency() != cur_symbol)
+        {
+            LLCurrencyWrapper::instance().setCurrency(cur_symbol);
+        }
 	}
 	setSimulatorFeaturesReceived(true);
 }
@@ -2264,8 +2267,8 @@ void LLViewerRegion::setSimulatorFeatures(const LLSD& sim_features)
 //move all orphan children out of cache and insert to rendering octree.
 void LLViewerRegion::findOrphans(U32 parent_id)
 {
-	orphan_list_t::iterator iter = mOrphanMap.find(parent_id);
-	if(iter != mOrphanMap.end())
+	orphan_list_t::const_iterator iter = mOrphanMap.find(parent_id);
+	if(iter != mOrphanMap.cend())
 	{
 		std::vector<U32>* children = &mOrphanMap[parent_id];
 		for(S32 i = 0; i < children->size(); i++)

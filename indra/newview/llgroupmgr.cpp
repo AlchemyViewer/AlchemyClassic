@@ -2215,11 +2215,22 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 	std::string title;
 	S32			contribution;
 	U64			member_powers;
+	U64			default_powers;
 	// If this is changed to a bool, make sure to change the LLGroupMemberData constructor
 	BOOL		is_owner;
 
 	// Compute this once, rather than every time.
-	U64	default_powers	= std::stoull(defaults["default_powers"].asString(), nullptr, 16);
+	if (defaults.has("default_powers") && !defaults["default_powers"].asString().empty())
+	{
+		try
+		{
+			default_powers = std::stoull(defaults["default_powers"].asString(), nullptr, 16);
+		}
+		catch(const std::invalid_argument& e)
+		{
+			LL_WARNS() << "Group member powers returned exception: " << e.what() << LL_ENDL;
+		}
+	}
 
 	LLSD::map_const_iterator member_iter_start	= member_list.beginMap();
 	LLSD::map_const_iterator member_iter_end	= member_list.endMap();

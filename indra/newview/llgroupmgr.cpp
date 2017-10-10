@@ -2228,7 +2228,7 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 		}
 		catch(const std::invalid_argument& e)
 		{
-			LL_WARNS() << "Group member powers returned exception: " << e.what() << LL_ENDL;
+			LL_WARNS() << "Group member default powers returned exception: " << e.what() << LL_ENDL;
 		}
 	}
 
@@ -2258,8 +2258,17 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 		if(member_info.has("title"))
 			title = titles[member_info["title"].asInteger()].asString();
 
-		if(member_info.has("powers"))
-			member_powers = std::stoull(member_info["powers"].asString(), nullptr, 16);
+		if (member_info.has("powers"))
+		{
+			try
+			{
+				member_powers = std::stoull(member_info["powers"].asString(), nullptr, 16);
+			}
+			catch (const std::invalid_argument& e)
+			{
+				LL_WARNS() << "Group member powers returned exception: " << e.what() << LL_ENDL;
+			}
+		}
 
 		if(member_info.has("donated_square_meters"))
 			contribution = member_info["donated_square_meters"];

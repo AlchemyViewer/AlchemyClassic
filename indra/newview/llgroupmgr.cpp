@@ -2214,8 +2214,8 @@ void LLGroupMgr::processCapGroupMembersRequest(const LLSD& content)
 	std::string online_status;
 	std::string title;
 	S32			contribution;
-	U64			member_powers;
-	U64			default_powers;
+	U64			member_powers = 0;
+	U64			default_powers = 0;
 	// If this is changed to a bool, make sure to change the LLGroupMemberData constructor
 	BOOL		is_owner;
 

@@ -1866,11 +1866,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>111ececbf9ba478f3ad95a1fa6c33c46</string>
+              <string>c8822fe6a1ef76e2570314091c26756f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/libpng-1.6.32-darwin-201709301229.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/libpng-1.6.34-darwin-201710211358.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

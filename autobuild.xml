@@ -854,11 +854,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dfab35379f8174be51ec398ae8b80366</string>
+              <string>0609e33be32fca96fede63e6b9cc4158</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/freetype-2.8.0-darwin-201709301305.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/freetype-2.8.0-darwin-201710211433.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>

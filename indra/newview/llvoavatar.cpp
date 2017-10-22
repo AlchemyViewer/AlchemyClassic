@@ -2246,20 +2246,20 @@ static LLTrace::BlockTimerStatHandle FTM_JOINT_UPDATE("Update Joints");
 void LLVOAvatar::dumpAnimationState()
 {
 	LL_INFOS() << "==============================================" << LL_ENDL;
-	for (LLVOAvatar::AnimIterator it = mSignaledAnimations.begin(); it != mSignaledAnimations.end(); ++it)
+	for (auto it = mSignaledAnimations.begin(); it != mSignaledAnimations.cend(); ++it)
 	{
 		LLUUID id = it->first;
 		std::string playtag = "";
-		if (mPlayingAnimations.find(id) != mPlayingAnimations.end())
+		if (mPlayingAnimations.find(id) != mPlayingAnimations.cend())
 		{
 			playtag = "*";
 		}
 		LL_INFOS() << gAnimLibrary.animationName(id) << playtag << LL_ENDL;
 	}
-	for (LLVOAvatar::AnimIterator it = mPlayingAnimations.begin(); it != mPlayingAnimations.end(); ++it)
+	for (auto it = mPlayingAnimations.begin(); it != mPlayingAnimations.cend(); ++it)
 	{
 		LLUUID id = it->first;
-		bool is_signaled = mSignaledAnimations.find(id) != mSignaledAnimations.end();
+		bool is_signaled = mSignaledAnimations.find(id) != mSignaledAnimations.cend();
 		if (!is_signaled)
 		{
 			LL_INFOS() << gAnimLibrary.animationName(id) << "!S" << LL_ENDL;
@@ -5140,10 +5140,10 @@ void LLVOAvatar::processAnimationStateChanges()
 	}
 	
 	// clear all current animations
-	AnimIterator anim_it;
+	std::map<LLUUID, S32>::iterator anim_it;
 	for (anim_it = mPlayingAnimations.begin(); anim_it != mPlayingAnimations.end();)
 	{
-		AnimIterator found_anim = mSignaledAnimations.find(anim_it->first);
+		auto found_anim = mSignaledAnimations.find(anim_it->first);
 
 		// playing, but not signaled, so stop
 		if (found_anim == mSignaledAnimations.end())
@@ -5159,7 +5159,7 @@ void LLVOAvatar::processAnimationStateChanges()
 	// start up all new anims
 	for (anim_it = mSignaledAnimations.begin(); anim_it != mSignaledAnimations.end();)
 	{
-		AnimIterator found_anim = mPlayingAnimations.find(anim_it->first);
+		auto found_anim = mPlayingAnimations.find(anim_it->first);
 
 		// signaled but not playing, or different sequence id, start motion
 		if (found_anim == mPlayingAnimations.end() || found_anim->second != anim_it->second)
@@ -5178,11 +5178,9 @@ void LLVOAvatar::processAnimationStateChanges()
 	// clear source information for animations which have been stopped
 	if (isSelf())
 	{
-		AnimSourceIterator source_it = mAnimationSources.begin();
-
-		for (source_it = mAnimationSources.begin(); source_it != mAnimationSources.end();)
+		for (auto source_it = mAnimationSources.cbegin(); source_it != mAnimationSources.cend();)
 		{
-			if (mSignaledAnimations.find(source_it->second) == mSignaledAnimations.end())
+			if (mSignaledAnimations.find(source_it->second) == mSignaledAnimations.cend())
 			{
 				mAnimationSources.erase(source_it++);
 			}

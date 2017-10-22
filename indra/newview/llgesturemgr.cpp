@@ -817,8 +817,8 @@ void LLGestureMgr::stepGesture(LLMultiGesture* gesture)
 	{
 		// look in signaled animations (simulator's view of what is
 		// currently playing.
-		LLVOAvatar::AnimIterator play_it = gAgentAvatarp->mSignaledAnimations.find(*gest_it);
-		if (play_it != gAgentAvatarp->mSignaledAnimations.end())
+		auto play_it = gAgentAvatarp->mSignaledAnimations.find(*gest_it);
+		if (play_it != gAgentAvatarp->mSignaledAnimations.cend())
 		{
 			++gest_it;
 		}
@@ -836,8 +836,8 @@ void LLGestureMgr::stepGesture(LLMultiGesture* gesture)
 		 gest_it != gesture->mRequestedAnimIDs.end();
 		 )
 	{
-	 LLVOAvatar::AnimIterator play_it = gAgentAvatarp->mSignaledAnimations.find(*gest_it);
-		if (play_it != gAgentAvatarp->mSignaledAnimations.end())
+	    auto play_it = gAgentAvatarp->mSignaledAnimations.find(*gest_it);
+		if (play_it != gAgentAvatarp->mSignaledAnimations.cend())
 		{
 			// Hooray, this animation has started playing!
 			// Copy into playing.

@@ -776,7 +776,7 @@ void LLAgent::setFlying(BOOL fly)
 		// it will be walking with flying mode "ON" indication. However we allow to switch
 		// the flying mode off if we get ANIM_AGENT_STANDUP signal. See process_avatar_animation().
 		// See EXT-2781.
-		if(fly && gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_STANDUP) != gAgentAvatarp->mSignaledAnimations.end())
+		if(fly && gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_STANDUP) != gAgentAvatarp->mSignaledAnimations.cend())
 		{
 			return;
 		}
@@ -1488,7 +1488,7 @@ void LLAgent::clearAFK()
 	// without setting the appropriate control flag. JC
 	if (mControlFlags & AGENT_CONTROL_AWAY
 		|| (isAgentAvatarValid()
-			&& (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AWAY) != gAgentAvatarp->mSignaledAnimations.end())))
+			&& (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AWAY) != gAgentAvatarp->mSignaledAnimations.cend())))
 	{
 		sendAnimationRequest(ANIM_AGENT_AWAY, ANIM_REQUEST_STOP);
 		clearControlFlags(AGENT_CONTROL_AWAY);
@@ -2166,22 +2166,22 @@ void LLAgent::endAnimationUpdateUI()
 		{
 			if( gAgentAvatarp->isAnyAnimationSignaled(AGENT_GUN_AIM_ANIMS, NUM_AGENT_GUN_AIM_ANIMS) )
 			{
-				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_RIFLE_R) != gAgentAvatarp->mSignaledAnimations.end())
+				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_RIFLE_R) != gAgentAvatarp->mSignaledAnimations.cend())
 				{
 					sendAnimationRequest(ANIM_AGENT_AIM_RIFLE_R, ANIM_REQUEST_STOP);
 					sendAnimationRequest(ANIM_AGENT_HOLD_RIFLE_R, ANIM_REQUEST_START);
 				}
-				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_HANDGUN_R) != gAgentAvatarp->mSignaledAnimations.end())
+				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_HANDGUN_R) != gAgentAvatarp->mSignaledAnimations.cend())
 				{
 					sendAnimationRequest(ANIM_AGENT_AIM_HANDGUN_R, ANIM_REQUEST_STOP);
 					sendAnimationRequest(ANIM_AGENT_HOLD_HANDGUN_R, ANIM_REQUEST_START);
 				}
-				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_BAZOOKA_R) != gAgentAvatarp->mSignaledAnimations.end())
+				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_BAZOOKA_R) != gAgentAvatarp->mSignaledAnimations.cend())
 				{
 					sendAnimationRequest(ANIM_AGENT_AIM_BAZOOKA_R, ANIM_REQUEST_STOP);
 					sendAnimationRequest(ANIM_AGENT_HOLD_BAZOOKA_R, ANIM_REQUEST_START);
 				}
-				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_BOW_L) != gAgentAvatarp->mSignaledAnimations.end())
+				if (gAgentAvatarp->mSignaledAnimations.find(ANIM_AGENT_AIM_BOW_L) != gAgentAvatarp->mSignaledAnimations.cend())
 				{
 					sendAnimationRequest(ANIM_AGENT_AIM_BOW_L, ANIM_REQUEST_STOP);
 					sendAnimationRequest(ANIM_AGENT_HOLD_BOW_L, ANIM_REQUEST_START);
@@ -3374,8 +3374,8 @@ void LLAgent::processAgentDropGroup(LLMessageSystem *msg, void **)
 	// Remove the group if it already exists remove it and add the new data to pick up changes.
 	LLGroupData gd;
 	gd.mID = group_id;
-	std::vector<LLGroupData>::iterator found_it = std::find(gAgent.mGroups.begin(), gAgent.mGroups.end(), gd);
-	if (found_it != gAgent.mGroups.end())
+	auto found_it = std::find(gAgent.mGroups.cbegin(), gAgent.mGroups.cend(), gd);
+	if (found_it != gAgent.mGroups.cend())
 	{
 		gAgent.mGroups.erase(found_it);
 		if (gAgent.getGroupID() == group_id)
@@ -3447,8 +3447,8 @@ class LLAgentDropGroupViewerNode : public LLHTTPNode
 			// and add the new data to pick up changes.
 			LLGroupData gd;
 			gd.mID = group_id;
-			std::vector<LLGroupData>::iterator found_it = std::find(gAgent.mGroups.begin(), gAgent.mGroups.end(), gd);
-			if (found_it != gAgent.mGroups.end())
+			auto found_it = std::find(gAgent.mGroups.cbegin(), gAgent.mGroups.cend(), gd);
+			if (found_it != gAgent.mGroups.cend())
 			{
 				gAgent.mGroups.erase(found_it);
 				if (gAgent.getGroupID() == group_id)
@@ -3516,8 +3516,8 @@ void LLAgent::processAgentGroupDataUpdate(LLMessageSystem *msg, void **)
 		{
 			need_floater_update = true;
 			// Remove the group if it already exists remove it and add the new data to pick up changes.
-			std::vector<LLGroupData>::iterator found_it = std::find(gAgent.mGroups.begin(), gAgent.mGroups.end(), group);
-			if (found_it != gAgent.mGroups.end())
+			auto found_it = std::find(gAgent.mGroups.cbegin(), gAgent.mGroups.cend(), group);
+			if (found_it != gAgent.mGroups.cend())
 			{
 				gAgent.mGroups.erase(found_it);
 			}
@@ -3576,8 +3576,8 @@ class LLAgentGroupDataUpdateViewerNode : public LLHTTPNode
 			{
 				need_floater_update = true;
 				// Remove the group if it already exists remove it and add the new data to pick up changes.
-				std::vector<LLGroupData>::iterator found_it = std::find(gAgent.mGroups.begin(), gAgent.mGroups.end(), group);
-				if (found_it != gAgent.mGroups.end())
+				auto found_it = std::find(gAgent.mGroups.cbegin(), gAgent.mGroups.cend(), group);
+				if (found_it != gAgent.mGroups.cend())
 				{
 					gAgent.mGroups.erase(found_it);
 				}
@@ -3920,7 +3920,7 @@ bool LLAgent::teleportCore(bool is_local)
 	// Stop all animation before actual teleporting 
         if (isAgentAvatarValid())
 	{
-		for ( LLVOAvatar::AnimIterator anim_it= gAgentAvatarp->mPlayingAnimations.begin();
+		for ( auto anim_it= gAgentAvatarp->mPlayingAnimations.begin();
 		      anim_it != gAgentAvatarp->mPlayingAnimations.end();
 		      ++anim_it)
                {
@@ -4387,10 +4387,10 @@ void LLAgent::stopCurrentAnimations()
 	{
 		std::vector<LLUUID> anim_ids;
 
-		for ( LLVOAvatar::AnimIterator anim_it =
-			      gAgentAvatarp->mPlayingAnimations.begin();
-		      anim_it != gAgentAvatarp->mPlayingAnimations.end();
-		      anim_it++)
+		for ( auto anim_it =
+			      gAgentAvatarp->mPlayingAnimations.cbegin();
+		      anim_it != gAgentAvatarp->mPlayingAnimations.cend();
+		      ++anim_it)
 		{
 			if ((anim_it->first == ANIM_AGENT_DO_NOT_DISTURB)||
 				(anim_it->first == ANIM_AGENT_SIT_GROUND_CONSTRAINED))
@@ -4546,8 +4546,8 @@ void LLAgent::dumpSentAppearance(const std::string& dump_prefix)
 		F32 value = appearance_version_param->getWeight();
 		dump_visual_param(file, appearance_version_param, value);
 	}
-	for (LLAvatarAppearanceDictionary::Textures::const_iterator iter = LLAvatarAppearanceDictionary::getInstance()->getTextures().begin();
-		 iter != LLAvatarAppearanceDictionary::getInstance()->getTextures().end();
+	for (auto iter = LLAvatarAppearanceDictionary::getInstance()->getTextures().cbegin();
+		 iter != LLAvatarAppearanceDictionary::getInstance()->getTextures().cend();
 		 ++iter)
 	{
 		const ETextureIndex index = iter->first;

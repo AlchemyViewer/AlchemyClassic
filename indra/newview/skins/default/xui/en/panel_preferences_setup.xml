@@ -95,13 +95,11 @@
    width="150" />
   <check_box
    control_name="HttpPipelining"
-   enabled="false"
-   visible="false"
    height="16"
    label="Pipeline HTTP Requests"
    layout="topleft"
    left="77"
-   name="connection_port_enabled"
+   name="pipelining_enabled"
    top_pad="-2"
    width="256"
    tool_tip="Enable the pipelining of HTTP requests for faster mesh and texture fetch. (MAY CAUSE INSTABILITY AND CRASHING)" />

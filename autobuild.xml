@@ -1300,11 +1300,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>894aa4a11e5465eab88945ff35c96fb0</string>
+              <string>4e3acd35ff384ebc6f399585c0aeb77a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201709282213.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201711061729.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1892,11 +1892,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>df48885214b3da36b0d5e959d0b3c08c</string>
+              <string>a3615cbbb3aa02bb561f3ee0ba7897ba</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.32-linux64-201709271835.tar.bz2</string>
+              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.34-linux64-201711051519.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>

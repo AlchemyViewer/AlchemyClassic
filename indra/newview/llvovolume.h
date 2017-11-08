@@ -27,7 +27,6 @@
 #ifndef LL_LLVOVOLUME_H
 #define LL_LLVOVOLUME_H
 
-#include "llmemory.h"
 #include "llviewerobject.h"
 #include "llviewertexture.h"
 #include "llviewermedia.h"
@@ -127,8 +126,8 @@ public:
 	/*virtual*/	BOOL	setParent(LLViewerObject* parent) override;
 				S32		getLOD() const override { return mLOD; }
 	const LLVector3		getPivotPositionAgent() const override;
-	const LLMatrix4a&	getRelativeXform() const				{ return mRelativeXform; }
-	const LLMatrix4a&	getRelativeXformInvTrans() const		{ return mRelativeXformInvTrans; }
+	const LLMatrix4&	getRelativeXform() const				{ return mRelativeXform; }
+	const LLMatrix3&	getRelativeXformInvTrans() const		{ return mRelativeXformInvTrans; }
 	/*virtual*/	const LLMatrix4	getRenderMatrix() const override;
 				typedef std::map<LLUUID, S32> texture_cost_t;
 				U32 	getRenderCost(texture_cost_t &textures) const;
@@ -362,8 +361,8 @@ private:
 	BOOL		mLODChanged;
 	BOOL		mSculptChanged;
 	F32			mSpotLightPriority;
-	LL_ALIGN_16(LLMatrix4a	mRelativeXform);
-	LL_ALIGN_16(LLMatrix4a	mRelativeXformInvTrans);
+	LLMatrix4	mRelativeXform;
+	LLMatrix3	mRelativeXformInvTrans;
 	BOOL		mVolumeChanged;
 	F32			mVObjRadius;
 	LLVolumeInterface *mVolumeImpl;

@@ -187,7 +187,7 @@ public:
 	void		setSize(S32 numVertices, S32 num_indices = 0, bool align = false);
 	
 	BOOL		genVolumeBBoxes(const LLVolume &volume, S32 f,
-									const LLMatrix4a& mat_vert_in, BOOL global_volume = FALSE);
+									const LLMatrix4& mat_vert_in, BOOL global_volume = FALSE);
 	
 	void		init(LLDrawable* drawablep, LLViewerObject* objp);
 	void		destroy();
@@ -233,7 +233,7 @@ public:
 	void	notifyAboutMissingAsset(LLViewerTexture *texture);
 
 public: //aligned members
-	LL_ALIGN_16(LLVector4a		mExtents[2]);
+	LLVector4a		mExtents[2];
 
 private:
 	F32         adjustPartialOverlapPixelArea(F32 cos_angle_to_view_dir, F32 radius );

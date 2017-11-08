@@ -128,7 +128,7 @@ public:
 	inline void loadua(const F32* src);
 	
 	// Load only three floats beginning at address 'src'. Slowest method.
-	inline void load3(const F32* src, const F32 w=0.f);
+	inline void load3(const F32* src);
 	
 	// Store to a 16-byte aligned memory address
 	inline void store4a(F32* dst) const;
@@ -284,8 +284,6 @@ public:
 	// Quantize this vector to 8 or 16 bit precision
 	void quantize8( const LLVector4a& low, const LLVector4a& high );
 	void quantize16( const LLVector4a& low, const LLVector4a& high );
-
-	void negate();
 
 	////////////////////////////////////
 	// LOGICAL

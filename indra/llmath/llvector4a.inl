@@ -41,11 +41,11 @@ inline void LLVector4a::loadua(const F32* src)
 }
 
 // Load only three floats beginning at address 'src'. Slowest method.
-inline void LLVector4a::load3(const F32* src, const F32 w)
+inline void LLVector4a::load3(const F32* src)
 {
 	// mQ = { 0.f, src[2], src[1], src[0] } = { W, Z, Y, X }
 	// NB: This differs from the convention of { Z, Y, X, W }
-	mQ = _mm_set_ps(w, src[2], src[1], src[0]);
+	mQ = _mm_set_ps(0.f, src[2], src[1], src[0]);
 }	
 
 // Store to a 16-byte aligned memory address
@@ -536,11 +536,6 @@ inline void LLVector4a::clamp( const LLVector4a& low, const LLVector4a& high )
 	setSelectWithMask( lowMask, low, *this );
 }
 
-inline void LLVector4a::negate()
-{
-	static LL_ALIGN_16(const U32 signMask[4]) = {0x80000000, 0x80000000, 0x80000000, 0x80000000 };
-	mQ = _mm_xor_ps(*reinterpret_cast<const LLQuad*>(signMask), mQ);
-}
 
 ////////////////////////////////////
 // LOGICAL

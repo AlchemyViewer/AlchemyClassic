@@ -42,7 +42,6 @@ public:
     static void checkSkinWeights(LLVector4a* weights, U32 num_vertices, const LLMeshSkinInfo* skin);
     static void scrubSkinWeights(LLVector4a* weights, U32 num_vertices, const LLMeshSkinInfo* skin);
     static void getPerVertexSkinMatrix(F32* weights, LLMatrix4a* mat, bool handle_bad_scale, LLMatrix4a& final_mat, U32 max_joints);
-	static void getPerVertexSkinMatrixSSE(const LLVector4a& weights, LLMatrix4a* mat, bool handle_bad_scale, LLMatrix4a& final_mat, U32 max_joints);
 };
 
 #endif

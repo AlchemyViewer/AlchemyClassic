@@ -1158,18 +1158,17 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 
 			LLMeshSkinInfo& skin_info = model->mSkinInfo;
 
-			LLMatrix4 temp_mat;
 			for (int i = 0; i < 4; i++)
 			{
 				for(int j = 0; j < 4; j++)
 				{
-					temp_mat.mMatrix[i][j] = dom_value[i + j*4];
+					skin_info.mBindShapeMatrix.mMatrix[i][j] = dom_value[i + j*4];
 				}
 			}
 
 			LLMatrix4 trans = normalized_transformation;
-			trans *= temp_mat;
-			skin_info.mBindShapeMatrix.loadu(trans);							
+			trans *= skin_info.mBindShapeMatrix;
+			skin_info.mBindShapeMatrix = trans;							
 		}
 
 

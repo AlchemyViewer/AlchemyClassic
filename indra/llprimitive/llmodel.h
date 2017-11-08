@@ -54,7 +54,7 @@ public:
 	std::vector<LLMatrix4a, boost::alignment::aligned_allocator<LLMatrix4a, 64>> mInvBindMatrix;
 	std::vector<LLMatrix4> mAlternateBindMatrix;
 
-	LLMatrix4a mBindShapeMatrix;
+	LLMatrix4 mBindShapeMatrix;
 	float mPelvisOffset;
     bool mLockScaleIfJointPosition;
     bool mInvalidJointsScrubbed;

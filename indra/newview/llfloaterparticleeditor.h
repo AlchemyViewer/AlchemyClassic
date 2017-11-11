@@ -42,9 +42,10 @@ class LLFloaterParticleEditor : public LLFloater
 {
 public:
 	LLFloaterParticleEditor(const LLSD& key);
-	/* virtual */ ~LLFloaterParticleEditor();
+	~LLFloaterParticleEditor();
 
-	/* virtual */ BOOL postBuild() override;
+	BOOL postBuild() override;
+    BOOL canClose() override;
 
 	void setObject(LLViewerObject* objectp);
 
@@ -52,12 +53,14 @@ private:
 	void clearParticles();
 	void updateParticles();
 	void updateUI();
+    bool hasChanged() const { return mChanged; }
+    bool handleSaveDialog(const LLSD& notification, const LLSD& response);
 
 	std::string createScript();
 
 	void onParameterChange();
 	void onClickCopy();
-	void onClickInject();
+	void injectScript();
 
 	void onClickClearTarget();
 	void onClickTargetPicker();
@@ -65,9 +68,11 @@ private:
 
 	void callbackReturned(const LLUUID& inv_item);
 
-	std::string lslVector(F32 x, F32 y, F32 z);
-	std::string lslColor(const LLColor4& color);
+    static std::string lslVector(F32 x, F32 y, F32 z);
+    static std::string lslColor(const LLColor4& color);
 
+    bool mChanged;
+    bool mCloseAfterSave;
 	LLViewerObject* mObject;
 	LLViewerTexture* mTexture;
 	LLViewerInventoryItem* mParticleScriptInventoryItem;

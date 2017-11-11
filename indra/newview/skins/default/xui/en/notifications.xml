@@ -11791,6 +11791,19 @@ Creating animation link for animation "[NAME]" failed!
 
   <notification
    icon="alertmodal.tga"
+   name="ParticleSaveChanges"
+   type="alertmodal">
+Inject with particle script before closing?
+   <tag>confirm</tag>
+   <usetemplate
+    canceltext="Cancel"
+    name="yesnocancelbuttons"
+    notext="Don&apos;t Inject"
+    yestext="Inject"/>
+  </notification>
+    
+  <notification
+   icon="alertmodal.tga"
    name="ParticleScriptFindFolderFailed"
    type="alertmodal">
 Could not find a folder for the new script in inventory.

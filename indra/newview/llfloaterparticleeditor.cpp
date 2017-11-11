@@ -31,7 +31,6 @@
 #include "llclipboard.h"
 #include "llcolorswatch.h"
 #include "llcombobox.h"
-#include "lldir.h"
 #include "llfoldertype.h"
 #include "llinventorymodel.h"
 #include "llinventorytype.h"
@@ -80,8 +79,8 @@ static const std::map<std::string, lsl_part_st> sParticleBlends{
 };
 
 LLFloaterParticleEditor::LLFloaterParticleEditor(const LLSD& key)
-	: LLFloater(key), mObject(nullptr), mTexture(nullptr), mParticleScriptInventoryItem(nullptr)
-	, mPatternTypeCombo(nullptr), mTexturePicker(nullptr)
+	: LLFloater(key), mChanged(false), mCloseAfterSave(false), mObject(nullptr), mTexture(nullptr)
+    , mParticleScriptInventoryItem(nullptr), mPatternTypeCombo(nullptr), mTexturePicker(nullptr)
 	, mBurstRateCtrl(nullptr), mBurstCountCtrl(nullptr), mBurstRadiusCtrl(nullptr)
 	, mAngleBeginCtrl(nullptr), mAngleEndCtrl(nullptr), mBurstSpeedMinCtrl(nullptr)
 	, mBurstSpeedMaxCtrl(nullptr), mStartAlphaCtrl(nullptr), mEndAlphaCtrl(nullptr)
@@ -167,7 +166,7 @@ BOOL LLFloaterParticleEditor::postBuild()
 
 	mClearTargetButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickClearTarget, this));
 	mPickTargetButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickTargetPicker, this));
-	mInjectScriptButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickInject, this));
+	mInjectScriptButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::injectScript, this));
 	mCopyToLSLButton->setCommitCallback(boost::bind(&LLFloaterParticleEditor::onClickCopy, this));
 
 	mBlendFuncSrcCombo->setValue("blend_src_alpha");
@@ -176,6 +175,46 @@ BOOL LLFloaterParticleEditor::postBuild()
 	onParameterChange();
 
 	return TRUE;
+}
+
+BOOL LLFloaterParticleEditor::canClose()
+{
+    if (!hasChanged())
+    {
+        return TRUE;
+    }
+    else
+    {
+        // Bring up view-modal dialog: Save changes? Yes, No, Cancel
+        LLNotificationsUtil::add("ParticleSaveChanges", LLSD(), LLSD(), boost::bind(&LLFloaterParticleEditor::handleSaveDialog, this, _1, _2));
+        return FALSE;
+    }
+}
+
+bool LLFloaterParticleEditor::handleSaveDialog(const LLSD& notification, const LLSD& response)
+{
+    S32 option = LLNotificationsUtil::getSelectedOption(notification, response);
+    switch (option)
+    {
+    case 0:  // "Yes"
+             // close after saving
+        mCloseAfterSave = true;
+        injectScript();
+        break;
+
+    case 1:  // "No"
+        // This will close immediately because mForceClose is true, so we won't
+        // infinite loop with these dialogs. JC
+        closeFloater();
+        break;
+
+    case 2: // "Cancel"
+    default:
+        // If we were quitting, we didn't really mean it.
+        LLAppViewer::instance()->abortQuit();
+        break;
+    }
+    return false;
 }
 
 void LLFloaterParticleEditor::clearParticles()
@@ -216,6 +255,7 @@ void LLFloaterParticleEditor::setObject(LLViewerObject* objectp)
 
 void LLFloaterParticleEditor::onParameterChange()
 {
+    mChanged = true;
 	mParticles.mPattern = sParticlePatterns.at(mPatternTypeCombo->getSelectedValue()).flag;
 	mParticles.mPartImageID = mTexturePicker->getImageAssetID();
 
@@ -333,7 +373,7 @@ void LLFloaterParticleEditor::onClickTargetPicker()
 {
 	mPickTargetButton->setToggleState(TRUE);
 	mPickTargetButton->setEnabled(FALSE);
-	LLToolObjPicker::getInstance()->setExitCallback(LLFloaterParticleEditor::onTargetPicked, this);
+	LLToolObjPicker::getInstance()->setExitCallback(onTargetPicked, this);
 	LLToolMgr::getInstance()->setTransientTool(LLToolObjPicker::getInstance());
 }
 
@@ -356,11 +396,13 @@ void LLFloaterParticleEditor::onTargetPicked(void* userdata)
 	}
 }
 
-std::string LLFloaterParticleEditor::lslVector(F32 x, F32 y, F32 z)
+/* static */
+std::string LLFloaterParticleEditor::lslVector(const F32 x, const F32 y, const F32 z)
 {
 	return llformat("<%f,%f,%f>", x, y, z);
 }
 
+/* static */
 std::string LLFloaterParticleEditor::lslColor(const LLColor4& color)
 {
 	return lslVector(color.mV[VRED], color.mV[VGREEN], color.mV[VBLUE]);
@@ -406,26 +448,26 @@ default\n\
     }\n\
 }\n");
 
-	const LLUUID& targetKey = mTargetKeyInput->getValue().asUUID();
-	std::string keyString = "llGetKey()";
+	const LLUUID& target_key = mTargetKeyInput->getValue().asUUID();
+	std::string key_string = "llGetKey()";
 
-	if (targetKey.notNull() && targetKey != mObject->getID())
+	if (target_key.notNull() && target_key != mObject->getID())
 	{
-		keyString = "(key) \"" + targetKey.asString() + "\"";
+		key_string = "(key) \"" + target_key.asString() + "\"";
 	}
 
-	LLUUID textureKey = mTexture->getID();
-	std::string textureString;
-	if (textureKey.notNull() && textureKey != IMG_DEFAULT && textureKey != mDefaultParticleTexture->getID())
+	LLUUID texture_key = mTexture->getID();
+	std::string texture_string;
+	if (texture_key.notNull() && texture_key != IMG_DEFAULT && texture_key != mDefaultParticleTexture->getID())
 	{
-		textureString = textureKey.asString();
+		texture_string = texture_key.asString();
 	}
 
 	LLStringUtil::replaceString(script, "[PATTERN]", sParticlePatterns.at(mPatternTypeCombo->getValue()).script_const);
 	LLStringUtil::replaceString(script, "[BURST_RADIUS]", mBurstRadiusCtrl->getValue().asString());
 	LLStringUtil::replaceString(script, "[ANGLE_BEGIN]", mAngleBeginCtrl->getValue().asString());
 	LLStringUtil::replaceString(script, "[ANGLE_END]", mAngleEndCtrl->getValue().asString());
-	LLStringUtil::replaceString(script, "[TARGET_KEY]", keyString);
+	LLStringUtil::replaceString(script, "[TARGET_KEY]", key_string);
 	LLStringUtil::replaceString(script, "[START_COLOR]", lslColor(mStartColorSelector->get()));
 	LLStringUtil::replaceString(script, "[END_COLOR]", lslColor(mEndColorSelector->get()));
 	LLStringUtil::replaceString(script, "[START_ALPHA]", mStartAlphaCtrl->getValue().asString());
@@ -438,7 +480,7 @@ default\n\
 	LLStringUtil::replaceString(script, "[END_SCALE]", lslVector(mScaleEndXCtrl->getValue().asReal(),
 								     mScaleEndYCtrl->getValue().asReal(),
 								     0.0f));
-	LLStringUtil::replaceString(script, "[TEXTURE]", textureString);
+	LLStringUtil::replaceString(script, "[TEXTURE]", texture_string);
 	LLStringUtil::replaceString(script, "[SOURCE_MAX_AGE]", mSourceMaxAgeCtrl->getValue().asString());
 	LLStringUtil::replaceString(script, "[PART_MAX_AGE]", mParticlesMaxAgeCtrl->getValue().asString());
 	LLStringUtil::replaceString(script, "[BURST_RATE]", mBurstRateCtrl->getValue().asString());
@@ -454,31 +496,31 @@ default\n\
 	LLStringUtil::replaceString(script, "[BLEND_FUNC_SOURCE]", sParticleBlends.at(mBlendFuncSrcCombo->getValue().asString()).script_const);
 	LLStringUtil::replaceString(script, "[BLEND_FUNC_DEST]", sParticleBlends.at(mBlendFuncDestCombo->getValue().asString()).script_const);
 
-	std::string delimiter = " |\n                ";
-	std::string flagsString;
+    const std::string delimiter = " |\n                ";
+	std::string flags_string = "";
 
 	if (mBounceCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_BOUNCE_MASK";
+		flags_string += delimiter + "PSYS_PART_BOUNCE_MASK";
 	if (mEmissiveCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_EMISSIVE_MASK";
+		flags_string += delimiter + "PSYS_PART_EMISSIVE_MASK";
 	if (mFollowSourceCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_FOLLOW_SRC_MASK";
+		flags_string += delimiter + "PSYS_PART_FOLLOW_SRC_MASK";
 	if (mFollowVelocityCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_FOLLOW_VELOCITY_MASK";
+		flags_string += delimiter + "PSYS_PART_FOLLOW_VELOCITY_MASK";
 	if (mInterpolateColorCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_INTERP_COLOR_MASK";
+		flags_string += delimiter + "PSYS_PART_INTERP_COLOR_MASK";
 	if (mInterpolateScaleCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_INTERP_SCALE_MASK";
+		flags_string += delimiter + "PSYS_PART_INTERP_SCALE_MASK";
 	if (mTargetLinearCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_TARGET_LINEAR_MASK";
+		flags_string += delimiter + "PSYS_PART_TARGET_LINEAR_MASK";
 	if (mTargetPositionCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_TARGET_POS_MASK";
+		flags_string += delimiter + "PSYS_PART_TARGET_POS_MASK";
 	if (mWindCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_WIND_MASK";
+		flags_string += delimiter + "PSYS_PART_WIND_MASK";
 	if (mRibbonCheckBox->getValue())
-		flagsString += delimiter + "PSYS_PART_RIBBON_MASK";
+		flags_string += delimiter + "PSYS_PART_RIBBON_MASK";
 
-	LLStringUtil::replaceString(script, "[FLAGS]", flagsString);
+	LLStringUtil::replaceString(script, "[FLAGS]", flags_string);
 	LL_DEBUGS("ParticleEditor") << "\n" << script << LL_ENDL;
 
 	return script;
@@ -486,6 +528,7 @@ default\n\
 
 void LLFloaterParticleEditor::onClickCopy()
 {
+    mChanged = false;
 	const std::string& script = createScript();
 	if (!script.empty())
 	{
@@ -494,8 +537,9 @@ void LLFloaterParticleEditor::onClickCopy()
 	}
 }
 
-void LLFloaterParticleEditor::onClickInject()
+void LLFloaterParticleEditor::injectScript()
 {
+    mChanged = false;
 	const LLUUID& categoryID = gInventory.findCategoryUUIDForType(LLFolderType::FT_LSL_TEXT);
 
 	// if no valid folder found bail out and complain
@@ -565,9 +609,7 @@ void LLFloaterParticleEditor::callbackReturned(const LLUUID& inventoryItemID)
 		LLScriptAssetUpload::MONO, true, LLUUID::null, script, proc));
 	LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
 
-	//mMainPanel->setEnabled(FALSE);
-	//setCanClose(FALSE);
-
+    if (mCloseAfterSave) closeFloater();
 }
 
 // ---------------------------------- Callbacks ----------------------------------
@@ -588,7 +630,7 @@ void LLFloaterParticleEditor::LLParticleScriptCreationCallback::fire(const LLUUI
 
 /* static */
 void LLFloaterParticleEditor::finishUpload(LLUUID itemId, LLUUID taskId, LLUUID newAssetId,
-                                           LLSD response, bool isRunning, LLUUID objectId)
+    LLSD response, bool isRunning, LLUUID objectId)
 {
     // make sure there's still an object rezzed
     LLViewerObject* object = gObjectList.findObject(objectId);
@@ -599,6 +641,6 @@ void LLFloaterParticleEditor::finishUpload(LLUUID itemId, LLUUID taskId, LLUUID 
     }
     auto* script = gInventory.getItem(itemId);
     object->saveScript(script, TRUE, FALSE);
-    
+
     LLNotificationsUtil::add("ParticleScriptInjected");
 }

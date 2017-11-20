@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e461d0c41dc81a8a5ecc4c91d1602901</string>
+              <string>810cd5e6287101b5ea440ddbdb1dcaf2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.55.1-windows-201708212225.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.56.1-windows-201711200214.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e8316aa5ba8055d1b211505e31ea98bb</string>
+              <string>84bab7aa69d943b75fbc187df513697f</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.55.1-windows64-201708212222.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.56.1-windows64-201711200053.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.55.1</string>
+        <string>7.56.1</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -2656,11 +2656,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c54e250d3d454772b508e543b4ac9c73</string>
+              <string>0d25e1794f5d86b675484bf5eda799e4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openssl-1.1.0f-windows-201706092157.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/openssl-1.1.0g-windows-201711200028.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2670,18 +2670,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e4aebb0c22d25133faec562fa3d4c254</string>
+              <string>d9d3a2723ffd641e52b58106e7ba39c2</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0f-windows64-201706092144.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0g-windows64-201711161503.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.0f</string>
+        <string>1.1.0g</string>
       </map>
       <key>slvoice</key>
       <map>

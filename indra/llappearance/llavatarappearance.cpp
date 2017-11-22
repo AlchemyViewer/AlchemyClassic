@@ -1725,7 +1725,6 @@ void LLAvatarAppearance::makeJointAliases(LLAvatarBoneInfo *bone_info)
 
 const LLAvatarAppearance::joint_alias_map_t& LLAvatarAppearance::getJointAliases ()
 {
-    LLAvatarAppearance::joint_alias_map_t alias_map;
     if (mJointAliasMap.empty())
     {
         

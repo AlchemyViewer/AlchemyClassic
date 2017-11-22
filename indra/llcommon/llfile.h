@@ -73,7 +73,7 @@ public:
 	static	int		rmdir(const std::string& filename);
 	static	int		remove(const std::string& filename, int supress_error = 0);
 	static	int		rename(const std::string& filename,const std::string&	newname);
-	static  bool	copy(const std::string from, const std::string to);
+	static  bool	copy(const std::string& from, const std::string& to);
 
 	static	int		stat(const std::string&	filename,llstat*	file_status);
 	static	bool	isdir(const std::string&	filename);

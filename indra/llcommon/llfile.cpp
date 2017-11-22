@@ -266,7 +266,7 @@ int	LLFile::rename(const std::string& filename, const std::string& newname)
 	return warnif(STRINGIZE("rename to '" << newname << "' from"), filename, rc);
 }
 
-bool LLFile::copy(const std::string from, const std::string to)
+bool LLFile::copy(const std::string& from, const std::string& to)
 {
 	bool copied = false;
 	LLFILE* in = LLFile::fopen(from, "rb");		/* Flawfinder: ignore */	 	

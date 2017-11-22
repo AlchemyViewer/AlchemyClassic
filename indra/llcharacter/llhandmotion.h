@@ -123,7 +123,7 @@ public:
 	BOOL canDeprecate() override { return FALSE; }
 
 	static std::string getHandPoseName(eHandPose pose);
-	static eHandPose getHandPose(std::string posename);
+	static eHandPose getHandPose(const std::string& posename);
 
 public:
 	//-------------------------------------------------------------------------

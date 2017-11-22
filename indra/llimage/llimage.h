@@ -274,7 +274,7 @@ public:
 	static S32 sRawImageCount;
 
 private:
-	bool validateSrcAndDst(std::string func, LLImageRaw* src, LLImageRaw* dst);
+	bool validateSrcAndDst(const std::string& func, LLImageRaw* src, LLImageRaw* dst);
 };
 
 // Compressed representation of image.

@@ -1701,7 +1701,7 @@ void LLImageRaw::compositeRowScaled4onto3( U8* in, U8* out, S32 in_pixel_len, S3
 	}
 }
 
-bool LLImageRaw::validateSrcAndDst(std::string func, LLImageRaw* src, LLImageRaw* dst)
+bool LLImageRaw::validateSrcAndDst(const std::string& func, LLImageRaw* src, LLImageRaw* dst)
 {
 	if (!src || !dst || src->isBufferInvalid() || dst->isBufferInvalid())
 	{

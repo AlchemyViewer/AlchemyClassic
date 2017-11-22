@@ -64,7 +64,7 @@ public:
 		const LLHost& host,
 		S32 retries,
 		BOOL ping_based_retry,
-		F32Seconds timeout, 
+		const F32Seconds& timeout, 
 		void (*callback)(void**,S32),
 		void** callback_data, char* name)
 	{

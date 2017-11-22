@@ -159,7 +159,7 @@ void LLModel::sortVolumeFacesByMaterialName()
 		}
 	}
 
-	mVolumeFaces = new_faces;	
+	mVolumeFaces = std::move(new_faces);	
 }
 
 void LLModel::trimVolumeFacesToSize(U32 new_count, LLVolume::face_list_t* remainder)
@@ -1334,7 +1334,7 @@ bool LLModel::matchMaterialOrder(LLModel* ref, int& refFaceCnt, int& modelFaceCn
 
 		llassert(new_material_list == ref->mMaterialList);
 		
-		mVolumeFaces = new_face_list;
+		mVolumeFaces = std::move(new_face_list);
 
 		//override material list with reference model ordering
 		mMaterialList = ref->mMaterialList;

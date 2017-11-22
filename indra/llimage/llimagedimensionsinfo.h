@@ -77,7 +77,7 @@ protected:
 		std::string error = message;
 		if (!filename.empty())
 			error += std::string(" FILE: ") + filename;
-		mLastError = error;
+		mLastError = std::move(error);
 	}
 
 

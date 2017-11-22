@@ -323,7 +323,7 @@ BOOL LLVFile::setMaxSize(S32 size)
 			}
 			if (sVFSThread->isPaused())
 			{
-				sVFSThread->update(0);
+				count = sVFSThread->update(0);
 			}
 			ms_sleep(10);
 		}

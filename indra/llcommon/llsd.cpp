@@ -473,7 +473,7 @@ namespace
 		{
 			//std::cout << "  " << (*iter).first << ": " << (*iter).second << std::endl;
 			Impl::calcStats((*iter).second, type_counts, share_counts);
-			iter++;
+			++iter;
 		}
 
 		// Add in the values for this map
@@ -622,7 +622,7 @@ namespace
 		while (iter != endArray())
 		{	// Add values for all items held in the array
 			Impl::calcStats((*iter), type_counts, share_counts);
-			iter++;
+			++iter;
 		}
 
 		// Add in the values for this array

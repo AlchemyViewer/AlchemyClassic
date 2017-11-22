@@ -115,7 +115,7 @@ public:
 			LL_WARNS() << "Data not on priority queue!" << LL_ENDL;
 			// OK, try iterating through all of the data and seeing if we just screwed up the priority
 			// somehow.
-			for (iter = mMap.begin(); iter != mMap.end(); iter++)
+			for (iter = mMap.begin(); iter != mMap.end(); ++iter)
 			{
 				if ((*(iter)).second == data)
 				{

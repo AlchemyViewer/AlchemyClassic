@@ -92,7 +92,7 @@ LLStringTable::~LLStringTable()
 			if (mStringList[i])
 			{
 				string_list_t::iterator iter;
-				for (iter = mStringList[i]->begin(); iter != mStringList[i]->end(); iter++)
+				for (iter = mStringList[i]->begin(); iter != mStringList[i]->end(); ++iter)
 					delete *iter; // *iter = (LLStringTableEntry*)
 			}
 			delete mStringList[i];
@@ -169,7 +169,7 @@ LLStringTableEntry* LLStringTable::checkStringEntry(const char *str)
 		string_hash_t::iterator lower = P.first;
 		string_hash_t::iterator upper = P.second;
 #endif
-		for (string_hash_t::iterator iter = lower; iter != upper; iter++)
+		for (string_hash_t::iterator iter = lower; iter != upper; ++iter)
 		{
 			entry = iter->second;
 			ret_val = entry->mString;
@@ -183,7 +183,7 @@ LLStringTableEntry* LLStringTable::checkStringEntry(const char *str)
 		if (strlist)
 		{
 			string_list_t::iterator iter;
-			for (iter = strlist->begin(); iter != strlist->end(); iter++)
+			for (iter = strlist->begin(); iter != strlist->end(); ++iter)
 			{
 				entry = *iter;
 				ret_val = entry->mString;

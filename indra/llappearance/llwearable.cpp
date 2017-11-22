@@ -519,7 +519,7 @@ std::vector<LLLocalTextureObject*> LLWearable::getLocalTextureListSeq()
 	std::vector<LLLocalTextureObject*> result;
 
 	for(te_map_t::const_iterator iter = mTEMap.begin();
-		iter != mTEMap.end(); iter++)
+		iter != mTEMap.end(); ++iter)
 	{
 		LLLocalTextureObject* lto = iter->second;
 		result.push_back(lto);
@@ -543,7 +543,7 @@ void LLWearable::revertValues()
 
 	//update saved settings so wearable is no longer dirty
 	// non-driver params first
-	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); iter++)
+	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); ++iter)
 	{
 		S32 id = iter->first;
 		F32 value = iter->second;
@@ -555,7 +555,7 @@ void LLWearable::revertValues()
 	}
 
 	//then driver params
-	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); iter++)
+	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); ++iter)
 	{
 		S32 id = iter->first;
 		F32 value = iter->second;
@@ -567,7 +567,7 @@ void LLWearable::revertValues()
 	}
 
 	// make sure that saved values are sane
-	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); iter++)
+	for (param_map_t::const_iterator iter = mSavedVisualParamMap.begin(); iter != mSavedVisualParamMap.end(); ++iter)
 	{
 		S32 id = iter->first;
 		LLVisualParam *param = getVisualParam(id);

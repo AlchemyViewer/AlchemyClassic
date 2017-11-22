@@ -69,7 +69,7 @@ LLJointState* LLPose::getFirstJointState()
 //-----------------------------------------------------------------------------
 LLJointState *LLPose::getNextJointState()
 {
-	mListIter++;
+	++mListIter;
 	if (mListIter == mJointMap.end())
 	{
 		return nullptr;

@@ -213,7 +213,7 @@ bool inventory_and_asset_types_match(LLInventoryType::EType inventory_type,
 
 	for (InventoryEntry::asset_vec_t::const_iterator iter = entry->mAssetTypes.begin();
 		 iter != entry->mAssetTypes.end();
-		 iter++)
+		 ++iter)
 	{
 		const LLAssetType::EType type = (*iter);
 		if(type == asset_type)

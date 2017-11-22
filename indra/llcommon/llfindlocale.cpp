@@ -140,8 +140,14 @@ accumulate_locstring(const char *str, FL_Locale *l) {
       l->variant = variant;
       return 1;
     }
+	if (lang)
+		free(lang); 
+	if(country)
+		free(country); 
+	if(variant)
+		free(variant);
   }
-  free(lang); free(country); free(variant);
+  
   return 0;
 }
 

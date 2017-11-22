@@ -3097,7 +3097,7 @@ void LLViewerRegion::setCapabilityDebug(const std::string& name, const std::stri
 		{
 			mViewerAssetUrl = url;
 		}
-		else if (name == "GetTexure")
+		else if (name == "GetTexture")
 		{
 			mLegacyHttpUrl = url;
 		}

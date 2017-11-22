@@ -86,12 +86,12 @@ public:
 private:
 	struct creation_info
 	{
-		handle_t handle;
 		LLPointer<LLImageFormatted> image;
+		LLPointer<Responder> responder;
+		handle_t handle;
 		U32 priority;
 		S32 discard;
 		BOOL needs_aux;
-		LLPointer<Responder> responder;
 		creation_info(handle_t h, LLImageFormatted* i, U32 p, S32 d, BOOL aux, Responder* r)
 			: handle(h), image(i), priority(p), discard(d), needs_aux(aux), responder(r)
 		{}

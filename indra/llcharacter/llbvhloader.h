@@ -86,23 +86,23 @@ typedef  std::vector<Key> KeyVector;
 //------------------------------------------------------------------------
 struct Joint
 {
-	Joint(const char *name)
+	Joint(const char *name) :
+		mName(name),
+		mIgnore(FALSE),
+		mIgnorePositions(FALSE),
+		mRelativePositionKey(FALSE),
+		mRelativeRotationKey(FALSE),
+		mOutName(name),
+		mNumPosKeys(0),
+		mNumRotKeys(0),
+		mChildTreeMaxDepth(0),
+		mPriority(0),
+		mNumChannels(3)
 	{
-		mName = name;
-		mIgnore = FALSE;
-		mIgnorePositions = FALSE;
-		mRelativePositionKey = FALSE;
-		mRelativeRotationKey = FALSE;
-		mOutName = name;
 		mOrder[0] = 'X';
 		mOrder[1] = 'Y';
 		mOrder[2] = 'Z';
 		mOrder[3] = 0;
-		mNumPosKeys = 0;
-		mNumRotKeys = 0;
-		mChildTreeMaxDepth = 0;
-		mPriority = 0;
-		mNumChannels = 3;
 	}
 
 	// Include aligned members first

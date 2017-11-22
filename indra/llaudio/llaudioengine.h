@@ -463,17 +463,17 @@ struct SoundData
 	S32 type;
 	LLVector3d pos_global;
 
-	SoundData(const LLUUID &audio_uuid, 
-		const LLUUID& owner_id, 
-		const F32 gain, 					  
-		const S32 type = LLAudioEngine::AUDIO_TYPE_NONE,
-		const LLVector3d &pos_global = LLVector3d::zero)
+	SoundData(const LLUUID &audio_uuid_in, 
+		const LLUUID& owner_id_in, 
+		const F32 gain_in,
+		const S32 type_in = LLAudioEngine::AUDIO_TYPE_NONE,
+		const LLVector3d &pos_global_in = LLVector3d::zero) :
+		audio_uuid(audio_uuid_in),
+		owner_id(owner_id_in),
+		gain(gain_in),
+		type(type_in),
+		pos_global(pos_global_in)
 	{
-		this->audio_uuid = audio_uuid;
-		this->owner_id = owner_id;
-		this->gain = gain;
-		this->type = type;
-		this->pos_global = pos_global;
 	}
 };
 

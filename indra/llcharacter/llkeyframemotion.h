@@ -283,7 +283,7 @@ public:
 	{
 	public:
 		ScaleKey() { mTime = 0.0f; }
-		ScaleKey(F32 time, const LLVector3 &scale) { mTime = time; mScale = scale; }
+		ScaleKey(F32 time, const LLVector3 &scale) : mTime(time), mScale(scale) {}
 
 		F32			mTime;
 		LLVector3	mScale;
@@ -296,7 +296,7 @@ public:
 	{
 	public:
 		RotationKey() { mTime = 0.0f; }
-		RotationKey(F32 time, const LLQuaternion &rotation) { mTime = time; mRotation = rotation; }
+		RotationKey(F32 time, const LLQuaternion &rotation) : mTime(time), mRotation(rotation) {}
 
 		F32				mTime;
 		LLQuaternion	mRotation;
@@ -309,7 +309,7 @@ public:
 	{
 	public:
 		PositionKey() { mTime = 0.0f; }
-		PositionKey(F32 time, const LLVector3 &position) { mTime = time; mPosition = position; }
+		PositionKey(F32 time, const LLVector3 &position) : mTime(time), mPosition(position) {}
 
 		F32			mTime;
 		LLVector3	mPosition;

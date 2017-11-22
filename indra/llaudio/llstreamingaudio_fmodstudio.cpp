@@ -553,10 +553,9 @@ LLAudioStreamManagerFMODSTUDIO::LLAudioStreamManagerFMODSTUDIO(FMOD::System *sys
 	mChannelGroup(group),
 	mStreamChannel(nullptr),
 	mInternetStream(nullptr),
-	mReady(false)
+	mReady(false),
+	mInternetStreamURL(url)
 {
-	mInternetStreamURL = url;
-
 	FMOD_RESULT result = mSystem->createStream(url.c_str(), FMOD_2D | FMOD_NONBLOCKING | FMOD_IGNORETAGS, nullptr, &mInternetStream);
 
 	if (result!= FMOD_OK)

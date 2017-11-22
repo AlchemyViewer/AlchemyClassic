@@ -172,7 +172,8 @@ BOOL LLKeyframeStandMotion::onUpdate(F32 time, U8* joint_mask)
 		return FALSE;
 	}
 
-	LLVector3 root_world_pos = mPelvisState->getJoint()->getParent()->getWorldPosition();
+	auto pelvis_state_joint = mPelvisState->getJoint();
+	LLVector3 root_world_pos = pelvis_state_joint->getParent()->getWorldPosition();
 
 	// have we received a valid world position for this avatar?
 	if (root_world_pos.isExactlyZero())
@@ -184,9 +185,9 @@ BOOL LLKeyframeStandMotion::onUpdate(F32 time, U8* joint_mask)
 	// Stop tracking (start locking) ankles once ease in is done.
 	// Setting this here ensures we track until we get valid foot position.
 	//-------------------------------------------------------------------------
-	if (dot(mPelvisState->getJoint()->getWorldRotation(), mLastGoodPelvisRotation) < ROTATION_THRESHOLD)
+	if (dot(pelvis_state_joint->getWorldRotation(), mLastGoodPelvisRotation) < ROTATION_THRESHOLD)
 	{
-		mLastGoodPelvisRotation = mPelvisState->getJoint()->getWorldRotation();
+		mLastGoodPelvisRotation = pelvis_state_joint->getWorldRotation();
 		mLastGoodPelvisRotation.normalize();
 		mTrackAnkles = TRUE;
 	}

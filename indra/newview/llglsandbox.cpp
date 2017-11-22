@@ -942,7 +942,15 @@ F32 gpu_benchmark()
 	std::vector<F32> results;
 
 	//build a random texture
-	U8* pixels = new U8[res*res*4];
+	U8* pixels = nullptr;
+	try
+	{
+		pixels = new U8[res*res * 4];
+	}
+	catch (const std::bad_alloc&)
+	{
+		return -1.f;
+	}
 
 	for (U32 i = 0; i < res*res*4; ++i)
 	{
@@ -955,7 +963,22 @@ F32 gpu_benchmark()
 
 	for (U32 i = 0; i < count; ++i)
 	{ //allocate render targets and textures
-		dest[i].allocate(res,res,GL_RGBA,false, false, LLTexUnit::TT_TEXTURE, true);
+		if (!dest[i].allocate(res, res, GL_RGBA, false, false, LLTexUnit::TT_TEXTURE, true))
+		{
+			delete [] pixels;
+			LLImageGL::deleteTextures(count, source);
+#ifdef GL_ARB_vertex_array_object
+			if (local_init)
+			{
+				if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
+				{
+					glGenVertexArrays(1, &vao);
+					glBindVertexArray(vao);
+				}
+			}
+#endif
+			return -1.f;
+		}
 		dest[i].bindTarget();
 		dest[i].clear();
 		dest[i].flush();
@@ -1037,6 +1060,13 @@ F32 gpu_benchmark()
 	gBenchmarkProgram.unbind();
 
 	LLGLSLShader::finishProfile(false);
+	
+	buff = nullptr;
+
+	for (U32 i = 0; i < count; ++i)
+	{ //release render targets
+		dest[i].release();
+	}
 
 	LLImageGL::deleteTextures(count, source);
 

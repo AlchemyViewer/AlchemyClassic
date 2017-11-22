@@ -481,6 +481,18 @@ private:
 			mErrorData(rhs.mErrorData)
 		{}
 
+        Details& operator=(const Details &rhs)
+        {
+            if (this != &rhs)
+            {
+                mType = rhs.mType;
+                mStatus = rhs.mStatus;
+                mMessage = rhs.mMessage;
+                mErrorData = rhs.mErrorData;
+            }
+            return *this;
+        }
+
         bool operator == (const Details &rhs) const
         {
             return (mType == rhs.mType) && (mStatus == rhs.mStatus);

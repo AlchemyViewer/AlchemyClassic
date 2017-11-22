@@ -48,6 +48,11 @@ public:
 		mIP(INVALID_HOST_IP_ADDRESS)
 	{ } // STL's hash_map expect this T()
 
+	LLHost(const LLHost& rhs)
+	{
+		set(rhs.getAddress(), rhs.getPort());
+	}
+
 	LLHost( U32 ipv4_addr, U32 port )
 	:	mPort( port ) 
 	{

@@ -1543,7 +1543,7 @@ void	LLPanelPeople::onOpen(const LLSD& key)
 		mTabContainer->selectTabByName(tab_name);
 		if(tab_name == BLOCKED_TAB_NAME)
 		{
-			LLPanel* blocked_tab = mTabContainer->getCurrentPanel()->findChild<LLPanel>("panel_block_list_sidetray");
+			LLPanel* blocked_tab = mTabContainer->getCurrentPanel()->findChild<LLPanel>("blocked_panel");
 			if(blocked_tab)
 			{
 				blocked_tab->onOpen(key);

@@ -134,7 +134,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
         bg_alpha_color="DkGray"
         bg_opaque_color="DkGray"
         height="383"
-        name="panel_block_list_sidetray"
+        name="blocked_panel"
         follows="all"
         label="BLOCKED"
         layout="topleft"

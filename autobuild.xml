@@ -408,11 +408,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>810cd5e6287101b5ea440ddbdb1dcaf2</string>
+              <string>da5be630ca350a7ed4c0e99250451d41</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.56.1-windows-201711200214.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/curl-7.56.1-windows-201711241310.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -422,11 +422,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>84bab7aa69d943b75fbc187df513697f</string>
+              <string>98ce0dd80913958020fa94d4fec9c620</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.56.1-windows64-201711200053.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.56.1-windows64-201711231037.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

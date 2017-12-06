@@ -161,7 +161,7 @@ void LLViewerThrottleGroup::sendToSim() const
 	msg->addU32Fast(_PREHASH_GenCounter, 0);
 
 	// Pack up the throttle data
-	U8 tmp[64];
+	U8 tmp[64] = {};
 	LLDataPackerBinaryBuffer dp(tmp, MAX_THROTTLE_SIZE);
 	S32 i;
 	for (i = 0; i < TC_EOF; i++)

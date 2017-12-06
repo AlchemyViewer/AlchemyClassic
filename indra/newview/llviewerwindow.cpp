@@ -1119,78 +1119,80 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 					{
 						LLTextureEntry *te = obj->getTE(object_face);
 
-						// can modify URL if we can modify the object or we have navigate permissions
-						bool allow_modify_url = obj->permModify() || obj->hasMediaPermission( te->getMediaData(), LLVOVolume::MEDIA_PERM_INTERACT );
-
-						if (te && allow_modify_url )
+						if (te)
 						{
-							if (drop)
+							// can modify URL if we can modify the object or we have navigate permissions
+							bool allow_modify_url = obj->permModify() || obj->hasMediaPermission(te->getMediaData(), LLVOVolume::MEDIA_PERM_INTERACT);
+							if (allow_modify_url)
 							{
-								// object does NOT have media already
-								if ( ! te->hasMedia() )
+								if (drop)
 								{
-									// we are allowed to modify the object
-									if ( obj->permModify() )
+									// object does NOT have media already
+									if (!te->hasMedia())
 									{
-										// Create new media entry
-										LLSD media_data;
-										// XXX Should we really do Home URL too?
-										media_data[LLMediaEntry::HOME_URL_KEY] = url;
-										media_data[LLMediaEntry::CURRENT_URL_KEY] = url;
-										media_data[LLMediaEntry::AUTO_PLAY_KEY] = true;
-										obj->syncMediaData(object_face, media_data, true, true);
-										// XXX This shouldn't be necessary, should it ?!?
-										if (obj->getMediaImpl(object_face))
-											obj->getMediaImpl(object_face)->navigateReload();
-										obj->sendMediaDataUpdate();
-
-										result = LLWindowCallbacks::DND_COPY;
-									}
-								}
-								else 
-								// object HAS media already
-								{
-									// URL passes the whitelist
-									if (te->getMediaData()->checkCandidateUrl( url ) )
-									{
-										// just navigate to the URL
-										if (obj->getMediaImpl(object_face))
+										// we are allowed to modify the object
+										if (obj->permModify())
 										{
-											obj->getMediaImpl(object_face)->navigateTo(url);
-										}
-										else 
-										{
-											// This is very strange.  Navigation should
-											// happen via the Impl, but we don't have one.
-											// This sends it to the server, which /should/
-											// trigger us getting it.  Hopefully.
+											// Create new media entry
 											LLSD media_data;
+											// XXX Should we really do Home URL too?
+											media_data[LLMediaEntry::HOME_URL_KEY] = url;
 											media_data[LLMediaEntry::CURRENT_URL_KEY] = url;
+											media_data[LLMediaEntry::AUTO_PLAY_KEY] = true;
 											obj->syncMediaData(object_face, media_data, true, true);
+											// XXX This shouldn't be necessary, should it ?!?
+											if (obj->getMediaImpl(object_face))
+												obj->getMediaImpl(object_face)->navigateReload();
 											obj->sendMediaDataUpdate();
-										}
-										result = LLWindowCallbacks::DND_LINK;
-										
-									}
-								}
-								LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
-								mDragHoveredObject = nullptr;
-							
-							}
-							else 
-							{
-								// Check the whitelist, if there's media (otherwise just show it)
-								if (te->getMediaData() == nullptr || te->getMediaData()->checkCandidateUrl(url))
-								{
-									if ( obj != mDragHoveredObject)
-									{
-										// Highlight the dragged object
-										LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
-										mDragHoveredObject = obj;
-										LLSelectMgr::getInstance()->highlightObjectOnly(mDragHoveredObject);
-									}
-									result = (! te->hasMedia()) ? LLWindowCallbacks::DND_COPY : LLWindowCallbacks::DND_LINK;
 
+											result = LLWindowCallbacks::DND_COPY;
+										}
+									}
+									else
+										// object HAS media already
+									{
+										// URL passes the whitelist
+										if (te->getMediaData()->checkCandidateUrl(url))
+										{
+											// just navigate to the URL
+											if (obj->getMediaImpl(object_face))
+											{
+												obj->getMediaImpl(object_face)->navigateTo(url);
+											}
+											else
+											{
+												// This is very strange.  Navigation should
+												// happen via the Impl, but we don't have one.
+												// This sends it to the server, which /should/
+												// trigger us getting it.  Hopefully.
+												LLSD media_data;
+												media_data[LLMediaEntry::CURRENT_URL_KEY] = url;
+												obj->syncMediaData(object_face, media_data, true, true);
+												obj->sendMediaDataUpdate();
+											}
+											result = LLWindowCallbacks::DND_LINK;
+
+										}
+									}
+									LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
+									mDragHoveredObject = nullptr;
+
+								}
+								else
+								{
+									// Check the whitelist, if there's media (otherwise just show it)
+									if (te->getMediaData() == nullptr || te->getMediaData()->checkCandidateUrl(url))
+									{
+										if (obj != mDragHoveredObject)
+										{
+											// Highlight the dragged object
+											LLSelectMgr::getInstance()->unhighlightObjectOnly(mDragHoveredObject);
+											mDragHoveredObject = obj;
+											LLSelectMgr::getInstance()->highlightObjectOnly(mDragHoveredObject);
+										}
+										result = (!te->hasMedia()) ? LLWindowCallbacks::DND_COPY : LLWindowCallbacks::DND_LINK;
+
+									}
 								}
 							}
 						}
@@ -1991,7 +1993,9 @@ void LLViewerWindow::initWorldUI()
 	gStatusBar->setFollows(FOLLOWS_ALL);
 	gStatusBar->setShape(mStatusBarPanel.get()->getLocalRect());
 	// sync bg color with menu bar
-	gStatusBar->setBackgroundColor( gMenuBarView->getBackgroundColor().get() );
+	if (gMenuBarView) {
+		gStatusBar->setBackgroundColor(gMenuBarView->getBackgroundColor().get());
+	}
 	mStatusBarPanel.get()->addChildInBack(gStatusBar);
 	mStatusBarPanel.get()->setVisible(TRUE);
 
@@ -2000,7 +2004,9 @@ void LLViewerWindow::initWorldUI()
 
 	LLNavigationBar* navbar = LLNavigationBar::getInstance();
 	navbar->setShape(nav_bar_container->getLocalRect());
-	navbar->setBackgroundColor(gMenuBarView->getBackgroundColor().get());
+	if (gMenuBarView) {
+		navbar->setBackgroundColor(gMenuBarView->getBackgroundColor().get());
+	}
 	nav_bar_container->addChild(navbar);
 	nav_bar_container->setVisible(TRUE);
 	
@@ -5384,6 +5390,7 @@ LLPickInfo::LLPickInfo()
 	  mPickTransparent(FALSE),
 	  mPickRigged(FALSE),
 	  mPickParticle(FALSE),
+	  mPickUnselectable(FALSE),
 	  mWantSurfaceInfo(FALSE)
 {
 }

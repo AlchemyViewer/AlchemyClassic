@@ -1330,19 +1330,19 @@ void LLViewerObjectList::removeDrawable(LLDrawable* drawablep)
 
 BOOL LLViewerObjectList::killObject(LLViewerObject *objectp)
 {
-	// Don't ever kill gAgentAvatarp, just force it to the agent's region
-	// unless region is NULL which is assumed to mean you are logging out.
-	if ((objectp == gAgentAvatarp) && gAgent.getRegion())
-	{
-		objectp->setRegion(gAgent.getRegion());
-		return FALSE;
-	}
-
-	// When we're killing objects, all we do is mark them as dead.
-	// We clean up the dead objects later.
-
 	if (objectp)
 	{
+		// Don't ever kill gAgentAvatarp, just force it to the agent's region
+		// unless region is NULL which is assumed to mean you are logging out.
+		if ((objectp == gAgentAvatarp) && gAgent.getRegion())
+		{
+			objectp->setRegion(gAgent.getRegion());
+			return FALSE;
+		}
+
+		// When we're killing objects, all we do is mark them as dead.
+		// We clean up the dead objects later.
+
 		objectp->markDead(); // does the right thing if object already dead
 		return TRUE;
 	}

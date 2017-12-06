@@ -64,6 +64,7 @@ BOOL check_write(LLAPRFile* apr_file, void* src, S32 n_bytes)
 LLVOCacheEntry::LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &dp)
 :	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
 	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
+	mLastCameraUpdated(0),
 	mLocalID(local_id),
 	mParentID(0),
 	mCRC(crc),
@@ -84,6 +85,7 @@ LLVOCacheEntry::LLVOCacheEntry(U32 local_id, U32 crc, LLDataPackerBinaryBuffer &
 LLVOCacheEntry::LLVOCacheEntry()
 :	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
 	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"),
+	mLastCameraUpdated(0),
 	mLocalID(0),
 	mParentID(0),
 	mCRC(0),
@@ -103,6 +105,7 @@ LLVOCacheEntry::LLVOCacheEntry()
 LLVOCacheEntry::LLVOCacheEntry(LLAPRFile* apr_file)
 :	LLViewerOctreeEntryData(LLViewerOctreeEntry::LLVOCACHEENTRY),
 	LLTrace::MemTrackable<LLVOCacheEntry, 16>("LLVOCacheEntry"), 
+	mLastCameraUpdated(0),
 	mParentID(0),
 	mUpdateFlags(-1),
 	mBuffer(nullptr),

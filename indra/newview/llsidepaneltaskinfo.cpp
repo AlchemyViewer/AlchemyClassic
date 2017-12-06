@@ -485,20 +485,14 @@ void LLSidepanelTaskInfo::refresh()
 	BOOL groups_identical = LLSelectMgr::getInstance()->selectGetGroup(group_id);
 	if (groups_identical)
 	{
-		if (mGroupNameBox)
-		{
-			mGroupNameBox->setNameID(group_id,TRUE);
-			mGroupNameBox->setEnabled(TRUE);
-		}
+		mGroupNameBox->setNameID(group_id,TRUE);
+		mGroupNameBox->setEnabled(TRUE);
 	}
 	else
 	{
-		if (mGroupNameBox)
-		{
-			mGroupNameBox->setNameID(LLUUID::null, TRUE);
-			mGroupNameBox->refresh(LLUUID::null, std::string(), true);
-			mGroupNameBox->setEnabled(FALSE);
-		}
+		mGroupNameBox->setNameID(LLUUID::null, TRUE);
+		mGroupNameBox->refresh(LLUUID::null, std::string(), true);
+		mGroupNameBox->setEnabled(FALSE);
 	}
 	
 	mGroupSetButton->setEnabled(owners_identical && (mOwnerID == gAgent.getID()) && is_nonpermanent_enforced);
@@ -968,10 +962,7 @@ void LLSidepanelTaskInfo::onClickGroup()
 
 void LLSidepanelTaskInfo::cbGroupID(LLUUID group_id)
 {
-	if (mGroupNameBox)
-	{
-		mGroupNameBox->setNameID(group_id, TRUE);
-	}
+	mGroupNameBox->setNameID(group_id, TRUE);
 	LLSelectMgr::getInstance()->sendGroup(group_id);
 }
 

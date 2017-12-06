@@ -5582,7 +5582,7 @@ void LLViewerObject::parameterChanged(U16 param_type, LLNetworkData* data, BOOL 
 		if(!regionp) return;
 
 		// Change happened on the viewer. Send the change up
-		U8 tmp[MAX_OBJECT_PARAMS_SIZE];
+		U8 tmp[MAX_OBJECT_PARAMS_SIZE] = {};
 		LLDataPackerBinaryBuffer dpb(tmp, MAX_OBJECT_PARAMS_SIZE);
 		if (data->pack(dpb))
 		{

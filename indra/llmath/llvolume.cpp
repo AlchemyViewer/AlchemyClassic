@@ -2142,7 +2142,7 @@ BOOL LLVolume::generate()
 	F32 profile_detail = mDetail;
 	F32 path_detail = mDetail;
 
-	if ((mParams.getSculptType() & LL_SCULPT_TYPE_MASK) != LL_SCULPT_TYPE_MESH)
+	if (!mParams.isMeshSculpt())
 	{
 		U8 path_type = mParams.getPathParams().getCurveType();
 		U8 profile_type = mParams.getProfileParams().getCurveType();

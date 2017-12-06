@@ -507,9 +507,9 @@ BOOL LLTemplateMessageReader::decodeTemplate(
 	{
 		if (!custom)
 		{
-		LL_WARNS() << "Message #" << std::hex << num << std::dec
+		LL_WARNS_ONCE() << "Message #" << std::hex << num << std::dec
 			<< " received but not registered!" << LL_ENDL;
-		gMessageSystem->callExceptionFunc(MX_UNREGISTERED_MESSAGE);
+		//gMessageSystem->callExceptionFunc(MX_UNREGISTERED_MESSAGE);
 		}
 		return(FALSE);
 	}

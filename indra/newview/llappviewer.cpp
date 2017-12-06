@@ -3369,7 +3369,24 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["GRAPHICS_CARD_VENDOR"] = (const char*)(glGetString(GL_VENDOR));
 	info["GRAPHICS_CARD"] = (const char*)(glGetString(GL_RENDERER));
 
-	info["OPENGL_VERSION"] = (const char*) (glGetString(GL_VERSION));
+#if LL_WINDOWS
+	std::string drvinfo = gDXHardware.getDriverVersionWMI();
+	if (!drvinfo.empty())
+	{
+		info["GRAPHICS_DRIVER_VERSION"] = drvinfo;
+	}
+	else
+	{
+		LL_WARNS("Driver version")<< "Cannot get driver version from getDriverVersionWMI" << LL_ENDL;
+		LLSD driver_info = gDXHardware.getDisplayInfo();
+		if (driver_info.has("DriverVersion"))
+		{
+			info["GRAPHICS_DRIVER_VERSION"] = driver_info["DriverVersion"];
+		}
+	}
+#endif
+
+	info["OPENGL_VERSION"] = (const char*)(glGetString(GL_VERSION));
 
     // Settings
 

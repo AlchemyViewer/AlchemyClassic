@@ -50,6 +50,7 @@
 
 #include <boost/tokenizer.hpp>
 #include <boost/bind.hpp>
+#include <boost/algorithm/string/replace.hpp>
 
 #include "lldispatcher.h"
 #include "llxfermanager.h"
@@ -190,20 +191,21 @@ LLMuteList::~LLMuteList()
 
 BOOL LLMuteList::isLinden(const std::string& name) const
 {
+	std::string username = boost::replace_all_copy(name, ".", " ");
 	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
 	boost::char_separator<char> sep(" ");
-	tokenizer tokens(name, sep);
+	tokenizer tokens(username, sep);
 	tokenizer::iterator token_iter = tokens.begin();
 	
 	if (token_iter == tokens.end()) return FALSE;
 	++token_iter;
 	if (token_iter == tokens.end()) return FALSE;
 	std::string last_name = *token_iter;
-	
+	LLStringUtil::toLower(last_name);
 	if (LLGridManager::getInstance()->isInSecondlife())
 	{
 		// Simple!
-		return last_name == "Linden";
+		return last_name == "linden";
 	}
 	else if (LLGridManager::getInstance()->isInOpenSim())
 	{

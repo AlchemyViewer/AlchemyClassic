@@ -308,6 +308,7 @@ public:
 	bool needsApply(std::string& mesg) override;
 	bool apply(std::string& mesg) override;
 	void update(LLGroupChange gc) override;
+	void onFilterChanged() override;
 
 	void handleActionSelect();
 

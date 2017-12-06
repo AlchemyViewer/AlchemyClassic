@@ -402,6 +402,18 @@ public:
 	void doItem(LLFolderViewItem* item) override;
 };
 
+class LLAllDescendentsPassedFilter : public LLFolderViewFunctor
+{
+public:
+	LLAllDescendentsPassedFilter() : mAllDescendentsPassedFilter(true) {}
+	/*virtual*/ ~LLAllDescendentsPassedFilter() {}
+	/*virtual*/ void doFolder(LLFolderViewFolder* folder);
+	/*virtual*/ void doItem(LLFolderViewItem* item);
+	bool allDescendentsPassedFilter() const { return mAllDescendentsPassedFilter; }
+protected:
+	bool mAllDescendentsPassedFilter;
+};
+
 // Flags for buildContextMenu()
 const U32 SUPPRESS_OPEN_ITEM = 0x1;
 const U32 FIRST_SELECTED_ITEM = 0x2;

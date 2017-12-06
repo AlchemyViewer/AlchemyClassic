@@ -1332,8 +1332,10 @@ void LLPanelOutfitEdit::onOutfitChanging(bool started)
 	S32 delta = started ? indicator_delta : 0;
 	S32 right_border = outfit_status_rect.getWidth() - delta;
 
-	update_status_widget_rect(mCurrentOutfitName, right_border);
-	update_status_widget_rect(mStatus, right_border);
+	if (mCurrentOutfitName)
+		update_status_widget_rect(mCurrentOutfitName, right_border);
+	if (mStatus)
+		update_status_widget_rect(mStatus, right_border);
 
 	mOutfitLoadingIndicator->setVisible(started);
 }

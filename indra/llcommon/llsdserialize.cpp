@@ -2100,14 +2100,18 @@ std::string zip_llsd(LLSD& data)
 			}
 
 			have = CHUNK-strm.avail_out;
-			U8* tmp = (U8*) realloc(output, cur_size+have);
-			if (!tmp)
+			U8* new_output = (U8*) realloc(output, cur_size+have);
+			if (new_output == NULL)
 			{
-				free(output);
-				LL_WARNS() << "Failed to compress LLSD block." << LL_ENDL;
+				LL_WARNS() << "Failed to compress LLSD block: can't reallocate memory, current size: " << cur_size << " bytes; requested " << cur_size + have << " bytes." << LL_ENDL;
+				deflateEnd(&strm);
+				if (output)
+				{
+					free(output);
+				}
 				return std::string();
 			}
-			output = tmp;
+			output = new_output;
 			memcpy(output+cur_size, out, have);
 			cur_size += have;
 		}
@@ -2189,14 +2193,18 @@ bool unzip_llsd(LLSD& data, U8* in, S32 size)
 
 		U32 have = CHUNK-strm.avail_out;
 
-		U8* tmp = (U8*) realloc(result, cur_size + have);
-		if (!tmp)
+		U8* new_result = (U8*)realloc(result, cur_size + have);
+		if (new_result == NULL)
 		{
+			LL_WARNS() << "Failed to unzip LLSD block: can't reallocate memory, current size: " << cur_size << " bytes; requested " << cur_size + have << " bytes." << LL_ENDL;
 			inflateEnd(&strm);
-			free(result);
+			if (result)
+			{
+				free(result);
+			}
 			return false;
 		}
-		result = tmp;
+		result = new_result;
 		memcpy(result+cur_size, out, have);
 		cur_size += have;
 
@@ -2275,15 +2283,18 @@ U8* unzip_llsdNavMesh( bool& valid, unsigned int& outsize, U8* in, S32 size )
 		}
 		U32 have = CHUNK-strm.avail_out;
 
-		U8* tmp = (U8*) realloc(result, cur_size + have);
-		if (!tmp)
+		U8* new_result = (U8*) realloc(result, cur_size + have);
+		if (new_result == NULL)
 		{
+			LL_WARNS() << "Failed to unzip LLSD NavMesh block: can't reallocate memory, current size: " << cur_size << " bytes; requested " << cur_size + have << " bytes." << LL_ENDL;
 			inflateEnd(&strm);
-			free(result);
+			if (result)
+			{
+				free(result);
+			}
 			valid = false;
 			return NULL;
 		}
-		result = tmp;
 		memcpy(result+cur_size, out, have);
 		cur_size += have;
 

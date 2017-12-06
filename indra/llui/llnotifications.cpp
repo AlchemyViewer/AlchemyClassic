@@ -67,7 +67,8 @@ LLNotificationForm::FormIgnore::FormIgnore()
 :	text("text"),
 	save_option("save_option", false),
 	control("control"),
-	invert_control("invert_control", false)
+	invert_control("invert_control", false),
+	session_only("session_only", false)
 {}
 
 LLNotificationForm::FormButton::FormButton()
@@ -125,6 +126,7 @@ bool handleIgnoredNotification(const LLSD& payload)
 		switch(form->getIgnoreType())
 		{
 		case LLNotificationForm::IGNORE_WITH_DEFAULT_RESPONSE:
+		case LLNotificationForm::IGNORE_WITH_DEFAULT_RESPONSE_SESSION_ONLY:
 			response = pNotif->getResponseTemplate(LLNotification::WITH_DEFAULT_BUTTON);
 			break;
 		case LLNotificationForm::IGNORE_WITH_LAST_RESPONSE:
@@ -198,7 +200,7 @@ LLNotificationForm::LLNotificationForm(const std::string& name, const LLNotifica
 
 		if (!p.ignore.save_option)
 		{
-			mIgnore = IGNORE_WITH_DEFAULT_RESPONSE;
+			mIgnore = p.ignore.session_only ? IGNORE_WITH_DEFAULT_RESPONSE_SESSION_ONLY : IGNORE_WITH_DEFAULT_RESPONSE;
 		}
 		else
 		{
@@ -428,7 +430,8 @@ LLNotificationTemplate::LLNotificationTemplate(const LLNotificationTemplate::Par
 	mSoundName(""),
 	mLogToChat(p.log_to_chat),
 	mLogToIM(p.log_to_im),
-    mShowToast(p.show_toast)
+    mShowToast(p.show_toast),
+	mFadeToast(p.fade_toast)
 {
 	if (p.sound.isProvided()
 		&& LLUI::sSettingGroups["config"]->controlExists(p.sound))
@@ -942,6 +945,11 @@ bool LLNotification::canLogToIM() const
 bool LLNotification::canShowToast() const
 {
 	return mTemplatep->mShowToast;
+}
+
+bool LLNotification::canFadeToast() const
+{
+	return mTemplatep->mFadeToast;
 }
 
 bool LLNotification::hasFormElements() const
@@ -1793,6 +1801,18 @@ void LLNotifications::setIgnoreAllNotifications(bool setting)
 bool LLNotifications::getIgnoreAllNotifications()
 {
 	return mIgnoreAllNotifications; 
+}
+
+void LLNotifications::setIgnored(const std::string& name, bool ignored)
+{
+	LLNotificationTemplatePtr templatep = getTemplate(name);
+	templatep->mForm->setIgnored(ignored);
+}
+
+bool LLNotifications::getIgnored(const std::string& name)
+{
+	LLNotificationTemplatePtr templatep = getTemplate(name);
+	return (mIgnoreAllNotifications) || ( (templatep->mForm->getIgnoreType() != LLNotificationForm::IGNORE_NO) && (templatep->mForm->getIgnored()) );
 }
 													
 bool LLNotifications::isVisibleByRules(LLNotificationPtr n)

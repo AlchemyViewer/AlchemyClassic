@@ -1728,11 +1728,7 @@ void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
         mScriptEd->sync();
     }
 
-	if(!gAgent.getRegion())
-	{
-		return;
-	}
-
+    if (!gAgent.getRegion()) return;
     const LLInventoryItem *inv_item = getItem();
     // save it out to asset server
     if(inv_item)

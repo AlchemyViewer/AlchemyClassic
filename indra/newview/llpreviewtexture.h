@@ -67,6 +67,7 @@ public:
 	/*virtual*/ void setObjectID(const LLUUID& object_id) override;
 protected:
 	void				init();
+	void				populateRatioList();
 	/* virtual */ BOOL	postBuild() override;
 	bool				setAspectRatio(const F32 width, const F32 height);
 	static void			onAspectRatioCommit(LLUICtrl*,void* userdata);

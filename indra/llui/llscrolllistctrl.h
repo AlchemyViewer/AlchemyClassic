@@ -204,6 +204,8 @@ public:
 
 	BOOL	isSelected(const LLSD& value) const override;
 
+	BOOL 			hasSelectedItem() const;
+
 	BOOL			handleClick(S32 x, S32 y, MASK mask);
 	BOOL			selectFirstItem() override;
 	BOOL			selectNthItem( S32 index ) override;

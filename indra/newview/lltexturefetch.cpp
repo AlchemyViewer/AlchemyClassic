@@ -4050,11 +4050,6 @@ TFReqSendMetrics::doWork(LLTextureFetch * fetcher)
 	// Limit the size of the stats report if necessary.
 	
 	mStatsSD["truncated"] = truncate_viewer_metrics(10, mStatsSD);
-
-    if (gSavedSettings.getBool("QAModeMetrics"))
-    {
-        dump_sequential_xml("metric_asset_stats",mStatsSD);
-    }
             
 	if (! mCapsURL.empty())
 	{

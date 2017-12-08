@@ -3257,6 +3257,26 @@ bool process_login_success_response(U32& first_sim_size_x, U32& first_sim_size_y
 			LLStringUtil::trim(gDisplayName);
 		}
 	}
+	std::string first_name;
+	if(response.has("first_name"))
+	{
+		first_name = response["first_name"].asString();
+		LLStringUtil::replaceChar(first_name, '"', ' ');
+		LLStringUtil::trim(first_name);
+		gAgentUsername = first_name;
+	}
+
+	if(response.has("last_name") && !gAgentUsername.empty())
+	{
+		std::string last_name = response["last_name"].asString();
+		if (last_name != "Resident")
+		{
+		    LLStringUtil::replaceChar(last_name, '"', ' ');
+		    LLStringUtil::trim(last_name);
+		    gAgentUsername = gAgentUsername + " " + last_name;
+		}
+	}
+
 	if(gDisplayName.empty())
 	{
 		if(response.has("first_name"))

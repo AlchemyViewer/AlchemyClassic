@@ -3415,7 +3415,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["LIBCURL_VERSION"] = LLCore::LLHttp::getCURLVersion();
 	info["J2C_VERSION"] = LLImageJ2C::getEngineInfo();
 	info["FONT_VERSION"] = LLFontFreetype::getVersionString();
-	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(want_fullname)) : "Undefined";
+	info["AUDIO_DRIVER_VERSION"] = gAudiop ? LLSD(gAudiop->getDriverName(true)) : "Undefined";
 	if (LLVoiceClient::getInstance()->voiceEnabled())
 	{
 		LLVoiceVersionInfo version = LLVoiceClient::getInstance()->getVersion();
@@ -4520,7 +4520,7 @@ bool LLAppViewer::initCache()
 	U64 cache_size = (U64)(gSavedSettings.getU32("CacheSize")) * MB;
 	cache_size = llclamp(cache_size, MIN_CACHE_SIZE, MAX_CACHE_SIZE);
 
-	S64 vfs_size = llmin((S64)((cache_size * 2) / 10), MAX_VFS_SIZE);
+	S64 vfs_size = llmin((S64)((cache_size * 2) / 10), (S64)MAX_VFS_SIZE);
 	S64 texture_cache_size = cache_size - vfs_size;
 
 	U64 extra = LLAppViewer::getTextureCache()->initCache(LL_PATH_CACHE, texture_cache_size, texture_cache_mismatch);

@@ -31,7 +31,7 @@
 #include "llinventoryfilter.h"
 
 // viewer includes
-#include "llagent.h"
+#include "llagentdata.h"
 #include "llfolderviewmodel.h"
 #include "llfolderviewitem.h"
 #include "llinventorymodel.h"
@@ -56,7 +56,6 @@ LLInventoryFilter::FilterOps::FilterOps(const Params& p)
 	mFilterObjectTypes(p.object_types),
 	mFilterWearableTypes(p.wearable_types),
 	mFilterCategoryTypes(p.category_types),
-	mFilterWornItems(p.worn_items),
 	mFilterLinks(p.links),
 	mFilterUUID(p.uuid),
 	mMinDate(p.date_range.min_date),

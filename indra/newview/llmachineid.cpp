@@ -48,7 +48,7 @@ public:
     {
         mHR = CoInitializeEx(0, COINIT_MULTITHREADED);
         if (FAILED(mHR))
-            LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x" << hex << mHR << LL_ENDL;
+            LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x" << std::hex << mHR << std::dec << LL_ENDL;
     }
 
     ~LLComInitialize()

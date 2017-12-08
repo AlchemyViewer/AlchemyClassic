@@ -531,7 +531,7 @@ bool LLTextureCacheRemoteWorker::doRead()
 					LL_WARNS() << "LLTextureCacheWorker: "  << mID
 							<< " incorrect number of bytes read from body: " << bytes_read
 							<< " / " << file_size << LL_ENDL;
-					FREE_MEM(LLImageBase::getPrivatePool(), mReadData);
+					ll_aligned_free_16(mReadData);
 					mReadData = NULL;
 					mDataSize = -1; // failed
 					done = true;

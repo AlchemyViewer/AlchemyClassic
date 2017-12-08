@@ -2100,9 +2100,8 @@ LLVolume::~LLVolume()
 
 	mPathp = NULL;
 	mProfilep = NULL;
-	profile_delete_lock.fetch_add(1);
+
 	delete mProfilep;
-	profile_delete_lock.fetch_sub(1);
 
 	mPathp = nullptr;
 	mProfilep = nullptr;

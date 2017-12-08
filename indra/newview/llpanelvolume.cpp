@@ -691,17 +691,16 @@ void LLPanelVolume::onLightCancelColor(const LLSD& data)
 
 void LLPanelVolume::onLightCancelTexture(const LLSD& data)
 {
-        LightTextureCtrl->setImageAssetID(mLightSavedTexture);
 	LLVOVolume *volobjp = (LLVOVolume *) mObject.get();
 
-	if (volobjp && LightTextureCtrl)
+	if (volobjp)
 	{
 		// Cancel the light texture as requested
 		// NORSPEC-292
         //
         // Texture picker triggers cancel both in case of actual cancel and in case of
         // selection of "None" texture.
-        LLUUID tex_id = LightTextureCtrl->getImageAssetID();
+        LLUUID tex_id = mLightTexturePicker->getImageAssetID();
         bool is_spotlight = volobjp->isLightSpotlight();
         volobjp->setLightTextureID(tex_id); //updates spotlight
 

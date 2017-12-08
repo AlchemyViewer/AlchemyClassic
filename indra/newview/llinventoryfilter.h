@@ -57,9 +57,7 @@ public:
         FILTERTYPE_MARKETPLACE_INACTIVE = 0x1 << 7,		// pass if folder is a marketplace inactive folder
         FILTERTYPE_MARKETPLACE_UNASSOCIATED = 0x1 << 8,	// pass if folder is a marketplace non associated (no market ID) folder
         FILTERTYPE_MARKETPLACE_LISTING_FOLDER = 0x1 << 9,	// pass iff folder is a listing folder
-        FILTERTYPE_NO_MARKETPLACE_ITEMS = 0x1 << 10,         // pass iff folder is not under the marketplace
-		FILTERTYPE_WORN = 0x1 << 11		// search by worn items
-
+        FILTERTYPE_NO_MARKETPLACE_ITEMS = 0x1 << 10        // pass iff folder is not under the marketplace
 	};
 
 	enum EFilterDateDirection
@@ -104,8 +102,7 @@ public:
 			Optional<U32>				types;
 			Optional<U64>				object_types,
 										wearable_types,
-										category_types,
-										worn_items;
+										category_types;
 			Optional<EFilterLink>		links;
 			Optional<LLUUID>			uuid;
 			Optional<DateRange>			date_range;
@@ -119,7 +116,6 @@ public:
 				object_types("object_types", 0xffffFFFFffffFFFFULL),
 				wearable_types("wearable_types", 0xffffFFFFffffFFFFULL),
 				category_types("category_types", 0xffffFFFFffffFFFFULL),
-				worn_items("worn_items", 0xffffFFFFffffFFFFULL),
 				links("links", FILTERLINK_INCLUDE_LINKS),
 				uuid("uuid"),
 				date_range("date_range"),
@@ -135,8 +131,7 @@ public:
 		U32 			mFilterTypes;
 		U64				mFilterObjectTypes,   // For _OBJECT
 						mFilterWearableTypes,
-						mFilterCategoryTypes, // For _CATEGORY
-						mFilterWornItems;
+						mFilterCategoryTypes; // For _CATEGORY
 		EFilterLink		mFilterLinks;
 		LLUUID      	mFilterUUID; 		  // for UUID
 
@@ -175,7 +170,6 @@ public:
 	U64 				getFilterObjectTypes() const;
 	U64					getFilterCategoryTypes() const;
 	U64					getFilterWearableTypes() const;
-	U64					getFilterWornItems() const;
 	bool 				isFilterObjectTypesWith(LLInventoryType::EType t) const;
 	void 				setFilterObjectTypes(U64 types);
 	void 				setFilterCategoryTypes(U64 types);
@@ -188,7 +182,6 @@ public:
     void                setFilterMarketplaceListingFolders(bool select_only_listing_folders);
     void                setFilterNoMarketplaceFolder();
 	void				updateFilterTypes(U64 types, U64& current_types);
-	void				setFilterWornItems();
 
 	void 				setFilterSubString(const std::string& string);
 	const std::string& 	getFilterSubString(BOOL trim = FALSE) const;

@@ -1644,34 +1644,3 @@ namespace LLInitParam
 		declare(LLFolderType::lookup(LLFolderType::FT_SUITCASE), LLFolderType::FT_SUITCASE);
 	}
 }
-
-/************************************************************************/
-/* Worn Inventory Panel related class                                   */
-/************************************************************************/
-class LLInventoryWornItemsPanel;
-static LLDefaultChildRegistry::Register<LLInventoryWornItemsPanel> t_worn_items_panel("worn_inventory_panel");
-
-static const LLWornInventoryBridgeBuilder WORN_ITEMS_BUILDER;
-class LLInventoryWornItemsPanel : public LLInventoryPanel
-{
-public:
-	struct Params :	public LLInitParam::Block<Params, LLInventoryPanel::Params>
-	{};
-	
-	void initFromParams(const Params& p)
-	{
-		LLInventoryPanel::initFromParams(p);
-		getFilter().setFilterWornItems();
-	}
-	
-protected:
-	LLInventoryWornItemsPanel (const Params&);
-	friend class LLUICtrlFactory;
-};
-
-LLInventoryWornItemsPanel::LLInventoryWornItemsPanel(const Params& params)
-: LLInventoryPanel(params)
-{
-	// replace bridge builder to have necessary View bridges.
-	mInvFVBridgeBuilder = &WORN_ITEMS_BUILDER;
-}

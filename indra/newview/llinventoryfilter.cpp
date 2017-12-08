@@ -31,10 +31,8 @@
 #include "llinventoryfilter.h"
 
 // viewer includes
-#include "llappearancemgr.h"
 #include "llfolderviewmodel.h"
 #include "llfolderviewitem.h"
-#include "llinventoryfunctions.h"
 #include "llinventorymodel.h"
 #include "llinventorymodelbackgroundfetch.h"
 #include "llinventoryfunctions.h"
@@ -336,20 +334,6 @@ bool LLInventoryFilter::checkAgainstFilterType(const LLFolderViewModelItemInvent
 			}
 		}
 	}
-	
-	////////////////////////////////////////////////////////////////////////////////
-	// FILTERTYPE_WORN
-	// Pass if this item is worn
-	if (filterTypes & FILTERTYPE_WORN)
-	{
-		if (!object) return FALSE;
-		LLUUID cat_id = object->getParentUUID();
-		const LLViewerInventoryCategory *cat = gInventory.getCategory(cat_id);
-		return (get_is_item_worn(object_id)										// if it's worn
-				&& !LLAppearanceMgr::instance().getIsInCOF(object_id)			// if it's not in CoF
-				&& (!cat || cat->getPreferredType() != LLFolderType::FT_OUTFIT)	// if it's not in an outfit
-				&& !object->getIsLinkType());									// and it's not a link
-	}
 
 	return TRUE;
 }
@@ -573,11 +557,6 @@ void LLInventoryFilter::setFilterWearableTypes(U64 types)
 void LLInventoryFilter::setFilterEmptySystemFolders()
 {
 	mFilterOps.mFilterTypes |= FILTERTYPE_EMPTYFOLDERS;
-}
-
-void LLInventoryFilter::setFilterWornItems()
-{
-	mFilterOps.mFilterTypes |= FILTERTYPE_WORN;
 }
 
 void LLInventoryFilter::setFilterMarketplaceActiveFolders()
@@ -1197,11 +1176,6 @@ U64 LLInventoryFilter::getFilterCategoryTypes() const
 U64 LLInventoryFilter::getFilterWearableTypes() const
 {
 	return mFilterOps.mFilterWearableTypes;
-}
-
-U64 LLInventoryFilter::getFilterWornItems() const
-{
-	return mFilterOps.mFilterWornItems;
 }
 
 bool LLInventoryFilter::hasFilterString() const

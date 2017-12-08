@@ -168,11 +168,6 @@ BOOL LLPanelMainInventory::postBuild()
 		recent_filter.markDefault();
 		recent_items_panel->setSelectCallback(boost::bind(&LLPanelMainInventory::onSelectionChange, this, recent_items_panel, _1, _2));
 	}
-	LLInventoryPanel* worn_items_panel = getChild<LLInventoryPanel>("Worn Items");
-	worn_items_panel->setSortOrder(gSavedSettings.getU32(LLInventoryPanel::DEFAULT_SORT_ORDER));
-	worn_items_panel->setShowFolderState(LLInventoryFilter::SHOW_NON_EMPTY_FOLDERS);
-	worn_items_panel->getFilter().markDefault();
-	worn_items_panel->setSelectCallback(boost::bind(&LLPanelMainInventory::onSelectionChange, this, worn_items_panel, _1, _2));
 
 	// Now load the stored settings from disk, if available.
 	std::string filterSaveName(gDirUtilp->getExpandedFilename(LL_PATH_PER_SL_ACCOUNT, FILTERS_FILENAME));
@@ -192,11 +187,10 @@ BOOL LLPanelMainInventory::postBuild()
 			{
 				LLSD recent_items = savedFilterState.get(
 					recent_items_panel->getFilter().getName());
-				LLInventoryPanel::InventoryState p;
+				LLInventoryFilter::Params p;
 				LLParamSDParser parser;
 				parser.readSD(recent_items, p);
-				recent_items_panel->getFilter().fromParams(p.filter);
-				recent_items_panel->setSortOrder(gSavedSettings.getU32(LLInventoryPanel::RECENTITEMS_SORT_ORDER));
+				recent_items_panel->getFilter().fromParams(p);
 			}
 		}
 	}
@@ -709,7 +703,6 @@ void LLPanelMainInventory::setSelectCallback(const LLFolderView::signal_t::slot_
 {
 	getChild<LLInventoryPanel>("All Items")->setSelectCallback(cb);
 	getChild<LLInventoryPanel>("Recent Items")->setSelectCallback(cb);
-	getChild<LLInventoryPanel>("Worn Items")->setSelectCallback(cb);
 }
 
 void LLPanelMainInventory::onSelectionChange(LLInventoryPanel *panel, const std::deque<LLFolderViewItem*>& items, BOOL user_action)

@@ -713,35 +713,6 @@ private:
     mutable S32 m_stockCountCache;
 };
 
-class LLWornInventoryFolderBridge : public LLFolderBridge
-{
-	friend class LLInvFVBridgeAction;
-public:
-	LLWornInventoryFolderBridge(LLInventoryType::EType type,
-								LLInventoryPanel* inventory,
-								LLFolderView* root,
-								const LLUUID& uuid) :
-	LLFolderBridge(inventory, root, uuid)
-	{
-		mInvType = type;
-	}
-	/*virtual*/ void buildContextMenu(LLMenuGL& menu, U32 flags) override;
-};
-
-class LLWornInventoryBridgeBuilder : public LLInventoryFolderViewModelBuilder
-{
-public:
-	LLWornInventoryBridgeBuilder() {}
-	LLInvFVBridge* createBridge(LLAssetType::EType asset_type,
-										LLAssetType::EType actual_asset_type,
-										LLInventoryType::EType inv_type,
-										LLInventoryPanel* inventory,
-										LLFolderViewModelInventory* view_model,
-										LLFolderView* root,
-										const LLUUID& uuid,
-										U32 flags = 0x00) const override;
-};
-
 void rez_attachment(LLViewerInventoryItem* item, 
 					LLViewerJointAttachment* attachment,
 					bool replace = false);

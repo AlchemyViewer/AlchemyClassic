@@ -59,6 +59,11 @@ const S32 EXPANDED_HEIGHT = 266;
 const S32 COLLAPSED_HEIGHT = 60;
 const S32 EXPANDED_MIN_HEIGHT = 150;
 
+bool cb_do_nothing()
+{
+	return false;
+}
+
 LLFloaterIMNearbyChat::LLFloaterIMNearbyChat(const LLSD& llsd)
 :	LLFloaterIMSessionTab(LLSD(LLUUID::null)),
 	mSpeakerMgr(NULL),

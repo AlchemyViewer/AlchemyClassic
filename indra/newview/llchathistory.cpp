@@ -66,6 +66,7 @@
 #include "llviewerobjectlist.h"
 #include "llviewermenu.h"
 #include "llweb.h"
+#include "roles_constants.h"
 
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
 

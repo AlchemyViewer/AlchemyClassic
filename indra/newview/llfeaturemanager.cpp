@@ -478,7 +478,7 @@ void LLFeatureManager::fetchFeatureTableCoro(std::string tableName)
 
 
 #if LL_WINDOWS
-    std::string os_string = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
+    std::string os_string = LLOSInfo::instance().getOSStringSimple();
     std::string filename;
 
     if (os_string.find("Microsoft Windows XP") == 0)

@@ -176,6 +176,8 @@ public:
 
 	virtual BOOL	acceptsTextInput() const override { return TRUE; }
 
+        virtual BOOL	acceptsTextInput() const {return TRUE;}
+
 	protected:
 		void convertInputCoords(S32& x, S32& y);
 

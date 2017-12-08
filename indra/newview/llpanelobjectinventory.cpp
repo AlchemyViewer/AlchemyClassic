@@ -113,6 +113,11 @@ public:
 	const std::string& getDisplayName() const override;
 	const std::string& getSearchableName() const override;
 
+	std::string getSearchableDescription() const override {return LLStringUtil::null;}
+	std::string getSearchableCreatorName() const override {return LLStringUtil::null;}
+	std::string getSearchableUUIDString() const override {return LLStringUtil::null;}
+
+
 	PermissionMask getPermissionMask() const override { return PERM_NONE; }
 	/*virtual*/ LLFolderType::EType getPreferredType() const override { return LLFolderType::FT_NONE; }
 	const LLUUID& getUUID() const override { return mUUID; }

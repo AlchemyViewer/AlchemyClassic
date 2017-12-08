@@ -38,6 +38,28 @@
 unsigned char static_unique_id[] =  {0,0,0,0,0,0};
 bool static has_static_unique_id = false;
 
+#if	LL_WINDOWS
+
+class LLComInitialize
+{
+    HRESULT mHR;
+public:
+    LLComInitialize()
+    {
+        mHR = CoInitializeEx(0, COINIT_MULTITHREADED);
+        if (FAILED(mHR))
+            LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x" << hex << mHR << LL_ENDL;
+    }
+
+    ~LLComInitialize()
+    {
+        if (SUCCEEDED(mHR))
+            CoUninitialize();
+    }
+};
+
+#endif //LL_WINDOWS
+
 // get an unique machine id.
 // NOT THREAD SAFE - do before setting up threads.
 // MAC Address doesn't work for Windows 7 since the first returned hardware MAC address changes with each reboot,  Go figure??
@@ -60,12 +82,7 @@ S32 LLMachineID::init()
         // Step 1: --------------------------------------------------
         // Initialize COM. ------------------------------------------
 
-        hres =  CoInitializeEx(nullptr, COINIT_MULTITHREADED); 
-        if (FAILED(hres))
-        {
-            LL_DEBUGS("AppInit") << "Failed to initialize COM library. Error code = 0x"   << std::hex << hres << std::dec << LL_ENDL;
-            return 1;                  // Program has failed.
-        }
+        LLComInitialize comInit;
 
         // Step 2: --------------------------------------------------
         // Set general COM security levels --------------------------
@@ -90,7 +107,6 @@ S32 LLMachineID::init()
         if (FAILED(hres))
         {
             LL_WARNS("AppInit") << "Failed to initialize security. Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
-            CoUninitialize();
             return 1;                    // Program has failed.
         }
         
@@ -108,7 +124,6 @@ S32 LLMachineID::init()
         if (FAILED(hres))
         {
             LL_WARNS("AppInit") << "Failed to create IWbemLocator object." << " Err code = 0x" << std::hex << hres << std::dec << LL_ENDL;
-            CoUninitialize();
             return 1;                 // Program has failed.
         }
 
@@ -135,7 +150,6 @@ S32 LLMachineID::init()
         {
             LL_WARNS("AppInit") << "Could not connect. Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
             pLoc->Release();     
-            CoUninitialize();
             return 1;                // Program has failed.
         }
 
@@ -161,7 +175,6 @@ S32 LLMachineID::init()
             LL_WARNS("AppInit") << "Could not set proxy blanket. Error code = 0x"   << std::hex << hres << std::dec << LL_ENDL;
             pSvc->Release();
             pLoc->Release();     
-            CoUninitialize();
             return 1;               // Program has failed.
         }
 
@@ -182,7 +195,6 @@ S32 LLMachineID::init()
             LL_WARNS("AppInit") << "Query for operating system name failed." << " Error code = 0x"  << std::hex << hres << std::dec << LL_ENDL;
             pSvc->Release();
             pLoc->Release();
-            CoUninitialize();
             return 1;               // Program has failed.
         }
 
@@ -237,7 +249,6 @@ S32 LLMachineID::init()
             pLoc->Release();
         if (pEnumerator)
             pEnumerator->Release();
-        CoUninitialize();
         ret_code=0;
 #else
         unsigned char * staticPtr = (unsigned char *)(&static_unique_id[0]);

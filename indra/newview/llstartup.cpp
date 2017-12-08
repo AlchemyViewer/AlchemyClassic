@@ -330,7 +330,7 @@ bool idle_startup()
 	LLMortician::updateClass();
 
 	const std::string delims (" ");
-	std::string osString = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
+	std::string osString = LLOSInfo::instance().getOSStringSimple();
 	size_t begIdx = osString.find_first_not_of (delims);
 	size_t endIdx = osString.find_first_of (delims, begIdx);
 	std::string system = osString.substr (begIdx, endIdx - begIdx);
@@ -825,7 +825,8 @@ bool idle_startup()
 
 		// Don't do anything.  Wait for the login view to call the login_callback,
 		// which will push us to the next state.
-		display_startup();
+
+		// display() function will be the one to run display_startup()
 		// Sleep so we don't spin the CPU
 		ms_sleep(1);
 		return FALSE;

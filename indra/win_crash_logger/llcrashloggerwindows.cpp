@@ -385,7 +385,7 @@ bool LLCrashLoggerWindows::initCrashServer()
 	//is a second instance of the viewer will not do crash reporting. 
 	std::wstring wpipe_name = mCrashReportPipeStr + std::wstring(std::to_wstring(mPID));
 
-	std::wstring wdump_path(utf8str_to_utf16str(dump_path) );
+	std::wstring wdump_path(utf8str_to_utf16str(dump_path));
 		
 	//Pipe naming conventions:  http://msdn.microsoft.com/en-us/library/aa365783%28v=vs.85%29.aspx
 	try

@@ -74,6 +74,7 @@ LLScrollContainer::Params::Params()
 	hide_scrollbar("hide_scrollbar"),
 	min_auto_scroll_rate("min_auto_scroll_rate", 100),
 	max_auto_scroll_rate("max_auto_scroll_rate", 1000),
+	max_auto_scroll_zone("max_auto_scroll_zone", 16),
 	bg_color("color"),
 	size("size", -1)
 {}
@@ -91,6 +92,7 @@ LLScrollContainer::LLScrollContainer(const LLScrollContainer::Params& p)
 	mAutoScrollRate( 0.f ),
 	mMinAutoScrollRate(p.min_auto_scroll_rate),
 	mMaxAutoScrollRate(p.max_auto_scroll_rate),
+	mMaxAutoScrollZone(p.max_auto_scroll_zone),
 	mHideScrollbar(p.hide_scrollbar)
 {
 	static LLUICachedControl<S32> scrollbar_size_control ("UIScrollbarSize", 0);
@@ -292,7 +294,21 @@ BOOL LLScrollContainer::handleDragAndDrop(S32 x, S32 y, MASK mask,
 	return TRUE;
 }
 
+bool LLScrollContainer::canAutoScroll(S32 x, S32 y)
+{
+	if (mAutoScrolling)
+	{
+		return true; // already scrolling
+	}
+	return autoScroll(x, y, false);
+}
+
 bool LLScrollContainer::autoScroll(S32 x, S32 y)
+{
+	return autoScroll(x, y, true);
+}
+
+bool LLScrollContainer::autoScroll(S32 x, S32 y, bool do_scroll)
 {
 	static LLUICachedControl<S32> scrollbar_size_control ("UIScrollbarSize", 0);
 	S32 scrollbar_size = (mSize == -1 ? scrollbar_size_control : mSize);
@@ -304,6 +320,8 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 		screenRectToLocal(getRootView()->getLocalRect(), &screen_local_extents);
 
 		LLRect inner_rect_local( 0, mInnerRect.getHeight(), mInnerRect.getWidth(), 0 );
+		// Note: Will also include scrollers as scroll zones, so opposite
+		// scroll zones might have different size due to visible scrollers
 		if(	mScrollbar[HORIZONTAL]->getVisible() )
 		{
 			inner_rect_local.mBottom += scrollbar_size;
@@ -318,8 +336,8 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 
 		S32 auto_scroll_speed = ll_round(mAutoScrollRate * LLFrameTimer::getFrameDeltaTimeF32());
 		// autoscroll region should take up no more than one third of visible scroller area
-		S32 auto_scroll_region_width = llmin(inner_rect_local.getWidth() / 3, 10); 
-		S32 auto_scroll_region_height = llmin(inner_rect_local.getHeight() / 3, 10); 
+		S32 auto_scroll_region_width = llmin(inner_rect_local.getWidth() / 3, (S32)mMaxAutoScrollZone); 
+		S32 auto_scroll_region_height = llmin(inner_rect_local.getHeight() / 3, (S32)mMaxAutoScrollZone); 
 
 		if(	mScrollbar[HORIZONTAL]->getVisible() )
 		{
@@ -327,8 +345,11 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 			left_scroll_rect.mRight = inner_rect_local.mLeft + auto_scroll_region_width;
 			if( left_scroll_rect.pointInRect( x, y ) && (mScrollbar[HORIZONTAL]->getDocPos() > 0) )
 			{
-				mScrollbar[HORIZONTAL]->setDocPos( mScrollbar[HORIZONTAL]->getDocPos() - auto_scroll_speed );
-				mAutoScrolling = TRUE;
+				if (do_scroll)
+				{
+					mScrollbar[HORIZONTAL]->setDocPos(mScrollbar[HORIZONTAL]->getDocPos() - auto_scroll_speed);
+					mAutoScrolling = TRUE;
+				}
 				scrolling = true;
 			}
 
@@ -336,8 +357,11 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 			right_scroll_rect.mLeft = inner_rect_local.mRight - auto_scroll_region_width;
 			if( right_scroll_rect.pointInRect( x, y ) && (mScrollbar[HORIZONTAL]->getDocPos() < mScrollbar[HORIZONTAL]->getDocPosMax()) )
 			{
-				mScrollbar[HORIZONTAL]->setDocPos( mScrollbar[HORIZONTAL]->getDocPos() + auto_scroll_speed );
-				mAutoScrolling = TRUE;
+				if (do_scroll)
+				{
+					mScrollbar[HORIZONTAL]->setDocPos(mScrollbar[HORIZONTAL]->getDocPos() + auto_scroll_speed);
+					mAutoScrolling = TRUE;
+				}
 				scrolling = true;
 			}
 		}
@@ -347,8 +371,11 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 			bottom_scroll_rect.mTop = inner_rect_local.mBottom + auto_scroll_region_height;
 			if( bottom_scroll_rect.pointInRect( x, y ) && (mScrollbar[VERTICAL]->getDocPos() < mScrollbar[VERTICAL]->getDocPosMax()) )
 			{
-				mScrollbar[VERTICAL]->setDocPos( mScrollbar[VERTICAL]->getDocPos() + auto_scroll_speed );
-				mAutoScrolling = TRUE;
+				if (do_scroll)
+				{
+					mScrollbar[VERTICAL]->setDocPos(mScrollbar[VERTICAL]->getDocPos() + auto_scroll_speed);
+					mAutoScrolling = TRUE;
+				}
 				scrolling = true;
 			}
 
@@ -356,8 +383,11 @@ bool LLScrollContainer::autoScroll(S32 x, S32 y)
 			top_scroll_rect.mBottom = inner_rect_local.mTop - auto_scroll_region_height;
 			if( top_scroll_rect.pointInRect( x, y ) && (mScrollbar[VERTICAL]->getDocPos() > 0) )
 			{
-				mScrollbar[VERTICAL]->setDocPos( mScrollbar[VERTICAL]->getDocPos() - auto_scroll_speed );
-				mAutoScrolling = TRUE;
+				if (do_scroll)
+				{
+					mScrollbar[VERTICAL]->setDocPos(mScrollbar[VERTICAL]->getDocPos() - auto_scroll_speed);
+					mAutoScrolling = TRUE;
+				}
 				scrolling = true;
 			}
 		}

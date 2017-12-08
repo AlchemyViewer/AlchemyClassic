@@ -166,7 +166,7 @@ void LLPanelSnapshotPostcard::sendPostcardFinished(LLSD result)
 
 void LLPanelSnapshotPostcard::sendPostcard()
 {
-	if (!gAgent.getRegion()) return;
+    if (!gAgent.getRegion()) return;
 
     // upload the image
     std::string url = gAgent.getRegion()->getCapability("SendPostcard");

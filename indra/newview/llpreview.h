@@ -114,7 +114,8 @@ protected:
 	// for LLInventoryObserver 
 	void changed(U32 mask) override;	
 	BOOL mDirty;
-	
+	BOOL mSaveDialogShown;
+
 	LLUUID mItemUUID;
 
 	// mObjectUUID will have a value if it is associated with a task in

@@ -698,7 +698,7 @@ void LLPanelLogin::loadLoginPage()
 								 LLVersionInfo::getBuild());
 	params["channel"] = LLVersionInfo::getChannel();
 	params["grid"] = LLGridManager::getInstance()->getGridId();
-	params["os"] = LLAppViewer::instance()->getOSInfo().getOSStringSimple();
+	params["os"] = LLOSInfo::instance().getOSStringSimple();
 	params["sourceid"] = gSavedSettings.getString("sourceid");
 
 	// Make an LLURI with this augmented info

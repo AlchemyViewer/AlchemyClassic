@@ -208,6 +208,58 @@ const std::string& LLInvFVBridge::getDisplayName() const
 	return mDisplayName;
 }
 
+std::string LLInvFVBridge::getSearchableDescription() const
+{
+	const LLInventoryModel* model = getInventoryModel();
+	if (model)
+	{
+		const LLInventoryItem *item = model->getItem(mUUID);
+		if(item)
+		{
+			std::string desc = item->getDescription();
+			LLStringUtil::toUpper(desc);
+			return desc;
+		}
+	}
+	return LLStringUtil::null;
+}
+
+std::string LLInvFVBridge::getSearchableCreatorName() const
+{
+	const LLInventoryModel* model = getInventoryModel();
+	if (model)
+	{
+		const LLInventoryItem *item = model->getItem(mUUID);
+		if(item)
+		{
+			LLAvatarName av_name;
+			if (LLAvatarNameCache::get(item->getCreatorUUID(), &av_name))
+			{
+				std::string username = av_name.getUserName();
+				LLStringUtil::toUpper(username);
+				return username;
+			}
+		}
+	}
+	return LLStringUtil::null;
+}
+
+std::string LLInvFVBridge::getSearchableUUIDString() const
+{
+	const LLInventoryModel* model = getInventoryModel();
+	if (model)
+	{
+		const LLViewerInventoryItem *item = model->getItem(mUUID);
+		if(item && (item->getIsFullPerm() || gAgent.isGodlikeWithoutAdminMenuFakery()))
+		{
+			std::string uuid = item->getAssetUUID().asString();
+			LLStringUtil::toUpper(uuid);
+			return uuid;
+		}
+	}
+	return LLStringUtil::null;
+}
+
 // Folders have full perms
 PermissionMask LLInvFVBridge::getPermissionMask() const
 {
@@ -831,6 +883,12 @@ void LLInvFVBridge::getClipboardEntries(bool show_asset_id,
 	if ((flags & FIRST_SELECTED_ITEM) == 0)
 	{
 		disabled_items.push_back(std::string("Properties"));
+	}
+
+	LLInventoryPanel *active_panel = LLInventoryPanel::getActiveInventoryPanel(FALSE);
+	if (active_panel && (active_panel->getName() != "All Items"))
+	{
+		items.push_back(std::string("Show in Main Panel"));
 	}
 }
 
@@ -1597,6 +1655,11 @@ void LLItemBridge::performAction(LLInventoryModel* model, std::string action)
 		gViewerWindow->getWindow()->copyTextToClipboard(utf8str_to_wstring(buffer));
 		return;
 	}
+	else if ("show_in_main_panel" == action)
+	{
+		LLInventoryPanel::openInventoryPanelAndSetSelection(TRUE, mUUID, TRUE);
+		return;
+	}
 	else if ("cut" == action)
 	{
 		cutToClipboard();
@@ -1817,13 +1880,19 @@ void LLItemBridge::buildDisplayName() const
 	{
 		mDisplayName.assign(LLStringUtil::null);
 	}
-	
+	S32 old_length = mSearchableName.length();
+	S32 new_length = mDisplayName.length() + getLabelSuffix().length();
+
 	mSearchableName.assign(mDisplayName);
 	mSearchableName.append(getLabelSuffix());
 	LLStringUtil::toUpper(mSearchableName);
 	
-    //Name set, so trigger a sort
-    if(mParent)
+	if ((old_length > new_length) && getInventoryFilter())
+	{
+		getInventoryFilter()->setModified(LLFolderViewFilter::FILTER_MORE_RESTRICTIVE);
+	}
+	//Name set, so trigger a sort
+	if(mParent)
 	{
 		mParent->requestSort();
 	}
@@ -3089,6 +3158,11 @@ void LLFolderBridge::performAction(LLInventoryModel* model, std::string action)
 	else if ("addtooutfit" == action)
 	{
 		modifyOutfit(TRUE);
+		return;
+	}
+	else if ("show_in_main_panel" == action)
+	{
+		LLInventoryPanel::openInventoryPanelAndSetSelection(TRUE, mUUID, TRUE);
 		return;
 	}
 	else if ("cut" == action)

@@ -721,8 +721,6 @@ BOOL LLPanelScriptLimitsRegionMemory::StartRequestChain()
 	LLParcel* parcel = instance->getCurrentSelectedParcel();
 	LLViewerRegion* region = LLViewerParcelMgr::getInstance()->getSelectionRegion();
 	
-	LLUUID current_region_id = gAgent.getRegion()->getRegionID();
-
 	// <alchemy> Fall back to the parcel we're on if none is selected.
 	// Fixes parcel script info intermittently working and broken in toolbar button.
 	if (!parcel)
@@ -734,6 +732,7 @@ BOOL LLPanelScriptLimitsRegionMemory::StartRequestChain()
 
 	if ((region) && (parcel))
 	{
+		LLUUID current_region_id = gAgent.getRegion()->getRegionID();
 		LLVector3 parcel_center = parcel->getCenterpoint();
 		
 		region_id = region->getRegionID();
@@ -993,6 +992,8 @@ void LLPanelScriptLimitsRegionMemory::onClickReturn(void* userdata)
 
 BOOL LLPanelScriptLimitsAttachment::requestAttachmentDetails()
 {
+	if (!gAgent.getRegion()) return FALSE;
+
 	LLSD body;
 	std::string url = gAgent.getRegion()->getCapability("AttachmentResources");
 	if (!url.empty())

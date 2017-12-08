@@ -1297,7 +1297,7 @@ void LLViewerObjectList::cleanupReferences(LLViewerObject *objectp)
 	// Also, not cleaned up
 	removeDrawable(objectp->mDrawable);
 
-	if (new_dead_object)
+	if(new_dead_object)
 	{
 		mNumDeadObjects++;
 	}

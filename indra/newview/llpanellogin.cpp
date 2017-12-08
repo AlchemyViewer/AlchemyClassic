@@ -75,6 +75,7 @@
 
 LLPanelLogin *LLPanelLogin::sInstance = nullptr;
 BOOL LLPanelLogin::sCapslockDidNotification = FALSE;
+BOOL LLPanelLogin::sCredentialSet = FALSE;
 
 class LLLoginRefreshHandler : public LLCommandHandler
 {
@@ -108,6 +109,7 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	setBackgroundOpaque(TRUE);
 
 	mPasswordModified = FALSE;
+
 	sInstance = this;
 
 	LLView* login_holder = gViewerWindow->getLoginPanelHolder();
@@ -423,6 +425,7 @@ void LLPanelLogin::selectUser(LLPointer<LLCredential> cred, BOOL remember)
 		LL_WARNS() << "Attempted selectUser with no login view shown" << LL_ENDL;
 		return;
 	}
+	sCredentialSet = TRUE;
 	LL_INFOS("Credentials") << "Setting login fields to " << *cred << LL_ENDL;
 
 	auto pUserCombo = sInstance->getChild<LLComboBox>("username_combo");
@@ -754,6 +757,7 @@ void LLPanelLogin::onClickConnect(void *)
 		}
 		else
 		{
+		sCredentialSet = FALSE;
             if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
             {
                 LLNotificationsUtil::add("SecondLifePasswordTooLong");
@@ -776,7 +780,7 @@ void LLPanelLogin::onClickConnect(void *)
 		}
 	}
 }
-
+			
 //static 
 void LLPanelLogin::connectCallback(const LLSD& notification, const LLSD& response)
 {

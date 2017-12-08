@@ -691,18 +691,21 @@ void LLPanelVolume::onLightCancelColor(const LLSD& data)
 
 void LLPanelVolume::onLightCancelTexture(const LLSD& data)
 {
-	mLightTexturePicker->setImageAssetID(mLightSavedTexture);
-
+        LightTextureCtrl->setImageAssetID(mLightSavedTexture);
 	LLVOVolume *volobjp = (LLVOVolume *) mObject.get();
-	if(volobjp)
+
+	if (volobjp && LightTextureCtrl)
 	{
 		// Cancel the light texture as requested
 		// NORSPEC-292
-		//
+        //
+        // Texture picker triggers cancel both in case of actual cancel and in case of
+        // selection of "None" texture.
+        LLUUID tex_id = LightTextureCtrl->getImageAssetID();
         bool is_spotlight = volobjp->isLightSpotlight();
-        volobjp->setLightTextureID(mLightSavedTexture); //updates spotlight
+        volobjp->setLightTextureID(tex_id); //updates spotlight
 
-        if (!is_spotlight && mLightSavedTexture.notNull())
+        if (!is_spotlight && tex_id.notNull())
         {
             LLVector3 spot_params = volobjp->getSpotLightParams();
 			mLightFOV->setValue(spot_params.mV[0]);
@@ -737,7 +740,6 @@ void LLPanelVolume::onLightSelectTexture(const LLSD& data)
 
 	LLUUID id = mLightTexturePicker->getImageAssetID();
 	volobjp->setLightTextureID(id);
-	mLightSavedTexture = id;
 }
 
 // static

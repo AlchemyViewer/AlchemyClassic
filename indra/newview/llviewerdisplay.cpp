@@ -456,6 +456,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			gAgent.setTeleportState( LLAgent::TELEPORT_REQUESTED );
 			gAgent.setTeleportMessage(LLAgent::sTeleportProgressMessages["requesting"]);
 			pProgFloater->setProgressText(LLAgent::sTeleportProgressMessages["requesting"]);
+			gViewerWindow->setProgressMessage(gAgent.mMOTD);
 			break;
 
 		case LLAgent::TELEPORT_REQUESTED:
@@ -532,6 +533,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 		}
 		
 		gViewerWindow->setProgressPercent( percent_done );
+		gViewerWindow->setProgressMessage(std::string());
 	}
 	else
 	if (gRestoreGL)
@@ -553,6 +555,7 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 			
 			gViewerWindow->setProgressPercent( percent_done );
 		}
+		gViewerWindow->setProgressMessage(std::string());
 	}
 
 	//////////////////////////

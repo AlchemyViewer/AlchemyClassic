@@ -62,7 +62,10 @@ public:
 		void (*callback)(S32 option, void* user_data), 
 		void* callback_data);
 
+
 	static void getFields(LLPointer<LLCredential>& credential, BOOL& remember);
+
+	static BOOL isCredentialSet() { return sCredentialSet; }
 
 	static LLSD getIdentifier();
 	static void selectUser(LLPointer<LLCredential> credential, BOOL remember);
@@ -119,6 +122,8 @@ private:
 
 	static LLPanelLogin* sInstance;
 	static BOOL		sCapslockDidNotification;
+    
+    static BOOL sCredentialSet;
 	
 	boost::signals2::connection mGridListChangedConnection;
 };

@@ -4028,7 +4028,8 @@ Download to your Applications folder?
   <notification
    icon="alertmodal.tga"
    name="UpdaterServiceNotRunning"
-   type="alertmodal">
+   type="alertmodal"
+   force_urls_external="true">
 There is a required update for your viewer installation.
 
 You may download this update from https://alchemyviewer.org/

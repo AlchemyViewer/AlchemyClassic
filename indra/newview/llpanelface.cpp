@@ -1381,6 +1381,15 @@ void LLPanelFace::updateShinyControls(bool is_setting_texture, bool mess_with_sh
 			}
 		}
 	}
+	else
+	{
+		if (shiny_texture_ID.isNull() && mComboShiny->itemExists(USE_TEXTURE))
+		{
+			mComboShiny->remove(SHINY_TEXTURE);
+			mComboShiny->selectFirstItem();
+		}
+	}
+
 	
 	bool show_media = mComboMatMedia->getCurrentIndex() == MATMEDIA_MEDIA && mComboMatType->getEnabled();
 	bool show_shininess = (!show_media && mComboMatType->getCurrentIndex() == MATTYPE_SPECULAR

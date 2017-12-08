@@ -2030,13 +2030,8 @@ void LLPathParams::copyParams(const LLPathParams &params)
 	setSkew(params.getSkew());
 }
 
-boost::atomics::atomic_int profile_delete_lock{0}; 
 LLProfile::~LLProfile()
 {
-	if(!profile_delete_lock)
-	{
-		LL_ERRS() << "LLProfile should not be deleted here!" << LL_ENDL ;
-	}
 }
 
 
@@ -2101,6 +2096,10 @@ LLVolume::~LLVolume()
 	sNumMeshPoints -= mMesh.size();
 	delete mPathp;
 
+	delete mProfilep;
+
+	mPathp = NULL;
+	mProfilep = NULL;
 	profile_delete_lock.fetch_add(1);
 	delete mProfilep;
 	profile_delete_lock.fetch_sub(1);

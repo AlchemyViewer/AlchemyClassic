@@ -3827,7 +3827,14 @@ void LLPipeline::postSort(LLCamera& camera)
 	}
 	
 	//flush particle VB
-	LLVOPartGroup::sVB->flush();
+	if (LLVOPartGroup::sVB)
+	{
+		LLVOPartGroup::sVB->flush();
+	}
+	else
+	{
+		LL_WARNS_ONCE() << "Missing particle buffer" << LL_ENDL;
+	}
 
 	//pack vertex buffers for groups that chose to delay their updates
 	for (LLSpatialGroup::sg_vector_t::iterator iter = mMeshDirtyGroup.begin(); iter != mMeshDirtyGroup.end(); ++iter)

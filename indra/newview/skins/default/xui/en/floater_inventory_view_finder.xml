@@ -2,7 +2,7 @@
 <floater
  legacy_header_height="18"
  can_minimize="false"
- height="468"
+ height="470"
  layout="topleft"
  name="Inventory Finder"
  help_topic="inventory_finder"
@@ -248,12 +248,11 @@
      width="144" />
     <view_border
      bevel_style="none"
-     follows="top|left"
      height="0"
      layout="topleft"
-     left="10"
+     left="8"
      name="horiz_separator"
-     top_pad="8"
+     top_delta="17"
      width="205"/>
     <check_box
      height="16"
@@ -261,28 +260,27 @@
      layout="topleft"
      left="8"
      name="check_created_by_me"
-     top_delta="8"
+     top_pad="6"
      width="130" />
     <check_box
      height="16"
      label="Created by others"
      layout="topleft"
-     left_pad="0"
+     left="8"
      name="check_created_by_others"
-     top_delta="0"
+     top_pad="0"
      width="70" />
     <view_border
      bevel_style="none"
-     follows="top|left"
      height="0"
      layout="topleft"
-     left="10"
+     left="8"
      name="horiz_separator2"
-     top_pad="10"
-     width="260"/>
+     top_pad="2"
+     width="205"/>
     <check_box
      height="16"
-     top="324"
+     top="369"
      label="Since Logoff"
      layout="topleft"
      left="8"
@@ -296,10 +294,10 @@
      halign="center"
      height="14"
      layout="topleft"
-     left_delta="50"
+     left_delta="80"
 	 top_pad="0"
      name="- OR -"
-     top="342"
+     top="384"
      width="40">
         - OR -
     </text>

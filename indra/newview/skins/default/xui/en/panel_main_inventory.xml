@@ -30,11 +30,11 @@
    height="23"
    label="Enter search text"
    layout="topleft"
-   left="12"
+   left="5"
    max_length_chars="300"
    name="inventory search editor"
    top="0"
-   width="303" />
+   width="230" />
   <combo_box
    height="23"
    layout="topleft"
@@ -64,12 +64,12 @@
      halign="center"
      height="360"
      layout="topleft"
-     left="7"
+     left="5"
      name="inventory filter tabs"
      tab_position="top"
      tab_min_width="60"
      top_pad="5"
-     width="312"
+     width="327"
      open_tabs_on_drag_and_drop="true">
     <inventory_panel
      bg_opaque_color="DkGray2"
@@ -126,9 +126,9 @@
    layout="topleft"
    orientation="horizontal"
    top_pad="0"
-   left="9"
+   left="5"
    name="bottom_panel"
-   width="309">
+   width="325">
       <layout_panel
        auto_resize="false"
        height="25"

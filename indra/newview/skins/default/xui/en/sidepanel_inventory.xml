@@ -5,7 +5,7 @@
 	  label="Things"
 	  layout="topleft"
 	  name="objects panel"
-	  width="335">
+	  width="328">
     <panel
 		 follows="all"
 		 layout="topleft"
@@ -16,7 +16,7 @@
 		 height="570"
 		 visible="true"
 		 default_tab_group="1"
-		 width="335">
+		 width="328">
       <layout_stack
               follows="left|right|top|bottom"
               layout="topleft"
@@ -26,14 +26,14 @@
               orientation="vertical"
               name="inventory_layout_stack"
               height="560"
-              width="335">
+              width="328">
              <layout_panel
                  name="main_inventory_layout_panel"
                  layout="topleft"
                  auto_resize="true"
                  user_resize="true"
                  min_dim="150"
-                 width="335"
+                 width="328"
                  follows="bottom|left|right"
                  height="290">
                  <panel
@@ -46,10 +46,10 @@
                       top="0"
                       label=""
                       height="300"
-                      width="335" />
+                      width="328" />
              </layout_panel>
              <layout_panel
-                 width="335"
+                 width="328"
                  layout="topleft"
                  auto_resize="false"
                  user_resize="true"
@@ -68,7 +68,7 @@
                       top="0"
                       label=""
                       height="225"
-                      width="335">
+                      width="328">
                      <string name="InboxLabelWithArg">[NUM] Received items</string>
                      <string name="InboxLabelNoArg">No Received items</string>
                      <button
@@ -77,7 +77,7 @@
 												font="SansSerifMedium"
                         name="inbox_btn"
                         height="25"
-                        width="312"
+                        width="322"
                         image_unselected="MarketplaceBtn_Off"
                         image_selected="MarketplaceBtn_Selected"
                         halign="left"
@@ -87,7 +87,7 @@
                         tab_stop="false"
                         pad_left="35"
                         top="0"
-                        left="10" />
+                        left="4" />
                      <text
                         type="string"
                         length="1"
@@ -106,9 +106,9 @@
                      <panel
                         name="inbox_inventory_placeholder_panel"
                         follows="all"
-                        left="10"
+                        left="4"
                         bottom="225"
-                        width="312"
+                        width="322"
                         top="25"
                         bg_opaque_color="InventoryBackgroundColor"
                         background_visible="true"
@@ -121,7 +121,7 @@
 															layout="topleft"
 															top="0"
 															left="0"
-															width="312"
+															width="322"
 															height="200"
 															wrap="true"
 															halign="center">

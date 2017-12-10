@@ -1509,13 +1509,16 @@ void LLFastTimerView::drawBars()
 		{
 			llassert(bar_index < mTimerBarRows.size());
 			TimerBarRow& row = mTimerBarRows[bar_index];
-			row.mTop = frame_bar_rect.mTop;
-			row.mBottom = frame_bar_rect.mBottom;
-			frame_bar_rect.mRight = frame_bar_rect.mLeft 
-									+ ll_round((row.mBars[0].mTotalTime / mTotalTimeDisplay) * mBarRect.getWidth());
- 			drawBar(frame_bar_rect, row, image_width, image_height);
+			if (row.mBars)
+			{
+				row.mTop = frame_bar_rect.mTop;
+				row.mBottom = frame_bar_rect.mBottom;
+				frame_bar_rect.mRight = frame_bar_rect.mLeft
+					+ ll_round((row.mBars[0].mTotalTime / mTotalTimeDisplay) * mBarRect.getWidth());
+				drawBar(frame_bar_rect, row, image_width, image_height);
 
-			frame_bar_rect.translate(0, -(bar_height + vpad));
+				frame_bar_rect.translate(0, -(bar_height + vpad));
+			}
 		}
 
 	}	

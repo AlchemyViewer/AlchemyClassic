@@ -1324,6 +1324,7 @@ void LLShaderMgr::initAttribsAndUniforms()
 	mReservedUniforms.push_back("ssao_factor");
 	mReservedUniforms.push_back("ssao_factor_inv");
 	mReservedUniforms.push_back("ssao_effect");
+	mReservedUniforms.push_back("ssao_scale");
 	mReservedUniforms.push_back("kern_scale");
 	mReservedUniforms.push_back("noise_scale");
 	mReservedUniforms.push_back("near_clip");

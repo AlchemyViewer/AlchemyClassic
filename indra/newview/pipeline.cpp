@@ -273,6 +273,7 @@ static LLTrace::BlockTimerStatHandle FTM_STATESORT_POSTSORT("Post Sort");
 
 static LLStaticHashedString sDelta("delta");
 static LLStaticHashedString sDistFactor("dist_factor");
+static LLStaticHashedString sScreenRes("framebuffer_res");
 
 //----------------------------------------
 std::string gPoolNames[] = 
@@ -7770,6 +7771,7 @@ void LLPipeline::bindDeferredShader(LLGLSLShader& shader, LLRenderTarget* diffus
 	shader.uniform1f(LLShaderMgr::DEFERRED_SSAO_EFFECT, ssao_effect[0]);
 
 	shader.uniform2f(LLShaderMgr::DEFERRED_KERN_SCALE, 1.f / mDeferredScreen.getWidth(), 1.f / mDeferredScreen.getHeight());
+	shader.uniform2f(sScreenRes, mDeferredScreen.getWidth(), mDeferredScreen.getHeight());
 	shader.uniform2f(LLShaderMgr::DEFERRED_NOISE_SCALE, mDeferredScreen.getWidth() / NOISE_MAP_RES, mDeferredScreen.getHeight() / NOISE_MAP_RES);
 
 	shader.uniform1f(LLShaderMgr::SECONDS60, (F32) fmod(LLTimer::getElapsedSeconds(), 60.0)); // <alchemy/>
@@ -7911,7 +7913,7 @@ void LLPipeline::renderDeferredLighting()
 				glClearColor(0,0,0,0);
 
 				F32 ssao_scale = llclamp(RenderDeferredSSAOResolutionScale, .01f, 1.f);
-				gDeferredSunProgram.uniform2f(LLShaderMgr::DEFERRED_KERN_SCALE, ssao_scale, ssao_scale);
+				gDeferredSunProgram.uniform2f(LLShaderMgr::DEFERRED_SSAO_SCALE, ssao_scale, ssao_scale);
 
 				//Enable bilinear filtering, as the screen tex resolution may not match current framebuffer resolution. Eg, half-res SSAO
 				// diffuse map should only be found if the sun shader is the SSAO variant.
@@ -8494,7 +8496,7 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 				bindDeferredShader(gDeferredSunProgram);
 
 				F32 ssao_scale = llclamp(RenderDeferredSSAOResolutionScale, .01f, 1.f);
-				gDeferredSunProgram.uniform2f(LLShaderMgr::DEFERRED_KERN_SCALE, ssao_scale, ssao_scale);
+				gDeferredSunProgram.uniform2f(LLShaderMgr::DEFERRED_SSAO_SCALE, ssao_scale, ssao_scale);
 
 				glClearColor(1,1,1,1);
 				mDeferredLight.clear(GL_COLOR_BUFFER_BIT);

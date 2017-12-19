@@ -94,9 +94,9 @@ public:
 	const std::string& getDisplayName() const override;
 	const std::string& getSearchableName() const override { return mSearchableName; }
 
-	std::string getSearchableDescription() const;
-	std::string getSearchableCreatorName() const;
-	std::string getSearchableUUIDString() const;
+	std::string getSearchableDescription() const override;
+	std::string getSearchableCreatorName() const override;
+	std::string getSearchableUUIDString() const override;
 
 	PermissionMask getPermissionMask() const override;
 	LLFolderType::EType getPreferredType() const override;

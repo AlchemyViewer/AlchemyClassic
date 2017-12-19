@@ -50,7 +50,7 @@ public:
 	virtual ~LLPreviewNotecard();
 	
 	bool saveItem();
-	void setObjectID(const LLUUID& object_id);
+	void setObjectID(const LLUUID& object_id) override;
 
 	// llview
 	void draw() override;

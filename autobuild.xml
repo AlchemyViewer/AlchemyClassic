@@ -572,18 +572,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>959136bef376f300f7edd9c36ef2b778</string>
+              <string>60b671bca011a91acda86d9a0ee47105</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.888-3.3202.1686.gd665578-windows64-201711211332.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/dullahan-1.1.930-3.3239.1706.gcd33baa-windows64-201712201542.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.888-3.3202.1686.gd665578</string>
+        <string>1.1.930-3.3239.1706.gcd33baa</string>
       </map>
       <key>expat</key>
       <map>

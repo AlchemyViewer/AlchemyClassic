@@ -38,7 +38,7 @@
     #ifdef near
     #undef near
     #endif 
-	#include <hunspell/hunspelldll.h>
+    #include <hunspell/hunspell.hxx>
     #pragma pop_macro("near")
 #else
 	#include <hunspell/hunspell.hxx>

@@ -46,6 +46,7 @@
 #elif LL_WINDOWS
 //----------------------------------------------------------------------------
 // LL_WINDOWS
+#include "llwin32headerslean.h"
 #define GLEW_STATIC 1
 #include <GL/glew.h>
 #include <GL/wglew.h>

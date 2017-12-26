@@ -28,6 +28,13 @@
 
 #include "linden_common.h"
 
+#include "llmemory.h"
+
+#include "llthread.h"
+
+#include "llsys.h"
+#include "llframetimer.h"
+#include "lltrace.h"
 
 #if defined(LL_WINDOWS)
 #include "llwin32headerslean.h"
@@ -39,16 +46,9 @@
 # include <mach/mach_init.h>
 #elif LL_LINUX
 # include <unistd.h>
-#endif
+#endif 
 
-#include "llmemory.h"
-
-#include "llthread.h"
-
-#include "llsys.h"
-#include "llframetimer.h"
-#include "lltrace.h"
-//----------------------------------------------------------------------------
+ //----------------------------------------------------------------------------
 
 //static
 U32Kilobytes LLMemory::sAvailPhysicalMemInKB(U32_MAX);

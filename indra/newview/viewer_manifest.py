@@ -396,6 +396,7 @@ class WindowsManifest(ViewerManifest):
                 self.path("dullahan_host.exe")
                 self.path("natives_blob.bin")
                 self.path("snapshot_blob.bin")
+                self.path("v8_context_snapshot.bin")
                 self.path("widevinecdmadapter.dll")
                 self.end_prefix()
         else:
@@ -409,7 +410,21 @@ class WindowsManifest(ViewerManifest):
                 self.path("dullahan_host.exe")
                 self.path("natives_blob.bin")
                 self.path("snapshot_blob.bin")
+                self.path("v8_context_snapshot.bin")
                 self.path("widevinecdmadapter.dll")
+                self.end_prefix()
+
+        # CEF runtime files for software rendering - debug
+        if self.args['configuration'].lower() == 'debug':
+            if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+                self.path("libEGL.dll")
+                self.path("libGLESv2.dll")
+                self.end_prefix()
+        else:
+        # CEF runtime files for software rendering - not debug (release, relwithdebinfo etc.)
+            if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+                self.path("libEGL.dll")
+                self.path("libGLESv2.dll")
                 self.end_prefix()
 
         # CEF files common to all configurations
@@ -478,11 +493,11 @@ class WindowsManifest(ViewerManifest):
             self.path("zh-TW.pak")
             self.end_prefix()
 
-            if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release'), dst="llplugin"):
-                self.path("libvlc.dll")
-                self.path("libvlccore.dll")
-                self.path("plugins/")
-                self.end_prefix()
+        if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release'), dst="llplugin"):
+            self.path("libvlc.dll")
+            self.path("libvlccore.dll")
+            self.path("plugins/")
+            self.end_prefix()
 
         # pull in the crash logger and updater from other projects
         # tag:"crash-logger" here as a cue to the exporter
@@ -1156,6 +1171,7 @@ class LinuxManifest(ViewerManifest):
             self.path("dullahan_host")
             self.path("natives_blob.bin")
             self.path("snapshot_blob.bin")
+            self.path("v8_context_snapshot.bin")
             self.end_prefix()
 
         if self.prefix(src=os.path.join(pkgdir, 'resources'), dst="bin"):

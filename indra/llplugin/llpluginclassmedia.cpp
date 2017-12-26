@@ -788,15 +788,22 @@ F64 LLPluginClassMedia::getCPUUsage()
 	return result;
 }
 
-void LLPluginClassMedia::sendPickFileResponse(const std::string &file)
+void LLPluginClassMedia::sendPickFileResponse(const std::vector<std::string> files)
 {
 	LLPluginMessage message(LLPLUGIN_MESSAGE_CLASS_MEDIA, "pick_file_response");
-	message.setValue("file", file);
 	if(mPlugin && mPlugin->isBlocked())
 	{
 		// If the plugin sent a blocking pick-file request, the response should unblock it.
 		message.setValueBoolean("blocking_response", true);
 	}
+
+	LLSD file_list = LLSD::emptyArray();
+	for (std::vector<std::string>::const_iterator in_iter = files.begin(); in_iter != files.end(); ++in_iter)
+	{
+		file_list.append(LLSD::String(*in_iter));
+	}
+	message.setValueLLSD("file_list", file_list);
+
 	sendMessage(message);
 }
 
@@ -1083,6 +1090,7 @@ void LLPluginClassMedia::receivePluginMessage(const LLPluginMessage &message)
 		}
 		else if(message_name == "pick_file")
 		{
+			mIsMultipleFilePick = message.getValueBoolean("multiple_files");
 			mediaEvent(LLPluginClassMediaOwner::MEDIA_EVENT_PICK_FILE_REQUEST);
 		}
 		else if(message_name == "auth_request")
@@ -1144,7 +1152,12 @@ void LLPluginClassMedia::receivePluginMessage(const LLPluginMessage &message)
 		{
 			mClickURL = message.getValue("uri");
 			mClickTarget = message.getValue("target");
-			mClickUUID = message.getValue("uuid");
+
+			// need a link to have a UUID that identifies it to a system further
+			// upstream - plugin could make it but we have access to LLUUID here
+			// so why don't we use it
+			mClickUUID = LLUUID::generateNewID().asString();
+
 			mediaEvent(LLPluginClassMediaOwner::MEDIA_EVENT_CLICK_LINK_HREF);
 		}
 		else if(message_name == "click_nofollow")

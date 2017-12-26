@@ -181,11 +181,6 @@ public:
         }
     }
 
-	bool adjacent_tokens_only() const override
-	{
-		return false;
-	}
-
 protected:
     void xparse(boost::any& value_store,
          const std::vector<std::string>& new_tokens) const override

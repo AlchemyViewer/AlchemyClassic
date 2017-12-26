@@ -252,18 +252,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c92e5fe414a014bb9a4236f130a2ac75</string>
+              <string>6faba32dcfb80c26bafd4a3e06cff268</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/boost-1.63.0-windows64-201703280907.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/boost-1.66.0-windows64-201712260832.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.63.0</string>
+        <string>1.66.0</string>
       </map>
       <key>colladadom</key>
       <map>
@@ -336,11 +336,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>694e43857efae2ae0c2bab238562ac1b</string>
+              <string>65628150b732274f0bdd0fa33d6ca650</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/colladadom-2.3-windows64-201703281827.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/colladadom-2.3-windows64-201712260938.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>98ce0dd80913958020fa94d4fec9c620</string>
+              <string>7b56b59c56389a8943a04b24bb22ada4</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/curl-7.56.1-windows64-201711231037.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/curl-7.57.0-windows64-201712260745.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.56.1</string>
+        <string>7.57.0</string>
       </map>
       <key>dbus-glib</key>
       <map>
@@ -908,18 +908,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9eeb8e73813301ab34882b38aef754f7</string>
+              <string>7c028ec152b1dee1313c084d96a5d276</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/freetype-2.8.0-windows64-201710192341.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/freetype-2.8.1-windows64-201712260751.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.8.0</string>
+        <string>2.8.1</string>
       </map>
       <key>glew</key>
       <map>
@@ -1920,11 +1920,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>6df418a0d0fba1bd7701b9a922866d63</string>
+              <string>528889464c0766d762bd528cf82558db</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libpng-1.6.34-windows64-201710172151.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/libpng-1.6.34-windows64-201712260746.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -2006,18 +2006,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>409b28b6a8690264054815dbc316f897</string>
+              <string>f69b1d4ec7ffdeec4429413ea640583d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/libxml2-2.9.4-windows64-201703081014.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/libxml2-2.9.7-windows64-201712260755.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.9.4</string>
+        <string>2.9.7</string>
       </map>
       <key>llappearance_utility</key>
       <map>
@@ -2670,11 +2670,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>d9d3a2723ffd641e52b58106e7ba39c2</string>
+              <string>bd35903f309ccf026a2c448fd8613cc0</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/openssl-1.1.0g-windows64-201711161503.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/openssl-1.1.0g-windows64-201712260729.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3134,11 +3134,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>4a66976f82f1757a9d9d20b4c5cbbbcc</string>
+              <string>ed6da4296e2fdfc132b4f12d35890ada</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/zlib-1.2.11-windows64-201703080732.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/zlib-1.2.11-windows64-201712260711.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
@@ -3845,7 +3845,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                 </array>
               </map>
               <key>name</key>
@@ -3876,7 +3876,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
                 </array>
@@ -3906,7 +3906,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                 </array>
               </map>
               <key>default</key>
@@ -3939,7 +3939,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -3970,7 +3970,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                 </array>
               </map>
               <key>name</key>
@@ -4001,7 +4001,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                 </array>
@@ -4047,7 +4047,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUSE_KDU:BOOL=OFF</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
@@ -4078,7 +4078,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4110,7 +4110,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -4141,7 +4141,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4175,7 +4175,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -4208,7 +4208,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4240,7 +4240,7 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 Win64"</string>
-                  <string>-DCMAKE_SYSTEM_VERSION="10.0.14393.0"</string>
+                  <string>-DCMAKE_SYSTEM_VERSION="10.0.16299.0"</string>
                   <string>-DWORD_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>

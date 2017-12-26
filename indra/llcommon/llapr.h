@@ -34,6 +34,7 @@
 #endif
 
 #include "llwin32headers.h"
+#include <apr_pools.h>
 #include <apr_dso.h>
 #include <apr_file_io.h>
 #include <apr_network_io.h>

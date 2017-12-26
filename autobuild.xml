@@ -166,18 +166,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>101e836c5be2846486a914830bae9aad</string>
+              <string>1e7eb1da6e3e792db85f59012680a877</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/apr_suite-1.5.2-windows64-201703081203.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/apr_suite-1.6.3-1.6.1-1.2.2-windows64-201712260041.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.5.2</string>
+        <string>1.6.3-1.6.1-1.2.2</string>
       </map>
       <key>boost</key>
       <map>
@@ -588,7 +588,7 @@
       <key>expat</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1998-2000 Thai Open Source Software Center Ltd and Clark Cooper - Copyright (c) 2001-2016 Expat maintainers</string>
+        <string>Copyright (c) 1998-2000 Thai Open Source Software Center Ltd and Clark Cooper - Copyright (c) 2001-2017 Expat maintainers</string>
         <key>description</key>
         <string>Expat is an XML parser library written in C</string>
         <key>license</key>
@@ -658,18 +658,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>ed22940068899e8b63f2170a83235959</string>
+              <string>db56a24bbac59d9ad8b98d40b7140c29</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/expat-2.2.0-windows64-201703081148.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/expat-2.2.5-windows64-201712251923.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>2.2.0</string>
+        <string>2.2.5</string>
       </map>
       <key>fmodstudio</key>
       <map>
@@ -3046,11 +3046,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>92eb7cdfbe90cc7e171f6b5013da38fc</string>
+              <string>59f0be2732e93eceaa155d98c2fcee9c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc141/xmlrpc_epi-0.54.2-windows64-201703081154.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/xmlrpc_epi-0.54.2-windows64-201712260035.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>

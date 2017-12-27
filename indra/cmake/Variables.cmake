@@ -182,7 +182,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message( FATAL_ERROR "Xcode 8.0.0 or greater is required." )
   endif (XCODE_VERSION LESS 8.0.0)
   message( "Building with " ${CMAKE_OSX_SYSROOT} )
-  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.8)
+  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 
   set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
   set(CMAKE_XCODE_ATTRIBUTE_GCC_OPTIMIZATION_LEVEL 3)

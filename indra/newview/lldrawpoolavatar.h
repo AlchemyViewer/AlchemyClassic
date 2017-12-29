@@ -291,5 +291,4 @@ extern S32 AVATAR_OFFSET_TEX1;
 extern S32 AVATAR_VERTEX_BYTES;
 const S32 AVATAR_BUFFER_ELEMENTS = 8192; // Needs to be enough to store all avatar vertices.
 
-extern BOOL gAvatarEmbossBumpMap;
 #endif // LL_LLDRAWPOOLAVATAR_H

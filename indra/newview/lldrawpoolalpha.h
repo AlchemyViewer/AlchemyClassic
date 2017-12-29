@@ -63,7 +63,6 @@ public:
 	void render(S32 pass = 0) override;
 	/*virtual*/ void prerender() override;
 
-	void renderGroupAlpha(LLSpatialGroup* group, U32 type, U32 mask, BOOL texture = TRUE);
 	void renderAlpha(U32 mask, S32 pass);
 	void renderAlphaHighlight(U32 mask);
 		
@@ -81,13 +80,6 @@ private:
 	LLRender::eBlendFactor mColorDFactor;	
 	LLRender::eBlendFactor mAlphaSFactor;
 	LLRender::eBlendFactor mAlphaDFactor;
-};
-
-class LLDrawPoolAlphaPostWater : public LLDrawPoolAlpha
-{
-public:
-	LLDrawPoolAlphaPostWater();
-	void render(S32 pass = 0) override;
 };
 
 #endif // LL_LLDRAWPOOLALPHA_H

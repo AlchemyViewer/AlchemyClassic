@@ -367,8 +367,7 @@ bool before(const std::type_info* lhs, const std::type_info* rhs)
 namespace std
 {
 	template <>
-	struct less<const std::type_info*>:
-		public std::binary_function<const std::type_info*, const std::type_info*, bool>
+	struct less<const std::type_info*>
 	{
 		bool operator()(const std::type_info* lhs, const std::type_info* rhs) const
 		{
@@ -377,8 +376,7 @@ namespace std
 	};
 
 	template <>
-	struct less<std::type_info*>:
-		public std::binary_function<std::type_info*, std::type_info*, bool>
+	struct less<std::type_info*>
 	{
 		bool operator()(std::type_info* lhs, std::type_info* rhs) const
 		{

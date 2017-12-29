@@ -335,10 +335,9 @@ const char *LLFile::tmpdir()
 #if LL_WINDOWS
 		sep = '\\';
 
-		DWORD len = GetTempPathW(0, L"");
 		llutf16string utf16path;
-		utf16path.resize(len + 1);
-		len = GetTempPathW(static_cast<DWORD>(utf16path.size()), &utf16path[0]);
+		utf16path.resize(MAX_PATH + 1);
+		GetTempPathW(static_cast<DWORD>(utf16path.size()-1), &utf16path[0]);
 		utf8path = utf16str_to_utf8str(utf16path);
 #else
 		sep = '/';

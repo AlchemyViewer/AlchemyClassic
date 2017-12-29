@@ -146,10 +146,7 @@ private:
     // specialize 'less' rather than just defining a specific comparator
     // because LLSortedVector should be usable for other key_types as well.
     template <typename T>
-    struct less< std::pair<std::type_info*, T> >:
-        public std::binary_function<std::pair<std::type_info*, T>,
-                                    std::pair<std::type_info*, T>,
-                                    bool>
+    struct less< std::pair<std::type_info*, T> >
     {
         bool operator()(const std::pair<std::type_info*, T>& lhs,
                         const std::pair<std::type_info*, T>& rhs) const
@@ -160,10 +157,7 @@ private:
 
     // Same as above, but with const std::type_info*.
     template <typename T>
-    struct less< std::pair<const std::type_info*, T> >:
-        public std::binary_function<std::pair<const std::type_info*, T>,
-                                    std::pair<const std::type_info*, T>,
-                                    bool>
+    struct less< std::pair<const std::type_info*, T> >
     {
         bool operator()(const std::pair<const std::type_info*, T>& lhs,
                         const std::pair<const std::type_info*, T>& rhs) const

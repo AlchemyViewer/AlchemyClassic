@@ -96,21 +96,21 @@ public:
 		: BaseType()
 	{}
 
-	explicit stream_wrapper(char const * _Filename, std::ios_base::open_mode _Mode = DEFAULT_MODE)
+	explicit stream_wrapper(char const * _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE)
 		: BaseType(utf8str_to_utf16str(_Filename).c_str(), _Mode)
 	{
 	}
 
-	explicit stream_wrapper(const std::string& _Filename, std::ios_base::open_mode _Mode = DEFAULT_MODE)
+	explicit stream_wrapper(const std::string& _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE)
 		: BaseType(utf8str_to_utf16str(_Filename), _Mode)
 	{
 	}
 
-	void open(char const* _Filename, std::ios_base::open_mode _Mode = DEFAULT_MODE) {
+	void open(char const* _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE) {
 		BaseType::open(utf8str_to_utf16str(_Filename).c_str(), _Mode);
 	}
 
-	void open(const std::string& _Filename, std::ios_base::open_mode _Mode = DEFAULT_MODE) {
+	void open(const std::string& _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE) {
 		BaseType::open(utf8str_to_utf16str(_Filename), _Mode);
 	}
 };

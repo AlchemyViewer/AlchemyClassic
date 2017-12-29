@@ -95,10 +95,13 @@ if (WINDOWS)
       /TP
       /W3
       /c
-      /Zc:wchar_t
+      /Zc:externConstexpr
       /Zc:forScope
+      /Zc:referenceBinding
       /Zc:rvalueCast
+      /Zc:strictStrings
       /Zc:throwingNew
+      /Zc:wchar_t
       /nologo
       /Oy-
       /fp:fast

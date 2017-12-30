@@ -154,6 +154,11 @@ attributedStringInfo getSegments(NSAttributedString *str)
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowDidBecomeKey:) name:NSWindowDidBecomeKeyNotification
 											   object:[self window]];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(windowDidChangeBackingProperties:) name:NSWindowDidChangeBackingPropertiesNotification
+                                               object:[self window]];
+    
 	NSRect rect = [[self window] frame];
 	NSRect scaled_rect = [self convertRectToBacking:rect];
 	if (rect.size.height != scaled_rect.size.height || rect.size.width != scaled_rect.size.width)
@@ -185,6 +190,16 @@ attributedStringInfo getSegments(NSAttributedString *str)
 - (void)windowDidBecomeKey:(NSNotification *)notification;
 {
     mModifiers = [NSEvent modifierFlags];
+}
+
+- (void)windowDidChangeBackingProperties:(NSNotification *)notification;
+{
+    if (NSAppKitVersionNumber >= NSAppKitVersionNumber10_7)
+    {
+        NSSize size = [self frame].size;
+        NSSize scaled_size = [self convertSizeToBacking:size];
+        callResize(scaled_size.width, scaled_size.height);
+    }
 }
 
 - (void)dealloc
@@ -337,6 +352,9 @@ attributedStringInfo getSegments(NSAttributedString *str)
         callRightMouseUp(mMousePos, [theEvent modifierFlags]);
         mSimulatedRightClick = false;
     } else {
+        NSPoint mPoint = [self convertPointToBacking:[theEvent locationInWindow]];
+        mMousePos[0] = mPoint.x;
+        mMousePos[1] = mPoint.y;
         callLeftMouseUp(mMousePos, [theEvent modifierFlags]);
     }
 }

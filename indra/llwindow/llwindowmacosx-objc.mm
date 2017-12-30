@@ -334,10 +334,10 @@ void convertRectFromScreen(NSWindowRef window, float *coord)
 void convertWindowToScreen(NSWindowRef window, float *coord)
 {
 	LLNSWindow *nsWindow = (LLNSWindow*)window;
-	NSRect rect = NSMakeRect(coord[0], coord[1], nsWindow.frame.size.width, nsWindow.frame.size.height);
+	NSRect rect = NSMakeRect(coord[0], coord[1], 0, 0);
 	rect = [nsWindow convertRectToScreen:rect];
-	NSRect screenRect = [[NSScreen mainScreen] frame];
-	NSPoint retPoint = NSMakePoint(rect.origin.x, screenRect.size.height - rect.origin.y);
+	NSRect screenRect = [[nsWindow screen] frame];
+	NSPoint retPoint = NSMakePoint(rect.origin.x, screenRect.origin.y + screenRect.size.height - rect.origin.y);
 	coord[0] = retPoint.x;
 	coord[1] = retPoint.y;
 }
@@ -446,7 +446,7 @@ unsigned int getModifiers()
 // [CR:Retina]
 float getScaleFactor(GLViewRef view)
 {
-	return [(LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
+    return [[(LLOpenGLView*)view window] backingScaleFactor];
 }
 
 void updateBadge(int count)

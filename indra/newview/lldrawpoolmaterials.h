@@ -55,21 +55,21 @@ public:
 		LLVertexBuffer::MAP_TANGENT
 	};
 	
-	/*virtual*/ U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
+	/*virtual*/ U32 getVertexDataMask() final override { return VERTEX_DATA_MASK; }
 	
-	/*virtual*/ void render(S32 pass = 0) override { }
-	/*virtual*/ S32	 getNumPasses() override {return 0;}
-	/*virtual*/ void prerender() override;
+	/*virtual*/ void render(S32 pass = 0) final override { }
+	/*virtual*/ S32	 getNumPasses() final override {return 0;}
+	/*virtual*/ void prerender() final override;
 	
-	/*virtual*/ S32 getNumDeferredPasses() override;
-	/*virtual*/ void beginDeferredPass(S32 pass) override;
-	/*virtual*/ void endDeferredPass(S32 pass) override;
-	/*virtual*/ void renderDeferred(S32 pass) override;
+	/*virtual*/ S32 getNumDeferredPasses() final override;
+	/*virtual*/ void beginDeferredPass(S32 pass) final override;
+	/*virtual*/ void endDeferredPass(S32 pass) final override;
+	/*virtual*/ void renderDeferred(S32 pass) final override;
 	
 	void bindSpecularMap(LLViewerTexture* tex);
 	void bindNormalMap(LLViewerTexture* tex);
 	
-	/*virtual*/ void pushBatch(LLDrawInfo& params, U32 mask, BOOL texture, BOOL batch_textures = FALSE) override;
+	/*virtual*/ void pushBatch(LLDrawInfo& params, U32 mask, BOOL texture, BOOL batch_textures = FALSE) final override;
 };
 
 #endif //LL_LLDRAWPOOLMATERIALS_H

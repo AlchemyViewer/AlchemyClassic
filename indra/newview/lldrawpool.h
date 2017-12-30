@@ -154,11 +154,11 @@ public:
 
 	LLRenderPass(const U32 type);
 	virtual ~LLRenderPass();
-	/*virtual*/ LLDrawPool* instancePool() override;
-	/*virtual*/ LLViewerTexture* getDebugTexture() override { return nullptr; }
-	LLViewerTexture* getTexture() override { return nullptr; }
-	BOOL isDead() override { return FALSE; }
-	void resetDrawOrders() override { }
+	/*virtual*/ LLDrawPool* instancePool() final override;
+	/*virtual*/ LLViewerTexture* getDebugTexture() final override { return nullptr; }
+	LLViewerTexture* getTexture() final override { return nullptr; }
+	BOOL isDead() final override { return FALSE; }
+	void resetDrawOrders() final override { }
 
 	static void applyModelMatrix(const LLDrawInfo& params);
 	virtual void pushBatches(U32 type, U32 mask, BOOL texture = TRUE, BOOL batch_textures = FALSE);
@@ -184,7 +184,7 @@ public:
 	LLFacePool(const U32 type);
 	virtual ~LLFacePool();
 	
-	BOOL isDead() override { return mReferences.empty(); }
+	BOOL isDead() final override { return mReferences.empty(); }
 
 	LLViewerTexture *getTexture() override;
 	virtual void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures);
@@ -195,19 +195,16 @@ public:
 
 	BOOL verify() const override;		// Verify that all data in the draw pool is correct!
 
-	void resetDrawOrders() override;
-	void resetAll();
+	void resetDrawOrders() final override;
 
 	void destroy();
-
-	void buildEdges();
 
 	void addFaceReference(LLFace *facep);
 	void removeFaceReference(LLFace *facep);
 
 	void printDebugInfo() const;
 	
-	BOOL isFacePool() override { return TRUE; }
+	BOOL isFacePool() final override { return TRUE; }
 
 	friend class LLFace;
 	friend class LLPipeline;

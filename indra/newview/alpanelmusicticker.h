@@ -31,9 +31,9 @@ class ALPanelMusicTicker : public LLPanel
 public:
 	ALPanelMusicTicker();	//ctor
 
-	BOOL postBuild() override;
-	void draw() override;
-	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) override;
+	BOOL postBuild() final override;
+	void draw() final override;
+	void reshape(S32 width, S32 height, BOOL called_from_parent = TRUE) final override;
 private:
 	void updateTickerText(); //called via draw.
 	void drawOscilloscope(); //called via draw.

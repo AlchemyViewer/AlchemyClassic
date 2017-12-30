@@ -55,8 +55,8 @@ class LLHUDEffectLookAt : public LLHUDEffect
 public:
 	friend class LLHUDObject;
 
-	/*virtual*/ void markDead() override;
-	/*virtual*/ void setSourceObject(LLViewerObject* objectp) override;
+	/*virtual*/ void markDead() final override;
+	/*virtual*/ void setSourceObject(LLViewerObject* objectp) final override;
 
 	BOOL setLookAt(ELookAtType target_type, LLViewerObject *object, LLVector3 position);
 	void clearLookAtTarget();
@@ -70,10 +70,10 @@ protected:
 	LLHUDEffectLookAt(const U8 type);
 	~LLHUDEffectLookAt();
 
-	/*virtual*/ void update() override;
-	/*virtual*/ void render() override;
-	/*virtual*/ void packData(LLMessageSystem *mesgsys) override;
-	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum) override;
+	/*virtual*/ void update() final override;
+	/*virtual*/ void render() final override;
+	/*virtual*/ void packData(LLMessageSystem *mesgsys) final override;
+	/*virtual*/ void unpackData(LLMessageSystem *mesgsys, S32 blocknum) final override;
 	
 	// lookat behavior has either target position or target object with offset
 	void setTargetObjectAndOffset(LLViewerObject *objp, LLVector3d offset);

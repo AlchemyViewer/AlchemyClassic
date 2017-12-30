@@ -45,25 +45,23 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0
 	};
 
-	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
+	U32 getVertexDataMask() final override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolSky();
 
-	/*virtual*/ LLDrawPool *instancePool() override;
+	/*virtual*/ LLDrawPool *instancePool() final override;
 
-	/*virtual*/ S32 getNumPostDeferredPasses() override { return getNumPasses(); }
-	/*virtual*/ void beginPostDeferredPass(S32 pass) override { beginRenderPass(pass); }
-	/*virtual*/ void endPostDeferredPass(S32 pass) override { endRenderPass(pass); }
-	/*virtual*/ void renderPostDeferred(S32 pass) override { render(pass); }
+	/*virtual*/ S32 getNumPostDeferredPasses() final override { return getNumPasses(); }
+	/*virtual*/ void beginPostDeferredPass(S32 pass) final override { beginRenderPass(pass); }
+	/*virtual*/ void endPostDeferredPass(S32 pass) final override { endRenderPass(pass); }
+	/*virtual*/ void renderPostDeferred(S32 pass) final override { render(pass); }
 
-	/*virtual*/ void prerender() override;
-	/*virtual*/ void render(S32 pass = 0) override;
-	/*virtual*/ void endRenderPass(S32 pass) override;
+	/*virtual*/ void prerender() final override;
+	/*virtual*/ void render(S32 pass = 0) final override;
+	/*virtual*/ void endRenderPass(S32 pass) final override;
 	void setSkyTex(LLSkyTex* const st) { mSkyTex = st; }
 
 	void renderSkyCubeFace(U8 side);
-	void renderHeavenlyBody(U8 hb, LLFace* face);
-	void renderSunHalo(LLFace* face);
 
 };
 

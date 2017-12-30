@@ -80,8 +80,7 @@ void LLDrawPoolMaterials::beginDeferredPass(S32 pass)
 	{
 		mShader = &(gDeferredMaterialWaterProgram[shader_idx[pass]]);
 	}
-
-	mShader->bind();
+	gPipeline.bindDeferredShader(*mShader);
 
 	diffuse_channel = mShader->enableTexture(LLShaderMgr::DIFFUSE_MAP);
 		
@@ -92,7 +91,7 @@ void LLDrawPoolMaterials::endDeferredPass(S32 pass)
 {
 	LL_RECORD_BLOCK_TIME(FTM_RENDER_MATERIALS);
 
-	mShader->unbind();
+	gPipeline.unbindDeferredShader(*mShader);
 
 	LLRenderPass::endRenderPass(pass);
 }

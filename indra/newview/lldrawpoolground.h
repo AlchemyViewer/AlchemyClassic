@@ -39,14 +39,14 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD0
 	};
 
-	U32 getVertexDataMask() override { return VERTEX_DATA_MASK; }
+	U32 getVertexDataMask() final override { return VERTEX_DATA_MASK; }
 
 	LLDrawPoolGround();
 
-	/*virtual*/ LLDrawPool *instancePool() override;
+	/*virtual*/ LLDrawPool *instancePool() final override;
 
-	/*virtual*/ void prerender() override;
-	/*virtual*/ void render(S32 pass = 0) override;
+	/*virtual*/ void prerender() final override;
+	/*virtual*/ void render(S32 pass = 0) final override;
 };
 
 #endif // LL_LLDRAWPOOLGROUND_H

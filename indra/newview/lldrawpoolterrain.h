@@ -43,31 +43,31 @@ public:
 							LLVertexBuffer::MAP_TEXCOORD3
 	};
 
-	U32 getVertexDataMask() override;
+	U32 getVertexDataMask() final override;
 	static S32 getDetailMode();
 
 	LLDrawPoolTerrain(LLViewerTexture *texturep);
 	virtual ~LLDrawPoolTerrain();
 
-	/*virtual*/ LLDrawPool *instancePool() override;
+	/*virtual*/ LLDrawPool *instancePool() final override;
 
-	/*virtual*/ S32 getNumDeferredPasses() override { return 1; }
-	/*virtual*/ void beginDeferredPass(S32 pass) override;
-	/*virtual*/ void endDeferredPass(S32 pass) override;
-	/*virtual*/ void renderDeferred(S32 pass) override;
+	/*virtual*/ S32 getNumDeferredPasses() final override { return 1; }
+	/*virtual*/ void beginDeferredPass(S32 pass) final override;
+	/*virtual*/ void endDeferredPass(S32 pass) final override;
+	/*virtual*/ void renderDeferred(S32 pass) final override;
 
-	/*virtual*/ S32 getNumShadowPasses() override { return 1; }
-	/*virtual*/ void beginShadowPass(S32 pass) override;
-	/*virtual*/ void endShadowPass(S32 pass) override;
-	/*virtual*/ void renderShadow(S32 pass) override;
+	/*virtual*/ S32 getNumShadowPasses() final override { return 1; }
+	/*virtual*/ void beginShadowPass(S32 pass) final override;
+	/*virtual*/ void endShadowPass(S32 pass) final override;
+	/*virtual*/ void renderShadow(S32 pass) final override;
 
-	/*virtual*/ void render(S32 pass = 0) override;
-	/*virtual*/ void prerender() override;
-	/*virtual*/ void beginRenderPass( S32 pass ) override;
-	/*virtual*/ void endRenderPass( S32 pass ) override;
-	/*virtual*/ void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures) override;
-	/*virtual*/ LLViewerTexture *getTexture() override;
-	/*virtual*/ LLViewerTexture *getDebugTexture() override;
+	/*virtual*/ void render(S32 pass = 0) final override;
+	/*virtual*/ void prerender() final override;
+	/*virtual*/ void beginRenderPass( S32 pass ) final override;
+	/*virtual*/ void endRenderPass( S32 pass ) final override;
+	/*virtual*/ void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures) final override;
+	/*virtual*/ LLViewerTexture *getTexture() final override;
+	/*virtual*/ LLViewerTexture *getDebugTexture() final override;
 	/*virtual*/ LLColor3 getDebugColor() const; // For AGP debug display
 
 	LLPointer<LLViewerTexture> m2DAlphaRampImagep;

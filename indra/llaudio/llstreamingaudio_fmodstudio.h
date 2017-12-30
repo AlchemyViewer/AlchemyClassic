@@ -49,23 +49,23 @@ class LLStreamingAudio_FMODSTUDIO : public LLStreamingAudioInterface
 	LLStreamingAudio_FMODSTUDIO(FMOD::System *system);
 	/*virtual*/ ~LLStreamingAudio_FMODSTUDIO();
 
-	/*virtual*/ void start(const std::string& url) override;
-	/*virtual*/ void stop() override;
-	/*virtual*/ void pause(S32 pause) override;
-	/*virtual*/ void update() override;
-	/*virtual*/ S32 isPlaying() override;
-	/*virtual*/ void setGain(F32 vol) override;
-	/*virtual*/ F32 getGain() override;
-	/*virtual*/ std::string getURL() override;
+	/*virtual*/ void start(const std::string& url) final override;
+	/*virtual*/ void stop() final override;
+	/*virtual*/ void pause(S32 pause) final override;
+	/*virtual*/ void update() final override;
+	/*virtual*/ S32 isPlaying() final override;
+	/*virtual*/ void setGain(F32 vol) final override;
+	/*virtual*/ F32 getGain() final override;
+	/*virtual*/ std::string getURL() final override;
 
-	/*virtual*/ bool supportsAdjustableBufferSizes() override {return true;}
-	/*virtual*/ void setBufferSizes(U32 streambuffertime, U32 decodebuffertime) override;
+	/*virtual*/ bool supportsAdjustableBufferSizes() final override {return true;}
+	/*virtual*/ void setBufferSizes(U32 streambuffertime, U32 decodebuffertime) final override;
 
-	/*virtual*/ bool supportsMetaData() override {return true;}
-	/*virtual*/ const LLSD *getMetaData() override { return mMetaData; }	//return NULL if not playing.
-	/*virtual*/ const bool hasNewMetaData() override;
-	/*virtual*/ bool supportsWaveData() override {return true;}
-	/*virtual*/ bool getWaveData(float* arr, S32 count, S32 stride = 1) override;
+	/*virtual*/ bool supportsMetaData() final override {return true;}
+	/*virtual*/ const LLSD *getMetaData() final override { return mMetaData; }	//return NULL if not playing.
+	/*virtual*/ const bool hasNewMetaData() final override;
+	/*virtual*/ bool supportsWaveData() final override {return true;}
+	/*virtual*/ bool getWaveData(float* arr, S32 count, S32 stride = 1) final override;
 private:
 	bool releaseDeadStreams();
 	void cleanupWaveData();

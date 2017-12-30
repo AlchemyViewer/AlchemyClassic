@@ -178,9 +178,9 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(DARWIN 1)
   
-  if (XCODE_VERSION LESS 8.0.0)
-    message( FATAL_ERROR "Xcode 8.0.0 or greater is required." )
-  endif (XCODE_VERSION LESS 8.0.0)
+  if (XCODE_VERSION LESS 9.0.0)
+    message( FATAL_ERROR "Xcode 9.0.0 or greater is required." )
+  endif (XCODE_VERSION LESS 9.0.0)
   message( "Building with " ${CMAKE_OSX_SYSROOT} )
   set(CMAKE_OSX_DEPLOYMENT_TARGET 10.13)
 

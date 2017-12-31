@@ -9,6 +9,7 @@ if (USESYSTEMLIBS)
   include(FindJsonCpp)
 else (USESYSTEMLIBS)
   use_prebuilt_binary(jsoncpp)
+   use_prebuilt_binary(modernjson)
   if (WINDOWS)
     set(JSONCPP_LIBRARIES
       debug jsoncppd.lib

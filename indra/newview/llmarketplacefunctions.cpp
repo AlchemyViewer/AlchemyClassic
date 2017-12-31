@@ -48,9 +48,7 @@
 
 #include "llsdutil.h"
 
-#include <jsoncpp/reader.h> // JSON
-#include <jsoncpp/writer.h> // JSON
- //
+//
 // Helpers
 //
 

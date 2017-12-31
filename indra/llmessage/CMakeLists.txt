@@ -13,7 +13,7 @@ include(LLAddBuildTest)
 include(Python)
 include(Tut)
 include(Python)
-include(JsonCpp)
+include(Json)
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -23,7 +23,7 @@ include_directories(
     ${LLMATH_INCLUDE_DIRS}
     ${LLMESSAGE_INCLUDE_DIRS}
     ${LLVFS_INCLUDE_DIRS}
-    ${JSONCPP_INCLUDE_DIR}
+    ${JSON_INCLUDE_DIR}
     )
 
 include_directories(
@@ -217,7 +217,6 @@ target_link_libraries(
   ${CURL_LIBRARIES}
   ${OPENSSL_LIBRARIES}
   ${CRYPTO_LIBRARIES}
-  ${JSONCPP_LIBRARIES}
   ${XMLRPCEPI_LIBRARIES}
   ${BOOST_COROUTINE_LIBRARY}
   ${BOOST_CONTEXT_LIBRARY}
@@ -246,7 +245,6 @@ if (LL_TESTS)
     ${LLCOMMON_LIBRARIES}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}
-    ${JSONCPP_LIBRARIES}
     ${BOOST_COROUTINE_LIBRARY}
     ${BOOST_CONTEXT_LIBRARY}
     ${RT_LIBRARY}

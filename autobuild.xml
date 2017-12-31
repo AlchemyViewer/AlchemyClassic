@@ -1304,7 +1304,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201711061729.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/gtk_atk_pango_glib-0.0.3-linux64-201711061729.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -1510,92 +1510,6 @@
         </map>
         <key>version</key>
         <string>1.5.3</string>
-      </map>
-      <key>jsoncpp</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) 2007-2010 by Baptiste Lepilleur</string>
-        <key>description</key>
-        <string>JsonCpp is an implementation of a JSON (http://json.org) reader and writer in C++.</string>
-        <key>license</key>
-        <string>Public Domain</string>
-        <key>license_file</key>
-        <string>LICENSES/jsoncpp.txt</string>
-        <key>name</key>
-        <string>jsoncpp</string>
-        <key>platforms</key>
-        <map>
-          <key>darwin</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>f5a0dfc6b86952cc869241b684d0ee2f</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/jsoncpp-1.8.4-darwin-201712262141.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin</string>
-          </map>
-          <key>linux</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>840cd9455638c0ea52c613cfddd07d5b</string>
-              <key>url</key>
-              <string>http://s3.amazonaws.com/viewer-source-downloads/install_pkgs/jsoncpp-0.5.0-linux-20110315.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux</string>
-          </map>
-          <key>linux64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>e1a74ab2fd447584a8621a215427b9e4</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/jsoncpp-1.8.0-linux64-201703121628.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>linux64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>2ee8245d7baa68f3a1f428525185bb85</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/jsoncpp-1.8.0-windows-201703090616.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>592a4145fcc71be4ddae58b265885382</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/jsoncpp-1.8.4-windows64-201712251058.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>1.8.4</string>
       </map>
       <key>kdu</key>
       <map>
@@ -1896,7 +1810,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.34-linux64-201711051519.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/linux64/lib-xenial/libpng-1.6.34-linux64-201711051519.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux64</string>
@@ -2230,7 +2144,7 @@
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>http://depot.alchemyviewer.org/pub/common/lib/modernjson-3.0.1-common-201712311003.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/common/lib/modernjson-3.0.1-common-201712311003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>

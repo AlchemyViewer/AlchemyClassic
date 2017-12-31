@@ -11,7 +11,7 @@ include(Linking)
 include(Boost)
 include(OpenSSL)
 include(LLSharedLibs)
-include(JsonCpp)
+include(Json)
 include(GoogleBreakpad)
 include(GooglePerfTools)
 include(Copy3rdPartyLibs)
@@ -22,7 +22,7 @@ include_directories(
     ${EXPAT_INCLUDE_DIRS}
     ${LLCOMMON_INCLUDE_DIRS}
     ${OPENSSL_INCLUDE_DIRS}
-    ${JSONCPP_INCLUDE_DIR}
+    ${JSON_INCLUDE_DIR}
     ${ZLIB_INCLUDE_DIRS}
     ${BREAKPAD_INCLUDE_DIRECTORIES}
     ${URIPARSER_INCLUDE_DIRS}
@@ -302,7 +302,6 @@ target_link_libraries(
     ${EXPAT_LIBRARIES}
     ${OPENSSL_LIBRARIES}
     ${CRYPTO_LIBRARIES}
-    ${JSONCPP_LIBRARIES}
     ${ZLIB_LIBRARIES}
     ${WINDOWS_LIBRARIES}
     ${BOOST_COROUTINE_LIBRARY}

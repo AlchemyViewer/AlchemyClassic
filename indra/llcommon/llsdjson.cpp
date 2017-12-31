@@ -37,42 +37,42 @@
 
 
 //=========================================================================
-LLSD LlsdFromJson(const Json::Value &val)
+LLSD LlsdFromJson(const nlohmann::json &val)
 {
     LLSD result;
 
     switch (val.type())
     {
     default:
-    case Json::nullValue:
+    case nlohmann::json::value_t::null:
         break;
-    case Json::intValue:
-        result = LLSD(static_cast<LLSD::Integer>(val.asInt()));
+    case nlohmann::json::value_t::number_integer:
+        result = LLSD(val.get<LLSD::Integer>());
         break;
-    case Json::uintValue:
-        result = LLSD(static_cast<LLSD::Integer>(val.asUInt()));
+    case nlohmann::json::value_t::number_unsigned:
+        result = LLSD(val.get<LLSD::Integer>());
         break;
-    case Json::realValue:
-        result = LLSD(static_cast<LLSD::Real>(val.asDouble()));
+    case nlohmann::json::value_t::number_float:
+        result = LLSD(val.get<LLSD::Real>());
         break;
-    case Json::stringValue:
-        result = LLSD(static_cast<LLSD::String>(val.asString()));
+    case nlohmann::json::value_t::string:
+        result = LLSD(val.get<LLSD::String>());
         break;
-    case Json::booleanValue:
-        result = LLSD(static_cast<LLSD::Boolean>(val.asBool()));
+    case nlohmann::json::value_t::boolean:
+        result = LLSD(val.get<LLSD::Boolean>());
         break;
-    case Json::arrayValue:
+    case nlohmann::json::value_t::array:
         result = LLSD::emptyArray();
-        for (Json::ValueConstIterator it = val.begin(); it != val.end(); ++it)
+        for (const auto &element : val)
         {
-            result.append(LlsdFromJson((*it)));
+            result.append(LlsdFromJson(element));
         }
         break;
-    case Json::objectValue:
+    case nlohmann::json::value_t::object:
         result = LLSD::emptyMap();
-        for (Json::ValueConstIterator it = val.begin(); it != val.end(); ++it)
+        for (auto it = val.cbegin(); it != val.cend(); ++it)
         {
-            result[it.name()] = LlsdFromJson((*it));
+            result[it.key()] = LlsdFromJson(it.value());
         }
         break;
     }
@@ -80,42 +80,40 @@ LLSD LlsdFromJson(const Json::Value &val)
 }
 
 //=========================================================================
-Json::Value LlsdToJson(const LLSD &val)
+nlohmann::json LlsdToJson(const LLSD &val)
 {
-    Json::Value result;
+    nlohmann::json result;
 
     switch (val.type())
     {
     case LLSD::TypeUndefined:
-        result = Json::Value::null;
+        result = nullptr;
         break;
     case LLSD::TypeBoolean:
-        result = Json::Value(static_cast<bool>(val.asBoolean()));
+        result = val.asBoolean();
         break;
     case LLSD::TypeInteger:
-        result = Json::Value(static_cast<int>(val.asInteger()));
+        result = val.asInteger();
         break;
     case LLSD::TypeReal:
-        result = Json::Value(static_cast<double>(val.asReal()));
+        result = val.asReal();
         break;
     case LLSD::TypeURI:
     case LLSD::TypeDate:
     case LLSD::TypeUUID:
     case LLSD::TypeString:
-        result = Json::Value(val.asString());
+        result = val.asString();
         break;
     case LLSD::TypeMap:
-        result = Json::Value(Json::objectValue);
         for (LLSD::map_const_iterator it = val.beginMap(); it != val.endMap(); ++it)
         {
             result[it->first] = LlsdToJson(it->second);
         }
         break;
     case LLSD::TypeArray:
-        result = Json::Value(Json::arrayValue);
         for (LLSD::array_const_iterator it = val.beginArray(); it != val.endArray(); ++it)
         {
-            result.append(LlsdToJson(*it));
+            result.push_back(LlsdToJson(*it));
         }
         break;
     case LLSD::TypeBinary:

@@ -37,7 +37,7 @@
 #include "llcoros.h"
 #include "llcorehttputil.h"
 
-#include <jsoncpp/reader.h>
+#include <json/json.hpp>
 
 /**
 * Handler of an HTTP machine translation service.
@@ -251,13 +251,13 @@ public:
 
 private:
     static void parseErrorResponse(
-        const Json::Value& root,
-        int& status,
-        std::string& err_msg);
+        const nlohmann::json &root,
+        int &status,
+        std::string &err_msg);
     static bool parseTranslation(
-        const Json::Value& root,
-        std::string& translation,
-        std::string& detected_lang);
+        const nlohmann::json &root,
+        std::string &translation,
+        std::string &detected_lang);
     static std::string getAPIKey();
 
 };
@@ -296,16 +296,18 @@ bool LLGoogleTranslationHandler::parseResponse(
 	std::string& err_msg) const
 {
 	std::stringstream stream(body);
-	Json::Value root;
-	Json::CharReaderBuilder reader;
+	nlohmann::json root;
 	std::string errors;
-	if (!Json::parseFromStream(reader, stream, &root, &errors))
+    try
+    {
+    }
+    catch(nlohmann::json::exception &e)
 	{
-		err_msg = errors;
+		err_msg = e.what();
 		return false;
 	}
 
-	if (!root.isObject()) // empty response? should not happen
+	if (!root.is_object()) // empty response? should not happen
 	{
 		return false;
 	}
@@ -329,48 +331,48 @@ bool LLGoogleTranslationHandler::isConfigured() const
 
 // static
 void LLGoogleTranslationHandler::parseErrorResponse(
-	const Json::Value& root,
-	int& status,
-	std::string& err_msg)
+	const nlohmann::json &root,
+	int &status,
+	std::string &err_msg)
 {
-	const Json::Value& error = root.get("error", 0);
-	if (!error.isObject() || !error.isMember("message") || !error.isMember("code"))
+    const nlohmann::json &error = root.value("error", nlohmann::json::value_t::null);
+	if (!error.is_object() || error.find("message") == error.end() || error.find("code") == error.end())
 	{
 		return;
 	}
 
-	err_msg = error["message"].asString();
-	status = error["code"].asInt();
+	err_msg = error.at("message");
+	status = error.at("code");
 }
 
 // static
 bool LLGoogleTranslationHandler::parseTranslation(
-	const Json::Value& root,
-	std::string& translation,
-	std::string& detected_lang)
+	const nlohmann::json &root,
+	std::string &translation,
+	std::string &detected_lang)
 {
-	// JsonCpp is prone to aborting the program on failed assertions,
+	// Json is prone to aborting the program on failed assertions,
 	// so be super-careful and verify the response format.
-	const Json::Value& data = root.get("data", 0);
-	if (!data.isObject() || !data.isMember("translations"))
+	const nlohmann::json &data = root.value("data", nlohmann::json::value_t::null);
+	if (!data.is_object() || data.find("translations") == data.end())
 	{
 		return false;
 	}
 
-	const Json::Value& translations = data["translations"];
-	if (!translations.isArray() || translations.size() == 0)
+	const nlohmann::json &translations = data["translations"];
+	if (!translations.is_array() || translations.size() == 0)
 	{
 		return false;
 	}
 
-	const Json::Value& first = translations[0U];
-	if (!first.isObject() || !first.isMember("translatedText"))
+	const nlohmann::json &first = translations[0];
+	if (!first.is_object() || first.find("translatedText") == first.end())
 	{
 		return false;
 	}
 
-	translation = first["translatedText"].asString();
-	detected_lang = first.get("detectedSourceLanguage", "").asString();
+	translation = first["translatedText"];
+    detected_lang = first.value("detectedSourceLanguage", "");
 	return true;
 }
 

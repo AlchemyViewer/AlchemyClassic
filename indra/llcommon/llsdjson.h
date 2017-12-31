@@ -34,7 +34,7 @@
 #include "stdtypes.h"
 
 #include "llsd.h"
-#include <jsoncpp/value.h>
+#include <json/json.hpp>
 
 /// Convert a parsed JSON structure into LLSD maintaining member names and 
 /// array indexes.
@@ -53,7 +53,7 @@
 ///  
 /// For maps and arrays child entries will be converted and added to the structure.
 /// Order is preserved for an array but not for objects.
-LLSD LlsdFromJson(const Json::Value &val);
+LLSD LlsdFromJson(const nlohmann::json &val);
 
 /// Convert an LLSD object into Parsed JSON object maintaining member names and 
 /// array indexs.
@@ -72,6 +72,6 @@ LLSD LlsdFromJson(const Json::Value &val);
 /// TypeMap       | object
 /// TypeArray     | array
 /// TypeBinary    | unsupported 
-Json::Value LlsdToJson(const LLSD &val);
+nlohmann::json LlsdToJson(const LLSD &val);
 
 #endif // LL_LLSDJSON_H

@@ -32,8 +32,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
-#include <jsoncpp/reader.h> // JSON
-#include <jsoncpp/writer.h> // JSON
+#include <json/json.hpp> // JSON
 #include "llcorehttputil.h"
 #include "lleventcoro.h"
 #include "llhttpconstants.h"
@@ -596,7 +595,7 @@ LLSD HttpCoroJSONHandler::handleSuccess(LLCore::HttpResponse * response, LLCore:
     }
 
     LLCore::BufferArrayStream bas(body);
-    Json::Value jsonRoot;
+    nlohmann::json jsonRoot;
 
     try
     {
@@ -624,7 +623,7 @@ LLSD HttpCoroJSONHandler::parseBody(LLCore::HttpResponse *response, bool &succes
     }
 
     LLCore::BufferArrayStream bas(body);
-    Json::Value jsonRoot;
+    nlohmann::json jsonRoot;
 
     try
     {
@@ -814,9 +813,8 @@ LLSD HttpCoroutineAdapter::postJsonAndSuspend(LLCore::HttpRequest::ptr_t request
 
     {
         LLCore::BufferArrayStream outs(rawbody.get());
-        Json::Value root = LlsdToJson(body);
-		Json::StreamWriterBuilder writer;
-		std::string value = Json::writeString(writer, root);
+        nlohmann::json root = LlsdToJson(body);
+        std::string value = root.dump();
 
         LL_WARNS("Http::post") << "JSON Generates: \"" << value << "\"" << LL_ENDL;
 
@@ -874,9 +872,8 @@ LLSD HttpCoroutineAdapter::putJsonAndSuspend(LLCore::HttpRequest::ptr_t request,
 
     {
         LLCore::BufferArrayStream outs(rawbody.get());
-        Json::Value root = LlsdToJson(body);
-		Json::StreamWriterBuilder writer;
-		std::string value = Json::writeString(writer, root);
+        nlohmann::json root = LlsdToJson(body);
+        std::string value = root.dump();
 
         LL_WARNS("Http::put") << "JSON Generates: \"" << value << "\"" << LL_ENDL;
         outs << value;

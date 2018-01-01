@@ -342,7 +342,7 @@ void LLGoogleTranslationHandler::parseErrorResponse(
 		return;
 	}
 
-	err_msg = error.value("message", "");
+	err_msg = error["message"].get<std::string>();
 	status = error.at("code");
 }
 
@@ -372,7 +372,7 @@ bool LLGoogleTranslationHandler::parseTranslation(
 		return false;
 	}
 
-	translation = first.value("translatedText", "");
+	translation = first["translatedText"].get<std::string>();
     detected_lang = first.value("detectedSourceLanguage", "");
 	return true;
 }

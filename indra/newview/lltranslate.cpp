@@ -300,6 +300,7 @@ bool LLGoogleTranslationHandler::parseResponse(
 	std::string errors;
     try
     {
+		stream >> root;
     }
     catch(nlohmann::json::exception &e)
 	{
@@ -341,7 +342,7 @@ void LLGoogleTranslationHandler::parseErrorResponse(
 		return;
 	}
 
-	err_msg = error.at("message");
+	err_msg = error.value("message", "");
 	status = error.at("code");
 }
 
@@ -371,7 +372,7 @@ bool LLGoogleTranslationHandler::parseTranslation(
 		return false;
 	}
 
-	translation = first["translatedText"];
+	translation = first.value("translatedText", "");
     detected_lang = first.value("detectedSourceLanguage", "");
 	return true;
 }

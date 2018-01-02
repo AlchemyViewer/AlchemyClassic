@@ -270,7 +270,7 @@ void LLFloaterTopObjects::handleReply(LLMessageSystem *msg, void** data)
 		getChild<LLUICtrl>("title_text")->setValue(LLSD(format));
 	}
 
-	LLFloaterRegionInfo* region_info_floater = LLFloaterReg::getTypedInstance<LLFloaterRegionInfo>("region_info");
+	LLFloaterRegionInfo* region_info_floater = LLFloaterReg::findTypedInstance<LLFloaterRegionInfo>("region_info");
 	if(region_info_floater)
 	{
 		region_info_floater->enableTopButtons();
@@ -461,7 +461,7 @@ void LLFloaterTopObjects::onRefresh()
 	msg->addStringFast(_PREHASH_Filter, filter);
 	msg->addS32Fast(_PREHASH_ParcelLocalID, 0);
 
-	LLFloaterRegionInfo* region_info_floater = LLFloaterReg::getTypedInstance<LLFloaterRegionInfo>("region_info");
+	LLFloaterRegionInfo* region_info_floater = LLFloaterReg::findTypedInstance<LLFloaterRegionInfo>("region_info");
 	if(region_info_floater)
 	{
 		region_info_floater->disableTopButtons();

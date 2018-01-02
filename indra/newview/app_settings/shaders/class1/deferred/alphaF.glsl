@@ -53,6 +53,8 @@ uniform mat3 env_mat;
 
 uniform vec3 sun_dir;
 
+uniform float minimum_alpha;
+
 #if HAS_SHADOW
 uniform sampler2DShadow shadowMap0;
 uniform sampler2DShadow shadowMap1;
@@ -526,7 +528,7 @@ void main()
 	
 	// Insure we don't pollute depth with invis pixels in impostor rendering
 	//
-	if (final_alpha < 0.01)
+	if (final_alpha < minimum_alpha)
 	{
 		discard;
 	}

@@ -5030,7 +5030,6 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 									pool->addRiggedFace(facep, LLDrawPoolAvatar::RIGGED_SIMPLE);
 								}
 							}
-
 							else
 							{
 								// Annoying exception to the rule. getPoolTypeFromTE will return POOL_ALPHA_MASK for legacy bumpmaps, but there is no POOL_ALPHA_MASK in deferred.
@@ -5139,7 +5138,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 								type = LLDrawPool::POOL_FULLBRIGHT;
 							}
 						}
-						else if (force_simple && type != LLDrawPool::POOL_FULLBRIGHT && type != LLDrawPool::POOL_ALPHA_MASK && type != LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)
+						else if (force_simple && type != LLDrawPool::POOL_FULLBRIGHT && (!LLPipeline::sRenderDeferred && ( type != LLDrawPool::POOL_ALPHA_MASK && type != LLDrawPool::POOL_FULLBRIGHT_ALPHA_MASK)))
 						{
 							type = LLDrawPool::POOL_SIMPLE;
 						}

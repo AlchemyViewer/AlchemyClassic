@@ -294,7 +294,7 @@ F32 LLFontFreetype::getXKerning(llwchar char_left, llwchar char_right) const
 
 	FT_Vector  delta;
 
-	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, ft_kerning_unfitted, &delta));
+	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, FT_KERNING_DEFAULT, &delta));
 
 	kerning = delta.x*(1.f/64.f);
 	setKerningCache(left_glyph, right_glyph, kerning);
@@ -315,7 +315,7 @@ F32 LLFontFreetype::getXKerning(const LLFontGlyphInfo* left_glyph_info, const LL
 
 	FT_Vector  delta;
 
-	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, ft_kerning_unfitted, &delta));
+	llverify(!FT_Get_Kerning(mFTFace, left_glyph, right_glyph, FT_KERNING_DEFAULT, &delta));
 
 	kerning = delta.x*(1.f/64.f);
 	setKerningCache(left_glyph, right_glyph, kerning);
@@ -498,10 +498,10 @@ void LLFontFreetype::renderGlyph(U32 glyph_index) const
 	if (mFTFace == nullptr)
 		return;
 
-	if (FT_Load_Glyph(mFTFace, glyph_index, FT_LOAD_RENDER) != 0)
+	if (FT_Load_Glyph(mFTFace, glyph_index, FT_LOAD_RENDER | FT_LOAD_TARGET_LIGHT) != 0)
 	{
 		// If glyph fails to load and/or render, render a fallback character
-		llassert_always(!FT_Load_Char(mFTFace, L'?', FT_LOAD_RENDER));
+		llassert_always(!FT_Load_Char(mFTFace, L'?', FT_LOAD_RENDER | FT_LOAD_TARGET_LIGHT));
 	}
 
 	mRenderGlyphCount++;

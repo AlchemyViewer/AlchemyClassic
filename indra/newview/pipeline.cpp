@@ -979,15 +979,12 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 			}
 		}
 
-		U32 width = (U32) (resX*scale);
-		U32 height = width;
-
 		if (shadow_detail > 1)
 		{ //allocate two spot shadow maps
-			U32 spot_shadow_map_width = width;
+			U32 spot_shadow_map_res = (U32) (resX*scale);
 			for (U32 i = 4; i < 6; i++)
 			{
-				if (!mShadow[i].allocate(spot_shadow_map_width, height, 0, TRUE, FALSE)) return false;
+				if (!mShadow[i].allocate(spot_shadow_map_res, spot_shadow_map_res, 0, TRUE, FALSE)) return false;
 			}
 		}
 		else

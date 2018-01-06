@@ -93,7 +93,7 @@ LLCoros::Current::Current()
         sCurrent.reset(new CoroData(nullptr,  // no prev
                                     "", // not a named coroutine
                                     no_op,  // no-op callable
-                                    1024)); // stacksize moot
+                                    262114)); // stacksize moot
     }
 
     mCurrent = &sCurrent;

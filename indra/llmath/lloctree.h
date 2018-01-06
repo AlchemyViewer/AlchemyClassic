@@ -47,7 +47,9 @@ extern float gOctreeMinSize;
 #define LL_OCTREE_MAX_CAPACITY 128
 #endif*/
 
+#if !LL_DEBUG
 #define LL_OCTREE_POOLS 1
+#endif
 
 template <class T> class LLOctreeNode;
 
@@ -709,7 +711,7 @@ public:
 	{
 	}
 
-#if LL_OCTREE_POOLS
+#if LL_OCTREE_POOLS 
 	void* operator new(size_t size)
 	{
 		return LLOctreeNode<T>::getPool(size).malloc();

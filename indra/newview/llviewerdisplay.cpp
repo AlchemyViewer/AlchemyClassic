@@ -81,6 +81,7 @@
 #include "llwlparammanager.h"
 #include "llwaterparammanager.h"
 #include "llscenemonitor.h"
+#include "lldrawpoolavatar.h"
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>
@@ -264,6 +265,14 @@ static LLTrace::BlockTimerStatHandle FTM_TELEPORT_DISPLAY("Teleport Display");
 void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 {
 	LL_RECORD_BLOCK_TIME(FTM_RENDER);
+
+	for(auto avatar : LLCharacter::sInstances)
+	{
+		LLVOAvatar* avatar = dynamic_cast<LLVOAvatar*>(avatar);
+		if (!avatar) continue;
+		if (avatar->isDead()) continue;
+		avatar->clearRiggedMatrixCache();
+	}
 
 	if (gWindowResized)
 	{ //skip render on frames where window has been resized

@@ -45,6 +45,7 @@
 #include "llviewertexlayer.h"
 #include "material_codes.h"		// LL_MCODE_END
 #include "llviewerstats.h"
+#include "llskinningutil.h"
 
 extern const LLUUID ANIM_AGENT_BODY_NOISE;
 extern const LLUUID ANIM_AGENT_BREATHE_ROT;
@@ -1036,6 +1037,20 @@ protected: // Shared with LLVOAvatarSelf
 /**                    Support classes
  **                                                                            **
  *******************************************************************************/
+
+public:
+	typedef std::array<F32, LL_MAX_JOINTS_PER_MESH_OBJECT * 12> rigged_matrix_array_t;
+	typedef std::map<LLUUID, std::pair<U32, rigged_matrix_array_t> > rigged_transformation_cache_t;
+	auto& getRiggedMatrixCache()
+	{
+		return mRiggedMatrixDataCache;
+	}
+	void clearRiggedMatrixCache()
+	{
+		mRiggedMatrixDataCache.clear();
+	}
+private:
+	rigged_transformation_cache_t mRiggedMatrixDataCache;
 
 }; // LLVOAvatar
 extern const F32 SELF_ADDITIONAL_PRI;

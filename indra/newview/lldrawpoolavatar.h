@@ -36,8 +36,6 @@ class LLMeshSkinInfo;
 class LLVolume;
 class LLVolumeFace;
 
-constexpr U32 JOINT_COUNT = 52;
-
 class LLDrawPoolAvatar : public LLFacePool
 {
 public:

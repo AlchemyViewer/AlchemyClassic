@@ -1720,43 +1720,56 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 		{
 			if (sShaderLevel > 0)
 			{
-                // upload matrix palette to shader
-				LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
-				U32 count = LLSkinningUtil::getMeshJointCount(skin);
-                LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
-
-				stop_glerror();
-
-				F32 mp[LL_MAX_JOINTS_PER_MESH_OBJECT*12];
-
-				for (U32 i = 0; i < count; ++i)
+				auto rigged_matrix_data_iter = avatar->getRiggedMatrixCache().find(skin->mMeshID);
+				if (rigged_matrix_data_iter != avatar->getRiggedMatrixCache().cend())
 				{
-					F32* m = (F32*) mat[i].getF32ptr();
+					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
+						rigged_matrix_data_iter->second.first,
+						FALSE,
+						(GLfloat*) rigged_matrix_data_iter->second.second.data());
 
-					U32 idx = i*12;
-
-					mp[idx+0] = m[0];
-					mp[idx+1] = m[1];
-					mp[idx+2] = m[2];
-					mp[idx+3] = m[12];
-
-					mp[idx+4] = m[4];
-					mp[idx+5] = m[5];
-					mp[idx+6] = m[6];
-					mp[idx+7] = m[13];
-
-					mp[idx+8] = m[8];
-					mp[idx+9] = m[9];
-					mp[idx+10] = m[10];
-					mp[idx+11] = m[14];
+					stop_glerror();
 				}
+				else
+				{
+					// upload matrix palette to shader
+					LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
+					U32 count = LLSkinningUtil::getMeshJointCount(skin);
+					LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
 
-				LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX, 
-					count,
-					FALSE,
-					(GLfloat*) mp);
+					stop_glerror();
 
-				stop_glerror();
+					std::array<F32, LL_MAX_JOINTS_PER_MESH_OBJECT * 12> mp;
+
+					for (U32 i = 0; i < count; ++i)
+					{
+						F32* m = (F32*) mat[i].getF32ptr();
+
+						U32 idx = i * 12;
+
+						mp[idx + 0] = m[0];
+						mp[idx + 1] = m[1];
+						mp[idx + 2] = m[2];
+						mp[idx + 3] = m[12];
+
+						mp[idx + 4] = m[4];
+						mp[idx + 5] = m[5];
+						mp[idx + 6] = m[6];
+						mp[idx + 7] = m[13];
+
+						mp[idx + 8] = m[8];
+						mp[idx + 9] = m[9];
+						mp[idx + 10] = m[10];
+						mp[idx + 11] = m[14];
+					}
+					avatar->getRiggedMatrixCache().emplace(skin->mMeshID, std::make_pair(count, mp));
+					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
+						count,
+						FALSE,
+						(GLfloat*) mp.data());
+
+					stop_glerror();
+				}
 			}
 			else
 			{

@@ -27,6 +27,12 @@
 #ifndef LL_LLGLSLSHADER_H
 #define LL_LLGLSLSHADER_H
 
+#ifdef LL_RELEASE_FOR_DOWNLOAD
+#define UNIFORM_ERRS LL_WARNS_ONCE("Shader")
+#else
+#define UNIFORM_ERRS LL_ERRS("Shader")
+#endif
+
 #include "llgl.h"
 #include "llrender.h"
 #include "llstaticstringtable.h"
@@ -102,40 +108,295 @@ public:
 	BOOL mapAttributes(const std::vector<LLStaticHashedString> * attributes);
 	BOOL mapUniforms(const std::vector<LLStaticHashedString> *);
 	void mapUniform(GLint index, const std::vector<LLStaticHashedString> *);
-	void uniform1i(U32 index, GLint i);
-	void uniform1f(U32 index, GLfloat v);
-	void uniform2f(U32 index, GLfloat x, GLfloat y);
-	void uniform3f(U32 index, GLfloat x, GLfloat y, GLfloat z);
-	void uniform4f(U32 index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-	void uniform1iv(U32 index, U32 count, const GLint* i);
-	void uniform1fv(U32 index, U32 count, const GLfloat* v);
-	void uniform2fv(U32 index, U32 count, const GLfloat* v);
-	void uniform3fv(U32 index, U32 count, const GLfloat* v);
-	void uniform4fv(U32 index, U32 count, const GLfloat* v);
-	void uniform2i(const LLStaticHashedString& uniform, GLint i, GLint j);
-	void uniformMatrix2fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v);
-	void uniformMatrix3fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v);
-	void uniformMatrix3x4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v);
-	void uniformMatrix4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v);
-	void uniform1i(const LLStaticHashedString& uniform, GLint i);
-	void uniform1f(const LLStaticHashedString& uniform, GLfloat v);
-	void uniform2f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y);
-	void uniform3f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y, GLfloat z);
-	void uniform1fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v);
-	void uniform2fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v);
-	void uniform3fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v);
-	void uniform4fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v);
-	void uniformMatrix4fv(const LLStaticHashedString& uniform, U32 count, GLboolean transpose, const GLfloat *v);
+
+	GLint getUniformLocation(const LLStaticHashedString& uniform)
+	{
+		GLint ret = -1;
+		if (mProgramObject > 0)
+		{
+			auto iter = mUniformMap.find(uniform);
+			if (iter != mUniformMap.cend())
+			{
+				if (gDebugGL)
+				{
+					stop_glerror();
+					if (iter->second != glGetUniformLocation(mProgramObject, uniform.String().c_str()))
+					{
+						LL_ERRS() << "Uniform does not match." << LL_ENDL;
+					}
+					stop_glerror();
+				}
+				ret = iter->second;
+			}
+		}
+
+		return ret;
+	}
+
+	GLint getUniformLocation(U32 index)
+	{
+		if (mUniform.size() <= index)
+		{
+			UNIFORM_ERRS << "Uniform index out of bounds." << LL_ENDL;
+			return -1;
+		}
+		return mUniform[index];
+	}
+
+	template <typename T, int N>
+	bool updateUniform(std::vector<std::pair<GLint, T> >& cache, S32 uniform, const F32* val)
+	{
+		if (mProgramObject > 0)
+		{
+			if (uniform >= 0)
+			{
+				typename std::vector<std::pair<GLint, T> >::iterator iter = std::find_if(cache.begin(), cache.end(), boost::bind(&std::pair<GLint, T>::first, _1) == uniform);
+				if (iter == cache.cend())
+				{
+					T tmp;
+					memcpy(&tmp, val, sizeof(F32)*N);
+					cache.emplace_back(std::make_pair(uniform, tmp));
+					return true;
+				}
+				else if (memcmp(&iter->second, val, sizeof(F32)*N))
+				{
+					memcpy(&iter->second, val, sizeof(F32)*N);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	void uniform1i(U32 index, GLint i)
+	{
+		F32 val = i;
+		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), &val))
+		{
+			glUniform1i(mUniform[index], i);
+		}
+	}
+
+	void uniform1f(U32 index, GLfloat v)
+	{
+
+		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), &v))
+		{
+			glUniform1f(mUniform[index], v);
+		}
+	}
+
+	void uniform2f(U32 index, GLfloat x, GLfloat y)
+	{
+		F32 val [] = { x, y };
+		if (updateUniform<LLVector4, 2>(mValueVec4, getUniformLocation(index), val))
+		{
+			glUniform2f(mUniform[index], x, y);
+		}
+	}
+
+	void uniform3f(U32 index, GLfloat x, GLfloat y, GLfloat z)
+	{
+		F32 val [] = { x, y, z };
+		if (updateUniform<LLVector4, 3>(mValueVec4, getUniformLocation(index), val))
+		{
+			glUniform3f(mUniform[index], x, y, z);
+		}
+	}
+
+	void uniform4f(U32 index, GLfloat x, GLfloat y, GLfloat z, GLfloat w)
+	{
+		F32 val [] = { x, y, z, w };
+		if (updateUniform<LLVector4, 4>(mValueVec4, getUniformLocation(index), val))
+		{
+			glUniform4f(mUniform[index], x, y, z, w);
+		}
+	}
+
+	void uniform1iv(U32 index, U32 count, const GLint* i)
+	{
+		F32 val [] = { static_cast<const F32>(i[0]) };
+		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), val) || count > 1)
+		{
+			glUniform1iv(mUniform[index], count, i);
+		}
+	}
+
+	void uniform1fv(U32 index, U32 count, const GLfloat* v)
+	{
+
+		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniform1fv(mUniform[index], count, v);
+		}
+	}
+
+	void uniform2fv(U32 index, U32 count, const GLfloat* v)
+	{
+
+		if (updateUniform<LLVector4, 2>(mValueVec4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniform2fv(mUniform[index], count, v);
+		}
+	}
+
+	void uniform3fv(U32 index, U32 count, const GLfloat* v)
+	{
+
+		if (updateUniform<LLVector4, 3>(mValueVec4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniform3fv(mUniform[index], count, v);
+		}
+	}
+
+	void uniform4fv(U32 index, U32 count, const GLfloat* v)
+	{
+
+		if (updateUniform<LLVector4, 4>(mValueVec4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniform4fv(mUniform[index], count, v);
+		}
+	}
+
+	void uniformMatrix3fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	{
+		if (updateUniform<LLMatrix3, 9>(mValueMat3, getUniformLocation(index), v) || count > 1)
+		{
+			glUniformMatrix3fv(mUniform[index], count, transpose, v);
+		}
+	}
+
+	void uniformMatrix3x4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	{
+		if (updateUniform<LLMatrix4, 12>(mValueMat4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniformMatrix3x4fv(mUniform[index], count, transpose, v);
+		}
+	}
+
+	void uniformMatrix4fv(U32 index, U32 count, GLboolean transpose, const GLfloat *v)
+	{
+		if (updateUniform<LLMatrix4, 16>(mValueMat4, getUniformLocation(index), v) || count > 1)
+		{
+			glUniformMatrix4fv(mUniform[index], count, transpose, v);
+		}
+	}
+
+	void uniform1i(const LLStaticHashedString& uniform, GLint i)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		F32 val = i;
+		if (updateUniform<LLVector4, 1>(mValueVec4, getUniformLocation(uniform), &val))
+		{
+			glUniform1i(location, i);
+		}
+	}
+
+	void uniform1f(const LLStaticHashedString& uniform, GLfloat v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLVector4, 1>(mValueVec4, location, &v))
+		{
+			glUniform1f(location, v);
+		}
+	}
+
+	void uniform2f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		F32 val [] = { x, y };
+		if (updateUniform<LLVector4, 2>(mValueVec4, location, val))
+		{
+			glUniform2f(location, x, y);
+		}
+	}
+
+	void uniform3f(const LLStaticHashedString& uniform, GLfloat x, GLfloat y, GLfloat z)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		F32 val [] = { x, y, z };
+		if (updateUniform<LLVector4, 3>(mValueVec4, location, val))
+		{
+			glUniform3f(location, x, y, z);
+		}
+	}
+
+	void uniform1fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLVector4, 1>(mValueVec4, location, v))
+		{
+			glUniform1fv(location, count, v);
+		}
+	}
+
+	void uniform2fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLVector4, 2>(mValueVec4, location, v))
+		{
+			glUniform2fv(location, count, v);
+		}
+	}
+
+	void uniform3fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLVector4, 3>(mValueVec4, location, v))
+		{
+			glUniform3fv(location, count, v);
+		}
+	}
+
+	void uniform4fv(const LLStaticHashedString& uniform, U32 count, const GLfloat* v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLVector4, 4>(mValueVec4, location, v))
+		{
+			glUniform4fv(location, count, v);
+		}
+	}
+
+	void uniformMatrix4fv(const LLStaticHashedString& uniform, U32 count, GLboolean transpose, const GLfloat *v)
+	{
+		GLint location = getUniformLocation(uniform);
+
+		if (location < 0)
+			return;
+		if (updateUniform<LLMatrix4, 16>(mValueMat4, location, v))
+		{
+			glUniformMatrix4fv(location, count, transpose, v);
+		}
+	}
 
 	void setMinimumAlpha(F32 minimum);
 
 	void vertexAttrib4f(U32 index, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-	void vertexAttrib4fv(U32 index, GLfloat* v);
 	
-	//GLint getUniformLocation(const std::string& uniform);
-	GLint getUniformLocation(const LLStaticHashedString& uniform);	
-	GLint getUniformLocation(U32 index);
-
 	GLint getAttribLocation(U32 attrib);
 	GLint mapUniformTextureChannel(GLint location, GLenum type);
 	
@@ -183,8 +444,13 @@ public:
 	std::vector<GLint> mUniform;   //lookup table of uniform enum to uniform location
 	LLStaticStringTable<GLint> mUniformMap; //lookup map of uniform name to uniform location
 	std::map<GLint, std::string> mUniformNameMap; //lookup map of uniform location to uniform name
-	std::map<GLint, LLVector4> mValue; //lookup map of uniform location to last known value
-	std::vector<GLint> mTexture;
+
+	//There are less naive ways to do this than just having several vectors for the differing types, but this method is of least complexity and has some inherent type-safety.
+	std::vector<std::pair<GLint, LLVector4> > mValueVec4; //lookup map of uniform location to last known value
+	std::vector<std::pair<GLint, LLMatrix3> > mValueMat3; //lookup map of uniform location to last known value
+	std::vector<std::pair<GLint, LLMatrix4> > mValueMat4; //lookup map of uniform location to last known value
+	
+	std::vector<GLint> mTexture;   //lookup table of texture uniform enum to texture channel
 	S32 mTotalUniformSize;
 	S32 mActiveTextureChannels;
 	S32 mShaderLevel;

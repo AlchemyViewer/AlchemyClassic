@@ -268,10 +268,10 @@ void display(BOOL rebuild, F32 zoom_factor, int subfield, BOOL for_snapshot)
 
 	for(auto avatar : LLCharacter::sInstances)
 	{
-		LLVOAvatar* avatar = dynamic_cast<LLVOAvatar*>(avatar);
-		if (!avatar) continue;
-		if (avatar->isDead()) continue;
-		avatar->clearRiggedMatrixCache();
+		LLVOAvatar* avatarp = dynamic_cast<LLVOAvatar*>(avatar);
+		if (!avatarp) continue;
+		if (avatarp->isDead()) continue;
+		avatarp->clearRiggedMatrixCache();
 	}
 
 	if (gWindowResized)

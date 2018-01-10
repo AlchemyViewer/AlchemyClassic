@@ -1040,7 +1040,7 @@ protected: // Shared with LLVOAvatarSelf
 
 public:
 	typedef std::array<F32, LL_MAX_JOINTS_PER_MESH_OBJECT * 12> rigged_matrix_array_t;
-	typedef std::map<LLUUID, std::pair<U32, rigged_matrix_array_t> > rigged_transformation_cache_t;
+	typedef std::vector <std::pair< LLUUID, std::pair<U32, rigged_matrix_array_t> > > rigged_transformation_cache_t;
 	auto& getRiggedMatrixCache()
 	{
 		return mRiggedMatrixDataCache;

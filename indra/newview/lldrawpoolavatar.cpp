@@ -1720,7 +1720,9 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 		{
 			if (sShaderLevel > 0)
 			{
-				auto rigged_matrix_data_iter = avatar->getRiggedMatrixCache().find(skin->mMeshID);
+				auto& mesh_cache = avatar->getRiggedMatrixCache();
+				auto& mesh_id = skin->mMeshID;
+				auto rigged_matrix_data_iter = std::find_if(mesh_cache.begin(), mesh_cache.end(), [&mesh_id](decltype(mesh_cache[0]) & entry) { return entry.first == mesh_id; });
 				if (rigged_matrix_data_iter != avatar->getRiggedMatrixCache().cend())
 				{
 					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
@@ -1762,7 +1764,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 						mp[idx + 10] = m[10];
 						mp[idx + 11] = m[14];
 					}
-					avatar->getRiggedMatrixCache().emplace(skin->mMeshID, std::make_pair(count, mp));
+					mesh_cache.emplace_back(std::make_pair(skin->mMeshID, std::make_pair(count, mp)));
 					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
 						count,
 						FALSE,

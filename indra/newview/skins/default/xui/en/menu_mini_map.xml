@@ -93,6 +93,15 @@
        function="ToggleControl"
        parameter="AlchemyMinimapGuideLine" />
   </menu_item_check>
+  <menu_item_check
+    label="Chat Rings"
+    name="Chat Rings">
+    <menu_item_check.on_check
+      control="AlchemyMinimapChatRings" />
+    <menu_item_check.on_click
+      function="ToggleControl"
+      parameter="AlchemyMinimapChatRings" />
+  </menu_item_check>
     <menu_item_separator />
     <menu_item_call
      label="Stop Tracking"

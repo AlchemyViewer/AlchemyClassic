@@ -173,7 +173,7 @@ void LLNetMap::draw()
 	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
 	static LLCachedControl<bool> enable_object_render(gSavedSettings, "AlchemyMinimapRenderObjects", true);
 	static LLCachedControl<bool> render_guide_line(gSavedSettings, "AlchemyMinimapGuideLine", false);
-    static LLCachedControl<bool> map_chat_ring(gSavedSettings, "AlchemyMinimapChatRing", false);
+    static LLCachedControl<bool> map_chat_ring(gSavedSettings, "AlchemyMinimapChatRings", false);
 
 	const LLVector3d& globalpos = center_to_region ? curregionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
 	const LLVector3& agentpos = center_to_region ? curregionp->getCenterAgent() : gAgentCamera.getCameraPositionAgent();
@@ -520,9 +520,9 @@ void LLNetMap::draw()
             const F32 shout_radius = curregionp->getShoutRange() * mPixelsPerMeter;
             gGL.matrixMode(LLRender::MM_MODELVIEW);
             gGL.pushMatrix();
-            gGL.translatef(pos_map.mV[VX], pos_map.mV[VY], 0.f);
-            gl_ring(chat_radius, 1.2f, color, color, 128, FALSE);
-            gl_ring(shout_radius, 1.2f, color, color, 128, FALSE);
+                gGL.translatef(pos_map.mV[VX], pos_map.mV[VY], 0.f);
+                gl_ring(chat_radius, 1.2f, map_chat_ring_color, map_shout_ring_color, 128, FALSE);
+                gl_ring(shout_radius, 1.2f, map_chat_ring_color, map_shout_ring_color, 128, FALSE);
             gGL.popMatrix();
         }
 

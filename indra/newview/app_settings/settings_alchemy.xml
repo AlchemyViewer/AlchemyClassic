@@ -486,7 +486,7 @@
       <key>Value</key>
       <integer>1</integer>
     </map>
-    <key>AlchemyMinimapChatRing</key>
+    <key>AlchemyMinimapChatRings</key>
     <map>
       <key>Comment</key>
       <string>Draw rings to denote chat range</string>

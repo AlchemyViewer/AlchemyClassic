@@ -163,16 +163,17 @@ void LLNetMap::draw()
 
 	static LLFrameTimer map_timer;
 	static LLUIColor map_track_color = LLUIColorTable::instance().getColor("MapTrackColor", LLColor4::white);
+    static LLUIColor map_chat_ring_color = LLUIColorTable::instance().getColor("MapChatRingColor", LLColor4::white);
+    static LLUIColor map_shout_ring_color = LLUIColorTable::instance().getColor("MapShoutRingColor", LLColor4::white);
 	//static LLUIColor map_track_disabled_color = LLUIColorTable::instance().getColor("MapTrackDisabledColor", LLColor4::white);
 	static LLUIColor map_frustum_color = LLUIColorTable::instance().getColor("MapFrustumColor", LLColor4::white);
 	static LLUIColor map_frustum_rotating_color = LLUIColorTable::instance().getColor("MapFrustumRotatingColor", LLColor4::white);
-	// <alchemy>
 	static LLUIColor map_line_color = LLUIColorTable::instance().getColor("MapLineColor", LLColor4::red);
 	static LLCachedControl<bool> use_world_map_image(gSavedSettings, "AlchemyMinimapTile", true);
 	static LLCachedControl<bool> center_to_region(gSavedSettings, "AlchemyMinimapCenterRegion", false);
 	static LLCachedControl<bool> enable_object_render(gSavedSettings, "AlchemyMinimapRenderObjects", true);
 	static LLCachedControl<bool> render_guide_line(gSavedSettings, "AlchemyMinimapGuideLine", false);
-	// </alchemy>
+    static LLCachedControl<bool> map_chat_ring(gSavedSettings, "AlchemyMinimapChatRing", false);
 
 	const LLVector3d& globalpos = center_to_region ? curregionp->getCenterGlobal() : gAgentCamera.getCameraPositionGlobal();
 	const LLVector3& agentpos = center_to_region ? curregionp->getCenterAgent() : gAgentCamera.getCameraPositionAgent();
@@ -511,10 +512,21 @@ void LLNetMap::draw()
 		F32 ctr_x = center_to_region ? cam_pos.mV[VX] : (F32)center_sw_left;
 		F32 ctr_y = center_to_region ? cam_pos.mV[VY] : (F32)center_sw_bottom;
 
-
 		gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
+		
+        if (map_chat_ring)
+        {
+            const F32 chat_radius = curregionp->getChatRange() * mPixelsPerMeter;
+            const F32 shout_radius = curregionp->getShoutRange() * mPixelsPerMeter;
+            gGL.matrixMode(LLRender::MM_MODELVIEW);
+            gGL.pushMatrix();
+            gGL.translatef(pos_map.mV[VX], pos_map.mV[VY], 0.f);
+            gl_ring(chat_radius, 1.2f, color, color, 128, FALSE);
+            gl_ring(shout_radius, 1.2f, color, color, 128, FALSE);
+            gGL.popMatrix();
+        }
 
-		const LLColor4& line_col = map_line_color.get();
+        const LLColor4& line_col = map_line_color.get();
 		if( rotate_map )
 		{
 			gGL.color4fv((map_frustum_color()).mV);
@@ -604,8 +616,7 @@ LLVector3 LLNetMap::globalPosToView(const LLVector3d& global_pos)
 	return pos_local;
 }
 
-void LLNetMap::drawTracking(const LLVector3d& pos_global, const LLColor4& color, 
-							BOOL draw_arrow )
+void LLNetMap::drawTracking(const LLVector3d& pos_global, const LLColor4& color, BOOL draw_arrow)
 {
 	LLVector3 pos_local = globalPosToView(pos_global);
 	if( (pos_local.mV[VX] < 0) ||

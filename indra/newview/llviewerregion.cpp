@@ -3500,6 +3500,39 @@ std::string LLViewerRegion::getHGGridName() const
 	return name;
 }
 
+U32 LLViewerRegion::getChatRange() const
+{
+    U32 range = 20;
+    if (mSimulatorFeatures.has("OpenSimExtras")
+        && mSimulatorFeatures["OpenSimExtras"].has("say-range"))
+    {
+        range = mSimulatorFeatures["OpenSimExtras"]["say-range"].asInteger();
+    }
+    return range;
+}
+
+U32 LLViewerRegion::getShoutRange() const
+{
+    U32 range = 100;
+    if (mSimulatorFeatures.has("OpenSimExtras")
+        && mSimulatorFeatures["OpenSimExtras"].has("shout-range"))
+    {
+        range = mSimulatorFeatures["OpenSimExtras"]["shout-range"].asInteger();
+    }
+    return range;
+}
+
+U32 LLViewerRegion::getWhisperRange() const
+{
+    U32 range = 10;
+    if (mSimulatorFeatures.has("OpenSimExtras")
+        && mSimulatorFeatures["OpenSimExtras"].has("whisper-range"))
+    {
+        range = mSimulatorFeatures["OpenSimExtras"]["whisper-range"].asInteger();
+    }
+    return range;
+}
+
 void LLViewerRegion::setGodnames()
 {
 	mGodNames.clear();

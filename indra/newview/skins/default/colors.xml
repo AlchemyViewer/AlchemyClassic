@@ -537,6 +537,9 @@
      name="MapFrustumRotatingColor"
      reference="White_10" />
     <color
+     name="MapParcelBoundryLine"
+     reference="White_10" />
+    <color
      name="MapTrackColor"
      reference="Red" />
     <color

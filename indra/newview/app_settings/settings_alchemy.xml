@@ -530,6 +530,39 @@
       <key>Value</key>
       <real>0.1</real>
     </map>
+    <key>AlchemyMinimapParcelBoundries</key>
+    <map>
+      <key>Comment</key>
+      <string>Draw parcel boundry lines</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyMiniMapForSaleParcels</key>
+    <map>
+      <key>Comment</key>
+      <string>Draw for sale parcels</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
+    <key>AlchemyMiniMapCollisionParcels</key>
+    <map>
+      <key>Comment</key>
+      <string>Draw collision parcels</string>
+      <key>Persist</key>
+      <integer>1</integer>
+      <key>Type</key>
+      <string>Boolean</string>
+      <key>Value</key>
+      <integer>0</integer>
+    </map>
     <key>AlchemyMinimapRenderObjects</key>
     <map>
       <key>Comment</key>

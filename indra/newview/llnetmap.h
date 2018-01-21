@@ -27,7 +27,6 @@
 #ifndef LL_LLNETMAP_H
 #define LL_LLNETMAP_H
 
-#include "llmath.h"
 #include "lluictrl.h"
 #include "v3math.h"
 #include "v3dmath.h"
@@ -35,13 +34,12 @@
 #include "llpointer.h"
 #include "llcoord.h"
 
-#include <boost/unordered_map.hpp>
-
 class LLColor4U;
 class LLImageRaw;
 class LLViewerTexture;
 class LLFloaterMap;
 class LLMenuGL;
+class LLViewerRegion;
 
 class LLNetMap : public LLUICtrl
 {
@@ -81,12 +79,14 @@ public:
 	/*virtual*/ BOOL	handleClick(S32 x, S32 y, MASK mask);
 	/*virtual*/ BOOL	handleDoubleClick( S32 x, S32 y, MASK mask ) override;
 
+	void			refreshParcelOverlay() { mUpdateParcelImage = true; }
+
 	void			setScale( F32 scale );
 	void			setToolTipMsg(const std::string& msg) { mToolTipMsg = msg; }
 	void			renderScaledPointGlobal( const LLVector3d& pos, const LLColor4U &color, F32 radius );
 
 private:
-	const LLVector3d& getObjectImageCenterGlobal()	{ return mObjectImageCenterGlobal; }
+	const LLVector3d& getObjectImageCenterGlobal() const { return mObjectImageCenterGlobal; }
 	void 			renderPoint(const LLVector3 &pos, const LLColor4U &color, 
 								S32 diameter, S32 relative_height = 0);
 
@@ -99,12 +99,18 @@ private:
 	BOOL			handleToolTipAgent(const LLUUID& avatar_id);
 	static void		showAvatarInspector(const LLUUID& avatar_id);
 
+	bool			createImage(LLPointer<LLImageRaw>& rawimagep) const;
 	void			createObjectImage();
+	void			createParcelImage();
+	void			renderPropertyLinesForRegion(const LLViewerRegion* pRegion, const LLColor4U& clrOverlay);
+
 
 	static bool		outsideSlop(S32 x, S32 y, S32 start_x, S32 start_y, S32 slop);
 
 private:
 	bool			mUpdateNow;
+	bool			mUpdateObjectImage;
+	bool			mUpdateParcelImage;
 
 	LLUIColor		mBackgroundColor;
 
@@ -123,6 +129,13 @@ private:
 	LLVector3d		mObjectImageCenterGlobal;
 	LLPointer<LLImageRaw> mObjectRawImagep;
 	LLPointer<LLViewerTexture>	mObjectImagep;
+
+	LLVector3d		mParcelImageCenterGlobal;
+	LLPointer<LLImageRaw> mParcelRawImagep;
+	LLPointer<LLViewerTexture>	mParcelImagep;
+
+	boost::signals2::connection mParcelMgrConn;
+	boost::signals2::connection mParcelOverlayConn;
 
 	LLUUID			mClosestAgentToCursor;
 	LLUUID			mClosestAgentAtLastRightClick;

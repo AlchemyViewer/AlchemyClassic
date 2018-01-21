@@ -1568,16 +1568,18 @@ void LLFavoritesOrderStorage::saveFavoritesSLURLs()
         gInventory.collectDescendents(fav_id, cats, items, LLInventoryModel::EXCLUDE_TRASH);
 
         LLSD user_llsd;
-        for (LLInventoryModel::item_array_t::iterator it = items.begin(); it != items.end(); it++)
+        for (LLInventoryModel::item_array_t::const_iterator it = items.cbegin(); it != items.cend(); ++it)
         {
             LLSD value;
             value["name"] = (*it)->getName();
             value["asset_id"] = (*it)->getAssetUUID();
 
-            slurls_map_t::iterator slurl_iter = mSLURLs.find(value["asset_id"]);
-            if (slurl_iter != mSLURLs.end())
+            slurls_map_t::const_iterator slurl_iter = mSLURLs.find(value["asset_id"]);
+            if (slurl_iter != mSLURLs.cend())
             {
-                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID()) << ", SLURL=" <<  slurl_iter->second << ", value=" << value << LL_ENDL;
+                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())
+                    << ", SLURL=" <<  slurl_iter->second 
+                    << ", value=" << value << LL_ENDL;
                 value["slurl"] = slurl_iter->second;
                 user_llsd[LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())] = value;
             }
@@ -1665,7 +1667,7 @@ void LLFavoritesOrderStorage::onLandmarkLoaded(const LLUUID& asset_id, LLLandmar
         {
         	LL_DEBUGS("FavoritesBar") << "requesting slurl for landmark " << asset_id << LL_ENDL;
         	LLLandmarkActions::getSLURLfromPosGlobal(pos_global,
-			boost::bind(&LLFavoritesOrderStorage::storeFavoriteSLURL, this, asset_id, _1));
+                boost::bind(&LLFavoritesOrderStorage::storeFavoriteSLURL, this, asset_id, _1));
         }
     }
 }

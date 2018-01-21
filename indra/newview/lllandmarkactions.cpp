@@ -63,8 +63,8 @@ public:
 		mPos(pos)
 	{}
 
-	/*virtual*/ bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
-	{
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
+    {
 		if (!item || item->getType() != LLAssetType::AT_LANDMARK)
 			return false;
 
@@ -99,8 +99,8 @@ use_substring(if_use_substring)
 	}
 
 public:
-	/*virtual*/ bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
-	{
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
+    {
 		if (!item || item->getType() != LLAssetType::AT_LANDMARK)
 			return false;
 
@@ -142,8 +142,8 @@ private:
 public:
 	LLFirstAgentParcelLandmark(): mFounded(false){}
 	
-	/*virtual*/ bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
-	{
+	bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
+    {
 		if (mFounded || !item || item->getType() != LLAssetType::AT_LANDMARK)
 			return false;
 
@@ -193,7 +193,7 @@ LLInventoryModel::item_array_t LLLandmarkActions::fetchLandmarksByName(std::stri
 bool LLLandmarkActions::landmarkAlreadyExists()
 {
 	// Determine whether there are landmarks pointing to the current global  agent position.
-	return findLandmarkForAgentPos() != NULL;
+	return findLandmarkForAgentPos() != nullptr;
 }
 
 //static
@@ -217,12 +217,7 @@ LLViewerInventoryItem* LLLandmarkActions::findLandmarkForGlobalPos(const LLVecto
 	LLFetchlLandmarkByPos is_current_pos_landmark(pos);
 	fetch_landmarks(cats, items, is_current_pos_landmark);
 
-	if(items.empty())
-	{
-		return NULL;
-	}
-
-	return items[0];
+    return (items.empty()) ? nullptr : items[0];
 }
 
 LLViewerInventoryItem* LLLandmarkActions::findLandmarkForAgentPos()
@@ -289,13 +284,20 @@ void LLLandmarkActions::createLandmarkHere()
 	createLandmarkHere(landmark_name, landmark_desc, folder_id);
 }
 
+LLVector3d getRegionPosFromGlobalPos(const LLVector3d& global_pos, const LLSimInfo* siminfo)
+{
+    LLVector3d local_pos;
+    local_pos[0] = fmod(global_pos[0], siminfo ? siminfo->getSizeX() : 256);
+    local_pos[1] = fmod(global_pos[1], siminfo ? siminfo->getSizeY() : 256);
+    return local_pos;
+}
+
 void LLLandmarkActions::getSLURLfromPosGlobal(const LLVector3d& global_pos, slurl_callback_t cb, bool escaped /* = true */)
 {
-	
-	std::string sim_name;
-	if (LLWorldMap::getInstance()->simNameFromPosGlobal(global_pos, sim_name))
+    const LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromPosGlobal(global_pos);
+	if (siminfo)
 	{
-		std::string slurl = LLSLURL(sim_name, global_pos).getSLURLString();
+		std::string slurl = LLSLURL(siminfo->getName(), getRegionPosFromGlobalPos(global_pos, siminfo)).getSLURLString();
 		cb(slurl);
 	}
 	else
@@ -341,10 +343,10 @@ void LLLandmarkActions::onRegionResponseSLURL(slurl_callback_t cb,
 {
 	std::string sim_name;
 	std::string slurl;
-	bool gotSimName = LLWorldMap::getInstance()->simNameFromPosGlobal(global_pos, sim_name);
-	if (gotSimName)
+    const LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromPosGlobal(global_pos);
+	if (siminfo)
 	{
-	  slurl = LLSLURL(sim_name, global_pos).getSLURLString();
+	  slurl = LLSLURL(siminfo->getName(), getRegionPosFromGlobalPos(global_pos, siminfo)).getSLURLString();
 	}
 	else
 	{

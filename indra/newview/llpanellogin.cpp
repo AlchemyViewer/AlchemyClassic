@@ -203,8 +203,8 @@ void LLPanelLogin::addFavoritesToStartLocation()
 	// Clear the combo.
 	auto combo = getChild<LLComboBox>("start_location_combo");
 	if (!combo) return;
-	int num_items = combo->getItemCount();
-	for (int i = num_items - 1; i > 2; i--)
+	S32 num_items = combo->getItemCount();
+	for (S32 i = num_items - 1; i > 2; i--)
 	{
 		combo->remove(i);
 	}

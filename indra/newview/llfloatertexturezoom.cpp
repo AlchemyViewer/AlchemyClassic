@@ -30,6 +30,7 @@
 #include "llviewerinventory.h"
 #include "llviewertexture.h"
 #include "llviewertexturelist.h"	// for MIPMAP_TRUE
+#include "alviewermenu.h"
 
 LLFloaterTextureZoom::LLFloaterTextureZoom(const LLSD& key)
 :	LLPreview(key)
@@ -244,6 +245,18 @@ void LLFloaterTextureZoom::setObjectID(const LLUUID& object_id)
 		mAssetStatus = PREVIEW_ASSET_UNLOADED;
 		loadAsset();
 	}
+}
+
+BOOL LLFloaterTextureZoom::handleMouseDown(S32 x, S32 y, MASK mask)
+{
+    BOOL handled = LLUICtrl::handleMouseDown(x, y, mask);
+
+    if (mask & MASK_SHIFT)
+    {
+        ALViewerMenu::destroy_texture(mImageID);
+        handled = TRUE;
+    }
+    return handled;
 }
 
 BOOL LLFloaterTextureZoom::handleKeyHere(KEY key, MASK mask)

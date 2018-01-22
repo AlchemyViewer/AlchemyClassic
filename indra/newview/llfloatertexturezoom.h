@@ -38,6 +38,7 @@ public:
 	/* virtual */ void loadAsset() override;
 	/* virtual */ EAssetStatus getAssetStatus() override;
 	/* virtual */ void setObjectID(const LLUUID& object_id) override;
+    /* virtual */ BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 	/* virtual */ BOOL handleKeyHere(KEY key, MASK mask) override;
 	/* virtual */ void onFocusLost() override;
 	

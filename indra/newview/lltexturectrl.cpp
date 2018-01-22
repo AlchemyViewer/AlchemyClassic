@@ -1007,9 +1007,13 @@ static LLDefaultChildRegistry::Register<LLTextureCtrl> r("texture_picker");
 LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 :	LLUICtrl(p),
 	mOnCancelCallback(NULL),
-	mOnCloseCallback(NULL),
 	mOnSelectCallback(NULL),
+	mOnCloseCallback(NULL),
 	mBorderColor( p.border_color() ),
+	mImageAssetID(p.image_id),
+	mDefaultImageAssetID(p.default_image_id),
+	mFallbackImage(p.fallback_image),
+	mDefaultImageName(p.default_image_name),
 	mAllowNoTexture( FALSE ),
 	mImmediateFilterPermMask( PERM_NONE ),
 	mNonImmediateFilterPermMask( PERM_NONE ),
@@ -1017,10 +1021,6 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mNeedsRawImageData( FALSE ),
 	mValid( TRUE ),
 	mShowLoadingPlaceholder( TRUE ),
-	mImageAssetID(p.image_id),
-	mDefaultImageAssetID(p.default_image_id),
-	mDefaultImageName(p.default_image_name),
-	mFallbackImage(p.fallback_image),
 	mPreview(!p.enabled)
 {
 
@@ -1095,7 +1095,7 @@ void LLTextureCtrl::setCaption(const std::string& caption)
 void LLTextureCtrl::setCanApplyImmediately(BOOL b)
 {
 	mCanApplyImmediately = b; 
-	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 	if( floaterp )
 	{
 		floaterp->setCanApplyImmediately(b);
@@ -1122,7 +1122,7 @@ void LLTextureCtrl::setVisible( BOOL visible )
 
 void LLTextureCtrl::setEnabled( BOOL enabled )
 {
-	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 	if( enabled )
 	{
 		std::string tooltip;
@@ -1153,7 +1153,7 @@ void LLTextureCtrl::setValid(BOOL valid )
 	mValid = valid;
 	if (!valid)
 	{
-		LLFloaterTexturePicker* pickerp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+		LLFloaterTexturePicker* pickerp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 		if (pickerp)
 		{
 			pickerp->setActive(FALSE);
@@ -1233,7 +1233,7 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 
 void LLTextureCtrl::closeDependentFloater()
 {
-	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 	if( floaterp )
 	{
 		floaterp->setOwner(nullptr);
@@ -1288,7 +1288,7 @@ BOOL LLTextureCtrl::handleMouseDown(S32 x, S32 y, MASK mask)
 
 void LLTextureCtrl::onFloaterClose()
 {
-	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 
 	if (floaterp)
 	{
@@ -1304,7 +1304,7 @@ void LLTextureCtrl::onFloaterClose()
 
 void LLTextureCtrl::onFloaterCommit(ETexturePickOp op, LLUUID id)
 {
-	LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+	LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 
 	if( floaterp && getEnabled())
 	{
@@ -1383,7 +1383,7 @@ void LLTextureCtrl::setImageAssetID( const LLUUID& asset_id )
 	{
 		mImageItemID.setNull();
 		mImageAssetID = asset_id;
-		LLFloaterTexturePicker* floaterp = (LLFloaterTexturePicker*)mFloaterHandle.get();
+		LLFloaterTexturePicker* floaterp = static_cast<LLFloaterTexturePicker*>(mFloaterHandle.get());
 		if( floaterp && getEnabled() )
 		{
 			floaterp->setImageID( asset_id );

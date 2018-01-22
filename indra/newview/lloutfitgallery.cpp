@@ -31,7 +31,6 @@
 #include "lloutfitgallery.h"
 
 // llcommon
-#include "llcommonutils.h"
 #include "llvfile.h"
 
 #include "llaccordionctrltab.h"
@@ -42,10 +41,10 @@
 #include "llfloaterperms.h"
 #include "llfloaterreg.h"
 #include "llfloateroutfitsnapshot.h"
+#include "llfloatertexturepicker.h"
 #include "llimagedimensionsinfo.h"
 #include "llinventoryfunctions.h"
 #include "llinventorymodel.h"
-#include "lllocalbitmaps.h"
 #include "llnotificationsutil.h"
 #include "llpaneloutfitsinventory.h"
 #include "lltabcontainer.h"

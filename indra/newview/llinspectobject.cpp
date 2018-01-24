@@ -224,7 +224,7 @@ void LLInspectObject::onOpen(const LLSD& data)
 		// Mark this as a transient selection
 		struct SetTransient : public LLSelectedNodeFunctor
 		{
-			bool apply(LLSelectNode* node)
+			bool apply(LLSelectNode* node) override
 			{
 				node->setTransient(TRUE);
 				return true;

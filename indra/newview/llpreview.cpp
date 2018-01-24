@@ -63,14 +63,14 @@
 LLPreview::LLPreview(const LLSD& key)
 :	LLFloater(key),
 	mDirty(TRUE),
-	mItemUUID(key.has("itemid") ? key.get("itemid").asUUID() : key.asUUID()),			// set later by setObjectID()
+	mSaveDialogShown(FALSE),			// set later by setObjectID()
+	mItemUUID(key.has("itemid") ? key.get("itemid").asUUID() : key.asUUID()),
 	mObjectUUID(),
 	mCopyToInvBtn(nullptr ),
 	mForceClose(FALSE),
 	mUserResized(FALSE),
 	mCloseAfterSave(FALSE),
-	mAssetStatus(PREVIEW_ASSET_UNLOADED),
-	mSaveDialogShown(FALSE)
+	mAssetStatus(PREVIEW_ASSET_UNLOADED)
 {
 	mAuxItem = new LLInventoryItem;
 	// don't necessarily steal focus on creation -- sometimes these guys pop up without user action

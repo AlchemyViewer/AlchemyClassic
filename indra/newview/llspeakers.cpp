@@ -272,10 +272,10 @@ bool LLSpeakersDelayActionsStorage::isTimerStarted(const LLUUID& speaker_id)
 //
 
 LLSpeakerMgr::LLSpeakerMgr(LLVoiceChannel* channelp) : 
+	mSpeakerListUpdated(false),
 	mVoiceChannel(channelp),
 	mVoiceModerated(false),
-	mModerateModeHandledFirstTime(false),
-	mSpeakerListUpdated(false)
+	mModerateModeHandledFirstTime(false)
 {
     mGetListTime.reset();
 	static LLUICachedControl<F32> remove_delay ("SpeakerParticipantRemoveDelay", 10.0);

@@ -121,12 +121,12 @@ LLViewerParcelMgr::LLViewerParcelMgr()
 	mHoverWestSouth(),
 	mHoverEastNorth(),
 	mTeleportInProgressPosition(),
+	mCollisionRegionHandle(0),
+	mCollisionUpdateSignal(nullptr),
 	mRenderCollision(FALSE),
 	mRenderSelection(TRUE),
 	mCollisionBanned(0),
 	mCollisionTimer(),
-	mCollisionRegionHandle(0),
-	mCollisionUpdateSignal(nullptr),
 	mMediaParcelId(0),
 	mMediaRegionId(0)
 {

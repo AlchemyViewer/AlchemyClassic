@@ -326,8 +326,8 @@ LLViewerOctreeEntryData::~LLViewerOctreeEntryData()
 }
 
 LLViewerOctreeEntryData::LLViewerOctreeEntryData(LLViewerOctreeEntry::eEntryDataType_t data_type)
-	: mDataType(data_type),
-	  mEntry(NULL)
+	: mEntry(NULL),
+	  mDataType(data_type)
 {
 }
 
@@ -463,9 +463,9 @@ LLViewerOctreeGroup::~LLViewerOctreeGroup()
 
 LLViewerOctreeGroup::LLViewerOctreeGroup(OctreeNode* node)
 :	LLTrace::MemTrackable<LLViewerOctreeGroup, 16>("LLViewerOctreeGroup"),
+	mState(CLEAN),
 	mOctreeNode(node),
-	mAnyVisible(0),
-	mState(CLEAN)
+	mAnyVisible(0)
 {
 	LLVector4a tmp;
 	tmp.splat(0.f);
@@ -834,7 +834,8 @@ class LLSpatialSetOcclusionState : public OctreeTraveler
 public:
 	U32 mState;
 	LLSpatialSetOcclusionState(U32 state) : mState(state) { }
-	virtual void visit(const OctreeNode* branch) 
+
+    void visit(const OctreeNode* branch) override
 	{ 
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*)branch->getListener(0);
 		if(group)
@@ -849,7 +850,7 @@ class LLSpatialSetOcclusionStateDiff : public LLSpatialSetOcclusionState
 public:
 	LLSpatialSetOcclusionStateDiff(U32 state) : LLSpatialSetOcclusionState(state) { }
 
-	virtual void traverse(const OctreeNode* n)
+    void traverse(const OctreeNode* n) override
 	{
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*) n->getListener(0);
 		
@@ -983,7 +984,8 @@ public:
 	U32 mState;
 	
 	LLSpatialClearOcclusionState(U32 state) : mState(state) { }
-	virtual void visit(const OctreeNode* branch) 
+
+    void visit(const OctreeNode* branch) override
 	{ 
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*)branch->getListener(0);
 		if(group)
@@ -998,7 +1000,7 @@ class LLSpatialClearOcclusionStateDiff : public LLSpatialClearOcclusionState
 public:
 	LLSpatialClearOcclusionStateDiff(U32 state) : LLSpatialClearOcclusionState(state) { }
 
-	virtual void traverse(const OctreeNode* n)
+    void traverse(const OctreeNode* n) override
 	{
 		LLOcclusionCullingGroup* group = (LLOcclusionCullingGroup*) n->getListener(0);
 		
@@ -1326,10 +1328,10 @@ void LLOcclusionCullingGroup::doOcclusion(LLCamera* camera, const LLVector4a* sh
 //class LLViewerOctreePartition definitions
 //-----------------------------------------------------------------------------------
 LLViewerOctreePartition::LLViewerOctreePartition() : 
-	mRegionp(NULL), 
-	mOcclusionEnabled(TRUE), 
-	mDrawableType(0),
-	mPartitionType(0),
+	mPartitionType(0), 
+	mDrawableType(0), 
+	mRegionp(NULL),
+	mOcclusionEnabled(TRUE),
 	mLODSeed(0),
 	mLODPeriod(1)
 {

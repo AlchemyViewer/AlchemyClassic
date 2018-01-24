@@ -143,7 +143,8 @@ public:
 	LLRightClickInventoryFetchDescendentsObserver(const uuid_vec_t& ids) : LLInventoryFetchDescendentsObserver(ids) {}
 	~LLRightClickInventoryFetchDescendentsObserver() {}
 	virtual void execute(bool clear_observer = false);
-	virtual void done()
+
+    void done() override
 	{
 		execute(true);
 	}
@@ -165,7 +166,8 @@ public:
 		// we've downloaded all the items, so repaint the dialog
 		LLFolderBridge::staticFolderOptionsMenu();
 	}
-	virtual void done()
+
+    void done() override
 	{
 		execute(true);
 	}
@@ -178,11 +180,11 @@ public:
 LLInvFVBridge::LLInvFVBridge(LLInventoryPanel* inventory, 
 							 LLFolderView* root,
 							 const LLUUID& uuid) :
-	mUUID(uuid), 
+	LLFolderViewModelItemInventory(inventory->getRootViewModel()), 
 	mRoot(root),
+	mUUID(uuid),
 	mInvType(LLInventoryType::IT_NONE),
-	mIsLink(FALSE),
-	LLFolderViewModelItemInventory(inventory->getRootViewModel())
+	mIsLink(FALSE)
 {
 	mInventoryPanel = inventory->getInventoryPanelHandle();
 	const LLInventoryObject* obj = getInventoryObject();
@@ -2237,11 +2239,13 @@ class LLIsItemRemovable : public LLFolderViewFunctor
 {
 public:
 	LLIsItemRemovable() : mPassed(TRUE) {}
-	virtual void doFolder(LLFolderViewFolder* folder)
+
+    void doFolder(LLFolderViewFolder* folder) override
 	{
 		mPassed &= folder->getViewModelItem()->isItemRemovable();
 	}
-	virtual void doItem(LLFolderViewItem* item)
+
+    void doItem(LLFolderViewItem* item) override
 	{
 		mPassed &= item->getViewModelItem()->isItemRemovable();
 	}
@@ -3061,7 +3065,7 @@ public:
 	LLInventoryCopyAndWearObserver(const LLUUID& cat_id, int count, bool folder_added=false, bool replace=false) :
 		mCatID(cat_id), mContentsCount(count), mFolderAdded(folder_added), mReplace(replace){}
 	virtual ~LLInventoryCopyAndWearObserver() {}
-	virtual void changed(U32 mask);
+    void changed(U32 mask) override;
 
 protected:
 	LLUUID mCatID;
@@ -5530,7 +5534,8 @@ class LLCallingCardObserver : public LLFriendObserver
 public:
 	LLCallingCardObserver(LLCallingCardBridge* bridge) : mBridgep(bridge) {}
 	virtual ~LLCallingCardObserver() { mBridgep = NULL; }
-	virtual void changed(U32 mask)
+
+    void changed(U32 mask) override
 	{
 		mBridgep->refreshFolderViewItem();
 		if (mask & LLFriendObserver::ONLINE)
@@ -7003,7 +7008,7 @@ class LLTextureBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		if (getItem())
 		{
@@ -7020,7 +7025,7 @@ class LLSoundBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7038,7 +7043,7 @@ class LLLandmarkBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7064,7 +7069,7 @@ class LLCallingCardBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item && item->getCreatorUUID().notNull())
@@ -7084,7 +7089,7 @@ class LLNotecardBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7102,7 +7107,7 @@ class LLGestureBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7121,7 +7126,7 @@ class LLAnimationBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7139,7 +7144,7 @@ class LLObjectBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		/*
 		  LLFloaterReg::showInstance("properties", mUUID);
@@ -7155,7 +7160,7 @@ class LLLSLTextBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		LLViewerInventoryItem* item = getItem();
 		if (item)
@@ -7173,7 +7178,7 @@ class LLWearableBridgeAction: public LLInvFVBridgeAction
 {
 	friend class LLInvFVBridgeAction;
 public:
-	virtual void doIt()
+    void doIt() override
 	{
 		wearOnAvatar();
 	}

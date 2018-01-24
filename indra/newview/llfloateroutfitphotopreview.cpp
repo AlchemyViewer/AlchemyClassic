@@ -62,10 +62,10 @@ const S32 CLIENT_RECT_VPAD = 4;
 
 LLFloaterOutfitPhotoPreview::LLFloaterOutfitPhotoPreview(const LLSD& key)
 	: LLPreview(key),
-	  mUpdateDimensions(TRUE),
-	  mImage(NULL),
 	  mOutfitID(LLUUID()),
+	  mImage(NULL),
 	  mImageOldBoostLevel(LLGLTexture::BOOST_NONE),
+	  mUpdateDimensions(TRUE),
 	  mExceedLimits(FALSE)
 {
 	updateImageID();

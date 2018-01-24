@@ -232,7 +232,7 @@ public:
 	LLInventoryHandler() : LLCommandHandler("inventory", UNTRUSTED_THROTTLE) { }
 	
 	bool handle(const LLSD& params, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		if (params.size() < 1)
 		{
@@ -1646,7 +1646,7 @@ public:
 		mCB(cb)
 	{
 	}
-	/* virtual */ void fire(const LLUUID& item_id) {}
+	/* virtual */ void fire(const LLUUID& item_id) override {}
 	~LLRemoveCategoryOnDestroy()
 	{
 		LLInventoryModel::EHasChildren children = gInventory.categoryHasChildren(mID);
@@ -2338,8 +2338,9 @@ class LLRegenerateLinkCollector : public LLInventoryCollectFunctor
 public:
 	LLRegenerateLinkCollector(const LLViewerInventoryItem *target_item) : mTargetItem(target_item) {}
 	virtual ~LLRegenerateLinkCollector() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item)
+
+    bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override
 	{
 		if (item)
 		{

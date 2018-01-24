@@ -83,7 +83,7 @@
 
 class LLFileEnableUpload : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
  		return gStatusBar && LLGlobalEconomy::getInstance() && (gStatusBar->getBalance() >= LLGlobalEconomy::getInstance()->getPriceUpload());
 	}
@@ -91,7 +91,7 @@ class LLFileEnableUpload : public view_listener_t
 
 class LLFileEnableUploadModel : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterModelPreview* fmp = (LLFloaterModelPreview*) LLFloaterReg::findInstance("upload_model");
 		if (fmp && fmp->isModelLoading())
@@ -105,7 +105,7 @@ class LLFileEnableUploadModel : public view_listener_t
 
 class LLMeshUploadVisible : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gMeshRepo.meshUploadEnabled();
 	}
@@ -328,7 +328,7 @@ const std::string upload_pick(void* data)
 
 class LLFileUploadImage : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string filename = upload_pick((void *)LLFilePicker::FFLOAD_IMAGE);
 		if (!filename.empty())
@@ -341,7 +341,7 @@ class LLFileUploadImage : public view_listener_t
 
 class LLFileUploadModel : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterModelPreview* fmp = (LLFloaterModelPreview*) LLFloaterReg::getInstance("upload_model");
 		if (fmp && !fmp->isModelLoading())
@@ -355,7 +355,7 @@ class LLFileUploadModel : public view_listener_t
 	
 class LLFileUploadSound : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string filename = upload_pick((void*)LLFilePicker::FFLOAD_WAV);
 		if (!filename.empty())
@@ -368,7 +368,7 @@ class LLFileUploadSound : public view_listener_t
 
 class LLFileUploadAnim : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		const std::string filename = upload_pick((void*)LLFilePicker::FFLOAD_ANIM);
 		if (!filename.empty())
@@ -388,7 +388,7 @@ class LLFileUploadAnim : public view_listener_t
 
 class LLFileUploadBulk : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( gAgentCamera.cameraMouselook() )
 		{
@@ -456,7 +456,7 @@ void upload_error(const std::string& error_message, const std::string& label, co
 
 class LLFileEnableCloseWindow : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool frontmost_fl_exists = (NULL != gFloaterView->getFrontmostClosableFloater());
 		bool frontmost_snapshot_fl_exists = (NULL != gSnapshotFloaterView->getFrontmostClosableFloater());
@@ -467,7 +467,7 @@ class LLFileEnableCloseWindow : public view_listener_t
 
 class LLFileCloseWindow : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool frontmost_fl_exists = (NULL != gFloaterView->getFrontmostClosableFloater());
 		LLFloater* snapshot_floater = gSnapshotFloaterView->getFrontmostClosableFloater();
@@ -491,7 +491,7 @@ class LLFileCloseWindow : public view_listener_t
 
 class LLFileEnableCloseAllWindows : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterSnapshot* floater_snapshot = LLFloaterSnapshot::findInstance();
 		LLFloaterOutfitSnapshot* floater_outfit_snapshot = LLFloaterOutfitSnapshot::findInstance();
@@ -504,7 +504,7 @@ class LLFileEnableCloseAllWindows : public view_listener_t
 
 class LLFileCloseAllWindows : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool app_quitting = false;
 		gFloaterView->closeAllChildren(app_quitting);
@@ -521,7 +521,7 @@ class LLFileCloseAllWindows : public view_listener_t
 
 class LLFileTakeSnapshotToDisk : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLPointer<LLImageRaw> raw = new LLImageRaw;
 
@@ -570,7 +570,7 @@ class LLFileTakeSnapshotToDisk : public view_listener_t
 
 class LLFileQuit : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLAppViewer::instance()->userQuit();
 		return true;

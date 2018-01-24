@@ -241,7 +241,7 @@ void LLSelectMgr::updateEffects()
 	//keep reference grid objects active
 	struct f : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			LLDrawable* drawable = object->mDrawable;
 			if (drawable)
@@ -265,7 +265,7 @@ void LLSelectMgr::overrideObjectUpdates()
 	//override any position updates from simulator on objects being edited
 	struct f : public LLSelectedNodeFunctor
 	{
-		virtual bool apply(LLSelectNode* selectNode)
+	    bool apply(LLSelectNode* selectNode) override
 		{
 			LLViewerObject* object = selectNode->getObject();
 			if (object && object->permMove() && !object->isPermanentEnforced())
@@ -641,7 +641,7 @@ bool LLSelectMgr::enableLinkObjects()
 		{
 			struct f : public LLSelectedObjectFunctor
 			{
-				virtual bool apply(LLViewerObject* object)
+			    bool apply(LLViewerObject* object) override
 				{
 					LLViewerObject *root_object = (object == NULL) ? NULL : object->getRootEdit();
 					return object->permModify() && !object->isPermanentEnforced() &&
@@ -1524,7 +1524,7 @@ void LLSelectMgr::cleanup()
 
 struct LLSelectMgrSendFunctor : public LLSelectedObjectFunctor
 {
-	virtual bool apply(LLViewerObject* object)
+    bool apply(LLViewerObject* object) override
 	{
 		if (object->permModify())
 		{
@@ -1599,7 +1599,7 @@ void LLSelectMgr::selectionSetImage(const LLUUID& imageid)
 		LLViewerInventoryItem* mItem;
 		LLUUID mImageID;
 		f(LLViewerInventoryItem* item, const LLUUID& id) : mItem(item), mImageID(id) {}
-		bool apply(LLViewerObject* objectp, S32 te)
+		bool apply(LLViewerObject* objectp, S32 te) override
 		{
 		    if(objectp && !objectp->permModify())
 		    {
@@ -1649,7 +1649,8 @@ void LLSelectMgr::selectionSetImage(const LLUUID& imageid)
 	{
 		LLViewerInventoryItem* mItem;
 		g(LLViewerInventoryItem* item) : mItem(item) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (!mItem)
 			{
@@ -1679,7 +1680,7 @@ void LLSelectMgr::selectionSetColor(const LLColor4 &color)
 	{
 		LLColor4 mColor;
 		f(const LLColor4& c) : mColor(c) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1703,7 +1704,7 @@ void LLSelectMgr::selectionSetColorOnly(const LLColor4 &color)
 	{
 		LLColor4 mColor;
 		f(const LLColor4& c) : mColor(c) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1730,7 +1731,7 @@ void LLSelectMgr::selectionSetAlphaOnly(const F32 alpha)
 	{
 		F32 mAlpha;
 		f(const F32& a) : mAlpha(a) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1754,7 +1755,7 @@ void LLSelectMgr::selectionRevertColors()
 	{
 		LLObjectSelectionHandle mSelectedObjects;
 		f(LLObjectSelectionHandle sel) : mSelectedObjects(sel) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1781,7 +1782,7 @@ void LLSelectMgr::selectionRevertShinyColors()
 	{
 		LLObjectSelectionHandle mSelectedObjects;
 		f(LLObjectSelectionHandle sel) : mSelectedObjects(sel) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1815,7 +1816,7 @@ BOOL LLSelectMgr::selectionRevertTextures()
 	{
 		LLObjectSelectionHandle mSelectedObjects;
 		f(LLObjectSelectionHandle sel) : mSelectedObjects(sel) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1852,7 +1853,7 @@ void LLSelectMgr::selectionSetBumpmap(U8 bumpmap)
 	{
 		U8 mBump;
 		f(const U8& b) : mBump(b) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1874,7 +1875,7 @@ void LLSelectMgr::selectionSetTexGen(U8 texgen)
 	{
 		U8 mTexgen;
 		f(const U8& t) : mTexgen(t) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1897,7 +1898,7 @@ void LLSelectMgr::selectionSetShiny(U8 shiny)
 	{
 		U8 mShiny;
 		f(const U8& t) : mShiny(t) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1919,7 +1920,7 @@ void LLSelectMgr::selectionSetFullbright(U8 fullbright)
 	{
 		U8 mFullbright;
 		f(const U8& t) : mFullbright(t) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -1935,7 +1936,8 @@ void LLSelectMgr::selectionSetFullbright(U8 fullbright)
 	{
 		U8 mFullbright;
 		g(const U8& t) : mFullbright(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -1968,7 +1970,7 @@ void LLSelectMgr::selectionSetMedia(U8 media_type, const LLSD &media_data)
 		U8 mMediaFlags;
 		const LLSD &mMediaData;
 		f(const U8& t, const LLSD& d) : mMediaFlags(t), mMediaData(d) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			if (object->permModify())
 			{
@@ -2012,7 +2014,7 @@ void LLSelectMgr::selectionSetMedia(U8 media_type, const LLSD &media_data)
 	
 	struct f2 : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2040,7 +2042,7 @@ void LLSelectMgr::selectionSetGlow(F32 glow)
 	{
 		F32 mGlow;
 		f1(F32 glow) : mGlow(glow) {};
-		bool apply(LLViewerObject* object, S32 face)
+		bool apply(LLViewerObject* object, S32 face) override
 		{
 			if (object->permModify())
 			{
@@ -2054,7 +2056,7 @@ void LLSelectMgr::selectionSetGlow(F32 glow)
 
 	struct f2 : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2073,7 +2075,7 @@ void LLSelectMgr::selectionSetMaterialParams(LLSelectedTEMaterialFunctor* materi
 		LLMaterialPtr mMaterial;
 		f1(LLSelectedTEMaterialFunctor* material_func) : _material_func(material_func) {}
 
-		bool apply(LLViewerObject* object, S32 face)
+		bool apply(LLViewerObject* object, S32 face) override
 		{
 			if (object && object->permModify() && _material_func)
 			{
@@ -2093,7 +2095,7 @@ void LLSelectMgr::selectionSetMaterialParams(LLSelectedTEMaterialFunctor* materi
 
 	struct f2 : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2109,7 +2111,7 @@ void LLSelectMgr::selectionRemoveMaterial()
 {
 	struct f1 : public LLSelectedTEFunctor
 	{
-		bool apply(LLViewerObject* object, S32 face)
+		bool apply(LLViewerObject* object, S32 face) override
 		{
 			if (object->permModify())
 			{
@@ -2124,7 +2126,7 @@ void LLSelectMgr::selectionRemoveMaterial()
 
 	struct f2 : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2165,7 +2167,7 @@ BOOL LLSelectMgr::selectionGetGlow(F32 *glow)
 	F32 lglow = 0.f;
 	struct f1 : public LLSelectedTEGetFunctor<F32>
 	{
-		F32 get(LLViewerObject* object, S32 face)
+		F32 get(LLViewerObject* object, S32 face) override
 		{
 			return object->getTE(face)->getGlow();
 		}
@@ -2183,7 +2185,8 @@ void LLSelectMgr::selectionSetPhysicsType(U8 type)
 	{
 		U8 mType;
 		f(const U8& t) : mType(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2202,7 +2205,8 @@ void LLSelectMgr::selectionSetFriction(F32 friction)
 	{
 		F32 mFriction;
 		f(const F32& friction) : mFriction(friction) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2221,7 +2225,8 @@ void LLSelectMgr::selectionSetGravity(F32 gravity )
 	{
 		F32 mGravity;
 		f(const F32& gravity) : mGravity(gravity) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2240,7 +2245,8 @@ void LLSelectMgr::selectionSetDensity(F32 density )
 	{
 		F32 mDensity;
 		f(const F32& density ) : mDensity(density) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2259,7 +2265,8 @@ void LLSelectMgr::selectionSetRestitution(F32 restitution)
 	{
 		F32 mRestitution;
 		f(const F32& restitution ) : mRestitution(restitution) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2282,7 +2289,8 @@ void LLSelectMgr::selectionSetMaterial(U8 material)
 	{
 		U8 mMaterial;
 		f(const U8& t) : mMaterial(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -2304,7 +2312,8 @@ BOOL LLSelectMgr::selectionAllPCode(LLPCode code)
 	{
 		LLPCode mCode;
 		f(const LLPCode& t) : mCode(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->getPCode() != mCode)
 			{
@@ -2375,7 +2384,8 @@ BOOL LLSelectMgr::selectionGetClickAction(U8 *out_action)
 	{
 		U8 mAction;
 		f(const U8& t) : mAction(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			if ( mAction != object->getClickAction())
 			{
@@ -2394,7 +2404,8 @@ void LLSelectMgr::selectionSetClickAction(U8 action)
 	{
 		U8 mAction;
 		f(const U8& t) : mAction(t) {}
-		virtual bool apply(LLViewerObject* object)
+
+	    bool apply(LLViewerObject* object) override
 		{
 			object->setClickAction(mAction);
 			return true;
@@ -2503,7 +2514,7 @@ void LLSelectMgr::selectionTexScaleAutofit(F32 repeats_per_meter)
 	{
 		F32 mRepeatsPerMeter;
 		f(const F32& t) : mRepeatsPerMeter(t) {}
-		bool apply(LLViewerObject* object, S32 te)
+		bool apply(LLViewerObject* object, S32 te) override
 		{
 			
 			if (object->permModify())
@@ -3242,7 +3253,7 @@ boost::signals2::connection LLSelectMgr::addSelectionUpdateCallback(const update
 struct LLSelectGetFirstCreator : public LLSelectGetFirstTest
 {
 protected:
-	virtual const LLUUID& getValueFromNode(LLSelectNode* node)
+    const LLUUID& getValueFromNode(LLSelectNode* node) override
 	{
 		return node->mPermissions->getCreator();
 	}
@@ -3280,7 +3291,7 @@ BOOL LLSelectMgr::selectGetCreator(LLUUID& result_id, std::string& name)
 struct LLSelectGetFirstOwner : public LLSelectGetFirstTest
 {
 protected:
-	virtual const LLUUID& getValueFromNode(LLSelectNode* node)
+    const LLUUID& getValueFromNode(LLSelectNode* node) override
 	{
 		// Don't use 'getOwnership' since we return a reference, not a copy.
 		// Will return LLUUID::null if unowned (which is not allowed and should never happen.)
@@ -3327,7 +3338,7 @@ BOOL LLSelectMgr::selectGetOwner(LLUUID& result_id, std::string& name)
 struct LLSelectGetFirstLastOwner : public LLSelectGetFirstTest
 {
 protected:
-	virtual const LLUUID& getValueFromNode(LLSelectNode* node)
+    const LLUUID& getValueFromNode(LLSelectNode* node) override
 	{
 		return node->mPermissions->getLastOwner();
 	}
@@ -3364,7 +3375,7 @@ BOOL LLSelectMgr::selectGetLastOwner(LLUUID& result_id, std::string& name)
 struct LLSelectGetFirstGroup : public LLSelectGetFirstTest
 {
 protected:
-	virtual const LLUUID& getValueFromNode(LLSelectNode* node)
+    const LLUUID& getValueFromNode(LLSelectNode* node) override
 	{
 		return node->mPermissions->getGroup();
 	}
@@ -3387,7 +3398,7 @@ BOOL LLSelectMgr::selectGetGroup(LLUUID& result_id)
 struct LLSelectGetFirstGroupOwner : public LLSelectGetFirstTest
 {
 protected:
-	virtual const LLUUID& getValueFromNode(LLSelectNode* node)
+    const LLUUID& getValueFromNode(LLSelectNode* node) override
 	{
 		if (node->mPermissions->isGroupOwned())
 		{
@@ -4513,7 +4524,7 @@ void LLSelectMgr::sendDelink()
 	{ //on delink, any modifyable object should
 		f() {}
 
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (object->permModify())
 			{
@@ -4610,7 +4621,7 @@ void LLSelectMgr::selectionDump()
 {
 	struct f : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			object->dump();
 			return true;
@@ -4623,7 +4634,7 @@ void LLSelectMgr::saveSelectedObjectColors()
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		virtual bool apply(LLSelectNode* node)
+	    bool apply(LLSelectNode* node) override
 		{
 			node->saveColors();
 			return true;
@@ -4636,7 +4647,7 @@ void LLSelectMgr::saveSelectedShinyColors()
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		virtual bool apply(LLSelectNode* node)
+	    bool apply(LLSelectNode* node) override
 		{
 			node->saveShinyColors();
 			return true;
@@ -4650,7 +4661,7 @@ void LLSelectMgr::saveSelectedObjectTextures()
 	// invalidate current selection so we update saved textures
 	struct f : public LLSelectedNodeFunctor
 	{
-		virtual bool apply(LLSelectNode* node)
+	    bool apply(LLSelectNode* node) override
 		{
 			node->mValid = FALSE;
 			return true;
@@ -4678,7 +4689,8 @@ void LLSelectMgr::saveSelectedObjectTransform(EActionType action_type)
 		EActionType mActionType;
 		LLSelectMgr* mManager;
 		f(EActionType a, LLSelectMgr* p) : mActionType(a), mManager(p) {}
-		virtual bool apply(LLSelectNode* selectNode)
+
+	    bool apply(LLSelectNode* selectNode) override
 		{
 			LLViewerObject*	object = selectNode->getObject();
 			if (!object)
@@ -4738,7 +4750,8 @@ struct LLSelectMgrApplyFlags : public LLSelectedObjectFunctor
 	LLSelectMgrApplyFlags(U32 flags, BOOL state) : mFlags(flags), mState(state) {}
 	U32 mFlags;
 	BOOL mState;
-	virtual bool apply(LLViewerObject* object)
+
+    bool apply(LLViewerObject* object) override
 	{
 		if ( object->permModify())
 		{
@@ -5015,7 +5028,7 @@ void LLSelectMgr::sendListToRegions(const std::string& message_name,
 	//clear update override data (allow next update through)
 	struct f : public LLSelectedNodeFunctor
 	{
-		virtual bool apply(LLSelectNode* node)
+	    bool apply(LLSelectNode* node) override
 		{
 			node->mLastPositionLocal.setVec(0,0,0);
 			node->mLastRotation = LLQuaternion();
@@ -5031,7 +5044,8 @@ void LLSelectMgr::sendListToRegions(const std::string& message_name,
 	{
 		std::queue<LLSelectNode*>& nodes_to_send;
 		push_all(std::queue<LLSelectNode*>& n) : nodes_to_send(n) {}
-		virtual bool apply(LLSelectNode* node)
+
+	    bool apply(LLSelectNode* node) override
 		{
 			if (node->getObject())
 			{
@@ -5045,7 +5059,8 @@ void LLSelectMgr::sendListToRegions(const std::string& message_name,
 		std::queue<LLSelectNode*>& nodes_to_send;
 		bool mRoots;
 		push_some(std::queue<LLSelectNode*>& n, bool roots) : nodes_to_send(n), mRoots(roots) {}
-		virtual bool apply(LLSelectNode* node)
+
+	    bool apply(LLSelectNode* node) override
 		{
 			if (node->getObject())
 			{
@@ -5294,7 +5309,8 @@ void LLSelectMgr::processObjectProperties(LLMessageSystem* msg, void** user_data
 		{
 			LLUUID mID;
 			f(const LLUUID& id) : mID(id) {}
-			virtual bool apply(LLSelectNode* node)
+
+		    bool apply(LLSelectNode* node) override
 			{
 				return (node->getObject() && node->getObject()->mID == mID);
 			}
@@ -5438,7 +5454,8 @@ void LLSelectMgr::processObjectPropertiesFamily(LLMessageSystem* msg, void** use
 	{
 		LLUUID mID;
 		f(const LLUUID& id) : mID(id) {}
-		virtual bool apply(LLSelectNode* node)
+
+	    bool apply(LLSelectNode* node) override
 		{
 			return (node->getObject() && node->getObject()->mID == mID);
 		}
@@ -5516,7 +5533,7 @@ void LLSelectMgr::updateSilhouettes()
 	{
 		struct f : public LLSelectedObjectFunctor
 		{
-			virtual bool apply(LLViewerObject* object)
+		    bool apply(LLViewerObject* object) override
 			{
 				object->setChanged(LLXform::SILHOUETTE);
 				return true;
@@ -5924,21 +5941,21 @@ void LLSelectMgr::generateSilhouette(LLSelectNode* nodep, const LLVector3& view_
 // Utility classes
 //
 LLSelectNode::LLSelectNode(LLViewerObject* object, BOOL glow)
-:	mObject(object),
-	mIndividualSelection(FALSE),
+:	mIndividualSelection(FALSE),
 	mTransient(FALSE),
 	mValid(FALSE),
 	mPermissions(new LLPermissions()),
-	mInventorySerial(0),
-	mSilhouetteExists(FALSE),
-	mDuplicated(FALSE),
-	mTESelectMask(0),
-	mLastTESelected(0),
 	mName(LLStringUtil::null),
 	mDescription(LLStringUtil::null),
+	mInventorySerial(0),
+	mDuplicated(FALSE),
 	mTouchName(LLStringUtil::null),
 	mSitName(LLStringUtil::null),
-	mCreationDate(0)
+	mCreationDate(0),
+	mSilhouetteExists(FALSE),
+	mObject(object),
+	mTESelectMask(0),
+	mLastTESelected(0)
 {
 	saveColors();
 	saveShinyColors();
@@ -6908,7 +6925,7 @@ void LLSelectMgr::validateSelection()
 {
 	struct f : public LLSelectedObjectFunctor
 	{
-		virtual bool apply(LLViewerObject* object)
+	    bool apply(LLViewerObject* object) override
 		{
 			if (!LLSelectMgr::getInstance()->canSelectObject(object))
 			{
@@ -7628,7 +7645,7 @@ LLSelectNode* LLObjectSelection::getFirstMoveableNode(BOOL get_root_first)
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		bool apply(LLSelectNode* node)
+		bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			return obj && obj->permMove() && !obj->isPermanentEnforced();
@@ -7645,7 +7662,7 @@ LLViewerObject* LLObjectSelection::getFirstCopyableObject(BOOL get_parent)
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		bool apply(LLSelectNode* node)
+		bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			return obj && obj->permCopy() && !obj->isAttachment();
@@ -7664,7 +7681,7 @@ LLViewerObject* LLObjectSelection::getFirstDeleteableObject()
 	
 	struct f : public LLSelectedNodeFunctor
 	{
-		bool apply(LLSelectNode* node)
+		bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			// you can delete an object if you are the owner
@@ -7693,7 +7710,7 @@ LLViewerObject* LLObjectSelection::getFirstEditableObject(BOOL get_parent)
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		bool apply(LLSelectNode* node)
+		bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			return obj && obj->permModify();
@@ -7709,7 +7726,7 @@ LLViewerObject* LLObjectSelection::getFirstMoveableObject(BOOL get_parent)
 {
 	struct f : public LLSelectedNodeFunctor
 	{
-		bool apply(LLSelectNode* node)
+		bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			return obj && obj->permMove() && !obj->isPermanentEnforced();
@@ -7725,7 +7742,7 @@ LLViewerObject* LLObjectSelection::getFirstUndoEnabledObject(BOOL get_parent)
 {
     struct f : public LLSelectedNodeFunctor
     {
-        bool apply(LLSelectNode* node)
+        bool apply(LLSelectNode* node) override
         {
             LLViewerObject* obj = node->getObject();
             return obj && (obj->permModify() || (obj->permMove() && !obj->isPermanentEnforced()));

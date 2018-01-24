@@ -77,8 +77,8 @@ public:
 	virtual ~LLMaterialHttpHandler();
 
 protected:
-	virtual void onSuccess(LLCore::HttpResponse * response, const LLSD &content);
-	virtual void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status);
+    void onSuccess(LLCore::HttpResponse * response, const LLSD &content) override;
+    void onFailure(LLCore::HttpResponse * response, LLCore::HttpStatus status) override;
 
 private:
 	std::string      mMethod;
@@ -140,9 +140,9 @@ LLMaterialMgr::LLMaterialMgr():
 {
 	LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
-	mHttpRequest = LLCore::HttpRequest::ptr_t(new LLCore::HttpRequest());
-	mHttpHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders());
-	mHttpOptions = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions());
+	mHttpRequest = boost::make_shared<LLCore::HttpRequest>();
+	mHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
+	mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
 	mHttpPolicy = app_core_http.getPolicy(LLAppCoreHttp::AP_MATERIALS);
 
 	mMaterials.insert(std::pair<LLMaterialID, LLMaterialPtr>(LLMaterialID::null, LLMaterialPtr(NULL)));

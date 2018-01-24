@@ -84,6 +84,8 @@ const F64 COARSEUPDATE_MAX_Z = 1020.0;
 LLNetMap::LLNetMap (const Params & p)
 :	LLUICtrl (p),
 	mUpdateNow(false),
+	mUpdateObjectImage(false),
+	mUpdateParcelImage(false),
 	mBackgroundColor (p.bg_color()),
 	mScale( MAP_SCALE_MID ),
 	mPixelsPerMeter( MAP_SCALE_MID / REGION_WIDTH_METERS ),
@@ -94,8 +96,6 @@ LLNetMap::LLNetMap (const Params & p)
 	mCurPan(0.f, 0.f),
 	mStartPan(0.f, 0.f),
 	mMouseDown(0, 0),
-	mUpdateObjectImage(false),
-	mUpdateParcelImage(false),
 	mObjectImageCenterGlobal( gAgentCamera.getCameraPositionGlobal() ),
 	mObjectRawImagep(),
 	mObjectImagep(),

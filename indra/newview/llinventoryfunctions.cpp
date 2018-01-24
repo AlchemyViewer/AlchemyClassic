@@ -439,7 +439,7 @@ void copy_inventory_category(LLInventoryModel* model,
 class LLInventoryCollectAllItems : public LLInventoryCollectFunctor
 {
 public:
-	virtual bool operator()(LLInventoryCategory* cat, LLInventoryItem* item)
+    bool operator()(LLInventoryCategory* cat, LLInventoryItem* item) override
 	{
 		return true;
 	}
@@ -1925,8 +1925,8 @@ bool LLFindWearables::operator()(LLInventoryCategory* cat,
 }
 
 LLFindWearablesEx::LLFindWearablesEx(bool is_worn, bool include_body_parts)
-:	mIsWorn(is_worn)
-,	mIncludeBodyParts(include_body_parts)
+:	mIncludeBodyParts(include_body_parts)
+,	mIsWorn(is_worn)
 {}
 
 bool LLFindWearablesEx::operator()(LLInventoryCategory* cat, LLInventoryItem* item)

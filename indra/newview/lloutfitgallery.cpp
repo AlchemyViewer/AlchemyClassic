@@ -62,16 +62,15 @@ static LLPanelInjector<LLOutfitGallery> t_outfit_gallery("outfit_gallery");
 
 LLOutfitGallery::LLOutfitGallery(const LLOutfitGallery::Params& p)
     : LLOutfitListBase(),
-      mTexturesObserver(NULL),
-      mOutfitsObserver(NULL),
       mScrollPanel(NULL),
       mGalleryPanel(NULL),
-      mGalleryCreated(false),
-      mRowCount(0),
-      mItemsAddedCount(0),
       mOutfitLinkPending(NULL),
       mOutfitRenamePending(NULL),
       mSnapshotFolderID(NULL),
+      mGalleryCreated(false),
+      mRowCount(0),
+      mItemsAddedCount(0),
+      mTextureSelected(NULL),
       mRowPanelHeight(p.row_panel_height),
       mVerticalGap(p.vertical_gap),
       mHorizontalGap(p.horizontal_gap),
@@ -81,21 +80,22 @@ LLOutfitGallery::LLOutfitGallery(const LLOutfitGallery::Params& p)
       mItemsInRow(p.items_in_row),
       mRowPanWidthFactor(p.row_panel_width_factor),
       mGalleryWidthFactor(p.gallery_width_factor),
-      mTextureSelected(NULL)
+      mTexturesObserver(NULL),
+      mOutfitsObserver(NULL)
 {
     updateGalleryWidth();
 }
 
 LLOutfitGallery::Params::Params()
     : row_panel_height("row_panel_height", 180),
+      row_panel_width_factor("row_panel_width_factor", 166),
+      gallery_width_factor("gallery_width_factor", 163),
       vertical_gap("vertical_gap", 10),
       horizontal_gap("horizontal_gap", 10),
       item_width("item_width", 150),
       item_height("item_height", 175),
       item_horizontal_gap("item_horizontal_gap", 16),
-      items_in_row("items_in_row", 3),
-      row_panel_width_factor("row_panel_width_factor", 166),
-      gallery_width_factor("gallery_width_factor", 163)
+      items_in_row("items_in_row", 3)
 {
     addSynonym(row_panel_height, "row_height");
 }
@@ -655,12 +655,12 @@ static LLDefaultChildRegistry::Register<LLOutfitGalleryItem> r("outfit_gallery_i
 LLOutfitGalleryItem::LLOutfitGalleryItem(const Params& p)
     : LLPanel(p),
     mTexturep(NULL),
-	mIconPreviewOutfit(nullptr),
+	mUUID(LLUUID()),
+    mIconPreviewOutfit(nullptr),
     mSelected(false),
     mWorn(false),
     mDefaultImage(true),
-    mOutfitName(""),
-    mUUID(LLUUID())
+    mOutfitName("")
 {
     buildFromFile("panel_outfit_gallery_item.xml");
 }

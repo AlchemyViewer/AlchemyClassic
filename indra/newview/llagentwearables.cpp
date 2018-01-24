@@ -980,8 +980,8 @@ public:
 	{
 		LL_INFOS() << "created callback" << LL_ENDL;
 	}
-	/* virtual */ void fire(const LLUUID& inv_item)
-	{
+	/* virtual */ void fire(const LLUUID& inv_item) override
+    {
 		LL_INFOS() << "One item created " << inv_item.asString() << LL_ENDL;
 		LLConstPointer<LLInventoryObject> item = gInventory.getItem(inv_item);
 		mItemsToLink.push_back(item);

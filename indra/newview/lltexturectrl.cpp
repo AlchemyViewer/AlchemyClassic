@@ -305,7 +305,7 @@ void LLTextureCtrl::closeDependentFloater()
 class LLTextureFetchDescendentsObserver : public LLInventoryFetchDescendentsObserver
 {
 public:
-	virtual void done()
+    void done() override
 	{
 		// We need to find textures in all folders, so get the main
 		// background download going.

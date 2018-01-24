@@ -69,7 +69,7 @@ public:
 	LLInventoryGestureAvailable() {}
 
 protected:
-	virtual void done();
+    void done() override;
 };
 
 void LLInventoryGestureAvailable::done()

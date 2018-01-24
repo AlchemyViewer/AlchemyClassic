@@ -116,12 +116,12 @@ public:
 	{
 		mObject->removeMDCImpl();
 	}
-	
-	virtual U8 getMediaDataCount() const 
-		{ return mObject->getNumTEs(); }
 
-	virtual LLSD getMediaDataLLSD(U8 index) const 
-		{
+    U8 getMediaDataCount() const override
+	{ return mObject->getNumTEs(); }
+
+    LLSD getMediaDataLLSD(U8 index) const override
+	{
 			LLSD result;
 			LLTextureEntry *te = mObject->getTE(index); 
 			if (NULL != te)
@@ -140,8 +140,9 @@ public:
 			}
 			return result;
 		}
-	virtual bool isCurrentMediaUrl(U8 index, const std::string &url) const
-		{
+
+    bool isCurrentMediaUrl(U8 index, const std::string &url) const override
+	{
 			LLTextureEntry *te = mObject->getTE(index); 
 			if (te)
 			{
@@ -153,20 +154,20 @@ public:
 			return url.empty();
 		}
 
-	virtual LLUUID getID() const
-		{ return mObject->getID(); }
+    LLUUID getID() const override
+	{ return mObject->getID(); }
 
-	virtual void mediaNavigateBounceBack(U8 index)
-		{ mObject->mediaNavigateBounceBack(index); }
-	
-	virtual bool hasMedia() const
-		{ return mObject->hasMedia(); }
-	
-	virtual void updateObjectMediaData(LLSD const &data, const std::string &version_string) 
-		{ mObject->updateObjectMediaData(data, version_string); }
-	
-	virtual F64 getMediaInterest() const 
-		{ 
+    void mediaNavigateBounceBack(U8 index) override
+	{ mObject->mediaNavigateBounceBack(index); }
+
+    bool hasMedia() const override
+	{ return mObject->hasMedia(); }
+
+    void updateObjectMediaData(LLSD const &data, const std::string &version_string) override
+	{ mObject->updateObjectMediaData(data, version_string); }
+
+    F64 getMediaInterest() const override
+	{ 
 			F64 interest = mObject->getTotalMediaInterest();
 			if (interest < (F64)0.0)
 			{
@@ -181,23 +182,23 @@ public:
 			}
 			return interest; 
 		}
-	
-	virtual bool isInterestingEnough() const
-		{
+
+    bool isInterestingEnough() const override
+	{
 			return LLViewerMedia::isInterestingEnough(mObject, getMediaInterest());
 		}
 
-	virtual std::string getCapabilityUrl(const std::string &name) const
-		{ return mObject->getRegion()->getCapability(name); }
-	
-	virtual bool isDead() const
-		{ return mObject->isDead(); }
-	
-	virtual U32 getMediaVersion() const
-		{ return LLTextureEntry::getVersionFromMediaVersionString(mObject->getMediaURL()); }
-	
-	virtual bool isNew() const
-		{ return mNew; }
+    std::string getCapabilityUrl(const std::string &name) const override
+	{ return mObject->getRegion()->getCapability(name); }
+
+    bool isDead() const override
+	{ return mObject->isDead(); }
+
+    U32 getMediaVersion() const override
+	{ return LLTextureEntry::getVersionFromMediaVersionString(mObject->getMediaURL()); }
+
+    bool isNew() const override
+	{ return mNew; }
 
 private:
 	LLPointer<LLVOVolume> mObject;

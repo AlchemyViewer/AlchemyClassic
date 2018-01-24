@@ -131,16 +131,16 @@ public:
 	void ignoreNextUpdate() { mIgnoreNextUpdate = true; }
 
 protected:
-	/*virtual*/ bool loadFile();
+	/*virtual*/ bool loadFile() override;
 
 	change_callback_t	mOnChangeCallback;
 	bool				mIgnoreNextUpdate;
 };
 
 LLLiveLSLFile::LLLiveLSLFile(std::string file_path, change_callback_t change_cb)
-:	mOnChangeCallback(change_cb)
+:	LLLiveFile(file_path, 1.0)
+,	mOnChangeCallback(change_cb)
 ,	mIgnoreNextUpdate(false)
-,	LLLiveFile(file_path, 1.0)
 {
 	llassert(mOnChangeCallback);
 }
@@ -367,6 +367,7 @@ LLScriptEdCore::LLScriptEdCore(
 	S32 bottom_pad)
 	:
 	LLPanel(),
+	mLive(live),
 	mSampleText(sample),
 	mEditor( NULL ),
 	mLoadCallback( load_callback ),
@@ -377,12 +378,11 @@ LLScriptEdCore::LLScriptEdCore(
 	mLastHelpToken(NULL),
 	mLiveHelpHistorySize(0),
 	mEnableSave(FALSE),
-	mLiveFile(NULL),
-	mLive(live),
-	mContainer(container),
 	mHasScriptData(FALSE),
+	mLiveFile(NULL),
 	mScriptRemoved(FALSE),
-	mSaveDialogShown(FALSE)
+	mSaveDialogShown(FALSE),
+	mContainer(container)
 {
 	setFollows(FOLLOWS_ALL);
 	setBorderVisible(FALSE);
@@ -1837,13 +1837,13 @@ void* LLLiveLSLEditor::createScriptEdPanel(void* userdata)
 
 LLLiveLSLEditor::LLLiveLSLEditor(const LLSD& key) :
 	LLScriptEdContainer(key),
+	mIsNew(false),
 	mAskedForRunningInfo(FALSE),
 	mHaveRunningInfo(FALSE),
 	mCloseAfterSave(FALSE),
 	mPendingUploads(0),
-	mIsModifiable(FALSE),
-	mIsNew(false),
-	mIsSaving(FALSE)
+	mIsSaving(FALSE),
+	mIsModifiable(FALSE)
 {
 	mFactoryMap["script ed panel"] = LLCallbackMap(LLLiveLSLEditor::createScriptEdPanel, this);
 }

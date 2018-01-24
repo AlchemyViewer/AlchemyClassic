@@ -58,9 +58,9 @@ LLBakedUploadData::LLBakedUploadData(const LLVOAvatarSelf* avatar,
 									 LLViewerTexLayerSet* layerset,
 									 const LLUUID& id,
 									 bool highest_res) :
+	mID(id),
 	mAvatar(avatar),
 	mTexLayerSet(layerset),
-	mID(id),
 	mStartTime(LLFrameTimer::getTotalTime()),		// Record starting time
 	mIsHighestRes(highest_res)
 { 
@@ -79,9 +79,9 @@ LLViewerTexLayerSetBuffer::LLViewerTexLayerSetBuffer(LLTexLayerSet* const owner,
 	// ORDER_LAST => must render these after the hints are created.
 	LLTexLayerSetBuffer(owner),
 	LLViewerDynamicTexture( width, height, 4, LLViewerDynamicTexture::ORDER_LAST, TRUE ), 
-	mUploadPending(FALSE), // Not used for any logic here, just to sync sending of updates
-	mNeedsUpload(FALSE),
+	mNeedsUpload(FALSE), // Not used for any logic here, just to sync sending of updates
 	mNumLowresUploads(0),
+	mUploadPending(FALSE),
 	mUploadFailCount(0),
 	mNeedsUpdate(TRUE),
 	mNumLowresUpdates(0)
@@ -372,9 +372,9 @@ public:
 	ALTexLayerUploader(LLUUID assetId, std::string texture, LLBakedUploadData* baked_upload_data);
 	~ALTexLayerUploader();
 
-	virtual LLSD        prepareUpload();
-	virtual LLSD        generatePostBody();
-	virtual LLUUID      finishUpload(LLSD &result);
+    LLSD        prepareUpload() override;
+    LLSD        generatePostBody() override;
+    LLUUID      finishUpload(LLSD &result) override;
 
 private:
 	LLBakedUploadData* mBakedUploadData;

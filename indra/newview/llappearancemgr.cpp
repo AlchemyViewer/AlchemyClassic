@@ -121,7 +121,7 @@ public:
 	}
 
 	/*virtual*/
-	BOOL tick()
+	BOOL tick() override
 	{
 		if(mEventTimer.hasExpired())
 		{
@@ -144,7 +144,7 @@ public:
 	// requests will be throttled from a non-trusted browser
 	LLAppearanceHandler() : LLCommandHandler("appearance", UNTRUSTED_THROTTLE) {}
 
-	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web)
+	bool handle(const LLSD& params, const LLSD& query_map, LLMediaCtrl* web) override
 	{
 		// support secondlife:///app/appearance/show, but for now we just
 		// make all secondlife:///app/appearance SLapps behave this way
@@ -181,17 +181,17 @@ public:
 								 F32 retry_after = DEFAULT_RETRY_AFTER_INTERVAL,
 								 S32 max_retries = DEFAULT_MAX_RETRIES
 		):
-		mDstCatID(dst_cat_id),
+		LLEventTimer(5.0),
 		mTrackingPhase(phase_name),
+		mDstCatID(dst_cat_id),
 		mOnCompletionFunc(on_completion_func),
 		mOnFailureFunc(on_failure_func),
 		mRetryAfter(retry_after),
 		mMaxRetries(max_retries),
 		mPendingRequests(0),
 		mFailCount(0),
-		mCompletionOrFailureCalled(false),
 		mRetryCount(0),
-		LLEventTimer(5.0)
+		mCompletionOrFailureCalled(false)
 	{
 		if (!mTrackingPhase.empty())
 		{
@@ -300,7 +300,7 @@ public:
 	
 	// virtual
 	// Will be deleted after returning true - only safe to do this if all callbacks have fired.
-	BOOL tick()
+	BOOL tick() override
 	{
 		// mPendingRequests will be zero if all requests have been
 		// responded to.  mWaitTimes.empty() will be true if we have
@@ -400,8 +400,8 @@ public:
 	{
 		sInstanceCount--;
 	}
-	
-	virtual bool requestOperation(const LLUUID& item_id)
+
+    bool requestOperation(const LLUUID& item_id) override
 	{
 		LLViewerInventoryItem *item = gInventory.getItem(item_id);
 		llassert(item);
@@ -438,7 +438,7 @@ public:
 	{}
 
 	// virtual
-	void fire(const LLUUID& id)
+	void fire(const LLUUID& id) override
 	{
 		// Wear the inventory category.
 		LLInventoryCategory* cat = gInventory.getCategory(id);
@@ -460,7 +460,7 @@ public:
 	}
 
 	// virtual
-	void fire(const LLUUID& id)
+	void fire(const LLUUID& id) override
 	{
 		if (mCB)
 		{
@@ -578,8 +578,8 @@ struct LLFoundData
 		mName(name),
 		mAssetType(asset_type),
 		mWearableType(wearable_type),
-		mIsReplacement(is_replacement),
-		mWearable( NULL ) {}
+		mWearable( NULL ),
+		mIsReplacement(is_replacement) {}
 	
 	LLUUID mItemID;
 	LLUUID mAssetID;
@@ -2713,8 +2713,8 @@ class LLDeferredCOFLinkObserver: public LLInventoryObserver
 public:
 	LLDeferredCOFLinkObserver(const LLUUID& item_id, LLPointer<LLInventoryCallback> cb, const std::string& description):
 		mItemID(item_id),
-		mCallback(cb),
-		mDescription(description)
+		mDescription(description),
+		mCallback(cb)
 	{
 	}
 
@@ -2722,8 +2722,8 @@ public:
 	{
 	}
 	
-	/* virtual */ void changed(U32 mask)
-	{
+	/* virtual */ void changed(U32 mask) override
+    {
 		const LLInventoryItem *item = gInventory.getItem(mItemID);
 		if (item)
 		{
@@ -2909,8 +2909,8 @@ public:
 	{
 	}
 
-	/* virtual */ void fire(const LLUUID& item_id)
-	{
+	/* virtual */ void fire(const LLUUID& item_id) override
+    {
 		// just removed cof link, "(wear)" suffix depends on presence of link, so update label
 		gInventory.addChangedMask(LLInventoryObserver::LABEL, mItemID);
 		if (mCB.notNull())
@@ -4016,11 +4016,11 @@ bool LLAppearanceMgr::mActive = true;
 LLAppearanceMgr::LLAppearanceMgr():
 	mAttachmentInvLinkEnabled(false),
 	mOutfitIsDirty(false),
-	mOutfitLocked(false),
-	mInFlightTimer(),
 	mIsInUpdateAppearanceFromCOF(false),
-    mOutstandingAppearanceBakeRequest(false),
-    mRerequestAppearanceBake(false)
+	mOutstandingAppearanceBakeRequest(false),
+	mRerequestAppearanceBake(false),
+    mOutfitLocked(false),
+    mInFlightTimer()
 {
 	LLOutfitObserver& outfit_observer = LLOutfitObserver::instance();
 	// unlock outfit on save operation completed
@@ -4139,7 +4139,8 @@ public:
 	~CallAfterCategoryFetchStage2()
 	{
 	}
-	virtual void done()
+
+    void done() override
 	{
 		LL_INFOS() << this << " done with incomplete " << mIncomplete.size()
 				<< " complete " << mComplete.size() <<  " calling callable" << LL_ENDL;
@@ -4163,7 +4164,8 @@ public:
 	~CallAfterCategoryFetchStage1()
 	{
 	}
-	virtual void done()
+
+    void done() override
 	{
 		// What we do here is get the complete information on the
 		// items in the requested category, and set up an observer
@@ -4290,7 +4292,7 @@ public:
 	LLWearFolderHandler() : LLCommandHandler("wear_folder", UNTRUSTED_BLOCK) { }
 
 	bool handle(const LLSD& tokens, const LLSD& query_map,
-				LLMediaCtrl* web)
+				LLMediaCtrl* web) override
 	{
 		LLSD::UUID folder_uuid;
 

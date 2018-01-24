@@ -217,9 +217,8 @@ LLViewerObject *LLViewerObject::createObject(const LLUUID &id, const LLPCode pco
 }
 
 LLViewerObject::LLViewerObject(const LLUUID &id, const LLPCode pcode, LLViewerRegion *regionp, BOOL is_global)
-:	LLTrace::MemTrackable<LLViewerObject>("LLViewerObject"),
-	LLPrimitive(),
-	mChildList(),
+:	LLPrimitive(),
+	LLTrace::MemTrackable<LLViewerObject>("LLViewerObject"),
 	mID(id),
 	mLocalID(0),
 	mTotalCRC(0),
@@ -242,6 +241,7 @@ LLViewerObject::LLViewerObject(const LLUUID &id, const LLPCode pcode, LLViewerRe
 	mText(),
 	mHudText(""),
 	mHudTextColor(LLColor4::white),
+	mChildList(),
 	mLastInterpUpdateSecs(0.f),
 	mLastMessageUpdateSecs(0.f),
 	mLatestRecvPacketID(0),
@@ -6385,10 +6385,10 @@ LLVOAvatar* LLViewerObject::getAvatar() const
 class ObjectPhysicsProperties : public LLHTTPNode
 {
 public:
-	virtual void post(
+    void post(
 		ResponsePtr responder,
 		const LLSD& context,
-		const LLSD& input) const
+		const LLSD& input) const override
 	{
 		LLSD object_data = input["body"]["ObjectData"];
 		S32 num_entries = object_data.size();
@@ -6403,7 +6403,8 @@ public:
 			{
 				U32 mID;
 				f(const U32& id) : mID(id) {}
-				virtual bool apply(LLSelectNode* node)
+
+			    bool apply(LLSelectNode* node) override
 				{
 					return (node->getObject() && node->getObject()->mLocalID == mID );
 				}

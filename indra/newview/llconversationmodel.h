@@ -65,48 +65,51 @@ public:
 	virtual ~LLConversationItem();
 
 	// Stub those things we won't really be using in this conversation context
-	virtual const std::string& getName() const { return mName; }
-	virtual const std::string& getDisplayName() const { return mName; }
-	virtual const std::string& getSearchableName() const { return mName; }
-	virtual std::string getSearchableDescription() const { return LLStringUtil::null; }
-	virtual std::string getSearchableCreatorName() const { return LLStringUtil::null; }
-	virtual std::string getSearchableUUIDString() const {return LLStringUtil::null;}
+    const std::string& getName() const override { return mName; }
+    const std::string& getDisplayName() const override { return mName; }
+    const std::string& getSearchableName() const override { return mName; }
+    std::string getSearchableDescription() const override { return LLStringUtil::null; }
+    std::string getSearchableCreatorName() const override { return LLStringUtil::null; }
+    std::string getSearchableUUIDString() const override {return LLStringUtil::null;}
 	virtual const LLUUID& getUUID() const { return mUUID; }
 	virtual time_t getCreationDate() const { return 0; }
-	virtual LLPointer<LLUIImage> getIcon() const { return NULL; }
+    LLPointer<LLUIImage> getIcon() const override { return NULL; }
 	virtual LLPointer<LLUIImage> getOpenIcon() const { return getIcon(); }
-	virtual LLFontGL::StyleFlags getLabelStyle() const { return LLFontGL::NORMAL; }
-	virtual std::string getLabelSuffix() const { return LLStringUtil::null; }
-	virtual BOOL isItemRenameable() const { return TRUE; }
-	virtual BOOL renameItem(const std::string& new_name) { mName = new_name; mNeedsRefresh = true; return TRUE; }
-	virtual BOOL isItemMovable( void ) const { return FALSE; }
-	virtual BOOL isItemRemovable( void ) const { return FALSE; }
-	virtual BOOL isItemInTrash( void) const { return FALSE; }
-	virtual BOOL removeItem() { return FALSE; }
-	virtual void removeBatch(std::vector<LLFolderViewModelItem*>& batch) { }
-	virtual void move( LLFolderViewModelItem* parent_listener ) { }
-	virtual BOOL isItemCopyable() const { return FALSE; }
-	virtual BOOL copyToClipboard() const { return FALSE; }
-	virtual BOOL cutToClipboard() { return FALSE; }
-	virtual BOOL isClipboardPasteable() const { return FALSE; }
-	virtual void pasteFromClipboard() { }
-	virtual void pasteLinkFromClipboard() { }
-	virtual void buildContextMenu(LLMenuGL& menu, U32 flags) { }
-	virtual BOOL isUpToDate() const { return TRUE; }
-	virtual bool hasChildren() const { return FALSE; }
+    LLFontGL::StyleFlags getLabelStyle() const override { return LLFontGL::NORMAL; }
+    std::string getLabelSuffix() const override { return LLStringUtil::null; }
+    BOOL isItemRenameable() const override { return TRUE; }
 
-	virtual bool potentiallyVisible() { return true; }
-	virtual bool filter( LLFolderViewFilter& filter) { return false; }
-	virtual bool descendantsPassedFilter(S32 filter_generation = -1) { return true; }
-	virtual void setPassedFilter(bool passed, S32 filter_generation, std::string::size_type string_offset = std::string::npos, std::string::size_type string_size = 0) { }
-	virtual bool passedFilter(S32 filter_generation = -1) { return true; }
+    BOOL renameItem(const std::string& new_name) override
+	{ mName = new_name; mNeedsRefresh = true; return TRUE; }
+
+    BOOL isItemMovable( void ) const override { return FALSE; }
+    BOOL isItemRemovable( void ) const override { return FALSE; }
+	virtual BOOL isItemInTrash( void) const { return FALSE; }
+    BOOL removeItem() override { return FALSE; }
+    void removeBatch(std::vector<LLFolderViewModelItem*>& batch) override { }
+    void move( LLFolderViewModelItem* parent_listener ) override { }
+    BOOL isItemCopyable() const override { return FALSE; }
+    BOOL copyToClipboard() const override { return FALSE; }
+    BOOL cutToClipboard() override { return FALSE; }
+    BOOL isClipboardPasteable() const override { return FALSE; }
+    void pasteFromClipboard() override { }
+    void pasteLinkFromClipboard() override { }
+    void buildContextMenu(LLMenuGL& menu, U32 flags) override { }
+	virtual BOOL isUpToDate() const { return TRUE; }
+    bool hasChildren() const override { return FALSE; }
+
+    bool potentiallyVisible() override { return true; }
+    bool filter( LLFolderViewFilter& filter) override { return false; }
+    bool descendantsPassedFilter(S32 filter_generation = -1) override { return true; }
+    void setPassedFilter(bool passed, S32 filter_generation, std::string::size_type string_offset = std::string::npos, std::string::size_type string_size = 0) override { }
+    bool passedFilter(S32 filter_generation = -1) override { return true; }
 
 	// The action callbacks
 	virtual void performAction(LLInventoryModel* model, std::string action);
-	virtual void openItem( void );
-	virtual void closeItem( void );
+    void openItem( void ) override;
+    void closeItem( void ) override;
 	virtual void previewItem( void );
-	virtual void selectItem(void) { } 
+    void selectItem(void) override { } 
 	virtual void showProperties(void);
 
 	// Methods used in sorting (see LLConversationSort::operator())
@@ -118,10 +121,10 @@ public:
 	// performed, and will set drop to TRUE if a drop is
 	// requested. 
 	// Returns TRUE if a drop is possible/happened, FALSE otherwise.
-	virtual BOOL dragOrDrop(MASK mask, BOOL drop,
+    BOOL dragOrDrop(MASK mask, BOOL drop,
 							EDragAndDropType cargo_type,
 							void* cargo_data,
-							std::string& tooltip_msg) { return FALSE; }
+							std::string& tooltip_msg) override { return FALSE; }
 	
 //	bool hasSameValues(std::string name, const LLUUID& uuid) { return ((name == mName) && (uuid == mUUID)); }
 	bool hasSameValue(const LLUUID& uuid) { return (uuid == mUUID); }
@@ -154,8 +157,8 @@ public:
 	LLConversationItemSession(std::string display_name, const LLUUID& uuid, LLFolderViewModelInterface& root_view_model);
 	LLConversationItemSession(const LLUUID& uuid, LLFolderViewModelInterface& root_view_model);
 	
-	/*virtual*/ bool hasChildren() const;
-    LLPointer<LLUIImage> getIcon() const { return NULL; }
+	/*virtual*/ bool hasChildren() const override;
+    LLPointer<LLUIImage> getIcon() const override { return NULL; }
 	void setSessionID(const LLUUID& session_id) { mUUID = session_id; mNeedsRefresh = true; }
 	void addParticipant(LLConversationItemParticipant* participant);
 	void updateName(LLConversationItemParticipant* participant);
@@ -171,14 +174,14 @@ public:
 	
 	bool isLoaded() { return mIsLoaded; }
 	
-    void buildContextMenu(LLMenuGL& menu, U32 flags);
+    void buildContextMenu(LLMenuGL& menu, U32 flags) override;
     void addVoiceOptions(menuentry_vec_t& items);
-	virtual const bool getTime(F64& time) const;
+    const bool getTime(F64& time) const override;
 
 	void dumpDebugData(bool dump_children = false);
 
 private:
-	/*virtual*/ void onAvatarNameCache(const LLAvatarName& av_name);
+	/*virtual*/ void onAvatarNameCache(const LLAvatarName& av_name) override;
 
 	bool mIsLoaded;		// true if at least one participant has been added to the session, false otherwise
 };
@@ -188,8 +191,8 @@ class LLConversationItemParticipant : public LLConversationItem
 public:
 	LLConversationItemParticipant(std::string display_name, const LLUUID& uuid, LLFolderViewModelInterface& root_view_model);
 	LLConversationItemParticipant(const LLUUID& uuid, LLFolderViewModelInterface& root_view_model);
-	
-	virtual const std::string& getDisplayName() const { return mDisplayName; }
+
+    const std::string& getDisplayName() const override { return mDisplayName; }
 
 	bool isVoiceMuted();
 	bool isModerator() const { return mIsModerator; }
@@ -198,9 +201,10 @@ public:
 	void setTimeNow() { mLastActiveTime = LLFrameTimer::getElapsedSeconds(); mNeedsRefresh = true; }
 	void setDistance(F64 dist) { mDistToAgent = dist; mNeedsRefresh = true; }
 
-    void buildContextMenu(LLMenuGL& menu, U32 flags);
+    void buildContextMenu(LLMenuGL& menu, U32 flags) override;
 
-	virtual const bool getDistanceToAgent(F64& dist) const { dist = mDistToAgent; return (dist >= 0.0); }
+    const bool getDistanceToAgent(F64& dist) const override
+	{ dist = mDistToAgent; return (dist >= 0.0); }
 
 	void updateName();	// get from the cache (do *not* fetch) and update the avatar name
 	LLConversationItemSession* getParentSession();
@@ -211,7 +215,7 @@ public:
 	void setGroupBanVisible(bool visible) { mDisplayGroupBanOptions = visible; }
 
 private:
-	void onAvatarNameCache(const LLAvatarName& av_name);	// callback used by fetchAvatarName
+	void onAvatarNameCache(const LLAvatarName& av_name) override;	// callback used by fetchAvatarName
 	void updateName(const LLAvatarName& av_name);
 
 	bool mIsModerator;	         // default is false
@@ -240,32 +244,32 @@ public:
 	LLConversationFilter() { mEmpty.clear(); }
 	~LLConversationFilter() {}
 		
-	bool 				check(const LLFolderViewModelItem* item) { return true; }
-	bool				checkFolder(const LLFolderViewModelItem* folder) const { return true; }
-	void 				setEmptyLookupMessage(const std::string& message) { }
-	std::string			getEmptyLookupMessage() const { return mEmpty; }
-	bool				showAllResults() const { return true; }
-	std::string::size_type getStringMatchOffset(LLFolderViewModelItem* item) const { return std::string::npos; }
-	std::string::size_type getFilterStringSize() const { return 0; }
+	bool 				check(const LLFolderViewModelItem* item) override { return true; }
+	bool				checkFolder(const LLFolderViewModelItem* folder) const override { return true; }
+	void 				setEmptyLookupMessage(const std::string& message) override { }
+	std::string			getEmptyLookupMessage() const override { return mEmpty; }
+	bool				showAllResults() const override { return true; }
+	std::string::size_type getStringMatchOffset(LLFolderViewModelItem* item) const override { return std::string::npos; }
+	std::string::size_type getFilterStringSize() const override { return 0; }
 		
-	bool 				isActive() const { return false; }
-	bool 				isModified() const { return false; }
-	void 				clearModified() { }
-	const std::string& 	getName() const { return mEmpty; }
-	const std::string& 	getFilterText() { return mEmpty; }
-	void 				setModified(EFilterModified behavior = FILTER_RESTART) { }
+	bool 				isActive() const override { return false; }
+	bool 				isModified() const override { return false; }
+	void 				clearModified() override { }
+	const std::string& 	getName() const override { return mEmpty; }
+	const std::string& 	getFilterText() override { return mEmpty; }
+	void 				setModified(EFilterModified behavior = FILTER_RESTART) override { }
 
-  	void 				resetTime(S32 timeout) { }
-    bool                isTimedOut() { return false; }
+  	void 				resetTime(S32 timeout) override { }
+    bool                isTimedOut() override { return false; }
    
-	bool 				isDefault() const { return true; }
-	bool 				isNotDefault() const { return false; }
-	void 				markDefault() { }
-	void 				resetDefault() { }
+	bool 				isDefault() const override { return true; }
+	bool 				isNotDefault() const override { return false; }
+	void 				markDefault() override { }
+	void 				resetDefault() override { }
 		
-	S32 				getCurrentGeneration() const { return 0; }
-	S32 				getFirstSuccessGeneration() const { return 0; }
-	S32 				getFirstRequiredGeneration() const { return 0; }
+	S32 				getCurrentGeneration() const override { return 0; }
+	S32 				getFirstSuccessGeneration() const override { return 0; }
+	S32 				getFirstRequiredGeneration() const override { return 0; }
 private:
 	std::string mEmpty;
 };
@@ -297,9 +301,9 @@ public:
 	:	base_t(new LLConversationSort(), new LLConversationFilter())
 	{}
 	
-	void sort(LLFolderViewFolder* folder);
-	bool contentsReady() { return true; }	// *TODO : we need to check that participants names are available somewhat
-	bool startDrag(std::vector<LLFolderViewModelItem*>& items) { return false; } // We do not allow drag of conversation items
+	void sort(LLFolderViewFolder* folder) override;
+	bool contentsReady() override { return true; }	// *TODO : we need to check that participants names are available somewhat
+	bool startDrag(std::vector<LLFolderViewModelItem*>& items) override { return false; } // We do not allow drag of conversation items
 	
 private:
 };

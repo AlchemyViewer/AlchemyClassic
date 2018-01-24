@@ -86,6 +86,8 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
         std::string description, S32 compressionInfo, 
         LLFolderType::EType destinationType, LLInventoryType::EType inventoryType, 
         U32 nextOWnerPerms, U32 groupPerms, U32 everyonePerms, S32 expectedCost):
+    mTransactionId(),
+    mAssetType(LLAssetType::AT_NONE),
     mName(name),
     mDescription(description),
     mCompressionInfo(compressionInfo),
@@ -95,8 +97,6 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
     mGroupPerms(groupPerms),
     mEveryonePerms(everyonePerms),
     mExpectedUploadCost(expectedCost),
-    mTransactionId(),
-    mAssetType(LLAssetType::AT_NONE),
     mFolderId(LLUUID::null),
     mItemId(LLUUID::null),
     mAssetId(LLAssetID::null)
@@ -105,7 +105,7 @@ LLResourceUploadInfo::LLResourceUploadInfo(std::string name,
 }
 
 LLResourceUploadInfo::LLResourceUploadInfo(LLAssetID assetId, LLAssetType::EType assetType, std::string name) :
-    mAssetId(assetId),
+    mTransactionId(),
     mAssetType(assetType),
     mName(name),
     mDescription(),
@@ -116,9 +116,9 @@ LLResourceUploadInfo::LLResourceUploadInfo(LLAssetID assetId, LLAssetType::EType
     mGroupPerms(0),
     mEveryonePerms(0),
     mExpectedUploadCost(0),
-    mTransactionId(),
     mFolderId(LLUUID::null),
-    mItemId(LLUUID::null)
+    mItemId(LLUUID::null),
+    mAssetId(assetId)
 {
 }
 

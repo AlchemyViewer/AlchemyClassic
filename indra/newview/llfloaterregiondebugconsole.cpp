@@ -79,7 +79,7 @@ namespace
 		void post(
 			LLHTTPNode::ResponsePtr reponse,
 			const LLSD& context,
-			const LLSD& input) const
+			const LLSD& input) const override
 		{
 			LL_INFOS() << "Received response from the debug console: "
 				<< input << LL_ENDL;

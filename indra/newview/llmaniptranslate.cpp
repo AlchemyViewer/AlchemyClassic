@@ -2293,7 +2293,7 @@ BOOL LLManipTranslate::canAffectSelection()
 	{
 		struct f : public LLSelectedObjectFunctor
 		{
-			virtual bool apply(LLViewerObject* objectp)
+		    bool apply(LLViewerObject* objectp) override
 			{
 				LLViewerObject *root_object = (objectp == NULL) ? NULL : objectp->getRootEdit();
 				return objectp->permMove() && !objectp->isPermanentEnforced() &&

@@ -1103,7 +1103,7 @@ void LLPreviewGesture::saveIfNeeded()
         const LLViewerRegion* region = gAgent.getRegion();
         if (!region)
         {
-            LL_WARNS() << "Not connected to a region, cannot save notecard." << LL_ENDL;
+            LL_WARNS() << "Not connected to a region, cannot save gesture." << LL_ENDL;
 			delete gesture;
 			gesture = NULL;
             return;
@@ -1125,13 +1125,18 @@ void LLPreviewGesture::saveIfNeeded()
                 refresh();
                 item->setComplete(true);
 
-                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mItemUUID, LLAssetType::AT_GESTURE, buffer.get(),
-                    boost::bind(&LLPreviewGesture::finishInventoryUpload, _1, _2)));
+                uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(
+                    boost::make_shared<LLBufferedAssetUploadInfo>(mItemUUID, LLAssetType::AT_GESTURE, buffer.get(),
+                                                                  boost::bind(
+                                                                      &LLPreviewGesture::finishInventoryUpload, _1,
+                                                                      _2)));
                 url = agent_url;
             }
             else if (!mObjectUUID.isNull() && !task_url.empty())
             {
-                uploadInfo = LLResourceUploadInfo::ptr_t(new LLBufferedAssetUploadInfo(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE, buffer.get(), NULL));
+                uploadInfo = boost::static_pointer_cast<LLResourceUploadInfo>(
+                    boost::make_shared<LLBufferedAssetUploadInfo>(mObjectUUID, mItemUUID, LLAssetType::AT_GESTURE,
+                                                                  buffer.get(), nullptr));
                 url = task_url;
             }
 

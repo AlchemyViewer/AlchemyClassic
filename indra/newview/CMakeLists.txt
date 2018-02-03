@@ -207,6 +207,7 @@ set(viewer_SOURCE_FILES
     lldrawpoolwlsky.cpp
     lldroptarget.cpp
     lldynamictexture.cpp
+    lleasymessagelogentry.cpp
     lleasymessagereader.cpp
     lleasymessagesender.cpp
     llemote.cpp
@@ -870,6 +871,7 @@ set(viewer_HEADER_FILES
     lldrawpoolwlsky.h
     lldroptarget.h
     lldynamictexture.h
+    lleasymessagelogentry.h
     lleasymessagereader.h
     lleasymessagesender.h
     llemote.h

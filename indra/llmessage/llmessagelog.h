@@ -1,5 +1,5 @@
 /**
- * @file lleasymessagereader.cpp
+ * @file llmessagelog.h
  *
  * $LicenseInfo:firstyear=2015&license=viewerlgpl$
  *
@@ -18,65 +18,81 @@
 #ifndef LL_LLMESSAGELOG_H
 #define LL_LLMESSAGELOG_H
 
-#include "linden_common.h"
 #include "llhttpconstants.h"
 #include "llhost.h"
-#include "lliopipe.h"
-#include <queue>
-#include <string.h>
+#include "httpheaders.h"
+#include "_httpoperation.h"
+#include "_httprequestqueue.h"
+
 
 class LLMessageSystem;
 
-class LLMessageLogEntry;
-typedef std::shared_ptr<LLMessageLogEntry> LogPayload;
+namespace LLCore {
+    class BufferArray;
+    class HttpResponse;
+}
 
-class LLMessageLogEntry
+/**
+ * @brief Struct containing network message information
+ * 
+ * This struct maintains several properties for each message
+ */
+struct LLMessageLogEntry
 {
-public:
-	enum EType
-	{
-		NONE,
-		TEMPLATE,
-		HTTP_REQUEST,
-		HTTP_RESPONSE,
-		LOG_TYPE_NUM
-	};
-	LLMessageLogEntry();
-	LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size);
-	LLMessageLogEntry(EType type, const std::string& url, const LLChannelDescriptors& channels,
-	                  const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id,
-	                  EHTTPMethod method = HTTP_INVALID, U32 status_code = 0);
-	LLMessageLogEntry(const LLMessageLogEntry& entry);
-	~LLMessageLogEntry();
-	EType mType;
+    typedef enum e_entry_type {
+        TEMPLATE,
+        HTTP_RESPONSE,
+        HTTP_REQUEST
+    } EEntryType;
+
+    /// Ctor for TEMPLATE lludp message
+	LLMessageLogEntry(LLHost from_host, LLHost to_host, U8* data, size_t data_size);
+    /// Ctor for HTTP message
+    LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, const std::string& url,
+        const std::string& content_type, const LLCore::HttpHeaders::ptr_t& headers, EHTTPMethod method, 
+        U8 status_code, U64 request_id);
+    /// Copy ctor
+    LLMessageLogEntry(const LLMessageLogEntry& entry);
+    
+	virtual ~LLMessageLogEntry();
+
+    EEntryType mType;
 	LLHost mFromHost;
 	LLHost mToHost;
 	S32 mDataSize;
 	U8* mData;
 
-	//http-related things
-	std::string mURL;
-	U32 mStatusCode;
-	EHTTPMethod mMethod;
-	LLSD mHeaders;
-	U64 mRequestID;
+    // http specific
+    std::string mURL;
+    std::string mContentType;
+    LLCore::HttpHeaders::ptr_t mHeaders;
+    e_http_method mMethod;
+    LLCore::HttpStatus::type_enum_t mStatusCode;
+    U64 mRequestId;
 };
 
+typedef std::shared_ptr<LLMessageLogEntry> LogPayload;
 typedef void(*LogCallback) (LogPayload&);
 
+/**
+ * @brief Static class used for logging network messages
+ */
 class LLMessageLog
 {
 public:
+    /// Set log callback
 	static void setCallback(LogCallback callback);
-	static void log(LLHost from_host, LLHost to_host, U8* data, S32 data_size);
-	static void logHTTPRequest(const std::string& url, EHTTPMethod method, const LLChannelDescriptors& channels,
-	                           const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id);
-	static void logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
-	                            const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id);
-
-	static bool haveLogger(){return sCallback != nullptr;}
+    /// Log lludp messages
+    static void log(LLHost from_host, LLHost to_host, U8* data, S32 data_size);
+    /// Log HTTP Request Op
+    static void log(const LLCore::HttpRequestQueue::opPtr_t& op);
+    /// Log HTTP Response
+    static void log(LLCore::HttpResponse* response);
+    /// Returns false if sCallback is null
+    static bool haveLogger() { return sCallback != nullptr; }
 
 private:
 	static LogCallback sCallback;
 };
+
 #endif

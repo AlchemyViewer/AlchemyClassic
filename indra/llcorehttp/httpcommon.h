@@ -188,8 +188,6 @@
 ///
 
 #include "linden_common.h"		// Modifies curl/curl.h interfaces
-#include <boost/intrusive_ptr.hpp>
-#include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/function.hpp>
 #include <string>

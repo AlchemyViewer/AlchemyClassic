@@ -91,7 +91,7 @@ protected:
 
 	void showSelectedMessage();
 	void showMessage(FloaterMessageItem item);
-	bool getBeautifyMessages() { return mBeautifyMessages; }
+	bool getBeautifyMessages() const { return mBeautifyMessages; }
 
 	void onCommitNetList(LLUICtrl* ctrl);
 	void onCommitMessageLog(LLUICtrl* ctrl);

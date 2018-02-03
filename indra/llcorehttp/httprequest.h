@@ -90,8 +90,8 @@ public:
 	virtual ~HttpRequest();
 
 private:
-	HttpRequest(const HttpRequest &);			// Disallowed
-	void operator=(const HttpRequest &);		// Disallowed		
+	HttpRequest(const HttpRequest &) = delete;			// Disallowed
+	void operator=(const HttpRequest &) = delete;		// Disallowed		
 
 public:
 	typedef unsigned int policy_t;

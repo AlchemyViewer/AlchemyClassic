@@ -30,6 +30,7 @@
 
 #include "_httpoperation.h"
 #include "_mutex.h"
+#include "llmessagelog.h"
 
 
 using namespace LLCoreInt;
@@ -72,6 +73,7 @@ void HttpRequestQueue::term()
 
 HttpStatus HttpRequestQueue::addOp(const HttpRequestQueue::opPtr_t &op)
 {
+    if (LLMessageLog::haveLogger()) LLMessageLog::log(op);
 	bool wake(false);
 	{
 		HttpScopedLock lock(mQueueMutex);

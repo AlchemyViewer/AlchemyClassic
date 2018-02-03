@@ -28,6 +28,7 @@
 #include "lleasymessagereader.h"
 #include "llfloatermessagebuilder.h"
 #include "llfloaterreg.h"
+#include "lleasymessagelogentry.h"
 #include "llmessagetemplate.h"
 #include "llnotificationsutil.h"
 #include "llviewermenu.h"
@@ -427,8 +428,7 @@ void LLFloaterMessageLog::onLog(LogPayload& entry)
 		sMessageListMutex->unlock();
 		floaterp->conditionalLog(entry);
 	}
-	//this is a response, try to add it to the relevant request
-	else
+	else //this is a response, try to add it to the relevant request
 	{
 		floaterp->pairHTTPResponse(entry);
 	}
@@ -480,7 +480,7 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
 	{
 		LLMutexLock lock(sIncompleteHTTPConvoMutex);
-		mIncompleteHTTPConvos.insert(HTTPConvoMap::value_type((*item)()->mRequestID, item));
+		mIncompleteHTTPConvos.insert(HTTPConvoMap::value_type((*item)()->mRequestId, item));
 	}
 
 	std::string net_name;
@@ -491,11 +491,11 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 		for (const auto& host : item->mRegionHosts)
 		{
 			std::string region_name = LLStringUtil::null;
-			for (LLNetListItem* item : sNetListItems)
+			for (LLNetListItem* list_item : sNetListItems)
 			{
-				if (host == item->mCircuitData->getHost())
+				if (host == list_item->mCircuitData->getHost())
 				{
-					region_name += item->mName;
+					region_name += list_item->mName;
 					break;
 				}
 			}
@@ -564,7 +564,7 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 void LLFloaterMessageLog::pairHTTPResponse(LogPayload entry)
 {
 	LLMutexLock lock(sIncompleteHTTPConvoMutex);
-	HTTPConvoMap::iterator iter = mIncompleteHTTPConvos.find(entry->mRequestID);
+	HTTPConvoMap::iterator iter = mIncompleteHTTPConvos.find(entry->mRequestId);
 
 	if(iter != mIncompleteHTTPConvos.end())
 	{

@@ -403,26 +403,26 @@ void LLViewerInventoryItem::updateServer(BOOL is_new) const
 
 	if (AISAPI::isAvailable())
 	{
-    LLSD updates = asLLSD();
-    // Replace asset_id and/or shadow_id with transaction_id (hash_id)
-    if (updates.has("asset_id"))
-    {
-        updates.erase("asset_id");
-        if(getTransactionID().notNull())
+        LLSD updates = asLLSD();
+        // Replace asset_id and/or shadow_id with transaction_id (hash_id)
+        if (updates.has("asset_id"))
         {
-            updates["hash_id"] = getTransactionID();
+            updates.erase("asset_id");
+            if(getTransactionID().notNull())
+            {
+                updates["hash_id"] = getTransactionID();
+            }
         }
-    }
-    if (updates.has("shadow_id"))
-    {
-        updates.erase("shadow_id");
-        if(getTransactionID().notNull())
+        if (updates.has("shadow_id"))
         {
-            updates["hash_id"] = getTransactionID();
+            updates.erase("shadow_id");
+            if(getTransactionID().notNull())
+            {
+                updates["hash_id"] = getTransactionID();
+            }
         }
-    }
-    AISAPI::completion_t cr = boost::bind(&doInventoryCb, (LLPointer<LLInventoryCallback>)NULL, _1);
-    AISAPI::UpdateItem(getUUID(), updates, cr);
+        AISAPI::completion_t cr = boost::bind(&doInventoryCb, (LLPointer<LLInventoryCallback>)NULL, _1);
+        AISAPI::UpdateItem(getUUID(), updates, cr);
 	}
 	else
 	{
@@ -681,7 +681,7 @@ void LLViewerInventoryCategory::updateServer(BOOL is_new) const
 	if (AISAPI::isAvailable())
 	{
     LLSD new_llsd = asLLSD();
-    AISAPI::completion_t cr = boost::bind(&doInventoryCb, (LLPointer<LLInventoryCallback>)NULL, _1);
+    AISAPI::completion_t cr = boost::bind(&doInventoryCb, LLPointer<LLInventoryCallback>(NULL), _1);
     AISAPI::UpdateCategory(getUUID(), new_llsd, cr);
 	}
 	else

@@ -71,9 +71,9 @@ void HttpRequestQueue::term()
 }
 
 
-HttpStatus HttpRequestQueue::addOp(const HttpRequestQueue::opPtr_t &op)
+HttpStatus HttpRequestQueue::addOp(const HttpRequestQueue::opPtr_t &op, bool loggable /* = true */)
 {
-    if (LLMessageLog::haveLogger()) LLMessageLog::log(op);
+    if (loggable && LLMessageLog::haveLogger()) LLMessageLog::log(op);
 	bool wake(false);
 	{
 		HttpScopedLock lock(mQueueMutex);

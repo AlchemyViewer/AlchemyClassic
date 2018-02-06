@@ -103,9 +103,10 @@ LLFloaterMessageLog::LLFloaterMessageLog(const LLSD& key)
 ,	mMessagelogScrollListCtrl(nullptr)
 ,	mMessageLogFilter(DEFAULT_FILTER)
 ,	mInfoPaneMode(IPANE_NET)
-,	mBeautifyMessages(false)
+,	mBeautifyMessages(true)
 ,	mMessagesLogged(0)
 ,	mEasyMessageReader(new LLEasyMessageReader())
+,   mStatusText(nullptr)
 {
 	mCommitCallbackRegistrar.add("MessageLog.Filter.Action", boost::bind(&LLFloaterMessageLog::onClickFilterMenu, this, _2));
 	if(!sNetListMutex)
@@ -141,6 +142,7 @@ LLFloaterMessageLog::~LLFloaterMessageLog()
 
 BOOL LLFloaterMessageLog::postBuild()
 {
+    mStatusText = getChild<LLTextBase>("log_status_text");
 	mMessagelogScrollListCtrl = getChild<LLScrollListCtrl>("message_log");
 	mMessagelogScrollListCtrl->setSortCallback(boost::bind(&LLFloaterMessageLog::sortMessageList, this, _1 ,_2, _3));
 
@@ -174,6 +176,26 @@ void LLFloaterMessageLog::onClose(bool app_quiting)
 {
 	LLMessageLog::setCallback(nullptr);
 	if (!app_quiting) onClickClearLog();
+}
+
+void LLFloaterMessageLog::draw()
+{
+    if (mStatusText)
+    {
+        LLStringUtil::format_map_t map;
+        map["TOTAL"] = std::to_string(mMessagesLogged);
+
+        if (mMessageLogFilter.empty())
+        {
+            mStatusText->setText(getString("no_filter_status", map));
+        }
+        else
+        {
+            map["MESSAGES"] = std::to_string(mFloaterMessageLogItems.size());
+            mStatusText->setText(getString("filter_status", map));
+        }
+    }
+    LLFloater::draw();
 }
 
 void LLFloaterMessageLog::clearFloaterMessageItems(bool dying)
@@ -326,20 +348,20 @@ void LLFloaterMessageLog::refreshNetList()
 		LLScrollListItem* scroll_itemp = scrollp->addElement(element);
 		if(has_live_circuit)
 		{
-			LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(1);
+			LLScrollListIcon* icon = static_cast<LLScrollListIcon*>(scroll_itemp->getColumn(1));
 			icon->setValue("Stop_Off");
 			icon->setColor(LLColor4(1.0f,0.0f,0.0f,0.7f));
 			icon->setClickCallback(onClickCloseCircuit, itemp);
 		}
 		else
 		{
-			LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(1);
+			LLScrollListIcon* icon = static_cast<LLScrollListIcon*>(scroll_itemp->getColumn(1));
 			icon->setValue("Stop_Off");
 			icon->setColor(LLColor4(1.0f,1.0f,1.0f,0.5f));
 			icon->setClickCallback(nullptr, nullptr);
 		}
 		// Event queue isn't even supported yet... FIXME
-		LLScrollListIcon* icon = (LLScrollListIcon*)scroll_itemp->getColumn(2);
+		LLScrollListIcon* icon = static_cast<LLScrollListIcon*>(scroll_itemp->getColumn(2));
 		icon->setValue("Stop_Off");
 		icon->setColor(LLColor4(0.1f,0.1f,0.1f,0.7f));
 		icon->setClickCallback(nullptr, nullptr);
@@ -362,7 +384,9 @@ void LLFloaterMessageLog::refreshNetInfo(BOOL force)
 		const LLNetListItem* itemp = findNetListItem(selected_itemp->getUUID());
 		if(itemp)
 		{
-			std::string info(llformat("%s, %d\n--------------------------------\n\n", itemp->mName.c_str(), itemp->mHandle));
+            std::string info;
+            info.reserve(512);
+		    (llformat("%s, %d\n--------------------------------\n\n", itemp->mName.c_str(), itemp->mHandle));
 			if(itemp->mCircuitData)
 			{
 				LLCircuitData* cdp = itemp->mCircuitData;
@@ -385,8 +409,7 @@ void LLFloaterMessageLog::refreshNetInfo(BOOL force)
 				info.append(llformat(" * Bytes in: %d\n", cdp->getBytesIn().value()));
 				info.append(llformat(" * Endpoint ID: %s\n", cdp->getLocalEndPointID().asString().c_str()));
 				info.append(llformat(" * Remote ID: %s\n", cdp->getRemoteID().asString().c_str()));
-				info.append(llformat(" * Remote session ID: %s\n", cdp->getRemoteSessionID().asString().c_str()));
-				info.append("\n");
+				info.append(llformat(" * Remote session ID: %s\n\n", cdp->getRemoteSessionID().asString().c_str()));
 			}
 
 			getChild<LLTextBase>("net_info")->setText(info);
@@ -436,17 +459,11 @@ void LLFloaterMessageLog::onLog(LogPayload& entry)
 
 void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 {
-	if(!mMessageLogFilter.empty())
-		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages of %d",
-																  mFloaterMessageLogItems.size(), mMessagesLogged));
-	else
-		getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages", mMessagesLogged));
-
 	FloaterMessageItem item = std::make_shared<FloaterMessageItem::element_type>(entry, mEasyMessageReader);
 
 	bool have_positive = false;
 
-	for(const std::string& msg_name : item->mNames)
+	for (const std::string& msg_name : item->mNames)
 	{
 		std::string find_name = msg_name;
 		LLStringUtil::toLower(find_name);
@@ -712,24 +729,11 @@ void LLFloaterMessageLog::startApplyingFilter(const std::string& filter, BOOL fo
 																  
 void LLFloaterMessageLog::stopApplyingFilter(bool quitting)
 {
-	if(!mMessageLogFilter.empty())
-	{
-		if(!quitting)
-		{
-			getChild<LLTextBase>("log_status_text")->setText(llformat("Showing %d messages from %d", mFloaterMessageLogItems.size(), mMessagesLogged));
-		}
-	}
 }
 																  
 void LLFloaterMessageLog::updateFilterStatus()
 {
 	if (!mMessageLogFilter.empty()) return;
-
-	//const S32 progress = mMessageLogFilterApply->getProgress();
-	//const size_t packets = sMessageLogEntries.size();
-	//const size_t matches = mFloaterMessageLogItems.size();
-	//const std::string& text = llformat("Filtering ( %d / %d ), %d matches ...", progress, packets, matches);
-	//getChild<LLTextBase>("log_status_text")->setText(text);
 }
 
 void LLFloaterMessageLog::onCommitFilter()

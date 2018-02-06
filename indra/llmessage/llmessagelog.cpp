@@ -155,7 +155,7 @@ void LLMessageLog::log(const LLCore::HttpRequestQueue::opPtr_t& op)
     LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_REQUEST, std::move(data), data_size,
         req->mReqURL, req->mReplyConType, req->mReqHeaders, convertEMethodToEHTTPMethod(req->mReqMethod),
         req->mStatus.getType(), req->mRequestId);
- //   if (sCallback) sCallback(payload);
+    if (sCallback) sCallback(payload);
     sRingBuffer.push_back(std::move(payload));
 }
 
@@ -175,6 +175,6 @@ void LLMessageLog::log(LLCore::HttpResponse* response)
     LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_RESPONSE, std::move(data), data_size,
         response->getRequestURL(), response->getContentType(), response->getHeaders(), HTTP_INVALID, 
         response->getStatus().getType(), response->getRequestId());
- //   if (sCallback) sCallback(payload);
+    if (sCallback) sCallback(payload);
     sRingBuffer.push_back(std::move(payload));
 }

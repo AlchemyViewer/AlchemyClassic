@@ -29,7 +29,6 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/algorithm/string/predicate.hpp>
 
 LLEasyMessageLogEntry::LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader)
 :   mEntry(entry)

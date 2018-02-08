@@ -66,6 +66,7 @@ public:
 
 	BOOL			isBuildCameraAllowed(const LLVector3& pos) const;
 	F32				getOwnedRatio() const;
+	const U8*		getOwnership() const { return mOwnership; }
 
 	// Returns the number of vertices drawn
 	S32				renderPropertyLines();
@@ -80,6 +81,9 @@ public:
 
 	void	idleUpdate(bool update_now = false);
 	void	updateGL() override;
+
+	typedef boost::signals2::signal<void (const LLViewerRegion*)> update_signal_t;
+	static boost::signals2::connection setUpdateCallback(const update_signal_t::slot_type & cb);
 
 private:
 	// This is in parcel rows and columns, not grid rows and columns
@@ -120,6 +124,8 @@ private:
 	S32				mVertexCount;
 	F32*			mVertexArray;
 	U8*				mColorArray;
+
+	static update_signal_t* mUpdateSignal;
 };
 
 #endif

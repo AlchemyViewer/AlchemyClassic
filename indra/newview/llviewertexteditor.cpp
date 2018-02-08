@@ -73,7 +73,7 @@ class LLEmbeddedLandmarkCopied: public LLInventoryCallback
 public:
 
 	LLEmbeddedLandmarkCopied(){}
-	void fire(const LLUUID& inv_item)
+	void fire(const LLUUID& inv_item) override
 	{
 		showInfo(inv_item);
 	}
@@ -133,7 +133,7 @@ public:
 	void setEditor(LLViewerTextEditor* e) {mTextEditor = e;}
 
 	// override
-	void fire(const LLUUID& inv_item)
+	void fire(const LLUUID& inv_item) override
 	{
 		if(!mTextEditor)
 		{
@@ -178,8 +178,8 @@ public:
 		mToolTip = inv_item->getName() + '\n' + inv_item->getDescription();
 	}
 
-	/*virtual*/ bool getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const
-	{
+	/*virtual*/ bool getDimensionsF32(S32 first_char, S32 num_chars, F32& width, S32& height) const override
+    {
 		if (num_chars == 0)
 		{
 			width = 0;
@@ -193,8 +193,8 @@ public:
 		return false;
 	}
 
-	/*virtual*/ S32				getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const
-	{
+	/*virtual*/ S32				getNumChars(S32 num_pixels, S32 segment_offset, S32 line_offset, S32 max_chars, S32 line_ind) const override
+    {
 		// always draw at beginning of line
 		if (line_offset == 0)
 		{
@@ -214,8 +214,8 @@ public:
 			}
 		}
 	}
-	/*virtual*/ F32				draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect)
-	{
+	/*virtual*/ F32				draw(S32 start, S32 end, S32 selection_start, S32 selection_end, const LLRectf& draw_rect) override
+    {
 		LLRectf image_rect = draw_rect;
 		image_rect.mRight = image_rect.mLeft + mImage->getWidth();
 		image_rect.mTop = image_rect.mBottom + mImage->getHeight();
@@ -236,15 +236,16 @@ public:
 		return right_x;
 	}
 	
-	/*virtual*/ bool			canEdit() const { return false; }
+	/*virtual*/ bool			canEdit() const override { return false; }
 
 
-	/*virtual*/ BOOL			handleHover(S32 x, S32 y, MASK mask)
-	{
+	/*virtual*/ BOOL			handleHover(S32 x, S32 y, MASK mask) override
+    {
 		LLUI::getWindow()->setCursor(UI_CURSOR_HAND);
 		return TRUE;
 	}
-	virtual BOOL				handleToolTip(S32 x, S32 y, MASK mask )
+
+    BOOL				handleToolTip(S32 x, S32 y, MASK mask ) override
 	{ 
 		if (!mToolTip.empty())
 		{
@@ -254,7 +255,7 @@ public:
 		return FALSE; 
 	}
 
-	/*virtual*/ LLStyleConstSP		getStyle() const { return mStyle; }
+	/*virtual*/ LLStyleConstSP		getStyle() const override { return mStyle; }
 
 private:
 	LLUIImagePtr	mImage;
@@ -603,7 +604,7 @@ public:
 		mItem = item;
 	}
 
-	virtual BOOL execute( LLTextBase* editor, S32* delta )
+    BOOL execute( LLTextBase* editor, S32* delta ) override
 	{
 		LLViewerTextEditor* viewer_editor = (LLViewerTextEditor*)editor;
 		// Take this opportunity to remove any unused embedded items from this editor
@@ -617,21 +618,22 @@ public:
 		}
 		return FALSE;
 	}
-	
-	virtual S32 undo( LLTextBase* editor )
+
+    S32 undo( LLTextBase* editor ) override
 	{
 		remove(editor, getPosition(), 1);
 		return getPosition(); 
 	}
-	
-	virtual S32 redo( LLTextBase* editor )
+
+    S32 redo( LLTextBase* editor ) override
 	{ 
 		LLWString ws;
 		ws += mExtCharValue;
 		insert(editor, getPosition(), ws );
 		return getPosition() + 1;
 	}
-	virtual BOOL hasExtCharValue( llwchar value ) const
+
+    BOOL hasExtCharValue( llwchar value ) const override
 	{
 		return (value == mExtCharValue);
 	}

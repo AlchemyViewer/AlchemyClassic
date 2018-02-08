@@ -31,17 +31,15 @@
 #include "llcoproceduremanager.h"
 #include "llexception.h"
 #include "stringize.h"
-#include <boost/assign.hpp>
 
 //=========================================================================
 // Map of pool sizes for known pools
-// *TODO$: When C++11 this can be initialized here as follows:
-// = {{"AIS", 25}, {"Upload", 1}}
-static std::map<std::string, U32> DefaultPoolSizes = 
-    boost::assign::map_list_of
-        (std::string("Upload"),  1)
-        (std::string("AIS"),     1);    
-        // *TODO: Rider for the moment keep AIS calls serialized otherwise the COF will tend to get out of sync.
+static std::map<std::string, U32> DefaultPoolSizes = {
+    {"Upload", 1},
+    {"AIS", 1}
+    // *TODO: Rider for the moment keep AIS calls serialized otherwise the COF will tend to get out of sync.
+};
+        
 
 #define DEFAULT_POOL_SIZE 5
 
@@ -148,7 +146,7 @@ LLCoprocedureManager::poolPtr_t LLCoprocedureManager::initializePool(const std::
 {
     // Attempt to look up a pool size in the configuration.  If found use that
     std::string keyName = "PoolSize" + poolName;
-    int size = 0;
+    size_t size = 0;
 
     if (poolName.empty())
         LL_ERRS("CoprocedureManager") << "Poolname must not be empty" << LL_ENDL;
@@ -161,7 +159,7 @@ LLCoprocedureManager::poolPtr_t LLCoprocedureManager::initializePool(const std::
     if (size == 0)
     {   // if not found grab the know default... if there is no known 
         // default use a reasonable number like 5.
-        std::map<std::string, U32>::iterator it = DefaultPoolSizes.find(poolName);
+        std::map<std::string, U32>::const_iterator it = DefaultPoolSizes.find(poolName);
         if (it == DefaultPoolSizes.end())
             size = DEFAULT_POOL_SIZE;
         else
@@ -186,7 +184,7 @@ LLUUID LLCoprocedureManager::enqueueCoprocedure(const std::string &pool, const s
     // Attempt to find the pool and enqueue the procedure.  If the pool does 
     // not exist, create it.
     poolPtr_t targetPool;
-    poolMap_t::iterator it = mPoolMap.find(pool);
+    poolMap_t::const_iterator it = mPoolMap.find(pool);
 
     if (it == mPoolMap.end())
     {

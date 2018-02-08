@@ -110,9 +110,9 @@ LLSD summarize_by_buckets(std::vector<LLSD> in_records, std::vector<std::string>
 struct LocalTextureData
 {
 	LocalTextureData() : 
+		mImage(NULL), 
 		mIsBakedReady(false), 
 		mDiscard(MAX_DISCARD_LEVEL+1), 
-		mImage(NULL), 
 		mWearableID(IMG_DEFAULT_AVATAR),
 		mTexEntry(NULL)
 	{}
@@ -152,9 +152,9 @@ LLVOAvatarSelf::LLVOAvatarSelf(const LLUUID& id,
 							   const LLPCode pcode,
 							   LLViewerRegion* regionp) :
 	LLVOAvatar(id, pcode, regionp),
-	mScreenp(NULL),
 	mLastRegionHandle(0),
 	mRegionCrossingCount(0),
+	mScreenp(NULL),
 	// Value outside legal range, so will always be a mismatch the
 	// first time through.
 	mLastHoverOffsetSent(LLVector3(0.0f, 0.0f, -999.0f)),
@@ -2339,7 +2339,7 @@ void LLVOAvatarSelf::appearanceChangeMetricsCoro(std::string url)
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("appearanceChangeMetrics", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
 
     S32 currentSequence = mMetricSequence;
     if (S32_MAX == ++mMetricSequence)

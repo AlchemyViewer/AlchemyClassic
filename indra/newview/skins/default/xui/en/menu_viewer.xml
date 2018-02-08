@@ -1451,6 +1451,9 @@
                 <menu_item_call.on_click
                  function="File.UploadBulk"
                  parameter="" />
+	            <menu_item_call.on_visible
+	             function="Upload.CalculateCosts"
+	             parameter="Bulk Upload" />
             </menu_item_call>
         </menu>
         <menu_item_separator/>

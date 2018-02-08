@@ -809,8 +809,8 @@ LLMeshRepoThread::LLMeshRepoThread()
   mHttpPolicyClass(LLCore::HttpRequest::DEFAULT_POLICY_ID),
   mHttpLegacyPolicyClass(LLCore::HttpRequest::DEFAULT_POLICY_ID),
   mHttpLargePolicyClass(LLCore::HttpRequest::DEFAULT_POLICY_ID),
-  mLegacyGetMeshVersion(0),
-  mHttpPriority(0)
+  mHttpPriority(0),
+  mLegacyGetMeshVersion(0)
 {
 	LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 
@@ -3272,9 +3272,9 @@ void LLMeshPhysicsShapeHandler::processData(LLCore::BufferArray * /* body */, S3
 LLMeshRepository::LLMeshRepository()
 : mMeshMutex(nullptr),
   mMeshThreadCount(0),
-  mLegacyGetMeshVersion(0),
   mThread(nullptr),
-  mDecompThread(nullptr)
+  mDecompThread(nullptr),
+  mLegacyGetMeshVersion(0)
 {
 
 }

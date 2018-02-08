@@ -555,7 +555,6 @@ class WindowsManifest(ViewerManifest):
         return [
             "signtool.exe", "sign", "/v",
             "/n", self.args['signature'],
-            "/p", os.environ['VIEWER_SIGNING_PWD'],
             "/d","%s" % self.channel(),
             "/t","http://timestamp.comodoca.com/authenticode"
         ] + list(argv)
@@ -564,11 +563,11 @@ class WindowsManifest(ViewerManifest):
         subprocess.check_call(self.sign_command(*argv))
 
     def package_finish(self):
-        if 'signature' in self.args and 'VIEWER_SIGNING_PWD' in os.environ:
+        if 'signature' in self.args:
             try:
                 self.sign(self.args['configuration']+"\\"+self.final_exe())
                 self.sign(self.args['configuration']+"\\AlchemyPlugin.exe")
-                self.sign(self.args['configuration']+"\\SLVoice.exe")
+                self.sign(self.args['configuration']+"\\voice\\SLVoice.exe")
             except:
                 print "Couldn't sign binaries. Tried to sign %s" % self.args['configuration'] + "\\" + self.final_exe()
 		
@@ -639,7 +638,7 @@ class WindowsManifest(ViewerManifest):
                     print >> sys.stderr, "Maximum nsis attempts exceeded; giving up"
                     raise
         # self.remove(self.dst_path_of(tempfile))
-        if 'signature' in self.args and 'VIEWER_SIGNING_PWD' in os.environ:
+        if 'signature' in self.args:
             try:
                 self.sign(self.args['configuration'] + "\\" + substitution_strings['installer_file'])
             except: 

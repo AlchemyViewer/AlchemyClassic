@@ -87,7 +87,7 @@ public:
 	F32		getSelectionWidth() const	{ return F32(mEastNorth.mdV[VX] - mWestSouth.mdV[VX]); }
 	F32		getSelectionHeight() const	{ return F32(mEastNorth.mdV[VY] - mWestSouth.mdV[VY]); }
 	BOOL	getSelection(LLVector3d &min, LLVector3d &max) { min = mWestSouth; max = mEastNorth; return !selectionEmpty();}
-	LLViewerRegion* getSelectionRegion();
+	LLViewerRegion* getSelectionRegion() const;
 	F32		getDwelling() const { return mSelectedDwell;}
 
 	void	getDisplayInfo(S32* area, S32* claim, S32* rent, BOOL* for_sale, F32* dwell);
@@ -162,6 +162,13 @@ public:
 	LLParcel*	getHoverParcel() const;
 
 	LLParcel*	getCollisionParcel() const;
+
+	const U8*	getCollisionBitmap() const { return mCollisionBitmap; }
+	size_t		getCollisionBitmapSize() const { return mParcelsPerEdge * mParcelsPerEdge / 8; }
+	U64			getCollisionRegionHandle() const { return mCollisionRegionHandle; }
+ 
+	typedef boost::signals2::signal<void (const LLViewerRegion*)> collision_update_signal_t;
+	boost::signals2::connection setCollisionUpdateCallback(const collision_update_signal_t::slot_type & cb);
 
 	// Can this agent build on the parcel he is on?
 	// Used for parcel property icons in nav bar.
@@ -359,6 +366,9 @@ private:
 	// Watch for pending collisions with a parcel you can't access.
 	// If it's coming, draw the parcel's boundaries.
 	LLParcel*					mCollisionParcel;
+	U8*							mCollisionBitmap;
+	U64							mCollisionRegionHandle;
+	collision_update_signal_t*	mCollisionUpdateSignal;
 	U8*							mCollisionSegments;
 	BOOL						mRenderCollision; 
 	BOOL						mRenderSelection;

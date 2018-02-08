@@ -11,6 +11,14 @@
  can_resize="true"
  can_minimize="true"
  save_rect="true">
+    <floater.string
+     name="filter_status">
+        Showing [MESSAGES] of [TOTAL] messages...
+    </floater.string>
+    <floater.string
+     name="no_filter_status">
+        Showing [TOTAL] messages...
+    </floater.string>
   <layout_stack
    clip="false"
    follows="all"

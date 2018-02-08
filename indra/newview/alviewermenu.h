@@ -24,6 +24,7 @@
 namespace ALViewerMenu
 {
 	void initialize_menus();
+    void destroy_texture(const LLUUID& id);
 }
 
 #endif // AL_VIEWERMENU_H

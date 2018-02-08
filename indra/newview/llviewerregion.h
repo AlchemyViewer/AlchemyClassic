@@ -409,6 +409,13 @@ public:
 	std::string getHGGrid() const;
 	/// Grid name (0.8.1)
 	std::string getHGGridName() const;
+    /// Chat Range (0.8.1)
+    U32 getChatRange() const;
+    /// Shout Range (0.8.1)
+    U32 getShoutRange() const;
+    /// Whisper Range (0.8.1)
+    U32 getWhisperRange() const;
+
 	/// "God names" surname and full account names map
 	std::set<std::string> getGods() const { return mGodNames; };
 	//@}

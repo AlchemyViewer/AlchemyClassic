@@ -207,6 +207,7 @@ set(viewer_SOURCE_FILES
     lldrawpoolwlsky.cpp
     lldroptarget.cpp
     lldynamictexture.cpp
+    lleasymessagelogentry.cpp
     lleasymessagereader.cpp
     lleasymessagesender.cpp
     llemote.cpp
@@ -339,6 +340,7 @@ set(viewer_SOURCE_FILES
     llfloatertestinspectors.cpp
     llfloatertestlistview.cpp
     llfloatertexturefetchdebugger.cpp
+    llfloatertexturepicker.cpp
     llfloatertexturezoom.cpp
     llfloatertools.cpp
     llfloatertopobjects.cpp
@@ -869,6 +871,7 @@ set(viewer_HEADER_FILES
     lldrawpoolwlsky.h
     lldroptarget.h
     lldynamictexture.h
+    lleasymessagelogentry.h
     lleasymessagereader.h
     lleasymessagesender.h
     llemote.h
@@ -1001,6 +1004,7 @@ set(viewer_HEADER_FILES
     llfloatertestinspectors.h
     llfloatertestlistview.h
     llfloatertexturefetchdebugger.h
+    llfloatertexturepicker.h
     llfloatertexturezoom.h
     llfloatertools.h
     llfloatertopobjects.h

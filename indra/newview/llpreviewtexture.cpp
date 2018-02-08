@@ -68,18 +68,18 @@ const F32 PREVIEW_TEXTURE_MIN_ASPECT = 0.005f;
 
 LLPreviewTexture::LLPreviewTexture(const LLSD& key)
 	: LLPreview(key),
+	  mImage(NULL),
+	  mImageOldBoostLevel(LLGLTexture::BOOST_NONE),
 	  mLoadingFullImage( FALSE ),
 	  mShowKeepDiscard(FALSE),
 	  mCopyToInv(FALSE),
+	  mPreviewToSave(FALSE),
 	  mIsCopyable(FALSE),
 	  mIsFullPerm(FALSE),
 	  mUpdateDimensions(TRUE),
 	  mLastHeight(0),
 	  mLastWidth(0),
-	  mAspectRatio(0.f),
-	  mPreviewToSave(FALSE),
-	  mImage(NULL),
-	  mImageOldBoostLevel(LLGLTexture::BOOST_NONE)
+	  mAspectRatio(0.f)
 {
 	updateImageID();
 	if (key.has("save_as"))

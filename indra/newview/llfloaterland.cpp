@@ -102,7 +102,7 @@ S32 LLFloaterLand::sLastTab = 0;
 class LLParcelSelectionObserver : public LLParcelObserver
 {
 public:
-	virtual void changed() { LLFloaterLand::refreshAll(); }
+    void changed() override { LLFloaterLand::refreshAll(); }
 };
 
 // class needed to get full access to textbox inside checkbox, because LLCheckBoxCtrl::setLabel() has string as its argument.
@@ -122,8 +122,8 @@ class LLPanelLandExperiences
 {
 public:	
 	LLPanelLandExperiences(LLSafeHandle<LLParcelSelection>& parcelp);
-	virtual BOOL postBuild();
-	void refresh();
+    BOOL postBuild() override;
+	void refresh() override;
 
 	void experienceAdded(const LLUUID& id, U32 xp_type, U32 access_type);
 	void experienceRemoved(const LLUUID& id, U32 access_type);
@@ -1127,7 +1127,6 @@ void LLPanelLandGeneral::onClickStopSellLand()
 LLPanelLandObjects::LLPanelLandObjects(LLParcelSelectionHandle& parcel)
 	:	LLPanel(),
 
-		mParcel(parcel),
 		mParcelObjectBonus(NULL),
 		mSWTotalObjects(NULL),
 		mObjectContribution(NULL),
@@ -1149,7 +1148,8 @@ LLPanelLandObjects::LLPanelLandObjects(LLParcelSelectionHandle& parcel)
 		mOwnerList(NULL),
 		mFirstReply(TRUE),
 		mSelectedCount(0),
-		mSelectedIsGroup(FALSE)
+		mSelectedIsGroup(FALSE),
+		mParcel(parcel)
 {
 }
 

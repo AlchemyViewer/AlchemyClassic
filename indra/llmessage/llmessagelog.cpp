@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /**
- * @file lleasymessagereader.cpp
+ * @file llmessagelog.cpp
  *
  * $LicenseInfo:firstyear=2015&license=viewerlgpl$
  *
@@ -17,92 +17,87 @@
  * $/LicenseInfo$
  */
 
+#include "linden_common.h"
 #include "llmessagelog.h"
-#include "llbuffer.h"
+
+#include "bufferarray.h"
+#include "httprequest.h"
+#include "httpresponse.h"
+#include "llmemory.h"
 #include <boost/circular_buffer.hpp>
+#include "_httpoprequest.h"
 
 static boost::circular_buffer<LogPayload> sRingBuffer = boost::circular_buffer<LogPayload>(2048);
 
-LLMessageLogEntry::LLMessageLogEntry()
-:	mType(NONE)
-,	mFromHost(LLHost())
-,	mToHost(LLHost())
-,	mDataSize(0)
-,	mData(nullptr)
-,	mStatusCode(0)
-,	mMethod()
-,	mRequestID(0)
-{
-}
-
-LLMessageLogEntry::LLMessageLogEntry(EType type, LLHost from_host, LLHost to_host, U8* data, S32 data_size)
-:	mType(type)
-,	mFromHost(from_host)
+LLMessageLogEntry::LLMessageLogEntry(LLHost from_host, LLHost to_host, U8* data, size_t data_size)
+:   mType(TEMPLATE)
+,   mFromHost(from_host)
 ,	mToHost(to_host)
 ,	mDataSize(data_size)
 ,	mData(nullptr)
-,	mStatusCode(0)
-,	mMethod()
-,	mRequestID(0)
+// unused for template
+,   mURL("")
+,   mContentType("")
+,   mHeaders(nullptr)
+,   mMethod(HTTP_INVALID)
+,   mStatusCode(0)
+,   mRequestId(0)
 {
-	if(data)
+	if (data)
 	{
 		mData = new U8[data_size];
 		memcpy(mData, data, data_size);
 	}
 }
 
-LLMessageLogEntry::LLMessageLogEntry(EType type, const std::string& url, const LLChannelDescriptors& channels,
-                                     const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id,
-                                     EHTTPMethod method, U32 status_code)
-    : mType(type),
-      mDataSize(0),
-      mData(nullptr),
-      mURL(url),
-      mStatusCode(status_code),
-      mMethod(method),
-      mHeaders(headers),
-      mRequestID(request_id)
+LLMessageLogEntry::LLMessageLogEntry(EEntryType etype, U8* data, size_t data_size, const std::string& url, 
+    const std::string& content_type, const LLCore::HttpHeaders::ptr_t& headers, 
+    EHTTPMethod method, U8 status_code, U64 request_id)
+:   mType(etype)
+,   mDataSize(data_size)
+,   mData(nullptr)
+,   mURL(url)
+,   mContentType(content_type)
+,   mHeaders(headers)
+,   mMethod(method)
+,   mStatusCode(status_code)
+,   mRequestId(request_id)
 {
-	if(buffer.get())
-	{
-		S32 channel = type == HTTP_REQUEST ? channels.out() : channels.in();
-		mDataSize = buffer->countAfter(channel, nullptr);
-		if (mDataSize > 0)
-		{
-			mData = new U8[mDataSize + 1];
-			buffer->readAfter(channel, nullptr, mData, mDataSize);
-
-			//make sure this is null terminated, since it's going to be used stringified
-			mData[mDataSize] = '\0';
-			++mDataSize;
-		}
-	}
+    if (data)
+    {
+        mData = new U8[data_size];
+        memcpy(mData, data, data_size);
+    }
 }
 
+
 LLMessageLogEntry::LLMessageLogEntry(const LLMessageLogEntry& entry)
-    : mType(entry.mType),
-      mFromHost(entry.mFromHost),
-      mToHost(entry.mToHost),
-      mDataSize(entry.mDataSize),
-      mURL(entry.mURL),
-      mStatusCode(entry.mStatusCode),
-      mMethod(entry.mMethod),
-      mHeaders(entry.mHeaders),
-      mRequestID(entry.mRequestID)
+:   mType(entry.mType)
+,   mFromHost(entry.mFromHost)
+,   mToHost(entry.mToHost)
+,   mDataSize(entry.mDataSize)
+,   mURL(entry.mURL)
+,   mContentType(entry.mContentType)
+,   mHeaders(entry.mHeaders)
+,   mMethod(entry.mMethod)
+,   mStatusCode(entry.mStatusCode)
+,   mRequestId(entry.mRequestId)
 {
 	mData = new U8[mDataSize];
 	memcpy(mData, entry.mData, mDataSize);
 }
 
+/* virtual */
 LLMessageLogEntry::~LLMessageLogEntry()
 {
 	delete[] mData;
 	mData = nullptr;
 }
 
+/* static */
 LogCallback LLMessageLog::sCallback = nullptr;
 
+/* static */
 void LLMessageLog::setCallback(LogCallback callback)
 {	
 	if (callback != nullptr)
@@ -115,33 +110,71 @@ void LLMessageLog::setCallback(LogCallback callback)
 	sCallback = callback;
 }
 
+/* static */
 void LLMessageLog::log(LLHost from_host, LLHost to_host, U8* data, S32 data_size)
 {
 	if(!data_size || data == nullptr) return;
 
-	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::TEMPLATE, from_host, to_host, data, data_size);
+	LogPayload payload = std::make_shared<LLMessageLogEntry>(from_host, to_host, data, data_size);
 
 	if(sCallback) sCallback(payload);
 
 	sRingBuffer.push_back(std::move(payload));
 }
 
-void LLMessageLog::logHTTPRequest(const std::string& url, EHTTPMethod method, const LLChannelDescriptors& channels,
-                                  const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
+// Why they decided they need two enums for the same thing, idk.
+EHTTPMethod convertEMethodToEHTTPMethod(const LLCore::HttpOpRequest::EMethod e_method)
 {
-	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_REQUEST, url, channels, buffer,
-	                                                         headers, request_id, method);
-	if (sCallback) sCallback(payload);
-
-	sRingBuffer.push_back(std::move(payload));
+    switch (e_method)
+    {
+    case LLCore::HttpOpRequest::HOR_GET: return HTTP_GET;
+    case LLCore::HttpOpRequest::HOR_POST: return HTTP_POST;
+    case LLCore::HttpOpRequest::HOR_PUT: return HTTP_PUT;
+    case LLCore::HttpOpRequest::HOR_DELETE: return HTTP_DELETE;
+    case LLCore::HttpOpRequest::HOR_PATCH: return HTTP_PATCH;
+    case LLCore::HttpOpRequest::HOR_COPY: return HTTP_COPY;
+    case LLCore::HttpOpRequest::HOR_MOVE: return HTTP_MOVE;
+    }
+    return HTTP_GET; // idk, this isn't possible;
 }
 
-void LLMessageLog::logHTTPResponse(U32 status_code, const LLChannelDescriptors& channels,
-                                   const LLIOPipe::buffer_ptr_t& buffer, const LLSD& headers, U64 request_id)
+/* static */
+void LLMessageLog::log(const LLCore::HttpRequestQueue::opPtr_t& op)
 {
-	LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_RESPONSE, "", channels, buffer,
-	                                                         headers, request_id, HTTP_INVALID, status_code);
-	if (sCallback) sCallback(payload);
+    auto req = boost::static_pointer_cast<LLCore::HttpOpRequest>(op);
+    U8* data = nullptr;
+    size_t data_size = 0;
+    LLCore::BufferArray * body = req->mReqBody;
+    if (body)
+    {
+        data = new U8[body->size()];
+        size_t len(body->read(0, data, body->size()));
+        data_size = (len > body->size()) ? len : body->size();
+    }
 
-	sRingBuffer.push_back(std::move(payload));
+    LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_REQUEST, std::move(data), data_size,
+        req->mReqURL, req->mReplyConType, req->mReqHeaders, convertEMethodToEHTTPMethod(req->mReqMethod),
+        req->mStatus.getType(), req->mRequestId);
+    if (sCallback) sCallback(payload);
+    sRingBuffer.push_back(std::move(payload));
+}
+
+/* static */
+void LLMessageLog::log(LLCore::HttpResponse* response)
+{
+    U8* data = nullptr;
+    size_t data_size = 0;
+    LLCore::BufferArray * body = response->getBody();
+    if (body) 
+    {
+        data = new U8[body->size()];
+        size_t len(body->read(0, data, body->size()));
+        data_size = (len > body->size()) ? len : body->size();
+    }
+    
+    LogPayload payload = std::make_shared<LLMessageLogEntry>(LLMessageLogEntry::HTTP_RESPONSE, std::move(data), data_size,
+        response->getRequestURL(), response->getContentType(), response->getHeaders(), HTTP_INVALID, 
+        response->getStatus().getType(), response->getRequestId());
+    if (sCallback) sCallback(payload);
+    sRingBuffer.push_back(std::move(payload));
 }

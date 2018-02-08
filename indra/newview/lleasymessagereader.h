@@ -19,7 +19,6 @@
 #define EASY_MESSAGE_READER_H
 
 #include "llmessagelog.h"
-#include "linden_common.h"
 #include "message.h"
 #include "lltemplatemessagereader.h"
 #include "llmessagetemplate.h"
@@ -42,39 +41,6 @@ public:
 private:
 	LLTemplateMessageReader mTemplateMessageReader;
 	U8	mRecvBuffer[MAX_BUFFER_SIZE];
-};
-
-class LLEasyMessageLogEntry
-{
-public:
-	LLEasyMessageLogEntry(LogPayload entry, LLEasyMessageReader* message_reader = nullptr);
-	LLEasyMessageLogEntry(LLEasyMessageReader* message_reader = nullptr);
-	~LLEasyMessageLogEntry();
-
-	LogPayload operator()() { return mEntry; };
-
-	std::string getFull(BOOL beautify = FALSE, BOOL show_header = FALSE);
-	std::string getName();
-	std::string getResponseFull(BOOL beautify = FALSE, BOOL show_header = FALSE);
-	BOOL isOutgoing();
-
-	void setResponseMessage(LogPayload entry);
-
-	LLUUID mID;
-	U32 mSequenceID;
-	//depending on how the server is configured, two cap handlers
-	//may have the exact same URI, meaning there may be multiple possible
-	//cap names for each message. Ditto for possible region hosts.
-	std::set<std::string> mNames;
-	std::set<LLHost> mRegionHosts;
-	std::string mSummary;
-	U32 mFlags;
-
-private:
-	LogPayload mEntry;
-
-	LLEasyMessageLogEntry* mResponseMsg;
-	LLEasyMessageReader* mEasyMessageReader;
 };
 
 #endif

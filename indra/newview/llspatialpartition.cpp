@@ -448,7 +448,7 @@ class LLSpatialSetState : public OctreeTraveler
 public:
 	U32 mState;
 	LLSpatialSetState(U32 state) : mState(state) { }
-	virtual void visit(const OctreeNode* branch) { ((LLSpatialGroup*) branch->getListener(0))->setState(mState); }	
+    void visit(const OctreeNode* branch) override { ((LLSpatialGroup*) branch->getListener(0))->setState(mState); }	
 };
 
 class LLSpatialSetStateDiff : public LLSpatialSetState
@@ -456,7 +456,7 @@ class LLSpatialSetStateDiff : public LLSpatialSetState
 public:
 	LLSpatialSetStateDiff(U32 state) : LLSpatialSetState(state) { }
 
-	virtual void traverse(const OctreeNode* n)
+    void traverse(const OctreeNode* n) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) n->getListener(0);
 		
@@ -495,7 +495,7 @@ class LLSpatialClearState : public OctreeTraveler
 public:
 	U32 mState;
 	LLSpatialClearState(U32 state) : mState(state) { }
-	virtual void visit(const OctreeNode* branch) { ((LLSpatialGroup*) branch->getListener(0))->clearState(mState); }
+    void visit(const OctreeNode* branch) override { ((LLSpatialGroup*) branch->getListener(0))->clearState(mState); }
 };
 
 class LLSpatialClearStateDiff : public LLSpatialClearState
@@ -503,7 +503,7 @@ class LLSpatialClearStateDiff : public LLSpatialClearState
 public:
 	LLSpatialClearStateDiff(U32 state) : LLSpatialClearState(state) { }
 
-	virtual void traverse(const OctreeNode* n)
+    void traverse(const OctreeNode* n) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) n->getListener(0);
 		
@@ -822,7 +822,7 @@ void LLSpatialGroup::destroyGL(bool keep_occlusion)
 //==============================================
 
 LLSpatialPartition::LLSpatialPartition(U32 data_mask, BOOL render_by_group, U32 buffer_usage, LLViewerRegion* regionp)
-: mRenderByGroup(render_by_group), mBridge(NULL)
+: mBridge(NULL), mRenderByGroup(render_by_group)
 {
 	mRegionp = regionp;		
 	mPartitionType = LLViewerRegion::PARTITION_NONE;
@@ -931,7 +931,8 @@ public:
 	const LLVector4a& mOffset;
 
 	LLSpatialShift(const LLVector4a& offset) : mOffset(offset) { }
-	virtual void visit(const OctreeNode* branch) 
+
+    void visit(const OctreeNode* branch) override
 	{ 
 		((LLSpatialGroup*) branch->getListener(0))->shift(mOffset); 
 	}
@@ -948,7 +949,7 @@ class LLOctreeCull : public LLViewerOctreeCull
 public:
 	LLOctreeCull(LLCamera* camera) : LLViewerOctreeCull(camera) {}
 
-	virtual bool earlyFail(LLViewerOctreeGroup* base_group)
+    bool earlyFail(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 		group->checkOcclusion();
@@ -963,8 +964,8 @@ public:
 		
 		return false;
 	}
-	
-	virtual S32 frustumCheck(const LLViewerOctreeGroup* group)
+
+    S32 frustumCheck(const LLViewerOctreeGroup* group) override
 	{
 		S32 res = AABBInFrustumNoFarClipGroupBounds(group);
 		if (res != 0)
@@ -974,7 +975,7 @@ public:
 		return res;
 	}
 
-	virtual S32 frustumCheckObjects(const LLViewerOctreeGroup* group)
+    S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
 	{
 		S32 res = AABBInFrustumNoFarClipObjectBounds(group);
 		if (res != 0)
@@ -984,7 +985,7 @@ public:
 		return res;
 	}
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+    void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 		if (group->needsUpdate() ||
@@ -1002,12 +1003,12 @@ public:
 	LLOctreeCullNoFarClip(LLCamera* camera) 
 		: LLOctreeCull(camera) { }
 
-	virtual S32 frustumCheck(const LLViewerOctreeGroup* group)
+    S32 frustumCheck(const LLViewerOctreeGroup* group) override
 	{
 		return AABBInFrustumNoFarClipGroupBounds(group);
 	}
 
-	virtual S32 frustumCheckObjects(const LLViewerOctreeGroup* group)
+    S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
 	{
 		S32 res = AABBInFrustumNoFarClipObjectBounds(group);
 		return res;
@@ -1020,12 +1021,12 @@ public:
 	LLOctreeCullShadow(LLCamera* camera)
 		: LLOctreeCull(camera) { }
 
-	virtual S32 frustumCheck(const LLViewerOctreeGroup* group)
+    S32 frustumCheck(const LLViewerOctreeGroup* group) override
 	{
 		return AABBInFrustumGroupBounds(group);
 	}
 
-	virtual S32 frustumCheckObjects(const LLViewerOctreeGroup* group)
+    S32 frustumCheckObjects(const LLViewerOctreeGroup* group) override
 	{
 		return AABBInFrustumObjectBounds(group);
 	}
@@ -1035,9 +1036,9 @@ class LLOctreeCullVisExtents: public LLOctreeCullShadow
 {
 public:
 	LLOctreeCullVisExtents(LLCamera* camera, LLVector4a& min, LLVector4a& max)
-		: LLOctreeCullShadow(camera), mMin(min), mMax(max), mEmpty(TRUE) { }
+		: LLOctreeCullShadow(camera), mEmpty(TRUE), mMin(min), mMax(max) { }
 
-	virtual bool earlyFail(LLViewerOctreeGroup* base_group)
+    bool earlyFail(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 
@@ -1051,7 +1052,7 @@ public:
 		return false;
 	}
 
-	virtual void traverse(const OctreeNode* n)
+    void traverse(const OctreeNode* n) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) n->getListener(0);
 
@@ -1078,7 +1079,7 @@ public:
 		}
 	}
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+    void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 		
@@ -1114,7 +1115,7 @@ public:
 	LLOctreeCullDetectVisible(LLCamera* camera)
 		: LLOctreeCullShadow(camera), mResult(FALSE) { }
 
-	virtual bool earlyFail(LLViewerOctreeGroup* base_group)
+    bool earlyFail(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 
@@ -1129,7 +1130,7 @@ public:
 		return false;
 	}
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+    void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		if (base_group->isVisible())
 		{
@@ -1146,10 +1147,10 @@ public:
 	LLOctreeSelect(LLCamera* camera, std::vector<LLDrawable*>* results)
 		: LLOctreeCull(camera), mResults(results) { }
 
-	virtual bool earlyFail(LLViewerOctreeGroup* group) { return false; }
-	virtual void preprocess(LLViewerOctreeGroup* group) { }
+    bool earlyFail(LLViewerOctreeGroup* group) override { return false; }
+    void preprocess(LLViewerOctreeGroup* group) override { }
 
-	virtual void processGroup(LLViewerOctreeGroup* base_group)
+    void processGroup(LLViewerOctreeGroup* base_group) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 		OctreeNode* branch = group->getOctreeNode();
@@ -1290,7 +1291,7 @@ class LLOctreeDirty : public OctreeTraveler
 public:
 	LLOctreeDirty(bool no_rebuild) : mNoRebuild(no_rebuild){}
 
-	virtual void visit(const OctreeNode* state)
+    void visit(const OctreeNode* state) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) state->getListener(0);
 		group->destroyGL();
@@ -2887,7 +2888,7 @@ public:
 
 	}
 
-	void visit(const LLOctreeNode<LLVolumeTriangle>* branch)
+	void visit(const LLOctreeNode<LLVolumeTriangle>* branch) override
 	{
 		LLVolumeOctreeListener* vl = (LLVolumeOctreeListener*) branch->getListener(0);
 
@@ -3118,8 +3119,8 @@ class LLOctreeRenderNonOccluded : public OctreeTraveler
 public:
 	LLCamera* mCamera;
 	LLOctreeRenderNonOccluded(LLCamera* camera): mCamera(camera) {}
-	
-	virtual void traverse(const OctreeNode* node)
+
+    void traverse(const OctreeNode* node) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) node->getListener(0);
 		
@@ -3164,7 +3165,7 @@ public:
 		}
 	}
 
-	virtual void visit(const OctreeNode* branch)
+    void visit(const OctreeNode* branch) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) branch->getListener(0);
 		const LLVector4a* bounds = group->getBounds();
@@ -3326,8 +3327,8 @@ class LLOctreeRenderXRay : public OctreeTraveler
 public:
 	LLCamera* mCamera;
 	LLOctreeRenderXRay(LLCamera* camera): mCamera(camera) {}
-	
-	virtual void traverse(const OctreeNode* node)
+
+    void traverse(const OctreeNode* node) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) node->getListener(0);
 		
@@ -3361,7 +3362,7 @@ public:
 		}
 	}
 
-	virtual void visit(const OctreeNode* node) {}
+    void visit(const OctreeNode* node) override {}
 
 };
 
@@ -3370,8 +3371,8 @@ class LLOctreeRenderPhysicsShapes : public OctreeTraveler
 public:
 	LLCamera* mCamera;
 	LLOctreeRenderPhysicsShapes(LLCamera* camera): mCamera(camera) {}
-	
-	virtual void traverse(const OctreeNode* node)
+
+    void traverse(const OctreeNode* node) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) node->getListener(0);
 		
@@ -3394,7 +3395,7 @@ public:
 		}
 	}
 
-	virtual void visit(const OctreeNode* branch)
+    void visit(const OctreeNode* branch) override
 	{
 		
 	}
@@ -3405,8 +3406,8 @@ class LLOctreePushBBoxVerts : public OctreeTraveler
 public:
 	LLCamera* mCamera;
 	LLOctreePushBBoxVerts(LLCamera* camera): mCamera(camera) {}
-	
-	virtual void traverse(const OctreeNode* node)
+
+    void traverse(const OctreeNode* node) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) node->getListener(0);
 		
@@ -3422,7 +3423,7 @@ public:
 		}
 	}
 
-	virtual void visit(const OctreeNode* branch)
+    void visit(const OctreeNode* branch) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) branch->getListener(0);
 
@@ -3463,7 +3464,7 @@ public:
 		}
 	}
 
-	virtual void traverse(const OctreeNode* node)
+    void traverse(const OctreeNode* node) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) node->getListener(0);
 		
@@ -3488,9 +3489,9 @@ public:
 			mInheritedMask[i] = temp[i];
 		}
 	}
-	
 
-	virtual void visit(const OctreeNode* state)
+
+    void visit(const OctreeNode* state) override
 	{
 		LLSpatialGroup* group = (LLSpatialGroup*) state->getListener(0);
 
@@ -3679,8 +3680,8 @@ public:
 		  mPickRigged(pick_rigged)
 	{
 	}
-	
-	virtual void visit(const OctreeNode* branch) 
+
+    void visit(const OctreeNode* branch) override
 	{	
 		for (OctreeNode::const_element_iter i = branch->getDataBegin(); i != branch->getDataEnd(); ++i)
 		{
@@ -3835,10 +3836,10 @@ LLDrawInfo::LLDrawInfo(U16 start, U16 end, U32 count, U32 offset,
 	mDrawMode(LLRender::TRIANGLES),
 	mMaterial(NULL),
 	mShaderMask(0),
-	mSpecColor(1.0f, 1.0f, 1.0f, 0.5f),
 	mBlendFuncSrc(LLRender::BF_SOURCE_ALPHA),
 	mBlendFuncDst(LLRender::BF_ONE_MINUS_SOURCE_ALPHA),
 	mHasGlow(FALSE),
+	mSpecColor(1.0f, 1.0f, 1.0f, 0.5f),
 	mEnvIntensity(0.0f),
 	mAlphaMaskCutoff(0.5f),
 	mDiffuseAlphaMode(0)

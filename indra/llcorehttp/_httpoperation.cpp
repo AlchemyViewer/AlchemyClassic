@@ -127,7 +127,6 @@ void HttpOperation::visitNotifier(HttpRequest *)
 
 		response->setStatus(mStatus);
 		mUserHandler->onCompleted(getHandle(), response);
-
 		response->release();
 	}
 }

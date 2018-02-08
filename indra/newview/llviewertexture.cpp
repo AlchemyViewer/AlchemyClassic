@@ -137,9 +137,9 @@ LLLoadedCallbackEntry::LLLoadedCallbackEntry(loaded_callback_func cb,
 	  mLastUsedDiscard(MAX_DISCARD_LEVEL+1),
 	  mDesiredDiscard(discard_level),
 	  mNeedsImageRaw(need_imageraw),
+	  mPaused(pause),
 	  mUserData(userdata),
-	  mSourceCallbackList(src_callback_list),
-	  mPaused(pause)
+	  mSourceCallbackList(src_callback_list)
 {
 	if(mSourceCallbackList)
 	{
@@ -341,18 +341,18 @@ LLViewerFetchedTexture* LLViewerTextureManager::getFetchedTextureFromHost(const 
 // Create a bridge to the viewer texture manager.
 class LLViewerTextureManagerBridge : public LLTextureManagerBridge
 {
-	/*virtual*/ LLPointer<LLGLTexture> getLocalTexture(BOOL usemipmaps = TRUE, BOOL generate_gl_tex = TRUE)
-	{
+	/*virtual*/ LLPointer<LLGLTexture> getLocalTexture(BOOL usemipmaps = TRUE, BOOL generate_gl_tex = TRUE) override
+    {
 		return LLViewerTextureManager::getLocalTexture(usemipmaps, generate_gl_tex);
 	}
 
-	/*virtual*/ LLPointer<LLGLTexture> getLocalTexture(const U32 width, const U32 height, const U8 components, BOOL usemipmaps, BOOL generate_gl_tex = TRUE)
-	{
+	/*virtual*/ LLPointer<LLGLTexture> getLocalTexture(const U32 width, const U32 height, const U8 components, BOOL usemipmaps, BOOL generate_gl_tex = TRUE) override
+    {
 		return LLViewerTextureManager::getLocalTexture(width, height, components, usemipmaps, generate_gl_tex);
 	}
 
-	/*virtual*/ LLGLTexture* getFetchedTexture(const LLUUID &image_id)
-	{
+	/*virtual*/ LLGLTexture* getFetchedTexture(const LLUUID &image_id) override
+    {
 		return LLViewerTextureManager::getFetchedTexture(image_id);
 	}
 };

@@ -429,9 +429,9 @@ void LLPanelGroupRoles::setGroupID(const LLUUID& id)
 LLPanelGroupSubTab::LLPanelGroupSubTab()
 :	LLPanelGroupTab(),
 	mFooter(NULL),
+	mSearchEditor(NULL),
 	mActivated(false),
-	mHasGroupBanPower(false),
-	mSearchEditor(NULL)
+	mHasGroupBanPower(false)
 {
 }
 
@@ -1938,6 +1938,7 @@ static LLPanelInjector<LLPanelGroupRolesSubTab> t_panel_group_roles_subtab("pane
 
 LLPanelGroupRolesSubTab::LLPanelGroupRolesSubTab()
   : LLPanelGroupSubTab(),
+	mFirstOpen(TRUE),
 	mRolesList(NULL),
 	mAssignedMembersList(NULL),
 	mAllowedActionsList(NULL),
@@ -1947,7 +1948,6 @@ LLPanelGroupRolesSubTab::LLPanelGroupRolesSubTab()
 	mMemberVisibleCheck(NULL),
 	mDeleteRoleButton(NULL),
 	mCreateRoleButton(NULL),
-	mFirstOpen(TRUE),
 	mHasRoleChange(FALSE)
 {
 }

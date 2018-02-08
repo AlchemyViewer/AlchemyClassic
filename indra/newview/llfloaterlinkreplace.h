@@ -56,17 +56,17 @@ public:
 		return mDADSignal.connect(cb);
 	}
 
-	virtual BOOL postBuild()
+    BOOL postBuild() override
 	{
 		setEnabled(FALSE);
 		return LLLineEditor::postBuild();
 	}
 
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+    BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg);
+								   std::string& tooltip_msg) override;
 
 	LLUUID getItemID() const { return mItemID; }
 	void setItem(LLInventoryItem* item);
@@ -86,10 +86,10 @@ public:
 	LLFloaterLinkReplace(const LLSD& key);
 	virtual ~LLFloaterLinkReplace();
 
-	BOOL postBuild();
-	virtual void onOpen(const LLSD& key);
+	BOOL postBuild() override;
+    void onOpen(const LLSD& key) override;
 
-	virtual BOOL tick();
+    BOOL tick() override;
 
 private:
 	void checkEnableStart();

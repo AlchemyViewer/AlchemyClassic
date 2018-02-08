@@ -272,10 +272,10 @@ bool LLSpeakersDelayActionsStorage::isTimerStarted(const LLUUID& speaker_id)
 //
 
 LLSpeakerMgr::LLSpeakerMgr(LLVoiceChannel* channelp) : 
+	mSpeakerListUpdated(false),
 	mVoiceChannel(channelp),
 	mVoiceModerated(false),
-	mModerateModeHandledFirstTime(false),
-	mSpeakerListUpdated(false)
+	mModerateModeHandledFirstTime(false)
 {
     mGetListTime.reset();
 	static LLUICachedControl<F32> remove_delay ("SpeakerParticipantRemoveDelay", 10.0);
@@ -857,7 +857,7 @@ void LLIMSpeakerMgr::moderationActionCoro(std::string url, LLSD action)
     LLCoreHttpUtil::HttpCoroutineAdapter::ptr_t
         httpAdapter(new LLCoreHttpUtil::HttpCoroutineAdapter("moderationActionCoro", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
-    LLCore::HttpOptions::ptr_t httpOpts = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+    LLCore::HttpOptions::ptr_t httpOpts = boost::make_shared<LLCore::HttpOptions>();
 
     httpOpts->setWantHeaders(true);
 

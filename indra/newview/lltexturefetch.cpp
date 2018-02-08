@@ -307,7 +307,7 @@ private:
 		}
 
 		// Threads:  Ttc
-		virtual void completed(bool success)
+	    void completed(bool success) override
 		{
 			LLTextureFetchWorker* worker = mFetcher->getWorker(mID);
 			if (worker)
@@ -331,7 +331,7 @@ private:
 		}
 
 		// Threads:  Ttc
-		virtual void completed(bool success)
+	    void completed(bool success) override
 		{
 			LLTextureFetchWorker* worker = mFetcher->getWorker(mID);
 			if (worker)
@@ -355,7 +355,7 @@ private:
 		}
 
 		// Threads:  Tid
-		virtual void completed(bool success, LLImageRaw* raw, LLImageRaw* aux)
+	    void completed(bool success, LLImageRaw* raw, LLImageRaw* aux) override
 		{
 			LLTextureFetchWorker* worker = mFetcher->getWorker(mID);
 			if (worker)
@@ -388,13 +388,13 @@ private:
 public:
 
 	// Threads:  Ttf
-	/*virtual*/ bool doWork(S32 param); // Called from LLWorkerThread::processRequest()
+	/*virtual*/ bool doWork(S32 param) override; // Called from LLWorkerThread::processRequest()
 
 	// Threads:  Ttf
-	/*virtual*/ void finishWork(S32 param, bool completed); // called from finishRequest() (WORK THREAD)
+	/*virtual*/ void finishWork(S32 param, bool completed) override; // called from finishRequest() (WORK THREAD)
 
 	// Threads:  Tmain
-	/*virtual*/ bool deleteOK(); // called from update()
+	/*virtual*/ bool deleteOK() override; // called from update()
 
 	~LLTextureFetchWorker();
 
@@ -431,7 +431,7 @@ public:
 
 	// Inherited from LLCore::HttpHandler
 	// Threads:  Ttf
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response);
+    void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override;
 
 protected:
 	LLTextureFetchWorker(LLTextureFetch* fetcher, FTType f_type,
@@ -441,10 +441,10 @@ protected:
 private:
 
 	// Threads:  Tmain
-	/*virtual*/ void startWork(S32 param); // called from addWork() (MAIN THREAD)
+	/*virtual*/ void startWork(S32 param) override; // called from addWork() (MAIN THREAD)
 
 	// Threads:  Tmain
-	/*virtual*/ void endWork(S32 param, bool aborted); // called from doWork() (MAIN THREAD)
+	/*virtual*/ void endWork(S32 param, bool aborted) override; // called from doWork() (MAIN THREAD)
 
 	// Locks:  Mw
 	void resetFormattedData();
@@ -777,7 +777,7 @@ public:
 	virtual ~TFReqSetRegion()
 		{}
 
-	virtual bool doWork(LLTextureFetch * fetcher);
+    bool doWork(LLTextureFetch * fetcher) override;
 		
 public:
 	const U64 mRegionHandle;
@@ -826,7 +826,7 @@ public:
 
 	virtual ~TFReqSendMetrics();
 
-	virtual bool doWork(LLTextureFetch * fetcher);
+    bool doWork(LLTextureFetch * fetcher) override;
 		
 public:
 	const std::string mCapsURL;
@@ -912,9 +912,9 @@ LLTextureFetchWorker::LLTextureFetchWorker(LLTextureFetch* fetcher,
 	  mDesiredSize(TEXTURE_CACHE_ENTRY_SIZE),
 	  mFileSize(0),
 	  mCachedSize(0),
-	  mLoaded(FALSE),
 	  mSentRequest(UNSENT),
 	  mDecodeHandle(0),
+	  mLoaded(FALSE),
 	  mDecoded(FALSE),
 	  mWritten(FALSE),
 	  mNeedsAux(FALSE),
@@ -924,6 +924,7 @@ LLTextureFetchWorker::LLTextureFetchWorker(LLTextureFetch* fetcher,
 	  mCanUseHTTP(true),
 	  mRetryAttempt(0),
 	  mActiveCount(0),
+	  mFetchRetryPolicy(10.0,3600.0,2.0,10),
 	  mWorkMutex(),
 	  mFirstPacket(0),
 	  mLastPacket(-1),
@@ -939,8 +940,7 @@ LLTextureFetchWorker::LLTextureFetchWorker(LLTextureFetch* fetcher,
 	  mHttpHasResource(false),
 	  mCacheReadCount(0U),
 	  mCacheWriteCount(0U),
-	  mResourceWaitCount(0U),
-	  mFetchRetryPolicy(10.0,3600.0,2.0,10)
+	  mResourceWaitCount(0U)
 {
 	mCanUseNET = mUrl.empty() ;
 	
@@ -2541,6 +2541,7 @@ LLTextureFetch::LLTextureFetch(LLTextureCache* cache, LLImageDecodeThread* image
 	  mTextureCache(cache),
 	  mImageDecodeThread(imagedecodethread),
 	  mTextureBandwidth(0),
+	  mTextureInfoMainThread(false),
 	  mHTTPTextureBits(0),
 	  mTotalHTTPRequests(0),
 	  mQAMode(qa_mode),
@@ -2555,23 +2556,22 @@ LLTextureFetch::LLTextureFetch(LLTextureCache* cache, LLImageDecodeThread* image
 	  mTotalCacheWriteCount(0U),
 	  mTotalResourceWaitCount(0U),
 	  mFetchDebugger(NULL),
-	  mFetchSource(LLTextureFetch::FROM_ALL),
-	  mOriginFetchSource(LLTextureFetch::FROM_ALL),
 	  mFetcherLocked(FALSE),
-	  mTextureInfoMainThread(false)
+	  mFetchSource(LLTextureFetch::FROM_ALL),
+	  mOriginFetchSource(LLTextureFetch::FROM_ALL)
 {
 	mMaxBandwidth = gSavedSettings.getF32("ThrottleBandwidthKBPS");
 	mTextureInfo.setLogging(true);
 
 	LLAppCoreHttp & app_core_http(LLAppViewer::instance()->getAppCoreHttp());
 	mHttpRequest = new LLCore::HttpRequest;
-	mHttpOptions = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
-	mHttpOptionsWithHeaders = LLCore::HttpOptions::ptr_t(new LLCore::HttpOptions);
+	mHttpOptions = boost::make_shared<LLCore::HttpOptions>();
+	mHttpOptionsWithHeaders = boost::make_shared<LLCore::HttpOptions>();
 	mHttpOptionsWithHeaders->setWantHeaders(true);
-    mHttpHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders);
+    mHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
 	mHttpHeaders->append(HTTP_OUT_HEADER_ACCEPT, HTTP_CONTENT_IMAGE_X_J2C);
 	mHttpPolicyClass = app_core_http.getPolicy(LLAppCoreHttp::AP_TEXTURE);
-    mHttpMetricsHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders);
+    mHttpMetricsHeaders = boost::make_shared<LLCore::HttpHeaders>();
 	mHttpMetricsHeaders->append(HTTP_OUT_HEADER_CONTENT_TYPE, HTTP_CONTENT_LLSD_XML);
 	mHttpMetricsPolicyClass = app_core_http.getPolicy(LLAppCoreHttp::AP_REPORTING);
 	mHttpHighWater = HTTP_NONPIPE_REQUESTS_HIGH_WATER;
@@ -3959,7 +3959,7 @@ class AssetReportHandler : public LLCore::HttpHandler
 public:
 
 	// Threads:  Ttf
-	virtual void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response)
+    void onCompleted(LLCore::HttpHandle handle, LLCore::HttpResponse * response) override
 	{
 		LLCore::HttpStatus status(response->getStatus());
 
@@ -4130,7 +4130,8 @@ public:
 	{
 		setImage(image);
 	}
-	virtual void completed(bool success)
+
+    void completed(bool success) override
 	{
 		mDebugger->callbackCacheRead(mID, success, mFormattedImage, mImageSize, mImageLocal);
 	}
@@ -4146,7 +4147,8 @@ public:
 		: mDebugger(debugger), mID(id)
 	{
 	}
-	virtual void completed(bool success)
+
+    void completed(bool success) override
 	{
 		mDebugger->callbackCacheWrite(mID, success);
 	}
@@ -4162,7 +4164,8 @@ public:
 		: mDebugger(debugger), mID(id)
 	{
 	}
-	virtual void completed(bool success, LLImageRaw* raw, LLImageRaw* aux)
+
+    void completed(bool success, LLImageRaw* raw, LLImageRaw* aux) override
 	{
 		mDebugger->callbackDecoded(mID, success, raw, aux);
 	}
@@ -4235,7 +4238,7 @@ void LLTextureFetchDebugger::init()
 
 	if (! mHttpHeaders)
 	{
-        mHttpHeaders = LLCore::HttpHeaders::ptr_t(new LLCore::HttpHeaders);
+        mHttpHeaders = boost::make_shared<LLCore::HttpHeaders>();
 		mHttpHeaders->append(HTTP_OUT_HEADER_ACCEPT, HTTP_CONTENT_IMAGE_X_J2C);
 	}
 }

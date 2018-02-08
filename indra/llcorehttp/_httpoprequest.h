@@ -234,6 +234,9 @@ public:
 	int					mPolicyRetryLimit;
 	HttpTime			mPolicyMinRetryBackoff; // initial delay between retries (mcs)
 	HttpTime			mPolicyMaxRetryBackoff;
+
+    // Alchemy: Request ID for message logger
+    U64                 mRequestId;
 };  // end class HttpOpRequest
 
 
@@ -243,8 +246,8 @@ public:
 class HttpOpRequestCompare
 {
 public:
-	bool operator()(const HttpOpRequest * lhs, const HttpOpRequest * rhs)
-		{
+	bool operator()(const HttpOpRequest * lhs, const HttpOpRequest * rhs) const
+	{
 			return lhs->mReqPriority > rhs->mReqPriority;
 		}
 };  // end class HttpOpRequestCompare

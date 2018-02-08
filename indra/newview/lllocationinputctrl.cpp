@@ -112,8 +112,8 @@ public:
 	LLAddLandmarkObserver(LLLocationInputCtrl* input) : mInput(input) {}
 
 private:
-	/*virtual*/ void done()
-	{
+	/*virtual*/ void done() override
+    {
 		const uuid_set_t& added = gInventory.getAddedIDs();
 		for (uuid_set_t::const_iterator it = added.begin(); it != added.end(); ++it)
 		{
@@ -145,8 +145,8 @@ public:
 	LLRemoveLandmarkObserver(LLLocationInputCtrl* input) : mInput(input) {}
 
 private:
-	/*virtual*/ void changed(U32 mask)
-	{
+	/*virtual*/ void changed(U32 mask) override
+    {
 		if (mask & (~(LLInventoryObserver::LABEL|
 					  LLInventoryObserver::INTERNAL|
 					  LLInventoryObserver::ADD|
@@ -166,8 +166,8 @@ public:
 	LLParcelChangeObserver(LLLocationInputCtrl* input) : mInput(input) {}
 
 private:
-	/*virtual*/ void changed()
-	{
+	/*virtual*/ void changed() override
+    {
 		if (mInput)
 		{
 			mInput->refreshParcelIcons();
@@ -190,35 +190,35 @@ LLLocationInputCtrl::Params::Params()
 	add_landmark_image_disabled("add_landmark_image_disabled"),
 	add_landmark_image_hover("add_landmark_image_hover"),
 	add_landmark_image_selected("add_landmark_image_selected"),
-	add_landmark_hpad("add_landmark_hpad", 0),
+	maturity_help_topic("maturity_help_topic"),
 	icon_hpad("icon_hpad", 0),
+	add_landmark_hpad("add_landmark_hpad", 0),
+	maturity_button("maturity_button"),
 	add_landmark_button("add_landmark_button"),
 	for_sale_button("for_sale_button"),
 	info_button("info_button"),
-	maturity_button("maturity_button"),
 	voice_icon("voice_icon"),
 	fly_icon("fly_icon"),
 	push_icon("push_icon"),
 	build_icon("build_icon"),
 	scripts_icon("scripts_icon"),
 	damage_icon("damage_icon"),
-	damage_text("damage_text"),
 	see_avatars_icon("see_avatars_icon"),
-	maturity_help_topic("maturity_help_topic"),
 	pathfinding_dirty_icon("pathfinding_dirty_icon"),
 	pathfinding_disabled_icon("pathfinding_disabled_icon"),
-	lightshare_icon("lightshare_icon")
+	lightshare_icon("lightshare_icon"),
+	damage_text("damage_text")
 {
 }
 
 LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 :	LLComboBox(p),
-	mIconHPad(p.icon_hpad),
-	mAddLandmarkHPad(p.add_landmark_hpad),
 	mLocationContextMenu(NULL),
 	mAddLandmarkBtn(NULL),
 	mForSaleBtn(NULL),
 	mInfoBtn(NULL),
+	mIconHPad(p.icon_hpad),
+	mAddLandmarkHPad(p.add_landmark_hpad),
 	mRegionCrossingSlot(),
 	mLightshareChangedSlot(),
 	mNavMeshSlot(),

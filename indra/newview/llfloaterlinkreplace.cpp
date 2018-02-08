@@ -40,9 +40,9 @@
 LLFloaterLinkReplace::LLFloaterLinkReplace(const LLSD& key)
 	: LLFloater(key),
 	LLEventTimer(gSavedSettings.getF32("LinkReplaceBatchPauseTime")),
-	mRemainingItems(0),
 	mSourceUUID(LLUUID::null),
 	mTargetUUID(LLUUID::null),
+	mRemainingItems(0),
 	mBatchSize(gSavedSettings.getU32("LinkReplaceBatchSize"))
 {
 	mEventTimer.stop();

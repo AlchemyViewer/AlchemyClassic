@@ -94,11 +94,11 @@ public:
 class LLPanelFace : public LLPanel
 {
 public:
-	virtual BOOL	postBuild();
+    BOOL	postBuild() override;
 	LLPanelFace();
 	virtual ~LLPanelFace();
 
-	void			refresh();
+	void			refresh() override;
 
 	LLMaterialPtr createDefaultMaterial(LLMaterialPtr current_material)
 	{
@@ -229,9 +229,10 @@ private:
 		LLMaterialEditFunctor< DataType, SetValueType, MaterialEditFunc > edit(data);
 		struct LLSelectedTEEditMaterial : public LLSelectedTEMaterialFunctor
 		{
-			LLSelectedTEEditMaterial(LLPanelFace* panel, LLMaterialEditFunctor< DataType, SetValueType, MaterialEditFunc >* editp) : _panel(panel), _edit(editp) {}
+			LLSelectedTEEditMaterial(LLPanelFace* panel, LLMaterialEditFunctor< DataType, SetValueType, MaterialEditFunc >* editp) : _edit(editp), _panel(panel) {}
 			virtual ~LLSelectedTEEditMaterial() {};
-			virtual LLMaterialPtr apply(LLViewerObject* object, S32 face, LLTextureEntry* tep, LLMaterialPtr& current_material)
+
+		    LLMaterialPtr apply(LLViewerObject* object, S32 face, LLTextureEntry* tep, LLMaterialPtr& current_material) override
 			{
 				if (_edit)
 				{
@@ -314,7 +315,7 @@ private:
 			GetTEMaterialVal(DataType default_value) : _default(default_value) {}
 			virtual ~GetTEMaterialVal() {}
 
-			DataType get(LLViewerObject* object, S32 face)
+			DataType get(LLViewerObject* object, S32 face) override
 			{
 				DataType ret = _default;
 				LLMaterialPtr material_ptr;
@@ -347,7 +348,8 @@ private:
 			GetTEVal(DataType default_value) : _default(default_value) {}
 			virtual ~GetTEVal() {}
 
-			DataType get(LLViewerObject* object, S32 face) {
+			DataType get(LLViewerObject* object, S32 face) override
+			{
 				LLTextureEntry* tep = object ? object->getTE(face) : NULL;
 				return tep ? ((tep->*(TEGetFunc))()) : _default;
 			}

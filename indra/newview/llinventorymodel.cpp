@@ -139,7 +139,6 @@ LLInventoryModel gInventory;
 // Default constructor
 LLInventoryModel::LLInventoryModel()
 :   // These are now ordered, keep them that way.
-	mBacklinkMMap(),
 	mIsAgentInvUsable(false),
 	mRootFolderID(),
 	mLibraryRootFolderID(),
@@ -148,6 +147,7 @@ LLInventoryModel::LLInventoryModel()
 	mItemMap(),
 	mParentChildCategoryTree(),
 	mParentChildItemTree(),
+	mBacklinkMMap(),
 	mLastItem(nullptr),
 	mIsNotifyObservers(FALSE),
 	mModifyMask(LLInventoryObserver::ALL),

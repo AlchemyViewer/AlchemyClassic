@@ -189,8 +189,8 @@ public:
 			mStats = stats;
 		}
 
-	TransferStats::ptr_t getTransferStats()
-		{
+	TransferStats::ptr_t getTransferStats() const
+	{
 			return mStats;
 		}
 
@@ -204,6 +204,8 @@ public:
             return mRequestUrl;
         }
 
+    void setRequestId(U64 id) { mRequestId = id; }
+    U64 getRequestId() const { return mRequestId; }
 
 protected:
 	// Response data here
@@ -219,6 +221,7 @@ protected:
     std::string         mRequestUrl;
 
 	TransferStats::ptr_t	mStats;
+    U64                 mRequestId;
 };
 
 

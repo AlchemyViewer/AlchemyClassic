@@ -78,9 +78,9 @@ LLInventoryFilter::LLInventoryFilter(const Params& p)
 	mCurrentGeneration(0),
 	mFirstRequiredGeneration(0),
 	mFirstSuccessGeneration(0),
+	mEmptyLookupMessage("InventoryNoMatchingItems"),
 	mSearchType(SEARCHTYPE_NAME),
-	mFilterCreatorType(FILTERCREATOR_ALL),
-	mEmptyLookupMessage("InventoryNoMatchingItems")
+	mFilterCreatorType(FILTERCREATOR_ALL)
 {
 	// copy mFilterOps into mDefaultFilterOps
 	markDefault();

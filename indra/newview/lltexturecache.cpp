@@ -66,7 +66,7 @@ private:
 	public:
 		ReadResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
 		~ReadResponder() {}
-		void completed(S32 bytes)
+		void completed(S32 bytes) override
 		{
 			mCache->lockWorkers();
 			LLTextureCacheWorker* reader = mCache->getReader(mHandle);
@@ -82,7 +82,7 @@ private:
 	public:
 		WriteResponder(LLTextureCache* cache, handle_t handle) : mCache(cache), mHandle(handle) {}
 		~WriteResponder() {}
-		void completed(S32 bytes)
+		void completed(S32 bytes) override
 		{
 			mCache->lockWorkers();
 			LLTextureCacheWorker* writer = mCache->getWriter(mHandle);
@@ -99,9 +99,9 @@ public:
 						 S32 imagesize, // for writes
 						 LLTextureCache::Responder* responder)
 		: LLWorkerClass(cache, "LLTextureCacheWorker"),
-		  mID(id),
 		  mCache(cache),
 		  mPriority(priority),
+		  mID(id),
 		  mReadData(NULL),
 		  mWriteData(data),
 		  mDataSize(datasize),
@@ -126,7 +126,7 @@ public:
 	virtual bool doRead() = 0;
 	virtual bool doWrite() = 0;
 
-	virtual bool doWork(S32 param); // Called from LLWorkerThread::processRequest()
+    bool doWork(S32 param) override; // Called from LLWorkerThread::processRequest()
 
 	handle_t read() { addWork(0, LLWorkerThread::PRIORITY_HIGH | mPriority); return mRequestHandle; }
 	handle_t write() { addWork(1, LLWorkerThread::PRIORITY_HIGH | mPriority); return mRequestHandle; }
@@ -138,9 +138,9 @@ public:
 	}
 
 private:
-	virtual void startWork(S32 param); // called from addWork() (MAIN THREAD)
-	virtual void finishWork(S32 param, bool completed); // called from finishRequest() (WORK THREAD)
-	virtual void endWork(S32 param, bool aborted); // called from doWork() (MAIN THREAD)
+    void startWork(S32 param) override; // called from addWork() (MAIN THREAD)
+    void finishWork(S32 param, bool completed) override; // called from finishRequest() (WORK THREAD)
+    void endWork(S32 param, bool aborted) override; // called from doWork() (MAIN THREAD)
 
 protected:
 	LLTextureCache* mCache;
@@ -173,8 +173,8 @@ public:
 	{
 	}
 
-	virtual bool doRead();
-	virtual bool doWrite();
+    bool doRead() override;
+    bool doWrite() override;
 	
 private:
 	std::string	mFileName;
@@ -297,8 +297,8 @@ public:
 	{
 	}
 
-	virtual bool doRead();
-	virtual bool doWrite();
+    bool doRead() override;
+    bool doWrite() override;
 
 private:
 	enum e_state
@@ -821,12 +821,12 @@ LLTextureCache::LLTextureCache(bool threaded)
 	  mListMutex(),
 	  mFastCacheMutex(),
 	  mHeaderAPRFile(NULL),
-	  mReadOnly(TRUE), //do not allow to change the texture cache until setReadOnly() is called.
-	  mTexturesSizeTotal(0),
-	  mDoPurge(false),
+	  mFastCachePoolp(NULL), //do not allow to change the texture cache until setReadOnly() is called.
+	  mReadOnly(TRUE),
 	  mFastCachep(NULL),
-	  mFastCachePoolp(NULL),
-	  mFastCachePadBuffer(NULL)
+	  mFastCachePadBuffer(NULL),
+	  mTexturesSizeTotal(0),
+	  mDoPurge(false)
 {
 }
 

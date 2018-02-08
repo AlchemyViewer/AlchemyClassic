@@ -92,8 +92,8 @@ namespace Details
     LLEventPollImpl::LLEventPollImpl(const LLHost &sender) :
         mDone(false),
         mHttpRequest(),
-        mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
         mHttpOptions(),
+        mHttpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID),
         mSenderIp(),
         mCounter(sNextCounter++)
 

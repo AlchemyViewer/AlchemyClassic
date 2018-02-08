@@ -121,6 +121,8 @@ LLViewerParcelMgr::LLViewerParcelMgr()
 	mHoverWestSouth(),
 	mHoverEastNorth(),
 	mTeleportInProgressPosition(),
+	mCollisionRegionHandle(0),
+	mCollisionUpdateSignal(nullptr),
 	mRenderCollision(FALSE),
 	mRenderSelection(TRUE),
 	mCollisionBanned(0),
@@ -139,6 +141,9 @@ LLViewerParcelMgr::LLViewerParcelMgr()
 	mParcelsPerEdge = S32(8192.f / PARCEL_GRID_STEP_METERS); // 8192 is the maximum region size on Aurora
 	mHighlightSegments = new U8[(mParcelsPerEdge+1)*(mParcelsPerEdge+1)];
 	resetSegments(mHighlightSegments);
+
+	mCollisionBitmap = new U8[getCollisionBitmapSize()];
+	memset(mCollisionBitmap, 0, getCollisionBitmapSize());
 
 	mCollisionSegments = new U8[(mParcelsPerEdge+1)*(mParcelsPerEdge+1)];
 	resetSegments(mCollisionSegments);
@@ -191,6 +196,9 @@ LLViewerParcelMgr::~LLViewerParcelMgr()
 	delete[] mHighlightSegments;
 	mHighlightSegments = NULL;
 
+	delete[] mCollisionBitmap;
+	mCollisionBitmap = NULL;
+
 	delete[] mCollisionSegments;
 	mCollisionSegments = NULL;
 
@@ -226,7 +234,7 @@ void LLViewerParcelMgr::dump()
 }
 
 
-LLViewerRegion* LLViewerParcelMgr::getSelectionRegion()
+LLViewerRegion* LLViewerParcelMgr::getSelectionRegion() const
 {
 	return LLWorld::getInstance()->getRegionFromPosGlobal( mWestSouth );
 }
@@ -1753,13 +1761,22 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 							/ 8;
 		U8* bitmap = new U8[ bitmap_size ];
 		msg->getBinaryDataFast(_PREHASH_ParcelData, _PREHASH_Bitmap, bitmap, bitmap_size);
+		msg->getBinaryDataFast(_PREHASH_ParcelData, _PREHASH_Bitmap, parcel_mgr.mCollisionBitmap, parcel_mgr.getCollisionBitmapSize());
+
 
 		parcel_mgr.resetSegments(parcel_mgr.mCollisionSegments);
 		parcel_mgr.writeSegmentsFromBitmap( bitmap, parcel_mgr.mCollisionSegments );
+		parcel_mgr.writeSegmentsFromBitmap(parcel_mgr.mCollisionBitmap, parcel_mgr.mCollisionSegments);
+
 
 		delete[] bitmap;
 		bitmap = NULL;
 
+		LLViewerRegion* pRegion = LLWorld::getInstance()->getRegion(msg->getSender());
+		parcel_mgr.mCollisionRegionHandle = (pRegion) ? pRegion->getHandle() : 0;
+
+		if (parcel_mgr.mCollisionUpdateSignal)
+			(*parcel_mgr.mCollisionUpdateSignal)(pRegion);
 	}
 	else if (sequence_id == HOVERED_PARCEL_SEQ_ID)
 	{
@@ -2532,4 +2549,11 @@ void LLViewerParcelMgr::onTeleportFinished(bool local, const LLVector3d& new_pos
 void LLViewerParcelMgr::onTeleportFailed()
 {
 	mTeleportFailedSignal();
+}
+
+boost::signals2::connection LLViewerParcelMgr::setCollisionUpdateCallback(const collision_update_signal_t::slot_type& cb)
+{
+	if (!mCollisionUpdateSignal)
+		mCollisionUpdateSignal = new collision_update_signal_t();
+	return mCollisionUpdateSignal->connect(cb); 
 }

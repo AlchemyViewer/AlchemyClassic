@@ -223,15 +223,6 @@ class ALCheckLocationBar : public view_listener_t
 	}
 };
 
-void destroy_texture(const LLUUID& id)
-{
-	if (id.isNull() || id == IMG_DEFAULT) return;
-	LLViewerFetchedTexture* texture = LLViewerTextureManager::getFetchedTexture(id);
-	if (texture)
-		texture->clearFetchedResults();
-	LLAppViewer::getTextureCache()->removeFromCache(id);
-}
-
 class LLRefreshTexturesObject : public view_listener_t
 {
 	bool handleEvent(const LLSD& userdata) override
@@ -260,7 +251,7 @@ class LLRefreshTexturesObject : public view_listener_t
 
 			for (auto it : faces_per_tex)
 			{
-				destroy_texture(it.first);
+			    ALViewerMenu::destroy_texture(it.first);
 			}
 
 			if (node->getObject()->isSculpted() && !node->getObject()->isMesh())
@@ -273,7 +264,7 @@ class LLRefreshTexturesObject : public view_listener_t
 					if (tx)
 					{
 						const LLViewerTexture::ll_volume_list_t* pVolumeList = tx->getVolumeList();
-						destroy_texture(sculptie);
+					    ALViewerMenu::destroy_texture(sculptie);
 						for (S32 idxVolume = 0; idxVolume < tx->getNumVolumes(); ++idxVolume)
 						{
 							LLVOVolume* pVolume = pVolumeList->at(idxVolume);
@@ -297,7 +288,7 @@ class LLRefreshTexturesAvatar : public view_listener_t
 		for (U32 baked_idx = 0; baked_idx < BAKED_NUM_INDICES; ++baked_idx)
 		{
 			ETextureIndex te_idx = LLAvatarAppearanceDictionary::bakedToLocalTextureIndex((EBakedTextureIndex)baked_idx);
-			destroy_texture(avatar->getTE(te_idx)->getID());
+		    ALViewerMenu::destroy_texture(avatar->getTE(te_idx)->getID());
 		}
 		LLAvatarPropertiesProcessor::getInstance()->sendAvatarTexturesRequest(avatar->getID());
 
@@ -485,6 +476,15 @@ bool enable_music_ticker()
 	return gAudiop
 		&& gAudiop->getStreamingAudioImpl() 
 		&& gAudiop->getStreamingAudioImpl()->supportsMetaData();
+}
+
+void ALViewerMenu::destroy_texture(const LLUUID& id)
+{
+    if (id.isNull() || id == IMG_DEFAULT) return;
+    LLViewerFetchedTexture* texture = LLViewerTextureManager::getFetchedTexture(id);
+    if (texture)
+        texture->clearFetchedResults();
+    LLAppViewer::getTextureCache()->removeFromCache(id);
 }
 
 ////////////////////////////////////////////////////////

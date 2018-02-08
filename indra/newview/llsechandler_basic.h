@@ -96,11 +96,11 @@ public:
 		{
 			if(incr)
 			{
-				mIter++;
+				++mIter;
 			}
 			else
 			{
-				mIter--;
+				--mIter;
 			}
 		}
 		// create a copy of the iterator implementation class, used by the iterator copy constructor

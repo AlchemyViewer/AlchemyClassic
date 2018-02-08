@@ -94,10 +94,10 @@ LLTextureKey::LLTextureKey(LLUUID id, ETexListType tex_type)
 
 LLViewerTextureList::LLViewerTextureList() 
 	: mForceResetTextureStats(FALSE),
+	mInitialized(FALSE),
 	mUpdateStats(FALSE),
 	mMaxResidentTexMemInMegaBytes(0),
-	mMaxTotalTextureMemInMegaBytes(0),
-	mInitialized(FALSE)
+	mMaxTotalTextureMemInMegaBytes(0)
 {
 }
 

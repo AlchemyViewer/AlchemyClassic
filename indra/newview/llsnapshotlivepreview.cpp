@@ -75,16 +75,19 @@ std::set<LLSnapshotLivePreview*> LLSnapshotLivePreview::sList;
 
 LLSnapshotLivePreview::LLSnapshotLivePreview (const LLSnapshotLivePreview::Params& p) 
 	:	LLView(p),
-	mColor(1.f, 0.f, 0.f, 0.5f), 
-	mCurImageIndex(0),
+	mViewContainer(NULL), 
+	mColor(1.f, 0.f, 0.f, 0.5f),
+	mThumbnailImage(NULL),
+    mThumbnailWidth(0) ,
+    mThumbnailHeight(0) ,
+	mThumbnailSubsampled(FALSE),
+	mBigThumbnailImage(NULL),
+    mCurImageIndex(0),
 	mPreviewImage(NULL),
-    mThumbnailImage(NULL) ,
-    mBigThumbnailImage(NULL) ,
-	mThumbnailWidth(0),
-	mThumbnailHeight(0),
-    mThumbnailSubsampled(FALSE),
 	mPreviewImageEncoded(NULL),
 	mFormattedImage(NULL),
+	mAllowRenderUI(TRUE),
+	mAllowFullScreenPreview(TRUE),
 	mShineCountdown(0),
 	mFlashAlpha(0.f),
 	mNeedsFlash(TRUE),
@@ -94,13 +97,10 @@ LLSnapshotLivePreview::LLSnapshotLivePreview (const LLSnapshotLivePreview::Param
 	mSnapshotFormat(LLSnapshotModel::ESnapshotFormat(gSavedSettings.getS32("SnapshotFormat"))),
 	mSnapshotUpToDate(FALSE),
 	mCameraPos(LLViewerCamera::getInstance()->getOrigin()),
-	mCameraRot(LLViewerCamera::getInstance()->getQuaternion()),
-	mSnapshotActive(FALSE),
-	mSnapshotBufferType(LLSnapshotModel::SNAPSHOT_TYPE_COLOR),
-    mFilterName(""),
-    mAllowRenderUI(TRUE),
-    mAllowFullScreenPreview(TRUE),
-    mViewContainer(NULL)
+    mCameraRot(LLViewerCamera::getInstance()->getQuaternion()),
+    mSnapshotActive(FALSE),
+    mSnapshotBufferType(LLSnapshotModel::SNAPSHOT_TYPE_COLOR),
+    mFilterName("")
 {
 	setSnapshotQuality(gSavedSettings.getS32("SnapshotQuality"));
 	mSnapshotDelayTimer.setTimerExpirySec(0.0f);

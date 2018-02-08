@@ -160,7 +160,7 @@ class LLFavoriteLandmarkButton : public LLButton
 {
 public:
 
-	BOOL handleToolTip(S32 x, S32 y, MASK mask)
+	BOOL handleToolTip(S32 x, S32 y, MASK mask) override
 	{
 		std::string region_name = mLandmarkInfoGetter.getName();
 		
@@ -179,8 +179,8 @@ public:
 		return TRUE;
 	}
 
-	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask)
-	{
+	/*virtual*/ BOOL	handleHover(S32 x, S32 y, MASK mask) override
+    {
 		LLFavoritesBarCtrl* fb = dynamic_cast<LLFavoritesBarCtrl*>(getParent());
 
 		if (fb)
@@ -194,7 +194,7 @@ public:
 	void setLandmarkID(const LLUUID& id){ mLandmarkInfoGetter.setLandmarkID(id); }
 	const LLUUID& getLandmarkId() const { return mLandmarkInfoGetter.getLandmarkId(); }
 
-	void onMouseEnter(S32 x, S32 y, MASK mask)
+	void onMouseEnter(S32 x, S32 y, MASK mask) override
 	{
 		if (LLToolDragAndDrop::getInstance()->hasMouseCapture())
 		{
@@ -224,7 +224,7 @@ private:
 class LLFavoriteLandmarkMenuItem : public LLMenuItemCallGL
 {
 public:
-	BOOL handleToolTip(S32 x, S32 y, MASK mask)
+	BOOL handleToolTip(S32 x, S32 y, MASK mask) override
 	{
 		std::string region_name = mLandmarkInfoGetter.getName();
 		if (!region_name.empty())
@@ -239,21 +239,21 @@ public:
 	
 	void setLandmarkID(const LLUUID& id){ mLandmarkInfoGetter.setLandmarkID(id); }
 
-	virtual BOOL handleMouseDown(S32 x, S32 y, MASK mask)
+    BOOL handleMouseDown(S32 x, S32 y, MASK mask) override
 	{
 		if (mMouseDownSignal)
 			(*mMouseDownSignal)(this, x, y, mask);
 		return LLMenuItemCallGL::handleMouseDown(x, y, mask);
 	}
 
-	virtual BOOL handleMouseUp(S32 x, S32 y, MASK mask)
+    BOOL handleMouseUp(S32 x, S32 y, MASK mask) override
 	{
 		if (mMouseUpSignal)
 			(*mMouseUpSignal)(this, x, y, mask);
 		return LLMenuItemCallGL::handleMouseUp(x, y, mask);
 	}
 
-	virtual BOOL handleHover(S32 x, S32 y, MASK mask)
+    BOOL handleHover(S32 x, S32 y, MASK mask) override
 	{
 		if (fb)
 		{
@@ -285,11 +285,11 @@ private:
 class LLFavoriteLandmarkToggleableMenu : public LLToggleableMenu
 {
 public:
-	virtual BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
+    BOOL handleDragAndDrop(S32 x, S32 y, MASK mask, BOOL drop,
 								   EDragAndDropType cargo_type,
 								   void* cargo_data,
 								   EAcceptance* accept,
-								   std::string& tooltip_msg)
+								   std::string& tooltip_msg) override
 	{
 		*accept = ACCEPT_NO;
 		return TRUE;
@@ -314,7 +314,7 @@ class LLItemCopiedCallback : public LLInventoryCallback
 public:
 	LLItemCopiedCallback(S32 sortField): mSortField(sortField) {}
 
-	virtual void fire(const LLUUID& inv_item)
+    void fire(const LLUUID& inv_item) override
 	{
 		LLViewerInventoryItem* item = gInventory.getItem(inv_item);
 
@@ -374,16 +374,16 @@ LLFavoritesBarCtrl::Params::Params()
 
 LLFavoritesBarCtrl::LLFavoritesBarCtrl(const LLFavoritesBarCtrl::Params& p)
 :	LLUICtrl(p),
-	mFont(p.font.isProvided() ? p.font() : LLFontGL::getFontSansSerifSmall()),
 	mOverflowMenuHandle(),
 	mContextMenuHandle(),
+	mFont(p.font.isProvided() ? p.font() : LLFontGL::getFontSansSerifSmall()),
+	mUpdateDropDownItems(true),
+	mRestoreOverflowMenu(false),
 	mImageDragIndication(p.image_drag_indication),
 	mShowDragMarker(FALSE),
-	mLandingTab(NULL),
-	mLastTab(NULL),
-	mTabsHighlightEnabled(TRUE)
-  , mUpdateDropDownItems(true)
-,	mRestoreOverflowMenu(false)
+	mLandingTab(NULL)
+  , mLastTab(NULL)
+,	mTabsHighlightEnabled(TRUE)
 {
 	// Register callback for menus with current registrar (will be parent panel's registrar)
 	LLUICtrl::CommitCallbackRegistry::currentRegistrar().add("Favorites.DoToSelected",
@@ -1568,16 +1568,18 @@ void LLFavoritesOrderStorage::saveFavoritesSLURLs()
         gInventory.collectDescendents(fav_id, cats, items, LLInventoryModel::EXCLUDE_TRASH);
 
         LLSD user_llsd;
-        for (LLInventoryModel::item_array_t::iterator it = items.begin(); it != items.end(); it++)
+        for (LLInventoryModel::item_array_t::const_iterator it = items.cbegin(); it != items.cend(); ++it)
         {
             LLSD value;
             value["name"] = (*it)->getName();
             value["asset_id"] = (*it)->getAssetUUID();
 
-            slurls_map_t::iterator slurl_iter = mSLURLs.find(value["asset_id"]);
-            if (slurl_iter != mSLURLs.end())
+            slurls_map_t::const_iterator slurl_iter = mSLURLs.find(value["asset_id"]);
+            if (slurl_iter != mSLURLs.cend())
             {
-                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID()) << ", SLURL=" <<  slurl_iter->second << ", value=" << value << LL_ENDL;
+                LL_DEBUGS("FavoritesBar") << "Saving favorite: idx=" << LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())
+                    << ", SLURL=" <<  slurl_iter->second 
+                    << ", value=" << value << LL_ENDL;
                 value["slurl"] = slurl_iter->second;
                 user_llsd[LLFavoritesOrderStorage::instance().getSortIndex((*it)->getUUID())] = value;
             }
@@ -1665,7 +1667,7 @@ void LLFavoritesOrderStorage::onLandmarkLoaded(const LLUUID& asset_id, LLLandmar
         {
         	LL_DEBUGS("FavoritesBar") << "requesting slurl for landmark " << asset_id << LL_ENDL;
         	LLLandmarkActions::getSLURLfromPosGlobal(pos_global,
-			boost::bind(&LLFavoritesOrderStorage::storeFavoriteSLURL, this, asset_id, _1));
+                boost::bind(&LLFavoritesOrderStorage::storeFavoriteSLURL, this, asset_id, _1));
         }
     }
 }

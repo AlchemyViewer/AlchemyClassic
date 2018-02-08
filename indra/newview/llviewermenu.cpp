@@ -321,7 +321,7 @@ class LLMenuParcelObserver : public LLParcelObserver
 public:
 	LLMenuParcelObserver();
 	~LLMenuParcelObserver();
-	virtual void changed();
+    void changed() override;
 };
 
 static LLMenuParcelObserver* gMenuParcelObserver = NULL;
@@ -539,7 +539,7 @@ void init_menus()
 
 class LLAdvancedToggleConsole : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string console_type = userdata.asString();
 		if ("texture" == console_type)
@@ -568,7 +568,7 @@ class LLAdvancedToggleConsole : public view_listener_t
 };
 class LLAdvancedCheckConsole : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string console_type = userdata.asString();
 		bool new_value = false;
@@ -605,7 +605,7 @@ class LLAdvancedCheckConsole : public view_listener_t
 
 class LLAdvancedDumpInfoToConsole : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gDebugView->mDebugConsolep->setVisible(TRUE);
 		std::string info_type = userdata.asString();
@@ -633,7 +633,7 @@ class LLAdvancedDumpInfoToConsole : public view_listener_t
 
 class LLAdvancedToggleHUDInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string info_type = userdata.asString();
 
@@ -659,7 +659,7 @@ class LLAdvancedToggleHUDInfo : public view_listener_t
 
 class LLAdvancedCheckHUDInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string info_type = userdata.asString();
 		bool new_value = false;
@@ -690,7 +690,7 @@ class LLAdvancedCheckHUDInfo : public view_listener_t
 
 class LLAdvancedAgentFlyingInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD&)
+	bool handleEvent(const LLSD&) override
 	{
 		return gAgent.getFlying();
 	}
@@ -703,7 +703,7 @@ class LLAdvancedAgentFlyingInfo : public view_listener_t
 
 class LLAdvancedClearGroupCache : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLGroupMgr::debugClearAllGroups(NULL);
 		return true;
@@ -779,7 +779,7 @@ U32 render_type_from_string(std::string render_type)
 
 class LLAdvancedToggleRenderType : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 render_type = render_type_from_string( userdata.asString() );
 		if ( render_type != 0 )
@@ -793,7 +793,7 @@ class LLAdvancedToggleRenderType : public view_listener_t
 
 class LLAdvancedCheckRenderType : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 render_type = render_type_from_string( userdata.asString() );
 		bool new_value = false;
@@ -854,7 +854,7 @@ U32 feature_from_string(std::string feature)
 
 class LLAdvancedToggleFeature : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 feature = feature_from_string( userdata.asString() );
 		if ( feature != 0 )
@@ -867,8 +867,8 @@ class LLAdvancedToggleFeature : public view_listener_t
 
 class LLAdvancedCheckFeature : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
-{
+	bool handleEvent(const LLSD& userdata) override
+	{
 	U32 feature = feature_from_string( userdata.asString() );
 	bool new_value = false;
 
@@ -883,7 +883,7 @@ class LLAdvancedCheckFeature : public view_listener_t
 
 class LLAdvancedCheckDisplayTextureDensity : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string mode = userdata.asString();
 		if (!gPipeline.hasRenderDebugMask(LLPipeline::RENDER_DEBUG_TEXEL_DENSITY))
@@ -908,7 +908,7 @@ class LLAdvancedCheckDisplayTextureDensity : public view_listener_t
 
 class LLAdvancedSetDisplayTextureDensity : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string mode = userdata.asString();
 		if (mode == "none")
@@ -1079,7 +1079,7 @@ U32 info_display_from_string(std::string info_display)
 
 class LLAdvancedToggleInfoDisplay : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 info_display = info_display_from_string( userdata.asString() );
 
@@ -1097,7 +1097,7 @@ class LLAdvancedToggleInfoDisplay : public view_listener_t
 
 class LLAdvancedCheckInfoDisplay : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 info_display = info_display_from_string( userdata.asString() );
 		bool new_value = false;
@@ -1119,7 +1119,7 @@ class LLAdvancedCheckInfoDisplay : public view_listener_t
 
 class LLAdvancedToggleRandomizeFramerate : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gRandomizeFramerate = !(gRandomizeFramerate);
 		return true;
@@ -1128,7 +1128,7 @@ class LLAdvancedToggleRandomizeFramerate : public view_listener_t
 
 class LLAdvancedCheckRandomizeFramerate : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gRandomizeFramerate;
 		return new_value;
@@ -1142,7 +1142,7 @@ class LLAdvancedCheckRandomizeFramerate : public view_listener_t
 
 class LLAdvancedTogglePeriodicSlowFrame : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gPeriodicSlowFrame = !(gPeriodicSlowFrame);
 		return true;
@@ -1151,7 +1151,7 @@ class LLAdvancedTogglePeriodicSlowFrame : public view_listener_t
 
 class LLAdvancedCheckPeriodicSlowFrame : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gPeriodicSlowFrame;
 		return new_value;
@@ -1167,7 +1167,7 @@ class LLAdvancedCheckPeriodicSlowFrame : public view_listener_t
 
 class LLAdvancedToggleFrameTest : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLPipeline::sRenderFrameTest = !(LLPipeline::sRenderFrameTest);
 		return true;
@@ -1176,7 +1176,7 @@ class LLAdvancedToggleFrameTest : public view_listener_t
 
 class LLAdvancedCheckFrameTest : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLPipeline::sRenderFrameTest;
 		return new_value;
@@ -1191,7 +1191,7 @@ class LLAdvancedCheckFrameTest : public view_listener_t
 
 class LLAdvancedSelectedTextureInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_selected_texture_info(NULL);
 		return true;
@@ -1204,7 +1204,7 @@ class LLAdvancedSelectedTextureInfo : public view_listener_t
 
 class LLAdvancedToggleWireframe : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gUseWireframe = !(gUseWireframe);
 		gWindowResized = TRUE;
@@ -1219,7 +1219,7 @@ class LLAdvancedToggleWireframe : public view_listener_t
 
 class LLAdvancedCheckWireframe : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gUseWireframe;
 		return new_value;
@@ -1233,7 +1233,7 @@ class LLAdvancedCheckWireframe : public view_listener_t
 	
 class LLAdvancedDumpScriptedCamera : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_dump_followcam(NULL);
 		return true;
@@ -1249,8 +1249,8 @@ class LLAdvancedDumpScriptedCamera : public view_listener_t
 
 class LLAdvancedDumpRegionObjectCache : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
-{
+	bool handleEvent(const LLSD& userdata) override
+	{
 		handle_dump_region_object_cache(NULL);
 		return true;
 	}
@@ -1258,7 +1258,7 @@ class LLAdvancedDumpRegionObjectCache : public view_listener_t
 
 class LLAdvancedBuyCurrencyTest : public view_listener_t
 	{
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_buy_currency_test(NULL);
 		return true;
@@ -1273,7 +1273,7 @@ class LLAdvancedBuyCurrencyTest : public view_listener_t
 
 class LLAdvancedDumpSelectMgr : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		dump_select_mgr(NULL);
 		return true;
@@ -1289,7 +1289,7 @@ class LLAdvancedDumpSelectMgr : public view_listener_t
 
 class LLAdvancedDumpInventory : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		dump_inventory(NULL);
 		return true;
@@ -1305,7 +1305,7 @@ class LLAdvancedDumpInventory : public view_listener_t
 
 class LLAdvancedPrintSelectedObjectInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		print_object_info(NULL);
 		return true;
@@ -1321,7 +1321,7 @@ class LLAdvancedPrintSelectedObjectInfo : public view_listener_t
 
 class LLAdvancedPrintAgentInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		print_agent_nvpairs(NULL);
 		return true;
@@ -1335,7 +1335,7 @@ class LLAdvancedPrintAgentInfo : public view_listener_t
 
 class LLAdvancedToggleDebugClicks : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gDebugClicks = !(gDebugClicks);
 		return true;
@@ -1344,7 +1344,7 @@ class LLAdvancedToggleDebugClicks : public view_listener_t
 
 class LLAdvancedCheckDebugClicks : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gDebugClicks;
 		return new_value;
@@ -1360,7 +1360,7 @@ class LLAdvancedCheckDebugClicks : public view_listener_t
 
 class LLAdvancedToggleDebugViews : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLView::sDebugRects = !(LLView::sDebugRects);
 		return true;
@@ -1369,7 +1369,7 @@ class LLAdvancedToggleDebugViews : public view_listener_t
 
 class LLAdvancedCheckDebugViews : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLView::sDebugRects;
 		return new_value;
@@ -1385,7 +1385,7 @@ class LLAdvancedCheckDebugViews : public view_listener_t
 
 class LLAdvancedToggleXUINameTooltips : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		toggle_show_xui_names(NULL);
 		return true;
@@ -1394,7 +1394,7 @@ class LLAdvancedToggleXUINameTooltips : public view_listener_t
 
 class LLAdvancedCheckXUINameTooltips : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = check_show_xui_names(NULL);
 		return new_value;
@@ -1410,7 +1410,7 @@ class LLAdvancedCheckXUINameTooltips : public view_listener_t
 
 class LLAdvancedToggleDebugMouseEvents : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLView::sDebugMouseHandling = !(LLView::sDebugMouseHandling);
 		return true;
@@ -1419,7 +1419,7 @@ class LLAdvancedToggleDebugMouseEvents : public view_listener_t
 
 class LLAdvancedCheckDebugMouseEvents : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLView::sDebugMouseHandling;
 		return new_value;
@@ -1435,7 +1435,7 @@ class LLAdvancedCheckDebugMouseEvents : public view_listener_t
 
 class LLAdvancedToggleDebugKeys : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLView::sDebugKeys = !(LLView::sDebugKeys);
 		return true;
@@ -1444,7 +1444,7 @@ class LLAdvancedToggleDebugKeys : public view_listener_t
 	
 class LLAdvancedCheckDebugKeys : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLView::sDebugKeys;
 		return new_value;
@@ -1460,7 +1460,7 @@ class LLAdvancedCheckDebugKeys : public view_listener_t
 
 class LLAdvancedToggleDebugWindowProc : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gDebugWindowProc = !(gDebugWindowProc);
 		return true;
@@ -1469,7 +1469,7 @@ class LLAdvancedToggleDebugWindowProc : public view_listener_t
 
 class LLAdvancedCheckDebugWindowProc : public view_listener_t
 	{
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gDebugWindowProc;
 		return new_value;
@@ -1480,7 +1480,7 @@ class LLAdvancedCheckDebugWindowProc : public view_listener_t
 
 class LLAdvancedSendTestIms : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLIMModel::instance().testMessages();
 		return true;
@@ -1494,7 +1494,7 @@ class LLAdvancedSendTestIms : public view_listener_t
 
 class LLAdvancedGrabBakedTexture : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string texture_type = userdata.asString();
 		if ("iris" == texture_type)
@@ -1528,8 +1528,8 @@ class LLAdvancedGrabBakedTexture : public view_listener_t
 
 class LLAdvancedEnableGrabBakedTexture : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
-{
+	bool handleEvent(const LLSD& userdata) override
+	{
 		std::string texture_type = userdata.asString();
 		bool new_value = false;
 
@@ -1569,7 +1569,7 @@ class LLAdvancedEnableGrabBakedTexture : public view_listener_t
 
 class LLAdvancedEnableAppearanceToXML : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gSavedSettings.getBOOL("DebugAvatarAppearanceMessage");
 	}
@@ -1577,7 +1577,7 @@ class LLAdvancedEnableAppearanceToXML : public view_listener_t
 
 class LLAdvancedAppearanceToXML : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string emptyname;
 		LLVOAvatar* avatar =
@@ -1600,7 +1600,7 @@ class LLAdvancedAppearanceToXML : public view_listener_t
 
 class LLAdvancedToggleCharacterGeometry : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_god_request_avatar_geometry(NULL);
 		return true;
@@ -1614,7 +1614,7 @@ class LLAdvancedToggleCharacterGeometry : public view_listener_t
 
 class LLAdvancedTestMale : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_test_male(NULL);
 		return true;
@@ -1624,7 +1624,7 @@ class LLAdvancedTestMale : public view_listener_t
 
 class LLAdvancedTestFemale : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_test_female(NULL);
 		return true;
@@ -1633,7 +1633,7 @@ class LLAdvancedTestFemale : public view_listener_t
 
 class LLAdvancedForceParamsToDefault : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLAgent::clearVisualParams(NULL);
 		return true;
@@ -1658,7 +1658,7 @@ static void set_all_animation_time_factors(F32	time_factor)
 
 class LLAdvancedAnimTenFaster : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		//LL_INFOS() << "LLAdvancedAnimTenFaster" << LL_ENDL;
 		F32 time_factor = LLMotionController::getCurrentTimeFactor();
@@ -1670,7 +1670,7 @@ class LLAdvancedAnimTenFaster : public view_listener_t
 
 class LLAdvancedAnimTenSlower : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		//LL_INFOS() << "LLAdvancedAnimTenSlower" << LL_ENDL;
 		F32 time_factor = LLMotionController::getCurrentTimeFactor();
@@ -1682,7 +1682,7 @@ class LLAdvancedAnimTenSlower : public view_listener_t
 
 class LLAdvancedAnimResetAll : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		set_all_animation_time_factors(1.f);
 		return true;
@@ -1697,7 +1697,7 @@ class LLAdvancedAnimResetAll : public view_listener_t
 
 class LLAdvancedReloadVertexShader : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		reload_vertex_shader(NULL);
 		return true;
@@ -1713,7 +1713,7 @@ class LLAdvancedReloadVertexShader : public view_listener_t
 
 class LLAdvancedToggleAnimationInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar::sShowAnimationDebug = !(LLVOAvatar::sShowAnimationDebug);
 		return true;
@@ -1722,7 +1722,7 @@ class LLAdvancedToggleAnimationInfo : public view_listener_t
 
 class LLAdvancedCheckAnimationInfo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLVOAvatar::sShowAnimationDebug;
 		return new_value;
@@ -1737,7 +1737,7 @@ class LLAdvancedCheckAnimationInfo : public view_listener_t
 
 class LLAdvancedToggleShowLookAt : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool value = !gSavedSettings.getBOOL("AlchemyLookAtShow");
 		gSavedSettings.setBOOL("AlchemyLookAtShow", value);
@@ -1747,7 +1747,7 @@ class LLAdvancedToggleShowLookAt : public view_listener_t
 
 class LLAdvancedCheckShowLookAt : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gSavedSettings.getBOOL("AlchemyLookAtShow");
 		return new_value;
@@ -1763,7 +1763,7 @@ class LLAdvancedCheckShowLookAt : public view_listener_t
 
 class LLAdvancedToggleShowPointAt : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLHUDEffectPointAt::sDebugPointAt = !(LLHUDEffectPointAt::sDebugPointAt);
 		return true;
@@ -1772,7 +1772,7 @@ class LLAdvancedToggleShowPointAt : public view_listener_t
 
 class LLAdvancedCheckShowPointAt : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLHUDEffectPointAt::sDebugPointAt;
 		return new_value;
@@ -1788,7 +1788,7 @@ class LLAdvancedCheckShowPointAt : public view_listener_t
 
 class LLAdvancedToggleDebugJointUpdates : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar::sJointDebug = !(LLVOAvatar::sJointDebug);
 		return true;
@@ -1797,7 +1797,7 @@ class LLAdvancedToggleDebugJointUpdates : public view_listener_t
 
 class LLAdvancedCheckDebugJointUpdates : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLVOAvatar::sJointDebug;
 		return new_value;
@@ -1813,7 +1813,7 @@ class LLAdvancedCheckDebugJointUpdates : public view_listener_t
 
 class LLAdvancedToggleDisableLOD : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerJoint::sDisableLOD = !(LLViewerJoint::sDisableLOD);
 		return true;
@@ -1822,7 +1822,7 @@ class LLAdvancedToggleDisableLOD : public view_listener_t
 		
 class LLAdvancedCheckDisableLOD : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLViewerJoint::sDisableLOD;
 		return new_value;
@@ -1838,7 +1838,7 @@ class LLAdvancedCheckDisableLOD : public view_listener_t
 
 class LLAdvancedToggleDebugCharacterVis : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar::sDebugInvisible = !(LLVOAvatar::sDebugInvisible);
 		return true;
@@ -1847,7 +1847,7 @@ class LLAdvancedToggleDebugCharacterVis : public view_listener_t
 
 class LLAdvancedCheckDebugCharacterVis : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLVOAvatar::sDebugInvisible;
 		return new_value;
@@ -1862,7 +1862,7 @@ class LLAdvancedCheckDebugCharacterVis : public view_listener_t
 	
 class LLAdvancedDumpAttachments : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_dump_attachments(NULL);
 		return true;
@@ -1878,7 +1878,7 @@ class LLAdvancedDumpAttachments : public view_listener_t
 	
 class LLAdvancedRebakeTextures : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_rebake_textures(NULL);
 		return true;
@@ -1894,7 +1894,7 @@ class LLAdvancedRebakeTextures : public view_listener_t
 
 class LLAdvancedDebugAvatarTextures : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 #if LINDEN_RULES
 		if (gAgent.isGodlike())
@@ -1913,7 +1913,7 @@ class LLAdvancedDebugAvatarTextures : public view_listener_t
 
 class LLAdvancedDumpAvatarLocalTextures : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 #ifndef LL_RELEASE_FOR_DOWNLOAD
 		handle_dump_avatar_local_textures(NULL);
@@ -1931,7 +1931,7 @@ class LLAdvancedDumpAvatarLocalTextures : public view_listener_t
 
 class LLAdvancedEnableMessageLog : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_viewer_enable_message_log(NULL);
 		return true;
@@ -1940,7 +1940,7 @@ class LLAdvancedEnableMessageLog : public view_listener_t
 
 class LLAdvancedDisableMessageLog : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_viewer_disable_message_log(NULL);
 		return true;
@@ -1954,7 +1954,7 @@ class LLAdvancedDisableMessageLog : public view_listener_t
 
 class LLAdvancedDropPacket : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gMessageSystem->mPacketRing.dropPackets(1);
 		return true;
@@ -1969,7 +1969,7 @@ class LLAdvancedDropPacket : public view_listener_t
 
 class LLAdvancedViewerEventRecorder : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string command = userdata.asString();
 		if ("start playback" == command)
@@ -2007,7 +2007,7 @@ class LLAdvancedViewerEventRecorder : public view_listener_t
 
 class LLAdvancedAgentPilot : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string command = userdata.asString();
 		if ("start playback" == command)
@@ -2041,7 +2041,7 @@ class LLAdvancedAgentPilot : public view_listener_t
 
 class LLAdvancedToggleAgentPilotLoop : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgentPilot.setLoop(!gAgentPilot.getLoop());
 		return true;
@@ -2050,7 +2050,7 @@ class LLAdvancedToggleAgentPilotLoop : public view_listener_t
 
 class LLAdvancedCheckAgentPilotLoop : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gAgentPilot.getLoop();
 		return new_value;
@@ -2065,7 +2065,7 @@ class LLAdvancedCheckAgentPilotLoop : public view_listener_t
 
 class LLAdvancedToggleShowObjectUpdates : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gShowObjectUpdates = !(gShowObjectUpdates);
 		return true;
@@ -2074,7 +2074,7 @@ class LLAdvancedToggleShowObjectUpdates : public view_listener_t
 
 class LLAdvancedCheckShowObjectUpdates : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gShowObjectUpdates;
 		return new_value;
@@ -2091,7 +2091,7 @@ class LLAdvancedCheckShowObjectUpdates : public view_listener_t
 
 class LLAdvancedCheckViewerUpdates : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterAboutUtil::checkUpdatesAndNotify();
 		return true;
@@ -2106,7 +2106,7 @@ class LLAdvancedCheckViewerUpdates : public view_listener_t
 
 class LLAdvancedCompressImage : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_compress_image(NULL);
 		return true;
@@ -2121,7 +2121,7 @@ class LLAdvancedCompressImage : public view_listener_t
 
 class LLAdvancedShowDebugSettings : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterReg::showInstance("settings_debug",userdata);
 		return true;
@@ -2136,7 +2136,7 @@ class LLAdvancedShowDebugSettings : public view_listener_t
 
 class LLAdvancedEnableViewAdminOptions : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// Don't enable in god mode since the admin menu is shown anyway.
 		// Only enable if the user has set the appropriate debug setting.
@@ -2147,7 +2147,7 @@ class LLAdvancedEnableViewAdminOptions : public view_listener_t
 
 class LLAdvancedToggleViewAdminOptions : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_admin_override_toggle(NULL);
 		return true;
@@ -2156,7 +2156,7 @@ class LLAdvancedToggleViewAdminOptions : public view_listener_t
 
 class LLAdvancedToggleVisualLeakDetector : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_visual_leak_detector_toggle(NULL);
 		return true;
@@ -2165,7 +2165,7 @@ class LLAdvancedToggleVisualLeakDetector : public view_listener_t
 
 class LLAdvancedCheckViewAdminOptions : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = check_admin_override(NULL) || gAgent.isGodlike();
 		return new_value;
@@ -2177,7 +2177,7 @@ class LLAdvancedCheckViewAdminOptions : public view_listener_t
 /////////////////////////////////////
 class LLAdvancedEnableObjectObjectOcclusion: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 	
 		bool new_value = gGLManager.mHasOcclusionQuery; // && LLFeatureManager::getInstance()->isFeatureAvailable(userdata.asString());
@@ -2190,7 +2190,7 @@ class LLAdvancedEnableObjectObjectOcclusion: public view_listener_t
 /////////////////////////////////////
 class LLAdvancedEnableRenderFBO: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gGLManager.mHasFramebufferObject;
 		return new_value;
@@ -2202,7 +2202,7 @@ class LLAdvancedEnableRenderFBO: public view_listener_t
 /////////////////////////////////////
 class LLAdvancedEnableRenderDeferred: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gGLManager.mHasFramebufferObject && LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_WINDLIGHT) > 1 &&
 			LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_AVATAR) > 0;
@@ -2215,7 +2215,7 @@ class LLAdvancedEnableRenderDeferred: public view_listener_t
 /////////////////////////////////////
 class LLAdvancedEnableRenderDeferredOptions: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gGLManager.mHasFramebufferObject && LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_WINDLIGHT) > 1 &&
 			LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_AVATAR) > 0 && gSavedSettings.getBOOL("RenderDeferred");
@@ -2232,7 +2232,7 @@ class LLAdvancedEnableRenderDeferredOptions: public view_listener_t
 
 class LLAdvancedRequestAdminStatus : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_god_mode(NULL);
 		return true;
@@ -2241,7 +2241,7 @@ class LLAdvancedRequestAdminStatus : public view_listener_t
 
 class LLAdvancedLeaveAdminStatus : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_leave_god_mode(NULL);
 		return true;
@@ -2255,7 +2255,7 @@ class LLAdvancedLeaveAdminStatus : public view_listener_t
 
 class LLAdvancedForceErrorBreakpoint : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_breakpoint(NULL);
 		return true;
@@ -2264,7 +2264,7 @@ class LLAdvancedForceErrorBreakpoint : public view_listener_t
 
 class LLAdvancedForceErrorLlerror : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_llerror(NULL);
 		return true;
@@ -2272,7 +2272,7 @@ class LLAdvancedForceErrorLlerror : public view_listener_t
 };
 class LLAdvancedForceErrorBadMemoryAccess : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_bad_memory_access(NULL);
 		return true;
@@ -2281,7 +2281,7 @@ class LLAdvancedForceErrorBadMemoryAccess : public view_listener_t
 
 class LLAdvancedForceErrorInfiniteLoop : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_infinite_loop(NULL);
 		return true;
@@ -2290,7 +2290,7 @@ class LLAdvancedForceErrorInfiniteLoop : public view_listener_t
 
 class LLAdvancedForceErrorSoftwareException : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_software_exception(NULL);
 		return true;
@@ -2299,7 +2299,7 @@ class LLAdvancedForceErrorSoftwareException : public view_listener_t
 
 class LLAdvancedForceErrorDriverCrash : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_error_driver_crash(NULL);
 		return true;
@@ -2308,7 +2308,7 @@ class LLAdvancedForceErrorDriverCrash : public view_listener_t
 
 class LLAdvancedForceErrorDisconnectViewer : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_disconnect_viewer(NULL);
 		return true;
@@ -2320,7 +2320,7 @@ class LLAdvancedForceErrorDisconnectViewer : public view_listener_t
 
 class LLAdvancedHandleToggleHackedGodmode : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_toggle_hacked_godmode(NULL);
 		return true;
@@ -2329,7 +2329,7 @@ class LLAdvancedHandleToggleHackedGodmode : public view_listener_t
 
 class LLAdvancedCheckToggleHackedGodmode : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		check_toggle_hacked_godmode(NULL);
 		return true;
@@ -2338,7 +2338,7 @@ class LLAdvancedCheckToggleHackedGodmode : public view_listener_t
 
 class LLAdvancedEnableToggleHackedGodmode : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = enable_toggle_hacked_godmode(NULL);
 		return new_value;
@@ -2359,7 +2359,7 @@ class LLAdvancedEnableToggleHackedGodmode : public view_listener_t
 
 class LLDevelopCheckLoggingLevel : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 level = userdata.asInteger();
 		return (static_cast<LLError::ELevel>(level) == LLError::getDefaultLevel());
@@ -2368,7 +2368,7 @@ class LLDevelopCheckLoggingLevel : public view_listener_t
 
 class LLDevelopSetLoggingLevel : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		U32 level = userdata.asInteger();
 		LLError::setDefaultLevel(static_cast<LLError::ELevel>(level));
@@ -2378,7 +2378,7 @@ class LLDevelopSetLoggingLevel : public view_listener_t
 
 class LLDevelopTextureFetchDebugger : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gSavedSettings.getBOOL("TextureFetchDebuggerEnabled");
 	}
@@ -2391,7 +2391,7 @@ class LLDevelopTextureFetchDebugger : public view_listener_t
 // Admin > Object
 class LLAdminForceTakeCopy : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		force_take_copy(NULL);
 		return true;
@@ -2400,7 +2400,7 @@ class LLAdminForceTakeCopy : public view_listener_t
 
 class LLAdminHandleObjectOwnerSelf : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_object_owner_self(NULL);
 		return true;
@@ -2408,7 +2408,7 @@ class LLAdminHandleObjectOwnerSelf : public view_listener_t
 };
 class LLAdminHandleObjectOwnerPermissive : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_object_owner_permissive(NULL);
 		return true;
@@ -2417,7 +2417,7 @@ class LLAdminHandleObjectOwnerPermissive : public view_listener_t
 
 class LLAdminHandleForceDelete : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_force_delete(NULL);
 		return true;
@@ -2426,7 +2426,7 @@ class LLAdminHandleForceDelete : public view_listener_t
 
 class LLAdminHandleObjectLock : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_object_lock(NULL);
 		return true;
@@ -2435,7 +2435,7 @@ class LLAdminHandleObjectLock : public view_listener_t
 
 class LLAdminHandleObjectAssetIDs: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_object_asset_ids(NULL);
 		return true;
@@ -2445,7 +2445,7 @@ class LLAdminHandleObjectAssetIDs: public view_listener_t
 //Admin >Parcel
 class LLAdminHandleForceParcelOwnerToMe: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_force_parcel_owner_to_me(NULL);
 		return true;
@@ -2453,7 +2453,7 @@ class LLAdminHandleForceParcelOwnerToMe: public view_listener_t
 };
 class LLAdminHandleForceParcelToContent: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_force_parcel_to_content(NULL);
 		return true;
@@ -2461,7 +2461,7 @@ class LLAdminHandleForceParcelToContent: public view_listener_t
 };
 class LLAdminHandleClaimPublicLand: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_claim_public_land(NULL);
 		return true;
@@ -2471,7 +2471,7 @@ class LLAdminHandleClaimPublicLand: public view_listener_t
 // Admin > Region
 class LLAdminHandleRegionDumpTempAssetData: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_region_dump_temp_asset_data(NULL);
 		return true;
@@ -2481,7 +2481,7 @@ class LLAdminHandleRegionDumpTempAssetData: public view_listener_t
 
 class LLAdminOnSaveState: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLPanelRegionTools::onSaveState(NULL);
 		return true;
@@ -2534,7 +2534,7 @@ void cleanup_menus()
 
 class LLObjectReportAbuse : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerObject* objectp = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 		if (objectp)
@@ -2548,7 +2548,7 @@ class LLObjectReportAbuse : public view_listener_t
 // Enabled it you clicked an object
 class LLObjectEnableReportAbuse : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLSelectMgr::getInstance()->getSelection()->getObjectCount() != 0;
 		return new_value;
@@ -2661,7 +2661,7 @@ bool enable_object_open()
 
 class LLViewJoystickFlycam : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_toggle_flycam();
 		return true;
@@ -2670,7 +2670,7 @@ class LLViewJoystickFlycam : public view_listener_t
 
 class LLViewCheckJoystickFlycam : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLViewerJoystick::getInstance()->getOverrideCamera();
 		return new_value;
@@ -2684,7 +2684,7 @@ void handle_toggle_flycam()
 
 class LLObjectBuild : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (gAgentCamera.getFocusOnAvatar() && !LLToolMgr::getInstance()->inEdit() && gSavedSettings.getBOOL("EditCameraMovement") )
 		{
@@ -2775,7 +2775,7 @@ void handle_object_inspect()
 //---------------------------------------------------------------------------
 class LLLandBuild : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerParcelMgr::getInstance()->deselectLand();
 
@@ -2807,7 +2807,7 @@ class LLLandBuild : public view_listener_t
 
 class LLLandBuyPass : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLPanelLandGeneral::onClickBuyPass((void *)FALSE);
 		return true;
@@ -2816,7 +2816,7 @@ class LLLandBuyPass : public view_listener_t
 
 class LLLandEnableBuyPass : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLPanelLandGeneral::enableBuyPass(NULL);
 		return new_value;
@@ -2906,7 +2906,7 @@ bool enable_object_select_in_pathfinding_characters()
 
 class LLSelfRemoveAllAttachments : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLAppearanceMgr::instance().removeAllAttachmentsFromAvatar();
 		return true;
@@ -2915,7 +2915,7 @@ class LLSelfRemoveAllAttachments : public view_listener_t
 
 class LLSelfEnableRemoveAllAttachments : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = false;
 		if (isAgentAvatarValid())
@@ -3005,7 +3005,7 @@ bool enable_object_unmute()
 // 0 = normal, 1 = always, 2 = never
 class LLAvatarCheckImpostorMode : public view_listener_t
 {	
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerObject* object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 		if (!object) return false;
@@ -3031,7 +3031,7 @@ class LLAvatarCheckImpostorMode : public view_listener_t
 // 0 = normal, 1 = always, 2 = never
 class LLAvatarSetImpostorMode : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerObject* object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 		if (!object) return false;
@@ -3063,7 +3063,7 @@ class LLAvatarSetImpostorMode : public view_listener_t
 
 class LLObjectMute : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerObject* object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
 		if (!object) return true;
@@ -3150,7 +3150,7 @@ bool handle_go_to()
 
 class LLGoToObject : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return handle_go_to();
 	}
@@ -3158,7 +3158,7 @@ class LLGoToObject : public view_listener_t
 
 class LLAvatarReportAbuse : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -3195,7 +3195,7 @@ void handle_avatar_freeze(const LLSD& avatar_id)
 
 class LLAvatarVisibleDebug : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gAgent.isGodlike();
 	}
@@ -3203,7 +3203,7 @@ class LLAvatarVisibleDebug : public view_listener_t
 
 class LLAvatarDebug : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if( avatar )
@@ -3508,7 +3508,7 @@ void handle_dump_focus()
 
 class LLSelfStandUp : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgent.standUp();
 		return true;
@@ -3522,7 +3522,7 @@ bool enable_standup_self()
 
 class LLSelfSitDown : public view_listener_t
     {
-        bool handleEvent(const LLSD& userdata)
+        bool handleEvent(const LLSD& userdata) override
         {
 			if (!gAgentAvatarp->isSitting())
 			{
@@ -3543,8 +3543,8 @@ bool enable_sitdown_self()
 
 class LLCheckPanelPeopleTab : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
-		{
+	bool handleEvent(const LLSD& userdata) override
+	{
 			std::string panel_name = userdata.asString();
 
 			LLPanel *panel = LLFloaterSidePanelContainer::getPanel("people", panel_name);
@@ -3558,7 +3558,7 @@ class LLCheckPanelPeopleTab : public view_listener_t
 // Toggle one of "People" panel tabs in side tray.
 class LLTogglePanelPeopleTab : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string panel_name = userdata.asString();
 
@@ -3770,7 +3770,7 @@ bool LLHaveCallingcard::operator()(LLInventoryCategory* cat,
 // Enable a menu item when you don't have someone's card.
 class LLAvatarEnableAddFriend : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
 		bool new_value = avatar && !LLAvatarActions::isFriend(avatar->getID());
@@ -3805,7 +3805,7 @@ void request_friendship(const LLUUID& dest_id)
 
 class LLEditEnableCustomizeAvatar : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gAgentWearables.areWearablesLoaded();
 		return new_value;
@@ -3814,7 +3814,7 @@ class LLEditEnableCustomizeAvatar : public view_listener_t
 
 class LLEnableEditShape : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gAgentWearables.isWearableModifiable(LLWearableType::WT_SHAPE, 0);
 	}
@@ -3822,7 +3822,7 @@ class LLEnableEditShape : public view_listener_t
 
 class LLEnableEditPhysics : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		//return gAgentWearables.isWearableModifiable(LLWearableType::WT_SHAPE, 0);
 		return TRUE;
@@ -3891,7 +3891,7 @@ void near_sit_down_point(BOOL success, void *)
 
 class LLLandSit : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgent.standUp();
 		LLViewerParcelMgr::getInstance()->deselectLand();
@@ -3944,7 +3944,7 @@ void handle_reset_view()
 
 class LLViewResetView : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		handle_reset_view();
 		return true;
@@ -3965,7 +3965,7 @@ void reset_view_final( BOOL proceed )
 
 class LLViewLookAtLastChatter : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgentCamera.lookAtLastChat();
 		return true;
@@ -3974,7 +3974,7 @@ class LLViewLookAtLastChatter : public view_listener_t
 
 class LLViewMouselook : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (!gAgentCamera.cameraMouselook())
 		{
@@ -3990,7 +3990,7 @@ class LLViewMouselook : public view_listener_t
 
 class LLViewDefaultUISize : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gSavedSettings.setF32("UIScaleFactor", 1.0f);
 		gSavedSettings.setBOOL("UIAutoScale", FALSE);	
@@ -4001,7 +4001,7 @@ class LLViewDefaultUISize : public view_listener_t
 
 class LLViewToggleUI : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if(gAgentCamera.getCameraMode() != CAMERA_MODE_MOUSELOOK)
 		{
@@ -4438,7 +4438,7 @@ public:
 	LLObjectReturn() : mFirstRegion(NULL) {}
 
 private:
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (LLSelectMgr::getInstance()->getSelection()->isEmpty()) return true;
 		
@@ -4481,7 +4481,7 @@ private:
 // over land you own.
 class LLObjectEnableReturn : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (LLSelectMgr::getInstance()->getSelection()->isEmpty())
 		{
@@ -4759,7 +4759,7 @@ bool enable_how_to_visible(const LLSD& param)
 
 class LLToolsEnableBuyOrTake : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool is_buy = is_selection_buy_not_take();
 		bool new_value = is_buy ? enable_buy_object() : enable_take();
@@ -4920,7 +4920,7 @@ BOOL sitting_on_selection()
 
 class LLToolsSaveToObjectInventory : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode();
 		if(node && (node->mValid) && (!node->mFromTaskID.isNull()))
@@ -4934,7 +4934,7 @@ class LLToolsSaveToObjectInventory : public view_listener_t
 
 class LLToolsEnablePathfinding : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return (LLPathfindingManager::getInstance() != NULL) && LLPathfindingManager::getInstance()->isPathfindingEnabledForCurrentRegion();
 	}
@@ -4942,7 +4942,7 @@ class LLToolsEnablePathfinding : public view_listener_t
 
 class LLToolsEnablePathfindingView : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return (LLPathfindingManager::getInstance() != NULL) && LLPathfindingManager::getInstance()->isPathfindingEnabledForCurrentRegion() && LLPathfindingManager::getInstance()->isPathfindingViewEnabled();
 	}
@@ -4950,7 +4950,7 @@ class LLToolsEnablePathfindingView : public view_listener_t
 
 class LLToolsDoPathfindingRebakeRegion : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool hasPathfinding = (LLPathfindingManager::getInstance() != NULL);
 
@@ -4965,7 +4965,7 @@ class LLToolsDoPathfindingRebakeRegion : public view_listener_t
 
 class LLToolsEnablePathfindingRebakeRegion : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool returnValue = false;
 
@@ -4982,7 +4982,7 @@ class LLToolsEnablePathfindingRebakeRegion : public view_listener_t
 // Round the position of all root objects to the grid
 class LLToolsSnapObjectXY : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		F64 snap_size = (F64)gSavedSettings.getF32("GridResolution");
 
@@ -5029,7 +5029,7 @@ class LLToolsSnapObjectXY : public view_listener_t
 // Determine if the option to cycle between linked prims is shown
 class LLToolsEnableSelectNextPart : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
         bool new_value = (!LLSelectMgr::getInstance()->getSelection()->isEmpty()
                           && (gSavedSettings.getBOOL("EditLinkedParts")
@@ -5043,7 +5043,7 @@ class LLToolsEnableSelectNextPart : public view_listener_t
 // resis. Need link position added to sim messages to address this.
 class LLToolsSelectNextPartFace : public view_listener_t
 {
-    bool handleEvent(const LLSD& userdata)
+    bool handleEvent(const LLSD& userdata) override
     {
         bool cycle_faces = LLToolFace::getInstance() == LLToolMgr::getInstance()->getCurrentTool();
         bool cycle_linked = gSavedSettings.getBOOL("EditLinkedParts");
@@ -5197,7 +5197,7 @@ class LLToolsSelectNextPartFace : public view_listener_t
 
 class LLToolsStopAllAnimations : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgent.stopCurrentAnimations();
 		return true;
@@ -5206,7 +5206,7 @@ class LLToolsStopAllAnimations : public view_listener_t
 
 class LLToolsReleaseKeys : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgent.forceReleaseControls();
 
@@ -5216,7 +5216,7 @@ class LLToolsReleaseKeys : public view_listener_t
 
 class LLToolsEnableReleaseKeys : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return gAgent.anyControlGrabbed();
 	}
@@ -5225,7 +5225,7 @@ class LLToolsEnableReleaseKeys : public view_listener_t
 
 class LLEditEnableCut : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canCut();
 		return new_value;
@@ -5234,7 +5234,7 @@ class LLEditEnableCut : public view_listener_t
 
 class LLEditCut : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler )
 		{
@@ -5246,7 +5246,7 @@ class LLEditCut : public view_listener_t
 
 class LLEditEnableCopy : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canCopy();
 		return new_value;
@@ -5255,7 +5255,7 @@ class LLEditEnableCopy : public view_listener_t
 
 class LLEditCopy : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler )
 		{
@@ -5267,7 +5267,7 @@ class LLEditCopy : public view_listener_t
 
 class LLEditEnablePaste : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canPaste();
 		return new_value;
@@ -5276,7 +5276,7 @@ class LLEditEnablePaste : public view_listener_t
 
 class LLEditPaste : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler )
 		{
@@ -5288,7 +5288,7 @@ class LLEditPaste : public view_listener_t
 
 class LLEditEnableDelete : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canDoDelete();
 		return new_value;
@@ -5297,7 +5297,7 @@ class LLEditEnableDelete : public view_listener_t
 
 class LLEditDelete : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// If a text field can do a deletion, it gets precedence over deleting
 		// an object in the world.
@@ -5476,7 +5476,7 @@ void handle_force_delete(void*)
 
 class LLViewEnableJoystickFlycam : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = (gSavedSettings.getBOOL("JoystickEnabled") && gSavedSettings.getBOOL("JoystickFlycamEnabled"));
 		return new_value;
@@ -5485,7 +5485,7 @@ class LLViewEnableJoystickFlycam : public view_listener_t
 
 class LLViewEnableLastChatter : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// *TODO: add check that last chatter is in range
 		bool new_value = (gAgentCamera.cameraThirdPerson() && gAgent.getLastChatter().notNull());
@@ -5495,7 +5495,7 @@ class LLViewEnableLastChatter : public view_listener_t
 
 class LLEditEnableDeselect : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canDeselect();
 		return new_value;
@@ -5504,7 +5504,7 @@ class LLEditEnableDeselect : public view_listener_t
 
 class LLEditDeselect : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler )
 		{
@@ -5516,7 +5516,7 @@ class LLEditDeselect : public view_listener_t
 
 class LLEditEnableSelectAll : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canSelectAll();
 		return new_value;
@@ -5526,7 +5526,7 @@ class LLEditEnableSelectAll : public view_listener_t
 
 class LLEditSelectAll : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler )
 		{
@@ -5539,7 +5539,7 @@ class LLEditSelectAll : public view_listener_t
 
 class LLEditEnableUndo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canUndo();
 		return new_value;
@@ -5548,7 +5548,7 @@ class LLEditEnableUndo : public view_listener_t
 
 class LLEditUndo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canUndo() )
 		{
@@ -5560,7 +5560,7 @@ class LLEditUndo : public view_listener_t
 
 class LLEditEnableRedo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canRedo();
 		return new_value;
@@ -5569,7 +5569,7 @@ class LLEditEnableRedo : public view_listener_t
 
 class LLEditRedo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if( LLEditMenuHandler::gEditMenuHandler && LLEditMenuHandler::gEditMenuHandler->canRedo() )
 		{
@@ -5684,7 +5684,7 @@ void toggle_debug_menus(void*)
 
 class LLCommunicateNearbyChat : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterIMContainer* im_box = LLFloaterIMContainer::getInstance();
 		bool nearby_visible	= LLFloaterReg::getTypedInstance<LLFloaterIMNearbyChat>("nearby_chat")->isInVisibleChain();
@@ -5702,7 +5702,7 @@ class LLCommunicateNearbyChat : public view_listener_t
 
 class LLWorldSetHomeLocation : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// we just send the message and let the server check for failure cases
 		// server will echo back a "Home position set." alert if it succeeds
@@ -5714,7 +5714,7 @@ class LLWorldSetHomeLocation : public view_listener_t
 
 class LLWorldTeleportHome : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gAgent.teleportHome();
 		return true;
@@ -5723,7 +5723,7 @@ class LLWorldTeleportHome : public view_listener_t
 
 class LLWorldAlwaysRun : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// as well as altering the default walk-vs-run state,
 		// we also change the *current* walk-vs-run state.
@@ -5750,7 +5750,7 @@ class LLWorldAlwaysRun : public view_listener_t
 
 class LLWorldCheckAlwaysRun : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gAgent.getAlwaysRun();
 		return new_value;
@@ -5759,7 +5759,7 @@ class LLWorldCheckAlwaysRun : public view_listener_t
 
 class LLWorldSetAway : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (gAgent.getAFK())
 		{
@@ -5775,7 +5775,7 @@ class LLWorldSetAway : public view_listener_t
 
 class LLWorldSetDoNotDisturb : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (gAgent.isDoNotDisturb())
 		{
@@ -5792,7 +5792,7 @@ class LLWorldSetDoNotDisturb : public view_listener_t
 
 class LLWorldCreateLandmark : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "create_landmark"));
 
@@ -5802,7 +5802,7 @@ class LLWorldCreateLandmark : public view_listener_t
 
 class LLWorldPlaceProfile : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterSidePanelContainer::showPanel("places", LLSD().with("type", "agent"));
 
@@ -5876,7 +5876,7 @@ void handle_zoom_to_object(LLUUID object_id)
 
 class LLAvatarInviteToGroup : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -5889,7 +5889,7 @@ class LLAvatarInviteToGroup : public view_listener_t
 
 class LLAvatarAddFriend : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar && !LLAvatarActions::isFriend(avatar->getID()))
@@ -5903,7 +5903,7 @@ class LLAvatarAddFriend : public view_listener_t
 
 class LLAvatarToggleMyProfile : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloater* instance = LLAvatarActions::getProfileFloater(gAgent.getID());
 		if (LLFloater::isMinimized(instance))
@@ -5929,7 +5929,7 @@ class LLAvatarToggleMyProfile : public view_listener_t
 
 class LLAvatarResetSkeleton: public view_listener_t
 {
-    bool handleEvent(const LLSD& userdata)
+    bool handleEvent(const LLSD& userdata) override
     {
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -5942,7 +5942,7 @@ class LLAvatarResetSkeleton: public view_listener_t
 
 class LLAvatarResetSkeletonAndAnimations : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object(LLSelectMgr::getInstance()->getSelection()->getPrimaryObject());
 		if (avatar)
@@ -5955,7 +5955,7 @@ class LLAvatarResetSkeletonAndAnimations : public view_listener_t
 
 class LLAvatarAddContact : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -6130,7 +6130,7 @@ void handle_buy_currency()
 
 class LLFloaterVisible : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string floater_name = userdata.asString();
 		bool new_value = false;
@@ -6143,7 +6143,7 @@ class LLFloaterVisible : public view_listener_t
 
 class LLShowHelp : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string help_topic = userdata.asString();
 		LLViewerHelp* vhelp = LLViewerHelp::getInstance();
@@ -6154,7 +6154,7 @@ class LLShowHelp : public view_listener_t
 
 class LLToggleHelp : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloater* help_browser = (LLFloaterReg::findInstance("help_browser"));
 		if (help_browser && help_browser->isInVisibleChain())
@@ -6173,7 +6173,7 @@ class LLToggleHelp : public view_listener_t
 
 class LLToggleSpeak : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVoiceClient::getInstance()->toggleUserPTTState();
 		return true;
@@ -6181,7 +6181,7 @@ class LLToggleSpeak : public view_listener_t
 };
 class LLShowSidetrayPanel : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string floater_name = userdata.asString();
 
@@ -6203,7 +6203,7 @@ class LLShowSidetrayPanel : public view_listener_t
 
 class LLSidetrayPanelVisible : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string floater_name = userdata.asString();
 		// Toggle the panel
@@ -6232,7 +6232,7 @@ bool callback_show_url(const LLSD& notification, const LLSD& response)
 
 class LLPromptShowURL : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string param = userdata.asString();
 		std::string::size_type offset = param.find(',');
@@ -6272,7 +6272,7 @@ bool callback_show_file(const LLSD& notification, const LLSD& response)
 
 class LLPromptShowFile : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string param = userdata.asString();
 		std::string::size_type offset = param.find(',');
@@ -6295,7 +6295,7 @@ class LLPromptShowFile : public view_listener_t
 
 class LLShowAgentProfile : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLUUID agent_id;
 		if (userdata.asString() == "agent")
@@ -6326,7 +6326,7 @@ class LLShowAgentProfile : public view_listener_t
 
 class LLToggleAgentProfile : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLUUID agent_id;
 		if (userdata.asString() == "agent")
@@ -6364,7 +6364,7 @@ class LLToggleAgentProfile : public view_listener_t
 
 class LLLandEdit : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		if (gAgentCamera.getFocusOnAvatar() && gSavedSettings.getBOOL("EditCameraMovement") )
 		{
@@ -6394,7 +6394,7 @@ class LLLandEdit : public view_listener_t
 
 class LLMuteParticle : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLUUID id = LLToolPie::getInstance()->getPick().mParticleOwnerID;
 		
@@ -6421,7 +6421,7 @@ class LLMuteParticle : public view_listener_t
 
 class LLWorldEnableBuyLand : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLViewerParcelMgr::getInstance()->canAgentBuyParcel(
 								LLViewerParcelMgr::getInstance()->selectionEmpty()
@@ -6455,7 +6455,7 @@ public:
 	static void setObjectSelection(LLObjectSelectionHandle selection) { sObjectSelection = selection; }
 
 private:
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		setObjectSelection(LLSelectMgr::getInstance()->getSelection());
 		LLViewerObject* selectedObject = sObjectSelection->getFirstRootObject();
@@ -6607,7 +6607,7 @@ void callback_attachment_drop(const LLSD& notification, const LLSD& response)
 
 class LLAttachmentDrop : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLSD payload;
 		LLViewerObject *object = LLSelectMgr::getInstance()->getSelection()->getPrimaryObject();
@@ -6630,7 +6630,7 @@ class LLAttachmentDrop : public view_listener_t
 // called from avatar pie menu
 class LLAttachmentDetachFromPoint : public view_listener_t
 {
-	bool handleEvent(const LLSD& user_data)
+	bool handleEvent(const LLSD& user_data) override
 	{
 		uuid_vec_t ids_to_remove;
 		const LLViewerJointAttachment *attachment = get_if_there(gAgentAvatarp->mAttachmentPoints, user_data.asInteger(), (LLViewerJointAttachment*)NULL);
@@ -6685,7 +6685,7 @@ static bool onEnableAttachmentLabel(LLUICtrl* ctrl, const LLSD& data)
 
 class LLAttachmentDetach : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// Called when the user clicked on an object attached to them
 		// and selected "Detach".
@@ -6740,7 +6740,7 @@ public:
 	virtual ~LLWornItemFetchedObserver() {}
 
 protected:
-	virtual void done()
+    void done() override
 	{
 		gMenuAttachmentSelf->buildDrawLabels();
 		gInventory.removeObserver(this);
@@ -6751,7 +6751,7 @@ protected:
 // You can only drop items on parcels where you can build.
 class LLAttachmentEnableDrop : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		BOOL can_build   = gAgent.isGodlike() || (LLViewerParcelMgr::getInstance()->allowAgentBuild());
 
@@ -6835,7 +6835,7 @@ BOOL enable_detach(const LLSD&)
 
 class LLAttachmentEnableDetach : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = enable_detach();
 		return new_value;
@@ -6899,7 +6899,7 @@ BOOL object_is_wearable()
 
 class LLAttachmentPointFilled : public view_listener_t
 {
-	bool handleEvent(const LLSD& user_data)
+	bool handleEvent(const LLSD& user_data) override
 	{
 		bool enable = false;
 		LLVOAvatar::attachment_map_t::iterator found_it = gAgentAvatarp->mAttachmentPoints.find(user_data.asInteger());
@@ -6913,7 +6913,7 @@ class LLAttachmentPointFilled : public view_listener_t
 
 class LLAvatarSendIM : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -6926,7 +6926,7 @@ class LLAvatarSendIM : public view_listener_t
 
 class LLAvatarCall : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLVOAvatar* avatar = find_avatar_from_object( LLSelectMgr::getInstance()->getSelection()->getPrimaryObject() );
 		if(avatar)
@@ -6944,8 +6944,9 @@ namespace
 		BOOL scripted;
 		BOOL modifiable;
 		LLFloaterScriptQueue* mQueue;
-		QueueObjects(LLFloaterScriptQueue* q) : mQueue(q), scripted(FALSE), modifiable(FALSE) {}
-		virtual bool apply(LLSelectNode* node)
+		QueueObjects(LLFloaterScriptQueue* q) : scripted(FALSE), modifiable(FALSE), mQueue(q) {}
+
+	    bool apply(LLSelectNode* node) override
 		{
 			LLViewerObject* obj = node->getObject();
 			if (!obj)
@@ -7002,7 +7003,7 @@ void queue_actions(LLFloaterScriptQueue* q, const std::string& msg)
 
 class LLToolsSelectedScriptAction : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string action = userdata.asString();
 		bool mono = false;
@@ -7197,7 +7198,7 @@ void handle_dump_attachments(void*)
 // these are used in the gl menus to set control values, generically.
 class LLToggleControl : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string control_name = userdata.asString();
 		BOOL checked = gSavedSettings.getBOOL( control_name );
@@ -7208,7 +7209,7 @@ class LLToggleControl : public view_listener_t
 
 class LLCheckControl : public view_listener_t
 {
-	bool handleEvent( const LLSD& userdata)
+	bool handleEvent( const LLSD& userdata) override
 	{
 		std::string callback_data = userdata.asString();
 		bool new_value = gSavedSettings.getBOOL(callback_data);
@@ -7220,7 +7221,7 @@ class LLCheckControl : public view_listener_t
 
 class LLAdvancedCheckRenderShadowOption: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string control_name = userdata.asString();
 		S32 current_shadow_level = gSavedSettings.getS32(control_name);
@@ -7237,7 +7238,7 @@ class LLAdvancedCheckRenderShadowOption: public view_listener_t
 
 class LLAdvancedClickRenderShadowOption: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string control_name = userdata.asString();
 		S32 current_shadow_level = gSavedSettings.getS32(control_name);
@@ -7255,7 +7256,7 @@ class LLAdvancedClickRenderShadowOption: public view_listener_t
 
 class LLAdvancedClickRenderProfile: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gShaderProfileFrame = TRUE;
 		return true;
@@ -7266,7 +7267,7 @@ F32 gpu_benchmark();
 
 class LLAdvancedClickRenderBenchmark: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gpu_benchmark();
 		return true;
@@ -7285,7 +7286,7 @@ void menu_toggle_attached_particles(void* user_data)
 
 class LLAdvancedHandleAttachedLightParticles: public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string control_name = userdata.asString();
 
@@ -7308,7 +7309,7 @@ class LLAdvancedHandleAttachedLightParticles: public view_listener_t
 
 class LLSomethingSelected : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = !(LLSelectMgr::getInstance()->getSelection()->isEmpty());
 		return new_value;
@@ -7317,7 +7318,7 @@ class LLSomethingSelected : public view_listener_t
 
 class LLSomethingSelectedNoHUD : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLObjectSelectionHandle selection = LLSelectMgr::getInstance()->getSelection();
 		bool new_value = !(selection->isEmpty()) && !(selection->getSelectType() == SELECT_TYPE_HUD);
@@ -7332,7 +7333,7 @@ static bool is_editable_selected()
 
 class LLEditableSelected : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return is_editable_selected();
 	}
@@ -7340,7 +7341,7 @@ class LLEditableSelected : public view_listener_t
 
 class LLEditableSelectedMono : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = false;
 		LLViewerRegion* region = gAgent.getRegion();
@@ -7369,7 +7370,7 @@ bool enable_object_take_copy()
 		{
 			struct f : public LLSelectedObjectFunctor
 			{
-				virtual bool apply(LLViewerObject* obj)
+			    bool apply(LLViewerObject* obj) override
 				{
 					return (!obj->permCopy() || obj->isAttachment());
 				}
@@ -7391,8 +7392,8 @@ class LLHasAsset : public LLInventoryCollectFunctor
 public:
 	LLHasAsset(const LLUUID& id) : mAssetID(id), mHasAsset(FALSE) {}
 	virtual ~LLHasAsset() {}
-	virtual bool operator()(LLInventoryCategory* cat,
-							LLInventoryItem* item);
+    bool operator()(LLInventoryCategory* cat,
+							LLInventoryItem* item) override;
 	BOOL hasAsset() const { return mHasAsset; }
 
 protected:
@@ -7428,7 +7429,7 @@ BOOL enable_save_into_task_inventory(void*)
 
 class LLToolsEnableSaveToObjectInventory : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = enable_save_into_task_inventory(NULL);
 		return new_value;
@@ -7437,7 +7438,7 @@ class LLToolsEnableSaveToObjectInventory : public view_listener_t
 
 class LLToggleHowTo : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterWebContent::Params p;
 		std::string url = gSavedSettings.getString("HowToHelpURL");
@@ -7454,7 +7455,7 @@ class LLToggleHowTo : public view_listener_t
 
 class LLViewEnableMouselook : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// You can't go directly from customize avatar to mouselook.
 		// TODO: write code with appropriate dialogs to handle this transition.
@@ -7465,7 +7466,7 @@ class LLViewEnableMouselook : public view_listener_t
 
 class LLToolsEnableToolNotPie : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = ( LLToolMgr::getInstance()->getBaseTool() != LLToolPie::getInstance() );
 		return new_value;
@@ -7474,7 +7475,7 @@ class LLToolsEnableToolNotPie : public view_listener_t
 
 class LLWorldEnableCreateLandmark : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return !LLLandmarkActions::landmarkAlreadyExists();
 	}
@@ -7482,7 +7483,7 @@ class LLWorldEnableCreateLandmark : public view_listener_t
 
 class LLWorldEnableSetHomeLocation : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gAgent.isGodlike() || 
 			(gAgent.getRegion() && gAgent.getRegion()->getAllowSetHome());
@@ -7492,7 +7493,7 @@ class LLWorldEnableSetHomeLocation : public view_listener_t
 
 class LLWorldEnableTeleportHome : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLViewerRegion* regionp = gAgent.getRegion();
 		bool agent_on_prelude = (regionp && regionp->isPrelude());
@@ -7534,7 +7535,7 @@ BOOL check_show_xui_names(void *)
 
 class LLToolsSelectOnlyMyObjects : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		BOOL cur_val = gSavedSettings.getBOOL("SelectOwnedOnly");
 
@@ -7546,7 +7547,7 @@ class LLToolsSelectOnlyMyObjects : public view_listener_t
 
 class LLToolsSelectOnlyMovableObjects : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		BOOL cur_val = gSavedSettings.getBOOL("SelectMovableOnly");
 
@@ -7558,7 +7559,7 @@ class LLToolsSelectOnlyMovableObjects : public view_listener_t
 
 class LLToolsSelectBySurrounding : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLSelectMgr::sRectSelectInclusive = !LLSelectMgr::sRectSelectInclusive;
 
@@ -7569,7 +7570,7 @@ class LLToolsSelectBySurrounding : public view_listener_t
 
 class LLToolsShowHiddenSelection : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// TomY TODO Merge these
 		LLSelectMgr::sRenderHiddenSelections = !LLSelectMgr::sRenderHiddenSelections;
@@ -7581,7 +7582,7 @@ class LLToolsShowHiddenSelection : public view_listener_t
 
 class LLToolsShowSelectionLightRadius : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		// TomY TODO merge these
 		LLSelectMgr::sRenderLightRadius = !LLSelectMgr::sRenderLightRadius;
@@ -7593,7 +7594,7 @@ class LLToolsShowSelectionLightRadius : public view_listener_t
 
 class LLToolsEditLinkedParts : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		BOOL select_individuals = !gSavedSettings.getBOOL("EditLinkedParts");
 		gSavedSettings.setBOOL( "EditLinkedParts", select_individuals );
@@ -7776,12 +7777,12 @@ void force_error_driver_crash(void *)
 
 class LLToolsUseSelectionForGrid : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLSelectMgr::getInstance()->clearGridObjects();
 		struct f : public LLSelectedObjectFunctor
 		{
-			virtual bool apply(LLViewerObject* objectp)
+		    bool apply(LLViewerObject* objectp) override
 			{
 				LLSelectMgr::getInstance()->addGridObject(objectp);
 				return true;
@@ -7925,7 +7926,7 @@ BOOL get_visibility(void* user_data)
 // TomY TODO: Get rid of these?
 class LLViewShowHoverTips : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		gSavedSettings.setBOOL("ShowHoverTips", !gSavedSettings.getBOOL("ShowHoverTips"));
 		return true;
@@ -7934,7 +7935,7 @@ class LLViewShowHoverTips : public view_listener_t
 
 class LLViewCheckShowHoverTips : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = gSavedSettings.getBOOL("ShowHoverTips");
 		return new_value;
@@ -7944,7 +7945,7 @@ class LLViewCheckShowHoverTips : public view_listener_t
 // TomY TODO: Get rid of these?
 class LLViewHighlightTransparent : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLDrawPoolAlpha::sShowDebugAlpha = !LLDrawPoolAlpha::sShowDebugAlpha;
 		return true;
@@ -7953,7 +7954,7 @@ class LLViewHighlightTransparent : public view_listener_t
 
 class LLViewCheckHighlightTransparent : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLDrawPoolAlpha::sShowDebugAlpha;
 		return new_value;
@@ -7962,7 +7963,7 @@ class LLViewCheckHighlightTransparent : public view_listener_t
 
 class LLViewBeaconWidth : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string width = userdata.asString();
 		if(width == "1")
@@ -7989,7 +7990,7 @@ class LLViewBeaconWidth : public view_listener_t
 
 class LLViewToggleBeacon : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string beacon = userdata.asString();
 		if (beacon == "scriptsbeacon")
@@ -8063,7 +8064,7 @@ class LLViewToggleBeacon : public view_listener_t
 
 class LLViewCheckBeaconEnabled : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string beacon = userdata.asString();
 		bool new_value = false;
@@ -8113,7 +8114,7 @@ class LLViewCheckBeaconEnabled : public view_listener_t
 
 class LLViewToggleRenderType : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string type = userdata.asString();
 		if (type == "hideparticles")
@@ -8126,7 +8127,7 @@ class LLViewToggleRenderType : public view_listener_t
 
 class LLViewCheckRenderType : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string type = userdata.asString();
 		bool new_value = false;
@@ -8140,7 +8141,7 @@ class LLViewCheckRenderType : public view_listener_t
 
 class LLViewStatusAway : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return (gAgent.isInitialized() && gAgent.getAFK());
 	}
@@ -8148,7 +8149,7 @@ class LLViewStatusAway : public view_listener_t
 
 class LLViewStatusDoNotDisturb : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		return (gAgent.isInitialized() && gAgent.isDoNotDisturb());
 	}
@@ -8156,7 +8157,7 @@ class LLViewStatusDoNotDisturb : public view_listener_t
 
 class LLViewShowHUDAttachments : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLPipeline::sShowHUDAttachments = !LLPipeline::sShowHUDAttachments;
 		return true;
@@ -8165,7 +8166,7 @@ class LLViewShowHUDAttachments : public view_listener_t
 
 class LLViewCheckHUDAttachments : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool new_value = LLPipeline::sShowHUDAttachments;
 		return new_value;
@@ -8174,7 +8175,7 @@ class LLViewCheckHUDAttachments : public view_listener_t
 
 class LLEditEnableTakeOff : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string clothing = userdata.asString();
 		LLWearableType::EType type = LLWearableType::typeNameToType(clothing);
@@ -8186,7 +8187,7 @@ class LLEditEnableTakeOff : public view_listener_t
 
 class LLEditTakeOff : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string clothing = userdata.asString();
 		if (clothing == "all")
@@ -8211,7 +8212,7 @@ class LLEditTakeOff : public view_listener_t
 
 class LLToolsSelectTool : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string tool_name = userdata.asString();
 		if (tool_name == "focus")
@@ -8250,7 +8251,7 @@ class LLToolsSelectTool : public view_listener_t
 /// WINDLIGHT callbacks
 class LLWorldEnvSettings : public view_listener_t
 {	
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string tod = userdata.asString();
 		
@@ -8294,7 +8295,7 @@ class LLWorldEnvSettings : public view_listener_t
 
 class LLWorldEnableEnvSettings : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool result = false;
 		std::string tod = userdata.asString();
@@ -8337,7 +8338,7 @@ class LLWorldEnableEnvSettings : public view_listener_t
 
 class LLWorldEnvPreset : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string item = userdata.asString();
 
@@ -8388,7 +8389,7 @@ class LLWorldEnvPreset : public view_listener_t
 
 class LLWorldEnableEnvPreset : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string item = userdata.asString();
 
@@ -8423,7 +8424,7 @@ class LLWorldEnableEnvPreset : public view_listener_t
 /// Post-Process callbacks
 class LLWorldPostProcess : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		LLFloaterReg::showInstance("env_post_process");
 		return true;
@@ -8440,7 +8441,7 @@ class LLUploadCostCalculator : public view_listener_t
 {
 	std::string mCostStr;
 
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		std::string menu_name = userdata.asString();
 		calculateCost();
@@ -8470,7 +8471,7 @@ void handle_premium_voice_morphing_subscribe()
 
 class LLToggleUIHints : public view_listener_t
 {
-	bool handleEvent(const LLSD& userdata)
+	bool handleEvent(const LLSD& userdata) override
 	{
 		bool ui_hints_enabled = gSavedSettings.getBOOL("EnableUIHints");
 		// toggle
@@ -8570,7 +8571,7 @@ void initialize_menus()
 	public:
 		// The "mult" parameter says whether "val" is a multiplier or used to set the value.
 		LLZoomer(F32 val, bool mult=true) : mVal(val), mMult(mult) {}
-		bool handleEvent(const LLSD& userdata)
+		bool handleEvent(const LLSD& userdata) override
 		{
 			F32 new_fov_rad = mMult ? LLViewerCamera::getInstance()->getDefaultFOV() * mVal : mVal;
 			LLViewerCamera::getInstance()->setDefaultFOV(new_fov_rad);

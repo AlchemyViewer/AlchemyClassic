@@ -54,8 +54,8 @@ public:
 	LLInspectRemoteObject(const LLSD& object_id);
 	virtual ~LLInspectRemoteObject() {};
 
-	/*virtual*/ BOOL postBuild(void);
-	/*virtual*/ void onOpen(const LLSD& avatar_id);
+	/*virtual*/ BOOL postBuild(void) override;
+	/*virtual*/ void onOpen(const LLSD& avatar_id) override;
 
 	void onClickMap();
 	void onClickBlock();

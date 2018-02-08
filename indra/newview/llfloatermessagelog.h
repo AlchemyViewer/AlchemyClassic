@@ -28,6 +28,7 @@
 
 struct LLNetListItem;
 class LLScrollListCtrl;
+class LLTextBase;
 class LLEasyMessageLogEntry;
 class LLEasyMessageReader;
 class LLEasyMessageLogEntry;
@@ -41,13 +42,14 @@ typedef boost::container::flat_map<U64, FloaterMessageItem> HTTPConvoMap;
 class LLMessageLogFilter
 {
 public:
-	LLMessageLogFilter() {}
+    LLMessageLogFilter() {}
+    LLMessageLogFilter(const std::string& filter);
 	~LLMessageLogFilter() {}
-	LLMessageLogFilter(const std::string& filter);
+	
 	void set(const std::string& filter);
-	bool empty() { return mPositiveNames.empty() && mNegativeNames.empty(); }
+	bool empty() const { return mPositiveNames.empty() && mNegativeNames.empty(); }
 
-	std::string asString() {return mAsString;}
+	std::string asString() const {return mAsString;}
 
 	//these should probably be unordered_sets
 	boost::container::flat_set<std::string> mPositiveNames;
@@ -62,10 +64,12 @@ class LLFloaterMessageLog : public LLFloater
 public:
 	LLFloaterMessageLog(const LLSD& key);
 	~LLFloaterMessageLog();
-	static void onLog(LogPayload& entry);
 
+    static void onLog(LogPayload& entry);
+	
 	void onOpen(const LLSD& key) override;
 	void onClose(bool app_quitting) override;
+    void draw() override;
 
 protected:
 	BOOL postBuild() override;
@@ -91,7 +95,7 @@ protected:
 
 	void showSelectedMessage();
 	void showMessage(FloaterMessageItem item);
-	bool getBeautifyMessages() { return mBeautifyMessages; }
+	bool getBeautifyMessages() const { return mBeautifyMessages; }
 
 	void onCommitNetList(LLUICtrl* ctrl);
 	void onCommitMessageLog(LLUICtrl* ctrl);
@@ -107,6 +111,9 @@ protected:
 	static void onConfirmRemoveRegion(const LLSD& notification, const LLSD& response);
 
 	LLScrollListCtrl* mMessagelogScrollListCtrl;
+
+private:
+    LLTextBase* mStatusText;
 
 public:
 	void startApplyingFilter(const std::string& filter, BOOL force);
@@ -138,7 +145,7 @@ protected:
 
 	LLEasyMessageReader* mEasyMessageReader;
 
-	S32 sortMessageList(S32,const LLScrollListItem*,const LLScrollListItem*);
+	S32 sortMessageList(S32,const LLScrollListItem*, const LLScrollListItem*);
 
 	void clearMessageLogEntries();
 	void clearFloaterMessageItems(bool dying = false);

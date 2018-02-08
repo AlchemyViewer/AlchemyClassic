@@ -83,8 +83,8 @@ private:
 
 #if LL_REF_COUNT_DEBUG
 	mutable LLMutex  mMutex ;
-	mutable U32  mLockedThreadID ;
-	mutable BOOL mCrashAtUnlock ; 
+	mutable boost::thread::id  mLockedThreadID ;
+	mutable LLAtomic32<bool> mCrashAtUnlock ; 
 #endif
 };
 

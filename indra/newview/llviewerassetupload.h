@@ -204,7 +204,7 @@ public:
         MONO
     };
 
-    LLScriptAssetUpload(LLUUID itemId, std::string buffer, invnUploadFinish_f finish);
+    LLScriptAssetUpload(LLUUID itemId, TargetType_t targetType, std::string buffer, invnUploadFinish_f finish);
     LLScriptAssetUpload(LLUUID taskId, LLUUID itemId, TargetType_t targetType, 
             bool isRunning, LLUUID exerienceId, std::string buffer, taskUploadFinish_f finish);
 

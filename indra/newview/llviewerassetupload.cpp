@@ -699,10 +699,10 @@ LLUUID LLBufferedAssetUploadInfo::finishUpload(LLSD &result)
 
 //=========================================================================
 
-LLScriptAssetUpload::LLScriptAssetUpload(LLUUID itemId, std::string buffer, invnUploadFinish_f finish):
+LLScriptAssetUpload::LLScriptAssetUpload(LLUUID itemId, TargetType_t targetType, std::string buffer, invnUploadFinish_f finish):
     LLBufferedAssetUploadInfo(itemId, LLAssetType::AT_LSL_TEXT, buffer, finish),
     mExerienceId(),
-    mTargetType(LSL2),
+    mTargetType(targetType),
     mIsRunning(false)
 {
 }

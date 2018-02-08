@@ -1747,7 +1747,9 @@ void LLPreviewLSL::saveIfNeeded(bool sync /*= true*/)
             std::string buffer(mScriptEd->getScriptText());
             LLBufferedAssetUploadInfo::invnUploadFinish_f proc = boost::bind(&LLPreviewLSL::finishedLSLUpload, _1, _4);
 
-            LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mItemUUID, buffer, proc));
+            LLResourceUploadInfo::ptr_t uploadInfo(new LLScriptAssetUpload(mItemUUID, 
+				gSavedSettings.getBool("AlchemyInventoryScriptsMono") ? LLScriptAssetUpload::MONO : LLScriptAssetUpload::LSL2,
+				buffer, proc));
 
             LLViewerAssetUpload::EnqueueInventoryUpload(url, uploadInfo);
         }

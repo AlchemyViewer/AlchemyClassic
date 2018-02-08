@@ -214,10 +214,10 @@ BOOL LLPanelMainInventory::postBuild()
 			{
 				LLSD recent_items = savedFilterState.get(
 					recent_items_panel->getFilter().getName());
-				LLInventoryFilter::Params p;
+				LLInventoryPanel::InventoryState p;
 				LLParamSDParser parser;
 				parser.readSD(recent_items, p);
-				recent_items_panel->getFilter().fromParams(p);
+				recent_items_panel->getFilter().fromParams(p.filter);
 			}
 		}
 	}

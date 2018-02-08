@@ -243,7 +243,7 @@ void LLVBOPool::release(U32 name, volatile U8* buffer, U32 size)
 	llassert(vbo_block_size(size) == size);
 
 	deleteBuffer(name);
-	ll_aligned_free_16((U8*) buffer);
+	ll_aligned_free<64>((U8*) buffer);
 
 	if (mType == GL_ARRAY_BUFFER_ARB)
 	{

@@ -87,9 +87,9 @@ void LLMemory::initMaxHeapSizeGB(F32Gigabytes max_heap_size, BOOL prevent_heap_f
 //static 
 void LLMemory::updateMemoryInfo(bool for_cache) 
 {
-#if LL_WINDOWS	
+#if LL_WINDOWS
 	PROCESS_MEMORY_COUNTERS counters;
-	
+
 	if (!GetProcessMemoryInfo(GetCurrentProcess(), &counters, sizeof(counters)))
 	{
 		LL_WARNS() << "GetProcessMemoryInfo failed" << LL_ENDL;
@@ -145,7 +145,7 @@ void* LLMemory::tryToAlloc(void* address, U32 size)
 	return address ;
 #else
 	return (void*)0x01 ; //skip checking
-#endif	
+#endif
 }
 
 //static 
@@ -234,10 +234,11 @@ U32Kilobytes LLMemory::getAllocatedMemKB()
 
 #if defined(LL_WINDOWS)
 
+//static 
 U64 LLMemory::getCurrentRSS()
 {
 	PROCESS_MEMORY_COUNTERS counters;
-	
+
 	if (!GetProcessMemoryInfo(GetCurrentProcess(), &counters, sizeof(counters)))
 	{
 		LL_WARNS() << "GetProcessMemoryInfo failed" << LL_ENDL;
@@ -264,12 +265,11 @@ U64 LLMemory::getCurrentRSS()
 	mach_msg_type_number_t  basicInfoCount = MACH_TASK_BASIC_INFO_COUNT;
 	if (task_info(mach_task_self(), MACH_TASK_BASIC_INFO, (task_info_t)&basicInfo, &basicInfoCount) == KERN_SUCCESS)
 	{
-		residentSize = basicInfo.resident_size;
-
-		// If we ever wanted it, the process virtual size is also available as:
-		// virtualSize = basicInfo.virtual_size;
-		
-//		LL_INFOS() << "resident size is " << residentSize << LL_ENDL;
+//		residentSize = basicInfo.resident_size;
+		// Although this method is defined to return the "resident set size,"
+		// in fact what callers want from it is the total virtual memory
+		// consumed by the application.
+		residentSize = basicInfo.virtual_size;
 	}
 	else
 	{

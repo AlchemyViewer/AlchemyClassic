@@ -2100,11 +2100,6 @@ LLVolume::~LLVolume()
 
 	mPathp = NULL;
 	mProfilep = NULL;
-
-	delete mProfilep;
-
-	mPathp = nullptr;
-	mProfilep = nullptr;
 	mVolumeFaces.clear();
 
 	ll_aligned_free_16(mHullPoints);

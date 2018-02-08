@@ -519,7 +519,7 @@ bool LLImageJ2COJ::getMetadata(LLImageJ2C &base)
 	if ( getMetadataFast( base, width, height, img_components ) )
 	{
 		base.setSize(width, height, img_components);
-		return TRUE;
+		return true;
 	}
 
 	// Do it the old and slow way, decode the image with openjpeg

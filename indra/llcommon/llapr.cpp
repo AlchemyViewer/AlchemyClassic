@@ -52,7 +52,7 @@ void ll_init_apr()
 
 	if(!LLAPRFile::sAPRFilePoolp)
 	{
-		LLAPRFile::sAPRFilePoolp = new LLVolatileAPRPool("Global Volatile Pool", FALSE) ;
+		LLAPRFile::sAPRFilePoolp = new LLVolatileAPRPool("Global APR File Pool", FALSE) ;
 	}
 
 	gAPRInitialized = true;

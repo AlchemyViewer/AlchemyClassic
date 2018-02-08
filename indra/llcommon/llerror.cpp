@@ -1339,8 +1339,9 @@ namespace LLError
 		return chars ? time_str : "time error";
 	}
 }
-
-std::unique_ptr<LLMutex> gCallStacksLogMutex;
+#if !SINGLE_THREADED
+std::unique_ptr<LLMutex> gCallStacksLogMutexp;
+#endif
 
 namespace LLError
 {     
@@ -1380,6 +1381,7 @@ namespace LLError
 		{
 			gCallStacksLogMutexp = std::make_unique<LLMutex>();
 		}
+		
 		const int MAX_RETRIES = 5;
 		for (int attempts = 0; attempts < MAX_RETRIES; ++attempts)
 		{

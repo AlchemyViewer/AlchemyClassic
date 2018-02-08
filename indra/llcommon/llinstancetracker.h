@@ -50,8 +50,8 @@ protected:
     struct StaticBase
     {
 #ifdef LL_DEBUG
-        StaticBase():
-            sIterationNestDepth(0)
+        StaticBase()
+            : sIterationNestDepth(0)
         {}
 #else
        StaticBase()

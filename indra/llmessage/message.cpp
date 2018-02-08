@@ -1975,24 +1975,24 @@ void LLMessageSystem::processUseCircuitCode(LLMessageSystem* msg,
 			cdp->setRemoteID(id);
 			cdp->setRemoteSessionID(session_id);
 
-		if (!had_circuit_already)
-		{
-			//
-			// HACK HACK HACK HACK HACK!
-			//
-			// This would NORMALLY happen inside logValidMsg, but at the point that this happens
-			// inside logValidMsg, there's no circuit for this message yet.  So the awful thing that
-			// we do here is do it inside this message handler immediately AFTER the message is
-			// handled.
-			//
-			// We COULD not do this, but then what happens is that some of the circuit bookkeeping
-			// gets broken, especially the packets in count.  That causes some later packets to flush
-			// the RecentlyReceivedReliable list, resulting in an error in which UseCircuitCode
-			// doesn't get properly duplicate suppressed.  Not a BIG deal, but it's somewhat confusing
-			// (and bad from a state point of view).  DJS 9/23/04
-			//
-			cdp->checkPacketInID(gMessageSystem->mCurrentRecvPacketID, FALSE ); // Since this is the first message on the circuit, by definition it's not resent.
-		}
+			if (!had_circuit_already)
+			{
+				//
+				// HACK HACK HACK HACK HACK!
+					//
+				// This would NORMALLY happen inside logValidMsg, but at the point that this happens
+				// inside logValidMsg, there's no circuit for this message yet.  So the awful thing that
+				// we do here is do it inside this message handler immediately AFTER the message is
+				// handled.
+				//
+				// We COULD not do this, but then what happens is that some of the circuit bookkeeping
+				// gets broken, especially the packets in count.  That causes some later packets to flush
+				// the RecentlyReceivedReliable list, resulting in an error in which UseCircuitCode
+				// doesn't get properly duplicate suppressed.  Not a BIG deal, but it's somewhat confusing
+				// (and bad from a state point of view).  DJS 9/23/04
+				//
+				cdp->checkPacketInID(gMessageSystem->mCurrentRecvPacketID, FALSE ); // Since this is the first message on the circuit, by definition it's not resent.
+			}
 		}
 
 		msg->mIPPortToCircuitCode[ip_port_in] = circuit_code_in;

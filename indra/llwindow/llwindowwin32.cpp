@@ -1489,9 +1489,9 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 	if (WGLEW_ARB_create_context)
 	{ //attempt to create a specific versioned context
 		S32 attribs[] = 
-		{ //start at 4.5
+		{ //start at 4.6
 			WGL_CONTEXT_MAJOR_VERSION_ARB, 4,
-			WGL_CONTEXT_MINOR_VERSION_ARB, 5,
+			WGL_CONTEXT_MINOR_VERSION_ARB, 6,
 			WGL_CONTEXT_PROFILE_MASK_ARB,  LLRender::sGLCoreProfile ? WGL_CONTEXT_CORE_PROFILE_BIT_ARB : WGL_CONTEXT_COMPATIBILITY_PROFILE_BIT_ARB,
 			WGL_CONTEXT_FLAGS_ARB, gDebugGL ? WGL_CONTEXT_DEBUG_BIT_ARB : 0,
 			0

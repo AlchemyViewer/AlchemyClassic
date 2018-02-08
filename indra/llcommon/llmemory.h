@@ -353,6 +353,7 @@ inline void ll_memcpy_nonaliased_aligned_16(char* __restrict dst, const char* __
 
 	// Copy remainder 16b tail chunks (or ALL 16b chunks for sub-64b copies)
 	//
+	assert(0 == (((U8*) end - (U8*) dst) % 16));
 	while (dst < end)
 	{
 		_mm_store_ps((F32*)dst, _mm_load_ps((F32*)src));

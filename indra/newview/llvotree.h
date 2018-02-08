@@ -70,6 +70,7 @@ public:
 	/*virtual*/ BOOL		updateGeometry(LLDrawable *drawable) override;
 	/*virtual*/ void		updateSpatialExtents(LLVector4a &min, LLVector4a &max) override;
 
+	void resetVertexBuffers() override;
 	U32 getPartitionType() const override;
 
 	void updateRadius() override;

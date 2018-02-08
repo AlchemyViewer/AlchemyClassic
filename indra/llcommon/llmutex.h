@@ -48,6 +48,12 @@ typedef std::condition_variable_any LLConditionImpl;
 #error Mutex definition required.
 #endif
 
+#define MUTEX_DEBUG (LL_DEBUG || LL_RELEASE_WITH_DEBUG_INFO)
+
+#if MUTEX_DEBUG
+#include <map>
+#endif
+
 class LL_COMMON_API LLMutex : public LLMutexImpl
 {
 public:
@@ -56,19 +62,21 @@ public:
 
 	void lock();	// blocks
 
-	void unlock();
+	void unlock();		// undefined behavior when called on mutex not being held
+	
+	bool try_lock();		// non-blocking, returns true if lock held.
 
-	// Returns true if lock was obtained successfully.
-	bool try_lock();
-
-	// Returns true if locked not by this thread
-	bool isLocked();
+	bool isLocked(); 	// non-blocking, but does do a lock/unlock so not free
 
 	// Returns true if locked by this thread.
 	bool isSelfLocked() const;
 
 private:
-	mutable boost::thread::id mLockingThread;
+	mutable boost::thread::id			mLockingThread;
+	
+#if MUTEX_DEBUG
+	std::map<uintptr_t, BOOL> mIsLocked;
+#endif
 };
 
 // Actually a condition/mutex pair (since each condition needs to be associated with a mutex).

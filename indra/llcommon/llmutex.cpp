@@ -31,21 +31,50 @@
 
 void LLMutex::lock()	// blocks
 {
+	
 	LLMutexImpl::lock();
+	
+#if MUTEX_DEBUG
+	// Have to have the lock before we can access the debug info
+	boost::thread::id id = LLThread::currentID();
+	if (mIsLocked[id] != FALSE)
+		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
+	mIsLocked[id] = TRUE;
+#endif
+
 	mLockingThread = LLThread::currentID();
 }
 
 void LLMutex::unlock()
 {
-	LLMutexImpl::unlock();
+#if MUTEX_DEBUG
+	// Access the debug info while we have the lock
+	boost::thread::id id = LLThread::currentID();
+	if (mIsLocked[id] != TRUE)
+		LL_ERRS() << "Not locked in Thread: " << id << LL_ENDL;	
+	mIsLocked[id] = FALSE;
+#endif
+
 	mLockingThread = boost::thread::id();
+	LLMutexImpl::unlock();
 }
 
 // Returns true if lock was obtained successfully.
 bool LLMutex::try_lock()
 {
 	if (!LLMutexImpl::try_lock())
+	{
 		return false;
+	}
+	
+#if MUTEX_DEBUG
+	// Have to have the lock before we can access the debug info
+	boost::thread::id id = LLThread::currentID();
+	if (mIsLocked[id] != FALSE)
+		LL_ERRS() << "Already locked in Thread: " << id << LL_ENDL;
+	mIsLocked[id] = TRUE;
+#endif
+
 	mLockingThread = LLThread::currentID();
 	return true;
 }
@@ -62,6 +91,7 @@ bool LLMutex::isLocked()
 	}
 	return true;
 }
+
 // Returns true if locked by this thread.
 bool LLMutex::isSelfLocked() const
 {

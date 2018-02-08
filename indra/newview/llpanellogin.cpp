@@ -513,6 +513,11 @@ void LLPanelLogin::getFields(LLPointer<LLCredential>& credential, BOOL& remember
 	{
 		if (sInstance->mPasswordModified)
 		{
+            if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
+            {
+                LLNotificationsUtil::add("SecondLifePasswordTooLong");
+                LLStringUtil::truncate(password, 16);
+            }
 			if (CRED_IDENTIFIER_TYPE_ACCOUNT == identifier["type"])
 			{
 				// single username, so this is a 'clear' identifier
@@ -757,13 +762,8 @@ void LLPanelLogin::onClickConnect(void *)
 		}
 		else
 		{
-		sCredentialSet = FALSE;
-            if (password.length() > 16 && LLGridManager::getInstance()->isInSecondlife())
-            {
-                LLNotificationsUtil::add("SecondLifePasswordTooLong");
-                LLStringUtil::truncate(password, 16);
-            }
-			string_vec_t login_uris;
+		    sCredentialSet = FALSE;
+            string_vec_t login_uris;
 			LLGridManager::getInstance()->getLoginURIs(login_uris);
 			if (std::none_of(login_uris.begin(), login_uris.end(),
 				[](auto& uri) -> bool { return boost::algorithm::starts_with(uri, "https://"); }

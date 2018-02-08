@@ -5065,6 +5065,8 @@ void LLViewerWindow::stopGL(BOOL save_state)
 			shader->unload();
 		}
 		
+		gGL.resetVertexBuffers();
+
 		LL_INFOS() << "Remaining allocated texture memory: " << LLImageGL::sGlobalTextureMemory.value() << " bytes" << LL_ENDL;
 	}
 }
@@ -5080,7 +5082,9 @@ void LLViewerWindow::restoreGL(const std::string& progress_message)
 		LL_INFOS() << "Restoring GL..." << LL_ENDL;
 		gGLManager.mIsDisabled = FALSE;
 		
+		gGL.init();
 		initGLDefaults();
+		gGL.refreshState();
 		LLGLState::restoreGL();
 		
 		gTextureList.restoreGL();

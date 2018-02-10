@@ -121,11 +121,10 @@
        sort_column="-1"
        bottom="-1">
         <scroll_list.columns name="sequence" label="Seq" width="48"/>
-        <scroll_list.columns name="type" label="Method" width="32"/>
-        <scroll_list.columns name="direction" label="Dir" width="32"/>
-        <scroll_list.columns name="net" label="Host" width="100"/>
-        <scroll_list.columns name="name" label="Type" width="128"/>
-        <scroll_list.columns name="summary" label="Summary" dynamicwidth="true"/>
+        <scroll_list.columns name="protocol" label="Protocol" width="48"/>
+        <scroll_list.columns name="verb" label="Verb" width="56"/>
+        <scroll_list.columns name="net" label="Host" width="120"/>
+        <scroll_list.columns name="name" label="Type"/>
       </scroll_list>
       <text
        name="log_status_text"

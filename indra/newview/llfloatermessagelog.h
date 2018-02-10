@@ -42,21 +42,20 @@ typedef boost::container::flat_map<U64, FloaterMessageItem> HTTPConvoMap;
 class LLMessageLogFilter
 {
 public:
-    LLMessageLogFilter() {}
     LLMessageLogFilter(const std::string& filter);
 	~LLMessageLogFilter() {}
 	
 	void set(const std::string& filter);
 	bool empty() const { return mPositiveNames.empty() && mNegativeNames.empty(); }
 
-	std::string asString() const {return mAsString;}
+	std::string asString() const { return mInputString; }
 
 	//these should probably be unordered_sets
 	boost::container::flat_set<std::string> mPositiveNames;
 	boost::container::flat_set<std::string> mNegativeNames;
 
 protected:
-	std::string mAsString;
+	std::string mInputString;
 };
 
 class LLFloaterMessageLog : public LLFloater

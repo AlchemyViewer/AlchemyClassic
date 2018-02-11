@@ -62,7 +62,6 @@
 #include "llrootview.h"
 
 #include "lltrans.h"
-#include "llglheaders.h"
 #include "llpanelloginlistener.h"
 
 #include <boost/algorithm/string.hpp>

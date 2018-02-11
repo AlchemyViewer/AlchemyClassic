@@ -338,7 +338,7 @@ bool LLGridManager::addGrid(LLSD& grid_data)
 				/* still in LL_DEBUGS */ 
 				for (LLSD::array_const_iterator login_uris = grid_data[GRID_LOGIN_URI_VALUE].beginArray();
 					 login_uris != grid_data[GRID_LOGIN_URI_VALUE].endArray();
-					 login_uris++)
+					 ++login_uris)
 				{
 					LL_CONT << "  login uri:   "<<login_uris->asString()<<"\n";
 				}
@@ -437,6 +437,7 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 {
 	LL_DEBUGS("GridManager") << "Adding '" << login_uri << "' to grid manager." << LL_ENDL;
 	if (login_uri.empty()) return;
+
 	std::string grid = utf8str_tolower(login_uri);
 	// Grid needs to be in the form of a dns address,
 	// but also support localhost:9000 or localhost:9000/login
@@ -481,27 +482,30 @@ void LLGridManager::addRemoteGrid(const std::string& login_uri, const EAddGridTy
 	}
 }
 
-void LLGridManager::gridInfoResponderCoro(const std::string url, bool hypergrid)
+void LLGridManager::gridInfoResponderCoro(const std::string uri, bool hypergrid)
 {
     using namespace LLCoreHttpUtil;
     
     LLSD grid;
-    grid[GRID_VALUE] = LLURI(url).authority();
+    LLURI grid_uri(uri);
+    grid[GRID_VALUE] = grid_uri.authority();
     if (hypergrid)
         grid[GRID_TEMPORARY] = true;
     
     LLCore::HttpRequest::policy_t httpPolicy(LLCore::HttpRequest::DEFAULT_POLICY_ID);
     HttpCoroutineAdapter::ptr_t httpAdapter(new HttpCoroutineAdapter("GridInfoRequest", httpPolicy));
     LLCore::HttpRequest::ptr_t httpRequest(new LLCore::HttpRequest);
+    LLCore::HttpOptions::ptr_t httpOptions(new LLCore::HttpOptions);
+    httpOptions->setTimeout(5);
     
-    LLSD result = httpAdapter->getRawAndSuspend(httpRequest, llformat("%s/get_grid_info", url.c_str()));
+    LLSD result = httpAdapter->getRawAndSuspend(httpRequest, llformat("%s/get_grid_info", grid_uri.asString().c_str()), httpOptions);
     
     LLCore::HttpStatus status = HttpCoroutineAdapter::getStatusFromLLSD(result[HttpCoroutineAdapter::HTTP_RESULTS]);
     
     if (!status)
     {
         LLSD args;
-        args["GRID"] = url;
+        args["GRID"] = uri;
         args["STATUS"] = status.toString();
         args["REASON"] = status.getMessage();
         LLNotificationsUtil::add("CantAddGrid", args);
@@ -512,10 +516,10 @@ void LLGridManager::gridInfoResponderCoro(const std::string url, bool hypergrid)
     // *TODO: need to write a special adapter for the weird ass gridinfo pseudo-xml format
     const LLSD::Binary &raw_results = result[HttpCoroutineAdapter::HTTP_RESULTS_RAW].asBinary();
     // is LLXMLNode::parseBuffer() const safe? iunno! today is not the day to find out, so we make a copy.
-    std::string goof_troop(raw_results.begin(), raw_results.end());
+    std::string babe_pig_in_the_city(raw_results.begin(), raw_results.end());
 	LLPointer<LLXMLNode> xmlnode;
-	if (!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&goof_troop[0]),
-                                goof_troop.size(), xmlnode, nullptr))
+	if (!LLXMLNode::parseBuffer(reinterpret_cast<U8*>(&babe_pig_in_the_city[0]),
+                                babe_pig_in_the_city.size(), xmlnode, nullptr))
 	{
         LLNotificationsUtil::add("MalformedGridInfo", LLSD().with("GRID", grid[GRID_VALUE]));
         return;

@@ -187,6 +187,7 @@ private:
 	
 	void refreshGridList();
 	void onClickAddGrid();
+    void onClickActivateGrid();
 	void onClickRemoveGrid();
 	void onClickRefreshGrid();
 	void onClickDebugGrid();

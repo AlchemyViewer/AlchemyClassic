@@ -83,13 +83,26 @@
    layout="topleft"
    follows="left|top"
    height="19"
-   label="Refresh"
+   label="Activate"
    left_pad="5"
-   name="refresh_grid"
+   name="activate_grid"
    top_delta="5"
    width="75">
     <button.commit_callback
-     function="Pref.RefreshGrid" />
+     function="Pref.ActivateGrid" />
+  </button>
+  <button
+    enabled="false"
+    layout="topleft"
+    follows="left|top"
+    height="19"
+    label="Refresh"
+    left_delta="0"
+    name="refresh_grid"
+    top_pad="5"
+    width="75">
+     <button.commit_callback
+      function="Pref.RefreshGrid" />
   </button>
   <button
    enabled="false"

@@ -46,7 +46,7 @@ if(WINDOWS)
         libhunspell.dll
         )
 
-    if(WORD_SIZE STREQUAL 64)
+    if(ADDRESS_SIZE STREQUAL 64)
       list(APPEND debug_files
            libcrypto-1_1-x64.dll
            libssl-1_1-x64.dll
@@ -55,7 +55,7 @@ if(WINDOWS)
            libcrypto-1_1-x64.dll
            libssl-1_1-x64.dll
            )
-    else(WORD_SIZE STREQUAL 64)
+    else(ADDRESS_SIZE STREQUAL 64)
       list(APPEND debug_files
            libcrypto-1_1.dll
            libssl-1_1.dll
@@ -64,7 +64,7 @@ if(WINDOWS)
            libcrypto-1_1.dll
            libssl-1_1.dll
            )
-    endif(WORD_SIZE STREQUAL 64)
+    endif(ADDRESS_SIZE STREQUAL 64)
 		
     if (LLCOMMON_LINK_SHARED)
       list(APPEND debug_files 
@@ -95,13 +95,13 @@ if(WINDOWS)
     endif(OPENAL)
 
     if (FMODSTUDIO)
-      if(WORD_SIZE STREQUAL 64)
+      if(ADDRESS_SIZE STREQUAL 64)
         list(APPEND debug_files fmodL64.dll)
         list(APPEND release_files fmod64.dll)
-      else(WORD_SIZE STREQUAL 64)
+      else(ADDRESS_SIZE STREQUAL 64)
         list(APPEND debug_files fmodL.dll)
         list(APPEND release_files fmod.dll)
-      endif(WORD_SIZE STREQUAL 64)
+      endif(ADDRESS_SIZE STREQUAL 64)
     endif (FMODSTUDIO)
 elseif(DARWIN)
     set(SHARED_LIB_STAGING_DIR_DEBUG            "${SHARED_LIB_STAGING_DIR}/Debug/Resources")

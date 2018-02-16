@@ -54,19 +54,19 @@ target_link_libraries(media_plugin_libvlc
 set_target_properties(media_plugin_libvlc PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 
 if (WINDOWS)
-  if (WORD_SIZE EQUAL 32)
+  if (ADDRESS_SIZE EQUAL 32)
     set_target_properties(
       media_plugin_libvlc
       PROPERTIES
       LINK_FLAGS "/MANIFEST:NO /SAFESEH:NO"
       )
-  else (WORD_SIZE EQUAL 32)
+  else (ADDRESS_SIZE EQUAL 32)
     set_target_properties(
       media_plugin_libvlc
       PROPERTIES
       LINK_FLAGS "/MANIFEST:NO"
       )
-  endif (WORD_SIZE EQUAL 32)
+  endif (ADDRESS_SIZE EQUAL 32)
 endif (WINDOWS)
 
 if (DARWIN)

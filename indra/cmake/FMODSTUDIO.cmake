@@ -26,15 +26,15 @@ if (FMODSTUDIO)
       include(Prebuilt)
       use_prebuilt_binary(fmodstudio)    
       if (WINDOWS)
-        if (WORD_SIZE EQUAL 32)
+        if (ADDRESS_SIZE EQUAL 32)
           set(FMODSTUDIO_LIBRARY 
               debug fmodL_vc
               optimized fmod_vc)
-         elseif (WORD_SIZE EQUAL 64)
+         elseif (ADDRESS_SIZE EQUAL 64)
            set(FMODSTUDIO_LIBRARY 
               debug fmodL64_vc
               optimized fmod64_vc)
-         endif(WORD_SIZE EQUAL 32)
+         endif(ADDRESS_SIZE EQUAL 32)
       elseif (DARWIN)
         set(FMODSTUDIO_LIBRARY 
             debug fmodL

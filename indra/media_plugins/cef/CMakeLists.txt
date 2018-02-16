@@ -52,7 +52,6 @@ set (media_plugin_cef_LINK_LIBRARIES
   ${LLCOMMON_LIBRARIES}
   ${PLUGIN_API_WINDOWS_LIBRARIES})
 
-
 # Select which VolumeCatcher implementation to use
 if (LINUX)
   if (PULSEAUDIO_FOUND)

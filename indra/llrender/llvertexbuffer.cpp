@@ -1471,6 +1471,13 @@ void LLVertexBuffer::setupVertexArray()
 			}
 			else
 			{
+				// nat 2016-12-16: With 64-bit clang compile, the compiler
+				// produces an error if we simply cast mOffsets[i] -- an S32
+				// -- to (GLvoid *), the type of the parameter. It correctly
+				// points out that there's no way an S32 could fit a real
+				// pointer value. Ruslan asserts that in this case the last
+				// param is interpreted as an array data offset within the VBO
+				// rather than as an actual pointer, so it's okay.
 				glVertexAttribPointer(i, attrib_size[i], attrib_type[i], attrib_normalized[i], sTypeSize[i], reinterpret_cast<void*>((intptr_t) mOffsets[i]));
 			}
 		}

@@ -1874,48 +1874,6 @@ void LLRender::flush()
 {
 	if (mCount > 0)
 	{
-#if 0
-		if (!glIsEnabled(GL_VERTEX_ARRAY))
-		{
-			LL_ERRS() << "foo 1" << LL_ENDL;
-		}
-
-		if (!glIsEnabled(GL_COLOR_ARRAY))
-		{
-			LL_ERRS() << "foo 2" << LL_ENDL;
-		}
-
-		if (!glIsEnabled(GL_TEXTURE_COORD_ARRAY))
-		{
-			LL_ERRS() << "foo 3" << LL_ENDL;
-		}
-
-		if (glIsEnabled(GL_NORMAL_ARRAY))
-		{
-			LL_ERRS() << "foo 7" << LL_ENDL;
-		}
-
-		GLvoid* pointer;
-
-		glGetPointerv(GL_VERTEX_ARRAY_POINTER, &pointer);
-		if (pointer != &(mBuffer[0].v))
-		{
-			LL_ERRS() << "foo 4" << LL_ENDL;
-		}
-
-		glGetPointerv(GL_COLOR_ARRAY_POINTER, &pointer);
-		if (pointer != &(mBuffer[0].c))
-		{
-			LL_ERRS() << "foo 5" << LL_ENDL;
-		}
-
-		glGetPointerv(GL_TEXTURE_COORD_ARRAY_POINTER, &pointer);
-		if (pointer != &(mBuffer[0].uv))
-		{
-			LL_ERRS() << "foo 6" << LL_ENDL;
-		}
-#endif
-				
 		if (!mUIOffset.empty())
 		{
 			sUICalls++;
@@ -2089,7 +2047,8 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, S32 vert_count)
 		mColorsp[mCount] = mColorsp[mCount-1];
 	}
 
-	mVerticesp[mCount] = mVerticesp[mCount-1];
+	if( mCount > 0 ) // ND: Guard against crashes if mCount is zero, yes it can happen
+		mVerticesp[mCount] = mVerticesp[mCount-1];
 
 	mPrimitiveReset = false;
 }
@@ -2126,8 +2085,8 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, S32 
 		mColorsp[mCount] = mColorsp[mCount-1];
 	}
 	
-	mVerticesp[mCount] = mVerticesp[mCount-1];
-	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
+		mVerticesp[mCount] = mVerticesp[mCount - 1];
+		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
 
 	mPrimitiveReset = false;
 }
@@ -2164,9 +2123,9 @@ void LLRender::vertexBatchPreTransformed(LLVector4a* verts, LLVector2* uvs, LLCo
 		mCount++;
 	}
 
-	mVerticesp[mCount] = mVerticesp[mCount-1];
-	mTexcoordsp[mCount] = mTexcoordsp[mCount-1];
-	mColorsp[mCount] = mColorsp[mCount-1];
+		mVerticesp[mCount] = mVerticesp[mCount - 1];
+		mTexcoordsp[mCount] = mTexcoordsp[mCount - 1];
+		mColorsp[mCount] = mColorsp[mCount - 1];
 
 	mPrimitiveReset = false;
 }

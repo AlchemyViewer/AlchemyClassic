@@ -39,7 +39,7 @@
 #include "_httpopsetget.h"
 
 #include "lltimer.h"
-
+#include "httpstats.h"
 
 namespace
 {
@@ -66,6 +66,8 @@ HttpRequest::HttpRequest()
 	mRequestQueue->addRef();
 
 	mReplyQueue.reset( new HttpReplyQueue() );
+
+    HTTPStats::instance().recordHTTPRequest();
 }
 
 

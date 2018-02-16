@@ -72,7 +72,7 @@ libcurl Version: [LIBCURL_VERSION]
 Versão do J2C Decoder: [J2C_VERSION]
 Versão do driver de áudio: [AUDIO_DRIVER_VERSION]
 Font Decoder Version: [FONT_VERSION]
-Versão de LLCEFLib/CEF: [LLCEFLIB_VERSION]
+Versão de CEF: [LIBCEF_VERSION]
 Versão da LibVLC: [LIBVLC_VERSION]
 Versão do servidor de voz: [VOICE_VERSION]
 	</string>

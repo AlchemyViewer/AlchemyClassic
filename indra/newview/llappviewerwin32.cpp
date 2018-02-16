@@ -308,15 +308,6 @@ int APIENTRY WINMAIN(HINSTANCE hInstance,
 	delete viewer_app_ptr;
 	viewer_app_ptr = nullptr;
 
-	//start updater
-	if(LLAppViewer::sUpdaterInfo)
-	{
-		_spawnl(_P_NOWAIT, LLAppViewer::sUpdaterInfo->mUpdateExePath.c_str(), LLAppViewer::sUpdaterInfo->mUpdateExePath.c_str(), LLAppViewer::sUpdaterInfo->mParams.str().c_str(), NULL);
-
-		delete LLAppViewer::sUpdaterInfo ;
-		LLAppViewer::sUpdaterInfo = nullptr ;
-	}
-	
 #ifdef USE_NVAPI
 	// (NVAPI) (6) We clean up. This is analogous to doing a free()
 	if (hSession)

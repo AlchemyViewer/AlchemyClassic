@@ -51,8 +51,6 @@ public:
 	{
 		U8         mV[LENGTHOFCOLOR4U];
 		U32        mAll;
-//		LLColor4*  mSources;
-//		LLColor4U* mSourcesU;
 	};
 
 

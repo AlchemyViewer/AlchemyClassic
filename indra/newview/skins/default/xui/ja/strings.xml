@@ -81,7 +81,7 @@ libcurl Version: [LIBCURL_VERSION]
 J2C デコーダバージョン：[J2C_VERSION]
 オーディオドライババージョン：[AUDIO_DRIVER_VERSION]
 Font Decoder Version: [FONT_VERSION]
-LLCEFLib/CEF バージョン： [LLCEFLIB_VERSION]
+CEF バージョン： [LIBCEF_VERSION]
 LibVLC バージョン： [LIBVLC_VERSION]
 ボイスサーバーバージョン：[VOICE_VERSION]
 	</string>

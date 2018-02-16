@@ -81,6 +81,7 @@ LONG WINAPI myWin32ExceptionHandler( struct _EXCEPTION_POINTERS* exception_infop
 // patches things so that doesn't happen.
 static BOOL PreventSetUnhandledExceptionFilter()
 {
+// WARNING: This won't work on 64-bit Windows systems so we turn it off it.
 	HMODULE hKernel32 = LoadLibrary(TEXT("kernel32.dll"));
 	if (hKernel32 == nullptr) return FALSE;
 	void *pOrgEntry = GetProcAddress(hKernel32, "SetUnhandledExceptionFilter");
@@ -93,7 +94,7 @@ static BOOL PreventSetUnhandledExceptionFilter()
 	unsigned char szExecute[] = { 0x33, 0xC0, 0xC2, 0x04, 0x00 };
 #elif _M_X64
 	// 33 C0                xor         eax,eax 
-	// C3                   ret  
+
 	unsigned char szExecute[] = { 0x33, 0xC0, 0xC3 };
 #else
 #error "The following code only works for x86 and x64!"

@@ -180,6 +180,7 @@
 # define LL_COMMON_API
 #endif // LL_COMMON_LINK_SHARED
 
+// macro to get the type of an expression.
 #define LL_TYPEOF(expr) decltype(expr)
 
 #define LL_TO_STRING_HELPER(x) #x

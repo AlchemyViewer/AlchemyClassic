@@ -58,7 +58,6 @@ class LLTextureCache;
 class LLImageDecodeThread;
 class LLTextureFetch;
 class LLWatchdogTimeout;
-class LLUpdaterService;
 class LLViewerJoystick;
 
 extern LLTrace::BlockTimerStatHandle FTM_FRAME;
@@ -221,7 +220,6 @@ private:
 	bool initThreads(); // Initialize viewer threads, return false on failure.
 	bool initConfiguration(); // Initialize settings from the command line/config file.
 	void initStrings();       // Initialize LLTrans machinery
-	void initUpdater(); // Initialize the updater service.
 	bool initCache(); // Initialize local client cache.
 	void checkMemory() ;
 
@@ -300,30 +298,14 @@ private:
     LLAllocator mAlloc;
 
 	LLFrameTimer mMemCheckTimer;
-	
-	boost::scoped_ptr<LLUpdaterService> mUpdater;
 
 	// llcorehttp library init/shutdown helper
 	LLAppCoreHttp mAppCoreHttp;
 
-	bool mIsFirstRun;
+        bool mIsFirstRun;
 	U64 mMinMicroSecPerFrame; // frame throttling
 
-	//---------------------------------------------
-	//*NOTE: Mani - legacy updater stuff
-	// Still useable?
-public:
 
-	//some information for updater
-	typedef struct
-	{
-		std::string mUpdateExePath;
-		std::ostringstream mParams;
-	}LLUpdaterInfo ;
-	static LLUpdaterInfo *sUpdaterInfo ;
-
-	void launchUpdater();
-	//---------------------------------------------
 };
 
 // consts from viewer.h
@@ -381,7 +363,7 @@ extern BOOL		gDisconnected;
 
 extern LLFrameTimer	gRestoreGLTimer;
 extern BOOL			gRestoreGL;
-extern BOOL		gUseWireframe;
+extern bool		gUseWireframe;
 
 // VFS globals - gVFS is for general use
 // gStaticVFS is read-only and is shipped w/ the viewer

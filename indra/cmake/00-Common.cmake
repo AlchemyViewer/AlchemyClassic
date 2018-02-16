@@ -2,6 +2,17 @@
 #
 # Compilation options shared by all Second Life components.
 
+#*****************************************************************************
+#   It's important to realize that CMake implicitly concatenates
+#   CMAKE_CXX_FLAGS with (e.g.) CMAKE_CXX_FLAGS_RELEASE for Release builds. So
+#   set switches in CMAKE_CXX_FLAGS that should affect all builds, but in
+#   CMAKE_CXX_FLAGS_RELEASE or CMAKE_CXX_FLAGS_RELWITHDEBINFO for switches
+#   that should affect only that build variant.
+#
+#   Also realize that CMAKE_CXX_FLAGS may already be partially populated on
+#   entry to this file.
+#*****************************************************************************
+
 if(NOT DEFINED ${CMAKE_CURRENT_LIST_FILE}_INCLUDED)
 set(${CMAKE_CURRENT_LIST_FILE}_INCLUDED "YES")
 
@@ -10,6 +21,7 @@ include(CheckPython)
 include(Variables)
 
 # Portable compilation flags.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DADDRESS_SIZE=${ADDRESS_SIZE}")
 set(CMAKE_CXX_FLAGS_DEBUG "-D_DEBUG -DLL_DEBUG=1")
 set(CMAKE_CXX_FLAGS_RELEASE
     "-DLL_RELEASE=1 -DLL_RELEASE_FOR_DOWNLOAD=1 -DNDEBUG")
@@ -86,7 +98,7 @@ if (WINDOWS)
       /DUNICODE
       /D_UNICODE
       /D_CRT_SECURE_NO_WARNINGS
-	  /D_CRT_NONSTDC_NO_DEPRECATE
+      /D_CRT_NONSTDC_NO_DEPRECATE
       /D_WINSOCK_DEPRECATED_NO_WARNINGS
       )
 

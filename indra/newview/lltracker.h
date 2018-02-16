@@ -106,10 +106,10 @@ protected:
 							 LLHUDText* hud_textp, 
 							 const std::string& label );
 
-	void stopTrackingAll(BOOL clear_ui = FALSE);
-	void stopTrackingAvatar(BOOL clear_ui = FALSE);
-	void stopTrackingLocation(BOOL clear_ui = FALSE, BOOL dest_reached = FALSE);
-	void stopTrackingLandmark(BOOL clear_ui = FALSE);
+	void stopTrackingAll(bool clear_ui = false);
+	void stopTrackingAvatar(bool clear_ui = false);
+	void stopTrackingLocation(bool clear_ui = false, bool dest_reached = false);
+	void stopTrackingLandmark(bool clear_ui = false);
 
 	void drawMarker(const LLVector3d& pos_global, const LLColor4& color);
 	void setLandmarkVisited();

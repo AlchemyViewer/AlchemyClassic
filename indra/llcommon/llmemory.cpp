@@ -308,9 +308,8 @@ U64 LLMemory::getCurrentRSS()
 	}
 	
 	fclose(fp);
-	return rss;
-}
 
+	return rss;
 #else
 
 U64 LLMemory::getCurrentRSS()

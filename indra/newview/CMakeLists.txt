@@ -18,6 +18,7 @@ include(Hunspell)
 include(IntelTBB)
 include(Json)
 include(LLAppearance)
+include(LLBase)
 include(LLAudio)
 include(LLCharacter)
 include(LLCommon)
@@ -44,10 +45,12 @@ include(OPENAL)
 include(OpenGL)
 include(OpenSSL)
 include(PNG)
+include(Requests)
 include(TemplateCheck)
 include(UI)
 include(UnixInstall)
 include(ViewerMiscLibs)
+include(ViewerManager)
 include(VisualLeakDetector)
 include(ZLIB)
 include(URIPARSER)
@@ -92,7 +95,6 @@ include_directories(
     ${LLWINDOW_INCLUDE_DIRS}
     ${LLXML_INCLUDE_DIRS}
     ${LLLOGIN_INCLUDE_DIRS}
-    ${UPDATER_INCLUDE_DIRS}
     ${LIBS_PREBUILT_DIR}/include/collada
     ${HUNSPELL_INCLUDE_DIR}
     ${OPENAL_LIB_INCLUDE_DIRS}
@@ -1428,7 +1430,7 @@ set(viewer_HEADER_FILES
 
 source_group("CMake Rules" FILES ViewerInstall.cmake)
 
-#summary.json creation moved to viewer_manifest.py MAINT-6413
+#build_data.json creation moved to viewer_manifest.py MAINT-6413
 # the viewer_version.txt file created here is for passing to viewer_manifest and autobuild
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt"
            "${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}\n")
@@ -1552,7 +1554,7 @@ if (WINDOWS)
         set(ICON_PATH "project")
         set(VIEWER_MACOSX_PHASE "a")
     endif()
-    message("Copying icons for ${ICON_PATH}")
+    message(STATUS "Copying icons for ${ICON_PATH}")
     execute_process(
       COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/icons/${ICON_PATH}/alchemy.ico"
@@ -1822,7 +1824,6 @@ if (WINDOWS)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
-      #${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libtcmalloc_minimal.dll => None ... Skipping libtcmalloc_minimal.dll
       ${CMAKE_SOURCE_DIR}/../etc/message.xml
       ${CMAKE_SOURCE_DIR}/../scripts/messages/message_template.msg
       ${LLCOMMON_SOURCE}
@@ -1850,6 +1851,7 @@ if (WINDOWS)
       ${ARCH_PREBUILT_DIRS_RELEASE}/ssleay32.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/libeay32.dll
       ${ARCH_PREBUILT_DIRS_DEBUG}/ssleay32.dll
+      ${viewer_APPSETTINGS_FILES}
       AlchemyPlugin
       media_plugin_cef
       windows-crash-logger
@@ -2044,7 +2046,6 @@ endif (WINDOWS)
 target_link_libraries(${VIEWER_BINARY_NAME}
     ${PNG_PRELOAD_ARCHIVES}
     ${ZLIB_PRELOAD_ARCHIVES}
-    ${UPDATER_LIBRARIES}
     ${GOOGLE_PERFTOOLS_LIBRARIES}
     ${LLAUDIO_LIBRARIES}
     ${LLCHARACTER_LIBRARIES}
@@ -2168,6 +2169,8 @@ endif (LINUX)
 if (DARWIN)
   # These all get set with PROPERTIES
   set(product "Alchemy")
+  # this is the setting for the Python wrapper, see SL-322 and WRAPPER line in Info-SecondLife.plist
+  set(MACOSX_WRAPPER_EXECUTABLE_NAME "SL_Launcher")
   set(MACOSX_BUNDLE_INFO_STRING "Alchemy Viewer")
   set(MACOSX_BUNDLE_ICON_FILE "alchemy.icns")
   set(MACOSX_BUNDLE_GUI_IDENTIFIER "org.alchemyviewer.viewer")
@@ -2208,16 +2211,14 @@ if (DARWIN)
       --grid=${GRID}
       --channel=${VIEWER_CHANNEL}
       --versionfile=${CMAKE_CURRENT_BINARY_DIR}/viewer_version.txt
+      --bundleid=${MACOSX_BUNDLE_GUI_IDENTIFIER}
       --source=${CMAKE_CURRENT_SOURCE_DIR}
     DEPENDS
       ${VIEWER_BINARY_NAME}
       ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
     )
-  if (WORD_SIZE EQUAL 32)
-      add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_cef mac-crash-logger)
-  elseif (WORD_SIZE EQUAL 64)
-     add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_cef mac-crash-logger)
-  endif (WORD_SIZE EQUAL 32)
+
+    add_dependencies(${VIEWER_BINARY_NAME} AlchemyPlugin media_plugin_cef mac-crash-logger)
 
   if (ENABLE_SIGNING)
       set(SIGNING_SETTING "--signature=${SIGNING_IDENTITY}")
@@ -2237,7 +2238,6 @@ if (DARWIN)
           --artwork=${ARTWORK_DIR}
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
-          --channel=${VIEWER_CHANNEL}
           --configuration=${CMAKE_CFG_INTDIR}
           --dest=${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/${product}.app
           --grid=${GRID}
@@ -2258,6 +2258,7 @@ endif (INSTALL)
 
 if (PACKAGE)
   set(SYMBOL_SEARCH_DIRS "")
+  # Note that the path to VIEWER_SYMBOL_FILE must match that in ../../build.sh
   if (WINDOWS)
     list(APPEND SYMBOL_SEARCH_DIRS "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}")
     set(VIEWER_SYMBOL_FILE "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-symbols-windows.tar.bz2")
@@ -2344,6 +2345,7 @@ if (LL_TESTS)
   set(test_libs
     ${LLCOMMON_LIBRARIES}
     ${CURL_LIBRARIES}
+    ${NGHTTP2_LIBRARIES}
     )
 
   set_source_files_properties(

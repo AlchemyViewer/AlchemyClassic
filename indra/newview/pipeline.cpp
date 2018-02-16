@@ -138,27 +138,27 @@
 bool gShiftFrame = false;
 
 //cached settings
-BOOL LLPipeline::RenderAvatarVP;
-BOOL LLPipeline::VertexShaderEnable;
-BOOL LLPipeline::WindLightUseAtmosShaders;
-BOOL LLPipeline::RenderDeferred;
+bool LLPipeline::RenderAvatarVP;
+bool LLPipeline::VertexShaderEnable;
+bool LLPipeline::WindLightUseAtmosShaders;
+bool LLPipeline::RenderDeferred;
 F32 LLPipeline::RenderDeferredSunWash;
 U32 LLPipeline::RenderFSAASamples;
 U32 LLPipeline::RenderResolutionDivisor;
-BOOL LLPipeline::RenderUIBuffer;
+bool LLPipeline::RenderUIBuffer;
 S32 LLPipeline::RenderShadowDetail;
-BOOL LLPipeline::RenderDeferredSSAO;
+bool LLPipeline::RenderDeferredSSAO;
 F32 LLPipeline::RenderDeferredSSAOResolutionScale;
 F32 LLPipeline::RenderShadowResolutionScale;
-BOOL LLPipeline::RenderLocalLights;
-BOOL LLPipeline::RenderDelayCreation;
-BOOL LLPipeline::RenderAnimateRes;
-BOOL LLPipeline::FreezeTime;
+bool LLPipeline::RenderLocalLights;
+bool LLPipeline::RenderDelayCreation;
+bool LLPipeline::RenderAnimateRes;
+bool LLPipeline::FreezeTime;
 S32 LLPipeline::DebugBeaconLineWidth;
 F32 LLPipeline::RenderHighlightBrightness;
 LLColor4 LLPipeline::RenderHighlightColor;
 F32 LLPipeline::RenderHighlightThickness;
-BOOL LLPipeline::RenderSpotLightsInNondeferred;
+bool LLPipeline::RenderSpotLightsInNondeferred;
 LLColor4 LLPipeline::PreviewAmbientColor;
 LLColor4 LLPipeline::PreviewDiffuse0;
 LLColor4 LLPipeline::PreviewSpecular0;
@@ -178,8 +178,8 @@ S32 LLPipeline::RenderGlowResolutionPow;
 S32 LLPipeline::RenderGlowIterations;
 F32 LLPipeline::RenderGlowWidth;
 F32 LLPipeline::RenderGlowStrength;
-BOOL LLPipeline::RenderDepthOfField;
-BOOL LLPipeline::RenderDepthOfFieldInEditMode;
+bool LLPipeline::RenderDepthOfField;
+bool LLPipeline::RenderDepthOfFieldInEditMode;
 F32 LLPipeline::CameraFocusTransitionTime;
 F32 LLPipeline::CameraFNumber;
 F32 LLPipeline::CameraFocalLength;
@@ -200,7 +200,7 @@ F32 LLPipeline::RenderEdgeDepthCutoff;
 F32 LLPipeline::RenderEdgeNormCutoff;
 LLVector3 LLPipeline::RenderShadowGaussian;
 F32 LLPipeline::RenderShadowBlurDistFactor;
-BOOL LLPipeline::RenderDeferredAtmospheric;
+bool LLPipeline::RenderDeferredAtmospheric;
 S32 LLPipeline::RenderReflectionDetail;
 F32 LLPipeline::RenderHighlightFadeTime;
 LLVector3 LLPipeline::RenderShadowClipPlanes;
@@ -210,7 +210,7 @@ F32 LLPipeline::RenderFarClip;
 LLVector3 LLPipeline::RenderShadowSplitExponent;
 F32 LLPipeline::RenderShadowErrorCutoff;
 F32 LLPipeline::RenderShadowFOVCutoff;
-BOOL LLPipeline::CameraOffset;
+bool LLPipeline::CameraOffset;
 F32 LLPipeline::CameraMaxCoF;
 F32 LLPipeline::CameraDoFResScale;
 F32 LLPipeline::RenderAutoHideSurfaceAreaLimit;
@@ -230,9 +230,9 @@ extern S32 gBoxFrame;
 extern BOOL gDisplaySwapBuffers;
 extern BOOL gDebugGL;
 
-BOOL	gAvatarBacklight = FALSE;
+bool	gAvatarBacklight = false;
 
-BOOL	gDebugPipeline = FALSE;
+bool	gDebugPipeline = false;
 LLPipeline gPipeline;
 const LLMatrix4* gGLLastMatrix = nullptr;
 
@@ -349,44 +349,44 @@ void display_update_camera();
 
 S32		LLPipeline::sCompiles = 0;
 
-BOOL	LLPipeline::sPickAvatar = TRUE;
-BOOL	LLPipeline::sDynamicLOD = TRUE;
-BOOL	LLPipeline::sShowHUDAttachments = TRUE;
-BOOL	LLPipeline::sRenderMOAPBeacons = FALSE;
-BOOL	LLPipeline::sRenderPhysicalBeacons = TRUE;
-BOOL	LLPipeline::sRenderScriptedBeacons = FALSE;
-BOOL	LLPipeline::sRenderScriptedTouchBeacons = TRUE;
-BOOL	LLPipeline::sRenderParticleBeacons = FALSE;
-BOOL	LLPipeline::sRenderSoundBeacons = FALSE;
-BOOL	LLPipeline::sRenderBeacons = FALSE;
-BOOL	LLPipeline::sRenderHighlight = TRUE;
+bool	LLPipeline::sPickAvatar = true;
+bool	LLPipeline::sDynamicLOD = true;
+bool	LLPipeline::sShowHUDAttachments = true;
+bool	LLPipeline::sRenderMOAPBeacons = false;
+bool	LLPipeline::sRenderPhysicalBeacons = true;
+bool	LLPipeline::sRenderScriptedBeacons = false;
+bool	LLPipeline::sRenderScriptedTouchBeacons = true;
+bool	LLPipeline::sRenderParticleBeacons = false;
+bool	LLPipeline::sRenderSoundBeacons = false;
+bool	LLPipeline::sRenderBeacons = false;
+bool	LLPipeline::sRenderHighlight = true;
 LLRender::eTexIndex LLPipeline::sRenderHighlightTextureChannel = LLRender::DIFFUSE_MAP;
-BOOL	LLPipeline::sForceOldBakedUpload = FALSE;
+bool	LLPipeline::sForceOldBakedUpload = false;
 S32		LLPipeline::sUseOcclusion = 0;
-BOOL	LLPipeline::sDelayVBUpdate = TRUE;
-BOOL	LLPipeline::sAutoMaskAlphaDeferred = TRUE;
-BOOL	LLPipeline::sAutoMaskAlphaNonDeferred = FALSE;
-BOOL	LLPipeline::sDisableShaders = FALSE;
-BOOL	LLPipeline::sRenderBump = TRUE;
-BOOL	LLPipeline::sNoAlpha = FALSE;
-BOOL	LLPipeline::sUseTriStrips = TRUE;
-BOOL	LLPipeline::sUseFarClip = TRUE;
-BOOL	LLPipeline::sShadowRender = FALSE;
-BOOL	LLPipeline::sWaterReflections = FALSE;
-BOOL	LLPipeline::sRenderGlow = FALSE;
-BOOL	LLPipeline::sReflectionRender = FALSE;
-BOOL	LLPipeline::sImpostorRender = FALSE;
-BOOL	LLPipeline::sImpostorRenderAlphaDepthPass = FALSE;
-BOOL	LLPipeline::sUnderWaterRender = FALSE;
-BOOL	LLPipeline::sTextureBindTest = FALSE;
-BOOL	LLPipeline::sRenderFrameTest = FALSE;
-BOOL	LLPipeline::sRenderAttachedLights = TRUE;
-BOOL	LLPipeline::sRenderAttachedParticles = TRUE;
-BOOL	LLPipeline::sRenderDeferred = FALSE;
-BOOL    LLPipeline::sMemAllocationThrottled = FALSE;
+bool	LLPipeline::sDelayVBUpdate = true;
+bool	LLPipeline::sAutoMaskAlphaDeferred = true;
+bool	LLPipeline::sAutoMaskAlphaNonDeferred = false;
+bool	LLPipeline::sDisableShaders = false;
+bool	LLPipeline::sRenderBump = true;
+bool	LLPipeline::sNoAlpha = false;
+bool	LLPipeline::sUseTriStrips = true;
+bool	LLPipeline::sUseFarClip = true;
+bool	LLPipeline::sShadowRender = false;
+bool	LLPipeline::sWaterReflections = false;
+bool	LLPipeline::sRenderGlow = false;
+bool	LLPipeline::sReflectionRender = false;
+bool	LLPipeline::sImpostorRender = false;
+bool	LLPipeline::sImpostorRenderAlphaDepthPass = false;
+bool	LLPipeline::sUnderWaterRender = false;
+bool	LLPipeline::sTextureBindTest = false;
+bool	LLPipeline::sRenderFrameTest = false;
+bool	LLPipeline::sRenderAttachedLights = true;
+bool	LLPipeline::sRenderAttachedParticles = true;
+bool	LLPipeline::sRenderDeferred = false;
+bool    LLPipeline::sMemAllocationThrottled = false;
 S32		LLPipeline::sVisibleLightCount = 0;
 F32		LLPipeline::sMinRenderSize = 0.f;
-BOOL	LLPipeline::sRenderingHUDs = FALSE;
+bool	LLPipeline::sRenderingHUDs = FALSE;
 
 // EventHost API LLPipeline listener.
 static LLPipelineListener sPipelineListener;
@@ -403,7 +403,7 @@ bool addDeferredAttachments(LLRenderTarget& target)
 }
 
 LLPipeline::LLPipeline() :
-	mBackfaceCull(FALSE),
+	mBackfaceCull(false),
 	mMatrixOpCount(0),
 	mTextureMatrixOps(0),
 	mNumVisibleNodes(0),
@@ -411,8 +411,8 @@ LLPipeline::LLPipeline() :
 
 	mScreenWidth(0),
 	mScreenHeight(0),
-	mInitialized(FALSE),
-	mVertexShadersEnabled(FALSE),
+	mInitialized(false),
+	mVertexShadersEnabled(false),
 	mVertexShadersLoaded(0),
 	mRenderDebugFeatureMask(0),
 	mRenderDebugMask(0),
@@ -472,7 +472,7 @@ void LLPipeline::init()
 	sRenderAttachedLights = gSavedSettings.getBOOL("RenderAttachedLights");
 	sRenderAttachedParticles = gSavedSettings.getBOOL("RenderAttachedParticles");
 
-	mInitialized = TRUE;
+	mInitialized = true;
 	
 	stop_glerror();
 
@@ -524,7 +524,7 @@ void LLPipeline::init()
 
 	mOldRenderDebugMask = mRenderDebugMask;
 
-	mBackfaceCull = TRUE;
+	mBackfaceCull = true;
 
 	stop_glerror();
 	
@@ -708,7 +708,7 @@ void LLPipeline::cleanup()
 
 	mMovedBridge.clear();
 
-	mInitialized = FALSE;
+	mInitialized = false;
 
 	mAuxScreenRectVB = nullptr;
 	mCubeVB = nullptr;
@@ -743,7 +743,7 @@ void LLPipeline::destroyGL()
 static LLTrace::BlockTimerStatHandle FTM_RESIZE_SCREEN_TEXTURE("Resize Screen Texture");
 
 //static
-void LLPipeline::throttleNewMemoryAllocation(BOOL disable)
+void LLPipeline::throttleNewMemoryAllocation(bool disable)
 {
 	if(sMemAllocationThrottled != disable)
 	{
@@ -918,7 +918,7 @@ bool LLPipeline::allocateScreenBuffer(U32 resX, U32 resY, U32 samples)
 	if (LLPipeline::sRenderDeferred)
 	{
 		S32 shadow_detail = RenderShadowDetail;
-		BOOL ssao = RenderDeferredSSAO;
+		bool ssao = RenderDeferredSSAO;
 		
 		//allocate deferred rendering color buffers
 		if (!mDeferredScreen.allocate(resX, resY, GL_SRGB8_ALPHA8, TRUE, TRUE, LLTexUnit::TT_TEXTURE, FALSE, samples)) return false;
@@ -1041,19 +1041,19 @@ void LLPipeline::updateRenderBump()
 //static
 void LLPipeline::updateRenderDeferred()
 {
-	BOOL deferred = ((RenderDeferred && 
+	bool deferred = (bool(RenderDeferred && 
 					 LLRenderTarget::sUseFBO &&
 					 LLFeatureManager::getInstance()->isFeatureAvailable("RenderDeferred") &&	 
 					 LLPipeline::sRenderBump &&
 					 VertexShaderEnable && 
 					 RenderAvatarVP &&
-					 WindLightUseAtmosShaders) ? TRUE : FALSE) &&
+					 WindLightUseAtmosShaders)) &&
 					!gUseWireframe;
 
 	sRenderDeferred = deferred;	
 	if (deferred)
 	{ //must render glow when rendering deferred since post effect pass is needed to present any lighting at all
-		sRenderGlow = TRUE;
+		sRenderGlow = true;
 	}
 }
 
@@ -1376,7 +1376,7 @@ void LLPipeline::restoreGL()
 }
 
 
-BOOL LLPipeline::canUseVertexShaders()
+bool LLPipeline::canUseVertexShaders()
 {
 	static const bool has_vertex_shader = LLFeatureManager::instance().isFeatureAvailable("VertexShaderEnable");
 
@@ -1385,30 +1385,30 @@ BOOL LLPipeline::canUseVertexShaders()
 		!has_vertex_shader ||
 		(assertInitialized() && mVertexShadersLoaded != 1) )
 	{
-		return FALSE;
+		return false;
 	}
 	else
 	{
-		return TRUE;
+		return true;
 	}
 }
 
-BOOL LLPipeline::canUseWindLightShaders() const
+bool LLPipeline::canUseWindLightShaders() const
 {
 	return (!LLPipeline::sDisableShaders &&
 			gWLSkyProgram.mProgramObject != 0 &&
 			LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_WINDLIGHT) > 1);
 }
 
-BOOL LLPipeline::canUseWindLightShadersOnObjects() const
+bool LLPipeline::canUseWindLightShadersOnObjects() const
 {
 	return (canUseWindLightShaders() 
 		&& LLViewerShaderMgr::instance()->getVertexShaderLevel(LLViewerShaderMgr::SHADER_OBJECT) > 0);
 }
 
-BOOL LLPipeline::canUseAntiAliasing() const
+bool LLPipeline::canUseAntiAliasing() const
 {
-	return TRUE;
+	return true;
 }
 
 void LLPipeline::unloadShaders()
@@ -1425,7 +1425,7 @@ void LLPipeline::assertInitializedDoError()
 
 //============================================================================
 
-void LLPipeline::enableShadows(const BOOL enable_shadows)
+void LLPipeline::enableShadows(const bool enable_shadows)
 {
 	//should probably do something here to wrangle shadows....	
 }
@@ -2008,7 +2008,7 @@ void LLPipeline::updateMovedList(LLDrawable::drawable_vector_t& moved_list)
 	{
 		LLDrawable::drawable_vector_t::iterator curiter = iter++;
 		LLDrawable *drawablep = *curiter;
-		BOOL done = TRUE;
+		bool done = true;
 		if (!drawablep->isDead() && (!drawablep->isState(LLDrawable::EARLY_MOVE)))
 		{
 			done = drawablep->updateMove();
@@ -2336,7 +2336,7 @@ void LLPipeline::checkReferences(LLSpatialGroup* group)
 }
 
 
-BOOL LLPipeline::visibleObjectsInFrustum(LLCamera& camera)
+bool LLPipeline::visibleObjectsInFrustum(LLCamera& camera)
 {
 	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
 			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
@@ -2352,17 +2352,17 @@ BOOL LLPipeline::visibleObjectsInFrustum(LLCamera& camera)
 				{
 					if (part->visibleObjectsInFrustum(camera))
 					{
-						return TRUE;
+						return true;
 					}
 				}
 			}
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOL LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& max)
+bool LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& max)
 {
 	const F32 X = 65536.f;
 
@@ -2372,7 +2372,7 @@ BOOL LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& 
 	LLViewerCamera::eCameraID saved_camera_id = LLViewerCamera::sCurCameraID;
 	LLViewerCamera::sCurCameraID = LLViewerCamera::CAMERA_WORLD;
 
-	BOOL res = TRUE;
+	bool res = true;
 
 	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
 			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
@@ -2388,7 +2388,7 @@ BOOL LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& 
 				{
 					if (!part->getVisibleExtents(camera, min, max))
 					{
-						res = FALSE;
+						res = false;
 					}
 				}
 			}
@@ -2415,7 +2415,7 @@ void LLPipeline::updateCull(LLCamera& camera, LLCullResult& result, S32 water_cl
 
 	sCull->clear();
 
-	BOOL to_texture =	LLPipeline::sUseOcclusion > 1 &&
+	bool to_texture =	LLPipeline::sUseOcclusion > 1 &&
 						!hasRenderType(LLPipeline::RENDER_TYPE_HUD) && 
 						LLViewerCamera::sCurCameraID == LLViewerCamera::CAMERA_WORLD &&
 						gPipeline.canUseVertexShaders() &&
@@ -2713,9 +2713,9 @@ void LLPipeline::doOcclusion(LLCamera& camera)
 	}
 }
 	
-BOOL LLPipeline::updateDrawableGeom(LLDrawable* drawablep, BOOL priority)
+bool LLPipeline::updateDrawableGeom(LLDrawable* drawablep, bool priority)
 {
-	BOOL update_complete = drawablep->updateGeometry(priority);
+	bool update_complete = drawablep->updateGeometry(priority);
 	if (update_complete && assertInitialized())
 	{
 		drawablep->setState(LLDrawable::BUILT);
@@ -3002,7 +3002,7 @@ void LLPipeline::updateGeom(F32 max_dtime)
 		last_group = drawablep->getSpatialGroup();
 		last_bridge = bridge;
 
-		BOOL update_complete = TRUE;
+		bool update_complete = true;
 		if (!drawablep->isDead())
 		{
 			update_complete = updateDrawableGeom(drawablep, FALSE);
@@ -3057,7 +3057,7 @@ void LLPipeline::markVisible(LLDrawable *drawablep, LLCamera& camera)
 	}
 }
 
-void LLPipeline::markMoved(LLDrawable *drawablep, BOOL damped_motion)
+void LLPipeline::markMoved(LLDrawable *drawablep, bool damped_motion)
 {
 	if (!drawablep)
 	{
@@ -3091,7 +3091,7 @@ void LLPipeline::markMoved(LLDrawable *drawablep, BOOL damped_motion)
 		}
 		drawablep->setState(LLDrawable::ON_MOVE_LIST);
 	}
-	if (damped_motion == FALSE)
+	if (! damped_motion)
 	{
 		drawablep->setState(LLDrawable::MOVE_UNDAMPED); // UNDAMPED trumps DAMPED
 	}
@@ -3131,7 +3131,7 @@ void LLPipeline::shiftObjects(const LLVector3 &offset)
 	assertInitialized();
 
 	glClear(GL_DEPTH_BUFFER_BIT);
-	gDepthDirty = TRUE;
+	gDepthDirty = true;
 		
 	LLVector4a offseta;
 	offseta.load3(offset.mV);
@@ -3229,13 +3229,13 @@ void LLPipeline::markMeshDirty(LLSpatialGroup* group)
 	mMeshDirtyGroup.push_back(group);
 }
 
-void LLPipeline::markRebuild(LLSpatialGroup* group, BOOL priority)
+void LLPipeline::markRebuild(LLSpatialGroup* group, bool priority)
 {
 	if (group && !group->isDead() && group->getSpatialPartition())
 	{
 		if (group->getSpatialPartition()->mPartitionType == LLViewerRegion::PARTITION_HUD)
 		{
-			priority = TRUE;
+			priority = true;
 		}
 
 		if (priority)
@@ -3268,13 +3268,13 @@ void LLPipeline::markRebuild(LLSpatialGroup* group, BOOL priority)
 	}
 }
 
-void LLPipeline::markRebuild(LLDrawable *drawablep, LLDrawable::EDrawableFlags flag, BOOL priority)
+void LLPipeline::markRebuild(LLDrawable *drawablep, LLDrawable::EDrawableFlags flag, bool priority)
 {
 	if (drawablep && !drawablep->isDead() && assertInitialized())
 	{
 		if (!drawablep->isState(LLDrawable::BUILT))
 		{
-			priority = TRUE;
+			priority = true;
 		}
 		if (priority)
 		{
@@ -3643,17 +3643,17 @@ void renderMOAPBeacons(LLDrawable* drawablep)
 	if(!vobj || vobj->isAvatar())
 		return;
 
-	BOOL beacon=FALSE;
+	bool beacon=false;
 	U8 tecount=vobj->getNumTEs();
 	for(int x=0;x<tecount;x++)
 	{
 		if(vobj->getTE(x)->hasMedia())
 		{
-			beacon=TRUE;
+			beacon=true;
 			break;
 		}
 	}
-	if(beacon==TRUE)
+	if(beacon)
 	{
 		if (gPipeline.sRenderBeacons)
 		{
@@ -4220,7 +4220,7 @@ void LLPipeline::renderHighlights()
 //debug use
 U32 LLPipeline::sCurRenderPoolType = 0 ;
 
-void LLPipeline::renderGeom(LLCamera& camera, BOOL forceVBOUpdate)
+void LLPipeline::renderGeom(LLCamera& camera, bool forceVBOUpdate)
 {
 	LL_RECORD_BLOCK_TIME(FTM_RENDER_GEOMETRY);
 
@@ -4274,13 +4274,13 @@ void LLPipeline::renderGeom(LLCamera& camera, BOOL forceVBOUpdate)
 	// Toggle backface culling for debugging
 	LLGLEnable cull_face(mBackfaceCull ? GL_CULL_FACE : 0);
 	// Set fog
-	BOOL use_fog = hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_FOG);
+	bool use_fog = hasRenderDebugFeatureMask(LLPipeline::RENDER_DEBUG_FEATURE_FOG);
 	LLGLEnable fog_enable(use_fog &&
 						  !gPipeline.canUseWindLightShadersOnObjects() ? GL_FOG : 0);
 	gSky.updateFog(camera.getFar());
 	if (!use_fog)
 	{
-		sUnderWaterRender = FALSE;
+		sUnderWaterRender = false;
 	}
 
 	gGL.getTexUnit(0)->bind(LLViewerFetchedTexture::sDefaultImagep);
@@ -4317,7 +4317,7 @@ void LLPipeline::renderGeom(LLCamera& camera, BOOL forceVBOUpdate)
 			setupHWLights(nullptr);
 		}
 
-		BOOL occlude = sUseOcclusion > 1;
+		bool occlude = sUseOcclusion > 1;
 		U32 cur_type = 0;
 
 		pool_set_t::iterator iter1 = mPools.begin();
@@ -4332,7 +4332,7 @@ void LLPipeline::renderGeom(LLCamera& camera, BOOL forceVBOUpdate)
 
 			if (occlude && cur_type >= LLDrawPool::POOL_GRASS)
 			{
-				occlude = FALSE;
+				occlude = false;
 				gGLLastMatrix = nullptr;
 				gGL.loadMatrix(gGLModelView);
 				LLGLSLShader::bindNoShader();
@@ -4397,7 +4397,7 @@ void LLPipeline::renderGeom(LLCamera& camera, BOOL forceVBOUpdate)
 
 		if (occlude)
 		{
-			occlude = FALSE;
+			occlude = false;
 			gGLLastMatrix = nullptr;
 			gGL.loadMatrix(gGLModelView);
 			LLGLSLShader::bindNoShader();
@@ -4577,7 +4577,7 @@ void LLPipeline::renderGeomPostDeferred(LLCamera& camera, bool do_occlusion)
 	gGL.setColorMask(true, false);
 
 	pool_set_t::iterator iter1 = mPools.begin();
-	BOOL occlude = LLPipeline::sUseOcclusion > 1 && do_occlusion;
+	bool occlude = LLPipeline::sUseOcclusion > 1 && do_occlusion;
 
 	while ( iter1 != mPools.end() )
 	{
@@ -4587,7 +4587,7 @@ void LLPipeline::renderGeomPostDeferred(LLCamera& camera, bool do_occlusion)
 
 		if (occlude && cur_type >= LLDrawPool::POOL_GRASS)
 		{
-			occlude = FALSE;
+			occlude = false;
 			gGLLastMatrix = nullptr;
 			gGL.loadMatrix(gGLModelView);
 			LLGLSLShader::bindNoShader();
@@ -4647,7 +4647,7 @@ void LLPipeline::renderGeomPostDeferred(LLCamera& camera, bool do_occlusion)
 
 	if (occlude)
 	{
-		occlude = FALSE;
+		occlude = false;
 		gGLLastMatrix = nullptr;
 		gGL.loadMatrix(gGLModelView);
 		LLGLSLShader::bindNoShader();
@@ -5457,7 +5457,7 @@ void LLPipeline::removeFromQuickLookup( LLDrawPool* poolp )
 	case LLDrawPool::POOL_TREE:
 		#ifdef _DEBUG
 			{
-				BOOL found = mTreePools.erase( (uintptr_t)poolp->getTexture() );
+				bool found = mTreePools.erase( (uintptr_t)poolp->getTexture() );
 				llassert( found );
 			}
 		#else
@@ -5468,7 +5468,7 @@ void LLPipeline::removeFromQuickLookup( LLDrawPool* poolp )
 	case LLDrawPool::POOL_TERRAIN:
 		#ifdef _DEBUG
 			{
-				BOOL found = mTerrainPools.erase( (uintptr_t)poolp->getTexture() );
+				bool found = mTerrainPools.erase( (uintptr_t)poolp->getTexture() );
 				llassert( found );
 			}
 		#else
@@ -5531,7 +5531,7 @@ void LLPipeline::resetDrawOrders()
 // Once-per-frame setup of hardware lights,
 // including sun/moon, avatar backlight, and up to 6 local lights
 
-void LLPipeline::setupAvatarLights(BOOL for_edit)
+void LLPipeline::setupAvatarLights(bool for_edit)
 {
 	assertInitialized();
 
@@ -5622,7 +5622,7 @@ static F32 calc_light_dist(LLVOVolume* light, const LLVector3& cam_pos, F32 max_
 		return max_dist;
 	}
 	F32 radius = light->getLightRadius();
-	BOOL selected = light->isSelected();
+	bool selected = light->isSelected();
 	LLVector3 dpos = light->getRenderPosition() - cam_pos;
 	F32 dist2 = dpos.lengthSquared();
 	if (!selected && dist2 > (max_dist + radius)*(max_dist + radius))
@@ -6216,9 +6216,9 @@ void LLPipeline::findReferences(LLDrawable *drawablep)
 	}
 }
 
-BOOL LLPipeline::verify()
+bool LLPipeline::verify()
 {
-	BOOL ok = assertInitialized();
+	bool ok = assertInitialized();
 	if (ok) 
 	{
 		for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
@@ -6226,7 +6226,7 @@ BOOL LLPipeline::verify()
 			LLDrawPool *poolp = *iter;
 			if (!poolp->verify())
 			{
-				ok = FALSE;
+				ok = false;
 			}
 		}
 	}
@@ -6271,7 +6271,7 @@ BOOL LLPipeline::verify()
 
 bool LLRayAABB(const LLVector3 &center, const LLVector3 &size, const LLVector3& origin, const LLVector3& dir, LLVector3 &coord, F32 epsilon)
 {
-	BOOL Inside = TRUE;
+	bool Inside = true;
 	LLVector3 MinB = center - size;
 	LLVector3 MaxB = center + size;
 	LLVector3 MaxT;
@@ -6283,7 +6283,7 @@ bool LLRayAABB(const LLVector3 &center, const LLVector3 &size, const LLVector3& 
 		if(origin.mV[i] < MinB.mV[i])
 		{
 			coord.mV[i]	= MinB.mV[i];
-			Inside		= FALSE;
+			Inside		= false;
 
 			// Calculate T distances to candidate planes
 			if(IR(dir.mV[i]))	MaxT.mV[i] = (MinB.mV[i] - origin.mV[i]) / dir.mV[i];
@@ -6291,7 +6291,7 @@ bool LLRayAABB(const LLVector3 &center, const LLVector3 &size, const LLVector3& 
 		else if(origin.mV[i] > MaxB.mV[i])
 		{
 			coord.mV[i]	= MaxB.mV[i];
-			Inside		= FALSE;
+			Inside		= false;
 
 			// Calculate T distances to candidate planes
 			if(IR(dir.mV[i]))	MaxT.mV[i] = (MaxB.mV[i] - origin.mV[i]) / dir.mV[i];
@@ -6337,7 +6337,7 @@ bool LLRayAABB(const LLVector3 &center, const LLVector3 &size, const LLVector3& 
 //
 //
 
-void LLPipeline::setLight(LLDrawable *drawablep, BOOL is_light)
+void LLPipeline::setLight(LLDrawable *drawablep, bool is_light)
 {
 	if (drawablep && assertInitialized())
 	{
@@ -6380,14 +6380,14 @@ void LLPipeline::toggleRenderTypeControl(U32 type)
 }
 
 //static
-BOOL LLPipeline::hasRenderTypeControl(U32 type)
+bool LLPipeline::hasRenderTypeControl(U32 type)
 {
 	return gPipeline.hasRenderType(type);
 }
 
 // Allows UI items labeled "Hide foo" instead of "Show foo"
 //static
-BOOL LLPipeline::toggleRenderTypeControlNegated(U32 type)
+bool LLPipeline::toggleRenderTypeControlNegated(U32 type)
 {
 	return !gPipeline.hasRenderType(type);
 }
@@ -6408,7 +6408,7 @@ void LLPipeline::toggleRenderDebug(U32 bit)
 
 
 //static
-BOOL LLPipeline::toggleRenderDebugControl(U32 bit)
+bool LLPipeline::toggleRenderDebugControl(U32 bit)
 {
 	return gPipeline.hasRenderDebugMask(bit);
 }
@@ -6421,7 +6421,7 @@ void LLPipeline::toggleRenderDebugFeature(U32 bit)
 
 
 //static
-BOOL LLPipeline::toggleRenderDebugFeatureControl(U32 bit)
+bool LLPipeline::toggleRenderDebugFeatureControl(U32 bit)
 {
 	return gPipeline.hasRenderDebugFeatureMask(bit);
 }
@@ -6455,7 +6455,7 @@ void LLPipeline::popRenderDebugFeatureMask()
 }
 
 // static
-void LLPipeline::setRenderScriptedBeacons(BOOL val)
+void LLPipeline::setRenderScriptedBeacons(bool val)
 {
 	sRenderScriptedBeacons = val;
 }
@@ -6467,13 +6467,13 @@ void LLPipeline::toggleRenderScriptedBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderScriptedBeacons()
+bool LLPipeline::getRenderScriptedBeacons()
 {
 	return sRenderScriptedBeacons;
 }
 
 // static
-void LLPipeline::setRenderScriptedTouchBeacons(BOOL val)
+void LLPipeline::setRenderScriptedTouchBeacons(bool val)
 {
 	sRenderScriptedTouchBeacons = val;
 }
@@ -6485,13 +6485,13 @@ void LLPipeline::toggleRenderScriptedTouchBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderScriptedTouchBeacons()
+bool LLPipeline::getRenderScriptedTouchBeacons()
 {
 	return sRenderScriptedTouchBeacons;
 }
 
 // static
-void LLPipeline::setRenderMOAPBeacons(BOOL val)
+void LLPipeline::setRenderMOAPBeacons(bool val)
 {
 	sRenderMOAPBeacons = val;
 }
@@ -6503,13 +6503,13 @@ void LLPipeline::toggleRenderMOAPBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderMOAPBeacons()
+bool LLPipeline::getRenderMOAPBeacons()
 {
 	return sRenderMOAPBeacons;
 }
 
 // static
-void LLPipeline::setRenderPhysicalBeacons(BOOL val)
+void LLPipeline::setRenderPhysicalBeacons(bool val)
 {
 	sRenderPhysicalBeacons = val;
 }
@@ -6521,13 +6521,13 @@ void LLPipeline::toggleRenderPhysicalBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderPhysicalBeacons()
+bool LLPipeline::getRenderPhysicalBeacons()
 {
 	return sRenderPhysicalBeacons;
 }
 
 // static
-void LLPipeline::setRenderParticleBeacons(BOOL val)
+void LLPipeline::setRenderParticleBeacons(bool val)
 {
 	sRenderParticleBeacons = val;
 }
@@ -6539,13 +6539,13 @@ void LLPipeline::toggleRenderParticleBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderParticleBeacons()
+bool LLPipeline::getRenderParticleBeacons()
 {
 	return sRenderParticleBeacons;
 }
 
 // static
-void LLPipeline::setRenderSoundBeacons(BOOL val)
+void LLPipeline::setRenderSoundBeacons(bool val)
 {
 	sRenderSoundBeacons = val;
 }
@@ -6557,13 +6557,13 @@ void LLPipeline::toggleRenderSoundBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderSoundBeacons()
+bool LLPipeline::getRenderSoundBeacons()
 {
 	return sRenderSoundBeacons;
 }
 
 // static
-void LLPipeline::setRenderBeacons(BOOL val)
+void LLPipeline::setRenderBeacons(bool val)
 {
 	sRenderBeacons = val;
 }
@@ -6575,13 +6575,13 @@ void LLPipeline::toggleRenderBeacons()
 }
 
 // static
-BOOL LLPipeline::getRenderBeacons()
+bool LLPipeline::getRenderBeacons()
 {
 	return sRenderBeacons;
 }
 
 // static
-void LLPipeline::setRenderHighlights(BOOL val)
+void LLPipeline::setRenderHighlights(bool val)
 {
 	sRenderHighlight = val;
 }
@@ -6593,7 +6593,7 @@ void LLPipeline::toggleRenderHighlights()
 }
 
 // static
-BOOL LLPipeline::getRenderHighlights()
+bool LLPipeline::getRenderHighlights()
 {
 	return sRenderHighlight;
 }
@@ -6645,8 +6645,8 @@ LLVOPartGroup* LLPipeline::lineSegmentIntersectParticle(const LLVector4a& start,
 }
 
 LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start, const LLVector4a& end,
-														BOOL pick_transparent,
-														BOOL pick_rigged,
+														bool pick_transparent,
+														bool pick_rigged,
 														S32* face_hit,
 														LLVector4a* intersection,         // return the intersection point
 														LLVector2* tex_coord,            // return the texture coordinates of the intersection point
@@ -6660,7 +6660,7 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 
 	LLVector4a position;
 
-	sPickAvatar = FALSE; //LLToolMgr::getInstance()->inBuildMode() ? FALSE : TRUE;
+	sPickAvatar = false; //! LLToolMgr::getInstance()->inBuildMode();
 	
 	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
 			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
@@ -6726,7 +6726,7 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 		const F32 ATTACHMENT_OVERRIDE_DIST = 0.1f;
 
 		//check against avatars
-		sPickAvatar = TRUE;
+		sPickAvatar = true;
 		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
 				iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
 		{
@@ -6798,7 +6798,7 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 }
 
 LLViewerObject* LLPipeline::lineSegmentIntersectInHUD(const LLVector4a& start, const LLVector4a& end,
-													  BOOL pick_transparent,													
+													  bool pick_transparent,													
 													  S32* face_hit,
 													  LLVector4a* intersection,         // return the intersection point
 													  LLVector2* tex_coord,            // return the texture coordinates of the intersection point
@@ -6813,11 +6813,11 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInHUD(const LLVector4a& start, c
 	{
 		LLViewerRegion* region = *iter;
 
-		BOOL toggle = FALSE;
+		bool toggle = false;
 		if (!hasRenderType(LLPipeline::RENDER_TYPE_HUD))
 		{
 			toggleRenderType(LLPipeline::RENDER_TYPE_HUD);
-			toggle = TRUE;
+			toggle = true;
 		}
 
 		LLSpatialPartition* part = region->getSpatialPartition(LLViewerRegion::PARTITION_HUD);
@@ -6963,7 +6963,7 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 	gGL.restoreVertexBuffers();
 }
 
-void LLPipeline::renderObjects(U32 type, U32 mask, BOOL texture, BOOL batch_texture)
+void LLPipeline::renderObjects(U32 type, U32 mask, bool texture, bool batch_texture)
 {
 	assertInitialized();
 	gGL.loadMatrix(gGLModelView);
@@ -6973,7 +6973,7 @@ void LLPipeline::renderObjects(U32 type, U32 mask, BOOL texture, BOOL batch_text
 	gGLLastMatrix = nullptr;		
 }
 
-void LLPipeline::renderMaskedObjects(U32 type, U32 mask, BOOL texture, BOOL batch_texture)
+void LLPipeline::renderMaskedObjects(U32 type, U32 mask, bool texture, bool batch_texture)
 {
 	assertInitialized();
 	gGL.loadMatrix(gGLModelView);
@@ -7046,7 +7046,7 @@ void LLPipeline::bindScreenToTexture()
 
 static LLTrace::BlockTimerStatHandle FTM_RENDER_BLOOM("Bloom");
 
-void LLPipeline::renderBloom(BOOL for_snapshot, F32 zoom_factor, int subfield)
+void LLPipeline::renderBloom(bool for_snapshot, F32 zoom_factor, int subfield)
 {
 	if (!(gPipeline.canUseVertexShaders() &&
 		sRenderGlow))
@@ -8035,7 +8035,7 @@ void LLPipeline::renderDeferredLighting()
 			gPipeline.popRenderTypeMask();
 		}
 
-		BOOL render_local = RenderLocalLights;
+		bool render_local = RenderLocalLights;
 				
 		if (render_local)
 		{
@@ -8583,7 +8583,7 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 			gPipeline.popRenderTypeMask();
 		}
 
-		BOOL render_local = RenderLocalLights;
+		bool render_local = RenderLocalLights;
 				
 		if (render_local)
 		{
@@ -9134,10 +9134,10 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 {	
 	if (LLPipeline::sWaterReflections && assertInitialized() && LLDrawPoolWater::sNeedsReflectionUpdate)
 	{
-		BOOL skip_avatar_update = FALSE;
+		bool skip_avatar_update = false;
 		if (!isAgentAvatarValid() || gAgentCamera.getCameraAnimating() || gAgentCamera.getCameraMode() != CAMERA_MODE_MOUSELOOK || !LLVOAvatar::sVisibleInFirstPerson)
 		{
-			skip_avatar_update = TRUE;
+			skip_avatar_update = true;
 		}
 		
 		if (!skip_avatar_update)
@@ -9152,7 +9152,7 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 
 		LLCamera camera = camera_in;
 		camera.setFar(camera.getFar()*0.87654321f);
-		LLPipeline::sReflectionRender = TRUE;
+		LLPipeline::sReflectionRender = true;
 		
 		gPipeline.pushRenderTypeMask();
 
@@ -9337,7 +9337,7 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 
 		camera.setOrigin(camera_in.getOrigin());
 		//render distortion map
-		static BOOL last_update = TRUE;
+		static bool last_update = true;
 		if (last_update)
 		{
 			camera.setFar(camera_in.getFar());
@@ -9347,7 +9347,7 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 								END_RENDER_TYPES);	
 			stop_glerror();
 
-			LLPipeline::sUnderWaterRender = LLViewerCamera::getInstance()->cameraUnderWater() ? FALSE : TRUE;
+			LLPipeline::sUnderWaterRender = ! LLViewerCamera::getInstance()->cameraUnderWater();
 
 			if (LLPipeline::sUnderWaterRender)
 			{
@@ -9409,12 +9409,12 @@ void LLPipeline::generateWaterReflection(LLCamera& camera_in)
 			}
 
 			mWaterDis.flush();
-			LLPipeline::sUnderWaterRender = FALSE;
+			LLPipeline::sUnderWaterRender = false;
 			
 		}
 		last_update = LLDrawPoolWater::sNeedsReflectionUpdate && LLDrawPoolWater::sNeedsDistortionUpdate;
 
-		LLPipeline::sReflectionRender = FALSE;
+		LLPipeline::sReflectionRender = false;
 
 		if (!LLRenderTarget::sUseFBO)
 		{
@@ -9482,7 +9482,7 @@ static LLTrace::BlockTimerStatHandle FTM_SHADOW_RENDER("Render Shadows");
 static LLTrace::BlockTimerStatHandle FTM_SHADOW_ALPHA("Alpha Shadow");
 static LLTrace::BlockTimerStatHandle FTM_SHADOW_SIMPLE("Simple Shadow");
 
-void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCamera& shadow_cam, LLCullResult &result, BOOL use_shader, BOOL use_occlusion, U32 target_width)
+void LLPipeline::renderShadow(glh::matrix4f& view, glh::matrix4f& proj, LLCamera& shadow_cam, LLCullResult &result, bool use_shader, bool use_occlusion, U32 target_width)
 {
 	LL_RECORD_BLOCK_TIME(FTM_SHADOW_RENDER);
 
@@ -9492,7 +9492,7 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 	{
 		LLPipeline::sUseOcclusion = 0;
 	}
-	LLPipeline::sShadowRender = TRUE;
+	LLPipeline::sShadowRender = true;
 	
 	U32 types[] = { 
 		LLRenderPass::PASS_SIMPLE, 
@@ -9635,18 +9635,18 @@ void LLPipeline::renderShadow(const glm::mat4& view, const glm::mat4& proj, LLCa
 	gGLLastMatrix = nullptr;
 
 	LLPipeline::sUseOcclusion = occlude;
-	LLPipeline::sShadowRender = FALSE;
+	LLPipeline::sShadowRender = false;
 }
 
 static LLTrace::BlockTimerStatHandle FTM_VISIBLE_CLOUD("Visible Cloud");
-BOOL LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector3& max, std::vector<LLVector3>& fp, LLVector3 light_dir)
+bool LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector3& max, std::vector<LLVector3>& fp, LLVector3 light_dir)
 {
 	LL_RECORD_BLOCK_TIME(FTM_VISIBLE_CLOUD);
 	//get point cloud of intersection of frust and min, max
 
 	if (getVisibleExtents(camera, min, max))
 	{
-		return FALSE;
+		return false;
 	}
 
 	//get set of planes on bounding box
@@ -9804,10 +9804,10 @@ BOOL LLPipeline::getVisiblePointCloud(LLCamera& camera, LLVector3& min, LLVector
 	
 	if (fp.empty())
 	{
-		return FALSE;
+		return false;
 	}
 	
-	return TRUE;
+	return true;
 }
 
 void LLPipeline::renderHighlight(const LLViewerObject* obj, F32 fade)
@@ -9899,11 +9899,11 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 
 	LL_RECORD_BLOCK_TIME(FTM_GEN_SUN_SHADOW);
 
-	BOOL skip_avatar_update = FALSE;
+	bool skip_avatar_update = false;
 	if (!isAgentAvatarValid() || gAgentCamera.getCameraAnimating() || gAgentCamera.getCameraMode() != CAMERA_MODE_MOUSELOOK || !LLVOAvatar::sVisibleInFirstPerson)
 	{
 
-		skip_avatar_update = TRUE;
+		skip_avatar_update = true;
 	}
 
 	if (!skip_avatar_update)
@@ -10646,7 +10646,7 @@ void LLPipeline::generateSunShadow(LLCamera& camera)
 	}
 }
 
-void LLPipeline::renderGroups(LLRenderPass* pass, U32 type, U32 mask, BOOL texture)
+void LLPipeline::renderGroups(LLRenderPass* pass, U32 type, U32 mask, bool texture)
 {
 	for (LLCullResult::sg_iterator i = sCull->beginVisibleGroups(); i != sCull->endVisibleGroups(); ++i)
 	{
@@ -10725,10 +10725,10 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 	S32 occlusion = sUseOcclusion;
 	sUseOcclusion = 0;
 
-	sReflectionRender = sRenderDeferred ? FALSE : TRUE;
+	sReflectionRender = ! sRenderDeferred;
 
-	sShadowRender = TRUE;
-	sImpostorRender = TRUE;
+	sShadowRender = true;
+	sImpostorRender = true;
 
 	LLViewerCamera* viewer_camera = LLViewerCamera::getInstance();
 
@@ -10979,9 +10979,9 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 
 	LLVOAvatar::sUseImpostors = true; // @TODO ???
 	sUseOcclusion = occlusion;
-	sReflectionRender = FALSE;
-	sImpostorRender = FALSE;
-	sShadowRender = FALSE;
+	sReflectionRender = false;
+	sImpostorRender = false;
+	sShadowRender = false;
 	popRenderTypeMask();
 
 	gGL.matrixMode(LLRender::MM_PROJECTION);
@@ -10998,7 +10998,7 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 	LLGLState::checkClientArrays();
 }
 
-BOOL LLPipeline::hasRenderBatches(const U32 type) const
+bool LLPipeline::hasRenderBatches(const U32 type) const
 {
 	return sCull->getRenderMapSize(type) > 0;
 }
@@ -11023,12 +11023,12 @@ LLCullResult::sg_iterator LLPipeline::endAlphaGroups()
 	return sCull->endAlphaGroups();
 }
 
-BOOL LLPipeline::hasRenderType(const U32 type) const
+bool LLPipeline::hasRenderType(const U32 type) const
 {
     // STORM-365 : LLViewerJointAttachment::setAttachmentVisibility() is setting type to 0 to actually mean "do not render"
-    // We then need to test that value here and return FALSE to prevent attachment to render (in mouselook for instance)
-    // TODO: reintroduce RENDER_TYPE_NONE in LLRenderTypeMask and initialize its mRenderTypeEnabled[RENDER_TYPE_NONE] to FALSE explicitely
-	return (type == 0 ? FALSE : mRenderTypeEnabled[type]);
+    // We then need to test that value here and return false to prevent attachment to render (in mouselook for instance)
+    // TODO: reintroduce RENDER_TYPE_NONE in LLRenderTypeMask and initialize its mRenderTypeEnabled[RENDER_TYPE_NONE] to false explicitely
+	return (type == 0 ? false : mRenderTypeEnabled[type]);
 }
 
 void LLPipeline::setRenderTypeMask(U32 type, ...)
@@ -11038,7 +11038,7 @@ void LLPipeline::setRenderTypeMask(U32 type, ...)
 	va_start(args, type);
 	while (type < END_RENDER_TYPES)
 	{
-		mRenderTypeEnabled[type] = TRUE;
+		mRenderTypeEnabled[type] = true;
 		type = va_arg(args, U32);
 	}
 	va_end(args);
@@ -11049,7 +11049,7 @@ void LLPipeline::setRenderTypeMask(U32 type, ...)
 	}
 }
 
-BOOL LLPipeline::hasAnyRenderType(U32 type, ...) const
+bool LLPipeline::hasAnyRenderType(U32 type, ...) const
 {
 	va_list args;
 
@@ -11059,7 +11059,7 @@ BOOL LLPipeline::hasAnyRenderType(U32 type, ...) const
 		if (mRenderTypeEnabled[type])
 		{
 			va_end(args);
-			return TRUE;
+			return true;
 		}
 		type = va_arg(args, U32);
 	}
@@ -11070,7 +11070,7 @@ BOOL LLPipeline::hasAnyRenderType(U32 type, ...) const
 		LL_ERRS() << "Invalid render type." << LL_ENDL;
 	}
 
-	return FALSE;
+	return false;
 }
 
 void LLPipeline::pushRenderTypeMask()
@@ -11095,10 +11095,10 @@ void LLPipeline::andRenderTypeMask(U32 type, ...)
 {
 	va_list args;
 
-	BOOL tmp[NUM_RENDER_TYPES];
+	bool tmp[NUM_RENDER_TYPES];
 	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
 	{
-		tmp[i] = FALSE;
+		tmp[i] = false;
 	}
 
 	va_start(args, type);
@@ -11106,7 +11106,7 @@ void LLPipeline::andRenderTypeMask(U32 type, ...)
 	{
 		if (mRenderTypeEnabled[type]) 
 		{
-			tmp[type] = TRUE;
+			tmp[type] = true;
 		}
 
 		type = va_arg(args, U32);
@@ -11132,7 +11132,7 @@ void LLPipeline::clearRenderTypeMask(U32 type, ...)
 	va_start(args, type);
 	while (type < END_RENDER_TYPES)
 	{
-		mRenderTypeEnabled[type] = FALSE;
+		mRenderTypeEnabled[type] = false;
 		
 		type = va_arg(args, U32);
 	}
@@ -11148,7 +11148,7 @@ void LLPipeline::setAllRenderTypes()
 {
 	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
 	{
-		mRenderTypeEnabled[i] = TRUE;
+		mRenderTypeEnabled[i] = true;
 	}
 }
 
@@ -11156,7 +11156,7 @@ void LLPipeline::clearAllRenderTypes()
 {
 	for (U32 i = 0; i < NUM_RENDER_TYPES; ++i)
 	{
-		mRenderTypeEnabled[i] = FALSE;
+		mRenderTypeEnabled[i] = false;
 	}
 }
 
@@ -11222,7 +11222,7 @@ void LLPipeline::restorePermanentObjects( const std::vector<U32>& restoreList )
 	skipRenderingOfTerrain( false );
 }
 
-void LLPipeline::skipRenderingOfTerrain( BOOL flag )
+void LLPipeline::skipRenderingOfTerrain( bool flag )
 {
 	pool_set_t::iterator iter = mPools.begin();
 	while ( iter != mPools.end() )

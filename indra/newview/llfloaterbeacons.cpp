@@ -73,7 +73,7 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 			LLPipeline::getRenderScriptedTouchBeacons() &&
 			LLPipeline::getRenderScriptedBeacons() )
 		{
-			LLPipeline::setRenderScriptedBeacons(FALSE);
+			LLPipeline::setRenderScriptedBeacons(false);
 			getChild<LLCheckBoxCtrl>("scripted")->setControlValue(LLSD(FALSE));
 			getChild<LLCheckBoxCtrl>("scripted")->setValue(FALSE);
 			getChild<LLCheckBoxCtrl>("touch_only")->setControlValue(LLSD(TRUE)); // just to be sure it's in sync with llpipeline
@@ -88,7 +88,7 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 			LLPipeline::getRenderScriptedTouchBeacons() &&
 			LLPipeline::getRenderScriptedBeacons() )
 		{
-			LLPipeline::setRenderScriptedTouchBeacons(FALSE);
+			LLPipeline::setRenderScriptedTouchBeacons(false);
 			getChild<LLCheckBoxCtrl>("touch_only")->setControlValue(LLSD(FALSE));
 			getChild<LLCheckBoxCtrl>("touch_only")->setValue(FALSE);
 			getChild<LLCheckBoxCtrl>("scripted")->setControlValue(LLSD(TRUE)); // just to be sure it's in sync with llpipeline
@@ -107,7 +107,7 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 			!LLPipeline::getRenderBeacons() &&
 			!LLPipeline::getRenderHighlights() )
 		{
-			LLPipeline::setRenderBeacons(TRUE);
+			LLPipeline::setRenderBeacons(true);
 			getChild<LLCheckBoxCtrl>("beacons")->setControlValue(LLSD(TRUE));
 			getChild<LLCheckBoxCtrl>("beacons")->setValue(TRUE);
 			getChild<LLCheckBoxCtrl>("highlights")->setControlValue(LLSD(FALSE)); // just to be sure it's in sync with llpipeline
@@ -122,7 +122,7 @@ void LLFloaterBeacons::onClickUICheck(LLUICtrl *ctrl)
 			!LLPipeline::getRenderBeacons() &&
 			!LLPipeline::getRenderHighlights() )
 		{
-			LLPipeline::setRenderHighlights(TRUE);
+			LLPipeline::setRenderHighlights(true);
 			getChild<LLCheckBoxCtrl>("highlights")->setControlValue(LLSD(TRUE));
 			getChild<LLCheckBoxCtrl>("highlights")->setValue(TRUE);
 			getChild<LLCheckBoxCtrl>("beacons")->setControlValue(LLSD(FALSE)); // just to be sure it's in sync with llpipeline

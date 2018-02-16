@@ -204,6 +204,15 @@ public:
             return mRequestUrl;
         }
 
+    void setRequestMethod(const std::string &method)
+        {
+            mRequestMethod = method;
+        }
+
+    const std::string &getRequestMethod() const
+        {
+            return mRequestMethod;
+        }
     void setRequestId(U64 id) { mRequestId = id; }
     U64 getRequestId() const { return mRequestId; }
 
@@ -219,6 +228,7 @@ protected:
 	unsigned int		mRetries;
 	unsigned int		m503Retries;
     std::string         mRequestUrl;
+    std::string         mRequestMethod;
 
 	TransferStats::ptr_t	mStats;
     U64                 mRequestId;

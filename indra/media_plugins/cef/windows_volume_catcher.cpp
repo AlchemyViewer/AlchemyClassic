@@ -48,12 +48,10 @@ private:
 };
 
 
-
 VolumeCatcherImpl::VolumeCatcherImpl()
 :	mVolume(1.0f),			// default volume is max
 	mPan(0.f)				// default pan is centered
 {
-
 }
 
 VolumeCatcherImpl::~VolumeCatcherImpl()

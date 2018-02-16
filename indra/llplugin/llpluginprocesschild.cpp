@@ -52,7 +52,7 @@ LLPluginProcessChild::LLPluginProcessChild()
 
 LLPluginProcessChild::~LLPluginProcessChild()
 {
-	if(mInstance != nullptr)
+	if (mInstance != NULL)
 	{
 		sendMessageToPlugin(LLPluginMessage("base", "cleanup"));
 
@@ -60,7 +60,7 @@ LLPluginProcessChild::~LLPluginProcessChild()
 		// appears to fail and lock up which means that a given instance of the slplugin process never exits. 
 		// This is bad, especially when users try to update their version of SL - it fails because the slplugin 
 		// process as well as a bunch of plugin specific files are locked and cannot be overwritten.
-		exit( 0 );
+		exit(0);
 		//delete mInstance;
 		//mInstance = NULL;
 	}

@@ -62,7 +62,6 @@ public:
 	// Is the entire parcel selected, or just a part?
 	BOOL	getWholeParcelSelected() const;
 
-
 private:
 	void setParcel(LLParcel* parcel) { mParcel = parcel; }
 
@@ -73,7 +72,6 @@ private:
 	S32			mSelectedSelfCount;
 	S32			mSelectedOtherCount;
 	S32			mSelectedPublicCount;
-
 };
 
 typedef LLSafeHandle<LLParcelSelection> LLParcelSelectionHandle;

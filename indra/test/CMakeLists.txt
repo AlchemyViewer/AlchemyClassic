@@ -95,7 +95,6 @@ target_link_libraries(lltest
     ${BOOST_CONTEXT_LIBRARY}
     ${BOOST_SYSTEM_LIBRARY}
     ${DL_LIBRARY}
-    ${GOOGLE_PERFTOOLS_LIBRARIES}
     )
 
 set(TEST_EXE $<TARGET_FILE:lltest>)

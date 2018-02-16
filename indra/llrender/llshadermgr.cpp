@@ -633,6 +633,8 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 	GLchar* text[4096];
 	GLuint count = 0;
 
+    
+    
 	S32 major_version = gGLManager.mGLSLVersionMajor;
 	S32 minor_version = gGLManager.mGLSLVersionMinor;
 	
@@ -943,11 +945,15 @@ GLuint LLShaderMgr::loadShaderFile(const std::string& filename, S32 & shader_lev
 		text[count++] = strdup("#define HAS_DIFFUSE_LOOKUP 0\n");
 	}
 
+    
 	//copy file into memory
 	while( fgets((char *)buff, 1024, file) != nullptr && count < LL_ARRAY_SIZE(text) ) 
 	{
+		  
+			//copy extra code
 		text[count++] = (GLchar*)strdup((char *)buff); 
 	}
+
 	fclose(file);
 
 	//create shader object

@@ -55,6 +55,7 @@
 #include "llrender.h"
 
 #include "llvoiceclient.h"	// for push-to-talk button handling
+#include "stringize.h"
 
 //
 // TODO: Many of these includes are unnecessary.  Remove them.

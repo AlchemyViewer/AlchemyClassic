@@ -101,6 +101,8 @@ void LLPanelExperienceListEditor::setExperienceIds( const LLSD& experience_ids )
 	mExperienceIds.clear();
 	for_each(experience_ids.beginArray(), experience_ids.endArray(), [this] (const LLUUID& id)
 	{
+		// Using insert(range) doesn't work here because the conversion from
+		// LLSD to LLUUID is ambiguous: have to specify asUUID() for each entry.
 		mExperienceIds.insert(id);
 	});
 	onItems();

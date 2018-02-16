@@ -28,6 +28,7 @@
 #define LLHANDLE_H
 
 #include "llpointer.h"
+#include "llrefcount.h"
 #include "llexception.h"
 #include "llrefcount.h"
 #include <boost/throw_exception.hpp>

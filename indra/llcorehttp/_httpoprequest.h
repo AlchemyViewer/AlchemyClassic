@@ -87,6 +87,7 @@ public:
         HOR_COPY,
         HOR_MOVE
 	};
+    static std::string methodToString(const EMethod &);
 
 	void stageFromRequest(HttpService *) override;
 	void stageFromReady(HttpService *) override;
@@ -238,6 +239,7 @@ public:
     // Alchemy: Request ID for message logger
     U64                 mRequestId;
 };  // end class HttpOpRequest
+
 
 
 /// HttpOpRequestCompare isn't an operation but a uniform comparison

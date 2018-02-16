@@ -13,7 +13,6 @@ if (WINDOWS)
     add_subdirectory(libvlc)
   endif (LIBVLCPLUGIN)
 endif (WINDOWS)
-
 add_subdirectory(cef)
 
 ### add_subdirectory(example)

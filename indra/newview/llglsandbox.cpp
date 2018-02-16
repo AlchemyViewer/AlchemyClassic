@@ -66,6 +66,8 @@
 #include "llspatialpartition.h"
 #include "llviewershadermgr.h"
 
+#include <vector>
+
 // Height of the yellow selection highlight posts for land
 const F32 PARCEL_POST_HEIGHT = 0.666f;
 

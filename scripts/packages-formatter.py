@@ -86,6 +86,8 @@ copyright={}
 copyrights=autobuild('install', '--copyrights')
 viewer_copyright = copyrights.readline() # first line is the copyright for the viewer itself
 for line in copyrights:
+# Two different autobuild outputs, but we treat them essentially the same way:
+# populating each into a dict; each a subdict of 'info'.
     pkg_info = pkg_line.match(line)
     if pkg_info:
         pkg = pkg_info.group(1)
@@ -94,7 +96,16 @@ for line in copyrights:
         else:
             sys.exit("Duplicate copyright for %s" % pkg)
     else:
+        # The first line for each package must match pkg_line.
         sys.exit("Unrecognized --copyrights output: %s" % line)
+        # Only the very first line in rawdata MUST match; for the rest of
+        # rawdata, matching the regexp is how we recognize the start of the
+        # next package.
+                    # we hit the start of the next package data
+                    # no package prefix: additional line for same package
+                # last package in the output -- finished 'lines'
+
+# Now that we've run through all of both outputs -- are there duplicates?
 
 print viewer_copyright
 for pkg in sorted(version):

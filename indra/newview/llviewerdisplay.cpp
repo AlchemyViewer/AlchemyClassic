@@ -234,7 +234,7 @@ void display_stats()
 	{
 		gMemoryAllocated = U64Bytes(LLMemory::getCurrentRSS());
 		U32Megabytes memory = gMemoryAllocated;
-		LL_INFOS() << llformat("MEMORY: %d MB", memory.value()) << LL_ENDL;
+		LL_INFOS() << "MEMORY: " << memory << LL_ENDL;
 		LLMemory::logMemoryInfo(TRUE) ;
 		gRecentMemoryTime.reset();
 	}
@@ -1253,13 +1253,13 @@ bool get_hud_matrices(glm::mat4 &proj, glm::mat4 &model)
 	return get_hud_matrices(whole_screen, proj, model);
 }
 
-BOOL setup_hud_matrices()
+bool setup_hud_matrices()
 {
 	LLRect whole_screen = get_whole_screen_region();
 	return setup_hud_matrices(whole_screen);
 }
 
-BOOL setup_hud_matrices(const LLRect& screen_region)
+bool setup_hud_matrices(const LLRect& screen_region)
 {
 	glm::mat4 proj, model;
 	bool result = get_hud_matrices(screen_region, proj, model);

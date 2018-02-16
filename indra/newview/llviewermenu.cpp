@@ -2083,22 +2083,6 @@ class LLAdvancedCheckShowObjectUpdates : public view_listener_t
 
 
 
-///////////////////////
-// CHECK FOR UPDATES //
-///////////////////////
-
-
-
-class LLAdvancedCheckViewerUpdates : public view_listener_t
-{
-	bool handleEvent(const LLSD& userdata) override
-	{
-		LLFloaterAboutUtil::checkUpdatesAndNotify();
-		return true;
-	}
-};
-
-
 ////////////////////
 // COMPRESS IMAGE //
 ////////////////////
@@ -8869,7 +8853,6 @@ void initialize_menus()
 	// Advanced (toplevel)
 	view_listener_t::addMenu(new LLAdvancedToggleShowObjectUpdates(), "Advanced.ToggleShowObjectUpdates");
 	view_listener_t::addMenu(new LLAdvancedCheckShowObjectUpdates(), "Advanced.CheckShowObjectUpdates");
-	view_listener_t::addMenu(new LLAdvancedCheckViewerUpdates(), "Advanced.CheckViewerUpdates");
 	view_listener_t::addMenu(new LLAdvancedCompressImage(), "Advanced.CompressImage");
 	view_listener_t::addMenu(new LLAdvancedShowDebugSettings(), "Advanced.ShowDebugSettings");
 	view_listener_t::addMenu(new LLAdvancedEnableViewAdminOptions(), "Advanced.EnableViewAdminOptions");

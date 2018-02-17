@@ -267,7 +267,7 @@ class LLGridManager : public LLSingleton<LLGridManager>
 	
 protected:
 
-    void gridInfoResponderCoro(const std::string url, bool hypergrid);
+    void gridInfoResponderCoro(const std::string uri, bool hypergrid);
 	
 private:
 	

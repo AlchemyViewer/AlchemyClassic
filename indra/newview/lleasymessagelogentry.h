@@ -44,7 +44,6 @@ public:
     //cap names for each message. Ditto for possible region hosts.
     std::set<std::string> mNames;
     std::set<LLHost> mRegionHosts;
-    std::string mSummary;
     U32 mFlags;
 
 private:

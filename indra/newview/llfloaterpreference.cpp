@@ -424,6 +424,7 @@ LLFloaterPreference::LLFloaterPreference(const LLSD& key)
 
 	mCommitCallbackRegistrar.add("Pref.ResetToDefault", boost::bind(&LLFloaterPreference::onClickResetControlDefault, this, _2)); // <alchemy/>
 	mCommitCallbackRegistrar.add("Pref.AddGrid", boost::bind(&LLFloaterPreference::onClickAddGrid, this));
+    mCommitCallbackRegistrar.add("Pref.ActivateGrid", boost::bind(&LLFloaterPreference::onClickActivateGrid, this));
 	mCommitCallbackRegistrar.add("Pref.RemoveGrid", boost::bind(&LLFloaterPreference::onClickRemoveGrid, this));
 	mCommitCallbackRegistrar.add("Pref.RefreshGrid", boost::bind(&LLFloaterPreference::onClickRefreshGrid, this));
 	mCommitCallbackRegistrar.add("Pref.DebugGrid", boost::bind(&LLFloaterPreference::onClickDebugGrid, this));
@@ -626,6 +627,12 @@ void LLFloaterPreference::onClickAddGrid()
 	LLGridManager::getInstance()->addRemoteGrid(login_uri, LLGridManager::ADD_MANUAL);
 }
 
+void LLFloaterPreference::onClickActivateGrid()
+{
+    std::string grid = getChild<LLScrollListCtrl>("grid_list")->getSelectedValue().asString();
+    LLGridManager::getInstance()->setGridChoice(grid);
+}
+
 void LLFloaterPreference::onClickRemoveGrid()
 {
 	std::string grid = getChild<LLScrollListCtrl>("grid_list")->getSelectedValue().asString();
@@ -666,6 +673,8 @@ void LLFloaterPreference::onClickDebugGrid()
 
 void LLFloaterPreference::onSelectGrid(const LLSD& data)
 {
+    getChild<LLUICtrl>("activate_grid")->setEnabled(LLStartUp::getStartupState() < STATE_LOGIN_CLEANUP
+                                                    && LLGridManager::getInstance()->getGrid() != data.asString());
 	getChild<LLUICtrl>("remove_grid")->setEnabled(LLGridManager::getInstance()->getGrid() != data.asString()
 												  && !LLGridManager::getInstance()->isSystemGrid(data.asString()));
 	getChild<LLUICtrl>("refresh_grid")->setEnabled(!LLGridManager::getInstance()->isSystemGrid(data.asString()));

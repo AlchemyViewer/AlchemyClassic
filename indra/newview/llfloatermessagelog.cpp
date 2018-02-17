@@ -49,7 +49,7 @@ LLMessageLogFilter::LLMessageLogFilter(const std::string& filter)
 
 void LLMessageLogFilter::set(const std::string& filter)
 {
-	mAsString = filter;
+	mInputString = filter;
 	mPositiveNames.clear();
 	mNegativeNames.clear();
 	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
@@ -462,6 +462,7 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	FloaterMessageItem item = std::make_shared<FloaterMessageItem::element_type>(entry, mEasyMessageReader);
 
 	bool have_positive = false;
+    const auto message_type = (*item)()->mType;
 
 	for (const std::string& msg_name : item->mNames)
 	{
@@ -469,21 +470,25 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 		LLStringUtil::toLower(find_name);
 
 		//keep the message if we allowed its name so long as one of its other names hasn't been blacklisted
-		if(!have_positive && !mMessageLogFilter.mPositiveNames.empty())
+		if (!have_positive && !mMessageLogFilter.mPositiveNames.empty())
 		{
-			if(std::find(mMessageLogFilter.mPositiveNames.begin(), mMessageLogFilter.mPositiveNames.end(), find_name) != mMessageLogFilter.mPositiveNames.end())
-				have_positive = true;
+            if (std::find(mMessageLogFilter.mPositiveNames.begin(), mMessageLogFilter.mPositiveNames.end(), find_name) != mMessageLogFilter.mPositiveNames.end())
+            {
+                have_positive = true;
+            }
 		}
-		if(!mMessageLogFilter.mNegativeNames.empty())
+		if (!mMessageLogFilter.mNegativeNames.empty())
 		{
-			if(std::find(mMessageLogFilter.mNegativeNames.begin(), mMessageLogFilter.mNegativeNames.end(), find_name) != mMessageLogFilter.mNegativeNames.end())
+			if (std::find(mMessageLogFilter.mNegativeNames.begin(), mMessageLogFilter.mNegativeNames.end(), find_name) != mMessageLogFilter.mNegativeNames.end())
 			{
 				return;
 			}
 		}
 		//we don't have any negative filters and we have a positive match
-		else if(have_positive)
-			break;
+        else if (have_positive)
+        {
+            break;
+        }
 	}
 
 	//we had a positive filter but no positive matches
@@ -494,14 +499,14 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 
 	mFloaterMessageLogItems.push_back(item); // moved from beginning...
 
-	if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
+	if (message_type == LLMessageLogEntry::HTTP_REQUEST)
 	{
 		LLMutexLock lock(sIncompleteHTTPConvoMutex);
 		mIncompleteHTTPConvos.insert(HTTPConvoMap::value_type((*item)()->mRequestId, item));
 	}
 
 	std::string net_name;
-	if(item->mRegionHosts.size() > 0)
+	if (item->mRegionHosts.size() > 0)
 	{
 		//LLHost find_host = outgoing ? item->mToHost : item->mFromHost;
 		//net_name = find_host.getIPandPort();
@@ -530,32 +535,41 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	}
 
 	//add the message to the messagelog scroller
-	LLSD element;
+    LLSD element;
 	element["id"] = item->mID;
-	LLSD& sequence_column = element["columns"][0];
-	sequence_column["column"] = "sequence";
-	sequence_column["value"] = llformat("%u", item->mSequenceID);
 
-	LLSD& type_column = element["columns"][1];
-	type_column["column"] = "type";
-	switch((*item)()->mType)
+    LLSD& sequence_column = element["columns"][0];
+    sequence_column["column"] = "sequence";
+    sequence_column["value"] = llformat("%u", item->mSequenceID);
+
+	LLSD& protocol_column = element["columns"][1];
+    protocol_column["column"] = "protocol";
+    switch (message_type)
+    {
+    case LLMessageLogEntry::TEMPLATE:
+        protocol_column["value"] = "UDP";
+        break;
+    case LLMessageLogEntry::HTTP_REQUEST:
+        protocol_column["value"] = "HTTP";
+        break;
+    default:
+        protocol_column["value"] = "\?\?\?";
+        break;
+    }
+
+    LLSD& verb_column = element["columns"][2];
+    verb_column["column"] = "verb";
+	switch (message_type)
 	{
 	case LLMessageLogEntry::TEMPLATE:
-		type_column["value"] = "UDP";
+        verb_column["value"] = item->isOutgoing() ? "out" : "in";
 		break;
 	case LLMessageLogEntry::HTTP_REQUEST:
-		type_column["value"] = "HTTP";
+        verb_column["value"] = httpMethodAsVerb((*item)()->mMethod);
 		break;
 	default:
-		type_column["value"] = "\?\?\?";
+        break;
 	}
-
-	LLSD& direction_column = element["columns"][2];
-	direction_column["column"] = "direction";
-	if((*item)()->mType == LLMessageLogEntry::TEMPLATE)
-		direction_column["value"] = item->isOutgoing() ? "to" : "from";
-	else if((*item)()->mType == LLMessageLogEntry::HTTP_REQUEST)
-		direction_column["value"] = "both";
 
 	LLSD& net_column = element["columns"][3];
 	net_column["column"] = "net";
@@ -565,16 +579,11 @@ void LLFloaterMessageLog::conditionalLog(LogPayload entry)
 	name_column["column"] = "name";
 	name_column["value"] = item->getName();
 
-	LLSD& summary_column = element["columns"][5];
-	summary_column["column"] = "summary";
-	summary_column["value"] = item->mSummary;
-
 	S32 scroll_pos = mMessagelogScrollListCtrl->getScrollPos();
-	//llinfos << "msglog scrollpos: " << scroll_pos << " // getLinesPerPage: " << scrollp->getLinesPerPage() << " // item count: " << scrollp->getItemCount() <<  llendl;
 
 	mMessagelogScrollListCtrl->addElement(element, ADD_BOTTOM);
 
-	if(scroll_pos > mMessagelogScrollListCtrl->getItemCount() - mMessagelogScrollListCtrl->getLinesPerPage() - 4)
+	if (scroll_pos > mMessagelogScrollListCtrl->getItemCount() - mMessagelogScrollListCtrl->getLinesPerPage() - 4)
 		mMessagelogScrollListCtrl->setScrollPos(mMessagelogScrollListCtrl->getItemCount());
 }
 

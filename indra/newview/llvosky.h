@@ -171,7 +171,7 @@ protected:
 	{
 		S32 offset = (i * sResolution + j) * sComponents;
 		U32* pix = (U32*) &(mImageRaw[sCurrent]->getData()[offset]);
-		*pix = col.asRGBA();
+		*pix = col.mAll;
 	}
 
 	LLColor4U getPixel(const S32 i, const S32 j)
@@ -179,7 +179,7 @@ protected:
 		LLColor4U col;
 		S32 offset = (i * sResolution + j) * sComponents;
 		U32* pix = (U32*) &(mImageRaw[sCurrent]->getData()[offset]);
-		col.fromRGBA( *pix );
+		col.mAll =  *pix;
 		return col;
 	}
 

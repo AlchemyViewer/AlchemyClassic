@@ -53,7 +53,6 @@
 #include "llwindow.h"
 #include "llviewerwindow.h"
 #include "llprogressview.h"
-#if LL_LINUX || LL_SOLARIS
 #include "llsecapi.h"
 #include "llstartup.h"
 #include "llmachineid.h"

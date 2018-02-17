@@ -469,7 +469,6 @@ bool LLFeatureManager::loadGPUClass()
 
 	// defaults
 	mGPUString = gGLManager.getRawGLString();
-	mGPUSupported = TRUE;
 
 	return true; // indicates that a gpu value was established
 }

@@ -741,15 +741,14 @@ HttpStatus HttpOpRequest::prepareRequest(HttpService * service)
 		// xfer_timeout *= cpolicy.mPipelining;
 		xfer_timeout *= 2L;
 
-		code = curl_easy_setopt(mCurlHandle, CURLOPT_PIPEWAIT, 1L);
-		check_curl_easy_code(code, CURLOPT_PIPEWAIT);
+		check_curl_easy_setopt(mCurlHandle, CURLOPT_PIPEWAIT, 1L);
 
-		// Also try requesting HTTP/2.
-/******************************/
-		// but for test purposes, only if overriding VIEWERASSET
-		if (getenv("VIEWERASSET"))
-/******************************/
-		check_curl_easy_setopt(mCurlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+//		// Also try requesting HTTP/2.
+///******************************/
+//		// but for test purposes, only if overriding VIEWERASSET
+//		if (getenv("VIEWERASSET"))
+///******************************/
+//		check_curl_easy_setopt(mCurlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
 	}
 	// *DEBUG:  Enable following override for timeout handling and "[curl:bugs] #1420" tests
     //if (cpolicy.mPipelining)

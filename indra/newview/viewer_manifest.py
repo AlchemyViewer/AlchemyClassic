@@ -138,9 +138,8 @@ class ViewerManifest(LLManifest):
                 self.path("*.tga")
 
             # Include our fonts
-            with self.prefix(src="fonts"):
-                self.path("*.ttf")
-                self.path("*.txt")
+            with self.prefix(src=pkgdir,dst=""):
+                self.path("fonts")
 
             # skins
             with self.prefix(src="skins"):
@@ -163,7 +162,6 @@ class ViewerManifest(LLManifest):
                             self.path("*/*/*.html")
                             self.path("*/*/*.gif")
 
-                    self.end_prefix("skins")
 
             # local_assets dir (for pre-cached textures)
             with self.prefix(src="local_assets"):
@@ -411,8 +409,8 @@ class ViewerManifest(LLManifest):
 
 
 class WindowsManifest(ViewerManifest):
-    def is_win64(self):
-        return self.args.get('arch') == "x86_64"
+    # We want the platform, per se, for every Windows build to be 'win'. The
+    # VMP will concatenate that with the address_size.
     build_data_json_platform = 'win'
 
     def final_exe(self):
@@ -423,12 +421,6 @@ class WindowsManifest(ViewerManifest):
         build_data_dict.update({'Executable':self.final_exe()})
         return build_data_dict
 
-        # TODO: This is redundant with LLManifest.copy_action(). Why aren't we
-        # calling copy_action() in conjunction with test_assembly_binding()?
-        # TODO: This is redundant with LLManifest.copy_action(). Why aren't we
-        # calling copy_action() in conjunction with test_assembly_binding()?
-                except NoManifestException, err:
-                except NoMatchingAssemblyException, err:
     def construct(self):
         super(WindowsManifest, self).construct()
 
@@ -463,7 +455,7 @@ class WindowsManifest(ViewerManifest):
         self.path2basename(os.path.join(os.pardir,
                                         'llplugin', 'slplugin', self.args['configuration']),
                            "AlchemyPlugin.exe")
-
+        
         # Get shared libs from the shared libs staging directory
         with self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
                        dst=""):
@@ -474,7 +466,7 @@ class WindowsManifest(ViewerManifest):
                 self.path('libapr-1.dll')
                 self.path('libaprutil-1.dll')
                 self.path('libapriconv-1.dll')
-
+                
             except RuntimeError as err:
                 print err.message
                 print "Skipping llcommon.dll (assuming llcommon was linked statically)"
@@ -488,35 +480,34 @@ class WindowsManifest(ViewerManifest):
 
             # Get fmodex dll, continue if missing
             try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodexL.dll")
-                self.path("OpenAL32.dll")
+                if(self.address_size == 64):
+                    self.path("fmod64.dll")
+                else:
+                    self.path("fmod.dll")
             except:
-                print "Skipping openal audio library(assuming other audio engine)"
+                print "Skipping fmodex audio library(assuming other audio engine)"
 
             # For textures
             self.path("openjpeg.dll")
 
-                 self.path("msvcr120d.dll")
-                 self.path("msvcp120d.dll")
-                 self.path("msvcr100d.dll")
-                 self.path("msvcp100d.dll")
-                 self.path("msvcr120.dll")
-                 self.path("msvcp120.dll")
-                 self.path("msvcr100.dll")
-                 self.path("msvcp100.dll")
             # Vivox runtimes
-            if self.prefix(src="", dst="voice"):
+            with self.prefix(src="", dst="voice"):
                 self.path("SLVoice.exe")
                 self.path("vivoxsdk.dll")
                 self.path("ortp.dll")
                 self.path("libsndfile-1.dll")
                 self.path("vivoxoal.dll")
-            self.path("ca-bundle.crt")
-                self.end_prefix()
+                self.path("ca-bundle.crt")
 
-            # HTTP/2
-            self.path("nghttp2.dll")
+            # Security
+            if(self.address_size == 64):
+                self.path("libcrypto-1_1-x64.dll")
+                self.path("libssl-1_1-x64.dll")
+            else:
+                self.path("libcrypto-1_1.dll")
+                self.path("libssl-1_1.dll")
+
+
 
             # Hunspell
             self.path("libhunspell.dll")
@@ -541,9 +532,7 @@ class WindowsManifest(ViewerManifest):
             except:
                 print "Skipping tbbmalloc.dll"
 
-
         self.path("featuretable.txt")
-        self.path("featuretable_xp.txt")
 
         # Media plugins - CEF
         with self.prefix(src='../media_plugins/cef/%s' % self.args['configuration'], dst="llplugin"):
@@ -555,39 +544,34 @@ class WindowsManifest(ViewerManifest):
 
         # Media plugins - Example (useful for debugging - not shipped with release viewer)
         if self.channel_type() != 'release':
-        if self.prefix(src='../media_plugins/winmmshim/%s' % self.args['configuration'], dst=""):
-            self.path("winmm.dll")
+            with self.prefix(src='../media_plugins/example/%s' % self.args['configuration'], dst="llplugin"):
+                self.path("media_plugin_example.dll")
+
         # CEF runtime files - debug
-                self.path("d3dcompiler_43.dll")
-                self.path("llceflib_host.exe")
-                self.path("v8_context_snapshot.bin")
         # CEF runtime files - not debug (release, relwithdebinfo etc.)
         config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
         with self.prefix(src=os.path.join(pkgdir, 'bin', config), dst="llplugin"):
             self.path("chrome_elf.dll")
-                self.path("d3dcompiler_43.dll")
             self.path("d3dcompiler_47.dll")
             self.path("libcef.dll")
             self.path("libEGL.dll")
             self.path("libGLESv2.dll")
-                self.path("llceflib_host.exe")
+            self.path("dullahan_host.exe")
             self.path("natives_blob.bin")
             self.path("snapshot_blob.bin")
-                self.path("v8_context_snapshot.bin")
+            self.path("v8_context_snapshot.bin")
             self.path("widevinecdmadapter.dll")
-                self.path("wow_helper.exe")
 
         # CEF runtime files for software rendering - debug
         if self.args['configuration'].lower() == 'debug':
-            if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+            with self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
                 self.path("libEGL.dll")
                 self.path("libGLESv2.dll")
         else:
         # CEF runtime files for software rendering - not debug (release, relwithdebinfo etc.)
-        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', 'Release'), dst="llplugin"):
+            with self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
                 self.path("libEGL.dll")
                 self.path("libGLESv2.dll")
-            self.end_prefix()
 
         # CEF files common to all configurations
         with self.prefix(src=os.path.join(pkgdir, 'resources'), dst="llplugin"):
@@ -653,11 +637,10 @@ class WindowsManifest(ViewerManifest):
             self.path("zh-CN.pak")
             self.path("zh-TW.pak")
 
-            if self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release'), dst="llplugin"):
-            self.path("libvlc.dll")
-            self.path("libvlccore.dll")
-            self.path("plugins/")
-                self.end_prefix()
+            with self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="llplugin"):
+                self.path("libvlc.dll")
+                self.path("libvlccore.dll")
+                self.path("plugins/")
 
         # pull in the crash logger and updater from other projects
         # tag:"crash-logger" here as a cue to the exporter
@@ -747,9 +730,6 @@ class WindowsManifest(ViewerManifest):
         installer_file = self.installer_base_name() + '_Setup.exe'
         substitution_strings['installer_file'] = installer_file
 
-        !define INSTEXE  "%(final_exe)s"
-        !define VERSION_REGISTRY "%(version_registry)s"
-        !define VIEWER_EXE "%(final_exe)s"
         if self.channel_type() == 'release':
             substitution_strings['caption'] = CHANNEL_VENDOR_BASE
         else:
@@ -801,9 +781,9 @@ class WindowsManifest(ViewerManifest):
         # Check two paths, one for Program Files, and one for Program Files (x86).
         # Yay 64bit windows.
         for ProgramFiles in 'ProgramFiles', 'ProgramFiles(x86)':
-        NSIS_path = os.path.expandvars('${ProgramFiles}\\NSIS\\Unicode\\makensis.exe')
+            NSIS_path = os.path.expandvars('${ProgramFiles}\\NSIS\\Unicode\\makensis.exe')
             if os.path.exists(NSIS_path):
-            NSIS_path = os.path.expandvars('${ProgramFiles(x86)}\\NSIS\\Unicode\\makensis.exe')
+                break
         installer_created=False
         nsis_attempts=3
         nsis_retry_wait=15
@@ -818,22 +798,23 @@ class WindowsManifest(ViewerManifest):
             else:
                 # NSIS worked! Done!
                 break
-        if 'signature' in self.args:
+        else:
             print >> sys.stderr, "Maximum nsis attempts exceeded; giving up"
             raise
+
         self.sign(installer_file)
         self.created_path(self.dst_path_of(installer_file))
         self.package_file = installer_file
+
     def sign(self, exe):
         sign_py = os.environ.get('SIGN', r'C:\buildscripts\code-signing\sign.py')
-        if not python or python == "${PYTHON}":
-            python = 'python'
-            self.run_command("%s %s %s" % (python, sign_py, self.dst_path_of(installer_file).replace('\\', '\\\\\\\\')))
+        python  = os.environ.get('PYTHON', 'python')
+        if os.path.exists(sign_py):
+            dst_path = self.dst_path_of(exe)
             print "about to run signing of: ", dst_path
             self.run_command([python, sign_py, dst_path])
-            except: 
-                print "Couldn't sign windows installer. Tried to sign %s" % self.args['configuration'] + "\\" + substitution_strings['installer_file']
-            print "Skipping code signing,", sign_py, "does not exist"
+        else:
+            print "Skipping code signing of %s: %s not found" % (exe, sign_py)
 
     def escape_slashes(self, path):
         return path.replace('\\', '\\\\\\\\')
@@ -845,61 +826,6 @@ class Windows_i686_Manifest(WindowsManifest):
 
 class Windows_x86_64_Manifest(WindowsManifest):
     address_size = 64
-
-class Windows_i686_Manifest(WindowsManifest):
-    def construct(self):
-        super(Windows_i686_Manifest, self).construct()
-
-        # Get shared libs from the shared libs staging directory
-        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
-                       dst=""):
-
-            # Security
-            self.path("libcrypto-1_1.dll")
-            self.path("libssl-1_1.dll")
-
-            # Get fmod studio dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodL.dll")
-                else:
-                    self.path("fmod.dll")
-            except:
-                print "Skipping fmodstudio audio library(assuming other audio engine)"
-
-            self.end_prefix()
-
-        if self.prefix(src=os.path.join(self.args['build'], os.pardir, 'packages', 'bin'), dst="redist"):
-            self.path("vc_redist.x86.exe")
-            self.end_prefix()
-
-
-class Windows_x86_64_Manifest(WindowsManifest):
-    def construct(self):
-        super(Windows_x86_64_Manifest, self).construct()
-
-        # Get shared libs from the shared libs staging directory
-        if self.prefix(src=os.path.join(os.pardir, 'sharedlibs', self.args['configuration']),
-                       dst=""):
-
-            # Security
-            self.path("libcrypto-1_1-x64.dll")
-            self.path("libssl-1_1-x64.dll")
-
-            # Get fmodstudio dll, continue if missing
-            try:
-                if self.args['configuration'].lower() == 'debug':
-                    self.path("fmodL64.dll")
-                else:
-                    self.path("fmod64.dll")
-            except:
-                print "Skipping fmodstudio audio library(assuming other audio engine)"
-
-            self.end_prefix()
-
-        if self.prefix(src=os.path.join(self.args['build'], os.pardir, 'packages', 'bin'), dst="redist"):
-            self.path("vc_redist.x64.exe")
-            self.end_prefix()
 
 
 class DarwinManifest(ViewerManifest):
@@ -923,7 +849,7 @@ class DarwinManifest(ViewerManifest):
         viewer_app,   viewer_icon   = "Second Life Viewer.app",   "secondlife.icns"
 
         # copy over the build result (this is a no-op if run within the xcode script)
-        self.path(self.args['configuration'] + "/Second Life.app", dst="")
+        self.path(os.path.join(self.args['configuration'], toplevel_app), dst="")
 
         pkgdir = os.path.join(self.args['build'], os.pardir, 'packages')
         relpkgdir = os.path.join(pkgdir, "lib", "release")
@@ -1007,7 +933,7 @@ open "%s" --args "$@"
 
                     # launcher_app/Contents/Resources
                     with self.prefix(dst="Resources"):
-                super(Darwin_i386_Manifest, self).construct()
+                        with self.prefix(src=self.icon_path(), dst="") :
                             self.path(launcher_icon)
                             with self.prefix(dst="vmp_icons"):
                                 self.path("secondlife.ico")
@@ -1032,12 +958,12 @@ open "%s" --args "$@"
 
                     # CEF framework goes inside viewer_app/Contents/Frameworks.
                     # Remember where we parked this car.
-                self.path("licenses-mac.txt", dst="licenses.txt")
+                    with self.prefix(src="", dst="Frameworks"):
                         CEF_framework = "Chromium Embedded Framework.framework"
                         self.path2basename(relpkgdir, CEF_framework)
                         CEF_framework = self.dst_path_of(CEF_framework)
 
-                self.path("SecondLife.nib")
+                    with self.prefix(dst="MacOS"):
                         # CMake constructs the Second Life executable in the
                         # MacOS directory belonging to the top-level Second
                         # Life.app. Move it here.
@@ -1079,7 +1005,7 @@ open "%s" --args "$@"
                             self.path("libndofdev.dylib")
                             self.path("libhunspell-1.3.0.dylib")   
 
-                    self.path("secondlife.icns")
+                        with self.prefix("cursors_mac"):
                             self.path("*.tif")
 
                         self.path("licenses-mac.txt", dst="licenses.txt")
@@ -1087,7 +1013,7 @@ open "%s" --args "$@"
                         self.path("SecondLife.nib")
                         self.path("ca-bundle.crt")
 
-                self.path("SecondLife.nib")
+                        self.path("SecondLife.nib")
 
                         # Translations
                         self.path("English.lproj/language.txt")
@@ -1169,17 +1095,17 @@ open "%s" --args "$@"
                                         'libvivoxplatform.dylib',
                                         'SLVoice',
                                         ):
-                     self.path2basename(relpkgdir, libfile)
+                            self.path2basename(relpkgdir, libfile)
 
                         # dylibs that vary based on configuration
                         if self.args['configuration'].lower() == 'debug':
                             for libfile in (
-                                "libfmodexL.dylib",
+                                        "libfmodexL.dylib",
                                         ):
                                 dylibs += path_optional(os.path.join(debpkgdir, libfile), libfile)
                         else:
                             for libfile in (
-                                "libfmodex.dylib",
+                                        "libfmodex.dylib",
                                         ):
                                 dylibs += path_optional(os.path.join(relpkgdir, libfile), libfile)
 
@@ -1187,7 +1113,7 @@ open "%s" --args "$@"
                         executable_path = {}
                         for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
                                                  # plugin launcher
-                                         (os.path.join("llplugin", "slplugin"), "SLPlugin.app"),
+                                                 (os.path.join("llplugin", "slplugin"), "SLPlugin.app"),
                                                  ):
                             self.path2basename(os.path.join(os.pardir,
                                                             app_bld_dir, self.args['configuration']),
@@ -1210,44 +1136,23 @@ open "%s" --args "$@"
 
                             # This code constructs a relative symlink from the
                             # target framework folder back to the real CEF framework.
-                # LLCefLib helper apps go inside SLPlugin.app
-                if self.prefix(src="", dst="SLPlugin.app/Contents/Frameworks"):
-                    for helperappfile in ('LLCefLib Helper.app',
-                        self.path2basename(relpkgdir, helperappfile)
+                            # It needs to be relative so that the symlink still works when
+                            # (as is normal) the user moves the app bundle out of the DMG
+                            # and into the /Applications folder. Note we pass catch=False,
                             # letting the uncaught exception terminate the process, since
-                    # Putting a Frameworks directory under Contents/MacOS
-                    # isn't canonical, but the path baked into Dullahan
-                    # Helper.app/Contents/MacOS/DullahanHelper is:
-                    # @executable_path/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework
-                    # (notice, not @executable_path/../Frameworks/etc.)
-                    # So we'll create a symlink (below) from there back to the
-                    # Frameworks directory nested under SLPlugin.app.
-                    helperframeworkpath = \
-                        self.dst_path_of('DullahanHelper.app/Contents/MacOS/'
-                                         'Frameworks/Chromium Embedded Framework.framework')
                             # without this symlink, Second Life web media can't possibly work.
 
                             # It might seem simpler just to symlink Frameworks back to
-                    helperexecutablepath = self.dst_path_of('AlchemyPlugin.app/Contents/Frameworks/DullahanHelper.app/Contents/MacOS/DullahanHelper')
-                    self.run_command('install_name_tool -change '
-                                     '"@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" '
-                                     '"@executable_path/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % helperexecutablepath)
-
                             # the parent of Chromimum Embedded Framework.framework. But
+                            # that would create a symlink cycle, which breaks our
                             # packaging step. So make a symlink from Chromium Embedded
                             # Framework.framework to the directory of the same name, which
                             # is NOT an ancestor of the symlink.
-                    # do this install_name_tool *after* media plugin is copied over
-                    dylibexecutablepath = self.dst_path_of('llplugin/media_plugin_cef.dylib')
-                    self.run_command('install_name_tool -change '
-                                     '"@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" '
-                                     '"@executable_path/../Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework" "%s"' % dylibexecutablepath)
-
 
                             # from SLPlugin.app/Contents/Frameworks/Chromium Embedded
-                # CEF framework goes inside Second Life.app/Contents/Frameworks
+                            # Framework.framework back to
                             # $viewer_app/Contents/Frameworks/Chromium Embedded Framework.framework
-                    self.path2basename(relpkgdir, frameworkfile)
+                            SLPlugin_framework = self.relsymlinkf(CEF_framework, catch=False)
 
                             # copy DullahanHelper.app
                             self.path2basename(relpkgdir, 'DullahanHelper.app')
@@ -1257,15 +1162,15 @@ open "%s" --args "$@"
                                 'DullahanHelper.app', 'Contents', 'Frameworks')):
                                 # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
                                 # Framework.framework back to
-                #   Second Life.app/Contents/Frameworks/Chromium Embedded Framework.framework/
-                # Location of symlink and why it'ds relative 
+                                # SLPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                                # Since SLPlugin_framework is itself a
                                 # symlink, don't let relsymlinkf() resolve --
                                 # explicitly call relpath(symlink=True) and
                                 # create that symlink here.
                                 DullahanHelper_framework = \
                                     self.symlinkf(self.relpath(SLPlugin_framework, symlink=True),
                                                   catch=False)
-                #   Second Life.app/Contents/Resources/SLPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework/
+
                             # change_command includes install_name_tool, the
                             # -change subcommand and the old framework rpath
                             # stamped into the executable. To use it with
@@ -1275,30 +1180,15 @@ open "%s" --args "$@"
                             change_command = [
                                 'install_name_tool', '-change',
                                 '@rpath/Frameworks/Chromium Embedded Framework.framework/Chromium Embedded Framework']
-                # It might seem simpler just to create a symlink Frameworks to
-                # the parent of Chromimum Embedded Framework.framework. But
-                # that would create a symlink cycle, which breaks our
-                # packaging step. So make a symlink from Chromium Embedded
-                # Framework.framework to the directory of the same name, which
-                # is NOT an ancestor of the symlink.
-                frameworkpath = os.path.join(os.pardir, os.pardir, os.pardir, os.pardir, "Frameworks", "Chromium Embedded Framework.framework")
-                                             os.pardir, "Frameworks",
-                                             "Chromium Embedded Framework.framework")
+
                             with self.prefix(dst=os.path.join(
                                 'DullahanHelper.app', 'Contents', 'MacOS')):
-                    symlinkf(frameworkpath, pluginframeworkpath)
-                    symlinkf(target, origin)
-                    # from AlchemyPlugin.app/Contents/Frameworks/Dullahan
-                    # Helper.app/Contents/MacOS/Frameworks/Chromium Embedded
-                    # Framework.framework back to
-                    # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
-                    self.cmakedirs(os.path.dirname(helperframeworkpath))
-                    origin = helperframeworkpath
-                    target = os.path.join(os.pardir, frameworkpath)
-                    symlinkf(target, origin)
+                                # Now self.get_dst_prefix() is, at runtime,
+                                # @executable_path. Locate the helper app
+                                # framework (which is a symlink) from here.
                                 newpath = os.path.join(
                                     '@executable_path',
-                    print "Can't symlink %s -> %s: %s" % (frameworkpath, pluginframeworkpath, err)
+                                    self.relpath(DullahanHelper_framework, symlink=True),
                                     frameworkname)
                                 # and restamp the DullahanHelper executable
                                 self.run_command(
@@ -1323,7 +1213,7 @@ open "%s" --args "$@"
                             # restamp media_plugin_cef.dylib
                             self.run_command(
                                 change_command +
-                             { 'viewer_binary' : self.dst_path_of('Contents/MacOS/Second Life')})
+                                [newpath, self.dst_path_of(dylibexecutable)])
 
                             # copy LibVLC plugin itself
                             self.path2basename("../media_plugins/libvlc/" + self.args['configuration'],
@@ -1437,10 +1327,19 @@ open "%s" --args "$@"
                 if identity == '':
                     identity = 'Developer ID Application'
 
-                home_path = os.environ['HOME']
-                if 'VIEWER_SIGNING_PWD' in os.environ:
+                # Look for an environment variable set via build.sh when running in Team City.
+                try:
+                    build_secrets_checkout = os.environ['build_secrets_checkout']
+                except KeyError:
+                    pass
+                else:
+                    # variable found so use it to unlock keychain followed by codesign
+                    home_path = os.environ['HOME']
+                    keychain_pwd_path = os.path.join(build_secrets_checkout,'code-signing-osx','password.txt')
+                    keychain_pwd = open(keychain_pwd_path).read().rstrip()
+
                     # Note: As of macOS Sierra, keychains are created with names postfixed with '-db' so for example, the
-                    self.run_command('security unlock-keychain -p "%s" "%s/Library/Keychains/viewer.keychain"' % ( keychain_pwd, home_path ) )
+                    #       SL Viewer keychain would by default be found in ~/Library/Keychains/viewer.keychain-db instead of
                     #       just ~/Library/Keychains/viewer.keychain in earlier versions.
                     #
                     #       Because we have old OS files from previous versions of macOS on the build hosts, the configurations
@@ -1462,12 +1361,10 @@ open "%s" --args "$@"
                         try:
                             sign_attempts-=1;
                             self.run_command(
-                               'codesign --verbose --deep --force --keychain "%(home_path)s/Library/Keychains/viewer.keychain" --sign %(identity)r %(bundle)r' % {
-                                   'home_path' : home_path,
+                                # Note: See blurb above about names of keychains
                                ['codesign', '--verbose', '--deep', '--force',
-                                   'identity': identity,
-                                   'bundle': app_in_dmg
-                                   })
+                                '--keychain', viewer_keychain, '--sign', identity,
+                                app_in_dmg])
                             signed=True # if no exception was raised, the codesign worked
                         except ManifestError as err:
                             if sign_attempts:
@@ -1497,17 +1394,15 @@ open "%s" --args "$@"
 
 class Darwin_i386_Manifest(DarwinManifest):
     address_size = 32
-    def construct(self):
 
+
+class Darwin_i686_Manifest(DarwinManifest):
     """alias in case arch is passed as i686 instead of i386"""
     pass
-class Darwin_universal_Manifest(DarwinManifest):
-    def construct(self):
-        super(Darwin_universal_Manifest, self).construct()
 
 
 class Darwin_x86_64_Manifest(DarwinManifest):
-        super(Darwin_x86_64_Manifest, self).construct()
+    address_size = 64
 
 
 class LinuxManifest(ViewerManifest):
@@ -1570,24 +1465,22 @@ class LinuxManifest(ViewerManifest):
             self.path( "libvlc*.so*" )
 
         # CEF files 
-        if self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="bin"):
+        with self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="bin"):
             self.path("chrome-sandbox")
             self.path("dullahan_host")
             self.path("natives_blob.bin")
             self.path("snapshot_blob.bin")
             self.path("v8_context_snapshot.bin")
-            self.end_prefix()
 
-        if self.prefix(src=os.path.join(pkgdir, 'resources'), dst="bin"):
+        with self.prefix(src=os.path.join(pkgdir, 'resources'), dst="bin"):
             self.path("cef.pak")
             self.path("cef_extensions.pak")
             self.path("cef_100_percent.pak")
             self.path("cef_200_percent.pak")
             self.path("devtools_resources.pak")
             self.path("icudtl.dat")
-            self.end_prefix()
 
-        if self.prefix(src=os.path.join(pkgdir, 'resources', 'locales'), dst=os.path.join('bin', 'locales')):
+        with self.prefix(src=os.path.join(pkgdir, 'resources', 'locales'), dst=os.path.join('bin', 'locales')):
             self.path("am.pak")
             self.path("ar.pak")
             self.path("bg.pak")
@@ -1641,7 +1534,6 @@ class LinuxManifest(ViewerManifest):
             self.path("vi.pak")
             self.path("zh-CN.pak")
             self.path("zh-TW.pak")
-            self.end_prefix()
 
         # llcommon
         if not self.path("../llcommon/libllcommon.so", "lib/libllcommon.so"):
@@ -1649,7 +1541,6 @@ class LinuxManifest(ViewerManifest):
 
         self.path("featuretable_linux.txt")
         self.path("ca-bundle.crt")
-        for script in 'secondlife', 'bin/update_install':
 
     def package_finish(self):
         installer_name = self.installer_base_name()
@@ -1675,11 +1566,11 @@ class LinuxManifest(ViewerManifest):
             if self.args['buildtype'].lower() == 'release':
                 # --numeric-owner hides the username of the builder for
                 # security etc.
-                self.run_command('tar -C %(dir)s --numeric-owner -cjf '
-                                 '%(inst_path)s.tar.bz2 %(inst_name)s' % {
+                self.run_command(['tar', '-C', self.get_build_prefix(),
+                                  '--numeric-owner', '-cjf',
                                  tempname + '.tar.bz2', installer_name])
             else:
-                print "Skipping %s.tar.xz for non-Release build (%s)" % \
+                print "Skipping %s.tar.bz2 for non-Release build (%s)" % \
                       (installer_name, self.args['buildtype'])
         finally:
             self.run_command(["mv", tempname, realname])
@@ -1760,18 +1651,17 @@ class Linux_i686_Manifest(LinuxManifest):
 
 
         # Vivox runtimes
-            if self.prefix(src=relpkgdir, dst="bin"):
+        with self.prefix(src=relpkgdir, dst="bin"):
             self.path("SLVoice")
-                self.end_prefix()
-            if self.prefix(src=relpkgdir, dst="lib"):
+        with self.prefix(src=relpkgdir, dst="lib"):
             self.path("libortp.so")
             self.path("libsndfile.so.1")
             #self.path("libvivoxoal.so.1") # no - we'll re-use the viewer's own OpenAL lib
             self.path("libvivoxsdk.so")
             self.path("libvivoxplatform.so")
-                self.end_prefix("lib")
 
-            self.strip_binaries()
+        self.strip_binaries()
+
 
 class Linux_x86_64_Manifest(LinuxManifest):
     address_size = 64
@@ -1783,7 +1673,7 @@ class Linux_x86_64_Manifest(LinuxManifest):
         relpkgdir = os.path.join(pkgdir, "lib", "release")
         debpkgdir = os.path.join(pkgdir, "lib", "debug")
 
-        if self.prefix(relpkgdir, dst="lib64"):
+        with self.prefix(relpkgdir, dst="lib64"):
             self.path("libapr-1.so")
             self.path("libapr-1.so.0")
             self.path("libapr-1.so.0.5.2")
@@ -1833,24 +1723,20 @@ class Linux_x86_64_Manifest(LinuxManifest):
                 print "Skipping libfmod.so - not found"
                 pass
 
-            self.end_prefix("lib64")
-
         # Vivox runtimes
-        if self.prefix(src=relpkgdir, dst="bin"):
+        with self.prefix(src=relpkgdir, dst="bin"):
             self.path("SLVoice")
-            self.end_prefix("bin")
-        if self.prefix(src=relpkgdir, dst="lib32"):
+
+        with self.prefix(src=relpkgdir, dst="lib32"):
             self.path("libortp.so")
             self.path("libsndfile.so.1")
             self.path("libvivoxoal.so.1")
             self.path("libvivoxsdk.so")
             self.path("libvivoxplatform.so")
-            self.end_prefix("lib32")
 
         # plugin runtime
-        if self.prefix(src=relpkgdir, dst="lib64"):
+        with self.prefix(src=relpkgdir, dst="lib64"):
             self.path("libcef.so")
-            self.end_prefix("lib64")
 
 
 ################################################################

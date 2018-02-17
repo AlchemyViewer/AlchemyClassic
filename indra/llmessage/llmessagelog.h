@@ -66,7 +66,7 @@ struct LLMessageLogEntry
     std::string mURL;
     std::string mContentType;
     LLCore::HttpHeaders::ptr_t mHeaders;
-    e_http_method mMethod;
+    EHTTPMethod mMethod;
     LLCore::HttpStatus::type_enum_t mStatusCode;
     U64 mRequestId;
 };

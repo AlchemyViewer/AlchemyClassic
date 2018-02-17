@@ -648,7 +648,7 @@ class WindowsManifest(ViewerManifest):
                   dst="win_crash_logger.exe")
 
         if not self.is_packaging_viewer():
-            self.package_file = "copied_deps"
+            self.package_file = "copied_deps"    
 
     def nsi_file_commands(self, install=True):
         def wpath(path):
@@ -889,6 +889,7 @@ open "%s" --args "$@"
             # We're passing a path that's already relative, hence symlinkf()
             # rather than relsymlinkf().
             self.symlinkf(os.path.join("Resources", viewer_app, "Contents", "Frameworks"))
+
             with self.prefix(src="", dst="Resources"):
                 # top-level Resources directory should be pretty sparse
                 # need .icns file referenced by top-level Info.plist

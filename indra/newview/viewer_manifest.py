@@ -765,7 +765,7 @@ class WindowsManifest(ViewerManifest):
                 "%%PROGRAMFILES%%":program_files,
                 "%%ENGAGEREGISTRY%%":engage_registry,
                 "%%DELETE_FILES%%":self.nsi_file_commands(False),
-                "%%WIN64_BIN_BUILD%%":"!define WIN64_BIN_BUILD 1" if self.is_win64() else "",
+                "%%WIN64_BIN_BUILD%%":"!define WIN64_BIN_BUILD 1" if (self.address_size == 64) else "",
                 })
 
         # If we're on a build machine, sign the code using our Authenticode certificate. JC
@@ -781,7 +781,7 @@ class WindowsManifest(ViewerManifest):
         # Check two paths, one for Program Files, and one for Program Files (x86).
         # Yay 64bit windows.
         for ProgramFiles in 'ProgramFiles', 'ProgramFiles(x86)':
-            NSIS_path = os.path.expandvars('${ProgramFiles}\\NSIS\\Unicode\\makensis.exe')
+            NSIS_path = os.path.expandvars(r'${%s}\NSIS\makensis.exe' % ProgramFiles)
             if os.path.exists(NSIS_path):
                 break
         installer_created=False
@@ -789,7 +789,7 @@ class WindowsManifest(ViewerManifest):
         nsis_retry_wait=15
         for attempt in xrange(nsis_attempts):
             try:
-                self.run_command([NSIS_path, '/V2', self.dst_path_of(tempfile)])
+                self.run_command([NSIS_path, '/V3', self.dst_path_of(tempfile)])
             except ManifestError as err:
                 if attempt+1 < nsis_attempts:
                     print >> sys.stderr, "nsis failed, waiting %d seconds before retrying" % nsis_retry_wait

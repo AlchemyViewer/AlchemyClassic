@@ -156,6 +156,10 @@
   !define MUI_PAGE_CUSTOMFUNCTION_PRE check_skip_finish
   !define MUI_FINISHPAGE_RUN
   !define MUI_FINISHPAGE_RUN_FUNCTION launch_viewer
+  !define MUI_FINISHPAGE_SHOWREADME
+  !define MUI_FINISHPAGE_SHOWREADME_TEXT "Create Desktop Shortcut"
+  !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
+  !define MUI_FINISHPAGE_SHOWREADME_FUNCTION create_desktop_shortcut
   !define MUI_FINISHPAGE_NOREBOOTSUPPORT
   !insertmacro MUI_PAGE_FINISH
 
@@ -216,6 +220,14 @@ FunctionEnd
 
 Function launch_viewer
   ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$LAUNCHER_EXE" "open" "$SHORTCUT_LANG_PARAM"
+FunctionEnd
+
+Function create_desktop_shortcut
+!ifdef WIN64_BIN_BUILD
+  CreateShortCut "$DESKTOP\$INSTSHORTCUT x64.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
+!else
+  CreateShortCut "$DESKTOP\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
+!endif
 FunctionEnd
 
 ;Check version compatibility
@@ -439,7 +451,9 @@ Section "Viewer"
   ;Remove all old files first to prevent incorrect installation
   ;RMDir /r "$INSTDIR\*"
   RMDir /r "$INSTDIR\app_settings"
+  RMDir /r "$INSTDIR\llplugin"
   RMDir /r "$INSTDIR\skins"
+  RMDir /r "$INSTDIR\voice"
   
   ;This placeholder is replaced by the complete list of all the files in the installer, by viewer_manifest.py
   %%INSTALL_FILES%%
@@ -471,7 +485,6 @@ Section "Viewer"
 
   ;Other shortcuts
   SetOutPath "$INSTDIR"
-  ;CreateShortCut "$DESKTOP\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$\"$INSTDIR\$VIEWER_EXE$\""
   CreateShortCut "$INSTDIR\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
   CreateShortCut "$INSTDIR\Uninstall $INSTSHORTCUT.lnk" "$INSTDIR\uninst.exe" ""
     
@@ -511,7 +524,11 @@ Section "Viewer"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
   WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\shell" "" "open"
+!ifdef WIN64_BIN_BUILD
   WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+!else
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open" "FriendlyAppName" "$INSTSHORTCUT"
+!endif
   WriteRegExpandStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
 
   DeleteRegKey HKEY_CLASSES_ROOT "x-grid-info"
@@ -521,7 +538,11 @@ Section "Viewer"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\shell" "" "open"
+!ifdef WIN64_BIN_BUILD
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+!else
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT"
+!endif
   WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-info\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
 
   DeleteRegKey HKEY_CLASSES_ROOT "x-grid-location-info}"
@@ -531,7 +552,11 @@ Section "Viewer"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\shell" "" "open"
+!ifdef WIN64_BIN_BUILD
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+!else
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT"
+!endif
   WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
   
   ;Create uninstaller

@@ -478,14 +478,14 @@ class WindowsManifest(ViewerManifest):
                 print err.message
                 print "Skipping GLOD library (assumming linked statically)"
 
-            # Get fmodex dll, continue if missing
+            # Get fmodstudio dll, continue if missing
             try:
                 if(self.address_size == 64):
                     self.path("fmod64.dll")
                 else:
                     self.path("fmod.dll")
             except:
-                print "Skipping fmodex audio library(assuming other audio engine)"
+                print "Skipping fmodstudio audio library(assuming other audio engine)"
 
             # For textures
             self.path("openjpeg.dll")
@@ -637,10 +637,10 @@ class WindowsManifest(ViewerManifest):
             self.path("zh-CN.pak")
             self.path("zh-TW.pak")
 
-            with self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="llplugin"):
-                self.path("libvlc.dll")
-                self.path("libvlccore.dll")
-                self.path("plugins/")
+        with self.prefix(src=os.path.join(pkgdir, 'bin', 'release'), dst="llplugin"):
+            self.path("libvlc.dll")
+            self.path("libvlccore.dll")
+            self.path("plugins/")
 
         # pull in the crash logger and updater from other projects
         # tag:"crash-logger" here as a cue to the exporter

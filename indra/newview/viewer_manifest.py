@@ -564,12 +564,12 @@ class WindowsManifest(ViewerManifest):
 
         # CEF runtime files for software rendering - debug
         if self.args['configuration'].lower() == 'debug':
-            with self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+            with self.prefix(src=os.path.join(pkgdir, 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
                 self.path("libEGL.dll")
                 self.path("libGLESv2.dll")
         else:
         # CEF runtime files for software rendering - not debug (release, relwithdebinfo etc.)
-            with self.prefix(src=os.path.join(os.pardir, 'packages', 'bin', 'release', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+            with self.prefix(src=os.path.join(pkgdir, 'bin', 'release', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
                 self.path("libEGL.dll")
                 self.path("libGLESv2.dll")
 
@@ -642,6 +642,12 @@ class WindowsManifest(ViewerManifest):
             self.path("libvlccore.dll")
             self.path("plugins/")
 
+        with self.prefix(src=os.path.join(pkgdir, 'bin'), dst="redist"):
+            if (self.address_size == 64):
+                self.path("vc_redist.x64.exe")
+            else:
+                self.path("vc_redist.x86.exe")
+			
         # pull in the crash logger and updater from other projects
         # tag:"crash-logger" here as a cue to the exporter
         self.path(src='../win_crash_logger/%s/windows-crash-logger.exe' % self.args['configuration'],

@@ -3115,12 +3115,6 @@ LLSD LLAppViewer::getViewerInfo() const
 	info["COMPILER_VERSION"] = __ICC;
 #endif
 
-#if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
-	info["BUILD_ARCH"] = "x64";
-#else
-	info["BUILD_ARCH"] = "x86";
-#endif
-
 	// Position
 	LLViewerRegion* region = gAgent.getRegion();
 	if (region)
@@ -3219,7 +3213,7 @@ LLSD LLAppViewer::getViewerInfo() const
 
 	info["CEF_VERSION"] = cef_ver_codec.str();
 #else
-	info["CEF_VERSION"] = "Undefined";
+	info["CEF_VERSION"] = "Web Engine: Undefined";
 
 #endif
 

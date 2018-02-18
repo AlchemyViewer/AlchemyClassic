@@ -27,7 +27,7 @@
 
 	<!-- about dialog/support string-->
 	<string name="AboutHeader">
-[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2] ([VIEWER_VERSION_3]) ([BUILD_ARCH]) [BUILD_DATE] [BUILD_TIME] ([CHANNEL]) ([DEBUG_TEST])
+[APP_NAME] [VIEWER_VERSION_0].[VIEWER_VERSION_1].[VIEWER_VERSION_2] ([VIEWER_VERSION_3]) ([ADDRESS_SIZE] bit) [BUILD_DATE] [BUILD_TIME] ([CHANNEL]) ([DEBUG_TEST])
 [[VIEWER_RELEASE_NOTES_URL] [ReleaseNotes]]
 	</string>
 	<string name="AboutCompiler">Built with [COMPILER] version [COMPILER_VERSION]</string>
@@ -70,7 +70,7 @@ libcurl Version: [LIBCURL_VERSION]
 J2C Decoder Version: [J2C_VERSION]
 Audio Driver Version: [AUDIO_DRIVER_VERSION]
 Font Decoder Version: [FONT_VERSION]
-CEF Version: [CEF_VERSION]
+[CEF_VERSION]
 LibVLC Version: [LIBVLC_VERSION]
 Voice Server Version: [VOICE_VERSION]
 	</string>

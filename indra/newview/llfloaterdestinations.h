@@ -36,10 +36,8 @@ class LLFloaterDestinations:
 	friend class LLFloaterReg;
 private:
 	LLFloaterDestinations(const LLSD& key);
+	~LLFloaterDestinations();
 	BOOL postBuild() override;
-	void onOpen(const LLSD& key) override;
-	
-	static std::string sCurrentURL;
 };
 
 #endif

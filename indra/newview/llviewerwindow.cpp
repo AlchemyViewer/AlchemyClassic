@@ -1974,7 +1974,7 @@ void LLViewerWindow::initWorldUI()
 	chiclet_container->setVisible(TRUE);
 
 	LLRect morph_view_rect = full_window;
-	morph_view_rect.stretch( -STATUS_BAR_HEIGHT );
+	morph_view_rect.stretch(-STATUS_BAR_HEIGHT);
 	morph_view_rect.mTop = full_window.mTop - 32;
 	LLMorphView::Params mvp;
 	mvp.name("MorphView");
@@ -1984,7 +1984,7 @@ void LLViewerWindow::initWorldUI()
 	getRootView()->addChild(gMorphView);
 
 	LLWorldMapView::initClass();
-	
+
 	// Force gFloaterWorldMap to initialize
 	LLFloaterReg::getInstance("world_map");
 
@@ -2014,7 +2014,7 @@ void LLViewerWindow::initWorldUI()
 	}
 	nav_bar_container->addChild(navbar);
 	nav_bar_container->setVisible(TRUE);
-	
+
 	const U32 location_bar = gSavedSettings.getU32("NavigationBarStyle");
 	if (location_bar != 2)
 	{
@@ -2035,7 +2035,7 @@ void LLViewerWindow::initWorldUI()
 		topinfo_bar->setVisible(FALSE);
 	}
 
-	if ( gHUDView == nullptr )
+	if (gHUDView == nullptr)
 	{
 		LLRect hud_rect = full_window;
 		hud_rect.mBottom += 50;
@@ -2050,7 +2050,7 @@ void LLViewerWindow::initWorldUI()
 
 	LLPanel* panel_ssf_container = getRootView()->getChild<LLPanel>("state_management_buttons_container");
 
-	LLPanelStandStopFlying* panel_stand_stop_flying	= LLPanelStandStopFlying::getInstance();
+	LLPanelStandStopFlying* panel_stand_stop_flying = LLPanelStandStopFlying::getInstance();
 	panel_ssf_container->addChild(panel_stand_stop_flying);
 
 	panel_ssf_container->setVisible(TRUE);
@@ -2063,46 +2063,6 @@ void LLViewerWindow::initWorldUI()
 	{
 		gToolBarView->loadToolbars();
 		gToolBarView->setVisible(TRUE);
-	}
-
-	std::string dest_url = LLStringUtil::null;
-	if (LLLoginInstance::getInstance()->hasResponse("destination_guide_url"))
-	{
-		dest_url = LLLoginInstance::getInstance()->getResponse("destination_guide_url").asString();
-	}
-	else if (LLGridManager::getInstance()->isInSecondlife())
-	{
-		dest_url = gSavedSettings.getString("DestinationGuideURL");
-	}
-	if (!dest_url.empty())
-	{
-		LLMediaCtrl* destinations = LLFloaterReg::getInstance("destinations")->getChild<LLMediaCtrl>("destination_guide_contents");
-		if (destinations)
-		{
-			destinations->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
-			dest_url = LLWeb::expandURLSubstitutions(dest_url, LLSD());
-			destinations->navigateTo(dest_url, HTTP_CONTENT_TEXT_HTML);
-		}
-	}
-	
-	std::string ava_url = LLStringUtil::null;
-	if (LLLoginInstance::getInstance()->hasResponse("avatar_picker_url"))
-	{
-		ava_url = LLLoginInstance::getInstance()->getResponse("avatar_picker_url").asString();
-	}
-	else if (LLGridManager::getInstance()->isInSecondlife())
-	{
-		ava_url = gSavedSettings.getString("AvatarPickerURL");
-	}
-	if (!ava_url.empty())
-	{
-		LLMediaCtrl* avatar_picker = LLFloaterReg::getInstance("avatar")->findChild<LLMediaCtrl>("avatar_picker_contents");
-		if (avatar_picker)
-		{
-			avatar_picker->setErrorPageURL(gSavedSettings.getString("GenericErrorPageURL"));
-			ava_url = LLWeb::expandURLSubstitutions(ava_url, LLSD());
-			avatar_picker->navigateTo(ava_url, HTTP_CONTENT_TEXT_HTML);
-		}
 	}
 }
 

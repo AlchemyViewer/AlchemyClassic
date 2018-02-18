@@ -170,8 +170,8 @@ public:
 	static LLSD getHeaders();
     static LLCore::HttpHeaders::ptr_t getHttpHeaders();
 	
-private:
 	static bool parseRawCookie(const std::string raw_cookie, std::string& name, std::string& value, std::string& path, bool& httponly, bool& secure);
+private:
 	static void setOpenIDCookie(const std::string& url);
 	static void onTeleportFinished();
 
@@ -179,8 +179,10 @@ private:
     static void getOpenIDCookieCoro(std::string url);
 
 	static LLPluginCookieStore *sCookieStore;
+public:
 	static LLURL sOpenIDURL;
 	static std::string sOpenIDCookie;
+private:
 	static LLPluginClassMedia* sSpareBrowserMediaSource;
 };
 

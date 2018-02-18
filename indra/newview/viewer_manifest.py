@@ -737,7 +737,8 @@ class WindowsManifest(ViewerManifest):
 
         inst_vars_template = """
             !define INSTOUTFILE "%(installer_file)s"
-            !define INSTEXE  "%(final_exe)s"
+            !define VIEWER_EXE  "%(final_exe)s"
+            !define LAUNCHER_EXE  "Alchemy_Launcher.exe"
             !define APPNAME   "%(app_name)s"
             !define APPNAMEONEWORD   "%(app_name_oneword)s"
             !define VERSION "%(version_short)s"

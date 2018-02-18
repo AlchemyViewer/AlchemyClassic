@@ -45,7 +45,8 @@
   %%WIN64_BIN_BUILD%%
 
   Var INSTPROG
-  Var INSTEXE
+  Var VIEWER_EXE
+  Var LAUNCHER_EXE
   Var INSTSHORTCUT
   Var AUTOSTART
   Var UPDATE
@@ -95,7 +96,7 @@
   VIAddVersionKey "ProductName" "Alchemy Viewer"
   VIAddVersionKey "Comments" "A viewer for the meta-verse!"
   VIAddVersionKey "CompanyName" "Alchemy Viewer Project"
-  VIAddVersionKey "LegalCopyright" "Copyright © 2013-2015, Alchemy Viewer Project"
+  VIAddVersionKey "LegalCopyright" "Copyright © 2013-2018, Alchemy Viewer Project"
   VIAddVersionKey "FileDescription" "${APPNAME} Installer"
   VIAddVersionKey "ProductVersion" "${VERSION_LONG}"
 
@@ -214,7 +215,7 @@ Function check_skip_finish
 FunctionEnd
 
 Function launch_viewer
-  ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$INSTEXE" "open" "$SHORTCUT_LANG_PARAM"
+  ${StdUtils.ExecShellAsUser} $0 "$INSTDIR\$LAUNCHER_EXE" "open" "$SHORTCUT_LANG_PARAM"
 FunctionEnd
 
 ;Check version compatibility
@@ -425,7 +426,8 @@ Section "Viewer"
 !endif
   ;Start with some default values.
   StrCpy $INSTPROG "${APPNAMEONEWORD}"
-  StrCpy $INSTEXE "${INSTEXE}"
+  StrCpy $LAUNCHER_EXE "${LAUNCHER_EXE}"
+  StrCpy $VIEWER_EXE "${VIEWER_EXE}"
   StrCpy $INSTSHORTCUT "${APPNAME}"
 
   Call CheckIfAlreadyCurrent
@@ -455,11 +457,11 @@ Section "Viewer"
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     CreateDirectory "$SMPROGRAMS\$STARTMENUFOLDER"
 !ifdef WIN64_BIN_BUILD
-    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\$INSTSHORTCUT x64.lnk" "$\"$INSTDIR\$INSTEXE$\"" "$SHORTCUT_LANG_PARAM"
+    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\$INSTSHORTCUT x64.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
     CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\Uninstall $INSTSHORTCUT x64.lnk" "$\"$INSTDIR\uninst.exe$\"" ""
 !else
-    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\$INSTSHORTCUT.lnk" "$\"$INSTDIR\$INSTEXE$\"" "$SHORTCUT_LANG_PARAM"
-    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\Uninstall $INSTSHORTCUT.lnk" "$\"$INSTDIR\uninst.exe$\"" ""
+    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
+    CreateShortCut	"$SMPROGRAMS\$STARTMENUFOLDER\Uninstall $INSTSHORTCUT.lnk" "$INSTDIR\uninst.exe" ""
 !endif
     WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Create Account.url" "InternetShortcut" "URL" "http://join.secondlife.com/"
     WriteINIStr		"$SMPROGRAMS\$STARTMENUFOLDER\SL Your Account.url"	"InternetShortcut" "URL" "http://www.secondlife.com/account/"
@@ -469,22 +471,22 @@ Section "Viewer"
 
   ;Other shortcuts
   SetOutPath "$INSTDIR"
-  ;CreateShortCut "$DESKTOP\$INSTSHORTCUT.lnk" "$INSTDIR\$INSTEXE" "$SHORTCUT_LANG_PARAM"
-  CreateShortCut "$INSTDIR\$INSTSHORTCUT.lnk" "$INSTDIR\$INSTEXE" "$SHORTCUT_LANG_PARAM"
+  ;CreateShortCut "$DESKTOP\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$\"$INSTDIR\$VIEWER_EXE$\""
+  CreateShortCut "$INSTDIR\$INSTSHORTCUT.lnk" "$INSTDIR\$LAUNCHER_EXE" "$SHORTCUT_LANG_PARAM" "$INSTDIR\$VIEWER_EXE"
   CreateShortCut "$INSTDIR\Uninstall $INSTSHORTCUT.lnk" "$INSTDIR\uninst.exe" ""
     
   ;Write registry
   WriteRegStr HKLM "SOFTWARE\${VENDORSTR}\$INSTPROG" "" "$INSTDIR"
   WriteRegStr HKLM "SOFTWARE\${VENDORSTR}\$INSTPROG" "Version" "${VERSION_LONG}"
   WriteRegStr HKLM "SOFTWARE\${VENDORSTR}\$INSTPROG" "Shortcut" "$INSTSHORTCUT"
-  WriteRegStr HKLM "SOFTWARE\${VENDORSTR}\$INSTPROG" "Exe" "$INSTEXE"
+  WriteRegStr HKLM "SOFTWARE\${VENDORSTR}\$INSTPROG" "Exe" "$LAUNCHER_EXE"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "Comments" "A viewer for the meta-verse!"
 !ifdef WIN64_BIN_BUILD
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayName" "$INSTSHORTCUT x64"
 !else
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayName" "$INSTSHORTCUT"
 !endif
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayIcon" "$INSTDIR\$INSTEXE"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayIcon" "$INSTDIR\$VIEWER_EXE"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "DisplayVersion" "${VERSION_LONG}"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "InstallLocation" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\$INSTPROG" "InstallSource" "$EXEDIR\"
@@ -502,26 +504,35 @@ Section "Viewer"
 
 
   ;Write URL registry info
-  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "(Default)" "URL:Second Life"
+  DeleteRegKey HKEY_CLASSES_ROOT "${URLNAME}"
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "" "URL:Second Life"
   WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}" "URL Protocol" ""
-  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\DefaultIcon" "" "$INSTDIR\$INSTEXE"
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\DefaultIcon" "" "$INSTDIR\$VIEWER_EXE"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
-  WriteRegExpandStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\shell" "" "open"
+  WriteRegStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+  WriteRegExpandStr HKEY_CLASSES_ROOT "${URLNAME}\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
 
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "(Default)" "URL:Hypergrid"
+  DeleteRegKey HKEY_CLASSES_ROOT "x-grid-info"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "" "URL:Hypergrid"
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-info" "URL Protocol" ""
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\DefaultIcon" "" "$\"$INSTDIR\$INSTEXE$\""
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\DefaultIcon" "" "$INSTDIR\$VIEWER_EXE"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
-  WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-info\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\shell" "" "open"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+  WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-info\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
 
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "(Default)" "URL:Hypergrid legacy"
+  DeleteRegKey HKEY_CLASSES_ROOT "x-grid-location-info}"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "" "URL:Hypergrid legacy"
   WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info" "URL Protocol" ""
-  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\DefaultIcon" "" "$\"$INSTDIR\$INSTEXE$\""
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\DefaultIcon" "" "$INSTDIR\$VIEWER_EXE"
   ;; URL param must be last item passed to viewer, it ignores subsequent params
   ;; to avoid parameter injection attacks.
-  WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open\command" "" "$\"$INSTDIR\$INSTEXE$\" -url $\"%1$\""
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\shell" "" "open"
+  WriteRegStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open" "FriendlyAppName" "$INSTSHORTCUT x64"
+  WriteRegExpandStr HKEY_CLASSES_ROOT "x-grid-location-info\shell\open\command" "" "$\"$INSTDIR\$LAUNCHER_EXE$\" -url $\"%1$\""
   
   ;Create uninstaller
   SetOutPath "$INSTDIR"  
@@ -586,6 +597,28 @@ lbl_return:
   Return
 FunctionEnd
 
+Function .onInstSuccess
+        Push $R0
+        Push $0
+        ;; MAINT-7812: Only write nsis.winstall file with /marker switch
+        ${GetParameters} $R0
+        ${GetOptionsS} $R0 "/marker" $0
+        ;; If no /marker switch, skip to ClearErrors
+        IfErrors +4 0
+        ;; $EXEDIR is where we find the installer file
+        ;; Put a marker file there so VMP will know we're done
+        ;; and it can delete the download directory next time.
+        ;; http://nsis.sourceforge.net/Write_text_to_a_file
+        FileOpen $0 "$EXEDIR\nsis.winstall" w
+        FileWrite $0 "NSIS done$\n"
+        FileClose $0
+
+        ClearErrors
+        Pop $0
+        Pop $R0
+        Push $R0					# Option value, unused# 
+FunctionEnd
+
 ;--------------------------------
 ;Uninstaller Section
 
@@ -597,7 +630,6 @@ Section "Uninstall"
 !endif
   
   StrCpy $INSTPROG "${APPNAMEONEWORD}"
-  StrCpy $INSTEXE "${INSTEXE}"
   StrCpy $INSTSHORTCUT "${APPNAME}"
 
   Call un.CloseSecondLife

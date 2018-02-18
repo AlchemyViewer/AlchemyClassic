@@ -1120,7 +1120,7 @@ bool LLAppViewer::init()
 	}
 
 	char* PARENT = getenv("PARENT");
-	if (! (PARENT && std::string(PARENT) == "SL_Launcher"))
+	if (! (PARENT && std::string(PARENT) == "Alchemy_Launcher"))
 	{
 		// Don't directly run this executable. Please run the launcher, which
 		// will run the viewer itself.

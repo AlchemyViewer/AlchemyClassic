@@ -178,7 +178,7 @@ class ViewerManifest(LLManifest):
                             "Channel":self.channel_with_pkg_suffix(),
                             "Platform":self.build_data_json_platform,
                             "Address Size":self.address_size,
-                            "Update Service":"https://update.secondlife.com/update",
+                            "Update Service":"https://app.alchemyviewer.org/update",
                             }
             build_data_dict = self.finish_build_data_dict(build_data_dict)
             with open(os.path.join(os.pardir,'build_data.json'), 'w') as build_data_handle:
@@ -434,12 +434,12 @@ class WindowsManifest(ViewerManifest):
 
             with self.prefix(src=os.path.join(pkgdir, "VMP"), dst=""):
                 # include the compiled launcher scripts so that it gets included in the file_list
-                self.path('SL_Launcher.exe')
+                self.path('Alchemy_Launcher.exe')
                 #IUM is not normally executed directly, just imported.  No exe needed.
                 self.path("InstallerUserMessage.py")
 
             with self.prefix(src=self.icon_path(), dst="vmp_icons"):
-                self.path("secondlife.ico")
+                self.path("alchemy.ico")
 
             #VMP  Tkinter icons
             with self.prefix("vmp_icons"):
@@ -499,6 +499,8 @@ class WindowsManifest(ViewerManifest):
                 self.path("vivoxoal.dll")
                 self.path("ca-bundle.crt")
 
+            self.path("ca-bundle.crt")
+
             # Security
             if(self.address_size == 64):
                 self.path("libcrypto-1_1-x64.dll")
@@ -506,8 +508,6 @@ class WindowsManifest(ViewerManifest):
             else:
                 self.path("libcrypto-1_1.dll")
                 self.path("libssl-1_1.dll")
-
-
 
             # Hunspell
             self.path("libhunspell.dll")
@@ -772,7 +772,7 @@ class WindowsManifest(ViewerManifest):
         # note that the enclosing setup exe is signed later, after the makensis makes it.
         # Unlike the viewer binary, the VMP filenames are invariant with respect to version, os, etc.
         for exe in (
-            "SL_Launcher.exe",
+            "Alchemy_Launcher.exe",
             ):
             self.sign(exe)
             
@@ -844,9 +844,9 @@ class DarwinManifest(ViewerManifest):
         # applications for the VMP and for the actual viewer, respectively.
         # These names, without the .app suffix, determine the flyover text for
         # their corresponding Dock icons.
-        toplevel_app, toplevel_icon = "Second Life.app",          "secondlife.icns"
-        launcher_app, launcher_icon = "Second Life Launcher.app", "secondlife.icns"
-        viewer_app,   viewer_icon   = "Second Life Viewer.app",   "secondlife.icns"
+        toplevel_app, toplevel_icon = "Alchemy.app",          "alchemy.icns"
+        launcher_app, launcher_icon = "Alchemy Launcher.app", "alchemy.icns"
+        viewer_app,   viewer_icon   = "Alchemy Viewer.app",   "alchemy.icns"
 
         # copy over the build result (this is a no-op if run within the xcode script)
         self.path(os.path.join(self.args['configuration'], toplevel_app), dst="")
@@ -875,7 +875,7 @@ open "%s" --args "$@"
 """ %
                     # up one directory from MacOS to its sibling Resources directory
                     os.path.join('$(dirname "$0")', os.pardir, 'Resources', launcher_app),
-                    "SL_Launcher",      # write this file
+                    "Alchemy_Launcher",      # write this file
                     "trampoline")       # flag to add to list of copied files
                 # Script must be executable
                 self.run_command(["chmod", "+x", trampoline])
@@ -901,7 +901,7 @@ open "%s" --args "$@"
                     # Info.plist is just like top-level one...
                     Info = plistlib.readPlist(Info_plist)
                     # except for these replacements:
-                    Info["CFBundleExecutable"] = "SL_Launcher"
+                    Info["CFBundleExecutable"] = "Alchemy_Launcher"
                     Info["CFBundleIconFile"] = launcher_icon
                     self.put_in_file(
                         plistlib.writePlistToString(Info),
@@ -914,7 +914,7 @@ open "%s" --args "$@"
                         #associated utilities and required libraries, see
                         #SL-321, SL-322, SL-323
                         with self.prefix(src=os.path.join(pkgdir, "VMP"), dst=""):
-                            self.path("SL_Launcher")
+                            self.path("Alchemy_Launcher")
                             self.path("*.py")
                             # certifi will be imported by requests; this is
                             # our custom version to get our ca-bundle.crt
@@ -937,18 +937,17 @@ open "%s" --args "$@"
                         with self.prefix(src=self.icon_path(), dst="") :
                             self.path(launcher_icon)
                             with self.prefix(dst="vmp_icons"):
-                                self.path("secondlife.ico")
+                                self.path("alchemy.ico")
                         #VMP Tkinter icons
                         with self.prefix("vmp_icons"):
                             self.path("*.png")
-                            self.path("*.gif")
 
                 # -------------------- nested viewer_app ---------------------
                 with self.prefix(dst=os.path.join(viewer_app, "Contents")):
                     # Info.plist is just like top-level one...
                     Info = plistlib.readPlist(Info_plist)
                     # except for these replacements:
-                    # (CFBundleExecutable may be moot: SL_Launcher directly
+                    # (CFBundleExecutable may be moot: Alchemy_Launcher directly
                     # runs the executable, instead of launching the app)
                     Info["CFBundleExecutable"] = "Second Life"
                     Info["CFBundleIconFile"] = viewer_icon
@@ -1011,10 +1010,8 @@ open "%s" --args "$@"
 
                         self.path("licenses-mac.txt", dst="licenses.txt")
                         self.path("featuretable_mac.txt")
-                        self.path("SecondLife.nib")
+                        self.path("Alchemy.nib")
                         self.path("ca-bundle.crt")
-
-                        self.path("SecondLife.nib")
 
                         # Translations
                         self.path("English.lproj/language.txt")
@@ -1434,7 +1431,7 @@ class LinuxManifest(ViewerManifest):
             self.path2basename("../llplugin/slplugin", "AlchemyPlugin")
             #this copies over the python wrapper script, associated utilities and required libraries, see SL-321, SL-322 and SL-323
             with self.prefix(src="../viewer_components/manager", dst=""):
-                self.path("SL_Launcher")
+                self.path("Alchemy_Launcher")
                 self.path("*.py")
             with self.prefix(src=os.path.join("lib", "python", "llbase"), dst="llbase"):
                 self.path("*.py")
@@ -1585,7 +1582,7 @@ class LinuxManifest(ViewerManifest):
             self.run_command(
                 ["find"] +
                 [os.path.join(self.get_dst_prefix(), dir) for dir in ('bin', 'lib')] +
-                ['-type', 'f', '!', '-name', '*.py', '!', '-name', 'SL_Launcher',
+                ['-type', 'f', '!', '-name', '*.py', '!', '-name', 'Alchemy_Launcher',
                  '!', '-name', 'update_install', '-exec', 'strip', '-S', '{}', ';'])
 
 class Linux_i686_Manifest(LinuxManifest):

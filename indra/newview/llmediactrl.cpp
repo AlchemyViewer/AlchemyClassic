@@ -744,7 +744,11 @@ bool LLMediaCtrl::ensureMediaSourceExists()
 //
 void LLMediaCtrl::unloadMediaSource()
 {
-	mMediaSource = nullptr;
+	if (mMediaSource)
+	{
+		mMediaSource->remObserver(this);
+		mMediaSource = nullptr;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////

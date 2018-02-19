@@ -188,6 +188,7 @@
 ///
 
 #include "linden_common.h"		// Modifies curl/curl.h interfaces
+#include "llsd.h"
 #include <boost/weak_ptr.hpp>
 #include <boost/function.hpp>
 #include <string>
@@ -449,14 +450,14 @@ struct HttpStatus
 		mDetails->mMessage = message;
 	}
 
-	/// Retrieves an optionally recorded SSL certificate.
-	void * getErrorData() const
+	/// Retrieves data about an optionally recorded SSL certificate.
+	LLSD getErrorData() const
 	{
 		return mDetails->mErrorData;
 	}
 
 	/// Optionally sets an SSL certificate on this status.
-	void setErrorData(void *data)
+	void setErrorData(LLSD data)
 	{
 		mDetails->mErrorData = data;
 	}
@@ -469,7 +470,7 @@ private:
 			mType(type),
 			mStatus(status),
 			mMessage(),
-			mErrorData(nullptr)
+			mErrorData()
 		{}
 
 		Details(const Details &rhs) :
@@ -499,7 +500,7 @@ private:
 		type_enum_t	mType;
 		short		mStatus;
 		std::string	mMessage;
-		void *		mErrorData;
+		LLSD		mErrorData;
 	};
 
     boost::shared_ptr<Details> mDetails;

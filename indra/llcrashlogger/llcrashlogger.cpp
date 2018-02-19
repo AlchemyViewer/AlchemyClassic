@@ -570,7 +570,7 @@ bool LLCrashLogger::init()
 	// We assume that all the logs we're looking for reside on the current drive
 	gDirUtilp->initAppDirs("Alchemy");
 
-	LLError::initForApplication(gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, ""));
+	LLError::initForApplication(gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, ""), gDirUtilp->getExpandedFilename(LL_PATH_APP_SETTINGS, ""));
 
 	// Default to the product name "Second Life" (this is overridden by the -name argument)
 	mProductName = "Alchemy";

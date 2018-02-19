@@ -201,7 +201,7 @@ public:
 	std::string			mResponseText;
 	XMLRPC_REQUEST		mResponse;
 	std::string         mCertStore;
-	LLPointer<LLCertificate> mErrorCert;
+	LLSD mErrorCertData;
 
 	Impl(const std::string& uri, XMLRPC_REQUEST request, bool useGzip, const LLSD& httpParams);
 	Impl(const std::string& uri,
@@ -242,14 +242,8 @@ void LLXMLRPCTransaction::Handler::onCompleted(LLCore::HttpHandle handle,
 			// (a non cert error), then generate the error message as
 			// appropriate
 			mImpl->setHttpStatus(status);
-			LLCertificate *errordata = static_cast<LLCertificate *>(status.getErrorData());
-
-			if (errordata)
-			{
-				mImpl->mErrorCert = LLPointer<LLCertificate>(errordata);
-				status.setErrorData(nullptr);
-				errordata->unref();
-			}
+			LLSD errordata = status.getErrorData();
+            mImpl->mErrorCertData = errordata;
 
 			LL_WARNS() << "LLXMLRPCTransaction error "
 				<< status.toHex() << ": " << status.toString() << LL_ENDL;
@@ -575,9 +569,9 @@ std::string LLXMLRPCTransaction::statusMessage()
 	return impl.mStatusMessage;
 }
 
-LLPointer<LLCertificate> LLXMLRPCTransaction::getErrorCert()
+LLSD LLXMLRPCTransaction::getErrorCertData()
 {
-	return impl.mErrorCert;
+	return impl.mErrorCertData;
 }
 
 std::string LLXMLRPCTransaction::statusURI()

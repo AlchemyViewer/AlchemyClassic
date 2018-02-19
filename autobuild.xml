@@ -2003,6 +2003,35 @@
         <key>version</key>
         <string>0.9.3.506286</string>
       </map>
+      <key>llca</key>
+      <map>
+        <key>copyright</key>
+        <string>Copyright (c) 2016, Linden Research, Inc.; data provided by the Mozilla NSS Project.
+      </string>
+        <key>license</key>
+        <string>mit</string>
+        <key>license_file</key>
+        <string>LICENSES/ca-license.txt</string>
+        <key>name</key>
+        <string>llca</string>
+        <key>platforms</key>
+        <map>
+          <key>common</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>dd008981cac7ede93efa6cefe4ee61a0</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12484/73813/llca-201801172118.511910-common-511910.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>common</string>
+          </map>
+        </map>
+        <key>version</key>
+        <string>201801172118.511910</string>
+      </map>
       <key>llphysicsextensions_source</key>
       <map>
         <key>copyright</key>
@@ -2662,23 +2691,33 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>3dd9bf4185bf2df413d890ca9eeab76c</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
+              <string>511a9c3fd4b6c76a8a737d06bba1c291</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/vivox_3p-slvoice/rev/302004/arch/Darwin/installer/slvoice-4.6.0017.22050.302004-darwin-302004.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/oz-426-slvoice/rev/330003/arch/Darwin/installer/slvoice-4.9.0002.27586.330003-darwin-330003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
+          </map>
+          <key>darwin64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>b1b0134bc55f55a7c1a04ee78d70c64d</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12438/73598/slvoice-4.9.0002.27586.511884-darwin64-511884.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin64</string>
           </map>
           <key>linux</key>
           <map>
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9f60e56aba35ec90b3045e9d049ac284</string>
+              <string>785c86999b56e1838cefb430f674cba7</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/linux/lib/slvoice-4.5.0009.17865-linux-20141214.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/oz-426-slvoice/rev/330003/arch/Linux/installer/slvoice-3.2.0002.10426.330003-linux-330003.tar.bz2</string>
             </map>
             <key>name</key>
             <string>linux</string>
@@ -2702,18 +2741,28 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>47a3316dae47cc4e7c1ea7b74ba8dd1e</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
+              <string>ec50c31efce74bdedee470b5388aeeec</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/hg/repo/vivox_3p-slvoice/rev/302004/arch/CYGWIN/installer/slvoice-4.6.0017.22050.302004-windows-302004.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12434/73576/slvoice-4.9.0002.27586.511884-windows-511884.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
           </map>
+          <key>windows64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>4bf45d641bf5b2bd6b2cc39edcb01a6e</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12433/73570/slvoice-4.9.0002.27586.511884-windows64-511884.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>windows64</string>
+          </map>
         </map>
         <key>version</key>
-        <string>4.6.0017.22050</string>
+        <string>4.9.0002.27586.511884</string>
       </map>
       <key>tut</key>
       <map>

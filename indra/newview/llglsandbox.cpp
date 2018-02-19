@@ -875,6 +875,89 @@ void LLViewerObjectList::renderObjectBeacons()
 }
 
 
+//-----------------------------------------------------------------------------
+// gpu_benchmark() helper classes
+//-----------------------------------------------------------------------------
+
+// This struct is used to ensure that once we call initProfile(), it will
+// definitely be matched by a corresponding call to finishProfile(). It's
+// a struct rather than a class simply because every member is public.
+struct ShaderProfileHelper
+{
+	ShaderProfileHelper()
+	{
+		LLGLSLShader::initProfile();
+	}
+	~ShaderProfileHelper()
+	{
+		LLGLSLShader::finishProfile(false);
+	}
+};
+
+// This helper class is used to ensure that each generateTextures() call
+// is matched by a corresponding deleteTextures() call. It also handles
+// the bindManual() calls using those textures.
+class TextureHolder
+{
+public:
+	TextureHolder(U32 unit, U32 size) :
+		texUnit(gGL.getTexUnit(unit)),
+		source(size)			// preallocate vector
+	{
+		// takes (count, pointer)
+		// &vector[0] gets pointer to contiguous array
+		LLImageGL::generateTextures(source.size(), &source[0]);
+	}
+
+	~TextureHolder()
+	{
+		// unbind
+		if (texUnit)
+		{
+			texUnit->unbind(LLTexUnit::TT_TEXTURE);
+		}
+		// ensure that we delete these textures regardless of how we exit
+		LLImageGL::deleteTextures(source.size(), &source[0]);
+	}
+
+	bool bind(U32 index)
+	{
+		if (texUnit) // should always be there with dummy (-1), but just in case
+		{
+			return texUnit->bindManual(LLTexUnit::TT_TEXTURE, source[index]);
+		}
+		return false;
+	}
+
+private:
+	// capture which LLTexUnit we're going to use
+	LLTexUnit* texUnit;
+
+	// use std::vector for implicit resource management
+	std::vector<U32> source;
+};
+
+class ShaderBinder
+{
+public:
+	ShaderBinder(LLGLSLShader& shader) :
+		mShader(shader)
+	{
+		mShader.bind();
+	}
+	~ShaderBinder()
+	{
+		mShader.unbind();
+	}
+
+private:
+	LLGLSLShader& mShader;
+};
+
+
+//-----------------------------------------------------------------------------
+// gpu_benchmark()
+//-----------------------------------------------------------------------------
 F32 gpu_benchmark()
 {
 	if (!gGLManager.mHasVertexBufferObject || !gGLManager.mHasShaderObjects || !gGLManager.mHasTimerQuery)
@@ -935,7 +1018,7 @@ F32 gpu_benchmark()
 
 	//number of samples to take
 	const S32 samples = 64;
-
+		
 	LLGLSLShader::initProfile();
 
 	LLRenderTarget dest[count];
@@ -959,14 +1042,16 @@ F32 gpu_benchmark()
 		pixels[i] = (U8) ll_rand(255);
 	}
 	
-
 	gGL.setColorMask(true, true);
 	LLGLDepthTest depth(GL_FALSE);
 
 	for (U32 i = 0; i < count; ++i)
-	{ //allocate render targets and textures
+	{
+		//allocate render targets and textures
 		if (!dest[i].allocate(res, res, GL_RGBA, false, false, LLTexUnit::TT_TEXTURE, true))
 		{
+			LL_WARNS() << "Failed to allocate render target." << LL_ENDL;
+			// abandon the benchmark test
 			delete [] pixels;
 			LLImageGL::deleteTextures(count, source);
 #ifdef GL_ARB_vertex_array_object
@@ -1114,4 +1199,3 @@ F32 gpu_benchmark()
 
 	return gbps;
 }
-

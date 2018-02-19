@@ -723,7 +723,7 @@ LLSD LLScriptAssetUpload::generatePostBody()
     if (getTaskId().isNull())
     {
         body["item_id"] = getItemId();
-        body["target"] = "lsl2";
+        body["target"] = (getTargetType() == MONO) ? "mono" : "lsl2";
     }
     else
     {

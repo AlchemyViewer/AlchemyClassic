@@ -535,6 +535,7 @@ class WindowsManifest(ViewerManifest):
                 print "Skipping tbbmalloc.dll"
 
         self.path("featuretable.txt")
+        self.path("ca-bundle.crt")
 
         # Media plugins - CEF
         with self.prefix(src='../media_plugins/cef/%s' % self.args['configuration'], dst="llplugin"):

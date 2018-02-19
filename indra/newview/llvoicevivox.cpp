@@ -496,9 +496,9 @@ void LLVivoxVoiceClient::connectorCreate()
 {
 	std::ostringstream stream;
 	std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
-	if (LLStringUtil::endsWith(logpath, gDirUtilp->getDirDelimiter()))
+	if (LLStringUtil::endsWith(logdir, gDirUtilp->getDirDelimiter()))
 	{
-		logpath.pop_back();
+		logdir.pop_back();
 	}
 	
 	// Transition to stateConnectorStarted when the connector handle comes back.

@@ -590,68 +590,63 @@ LLBasicCertificateStore::LLBasicCertificateStore(const std::string& filename)
 
 void LLBasicCertificateStore::load_from_file(const std::string& filename)
 {
-    int loaded = 0;
-    int rejected = 0;
+	int loaded = 0;
+	int rejected = 0;
 
 	// scan the PEM file extracting each certificate
 	if (LLFile::isfile(filename))
 	{
 		BIO *file_bio = BIO_new_file(filename.c_str(), "r");
-		if(file_bio)
-		{	
+		if (file_bio)
+		{
 			X509 *cert_x509 = NULL;
-			while((PEM_read_bio_X509(file_bio, &cert_x509, 0, NULL)) && 
-				  (cert_x509 != NULL))
+			while ((PEM_read_bio_X509(file_bio, &cert_x509, 0, NULL)) &&
+				(cert_x509 != NULL))
 			{
 				try
 				{
-                        LLPointer<LLBasicCertificate> new_cert(new LLBasicCertificate(cert_x509));
-                        LLSD validation_params;
-                        _validateCert(VALIDATION_POLICY_TIME,
-                                      new_cert,
-                                      validation_params,
-                                      0);
-                        add(new_cert);
-                        LL_DEBUGS("SECAPI") << "Loaded valid cert for "
-                                            << "Name '" << cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)) << "'";
-                        std::string skeyid(_subject_key_identifier(cert_x509));
-                        LL_CONT << " Id '" << skeyid << "'"
-                                << LL_ENDL;
-                        loaded++;
-                    }
-                    catch (LLCertException& cert_exception)
-                    {
-                        LLSD cert_info(cert_exception.getCertData());
-                        LL_DEBUGS("SECAPI_BADCERT","SECAPI") << "invalid certificate (" << cert_exception.what() << "): " << cert_info << LL_ENDL;
-                        rejected++;
+					LLPointer<LLBasicCertificate> new_cert(new LLBasicCertificate(cert_x509));
+					LLSD validation_params;
+					_validateCert(VALIDATION_POLICY_TIME,
+						new_cert,
+						validation_params,
+						0);
+					add(new_cert);
+					LL_DEBUGS("SECAPI") << "Loaded valid cert for "
+						<< "Name '" << cert_string_name_from_X509_NAME(X509_get_subject_name(cert_x509)) << "'";
+					std::string skeyid(_subject_key_identifier(cert_x509));
+					LL_CONT << " Id '" << skeyid << "'"
+						<< LL_ENDL;
+					loaded++;
+				}
+				catch (LLCertException& cert_exception)
+				{
+					LLSD cert_info(cert_exception.getCertData());
+					LL_DEBUGS("SECAPI_BADCERT", "SECAPI") << "invalid certificate (" << cert_exception.what() << "): " << cert_info << LL_ENDL;
+					rejected++;
 				}
 				catch (...)
 				{
 					LOG_UNHANDLED_EXCEPTION("creating certificate from the certificate store file");
-                        rejected++;
+					rejected++;
 				}
 				X509_free(cert_x509);
 				cert_x509 = NULL;
-
+			}
 			BIO_free(file_bio);
-            }
-            else
-            {
-                LL_WARNS("SECAPI") << "BIO read failed for " << filename << LL_ENDL;
-            }
+		}
+		else
+		{
+			LL_WARNS("SECAPI") << "BIO read failed for " << filename << LL_ENDL;
+		}
 
-            LL_INFOS("SECAPI") << "loaded " << loaded << " good certificates (rejected " << rejected << ") from " << filename << LL_ENDL;
-        }
-        else
-        {
-            LL_WARNS("SECAPI") << "Could not allocate a file BIO" << LL_ENDL;
-        }
-    }
-    else
-    {
-        // since the user certificate store may not be there, this is not a warning
-        LL_INFOS("SECAPI") << "Certificate store not found at " << filename << LL_ENDL;
-    }
+		LL_INFOS("SECAPI") << "loaded " << loaded << " good certificates (rejected " << rejected << ") from " << filename << LL_ENDL;
+	}
+	else
+	{
+		// since the user certificate store may not be there, this is not a warning
+		LL_INFOS("SECAPI") << "Certificate store not found at " << filename << LL_ENDL;
+	}
 }
 
 
@@ -1283,7 +1278,7 @@ void LLSecAPIBasicHandler::init()
 		mLegacyPasswordPath = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS, "password.dat");
 	
 		std::string store_file = gDirUtilp->getExpandedFilename(LL_PATH_USER_SETTINGS,
-														"CA.pem");
+														"ca-bundle.crt");
 		
 		
 		LL_INFOS("SECAPI") << "Loading user certificate store from " << store_file << LL_ENDL;

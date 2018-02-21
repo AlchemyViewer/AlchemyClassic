@@ -558,11 +558,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f00d72eeb1b4669004ccdea9e495fc92</string>
+              <string>c3e093d40e93ff242e9b9c953ae7316c</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/dullahan-1.1.888-3.3202.1686.gd665578-windows-201711211427.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc142/dullahan-1.1.930-3.3282.1733.g9091548-windows-201802202358.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -572,18 +572,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c66ba6d26542a48aa12c63874bada4aa</string>
+              <string>9639303e82af852c12ad6c427098bc3a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/dullahan-1.1.930-3.3239.1706.gcd33baa-windows64-201712260156.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/dullahan-1.1.930-3.3282.1733.g9091548-windows64-201802201942.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.930-3.3239.1706.gcd33baa</string>
+        <string>1.1.930-3.3282.1733.g9091548</string>
       </map>
       <key>expat</key>
       <map>

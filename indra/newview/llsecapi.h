@@ -33,6 +33,7 @@
 #include <ostream>
 #include "llpointer.h"
 #include "llexception.h"
+#include "llsdutil.h"
 
 #ifdef LL_WINDOWS
 #pragma warning(disable:4250)
@@ -339,7 +340,9 @@ public:
 	LLCertException(const LLSD& cert_data, const std::string& msg): LLException(msg),
         mCertData(cert_data)
 	{
-		LL_WARNS("SECAPI") << "Certificate Error: " << msg << LL_ENDL;
+		LL_WARNS("SECAPI") << "Certificate Error: " << msg;
+		LL_CONT << " in certificate: \n";
+		LL_CONT << ll_pretty_print_sd(cert_data) << LL_ENDL;
 	}
 	virtual ~LLCertException() throw() {}
 	LLSD getCertData() const { return mCertData; }

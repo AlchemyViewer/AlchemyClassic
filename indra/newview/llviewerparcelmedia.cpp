@@ -471,7 +471,23 @@ void LLViewerParcelMedia::handleMediaEvent(LLPluginClassMedia* self, EMediaEvent
 	{
 		case MEDIA_EVENT_DEBUG_MESSAGE:
 		{
-			// LL_DEBUGS("Media") <<  "Media event:  MEDIA_EVENT_DEBUG_MESSAGE " << LL_ENDL;
+			std::string level = self->getDebugMessageLevel();
+			if (level == "debug")
+			{
+				LL_DEBUGS("Media") << self->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "info")
+			{
+				LL_INFOS("Media") << self->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "warn")
+			{
+				LL_WARNS("Media") << self->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "error")
+			{
+				LL_ERRS("Media") << self->getDebugMessageText() << LL_ENDL;
+			}
 		};
 		break;
 

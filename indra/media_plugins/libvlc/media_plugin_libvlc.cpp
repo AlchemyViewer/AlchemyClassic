@@ -64,6 +64,7 @@ private:
 	void setVolume(const F64 volume);
 	void setVolumeVLC();
 	void updateTitle(const char* title);
+	void postLogMessage(const std::string& level, const std::string& msg);
 
 	static void* lock(void* data, void** p_pixels);
 	static void unlock(void* data, void* id, void* const* raw_pixels);
@@ -73,6 +74,8 @@ private:
 	/* override, but that is not supported in gcc 4.6 */;
 
 	static void eventCallbacks(const libvlc_event_t* event, void* ptr);
+
+	static void logCallback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args);
 
 	libvlc_instance_t* mLibVLC;
 	libvlc_media_t* mLibVLCMedia;
@@ -95,6 +98,8 @@ private:
 	float mCurTime;
 	float mDuration;
 	EStatus mVlcStatus;
+
+	bool mEnableMediaPluginLogging;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +127,8 @@ MediaPluginBase(host_send_func, host_user_data)
 
 	mURL = std::string();
 
+	mEnableMediaPluginLogging = false;
+
 	mVlcStatus = STATUS_NONE;
 	setStatus(STATUS_NONE);
 }
@@ -130,6 +137,22 @@ MediaPluginBase(host_send_func, host_user_data)
 //
 MediaPluginLibVLC::~MediaPluginLibVLC()
 {
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+void MediaPluginLibVLC::postLogMessage(const std::string& level, const std::string& msg)
+{
+	if (mEnableMediaPluginLogging)
+	{
+		std::stringstream str;
+		str << "VLC Msg> " << msg;
+
+		LLPluginMessage debug_message(LLPLUGIN_MESSAGE_CLASS_MEDIA, "debug_message");
+		debug_message.setValue("message_text", str.str());
+		debug_message.setValue("message_level", level);
+		sendMessage(debug_message);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -180,9 +203,13 @@ void MediaPluginLibVLC::initVLC()
 
 	if (!mLibVLC)
 	{
+		postLogMessage("warn", "Failed to initialize VLC");
+		setStatus(STATUS_ERROR);
+		return;
 		// for the moment, if this fails, the plugin will fail and 
 		// the media sub-system will tell the viewer something went wrong.
 	}
+	libvlc_log_set(mLibVLC, logCallback, this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -225,10 +252,12 @@ void MediaPluginLibVLC::eventCallbacks(const libvlc_event_t* event, void* ptr)
 	switch (event->type)
 	{
 	case libvlc_MediaPlayerOpening:
+		parent->postLogMessage("info", "Media loading");
 		parent->mVlcStatus = STATUS_LOADING;
 		break;
 
 	case libvlc_MediaPlayerPlaying:
+		parent->postLogMessage("info", "Media playing");
 		parent->mDuration = (float)(libvlc_media_get_duration(parent->mLibVLCMedia)) / 1000.0f;
 		parent->mVlcStatus = STATUS_PLAYING;
 		parent->setVolumeVLC();
@@ -251,6 +280,7 @@ void MediaPluginLibVLC::eventCallbacks(const libvlc_event_t* event, void* ptr)
 		break;
 
 	case libvlc_MediaPlayerTimeChanged:
+		parent->postLogMessage("info", "Media time changed");
 		parent->mCurTime = (float)libvlc_media_player_get_time(parent->mLibVLCMediaPlayer) / 1000.0f;
 		break;
 
@@ -258,11 +288,13 @@ void MediaPluginLibVLC::eventCallbacks(const libvlc_event_t* event, void* ptr)
 		break;
 
 	case libvlc_MediaPlayerLengthChanged:
+		parent->postLogMessage("info", "Media length changed");
 		parent->mDuration = (float)libvlc_media_get_duration(parent->mLibVLCMedia) / 1000.0f;
 		break;
 
 	case libvlc_MediaPlayerTitleChanged:
 	{
+		parent->postLogMessage("info", "Media title getting metadata");
 		char* title = libvlc_media_get_meta(parent->mLibVLCMedia, libvlc_meta_Title);
 		if (title)
 		{
@@ -271,6 +303,17 @@ void MediaPluginLibVLC::eventCallbacks(const libvlc_event_t* event, void* ptr)
 	}
 	break;
 	}
+}
+
+void MediaPluginLibVLC::logCallback(void *data, int level, const libvlc_log_t *ctx, const char *fmt, va_list args)
+{
+	MediaPluginLibVLC* parent = (MediaPluginLibVLC*) data;
+
+	char tstr[4096];
+	std::vsnprintf(tstr, 4096, fmt, args);
+	std::stringstream out;
+	out << tstr;
+	parent->postLogMessage("info", out.str());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -592,6 +635,10 @@ void MediaPluginLibVLC::receiveMessage(const char* message_string)
 			{
 				mURL = message_in.getValue("uri");
 				playMedia();
+			}
+			else if (message_name == "enable_media_plugin_debugging")
+			{
+				mEnableMediaPluginLogging = message_in.getValueBoolean("enable");
 			}
 		}
 		else

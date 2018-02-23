@@ -3545,6 +3545,32 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 		}
 		break;
 
+		case MEDIA_EVENT_DEBUG_MESSAGE:
+		{
+			std::string level = plugin->getDebugMessageLevel();
+			if (level == "debug")
+			{
+				LL_DEBUGS("Media") << plugin->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "info")
+			{
+				LL_INFOS("Media") << plugin->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "warn")
+			{
+				LL_WARNS("Media") << plugin->getDebugMessageText() << LL_ENDL;
+			}
+			else if (level == "error")
+			{
+				LL_ERRS("Media") << plugin->getDebugMessageText() << LL_ENDL;
+			}
+			else
+			{
+				LL_INFOS("Media") << plugin->getDebugMessageText() << LL_ENDL;
+			}
+		};
+		break;
+
 		default:
 		break;
 	}

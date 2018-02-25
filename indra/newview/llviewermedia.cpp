@@ -2711,7 +2711,7 @@ void LLViewerMediaImpl::navigateInternal()
 		}
 		else if("data" == scheme || "file" == scheme || "about" == scheme)
 		{
-			if ("blank" == uri.hostName())
+			if ("blank" != uri.hostName())
 			{
 				// FIXME: figure out how to really discover the type for these schemes
 				// We use "data" internally for a text/html url for loading the login screen

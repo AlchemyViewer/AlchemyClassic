@@ -960,6 +960,15 @@ private:
 //-----------------------------------------------------------------------------
 F32 gpu_benchmark()
 {
+#if LL_WINDOWS
+	if (gGLManager.mIsIntel
+		&& std::string::npos != LLOSInfo::instance().getOSStringSimple().find("Microsoft Windows 8")) // or 8.1
+	{ // don't run benchmark on Windows 8/8.1 based PCs with Intel GPU (MAINT-8197)
+		LL_WARNS() << "Skipping gpu_benchmark() for Intel graphics on Windows 8." << LL_ENDL;
+		return -1.f;
+	}
+#endif
+
 	if (!gGLManager.mHasVertexBufferObject || !gGLManager.mHasShaderObjects || !gGLManager.mHasTimerQuery)
 	{ // don't bother benchmarking the fixed function or without vbos
       // or venerable drivers which don't support accurate timing anyway
@@ -1021,7 +1030,7 @@ F32 gpu_benchmark()
 		
 	LLGLSLShader::initProfile();
 
-	LLRenderTarget dest[count];
+	std::vector<LLRenderTarget> dest(count);
 	U32 source[count];
 	LLImageGL::generateTextures(count, source);
 	std::vector<F32> results;
@@ -1052,18 +1061,24 @@ F32 gpu_benchmark()
 		{
 			LL_WARNS() << "Failed to allocate render target." << LL_ENDL;
 			// abandon the benchmark test
-			delete [] pixels;
+			delete[] pixels;
 			LLImageGL::deleteTextures(count, source);
-#ifdef GL_ARB_vertex_array_object
+			LLGLSLShader::finishProfile(false);
 			if (local_init)
 			{
+#ifdef GL_ARB_vertex_array_object
 				if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
 				{
-					glGenVertexArrays(1, &vao);
-					glBindVertexArray(vao);
+					glBindVertexArray(0);
+					glDeleteVertexArrays(1, &vao);
 				}
-			}
 #endif
+
+				gBenchmarkProgram.unload();
+
+				LLGLSLShader::sNoFixedFunction = old_fixed_func;
+				local_init = false;
+			}
 			return -1.f;
 		}
 		dest[i].bindTarget();
@@ -1078,20 +1093,35 @@ F32 gpu_benchmark()
 
 	//make a dummy triangle to draw with
 	LLPointer<LLVertexBuffer> buff = new LLVertexBuffer(LLVertexBuffer::MAP_VERTEX, GL_STATIC_DRAW_ARB);
-	buff->allocateBuffer(3, 0, true);
+
+	if (!buff->allocateBuffer(3, 0, true))
+	{
+		LL_WARNS() << "Failed to allocate buffer during benchmark." << LL_ENDL;
+		// abandon the benchmark test
+		return -1.f;
+	}
 
 	LLStrider<LLVector3> v;
-	buff->getVertexStrider(v);
 
+	if (! buff->getVertexStrider(v))
+	{
+		LL_WARNS() << "GL LLVertexBuffer::getVertexStrider() returned false, "
+				   << "buff->getMappedData() is"
+				   << (buff->getMappedData()? " not" : "")
+				   << " NULL" << LL_ENDL;
+		// abandon the benchmark test
+		return -1.f;
+	}
+
+	// generate dummy triangle
 	v[0].set(-1.f, -1.f, 0.f);
 	v[1].set(3.f, -1.f, 0.f);
 	v[2].set(-1.f, 3.f, 0.f);
 
 	buff->flush();
 
+	// ensure matched pair of bind() and unbind() calls
 	gBenchmarkProgram.bind();
-	
-	bool busted_finish = false;
 
 	buff->setBuffer(LLVertexBuffer::MAP_VERTEX);
 	glFinish();
@@ -1108,20 +1138,9 @@ F32 gpu_benchmark()
 			buff->drawArrays(LLRender::TRIANGLES, 0, 3);
 			dest[i].flush();
 		}
-		
+
 		//wait for current batch of copies to finish
-		if (busted_finish)
-		{
-			//read a pixel off the last target since some drivers seem to ignore glFinish
-			dest[count-1].bindTarget();
-			U32 pixel = 0;
-			glReadPixels(0,0,1,1,GL_RGBA, GL_UNSIGNED_BYTE, &pixel);
-			dest[count-1].flush();
-		}
-		else
-		{
-			glFinish();
-		}
+		glFinish();
 
 		F32 time = timer.getElapsedTimeF32();
 
@@ -1129,18 +1148,8 @@ F32 gpu_benchmark()
 		{ 
 			//store result in gigabytes per second
 			F32 gb = (F32) ((F64) (res*res*8*count))/(1000000000);
-
 			F32 gbps = gb/time;
-
-			if (!gGLManager.mHasTimerQuery && !busted_finish && gbps > 128.f)
-			{ //unrealistically high bandwidth for a card without timer queries, glFinish is probably ignored
-				busted_finish = true;
-				LL_WARNS() << "GPU Benchmark detected GL driver with broken glFinish implementation." << LL_ENDL;
-			}
-			else
-			{
-				results.push_back(gbps);
-			}		
+			results.push_back(gbps);
 		}
 	}
 
@@ -1168,7 +1177,22 @@ F32 gpu_benchmark()
     { 
         LL_WARNS() << "Memory bandwidth is improbably high and likely incorrect; discarding result." << LL_ENDL;
         //OSX is probably lying, discard result
-        gbps = -1.f;
+		if (local_init)
+		{
+#ifdef GL_ARB_vertex_array_object
+			if (LLRender::sGLCoreProfile && !LLVertexBuffer::sUseVAO)
+			{
+				glBindVertexArray(0);
+				glDeleteVertexArrays(1, &vao);
+			}
+#endif
+
+			gBenchmarkProgram.unload();
+
+			LLGLSLShader::sNoFixedFunction = old_fixed_func;
+			local_init = false;
+		}
+        return -1.f;
     }
 #endif
 

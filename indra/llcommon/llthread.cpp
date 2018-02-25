@@ -135,6 +135,8 @@ void LLThread::runWrapper()
 
         //LL_INFOS() << "LLThread::staticRun() Exiting: " << mName << LL_ENDL;
 
+		mRecorder.reset(nullptr);
+
         // We're done with the run function, this thread is done executing now.
         //NB: we are using this flag to sync across threads...we really need memory barriers here
         mStatus = STOPPED;
@@ -154,8 +156,6 @@ void LLThread::runWrapper()
         mStatus = CRASHED;
         CRASH_ON_UNHANDLED_EXCEPTION("LLThread");
     }
-
-	mRecorder.reset(nullptr);
 }
 
 LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :

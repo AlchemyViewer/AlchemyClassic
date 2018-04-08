@@ -352,7 +352,7 @@
       <key>curl</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 1996 - 2017, Daniel Stenberg,(daniel@haxx.se), and many contributors.</string>
+        <string>Copyright (c) 1996 - 2018, Daniel Stenberg,(daniel@haxx.se), and many contributors.</string>
         <key>description</key>
         <string>Library for transferring data specified with URL syntax</string>
         <key>license</key>
@@ -422,18 +422,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>7b56b59c56389a8943a04b24bb22ada4</string>
+              <string>567076de810bcfff359c4779a68bb758</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/curl-7.57.0-windows64-201712260745.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/curl-7.59.0-windows64-201804071723.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.57.0</string>
+        <string>7.59.0</string>
       </map>
       <key>dbus-glib</key>
       <map>

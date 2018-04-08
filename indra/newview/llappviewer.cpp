@@ -3177,7 +3177,7 @@ LLSD LLAppViewer::getViewerInfo() const
     substitution["datetime"] = (S32)(gVFS ? gVFS->creationTime() : 0);
     info["VFS_TIME"] = LLTrans::getString("AboutTime", substitution);
 	// FIXME: Http Pipelining is still broken.
-    info["HTTP_PIPELINE"] = gSavedSettings.getBOOL("HttpPipelining") ? "Enabled" : "Disabled";
+    info["HTTP_PIPELINE"] = /*gSavedSettings.getBOOL("HttpPipelining") ? "Enabled" : */"Disabled";
 
 	// Libraries
 

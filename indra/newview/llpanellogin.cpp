@@ -190,6 +190,7 @@ LLPanelLogin::LLPanelLogin(const LLRect &rect,
 	auto username_combo = getChild<LLComboBox>("username_combo");
 	username_combo->setTextChangedCallback(boost::bind(&LLPanelLogin::onSelectUser, this));
 	username_combo->setCommitCallback(boost::bind(&LLPanelLogin::onSelectUser, this));
+	username_combo->setKeystrokeOnEsc(TRUE);
 	auto username_list = username_combo->getListCtrl();
 	username_list->setRemoveCallback(boost::bind(&LLPanelLogin::onRemoveUser, this, _2));
 	username_list->setCommitOnSelectionChange(true);
@@ -225,6 +226,7 @@ void LLPanelLogin::addFavoritesToStartLocation()
 			user_defined_name = username;
 		}
 	}
+
 	LLSD fav_llsd;
 	llifstream file;
 	file.open(filename);
@@ -708,16 +710,26 @@ void LLPanelLogin::loadLoginPage()
 
 	// Language
 	params["lang"] = LLUI::getLanguage();
+
+	// First Login?
 	if (gSavedSettings.getBOOL("FirstLoginThisInstall"))
 	{
 		params["firstlogin"] = "TRUE"; // not bool: server expects string TRUE
 	}
+
+	// Channel and Version
 	params["version"] = llformat("%s (%d)",
 								 LLVersionInfo::getShortVersion().c_str(),
 								 LLVersionInfo::getBuild());
 	params["channel"] = LLVersionInfo::getChannel();
+
+	// Grid
 	params["grid"] = LLGridManager::getInstance()->getGridId();
+
+	// add OS info
 	params["os"] = LLOSInfo::instance().getOSStringSimple();
+
+	// sourceid
 	params["sourceid"] = gSavedSettings.getString("sourceid");
 
 	// Make an LLURI with this augmented info
@@ -858,6 +870,16 @@ void LLPanelLogin::onClickForgotPassword(void*)
 	if (sInstance)
 	{
 		LLWeb::loadURLExternal(LLGridManager::getInstance()->getForgotPasswordURL());
+	}
+}
+
+//static
+void LLPanelLogin::onClickHelp(void*)
+{
+	if (sInstance)
+	{
+		LLViewerHelp* vhelp = LLViewerHelp::getInstance();
+		vhelp->showTopic(vhelp->preLoginTopic());
 	}
 }
 

@@ -84,9 +84,7 @@ LLFloaterIMSession::LLFloaterIMSession(const LLUUID& session_id)
 	mSessionNameUpdatedForTyping(false),
 	mMeTypingTimer(),
 	mOtherTypingTimer(),
-	mSessionInitialized(false),
-	mImInfo(nullptr),
-	mOtherTypingTimer()
+	mSessionInitialized(false)
 {
 	mIsNearbyChat = false;
 

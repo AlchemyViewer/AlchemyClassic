@@ -28,6 +28,7 @@
 #define LL_LLPANELPERMISSIONS_H
 
 #include "llpanel.h"
+#include "llavatarname.h"
 #include "llstyle.h"
 #include "lluuid.h"
 
@@ -117,6 +118,7 @@ private:
 	LLLineEditor*	mEditorObjectName = nullptr;
 	LLLineEditor*	mEditorObjectDesc = nullptr;
 	LLSpinCtrl*		mSpinnerEditCost = nullptr;
+
 	LLTextBox*		mLabelAdvPermB = nullptr;
 	LLTextBox*		mLabelAdvPermO = nullptr;
 	LLTextBox*		mLabelAdvPermG = nullptr;

@@ -395,7 +395,6 @@ LLPanelOutfitEdit::LLPanelOutfitEdit()
 	mStatus(nullptr),
 	mInventoryItemsPanel(nullptr),
 	mSearchFilter(nullptr),
-	mEditWearableBtn(nullptr),
 	mFolderViewBtn(nullptr),
 	mListViewBtn(nullptr),
 	mFilterBtn(nullptr),

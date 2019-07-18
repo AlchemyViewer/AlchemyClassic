@@ -761,7 +761,7 @@ void LLPanelPermissions::refresh()
 		else
 		{
 			mCheckShareWithGroup->setValue(TRUE);
-			mCheckShareWithGroup->setTentative(TRUE);
+			mCheckShareWithGroup->setTentative(!has_change_perm_ability);
 			mBtnDeedGroup->setEnabled(gAgent.hasPowerInGroup(group_id, GP_OBJECT_DEED) && (group_mask_on & PERM_MOVE) && (owner_mask_on & PERM_TRANSFER) && !group_owned && can_transfer);
 		}
 	}			

@@ -717,30 +717,13 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
 				}
 			}
 
-			LLPointer<LLIMInfo> im_info = new LLIMInfo(gMessageSystem);
-			gIMMgr->processIMTypingStart(im_info);
+            gIMMgr->processIMTypingStart(from_id, dialog);
 		}
         break;
 
         case IM_TYPING_STOP:
         {
-            std::vector<U8> bucket(binary_bucket[0], binary_bucket_size);
-            LLSD data;
-            data["binary_bucket"] = bucket;
-            LLPointer<LLIMInfo> im_info = new LLIMInfo(from_id,
-                    from_group,
-                    to_id,
-                    dialog,
-                    agentName,
-                    message,
-                    session_id,
-                    parent_estate_id,
-                    region_id,
-                    position,
-                    data,
-                    offline,
-                    timestamp);
-            gIMMgr->processIMTypingStop(im_info);
+            gIMMgr->processIMTypingStop(from_id, dialog);
         }
         break;
 

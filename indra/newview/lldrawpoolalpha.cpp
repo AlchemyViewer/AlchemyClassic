@@ -49,6 +49,7 @@
 #include "llviewerregion.h"
 #include "lldrawpoolwater.h"
 #include "llspatialpartition.h"
+#include "llglcommonfunc.h"
 
 BOOL LLDrawPoolAlpha::sShowDebugAlpha = FALSE;
 
@@ -550,10 +551,12 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 				{
 					LL_RECORD_BLOCK_TIME(FTM_RENDER_ALPHA_PUSH);
 
+					LLGLEnableFunc stencil_test(GL_STENCIL_TEST, params.mSelected, &LLGLCommonFunc::selected_stencil_test);
+
 					gGL.blendFunc((LLRender::eBlendFactor) params.mBlendFuncSrc, (LLRender::eBlendFactor) params.mBlendFuncDst, mAlphaSFactor, mAlphaDFactor);
 					// If using shaders, pull the attribute mask from it, else used passed base mask.
 					params.mVertexBuffer->setBuffer(current_shader ? current_shader->mAttributeMask : mask);
-                
+
 					params.mVertexBuffer->drawRange(params.mDrawMode, params.mStart, params.mEnd, params.mCount, params.mOffset);
 					gPipeline.addTrianglesDrawn(params.mCount, params.mDrawMode);
 				}
@@ -566,7 +569,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 				{
 					// install glow-accumulating blend mode
 					gGL.blendFunc(LLRender::BF_ZERO, LLRender::BF_ONE, // don't touch color
-						      LLRender::BF_ONE, LLRender::BF_ONE); // add to alpha (glow)
+					LLRender::BF_ONE, LLRender::BF_ONE); // add to alpha (glow)
 
 					emissive_shader->bind();
 					

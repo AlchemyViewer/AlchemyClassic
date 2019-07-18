@@ -39,6 +39,7 @@ public:
 	LLMaterialID(const LLSD::Binary& pMaterialID);
 	LLMaterialID(const void* pMemory);
 	LLMaterialID(const LLMaterialID& pOtherMaterialID);
+	LLMaterialID(const LLUUID& lluid);
 	~LLMaterialID();
 
 	bool          operator == (const LLMaterialID& pOtherMaterialID) const;

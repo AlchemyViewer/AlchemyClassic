@@ -119,6 +119,8 @@ public:
 	void setAndSaveDefaultFOV(F32 fov) { setDefaultFOV(mSavedFOVDefault = fov); }
 	void loadDefaultFOV();
 
+	BOOL isDefaultFOVChanged();
+
 	BOOL cameraUnderWater() const;
 	BOOL areVertsVisible(LLViewerObject* volumep, BOOL all_verts);
 
@@ -142,6 +144,7 @@ protected:
 	mutable LLMatrix4	mProjectionMatrix;	// Cache of perspective matrix
 	mutable LLMatrix4	mModelviewMatrix;
 	F32					mCameraFOVDefault;
+	F32					mPrevCameraFOVDefault;
 	F32					mSavedFOVDefault;
 	F32					mCosHalfCameraFOV;
 	LLVector3			mLastPointOfInterest;

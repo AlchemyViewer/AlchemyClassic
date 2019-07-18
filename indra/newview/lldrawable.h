@@ -81,6 +81,7 @@ public:
 	void markDead();			// Mark this drawable as dead
 	BOOL isDead() const			{ return isState(DEAD); }
 	BOOL isNew() const			{ return !isState(BUILT); }
+	BOOL isUnload() const		{ return isState(FOR_UNLOAD); }
 
 	BOOL isLight() const;
 
@@ -138,6 +139,7 @@ public:
 	void				mergeFaces(LLDrawable* src);
 
 	void init(bool new_entry);
+	void unload();
 	void destroy();
 
 	void update();
@@ -279,6 +281,7 @@ public:
 		PARTITION_MOVE	= 0x10000000,
 		ANIMATED_CHILD  = 0x20000000,
 		ACTIVE_CHILD	= 0x40000000,
+		FOR_UNLOAD		= 0x80000000, //should be unload from memory
 	} EDrawableFlags;
 
 public:

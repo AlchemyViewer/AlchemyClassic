@@ -34,6 +34,9 @@
 #include "lllocalbitmaps.h"
 #include "m3math.h"		// LLMatrix3
 #include "m4math.h"		// LLMatrix4
+#include <map>
+#include <set>
+
 
 class LLViewerTextureAnim;
 class LLDrawPool;
@@ -125,6 +128,8 @@ public:
 				void	generateSilhouette(LLSelectNode* nodep, const LLVector3& view_point);
 	/*virtual*/	BOOL	setParent(LLViewerObject* parent) override;
 				S32		getLOD() const override { return mLOD; }
+				void	setNoLOD()							{ mLOD = NO_LOD; mLODChanged = TRUE; }
+				bool	isNoLOD() const						{ return NO_LOD == mLOD; }
 	const LLVector3		getPivotPositionAgent() const override;
 	const LLMatrix4&	getRelativeXform() const				{ return mRelativeXform; }
 	const LLMatrix3&	getRelativeXformInvTrans() const		{ return mRelativeXformInvTrans; }
@@ -159,6 +164,7 @@ public:
 				const LLMatrix4& getWorldMatrix(LLXformMatrix* xform) const override;
 
 				void	markForUpdate(BOOL priority)			{ LLViewerObject::markForUpdate(priority); mVolumeChanged = TRUE; }
+				void	markForUnload()							{ LLViewerObject::markForUnload(TRUE); mVolumeChanged = TRUE; }
 				void    faceMappingChanged()                    { mFaceMappingChanged=TRUE; };
 
 	/*virtual*/ void	onShift(const LLVector4a &shift_vector) override; // Called when the drawable shifts
@@ -327,7 +333,7 @@ public:
 	void clearRiggedVolume();
 
 protected:
-	S32	computeLODDetail(F32	distance, F32 radius);
+	S32	computeLODDetail(F32	distance, F32 radius, F32 lod_factor);
 	BOOL calcLOD();
 	LLFace* addFace(S32 face_index);
 	void updateTEData();

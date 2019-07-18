@@ -861,16 +861,6 @@ void LLPanelLogin::onClickForgotPassword(void*)
 	}
 }
 
-//static
-void LLPanelLogin::onClickHelp(void*)
-{
-	if (sInstance)
-	{
-		LLViewerHelp* vhelp = LLViewerHelp::getInstance();
-		vhelp->showTopic(vhelp->preLoginTopic());
-	}
-}
-
 // static
 void LLPanelLogin::onPassKey(LLLineEditor* caller, void* user_data)
 {

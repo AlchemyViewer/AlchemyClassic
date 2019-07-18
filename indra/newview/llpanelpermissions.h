@@ -28,6 +28,7 @@
 #define LL_LLPANELPERMISSIONS_H
 
 #include "llpanel.h"
+#include "llstyle.h"
 #include "lluuid.h"
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -52,7 +53,8 @@ public:
 	virtual ~LLPanelPermissions();
 
 	/*virtual*/	BOOL	postBuild() override;
-
+	void updateOwnerName(const LLUUID& owner_id, const LLAvatarName& owner_name, const LLStyle::Params& style_params);
+	void updateCreatorName(const LLUUID& creator_id, const LLAvatarName& creator_name, const LLStyle::Params& style_params);
 	void refresh() override;							// refresh all labels as needed
 
 protected:
@@ -115,7 +117,6 @@ private:
 	LLLineEditor*	mEditorObjectName = nullptr;
 	LLLineEditor*	mEditorObjectDesc = nullptr;
 	LLSpinCtrl*		mSpinnerEditCost = nullptr;
-
 	LLTextBox*		mLabelAdvPermB = nullptr;
 	LLTextBox*		mLabelAdvPermO = nullptr;
 	LLTextBox*		mLabelAdvPermG = nullptr;
@@ -135,7 +136,8 @@ private:
 	LLTextBox*		mLabelOwnerName = nullptr;
 	LLTextBox*		mLabelPathFindingAttribs = nullptr;
 	LLTextBox*		mLabelPermModify = nullptr;
-
+	boost::signals2::connection mCreatorCacheConnection;
+	boost::signals2::connection mOwnerCacheConnection;
 };
 
 

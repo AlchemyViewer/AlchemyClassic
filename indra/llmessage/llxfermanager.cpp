@@ -46,9 +46,15 @@ const S32 LL_PACKET_RETRY_LIMIT = 10;            // packet retransmission limit
 const S32 LL_DEFAULT_MAX_SIMULTANEOUS_XFERS = 10;
 const S32 LL_DEFAULT_MAX_REQUEST_FIFO_XFERS = 1000;
 
-#define LL_XFER_PROGRESS_MESSAGES 0
-#define LL_XFER_TEST_REXMIT       0
+// Kills the connection if a viewer download queue hits this many requests backed up
+// Also set in simulator.xml at "hard_limit_outgoing_xfers_per_circuit"
+const S32 LL_DEFAULT_MAX_HARD_LIMIT_SIMULTANEOUS_XFERS = 500;	
 
+// Use this to show sending some ConfirmXferPacket messages
+//#define LL_XFER_PROGRESS_MESSAGES 1
+
+// Use this for lots of diagnostic spam
+//#define LL_XFER_DIAGNOISTIC_LOGGING 1
 
 ///////////////////////////////////////////////////////////
 
@@ -68,10 +74,10 @@ LLXferManager::~LLXferManager ()
 
 void LLXferManager::init (LLVFS *vfs)
 {
-	mSendList = nullptr;
-	mReceiveList = nullptr;
+	cleanup();
 
 	setMaxOutgoingXfersPerCircuit(LL_DEFAULT_MAX_SIMULTANEOUS_XFERS);
+	setHardLimitOutgoingXfersPerCircuit(LL_DEFAULT_MAX_HARD_LIMIT_SIMULTANEOUS_XFERS);
 	setMaxIncomingXfers(LL_DEFAULT_MAX_REQUEST_FIFO_XFERS);
 
 	mVFS = vfs;
@@ -85,29 +91,14 @@ void LLXferManager::init (LLVFS *vfs)
 
 void LLXferManager::cleanup ()
 {
-	LLXfer *xferp;
-	LLXfer *delp;
-
 	for_each(mOutgoingHosts.begin(), mOutgoingHosts.end(), DeletePointer());
 	mOutgoingHosts.clear();
 
-	delp = mSendList;
-	while (delp)
-	{
-		xferp = delp->mNext;
-		delete delp;
-		delp = xferp;
-	}
-	mSendList = nullptr;
+	for_each(mSendList.begin(), mSendList.end(), DeletePointer());
+	mSendList.clear();
 
-	delp = mReceiveList;
-	while (delp)
-	{
-		xferp = delp->mNext;
-		delete delp;
-		delp = xferp;
-	}
-	mReceiveList = nullptr;
+	for_each(mReceiveList.begin(), mReceiveList.end(), DeletePointer());
+	mReceiveList.clear();
 }
 
 ///////////////////////////////////////////////////////////
@@ -122,6 +113,11 @@ void LLXferManager::setMaxIncomingXfers(S32 max_num)
 void LLXferManager::setMaxOutgoingXfersPerCircuit(S32 max_num)
 {
 	mMaxOutgoingXfersPerCircuit = max_num;
+}
+
+void LLXferManager::setHardLimitOutgoingXfersPerCircuit(S32 max_num)
+{
+	mHardLimitOutgoingXfersPerCircuit = max_num;
 }
 
 void LLXferManager::setUseAckThrottling(const BOOL use)
@@ -142,6 +138,11 @@ void LLXferManager::setAckThrottleBPS(const F32 bps)
 	F32 actual_rate = llmax(min_bps*1.1f, bps);
 	LL_DEBUGS("AppInit") << "LLXferManager ack throttle min rate: " << min_bps << LL_ENDL;
 	LL_DEBUGS("AppInit") << "LLXferManager ack throttle actual rate: " << actual_rate << LL_ENDL;
+	#ifdef LL_XFER_DIAGNOISTIC_LOGGING
+	LL_INFOS("Xfer") << "LLXferManager ack throttle min rate: " << min_bps << LL_ENDL;
+	LL_INFOS("Xfer") << "LLXferManager ack throttle actual rate: " << actual_rate << LL_ENDL;
+	#endif // LL_XFER_DIAGNOISTIC_LOGGING
+
 	mAckThrottle.setRate(actual_rate);
 }
 
@@ -150,45 +151,71 @@ void LLXferManager::setAckThrottleBPS(const F32 bps)
 
 void LLXferManager::updateHostStatus()
 {
-    LLXfer *xferp;
-	LLHostStatus *host_statusp = nullptr;
-
+	// Clear the outgoing host list
 	for_each(mOutgoingHosts.begin(), mOutgoingHosts.end(), DeletePointer());
 	mOutgoingHosts.clear();
-
-	for (xferp = mSendList; xferp; xferp = xferp->mNext)
+	
+	// Loop through all outgoing xfers and re-build mOutgoingHosts
+	for (xfer_list_t::iterator send_iter = mSendList.begin();
+			send_iter != mSendList.end(); ++send_iter)
 	{
+		LLHostStatus *host_statusp = nullptr;
 		for (status_list_t::iterator iter = mOutgoingHosts.begin();
 			 iter != mOutgoingHosts.end(); ++iter)
 		{
-			host_statusp = *iter;
-			if (host_statusp->mHost == xferp->mRemoteHost)
-			{
+			if ((*iter)->mHost == (*send_iter)->mRemoteHost)
+			{	// Already have this host
+				host_statusp = *iter;
 				break;
 			}
 		}
 		if (!host_statusp)
-		{
+		{	// Don't have this host, so add it
 			host_statusp = new LLHostStatus();
 			if (host_statusp)
 			{
-				host_statusp->mHost = xferp->mRemoteHost;
+				host_statusp->mHost = (*send_iter)->mRemoteHost;
 				mOutgoingHosts.push_front(host_statusp);
 			}
 		}
 		if (host_statusp)
-		{
-			if (xferp->mStatus == e_LL_XFER_PENDING)
+		{	// Do the accounting
+			if ((*send_iter)->mStatus == e_LL_XFER_PENDING)
 			{
 				host_statusp->mNumPending++;
 			}
-			else if (xferp->mStatus == e_LL_XFER_IN_PROGRESS)
+			else if ((*send_iter)->mStatus == e_LL_XFER_IN_PROGRESS)
 			{
 				host_statusp->mNumActive++;
 			}
 		}
-		
 	}	
+
+#ifdef LL_XFER_DIAGNOISTIC_LOGGING
+	for (xfer_list_t::iterator send_iter = mSendList.begin();
+			send_iter != mSendList.end(); ++send_iter)
+	{
+		LLXfer * xferp = *send_iter;
+		LL_INFOS("Xfer") << "xfer to host " << xferp->mRemoteHost
+			<< " is " << xferp->mXferSize << " bytes"
+			<< ", status " << (S32)(xferp->mStatus)
+			<< ", waiting for ACK: " << (S32)(xferp->mWaitingForACK)
+			<< " in frame " << (S32) LLFrameTimer::getFrameCount()
+			<< LL_ENDL;
+	}
+
+	for (status_list_t::iterator iter = mOutgoingHosts.begin();
+		 iter != mOutgoingHosts.end(); ++iter)
+	{
+		LL_INFOS("Xfer") << "LLXfer host " << (*iter)->mHost.getIPandPort() 
+			<< " has " << (*iter)->mNumActive
+			<< " active, " << (*iter)->mNumPending
+			<< " pending" 
+			<< " in frame " << (S32) LLFrameTimer::getFrameCount()
+			<< LL_ENDL;
+	}
+#endif // LL_XFER_DIAGNOISTIC_LOGGING
+
 }
 
 ///////////////////////////////////////////////////////////
@@ -198,27 +225,28 @@ void LLXferManager::printHostStatus()
 	LLHostStatus *host_statusp = nullptr;
 	if (!mOutgoingHosts.empty())
 	{
-		LL_INFOS() << "Outgoing Xfers:" << LL_ENDL;
+		LL_INFOS("Xfer") << "Outgoing Xfers:" << LL_ENDL;
 
 		for (status_list_t::iterator iter = mOutgoingHosts.begin();
 			 iter != mOutgoingHosts.end(); ++iter)
 		{
 			host_statusp = *iter;
-			LL_INFOS() << "    " << host_statusp->mHost << "  active: " << host_statusp->mNumActive << "  pending: " << host_statusp->mNumPending << LL_ENDL;
+			LL_INFOS("Xfer") << "    " << host_statusp->mHost << "  active: " << host_statusp->mNumActive << "  pending: " << host_statusp->mNumPending << LL_ENDL;
 		}
 	}	
 }
 
 ///////////////////////////////////////////////////////////
 
-LLXfer *LLXferManager::findXfer (U64 id, LLXfer *list_head)
+LLXfer * LLXferManager::findXferByID(U64 id, xfer_list_t & xfer_list)
 {
-    LLXfer *xferp;
-	for (xferp = list_head; xferp; xferp = xferp->mNext)
+	for (xfer_list_t::iterator iter = xfer_list.begin();
+		 iter != xfer_list.end();
+		 ++iter)
 	{
-		if (xferp->mID == id)
+		if ((*iter)->mID == id)
 		{
-			return(xferp);
+			return(*iter);
 		}
 	}
 	return(nullptr);
@@ -227,29 +255,34 @@ LLXfer *LLXferManager::findXfer (U64 id, LLXfer *list_head)
 
 ///////////////////////////////////////////////////////////
 
-void LLXferManager::removeXfer (LLXfer *delp, LLXfer **list_head)
+// WARNING:  this invalidates iterators from xfer_list
+void LLXferManager::removeXfer(LLXfer *delp, xfer_list_t & xfer_list)
 {
-	// This function assumes that delp will only occur in the list
-	// zero or one times.
 	if (delp)
-	{
-		if (*list_head == delp)
+	{	
+		std::string direction = "send";
+		if (&xfer_list == &mReceiveList)
 		{
-			*list_head = delp->mNext;
-			delete (delp);
+			direction = "receive";
 		}
-		else
+
+		// This assumes that delp will occur in the list once at most
+		// Find the pointer in the list
+		for (xfer_list_t::iterator iter = xfer_list.begin();
+			 iter != xfer_list.end();
+			 ++iter)
 		{
-			LLXfer *xferp = *list_head;
-			while (xferp->mNext)
+			if ((*iter) == delp)
 			{
-				if (xferp->mNext == delp)
-				{
-					xferp->mNext = delp->mNext;
-					delete (delp);
-					break;
-				}
-				xferp = xferp->mNext;
+				LL_DEBUGS("Xfer") << "Deleting xfer to host " << (*iter)->mRemoteHost
+					<< " of " << (*iter)->mXferSize << " bytes"
+					<< ", status " << (S32)((*iter)->mStatus)
+					<< " from the " << direction << " list"
+					<< LL_ENDL;
+
+				xfer_list.erase(iter);
+				delete (delp);
+				break;
 			}
 		}
 	}
@@ -257,24 +290,7 @@ void LLXferManager::removeXfer (LLXfer *delp, LLXfer **list_head)
 
 ///////////////////////////////////////////////////////////
 
-U32 LLXferManager::numActiveListEntries(LLXfer *list_head)
-{
-	U32 num_entries = 0;
-
-	while (list_head)
-	{
-		if (list_head->mStatus == e_LL_XFER_IN_PROGRESS) 
-		{
-			num_entries++;
-		}
-		list_head = list_head->mNext;
-	}
-	return(num_entries);
-}
-
-///////////////////////////////////////////////////////////
-
-S32 LLXferManager::numPendingXfers(const LLHost &host)
+LLHostStatus * LLXferManager::findHostStatus(const LLHost &host)
 {
 	LLHostStatus *host_statusp = nullptr;
 
@@ -284,8 +300,20 @@ S32 LLXferManager::numPendingXfers(const LLHost &host)
 		host_statusp = *iter;
 		if (host_statusp->mHost == host)
 		{
-			return (host_statusp->mNumPending);
+			return (host_statusp);
 		}
+	}
+	return 0;
+}
+
+///////////////////////////////////////////////////////////
+ 
+S32 LLXferManager::numPendingXfers(const LLHost &host)
+{
+	LLHostStatus *host_statusp = findHostStatus(host);
+	if (host_statusp)
+	{
+		return host_statusp->mNumPending;
 	}
 	return 0;
 }
@@ -294,16 +322,10 @@ S32 LLXferManager::numPendingXfers(const LLHost &host)
 
 S32 LLXferManager::numActiveXfers(const LLHost &host)
 {
-	LLHostStatus *host_statusp = nullptr;
-
-	for (status_list_t::iterator iter = mOutgoingHosts.begin();
-		 iter != mOutgoingHosts.end(); ++iter)
+	LLHostStatus *host_statusp = findHostStatus(host);
+	if (host_statusp)
 	{
-		host_statusp = *iter;
-		if (host_statusp->mHost == host)
-		{
-			return (host_statusp->mNumActive);
-		}
+		return host_statusp->mNumActive;
 	}
 	return 0;
 }
@@ -376,37 +398,6 @@ BOOL LLXferManager::isLastPacket(S32 packet_num)
 
 ///////////////////////////////////////////////////////////
 
-U64 LLXferManager::registerXfer(const void *datap, const S32 length)
-{
-	LLXfer *xferp = nullptr;
-	U64 xfer_id = getNextID();
-
-	try
-	{
-		xferp = (LLXfer *) new LLXfer_Mem();
-	}
-	catch (const std::bad_alloc& e)
-	{
-		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
-		xfer_id = 0;
-		return(xfer_id);
-	}
-
-	xferp->mNext = mSendList;
-	mSendList = xferp;
-
-	xfer_id = ((LLXfer_Mem *) xferp)->registerXfer(xfer_id, datap, length);
-
-	if (!xfer_id)
-	{
-		removeXfer(xferp, &mSendList);
-	}
-
-    return(xfer_id);
-}
-
-///////////////////////////////////////////////////////////
-
 U64 LLXferManager::requestFile(const std::string& local_filename,
 								const std::string& remote_filename,
 								ELLPath remote_path,
@@ -417,20 +408,24 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 								BOOL is_priority,
 								BOOL use_big_packets)
 {
-	LLXfer *xferp = nullptr;
+	LLXfer_File* file_xfer_p = nullptr;
 
-	for (xferp = mReceiveList; xferp ; xferp = xferp->mNext)
+	// First check to see if it's already requested
+	for (xfer_list_t::iterator iter = mReceiveList.begin();
+			iter != mReceiveList.end(); ++iter)
 	{
-		if (xferp->getXferTypeTag() == LLXfer::XFER_FILE
-			&& (((LLXfer_File*)xferp)->matchesLocalFilename(local_filename))
-			&& (((LLXfer_File*)xferp)->matchesRemoteFilename(remote_filename, remote_path))
-			&& (remote_host == xferp->mRemoteHost)
-			&& (callback == xferp->mCallback)
-			&& (user_data == xferp->mCallbackDataHandle))
-
+		if ((*iter)->getXferTypeTag() == LLXfer::XFER_FILE)
 		{
-			// cout << "requested a xfer already in progress" << endl;
-			return xferp->mID;
+			file_xfer_p = (LLXfer_File*)(*iter);
+			if (file_xfer_p->matchesLocalFilename(local_filename)
+				&& file_xfer_p->matchesRemoteFilename(remote_filename, remote_path)
+				&& (remote_host == file_xfer_p->mRemoteHost)
+				&& (callback == file_xfer_p->mCallback)
+				&& (user_data == file_xfer_p->mCallbackDataHandle))
+			{
+				// Already have the request	(already in progress)
+				return (*iter)->mID;
+			}
 		}
 	}
 
@@ -439,7 +434,7 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 	S32 chunk_size = use_big_packets ? LL_XFER_LARGE_PAYLOAD : -1;
 	try
 	{
-		xferp = (LLXfer *) new LLXfer_File(chunk_size);
+		file_xfer_p = new LLXfer_File(chunk_size);
 	}
 	catch (const std::bad_alloc& e)
 	{
@@ -447,20 +442,19 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 		return 0;
 	}
 
-	addToList(xferp, mReceiveList, is_priority);
+	addToList(file_xfer_p, mReceiveList, is_priority);
 
 	// Remove any file by the same name that happens to be lying
 	// around.
 	// Note: according to AaronB, this is here to deal with locks on files that were
 	// in transit during a crash,
-	if (delete_remote_on_completion
-		&& (remote_filename.substr(remote_filename.length() - 4) == ".tmp")
-		&& gDirUtilp->fileExists(local_filename))
+	if (delete_remote_on_completion && 
+	    (remote_filename.substr(remote_filename.length() - 4) == ".tmp"))
 	{
 		LLFile::remove(local_filename, ENOENT);
 	}
 	xfer_id = getNextID();
-	((LLXfer_File *) xferp)->initializeRequest(
+	file_xfer_p->initializeRequest(
 		xfer_id,
 		local_filename,
 		remote_filename,
@@ -473,36 +467,6 @@ U64 LLXferManager::requestFile(const std::string& local_filename,
 	return xfer_id;
 }
 
-void LLXferManager::requestFile(const std::string& remote_filename,
-								ELLPath remote_path,
-								const LLHost& remote_host,
-								BOOL delete_remote_on_completion,
-								void (*callback)(void*,S32,void**,S32,LLExtStat),
-								void** user_data,
-								BOOL is_priority)
-{
-	LLXfer *xferp = nullptr;
-
-	try
-	{
-		xferp = (LLXfer *) new LLXfer_Mem();
-	}
-	catch (const std::bad_alloc& e)
-	{
-		LL_ERRS() << "Xfer allcoation error: " << e.what() << LL_ENDL;
-		return;
-	}
-
-	addToList(xferp, mReceiveList, is_priority);
-	((LLXfer_Mem *) xferp)->initializeRequest(getNextID(),
-		remote_filename,
-		remote_path,
-		remote_host,
-		delete_remote_on_completion,
-		callback, user_data);
-	startPendingDownloads();
-}
-
 void LLXferManager::requestVFile(const LLUUID& local_id,
 								 const LLUUID& remote_id,
 								 LLAssetType::EType type, LLVFS* vfs,
@@ -511,26 +475,37 @@ void LLXferManager::requestVFile(const LLUUID& local_id,
 								 void** user_data,
 								 BOOL is_priority)
 {
-	LLXfer *xferp = nullptr;
+	LLXfer_VFile * xfer_p = nullptr;
 
-	for (xferp = mReceiveList; xferp ; xferp = xferp->mNext)
-	{
-		if (xferp->getXferTypeTag() == LLXfer::XFER_VFILE
-			&& (((LLXfer_VFile*)xferp)->matchesLocalFile(local_id, type))
-			&& (((LLXfer_VFile*)xferp)->matchesRemoteFile(remote_id, type))
-			&& (remote_host == xferp->mRemoteHost)
-			&& (callback == xferp->mCallback)
-			&& (user_data == xferp->mCallbackDataHandle))
-
+	for (xfer_list_t::iterator iter = mReceiveList.begin();
+			iter != mReceiveList.end(); ++iter)
+	{	// Find any matching existing requests
+		if ((*iter)->getXferTypeTag() == LLXfer::XFER_VFILE)
 		{
-			// cout << "requested a xfer already in progress" << endl;
-			return;
+			xfer_p = (LLXfer_VFile*) (*iter);
+			if (xfer_p->matchesLocalFile(local_id, type)
+				&& xfer_p->matchesRemoteFile(remote_id, type)
+				&& (remote_host == xfer_p->mRemoteHost)
+				&& (callback == xfer_p->mCallback)
+				&& (user_data == xfer_p->mCallbackDataHandle))
+
+			{	// Have match, don't add a duplicate
+				#ifdef LL_XFER_DIAGNOISTIC_LOGGING
+				LL_INFOS("Xfer") << "Dropping duplicate xfer request for " << remote_id
+					<< " on " << remote_host.getIPandPort()
+					<< " local id " << local_id
+					<< LL_ENDL;
+				#endif	// LL_XFER_DIAGNOISTIC_LOGGING
+
+				return;
+			}
 		}
 	}
 
+
 	try
 	{
-		xferp = (LLXfer *) new LLXfer_VFile();
+		xfer_p = new LLXfer_VFile();
 	}
 	catch (const std::bad_alloc& e)
 	{
@@ -538,8 +513,16 @@ void LLXferManager::requestVFile(const LLUUID& local_id,
 		return;
 	}
 
-	addToList(xferp, mReceiveList, is_priority);
-	((LLXfer_VFile *) xferp)->initializeRequest(getNextID(),
+	#ifdef LL_XFER_DIAGNOISTIC_LOGGING
+	LL_INFOS("Xfer") << "Starting file xfer for " << remote_id
+		<< " type " << LLAssetType::lookupHumanReadable(type)
+		<< " from " << xfer_p->mRemoteHost.getIPandPort()
+		<< ", local id " << local_id
+		<< LL_ENDL;
+	#endif	// LL_XFER_DIAGNOISTIC_LOGGING
+
+	addToList(xfer_p, mReceiveList, is_priority);
+	((LLXfer_VFile *)xfer_p)->initializeRequest(getNextID(),
 		vfs,
 		local_id,
 		remote_id,
@@ -547,76 +530,16 @@ void LLXferManager::requestVFile(const LLUUID& local_id,
 		remote_host,
 		callback,
 		user_data);
-		startPendingDownloads();
+	startPendingDownloads();
 }
 
-/*
-void LLXferManager::requestXfer(
-								const std::string& local_filename, 
-								BOOL delete_remote_on_completion,
-								U64 xfer_id, 
-								const LLHost &remote_host, 
-								void (*callback)(void **,S32),
-								void **user_data)
-{
-	LLXfer *xferp;
-
-	for (xferp = mReceiveList; xferp ; xferp = xferp->mNext)
-	{
-		if (xferp->getXferTypeTag() == LLXfer::XFER_FILE
-			&& (((LLXfer_File*)xferp)->matchesLocalFilename(local_filename))
-			&& (xfer_id == xferp->mID)
-			&& (remote_host == xferp->mRemoteHost)
-			&& (callback == xferp->mCallback)
-			&& (user_data == xferp->mCallbackDataHandle))
-
-		{
-			// cout << "requested a xfer already in progress" << endl;
-			return;
-		}
-	}
-
-	xferp = (LLXfer *) new LLXfer_File();
-	if (xferp)
-	{
-		xferp->mNext = mReceiveList;
-		mReceiveList = xferp;
-
-		((LLXfer_File *)xferp)->initializeRequest(xfer_id,local_filename,"",LL_PATH_NONE,remote_host,delete_remote_on_completion,callback,user_data);
-		startPendingDownloads();
-	}
-	else
-	{
-		LL_ERRS() << "Xfer allcoation error" << LL_ENDL;
-	}
-}
-
-void LLXferManager::requestXfer(U64 xfer_id, const LLHost &remote_host, BOOL delete_remote_on_completion, void (*callback)(void *,S32,void **,S32),void **user_data)
-{
-	LLXfer *xferp;
-
-	xferp = (LLXfer *) new LLXfer_Mem();
-	if (xferp)
-	{
-		xferp->mNext = mReceiveList;
-		mReceiveList = xferp;
-
-		((LLXfer_Mem *)xferp)->initializeRequest(xfer_id,"",LL_PATH_NONE,remote_host,delete_remote_on_completion,callback,user_data);
-		startPendingDownloads();
-	}
-	else
-	{
-		LL_ERRS() << "Xfer allcoation error" << LL_ENDL;
-	}
-}
-*/
 ///////////////////////////////////////////////////////////
 
 void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user_data*/)
 {
 	// there's sometimes an extra 4 bytes added to an xfer payload
 	const S32 BUF_SIZE = LL_XFER_LARGE_PAYLOAD + 4;
-	char fdata_buf[LL_XFER_LARGE_PAYLOAD + 4];		/* Flawfinder : ignore */
+	char fdata_buf[BUF_SIZE];		/* Flawfinder : ignore */
 	S32 fdata_size;
 	U64 id;
 	S32 packetnum;
@@ -626,13 +549,22 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 	mesgsys->getS32Fast(_PREHASH_XferID, _PREHASH_Packet, packetnum);
 
 	fdata_size = mesgsys->getSizeFast(_PREHASH_DataPacket,_PREHASH_Data);
-	mesgsys->getBinaryDataFast(_PREHASH_DataPacket, _PREHASH_Data, fdata_buf, 0, 0, BUF_SIZE);
-
-	xferp = findXfer(id, mReceiveList);
-
-	if (!xferp) 
+	if (fdata_size < 0 ||
+		fdata_size > BUF_SIZE)
 	{
-		LL_INFOS() << "received xfer data from " << mesgsys->getSender()
+		LL_WARNS("Xfer") << "Received invalid xfer data size of " << fdata_size
+			<< " in packet number " << packetnum 
+			<< " from " << mesgsys->getSender()
+			<< " for xfer id: " << std::to_string(id) 
+			<< LL_ENDL;
+		return;
+	}
+	mesgsys->getBinaryDataFast(_PREHASH_DataPacket, _PREHASH_Data, fdata_buf, fdata_size, 0, BUF_SIZE);
+
+	xferp = findXferByID(id, mReceiveList);
+	if (!xferp)
+	{
+		LL_WARNS("Xfer") << "received xfer data from " << mesgsys->getSender()
 			<< " for non-existent xfer id: "
 			<< std::to_string(id) << LL_ENDL;
 		return;
@@ -645,11 +577,11 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 		// confirm it if it was a resend of the last one, since the confirmation might have gotten dropped
 		if (decodePacketNum(packetnum) == (xferp->mPacketNum - 1))
 		{
-			LL_INFOS() << "Reconfirming xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet " << packetnum << LL_ENDL; 			sendConfirmPacket(mesgsys, id, decodePacketNum(packetnum), mesgsys->getSender());
+			LL_INFOS("Xfer") << "Reconfirming xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet " << packetnum << LL_ENDL; 			sendConfirmPacket(mesgsys, id, decodePacketNum(packetnum), mesgsys->getSender());
 		}
 		else
 		{
-			LL_INFOS() << "Ignoring xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " recv'd packet " << packetnum << "; expecting " << xferp->mPacketNum << LL_ENDL;
+			LL_INFOS("Xfer") << "Ignoring xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " recv'd packet " << packetnum << "; expecting " << xferp->mPacketNum << LL_ENDL;
 		}
 		return;		
 	}
@@ -674,7 +606,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 	if (result == LL_ERR_CANNOT_OPEN_FILE)
 	{
 			xferp->abort(LL_ERR_CANNOT_OPEN_FILE);
-			removeXfer(xferp,&mReceiveList);
+			removeXfer(xferp,mReceiveList);
 			startPendingDownloads();
 			return;		
 	}
@@ -699,7 +631,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 	if (isLastPacket(packetnum))
 	{
 		xferp->processEOF();
-		removeXfer(xferp,&mReceiveList);
+		removeXfer(xferp,mReceiveList);
 		startPendingDownloads();
 	}
 }
@@ -708,7 +640,7 @@ void LLXferManager::processReceiveData (LLMessageSystem *mesgsys, void ** /*user
 
 void LLXferManager::sendConfirmPacket (LLMessageSystem *mesgsys, U64 id, S32 packetnum, const LLHost &remote_host)
 {
-#if LL_XFER_PROGRESS_MESSAGES
+#ifdef LL_XFER_PROGRESS_MESSAGES
 	if (!(packetnum % 50))
 	{
 		cout << "confirming xfer packet #" << packetnum << endl;
@@ -719,6 +651,7 @@ void LLXferManager::sendConfirmPacket (LLMessageSystem *mesgsys, U64 id, S32 pac
 	mesgsys->addU64Fast(_PREHASH_ID, id);
 	mesgsys->addU32Fast(_PREHASH_Packet, packetnum);
 
+	// Ignore a circuit failure here, we'll catch it with another message
 	mesgsys->sendMessage(remote_host);
 }
 
@@ -756,6 +689,28 @@ bool LLXferManager::validateFileForTransfer(const std::string& filename)
 {
 	return find_and_remove(mExpectedTransfers, filename);
 }
+
+/* Present in fireengine, not used by viewer
+void LLXferManager::expectVFileForRequest(const std::string& filename)
+{
+	mExpectedVFileRequests.insert(filename);
+}
+
+bool LLXferManager::validateVFileForRequest(const std::string& filename)
+{
+	return find_and_remove(mExpectedVFileRequests, filename);
+}
+
+void LLXferManager::expectVFileForTransfer(const std::string& filename)
+{
+	mExpectedVFileTransfers.insert(filename);
+}
+
+bool LLXferManager::validateVFileForTransfer(const std::string& filename)
+{
+	return find_and_remove(mExpectedVFileTransfers, filename);
+}
+*/
 
 static bool remove_prefix(std::string& filename, const std::string& prefix)
 {
@@ -817,7 +772,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	mesgsys->getBOOL("XferID", "UseBigPackets", b_use_big_packets);
 	
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
-	LL_INFOS() << "xfer request id: " << std::to_string(id)
+	LL_INFOS("Xfer") << "xfer request id: " << std::to_string(id)
 		   << " to " << mesgsys->getSender() << LL_ENDL;
 
 	mesgsys->getStringFast(_PREHASH_XferID, _PREHASH_Filename, local_filename);
@@ -835,21 +790,31 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 	LLXfer *xferp = nullptr;
 
 	if (uuid != LLUUID::null)
-	{
+	{	// Request for an asset - use a VFS file
 		if(nullptr == LLAssetType::lookup(type))
 		{
-			LL_WARNS() << "Invalid type for xfer request: " << uuid << ":"
+			LL_WARNS("Xfer") << "Invalid type for xfer request: " << uuid << ":"
 					<< type_s16 << " to " << mesgsys->getSender() << LL_ENDL;
 			return;
 		}
 			
-		LL_INFOS() << "starting vfile transfer: " << uuid << "," << LLAssetType::lookup(type) << " to " << mesgsys->getSender() << LL_ENDL;
-
 		if (! mVFS)
 		{
-			LL_WARNS() << "Attempt to send VFile w/o available VFS" << LL_ENDL;
+			LL_WARNS("Xfer") << "Attempt to send VFile w/o available VFS" << LL_ENDL;
 			return;
 		}
+
+		/* Present in fireengine, not used by viewer
+		if (!validateVFileForTransfer(uuid.asString()))
+		{
+			// it is up to the app sending the file to mark it for expected 
+			// transfer before the request arrives or it will be dropped
+			LL_WARNS("Xfer") << "SECURITY: Unapproved VFile '" << uuid << "'" << LL_ENDL;
+			return;
+		}
+		*/
+
+		LL_INFOS("Xfer") << "starting vfile transfer: " << uuid << "," << LLAssetType::lookup(type) << " to " << mesgsys->getSender() << LL_ENDL;
 
 		try
 		{
@@ -861,12 +826,11 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			return;
 		}
 
-		xferp->mNext = mSendList;
-		mSendList = xferp;	
+		mSendList.push_front(xferp);
 		result = xferp->startSend(id,mesgsys->getSender());
 	}
 	else if (!local_filename.empty())
-	{
+	{	// Was given a file name to send
 		// See DEV-21775 for detailed security issues
 
 		if (local_path == LL_PATH_NONE)
@@ -885,7 +849,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			case LL_PATH_NONE:
 				if(!validateFileForTransfer(local_filename))
 				{
-					LL_WARNS() << "SECURITY: Unapproved filename '" << local_filename << LL_ENDL;
+					LL_WARNS("Xfer") << "SECURITY: Unapproved filename '" << local_filename << LL_ENDL;
 					return;
 				}
 				break;
@@ -893,13 +857,13 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			case LL_PATH_CACHE:
 				if(!verify_cache_filename(local_filename))
 				{
-					LL_WARNS() << "SECURITY: Illegal cache filename '" << local_filename << LL_ENDL;
+					LL_WARNS("Xfer") << "SECURITY: Illegal cache filename '" << local_filename << LL_ENDL;
 					return;
 				}
 				break;
 
 			default:
-				LL_WARNS() << "SECURITY: Restricted file dir enum: " << (U32)local_path << LL_ENDL;
+				LL_WARNS("Xfer") << "SECURITY: Restricted file dir enum: " << (U32)local_path << LL_ENDL;
 				return;
 		}
 
@@ -914,7 +878,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		{
 			expanded_filename = local_filename;
 		}
-		LL_INFOS() << "starting file transfer: " <<  expanded_filename << " to " << mesgsys->getSender() << LL_ENDL;
+		LL_INFOS("Xfer") << "starting file transfer: " <<  expanded_filename << " to " << mesgsys->getSender() << LL_ENDL;
 
 		BOOL delete_local_on_completion = FALSE;
 		mesgsys->getBOOL("XferID", "DeleteOnCompletion", delete_local_on_completion);
@@ -930,18 +894,16 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			return;
 		}
 
-		xferp->mNext = mSendList;
-		mSendList = xferp;	
+		mSendList.push_front(xferp);
 		result = xferp->startSend(id,mesgsys->getSender());
 	}
 	else
-	{
-		char U64_BUF[MAX_STRING];		/* Flawfinder : ignore */
-		LL_INFOS() << "starting memory transfer: "
+	{	// no uuid or filename - use the ID sent
+		LL_INFOS("Xfer") << "starting memory transfer: "
 			<< std::to_string(id) << " to "
 			<< mesgsys->getSender() << LL_ENDL;
 
-		xferp = findXfer(id, mSendList);
+		xferp = findXferByID(id, mSendList);
 		
 		if (xferp)
 		{
@@ -949,7 +911,7 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		}
 		else
 		{
-			LL_INFOS() << "Warning: " << U64_BUF << " not found." << LL_ENDL;
+			LL_INFOS("Xfer") << "Warning: xfer ID " << std::to_string(id) << " not found." << LL_ENDL;
 			result = LL_ERR_FILE_NOT_FOUND;
 		}
 	}
@@ -959,11 +921,11 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 		if (xferp)
 		{
 			xferp->abort(result);
-			removeXfer(xferp,&mSendList);
+			removeXfer(xferp, mSendList);
 		}
 		else // can happen with a memory transfer not found
 		{
-			LL_INFOS() << "Aborting xfer to " << mesgsys->getSender() << " with error: " << result << LL_ENDL;
+			LL_INFOS("Xfer") << "Aborting xfer to " << mesgsys->getSender() << " with error: " << result << LL_ENDL;
 
 			mesgsys->newMessageFast(_PREHASH_AbortXfer);
 			mesgsys->nextBlockFast(_PREHASH_XferID);
@@ -973,24 +935,86 @@ void LLXferManager::processFileRequest (LLMessageSystem *mesgsys, void ** /*user
 			mesgsys->sendMessage(mesgsys->getSender());		
 		}
 	}
-	else if(xferp && (numActiveXfers(xferp->mRemoteHost) < mMaxOutgoingXfersPerCircuit))
+	else if(xferp)
 	{
-		xferp->sendNextPacket();
-		changeNumActiveXfers(xferp->mRemoteHost,1);
-//		LL_INFOS() << "***STARTING XFER IMMEDIATELY***" << LL_ENDL;
-	}
-	else
-	{
-		if(xferp)
+		// Figure out how many transfers the host has requested
+		LLHostStatus *host_statusp = findHostStatus(xferp->mRemoteHost);
+		if (host_statusp)
 		{
-			LL_INFOS() << "  queueing xfer request, " << numPendingXfers(xferp->mRemoteHost) << " ahead of this one" << LL_ENDL;
+			if (host_statusp->mNumActive < mMaxOutgoingXfersPerCircuit)
+			{	// Not many transfers in progress already, so start immediately
+				xferp->sendNextPacket();
+				changeNumActiveXfers(xferp->mRemoteHost,1);
+				LL_DEBUGS("Xfer") << "Starting xfer ID " << std::to_string(id) << " immediately" << LL_ENDL;
+			}
+			else if (mHardLimitOutgoingXfersPerCircuit == 0 ||
+				     (host_statusp->mNumActive + host_statusp->mNumPending) < mHardLimitOutgoingXfersPerCircuit)
+			{	// Must close the file handle and wait for earlier ones to complete
+				LL_INFOS("Xfer") << "  queueing xfer request id " << std::to_string(id) << ", "
+								 << host_statusp->mNumActive << " active and "
+								 << host_statusp->mNumPending << " pending ahead of this one" 
+								 << LL_ENDL;
+				xferp->closeFileHandle();	// Close the file handle until we're ready to send again
+			}
+			else if (mHardLimitOutgoingXfersPerCircuit > 0)
+			{	// Way too many requested ... it's time to stop being nice and kill the circuit
+				xferp->closeFileHandle();	// Close the file handle in any case
+				LLCircuitData *cdp = gMessageSystem->mCircuitInfo.findCircuit(xferp->mRemoteHost);
+				if (cdp)
+				{
+					if (cdp->getTrusted())
+					{	// Trusted internal circuit - don't kill it
+						LL_WARNS("Xfer") << "Trusted circuit to " << xferp->mRemoteHost << " has too many xfer requests in the queue " 
+										<< host_statusp->mNumActive << " active and "
+										<< host_statusp->mNumPending << " pending ahead of this one" 
+										<< LL_ENDL;
+					}
+					else
+					{	// Untrusted circuit - time to stop messing around and kill it
+						LL_WARNS("Xfer") << "Killing circuit to " << xferp->mRemoteHost << " for having too many xfer requests in the queue " 
+										<< host_statusp->mNumActive << " active and "
+										<< host_statusp->mNumPending << " pending ahead of this one" 
+										<< LL_ENDL;
+						gMessageSystem->disableCircuit(xferp->mRemoteHost);
+					}
+				}
+				else
+				{	// WTF?   Why can't we find a circuit?  Try to kill it off
+					LL_WARNS("Xfer") << "Backlog with circuit to " << xferp->mRemoteHost << " with too many xfer requests in the queue " 
+									<< host_statusp->mNumActive << " active and "
+									<< host_statusp->mNumPending << " pending ahead of this one" 
+									<< " but no LLCircuitData found???"
+									<< LL_ENDL;
+					gMessageSystem->disableCircuit(xferp->mRemoteHost);
+				}
+			}
 		}
 		else
 		{
-			LL_WARNS() << "LLXferManager::processFileRequest() - no xfer found!"
-					<< LL_ENDL;
+			LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no LLHostStatus found for id " << std::to_string(id)
+				<< " host " << xferp->mRemoteHost << LL_ENDL;
 		}
 	}
+	else
+	{
+		LL_WARNS("Xfer") << "LLXferManager::processFileRequest() - no xfer found for id " << std::to_string(id)	<< LL_ENDL;
+	}
+}
+ 
+///////////////////////////////////////////////////////////
+
+// Return true if host is in a transfer-flood sitation.  Same check for both internal and external hosts
+bool LLXferManager::isHostFlooded(const LLHost & host)
+{
+	bool flooded = false;
+	LLHostStatus *host_statusp = findHostStatus(host);
+	if (host_statusp)
+	{
+		flooded = (mHardLimitOutgoingXfersPerCircuit > 0 &&
+				    (host_statusp->mNumActive + host_statusp->mNumPending) >= (S32)(mHardLimitOutgoingXfersPerCircuit * 0.8f));
+	}
+
+	return flooded;
 }
 
 
@@ -1004,7 +1028,7 @@ void LLXferManager::processConfirmation (LLMessageSystem *mesgsys, void ** /*use
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
 	mesgsys->getS32Fast(_PREHASH_XferID, _PREHASH_Packet, packetNum);
 
-	LLXfer* xferp = findXfer(id, mSendList);
+	LLXfer* xferp = findXferByID(id, mSendList);
 	if (xferp)
 	{
 //		cout << "confirmed packet #" << packetNum << " ping: "<< xferp->ACKTimer.getElapsedTimeF32() <<  endl;
@@ -1015,91 +1039,105 @@ void LLXferManager::processConfirmation (LLMessageSystem *mesgsys, void ** /*use
 		}
 		else
 		{
-			removeXfer(xferp, &mSendList);
+			removeXfer(xferp, mSendList);
 		}
 	}
 }
 
 ///////////////////////////////////////////////////////////
 
-void LLXferManager::retransmitUnackedPackets ()
+// Called from LLMessageSystem::processAcks()
+void LLXferManager::retransmitUnackedPackets()
 {
 	LLXfer *xferp;
-	LLXfer *delp;
-	xferp = mReceiveList;
-	while(xferp)
+
+	xfer_list_t::iterator iter = mReceiveList.begin();
+	while (iter != mReceiveList.end())
 	{
+		xferp = (*iter);
 		if (xferp->mStatus == e_LL_XFER_IN_PROGRESS)
 		{
 			// if the circuit dies, abort
 			if (! gMessageSystem->mCircuitInfo.isCircuitAlive( xferp->mRemoteHost ))
 			{
-				LL_INFOS() << "Xfer found in progress on dead circuit, aborting" << LL_ENDL;
+				LL_WARNS("Xfer") << "Xfer found in progress on dead circuit, aborting transfer to " 
+					<< xferp->mRemoteHost.getIPandPort()
+					<< LL_ENDL;
 				xferp->mCallbackResult = LL_ERR_CIRCUIT_GONE;
 				xferp->processEOF();
-				delp = xferp;
-				xferp = xferp->mNext;
-				removeXfer(delp,&mReceiveList);
+
+				iter = mReceiveList.erase(iter);	// iter is set to next one after the deletion point
+				delete (xferp);
 				continue;
  			}
 				
 		}
-		xferp = xferp->mNext;
+		++iter;
 	}
 
-	xferp = mSendList; 
+	// Re-build mOutgoingHosts data
 	updateHostStatus();
+
 	F32 et = 0.f;
-	while (xferp)
+	iter = mSendList.begin();
+	while (iter != mSendList.end())
 	{
+		xferp = (*iter);
 		if (xferp->mWaitingForACK && ( (et = xferp->ACKTimer.getElapsedTimeF32()) > LL_PACKET_TIMEOUT))
 		{
 			if (xferp->mRetries > LL_PACKET_RETRY_LIMIT)
 			{
-				LL_INFOS() << "dropping xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet retransmit limit exceeded, xfer dropped" << LL_ENDL;
+				LL_INFOS("Xfer") << "dropping xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet retransmit limit exceeded, xfer dropped" << LL_ENDL;
 				xferp->abort(LL_ERR_TCP_TIMEOUT);
-				delp = xferp;
-				xferp = xferp->mNext;
-				removeXfer(delp,&mSendList);
+				iter = mSendList.erase(iter);
+				delete xferp;
+				continue;
 			}
 			else
 			{
-				LL_INFOS() << "resending xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet unconfirmed after: "<< et << " sec, packet " << xferp->mPacketNum << LL_ENDL;
+				LL_INFOS("Xfer") << "resending xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << " packet unconfirmed after: "<< et << " sec, packet " << xferp->mPacketNum << LL_ENDL;
 				xferp->resendLastPacket();
-				xferp = xferp->mNext;
 			}
 		}
 		else if ((xferp->mStatus == e_LL_XFER_REGISTERED) && ( (et = xferp->ACKTimer.getElapsedTimeF32()) > LL_XFER_REGISTRATION_TIMEOUT))
 		{
-			LL_INFOS() << "registered xfer never requested, xfer dropped" << LL_ENDL;
+			LL_INFOS("Xfer") << "registered xfer never requested, xfer dropped" << LL_ENDL;
 			xferp->abort(LL_ERR_TCP_TIMEOUT);
-			delp = xferp;
-			xferp = xferp->mNext;
-			removeXfer(delp,&mSendList);
+			iter = mSendList.erase(iter);
+			delete xferp;
+			continue;
 		}
 		else if (xferp->mStatus == e_LL_XFER_ABORTED)
 		{
-			LL_WARNS() << "Removing aborted xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << LL_ENDL;
-			delp = xferp;
-			xferp = xferp->mNext;
-			removeXfer(delp,&mSendList);
+			LL_WARNS("Xfer") << "Removing aborted xfer " << xferp->mRemoteHost << ":" << xferp->getFileName() << LL_ENDL;
+			iter = mSendList.erase(iter);
+			delete xferp;
+			continue;
 		}
 		else if (xferp->mStatus == e_LL_XFER_PENDING)
 		{
-//			LL_INFOS() << "*** numActiveXfers = " << numActiveXfers(xferp->mRemoteHost) << "        mMaxOutgoingXfersPerCircuit = " << mMaxOutgoingXfersPerCircuit << LL_ENDL;   
+//			LL_INFOS("Xfer") << "*** numActiveXfers = " << numActiveXfers(xferp->mRemoteHost) << "        mMaxOutgoingXfersPerCircuit = " << mMaxOutgoingXfersPerCircuit << LL_ENDL;   
 			if (numActiveXfers(xferp->mRemoteHost) < mMaxOutgoingXfersPerCircuit)
 			{
-//			    LL_INFOS() << "bumping pending xfer to active" << LL_ENDL;
-				xferp->sendNextPacket();
-				changeNumActiveXfers(xferp->mRemoteHost,1);
-			}			
-			xferp = xferp->mNext;
+				if (xferp->reopenFileHandle())
+				{
+					LL_WARNS("Xfer") << "Error re-opening file handle for xfer ID " << std::to_string(xferp->mID)
+						<< " to host " << xferp->mRemoteHost << LL_ENDL;
+					xferp->abort(LL_ERR_CANNOT_OPEN_FILE);
+					iter = mSendList.erase(iter);
+					delete xferp;
+					continue;
+				}
+				else
+				{	// No error re-opening the file, send the first packet
+					LL_DEBUGS("Xfer") << "Moving pending xfer ID " << std::to_string(xferp->mID) << " to active" << LL_ENDL;
+					xferp->sendNextPacket();
+					changeNumActiveXfers(xferp->mRemoteHost,1);
+				}
+			}
 		}
-		else
-		{
-			xferp = xferp->mNext;
-		}
-	}
+		++iter;
+	} // end while() loop
 
 	//
 	// HACK - if we're using xfer confirm throttling, throttle our xfer confirms here
@@ -1112,10 +1150,10 @@ void LLXferManager::retransmitUnackedPackets ()
 		{
 			break;
 		}
-		//LL_INFOS() << "Confirm packet queue length:" << mXferAckQueue.size() << LL_ENDL;
+		//LL_INFOS("Xfer") << "Confirm packet queue length:" << mXferAckQueue.size() << LL_ENDL;
 		LLXferAckInfo ack_info = mXferAckQueue.front();
 		mXferAckQueue.pop_front();
-		//LL_INFOS() << "Sending confirm packet" << LL_ENDL;
+		//LL_INFOS("Xfer") << "Sending confirm packet" << LL_ENDL;
 		sendConfirmPacket(gMessageSystem, ack_info.mID, ack_info.mPacketNum, ack_info.mRemoteHost);
 		mAckThrottle.throttleOverflow(1000.f*8.f); // Assume 1000 bytes/packet
 	}
@@ -1125,7 +1163,7 @@ void LLXferManager::retransmitUnackedPackets ()
 
 void LLXferManager::abortRequestById(U64 xfer_id, S32 result_code)
 {
-	LLXfer * xferp = findXfer(xfer_id, mReceiveList);
+	LLXfer * xferp = findXferByID(xfer_id, mReceiveList);
 	if (xferp)
 	{
 		if (xferp->mStatus == e_LL_XFER_IN_PROGRESS)
@@ -1137,7 +1175,7 @@ void LLXferManager::abortRequestById(U64 xfer_id, S32 result_code)
 		{
 			xferp->mCallbackResult = result_code;
 			xferp->processEOF(); //should notify requester
-			removeXfer(xferp, &mReceiveList);
+			removeXfer(xferp, mReceiveList);
 		}
 		// Since already removed or marked as aborted no need
 		// to wait for processAbort() to start new download
@@ -1156,12 +1194,12 @@ void LLXferManager::processAbort (LLMessageSystem *mesgsys, void ** /*user_data*
 	mesgsys->getU64Fast(_PREHASH_XferID, _PREHASH_ID, id);
 	mesgsys->getS32Fast(_PREHASH_XferID, _PREHASH_Result, result_code);
 
-	xferp = findXfer(id, mReceiveList);
+	xferp = findXferByID(id, mReceiveList);
 	if (xferp)
 	{
 		xferp->mCallbackResult = result_code;
 		xferp->processEOF();
-		removeXfer(xferp, &mReceiveList);
+		removeXfer(xferp, mReceiveList);
 		startPendingDownloads();
 	}
 }
@@ -1177,27 +1215,29 @@ void LLXferManager::startPendingDownloads()
 	// requests get pushed toward the back. Thus, if we didn't do a
 	// stateful iteration, it would be possible for old requests to
 	// never start.
-	LLXfer* xferp = mReceiveList;
+	LLXfer* xferp;
 	std::list<LLXfer*> pending_downloads;
 	S32 download_count = 0;
 	S32 pending_count = 0;
-	while(xferp)
+	for (xfer_list_t::iterator iter = mReceiveList.begin();
+		 iter != mReceiveList.end();
+		 ++iter)
 	{
+		xferp = (*iter);
 		if(xferp->mStatus == e_LL_XFER_PENDING)
-		{
+		{	// Count and accumulate pending downloads
 			++pending_count;
 			pending_downloads.push_front(xferp);
 		}
 		else if(xferp->mStatus == e_LL_XFER_IN_PROGRESS)
-		{
+		{	// Count downloads in progress
 			++download_count;
 		}
-		xferp = xferp->mNext;
 	}
 
 	S32 start_count = mMaxIncomingXfers - download_count;
 
-	LL_DEBUGS() << "LLXferManager::startPendingDownloads() - XFER_IN_PROGRESS: "
+	LL_DEBUGS("Xfer") << "LLXferManager::startPendingDownloads() - XFER_IN_PROGRESS: "
 			 << download_count << " XFER_PENDING: " << pending_count
 			 << " startring " << llmin(start_count, pending_count) << LL_ENDL;
 
@@ -1222,29 +1262,15 @@ void LLXferManager::startPendingDownloads()
 
 ///////////////////////////////////////////////////////////
 
-void LLXferManager::addToList(LLXfer* xferp, LLXfer*& head, BOOL is_priority)
+void LLXferManager::addToList(LLXfer* xferp, xfer_list_t & xfer_list, BOOL is_priority)
 {
 	if(is_priority)
 	{
-		xferp->mNext = nullptr;
-		LLXfer* next = head;
-		if(next)
-		{
-			while(next->mNext)
-			{
-				next = next->mNext;
-			}
-			next->mNext = xferp;
-		}
-		else
-		{
-			head = xferp;
-		}
+		xfer_list.push_back(xferp);
 	}
 	else
 	{
-		xferp->mNext = head;
-		head = xferp;
+		xfer_list.push_front(xferp);
 	}
 }
 

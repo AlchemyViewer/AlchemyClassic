@@ -129,6 +129,7 @@ Looking for people to hang out with? Try the [secondlife:///app/worldmap World M
       <panel
         filename="panel_block_list_sidetray.xml"
         class="panel_block_list_sidetray"
+             keep_one_selected="false"
         background_opaque="true"
         background_visible="true"
         bg_alpha_color="DkGray"

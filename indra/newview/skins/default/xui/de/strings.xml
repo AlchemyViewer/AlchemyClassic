@@ -1447,6 +1447,9 @@ besuchen Sie bitte http://secondlife.com/support
 	<string name="InventoryNoMatchingItems">
 		Sie haben nicht das Richtige gefunden? Versuchen Sie es mit der [secondlife:///app/search/all/[SEARCH_TERM] Suche].
 	</string>
+	<string name="InventoryNoMatchingRecentItems">
+		Sie haben nicht das Richtige gefunden? Versuchen Sie [secondlife:///app/inventory/filters Show filters].
+	</string>
 	<string name="PlacesNoMatchingItems">
 		Sie haben nicht das Richtige gefunden? Versuchen Sie es mit der [secondlife:///app/search/places/[SEARCH_TERM] Suche].
 	</string>

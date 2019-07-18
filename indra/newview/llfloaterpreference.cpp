@@ -1549,6 +1549,8 @@ void LLFloaterPreference::refreshEnabledState()
 
 	// Cannot have floater active until caps have been received
 	getChild<LLButton>("default_creation_permissions")->setEnabled(LLStartUp::getStartupState() < STATE_STARTED ? false : true);
+
+	getChildView("block_list")->setEnabled(LLLoginInstance::getInstance()->authSuccess());
 }
 
 // static
@@ -2449,18 +2451,6 @@ static LLPanelInjector<LLPanelPreferencePrivacy> t_pref_privacy("panel_preferenc
 
 BOOL LLPanelPreferenceGraphics::postBuild()
 {
-// Don't do this on Mac as their braindead GL versioning
-// sets this when 8x and 16x are indeed available
-//
-#if !LL_DARWIN
-	if (gGLManager.mIsIntel || gGLManager.mGLVersion < 3.f)
-	{ //remove FSAA settings above "4x"
-		LLComboBox* combo = getChild<LLComboBox>("fsaa");
-		combo->remove("8x");
-		combo->remove("16x");
-	}
-#endif
-
 	resetDirtyChilds();
 
 	return LLPanelPreference::postBuild();

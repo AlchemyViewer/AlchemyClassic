@@ -284,11 +284,6 @@ void LLPanelGroup::onBtnJoin() const
 	LLGroupActions::join(mID);
 }
 
-void LLPanelGroup::onBtnCancel()
-{
-	onBackBtnClick();
-}
-
 void LLPanelGroup::changed(LLGroupChange gc)
 {
 	for(std::vector<LLPanelGroupTab* >::iterator it = mTabs.begin();it!=mTabs.end();++it)

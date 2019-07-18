@@ -2728,6 +2728,14 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 				}
 			}
 			break;
+		default:
+			{
+				if (gDebugWindowProc)
+				{
+					LL_INFOS("Window") << "Unhandled windows message code: " << U32(u_msg) << LL_ENDL;
+				}
+			}
+			break;
 		}
 
 	window_imp->mCallbacks->handlePauseWatchdog(window_imp);	

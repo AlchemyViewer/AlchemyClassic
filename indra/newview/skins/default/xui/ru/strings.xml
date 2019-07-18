@@ -1444,6 +1444,9 @@ support@secondlife.com.
 	<string name="InventoryNoMatchingItems">
 		Не нашли того, что вам нужно? Воспользуйтесь [secondlife:///app/search/all/[SEARCH_TERM] поиском].
 	</string>
+	<string name="InventoryNoMatchingRecentItems">
+		Не нашли то, что искали? Попробуйте на [secondlife:///app/inventory/filters Show filters].
+	</string>
 	<string name="PlacesNoMatchingItems">
 		Не нашли того, что вам нужно? Воспользуйтесь [secondlife:///app/search/places/[SEARCH_TERM] поиском].
 	</string>

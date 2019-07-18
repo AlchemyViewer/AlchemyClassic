@@ -498,7 +498,6 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 	if (is_obj_modify && can_agent_sell 
 		&& gAgent.allowOperation(PERM_TRANSFER, perm, GP_OBJECT_MANIPULATE))
 	{
-		getChildView("SaleLabel")->setEnabled(is_complete);
 		getChildView("CheckPurchase")->setEnabled(is_complete);
 
 		getChildView("NextOwnerLabel")->setEnabled(TRUE);
@@ -506,13 +505,11 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 		getChildView("CheckNextOwnerCopy")->setEnabled((base_mask & PERM_COPY) && !cannot_restrict_permissions);
 		getChildView("CheckNextOwnerTransfer")->setEnabled((next_owner_mask & PERM_COPY) && !cannot_restrict_permissions);
 
-		getChildView("TextPrice")->setEnabled(is_complete && is_for_sale);
 		combo_sale_type->setEnabled(is_complete && is_for_sale);
 		edit_cost->setEnabled(is_complete && is_for_sale);
 	}
 	else
 	{
-		getChildView("SaleLabel")->setEnabled(FALSE);
 		getChildView("CheckPurchase")->setEnabled(FALSE);
 
 		getChildView("NextOwnerLabel")->setEnabled(FALSE);
@@ -520,7 +517,6 @@ void LLFloaterProperties::refreshFromItem(LLInventoryItem* item)
 		getChildView("CheckNextOwnerCopy")->setEnabled(FALSE);
 		getChildView("CheckNextOwnerTransfer")->setEnabled(FALSE);
 
-		getChildView("TextPrice")->setEnabled(FALSE);
 		combo_sale_type->setEnabled(FALSE);
 		edit_cost->setEnabled(FALSE);
 	}

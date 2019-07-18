@@ -225,6 +225,14 @@ BOOL LLPanelPermissions::postBuild()
 
 LLPanelPermissions::~LLPanelPermissions()
 {
+	if (mOwnerCacheConnection.connected())
+	{
+		mOwnerCacheConnection.disconnect();
+	}
+	if (mCreatorCacheConnection.connected())
+	{
+		mCreatorCacheConnection.disconnect();
+	}
 	// base class will take care of everything
 }
 
@@ -924,6 +932,23 @@ void LLPanelPermissions::refresh()
 	mComboClickAction->setEnabled(is_perm_modify && is_nonpermanent_enforced && all_volume);
 }
 
+void LLPanelPermissions::updateOwnerName(const LLUUID& owner_id, const LLAvatarName& owner_name, const LLStyle::Params& style_params)
+{
+	if (mOwnerCacheConnection.connected())
+	{
+		mOwnerCacheConnection.disconnect();
+	}
+	mLabelOwnerName->setText(owner_name.getCompleteName(), style_params);
+}
+
+void LLPanelPermissions::updateCreatorName(const LLUUID& creator_id, const LLAvatarName& creator_name, const LLStyle::Params& style_params)
+{
+	if (mCreatorCacheConnection.connected())
+	{
+		mCreatorCacheConnection.disconnect();
+	}
+	mLabelCreatorName->setText(creator_name.getCompleteName(), style_params);
+}
 void LLPanelPermissions::onClickClaim()
 {
 	// try to claim ownership

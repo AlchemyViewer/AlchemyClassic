@@ -65,7 +65,6 @@ void LLXfer::init (S32 chunk_size)
 	mXferSize = 0;
 
 	mStatus = e_LL_XFER_UNINITIALIZED;
-	mNext = nullptr;
 	mWaitingForACK = FALSE;
 	
 	mCallback = nullptr;
@@ -101,7 +100,22 @@ void LLXfer::cleanup ()
 
 S32 LLXfer::startSend (U64 xfer_id, const LLHost &remote_host)
 {
-	LL_WARNS() << "undifferentiated LLXfer::startSend for " << getFileName() << LL_ENDL;
+	LL_WARNS("Xfer") << "unexpected call to base class LLXfer::startSend for " << getFileName() << LL_ENDL;
+	return (-1);
+}
+
+///////////////////////////////////////////////////////////
+
+void LLXfer::closeFileHandle()
+{
+	LL_WARNS("Xfer") << "unexpected call to base class LLXfer::closeFileHandle for " << getFileName() << LL_ENDL;
+}
+
+///////////////////////////////////////////////////////////
+
+S32 LLXfer::reopenFileHandle()
+{
+	LL_WARNS("Xfer") << "unexpected call to base class LLXfer::reopenFileHandle for " << getFileName() << LL_ENDL;
 	return (-1);
 }
 
@@ -117,7 +131,7 @@ void LLXfer::setXferSize (S32 xfer_size)
 
 S32 LLXfer::startDownload()
 {
-	LL_WARNS() << "undifferentiated LLXfer::startDownload for " << getFileName()
+	LL_WARNS("Xfer") << "undifferentiated LLXfer::startDownload for " << getFileName()
 			<< LL_ENDL;
 	return (-1);
 }
@@ -129,20 +143,20 @@ S32 LLXfer::receiveData (char *datap, S32 data_size)
 	S32 retval = 0;
 
 	if (((S32) mBufferLength + data_size) > getMaxBufferSize())
-	{
+	{	// Write existing data to disk if it's larger than the buffer size
 		retval = flush();
 	}
 
 	if (!retval)
 	{
 		if (datap != nullptr)
-		{
+		{	// Append new data to mBuffer
 			memcpy(&mBuffer[mBufferLength],datap,data_size);	/*Flawfinder: ignore*/
 			mBufferLength += data_size;
 		}
 		else
 		{
-			LL_ERRS() << "NULL data passed in receiveData" << LL_ENDL;
+			LL_ERRS("Xfer") << "NULL data passed in receiveData" << LL_ENDL;
 		}
 	}
 
@@ -165,7 +179,7 @@ S32 LLXfer::flush()
 
 S32 LLXfer::suck(S32 start_position)
 {
-	LL_WARNS() << "Attempted to send a packet outside the buffer bounds in LLXfer::suck()" << LL_ENDL;
+	LL_WARNS("Xfer") << "Attempted to send a packet outside the buffer bounds in LLXfer::suck()" << LL_ENDL;
 	return (-1);
 }
 
@@ -198,7 +212,7 @@ void LLXfer::sendPacket(S32 packet_num)
 
 	if (fdata_size < 0)
 	{
-		LL_WARNS() << "negative data size in xfer send, aborting" << LL_ENDL;
+		LL_WARNS("Xfer") << "negative data size in xfer send, aborting" << LL_ENDL;
 		abort(LL_ERR_EOF);
 		return;
 	}
@@ -250,7 +264,12 @@ void LLXfer::sendPacket(S32 packet_num)
 		gMessageSystem->nextBlockFast(_PREHASH_DataPacket);
 		gMessageSystem->addBinaryDataFast(_PREHASH_Data, &fdata_buf,fdata_size);
 			
-		gMessageSystem->sendMessage(mRemoteHost);
+		S32 sent_something = gMessageSystem->sendMessage(mRemoteHost);
+		if (sent_something == 0)
+		{
+			abort(LL_ERR_CIRCUIT_GONE);
+			return;
+		}
 
 		ACKTimer.reset();
 		mWaitingForACK = TRUE;
@@ -291,12 +310,12 @@ S32 LLXfer::processEOF()
 
 	if (LL_ERR_NOERR == mCallbackResult)
 	{
-		LL_INFOS() << "xfer from " << mRemoteHost << " complete: " << getFileName()
+		LL_INFOS("Xfer") << "xfer from " << mRemoteHost << " complete: " << getFileName()
 				<< LL_ENDL;
 	}
 	else
 	{
-		LL_INFOS() << "xfer from " << mRemoteHost << " failed or aborted, code "
+		LL_INFOS("Xfer") << "xfer from " << mRemoteHost << " failed, code "
 				<< mCallbackResult << ": " << getFileName() << LL_ENDL;
 	}
 
@@ -325,15 +344,18 @@ void LLXfer::abort (S32 result_code)
 {
 	mCallbackResult = result_code;
 
-	LL_INFOS() << "Aborting xfer from " << mRemoteHost << " named " << getFileName()
+	LL_INFOS("Xfer") << "Aborting xfer from " << mRemoteHost << " named " << getFileName()
 			<< " - error: " << result_code << LL_ENDL;
 
-	gMessageSystem->newMessageFast(_PREHASH_AbortXfer);
-	gMessageSystem->nextBlockFast(_PREHASH_XferID);
-	gMessageSystem->addU64Fast(_PREHASH_ID, mID);
-	gMessageSystem->addS32Fast(_PREHASH_Result, result_code);
-	
-	gMessageSystem->sendMessage(mRemoteHost);
+	if (result_code != LL_ERR_CIRCUIT_GONE)
+	{
+		gMessageSystem->newMessageFast(_PREHASH_AbortXfer);
+		gMessageSystem->nextBlockFast(_PREHASH_XferID);
+		gMessageSystem->addU64Fast(_PREHASH_ID, mID);
+		gMessageSystem->addS32Fast(_PREHASH_Result, result_code);
+
+		gMessageSystem->sendMessage(mRemoteHost);
+	}
 
 	mStatus = e_LL_XFER_ABORTED;
 }

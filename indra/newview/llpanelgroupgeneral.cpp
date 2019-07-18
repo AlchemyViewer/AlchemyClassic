@@ -177,6 +177,7 @@ void LLPanelGroupGeneral::setupCtrls(LLPanel* panel_group)
 {
 	mInsignia = getChild<LLTextureCtrl>("insignia");
 	mInsignia->setCommitCallback(boost::bind(&LLPanelGroupGeneral::onCommitAny, this));
+	mInsignia->setAllowLocalTexture(FALSE);
 	mFounderName = getChild<LLTextBox>("founder_name");
 
 

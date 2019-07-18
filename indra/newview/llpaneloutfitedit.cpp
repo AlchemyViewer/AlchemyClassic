@@ -559,11 +559,6 @@ BOOL LLPanelOutfitEdit::postBuild()
 	mPlusBtn->setClickedCallback(boost::bind(&LLPanelOutfitEdit::onPlusBtnClicked, this));
 
 	mRevertBtn = getChild<LLButton>(REVERT_BTN);
-	
-	mEditWearableBtn = getChild<LLButton>("edit_wearable_btn");
-	mEditWearableBtn->setEnabled(FALSE);
-	mEditWearableBtn->setVisible(FALSE);
-	mEditWearableBtn->setCommitCallback(boost::bind(&LLPanelOutfitEdit::onEditWearableClicked, this));
 
 	childSetAction(REVERT_BTN, boost::bind(&LLAppearanceMgr::wearBaseOutfit, LLAppearanceMgr::getInstance()));
 

@@ -53,7 +53,6 @@
 
 static const std::array<std::string, 21> perm_and_sale_items{{
 	"perms_inv",
-	"OwnerLabel",
 	"perm_modify",
 	"CheckOwnerModify",
 	"CheckOwnerCopy",
@@ -69,10 +68,8 @@ static const std::array<std::string, 21> perm_and_sale_items{{
 	"CheckNextOwnerTransfer",
 	"CheckNextOwnerExport",
 	"CheckPurchase",
-	"SaleLabel",
 	"ComboBoxSaleType",
-	"Edit Cost",
-	"TextPrice"
+	"Edit Cost"
 }};
 
 static const std::array<std::string, 16> no_item_names{{
@@ -479,14 +476,6 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	///////////////////////
 	// OWNER PERMISSIONS //
 	///////////////////////
-	if(can_agent_manipulate)
-	{
-		getChild<LLUICtrl>("OwnerLabel")->setValue(getString("you_can"));
-	}
-	else
-	{
-		getChild<LLUICtrl>("OwnerLabel")->setValue(getString("owner_can"));
-	}
 
 	U32 base_mask		= perm.getMaskBase();
 	U32 owner_mask		= perm.getMaskOwner();
@@ -494,7 +483,6 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	U32 everyone_mask	= perm.getMaskEveryone();
 	U32 next_owner_mask	= perm.getMaskNextOwner();
 
-	getChildView("OwnerLabel")->setEnabled(TRUE);
 	getChildView("CheckOwnerModify")->setEnabled(FALSE);
 	getChild<LLUICtrl>("CheckOwnerModify")->setValue(LLSD((BOOL)(owner_mask & PERM_MODIFY)));
 	getChildView("CheckOwnerCopy")->setEnabled(FALSE);
@@ -632,7 +620,6 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 	if (is_obj_modify && can_agent_sell 
 		&& gAgent.allowOperation(PERM_TRANSFER, perm, GP_OBJECT_MANIPULATE))
 	{
-		getChildView("SaleLabel")->setEnabled(is_complete);
 		getChildView("CheckPurchase")->setEnabled(is_complete);
 
 		getChildView("NextOwnerLabel")->setEnabled(TRUE);
@@ -641,13 +628,11 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 		getChildView("CheckNextOwnerTransfer")->setEnabled((next_owner_mask & PERM_COPY) && !cannot_restrict_permissions);
 		getChildView("CheckNextOwnerExport")->setEnabled((base_mask & PERM_EXPORT) && !cannot_restrict_permissions);
 
-		getChildView("TextPrice")->setEnabled(is_complete && is_for_sale);
 		combo_sale_type->setEnabled(is_complete && is_for_sale);
 		edit_cost->setEnabled(is_complete && is_for_sale);
 	}
 	else
 	{
-		getChildView("SaleLabel")->setEnabled(FALSE);
 		getChildView("CheckPurchase")->setEnabled(FALSE);
 
 		getChildView("NextOwnerLabel")->setEnabled(FALSE);
@@ -656,7 +641,6 @@ void LLSidepanelItemInfo::refreshFromItem(LLViewerInventoryItem* item)
 		getChildView("CheckNextOwnerTransfer")->setEnabled(FALSE);
 		getChildView("CheckNextOwnerExport")->setEnabled(FALSE);
 
-		getChildView("TextPrice")->setEnabled(FALSE);
 		combo_sale_type->setEnabled(FALSE);
 		edit_cost->setEnabled(FALSE);
 	}

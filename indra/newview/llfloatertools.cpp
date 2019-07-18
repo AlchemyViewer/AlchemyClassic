@@ -1347,6 +1347,7 @@ void LLFloaterTools::getMediaState()
 	// update UI depending on whether "object" (prim or face) has media
 	// and whether or not you are allowed to edit it.
 	
+	getChildView("add_media")->setEnabled(editable);
 	// IF all the faces have media (or all dont have media)
 	if ( LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() )
 	{
@@ -1368,10 +1369,7 @@ void LLFloaterTools::getMediaState()
 			media_title = multi_media_info_str;
 		}
 		
-		getChildView("media_tex")->setEnabled(bool_has_media && editable);
-		getChildView("edit_media")->setEnabled(bool_has_media && LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo() && editable );
 		getChildView("delete_media")->setEnabled(bool_has_media && editable );
-		getChildView("add_media")->setEnabled(editable);
 			// TODO: display a list of all media on the face - use 'identical' flag
 	}
 	else // not all face has media but at least one does.
@@ -1393,10 +1391,7 @@ void LLFloaterTools::getMediaState()
 			}
 		}
 		
-		getChildView("media_tex")->setEnabled(TRUE);
-		getChildView("edit_media")->setEnabled(LLFloaterMediaSettings::getInstance()->getIdenticalHasMediaInfo());
 		getChildView("delete_media")->setEnabled(TRUE);
-		getChildView("add_media")->setEnabled(editable);
 	}
 
 	navigateToTitleMedia(media_title);

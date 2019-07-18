@@ -1022,15 +1022,6 @@ void LLPanelFace::refresh()
 			mComboTexGen->setTentative(!identical);
 			getChildView("tex gen")->setEnabled(editable);
 			
-			if (selected_texgen == LLTextureEntry::TEX_GEN_PLANAR)
-			{
-				// EXP-1507 (change label based on the mapping mode)
-				getChild<LLSpinCtrl>("rptctrl")->setLabel(getString("string repeats per meter"));
-			}
-			else if (selected_texgen == LLTextureEntry::TEX_GEN_DEFAULT)
-			{
-				getChild<LLSpinCtrl>("rptctrl")->setLabel(getString("string repeats per face"));
-			}
 		}
 		
 		U8 fullbright_flag = 0;

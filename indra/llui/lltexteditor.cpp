@@ -2592,11 +2592,11 @@ void LLTextEditor::updateLinkSegments()
 					}
 				}
 			}
-
+			
 			// if the link's label (what the user can edit) is a valid Url,
 			// then update the link's HREF to be the same as the label text.
 			// This lets users edit Urls in-place.
-			if (LLUrlRegistry::instance().hasUrl(url_label))
+			if (acceptsTextInput() && LLUrlRegistry::instance().hasUrl(url_label))
 			{
 				//XXX: Hack until we can get WString caching
 				if (url_label_str.empty())

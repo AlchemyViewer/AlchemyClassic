@@ -75,6 +75,7 @@ LLTextureCtrl::LLTextureCtrl(const LLTextureCtrl::Params& p)
 	mFallbackImage(p.fallback_image),
 	mDefaultImageName(p.default_image_name),
 	mAllowNoTexture( FALSE ),
+	mAllowLocalTexture( TRUE ),
 	mImmediateFilterPermMask( PERM_NONE ),
 	mNonImmediateFilterPermMask( PERM_NONE ),
 	mCanApplyImmediately( FALSE ),
@@ -282,6 +283,12 @@ void LLTextureCtrl::showPicker(BOOL take_focus)
 		if (root_floater)
 			root_floater->addDependentFloater(floaterp);
 		floaterp->openFloater();
+	}
+
+	LLFloaterTexturePicker* picker_floater = dynamic_cast<LLFloaterTexturePicker*>(floaterp);
+	if (picker_floater)
+	{
+		picker_floater->setLocalTextureEnabled(mAllowLocalTexture);
 	}
 
 	if (take_focus)

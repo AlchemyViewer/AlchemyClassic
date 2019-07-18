@@ -105,6 +105,8 @@ public:
 	static void updateClass();
 	static void cleanupToasts();
 
+	static BOOL isAlertToastShown() { return sModalToastsList.size() > 0; }
+
 	LLToast(const LLToast::Params& p);
 	virtual ~LLToast();
 	BOOL postBuild() override;
@@ -242,6 +244,8 @@ private:
 
 	commit_signal_t mToastMouseEnterSignal;
 	commit_signal_t mToastMouseLeaveSignal;
+
+	static std::list<LLToast*> sModalToastsList;
 };
 
 }

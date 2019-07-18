@@ -746,7 +746,6 @@ bool idle_startup()
 		if (gLoginMenuBarView == nullptr)
 		{
 			LL_DEBUGS("AppInit") << "initializing menu bar" << LL_ENDL;
-			initialize_edit_menu();
 			initialize_spellcheck_menu();
 			init_menus();
 		}

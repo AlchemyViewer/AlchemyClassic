@@ -487,7 +487,6 @@ void LLPanelObject::getState( )
 	// BUG? Check for all objects being editable?
 	S32 roots_selected = LLSelectMgr::getInstance()->getSelection()->getRootObjectCount();
 	BOOL editable = root_objectp->permModify();
-
 	BOOL is_flexible = volobjp && volobjp->isFlexible();
 	BOOL is_permanent = root_objectp->flagObjectPermanent();
 	BOOL is_permanent_enforced = root_objectp->isPermanentEnforced();
@@ -1976,7 +1975,6 @@ void LLPanelObject::clearCtrls()
 	mLabelTaper		->setEnabled( FALSE );
 	mLabelRadiusOffset->setEnabled( FALSE );
 	mLabelRevolutions->setEnabled( FALSE );
-
 	getChildView("scale_hole")->setEnabled(FALSE);
 	getChildView("scale_taper")->setEnabled(FALSE);
 	getChildView("advanced_cut")->setEnabled(FALSE);

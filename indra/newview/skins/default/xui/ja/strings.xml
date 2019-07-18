@@ -1447,6 +1447,9 @@ support@secondlife.com にお問い合わせください。
 	<string name="InventoryNoMatchingItems">
 		お探しのものは見つかりましたか？ [secondlife:///app/search/all/[SEARCH_TERM] 検索] をお試しください。
 	</string>
+	<string name="InventoryNoMatchingRecentItems">
+		お探しのものは見つかりましたか？[secondlife:///app/inventory/filters Show filters] をお試しください。
+	</string>
 	<string name="PlacesNoMatchingItems">
 		お探しのものは見つかりましたか？ [secondlife:///app/search/places/[SEARCH_TERM] 検索] をお試しください。
 	</string>

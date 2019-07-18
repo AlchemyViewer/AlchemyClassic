@@ -53,7 +53,6 @@ class LLXfer_Mem : public LLXfer
 	void cleanup() override;
 
 	S32 startSend (U64 xfer_id, const LLHost &remote_host) override;
-	virtual U64 registerXfer(U64 xfer_id, const void *datap, const S32 length);
 	void setXferSize (S32 data_size) override;
 
 	virtual S32 initializeRequest(U64 xfer_id,

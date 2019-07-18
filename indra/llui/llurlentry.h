@@ -171,6 +171,7 @@ class LLUrlEntrySLURL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySLURL();
+	/*virtual*/ bool isTrusted() const { return true; }
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };

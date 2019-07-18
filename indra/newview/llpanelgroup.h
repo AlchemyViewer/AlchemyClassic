@@ -96,7 +96,6 @@ protected:
 	void onBtnCreate();
 	void onBackBtnClick();
 	void onBtnJoin() const;
-	void onBtnCancel();
 	void onBtnApply();
 
 	void reposButton(LLButton* button);

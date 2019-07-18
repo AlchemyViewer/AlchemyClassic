@@ -73,6 +73,7 @@
 #include "llviewercontrol.h"
 #include "llviewerinventory.h"
 #include "llviewermenu.h"
+#include "llviewermenufile.h" // LLFilePickerReplyThread
 #include "llviewerobject.h"
 #include "llviewerobjectlist.h"
 #include "llviewerregion.h"
@@ -1223,25 +1224,20 @@ BOOL LLScriptEdCore::handleKeyHere(KEY key, MASK mask)
 
 void LLScriptEdCore::onBtnLoadFromFile( void* data )
 {
-	LLScriptEdCore* self = (LLScriptEdCore*) data;
+	(new LLFilePickerReplyThread(boost::bind(&LLScriptEdCore::loadScriptFromFile, _1, data), LLFilePicker::FFLOAD_SCRIPT, false))->getFile();
+}
 
-	// TODO Maybe add a dialogue warning here if the current file has unsaved changes.
-	LLFilePicker& file_picker = LLFilePicker::instance();
-	if( !file_picker.getOpenFile( LLFilePicker::FFLOAD_SCRIPT ) )
-	{
-		//File picking cancelled by user, so nothing to do.
-		return;
-	}
-
-	std::string filename = file_picker.getFirstFile();
+void LLScriptEdCore::loadScriptFromFile(const std::vector<std::string>& filenames, void* data)
+{
+	std::string filename = filenames[0];
 
 	llifstream fin(filename.c_str());
 
 	std::string line;
 	std::string text;
 	while (!fin.eof())
-	{ 
-		getline(fin,line);
+	{
+		getline(fin, line);
 		text += line;
 		if (!fin.eof())
 		{
@@ -1251,7 +1247,8 @@ void LLScriptEdCore::onBtnLoadFromFile( void* data )
 	fin.close();
 
 	// Only replace the script if there is something to replace with.
-	if (text.length() > 0)
+	LLScriptEdCore* self = (LLScriptEdCore*)data;
+	if (self && (text.length() > 0))
 	{
 		self->mEditor->selectAll();
 		LLWString script(utf8str_to_wstring(text));
@@ -1267,16 +1264,21 @@ void LLScriptEdCore::onBtnSaveToFile( void* userdata )
 
 	if( self->mSaveCallback )
 	{
-		LLFilePicker& file_picker = LLFilePicker::instance();
-		if( file_picker.getSaveFile( LLFilePicker::FFSAVE_SCRIPT, self->mScriptName ) )
-		{
-			std::string filename = file_picker.getFirstFile();
-			std::string scriptText=self->getScriptText();
-			llofstream fout(filename.c_str());
-			fout<<(scriptText);
-			fout.close();
-			self->mSaveCallback( self->mUserdata, FALSE );
-		}
+		(new LLFilePickerReplyThread(boost::bind(&LLScriptEdCore::saveScriptToFile, _1, userdata), LLFilePicker::FFSAVE_SCRIPT, self->mScriptName))->getFile();
+	}
+}
+
+void LLScriptEdCore::saveScriptToFile(const std::vector<std::string>& filenames, void* data)
+{
+	LLScriptEdCore* self = (LLScriptEdCore*)data;
+	if (self)
+	{
+		std::string filename = filenames[0];
+		std::string scriptText = self->mEditor->getText();
+		llofstream fout(filename.c_str());
+		fout << (scriptText);
+		fout.close();
+		self->mSaveCallback(self->mUserdata, FALSE);
 	}
 }
 

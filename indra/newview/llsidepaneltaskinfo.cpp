@@ -222,7 +222,6 @@ void LLSidepanelTaskInfo::onVisibilityChange ( BOOL visible )
 
 void LLSidepanelTaskInfo::disableAll()
 {
-	mObjectNameLabel->setEnabled(FALSE);
 	mObjectNameEditor->setValue(LLStringUtil::null);
 	mObjectNameEditor->setEnabled(FALSE);
 
@@ -239,8 +238,6 @@ void LLSidepanelTaskInfo::disableAll()
 	mOwnerNameEditor->setEnabled(FALSE);
 
 	mGroupNameLabel->setEnabled(FALSE);
-	mGroupNameBox->setValue(LLStringUtil::null);
-	mGroupNameBox->setEnabled(FALSE);
 	mGroupSetButton->setEnabled(FALSE);
 
 	mDeedBtn->setEnabled(FALSE);
@@ -720,7 +717,6 @@ void LLSidepanelTaskInfo::refresh()
 		mForSaleCheck->setTentative(is_for_sale_mixed);
 		mSaleTypeCombo->setEnabled(num_for_sale && can_transfer && !is_sale_price_mixed);
 
-		mNextOwnerPermLabel->setEnabled(TRUE);
 		mNextOwnerCanModifyCheck->setEnabled(base_mask_on & PERM_MODIFY);
 		mNextOwnerCanCopyCheck->setEnabled(base_mask_on & PERM_COPY);
 		mNextOwnerCanTransferCheck->setEnabled(next_owner_mask_on & PERM_COPY);
@@ -731,7 +727,6 @@ void LLSidepanelTaskInfo::refresh()
 		mForSaleCheck->setEnabled(FALSE);
 		mSaleTypeCombo->setEnabled(FALSE);
 
-		mNextOwnerPermLabel->setEnabled(FALSE);
 		mNextOwnerCanModifyCheck->setEnabled(FALSE);
 		mNextOwnerCanCopyCheck->setEnabled(FALSE);
 		mNextOwnerCanTransferCheck->setEnabled(FALSE);

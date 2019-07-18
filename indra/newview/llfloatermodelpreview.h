@@ -219,7 +219,7 @@ class LLMeshFilePicker : public LLFilePickerThread
 {
 public:
 	LLMeshFilePicker(LLModelPreview* mp, S32 lod);
-	void notify(const std::string& filename) override;
+	void notify(const std::vector<std::string>& filenames) override;
 
 private:
 	LLModelPreview* mMP;

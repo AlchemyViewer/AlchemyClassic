@@ -32,7 +32,7 @@
 // boost libraries
 #include <boost/algorithm/string/split.hpp> //
 #include <boost/algorithm/string/predicate.hpp> // <alchemy/>
-#include "boost/lexical_cast.hpp"
+#include <boost/algorithm/string/replace.hpp>
 #include <boost/regex.hpp>
 #include <boost/tokenizer.hpp>
 

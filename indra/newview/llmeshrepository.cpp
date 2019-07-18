@@ -3340,7 +3340,6 @@ void LLMeshPhysicsShapeHandler::processData(LLCore::BufferArray * /* body */, S3
 
 LLMeshRepository::LLMeshRepository()
 : mMeshMutex(nullptr),
-  mDecompThread(NULL),
   mMeshThreadCount(0),
   mThread(nullptr),
   mDecompThread(nullptr),

@@ -263,9 +263,9 @@ class LLRefreshTexturesObject : public view_listener_t
 					LLViewerFetchedTexture* tx = LLViewerTextureManager::getFetchedTexture(sculptie);
 					if (tx)
 					{
-						const LLViewerTexture::ll_volume_list_t* pVolumeList = tx->getVolumeList();
+						const LLViewerTexture::ll_volume_list_t* pVolumeList = tx->getVolumeList(LLRender::SCULPT_TEX);
 					    ALViewerMenu::destroy_texture(sculptie);
-						for (S32 idxVolume = 0; idxVolume < tx->getNumVolumes(); ++idxVolume)
+						for (S32 idxVolume = 0; idxVolume < tx->getNumVolumes(LLRender::SCULPT_TEX); ++idxVolume)
 						{
 							LLVOVolume* pVolume = pVolumeList->at(idxVolume);
 							if (pVolume) pVolume->notifyMeshLoaded();

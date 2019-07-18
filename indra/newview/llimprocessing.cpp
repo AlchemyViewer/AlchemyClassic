@@ -668,57 +668,58 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
             break;
 
         case IM_TYPING_START:
-        {
-		static LLCachedControl<bool> sNotifyIncomingMessage(gSavedSettings, "AlchemyNotifyIncomingMessage");
-		if (sNotifyIncomingMessage &&
-			!gIMMgr->hasSession(session_id) &&
-			((accept_im_from_only_friend && (is_friend || is_linden)) ||
-			(!(is_muted || is_do_not_disturb)))
-			)
 		{
-			LLStringUtil::format_map_t args;
-			args["[NAME]"] = name;
-			const std::string notify_str = LLTrans::getString("NotifyIncomingMessage", args);
-			gIMMgr->addMessage(session_id,
-				from_id,
-				LLStringUtil::null,
-				notify_str,
-				IM_ONLINE,
-				LLStringUtil::null,
-				IM_NOTHING_SPECIAL,
-                    parent_estate_id,
-                    region_id,
-                    position,
-				false,
-				LLSD().with("announcement", true)
-			);
-
-			if (sAutorespond || (sAutorespondNonFriend && !is_friend))
+			static LLCachedControl<bool> sNotifyIncomingMessage(gSavedSettings, "AlchemyNotifyIncomingMessage");
+			if (sNotifyIncomingMessage &&
+				!gIMMgr->hasSession(session_id) &&
+				((accept_im_from_only_friend && (is_friend || is_linden)) ||
+				(!(is_muted || is_do_not_disturb)))
+				)
 			{
-				std::string my_name;
-				LLAgentUI::buildFullname(my_name);
-				std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
-					? "AlchemyAutoresponseNotFriend"
-					: "AlchemyAutoresponse");
-				response = replace_wildcard(response, from_id, name);
-				pack_instant_message(gMessageSystem,
-					gAgent.getID(),
-					FALSE,
-					gAgent.getSessionID(),
+				LLStringUtil::format_map_t args;
+				args["[NAME]"] = name;
+				const std::string notify_str = LLTrans::getString("NotifyIncomingMessage", args);
+				gIMMgr->addMessage(session_id,
 					from_id,
-					my_name,
-					response,
+					LLStringUtil::null,
+					notify_str,
 					IM_ONLINE,
-					IM_DO_NOT_DISTURB_AUTO_RESPONSE,
-					session_id);
-				gAgent.sendReliableMessage();
+					LLStringUtil::null,
+					IM_NOTHING_SPECIAL,
+					parent_estate_id,
+					region_id,
+					position,
+					false,
+					LLSD().with("announcement", true)
+				);
 
-				gIMMgr->addMessage(session_id, gAgent.getID(), my_name, LLTrans::getString("AutoresponsePrefix").append(response));
+				if (sAutorespond || (sAutorespondNonFriend && !is_friend))
+				{
+					std::string my_name;
+					LLAgentUI::buildFullname(my_name);
+					std::string response = gSavedPerAccountSettings.getString(sAutorespondNonFriend && !is_friend
+						? "AlchemyAutoresponseNotFriend"
+						: "AlchemyAutoresponse");
+					response = replace_wildcard(response, from_id, name);
+					pack_instant_message(gMessageSystem,
+						gAgent.getID(),
+						FALSE,
+						gAgent.getSessionID(),
+						from_id,
+						my_name,
+						response,
+						IM_ONLINE,
+						IM_DO_NOT_DISTURB_AUTO_RESPONSE,
+						session_id);
+					gAgent.sendReliableMessage();
+
+					gIMMgr->addMessage(session_id, gAgent.getID(), my_name, LLTrans::getString("AutoresponsePrefix").append(response));
+				}
 			}
-		}
 
-            gIMMgr->processIMTypingStart(from_id, dialog);
-        }
+			LLPointer<LLIMInfo> im_info = new LLIMInfo(gMessageSystem);
+			gIMMgr->processIMTypingStart(im_info);
+		}
         break;
 
         case IM_TYPING_STOP:
@@ -925,7 +926,22 @@ void LLIMProcessing::processNewMessage(LLUUID from_id,
                 // group is not blocked, but we still need to check agent that sent the invitation
                 // and we have no agent's id
                 // Note: server sends username "first.last".
-                is_muted |= LLMuteList::getInstance()->isMuted(name);
+			size_t index = original_name.find(" Resident");
+			if (index != std::string::npos)
+			{
+				original_name = original_name.substr(0, index);
+			}
+			std::string legacy_name = gCacheName->buildLegacyName(original_name);
+			LLUUID agent_id;
+			gCacheName->getUUID(legacy_name, agent_id);
+			if (agent_id.isNull())
+			{
+				LL_WARNS("Messaging") << "buildLegacyName returned null while processing " << original_name << LL_ENDL;
+			}
+			else
+			{
+				is_muted |= (bool) LLMuteList::getInstance()->isMuted(agent_id);
+			}
             }
             if (is_do_not_disturb || is_muted)
             {

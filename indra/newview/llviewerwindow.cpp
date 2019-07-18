@@ -703,6 +703,9 @@ public:
 			LLCoordGL coord = gViewerWindow->getCurrentMouse();
 			glReadPixels(coord.mX, coord.mY, 1,1,GL_RGBA, GL_UNSIGNED_BYTE, color);
 			addText(xpos, ypos, llformat("%d %d %d %d", color[0], color[1], color[2], color[3]));
+			ypos += y_inc;
+		}
+
 		// only display these messages if we are actually rendering beacons at this moment
 		if (LLPipeline::getRenderBeacons() && LLFloaterReg::instanceVisible("beacons"))
 		{

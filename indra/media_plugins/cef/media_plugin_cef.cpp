@@ -69,7 +69,7 @@ private:
 	void onLoadEndCallback(int httpStatusCode);
 	void onLoadError(int status, const std::string error_text);
 	void onAddressChangeCallback(std::string url);
-	void onNavigateURLCallback(std::string url, std::string target);
+	void onOpenPopupCallback(std::string url, std::string target);
 	bool onHTTPAuthCallback(const std::string host, const std::string realm, std::string& username, std::string& password);
 	void onCursorChangedCallback(dullahan::ECursorType type);
 	const std::vector<std::string> onFileDialog(dullahan::EFileDialogType dialog_type, const std::string dialog_title, const std::string default_file, const std::string dialog_accept_filter, bool& use_default);
@@ -99,7 +99,8 @@ private:
 	std::string mUserDataPath;
 	std::string mCachePath;
 	std::string mCookiePath;
-	std::string mLogPath;
+	std::string mCefLogFile;
+	bool mCefLogVerbose;
 	std::vector<std::string> mPickedFiles;
 	VolumeCatcher mVolumeCatcher;
 	F32 mCurVolume;
@@ -131,9 +132,10 @@ MediaPluginBase(host_send_func, host_user_data)
 	mUserDataPath = "";
 	mCachePath = "";
 	mCookiePath = "";
-	mLogPath = "";
+	mCefLogFile = "";
+	mCefLogVerbose = false;
 	mPickedFiles.clear();
-	mCurVolume = 0.0f;
+	mCurVolume = 0.0;
 
 	mCEFLib = new dullahan();
 
@@ -172,6 +174,10 @@ void MediaPluginCEF::onPageChangedCallback(const unsigned char* pixels, int x, i
 		if (mWidth == width && mHeight == height)
 		{
 			memcpy(mPixels, pixels, mWidth * mHeight * mDepth);
+		}
+		else
+		{
+			mCEFLib->setSize(mWidth, mHeight);
 		}
 		setDirty(0, 0, mWidth, mHeight);
 	}
@@ -263,7 +269,7 @@ void MediaPluginCEF::onAddressChangeCallback(std::string url)
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-void MediaPluginCEF::onNavigateURLCallback(std::string url, std::string target)
+void MediaPluginCEF::onOpenPopupCallback(std::string url, std::string target)
 {
 	LLPluginMessage message(LLPLUGIN_MESSAGE_CLASS_MEDIA_BROWSER, "click_href");
 	message.setValue("uri", url);
@@ -430,14 +436,13 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				versions[LLPLUGIN_MESSAGE_CLASS_MEDIA_BROWSER] = LLPLUGIN_MESSAGE_CLASS_MEDIA_BROWSER_VERSION;
 				message.setValueLLSD("versions", versions);
 
-				std::string plugin_version = "CEF plugin 1.1.3";
+				std::string plugin_version = "CEF plugin 1.1.412";
 				message.setValue("plugin_version", plugin_version);
 				sendMessage(message);
 			}
 			else if (message_name == "idle")
 			{
 				mCEFLib->update();
-
 
 				// this seems bad but unless the state changes (it won't until we figure out
 				// how to get CEF to tell us if copy/cut/paste is available) then this function
@@ -499,7 +504,7 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				mCEFLib->setOnLoadEndCallback(std::bind(&MediaPluginCEF::onLoadEndCallback, this, std::placeholders::_1));
 				mCEFLib->setOnLoadErrorCallback(std::bind(&MediaPluginCEF::onLoadError, this, std::placeholders::_1, std::placeholders::_2));
 				mCEFLib->setOnAddressChangeCallback(std::bind(&MediaPluginCEF::onAddressChangeCallback, this, std::placeholders::_1));
-				mCEFLib->setOnNavigateURLCallback(std::bind(&MediaPluginCEF::onNavigateURLCallback, this, std::placeholders::_1, std::placeholders::_2));
+				mCEFLib->setOnOpenPopupCallback(std::bind(&MediaPluginCEF::onOpenPopupCallback, this, std::placeholders::_1, std::placeholders::_2));
 				mCEFLib->setOnHTTPAuthCallback(std::bind(&MediaPluginCEF::onHTTPAuthCallback, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 				mCEFLib->setOnFileDialogCallback(std::bind(&MediaPluginCEF::onFileDialog, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5));
 				mCEFLib->setOnCursorChangedCallback(std::bind(&MediaPluginCEF::onCursorChangedCallback, this, std::placeholders::_1));
@@ -507,12 +512,11 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 
 				dullahan::dullahan_settings settings;
 				settings.accept_language_list = generate_cef_locale(mHostLanguage);
-				settings.background_color = 0xffffffff;
+				settings.background_color = 0xff282828;
 				settings.cache_enabled = true;
 				settings.cache_path = mCachePath;
 				settings.cookie_store_path = mCookiePath;
 				settings.cookies_enabled = mCookiesEnabled;
-				settings.debug_output = mEnableMediaPluginDebugging;
 				settings.disable_gpu = mDisableGPU;
 				settings.flash_enabled = mPluginsEnabled;
 				settings.flip_mouse_y = false;
@@ -524,14 +528,18 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				settings.java_enabled = false;
 				settings.javascript_enabled = mJavascriptEnabled;
 				settings.locale = generate_cef_locale(mHostLanguage);
-				settings.log_file = mLogPath;
 				settings.media_stream_enabled = false; // MAINT-6060 - WebRTC media removed until we can add granualrity/query UI
 				settings.plugins_enabled = mPluginsEnabled;
 				settings.user_agent_substring = mCEFLib->makeCompatibleUserAgentString(mUserAgentSubtring);
 				settings.user_data_path = mUserDataPath;
 				settings.webgl_enabled = true;
+				settings.log_file = mCefLogFile;
+				settings.log_verbose = mEnableMediaPluginDebugging;
 
-				std::vector<std::string> custom_schemes(1, "secondlife");
+				std::vector<std::string> custom_schemes;
+				custom_schemes.emplace_back("secondlife");
+				custom_schemes.emplace_back("x-grid-info");
+				custom_schemes.emplace_back("x-grid-location-info");
 				mCEFLib->setCustomSchemes(custom_schemes);
 
 				bool result = mCEFLib->init(settings);
@@ -559,12 +567,11 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			{
 				std::string user_data_path_cache = message_in.getValue("cache_path");
 				std::string user_data_path_cookies = message_in.getValue("cookies_path");
-				std::string user_data_path_logs = message_in.getValue("logs_path");
 
 				mUserDataPath = user_data_path_cache + "cef_data";
 				mCachePath = user_data_path_cache + "cef_cache";
 				mCookiePath = user_data_path_cookies + "cef_cookies";
-				mLogPath = user_data_path_logs + "cef.log";
+				mCefLogFile = message_in.getValue("cef_log_file");
 			}
 			else if (message_name == "size_change")
 			{
@@ -586,10 +593,10 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 
 						mTextureWidth = texture_width;
 						mTextureHeight = texture_height;
+
+						mCEFLib->setSize(mWidth, mHeight);
 					};
 				};
-
-				mCEFLib->setSize(mWidth, mHeight);
 
 				LLPluginMessage message(LLPLUGIN_MESSAGE_CLASS_MEDIA, "size_change_response");
 				message.setValue("name", name);
@@ -769,6 +776,10 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 			else if (message_name == "cookies_enabled")
 			{
 				mCookiesEnabled = message_in.getValueBoolean("enable");
+			}
+			else if (message_name == "clear_cookies")
+			{
+				mCEFLib->deleteAllCookies();
 			}
 			else if (message_name == "set_user_agent")
 			{

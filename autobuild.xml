@@ -530,11 +530,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>e5b0cf5bea4c3c0316ac1e795176b1a8</string>
+              <string>37dd116b4b03c554d9e3e06b84f533b1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.930-3.3239.1706.gcd33baa-darwin-201712262122.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.1085-3.3396.1785.ga27bbfa-darwin-201807241418.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -572,18 +572,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9639303e82af852c12ad6c427098bc3a</string>
+              <string>9c9696168fcb640feb7d64988a759b25</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/dullahan-1.1.930-3.3282.1733.g9091548-windows64-201802201942.tar.bz2</string>
+              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc1415/dullahan-1.1.1085-3.3497.1833.g13f506f-windows64-201809230539.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.930-3.3282.1733.g9091548</string>
+        <string>1.1.1085-3.3497.1833.g13f506f</string>
       </map>
       <key>expat</key>
       <map>
@@ -2977,9 +2977,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f1248b6692dcbb1a42db87ca8d9fed93</string>
+              <string>4aefe12a3825d1b4b8370986d84792a2</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/13982/87166/viewer_manager-1.0.512801-darwin64-512801.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/15295/98583/viewer_manager-1.0.513540-darwin64-513540.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin64</string>
@@ -3030,6 +3030,18 @@
         <string>vlc-bin</string>
         <key>platforms</key>
         <map>
+          <key>darwin64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>e5635e173c75dc0675b48ab5f5e4868b</string>
+              <key>url</key>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12143/71451/vlc_bin-2.2.8.511703-darwin64-511703.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin64</string>
+          </map>
           <key>linux</key>
           <map>
             <key>archive</key>

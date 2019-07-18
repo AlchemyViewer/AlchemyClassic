@@ -181,7 +181,7 @@
       left_pad="10"
       mouse_opaque="false"
       name="cache_size_label_l"
-      top_delta="4"
+      top_delta="3"
       text_color="LtGray_50"
       width="300">
     (Locations, images, web, search history)

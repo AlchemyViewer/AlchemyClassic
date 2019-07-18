@@ -32,7 +32,6 @@
 
 // libs
 #include "llimagepng.h"
-#include "llplugincookiestore.h"
 #include "llsdserialize.h"
 #include "bufferstream.h"
 

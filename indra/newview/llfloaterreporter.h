@@ -83,7 +83,8 @@ public:
 	/*virtual*/ BOOL postBuild() override;
 	/*virtual*/ void onOpen(const LLSD& key) override;
 	/*virtual*/ void onClose(bool app_quitting) override;
-	void draw() override;
+
+	static void onIdle(void* user_data);
 	
 	void setReportType(EReportType type) { mReportType = type; }
 	
@@ -149,6 +150,7 @@ private:
 
 	LLPointer<LLImageRaw> mImageRaw;
 	LLPointer<LLImageRaw> mPrevImageRaw;
+	LLFrameTimer	mSnapshotTimer;
 };
 
 #endif

@@ -674,7 +674,7 @@ void LLImageBase::sanityCheck()
 // virtual
 void LLImageBase::deleteData()
 {
-	ll_aligned_free_16(mData) ;
+	ll_aligned_free_16(mData);
 	disclaimMem(mDataSize);
 	mDataSize = 0;
 	mData = nullptr;

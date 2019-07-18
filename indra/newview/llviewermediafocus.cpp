@@ -83,7 +83,7 @@ void LLViewerMediaFocus::setFocusFace(LLPointer<LLViewerObject> objectp, S32 fac
 	if (media_impl.notNull() && objectp.notNull())
 	{
 		bool face_auto_zoom = false;
-
+		mPrevFocusedImplID = LLUUID::null;
 		mFocusedImplID = media_impl->getMediaTextureID();
 		mFocusedObjectID = objectp->getID();
 		mFocusedObjectFace = face;
@@ -404,6 +404,7 @@ void LLViewerMediaFocus::update()
 			else
 			{
 				// Someone else has focus -- back off.
+				mPrevFocusedImplID = mFocusedImplID;
 				clearFocus();
 			}
 		}
@@ -601,6 +602,15 @@ void LLViewerMediaFocus::unZoom()
 bool LLViewerMediaFocus::isZoomed() const
 {
 	return (mMediaControls.get() && mMediaControls.get()->getZoomLevel() != LLPanelPrimMediaControls::ZOOM_NONE);
+}
+
+bool LLViewerMediaFocus::isZoomedOnMedia(LLUUID media_id)
+{
+	if (isZoomed())
+	{
+		return (mFocusedImplID == media_id) || (mPrevFocusedImplID == media_id);
+	}
+	return false;
 }
 
 LLUUID LLViewerMediaFocus::getControlsMediaID()

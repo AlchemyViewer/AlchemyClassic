@@ -6,6 +6,7 @@
     <file>SourceHanSans-Normal.otf</file>
     <file>DejaVuSans.ttf</file>
     <os name="Windows">
+      <file>meiryo.TTC</file>
       <file>MSGOTHIC.TTC</file>
       <file>gulim.ttc</file>
       <file>simhei.ttf</file>

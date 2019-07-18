@@ -191,6 +191,10 @@ volatile U8* LLVBOPool::allocate(U32& name, U32 size, bool for_seed)
 		{
 			glBufferDataARB(mType, size, nullptr, mUsage);
 			ret = (U8*) ll_aligned_malloc<64>(size);
+			if (!ret)
+			{
+				LL_ERRS() << "Failed to allocate for LLVBOPool buffer" << LL_ENDL;
+			}
 		}
 		else
 		{ //always use a true hint of static draw when allocating non-client-backed buffers
@@ -1261,7 +1265,7 @@ void LLVertexBuffer::destroyGLBuffer()
 		}
 		else
 		{
-			ll_aligned_free_16((void*) mMappedData);
+			ll_aligned_free_16((void*)mMappedData);
 			mMappedData = nullptr;
 			mEmpty = true;
 		}
@@ -1281,7 +1285,7 @@ void LLVertexBuffer::destroyGLIndices()
 		}
 		else
 		{
-			ll_aligned_free_16((void*) mMappedIndexData);
+			ll_aligned_free_16((void*)mMappedIndexData);
 			mMappedIndexData = nullptr;
 			mEmpty = true;
 		}

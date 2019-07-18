@@ -54,6 +54,7 @@ S32 LLLFSThread::updateClass(U32 ms_elapsed)
 //static
 void LLLFSThread::cleanupClass()
 {
+	llassert(sLocal != NULL);
 	sLocal->setQuitting();
 	while (sLocal->getPending())
 	{
@@ -77,6 +78,7 @@ LLLFSThread::LLLFSThread(bool threaded) :
 
 LLLFSThread::~LLLFSThread()
 {
+	// mLocalAPRFilePoolp cleanup in LLThread
 	// ~LLQueuedThread() will be called here
 }
 

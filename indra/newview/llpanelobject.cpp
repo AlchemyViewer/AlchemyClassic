@@ -364,7 +364,6 @@ void LLPanelObject::getState( )
 		return;
 	}
 
-	bool is_attachment = objectp->isAttachment();
 
 	// can move or rotate only linked group with move permissions, or sub-object with move and modify perms
 	BOOL enable_move	= objectp->permMove() && !objectp->isPermanentEnforced() && ((root_objectp == nullptr) || !root_objectp->isPermanentEnforced()) && /*!objectp->isAttachment() &&*/ (objectp->permModify() || !gSavedSettings.getBOOL("EditLinkedParts"));
@@ -413,6 +412,7 @@ void LLPanelObject::getState( )
 
 	LLViewerRegion* regionp = objectp->getRegion();
 	F32 width = regionp != nullptr ? regionp->getWidth() : REGION_WIDTH_METERS;
+	bool is_attachment = objectp->isAttachment();
 	mCtrlPosX->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -width);
 	mCtrlPosX->setMaxValue(is_attachment ? MAX_ATTACHMENT_DIST : width);
 	mCtrlPosY->setMinValue(is_attachment ? -MAX_ATTACHMENT_DIST : -width);
@@ -1612,9 +1612,14 @@ void LLPanelObject::sendRotation(BOOL btn_down)
 		{
 			rotation = rotation * (mObject->isAttachment() ? ~mRootObject->getRotationEdit() : ~mRootObject->getRotationRegion()); // <alchemy/>
 		}
+
+		// To include avatars into movements and rotation
+		// If false, all children are selected anyway - move avatar
+		// If true, not all children are selected - save positions
+		bool individual_selection = gSavedSettings.getBOOL("EditLinkedParts");
 		std::vector<LLVector3>& child_positions = mObject->mUnselectedChildrenPositions ;
 		std::vector<LLQuaternion> child_rotations;
-		if (mObject->isRootEdit())
+		if (mObject->isRootEdit() && individual_selection)
 		{
 			mObject->saveUnselectedChildrenRotation(child_rotations) ;
 			mObject->saveUnselectedChildrenPosition(child_positions) ;			
@@ -1624,8 +1629,8 @@ void LLPanelObject::sendRotation(BOOL btn_down)
 		LLManip::rebuild(mObject) ;
 
 		// for individually selected roots, we need to counterrotate all the children
-		if (mObject->isRootEdit())
-		{			
+		if (mObject->isRootEdit() && individual_selection)
+		{
 			mObject->resetChildrenRotationAndPosition(child_rotations, child_positions) ;			
 		}
 

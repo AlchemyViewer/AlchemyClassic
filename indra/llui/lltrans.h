@@ -74,8 +74,10 @@ public:
 	 * @param args A list of substrings to replace in the string
 	 * @returns Translated string
 	 */
-	static std::string getString(const std::string &xml_desc, const LLStringUtil::format_map_t& args);
-	static std::string getString(const std::string &xml_desc, const LLSD& args);
+	static std::string getString(const std::string &xml_desc, const LLStringUtil::format_map_t& args, bool def_string = false);
+	static std::string getDefString(const std::string &xml_desc, const LLStringUtil::format_map_t& args);
+	static std::string getString(const std::string &xml_desc, const LLSD& args, bool def_string = false);
+	static std::string getDefString(const std::string &xml_desc, const LLSD& args);
 	static bool findString(std::string &result, const std::string &xml_desc, const LLStringUtil::format_map_t& args);
 	static bool findString(std::string &result, const std::string &xml_desc, const LLSD& args);
 
@@ -90,7 +92,7 @@ public:
 	 * @param xml_desc String's description
 	 * @returns Translated string
 	 */
-	static std::string getString(const std::string &xml_desc)
+	static std::string getString(const std::string &xml_desc, bool def_string = false)
 	{
 		LLStringUtil::format_map_t empty;
 		return getString(xml_desc, empty);
@@ -126,6 +128,7 @@ public:
 private:
 	typedef std::map<std::string, LLTransTemplate > template_map_t;
 	static template_map_t sStringTemplates;
+	static template_map_t sDefaultStringTemplates;
 	static LLStringUtil::format_map_t sDefaultArgs;
 };
 

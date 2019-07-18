@@ -43,6 +43,8 @@ U32 LLFloaterMemLeak::sTotalLeaked = 0 ;
 S32 LLFloaterMemLeak::sStatus = LLFloaterMemLeak::STOP ;
 BOOL LLFloaterMemLeak::sbAllocationFailed = FALSE ;
 
+extern BOOL gSimulateMemLeak;
+
 LLFloaterMemLeak::LLFloaterMemLeak(const LLSD& key)
 	: LLFloater(key)
 {
@@ -105,6 +107,7 @@ void LLFloaterMemLeak::release()
 	sStatus = STOP ;
 	sTotalLeaked = 0 ;
 	sbAllocationFailed = FALSE ;
+	gSimulateMemLeak = FALSE;
 }
 
 void LLFloaterMemLeak::stop()
@@ -141,8 +144,7 @@ void LLFloaterMemLeak::idle()
 	}
 	if(!p)
 	{
-		sStatus = STOP ;
-		sbAllocationFailed = TRUE ;
+		stop();
 	}
 }
 
@@ -182,6 +184,7 @@ void LLFloaterMemLeak::onChangeMaxMemLeaking()
 void LLFloaterMemLeak::onClickStart()
 {
 	sStatus = START ;
+	gSimulateMemLeak = TRUE;
 }
 
 void LLFloaterMemLeak::onClickStop()

@@ -675,7 +675,7 @@ bool LLTextureCacheRemoteWorker::doWrite()
 			{
 				// We need to write a full record in the header cache so, if the amount of data is smaller
 				// than a record, we need to transfer the data to a buffer padded with 0 and write that
-				U8* padBuffer = (U8*) ll_aligned_malloc_16(TEXTURE_CACHE_ENTRY_SIZE);
+				U8* padBuffer = (U8*)ll_aligned_malloc_16(TEXTURE_CACHE_ENTRY_SIZE);
 				memset(padBuffer, 0, TEXTURE_CACHE_ENTRY_SIZE);		// Init with zeros
 				memcpy(padBuffer, mWriteData, mDataSize);			// Copy the write buffer
 				bytes_written = LLAPRFile::writeEx(mCache->mHeaderDataFileName, padBuffer, offset, size, mCache->getLocalAPRFilePool());
@@ -1990,7 +1990,7 @@ LLPointer<LLImageRaw> LLTextureCache::readFromFastCache(const LLUUID& id, S32& d
 		}
 		discardlevel = head[3];
 		
-		data =  (U8*)ll_aligned_malloc_16(image_size);
+		data = (U8*)ll_aligned_malloc_16(image_size);
 		if(mFastCachep->read(data, image_size) != image_size)
 		{
 			ll_aligned_free_16(data);

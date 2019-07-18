@@ -165,6 +165,7 @@ LLFloaterReporter::LLFloaterReporter(const LLSD& key)
 	mResourceDatap(new LLResourceData()),
 	mAvatarNameCacheConnection()
 {
+	gIdleCallbacks.addFunction(onIdle, this);
 }
 
 // virtual
@@ -225,6 +226,7 @@ LLFloaterReporter::~LLFloaterReporter()
 	{
 		mAvatarNameCacheConnection.disconnect();
 	}
+	gIdleCallbacks.deleteFunction(onIdle, this);
 
 	// child views automatically deleted
 	mObjectID 		= LLUUID::null;
@@ -242,10 +244,18 @@ LLFloaterReporter::~LLFloaterReporter()
 	delete mResourceDatap;
 }
 
-// virtual
-void LLFloaterReporter::draw()
+void LLFloaterReporter::onIdle(void* user_data)
 {
-	LLFloater::draw();
+	LLFloaterReporter* floater_reporter = (LLFloaterReporter*)user_data;
+	if (floater_reporter)
+	{
+		static LLCachedControl<F32> screenshot_delay(gSavedSettings, "AbuseReportScreenshotDelay");
+		if (floater_reporter->mSnapshotTimer.getStarted() && floater_reporter->mSnapshotTimer.getElapsedTimeF32() > screenshot_delay)
+		{
+			floater_reporter->mSnapshotTimer.stop();
+			floater_reporter->takeNewSnapshot();
+		}
+	}
 }
 
 void LLFloaterReporter::enableControls(BOOL enable)
@@ -875,8 +885,7 @@ void LLFloaterReporter::onOpen(const LLSD& key)
 {
 	childSetEnabled("send_btn", false);
 	//Time delay to avoid UI artifacts. MAINT-7067
-	doAfterInterval(boost::bind(&LLFloaterReporter::takeNewSnapshot,this), gSavedSettings.getF32("AbuseReportScreenshotDelay"));
-
+	mSnapshotTimer.start();
 }
 
 void LLFloaterReporter::onLoadScreenshotDialog(const LLSD& notification, const LLSD& response)
@@ -948,6 +957,7 @@ void LLFloaterReporter::setPosBox(const LLVector3d &pos)
 
 void LLFloaterReporter::onClose(bool app_quitting)
 {
+	mSnapshotTimer.stop();
 	gSavedPerAccountSettings.setBOOL("PreviousScreenshotForReport", app_quitting);
 }
 

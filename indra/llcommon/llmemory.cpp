@@ -59,7 +59,6 @@ U32Kilobytes LLMemory::sAllocatedMemInKB(0);
 U32Kilobytes LLMemory::sAllocatedPageSizeInKB(0);
 U32Kilobytes LLMemory::sMaxHeapSizeInKB(U32_MAX);
 BOOL LLMemory::sEnableMemoryFailurePrevention = FALSE;
-
 void ll_assert_aligned_func(uintptr_t ptr,U32 alignment)
 {
 #if defined(LL_WINDOWS) && defined(LL_DEBUG_BUFFER_OVERRUN)

@@ -45,6 +45,7 @@
 #include "llagentwearables.h"
 #include "llaoengine.h"
 #include "llfloaterimcontainer.h"
+#include "llimprocessing.h"
 #include "llwindow.h"
 #include "llviewerstats.h"
 #include "llviewerstatsrecorder.h"
@@ -365,6 +366,8 @@ BOOL gCrashOnStartup = FALSE;
 BOOL gLLErrorActivated = FALSE;
 BOOL gLogoutInProgress = FALSE;
 
+BOOL gSimulateMemLeak = FALSE;
+
 ////////////////////////////////////////////////////////////
 // Internal globals... that should be removed.
 static std::string gArgs;
@@ -561,27 +564,6 @@ bool	create_text_segment_icon_from_url_match(LLUrlMatch* match,LLTextBase* base)
 	return true;
 }
 
-void request_initial_instant_messages()
-{
-	static BOOL requested = FALSE;
-	if (!requested
-		&& gMessageSystem
-		&& LLMuteList::getInstance()->isLoaded()
-		&& isAgentAvatarValid())
-	{
-		// Auto-accepted inventory items may require the avatar object
-		// to build a correct name.  Likewise, inventory offers from
-		// muted avatars require the mute list to properly mute.
-		LLMessageSystem* msg = gMessageSystem;
-		msg->newMessageFast(_PREHASH_RetrieveInstantMessages);
-		msg->nextBlockFast(_PREHASH_AgentData);
-		msg->addUUIDFast(_PREHASH_AgentID, gAgent.getID());
-		msg->addUUIDFast(_PREHASH_SessionID, gAgent.getSessionID());
-		gAgent.sendReliableMessage();
-		requested = TRUE;
-	}
-}
-
 // Use these strictly for things that are constructed at startup,
 // or for things that are performance critical.  JC
 static void settings_to_globals()
@@ -596,6 +578,7 @@ static void settings_to_globals()
 	LLSurface::setTextureSize(gSavedSettings.getU32("RegionTextureSize"));
 	
 	LLRender::sGLCoreProfile = gSavedSettings.getBOOL("RenderGLCoreProfile");
+	LLRender::sNsightDebugSupport = gSavedSettings.getBOOL("RenderNsightDebugSupport");
 	LLVertexBuffer::sUseVAO = gSavedSettings.getBOOL("RenderUseVAO");
 	LLImageGL::sGlobalUseAnisotropic	= gSavedSettings.getBOOL("RenderAnisotropic");
 	LLImageGL::sCompressTextures		= gSavedSettings.getBOOL("RenderCompressTextures");
@@ -997,10 +980,11 @@ bool LLAppViewer::init()
 
 	if (!initCache())
 	{
+		LL_WARNS("InitInfo") << "Failed to init cache" << LL_ENDL;
 		std::ostringstream msg;
 		msg << LLTrans::getString("MBUnableToAccessFile");
 		OSMessageBox(msg.str(),LLStringUtil::null,OSMB_OK);
-		return true;
+		return false;
 	}
 	LL_INFOS("InitInfo") << "Cache initialization is done." << LL_ENDL ;
 
@@ -1340,9 +1324,48 @@ LLTrace::BlockTimerStatHandle FTM_FRAME("Frame");
 
 bool LLAppViewer::frame()
 {
+	bool ret = false;
+
+	if (gSimulateMemLeak)
+	{
+		try
+		{
+			ret = doFrame();
+		}
+		catch (const LLContinueError&)
+		{
+			LOG_UNHANDLED_EXCEPTION("");
+		}
+		catch (std::bad_alloc)
+		{
+			LLMemory::logMemoryInfo(TRUE);
+			LLFloaterMemLeak* mem_leak_instance = LLFloaterReg::findTypedInstance<LLFloaterMemLeak>("mem_leaking");
+			if (mem_leak_instance)
+			{
+				mem_leak_instance->stop();
+			}
+			LL_WARNS() << "Bad memory allocation in LLAppViewer::frame()!" << LL_ENDL;
+		}
+	}
+	else
+	{ 
+		try
+		{
+			ret = doFrame();
+		}
+		catch (const LLContinueError&)
+		{
+			LOG_UNHANDLED_EXCEPTION("");
+		}
+	}
+
+	return ret;
+}
+
+bool LLAppViewer::doFrame()
+{
 	LLEventPump& mainloop(LLEventPumps::instance().obtain("mainloop"));
 	LLSD newFrame;
-
 
 	LL_RECORD_BLOCK_TIME(FTM_FRAME);
 	LLTrace::BlockTimer::processTimes();
@@ -1357,7 +1380,6 @@ bool LLAppViewer::frame()
 	//check memory availability information
 	checkMemory() ;
 
-	try
 	{
 		pingMainloopTimeout("Main:MiscNativeWindowEvents");
 
@@ -1381,12 +1403,15 @@ bool LLAppViewer::frame()
 		}
 
 		//memory leaking simulation
-		LLFloaterMemLeak* mem_leak_instance =
-			LLFloaterReg::findTypedInstance<LLFloaterMemLeak>("mem_leaking");
-		if(mem_leak_instance)
+		if (gSimulateMemLeak)
 		{
-			mem_leak_instance->idle() ;				
-		}							
+			LLFloaterMemLeak* mem_leak_instance =
+				LLFloaterReg::findTypedInstance<LLFloaterMemLeak>("mem_leaking");
+			if (mem_leak_instance)
+			{
+				mem_leak_instance->idle();
+			}
+		}
 
 		// canonical per-frame event
 		mainloop.post(newFrame);
@@ -1398,7 +1423,8 @@ bool LLAppViewer::frame()
 			// Scan keyboard for movement keys.  Command keys and typing
 			// are handled by windows callbacks.  Don't do this until we're
 			// done initializing.  JC
-			if ((gHeadlessClient || gViewerWindow->getWindow()->getVisible())
+			if (gViewerWindow
+				&& (gHeadlessClient || gViewerWindow->getWindow()->getVisible())
 				&& gViewerWindow->getActive()
 				&& !gViewerWindow->getWindow()->getMinimized()
 				&& LLStartUp::getStartupState() == STATE_STARTED
@@ -1431,7 +1457,7 @@ bool LLAppViewer::frame()
 
 			// Render scene.
 			// *TODO: Should we run display() even during gHeadlessClient?  DK 2011-02-18
-			if (!LLApp::isExiting() && !gHeadlessClient)
+			if (!LLApp::isExiting() && !gHeadlessClient && gViewerWindow)
 			{
 				pingMainloopTimeout("Main:Display");
 				gGLActive = TRUE;
@@ -1563,60 +1589,13 @@ bool LLAppViewer::frame()
 			pingMainloopTimeout("Main:End");
 		}
 	}
-	catch (const LLContinueError&)
-	{
-		LOG_UNHANDLED_EXCEPTION("");
-	}
-	catch (const std::bad_alloc&)
-	{
-		LLMemory::logMemoryInfo(TRUE) ;
-
-		//stop memory leaking simulation
-		LLFloaterMemLeak* mem_leak_instance =
-			LLFloaterReg::findTypedInstance<LLFloaterMemLeak>("mem_leaking");
-		if(mem_leak_instance)
-		{
-			mem_leak_instance->stop() ;
-			LL_WARNS() << "Bad memory allocation in LLAppViewer::frame()!" << LL_ENDL ;
-		}
-		else
-		{
-			//output possible call stacks to log file.
-			LLError::LLCallStacks::print() ;
-
-			LL_ERRS() << "Bad memory allocation in LLAppViewer::frame()!" << LL_ENDL ;
-		}
-	}
-	catch (...)
-	{
-		CRASH_ON_UNHANDLED_EXCEPTION("");
-	}
 
 	if (LLApp::isExiting())
 	{
 		// Save snapshot for next time, if we made it through initialization
 		if (STATE_STARTED == LLStartUp::getStartupState())
 		{
-			try
-			{
-				saveFinalSnapshot();
-			}
-			catch (const std::bad_alloc& e)
-			{
-				LL_WARNS() << "Bad memory allocation when saveFinalSnapshot() is called!: " << e.what() << LL_ENDL ;
-
-				//stop memory leaking simulation
-				LLFloaterMemLeak* mem_leak_instance =
-				LLFloaterReg::findTypedInstance<LLFloaterMemLeak>("mem_leaking");
-				if(mem_leak_instance)
-				{
-					mem_leak_instance->stop() ;
-				}
-			}
-			catch (...)
-			{
-				CRASH_ON_UNHANDLED_EXCEPTION("saveFinalSnapshot()");
-			}
+			saveFinalSnapshot();
 		}
 
 		delete gServicePump;
@@ -1676,7 +1655,10 @@ bool LLAppViewer::cleanup()
 	LLEventPumps::instance().reset();
 
 	//dump scene loading monitor results
-	LLSceneMonitor::instance().dumpToFile(gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "scene_monitor_results.csv"));
+	if (LLSceneMonitor::instanceExists())
+	{
+		LLSceneMonitor::instance().dumpToFile(gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "scene_monitor_results.csv"));
+	}
 
 	// There used to be an 'if (LLFastTimerView::sAnalyzePerformance)' block
 	// here, completely redundant with the one that occurs later in this same
@@ -1718,8 +1700,11 @@ bool LLAppViewer::cleanup()
     // Give any remaining SLPlugin instances a chance to exit cleanly.
     LLPluginProcessParent::shutdown();
 
-	LLVoiceClient::getInstance()->terminate();
-	
+	if (LLVoiceClient::instanceExists())
+	{
+		LLVoiceClient::getInstance()->terminate();
+	}
+
 	disconnectViewer();
 
 	LL_INFOS() << "Viewer disconnected" << LL_ENDL;
@@ -1774,7 +1759,10 @@ bool LLAppViewer::cleanup()
 
 	// Note: this is where gLocalSpeakerMgr and gActiveSpeakerMgr used to be deleted.
 
-	LLWorldMap::getInstance()->reset(); // release any images
+	if (LLWorldMap::instanceExists())
+	{
+		LLWorldMap::getInstance()->reset(); // release any images
+	}
 
 	LLCalc::cleanUp();
 
@@ -1939,10 +1927,16 @@ bool LLAppViewer::cleanup()
 	LLURLHistory::saveFile("url_history.xml");
 
 	// save mute list. gMuteList used to also be deleted here too.
-	LLMuteList::getInstance()->cache(gAgent.getID());
+	if (gAgent.isInitialized() && LLMuteList::instanceExists())
+	{
+		LLMuteList::getInstance()->cache(gAgent.getID());
+	}
 
 	//save call log list
-	LLConversationLog::instance().cache();
+	if (LLConversationLog::instanceExists())
+	{
+		LLConversationLog::instance().cache();
+	}
 
 	if (mPurgeOnExit)
 	{
@@ -2093,7 +2087,6 @@ bool LLAppViewer::cleanup()
 	SUBSYSTEM_CLEANUP(LLWearableType);
 
 	LLMainLoopRepeater::instance().stop();
-
 	ll_close_fail_log();
 
 	LLError::LLCallStacks::cleanup();
@@ -3269,7 +3262,7 @@ LLSD LLAppViewer::getViewerInfo() const
 	return info;
 }
 
-std::string LLAppViewer::getViewerInfoString() const
+std::string LLAppViewer::getViewerInfoString(bool default_string) const
 {
 	std::ostringstream support;
 
@@ -3279,7 +3272,7 @@ std::string LLAppViewer::getViewerInfoString() const
 	LLStringUtil::format_map_t args;
 
 	// allow the "Release Notes" URL label to be localized
-	args["ReleaseNotes"] = LLTrans::getString("ReleaseNotes");
+	args["ReleaseNotes"] = LLTrans::getString("ReleaseNotes", default_string);
 
 	for (LLSD::map_const_iterator ii(info.beginMap()), iend(info.endMap());
 		ii != iend; ++ii)
@@ -3289,7 +3282,7 @@ std::string LLAppViewer::getViewerInfoString() const
 			// Scalar value
 			if (ii->second.isUndefined())
 			{
-				args[ii->first] = LLTrans::getString("none_text");
+				args[ii->first] = LLTrans::getString("none_text", default_string);
 			}
 			else
 			{
@@ -3308,101 +3301,37 @@ std::string LLAppViewer::getViewerInfoString() const
 	}
 
 	// Now build the various pieces
-	support << LLTrans::getString("AboutHeader", args);
+	support << LLTrans::getString("AboutHeader", args, default_string);
 	if (info.has("BUILD_CONFIG"))
 	{
-		support << "\n" << LLTrans::getString("BuildConfig", args);
+		support << "\n" << LLTrans::getString("BuildConfig", args, default_string);
 	}
 	if (info.has("REGION"))
 	{
-		support << "\n\n" << LLTrans::getString("AboutPosition", args);
+		support << "\n\n" << LLTrans::getString("AboutPosition", args, default_string);
 	}
-	support << "\n\n" << LLTrans::getString("AboutSystem", args);
+	support << "\n\n" << LLTrans::getString("AboutSystem", args, default_string);
 	support << "\n";
 	if (info.has("GRAPHICS_DRIVER_VERSION"))
 	{
-		support << "\n" << LLTrans::getString("AboutDriver", args);
+		support << "\n" << LLTrans::getString("AboutDriver", args, default_string);
 	}
-	support << "\n" << LLTrans::getString("AboutOGL", args);
-	support << "\n\n" << LLTrans::getString("AboutSettings", args);
-	support << "\n\n" << LLTrans::getString("AboutLibs", args);
+	support << "\n" << LLTrans::getString("AboutOGL", args, default_string);
+	support << "\n\n" << LLTrans::getString("AboutSettings", args, default_string);
+	support << "\n\n" << LLTrans::getString("AboutLibs", args, default_string);
 	if (info.has("COMPILER"))
 	{
-		support << "\n" << LLTrans::getString("AboutCompiler", args);
+		support << "\n" << LLTrans::getString("AboutCompiler", args, default_string);
 	}
 	if (info.has("PACKETS_IN"))
 	{
-		support << '\n' << LLTrans::getString("AboutTraffic", args);
+		support << '\n' << LLTrans::getString("AboutTraffic", args, default_string);
 	}
 
 	// SLT timestamp
 	LLSD substitution;
 	substitution["datetime"] = (S32)time(nullptr);//(S32)time_corrected();
-	support << "\n" << LLTrans::getString("AboutTime", substitution);
-
-	return support.str();
-}
-
-std::string LLAppViewer::getShortViewerInfoString() const
-{
-	std::ostringstream support;
-	LLSD info(getViewerInfo());
-
-	support << LLTrans::getString("APP_NAME") << " " << info["VIEWER_VERSION_STR"].asString();
-	support << " (" << info["CHANNEL"].asString() << ")";
-	if (info.has("BUILD_CONFIG"))
-	{
-		support << "\n" << "Build Configuration " << info["BUILD_CONFIG"].asString();
-	}
-	if (info.has("REGION"))
-	{
-		support << "\n\n" << "You are at " << ll_vector3_from_sd(info["POSITION_LOCAL"]) << " in " << info["REGION"].asString();
-		support << " located at " << info["HOSTNAME"].asString() << " (" << info["HOSTIP"].asString() << ")";
-		support << "\n" << "SLURL: " << info["SLURL"].asString();
-		support << "\n" << "(Global coordinates " << ll_vector3_from_sd(info["POSITION"]) << ")";
-		support << "\n" << info["SERVER_VERSION"].asString();
-	}
-
-	support << "\n\n" << "CPU: " << info["CPU"].asString();
-	support << "\n" << "Memory: " << info["MEMORY_MB"].asString() << " MB";
-	support << "\n" << "OS: " << info["OS_VERSION"].asString();
-	support << "\n" << "Graphics Card: " << info["GRAPHICS_CARD"].asString() << " (" <<  info["GRAPHICS_CARD_VENDOR"].asString() << ")";
-
-	if (info.has("GRAPHICS_DRIVER_VERSION"))
-	{
-		support << "\n" << "Windows Graphics Driver Version: " << info["GRAPHICS_DRIVER_VERSION"].asString();
-	}
-
-	support << "\n" << "OpenGL Version: " << info["OPENGL_VERSION"].asString();
-
-	support << "\n\n" << "Window size:" << info["WINDOW_WIDTH"].asString() << "x" << info["WINDOW_HEIGHT"].asString();
-	support << "\n" << "Language: " << LLUI::getLanguage();
-	support << "\n" << "Font Size Adjustment: " << info["FONT_SIZE_ADJUSTMENT"].asString() << "pt";
-	support << "\n" << "UI Scaling: " << info["UI_SCALE"].asString();
-	support << "\n" << "Draw distance: " << info["DRAW_DISTANCE"].asString();
-	support << "\n" << "Bandwidth: " << info["NET_BANDWITH"].asString() << "kbit/s";
-	support << "\n" << "LOD factor: " << info["LOD_FACTOR"].asString();
-	support << "\n" << "Render quality: " << info["RENDER_QUALITY"].asString() << " / 7";
-	support << "\n" << "ALM: " << info["GPU_SHADERS"].asString();
-	support << "\n" << "Texture memory: " << info["TEXTURE_MEMORY"].asString() << "MB";
-	support << "\n" << "VFS (cache) creation time: " << info["VFS_TIME"].asString();
-
-	support << "\n\n" << "J2C Decoder: " << info["J2C_VERSION"].asString();
-	support << "\n" << "Audio Driver: " << info["AUDIO_DRIVER_VERSION"].asString();
-	support << "\n" << "LLCEFLib/CEF: " << info["LLCEFLIB_VERSION"].asString();
-	support << "\n" << "LibVLC: " << info["LIBVLC_VERSION"].asString();
-	support << "\n" << "Voice Server: " << info["VOICE_VERSION"].asString();
-
-	if (info.has("PACKETS_IN"))
-	{
-		support << "\n" << "Packets Lost: " << info["PACKETS_LOST"].asInteger() << "/" << info["PACKETS_IN"].asInteger();
-		F32 packets_pct = info["PACKETS_PCT"].asReal();
-		support << " (" << ll_round(packets_pct, 0.001f) << "%)";
-	}
-
-	LLSD substitution;
-	substitution["datetime"] = (S32)time(NULL);
-	support << "\n" << LLTrans::getString("AboutTime", substitution);
+	support << "\n" << LLTrans::getString("AboutTime", substitution, default_string);
 
 	return support.str();
 }
@@ -4726,7 +4655,7 @@ void LLAppViewer::idle()
 
 	// Must wait until both have avatar object and mute list, so poll
 	// here.
-	request_initial_instant_messages();
+	LLIMProcessing::requestOfflineMessages();
 
 	///////////////////////////////////
 	//

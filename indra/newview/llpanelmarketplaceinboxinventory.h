@@ -71,9 +71,7 @@ public:
 	
 	BOOL handleMouseDown(S32 x, S32 y, MASK mask) override;
 	BOOL handleDoubleClick(S32 x, S32 y, MASK mask) override;
-	
-	void selectItem();
-	void toggleOpen();
+	void selectItem() override;
 
 	void computeFreshness();
 	void deFreshify();

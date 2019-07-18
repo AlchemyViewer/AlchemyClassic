@@ -41,6 +41,7 @@
 namespace LLTrace
 {
 	const F64 NaN	= std::numeric_limits<double>::quiet_NaN();
+    const F32 fNaN  = std::numeric_limits<float>::quiet_NaN();
 
 	enum EBufferAppendType
 	{
@@ -245,8 +246,8 @@ namespace LLTrace
 			mLastValue(NaN),
 			mMean(NaN),
 			mSumOfSquares(0),
-			mMin(NaN),
-			mMax(NaN),
+			mMin(fNaN),
+			mMax(fNaN),
 			mNumSamples(0)
 		{}
 
@@ -318,8 +319,8 @@ namespace LLTrace
 			mSumOfSquares(0),
 			mLastSampleTimeStamp(0),
 			mTotalSamplingTime(0),
-			mMin(NaN),
-			mMax(NaN),
+			mMin(fNaN),
+			mMax(fNaN),
 			mNumSamples(0),
 			mHasValue(false)
 		{}

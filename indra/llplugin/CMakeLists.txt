@@ -3,7 +3,7 @@
 project(llplugin)
 
 include(00-Common)
-includessssssssssssssssssssssssss(CURL)
+include(CURL)
 include(LLCommon)
 include(LLImage)
 include(LLMath)

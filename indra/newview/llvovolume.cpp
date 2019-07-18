@@ -5209,7 +5209,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 					const LLTextureEntry* te = facep->getTextureEntry();
 					LLViewerTexture* tex = facep->getTexture();
 
-					if (te->getGlow() >= 1.f/255.f)
+					if (te->getGlow() >= 1.f / 255.f)
 					{
 						emissive = true;
 					}
@@ -5598,13 +5598,19 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 	if(emissive)
 		additional_flags |= LLVertexBuffer::MAP_EMISSIVE;
 
-	genDrawInfo(group, simple_mask | additional_flags, sSimpleFaces, simple_count, FALSE, batch_textures);
-	genDrawInfo(group, fullbright_mask | additional_flags, sFullbrightFaces, fullbright_count, FALSE, batch_textures);
-	genDrawInfo(group, alpha_mask | additional_flags, sAlphaFaces, alpha_count, TRUE, batch_textures);
-	genDrawInfo(group, bump_mask | additional_flags, sBumpFaces, bump_count, FALSE);
-	genDrawInfo(group, norm_mask | additional_flags, sNormFaces, norm_count, FALSE);
-	genDrawInfo(group, spec_mask | additional_flags, sSpecFaces, spec_count, FALSE);
-	genDrawInfo(group, normspec_mask | additional_flags, sNormSpecFaces, normspec_count, FALSE);
+	group->mGeometryBytes = 0;
+
+	U32 geometryBytes = 0;
+
+	geometryBytes += genDrawInfo(group, simple_mask | additional_flags, sSimpleFaces, simple_count, FALSE, batch_textures);
+	geometryBytes += genDrawInfo(group, fullbright_mask | additional_flags, sFullbrightFaces, fullbright_count, FALSE, batch_textures);
+	geometryBytes += genDrawInfo(group, alpha_mask | additional_flags, sAlphaFaces, alpha_count, TRUE, batch_textures);
+	geometryBytes += genDrawInfo(group, bump_mask | additional_flags, sBumpFaces, bump_count, FALSE);
+	geometryBytes += genDrawInfo(group, norm_mask | additional_flags, sNormFaces, norm_count, FALSE);
+	geometryBytes += genDrawInfo(group, spec_mask | additional_flags, sSpecFaces, spec_count, FALSE);
+	geometryBytes += genDrawInfo(group, normspec_mask | additional_flags, sNormSpecFaces, normspec_count, FALSE);
+
+	group->mGeometryBytes = geometryBytes;
 
 	if (!LLPipeline::sDelayVBUpdate)
 	{

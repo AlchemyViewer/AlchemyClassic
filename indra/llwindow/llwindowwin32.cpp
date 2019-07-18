@@ -422,6 +422,11 @@ LLWindowWin32::LLWindowWin32(LLWindowCallbacks* callbacks,
 	memset(mPrevGammaRamp, 0, sizeof(mPrevGammaRamp));
 	mCustomGammaSet = FALSE;
 
+	if (!SystemParametersInfo(SPI_GETMOUSEVANISH, 0, &mMouseVanish, 0))
+	{
+		mMouseVanish = TRUE;
+	}
+
 	// Initialize the keyboard
 	gKeyboard = new LLKeyboardWin32();
 	gKeyboard->setCallbacks(callbacks);
@@ -1096,7 +1101,14 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 		mhInstance,
 		nullptr);
 
-	LL_INFOS("Window") << "window is created." << LL_ENDL ;
+	if (mWindowHandle)
+	{
+		LL_INFOS("Window") << "window is created." << LL_ENDL ;
+	}
+	else
+	{
+		LL_WARNS("Window") << "Window creation failed, code: " << GetLastError() << LL_ENDL;
+	}
 
 	//-----------------------------------------------------------------------
 	// Create GL drawing context
@@ -1411,7 +1423,16 @@ BOOL LLWindowWin32::switchContext(U32 window_mode, const LLCoordScreen &size, U3
 			mhInstance,
 			nullptr);
 
-		LL_INFOS("Window") << "recreate window done." << LL_ENDL ;
+
+		if (mWindowHandle)
+		{
+			LL_INFOS("Window") << "recreate window done." << LL_ENDL ;
+		}
+		else
+		{
+			// Note: if value is NULL GetDC retrieves the DC for the entire screen.
+			LL_WARNS("Window") << "Window recreation failed, code: " << GetLastError() << LL_ENDL;
+		}
 
 		if (!(mhDC = GetDC(mWindowHandle)))
 		{
@@ -1705,7 +1726,7 @@ void LLWindowWin32::showCursorFromMouseMove()
 
 void LLWindowWin32::hideCursorUntilMouseMove()
 {
-	if (!mHideCursorPermanent)
+	if (!mHideCursorPermanent && mMouseVanish)
 	{
 		hideCursor();
 		mHideCursorPermanent = FALSE;
@@ -2661,20 +2682,20 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 			}
 
 		case WM_SETFOCUS:
-			window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:WM_SETFOCUS");
 			if (gDebugWindowProc)
 			{
 				LL_INFOS("Window") << "WINDOWPROC SetFocus" << LL_ENDL;
 			}
+			window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:WM_SETFOCUS");
 			window_imp->mCallbacks->handleFocus(window_imp);
 			return 0;
 
 		case WM_KILLFOCUS:
-			window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:WM_KILLFOCUS");
 			if (gDebugWindowProc)
 			{
 				LL_INFOS("Window") << "WINDOWPROC KillFocus" << LL_ENDL;
 			}
+			window_imp->mCallbacks->handlePingWatchdog(window_imp, "Main:WM_KILLFOCUS");
 			window_imp->mCallbacks->handleFocusLost(window_imp);
 			return 0;
 
@@ -2687,6 +2708,18 @@ LRESULT CALLBACK LLWindowWin32::mainWindowProc(HWND h_wnd, UINT u_msg, WPARAM w_
 			};
 			return 0;			
 
+			break;
+
+		case WM_SETTINGCHANGE:
+			{
+				if (w_param == SPI_SETMOUSEVANISH)
+				{
+					if (!SystemParametersInfo(SPI_GETMOUSEVANISH, 0, &window_imp->mMouseVanish, 0))
+					{
+						window_imp->mMouseVanish = TRUE;
+					}
+				}
+			}
 			break;
 		}
 

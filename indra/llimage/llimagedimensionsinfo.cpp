@@ -165,7 +165,7 @@ bool LLImageDimensionsInfo::getImageDimensionsJpeg()
 {
 	sJpegErrorEncountered = false;
 	clean();
-	FILE *fp = LLFile::fopen(mSrcFilename.c_str(), "rb");
+	FILE *fp = LLFile::fopen(mSrcFilename, "rb");
 	if (fp == nullptr) 
 	{
 		setLastError("Unable to open file for reading", mSrcFilename);

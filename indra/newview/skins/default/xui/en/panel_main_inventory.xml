@@ -14,15 +14,15 @@
   </panel.string>
   <panel.string
    name="ItemcountFetching">
-    INVENTORY - Fetching [ITEM_COUNT] Items... [FILTER]
+    INVENTORY - Fetching [ITEM_COUNT] Items and [CATEGORY_COUNT] Folders... [FILTER]
   </panel.string>
   <panel.string
    name="ItemcountCompleted">
-    INVENTORY - [ITEM_COUNT] Items [FILTER]
+    INVENTORY - [ITEM_COUNT] Items and [CATEGORY_COUNT] Folders [FILTER]
   </panel.string>
   <panel.string
    name="ItemcountUnknown">
-    INVENTORY - Fetched [ITEM_COUNT] Items [FILTER]
+    INVENTORY - Fetched [ITEM_COUNT] Items and [CATEGORY_COUNT] Folders [FILTER]
   </panel.string>
   <filter_editor
    text_pad_left="10"

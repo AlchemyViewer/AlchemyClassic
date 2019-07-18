@@ -1250,7 +1250,12 @@ bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id)
 				LLMeshRepository::sCacheBytesRead += size;
 				++LLMeshRepository::sCacheReads;
 				file.seek(offset);
-				U8* buffer = new U8[size];
+				U8* buffer = new(std::nothrow) U8[size];
+				if (!buffer)
+				{
+					LL_WARNS(LOG_MESH) << "Failed to allocate memory for skin info" << LL_ENDL;
+					return false;
+				}
 				file.read(buffer, size);
 
 				//make sure buffer isn't all 0's by checking the first 1KB (reserved block but not written)
@@ -1343,7 +1348,12 @@ bool LLMeshRepoThread::fetchMeshDecomposition(const LLUUID& mesh_id)
 				++LLMeshRepository::sCacheReads;
 
 				file.seek(offset);
-				U8* buffer = new U8[size];
+				U8* buffer = new(std::nothrow) U8[size];
+				if (!buffer)
+				{
+					LL_WARNS(LOG_MESH) << "Failed to allocate memory for mesh decomposition" << LL_ENDL;
+					return false;
+				}
 				file.read(buffer, size);
 
 				//make sure buffer isn't all 0's by checking the first 1KB (reserved block but not written)
@@ -1435,7 +1445,12 @@ bool LLMeshRepoThread::fetchMeshPhysicsShape(const LLUUID& mesh_id)
 				LLMeshRepository::sCacheBytesRead += size;
 				++LLMeshRepository::sCacheReads;
 				file.seek(offset);
-				U8* buffer = new U8[size];
+				U8* buffer = new(std::nothrow) U8[size];
+				if (!buffer)
+				{
+					LL_WARNS(LOG_MESH) << "Failed to allocate memory for physics shape" << LL_ENDL;
+					return false;
+				}
 				file.read(buffer, size);
 
 				//make sure buffer isn't all 0's by checking the first 1KB (reserved block but not written)
@@ -1776,9 +1791,11 @@ bool LLMeshRepoThread::skinInfoReceived(const LLUUID& mesh_id, U8* data, S32 dat
 
 	if (data_size > 0)
 	{
-		if (!unzip_llsd(skin, data, data_size))
+		U32 uzip_result = LLUZipHelper::unzip_llsd(skin, data, data_size);
+		if (uzip_result != LLUZipHelper::ZR_OK)
 		{
 			LL_WARNS(LOG_MESH) << "Mesh skin info parse error.  Not a valid mesh asset!  ID:  " << mesh_id
+							   << " uzip result" << uzip_result
 							   << LL_ENDL;
 			return false;
 		}
@@ -1804,9 +1821,11 @@ bool LLMeshRepoThread::decompositionReceived(const LLUUID& mesh_id, U8* data, S3
 
 	if (data_size > 0)
 	{ 
-		if (!unzip_llsd(decomp, data, data_size))
+		U32 uzip_result = LLUZipHelper::unzip_llsd(decomp, data, data_size);
+		if (uzip_result != LLUZipHelper::ZR_OK)
 		{
 			LL_WARNS(LOG_MESH) << "Mesh decomposition parse error.  Not a valid mesh asset!  ID:  " << mesh_id
+							   << " uzip result: " << uzip_result
 							   << LL_ENDL;
 			return false;
 		}
@@ -2933,9 +2952,12 @@ void LLMeshHandlerBase::onCompleted(LLCore::HttpHandle handle, LLCore::HttpRespo
 			// handler, optional first that takes a body, fallback second
 			// that requires a temporary allocation and data copy.
 			body_offset = mOffset - offset;
-			data = new U8[data_size - body_offset];
-			body->read(body_offset, (char *) data, data_size - body_offset);
-			LLMeshRepository::sBytesReceived += data_size;
+			data = new(std::nothrow) U8[data_size - body_offset];
+			if (data)
+			{
+				body->read(body_offset, (char *) data, data_size - body_offset);
+				LLMeshRepository::sBytesReceived += data_size;
+			}
 		}
 
 		processData(body, body_offset, data, data_size - body_offset);
@@ -2984,7 +3006,9 @@ void LLMeshHeaderHandler::processData(LLCore::BufferArray * /* body */, S32 /* b
 									  U8 * data, S32 data_size)
 {
 	LLUUID mesh_id = mMeshParams.getSculptID();
-	bool success = (! MESH_HEADER_PROCESS_FAILED) && gMeshRepo.mThread->headerReceived(mMeshParams, data, data_size);
+	bool success = (! MESH_HEADER_PROCESS_FAILED)
+		&& ((data != NULL) == (data_size > 0)) // if we have data but no size or have size but no data, something is wrong
+		&& gMeshRepo.mThread->headerReceived(mMeshParams, data, data_size);
 	llassert(success);
 	if (! success)
 	{
@@ -3105,7 +3129,9 @@ void LLMeshLODHandler::processFailure(LLCore::HttpStatus status)
 void LLMeshLODHandler::processData(LLCore::BufferArray * /* body */, S32 /* body_offset */,
 								   U8 * data, S32 data_size)
 {
-	if ((! MESH_LOD_PROCESS_FAILED) && gMeshRepo.mThread->lodReceived(mMeshParams, mLOD, data, data_size))
+	if ((!MESH_LOD_PROCESS_FAILED)
+		&& ((data != NULL) == (data_size > 0)) // if we have data but no size or have size but no data, something is wrong
+		&& gMeshRepo.mThread->lodReceived(mMeshParams, mLOD, data, data_size))
 	{
 		// good fetch from sim, write to VFS for caching
 		LLVFile file(gVFS, mMeshParams.getSculptID(), LLAssetType::AT_MESH, LLVFile::WRITE);
@@ -3153,7 +3179,9 @@ void LLMeshSkinInfoHandler::processFailure(LLCore::HttpStatus status)
 void LLMeshSkinInfoHandler::processData(LLCore::BufferArray * /* body */, S32 /* body_offset */,
 										U8 * data, S32 data_size)
 {
-	if ((! MESH_SKIN_INFO_PROCESS_FAILED) && gMeshRepo.mThread->skinInfoReceived(mMeshID, data, data_size))
+	if ((!MESH_SKIN_INFO_PROCESS_FAILED)
+		&& ((data != NULL) == (data_size > 0)) // if we have data but no size or have size but no data, something is wrong
+		&& gMeshRepo.mThread->skinInfoReceived(mMeshID, data, data_size))
 	{
 		// good fetch from sim, write to VFS for caching
 		LLVFile file(gVFS, mMeshID, LLAssetType::AT_MESH, LLVFile::WRITE);
@@ -3199,7 +3227,9 @@ void LLMeshDecompositionHandler::processFailure(LLCore::HttpStatus status)
 void LLMeshDecompositionHandler::processData(LLCore::BufferArray * /* body */, S32 /* body_offset */,
 											 U8 * data, S32 data_size)
 {
-	if ((! MESH_DECOMP_PROCESS_FAILED) && gMeshRepo.mThread->decompositionReceived(mMeshID, data, data_size))
+	if ((!MESH_DECOMP_PROCESS_FAILED)
+		&& ((data != NULL) == (data_size > 0)) // if we have data but no size or have size but no data, something is wrong
+		&& gMeshRepo.mThread->decompositionReceived(mMeshID, data, data_size))
 	{
 		// good fetch from sim, write to VFS for caching
 		LLVFile file(gVFS, mMeshID, LLAssetType::AT_MESH, LLVFile::WRITE);
@@ -3244,7 +3274,9 @@ void LLMeshPhysicsShapeHandler::processFailure(LLCore::HttpStatus status)
 void LLMeshPhysicsShapeHandler::processData(LLCore::BufferArray * /* body */, S32 /* body_offset */,
 											U8 * data, S32 data_size)
 {
-	if ((! MESH_PHYS_SHAPE_PROCESS_FAILED) && gMeshRepo.mThread->physicsShapeReceived(mMeshID, data, data_size))
+	if ((!MESH_PHYS_SHAPE_PROCESS_FAILED)
+		&& ((data != NULL) == (data_size > 0)) // if we have data but no size or have size but no data, something is wrong
+		&& gMeshRepo.mThread->physicsShapeReceived(mMeshID, data, data_size))
 	{
 		// good fetch from sim, write to VFS for caching
 		LLVFile file(gVFS, mMeshID, LLAssetType::AT_MESH, LLVFile::WRITE);
@@ -4897,26 +4929,32 @@ void on_new_single_inventory_upload_complete(
         gInventory.notifyObservers();
         success = true;
 
+        LLFocusableElement* focus = gFocusMgr.getKeyboardFocus();
+
         // Show the preview panel for textures and sounds to let
         // user know that the image (or snapshot) arrived intact.
-        LLInventoryPanel* panel = LLInventoryPanel::getActiveInventoryPanel();
+        LLInventoryPanel* panel = LLInventoryPanel::getActiveInventoryPanel(FALSE);
         if (panel)
         {
-            LLFocusableElement* focus = gFocusMgr.getKeyboardFocus();
 
             panel->setSelection(
                 server_response["new_inventory_item"].asUUID(),
                 TAKE_FOCUS_NO);
-
-            // restore keyboard focus
-            gFocusMgr.setKeyboardFocus(focus);
         }
+        else
+        {
+            LLInventoryPanel::openInventoryPanelAndSetSelection(TRUE, server_response["new_inventory_item"].asUUID(), TRUE, TAKE_FOCUS_NO, TRUE);
+        }
+
+        // restore keyboard focus
+        gFocusMgr.setKeyboardFocus(focus);
     }
     else
     {
         LL_WARNS() << "Can't find a folder to put it in" << LL_ENDL;
     }
 
+    // Todo: This is mesh repository code, is following code really needed?
     // remove the "Uploading..." message
     LLUploadDialog::modalUploadFinished();
 

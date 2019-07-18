@@ -39,6 +39,7 @@
 #include "llviewerregion.h"
 #include "llvopartgroup.h"
 #include "llworld.h"
+#include "llmutelist.h"
 #include "pipeline.h"
 #include "llspatialpartition.h"
 #include "llvoavatarself.h"
@@ -701,22 +702,33 @@ void LLViewerPartSim::updateSimulation()
 		{
 			BOOL upd = TRUE;
 			LLViewerObject* vobj = mViewerPartSources[i]->mSourceObjectp;
-
-			if (upd && vobj && (vobj->getPCode() == LL_PCODE_VOLUME))
+			if (vobj)
 			{
-				LLVOAvatar* avatarp = vobj->getAvatar();
-				if(avatarp && avatarp->isVisuallyMuted())
+				if (vobj->isAvatar() && ((LLVOAvatar*) vobj)->isInMuteList())
 				{
 					upd = FALSE;
 				}
 
-				LLVOVolume* vvo = (LLVOVolume *)vobj;
-				if (!LLPipeline::sRenderAttachedParticles && vvo && vvo->isAttachment())
+				if (vobj->isOwnerInMuteList(mViewerPartSources[i]->getOwnerUUID()))
 				{
 					upd = FALSE;
+				}
+
+				if (upd && (vobj->getPCode() == LL_PCODE_VOLUME))
+				{
+					LLVOAvatar* avatarp = vobj->getAvatar();
+					if (avatarp && avatarp->isVisuallyMuted())
+					{
+						upd = FALSE;
+					}
+
+					LLVOVolume* vvo = (LLVOVolume *) vobj;
+					if (!LLPipeline::sRenderAttachedParticles && vvo && vvo->isAttachment())
+					{
+						upd = FALSE;
+					}
 				}
 			}
-
 			if (upd) 
 			{
 				mViewerPartSources[i]->update(dt);
@@ -741,7 +753,7 @@ void LLViewerPartSim::updateSimulation()
 		LLViewerObject* vobj = mViewerPartGroups[i]->mVOPartGroupp;
 
 		S32 visirate = 1;
-		if (vobj && vobj->mDrawable)
+		if (vobj && !vobj->isDead() && vobj->mDrawable && !vobj->mDrawable->isDead())
 		{
 			LLSpatialGroup* group = vobj->mDrawable->getSpatialGroup();
 			if (group && !group->isVisible()) // && !group->isState(LLSpatialGroup::OBJECT_DIRTY))
@@ -752,7 +764,7 @@ void LLViewerPartSim::updateSimulation()
 
 		if ((LLDrawable::getCurrentFrame()+mViewerPartGroups[i]->mID)%visirate == 0)
 		{
-			if (vobj && vobj->mDrawable)
+			if (vobj && !vobj->isDead())
 			{
 				gPipeline.markRebuild(vobj->mDrawable, LLDrawable::REBUILD_ALL, TRUE);
 			}

@@ -2365,9 +2365,10 @@ bool LLVolume::unpackVolumeFaces(std::istream& is, S32 size)
 	//input stream is now pointing at a zlib compressed block of LLSD
 	//decompress block
 	LLSD mdl;
-	if (!unzip_llsd(mdl, is, size))
+	U32 uzip_result = LLUZipHelper::unzip_llsd(mdl, is, size);
+	if (uzip_result != LLUZipHelper::ZR_OK)
 	{
-		LL_DEBUGS("MeshStreaming") << "Failed to unzip LLSD blob for LoD, will probably fetch from sim again." << LL_ENDL;
+		LL_DEBUGS("MeshStreaming") << "Failed to unzip LLSD blob for LoD with code " << uzip_result << " , will probably fetch from sim again." << LL_ENDL;
 		return false;
 	}
 	
@@ -2674,10 +2675,16 @@ bool LLVolume::unpackVolumeFaces(std::istream& is, S32 size)
 			}
 		}
 	}
+
+	if (!cacheOptimize())
+	{
+		// Out of memory?
+		LL_WARNS() << "Failed to optimize!" << LL_ENDL;
+		mVolumeFaces.clear();
+		return false;
+	}
 	
 	mSculptLevel = 0;  // success!
-
-	cacheOptimize();
 
 	return true;
 }
@@ -2710,12 +2717,16 @@ void LLVolume::copyVolumeFaces(const LLVolume* volume)
 	mSculptLevel = 0;
 }
 
-void LLVolume::cacheOptimize()
+bool LLVolume::cacheOptimize()
 {
 	for (size_t i = 0; i < mVolumeFaces.size(); ++i)
 	{
-		mVolumeFaces[i].cacheOptimize();
+		if (!mVolumeFaces[i].cacheOptimize())
+		{
+			return false;
+		}
 	}
+	return true;
 }
 
 
@@ -5152,7 +5163,7 @@ public:
 };
 
 
-void LLVolumeFace::cacheOptimize()
+bool LLVolumeFace::cacheOptimize()
 { //optimize for vertex cache according to Forsyth method: 
   // http://home.comcast.net/~tom_forsyth/papers/fast_vert_cache_opt.html
 	
@@ -5163,7 +5174,7 @@ void LLVolumeFace::cacheOptimize()
 	
 	if (mNumVertices < 3)
 	{ //nothing to do
-		return;
+		return true;
 	}
 
 	//mapping of vertices to triangles and indices
@@ -5172,8 +5183,16 @@ void LLVolumeFace::cacheOptimize()
 	//mapping of triangles do vertices
 	std::vector<LLVCacheTriangleData> triangle_data;
 
-	triangle_data.resize(mNumIndices/3);
-	vertex_data.resize(mNumVertices);
+	try
+	{
+		triangle_data.resize(mNumIndices / 3);
+		vertex_data.resize(mNumVertices);
+	}
+	catch (const std::bad_alloc&)
+	{
+		LL_WARNS("LLVOLUME") << "Resize failed" << LL_ENDL;
+		return false;
+	}
 
 	for (U32 i = 0; i < mNumIndices; i++)
 	{ //populate vertex data and triangle data arrays
@@ -5288,26 +5307,50 @@ void LLVolumeFace::cacheOptimize()
 	mPositions = nullptr;
 	if (old_pos)
 	{
-		allocateVertices(num_verts);
+		if (!allocateVertices(num_verts))
+		{
+			return false;
+		}
 	}
 
 	LLVector4a* old_wght = mWeights;
 	mWeights = nullptr;
 	if (old_wght)
 	{
-		allocateWeights(num_verts);
+		if(!allocateWeights(num_verts))
+		{
+			allocateVertices(0);
+			return false;
+		}
 	}
 
 	LLVector4a* old_tangent = mTangents;
 	mTangents = nullptr;
 	if (old_tangent)
 	{
-		allocateTangents(num_verts);
+		if (!allocateTangents(num_verts))
+		{
+			allocateVertices(0);
+			allocateWeights(0);
+			return false;
+		}
 	}
 
 	//allocate mapping of old indices to new indices
 	std::vector<S32> new_idx;
-	new_idx.resize(mNumVertices, -1);
+
+	try
+	{
+		new_idx.resize(mNumVertices, -1);
+	}
+	catch (std::bad_alloc)
+	{
+		allocateVertices(0);
+		allocateWeights(0);
+		allocateTangents(0);
+		LL_WARNS("LLVOLUME") << "Resize failed: " << mNumVertices << LL_ENDL;
+		return false;
+	}
 
 	S32 cur_idx = 0;
 	for (U32 i = 0; i < mNumIndices; ++i)
@@ -5348,6 +5391,7 @@ void LLVolumeFace::cacheOptimize()
 	//std::string result = llformat("ACMR pre/post: %.3f/%.3f  --  %d triangles %d breaks", pre_acmr, post_acmr, mNumIndices/3, breaks);
 	//LL_INFOS() << result << LL_ENDL;
 
+	return true;
 }
 
 void LLVolumeFace::createOctree(F32 scaler, const LLVector4a& center, const LLVector4a& size)
@@ -6154,11 +6198,15 @@ void LLVolumeFace::createTangents()
 	}
 }
 
-void LLVolumeFace::resizeVertices(S32 num_verts)
+bool LLVolumeFace::resizeVertices(S32 num_verts)
 {
 	allocateTangents(0);
-	allocateVertices(num_verts);
+	if (!allocateVertices(num_verts))
+	{
+		return false;
+	}
 	mNumVertices = num_verts;
+	return true;
 }
 
 void LLVolumeFace::pushVertex(const LLVolumeFace::VertexData& cv)
@@ -6186,27 +6234,39 @@ void LLVolumeFace::pushVertex(const LLVector4a& pos, const LLVector4a& norm, con
 	mNumVertices++;	
 }
 
-void LLVolumeFace::allocateTangents(S32 num_verts)
+bool LLVolumeFace::allocateTangents(S32 num_verts)
 {
 	ll_aligned_free_16(mTangents);
 	mTangents = nullptr;
 	if (num_verts)
 	{
 		mTangents = (LLVector4a*)ll_aligned_malloc_16(sizeof(LLVector4a)*num_verts);
+		if (!mTangents)
+		{
+			LL_WARNS("LLVOLUME") << "Allocation of binormals[" << sizeof(LLVector4a)*num_verts << "] failed" << LL_ENDL;
+			return false;
+		}
 	}
+	return true;
 }
 
-void LLVolumeFace::allocateWeights(S32 num_verts)
+bool LLVolumeFace::allocateWeights(S32 num_verts)
 {
 	ll_aligned_free_16(mWeights);
 	mWeights = nullptr;
 	if (num_verts)
 	{
 		mWeights = (LLVector4a*)ll_aligned_malloc_16(sizeof(LLVector4a)*num_verts);
+		if (!mWeights)
+		{
+			LL_WARNS("LLVOLUME") << "Allocation of weights[" << sizeof(LLVector4a) * num_verts << "] failed" << LL_ENDL;
+			return false;
+		}
 	}
+	return true;
 }
 
-void LLVolumeFace::allocateVertices(S32 num_verts, bool copy)
+bool LLVolumeFace::allocateVertices(S32 num_verts, bool copy)
 {
 	if (!copy || !num_verts)
 	{
@@ -6226,6 +6286,11 @@ void LLVolumeFace::allocateVertices(S32 num_verts, bool copy)
 		//allocate new buffer space
 		LLVector4a* old_buf = mPositions;
 		mPositions = (LLVector4a*)ll_aligned_malloc<64>(new_size);
+		if (!mPositions)
+		{
+			LL_WARNS("LLVOLUME") << "Allocation of positions vector[" << new_size << "] failed. " << LL_ENDL;
+			return false;
+		}
 		mNormals = mPositions + num_verts;
 		mTexCoords = (LLVector2*)(mNormals + num_verts);
 
@@ -6246,13 +6311,14 @@ void LLVolumeFace::allocateVertices(S32 num_verts, bool copy)
 		}
 	}
 	mNumAllocatedVertices = num_verts;
+	return true;
 }
 
-void LLVolumeFace::allocateIndices(S32 num_indices, bool copy)
+bool LLVolumeFace::allocateIndices(S32 num_indices, bool copy)
 {
 	if (num_indices == mNumIndices)
 	{
-		return;
+		return true;
 	}
 
 	S32 new_size = ((num_indices * sizeof(U16)) + 0xF) & ~0xF;
@@ -6260,24 +6326,35 @@ void LLVolumeFace::allocateIndices(S32 num_indices, bool copy)
 	{
 		S32 old_size = ((mNumIndices * sizeof(U16)) + 0xF) & ~0xF;
 
-		mIndices = (U16*)ll_aligned_realloc_16(mIndices, new_size, old_size);
-
+		U16* temp_indices = (U16*)ll_aligned_realloc_16(mIndices, new_size, old_size);
+		if (!temp_indices)
+		{
+			LL_WARNS("LLVOLUME") << "Reallocation of indices buffer[" << new_size << "] failed. " << LL_ENDL;
+			return false;
+		}
+		mIndices = temp_indices;
 		mNumIndices = num_indices;
-		return;
+		return true;
 	}
 	ll_aligned_free_16(mIndices);
 	mIndices = nullptr;
 	if (num_indices)
 	{
 		mIndices = (U16*)ll_aligned_malloc_16(new_size);
+		if (!mIndices)
+		{
+			LL_WARNS("LLVOLUME") << "Allocation of indices buffer[" << new_size << "] failed. " << LL_ENDL;
+			return false;
+		}
 	}
 
 	mNumIndices = num_indices;
+	return true;
 }
 
-void LLVolumeFace::resizeIndices(S32 num_indices)
+bool LLVolumeFace::resizeIndices(S32 num_indices)
 {
-	allocateIndices(num_indices);
+	return allocateIndices(num_indices);
 }
 
 void LLVolumeFace::pushIndex(const U16& idx)

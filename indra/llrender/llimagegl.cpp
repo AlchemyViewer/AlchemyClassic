@@ -635,7 +635,7 @@ void LLImageGL::setImage(const LLImageRaw* imageraw)
 }
 
 static LLTrace::BlockTimerStatHandle FTM_SET_IMAGE("setImage");
-void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
+BOOL LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 {
 	LL_RECORD_BLOCK_TIME(FTM_SET_IMAGE);
 	bool is_compressed = false;
@@ -800,19 +800,33 @@ void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 						llassert(prev_mip_data);
 						llassert(cur_mip_size == bytes*4);
 #endif
-						U8* new_data = new U8[bytes];
+						U8* new_data = new(std::nothrow) U8[bytes];
+						if (!new_data)
+						{
+							stop_glerror();
+
+							if (prev_mip_data)
+								delete[] prev_mip_data;
+							if (cur_mip_data)
+								delete[] cur_mip_data;
+							
+							mGLTextureCreated = false;
+							return FALSE;
+						}
+						else
+						{
 
 #ifdef SHOW_ASSERT
-						llassert(prev_mip_data);
-						llassert(cur_mip_size == bytes*4);
-						llassert_always(new_data);
+							llassert(prev_mip_data);
+							llassert(cur_mip_size == bytes * 4);
 #endif
 
-						LLImageBase::generateMip(prev_mip_data, new_data, w, h, mComponents);
-						cur_mip_data = new_data;
+							LLImageBase::generateMip(prev_mip_data, new_data, w, h, mComponents);
+							cur_mip_data = new_data;
 #ifdef SHOW_ASSERT
-						cur_mip_size = bytes; 
+							cur_mip_size = bytes;
 #endif
+						}
 
 					}
 					llassert(w > 0 && h > 0 && cur_mip_data);
@@ -899,6 +913,7 @@ void LLImageGL::setImage(const U8* data_in, BOOL data_hasmips)
 	}
 	stop_glerror();
 	mGLTextureCreated = true;
+	return TRUE;
 }
 
 BOOL LLImageGL::setSubImage(const U8* datap, S32 data_width, S32 data_height, S32 x_pos, S32 y_pos, S32 width, S32 height, BOOL force_fast_update)
@@ -1311,8 +1326,7 @@ BOOL LLImageGL::createGLTexture(S32 discard_level, const U8* data_in, BOOL data_
 	if (mTexName != 0 && discard_level == mCurrentDiscardLevel)
 	{
 		// This will only be true if the size has not changed
-		setImage(data_in, data_hasmips);
-		return TRUE;
+		return setImage(data_in, data_hasmips);
 	}
 	
 	U32 old_name = mTexName;
@@ -1347,7 +1361,11 @@ BOOL LLImageGL::createGLTexture(S32 discard_level, const U8* data_in, BOOL data_
 
 	mCurrentDiscardLevel = discard_level;	
 
-	setImage(data_in, data_hasmips);
+	if (!setImage(data_in, data_hasmips))
+	{
+		stop_glerror();
+		return FALSE;
+	}
 
 	// Set texture options to our defaults.
 	gGL.getTexUnit(0)->setHasMipMaps(mHasMipMaps);

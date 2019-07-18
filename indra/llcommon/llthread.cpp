@@ -110,52 +110,35 @@ void LLThread::runWrapper()
 	// for now, hard code all LLThreads to report to single master thread recorder, which is known to be running on main thread
 	mRecorder = std::make_unique<LLTrace::ThreadRecorder>(*LLTrace::get_master_thread_recorder());
 
-    try
+
+    // Run the user supplied function
+    do 
     {
-        // Run the user supplied function
-        do 
+        try
         {
-            try
-            {
-                run();
-            }
-            catch (const LLContinueError &e)
-            {
-                LL_WARNS("THREAD") << "ContinueException on thread '" << mName <<
-                    "' reentering run(). Error what is: '" << e.what() << "'" << LL_ENDL;
-                //output possible call stacks to log file.
-                LLError::LLCallStacks::print();
+            run();
+        }
+        catch (const LLContinueError &e)
+        {
+            LL_WARNS("THREAD") << "ContinueException on thread '" << mName <<
+                "' reentering run(). Error what is: '" << e.what() << "'" << LL_ENDL;
+            //output possible call stacks to log file.
+            LLError::LLCallStacks::print();
 
-                LOG_UNHANDLED_EXCEPTION("LLThread");
-                continue;
-            }
-            break;
+            LOG_UNHANDLED_EXCEPTION("LLThread");
+            continue;
+        }
+        break;
 
-        } while (true);
+    } while (true);
 
-        //LL_INFOS() << "LLThread::staticRun() Exiting: " << mName << LL_ENDL;
+    //LL_INFOS() << "LLThread::staticRun() Exiting: " << mName << LL_ENDL;
 
-		mRecorder.reset(nullptr);
+	mRecorder.reset(nullptr);
 
-        // We're done with the run function, this thread is done executing now.
-        //NB: we are using this flag to sync across threads...we really need memory barriers here
-        mStatus = STOPPED;
-    }
-    catch (const std::bad_alloc&)
-    {
-        mStatus = CRASHED;
-        LLMemory::logMemoryInfo(TRUE);
-
-        //output possible call stacks to log file.
-        LLError::LLCallStacks::print();
-
-        LL_ERRS("THREAD") << "Bad memory allocation in LLThread::staticRun() named '" << mName << "'!" << LL_ENDL;
-    }
-    catch (...)
-    {
-        mStatus = CRASHED;
-        CRASH_ON_UNHANDLED_EXCEPTION("LLThread");
-    }
+    // We're done with the run function, this thread is done executing now.
+    //NB: we are using this flag to sync across threads...we really need memory barriers here
+    mStatus = STOPPED;
 }
 
 LLThread::LLThread(const std::string& name, apr_pool_t *poolp) :

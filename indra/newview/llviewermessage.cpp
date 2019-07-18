@@ -710,7 +710,7 @@ private:
 	 */
 	bool isSelectionChanged()
 	{
-		LLInventoryPanel* active_panel = dynamic_cast<LLInventoryPanel*>(mActivePanel.get());
+		LLInventoryPanel* active_panel = LLInventoryPanel::getActiveInventoryPanel();
 
 		if (nullptr == active_panel)
 		{
@@ -720,7 +720,7 @@ private:
 		// get selected items (without destination folder)
 		selected_items_t selected_items;
 
-		std::set<LLFolderViewItem*> selection = LLInventoryPanel::getActiveInventoryPanel()->getRootFolder()->getSelectionList();
+		std::set<LLFolderViewItem*> selection = active_panel->getRootFolder()->getSelectionList();
 		for (std::set<LLFolderViewItem*>::iterator it = selection.begin(), end_it = selection.end();
 		     it != end_it;
 		     ++it)

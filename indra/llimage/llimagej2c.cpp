@@ -370,18 +370,27 @@ bool LLImageJ2C::loadAndValidate(const std::string &filename)
 	else
 	{
 		U8 *data = (U8*)ll_aligned_malloc_16(file_size);
-		apr_size_t bytes_read = infile.read(data, (apr_size_t) file_size);
-		infile.close();
-
-		if ((bytes_read == 0) || (bytes_read != (apr_size_t) file_size))
+		if (!data)
 		{
-			ll_aligned_free_16(data);
-			setLastError("Unable to read entire file");
+			infile.close();
+			setLastError("Out of memory", filename);
 			res = false;
 		}
 		else
 		{
-			res = validate(data, file_size);
+			apr_size_t bytes_read = infile.read(data, (apr_size_t) file_size);
+			infile.close();
+
+			if ((bytes_read == 0) || (bytes_read != (apr_size_t) file_size))
+			{
+				ll_aligned_free_16(data);
+				setLastError("Unable to read entire file");
+				res = false;
+			}
+			else
+			{
+				res = validate(data, file_size);
+			}
 		}
 	}
 	

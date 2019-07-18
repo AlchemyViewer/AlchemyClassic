@@ -235,7 +235,7 @@ bool LLUrlRegistry::findUrl(const std::string &text, LLUrlMatch &match, const LL
 			}
 		}
 	}
-	
+
 	// did we find a match? if so, return its details in the match object
 	if (match_entry)
 	{

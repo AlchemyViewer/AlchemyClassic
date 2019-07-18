@@ -873,12 +873,12 @@ public:
 	
 	void appendFace(const LLVolumeFace& face, LLMatrix4& transform, LLMatrix4& normal_tranform);
 
-	void resizeVertices(S32 num_verts);
-	void allocateTangents(S32 num_verts);
-	void allocateWeights(S32 num_verts);
-	void allocateVertices(S32 num_verts, bool copy = false);
-	void allocateIndices(S32 num_indices, bool copy = false);
-	void resizeIndices(S32 num_indices);
+	bool resizeVertices(S32 num_verts);
+	bool allocateTangents(S32 num_verts);
+	bool allocateWeights(S32 num_verts);
+	bool allocateVertices(S32 num_verts, bool copy = false);
+	bool allocateIndices(S32 num_indices, bool copy = false);
+	bool resizeIndices(S32 num_indices);
 	void fillFromLegacyData(std::vector<LLVolumeFace::VertexData>& v, std::vector<U16>& idx);
 
 	void pushVertex(const VertexData& cv);
@@ -905,7 +905,7 @@ public:
 	};
 
 	void optimize(F32 angle_cutoff = 2.f);
-	void cacheOptimize();
+	bool cacheOptimize();
 
 	void createOctree(F32 scaler = 0.25f, const LLVector4a& center = LLVector4a(0,0,0), const LLVector4a& size = LLVector4a(0.5f,0.5f,0.5f));
 
@@ -1065,7 +1065,7 @@ public:
 	void copyVolumeFaces(const LLVolume* volume);
 	void copyFacesTo(std::vector<LLVolumeFace> &faces) const;
 	void copyFacesFrom(const std::vector<LLVolumeFace> &faces);
-	void cacheOptimize();
+	bool cacheOptimize();
 
 private:
 	void sculptGenerateMapVertices(U16 sculpt_width, U16 sculpt_height, S8 sculpt_components, const U8* sculpt_data, U8 sculpt_type);

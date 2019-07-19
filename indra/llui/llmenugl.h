@@ -427,6 +427,8 @@ protected:
 public:
 	virtual ~LLMenuGL( void );
 
+	LLHandle<LLMenuGL> getHandle() { return getDerivedHandle<LLMenuGL>(); }
+
 	void parseChildXML(LLXMLNodePtr child, LLView* parent);
 
 	// LLView Functionality
@@ -735,8 +737,7 @@ public:
 
 	LLContextMenuBranch(const Params&);
 
-	virtual ~LLContextMenuBranch()
-	{}
+	virtual ~LLContextMenuBranch();
 
 	// called to rebuild the draw label
 	void	buildDrawLabel( void ) override;
@@ -744,13 +745,13 @@ public:
 	// onCommit() - do the primary funcationality of the menu item.
 	void	onCommit( void ) override;
 
-	LLContextMenu*	getBranch() { return mBranch.get(); }
+	LLContextMenu*	getBranch() { return mBranchHandle.get(); }
 	void			setHighlight( BOOL highlight ) override;
 
 protected:
 	void	showSubMenu();
 
-	LLHandle<LLContextMenu> mBranch;
+	LLHandle<LLContextMenu> mBranchHandle;
 };
 
 

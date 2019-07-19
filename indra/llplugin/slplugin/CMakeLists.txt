@@ -52,7 +52,7 @@ add_executable(AlchemyPlugin
     WIN32
     MACOSX_BUNDLE
     ${AlchemyPlugin_SOURCE_FILES}
-)
+    )
 
 target_link_libraries(AlchemyPlugin
   ${LLPLUGIN_LIBRARIES}

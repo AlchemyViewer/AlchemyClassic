@@ -82,7 +82,7 @@ list(APPEND media_plugin_cef_SOURCE_FILES ${media_plugin_cef_HEADER_FILES})
 add_library(media_plugin_cef
     SHARED
     ${media_plugin_cef_SOURCE_FILES}
-)
+    )
 
 set_target_properties(media_plugin_cef PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

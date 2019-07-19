@@ -31,9 +31,11 @@
 #include "llwebprofile.h"
 
 // libs
+#include "llbufferstream.h"
 #include "llimagepng.h"
+
 #include "llsdserialize.h"
-#include "bufferstream.h"
+#include "llstring.h"
 
 // newview
 #include "llpanelprofile.h" // for getProfileURL(). FIXME: move the method to LLAvatarActions
@@ -262,6 +264,5 @@ void LLWebProfile::reportImageUploadStatus(bool ok)
 std::string LLWebProfile::getAuthCookie()
 {
 	// This is needed to test image uploads on Linux viewer built with OpenSSL 1.0.0 (0.9.8 works fine).
-	const char* debug_cookie = getenv("LL_SNAPSHOT_COOKIE");
-	return debug_cookie ? debug_cookie : sAuthCookie;
+	return LLStringUtil::getenv("LL_SNAPSHOT_COOKIE", sAuthCookie);
 }

@@ -39,7 +39,7 @@ set(media_plugin_example_SOURCE_FILES
 add_library(media_plugin_example
     SHARED
     ${media_plugin_example_SOURCE_FILES}
-)
+    )
 
 set_target_properties(media_plugin_example PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

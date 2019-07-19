@@ -49,7 +49,7 @@ set(media_plugin_gstreamer010_HEADER_FILES
 add_library(media_plugin_gstreamer010
     SHARED
     ${media_plugin_gstreamer010_SOURCE_FILES}
-)
+    )
 
 set_target_properties(media_plugin_gstreamer010 PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

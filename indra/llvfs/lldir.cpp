@@ -44,6 +44,7 @@
 
 #include "lldiriterator.h"
 #include "stringize.h"
+#include "llstring.h"
 #include <boost/filesystem.hpp>
 #include <algorithm>
 
@@ -308,9 +309,9 @@ const std::string& LLDir::getChatLogsDir() const
 void LLDir::setDumpDir( const std::string& path )
 {
     LLDir::sDumpDir = path;
-    if (! sDumpDir.empty() && sDumpDir.rbegin() == mDirDelimiter.rbegin() )
+    if (LLStringUtil::endsWith(sDumpDir, mDirDelimiter))
     {
-        sDumpDir.erase(sDumpDir.size() -1);
+        sDumpDir.erase(sDumpDir.size() - mDirDelimiter.size());
     }
 }
 

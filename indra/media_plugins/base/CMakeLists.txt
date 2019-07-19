@@ -40,6 +40,6 @@ set(media_plugin_base_HEADER_FILES
 
 add_library(media_plugin_base
     ${media_plugin_base_SOURCE_FILES}
-)
+    )
 
 set_target_properties(media_plugin_base PROPERTIES POSITION_INDEPENDENT_CODE TRUE)

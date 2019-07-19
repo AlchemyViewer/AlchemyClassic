@@ -105,6 +105,9 @@ namespace LLError
 	LL_COMMON_API FatalFunction getFatalFunction();
 		// Retrieve the previously-set FatalFunction
 
+	LL_COMMON_API std::string getFatalMessage();
+		// Retrieve the message last passed to FatalFunction, if any
+
 	/// temporarily override the FatalFunction for the duration of a
 	/// particular scope, e.g. for unit tests
 	class LL_COMMON_API OverrideFatalFunction
@@ -150,13 +153,22 @@ namespace LLError
 		bool wantsLevel();
 		bool wantsLocation(); 
 		bool wantsFunctionName();
+        bool wantsMultiline();
+
+		void showTime(bool show);
+		void showTags(bool show);
+		void showLevel(bool show);
+		void showLocation(bool show); 
+		void showFunctionName(bool show);
+		void showMultiline(bool show);
 
 	protected:
-		bool	mWantsTime,
-				mWantsTags,
-				mWantsLevel,
-				mWantsLocation,
-				mWantsFunctionName;
+		bool mWantsTime;
+        bool mWantsTags;
+        bool mWantsLevel;
+        bool mWantsLocation;
+        bool mWantsFunctionName;
+        bool mWantsMultiline;
 	};
 
 	typedef std::shared_ptr<Recorder> RecorderPtr;

@@ -213,4 +213,3 @@ void LLLocalTextureObject::setBakedReady(BOOL ready)
 {
 	mIsBakedReady = ready;
 }
-

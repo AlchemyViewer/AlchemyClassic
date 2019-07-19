@@ -9,6 +9,7 @@ set(cmake_SOURCE_FILES
     APR.cmake
     Audio.cmake
     Boost.cmake
+    bugsplat.cmake
     BuildVersion.cmake
     CEFPlugin.cmake
     CheckPython.cmake

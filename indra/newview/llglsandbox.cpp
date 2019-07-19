@@ -448,9 +448,11 @@ void LLViewerParcelMgr::renderParcel(LLParcel* parcel )
 // coordinates correctly.
 void LLViewerParcelMgr::renderOneSegment(F32 x1, F32 y1, F32 x2, F32 y2, F32 height, U8 direction, LLViewerRegion* regionp)
 {
+	if(!regionp) //This has been null before. Oh no!
+		return;
 	// HACK: At edge of last region of world, we need to make sure the region
 	// resolves correctly so we can get a height value.
-	const F32 BORDER = REGION_WIDTH_METERS - 0.1f;
+	const F32 BORDER = regionp->getWidth() - 0.1f;
 
 	F32 clamped_x1 = x1;
 	F32 clamped_y1 = y1;
@@ -914,7 +916,7 @@ public:
 		// unbind
 		if (texUnit)
 		{
-				texUnit->unbind(LLTexUnit::TT_TEXTURE);
+			texUnit->unbind(LLTexUnit::TT_TEXTURE);
 		}
 		// ensure that we delete these textures regardless of how we exit
 		LLImageGL::deleteTextures(source.size(), &source[0]);

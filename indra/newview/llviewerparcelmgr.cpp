@@ -175,6 +175,13 @@ void LLViewerParcelMgr::init(F32 region_size)
 
 LLViewerParcelMgr::~LLViewerParcelMgr()
 {
+	if (mCollisionUpdateSignal)
+	{
+		mCollisionUpdateSignal->disconnect_all_slots();
+		delete mCollisionUpdateSignal;
+		mCollisionUpdateSignal = nullptr;
+	}
+
 	mCurrentParcelSelection->setParcel(NULL);
 	mCurrentParcelSelection = NULL;
 
@@ -1756,21 +1763,10 @@ void LLViewerParcelMgr::processParcelProperties(LLMessageSystem *msg, void **use
 
 		}
 
-		S32 bitmap_size =	parcel_mgr.mParcelsPerEdge
-							* parcel_mgr.mParcelsPerEdge
-							/ 8;
-		U8* bitmap = new U8[ bitmap_size ];
-		msg->getBinaryDataFast(_PREHASH_ParcelData, _PREHASH_Bitmap, bitmap, bitmap_size);
 		msg->getBinaryDataFast(_PREHASH_ParcelData, _PREHASH_Bitmap, parcel_mgr.mCollisionBitmap, parcel_mgr.getCollisionBitmapSize());
 
-
 		parcel_mgr.resetSegments(parcel_mgr.mCollisionSegments);
-		parcel_mgr.writeSegmentsFromBitmap( bitmap, parcel_mgr.mCollisionSegments );
 		parcel_mgr.writeSegmentsFromBitmap(parcel_mgr.mCollisionBitmap, parcel_mgr.mCollisionSegments);
-
-
-		delete[] bitmap;
-		bitmap = NULL;
 
 		LLViewerRegion* pRegion = LLWorld::getInstance()->getRegion(msg->getSender());
 		parcel_mgr.mCollisionRegionHandle = (pRegion) ? pRegion->getHandle() : 0;

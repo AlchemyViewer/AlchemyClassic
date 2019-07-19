@@ -102,6 +102,13 @@ LLViewerParcelOverlay::LLViewerParcelOverlay(LLViewerRegion* region, F32 region_
 
 LLViewerParcelOverlay::~LLViewerParcelOverlay()
 {
+	if (mUpdateSignal)
+	{
+		mUpdateSignal->disconnect_all_slots();
+		delete mUpdateSignal;
+		mUpdateSignal = nullptr;
+	}
+
 	delete[] mOwnership;
 	mOwnership = nullptr;
 

@@ -36,7 +36,6 @@
  *
  */
 
-
 #include "linden_common.h"
 
 #include <memory>
@@ -676,5 +675,4 @@ int main(int argc, char **argv)
 	return retval;
 
 	//delete mycallback;
-
 }

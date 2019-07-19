@@ -258,14 +258,14 @@ public:
 		res.setAdd(x,z);
 	}
 
-	inline void affineTransform(const LLVector4a& v, LLVector4a& res) const
+	inline void affineTransformSSE(const LLVector4a& v, LLVector4a& res) const
 	{
 		LLVector4a x,y,z;
 
-		x.splat<0>(v);
-		y.splat<1>(v);
-		z.splat<2>(v);
-
+		x = _mm_shuffle_ps(v, v, _MM_SHUFFLE(0, 0, 0, 0));
+		y = _mm_shuffle_ps(v, v, _MM_SHUFFLE(1, 1, 1, 1));
+		z = _mm_shuffle_ps(v, v, _MM_SHUFFLE(2, 2, 2, 2));
+		
 		x.mul(mMatrix[0]);
 		y.mul(mMatrix[1]);
 		z.mul(mMatrix[2]);
@@ -274,6 +274,67 @@ public:
 		z.add(mMatrix[3]);
 		res.setAdd(x,z);
 	}
+
+    inline void affineTransformNonSSE(const LLVector4a& v, LLVector4a& res) const
+    {
+        F32 x = v[0] * mMatrix[0][0] + v[1] * mMatrix[1][0] + v[2] * mMatrix[2][0] + mMatrix[3][0];
+        F32 y = v[0] * mMatrix[0][1] + v[1] * mMatrix[1][1] + v[2] * mMatrix[2][1] + mMatrix[3][1];
+        F32 z = v[0] * mMatrix[0][2] + v[1] * mMatrix[1][2] + v[2] * mMatrix[2][2] + mMatrix[3][2];
+        F32 w = 1.0f;
+        res.set(x,y,z,w);
+    }
+
+	inline void affineTransform(const LLVector4a& v, LLVector4a& res) const
+    {
+        affineTransformSSE(v,res);
+    }
+
+	//inline void affineTransform(const LLVector4a& v, LLVector4a& res) const
+	//{
+	//	LLVector4a x,y,z;
+
+	//	x.splat<0>(v);
+	//	y.splat<1>(v);
+	//	z.splat<2>(v);
+	//
+	//	x.mul(mMatrix[0]);
+	//	y.mul(mMatrix[1]);
+	//	z.mul(mMatrix[2]);
+	//
+	//	x.add(y);
+	//	z.add(mMatrix[3]);
+	//	res.setAdd(x,z);
+	//}
 } LL_ALIGN_POSTFIX(16);
 
+inline LLVector4a rowMul(const LLVector4a &row, const LLMatrix4a &mat)
+{
+    LLVector4a result;
+    result = _mm_mul_ps(_mm_shuffle_ps(row, row, _MM_SHUFFLE(0, 0, 0, 0)), mat.mMatrix[0]);
+    result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(row, row, _MM_SHUFFLE(1, 1, 1, 1)), mat.mMatrix[1]));
+    result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(row, row, _MM_SHUFFLE(2, 2, 2, 2)), mat.mMatrix[2]));
+    result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(row, row, _MM_SHUFFLE(3, 3, 3, 3)), mat.mMatrix[3]));
+    return result;
+}
+
+inline void matMul(const LLMatrix4a &a, const LLMatrix4a &b, LLMatrix4a &res)
+{
+    LLVector4a row0 = rowMul(a.mMatrix[0], b);
+    LLVector4a row1 = rowMul(a.mMatrix[1], b);
+    LLVector4a row2 = rowMul(a.mMatrix[2], b);
+    LLVector4a row3 = rowMul(a.mMatrix[3], b);
+
+    res.mMatrix[0] = row0;
+    res.mMatrix[1] = row1;
+    res.mMatrix[2] = row2;
+    res.mMatrix[3] = row3;
+}
+
+inline std::ostream& operator<<(std::ostream& s, const LLMatrix4a& m)
+{
+    s << "[" << m.mMatrix[0] << ", " << m.mMatrix[1] << ", " << m.mMatrix[2] << ", " << m.mMatrix[3] << "]";
+    return s;
+} 
+
+void matMulBoundBox(const LLMatrix4a &a, const LLVector4a *in_extents, LLVector4a *out_extents);
 #endif

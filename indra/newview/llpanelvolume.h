@@ -63,6 +63,7 @@ public:
 	void onCommitLight();
 	void onCommitIsFlexible();
 	void onCommitFlexible();
+    void onCommitAnimatedMeshCheckbox(LLUICtrl* ctrl, void* userdata);
 	void onCommitMaterial(LLUICtrl* ctrl);
 
 	void onLightCancelColor(const LLSD& data);

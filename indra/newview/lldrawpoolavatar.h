@@ -59,6 +59,8 @@ public:
 	S32 getVertexShaderLevel() const final override;
 
 	LLDrawPoolAvatar();
+    ~LLDrawPoolAvatar();
+    /*virtual*/ BOOL isDead();
 
 	static LLMatrix4& getModelView();
 

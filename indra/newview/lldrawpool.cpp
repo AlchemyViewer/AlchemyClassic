@@ -140,7 +140,7 @@ LLViewerTexture *LLDrawPool::getDebugTexture()
 	return nullptr;
 }
 
-//virtual
+//virtuals
 void LLDrawPool::beginRenderPass( S32 pass )
 {
 }

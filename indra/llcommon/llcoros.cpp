@@ -36,6 +36,7 @@
 // std headers
 // external library headers
 // other Linden headers
+#include "lltimer.h"
 #include "llevents.h"
 #include "llerror.h"
 #include "stringize.h"
@@ -281,6 +282,25 @@ void LLCoros::setStackSize(S32 stacksize)
     mStackSize = stacksize;
 }
 
+void LLCoros::printActiveCoroutines()
+{
+    LL_INFOS("LLCoros") << "Number of active coroutines: " << (S32)mCoros.size() << LL_ENDL;
+    if (mCoros.size() > 0)
+    {
+        LL_INFOS("LLCoros") << "-------------- List of active coroutines ------------";
+        CoroMap::iterator iter;
+        CoroMap::iterator end = mCoros.end();
+        F64 time = LLTimer::getTotalSeconds();
+        for (iter = mCoros.begin(); iter != end; iter++)
+        {
+            F64 life_time = time - iter->second->mCreationTime;
+            LL_CONT << LL_NEWLINE << "Name: " << iter->first << " life: " << life_time;
+        }
+        LL_CONT << LL_ENDL;
+        LL_INFOS("LLCoros") << "-----------------------------------------------------" << LL_ENDL;
+    }
+}
+
 #if LL_WINDOWS
 
 static const U32 STATUS_MSC_EXCEPTION = 0xE06D7363; // compiler specific
@@ -376,7 +396,8 @@ LLCoros::CoroData::CoroData(CoroData* prev, const std::string& name,
     mCoro(boost::bind(toplevel, _1, this, callable), stacksize),
     // don't consume events unless specifically directed
     mConsuming(false),
-    mSelf(nullptr)
+    mSelf(nullptr),
+    mCreationTime(LLTimer::getTotalSeconds())
 {
 }
 
@@ -385,7 +406,17 @@ std::string LLCoros::launch(const std::string& prefix, const callable_t& callabl
     std::string name(generateDistinctName(prefix));
     Current current;
     // pass the current value of Current as previous context
-    CoroData* newCoro = new CoroData(current, name, callable, mStackSize);
+    CoroData* newCoro = nullptr;
+	try
+	{
+		newCoro = new CoroData(current, name, callable, mStackSize);
+	}
+    catch(const std::bad_alloc&)
+    {
+        // Out of memory?
+        printActiveCoroutines();
+        LL_ERRS("LLCoros") << "Failed to start coroutine: " << name << " Stacksize: " << mStackSize << " Total coroutines: " << mCoros.size() << LL_ENDL;
+    }
     // Store it in our pointer map
     mCoros.insert(name, newCoro);
     // also set it as current

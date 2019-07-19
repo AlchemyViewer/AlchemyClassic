@@ -233,6 +233,7 @@ set(viewer_SOURCE_FILES
     llflickrconnect.cpp
     llfloaterabout.cpp
     llfloaterao.cpp
+    llfloaterauction.cpp
     llfloaterautoreplacesettings.cpp
     llfloateravatar.cpp
     llfloateravatarpicker.cpp
@@ -898,6 +899,7 @@ set(viewer_HEADER_FILES
     llflickrconnect.h
     llfloaterabout.h
     llfloaterao.h
+    llfloaterauction.h
     llfloaterautoreplacesettings.h
     llfloateravatar.h
     llfloateravatarpicker.h
@@ -2183,7 +2185,12 @@ if (DARWIN)
   # These all get set with PROPERTIES
   set(product "Alchemy")
   # this is the setting for the Python wrapper, see SL-322 and WRAPPER line in Info-Alchemy.plist
-  set(MACOSX_WRAPPER_EXECUTABLE_NAME "Alchemy_Launcher")
+  if (PACKAGE)
+      set(MACOSX_WRAPPER_EXECUTABLE_NAME "Alchemy_Launcher")
+  else (PACKAGE)
+      # force the name of the actual executable to allow running it within Xcode for debugging
+      set(MACOSX_WRAPPER_EXECUTABLE_NAME "../Resources/Second Life Viewer.app/Contents/MacOS/Second Life")
+  endif (PACKAGE)
   set(MACOSX_BUNDLE_INFO_STRING "Alchemy Viewer")
   set(MACOSX_BUNDLE_ICON_FILE "alchemy.icns")
   set(MACOSX_BUNDLE_GUI_IDENTIFIER "org.alchemyviewer.viewer")

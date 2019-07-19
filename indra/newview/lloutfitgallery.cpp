@@ -1162,16 +1162,20 @@ void LLOutfitGallery::refreshTextures(const LLUUID& category_id)
 
 void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
 {
-    outfit_map_t::iterator outfit_it = mOutfitMap.find(outfit_id);
-    if (outfit_it == mOutfitMap.end() || outfit_it->first.isNull())
-    {
-        return;
-    }
+	outfit_map_t::iterator outfit_it = mOutfitMap.find(outfit_id);
+	if (outfit_it == mOutfitMap.end() || outfit_it->first.isNull())
+	{
+		return;
+	}
+    (new LLFilePickerReplyThread(boost::bind(&LLOutfitGallery::uploadOutfitImage, this, _1, outfit_id), LLFilePicker::FFLOAD_IMAGE, false))->getFile();
+}
 
-    LLFilePicker& picker = LLFilePicker::instance();
-    if (picker.getOpenFile(LLFilePicker::FFLOAD_IMAGE))
+void LLOutfitGallery::uploadOutfitImage(const std::vector<std::string>& filenames, LLUUID outfit_id)
+{
+    std::string filename = filenames[0];
+    LLLocalBitmap* unit = new LLLocalBitmap(filename);
+    if (unit->getValid())
     {
-        const std::string filename = picker.getFirstFile();
         const std::string exten = gDirUtilp->getExtension(filename);
         const U32 codec = LLImageBase::getCodecFromExtension(exten);
 
@@ -1223,6 +1227,7 @@ void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
             mOutfitLinkPending = outfit_id;
         }
     }
+    delete unit;
 }
 
 void LLOutfitGallery::linkPhotoToOutfit(LLUUID photo_id, LLUUID outfit_id)

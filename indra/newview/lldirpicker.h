@@ -31,12 +31,24 @@
 #ifndef LL_LLDIRPICKER_H
 #define LL_LLDIRPICKER_H
 
+#include "stdtypes.h"
+
+#include "llthread.h"
+#include <queue>
+
+#if LL_WINDOWS
+#include <shlobj.h>
+#endif
+
 #if LL_DARWIN
 
 // AssertMacros.h does bad things.
 #undef verify
 #undef check
 #undef require
+
+#include <vector>
+#include "llstring.h"
 
 #endif
 
@@ -48,7 +60,7 @@ public:
 	// calling this before main() is undefined
 	static LLDirPicker& instance( void ) { return sInstance; }
 
-	BOOL getDir(std::string* filename);
+	BOOL getDir(std::string* filename, bool blocking = true);
 	std::string getDirName();
 
 	// clear any lists of buffers or whatever, and make sure the dir
@@ -76,11 +88,43 @@ private:
 	bool mLocked;
 
 	static LLDirPicker sInstance;
+#if LL_WINDOWS
+	BROWSEINFO bi;
+#endif
 	
 public:
 	// don't call these directly please.
 	LLDirPicker();
 	~LLDirPicker();
+};
+
+class LLDirPickerThread : public LLThread
+{
+public:
+
+	static std::queue<LLDirPickerThread*> sDeadQ;
+	static LLMutex* sMutex;
+
+	static void initClass();
+	static void cleanupClass();
+	static void clearDead();
+
+	std::vector<std::string> mResponses;
+	std::string mProposedName;
+
+	typedef boost::signals2::signal<void(const std::vector<std::string>& filenames, std::string proposed_name)> dir_picked_signal_t;
+
+	LLDirPickerThread(const dir_picked_signal_t::slot_type& cb, const std::string &proposed_name);
+	~LLDirPickerThread();
+
+	void getFile();
+
+	virtual void run();
+
+	virtual void notify(const std::vector<std::string>& filenames);
+
+private:
+	dir_picked_signal_t*		mFilePickedSignal;
 };
 
 #endif

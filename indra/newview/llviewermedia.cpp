@@ -1524,6 +1524,7 @@ LLViewerMediaImpl::LLViewerMediaImpl(	  const LLUUID& texture_id,
 	mNavigateServerRequest(false),
 	mMediaSourceFailed(false),
 	mRequestedVolume(1.0f),
+	mPreviousVolume(1.0f),
 	mIsMuted(false),
 	mNeedsMuteCheck(false),
 	mPreviousMediaState(MEDIA_NONE),
@@ -2047,6 +2048,20 @@ void LLViewerMediaImpl::setVolume(F32 volume)
 {
 	mRequestedVolume = volume;
 	updateVolume();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////
+void LLViewerMediaImpl::setMute(bool mute)
+{
+	if (mute)
+	{
+		mPreviousVolume = mRequestedVolume;
+		setVolume(0.0);
+	}
+	else
+	{
+		setVolume(mPreviousVolume);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

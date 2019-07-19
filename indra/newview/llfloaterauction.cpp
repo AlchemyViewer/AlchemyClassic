@@ -51,6 +51,7 @@
 #include "llviewertexturelist.h"
 #include "llviewerparcelmgr.h"
 #include "llviewerregion.h"
+#include "lluictrlfactory.h"
 #include "llviewerwindow.h"
 #include "llviewerdisplay.h"
 #include "llviewercontrol.h"
@@ -335,7 +336,7 @@ void LLFloaterAuction::doResetParcel()
 					<< parcelp->getArea()
 					<< "m";
 
-		std::string new_name(parcel_name.str());
+		std::string new_name(parcel_name.str().c_str());
 		body["name"] = new_name;
 		getChild<LLUICtrl>("parcel_text")->setValue(new_name);	// Set name in dialog as well, since it won't get updated otherwise
 

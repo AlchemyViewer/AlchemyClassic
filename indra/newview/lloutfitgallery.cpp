@@ -1086,11 +1086,6 @@ void LLOutfitGallery::refreshOutfit(const LLUUID& category_id)
                     updates["name"] = new_name;
                     update_inventory_item(inv_id, updates, NULL);
                     mOutfitRenamePending.setNull();
-                    LLFloater* inv_floater = LLFloaterReg::findInstance("inventory");
-                    if (inv_floater)
-                    {
-                        inv_floater->closeFloater();
-                    }
                     LLFloater* appearance_floater = LLFloaterReg::getInstance("appearance");
                     if (appearance_floater)
                     {
@@ -1223,7 +1218,7 @@ void LLOutfitGallery::uploadOutfitImage(const std::vector<std::string>& filename
                 LLFloaterPerms::getNextOwnerPerms("Uploads"),
                 LLFloaterPerms::getGroupPerms("Uploads"),
                 LLFloaterPerms::getEveryonePerms("Uploads"),
-                upload_pending_name, callback, expected_upload_cost, nruserdata);
+            upload_pending_name, callback, expected_upload_cost, nruserdata, false);
             mOutfitLinkPending = outfit_id;
         }
     }

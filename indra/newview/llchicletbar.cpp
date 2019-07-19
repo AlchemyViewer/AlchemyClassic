@@ -72,7 +72,7 @@ void LLChicletBar::log(LLView* panel, const std::string& descr)
 {
 	if (nullptr == panel) return;
 	LLView* layout = panel->getParent();
-	LL_DEBUGS("Chiclet Bar Rects") << descr << ": "
+	LL_DEBUGS("ChicletBarRects") << descr << ": "
 		<< "panel: " << panel->getName()
 		<< ", rect: " << panel->getRect()
 		<< " layout: " << layout->getName()

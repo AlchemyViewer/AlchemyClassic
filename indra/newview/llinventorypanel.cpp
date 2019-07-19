@@ -864,13 +864,37 @@ LLFolderViewItem* LLInventoryPanel::buildNewViews(const LLUUID& id)
 
  	if (!folder_view_item && parent_folder)
   		{
-  			if (objectp->getType() <= LLAssetType::AT_NONE ||
-  				objectp->getType() >= LLAssetType::AT_COUNT)
-  			{
-  				LL_WARNS() << "LLInventoryPanel::buildNewViews called with invalid objectp->mType : "
-                << ((S32) objectp->getType()) << " name " << objectp->getName() << " UUID " << objectp->getUUID()
-                << LL_ENDL;
+			if (objectp->getType() <= LLAssetType::AT_NONE)
+			{
+				LL_WARNS() << "LLInventoryPanel::buildNewViews called with invalid objectp->mType : "
+					<< ((S32)objectp->getType()) << " name " << objectp->getName() << " UUID " << objectp->getUUID()
+					<< LL_ENDL;
   				return nullptr;
+			}
+			
+			if (objectp->getType() >= LLAssetType::AT_COUNT)
+  			{
+  				LL_WARNS() << "LLInventoryPanel::buildNewViews called with unknown objectp->mType : "
+				<< ((S32) objectp->getType()) << " name " << objectp->getName() << " UUID " << objectp->getUUID()
+				<< LL_ENDL;
+
+				LLInventoryItem* item = (LLInventoryItem*)objectp;
+				if (item)
+				{
+					LLInvFVBridge* new_listener = mInvFVBridgeBuilder->createBridge(LLAssetType::AT_UNKNOWN,
+						LLAssetType::AT_UNKNOWN,
+						LLInventoryType::IT_UNKNOWN,
+						this,
+						&mInventoryViewModel,
+						mFolderRoot.get(),
+						item->getUUID(),
+						item->getFlags());
+
+					if (new_listener)
+					{
+						folder_view_item = createFolderViewItem(new_listener);
+					}
+				}
   			}
   		
   			if ((objectp->getType() == LLAssetType::AT_CATEGORY) &&

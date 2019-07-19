@@ -349,7 +349,11 @@ bool LLImageBMP::decode(LLImageRaw* raw_image, F32 decode_time)
 		return false;
 	}
 	
-	raw_image->resize(getWidth(), getHeight(), 3);
+	if (!raw_image->resize(getWidth(), getHeight(), 3))
+	{
+		setLastError("llimagebmp failed to resize image!");
+		return false;
+	}
 
 	U8* src = mdata + mBitmapOffset;
 	U8* dst = raw_image->getData();

@@ -31,6 +31,7 @@
 #include "llimagejpeg.h"
 
 #include "llerror.h"
+#include "llexception.h"
 
 jmp_buf	LLImageJPEG::sSetjmpBuffer ;
 LLImageJPEG::LLImageJPEG(S32 quality) 
@@ -258,7 +259,10 @@ bool LLImageJPEG::decode(LLImageRaw* raw_image, F32 decode_time)
 
 		setSize(cinfo.image_width, cinfo.image_height, 3); // Force to 3 components (RGB)
 
-		raw_image->resize(getWidth(), getHeight(), getComponents());
+		if (!raw_image->resize(getWidth(), getHeight(), getComponents()))
+		{
+			throw std::bad_alloc();
+		}
 		raw_image_data = raw_image->getData();
 		
 		
@@ -311,6 +315,13 @@ bool LLImageJPEG::decode(LLImageRaw* raw_image, F32 decode_time)
 		////////////////////////////////////////
 		// Step 8: Release JPEG decompression object 
 		jpeg_destroy_decompress(&cinfo);
+	}
+
+	catch (std::bad_alloc)
+	{
+		setLastError( "Out of memory");
+		jpeg_destroy_decompress(&cinfo);
+		return true; // done
 	}
 
 	catch (int)
@@ -379,8 +390,9 @@ boolean LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )
   }
   catch (const std::bad_alloc& e)
   {
-	  LL_ERRS() << "Failed to allocate buffer with exception: " << e.what() << LL_ENDL;
-	  return false;
+    self->setLastError("Out of memory in LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )");
+    LLTHROW(LLContinueError("Out of memory in LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )"));
+    return false;
   }
 
   memcpy( new_buffer, self->mOutputBuffer, self->mOutputBufferSize );	/* Flawfinder: ignore */
@@ -500,7 +512,14 @@ bool LLImageJPEG::encode( const LLImageRaw* raw_image, F32 encode_time )
 	disclaimMem(mOutputBufferSize);
 	mOutputBufferSize = getWidth() * getHeight() * getComponents() + 1024;
 	claimMem(mOutputBufferSize);
-	mOutputBuffer = new U8[ mOutputBufferSize ];
+	mOutputBuffer = new(std::nothrow) U8[ mOutputBufferSize ];
+	if (mOutputBuffer == NULL)
+	{
+		disclaimMem(mOutputBufferSize);
+		mOutputBufferSize = 0;
+		setLastError("Failed to allocate output buffer");
+		return false;
+	}
 
 	const U8* raw_image_data = nullptr;
 	S32 row_stride = 0;

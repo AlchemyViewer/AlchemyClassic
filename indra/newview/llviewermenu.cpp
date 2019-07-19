@@ -132,6 +132,7 @@
 #include "llwindow.h"
 #include "llpathfindingmanager.h"
 #include "llstartup.h"
+#include <boost/regex.hpp>
 #include "llcleanup.h"
 #include "llweb.h"
 

@@ -241,7 +241,7 @@ namespace tut
 					  std::string("https://login.aditi.lindenlab.com/cgi-bin/login.cgi"));
 		ensure_equals("Aditi helper uri",
 					  LLGridManager::getInstance()->getHelperURI("util.aditi.lindenlab.com"),
-					  std::string("http://aditi-secondlife.webdev.lindenlab.com/helpers/"));
+					  std::string("https://secondlife.aditi.lindenlab.com/helpers/"));
 		ensure_equals("Aditi login page",
 					  LLGridManager::getInstance()->getLoginPage("util.aditi.lindenlab.com"),
 					  std::string("https://viewer-splash.secondlife.com/"));
@@ -313,7 +313,7 @@ namespace tut
 					  std::string("https://login.aditi.lindenlab.com/cgi-bin/login.cgi"));
 		ensure_equals("Aditi helper uri",
 					  LLGridManager::getInstance()->getHelperURI("util.aditi.lindenlab.com"),
-					  std::string("http://aditi-secondlife.webdev.lindenlab.com/helpers/"));
+					  std::string("https://secondlife.aditi.lindenlab.com/helpers/"));
 		ensure_equals("Aditi login page",
 					  LLGridManager::getInstance()->getLoginPage("util.aditi.lindenlab.com"),
 					  std::string("https://viewer-splash.secondlife.com/"));

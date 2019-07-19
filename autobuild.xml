@@ -2977,9 +2977,9 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f45c0a5e7b4601b355e163bf62f5718e</string>
+              <string>ce95944fb842849108102263a25fc794</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/20587/147509/viewer_manager-1.0.517052-darwin64-517052.tar.bz2</string>
+              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/23237/178332/viewer_manager-1.0.518840-darwin64-518840.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin64</string>

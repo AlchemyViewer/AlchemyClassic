@@ -299,6 +299,8 @@ void LLPanelGroupNotices::activate()
 {
 	if(mNoticesList)
 		mNoticesList->deleteAllItems();
+
+	mPrevSelectedNotice = LLUUID();
 	
 	BOOL can_send = gAgent.hasPowerInGroup(mGroupID,GP_NOTICES_SEND);
 	BOOL can_receive = gAgent.hasPowerInGroup(mGroupID,GP_NOTICES_RECEIVE);
@@ -435,12 +437,18 @@ void LLPanelGroupNotices::refreshNotices()
 	
 }
 
+void LLPanelGroupNotices::clearNoticeList()
+{
+	mPrevSelectedNotice = mNoticesList->getStringUUIDSelectedItem();
+	mNoticesList->deleteAllItems();
+}
+
 void LLPanelGroupNotices::onClickRefreshNotices(void* data)
 {
 	LL_DEBUGS() << "LLPanelGroupNotices::onClickGetPastNotices" << LL_ENDL;
 	LLPanelGroupNotices* self = (LLPanelGroupNotices*)data;
 	
-	self->mNoticesList->deleteAllItems();
+	self->clearNoticeList();
 
 	LLMessageSystem* msg = gMessageSystem;
 	msg->newMessage("GroupNoticesListRequest");
@@ -528,7 +536,6 @@ void LLPanelGroupNotices::processNotices(LLMessageSystem* msg)
 
 		LLSD row;
 		row["id"] = id;
-		
 		row["columns"][0]["column"] = "icon";
 		if (has_attachment)
 		{
@@ -556,7 +563,13 @@ void LLPanelGroupNotices::processNotices(LLMessageSystem* msg)
 
 	mNoticesList->setNeedsSort(save_sort);
 	mNoticesList->updateSort();
-	mNoticesList->selectFirstItem();
+	if (mPanelViewNotice->getVisible())
+	{
+		if (!mNoticesList->selectByID(mPrevSelectedNotice))
+		{
+			mNoticesList->selectFirstItem();
+		}
+	}
 }
 
 void LLPanelGroupNotices::onSelectNotice()

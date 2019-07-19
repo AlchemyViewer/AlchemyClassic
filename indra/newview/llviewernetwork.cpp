@@ -156,7 +156,7 @@ void LLGridManager::initialize(const std::string& grid_file)
 	addSystemGrid("Second Life Beta",
 				  "util.aditi.lindenlab.com",
 				  "https://login.aditi.lindenlab.com/cgi-bin/login.cgi",
-				  "http://aditi-secondlife.webdev.lindenlab.com/helpers/",
+				  "https://secondlife.aditi.lindenlab.com/helpers/",
 				  DEFAULT_LOGIN_PAGE,
 				  "https://secondlife.com/my/account/request.php",
 				  "https://join.secondlife.com/?sourceid=AlchemyViewer",

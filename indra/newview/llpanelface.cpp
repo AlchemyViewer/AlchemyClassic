@@ -1094,7 +1094,7 @@ void LLPanelFace::refresh()
 		
 		if (material && editable)
 		{
-			LL_DEBUGS("Materials") << " OnMatererialsLoaded: " << material->asLLSD() << LL_ENDL;
+				LL_DEBUGS("Materials") << material->asLLSD() << LL_ENDL;
 			
 			// Alpha
 			U32 alpha_mode = material->getDiffuseAlphaMode();

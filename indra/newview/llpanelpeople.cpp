@@ -206,10 +206,39 @@ protected:
 	}
 };
 
+class LLAvatarItemRecentArrivalComparator : public  LLAvatarItemNameComparator
+{
+public:
+	LLAvatarItemRecentArrivalComparator() {};
+	virtual ~LLAvatarItemRecentArrivalComparator() {};
+
+protected:
+	virtual bool doCompare(const LLAvatarListItem* item1, const LLAvatarListItem* item2) const
+	{
+
+		F32 arr_time1 = LLRecentPeople::instance().getArrivalTimeByID(item1->getAvatarId());
+		F32 arr_time2 = LLRecentPeople::instance().getArrivalTimeByID(item2->getAvatarId());
+
+		if (arr_time1 == arr_time2)
+		{
+			std::string name1 = item1->getAvatarName();
+			std::string name2 = item2->getAvatarName();
+
+			LLStringUtil::toUpper(name1);
+			LLStringUtil::toUpper(name2);
+
+			return name1 < name2;
+		}
+
+		return arr_time1 > arr_time2;
+	}
+};
+
 static const LLAvatarItemRecentComparator RECENT_COMPARATOR;
 static const LLAvatarItemStatusComparator STATUS_COMPARATOR;
 static LLAvatarItemDistanceComparator DISTANCE_COMPARATOR;
 static const LLAvatarItemRecentSpeakerComparator RECENT_SPEAKER_COMPARATOR;
+static LLAvatarItemRecentArrivalComparator RECENT_ARRIVAL_COMPARATOR;
 
 static LLPanelInjector<LLPanelPeople> t_people("panel_people");
 
@@ -563,6 +592,8 @@ LLPanelPeople::LLPanelPeople()
 	mEnableCallbackRegistrar.add("People.Nearby.ViewSort.CheckItem",	boost::bind(&LLPanelPeople::onNearbyViewSortMenuItemCheck,	this, _2));
 
 	mEnableCallbackRegistrar.add("People.Group.Plus.Validate",	boost::bind(&LLPanelPeople::onGroupPlusButtonValidate,	this));
+
+	doPeriodically(boost::bind(&LLPanelPeople::updateNearbyArrivalTime, this), 2.0);
 }
 
 LLPanelPeople::~LLPanelPeople()
@@ -1074,6 +1105,10 @@ void LLPanelPeople::setSortOrder(LLAvatarList* list, ESortOrder order, bool save
 		list->setComparator(&DISTANCE_COMPARATOR);
 		list->sort();
 		break;
+	case E_SORT_BY_RECENT_ARRIVAL:
+		list->setComparator(&RECENT_ARRIVAL_COMPARATOR);
+		list->sort();
+		break;
 	default:
 		LL_WARNS() << "Unrecognized people sort order for " << list->getName() << LL_ENDL;
 		return;
@@ -1431,6 +1466,10 @@ void LLPanelPeople::onNearbyViewSortMenuItemClicked(const LLSD& userdata)
 	{
 		setSortOrder(mNearbyList, E_SORT_BY_DISTANCE);
 	}
+	else if (chosen_item == "sort_arrival")
+	{
+		setSortOrder(mNearbyList, E_SORT_BY_RECENT_ARRIVAL);
+	}
 	else if (chosen_item == "view_usernames")
 	{
 	    bool hide_usernames = !gSavedSettings.getBOOL("NearbyListHideUsernames");
@@ -1469,6 +1508,8 @@ bool LLPanelPeople::onNearbyViewSortMenuItemCheck(const LLSD& userdata)
 		return sort_order == E_SORT_BY_NAME;
 	if (item == "sort_distance")
 		return sort_order == E_SORT_BY_DISTANCE;
+	if (item == "sort_arrival")
+		return sort_order == E_SORT_BY_RECENT_ARRIVAL;
 	if (item == "click_im")
 		return click_order == E_CLICK_TO_IM;
 	if (item == "click_profile")
@@ -1656,6 +1697,16 @@ bool LLPanelPeople::isAccordionCollapsedByUser(LLUICtrl* acc_tab)
 		return false;
 	}
 	return param[COLLAPSED_BY_USER].asBoolean();
+}
+
+bool LLPanelPeople::updateNearbyArrivalTime()
+{
+	std::vector<LLVector3d> positions;
+	std::vector<LLUUID> uuids;
+	static LLCachedControl<F32> range(gSavedSettings, "NearMeRange");
+	LLWorld::getInstance()->getAvatars(&uuids, &positions, gAgent.getPositionGlobal(), range);
+	LLRecentPeople::instance().updateAvatarsArrivalTime(uuids);
+	return LLApp::isExiting();
 }
 
 // EOF

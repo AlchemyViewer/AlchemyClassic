@@ -200,7 +200,8 @@ LLScrollListCtrl::LLScrollListCtrl(const LLScrollListCtrl::Params& p)
 	mDirty(false),
 	mOriginalSelection(-1),
 	mContextMenuType(MENU_NONE),
-	mSortCallback(NULL)
+	mSortCallback(NULL),
+	mIsFriendSignal(NULL)
 {
 	mItemListRect.setOriginAndSize(
 		mBorderThickness,
@@ -343,6 +344,7 @@ LLScrollListCtrl::~LLScrollListCtrl()
 		menu->die();
 		mPopupMenuHandle.markDead();
 	}
+	delete mIsFriendSignal;
 }
 
 
@@ -1888,6 +1890,18 @@ BOOL LLScrollListCtrl::handleRightMouseDown(S32 x, S32 y, MASK mask)
 			if (menu)
 			{
 				mPopupMenuHandle = menu->getHandle();
+				if (mIsFriendSignal)
+				{
+					bool isFriend = *(*mIsFriendSignal)(uuid);
+					LLView* addFriendButton = menu->getChild<LLView>("add_friend");
+					LLView* removeFriendButton = menu->getChild<LLView>("remove_friend");
+					if (addFriendButton && removeFriendButton)
+					{
+						addFriendButton->setEnabled(!isFriend);
+						removeFriendButton->setEnabled(isFriend);
+					}
+				}
+
 				menu->show(x, y);
 				LLMenuGL::showPopup(this, menu, x, y);
 				return TRUE;
@@ -3184,6 +3198,15 @@ void LLScrollListCtrl::onFocusLost()
 	mSearchString.clear();
 
 	LLUICtrl::onFocusLost();
+}
+
+boost::signals2::connection LLScrollListCtrl::setIsFriendCallback(const is_friend_signal_t::slot_type& cb)
+{
+	if (!mIsFriendSignal)
+	{
+		mIsFriendSignal = new is_friend_signal_t();
+	}
+	return mIsFriendSignal->connect(cb);
 }
 
 void LLScrollListIcon::setClickCallback(BOOL (*callback)(void*), void* user_data)

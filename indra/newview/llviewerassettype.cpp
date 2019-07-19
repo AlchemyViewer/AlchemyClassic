@@ -86,6 +86,8 @@ LLViewerAssetDictionary::LLViewerAssetDictionary()
 	
 	addEntry(LLViewerAssetType::AT_PERSON, 				new ViewerAssetEntry(DAD_PERSON));
 
+	addEntry(LLViewerAssetType::AT_UNKNOWN,				new ViewerAssetEntry(DAD_NONE));
+
 	addEntry(LLViewerAssetType::AT_NONE, 				new ViewerAssetEntry(DAD_NONE));
 };
 

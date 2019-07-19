@@ -176,7 +176,7 @@ void LLSimInfo::dump() const
 	U32 x_pos, y_pos;
 	from_region_handle(mHandle, &x_pos, &y_pos);
 
-	LL_INFOS("World Map") << x_pos << "," << y_pos
+	LL_INFOS("WorldMap") << x_pos << "," << y_pos
 		<< " " << mName 
 		<< " " << (S32)mAccess
 		<< " " << std::hex << mRegionFlags << std::dec
@@ -233,14 +233,14 @@ LLWorldMap::LLWorldMap() :
 	mTrackingLocation( 0, 0, 0 ),
 	mFirstRequest(true)
 {
-	//LL_INFOS("World Map") << "Creating the World Map -> LLWorldMap::LLWorldMap()" << LL_ENDL;
+	//LL_INFOS("WorldMap") << "Creating the World Map -> LLWorldMap::LLWorldMap()" << LL_ENDL;
 	clearSimFlags();
 }
 
 
 LLWorldMap::~LLWorldMap()
 {
-	//LL_INFOS("World Map") << "Destroying the World Map -> LLWorldMap::~LLWorldMap()" << LL_ENDL;
+	//LL_INFOS("WorldMap") << "Destroying the World Map -> LLWorldMap::~LLWorldMap()" << LL_ENDL;
 	reset();
 }
 
@@ -386,7 +386,7 @@ bool LLWorldMap::simNameFromPosGlobal(const LLVector3d& pos_global, std::string 
 
 void LLWorldMap::reloadItems(bool force)
 {
-	//LL_INFOS("World Map") << "LLWorldMap::reloadItems()" << LL_ENDL;
+	//LL_INFOS("WorldMap") << "LLWorldMap::reloadItems()" << LL_ENDL;
 	if (clearItems(force))
 	{
 		LLWorldMapMessage::getInstance()->sendItemRequest(MAP_ITEM_TELEHUB);
@@ -418,7 +418,7 @@ bool LLWorldMap::insertRegion(U32 x_world, U32 y_world, U16 x_size, U16 y_size, 
 	else
 	{
 		U64 handle = to_region_handle(x_world, y_world);
- 		//LL_INFOS("World Map") << "Map sim : " << name << ", ID : " << image_id.getString() << LL_ENDL;
+ 		//LL_INFOS("WorldMap") << "Map sim : " << name << ", ID : " << image_id.getString() << LL_ENDL;
 		// Insert the region in the region map of the world map
 		// Loading the LLSimInfo object with what we got and insert it in the map
 		LLSimInfo* siminfo = LLWorldMap::getInstance()->simInfoFromHandle(handle);
@@ -471,7 +471,7 @@ bool LLWorldMap::insertItem(U32 x_world, U32 y_world, std::string& name, LLUUID&
 		siminfo = LLWorldMap::getInstance()->createSimInfoFromHandle(handle);
 	}
 
-	//LL_INFOS("World Map") << "Process item : type = " << type << LL_ENDL;
+	//LL_INFOS("WorldMap") << "Process item : type = " << type << LL_ENDL;
 	switch (type)
 	{
 		case MAP_ITEM_TELEHUB: // telehubs
@@ -565,7 +565,7 @@ bool LLWorldMap::insertItem(U32 x_world, U32 y_world, std::string& name, LLUUID&
 		}
 		case MAP_ITEM_AGENT_LOCATIONS: // agent locations
 		{
-// 				LL_INFOS("World Map") << "New Location " << new_item.mName << LL_ENDL;
+// 				LL_INFOS("WorldMap") << "New Location " << new_item.mName << LL_ENDL;
 			if (extra > 0)
 			{
 				new_item.setCount(extra);
@@ -618,7 +618,7 @@ void LLWorldMap::updateRegions(S32 x0, S32 y0, S32 x1, S32 y1)
 			S32 offset = block_x | (block_y * MAP_BLOCK_RES);
 			if (!mMapBlockLoaded[offset])
 			{
- 				//LL_INFOS("World Map") << "Loading Block (" << block_x << "," << block_y << ")" << LL_ENDL;
+ 				//LL_INFOS("WorldMap") << "Loading Block (" << block_x << "," << block_y << ")" << LL_ENDL;
 				world_map_inst.sendMapBlockRequest(block_x * MAP_BLOCK_SIZE, block_y * MAP_BLOCK_SIZE, (block_x * MAP_BLOCK_SIZE) + MAP_BLOCK_SIZE - 1, (block_y * MAP_BLOCK_SIZE) + MAP_BLOCK_SIZE - 1);
 				mMapBlockLoaded[offset] = true;
 			}
@@ -628,7 +628,7 @@ void LLWorldMap::updateRegions(S32 x0, S32 y0, S32 x1, S32 y1)
 
 void LLWorldMap::dump()
 {
-	LL_INFOS("World Map") << "LLWorldMap::dump()" << LL_ENDL;
+	LL_INFOS("WorldMap") << "LLWorldMap::dump()" << LL_ENDL;
 	for (const auto& sim_info_pair : mSimInfoMap)
 	{
 		LLSimInfo* info = sim_info_pair.second;

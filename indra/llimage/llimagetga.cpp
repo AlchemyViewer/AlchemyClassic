@@ -362,7 +362,11 @@ bool LLImageTGA::decode(LLImageRaw* raw_image, F32 decode_time)
 
 	// Copy everything after the header.
 
-	raw_image->resize(getWidth(), getHeight(), getComponents());
+	if( !raw_image->resize(getWidth(), getHeight(), getComponents()))
+	{
+		setLastError("LLImageTGA::out of memory");
+		return false;
+	}
 
 	if( (getComponents() != 1) &&
 		(getComponents() != 3) &&
@@ -372,6 +376,11 @@ bool LLImageTGA::decode(LLImageRaw* raw_image, F32 decode_time)
 		return false;
 	}
 
+	if( raw_image->isBufferInvalid())
+	{
+		setLastError("LLImageTGA::out of memory");
+		return false;
+	}
 
 	if( mOriginRightBit )
 	{
@@ -421,6 +430,11 @@ bool LLImageTGA::decodeTruecolor( LLImageRaw* raw_image, bool rle, bool flipped 
 				// alpha was entirely opaque
 				// convert to 24 bit image
 				LLPointer<LLImageRaw> compacted_image = new LLImageRaw(raw_image->getWidth(), raw_image->getHeight(), 3);
+				if (compacted_image->isBufferInvalid())
+				{
+					success = false;
+					break;
+				}
 				compacted_image->copy(raw_image);
 				raw_image->resize(raw_image->getWidth(), raw_image->getHeight(), 3);
 				raw_image->copy(compacted_image);
@@ -437,9 +451,16 @@ bool LLImageTGA::decodeTruecolor( LLImageRaw* raw_image, bool rle, bool flipped 
 			// alpha was entirely opaque
 			// convert to 24 bit image
 			LLPointer<LLImageRaw> compacted_image = new LLImageRaw(raw_image->getWidth(), raw_image->getHeight(), 3);
-			compacted_image->copy(raw_image);
-			raw_image->resize(raw_image->getWidth(), raw_image->getHeight(), 3);
-			raw_image->copy(compacted_image);
+			if (compacted_image->isBufferInvalid())
+			{
+				success = false;
+			}
+			else
+			{
+				compacted_image->copy(raw_image);
+				raw_image->resize(raw_image->getWidth(), raw_image->getHeight(), 3);
+				raw_image->copy(compacted_image);
+			}
 		}
 	}
 	
@@ -1099,7 +1120,11 @@ bool LLImageTGA::decodeAndProcess( LLImageRaw* raw_image, F32 domain, F32 weight
 		return false;
 	}
 
-	raw_image->resize(getWidth(), getHeight(), getComponents());
+	if( !raw_image->resize(getWidth(), getHeight(), getComponents()) )
+	{
+		LL_ERRS() << "LLImageTGA: Failed to resize image" << LL_ENDL;
+		return false;
+	}
 
 	U8* dst = raw_image->getData();
 	U8* src = getData() + mDataOffset;

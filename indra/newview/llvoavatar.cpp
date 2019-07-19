@@ -6089,14 +6089,13 @@ void LLVOAvatar::rebuildAttachmentOverrides()
 		LLViewerJointAttachment *attachment_pt = attach_pair.second;
         if (attachment_pt)
         {
-			for (auto object : attachment_pt->mAttachedObjects)
+			for (auto vo : attachment_pt->mAttachedObjects)
             {
-                LLViewerObject *vo = *at_it;
                 // Attached animated objects affect joints in their control
                 // avs, not the avs to which they are attached.
                 if (!vo->isAnimatedObject())
                 {
-                addAttachmentOverridesForObject(*at_it);
+					addAttachmentOverridesForObject(vo);
                 }
             }
         }

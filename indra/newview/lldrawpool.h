@@ -157,7 +157,7 @@ public:
 	/*virtual*/ LLDrawPool* instancePool() final override;
 	/*virtual*/ LLViewerTexture* getDebugTexture() final override { return nullptr; }
 	LLViewerTexture* getTexture() final override { return nullptr; }
-	BOOL isDead() final override { return FALSE; }
+	BOOL isDead() override { return FALSE; }
 	void resetDrawOrders() final override { }
 
 	static void applyModelMatrix(const LLDrawInfo& params);
@@ -184,7 +184,7 @@ public:
 	LLFacePool(const U32 type);
 	virtual ~LLFacePool();
 	
-	BOOL isDead() final override { return mReferences.empty(); }
+	BOOL isDead() override { return mReferences.empty(); }
 
 	LLViewerTexture *getTexture() override;
 	virtual void dirtyTextures(const std::set<LLViewerFetchedTexture*>& textures);

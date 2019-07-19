@@ -54,6 +54,7 @@
 #include "llvoavatar.h"
 #include "llvolumemgr.h"
 #include "llviewershadermgr.h"
+#include "llcontrolavatar.h"
 #include "llfloaterreg.h" // <alchemy/>
 
 //#pragma optimize("", off)

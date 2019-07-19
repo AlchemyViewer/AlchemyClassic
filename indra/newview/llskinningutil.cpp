@@ -36,6 +36,8 @@
 #include "llvolume.h"
 #include "llrigginginfo.h"
 
+#include "llvector4a.h"
+
 void dump_avatar_and_skin_state(const std::string& reason, LLVOAvatar *avatar, const LLMeshSkinInfo *skin)
 {
     static S32 dump_count = 0;
@@ -129,16 +131,14 @@ void LLSkinningUtil::initSkinningMatrixPalette(
     LLVOAvatar *avatar)
 {
     initJointNums(const_cast<LLMeshSkinInfo*>(skin), avatar);
+	LLMatrix4a world;
     for (U32 j = 0; j < count; ++j)
     {
-        LLJoint *joint = NULL;
         LLJoint *joint = avatar->getJoint(skin->mJointNums[j]);
         if (joint)
         {
-			mat[j] = skin->mInvBindMatrix[j];
-			LLMatrix4a world;
 			world.loadu(joint->getWorldMatrix());
-			mat[j].setMul(world, mat[j]);
+			mat[j].setMul(world, skin->mInvBindMatrix[j]);
         }
         else
         {
@@ -162,7 +162,7 @@ void LLSkinningUtil::initSkinningMatrixPalette(
 
 void LLSkinningUtil::checkSkinWeights(LLVector4a* weights, U32 num_vertices, const LLMeshSkinInfo* skin)
 {
-#ifdef SHOW_ASSERT
+#ifdef SHOW_ASSERT                  // same condition that controls llassert()
 	const S32 max_joints = skin->mJointNames.size();
     for (U32 j=0; j<num_vertices; j++)
     {
@@ -347,8 +347,7 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
                                 // FIXME could precompute these matMuls.
                                 LLMatrix4a bind_shape;
                                 bind_shape.loadu(skin->mBindShapeMatrix);
-                                LLMatrix4a inv_bind;
-                                inv_bind.loadu(skin->mInvBindMatrix[joint_index]);
+                                LLMatrix4a inv_bind(skin->mInvBindMatrix[joint_index]);
                                 LLMatrix4a mat;
                                 matMul(bind_shape, inv_bind, mat);
                                 LLVector4a pos_joint_space;

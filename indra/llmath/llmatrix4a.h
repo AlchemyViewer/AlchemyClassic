@@ -34,7 +34,7 @@
 LL_ALIGN_PREFIX(16)
 class LLMatrix4a
 {
-private:
+public:
 	LL_ALIGN_16(LLVector4a mMatrix[4]);
 public:
 	enum

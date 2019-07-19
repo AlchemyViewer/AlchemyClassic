@@ -1044,8 +1044,7 @@ void LLPanelLandGeneral::onClickBuyPass(void* data)
 
 void LLPanelLandGeneral::onClickStartAuction()
 {
-	LLPanelLandGeneral* panelp = (LLPanelLandGeneral*)data;
-	LLParcel* parcelp = panelp->mParcel->getParcel();
+	LLParcel* parcelp = mParcel->getParcel();
 	if(parcelp)
 	{
 		if(parcelp->getForSale())

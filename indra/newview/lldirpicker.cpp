@@ -280,7 +280,7 @@ std::string LLDirPicker::getDirName()
 #endif
 
 
-LLMutex* LLDirPickerThread::sMutex = NULL;
+std::unique_ptr<LLMutex> LLDirPickerThread::sMutex = NULL;
 std::queue<LLDirPickerThread*> LLDirPickerThread::sDeadQ;
 
 void LLDirPickerThread::getFile()
@@ -309,7 +309,7 @@ void LLDirPickerThread::run()
 	}	
 
 	{
-		LLMutexLock lock(sMutex);
+		LLMutexLock lock(sMutex.get());
 		sDeadQ.push(this);
 	}
 
@@ -318,16 +318,15 @@ void LLDirPickerThread::run()
 //static
 void LLDirPickerThread::initClass()
 {
-	sMutex = new LLMutex(NULL);
+	sMutex = std::make_unique<LLMutex>();
 }
 
 //static
 void LLDirPickerThread::cleanupClass()
 {
 	clearDead();
-
-	delete sMutex;
-	sMutex = NULL;
+	
+	sMutex.reset();
 }
 
 //static
@@ -335,7 +334,7 @@ void LLDirPickerThread::clearDead()
 {
 	if (!sDeadQ.empty())
 	{
-		LLMutexLock lock(sMutex);
+		LLMutexLock lock(sMutex.get());
 		while (!sDeadQ.empty())
 		{
 			LLDirPickerThread* thread = sDeadQ.front();
@@ -347,16 +346,14 @@ void LLDirPickerThread::clearDead()
 }
 
 LLDirPickerThread::LLDirPickerThread(const dir_picked_signal_t::slot_type& cb, const std::string &proposed_name)
-	: LLThread("dir picker"),
-	mFilePickedSignal(NULL)
+	: LLThread("dir picker")
 {
-	mFilePickedSignal = new dir_picked_signal_t();
+	mFilePickedSignal = std::make_unique<dir_picked_signal_t>();
 	mFilePickedSignal->connect(cb);
 }
 
 LLDirPickerThread::~LLDirPickerThread()
 {
-	delete mFilePickedSignal;
 }
 
 void LLDirPickerThread::notify(const std::vector<std::string>& filenames)

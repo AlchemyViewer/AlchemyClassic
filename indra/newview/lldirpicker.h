@@ -103,7 +103,7 @@ class LLDirPickerThread : public LLThread
 public:
 
 	static std::queue<LLDirPickerThread*> sDeadQ;
-	static LLMutex* sMutex;
+	static std::unique_ptr<LLMutex> sMutex;
 
 	static void initClass();
 	static void cleanupClass();
@@ -124,7 +124,7 @@ public:
 	virtual void notify(const std::vector<std::string>& filenames);
 
 private:
-	dir_picked_signal_t*		mFilePickedSignal;
+	std::unique_ptr<dir_picked_signal_t>		mFilePickedSignal;
 };
 
 #endif

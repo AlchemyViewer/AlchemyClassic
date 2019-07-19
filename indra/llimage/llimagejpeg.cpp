@@ -388,7 +388,7 @@ boolean LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )
   {
 	  new_buffer = new U8[new_buffer_size];
   }
-  catch (const std::bad_alloc& e)
+  catch (const std::bad_alloc&)
   {
     self->setLastError("Out of memory in LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )");
     LLTHROW(LLContinueError("Out of memory in LLImageJPEG::encodeEmptyOutputBuffer( j_compress_ptr cinfo )"));

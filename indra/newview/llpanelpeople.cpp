@@ -30,6 +30,7 @@
 
 // libs
 #include "llavatarname.h"
+#include "llcallbacklist.h"
 #include "llfloaterimcontainer.h"
 #include "llfloaterreg.h"
 #include "llmenubutton.h"

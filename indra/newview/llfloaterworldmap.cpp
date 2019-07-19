@@ -333,8 +333,8 @@ BOOL LLFloaterWorldMap::postBuild()
 	landmark_combo->setTextChangedCallback( boost::bind(&LLFloaterWorldMap::onComboTextEntry, this) );
 	mListLandmarkCombo = dynamic_cast<LLCtrlListInterface *>(landmark_combo);
 	
-	mCurZoomVal = log(LLWorldMapView::sMapScale)/log(2.f);
-	mZoomSlider->setValue(LLWorldMapView::sMapScale);
+	mCurZoomVal = log(LLWorldMapView::sMapScale/256.f)/log(2.f);
+	mZoomSlider->setValue(mCurZoomVal);
 	
 	setDefaultBtn(nullptr);
 	

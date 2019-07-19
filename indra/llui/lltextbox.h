@@ -70,11 +70,14 @@ public:
 
     void updateCurrencySymbols();
 
+	void			setShowCursorHand(bool show_cursor) { mShowCursorHand = show_cursor; }
+
 protected:
 	void            onUrlLabelUpdated(const std::string &url, const std::string &label);
 
 	LLUIString			mText;
 	callback_t			mClickedCallback;
+	bool				mShowCursorHand;
 };
 
 // Build time optimization, generate once in .cpp file

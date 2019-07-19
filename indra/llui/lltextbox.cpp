@@ -45,7 +45,8 @@ template class LLTextBox* LLView::getChild<class LLTextBox>(
 
 LLTextBox::LLTextBox(const LLTextBox::Params& p)
 :	LLTextBase(p),
-	mClickedCallback()
+	mClickedCallback(),
+	mShowCursorHand(true)
 {}
 
 LLTextBox::~LLTextBox()
@@ -105,7 +106,7 @@ BOOL LLTextBox::handleMouseUp(S32 x, S32 y, MASK mask)
 BOOL LLTextBox::handleHover(S32 x, S32 y, MASK mask)
 {
 	BOOL handled = LLTextBase::handleHover(x, y, mask);
-	if (!handled && mClickedCallback)
+	if (!handled && mClickedCallback && mShowCursorHand)
 	{
 		// Clickable text boxes change the cursor to a hand
 		LLUI::getWindow()->setCursor(UI_CURSOR_HAND);

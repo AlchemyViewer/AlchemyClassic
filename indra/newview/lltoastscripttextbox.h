@@ -50,7 +50,7 @@ public:
 
 private:
 
-	LLTextBox* mInfoText;
+	LLTextEditor* mInfoText;
 
 	void onClickSubmit();
 	void onClickIgnore();

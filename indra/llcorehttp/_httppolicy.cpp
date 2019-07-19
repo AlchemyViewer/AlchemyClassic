@@ -168,7 +168,7 @@ void HttpPolicy::retryOp(const HttpOpRequest::ptr_t &op)
 
 	if (op->mReplyRetryAfter > 0 && op->mReplyRetryAfter < 30)
 	{
-		delta = op->mReplyRetryAfter * U64L(1000000);
+		delta = (U64)op->mReplyRetryAfter * U64L(1000000);
 		external_delta = true;
 	}
 	op->mPolicyRetryAt = now + delta;

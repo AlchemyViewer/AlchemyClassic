@@ -54,7 +54,7 @@ F32 LLFontGL::sScaleY = 1.f;
 BOOL LLFontGL::sDisplayFont = TRUE ;
 std::string LLFontGL::sAppDir;
 
-LLColor4 LLFontGL::sShadowColor(0.f, 0.f, 0.f, 1.f);
+LLColor4U LLFontGL::sShadowColor(0U, 0U, 0U, 255U);
 LLFontRegistry* LLFontGL::sFontRegistry = nullptr;
 
 LLCoordGL LLFontGL::sCurOrigin;
@@ -1185,7 +1185,7 @@ void LLFontGL::drawGlyph(S32& glyph_count, LLVector4a* vertex_out, LLVector2* uv
 	}
 	else if (shadow == DROP_SHADOW_SOFT)
 	{
-		LLColor4U shadow_color = LLFontGL::sShadowColor;
+		LLColor4U& shadow_color = LLFontGL::sShadowColor;
 		shadow_color.mV[VALPHA] = U8(color.mV[VALPHA] * drop_shadow_strength * DROP_SHADOW_SOFT_STRENGTH);
 		for (S32 pass = 0; pass < 5; pass++)
 		{
@@ -1220,7 +1220,7 @@ void LLFontGL::drawGlyph(S32& glyph_count, LLVector4a* vertex_out, LLVector2* uv
 	}
 	else if (shadow == DROP_SHADOW)
 	{
-		LLColor4U shadow_color = LLFontGL::sShadowColor;
+		LLColor4U& shadow_color = LLFontGL::sShadowColor;
 		shadow_color.mV[VALPHA] = U8(color.mV[VALPHA] * drop_shadow_strength);
 		LLRectf screen_rect_shadow = screen_rect;
 		screen_rect_shadow.translate(1.f, -1.f);

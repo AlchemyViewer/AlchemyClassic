@@ -176,7 +176,7 @@ void LLUI::initClass(const settings_map_t& settings,
 	sAudioCallback = audio_callback;
 	sDeferredAudioCallback = deferred_audio_callback;
 	sWindow = NULL; // set later in startup
-	LLFontGL::sShadowColor = LLUIColorTable::instance().getColor("ColorDropShadow");
+	LLFontGL::sShadowColor = LLColor4U(LLUIColorTable::instance().getColor("ColorDropShadow").get());
 
 	LLUICtrl::CommitCallbackRegistry::Registrar& reg = LLUICtrl::CommitCallbackRegistry::defaultRegistrar();
 

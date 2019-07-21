@@ -285,6 +285,8 @@ target_link_libraries(llui
     ${HUNSPELL_LIBRARY}
     ${LLMESSAGE_LIBRARIES}
     ${LLCOMMON_LIBRARIES} # must be after llimage, llwindow, llrender
+    absl::flat_hash_map
+    absl::node_hash_map
     )
 
 # Add tests

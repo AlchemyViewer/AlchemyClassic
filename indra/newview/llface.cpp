@@ -620,7 +620,7 @@ void renderFace(LLDrawable* drawable, LLFace *face)
         if (volume)
         {
             const LLVolumeFace& vol_face = volume->getVolumeFace(face->getTEOffset());
-            LLVertexBuffer::drawElements(LLRender::TRIANGLES, vol_face.mPositions, NULL, vol_face.mNumIndices, vol_face.mIndices);
+			LLVertexBuffer::drawElements(LLRender::TRIANGLES, vol_face.mNumVertices, vol_face.mPositions, NULL, vol_face.mNumIndices, vol_face.mIndices);
         }
 
         gGL.popMatrix();
@@ -671,14 +671,16 @@ void LLFace::renderOneWireframe(const LLColor4 &color, F32 fogCfx, bool wirefram
         }
         else
         {
-            LLGLEnable fog(GL_FOG);
-            glFogi(GL_FOG_MODE, GL_LINEAR);
-            float d = (LLViewerCamera::getInstance()->getPointOfInterest() - LLViewerCamera::getInstance()->getOrigin()).magVec();
-            LLColor4 fogCol = color * fogCfx;
-            glFogf(GL_FOG_START, d);
-            glFogf(GL_FOG_END, d*(1 + (LLViewerCamera::getInstance()->getView() / LLViewerCamera::getInstance()->getDefaultFOV())));
-            glFogfv(GL_FOG_COLOR, fogCol.mV);
-
+			if (!LLGLSLShader::sNoFixedFunction)
+			{
+				LLGLEnable fog(GL_FOG);
+				glFogi(GL_FOG_MODE, GL_LINEAR);
+				float d = (LLViewerCamera::getInstance()->getPointOfInterest() - LLViewerCamera::getInstance()->getOrigin()).magVec();
+				LLColor4 fogCol = color * fogCfx;
+				glFogf(GL_FOG_START, d);
+				glFogf(GL_FOG_END, d * (1 + (LLViewerCamera::getInstance()->getView() / LLViewerCamera::getInstance()->getDefaultFOV())));
+				glFogfv(GL_FOG_COLOR, fogCol.mV);
+			}
             gGL.setAlphaRejectSettings(LLRender::CF_DEFAULT);
             {
                 gGL.diffuseColor4f(color.mV[VRED], color.mV[VGREEN], color.mV[VBLUE], 0.4f);
@@ -704,12 +706,12 @@ void LLFace::renderOneWireframe(const LLColor4 &color, F32 fogCfx, bool wirefram
 
         LLGLEnable offset(GL_POLYGON_OFFSET_LINE);
         glPolygonOffset(3.f, 3.f);
-        glLineWidth(5.f);
+        gGL.setLineWidth(5.f);
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         renderFace(mDrawablep, this);
     }
 
-    glLineWidth(1.f);
+	gGL.setLineWidth(1.f);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     gGL.popMatrix();
 

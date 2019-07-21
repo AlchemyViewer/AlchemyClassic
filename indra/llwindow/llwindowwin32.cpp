@@ -2879,7 +2879,7 @@ BOOL LLWindowWin32::pasteTextFromClipboard(LLWString &dst)
 				WCHAR *utf16str = (WCHAR*) GlobalLock(h_data);
 				if (utf16str)
 				{
-					dst = utf16str_to_wstring(utf16str);
+					dst = ll_convert_wide_to_wstring(utf16str);
 					LLWStringUtil::removeWindowsCR(dst);
 					GlobalUnlock(h_data);
 					success = TRUE;
@@ -2894,7 +2894,7 @@ BOOL LLWindowWin32::pasteTextFromClipboard(LLWString &dst)
 
 void LLWindowWin32::setWindowTitle(const std::string& title)
 {
-	SetWindowText(mWindowHandle, utf8str_to_utf16str(title).c_str());
+	SetWindowText(mWindowHandle, ll_convert_string_to_wide(title).c_str());
 }
 
 BOOL LLWindowWin32::copyTextToClipboard(const LLWString& wstr)
@@ -3366,8 +3366,7 @@ void LLWindowWin32::spawnWebBrowser(const std::string& escaped_url, bool async)
 	// reliablly on Vista.
 
 	// this is madness.. no, this is..
-	LLWString url_wstring = utf8str_to_wstring( escaped_url );
-	llutf16string url_utf16 = wstring_to_utf16str( url_wstring );
+	std::wstring url_utf16 = ll_convert_string_to_wide(escaped_url);
 
 	// let the OS decide what to use to open the URL
 	SHELLEXECUTEINFO sei = { sizeof( sei ) };
@@ -3730,7 +3729,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 			size = LLWinImm::getCompositionString(himc, GCS_RESULTSTR, data, size);
 			if (size > 0)
 			{
-				result_string = utf16str_to_wstring(llutf16string(data, size / sizeof(WCHAR)));
+				result_string = ll_convert_wide_to_wstring(std::wstring(data, size / sizeof(WCHAR)));
 			}
 			delete[] data;
 			needs_update = TRUE;
@@ -3747,7 +3746,7 @@ void LLWindowWin32::handleCompositionMessage(const U32 indexes)
 			if (size > 0)
 			{
 				preedit_string_utf16_length = size / sizeof(WCHAR);
-				preedit_string = utf16str_to_wstring(llutf16string(data, size / sizeof(WCHAR)));
+				preedit_string = ll_convert_wide_to_wstring(std::wstring(data, size / sizeof(WCHAR)));
 			}
 			delete[] data;
 			needs_update = TRUE;
@@ -3974,7 +3973,7 @@ BOOL LLWindowWin32::handleImeRequests(WPARAM w_param, LPARAM l_param, LRESULT *r
 						LLWinImm::releaseContext(mWindowHandle, himc);
 						if (adjusted)
 						{
-							const llutf16string & text_utf16 = wstring_to_utf16str(context);
+							const std::wstring& text_utf16 = ll_convert_wstring_to_wide(context);
 							const S32 new_preedit_start = reconvert_string->dwCompStrOffset / sizeof(WCHAR);
 							const S32 new_preedit_end = new_preedit_start + reconvert_string->dwCompStrLen;
 							select = utf16str_wstring_length(text_utf16, new_preedit_start);

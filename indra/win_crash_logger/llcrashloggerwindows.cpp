@@ -110,7 +110,7 @@ void write_debug(std::string& str)
 
 void show_progress(const std::string& message)
 {
-	std::wstring msg = wstring_to_utf16str(utf8str_to_wstring(message));
+	std::wstring msg = ll_convert_string_to_wide(message);
 	if (gHwndProgress)
 	{
 		SendDlgItemMessage(gHwndProgress,       // handle to destination window 
@@ -385,7 +385,7 @@ bool LLCrashLoggerWindows::initCrashServer()
 	//is a second instance of the viewer will not do crash reporting. 
 	std::wstring wpipe_name = mCrashReportPipeStr + std::wstring(std::to_wstring(mPID));
 
-	std::wstring wdump_path(utf8str_to_utf16str(dump_path));
+	std::wstring wdump_path(ll_convert_string_to_wide(dump_path));
 		
 	//Pipe naming conventions:  http://msdn.microsoft.com/en-us/library/aa365783%28v=vs.85%29.aspx
 	try
@@ -411,7 +411,7 @@ bool LLCrashLoggerWindows::initCrashServer()
 		return false;
 	}
 
-	LL_INFOS("CRASHREPORT") << "Initialized OOP server with pipe named " << utf16str_to_utf8str(wpipe_name).c_str() << LL_ENDL;
+	LL_INFOS("CRASHREPORT") << "Initialized OOP server with pipe named " << ll_convert_wide_to_string(wpipe_name).c_str() << LL_ENDL;
 	return true;
 }
 

@@ -53,17 +53,29 @@ std::basic_string<CHARTYPE> stringize_f(Functor const & f)
  * return out.str();
  * @endcode
  */
-#define STRINGIZE(EXPRESSION) (stringize_f(boost::phoenix::placeholders::arg1 << EXPRESSION))
+#define STRINGIZE(EXPRESSION) (stringize_f<char>([&](std::ostream& out){ out << EXPRESSION; }))
+
 /**
  * WSTRINGIZE() is the wstring equivalent of STRINGIZE()
  */
 #define WSTRINGIZE(EXPRESSION) (stringize_f<wchar_t>([&](std::wostream& out){ out << EXPRESSION; }))
- * *NOTE - this has distinct behavior from boost::lexical_cast<T> regarding
+
+/**
+ * destringize(str)
+ * defined for symmetry with stringize
+ * @NOTE - this has distinct behavior from boost::lexical_cast<T> regarding
+ * leading/trailing whitespace and handling of bad_lexical_cast exceptions
  * @NOTE - no need for dewstringize(), since passing std::wstring will Do The
  * Right Thing
-template <typename T>
-T destringize(std::string const & str)
-    std::istringstream in(str);
+ */
+template <typename T, typename CHARTYPE>
+T destringize(std::basic_string<CHARTYPE> const & str)
+{
+    T val;
+    std::basic_istringstream<CHARTYPE> in(str);
+    in >> val;
+    return val;
+}
 
 /**
  * destringize_f(str, functor)
@@ -86,7 +98,7 @@ void destringize_f(std::basic_string<CHARTYPE> const & str, Functor const & f)
  * more since DESTRINGIZE() should do the right thing with a std::wstring. But
  * until then, the lambda we pass must accept the right std::basic_istream.
  */
-#define DESTRINGIZE(STR, EXPRESSION) (destringize_f((STR), (boost::phoenix::placeholders::arg1 >> EXPRESSION)))
+#define DESTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::istream& in){in >> EXPRESSION;}))
 #define DEWSTRINGIZE(STR, EXPRESSION) (destringize_f((STR), [&](std::wistream& in){in >> EXPRESSION;}))
 
 #endif /* ! defined(LL_STRINGIZE_H) */

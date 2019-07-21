@@ -38,18 +38,19 @@
 #include "llgl.h"
 #include "llimagegl.h"
 #include "llrender.h"
+#include "llstl.h"
 #include "v4color.h"
 #include "lltexture.h"
+#include "lldir.h"
 #include "llstring.h"
 
 // Third party library includes
 #include <boost/tokenizer.hpp>
 
 #if LL_WINDOWS
-#include <Shlobj.h>
-#include <Knownfolders.h>
-#include <Objbase.h>
-#endif // LL_WINDOWS
+#include "llwin32headerslean.h"
+#include <shlobj.h>
+#endif
 
 const S32 BOLD_OFFSET = 1;
 
@@ -1069,37 +1070,44 @@ LLFontGL* LLFontGL::getFontDefault()
 	return getFontSansSerif(); // Fallback to sans serif as default font
 }
 
+static std::string sSystemFontPath;
 
 // static 
 std::string LLFontGL::getFontPathSystem()
 {
-#if LL_DARWIN
-    // HACK for Mac OS X
-    return "/System/Library/Fonts/";
+	if (!sSystemFontPath.empty()) return sSystemFontPath;
 
-#elif LL_WINDOWS
-    auto system_root = LLStringUtil::getenv("SystemRoot");
-    if (! system_root.empty())
-    {
-        std::string fontpath(gDirUtilp->add(system_root, "fonts") + gDirUtilp->getDirDelimiter());
-        LL_INFOS() << "from SystemRoot: " << fontpath << LL_ENDL;
-        return fontpath;
-    }
+#if LL_WINDOWS
+	wchar_t* pPath = nullptr;
+	if (SHGetKnownFolderPath(FOLDERID_Fonts, 0, nullptr, &pPath) == S_OK)
+	{
+		sSystemFontPath = ll_convert_wide_to_string(pPath) + gDirUtilp->getDirDelimiter();
+        LL_INFOS() << "from SHGetKnownFolderPath(): " << sSystemFontPath << LL_ENDL;
+		CoTaskMemFree(pPath);
+		pPath = nullptr;
+	}
+	else
+	{
+		// Try to figure out where the system's font files are stored.
+    	auto system_root = LLStringUtil::getenv("SystemRoot");
+    	if (! system_root.empty())
+    	{
+			sSystemFontPath = gDirUtilp->add(system_root, "fonts") + gDirUtilp->getDirDelimiter();
+        	LL_INFOS() << "from SystemRoot: " << sSystemFontPath << LL_ENDL;
+		}
+		else
+		{
+			LL_WARNS() << "SystemRoot not found, attempting to load fonts from default path." << LL_ENDL;
+			// HACK for windows 98/Me
+			sSystemFontPath = "/WINDOWS/FONTS/";
+		}
+	}
 
-    wchar_t *pwstr = NULL;
-    HRESULT okay = SHGetKnownFolderPath(FOLDERID_Fonts, 0, NULL, &pwstr);
-    if (SUCCEEDED(okay) && pwstr)
-    {
-        std::string fontpath(ll_convert_wide_to_string(pwstr));
-        // SHGetKnownFolderPath() contract requires us to free pwstr
-        CoTaskMemFree(pwstr);
-        LL_INFOS() << "from SHGetKnownFolderPath(): " << fontpath << LL_ENDL;
-        return fontpath;
-    }
+#elif LL_DARWIN
+	// HACK for Mac OS X
+	sSystemFontPath = "/System/Library/Fonts/";
 #endif
-
-    LL_WARNS() << "Could not determine system fonts path" << LL_ENDL;
-    return {};
+	return sSystemFontPath;
 }
 
 static std::string sLocalFontPath;

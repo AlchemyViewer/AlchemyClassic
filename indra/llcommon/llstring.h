@@ -27,6 +27,8 @@
 #ifndef LL_LLSTRING_H
 #define LL_LLSTRING_H
 
+#include "llwin32headerslean.h"
+
 #include <boost/optional/optional.hpp>
 #include <string>
 #include <cstdio>
@@ -568,12 +570,7 @@ LL_COMMON_API std::string rawstr_to_utf8(const std::string& raw);
 // * Do not introduce char16_t or std::u16string.
 // * Do not introduce char32_t or std::u32string.
 //
-#if _WIN32 && _NATIVE_WCHAR_T_DEFINED
-typedef wchar_t utf16strtype;
-#else
-typedef U16 utf16strtype;
-#endif
-typedef std::basic_string<utf16strtype> llutf16string;
+typedef std::basic_string<U16> llutf16string;
 
 #if ! defined(LL_WCHAR_T_NATIVE)
 // wchar_t is identical to U16, and std::wstring is identical to llutf16string.
@@ -642,7 +639,7 @@ LL_COMMON_API S32 wchar_utf8_length(const llwchar wc);
 LL_COMMON_API std::string utf8str_tolower(const std::string& utf8str);
 
 // Length in llwchar (UTF-32) of the first len units (16 bits) of the given UTF-16 string.
-LL_COMMON_API S32 utf16str_wstring_length(const llutf16string &utf16str, S32 len);
+LL_COMMON_API S32 utf16str_wstring_length(const std::wstring& utf16str, S32 len);
 
 // Length in utf16string (UTF-16) of wlen wchars beginning at woffset.
 LL_COMMON_API S32 wstring_utf16_length(const LLWString & wstr, S32 woffset, S32 wlen);

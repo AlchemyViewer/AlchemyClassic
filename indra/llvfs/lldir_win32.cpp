@@ -47,65 +47,21 @@
 #define PACKVERSION(major,minor) MAKELONG(minor,major)
 DWORD GetDllVersion(LPCTSTR lpszDllName);
 
-namespace
-{ // anonymous
-    enum class prst { INIT, OPEN, SKIP } state = prst::INIT;
-    // This is called so early that we can't count on static objects being
-    // properly constructed yet, so declare a pointer instead of an instance.
-    std::ofstream* prelogf = nullptr;
-
-    void prelog(const std::string& message)
-    {
-        boost::optional<std::string> prelog_name;
-
-        switch (state)
-        {
-        case prst::INIT:
-            // assume we failed, until we succeed
-            state = prst::SKIP;
-
-            prelog_name = LLStringUtil::getoptenv("PRELOG");
-            if (! prelog_name)
-                // no PRELOG variable set, carry on
-                return;
-            prelogf = new llofstream(*prelog_name, std::ios_base::app);
-            if (! (prelogf && prelogf->is_open()))
-                // can't complain to anybody; how?
-                return;
-            // got the log file open, cool!
-            state = prst::OPEN;
-            (*prelogf) << "========================================================================"
-                       << std::endl;
-            // fall through, don't break
-
-        case prst::OPEN:
-            (*prelogf) << message << std::endl;
-            break;
-
-        case prst::SKIP:
-            // either PRELOG isn't set, or we failed to open that pathname
-            break;
-        }
-    }
-} // anonymous namespace
-
-#define PRELOG(expression) prelog(STRINGIZE(expression))
-
 LLDir_Win32::LLDir_Win32()
 {
 	// set this first: used by append() and add() methods
 	mDirDelimiter = "\\";
 
-	WCHAR w_str[MAX_PATH];
+	WCHAR w_str[MAX_PATH+1];
 
-	WCHAR* pPath = nullptr;
-	if(SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pPath) == S_OK)
-		wcscpy_s(w_str, pPath);
+	wchar_t* pPath = nullptr;
+	if (SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &pPath) == S_OK)
+	{
+		mOSUserDir = ll_convert_wide_to_string(pPath);
+	}
 
 	CoTaskMemFree(pPath);
 	pPath = nullptr;
-		
-	mOSUserDir = utf16str_to_utf8str(llutf16string(w_str));
 
 	// We want cache files to go on the local disk, even if the
 	// user is on a network with a "roaming profile".
@@ -115,13 +71,13 @@ LLDir_Win32::LLDir_Win32()
 	//
 	// We used to store the cache in AppData\Roaming, and the installer
 	// cleans up that version on upgrade.  JC
-	if(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, nullptr, &pPath) == S_OK)
-		wcscpy_s(w_str, pPath);
+	if (SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, nullptr, &pPath) == S_OK)
+	{
+		mOSCacheDir = ll_convert_wide_to_string(pPath);
+	}
 
 	CoTaskMemFree(pPath);
 	pPath = nullptr;
-
-	mOSCacheDir = utf16str_to_utf8str(llutf16string(w_str));
 
 	if (GetTempPath(MAX_PATH, w_str))
 	{
@@ -129,7 +85,7 @@ LLDir_Win32::LLDir_Win32()
 		{
 			w_str[wcslen(w_str)-1] = '\0'; /* Flawfinder: ignore */ // remove trailing slash
 		}
-		mTempDir = utf16str_to_utf8str(llutf16string(w_str));
+		mTempDir = ll_convert_wide_to_string(std::wstring(w_str));
 
 		if (mOSUserDir.empty())
 		{
@@ -182,14 +138,14 @@ LLDir_Win32::LLDir_Win32()
 
 	// Set working directory, for LLDir::getWorkingDir()
 	GetCurrentDirectory(MAX_PATH, w_str);
-	mWorkingDir = utf16str_to_utf8str(llutf16string(w_str));
+	mWorkingDir = ll_convert_wide_to_string(std::wstring(w_str));
 
 	// Set the executable directory
 	S32 size = GetModuleFileName(nullptr, w_str, MAX_PATH);
 	if (size)
 	{
 		w_str[size] = '\0';
-		mExecutablePathAndName = utf16str_to_utf8str(llutf16string(w_str));
+		mExecutablePathAndName = ll_convert_wide_to_string(std::wstring(w_str));
 		size_t path_end = mExecutablePathAndName.find_last_of('\\');
 		if (path_end != std::string::npos)
 		{
@@ -304,8 +260,8 @@ U32 LLDir_Win32::countFilesInDir(const std::string &dirname, const std::string &
 
 	WIN32_FIND_DATA FileData;
 
-	llutf16string pathname = utf8str_to_utf16str(dirname);
-	pathname += utf8str_to_utf16str(mask);
+	std::wstring pathname = ll_convert_string_to_wide(dirname);
+	pathname += ll_convert_string_to_wide(mask);
 	
 	if ((count_search_h = FindFirstFile(pathname.c_str(), &FileData)) != INVALID_HANDLE_VALUE)   
 	{
@@ -327,7 +283,7 @@ std::string LLDir_Win32::getCurPath()
 	WCHAR w_str[MAX_PATH];
 	GetCurrentDirectory(MAX_PATH, w_str);
 
-	return utf16str_to_utf8str(llutf16string(w_str));
+	return ll_convert_wide_to_string(std::wstring(w_str));
 }
 
 

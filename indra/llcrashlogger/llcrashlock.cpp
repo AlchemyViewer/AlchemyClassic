@@ -48,7 +48,7 @@
 
 bool LLCrashLock::isProcessAlive(U32 pid, const std::string& pname)
 {
-	std::wstring wpname = utf8str_to_utf16str(pname);
+	std::wstring wpname = ll_convert_string_to_wide(pname);
 
 	HANDLE snapshot;
 	PROCESSENTRY32 pe32;
@@ -195,7 +195,7 @@ LLSD LLCrashLock::getProcessList()
 bool LLCrashLock::fileExists(std::string filename)
 {
 #if LL_WINDOWS
-	return boost::filesystem::exists(boost::filesystem::path(utf8str_to_utf16str(filename).c_str()));
+	return boost::filesystem::exists(boost::filesystem::path(ll_convert_string_to_wide(filename).c_str()));
 #else
 	return boost::filesystem::exists(boost::filesystem::path(filename.c_str()));
 #endif
@@ -204,7 +204,7 @@ bool LLCrashLock::fileExists(std::string filename)
 void LLCrashLock::cleanupProcess(std::string proc_dir)
 {
 #if LL_WINDOWS
-	boost::filesystem::remove_all(boost::filesystem::path(utf8str_to_utf16str(proc_dir).c_str()));
+	boost::filesystem::remove_all(boost::filesystem::path(ll_convert_string_to_wide(proc_dir).c_str()));
 #else
     boost::filesystem::remove_all(boost::filesystem::path(proc_dir));
 #endif

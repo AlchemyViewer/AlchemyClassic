@@ -98,21 +98,21 @@ public:
 	{}
 
 	explicit stream_wrapper(char const * _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE)
-		: BaseType(utf8str_to_utf16str(_Filename).c_str(), _Mode)
+		: BaseType(ll_convert_string_to_wide(_Filename).c_str(), _Mode)
 	{
 	}
 
 	explicit stream_wrapper(const std::string& _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE)
-		: BaseType(utf8str_to_utf16str(_Filename), _Mode)
+		: BaseType(ll_convert_string_to_wide(_Filename), _Mode)
 	{
 	}
 
 	void open(char const* _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE) {
-		BaseType::open(utf8str_to_utf16str(_Filename).c_str(), _Mode);
+		BaseType::open(ll_convert_string_to_wide(_Filename).c_str(), _Mode);
 	}
 
 	void open(const std::string& _Filename, std::ios_base::openmode _Mode = DEFAULT_MODE) {
-		BaseType::open(utf8str_to_utf16str(_Filename), _Mode);
+		BaseType::open(ll_convert_string_to_wide(_Filename), _Mode);
 	}
 };
 

@@ -43,6 +43,8 @@
 
 #include "llcorehttputil.h"
 
+#include "bufferstream.h"
+
 /*
  * Workflow:
  * 1. LLViewerMedia::setOpenIDCookie()

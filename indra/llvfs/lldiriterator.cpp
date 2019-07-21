@@ -54,7 +54,7 @@ LLDirIterator::Impl::Impl(const std::string &dirname, const std::string &mask)
 	: mIsValid(false)
 {
 #if LL_WINDOWS
-	fs::path dir_path(utf8str_to_utf16str(dirname).c_str());
+	fs::path dir_path(ll_convert_string_to_wide(dirname).c_str());
 #else
 	fs::path dir_path(dirname);
 #endif

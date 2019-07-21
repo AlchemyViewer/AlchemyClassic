@@ -438,7 +438,7 @@ void LLAppViewerWin32::disableWinErrorReporting()
 {
 	std::string executable_name = gDirUtilp->getExecutableFilename();
 
-	if( S_OK == WerAddExcludedApplication( utf8str_to_utf16str(executable_name).c_str(), FALSE ) )
+	if( S_OK == WerAddExcludedApplication( ll_convert_string_to_wide(executable_name).c_str(), FALSE ) )
 	{
 		LL_INFOS() << "WerAddExcludedApplication() succeeded for " << executable_name << LL_ENDL;
 	}
@@ -739,9 +739,9 @@ void LLAppViewerWin32::initCrashReporting(bool reportFreeze)
 	STARTUPINFO startInfo={sizeof(startInfo)};
 	PROCESS_INFORMATION processInfo;
 
-	std::wstring exe_wstr = utf8str_to_utf16str(exe_path);
+	std::wstring exe_wstr = ll_convert_string_to_wide(exe_path);
 
-	std::wstring arg_wstr = utf8str_to_utf16str(arg_str);
+	std::wstring arg_wstr = ll_convert_string_to_wide(arg_str);
 
 	LL_INFOS("CrashReport") << "Creating crash reporter process " << exe_path << " with params: " << arg_str << LL_ENDL;
     if(CreateProcess(exe_wstr.c_str(),     

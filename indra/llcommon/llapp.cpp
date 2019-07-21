@@ -279,7 +279,7 @@ bool LLApp::parseCommandOptions(int argc, wchar_t** wargv)
 		if(wargv[ii][1] == '-') ++offset;
 
 #if LL_WINDOWS
-	name.assign(utf16str_to_utf8str(&wargv[ii][offset]));
+	name.assign(ll_convert_wide_to_string(&wargv[ii][offset]));
 #else
 	name.assign(wstring_to_utf8str(&wargv[ii][offset]));
 #endif
@@ -303,7 +303,7 @@ bool LLApp::parseCommandOptions(int argc, wchar_t** wargv)
 		++ii;
 
 #if LL_WINDOWS
-	value.assign(utf16str_to_utf8str((wargv[ii])));
+	value.assign(ll_convert_wide_to_string((wargv[ii])));
 #else
 	value.assign(wstring_to_utf8str((wargv[ii])));
 #endif
@@ -593,7 +593,7 @@ void LLApp::setMiniDumpDir(const std::string &path)
 
 	if(mExceptionHandler == nullptr) return;
 #ifdef LL_WINDOWS
-	std::wstring buffer(utf8str_to_utf16str(mDumpPath));
+	std::wstring buffer(ll_convert_string_to_wide(mDumpPath));
 	if (buffer.size() > MAX_MINDUMP_PATH_LENGTH) buffer.resize(MAX_MINDUMP_PATH_LENGTH);
 	mExceptionHandler->set_dump_path(buffer);
 #elif LL_LINUX

@@ -197,10 +197,10 @@ S32 wchar_to_utf8chars(llwchar in_char, char* outchars)
 	return outchars - base;
 }	
 
-S32 utf16chars_to_wchar(const utf16strtype* inchars, llwchar* outchar)
+S32 utf16chars_to_wchar(const U16* inchars, llwchar* outchar)
 {
-	const utf16strtype* base = inchars;
-	utf16strtype cur_char = *inchars++;
+	const U16* base = inchars;
+	U16 cur_char = *inchars++;
 	llwchar char32 = cur_char;
 	if ((cur_char >= 0xD800) && (cur_char <= 0xDFFF))
 	{
@@ -259,7 +259,7 @@ LLWString utf16str_to_wstring(const llutf16string &utf16str, S32 len)
 
 	S32 i = 0;
 	// craziness to make gcc happy (llutf16string.c_str() is tweaked on linux):
-	const utf16strtype* chars16 = &(*(utf16str.begin()));
+	const U16* chars16 = &(*(utf16str.begin()));
 	while (i < len)
 	{
 		llwchar cur_char;
@@ -276,22 +276,22 @@ LLWString utf16str_to_wstring(const llutf16string &utf16str)
 }
 
 // Length in llwchar (UTF-32) of the first len units (16 bits) of the given UTF-16 string.
-S32 utf16str_wstring_length(const llutf16string &utf16str, const S32 utf16_len)
+S32 utf16str_wstring_length(const std::wstring& wstr, const S32 utf16_len)
 {
 	S32 surrogate_pairs = 0;
 	// ... craziness to make gcc happy (llutf16string.c_str() is tweaked on linux):
-	const utf16strtype *const utf16_chars = &(*(utf16str.begin()));
+	const std::wstring::value_type *const utf16_chars = &(*(wstr.begin()));
 	S32 i = 0;
 	while (i < utf16_len)
 	{
-		const utf16strtype c = utf16_chars[i++];
+		const U16 c = utf16_chars[i++];
 		if (c >= 0xD800 && c <= 0xDBFF)		// See http://en.wikipedia.org/wiki/UTF-16
 		{   // Have first byte of a surrogate pair
 			if (i >= utf16_len)
 			{
 				break;
 			}
-			const utf16strtype d = utf16_chars[i];
+			const U16 d = utf16_chars[i];
 			if (d >= 0xDC00 && d <= 0xDFFF)
 			{   // Have valid second byte of a surrogate pair
 				surrogate_pairs++;
@@ -729,22 +729,64 @@ std::wstring ll_convert_string_to_wide(const std::string& in, unsigned int code_
 	return {&w_out[0]};
 }
 
+S32 wchartchars_to_llwchar(const std::wstring::value_type* inchars, llwchar* outchar)
+{
+	const std::wstring::value_type* base = inchars;
+	std::wstring::value_type cur_char = *inchars++;
+	llwchar char32 = cur_char;
+	if ((cur_char >= 0xD800) && (cur_char <= 0xDFFF))
+	{
+		// Surrogates
+		char32 = ((llwchar)(cur_char - 0xD800)) << 10;
+		cur_char = *inchars++;
+		char32 += (llwchar)(cur_char - 0xDC00) + 0x0010000UL;
+	}
+	else
+	{
+		char32 = (llwchar)cur_char;
+	}
+	*outchar = char32;
+	return inchars - base;
+}
+
 LLWString ll_convert_wide_to_wstring(const std::wstring& in)
 {
-    // This function, like its converse, is a placeholder, encapsulating a
-    // guilty little hack: the only "official" way nat has found to convert
-    // between std::wstring (16 bits on Windows) and LLWString (UTF-32) is
-    // by using iconv, which we've avoided so far. It kinda sorta works to
-    // just copy individual characters...
-    // The point is that if/when we DO introduce some more official way to
-    // perform such conversions, we should only have to call it here.
-    return { in.begin(), in.end() };
+	LLWString wout;
+	auto len = in.size();
+	if ((len <= 0) || in.empty()) return wout;
+
+	size_t i = 0;
+	// craziness to make gcc happy (llutf16string.c_str() is tweaked on linux):
+	const std::wstring::value_type* chars16 = &(*(in.begin()));
+	while (i < len)
+	{
+		llwchar cur_char;
+		i += wchartchars_to_llwchar(chars16 + i, &cur_char);
+		wout += cur_char;
+	}
+	return wout;
 }
 
 std::wstring ll_convert_wstring_to_wide(const LLWString& in)
 {
-    // See comments in ll_convert_wide_to_wstring()
-    return { in.begin(), in.end() };
+	std::wstring out;
+
+	size_t i = 0;
+	while (i < in.size())
+	{
+		U32 cur_char = in[i];
+		if (cur_char > 0xFFFF)
+		{
+			out += (0xD7C0 + (cur_char >> 10));
+			out += (0xDC00 | (cur_char & 0x3FF));
+		}
+		else
+		{
+			out += cur_char;
+		}
+		i++;
+	}
+	return out;
 }
 
 std::string ll_convert_string_to_utf8_string(const std::string& in)

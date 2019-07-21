@@ -1473,13 +1473,13 @@ BOOL LLViewerWindow::handlePaint(LLWindow *window,  S32 x,  S32 y, S32 width,  S
 				recording.getLastValue(LLStatViewer::SIM_PHYSICS_FPS), 
 				recording.getLastValue(LLStatViewer::SIM_TIME_DILATION));
 		S32 len = temp_str.length();
-		TextOutW(hdc, 0, 0, utf8str_to_utf16str(temp_str).c_str(), len);
+		TextOutW(hdc, 0, 0, ll_convert_string_to_wide(temp_str).c_str(), len);
 
 
 		LLVector3d pos_global = gAgent.getPositionGlobal();
 		temp_str = llformat( "Avatar pos %6.1lf %6.1lf %6.1lf", pos_global.mdV[0], pos_global.mdV[1], pos_global.mdV[2]);
 		len = temp_str.length();
-		TextOutW(hdc, 0, 25, utf8str_to_utf16str(temp_str).c_str(), len);
+		TextOutW(hdc, 0, 25, ll_convert_string_to_wide(temp_str).c_str(), len);
 
 		TextOutW(hdc, 0, 50, TEXT("Set \"HeadlessClient FALSE\" in settings.ini file to reenable"), 61);
 		EndPaint(window_handle, &ps); 
@@ -4342,7 +4342,7 @@ void LLViewerWindow::saveImageLocal(LLImageFormatted *image, const snapshot_save
 
 // Check if there is enough free space to save snapshot
 #ifdef LL_WINDOWS
-	boost::filesystem::path b_path(utf8str_to_utf16str(lastSnapshotDir));
+	boost::filesystem::path b_path(ll_convert_string_to_wide(lastSnapshotDir));
 #else
 	boost::filesystem::path b_path(lastSnapshotDir);
 #endif

@@ -121,11 +121,11 @@ void initExceptionHandler()
 
 		if (S_OK == WerAddExcludedApplication(exename.c_str(), FALSE))
 		{
-			LL_INFOS() << "WerAddExcludedApplication() succeeded for " << utf16str_to_utf8str(exename) << LL_ENDL;
+			LL_INFOS() << "WerAddExcludedApplication() succeeded for " << ll_convert_wide_to_string(exename) << LL_ENDL;
 		}
 		else
 		{
-			LL_INFOS() << "WerAddExcludedApplication() failed for " << utf16str_to_utf8str(exename) << LL_ENDL;
+			LL_INFOS() << "WerAddExcludedApplication() failed for " << ll_convert_wide_to_string(exename) << LL_ENDL;
 		}
 	}
 

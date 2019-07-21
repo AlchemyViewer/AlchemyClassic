@@ -2137,6 +2137,8 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     ${TCMALLOC_LIBRARIES}
     ${TBBMALLOC_LIBRARIES}
     ${LLAPPEARANCE_LIBRARIES}
+    absl::flat_hash_map
+    absl::node_hash_map
     )
 
 if (BUGSPLAT_DB)

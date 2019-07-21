@@ -52,6 +52,11 @@ public:
 
 	LLMaterialID& operator = (const LLMaterialID& pOtherMaterialID);
 
+	template <typename H>
+	friend H AbslHashValue(H h, const LLMaterialID& id) {
+		return H::combine_contiguous(std::move(h), id.mID, MATERIAL_ID_SIZE);
+	}
+
 	bool          isNull() const;
 
 	const U8*     get() const;

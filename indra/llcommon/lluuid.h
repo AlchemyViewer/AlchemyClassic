@@ -93,6 +93,11 @@ public:
 	bool	operator<(const LLUUID &rhs) const;
 	bool	operator>(const LLUUID &rhs) const;
 
+	template <typename H>
+	friend H AbslHashValue(H h, const LLUUID& id) {
+		return H::combine_contiguous(std::move(h), id.mData, UUID_BYTES);
+	}
+
 	// xor functions. Useful since any two random uuids xored together
 	// will yield a determinate third random unique id that can be
 	// used as a key in a single uuid that represents 2.

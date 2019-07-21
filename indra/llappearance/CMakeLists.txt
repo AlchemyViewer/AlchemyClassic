@@ -95,6 +95,8 @@ target_link_libraries(llappearance
     ${LLMESSAGE_LIBRARIES}
     ${LLCOREHTTP_LIBRARIES}
     ${LLCOMMON_LIBRARIES}
+    absl::flat_hash_map
+    absl::node_hash_map
     )
 
 if (BUILD_HEADLESS)

@@ -1561,14 +1561,6 @@ BOOL LLViewerWindow::handleDPIChanged(LLWindow *window, F32 ui_scale_factor, S32
     }
 }
 
-BOOL LLViewerWindow::handleWindowDidChangeScreen(LLWindow *window)
-{
-	LLCoordScreen window_rect;
-	mWindow->getSize(&window_rect);
-	reshape(window_rect.mX, window_rect.mY);
-	return TRUE;
-}
-
 void LLViewerWindow::handlePingWatchdog(LLWindow *window, const char * msg)
 {
 	LLAppViewer::instance()->pingMainloopTimeout(msg);
@@ -1629,7 +1621,7 @@ LLViewerWindow::LLViewerWindow(const Params& p)
 	mIgnoreActivate( FALSE ),
 	mResDirty(false),
 	mStatesDirty(false),
-	mCurrResolutionIndex(0),
+	mCurrResolutionIndex(0)
 {
 	// gKeyboard is still NULL, so it doesn't do LLWindowListener any good to
 	// pass its value right now. Instead, pass it a nullary function that
@@ -2893,7 +2885,8 @@ void LLViewerWindow::clearPopups()
 
 void LLViewerWindow::moveCursorToCenter()
 {
-	if (! gSavedSettings.getBOOL("DisableMouseWarp"))
+	static LLCachedControl<bool> disable_mouse_warp(gSavedSettings, "DisableMouseWarp");
+	if (!disable_mouse_warp)
 	{
 		S32 x = getWorldViewWidthScaled() / 2;
 		S32 y = getWorldViewHeightScaled() / 2;

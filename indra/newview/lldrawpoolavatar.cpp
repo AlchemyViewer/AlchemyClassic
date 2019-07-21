@@ -1871,7 +1871,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
             LLViewerTexture* tex = face->getTexture(LLRender::DIFFUSE_MAP);
             if (tex)
             {
-                if (tex->getIsAlphaMask())
+                if (tex->getIsAlphaMask(-1.f, -1.f))
                 {
                     is_alpha_mask = true;
                 }
@@ -1947,8 +1947,8 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 			{
 				auto& mesh_cache = avatar->getRiggedMatrixCache();
 				auto& mesh_id = skin->mMeshID;
-				auto rigged_matrix_data_iter = std::find_if(mesh_cache.begin(), mesh_cache.end(), [&mesh_id](decltype(mesh_cache[0]) & entry) { return entry.first == mesh_id; });
-				if (rigged_matrix_data_iter != avatar->getRiggedMatrixCache().cend())
+				auto rigged_matrix_data_iter = std::find_if(mesh_cache.begin(), mesh_cache.end(), [&mesh_id](const auto& entry) { return entry.first == mesh_id; });
+				if (rigged_matrix_data_iter != mesh_cache.cend() && (!avatar->isSelf() || !avatar->isEditingAppearance()))
 				{
 					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
 						rigged_matrix_data_iter->second.first,
@@ -1960,7 +1960,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 				else
 				{
 					// upload matrix palette to shader
-					LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
+					LL_ALIGN_16(static LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT]);
 					U32 count = LLSkinningUtil::getMeshJointCount(skin);
 					LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
 
@@ -2033,7 +2033,7 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 					0.5f,
 					0.75f
 				};
-				float spec = alpha[te->getShiny() & TEM_SHINY_MASK];
+				float spec = alpha[tex_entry->getShiny() & TEM_SHINY_MASK];
 				LLColor4 specColor(spec, spec, spec, spec);
 				F32 env = spec;
 

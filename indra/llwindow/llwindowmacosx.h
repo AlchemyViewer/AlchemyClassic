@@ -138,7 +138,7 @@ protected:
 		U32 window_mode, BOOL clearBg, U32 vsync_setting, BOOL use_gl,
 		BOOL ignore_pixel_depth,
 		U32 fsaa_samples);
-	~LLWindowMacOSX();
+		~LLWindowMacOSX();
 
 	void	initCursors();
 	BOOL	isValid();

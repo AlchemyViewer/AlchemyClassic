@@ -590,11 +590,10 @@
              layout="topleft"
 			 label_width="205"
              left="10"
-             max_val="9999"
-             min_val="-9999"
+             max_val="360"
+             min_val="-360"
              name="TexRot"
              width="265" />
-
             <spinner
              follows="left|top"
              height="19"
@@ -604,6 +603,7 @@
              layout="topleft"
              left="10"
              min_val="-1"
+             max_val="1"
              name="TexOffsetU"
              width="265" />
             <spinner
@@ -615,6 +615,7 @@
              layout="topleft"
              left="10"
              min_val="-1"
+             max_val="1"
              name="TexOffsetV"
              width="265" />
             <spinner
@@ -654,10 +655,9 @@
 			 label_width="205"
              left="10"
              max_val="360"
-             min_val="0"
+             min_val="-360"
              name="bumpyRot"
              width="265" />
-
             <spinner
              follows="left|top"
              height="19"
@@ -666,7 +666,8 @@
              label_width="205"
              layout="topleft"
              left="10"
-             min_val="0"
+             min_val="-1"
+             max_val="1"
              name="bumpyOffsetU"
              width="265" />
             <spinner
@@ -677,7 +678,8 @@
              label_width="205"
              layout="topleft"
              left="10"
-             min_val="0"
+             min_val="-1"
+             max_val="1"
              name="bumpyOffsetV"
              width="265" />
             <spinner
@@ -717,10 +719,9 @@
 			 label_width="205"
              left="10"
              max_val="360"
-             min_val="0"
+             min_val="-360"
              name="shinyRot"
              width="265" />
-
             <spinner
              follows="left|top"
              height="19"
@@ -729,7 +730,8 @@
              label_width="205"
              layout="topleft"
              left="10"
-             min_val="0"
+             min_val="-1"
+             max_val="1"
              name="shinyOffsetU"
              width="265" />
             <spinner
@@ -740,7 +742,8 @@
              label_width="205"
              layout="topleft"
              left="10"
-             min_val="0"
+             min_val="-1"
+             max_val="1"
              name="shinyOffsetV"
              width="265" />
             <check_box

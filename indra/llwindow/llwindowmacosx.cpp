@@ -885,7 +885,7 @@ BOOL LLWindowMacOSX::getSize(LLCoordWindow *size)
 	}
 	else if(mWindow)
 	{
-		getScaledContentViewBounds(mWindow, mGLView, rect);
+		getContentViewBounds(mWindow, rect);
 		
 		size->mX = rect[2];
 		size->mY = rect[3];
@@ -1130,6 +1130,7 @@ BOOL LLWindowMacOSX::getCursorPosition(LLCoordWindow *position)
 		cursor_point[1] += mCursorLastEventDeltaY;
 	}
     float scale = getScaleFactor();
+	float scale = getSystemUISize();
 	position->mX = cursor_point[0] * scale;
 	position->mY = cursor_point[1] * scale;
 

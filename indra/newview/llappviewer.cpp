@@ -273,6 +273,10 @@ extern BOOL gRandomizeFramerate;
 extern BOOL gPeriodicSlowFrame;
 extern BOOL gDebugGL;
 
+#if LL_DARWIN
+extern BOOL gHiDPISupport;
+#endif
+
 ////////////////////////////////////////////////////////////
 // All from the last globals push...
 

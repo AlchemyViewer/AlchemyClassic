@@ -29,6 +29,8 @@
 #import "llappdelegate-objc.h"
 #import <Carbon/Carbon.h> // for keycodes
 
+extern BOOL gHiDPISupport;
+
 #pragma mark local functions
 
 NativeKeyEventData extractKeyDataFromKeyEvent(NSEvent* theEvent)
@@ -141,8 +143,8 @@ attributedStringInfo getSegments(NSAttributedString *str)
 {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowResized:) name:NSWindowDidResizeNotification
-											   object:[self window]];    
- 
+											   object:[self window]];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(windowWillMiniaturize:) name:NSWindowWillMiniaturizeNotification
 											   object:[self window]];

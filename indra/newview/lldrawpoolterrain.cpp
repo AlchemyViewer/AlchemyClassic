@@ -215,7 +215,7 @@ void LLDrawPoolTerrain::render(S32 pass)
 	static LLCachedControl<bool> showParcelOwners(gSavedSettings, "ShowParcelOwners");
 	if (showParcelOwners)
 	{
-		renderParcelOwnersOverlay();
+		renderParcelOwnersOverlay(false);
 	}
 }
 
@@ -250,7 +250,7 @@ void LLDrawPoolTerrain::renderDeferred(S32 pass)
     static LLCachedControl<bool> s_showParcelOwners(gSavedSettings, "ShowParcelOwners");
     if (s_showParcelOwners)
 	{
-		renderParcelOwnersOverlay();
+		renderParcelOwnersOverlay(true);
 	}
 
 }
@@ -441,13 +441,13 @@ void LLDrawPoolTerrain::renderFullShader()
 	gGL.matrixMode(LLRender::MM_MODELVIEW);
 }
 
-void LLDrawPoolTerrain::renderParcelOwnersOverlay()
+void LLDrawPoolTerrain::renderParcelOwnersOverlay(bool deferred)
 {
 	if (mVertexShaderLevel > 1)
 	{ //use fullbright shader for highlighting
 		LLGLSLShader* old_shader = sShader;
 		sShader->unbind();
-		sShader = &gHighlightProgram;
+		sShader = deferred ? &gDeferredHighlightProgram : &gHighlightProgram;
 		sShader->bind();
 		gGL.diffuseColor4f(1, 1, 1, 1);
 		LLGLEnable polyOffset(GL_POLYGON_OFFSET_FILL);

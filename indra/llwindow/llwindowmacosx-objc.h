@@ -31,6 +31,9 @@
 #include <map>
 #include <vector>
 
+//fir CGSize
+#include <CoreGraphics/CGGeometry.h>
+
 typedef std::vector<std::pair<int, bool> > segment_t;
 
 typedef std::vector<int> segment_lengths;
@@ -139,6 +142,7 @@ void callWindowFocus();
 void callWindowUnfocus();
 void callWindowHide();
 void callWindowUnhide();
+void callWindowDidChangeScreen();
 void callDeltaUpdate(double *delta, unsigned int mask);
 void callMiddleMouseDown(float *pos, unsigned int mask);
 void callMiddleMouseUp(float *pos, unsigned int mask);

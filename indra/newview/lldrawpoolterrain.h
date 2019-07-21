@@ -85,7 +85,7 @@ protected:
 	void drawLoop();
 
 private:
-	void renderParcelOwnersOverlay();
+	void renderParcelOwnersOverlay(bool deferred);
 };
 
 #endif // LL_LLDRAWPOOLSIMPLE_H

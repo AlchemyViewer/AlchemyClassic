@@ -537,6 +537,7 @@ void MediaPluginCEF::receiveMessage(const char* message_string)
 				settings.webgl_enabled = true;
 				settings.log_file = mCefLogFile;
 				settings.log_verbose = mEnableMediaPluginDebugging;
+				settings.autoplay_without_gesture = true;
 
 				std::vector<std::string> custom_schemes;
 				custom_schemes.emplace_back("secondlife");

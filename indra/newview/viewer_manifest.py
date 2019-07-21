@@ -578,7 +578,6 @@ class WindowsManifest(ViewerManifest):
                 self.path("natives_blob.bin")
                 self.path("snapshot_blob.bin")
                 self.path("v8_context_snapshot.bin")
-                self.path("widevinecdmadapter.dll")
 
             # CEF runtime files for software rendering - debug
             if self.args['configuration'].lower() == 'debug':

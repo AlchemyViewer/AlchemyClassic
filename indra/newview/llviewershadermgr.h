@@ -252,6 +252,10 @@ extern LLGLSLShader			gHighlightProgram;
 extern LLGLSLShader			gHighlightNormalProgram;
 extern LLGLSLShader			gHighlightSpecularProgram;
 
+extern LLGLSLShader			gDeferredHighlightProgram;
+extern LLGLSLShader			gDeferredHighlightNormalProgram;
+extern LLGLSLShader			gDeferredHighlightSpecularProgram;
+
 // avatar shader handles
 extern LLGLSLShader			gAvatarProgram;
 extern LLGLSLShader			gAvatarWaterProgram;
@@ -300,6 +304,10 @@ extern LLGLSLShader			gDeferredPostNoDoFProgram;
 extern LLGLSLShader			gDeferredPostGammaCorrectProgram;
 extern LLGLSLShader			gDeferredAvatarShadowProgram;
 extern LLGLSLShader			gDeferredAttachmentShadowProgram;
+extern LLGLSLShader			gDeferredAttachmentAlphaShadowProgram;
+extern LLGLSLShader			gDeferredAttachmentAlphaMaskShadowProgram;
+extern LLGLSLShader			gDeferredAvatarAlphaShadowProgram;
+extern LLGLSLShader			gDeferredAvatarAlphaMaskShadowProgram;
 extern LLGLSLShader			gDeferredAlphaProgram;
 extern LLGLSLShader			gDeferredAlphaImpostorProgram;
 extern LLGLSLShader			gDeferredFullbrightProgram;

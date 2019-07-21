@@ -11,8 +11,10 @@ project(${ROOT_PROJECT_NAME})
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 
-include(Variables)
-include(BuildVersion)
+if(MSVC)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif(MSVC)
+
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -22,7 +24,14 @@ if (NOT CMAKE_BUILD_TYPE)
       "Build type.  One of: Debug Release RelWithDebInfo" FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
+include(Variables)
+include(BuildVersion)
+
 add_subdirectory(cmake)
+
+include(Abseil-CPP)
+set(BUILD_TESTING OFF)
+add_subdirectory(${ABSEIL_SRC_DIR} ${ABSEIL_BIN_DIR})
 
 add_subdirectory(${LIBS_OPEN_PREFIX}llaudio)
 add_subdirectory(${LIBS_OPEN_PREFIX}llappearance)

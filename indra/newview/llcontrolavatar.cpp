@@ -60,6 +60,8 @@ LLControlAvatar::LLControlAvatar(const LLUUID& id, const LLPCode pcode, LLViewer
 // virtual
 LLControlAvatar::~LLControlAvatar()
 {
+	// Should already have been unlinked before destruction
+	llassert(!mRootVolp);
 }
 
 // virtual
@@ -82,18 +84,12 @@ void LLControlAvatar::getNewConstraintFixups(LLVector3& new_pos_fixup, F32& new_
 {
 
     F32 max_legal_offset = MAX_LEGAL_OFFSET;
-    if (gSavedSettings.getControl("AnimatedObjectsMaxLegalOffset"))
-    {
-        max_legal_offset = gSavedSettings.getF32("AnimatedObjectsMaxLegalOffset");
-    }
-	max_legal_offset = llmax(max_legal_offset,0.f);
+	static LLCachedControl<F32> animated_object_max_legal_offset(gSavedSettings, "AnimatedObjectsMaxLegalOffset");
+	max_legal_offset = llmax(animated_object_max_legal_offset(),0.f);
 
     F32 max_legal_size = MAX_LEGAL_SIZE;
-    if (gSavedSettings.getControl("AnimatedObjectsMaxLegalSize"))
-    {
-        max_legal_size = gSavedSettings.getF32("AnimatedObjectsMaxLegalSize");
-    }
-	max_legal_size = llmax(max_legal_size, 1.f);
+	static LLCachedControl<F32> animated_object_max_legal_size(gSavedSettings, "AnimatedObjectsMaxLegalSize");
+	max_legal_size = llmax(animated_object_max_legal_size(), 1.f);
     
     new_pos_fixup = LLVector3();
     new_scale_fixup = 1.0f;
@@ -124,22 +120,22 @@ void LLControlAvatar::getNewConstraintFixups(LLVector3& new_pos_fixup, F32& new_
 				F32 target_dist = (offset_dist - max_legal_offset);
 				new_pos_fixup = (target_dist/offset_dist)*pos_box_offset;
 			}
-			if (new_pos_fixup != mPositionConstraintFixup)
-			{
-				LL_DEBUGS("ConstraintFix") << getFullname() << " pos fix, offset_dist " << offset_dist << " pos fixup " 
-										   << new_pos_fixup << " was " << mPositionConstraintFixup << LL_ENDL;
-				LL_DEBUGS("ConstraintFix") << "vol_pos " << vol_pos << LL_ENDL;
-				LL_DEBUGS("ConstraintFix") << "extents " << extents[0] << " " << extents[1] << LL_ENDL;
-				LL_DEBUGS("ConstraintFix") << "unshift_extents " << unshift_extents[0] << " " << unshift_extents[1] << LL_ENDL;
-				
-			}
+			//if (new_pos_fixup != mPositionConstraintFixup)
+			//{
+			//	LL_DEBUGS("ConstraintFix") << getFullname() << " pos fix, offset_dist " << offset_dist << " pos fixup " 
+			//							   << new_pos_fixup << " was " << mPositionConstraintFixup << LL_ENDL;
+			//	LL_DEBUGS("ConstraintFix") << "vol_pos " << vol_pos << LL_ENDL;
+			//	LL_DEBUGS("ConstraintFix") << "extents " << extents[0] << " " << extents[1] << LL_ENDL;
+			//	LL_DEBUGS("ConstraintFix") << "unshift_extents " << unshift_extents[0] << " " << unshift_extents[1] << LL_ENDL;
+			//	
+			//}
 		}
         if (box_size/mScaleConstraintFixup > max_legal_size)
         {
             new_scale_fixup = mScaleConstraintFixup*max_legal_size/box_size;
-            LL_DEBUGS("ConstraintFix") << getFullname() << " scale fix, box_size " << box_size << " fixup " 
-									   << mScaleConstraintFixup << " max legal " << max_legal_size 
-									   << " -> new scale " << new_scale_fixup << LL_ENDL;
+            //LL_DEBUGS("ConstraintFix") << getFullname() << " scale fix, box_size " << box_size << " fixup "
+            //						   << mScaleConstraintFixup << " max legal " << max_legal_size
+            //						   << " -> new scale " << new_scale_fixup << LL_ENDL;
         }
     }
 }
@@ -163,6 +159,8 @@ void LLControlAvatar::matchVolumeTransform()
 		mPositionConstraintFixup = new_pos_fixup;
 		mScaleConstraintFixup = new_scale_fixup;
 
+		static LLCachedControl<F32> global_scale(gSavedSettings, "AnimatedObjectsGlobalScale", 1.f);
+
         if (mRootVolp->isAttachment())
         {
             LLVOAvatar *attached_av = mRootVolp->getAvatarAncestor();
@@ -180,7 +178,6 @@ void LLControlAvatar::matchVolumeTransform()
                 mRoot->setWorldRotation(obj_rot * joint_rot);
                 setRotation(mRoot->getRotation());
 
-				F32 global_scale = gSavedSettings.getF32("AnimatedObjectsGlobalScale");
 				setGlobalScale(global_scale * mScaleConstraintFixup);
             }
             else
@@ -219,7 +216,7 @@ void LLControlAvatar::matchVolumeTransform()
 	        const LLMeshSkinInfo* skin_info = mRootVolp->getSkinInfo();
 			if (skin_info)
 			{
-                LL_DEBUGS("BindShape") << getFullname() << " bind shape " << skin_info->mBindShapeMatrix << LL_ENDL;
+                //LL_DEBUGS("BindShape") << getFullname() << " bind shape " << skin_info->mBindShapeMatrix << LL_ENDL;
                 bind_rot = LLSkinningUtil::getUnscaledQuaternion(skin_info->mBindShapeMatrix);
 			}
 #endif
@@ -228,7 +225,6 @@ void LLControlAvatar::matchVolumeTransform()
 			setPositionAgent(vol_pos);
 			mRoot->setPosition(vol_pos + mPositionConstraintFixup);
 
-            F32 global_scale = gSavedSettings.getF32("AnimatedObjectsGlobalScale");
             setGlobalScale(global_scale * mScaleConstraintFixup);
         }
     }
@@ -336,6 +332,7 @@ LLControlAvatar *LLControlAvatar::createControlAvatar(LLVOVolume *obj)
 void LLControlAvatar::markForDeath()
 {
     mMarkedForDeath = true;
+    mRootVolp = NULL;
 }
 
 void LLControlAvatar::idleUpdate(LLAgent &agent, const F64 &time)
@@ -359,7 +356,8 @@ BOOL LLControlAvatar::updateCharacter(LLAgent &agent)
 //virtual
 void LLControlAvatar::updateDebugText()
 {
-	if (gSavedSettings.getBOOL("DebugAnimatedObjects"))
+	static LLCachedControl<bool> debug_animated_objects(gSavedSettings, "DebugAnimatedObjects");
+	if (debug_animated_objects)
     {
         S32 total_linkset_count = 0;
         if (mRootVolp)
@@ -492,7 +490,7 @@ void LLControlAvatar::getAnimatedVolumes(std::vector<LLVOVolume*>& volumes)
 		 iter != child_list.end(); ++iter)
 	{
 		LLViewerObject* childp = *iter;
-        LLVOVolume *child_volp = dynamic_cast<LLVOVolume*>(childp);
+        LLVOVolume *child_volp = childp ? childp->asVolume() : nullptr;
         if (child_volp && child_volp->isAnimatedObject())
         {
             volumes.push_back(child_volp);
@@ -635,8 +633,11 @@ void LLControlAvatar::onRegionChanged()
 	std::vector<LLCharacter*>::iterator it = LLCharacter::sInstances.begin();
 	for ( ; it != LLCharacter::sInstances.end(); ++it)
 	{
-		LLControlAvatar* cav = dynamic_cast<LLControlAvatar*>(*it);
-		if (!cav) continue;
-		cav->mRegionChanged = true;
+		auto avatar = static_cast<LLVOAvatar*>(*it);
+		if (!avatar->isDead() && avatar->isControlAvatar())
+		{
+			LLControlAvatar* cav = static_cast<LLControlAvatar*>(avatar);
+			cav->mRegionChanged = true;
+		}
 	}
 }

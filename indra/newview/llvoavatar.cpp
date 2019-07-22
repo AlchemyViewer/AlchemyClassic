@@ -1409,7 +1409,7 @@ void LLVOAvatar::calculateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
                     // Don't we need to look at children of attached_object as well?
                     if (attached_object && !attached_object->isHUDAttachment())
                     {
-                        const LLVOVolume *vol = dynamic_cast<const LLVOVolume*>(attached_object);
+                        LLVOVolume *vol = attached_object->asVolume();
                         if (vol && vol->isAnimatedObject())
                         {
                             // Animated objects already have a bounding box in their control av, use that. 
@@ -1995,7 +1995,7 @@ void LLVOAvatar::resetVisualParams()
 			 ++iter)
 		{
 			LLPolySkeletalDistortionInfo *info = (LLPolySkeletalDistortionInfo*)*iter;
-			LLPolySkeletalDistortion *param = dynamic_cast<LLPolySkeletalDistortion*>(getVisualParam(info->getID()));
+			LLPolySkeletalDistortion *param = static_cast<LLPolySkeletalDistortion*>(getVisualParam(info->getID()));
             *param = LLPolySkeletalDistortion(this);
             llassert(param);
 			if (!param->setInfo(info))
@@ -2011,7 +2011,7 @@ void LLVOAvatar::resetVisualParams()
 		 ++iter)
 	{
 		LLDriverParamInfo *info = *iter;
-        LLDriverParam *param = dynamic_cast<LLDriverParam*>(getVisualParam(info->getID()));
+        LLDriverParam *param = static_cast<LLDriverParam*>(getVisualParam(info->getID()));
         LLDriverParam::entry_list_t driven_list = param->getDrivenList();
         *param = LLDriverParam(this);
         llassert(param);
@@ -3406,8 +3406,7 @@ void LLVOAvatar::invalidateNameTags()
 	std::vector<LLCharacter*>::iterator it = LLCharacter::sInstances.begin();
 	for ( ; it != LLCharacter::sInstances.end(); ++it)
 	{
-		LLVOAvatar* avatar = dynamic_cast<LLVOAvatar*>(*it);
-		if (!avatar) continue;
+        LLVOAvatar* avatar = static_cast<LLVOAvatar*>(*it);
 		if (avatar->isDead()) continue;
 
 		avatar->clearNameTag();
@@ -3694,7 +3693,7 @@ void LLVOAvatar::updateAnimationDebugText()
             {
                 if (isControlAvatar())
                 {
-                    LLControlAvatar *control_av = dynamic_cast<LLControlAvatar*>(this);
+                    LLControlAvatar *control_av = static_cast<LLControlAvatar*>(this);
                     // Try to get name from inventory of associated object
                     LLVOVolume *volp = control_av->mRootVolp;
                     LLViewerInventoryItem *item = recursiveGetObjectInventoryItem(volp,motionp->getID());
@@ -6071,10 +6070,9 @@ void LLVOAvatar::rebuildAttachmentOverrides()
     clearAttachmentOverrides();
 
     // Handle the case that we're resetting the skeleton of an animated object.
-    LLControlAvatar *control_av = dynamic_cast<LLControlAvatar*>(this);
-    if (control_av)
+    if (isControlAvatar())
     {
-        LLVOVolume *volp = control_av->mRootVolp;
+        LLVOVolume *volp = static_cast<LLControlAvatar*>(this)->mRootVolp;
         if (volp)
         {
             LL_DEBUGS("Avatar") << volp->getID() << " adding attachment overrides for root vol, prim count " 
@@ -6093,7 +6091,7 @@ void LLVOAvatar::rebuildAttachmentOverrides()
             {
                 // Attached animated objects affect joints in their control
                 // avs, not the avs to which they are attached.
-                if (!vo->isAnimatedObject())
+                if (vo && !vo->isAnimatedObject())
                 {
 					addAttachmentOverridesForObject(vo);
                 }
@@ -6118,9 +6116,9 @@ void LLVOAvatar::updateAttachmentOverrides()
     std::set<LLUUID> meshes_seen;
     
     // Handle the case that we're updating the skeleton of an animated object.
-    LLControlAvatar *control_av = dynamic_cast<LLControlAvatar*>(this);
-    if (control_av)
+    if (isControlAvatar())
     {
+        LLControlAvatar *control_av = static_cast<LLControlAvatar*>(this);
         LLVOVolume *volp = control_av->mRootVolp;
         if (volp)
         {
@@ -6144,7 +6142,7 @@ void LLVOAvatar::updateAttachmentOverrides()
                 LLViewerObject *vo = *at_it;
                 // Attached animated objects affect joints in their control
                 // avs, not the avs to which they are attached.
-                if (!vo->isAnimatedObject())
+                if (vo && !vo->isAnimatedObject())
                 {
                     addAttachmentOverridesForObject(vo, &meshes_seen);
                 }
@@ -6249,7 +6247,7 @@ void LLVOAvatar::addAttachmentOverridesForObject(LLViewerObject *vo, std::set<LL
         }
     }
 
-	LLVOVolume *vobj = dynamic_cast<LLVOVolume*>(vo);
+	LLVOVolume *vobj = vo->asVolume();
 	bool pelvisGotSet = false;
 
 	if (!vobj)
@@ -9738,16 +9736,14 @@ void showRigInfoTabExtents(LLVOAvatar *avatar, LLJointRiggingInfoTab& tab, S32& 
 
 void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
 {
-	for ( LLVOAvatar::attachment_map_t::iterator iter = mAttachmentPoints.begin(); iter != mAttachmentPoints.end(); ++iter )
+	for ( const auto& pair : mAttachmentPoints)
 	{
-		LLViewerJointAttachment* attachment = iter->second;
-		LLViewerJointAttachment::attachedobjs_vec_t::iterator attach_end = attachment->mAttachedObjects.end();
-		
-		for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attach_iter = attachment->mAttachedObjects.begin();
-			 attach_iter != attach_end; ++attach_iter)
+		for(LLViewerObject* attached_object : pair.second->mAttachedObjects)
 		{
-			LLViewerObject* attached_object =  *attach_iter;
-            LLVOVolume *volume = dynamic_cast<LLVOVolume*>(attached_object);
+			if (!attached_object)
+				continue;
+
+            LLVOVolume *volume = attached_object->asVolume();
             if (volume)
             {
                 volumes.push_back(volume);
@@ -9760,11 +9756,12 @@ void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
                 }
             }
             LLViewerObject::const_child_list_t& children = attached_object->getChildren();
-            for (LLViewerObject::const_child_list_t::const_iterator it = children.begin();
-                 it != children.end(); ++it)
+			for (LLViewerObject* childp : children)
             {
-                LLViewerObject *childp = *it;
-                LLVOVolume *volume = dynamic_cast<LLVOVolume*>(childp);
+				if (!childp) 
+					continue;
+
+                LLVOVolume *volume = childp->asVolume();
                 if (volume)
                 {
                     volumes.push_back(volume);
@@ -9773,10 +9770,10 @@ void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
         }
     }
 
-    LLControlAvatar *control_av = dynamic_cast<LLControlAvatar*>(this);
-    if (control_av)
+    if (isControlAvatar())
     {
-        LLVOVolume *volp = control_av->mRootVolp;
+		LLControlAvatar *control_av = static_cast<LLControlAvatar*>(this);
+		LLVOVolume *volp = control_av->mRootVolp;
         if (volp)
         {
             volumes.push_back(volp);
@@ -9785,7 +9782,7 @@ void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
                  it != children.end(); ++it)
             {
                 LLViewerObject *childp = *it;
-                LLVOVolume *volume = dynamic_cast<LLVOVolume*>(childp);
+                LLVOVolume *volume = childp ? childp->asVolume() : nullptr;
                 if (volume)
                 {
                     volumes.push_back(volume);
@@ -9969,8 +9966,8 @@ void LLVOAvatar::idleUpdateRenderComplexity()
 {
     if (isControlAvatar())
     {
-        LLControlAvatar *cav = dynamic_cast<LLControlAvatar*>(this);
-        bool is_attachment = cav && cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
+        LLControlAvatar *cav = static_cast<LLControlAvatar*>(this);
+        bool is_attachment = cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
         if (is_attachment)
         {
             // ARC for animated object attachments is accounted with the avatar they're attached to.
@@ -10108,7 +10105,7 @@ void LLVOAvatar::accountRenderComplexityForObject(
                      ++child_iter)
                 {
                     LLViewerObject* child_obj = *child_iter;
-                    LLVOVolume *child = dynamic_cast<LLVOVolume*>( child_obj );
+                    LLVOVolume *child = child_obj ? child_obj->asVolume() : nullptr;
                     if (child)
                     {
                         attachment_children_cost += child->getRenderCost(textures);
@@ -10163,7 +10160,7 @@ void LLVOAvatar::accountRenderComplexityForObject(
                  iter != child_list.end(); ++iter)
             {
                 LLViewerObject* childp = *iter;
-                const LLVOVolume* chld_volume = dynamic_cast<LLVOVolume*>(childp);
+                const LLVOVolume* chld_volume = childp ? childp->asVolume() : nullptr;
                 if (chld_volume)
                 {
                     // get cost and individual textures
@@ -10242,10 +10239,10 @@ void LLVOAvatar::calculateUpdateRenderComplexity()
         // A standalone animated object needs to be accounted for
         // using its associated volume. Attached animated objects
         // will be covered by the subsequent loop over attachments.
-        LLControlAvatar *control_av = dynamic_cast<LLControlAvatar*>(this);
-        if (control_av)
+        if (isControlAvatar())
         {
-            LLVOVolume *volp = control_av->mRootVolp;
+			LLControlAvatar *control_av = static_cast<LLControlAvatar*>(this);
+			LLVOVolume *volp = control_av->mRootVolp;
             if (volp && !volp->isAttachment())
             {
                 accountRenderComplexityForObject(volp, max_attachment_complexity,

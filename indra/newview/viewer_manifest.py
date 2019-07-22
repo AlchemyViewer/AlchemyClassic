@@ -137,8 +137,8 @@ class ViewerManifest(LLManifest):
                 self.path("*.tga")
 
             # Include our fonts
-            with self.prefix(src_dst="fonts"):
-                self.path("fonts")
+            with self.prefix(src=os.path.join(pkgdir, "fonts"), dst="fonts"):
+                self.path("*.ttf")
 
             # skins
             with self.prefix(src_dst="skins"):
@@ -437,6 +437,12 @@ class WindowsManifest(ViewerManifest):
             # Find alchemy-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
             self.path(src='%s/alchemy-bin.exe' % self.args['configuration'], dst=self.final_exe())
 
+            with self.prefix(src=os.path.join(pkgdir, "redist")):
+                if(self.address_size == 64):
+                    self.path('vc_redist.x64.exe')
+                else:
+                    self.path('vc_redist.x86.exe')
+
             with self.prefix(src=os.path.join(pkgdir, "VMP")):
                 # include the compiled launcher scripts so that it gets included in the file_list
                 self.path('ALVersionChecker.exe')
@@ -506,9 +512,15 @@ class WindowsManifest(ViewerManifest):
             if(self.address_size == 64):
                 self.path("libcrypto-1_1-x64.dll")
                 self.path("libssl-1_1-x64.dll")
+                if not self.is_packaging_viewer():
+                    self.path("libcrypto-1_1-x64.pdb")
+                    self.path("libssl-1_1-x64.pdb")
             else:
                 self.path("libcrypto-1_1.dll")
                 self.path("libssl-1_1.dll")
+                if not self.is_packaging_viewer():
+                    self.path("libcrypto-1_1.pdb")
+                    self.path("libssl-1_1.pdb")
 
             # Hunspell
             self.path("libhunspell.dll")
@@ -753,25 +765,19 @@ class WindowsManifest(ViewerManifest):
             substitution_strings['caption'] = self.app_name() + ' ${VERSION}'
 
         inst_vars_template = """
+            !define INSTEXE "ALVersionChecker.exe"
+            !define VIEWER_EXE "%(final_exe)s"
             !define INSTOUTFILE "%(installer_file)s"
-            !define VIEWER_EXE  "%(final_exe)s"
-            !define LAUNCHER_EXE  "Alchemy_Launcher.exe"
             !define APPNAME   "%(app_name)s"
             !define APPNAMEONEWORD   "%(app_name_oneword)s"
-            !define VERSION "%(version_short)s"
-            !define VERSION_LONG "%(version)s"
-            !define VERSION_DASHES "%(version_dashes)s"
             !define URLNAME   "secondlife"
             !define CAPTIONSTR "%(caption)s"
             !define VENDORSTR "Alchemy Viewer Project"
+            !define VERSION "%(version_short)s"
+            !define VERSION_LONG "%(version)s"
+            !define VERSION_DASHES "%(version_dashes)s"
+            !define VERSION_REGISTRY "%(version_registry)s"
             """
-
-        if(self.address_size == 64):
-            engage_registry="SetRegView 64"
-            program_files="$PROGRAMFILES64"
-        else:
-            engage_registry="SetRegView 32"
-            program_files=""
 
         tempfile = "alchemy_setup_tmp.nsi"
         # the following replaces strings in the nsi template
@@ -780,11 +786,8 @@ class WindowsManifest(ViewerManifest):
                 "%%SOURCE%%":self.get_src_prefix(),
                 "%%INST_VARS%%":inst_vars_template % substitution_strings,
                 "%%INSTALL_FILES%%":self.nsi_file_commands(True),
-                "%%PROGRAMFILES%%":program_files,
-                "%%ENGAGEREGISTRY%%":engage_registry,
                 "%%DELETE_FILES%%":self.nsi_file_commands(False),
-                "%%WIN64_BIN_BUILD%%":"!define WIN64_BIN_BUILD 1" if (self.address_size == 64) else "",
-                })
+                "%%WIN64_BIN_BUILD%%":"!define WIN64_BIN_BUILD 1" if (self.address_size == 64) else "",})
 
         # If we're on a build machine, sign the code using our Authenticode certificate. JC
         # note that the enclosing setup exe is signed later, after the makensis makes it.

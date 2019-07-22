@@ -17,6 +17,7 @@ include(CMakeCopyIfDifferent)
 include(DBusGlib)
 include(DragDrop)
 include(EXPAT)
+include(FindVCRedist)
 include(FMODSTUDIO)
 include(GLOD)
 include(GLEW)
@@ -59,10 +60,6 @@ include(ViewerManager)
 include(VisualLeakDetector)
 include(ZLIB)
 include(URIPARSER)
-
-if (MSVC)
-    use_prebuilt_binary(vcredist)
-endif (MSVC)
 
 # <alchemy> if using ndPhysicsstub this variable will be unset, we don't need to build any stub code viewer side in that case
 if( LLPHYSICSEXTENSIONS_SRC_DIR )
@@ -1892,13 +1889,12 @@ if (WINDOWS)
       ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/ca-bundle.crt
       ${CMAKE_CURRENT_SOURCE_DIR}/licenses-win32.txt
       ${CMAKE_CURRENT_SOURCE_DIR}/featuretable.txt
-      ${ARCH_PREBUILT_DIRS_RELEASE}/libeay32.dll
-      ${ARCH_PREBUILT_DIRS_RELEASE}/ssleay32.dll
-      ${ARCH_PREBUILT_DIRS_DEBUG}/libeay32.dll
-      ${ARCH_PREBUILT_DIRS_DEBUG}/ssleay32.dll
+      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libcrypto-1_1-x64.dll
+      ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/libssl-1_1-x64.dll
       ${viewer_APPSETTINGS_FILES}
       AlchemyPlugin
       media_plugin_cef
+      media_plugin_libvlc
       windows-crash-logger
       )
 
@@ -1987,6 +1983,27 @@ if (WINDOWS)
 
     add_custom_target(copy_w_viewer_manifest ALL DEPENDS ${CMAKE_CFG_INTDIR}/copy_touched.bat)
 
+    if(EXISTS ${VISUAL_STUDIO_REDISTRIBUTABLE_PATH})
+      add_custom_command(
+        OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist"
+        DEPENDS copy_w_viewer_manifest
+        COMMENT "Creating redist dir"
+      )
+      add_custom_command(
+        OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		ARGS
+		${VISUAL_STUDIO_REDISTRIBUTABLE_PATH}
+		${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME}
+        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist
+        COMMENT "Copying ${VISUAL_STUDIO_REDISTRIBUTABLE_PATH} to redist dir"
+      )
+	
+      add_custom_target(copy_w_redist ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME})
+    endif()
+    
+	  
     add_dependencies(${VIEWER_BINARY_NAME} stage_third_party_libs llcommon copy_w_viewer_manifest)
 
     if (EXISTS ${CMAKE_SOURCE_DIR}/copy_win_scripts)
@@ -1996,7 +2013,13 @@ if (WINDOWS)
     add_dependencies(${VIEWER_BINARY_NAME}
       AlchemyPlugin
       windows-crash-logger
+    )
+
+    set_property(
+      TARGET ${VIEWER_BINARY_NAME}
+      PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       )
+
 
     if (PACKAGE)
       add_custom_command(

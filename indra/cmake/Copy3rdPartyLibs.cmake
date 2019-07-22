@@ -50,8 +50,45 @@ if(WINDOWS)
         openjpeg.dll
         glod.dll
         libhunspell.dll
+        libhunspell.pdb
         )
 
+    if(ADDRESS_SIZE EQUAL 64)
+      list(APPEND debug_files
+           libcrypto-1_1-x64.dll
+           libcrypto-1_1-x64.pdb
+           libssl-1_1-x64.dll
+           libssl-1_1-x64.pdb
+           )
+      list(APPEND release_files
+           libcrypto-1_1-x64.dll
+           libcrypto-1_1-x64.pdb
+           libssl-1_1-x64.dll
+           libssl-1_1-x64.pdb
+           )
+    else(ADDRESS_SIZE EQUAL 64)
+      list(APPEND debug_files
+           libcrypto-1_1.dll
+           libssl-1_1.dll
+           )
+      list(APPEND release_files
+           libcrypto-1_1.dll
+           libssl-1_1.dll
+           )
+    endif(ADDRESS_SIZE EQUAL 64)
+
+    if (LLCOMMON_LINK_SHARED)
+      list(APPEND debug_files 
+        libapr-1.dll
+        libaprutil-1.dll
+        libapriconv-1.dll
+        )
+      list(APPEND release_files 
+        libapr-1.dll
+        libaprutil-1.dll
+        libapriconv-1.dll
+        )
+    endif (LLCOMMON_LINK_SHARED)
     # Filenames are different for 32/64 bit BugSplat file and we don't
     # have any control over them so need to branch.
     if (BUGSPLAT_DB)
@@ -65,39 +102,6 @@ if(WINDOWS)
         set(release_files ${release_files} BsSndRpt64.exe)
       endif(ADDRESS_SIZE EQUAL 32)
     endif (BUGSPLAT_DB)
-
-    if(ADDRESS_SIZE STREQUAL 64)
-      list(APPEND debug_files
-           libcrypto-1_1-x64.dll
-           libssl-1_1-x64.dll
-           )
-      list(APPEND release_files
-           libcrypto-1_1-x64.dll
-           libssl-1_1-x64.dll
-           )
-    else(ADDRESS_SIZE STREQUAL 64)
-      list(APPEND debug_files
-           libcrypto-1_1.dll
-           libssl-1_1.dll
-           )
-      list(APPEND release_files
-           libcrypto-1_1.dll
-           libssl-1_1.dll
-           )
-    endif(ADDRESS_SIZE STREQUAL 64)
-		
-    if (LLCOMMON_LINK_SHARED)
-      list(APPEND debug_files 
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
-        )
-      list(APPEND release_files 
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
-        )
-    endif (LLCOMMON_LINK_SHARED)
 
     if(USE_TCMALLOC)
       list(APPEND debug_files libtcmalloc_minimal-debug.dll)
@@ -155,10 +159,10 @@ elseif(DARWIN)
       list(APPEND release_files libopenal.dylib libalut.dylib)
     endif (OPENAL)
 
-    if (FMODEX)
-      list(APPEND debug_files libfmodexL.dylib)
-      list(APPEND release_files libfmodex.dylib)
-    endif (FMODEX)
+    if (FMODSTUDIO)
+      list(APPEND debug_files libfmodL.dylib)
+      list(APPEND release_files libfmod.dylib)
+    endif (FMODSTUDIO)
 
 elseif(LINUX)
     # linux is weird, multiple side by side configurations aren't supported

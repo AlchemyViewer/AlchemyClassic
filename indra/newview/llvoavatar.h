@@ -218,7 +218,7 @@ public:
     // virtual
     void 					updateRiggingInfo();
 	// This encodes mesh id and LOD, so we can see whether display is up-to-date.
-	std::map<LLUUID,S32>	mLastRiggingInfoKey;
+	std::vector<std::pair<LLUUID, S32> >	mLastRiggingInfoKey;
 	
     std::set<LLUUID>		mActiveOverrideMeshes;
     virtual void			onActiveOverrideMeshesChanged();
@@ -460,6 +460,7 @@ public:
 	// the isTooComplex method uses these mutable values to avoid recalculating too frequently
 	mutable U32  mVisualComplexity;
 	mutable bool mVisualComplexityStale;
+	mutable F64	 mVisualComplexityUpdateTime;
 	U32          mReportedVisualComplexity; // from other viewers through the simulator
 
 	bool		mCachedInMuteList;
@@ -1052,7 +1053,7 @@ private:
 	// Avatar Rez Metrics
 	//--------------------------------------------------------------------
 public:
-	void 			debugAvatarRezTime(std::string notification_name, std::string comment = "");
+	void 			debugAvatarRezTime(const std::string& notification_name, const std::string& comment = "");
 	F32				debugGetExistenceTimeElapsedF32() const { return mDebugExistenceTimer.getElapsedTimeF32(); }
 
 protected:

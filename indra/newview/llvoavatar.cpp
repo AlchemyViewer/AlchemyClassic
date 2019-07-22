@@ -790,7 +790,7 @@ std::string LLVOAvatar::avString() const
     }
 }
 
-void LLVOAvatar::debugAvatarRezTime(std::string notification_name, std::string comment)
+void LLVOAvatar::debugAvatarRezTime(const std::string& notification_name, const std::string& comment)
 {
 	LL_INFOS("Avatar") << "REZTIME: [ " << (U32)mDebugExistenceTimer.getElapsedTimeF32()
 					   << "sec ]"
@@ -800,7 +800,8 @@ void LLVOAvatar::debugAvatarRezTime(std::string notification_name, std::string c
 					   << " : " << comment
 					   << LL_ENDL;
 
-	if (gSavedSettings.getBOOL("DebugAvatarRezTime"))
+	static const LLCachedControl<bool> debug_avatar_rez(gSavedSettings, "DebugAvatarRezTime");
+	if (debug_avatar_rez)
 	{
 		LLSD args;
 		args["EXISTENCE"] = llformat("%d",(U32)mDebugExistenceTimer.getElapsedTimeF32());
@@ -1347,7 +1348,7 @@ void LLVOAvatar::calculateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 {
     LL_RECORD_BLOCK_TIME(FTM_AVATAR_EXTENT_UPDATE);
 
-    S32 box_detail = gSavedSettings.getS32("AvatarBoundingBoxComplexity");
+    static LLCachedControl<S32> box_detail(gSavedSettings, "AvatarBoundingBoxComplexity");
 
     // FIXME the update_min_max function used below assumes there is a
     // known starting point, but in general there isn't. Ideally the
@@ -1404,7 +1405,7 @@ void LLVOAvatar::calculateSpatialExtents(LLVector4a& newMin, LLVector4a& newMax)
 
             if (attachment->getValid())
             {
-			for (const LLViewerObject* attached_object : attachment->mAttachedObjects)
+			for (LLViewerObject* attached_object : attachment->mAttachedObjects)
                 {
                     // Don't we need to look at children of attached_object as well?
                     if (attached_object && !attached_object->isHUDAttachment())
@@ -2464,8 +2465,9 @@ void LLVOAvatar::idleUpdate(LLAgent &agent, const F64 &time)
 		return;
 	}	
 
+	static LLCachedControl<bool> disable_all_render_types(gSavedSettings, "DisableAllRenderTypes");
 	if (!(gPipeline.hasRenderType(LLPipeline::RENDER_TYPE_AVATAR))
-		&& !(gSavedSettings.getBOOL("DisableAllRenderTypes")) && !isSelf())
+		&& !(disable_all_render_types) && !isSelf())
 	{
 		return;
 	}
@@ -9810,18 +9812,17 @@ void LLVOAvatar::updateRiggingInfo()
 		getAssociatedVolumes(volumes);
 	}
 
-	std::map<LLUUID,S32> curr_rigging_info_key;
+	std::vector<std::pair<LLUUID, S32> > curr_rigging_info_key;
 	{
 		LL_RECORD_BLOCK_TIME(FTM_AVATAR_RIGGING_KEY_UPDATE);
 		// Get current rigging info key
-		for (std::vector<LLVOVolume*>::iterator it = volumes.begin(); it != volumes.end(); ++it)
+		for (LLVOVolume *vol : volumes)
 		{
-			LLVOVolume *vol = *it;
-			if (vol->isMesh() && vol->getVolume())
+			if (vol->isRiggedMesh() && vol->getVolume() && vol->getVolume()->isMeshAssetLoaded())
 			{
 				const LLUUID& mesh_id = vol->getVolume()->getParams().getSculptID();
 				S32 max_lod = llmax(vol->getLOD(), vol->mLastRiggingInfoLOD);
-				curr_rigging_info_key[mesh_id] = max_lod;
+				curr_rigging_info_key.emplace_back(mesh_id, max_lod);
 			}
 		}
 		
@@ -9833,7 +9834,7 @@ void LLVOAvatar::updateRiggingInfo()
 	}
 
 	// Something changed. Update.
-	mLastRiggingInfoKey = curr_rigging_info_key;
+	mLastRiggingInfoKey.swap(curr_rigging_info_key);
     mJointRiggingInfoTab.clear();
     for (std::vector<LLVOVolume*>::iterator it = volumes.begin(); it != volumes.end(); ++it)
     {
@@ -9843,10 +9844,10 @@ void LLVOAvatar::updateRiggingInfo()
     }
 
     //LL_INFOS() << "done update rig count is " << countRigInfoTab(mJointRiggingInfoTab) << LL_ENDL;
-    LL_DEBUGS("RigSpammish") << getFullname() << " after update rig tab:" << LL_ENDL;
-    S32 joint_count, box_count;
-    showRigInfoTabExtents(this, mJointRiggingInfoTab, joint_count, box_count);
-    LL_DEBUGS("RigSpammish") << "uses " << joint_count << " joints " << " nonzero boxes: " << box_count << LL_ENDL;
+    //LL_DEBUGS("RigSpammish") << getFullname() << " after update rig tab:" << LL_ENDL;
+    //S32 joint_count, box_count;
+    //showRigInfoTabExtents(this, mJointRiggingInfoTab, joint_count, box_count);
+    //LL_DEBUGS("RigSpammish") << "uses " << joint_count << " joints " << " nonzero boxes: " << box_count << LL_ENDL;
 }
 
 // virtual
@@ -10196,22 +10197,26 @@ void LLVOAvatar::accountRenderComplexityForObject(
 // Calculations for mVisualComplexity value
 void LLVOAvatar::calculateUpdateRenderComplexity()
 {
-    /*****************************************************************
-     * This calculation should not be modified by third party viewers,
-     * since it is used to limit rendering and should be uniform for
-     * everyone. If you have suggested improvements, submit them to
-     * the official viewer for consideration.
-     *****************************************************************/
-	static const U32 COMPLEXITY_BODY_PART_COST = 200;
-	static LLCachedControl<F32> max_complexity_setting(gSavedSettings,"MaxAttachmentComplexity");
-	F32 max_attachment_complexity = max_complexity_setting;
-	max_attachment_complexity = llmax(max_attachment_complexity, DEFAULT_MAX_ATTACHMENT_COMPLEXITY);
-
-	// Diagnostic list of all textures on our avatar
-	static std::set<LLUUID> all_textures;
-
-	if (mVisualComplexityStale)
+	/*****************************************************************
+	 * This calculation should not be modified by third party viewers,
+	 * since it is used to limit rendering and should be uniform for
+	 * everyone. If you have suggested improvements, submit them to
+	 * the official viewer for consideration.
+	 *****************************************************************/
+	F64 now = LLFrameTimer::getTotalSeconds();
+	if (mVisualComplexityStale && now > mVisualComplexityUpdateTime)
 	{
+		const F64 SECONDS_BETWEEN_COMPLEXITY_UPDATES = 1.0;
+		mVisualComplexityUpdateTime = now + SECONDS_BETWEEN_COMPLEXITY_UPDATES;
+
+		static const U32 COMPLEXITY_BODY_PART_COST = 200;
+		static LLCachedControl<F32> max_complexity_setting(gSavedSettings,"MaxAttachmentComplexity");
+		F32 max_attachment_complexity = max_complexity_setting;
+		max_attachment_complexity = llmax(max_attachment_complexity, DEFAULT_MAX_ATTACHMENT_COMPLEXITY);
+
+		// Diagnostic list of all textures on our avatar
+		static std::set<LLUUID> all_textures;
+
 		U32 cost = VISUAL_COMPLEXITY_UNKNOWN;
 		LLVOVolume::texture_cost_t textures;
 		hud_complexity_list_t hud_complexity_list;

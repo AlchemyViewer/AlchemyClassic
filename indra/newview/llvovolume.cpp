@@ -5411,6 +5411,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 	group->mBuilt = 1.f;
 	
+#if 0 // <ALCHEMY> - This creates increased frame latency. Please do not uncomment
 	LLSpatialBridge* bridge = group->getSpatialPartition()->asBridge();
     LLViewerObject *vobj = NULL;
     LLVOVolume *vol_obj = NULL;
@@ -5424,6 +5425,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
     {
         vol_obj->updateVisualComplexity();
     }
+#endif
 
 	group->mGeometryBytes = 0;
 	group->mSurfaceArea = 0;
@@ -5447,8 +5449,8 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 
 	U32 useage = group->getSpatialPartition()->mBufferUsage;
 
-	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize");
-	static LLCachedControl<S32> max_node_size(gSavedSettings, "RenderMaxNodeSize");
+	static LLCachedControl<S32> max_vbo_size(gSavedSettings, "RenderMaxVBOSize", 512);
+	static LLCachedControl<S32> max_node_size(gSavedSettings, "RenderMaxNodeSize", 65536);
 	U32 max_vertices = (max_vbo_size * 1024) / LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
 	U32 max_total = (max_node_size * 1024) / LLVertexBuffer::calcVertexSize(group->getSpatialPartition()->mVertexDataMask);
 	max_vertices = llmin(max_vertices, (U32) 65535);

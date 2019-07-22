@@ -1172,7 +1172,18 @@ void LLVOVolume::notifySkinInfoLoaded(LLMeshSkinInfo* skin)
 	mSkinInfoFailed = false;
 	mSkinInfoReceived = true;
 	mSkinInfo = skin;
-	notifyMeshLoaded();
+
+	mSculptChanged = TRUE;
+	gPipeline.markRebuild(mDrawable, LLDrawable::REBUILD_RIGGED, TRUE);
+
+	if (getAvatar() && !isAnimatedObject())
+	{
+		getAvatar()->addAttachmentOverridesForObject(this);
+	}
+	if (getControlAvatar() && isAnimatedObject())
+	{
+		getControlAvatar()->addAttachmentOverridesForObject(this);
+	}
 }
 
 void LLVOVolume::notifySkinInfoUnavailable()
@@ -2003,13 +2014,14 @@ BOOL LLVOVolume::updateGeometry(LLDrawable *drawable)
 	else if (mLODChanged || mSculptChanged)
 	{
 		dirtySpatialGroup(drawable->isState(LLDrawable::IN_REBUILD_Q1));
-		compiled = TRUE;
-		lodOrSculptChanged(drawable, compiled);
-		
+
 		if(drawable->isState(LLDrawable::REBUILD_RIGGED | LLDrawable::RIGGED)) 
 		{
 			updateRiggedVolume(false);
 		}
+		compiled = TRUE;
+		lodOrSculptChanged(drawable, compiled);
+		
 		genBBoxes(FALSE);
 	}
 	// it has its own drawable (it's moved) or it has changed UVs or it has changed xforms from global<->local
@@ -2624,7 +2636,7 @@ LLVector3 LLVOVolume::getApproximateFaceNormal(U8 face_id)
 			result.add(face.mNormals[i]);
 		}
 
-		ret = LLVector3(result.getF32ptr()); // <alchemy/>
+		ret = LLVector3(result.getF32ptr());
 		ret = volumeDirectionToAgent(ret);
 		ret.normVec();
 	}
@@ -4705,6 +4717,12 @@ void LLVOVolume::updateRiggedVolume(bool force_update)
 	}
 
 	LLVolume* volume = getVolume();
+	if (!volume)
+	{
+		clearRiggedVolume();
+		return;
+	}
+
 	if (!mSkinInfo)
 	{
 		clearRiggedVolume();

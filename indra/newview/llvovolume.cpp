@@ -4812,8 +4812,6 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 		if ( weight )
 		{
             LLSkinningUtil::checkSkinWeights(weight, dst_face.mNumVertices, skin);
-			LLMatrix4a bind_shape_matrix;
-			bind_shape_matrix.loadu(skin->mBindShapeMatrix);
 
 			LLVector4a* pos = dst_face.mPositions;
 
@@ -4827,14 +4825,12 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				for (U32 j = 0; j < dst_face.mNumVertices; ++j)
 				{
 					LLMatrix4a final_mat;
-                    LLSkinningUtil::getPerVertexSkinMatrix(weight[j].getF32ptr(), mat, false, final_mat, max_joints);
+                    LLSkinningUtil::getPerVertexSkinMatrix(weight[j], mat, false, final_mat, max_joints);
 				
 					LLVector4a& v = vol_face.mPositions[j];
-					LLVector4a t;
 					LLVector4a dst;
-					bind_shape_matrix.affineTransform(v, t);
-					final_mat.affineTransform(t, dst);
-					pos[j] = dst;
+					skin->mBindShapeMatrix.affineTransform(v, dst);
+					final_mat.affineTransform(dst, pos[j]);
 				}
 
 				//update bounding box

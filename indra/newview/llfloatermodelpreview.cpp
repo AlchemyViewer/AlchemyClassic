@@ -1635,7 +1635,7 @@ void LLModelPreview::rebuildUploadData()
                     LLQuaternion identity;
                     if (!bind_rot.isEqualEps(identity,0.01))
                     {
-                        LL_WARNS() << "non-identity bind shape rot. mat is " << high_lod_model->mSkinInfo.mBindShapeMatrix 
+                        LL_WARNS() << "non-identity bind shape rot. mat is " /*<< high_lod_model->mSkinInfo.mBindShapeMatrix  */
                                    << " bind_rot " << bind_rot << LL_ENDL;
                         setLoadState( LLModelLoader::WARNING_BIND_SHAPE_ORIENTATION );
                     }
@@ -4127,22 +4127,20 @@ BOOL LLModelPreview::render()
 							LLMatrix4a mat[LL_MAX_JOINTS_PER_MESH_OBJECT];
                             const LLMeshSkinInfo *skin = &model->mSkinInfo;
 							U32 count = LLSkinningUtil::getMeshJointCount(skin);
-                            LLSkinningUtil::initSkinningMatrixPalette(mat, count,
+							LLSkinningUtil::initSkinningMatrixPalette(mat, count,
                                                                         skin, getPreviewAvatar());
-                            LLMatrix4a bind_shape_matrix;
-                            bind_shape_matrix.loadu(skin->mBindShapeMatrix);
                             U32 max_joints = LLSkinningUtil::getMaxJointCount();
 							for (U32 j = 0; j < buffer->getNumVerts(); ++j)
 							{
                                 LLMatrix4a final_mat;
-                                LLSkinningUtil::getPerVertexSkinMatrix(weight[j].getF32ptr(), mat, true, final_mat, max_joints);
+                                LLSkinningUtil::getPerVertexSkinMatrix(weight[j], mat, true, final_mat, max_joints);
 
 								//VECTORIZE THIS
                                 LLVector4a& v = face.mPositions[j];
 
                                 LLVector4a t;
                                 LLVector4a dst;
-                                bind_shape_matrix.affineTransform(v, t);
+                                skin->mBindShapeMatrix.affineTransform(v, t);
                                 final_mat.affineTransform(t, dst);
 
 								position[j][0] = dst[0];

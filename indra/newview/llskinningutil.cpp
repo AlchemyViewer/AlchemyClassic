@@ -184,23 +184,22 @@ void LLSkinningUtil::checkSkinWeights(LLVector4a* weights, U32 num_vertices, con
 void LLSkinningUtil::scrubSkinWeights(LLVector4a* weights, U32 num_vertices, const LLMeshSkinInfo* skin)
 {
     const S32 max_joints = skin->mJointNames.size();
+    LLIVector4a max_joint((S16)max_joints - 1);
+    LLIVector4a cur_joint;
+    LLVector4a weight;
     for (U32 j=0; j<num_vertices; j++)
     {
-        F32 *w = weights[j].getF32ptr();
-
-        for (U32 k=0; k<4; ++k)
-        {
-            S32 i = llfloor(w[k]);
-            F32 f = w[k]-i;
-            i = llclamp(i,0,max_joints-1);
-            w[k] = i + f;
-        }
+        cur_joint.setFloatTrunc(weights[j]);
+        weight.setSub(weights[j], cur_joint);
+        cur_joint.min16(max_joint);
+        cur_joint.max16(LLIVector4a::getZero());
+        weights[j].setAdd(weight, cur_joint);
     }
 	checkSkinWeights(weights, num_vertices, skin);
 }
 
 void LLSkinningUtil::getPerVertexSkinMatrix(
-    F32* weights,
+    const LLVector4a& weights,
     LLMatrix4a* mat,
     bool handle_bad_scale,
     LLMatrix4a& final_mat,
@@ -209,51 +208,44 @@ void LLSkinningUtil::getPerVertexSkinMatrix(
 #if LL_DEBUG
     bool valid_weights = true;
 #endif
-    final_mat.clear();
+	LL_ALIGN_16(S32 idx[4]);
 
-    S32 idx[4];
+	LLIVector4a max_joint_count((S16)max_joints - 1);
+	LLIVector4a current_joint_index;
+	current_joint_index.setFloatTrunc(weights);
 
-    LLVector4 wght;
+	LLVector4a weight;
+	weight.setSub(weights, current_joint_index);
 
-    F32 scale = 0.f;
-    for (U32 k = 0; k < 4; k++)
-    {
-        F32 w = weights[k];
+	current_joint_index.min16(max_joint_count);
+	current_joint_index.store128a(idx);
 
-        // BENTO potential optimizations
-        // - Do clamping in unpackVolumeFaces() (once instead of every time)
-        // - int vs floor: if we know w is
-        // >= 0.0, we can use int instead of floorf; the latter
-        // allegedly has a lot of overhead due to ieeefp error
-        // checking which we should not need.
-        idx[k] = llclamp((S32) floorf(w), (S32)0, (S32)max_joints-1);
+	LLVector4a scale;
+	scale.setMoveHighLow(weight);
+	scale.add(weight);
+	scale.addFirst(scale.getVectorAt<1>());
+	scale.splat<0>(scale);
 
-        wght[k] = w - floorf(w);
-        scale += wght[k];
-    }
-    if (handle_bad_scale && scale <= 0.f)
-    {
-        wght = LLVector4(1.0f, 0.0f, 0.0f, 0.0f);
+	bool scale_invalid = scale.lessEqual(LLVector4a::getEpsilon()).areAnySet(LLVector4Logical::MASK_XYZW);
+	if (handle_bad_scale && scale_invalid)
+	{
+		static const LLVector4a safeVal(1.0f, 0.0f, 0.0f, 0.0f);
+		weight = safeVal;
 #if LL_DEBUG
-        valid_weights = false;
+		valid_weights = false;
 #endif
-    }
-    else
-    {
-        // This is enforced  in unpackVolumeFaces()
-        llassert(scale>0.f);
-        wght *= 1.f/scale;
-    }
+		LL_WARNS() << "Invalid scale" << LL_ENDL;
+	}
+	else
+	{
+		// This is enforced  in unpackVolumeFaces()
+		weight.div(scale);
+	}
 
-    for (U32 k = 0; k < 4; k++)
-    {
-        F32 w = wght[k];
-
-        LLMatrix4a src;
-        src.setMul(mat[idx[k]], w);
-
-        final_mat.add(src);
-    }
+	final_mat.setMul(mat[idx[0]], weight.getVectorAt<0>());
+	final_mat.setMulAdd(mat[idx[1]], weight.getVectorAt<1>());
+	final_mat.setMulAdd(mat[idx[2]], weight.getVectorAt<2>());
+	final_mat.setMulAdd(mat[idx[3]], weight.getVectorAt<3>());
 #if LL_DEBUG
     // SL-366 - with weight validation/cleanup code, it should no longer be
     // possible to hit the bad scale case.
@@ -312,6 +304,13 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
                 //S32 active_verts = 0;
                 vol_face.mJointRiggingInfoTab.resize(LL_CHARACTER_MAX_ANIMATED_JOINTS);
                 LLJointRiggingInfoTab &rig_info_tab = vol_face.mJointRiggingInfoTab;
+
+                LLMatrix4a matrixPalette[LL_CHARACTER_MAX_ANIMATED_JOINTS];
+                for (U32 i = 0; i < llmin(skin->mInvBindMatrix.size(), (size_t)LL_CHARACTER_MAX_ANIMATED_JOINTS); ++i)
+                {
+                    matrixPalette[i].setMul(skin->mInvBindMatrix[i], skin->mBindShapeMatrix);
+                }
+
                 LLIVector4a max_joint_count((S16)LL_CHARACTER_MAX_ANIMATED_JOINTS - 1);
                 for (S32 i=0; i<vol_face.mNumVertices; i++)
                 {
@@ -332,7 +331,7 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
 					LLVector4a scale;
 					scale.setMoveHighLow(weight);
 					scale.add(weight);
-					scale.addFirst(scale.getScalarAt<1>());
+					scale.addFirst(scale.getVectorAt<1>());
 					scale.splat<0>(scale);
 
 					bool scale_invalid = scale.lessEqual(LLVector4a::getEpsilon()).areAnySet(LLVector4Logical::MASK_XYZW);
@@ -349,8 +348,6 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
 						weight.store4a(wght);
 					}
 
-					LLMatrix4a mat;
-					LLVector4a pos_joint_space;
 					for (U32 k=0; k<4; ++k)
                     {
 						S32 joint_index = idx[k];
@@ -360,10 +357,8 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
                             if (joint_num >= 0 && joint_num < LL_CHARACTER_MAX_ANIMATED_JOINTS)
                             {
                                 rig_info_tab[joint_num].setIsRiggedTo(true);
-
-                                // FIXME could precompute these matMuls.
-								mat.setMul(skin->mInvBindMatrix[joint_index], skin->mBindShapeMatrix);
-                                mat.affineTransform(pos, pos_joint_space);
+                                LLVector4a pos_joint_space;
+                                matrixPalette[joint_index].affineTransform(pos, pos_joint_space);
                                 pos_joint_space.mul(wght[k]);
                                 LLVector4a *extents = rig_info_tab[joint_num].getRiggedExtents();
                                 update_min_max(extents[0], extents[1], pos_joint_space);
@@ -395,9 +390,9 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
 
 // This is used for extracting rotation from a bind shape matrix that
 // already has scales baked in
-LLQuaternion LLSkinningUtil::getUnscaledQuaternion(const LLMatrix4& mat4)
+LLQuaternion LLSkinningUtil::getUnscaledQuaternion(const LLMatrix4a& mat4)
 {
-    LLMatrix3 bind_mat = mat4.getMat3();
+    LLMatrix3 bind_mat = LLMatrix4(mat4.getF32ptr()).getMat3();
     for (auto i = 0; i < 3; i++)
     {
         F32 len = 0.0f;

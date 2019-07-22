@@ -1648,9 +1648,17 @@ void LLDrawPoolAvatar::getRiggedGeometry(
 
 	U16 offset = 0;
 		
-	LLMatrix4 mat_vert = skin->mBindShapeMatrix;
-	glm::mat3 mat3(glm::transpose(glm::inverse(glm::make_mat4((F32*) mat_vert.mMatrix))));
-	LLMatrix3 mat_normal(glm::value_ptr(mat3));				
+	LLMatrix4a mat_vert_inv = skin->mBindShapeMatrix;
+	mat_vert_inv.invert();
+	mat_vert_inv.transpose();
+
+	const F32* m = mat_vert_inv.getF32ptr();
+	F32 mat3[] = 
+        { m[0], m[1], m[2],
+          m[4], m[5], m[6],
+          m[8], m[9], m[10] };
+
+	LLMatrix3 mat_normal(mat3);				
 
 	//let getGeometryVolume know if alpha should override shiny
 	U32 type = gPipeline.getPoolTypeFromTE(face->getTextureEntry(), face->getTexture());
@@ -1675,6 +1683,7 @@ void LLDrawPoolAvatar::getRiggedGeometry(
 	{
 		face->clearState(LLFace::TEXTURE_ANIM);
 	}
+	LLMatrix4 mat_vert(skin->mBindShapeMatrix.getF32ptr());
 	face->getGeometryVolume(*volume, face->getTEOffset(), mat_vert, mat_normal, offset, true);
 
 	buffer->flush();
@@ -1774,28 +1783,24 @@ void LLDrawPoolAvatar::updateRiggedFaceVertexBuffer(
         LLSkinningUtil::initSkinningMatrixPalette(mat, count, skin, avatar);
         LLSkinningUtil::checkSkinWeights(weights, buffer->getNumVerts(), skin);
 
-		LLMatrix4a bind_shape_matrix;
-		bind_shape_matrix.loadu(skin->mBindShapeMatrix);
-
         const U32 max_joints = LLSkinningUtil::getMaxJointCount();
 		for (U32 j = 0; j < buffer->getNumVerts(); ++j)
 		{
 			LLMatrix4a final_mat;
-            LLSkinningUtil::getPerVertexSkinMatrix(weights[j].getF32ptr(), mat, false, final_mat, max_joints);
+            LLSkinningUtil::getPerVertexSkinMatrix(weights[j], mat, false, final_mat, max_joints);
 			
 			LLVector4a& v = vol_face.mPositions[j];
 
-			LLVector4a t;
 			LLVector4a dst;
-			bind_shape_matrix.affineTransform(v, t);
-			final_mat.affineTransform(t, dst);
+			skin->mBindShapeMatrix.affineTransform(v, dst);
+			final_mat.affineTransform(dst, dst);
 			pos[j] = dst;
 
 			if (norm)
 			{
 				LLVector4a& n = vol_face.mNormals[j];
-				bind_shape_matrix.rotate(n, t);
-				final_mat.rotate(t, dst);
+				skin->mBindShapeMatrix.rotate(n, dst);
+				final_mat.rotate(dst, dst);
 				dst.normalize3fast();
 				norm[j] = dst;
 			}

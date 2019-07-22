@@ -1395,20 +1395,24 @@ void LLMeshSkinInfo::fromLLSD(LLSD& skin)
 					mat.mMatrix[j][k] = skin["inverse_bind_matrix"][i][j*4+k].asReal();
 				}
 			}
+			LLMatrix4a in_mat;
+			in_mat.loadu(mat);
 
-			mInvBindMatrix.emplace_back(mat);
+			mInvBindMatrix.emplace_back(in_mat);
 		}
 	}
 
 	if (skin.has("bind_shape_matrix"))
 	{
+		LLMatrix4 mat;
 		for (U32 j = 0; j < 4; j++)
 		{
 			for (U32 k = 0; k < 4; k++)
 			{
-				mBindShapeMatrix.mMatrix[j][k] = skin["bind_shape_matrix"][j*4+k].asReal();
+				mat.mMatrix[j][k] = skin["bind_shape_matrix"][j*4+k].asReal();
 			}
 		}
+		mBindShapeMatrix.loadu(mat);
 	}
 
 	if (skin.has("alt_inverse_bind_matrix"))
@@ -1451,21 +1455,23 @@ LLSD LLMeshSkinInfo::asLLSD(bool include_joints, bool lock_scale_if_joint_positi
 	{
 		ret["joint_names"][i] = mJointNames[i];
 
-		const F32* invbindmat = mInvBindMatrix[i].getF32ptr();
+		LL_ALIGN_16(F32 inv_bind_mat[16]);
+		mInvBindMatrix[i].store4a(inv_bind_mat);
 		for (U32 j = 0; j < 4; j++)
 		{
 			for (U32 k = 0; k < 4; k++)
 			{
-				ret["inverse_bind_matrix"][i][j * 4 + k] = invbindmat[j * 4 + k];
+				ret["inverse_bind_matrix"][i][j * 4 + k] = inv_bind_mat[j * 4 + k];
 			}
 		}
 	}
 
+	const F32* bind_shape_mat = mBindShapeMatrix.getF32ptr();
 	for (U32 i = 0; i < 4; i++)
 	{
 		for (U32 j = 0; j < 4; j++)
 		{
-			ret["bind_shape_matrix"][i*4+j] = mBindShapeMatrix.mMatrix[i][j];
+			ret["bind_shape_matrix"][i * 4 + j] = bind_shape_mat[i * 4 * j];
 		}
 	}
 		

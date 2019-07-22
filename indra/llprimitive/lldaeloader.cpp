@@ -1171,17 +1171,18 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 
 			LLMeshSkinInfo& skin_info = model->mSkinInfo;
 
+			LLMatrix4 mat;
 			for (int i = 0; i < 4; i++)
 			{
 				for(int j = 0; j < 4; j++)
 				{
-					skin_info.mBindShapeMatrix.mMatrix[i][j] = dom_value[i + j*4];
+					mat.mMatrix[i][j] = dom_value[i + j*4];
 				}
 			}
 
 			LLMatrix4 trans = normalized_transformation;
-			trans *= skin_info.mBindShapeMatrix;
-			skin_info.mBindShapeMatrix = trans;							
+			trans *= mat;
+			skin_info.mBindShapeMatrix.loadu(trans);							
 		}
 
 
@@ -1465,6 +1466,7 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 		//This remaps the skeletal joints to be in the same order as the joints stored in the model.
 		std::vector<std::string> :: const_iterator jointIt  = model->mSkinInfo.mJointNames.begin();
 		const int jointCnt = model->mSkinInfo.mJointNames.size();
+		LL_ALIGN_16(F32 bind_matrix[16]);
 		for ( int i=0; i<jointCnt; ++i, ++jointIt )
 		{
 			std::string lookingForJoint = (*jointIt).c_str();
@@ -1472,7 +1474,8 @@ void LLDAELoader::processDomModel(LLModel* model, DAE* dae, daeElement* root, do
 			//and store it in the alternate bind matrix
 			if ( mJointMap.find( lookingForJoint ) != mJointMap.end() )
 			{
-				LLMatrix4 newInverse(model->mSkinInfo.mInvBindMatrix[i].getF32ptr());
+				model->mSkinInfo.mInvBindMatrix[i].store4a(bind_matrix);
+				LLMatrix4 newInverse(bind_matrix);
 				newInverse.setTranslation( mJointList[lookingForJoint].getTranslation() );
 				model->mSkinInfo.mAlternateBindMatrix.push_back( newInverse );
             }

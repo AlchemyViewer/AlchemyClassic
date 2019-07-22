@@ -1428,7 +1428,8 @@ BOOL LLVOVolume::calcLOD()
     mLODDistance = distance;
     mLODRadius = radius;
 
-    if (gSavedSettings.getBOOL("DebugObjectLODs"))
+	static LLCachedControl<bool> debug_obj_lod(gSavedSettings, "DebugObjectLODs");
+    if (debug_obj_lod)
     {
         if (getAvatar() && isRootEdit())
         {
@@ -1524,7 +1525,8 @@ BOOL LLVOVolume::updateLOD()
 
 	if (lod_changed)
 	{
-        if (debugLoggingEnabled("AnimatedObjectsLinkset"))
+		static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
+        if (debug_log)
         {
             if (isAnimatedObject() && isRiggedMesh())
             {
@@ -4421,7 +4423,8 @@ const LLMatrix4& LLVOVolume::getWorldMatrix(LLXformMatrix* xform) const
 
 void LLVOVolume::markForUpdate(BOOL priority)
 { 
-    if (debugLoggingEnabled("AnimatedObjectsLinkset"))
+	static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
+	if (debug_log)
     {
         if (isAnimatedObject() && isRiggedMesh())
         {
@@ -5487,7 +5490,7 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 				continue;
 			}
 
-            std::string vobj_name = llformat("Vol%p", vobj);
+
 
 			if (vobj->isMesh() &&
 				((vobj->getVolume() && !vobj->getVolume()->isMeshAssetLoaded()) || !gMeshRepo.meshRezEnabled()))
@@ -5502,12 +5505,19 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 				group->mSurfaceArea += volume->getSurfaceArea() * llmax(llmax(scale.mV[0], scale.mV[1]), scale.mV[2]);
 			}
 
-            bool is_mesh = vobj->isMesh();
-            F32 est_tris = vobj->getEstTrianglesMax();
+			vobj->updateControlAvatar();
 
-            vobj->updateControlAvatar();
+			static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
+			if (debug_log)
+			{
+				llassert_always(vobj);
+	            std::string vobj_name = llformat("Vol%p", vobj);
+	            bool is_mesh = vobj->isMesh();
+	            F32 est_tris = vobj->getEstTrianglesMax();
+
+
             
-            LL_DEBUGS("AnimatedObjectsLinkset") << vobj_name << " rebuilding, isAttachment: " << (U32) vobj->isAttachment()
+	            LL_DEBUGS("AnimatedObjectsLinkset") << vobj_name << " rebuilding, isAttachment: " << (U32) vobj->isAttachment()
                                                 << " is_mesh " << is_mesh
                                                 << " est_tris " << est_tris
                                                 << " is_animated " << vobj->isAnimatedObject()
@@ -5519,8 +5529,9 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
                                                 << " playing " << (U32) (vobj->getControlAvatar() ? vobj->getControlAvatar()->mPlaying : false)
                                                 << " frame " << LLFrameTimer::getFrameCount()
                                                 << LL_ENDL;
+			}
 
-			llassert_always(vobj);
+
 			vobj->updateTextureVirtualSize(true);
 			vobj->preRebuild();
 
@@ -6259,7 +6270,8 @@ void LLVolumeGeometryManager::rebuildMesh(LLSpatialGroup* group)
 			if (drawablep && !drawablep->isDead() && drawablep->isState(LLDrawable::REBUILD_ALL) && !drawablep->isState(LLDrawable::RIGGED) )
 			{
 				LLVOVolume* vobj = drawablep->getVOVolume();
-                if (debugLoggingEnabled("AnimatedObjectsLinkset"))
+				static bool debug_log = debugLoggingEnabled("AnimatedObjectsLinkset");
+				if (debug_log)
                 {
                     if (vobj->isAnimatedObject() && vobj->isRiggedMesh())
                     {

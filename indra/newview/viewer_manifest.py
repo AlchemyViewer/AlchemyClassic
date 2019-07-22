@@ -593,12 +593,12 @@ class WindowsManifest(ViewerManifest):
 
             # CEF runtime files for software rendering - debug
             if self.args['configuration'].lower() == 'debug':
-                with self.prefix(src=os.path.join(pkgdir, 'bin', 'debug', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+                with self.prefix(src=os.path.join(pkgdir, 'bin', 'debug', 'swiftshader'), dst='swiftshader'):
                     self.path("libEGL.dll")
                     self.path("libGLESv2.dll")
             else:
                 # CEF runtime files for software rendering - not debug (release, relwithdebinfo etc.)
-                with self.prefix(src=os.path.join(pkgdir, 'bin', 'release', 'swiftshader'), dst=os.path.join("llplugin", 'swiftshader')):
+                with self.prefix(src=os.path.join(pkgdir, 'bin', 'release', 'swiftshader'), dst='swiftshader'):
                     self.path("libEGL.dll")
                     self.path("libGLESv2.dll")
 

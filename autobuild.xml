@@ -3019,11 +3019,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0809bb8807af2d83996e0bec680979ec</string>
+              <string>0c9506caf11d35756cfa03e5b8e53fc8</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://dl.alchemyviewer.org/pkg/viewer-manager/e38b8bbe8c490f5af760145c2b340157b02c933784c62766f7ad32e628dbd52807a99b749478136e9a20437f865a07d56798752fa58825ba0c4ba3c0b6798a5b/viewer_manager-2.0.192020948-windows-192020948.tar.bz2</string>
+              <string>https://dl.alchemyviewer.org/pkg/viewer-manager/viewer_manager-2.0.192031118-windows-192031118.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3034,7 +3034,7 @@
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>2.0.192020948</string>
+        <string>2.0.192031118</string>
       </map>
       <key>vlc-bin</key>
       <map>

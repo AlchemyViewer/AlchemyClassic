@@ -3019,11 +3019,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c7239530508c1bc1e0e8b60dff520fcc</string>
+              <string>0809bb8807af2d83996e0bec680979ec</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib/viewer_manager-1.0.201802180515-windows-201802180515.tar.bz2</string>
+              <string>https://dl.alchemyviewer.org/pkg/viewer-manager/e38b8bbe8c490f5af760145c2b340157b02c933784c62766f7ad32e628dbd52807a99b749478136e9a20437f865a07d56798752fa58825ba0c4ba3c0b6798a5b/viewer_manager-2.0.192020948-windows-192020948.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -3034,7 +3034,7 @@
         <key>source_type</key>
         <string>hg</string>
         <key>version</key>
-        <string>1.0.201802180515</string>
+        <string>2.0.192020948</string>
       </map>
       <key>vlc-bin</key>
       <map>
@@ -3968,7 +3968,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                 </array>
               </map>
               <key>name</key>
@@ -3999,7 +3998,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
                 </array>
@@ -4029,7 +4027,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                 </array>
               </map>
               <key>default</key>
@@ -4062,7 +4059,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -4093,7 +4089,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                 </array>
               </map>
               <key>name</key>
@@ -4124,7 +4119,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017"</string>
-
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
                 </array>
@@ -4170,7 +4164,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                   <string>-DUSE_KDU:BOOL=OFF</string>
                   <string>-DUNATTENDED:BOOL=ON</string>
@@ -4201,7 +4194,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4233,7 +4225,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                   <string>-DUSE_KDU=FALSE</string>
                   <string>-DUSE_LL_STUBS:BOOL=ON</string>
@@ -4264,7 +4255,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4298,7 +4288,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>
@@ -4331,7 +4320,6 @@
                 <array>
                   <string>-G</string>
                   <string>"Visual Studio 15 2017 Win64"</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                 </array>
               </map>
@@ -4367,7 +4355,6 @@
                   <string>${AUTOBUILD_WIN_VSPLATFORM|NOTWIN}</string>
                   <string>-T</string>
                   <string>v141</string>
-
                   <string>-DADDRESS_SIZE:STRING=64</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                   <string>-DUSE_KDU=FALSE</string>

@@ -407,12 +407,6 @@ Section "Viewer"
   ;This placeholder is replaced by the complete list of all the files in the installer, by viewer_manifest.py
   %%INSTALL_FILES%%
   
-!ifdef WIN64_BIN_BUILD
-  ExecWait '"$INSTDIR\redist\vc_redist.x64.exe" /passive /norestart'
-!else
-  ExecWait '"$INSTDIR\redist\vc_redist.x86.exe" /passive /norestart'
-!endif
-  
   ;Pass the installer's language to the client to use as a default
   StrCpy $SHORTCUT_LANG_PARAM "--set InstallLanguage $(LanguageCode)"
   

@@ -437,12 +437,6 @@ class WindowsManifest(ViewerManifest):
             # Find alchemy-bin.exe in the 'configuration' dir, then rename it to the result of final_exe.
             self.path(src='%s/alchemy-bin.exe' % self.args['configuration'], dst=self.final_exe())
 
-            with self.prefix(src=os.path.join(pkgdir, "redist")):
-                if(self.address_size == 64):
-                    self.path('vc_redist.x64.exe')
-                else:
-                    self.path('vc_redist.x86.exe')
-
             with self.prefix(src=os.path.join(pkgdir, "VMP")):
                 # include the compiled launcher scripts so that it gets included in the file_list
                 self.path('ALVersionChecker.exe')
@@ -555,6 +549,17 @@ class WindowsManifest(ViewerManifest):
                     self.path('tbbmalloc_proxy.dll')
             except:
                 print "Skipping tbbmalloc.dll"
+
+            # For msvc redist
+            try:
+                    self.path('api-ms*.dll')
+                    self.path('ucrt*.dll')
+                    self.path('concrt*.dll')
+                    self.path('msvc*.dll')
+                    self.path('vcruntime*.dll')
+                    self.path('vccor*.dll')
+            except:
+                print "Skipping msvc redist files"
 
         self.path("featuretable.txt")
 

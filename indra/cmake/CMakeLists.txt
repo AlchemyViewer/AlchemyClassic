@@ -30,7 +30,6 @@ set(cmake_SOURCE_FILES
     FindHUNSPELL.cmake
     FindNDOF.cmake
     FindOpenJPEG.cmake
-    FindVCRedist.cmake
     FindURIPARSER.cmake
     FindXmlRpcEpi.cmake
     FindZLIB.cmake

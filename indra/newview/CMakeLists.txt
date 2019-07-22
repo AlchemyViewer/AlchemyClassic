@@ -17,7 +17,6 @@ include(CMakeCopyIfDifferent)
 include(DBusGlib)
 include(DragDrop)
 include(EXPAT)
-include(FindVCRedist)
 include(FMODSTUDIO)
 include(GLOD)
 include(GLEW)
@@ -1983,27 +1982,6 @@ if (WINDOWS)
 
     add_custom_target(copy_w_viewer_manifest ALL DEPENDS ${CMAKE_CFG_INTDIR}/copy_touched.bat)
 
-    if(EXISTS ${VISUAL_STUDIO_REDISTRIBUTABLE_PATH})
-      add_custom_command(
-        OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist"
-        DEPENDS copy_w_viewer_manifest
-        COMMENT "Creating redist dir"
-      )
-      add_custom_command(
-        OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-		ARGS
-		${VISUAL_STUDIO_REDISTRIBUTABLE_PATH}
-		${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME}
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist
-        COMMENT "Copying ${VISUAL_STUDIO_REDISTRIBUTABLE_PATH} to redist dir"
-      )
-	
-      add_custom_target(copy_w_redist ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/redist/${VISUAL_STUDIO_REDISTRIBUTABLE_NAME})
-    endif()
-    
-	  
     add_dependencies(${VIEWER_BINARY_NAME} stage_third_party_libs llcommon copy_w_viewer_manifest)
 
     if (EXISTS ${CMAKE_SOURCE_DIR}/copy_win_scripts)

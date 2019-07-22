@@ -28,6 +28,7 @@
 #define LL_LLVIEWEROBJECTLIST_H
 
 #include <boost/unordered_map.hpp>
+#include <absl/container/flat_hash_map.h>
 
 // common includes
 #include "lltrace.h"
@@ -205,7 +206,7 @@ protected:
 
     uuid_set_t   mDeadObjects;
 
-	boost::unordered_map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
+	absl::flat_hash_map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
 
 	//set of objects that need to update their cost
     uuid_set_t   mStaleObjectCost;
@@ -263,8 +264,8 @@ extern LLViewerObjectList gObjectList;
  */
 inline LLViewerObject *LLViewerObjectList::findObject(const LLUUID &id)
 {
-	boost::unordered_map<LLUUID, LLPointer<LLViewerObject> >::const_iterator iter = mUUIDObjectMap.find(id);
-	if(iter != mUUIDObjectMap.end())
+	auto iter = mUUIDObjectMap.find(id);
+	if(iter != mUUIDObjectMap.cend())
 	{
 		return iter->second;
 	}

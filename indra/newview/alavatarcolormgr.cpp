@@ -52,7 +52,7 @@ void ALAvatarColorMgr::addOrUpdateCustomColor(const LLUUID& id, EAvatarColors co
 
 void ALAvatarColorMgr::clearCustomColor(const LLUUID& id)
 {
-	const uuid_color_umap_t::const_iterator it = mCustomColors.find(id);
+	auto it = mCustomColors.find(id);
 	if (it != mCustomColors.cend())
 	{
 		mCustomColors.erase(it);
@@ -61,7 +61,7 @@ void ALAvatarColorMgr::clearCustomColor(const LLUUID& id)
 
 const LLColor4& ALAvatarColorMgr::getColor(const LLUUID& id)
 {
-	uuid_color_umap_t::const_iterator user_col_it = mCustomColors.find(id);
+	auto user_col_it = mCustomColors.find(id);
 	if (user_col_it != mCustomColors.cend())
 	{
 		const EAvatarColors color_val = user_col_it->second;

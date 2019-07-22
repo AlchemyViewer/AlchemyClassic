@@ -21,7 +21,7 @@
 
 #include "llsingleton.h"
 
-#include <boost/unordered_map.hpp>
+#include <absl/container/flat_hash_map.h>
 
 class LLColor4;
 class LLUUID;
@@ -45,6 +45,6 @@ public:
 	const LLColor4& getColor(const LLUUID& id);
 
 private:
-	typedef boost::unordered_map<LLUUID, EAvatarColors> uuid_color_umap_t;
+	typedef absl::flat_hash_map<LLUUID, EAvatarColors> uuid_color_umap_t;
 	uuid_color_umap_t mCustomColors;
 };

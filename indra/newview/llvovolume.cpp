@@ -234,6 +234,10 @@ LLVOVolume::LLVOVolume(const LLUUID &id, const LLPCode pcode, LLViewerRegion *re
 	mSculptChanged = FALSE;
 	mSpotLightPriority = 0.f;
 
+	mSkinInfoReceived = false;
+	mSkinInfoFailed = false;
+	mSkinInfo = NULL;
+
 	mMediaImplList.resize(getNumTEs());
 	mLastFetchedMediaVersion = -1;
 	memset(&mIndexInTex, 0, sizeof(S32) * LLRender::NUM_VOLUME_TEXTURE_CHANNELS);
@@ -247,6 +251,8 @@ LLVOVolume::~LLVOVolume()
 	mTextureAnimp = NULL;
 	delete mVolumeImpl;
 	mVolumeImpl = NULL;
+
+	gMeshRepo.unregisterMesh(this);
 
 	if(!mMediaImplList.empty())
 	{
@@ -1047,10 +1053,16 @@ BOOL LLVOVolume::setVolume(const LLVolumeParams &params_in, const S32 detail, bo
 
 		if (isSculpted())
 		{
-			updateSculptTexture();
 			// if it's a mesh
 			if ((volume_params.getSculptType() & LL_SCULPT_TYPE_MASK) == LL_SCULPT_TYPE_MESH)
 			{
+				if (mSkinInfo && mSkinInfo->mMeshID != volume_params.getSculptID())
+				{
+					mSkinInfo = NULL;
+					mSkinInfoReceived = false;
+					mSkinInfoFailed = false;
+				}
+
 				if (!getVolume()->isMeshAssetLoaded())
 				{ 
 					//load request not yet issued, request pipeline load this mesh
@@ -1062,6 +1074,15 @@ BOOL LLVOVolume::setVolume(const LLVolumeParams &params_in, const S32 detail, bo
 					}
 				}
 				
+				if (!mSkinInfo && !isSkinInfoLoaded() && !hasSkinInfoFailed())
+				{
+					mSkinInfo = gMeshRepo.getSkinInfo(volume_params.getSculptID(), this);
+					if (mSkinInfo)
+					{
+						mSkinInfoReceived = true;
+						mSkinInfoFailed = false;
+					}
+				}
 			}
 			else // otherwise is sculptie
 			{
@@ -1094,6 +1115,8 @@ void LLVOVolume::updateSculptTexture()
 		{
 			mSculptTexture = LLViewerTextureManager::getFetchedTexture(id, FTT_DEFAULT, TRUE, LLGLTexture::BOOST_NONE, LLViewerTexture::LOD_TEXTURE);
 		}
+
+		mSkinInfo = NULL;
 	}
 	else
 	{
@@ -1142,6 +1165,21 @@ void LLVOVolume::notifyMeshLoaded()
         getControlAvatar()->addAttachmentOverridesForObject(this);
     }
     updateVisualComplexity();
+}
+
+void LLVOVolume::notifySkinInfoLoaded(LLMeshSkinInfo* skin)
+{
+	mSkinInfoFailed = false;
+	mSkinInfoReceived = true;
+	mSkinInfo = skin;
+	notifyMeshLoaded();
+}
+
+void LLVOVolume::notifySkinInfoUnavailable()
+{
+	mSkinInfoFailed = true;
+	mSkinInfoReceived = false;
+	mSkinInfo = nullptr;
 }
 
 // sculpt replaces generate() for sculpted surfaces
@@ -3506,14 +3544,12 @@ BOOL LLVOVolume::setIsFlexible(BOOL is_flexible)
 
 const LLMeshSkinInfo* LLVOVolume::getSkinInfo() const
 {
-    if (getVolume())
+	// TODO(nopjmp): extra protection against state screw-ups
+	if (getVolume())
     {
-        return gMeshRepo.getSkinInfo(getVolume()->getParams().getSculptID(), this);
+         return mSkinInfo;
     }
-    else
-    {
-        return NULL;
-    }
+    return NULL;
 }
 
 // virtual
@@ -4669,8 +4705,7 @@ void LLVOVolume::updateRiggedVolume(bool force_update)
 	}
 
 	LLVolume* volume = getVolume();
-	const LLMeshSkinInfo* skin = getSkinInfo();
-	if (!skin)
+	if (!mSkinInfo)
 	{
 		clearRiggedVolume();
 		return;
@@ -4690,7 +4725,7 @@ void LLVOVolume::updateRiggedVolume(bool force_update)
 		updateRelativeXform();
 	}
 
-	mRiggedVolume->update(skin, avatar, volume);
+	mRiggedVolume->update(mSkinInfo, avatar, volume);
 }
 
 static LLTrace::BlockTimerStatHandle FTM_SKIN_RIGGED("Skin");

@@ -6265,9 +6265,9 @@ void LLVOAvatar::addAttachmentOverridesForObject(LLViewerObject *vo, std::set<LL
         LL_DEBUGS("AnimatedObjects") << "failed to add attachment overrides for root object " << root_object->getID() << " mesh asset not loaded" << LL_ENDL;
 		return;
 	}
-	const LLMeshSkinInfo*  pSkinData = vobj->getSkinInfo();
+	const LLMeshSkinInfo*  pSkinData = nullptr;
 
-	if ( vobj && vobj->isMesh() && pSkinData )
+	if ( vobj && vobj->isMesh() && (pSkinData = vobj->getSkinInfo()) )
 	{
 		const int bindCnt = pSkinData->mAlternateBindMatrix.size();								
         const int jointCnt = pSkinData->mJointNames.size();

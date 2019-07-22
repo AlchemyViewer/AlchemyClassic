@@ -1016,40 +1016,35 @@ void LLMeshRepoThread::run()
         // For the final three request lists, similar goal to above but
         // slightly different queue structures.  Stay off the mutex when
         // performing long-duration actions.
-
-        if (mHttpRequestSet.size() < sRequestHighWater
-            && (!mSkinRequests.empty()
-            || !mDecompositionRequests.empty()
-            || !mPhysicsShapeRequests.empty()))
         {
             // Something to do probably, lock and double-check.  We don't want
             // to hold the lock long here.  That will stall main thread activities
             // so we bounce it.
-
-            if (!mSkinRequests.empty())
+            if (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
             {
-                std::set<UUIDBasedRequest> incomplete;
-                while (!mSkinRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
+				std::list<UUIDBasedRequest> incomplete;
+                while (!mSkinReqQ.empty() && mHttpRequestSet.size() < sRequestHighWater)
                 {
                     mMutex->lock();
-                    std::set<UUIDBasedRequest>::iterator iter = mSkinRequests.begin();
-                    UUIDBasedRequest req = *iter;
-                    mSkinRequests.erase(iter);
+                    auto req = mSkinReqQ.front();
+                    mSkinReqQ.pop();
                     mMutex->unlock();
                     if (req.isDelayed())
                     {
-                        incomplete.insert(req);
+                        incomplete.emplace_back(req);
                     }
-                    else if (!fetchMeshSkinInfo(req.mId))
+                    else if (!fetchMeshSkinInfo(req.mId, req.canRetry()))
                     {
                         if (req.canRetry())
                         {
                             req.updateTime();
-                            incomplete.insert(req);
+                            incomplete.emplace_back(req);
                         }
                         else
                         {
-                            LL_DEBUGS() << "mSkinRequests failed: " << req.mId << LL_ENDL;
+		                    LLMutexLock locker(mMutex);
+							mSkinUnavailableQ.push(req);
+                            LL_DEBUGS() << "mSkinReqQ failed: " << req.mId << LL_ENDL;
                         }
                     }
                 }
@@ -1057,7 +1052,10 @@ void LLMeshRepoThread::run()
                 if (!incomplete.empty())
                 {
                     LLMutexLock locker(mMutex);
-                    mSkinRequests.insert(incomplete.begin(), incomplete.end());
+					for (const auto& req : incomplete)
+					{
+						mSkinReqQ.emplace(req);
+					}
                 }
             }
 
@@ -1065,7 +1063,7 @@ void LLMeshRepoThread::run()
             // *TODO:  For UI/debug-oriented lists, we might drop the fine-
             // grained locking as there's a lowered expectation of smoothness
             // in these cases.
-            if (!mDecompositionRequests.empty())
+            if (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
             {
                 std::set<UUIDBasedRequest> incomplete;
                 while (!mDecompositionRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
@@ -1101,7 +1099,7 @@ void LLMeshRepoThread::run()
             }
 
             // holding lock, final list
-            if (!mPhysicsShapeRequests.empty())
+            if (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
             {
                 std::set<UUIDBasedRequest> incomplete;
                 while (!mPhysicsShapeRequests.empty() && mHttpRequestSet.size() < sRequestHighWater)
@@ -1157,7 +1155,7 @@ void LLMeshRepoThread::run()
 // Mutex:  LLMeshRepoThread::mMutex must be held on entry
 void LLMeshRepoThread::loadMeshSkinInfo(const LLUUID& mesh_id)
 {
-	mSkinRequests.insert(UUIDBasedRequest(mesh_id));
+	mSkinReqQ.emplace(mesh_id);
 }
 
 // Mutex:  LLMeshRepoThread::mMutex must be held on entry
@@ -1260,7 +1258,7 @@ void LLMeshRepoThread::constructUrl(LLUUID mesh_id, std::string * url, int * leg
 		}
 		else
 		{
-		LL_WARNS_ONCE(LOG_MESH) << "Current region does not have ViewerAsset capability!  Cannot load "
+			LL_WARNS_ONCE(LOG_MESH) << "Current region does not have ViewerAsset capability!  Cannot load meshes. Region id: "
 									<< gAgent.getRegion()->getRegionID() << LL_ENDL;
 			LL_DEBUGS_ONCE(LOG_MESH) << "Cannot load mesh " << mesh_id << " due to missing capability." << LL_ENDL;
 		}
@@ -1332,7 +1330,7 @@ LLCore::HttpHandle LLMeshRepoThread::getByteRange(const std::string & url, int l
 }
 
 
-bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id)
+bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id, bool can_retry)
 {
 	
 	if (!mHeaderMutex)
@@ -1413,12 +1411,27 @@ bool LLMeshRepoThread::fetchMeshSkinInfo(const LLUUID& mesh_id)
 									   << LL_ENDL;
 					ret = false;
 				}
-				else
+				else if(can_retry)
 				{
 					handler->mHttpHandle = handle;
 					mHttpRequestSet.insert(handler);
 				}
+				else
+				{
+					LLMutexLock locker(mMutex);
+					mSkinUnavailableQ.emplace(mesh_id);
+				}
 			}
+			else
+			{
+				LLMutexLock locker(mMutex);
+				mSkinUnavailableQ.emplace(mesh_id);
+			}
+		}
+		else
+		{
+			LLMutexLock locker(mMutex);
+			mSkinUnavailableQ.emplace(mesh_id);
 		}
 	}
 	else
@@ -1933,7 +1946,7 @@ bool LLMeshRepoThread::skinInfoReceived(const LLUUID& mesh_id, U8* data, S32 dat
 		// LL_DEBUGS(LOG_MESH) << "info pelvis offset" << info.mPelvisOffset << LL_ENDL;
 		{
 			LLMutexLock lock(mMutex);
-			mSkinInfoQ.push_back(info);
+			mSkinInfoQ.emplace(info);
 		}
 	}
 
@@ -2863,31 +2876,58 @@ void LLMeshRepoThread::notifyLoadedMeshes()
 		gMeshRepo.notifyMeshUnavailable(req.mMeshParams, req.mLOD);
 	}
 
-	if (! mSkinInfoQ.empty() || ! mDecompositionQ.empty())
+	if (!mSkinInfoQ.empty())
 	{
 		if (mMutex->try_lock())
 		{
-			std::list<LLMeshSkinInfo> skin_info_q;
-			std::list<LLModel::Decomposition*> decomp_q;
-
+			std::queue<LLMeshSkinInfo> skin_info_q;
 			if (! mSkinInfoQ.empty())
 			{
 				skin_info_q.swap(mSkinInfoQ);
 			}
+			mMutex->unlock();
+
+			// Process the elements free of the lock
+			while (!skin_info_q.empty())
+			{
+				gMeshRepo.notifySkinInfoReceived(skin_info_q.front());
+				skin_info_q.pop();
+			}
+		}
+	}
+
+	if (!mSkinUnavailableQ.empty())
+	{
+		if (mMutex->try_lock())
+		{
+			std::queue<UUIDBasedRequest> skin_info_unavail_q;
+			if (!mSkinUnavailableQ.empty())
+			{
+				skin_info_unavail_q.swap(mSkinUnavailableQ);
+			}
+			mMutex->unlock();
+
+			// Process the elements free of the lock
+			while (!skin_info_unavail_q.empty())
+			{
+				gMeshRepo.notifySkinInfoUnavailable(skin_info_unavail_q.front().mId);
+				skin_info_unavail_q.pop();
+			}
+		}
+	}
+
+	if (!mDecompositionQ.empty())
+	{
+		if (mMutex->try_lock())
+		{
+			std::list<LLModel::Decomposition*> decomp_q;
 			if (! mDecompositionQ.empty())
 			{
 				decomp_q.swap(mDecompositionQ);
 			}
-
 			mMutex->unlock();
 
 			// Process the elements free of the lock
-			while (! skin_info_q.empty())
-			{
-				gMeshRepo.notifySkinInfoReceived(skin_info_q.front());
-				skin_info_q.pop_front();
-			}
-
 			while (! decomp_q.empty())
 			{
 				gMeshRepo.notifyDecompositionReceived(decomp_q.front());
@@ -3319,9 +3359,8 @@ void LLMeshSkinInfoHandler::processFailure(LLCore::HttpStatus status)
 					   << ", Reason:  " << status.toString()
 					   << " (" << status.toTerseString() << ").  Not retrying."
 					   << LL_ENDL;
-
-	// *TODO:  Mark mesh unavailable on error.  For now, simply leave
-	// request unfulfilled rather than retry forever.
+		LLMutexLock lock(gMeshRepo.mThread->mMutex);
+		gMeshRepo.mThread->mSkinUnavailableQ.emplace(mMeshID);
 }
 
 void LLMeshSkinInfoHandler::processData(LLCore::BufferArray * /* body */, S32 /* body_offset */,
@@ -3350,7 +3389,8 @@ void LLMeshSkinInfoHandler::processData(LLCore::BufferArray * /* body */, S32 /*
 		LL_WARNS(LOG_MESH) << "Error during mesh skin info processing.  ID:  " << mMeshID
 						   << ", Unknown reason.  Not retrying."
 						   << LL_ENDL;
-		// *TODO:  Mark mesh unavailable on error
+		LLMutexLock lock(gMeshRepo.mThread->mMutex);
+		gMeshRepo.mThread->mSkinUnavailableQ.emplace(mMeshID);
 	}
 }
 
@@ -3552,9 +3592,28 @@ S32 LLMeshRepository::update()
 	return size ;
 }
 
+void LLMeshRepository::unregisterMesh(LLVOVolume* vobj)
+{
+	for (auto& lod : mLoadingMeshes)
+	{
+		for (auto& param : lod)
+		{
+			vector_replace_with_last(param.second, vobj);
+		}
+	}
+
+	for (auto& skin_pair : mLoadingSkins)
+	{
+		vector_replace_with_last(skin_pair.second, vobj);
+	}
+}
+
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_LOAD("Load Mesh");
+
 S32 LLMeshRepository::loadMesh(LLVOVolume* vobj, const LLVolumeParams& mesh_params, S32 detail, S32 last_lod)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_LOAD);
 	
 	// Manage time-to-load metrics for mesh download operations.
 	metricsProgress(1);
@@ -3570,12 +3629,15 @@ S32 LLMeshRepository::loadMesh(LLVOVolume* vobj, const LLVolumeParams& mesh_para
 		mesh_load_map::iterator iter = mLoadingMeshes[detail].find(mesh_params);
 		if (iter != mLoadingMeshes[detail].end())
 		{ //request pending for this mesh, append volume id to list
-			iter->second.insert(vobj->getID());
+			auto it = std::find(iter->second.begin(), iter->second.end(), vobj);
+			if (it == iter->second.end()) {
+				iter->second.push_back(vobj);
+			}
 		}
 		else
 		{
 			//first request for this mesh
-			mLoadingMeshes[detail][mesh_params].insert(vobj->getID());
+			mLoadingMeshes[detail][mesh_params].push_back(vobj);
 			mPendingRequests.push_back(LLMeshRepoThread::LODRequest(mesh_params, detail));
 			LLMeshRepository::sLODPending++;
 		}
@@ -3635,9 +3697,12 @@ S32 LLMeshRepository::loadMesh(LLVOVolume* vobj, const LLVolumeParams& mesh_para
 	return detail;
 }
 
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_NOTIFY_LOADED("Notify Loaded Meshes");
+
 void LLMeshRepository::notifyLoadedMeshes()
 { //called from main thread
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_NOTIFY_LOADED);
 
     // GetMesh2 operation with keepalives, etc.  With pipelining,
     // we'll increase this.  See llappcorehttp and llcorehttp for
@@ -3817,29 +3882,23 @@ void LLMeshRepository::notifyLoadedMeshes()
 				//calculate "score" for pending requests
 
 				//create score map
-				std::map<LLUUID, F32> score_map;
+				boost::unordered_map<LLUUID, F32> score_map;
 
-				for (U32 i = 0; i < 4; ++i)
+				for (auto& lod : mLoadingMeshes)
 				{
-					for (mesh_load_map::iterator iter = mLoadingMeshes[i].begin();  iter != mLoadingMeshes[i].end(); ++iter)
+					for (auto& param : lod)
 					{
 						F32 max_score = 0.f;
-						for (std::set<LLUUID>::iterator obj_iter = iter->second.begin(); obj_iter != iter->second.end(); ++obj_iter)
+						for (auto vobj : param.second)
 						{
-							LLViewerObject* object = gObjectList.findObject(*obj_iter);
-							
-							if (object)
+							if (LLDrawable* drawable = vobj->mDrawable)
 							{
-								LLDrawable* drawable = object->mDrawable;
-								if (drawable)
-								{
-									F32 cur_score = drawable->getRadius()/llmax(drawable->mDistanceWRTCamera, 1.f);
-									max_score = llmax(max_score, cur_score);
-								}
+								F32 cur_score = drawable->getRadius() / llmax(drawable->mDistanceWRTCamera, 1.f);
+								max_score = llmax(max_score, cur_score);
 							}
 						}
 				
-						score_map[iter->first.getSculptID()] = max_score;
+						score_map[param.first.getSculptID()] = max_score;
 					}
 				}
 
@@ -3893,20 +3952,35 @@ void LLMeshRepository::notifyLoadedMeshes()
 
 void LLMeshRepository::notifySkinInfoReceived(LLMeshSkinInfo& info)
 {
-	mSkinMap[info.mMeshID] = info;
+	auto pair = mSkinMap.emplace(info.mMeshID, info);
 
 	skin_load_map::iterator iter = mLoadingSkins.find(info.mMeshID);
 	if (iter != mLoadingSkins.end())
 	{
-		for (std::set<LLUUID>::iterator obj_id = iter->second.begin(); obj_id != iter->second.end(); ++obj_id)
+		for (auto vobj : iter->second)
 		{
-			LLVOVolume* vobj = (LLVOVolume*) gObjectList.findObject(*obj_id);
 			if (vobj)
 			{
-				vobj->notifyMeshLoaded();
+				vobj->notifySkinInfoLoaded(&((*pair.first).second));
 			}
 		}
-		mLoadingSkins.erase(info.mMeshID);
+		mLoadingSkins.erase(iter);
+	}
+}
+
+void LLMeshRepository::notifySkinInfoUnavailable(const LLUUID& mesh_id)
+{
+	skin_load_map::iterator iter = mLoadingSkins.find(mesh_id);
+	if (iter != mLoadingSkins.end())
+	{
+		for (auto vobj : iter->second)
+		{
+			if (vobj)
+			{
+				vobj->notifySkinInfoUnavailable();
+			}
+		}
+		mLoadingSkins.erase(iter);
 	}
 }
 
@@ -3958,16 +4032,15 @@ void LLMeshRepository::notifyMeshLoaded(const LLVolumeParams& mesh_params, LLVol
 		}
 
 		//notify waiting LLVOVolume instances that their requested mesh is available
-		for (std::set<LLUUID>::iterator vobj_iter = obj_iter->second.begin(); vobj_iter != obj_iter->second.end(); ++vobj_iter)
+		for (auto vobj : obj_iter->second)
 		{
-			LLVOVolume* vobj = (LLVOVolume*) gObjectList.findObject(*vobj_iter);
 			if (vobj)
 			{
 				vobj->notifyMeshLoaded();
 			}
 		}
 		
-		mLoadingMeshes[detail].erase(mesh_params);
+		mLoadingMeshes[detail].erase(obj_iter);
 	}
 }
 
@@ -3976,13 +4049,12 @@ void LLMeshRepository::notifyMeshUnavailable(const LLVolumeParams& mesh_params, 
 	//get list of objects waiting to be notified this mesh is loaded
 	mesh_load_map::iterator obj_iter = mLoadingMeshes[lod].find(mesh_params);
 
-	F32 detail = LLVolumeLODGroup::getVolumeScaleFromDetail(lod);
-
 	if (obj_iter != mLoadingMeshes[lod].end())
 	{
-		for (std::set<LLUUID>::iterator vobj_iter = obj_iter->second.begin(); vobj_iter != obj_iter->second.end(); ++vobj_iter)
+		F32 detail = LLVolumeLODGroup::getVolumeScaleFromDetail(lod);
+
+		for (auto vobj : obj_iter->second)
 		{
-			LLVOVolume* vobj = (LLVOVolume*) gObjectList.findObject(*vobj_iter);
 			if (vobj)
 			{
 				LLVolume* obj_volume = vobj->getVolume();
@@ -3996,7 +4068,7 @@ void LLMeshRepository::notifyMeshUnavailable(const LLVolumeParams& mesh_params, 
 			}
 		}
 		
-		mLoadingMeshes[lod].erase(mesh_params);
+		mLoadingMeshes[lod].erase(obj_iter);
 	}
 }
 
@@ -4005,9 +4077,12 @@ S32 LLMeshRepository::getActualMeshLOD(const LLVolumeParams& mesh_params, S32 lo
 	return mThread->getActualMeshLOD(mesh_params, lod);
 }
 
-const LLMeshSkinInfo* LLMeshRepository::getSkinInfo(const LLUUID& mesh_id, const LLVOVolume* requesting_obj)
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_GET_SKIN_INFO("Get Skin Info");
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_GET_SKIN_INFO_FETCH("Get Skin Info Fetch");
+LLMeshSkinInfo* LLMeshRepository::getSkinInfo(const LLUUID& mesh_id, LLVOVolume* requesting_obj)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_GET_SKIN_INFO);
 
 	if (mesh_id.notNull())
 	{
@@ -4019,23 +4094,34 @@ const LLMeshSkinInfo* LLMeshRepository::getSkinInfo(const LLUUID& mesh_id, const
 		
 		//no skin info known about given mesh, try to fetch it
 		{
+			LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_GET_SKIN_INFO_FETCH);
 			LLMutexLock lock(mMeshMutex);
 			//add volume to list of loading meshes
 			skin_load_map::iterator iter = mLoadingSkins.find(mesh_id);
-			if (iter == mLoadingSkins.end())
-			{ //no request pending for this skin info
+			if (iter != mLoadingSkins.end())
+			{ //request pending for this mesh, append volume id to list
+				auto it = std::find(iter->second.begin(), iter->second.end(), requesting_obj);
+				if (it == iter->second.end()) {
+					iter->second.push_back(requesting_obj);
+				}
+			}
+			else
+			{
+				//first request for this mesh
+				mLoadingSkins[mesh_id].push_back(requesting_obj);
 				mPendingSkinRequests.push(mesh_id);
 			}
-			mLoadingSkins[mesh_id].insert(requesting_obj->getID());
 		}
 	}
 
 	return nullptr;
 }
 
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_FETCH_PHYSICS_SHAPE("Fetch Physics Shape");
 void LLMeshRepository::fetchPhysicsShape(const LLUUID& mesh_id)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_FETCH_PHYSICS_SHAPE);
 
 	if (mesh_id.notNull())
 	{
@@ -4062,9 +4148,11 @@ void LLMeshRepository::fetchPhysicsShape(const LLUUID& mesh_id)
 	}
 }
 
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_GET_DECOMP("Get Decomposition");
 LLModel::Decomposition* LLMeshRepository::getDecomposition(const LLUUID& mesh_id)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_GET_DECOMP);
 
 	LLModel::Decomposition* ret = nullptr;
 
@@ -4126,9 +4214,11 @@ bool LLMeshRepository::hasPhysicsShape(const LLUUID& mesh_id)
 	return false;
 }
 
+static LLFastTimer::DeclareTimer FTM_MESH_FETCH_GET_MESH_HEADER("Get Mesh Header");
 LLSD& LLMeshRepository::getMeshHeader(const LLUUID& mesh_id)
 {
 	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH);
+	LL_RECORD_BLOCK_TIME(FTM_MESH_FETCH_GET_MESH_HEADER);
 
 	return mThread->getMeshHeader(mesh_id);
 }
@@ -4327,10 +4417,13 @@ F32 LLMeshRepository::getStreamingCostLegacy(LLSD& header, F32 radius, S32* byte
 	F32 dlow = llmin(radius/0.06f, max_distance);
 	F32 dmid = llmin(radius/0.24f, max_distance);
 	
-	F32 METADATA_DISCOUNT = (F32) gSavedSettings.getU32("MeshMetaDataDiscount");  //discount 128 bytes to cover the cost of LLSD tags and compression domain overhead
-	F32 MINIMUM_SIZE = (F32) gSavedSettings.getU32("MeshMinimumByteSize"); //make sure nothing is "free"
+	static LLCachedControl<U32> metadata_discount_ctrl(gSavedSettings, "MeshMetaDataDiscount");  //discount 128 bytes to cover the cost of LLSD tags and compression domain overhead
+	static LLCachedControl<U32> minimum_size_ctrl(gSavedSettings, "MeshMinimumByteSize"); //make sure nothing is "free"
+	static LLCachedControl<U32> bytes_per_triangle_ctrl(gSavedSettings, "MeshBytesPerTriangle");
 
-	F32 bytes_per_triangle = (F32) gSavedSettings.getU32("MeshBytesPerTriangle");
+	const F32 METADATA_DISCOUNT = (F32)metadata_discount_ctrl;  //discount 128 bytes to cover the cost of LLSD tags and compression domain overhead
+	const F32 MINIMUM_SIZE = (F32)minimum_size_ctrl; //make sure nothing is "free"
+	const F32 bytes_per_triangle = (F32)bytes_per_triangle_ctrl;
 
 	S32 bytes_lowest = header["lowest_lod"]["size"].asInteger();
 	S32 bytes_low = header["low_lod"]["size"].asInteger();
@@ -4412,8 +4505,8 @@ F32 LLMeshRepository::getStreamingCostLegacy(LLSD& header, F32 radius, S32* byte
 	{
 		*unscaled_value = weighted_avg;
 	}
-
-	return weighted_avg/gSavedSettings.getU32("MeshTriangleBudget")*15000.f;
+	static LLCachedControl<U32> triangle_budget(gSavedSettings, "MeshTriangleBudget");
+	return weighted_avg / (F32)triangle_budget * 15000.f;
 }
 
 LLMeshCostData::LLMeshCostData()
@@ -4454,13 +4547,12 @@ bool LLMeshCostData::init(const LLSD& header)
     mSizeByLOD[2] = bytes_med;
     mSizeByLOD[3] = bytes_high;
 
-    F32 METADATA_DISCOUNT = (F32) gSavedSettings.getU32("MeshMetaDataDiscount");  //discount 128 bytes to cover the cost of LLSD tags and compression domain overhead
-    F32 MINIMUM_SIZE = (F32) gSavedSettings.getU32("MeshMinimumByteSize"); //make sure nothing is "free"
-    F32 bytes_per_triangle = (F32) gSavedSettings.getU32("MeshBytesPerTriangle");
-
+	static LLCachedControl<U32> METADATA_DISCOUNT(gSavedSettings, "MeshMetaDataDiscount");  //discount 128 bytes to cover the cost of LLSD tags and compression domain overhead
+	static LLCachedControl<U32> MINIMUM_SIZE(gSavedSettings, "MeshMinimumByteSize"); //make sure nothing is "free"
+	static LLCachedControl<U32> bytes_per_triangle(gSavedSettings, "MeshBytesPerTriangle");
     for (S32 i=0; i<4; i++)
     {
-        mEstTrisByLOD[i] = llmax((F32) mSizeByLOD[i]-METADATA_DISCOUNT, MINIMUM_SIZE)/bytes_per_triangle; 
+        mEstTrisByLOD[i] = llmax((F32) mSizeByLOD[i]- (F32)METADATA_DISCOUNT, (F32)MINIMUM_SIZE)/(F32)bytes_per_triangle;
     }
 
     return true;
@@ -4568,7 +4660,8 @@ F32 LLMeshCostData::getEstTrisForStreamingCost()
 
 F32 LLMeshCostData::getRadiusBasedStreamingCost(F32 radius)
 {
-	return getRadiusWeightedTris(radius)/gSavedSettings.getU32("MeshTriangleBudget")*15000.f;
+	static LLCachedControl<U32> triangle_budget(gSavedSettings, "MeshTriangleBudget");
+	return getRadiusWeightedTris(radius) / (F32)triangle_budget * 15000.f;
 }
 
 F32 LLMeshCostData::getTriangleBasedStreamingCost()

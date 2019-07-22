@@ -283,16 +283,19 @@ public:
 	};
 
 	//set of requested skin info
-	std::set<UUIDBasedRequest> mSkinRequests;
-	
-	// list of completed skin info requests
-	std::list<LLMeshSkinInfo> mSkinInfoQ;
+	std::queue<UUIDBasedRequest> mSkinReqQ;
 
-	//set of requested decompositions
-	std::set<UUIDBasedRequest> mDecompositionRequests;
+	// list of skin info requests that have failed or are unavailaibe
+	std::queue<UUIDBasedRequest> mSkinUnavailableQ;
+
+	// list of completed skin info requests
+	std::queue<LLMeshSkinInfo> mSkinInfoQ;
 
 	//set of requested physics shapes
 	std::set<UUIDBasedRequest> mPhysicsShapeRequests;
+
+	//set of requested decompositions
+	std::set<UUIDBasedRequest> mDecompositionRequests;
 
 	// list of completed Decomposition info requests
 	std::list<LLModel::Decomposition*> mDecompositionQ;
@@ -358,7 +361,7 @@ public:
 
 	//send request for skin info, returns true if header info exists 
 	//  (should hold onto mesh_id and try again later if header info does not exist)
-	bool fetchMeshSkinInfo(const LLUUID& mesh_id);
+	bool fetchMeshSkinInfo(const LLUUID& mesh_id, bool can_retry = true);
 
 	//send request for decomposition, returns true if header info exists 
 	//  (should hold onto mesh_id and try again later if header info does not exist)
@@ -578,6 +581,7 @@ public:
 	void shutdown();
 	S32 update();
 
+	void unregisterMesh(LLVOVolume* volume);
 	//mesh management functions
 	S32 loadMesh(LLVOVolume* volume, const LLVolumeParams& mesh_params, S32 detail = 0, S32 last_lod = -1);
 	
@@ -585,11 +589,12 @@ public:
 	void notifyMeshLoaded(const LLVolumeParams& mesh_params, LLVolume* volume);
 	void notifyMeshUnavailable(const LLVolumeParams& mesh_params, S32 lod);
 	void notifySkinInfoReceived(LLMeshSkinInfo& info);
+	void notifySkinInfoUnavailable(const LLUUID& info);
 	void notifyDecompositionReceived(LLModel::Decomposition* info);
 
 	S32 getActualMeshLOD(const LLVolumeParams& mesh_params, S32 lod);
 	static S32 getActualMeshLOD(LLSD& header, S32 lod);
-	const LLMeshSkinInfo* getSkinInfo(const LLUUID& mesh_id, const LLVOVolume* requesting_obj);
+	LLMeshSkinInfo* getSkinInfo(const LLUUID& mesh_id, LLVOVolume* requesting_obj);
 	LLModel::Decomposition* getDecomposition(const LLUUID& mesh_id);
 	void fetchPhysicsShape(const LLUUID& mesh_id);
 	bool hasPhysicsShape(const LLUUID& mesh_id);
@@ -617,12 +622,10 @@ public:
 	static void metricsProgress(unsigned int count);
 	static void metricsUpdate();
 	
-	typedef std::map<LLVolumeParams, std::set<LLUUID> > mesh_load_map;
+	typedef std::map<LLVolumeParams, std::vector<LLVOVolume*> > mesh_load_map;
 	mesh_load_map mLoadingMeshes[4];
 	
-	// <alchemy> - War on std::map
-	//typedef std::map<LLUUID, LLMeshSkinInfo> skin_map;
-	typedef boost::unordered_map<LLUUID, LLMeshSkinInfo> skin_map;
+	typedef std::map<LLUUID, LLMeshSkinInfo> skin_map;
 	skin_map mSkinMap;
 
 	typedef std::map<LLUUID, LLModel::Decomposition*> decomposition_map;
@@ -633,7 +636,7 @@ public:
 	std::vector<LLMeshRepoThread::LODRequest> mPendingRequests;
 	
 	//list of mesh ids awaiting skin info
-	typedef std::map<LLUUID, std::set<LLUUID> > skin_load_map;
+	typedef std::map<LLUUID, std::vector<LLVOVolume*> > skin_load_map;
 	skin_load_map mLoadingSkins;
 
 	//list of mesh ids that need to send skin info fetch requests

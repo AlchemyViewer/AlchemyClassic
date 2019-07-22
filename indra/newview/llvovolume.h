@@ -330,6 +330,8 @@ public:
     void updateVisualComplexity();
     
 	void notifyMeshLoaded();
+	void notifySkinInfoLoaded(LLMeshSkinInfo* skin);
+	void notifySkinInfoUnavailable();
 	
 	// Returns 'true' iff the media data for this object is in flight
 	bool isMediaDataBeingFetched() const;
@@ -408,6 +410,13 @@ private:
 
 	LLPointer<LLRiggedVolume> mRiggedVolume;
 
+	bool isSkinInfoLoaded() { return mSkinInfoReceived; }
+	bool hasSkinInfoFailed() { return mSkinInfoFailed; }
+
+	bool mSkinInfoReceived;
+	bool mSkinInfoFailed;
+	LLMeshSkinInfo *mSkinInfo;
+	
 	// statics
 public:
 	static F32 sLODSlopDistanceFactor;// Changing this to zero, effectively disables the LOD transition slop

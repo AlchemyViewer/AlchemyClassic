@@ -1014,25 +1014,7 @@ LLUUID::LLUUID()
 	return memcmp(mData, nullUUID, sizeof(mData) * sizeof(U8)) == 0; // <alchemy/>
 }
 
-// Copy constructor
- LLUUID::LLUUID(const LLUUID& rhs)
-{
-	memcpy(mData, rhs.mData, sizeof(mData) * sizeof(U8)); // <alchemy/>
-}
-
- LLUUID::~LLUUID()
-{
-}
-
-// Assignment
- LLUUID& LLUUID::operator=(const LLUUID& rhs)
-{
-	memcpy(mData, rhs.mData, sizeof(mData) * sizeof(U8)); // <alchemy/>
-	return *this;
-}
-
-
- LLUUID::LLUUID(const char *in_string)
+LLUUID::LLUUID(const char *in_string)
 {
 	if (!in_string || in_string[0] == 0)
 	{
@@ -1043,7 +1025,7 @@ LLUUID::LLUUID()
 	set(in_string);
 }
 
- LLUUID::LLUUID(const std::string& in_string)
+LLUUID::LLUUID(const std::string& in_string)
 {
 	if (in_string.empty())
 	{
@@ -1056,12 +1038,12 @@ LLUUID::LLUUID()
 
 // IW: DON'T "optimize" these w/ U32s or you'll scoogie the sort order
 // IW: this will make me very sad
- bool LLUUID::operator<(const LLUUID &rhs) const
+bool LLUUID::operator<(const LLUUID &rhs) const
 {
 	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) < 0;
 }
 
- bool LLUUID::operator>(const LLUUID &rhs) const
+bool LLUUID::operator>(const LLUUID &rhs) const
 {
 	return memcmp(mData, rhs.mData, sizeof(mData) * sizeof(U8)) > 0;
 }

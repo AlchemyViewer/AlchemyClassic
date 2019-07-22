@@ -38,9 +38,9 @@ public:
 	LLMaterialID(const LLSD& pMaterialID);
 	LLMaterialID(const LLSD::Binary& pMaterialID);
 	LLMaterialID(const void* pMemory);
-	LLMaterialID(const LLMaterialID& pOtherMaterialID);
+	LLMaterialID(const LLMaterialID& pOtherMaterialID) = default;
 	LLMaterialID(const LLUUID& lluid);
-	~LLMaterialID();
+	~LLMaterialID() = default;
 
 	bool          operator == (const LLMaterialID& pOtherMaterialID) const;
 	bool          operator != (const LLMaterialID& pOtherMaterialID) const;
@@ -50,7 +50,7 @@ public:
 	bool          operator > (const LLMaterialID& pOtherMaterialID) const;
 	bool          operator >= (const LLMaterialID& pOtherMaterialID) const;
 
-	LLMaterialID& operator = (const LLMaterialID& pOtherMaterialID);
+	LLMaterialID& operator = (const LLMaterialID& pOtherMaterialID) = default;
 
 	template <typename H>
 	friend H AbslHashValue(H h, const LLMaterialID& id) {
@@ -85,11 +85,13 @@ public:
 
 private:
 	void parseFromBinary(const LLSD::Binary& pMaterialID);
-	void copyFromOtherMaterialID(const LLMaterialID& pOtherMaterialID);
 	int  compareToOtherMaterialID(const LLMaterialID& pOtherMaterialID) const;
 
 	U8 mID[MATERIAL_ID_SIZE];
 } ;
+
+static_assert(sizeof(LLMaterialID) == MATERIAL_ID_SIZE, "LLMaterialID must be sizeof(mID)");
+static_assert(std::is_trivially_copyable<LLMaterialID>{}, "LLMaterialID must be a trivially copyable type");
 
 #endif // LL_LLMATERIALID_H
 

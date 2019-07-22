@@ -312,29 +312,46 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
                 //S32 active_verts = 0;
                 vol_face.mJointRiggingInfoTab.resize(LL_CHARACTER_MAX_ANIMATED_JOINTS);
                 LLJointRiggingInfoTab &rig_info_tab = vol_face.mJointRiggingInfoTab;
+                LLIVector4a max_joint_count((S16)LL_CHARACTER_MAX_ANIMATED_JOINTS - 1);
                 for (S32 i=0; i<vol_face.mNumVertices; i++)
                 {
                     LLVector4a& pos = vol_face.mPositions[i];
-                    F32 *weights = vol_face.mWeights[i].getF32ptr();
-                    LLVector4 wght;
-                    S32 idx[4];
-                    F32 scale = 0.0f;
-                    // FIXME unpacking of weights should be pulled into a common function and optimized if possible.
-                    for (U32 k = 0; k < 4; k++)
-                    {
-                        F32 w = weights[k];
-                        idx[k] = llclamp((S32) floorf(w), (S32)0, (S32)LL_CHARACTER_MAX_ANIMATED_JOINTS-1);
-                        wght[k] = w - idx[k];
-                        scale += wght[k];
-                    }
-                    if (scale > 0.0f)
-                    {
-                        for (U32 k=0; k<4; ++k)
-                        {
-                            wght[k] /= scale;
-                        }
-                    }
-                    for (U32 k=0; k<4; ++k)
+
+					LL_ALIGN_16(S32 idx[4]);
+					LL_ALIGN_16(F32 wght[4]);
+
+					LLIVector4a current_joint_index;
+					current_joint_index.setFloatTrunc(vol_face.mWeights[i]);
+
+					LLVector4a weight;
+					weight.setSub(vol_face.mWeights[i], current_joint_index);
+
+					current_joint_index.min16(max_joint_count);
+					current_joint_index.store128a(idx);
+
+					LLVector4a scale;
+					scale.setMoveHighLow(weight);
+					scale.add(weight);
+					scale.addFirst(scale.getScalarAt<1>());
+					scale.splat<0>(scale);
+
+					bool scale_invalid = scale.lessEqual(LLVector4a::getEpsilon()).areAnySet(LLVector4Logical::MASK_XYZW);
+					if (scale_invalid)
+					{
+						static const LLVector4a safeVal(1.0f, 0.0f, 0.0f, 0.0f);
+						safeVal.store4a(wght);
+						LL_WARNS() << "Invalid scale" << LL_ENDL;
+					}
+					else
+					{
+						// This is enforced  in unpackVolumeFaces()
+						weight.div(scale);
+						weight.store4a(wght);
+					}
+
+					LLMatrix4a mat;
+					LLVector4a pos_joint_space;
+					for (U32 k=0; k<4; ++k)
                     {
 						S32 joint_index = idx[k];
                         if (wght[k] > 0.0f)
@@ -345,12 +362,7 @@ void LLSkinningUtil::updateRiggingInfo(const LLMeshSkinInfo* skin, LLVOAvatar *a
                                 rig_info_tab[joint_num].setIsRiggedTo(true);
 
                                 // FIXME could precompute these matMuls.
-                                LLMatrix4a bind_shape;
-                                bind_shape.loadu(skin->mBindShapeMatrix);
-                                LLMatrix4a inv_bind(skin->mInvBindMatrix[joint_index]);
-                                LLMatrix4a mat;
-                                matMul(bind_shape, inv_bind, mat);
-                                LLVector4a pos_joint_space;
+								mat.setMul(skin->mInvBindMatrix[joint_index], skin->mBindShapeMatrix);
                                 mat.affineTransform(pos, pos_joint_space);
                                 pos_joint_space.mul(wght[k]);
                                 LLVector4a *extents = rig_info_tab[joint_num].getRiggedExtents();

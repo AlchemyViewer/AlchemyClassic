@@ -41,11 +41,11 @@ inline void LLVector4a::loadua(const F32* src)
 }
 
 // Load only three floats beginning at address 'src'. Slowest method.
-inline void LLVector4a::load3(const F32* src)
+inline void LLVector4a::load3(const F32* src, const float w)
 {
 	// mQ = { 0.f, src[2], src[1], src[0] } = { W, Z, Y, X }
 	// NB: This differs from the convention of { Z, Y, X, W }
-	mQ = _mm_set_ps(0.f, src[2], src[1], src[0]);
+	mQ = _mm_set_ps(w, src[2], src[1], src[0]);
 }	
 
 // Store to a 16-byte aligned memory address
@@ -104,6 +104,30 @@ template <int N> LL_FORCE_INLINE LLSimdScalar LLVector4a::getScalarAt() const
 template<> LL_FORCE_INLINE LLSimdScalar LLVector4a::getScalarAt<0>() const
 {
 	return mQ;
+}
+
+// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
+inline LLVector4a LLVector4a::getVectorAt(const S32 idx) const
+{
+	// Return appropriate LLQuad. It will be cast to LLSimdScalar automatically (should be effectively a nop)
+	switch (idx)
+	{
+	case 0:
+		return mQ;
+	case 1:
+		return _mm_shuffle_ps(mQ, mQ, _MM_SHUFFLE(1, 1, 1, 1));
+	case 2:
+		return _mm_shuffle_ps(mQ, mQ, _MM_SHUFFLE(2, 2, 2, 2));
+	case 3:
+	default:
+		return _mm_shuffle_ps(mQ, mQ, _MM_SHUFFLE(3, 3, 3, 3));
+	}
+}
+
+// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
+template <int N> LL_FORCE_INLINE LLVector4a LLVector4a::getVectorAt() const
+{
+	return _mm_shuffle_ps(mQ, mQ, _MM_SHUFFLE(N, N, N, N));
 }
 
 // Set to an x, y, z and optional w provided
@@ -182,10 +206,27 @@ inline void LLVector4a::setAdd(const LLVector4a& a, const LLVector4a& b)
 	mQ = _mm_add_ps(a.mQ, b.mQ);
 }
 
+// Set this to the element-wise (a + b)
+inline void LLVector4a::setAdd(const LLVector4a& a, const LLIVector4a& b)
+{
+	mQ = _mm_add_ps(a.mQ, _mm_cvtepi32_ps(b.mQ));
+}
+
+// Set this to the element-wise (a0 + b0, a1, a2, a3)
+inline void LLVector4a::setAddFirst(const LLVector4a& a, const LLVector4a& b)
+{
+	mQ = _mm_add_ss(a.mQ, b.mQ);
+}
+
 // Set this to element-wise (a - b)
 inline void LLVector4a::setSub(const LLVector4a& a, const LLVector4a& b)
 {
 	mQ = _mm_sub_ps(a.mQ, b.mQ);
+}
+
+inline void LLVector4a::setSub(const LLVector4a& a, const LLIVector4a& b)
+{
+	mQ = _mm_sub_ps(a.mQ, _mm_cvtepi32_ps(b.mQ));
 }
 
 // Set this to element-wise multiply (a * b)
@@ -211,6 +252,12 @@ inline void LLVector4a::setAbs(const LLVector4a& src)
 inline void LLVector4a::add(const LLVector4a& rhs)
 {
 	mQ = _mm_add_ps(mQ, rhs.mQ);	
+}
+
+// Add to the first componant in this vector 
+inline void LLVector4a::addFirst(const LLVector4a& rhs)
+{
+	mQ = _mm_add_ss(mQ, rhs.mQ);
 }
 
 // Subtract from each component in this vector the corresponding component in rhs
@@ -536,6 +583,21 @@ inline void LLVector4a::clamp( const LLVector4a& low, const LLVector4a& high )
 	setSelectWithMask( lowMask, low, *this );
 }
 
+inline void LLVector4a::negate()
+{
+	static LL_ALIGN_16(const U32 signMask[4]) = {0x80000000, 0x80000000, 0x80000000, 0x80000000 };
+	mQ = _mm_xor_ps(*reinterpret_cast<const LLQuad*>(signMask), mQ);
+}
+
+inline void LLVector4a::setMoveHighLow(const LLVector4a rhs)
+{
+	mQ = _mm_movehl_ps(rhs.mQ, rhs.mQ);
+}
+
+inline void LLVector4a::moveHighLow()
+{
+	mQ = _mm_movehl_ps(mQ, mQ);
+}
 
 ////////////////////////////////////
 // LOGICAL
@@ -600,13 +662,7 @@ inline bool LLVector4a::equals3(const LLVector4a& rhs, F32 tolerance ) const
 ////////////////////////////////////	
 
 // Do NOT add aditional operators without consulting someone with SSE experience
-inline const LLVector4a& LLVector4a::operator= ( const LLVector4a& rhs )
-{
-	mQ = rhs.mQ;
-	return *this;
-}
-
-inline const LLVector4a& LLVector4a::operator= ( const LLQuad& rhs )
+inline const LLVector4a& LLVector4a::operator= (const LLQuad& rhs)
 {
 	mQ = rhs;
 	return *this;

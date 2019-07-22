@@ -32,12 +32,7 @@
 #endif
 
 typedef __m128	LLQuad;
-
-
-#if LL_WINDOWS
-#pragma warning(push)
-#pragma warning( disable : 4800 ) // Disable warning about casting int to bool for this class.
-#endif // LL_WINDOWS
+typedef __m128i LLIQuad;
 
 class LLBool32
 {
@@ -55,10 +50,6 @@ private:
 	int m_bool;
 };
 
-#if LL_WINDOWS
-#pragma warning(pop)
-#endif
-
 class LLSimdScalar
 {
 public:
@@ -75,8 +66,14 @@ public:
 
 	static inline const LLSimdScalar& getZero()
 	{
-		extern const LLQuad F_ZERO_4A;
-		return reinterpret_cast<const LLSimdScalar&>(F_ZERO_4A);
+		extern const LLSimdScalar LL_SIMDSCALER_ZERO;
+		return LL_SIMDSCALER_ZERO;
+	}
+
+	static inline const LLSimdScalar& getOne()
+	{
+		extern const LLSimdScalar LL_SIMDSCALER_ONE;
+		return LL_SIMDSCALER_ONE;
 	}
 
 	inline F32 getF32() const;
@@ -112,5 +109,8 @@ public:
 private:
 	LLQuad mQ;
 };
+
+static_assert(std::is_trivially_copyable<LLBool32>{}, "LLBool32 must be a trivially copyable type");
+static_assert(std::is_trivially_copyable<LLSimdScalar>{}, "LLSimdScalar must be a trivially copyable type");
 
 #endif //LL_SIMD_TYPES_H

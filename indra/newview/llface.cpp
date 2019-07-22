@@ -965,7 +965,7 @@ BOOL LLFace::genVolumeBBoxes(const LLVolume &volume, S32 f,
 		llassert(less_than_max_mag(face.mExtents[0]));
 		llassert(less_than_max_mag(face.mExtents[1]));
 
-		matMulBoundBox(mat_vert, face.mExtents, mExtents);
+		mat_vert.matMulBoundBox(mat_vert, face.mExtents, mExtents);
 
         LL_DEBUGS("RiggedBox") << "updated extents for face " << f 
                                << " bbox gave extents " << mExtents[0] << ", " << mExtents[1] << LL_ENDL;

@@ -31,6 +31,7 @@
 #include "llquantize.h"
 
 extern const LLQuad F_ZERO_4A		= { 0, 0, 0, 0 };
+extern const LLQuad F_ONE_4A		= { 1, 1, 1, 1 };
 extern const LLQuad F_APPROXIMATELY_ZERO_4A = { 
 	F_APPROXIMATELY_ZERO,
 	F_APPROXIMATELY_ZERO,
@@ -39,7 +40,14 @@ extern const LLQuad F_APPROXIMATELY_ZERO_4A = {
 };
 
 extern const LLVector4a LL_V4A_ZERO = reinterpret_cast<const LLVector4a&> ( F_ZERO_4A );
+extern const LLVector4a LL_V4A_ONE = reinterpret_cast<const LLVector4a&> (F_ONE_4A);
 extern const LLVector4a LL_V4A_EPSILON = reinterpret_cast<const LLVector4a&> ( F_APPROXIMATELY_ZERO_4A );
+
+extern const LLIQuad I_ZERO_4A = { 0, 0, 0, 0 };
+extern const LLIQuad I_ONE_4A = { 1, 1, 1, 1 };
+
+extern const LLIVector4a LL_IV4A_ZERO = reinterpret_cast<const LLIVector4a&> (I_ZERO_4A);
+extern const LLIVector4a LL_IV4A_ONE = reinterpret_cast<const LLIVector4a&> (I_ONE_4A);
 
 /*static */void LLVector4a::memcpyNonAliased16(F32* __restrict dst, const F32* __restrict src, size_t bytes)
 {

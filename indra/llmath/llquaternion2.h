@@ -85,6 +85,8 @@ public:
 	// Quantize this quaternion to 16 bit precision
 	inline void quantize16();
 
+	inline void mul(const LLQuaternion2& b);
+
 	/////////////////////////
 	// Quaternion inspection
 	/////////////////////////
@@ -102,5 +104,7 @@ protected:
 	LL_ALIGN_16(LLVector4a mQ);
 
 } LL_ALIGN_POSTFIX(16);
+
+static_assert(std::is_trivially_copyable<LLQuaternion2>{}, "LLQuaternion2 must be a trivially copyable type");
 
 #endif

@@ -51,6 +51,7 @@ class LLVector4a;
 LL_ALIGN_PREFIX(16)
 class LLVector4a
 {
+	friend class LLIVector4a;
 public:
 
 	///////////////////////////////////
@@ -69,6 +70,13 @@ public:
 	{
 		extern const LLVector4a LL_V4A_ZERO;
 		return LL_V4A_ZERO;
+	}
+
+	// Return a vector of all ones
+	static inline const LLVector4a& getOne()
+	{
+		extern const LLVector4a LL_V4A_ONE;
+		return LL_V4A_ONE;
 	}
 	
 	// Return a vector of all epsilon, where epsilon is a small float suitable for approximate equality checks
@@ -128,7 +136,7 @@ public:
 	inline void loadua(const F32* src);
 	
 	// Load only three floats beginning at address 'src'. Slowest method.
-	inline void load3(const F32* src);
+	inline void load3(const F32* src, const F32 w=0.f);
 	
 	// Store to a 16-byte aligned memory address
 	inline void store4a(F32* dst) const;
@@ -152,6 +160,12 @@ public:
 
 	// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
 	template <int N> LL_FORCE_INLINE LLSimdScalar getScalarAt() const;
+
+	// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
+	inline LLVector4a getVectorAt(const S32 idx) const;
+
+	// Prefer this method for read-only access to a single element. Prefer the templated version if the elem is known at compile time.
+	template <int N> LL_FORCE_INLINE LLVector4a getVectorAt() const;
 
 	// Set to an x, y, z and optional w provided
 	inline void set(F32 x, F32 y, F32 z, F32 w = 0.f);
@@ -183,9 +197,18 @@ public:
 	
 	// Set this to the element-wise (a + b)
 	inline void setAdd(const LLVector4a& a, const LLVector4a& b);
+
+	// Set this to the element-wise (a + b)
+	inline void setAdd(const LLVector4a& a, const LLIVector4a& b);
+
+	// Set this to the element-wise (a0 + b0, a1, a2, a3)
+	inline void setAddFirst(const LLVector4a& a, const LLVector4a& b);
 	
 	// Set this to element-wise (a - b)
 	inline void setSub(const LLVector4a& a, const LLVector4a& b);
+
+	// Set this to element-wise (a - b)
+	inline void setSub(const LLVector4a& a, const LLIVector4a& b);
 	
 	// Set this to element-wise multiply (a * b)
 	inline void setMul(const LLVector4a& a, const LLVector4a& b);
@@ -198,6 +221,9 @@ public:
 	
 	// Add to each component in this vector the corresponding component in rhs
 	inline void add(const LLVector4a& rhs);
+
+	// Add the first component of rhs to the first componant in this vector 
+	inline void addFirst(const LLVector4a& rhs);
 	
 	// Subtract from each component in this vector the corresponding component in rhs
 	inline void sub(const LLVector4a& rhs);
@@ -285,6 +311,14 @@ public:
 	void quantize8( const LLVector4a& low, const LLVector4a& high );
 	void quantize16( const LLVector4a& low, const LLVector4a& high );
 
+	void negate();
+
+	// Set this vector to  rhs(2, 3, 2, 3)
+	inline void setMoveHighLow(const LLVector4a rhs);
+
+	// Move high order bits to low order bits (2, 3, 2, 3)
+	inline void moveHighLow();
+
 	////////////////////////////////////
 	// LOGICAL
 	////////////////////////////////////	
@@ -318,12 +352,16 @@ public:
 	////////////////////////////////////	
 	
 	// Do NOT add aditional operators without consulting someone with SSE experience
-	inline const LLVector4a& operator= ( const LLVector4a& rhs );
+	//inline const LLVector4a& operator= ( const LLVector4a& rhs )
+	//{
+	//	mQ = rhs.mQ;
+	//	return *this;
+	//}
 	
-	inline const LLVector4a& operator= ( const LLQuad& rhs );
+	inline const LLVector4a& operator= (const LLQuad& rhs);
 
 	inline operator LLQuad() const;	
-    
+
 private:
 	LLQuad mQ;
 } LL_ALIGN_POSTFIX(16);
@@ -339,4 +377,139 @@ inline std::ostream& operator<<(std::ostream& s, const LLVector4a& v)
     s << "(" << v[0] << ", " << v[1] << ", " << v[2] << ", " << v[3] << ")";
     return s;
 }
+
+LL_ALIGN_PREFIX(16)
+class LLIVector4a
+{
+	friend class LLVector4a;
+public:
+
+	// Constants
+	// Return a vector of all zeros
+	static inline const LLIVector4a& getZero()
+	{
+		extern const LLIVector4a LL_IV4A_ZERO;
+		return LL_IV4A_ZERO;
+	}
+
+	// Return a vector of all ones
+	static inline const LLIVector4a& getOne()
+	{
+		extern const LLIVector4a LL_IV4A_ONE;
+		return LL_IV4A_ONE;
+	}
+
+	////////////////////////////////////
+	// CONSTRUCTORS 
+	////////////////////////////////////
+
+	LLIVector4a()
+	{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
+		ll_assert_aligned(this, 16);
+	}
+
+	//LLIVector4a(S32 x, S32 y, S32 z, S32 w = 0)
+	//{
+	//	set(x, y, z, w);
+	//}
+
+	explicit LLIVector4a(S16 x)
+	{
+		splat16(x);
+	}
+
+	explicit LLIVector4a(S32 x)
+	{
+		splat32(x);
+	}
+
+	explicit LLIVector4a(S64 x)
+	{
+		splat64(x);
+	}
+
+	LLIVector4a(LLIQuad q)
+	{
+		mQ = q;
+	}
+
+	LLIVector4a(const LLVector4a& rhs)
+	{
+		setFloatTrunc(rhs);
+	}
+
+	////////////////////////////////////
+	// LOAD/STORE
+	////////////////////////////////////
+
+	// Load from 16-byte aligned src array (preferred method of loading)
+	inline void load128a(const S32* src)
+	{
+		mQ = _mm_load_si128((LLIQuad*)src);
+	}
+
+	// Load from unaligned src array (NB: Significantly slower than load4a)
+	inline void load128ua(const S32* src)
+	{
+		mQ = _mm_loadu_si128((LLIQuad*)src);
+	}
+
+	// Store to a 16-byte aligned memory address
+	inline void store128a(S32* dst) const
+	{
+		_mm_store_si128((LLIQuad*)dst, mQ);
+	}
+
+	inline void splat16(const S16 x)
+	{
+		mQ = _mm_set1_epi16(x);
+	}
+
+	inline void splat32(const S32 x)
+	{
+		mQ = _mm_set1_epi32(x);
+	}
+
+	inline void splat64(const S64 x)
+	{
+		mQ = _mm_set1_epi64x(x);
+	}
+
+	inline void setFloatTrunc(const LLVector4a& rhs)
+	{
+		mQ = _mm_cvttps_epi32(rhs.mQ);
+	}
+
+	inline void setMin16(const LLIVector4a& lhs, const LLIVector4a& rhs)
+	{
+		mQ = _mm_min_epi16(lhs.mQ, rhs.mQ);
+	}
+
+	inline void min16(const LLIVector4a& rhs)
+	{
+		mQ = _mm_min_epi16(mQ, rhs.mQ);
+	}
+
+	inline void setMax16(const LLIVector4a& lhs, const LLIVector4a& rhs)
+	{
+		mQ = _mm_max_epi16(lhs.mQ, rhs.mQ);
+	}
+
+	inline void max16(const LLIVector4a& rhs)
+	{
+		mQ = _mm_max_epi16(mQ, rhs.mQ);
+	}
+
+	inline operator LLIQuad() const
+	{
+		return mQ;
+	}
+
+private:
+	LLIQuad mQ;
+} LL_ALIGN_POSTFIX(16);
+
+static_assert(std::is_trivially_copyable<LLVector4a>{}, "LLVector4a must be a trivially copyable type");
+static_assert(std::is_trivially_copyable<LLIVector4a>{}, "LLIVector4a must be a trivially copyable type");
+
 #endif

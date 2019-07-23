@@ -669,7 +669,7 @@ public:
 					std::string username = chat.mFromName.substr(username_start + 2);
 					username = username.substr(0, username.length() - 1);
 					LLStyle::Params style_params_name;
-					LLColor4 userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
+					static LLUIColor userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
 					style_params_name.color(userNameColor);
 					style_params_name.font.name("SansSerifSmall");
 					style_params_name.font.style("NORMAL");
@@ -914,7 +914,7 @@ private:
 	{
 		LLTextBox* time_box = getChild<LLTextBox>("time_box");
 
-		LLColor4 timestamp_color = LLUIColorTable::instance().getColor("ChatHeaderTimestampColor"); // <alchemy/>
+		static LLUIColor timestamp_color = LLUIColorTable::instance().getColor("ChatHeaderTimestampColor"); // <alchemy/>
 		time_box->setColor(timestamp_color); // <alchemy/>
 
 		LLRect rect_before = time_box->getRect();
@@ -965,7 +965,7 @@ private:
 			!av_name.isDisplayNameDefault())
 		{
 			LLStyle::Params style_params_name;
-			LLColor4 userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
+			static LLUIColor userNameColor = LLUIColorTable::instance().getColor("ChatHeaderUserNameColor"); // <alchemy/>
 			style_params_name.color(userNameColor);
 			style_params_name.font.name("SansSerifSmall");
 			style_params_name.font.style("NORMAL");
@@ -1253,7 +1253,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 			LLStyle::Params timestamp_style(body_message_params);
 			if (!message_from_log)
 			{
-				LLColor4 timestamp_color = LLUIColorTable::instance().getColor("ChatTimestampColor");
+				static LLUIColor timestamp_color = LLUIColorTable::instance().getColor("ChatTimestampColor");
 				timestamp_style.color(timestamp_color);
 				timestamp_style.readonly_color(timestamp_color);
 			}
@@ -1280,7 +1280,7 @@ void LLChatHistory::appendMessage(const LLChat& chat, const LLSD &args, const LL
 				// set the link for the object name to be the objectim SLapp
 				// (don't let object names with hyperlinks override our objectim Url)
 				LLStyle::Params link_params(body_message_params);
-				LLColor4 link_color = LLUIColorTable::instance().getColor("HTMLLinkColor");
+				static LLUIColor link_color = LLUIColorTable::instance().getColor("HTMLLinkColor");
 				link_params.color = link_color;
 				link_params.readonly_color = link_color;
 				link_params.is_link = true;

@@ -28,6 +28,7 @@
 #define LL_LLUICOLORTABLE_H_
 
 #include <boost/unordered_map.hpp>
+#include "absl/container/node_hash_map.h"
 
 #include "llinitparam.h"
 #include "llsingleton.h"
@@ -42,7 +43,7 @@ class LLUIColorTable : public LLSingleton<LLUIColorTable>
 	LOG_CLASS(LLUIColorTable);
 
 	// consider using sorted vector, can be much faster
-	typedef boost::unordered_map<std::string, LLUIColor>  string_color_map_t;
+	typedef absl::node_hash_map<std::string, LLUIColor>  string_color_map_t;
 
 public:
 	struct ColorParams : LLInitParam::ChoiceBlock<ColorParams>

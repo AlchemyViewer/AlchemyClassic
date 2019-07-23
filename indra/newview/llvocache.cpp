@@ -388,7 +388,7 @@ BOOL LLVOCacheEntry::writeToFile(LLAPRFile* apr_file) const
 void LLVOCacheEntry::updateDebugSettings()
 {
 	static LLFrameTimer timer;
-	if(timer.getElapsedTimeF32() < 10.0f) //update frequency once per second.
+	if(timer.getElapsedTimeF32() < 1.0f) //update frequency once per second.
 	{
 		return;
 	}
@@ -402,6 +402,10 @@ void LLVOCacheEntry::updateDebugSettings()
 	static LLCachedControl<F32> min_radius(gSavedSettings,"SceneLoadMinRadius");
 	sNearRadius = llmin((F32)min_radius, gAgentCamera.mDrawDistance); //can not exceed the draw distance
 	sNearRadius = llmax(sNearRadius, 1.f); //minimum value is 1.0m
+	if(!std::isfinite(sNearRadius))
+	{
+		sNearRadius = 1.f;
+	}
 
 	//objects within the view frustum whose visible area is greater than this threshold will be loaded
 	static LLCachedControl<F32> front_pixel_threshold(gSavedSettings,"SceneLoadFrontPixelThreshold");
@@ -415,9 +419,29 @@ void LLVOCacheEntry::updateDebugSettings()
 	// a percentage of draw distance beyond which all objects outside of view frustum will be unloaded, regardless of pixel threshold
 	static LLCachedControl<F32> rear_max_radius_frac(gSavedSettings,"SceneLoadRearMaxRadiusFraction");
 	sRearFarRadius = llmax(rear_max_radius_frac * gAgentCamera.mDrawDistance / 100.f, 1.0f); //minimum value is 1.0m
-	sRearFarRadius = llmax(sRearFarRadius, (F32)min_radius); //can not be less than "SceneLoadMinRadius".
+	sRearFarRadius = llmax(sRearFarRadius, (F32) sNearRadius); //can not be less than "sNearRadius".
 	sRearFarRadius = llmin(sRearFarRadius, gAgentCamera.mDrawDistance); //can not be more than the draw distance.
+	if (!std::isfinite(sRearFarRadius))
+	{
+		sRearFarRadius = 1.f;
+	}
 
+#if LL_WINDOWS
+	LLMemory::updateMemoryInfo();
+	U32Megabytes avail_mem = LLMemory::getAvailableMemKB();
+	U32Megabytes total_mem = LLMemory::getMaxMemKB();
+	F32 percent_used = (F32)(total_mem-avail_mem).value() / (F32)total_mem.value();
+	static LLCachedControl<F32> memory_percentage_over(gSavedSettings, "SceneLoadMemoryPctOver", 0.8f);
+	if(percent_used < memory_percentage_over)
+	{
+		//LL_INFOS() << "vocacheinfo early out mempct:" << percent_used <<" sRearFarRadius:" << sRearFarRadius << " sMinFrameRange:" << sMinFrameRange << " sNearRadius:" << sNearRadius << LL_ENDL;
+		return; 
+	}
+
+	static LLCachedControl<F32> adjustment_multiplier(gSavedSettings, "SceneLoadMemoryMultiplier", 1.25f);
+	F32 adjust_factor = llmax(0.f, (1.f - percent_used) * adjustment_multiplier);
+	adjust_factor = std::isfinite(adjust_factor) ? adjust_factor : 0.f;
+#else
 	//make the above parameters adaptive to memory usage
 	//starts to put restrictions from low_mem_bound_MB, apply tightest restrictions when hits high_mem_bound_MB
 	static LLCachedControl<U32> low_mem_bound_MB(gSavedSettings,"SceneLoadLowMemoryBound");
@@ -433,10 +457,11 @@ void LLVOCacheEntry::updateDebugSettings()
 	F32 adjust_factor = 0.f;
 	if (divisor != 0)
 		adjust_factor = llmax(0.f, (((F32)high_mem_bound_MB - allocated_mem.value()) / ((F32)divisor)));
-
-	sRearFarRadius = llmin(adjust_factor * sRearFarRadius, 96.f);  //[0.f, 96.f]
+#endif
+	sRearFarRadius = llmin(adjust_factor * sRearFarRadius, 96.f);  //[1.f, 96.f]
 	sMinFrameRange = (U32)llclamp(adjust_factor * sMinFrameRange, 10.f, 64.f);  //[10, 64]
 	sNearRadius    = llmax(adjust_factor * sNearRadius, 1.0f);
+	//LL_INFOS() << "vocacheinfo adjust_factor:" << adjust_factor << " sRearFarRadius:" << sRearFarRadius << " sMinFrameRange:" << sMinFrameRange << " sNearRadius:" << sNearRadius << LL_ENDL;
 }
 
 //static 

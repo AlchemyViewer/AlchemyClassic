@@ -84,37 +84,45 @@ void LLMemory::initMaxHeapSizeGB(F32Gigabytes max_heap_size, BOOL prevent_heap_f
 }
 
 //static 
-void LLMemory::updateMemoryInfo(bool for_cache) 
+void LLMemory::updateMemoryInfo() 
 {
 #if LL_WINDOWS
-	PROCESS_MEMORY_COUNTERS counters;
+	PROCESS_MEMORY_COUNTERS_EX counters;
+	counters.cb = sizeof(counters);
 
-	if (!GetProcessMemoryInfo(GetCurrentProcess(), &counters, sizeof(counters)))
+	if (!GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*) &counters, sizeof(counters)))
 	{
 		LL_WARNS() << "GetProcessMemoryInfo failed" << LL_ENDL;
-		return ;
+		return;
 	}
 
-	sAllocatedMemInKB = U64Bytes(counters.WorkingSetSize) ;
+	sAllocatedMemInKB = U64Bytes(counters.WorkingSetSize);
 	sample(sAllocatedMem, sAllocatedMemInKB);
-	sAllocatedPageSizeInKB = U64Bytes(counters.PagefileUsage) ;
+	sAllocatedPageSizeInKB = (counters.PagefileUsage != 0) ? U64Bytes(counters.PagefileUsage) : U64Bytes(counters.PrivateUsage);
 	sample(sVirtualMem, sAllocatedPageSizeInKB);
 
-	if (!for_cache)
+	MEMORYSTATUSEX memorystat;
+	memorystat.dwLength = sizeof(memorystat);
+	if (!GlobalMemoryStatusEx(&memorystat))
 	{
-		U32Kilobytes avail_phys, avail_virtual;
-		LLMemoryInfo::getAvailableMemoryKB(avail_phys, avail_virtual);
-		sMaxPhysicalMemInKB = llmin(avail_phys + sAllocatedMemInKB, sMaxHeapSizeInKB);
-
-		if (sMaxPhysicalMemInKB > sAllocatedMemInKB)
-		{
-			sAvailPhysicalMemInKB = sMaxPhysicalMemInKB - sAllocatedMemInKB;
-		}
-		else
-		{
-			sAvailPhysicalMemInKB = U32Kilobytes(0);
-		}
+		LL_WARNS() << "GlobalMemoryStatusEx failed" << LL_ENDL;
+		return;
 	}
+#if (ADDRESS_SIZE==64)
+	sMaxPhysicalMemInKB = U64Bytes(memorystat.ullTotalPhys);
+	sAvailPhysicalMemInKB = U64Bytes(memorystat.ullAvailPhys);
+#else
+	sMaxPhysicalMemInKB = llmin(U32Kilobytes(U64Bytes(memorystat.ullTotalPhys)), sMaxHeapSizeInKB);
+	if (sMaxPhysicalMemInKB > sAllocatedMemInKB)
+	{
+		sAvailPhysicalMemInKB = U64Bytes(memorystat.ullAvailPhys);;
+	}
+	else
+	{
+		sAvailPhysicalMemInKB = U32Kilobytes(0);
+	}
+#endif
+
 #else
 	//not valid for other systems for now.
 	sAllocatedMemInKB = U64Bytes(LLMemory::getCurrentRSS());
@@ -155,10 +163,10 @@ void LLMemory::logMemoryInfo(BOOL update)
 		updateMemoryInfo() ;
 	}
 
-	LL_INFOS() << "Current allocated physical memory (KB): " << sAllocatedMemInKB << LL_ENDL ;
+	LL_INFOS() << "Current allocated physical memory(KB): " << sAllocatedMemInKB << LL_ENDL ;
 	LL_INFOS() << "Current allocated page size (KB): " << sAllocatedPageSizeInKB << LL_ENDL ;
-	LL_INFOS() << "Current available physical memory (KB): " << sAvailPhysicalMemInKB << LL_ENDL ;
-	LL_INFOS() << "Current max usable memory (KB): " << sMaxPhysicalMemInKB << LL_ENDL ;
+	LL_INFOS() << "Current available physical memory(KB): " << sAvailPhysicalMemInKB << LL_ENDL ;
+	LL_INFOS() << "Current max usable memory(KB): " << sMaxPhysicalMemInKB << LL_ENDL ;
 }
 
 //return 0: everything is normal;

@@ -376,7 +376,7 @@ public:
 	static U64 getCurrentRSS();
 	static void* tryToAlloc(void* address, U32 size);
 	static void initMaxHeapSizeGB(F32Gigabytes max_heap_size, BOOL prevent_heap_failure);
-	static void updateMemoryInfo(bool for_cache = false) ;
+	static void updateMemoryInfo() ;
 	static void logMemoryInfo(BOOL update = FALSE);
 	static bool isMemoryPoolLow();
 

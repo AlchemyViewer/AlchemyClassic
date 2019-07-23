@@ -489,19 +489,16 @@ class WindowsManifest(ViewerManifest):
             self.path("openjpeg.dll")
 
             # Vivox runtimes
-            with self.prefix(src="", dst="voice"):
-                self.path("SLVoice.exe")
-                if (self.address_size == 64):
-                    self.path("vivoxsdk_x64.dll")
-                    self.path("ortp_x64.dll")
-                else:
-                    self.path("vivoxsdk.dll")
-                    self.path("ortp.dll")
+            self.path("SLVoice.exe")
+            if (self.address_size == 64):
+                self.path("vivoxsdk_x64.dll")
+                self.path("ortp_x64.dll")
+            else:
                 self.path("vivoxsdk.dll")
                 self.path("ortp.dll")
-                self.path("libsndfile-1.dll")
-                self.path("vivoxoal.dll")
-
+            self.path("libsndfile-1.dll")
+            self.path("vivoxoal.dll")
+            
             # Security
             if(self.address_size == 64):
                 self.path("libcrypto-1_1-x64.dll")

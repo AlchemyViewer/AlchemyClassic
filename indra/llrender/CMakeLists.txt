@@ -130,5 +130,6 @@ target_link_libraries(llrender
     ${LLWINDOW_LIBRARIES}
     ${FREETYPE_LIBRARIES}
     ${GLEW_LIBRARIES}
-    ${OPENGL_LIBRARIES})
+    ${OPENGL_LIBRARIES}
+    absl::flat_hash_map)
 

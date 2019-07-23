@@ -27,7 +27,7 @@
 #ifndef LL_LLFONTFREETYPE_H
 #define LL_LLFONTFREETYPE_H
 
-#include <boost/container/flat_map.hpp>
+#include <absl/container/flat_hash_map.h>
 #include "llpointer.h"
 #include "llstl.h"
 
@@ -155,7 +155,7 @@ private:
 	bool getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const;
 	void setKerningCache(U32 left_glyph, U32 right_glyph, F32 kerning) const;
 
-	mutable boost::container::flat_map<U64, F32> mKerningCache;
+	mutable absl::flat_hash_map<U64, F32> mKerningCache;
 
 	std::string mName;
 
@@ -176,7 +176,7 @@ private:
 	BOOL mIsFallback;
 	font_vector_t mFallbackFonts; // A list of fallback fonts to look for glyphs in (for Unicode chars)
 
-	typedef boost::container::flat_map<llwchar, LLFontGlyphInfo*> char_glyph_info_map_t;
+	using char_glyph_info_map_t = absl::flat_hash_map<llwchar, LLFontGlyphInfo*>;
 	mutable char_glyph_info_map_t mCharGlyphInfoMap; // Information about glyph location in bitmap
 
 	mutable LLFontBitmapCache* mFontBitmapCachep;

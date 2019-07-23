@@ -706,8 +706,8 @@ static inline U64 kerning_cache_key(const U32 left_glyph, const U32 right_glyph)
 
 bool LLFontFreetype::getKerningCache(U32 left_glyph, U32 right_glyph, F32& kerning) const
 {
-	auto iter = mKerningCache.find(kerning_cache_key(left_glyph, right_glyph));
-	if (iter == mKerningCache.end())
+	auto const& iter = mKerningCache.find(kerning_cache_key(left_glyph, right_glyph));
+	if (iter == mKerningCache.cend())
 		return false;
 	kerning = iter->second;
 	return true;
@@ -717,7 +717,7 @@ void LLFontFreetype::setKerningCache(U32 left_glyph, U32 right_glyph, F32 kernin
 {
 	// reserve memory to prevent multiple allocations
 	// do this here instead of the constructor to save memory on unused fonts
-	if (mKerningCache.capacity() < 500)
-		mKerningCache.reserve(500);
+	if (mKerningCache.capacity() < 2000)
+		mKerningCache.reserve(2000);
 	mKerningCache.emplace(kerning_cache_key(left_glyph, right_glyph), kerning);
 }

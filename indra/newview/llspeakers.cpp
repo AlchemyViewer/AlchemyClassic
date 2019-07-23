@@ -366,8 +366,8 @@ void LLSpeakerMgr::update(BOOL resort_ok)
 		return;
 	}
 	
-	LLColor4 speaking_color = LLUIColorTable::instance().getColor("SpeakingColor");
-	LLColor4 overdriven_color = LLUIColorTable::instance().getColor("OverdrivenColor");
+	static LLUIColor speaking_color = LLUIColorTable::instance().getColor("SpeakingColor");
+	static LLUIColor overdriven_color = LLUIColorTable::instance().getColor("OverdrivenColor");
 
 	if(resort_ok) // only allow list changes when user is not interacting with it
 	{

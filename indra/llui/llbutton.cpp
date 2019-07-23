@@ -651,8 +651,8 @@ void LLButton::draw()
 	bool selected = getToggleState();
 	
 	bool use_glow_effect = FALSE;
-	LLColor4 highlighting_color = LLUIColorTable::instance().getColor("ButtonHighlightColor", LLColor4::white); // <alchemy/>
-	LLColor4 glow_color = LLUIColorTable::instance().getColor("ButtonGlowColor", LLColor4::white); // <alchemy/>
+	static LLUIColor highlighting_color = LLUIColorTable::instance().getColor("ButtonHighlightColor", LLColor4::white); // <alchemy/>
+	static LLUIColor glow_color = LLUIColorTable::instance().getColor("ButtonGlowColor", LLColor4::white); // <alchemy/>
 	LLRender::eBlendType glow_type = LLRender::BT_ADD_WITH_ALPHA;
 	LLUIImage* imagep = nullptr;
 

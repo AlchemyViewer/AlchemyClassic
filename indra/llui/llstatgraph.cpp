@@ -188,24 +188,20 @@ void LLStatGraph::draw()
 		mUpdateTimer.reset();
 	}
 
-	LLColor4 color;
-
 	threshold_vec_t::iterator it = std::lower_bound(mThresholds.begin(), mThresholds.end(), Threshold(mValue / mMax, LLUIColor()));
-
 	if (it != mThresholds.begin())
 	{
 		it--;
 	}
 
-	color = LLUIColorTable::instance().getColor( "MenuDefaultBgColor" );
-	gGL.color4fv(color.mV);
+	static LLUIColor color = LLUIColorTable::instance().getColor( "MenuDefaultBgColor" );
+	gGL.color4fv(color.get().mV);
 	gl_rect_2d(0, getRect().getHeight(), getRect().getWidth(), 0, TRUE);
 
 	gGL.color4fv(LLColor4::black.mV);
 	gl_rect_2d(0, getRect().getHeight(), getRect().getWidth(), 0, FALSE);
 	
-	color = it->mColor;
-	gGL.color4fv(color.mV);
+	gGL.color4fv(it->mColor.get().mV);
 	gl_rect_2d(1, ll_round(frac*getRect().getHeight()), getRect().getWidth() - 1, 0, TRUE);
 }
 

@@ -250,7 +250,8 @@ LLFolderView::LLFolderView(const Params& p)
 	{
 		menu = LLUICtrlFactory::getDefaultWidget<LLMenuGL>("inventory_menu");
 	}
-	menu->setBackgroundColor(LLUIColorTable::instance().getColor("MenuPopupBgColor"));
+	static auto menu_bg_color = LLUIColorTable::instance().getColor("MenuPopupBgColor");
+	menu->setBackgroundColor(menu_bg_color);
 	mPopupMenuHandle = menu->getHandle();
 
 	mViewModelItem->openItem();

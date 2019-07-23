@@ -1601,8 +1601,9 @@ S32 LLFastTimerView::updateTimerBarOffsets(LLTrace::BlockTimerStatHandle* time_b
 			first_child = false;
 		}
 
+		static const S32Seconds SECONDS_ZER0(0);
 		child_timer_bar.mStartFraction = bar_fraction_start;
-		child_timer_bar.mEndFraction = bar_time > (S32Seconds)0
+		child_timer_bar.mEndFraction = bar_time > SECONDS_ZER0
 										? bar_fraction_start + child_timer_bar.mTotalTime / bar_time
 										: 1.f;
 		child_timer_bar.mSelfStart = timer_bar.mChildrenStart 

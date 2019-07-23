@@ -1069,6 +1069,17 @@ void LLFace::getPlanarProjectedParams(LLQuaternion* face_rot, LLVector3* face_po
 {
 	const LLMatrix4a& vol_mat(getWorldMatrix());
 	const LLVolumeFace& vf = getViewerObject()->getVolume()->getVolumeFace(mTEOffset);
+    if (!vf.mNormals)
+    {
+        LL_WARNS( ) << "Volume face without normals (object id: " << getViewerObject()->getID().asString() << ")" << LL_ENDL;
+        return;
+    }
+    
+    if (!vf.mTangents)
+    {
+        LL_WARNS( ) << "Volume face without tangents (object id: " << getViewerObject()->getID().asString() << ")" << LL_ENDL;
+        return;
+    }
 	const LLVector4a& normal4a = vf.mNormals[0];
 	const LLVector4a& tangent = vf.mTangents[0];
 
@@ -1241,10 +1252,8 @@ void LLFace::cacheFaceInVRAM(const LLVolumeFace& vf)
 	{
 		LLStrider<LLVector4a> f_wght;
 		buff->getWeight4Strider(f_wght);
-		for (U32 i = 0; i < vf.mNumVertices; ++i)
-		{
-			(*f_wght++) = vf.mWeights[i];
-		}
+		F32* weights = (F32*)f_wght.get();
+		LLVector4a::memcpyNonAliased16(weights, (F32*)vf.mWeights, vf.mNumVertices * sizeof(LLVector4a));
 	}
 
 	buff->flush();
@@ -1400,16 +1409,9 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 
 		if(mShinyInAlpha)
 		{
-			GLfloat alpha[4] =
-				{
-					0.00f,
-					0.25f,
-					0.5f,
-					0.75f
-				};
-			
+			static const LLColor4U shine_steps(LLColor4(0.f, .25f, .5f, 7.5f));
 			llassert(tep->getShiny() <= 3);
-			color.mV[3] = U8 (alpha[tep->getShiny()] * 255);
+			color.mV[3] = shine_steps.mV[tep->getShiny()];
 		}
 	}
 
@@ -2041,12 +2043,8 @@ BOOL LLFace::getGeometryVolume(const LLVolume& volume,
 		{
 			LL_RECORD_BLOCK_TIME(FTM_FACE_GEOM_WEIGHTS);
 			mVertexBuffer->getWeight4Strider(wght, mGeomIndex, mGeomCount, map_range);
-
-			for (S32 i = 0; i < num_vertices; ++i)
-			{
-				*(wght++) = vf.mWeights[i];
-			}
-
+			F32* weights = (F32*) wght.get();
+			LLVector4a::memcpyNonAliased16(weights, (F32*) vf.mWeights, num_vertices*sizeof(LLVector4a));
 			if (map_range)
 			{
 				mVertexBuffer->flush();

@@ -2930,52 +2930,6 @@
         <key>version</key>
         <string>0.8.4</string>
       </map>
-      <key>vcredist</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright (c) Microsoft Corporation. All rights reserved.</string>
-        <key>description</key>
-        <string>The Visual Studio C and C++ runtime redistributable</string>
-        <key>license</key>
-        <string>Proprietary</string>
-        <key>license_file</key>
-        <string>LICENSES/vcredist.txt</string>
-        <key>name</key>
-        <string>vcredist</string>
-        <key>platforms</key>
-        <map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>f193ec9e594d857d22c067c6e52622a9</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib-vc141/vcredist-14.10.25017.0-windows-201705270440.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>e895f4b5d24b372a360c3a8fe3bc0398</string>
-              <key>hash_algorithm</key>
-              <string>md5</string>
-              <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc142/vcredist-14.12.25810.0-windows64-201712251445.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>14.12.25810.0</string>
-      </map>
       <key>viewer-manager</key>
       <map>
         <key>copyright</key>

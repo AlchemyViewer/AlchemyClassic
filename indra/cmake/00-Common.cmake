@@ -57,9 +57,15 @@ if (WINDOWS)
       "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Od /Zi /MD /MP /Ob0 -D_ITERATOR_DEBUG_LEVEL=0"
       CACHE STRING "C++ compiler release-with-debug options" FORCE)
 
+  if(MSVC_VERSION GREATER_EQUAL 1920)
+    set(CMAKE_CXX_FLAGS_RELEASE
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob3 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
+        CACHE STRING "C++ compiler release options" FORCE)
+  else()
     set(CMAKE_CXX_FLAGS_RELEASE
         "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob2 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
         CACHE STRING "C++ compiler release options" FORCE)
+  endif()
 
   if (ADDRESS_SIZE EQUAL 32)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /LARGEADDRESSAWARE")
@@ -124,6 +130,7 @@ if (WINDOWS)
       /TP
       /W3
       /c
+      /Zc:__cplusplus
       /Zc:externConstexpr
       /Zc:forScope
       /Zc:referenceBinding
@@ -134,7 +141,6 @@ if (WINDOWS)
       /nologo
       /Oy-
       /fp:fast
-      /Zm140
       )
 
   if (USE_LTO)

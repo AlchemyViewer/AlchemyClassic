@@ -3897,7 +3897,7 @@
         <key>windows</key>
         <map>
           <key>build_directory</key>
-          <string>build-vc$AUTOBUILD_WIN_VSVER-$AUTOBUILD_ADDRSIZE</string>
+          <string>build-vc${AUTOBUILD_WIN_VSVER|161}-$AUTOBUILD_ADDRSIZE</string>
           <key>configurations</key>
           <map>
             <key>Debug</key>

@@ -447,6 +447,9 @@ LLLocationInputCtrl::LLLocationInputCtrl(const LLLocationInputCtrl::Params& p)
 	mParcelChangeObserver = new LLParcelChangeObserver(this);
 	LLViewerParcelMgr::getInstance()->addObserver(mParcelChangeObserver);
 
+	mMaturityGeneralTooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
+	mMaturityAdultTooltip = LLTrans::getString("LocationCtrlAdultIconTooltip");
+	mMaturityModerateTooltip = LLTrans::getString("LocationCtrlModerateIconTooltip");
 	mAddLandmarkTooltip = LLTrans::getString("LocationCtrlAddLandmarkTooltip");
 	mEditLandmarkTooltip = LLTrans::getString("LocationCtrlEditLandmarkTooltip");
 	mButton->setToolTip(LLTrans::getString("LocationCtrlComboBtnTooltip"));
@@ -792,6 +795,7 @@ void LLLocationInputCtrl::onTextEditorRightClicked(S32 x, S32 y, MASK mask)
 void LLLocationInputCtrl::refresh()
 {
 	refreshLocation();			// update location string
+	refreshMaturityButton();
 	refreshParcelIcons();
 	updateAddLandmarkButton();	// indicate whether current parcel has been landmarked 
 }
@@ -807,12 +811,14 @@ void LLLocationInputCtrl::refreshLocation()
 		return;
 	}
 
-	static LLCachedControl<bool> navbar_show_coord(gSavedSettings, "NavBarShowCoordinates");
 	// Update location field.
-	std::string location_name;
+	static LLCachedControl<bool> show_nav_coord(gSavedSettings, "NavBarShowCoordinates");
 	LLAgentUI::ELocationFormat format =
-		(navbar_show_coord ? LLAgentUI::LOCATION_FORMAT_FULL : LLAgentUI::LOCATION_FORMAT_NO_COORDS);
+		(show_nav_coord
+			? LLAgentUI::LOCATION_FORMAT_FULL
+			: LLAgentUI::LOCATION_FORMAT_NO_COORDS);
 
+	std::string location_name;
 	if (!LLAgentUI::buildLocationString(location_name, format)) 
 	{
 		location_name = "???";
@@ -821,8 +827,6 @@ void LLLocationInputCtrl::refreshLocation()
 	mHumanReadableLocation = location_name;
 	setText(location_name);
 	isHumanReadableLocationVisible = true;
-
-	refreshMaturityButton();
 }
 
 // returns new right edge
@@ -854,8 +858,8 @@ void LLLocationInputCtrl::refreshParcelIcons()
 	mForSaleBtn->setVisible(vpm->canAgentBuyParcel(agent_parcel, false));
 
 	x = layout_widget(mForSaleBtn, x);
-
-	if (gSavedSettings.getBOOL("NavBarShowParcelProperties"))
+	static LLUICachedControl<bool> show_icons("NavBarShowParcelProperties", false);
+	if (show_icons)
 	{
 		LLParcel* current_parcel;
 		LLViewerRegion* selection_region = vpm->getSelectionRegion();
@@ -954,7 +958,6 @@ void LLLocationInputCtrl::refreshMaturityButton()
 
 	bool button_visible = true;
 	LLPointer<LLUIImage> rating_image = NULL;
-	std::string rating_tooltip;
 
 	U8 sim_access = region->getSimAccess();
 	switch(sim_access)
@@ -962,22 +965,19 @@ void LLLocationInputCtrl::refreshMaturityButton()
 	case SIM_ACCESS_PG:
 	{
 		rating_image = mIconMaturityGeneral;
-		static std::string loc_ctrl_gen_icon_tooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
-		rating_tooltip = loc_ctrl_gen_icon_tooltip;
+		mMaturityButton->setToolTip(mMaturityGeneralTooltip);
 		break;
 	}
 	case SIM_ACCESS_ADULT:
 	{
 		rating_image = mIconMaturityAdult;
-		static std::string loc_ctrl_adult_icon_tooltip = LLTrans::getString("LocationCtrlAdultIconTooltip");
-		rating_tooltip = loc_ctrl_adult_icon_tooltip;
+		mMaturityButton->setToolTip(mMaturityAdultTooltip);
 		break;
 	}
 	case SIM_ACCESS_MATURE:
 	{
 		rating_image = mIconMaturityModerate;
-		static std::string loc_ctrl_mod_icon_tooltip = LLTrans::getString("LocationCtrlGeneralIconTooltip");
-		rating_tooltip = loc_ctrl_mod_icon_tooltip;
+		mMaturityButton->setToolTip(mMaturityModerateTooltip);
 		break;
 	}
 	default:
@@ -986,7 +986,6 @@ void LLLocationInputCtrl::refreshMaturityButton()
 	}
 
 	mMaturityButton->setVisible(button_visible);
-	mMaturityButton->setToolTip(rating_tooltip);
 	if(rating_image)
 	{
 		mMaturityButton->setImageUnselected(rating_image);

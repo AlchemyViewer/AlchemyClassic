@@ -202,6 +202,9 @@ private:
 	LLPointer<LLUIImage> mIconMaturityAdult;
 	LLPointer<LLUIImage> mIconMaturityModerate;
 	LLPointer<LLUIImage> mIconPathfindingDynamic;
+	std::string mMaturityGeneralTooltip;
+	std::string mMaturityAdultTooltip;
+	std::string mMaturityModerateTooltip;
 
 	std::string mAddLandmarkTooltip;
 	std::string mEditLandmarkTooltip;

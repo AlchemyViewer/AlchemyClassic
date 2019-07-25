@@ -197,6 +197,7 @@ LLStatBar::LLStatBar(const Params& p)
 {
 	mFloatingTargetMinBar = mTargetMinBar;
 	mFloatingTargetMaxBar = mTargetMaxBar;
+	mNAString = LLTrans::getString("na");
 
 	mStat.valid = nullptr;
 	// tick value will be automatically calculated later
@@ -629,7 +630,7 @@ void LLStatBar::drawLabelAndValue( F32 value, std::string &label, LLRect &bar_re
 
 	std::string value_str	= !llisnan(value)
 							? llformat("%10.*f %s", decimal_digits, value, label.c_str())
-							: LLTrans::getString("na");
+							: mNAString;
 
 	// Draw the current value.
 	if (mOrientation == HORIZONTAL)

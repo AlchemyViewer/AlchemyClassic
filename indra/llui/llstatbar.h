@@ -109,6 +109,7 @@ private:
 
 	LLUIString   mLabel;
 	std::string  mUnitLabel;
+	std::string	 mNAString;
 
 	bool         mDisplayBar,			// Display the bar graph.
 				 mDisplayHistory,

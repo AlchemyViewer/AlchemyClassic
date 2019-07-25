@@ -72,9 +72,10 @@ std::string LLUrlEntryBase::getIcon(const std::string &url)
 
 LLStyle::Params LLUrlEntryBase::getStyle() const
 {
+	static const LLUIColor html_link_col = LLUIColorTable::instance().getColor("HTMLLinkColor");
 	LLStyle::Params style_params;
-	style_params.color = LLUIColorTable::instance().getColor("HTMLLinkColor");
-	style_params.readonly_color = LLUIColorTable::instance().getColor("HTMLLinkColor");
+	style_params.color = html_link_col;
+	style_params.readonly_color = html_link_col;
 	style_params.font.style = "UNDERLINE";
 	return style_params;
 }
@@ -232,7 +233,7 @@ static std::string getStringAfterToken(const std::string& str, const std::string
 	size_t pos = str.find(token);
 	if (pos == std::string::npos)
 	{
-		return std::string();
+		return LLStringUtil::null;
 	}
 
 	pos += token.size();
@@ -607,10 +608,11 @@ bool LLUrlEntryAgent::underlineOnHoverOnly(const std::string &string) const
 
 std::string LLUrlEntryAgent::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
+	static std::string name_wait_str = LLTrans::getString("AvatarNameWaiting");
 	if (!gCacheName)
 	{
 		// probably at the login screen, use short string for layout
-		return LLTrans::getString("AvatarNameWaiting");
+		return name_wait_str;
 	}
 
 	std::string agent_id_string = getIDStringFromUrl(url);
@@ -640,15 +642,16 @@ std::string LLUrlEntryAgent::getLabel(const std::string &url, const LLUrlLabelCa
 		auto connection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgent::onAvatarNameCache, this, _1, _2));
 		mAvatarNameCacheConnections.emplace(agent_id, connection);
 		addObserver(agent_id_string, url, cb);
-		return LLTrans::getString("AvatarNameWaiting");
+		return name_wait_str;
 	}
 }
 
 LLStyle::Params LLUrlEntryAgent::getStyle() const
 {
+	static const LLUIColor html_link_col = LLUIColorTable::instance().getColor("HTMLLinkColor");
 	LLStyle::Params style_params = LLUrlEntryBase::getStyle();
-	style_params.color = LLUIColorTable::instance().getColor("HTMLLinkColor");
-	style_params.readonly_color = LLUIColorTable::instance().getColor("HTMLLinkColor");
+	style_params.color = html_link_col;
+	style_params.readonly_color = html_link_col;
 	return style_params;
 }
 
@@ -722,10 +725,11 @@ void LLUrlEntryAgentName::onAvatarNameCache(const LLUUID& id,
 
 std::string LLUrlEntryAgentName::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
 {
+	static std::string name_wait_str = LLTrans::getString("AvatarNameWaiting");
 	if (!gCacheName)
 	{
 		// probably at the login screen, use short string for layout
-		return LLTrans::getString("AvatarNameWaiting");
+		return name_wait_str;
 	}
 
 	std::string agent_id_string = getIDStringFromUrl(url);
@@ -751,7 +755,7 @@ std::string LLUrlEntryAgentName::getLabel(const std::string &url, const LLUrlLab
 		auto connection = LLAvatarNameCache::get(agent_id, boost::bind(&LLUrlEntryAgentName::onAvatarNameCache, this, _1, _2));
 		mAvatarNameCacheConnections.emplace(agent_id, connection);
 		addObserver(agent_id_string, url, cb);
-		return LLTrans::getString("AvatarNameWaiting");
+		return name_wait_str;
 	}
 }
 
@@ -893,9 +897,10 @@ std::string LLUrlEntryGroup::getLabel(const std::string &url, const LLUrlLabelCa
 
 LLStyle::Params LLUrlEntryGroup::getStyle() const
 {
+	static const LLUIColor html_link_col = LLUIColorTable::instance().getColor("HTMLLinkColor");
 	LLStyle::Params style_params = LLUrlEntryBase::getStyle();
-	style_params.color = LLUIColorTable::instance().getColor("HTMLLinkColor");
-	style_params.readonly_color = LLUIColorTable::instance().getColor("HTMLLinkColor");
+	style_params.color = html_link_col;
+	style_params.readonly_color = html_link_col;
 	return style_params;
 }
 

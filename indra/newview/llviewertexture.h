@@ -224,7 +224,7 @@ public:
 	static S32Bytes sTotalTextureMemory;
 	static S32Bytes sMaxDesiredTextureMem;
 #endif
-	static S8  sCameraMovingDiscardBias;
+	static S16  sCameraMovingDiscardBias;
 	static F32 sCameraMovingBias;
 	static S32 sMaxSculptRez ;
 	static S32 sMinLargeImageSize ;

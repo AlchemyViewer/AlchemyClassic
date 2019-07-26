@@ -104,7 +104,7 @@ S32Bytes LLViewerTexture::sBoundTextureMemory;
 S32Bytes LLViewerTexture::sTotalTextureMemory;
 S32Bytes LLViewerTexture::sMaxDesiredTextureMem;
 #endif
-S8  LLViewerTexture::sCameraMovingDiscardBias = 0;
+S16  LLViewerTexture::sCameraMovingDiscardBias = 0;
 F32 LLViewerTexture::sCameraMovingBias = 0.0f;
 S32 LLViewerTexture::sMaxSculptRez = 128; //max sculpt image size
 const S32 MAX_CACHED_RAW_IMAGE_AREA = 64 * 64;
@@ -606,7 +606,7 @@ void LLViewerTexture::updateClass(const F32 velocity, const F32 angular_velocity
 	F32 camera_moving_speed = LLViewerCamera::getInstance()->getAverageSpeed();
 	F32 camera_angular_speed = LLViewerCamera::getInstance()->getAverageAngularSpeed();
 	sCameraMovingBias = llmax(0.2f * camera_moving_speed, 2.0f * camera_angular_speed - 1);
-	sCameraMovingDiscardBias = (S8)(sCameraMovingBias);
+	sCameraMovingDiscardBias = (S16)(sCameraMovingBias);
 
 	LLViewerTexture::sFreezeImageScalingDown = (sBoundTextureMemory < 0.75f * sMaxBoundTextureMemory * texmem_middle_bound_scale) &&
 				(sTotalTextureMemory < 0.75f * sMaxTotalTextureMem * texmem_middle_bound_scale);

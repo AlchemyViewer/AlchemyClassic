@@ -188,7 +188,7 @@ void LLViewerChat::getChatColor(const LLChat& chat, std::string& r_color_name, F
 //static 
 LLFontGL* LLViewerChat::getChatFont()
 {
-	S32 font_size = gSavedSettings.getS32("ChatFontSize");
+	static LLCachedControl<S32> font_size(gSavedSettings, "ChatFontSize", 1);
 	LLFontGL* fontp = nullptr;
 	switch(font_size)
 	{
@@ -214,7 +214,8 @@ LLFontGL* LLViewerChat::getChatFont()
 //static
 S32 LLViewerChat::getChatFontSize()
 {
-	return gSavedSettings.getS32("ChatFontSize");
+	LLCachedControl<S32> font_size(gSavedSettings, "ChatFontSize", 1);
+	return font_size;
 }
 
 

@@ -279,39 +279,27 @@ public:
 	//-------------------------------------------------------------------------
 	// ScaleKey
 	//-------------------------------------------------------------------------
-	class ScaleKey
+	struct ScaleKey
 	{
-	public:
-		ScaleKey() { mTime = 0.0f; }
-		ScaleKey(F32 time, const LLVector3 &scale) : mTime(time), mScale(scale) {}
-
-		F32			mTime;
+		F32			mTime = 0.0f;
 		LLVector3	mScale;
 	};
 
 	//-------------------------------------------------------------------------
 	// RotationKey
 	//-------------------------------------------------------------------------
-	class RotationKey
+	struct RotationKey
 	{
-	public:
-		RotationKey() { mTime = 0.0f; }
-		RotationKey(F32 time, const LLQuaternion &rotation) : mTime(time), mRotation(rotation) {}
-
-		F32				mTime;
+		F32				mTime = 0.0f;
 		LLQuaternion	mRotation;
 	};
 
 	//-------------------------------------------------------------------------
 	// PositionKey
 	//-------------------------------------------------------------------------
-	class PositionKey
+	struct PositionKey
 	{
-	public:
-		PositionKey() { mTime = 0.0f; }
-		PositionKey(F32 time, const LLVector3 &position) : mTime(time), mPosition(position) {}
-
-		F32			mTime;
+		F32			mTime = 0.0f;
 		LLVector3	mPosition;
 	};
 

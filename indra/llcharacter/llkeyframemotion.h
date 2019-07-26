@@ -318,17 +318,16 @@ public:
 	//-------------------------------------------------------------------------
 	// ScaleCurve
 	//-------------------------------------------------------------------------
-	class ScaleCurve
+	struct ScaleCurve
 	{
-	public:
-		ScaleCurve();
-		~ScaleCurve();
+		ScaleCurve() = default;
+		~ScaleCurve() = default;
 		LLVector3 getValue(F32 time, F32 duration);
 		LLVector3 interp(F32 u, ScaleKey& before, ScaleKey& after);
 
-		InterpolationType	mInterpolationType;
-		S32					mNumKeys;
-		typedef std::map<F32, ScaleKey> key_map_t;
+		InterpolationType	mInterpolationType = LLKeyframeMotion::IT_LINEAR;
+		S32					mNumKeys = 0;
+		typedef std::vector<std::pair<F32, ScaleKey>> key_map_t;
 		key_map_t 			mKeys;
 		ScaleKey			mLoopInKey;
 		ScaleKey			mLoopOutKey;
@@ -337,17 +336,16 @@ public:
 	//-------------------------------------------------------------------------
 	// RotationCurve
 	//-------------------------------------------------------------------------
-	class RotationCurve
+	struct RotationCurve
 	{
-	public:
-		RotationCurve();
-		~RotationCurve();
+		RotationCurve() = default;
+		~RotationCurve() = default;
 		LLQuaternion getValue(F32 time, F32 duration);
 		LLQuaternion interp(F32 u, RotationKey& before, RotationKey& after);
 
-		InterpolationType	mInterpolationType;
-		S32					mNumKeys;
-		typedef std::map<F32, RotationKey> key_map_t;
+		InterpolationType	mInterpolationType = LLKeyframeMotion::IT_LINEAR;
+		S32					mNumKeys = 0;
+		typedef std::vector<std::pair<F32, RotationKey>> key_map_t;
 		key_map_t		mKeys;
 		RotationKey		mLoopInKey;
 		RotationKey		mLoopOutKey;
@@ -356,17 +354,16 @@ public:
 	//-------------------------------------------------------------------------
 	// PositionCurve
 	//-------------------------------------------------------------------------
-	class PositionCurve
+	struct PositionCurve
 	{
-	public:
-		PositionCurve();
-		~PositionCurve();
+		PositionCurve() = default;
+		~PositionCurve() = default;
 		LLVector3 getValue(F32 time, F32 duration);
 		LLVector3 interp(F32 u, PositionKey& before, PositionKey& after);
 
-		InterpolationType	mInterpolationType;
-		S32					mNumKeys;
-		typedef std::map<F32, PositionKey> key_map_t;
+		InterpolationType	mInterpolationType = LLKeyframeMotion::IT_LINEAR;
+		S32					mNumKeys = 0;
+		typedef std::vector<std::pair<F32, PositionKey>> key_map_t;
 		key_map_t		mKeys;
 		PositionKey		mLoopInKey;
 		PositionKey		mLoopOutKey;

@@ -140,28 +140,11 @@ void LLHUDText::renderText()
 
 	mOffsetY = lltrunc(mHeight * ((mVertAlignment == ALIGN_VERT_CENTER) ? 0.5f : 1.f));
 
-	// *TODO: cache this image
-	LLUIImagePtr imagep = LLUI::getUIImage("Rounded_Square");
-
 	// *TODO: make this a per-text setting
+	static const LLUIColor cbj_bubble_color = LLUIColorTable::instance().getColor("ObjectBubbleColor");
 	static LLCachedControl<F32> bubble_opacity(gSavedSettings, "ChatBubbleOpacity");
-	LLColor4 bg_color = LLUIColorTable::instance().getColor("ObjectBubbleColor");
+	LLColor4 bg_color = cbj_bubble_color.get();
 	bg_color.setAlpha(bubble_opacity * alpha_factor);
-
-	const S32 border_height = 16;
-	const S32 border_width = 16;
-
-	// *TODO move this into helper function
-	F32 border_scale = 1.f;
-
-	if (border_height * 2 > mHeight)
-	{
-		border_scale = (F32)mHeight / ((F32)border_height * 2.f);
-	}
-	if (border_width * 2 > mWidth)
-	{
-		border_scale = llmin(border_scale, (F32)mWidth / ((F32)border_width * 2.f));
-	}
 
 	// scale screen size of borders down
 	//RN: for now, text on hud objects is never occluded

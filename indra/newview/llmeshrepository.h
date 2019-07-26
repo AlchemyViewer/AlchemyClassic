@@ -40,7 +40,8 @@
 #include "httphandler.h"
 #include "llthread.h"
 
-#include <boost/unordered_map.hpp> // <alchemy/>
+#include <absl/container/flat_hash_map.h>
+#include <absl/container/node_hash_map.h>
 
 #define LLCONVEXDECOMPINTER_STATIC 1
 
@@ -210,10 +211,10 @@ public:
 	LLCondition* mSignal;
 
 	//map of known mesh headers
-	typedef std::map<LLUUID, LLSD> mesh_header_map;
+	typedef absl::node_hash_map<LLUUID, LLSD> mesh_header_map;
 	mesh_header_map mMeshHeader;
 	
-	std::map<LLUUID, U32> mMeshHeaderSize;
+	absl::flat_hash_map<LLUUID, U32> mMeshHeaderSize;
 
 	class HeaderRequest : public RequestStats
 	{ 
@@ -625,7 +626,7 @@ public:
 	typedef std::map<LLVolumeParams, std::vector<LLVOVolume*> > mesh_load_map;
 	mesh_load_map mLoadingMeshes[4];
 	
-	typedef std::map<LLUUID, LLMeshSkinInfo> skin_map;
+	typedef absl::node_hash_map<LLUUID, LLMeshSkinInfo> skin_map;
 	skin_map mSkinMap;
 
 	typedef std::map<LLUUID, LLModel::Decomposition*> decomposition_map;
@@ -636,7 +637,7 @@ public:
 	std::vector<LLMeshRepoThread::LODRequest> mPendingRequests;
 	
 	//list of mesh ids awaiting skin info
-	typedef std::map<LLUUID, std::vector<LLVOVolume*> > skin_load_map;
+	typedef absl::flat_hash_map<LLUUID, std::vector<LLVOVolume*> > skin_load_map;
 	skin_load_map mLoadingSkins;
 
 	//list of mesh ids that need to send skin info fetch requests

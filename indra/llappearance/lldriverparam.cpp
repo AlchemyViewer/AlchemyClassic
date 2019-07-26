@@ -620,8 +620,7 @@ void LLDriverParam::setDrivenWeight(LLDrivenEntry *driven, F32 driven_weight, bo
 		mAvatarAppearance->isValid() &&
 		driven->mParam->getCrossWearable())
 	{
-		LLWearable* wearable = dynamic_cast<LLWearable*> (mWearablep);
-		if (mAvatarAppearance->getWearableData()->isOnTop(wearable))
+		if (mAvatarAppearance->getWearableData()->isOnTop(mWearablep))
 		{
 			use_self = true;
 		}

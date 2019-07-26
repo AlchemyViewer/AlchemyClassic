@@ -638,7 +638,7 @@ public:
 			std::vector<LLCharacter*>::iterator sort_iter = LLCharacter::sInstances.begin();
 			while (sort_iter != LLCharacter::sInstances.end())
 			{
-				LLVOAvatar* avatar = dynamic_cast<LLVOAvatar*>(*sort_iter);
+				LLVOAvatar* avatar = static_cast<LLVOAvatar*>(*sort_iter);
 				if (avatar &&
 					!avatar->isDead())						// Not dead yet
 				{
@@ -1124,7 +1124,7 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
 
 					LL_DEBUGS() << "Object: picked at " << pos.mX << ", " << pos.mY << " - face = " << object_face << " - URL = " << url << LL_ENDL;
 
-					LLVOVolume *obj = dynamic_cast<LLVOVolume*>(static_cast<LLViewerObject*>(pick_info.getObject()));
+					LLVOVolume *obj = static_cast<LLViewerObject*>(pick_info.getObject())->asVolume();
 				
 					if (obj && !obj->getRegion()->getCapability("ObjectMedia").empty())
 					{

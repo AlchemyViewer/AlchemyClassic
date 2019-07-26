@@ -4225,11 +4225,10 @@ void LLVOAvatar::updateRootPositionAndRotation(LLAgent& agent, F32 speed, bool w
 			root_pos += LLVector3d(getHoverOffset());
 		}
 
-        LLControlAvatar *cav = dynamic_cast<LLControlAvatar*>(this);
-        if (cav)
+        if (isControlAvatar())
         {
             // SL-1350: Moved to LLDrawable::updateXform()
-            cav->matchVolumeTransform();
+            static_cast<LLControlAvatar*>(this)->matchVolumeTransform();
         }
         else
         {
@@ -4300,8 +4299,8 @@ BOOL LLVOAvatar::updateCharacter(LLAgent &agent)
 	bool is_attachment = false;
 	if (is_control_avatar)
 	{
-        LLControlAvatar *cav = dynamic_cast<LLControlAvatar*>(this);
-		is_attachment = cav && cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
+        LLControlAvatar *cav = static_cast<LLControlAvatar*>(this);
+        is_attachment = cav->mRootVolp && cav->mRootVolp->isAttachment(); // For attached animated objects
 	}
 
     LLScopedContextString str("updateCharacter " + getFullname() + " is_control_avatar "

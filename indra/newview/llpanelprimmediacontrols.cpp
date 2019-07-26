@@ -324,7 +324,7 @@ void LLPanelPrimMediaControls::updateShape()
 		bool hasPermsControl = true;
 		bool mini_controls = false;
 		LLMediaEntry *media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
-        LLVOVolume *vol = dynamic_cast<LLVOVolume*>(objectp);
+        LLVOVolume *vol = objectp->asVolume();
 		if (media_data && vol)
 		{
 			// Don't show the media controls if we do not have permissions
@@ -813,7 +813,8 @@ void LLPanelPrimMediaControls::draw()
 	if( objectp )
 		media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
 
-	if( !dynamic_cast<LLVOVolume*>(objectp) || !media_data || dynamic_cast<LLVOVolume*>(objectp)->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL) )
+	auto volumep = objectp->asVolume();
+	if( !volumep || !media_data || volumep->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL) )
 		mBackgroundImage->draw( controls_bg_area, UI_VERTEX_COLOR % alpha);
 
 	// draw volume slider background UI image

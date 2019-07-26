@@ -105,9 +105,8 @@ void LLAvatarJoint::setValid( BOOL valid, BOOL recursive )
 		for (child_list_t::iterator iter = mChildren.begin();
 			 iter != mChildren.end(); ++iter)
 		{
-			LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-			if (joint)
-				joint->setValid(valid, TRUE);
+			LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+			joint->setValid(valid, TRUE);
 		}
 	}
 
@@ -124,9 +123,8 @@ void LLAvatarJoint::setSkeletonComponents( U32 comp, BOOL recursive )
 		for (child_list_t::iterator iter = mChildren.begin();
 			 iter != mChildren.end(); ++iter)
 		{
-			LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-			if (joint)
-				joint->setSkeletonComponents(comp, recursive);
+			LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+			joint->setSkeletonComponents(comp, recursive);
 		}
 	}
 }
@@ -140,9 +138,8 @@ void LLAvatarJoint::setVisible(BOOL visible, BOOL recursive)
 		for (child_list_t::iterator iter = mChildren.begin();
 			 iter != mChildren.end(); ++iter)
 		{
-			LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-			if (joint)
-				joint->setVisible(visible, recursive);
+			LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+			joint->setVisible(visible, recursive);
 		}
 	}
 }
@@ -152,9 +149,8 @@ void LLAvatarJoint::updateFaceSizes(U32 &num_vertices, U32& num_indices, F32 pix
 	for (child_list_t::iterator iter = mChildren.begin();
 		 iter != mChildren.end(); ++iter)
 	{
-		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		if (joint)
-			joint->updateFaceSizes(num_vertices, num_indices, pixel_area);
+		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+		joint->updateFaceSizes(num_vertices, num_indices, pixel_area);
 	}
 }
 
@@ -163,9 +159,8 @@ void LLAvatarJoint::updateFaceData(LLFace *face, F32 pixel_area, BOOL damp_wind,
 	for (child_list_t::iterator iter = mChildren.begin();
 		 iter != mChildren.end(); ++iter)
 	{
-		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		if (joint)
-			joint->updateFaceData(face, pixel_area, damp_wind, terse_update);
+		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+		joint->updateFaceData(face, pixel_area, damp_wind, terse_update);
 	}
 }
 
@@ -174,9 +169,8 @@ void LLAvatarJoint::updateJointGeometry()
 	for (child_list_t::iterator iter = mChildren.begin();
 		 iter != mChildren.end(); ++iter)
 	{
-		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		if (joint)
-			joint->updateJointGeometry();
+		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+		joint->updateJointGeometry();
 	}
 }
 
@@ -189,27 +183,24 @@ BOOL LLAvatarJoint::updateLOD(F32 pixel_area, BOOL activate)
 	for (child_list_t::iterator iter = mChildren.begin();
 		 iter != mChildren.end(); ++iter)
 	{
-		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		if (joint)
+		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+		F32 jointLOD = joint->getLOD();
+		
+		if (found_lod || jointLOD == DEFAULT_AVATAR_JOINT_LOD)
 		{
-			F32 jointLOD = joint->getLOD();
-
-			if (found_lod || jointLOD == DEFAULT_AVATAR_JOINT_LOD)
+			// we've already found a joint to enable, so enable the rest as alternatives
+			lod_changed |= joint->updateLOD(pixel_area, TRUE);
+		}
+		else
+		{
+			if (pixel_area >= jointLOD || sDisableLOD)
 			{
-				// we've already found a joint to enable, so enable the rest as alternatives
 				lod_changed |= joint->updateLOD(pixel_area, TRUE);
+				found_lod = TRUE;
 			}
 			else
 			{
-				if (pixel_area >= jointLOD || sDisableLOD)
-				{
-					lod_changed |= joint->updateLOD(pixel_area, TRUE);
-					found_lod = TRUE;
-				}
-				else
-				{
-					lod_changed |= joint->updateLOD(pixel_area, FALSE);
-				}
+				lod_changed |= joint->updateLOD(pixel_area, FALSE);
 			}
 		}
 	}
@@ -221,9 +212,8 @@ void LLAvatarJoint::dump()
 	for (child_list_t::iterator iter = mChildren.begin();
 		 iter != mChildren.end(); ++iter)
 	{
-		LLAvatarJoint* joint = dynamic_cast<LLAvatarJoint*>(*iter);
-		if (joint)
-			joint->dump();
+		LLAvatarJoint* joint = static_cast<LLAvatarJoint*>(*iter);
+		joint->dump();
 	}
 }
 

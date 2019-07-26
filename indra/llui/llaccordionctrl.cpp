@@ -292,11 +292,9 @@ S32 LLAccordionCtrl::calcRecuiredHeight()
 {
 	S32 rec_height = 0;
 	
-	std::vector<LLAccordionCtrlTab*>::iterator panel;
-	for(panel=mAccordionTabs.begin(); panel!=mAccordionTabs.end(); ++panel)
+	for(auto accordion_tab : mAccordionTabs)
 	{
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(*panel);
-		if(accordion_tab && accordion_tab->getVisible())
+		if(accordion_tab->getVisible())
 		{
 			rec_height += accordion_tab->getRect().getHeight();
 		}
@@ -403,7 +401,7 @@ void	LLAccordionCtrl::arrangeSinge()
 
 	for(size_t i=0;i<mAccordionTabs.size();++i)
 	{
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+		LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 		
 		if(accordion_tab->getVisible() == false) //skip hidden accordion tabs
 			continue;
@@ -417,7 +415,7 @@ void	LLAccordionCtrl::arrangeSinge()
 	
 	for(size_t i=0;i<mAccordionTabs.size();++i)
 	{
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+		LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 		
 		if(accordion_tab->getVisible() == false) //skip hidden accordion tabs
 			continue;
@@ -465,7 +463,7 @@ void	LLAccordionCtrl::arrangeMultiple()
 	//Calculate params	
 	for(size_t i = 0; i < mAccordionTabs.size(); i++ )
 	{
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+		LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 		
 		if(accordion_tab->getVisible() == false) //skip hidden accordion tabs
 			continue;
@@ -529,7 +527,7 @@ void LLAccordionCtrl::arrange()
 		S32 panel_top = getRect().getHeight() - BORDER_MARGIN;		  // Top coordinate of the first panel
 		S32 panel_width = getRect().getWidth() - 4;		  // Top coordinate of the first panel
 		
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[0]);
+		LLAccordionCtrlTab* accordion_tab = mAccordionTabs[0];
 		
 		LLRect panel_rect = accordion_tab->getRect();
 		
@@ -658,7 +656,7 @@ void	LLAccordionCtrl::onOpen		(const LLSD& key)
 {
 	for(size_t i=0;i<mAccordionTabs.size();++i)
 	{
-		LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+		LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 		LLPanel* panel = dynamic_cast<LLPanel*>(accordion_tab->getAccordionView());
 		if(panel!= nullptr)
 		{
@@ -681,7 +679,7 @@ S32	LLAccordionCtrl::notifyParent(const LLSD& info)
 		{
 			for(size_t i=0;i<mAccordionTabs.size();++i)
 			{
-				LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+				LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 				if(accordion_tab->hasFocus())
 				{
 					while(++i<mAccordionTabs.size())
@@ -691,7 +689,7 @@ S32	LLAccordionCtrl::notifyParent(const LLSD& info)
 					}
 					if(i<mAccordionTabs.size())
 					{
-						accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+						accordion_tab = mAccordionTabs[i];
 						accordion_tab->notify(LLSD().with("action","select_first"));
 						return 1;
 					}
@@ -704,7 +702,7 @@ S32	LLAccordionCtrl::notifyParent(const LLSD& info)
 		{
 			for(size_t i=0;i<mAccordionTabs.size();++i)
 			{
-				LLAccordionCtrlTab* accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+				LLAccordionCtrlTab* accordion_tab = mAccordionTabs[i];
 				if(accordion_tab->hasFocus() && i>0)
 				{
 					bool prev_visible_tab_found = false;
@@ -719,7 +717,7 @@ S32	LLAccordionCtrl::notifyParent(const LLSD& info)
 
 					if (prev_visible_tab_found)
 					{
-						accordion_tab = dynamic_cast<LLAccordionCtrlTab*>(mAccordionTabs[i]);
+						accordion_tab = mAccordionTabs[i];
 						accordion_tab->notify(LLSD().with("action","select_last"));
 						return 1;
 					}

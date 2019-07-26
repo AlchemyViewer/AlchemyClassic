@@ -1905,7 +1905,7 @@ void renderComplexityDisplay(LLDrawable* drawablep)
 		return;
 	}
 
-	LLVOVolume *voVol = dynamic_cast<LLVOVolume*>(vobj);
+	LLVOVolume *voVol = vobj->asVolume();;
 
 	if (!voVol)
 	{
@@ -2048,9 +2048,10 @@ void renderBoundingBox(LLDrawable* drawable, BOOL set_color = TRUE)
                     	gGL.diffuseColor4f(0,0.5f,0,1); // dark green
 						break;
 				default:
-						LLControlAvatar *cav = dynamic_cast<LLControlAvatar*>(drawable->getVObj()->asAvatar());
-						if (cav)
+						auto avatar = drawable->getVObj()->asAvatar();
+						if (avatar->isControlAvatar())
 						{
+							LLControlAvatar* cav = static_cast<LLControlAvatar*>(avatar);
 							bool has_pos_constraint = (cav->mPositionConstraintFixup != LLVector3());
 							bool has_scale_constraint = (cav->mScaleConstraintFixup != 1.0f);
 							if (has_pos_constraint || has_scale_constraint)
@@ -3288,7 +3289,7 @@ public:
 				renderTexelDensity(drawable);
 			}
 
-			LLVOAvatar* avatar = dynamic_cast<LLVOAvatar*>(drawable->getVObj().get());
+			LLVOAvatar* avatar = drawable->getVObj()->asAvatar();
 			
 			if (avatar && gPipeline.hasRenderDebugMask(LLPipeline::RENDER_DEBUG_AVATAR_VOLUME))
 			{

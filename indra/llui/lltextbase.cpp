@@ -1740,7 +1740,7 @@ S32 LLTextBase::getLineOffsetFromDocIndex( S32 startpos, bool include_wordwrap) 
 	else
 	{
 		line_list_t::const_iterator iter = std::upper_bound(mLineInfoList.begin(), mLineInfoList.end(), startpos, line_end_compare());
-		return startpos - iter->mDocIndexStart;
+        return (iter != mLineInfoList.end()) ? startpos - iter->mDocIndexStart : startpos;
 	}
 }
 

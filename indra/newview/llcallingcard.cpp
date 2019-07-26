@@ -225,11 +225,12 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 	for(buddy_map_t::const_iterator itr = buds.begin(); itr != buds.end(); ++itr)
 	{
 		agent_id = (*itr).first;
-		buddy_map_t::const_iterator existing_buddy = mBuddyInfo.find(agent_id);
+		auto existing_buddy = mBuddyInfo.find(agent_id);
 		if(existing_buddy == mBuddyInfo.end())
 		{
 			++new_buddy_count;
-			mBuddyInfo[agent_id] = (*itr).second;
+			auto buddy = (*itr).second;
+			auto it = mBuddyInfo.emplace(agent_id, buddy);
 
 			// pre-request name for notifications?
 			LLAvatarName av_name;
@@ -237,9 +238,9 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 
 			addChangedMask(LLFriendObserver::ADD, agent_id);
 			LL_DEBUGS() << "Added buddy " << agent_id
-					<< ", " << (mBuddyInfo[agent_id]->isOnline() ? "Online" : "Offline")
-					<< ", TO: " << mBuddyInfo[agent_id]->getRightsGrantedTo()
-					<< ", FROM: " << mBuddyInfo[agent_id]->getRightsGrantedFrom()
+					<< ", " << (buddy->isOnline() ? "Online" : "Offline")
+					<< ", TO: " << buddy->getRightsGrantedTo()
+					<< ", FROM: " << buddy->getRightsGrantedFrom()
 					<< LL_ENDL;
 		}
 		else
@@ -261,12 +262,8 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 
 void LLAvatarTracker::copyBuddyList(buddy_map_t& buddies) const
 {
-	buddy_map_t::const_iterator it = mBuddyInfo.begin();
-	buddy_map_t::const_iterator end = mBuddyInfo.end();
-	for(; it != end; ++it)
-	{
-		buddies[(*it).first] = (*it).second;
-	}
+	if(!mBuddyInfo.empty())
+		buddies.insert(mBuddyInfo.begin(), mBuddyInfo.end());
 }
 
 void LLAvatarTracker::terminateBuddy(const LLUUID& id)
@@ -297,8 +294,7 @@ const LLRelationship* LLAvatarTracker::getBuddyInfo(const LLUUID& id) const
 
 bool LLAvatarTracker::isBuddy(const LLUUID& id) const
 {
-	LLRelationship* info = get_ptr_in_map(mBuddyInfo, id);
-	return (info != nullptr);
+	return (mBuddyInfo.find(id) != mBuddyInfo.end());
 }
 
 // online status
@@ -538,11 +534,9 @@ void LLAvatarTracker::addChangedMask(U32 mask, const LLUUID& referent)
 
 void LLAvatarTracker::applyFunctor(LLRelationshipFunctor& f)
 {
-	buddy_map_t::iterator it = mBuddyInfo.begin();
-	buddy_map_t::iterator end = mBuddyInfo.end();
-	for(; it != end; ++it)
+	for(auto& pair : mBuddyInfo)
 	{
-		f((*it).first, (*it).second);
+		f(pair.first, pair.second);
 	}
 }
 
@@ -611,16 +605,19 @@ void LLAvatarTracker::processChange(LLMessageSystem* msg)
 		msg->getS32Fast(_PREHASH_Rights,_PREHASH_RelatedRights, new_rights, i);
 		if(agent_id == gAgent.getID())
 		{
-			if(mBuddyInfo.find(agent_related) != mBuddyInfo.end())
+			auto buddy_it = mBuddyInfo.find(agent_related);
+			if(buddy_it != mBuddyInfo.end())
 			{
-				(mBuddyInfo[agent_related])->setRightsTo(new_rights);
+				
+				buddy_it->second->setRightsTo(new_rights);
 			}
 		}
 		else
 		{
+			auto buddy_it = mBuddyInfo.find(agent_id);
 			if(mBuddyInfo.find(agent_id) != mBuddyInfo.end())
 			{
-				S32 change = mBuddyInfo[agent_id]->getRightsGrantedFrom() ^ new_rights;
+				S32 change = buddy_it->second->getRightsGrantedFrom() ^ new_rights;
 				if (change)
 				{
 					LLSD args = LLSD().with("NAME", LLSLURL("agent", agent_id, "displayname").getSLURLString());
@@ -636,7 +633,7 @@ void LLAvatarTracker::processChange(LLMessageSystem* msg)
 							? "GrantedMapRights" : "RevokedMapRights", args, payload);
 					}
 				}
-				(mBuddyInfo[agent_id])->setRightsFrom(new_rights);
+				buddy_it->second->setRightsFrom(new_rights);
 			}
 		}
 	}
@@ -739,13 +736,12 @@ void LLAvatarTracker::formFriendship(const LLUUID& id)
 {
 	if(id.notNull())
 	{
-		LLRelationship* buddy_info = get_ptr_in_map(mBuddyInfo, id);
-		if(!buddy_info)
+		if(mBuddyInfo.find(id) == mBuddyInfo.end())
 		{
 			//The default for relationship establishment is to have both parties
 			//visible online to each other.
-			buddy_info = new LLRelationship(LLRelationship::GRANT_ONLINE_STATUS,LLRelationship::GRANT_ONLINE_STATUS, false);
-			mBuddyInfo[id] = buddy_info;
+			auto buddy_info = new LLRelationship(LLRelationship::GRANT_ONLINE_STATUS,LLRelationship::GRANT_ONLINE_STATUS, false);
+			mBuddyInfo.emplace(id, buddy_info);
 			addChangedMask(LLFriendObserver::ADD, id);
 			notifyObservers();
 		}
@@ -759,9 +755,10 @@ void LLAvatarTracker::processTerminateFriendship(LLMessageSystem* msg, void**)
 	if(id.notNull())
 	{
 		LLAvatarTracker& at = LLAvatarTracker::instance();
-		LLRelationship* buddy = get_ptr_in_map(at.mBuddyInfo, id);
-		if(!buddy) return;
-		at.mBuddyInfo.erase(id);
+		auto it = at.mBuddyInfo.find(id);
+		if (it == at.mBuddyInfo.end()) return;
+		auto buddy = it->second;
+		at.mBuddyInfo.erase(it);
 		at.addChangedMask(LLFriendObserver::REMOVE, id);
 		delete buddy;
 		at.notifyObservers();
@@ -854,12 +851,11 @@ bool LLCollectProxyBuddies::operator()(const LLUUID& buddy_id, LLRelationship* b
 
 bool LLCollectMappableBuddies::operator()(const LLUUID& buddy_id, LLRelationship* buddy)
 {
-	LLAvatarName av_name;
-	LLAvatarNameCache::get( buddy_id, &av_name);
-	buddy_map_t::value_type value(buddy_id, av_name.getDisplayName());
 	if(buddy->isOnline() && buddy->isRightGrantedFrom(LLRelationship::GRANT_MAP_LOCATION))
 	{
-		mMappable.insert(value);
+		LLAvatarName av_name;
+		LLAvatarNameCache::get(buddy_id, &av_name);
+		mMappable.emplace(buddy_id, av_name.getDisplayName());
 	}
 	return true;
 }
@@ -869,10 +865,9 @@ bool LLCollectOnlineBuddies::operator()(const LLUUID& buddy_id, LLRelationship* 
 	LLAvatarName av_name;
 	LLAvatarNameCache::get(buddy_id, &av_name);
 	mFullName = av_name.getUserName();
-	buddy_map_t::value_type value(buddy_id, mFullName);
 	if(buddy->isOnline())
 	{
-		mOnline.insert(value);
+		mOnline.emplace(buddy_id, mFullName);
 	}
 	return true;
 }
@@ -882,14 +877,13 @@ bool LLCollectAllBuddies::operator()(const LLUUID& buddy_id, LLRelationship* bud
 	LLAvatarName av_name;
 	LLAvatarNameCache::get(buddy_id, &av_name);
 	mFullName = av_name.getCompleteName();
-	buddy_map_t::value_type value(buddy_id, mFullName);
 	if(buddy->isOnline())
 	{
-		mOnline.insert(value);
+		mOnline.emplace(buddy_id, mFullName);
 	}
 	else
 	{
-		mOffline.insert(value);
+		mOffline.emplace(buddy_id, mFullName);
 	}
 	return true;
 }

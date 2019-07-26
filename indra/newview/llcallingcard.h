@@ -32,6 +32,8 @@
 #include "lluuid.h"
 #include "v3dmath.h"
 
+#include "absl/container/flat_hash_map.h"
+
 class LLMessageSystem;
 class LLTrackingData;
 

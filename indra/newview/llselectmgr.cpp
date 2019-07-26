@@ -7290,7 +7290,7 @@ S32 LLObjectSelection::getSelectedObjectRenderCost()
 						 ++child_iter)
 				   {
 					   LLViewerObject* child_obj = *child_iter;
-					   LLVOVolume *child = child_obj->asVolume();;
+					   LLVOVolume *child = child_obj ? child_obj->asVolume() : nullptr;
 					   if (child)
 					   {
 						   cost += child->getRenderCost(textures);

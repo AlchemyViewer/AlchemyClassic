@@ -39,6 +39,8 @@
 #include "lluuid.h"
 #include "message.h"
 
+#include "absl/container/flat_hash_map.h"
+
 // llsd serialization constants
 static const std::string AGENTS("agents");
 static const std::string GROUPS("groups");
@@ -184,8 +186,8 @@ void ReplySender::flush()
 typedef std::set<LLUUID>					AskQueue;
 typedef std::list<PendingReply*>			ReplyQueue;
 typedef std::map<LLUUID,U32>				PendingQueue;
-typedef std::map<LLUUID, LLCacheNameEntry*> Cache;
-typedef std::map<std::string, LLUUID> 		ReverseCache;
+typedef absl::flat_hash_map<LLUUID, LLCacheNameEntry*> Cache;
+typedef absl::flat_hash_map<std::string, LLUUID> 		ReverseCache;
 
 class LLCacheName::Impl
 {
@@ -274,7 +276,7 @@ LLCacheName::Impl::Impl(LLMessageSystem* msg)
 
 LLCacheName::Impl::~Impl()
 {
-	for_each(mCache.begin(), mCache.end(), DeletePairedPointer());
+	std::for_each(mCache.begin(), mCache.end(), DeletePairedPointer());
 	mCache.clear();
 	for_each(mReplyQueue.begin(), mReplyQueue.end(), DeletePointer());
 	mReplyQueue.clear();
@@ -752,7 +754,7 @@ void LLCacheName::dumpStats()
 
 void LLCacheName::clear()
 {
-	for_each(impl.mCache.begin(), impl.mCache.end(), DeletePairedPointer());
+	std::for_each(impl.mCache.begin(), impl.mCache.end(), DeletePairedPointer());
 	impl.mCache.clear();
 }
 

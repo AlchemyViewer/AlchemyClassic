@@ -1308,7 +1308,7 @@ void LLViewerObjectList::cleanupReferences(LLViewerObject *objectp)
 	}
 	else
 	{
-		mDeadObjects.insert(objectp->mID);
+		mDeadObjects.emplace(objectp->mID);
 	}
 
 	// Cleanup any references we have to this object

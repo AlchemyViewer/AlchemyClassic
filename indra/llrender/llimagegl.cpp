@@ -259,11 +259,11 @@ void LLImageGL::updateStats(F32 current_time)
 	LL_RECORD_BLOCK_TIME(FTM_IMAGE_UPDATE_STATS);
 	sLastFrameTime = current_time;
 	sBoundTextureMemory = sCurBoundTextureMemory;
-	sCurBoundTextureMemory = S32Bytes(0);
+	sCurBoundTextureMemory = S64Bytes(0);
 }
 
 //static
-S32 LLImageGL::updateBoundTexMem(const S32Bytes mem, const S32 ncomponents, S32 category)
+S64 LLImageGL::updateBoundTexMem(const S64Bytes mem, const S32 ncomponents, S32 category)
 {
 	LLImageGL::sCurBoundTextureMemory += mem ;
 	return LLImageGL::sCurBoundTextureMemory.value();
@@ -414,7 +414,7 @@ void LLImageGL::init(BOOL usemipmaps)
 	// so that it is obvious by visual inspection if we forgot to
 	// init a field.
 
-	mTextureMemory = (S32Bytes)0;
+	mTextureMemory = (S64Bytes)0;
 	mLastBindTime = 0.f;
 
 	mPickMask = nullptr;
@@ -581,7 +581,7 @@ void LLImageGL::forceUpdateBindStats(void) const
 	mLastBindTime = sLastFrameTime;
 }
 
-BOOL LLImageGL::updateBindStats(S32Bytes tex_mem) const
+BOOL LLImageGL::updateBindStats(S64Bytes tex_mem) const
 {	
 	if (mTexName != 0)
 	{
@@ -1396,7 +1396,7 @@ BOOL LLImageGL::createGLTexture(S32 discard_level, const U8* data_in, BOOL data_
 	}
 
 	disclaimMem(mTextureMemory);
-	mTextureMemory = (S32Bytes)getMipBytes(discard_level);
+	mTextureMemory = S64Bytes(getMipBytes(discard_level));
 	claimMem(mTextureMemory);
 	sGlobalTextureMemory += mTextureMemory;
 
@@ -1530,11 +1530,11 @@ void LLImageGL::destroyGLTexture()
 {
 	if (mTexName != 0)
 	{
-		if(mTextureMemory != S32Bytes(0))
+		if(mTextureMemory != S64Bytes(0))
 		{
 			sGlobalTextureMemory -= mTextureMemory;
 			disclaimMem(mTextureMemory);
-			mTextureMemory = (S32Bytes)0;
+			mTextureMemory = (S64Bytes)0;
 		}
 		
 		LLImageGL::deleteTextures(1, &mTexName);			

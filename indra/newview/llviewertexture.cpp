@@ -67,9 +67,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 // extern
-const S32Megabytes gMinVideoRam(32);
+const S32Megabytes gMinVideoRam(128);
 #if defined(_WIN64) || defined(__amd64__) || defined(__x86_64__)
-const S32Megabytes gMaxVideoRam(2048);
+const S32Megabytes gMaxVideoRam(3072);
 #else
 const S32Megabytes gMaxVideoRam(512);
 #endif
@@ -495,6 +495,10 @@ static LLTrace::BlockTimerStatHandle FTM_TEXTURE_MEMORY_CHECK("Memory Check");
 //static 
 bool LLViewerTexture::isMemoryForTextureLow()
 {
+	static LLCachedControl<bool> disable_vidmem_check(gSavedSettings, "RenderDisableLowVidMem", true);
+	if (disable_vidmem_check)
+		return false;
+
 	const F32 WAIT_TIME = 1.0f; //second
 	static LLFrameTimer timer;
 

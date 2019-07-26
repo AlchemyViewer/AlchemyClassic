@@ -49,6 +49,8 @@
 #include "llvovolume.h"
 #include "llavatarrendernotifier.h"
 
+#include "absl/container/flat_hash_map.h"
+
 extern const LLUUID ANIM_AGENT_BODY_NOISE;
 extern const LLUUID ANIM_AGENT_BREATHE_ROT;
 extern const LLUUID ANIM_AGENT_PHYSICS_MOTION;
@@ -840,8 +842,8 @@ private:
 	// Animation state data
 	//--------------------------------------------------------------------
 public:
-	std::map<LLUUID, S32> 					mSignaledAnimations; // requested state of Animation name/value
-	std::map<LLUUID, S32> 					mPlayingAnimations; // current state of Animation name/value
+	absl::flat_hash_map<LLUUID, S32> 					mSignaledAnimations; // requested state of Animation name/value
+	absl::flat_hash_map<LLUUID, S32> 					mPlayingAnimations; // current state of Animation name/value
 
 	typedef std::multimap<LLUUID, LLUUID> 	AnimationSourceMap;
 	typedef AnimationSourceMap::iterator 	AnimSourceIterator;

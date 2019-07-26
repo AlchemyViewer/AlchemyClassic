@@ -5621,8 +5621,7 @@ void LLVOAvatar::processAnimationStateChanges()
 	}
 	
 	// clear all current animations
-	std::map<LLUUID, S32>::iterator anim_it;
-	for (anim_it = mPlayingAnimations.begin(); anim_it != mPlayingAnimations.end();)
+	for (auto anim_it = mPlayingAnimations.begin(); anim_it != mPlayingAnimations.end();)
 	{
 		auto found_anim = mSignaledAnimations.find(anim_it->first);
 
@@ -5638,7 +5637,7 @@ void LLVOAvatar::processAnimationStateChanges()
 	}
 
 	// start up all new anims
-	for (anim_it = mSignaledAnimations.begin(); anim_it != mSignaledAnimations.end();)
+	for (auto anim_it = mSignaledAnimations.begin(); anim_it != mSignaledAnimations.end();)
 	{
 		auto found_anim = mPlayingAnimations.find(anim_it->first);
 

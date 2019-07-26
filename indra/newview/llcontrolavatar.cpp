@@ -513,7 +513,7 @@ void LLControlAvatar::updateAnimations()
     getAnimatedVolumes(volumes);
     
     // Rebuild mSignaledAnimations from the associated volumes.
-	std::map<LLUUID, S32> anims;
+	absl::flat_hash_map<LLUUID, S32> anims;
     for (std::vector<LLVOVolume*>::iterator vol_it = volumes.begin(); vol_it != volumes.end(); ++vol_it)
     {
         LLVOVolume *volp = *vol_it;
@@ -523,7 +523,7 @@ void LLControlAvatar::updateAnimations()
              anim_it != signaled_animations.end();
              ++anim_it)
         {
-            std::map<LLUUID,S32>::iterator found_anim_it = anims.find(anim_it->first);
+            auto found_anim_it = anims.find(anim_it->first);
             if (found_anim_it != anims.end())
             {
                 // Animation already present, use the larger sequence id
@@ -547,7 +547,7 @@ void LLControlAvatar::updateAnimations()
         }
     }
 
-    mSignaledAnimations = anims;
+    mSignaledAnimations.swap(anims);
     processAnimationStateChanges();
 }
 

@@ -30,6 +30,7 @@
 #include "llpointer.h"
 #include "llstring.h"
 #include <set>
+#include "absl/container/flat_hash_map.h"
 
 class LLXMLNode;
 
@@ -126,7 +127,7 @@ public:
 	}
 	
 private:
-	typedef std::map<std::string, LLTransTemplate > template_map_t;
+	using template_map_t = absl::flat_hash_map<std::string, LLTransTemplate >;
 	static template_map_t sStringTemplates;
 	static template_map_t sDefaultStringTemplates;
 	static LLStringUtil::format_map_t sDefaultArgs;

@@ -86,10 +86,10 @@ bool LLTrans::parseStrings(LLXMLNodePtr &root, const std::set<std::string>& defa
 		++it)
 	{
 		LLTransTemplate xml_template(it->name, it->value);
-		sStringTemplates[xml_template.mName] = xml_template;
+		sStringTemplates.emplace(xml_template.mName, xml_template);
 		if (!default_strings_init)
 		{
-			sDefaultStringTemplates[xml_template.mName] = xml_template;
+			sDefaultStringTemplates.emplace(xml_template.mName, xml_template);
 		}
 		std::set<std::string>::const_iterator iter = default_args.find(xml_template.mName);
 		if (iter != default_args.end())

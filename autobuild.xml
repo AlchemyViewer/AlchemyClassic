@@ -608,7 +608,7 @@
         <key>license</key>
         <string>MPL</string>
         <key>license_file</key>
-        <string>LICENSES/dullahan.txt</string>
+        <string>LICENSES/LICENSE.txt</string>
         <key>name</key>
         <string>dullahan</string>
         <key>platforms</key>
@@ -660,18 +660,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>9c9696168fcb640feb7d64988a759b25</string>
+              <string>21f0b2c24625e2e33e1f1e87dd53f36d</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib-vc1415/dullahan-1.1.1085-3.3497.1833.g13f506f-windows64-201809230539.tar.bz2</string>
+              <string>https://pkg.dl.alchemyviewer.org/dullahan/dullahan-1.2.201907270950_75.1.14_gc81164e_chromium-75.0.3770.100-windows64-192081402.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.1.1085-3.3497.1833.g13f506f</string>
+        <string>1.2.201907270950_75.1.14_gc81164e_chromium-75.0.3770.100</string>
       </map>
       <key>expat</key>
       <map>

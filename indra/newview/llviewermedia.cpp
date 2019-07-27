@@ -1697,11 +1697,9 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		std::string launcher_name = gDirUtilp->getLLPluginLauncher();
 		std::string plugin_name = gDirUtilp->getLLPluginFilename(plugin_basename);
 
+		// cookies now are stored in the CEF cache directory too (no more control over their location)
 		std::string user_data_path_cache = gDirUtilp->getCacheDir(false);
 		user_data_path_cache += gDirUtilp->getDirDelimiter();
-
-		std::string user_data_path_cookies = gDirUtilp->getOSUserAppDir();
-		user_data_path_cookies += gDirUtilp->getDirDelimiter();
 
 		std::string user_data_path_cef_log = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "cef_log.txt");
 
@@ -1713,8 +1711,9 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		std::string linden_user_dir = gDirUtilp->getLindenUserDir();
 		if ( ! linden_user_dir.empty() )
 		{
-			user_data_path_cookies = linden_user_dir;
-			user_data_path_cookies += gDirUtilp->getDirDelimiter();
+			// cookies now are stored in the CEF cache directory too (no more control over their location)
+			user_data_path_cache = linden_user_dir;
+			user_data_path_cache += gDirUtilp->getDirDelimiter();
 		};
 
 		// See if the plugin executable exists
@@ -1733,7 +1732,7 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		{
 			media_source = new LLPluginClassMedia(owner);
 			media_source->setSize(default_width, default_height);
-			media_source->setUserDataPath(user_data_path_cache, user_data_path_cookies, user_data_path_cef_log);
+			media_source->setUserDataPath(user_data_path_cache, user_data_path_cef_log);
 			media_source->setLanguageCode(LLUI::getLanguage());
 			media_source->setZoomFactor(zoom_factor);
 
@@ -2291,14 +2290,14 @@ void LLViewerMediaImpl::mouseDoubleClick(S32 x, S32 y, MASK mask, S32 button)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-void LLViewerMediaImpl::scrollWheel(S32 x, S32 y, MASK mask)
+void LLViewerMediaImpl::scrollWheel(S32 x, S32 y, S32 scroll_x, S32 scroll_y, MASK mask)
 {
 	scaleMouse(&x, &y);
 	mLastMouseX = x;
 	mLastMouseY = y;
 	if (mMediaSource)
 	{
-		mMediaSource->scrollEvent(x, y, mask);
+		mMediaSource->scrollEvent(x, y, scroll_x, scroll_y, mask);
 	}
 }
 
@@ -3287,8 +3286,39 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 			}
 			else
 			{
-				// Don't track redirects.
-				setNavState(MEDIANAVSTATE_NONE);
+				bool internal_nav = false;
+				if (url != mCurrentMediaURL)
+				{
+					// Check if it is internal navigation
+					// Note: Not sure if we should detect internal navigations as 'address change',
+					// but they are not redirects and do not cause NAVIGATE_BEGIN (also see SL-1005)
+					size_t pos = url.find("#");
+					if (pos != std::string::npos)
+					{
+						// assume that new link always have '#', so this is either
+						// transfer from 'link#1' to 'link#2' or from link to 'link#2'
+						// filter out cases like 'redirect?link'
+						std::string base_url = url.substr(0, pos);
+						pos = mCurrentMediaURL.find(base_url);
+						if (pos == 0)
+						{
+							// base link hasn't changed
+							internal_nav = true;
+						}
+					}
+				}
+
+				if (internal_nav)
+				{
+					// Internal navigation by '#'
+					mCurrentMediaURL = url;
+					setNavState(MEDIANAVSTATE_FIRST_LOCATION_CHANGED);
+				}
+				else
+				{
+					// Don't track redirects.
+					setNavState(MEDIANAVSTATE_NONE);
+				}
 			}
 		}
 		break;

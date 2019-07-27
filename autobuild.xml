@@ -2069,16 +2069,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>dd008981cac7ede93efa6cefe4ee61a0</string>
+              <string>b74d2b2e716bedce325b43cb8ca1f7b9</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
               <key>url</key>
-              <string>http://automated-builds-secondlife-com.s3.amazonaws.com/ct2/12484/73813/llca-201801172118.511910-common-511910.tar.bz2</string>
+              <string>https://pkg.dl.alchemyviewer.org/llca/llca-201907270122.0-common-192080522.tar.bz2</string>
             </map>
             <key>name</key>
             <string>common</string>
           </map>
         </map>
         <key>version</key>
-        <string>201801172118.511910</string>
+        <string>201907270122.0</string>
       </map>
       <key>llphysicsextensions_source</key>
       <map>

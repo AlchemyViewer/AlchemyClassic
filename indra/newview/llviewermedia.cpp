@@ -1128,7 +1128,7 @@ void LLViewerMedia::setProxyConfig(bool enable, const std::string &host, int por
 		LLViewerMediaImpl* pimpl = *iter;
 		if(pimpl->mMediaSource)
 		{
-			pimpl->mMediaSource->proxy_setup(enable, host, port);
+			//pimpl->mMediaSource->proxy_setup(enable, host, port);
 		}
 	}
 }
@@ -1731,6 +1731,9 @@ LLPluginClassMedia* LLViewerMediaImpl::newSourceFromMediaType(std::string media_
 		else
 		{
 			media_source = new LLPluginClassMedia(owner);
+			media_source->proxy_setup(gSavedSettings.getBOOL("BrowserProxyEnabled"), gSavedSettings.getS32("BrowserProxyType"), 
+				gSavedSettings.getString("BrowserProxyAddress"), gSavedSettings.getS32("BrowserProxyPort"),
+				gSavedSettings.getString("BrowserProxyUsername"), gSavedSettings.getString("BrowserProxyPassword"));
 			media_source->setSize(default_width, default_height);
 			media_source->setUserDataPath(user_data_path_cache, user_data_path_cef_log);
 			media_source->setLanguageCode(LLUI::getLanguage());
@@ -1837,7 +1840,8 @@ bool LLViewerMediaImpl::initializePlugin(const std::string& media_type)
 		std::string ca_path = gDirUtilp->getCAFile();
 		media_source->addCertificateFilePath( ca_path );
 
-		media_source->proxy_setup(gSavedSettings.getBOOL("BrowserProxyEnabled"), gSavedSettings.getString("BrowserProxyAddress"), gSavedSettings.getS32("BrowserProxyPort"));
+		media_source->proxy_setup(gSavedSettings.getBOOL("BrowserProxyEnabled"), gSavedSettings.getS32("BrowserProxyType"), gSavedSettings.getString("BrowserProxyAddress"), gSavedSettings.getS32("BrowserProxyPort"),
+			gSavedSettings.getString("BrowserProxyUsername"), gSavedSettings.getString("BrowserProxyPassword"));
 
 		if(mClearCache)
 		{
@@ -3427,6 +3431,46 @@ void LLViewerMediaImpl::handleMediaEvent(LLPluginClassMedia* plugin, LLPluginCla
 ////////////////////////////////////////////////////////////////////////////////
 // virtual
 void
+LLViewerMediaImpl::undo()
+{
+	if (mMediaSource)
+		mMediaSource->undo();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+BOOL
+LLViewerMediaImpl::canUndo() const
+{
+	if (mMediaSource)
+		return mMediaSource->canUndo();
+	else
+		return FALSE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+void
+LLViewerMediaImpl::redo()
+{
+	if (mMediaSource)
+		mMediaSource->redo();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+BOOL
+LLViewerMediaImpl::canRedo() const
+{
+	if (mMediaSource)
+		return mMediaSource->canRedo();
+	else
+		return FALSE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+void
 LLViewerMediaImpl::cut()
 {
 	if (mMediaSource)
@@ -3480,6 +3524,46 @@ LLViewerMediaImpl::canPaste() const
 {
 	if (mMediaSource)
 		return mMediaSource->canPaste();
+	else
+		return FALSE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+void
+LLViewerMediaImpl::doDelete()
+{
+	if (mMediaSource)
+		mMediaSource->doDelete();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+BOOL
+LLViewerMediaImpl::canDoDelete() const
+{
+	if (mMediaSource)
+		return mMediaSource->canDoDelete();
+	else
+		return FALSE;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+void
+LLViewerMediaImpl::selectAll()
+{
+	if (mMediaSource)
+		mMediaSource->selectAll();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// virtual
+BOOL
+LLViewerMediaImpl::canSelectAll() const
+{
+	if (mMediaSource)
+		return mMediaSource->canSelectAll();
 	else
 		return FALSE;
 }

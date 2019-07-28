@@ -185,6 +185,12 @@ public:
 
 	LLPluginClassMediaOwner::EMediaStatus getStatus() const { return mStatus; }
 
+	void	undo();
+	bool	canUndo() const { return mCanUndo; };
+
+	void	redo();
+	bool	canRedo() const { return mCanRedo; };
+
 	void	cut();
 	bool	canCut() const { return mCanCut; };
 
@@ -193,7 +199,15 @@ public:
 
 	void	paste();
 	bool	canPaste() const { return mCanPaste; };
+
+	void	doDelete();
+	bool	canDoDelete() const { return mCanDoDelete; };
+
+	void	selectAll();
+	bool	canSelectAll() const { return mCanSelectAll; };
 	
+	void	showPageSource();
+
 	// These can be called before init(), and they will be queued and sent before the media init message.
 	void	setUserDataPath(const std::string &user_data_path_cache, const std::string &user_data_path_cef_log);
 	void	setLanguageCode(const std::string &language_code);
@@ -209,9 +223,8 @@ public:
 	void set_page_zoom_factor( F64 factor );
 	void clear_cache();
 	void clear_cookies();
-	void set_cookies(const std::string &cookies);
 	void cookies_enabled(bool enable);
-	void proxy_setup(bool enable, const std::string &host = LLStringUtil::null, int port = 0);
+	void proxy_setup(bool enable, int type = 0, const std::string &host = LLStringUtil::null, int port = 0, const std::string &user = LLStringUtil::null, const std::string &pass = LLStringUtil::null);
 	void browse_stop();
 	void browse_reload(bool ignore_cache = false);
 	void browse_forward();
@@ -401,9 +414,13 @@ protected:
 	
 	F64				mSleepTime;
 
+	bool			mCanUndo;
+	bool			mCanRedo;
 	bool			mCanCut;
 	bool			mCanCopy;
 	bool			mCanPaste;
+	bool			mCanDoDelete;
+	bool			mCanSelectAll;
 	
 	std::string		mMediaName;
 	std::string		mMediaDescription;

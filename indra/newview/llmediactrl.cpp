@@ -407,6 +407,7 @@ BOOL LLMediaCtrl::postBuild ()
 {
 	LLUICtrl::CommitCallbackRegistry::ScopedRegistrar registar;
 	registar.add("Open.WebInspector", boost::bind(&LLMediaCtrl::onOpenWebInspector, this));
+	registar.add("Open.ViewSource", boost::bind(&LLMediaCtrl::onShowSource, this));
 
 	// stinson 05/05/2014 : use this as the parent of the context menu if the static menu
 	// container has yet to be created
@@ -426,6 +427,12 @@ void LLMediaCtrl::onOpenWebInspector()
 {
 	if (mMediaSource && mMediaSource->hasMedia())
 		mMediaSource->getMediaPlugin()->showWebInspector( true );
+}
+
+void LLMediaCtrl::onShowSource()
+{
+	if (mMediaSource && mMediaSource->hasMedia())
+		mMediaSource->getMediaPlugin()->showPageSource();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

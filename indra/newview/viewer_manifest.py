@@ -1035,6 +1035,7 @@ class DarwinManifest(ViewerManifest):
                                 "libexpat.1.dylib",
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
+                                "libfreetype.*dylib",
                                 # libnghttp2.dylib is a symlink to
                                 # libnghttp2.major.dylib, which is a symlink to
                                 # libnghttp2.version.dylib. Get all of them.
@@ -1056,12 +1057,12 @@ class DarwinManifest(ViewerManifest):
                 # dylibs that vary based on configuration
                 if self.args['configuration'].lower() == 'debug':
                     for libfile in (
-                                "libfmodexL.dylib",
+                                "libfmodL.dylib",
                                 ):
                         dylibs += path_optional(os.path.join(debpkgdir, libfile), libfile)
                 else:
                     for libfile in (
-                                "libfmodex.dylib",
+                                "libfmod.dylib",
                                 ):
                         dylibs += path_optional(os.path.join(relpkgdir, libfile), libfile)
 

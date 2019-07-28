@@ -332,7 +332,7 @@ public:
 	// Visibility
 	//--------------------------------------------------------------------
 
-    /* virtual */ bool shouldRenderRigged() const;
+    /* virtual */ bool shouldRenderRigged() const override;
     
 public:
 	bool			sendAppearanceMessage(LLMessageSystem *mesgsys) const;

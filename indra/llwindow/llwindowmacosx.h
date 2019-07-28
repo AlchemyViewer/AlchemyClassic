@@ -113,7 +113,7 @@ public:
 	/*virtual*/ void allowLanguageTextInput(LLPreeditor *preeditor, BOOL b);
 	/*virtual*/ void interruptLanguageTextInput();
 	/*virtual*/ void spawnWebBrowser(const std::string& escaped_url, bool async);
-	/*virtual*/ F32 getScaleFactor();
+	/*virtual*/ F32 getSystemUISize();
 	/*virtual*/ void updateUnreadCount(S32 num_conversations);
 
 	static std::vector<std::string> getDynamicFallbackFontList();

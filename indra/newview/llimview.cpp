@@ -2494,7 +2494,7 @@ void LLIncomingCallDialog::processCallResponse(S32 response, const LLSD& payload
 					}
 				}
 
-				LLUUID new_session_id = gIMMgr->addSession(correct_session_name, type, session_id, true);
+				(void) gIMMgr->addSession(correct_session_name, type, session_id, true);
 
 				std::string url = gAgent.getRegion()->getCapability(
 					"ChatSessionRequest");
@@ -2580,7 +2580,7 @@ bool inviteUserResponse(const LLSD& notification, const LLSD& response)
 			}
 			else
 			{
-				LLUUID new_session_id = gIMMgr->addSession(
+				(void) gIMMgr->addSession(
 					payload["session_name"].asString(),
 					type,
 					session_id, true);

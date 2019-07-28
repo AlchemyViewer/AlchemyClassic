@@ -195,22 +195,14 @@ void LLPanelLandMedia::refresh()
 		
 		// disallow media size change for mime types that don't allow it
 		bool allow_resize = LLMIMETypes::findAllowResize( mime_type );
-		if ( allow_resize )
-			mMediaWidthCtrl->setValue( parcel->getMediaWidth() );
-		else
-			mMediaWidthCtrl->setValue( 0 );
+        mMediaWidthCtrl->setValue( allow_resize ? parcel->getMediaWidth() : 0 );
 		mMediaWidthCtrl->setEnabled ( can_change_media && allow_resize );
-
-		if ( allow_resize )
-			mMediaHeightCtrl->setValue( parcel->getMediaHeight() );
-		else
-			mMediaHeightCtrl->setValue( 0 );
+        mMediaHeightCtrl->setValue( allow_resize ? parcel->getMediaHeight() : 0);
 		mMediaHeightCtrl->setEnabled ( can_change_media && allow_resize );
 
 		// enable/disable for text label for completeness
 		mMediaSizeCtrlLabel->setEnabled( can_change_media && allow_resize );
 
-		LLUUID tmp = parcel->getMediaID();
 		mMediaTextureCtrl->setImageAssetID ( parcel->getMediaID() );
 		mMediaTextureCtrl->setEnabled( can_change_media );
 

@@ -187,7 +187,7 @@ public:
 		// const kdu_uint16* to a std::ostream will display only the hex value
 		// of the pointer.
 		LL_INFOS() << "KDU " << mType << ": "
-				   << utf16str_to_utf8str(llutf16string((utf16strtype*) s)) << LL_ENDL;
+				   << utf16str_to_utf8str(llutf16string(s)) << LL_ENDL;
 	}
 
 private:

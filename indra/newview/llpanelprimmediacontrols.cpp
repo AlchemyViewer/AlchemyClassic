@@ -810,12 +810,13 @@ void LLPanelPrimMediaControls::draw()
 	LLViewerObject* objectp = getTargetObject();
 	LLMediaEntry *media_data(nullptr);
 
-	if( objectp )
-		media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
+    if (objectp) {
+        media_data = objectp->getTE(mTargetObjectFace)->getMediaData();
 
-	auto volumep = objectp ? objectp->asVolume() : nullptr;
-	if( !volumep || !media_data || volumep->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL) )
-		mBackgroundImage->draw( controls_bg_area, UI_VERTEX_COLOR % alpha);
+        auto volumep = objectp->asVolume();
+        if (!volumep || !media_data || volumep->hasMediaPermission(media_data, LLVOVolume::MEDIA_PERM_CONTROL))
+            mBackgroundImage->draw(controls_bg_area, UI_VERTEX_COLOR % alpha);
+    }
 
 	// draw volume slider background UI image
 	if (mVolumeSliderCtrl->getVisible())

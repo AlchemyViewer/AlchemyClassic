@@ -236,7 +236,6 @@ void LLFloaterOutfitPhotoPreview::updateImageID()
 	if(item)
 	{
 		mImageID = item->getAssetUUID();
-		LLPermissions perm(item->getPermissions());
 	}
 	else
 	{

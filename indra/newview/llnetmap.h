@@ -149,6 +149,8 @@ private:
 	void handleZoom(const LLSD& userdata);
 	void handleStopTracking (const LLSD& userdata);
 
+	LLVector3d		mPosGlobalRightClick;
+	
 	LLHandle<LLView>		mPopupMenuHandle;
 	uuid_vec_t		gmSelected;
 };

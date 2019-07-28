@@ -218,7 +218,7 @@ public:
     void 					getAssociatedVolumes(std::vector<LLVOVolume*>& volumes);
 
     // virtual
-    void 					updateRiggingInfo();
+    void 					updateRiggingInfo() override;
 	// This encodes mesh id and LOD, so we can see whether display is up-to-date.
 	std::vector<std::pair<LLUUID, S32> >	mLastRiggingInfoKey;
 	

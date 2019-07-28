@@ -28,9 +28,6 @@
 #import "llwindowmacosx-objc.h"
 #import "llappdelegate-objc.h"
 #import <Carbon/Carbon.h> // for keycodes
-
-extern BOOL gHiDPISupport;
-
 #pragma mark local functions
 
 NativeKeyEventData extractKeyDataFromKeyEvent(NSEvent* theEvent)
@@ -163,7 +160,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
     
 	NSRect rect = [[self window] frame];
 	NSRect scaled_rect = [self convertRectToBacking:rect];
-	if (rect.size.height != scaled_rect.size.height || rect.size.width != scaled_rect.size.width)
+	if (NSEqualSizes(rect.size, scaled_rect.size))
 	{
 		callResize(scaled_rect.size.width, scaled_rect.size.height);
 	}
@@ -265,11 +262,11 @@ attributedStringInfo getSegments(NSAttributedString *str)
 		NSLog(@"Failed to create OpenGL context!", nil);
 		return nil;
 	}
-    
-    [self setWantsBestResolutionOpenGLSurface:YES];
-	
+
+	[self setWantsBestResolutionOpenGLSurface:YES];
+
 	[self setPixelFormat:pixelFormat];
-	
+
 	[self setOpenGLContext:glContext];
 	
 	[glContext setView:self];

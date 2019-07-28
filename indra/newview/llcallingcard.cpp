@@ -230,7 +230,7 @@ S32 LLAvatarTracker::addBuddyList(const buddy_map_t& buds)
 		{
 			++new_buddy_count;
 			auto buddy = (*itr).second;
-			auto it = mBuddyInfo.emplace(agent_id, buddy);
+			/* auto it = */mBuddyInfo.emplace(agent_id, buddy);
 
 			// pre-request name for notifications?
 			LLAvatarName av_name;

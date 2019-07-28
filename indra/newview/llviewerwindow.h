@@ -210,6 +210,7 @@ public:
 	/*virtual*/ BOOL handleTimerEvent(LLWindow *window) override;
 	/*virtual*/ BOOL handleDeviceChange(LLWindow *window) override;
 	/*virtual*/ BOOL handleDPIChanged(LLWindow *window, F32 ui_scale_factor, S32 window_width, S32 window_height) override;
+	/*virtual*/ BOOL handleWindowDidChangeScreen(LLWindow *window) override;
 
 	/*virtual*/ void handlePingWatchdog(LLWindow *window, const char * msg) override;
 	/*virtual*/ void handlePauseWatchdog(LLWindow *window) override;

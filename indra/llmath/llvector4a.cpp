@@ -43,8 +43,24 @@ extern const LLVector4a LL_V4A_ZERO = reinterpret_cast<const LLVector4a&> ( F_ZE
 extern const LLVector4a LL_V4A_ONE = reinterpret_cast<const LLVector4a&> (F_ONE_4A);
 extern const LLVector4a LL_V4A_EPSILON = reinterpret_cast<const LLVector4a&> ( F_APPROXIMATELY_ZERO_4A );
 
-extern const LLIQuad I_ZERO_4A = { 0, 0, 0, 0 };
-extern const LLIQuad I_ONE_4A = { 1, 1, 1, 1 };
+LL_ALIGN_PREFIX(16)
+static const uint8_t zero_array[64] = {
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+};
+
+LL_ALIGN_PREFIX(16)
+static const uint8_t one_array[64] = {
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+};
+
+static const LLIQuad I_ZERO_4A = reinterpret_cast<LLIQuad const&>(zero_array);
+static const LLIQuad I_ONE_4A = reinterpret_cast<LLIQuad const&>(one_array);
 
 extern const LLIVector4a LL_IV4A_ZERO = reinterpret_cast<const LLIVector4a&> (I_ZERO_4A);
 extern const LLIVector4a LL_IV4A_ONE = reinterpret_cast<const LLIVector4a&> (I_ONE_4A);

@@ -125,7 +125,6 @@ public:
 			 it != mIDs.end();
 			 ++it)
 		{
-			LLUUID id = *it;
 			LLConstPointer<LLInventoryObject> item = gInventory.getItem(*it);
 			if (!item)
 			{
@@ -143,7 +142,7 @@ void LLInitialWearablesFetch::processWearablesMessage()
 {
 	if (!mAgentInitialWearables.empty()) // We have an empty current outfit folder, use the message data instead.
 	{
-		const LLUUID current_outfit_id = LLAppearanceMgr::instance().getCOF();
+        (void) LLAppearanceMgr::instance().getCOF();
 		uuid_vec_t ids;
 		for (U8 i = 0; i < mAgentInitialWearables.size(); ++i)
 		{

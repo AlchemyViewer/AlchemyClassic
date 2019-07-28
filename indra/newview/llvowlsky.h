@@ -60,7 +60,7 @@ public:
 
 	void drawStars(void);
 	void drawDome(void);
-	void resetVertexBuffers(void);
+	void resetVertexBuffers(void) override;
 	
 	void cleanupGL();
 	void restoreGL();

@@ -231,7 +231,7 @@ static std::string gAgentStartLocation = "safe";
 static bool mLoginStatePastUI = false;
 
 const S32 DEFAULT_MAX_AGENT_GROUPS = 42;
-const S32 ALLOWED_MAX_AGENT_GROUPS = 500;
+//const S32 ALLOWED_MAX_AGENT_GROUPS = 500;
 const F32 STATE_AGENT_WAIT_TIMEOUT = 240; //seconds
 
 boost::scoped_ptr<LLEventPump> LLStartUp::sStateWatcher(new LLEventStream("StartupState"));
@@ -2212,6 +2212,8 @@ bool idle_startup()
 
 		llassert(LLPathfindingManager::getInstance() != NULL);
 		LLPathfindingManager::getInstance()->initSystem();
+		
+		display_startup();
 
 		gAgentAvatarp->sendHoverHeight();
 

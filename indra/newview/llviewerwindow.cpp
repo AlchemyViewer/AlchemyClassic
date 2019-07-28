@@ -1118,7 +1118,6 @@ LLWindowCallbacks::DragNDropResult LLViewerWindow::handleDragNDrop( LLWindow *wi
                                                           TRUE /* pick_transparent */, 
                                                           FALSE /* pick_rigged */);
 
-					LLUUID object_id = pick_info.getObjectID();
 					S32 object_face = pick_info.mObjectFace;
 					std::string url = data;
 
@@ -1560,6 +1559,14 @@ BOOL LLViewerWindow::handleDPIChanged(LLWindow *window, F32 ui_scale_factor, S32
         LL_WARNS() << "DPI change caused UI scale to go out of bounds: " << ui_scale_factor << LL_ENDL;
         return FALSE;
     }
+}
+
+BOOL LLViewerWindow::handleWindowDidChangeScreen(LLWindow *window)
+{
+	LLCoordScreen window_rect;
+	mWindow->getSize(&window_rect);
+	reshape(window_rect.mX, window_rect.mY);
+	return TRUE;
 }
 
 void LLViewerWindow::handlePingWatchdog(LLWindow *window, const char * msg)

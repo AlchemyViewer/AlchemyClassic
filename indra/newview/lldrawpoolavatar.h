@@ -55,7 +55,7 @@ public:
 	};
 
     ~LLDrawPoolAvatar();
-    /*virtual*/ BOOL isDead();
+    /*virtual*/ BOOL isDead() override;
     typedef enum
 	{
 		RIGGED_MATERIAL=0,
@@ -172,36 +172,36 @@ typedef enum
         NUM_SHADOW_PASSES
 	} eShadowPass;
 
-	virtual U32 getVertexDataMask() { return VERTEX_DATA_MASK; }
+	virtual U32 getVertexDataMask()  override { return VERTEX_DATA_MASK; }
 
-	virtual S32 getVertexShaderLevel() const;
+	virtual S32 getVertexShaderLevel() const override;
 
 	LLDrawPoolAvatar();
 
 	static LLMatrix4& getModelView();
 
-	/*virtual*/ LLDrawPool *instancePool();
+	/*virtual*/ LLDrawPool *instancePool() override;
 
-	/*virtual*/ S32  getNumPasses();
-	/*virtual*/ void beginRenderPass(S32 pass);
-	/*virtual*/ void endRenderPass(S32 pass);
-	/*virtual*/ void prerender();
-	/*virtual*/ void render(S32 pass = 0);
+	/*virtual*/ S32  getNumPasses() override;
+	/*virtual*/ void beginRenderPass(S32 pass) override;
+	/*virtual*/ void endRenderPass(S32 pass) override;
+	/*virtual*/ void prerender() override;
+	/*virtual*/ void render(S32 pass = 0) override;
 
-	/*virtual*/ S32 getNumDeferredPasses();
-	/*virtual*/ void beginDeferredPass(S32 pass);
-	/*virtual*/ void endDeferredPass(S32 pass);
-	/*virtual*/ void renderDeferred(S32 pass);
+	/*virtual*/ S32 getNumDeferredPasses() override;
+	/*virtual*/ void beginDeferredPass(S32 pass) override;
+	/*virtual*/ void endDeferredPass(S32 pass) override;
+	/*virtual*/ void renderDeferred(S32 pass) override;
 	
-	/*virtual*/ S32 getNumPostDeferredPasses();
-	/*virtual*/ void beginPostDeferredPass(S32 pass);
-	/*virtual*/ void endPostDeferredPass(S32 pass);
-	/*virtual*/ void renderPostDeferred(S32 pass);
+	/*virtual*/ S32 getNumPostDeferredPasses() override;
+	/*virtual*/ void beginPostDeferredPass(S32 pass) override;
+	/*virtual*/ void endPostDeferredPass(S32 pass) override;
+	/*virtual*/ void renderPostDeferred(S32 pass) override;
 
-	/*virtual*/ S32 getNumShadowPasses();
-	/*virtual*/ void beginShadowPass(S32 pass);
-	/*virtual*/ void endShadowPass(S32 pass);
-	/*virtual*/ void renderShadow(S32 pass);
+	/*virtual*/ S32 getNumShadowPasses() override;
+	/*virtual*/ void beginShadowPass(S32 pass) override;
+	/*virtual*/ void endShadowPass(S32 pass) override;
+	/*virtual*/ void renderShadow(S32 pass) override;
 
 	void beginRigid();
 	void beginImpostor();

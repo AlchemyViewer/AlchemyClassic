@@ -51,3 +51,9 @@
 - (void) languageUpdated;
 - (bool) romanScript;
 @end
+
+@interface LLNSMenu : NSMenuItem {}
+- (IBAction)toggleOSXNotification:(id)sender;
+- (IBAction)toggleOSXNotificationScripts:(id)sender;
+- (IBAction)toggleOSXNotificationSounds:(id)sender;
+@end

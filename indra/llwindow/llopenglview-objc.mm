@@ -160,7 +160,7 @@ attributedStringInfo getSegments(NSAttributedString *str)
     
 	NSRect rect = [[self window] frame];
 	NSRect scaled_rect = [self convertRectToBacking:rect];
-	if (NSEqualSizes(rect.size, scaled_rect.size))
+	if (!NSEqualSizes(rect.size, scaled_rect.size))
 	{
 		callResize(scaled_rect.size.width, scaled_rect.size.height);
 	}

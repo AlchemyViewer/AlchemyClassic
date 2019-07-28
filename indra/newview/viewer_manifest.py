@@ -1036,6 +1036,7 @@ class DarwinManifest(ViewerManifest):
                                 "libexception_handler.dylib",
                                 "libGLOD.dylib",
                                 "libfreetype.*dylib",
+                                "libopenjpeg.dylib",
                                 # libnghttp2.dylib is a symlink to
                                 # libnghttp2.major.dylib, which is a symlink to
                                 # libnghttp2.version.dylib. Get all of them.

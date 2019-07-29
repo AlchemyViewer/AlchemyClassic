@@ -1071,7 +1071,7 @@ class DarwinManifest(ViewerManifest):
                 executable_path = {}
                 for app_bld_dir, app in (("mac_crash_logger", "mac-crash-logger.app"),
                                          # plugin launcher
-                                         (os.path.join("llplugin", "slplugin"), "SLPlugin.app"),
+                                         (os.path.join("llplugin", "slplugin"), "AlchemyPlugin.app"),
                                          ):
                     self.path2basename(os.path.join(os.pardir,
                                                     app_bld_dir, self.args['configuration']),
@@ -1086,9 +1086,9 @@ class DarwinManifest(ViewerManifest):
                         for libfile in dylibs:
                             self.relsymlinkf(os.path.join(libfile_parent, libfile))
 
-                # Dullahan helper apps go inside SLPlugin.app
+                # Dullahan helper apps go inside AlchemyPlugin.app
                 with self.prefix(dst=os.path.join(
-                    "SLPlugin.app", "Contents", "Frameworks")):
+                    "AlchemyPlugin.app", "Contents", "Frameworks")):
 
                     frameworkname = 'Chromium Embedded Framework'
 
@@ -1107,7 +1107,7 @@ class DarwinManifest(ViewerManifest):
                     # Framework.framework to the directory of the same name, which
                     # is NOT an ancestor of the symlink.
 
-                    # from SLPlugin.app/Contents/Frameworks/Chromium Embedded
+                    # from AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded
                     # Framework.framework back to
                     # $viewer_app/Contents/Frameworks/Chromium Embedded Framework.framework
                     SLPlugin_framework = self.relsymlinkf(CEF_framework, catch=False)
@@ -1120,8 +1120,8 @@ class DarwinManifest(ViewerManifest):
                         'DullahanHelper.app', 'Contents', 'Frameworks')):
                         # from Dullahan Helper.app/Contents/Frameworks/Chromium Embedded
                         # Framework.framework back to
-                        # SLPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
-                        # Since SLPlugin_framework is itself a
+                        # AlchemyPlugin.app/Contents/Frameworks/Chromium Embedded Framework.framework
+                        # Since AlchemyPlugin_framework is itself a
                         # symlink, don't let relsymlinkf() resolve --
                         # explicitly call relpath(symlink=True) and
                         # create that symlink here.
@@ -1165,7 +1165,7 @@ class DarwinManifest(ViewerManifest):
                     # @executable_path at runtime!
                     newpath = os.path.join(
                         '@executable_path',
-                        self.relpath(SLPlugin_framework, executable_path["SLPlugin.app"],
+                        self.relpath(SLPlugin_framework, executable_path["AlchemyPlugin.app"],
                                      symlink=True),
                         frameworkname)
                     # restamp media_plugin_cef.dylib

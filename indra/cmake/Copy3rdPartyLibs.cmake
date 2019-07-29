@@ -44,7 +44,7 @@ if(WINDOWS)
 
     set(debug_src_dir "${ARCH_PREBUILT_DIRS_DEBUG}")
     set(debug_files
-        openjpegd.dll
+        openjpeg.dll
         glod.dll    
         libhunspell.dll
         )

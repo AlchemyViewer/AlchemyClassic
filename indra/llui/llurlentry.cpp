@@ -1529,4 +1529,69 @@ std::string LLUrlEntryJira::getUrl(const std::string &url) const
 }
 // </alchemy>
 
+//
+// LLUrlEntryUUID
+//
+LLUrlEntryUUID::LLUrlEntryUUID()
+{
+	mPattern = boost::regex("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}",boost::regex::perl|boost::regex::icase);
+	mMenuName = "menu_url_http.xml";
+	mTooltip = LLTrans::getString("TooltipHttpUrl");
+}
+
+std::string LLUrlEntryUUID::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
+{
+	return unescapeUrl(url);
+}
+
+std::string LLUrlEntryUUID::getTooltip(const std::string &string) const
+{
+	return getUrl(string);
+}
+
+std::string LLUrlEntryUUID::getUrl(const std::string &string) const
+{
+	return llformat("secondlife:///app/keytool/%s", string.c_str());
+}
+
+//
+// LLURLEntrySIP
+//
+LLUrlEntrySIP::LLUrlEntrySIP()
+{
+	mPattern = boost::regex("(sip:(.*?)@(\\S+))|(" APP_HEADER_REGEX "/sip/(.*?)@(\\S+))", boost::regex::perl);
+	mMenuName = "menu_url_slapp.xml";
+	mTooltip = LLTrans::getString("TooltipSLAPP");
+}
+
+std::string LLUrlEntrySIP::getLabel(const std::string &url, const LLUrlLabelCallback &cb)
+{
+	std::string label;
+	size_t pos = url.find("secondlife:///app/sip/");
+	if (pos != std::string::npos)
+	{
+		pos += 22; // 22 being the size of our token
+		label = url.substr(pos, url.size() - pos);
+	}
+	else
+	{
+		label = getStringAfterToken(url, "sip:");
+	}
+	//return llformat("SIP:%s", label.c_str());
+	return label;
+}
+
+std::string LLUrlEntrySIP::getTooltip(const std::string &string) const
+{
+	return LLStringUtil::null;
+	
+}
+
+std::string LLUrlEntrySIP::getUrl(const std::string &string) const
+{
+	if (string.find("secondlife:///app/sip/") != std::string::npos)
+		return string;
+	std::string url = getStringAfterToken(string, "sip:");
+	return llformat("secondlife:///app/sip/%s", url.c_str());
+}
 

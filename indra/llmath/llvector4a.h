@@ -47,6 +47,7 @@ class LLRotation;
 // LLVector3/LLVector4. 
 /////////////////////////////////
 class LLVector4a;
+class LLIVector4a;
 
 LL_ALIGN_PREFIX(16)
 class LLVector4a

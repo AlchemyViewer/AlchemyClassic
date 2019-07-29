@@ -394,6 +394,14 @@ void callWindowUnhide()
 	}
 }
 
+void callWindowDidChangeScreen()
+{
+	if ( gWindowImplementation && gWindowImplementation->getCallbacks() )
+	{
+		gWindowImplementation->getCallbacks()->handleWindowDidChangeScreen(gWindowImplementation);
+	}
+}
+
 void callDeltaUpdate(double *delta, MASK mask)
 {
 	gWindowImplementation->updateMouseDeltas(delta);
@@ -583,8 +591,8 @@ BOOL LLWindowMacOSX::createContext(int x, int y, int width, int height, int bits
 	}
 
 	// Disable vertical sync for swap
-	bool vsync_enabled;
-	GLint frames_per_swap;
+	bool vsync_enabled = false;
+	GLint frames_per_swap = 0;
 	switch (vsync_setting)
 	{
 	default:
@@ -885,7 +893,7 @@ BOOL LLWindowMacOSX::getSize(LLCoordWindow *size)
 	}
 	else if(mWindow)
 	{
-		getContentViewBounds(mWindow, rect);
+		getScaledContentViewBounds(mWindow, mGLView, rect);
 		
 		size->mX = rect[2];
 		size->mY = rect[3];
@@ -1100,6 +1108,9 @@ BOOL LLWindowMacOSX::setCursorPosition(LLCoordWindow position)
 	// trigger mouse move callback
 	LLCoordGL gl_pos;
 	convertCoords(position, &gl_pos);
+	float scale = getSystemUISize();
+	gl_pos.mX *= scale;
+	gl_pos.mY *= scale;
 	mCallbacks->handleMouseMove(this, gl_pos, (MASK)0);
 
 	return result;
@@ -1129,7 +1140,7 @@ BOOL LLWindowMacOSX::getCursorPosition(LLCoordWindow *position)
 		cursor_point[0] += mCursorLastEventDeltaX;
 		cursor_point[1] += mCursorLastEventDeltaY;
 	}
-    float scale = getScaleFactor();
+
 	float scale = getSystemUISize();
 	position->mX = cursor_point[0] * scale;
 	position->mY = cursor_point[1] * scale;
@@ -1324,7 +1335,7 @@ BOOL LLWindowMacOSX::convertCoords(LLCoordScreen from, LLCoordWindow* to)
 	if(mWindow)
 	{
 		float mouse_point[2];
-        float scale_factor = getScaleFactor();
+		float scale_factor = getScaleFactor();
 		mouse_point[0] = from.mX;
 		mouse_point[1] = from.mY;
 		
@@ -1343,7 +1354,7 @@ BOOL LLWindowMacOSX::convertCoords(LLCoordWindow from, LLCoordScreen *to)
 	if(mWindow)
 	{
 		float mouse_point[2];
-        float scale_factor = getScaleFactor();
+		float scale_factor = getScaleFactor();
 		mouse_point[0] = from.mX / scale_factor;
 		mouse_point[1] = from.mY / scale_factor;
 		convertWindowToScreen(mWindow, mouse_point);
@@ -1898,10 +1909,9 @@ MASK LLWindowMacOSX::modifiersToMask(S16 modifiers)
 	return mask;
 }
 
-//[CR:Retina]
-F32 LLWindowMacOSX::getScaleFactor()
+F32 LLWindowMacOSX::getSystemUISize()
 {
-	return ::getScaleFactor(mGLView);
+	return ::getDeviceUnitSize(mGLView);
 }
 
 void LLWindowMacOSX::updateUnreadCount(S32 num_conversations)

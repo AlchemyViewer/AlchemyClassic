@@ -171,7 +171,7 @@ class LLUrlEntrySLURL : public LLUrlEntryBase
 {
 public:
 	LLUrlEntrySLURL();
-	/*virtual*/ bool isTrusted() const { return true; }
+	/*virtual*/ bool isTrusted() const override { return true; }
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 	/*virtual*/ std::string getLocation(const std::string &url) const override;
 };
@@ -518,6 +518,30 @@ public:
 	LLUrlEntryEmail();
 	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb) override;
 	/*virtual*/ std::string getUrl(const std::string &string) const override;
+};
+
+///
+/// LLUrlEntryUUID
+///
+class LLUrlEntryUUID : public LLUrlEntryBase
+{
+public:
+	LLUrlEntryUUID();
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getTooltip(const std::string &string) const;
+	/*virtual*/ std::string getUrl(const std::string &string) const;
+};
+
+///
+/// LLURLEntrySIP
+///
+class LLUrlEntrySIP : public LLUrlEntryBase
+{
+public:
+	LLUrlEntrySIP();
+	/*virtual*/ std::string getLabel(const std::string &url, const LLUrlLabelCallback &cb);
+	/*virtual*/ std::string getTooltip(const std::string &string) const;
+	/*virtual*/ std::string getUrl(const std::string &string) const;
 };
 
 // <alchemy>

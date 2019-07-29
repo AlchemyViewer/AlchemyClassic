@@ -105,6 +105,7 @@ LLNetMap::LLNetMap (const Params & p)
 	mClosestAgentToCursor(),
 	mClosestAgentAtLastRightClick(),
 	mToolTipMsg(),
+	mPosGlobalRightClick(),
 	mPopupMenuHandle()
 {
 	mScale = gSavedSettings.getF32("MiniMapScale");
@@ -405,12 +406,11 @@ void LLNetMap::draw()
 			memset(texture_data, 0, mParcelImagep->getWidth() * mParcelImagep->getHeight() * mParcelImagep->getComponents());
 
 			// Process each region
-			for (LLWorld::region_list_t::const_iterator itr = LLWorld::getInstance()->getRegionList().begin();
-		         itr != LLWorld::getInstance()->getRegionList().end(); 
-                 ++itr)
+            for (LLViewerRegion *region : LLWorld::getInstance()->getRegionList())
 			{
-				LLViewerRegion* region = *itr; 
-			    LLColor4U overlay_color = region->isAlive() ? map_parcel_line_color.get() : LLColor4U(255, 128, 128, 255);
+			    LLColor4 overlay_color = region->isAlive()
+                    ? map_parcel_line_color.get()
+                    : LLColor4(255, 128, 128, 255);
 				renderPropertyLinesForRegion(region, overlay_color);
 			}
 
@@ -1154,6 +1154,7 @@ BOOL LLNetMap::handleRightMouseDown(S32 x, S32 y, MASK mask)
 	auto menu = static_cast<LLMenuGL*>(mPopupMenuHandle.get());
 	if (menu)
 	{
+		mPosGlobalRightClick = viewPosToGlobal(x, y);
 		menu->buildDrawLabels();
 		menu->updateParent(LLMenuGL::sMenuContainer);
 		menu->setItemEnabled("Stop Tracking", LLTracker::getInstance()->isTracking());

@@ -618,11 +618,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>37dd116b4b03c554d9e3e06b84f533b1</string>
+              <string>21b0b452b24ca2101bae32dfe0a71693</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/dullahan-1.1.1085-3.3396.1785.ga27bbfa-darwin-201807241418.tar.bz2</string>
+              <string>https://pkg.dl.alchemyviewer.org/dullahan/dullahan-1.2.201907271512_75.1.14_gc81164e_chromium-75.0.3770.100-darwin-192081912.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
@@ -3308,7 +3308,6 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Debug</string>
                   <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -3328,7 +3327,6 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo</string>
                   <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=TRUE</string>
                 </array>
               </map>
@@ -3349,7 +3347,6 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo</string>
                   <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -3369,7 +3366,6 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
                   <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=TRUE</string>
                 </array>
               </map>
@@ -3390,7 +3386,6 @@
                 <array>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
                   <string>-DADDRESS_SIZE:STRING=$AUTOBUILD_ADDRSIZE</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -3434,7 +3429,6 @@
                   <string>"Unix Makefiles"</string>
                   <string>-DCMAKE_BUILD_TYPE:STRING=Release</string>
                   <string>-DADDRESS_SIZE:STRING=64</string>
-                  <string>-DROOT_PROJECT_NAME:STRING=Alchemy</string>
                   <string>-DINSTALL_PROPRIETARY=FALSE</string>
                 </array>
               </map>
@@ -3516,7 +3510,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Xcode'</string>
+                  <string>Xcode</string>
                 </array>
               </map>
               <key>default</key>
@@ -3541,7 +3535,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Xcode'</string>
+                  <string>Xcode</string>
                 </array>
               </map>
               <key>name</key>
@@ -3568,7 +3562,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Xcode'</string>
+                  <string>Xcode</string>
                 </array>
               </map>
               <key>name</key>
@@ -3591,7 +3585,7 @@
                 <key>options</key>
                 <array>
                   <string>-G</string>
-                  <string>'Xcode'</string>
+                  <string>Xcode</string>
                 </array>
               </map>
               <key>name</key>

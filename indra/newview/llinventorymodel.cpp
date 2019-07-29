@@ -2517,10 +2517,9 @@ void LLInventoryModel::buildParentChildMap()
 		if(catsp)
 		{
 			// *HACK - fix root inventory folder
-			// some accounts has pbroken inventory root folders
+			// some accounts has broken inventory root folders
 			
-			std::string name = "My Inventory";
-			LLUUID prev_root_id = mRootFolderID;
+			static const std::string name = "My Inventory";
 			for (parent_cat_map_t::const_iterator it = mParentChildCategoryTree.begin(),
 				     it_end = mParentChildCategoryTree.end(); it != it_end; ++it)
 			{

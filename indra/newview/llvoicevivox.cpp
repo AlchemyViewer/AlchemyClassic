@@ -5373,28 +5373,6 @@ BOOL LLVivoxVoiceClient::getAreaVoiceDisabled()
 	return mAreaVoiceDisabled;
 }
 
-void LLVivoxVoiceClient::recordingLoopStart(int seconds, int deltaFramesPerControlFrame)
-{
-//	LL_DEBUGS("Voice") << "sending SessionGroup.ControlRecording (Start)" << LL_ENDL;
-	
-	if(!mMainSessionGroupHandle.empty())
-	{
-		std::ostringstream stream;
-		stream
-		<< "<Request requestId=\"" << mCommandCookie++ << "\" action=\"SessionGroup.ControlRecording.1\">"
-		<< "<SessionGroupHandle>" << mMainSessionGroupHandle << "</SessionGroupHandle>"
-		<< "<RecordingControlType>Start</RecordingControlType>" 
-		<< "<DeltaFramesPerControlFrame>" << deltaFramesPerControlFrame << "</DeltaFramesPerControlFrame>"
-		<< "<Filename>" << "" << "</Filename>"
-		<< "<EnableAudioRecordingEvents>false</EnableAudioRecordingEvents>"
-		<< "<LoopModeDurationSeconds>" << seconds << "</LoopModeDurationSeconds>"
-		<< "</Request>\n\n\n";
-
-
-		writeString(stream.str());
-	}
-}
-
 void LLVivoxVoiceClient::recordingLoopSave(const std::string& filename)
 {
 //	LL_DEBUGS("Voice") << "sending SessionGroup.ControlRecording (Flush)" << LL_ENDL;
@@ -5542,8 +5520,11 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::matchS
     sessionStatePtr_t result;
 
     // *TODO: My kingdom for a lambda!
-    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(), boost::bind(testByHandle, _1, handle));
-
+    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(),
+        [handle](const auto a) {
+            ptr_t aLock(a.lock());
+            return aLock ? aLock->mHandle == handle : false;
+        });
     if (it != mSession.end())
         result = (*it).lock();
 
@@ -5555,9 +5536,11 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::matchC
 {
     sessionStatePtr_t result;
 
-    // *TODO: My kingdom for a lambda!
-    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(), boost::bind(testByCreatingURI, _1, uri));
-
+    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(),
+        [uri](const auto a) {
+            ptr_t aLock(a.lock());
+            return aLock ? (aLock->mCreateInProgress && (aLock->mSIPURI == uri)) : false;
+        });
     if (it != mSession.end())
         result = (*it).lock();
 
@@ -5569,9 +5552,11 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::matchS
 {
     sessionStatePtr_t result;
 
-    // *TODO: My kingdom for a lambda!
-    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(), boost::bind(testBySIPOrAlterateURI, _1, uri));
-
+    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(),
+        [uri](const auto a) {
+            ptr_t aLock(a.lock());
+            return aLock ? ((aLock->mSIPURI == uri) || (aLock->mAlternateSIPURI == uri)) : false;
+        });
     if (it != mSession.end())
         result = (*it).lock();
 
@@ -5583,9 +5568,11 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::matchS
 {
     sessionStatePtr_t result;
 
-    // *TODO: My kingdom for a lambda!
-    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(), boost::bind(testByCallerId, _1, participant_id));
-
+    std::set<wptr_t>::iterator it = std::find_if(mSession.begin(), mSession.end(),
+        [participant_id](const auto a) {
+            ptr_t aLock(a.lock());
+            return aLock ? ((aLock->mCallerID == participant_id) || (aLock->mIMSessionID == participant_id)) : false;
+        });
     if (it != mSession.end())
         result = (*it).lock();
 
@@ -5595,37 +5582,6 @@ LLVivoxVoiceClient::sessionState::ptr_t LLVivoxVoiceClient::sessionState::matchS
 void LLVivoxVoiceClient::sessionState::for_each(sessionFunc_t func)
 {
     std::for_each(mSession.begin(), mSession.end(), boost::bind(for_eachPredicate, _1, func));
-}
-
-// simple test predicates.  
-// *TODO: These should be made into lambdas when we can pull the trigger on newer C++ features.
-bool LLVivoxVoiceClient::sessionState::testByHandle(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string handle)
-{
-    ptr_t aLock(a.lock());
-
-    return aLock ? aLock->mHandle == handle : false;
-}
-
-bool LLVivoxVoiceClient::sessionState::testByCreatingURI(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string uri)
-{
-    ptr_t aLock(a.lock());
-
-    return aLock ? (aLock->mCreateInProgress && (aLock->mSIPURI == uri)) : false;
-}
-
-bool LLVivoxVoiceClient::sessionState::testBySIPOrAlterateURI(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string uri)
-{
-    ptr_t aLock(a.lock());
-
-    return aLock ? ((aLock->mSIPURI == uri) || (aLock->mAlternateSIPURI == uri)) : false;
-}
-
-
-bool LLVivoxVoiceClient::sessionState::testByCallerId(const LLVivoxVoiceClient::sessionState::wptr_t &a, LLUUID participantId)
-{
-    ptr_t aLock(a.lock());
-
-    return aLock ? ((aLock->mCallerID == participantId) || (aLock->mIMSessionID == participantId)) : false;
 }
 
 /*static*/
@@ -5640,8 +5596,6 @@ void LLVivoxVoiceClient::sessionState::for_eachPredicate(const LLVivoxVoiceClien
         LL_WARNS("Voice") << "Stale handle in session map!" << LL_ENDL;
     }
 }
-
-
 
 LLVivoxVoiceClient::sessionStatePtr_t LLVivoxVoiceClient::findSession(const std::string &handle)
 {

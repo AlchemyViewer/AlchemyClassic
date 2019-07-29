@@ -447,7 +447,7 @@ void LLVOCacheEntry::updateDebugSettings()
 	static LLCachedControl<U32> low_mem_bound_MB(gSavedSettings,"SceneLoadLowMemoryBound");
 	static LLCachedControl<U32> high_mem_bound_MB(gSavedSettings,"SceneLoadHighMemoryBound");
 	
-	LLMemory::updateMemoryInfo(true);
+	LLMemory::updateMemoryInfo();
 	U32Megabytes allocated_mem = LLMemory::getAllocatedMemKB();
 	if(allocated_mem < U32Megabytes(low_mem_bound_MB))
 	{

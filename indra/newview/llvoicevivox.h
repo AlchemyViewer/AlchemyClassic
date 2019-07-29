@@ -74,7 +74,7 @@ public:
 	// Returns true if vivox has successfully logged in and is not in error state	
 	bool isVoiceWorking() const override;
 	
-	virtual bool singletoneInstanceExists();
+	virtual bool singletoneInstanceExists() override;
 
 	/////////////////////
 	/// @name Tuning
@@ -246,8 +246,6 @@ public:
 	bool isPreviewPlaying() override;
 	//@}
 
-	//@}
-
 	bool onCheckVoiceEffect(const std::string& voice_effect_name);
 	void onClickVoiceEffect(const std::string& voice_effect_name);
 
@@ -376,12 +374,6 @@ protected:
         std::set<wptr_t>::iterator  mMyIterator;    // used for delete
 
         static void for_eachPredicate(const wptr_t &a, sessionFunc_t func);
-
-        static bool testByHandle(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string handle);
-        static bool testByCreatingURI(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string uri);
-        static bool testBySIPOrAlterateURI(const LLVivoxVoiceClient::sessionState::wptr_t &a, std::string uri);
-        static bool testByCallerId(const LLVivoxVoiceClient::sessionState::wptr_t &a, LLUUID participantId);
-
 	};
     typedef boost::shared_ptr<sessionState> sessionStatePtr_t;
 
@@ -474,6 +466,7 @@ protected:
 		
 	/////////////////////////////
 	// Sending updates of current state
+public:
 	void updatePosition(void);
 	void setCameraPosition(const LLVector3d &position, const LLVector3 &velocity, const LLMatrix3 &rot);
 	void setAvatarPosition(const LLVector3d &position, const LLVector3 &velocity, const LLQuaternion &rot);
@@ -496,7 +489,8 @@ protected:
 	
 	/////////////////////////////
 	// Recording controls
-	void recordingLoopStart(int seconds = 3600, int deltaFramesPerControlFrame = 200);
+public:
+	void recordingLoopStart(const std::string& filename, int seconds = 3600, int deltaFramesPerControlFrame = 200);
 	void recordingLoopSave(const std::string& filename);
 	void recordingStop();
 	
@@ -505,6 +499,7 @@ protected:
 	void filePlaybackStop();
 	void filePlaybackSetPaused(bool paused);
 	void filePlaybackSetMode(bool vox = false, float speed = 1.0f);
+private:
 	
     participantStatePtr_t findParticipantByID(const LLUUID& id);
 	

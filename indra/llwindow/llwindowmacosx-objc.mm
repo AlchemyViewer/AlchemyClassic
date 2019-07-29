@@ -251,19 +251,12 @@ float getDeviceUnitSize(GLViewRef view)
 	return [(LLOpenGLView*)view convertSizeToBacking:NSMakeSize(1, 1)].width;
 }
 
-const CGPoint & getContentViewBoundsPosition(NSWindowRef window)
+void getContentViewBounds(NSWindowRef window, float* bounds)
 {
-	return [[(LLNSWindow*)window contentView] bounds].origin;
-}
-
-const CGSize & getContentViewBoundsSize(NSWindowRef window)
-{
-	return [[(LLNSWindow*)window contentView] bounds].size;
-}
-
-const CGSize & getDeviceContentViewSize(NSWindowRef window, GLViewRef view)
-{
-    return [(NSOpenGLView*)view convertRectToBacking:[[(LLNSWindow*)window contentView] bounds]].size;
+	bounds[0] = [[(LLNSWindow*)window contentView] bounds].origin.x;
+	bounds[1] = [[(LLNSWindow*)window contentView] bounds].origin.y;
+	bounds[2] = [[(LLNSWindow*)window contentView] bounds].size.width;
+	bounds[3] = [[(LLNSWindow*)window contentView] bounds].size.height;
 }
 
 void getScaledContentViewBounds(NSWindowRef window, GLViewRef view, float* bounds)
@@ -364,6 +357,7 @@ void removeGLView(GLViewRef view)
 {
 	[(LLOpenGLView*)view clearGLContext];
 	[(LLOpenGLView*)view removeFromSuperview];
+	[(LLOpenGLView*)view release];
 }
 
 void setupInputWindow(NSWindowRef window, GLViewRef glview)
@@ -443,22 +437,10 @@ long showAlert(std::string text, std::string title, int type)
     return ret;
 }
 
-/*
- GLViewRef getGLView()
- {
- return [(LLAppDelegate*)[[LLNSApplication sharedApplication] delegate] glview];
- }
- */
 
 unsigned int getModifiers()
 {
-	return [NSEvent modifierFlags];
-}
-
-// [CR:Retina]
-float getScaleFactor(GLViewRef view)
-{
-    return [[(LLOpenGLView*)view window] backingScaleFactor];
+	return [[NSApp currentEvent] modifierFlags];
 }
 
 void updateBadge(int count)

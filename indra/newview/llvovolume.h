@@ -140,10 +140,10 @@ public:
 	/*virtual*/	const LLMatrix4	getRenderMatrix() const override;
 				typedef std::map<LLUUID, S32> texture_cost_t;
 				U32 	getRenderCost(texture_cost_t &textures) const;
-    /*virtual*/	F32		getEstTrianglesMax() const;
-    /*virtual*/	F32		getEstTrianglesStreamingCost() const;
-    /* virtual*/ F32	getStreamingCost() const;
-    /*virtual*/ bool getCostData(LLMeshCostData& costs) const;
+    /*virtual*/	F32		getEstTrianglesMax() const override;
+    /*virtual*/	F32		getEstTrianglesStreamingCost() const override;
+    /* virtual*/ F32	getStreamingCost() const override;
+    /*virtual*/ bool getCostData(LLMeshCostData& costs) const override;
 
 	/*virtual*/ U32		getTriangleCount(S32* vcount = nullptr) const override;
 	/*virtual*/ U32		getHighLODTriangleCount() override;
@@ -169,7 +169,7 @@ public:
 	/*virtual*/ F32  	getRadius() const						{ return mVObjRadius; };
 				const LLMatrix4& getWorldMatrix(LLXformMatrix* xform) const override;
 
-				void	markForUpdate(BOOL priority);
+				void	markForUpdate(BOOL priority) override;
 				void	markForUnload()							{ LLViewerObject::markForUnload(TRUE); mVolumeChanged = TRUE; }
 				void    faceMappingChanged()                    { mFaceMappingChanged=TRUE; };
 
@@ -271,7 +271,7 @@ public:
 	BOOL isFlexible() const override;
 	BOOL isSculpted() const override;
 	BOOL isMesh() const override;
-	virtual BOOL isRiggedMesh() const;
+	virtual BOOL isRiggedMesh() const override;
 	BOOL hasLightTexture() const override;
 
     
@@ -286,12 +286,12 @@ public:
     void onSetExtendedMeshFlags(U32 flags);
     void setExtendedMeshFlags(U32 flags);
     bool canBeAnimatedObject() const;
-    bool isAnimatedObject() const;
-    virtual void onReparent(LLViewerObject *old_parent, LLViewerObject *new_parent);
-    virtual void afterReparent();
+    bool isAnimatedObject() const override;
+    virtual void onReparent(LLViewerObject *old_parent, LLViewerObject *new_parent) override;
+    virtual void afterReparent() override;
 
     //virtual
-    void updateRiggingInfo();
+    void updateRiggingInfo() override;
     S32 mLastRiggingInfoLOD;
     
     // Functions that deal with media, or media navigation

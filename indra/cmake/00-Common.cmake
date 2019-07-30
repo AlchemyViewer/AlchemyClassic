@@ -59,11 +59,11 @@ if (WINDOWS)
 
   if(MSVC_VERSION GREATER_EQUAL 1920)
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob3 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob3 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
         CACHE STRING "C++ compiler release options" FORCE)
   else()
     set(CMAKE_CXX_FLAGS_RELEASE
-        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Gw /Zi /MD /MP /Ob2 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
+        "${CMAKE_CXX_FLAGS_RELEASE} /O2 /Oi /Ot /Gy /Zi /MD /MP /Ob2 /Zc:inline -D_ITERATOR_DEBUG_LEVEL=0"
         CACHE STRING "C++ compiler release options" FORCE)
   endif()
 

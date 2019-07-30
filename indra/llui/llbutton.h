@@ -300,7 +300,7 @@ protected:
 	
 	const LLFontGL*				mGLFont;
 	
-	S32							mMouseDownFrame;
+	U64							mMouseDownFrame;
 	S32 						mMouseHeldDownCount; 	// Counter for parameter passed to held-down callback
 	F32							mHeldDownDelay;			// seconds, after which held-down callbacks get called
 	S32							mHeldDownFrameDelay;	// frames, after which held-down callbacks get called

@@ -68,7 +68,7 @@ public:
 	// Call this method once, and only once, per frame to update the current frame count.
 	static void updateFrameCount()					{ sFrameCount++; }
 
-	static U32  getFrameCount()						{ return sFrameCount; }
+	static U64  getFrameCount()						{ return sFrameCount; }
 
 	static F32	getFrameDeltaTimeF32();
 
@@ -127,7 +127,7 @@ protected:
 	static F64 sTotalSeconds;
 
 	// Total number of frames elapsed in application
-	static S32 sFrameCount;
+	static U64 sFrameCount;
 
 	//
 	// Member data

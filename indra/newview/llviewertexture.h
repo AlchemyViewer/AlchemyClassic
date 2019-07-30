@@ -607,7 +607,7 @@ private:
 
 	LLViewerMediaImpl* mMediaImplp ;	
 	BOOL mIsPlaying ;
-	U32  mUpdateVirtualSizeTime ;
+	U64  mUpdateVirtualSizeTime ;
 
 public:
 	static void updateClass() ;

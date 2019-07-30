@@ -453,7 +453,7 @@ BOOL LLButton::handleMouseDown(S32 x, S32 y, MASK mask)
 		if(mMouseDownSignal) (*mMouseDownSignal)(this, LLSD());
 
 		mMouseDownTimer.start();
-		mMouseDownFrame = (S32) LLFrameTimer::getFrameCount();
+		mMouseDownFrame = LLFrameTimer::getFrameCount();
 		mMouseHeldDownCount = 0;
 
 		
@@ -589,7 +589,7 @@ BOOL LLButton::handleHover(S32 x, S32 y, MASK mask)
 		if (mMouseDownTimer.getStarted())
 		{
 			F32 elapsed = getHeldDownTime();
-			if( mHeldDownDelay <= elapsed && mHeldDownFrameDelay <= (S32)LLFrameTimer::getFrameCount() - mMouseDownFrame)
+			if( mHeldDownDelay <= elapsed && mHeldDownFrameDelay <= LLFrameTimer::getFrameCount() - mMouseDownFrame)
 			{
 				LLSD param;
 				param["count"] = mMouseHeldDownCount++;

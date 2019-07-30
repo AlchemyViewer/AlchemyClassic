@@ -200,7 +200,7 @@ void LLXferManager::updateHostStatus()
 			<< " is " << xferp->mXferSize << " bytes"
 			<< ", status " << (S32)(xferp->mStatus)
 			<< ", waiting for ACK: " << (S32)(xferp->mWaitingForACK)
-			<< " in frame " << (S32) LLFrameTimer::getFrameCount()
+			<< " in frame " << LLFrameTimer::getFrameCount()
 			<< LL_ENDL;
 	}
 
@@ -211,7 +211,7 @@ void LLXferManager::updateHostStatus()
 			<< " has " << (*iter)->mNumActive
 			<< " active, " << (*iter)->mNumPending
 			<< " pending" 
-			<< " in frame " << (S32) LLFrameTimer::getFrameCount()
+			<< " in frame " << LLFrameTimer::getFrameCount()
 			<< LL_ENDL;
 	}
 #endif // LL_XFER_DIAGNOISTIC_LOGGING

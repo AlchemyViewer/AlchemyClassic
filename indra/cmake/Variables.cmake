@@ -17,6 +17,9 @@ if(NOT DEFINED COMMON_CMAKE_DIR)
     set(COMMON_CMAKE_DIR "${CMAKE_SOURCE_DIR}/cmake")
 endif(NOT DEFINED COMMON_CMAKE_DIR)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(LIBS_CLOSED_PREFIX)
 set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
@@ -260,6 +263,10 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(LL_ARCH_DIR universal-darwin)
   set(AUTOBUILD_PLATFORM_NAME "darwin" CACHE STRING "Autobuild Platform Name")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+if(MSVC)
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif(MSVC)
 
 # Default deploy grid
 set(GRID agni CACHE STRING "Target Grid")

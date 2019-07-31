@@ -73,13 +73,7 @@ public:
 		return LL_V4A_ZERO;
 	}
 
-	// Return a vector of all ones
-	static inline const LLVector4a& getOne()
-	{
-		extern const LLVector4a LL_V4A_ONE;
-		return LL_V4A_ONE;
-	}
-	
+
 	// Return a vector of all epsilon, where epsilon is a small float suitable for approximate equality checks
 	static inline const LLVector4a& getEpsilon()
 	{
@@ -391,13 +385,6 @@ public:
 	{
 		extern const LLIVector4a LL_IV4A_ZERO;
 		return LL_IV4A_ZERO;
-	}
-
-	// Return a vector of all ones
-	static inline const LLIVector4a& getOne()
-	{
-		extern const LLIVector4a LL_IV4A_ONE;
-		return LL_IV4A_ONE;
 	}
 
 	////////////////////////////////////

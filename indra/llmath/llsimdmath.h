@@ -39,8 +39,7 @@
 #include <stdint.h>
 #endif
 
-#include <xmmintrin.h>
-#include <emmintrin.h>
+#include <immintrin.h>
 
 #include "llmemory.h"
 #include "llsimdtypes.h"

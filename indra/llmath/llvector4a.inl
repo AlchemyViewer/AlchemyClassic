@@ -306,26 +306,12 @@ inline void LLVector4a::setCross3(const LLVector4a& a, const LLVector4a& b)
 	mQ = _mm_sub_ps( mQ, _mm_mul_ps( vector3, vector4 ));
 }
 
-/* This function works, but may be slightly slower than the one below on older machines
- inline void LLVector4a::setAllDot3(const LLVector4a& a, const LLVector4a& b)
- {
- // ab = { a[W]*b[W], a[Z]*b[Z], a[Y]*b[Y], a[X]*b[X] }
- const LLQuad ab = _mm_mul_ps( a.mQ, b.mQ );
- // yzxw = { a[W]*b[W], a[Z]*b[Z], a[X]*b[X], a[Y]*b[Y] }
- const LLQuad wzxy = _mm_shuffle_ps( ab, ab, _MM_SHUFFLE(3, 2, 0, 1 ));
- // xPlusY = { 2*a[W]*b[W], 2 * a[Z] * b[Z], a[Y]*b[Y] + a[X] * b[X], a[X] * b[X] + a[Y] * b[Y] }
- const LLQuad xPlusY = _mm_add_ps(ab, wzxy);
- // xPlusYSplat = { a[Y]*b[Y] + a[X] * b[X], a[X] * b[X] + a[Y] * b[Y], a[Y]*b[Y] + a[X] * b[X], a[X] * b[X] + a[Y] * b[Y] } 
- const LLQuad xPlusYSplat = _mm_movelh_ps(xPlusY, xPlusY);
- // zSplat = { a[Z]*b[Z], a[Z]*b[Z], a[Z]*b[Z], a[Z]*b[Z] }
- const LLQuad zSplat = _mm_shuffle_ps( ab, ab, _MM_SHUFFLE( 2, 2, 2, 2 ));
- // mQ = { a[Z] * b[Z] + a[Y] * b[Y] + a[X] * b[X], same, same, same }
- mQ = _mm_add_ps(zSplat, xPlusYSplat);
- }*/
-
 // Set all elements to the dot product of the x, y, and z elements in a and b
 inline void LLVector4a::setAllDot3(const LLVector4a& a, const LLVector4a& b)
 {
+#if ADDRESS_SIZE == 64
+	mQ = _mm_dp_ps(a.mQ, b.mQ, 0x7f);
+#else
 	// ab = { a[W]*b[W], a[Z]*b[Z], a[Y]*b[Y], a[X]*b[X] }
 	const LLQuad ab = _mm_mul_ps( a.mQ, b.mQ );
 	// yzxw = { a[W]*b[W], a[Z]*b[Z], a[X]*b[X], a[Y]*b[Y] }
@@ -338,11 +324,15 @@ inline void LLVector4a::setAllDot3(const LLVector4a& a, const LLVector4a& b)
 	const __m128i zSplat = _mm_shuffle_epi32(_mm_castps_si128(ab), _MM_SHUFFLE( 2, 2, 2, 2 ));
 	// mQ = { a[Z] * b[Z] + a[Y] * b[Y] + a[X] * b[X], same, same, same }
 	mQ = _mm_add_ps(_mm_castsi128_ps(zSplat), xPlusYSplat);
+#endif
 }
 
 // Set all elements to the dot product of the x, y, z, and w elements in a and b
 inline void LLVector4a::setAllDot4(const LLVector4a& a, const LLVector4a& b)
 {
+#if ADDRESS_SIZE == 64
+	mQ = _mm_dp_ps(a.mQ, b.mQ, 0xff);
+#else
 	// ab = { a[W]*b[W], a[Z]*b[Z], a[Y]*b[Y], a[X]*b[X] }
 	const LLQuad ab = _mm_mul_ps( a.mQ, b.mQ );
 	// yzxw = { a[W]*b[W], a[Z]*b[Z], a[X]*b[X], a[Y]*b[Y] }
@@ -355,21 +345,29 @@ inline void LLVector4a::setAllDot4(const LLVector4a& a, const LLVector4a& b)
 
 	// mQ = { a[W]*b[W] + a[Z] * b[Z] + a[Y] * b[Y] + a[X] * b[X], same, same, same }
 	mQ = _mm_add_ps(xPlusYSplat, zPlusWSplat);
+#endif
 }
 
 // Return the 3D dot product of this vector and b
 inline LLSimdScalar LLVector4a::dot3(const LLVector4a& b) const
 {
+#if ADDRESS_SIZE == 64
+	return _mm_dp_ps(mQ, b.mQ, 0x7f);
+#else
 	const LLQuad ab = _mm_mul_ps( mQ, b.mQ );
 	const LLQuad splatY = _mm_castsi128_ps( _mm_shuffle_epi32( _mm_castps_si128(ab), _MM_SHUFFLE(1, 1, 1, 1) ) );
 	const LLQuad splatZ = _mm_castsi128_ps( _mm_shuffle_epi32( _mm_castps_si128(ab), _MM_SHUFFLE(2, 2, 2, 2) ) );
 	const LLQuad xPlusY = _mm_add_ps( ab, splatY );
-	return _mm_add_ps( xPlusY, splatZ );	
+	return _mm_add_ps( xPlusY, splatZ );
+#endif
 }
 
 // Return the 4D dot product of this vector and b
 inline LLSimdScalar LLVector4a::dot4(const LLVector4a& b) const
 {
+#if ADDRESS_SIZE == 64
+	return _mm_dp_ps(mQ, b.mQ, 0xff);
+#else
 	// ab = { w, z, y, x }
  	const LLQuad ab = _mm_mul_ps( mQ, b.mQ );
  	// upperProdsInLowerElems = { y, x, y, x }
@@ -379,6 +377,7 @@ inline LLSimdScalar LLVector4a::dot4(const LLVector4a& b) const
 	// shuffled = { z+x, z+x, z+x, z+x }
 	const LLQuad shuffled = _mm_castsi128_ps( _mm_shuffle_epi32( _mm_castps_si128( sumOfPairs ), _MM_SHUFFLE(1, 1, 1, 1) ) );
 	return _mm_add_ss( sumOfPairs, shuffled );
+#endif
 }
 
 // Normalize this vector with respect to the x, y, and z components only. Accurate to 22 bites of precision. W component is destroyed

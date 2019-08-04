@@ -29,8 +29,9 @@ else (USESYSTEMLIBS)
     set(APR_LIBRARIES apr-1)
     set(APRUTIL_LIBRARIES aprutil-1)
     set(APRICONV_LIBRARIES iconv)
-    set(APR_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/apr-1)
   endif ()
+
+  set(APR_INCLUDE_DIR ${LIBS_PREBUILT_DIR}/include/apr-1)
 
   if (LINUX)
     list(APPEND APRUTIL_LIBRARIES rt)

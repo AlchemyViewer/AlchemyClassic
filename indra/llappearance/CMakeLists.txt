@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llappearance)
+project(llappearance LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

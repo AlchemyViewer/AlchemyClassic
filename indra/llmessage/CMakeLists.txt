@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llmessage)
+project(llmessage LANGUAGES CXX)
 
 include(00-Common)
 include(LLAddBuildTest)

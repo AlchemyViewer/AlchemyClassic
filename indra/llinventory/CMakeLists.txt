@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llinventory)
+project(llinventory LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(media_plugin_base)
+project(media_plugin_base LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

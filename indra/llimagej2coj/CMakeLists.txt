@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llimagej2coj)
+project(llimagej2coj LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llvfs)
+project(llvfs LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

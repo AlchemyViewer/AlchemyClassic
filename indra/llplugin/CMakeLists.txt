@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llplugin)
+project(llplugin LANGUAGES CXX)
 
 include(00-Common)
 include(CURL)

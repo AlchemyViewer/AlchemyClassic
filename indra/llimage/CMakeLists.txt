@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llimage)
+project(llimage LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

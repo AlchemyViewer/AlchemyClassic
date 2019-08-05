@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(viewer)
+project(viewer LANGUAGES CXX)
 
 include(00-Common)
 # DON'T move Linking.cmake to its place in the alphabetized list below: it

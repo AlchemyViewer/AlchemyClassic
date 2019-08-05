@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llaudio)
+project(llaudio LANGUAGES CXX)
 
 include(00-Common)
 include(FMODSTUDIO)

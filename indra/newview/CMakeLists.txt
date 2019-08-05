@@ -66,9 +66,9 @@ endif (NOT HAVOK_TPV)
 endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 # </alchemy>
 
-if(FMODSTUDIO)
+if(USE_FMODSTUDIO)
   include_directories(${FMODSTUDIO_INCLUDE_DIR})
-endif(FMODSTUDIO)
+endif(USE_FMODSTUDIO)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
@@ -1778,10 +1778,10 @@ if (OPENAL)
   list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_OPENAL=1")
 endif (OPENAL)
 
-if (FMODSTUDIO)
+if (USE_FMODSTUDIO)
   list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_FMODSTUDIO=1")
   set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
-endif (FMODSTUDIO)
+endif (USE_FMODSTUDIO)
 
 set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_DEFINITIONS "${LLSTARTUP_COMPILE_DEFINITIONS}")
 
@@ -1903,7 +1903,7 @@ if (WINDOWS)
         )
     endif(USE_TBBMALLOC)
 	  
-    if (FMODSTUDIO)
+    if (USE_FMODSTUDIO)
       if (ADDRESS_SIZE EQUAL 32)
         list(APPEND COPY_INPUT_DEPENDENCIES
              ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
@@ -1917,7 +1917,7 @@ if (WINDOWS)
              ${SHARED_LIB_STAGING_DIR}/Debug/fmodL64.dll
             )
       endif (ADDRESS_SIZE EQUAL 32)
-    endif (FMODSTUDIO)
+    endif (USE_FMODSTUDIO)
 
     add_custom_command(
       OUTPUT  ${CMAKE_CFG_INTDIR}/copy_touched.bat

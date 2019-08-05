@@ -60,7 +60,7 @@ if (USE_TCMALLOC AND USE_TBBMALLOC)
 endif (USE_TCMALLOC AND USE_TBBMALLOC)
 
 # Audio Engines
-option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
+option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
 # Window implementation
 option(LLWINDOW_SDL2 "Use SDL2 for window and input handling" OFF)

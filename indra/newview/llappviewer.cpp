@@ -733,14 +733,10 @@ LLAppViewer::LLAppViewer()
 	// from the previous viewer run between this constructor call and the
 	// init() call, which will overwrite the static_debug_info.log file for
 	// THIS run. So setDebugFileNames() early.
-#if LL_BUGSPLAT
-	// MAINT-8917: don't create a dump directory just for the
-	// static_debug_info.log file
-	std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_LOGS, "");
-#else // ! LL_BUGSPLAT
+
 	// write Google Breakpad minidump files to a per-run dump directory to avoid multiple viewer issues.
 	std::string logdir = gDirUtilp->getExpandedFilename(LL_PATH_DUMP, "");
-#endif // ! LL_BUGSPLAT
+
 	mDumpPath = logdir;
 	setMiniDumpDir(logdir);
 	setDebugFileNames(logdir);

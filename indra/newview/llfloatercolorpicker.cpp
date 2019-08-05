@@ -481,7 +481,7 @@ void LLFloaterColorPicker::draw()
 	if (hasFocus() && mSwatch->isInVisibleChain() && mContextConeOpacity > 0.001f)
 	{
 		gGL.getTexUnit(0)->unbind(LLTexUnit::TT_TEXTURE);
-		LLGLEnable(GL_CULL_FACE);
+		LLGLEnable cull_face(GL_CULL_FACE);
 		gGL.begin(LLRender::TRIANGLE_STRIP);
 		{
 			gGL.color4f(0.f, 0.f, 0.f, mContextConeOutAlpha * mContextConeOpacity);

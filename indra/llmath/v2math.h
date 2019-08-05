@@ -109,6 +109,7 @@ class LLVector2
 		friend std::ostream&	 operator<<(std::ostream& s, const LLVector2 &a);		// Stream a
 };
 
+static_assert(std::is_trivially_copyable<LLVector2>{}, "LLVector2 must be a trivially copyable type");
 
 // Non-member functions 
 

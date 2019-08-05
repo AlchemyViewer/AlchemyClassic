@@ -149,6 +149,8 @@ class LLVector3
 		static BOOL parseVector3(const std::string& buf, LLVector3* value);
 };
 
+static_assert(std::is_trivially_copyable<LLVector3>{}, "LLVector3 must be a trivially copyable type");
+
 typedef LLVector3 LLSimLocalVec;
 
 // Non-member functions 

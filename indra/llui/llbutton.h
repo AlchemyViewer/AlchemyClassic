@@ -233,7 +233,7 @@ public:
 	LLFontGL::HAlign getImageOverlayHAlign() const	{ return mImageOverlayAlignment; }
 	
 	void            autoResize();	// resize with label of current btn state 
-	void            resize(LLUIString label); // resize with label input
+	void            resize(const LLUIString& label); // resize with label input
 	void			setLabel( const LLStringExplicit& label);
 	BOOL	setLabelArg( const std::string& key, const LLStringExplicit& text ) override;
 	void			setLabelUnselected(const LLStringExplicit& label);

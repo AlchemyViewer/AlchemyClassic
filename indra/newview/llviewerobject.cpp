@@ -631,7 +631,7 @@ void LLViewerObject::initObjectDataMap()
 }
 
 //static 
-void LLViewerObject::unpackVector3(LLDataPackerBinaryBuffer* dp, LLVector3& value, std::string name)
+void LLViewerObject::unpackVector3(LLDataPackerBinaryBuffer* dp, LLVector3& value, const std::string& name)
 {
 	dp->shift(sObjectDataMap[name]);
 	dp->unpackVector3(value, name.c_str());
@@ -639,7 +639,7 @@ void LLViewerObject::unpackVector3(LLDataPackerBinaryBuffer* dp, LLVector3& valu
 }
 
 //static 
-void LLViewerObject::unpackUUID(LLDataPackerBinaryBuffer* dp, LLUUID& value, std::string name)
+void LLViewerObject::unpackUUID(LLDataPackerBinaryBuffer* dp, LLUUID& value, const std::string& name)
 {
 	dp->shift(sObjectDataMap[name]);
 	dp->unpackUUID(value, name.c_str());
@@ -647,7 +647,7 @@ void LLViewerObject::unpackUUID(LLDataPackerBinaryBuffer* dp, LLUUID& value, std
 }
 	
 //static 
-void LLViewerObject::unpackU32(LLDataPackerBinaryBuffer* dp, U32& value, std::string name)
+void LLViewerObject::unpackU32(LLDataPackerBinaryBuffer* dp, U32& value, const std::string& name)
 {
 	dp->shift(sObjectDataMap[name]);
 	dp->unpackU32(value, name.c_str());
@@ -655,7 +655,7 @@ void LLViewerObject::unpackU32(LLDataPackerBinaryBuffer* dp, U32& value, std::st
 }
 	
 //static 
-void LLViewerObject::unpackU8(LLDataPackerBinaryBuffer* dp, U8& value, std::string name)
+void LLViewerObject::unpackU8(LLDataPackerBinaryBuffer* dp, U8& value, const std::string& name)
 {
 	dp->shift(sObjectDataMap[name]);
 	dp->unpackU8(value, name.c_str());

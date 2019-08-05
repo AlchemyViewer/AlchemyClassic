@@ -278,7 +278,7 @@ public:
 		
 protected:
 
-	static bool controlListener(const LLSD& newvalue, LLHandle<LLUICtrl> handle, std::string type);
+	static bool controlListener(const LLSD& newvalue, LLHandle<LLUICtrl> handle, const std::string& type);
 
 	commit_signal_t*		mCommitSignal;
 	enable_signal_t*		mValidateSignal;

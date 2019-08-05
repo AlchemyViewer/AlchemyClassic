@@ -3,21 +3,13 @@
 # cmake_minimum_required should appear before any
 # other commands to guarantee full compatibility
 # with the version specified
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.15 FATAL_ERROR)
 
 set(ROOT_PROJECT_NAME "Alchemy" CACHE STRING
     "The root project/makefile/solution name. Defaults to Alchemy.")
-project(${ROOT_PROJECT_NAME})
+project(${ROOT_PROJECT_NAME} LANGUAGES CXX)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-
-if(MSVC)
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-endif(MSVC)
-
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RelWithDebInfo CACHE STRING
@@ -26,11 +18,9 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 include(Variables)
 include(BuildVersion)
+include(Abseil-CPP)
 
 add_subdirectory(cmake)
-
-include(Abseil-CPP)
-set(BUILD_TESTING OFF)
 add_subdirectory(${ABSEIL_SRC_DIR} ${ABSEIL_BIN_DIR})
 
 add_subdirectory(${LIBS_OPEN_PREFIX}llaudio)

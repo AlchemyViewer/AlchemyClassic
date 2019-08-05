@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llcrashlogger)
+project(llcrashlogger LANGUAGES CXX)
 
 include(00-Common)
 include(LLCoreHttp)

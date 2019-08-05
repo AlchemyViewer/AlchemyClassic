@@ -29,8 +29,3 @@ set(LLCOMMON_LIBRARIES llcommon
     )
 
 add_definitions(${TCMALLOC_FLAG})
-
-set(LLCOMMON_LINK_SHARED OFF CACHE BOOL "Build the llcommon target as a static library.")
-if(LLCOMMON_LINK_SHARED)
-  add_definitions(-DLL_COMMON_LINK_SHARED=1)
-endif(LLCOMMON_LINK_SHARED)

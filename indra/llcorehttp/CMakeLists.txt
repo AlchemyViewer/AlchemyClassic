@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llcorehttp)
+project(llcorehttp LANGUAGES CXX)
 
 include(00-Common)
 include(CURL)

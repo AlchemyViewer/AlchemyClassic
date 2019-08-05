@@ -299,60 +299,6 @@
         <key>version</key>
         <string>1.66.0</string>
       </map>
-      <key>bugsplat</key>
-      <map>
-        <key>copyright</key>
-        <string>Copyright 2003-2017, BugSplat</string>
-        <key>description</key>
-        <string>Bugsplat crash reporting package</string>
-        <key>license</key>
-        <string>Proprietary</string>
-        <key>license_file</key>
-        <string>LICENSES/BUGSPLAT_LICENSE.txt</string>
-        <key>name</key>
-        <string>bugsplat</string>
-        <key>platforms</key>
-        <map>
-          <key>darwin64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>c3b5e8c57bd1c92bc9e0956586908b99</string>
-              <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/ct2/26330/207568/bugsplat-1.0.7.520791-darwin64-520791.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>darwin64</string>
-          </map>
-          <key>windows</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>766dfde65a5b42ea5691d41df79c43e0</string>
-              <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/ct2/26332/207582/bugsplat-3.6.0.4.520791-windows-520791.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows</string>
-          </map>
-          <key>windows64</key>
-          <map>
-            <key>archive</key>
-            <map>
-              <key>hash</key>
-              <string>afd01285e22f27d473fac6f88fac9a3b</string>
-              <key>url</key>
-              <string>http://s3-proxy.lindenlab.com/private-builds-secondlife-com/ct2/26331/207576/bugsplat-3.6.0.4.520791-windows64-520791.tar.bz2</string>
-            </map>
-            <key>name</key>
-            <string>windows64</string>
-          </map>
-        </map>
-        <key>version</key>
-        <string>1.0.7.520791</string>
-      </map>
       <key>colladadom</key>
       <map>
         <key>copyright</key>

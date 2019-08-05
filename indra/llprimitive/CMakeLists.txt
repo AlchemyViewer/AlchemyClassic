@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llprimitive)
+project(llprimitive LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

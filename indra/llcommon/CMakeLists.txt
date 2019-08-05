@@ -1,7 +1,7 @@
 
 # -*- cmake -*-
 
-project(llcommon)
+project(llcommon LANGUAGES CXX)
 
 include(00-Common)
 include(CXXFeatureDetection)
@@ -277,23 +277,9 @@ endif (DARWIN)
 set_source_files_properties(${llcommon_HEADER_FILES}
                             PROPERTIES HEADER_FILE_ONLY TRUE)
 
-if (BUGSPLAT_DB)
-  set_source_files_properties(llapp.cpp
-    PROPERTIES COMPILE_DEFINITIONS "LL_BUGSPLAT")
-endif (BUGSPLAT_DB)
-
 list(APPEND llcommon_SOURCE_FILES ${llcommon_HEADER_FILES})
 
-if(LLCOMMON_LINK_SHARED)
-  add_library (llcommon SHARED ${llcommon_SOURCE_FILES})
-  if(WINDOWS)
-    # always generate llcommon.pdb, even for "Release" builds
-    set_target_properties(llcommon PROPERTIES LINK_FLAGS "/DEBUG")
-  endif(WINDOWS)
-  ll_stage_sharedlib(llcommon)
-else(LLCOMMON_LINK_SHARED)
-    add_library (llcommon ${llcommon_SOURCE_FILES})
-endif(LLCOMMON_LINK_SHARED)
+add_library (llcommon ${llcommon_SOURCE_FILES})
 
 set_target_properties(llcommon PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
 

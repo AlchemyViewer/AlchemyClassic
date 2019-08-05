@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llrender)
+project(llrender LANGUAGES CXX)
 
 include(00-Common)
 include(OpenGL)

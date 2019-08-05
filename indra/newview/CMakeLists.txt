@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(viewer)
+project(viewer LANGUAGES CXX)
 
 include(00-Common)
 # DON'T move Linking.cmake to its place in the alphabetized list below: it
@@ -8,9 +8,6 @@ include(00-Common)
 include(Linking)
 
 include(Boost)
-if (BUGSPLAT_DB)
-  include(bugsplat)
-endif (BUGSPLAT_DB)
 include(BuildPackagesInfo)
 include(BuildVersion)
 include(CMakeCopyIfDifferent)
@@ -69,9 +66,9 @@ endif (NOT HAVOK_TPV)
 endif( LLPHYSICSEXTENSIONS_SRC_DIR )
 # </alchemy>
 
-if(FMODSTUDIO)
+if(USE_FMODSTUDIO)
   include_directories(${FMODSTUDIO_INCLUDE_DIR})
-endif(FMODSTUDIO)
+endif(USE_FMODSTUDIO)
 
 include_directories(
     ${DBUSGLIB_INCLUDE_DIRS}
@@ -103,12 +100,6 @@ include_directories(
     ${LLAPPEARANCE_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
     )
-
-if (BUGSPLAT_DB)
-  include_directories(
-    ${BUGSPLAT_INCLUDE_DIR}
-    )
-endif (BUGSPLAT_DB)
 
 include_directories(SYSTEM
     ${LLCOMMON_SYSTEM_INCLUDE_DIRS}
@@ -1481,9 +1472,6 @@ if (DARWIN)
     llappdelegate-objc.mm
     PROPERTIES
     COMPILE_DEFINITIONS "${VIEWER_CHANNEL_VERSION_DEFINES}"
-    # BugsplatMac is a module, imported with @import. That language feature
-    # demands these switches.
-    COMPILE_FLAGS "-fmodules -fcxx-modules"
     )
 
   find_library(AGL_LIBRARY AGL)
@@ -1500,12 +1488,6 @@ if (DARWIN)
     ${COREAUDIO_LIBRARY}
     ${CARBON_LIBRARY}
     )
-
-  if (BUGSPLAT_DB)
-    list(APPEND viewer_LIBRARIES
-      ${BUGSPLAT_LIBRARIES}
-      )
-  endif (BUGSPLAT_DB)
 
   # Add resource files to the project.
   set(viewer_RESOURCE_FILES
@@ -1796,10 +1778,10 @@ if (OPENAL)
   list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_OPENAL=1")
 endif (OPENAL)
 
-if (FMODSTUDIO)
+if (USE_FMODSTUDIO)
   list(APPEND LLSTARTUP_COMPILE_DEFINITIONS "LL_FMODSTUDIO=1")
   set(FMODWRAPPER_LIBRARY ${FMODSTUDIO_LIBRARY})
-endif (FMODSTUDIO)
+endif (USE_FMODSTUDIO)
 
 set_source_files_properties(llstartup.cpp PROPERTIES COMPILE_DEFINITIONS "${LLSTARTUP_COMPILE_DEFINITIONS}")
 
@@ -1826,11 +1808,6 @@ if (SDL_FOUND)
     )
 endif (SDL_FOUND)
 
-if (BUGSPLAT_DB)
-  set_property(TARGET ${VIEWER_BINARY_NAME}
-    PROPERTY COMPILE_DEFINITIONS "LL_BUGSPLAT")
-endif (BUGSPLAT_DB)
-
 # add package files
 file(GLOB EVENT_HOST_SCRIPT_GLOB_LIST
      ${CMAKE_CURRENT_SOURCE_DIR}/../viewer_components/*.py)
@@ -1852,18 +1829,6 @@ if (WINDOWS)
             COMPILE_FLAGS "/Yullviewerprecompiledheaders.h"
             )
     endif(USE_PRECOMPILED_HEADERS)
-
-    # If adding a file to viewer_manifest.py in the WindowsManifest.construct() method, be sure to add the dependency
-    # here.
-    # *NOTE:Mani - This is a crappy hack to have important dependencies for the viewer_manifest copy action
-    # be met. I'm looking forward to a source-code split-up project next year that will address this kind of thing.
-    # In the meantime, if you have any ideas on how to easily maintain one list, either here or in viewer_manifest.py
-    # and have the build deps get tracked *please* tell me about it.
-    if(LLCOMMON_LINK_SHARED)
-      set(LLCOMMON_SOURCE
-        ${SHARED_LIB_STAGING_DIR}/${CMAKE_CFG_INTDIR}/llcommon.dll
-        )
-    endif(LLCOMMON_LINK_SHARED)
 
     set(COPY_INPUT_DEPENDENCIES
       # The following commented dependencies are determined at variably at build time. Can't do this here.
@@ -1938,7 +1903,7 @@ if (WINDOWS)
         )
     endif(USE_TBBMALLOC)
 	  
-    if (FMODSTUDIO)
+    if (USE_FMODSTUDIO)
       if (ADDRESS_SIZE EQUAL 32)
         list(APPEND COPY_INPUT_DEPENDENCIES
              ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
@@ -1952,7 +1917,7 @@ if (WINDOWS)
              ${SHARED_LIB_STAGING_DIR}/Debug/fmodL64.dll
             )
       endif (ADDRESS_SIZE EQUAL 32)
-    endif (FMODSTUDIO)
+    endif (USE_FMODSTUDIO)
 
     add_custom_command(
       OUTPUT  ${CMAKE_CFG_INTDIR}/copy_touched.bat
@@ -1962,7 +1927,6 @@ if (WINDOWS)
         --actions=copy
         --arch=${ARCH}
         --artwork=${ARTWORK_DIR}
-        "--bugsplat=${BUGSPLAT_DB}"
         --build=${CMAKE_CURRENT_BINARY_DIR}
         --buildtype=${CMAKE_BUILD_TYPE}
         "--channel=${VIEWER_CHANNEL}"
@@ -2021,7 +1985,6 @@ if (WINDOWS)
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
           --arch=${ARCH}
           --artwork=${ARTWORK_DIR}
-          "--bugsplat=${BUGSPLAT_DB}"
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
           "--channel=${VIEWER_CHANNEL}"
@@ -2142,12 +2105,6 @@ target_link_libraries(${VIEWER_BINARY_NAME}
     absl::node_hash_map
     )
 
-if (BUGSPLAT_DB)
-  target_link_libraries(${VIEWER_BINARY_NAME}
-    ${BUGSPLAT_LIBRARIES}
-    )
-endif (BUGSPLAT_DB)
-
 set(ARTWORK_DIR ${CMAKE_CURRENT_SOURCE_DIR} CACHE PATH
     "Path to artwork files.")
 
@@ -2170,7 +2127,6 @@ if (LINUX)
         ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
         --arch=${ARCH}
         --artwork=${ARTWORK_DIR}
-        "--bugsplat=${BUGSPLAT_DB}"
         --build=${CMAKE_CURRENT_BINARY_DIR}
         --buildtype=${CMAKE_BUILD_TYPE}
         "--channel=${VIEWER_CHANNEL}"
@@ -2196,7 +2152,6 @@ if (LINUX)
       --actions=copy
       --arch=${ARCH}
       --artwork=${ARTWORK_DIR}
-      "--bugsplat=${BUGSPLAT_DB}"
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
       "--channel=${VIEWER_CHANNEL}"
@@ -2274,7 +2229,6 @@ if (DARWIN)
       --actions=copy
       --arch=${ARCH}
       --artwork=${ARTWORK_DIR}
-      "--bugsplat=${BUGSPLAT_DB}"
       --build=${CMAKE_CURRENT_BINARY_DIR}
       --buildtype=${CMAKE_BUILD_TYPE}
       --bundleid=${MACOSX_BUNDLE_GUI_IDENTIFIER}
@@ -2307,7 +2261,6 @@ if (DARWIN)
           ${CMAKE_CURRENT_SOURCE_DIR}/viewer_manifest.py
           --arch=${ARCH}
           --artwork=${ARTWORK_DIR}
-          "--bugsplat=${BUGSPLAT_DB}"
           --build=${CMAKE_CURRENT_BINARY_DIR}
           --buildtype=${CMAKE_BUILD_TYPE}
           "--channel=${VIEWER_CHANNEL}"
@@ -2330,7 +2283,6 @@ endif (INSTALL)
 
 # Note that the conventional VIEWER_SYMBOL_FILE is set by ../../build.sh
 if (PACKAGE AND (RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING) AND VIEWER_SYMBOL_FILE)
-  if (NOT BUGSPLAT_DB)
     # Breakpad symbol-file generation
     set(SYMBOL_SEARCH_DIRS "")
     if (WINDOWS)
@@ -2385,93 +2337,6 @@ if (PACKAGE AND (RELEASE_CRASH_REPORTING OR NON_RELEASE_CRASH_REPORTING) AND VIE
       add_dependencies(generate_symbols "${VIEWER_COPY_MANIFEST}")
     endif (WINDOWS OR LINUX)
 
-  else (NOT BUGSPLAT_DB)
-    # BugSplat symbol-file generation
-    if (WINDOWS)
-      # Just pack up a tarball containing only the .pdb file for the
-      # executable. Because we intend to use cygwin tar, we must render
-      # VIEWER_SYMBOL_FILE in cygwin path syntax.
-      execute_process(COMMAND "cygpath" "-u" "${VIEWER_SYMBOL_FILE}"
-        OUTPUT_VARIABLE VIEWER_SYMBOL_FILE_CYGWIN
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-      execute_process(COMMAND "cygpath" "-u" "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}"
-        OUTPUT_VARIABLE PARENT_DIRECTORY_CYGWIN
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
-      add_custom_command(OUTPUT "${VIEWER_SYMBOL_FILE}"
-        # Use of 'tar ...j' here assumes VIEWER_SYMBOL_FILE endswith .tar.bz2;
-        # testing a string suffix is painful enough in CMake language that
-        # we'll continue assuming it until forced to generalize.
-        COMMAND "tar"
-        ARGS
-          "cjf"
-          "${VIEWER_SYMBOL_FILE_CYGWIN}"
-          "-C"
-          "${PARENT_DIRECTORY_CYGWIN}"
-          "alchemy-bin.pdb"
-        DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/alchemy-bin.pdb"
-        COMMENT "Packing viewer PDB into ${VIEWER_SYMBOL_FILE_CYGWIN}"
-        )
-      add_custom_target(generate_symbols DEPENDS "${VIEWER_SYMBOL_FILE}" ${VIEWER_BINARY_NAME})
-      add_dependencies(generate_symbols ${VIEWER_BINARY_NAME})
-    endif (WINDOWS)
-    if (DARWIN)
-      # Have to run dsymutil first, then pack up the resulting .dSYM directory
-      add_custom_command(OUTPUT "${VIEWER_APP_DSYM}"
-        COMMAND "dsymutil"
-        ARGS
-          ${VIEWER_APP_EXE}
-        COMMENT "Generating ${VIEWER_APP_DSYM}"
-        )
-      add_custom_target(dsym_generate DEPENDS "${VIEWER_APP_DSYM}")
-      add_dependencies(dsym_generate ${VIEWER_BINARY_NAME})
-      add_custom_command(OUTPUT "${VIEWER_SYMBOL_FILE}"
-        # See above comments about "tar ...j"
-        COMMAND "tar"
-        ARGS
-          "cjf"
-          "${VIEWER_SYMBOL_FILE}"
-          "-C"
-          "${VIEWER_APP_DSYM}/.."
-          "${product}.dSYM"
-        DEPENDS "${VIEWER_APP_DSYM}"
-        COMMENT "Packing dSYM into ${VIEWER_SYMBOL_FILE}"
-        )
-      add_custom_target(dsym_tarball DEPENDS "${VIEWER_SYMBOL_FILE}")
-      add_dependencies(dsym_tarball dsym_generate)
-      add_custom_command(OUTPUT "${VIEWER_APP_XCARCHIVE}"
-        COMMAND "zip"
-        ARGS
-          "-r"
-          "${VIEWER_APP_XCARCHIVE}"
-          "."
-        WORKING_DIRECTORY "${VIEWER_APP_DSYM}/.."
-        DEPENDS "${VIEWER_APP_DSYM}"
-        COMMENT "Generating xcarchive.zip for upload to BugSplat"
-        )
-      add_custom_target(dsym_xcarchive DEPENDS "${VIEWER_APP_XCARCHIVE}")
-      add_dependencies(dsym_xcarchive dsym_generate)
-      # Have to create a stamp file, and depend on it, to force CMake to run
-      # the cleanup step.
-      add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/dsym.stamp"
-        COMMAND rm -rf "${VIEWER_APP_DSYM}"
-        COMMAND touch "${CMAKE_CURRENT_BINARY_DIR}/dsym.stamp"
-        DEPENDS "${VIEWER_SYMBOL_FILE}" "${VIEWER_APP_XCARCHIVE}"
-        COMMENT "Cleaning up dSYM"
-        )
-      add_custom_target(generate_symbols DEPENDS
-        "${VIEWER_APP_DSYM}"
-        "${VIEWER_SYMBOL_FILE}"
-        "${VIEWER_APP_XCARCHIVE}"
-        "${CMAKE_CURRENT_BINARY_DIR}/dsym.stamp"
-        )
-      add_dependencies(generate_symbols dsym_tarball dsym_xcarchive)
-    endif (DARWIN)
-    if (LINUX)
-      # TBD
-    endif (LINUX)
-  endif (NOT BUGSPLAT_DB)
-
-  # for both BUGSPLAT_DB and Breakpad
   add_dependencies(llpackage generate_symbols)
 endif ()
 

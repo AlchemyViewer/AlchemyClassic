@@ -17,6 +17,9 @@ if(NOT DEFINED COMMON_CMAKE_DIR)
     set(COMMON_CMAKE_DIR "${CMAKE_SOURCE_DIR}/cmake")
 endif(NOT DEFINED COMMON_CMAKE_DIR)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(LIBS_CLOSED_PREFIX)
 set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
@@ -57,7 +60,7 @@ if (USE_TCMALLOC AND USE_TBBMALLOC)
 endif (USE_TCMALLOC AND USE_TBBMALLOC)
 
 # Audio Engines
-option(FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
+option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
 
 # Window implementation
 option(LLWINDOW_SDL2 "Use SDL2 for window and input handling" OFF)
@@ -67,7 +70,6 @@ option(NVAPI "Use nvapi driver interface library" OFF)
 
 # Crash reporter
 set(VIEWER_SYMBOL_FILE "" CACHE STRING "Name of tarball into which to place symbol files")
-set(BUGSPLAT_DB "" CACHE STRING "BugSplat database name, if BugSplat crash reporting is desired")
 
 if(LIBS_CLOSED_DIR)
   file(TO_CMAKE_PATH "${LIBS_CLOSED_DIR}" LIBS_CLOSED_DIR)
@@ -261,6 +263,10 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(LL_ARCH_DIR universal-darwin)
   set(AUTOBUILD_PLATFORM_NAME "darwin" CACHE STRING "Autobuild Platform Name")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+if(MSVC)
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+endif(MSVC)
 
 # Default deploy grid
 set(GRID agni CACHE STRING "Target Grid")

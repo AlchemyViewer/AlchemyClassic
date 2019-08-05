@@ -81,32 +81,6 @@ if(WINDOWS)
            )
     endif(ADDRESS_SIZE EQUAL 64)
 
-    if (LLCOMMON_LINK_SHARED)
-      list(APPEND debug_files 
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
-        )
-      list(APPEND release_files 
-        libapr-1.dll
-        libaprutil-1.dll
-        libapriconv-1.dll
-        )
-    endif (LLCOMMON_LINK_SHARED)
-    # Filenames are different for 32/64 bit BugSplat file and we don't
-    # have any control over them so need to branch.
-    if (BUGSPLAT_DB)
-      if(ADDRESS_SIZE EQUAL 32)
-        set(release_files ${release_files} BugSplat.dll)
-        set(release_files ${release_files} BugSplatRc.dll)
-        set(release_files ${release_files} BsSndRpt.exe)
-      else(ADDRESS_SIZE EQUAL 32)
-        set(release_files ${release_files} BugSplat64.dll)
-        set(release_files ${release_files} BugSplatRc64.dll)
-        set(release_files ${release_files} BsSndRpt64.exe)
-      endif(ADDRESS_SIZE EQUAL 32)
-    endif (BUGSPLAT_DB)
-
     if(USE_TCMALLOC)
       list(APPEND debug_files libtcmalloc_minimal-debug.dll)
       list(APPEND release_files libtcmalloc_minimal.dll)
@@ -122,7 +96,7 @@ if(WINDOWS)
       list(APPEND release_files alut.dll OpenAL32.dll)
     endif(OPENAL)
 
-    if (FMODSTUDIO)
+    if (USE_FMODSTUDIO)
       if(ADDRESS_SIZE STREQUAL 64)
         list(APPEND debug_files fmodL64.dll)
         list(APPEND release_files fmod64.dll)
@@ -130,7 +104,7 @@ if(WINDOWS)
         list(APPEND debug_files fmodL.dll)
         list(APPEND release_files fmod.dll)
       endif(ADDRESS_SIZE STREQUAL 64)
-    endif (FMODSTUDIO)
+    endif (USE_FMODSTUDIO)
 
     foreach(redistfullfile IN LISTS CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS)
         get_filename_component(redistfilepath ${redistfullfile} DIRECTORY )
@@ -184,10 +158,10 @@ elseif(DARWIN)
       list(APPEND release_files libopenal.dylib libalut.dylib)
     endif (OPENAL)
 
-    if (FMODSTUDIO)
+    if (USE_FMODSTUDIO)
       list(APPEND debug_files libfmodL.dylib)
       list(APPEND release_files libfmod.dylib)
-    endif (FMODSTUDIO)
+    endif (USE_FMODSTUDIO)
 
 elseif(LINUX)
     # linux is weird, multiple side by side configurations aren't supported
@@ -237,10 +211,10 @@ elseif(LINUX)
       list(APPEND release_files "libtcmalloc_minimal.so")
     endif (USE_TCMALLOC)
 
-    if (FMODSTUDIO)
+    if (USE_FMODSTUDIO)
       list(APPEND debug_files "libfmodL.so")
       list(APPEND release_files "libfmod.so")
-    endif (FMODSTUDIO)
+    endif (USE_FMODSTUDIO)
 
 else(WINDOWS)
     message(STATUS "WARNING: unrecognized platform for staging 3rd party libs, skipping...")

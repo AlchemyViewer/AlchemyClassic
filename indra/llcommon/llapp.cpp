@@ -398,7 +398,7 @@ void LLApp::setupErrorHandling(bool second_instance)
 
 #if LL_WINDOWS
 
-#if LL_SEND_CRASH_REPORTS && ! defined(LL_BUGSPLAT)
+#if LL_SEND_CRASH_REPORTS
 	EnableCrashingOnCrashes();
 
 	// This sets a callback to handle w32 signals to the console window.
@@ -460,15 +460,9 @@ void LLApp::setupErrorHandling(bool second_instance)
 			mExceptionHandler->set_handle_debug_exceptions(true);
 		}
 	}
-#endif // LL_SEND_CRASH_REPORTS && ! defined(LL_BUGSPLAT)
+#endif // LL_SEND_CRASH_REPORTS
 #else  // ! LL_WINDOWS
 
-#if defined(LL_BUGSPLAT)
-	// Don't install our own signal handlers -- BugSplat needs to hook them,
-	// or it's completely ineffectual.
-	bool installHandler = false;
-
-#else // ! LL_BUGSPLAT
 	//
 	// Start up signal handling.
 	//
@@ -479,7 +473,6 @@ void LLApp::setupErrorHandling(bool second_instance)
 
 	// Add google breakpad exception handler configured for Darwin/Linux.
 	bool installHandler = true;
-#endif // ! LL_BUGSPLAT
 
 #if LL_DARWIN
 	// For the special case of Darwin, we do not want to install the handler if

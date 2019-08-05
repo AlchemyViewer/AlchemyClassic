@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(llui)
+project(llui LANGUAGES CXX)
 
 include(00-Common)
 include(Hunspell)

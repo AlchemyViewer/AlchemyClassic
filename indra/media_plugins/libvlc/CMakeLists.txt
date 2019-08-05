@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(media_plugin_libvlc)
+project(media_plugin_libvlc LANGUAGES CXX)
 
 include(00-Common)
 include(LLCommon)

@@ -1,5 +1,5 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+// This is an open source non-commercial project. Dear PVS-Studio, please check this empty file.
+// PVS-Studio Static Code Analyzer for C, C++ and lol... C#: http://www.viva64.com
 /** 
  * @file cmake_dummy.cpp
  *

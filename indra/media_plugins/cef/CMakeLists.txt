@@ -1,6 +1,6 @@
 # -*- cmake -*-
 
-project(media_plugin_cef)
+project(media_plugin_cef LANGUAGES CXX)
 
 include(Boost)
 include(00-Common)

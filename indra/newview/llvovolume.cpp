@@ -1080,8 +1080,7 @@ BOOL LLVOVolume::setVolume(const LLVolumeParams &params_in, const S32 detail, bo
 					mSkinInfo = gMeshRepo.getSkinInfo(volume_params.getSculptID(), this);
 					if (mSkinInfo)
 					{
-						mSkinInfoReceived = true;
-						mSkinInfoFailed = false;
+						notifySkinInfoLoaded(mSkinInfo);
 					}
 				}
 			}

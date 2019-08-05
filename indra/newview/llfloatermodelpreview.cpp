@@ -3934,7 +3934,7 @@ BOOL LLModelPreview::render()
 							LLPhysicsDecomp* decomp = gMeshRepo.mDecompThread;
 							if (decomp)
 							{
-								LLMutexLock(decomp->mMutex);
+								LLMutexLock decomp_lock(decomp->mMutex);
 
 								LLModel::Decomposition& physics = model->mPhysics;
 
@@ -4041,7 +4041,7 @@ BOOL LLModelPreview::render()
 						LLPhysicsDecomp* decomp = gMeshRepo.mDecompThread;
 						if (decomp)
 						{
-							LLMutexLock(decomp->mMutex);
+							LLMutexLock decomp_lock(decomp->mMutex);
 
 							LLModel::Decomposition& physics = model->mPhysics;
 

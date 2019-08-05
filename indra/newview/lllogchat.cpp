@@ -765,7 +765,7 @@ bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 		}
 		else
 		{
-			std::string file_name = avatar_name.getAccountName();
+			file_name = avatar_name.getAccountName();
 			std::replace(file_name.begin(), file_name.end(), '.', '_');
 		}
 		file_name = makeLogFileName(file_name);

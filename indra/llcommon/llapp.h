@@ -50,10 +50,6 @@ void clear_signals();
 
 #endif
 
-namespace google_breakpad {
-	class ExceptionHandler; // See exception_handler.h
-}
-
 class LL_COMMON_API LLApp
 {
 	friend class LLErrorThread;
@@ -232,22 +228,11 @@ public:
 	void setErrorHandler(LLAppErrorHandler handler);
 	static void runErrorHandler(); // run shortly after we detect an error, ran in the relatively robust context of the LLErrorThread - preferred.
 	//@}
-	
-	// the maximum length of the minidump filename returned by getMiniDumpFilename()
-	static const U32 MAX_MINDUMP_PATH_LENGTH = 256;
 
-	// change the directory where Breakpad minidump files are written to
-	void setMiniDumpDir(const std::string &path);
     void setDebugFileNames(const std::string &path);
 
-	// Return the Google Breakpad minidump filename after a crash.
-	char *getMiniDumpFilename() { return mMinidumpPath; }
     std::string* getStaticDebugFile() { return &mStaticDebugFileName; }
     std::string* getDynamicDebugFile() { return &mDynamicDebugFileName; }
-
-	// Write out a Google Breakpad minidump file.
-	void writeMiniDump();
-
 
 	/**
 	  * @brief Get a reference to the application runner
@@ -272,8 +257,6 @@ protected:
 	static BOOL sDisableCrashlogger; // Let the OS handle crashes for us.
 	std::wstring mCrashReportPipeStr;  //Name of pipe to use for crash reporting.
 
-    std::string mDumpPath;  //output path for google breakpad.  Dependency workaround.
-
 	/**
 	  * @brief This method is called once a frame to do once a frame tasks.
 	  */
@@ -281,9 +264,6 @@ protected:
 
 private:
 	void startErrorThread();
-	
-	// Contains the filename of the minidump file after a crash.
-	char mMinidumpPath[MAX_MINDUMP_PATH_LENGTH];
     
     std::string mStaticDebugFileName;
     std::string mDynamicDebugFileName;
@@ -310,12 +290,8 @@ private:
 	std::vector<LLLiveFile*> mLiveFiles;
 	//@}
 
-private:
 	// the static application instance if it was created.
 	static LLApp* sApplication;
-	
-	google_breakpad::ExceptionHandler * mExceptionHandler;
-
 
 #if !LL_WINDOWS
 	friend void default_unix_signal_handler(int signum, siginfo_t *info, void *);

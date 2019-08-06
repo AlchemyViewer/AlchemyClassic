@@ -1182,7 +1182,7 @@ LLStringUtil::size_type LLStringUtil::getSubstitution(const std::string& instr, 
 
 // static
 template<> 
-bool LLStringUtil::simpleReplacement(std::string &replacement, std::string token, const format_map_t& substitutions)
+bool LLStringUtil::simpleReplacement(std::string &replacement, const std::string& token, const format_map_t& substitutions)
 {
 	// see if we have a replacement for the bracketed string (without the brackets)
 	// test first using has() because if we just look up with operator[] we get back an
@@ -1207,7 +1207,7 @@ bool LLStringUtil::simpleReplacement(std::string &replacement, std::string token
 
 // static
 template<> 
-bool LLStringUtil::simpleReplacement(std::string &replacement, std::string token, const LLSD& substitutions)
+bool LLStringUtil::simpleReplacement(std::string &replacement, const std::string& token, const LLSD& substitutions)
 {
 	// see if we have a replacement for the bracketed string (without the brackets)
 	// test first using has() because if we just look up with operator[] we get back an
@@ -1230,7 +1230,7 @@ bool LLStringUtil::simpleReplacement(std::string &replacement, std::string token
 
 //static
 template<>
-void LLStringUtil::setLocale(std::string inLocale)
+void LLStringUtil::setLocale(const std::string& inLocale)
 {
 	sLocale = inLocale;
 };
@@ -1244,7 +1244,7 @@ std::string LLStringUtil::getLocale(void)
 
 // static
 template<> 
-void LLStringUtil::formatNumber(std::string& numStr, std::string decimals)
+void LLStringUtil::formatNumber(std::string& numStr, const std::string& decimals)
 {
 	std::stringstream strStream;
 	S32 intDecimals = 0;
@@ -1286,8 +1286,8 @@ void LLStringUtil::formatNumber(std::string& numStr, std::string decimals)
 
 // static
 template<> 
-bool LLStringUtil::formatDatetime(std::string& replacement, std::string token,
-								  std::string param, S32 secFromEpoch)
+bool LLStringUtil::formatDatetime(std::string& replacement, const std::string& token,
+								  const std::string& param, S32 secFromEpoch)
 {
 	if (param == "local")   // local
 	{

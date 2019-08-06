@@ -166,6 +166,8 @@ public:
 	//static U32 mMultCount;
 };
 
+static_assert(std::is_trivially_copyable<LLQuaternion>{}, "LLQuaternion must be a trivially copyable type");
+
 // checker
 inline BOOL	LLQuaternion::isFinite() const
 {

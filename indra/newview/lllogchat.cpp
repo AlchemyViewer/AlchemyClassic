@@ -765,7 +765,7 @@ bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 		}
 		else
 		{
-			std::string file_name = avatar_name.getAccountName();
+			file_name = avatar_name.getAccountName();
 			std::replace(file_name.begin(), file_name.end(), '.', '_');
 		}
 		file_name = makeLogFileName(file_name);
@@ -775,35 +775,15 @@ bool LLLogChat::isTranscriptExist(const LLUUID& avatar_id, bool is_group)
 
 bool LLLogChat::isNearbyTranscriptExist()
 {
-	std::vector<std::string> list_of_transcriptions;
-	LLLogChat::getListOfTranscriptFiles(list_of_transcriptions);
-
 	std::string file_name;
 	file_name = makeLogFileName("chat");
-	for (std::string& transcript_file_name : list_of_transcriptions)
-	{
-	   	if (transcript_file_name == file_name)
-	   	{
-			return true;
-		 }
-	}
-	return false;
+	return gDirUtilp->fileExists(file_name);
 }
 
-bool LLLogChat::isAdHocTranscriptExist(std::string file_name)
+bool LLLogChat::isAdHocTranscriptExist(const std::string& chat_name)
 {
-	std::vector<std::string> list_of_transcriptions;
-	LLLogChat::getListOfTranscriptFiles(list_of_transcriptions);
-
-	file_name = makeLogFileName(file_name);
-	for(std::string& transcript_file_name : list_of_transcriptions)
-	{
-	   	if (transcript_file_name == file_name)
-	   	{
-	   		return true;
-		}
-	}
-	return false;
+	std::string file_name = makeLogFileName(chat_name);
+	return gDirUtilp->fileExists(file_name);
 }
 
 //*TODO mark object's names in a special way so that they will be distinguishable form avatar name 

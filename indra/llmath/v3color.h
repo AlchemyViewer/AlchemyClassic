@@ -123,6 +123,8 @@ public:
 	inline void exp();	// Do an exponential on the color
 };
 
+static_assert(std::is_trivially_copyable<LLColor3>{}, "LLColor3 must be a trivially copyable type");
+
 LLColor3 lerp(const LLColor3 &a, const LLColor3 &b, F32 u);
 
 

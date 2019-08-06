@@ -403,7 +403,7 @@ bool LLMessageSystem::isTrustedSender() const
 
 static LLMessageSystem::message_template_name_map_t::const_iterator 
 findTemplate(const LLMessageSystem::message_template_name_map_t& templates, 
-			 std::string name)
+			 const std::string& name)
 {
 	const char* namePrehash = LLMessageStringTable::getInstance()->getString(name.c_str());
 	if(nullptr == namePrehash) {return templates.end();}

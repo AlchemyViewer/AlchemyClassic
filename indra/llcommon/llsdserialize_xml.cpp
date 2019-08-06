@@ -342,7 +342,7 @@ static unsigned get_till_eol(std::istream& input, char *buf, unsigned bufsize)
 	char c;
 	while (count < bufsize && input.good())
 	{
-		input.get(c);
+		c = input.get();
 		buf[count++] = c;
 		if (is_eol(c))
 			break;

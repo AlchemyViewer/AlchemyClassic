@@ -40,6 +40,12 @@
 
 static LLDefaultChildRegistry::Register<LLUICtrl> r("ui_ctrl");
 
+const std::string CONTROL_LTYPE_VALUE("value");
+const std::string CONTROL_LTYPE_ENABLED("enabled");
+const std::string CONTROL_LTYPE_DISABLED("disabled");
+const std::string CONTROL_LTYPE_VISIBLE("visible");
+const std::string CONTROL_LTYPE_INVISIBLE("invisible");
+
 F32 LLUICtrl::sActiveControlTransparency = 1.0f;
 F32 LLUICtrl::sInactiveControlTransparency = 1.0f;
 
@@ -482,7 +488,7 @@ void LLUICtrl::setControlVariable(LLControlVariable* control)
 	if (control)
 	{
 		mControlVariable = control;
-		mControlConnection = mControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), std::string("value")));
+		mControlConnection = mControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), CONTROL_LTYPE_VALUE));
 		setValue(mControlVariable->getValue());
 	}
 }
@@ -513,7 +519,7 @@ void LLUICtrl::setEnabledControlVariable(LLControlVariable* control)
 	if (control)
 	{
 		mEnabledControlVariable = control;
-		mEnabledControlConnection = mEnabledControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), std::string("enabled")));
+		mEnabledControlConnection = mEnabledControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), CONTROL_LTYPE_ENABLED));
 		setEnabled(mEnabledControlVariable->getValue().asBoolean());
 	}
 }
@@ -528,7 +534,7 @@ void LLUICtrl::setDisabledControlVariable(LLControlVariable* control)
 	if (control)
 	{
 		mDisabledControlVariable = control;
-		mDisabledControlConnection = mDisabledControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), std::string("disabled")));
+		mDisabledControlConnection = mDisabledControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), CONTROL_LTYPE_DISABLED));
 		setEnabled(!(mDisabledControlVariable->getValue().asBoolean()));
 	}
 }
@@ -543,7 +549,7 @@ void LLUICtrl::setMakeVisibleControlVariable(LLControlVariable* control)
 	if (control)
 	{
 		mMakeVisibleControlVariable = control;
-		mMakeVisibleControlConnection = mMakeVisibleControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), std::string("visible")));
+		mMakeVisibleControlConnection = mMakeVisibleControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), CONTROL_LTYPE_VISIBLE));
 		setVisible(mMakeVisibleControlVariable->getValue().asBoolean());
 	}
 }
@@ -558,12 +564,12 @@ void LLUICtrl::setMakeInvisibleControlVariable(LLControlVariable* control)
 	if (control)
 	{
 		mMakeInvisibleControlVariable = control;
-		mMakeInvisibleControlConnection = mMakeInvisibleControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), std::string("invisible")));
+		mMakeInvisibleControlConnection = mMakeInvisibleControlVariable->getSignal()->connect(boost::bind(&controlListener, _2, getHandle(), CONTROL_LTYPE_INVISIBLE));
 		setVisible(!(mMakeInvisibleControlVariable->getValue().asBoolean()));
 	}
 }
 // static
-bool LLUICtrl::controlListener(const LLSD& newvalue, LLHandle<LLUICtrl> handle, std::string type)
+bool LLUICtrl::controlListener(const LLSD& newvalue, LLHandle<LLUICtrl> handle, const std::string& type)
 {
 	LLUICtrl* ctrl = handle.get();
 	if (ctrl)

@@ -91,11 +91,11 @@ public:
 	};
 
 	static std::string timestamp(bool withdate = false);
-	static std::string makeLogFileName(std::string(filename));
+	static std::string makeLogFileName(std::string filename);
 	/**
 	*Add functions to get old and non date stamped file names when needed
 	*/
-	static std::string oldLogFileName(std::string(filename));
+	static std::string oldLogFileName(std::string filename);
 	static void saveHistory(const std::string& filename,
 				const std::string& from,
 				const LLUUID& from_id,
@@ -120,7 +120,7 @@ public:
 	static void deleteTranscripts();
 	static bool isTranscriptExist(const LLUUID& avatar_id, bool is_group=false);
 	static bool isNearbyTranscriptExist();
-	static bool isAdHocTranscriptExist(std::string file_name);
+	static bool isAdHocTranscriptExist(const std::string& file_name);
 
 	static bool historyThreadsFinished(LLUUID session_id);
 	static LLLoadHistoryThread* getLoadHistoryThread(LLUUID session_id);

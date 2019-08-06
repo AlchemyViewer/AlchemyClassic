@@ -259,7 +259,7 @@ namespace LLInitParam
 		std::string calcValueName(const value_t& value) const { return ""; }
 		void clearValueName() const {}
 
-		static bool getValueFromName(const std::string& name, value_t& value)
+		static bool getValueFromName(const std::string& param_name, value_t& value)
 		{
 			return false;
 		}
@@ -340,10 +340,10 @@ namespace LLInitParam
 			mValueName.clear();
 		}
 
-		static bool getValueFromName(const std::string& name, value_t& value)
+		static bool getValueFromName(const std::string& param_name, value_t& value)
 		{
 			value_name_map_t* map = getValueNames();
-			typename value_name_map_t::iterator found_it = map->find(name);
+			typename value_name_map_t::iterator found_it = map->find(param_name);
 			if (found_it == map->end()) return false;
 
 			value = found_it->second;

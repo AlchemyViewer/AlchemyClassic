@@ -938,7 +938,7 @@ BOOL LLUUID::parseUUID(const std::string& buf, LLUUID* value)
 }
 
 //static
-LLUUID LLUUID::generateNewID(std::string hash_string)
+LLUUID LLUUID::generateNewID(const std::string& hash_string)
 {
 	LLUUID new_id;
 	if (hash_string.empty())

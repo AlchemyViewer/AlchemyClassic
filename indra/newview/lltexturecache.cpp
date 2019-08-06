@@ -2039,7 +2039,7 @@ void logExceptionDupplicate(LLPointer<LLImageRaw> &raw)
     {
         // convert to C++ styled exception
         char integer_string[32];
-        sprintf(integer_string, "SEH, code: %lu\n", GetExceptionCode());
+        snprintf(integer_string, sizeof(integer_string), "SEH, code: %lu\n", GetExceptionCode());
         throw std::exception(integer_string);
     }
 }

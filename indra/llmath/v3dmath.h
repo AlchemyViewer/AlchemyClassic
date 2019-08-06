@@ -130,6 +130,8 @@ class LLVector3d
 
 };
 
+static_assert(std::is_trivially_copyable<LLVector3d>{}, "LLVector3d must be a trivially copyable type");
+
 typedef LLVector3d LLGlobalVec;
 
 inline const LLVector3d &LLVector3d::set(const LLVector3 &vec)

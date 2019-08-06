@@ -286,13 +286,13 @@ public:
 											  const string_type& quotes,
 											  const string_type& escapes);
 
-	LL_COMMON_API static void formatNumber(string_type& numStr, string_type decimals);
-	LL_COMMON_API static bool formatDatetime(string_type& replacement, string_type token, string_type param, S32 secFromEpoch);
+	LL_COMMON_API static void formatNumber(string_type& numStr, const string_type& decimals);
+	LL_COMMON_API static bool formatDatetime(string_type& replacement, const string_type& token, const string_type& param, S32 secFromEpoch);
 	LL_COMMON_API static S32 format(string_type& s, const format_map_t& substitutions);
 	LL_COMMON_API static S32 format(string_type& s, const LLSD& substitutions);
-	LL_COMMON_API static bool simpleReplacement(string_type& replacement, string_type token, const format_map_t& substitutions);
-	LL_COMMON_API static bool simpleReplacement(string_type& replacement, string_type token, const LLSD& substitutions);
-	LL_COMMON_API static void setLocale (std::string inLocale);
+	LL_COMMON_API static bool simpleReplacement(string_type& replacement, const string_type& token, const format_map_t& substitutions);
+	LL_COMMON_API static bool simpleReplacement(string_type& replacement, const string_type& token, const LLSD& substitutions);
+	LL_COMMON_API static void setLocale (const std::string& inLocale);
 	LL_COMMON_API static std::string getLocale (void);
 	
 	static bool isValidIndex(const string_type& string, size_type i)
@@ -355,7 +355,7 @@ public:
 	static void	replaceTabsWithSpaces( string_type& string, size_type spaces_per_tab );
 	static void	replaceNonstandardASCII( string_type& string, T replacement );
 	static void	replaceChar( string_type& string, T target, T replacement );
-	static void replaceString( string_type& string, string_type target, string_type replacement );
+	static void replaceString( string_type& string, const string_type& target, const string_type& replacement );
 	
 	static BOOL	containsNonprintable(const string_type& string);
 	static void	stripNonprintable(string_type& string);
@@ -1514,7 +1514,7 @@ void LLStringUtilBase<T>::replaceChar( string_type& string, T target, T replacem
 
 //static
 template<class T> 
-void LLStringUtilBase<T>::replaceString( string_type& string, string_type target, string_type replacement )
+void LLStringUtilBase<T>::replaceString( string_type& string, const string_type& target, const string_type& replacement )
 {
 	size_type found_pos = 0;
 	while( (found_pos = string.find(target, found_pos)) != string_type::npos )

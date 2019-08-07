@@ -1515,15 +1515,15 @@ std::string LLUrlEntryJira::getUrl(const std::string &url) const
 	std::string ret;
 	if (url.find("ALCH") != std::string::npos)
 	{
-		ret = (boost::format("http://alchemy.atlassian.net/browse/%1%") % url).str();
+		ret = llformat("https://jira.alchemyviewer.org/browse/%s", url.c_str());
 	}
 	else if(url.find("FIRE") != std::string::npos)
 	{
-		ret = (boost::format("http://jira.phoenixviewer.com/browse/%1%") % url).str();
+		ret = llformat("http://jira.phoenixviewer.com/browse/%s", url.c_str());
 	}
 	else
 	{
-		ret = (boost::format("http://jira.secondlife.com/browse/%1%") % url).str();
+		ret = llformat("https://jira.secondlife.com/browse/%s", url.c_str());
 	}
 	return ret;
 }

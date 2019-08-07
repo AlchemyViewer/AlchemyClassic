@@ -122,13 +122,13 @@ void LLFastTimerView::setPauseState(bool pause_state)
 	if (!pause_state)
 	{
 		
-		getChild<LLButton>("pause_btn")->setLabel(getString("pause"));
+		mBtnPause->setLabel(getString("pause"));
 	}
 	else
 	{
 		mScrollIndex = 0;
 
-		getChild<LLButton>("pause_btn")->setLabel(getString("run"));
+		mBtnPause->setLabel(getString("run"));
 	}
 
 	mPauseHistory = pause_state;
@@ -136,6 +136,7 @@ void LLFastTimerView::setPauseState(bool pause_state)
 
 BOOL LLFastTimerView::postBuild()
 {
+	mFontMonospace = LLFontGL::getFontMonospace();
 	mMetricCombo = getChild<LLComboBox>("metric_combo");
 	mTimeScaleCombo = getChild<LLComboBox>("time_scale_combo");
 
@@ -144,10 +145,9 @@ BOOL LLFastTimerView::postBuild()
 
 	mLegendPanel = getChild<LLPanel>("legend");
 
-	LLButton& pause_btn = getChildRef<LLButton>("pause_btn");
+	mBtnPause = getChild<LLButton>("pause_btn");
 	
-	pause_btn.setCommitCallback(boost::bind(&LLFastTimerView::onPause, this));
-	
+	mBtnPause->setCommitCallback(boost::bind(&LLFastTimerView::onPause, this));
 	return TRUE;
 }
 
@@ -178,7 +178,7 @@ BOOL LLFastTimerView::handleRightMouseDown(S32 x, S32 y, MASK mask)
 
 BlockTimerStatHandle* LLFastTimerView::getLegendID(S32 y)
 {
-	S32 idx = (mLegendRect.mTop - y) / (LLFontGL::getFontMonospace()->getLineHeight() + 2);
+	S32 idx = (mLegendRect.mTop - y) / (mFontMonospace->getLineHeight() + 2);
 
 	if (idx >= 0 && idx < (S32)ft_display_idx.size())
 	{
@@ -247,7 +247,7 @@ BOOL LLFastTimerView::handleHover(S32 x, S32 y, MASK mask)
 	if(mPauseHistory && mBarRect.pointInRect(x, y))
 	{
 		//const S32 bars_top = mBarRect.mTop;
-		const S32 bars_top = mBarRect.mTop - ((S32)LLFontGL::getFontMonospace()->getLineHeight() + 4);
+		const S32 bars_top = mBarRect.mTop - ((S32)mFontMonospace->getLineHeight() + 4);
 
 		mHoverBarIndex = llmin((bars_top - y) / (mBarRect.getHeight() / (MAX_VISIBLE_HISTORY + 2)) - 1,
 								(S32)mRecording.getNumRecordedPeriods() - 1,
@@ -1180,7 +1180,7 @@ void LLFastTimerView::drawLineGraph()
 		S32 x = (mGraphRect.mRight + mGraphRect.mLeft)/2;
 		S32 y = mGraphRect.mBottom + 8;
 
-		LLFontGL::getFontMonospace()->renderUTF8(
+		mFontMonospace->renderUTF8(
 			mHoverID->getName(), 
 			0, 
 			x, y, 
@@ -1203,11 +1203,10 @@ void LLFastTimerView::drawLineGraph()
 		break;
 	}
 
-	LLFontGL* font = LLFontGL::getFontMonospace();
-	S32 x = mGraphRect.mRight - font->getWidth(axis_label)-5;
-	S32 y = mGraphRect.mTop - font->getLineHeight();;
+	S32 x = mGraphRect.mRight - mFontMonospace->getWidth(axis_label)-5;
+	S32 y = mGraphRect.mTop - mFontMonospace->getLineHeight();;
 
-	font->renderUTF8(axis_label, 0, x, y, LLColor4::white, LLFontGL::LEFT, LLFontGL::TOP);
+	mFontMonospace->renderUTF8(axis_label, 0, x, y, LLColor4::white, LLFontGL::LEFT, LLFontGL::TOP);
 }
 
 void LLFastTimerView::drawLegend()
@@ -1216,7 +1215,7 @@ void LLFastTimerView::drawLegend()
 	S32 dx;
 	S32 x = mLegendRect.mLeft;
 	S32 y = mLegendRect.mTop;
-	const S32 TEXT_HEIGHT = (S32)LLFontGL::getFontMonospace()->getLineHeight();
+	const S32 TEXT_HEIGHT = (S32)mFontMonospace->getLineHeight();
 
 	{
 		LLLocalClipRect clip(mLegendRect);
@@ -1300,7 +1299,7 @@ void LLFastTimerView::drawLegend()
 				next_parent = next_parent->getParent();
 			}
 
-			LLFontGL::getFontMonospace()->renderUTF8(timer_label, 0, 
+			mFontMonospace->renderUTF8(timer_label, 0, 
 				x, y, 
 				color, 
 				LLFontGL::LEFT, LLFontGL::TOP, 
@@ -1351,11 +1350,11 @@ void LLFastTimerView::generateUniqueColors()
 void LLFastTimerView::drawHelp( S32 y )
 {
 	// Draw some help
-	const S32 texth = (S32)LLFontGL::getFontMonospace()->getLineHeight();
+	const S32 texth = (S32)mFontMonospace->getLineHeight();
 
 	y -= ((texth * 2) - 4);
 
-	LLFontGL::getFontMonospace()->renderUTF8(std::string("[Right-Click log selected]"),
+	mFontMonospace->renderUTF8(std::string("[Right-Click log selected]"),
 		0, MARGIN, y, LLColor4::white, LLFontGL::LEFT, LLFontGL::TOP);
 }
 
@@ -1369,23 +1368,23 @@ void LLFastTimerView::drawTicks()
 		S32 barw = mBarRect.getWidth();
 
 		tick_label = llformat("%.1f ms |", (F32)ms.value()*.25f);
-		x = mBarRect.mLeft + barw/4 - LLFontGL::getFontMonospace()->getWidth(tick_label);
-		LLFontGL::getFontMonospace()->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
+		x = mBarRect.mLeft + barw/4 - mFontMonospace->getWidth(tick_label);
+		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
 		tick_label = llformat("%.1f ms |", (F32)ms.value()*.50f);
-		x = mBarRect.mLeft + barw/2 - LLFontGL::getFontMonospace()->getWidth(tick_label);
-		LLFontGL::getFontMonospace()->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
+		x = mBarRect.mLeft + barw/2 - mFontMonospace->getWidth(tick_label);
+		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
 		tick_label = llformat("%.1f ms |", (F32)ms.value()*.75f);
-		x = mBarRect.mLeft + (barw*3)/4 - LLFontGL::getFontMonospace()->getWidth(tick_label);
-		LLFontGL::getFontMonospace()->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
+		x = mBarRect.mLeft + (barw*3)/4 - mFontMonospace->getWidth(tick_label);
+		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 
 		tick_label = llformat( "%d ms |", (U32)ms.value());
-		x = mBarRect.mLeft + barw - LLFontGL::getFontMonospace()->getWidth(tick_label);
-		LLFontGL::getFontMonospace()->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
+		x = mBarRect.mLeft + barw - mFontMonospace->getWidth(tick_label);
+		mFontMonospace->renderUTF8(tick_label, 0, x, mBarRect.mTop, LLColor4::white,
 			LLFontGL::LEFT, LLFontGL::TOP);
 	}
 }
@@ -1394,7 +1393,7 @@ void LLFastTimerView::drawBorders( S32 y, const S32 x_start, S32 bar_height, S32
 {
 	// Draw borders
 	{
-		S32 by = y + 6 + (S32)LLFontGL::getFontMonospace()->getLineHeight();	
+		S32 by = y + 6 + (S32)mFontMonospace->getLineHeight();	
 
 		//heading
 		gl_rect_2d(x_start-5, by, getRect().getWidth()-5, y+5, LLColor4::grey, FALSE);
@@ -1459,7 +1458,7 @@ void LLFastTimerView::drawBars()
 	if (mTotalTimeDisplay <= (F32Seconds)0.0) return;
 
 	drawTicks();
-	const S32 bars_top = mBarRect.mTop - ((S32)LLFontGL::getFontMonospace()->getLineHeight() + 4);
+	const S32 bars_top = mBarRect.mTop - ((S32)mFontMonospace->getLineHeight() + 4);
 	drawBorders(bars_top, mBarRect.mLeft, bar_height, vpad);
 
 	// Draw bars for each history entry

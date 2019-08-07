@@ -158,9 +158,12 @@ private:
 	LLLayoutPanel*					mLinesPanel;
 
 	LLPanel*						mLegendPanel;
+	
+	LLButton*						mBtnPause;
 
 	// UI Resources
 	LLUIImagePtr					mBarImage;
+	LLFontGL*						mFontMonospace;
 };
 
 #endif

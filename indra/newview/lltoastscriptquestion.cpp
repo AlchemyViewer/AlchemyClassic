@@ -47,8 +47,8 @@ BOOL LLToastScriptQuestion::postBuild()
 {
 	createButtons();
 
-	LLTextBox* mMessage = getChild<LLTextBox>("top_info_message");
-	LLTextBox* mFooter = getChild<LLTextBox>("bottom_info_message");
+	mMessage = getChild<LLTextBox>("top_info_message");
+	mFooter = getChild<LLTextBox>("bottom_info_message");
 
 	mMessage->setValue(mNotification->getMessage());
 	mFooter->setValue(mNotification->getFooter());
@@ -72,8 +72,6 @@ void LLToastScriptQuestion::setFocus(BOOL b)
 
 void LLToastScriptQuestion::snapToMessageHeight()
 {
-	LLTextBox* mMessage = getChild<LLTextBox>("top_info_message");
-	LLTextBox* mFooter = getChild<LLTextBox>("bottom_info_message");
 	if (!mMessage || !mFooter)
 	{
 		return;

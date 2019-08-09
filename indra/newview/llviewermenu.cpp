@@ -323,6 +323,9 @@ public:
 	LLMenuParcelObserver();
 	~LLMenuParcelObserver();
     void changed() override;
+private:
+	LLHandle<LLUICtrl> mLandBuyHandle;
+	LLHandle<LLUICtrl> mLandBuyPassHandle;
 };
 
 static LLMenuParcelObserver* gMenuParcelObserver = NULL;
@@ -331,6 +334,8 @@ static LLUIListener sUIListener;
 
 LLMenuParcelObserver::LLMenuParcelObserver()
 {
+	mLandBuyHandle = gMenuLand->getChild<LLMenuItemCallGL>("Land Buy")->getHandle();
+	mLandBuyPassHandle = gMenuLand->getChild<LLMenuItemCallGL>("Land Buy Pass")->getHandle();
 	LLViewerParcelMgr::getInstance()->addObserver(this);
 }
 
@@ -341,11 +346,17 @@ LLMenuParcelObserver::~LLMenuParcelObserver()
 
 void LLMenuParcelObserver::changed()
 {
-	LLParcel *parcel = LLViewerParcelMgr::getInstance()->getParcelSelection()->getParcel();
-	gMenuLand->getChild<LLMenuItemCallGL>("Land Buy Pass")->setEnabled(LLPanelLandGeneral::enableBuyPass(NULL) && !(parcel->getOwnerID()== gAgent.getID()));
+	if (!mLandBuyPassHandle.isDead())
+	{
+		LLParcel *parcel = LLViewerParcelMgr::getInstance()->getParcelSelection()->getParcel();
+		static_cast<LLMenuItemCallGL*>(mLandBuyPassHandle.get())->setEnabled(LLPanelLandGeneral::enableBuyPass(NULL) && !(parcel->getOwnerID() == gAgent.getID()));
+	}
 	
-	BOOL buyable = enable_buy_land(NULL);
-	gMenuLand->getChild<LLMenuItemCallGL>("Land Buy")->setEnabled(buyable);
+	if (!mLandBuyHandle.isDead())
+	{
+		BOOL buyable = enable_buy_land(NULL);
+		static_cast<LLMenuItemCallGL*>(mLandBuyHandle.get())->setEnabled(buyable);
+	}
 }
 
 
@@ -2603,14 +2614,14 @@ void handle_object_touch()
 
 
 
-static void init_default_item_label(const std::string& item_name)
+static void init_default_item_label(LLUICtrl* ctrl, const std::string& item_name)
 {
 	boost::unordered_map<std::string, LLStringExplicit>::iterator it = sDefaultItemLabels.find(item_name);
 	if (it == sDefaultItemLabels.end())
 	{
 		// *NOTE: This will not work for items of type LLMenuItemCheckGL because they return boolean value
 		//       (doesn't seem to matter much ATM).
-		LLStringExplicit default_label = gMenuHolder->childGetValue(item_name).asString();
+		LLStringExplicit default_label = ctrl->getValue().asString();
 		if (!default_label.empty())
 		{
 			sDefaultItemLabels.insert(std::pair<std::string, LLStringExplicit>(item_name, default_label));
@@ -2641,8 +2652,8 @@ bool enable_object_touch(LLUICtrl* ctrl)
 		new_value = obj->flagHandleTouch() || (parent && parent->flagHandleTouch());
 	}
 
-	std::string item_name = ctrl->getName();
-	init_default_item_label(item_name);
+	const std::string& item_name = ctrl->getName();
+	init_default_item_label(ctrl, item_name);
 
 	// Update label based on the node touch name if available.
 	LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode();
@@ -6108,10 +6119,10 @@ bool enable_object_sit(LLUICtrl* ctrl)
 	bool sitting_on_sel = sitting_on_selection();
 	if (!sitting_on_sel)
 	{
-		std::string item_name = ctrl->getName();
+		const std::string& item_name = ctrl->getName();
 
 		// init default labels
-		init_default_item_label(item_name);
+		init_default_item_label(ctrl, item_name);
 
 		// Update label
 		LLSelectNode* node = LLSelectMgr::getInstance()->getSelection()->getFirstRootNode();

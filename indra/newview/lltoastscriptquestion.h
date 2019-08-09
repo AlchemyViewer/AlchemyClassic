@@ -30,6 +30,8 @@
 
 #include "lltoastpanel.h"
 
+class LLTextBox;
+
 class LLToastScriptQuestion : public LLToastPanel
 {
 	LOG_CLASS(LLToastScriptQuestion);
@@ -46,6 +48,9 @@ private:
 
 	void createButtons();
 	void onButtonClicked(std::string btn_name);
+
+	LLTextBox* mMessage;
+	LLTextBox* mFooter;
 };
 
 #endif /* LLTOASTSCRIPTQUESTION_H_ */

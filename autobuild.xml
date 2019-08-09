@@ -708,7 +708,7 @@
       <key>fmodstudio</key>
       <map>
         <key>copyright</key>
-        <string>FMOD Studio, copyright (c) Firelight Technologies Pty, Ltd., 2012-2017.</string>
+        <string>FMOD Studio, copyright (c) Firelight Technologies Pty, Ltd., 2012-2019.</string>
         <key>description</key>
         <string>FMOD Studio audio system library</string>
         <key>license</key>
@@ -724,14 +724,28 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>a3ccf7916d1e0b6f01370978b661c139</string>
+              <string>4a4e1bfd0e1e982643e75533ead10c55</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/darwin/lib/fmodstudio-1.10.02-darwin-201712262058.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/darwin/fmodstudio-2.00.03.192211300-darwin-192211300.tar.bz2</string>
             </map>
             <key>name</key>
             <string>darwin</string>
+          </map>
+          <key>darwin64</key>
+          <map>
+            <key>archive</key>
+            <map>
+              <key>hash</key>
+              <string>fe1a606582fb72d5d1c9ec4a2d906830</string>
+              <key>hash_algorithm</key>
+              <string>md5</string>
+              <key>url</key>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/darwin64/fmodstudio-2.00.03.192211302-darwin64-192211302.tar.bz2</string>
+            </map>
+            <key>name</key>
+            <string>darwin64</string>
           </map>
           <key>linux</key>
           <map>
@@ -766,11 +780,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>b23a30967666da49346983658ed50e92</string>
+              <string>e0e87e0423fa42e4d2997b47b92eac6e</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows/lib/fmodstudio-1.10.00-windows-201709290225.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows/fmodstudio-2.00.03.192211030-windows-192211030.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -780,18 +794,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>c2c45c2ebd9fd930098aa2a3b85bbe5f</string>
+              <string>c2e55e1bfef7e066a0e40867a64b4cce</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://depot.alchemyviewer.org/pub/windows64/lib/fmodstudio-1.10.02-windows64-201712251435.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/fmodstudio/windows64/fmodstudio-2.00.03.192211029-windows64-192211029.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>1.10.02</string>
+        <string>2.00.03.192211300</string>
       </map>
       <key>fontconfig</key>
       <map>

@@ -1904,19 +1904,11 @@ if (WINDOWS)
     endif(USE_TBBMALLOC)
 	  
     if (USE_FMODSTUDIO)
-      if (ADDRESS_SIZE EQUAL 32)
-        list(APPEND COPY_INPUT_DEPENDENCIES
-             ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
-             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod.dll
-             ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
-            )
-      elseif (ADDRESS_SIZE EQUAL 64)
-        list(APPEND COPY_INPUT_DEPENDENCIES
-             ${SHARED_LIB_STAGING_DIR}/Release/fmod64.dll
-             ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod64.dll
-             ${SHARED_LIB_STAGING_DIR}/Debug/fmodL64.dll
-            )
-      endif (ADDRESS_SIZE EQUAL 32)
+      list(APPEND COPY_INPUT_DEPENDENCIES
+           ${SHARED_LIB_STAGING_DIR}/Release/fmod.dll
+           ${SHARED_LIB_STAGING_DIR}/RelWithDebInfo/fmod.dll
+           ${SHARED_LIB_STAGING_DIR}/Debug/fmodL.dll
+          )
     endif (USE_FMODSTUDIO)
 
     add_custom_command(

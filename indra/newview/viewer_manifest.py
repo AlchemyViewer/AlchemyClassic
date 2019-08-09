@@ -474,8 +474,8 @@ class WindowsManifest(ViewerManifest):
 
             # Get fmodstudio dll, continue if missing
             try:
-                if(self.address_size == 64):
-                    self.path("fmod64.dll")
+                if self.args['configuration'].lower() == 'debug':
+                    self.path("fmodL.dll")
                 else:
                     self.path("fmod.dll")
             except:

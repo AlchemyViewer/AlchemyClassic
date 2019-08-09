@@ -1538,18 +1538,18 @@
                  parameter="https://bitbucket.org/alchemyviewer/"/>
         </menu_item_call>  
         <menu_item_call
-             label="[APP_NAME] Issue Tracker"
-             name="Alchemy Issue Tracker">
+             label="[APP_NAME] Support Portal"
+             name="Alchemy Jira">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://alchemy.atlassian.net"/>
+                 parameter="https://jira.alchemyviewer.org/servicedesk/customer/portal/1"/>
         </menu_item_call>  
         <menu_item_call
              label="[APP_NAME] Wiki"
              name="Alchemy Wiki">
              <menu_item_call.on_click
                  function="Advanced.ShowURL"
-                 parameter="https://alchemy.atlassian.net/wiki"/>
+                 parameter="https://wiki.alchemyviewer.org"/>
         </menu_item_call>
 		<menu_item_separator/>
         <menu_item_call

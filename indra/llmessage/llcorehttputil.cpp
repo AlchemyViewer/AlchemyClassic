@@ -32,7 +32,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iterator>
-#include <json/json.hpp> // JSON
+#include <nlohmann/json.hpp> // JSON
 #include "llcorehttputil.h"
 #include "lleventcoro.h"
 #include "llhttpconstants.h"

@@ -37,7 +37,7 @@
 #include "llcoros.h"
 #include "llcorehttputil.h"
 
-#include <json/json.hpp>
+#include <nlohmann/json.hpp>
 
 /**
 * Handler of an HTTP machine translation service.

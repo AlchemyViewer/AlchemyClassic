@@ -124,7 +124,7 @@
 #include "llfeaturemanager.h"
 #include "llviewertexturelist.h"
 
-#include <json/json.hpp>
+#include <nlohmann/json.hpp>
 
 const F32 BANDWIDTH_UPDATER_TIMEOUT = 0.5f;
 char const* const VISIBILITY_DEFAULT = "default";

@@ -2209,7 +2209,7 @@
       <key>nvapi</key>
       <map>
         <key>copyright</key>
-        <string>Copyright (c) 2007- 2014 NVIDIA Corporation. All rights reserved. </string>
+        <string>Copyright (c) 2007- 2019 NVIDIA Corporation. All rights reserved. </string>
         <key>license</key>
         <string>nvapi</string>
         <key>license_file</key>
@@ -2223,11 +2223,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>f868a1d50735ca3151b3ea5835bd203f</string>
+              <string>408eff309f6f3031d74da5491c1852a9</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/devel/secondlife/packages/windows/nvapi-R384-windows-201712260642.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/nvapi/windows/nvapi-R430.192211828-windows-192211828.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -2237,18 +2237,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>619598988143e12ad0d1a271f881b3bd</string>
+              <string>76a547f558b8499dc85135b8718eb18a</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/devel/secondlife/packages/windows64/nvapi-R384-windows64-201712260642.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-internal/nvapi/windows64/nvapi-R430.192211828-windows64-192211828.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>R384</string>
+        <string>R430.192211828</string>
       </map>
       <key>ogg_vorbis</key>
       <map>

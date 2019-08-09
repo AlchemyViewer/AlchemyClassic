@@ -13,7 +13,6 @@ include(LLWindow)
 include(LLXML)
 include(Linking)
 include(LLSharedLibs)
-include(GoogleBreakpad)
 include(Boost)
 
 include_directories(

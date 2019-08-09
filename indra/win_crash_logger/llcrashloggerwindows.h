@@ -33,11 +33,6 @@
 
 class LLSD;
 
-namespace google_breakpad {
-	class CrashGenerationServer; 
-	class ClientInfo;
-}
-
 class LLCrashLoggerWindows : public LLCrashLogger
 {
 public:
@@ -64,17 +59,6 @@ private:
 	void ProcessDlgItemText(HWND hWnd, int nIDDlgItem);
 	void ProcessCaption(HWND hWnd);
 	bool initCrashServer();
-	google_breakpad::CrashGenerationServer* mCrashHandler;
-	static void OnClientConnected(void* context,
- 					const google_breakpad::ClientInfo* client_info);
- 	
- 	static void OnClientDumpRequest(
- 					void* context,
- 					const google_breakpad::ClientInfo* client_info,
- 					const std::wstring* file_path);
- 	
- 	static void OnClientExited(void* context,
-		 			const google_breakpad::ClientInfo* client_info);
     int mClientsConnected;
 	int mPID;
 	std::string mProcName;

@@ -24,7 +24,6 @@ set(cmake_SOURCE_FILES
     EXPAT.cmake
     FindAPR.cmake
     FindAutobuild.cmake
-    FindGoogleBreakpad.cmake
     FindGooglePerfTools.cmake
     FindHUNSPELL.cmake
     FindNDOF.cmake
@@ -38,7 +37,6 @@ set(cmake_SOURCE_FILES
     GLOD.cmake
     GLEW.cmake
     GStreamer010Plugin.cmake
-    GoogleBreakpad.cmake
     GooglePerfTools.cmake
     Havok.cmake
     Hunspell.cmake

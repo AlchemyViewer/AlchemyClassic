@@ -454,17 +454,6 @@ class WindowsManifest(ViewerManifest):
         with self.prefix(src=os.path.join(self.args['build'], os.pardir,
                                           'sharedlibs', self.args['configuration'])):
 
-            # Get llcommon and deps. If missing assume static linkage and continue.
-            try:
-                self.path('llcommon.dll')
-                self.path('libapr-1.dll')
-                self.path('libaprutil-1.dll')
-                self.path('libapriconv-1.dll')
-                
-            except RuntimeError as err:
-                print err.message
-                print "Skipping llcommon.dll (assuming llcommon was linked statically)"
-
             # Mesh 3rd party libs needed for auto LOD and collada reading
             try:
                 self.path("glod.dll")
@@ -492,8 +481,6 @@ class WindowsManifest(ViewerManifest):
             else:
                 self.path("vivoxsdk.dll")
                 self.path("ortp.dll")
-            self.path("libsndfile-1.dll")
-            self.path("vivoxoal.dll")
             
             # Security
             if(self.address_size == 64):
@@ -559,16 +546,15 @@ class WindowsManifest(ViewerManifest):
                     self.path("media_plugin_libvlc.dll")
 
                 # Media plugins - Example (useful for debugging - not shipped with release viewer)
-                if self.channel_type() != 'release':
-                    with self.prefix(src=os.path.join('example', self.args['configuration'])):
-                        self.path("media_plugin_example.dll")
+                #if self.channel_type() != 'release':
+                #    with self.prefix(src=os.path.join('example', self.args['configuration'])):
+                #        self.path("media_plugin_example.dll")
 
             # CEF runtime files - debug
             # CEF runtime files - not debug (release, relwithdebinfo etc.)
             config = 'debug' if self.args['configuration'].lower() == 'debug' else 'release'
             with self.prefix(src=os.path.join(pkgdir, 'bin', config)):
                 self.path("chrome_elf.dll")
-                self.path("d3dcompiler_43.dll")
                 self.path("d3dcompiler_47.dll")
                 self.path("libcef.dll")
                 self.path("libEGL.dll")

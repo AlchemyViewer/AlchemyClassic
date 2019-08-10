@@ -1476,9 +1476,9 @@
       <key>kdu</key>
       <map>
         <key>copyright</key>
-        <string>Copyright 2001, David Taubman, The University of New South Wales (UNSW)</string>
+        <string>Copyright Kakadu Software Pty Ltd.</string>
         <key>description</key>
-        <string>JPEG2000 library by Kakadu</string>
+        <string>Kakadu JPEG2000 Library</string>
         <key>license</key>
         <string>Kakadu</string>
         <key>license_file</key>
@@ -1532,18 +1532,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>0ecd12128b8a3ec7121d0273706b004b</string>
+              <string>1594b7d12c0bfd3ca5dec3bb4e0fa4e1</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/devel/secondlife/packages/windows64/kdu-7.10.2-windows64-201712260649.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-restricted/kdu/windows64/kdu-7.10.7.192211828-windows64-192211828.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.10.2</string>
+        <string>7.10.7.192211828</string>
       </map>
       <key>libhunspell</key>
       <map>

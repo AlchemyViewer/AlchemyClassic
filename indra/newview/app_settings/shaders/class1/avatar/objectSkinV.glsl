@@ -24,9 +24,6 @@
 
 ATTRIBUTE vec4 weight4;  
 
-/* BENTO JOINT COUNT LIMITS
- * Note that the value in the next line also needs to be updated to value-1 several places below.
- */
 uniform mat3x4 matrixPalette[MAX_JOINTS_PER_MESH_OBJECT];
 
 mat4 getObjectSkinnedTransform()

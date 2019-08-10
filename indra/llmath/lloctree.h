@@ -120,7 +120,15 @@ public:
 	{
 		return getPool(size).malloc();
 	}
+	void* operator new[](size_t size)
+	{
+		return getPool(size).malloc();
+	}
 	void operator delete(void* ptr)
+	{
+		getPool(sizeof(LLOctreeNode<T>)).free(ptr);
+	}
+	void operator delete[](void* ptr)
 	{
 		getPool(sizeof(LLOctreeNode<T>)).free(ptr);
 	}
@@ -716,7 +724,15 @@ public:
 	{
 		return LLOctreeNode<T>::getPool(size).malloc();
 	}
+	void* operator new[](size_t size)
+	{
+		return LLOctreeNode<T>::getPool(size).malloc();
+	}
 	void operator delete(void* ptr)
+	{
+		LLOctreeNode<T>::getPool(sizeof(LLOctreeNode<T>)).free(ptr);
+	}
+	void operator delete[](void* ptr)
 	{
 		LLOctreeNode<T>::getPool(sizeof(LLOctreeNode<T>)).free(ptr);
 	}
@@ -725,7 +741,15 @@ public:
 	{
 		return ll_aligned_malloc_16(size);
 	}
+	void* operator new[](size_t size)
+	{
+		return ll_aligned_malloc_16(size);
+	}
 	void operator delete(void* ptr)
+	{
+		ll_aligned_free_16(ptr);
+	}
+	void operator delete[](void* ptr)
 	{
 		ll_aligned_free_16(ptr);
 	}

@@ -1,5 +1,3 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please noodle a poodle.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 /** 
  * @file llviewermenu.cpp
  * @brief Builds menus out of items.

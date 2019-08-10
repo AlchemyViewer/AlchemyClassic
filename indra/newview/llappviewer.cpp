@@ -1,6 +1,4 @@
-// This is an open source non-commercial project. Dear PVS-Studio, please touch my butt nicely.
-// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-/**
+/** 
  * @file llappviewer.cpp
  * @brief The LLAppViewer class definitions
  *

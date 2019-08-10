@@ -33,7 +33,6 @@
 #include "llpointer.h"
 #include "llmath.h"
 #include "llkdumem.h"
-#include "stringize.h"
 
 #include "kdu_block_coding.h"
 
@@ -41,6 +40,18 @@
 #include <boost/exception/diagnostic_information.hpp>
 #include <sstream>
 #include <iomanip>
+
+// stream kdu_dims to std::ostream
+// Turns out this must NOT be in the anonymous namespace!
+// It must also precede #include "stringize.h".
+inline
+std::ostream& operator<<(std::ostream& out, const kdu_dims& dims)
+{
+	return out << "(" << dims.pos.x << "," << dims.pos.y << "),"
+				  "[" << dims.size.x << "x" << dims.size.y << "]";
+}
+
+#include "stringize.h"
 
 namespace {
 // Failure to load an image shouldn't crash the whole viewer.
@@ -84,14 +95,6 @@ std::string report_kdu_exception(kdu_exception mb)
 }
 } // anonymous namespace
 
-// stream kdu_dims to std::ostream
-// Turns out this must NOT be in the anonymous namespace!
-inline
-std::ostream& operator<<(std::ostream& out, const kdu_dims& dims)
-{
-	return out << "(" << dims.pos.x << "," << dims.pos.y << "),"
-				  "[" << dims.size.x << "x" << dims.size.y << "]";
-}
 
 
 class kdc_flow_control {
@@ -146,7 +149,7 @@ std::string LLImageJ2CKDU::getEngineInfo() const
 class LLKDUDecodeState
 {
 public:
-	LLKDUDecodeState(kdu_tile tile, kdu_byte *buf, S32 row_gap, kdu_codestream &aStream);
+	LLKDUDecodeState(kdu_tile tile, kdu_byte *buf, S32 row_gap, kdu_codestream* codestreamp);
 	~LLKDUDecodeState();
 	bool processTileDecode(F32 decode_time, bool limit_time = true);
 
@@ -260,7 +263,6 @@ LLImageJ2CKDU::~LLImageJ2CKDU()
 }
 
 // Stuff for new simple decode
-
 void transfer_bytes(kdu_byte *dest, kdu_line_buf &src, int gap, int precision);
 
 // This is called by the real (private) initDecode() (keep_codestream true)
@@ -567,7 +569,8 @@ bool LLImageJ2CKDU::decodeImpl(LLImageJ2C &base, LLImageRaw &raw_image, F32 deco
 					kdu_coords offset = tile_dims.pos - dims.pos;
 					int row_gap = channels*dims.size.x; // inter-row separation
 					kdu_byte *buf = buffer + offset.y*row_gap + offset.x*channels;
-					mDecodeState.reset(new LLKDUDecodeState(tile, buf, row_gap, *mCodeStreamp.get()));
+					mDecodeState.reset(new LLKDUDecodeState(tile, buf, row_gap,
+															mCodeStreamp.get()));
 				}
 				// Do the actual processing
 				F32 remaining_time = decode_time - decode_timer.getElapsedTimeF32();
@@ -1257,7 +1260,8 @@ all necessary level shifting, type conversion, rounding and truncation. */
 	}
 }
 
-LLKDUDecodeState::LLKDUDecodeState(kdu_tile tile, kdu_byte *buf, S32 row_gap, kdu_codestream &aStream)
+LLKDUDecodeState::LLKDUDecodeState(kdu_tile tile, kdu_byte *buf, S32 row_gap,
+								   kdu_codestream* codestreamp)
 {
 	S32 c;
 
@@ -1303,7 +1307,7 @@ LLKDUDecodeState::LLKDUDecodeState(kdu_tile tile, kdu_byte *buf, S32 row_gap, kd
 			mEngines[c] = kdu_synthesis(res,&mAllocator,use_shorts);
 		}
 	}
-	mAllocator.finalize(aStream); // Actually creates buffering resources
+	mAllocator.finalize(*codestreamp); // Actually creates buffering resources
 	for (c = 0; c < mNumComponents; c++)
 	{
 		mLines[c].create(); // Grabs resources from the allocator.

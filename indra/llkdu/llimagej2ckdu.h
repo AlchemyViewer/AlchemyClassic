@@ -32,10 +32,6 @@
 //
 // KDU core header files
 //
-#define KDU_NO_THREADS
-#define KDU_X86_INTRINSICS
-#define KDU_NO_AVX
-#define KDU_NO_AVX2
 #if LL_CLANG
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-private-field"
@@ -104,7 +100,7 @@ private:
 	class CodeStreamHolder
 	{
 	public:
-		CodeStreamHolder() : mCodeStream() {}
+		CodeStreamHolder() = default;
 		CodeStreamHolder(const CodeStreamHolder&) = delete;
 		CodeStreamHolder& operator=(const CodeStreamHolder&) = delete;
 
@@ -121,11 +117,8 @@ private:
 			}
 		}
 
-		kdu_core::kdu_codestream* get()
-		{
-			return &mCodeStream;
-		}
-
+		// for those few times when you need a raw kdu_codestream*
+		kdu_core::kdu_codestream* get() { return &mCodeStream; }
 		kdu_core::kdu_codestream* operator->() { return &mCodeStream; }
 
 	private:

@@ -38,10 +38,6 @@
 #endif
 
 // Support classes for reading and writing from memory buffers in KDU
-#define KDU_NO_THREADS
-#define KDU_X86_INTRINSICS
-#define KDU_NO_AVX
-#define KDU_NO_AVX2
 #include "kdu_utils.h"
 #include "kdu_image.h"
 #include "kdu_elementary.h"

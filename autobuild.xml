@@ -1518,11 +1518,11 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1624c944c4bc6d54d9fc56d0114e9f23</string>
+              <string>3e83c3649251e42e103a76fcd645b407</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>file:///c:/Developer/buildlibs/kdu-7.7.1-windows-201511121444.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-restricted/kdu/windows/kdu-7.10.7.192222106-windows-192222106.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows</string>
@@ -1532,18 +1532,18 @@
             <key>archive</key>
             <map>
               <key>hash</key>
-              <string>1594b7d12c0bfd3ca5dec3bb4e0fa4e1</string>
+              <string>609068ef170da699b7f8e4dde7e1c406</string>
               <key>hash_algorithm</key>
               <string>md5</string>
               <key>url</key>
-              <string>https://pkg.alchemyviewer.org/repository/autobuild-restricted/kdu/windows64/kdu-7.10.7.192211828-windows64-192211828.tar.bz2</string>
+              <string>https://pkg.alchemyviewer.org/repository/autobuild-restricted/kdu/windows64/kdu-7.10.7.192222056-windows64-192222056.tar.bz2</string>
             </map>
             <key>name</key>
             <string>windows64</string>
           </map>
         </map>
         <key>version</key>
-        <string>7.10.7.192211828</string>
+        <string>7.10.7.192222106</string>
       </map>
       <key>libhunspell</key>
       <map>

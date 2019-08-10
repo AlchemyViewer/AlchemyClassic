@@ -54,9 +54,9 @@ if (USE_KDU)
   target_link_libraries(llkdu
     ${KDU_LIBRARY})
 
-  set(KDU_BUILD_DEFS -DKDU_X86_INTRINSICS -DKDU_NO_AVX2)
+  set(KDU_BUILD_DEFS -DKDU_X86_INTRINSICS -DKDU_NO_AVX -DKDU_NO_AVX2)
   if(ADDRESS_SIZE EQUAL 32)
-    list(APPEND KDU_BUILD_DEFS -DKDU_NO_AVX -DKDU_NO_THREADS)
+    list(APPEND KDU_BUILD_DEFS -DKDU_NO_THREADS)
   endif()
   target_compile_definitions(llkdu PUBLIC ${KDU_BUILD_DEFS})
   

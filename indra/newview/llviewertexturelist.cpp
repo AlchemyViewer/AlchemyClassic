@@ -624,7 +624,7 @@ void LLViewerTextureList::findTexturesByID(const LLUUID &image_id, std::vector<L
 
 LLViewerFetchedTexture *LLViewerTextureList::findImage(const LLTextureKey &search_key)
 {
-    const auto& iter = mUUIDHashMap.find(search_key);
+    auto iter = mUUIDHashMap.find(search_key);
     if (iter == mUUIDHashMap.cend())
         return NULL;
     return iter->second;
@@ -677,7 +677,7 @@ void LLViewerTextureList::removeImageFromList(LLViewerFetchedTexture *image)
 			<< " but doesn't have mInImageList set"
 			<< " ref count is " << image->getNumRefs()
 			<< LL_ENDL;
-		const auto& iter = mUUIDHashMap.find(LLTextureKey(image->getID(), (ETexListType)image->getTextureListType()));
+		auto iter = mUUIDHashMap.find(LLTextureKey(image->getID(), (ETexListType)image->getTextureListType()));
 		if(iter == mUUIDHashMap.cend())
 		{
 			LL_INFOS() << "Image  " << image->getID() << " is also not in mUUIDMap!" << LL_ENDL ;
@@ -720,8 +720,16 @@ void LLViewerTextureList::addImage(LLViewerFetchedTexture *new_image, ETexListTy
 	sNumImages++;
 
 	addImageToList(new_image);
-	mUUIDMap.emplace(key, new_image);
-	mUUIDHashMap.emplace(key, new_image);
+	auto uuidm_pair = mUUIDMap.try_emplace(key, new_image);
+	if (!uuidm_pair.second && uuidm_pair.first != mUUIDMap.cend())
+	{
+		uuidm_pair.first->second = new_image;
+	}
+	auto uuidhm_pair = mUUIDHashMap.try_emplace(key, new_image);
+	if (!uuidhm_pair.second && uuidhm_pair.first != mUUIDHashMap.cend())
+	{
+		uuidhm_pair.first->second = new_image;
+	}
 	new_image->setTextureListType(tex_type);
 }
 

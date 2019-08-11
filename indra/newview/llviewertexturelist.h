@@ -223,9 +223,9 @@ public:
     
 private:
     using uuid_map_t = std::map< LLTextureKey, LLPointer<LLViewerFetchedTexture> >;
-	using uuid_hash_map_t = absl::flat_hash_map< LLTextureKey, LLPointer<LLViewerFetchedTexture> >;
+    using uuid_hash_map_t = absl::flat_hash_map< LLTextureKey, LLViewerFetchedTexture* >;
     uuid_map_t mUUIDMap;
-	uuid_hash_map_t mUUIDHashMap;
+    uuid_hash_map_t mUUIDHashMap;
     LLTextureKey mLastUpdateKey;
     LLTextureKey mLastFetchKey;
 	
@@ -282,7 +282,7 @@ private:
 		LLRect mImageClipRegion;
 	};
 
-	typedef std::map< std::string, LLPointer<LLUIImage> > uuid_ui_image_map_t;
+	typedef absl::flat_hash_map< std::string, LLPointer<LLUIImage> > uuid_ui_image_map_t;
 	uuid_ui_image_map_t mUIImages;
 
 	//

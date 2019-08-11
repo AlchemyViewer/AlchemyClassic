@@ -185,7 +185,8 @@ inline S32 llceil( F32 f )
 	return (S32)ceil(f);
 }
 
-// Use this round.  Does an arithmetic round (0.5 always rounds up)
+// Use this round.  Does an arithmetic round (0.5 always rounds up), 
+// floor(val+0.5f) pattern generates into vroundss instruction in vs2019, clang 8, and gcc 7
 inline S32 ll_round(const F32 val)
 {
 	return (S32)floor(val + 0.5f);

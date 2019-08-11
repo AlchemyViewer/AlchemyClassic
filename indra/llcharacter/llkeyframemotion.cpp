@@ -2435,7 +2435,11 @@ void LLKeyframeDataCache::dumpDiagInfo()
 //--------------------------------------------------------------------
 void LLKeyframeDataCache::addKeyframeData(const LLUUID& id, LLKeyframeMotion::JointMotionList* joint_motion_listp)
 {
-	sKeyframeDataMap[id] = joint_motion_listp;
+	auto ins_pair = sKeyframeDataMap.emplace(id, joint_motion_listp);
+	if (!ins_pair.second && ins_pair.first != sKeyframeDataMap.cend())
+	{
+		ins_pair.first->second = joint_motion_listp;
+	}
 }
 
 //--------------------------------------------------------------------
@@ -2443,7 +2447,7 @@ void LLKeyframeDataCache::addKeyframeData(const LLUUID& id, LLKeyframeMotion::Jo
 //--------------------------------------------------------------------
 void LLKeyframeDataCache::removeKeyframeData(const LLUUID& id)
 {
-	keyframe_data_map_t::iterator found_data = sKeyframeDataMap.find(id);
+	auto found_data = sKeyframeDataMap.find(id);
 	if (found_data != sKeyframeDataMap.end())
 	{
 		delete found_data->second;
@@ -2456,8 +2460,8 @@ void LLKeyframeDataCache::removeKeyframeData(const LLUUID& id)
 //--------------------------------------------------------------------
 LLKeyframeMotion::JointMotionList* LLKeyframeDataCache::getKeyframeData(const LLUUID& id)
 {
-	keyframe_data_map_t::iterator found_data = sKeyframeDataMap.find(id);
-	if (found_data == sKeyframeDataMap.end())
+	auto found_data = sKeyframeDataMap.find(id);
+	if (found_data == sKeyframeDataMap.cend())
 	{
 		return nullptr;
 	}
@@ -2477,7 +2481,7 @@ LLKeyframeDataCache::~LLKeyframeDataCache()
 //-----------------------------------------------------------------------------
 void LLKeyframeDataCache::clear()
 {
-	for_each(sKeyframeDataMap.begin(), sKeyframeDataMap.end(), DeletePairedPointer());
+	std::for_each(sKeyframeDataMap.begin(), sKeyframeDataMap.end(), DeletePairedPointer());
 	sKeyframeDataMap.clear();
 }
 

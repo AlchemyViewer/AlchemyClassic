@@ -151,12 +151,12 @@ inline F64 llabs(const F64 a)
 
 inline S32 lltrunc( F32 f )
 {
-	return (S32)trunc(f);
+	return (S32)f;
 }
 
 inline S32 lltrunc( F64 f )
 {
-	return (S32)trunc(f);
+	return (S32)f;
 }
 
 inline S32 llfloor( F32 f )
@@ -188,23 +188,17 @@ inline S32 llceil( F32 f )
 // Use this round.  Does an arithmetic round (0.5 always rounds up)
 inline S32 ll_round(const F32 val)
 {
-	return (S32)round(val);
+	return (S32)floor(val + 0.5f);
 }
 
 inline F32 ll_round( F32 val, F32 nearest )
 {
-	return F32(round(val * (1.0f / nearest))) * nearest;
+	return F32(floor(val * (1.0f / nearest) + 0.5f)) * nearest;
 }
 
 inline F64 ll_round( F64 val, F64 nearest )
 {
-	return F64(round(val * (1.0 / nearest))) * nearest;
-}
-
-
-inline F64 ll_round(const F64 val)
-{
-	return round(val);
+	return F64(floor(val * (1.0 / nearest) + 0.5)) * nearest;
 }
 
 
@@ -384,7 +378,7 @@ inline U32 get_lower_power_two(U32 val, U32 max_power_two)
 {
 	if(!max_power_two)
 	{
-		max_power_two = 1 << 31 ;
+		max_power_two = 1U << 31 ;
 	}
 	if(max_power_two & (max_power_two - 1))
 	{
@@ -406,7 +400,7 @@ inline U32 get_next_power_two(U32 val, U32 max_power_two)
 {
 	if(!max_power_two)
 	{
-		max_power_two = 1 << 31 ;
+		max_power_two = 1U << 31 ;
 	}
 
 	if(val >= max_power_two)

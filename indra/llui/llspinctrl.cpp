@@ -154,7 +154,7 @@ F32 clamp_precision(F32 value, S32 decimal_precision)
 	for (S32 i = 0; i < decimal_precision; i++)
 		clamped_value *= 10.0;
 
-	clamped_value = ll_round(clamped_value);
+	clamped_value = floor(clamped_value + 0.5f); // cheap round
 
 	for (S32 i = 0; i < decimal_precision; i++)
 		clamped_value /= 10.0;

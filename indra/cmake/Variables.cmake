@@ -25,10 +25,12 @@ set(LIBS_OPEN_PREFIX)
 set(SCRIPTS_PREFIX ../scripts)
 set(VIEWER_PREFIX)
 set(INTEGRATION_TESTS_PREFIX)
+
 option(LL_TESTS "Build and run unit and integration tests (disable for build timing runs to reduce variation" OFF)
+option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
 
 # Compiler and toolchain options
-option(USESYSTEMLIBS "Use libraries from your system rather than Linden-supplied prebuilt libraries." OFF)
+option(USESYSTEMLIBS "Use libraries from your system rather than Linden-supplied prebuilt libraries. Works like shit. lol" OFF)
 option(INCREMENTAL_LINK "Use incremental linking on win32 builds (enable for faster links on some machines)" OFF)
 option(USE_PRECOMPILED_HEADERS "Enable use of precompiled header directives where supported." ON)
 option(USE_LTO "Enable global and interprocedural optimizations" OFF)
@@ -43,7 +45,9 @@ elseif((USE_ASAN OR USE_LEAKSAN) AND USE_THDSAN)
   message(FATAL_ERROR "Address and Leak sanitizers are incompatible with thread sanitizer")
 endif(USE_ASAN AND USE_LEAKSAN)
 
-option(UNATTENDED "Disable use of uneeded tooling for automated builds" OFF)
+# Configure crash reporting
+option(RELEASE_CRASH_REPORTING "Enable use of crash reporting in release builds" OFF)
+option(NON_RELEASE_CRASH_REPORTING "Enable use of crash reporting in developer builds" OFF)
 
 # Media Plugins
 option(ENABLE_MEDIA_PLUGINS "Turn off building media plugins if they are imported by third-party library mechanism" ON)
@@ -61,9 +65,6 @@ endif (USE_TCMALLOC AND USE_TBBMALLOC)
 
 # Audio Engines
 option(USE_FMODSTUDIO "Build with support for the FMOD Studio audio engine" OFF)
-
-# Window implementation
-option(LLWINDOW_SDL2 "Use SDL2 for window and input handling" OFF)
 
 # Proprietary Library Features
 option(NVAPI "Use nvapi driver interface library" OFF)
@@ -153,7 +154,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-  set(LINUX ON BOOl FORCE)
+  set(LINUX ON BOOL FORCE)
 
   # If someone has specified a word size, use that to determine the
   # architecture.  Otherwise, let the architecture specify the word size.
@@ -215,7 +216,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 endif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(DARWIN 1)
+  set(DARWIN ON BOOL FORCE)
   
   if (XCODE_VERSION LESS 9.0.0)
     message( FATAL_ERROR "Xcode 9.0.0 or greater is required." )
@@ -267,6 +268,16 @@ endif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 if(MSVC)
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif(MSVC)
+
+
+# Platform speciflol
+if (WINDOWS)
+  option(LLWINDOW_SDL2 "Use SDL2 for window and input handling. Windows only" OFF)
+  option(FAVOR_AMD "Favor amd64 processors in generated code. Windows only" OFF)
+  option(FAVOR_INTEL "Favor intel64 processors in generated code. Windows only" OFF)
+elseif (LINUX)
+  option(CONSERVE_MEMORY "Optimize for memory usage during link stage for memory-starved systems. Linux only" OFF)
+endif()
 
 # Default deploy grid
 set(GRID agni CACHE STRING "Target Grid")

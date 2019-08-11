@@ -29,10 +29,6 @@ set(CMAKE_CXX_FLAGS_RELEASE
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
     "-DLL_RELEASE=1 -DNDEBUG -DLL_RELEASE_WITH_DEBUG_INFO=1")
 
-# Configure crash reporting
-option(RELEASE_CRASH_REPORTING "Enable use of crash reporting in release builds" OFF)
-option(NON_RELEASE_CRASH_REPORTING "Enable use of crash reporting in developer builds" OFF)
-
 if(RELEASE_CRASH_REPORTING)
   set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DLL_SEND_CRASH_REPORTS=1")
 endif()
@@ -157,10 +153,8 @@ if (WINDOWS)
     add_compile_options(/arch:SSE2)
   endif ()
 
-  option(FAVOR_AMD "Favor amd64 processors in generated code" OFF)
-  option(FAVOR_INTEL "Favor intel64 processors in generated code" OFF)
   if(FAVOR_AMD AND FAVOR_INTEL)
-    message(FATAL_ERROR "Cannot enable favor intel and amd at the same time")
+    message(FATAL_ERROR "Cannot enable FAVOR_AMD and FAVOR_INTEL at the same time")
   elseif(FAVOR_AMD)
     add_compile_options(/favor:AMD64)
   elseif(FAVOR_INTEL)
@@ -178,7 +172,6 @@ endif (WINDOWS)
 
 
 if (LINUX)
-  option(CONSERVE_MEMORY "Optimize for memory usage during link stage for memory-starved systems" OFF)
   set(CMAKE_SKIP_RPATH TRUE)
 
   add_compile_options(

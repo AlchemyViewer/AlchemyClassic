@@ -36,6 +36,9 @@
 #include "llframetimer.h"
 #include "llstring.h"
 
+#include "absl/container/flat_hash_map.h"
+#include "absl/container/flat_hash_set.h"
+
 //-----------------------------------------------------------------------------
 // Class predeclaration
 // This is necessary because llcharacter.h includes this file.
@@ -69,7 +72,7 @@ public:
 
 
 protected:
-	typedef std::map<LLUUID, LLMotionConstructor> motion_map_t;
+	typedef absl::flat_hash_map<LLUUID, LLMotionConstructor> motion_map_t;
 	motion_map_t mMotionTable;
 };
 
@@ -79,8 +82,8 @@ protected:
 class LLMotionController
 {
 public:
-	typedef std::list<LLMotion*> motion_list_t;
-	typedef std::set<LLMotion*> motion_set_t;
+	using motion_set_t = absl::flat_hash_set<LLMotion*>;
+	using motion_deque_t = std::deque<LLMotion*>;
 	BOOL mIsSelf;
 	
 public:
@@ -154,7 +157,7 @@ public:
 
     F32 getAnimTime() const { return mAnimTime; }
     
-	motion_list_t& getActiveMotions() { return mActiveMotions; }
+	auto& getActiveMotions() { return mActiveMotions; }
 
 	void incMotionCounts(S32& num_motions, S32& num_loading_motions, S32& num_loaded_motions, S32& num_active_motions, S32& num_deprecated_motions);
 	
@@ -204,12 +207,12 @@ protected:
 //	Once an animations is loaded, it will be initialized and put on the mLoadedMotions list.
 //	Any animation that is currently playing also sits in the mActiveMotions list.
 
-	typedef std::map<LLUUID, LLMotion*> motion_map_t;
+	typedef absl::flat_hash_map<LLUUID, LLMotion*> motion_map_t;
 	motion_map_t	mAllMotions;
 
 	motion_set_t		mLoadingMotions;
 	motion_set_t		mLoadedMotions;
-	motion_list_t		mActiveMotions;
+	motion_set_t		mActiveMotions;
 	motion_set_t		mDeprecatedMotions;
 	
 	LLFrameTimer		mTimer;

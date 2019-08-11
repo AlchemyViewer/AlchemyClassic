@@ -3681,7 +3681,7 @@ LLViewerInventoryItem* recursiveGetObjectInventoryItem(LLViewerObject *vobj, LLU
 
 void LLVOAvatar::updateAnimationDebugText()
 {
-    for (LLMotionController::motion_list_t::iterator iter = mMotionController.getActiveMotions().begin();
+    for (auto iter = mMotionController.getActiveMotions().begin();
          iter != mMotionController.getActiveMotions().end(); ++iter)
     {
         LLMotion* motionp = *iter;

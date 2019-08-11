@@ -177,14 +177,14 @@ void LLMotionController::deleteAllMotions()
 	mLoadedMotions.clear();
 	mActiveMotions.clear();
 
-	for_each(mAllMotions.begin(), mAllMotions.end(), DeletePairedPointer());
+	std::for_each(mAllMotions.begin(), mAllMotions.end(), DeletePairedPointer());
 	mAllMotions.clear();
 
 	// stinson 05/12/20014 : Ownership of the LLMotion pointers is transferred from
 	// mAllMotions to mDeprecatedMotions in method
 	// LLMotionController::deprecateMotionInstance().  Thus, we should also clean
 	// up the mDeprecatedMotions list as well.
-	for_each(mDeprecatedMotions.begin(), mDeprecatedMotions.end(), DeletePointer());
+	std::for_each(mDeprecatedMotions.begin(), mDeprecatedMotions.end(), DeletePointer());
 	mDeprecatedMotions.clear();
 }
 
@@ -196,10 +196,10 @@ void LLMotionController::purgeExcessMotions()
 	if (mLoadedMotions.size() > MAX_MOTION_INSTANCES)
 	{
 		// clean up deprecated motions
-		for (motion_set_t::iterator deprecated_motion_it = mDeprecatedMotions.begin(); 
+		for (auto deprecated_motion_it = mDeprecatedMotions.begin(); 
 			 deprecated_motion_it != mDeprecatedMotions.end(); )
 		{
-			motion_set_t::iterator cur_iter = deprecated_motion_it++;
+			auto cur_iter = deprecated_motion_it++;
 			LLMotion* cur_motionp = *cur_iter;
 			if (!isMotionActive(cur_motionp))
 			{
@@ -211,26 +211,26 @@ void LLMotionController::purgeExcessMotions()
 		}
 	}
 
-	std::set<LLUUID> motions_to_kill;
+	uuid_vec_t motions_to_kill;
 	if (mLoadedMotions.size() > MAX_MOTION_INSTANCES)
 	{
 		// too many motions active this frame, kill all blenders
 		mPoseBlender.clearBlenders();
-		for (motion_set_t::iterator loaded_motion_it = mLoadedMotions.begin(); 
-			 loaded_motion_it != mLoadedMotions.end(); 
+		for (auto loaded_motion_it = mLoadedMotions.cbegin(); 
+			 loaded_motion_it != mLoadedMotions.cend(); 
 			 ++loaded_motion_it)
 		{
 			LLMotion* cur_motionp = *loaded_motion_it;
 			// motion isn't playing, delete it
 			if (!isMotionActive(cur_motionp))
 			{
-				motions_to_kill.insert(cur_motionp->getID());
+				motions_to_kill.push_back(cur_motionp->getID());
 			}
 		}
 	}
 	
 	// clean up all inactive, loaded motions
-	for (std::set<LLUUID>::iterator motion_it = motions_to_kill.begin();
+	for (auto motion_it = motions_to_kill.begin();
 		motion_it != motions_to_kill.end();
 		++motion_it)
 	{
@@ -258,10 +258,10 @@ void LLMotionController::purgeExcessMotions()
 void LLMotionController::deactivateStoppedMotions()
 {
 	// Since we're hidden, deactivate any stopped motions.
-	for (motion_list_t::iterator iter = mActiveMotions.begin();
+	for (auto iter = mActiveMotions.begin();
 		 iter != mActiveMotions.end(); )
 	{
-		motion_list_t::iterator curiter = iter++;
+		auto curiter = iter++;
 		LLMotion* motionp = *curiter;
 		if (motionp->isStopped())
 		{
@@ -280,10 +280,8 @@ void LLMotionController::setTimeStep(F32 step)
 	if (step != 0.f)
 	{
 		// make sure timestamps conform to new quantum
-		for (motion_list_t::iterator iter = mActiveMotions.begin();
-			 iter != mActiveMotions.end(); ++iter)
+		for(auto motionp : mActiveMotions)
 		{
-			LLMotion* motionp = *iter;
 			F32 activation_time = motionp->mActivationTimestamp;
 			motionp->mActivationTimestamp = (F32)(llfloor(activation_time / step)) * step;
 			BOOL stopped = motionp->isStopped();
@@ -341,7 +339,7 @@ void LLMotionController::removeMotionInstance(LLMotion* motionp)
 			motionp->deactivate();
 		mLoadingMotions.erase(motionp);
 		mLoadedMotions.erase(motionp);
-		mActiveMotions.remove(motionp);
+		mActiveMotions.erase(motionp);
 		delete motionp;
 	}
 }
@@ -381,18 +379,22 @@ LLMotion* LLMotionController::createMotion( const LLUUID &id )
 			delete motion;
 			return nullptr;
 		case LLMotion::STATUS_HOLD:
-			mLoadingMotions.insert(motion);
+			mLoadingMotions.emplace(motion);
 			break;
 		case LLMotion::STATUS_SUCCESS:
 		    // add motion to our list
-		    mLoadedMotions.insert(motion);
+		    mLoadedMotions.emplace(motion);
 			break;
 		default:
 			LL_ERRS() << "Invalid initialization status" << LL_ENDL;
 			break;
 		}
 
-		mAllMotions[id] = motion;
+		auto res_pair = mAllMotions.try_emplace(id, motion);
+		if (!res_pair.second && res_pair.first != mAllMotions.cend())
+		{
+			res_pair.first->second = motion;
+		}
 	}
 	return motion;
 }
@@ -546,10 +548,10 @@ void LLMotionController::updateIdleMotion(LLMotion* motionp)
 //-----------------------------------------------------------------------------
 void LLMotionController::updateIdleActiveMotions()
 {
-	for (motion_list_t::iterator iter = mActiveMotions.begin();
+	for (auto iter = mActiveMotions.begin();
 		 iter != mActiveMotions.end(); )
 	{
-		motion_list_t::iterator curiter = iter++;
+		auto curiter = iter++;
 		LLMotion* motionp = *curiter;
 		updateIdleMotion(motionp);
 	}
@@ -566,10 +568,10 @@ void LLMotionController::updateMotionsByType(LLMotion::LLMotionBlendType anim_ty
 	U8 last_joint_signature[LL_CHARACTER_MAX_ANIMATED_JOINTS] = {0};
 
 	// iterate through active motions in chronological order
-	for (motion_list_t::iterator iter = mActiveMotions.begin();
+	for (auto iter = mActiveMotions.begin();
 		 iter != mActiveMotions.end(); )
 	{
-		motion_list_t::iterator curiter = iter++;
+		auto curiter = iter++;
 		LLMotion* motionp = *curiter;
 		if (motionp->getBlendType() != anim_type)
 		{
@@ -775,10 +777,10 @@ void LLMotionController::updateMotionsByType(LLMotion::LLMotionBlendType anim_ty
 void LLMotionController::updateLoadingMotions()
 {
 	// query pending motions for completion
-	for (motion_set_t::iterator iter = mLoadingMotions.begin();
+	for (auto iter = mLoadingMotions.begin();
 		 iter != mLoadingMotions.end(); )
 	{
-		motion_set_t::iterator curiter = iter++;
+		auto curiter = iter++;
 		LLMotion* motionp = *curiter;
 		if( !motionp)
 		{
@@ -789,7 +791,7 @@ void LLMotionController::updateLoadingMotions()
 		{
 			mLoadingMotions.erase(curiter);
 			// add motion to our loaded motion list
-			mLoadedMotions.insert(motionp);
+			mLoadedMotions.emplace(motionp);
 			// this motion should be playing
 			if (!motionp->isStopped())
 			{
@@ -801,8 +803,8 @@ void LLMotionController::updateLoadingMotions()
 			LL_INFOS() << "Motion " << motionp->getID() << " init failed." << LL_ENDL;
 			sRegistry.markBad(motionp->getID());
 			mLoadingMotions.erase(curiter);
-			motion_set_t::iterator found_it = mDeprecatedMotions.find(motionp);
-			if (found_it != mDeprecatedMotions.end())
+			const auto found_it = mDeprecatedMotions.find(motionp);
+			if (found_it != mDeprecatedMotions.cend())
 			{
 				mDeprecatedMotions.erase(found_it);
 			}
@@ -937,7 +939,7 @@ BOOL LLMotionController::activateMotionInstance(LLMotion *motion, F32 time)
 		return FALSE;	
 	}
 
-	if (mLoadingMotions.find(motion) != mLoadingMotions.end())
+	if (mLoadingMotions.find(motion) != mLoadingMotions.cend())
 	{
 		// we want to start this motion, but we can't yet, so flag it as started
 		motion->setStopped(FALSE);
@@ -969,9 +971,9 @@ BOOL LLMotionController::activateMotionInstance(LLMotion *motion, F32 time)
 	
 	if (motion->isActive())
 	{
-		mActiveMotions.remove(motion);
+		mActiveMotions.erase(motion);
 	}
-	mActiveMotions.push_front(motion);
+	mActiveMotions.emplace(motion);
 
 	motion->activate(time);
 	motion->onUpdate(0.f, mJointSignature[1]);
@@ -996,8 +998,8 @@ BOOL LLMotionController::deactivateMotionInstance(LLMotion *motion)
 {
 	motion->deactivate();
 
-	motion_set_t::iterator found_it = mDeprecatedMotions.find(motion);
-	if (found_it != mDeprecatedMotions.end())
+	const auto found_it = mDeprecatedMotions.find(motion);
+	if (found_it != mDeprecatedMotions.cend())
 	{
 		// deprecated motions need to be completely excised
 		removeMotionInstance(motion);	
@@ -1006,7 +1008,7 @@ BOOL LLMotionController::deactivateMotionInstance(LLMotion *motion)
 	else
 	{
 		// for motions that we are keeping, simply remove from active queue
-		mActiveMotions.remove(motion);
+		mActiveMotions.erase(motion);
 	}
 
 	return TRUE;
@@ -1014,7 +1016,7 @@ BOOL LLMotionController::deactivateMotionInstance(LLMotion *motion)
 
 void LLMotionController::deprecateMotionInstance(LLMotion* motion)
 {
-	mDeprecatedMotions.insert(motion);
+	mDeprecatedMotions.emplace(motion);
 
 	//fade out deprecated motion
 	stopMotionInstance(motion, FALSE);
@@ -1035,7 +1037,7 @@ bool LLMotionController::isMotionActive(LLMotion *motion)
 //-----------------------------------------------------------------------------
 bool LLMotionController::isMotionLoading(LLMotion* motion)
 {
-	return (mLoadingMotions.find(motion) != mLoadingMotions.end());
+	return (mLoadingMotions.find(motion) != mLoadingMotions.cend());
 }
 
 
@@ -1044,8 +1046,8 @@ bool LLMotionController::isMotionLoading(LLMotion* motion)
 //-----------------------------------------------------------------------------
 LLMotion* LLMotionController::findMotion(const LLUUID& id) const
 {
-	motion_map_t::const_iterator iter = mAllMotions.find(id);
-	if(iter == mAllMotions.end())
+	const auto iter = mAllMotions.find(id);
+	if(iter == mAllMotions.cend())
 	{
 		return nullptr;
 	}
@@ -1061,19 +1063,19 @@ LLMotion* LLMotionController::findMotion(const LLUUID& id) const
 void LLMotionController::dumpMotions()
 {
 	LL_INFOS() << "=====================================" << LL_ENDL;
-	for (motion_map_t::iterator iter = mAllMotions.begin();
-		 iter != mAllMotions.end(); ++iter)
+	for (auto iter = mAllMotions.cbegin();
+		 iter != mAllMotions.cend(); ++iter)
 	{
 		LLUUID id = iter->first;
 		std::string state_string;
 		LLMotion *motion = iter->second;
-		if (mLoadingMotions.find(motion) != mLoadingMotions.end())
+		if (mLoadingMotions.find(motion) != mLoadingMotions.cend())
 			state_string += std::string("l");
-		if (mLoadedMotions.find(motion) != mLoadedMotions.end())
+		if (mLoadedMotions.find(motion) != mLoadedMotions.cend())
 			state_string += std::string("L");
-		if (std::find(mActiveMotions.begin(), mActiveMotions.end(), motion)!=mActiveMotions.end())
+		if (mActiveMotions.find(motion) != mActiveMotions.cend())
 			state_string += std::string("A");
-		if (mDeprecatedMotions.find(motion) != mDeprecatedMotions.end())
+		if (mDeprecatedMotions.find(motion) != mDeprecatedMotions.cend())
 			state_string += std::string("D");
 		LL_INFOS() << gAnimLibrary.animationName(id) << " " << state_string << LL_ENDL;
 		
@@ -1085,8 +1087,8 @@ void LLMotionController::dumpMotions()
 //-----------------------------------------------------------------------------
 void LLMotionController::deactivateAllMotions()
 {
-	for (motion_map_t::iterator iter = mAllMotions.begin();
-		 iter != mAllMotions.end(); ++iter)
+	for (auto iter = mAllMotions.cbegin();
+		 iter != mAllMotions.cend(); ++iter)
 	{
 		LLMotion* motionp = iter->second;
 		deactivateMotionInstance(motionp);
@@ -1101,11 +1103,8 @@ void LLMotionController::flushAllMotions()
 {
 	std::vector<std::pair<LLUUID,F32> > active_motions;
 	active_motions.reserve(mActiveMotions.size());
-	for (motion_list_t::iterator iter = mActiveMotions.begin();
-		 iter != mActiveMotions.end(); )
+	for(auto motionp : mActiveMotions)
 	{
-		motion_list_t::iterator curiter = iter++;
-		LLMotion* motionp = *curiter;
 		F32 dtime = mAnimTime - motionp->mActivationTimestamp;
 		active_motions.push_back(std::make_pair(motionp->getID(),dtime));
 		motionp->deactivate(); // don't call deactivateMotionInstance() because we are going to reactivate it
@@ -1120,10 +1119,9 @@ void LLMotionController::flushAllMotions()
 	mCharacter->removeAnimationData("Hand Pose");
 
 	// restart motions
-	for (std::vector<std::pair<LLUUID,F32> >::iterator iter = active_motions.begin();
-		 iter != active_motions.end(); ++iter)
+	for (const auto& pair : active_motions)
 	{
-		startMotion(iter->first, iter->second);
+		startMotion(pair.first, pair.second);
 	}
 }
 

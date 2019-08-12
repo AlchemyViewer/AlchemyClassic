@@ -2163,7 +2163,6 @@ EAcceptance LLToolDragAndDrop::dad3dActivateGesture(
 
 		if( drop )
 		{
-			LLUUID item_id;
 			if(mSource == SOURCE_LIBRARY)
 			{
 				// create item based on that one, and put it on if that

@@ -488,8 +488,6 @@ void LLPanelGroupGeneral::update(LLGroupChange gc)
 
 		if (is_member)
 		{
-			LLUUID current_title_role;
-
 			mComboActiveTitle->clear();
 			mComboActiveTitle->removeall();
 			bool has_selected_title = false;

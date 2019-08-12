@@ -569,8 +569,6 @@ protected:
 
 void LLAudioDecodeMgr::Impl::processQueue(const F32 num_secs)
 {
-	LLUUID uuid;
-
 	LLTimer decode_timer;
 
 	BOOL done = FALSE;

@@ -29,6 +29,7 @@
 
 #include <boost/unordered_map.hpp>
 #include <absl/container/flat_hash_map.h>
+#include <absl/container/flat_hash_set.h>
 
 // common includes
 #include "lltrace.h"
@@ -204,7 +205,7 @@ protected:
 
 	vobj_list_t mMapObjects;
 
-    uuid_set_t   mDeadObjects;
+    absl::flat_hash_set<LLUUID>   mDeadObjects;
 
 	absl::flat_hash_map<LLUUID, LLPointer<LLViewerObject> > mUUIDObjectMap;
 

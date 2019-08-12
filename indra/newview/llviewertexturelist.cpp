@@ -720,16 +720,8 @@ void LLViewerTextureList::addImage(LLViewerFetchedTexture *new_image, ETexListTy
 	sNumImages++;
 
 	addImageToList(new_image);
-	auto uuidm_pair = mUUIDMap.try_emplace(key, new_image);
-	if (!uuidm_pair.second && uuidm_pair.first != mUUIDMap.cend())
-	{
-		uuidm_pair.first->second = new_image;
-	}
-	auto uuidhm_pair = mUUIDHashMap.try_emplace(key, new_image);
-	if (!uuidhm_pair.second && uuidhm_pair.first != mUUIDHashMap.cend())
-	{
-		uuidhm_pair.first->second = new_image;
-	}
+	mUUIDMap.insert_or_assign({ image_id, tex_type }, new_image);
+	mUUIDHashMap.insert_or_assign({ image_id, tex_type }, new_image);
 	new_image->setTextureListType(tex_type);
 }
 

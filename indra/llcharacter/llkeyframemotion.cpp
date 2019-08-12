@@ -2435,11 +2435,7 @@ void LLKeyframeDataCache::dumpDiagInfo()
 //--------------------------------------------------------------------
 void LLKeyframeDataCache::addKeyframeData(const LLUUID& id, LLKeyframeMotion::JointMotionList* joint_motion_listp)
 {
-	auto ins_pair = sKeyframeDataMap.emplace(id, joint_motion_listp);
-	if (!ins_pair.second && ins_pair.first != sKeyframeDataMap.cend())
-	{
-		ins_pair.first->second = joint_motion_listp;
-	}
+	sKeyframeDataMap.insert_or_assign(id, joint_motion_listp);
 }
 
 //--------------------------------------------------------------------

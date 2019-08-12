@@ -98,7 +98,7 @@ BOOL LLMotionRegistry::registerMotion( const LLUUID& id, LLMotionConstructor con
 //-----------------------------------------------------------------------------
 void LLMotionRegistry::markBad( const LLUUID& id )
 {
-	mMotionTable[id] = LLMotionConstructor(nullptr);
+	mMotionTable.insert_or_assign(id, LLMotionConstructor(nullptr));
 }
 
 //-----------------------------------------------------------------------------
@@ -390,11 +390,7 @@ LLMotion* LLMotionController::createMotion( const LLUUID &id )
 			break;
 		}
 
-		auto res_pair = mAllMotions.try_emplace(id, motion);
-		if (!res_pair.second && res_pair.first != mAllMotions.cend())
-		{
-			res_pair.first->second = motion;
-		}
+		mAllMotions.insert_or_assign(id, motion);
 	}
 	return motion;
 }

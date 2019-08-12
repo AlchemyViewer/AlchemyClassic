@@ -2019,12 +2019,7 @@ LLViewerObject *LLViewerObjectList::createObjectViewer(const LLPCode pcode, LLVi
 		return nullptr;
 	}
 
-	const auto& iter_pair = mUUIDObjectMap.try_emplace(fullid, objectp);
-	if (!iter_pair.second && iter_pair.first != mUUIDObjectMap.end())
-	{
-		iter_pair.first->second = objectp;
-		//LL_WARNS("ObjectUpdate") << "Object already exists in object map " << iter_pair.first->first << LL_ENDL;
-	}
+	mUUIDObjectMap.insert_or_assign(fullid, objectp);
 
 	mObjects.push_back(objectp);
 
@@ -2048,12 +2043,7 @@ LLViewerObject *LLViewerObjectList::createObjectFromCache(const LLPCode pcode, L
 	}
 
 	objectp->mLocalID = local_id;
-	const auto& iter_pair = mUUIDObjectMap.try_emplace(uuid, objectp);
-	if (!iter_pair.second && iter_pair.first != mUUIDObjectMap.end())
-	{
-		iter_pair.first->second = objectp;
-		//LL_WARNS("ObjectUpdate") << "Object already exists in object map " << iter_pair.first->first << LL_ENDL;
-	}
+	mUUIDObjectMap.insert_or_assign(uuid, objectp);
 
 	setUUIDAndLocal(uuid,
 					local_id,
@@ -2094,12 +2084,7 @@ LLViewerObject *LLViewerObjectList::createObject(const LLPCode pcode, LLViewerRe
 		regionp->addToCreatedList(local_id); 
 	}
 
-	const auto& iter_pair = mUUIDObjectMap.try_emplace(fullid, objectp);
-	if (!iter_pair.second && iter_pair.first != mUUIDObjectMap.end())
-	{
-		iter_pair.first->second = objectp;
-		//LL_WARNS("ObjectUpdate") << "Object already exists in object map " << iter_pair.first->first << LL_ENDL;
-	}
+	mUUIDObjectMap.insert_or_assign(fullid, objectp);
 	setUUIDAndLocal(fullid,
 					local_id,
 					gMessageSystem->getSenderIP(),

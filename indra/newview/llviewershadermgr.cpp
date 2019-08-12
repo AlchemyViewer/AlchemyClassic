@@ -1160,7 +1160,7 @@ BOOL LLViewerShaderMgr::loadShadersDeferred()
 		gDeferredHighlightNormalProgram.mShaderFiles.push_back(std::make_pair("interface/highlightNormV.glsl", GL_VERTEX_SHADER_ARB));
 		gDeferredHighlightNormalProgram.mShaderFiles.push_back(std::make_pair("deferred/highlightF.glsl", GL_FRAGMENT_SHADER_ARB));
 		gDeferredHighlightNormalProgram.mShaderLevel = mVertexShaderLevel[SHADER_INTERFACE];		
-		success = gHighlightNormalProgram.createShader(NULL, NULL);
+		success = gDeferredHighlightNormalProgram.createShader(NULL, NULL);
 	}
 
 	if (success)

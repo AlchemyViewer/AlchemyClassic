@@ -46,6 +46,7 @@
 #include "llexception.h"
 #include "stringize.h"
 
+#include "absl/container/flat_hash_map.h"
 #include <map>
 #include <set>
 
@@ -73,18 +74,18 @@ namespace LLAvatarNameCache
 
 	// Agent IDs that have been requested, but with no reply.
 	// Maps agent ID to frame time request was made.
-	typedef std::map<LLUUID, F64> pending_queue_t;
+	typedef absl::flat_hash_map<LLUUID, F64> pending_queue_t;
 	pending_queue_t sPendingQueue;
 
 	// Callbacks to fire when we received a name.
 	// May have multiple callbacks for a single ID, which are
 	// represented as multiple slots bound to the signal.
 	// Avoid copying signals via pointers.
-	typedef std::map<LLUUID, callback_signal_t*> signal_map_t;
+	typedef absl::flat_hash_map<LLUUID, callback_signal_t*> signal_map_t;
 	signal_map_t sSignalMap;
 
 	// The cache at last, i.e. avatar names we know about.
-	typedef std::map<LLUUID, LLAvatarName> cache_t;
+	typedef absl::flat_hash_map<LLUUID, LLAvatarName> cache_t;
 	cache_t sCache;
 
 	// Send bulk lookup requests a few times a second at most.
@@ -307,7 +308,7 @@ void LLAvatarNameCache::handleAvNameCacheSuccess(const LLSD &data, const LLSD &h
 // Provide some fallback for agents that return errors
 void LLAvatarNameCache::handleAgentError(const LLUUID& agent_id)
 {
-	std::map<LLUUID,LLAvatarName>::iterator existing = sCache.find(agent_id);
+	auto existing = sCache.find(agent_id);
 	if (existing == sCache.end())
     {
         // there is no existing cache entry, so make a temporary name from legacy
@@ -341,13 +342,13 @@ void LLAvatarNameCache::processName(const LLUUID& agent_id, const LLAvatarName& 
 	}
 
 	// Add to the cache
-	sCache[agent_id] = av_name;
+	sCache.insert_or_assign(agent_id, av_name);
 
 	// Suppress request from the queue
 	sPendingQueue.erase(agent_id);
 
 	// Signal everyone waiting on this name
-	signal_map_t::iterator sig_it =	sSignalMap.find(agent_id);
+	auto sig_it = sSignalMap.find(agent_id);
 	if (sig_it != sSignalMap.end())
 	{
 		callback_signal_t* signal = sig_it->second;
@@ -402,7 +403,7 @@ void LLAvatarNameCache::requestNamesViaCapability()
 		agent_ids.push_back(agent_id);
 
 		// mark request as pending
-		sPendingQueue[agent_id] = now;
+		sPendingQueue.insert_or_assign(agent_id, now);
 
 		if (url.size() > NAME_URL_SEND_THRESHOLD)
 		{
@@ -432,7 +433,7 @@ void LLAvatarNameCache::legacyNameCallback(const LLUUID& agent_id,
 	// Retrieve the name and set it to never (or almost never...) expire: when we are using the legacy
 	// protocol, we do not get an expiration date for each name and there's no reason to ask the 
 	// data again and again so we set the expiration time to the largest value admissible.
-	std::map<LLUUID,LLAvatarName>::iterator av_record = sCache.find(agent_id);
+	auto av_record = sCache.find(agent_id);
 	LLAvatarName& av_name = av_record->second;
 	av_name.setExpires(MAX_UNREFRESHED_TIME);
 }
@@ -467,7 +468,7 @@ void LLAvatarNameCache::requestNamesViaLegacy()
 
 		// Mark as pending first, just in case the callback is immediately
 		// invoked below.  This should never happen in practice.
-		sPendingQueue[agent_id] = now;
+		sPendingQueue.insert_or_assign(agent_id, now);
 
 		LL_DEBUGS("AvNameCache") << "agent " << agent_id << LL_ENDL;
 
@@ -516,7 +517,7 @@ bool LLAvatarNameCache::importFile(std::istream& istr)
 	{
 		agent_id.set(it->first);
 		av_name.fromLLSD( it->second );
-		sCache[agent_id] = av_name;
+		sCache.insert_or_assign(agent_id, av_name);
 	}
     LL_INFOS("AvNameCache") << "LLAvatarNameCache loaded " << sCache.size() << LL_ENDL;
 	// Some entries may have expired since the cache was stored,
@@ -606,7 +607,7 @@ bool LLAvatarNameCache::isRequestPending(const LLUUID& agent_id)
 	bool isPending = false;
 	const F64 PENDING_TIMEOUT_SECS = 5.0 * 60.0;
 
-	pending_queue_t::const_iterator it = sPendingQueue.find(agent_id);
+	const auto it = sPendingQueue.find(agent_id);
 	if (it != sPendingQueue.end())
 	{
 		// in the list of requests in flight, retry if too old
@@ -654,7 +655,7 @@ bool LLAvatarNameCache::get(const LLUUID& agent_id, LLAvatarName *av_name)
 	if (sRunning)
 	{
 		// ...only do immediate lookups when cache is running
-		std::map<LLUUID,LLAvatarName>::iterator it = sCache.find(agent_id);
+		auto it = sCache.find(agent_id);
 		if (it != sCache.end())
 		{
 			*av_name = it->second;
@@ -699,7 +700,7 @@ LLAvatarNameCache::callback_connection_t LLAvatarNameCache::get(const LLUUID& ag
 	if (sRunning)
 	{
 		// ...only do immediate lookups when cache is running
-		std::map<LLUUID,LLAvatarName>::iterator it = sCache.find(agent_id);
+		auto it = sCache.find(agent_id);
 		if (it != sCache.end())
 		{
 			const LLAvatarName& av_name = it->second;
@@ -720,13 +721,13 @@ LLAvatarNameCache::callback_connection_t LLAvatarNameCache::get(const LLUUID& ag
 	}
 
 	// always store additional callback, even if request is pending
-	signal_map_t::iterator sig_it = sSignalMap.find(agent_id);
+	auto sig_it = sSignalMap.find(agent_id);
 	if (sig_it == sSignalMap.end())
 	{
 		// ...new callback for this id
 		callback_signal_t* signal = new callback_signal_t();
 		connection = signal->connect(slot);
-		sSignalMap[agent_id] = signal;
+		sSignalMap.insert_or_assign(agent_id, signal);
 	}
 	else
 	{
@@ -765,18 +766,16 @@ void LLAvatarNameCache::erase(const LLUUID& agent_id)
 void LLAvatarNameCache::insert(const LLUUID& agent_id, const LLAvatarName& av_name)
 {
 	// *TODO: update timestamp if zero?
-	sCache[agent_id] = av_name;
+	sCache.insert_or_assign(agent_id, av_name);
 }
 
 LLUUID LLAvatarNameCache::findIdByName(const std::string& name)
 {
-    std::map<LLUUID, LLAvatarName>::iterator it;
-    std::map<LLUUID, LLAvatarName>::iterator end = sCache.end();
-    for (it = sCache.begin(); it != end; ++it)
+	for(const auto& item_pair : sCache)
     {
-        if (it->second.getUserName() == name)
+        if (item_pair.second.getUserName() == name)
         {
-            return it->first;
+            return item_pair.first;
         }
     }
 

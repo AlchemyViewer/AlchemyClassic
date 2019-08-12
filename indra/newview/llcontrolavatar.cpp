@@ -534,7 +534,9 @@ void LLControlAvatar::updateAnimations()
                 // Animation not already present, use this sequence id.
                 anims[anim_it->first] = anim_it->second;
             }
+#if LL_DEBUG
             LL_DEBUGS("AnimatedObjectsNotify") << "found anim for vol " << volp->getID() << " anim " << anim_it->first << " root " << mRootVolp->getID() << LL_ENDL;
+#endif
         }
     }
     if (!mPlaying)

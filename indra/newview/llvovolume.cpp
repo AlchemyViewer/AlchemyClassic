@@ -1482,13 +1482,14 @@ BOOL LLVOVolume::calcLOD()
 
 	if (cur_detail != mLOD)
 	{
+#if LL_DEBUG
         LL_DEBUGS("DynamicBox","CalcLOD") << "new LOD " << cur_detail << " change from " << mLOD 
                              << " distance " << distance << " radius " << radius << " rampDist " << rampDist
                              << " drawable rigged? " << (mDrawable ? (S32) mDrawable->isState(LLDrawable::RIGGED) : (S32) -1)
 							 << " mRiggedVolume " << (void*)getRiggedVolume()
                              << " distanceWRTCamera " << (mDrawable ? mDrawable->mDistanceWRTCamera : -1.f)
                              << LL_ENDL;
-        
+#endif
 		mAppAngle = ll_round((F32) atan2( mDrawable->getRadius(), mDrawable->mDistanceWRTCamera) * RAD_TO_DEG, 0.01f);
 		mLOD = cur_detail;		
 
@@ -1694,11 +1695,13 @@ BOOL LLVOVolume::genBBoxes(BOOL force_global)
 	}
 
     bool any_valid_boxes = false;
-    
+
+#if LL_DEBUG
     if (getRiggedVolume())
     {
         LL_DEBUGS("RiggedBox") << "rebuilding box, volume face count " << getVolume()->getNumVolumeFaces() << " drawable face count " << mDrawable->getNumFaces() << LL_ENDL;
     }
+#endif
     // There's no guarantee that getVolume()->getNumFaces() == mDrawable->getNumFaces()
 	for (S32 i = 0;
 		 i < getVolume()->getNumVolumeFaces() && i < mDrawable->getNumFaces() && i < getNumTEs();
@@ -1722,10 +1725,12 @@ BOOL LLVOVolume::genBBoxes(BOOL force_global)
         }
 		if (rebuild)
 		{
+#if LL_DEBUG
             if (getRiggedVolume())
             {
                 LL_DEBUGS("RiggedBox") << "rebuilding box, face " << i << " extents " << face->mExtents[0] << ", " << face->mExtents[1] << LL_ENDL;
             }
+#endif
 			if (!any_valid_boxes)
 			{
 				min = face->mExtents[0];
@@ -1744,10 +1749,12 @@ BOOL LLVOVolume::genBBoxes(BOOL force_global)
     {
         if (rebuild)
         {
+#if LL_DEBUG
             if (getRiggedVolume())
             {
                 LL_DEBUGS("RiggedBox") << "rebuilding got extents " << min << ", " << max << LL_ENDL;
             }
+#endif
             mDrawable->setSpatialExtents(min,max);
             min.add(max);
             min.mul(0.5f);
@@ -1757,10 +1764,12 @@ BOOL LLVOVolume::genBBoxes(BOOL force_global)
         updateRadius();
         mDrawable->movePartition();
     }
+#if LL_DEBUG
     else
     {
         LL_DEBUGS("RiggedBox") << "genBBoxes failed to find any valid face boxes" << LL_ENDL;
     }
+#endif
 				
 	return res;
 }
@@ -3729,7 +3738,9 @@ void LLVOVolume::updateRiggingInfo()
         LLVolume *volume = getVolume();
         if (skin && avatar && volume)
         {
+#if LL_DEBUG
             LL_DEBUGS("RigSpammish") << "starting, vovol " << this << " lod " << getLOD() << " last " << mLastRiggingInfoLOD << LL_ENDL;
+#endif
             if (getLOD()>mLastRiggingInfoLOD || getLOD()==3)
             {
                 // Rigging info may need update
@@ -3745,9 +3756,11 @@ void LLVOVolume::updateRiggingInfo()
                 }
                 // Keep the highest LOD info available.
                 mLastRiggingInfoLOD = getLOD();
+#if LL_DEBUG
                 LL_DEBUGS("RigSpammish") << "updated rigging info for LLVOVolume " 
                                          << this << " lod " << mLastRiggingInfoLOD 
                                          << LL_ENDL;
+#endif
             }
         }
     }
@@ -4796,7 +4809,9 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 
     S32 rigged_vert_count = 0;
     S32 rigged_face_count = 0;
+#if LL_DEBUG
     LLVector4a box_min, box_max;
+#endif
 	for (S32 i = 0; i < volume->getNumVolumeFaces(); ++i)
 	{
 		const LLVolumeFace& vol_face = volume->getVolumeFace(i);
@@ -4836,21 +4851,22 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 
 				min = pos[0];
 				max = pos[1];
+#if LL_DEBUG
                 if (i==0)
                 {
                     box_min = min;
                     box_max = max;
                 }
-
+#endif
 				for (U32 j = 1; j < dst_face.mNumVertices; ++j)
 				{
 					min.setMin(min, pos[j]);
 					max.setMax(max, pos[j]);
 				}
-
+#if LL_DEBUG
                 box_min.setMin(min,box_min);
                 box_max.setMax(max,box_max);
-
+#endif
 				dst_face.mCenter->setAdd(dst_face.mExtents[0], dst_face.mExtents[1]);
 				dst_face.mCenter->mul(0.5f);
 
@@ -4861,18 +4877,16 @@ void LLRiggedVolume::update(const LLMeshSkinInfo* skin, LLVOAvatar* avatar, cons
 				delete dst_face.mOctree;
 				dst_face.mOctree = NULL;
 
-				LLVector4a size;
-				size.setSub(dst_face.mExtents[1], dst_face.mExtents[0]);
-				size.splat(size.getLength3().getF32()*0.5f);
-			
 				dst_face.createOctree(1.f);
 			}
 		}
 	}
+#if LL_DEBUG
     mExtraDebugText = llformat("rigged %d/%d - box (%f %f %f) (%f %f %f)",
                                rigged_face_count, rigged_vert_count,
                                box_min[0], box_min[1], box_min[2],
                                box_max[0], box_max[1], box_max[2]);
+#endif
 }
 
 U32 LLVOVolume::getPartitionType() const

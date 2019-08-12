@@ -6622,6 +6622,7 @@ LLVOPartGroup* LLPipeline::lineSegmentIntersectParticle(const LLVector4a& start,
 	LLVector4a local_end = end;
 
 	LLVector4a position;
+	position.clear();
 
 	LLDrawable* drawable = nullptr;
 
@@ -6671,6 +6672,7 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 	LLVector4a local_end = end;
 
 	LLVector4a position;
+	position.clear();
 
 	sPickAvatar = false; //! LLToolMgr::getInstance()->inBuildMode();
 	

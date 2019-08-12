@@ -794,5 +794,6 @@ public:
 	}
 } LL_ALIGN_POSTFIX(16);
 
-static_assert(std::is_trivially_copyable<LLMatrix4a>{}, "LLMatrix4a must be a trivially copyable type");
+static_assert(std::is_trivial<LLMatrix4a>{}, "LLMatrix4a must be a trivial type");
+static_assert(std::is_standard_layout<LLMatrix4a>{}, "LLMatrix4a must be a standard layout type");
 #endif

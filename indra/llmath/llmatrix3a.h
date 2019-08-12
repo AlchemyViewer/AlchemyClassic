@@ -57,7 +57,7 @@ public:
 	//////////////////////////
 	
 	// Ctor
-	LLMatrix3a() {}
+	LLMatrix3a() = default;
 
 	// Ctor for setting by columns
 	inline LLMatrix3a( const LLVector4a& c0, const LLVector4a& c1, const LLVector4a& c2 );
@@ -121,12 +121,14 @@ class LLRotation : public LLMatrix3a
 {
 public:
 	
-	LLRotation() {}
+	LLRotation() = default;
 	
 	// Returns true if this rotation is orthonormal with det ~= 1
 	inline bool isOkRotation() const;		
 } LL_ALIGN_POSTFIX(16);
+static_assert(std::is_trivial<LLMatrix3a>{}, "LLMatrix3a must be a trivial type");
+static_assert(std::is_standard_layout<LLMatrix3a>{}, "LLMatrix3a must be a standard layout type");
 
-static_assert(std::is_trivially_copyable<LLMatrix3a>{}, "LLMatrix3a must be a trivially copyable type");
-static_assert(std::is_trivially_copyable<LLRotation>{}, "LLRotation must be a trivially copyable type");
+static_assert(std::is_trivial<LLRotation>{}, "LLRotation must be a trivial type");
+static_assert(std::is_standard_layout<LLRotation>{}, "LLRotation must be a standard layout type");
 #endif

@@ -95,10 +95,10 @@ public:
 	// CONSTRUCTORS 
 	////////////////////////////////////
 	
-	LLVector4a()
-	{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
+	LLVector4a() = default;
+	/*{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
 		ll_assert_aligned(this,16);
-	}
+	}*/
 	
 	LLVector4a(F32 x, F32 y, F32 z, F32 w = 0.f)
 	{
@@ -391,10 +391,10 @@ public:
 	// CONSTRUCTORS 
 	////////////////////////////////////
 
-	LLIVector4a()
-	{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
+	LLIVector4a() = default;
+	/*{ //DO NOT INITIALIZE -- The overhead is completely unnecessary
 		ll_assert_aligned(this, 16);
-	}
+	}*/
 
 	//LLIVector4a(S32 x, S32 y, S32 z, S32 w = 0)
 	//{
@@ -497,7 +497,9 @@ private:
 	LLIQuad mQ;
 } LL_ALIGN_POSTFIX(16);
 
-static_assert(std::is_trivially_copyable<LLVector4a>{}, "LLVector4a must be a trivially copyable type");
-static_assert(std::is_trivially_copyable<LLIVector4a>{}, "LLIVector4a must be a trivially copyable type");
+static_assert(std::is_trivial<LLVector4a>{}, "LLVector4a must be a trivial type");
+static_assert(std::is_standard_layout<LLVector4a>{}, "LLVector4a must be a standard layout type");
+static_assert(std::is_trivial<LLIVector4a>{}, "LLIVector4a must be a trivial type");
+static_assert(std::is_standard_layout<LLIVector4a>{}, "LLIVector4a must be a standard layout type");
 
 #endif

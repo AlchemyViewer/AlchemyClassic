@@ -50,7 +50,7 @@ public:
 	//////////////////////////
 	
 	// Ctor
-	LLQuaternion2() {}
+	LLQuaternion2() = default;
 
 	// Ctor from LLQuaternion
 	explicit LLQuaternion2( const class LLQuaternion& quat );
@@ -105,6 +105,7 @@ protected:
 
 } LL_ALIGN_POSTFIX(16);
 
-static_assert(std::is_trivially_copyable<LLQuaternion2>{}, "LLQuaternion2 must be a trivially copyable type");
+static_assert(std::is_trivial<LLQuaternion2>{}, "LLQuaternion2 must be a trivial type");
+static_assert(std::is_standard_layout<LLQuaternion2>{}, "LLQuaternion2 must be a standard layout type");
 
 #endif

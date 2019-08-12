@@ -53,7 +53,7 @@ public:
 	//
 	// CREATORS
 	//
-	LLUUID();
+	LLUUID() = default;
 	explicit LLUUID(const char *in_string); // Convert from string.
 	explicit LLUUID(const std::string& in_string); // Convert from string.
 	LLUUID(const LLUUID &rhs) = default;
@@ -147,10 +147,10 @@ public:
 
 	static BOOL parseUUID(const std::string& buf, LLUUID* value);
 
-	U8 mData[UUID_BYTES];
+	U8 mData[UUID_BYTES] = {};
 };
-
-static_assert(std::is_trivially_copyable<LLUUID>{}, "LLUUID must be a trivially copyable type");
+//static_assert(std::is_trivial<LLUUID>{}, "LLUUID must be a trivial type");
+static_assert(std::is_standard_layout<LLUUID>{}, "LLUUID must be a standard layout type");
 
 typedef std::vector<LLUUID> uuid_vec_t;
 typedef std::set<LLUUID> uuid_set_t;

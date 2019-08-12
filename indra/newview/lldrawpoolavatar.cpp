@@ -1949,14 +1949,14 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 			if (sShaderLevel > 0)
 			{
 				auto& mesh_cache = avatar->getRiggedMatrixCache();
-				auto& mesh_id = skin->mMeshID;
-				auto rigged_matrix_data_iter = std::find_if(mesh_cache.begin(), mesh_cache.end(), [&mesh_id](const auto& entry) { return entry.first == mesh_id; });
+				const auto& mesh_id = skin->mMeshID;
+				const auto& rigged_matrix_data_iter = mesh_cache.find(mesh_id);
 				if (rigged_matrix_data_iter != mesh_cache.cend() && (!avatar->isSelf() || !avatar->isEditingAppearance()))
 				{
 					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
 						rigged_matrix_data_iter->second.first,
 						FALSE,
-						(GLfloat*) rigged_matrix_data_iter->second.second.data());
+						(GLfloat*)rigged_matrix_data_iter->second.second.data());
 
 					stop_glerror();
 				}
@@ -1969,7 +1969,8 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 
 					stop_glerror();
 
-					std::array<F32, LL_MAX_JOINTS_PER_MESH_OBJECT * 12> mp;
+					std::vector<F32> mp;
+					mp.reserve(count * 12);
 
 					for (U32 i = 0; i < count; ++i)
 					{
@@ -1992,12 +1993,11 @@ void LLDrawPoolAvatar::renderRigged(LLVOAvatar* avatar, U32 type, bool glow)
 						mp[idx + 10] = m[10];
 						mp[idx + 11] = m[14];
 					}
-					mesh_cache.emplace_back(std::make_pair(skin->mMeshID, std::make_pair(count, mp)));
 					LLDrawPoolAvatar::sVertexProgram->uniformMatrix3x4fv(LLViewerShaderMgr::AVATAR_MATRIX,
 						count,
 						FALSE,
 						(GLfloat*) mp.data());
-
+					mesh_cache.emplace(mesh_id, std::make_pair(count, std::move(mp)));
 					stop_glerror();
 				}
 			}

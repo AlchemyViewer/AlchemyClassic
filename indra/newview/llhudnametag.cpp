@@ -897,15 +897,16 @@ void LLHUDNameTag::reshape()
 
 F32 LLHUDNameTag::LLHUDTextSegment::getWidth(const LLFontGL* font)
 {
-	std::map<const LLFontGL*, F32>::iterator iter = mFontWidthMap.find(font);
-	if (iter != mFontWidthMap.end())
+	// Singu note: Reworked hotspot. Less indirection
+	if (mFontWidthMap[0].first == font)
 	{
-		return iter->second;
+		return mFontWidthMap[0].second;
 	}
-	else
+	else if (mFontWidthMap[1].first == font)
 	{
-		F32 width = font->getWidthF32(mText.c_str());
-		mFontWidthMap[font] = width;
-		return width;
+		return mFontWidthMap[1].second;
 	}
+	F32 width = font->getWidthF32(mText.c_str());
+	mFontWidthMap[mFontWidthMap[0].first != nullptr] = std::make_pair(font, width);
+	return width;
 }

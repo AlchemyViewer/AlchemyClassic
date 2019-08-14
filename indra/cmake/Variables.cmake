@@ -282,8 +282,15 @@ endif()
 # Default deploy grid
 set(GRID agni CACHE STRING "Target Grid")
 
-set(VIEWER_CHANNEL "Alchemy Test" CACHE STRING "Viewer Channel Name")
-set(VERSION_BUILD "0" CACHE STRING "Revision number passed in from the outside")
+set(VIEWER_CHANNEL_BASE "Alchemy" CACHE STRING "Viewer Channel Base Name")
+set(VIEWER_CHANNEL_TYPE "Test" CACHE STRING "Viewer Channel Type Name")
+set(VIEWER_CHANNEL_CODENAME "Default" CACHE STRING "Viewer Channel Code Name for Project type")
+
+if("${VIEWER_CHANNEL_TYPE}" STREQUAL "Project")
+set(VIEWER_CHANNEL "${VIEWER_CHANNEL_BASE} ${VIEWER_CHANNEL_TYPE} ${VIEWER_CHANNEL_CODENAME}" CACHE INTERNAL "Viewer Channel Combined Name" FORCE)
+else()
+set(VIEWER_CHANNEL "${VIEWER_CHANNEL_BASE} ${VIEWER_CHANNEL_TYPE}" CACHE INTERNAL "Viewer Channel Combined Name" FORCE)
+endif()
 
 option(ENABLE_SIGNING "Enable signing the viewer" OFF)
 set(SIGNING_IDENTITY "" CACHE STRING "Specifies the signing identity to use, if necessary.")

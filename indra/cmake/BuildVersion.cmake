@@ -1,6 +1,8 @@
 # -*- cmake -*-
 # Construct the viewer version number based on the indra/VIEWER_VERSION file
 
+option(REVISION_FROM_HG ON "Get current revision from mercurial")
+
 if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/newview/
     set(VIEWER_VERSION_BASE_FILE "${CMAKE_CURRENT_SOURCE_DIR}/newview/VIEWER_VERSION.txt")
 
@@ -10,11 +12,15 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
         string(REGEX REPLACE "^[0-9]+\\.([0-9]+)\\.[0-9]+" "\\1" VIEWER_VERSION_MINOR ${VIEWER_SHORT_VERSION})
         string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.([0-9]+)" "\\1" VIEWER_VERSION_PATCH ${VIEWER_SHORT_VERSION})
 
-        if (DEFINED ENV{revision})
+        if (DEFINED ENV{revision} AND NOT REVISION_FROM_HG)
            set(VIEWER_VERSION_REVISION $ENV{revision})
            message(STATUS "Revision (from environment): ${VIEWER_VERSION_REVISION}")
 
-        else (DEFINED ENV{revision})
+        elseif (DEFINED ENV{AUTOBUILD_BUILD_ID} AND NOT REVISION_FROM_HG)
+           set(VIEWER_VERSION_REVISION $ENV{AUTOBUILD_BUILD_ID})
+           message(STATUS "Revision (from autobuild environment): ${VIEWER_VERSION_REVISION}")
+
+        else ()
           find_program(MERCURIAL
                        NAMES hg
                        PATHS [HKEY_LOCAL_MACHINE\\Software\\TortoiseHG]
@@ -42,7 +48,7 @@ if (NOT DEFINED VIEWER_SHORT_VERSION) # will be true in indra/, false in indra/n
               message(STATUS "Revision not set: mercurial not found; using 0")
               set(VIEWER_VERSION_REVISION 0)
            endif (MERCURIAL)
-        endif (DEFINED ENV{revision})
+        endif ()
         message(STATUS "Building '${VIEWER_CHANNEL}' Version ${VIEWER_SHORT_VERSION}.${VIEWER_VERSION_REVISION}")
     else ( EXISTS ${VIEWER_VERSION_BASE_FILE} )
         message(SEND_ERROR "Cannot get viewer version from '${VIEWER_VERSION_BASE_FILE}'") 

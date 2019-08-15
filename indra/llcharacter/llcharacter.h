@@ -41,6 +41,8 @@
 #include <boost/unordered_map.hpp>
 #endif
 
+#include <absl/container/flat_hash_map.h>
+
 class LLPolyMesh;
 
 class LLPauseRequestHandle : public LLThreadSafeRefCount
@@ -286,7 +288,7 @@ public:
 protected:
 	LLMotionController	mMotionController;
 
-	typedef std::map<std::string, void *> animation_data_map_t;
+	typedef absl::flat_hash_map<std::string, void *> animation_data_map_t;
 	animation_data_map_t mAnimationData;
 
 	F32					mPreferredPelvisHeight;

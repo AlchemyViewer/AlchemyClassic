@@ -697,20 +697,21 @@ void LLKeyframeMotion::applyKeyframes(F32 time)
 													  time, 
 													  mJointMotionList->mDuration );
 	}
-
-	LLJoint::JointPriority* pose_priority = (LLJoint::JointPriority* )mCharacter->getAnimationData("Hand Pose Priority");
+	static const std::string HAND_POSE_STR("Hand Pose");
+	static const std::string HAND_POSE_PRIO_STR("Hand Pose Priority");
+	LLJoint::JointPriority* pose_priority = (LLJoint::JointPriority* )mCharacter->getAnimationData(HAND_POSE_PRIO_STR);
 	if (pose_priority)
 	{
 		if (mJointMotionList->mMaxPriority >= *pose_priority)
 		{
-			mCharacter->setAnimationData("Hand Pose", &mJointMotionList->mHandPose);
-			mCharacter->setAnimationData("Hand Pose Priority", &mJointMotionList->mMaxPriority);
+			mCharacter->setAnimationData(HAND_POSE_STR, &mJointMotionList->mHandPose);
+			mCharacter->setAnimationData(HAND_POSE_PRIO_STR, &mJointMotionList->mMaxPriority);
 		}
 	}
 	else
 	{
-		mCharacter->setAnimationData("Hand Pose", &mJointMotionList->mHandPose);
-		mCharacter->setAnimationData("Hand Pose Priority", &mJointMotionList->mMaxPriority);
+		mCharacter->setAnimationData(HAND_POSE_STR, &mJointMotionList->mHandPose);
+		mCharacter->setAnimationData(HAND_POSE_PRIO_STR, &mJointMotionList->mMaxPriority);
 	}
 }
 

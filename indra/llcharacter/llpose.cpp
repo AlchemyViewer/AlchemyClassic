@@ -463,7 +463,7 @@ LLPoseBlender::LLPoseBlender()
 
 LLPoseBlender::~LLPoseBlender()
 {
-	for_each(mJointStateBlenderPool.begin(), mJointStateBlenderPool.end(), DeletePairedPointer());
+	std::for_each(mJointStateBlenderPool.begin(), mJointStateBlenderPool.end(), DeletePairedPointer());
 	mJointStateBlenderPool.clear();
 }
 
@@ -502,7 +502,7 @@ BOOL LLPoseBlender::addMotion(LLMotion* motion)
 		// add it to our list of active blenders
 		if (std::find(mActiveBlenders.begin(), mActiveBlenders.end(), joint_blender) == mActiveBlenders.end())
 		{
-			mActiveBlenders.push_front(joint_blender);
+			mActiveBlenders.emplace_back(joint_blender);
 		}
 	}
 	return TRUE;
@@ -513,10 +513,8 @@ BOOL LLPoseBlender::addMotion(LLMotion* motion)
 //-----------------------------------------------------------------------------
 void LLPoseBlender::blendAndApply()
 {
-	for (blender_list_t::iterator iter = mActiveBlenders.begin();
-		 iter != mActiveBlenders.end(); )
+	for(LLJointStateBlender* jsbp : mActiveBlenders)
 	{
-		LLJointStateBlender* jsbp = *iter++;
 		jsbp->blendJointStates();
 	}
 
@@ -529,10 +527,8 @@ void LLPoseBlender::blendAndApply()
 //-----------------------------------------------------------------------------
 void LLPoseBlender::blendAndCache(BOOL reset_cached_joints)
 {
-	for (blender_list_t::iterator iter = mActiveBlenders.begin();
-		 iter != mActiveBlenders.end(); ++iter)
+	for (LLJointStateBlender* jsbp : mActiveBlenders)
 	{
-		LLJointStateBlender* jsbp = *iter;
 		if (reset_cached_joints)
 		{
 			jsbp->resetCachedJoint();
@@ -546,10 +542,8 @@ void LLPoseBlender::blendAndCache(BOOL reset_cached_joints)
 //-----------------------------------------------------------------------------
 void LLPoseBlender::interpolate(F32 u)
 {
-	for (blender_list_t::iterator iter = mActiveBlenders.begin();
-		 iter != mActiveBlenders.end(); ++iter)
+	for (LLJointStateBlender* jsbp : mActiveBlenders)
 	{
-		LLJointStateBlender* jsbp = *iter;
 		jsbp->interpolate(u);
 	}
 }
@@ -559,10 +553,8 @@ void LLPoseBlender::interpolate(F32 u)
 //-----------------------------------------------------------------------------
 void LLPoseBlender::clearBlenders()
 {
-	for (blender_list_t::iterator iter = mActiveBlenders.begin();
-		 iter != mActiveBlenders.end(); ++iter)
+	for (LLJointStateBlender* jsbp : mActiveBlenders)
 	{
-		LLJointStateBlender* jsbp = *iter;
 		jsbp->clear();
 	}
 

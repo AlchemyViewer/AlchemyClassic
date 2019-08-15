@@ -265,7 +265,7 @@ void LLCharacter::dumpCharacter( LLJoint* joint )
 //-----------------------------------------------------------------------------
 void LLCharacter::setAnimationData(const std::string& name, void *data)
 {
-	mAnimationData[name] = data;
+	mAnimationData.insert_or_assign(name, data);
 }
 
 //-----------------------------------------------------------------------------

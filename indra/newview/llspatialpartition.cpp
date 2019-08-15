@@ -2722,6 +2722,10 @@ void renderBatchSize(LLDrawInfo* params)
 {
 	LLGLEnable offset(GL_POLYGON_OFFSET_FILL);
 	glPolygonOffset(-1.f, 1.f);
+	if (params->mDebugColor == LLColor4U::black)
+	{
+		params->mDebugColor = LLColor4U(ll_rand(255), ll_rand(255), ll_rand(255), 255U);
+	}
 	gGL.diffuseColor4ubv((U8*)params->mDebugColor.mV);
 	pushVerts(params, LLVertexBuffer::MAP_VERTEX);
 }
@@ -3879,8 +3883,6 @@ LLDrawInfo::LLDrawInfo(U16 start, U16 end, U32 count, U32 offset,
 	mSelected(selected)
 {
 	mVertexBuffer->validateRange(mStart, mEnd, mCount, mOffset);
-	
-	mDebugColor = LLColor4U(ll_rand(255), ll_rand(255), ll_rand(255), 255U);
 }
 
 LLDrawInfo::~LLDrawInfo()	

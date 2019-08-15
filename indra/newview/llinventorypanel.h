@@ -38,6 +38,8 @@
 #include "llscrollcontainer.h"
 #include <set>
 
+#include "absl/container/flat_hash_map.h"
+
 class LLInvFVBridge;
 class LLInventoryFolderViewModelBuilder;
 class LLInvPanelComplObserver;
@@ -265,7 +267,7 @@ protected:
     LLPointer<LLFolderViewGroupedItemBridge> mGroupedItemBridge;
 	Params						mParams;	// stored copy of parameter block
 
-	std::map<LLUUID, LLFolderViewItem*> mItemMap;
+	absl::flat_hash_map<LLUUID, LLFolderViewItem*> mItemMap;
 	/**
 	 * Pointer to LLInventoryFolderViewModelBuilder.
 	 *

@@ -320,8 +320,8 @@ LLViewerInventoryItem* LLInventoryModel::getItem(const LLUUID& id) const
 	}
 	else
 	{
-		item_map_t::const_iterator iter = mItemMap.find(id);
-		if (iter != mItemMap.end())
+		const auto iter = mItemMap.find(id);
+		if (iter != mItemMap.cend())
 		{
 			item = iter->second;
 			mLastItem = item;
@@ -333,13 +333,12 @@ LLViewerInventoryItem* LLInventoryModel::getItem(const LLUUID& id) const
 // Get the category by id. Returns NULL if not found
 LLViewerInventoryCategory* LLInventoryModel::getCategory(const LLUUID& id) const
 {
-	LLViewerInventoryCategory* category = nullptr;
-	cat_map_t::const_iterator iter = mCategoryMap.find(id);
-	if (iter != mCategoryMap.end())
+	const auto iter = mCategoryMap.find(id);
+	if (iter != mCategoryMap.cend())
 	{
-		category = iter->second;
+		return iter->second;
 	}
-	return category;
+	return nullptr;
 }
 
 S32 LLInventoryModel::getItemCount() const
@@ -414,10 +413,10 @@ void LLInventoryModel::unlockDirectDescendentArrays(const LLUUID& cat_id)
 void LLInventoryModel::consolidateForType(const LLUUID& main_id, LLFolderType::EType type)
 {
     // Make a list of folders that are not "main_id" and are of "type"
-    std::vector<LLUUID> folder_ids;
-    for (cat_map_t::iterator cit = mCategoryMap.begin(); cit != mCategoryMap.end(); ++cit)
+    uuid_vec_t folder_ids;
+    for (const auto& cat_pair : mCategoryMap)
     {
-        LLViewerInventoryCategory* cat = cit->second;
+        LLViewerInventoryCategory* cat = cat_pair.second;
         if ((cat->getPreferredType() == type) && (cat->getUUID() != main_id))
         {
             folder_ids.push_back(cat->getUUID());
@@ -1200,8 +1199,8 @@ void LLInventoryModel::updateCategory(const LLViewerInventoryCategory* cat, U32 
 		llassert_always(mItemLock[new_cat->getUUID()] == false);
 		cat_array_t* catsp = new cat_array_t;
 		item_array_t* itemsp = new item_array_t;
-		mParentChildCategoryTree[new_cat->getUUID()] = catsp;
-		mParentChildItemTree[new_cat->getUUID()] = itemsp;
+		mParentChildCategoryTree.insert_or_assign(new_cat->getUUID(), catsp);
+		mParentChildItemTree.insert_or_assign(new_cat->getUUID(), itemsp);
 		mask |= LLInventoryObserver::ADD;
 		addChangedMask(mask, cat->getUUID());
 	}
@@ -1805,7 +1804,7 @@ void LLInventoryModel::addCategory(LLViewerInventoryCategory* category)
 		category->localizeName();
 
 		// Insert category uniquely into the map
-		mCategoryMap[category->getUUID()] = category; // LLPointer will deref and delete the old one
+		mCategoryMap.insert_or_assign(category->getUUID(), category); // LLPointer will deref and delete the old one
 		//mInventory[category->getUUID()] = category;
 	}
 }
@@ -1992,13 +1991,13 @@ LLInventoryModel::EHasChildren LLInventoryModel::categoryHasChildren(const LLUUI
 	}
 
 	// Shouldn't have to run this, but who knows.
-	parent_cat_map_t::const_iterator cat_it = mParentChildCategoryTree.find(cat->getUUID());
-	if (cat_it != mParentChildCategoryTree.end() && cat_it->second->size() > 0)
+	const auto cat_it = mParentChildCategoryTree.find(cat->getUUID());
+	if (cat_it != mParentChildCategoryTree.cend() && cat_it->second->size() > 0)
 	{
 		return CHILDREN_YES;
 	}
-	parent_item_map_t::const_iterator item_it = mParentChildItemTree.find(cat->getUUID());
-	if (item_it != mParentChildItemTree.end() && item_it->second->size() > 0)
+	const auto item_it = mParentChildItemTree.find(cat->getUUID());
+	if (item_it != mParentChildItemTree.cend() && item_it->second->size() > 0)
 	{
 		return CHILDREN_YES;
 	}
@@ -2166,14 +2165,13 @@ bool LLInventoryModel::loadSkeleton(
 			S32 bad_link_count = 0;
 			S32 good_link_count = 0;
 			S32 recovered_link_count = 0;
-			cat_map_t::iterator unparented = mCategoryMap.end();
+			const auto unparented = mCategoryMap.cend();
 			for(item_array_t::const_iterator item_iter = items.begin();
 			    item_iter != items.end();
 			    ++item_iter)
 			{
 				LLViewerInventoryItem *item = (*item_iter).get();
-				const cat_map_t::iterator cit = mCategoryMap.find(item->getParentUUID());
-				
+				const auto cit = mCategoryMap.find(item->getParentUUID());
 				if(cit != unparented)
 				{
 					const LLViewerInventoryCategory* cat = cit->second.get();
@@ -2207,7 +2205,7 @@ bool LLInventoryModel::loadSkeleton(
 				    ++item_iter)
 				{
 					LLViewerInventoryItem *item = (*item_iter).get();
-					const cat_map_t::iterator cit = mCategoryMap.find(item->getParentUUID());
+					const auto cit = mCategoryMap.find(item->getParentUUID());
 					const LLViewerInventoryCategory* cat = cit->second.get();
 					if (item->getIsBrokenLink())
 					{
@@ -2323,13 +2321,13 @@ void LLInventoryModel::buildParentChildMap()
 	{
 		LLViewerInventoryCategory* cat = cit->second;
 		cats.push_back(cat);
-		if (mParentChildCategoryTree.count(cat->getUUID()) == 0)
+		if (!is_in_map(mParentChildCategoryTree, cat->getUUID()))
 		{
 			llassert_always(mCategoryLock[cat->getUUID()] == false);
 			catsp = new cat_array_t;
 			mParentChildCategoryTree[cat->getUUID()] = catsp;
 		}
-		if (mParentChildItemTree.count(cat->getUUID()) == 0)
+		if (!is_in_map(mParentChildItemTree, cat->getUUID()))
 		{
 			llassert_always(mItemLock[cat->getUUID()] == false);
 			itemsp = new item_array_t;
@@ -2341,10 +2339,10 @@ void LLInventoryModel::buildParentChildMap()
 	// LLUUID::null as the parent work correctly. This is kind of a
 	// blatent wastes of space since we allocate a block of memory for
 	// the array, but whatever - it's not that much space.
-	if (mParentChildCategoryTree.count(LLUUID::null) == 0)
+	if (!is_in_map(mParentChildCategoryTree, LLUUID::null))
 	{
 		catsp = new cat_array_t;
-		mParentChildCategoryTree[LLUUID::null] = catsp;
+		mParentChildCategoryTree.insert_or_assign(LLUUID::null, catsp);
 	}
 
 	// Now we have a structure with all of the categories that we can

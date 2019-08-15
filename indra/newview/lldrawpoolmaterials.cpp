@@ -122,15 +122,12 @@ void LLDrawPoolMaterials::renderDeferred(S32 pass)
 	U32 type = type_list[pass];
 
 	U32 mask = mShader->mAttributeMask;
-
-	LLCullResult::drawinfo_iterator begin = gPipeline.beginRenderMap(type);
-	LLCullResult::drawinfo_iterator end = gPipeline.endRenderMap(type);
 	
-	for (LLCullResult::drawinfo_iterator i = begin; i != end; ++i)
+	for (auto begin = gPipeline.beginRenderMap(type), end = gPipeline.endRenderMap(type); begin != end; ++begin)
 	{
-		LLDrawInfo& params = **i;
+		LLDrawInfo& params = **begin;
 		
-		mShader->uniform4f(LLShaderMgr::SPECULAR_COLOR, params.mSpecColor.mV[0], params.mSpecColor.mV[1], params.mSpecColor.mV[2], params.mSpecColor.mV[3]);
+		mShader->uniform4fv(LLShaderMgr::SPECULAR_COLOR, 1, params.mSpecColor.mV);
 		mShader->uniform1f(LLShaderMgr::ENVIRONMENT_INTENSITY, params.mEnvIntensity);
 		
 		if (params.mNormalMap)

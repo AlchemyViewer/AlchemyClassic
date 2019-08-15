@@ -875,9 +875,8 @@ void LLParticlePartition::getGeometry(LLSpatialGroup* group)
 	
 	LLSpatialGroup::drawmap_elem_t& draw_vec = group->mDrawMap[mRenderPass];	
 
-	for (std::vector<LLFace*>::iterator i = mFaceList.begin(); i != mFaceList.end(); ++i)
+	for(LLFace* facep : mFaceList)
 	{
-		LLFace* facep = *i;
 		LLAlphaObject* object = (LLAlphaObject*) facep->getViewerObject();
 
 		if (!facep->isState(LLFace::PARTICLE))

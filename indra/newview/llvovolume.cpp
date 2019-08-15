@@ -5477,8 +5477,8 @@ void LLVolumeGeometryManager::rebuildGeom(LLSpatialGroup* group)
 		LL_RECORD_BLOCK_TIME(FTM_REBUILD_VOLUME_FACE_LIST);
 
 		//get all the faces into a list
-		for (LLSpatialGroup::element_iter drawable_iter = group->getDataBegin(); 
-             drawable_iter != group->getDataEnd(); ++drawable_iter)
+		for (LLSpatialGroup::element_iter drawable_iter = group->getDataBegin(), drawable_iter_end = group->getDataEnd();
+             drawable_iter != drawable_iter_end; ++drawable_iter)
 		{
 			LLDrawable* drawablep = (LLDrawable*)(*drawable_iter)->getDrawable();
 		

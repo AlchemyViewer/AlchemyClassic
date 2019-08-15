@@ -368,7 +368,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 	BOOL depth_only = (pass == 1 && !LLPipeline::sImpostorRender);
 		
-	for (LLCullResult::sg_iterator i = gPipeline.beginAlphaGroups(); i != gPipeline.endAlphaGroups(); ++i)
+	for (LLCullResult::sg_iterator i = gPipeline.beginAlphaGroups(), i_end = gPipeline.endAlphaGroups(); i != i_end; ++i)
 	{
 		LLSpatialGroup* group = *i;
 		llassert(group);
@@ -390,7 +390,7 @@ void LLDrawPoolAlpha::renderAlpha(U32 mask, S32 pass)
 
 			LLSpatialGroup::drawmap_elem_t& draw_info = group->mDrawMap[LLRenderPass::PASS_ALPHA];
 
-			for (LLSpatialGroup::drawmap_elem_t::iterator k = draw_info.begin(); k != draw_info.end(); ++k)	
+			for (LLSpatialGroup::drawmap_elem_t::iterator k = draw_info.begin(), k_end = draw_info.end(); k != k_end; ++k)
 			{
 				LLDrawInfo& params = **k;
 

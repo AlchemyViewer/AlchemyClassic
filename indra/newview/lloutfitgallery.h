@@ -116,7 +116,7 @@ public:
     void onAfterOutfitSnapshotSave();
 
 protected:
-    /*virtual*/ void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id) override;
+    /*virtual*/ void onHighlightBaseOutfit(const LLUUID& base_id, const LLUUID& prev_id) override;
     /*virtual*/ void onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid) override;
     /*virtual*/ void onOutfitRightClick(LLUICtrl* ctrl, S32 x, S32 y, const LLUUID& cat_id) override;
     /*virtual*/ void onChangeOutfitSelection(LLWearableItemsList* list, const LLUUID& category_id) override;
@@ -193,7 +193,7 @@ private:
 
     LLHandle<LLFloater> mFloaterHandle;
 
-    typedef std::map<LLUUID, LLOutfitGalleryItem*>      outfit_map_t;
+    typedef absl::flat_hash_map<LLUUID, LLOutfitGalleryItem*>      outfit_map_t;
     typedef outfit_map_t::value_type                    outfit_map_value_t;
     outfit_map_t                                        mOutfitMap;
     typedef std::map<LLOutfitGalleryItem*, int>         item_num_map_t;

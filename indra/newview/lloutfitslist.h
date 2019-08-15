@@ -37,6 +37,9 @@
 #include "lltoggleablemenu.h"
 #include "llviewermenu.h"
 
+// libs
+#include "absl/container/flat_hash_map.h"
+
 class LLAccordionCtrlTab;
 class LLInventoryCategoriesObserver;
 class LLOutfitListGearMenuBase;
@@ -111,7 +114,7 @@ public:
 
 protected:
     virtual LLOutfitListGearMenuBase* createGearMenu() = 0;
-    virtual void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id) = 0;
+    virtual void onHighlightBaseOutfit(const LLUUID& base_id, const LLUUID& prev_id) = 0;
     virtual void onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid) = 0;
     virtual void onOutfitRightClick(LLUICtrl* ctrl, S32 x, S32 y, const LLUUID& cat_id) = 0;
     void onOutfitsRemovalConfirmation(const LLSD& notification, const LLSD& response);
@@ -224,7 +227,7 @@ public:
     /*virtual*/ void updateRemovedCategory(LLUUID cat_id) override;
 
 	// highlits currently worn outfit tab text and unhighlights previously worn
-    /*virtual*/ void onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id) override;
+    /*virtual*/ void onHighlightBaseOutfit(const LLUUID& base_id, const LLUUID& prev_id) override;
 
 	//void performAction(std::string action);
 
@@ -337,7 +340,7 @@ private:
 	typedef wearables_lists_map_t::value_type			wearables_lists_map_value_t;
 	wearables_lists_map_t			mSelectedListsMap;
 
-	typedef	std::map<LLUUID, LLAccordionCtrlTab*>		outfits_map_t;
+	typedef	absl::flat_hash_map<LLUUID, LLAccordionCtrlTab*>		outfits_map_t;
 	typedef outfits_map_t::value_type					outfits_map_value_t;
 	outfits_map_t					mOutfitsMap;
 

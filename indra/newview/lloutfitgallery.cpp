@@ -457,15 +457,19 @@ void LLOutfitGallery::setFilterSubString(const std::string& string)
     reArrangeRows();
 }
 
-void LLOutfitGallery::onHighlightBaseOutfit(LLUUID base_id, LLUUID prev_id)
+void LLOutfitGallery::onHighlightBaseOutfit(const LLUUID& base_id, const LLUUID& prev_id)
 {
-    if (mOutfitMap[base_id])
-    {
-        mOutfitMap[base_id]->setOutfitWorn(true);
+	auto outfits_iter = mOutfitMap.find(base_id);
+	if (outfits_iter != mOutfitMap.end())
+	{
+		auto tab = outfits_iter->second;
+		tab->setOutfitWorn(true);
     }
-    if (mOutfitMap[prev_id])
+	outfits_iter = mOutfitMap.find(prev_id);
+	if (outfits_iter != mOutfitMap.end())
     {
-        mOutfitMap[prev_id]->setOutfitWorn(false);
+		auto tab = outfits_iter->second;
+		tab->setOutfitWorn(false);
     }
 }
 
@@ -489,13 +493,11 @@ void LLOutfitGallery::onSetSelectedOutfitByUUID(const LLUUID& outfit_uuid)
 
 void LLOutfitGallery::getCurrentCategories(uuid_vec_t& vcur)
 {
-    for (outfit_map_t::const_iterator iter = mOutfitMap.begin();
-        iter != mOutfitMap.end();
-        iter++)
+	for(const auto& pair : mOutfitMap)
     {
-        if ((*iter).second != NULL)
+        if (pair.second != NULL)
         {
-            vcur.push_back((*iter).first);
+            vcur.push_back(pair.first);
         }
     }
 }
@@ -507,7 +509,7 @@ void LLOutfitGallery::updateAddedCategory(LLUUID cat_id)
 
     std::string name = cat->getName();
     LLOutfitGalleryItem* item = buildGalleryItem(name, cat_id);
-    mOutfitMap.insert(LLOutfitGallery::outfit_map_value_t(cat_id, item));
+    mOutfitMap.emplace(cat_id, item);
     item->setRightMouseDownCallback(boost::bind(&LLOutfitListBase::outfitRightClickCallBack, this,
         _1, _2, _3, cat_id));
     LLWearableItemsList* list = NULL;
@@ -537,7 +539,7 @@ void LLOutfitGallery::updateAddedCategory(LLUUID cat_id)
 
 void LLOutfitGallery::updateRemovedCategory(LLUUID cat_id)
 {
-    outfit_map_t::iterator outfits_iter = mOutfitMap.find(cat_id);
+    auto outfits_iter = mOutfitMap.find(cat_id);
     if (outfits_iter != mOutfitMap.end())
     {
         // 0. Remove category from observer.
@@ -567,7 +569,7 @@ void LLOutfitGallery::updateRemovedCategory(LLUUID cat_id)
 
 void LLOutfitGallery::updateChangedCategoryName(LLViewerInventoryCategory *cat, std::string name)
 {
-    outfit_map_t::iterator outfit_iter = mOutfitMap.find(cat->getUUID());
+    auto outfit_iter = mOutfitMap.find(cat->getUUID());
     if (outfit_iter != mOutfitMap.end())
     {
         // Update name of outfit in gallery
@@ -593,13 +595,18 @@ void LLOutfitGallery::onChangeOutfitSelection(LLWearableItemsList* list, const L
 {
     if (mSelectedOutfitUUID == category_id)
         return;
-    if (mOutfitMap[mSelectedOutfitUUID])
+
+	auto outfit_iter = mOutfitMap.find(mSelectedOutfitUUID);
+	if (outfit_iter != mOutfitMap.end())
     {
-        mOutfitMap[mSelectedOutfitUUID]->setSelected(FALSE);
+		auto item = outfit_iter->second;
+		item->setSelected(FALSE);
     }
-    if (mOutfitMap[category_id])
-    {
-        mOutfitMap[category_id]->setSelected(TRUE);
+	outfit_iter = mOutfitMap.find(category_id);
+	if (outfit_iter != mOutfitMap.end())
+	{
+		auto item = outfit_iter->second;
+		item->setSelected(TRUE);
     }
 }
 
@@ -620,9 +627,11 @@ bool LLOutfitGallery::canWearSelected()
 
 bool LLOutfitGallery::hasDefaultImage(const LLUUID& outfit_cat_id)
 {
-    if (mOutfitMap[outfit_cat_id])
-    {
-        return mOutfitMap[outfit_cat_id]->isDefaultImage();
+	auto outfit_iter = mOutfitMap.find(outfit_cat_id);
+	if (outfit_iter != mOutfitMap.end())
+	{
+		auto item = outfit_iter->second;
+        return item->isDefaultImage();
     }
     return false;
 }
@@ -1155,7 +1164,7 @@ void LLOutfitGallery::refreshTextures(const LLUUID& category_id)
 
 void LLOutfitGallery::uploadPhoto(LLUUID outfit_id)
 {
-	outfit_map_t::iterator outfit_it = mOutfitMap.find(outfit_id);
+	auto outfit_it = mOutfitMap.find(outfit_id);
 	if (outfit_it == mOutfitMap.end() || outfit_it->first.isNull())
 	{
 		return;
@@ -1241,17 +1250,17 @@ void LLUpdateGalleryOnPhotoLinked::fire(const LLUUID& inv_item_id)
 
 LLUUID LLOutfitGallery::getPhotoAssetId(const LLUUID& outfit_id)
 {
-    outfit_map_t::iterator outfit_it = mOutfitMap.find(outfit_id);
+   auto outfit_it = mOutfitMap.find(outfit_id);
     if (outfit_it != mOutfitMap.end())
     {
         return outfit_it->second->getImageAssetId();
     }
-    return LLUUID();
+    return LLUUID::null;
 }
 
 LLUUID LLOutfitGallery::getDefaultPhoto()
 {
-    return LLUUID();
+    return LLUUID::null;
 }
 
 void LLOutfitGallery::onTexturePickerCommit(LLTextureCtrl::ETexturePickOp op, LLUUID id)

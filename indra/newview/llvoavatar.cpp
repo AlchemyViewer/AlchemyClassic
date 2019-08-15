@@ -3776,13 +3776,13 @@ void LLVOAvatar::updateAnimationDebugText()
 void LLVOAvatar::updateDebugText()
 {
     // Leave mDebugText uncleared here, in case a derived class has added some state first
-
-	if (gSavedSettings.getBOOL("DebugAvatarAppearanceMessage"))
+	static LLCachedControl<bool> debug_appr_msg(gSavedSettings, "DebugAvatarAppearanceMessage");
+	if (debug_appr_msg)
 	{
         updateAppearanceMessageDebugText();
 	}
-
-	if (gSavedSettings.getBOOL("DebugAvatarCompositeBaked"))
+	static LLCachedControl<bool> debug_comp_bake(gSavedSettings, "DebugAvatarCompositeBaked");
+	if (debug_comp_bake)
 	{
 		if (!mBakedTextureDebugText.empty())
 			addDebugText(mBakedTextureDebugText);

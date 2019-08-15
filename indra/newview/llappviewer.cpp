@@ -5533,7 +5533,8 @@ void LLAppViewer::setMasterSystemAudioMute(bool mute)
 //virtual
 bool LLAppViewer::getMasterSystemAudioMute()
 {
-	return gSavedSettings.getBOOL("MuteAudio");
+	static LLCachedControl<bool> mute_audio(gSavedSettings, "MuteAudio");
+	return mute_audio;
 }
 
 //----------------------------------------------------------------------------

@@ -220,7 +220,7 @@ public:
     // virtual
     void 					updateRiggingInfo() override;
 	// This encodes mesh id and LOD, so we can see whether display is up-to-date.
-	std::vector<std::pair<LLUUID, S32> >	mLastRiggingInfoKey;
+	size_t					mLastRiggingInfoKeyHash = 0;
 	
     std::set<LLUUID>		mActiveOverrideMeshes;
     virtual void			onActiveOverrideMeshesChanged();

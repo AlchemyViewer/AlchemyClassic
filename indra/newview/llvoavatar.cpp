@@ -123,6 +123,8 @@
 
 #include <boost/lexical_cast.hpp>
 
+#include <absl/hash/hash.h>
+
 extern F32 SPEED_ADJUST_MAX;
 extern F32 SPEED_ADJUST_MAX_SEC;
 extern F32 ANIM_SPEED_MAX;
@@ -9809,6 +9811,7 @@ void LLVOAvatar::updateRiggingInfo()
 	}
 
 	std::vector<std::pair<LLUUID, S32> > curr_rigging_info_key;
+	size_t hash;
 	{
 		LL_RECORD_BLOCK_TIME(FTM_AVATAR_RIGGING_KEY_UPDATE);
 		// Get current rigging info key
@@ -9821,16 +9824,16 @@ void LLVOAvatar::updateRiggingInfo()
 				curr_rigging_info_key.emplace_back(mesh_id, max_lod);
 			}
 		}
-		
+		hash = absl::Hash< std::vector<std::pair<LLUUID, S32> > >{}(curr_rigging_info_key);
 		// Check for key change, which indicates some change in volume composition or LOD.
-		if (curr_rigging_info_key == mLastRiggingInfoKey)
+		if (hash == mLastRiggingInfoKeyHash)
 		{
 			return;
 		}
 	}
 
 	// Something changed. Update.
-	mLastRiggingInfoKey.swap(curr_rigging_info_key);
+	mLastRiggingInfoKeyHash = hash;
     mJointRiggingInfoTab.clear();
     for (std::vector<LLVOVolume*>::iterator it = volumes.begin(); it != volumes.end(); ++it)
     {

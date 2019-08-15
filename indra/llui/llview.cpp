@@ -342,7 +342,7 @@ bool LLView::addChild(LLView* child, S32 tab_group)
 
 	// add to front of child list, as normal
 	mChildList.push_front(child);
-	mChildHashMap[child->getName()]=child; // <alchemy/>
+	mChildHashMap.insert_or_assign(child->getName(), child); // <alchemy/>
 
 	// add to tab order list
 	if (tab_group != 0)
@@ -377,8 +377,8 @@ void LLView::removeChild(LLView* child)
 		// if we are removing an item we are currently iterating over, that would be bad
 		llassert(!child->mInDraw);
 		mChildList.remove( child );
-		// <alchemy>
-		for(boost::container::flat_map<std::string, LLView*>::iterator it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
+
+		for(auto it=mChildHashMap.begin(); it != mChildHashMap.end(); ++it)
 		{
 			if(it->second == child)
 			{
@@ -386,7 +386,7 @@ void LLView::removeChild(LLView* child)
 				break;
 			}
 		}
-		// </alchemy>
+
 		child->mParentView = nullptr;
 		child_tab_order_t::iterator found = mTabOrder.find(child);
 		if(found != mTabOrder.end())
@@ -1629,8 +1629,8 @@ LLView* LLView::findChildView(const std::string& name, BOOL recurse) const
 			return childp;
 		}
 	}*/
-	boost::container::flat_map<std::string, LLView*>::const_iterator it = mChildHashMap.find(name);
-	if(it != mChildHashMap.end())
+	const auto it = mChildHashMap.find(name);
+	if(it != mChildHashMap.cend())
 	{
 		return it->second;
 	}

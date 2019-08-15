@@ -53,7 +53,7 @@
 #include <list>
 #include <memory>
 #include <functional>
-#include <boost/container/flat_map.hpp> //<alchemy/>
+#include <absl/container/flat_hash_map.h>
 
 class LLSD;
 
@@ -412,7 +412,7 @@ public:
 	const child_list_t*	getChildList() const { return &mChildList; }
 	child_list_const_iter_t	beginChild() const { return mChildList.begin(); }
 	child_list_const_iter_t	endChild() const { return mChildList.end(); }
-	boost::container::flat_map<std::string, LLView*> mChildHashMap; // <alchemy/>
+	absl::flat_hash_map<std::string, LLView*> mChildHashMap; // <alchemy/>
 
 	// LLMouseHandler functions
 	//  Default behavior is to pass events to children

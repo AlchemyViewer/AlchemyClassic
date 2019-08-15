@@ -35,7 +35,7 @@
 #include "llviewervisualparam.h"
 #include "llxmltree.h"
 
-#include <boost/container/flat_map.hpp> // <alchemy/>
+#include <absl/container/flat_hash_map.h>
 
 class LLTexLayerSet;
 class LLTexGlobalColor;
@@ -141,7 +141,7 @@ public:
 	LLVector3			mHeadOffset; // current head position
 	LLAvatarJoint		*mRoot;
 
-	typedef boost::container::flat_map<std::string, LLJoint*> joint_map_t; // <alchemy/> - flat_map
+	typedef absl::flat_hash_map<std::string, LLJoint*> joint_map_t; // <alchemy/>
 	joint_map_t			mJointMap;
 
     typedef std::map<std::string, LLVector3> joint_state_map_t;

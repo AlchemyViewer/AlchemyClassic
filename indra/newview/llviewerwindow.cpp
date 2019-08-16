@@ -3069,8 +3069,8 @@ void LLViewerWindow::updateUI()
 		if (top_ctrl && top_ctrl->calcScreenBoundingRect().pointInRect(x, y))
 		{
 			// iterator over contents of top_ctrl, and throw into mouse_hover_set
-			for (LLView::tree_iterator_t it = top_ctrl->beginTreeDFS();
-				it != top_ctrl->endTreeDFS();
+			for (LLView::tree_iterator_t it = top_ctrl->beginTreeDFS(), it_end = top_ctrl->endTreeDFS();
+				it != it_end;
 				++it)
 			{
 				LLView* viewp = *it;
@@ -3078,7 +3078,7 @@ void LLViewerWindow::updateUI()
 					&& viewp->calcScreenBoundingRect().pointInRect(x, y))
 				{
 					// we have a view that contains the mouse, add it to the set
-					mouse_hover_set.insert(viewp->getHandle());
+					mouse_hover_set.emplace(viewp->getHandle());
 				}
 				else
 				{
@@ -3090,8 +3090,8 @@ void LLViewerWindow::updateUI()
 		else
 		{
 			// walk UI tree in depth-first order
-			for (LLView::tree_iterator_t it = root_view->beginTreeDFS();
-				it != root_view->endTreeDFS();
+			for (LLView::tree_iterator_t it = root_view->beginTreeDFS(), it_end = root_view->endTreeDFS();
+				it != it_end;
 				++it)
 			{
 				LLView* viewp = *it;
@@ -3108,7 +3108,7 @@ void LLViewerWindow::updateUI()
 					}
 		
 					// we have a view that contains the mouse, add it to the set
-					mouse_hover_set.insert(viewp->getHandle());
+					mouse_hover_set.emplace(viewp->getHandle());
 				}
 				else
 				{

@@ -7289,10 +7289,11 @@ U32 LLVolumeGeometryManager::genDrawInfo(LLSpatialGroup* group, U32 mask, LLFace
 		}
 	}
 
-	group->mBufferMap[mask].clear();
-	for (LLSpatialGroup::buffer_texture_map_t::iterator i = buffer_map[mask].begin(); i != buffer_map[mask].end(); ++i)
+	auto& buff_tex_map = group->mBufferMap[mask];
+	buff_tex_map.clear();
+	for (LLSpatialGroup::buffer_texture_map_t::iterator i = buff_tex_map.begin(); i != buff_tex_map.end(); ++i)
 	{
-		group->mBufferMap[mask][i->first] = i->second;
+		buff_tex_map[i->first] = i->second;
 	}
 
 	return geometryBytes;

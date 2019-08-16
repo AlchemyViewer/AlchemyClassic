@@ -1358,10 +1358,8 @@ void LLPipeline::restoreGL()
 		LLViewerShaderMgr::instance()->setShaders();
 	}
 
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -1474,11 +1472,10 @@ public:
 
 		if (!group->hasState(LLSpatialGroup::GEOM_DIRTY) && !group->isEmpty())
 		{
-			for (LLSpatialGroup::draw_map_t::iterator i = group->mDrawMap.begin(); i != group->mDrawMap.end(); ++i)
+			for(const auto& draw_pair : group->mDrawMap)
 			{
-				for (LLSpatialGroup::drawmap_elem_t::iterator j = i->second.begin(); j != i->second.end(); ++j) 
+				for(LLDrawInfo* params : draw_pair.second)
 				{
-					LLDrawInfo* params = *j;
 					LLViewerFetchedTexture* tex = LLViewerTextureManager::staticCastToFetchedTexture(params->mTexture);
 					if (tex && mTextures.find(tex) != mTextures.end())
 					{ 
@@ -1488,9 +1485,8 @@ public:
 			}
 		}
 
-		for (LLSpatialGroup::bridge_list_t::iterator i = group->mBridgeList.begin(); i != group->mBridgeList.end(); ++i)
+		for(LLSpatialBridge* bridge : group->mBridgeList)
 		{
-			LLSpatialBridge* bridge = *i;
 			traverse(bridge->mOctree);
 		}
 	}
@@ -1514,10 +1510,8 @@ void LLPipeline::dirtyPoolObjectTextures(const std::set<LLViewerFetchedTexture*>
 	}
 	
 	LLOctreeDirtyTexture dirty(textures);
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -2053,10 +2047,8 @@ void LLPipeline::updateMove()
 	{
 		LL_RECORD_BLOCK_TIME(FTM_RETEXTURE);
 
-		for (LLDrawable::drawable_set_t::iterator iter = mRetexturedList.begin();
-			 iter != mRetexturedList.end(); ++iter)
+		for (LLDrawable* drawablep : mRetexturedList)
 		{
-			LLDrawable* drawablep = *iter;
 			if (drawablep && !drawablep->isDead())
 			{
 				drawablep->updateTexture();
@@ -2074,10 +2066,8 @@ void LLPipeline::updateMove()
 	{
  		LL_RECORD_BLOCK_TIME(FTM_OCTREE_BALANCE);
 
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+		for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 		{
-			LLViewerRegion* region = *iter;
 			for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 			{
 				LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -2336,11 +2326,8 @@ void LLPipeline::checkReferences(LLSpatialGroup* group)
 
 bool LLPipeline::visibleObjectsInFrustum(LLCamera& camera)
 {
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
-
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -2372,11 +2359,8 @@ bool LLPipeline::getVisibleExtents(LLCamera& camera, LLVector3& min, LLVector3& 
 
 	bool res = true;
 
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
-
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -2491,10 +2475,8 @@ void LLPipeline::updateCull(LLCamera& camera, LLCullResult& result, S32 water_cl
 		mCubeVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
 	}
 	
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for(LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		if (water_clip != 0)
 		{
 			LLPlane plane(LLVector3(0,0, (F32) -water_clip), (F32) water_clip*region->getWaterHeight());
@@ -2685,10 +2667,9 @@ void LLPipeline::doOcclusion(LLCamera& camera)
 		}
 	
 		//apply occlusion culling to object cache tree
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+		for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 		{
-			LLVOCachePartition* vo_part = (*iter)->getVOCachePartition();
+			LLVOCachePartition* vo_part = region->getVOCachePartition();
 			if(vo_part)
 			{
 				vo_part->processOccluders(&camera);
@@ -2868,7 +2849,7 @@ void LLPipeline::rebuildPriorityGroups()
 		group->clearState(LLSpatialGroup::IN_BUILD_Q1);
 	}
 
-	mGroupSaveQ1 = mGroupQ1;
+	mGroupSaveQ1.swap(mGroupQ1);
 	mGroupQ1.clear();
 	mGroupQ1Locked = false;
 
@@ -3160,10 +3141,8 @@ void LLPipeline::shiftObjects(const LLVector3 &offset)
 	
 	{
 		LL_RECORD_BLOCK_TIME(FTM_SHIFT_OCTREE);
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-				iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+		for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 		{
-			LLViewerRegion* region = *iter;
 			for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 			{
 				LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -3337,7 +3316,7 @@ void LLPipeline::stateSort(LLCamera& camera, LLCullResult &result)
 	//LLVertexBuffer::unbind();
 
 	grabReferences(result);
-	for (LLCullResult::sg_iterator iter = sCull->beginDrawableGroups(); iter != sCull->endDrawableGroups(); ++iter)
+	for (LLCullResult::sg_iterator iter = sCull->beginDrawableGroups(), iter_end = sCull->endDrawableGroups(); iter != iter_end; ++iter)
 	{
 		LLSpatialGroup* group = *iter;
 		group->checkOcclusion();
@@ -3348,7 +3327,7 @@ void LLPipeline::stateSort(LLCamera& camera, LLCullResult &result)
 		else
 		{
 			group->setVisible();
-			for (LLSpatialGroup::element_iter i = group->getDataBegin(); i != group->getDataEnd(); ++i)
+			for (LLSpatialGroup::element_iter i = group->getDataBegin(), i_end = group->getDataEnd(); i != i_end; ++i)
 			{
 				markVisible((LLDrawable*)(*i)->getDrawable(), camera);
 			}
@@ -3364,9 +3343,8 @@ void LLPipeline::stateSort(LLCamera& camera, LLCullResult &result)
 	{
 		LLSpatialGroup* last_group = nullptr;
 		BOOL fov_changed = LLViewerCamera::getInstance()->isDefaultFOVChanged();
-		for (LLCullResult::bridge_iterator i = sCull->beginVisibleBridge(); i != sCull->endVisibleBridge(); ++i)
+		for (LLCullResult::bridge_iterator cur_iter = sCull->beginVisibleBridge(), cur_iter_end = sCull->endVisibleBridge(); cur_iter != cur_iter_end; ++cur_iter)
 		{
-			LLCullResult::bridge_iterator cur_iter = i;
 			LLSpatialBridge* bridge = *cur_iter;
 			LLSpatialGroup* group = bridge->getSpatialGroup();
 
@@ -3396,7 +3374,7 @@ void LLPipeline::stateSort(LLCamera& camera, LLCullResult &result)
 		}
 	}
 
-	for (LLCullResult::sg_iterator iter = sCull->beginVisibleGroups(); iter != sCull->endVisibleGroups(); ++iter)
+	for (LLCullResult::sg_iterator iter = sCull->beginVisibleGroups(), iter_end = sCull->endVisibleGroups(); iter != iter_end; ++iter)
 	{
 		LLSpatialGroup* group = *iter;
 		group->checkOcclusion();
@@ -3418,8 +3396,8 @@ void LLPipeline::stateSort(LLCamera& camera, LLCullResult &result)
 	
 	{
 		LL_RECORD_BLOCK_TIME(FTM_STATESORT_DRAWABLE);
-		for (LLCullResult::drawable_iterator iter = sCull->beginVisibleList();
-			 iter != sCull->endVisibleList(); ++iter)
+		for (LLCullResult::drawable_iterator iter = sCull->beginVisibleList(), iter_end = sCull->endVisibleList();
+			 iter != iter_end; ++iter)
 		{
 			LLDrawable *drawablep = *iter;
 			if (!drawablep->isDead())
@@ -3436,7 +3414,7 @@ void LLPipeline::stateSort(LLSpatialGroup* group, LLCamera& camera)
 {
 	if (group->changeLOD())
 	{
-		for (LLSpatialGroup::element_iter i = group->getDataBegin(); i != group->getDataEnd(); ++i)
+		for (LLSpatialGroup::element_iter i = group->getDataBegin(), i_end = group->getDataEnd(); i != i_end; ++i)
 		{
 			stateSort((LLDrawable*)(*i)->getDrawable(), camera);
 		}
@@ -3753,7 +3731,7 @@ void LLPipeline::postSort(LLCamera& camera)
 
 
 	//rebuild drawable geometry
-	for (LLCullResult::sg_iterator i = sCull->beginDrawableGroups(); i != sCull->endDrawableGroups(); ++i)
+	for (LLCullResult::sg_iterator i = sCull->beginDrawableGroups(), i_end = sCull->endDrawableGroups(); i != i_end; ++i)
 	{
 		LLSpatialGroup* group = *i;
 		if (!sUseOcclusion || 
@@ -3770,7 +3748,7 @@ void LLPipeline::postSort(LLCamera& camera)
 
 	
 	//build render map
-	for (LLCullResult::sg_iterator i = sCull->beginVisibleGroups(); i != sCull->endVisibleGroups(); ++i)
+	for (LLCullResult::sg_iterator i = sCull->beginVisibleGroups(), i_end = sCull->endVisibleGroups(); i != i_end; ++i)
 	{
 		LLSpatialGroup* group = *i;
 		if ((sUseOcclusion && 
@@ -3786,29 +3764,28 @@ void LLPipeline::postSort(LLCamera& camera)
 			group->rebuildGeom();
 		}
 
-		for (LLSpatialGroup::draw_map_t::iterator j = group->mDrawMap.begin(); j != group->mDrawMap.end(); ++j)
+		for (auto& draw_pair : group->mDrawMap)
 		{
-			LLSpatialGroup::drawmap_elem_t& src_vec = j->second;	
-			if (!hasRenderType(j->first))
+			if (!hasRenderType(draw_pair.first))
 			{
 				continue;
 			}
 			
-			for (LLSpatialGroup::drawmap_elem_t::iterator k = src_vec.begin(); k != src_vec.end(); ++k)
+			for (LLDrawInfo* params : draw_pair.second)
 			{
 				if (sMinRenderSize > 0.f)
 				{
 					LLVector4a bounds;
-					bounds.setSub((*k)->mExtents[1],(*k)->mExtents[0]);
+					bounds.setSub(params->mExtents[1], params->mExtents[0]);
 
 					if (llmax(llmax(bounds[0], bounds[1]), bounds[2]) > sMinRenderSize)
 					{
-						sCull->pushDrawInfo(j->first, *k);
+						sCull->pushDrawInfo(draw_pair.first, params);
 					}
 				}
 				else
 				{
-					sCull->pushDrawInfo(j->first, *k);
+					sCull->pushDrawInfo(draw_pair.first, params);
 				}
 			}
 		}
@@ -3852,9 +3829,9 @@ void LLPipeline::postSort(LLCamera& camera)
 	}
 
 	//pack vertex buffers for groups that chose to delay their updates
-	for (LLSpatialGroup::sg_vector_t::iterator iter = mMeshDirtyGroup.begin(); iter != mMeshDirtyGroup.end(); ++iter)
+	for(LLSpatialGroup* group : mMeshDirtyGroup)
 	{
-		(*iter)->rebuildMesh();
+		group->rebuildMesh();
 	}
 
 	mMeshDirtyGroup.clear();
@@ -4311,9 +4288,8 @@ void LLPipeline::renderGeom(LLCamera& camera, bool forceVBOUpdate)
 	
 	LLAppViewer::instance()->pingMainloopTimeout("Pipeline:RenderDrawPools");
 
-	for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
+	for(LLDrawPool* poolp : mPools)
 	{
-		LLDrawPool *poolp = *iter;
 		if (hasRenderType(poolp->getType()))
 		{
 			poolp->prerender();
@@ -4489,9 +4465,8 @@ void LLPipeline::renderGeomDeferred(LLCamera& camera)
 
 	LLGLEnable cull(GL_CULL_FACE);
 
-	for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
+	for (LLDrawPool* poolp : mPools)
 	{
-		LLDrawPool *poolp = *iter;
 		if (hasRenderType(poolp->getType()))
 		{
 			poolp->prerender();
@@ -4780,10 +4755,8 @@ void LLPipeline::renderPhysicsDisplay()
 		gDebugProgram.bind();
 	}
 
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -4866,10 +4839,8 @@ void LLPipeline::renderDebug()
 
 
 	// Debug stuff.
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -5676,12 +5647,12 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		
 		// UPDATE THE EXISTING NEARBY LIGHTS
 		light_set_t cur_nearby_lights;
-		for (light_set_t::iterator iter = mNearbyLights.begin();
-			iter != mNearbyLights.end(); iter++)
+		for (auto iter = mNearbyLights.cbegin(), end_iter = mNearbyLights.cend();
+			iter != end_iter; ++iter)
 		{
-			const Light* light = &(*iter);
-			LLDrawable* drawable = light->drawable;
-            const LLViewerObject *vobj = light->drawable->getVObj();
+			const Light& light = *iter;
+			LLDrawable* drawable = light.drawable;
+            const LLViewerObject *vobj = light.drawable->getVObj();
 			LLVOAvatar* avatarp = vobj ? vobj->getAvatar() : nullptr;
             if(avatarp && avatarp->isVisuallyMuted())
             {
@@ -5695,7 +5666,7 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 				drawable->clearState(LLDrawable::NEARBY_LIGHT);
 				continue;
 			}
-			if (light->fade <= -LIGHT_FADE_TIME)
+			if (light.fade <= -LIGHT_FADE_TIME)
 			{
 				drawable->clearState(LLDrawable::NEARBY_LIGHT);
 				continue;
@@ -5707,14 +5678,14 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 			}
 
 			F32 dist = calc_light_dist(volight, cam_pos, max_dist);
-			cur_nearby_lights.emplace(drawable, dist, light->fade);
+			cur_nearby_lights.emplace(drawable, dist, light.fade);
 		}
-		mNearbyLights = cur_nearby_lights;
+		mNearbyLights.swap(cur_nearby_lights);
 				
 		// FIND NEW LIGHTS THAT ARE IN RANGE
 		light_set_t new_nearby_lights;
-		for (LLDrawable::drawable_set_t::iterator iter = mLights.begin();
-			 iter != mLights.end(); ++iter)
+		for (auto iter = mLights.cbegin(), end_iter = mLights.cend();
+			 iter != end_iter; ++iter)
 		{
 			LLDrawable* drawable = *iter;
 			LLVOVolume* light = drawable->getVOVolume();
@@ -5745,14 +5716,14 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		}
 
 		// INSERT ANY NEW LIGHTS
-		for (light_set_t::iterator iter = new_nearby_lights.begin();
-			 iter != new_nearby_lights.end(); iter++)
+		for (auto iter = new_nearby_lights.cbegin(), end_iter = new_nearby_lights.cend();
+			 iter != end_iter; ++iter)
 		{
-			const Light* light = &(*iter);
+			const Light& light = (*iter);
 			if (mNearbyLights.size() < (U32)MAX_LOCAL_LIGHTS)
 			{
-				mNearbyLights.emplace(*light);
-				((LLDrawable*) light->drawable)->setState(LLDrawable::NEARBY_LIGHT);
+				mNearbyLights.emplace(light);
+				((LLDrawable*) light.drawable)->setState(LLDrawable::NEARBY_LIGHT);
 			}
 			else
 			{
@@ -5760,7 +5731,7 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 				// even though gcc enforces sets as const
 				// (fade value doesn't affect sort so this is safe)
 				Light* farthest_light = (const_cast<Light*>(&(*(mNearbyLights.rbegin()))));
-				if (light->dist < farthest_light->dist)
+				if (light.dist < farthest_light->dist)
 				{
 					if (farthest_light->fade >= 0.f)
 					{
@@ -5775,8 +5746,8 @@ void LLPipeline::calcNearbyLights(LLCamera& camera)
 		}
 		
 		//mark nearby lights not-removable.
-		for (light_set_t::iterator iter = mNearbyLights.begin();
-			 iter != mNearbyLights.end(); iter++)
+		for (auto iter = mNearbyLights.cbegin(), end_iter = mNearbyLights.cend();
+			 iter != end_iter; iter++)
 		{
 			const Light* light = &(*iter);
 			((LLViewerOctreeEntryData*) light->drawable)->setVisible();
@@ -6625,7 +6596,6 @@ LLVOPartGroup* LLPipeline::lineSegmentIntersectParticle(const LLVector4a& start,
 
 	for (auto region : LLWorld::getInstance()->getRegionList())
 	{
-
 		LLSpatialPartition* part = region->getSpatialPartition(LLViewerRegion::PARTITION_PARTICLE);
 		if (part && hasRenderType(part->mDrawableType))
 		{
@@ -6673,11 +6643,8 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 
 	sPickAvatar = false; //! LLToolMgr::getInstance()->inBuildMode();
 	
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for(LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
-
 		for (U32 j = 0; j < LLViewerRegion::NUM_PARTITIONS; j++)
 		{
 			if ((j == LLViewerRegion::PARTITION_VOLUME) || 
@@ -6738,11 +6705,8 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 
 		//check against avatars
 		sPickAvatar = true;
-		for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-				iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+		for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 		{
-			LLViewerRegion* region = *iter;
-
 			LLSpatialPartition* part = region->getSpatialPartition(LLViewerRegion::PARTITION_BRIDGE);
 			if (part && hasRenderType(part->mDrawableType))
 			{
@@ -6787,11 +6751,9 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInWorld(const LLVector4a& start,
 	}
 
 	//check all avatar nametags (silly, isn't it?)
-	for (std::vector< LLCharacter* >::iterator iter = LLCharacter::sInstances.begin();
-		iter != LLCharacter::sInstances.end();
-		++iter)
+	for(LLCharacter* character : LLCharacter::sInstances)
 	{
-		LLVOAvatar* av = (LLVOAvatar*) *iter;
+		LLVOAvatar* av = static_cast<LLVOAvatar*>(character);
 		if (av->mNameText.notNull()
 			&& av->mNameText->lineSegmentIntersect(start, local_end, position))
 		{
@@ -6819,11 +6781,8 @@ LLViewerObject* LLPipeline::lineSegmentIntersectInHUD(const LLVector4a& start, c
 {
 	LLDrawable* drawable = nullptr;
 
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
-
 		bool toggle = false;
 		if (!hasRenderType(LLPipeline::RENDER_TYPE_HUD))
 		{
@@ -6913,10 +6872,8 @@ void LLPipeline::doResetVertexBuffers(bool forced)
 	mCubeVB = nullptr;
 	mAuxScreenRectVB = nullptr;
 
-	for (LLWorld::region_list_t::const_iterator iter = LLWorld::getInstance()->getRegionList().begin(); 
-			iter != LLWorld::getInstance()->getRegionList().end(); ++iter)
+	for (LLViewerRegion* region : LLWorld::getInstance()->getRegionList())
 	{
-		LLViewerRegion* region = *iter;
 		for (U32 i = 0; i < LLViewerRegion::NUM_PARTITIONS; i++)
 		{
 			LLSpatialPartition* part = region->getSpatialPartition(i);
@@ -8075,10 +8032,8 @@ void LLPipeline::renderDeferredLighting()
 				mCubeVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
 				
 				LLGLDepthTest depth(GL_TRUE, GL_FALSE);
-				for (LLDrawable::drawable_set_t::iterator iter = mLights.begin(); iter != mLights.end(); ++iter)
+				for (LLDrawable* drawablep : mLights)
 				{
-					LLDrawable* drawablep = *iter;
-					
 					LLVOVolume* volume = drawablep->getVOVolume();
 					if (!volume)
 					{
@@ -8187,11 +8142,9 @@ void LLPipeline::renderDeferredLighting()
 
 				gDeferredSpotLightProgram.enableTexture(LLShaderMgr::DEFERRED_PROJECTION);
 
-				for (LLDrawable::drawable_list_t::iterator iter = spot_lights.begin(); iter != spot_lights.end(); ++iter)
+				for (LLDrawable* drawablep : spot_lights)
 				{
 					LL_RECORD_BLOCK_TIME(FTM_PROJECTORS);
-					LLDrawable* drawablep = *iter;
-
 					LLVOVolume* volume = drawablep->getVOVolume();
 
 					LLVector4a center;
@@ -8272,11 +8225,9 @@ void LLPipeline::renderDeferredLighting()
 
 				gDeferredMultiSpotLightProgram.enableTexture(LLShaderMgr::DEFERRED_PROJECTION);
 
-				for (LLDrawable::drawable_list_t::iterator iter = fullscreen_spot_lights.begin(); iter != fullscreen_spot_lights.end(); ++iter)
+				for (LLDrawable* drawablep : fullscreen_spot_lights)
 				{
 					LL_RECORD_BLOCK_TIME(FTM_PROJECTORS);
-					LLDrawable* drawablep = *iter;
-					
 					LLVOVolume* volume = drawablep->getVOVolume();
 
 					LLVector3 center = drawablep->getPositionAgent();

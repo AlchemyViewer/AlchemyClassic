@@ -1548,8 +1548,6 @@ void render_ui_2d()
 				last_rect.mRight = LLRect::tCoordType(last_rect.mRight / LLUI::getScaleFactor().mV[0]);
 				last_rect.mTop = LLRect::tCoordType(last_rect.mTop / LLUI::getScaleFactor().mV[1]);
 				last_rect.mBottom = LLRect::tCoordType(last_rect.mBottom / LLUI::getScaleFactor().mV[1]);
-
-				LLRect clip_rect(last_rect);
 				
 				glClear(GL_COLOR_BUFFER_BIT);
 

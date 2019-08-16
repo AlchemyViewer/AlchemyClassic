@@ -497,7 +497,7 @@ void LLXMLRPCTransaction::Impl::setHttpStatus(const LLCore::HttpStatus &status)
 			"please go to the support section and report this problem.";
 		break;
 
-	case CURLE_SSL_PEER_CERTIFICATE:
+	case CURLE_PEER_FAILED_VERIFICATION:
 		message =
 			"The login server couldn't verify itself via SSL.\n"
 			"If you continue to receive this error, please go\n"
@@ -505,7 +505,6 @@ void LLXMLRPCTransaction::Impl::setHttpStatus(const LLCore::HttpStatus &status)
 			"and report the problem.";
 		break;
 
-	case CURLE_SSL_CACERT:
 	case CURLE_SSL_CONNECT_ERROR:
 		message =
 			"Often this means that your computer\'s clock is set incorrectly.\n"

@@ -30,7 +30,7 @@
 #include "llfontgl.h"
 
 // Freetype stuff
-#include <freetype2/ft2build.h>
+#include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_SYSTEM_H
 

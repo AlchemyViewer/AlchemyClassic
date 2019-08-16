@@ -370,16 +370,10 @@ public:
                                      << " (" << data["error"].asString() << ")"
                                      << LL_ENDL;
 		
-		switch (curlcode)
-		{
-			case CURLE_SSL_PEER_CERTIFICATE:
-			case CURLE_SSL_CACERT:
-                data["certificate"] = mTransaction->getErrorCertData();
-				break;
+        if (curlcode == CURLE_PEER_FAILED_VERIFICATION) {
+            data["certificate"] = mTransaction->getErrorCertData();
+        }
 
-			default:
-				break;
-		}
         // values of 'curlcode':
         // CURLE_COULDNT_RESOLVE_HOST,
         // CURLE_SSL_PEER_CERTIFICATE,

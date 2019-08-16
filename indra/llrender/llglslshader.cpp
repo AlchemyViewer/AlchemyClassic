@@ -585,7 +585,6 @@ BOOL LLGLSLShader::mapAttributes(const std::vector<LLStaticHashedString> * attri
 
 void LLGLSLShader::mapUniform(const gl_uniform_data_t& gl_uniform, const std::vector<LLStaticHashedString> * uniforms)
 {
-	GLint size = gl_uniform.size;
 	char* name = (char*)gl_uniform.name.c_str(); //blegh
 #if !LL_DARWIN
 	if (size > 0)
@@ -783,7 +782,8 @@ BOOL LLGLSLShader::mapUniforms(const std::vector<LLStaticHashedString> * uniform
 	});
 
 	// Sanity check
-	if (gl_uniforms.size() && gl_uniforms[0].name == "tex0" || gl_uniforms.size() && gl_uniforms[0].name == "bumpMap")
+	if (!gl_uniforms.empty()
+        && (gl_uniforms[0].name == "tex0" || gl_uniforms[0].name == "bumpMap"))
 	{
 		llassert_always_msg(!has_diffuse, "Indexed textures and diffuseMap are incompatible!");
 	}
@@ -864,8 +864,7 @@ void LLGLSLShader::bindNoShader(void)
 
 S32 LLGLSLShader::bindTexture(const std::string &uniform, LLTexture *texture, LLTexUnit::eTextureType mode)
 {
-    S32 channel = 0;
-    channel = getUniformLocation(uniform);
+    S32 channel = getUniformLocation(uniform);
     
     return bindTexture(channel, texture, mode);
 }

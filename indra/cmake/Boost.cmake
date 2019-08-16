@@ -21,7 +21,7 @@ if (USESYSTEMLIBS)
 else (USESYSTEMLIBS)
   use_prebuilt_binary(boost)
   set(Boost_INCLUDE_DIRS ${LIBS_PREBUILT_DIR}/include)
-  set(BOOST_VERSION "1.59")
+  set(BOOST_VERSION "1.69")
 
   if (WINDOWS)
     set(BOOST_CHRONO_LIBRARY
@@ -93,38 +93,38 @@ else (USESYSTEMLIBS)
         debug boost_thread-mt-d)
   elseif (DARWIN)
     set(BOOST_CHRONO_LIBRARY
-        optimized boost_chrono-mt
-        debug boost_chrono-mt-d)
+        optimized boost_chrono-mt-x64
+        debug boost_chrono-mt-x64-d)
     set(BOOST_CONTEXT_LIBRARY
-        optimized boost_context-mt
-        debug boost_context-mt-d)
+        optimized boost_context-mt-x64
+        debug boost_context-mt-x64-d)
     set(BOOST_COROUTINE_LIBRARY
-        optimized boost_coroutine-mt
-        debug boost_coroutine-mt-d)
+        optimized boost_coroutine-mt-x64
+        debug boost_coroutine-mt-x64-d)
     set(BOOST_DATE_TIME_LIBRARY
-        optimized boost_date_time-mt
-        debug boost_date_time-mt-d)
+        optimized boost_date_time-mt-x64
+        debug boost_date_time-mt-x64-d)
     set(BOOST_FILESYSTEM_LIBRARY
-        optimized boost_filesystem-mt
-        debug boost_filesystem-mt-d)
+        optimized boost_filesystem-mt-x64
+        debug boost_filesystem-mt-x64-d)
     set(BOOST_IOSTREAMS_LIBRARY
-        optimized boost_iostreams-mt
-        debug boost_iostreams-mt-d)
+        optimized boost_iostreams-mt-x64
+        debug boost_iostreams-mt-x64-d)
     set(BOOST_PROGRAM_OPTIONS_LIBRARY
-        optimized boost_program_options-mt
-        debug boost_program_options-mt-d)
+        optimized boost_program_options-mt-x64
+        debug boost_program_options-mt-x64-d)
     set(BOOST_REGEX_LIBRARY
-        optimized boost_regex-mt
-        debug boost_regex-mt-d)
+        optimized boost_regex-mt-x64
+        debug boost_regex-mt-x64-d)
     set(BOOST_SIGNALS_LIBRARY
-        optimized boost_signals-mt
-        debug boost_signals-mt-d)
+        optimized boost_signals-mt-x64
+        debug boost_signals-mt-x64-d)
     set(BOOST_SYSTEM_LIBRARY
-        optimized boost_system-mt
-        debug boost_system-mt-d)
+        optimized boost_system-mt-x64
+        debug boost_system-mt-x64-d)
     set(BOOST_THREAD_LIBRARY
-        optimized boost_thread-mt
-        debug boost_thread-mt-d)
+        optimized boost_thread-mt-x64
+        debug boost_thread-mt-x64-d)
   endif ()
 endif (USESYSTEMLIBS)
 

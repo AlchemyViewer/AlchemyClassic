@@ -587,6 +587,7 @@ void LLGLSLShader::mapUniform(const gl_uniform_data_t& gl_uniform, const std::ve
 {
 	char* name = (char*)gl_uniform.name.c_str(); //blegh
 #if !LL_DARWIN
+	GLint size = gl_uniform.size;
 	if (size > 0)
 	{
 		switch(gl_uniform.type)

@@ -2127,9 +2127,8 @@ void LLDrawPoolAvatar::updateRiggedVertexBuffers(LLVOAvatar* avatar)
 	//update rigged vertex buffers
 	for (U32 type = 0; type < NUM_RIGGED_PASSES; ++type)
 	{
-		for (U32 i = 0; i < mRiggedFace[type].size(); ++i)
+		for (LLFace* face : mRiggedFace[type])
 		{
-			LLFace* face = mRiggedFace[type][i];
 			LLDrawable* drawable = face->getDrawable();
 			if (!drawable)
 			{

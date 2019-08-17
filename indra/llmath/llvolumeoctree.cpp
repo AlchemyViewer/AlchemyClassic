@@ -125,7 +125,7 @@ void LLOctreeTriangleRayIntersect::traverse(const LLOctreeNode<LLVolumeTriangle>
 void LLOctreeTriangleRayIntersect::visit(const LLOctreeNode<LLVolumeTriangle>* node)
 {
 	for (LLOctreeNode<LLVolumeTriangle>::const_element_iter iter = 
-			node->getDataBegin(); iter != node->getDataEnd(); ++iter)
+			node->getDataBegin(), iter_end = node->getDataEnd(); iter != iter_end; ++iter)
 	{
 		const LLVolumeTriangle* tri = *iter;
 

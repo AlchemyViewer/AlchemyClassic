@@ -641,8 +641,7 @@ void LLStreamingAudio_FMODSTUDIO::setBufferSizes(U32 streambuffertime, U32 decod
 bool LLStreamingAudio_FMODSTUDIO::releaseDeadStreams()
 {
 	// Kill dead internet streams, if possible
-	std::list<LLAudioStreamManagerFMODSTUDIO *>::iterator iter;
-	for (iter = mDeadStreams.begin(); iter != mDeadStreams.end();)
+	for (auto iter = mDeadStreams.begin(); iter != mDeadStreams.end();)
 	{
 		LLAudioStreamManagerFMODSTUDIO *streamp = *iter;
 		if (streamp->stopStream())

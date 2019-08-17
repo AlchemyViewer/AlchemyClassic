@@ -758,7 +758,7 @@ void LLSpatialGroup::handleDestruction(const TreeNode* node)
 	}
 	setState(DEAD);	
 
-	for (element_iter i = getDataBegin(); i != getDataEnd(); ++i)
+	for (element_iter i = getDataBegin(), i_end = getDataEnd(); i != i_end; ++i)
 	{
 		LLViewerOctreeEntry* entry = *i;
 
@@ -815,7 +815,7 @@ void LLSpatialGroup::destroyGL(bool keep_occlusion)
 	}
 
 
-	for (LLSpatialGroup::element_iter i = getDataBegin(); i != getDataEnd(); ++i)
+	for (LLSpatialGroup::element_iter i = getDataBegin(), i_end = getDataEnd(); i != i_end; ++i)
 	{
 		LLDrawable* drawable = (LLDrawable*)(*i)->getDrawable();
 		if(!drawable)
@@ -1169,7 +1169,7 @@ public:
 		LLSpatialGroup* group = (LLSpatialGroup*)base_group;
 		OctreeNode* branch = group->getOctreeNode();
 
-		for (OctreeNode::const_element_iter i = branch->getDataBegin(); i != branch->getDataEnd(); ++i)
+		for (OctreeNode::const_element_iter i = branch->getDataBegin(), i_end = branch->getDataEnd(); i != i_end; ++i)
 		{
 			LLDrawable* drawable = (LLDrawable*)(*i)->getDrawable();
 			if(!drawable)
@@ -1310,7 +1310,7 @@ public:
 		LLSpatialGroup* group = (LLSpatialGroup*) state->getListener(0);
 		group->destroyGL();
 
-		for (LLSpatialGroup::element_iter i = group->getDataBegin(); i != group->getDataEnd(); ++i)
+		for (LLSpatialGroup::element_iter i = group->getDataBegin(), i_end = group->getDataEnd(); i != i_end; ++i)
 		{
 			LLDrawable* drawable = (LLDrawable*)(*i)->getDrawable();
 			if(!drawable)
@@ -1327,9 +1327,8 @@ public:
 			}
 		}
 
-		for (LLSpatialGroup::bridge_list_t::iterator i = group->mBridgeList.begin(); i != group->mBridgeList.end(); ++i)
+		for (LLSpatialBridge* bridge : group->mBridgeList)
 		{
-			LLSpatialBridge* bridge = *i;
 			traverse(bridge->mOctree);
 		}
 	}
@@ -1443,13 +1442,10 @@ void pushVerts(LLDrawInfo* params, U32 mask)
 
 void pushVerts(LLSpatialGroup* group, U32 mask)
 {
-	LLDrawInfo* params = NULL;
-
-	for (LLSpatialGroup::draw_map_t::iterator i = group->mDrawMap.begin(); i != group->mDrawMap.end(); ++i)
+	for (auto& pair : group->mDrawMap)
 	{
-		for (LLSpatialGroup::drawmap_elem_t::iterator j = i->second.begin(); j != i->second.end(); ++j) 
+		for (LLDrawInfo* params : pair.second)
 		{
-			params = *j;
 			pushVerts(params, mask);
 		}
 	}
@@ -1516,13 +1512,13 @@ void pushBufferVerts(LLSpatialGroup* group, U32 mask, bool push_alpha = true)
 				pushBufferVerts(group->mVertexBuffer, mask);
 			}
 
-			for (LLSpatialGroup::buffer_map_t::iterator i = group->mBufferMap.begin(); i != group->mBufferMap.end(); ++i)
+			for (auto& buff_pair : group->mBufferMap)
 			{
-				for (LLSpatialGroup::buffer_texture_map_t::iterator j = i->second.begin(); j != i->second.end(); ++j)
+				for (auto& buff_tex_pair : buff_pair.second)
 				{
-					for (LLSpatialGroup::buffer_list_t::iterator k = j->second.begin(); k != j->second.end(); ++k)
+					for (LLVertexBuffer* buff : buff_tex_pair.second)
 					{
-						pushBufferVerts(*k, mask);
+						pushBufferVerts(buff, mask);
 					}
 				}
 			}

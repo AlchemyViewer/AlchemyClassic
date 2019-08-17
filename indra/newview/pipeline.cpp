@@ -1500,9 +1500,8 @@ void LLPipeline::dirtyPoolObjectTextures(const std::set<LLViewerFetchedTexture*>
 	// *TODO: This is inefficient and causes frame spikes; need a better way to do this
 	//        Most of the time is spent in dirty.traverse.
 
-	for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
+	for (LLDrawPool* poolp : mPools)
 	{
-		LLDrawPool *poolp = *iter;
 		if (poolp->isFacePool())
 		{
 			((LLFacePool*) poolp)->dirtyTextures(textures);
@@ -2659,7 +2658,7 @@ void LLPipeline::doOcclusion(LLCamera& camera)
 		}
 		mCubeVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
 
-		for (LLCullResult::sg_iterator iter = sCull->beginOcclusionGroups(); iter != sCull->endOcclusionGroups(); ++iter)
+		for (LLCullResult::sg_iterator iter = sCull->beginOcclusionGroups(), iter_end = sCull->endOcclusionGroups(); iter != iter_end; ++iter)
 		{
 			LLSpatialGroup* group = *iter;
 			group->doOcclusion(&camera);
@@ -2733,11 +2732,8 @@ void LLPipeline::clearRebuildGroups()
 
 	mGroupQ1Locked = true;
 	// Iterate through all drawables on the priority build queue,
-	for (LLSpatialGroup::sg_vector_t::iterator iter = mGroupQ1.begin();
-		 iter != mGroupQ1.end(); ++iter)
+	for (LLSpatialGroup* group : mGroupQ1)
 	{
-		LLSpatialGroup* group = *iter;
-
 		// If the group contains HUD objects, save the group
 		if (group->isHUDGroup())
 		{
@@ -2761,11 +2757,8 @@ void LLPipeline::clearRebuildGroups()
 	hudGroups.clear();
 
 	mGroupQ2Locked = true;
-	for (LLSpatialGroup::sg_vector_t::iterator iter = mGroupQ2.begin();
-		 iter != mGroupQ2.end(); ++iter)
+	for (LLSpatialGroup* group : mGroupQ2)
 	{
-		LLSpatialGroup* group = *iter;
-
 		// If the group contains HUD objects, save the group
 		if (group->isHUDGroup())
 		{
@@ -2788,10 +2781,8 @@ void LLPipeline::clearRebuildGroups()
 void LLPipeline::clearRebuildDrawables()
 {
 	// Clear all drawables on the priority build queue,
-	for (LLDrawable::drawable_list_t::iterator iter = mBuildQ1.begin();
-		 iter != mBuildQ1.end(); ++iter)
+	for (LLDrawable* drawablep : mBuildQ1)
 	{
-		LLDrawable* drawablep = *iter;
 		if (drawablep && !drawablep->isDead())
 		{
 			drawablep->clearState(LLDrawable::IN_REBUILD_Q2);
@@ -2801,10 +2792,8 @@ void LLPipeline::clearRebuildDrawables()
 	mBuildQ1.clear();
 
 	// clear drawables on the non-priority build queue
-	for (LLDrawable::drawable_list_t::iterator iter = mBuildQ2.begin();
-		 iter != mBuildQ2.end(); ++iter)
+	for (LLDrawable* drawablep : mBuildQ2)
 	{
-		LLDrawable* drawablep = *iter;
 		if (!drawablep->isDead())
 		{
 			drawablep->clearState(LLDrawable::IN_REBUILD_Q2);
@@ -2813,19 +2802,15 @@ void LLPipeline::clearRebuildDrawables()
 	mBuildQ2.clear();
 	
 	//clear all moving bridges
-	for (LLDrawable::drawable_vector_t::iterator iter = mMovedBridge.begin();
-		 iter != mMovedBridge.end(); ++iter)
+	for (LLDrawable* drawablep : mMovedBridge)
 	{
-		LLDrawable *drawablep = *iter;
 		drawablep->clearState(LLDrawable::EARLY_MOVE | LLDrawable::MOVE_UNDAMPED | LLDrawable::ON_MOVE_LIST | LLDrawable::ANIMATED_CHILD);
 	}
 	mMovedBridge.clear();
 
 	//clear all moving drawables
-	for (LLDrawable::drawable_vector_t::iterator iter = mMovedList.begin();
-		 iter != mMovedList.end(); ++iter)
+	for (LLDrawable* drawablep : mMovedList)
 	{
-		LLDrawable *drawablep = *iter;
 		drawablep->clearState(LLDrawable::EARLY_MOVE | LLDrawable::MOVE_UNDAMPED | LLDrawable::ON_MOVE_LIST | LLDrawable::ANIMATED_CHILD);
 	}
 	mMovedList.clear();
@@ -2841,10 +2826,8 @@ void LLPipeline::rebuildPriorityGroups()
 
 	mGroupQ1Locked = true;
 	// Iterate through all drawables on the priority build queue,
-	for (LLSpatialGroup::sg_vector_t::iterator iter = mGroupQ1.begin();
-		 iter != mGroupQ1.end(); ++iter)
+	for (LLSpatialGroup* group : mGroupQ1)
 	{
-		LLSpatialGroup* group = *iter;
 		group->rebuildGeom();
 		group->clearState(LLSpatialGroup::IN_BUILD_Q1);
 	}
@@ -3124,10 +3107,8 @@ void LLPipeline::shiftObjects(const LLVector3 &offset)
 	{
 		LL_RECORD_BLOCK_TIME(FTM_SHIFT_DRAWABLE);
 
-		for (LLDrawable::drawable_vector_t::iterator iter = mShiftList.begin();
-			 iter != mShiftList.end(); iter++)
+		for (LLDrawable* drawablep : mShiftList)
 		{
-			LLDrawable *drawablep = *iter;
 			if (drawablep->isDead())
 			{
 				continue;
@@ -3135,7 +3116,7 @@ void LLPipeline::shiftObjects(const LLVector3 &offset)
 			drawablep->shiftPos(offseta);	
 			drawablep->clearState(LLDrawable::ON_SHIFT_LIST);
 		}
-		mShiftList.resize(0);
+		mShiftList.clear();
 	}
 
 	
@@ -3193,9 +3174,8 @@ static LLTrace::BlockTimerStatHandle FTM_PROCESS_PARTITIONQ("PartitionQ");
 void LLPipeline::processPartitionQ()
 {
 	LL_RECORD_BLOCK_TIME(FTM_PROCESS_PARTITIONQ);
-	for (LLDrawable::drawable_list_t::iterator iter = mPartitionQ.begin(); iter != mPartitionQ.end(); ++iter)
+	for (LLDrawable* drawable : mPartitionQ)
 	{
-		LLDrawable* drawable = *iter;
 		if (!drawable->isDead())
 		{
 			drawable->updateBinRadius();
@@ -3527,7 +3507,7 @@ void forAllDrawables(LLCullResult::sg_iterator begin,
 {
 	for (LLCullResult::sg_iterator i = begin; i != end; ++i)
 	{
-		for (LLSpatialGroup::element_iter j = (*i)->getDataBegin(); j != (*i)->getDataEnd(); ++j)
+		for (LLSpatialGroup::element_iter j = (*i)->getDataBegin(), j_end = (*i)->getDataEnd(); j != j_end; ++j)
 		{
 			if((*j)->hasDrawable())
 			{
@@ -5500,9 +5480,8 @@ void LLPipeline::resetDrawOrders()
 {
 	assertInitialized();
 	// Iterate through all of the draw pools and rebuild them.
-	for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
+	for (LLDrawPool* poolp : mPools)
 	{
-		LLDrawPool *poolp = *iter;
 		poolp->resetDrawOrders();
 	}
 }
@@ -5822,8 +5801,8 @@ void LLPipeline::setupHWLights(LLDrawPool* pool)
 	
 	if (mLightingDetail >= 1)
 	{
-		for (light_set_t::iterator iter = mNearbyLights.begin();
-			 iter != mNearbyLights.end(); ++iter)
+		for (light_set_t::iterator iter = mNearbyLights.begin(), iter_end = mNearbyLights.end();
+			 iter != iter_end; ++iter)
 		{
 			LLDrawable* drawable = iter->drawable;
 			LLVOVolume* light = drawable->getVOVolume();
@@ -6201,9 +6180,8 @@ bool LLPipeline::verify()
 	bool ok = assertInitialized();
 	if (ok) 
 	{
-		for (pool_set_t::iterator iter = mPools.begin(); iter != mPools.end(); ++iter)
+		for (LLDrawPool* poolp : mPools)
 		{
-			LLDrawPool *poolp = *iter;
 			if (!poolp->verify())
 			{
 				ok = false;
@@ -8574,10 +8552,8 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 				mCubeVB->setBuffer(LLVertexBuffer::MAP_VERTEX);
 				
 				LLGLDepthTest depth(GL_TRUE, GL_FALSE);
-				for (LLDrawable::drawable_set_t::iterator iter = mLights.begin(); iter != mLights.end(); ++iter)
+				for (LLDrawable* drawablep : mLights)
 				{
-					LLDrawable* drawablep = *iter;
-					
 					LLVOVolume* volume = drawablep->getVOVolume();
 					if (!volume)
 					{
@@ -8680,11 +8656,9 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 
 				gDeferredSpotLightProgram.enableTexture(LLShaderMgr::DEFERRED_PROJECTION);
 
-				for (LLDrawable::drawable_list_t::iterator iter = spot_lights.begin(); iter != spot_lights.end(); ++iter)
+				for (LLDrawable* drawablep : spot_lights)
 				{
 					LL_RECORD_BLOCK_TIME(FTM_PROJECTORS);
-					LLDrawable* drawablep = *iter;
-
 					LLVOVolume* volume = drawablep->getVOVolume();
 
 					LLVector4a center;
@@ -8766,11 +8740,9 @@ void LLPipeline::renderDeferredLightingToRT(LLRenderTarget* target)
 
 				gDeferredMultiSpotLightProgram.enableTexture(LLShaderMgr::DEFERRED_PROJECTION);
 
-				for (LLDrawable::drawable_list_t::iterator iter = fullscreen_spot_lights.begin(); iter != fullscreen_spot_lights.end(); ++iter)
+				for (LLDrawable* drawablep : fullscreen_spot_lights)
 				{
 					LL_RECORD_BLOCK_TIME(FTM_PROJECTORS);
-					LLDrawable* drawablep = *iter;
-					
 					LLVOVolume* volume = drawablep->getVOVolume();
 
 					LLVector3 center = drawablep->getPositionAgent();
@@ -9790,9 +9762,9 @@ void LLPipeline::renderHighlight(const LLViewerObject* obj, F32 fade)
 {
 	if (obj && obj->getVolume())
 	{
-		for (LLViewerObject::child_list_t::const_iterator iter = obj->getChildren().begin(); iter != obj->getChildren().end(); ++iter)
+		for (const LLViewerObject* childp : obj->getChildren())
 		{
-			renderHighlight(*iter, fade);
+			renderHighlight(childp, fade);
 		}
 
 		LLDrawable* drawable = obj->mDrawable;
@@ -10714,16 +10686,11 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 		LLVOAvatar::sUseImpostors = false; // @TODO ???
 
 		LLVOAvatar::attachment_map_t::iterator iter;
-		for (iter = avatar->mAttachmentPoints.begin();
-			iter != avatar->mAttachmentPoints.end();
-			++iter)
+		for (const auto& attach_pair : avatar->mAttachmentPoints)
 		{
-			LLViewerJointAttachment *attachment = iter->second;
-			for (LLViewerJointAttachment::attachedobjs_vec_t::iterator attachment_iter = attachment->mAttachedObjects.begin();
-				 attachment_iter != attachment->mAttachedObjects.end();
-				 ++attachment_iter)
+			for (LLViewerObject* attached_object : attach_pair.second->mAttachedObjects)
 			{
-				if (LLViewerObject* attached_object = (*attachment_iter))
+				if (attached_object)
 				{
 					markVisible(attached_object->mDrawable->getSpatialBridge(), *viewer_camera);
 				}

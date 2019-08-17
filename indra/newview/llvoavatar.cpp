@@ -9778,10 +9778,8 @@ void LLVOAvatar::getAssociatedVolumes(std::vector<LLVOVolume*>& volumes)
         {
             volumes.push_back(volp);
             LLViewerObject::const_child_list_t& children = volp->getChildren();
-            for (LLViewerObject::const_child_list_t::const_iterator it = children.begin();
-                 it != children.end(); ++it)
+            for (LLViewerObject* childp : children)
             {
-                LLViewerObject *childp = *it;
                 LLVOVolume *volume = childp ? childp->asVolume() : nullptr;
                 if (volume)
                 {
@@ -9801,7 +9799,9 @@ void LLVOAvatar::updateRiggingInfo()
 {
     LL_RECORD_BLOCK_TIME(FTM_AVATAR_RIGGING_INFO_UPDATE);
 
+#if LL_DEBUG
     LL_DEBUGS("RigSpammish") << getFullname() << " updating rig tab" << LL_ENDL;
+#endif
 
     std::vector<LLVOVolume*> volumes;
 
@@ -9835,18 +9835,19 @@ void LLVOAvatar::updateRiggingInfo()
 	// Something changed. Update.
 	mLastRiggingInfoKeyHash = hash;
     mJointRiggingInfoTab.clear();
-    for (std::vector<LLVOVolume*>::iterator it = volumes.begin(); it != volumes.end(); ++it)
+    for (LLVOVolume* vol : volumes)
     {
-        LLVOVolume *vol = *it;
         vol->updateRiggingInfo();
         mJointRiggingInfoTab.merge(vol->mJointRiggingInfoTab);
     }
 
+#if LL_DEBUG
     //LL_INFOS() << "done update rig count is " << countRigInfoTab(mJointRiggingInfoTab) << LL_ENDL;
-    //LL_DEBUGS("RigSpammish") << getFullname() << " after update rig tab:" << LL_ENDL;
-    //S32 joint_count, box_count;
-    //showRigInfoTabExtents(this, mJointRiggingInfoTab, joint_count, box_count);
-    //LL_DEBUGS("RigSpammish") << "uses " << joint_count << " joints " << " nonzero boxes: " << box_count << LL_ENDL;
+    LL_DEBUGS("RigSpammish") << getFullname() << " after update rig tab:" << LL_ENDL;
+    S32 joint_count, box_count;
+    showRigInfoTabExtents(this, mJointRiggingInfoTab, joint_count, box_count);
+    LL_DEBUGS("RigSpammish") << "uses " << joint_count << " joints " << " nonzero boxes: " << box_count << LL_ENDL;
+#endif
 }
 
 // virtual

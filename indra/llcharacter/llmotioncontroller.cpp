@@ -216,11 +216,8 @@ void LLMotionController::purgeExcessMotions()
 	{
 		// too many motions active this frame, kill all blenders
 		mPoseBlender.clearBlenders();
-		for (auto loaded_motion_it = mLoadedMotions.cbegin(); 
-			 loaded_motion_it != mLoadedMotions.cend(); 
-			 ++loaded_motion_it)
+		for (LLMotion* cur_motionp : mLoadedMotions)
 		{
-			LLMotion* cur_motionp = *loaded_motion_it;
 			// motion isn't playing, delete it
 			if (!isMotionActive(cur_motionp))
 			{
@@ -230,13 +227,10 @@ void LLMotionController::purgeExcessMotions()
 	}
 	
 	// clean up all inactive, loaded motions
-	for (auto motion_it = motions_to_kill.begin();
-		motion_it != motions_to_kill.end();
-		++motion_it)
+	for (const auto& motion_id : motions_to_kill)
 	{
 		// look up the motion again by ID to get canonical instance
 		// and kill it only if that one is inactive
-		LLUUID motion_id = *motion_it;
 		LLMotion* motionp = findMotion(motion_id);
 		if (motionp && !isMotionActive(motionp))
 		{

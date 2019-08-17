@@ -1312,29 +1312,17 @@ void LLBumpImageList::onSourceLoaded( BOOL success, LLViewerTexture *src_vi, LLI
 			if( maximum > minimum )
 			{
 				LL_RECORD_BLOCK_TIME(FTM_BUMP_SOURCE_RESCALE);
-				U8 bias_and_scale_lut[256];
+				std::array<U8, 256> bias_and_scale_lut;
 				F32 twice_one_over_range = 2.f / (maximum - minimum);
-				S32 i;
 
-				const F32 ARTIFICIAL_SCALE = 2.f;  // Advantage: exaggerates the effect in midrange.  Disadvantage: clamps at the extremes.
-				if (BE_DARKNESS == bump_code)
+				constexpr F32 ARTIFICIAL_SCALE = 2.f;  // Advantage: exaggerates the effect in midrange.  Disadvantage: clamps at the extremes.
+				for(S32 i = minimum; i <= maximum; i++ )
 				{
-					for( i = minimum; i <= maximum; i++ )
-					{
-						F32 minus_one_to_one = F32(maximum - i) * twice_one_over_range - 1.f;
-						bias_and_scale_lut[i] = llclampb(ll_round(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
-					}
-				}
-				else
-				{
-					for( i = minimum; i <= maximum; i++ )
-					{
-						F32 minus_one_to_one = F32(i - minimum) * twice_one_over_range - 1.f;
-						bias_and_scale_lut[i] = llclampb(ll_round(127 * minus_one_to_one * ARTIFICIAL_SCALE + 128));
-					}
+					F32 minus_one_to_one = ((BE_DARKNESS == bump_code) ? F32(maximum - i) : F32(i - minimum)) * twice_one_over_range - 1.f;
+					bias_and_scale_lut[i] = llclampb(ll_round(127.f * minus_one_to_one * ARTIFICIAL_SCALE + 128.f));
 				}
 
-				for( i = 0; i < dst_data_size; i++ )
+				for(S32 i = 0; i < dst_data_size; i++ )
 				{
 					dst_data[i] = bias_and_scale_lut[dst_data[i]];
 				}

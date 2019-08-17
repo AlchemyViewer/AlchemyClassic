@@ -262,7 +262,7 @@ bool LLCoros::kill(const std::string& name)
     {
         return false;
     }
-    // Because this is a boost::ptr_map, erasing the map entry also destroys
+    // Because this is a unique_ptr, erasing the map entry also destroys
     // the referenced heap object, in this case the boost::coroutine object,
     // which will terminate the coroutine.
     mCoros.erase(found);
@@ -378,12 +378,12 @@ void LLCoros::toplevel(coro::self& self, CoroData* data, const callable_t& calla
 // does for warning suppression, and we really don't want to force
 // optimization ON for other code even in Debug or RelWithDebInfo builds.
 
-#if LL_MSVC
-// work around broken optimizations
-#pragma warning(disable: 4748)
-#pragma warning(disable: 4355) // 'this' used in initializer list: yes, intentionally
-#pragma optimize("", off)
-#endif // LL_MSVC
+//#if LL_MSVC
+//// work around broken optimizations
+//#pragma warning(disable: 4748)
+//#pragma warning(disable: 4355) // 'this' used in initializer list: yes, intentionally
+//#pragma optimize("", off)
+//#endif // LL_MSVC
 
 LLCoros::CoroData::CoroData(CoroData* prev, const std::string& name,
                             const callable_t& callable, S32 stacksize):
@@ -416,15 +416,16 @@ std::string LLCoros::launch(const std::string& prefix, const callable_t& callabl
         LL_ERRS("LLCoros") << "Failed to start coroutine: " << name << " Stacksize: " << mStackSize << " Total coroutines: " << mCoros.size() << LL_ENDL;
     }
     // Store it in our pointer map
-    mCoros.insert(name, newCoro);
+    auto coro_ptr = mCoros.emplace(name, newCoro).first->second.get();
+
     // also set it as current
-    current.reset(newCoro);
+    current.reset(coro_ptr);
     /* Run the coroutine until its first wait, then return here */
-    (newCoro->mCoro)(std::nothrow);
+    (coro_ptr->mCoro)(std::nothrow);
     return name;
 }
 
-#if LL_MSVC
-// reenable optimizations
-#pragma optimize("", on)
-#endif // LL_MSVC
+//#if LL_MSVC
+//// reenable optimizations
+//#pragma optimize("", on)
+//#endif // LL_MSVC

@@ -34,7 +34,7 @@
 #include <boost/dcoroutine/coroutine.hpp>
 #include <boost/dcoroutine/future.hpp>
 #include "llsingleton.h"
-#include <boost/ptr_container/ptr_map.hpp>
+#include <absl/container/flat_hash_map.h>
 #include <boost/function.hpp>
 #include <boost/thread/tss.hpp>
 #include <string>
@@ -249,7 +249,7 @@ private:
         LLCoros::coro::self* mSelf;
         F64 mCreationTime; // since epoch
     };
-    typedef boost::ptr_map<std::string, CoroData> CoroMap;
+    typedef absl::flat_hash_map<std::string, std::unique_ptr<CoroData> > CoroMap;
     CoroMap mCoros;
 
     // Identify the current coroutine's CoroData. Use a little helper class so

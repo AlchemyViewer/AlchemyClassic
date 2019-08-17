@@ -138,11 +138,11 @@ void LLLeapListener::newpump(const LLSD& request)
 
     name = new_pump->getName();
 
-    mEventPumps.insert(name, new_pump);
+	auto pump_ptr = mEventPumps.emplace(name, new_pump).first->second.get();
 
     // Now listen on this new pump with our plugin listener
     std::string myname("llleap");
-    saveListener(name, myname, mConnect(*new_pump, myname));
+    saveListener(name, myname, mConnect(*pump_ptr, myname));
 
     reply["name"] = name;
 }

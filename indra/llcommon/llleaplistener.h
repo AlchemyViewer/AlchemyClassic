@@ -15,7 +15,7 @@
 #include "lleventapi.h"
 #include <map>
 #include <string>
-#include <boost/ptr_container/ptr_map.hpp>
+#include <absl/container/flat_hash_map.h>
 
 /// Listener class implementing LLLeap query/control operations.
 /// See https://jira.lindenlab.com/jira/browse/DEV-31978.
@@ -65,7 +65,7 @@ private:
     ListenersMap mListeners;
     // Similar lifespan reasoning applies to LLEventPumps instantiated by
     // newpump() operations.
-    typedef boost::ptr_map<std::string, LLEventPump> EventPumpsMap;
+    using EventPumpsMap = absl::flat_hash_map<std::string, std::unique_ptr<LLEventPump> >;
     EventPumpsMap mEventPumps;
 };
 

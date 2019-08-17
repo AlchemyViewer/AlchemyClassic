@@ -3884,8 +3884,6 @@ void LLPipeline::postSort(LLCamera& camera)
 	{
 		mSelectedFaces.clear();
 
-		LLPipeline::setRenderHighlightTextureChannel(gFloaterTools->getPanelFace()->getTextureChannelToEdit());
-
 		// Draw face highlights for selected faces.
 		if (LLSelectMgr::getInstance()->getTEMode())
 		{
@@ -3904,6 +3902,11 @@ void LLPipeline::postSort(LLCamera& camera)
 					return true;
 				}
 			} func;
+
+			if (!mSelectedFaces.empty())
+			{
+				LLPipeline::setRenderHighlightTextureChannel(gFloaterTools->getPanelFace()->getTextureChannelToEdit());
+			}
 			LLSelectMgr::getInstance()->getSelection()->applyToTEs(&func);
 		}
 	}

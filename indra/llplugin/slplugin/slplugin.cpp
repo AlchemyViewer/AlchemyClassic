@@ -227,16 +227,11 @@ int main(int argc, char **argv)
 
     LLCocoaPlugin cocoa_interface;
 	cocoa_interface.setupCocoa();
-	cocoa_interface.createAutoReleasePool();
 #endif //LL_DARWIN
 
 	LLPluginProcessChild *plugin = new LLPluginProcessChild();
 
 	plugin->init(port);
-
-#if LL_DARWIN
-    cocoa_interface.deleteAutoReleasePool();
-#endif
 
 	LLTimer timer;
 	timer.start();
@@ -253,9 +248,6 @@ int main(int argc, char **argv)
 #endif
 	while(!plugin->isDone())
 	{
-#if LL_DARWIN
-		cocoa_interface.createAutoReleasePool();
-#endif
 		timer.reset();
 		plugin->idle();
 #if LL_DARWIN
@@ -285,19 +277,6 @@ int main(int argc, char **argv)
 
 //			LL_INFOS("slplugin") << "slept for "<< timer.getElapsedTimeF64() * 1000.0f << " ms" <<  LL_ENDL;
 		}
-        
-        
-#if LL_WINDOWS
-	// More agressive checking of interfering exception handlers.
-	// Doesn't appear to be required so far - even for plugins
-	// that do crash with a single call to the intercept
-	// exception handler such as QuickTime.
-	//checkExceptionHandler();
-#endif
-
-#if LL_DARWIN
-		cocoa_interface.deleteAutoReleasePool();
-#endif
 	}
 	delete plugin;
 

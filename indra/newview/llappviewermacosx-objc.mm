@@ -35,12 +35,11 @@
 
 void launchApplication(const std::string* app_name, const std::vector<std::string>* args)
 {
-
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
 	if (app_name->empty()) return;
 
-	NSMutableString* app_name_ns = [NSMutableString stringWithString:[[NSBundle mainBundle] resourcePath]];	//Path to resource dir
+	NSMutableString* app_name_ns = [NSMutableString
+                                    stringWithString:[[NSBundle mainBundle]
+                                                      resourcePath]];	//Path to resource dir
 	[app_name_ns appendFormat:@"/%@", [NSString stringWithCString:app_name->c_str() 
 								encoding:[NSString defaultCStringEncoding]]];
 
@@ -56,13 +55,13 @@ void launchApplication(const std::string* app_name, const std::vector<std::strin
 	}
 
     NSTask *task = [[NSTask alloc] init];
-    NSBundle *bundle = [NSBundle bundleWithPath:[[NSWorkspace sharedWorkspace] fullPathForApplication:app_name_ns]];
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSWorkspace sharedWorkspace]
+                                                 fullPathForApplication:app_name_ns]];
 	@try {
 		[task setLaunchPath:[bundle executablePath]];
 	}
 	@catch (NSException *theException) {
 		NSLog(@"Caught a %@ exception, bailing.", theException);
-		[pool release];
 		return;
 	}
     [task setArguments:args_ns];
@@ -75,6 +74,5 @@ void launchApplication(const std::string* app_name, const std::vector<std::strin
 //	[workspace launchApplicationAtURL:url options:0 configuration:[NSDictionary dictionaryWithObject:args_ns forKey:NSWorkspaceLaunchConfigurationArguments] error:&error];
 	//TODO Handle error
     
-    [pool release];
 	return;
 }

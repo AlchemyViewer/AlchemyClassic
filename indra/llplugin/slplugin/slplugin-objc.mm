@@ -42,44 +42,23 @@ void LLCocoaPlugin::setupCocoa()
 	
 	if(!inited)
 	{
-		createAutoReleasePool();
-		
-		// The following prevents the Cocoa command line parser from trying to open 'unknown' arguements as documents.
-		// ie. running './secondlife -set Language fr' would cause a pop-up saying can't open document 'fr' 
-		// when init'ing the Cocoa App window.		
-		[[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"NSTreatUnknownArgumentsAsOpen"];
+		@autoreleasepool {
+            // The following prevents the Cocoa command line parser from trying to open 'unknown' arguements as documents.
+            // ie. running './secondlife -set Language fr' would cause a pop-up saying can't open document 'fr'
+            // when init'ing the Cocoa App window.
+            [[NSUserDefaults standardUserDefaults] setObject:@"NO" forKey:@"NSTreatUnknownArgumentsAsOpen"];
 
-		//	Must first call [[[NSWindow alloc] init] release] to get the NSWindow machinery set up so that NSCursor can use a window to cache the cursor image
-		[[[NSWindow alloc] init] release];
-		
-        mPluginWindow = [NSApp mainWindow];
-        
-		deleteAutoReleasePool();
+            //	Grief NSWindow machinery set up so that NSCursor can use a window to cache the cursor image
+            (void)[[NSWindow alloc] init];
+            
+            mPluginWindow = [NSApp mainWindow];
+        } // @autoreleasepool
 		
 		inited = true;
 	}
 }
 
-static NSAutoreleasePool *sPool = NULL;
-
-void LLCocoaPlugin::createAutoReleasePool()
-{
-	if(!sPool)
-	{
-		sPool = [[NSAutoreleasePool alloc] init];
-	}
-}
-
-void LLCocoaPlugin::deleteAutoReleasePool()
-{
-	if(sPool)
-	{
-		[sPool release];
-		sPool = NULL;
-	}
-}
-
-LLCocoaPlugin::LLCocoaPlugin():mHackState(0)
+LLCocoaPlugin::LLCocoaPlugin() : mHackState(0)
 {
     NSArray* window_list = [NSApp orderedWindows];
     mFrontWindow = [window_list objectAtIndex:0];
@@ -88,8 +67,9 @@ LLCocoaPlugin::LLCocoaPlugin():mHackState(0)
 void LLCocoaPlugin::processEvents()
 {
      // Some plugins (webkit at least) will want an event loop.  This qualifies.
-    NSEvent * event;
-    event = [NSApp nextEventMatchingMask:NSAnyEventMask untilDate:[NSDate distantPast] inMode:NSDefaultRunLoopMode dequeue:YES];
+    NSEvent * event = [NSApp nextEventMatchingMask:NSAnyEventMask
+                             untilDate:[NSDate distantPast]
+                             inMode:NSDefaultRunLoopMode dequeue:YES];
     [NSApp sendEvent: event];
 }
 

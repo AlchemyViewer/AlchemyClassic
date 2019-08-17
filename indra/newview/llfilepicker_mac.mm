@@ -32,7 +32,6 @@
 std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_types,
                  unsigned int flags)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSInteger result;
     
     //Aura TODO:  We could init a small window and release it at the end of this routine
@@ -95,16 +94,14 @@ std::vector<std::string>* doLoadDialog(const std::vector<std::string> allowed_ty
             outfiles->push_back(*afilestr);
         }
     }
-	[pool release];
     return outfiles;
 }
 
 
-std::string* doSaveDialog(const std::string& file,
+std::string doSaveDialog(const std::string& file,
                   const std::string& extension,
                   unsigned int flags)
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSSavePanel *panel = [NSSavePanel savePanel]; 
     
     NSString *extensionns = [NSString stringWithCString:extension.c_str() encoding:[NSString defaultCStringEncoding]];
@@ -116,7 +113,6 @@ std::string* doSaveDialog(const std::string& file,
     [panel setAllowedFileTypes:fileType];
     NSString *fileName = [NSString stringWithCString:file.c_str() encoding:[NSString defaultCStringEncoding]];
     
-    std::string *outfile = NULL;
     NSURL* url = [NSURL fileURLWithPath:fileName];
     [panel setNameFieldStringValue: fileName];
     [panel setDirectoryURL: url];
@@ -124,11 +120,10 @@ std::string* doSaveDialog(const std::string& file,
     {
         NSURL* url = [panel URL];
         NSString* p = [url path];
-        outfile = new std::string( [p UTF8String] );
+        return std::string( [p UTF8String] );
         // write the file 
     }
-	[pool release];
-    return outfile;
+    return std::string();
 }
 
 #endif

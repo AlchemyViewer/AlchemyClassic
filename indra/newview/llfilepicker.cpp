@@ -778,15 +778,15 @@ bool	LLFilePicker::doNavSaveDialog(ESaveFilter filter, const std::string& filena
 	gViewerWindow->getWindow()->beforeDialog();
 
 	// Run the dialog
-    std::string* filev = doSaveDialog(namestring,
+    std::string filev = doSaveDialog(namestring,
                  extension,
                  mPickOptions);
 
 	gViewerWindow->getWindow()->afterDialog();
 
-	if ( filev && !filev->empty() )
+	if ( !filev.empty() )
 	{
-        mFiles.push_back(*filev);
+        mFiles.push_back(filev);
 		return true;
     }
 	

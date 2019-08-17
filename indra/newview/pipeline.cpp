@@ -10688,7 +10688,6 @@ void LLPipeline::generateImpostor(LLVOAvatar* avatar)
 		markVisible(avatar->mDrawable, *viewer_camera);
 		LLVOAvatar::sUseImpostors = false; // @TODO ???
 
-		LLVOAvatar::attachment_map_t::iterator iter;
 		for (const auto& attach_pair : avatar->mAttachmentPoints)
 		{
 			for (LLViewerObject* attached_object : attach_pair.second->mAttachedObjects)

@@ -123,6 +123,8 @@
 #include "llpreviewscript.h"
 #include "llproxy.h"
 #include "llproductinforequest.h"
+#include "llsecapi.h"
+#include "llsecapicerthandler.h"
 #include "llselectmgr.h"
 #include "llsky.h"
 #include "llstreaminfo.h"
@@ -1116,7 +1118,7 @@ bool idle_startup()
 					{
 						// This was a certificate error, so grab the certificate
 						// and throw up the appropriate dialog.
-						LLPointer<LLCertificate> certificate = gSecAPIHandler->getCertificate(response["certificate"]);
+						LLPointer<LLCertificate> certificate = gSecAPICertHandler->getCertificate(response["certificate"]);
 						if(certificate)
 						{
 							LLSD args = transform_cert_args(certificate);
@@ -3177,8 +3179,8 @@ void trust_cert_done(const LLSD& notification, const LLSD& response)
 	{
 		case OPT_TRUST_CERT:
 		{
-			LLPointer<LLCertificate> cert = gSecAPIHandler->getCertificate(notification["payload"]["certificate"]);
-			LLPointer<LLCertificateStore> store = gSecAPIHandler->getCertificateStore(gSavedSettings.getString("CertStore"));			
+			LLPointer<LLCertificate> cert = gSecAPICertHandler->getCertificate(notification["payload"]["certificate"]);
+			LLPointer<LLCertificateStore> store = gSecAPICertHandler->getCertificateStore(gSavedSettings.getString("CertStore"));			
 			store->add(cert);
 			store->save();
 			LLStartUp::setStartupState( STATE_LOGIN_CLEANUP );	

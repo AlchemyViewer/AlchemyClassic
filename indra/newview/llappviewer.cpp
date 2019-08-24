@@ -230,6 +230,7 @@
 
 // Include for security api initialization
 #include "llsecapi.h"
+#include "llsecapicerthandler.h"
 #include "llmachineid.h"
 #include "llmainlooprepeater.h"
 #include "llcleanup.h"
